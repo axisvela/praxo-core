@@ -1,6 +1,6 @@
 # PRAXO-CORE Roadmap
 
-**Current:** `0.15.0` plugin hosts, TCK, manifest v1, and context budgets
+**Current:** `0.16.0` canonical package paths and API freeze inventory
 
 **Target:** `1.0.0` stable MIT framework
 
@@ -23,6 +23,7 @@
 | 0.13.0 | shared HTTP client |
 | 0.14.0 | plugin contract layer |
 | 0.15.0 | plugin hosts, Manifest v1, TCK, path containment, context budget |
+| 0.16.0 | canonical `toolcall`/`formatter`/`jsonschema` paths with deprecated aliases |
 
 See `CHANGELOG.md` for exact changes.
 

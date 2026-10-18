@@ -17,6 +17,7 @@ See [ROADMAP.md](../ROADMAP.md) for the public roadmap.
 | 0.3.0 | PRAXOVELA builds against the module |
 | 0.5.0 | restart and duplicate-firing tests pass |
 | 0.15.0 | plugin hosts, Manifest v1, contract TCK, path containment, and context budget pass their tests |
+| 0.16.0 | canonical package paths, deprecated aliases, and exported API inventory |
 | 1.0.0 | security review and external integrator example |
 
 ## Evidence

@@ -28,8 +28,8 @@ without inheriting AGPL obligations. PRAXOVELA remains an AGPL product.
 ## Primitives
 
 - `pkg/model` - model/provider abstraction and messages.
-- `pkg/tool` - tool contracts, registry, and JSON Schema validation.
-- `pkg/output` - model-output tool-call parsing and markup stripping.
+- `pkg/tool` - tool contracts and registry; `pkg/tool/jsonschema` validates schemas.
+- `pkg/toolcall` - model-output tool-call parsing and markup stripping.
 - `pkg/memory` - memory and context interfaces.
 - `pkg/event` - event envelopes and sinks.
 - `pkg/scheduler` - schedule definitions and scheduler engine.
@@ -37,7 +37,7 @@ without inheriting AGPL obligations. PRAXOVELA remains an AGPL product.
 - `pkg/sandbox` - execution sandbox interface.
 - `pkg/checkpoint` - durable run snapshots and the resume store contract.
 - `pkg/httpclient` - shared retry-capable HTTP transport for adapters.
-- `pkg/format` - language formatter detection and execution.
+- `pkg/formatter` - language formatter detection and execution.
 - `pkg/flow` - Runnable, Chain, and Parallel composition.
 - `pkg/prompt` - prompt and chat templates.
 - `pkg/retriever` - document retrieval contracts.
@@ -66,10 +66,11 @@ result, err := ag.Run(ctx, agent.Session{
 
 ## Status
 
-`0.15.0` adds plugin hosts, the conformance kit, Manifest v1, path containment,
-and context budget compaction on top of the extracted framework primitives.
-The framework is extracted from PRAXOVELA's proven runtime; the API is not yet
-frozen.
+`0.16.0` makes the package paths canonical (`pkg/toolcall`, `pkg/formatter`,
+`pkg/tool/jsonschema`) and keeps the previous paths as deprecated aliases. It
+also includes the plugin hosts, conformance kit, Manifest v1, path containment,
+and context budget compaction added in `0.15.0`. The framework is extracted from
+PRAXOVELA's proven runtime; the API is not yet frozen.
 
 ## Documentation
 

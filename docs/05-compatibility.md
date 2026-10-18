@@ -19,6 +19,11 @@
 Exported interfaces are the stable surface. Concrete adapters and internal
 helpers may change between minor versions.
 
+Canonical package paths added in `0.16.0` are `pkg/toolcall`, `pkg/formatter`,
+and `pkg/tool/jsonschema`. The previous paths (`pkg/output`, `pkg/format`,
+`pkg/tool/schema`) are deprecated aliases and will be removed in a later minor
+release.
+
 The frozen plugin v1 surfaces are:
 
 - Manifest v1 (`pkg/plugin.ParseManifest`)

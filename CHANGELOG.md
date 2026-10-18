@@ -2,6 +2,18 @@
 
 All notable changes to PRAXO-CORE are documented here.
 
+## [0.16.0] - 2026-10-18
+
+### Changed
+
+- Canonical package paths are now `pkg/toolcall` (was `pkg/output`),
+  `pkg/formatter` (was `pkg/format`), and `pkg/tool/jsonschema` (was
+  `pkg/tool/schema`). The old paths remain as deprecated aliases for one minor
+  version.
+- `toolcall.ToolCall` documents `Operation`, `Resource`, `Risk`, `Reason`, and
+  `IdempotencyKey` as optional product governance metadata; the parser does not
+  interpret or validate them.
+
 ## [0.15.0] - 2026-10-18
 
 ### Added
