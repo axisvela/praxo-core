@@ -2,7 +2,7 @@
 
 **Current:** `1.3.0` harness profiles and evaluation (2026-10-18)
 
-**Target:** `1.3.0` harness parity
+**Target:** `1.6.0` runtime interoperability (planned)
 
 ## Release History
 
@@ -165,21 +165,28 @@ Exit gate:
 - shell-session and execution-policy tests
 - MCP elicitation conformance tests
 
-## 2.0.0 - State Graph Runtime (planned)
+## 1.6.0 - Runtime Interoperability (planned)
 
-This is a major runtime addition, not a 1.x parity patch.
-
-- StateGraph/CompiledStateGraph, channels, Send/Command, subgraphs.
-- Durable interrupt/resume.
 - Typed stream projections (values/updates/messages/checkpoint/tasks/debug).
-- Per-node retry/timeout/cache/trace policies.
-- RemoteGraph/background executor and serialization allowlist.
+- Durable agent-session interrupt/resume (not graph-node resume).
+- Serialization allowlist for persisted run/tool payloads.
+- RHEOVELA integration seam: agent node/session adapter so RHEOVELA owns graph,
+  subgraph, routing, and long-running workflow semantics.
+- Remote execution seam for RHEOVELA workers.
 
 Exit gate:
 
-- graph/channel/subgraph conformance tests
-- durable interrupt/resume tests
-- stream-projection and serde-allowlist tests
+- stream-projection conformance tests
+- agent-session interrupt/resume tests
+- RHEOVELA adapter contract tests
+
+## Graph Runtime Boundary
+
+`StateGraph`, channels, `Send`/`Command`, subgraphs, `RemoteGraph`, and
+graph-level interrupt semantics are owned by RHEOVELA. PRAXO-CORE exposes only
+the agent node/session/stream contract and must not grow a competing graph
+runtime. LangGraph runtime parity is therefore an integration concern, not a
+core feature target.
 
 ## Non-Goals
 
@@ -195,4 +202,5 @@ Exit gate:
 | Consumer | Integration |
 | --- | --- |
 | PRAXOVELA | embeds the framework; remains AGPL |
+| RHEOVELA | owns graph/subgraph execution; consumes the PRAXO-CORE agent node/session contract |
 | external products | direct interface implementation |
