@@ -59,6 +59,8 @@ type Agent struct {
 	MaxParallelTools int
 	// MaxTokens stops the run once accumulated input+output tokens exceed it.
 	MaxTokens int64
+	// Context bounds the estimated prompt size before each model call.
+	Context *ContextBudget
 	// ToolChoice is forwarded to the model (auto, none, required).
 	ToolChoice string
 	// AllowedTools limits both advertised and invokable tools. Empty means all.
@@ -188,6 +190,22 @@ func (a *Agent) RunWithContext(ctx context.Context, session Session, prompt stri
 
 		if err := a.authorize(ctx, policy.Action{Kind: "model.generate", SessionID: session.ID}); err != nil {
 			return nil, err
+		}
+
+		if a.Context != nil && a.Context.MaxTokens > 0 {
+			before := len(messages)
+			compacted, ok := a.Context.Compact(messages)
+			if !ok {
+				return nil, ErrContextBudget
+			}
+			if len(compacted) != before {
+				messages = compacted
+				if a.Hooks.OnCompaction != nil {
+					if err := a.Hooks.OnCompaction(ctx, runID, before, len(compacted)); err != nil {
+						return nil, err
+					}
+				}
+			}
 		}
 
 		req := model.Request{

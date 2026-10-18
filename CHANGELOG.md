@@ -2,6 +2,40 @@
 
 All notable changes to PRAXO-CORE are documented here.
 
+## [0.15.0] - 2026-10-18
+
+### Added
+
+- `pkg/plugin/host/process` and `pkg/plugin/host/wasm`: process and WASM
+  plugin hosts with platform resource supervisors, wire envelopes, and
+  conformance tests. PRAXOVELA re-exports them as thin aliases.
+- `pkg/plugin/bridge`: generic `plugin.Host` adapters for `tool.Tool`,
+  `model.Model`, `policy.Hook`, `memory.Store`, and `sandbox.Sandbox`, with an
+  injectable codec and configurable contract methods.
+- Process host `Config.TokenEnvVar` for products that need a non-default
+  channel-token environment variable; the v1 default remains
+  `PRAXOVELA_PLUGIN_TOKEN`.
+- `pkg/plugin/tck`: contract-level conformance kit for lifecycle, guarded
+  registry, and host framing, timeout, cancellation, capability denial, and
+  the not-active gate. Trust, materialization, evidence, and rolling-update
+  conformance stay in PRAXOVELA.
+- `pkg/plugin` Manifest v1: strict parsing and validation for schema version,
+  reverse-DNS identity, semver, contract kind, entrypoint, isolation, protocol,
+  capabilities, permissions, limits, health, signature, and SBOM, with signed
+  and explicit unsigned trust profiles.
+- `pkg/policy`: deny-by-default path containment checker (`PathChecker`) with
+  read/write/readwrite grants, symlink resolution, traversal and sibling-prefix
+  rejection, and Windows case-insensitive comparison.
+- `pkg/agent`: `ContextBudget` prompt compaction with keep-recent turns,
+  tool-call/result pairing, a deterministic token estimate, an
+  `OnCompaction` hook, and fail-closed `ErrContextBudget` when the system
+  prompt alone cannot fit.
+
+### Changed
+
+- `wazero` and `golang.org/x/sys` are direct framework dependencies for the
+  WASM host and platform supervisors.
+
 ## [0.14.0] - 2026-10-18
 
 ### Added

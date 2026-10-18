@@ -1,6 +1,6 @@
 # PRAXO-CORE Roadmap
 
-**Current:** `0.3.0` adapter bridges
+**Current:** `0.15.0` plugin hosts, TCK, manifest v1, and context budgets
 
 **Target:** `1.0.0` stable MIT framework
 

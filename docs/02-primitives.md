@@ -3,10 +3,11 @@
 | Package | Contract | Typical adapter |
 | --- | --- | --- |
 | `pkg/model` | `Model.Generate`, `Provider.Chat/ChatStream`, `ModelRouter`, `ChatModel` | PRAXOVELA provider router |
+| `pkg/agent` | `Agent.Run`, middleware, hooks, token/step budgets, `ContextBudget` | PRAXOVELA agent loop |
 | `pkg/tool` | `Tool`, `Registry`, `SpecProvider`, `Middleware`, `Gateway` | Janus Gateway tools |
 | `pkg/memory` | `Store.Put/Search`, `MemoryStore`, `ContextAssembler`, `RemoteStore` | Mnemovela |
 | `pkg/event` | `Sink.Emit`, `MultiSink`, `FilterSink`, `PublisherSink` | Harmovela / Argus Trace |
-| `pkg/policy` | `Hook.Authorize` | AEGIVELA / Archon Guard |
+| `pkg/policy` | `Hook.Authorize`, `PathChecker` read/write containment | AEGIVELA / Archon Guard |
 | `pkg/sandbox` | `Sandbox.Run` | Vulcan Forge |
 | `pkg/scheduler` | `Scheduler.Add/Remove/List`; cron engine extracted from PRAXOVELA | PRAXOVELA durable scheduler |
 | `pkg/output` | `ParseToolCall`, `StripToolCallMarkup` | model response parsing |
@@ -15,6 +16,11 @@
 | `pkg/prompt` | `Template`, `ChatTemplate` | prompt assembly |
 | `pkg/retriever` | `Document`, `Retriever` | Mnemovela/GNOSIVELA retrieval |
 | `pkg/format` | code formatter registry | PRAXOVELA formatting tools |
+| `pkg/plugin` | manifest v1, contract kinds, `Host.Invoke`, `Lifecycle`, `AdapterRegistry` | PRAXOVELA runtime plugin plane |
+| `pkg/plugin/host/process` | process host, platform supervisors, JSON-Lines envelopes | PRAXOVELA process plugins |
+| `pkg/plugin/host/wasm` | WASM host over wazero | PRAXOVELA WASM plugins |
+| `pkg/plugin/bridge` | `Host` to `tool`/`model`/`policy`/`memory`/`sandbox` adapters | framework consumers |
+| `pkg/plugin/tck` | lifecycle, registry, and host conformance assertions | host/provider implementers |
 
 ## Tool Contract
 
