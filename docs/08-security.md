@@ -71,7 +71,7 @@ not independent security sign-off.
 - [x] `go vet`, `staticcheck`, and `govulncheck` locally
 - [ ] SBOM, checksums, and signed release artifacts
 - [ ] independent review of host containment and path containment
-- [ ] external integrator example with a least-privilege tool set
+- [x] external integrator example added; least-privilege policy profile remains
 
 ## Reporting
 
