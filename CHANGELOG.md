@@ -2,6 +2,17 @@
 
 All notable changes to PRAXO-CORE are documented here.
 
+## [1.3.0] - 2026-10-18
+
+### Added
+
+- `model.ProviderProfile` and `model.ProfileRegistry`: provider/model
+  capability profiles with longest-prefix resolution.
+- `agent.Rubric`, `agent.Evaluator`, and `agent.RubricMiddleware`: final-output
+  rubric evaluation with fail-closed scoring.
+- `sandbox.Interpreter` and `sandbox.InterpreterFunc`: optional in-process
+  script interpreter seam for products that supply a runtime.
+
 ## [1.2.0] - 2026-10-18
 
 ### Added

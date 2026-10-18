@@ -21,7 +21,7 @@ See [ROADMAP.md](../ROADMAP.md) for the public roadmap.
 | 1.0.0 | API freeze, security review, external integrator example, SBOM/checksums |
 | 1.1.0 | context management parity: summarization, offload, `AGENTS.md`, prompt cache hooks (released 2026-10-18) |
 | 1.2.0 | delegation/execution parity: async/fork subagents, virtual FS backend, delete/glob/grep (released 2026-10-18) |
-| 1.3.0 | harness profiles, rubric/evaluation middleware, optional JS interpreter |
+| 1.3.0 | harness profiles, rubric/evaluation middleware, optional JS interpreter (released 2026-10-18) |
 
 Post-1.0 items are competitive harness parity, not 1.0 blockers. They are
 sequenced after the stable API and release gates.
