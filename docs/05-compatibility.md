@@ -21,8 +21,9 @@ helpers may change between minor versions.
 
 Canonical package paths added in `0.16.0` are `pkg/toolcall`, `pkg/formatter`,
 and `pkg/tool/jsonschema`. The previous paths (`pkg/output`, `pkg/format`,
-`pkg/tool/schema`) are deprecated aliases and will be removed in a later minor
-release.
+`pkg/tool/schema`) are deprecated aliases. PRAXOVELA migrated in `0.16.0`;
+removal is scheduled no earlier than `1.0.0` and is tracked in
+[API freeze inventory](07-api-freeze.md).
 
 The frozen plugin v1 surfaces are:
 

@@ -3,6 +3,7 @@ package agent
 // Status is the lifecycle state of an agent session or run.
 type Status string
 
+// Agent session and run states.
 const (
 	StatusIdle            Status = "idle"
 	StatusPlanning        Status = "planning"

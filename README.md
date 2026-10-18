@@ -80,6 +80,7 @@ PRAXOVELA's proven runtime; the API is not yet frozen.
 - [Integration](docs/03-integration.md)
 - [License and provenance](docs/04-license-and-provenance.md)
 - [Compatibility](docs/05-compatibility.md)
+- [API freeze inventory](docs/07-api-freeze.md)
 - [Roadmap detail](docs/06-roadmap.md)
 - [Roadmap](ROADMAP.md)
 

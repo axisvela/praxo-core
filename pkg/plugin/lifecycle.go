@@ -12,6 +12,7 @@ import (
 // accepts new invocations; every other state is fail-closed.
 type State string
 
+// Lifecycle states.
 const (
 	StateFetched     State = "FETCHED"
 	StateValidated   State = "VALIDATED"
