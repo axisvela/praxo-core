@@ -1,11 +1,11 @@
 # API Freeze Inventory
 
-**Status:** post-1.0 additive audit for `1.6.0`. The `1.0.0` surface remains
+**Status:** post-1.0 additive audit for `1.7.0`. The `1.0.0` surface remains
 frozen; new declarations are additive.
 
 ## Audit Result
 
-- Exported declarations: **663**
+- Exported declarations: **699**
 - Exported declarations without a doc comment: **0**
 - Scope: `pkg/...`; examples, tests, unexported receiver methods, and testdata
   are excluded.
@@ -43,7 +43,7 @@ Not covered:
 | `pkg/agent/delegation` | async subagent manager and modes |
 | `pkg/agent/evaluation` | rubrics and evaluators |
 | `pkg/agent/hitl` | interrupt actions, decisions, handlers |
-| `pkg/agent/middleware` | call limits, fallback, PII, structured output, tool selection |
+| `pkg/agent/middleware` | call limits, fallback, PII, structured output, tool selection, context editing, todos |
 | `pkg/agent/stream` | typed stream parts |
 | `pkg/agent/types` | shared run-state contracts |
 | `pkg/checkpoint` | `Checkpoint`, `Store`, recovery types |

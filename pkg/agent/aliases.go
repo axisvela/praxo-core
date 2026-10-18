@@ -142,12 +142,21 @@ type (
 	StructuredOutput         = agentmiddleware.StructuredOutput
 	ToolSelector             = agentmiddleware.ToolSelector
 	ModelToolSelector        = agentmiddleware.ModelToolSelector
+	ContextEdit              = agentmiddleware.ContextEdit
+	TodoStatus               = agentmiddleware.TodoStatus
+	TodoItem                 = agentmiddleware.TodoItem
+	TodoList                 = agentmiddleware.TodoList
+	TodoTool                 = agentmiddleware.TodoTool
 )
 
 const (
 	StructuredOutputAuto     = agentmiddleware.StructuredOutputAuto
 	StructuredOutputProvider = agentmiddleware.StructuredOutputProvider
 	StructuredOutputTool     = agentmiddleware.StructuredOutputTool
+	TodoPending              = agentmiddleware.TodoPending
+	TodoInProgress           = agentmiddleware.TodoInProgress
+	TodoCompleted            = agentmiddleware.TodoCompleted
+	TodoCancelled            = agentmiddleware.TodoCancelled
 )
 
 var (
@@ -194,4 +203,19 @@ func ToolSelectionMiddleware(selector ToolSelector) Middleware {
 // FallbackModel retries a failed primary model call on a fallback model.
 func FallbackModel(fallback model.Model) ModelMiddleware {
 	return agentmiddleware.FallbackModel(fallback)
+}
+
+// ContextEditingMiddleware clears old tool results before model calls.
+func ContextEditingMiddleware(edit ContextEdit) Middleware {
+	return agentmiddleware.ContextEditingMiddleware(edit)
+}
+
+// NewTodoList returns an empty todo list.
+func NewTodoList() *TodoList {
+	return agentmiddleware.NewTodoList()
+}
+
+// TodoMiddleware injects the current todo list before model calls.
+func TodoMiddleware(list *TodoList) Middleware {
+	return agentmiddleware.TodoMiddleware(list)
 }
