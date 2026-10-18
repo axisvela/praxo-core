@@ -2,6 +2,13 @@
 
 All notable changes to PRAXO-CORE are documented here.
 
+## [Unreleased]
+
+### Added
+
+- Extracted PRAXOVELA's code formatter registry into `pkg/format`; PRAXOVELA
+  now aliases the framework package.
+
 ## [0.2.0] - 2026-10-18
 
 ### Added
