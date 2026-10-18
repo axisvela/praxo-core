@@ -1,4 +1,4 @@
-module github.com/axisvela/praxo-core/v3
+module github.com/axisvela/praxo-core
 
 go 1.25.0
 
