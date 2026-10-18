@@ -2,7 +2,7 @@
 
 All notable changes to PRAXO-CORE are documented here.
 
-## [Unreleased]
+## [0.3.0] - 2026-10-18
 
 ### Added
 

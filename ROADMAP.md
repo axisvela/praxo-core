@@ -1,6 +1,6 @@
 # PRAXO-CORE Roadmap
 
-**Current:** `0.2.0` framework primitives
+**Current:** `0.3.0` adapter bridges
 
 **Target:** `1.0.0` stable MIT framework
 
@@ -38,7 +38,7 @@ Exit gate:
 - every primitive has a conformance test
 - PRAXOVELA can consume the module through a clean dependency boundary
 
-## 0.3.0 - PRAXOVELA Adapters
+## 0.3.0 - PRAXOVELA Adapters (released 2026-10-18)
 
 - [x] Tool specs, middleware, and ordered wrapping.
 - [x] Event fan-out and filter sinks.
