@@ -99,8 +99,12 @@ in `1.0.0`; the release note and migration line live in
 - [x] exported API inventory
 - [x] every exported declaration has a doc comment
 - [x] open questions resolved and documented
-- [ ] API diff review against `0.16.0`
-- [ ] compatibility and migration notes published
-- [ ] security review and threat model
-- [ ] external integrator example
-- [ ] SBOM, checksums, and signed release gate
+- [x] API diff review against `0.16.0`
+- [x] compatibility and migration notes published
+- [x] `0.16.0 -> 1.0.0` diff reviewed: only the three deprecated alias packages
+  are removed; no other exported changes
+- [x] framework threat model and security hardening (independent review pending)
+- [x] external integrator example
+- [x] SBOM/checksum/release-check tooling verified locally
+- [ ] Linux race/CI matrix observed green
+- [ ] signed tag and published release artifacts
