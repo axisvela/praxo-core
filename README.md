@@ -86,6 +86,7 @@ PRAXOVELA's proven runtime; the API is not yet frozen.
 - [API freeze inventory](docs/07-api-freeze.md)
 - [Security model](docs/08-security.md)
 - [Release process](docs/09-release.md)
+- [Plugin authoring](docs/10-plugin-authoring.md)
 - [Roadmap detail](docs/06-roadmap.md)
 - [Roadmap](ROADMAP.md)
 

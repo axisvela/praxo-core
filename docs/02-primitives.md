@@ -25,9 +25,12 @@
 | `pkg/plugin/tck` | lifecycle, registry, and host conformance assertions | host/provider implementers |
 
 `pkg/toolcall` holds model-output tool-call parsing. `pkg/output`,
-`pkg/format`, and `pkg/tool/schema` are deprecated aliases kept for one minor
-version; new code should import `pkg/toolcall`, `pkg/formatter`, and
+`pkg/format`, and `pkg/tool/schema` are deprecated aliases removed in `1.0.0`;
+new code should import `pkg/toolcall`, `pkg/formatter`, and
 `pkg/tool/jsonschema`.
+
+See [Plugin authoring](10-plugin-authoring.md) for Manifest v1, the process/WASM
+host protocol, and the conformance kit.
 
 ## Tool Contract
 
