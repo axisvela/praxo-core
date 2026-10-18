@@ -1,6 +1,6 @@
 # PRAXO-CORE Roadmap
 
-**Current:** `0.16.0` canonical package paths and API freeze inventory
+**Current:** `1.0.0` API frozen; release gate pending Linux CI/signing
 
 **Target:** `1.0.0` stable MIT framework
 
