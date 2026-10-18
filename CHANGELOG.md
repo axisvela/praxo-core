@@ -2,6 +2,16 @@
 
 All notable changes to PRAXO-CORE are documented here.
 
+## [0.8.0] - 2026-10-18
+
+### Added
+
+- `Agent.ToolChoice` and `Agent.AllowedTools` for tool-choice control and
+  allowlisting (advertised and enforced).
+- `Agent.MaxTokens` token budget with `ErrMaxTokens`.
+- `Agent.Recall`/`RecallLimit` to inject matching memory records, plus
+  `Hooks.OnMemoryRead` and `Hooks.OnMemoryWrite`.
+
 ## [0.7.0] - 2026-10-18
 
 ### Added

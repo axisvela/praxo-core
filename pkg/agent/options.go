@@ -4,6 +4,7 @@ import (
 	"context"
 	"time"
 
+	"github.com/axisvela/praxo-core/pkg/memory"
 	"github.com/axisvela/praxo-core/pkg/model"
 )
 
@@ -58,6 +59,8 @@ type Hooks struct {
 	OnModelResult func(ctx context.Context, runID string, resp model.Response) error
 	OnToolCall    func(ctx context.Context, runID string, call model.ToolCall) error
 	OnToolResult  func(ctx context.Context, runID string, call model.ToolCall, result any, err error) error
+	OnMemoryRead  func(ctx context.Context, runID string, records []memory.Record) error
+	OnMemoryWrite func(ctx context.Context, runID string, record memory.Record) error
 	OnRunComplete func(ctx context.Context, result *Result) error
 	OnRunError    func(ctx context.Context, runID string, err error)
 }
