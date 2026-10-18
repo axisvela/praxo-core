@@ -2,6 +2,15 @@
 
 All notable changes to PRAXO-CORE are documented here.
 
+## [1.0.0] - unreleased
+
+### Changed
+
+- Exported API frozen; see `docs/07-api-freeze.md`.
+- Removed the deprecated `pkg/output`, `pkg/format`, and `pkg/tool/schema`
+  aliases. Use `pkg/toolcall`, `pkg/formatter`, and `pkg/tool/jsonschema`.
+- API snapshot `api/1.0.0.txt`; the diff from `0.16.0` is alias removal only.
+
 ## [0.16.0] - 2026-10-18
 
 ### Added
