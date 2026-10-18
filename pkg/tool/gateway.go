@@ -13,6 +13,8 @@ type GatewayInfo struct {
 }
 
 // Gateway executes tools owned by another runtime, such as PRAXOVELA/Janus.
+// Use it for product-owned external gateways; use pkg/plugin/bridge for
+// runtime plugins that implement pkg/plugin.Host.
 type Gateway interface {
 	Execute(ctx context.Context, name string, input map[string]any, token string) (any, error)
 	ListTools() []GatewayInfo

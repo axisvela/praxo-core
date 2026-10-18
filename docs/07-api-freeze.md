@@ -66,9 +66,9 @@ The following paths were deprecated in `0.16.0`:
 | `pkg/format` | `pkg/formatter` |
 | `pkg/tool/schema` | `pkg/tool/jsonschema` |
 
-PRAXOVELA migrated to the canonical paths in `0.16.0`. The aliases may be
-removed no earlier than `1.0.0`; removal requires a release note and a migration
-line in `docs/05-compatibility.md`.
+PRAXOVELA migrated to the canonical paths in `0.16.0`. The aliases are removed
+in `1.0.0`; the release note and migration line live in
+`docs/05-compatibility.md`.
 
 ## Compatibility Rules
 
@@ -80,24 +80,25 @@ line in `docs/05-compatibility.md`.
 - JSON tags on exported structs are part of the contract.
 - Typed constant string values are part of the contract.
 
-## Open Questions Before 1.0
+## Resolved Decisions
 
-1. `toolcall.ToolCall` includes optional product governance metadata
-   (`Operation`, `Resource`, `Risk`, `Reason`, `IdempotencyKey`). They are
-   documented as pass-through metadata; decide whether 1.0 keeps them or moves
-   them to a product extension.
-2. `checkpoint.Message` duplicates a subset of `model.Message` to avoid a
-   package dependency. Confirm this boundary is intentional.
-3. `tool.Gateway` and `pkg/plugin/bridge` both adapt external tool providers.
-   Document which seam new integrations should use.
-4. Decide whether the deprecated aliases are removed in `1.0.0` or kept through
-   the `1.x` line and removed in `2.0.0`.
+1. `toolcall.ToolCall` keeps `Operation`, `Resource`, `Risk`, `Reason`, and
+   `IdempotencyKey` in 1.0 as optional pass-through product metadata. The
+   parser does not interpret them; removing them would break PRAXOVELA's
+   product API. Revisit in 2.0.
+2. `checkpoint.Message` deliberately stays a dependency-free serialization
+   shape rather than aliasing `model.Message`.
+3. `tool.Gateway` is the seam for product-owned external gateways such as
+   Janus. `pkg/plugin/bridge` is the seam for `plugin.Host` implementations.
+   Both package docs state the distinction.
+4. The deprecated aliases are removed in `1.0.0`; PRAXOVELA already migrated in
+   `0.16.0`.
 
 ## 1.0 Gate Checklist
 
 - [x] exported API inventory
 - [x] every exported declaration has a doc comment
-- [ ] open questions resolved and documented
+- [x] open questions resolved and documented
 - [ ] API diff review against `0.16.0`
 - [ ] compatibility and migration notes published
 - [ ] security review and threat model
