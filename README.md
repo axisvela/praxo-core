@@ -41,8 +41,8 @@ without inheriting AGPL obligations. PRAXOVELA remains an AGPL product.
 - `pkg/flow` - Runnable, Chain, and Parallel composition.
 - `pkg/prompt` - prompt and chat templates.
 - `pkg/retriever` - document retrieval contracts.
-- `pkg/plugin` - runtime plugin contracts, manifest v1, lifecycle, registry, hosts, and conformance kit.
-- `pkg/agent` - the governed agent loop with middleware, budgets, and context compaction.
+- `pkg/vfs` - virtual filesystem backend contract, confined local backend, and filesystem tools.`n- `pkg/plugin` - runtime plugin contracts, manifest v1, lifecycle, registry, hosts, and conformance kit.
+- `pkg/agent` - the governed agent loop with middleware, budgets, context compaction, and subagent management.
 
 ## Example
 

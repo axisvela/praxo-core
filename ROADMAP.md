@@ -1,6 +1,6 @@
 # PRAXO-CORE Roadmap
 
-**Current:** `1.1.0` context management parity (2026-10-18)
+**Current:** `1.2.0` delegation and execution parity (2026-10-18)
 
 **Target:** `1.3.0` harness parity
 
@@ -26,6 +26,7 @@
 | 0.16.0 | canonical `toolcall`/`formatter`/`jsonschema` paths with deprecated aliases |
 | 1.0.0 | API freeze, plugin hosts, TCK, security and release gates |
 | 1.1.0 | model summarization, tool-result offload, AGENTS.md memory, prompt-cache hook |
+| 1.2.0 | virtual filesystem backend/tools and async/fork subagent manager |
 
 See `CHANGELOG.md` for exact changes.
 
@@ -112,7 +113,7 @@ Exit gate:
 - a long-run test exceeds one context window without silent context loss
 - compaction and offload are observable and bounded
 
-## 1.2.0 - Delegation and Execution Parity
+## 1.2.0 - Delegation and Execution Parity (released 2026-10-18)
 
 - Async subagent lifecycle: launch, check, update, cancel.
 - Explicit forked subagent context mode.

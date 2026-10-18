@@ -2,6 +2,19 @@
 
 All notable changes to PRAXO-CORE are documented here.
 
+## [1.2.0] - 2026-10-18
+
+### Added
+
+- `pkg/vfs`: virtual filesystem backend contract, entries, matches, and
+  optional execution capability.
+- `pkg/vfs/localfs`: confined local-directory backend with symlink, traversal,
+  and sibling-prefix rejection.
+- `pkg/vfs/vfstools`: `fs.list`, `fs.read`, `fs.write`, `fs.edit`, `fs.delete`,
+  `fs.glob`, `fs.grep`, and optional `fs.execute` tool adapters.
+- `agent.SubagentManager`: asynchronous subagent lifecycle with launch, check,
+  update, cancel, and list, plus isolated and fork modes.
+
 ## [1.1.0] - 2026-10-18
 
 ### Added
