@@ -14,6 +14,8 @@ boundary, event boundary, or scheduler contract.
 - event-observable
 - policy-gated
 - sandbox-ready
+- checkpointable
+- plugin-extensible through the frozen runtime plugin contract
 
 ## What It Is Not
 
@@ -34,3 +36,12 @@ praxo-core (MIT)
 
 PRAXOVELA remains an AGPL product. The MIT framework is a separate work so it
 can be embedded without AGPL obligations.
+
+## Runtime Plugin Plane
+
+`pkg/plugin` defines the contract kinds, Manifest v1, lifecycle FSM, guarded
+adapter registry, per-plugin scope, resource limits, and telemetry. Process and
+WASM hosts live under `pkg/plugin/host`, generic bridges under
+`pkg/plugin/bridge`, and the conformance kit under `pkg/plugin/tck`.
+Materialization, signature trust, SBOM/evidence, and rolling updates remain
+product-owned.
