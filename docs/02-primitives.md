@@ -3,7 +3,7 @@
 | Package | Contract | Typical adapter |
 | --- | --- | --- |
 | `pkg/model` | `Model.Generate`, `Provider.Chat/ChatStream`, `ModelRouter`, `ChatModel`, `CacheHint` | PRAXOVELA provider router |
-| `pkg/agent` | `Agent.Run`, middleware, hooks, token/step budgets, `ContextBudget`, `ContextCompactor`, `Offloader`, `LoadAgentsMD` | PRAXOVELA agent loop |
+| `pkg/agent` | `Agent.Run`, middleware, hooks, budgets, `ContextCompactor`, `Offloader`, `LoadAgentsMD`, `SubagentManager` | PRAXOVELA agent loop |
 | `pkg/checkpoint` | `Checkpoint`, `Store.Save/Load/List`, recovery report | PRAXOVELA checkpoint store |
 | `pkg/httpclient` | retry-capable HTTP transport with auth, tracing, and decoding | PRAXOVELA adapters |
 | `pkg/tool` | `Tool`, `Registry`, `SpecProvider`, `Middleware`, `Gateway` | Janus Gateway tools |
@@ -18,6 +18,7 @@
 | `pkg/prompt` | `Template`, `ChatTemplate` | prompt assembly |
 | `pkg/retriever` | `Document`, `Retriever` | Mnemovela/GNOSIVELA retrieval |
 | `pkg/formatter` | code formatter registry | PRAXOVELA formatting tools |
+| `pkg/vfs` | `Backend`, confined local backend, filesystem tools | PRAXOVELA file tools |
 | `pkg/plugin` | manifest v1, contract kinds, `Host.Invoke`, `Lifecycle`, `AdapterRegistry` | PRAXOVELA runtime plugin plane |
 | `pkg/plugin/host/process` | process host, platform supervisors, JSON-Lines envelopes | PRAXOVELA process plugins |
 | `pkg/plugin/host/wasm` | WASM host over wazero | PRAXOVELA WASM plugins |

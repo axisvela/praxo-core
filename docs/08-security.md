@@ -58,6 +58,7 @@ not independent security sign-off.
 - **HTTP redirects.** `pkg/httpclient` uses Go's default redirect policy.
   Response bodies are bounded by default (32 MiB) and can be overridden with
   `Config.MaxBodyBytes`; callers should still use trusted base URLs.
+- **Virtual filesystem confinement.** `pkg/vfs/localfs` rejects absolute paths, traversal, sibling prefixes, and symlink escapes via `policy.PathChecker`. Like PathChecker itself, it is check-then-use; high-risk callers should add OS-level confinement.
 - **Offloaded tool results.** The `Offloader` is caller-owned; stored bytes may
   contain sensitive data. The framework only replaces prompt content and does
   not choose storage, encryption, or retention.

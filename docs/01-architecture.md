@@ -58,6 +58,22 @@ Context is managed in layers:
 Compaction and offload are observable through `Hooks.OnCompaction` and
 `Hooks.OnOffload`.
 
+## Delegation
+
+- `SubagentManager` runs delegated child tasks asynchronously with
+  launch/check/update/cancel/list.
+- `SubagentIsolated` starts a child with only the request context;
+  `SubagentFork` carries the parent message history.
+- A runner that implements `ControllableRunner` can accept mid-flight steering.
+
+## Virtual Filesystem
+
+- `pkg/vfs` defines the backend contract (`Stat`, `Read`, `Write`, `List`,
+  `Delete`, `Glob`, `Grep`) and an optional `Executor`.
+- `pkg/vfs/localfs` confines all paths to one root and rejects traversal,
+  sibling prefixes, and symlink escapes.
+- `pkg/vfs/vfstools` exposes the backend as `fs.*` tools for the agent loop.
+
 ## Plugin Plane
 
 The plugin plane is split at a contract boundary:

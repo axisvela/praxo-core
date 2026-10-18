@@ -1,11 +1,11 @@
 # API Freeze Inventory
 
-**Status:** pre-1.0 audit for `0.16.0`. The exported API is not frozen until
-`1.0.0`.
+**Status:** post-1.0 additive audit for `1.2.0`. The `1.0.0` surface remains
+frozen; new declarations are additive.
 
 ## Audit Result
 
-- Exported declarations: **430**
+- Exported declarations: **474**
 - Exported declarations without a doc comment: **0**
 - Scope: `pkg/...`; examples, tests, unexported receiver methods, and testdata
   are excluded.
@@ -34,7 +34,7 @@ Not covered:
 
 | Package | Stable surface |
 | --- | --- |
-| `pkg/agent` | `Agent`, `Options`, `Profile`, `Middleware`, `Hooks`, `ContextBudget`, `ContextCompactor`, `ModelSummarizer`, `Offloader`, `LoadAgentsMD`, `Session`, `Result`, statuses, budgets |
+| `pkg/agent` | `Agent`, `Options`, `Profile`, `Middleware`, `Hooks`, `ContextBudget`, `ContextCompactor`, `ModelSummarizer`, `Offloader`, `LoadAgentsMD`, `SubagentManager`, `Session`, `Result`, statuses, budgets |
 | `pkg/checkpoint` | `Checkpoint`, `Store`, recovery types |
 | `pkg/event` | `Event`, `Sink`, multi/filter/publisher sinks |
 | `pkg/flow` | `Runnable`, `Chain`, `Parallel` |
@@ -54,6 +54,9 @@ Not covered:
 | `pkg/scheduler` | schedule definitions and engine |
 | `pkg/tool` | `Tool`, `Registry`, middleware, gateway |
 | `pkg/tool/jsonschema` | JSON Schema validator |
+| `pkg/vfs` | `Backend`, entries, matches, optional executor |
+| `pkg/vfs/localfs` | confined local-directory backend |
+| `pkg/vfs/vfstools` | `fs.*` tools backed by a vfs backend |
 | `pkg/toolcall` | tool-call parsing and markup stripping |
 
 ## Deprecated Aliases
