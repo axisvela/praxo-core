@@ -4,7 +4,6 @@ import (
 	"context"
 	"errors"
 	"strings"
-	"time"
 
 	"github.com/axisvela/praxo-core/pkg/event"
 	"github.com/axisvela/praxo-core/pkg/memory"
@@ -23,13 +22,6 @@ type Skill struct {
 // SkillProvider selects skills for a prompt.
 type SkillProvider interface {
 	Skills(ctx context.Context, query string) ([]Skill, error)
-}
-
-// Interrupt describes a tool call awaiting approval.
-type Interrupt struct {
-	RunID     string
-	SessionID string
-	Call      model.ToolCall
 }
 
 // RunContext carries per-run values (user ids, flags, credentials references).
@@ -88,9 +80,6 @@ func (p Profile) Apply(opts Options) Options {
 	}
 	return opts
 }
-
-// ModelMiddleware wraps a model call.
-type ModelMiddleware func(next func(context.Context, model.Request) (model.Response, error)) func(context.Context, model.Request) (model.Response, error)
 
 // Options is the constructor bundle for a governed agent.
 type Options struct {
@@ -207,63 +196,4 @@ func New(opts Options) (*Agent, error) {
 		OnStream:              opts.OnStream,
 		OnDelta:               opts.OnDelta,
 	}, nil
-}
-
-// RetryPolicy controls retries around model calls. The zero value performs a
-// single attempt.
-type RetryPolicy struct {
-	Attempts    int
-	BaseDelay   time.Duration
-	MaxDelay    time.Duration
-	ShouldRetry func(error) bool
-}
-
-// Do runs fn until it succeeds, the attempt budget is exhausted, ShouldRetry
-// rejects the error, or the context is cancelled.
-func (p RetryPolicy) Do(ctx context.Context, fn func() error) error {
-	attempts := p.Attempts
-	if attempts <= 0 {
-		attempts = 1
-	}
-	delay := p.BaseDelay
-	var err error
-	for attempt := 0; attempt < attempts; attempt++ {
-		if err = fn(); err == nil {
-			return nil
-		}
-		if p.ShouldRetry != nil && !p.ShouldRetry(err) {
-			return err
-		}
-		if attempt == attempts-1 {
-			break
-		}
-		if delay > 0 {
-			if p.MaxDelay > 0 && delay > p.MaxDelay {
-				delay = p.MaxDelay
-			}
-			select {
-			case <-ctx.Done():
-				return ctx.Err()
-			case <-time.After(delay):
-			}
-			delay *= 2
-		}
-	}
-	return err
-}
-
-// Hooks are optional lifecycle callbacks. Returning an error aborts the run.
-type Hooks struct {
-	OnRunStart    func(ctx context.Context, runID string, session Session) error
-	OnStep        func(ctx context.Context, runID string, step int, messages []model.Message) error
-	OnModelCall   func(ctx context.Context, runID string, req model.Request) error
-	OnModelResult func(ctx context.Context, runID string, resp model.Response) error
-	OnToolCall    func(ctx context.Context, runID string, call model.ToolCall) error
-	OnToolResult  func(ctx context.Context, runID string, call model.ToolCall, result any, err error) error
-	OnMemoryRead  func(ctx context.Context, runID string, records []memory.Record) error
-	OnMemoryWrite func(ctx context.Context, runID string, record memory.Record) error
-	OnCompaction  func(ctx context.Context, runID string, before, after int) error
-	OnOffload     func(ctx context.Context, runID, toolName string, originalBytes, offloadedBytes int) error
-	OnRunComplete func(ctx context.Context, result *Result) error
-	OnRunError    func(ctx context.Context, runID string, err error)
 }

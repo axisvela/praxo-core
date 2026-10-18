@@ -1,19 +1,17 @@
-// Package agent implements the governed agent loop, middleware, context
-// management, delegation, streaming, and human-in-the-loop decisions.
+// Package agent implements the governed agent loop and re-exports capability
+// packages under one stable API.
 //
-// The package is intentionally one Go package: the public API is frozen and
-// middleware shares the run-state types. Files are grouped by capability:
+// Capability packages:
 //
-//	Core loop:       agent.go, middleware.go, options.go, state.go, status.go
-//	Context:         compact.go, compactor.go, agentsmd.go, offload.go
-//	Delegation:      subagent.go
-//	Evaluation:      rubric.go
-//	HITL:            interrupt.go
-//	Streaming:       stream.go
-//	Middleware:      calllimit.go, fallback.go, pii.go, structured.go,
-//	                 toolselect.go, toolselect_model.go
+//	types       shared run-state contracts (Session, Result, Middleware, Hooks)
+//	context     budgets, compaction, summarization, offload, AGENTS.md memory
+//	delegation  async subagent manager and isolated/fork modes
+//	evaluation  rubrics and evaluators
+//	hitl        approve/edit/reject/respond interrupt decisions
+//	stream      typed values/updates/messages/tasks/debug/checkpoint projections
+//	middleware  call limits, fallback, PII, structured output, tool selection
 //
-// New capabilities should follow the same pattern: a capability-named file
-// with its tests, not a new subpackage, unless the code can be extracted
-// without exporting new shared run-state types.
+// The root package keeps Agent, Options, New, Run, and compatibility aliases.
+// New capabilities should live in the matching subpackage and be re-exported
+// from aliases.go when they are part of the public agent API.
 package agent

@@ -2,10 +2,18 @@
 
 All notable changes to PRAXO-CORE are documented here.
 
-## [Unreleased]
+## [1.6.0] - 2026-10-18
+
+### Changed
+
+- Split `pkg/agent` into capability packages: `types`, `context`,
+  `delegation`, `evaluation`, `hitl`, `stream`, and `middleware`. The root
+  package keeps `Agent`, `Options`, `New`, `Run`, and compatibility aliases.
 
 ### Added
 
+- `checkpoint.Allowlist`: explicit type registration for persisted payloads
+  with `Envelope` and `ErrTypeNotAllowed`.
 - `agent.StreamKind`, `agent.StreamPart`, and `Options.OnStream`: typed
   projections for values, updates, messages, tasks, debug, and checkpoints.
   Stream errors abort the run.

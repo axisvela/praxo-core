@@ -9,6 +9,30 @@ import (
 	"github.com/axisvela/praxo-core/pkg/tool"
 )
 
+type stubModel struct {
+	response model.Response
+	err      error
+	calls    int
+}
+
+func (s *stubModel) Generate(context.Context, model.Request) (model.Response, error) {
+	s.calls++
+	return s.response, s.err
+}
+
+type fakeSelector struct {
+	names []string
+	err   error
+	query string
+	tools []model.ToolSpec
+}
+
+func (f *fakeSelector) Select(_ context.Context, query string, tools []model.ToolSpec) ([]string, error) {
+	f.query = query
+	f.tools = tools
+	return f.names, f.err
+}
+
 func TestNewWiresParityMiddleware(t *testing.T) {
 	redactor := NewPIIRedactor(DefaultPIIRules()...)
 	ag, err := New(Options{

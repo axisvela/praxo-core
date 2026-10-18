@@ -67,6 +67,14 @@ Compaction and offload are observable through `Hooks.OnCompaction` and
 - `sandbox.Interpreter` is the optional in-process script seam; products supply
   the runtime (for example QuickJS) when they need one.
 
+## Agent Package Layout
+
+- `pkg/agent` keeps `Agent`, `Options`, `New`, `Run`, and compatibility aliases.
+- Capability subpackages: `types`, `context`, `delegation`, `evaluation`,
+  `hitl`, `stream`, and `middleware`.
+- The root aliases preserve `agent.*` source compatibility; new capabilities
+  live in the matching subpackage.
+
 ## Agent Middleware Parity
 
 - `StructuredOutput` binds a JSON schema through provider response format or a
