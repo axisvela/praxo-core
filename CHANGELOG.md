@@ -9,13 +9,14 @@ All notable changes to PRAXO-CORE are documented here.
 - Fuzz seeds for the manifest, tool-call, JSON Schema, and path parsers.
 - CI matrix (Linux/Windows/macOS), race, fuzz, staticcheck, and govulncheck
   jobs.
+- `examples/integrator`: a self-contained external-integrator wiring example.
 
 ### Changed
 
 - Canonical package paths are now `pkg/toolcall` (was `pkg/output`),
   `pkg/formatter` (was `pkg/format`), and `pkg/tool/jsonschema` (was
-  `pkg/tool/schema`). The old paths remain as deprecated aliases for one minor
-  version.
+  `pkg/tool/schema`). The old paths remain as deprecated aliases through the
+  `0.16` line; removal is tracked in `docs/07-api-freeze.md`.
 - `toolcall.ToolCall` documents `Operation`, `Resource`, `Risk`, `Reason`, and
   `IdempotencyKey` as optional product governance metadata; the parser does not
   interpret or validate them.

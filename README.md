@@ -64,6 +64,8 @@ result, err := ag.Run(ctx, agent.Session{
 }, "Inspect the failing test and propose a fix")
 ```
 
+See [examples/integrator](examples/integrator/main.go) for a self-contained external-integrator example.
+
 ## Status
 
 `0.16.0` makes the package paths canonical (`pkg/toolcall`, `pkg/formatter`,
