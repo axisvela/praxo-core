@@ -79,6 +79,15 @@ Compaction and offload are observable through `Hooks.OnCompaction` and
 - `CallLimitMiddleware` bounds per-run model and tool calls.
 - `pkg/tool.Retry` retries failed tool invocations with the same policy shape.
 
+## Human-in-the-Loop Decisions
+
+- `InterruptDecision` supports approve, edit, reject, and respond.
+- `Options.OnInterruptDecision` takes precedence over the legacy boolean
+  `OnInterrupt`; edit replaces tool arguments, respond skips execution and
+  feeds the human response back to the model.
+- Shell sessions, execution policies, and MCP elicitation remain product/Janus
+  responsibilities; the core only owns the decision contract.
+
 ## Delegation
 
 - `SubagentManager` runs delegated child tasks asynchronously with

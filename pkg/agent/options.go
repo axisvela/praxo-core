@@ -121,6 +121,7 @@ type Options struct {
 	RecallLimit           int
 	InterruptOn           map[string]bool
 	OnInterrupt           func(ctx context.Context, interrupt Interrupt) (bool, error)
+	OnInterruptDecision   InterruptHandler
 	Retry                 RetryPolicy
 	// StructuredOutput validates and optionally repairs the final output.
 	StructuredOutput *StructuredOutput
@@ -198,6 +199,7 @@ func New(opts Options) (*Agent, error) {
 		RecallLimit:           opts.RecallLimit,
 		InterruptOn:           opts.InterruptOn,
 		OnInterrupt:           opts.OnInterrupt,
+		OnInterruptDecision:   opts.OnInterruptDecision,
 		Retry:                 opts.Retry,
 		ToolRetry:             opts.ToolRetry,
 		Hooks:                 opts.Hooks,

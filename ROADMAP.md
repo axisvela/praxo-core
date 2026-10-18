@@ -151,18 +151,17 @@ Exit gate:
 - tool-selection and redaction tests
 - fallback/call-limit conformance tests
 
-## 1.5.0 - HITL and Execution Policies (planned)
+## 1.5.0 - HITL Decisions (in progress)
 
 - HITL decisions: approve, edit, reject, respond.
-- Session-aware shell tool.
-- Execution policies (host, sandbox, container).
-- MCP elicitation (forms/URLs) and tool artifacts.
+- Product/Janus-owned follow-ups: session-aware shell tool, execution policies
+  (host/sandbox/container), MCP elicitation (forms/URLs), and tool artifacts.
 
 Exit gate:
 
 - HITL decision-matrix tests
-- shell-session and execution-policy tests
-- MCP elicitation conformance tests
+- product conformance for shell, execution policies, and MCP elicitation is
+  tracked by PRAXOVELA/Janus, not duplicated in the core
 
 ## 1.6.0 - Runtime Interoperability (planned)
 
