@@ -27,12 +27,16 @@ without inheriting AGPL obligations. PRAXOVELA remains an AGPL product.
 ## Primitives
 
 - `pkg/model` - model/provider abstraction and messages.
-- `pkg/tool` - tool contracts and registry.
+- `pkg/tool` - tool contracts, registry, and JSON Schema validation.
+- `pkg/output` - tool-call parsing and markup stripping.
 - `pkg/memory` - memory and context interfaces.
 - `pkg/event` - event envelopes and sinks.
-- `pkg/scheduler` - schedule definitions and scheduler interface.
+- `pkg/scheduler` - schedule definitions and scheduler engine.
 - `pkg/policy` - decision hooks and authorization boundary.
 - `pkg/sandbox` - execution sandbox interface.
+- `pkg/flow` - Runnable, Chain, and Parallel composition.
+- `pkg/prompt` - prompt and chat templates.
+- `pkg/retriever` - document retrieval contracts.
 - `pkg/agent` - the governed agent loop.
 
 ## Example
