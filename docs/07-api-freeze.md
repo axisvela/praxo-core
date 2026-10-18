@@ -1,11 +1,11 @@
 # API Freeze Inventory
 
-**Status:** post-1.0 additive audit for `1.2.0`. The `1.0.0` surface remains
+**Status:** post-1.0 additive audit for `1.4.0`. The `1.0.0` surface remains
 frozen; new declarations are additive.
 
 ## Audit Result
 
-- Exported declarations: **488**
+- Exported declarations: **541**
 - Exported declarations without a doc comment: **0**
 - Scope: `pkg/...`; examples, tests, unexported receiver methods, and testdata
   are excluded.
@@ -34,7 +34,7 @@ Not covered:
 
 | Package | Stable surface |
 | --- | --- |
-| `pkg/agent` | `Agent`, `Options`, `Profile`, `Middleware`, `Hooks`, `ContextBudget`, `ContextCompactor`, `ModelSummarizer`, `Offloader`, `LoadAgentsMD`, `SubagentManager`, `RubricMiddleware`, `Session`, `Result`, statuses, budgets |
+| `pkg/agent` | `Agent`, `Options`, `Profile`, `Middleware`, `Hooks`, `ContextBudget`, `ContextCompactor`, `ModelSummarizer`, `Offloader`, `LoadAgentsMD`, `SubagentManager`, `RubricMiddleware`, `StructuredOutput`, `ToolSelectionMiddleware`, `PIIMiddleware`, `FallbackModel`, `CallLimitMiddleware`, `Session`, `Result`, statuses, budgets |
 | `pkg/checkpoint` | `Checkpoint`, `Store`, recovery types |
 | `pkg/event` | `Event`, `Sink`, multi/filter/publisher sinks |
 | `pkg/flow` | `Runnable`, `Chain`, `Parallel` |
@@ -52,7 +52,7 @@ Not covered:
 | `pkg/retriever` | `Document`, `Retriever` |
 | `pkg/sandbox` | `Sandbox`, `Spec`, `Result`, optional `Interpreter` |
 | `pkg/scheduler` | schedule definitions and engine |
-| `pkg/tool` | `Tool`, `Registry`, middleware, gateway |
+| `pkg/tool` | `Tool`, `Registry`, middleware, retry, gateway |
 | `pkg/tool/jsonschema` | JSON Schema validator |
 | `pkg/vfs` | `Backend`, entries, matches, optional executor |
 | `pkg/vfs/localfs` | confined local-directory backend |

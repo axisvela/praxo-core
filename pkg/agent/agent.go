@@ -70,6 +70,8 @@ type Agent struct {
 	OffloadThresholdBytes int
 	// PromptCache returns provider cache hints for the current prompt.
 	PromptCache func([]model.Message) *model.CacheHint
+	// StructuredOutput optionally binds a JSON schema to this agent.
+	StructuredOutput *StructuredOutput
 	// ToolChoice is forwarded to the model (auto, none, required).
 	ToolChoice string
 	// AllowedTools limits both advertised and invokable tools. Empty means all.
@@ -78,7 +80,9 @@ type Agent struct {
 	Recall      bool
 	RecallLimit int
 	Retry       RetryPolicy
-	Hooks       Hooks
+	// ToolRetry optionally wraps each resolved tool with retry semantics.
+	ToolRetry *tool.RetryPolicy
+	Hooks     Hooks
 	// OnDelta receives streamed text fragments when Model implements
 	// model.StreamingModel. It may be nil.
 	OnDelta func(delta string)
@@ -289,6 +293,34 @@ func (a *Agent) RunWithContext(ctx context.Context, session Session, prompt stri
 			return result, nil
 		}
 
+		if a.StructuredOutput != nil && a.StructuredOutput.Strategy == StructuredOutputTool {
+			for _, call := range resp.Message.ToolCalls {
+				if call.Name != a.StructuredOutput.outputName() {
+					continue
+				}
+				if err := a.StructuredOutput.validateArguments(call.Arguments); err != nil {
+					return nil, fmt.Errorf("%w: %v", ErrStructuredOutput, err)
+				}
+				raw, err := json.Marshal(call.Arguments)
+				if err != nil {
+					return nil, err
+				}
+				result = &Result{RunID: runID, Output: string(raw), Steps: step, Usage: usage}
+				if err := a.remember(ctx, runID, session.ID, result); err != nil {
+					return nil, err
+				}
+				if err := a.emit(ctx, event.Event{Type: "run.completed", SessionID: session.ID, RunID: runID}); err != nil {
+					return nil, err
+				}
+				if a.Hooks.OnRunComplete != nil {
+					if err := a.Hooks.OnRunComplete(ctx, result); err != nil {
+						return nil, err
+					}
+				}
+				return result, nil
+			}
+		}
+
 		prepared := make([]preparedTool, 0, len(resp.Message.ToolCalls))
 		for _, call := range resp.Message.ToolCalls {
 			if !a.toolAllowed(call.Name) {
@@ -331,6 +363,9 @@ func (a *Agent) RunWithContext(ctx context.Context, session Session, prompt stri
 			t, err := a.Tools.Get(call.Name)
 			if err != nil {
 				return nil, err
+			}
+			if a.ToolRetry != nil {
+				t = tool.Wrap(t, tool.Retry(*a.ToolRetry))
 			}
 			if a.Hooks.OnToolCall != nil {
 				if err := a.Hooks.OnToolCall(ctx, runID, call); err != nil {
@@ -484,10 +519,23 @@ func (a *Agent) emit(ctx context.Context, e event.Event) error {
 }
 
 func (a *Agent) toolSpecs() []model.ToolSpec {
-	if a.Tools == nil {
-		return nil
+	var specs []model.ToolSpec
+	if a.Tools != nil {
+		specs = a.Tools.Specs()
 	}
-	specs := a.Tools.Specs()
+	if a.StructuredOutput != nil && a.StructuredOutput.Strategy == StructuredOutputTool {
+		name := a.StructuredOutput.outputName()
+		found := false
+		for _, spec := range specs {
+			if spec.Name == name {
+				found = true
+				break
+			}
+		}
+		if !found {
+			specs = append(specs, a.StructuredOutput.ToolSpec())
+		}
+	}
 	if len(a.AllowedTools) == 0 {
 		return specs
 	}

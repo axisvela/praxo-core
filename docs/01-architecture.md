@@ -67,6 +67,18 @@ Compaction and offload are observable through `Hooks.OnCompaction` and
 - `sandbox.Interpreter` is the optional in-process script seam; products supply
   the runtime (for example QuickJS) when they need one.
 
+## Agent Middleware Parity
+
+- `StructuredOutput` binds a JSON schema through provider response format or a
+  virtual tool, validates the final output, and optionally repairs it.
+- `ToolSelectionMiddleware` narrows advertised tools per run;
+  `ModelToolSelector` is the built-in model-backed selector.
+- `PIIMiddleware` redacts model-bound messages and tool results before they
+  enter the prompt.
+- `FallbackModel` retries a failed primary model call on a fallback model.
+- `CallLimitMiddleware` bounds per-run model and tool calls.
+- `pkg/tool.Retry` retries failed tool invocations with the same policy shape.
+
 ## Delegation
 
 - `SubagentManager` runs delegated child tasks asynchronously with

@@ -3,10 +3,10 @@
 | Package | Contract | Typical adapter |
 | --- | --- | --- |
 | `pkg/model` | `Model.Generate`, `Provider.Chat/ChatStream`, `ModelRouter`, `ChatModel`, `CacheHint`, `ProviderProfile` | PRAXOVELA provider router |
-| `pkg/agent` | `Agent.Run`, middleware, hooks, budgets, `ContextCompactor`, `Offloader`, `LoadAgentsMD`, `SubagentManager`, `RubricMiddleware` | PRAXOVELA agent loop |
+| `pkg/agent` | `Agent.Run`, middleware, hooks, budgets, `ContextCompactor`, `Offloader`, `LoadAgentsMD`, `SubagentManager`, `RubricMiddleware`, `StructuredOutput`, `ToolSelectionMiddleware`, `PIIMiddleware`, `FallbackModel`, `CallLimitMiddleware` | PRAXOVELA agent loop |
 | `pkg/checkpoint` | `Checkpoint`, `Store.Save/Load/List`, recovery report | PRAXOVELA checkpoint store |
 | `pkg/httpclient` | retry-capable HTTP transport with auth, tracing, and decoding | PRAXOVELA adapters |
-| `pkg/tool` | `Tool`, `Registry`, `SpecProvider`, `Middleware`, `Gateway` | Janus Gateway tools |
+| `pkg/tool` | `Tool`, `Registry`, `SpecProvider`, `Middleware`, `Retry`, `Gateway` | Janus Gateway tools |
 | `pkg/memory` | `Store.Put/Search`, `MemoryStore`, `ContextAssembler`, `RemoteStore` | Mnemovela |
 | `pkg/event` | `Sink.Emit`, `MultiSink`, `FilterSink`, `PublisherSink` | Harmovela / Argus Trace |
 | `pkg/policy` | `Hook.Authorize`, `PathChecker` read/write containment | AEGIVELA / Archon Guard |

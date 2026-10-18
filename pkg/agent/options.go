@@ -122,8 +122,21 @@ type Options struct {
 	InterruptOn           map[string]bool
 	OnInterrupt           func(ctx context.Context, interrupt Interrupt) (bool, error)
 	Retry                 RetryPolicy
-	Hooks                 Hooks
-	OnDelta               func(delta string)
+	// StructuredOutput validates and optionally repairs the final output.
+	StructuredOutput *StructuredOutput
+	// FallbackModel is used when the primary model call fails.
+	FallbackModel model.Model
+	// ToolSelector narrows advertised tools before each model call.
+	ToolSelector ToolSelector
+	// PIIRedactor redacts model-bound messages and tool results.
+	PIIRedactor *PIIRedactor
+	// ModelCallLimit and ToolCallLimit bound calls per run. Zero is unlimited.
+	ModelCallLimit int
+	ToolCallLimit  int
+	// ToolRetry retries failed tool invocations.
+	ToolRetry *tool.RetryPolicy
+	Hooks     Hooks
+	OnDelta   func(delta string)
 }
 
 // New validates options and builds an agent.
@@ -141,9 +154,26 @@ func New(opts Options) (*Agent, error) {
 	if memory != "" {
 		opts.SystemPrompt = strings.TrimSpace(opts.SystemPrompt + "\n\n" + memory)
 	}
+	middleware := append([]Middleware(nil), opts.Middleware...)
+	if opts.StructuredOutput != nil {
+		middleware = append(middleware, opts.StructuredOutput.Middleware())
+	}
+	if opts.ToolSelector != nil {
+		middleware = append(middleware, ToolSelectionMiddleware(opts.ToolSelector))
+	}
+	if opts.PIIRedactor != nil {
+		middleware = append(middleware, PIIMiddleware(*opts.PIIRedactor))
+	}
+	if opts.ModelCallLimit > 0 || opts.ToolCallLimit > 0 {
+		middleware = append(middleware, CallLimitMiddleware(opts.ModelCallLimit, opts.ToolCallLimit))
+	}
+	modelMiddleware := append([]ModelMiddleware(nil), opts.ModelMiddleware...)
+	if opts.FallbackModel != nil {
+		modelMiddleware = append(modelMiddleware, FallbackModel(opts.FallbackModel))
+	}
 	return &Agent{
-		Middleware:            mergeMiddleware(opts.Middleware),
-		ModelMiddleware:       opts.ModelMiddleware,
+		Middleware:            mergeMiddleware(middleware),
+		ModelMiddleware:       modelMiddleware,
 		Model:                 opts.Model,
 		SystemPrompt:          opts.SystemPrompt,
 		Tools:                 opts.Tools,
@@ -160,6 +190,7 @@ func New(opts Options) (*Agent, error) {
 		Offloader:             opts.Offloader,
 		OffloadThresholdBytes: opts.OffloadThresholdBytes,
 		PromptCache:           opts.PromptCache,
+		StructuredOutput:      opts.StructuredOutput,
 		ToolChoice:            opts.ToolChoice,
 		AllowedTools:          opts.AllowedTools,
 		ResponseFormat:        opts.ResponseFormat,
@@ -168,6 +199,7 @@ func New(opts Options) (*Agent, error) {
 		InterruptOn:           opts.InterruptOn,
 		OnInterrupt:           opts.OnInterrupt,
 		Retry:                 opts.Retry,
+		ToolRetry:             opts.ToolRetry,
 		Hooks:                 opts.Hooks,
 		OnDelta:               opts.OnDelta,
 	}, nil

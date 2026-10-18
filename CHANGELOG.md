@@ -2,6 +2,25 @@
 
 All notable changes to PRAXO-CORE are documented here.
 
+## [1.4.0] - 2026-10-18
+
+### Added
+
+- `agent.StructuredOutput`: provider/tool/auto JSON-schema binding with
+  validation, optional repair, and a virtual structured-output tool.
+- `agent.ToolSelector`, `agent.ToolSelectionMiddleware`, and
+  `agent.ModelToolSelector`: per-run tool narrowing with a model-backed
+  selector.
+- `agent.PIIRule`, `agent.PIIRedactor`, `agent.PIIMiddleware`, and
+  `DefaultPIIRules`: model-request and tool-result redaction.
+- `agent.FallbackModel`: model middleware that retries a failed primary call on
+  a fallback model.
+- `agent.CallLimitMiddleware` with `ErrModelCallLimit`/`ErrToolCallLimit`:
+  per-run model/tool call budgets.
+- `tool.Retry` and `tool.RetryPolicy`: retry middleware for tool invocations.
+- `Options` wiring for structured output, fallback model, tool selector, PII
+  redactor, call limits, and tool retry.
+
 ## [1.3.0] - 2026-10-18
 
 ### Added
