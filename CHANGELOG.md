@@ -2,6 +2,13 @@
 
 All notable changes to PRAXO-CORE are documented here.
 
+## [0.4.0] - 2026-10-18
+
+### Added
+
+- Extracted the agent lifecycle `Status` state machine and tenant default into
+  `pkg/agent`; PRAXOVELA now aliases the framework status contract.
+
 ## [0.3.0] - 2026-10-18
 
 ### Added
