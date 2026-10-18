@@ -10,6 +10,8 @@ All notable changes to PRAXO-CORE are documented here.
 - CI matrix (Linux/Windows/macOS), race, fuzz, staticcheck, and govulncheck
   jobs.
 - `examples/integrator`: a self-contained external-integrator wiring example.
+- API snapshot/diff scripts, release-check gate, SBOM/checksums scripts, and a
+  tag-triggered release workflow.
 
 ### Changed
 

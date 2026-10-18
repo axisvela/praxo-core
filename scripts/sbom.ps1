@@ -3,6 +3,10 @@ param(
 )
 
 $ErrorActionPreference = 'Stop'
+$gobin = Join-Path (go env GOPATH) 'bin'
+if (Test-Path $gobin) {
+    $env:PATH = "$gobin;$env:PATH"
+}
 if (-not (Get-Command cyclonedx-gomod -ErrorAction SilentlyContinue)) {
     throw 'cyclonedx-gomod is not installed: go install github.com/CycloneDX/cyclonedx-gomod/cmd/cyclonedx-gomod@latest'
 }

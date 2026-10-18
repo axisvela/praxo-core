@@ -69,7 +69,8 @@ not independent security sign-off.
 - [ ] race tests passing in CI (job added)
 - [x] CI matrix configured: Linux, Windows, macOS
 - [x] `go vet`, `staticcheck`, and `govulncheck` locally
-- [ ] SBOM, checksums, and signed release artifacts
+- [x] SBOM/checksum tooling verified locally
+- [ ] signed release tag and published artifacts
 - [ ] independent review of host containment and path containment
 - [x] external integrator example added; least-privilege policy profile remains
 
