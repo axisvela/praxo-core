@@ -1,8 +1,8 @@
 # PRAXO-CORE Roadmap
 
-**Current:** `1.0.0` API frozen; release gate pending Linux CI/signing
+**Current:** `1.0.0` released 2026-10-18; `1.1.0` context parity next
 
-**Target:** `1.0.0` stable MIT framework
+**Target:** `1.3.0` harness parity
 
 ## Release History
 
@@ -24,6 +24,7 @@
 | 0.14.0 | plugin contract layer |
 | 0.15.0 | plugin hosts, Manifest v1, TCK, path containment, context budget |
 | 0.16.0 | canonical `toolcall`/`formatter`/`jsonschema` paths with deprecated aliases |
+| 1.0.0 | API freeze, plugin hosts, TCK, security and release gates |
 
 See `CHANGELOG.md` for exact changes.
 

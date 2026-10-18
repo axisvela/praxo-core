@@ -68,7 +68,7 @@ See [examples/integrator](examples/integrator/main.go) for a self-contained exte
 
 ## Status
 
-`1.0.0` freezes the exported API (`api/1.0.0.txt`; the `0.16.0` diff is alias
+`1.0.0` was released on 2026-10-18. It freezes the exported API (`api/1.0.0.txt`; the `0.16.0` diff is alias
 removal only) and removes the deprecated package paths. The canonical layout is
 `pkg/toolcall`, `pkg/formatter`, and `pkg/tool/jsonschema`. It also includes the
 plugin hosts, conformance kit, Manifest v1, path containment, and context budget

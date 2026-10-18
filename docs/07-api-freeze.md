@@ -106,5 +106,5 @@ in `1.0.0`; the release note and migration line live in
 - [x] framework threat model and security hardening (independent review pending)
 - [x] external integrator example
 - [x] SBOM/checksum/release-check tooling verified locally
-- [ ] Linux race/CI matrix observed green
-- [ ] signed tag and published release artifacts
+- [x] Linux/Windows/macOS CI and race observed green (2026-10-18)
+- [x] release published with SBOM/checksums (annotated tag; GPG signing unavailable)
