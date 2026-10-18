@@ -8,6 +8,9 @@ All notable changes to PRAXO-CORE are documented here.
 
 - Extracted PRAXOVELA's code formatter registry into `pkg/format`; PRAXOVELA
   now aliases the framework package.
+- Added tool specs, middleware, and ordered wrapping.
+- Added multi-sink and filter event sinks.
+- Added an in-memory memory store and context assembler.
 
 ## [0.2.0] - 2026-10-18
 

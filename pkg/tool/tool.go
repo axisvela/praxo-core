@@ -55,6 +55,10 @@ func (r *Registry) Specs() []model.ToolSpec {
 	defer r.mu.RUnlock()
 	out := make([]model.ToolSpec, 0, len(r.tools))
 	for _, t := range r.tools {
+		if provider, ok := t.(SpecProvider); ok {
+			out = append(out, provider.Spec())
+			continue
+		}
 		out = append(out, model.ToolSpec{Name: t.Name(), Description: t.Description()})
 	}
 	sort.Slice(out, func(i, j int) bool { return out[i].Name < out[j].Name })
