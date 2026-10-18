@@ -137,6 +137,7 @@ type Options struct {
 	// ToolRetry retries failed tool invocations.
 	ToolRetry *tool.RetryPolicy
 	Hooks     Hooks
+	OnStream  func(StreamPart) error
 	OnDelta   func(delta string)
 }
 
@@ -203,6 +204,7 @@ func New(opts Options) (*Agent, error) {
 		Retry:                 opts.Retry,
 		ToolRetry:             opts.ToolRetry,
 		Hooks:                 opts.Hooks,
+		OnStream:              opts.OnStream,
 		OnDelta:               opts.OnDelta,
 	}, nil
 }

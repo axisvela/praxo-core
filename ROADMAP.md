@@ -164,9 +164,9 @@ Exit gate:
 - product conformance for shell, execution policies, and MCP elicitation is
   tracked by PRAXOVELA/Janus, not duplicated in the core
 
-## 1.6.0 - Runtime Interoperability (planned)
+## 1.6.0 - Runtime Interoperability (in progress)
 
-- Typed stream projections (values/updates/messages/checkpoint/tasks/debug).
+- [x] Typed stream projections (values/updates/messages/checkpoint/tasks/debug).
 - Durable agent-session interrupt/resume (not graph-node resume).
 - Serialization allowlist for persisted run/tool payloads.
 - RHEOVELA integration seam: agent node/session adapter so RHEOVELA owns graph,
