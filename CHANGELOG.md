@@ -2,6 +2,14 @@
 
 All notable changes to PRAXO-CORE are documented here.
 
+## [0.7.0] - 2026-10-18
+
+### Added
+
+- `Agent.MaxParallelTools` runs tool calls from one model response
+  concurrently while preserving message order.
+- Tool panics are converted into errors instead of crashing the process.
+
 ## [0.6.0] - 2026-10-18
 
 ### Added

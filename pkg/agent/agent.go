@@ -6,6 +6,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"sync"
 	"time"
 
 	"github.com/axisvela/praxo-core/pkg/event"
@@ -34,8 +35,11 @@ type Agent struct {
 	Events   event.Sink
 	Policy   policy.Hook
 	MaxSteps int
-	Retry    RetryPolicy
-	Hooks    Hooks
+	// MaxParallelTools bounds concurrent tool invocations within one step.
+	// Values <= 1 run tools sequentially.
+	MaxParallelTools int
+	Retry            RetryPolicy
+	Hooks            Hooks
 	// OnDelta receives streamed text fragments when Model implements
 	// model.StreamingModel. It may be nil.
 	OnDelta func(delta string)
@@ -144,6 +148,7 @@ func (a *Agent) Run(ctx context.Context, session Session, prompt string) (result
 			return result, nil
 		}
 
+		prepared := make([]preparedTool, 0, len(resp.Message.ToolCalls))
 		for _, call := range resp.Message.ToolCalls {
 			if err := a.authorize(ctx, policy.Action{
 				Kind: "tool.invoke", SessionID: session.ID, ToolName: call.Name, Arguments: call.Arguments,
@@ -168,16 +173,21 @@ func (a *Agent) Run(ctx context.Context, session Session, prompt string) (result
 			}); err != nil {
 				return nil, err
 			}
-			value, invokeErr := t.Invoke(ctx, call.Arguments)
+			prepared = append(prepared, preparedTool{call: call, tool: t})
+		}
+
+		outcomes := runTools(ctx, prepared, a.MaxParallelTools)
+		for i, outcome := range outcomes {
+			call := prepared[i].call
 			if a.Hooks.OnToolResult != nil {
-				if err := a.Hooks.OnToolResult(ctx, runID, call, value, invokeErr); err != nil {
+				if err := a.Hooks.OnToolResult(ctx, runID, call, outcome.value, outcome.err); err != nil {
 					return nil, err
 				}
 			}
-			if invokeErr != nil {
-				return nil, invokeErr
+			if outcome.err != nil {
+				return nil, outcome.err
 			}
-			raw, err := json.Marshal(value)
+			raw, err := json.Marshal(outcome.value)
 			if err != nil {
 				return nil, err
 			}
@@ -186,6 +196,49 @@ func (a *Agent) Run(ctx context.Context, session Session, prompt string) (result
 	}
 
 	return nil, ErrMaxSteps
+}
+
+type preparedTool struct {
+	call model.ToolCall
+	tool tool.Tool
+}
+
+type toolOutcome struct {
+	value any
+	err   error
+}
+
+func runTools(ctx context.Context, prepared []preparedTool, parallel int) []toolOutcome {
+	out := make([]toolOutcome, len(prepared))
+	if parallel <= 1 || len(prepared) <= 1 {
+		for i := range prepared {
+			out[i].value, out[i].err = invokeTool(ctx, prepared[i].tool, prepared[i].call)
+		}
+		return out
+	}
+
+	sem := make(chan struct{}, parallel)
+	var wg sync.WaitGroup
+	for i := range prepared {
+		wg.Add(1)
+		go func(i int) {
+			defer wg.Done()
+			sem <- struct{}{}
+			defer func() { <-sem }()
+			out[i].value, out[i].err = invokeTool(ctx, prepared[i].tool, prepared[i].call)
+		}(i)
+	}
+	wg.Wait()
+	return out
+}
+
+func invokeTool(ctx context.Context, t tool.Tool, call model.ToolCall) (value any, err error) {
+	defer func() {
+		if r := recover(); r != nil {
+			err = fmt.Errorf("agent: tool %s panicked: %v", call.Name, r)
+		}
+	}()
+	return t.Invoke(ctx, call.Arguments)
 }
 
 func (a *Agent) generate(ctx context.Context, req model.Request) (model.Response, error) {

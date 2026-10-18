@@ -3,7 +3,9 @@ package agent
 import (
 	"context"
 	"errors"
+	"strings"
 	"testing"
+	"time"
 
 	"github.com/axisvela/praxo-core/pkg/event"
 	"github.com/axisvela/praxo-core/pkg/model"
@@ -231,5 +233,100 @@ func TestRunDoesNotMutateMaxSteps(t *testing.T) {
 	}
 	if ag.MaxSteps != 0 {
 		t.Fatalf("MaxSteps = %d, want 0", ag.MaxSteps)
+	}
+}
+
+type multiCallModel struct {
+	calls int
+}
+
+func (m *multiCallModel) Generate(context.Context, model.Request) (model.Response, error) {
+	m.calls++
+	if m.calls == 1 {
+		return model.Response{Message: model.Message{
+			Role: model.RoleAssistant,
+			ToolCalls: []model.ToolCall{
+				{ID: "1", Name: "barrier"},
+				{ID: "2", Name: "barrier"},
+			},
+		}}, nil
+	}
+	return model.Response{Message: model.Message{Role: model.RoleAssistant, Content: "done"}}, nil
+}
+
+type barrierTool struct {
+	started chan struct{}
+	release chan struct{}
+}
+
+func (b *barrierTool) Name() string        { return "barrier" }
+func (b *barrierTool) Description() string { return "waits for release" }
+func (b *barrierTool) Invoke(ctx context.Context, _ map[string]any) (any, error) {
+	b.started <- struct{}{}
+	select {
+	case <-b.release:
+		return "ok", nil
+	case <-ctx.Done():
+		return nil, ctx.Err()
+	}
+}
+
+func TestRunInvokesToolsInParallel(t *testing.T) {
+	barrier := &barrierTool{started: make(chan struct{}, 2), release: make(chan struct{})}
+	closed := false
+	defer func() {
+		if !closed {
+			close(barrier.release)
+		}
+	}()
+
+	tools := tool.NewRegistry()
+	tools.Register(barrier)
+	ag := &Agent{Model: &multiCallModel{}, Tools: tools, MaxParallelTools: 2}
+
+	done := make(chan error, 1)
+	go func() {
+		_, err := ag.Run(context.Background(), Session{ID: "s1"}, "do it")
+		done <- err
+	}()
+
+	for i := 0; i < 2; i++ {
+		select {
+		case <-barrier.started:
+		case <-time.After(2 * time.Second):
+			t.Fatal("tools did not start in parallel")
+		}
+	}
+	close(barrier.release)
+	closed = true
+	if err := <-done; err != nil {
+		t.Fatal(err)
+	}
+}
+
+type panicTool struct{}
+
+func (panicTool) Name() string        { return "panic" }
+func (panicTool) Description() string { return "panics" }
+func (panicTool) Invoke(context.Context, map[string]any) (any, error) {
+	panic("boom")
+}
+
+type panicModel struct{}
+
+func (panicModel) Generate(context.Context, model.Request) (model.Response, error) {
+	return model.Response{Message: model.Message{
+		Role:      model.RoleAssistant,
+		ToolCalls: []model.ToolCall{{ID: "1", Name: "panic"}},
+	}}, nil
+}
+
+func TestToolPanicBecomesError(t *testing.T) {
+	tools := tool.NewRegistry()
+	tools.Register(panicTool{})
+	ag := &Agent{Model: panicModel{}, Tools: tools}
+	_, err := ag.Run(context.Background(), Session{ID: "s1"}, "do it")
+	if err == nil || !strings.Contains(err.Error(), "panicked") {
+		t.Fatalf("err = %v", err)
 	}
 }
