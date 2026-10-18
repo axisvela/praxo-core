@@ -109,10 +109,12 @@ type WatchFormat struct {
 	dir string
 }
 
+// NewWatch returns a directory formatter watcher.
 func NewWatch(dir string) *WatchFormat {
 	return &WatchFormat{dir: dir}
 }
 
+// FormatAll formats every detected file under the watched directory.
 func (w *WatchFormat) FormatAll() ([]string, error) {
 	var formatted []string
 	filepath.Walk(w.dir, func(path string, info os.FileInfo, err error) error {

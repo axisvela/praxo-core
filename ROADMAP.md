@@ -92,11 +92,46 @@ Exit gate:
 
 ## 1.0.0 - Stable Framework
 
-- API stability commitment.
-- Production-grade documentation.
-- External integrator examples.
+- API stability commitment and exported API freeze inventory.
+- Production-grade documentation and external integrator examples.
 - Security review and threat model.
 - Release gate, SBOM, and checksums.
+- No competitive harness-parity expansion; the items below are post-1.0.
+
+## 1.1.0 - Context Management Parity
+
+- `ContextCompactor` interface with model-based summarization and large-result
+  offload.
+- Always-loaded `AGENTS.md` memory loader.
+- Prompt-cache hooks for Anthropic/Bedrock-compatible providers.
+
+Exit gate:
+
+- a long-run test exceeds one context window without silent context loss
+- compaction and offload are observable and bounded
+
+## 1.2.0 - Delegation and Execution Parity
+
+- Async subagent lifecycle: launch, check, update, cancel.
+- Explicit forked subagent context mode.
+- Virtual filesystem backend protocol (state, store, filesystem, composite).
+- Dedicated `delete`, `glob`, and `grep` tool surface.
+
+Exit gate:
+
+- async subagent and virtual-filesystem backend conformance tests
+- subagent cancellation and fork-context tests
+
+## 1.3.0 - Harness Profiles and Evaluation
+
+- Provider/harness profiles for tool-call quirks, context windows, and caching.
+- Rubric/evaluation middleware.
+- Optional in-process JavaScript interpreter.
+
+Exit gate:
+
+- provider-profile conformance tests
+- rubric and interpreter tests
 
 ## Non-Goals
 

@@ -108,6 +108,7 @@ func Lookup(k Kind) (Contract, bool) {
 // CallErrorCode classifies a mediated invoke failure.
 type CallErrorCode string
 
+// Call error codes.
 const (
 	CodeCapabilityDenied CallErrorCode = "CAPABILITY_DENIED"
 	CodeNotActive        CallErrorCode = "NOT_ACTIVE"

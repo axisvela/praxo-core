@@ -30,6 +30,7 @@ import (
 	"github.com/tetratelabs/wazero/api"
 )
 
+// Well-known host control channel.
 const (
 	ControlService = "host.control"
 	MethodHealth   = "health"
@@ -52,6 +53,7 @@ const (
 // cancellation, keeping it distinct from a deadline (CodeTimeout).
 const CodeCanceled plugin.CallErrorCode = "CANCELED"
 
+// Host defaults and bounds.
 const (
 	DefaultStartTimeout  = 10 * time.Second
 	DefaultInvokeTimeout = 30 * time.Second

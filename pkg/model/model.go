@@ -9,6 +9,7 @@ import (
 // Role is a message role.
 type Role = string
 
+// Message roles.
 const (
 	RoleSystem    Role = "system"
 	RoleUser      Role = "user"
@@ -19,6 +20,7 @@ const (
 // TaskClass is a coarse routing class.
 type TaskClass string
 
+// Task classes.
 const (
 	TaskClassify  TaskClass = "classify"
 	TaskSummarize TaskClass = "summarize"

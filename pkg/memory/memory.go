@@ -9,6 +9,7 @@ import (
 // Frame is a typed memory frame.
 type Frame string
 
+// Memory frame kinds.
 const (
 	FrameEvent          Frame = "event"
 	FrameDecision       Frame = "decision"
