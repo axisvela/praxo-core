@@ -1,4 +1,3 @@
-// Package agent implements the governed agent loop.
 package agent
 
 import (

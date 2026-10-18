@@ -9,6 +9,8 @@ All notable changes to PRAXO-CORE are documented here.
 - `agent.StreamKind`, `agent.StreamPart`, and `Options.OnStream`: typed
   projections for values, updates, messages, tasks, debug, and checkpoints.
   Stream errors abort the run.
+- Session-level resume is characterized by `Session.Messages`; durable
+  checkpoint storage remains product-owned.
 
 ## [1.5.0] - 2026-10-18
 

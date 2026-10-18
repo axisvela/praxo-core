@@ -94,6 +94,8 @@ Compaction and offload are observable through `Hooks.OnCompaction` and
   tasks, debug, and checkpoints.
 - Stream consumers can persist or forward projections without parsing the
   event sink.
+- Session-level resume is expressed by pre-populating `Session.Messages`;
+  durable checkpoint storage remains a product concern.
 - Graph execution remains RHEOVELA-owned; the core stream is the agent-node
   boundary, not a LangGraph-compatible projection runtime.
 
