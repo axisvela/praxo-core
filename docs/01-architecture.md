@@ -58,6 +58,15 @@ Context is managed in layers:
 Compaction and offload are observable through `Hooks.OnCompaction` and
 `Hooks.OnOffload`.
 
+## Harness Profiles and Evaluation
+
+- `model.ProviderProfile`/`ProfileRegistry` describe context windows, output
+  limits, tool/stream/cache support, and tool-call format by model prefix.
+- `agent.RubricMiddleware` evaluates a completed run with an `Evaluator` and
+  fails the run below `Rubric.PassScore`.
+- `sandbox.Interpreter` is the optional in-process script seam; products supply
+  the runtime (for example QuickJS) when they need one.
+
 ## Delegation
 
 - `SubagentManager` runs delegated child tasks asynchronously with

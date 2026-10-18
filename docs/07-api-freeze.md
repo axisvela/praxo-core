@@ -5,7 +5,7 @@ frozen; new declarations are additive.
 
 ## Audit Result
 
-- Exported declarations: **474**
+- Exported declarations: **488**
 - Exported declarations without a doc comment: **0**
 - Scope: `pkg/...`; examples, tests, unexported receiver methods, and testdata
   are excluded.
@@ -34,14 +34,14 @@ Not covered:
 
 | Package | Stable surface |
 | --- | --- |
-| `pkg/agent` | `Agent`, `Options`, `Profile`, `Middleware`, `Hooks`, `ContextBudget`, `ContextCompactor`, `ModelSummarizer`, `Offloader`, `LoadAgentsMD`, `SubagentManager`, `Session`, `Result`, statuses, budgets |
+| `pkg/agent` | `Agent`, `Options`, `Profile`, `Middleware`, `Hooks`, `ContextBudget`, `ContextCompactor`, `ModelSummarizer`, `Offloader`, `LoadAgentsMD`, `SubagentManager`, `RubricMiddleware`, `Session`, `Result`, statuses, budgets |
 | `pkg/checkpoint` | `Checkpoint`, `Store`, recovery types |
 | `pkg/event` | `Event`, `Sink`, multi/filter/publisher sinks |
 | `pkg/flow` | `Runnable`, `Chain`, `Parallel` |
 | `pkg/formatter` | `Formatter`, detection/execution registry |
 | `pkg/httpclient` | retry-capable client and auth/tracing options |
 | `pkg/memory` | `Store`, `Record`, `Frame`, context assembler |
-| `pkg/model` | `Model`, `Provider`, messages, tool specs, response format, `CacheHint` |
+| `pkg/model` | `Model`, `Provider`, messages, tool specs, response format, `CacheHint`, `ProviderProfile` |
 | `pkg/plugin` | Manifest v1, contract kinds, lifecycle, registry, scope, limits, telemetry |
 | `pkg/plugin/bridge` | host-to-provider adapters and codecs |
 | `pkg/plugin/host/process` | process host and platform supervisors |
@@ -50,7 +50,7 @@ Not covered:
 | `pkg/policy` | `Hook`, `Decision`, `PathChecker`, path grants |
 | `pkg/prompt` | `Template`, `ChatTemplate` |
 | `pkg/retriever` | `Document`, `Retriever` |
-| `pkg/sandbox` | `Sandbox`, `Spec`, `Result` |
+| `pkg/sandbox` | `Sandbox`, `Spec`, `Result`, optional `Interpreter` |
 | `pkg/scheduler` | schedule definitions and engine |
 | `pkg/tool` | `Tool`, `Registry`, middleware, gateway |
 | `pkg/tool/jsonschema` | JSON Schema validator |

@@ -1,6 +1,6 @@
 # PRAXO-CORE Roadmap
 
-**Current:** `1.2.0` delegation and execution parity (2026-10-18)
+**Current:** `1.3.0` harness profiles and evaluation (2026-10-18)
 
 **Target:** `1.3.0` harness parity
 
@@ -27,6 +27,7 @@
 | 1.0.0 | API freeze, plugin hosts, TCK, security and release gates |
 | 1.1.0 | model summarization, tool-result offload, AGENTS.md memory, prompt-cache hook |
 | 1.2.0 | virtual filesystem backend/tools and async/fork subagent manager |
+| 1.3.0 | provider profiles, rubric evaluation, interpreter seam |
 
 See `CHANGELOG.md` for exact changes.
 
@@ -125,7 +126,7 @@ Exit gate:
 - async subagent and virtual-filesystem backend conformance tests
 - subagent cancellation and fork-context tests
 
-## 1.3.0 - Harness Profiles and Evaluation
+## 1.3.0 - Harness Profiles and Evaluation (released 2026-10-18)
 
 - Provider/harness profiles for tool-call quirks, context windows, and caching.
 - Rubric/evaluation middleware.

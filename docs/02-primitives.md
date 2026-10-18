@@ -2,15 +2,15 @@
 
 | Package | Contract | Typical adapter |
 | --- | --- | --- |
-| `pkg/model` | `Model.Generate`, `Provider.Chat/ChatStream`, `ModelRouter`, `ChatModel`, `CacheHint` | PRAXOVELA provider router |
-| `pkg/agent` | `Agent.Run`, middleware, hooks, budgets, `ContextCompactor`, `Offloader`, `LoadAgentsMD`, `SubagentManager` | PRAXOVELA agent loop |
+| `pkg/model` | `Model.Generate`, `Provider.Chat/ChatStream`, `ModelRouter`, `ChatModel`, `CacheHint`, `ProviderProfile` | PRAXOVELA provider router |
+| `pkg/agent` | `Agent.Run`, middleware, hooks, budgets, `ContextCompactor`, `Offloader`, `LoadAgentsMD`, `SubagentManager`, `RubricMiddleware` | PRAXOVELA agent loop |
 | `pkg/checkpoint` | `Checkpoint`, `Store.Save/Load/List`, recovery report | PRAXOVELA checkpoint store |
 | `pkg/httpclient` | retry-capable HTTP transport with auth, tracing, and decoding | PRAXOVELA adapters |
 | `pkg/tool` | `Tool`, `Registry`, `SpecProvider`, `Middleware`, `Gateway` | Janus Gateway tools |
 | `pkg/memory` | `Store.Put/Search`, `MemoryStore`, `ContextAssembler`, `RemoteStore` | Mnemovela |
 | `pkg/event` | `Sink.Emit`, `MultiSink`, `FilterSink`, `PublisherSink` | Harmovela / Argus Trace |
 | `pkg/policy` | `Hook.Authorize`, `PathChecker` read/write containment | AEGIVELA / Archon Guard |
-| `pkg/sandbox` | `Sandbox.Run` | Vulcan Forge |
+| `pkg/sandbox` | `Sandbox.Run`, optional `Interpreter.Eval` | Vulcan Forge |
 | `pkg/scheduler` | `Scheduler.Add/Remove/List`; cron engine extracted from PRAXOVELA | PRAXOVELA durable scheduler |
 | `pkg/toolcall` | `ParseToolCall`, `StripToolCallMarkup`, `ParseInputJSON` | model-output parsing |
 | `pkg/tool/jsonschema` | JSON Schema validation | tool input/output validation |
