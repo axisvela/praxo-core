@@ -2,6 +2,15 @@
 
 All notable changes to PRAXO-CORE are documented here.
 
+## [0.14.0] - 2026-10-18
+
+### Added
+
+- `pkg/plugin`: contract kinds, host boundary, lifecycle FSM, guarded adapter
+  registry, per-plugin scope, resource limits, and telemetry events.
+  PRAXOVELA aliases it; materialization, update, evidence, and binding stay
+  product-side.
+
 ## [0.13.0] - 2026-10-18
 
 ### Added
