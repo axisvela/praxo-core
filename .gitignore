@@ -1,0 +1,15 @@
+*.exe
+*.test
+*.out
+bin/
+dist/
+vendor/
+go.work
+go.work.sum
+.DS_Store
+.idea/
+.vscode/
+.env
+.env.*
+*.key
+*.pem
