@@ -93,6 +93,14 @@ type Model interface {
 	Generate(ctx context.Context, req Request) (Response, error)
 }
 
+// StreamingModel is a model that can report text fragments while generating.
+// Implementations must still return the complete response (including tool
+// calls) when the stream finishes.
+type StreamingModel interface {
+	Model
+	GenerateStream(ctx context.Context, req Request, onDelta func(delta string)) (Response, error)
+}
+
 // Provider is the chat-oriented provider contract.
 type Provider interface {
 	Chat(messages []Message) ([]Message, error)

@@ -34,6 +34,11 @@ type Agent struct {
 	Events   event.Sink
 	Policy   policy.Hook
 	MaxSteps int
+	Retry    RetryPolicy
+	Hooks    Hooks
+	// OnDelta receives streamed text fragments when Model implements
+	// model.StreamingModel. It may be nil.
+	OnDelta func(delta string)
 }
 
 // Result is one completed run.
@@ -45,15 +50,35 @@ type Result struct {
 }
 
 // Run executes the loop until the model returns a final answer.
-func (a *Agent) Run(ctx context.Context, session Session, prompt string) (*Result, error) {
+func (a *Agent) Run(ctx context.Context, session Session, prompt string) (result *Result, err error) {
 	if a.Model == nil {
 		return nil, errors.New("agent: model is required")
 	}
-	if a.MaxSteps <= 0 {
-		a.MaxSteps = 8
+	maxSteps := a.MaxSteps
+	if maxSteps <= 0 {
+		maxSteps = 8
 	}
 
 	runID := fmt.Sprintf("run-%d", time.Now().UnixNano())
+	defer func() {
+		if err == nil {
+			return
+		}
+		_ = a.emit(ctx, event.Event{
+			Type: "run.failed", SessionID: session.ID, RunID: runID,
+			Data: map[string]any{"error": err.Error()},
+		})
+		if a.Hooks.OnRunError != nil {
+			a.Hooks.OnRunError(ctx, runID, err)
+		}
+	}()
+
+	if a.Hooks.OnRunStart != nil {
+		if err := a.Hooks.OnRunStart(ctx, runID, session); err != nil {
+			return nil, err
+		}
+	}
+
 	messages := append([]model.Message{}, session.Messages...)
 	messages = append(messages, model.Message{Role: model.RoleUser, Content: prompt})
 
@@ -62,7 +87,13 @@ func (a *Agent) Run(ctx context.Context, session Session, prompt string) (*Resul
 	}
 
 	var usage model.Usage
-	for step := 1; step <= a.MaxSteps; step++ {
+	for step := 1; step <= maxSteps; step++ {
+		if a.Hooks.OnStep != nil {
+			if err := a.Hooks.OnStep(ctx, runID, step, messages); err != nil {
+				return nil, err
+			}
+		}
+
 		if err := a.authorize(ctx, policy.Action{Kind: "model.generate", SessionID: session.ID}); err != nil {
 			return nil, err
 		}
@@ -71,9 +102,26 @@ func (a *Agent) Run(ctx context.Context, session Session, prompt string) (*Resul
 		if a.Tools != nil {
 			specs = a.Tools.Specs()
 		}
-		resp, err := a.Model.Generate(ctx, model.Request{Messages: messages, Tools: specs})
-		if err != nil {
+		req := model.Request{Messages: messages, Tools: specs}
+		if a.Hooks.OnModelCall != nil {
+			if err := a.Hooks.OnModelCall(ctx, runID, req); err != nil {
+				return nil, err
+			}
+		}
+
+		var resp model.Response
+		if err := a.Retry.Do(ctx, func() error {
+			var callErr error
+			resp, callErr = a.generate(ctx, req)
+			return callErr
+		}); err != nil {
 			return nil, err
+		}
+
+		if a.Hooks.OnModelResult != nil {
+			if err := a.Hooks.OnModelResult(ctx, runID, resp); err != nil {
+				return nil, err
+			}
 		}
 		usage.InputTokens += resp.Usage.InputTokens
 		usage.OutputTokens += resp.Usage.OutputTokens
@@ -81,12 +129,17 @@ func (a *Agent) Run(ctx context.Context, session Session, prompt string) (*Resul
 
 		messages = append(messages, resp.Message)
 		if len(resp.Message.ToolCalls) == 0 {
-			result := &Result{RunID: runID, Output: resp.Message.Content, Steps: step, Usage: usage}
+			result = &Result{RunID: runID, Output: resp.Message.Content, Steps: step, Usage: usage}
 			if err := a.remember(ctx, session.ID, result); err != nil {
 				return nil, err
 			}
 			if err := a.emit(ctx, event.Event{Type: "run.completed", SessionID: session.ID, RunID: runID}); err != nil {
 				return nil, err
+			}
+			if a.Hooks.OnRunComplete != nil {
+				if err := a.Hooks.OnRunComplete(ctx, result); err != nil {
+					return nil, err
+				}
 			}
 			return result, nil
 		}
@@ -104,15 +157,25 @@ func (a *Agent) Run(ctx context.Context, session Session, prompt string) (*Resul
 			if err != nil {
 				return nil, err
 			}
+			if a.Hooks.OnToolCall != nil {
+				if err := a.Hooks.OnToolCall(ctx, runID, call); err != nil {
+					return nil, err
+				}
+			}
 			if err := a.emit(ctx, event.Event{
 				Type: "tool.call", SessionID: session.ID, RunID: runID,
 				Data: map[string]any{"name": call.Name, "arguments": call.Arguments},
 			}); err != nil {
 				return nil, err
 			}
-			value, err := t.Invoke(ctx, call.Arguments)
-			if err != nil {
-				return nil, err
+			value, invokeErr := t.Invoke(ctx, call.Arguments)
+			if a.Hooks.OnToolResult != nil {
+				if err := a.Hooks.OnToolResult(ctx, runID, call, value, invokeErr); err != nil {
+					return nil, err
+				}
+			}
+			if invokeErr != nil {
+				return nil, invokeErr
 			}
 			raw, err := json.Marshal(value)
 			if err != nil {
@@ -122,10 +185,16 @@ func (a *Agent) Run(ctx context.Context, session Session, prompt string) (*Resul
 		}
 	}
 
-	if err := a.emit(ctx, event.Event{Type: "run.failed", SessionID: session.ID, RunID: runID}); err != nil {
-		return nil, err
-	}
 	return nil, ErrMaxSteps
+}
+
+func (a *Agent) generate(ctx context.Context, req model.Request) (model.Response, error) {
+	if a.OnDelta != nil {
+		if streaming, ok := a.Model.(model.StreamingModel); ok {
+			return streaming.GenerateStream(ctx, req, a.OnDelta)
+		}
+	}
+	return a.Model.Generate(ctx, req)
 }
 
 func (a *Agent) authorize(ctx context.Context, action policy.Action) error {

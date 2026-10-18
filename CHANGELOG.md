@@ -2,6 +2,22 @@
 
 All notable changes to PRAXO-CORE are documented here.
 
+## [0.6.0] - 2026-10-18
+
+### Added
+
+- `model.StreamingModel` for callback-based text streaming; set
+  `Agent.OnDelta` to receive fragments.
+- `Agent.Retry` (`RetryPolicy`) with attempt budget, backoff, and an optional
+  retry predicate.
+- `Agent.Hooks` lifecycle callbacks for run, step, model, tool, completion, and
+  failure events.
+
+### Fixed
+
+- `Agent.Run` no longer mutates `MaxSteps` when it applies the default, making
+  a shared agent safe for concurrent runs.
+
 ## [0.5.0] - 2026-10-18
 
 ### Added
