@@ -1,6 +1,6 @@
 # PRAXO-CORE Roadmap
 
-**Current:** `0.1.0` contract baseline
+**Current:** `0.2.0` framework primitives
 
 **Target:** `1.0.0` stable MIT framework
 
@@ -13,17 +13,24 @@ Delivered:
 - echo example
 - license and provenance rules
 
-## 0.2.0 - Stable Primitives
+## 0.2.0 - Framework Primitives (released 2026-10-18)
 
-- Freeze the exported interface set.
-- Add conformance tests for every interface.
-- Add context assembly and memory retrieval helpers.
-- Add streaming model responses.
-- Add tool argument schema validation.
-- Publish compatibility notes for PRAXOVELA.
+Delivered:
+
 - [x] Extract the scheduler engine from PRAXOVELA and migrate PRAXOVELA to the
   framework scheduler.
 - [x] Extract tool-call parsing and JSON Schema validation from PRAXOVELA.
+- [x] Add Runnable/Chain/Parallel composition.
+- [x] Add prompt templates.
+- [x] Add retriever contracts.
+- [x] Unambiguous 0.x module path (`github.com/axisvela/praxo-core`).
+
+Remaining for 0.3.0:
+
+- context assembly and memory retrieval helpers
+- streaming model responses
+- tool middleware
+- PRAXOVELA compatibility notes
 
 Exit gate:
 
