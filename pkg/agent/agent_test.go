@@ -2,6 +2,7 @@ package agent
 
 import (
 	"context"
+	"errors"
 	"testing"
 
 	"github.com/axisvela/praxo-core/pkg/event"
@@ -99,5 +100,136 @@ func TestRunRequiresModel(t *testing.T) {
 	ag := &Agent{}
 	if _, err := ag.Run(context.Background(), Session{ID: "s1"}, "do it"); err == nil {
 		t.Fatal("expected an error")
+	}
+}
+
+type flakyModel struct {
+	failures int
+	calls    int
+	err      error
+}
+
+func (f *flakyModel) Generate(context.Context, model.Request) (model.Response, error) {
+	f.calls++
+	if f.calls <= f.failures {
+		return model.Response{}, f.err
+	}
+	return model.Response{
+		Message: model.Message{Role: model.RoleAssistant, Content: "recovered"},
+	}, nil
+}
+
+func TestRetryPolicyRetriesTransientErrors(t *testing.T) {
+	m := &flakyModel{failures: 2, err: errors.New("transient")}
+	ag := &Agent{Model: m, Retry: RetryPolicy{Attempts: 3}}
+	result, err := ag.Run(context.Background(), Session{ID: "s1"}, "do it")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if m.calls != 3 || result.Output != "recovered" {
+		t.Fatalf("calls=%d result=%+v", m.calls, result)
+	}
+}
+
+func TestRetryPolicyHonorsShouldRetry(t *testing.T) {
+	sentinel := errors.New("permanent")
+	m := &flakyModel{failures: 1, err: sentinel}
+	ag := &Agent{
+		Model: m,
+		Retry: RetryPolicy{
+			Attempts:    3,
+			ShouldRetry: func(err error) bool { return !errors.Is(err, sentinel) },
+		},
+	}
+	if _, err := ag.Run(context.Background(), Session{ID: "s1"}, "do it"); !errors.Is(err, sentinel) {
+		t.Fatalf("err = %v", err)
+	}
+	if m.calls != 1 {
+		t.Fatalf("calls = %d, want 1", m.calls)
+	}
+}
+
+type streamingModel struct {
+	deltas []string
+}
+
+func (s *streamingModel) Generate(context.Context, model.Request) (model.Response, error) {
+	return model.Response{Message: model.Message{Role: model.RoleAssistant, Content: "hello"}}, nil
+}
+
+func (s *streamingModel) GenerateStream(_ context.Context, _ model.Request, onDelta func(string)) (model.Response, error) {
+	for _, d := range s.deltas {
+		onDelta(d)
+	}
+	return model.Response{Message: model.Message{Role: model.RoleAssistant, Content: "hello"}}, nil
+}
+
+func TestRunStreamsDeltas(t *testing.T) {
+	m := &streamingModel{deltas: []string{"he", "llo"}}
+	var got []string
+	ag := &Agent{Model: m, OnDelta: func(d string) { got = append(got, d) }}
+	result, err := ag.Run(context.Background(), Session{ID: "s1"}, "do it")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if result.Output != "hello" || len(got) != 2 || got[0] != "he" || got[1] != "llo" {
+		t.Fatalf("result=%+v deltas=%v", result, got)
+	}
+}
+
+type simpleModel struct{}
+
+func (simpleModel) Generate(context.Context, model.Request) (model.Response, error) {
+	return model.Response{Message: model.Message{Role: model.RoleAssistant, Content: "ok"}}, nil
+}
+
+func TestRunInvokesHooksInOrder(t *testing.T) {
+	var order []string
+	ag := &Agent{
+		Model: simpleModel{},
+		Hooks: Hooks{
+			OnRunStart: func(context.Context, string, Session) error {
+				order = append(order, "start")
+				return nil
+			},
+			OnStep: func(context.Context, string, int, []model.Message) error {
+				order = append(order, "step")
+				return nil
+			},
+			OnModelCall: func(context.Context, string, model.Request) error {
+				order = append(order, "model.call")
+				return nil
+			},
+			OnModelResult: func(context.Context, string, model.Response) error {
+				order = append(order, "model.result")
+				return nil
+			},
+			OnRunComplete: func(context.Context, *Result) error {
+				order = append(order, "complete")
+				return nil
+			},
+		},
+	}
+	if _, err := ag.Run(context.Background(), Session{ID: "s1"}, "do it"); err != nil {
+		t.Fatal(err)
+	}
+	want := []string{"start", "step", "model.call", "model.result", "complete"}
+	if len(order) != len(want) {
+		t.Fatalf("order = %v", order)
+	}
+	for i := range want {
+		if order[i] != want[i] {
+			t.Fatalf("order = %v, want %v", order, want)
+		}
+	}
+}
+
+func TestRunDoesNotMutateMaxSteps(t *testing.T) {
+	ag := &Agent{Model: simpleModel{}}
+	if _, err := ag.Run(context.Background(), Session{ID: "s1"}, "do it"); err != nil {
+		t.Fatal(err)
+	}
+	if ag.MaxSteps != 0 {
+		t.Fatalf("MaxSteps = %d, want 0", ag.MaxSteps)
 	}
 }
