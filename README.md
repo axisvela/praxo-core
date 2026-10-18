@@ -13,7 +13,7 @@ and the agent loop. It is a framework, not a product.
 
 | Layer | What it is | License |
 | --- | --- | --- |
-| `praxo-core` | Reusable agent framework and contracts | MIT |
+| `praxo-core` | Reusable agent framework and contracts (PRAXOVELA family) | MIT |
 | PRAXOVELA | Runnable agent runtime product built on the framework | AGPL-3.0 |
 | COORDIVELA | Development coordination product using the framework and PRAXOVELA API | AGPL-3.0 core / Enterprise EE |
 
