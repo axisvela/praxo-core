@@ -167,11 +167,11 @@ Exit gate:
 ## 1.6.0 - Runtime Interoperability (in progress)
 
 - [x] Typed stream projections (values/updates/messages/checkpoint/tasks/debug).
-- Durable agent-session interrupt/resume (not graph-node resume).
-- Serialization allowlist for persisted run/tool payloads.
-- RHEOVELA integration seam: agent node/session adapter so RHEOVELA owns graph,
+- [x] Session-level resume via `Session.Messages`; durable checkpoint storage is product-owned.
+- [ ] Serialization allowlist for polymorphic payloads (deferred until a custom type registry exists).
+- [ ] RHEOVELA integration seam (PRAXOVELA/adapters-owned): agent node/session adapter so RHEOVELA owns graph,
   subgraph, routing, and long-running workflow semantics.
-- Remote execution seam for RHEOVELA workers.
+- [ ] Remote execution seam for RHEOVELA workers (PRAXOVELA-owned).
 
 Exit gate:
 
