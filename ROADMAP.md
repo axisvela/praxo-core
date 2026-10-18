@@ -2,7 +2,7 @@
 
 **Current:** `1.4.0` agent middleware parity (2026-10-18)
 
-**Target:** `1.6.0` runtime interoperability (planned)
+**Target:** `1.5.0` HITL decisions (in progress)
 
 ## Release History
 
