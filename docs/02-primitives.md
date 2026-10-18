@@ -2,7 +2,7 @@
 
 | Package | Contract | Typical adapter |
 | --- | --- | --- |
-| `pkg/model` | `Model.Generate` | PRAXOVELA provider router |
+| `pkg/model` | `Model.Generate`, `Provider.Chat/ChatStream`, `ModelRouter` | PRAXOVELA provider router |
 | `pkg/tool` | `Tool`, `Registry`, `SpecProvider`, `Middleware` | Janus Gateway tools |
 | `pkg/memory` | `Store.Put/Search`, `MemoryStore`, `ContextAssembler` | Mnemovela |
 | `pkg/event` | `Sink.Emit`, `MultiSink`, `FilterSink` | Harmovela / Argus Trace |
