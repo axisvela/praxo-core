@@ -1,5 +1,5 @@
-// Package output parses structured output from model responses.
-package output
+// Package toolcall parses tool-call output from model responses.
+package toolcall
 
 import (
 	"crypto/rand"
@@ -11,7 +11,9 @@ import (
 	"time"
 )
 
-// ToolCall is a parsed tool invocation.
+// ToolCall is a parsed tool invocation. Operation, Resource, Risk, Reason, and
+// IdempotencyKey are optional governance metadata carried through for product
+// policy; the parser does not interpret or validate them.
 type ToolCall struct {
 	CallID         string         `json:"call_id"`
 	Name           string         `json:"name"`

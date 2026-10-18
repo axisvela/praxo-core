@@ -12,21 +12,22 @@
 | `pkg/policy` | `Hook.Authorize`, `PathChecker` read/write containment | AEGIVELA / Archon Guard |
 | `pkg/sandbox` | `Sandbox.Run` | Vulcan Forge |
 | `pkg/scheduler` | `Scheduler.Add/Remove/List`; cron engine extracted from PRAXOVELA | PRAXOVELA durable scheduler |
-| `pkg/output` | `ParseToolCall`, `StripToolCallMarkup`, `ParseInputJSON` | model-output parsing |
-| `pkg/tool/schema` | JSON Schema validation | tool input/output validation |
+| `pkg/toolcall` | `ParseToolCall`, `StripToolCallMarkup`, `ParseInputJSON` | model-output parsing |
+| `pkg/tool/jsonschema` | JSON Schema validation | tool input/output validation |
 | `pkg/flow` | `Runnable`, `Chain`, `Parallel` | prompt/agent composition |
 | `pkg/prompt` | `Template`, `ChatTemplate` | prompt assembly |
 | `pkg/retriever` | `Document`, `Retriever` | Mnemovela/GNOSIVELA retrieval |
-| `pkg/format` | code formatter registry | PRAXOVELA formatting tools |
+| `pkg/formatter` | code formatter registry | PRAXOVELA formatting tools |
 | `pkg/plugin` | manifest v1, contract kinds, `Host.Invoke`, `Lifecycle`, `AdapterRegistry` | PRAXOVELA runtime plugin plane |
 | `pkg/plugin/host/process` | process host, platform supervisors, JSON-Lines envelopes | PRAXOVELA process plugins |
 | `pkg/plugin/host/wasm` | WASM host over wazero | PRAXOVELA WASM plugins |
 | `pkg/plugin/bridge` | `Host` to `tool`/`model`/`policy`/`memory`/`sandbox` adapters | framework consumers |
 | `pkg/plugin/tck` | lifecycle, registry, and host conformance assertions | host/provider implementers |
 
-`pkg/output` currently holds model-output tool-call parsing. Keep future
-output parsers there, or split it into a narrower package if the scope stays
-tool-call-only.
+`pkg/toolcall` holds model-output tool-call parsing. `pkg/output`,
+`pkg/format`, and `pkg/tool/schema` are deprecated aliases kept for one minor
+version; new code should import `pkg/toolcall`, `pkg/formatter`, and
+`pkg/tool/jsonschema`.
 
 ## Tool Contract
 

@@ -1,6 +1,6 @@
-// Package format provides language-specific code formatters.
-// Reference: OpenCode's format/ system — auto-detects formatters from config files.
-package format
+// Package formatter provides language-specific code formatters.
+// Reference: OpenCode's format/ system �?auto-detects formatters from config files.
+package formatter
 
 import (
 	"os"
