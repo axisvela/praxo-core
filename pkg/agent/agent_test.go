@@ -475,6 +475,127 @@ func TestSystemPromptPrepended(t *testing.T) {
 	}
 }
 
+type fakeSkills struct{ skills []Skill }
+
+func (f fakeSkills) Skills(context.Context, string) ([]Skill, error) { return f.skills, nil }
+
+func TestSkillsInjected(t *testing.T) {
+	m := &requestModel{}
+	ag, err := New(Options{
+		Model:  m,
+		Skills: fakeSkills{skills: []Skill{{Name: "go", Content: "use gofmt"}}},
+	})
+	if err != nil {
+		t.Fatal(err)
+	}
+	if _, err := ag.Run(context.Background(), Session{ID: "s1"}, "format"); err != nil {
+		t.Fatal(err)
+	}
+	found := false
+	for _, msg := range m.req.Messages {
+		if msg.Role == model.RoleSystem && strings.Contains(msg.Content, "use gofmt") {
+			found = true
+		}
+	}
+	if !found {
+		t.Fatalf("messages = %+v", m.req.Messages)
+	}
+}
+
+func TestResponseFormatForwarded(t *testing.T) {
+	m := &requestModel{}
+	format := &model.ResponseFormat{Name: "answer", Schema: map[string]any{"type": "object"}}
+	ag, err := New(Options{Model: m, ResponseFormat: format})
+	if err != nil {
+		t.Fatal(err)
+	}
+	if _, err := ag.Run(context.Background(), Session{ID: "s1"}, "do it"); err != nil {
+		t.Fatal(err)
+	}
+	if m.req.ResponseFormat == nil || m.req.ResponseFormat.Name != "answer" {
+		t.Fatalf("response format = %+v", m.req.ResponseFormat)
+	}
+}
+
+func TestInterruptApprovesTool(t *testing.T) {
+	tools := tool.NewRegistry()
+	echo := &echoTool{}
+	tools.Register(echo)
+	ag, err := New(Options{
+		Model:       &toolCallModel{name: "echo"},
+		Tools:       tools,
+		InterruptOn: map[string]bool{"echo": true},
+		OnInterrupt: func(context.Context, Interrupt) (bool, error) { return true, nil },
+	})
+	if err != nil {
+		t.Fatal(err)
+	}
+	if _, err := ag.Run(context.Background(), Session{ID: "s1"}, "do it"); err != nil {
+		t.Fatal(err)
+	}
+	if echo.calls != 1 {
+		t.Fatalf("calls = %d, want 1", echo.calls)
+	}
+}
+
+func TestInterruptDeniesTool(t *testing.T) {
+	tools := tool.NewRegistry()
+	echo := &echoTool{}
+	tools.Register(echo)
+	ag, err := New(Options{
+		Model:       &toolCallModel{name: "echo"},
+		Tools:       tools,
+		InterruptOn: map[string]bool{"echo": true},
+		OnInterrupt: func(context.Context, Interrupt) (bool, error) { return false, nil },
+	})
+	if err != nil {
+		t.Fatal(err)
+	}
+	_, err = ag.Run(context.Background(), Session{ID: "s1"}, "do it")
+	if !errors.Is(err, ErrApprovalDenied) {
+		t.Fatalf("err = %v", err)
+	}
+	if echo.calls != 0 {
+		t.Fatalf("calls = %d, want 0", echo.calls)
+	}
+}
+
+func TestInterruptRequiresHandler(t *testing.T) {
+	tools := tool.NewRegistry()
+	tools.Register(&echoTool{})
+	ag, err := New(Options{
+		Model:       &toolCallModel{name: "echo"},
+		Tools:       tools,
+		InterruptOn: map[string]bool{"echo": true},
+	})
+	if err != nil {
+		t.Fatal(err)
+	}
+	if _, err := ag.Run(context.Background(), Session{ID: "s1"}, "do it"); !errors.Is(err, ErrInterruptUnhandled) {
+		t.Fatalf("err = %v", err)
+	}
+}
+
+func TestRunContextVisibleToHooks(t *testing.T) {
+	var seen RunContext
+	ag, err := New(Options{
+		Model: simpleModel{},
+		Hooks: Hooks{OnStep: func(ctx context.Context, _ string, _ int, _ []model.Message) error {
+			seen = RunContextFrom(ctx)
+			return nil
+		}},
+	})
+	if err != nil {
+		t.Fatal(err)
+	}
+	if _, err := ag.RunWithContext(context.Background(), Session{ID: "s1"}, "do it", RunContext{"user": "u1"}); err != nil {
+		t.Fatal(err)
+	}
+	if seen["user"] != "u1" {
+		t.Fatalf("run context = %+v", seen)
+	}
+}
+
 func TestMemoryWriteHook(t *testing.T) {
 	mem := &fakeMemory{}
 	var written []memory.Record

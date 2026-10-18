@@ -66,6 +66,12 @@ type ToolSpec struct {
 	Risk        string         `json:"risk,omitempty"`
 }
 
+// ResponseFormat requests provider-side structured output.
+type ResponseFormat struct {
+	Name   string         `json:"name,omitempty"`
+	Schema map[string]any `json:"schema,omitempty"`
+}
+
 // ToolChoice values control whether the model may call tools.
 const (
 	ToolChoiceAuto     = "auto"
@@ -75,11 +81,12 @@ const (
 
 // Request is one model generation request.
 type Request struct {
-	Model       string     `json:"model,omitempty"`
-	Messages    []Message  `json:"messages"`
-	Tools       []ToolSpec `json:"tools,omitempty"`
-	ToolChoice  string     `json:"toolChoice,omitempty"`
-	Temperature float64    `json:"temperature,omitempty"`
+	Model          string          `json:"model,omitempty"`
+	Messages       []Message       `json:"messages"`
+	Tools          []ToolSpec      `json:"tools,omitempty"`
+	ToolChoice     string          `json:"toolChoice,omitempty"`
+	ResponseFormat *ResponseFormat `json:"responseFormat,omitempty"`
+	Temperature    float64         `json:"temperature,omitempty"`
 }
 
 // Usage is normalized token usage.

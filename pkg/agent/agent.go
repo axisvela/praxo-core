@@ -23,6 +23,13 @@ var ErrMaxSteps = errors.New("agent: max steps exceeded")
 // ErrMaxTokens is returned when the agent exceeds its token budget.
 var ErrMaxTokens = errors.New("agent: max tokens exceeded")
 
+// ErrApprovalDenied is returned when an interrupt handler rejects a tool call.
+var ErrApprovalDenied = errors.New("agent: tool call denied by approval")
+
+// ErrInterruptUnhandled is returned when a tool requires approval but no
+// handler is configured.
+var ErrInterruptUnhandled = errors.New("agent: approval handler not configured")
+
 // Session is the execution scope.
 type Session struct {
 	ID          string          `json:"id"`
@@ -33,13 +40,18 @@ type Session struct {
 
 // Agent is a governed model/tool loop.
 type Agent struct {
-	Model        model.Model
-	SystemPrompt string
-	Tools        *tool.Registry
-	Memory       memory.Store
-	Events       event.Sink
-	Policy       policy.Hook
-	MaxSteps     int
+	Model          model.Model
+	SystemPrompt   string
+	Tools          *tool.Registry
+	Memory         memory.Store
+	Skills         SkillProvider
+	SkillsLimit    int
+	Events         event.Sink
+	Policy         policy.Hook
+	ResponseFormat *model.ResponseFormat
+	InterruptOn    map[string]bool
+	OnInterrupt    func(ctx context.Context, interrupt Interrupt) (bool, error)
+	MaxSteps       int
 	// MaxParallelTools bounds concurrent tool invocations within one step.
 	// Values <= 1 run tools sequentially.
 	MaxParallelTools int
@@ -68,7 +80,13 @@ type Result struct {
 }
 
 // Run executes the loop until the model returns a final answer.
-func (a *Agent) Run(ctx context.Context, session Session, prompt string) (result *Result, err error) {
+func (a *Agent) Run(ctx context.Context, session Session, prompt string) (*Result, error) {
+	return a.RunWithContext(ctx, session, prompt, nil)
+}
+
+// RunWithContext is Run with per-run context values.
+func (a *Agent) RunWithContext(ctx context.Context, session Session, prompt string, rc RunContext) (result *Result, err error) {
+	ctx = WithRunContext(ctx, rc)
 	if a.Model == nil {
 		return nil, errors.New("agent: model is required")
 	}
@@ -125,6 +143,27 @@ func (a *Agent) Run(ctx context.Context, session Session, prompt string) (result
 			messages = append(messages, model.Message{Role: model.RoleSystem, Content: b.String()})
 		}
 	}
+	if a.Skills != nil {
+		limit := a.SkillsLimit
+		if limit <= 0 {
+			limit = 5
+		}
+		skills, err := a.Skills.Skills(ctx, prompt)
+		if err != nil {
+			return nil, err
+		}
+		if len(skills) > limit {
+			skills = skills[:limit]
+		}
+		if len(skills) > 0 {
+			var b strings.Builder
+			b.WriteString("Relevant skills:")
+			for _, skill := range skills {
+				fmt.Fprintf(&b, "\n## %s\n%s\n%s", skill.Name, skill.Description, skill.Content)
+			}
+			messages = append(messages, model.Message{Role: model.RoleSystem, Content: b.String()})
+		}
+	}
 	messages = append(messages, model.Message{Role: model.RoleUser, Content: prompt})
 
 	if err := a.emit(ctx, event.Event{Type: "run.started", SessionID: session.ID, RunID: runID}); err != nil {
@@ -144,9 +183,10 @@ func (a *Agent) Run(ctx context.Context, session Session, prompt string) (result
 		}
 
 		req := model.Request{
-			Messages:   messages,
-			Tools:      a.toolSpecs(),
-			ToolChoice: a.ToolChoice,
+			Messages:       messages,
+			Tools:          a.toolSpecs(),
+			ToolChoice:     a.ToolChoice,
+			ResponseFormat: a.ResponseFormat,
 		}
 		if a.Hooks.OnModelCall != nil {
 			if err := a.Hooks.OnModelCall(ctx, runID, req); err != nil {
@@ -201,6 +241,24 @@ func (a *Agent) Run(ctx context.Context, session Session, prompt string) (result
 				Kind: "tool.invoke", SessionID: session.ID, ToolName: call.Name, Arguments: call.Arguments,
 			}); err != nil {
 				return nil, err
+			}
+			if a.InterruptOn[call.Name] {
+				if a.OnInterrupt == nil {
+					return nil, fmt.Errorf("%w: %s", ErrInterruptUnhandled, call.Name)
+				}
+				if err := a.emit(ctx, event.Event{
+					Type: "tool.interrupt", SessionID: session.ID, RunID: runID,
+					Data: map[string]any{"name": call.Name, "arguments": call.Arguments},
+				}); err != nil {
+					return nil, err
+				}
+				approved, err := a.OnInterrupt(ctx, Interrupt{RunID: runID, SessionID: session.ID, Call: call})
+				if err != nil {
+					return nil, err
+				}
+				if !approved {
+					return nil, fmt.Errorf("%w: %s", ErrApprovalDenied, call.Name)
+				}
 			}
 			if a.Tools == nil {
 				return nil, errors.New("agent: model requested a tool but no registry is configured")
