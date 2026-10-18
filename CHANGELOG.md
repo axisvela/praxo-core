@@ -12,6 +12,7 @@ All notable changes to PRAXO-CORE are documented here.
 - `examples/integrator`: a self-contained external-integrator wiring example.
 - API snapshot/diff scripts, release-check gate, SBOM/checksums scripts, and a
   tag-triggered release workflow.
+- `docs/10-plugin-authoring.md`: Manifest v1, process/WASM protocol, TCK usage.
 
 ### Changed
 
