@@ -9,6 +9,8 @@ All notable changes to PRAXO-CORE are documented here.
 - Extracted the scheduler engine from PRAXOVELA into `pkg/scheduler` with
   provenance recorded. PRAXOVELA now imports the framework scheduler and keeps
   only a thin product alias.
+- Extracted tool-call parsing into `pkg/output` and JSON Schema validation into
+  `pkg/tool/schema`. PRAXOVELA now aliases both framework packages.
 
 ## [0.1.0] - 2026-10-18
 

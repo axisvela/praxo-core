@@ -23,6 +23,7 @@ Delivered:
 - Publish compatibility notes for PRAXOVELA.
 - [x] Extract the scheduler engine from PRAXOVELA and migrate PRAXOVELA to the
   framework scheduler.
+- [x] Extract tool-call parsing and JSON Schema validation from PRAXOVELA.
 
 Exit gate:
 
