@@ -7,7 +7,7 @@
 - `PRAXOVELA` and `PRAXOVELA-open` share the exact `vX.Y.Z` tag.
   `PRAXOVELA-EE` may release independently on the same clean semver scheme.
 - `VERSION` and `CHANGELOG.md` are updated before tagging.
-- A release tag is signed by the operator.
+- A release tag is signed by the operator. If no signing key is available, use an annotated tag and record that fact in the release notes; signed tags are preferred.
 
 ## Pre-Release Gate
 

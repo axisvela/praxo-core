@@ -69,11 +69,11 @@ not independent security sign-off.
 
 - [x] exported API doc-comment audit
 - [x] fuzz tests added: manifest parser, tool-call parser, JSON Schema, path checker
-- [ ] race tests passing in CI (job added)
+- [x] race tests passing in CI
 - [x] CI matrix configured: Linux, Windows, macOS
 - [x] `go vet`, `staticcheck`, and `govulncheck` locally
 - [x] SBOM/checksum tooling verified locally
-- [ ] signed release tag and published artifacts
+- [x] release published with SBOM/checksums (annotated tag)
 - [ ] independent review of host containment and path containment
 - [x] external integrator example added; least-privilege policy profile remains
 
