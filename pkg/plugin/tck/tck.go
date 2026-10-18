@@ -11,7 +11,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/axisvela/praxo-core/pkg/plugin"
+	"github.com/axisvela/praxo-core/v2/pkg/plugin"
 )
 
 // CheckLifecycle asserts the canonical FETCHED->VALIDATED walk succeeds from a

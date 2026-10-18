@@ -5,7 +5,7 @@ package process
 import (
 	"os/exec"
 
-	"github.com/axisvela/praxo-core/pkg/plugin"
+	"github.com/axisvela/praxo-core/v2/pkg/plugin"
 )
 
 // LimitsAvailable reports that required resource limits cannot be enforced on

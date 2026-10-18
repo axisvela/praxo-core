@@ -25,7 +25,7 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/axisvela/praxo-core/pkg/plugin"
+	"github.com/axisvela/praxo-core/v2/pkg/plugin"
 	"github.com/tetratelabs/wazero"
 	"github.com/tetratelabs/wazero/api"
 )

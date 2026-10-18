@@ -3,8 +3,8 @@ package bridge
 import (
 	"context"
 
-	"github.com/axisvela/praxo-core/pkg/model"
-	"github.com/axisvela/praxo-core/pkg/plugin"
+	"github.com/axisvela/praxo-core/v2/pkg/model"
+	"github.com/axisvela/praxo-core/v2/pkg/plugin"
 )
 
 // Model adapts a model.provider.v1 host to model.Model.

@@ -1,5 +1,18 @@
 # Changelog
 
+## [2.0.0] - 2026-10-18
+
+### Changed
+
+- Module path is now `github.com/axisvela/praxo-core/v2`; all imports use
+  `/v2/pkg/...`.
+- No functional API changes: capability packages, root aliases, JSON tags, and
+  wire contracts are unchanged.
+
+### Migration
+
+- See `docs/11-migration-v2.md`.
+
 All notable changes to PRAXO-CORE are documented here.
 
 ## [1.7.0] - 2026-10-18

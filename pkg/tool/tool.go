@@ -7,7 +7,7 @@ import (
 	"sort"
 	"sync"
 
-	"github.com/axisvela/praxo-core/pkg/model"
+	"github.com/axisvela/praxo-core/v2/pkg/model"
 )
 
 // ErrNotFound is returned when a tool is not registered.

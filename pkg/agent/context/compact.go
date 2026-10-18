@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/axisvela/praxo-core/pkg/model"
+	"github.com/axisvela/praxo-core/v2/pkg/model"
 )
 
 // ErrContextBudget is returned when the system prompt alone exceeds the

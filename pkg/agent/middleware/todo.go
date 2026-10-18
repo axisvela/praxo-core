@@ -6,8 +6,8 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/axisvela/praxo-core/pkg/agent/types"
-	"github.com/axisvela/praxo-core/pkg/model"
+	"github.com/axisvela/praxo-core/v2/pkg/agent/types"
+	"github.com/axisvela/praxo-core/v2/pkg/model"
 )
 
 // TodoStatus is the lifecycle state of one todo item.

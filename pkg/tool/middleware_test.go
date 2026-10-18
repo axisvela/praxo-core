@@ -4,7 +4,7 @@ import (
 	"context"
 	"testing"
 
-	"github.com/axisvela/praxo-core/pkg/model"
+	"github.com/axisvela/praxo-core/v2/pkg/model"
 )
 
 type echoTool struct{ name string }

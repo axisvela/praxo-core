@@ -5,8 +5,8 @@ import (
 	"errors"
 	"sync"
 
-	"github.com/axisvela/praxo-core/pkg/agent/types"
-	"github.com/axisvela/praxo-core/pkg/model"
+	"github.com/axisvela/praxo-core/v2/pkg/agent/types"
+	"github.com/axisvela/praxo-core/v2/pkg/model"
 )
 
 // ErrToolNotSelected is returned when the model calls a tool that the

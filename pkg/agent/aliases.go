@@ -1,14 +1,14 @@
 package agent
 
 import (
-	agentcontext "github.com/axisvela/praxo-core/pkg/agent/context"
-	agentdelegation "github.com/axisvela/praxo-core/pkg/agent/delegation"
-	agentevaluation "github.com/axisvela/praxo-core/pkg/agent/evaluation"
-	agenthitl "github.com/axisvela/praxo-core/pkg/agent/hitl"
-	agentmiddleware "github.com/axisvela/praxo-core/pkg/agent/middleware"
-	agentstream "github.com/axisvela/praxo-core/pkg/agent/stream"
-	agenttypes "github.com/axisvela/praxo-core/pkg/agent/types"
-	"github.com/axisvela/praxo-core/pkg/model"
+	agentcontext "github.com/axisvela/praxo-core/v2/pkg/agent/context"
+	agentdelegation "github.com/axisvela/praxo-core/v2/pkg/agent/delegation"
+	agentevaluation "github.com/axisvela/praxo-core/v2/pkg/agent/evaluation"
+	agenthitl "github.com/axisvela/praxo-core/v2/pkg/agent/hitl"
+	agentmiddleware "github.com/axisvela/praxo-core/v2/pkg/agent/middleware"
+	agentstream "github.com/axisvela/praxo-core/v2/pkg/agent/stream"
+	agenttypes "github.com/axisvela/praxo-core/v2/pkg/agent/types"
+	"github.com/axisvela/praxo-core/v2/pkg/model"
 )
 
 // Shared run-state contracts.

@@ -1,6 +1,7 @@
 # API Freeze Inventory
 
-**Status:** post-1.0 additive audit for `1.7.0`. The `1.0.0` surface remains
+**Status:** v2 module-path audit for `2.0.0`. The exported surface is
+functionally identical to `1.7.0`. The `1.0.0` surface remains
 frozen; new declarations are additive.
 
 ## Audit Result

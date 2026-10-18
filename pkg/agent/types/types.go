@@ -7,8 +7,8 @@ import (
 	"context"
 	"time"
 
-	"github.com/axisvela/praxo-core/pkg/memory"
-	"github.com/axisvela/praxo-core/pkg/model"
+	"github.com/axisvela/praxo-core/v2/pkg/memory"
+	"github.com/axisvela/praxo-core/v2/pkg/model"
 )
 
 // Session is the execution scope.

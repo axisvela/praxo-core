@@ -22,8 +22,8 @@ without inheriting AGPL obligations. PRAXOVELA remains an AGPL product.
 
 ## Module
 
-`github.com/axisvela/praxo-core` (no major suffix while the framework is in its
-`0.x` line).
+`github.com/axisvela/praxo-core/v2` (v2 semantic import path; v1 tags remain
+available).
 
 ## Primitives
 

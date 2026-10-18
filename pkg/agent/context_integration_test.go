@@ -8,8 +8,8 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/axisvela/praxo-core/pkg/model"
-	"github.com/axisvela/praxo-core/pkg/tool"
+	"github.com/axisvela/praxo-core/v2/pkg/model"
+	"github.com/axisvela/praxo-core/v2/pkg/tool"
 )
 
 type summaryModel struct {

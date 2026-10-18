@@ -3,8 +3,8 @@ package bridge
 import (
 	"context"
 
-	"github.com/axisvela/praxo-core/pkg/plugin"
-	"github.com/axisvela/praxo-core/pkg/policy"
+	"github.com/axisvela/praxo-core/v2/pkg/plugin"
+	"github.com/axisvela/praxo-core/v2/pkg/policy"
 )
 
 // Policy adapts a policy.provider.v1 host to policy.Hook.

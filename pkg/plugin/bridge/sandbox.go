@@ -3,8 +3,8 @@ package bridge
 import (
 	"context"
 
-	"github.com/axisvela/praxo-core/pkg/plugin"
-	"github.com/axisvela/praxo-core/pkg/sandbox"
+	"github.com/axisvela/praxo-core/v2/pkg/plugin"
+	"github.com/axisvela/praxo-core/v2/pkg/sandbox"
 )
 
 type sandboxExecuteRequest struct {

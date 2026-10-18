@@ -3,7 +3,7 @@ package tool
 import (
 	"context"
 
-	"github.com/axisvela/praxo-core/pkg/model"
+	"github.com/axisvela/praxo-core/v2/pkg/model"
 )
 
 // SpecProvider lets a tool expose a full model-visible spec.

@@ -1,7 +1,7 @@
 package process
 
 import (
-	"github.com/axisvela/praxo-core/pkg/plugin"
+	"github.com/axisvela/praxo-core/v2/pkg/plugin"
 )
 
 // Response is one invocation reply sent from plugin to host. OK reports
