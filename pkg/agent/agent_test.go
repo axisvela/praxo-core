@@ -650,6 +650,88 @@ func TestModelMiddlewareOrder(t *testing.T) {
 	}
 }
 
+func TestMiddlewareSkipsTool(t *testing.T) {
+	tools := tool.NewRegistry()
+	echo := &echoTool{}
+	tools.Register(echo)
+	ag, err := New(Options{
+		Model: &toolCallModel{name: "echo"},
+		Tools: tools,
+		Middleware: []Middleware{{
+			BeforeTool: func(_ context.Context, call *ToolCall) error {
+				call.Skip = true
+				call.Result = "filtered"
+				return nil
+			},
+		}},
+	})
+	if err != nil {
+		t.Fatal(err)
+	}
+	if _, err := ag.Run(context.Background(), Session{ID: "s1"}, "do it"); err != nil {
+		t.Fatal(err)
+	}
+	if echo.calls != 0 {
+		t.Fatalf("tool calls = %d, want 0", echo.calls)
+	}
+}
+
+func TestMiddlewareSkipsModel(t *testing.T) {
+	m := &countingModel{}
+	ag, err := New(Options{
+		Model: m,
+		Middleware: []Middleware{{
+			BeforeModel: func(_ context.Context, call *ModelCall) error {
+				call.Skip = true
+				call.Response = &model.Response{Message: model.Message{
+					Role: model.RoleAssistant, Content: "mocked",
+				}}
+				return nil
+			},
+		}},
+	})
+	if err != nil {
+		t.Fatal(err)
+	}
+	result, err := ag.Run(context.Background(), Session{ID: "s1"}, "do it")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if result.Output != "mocked" || m.calls != 0 {
+		t.Fatalf("output=%q model calls=%d", result.Output, m.calls)
+	}
+}
+
+func TestMiddlewareNameReplaces(t *testing.T) {
+	var order []string
+	mw := func(label string) Middleware {
+		return Middleware{
+			Name: "shared",
+			BeforeModel: func(context.Context, *ModelCall) error {
+				order = append(order, label)
+				return nil
+			},
+		}
+	}
+	ag, err := New(Options{Model: simpleModel{}, Middleware: []Middleware{mw("first"), mw("second")}})
+	if err != nil {
+		t.Fatal(err)
+	}
+	if _, err := ag.Run(context.Background(), Session{ID: "s1"}, "do it"); err != nil {
+		t.Fatal(err)
+	}
+	if len(order) != 1 || order[0] != "second" {
+		t.Fatalf("order = %v", order)
+	}
+}
+
+type countingModel struct{ calls int }
+
+func (m *countingModel) Generate(context.Context, model.Request) (model.Response, error) {
+	m.calls++
+	return model.Response{Message: model.Message{Role: model.RoleAssistant, Content: "model"}}, nil
+}
+
 func TestMemoryWriteHook(t *testing.T) {
 	mem := &fakeMemory{}
 	var written []memory.Record

@@ -2,6 +2,14 @@
 
 All notable changes to PRAXO-CORE are documented here.
 
+## [0.12.0] - 2026-10-18
+
+### Added
+
+- `agent.Middleware` with before/after run, model, and tool hooks. Middleware
+  may rewrite requests or skip execution with a canned result. Named entries
+  replace earlier entries in place.
+
 ## [0.11.0] - 2026-10-18
 
 ### Added

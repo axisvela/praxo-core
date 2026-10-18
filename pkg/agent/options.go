@@ -90,6 +90,7 @@ type ModelMiddleware func(next func(context.Context, model.Request) (model.Respo
 // Options is the constructor bundle for a governed agent.
 type Options struct {
 	Profile          *Profile
+	Middleware       []Middleware
 	ModelMiddleware  []ModelMiddleware
 	Model            model.Model
 	SystemPrompt     string
@@ -123,6 +124,7 @@ func New(opts Options) (*Agent, error) {
 		return nil, errors.New("agent: model is required")
 	}
 	return &Agent{
+		Middleware:       mergeMiddleware(opts.Middleware),
 		ModelMiddleware:  opts.ModelMiddleware,
 		Model:            opts.Model,
 		SystemPrompt:     opts.SystemPrompt,
