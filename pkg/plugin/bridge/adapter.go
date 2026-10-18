@@ -3,7 +3,7 @@ package bridge
 import (
 	"context"
 
-	"github.com/axisvela/praxo-core/pkg/plugin"
+	"github.com/axisvela/praxo-core/v2/pkg/plugin"
 )
 
 // Adapter returns a contract-bound adapter for the guarded AdapterRegistry.

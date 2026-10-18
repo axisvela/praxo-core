@@ -12,8 +12,8 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/axisvela/praxo-core/pkg/policy"
-	"github.com/axisvela/praxo-core/pkg/vfs"
+	"github.com/axisvela/praxo-core/v2/pkg/policy"
+	"github.com/axisvela/praxo-core/v2/pkg/vfs"
 )
 
 // Backend is a local-directory vfs.Backend confined to Root.

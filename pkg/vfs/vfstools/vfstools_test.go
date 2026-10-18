@@ -4,9 +4,9 @@ import (
 	"context"
 	"testing"
 
-	"github.com/axisvela/praxo-core/pkg/tool"
-	"github.com/axisvela/praxo-core/pkg/vfs"
-	"github.com/axisvela/praxo-core/pkg/vfs/localfs"
+	"github.com/axisvela/praxo-core/v2/pkg/tool"
+	"github.com/axisvela/praxo-core/v2/pkg/vfs"
+	"github.com/axisvela/praxo-core/v2/pkg/vfs/localfs"
 )
 
 func toolMap(t *testing.T, backend *localfs.Backend) map[string]tool.Tool {

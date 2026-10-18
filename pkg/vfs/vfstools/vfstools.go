@@ -6,9 +6,9 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/axisvela/praxo-core/pkg/model"
-	"github.com/axisvela/praxo-core/pkg/tool"
-	"github.com/axisvela/praxo-core/pkg/vfs"
+	"github.com/axisvela/praxo-core/v2/pkg/model"
+	"github.com/axisvela/praxo-core/v2/pkg/tool"
+	"github.com/axisvela/praxo-core/v2/pkg/vfs"
 )
 
 type baseTool struct {

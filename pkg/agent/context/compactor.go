@@ -4,7 +4,7 @@ import (
 	"context"
 	"strings"
 
-	"github.com/axisvela/praxo-core/pkg/model"
+	"github.com/axisvela/praxo-core/v2/pkg/model"
 )
 
 const summaryMarkerPrefix = "[context summary:"

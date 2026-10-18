@@ -3,7 +3,7 @@ package agent
 import (
 	"context"
 
-	"github.com/axisvela/praxo-core/pkg/model"
+	"github.com/axisvela/praxo-core/v2/pkg/model"
 )
 
 func mergeMiddleware(in []Middleware) []Middleware {

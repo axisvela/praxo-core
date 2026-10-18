@@ -5,7 +5,7 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/axisvela/praxo-core/pkg/agent/types"
+	"github.com/axisvela/praxo-core/v2/pkg/agent/types"
 )
 
 // Criterion is one rubric dimension.

@@ -9,12 +9,12 @@ import (
 	"log"
 	"strings"
 
-	"github.com/axisvela/praxo-core/pkg/agent"
-	"github.com/axisvela/praxo-core/pkg/event"
-	"github.com/axisvela/praxo-core/pkg/memory"
-	"github.com/axisvela/praxo-core/pkg/model"
-	"github.com/axisvela/praxo-core/pkg/policy"
-	"github.com/axisvela/praxo-core/pkg/tool"
+	"github.com/axisvela/praxo-core/v2/pkg/agent"
+	"github.com/axisvela/praxo-core/v2/pkg/event"
+	"github.com/axisvela/praxo-core/v2/pkg/memory"
+	"github.com/axisvela/praxo-core/v2/pkg/model"
+	"github.com/axisvela/praxo-core/v2/pkg/policy"
+	"github.com/axisvela/praxo-core/v2/pkg/tool"
 )
 
 type scriptedModel struct {

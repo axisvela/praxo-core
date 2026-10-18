@@ -6,11 +6,11 @@ import (
 	"errors"
 	"testing"
 
-	"github.com/axisvela/praxo-core/pkg/memory"
-	"github.com/axisvela/praxo-core/pkg/model"
-	"github.com/axisvela/praxo-core/pkg/plugin"
-	"github.com/axisvela/praxo-core/pkg/policy"
-	"github.com/axisvela/praxo-core/pkg/sandbox"
+	"github.com/axisvela/praxo-core/v2/pkg/memory"
+	"github.com/axisvela/praxo-core/v2/pkg/model"
+	"github.com/axisvela/praxo-core/v2/pkg/plugin"
+	"github.com/axisvela/praxo-core/v2/pkg/policy"
+	"github.com/axisvela/praxo-core/v2/pkg/sandbox"
 )
 
 func TestToolRoundTrip(t *testing.T) {

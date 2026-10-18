@@ -2,6 +2,11 @@
 
 ## Versioning
 
+- `v2` uses the `github.com/axisvela/praxo-core/v2` module path.
+- v1 remains available for consumers that have not migrated.
+- The v2 exported API is functionally identical to v1.7.0; see
+  [v2 migration](11-migration-v2.md).
+
 - Framework versions start at `0.x`.
 - PRAXOVELA product versions are independent.
 - External consumers declare the supported framework range.

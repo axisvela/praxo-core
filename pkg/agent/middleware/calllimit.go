@@ -5,7 +5,7 @@ import (
 	"errors"
 	"sync"
 
-	"github.com/axisvela/praxo-core/pkg/agent/types"
+	"github.com/axisvela/praxo-core/v2/pkg/agent/types"
 )
 
 // ErrModelCallLimit is returned when a run exceeds its model call budget.

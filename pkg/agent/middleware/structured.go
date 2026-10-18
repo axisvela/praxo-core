@@ -8,9 +8,9 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/axisvela/praxo-core/pkg/agent/types"
-	"github.com/axisvela/praxo-core/pkg/model"
-	"github.com/axisvela/praxo-core/pkg/tool/jsonschema"
+	"github.com/axisvela/praxo-core/v2/pkg/agent/types"
+	"github.com/axisvela/praxo-core/v2/pkg/model"
+	"github.com/axisvela/praxo-core/v2/pkg/tool/jsonschema"
 )
 
 // StructuredOutputStrategy selects how the schema is bound to the model.

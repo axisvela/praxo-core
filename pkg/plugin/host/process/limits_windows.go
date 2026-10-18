@@ -8,7 +8,7 @@ import (
 	"syscall"
 	"unsafe"
 
-	"github.com/axisvela/praxo-core/pkg/plugin"
+	"github.com/axisvela/praxo-core/v2/pkg/plugin"
 	"golang.org/x/sys/windows"
 )
 

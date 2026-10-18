@@ -4,7 +4,7 @@ import (
 	"context"
 	"errors"
 
-	"github.com/axisvela/praxo-core/pkg/model"
+	"github.com/axisvela/praxo-core/v2/pkg/model"
 )
 
 // Interrupt describes a tool call awaiting approval.

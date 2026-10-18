@@ -4,8 +4,8 @@ import (
 	"context"
 	"strings"
 
-	"github.com/axisvela/praxo-core/pkg/agent/types"
-	"github.com/axisvela/praxo-core/pkg/model"
+	"github.com/axisvela/praxo-core/v2/pkg/agent/types"
+	"github.com/axisvela/praxo-core/v2/pkg/model"
 )
 
 // ContextEdit controls declarative prompt pruning before a model call.

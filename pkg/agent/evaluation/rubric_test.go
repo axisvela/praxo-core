@@ -5,7 +5,7 @@ import (
 	"errors"
 	"testing"
 
-	"github.com/axisvela/praxo-core/pkg/agent/types"
+	"github.com/axisvela/praxo-core/v2/pkg/agent/types"
 )
 
 type fakeEvaluator struct {
