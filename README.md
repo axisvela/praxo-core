@@ -15,11 +15,9 @@ and the agent loop. It is a framework, not a product.
 | --- | --- | --- |
 | `praxo-core` | Reusable agent framework and contracts (PRAXOVELA family) | MIT |
 | PRAXOVELA | Runnable agent runtime product built on the framework | AGPL-3.0 |
-| COORDIVELA | Independent coordination product; does not use this framework | AGPL-3.0 core / Enterprise EE |
 
-The MIT boundary lets PRAXOVELA, commercial editions, and external products
-embed the framework without inheriting AGPL obligations. PRAXOVELA remains an
-AGPL product. COORDIVELA is implemented from scratch.
+The MIT boundary lets PRAXOVELA and external products embed the framework
+without inheriting AGPL obligations. PRAXOVELA remains an AGPL product.
 
 ## Primitives
 
@@ -62,8 +60,10 @@ runtime primitives; the API is not yet frozen.
 - [Integration](docs/03-integration.md)
 - [License and provenance](docs/04-license-and-provenance.md)
 - [Compatibility](docs/05-compatibility.md)
-- [Extraction plan and framework spec](docs/07-extraction-plan.md)
 - [Roadmap](ROADMAP.md)
+
+Internal extraction planning and product-family sequencing live in the private
+PRAXOVELA-EE repository.
 
 ## License
 

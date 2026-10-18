@@ -13,7 +13,6 @@
 | --- | --- |
 | PRAXOVELA | embeds framework primitives; remains AGPL |
 | external products | direct interface implementations |
-| COORDIVELA | independent; does not consume this framework |
 
 ## API Stability
 

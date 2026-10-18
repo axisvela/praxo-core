@@ -21,8 +21,6 @@ The framework is intended for embedding by:
 - PRAXOVELA (AGPL product)
 - external products
 
-COORDIVELA is implemented from scratch and does not use PRAXO-CORE.
-
 MIT keeps the framework reusable while the products retain their own licenses.
 
 ## PRAXOVELA Relationship
