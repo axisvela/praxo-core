@@ -1,5 +1,7 @@
 // Package bridge adapts a runtime plugin host to the framework's provider
-// seams. It owns no lifecycle, trust, or policy decisions.
+// seams. It owns no lifecycle, trust, or policy decisions. Use it for
+// pkg/plugin.Host implementations; use tool.Gateway for product-owned external
+// gateways such as Janus.
 package bridge
 
 import (
