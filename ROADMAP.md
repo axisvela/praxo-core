@@ -1,6 +1,6 @@
 # PRAXO-CORE Roadmap
 
-**Current:** `1.3.0` harness profiles and evaluation (2026-10-18)
+**Current:** `1.4.0` agent middleware parity (2026-10-18)
 
 **Target:** `1.6.0` runtime interoperability (planned)
 
@@ -28,6 +28,7 @@
 | 1.1.0 | model summarization, tool-result offload, AGENTS.md memory, prompt-cache hook |
 | 1.2.0 | virtual filesystem backend/tools and async/fork subagent manager |
 | 1.3.0 | provider profiles, rubric evaluation, interpreter seam |
+| 1.4.0 | structured output, tool selection, PII, fallback, tool retry, call limits |
 
 See `CHANGELOG.md` for exact changes.
 
@@ -137,9 +138,7 @@ Exit gate:
 - provider-profile conformance tests
 - rubric and interpreter tests
 
-## 1.4.0 - Agent Middleware Parity (planned)
-
-Scope is provisional; 1.3.0 is the current release.
+## 1.4.0 - Agent Middleware Parity (released 2026-10-18)
 
 - Structured-output strategies (tool/provider/auto) with validation and repair.
 - LLM-based tool selection and provider tool-search hooks.
