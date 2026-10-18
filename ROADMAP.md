@@ -1,8 +1,8 @@
 # PRAXO-CORE Roadmap
 
-**Current:** `1.6.0` runtime interoperability (2026-10-18)
+**Current:** `1.7.0` context editing and planning (2026-10-18)
 
-**Target:** `1.6.0` runtime interoperability
+**Target:** `1.7.0` context editing and planning
 
 ## Release History
 
@@ -31,6 +31,7 @@
 | 1.4.0 | structured output, tool selection, PII, fallback, tool retry, call limits |
 | 1.5.0 | approve/edit/reject/respond HITL decisions |
 | 1.6.0 | capability package split, typed streams, session resume, checkpoint allowlist |
+| 1.7.0 | context editing and todo/planning middleware |
 
 See `CHANGELOG.md` for exact changes.
 
@@ -179,6 +180,16 @@ Exit gate:
 - stream-projection conformance tests
 - agent-session interrupt/resume tests
 - RHEOVELA adapter contract tests
+
+## 1.7.0 - Context Editing and Planning (released 2026-10-18)
+
+- [x] Declarative context editing for old tool results.
+- [x] `write_todos` planning tool and todo prompt middleware.
+
+Exit gate:
+
+- context-edit pairing tests
+- todo tool and prompt tests
 
 ## Graph Runtime Boundary
 

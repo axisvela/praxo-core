@@ -85,6 +85,10 @@ Compaction and offload are observable through `Hooks.OnCompaction` and
   enter the prompt.
 - `FallbackModel` retries a failed primary model call on a fallback model.
 - `CallLimitMiddleware` bounds per-run model and tool calls.
+- `ContextEditingMiddleware` clears old tool results without dropping
+  message pairs.
+- `TodoTool`/`TodoMiddleware` provide `write_todos` planning state and prompt
+  injection.
 - `pkg/tool.Retry` retries failed tool invocations with the same policy shape.
 
 ## Human-in-the-Loop Decisions

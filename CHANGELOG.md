@@ -2,6 +2,15 @@
 
 All notable changes to PRAXO-CORE are documented here.
 
+## [1.7.0] - 2026-10-18
+
+### Added
+
+- `agent.ContextEditingMiddleware`: clear old tool results while preserving
+  message pairing.
+- `agent.TodoList`, `agent.TodoTool`, and `agent.TodoMiddleware`:
+  `write_todos` planning state and prompt injection.
+
 ## [1.6.0] - 2026-10-18
 
 ### Changed
