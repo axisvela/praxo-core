@@ -12,12 +12,52 @@ import (
 	"github.com/axisvela/praxo-core/pkg/tool"
 )
 
+// Skill is on-demand knowledge injected for a run.
+type Skill struct {
+	Name        string
+	Description string
+	Content     string
+}
+
+// SkillProvider selects skills for a prompt.
+type SkillProvider interface {
+	Skills(ctx context.Context, query string) ([]Skill, error)
+}
+
+// Interrupt describes a tool call awaiting approval.
+type Interrupt struct {
+	RunID     string
+	SessionID string
+	Call      model.ToolCall
+}
+
+// RunContext carries per-run values (user ids, flags, credentials references).
+type RunContext map[string]any
+
+type runContextKey struct{}
+
+// WithRunContext attaches per-run values to a context.
+func WithRunContext(ctx context.Context, rc RunContext) context.Context {
+	if rc == nil {
+		return ctx
+	}
+	return context.WithValue(ctx, runContextKey{}, rc)
+}
+
+// RunContextFrom returns the per-run values attached to ctx, if any.
+func RunContextFrom(ctx context.Context) RunContext {
+	rc, _ := ctx.Value(runContextKey{}).(RunContext)
+	return rc
+}
+
 // Options is the constructor bundle for a governed agent.
 type Options struct {
 	Model            model.Model
 	SystemPrompt     string
 	Tools            *tool.Registry
 	Memory           memory.Store
+	Skills           SkillProvider
+	SkillsLimit      int
 	Events           event.Sink
 	Policy           policy.Hook
 	MaxSteps         int
@@ -25,8 +65,11 @@ type Options struct {
 	MaxTokens        int64
 	ToolChoice       string
 	AllowedTools     []string
+	ResponseFormat   *model.ResponseFormat
 	Recall           bool
 	RecallLimit      int
+	InterruptOn      map[string]bool
+	OnInterrupt      func(ctx context.Context, interrupt Interrupt) (bool, error)
 	Retry            RetryPolicy
 	Hooks            Hooks
 	OnDelta          func(delta string)
@@ -42,6 +85,8 @@ func New(opts Options) (*Agent, error) {
 		SystemPrompt:     opts.SystemPrompt,
 		Tools:            opts.Tools,
 		Memory:           opts.Memory,
+		Skills:           opts.Skills,
+		SkillsLimit:      opts.SkillsLimit,
 		Events:           opts.Events,
 		Policy:           opts.Policy,
 		MaxSteps:         opts.MaxSteps,
@@ -49,8 +94,11 @@ func New(opts Options) (*Agent, error) {
 		MaxTokens:        opts.MaxTokens,
 		ToolChoice:       opts.ToolChoice,
 		AllowedTools:     opts.AllowedTools,
+		ResponseFormat:   opts.ResponseFormat,
 		Recall:           opts.Recall,
 		RecallLimit:      opts.RecallLimit,
+		InterruptOn:      opts.InterruptOn,
+		OnInterrupt:      opts.OnInterrupt,
 		Retry:            opts.Retry,
 		Hooks:            opts.Hooks,
 		OnDelta:          opts.OnDelta,

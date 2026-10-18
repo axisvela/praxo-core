@@ -2,6 +2,17 @@
 
 All notable changes to PRAXO-CORE are documented here.
 
+## [0.10.0] - 2026-10-18
+
+### Added
+
+- `SkillProvider` and `Agent.Skills` for on-demand knowledge injection.
+- `model.ResponseFormat` and `Agent.ResponseFormat` for structured output.
+- `Agent.InterruptOn`/`OnInterrupt` for human approval before tool calls.
+- `RunContext`, `RunWithContext`, `WithRunContext`, and `RunContextFrom` for
+  per-run values.
+- `agent.SessionStore` as the portable session persistence contract.
+
 ## [0.9.0] - 2026-10-18
 
 ### Added
