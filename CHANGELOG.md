@@ -11,6 +11,14 @@ All notable changes to PRAXO-CORE are documented here.
   aliases. Use `pkg/toolcall`, `pkg/formatter`, and `pkg/tool/jsonschema`.
 - API snapshot `api/1.0.0.txt`; the diff from `0.16.0` is alias removal only.
 
+### Fixed
+
+- Scheduler callback now updates schedule state under the engine lock and
+  dispatches a snapshot, removing the cron data race.
+- Process limit tests skip platforms where RLIMIT_AS/RLIMIT_NPROC are not
+  reliable against the Go test-binary fixture; Windows Job Object coverage
+  remains.
+
 ## [0.16.0] - 2026-10-18
 
 ### Added
