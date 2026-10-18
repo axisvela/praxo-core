@@ -1,0 +1,44 @@
+name: release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    env:
+      GOWORK: "off"
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-go@v5
+        with:
+          go-version: "1.25.x"
+      - name: Verify tag matches VERSION
+        run: |
+          version="$(cat VERSION)"
+          test "v${version}" = "${GITHUB_REF_NAME}"
+      - run: go test ./...
+      - run: go vet ./...
+      - run: go build ./...
+      - name: Generate SBOM
+        run: |
+          go install github.com/CycloneDX/cyclonedx-gomod/cmd/cyclonedx-gomod@latest
+          mkdir -p dist
+          cyclonedx-gomod mod -json -output dist/sbom.json
+      - name: Create source archive and checksums
+        run: |
+          version="${GITHUB_REF_NAME#v}"
+          git archive --format=tar.gz --prefix="praxo-core-${version}/" \
+            -o "dist/praxo-core-${version}.tar.gz" HEAD
+          sha256sum dist/praxo-core-${version}.tar.gz > dist/SHA256SUMS
+      - name: Publish GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release create "$GITHUB_REF_NAME" dist/* --generate-notes
