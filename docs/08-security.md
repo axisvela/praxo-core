@@ -65,10 +65,10 @@ not independent security sign-off.
 ## 1.0 Review Checklist
 
 - [x] exported API doc-comment audit
-- [ ] fuzz tests: manifest parser, tool-call parser, JSON Schema, path checker
-- [ ] race tests on hosts, registry, and agent loop
-- [ ] CI matrix: Linux, Windows, macOS
-- [ ] `go vet`, `staticcheck`, and `govulncheck`
+- [x] fuzz tests added: manifest parser, tool-call parser, JSON Schema, path checker
+- [ ] race tests passing in CI (job added)
+- [x] CI matrix configured: Linux, Windows, macOS
+- [x] `go vet`, `staticcheck`, and `govulncheck` locally
 - [ ] SBOM, checksums, and signed release artifacts
 - [ ] independent review of host containment and path containment
 - [ ] external integrator example with a least-privilege tool set

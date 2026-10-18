@@ -45,8 +45,6 @@ const (
 	// traceTier mirrors sandbox.Tier2 (WASM isolation) without importing the
 	// sandbox package from a host implementation.
 	traceTier = 2
-
-	tokenEnvVar = "PRAXOVELA_PLUGIN_TOKEN"
 )
 
 // CodeCanceled classifies an invocation terminated by caller or host
