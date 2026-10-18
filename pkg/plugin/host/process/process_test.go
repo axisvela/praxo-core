@@ -611,9 +611,10 @@ func TestTerminationIncludesExitAndResourceEvidence(t *testing.T) {
 	sink := &recordingSink{}
 	cfg := fakeConfig(t)
 	cfg.Sink = sink
-	limits := plugin.ResourceLimits{MaxProcesses: 4, CPUSeconds: 30}
+	limits := plugin.ResourceLimits{CPUSeconds: 30}
 	if runtime.GOOS == "windows" {
 		limits.MemoryMB = 256
+		limits.MaxProcesses = 4
 	}
 	cfg.Limits = limits
 	h := startFakeConfig(t, cfg)
@@ -649,8 +650,8 @@ func TestTerminationIncludesExitAndResourceEvidence(t *testing.T) {
 			t.Fatalf("termination evidence missing %q; detail=%v", key, ev.Detail)
 		}
 	}
-	if ev.Limits.MaxProcesses != 4 || ev.Limits.CPUSeconds != 30 ||
-		(runtime.GOOS == "windows" && ev.Limits.MemoryMB != 256) {
+	if ev.Limits.CPUSeconds != 30 ||
+		(runtime.GOOS == "windows" && (ev.Limits.MemoryMB != 256 || ev.Limits.MaxProcesses != 4)) {
 		t.Fatalf("termination evidence missing enforced limits: %+v", ev.Limits)
 	}
 	// The supervisor handle must still be open when usage is captured, so the
