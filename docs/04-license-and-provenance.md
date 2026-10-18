@@ -6,7 +6,11 @@ PRAXO-CORE is MIT-licensed. See [LICENSE](../LICENSE).
 
 - Only AxisVela-owned code, or code with explicit relicensing permission, may
   enter this repository.
-- Do not import AGPL-only packages.
+- **Authorization (2026-10-18): PRAXOVELA code may be copied directly into
+  PRAXO-CORE.** PRAXOVELA is AxisVela-owned and the user explicitly authorized
+  the copy.
+- Record the source path and source commit for every copied package.
+- Do not import AGPL-only third-party packages.
 - Preserve copyright notices and third-party notices.
 - Contributions require a CLA or equivalent relicensing grant.
 
@@ -15,8 +19,9 @@ PRAXO-CORE is MIT-licensed. See [LICENSE](../LICENSE).
 The framework is intended for embedding by:
 
 - PRAXOVELA (AGPL product)
-- COORDIVELA (AGPL core and commercial EE)
 - external products
+
+COORDIVELA is implemented from scratch and does not use PRAXO-CORE.
 
 MIT keeps the framework reusable while the products retain their own licenses.
 
@@ -24,3 +29,7 @@ MIT keeps the framework reusable while the products retain their own licenses.
 
 PRAXOVELA remains AGPL-3.0. It consumes the MIT framework but does not relicense
 the product. The framework is a separate work with a separate repository.
+
+The reverse direction is explicitly authorized: PRAXOVELA implementation code
+may be copied into PRAXO-CORE and relicensed as MIT. The copy must be recorded
+with its source path and commit.
