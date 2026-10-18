@@ -86,6 +86,8 @@ type Agent struct {
 	// ToolRetry optionally wraps each resolved tool with retry semantics.
 	ToolRetry *tool.RetryPolicy
 	Hooks     Hooks
+	// OnStream receives typed run-stream projections.
+	OnStream func(StreamPart) error
 	// OnDelta receives streamed text fragments when Model implements
 	// model.StreamingModel. It may be nil.
 	OnDelta func(delta string)
@@ -192,6 +194,12 @@ func (a *Agent) RunWithContext(ctx context.Context, session Session, prompt stri
 	}
 	messages = append(messages, model.Message{Role: model.RoleUser, Content: prompt})
 
+	if err := a.stream(StreamPart{
+		RunID: runID, SessionID: session.ID, Kind: StreamValues,
+		Data: map[string]any{"prompt": prompt, "messages": len(messages)},
+	}); err != nil {
+		return nil, err
+	}
 	if err := a.emit(ctx, event.Event{Type: "run.started", SessionID: session.ID, RunID: runID}); err != nil {
 		return nil, err
 	}
@@ -266,6 +274,11 @@ func (a *Agent) RunWithContext(ctx context.Context, session Session, prompt stri
 		if err := a.afterModel(ctx, mc, &resp); err != nil {
 			return nil, err
 		}
+		if err := a.stream(StreamPart{
+			RunID: runID, SessionID: session.ID, Kind: StreamMessages, Step: step, Data: resp.Message,
+		}); err != nil {
+			return nil, err
+		}
 
 		if a.Hooks.OnModelResult != nil {
 			if err := a.Hooks.OnModelResult(ctx, runID, resp); err != nil {
@@ -282,6 +295,11 @@ func (a *Agent) RunWithContext(ctx context.Context, session Session, prompt stri
 		messages = append(messages, resp.Message)
 		if len(resp.Message.ToolCalls) == 0 {
 			result = &Result{RunID: runID, Output: resp.Message.Content, Steps: step, Usage: usage}
+			if err := a.stream(StreamPart{
+				RunID: runID, SessionID: session.ID, Kind: StreamCheckpoint, Step: step, Data: *result,
+			}); err != nil {
+				return nil, err
+			}
 			if err := a.remember(ctx, runID, session.ID, result); err != nil {
 				return nil, err
 			}
@@ -309,6 +327,11 @@ func (a *Agent) RunWithContext(ctx context.Context, session Session, prompt stri
 					return nil, err
 				}
 				result = &Result{RunID: runID, Output: string(raw), Steps: step, Usage: usage}
+				if err := a.stream(StreamPart{
+					RunID: runID, SessionID: session.ID, Kind: StreamCheckpoint, Step: step, Data: *result,
+				}); err != nil {
+					return nil, err
+				}
 				if err := a.remember(ctx, runID, session.ID, result); err != nil {
 					return nil, err
 				}
@@ -404,6 +427,12 @@ func (a *Agent) RunWithContext(ctx context.Context, session Session, prompt stri
 			}); err != nil {
 				return nil, err
 			}
+			if err := a.stream(StreamPart{
+				RunID: runID, SessionID: session.ID, Kind: StreamTasks, Step: step,
+				Data: map[string]any{"status": "start", "name": call.Name, "arguments": call.Arguments},
+			}); err != nil {
+				return nil, err
+			}
 			prepared = append(prepared, preparedTool{call: call, tool: t})
 		}
 
@@ -412,6 +441,15 @@ func (a *Agent) RunWithContext(ctx context.Context, session Session, prompt stri
 			call := prepared[i].call
 			result := &ToolResult{Value: outcome.value, Err: outcome.err}
 			if err := a.afterTool(ctx, &ToolCall{RunID: runID, SessionID: session.ID, Call: &call}, result); err != nil {
+				return nil, err
+			}
+			taskData := map[string]any{"status": "end", "name": call.Name, "result": result.Value}
+			if result.Err != nil {
+				taskData["error"] = result.Err.Error()
+			}
+			if err := a.stream(StreamPart{
+				RunID: runID, SessionID: session.ID, Kind: StreamTasks, Step: step, Data: taskData,
+			}); err != nil {
 				return nil, err
 			}
 			if a.Hooks.OnToolResult != nil {
@@ -443,6 +481,12 @@ func (a *Agent) RunWithContext(ctx context.Context, session Session, prompt stri
 				}
 			}
 			messages = append(messages, model.Message{Role: model.RoleTool, ToolID: call.ID, Content: content})
+			if err := a.stream(StreamPart{
+				RunID: runID, SessionID: session.ID, Kind: StreamUpdates, Step: step,
+				Data: map[string]any{"messages": len(messages), "tool": call.Name},
+			}); err != nil {
+				return nil, err
+			}
 		}
 	}
 
@@ -542,6 +586,16 @@ func (a *Agent) emit(ctx context.Context, e event.Event) error {
 		e.At = time.Now().UTC()
 	}
 	return a.Events.Emit(ctx, e)
+}
+
+func (a *Agent) stream(part StreamPart) error {
+	if a.OnStream == nil {
+		return nil
+	}
+	if part.At.IsZero() {
+		part.At = time.Now().UTC()
+	}
+	return a.OnStream(part)
 }
 
 func (a *Agent) toolSpecs() []model.ToolSpec {

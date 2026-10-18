@@ -88,6 +88,15 @@ Compaction and offload are observable through `Hooks.OnCompaction` and
 - Shell sessions, execution policies, and MCP elicitation remain product/Janus
   responsibilities; the core only owns the decision contract.
 
+## Runtime Interoperability
+
+- `OnStream` emits typed `StreamPart` projections: values, updates, messages,
+  tasks, debug, and checkpoints.
+- Stream consumers can persist or forward projections without parsing the
+  event sink.
+- Graph execution remains RHEOVELA-owned; the core stream is the agent-node
+  boundary, not a LangGraph-compatible projection runtime.
+
 ## Delegation
 
 - `SubagentManager` runs delegated child tasks asynchronously with
