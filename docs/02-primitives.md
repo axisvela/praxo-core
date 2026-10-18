@@ -3,7 +3,14 @@
 | Package | Contract | Typical adapter |
 | --- | --- | --- |
 | `pkg/model` | `Model.Generate`, `Provider.Chat/ChatStream`, `ModelRouter`, `ChatModel`, `CacheHint`, `ProviderProfile` | PRAXOVELA provider router |
-| `pkg/agent` | `Agent.Run`, middleware, hooks, budgets, `ContextCompactor`, `Offloader`, `LoadAgentsMD`, `SubagentManager`, `RubricMiddleware`, `StructuredOutput`, `ToolSelectionMiddleware`, `PIIMiddleware`, `FallbackModel`, `CallLimitMiddleware`, `InterruptDecision`, `StreamPart` | PRAXOVELA agent loop |
+| `pkg/agent` | `Agent.Run`, `Options`, `New`, compatibility aliases | PRAXOVELA agent loop |
+| `pkg/agent/context` | budgets, compaction, summarization, offload, `AGENTS.md` | PRAXOVELA context management |
+| `pkg/agent/delegation` | `SubagentManager` and modes | PRAXOVELA subagents |
+| `pkg/agent/evaluation` | `Rubric`, `Evaluator`, `RubricMiddleware` | PRAXOVELA evaluation |
+| `pkg/agent/hitl` | `InterruptDecision` and handlers | PRAXOVELA approvals |
+| `pkg/agent/middleware` | call limits, fallback, PII, structured output, tool selection | PRAXOVELA middleware |
+| `pkg/agent/stream` | typed `StreamPart` projections | PRAXOVELA streaming |
+| `pkg/agent/types` | shared run-state contracts | framework consumers |
 | `pkg/checkpoint` | `Checkpoint`, `Store.Save/Load/List`, recovery report | PRAXOVELA checkpoint store |
 | `pkg/httpclient` | retry-capable HTTP transport with auth, tracing, and decoding | PRAXOVELA adapters |
 | `pkg/tool` | `Tool`, `Registry`, `SpecProvider`, `Middleware`, `Retry`, `Gateway` | Janus Gateway tools |

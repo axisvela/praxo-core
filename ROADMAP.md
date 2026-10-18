@@ -1,8 +1,8 @@
 # PRAXO-CORE Roadmap
 
-**Current:** `1.5.0` HITL decisions (2026-10-18)
+**Current:** `1.6.0` runtime interoperability (2026-10-18)
 
-**Target:** `1.6.0` runtime interoperability (planned)
+**Target:** `1.6.0` runtime interoperability
 
 ## Release History
 
@@ -30,6 +30,7 @@
 | 1.3.0 | provider profiles, rubric evaluation, interpreter seam |
 | 1.4.0 | structured output, tool selection, PII, fallback, tool retry, call limits |
 | 1.5.0 | approve/edit/reject/respond HITL decisions |
+| 1.6.0 | capability package split, typed streams, session resume, checkpoint allowlist |
 
 See `CHANGELOG.md` for exact changes.
 
@@ -164,11 +165,11 @@ Exit gate:
 - product conformance for shell, execution policies, and MCP elicitation is
   tracked by PRAXOVELA/Janus, not duplicated in the core
 
-## 1.6.0 - Runtime Interoperability (in progress)
+## 1.6.0 - Runtime Interoperability (released 2026-10-18)
 
 - [x] Typed stream projections (values/updates/messages/checkpoint/tasks/debug).
 - [x] Session-level resume via `Session.Messages`; durable checkpoint storage is product-owned.
-- [ ] Serialization allowlist for polymorphic payloads (deferred until a custom type registry exists).
+- [x] Serialization allowlist for persisted payloads (`checkpoint.Allowlist`).
 - [ ] RHEOVELA integration seam (PRAXOVELA/adapters-owned): agent node/session adapter so RHEOVELA owns graph,
   subgraph, routing, and long-running workflow semantics.
 - [ ] Remote execution seam for RHEOVELA workers (PRAXOVELA-owned).

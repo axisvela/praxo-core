@@ -6,57 +6,6 @@ import (
 	"github.com/axisvela/praxo-core/pkg/model"
 )
 
-// Middleware intercepts a run at model and tool boundaries. All callbacks are
-// optional. Returning an error aborts the run.
-//
-// Middleware runs before the read-only Hooks, so hooks observe the final
-// request/response. A middleware with a non-empty Name replaces an earlier
-// middleware with the same name while keeping its position.
-type Middleware struct {
-	Name string
-
-	BeforeRun   func(ctx context.Context, state *RunState) error
-	BeforeModel func(ctx context.Context, call *ModelCall) error
-	AfterModel  func(ctx context.Context, call *ModelCall, resp *model.Response) error
-	BeforeTool  func(ctx context.Context, call *ToolCall) error
-	AfterTool   func(ctx context.Context, call *ToolCall, result *ToolResult) error
-	AfterRun    func(ctx context.Context, result *Result, err error) error
-}
-
-// RunState is the mutable run start state.
-type RunState struct {
-	RunID   string
-	Session *Session
-	Prompt  *string
-}
-
-// ModelCall is one model invocation. Middleware may rewrite Request, or set
-// Skip with a canned Response.
-type ModelCall struct {
-	RunID     string
-	SessionID string
-	Request   *model.Request
-	Skip      bool
-	Response  *model.Response
-}
-
-// ToolCall is one tool invocation. Middleware may rewrite Call, or set Skip
-// with a Result/Err.
-type ToolCall struct {
-	RunID     string
-	SessionID string
-	Call      *model.ToolCall
-	Skip      bool
-	Result    any
-	Err       error
-}
-
-// ToolResult is the mutable outcome of a tool invocation.
-type ToolResult struct {
-	Value any
-	Err   error
-}
-
 func mergeMiddleware(in []Middleware) []Middleware {
 	out := make([]Middleware, 0, len(in))
 	index := make(map[string]int, len(in))

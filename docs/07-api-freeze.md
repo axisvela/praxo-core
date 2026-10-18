@@ -1,16 +1,20 @@
 # API Freeze Inventory
 
-**Status:** post-1.0 additive audit for `1.5.0`. The `1.0.0` surface remains
+**Status:** post-1.0 additive audit for `1.6.0`. The `1.0.0` surface remains
 frozen; new declarations are additive.
 
 ## Audit Result
 
-- Exported declarations: **555**
+- Exported declarations: **663**
 - Exported declarations without a doc comment: **0**
 - Scope: `pkg/...`; examples, tests, unexported receiver methods, and testdata
   are excluded.
 - The audit covers exported functions, methods on exported types, types,
   constants, and variables.
+
+The `pkg/agent` root keeps type aliases for the capability packages, so
+existing `agent.*` imports remain source-compatible while implementation
+lives in capability subpackages.
 
 ## Freeze Scope
 
@@ -34,7 +38,14 @@ Not covered:
 
 | Package | Stable surface |
 | --- | --- |
-| `pkg/agent` | `Agent`, `Options`, `Profile`, `Middleware`, `Hooks`, `ContextBudget`, `ContextCompactor`, `ModelSummarizer`, `Offloader`, `LoadAgentsMD`, `SubagentManager`, `RubricMiddleware`, `StructuredOutput`, `ToolSelectionMiddleware`, `PIIMiddleware`, `FallbackModel`, `CallLimitMiddleware`, `InterruptDecision`, `Session`, `Result`, statuses, budgets |
+| `pkg/agent` | `Agent`, `Options`, `Profile`, `New`, compatibility aliases for capability types |
+| `pkg/agent/context` | budgets, compaction, summarization, offload, `AGENTS.md` |
+| `pkg/agent/delegation` | async subagent manager and modes |
+| `pkg/agent/evaluation` | rubrics and evaluators |
+| `pkg/agent/hitl` | interrupt actions, decisions, handlers |
+| `pkg/agent/middleware` | call limits, fallback, PII, structured output, tool selection |
+| `pkg/agent/stream` | typed stream parts |
+| `pkg/agent/types` | shared run-state contracts |
 | `pkg/checkpoint` | `Checkpoint`, `Store`, recovery types |
 | `pkg/event` | `Event`, `Sink`, multi/filter/publisher sinks |
 | `pkg/flow` | `Runnable`, `Chain`, `Parallel` |

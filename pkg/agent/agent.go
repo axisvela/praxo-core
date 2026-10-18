@@ -29,14 +29,6 @@ var ErrApprovalDenied = errors.New("agent: tool call denied by approval")
 // handler is configured.
 var ErrInterruptUnhandled = errors.New("agent: approval handler not configured")
 
-// Session is the execution scope.
-type Session struct {
-	ID          string          `json:"id"`
-	TenantID    string          `json:"tenantId"`
-	WorkspaceID string          `json:"workspaceId"`
-	Messages    []model.Message `json:"messages,omitempty"`
-}
-
 // Agent is a governed model/tool loop.
 type Agent struct {
 	Model           model.Model
@@ -90,14 +82,6 @@ type Agent struct {
 	// OnDelta receives streamed text fragments when Model implements
 	// model.StreamingModel. It may be nil.
 	OnDelta func(delta string)
-}
-
-// Result is one completed run.
-type Result struct {
-	RunID  string      `json:"runId"`
-	Output string      `json:"output"`
-	Steps  int         `json:"steps"`
-	Usage  model.Usage `json:"usage"`
 }
 
 // Run executes the loop until the model returns a final answer.
@@ -315,10 +299,10 @@ func (a *Agent) RunWithContext(ctx context.Context, session Session, prompt stri
 
 		if a.StructuredOutput != nil && a.StructuredOutput.Strategy == StructuredOutputTool {
 			for _, call := range resp.Message.ToolCalls {
-				if call.Name != a.StructuredOutput.outputName() {
+				if call.Name != a.StructuredOutput.OutputName() {
 					continue
 				}
-				if err := a.StructuredOutput.validateArguments(call.Arguments); err != nil {
+				if err := a.StructuredOutput.ValidateArguments(call.Arguments); err != nil {
 					return nil, fmt.Errorf("%w: %v", ErrStructuredOutput, err)
 				}
 				raw, err := json.Marshal(call.Arguments)
@@ -603,7 +587,7 @@ func (a *Agent) toolSpecs() []model.ToolSpec {
 		specs = a.Tools.Specs()
 	}
 	if a.StructuredOutput != nil && a.StructuredOutput.Strategy == StructuredOutputTool {
-		name := a.StructuredOutput.outputName()
+		name := a.StructuredOutput.OutputName()
 		found := false
 		for _, spec := range specs {
 			if spec.Name == name {
