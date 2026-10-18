@@ -58,6 +58,9 @@ not independent security sign-off.
 - **HTTP redirects.** `pkg/httpclient` uses Go's default redirect policy.
   Response bodies are bounded by default (32 MiB) and can be overridden with
   `Config.MaxBodyBytes`; callers should still use trusted base URLs.
+- **Go standard-library fixes.** CI and release builds use Go `1.26.x` so the
+  `net/http` fixes in Go 1.26.9+ are present. Consumers on older toolchains
+  should upgrade before deploying the HTTP client.
 - **Prompt injection is not a framework vulnerability by itself.** The
   enforcement boundary is policy plus tool allowlisting, not model text.
 - **No plugin-to-plugin calls and no dynamic capability escalation** in v1.

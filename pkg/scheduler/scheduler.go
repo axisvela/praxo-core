@@ -54,7 +54,8 @@ func (e *Engine) Add(s *Schedule) error {
 		s.CreatedAt = time.Now()
 	}
 
-	e.schedules[s.ID] = s
+	cp := *s
+	e.schedules[s.ID] = &cp
 
 	if s.Enabled {
 		e.addCronEntry(s)
@@ -66,19 +67,20 @@ func (e *Engine) addCronEntry(s *Schedule) {
 	sid := s.ID
 	entryID := new(cron.EntryID)
 	*entryID, _ = e.cron.AddFunc(s.CronExpr, func() {
-		e.mu.RLock()
+		e.mu.Lock()
 		sch := e.schedules[sid]
-		e.mu.RUnlock()
 		if sch == nil {
+			e.mu.Unlock()
 			return
 		}
 		sch.LastRun = time.Now()
-		entry := e.cron.Entry(*entryID)
-		if !entry.Next.IsZero() {
+		if entry := e.cron.Entry(*entryID); !entry.Next.IsZero() {
 			sch.NextRun = entry.Next
 		}
+		snapshot := *sch
+		e.mu.Unlock()
 		if e.dispatch != nil {
-			e.dispatch(sch)
+			e.dispatch(&snapshot)
 		}
 	})
 	e.entries[s.ID] = *entryID
@@ -105,7 +107,8 @@ func (e *Engine) Get(id string) (*Schedule, error) {
 	if !ok {
 		return nil, nil
 	}
-	return s, nil
+	cp := *s
+	return &cp, nil
 }
 
 // List returns all schedules.
@@ -115,7 +118,8 @@ func (e *Engine) List() []*Schedule {
 
 	list := make([]*Schedule, 0, len(e.schedules))
 	for _, s := range e.schedules {
-		list = append(list, s)
+		cp := *s
+		list = append(list, &cp)
 	}
 	return list
 }
