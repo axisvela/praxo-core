@@ -33,12 +33,13 @@ type Session struct {
 
 // Agent is a governed model/tool loop.
 type Agent struct {
-	Model    model.Model
-	Tools    *tool.Registry
-	Memory   memory.Store
-	Events   event.Sink
-	Policy   policy.Hook
-	MaxSteps int
+	Model        model.Model
+	SystemPrompt string
+	Tools        *tool.Registry
+	Memory       memory.Store
+	Events       event.Sink
+	Policy       policy.Hook
+	MaxSteps     int
 	// MaxParallelTools bounds concurrent tool invocations within one step.
 	// Values <= 1 run tools sequentially.
 	MaxParallelTools int
@@ -96,7 +97,11 @@ func (a *Agent) Run(ctx context.Context, session Session, prompt string) (result
 		}
 	}
 
-	messages := append([]model.Message{}, session.Messages...)
+	var messages []model.Message
+	if a.SystemPrompt != "" {
+		messages = append(messages, model.Message{Role: model.RoleSystem, Content: a.SystemPrompt})
+	}
+	messages = append(messages, session.Messages...)
 	if a.Recall && a.Memory != nil {
 		limit := a.RecallLimit
 		if limit <= 0 {
