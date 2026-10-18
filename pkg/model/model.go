@@ -81,6 +81,14 @@ const (
 	ToolChoiceRequired = "required"
 )
 
+// CacheHint marks a stable prompt prefix for provider-side prompt caching.
+// Providers that support cache_control may translate this hint; others ignore
+// it.
+type CacheHint struct {
+	StablePrefix int    `json:"stablePrefix,omitempty"`
+	TTL          string `json:"ttl,omitempty"`
+}
+
 // Request is one model generation request.
 type Request struct {
 	Model          string          `json:"model,omitempty"`
@@ -88,6 +96,7 @@ type Request struct {
 	Tools          []ToolSpec      `json:"tools,omitempty"`
 	ToolChoice     string          `json:"toolChoice,omitempty"`
 	ResponseFormat *ResponseFormat `json:"responseFormat,omitempty"`
+	CacheHint      *CacheHint      `json:"cacheHint,omitempty"`
 	Temperature    float64         `json:"temperature,omitempty"`
 }
 

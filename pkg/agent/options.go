@@ -3,6 +3,7 @@ package agent
 import (
 	"context"
 	"errors"
+	"strings"
 	"time"
 
 	"github.com/axisvela/praxo-core/pkg/event"
@@ -93,31 +94,36 @@ type ModelMiddleware func(next func(context.Context, model.Request) (model.Respo
 
 // Options is the constructor bundle for a governed agent.
 type Options struct {
-	Profile          *Profile
-	Middleware       []Middleware
-	ModelMiddleware  []ModelMiddleware
-	Model            model.Model
-	SystemPrompt     string
-	Tools            *tool.Registry
-	Memory           memory.Store
-	Skills           SkillProvider
-	SkillsLimit      int
-	Events           event.Sink
-	Policy           policy.Hook
-	MaxSteps         int
-	MaxParallelTools int
-	MaxTokens        int64
-	Context          *ContextBudget
-	ToolChoice       string
-	AllowedTools     []string
-	ResponseFormat   *model.ResponseFormat
-	Recall           bool
-	RecallLimit      int
-	InterruptOn      map[string]bool
-	OnInterrupt      func(ctx context.Context, interrupt Interrupt) (bool, error)
-	Retry            RetryPolicy
-	Hooks            Hooks
-	OnDelta          func(delta string)
+	Profile               *Profile
+	Middleware            []Middleware
+	ModelMiddleware       []ModelMiddleware
+	Model                 model.Model
+	SystemPrompt          string
+	MemoryFiles           []string
+	Tools                 *tool.Registry
+	Memory                memory.Store
+	Skills                SkillProvider
+	SkillsLimit           int
+	Events                event.Sink
+	Policy                policy.Hook
+	MaxSteps              int
+	MaxParallelTools      int
+	MaxTokens             int64
+	Context               *ContextBudget
+	Compactor             ContextCompactor
+	Offloader             Offloader
+	OffloadThresholdBytes int
+	PromptCache           func([]model.Message) *model.CacheHint
+	ToolChoice            string
+	AllowedTools          []string
+	ResponseFormat        *model.ResponseFormat
+	Recall                bool
+	RecallLimit           int
+	InterruptOn           map[string]bool
+	OnInterrupt           func(ctx context.Context, interrupt Interrupt) (bool, error)
+	Retry                 RetryPolicy
+	Hooks                 Hooks
+	OnDelta               func(delta string)
 }
 
 // New validates options and builds an agent.
@@ -128,31 +134,42 @@ func New(opts Options) (*Agent, error) {
 	if opts.Model == nil {
 		return nil, errors.New("agent: model is required")
 	}
+	memory, err := LoadAgentsMD(opts.MemoryFiles...)
+	if err != nil {
+		return nil, err
+	}
+	if memory != "" {
+		opts.SystemPrompt = strings.TrimSpace(opts.SystemPrompt + "\n\n" + memory)
+	}
 	return &Agent{
-		Middleware:       mergeMiddleware(opts.Middleware),
-		ModelMiddleware:  opts.ModelMiddleware,
-		Model:            opts.Model,
-		SystemPrompt:     opts.SystemPrompt,
-		Tools:            opts.Tools,
-		Memory:           opts.Memory,
-		Skills:           opts.Skills,
-		SkillsLimit:      opts.SkillsLimit,
-		Events:           opts.Events,
-		Policy:           opts.Policy,
-		MaxSteps:         opts.MaxSteps,
-		MaxParallelTools: opts.MaxParallelTools,
-		MaxTokens:        opts.MaxTokens,
-		Context:          opts.Context,
-		ToolChoice:       opts.ToolChoice,
-		AllowedTools:     opts.AllowedTools,
-		ResponseFormat:   opts.ResponseFormat,
-		Recall:           opts.Recall,
-		RecallLimit:      opts.RecallLimit,
-		InterruptOn:      opts.InterruptOn,
-		OnInterrupt:      opts.OnInterrupt,
-		Retry:            opts.Retry,
-		Hooks:            opts.Hooks,
-		OnDelta:          opts.OnDelta,
+		Middleware:            mergeMiddleware(opts.Middleware),
+		ModelMiddleware:       opts.ModelMiddleware,
+		Model:                 opts.Model,
+		SystemPrompt:          opts.SystemPrompt,
+		Tools:                 opts.Tools,
+		Memory:                opts.Memory,
+		Skills:                opts.Skills,
+		SkillsLimit:           opts.SkillsLimit,
+		Events:                opts.Events,
+		Policy:                opts.Policy,
+		MaxSteps:              opts.MaxSteps,
+		MaxParallelTools:      opts.MaxParallelTools,
+		MaxTokens:             opts.MaxTokens,
+		Context:               opts.Context,
+		Compactor:             opts.Compactor,
+		Offloader:             opts.Offloader,
+		OffloadThresholdBytes: opts.OffloadThresholdBytes,
+		PromptCache:           opts.PromptCache,
+		ToolChoice:            opts.ToolChoice,
+		AllowedTools:          opts.AllowedTools,
+		ResponseFormat:        opts.ResponseFormat,
+		Recall:                opts.Recall,
+		RecallLimit:           opts.RecallLimit,
+		InterruptOn:           opts.InterruptOn,
+		OnInterrupt:           opts.OnInterrupt,
+		Retry:                 opts.Retry,
+		Hooks:                 opts.Hooks,
+		OnDelta:               opts.OnDelta,
 	}, nil
 }
 
@@ -210,6 +227,7 @@ type Hooks struct {
 	OnMemoryRead  func(ctx context.Context, runID string, records []memory.Record) error
 	OnMemoryWrite func(ctx context.Context, runID string, record memory.Record) error
 	OnCompaction  func(ctx context.Context, runID string, before, after int) error
+	OnOffload     func(ctx context.Context, runID, toolName string, originalBytes, offloadedBytes int) error
 	OnRunComplete func(ctx context.Context, result *Result) error
 	OnRunError    func(ctx context.Context, runID string, err error)
 }

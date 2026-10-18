@@ -58,6 +58,9 @@ not independent security sign-off.
 - **HTTP redirects.** `pkg/httpclient` uses Go's default redirect policy.
   Response bodies are bounded by default (32 MiB) and can be overridden with
   `Config.MaxBodyBytes`; callers should still use trusted base URLs.
+- **Offloaded tool results.** The `Offloader` is caller-owned; stored bytes may
+  contain sensitive data. The framework only replaces prompt content and does
+  not choose storage, encryption, or retention.
 - **Go standard-library fixes.** CI and release builds use Go `1.26.x` so the
   `net/http` fixes in Go 1.26.9+ are present. Consumers on older toolchains
   should upgrade before deploying the HTTP client.

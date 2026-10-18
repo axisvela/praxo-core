@@ -5,7 +5,7 @@
 
 ## Audit Result
 
-- Exported declarations: **436**
+- Exported declarations: **430**
 - Exported declarations without a doc comment: **0**
 - Scope: `pkg/...`; examples, tests, unexported receiver methods, and testdata
   are excluded.
@@ -34,14 +34,14 @@ Not covered:
 
 | Package | Stable surface |
 | --- | --- |
-| `pkg/agent` | `Agent`, `Options`, `Profile`, `Middleware`, `Hooks`, `ContextBudget`, `Session`, `Result`, statuses, budgets |
+| `pkg/agent` | `Agent`, `Options`, `Profile`, `Middleware`, `Hooks`, `ContextBudget`, `ContextCompactor`, `ModelSummarizer`, `Offloader`, `LoadAgentsMD`, `Session`, `Result`, statuses, budgets |
 | `pkg/checkpoint` | `Checkpoint`, `Store`, recovery types |
 | `pkg/event` | `Event`, `Sink`, multi/filter/publisher sinks |
 | `pkg/flow` | `Runnable`, `Chain`, `Parallel` |
 | `pkg/formatter` | `Formatter`, detection/execution registry |
 | `pkg/httpclient` | retry-capable client and auth/tracing options |
 | `pkg/memory` | `Store`, `Record`, `Frame`, context assembler |
-| `pkg/model` | `Model`, `Provider`, messages, tool specs, response format |
+| `pkg/model` | `Model`, `Provider`, messages, tool specs, response format, `CacheHint` |
 | `pkg/plugin` | Manifest v1, contract kinds, lifecycle, registry, scope, limits, telemetry |
 | `pkg/plugin/bridge` | host-to-provider adapters and codecs |
 | `pkg/plugin/host/process` | process host and platform supervisors |
