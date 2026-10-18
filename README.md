@@ -32,12 +32,13 @@ without inheriting AGPL obligations. PRAXOVELA remains an AGPL product.
 - `pkg/memory` - memory and context interfaces.
 - `pkg/event` - event envelopes and sinks.
 - `pkg/scheduler` - schedule definitions and scheduler engine.
-- `pkg/policy` - decision hooks and authorization boundary.
+- `pkg/policy` - decision hooks, authorization boundary, and path containment.
 - `pkg/sandbox` - execution sandbox interface.
 - `pkg/flow` - Runnable, Chain, and Parallel composition.
 - `pkg/prompt` - prompt and chat templates.
 - `pkg/retriever` - document retrieval contracts.
-- `pkg/agent` - the governed agent loop.
+- `pkg/plugin` - runtime plugin contracts, manifest v1, lifecycle, registry, hosts, and conformance kit.
+- `pkg/agent` - the governed agent loop with context budget compaction.
 
 ## Example
 

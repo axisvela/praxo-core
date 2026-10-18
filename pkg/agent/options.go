@@ -58,6 +58,7 @@ type Profile struct {
 	MaxSteps         int
 	MaxTokens        int64
 	MaxParallelTools int
+	Context          *ContextBudget
 	Retry            RetryPolicy
 }
 
@@ -77,6 +78,9 @@ func (p Profile) Apply(opts Options) Options {
 	}
 	if opts.MaxParallelTools == 0 {
 		opts.MaxParallelTools = p.MaxParallelTools
+	}
+	if opts.Context == nil {
+		opts.Context = p.Context
 	}
 	if opts.Retry.Attempts == 0 && opts.Retry.BaseDelay == 0 && opts.Retry.MaxDelay == 0 && opts.Retry.ShouldRetry == nil {
 		opts.Retry = p.Retry
@@ -103,6 +107,7 @@ type Options struct {
 	MaxSteps         int
 	MaxParallelTools int
 	MaxTokens        int64
+	Context          *ContextBudget
 	ToolChoice       string
 	AllowedTools     []string
 	ResponseFormat   *model.ResponseFormat
@@ -137,6 +142,7 @@ func New(opts Options) (*Agent, error) {
 		MaxSteps:         opts.MaxSteps,
 		MaxParallelTools: opts.MaxParallelTools,
 		MaxTokens:        opts.MaxTokens,
+		Context:          opts.Context,
 		ToolChoice:       opts.ToolChoice,
 		AllowedTools:     opts.AllowedTools,
 		ResponseFormat:   opts.ResponseFormat,
@@ -203,6 +209,7 @@ type Hooks struct {
 	OnToolResult  func(ctx context.Context, runID string, call model.ToolCall, result any, err error) error
 	OnMemoryRead  func(ctx context.Context, runID string, records []memory.Record) error
 	OnMemoryWrite func(ctx context.Context, runID string, record memory.Record) error
+	OnCompaction  func(ctx context.Context, runID string, before, after int) error
 	OnRunComplete func(ctx context.Context, result *Result) error
 	OnRunError    func(ctx context.Context, runID string, err error)
 }
