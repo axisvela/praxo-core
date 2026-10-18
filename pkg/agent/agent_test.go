@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"github.com/axisvela/praxo-core/pkg/event"
+	"github.com/axisvela/praxo-core/pkg/memory"
 	"github.com/axisvela/praxo-core/pkg/model"
 	"github.com/axisvela/praxo-core/pkg/policy"
 	"github.com/axisvela/praxo-core/pkg/tool"
@@ -328,5 +329,139 @@ func TestToolPanicBecomesError(t *testing.T) {
 	_, err := ag.Run(context.Background(), Session{ID: "s1"}, "do it")
 	if err == nil || !strings.Contains(err.Error(), "panicked") {
 		t.Fatalf("err = %v", err)
+	}
+}
+
+type requestModel struct {
+	req model.Request
+}
+
+func (m *requestModel) Generate(_ context.Context, req model.Request) (model.Response, error) {
+	m.req = req
+	return model.Response{Message: model.Message{Role: model.RoleAssistant, Content: "ok"}}, nil
+}
+
+func TestToolChoiceAndAllowedTools(t *testing.T) {
+	tools := tool.NewRegistry()
+	tools.Register(&echoTool{})
+	tools.Register(&barrierTool{started: make(chan struct{}, 1), release: make(chan struct{})})
+	m := &requestModel{}
+	ag := &Agent{
+		Model:        m,
+		Tools:        tools,
+		ToolChoice:   model.ToolChoiceRequired,
+		AllowedTools: []string{"echo"},
+	}
+	if _, err := ag.Run(context.Background(), Session{ID: "s1"}, "do it"); err != nil {
+		t.Fatal(err)
+	}
+	if m.req.ToolChoice != model.ToolChoiceRequired {
+		t.Fatalf("tool choice = %q", m.req.ToolChoice)
+	}
+	if len(m.req.Tools) != 1 || m.req.Tools[0].Name != "echo" {
+		t.Fatalf("tools = %+v", m.req.Tools)
+	}
+}
+
+type toolCallModel struct {
+	name  string
+	calls int
+}
+
+func (m *toolCallModel) Generate(context.Context, model.Request) (model.Response, error) {
+	m.calls++
+	if m.calls == 1 {
+		return model.Response{Message: model.Message{
+			Role:      model.RoleAssistant,
+			ToolCalls: []model.ToolCall{{ID: "1", Name: m.name}},
+		}}, nil
+	}
+	return model.Response{Message: model.Message{Role: model.RoleAssistant, Content: "done"}}, nil
+}
+
+func TestAllowedToolsBlocksInvocation(t *testing.T) {
+	tools := tool.NewRegistry()
+	tools.Register(&echoTool{})
+	ag := &Agent{
+		Model:        &toolCallModel{name: "echo"},
+		Tools:        tools,
+		AllowedTools: []string{"other"},
+	}
+	if _, err := ag.Run(context.Background(), Session{ID: "s1"}, "do it"); err == nil {
+		t.Fatal("expected a not-allowed error")
+	}
+}
+
+type tokenModel struct{ calls int }
+
+func (m *tokenModel) Generate(context.Context, model.Request) (model.Response, error) {
+	m.calls++
+	return model.Response{
+		Message: model.Message{Role: model.RoleAssistant, Content: "ok"},
+		Usage:   model.Usage{InputTokens: 100, OutputTokens: 50},
+	}, nil
+}
+
+func TestMaxTokensStopsRun(t *testing.T) {
+	m := &tokenModel{}
+	ag := &Agent{Model: m, MaxTokens: 100}
+	if _, err := ag.Run(context.Background(), Session{ID: "s1"}, "do it"); !errors.Is(err, ErrMaxTokens) {
+		t.Fatalf("err = %v", err)
+	}
+	if m.calls != 1 {
+		t.Fatalf("calls = %d, want 1", m.calls)
+	}
+}
+
+type fakeMemory struct {
+	records []memory.Record
+	puts    []memory.Record
+}
+
+func (f *fakeMemory) Put(_ context.Context, _ string, record memory.Record) error {
+	f.puts = append(f.puts, record)
+	return nil
+}
+
+func (f *fakeMemory) Search(context.Context, string, string, int) ([]memory.Record, error) {
+	return f.records, nil
+}
+
+func TestRecallInjectsMemory(t *testing.T) {
+	mem := &fakeMemory{records: []memory.Record{{Frame: memory.FrameExperience, Content: "use tabs"}}}
+	m := &requestModel{}
+	ag := &Agent{Model: m, Memory: mem, Recall: true}
+	if _, err := ag.Run(context.Background(), Session{ID: "s1"}, "style?"); err != nil {
+		t.Fatal(err)
+	}
+	found := false
+	for _, msg := range m.req.Messages {
+		if msg.Role == model.RoleSystem && strings.Contains(msg.Content, "use tabs") {
+			found = true
+		}
+	}
+	if !found {
+		t.Fatalf("messages = %+v", m.req.Messages)
+	}
+}
+
+func TestMemoryWriteHook(t *testing.T) {
+	mem := &fakeMemory{}
+	var written []memory.Record
+	ag := &Agent{
+		Model:  simpleModel{},
+		Memory: mem,
+		Hooks: Hooks{
+			OnMemoryWrite: func(_ context.Context, _ string, record memory.Record) error {
+				written = append(written, record)
+				return nil
+			},
+		},
+	}
+	if _, err := ag.Run(context.Background(), Session{ID: "s1"}, "do it"); err != nil {
+		t.Fatal(err)
+	}
+	if len(written) != 1 || len(mem.puts) != 1 {
+		t.Fatalf("written=%d puts=%d", len(written), len(mem.puts))
 	}
 }

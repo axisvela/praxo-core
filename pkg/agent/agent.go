@@ -6,6 +6,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"strings"
 	"sync"
 	"time"
 
@@ -18,6 +19,9 @@ import (
 
 // ErrMaxSteps is returned when the agent exceeds its step budget.
 var ErrMaxSteps = errors.New("agent: max steps exceeded")
+
+// ErrMaxTokens is returned when the agent exceeds its token budget.
+var ErrMaxTokens = errors.New("agent: max tokens exceeded")
 
 // Session is the execution scope.
 type Session struct {
@@ -38,8 +42,17 @@ type Agent struct {
 	// MaxParallelTools bounds concurrent tool invocations within one step.
 	// Values <= 1 run tools sequentially.
 	MaxParallelTools int
-	Retry            RetryPolicy
-	Hooks            Hooks
+	// MaxTokens stops the run once accumulated input+output tokens exceed it.
+	MaxTokens int64
+	// ToolChoice is forwarded to the model (auto, none, required).
+	ToolChoice string
+	// AllowedTools limits both advertised and invokable tools. Empty means all.
+	AllowedTools []string
+	// Recall injects matching memory records into the prompt.
+	Recall      bool
+	RecallLimit int
+	Retry       RetryPolicy
+	Hooks       Hooks
 	// OnDelta receives streamed text fragments when Model implements
 	// model.StreamingModel. It may be nil.
 	OnDelta func(delta string)
@@ -84,6 +97,29 @@ func (a *Agent) Run(ctx context.Context, session Session, prompt string) (result
 	}
 
 	messages := append([]model.Message{}, session.Messages...)
+	if a.Recall && a.Memory != nil {
+		limit := a.RecallLimit
+		if limit <= 0 {
+			limit = 5
+		}
+		records, err := a.Memory.Search(ctx, session.ID, prompt, limit)
+		if err != nil {
+			return nil, err
+		}
+		if a.Hooks.OnMemoryRead != nil {
+			if err := a.Hooks.OnMemoryRead(ctx, runID, records); err != nil {
+				return nil, err
+			}
+		}
+		if len(records) > 0 {
+			var b strings.Builder
+			b.WriteString("Relevant memory:")
+			for _, record := range records {
+				fmt.Fprintf(&b, "\n- [%s] %s", record.Frame, record.Content)
+			}
+			messages = append(messages, model.Message{Role: model.RoleSystem, Content: b.String()})
+		}
+	}
 	messages = append(messages, model.Message{Role: model.RoleUser, Content: prompt})
 
 	if err := a.emit(ctx, event.Event{Type: "run.started", SessionID: session.ID, RunID: runID}); err != nil {
@@ -102,11 +138,11 @@ func (a *Agent) Run(ctx context.Context, session Session, prompt string) (result
 			return nil, err
 		}
 
-		var specs []model.ToolSpec
-		if a.Tools != nil {
-			specs = a.Tools.Specs()
+		req := model.Request{
+			Messages:   messages,
+			Tools:      a.toolSpecs(),
+			ToolChoice: a.ToolChoice,
 		}
-		req := model.Request{Messages: messages, Tools: specs}
 		if a.Hooks.OnModelCall != nil {
 			if err := a.Hooks.OnModelCall(ctx, runID, req); err != nil {
 				return nil, err
@@ -130,11 +166,14 @@ func (a *Agent) Run(ctx context.Context, session Session, prompt string) (result
 		usage.InputTokens += resp.Usage.InputTokens
 		usage.OutputTokens += resp.Usage.OutputTokens
 		usage.CachedTokens += resp.Usage.CachedTokens
+		if a.MaxTokens > 0 && usage.InputTokens+usage.OutputTokens > a.MaxTokens {
+			return nil, ErrMaxTokens
+		}
 
 		messages = append(messages, resp.Message)
 		if len(resp.Message.ToolCalls) == 0 {
 			result = &Result{RunID: runID, Output: resp.Message.Content, Steps: step, Usage: usage}
-			if err := a.remember(ctx, session.ID, result); err != nil {
+			if err := a.remember(ctx, runID, session.ID, result); err != nil {
 				return nil, err
 			}
 			if err := a.emit(ctx, event.Event{Type: "run.completed", SessionID: session.ID, RunID: runID}); err != nil {
@@ -150,6 +189,9 @@ func (a *Agent) Run(ctx context.Context, session Session, prompt string) (result
 
 		prepared := make([]preparedTool, 0, len(resp.Message.ToolCalls))
 		for _, call := range resp.Message.ToolCalls {
+			if !a.toolAllowed(call.Name) {
+				return nil, fmt.Errorf("agent: tool %s is not allowed", call.Name)
+			}
 			if err := a.authorize(ctx, policy.Action{
 				Kind: "tool.invoke", SessionID: session.ID, ToolName: call.Name, Arguments: call.Arguments,
 			}); err != nil {
@@ -274,15 +316,54 @@ func (a *Agent) emit(ctx context.Context, e event.Event) error {
 	return a.Events.Emit(ctx, e)
 }
 
-func (a *Agent) remember(ctx context.Context, sessionID string, result *Result) error {
+func (a *Agent) toolSpecs() []model.ToolSpec {
+	if a.Tools == nil {
+		return nil
+	}
+	specs := a.Tools.Specs()
+	if len(a.AllowedTools) == 0 {
+		return specs
+	}
+	allowed := make(map[string]struct{}, len(a.AllowedTools))
+	for _, name := range a.AllowedTools {
+		allowed[name] = struct{}{}
+	}
+	filtered := specs[:0]
+	for _, spec := range specs {
+		if _, ok := allowed[spec.Name]; ok {
+			filtered = append(filtered, spec)
+		}
+	}
+	return filtered
+}
+
+func (a *Agent) toolAllowed(name string) bool {
+	if len(a.AllowedTools) == 0 {
+		return true
+	}
+	for _, allowed := range a.AllowedTools {
+		if allowed == name {
+			return true
+		}
+	}
+	return false
+}
+
+func (a *Agent) remember(ctx context.Context, runID, sessionID string, result *Result) error {
 	if a.Memory == nil {
 		return nil
 	}
-	return a.Memory.Put(ctx, sessionID, memory.Record{
+	record := memory.Record{
 		ID:        result.RunID,
 		Frame:     memory.FrameEvent,
 		Content:   result.Output,
 		CreatedAt: time.Now().UTC(),
 		Metadata:  map[string]any{"steps": result.Steps},
-	})
+	}
+	if a.Hooks.OnMemoryWrite != nil {
+		if err := a.Hooks.OnMemoryWrite(ctx, runID, record); err != nil {
+			return err
+		}
+	}
+	return a.Memory.Put(ctx, sessionID, record)
 }
