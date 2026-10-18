@@ -78,5 +78,5 @@ Exit gate:
 | Consumer | Integration |
 | --- | --- |
 | PRAXOVELA | embeds the framework; remains AGPL |
-| COORDIVELA | optional embedded coordinator agent |
+| COORDIVELA | independent; does not consume this framework |
 | external products | direct interface implementation |

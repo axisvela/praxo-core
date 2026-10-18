@@ -7,7 +7,7 @@ See [ROADMAP.md](../ROADMAP.md) for the public roadmap.
 - `0.x` may break interfaces with a minor bump.
 - `1.0.0` freezes the exported interfaces.
 - Each release updates `CHANGELOG.md` and `VERSION`.
-- Each release states the supported PRAXOVELA and COORDIVELA ranges.
+- Each release states the supported PRAXOVELA range.
 
 ## Compatibility Gates
 

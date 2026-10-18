@@ -14,12 +14,9 @@ PRAXOVELA is the first product built on PRAXO-CORE. The product supplies:
 
 ## With COORDIVELA
 
-COORDIVELA has two integration paths:
-
-1. **Execution path (default):** call the PRAXOVELA HTTP API to start coding
-   runs. PRAXO-CORE is not involved directly.
-2. **Coordinator path:** embed PRAXO-CORE for the coordinator's own reasoning
-   loop and tools, while still sending code execution to PRAXOVELA.
+COORDIVELA is an independent product and does not consume PRAXO-CORE. It calls
+PRAXOVELA through the product HTTP API for coding execution and owns its own
+coordination runtime.
 
 ## With External Integrators
 

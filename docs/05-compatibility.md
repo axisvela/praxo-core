@@ -4,7 +4,7 @@
 
 - Framework versions start at `0.x`.
 - PRAXOVELA product versions are independent.
-- COORDIVELA declares the supported framework range.
+- External consumers declare the supported framework range.
 - Breaking changes require a minor bump before `1.0.0`.
 
 ## Consumer Matrix
@@ -12,9 +12,8 @@
 | Consumer | Expected integration |
 | --- | --- |
 | PRAXOVELA | embeds framework primitives; remains AGPL |
-| COORDIVELA core | optional embedded coordinator agent |
-| COORDIVELA EE | via public contracts or PRAXOVELA API |
 | external products | direct interface implementations |
+| COORDIVELA | independent; does not consume this framework |
 
 ## API Stability
 

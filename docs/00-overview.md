@@ -30,9 +30,10 @@ boundary, event boundary, or scheduler contract.
 praxo-core (MIT)
   |
   +-- PRAXOVELA (AGPL product)
-  +-- COORDIVELA (AGPL core / Enterprise EE)
   +-- external integrators
 ```
+
+COORDIVELA is independent and does not consume PRAXO-CORE.
 
 PRAXOVELA remains an AGPL product. The MIT framework is a separate work so it
 can be embedded without AGPL obligations.

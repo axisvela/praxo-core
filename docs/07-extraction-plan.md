@@ -1,31 +1,30 @@
 # PRAXO-CORE Extraction Plan and Framework Spec
 
-**Status:** Proposed. No extraction code lands until this spec is accepted.
+**Status:** Authorized for extraction. PRAXOVELA code may be copied directly.
 
 ## Goal
 
 Make PRAXO-CORE a LangChain-class framework for governed agents: composable
-primitives that PRAXOVELA and COORDIVELA can share without importing each
-other's internals.
+primitives used by PRAXOVELA and external products.
 
 ## Non-Goals
 
 - PRAXOVELA product assembly
-- COORDIVELA work graph or coordination policy
+- COORDIVELA work graph or coordination policy (COORDIVELA is independent)
 - model hosting
 - memory storage
 - workflow engine
 - verification authority
-- re-exporting AGPL-only code
+- re-exporting third-party AGPL-only code
 
 ## Licensing and Provenance
 
 - PRAXO-CORE is MIT.
-- Only AxisVela-owned code, or code with explicit relicensing permission, may
-  be extracted from PRAXOVELA (AGPL) into PRAXO-CORE (MIT).
+- **PRAXOVELA code may be copied directly into PRAXO-CORE** under the user's
+  2026-10-18 authorization.
 - Each extracted package records source path, source commit, and extraction
   date in `docs/04-license-and-provenance.md` or a package-level `PROVENANCE`.
-- No third-party AGPL code enters the MIT module.
+- No third-party AGPL-only code enters the MIT module.
 - PRAXOVELA remains AGPL and may consume the MIT framework.
 
 ## Source Mapping
@@ -33,11 +32,13 @@ other's internals.
 | PRAXOVELA source | PRAXO-CORE target | Risk | Batch |
 | --- | --- | --- | --- |
 | `packages/axon-core/internal/scheduler` | `pkg/scheduler` | Low | 1 |
-| `packages/axon-core/internal/format` | `pkg/prompt`, `pkg/output` | Low | 1 |
-| `packages/axon-core/internal/context` | `pkg/flow` (context assembly chain) | Medium | 2 |
+| `packages/axon-core/internal/agent/messages.go`, `tool_parse.go` | `pkg/prompt`, `pkg/output` | Low | 1 |
+| `packages/axon-core/internal/jsonschema` | `pkg/tool` schema validation | Low | 1 |
+| `packages/axon-core/internal/context`, `internal/ctx` | `pkg/flow` context assembly | Medium | 2 |
 | `packages/axon-core/internal/memory` | `pkg/memory` adapter helpers | Medium | 2 |
 | `packages/axon-core/internal/event` | `pkg/event` sinks/filters | Low | 2 |
-| `packages/axon-core/internal/agent` tool APIs | `pkg/tool` schema + middleware | Medium | 2 |
+| `packages/axon-core/internal/agent` tool APIs | `pkg/tool` middleware | Medium | 2 |
+| `packages/axon-core/internal/format` | `pkg/format` code formatters | Low | 3 |
 | `packages/axon-core/internal/model`, `internal/provider` | `pkg/model` adapters | High | 3 |
 | `packages/axon-core/internal/agent` loop features | `pkg/agent` streaming/retry/callbacks | High | 3 |
 | `packages/axon-core/internal/policybridge` | `pkg/policy` adapter | Medium | 3 |
@@ -205,7 +206,7 @@ Exit gate:
 - `go test ./...` green
 - no AGPL imports
 - PRAXOVELA builds without changes
-- COORDIVELA can import the batch
+- external consumers can import the batch
 
 ### Batch 2 - Agent/Tool/Memory
 
@@ -218,7 +219,6 @@ Exit gate:
 Exit gate:
 
 - PRAXOVELA adapter shims compile
-- COORDIVELA coordinator tools use the framework
 - no duplicate scheduler implementation
 
 ### Batch 3 - Product Adoption
@@ -230,7 +230,7 @@ Exit gate:
 
 Exit gate:
 
-- PRAXOVELA and COORDIVELA build against the same framework version
+- PRAXOVELA builds against the framework version
 - no internal package imports across products
 - version ranges documented
 
