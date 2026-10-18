@@ -62,6 +62,7 @@ runtime primitives; the API is not yet frozen.
 - [Integration](docs/03-integration.md)
 - [License and provenance](docs/04-license-and-provenance.md)
 - [Compatibility](docs/05-compatibility.md)
+- [Extraction plan and framework spec](docs/07-extraction-plan.md)
 - [Roadmap](ROADMAP.md)
 
 ## License
