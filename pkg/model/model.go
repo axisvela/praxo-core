@@ -33,6 +33,7 @@ type ToolSpec struct {
 	Name        string         `json:"name"`
 	Description string         `json:"description"`
 	Parameters  map[string]any `json:"parameters,omitempty"`
+	Risk        string         `json:"risk,omitempty"`
 }
 
 // Request is one model generation request.

@@ -40,6 +40,9 @@ Exit gate:
 
 ## 0.3.0 - PRAXOVELA Adapters
 
+- [x] Tool specs, middleware, and ordered wrapping.
+- [x] Event fan-out and filter sinks.
+- [x] In-memory memory store and context assembler.
 - Provider/model adapter bridge.
 - Tool registry bridge.
 - Memory adapter bridge for Mnemovela.
