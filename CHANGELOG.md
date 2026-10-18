@@ -2,13 +2,14 @@
 
 All notable changes to PRAXO-CORE are documented here.
 
-## [Unreleased]
+## [1.5.0] - 2026-10-18
 
 ### Added
 
 - `agent.InterruptAction`, `agent.InterruptDecision`, and
   `Options.OnInterruptDecision`: approve/edit/reject/respond decisions for
   tool-call interrupts. `OnInterrupt` remains supported for boolean approvals.
+- `ErrInterruptDecisionInvalid` for unsupported or incomplete decisions.
 
 ## [1.4.0] - 2026-10-18
 
