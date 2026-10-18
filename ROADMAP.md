@@ -21,6 +21,8 @@ Delivered:
 - Add streaming model responses.
 - Add tool argument schema validation.
 - Publish compatibility notes for PRAXOVELA.
+- [x] Extract the scheduler engine from PRAXOVELA and migrate PRAXOVELA to the
+  framework scheduler.
 
 Exit gate:
 

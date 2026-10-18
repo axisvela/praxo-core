@@ -8,7 +8,7 @@
 | `pkg/event` | `Sink.Emit` | Harmovela / Argus Trace |
 | `pkg/policy` | `Hook.Authorize` | AEGIVELA / Archon Guard |
 | `pkg/sandbox` | `Sandbox.Run` | Vulcan Forge |
-| `pkg/scheduler` | `Scheduler.Add/Remove/List` | PRAXOVELA durable scheduler |
+| `pkg/scheduler` | `Scheduler.Add/Remove/List`; cron engine extracted from PRAXOVELA | PRAXOVELA durable scheduler |
 
 ## Tool Contract
 
