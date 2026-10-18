@@ -724,13 +724,13 @@ func (h *Host) readLoop(stdout io.Reader) {
 		h.mu.Unlock()
 		if ok {
 			// Emit success event when a response is delivered
-			_ = h.emit(nil, plugin.EventSuccess,
+			_ = h.emit(context.Background(), plugin.EventSuccess,
 				"", "", resp.ID, map[string]interface{}{"status": "delivered"}, traceTier)
 			ch <- resp
 		}
 	}
 	// Channel closed without delivery - emit failure
-	_ = h.emit(nil, plugin.EventFailure,
+	_ = h.emit(context.Background(), plugin.EventFailure,
 		"", "", "channel_closed", map[string]interface{}{"reason": "plugin channel closed"}, traceTier)
 	h.failPending("plugin channel closed")
 }

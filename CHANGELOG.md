@@ -4,6 +4,12 @@ All notable changes to PRAXO-CORE are documented here.
 
 ## [0.16.0] - 2026-10-18
 
+### Added
+
+- Fuzz seeds for the manifest, tool-call, JSON Schema, and path parsers.
+- CI matrix (Linux/Windows/macOS), race, fuzz, staticcheck, and govulncheck
+  jobs.
+
 ### Changed
 
 - Canonical package paths are now `pkg/toolcall` (was `pkg/output`),

@@ -191,7 +191,7 @@ func parseSkillInstall(content string) *ToolCall {
 		}
 		kv := strings.SplitN(pair, "=", 2)
 		if len(kv) == 2 {
-			input[strings.Trim(kv[0], `"`)] = strings.Trim(kv[1], ` "\"`)
+			input[strings.Trim(kv[0], `"`)] = strings.Trim(kv[1], " \"\\")
 		}
 	}
 	if input["url"] == "" {
