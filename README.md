@@ -4,7 +4,8 @@
 
 PRAXO-CORE provides the reusable primitives behind PRAXOVELA and other
 AxisVela agents: models, tools, memory, events, scheduling, policy, sandboxing,
-and the agent loop. It is a framework, not a product.
+checkpoints, the runtime plugin plane, and the agent loop. It is a framework,
+not a product.
 
 > **One-liner:** build governed agents without rebuilding the loop, provider
 > abstraction, tool contracts, or memory/event boundaries.
@@ -28,27 +29,33 @@ without inheriting AGPL obligations. PRAXOVELA remains an AGPL product.
 
 - `pkg/model` - model/provider abstraction and messages.
 - `pkg/tool` - tool contracts, registry, and JSON Schema validation.
-- `pkg/output` - tool-call parsing and markup stripping.
+- `pkg/output` - model-output tool-call parsing and markup stripping.
 - `pkg/memory` - memory and context interfaces.
 - `pkg/event` - event envelopes and sinks.
 - `pkg/scheduler` - schedule definitions and scheduler engine.
 - `pkg/policy` - decision hooks, authorization boundary, and path containment.
 - `pkg/sandbox` - execution sandbox interface.
+- `pkg/checkpoint` - durable run snapshots and the resume store contract.
+- `pkg/httpclient` - shared retry-capable HTTP transport for adapters.
+- `pkg/format` - language formatter detection and execution.
 - `pkg/flow` - Runnable, Chain, and Parallel composition.
 - `pkg/prompt` - prompt and chat templates.
 - `pkg/retriever` - document retrieval contracts.
 - `pkg/plugin` - runtime plugin contracts, manifest v1, lifecycle, registry, hosts, and conformance kit.
-- `pkg/agent` - the governed agent loop with context budget compaction.
+- `pkg/agent` - the governed agent loop with middleware, budgets, and context compaction.
 
 ## Example
 
 ```go
-ag := &agent.Agent{
-    Model: myModel,
-    Tools: tools,
-    Events: sink,
-    Policy: hook,
+ag, err := agent.New(agent.Options{
+    Model:    myModel,
+    Tools:    tools,
+    Events:   sink,
+    Policy:   hook,
     MaxSteps: 8,
+})
+if err != nil {
+    return err
 }
 result, err := ag.Run(ctx, agent.Session{
     ID: "session-1",
@@ -59,8 +66,10 @@ result, err := ag.Run(ctx, agent.Session{
 
 ## Status
 
-`0.1.0` contract baseline. The framework is extracted from PRAXOVELA's proven
-runtime primitives; the API is not yet frozen.
+`0.15.0` adds plugin hosts, the conformance kit, Manifest v1, path containment,
+and context budget compaction on top of the extracted framework primitives.
+The framework is extracted from PRAXOVELA's proven runtime; the API is not yet
+frozen.
 
 ## Documentation
 
@@ -70,6 +79,7 @@ runtime primitives; the API is not yet frozen.
 - [Integration](docs/03-integration.md)
 - [License and provenance](docs/04-license-and-provenance.md)
 - [Compatibility](docs/05-compatibility.md)
+- [Roadmap detail](docs/06-roadmap.md)
 - [Roadmap](ROADMAP.md)
 
 Internal extraction planning and product-family sequencing live in the private

@@ -19,6 +19,18 @@
 Exported interfaces are the stable surface. Concrete adapters and internal
 helpers may change between minor versions.
 
+The frozen plugin v1 surfaces are:
+
+- Manifest v1 (`pkg/plugin.ParseManifest`)
+- contract kinds and the `Host.Invoke` boundary
+- the lifecycle transition table
+- the guarded `AdapterRegistry`
+- process/WASM wire envelopes
+- the contract-level TCK
+
+Materialization, signature verification, SBOM/evidence, trust stores, and
+rolling updates are product-owned and may evolve independently.
+
 ## Compatibility Tests
 
 Each consumer should maintain:
@@ -28,3 +40,4 @@ Each consumer should maintain:
 - a policy-denial test
 - an event-sink test
 - a memory-adapter test where used
+- plugin host conformance through `pkg/plugin/tck` where used

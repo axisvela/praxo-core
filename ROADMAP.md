@@ -4,6 +4,28 @@
 
 **Target:** `1.0.0` stable MIT framework
 
+## Release History
+
+| Version | Focus |
+| --- | --- |
+| 0.1.0 | model, tool, memory, event, scheduler, policy, sandbox, agent loop |
+| 0.2.0 | scheduler, output, schema, flow, prompt, retriever |
+| 0.3.0 | provider, tool, memory, event, policy, and sandbox adapters; formatter registry |
+| 0.4.0 | agent lifecycle status |
+| 0.5.0 | checkpoint contracts |
+| 0.6.0 | streaming and retry |
+| 0.7.0 | parallel tools and panic-safe invocation |
+| 0.8.0 | tool choice, allowlists, token budget, recall |
+| 0.9.0 | `agent.New(Options)` and system prompt |
+| 0.10.0 | skills, response format, interrupts, run context, session store |
+| 0.11.0 | profiles and model middleware |
+| 0.12.0 | agent middleware stack |
+| 0.13.0 | shared HTTP client |
+| 0.14.0 | plugin contract layer |
+| 0.15.0 | plugin hosts, Manifest v1, TCK, path containment, context budget |
+
+See `CHANGELOG.md` for exact changes.
+
 ## 0.1.0 - Contract Baseline
 
 Delivered:
@@ -25,13 +47,6 @@ Delivered:
 - [x] Add retriever contracts.
 - [x] Unambiguous 0.x module path (`github.com/axisvela/praxo-core`).
 
-Remaining for 0.3.0:
-
-- context assembly and memory retrieval helpers
-- streaming model responses
-- tool middleware
-- PRAXOVELA compatibility notes
-
 Exit gate:
 
 - no breaking interface change without a minor bump
@@ -49,6 +64,10 @@ Exit gate:
 - [x] Event sink bridge (`PublisherSink`).
 - [x] Policy hook adapter (`FuncHook`).
 - [x] Sandbox adapter (`FuncSandbox`).
+- [x] Context assembly and memory retrieval helpers.
+- [x] Streaming model responses.
+- [x] Tool middleware.
+- [x] PRAXOVELA compatibility notes.
 - PRAXOVELA product wiring for the bridges.
 
 Exit gate:
