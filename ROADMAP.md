@@ -43,12 +43,13 @@ Exit gate:
 - [x] Tool specs, middleware, and ordered wrapping.
 - [x] Event fan-out and filter sinks.
 - [x] In-memory memory store and context assembler.
-- Provider/model adapter bridge.
-- Tool registry bridge.
-- Memory adapter bridge for Mnemovela.
-- Event sink bridge for Harmovela/Argus.
-- Policy hook bridge for AEGIVELA.
-- Sandbox bridge for Vulcan Forge.
+- [x] Provider/model adapter bridge (`ChatModel`).
+- [x] Tool registry bridge (`Gateway`).
+- [x] Memory adapter bridge (`RemoteStore`/`Backend`).
+- [x] Event sink bridge (`PublisherSink`).
+- [x] Policy hook adapter (`FuncHook`).
+- [x] Sandbox adapter (`FuncSandbox`).
+- PRAXOVELA product wiring for the bridges.
 
 Exit gate:
 

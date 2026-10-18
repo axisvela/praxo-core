@@ -13,6 +13,8 @@ All notable changes to PRAXO-CORE are documented here.
 - Added an in-memory memory store and context assembler.
 - Added the chat `Provider`/`ModelRouter` contract and `EchoProvider` from
   PRAXOVELA; PRAXOVELA's model contract package now aliases it.
+- Added adapter bridges: `ChatModel`, tool `Gateway`, remote memory `Backend`,
+  event `Publisher`, `policy.FuncHook`, and `sandbox.FuncSandbox`.
 
 ## [0.2.0] - 2026-10-18
 

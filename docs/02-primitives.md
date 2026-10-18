@@ -2,10 +2,10 @@
 
 | Package | Contract | Typical adapter |
 | --- | --- | --- |
-| `pkg/model` | `Model.Generate`, `Provider.Chat/ChatStream`, `ModelRouter` | PRAXOVELA provider router |
-| `pkg/tool` | `Tool`, `Registry`, `SpecProvider`, `Middleware` | Janus Gateway tools |
-| `pkg/memory` | `Store.Put/Search`, `MemoryStore`, `ContextAssembler` | Mnemovela |
-| `pkg/event` | `Sink.Emit`, `MultiSink`, `FilterSink` | Harmovela / Argus Trace |
+| `pkg/model` | `Model.Generate`, `Provider.Chat/ChatStream`, `ModelRouter`, `ChatModel` | PRAXOVELA provider router |
+| `pkg/tool` | `Tool`, `Registry`, `SpecProvider`, `Middleware`, `Gateway` | Janus Gateway tools |
+| `pkg/memory` | `Store.Put/Search`, `MemoryStore`, `ContextAssembler`, `RemoteStore` | Mnemovela |
+| `pkg/event` | `Sink.Emit`, `MultiSink`, `FilterSink`, `PublisherSink` | Harmovela / Argus Trace |
 | `pkg/policy` | `Hook.Authorize` | AEGIVELA / Archon Guard |
 | `pkg/sandbox` | `Sandbox.Run` | Vulcan Forge |
 | `pkg/scheduler` | `Scheduler.Add/Remove/List`; cron engine extracted from PRAXOVELA | PRAXOVELA durable scheduler |
