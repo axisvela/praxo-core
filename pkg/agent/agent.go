@@ -42,6 +42,7 @@ type Session struct {
 type Agent struct {
 	Model           model.Model
 	ModelMiddleware []ModelMiddleware
+	Middleware      []Middleware
 	SystemPrompt    string
 	Tools           *tool.Registry
 	Memory          memory.Store
@@ -97,7 +98,13 @@ func (a *Agent) RunWithContext(ctx context.Context, session Session, prompt stri
 	}
 
 	runID := fmt.Sprintf("run-%d", time.Now().UnixNano())
+	if err := a.beforeRun(ctx, &RunState{RunID: runID, Session: &session, Prompt: &prompt}); err != nil {
+		return nil, err
+	}
 	defer func() {
+		if afterErr := a.afterRun(ctx, result, err); afterErr != nil && err == nil {
+			err = afterErr
+		}
 		if err == nil {
 			return
 		}
@@ -189,6 +196,10 @@ func (a *Agent) RunWithContext(ctx context.Context, session Session, prompt stri
 			ToolChoice:     a.ToolChoice,
 			ResponseFormat: a.ResponseFormat,
 		}
+		mc := &ModelCall{RunID: runID, SessionID: session.ID, Request: &req}
+		if err := a.beforeModel(ctx, mc); err != nil {
+			return nil, err
+		}
 		if a.Hooks.OnModelCall != nil {
 			if err := a.Hooks.OnModelCall(ctx, runID, req); err != nil {
 				return nil, err
@@ -196,11 +207,19 @@ func (a *Agent) RunWithContext(ctx context.Context, session Session, prompt stri
 		}
 
 		var resp model.Response
-		if err := a.Retry.Do(ctx, func() error {
+		if mc.Skip {
+			if mc.Response == nil {
+				return nil, errors.New("agent: model middleware skipped without a response")
+			}
+			resp = *mc.Response
+		} else if err := a.Retry.Do(ctx, func() error {
 			var callErr error
 			resp, callErr = a.generate(ctx, req)
 			return callErr
 		}); err != nil {
+			return nil, err
+		}
+		if err := a.afterModel(ctx, mc, &resp); err != nil {
 			return nil, err
 		}
 
@@ -242,6 +261,14 @@ func (a *Agent) RunWithContext(ctx context.Context, session Session, prompt stri
 				Kind: "tool.invoke", SessionID: session.ID, ToolName: call.Name, Arguments: call.Arguments,
 			}); err != nil {
 				return nil, err
+			}
+			tc := &ToolCall{RunID: runID, SessionID: session.ID, Call: &call}
+			if err := a.beforeTool(ctx, tc); err != nil {
+				return nil, err
+			}
+			if tc.Skip {
+				prepared = append(prepared, preparedTool{call: call, skip: true, result: tc.Result, err: tc.Err})
+				continue
 			}
 			if a.InterruptOn[call.Name] {
 				if a.OnInterrupt == nil {
@@ -285,15 +312,19 @@ func (a *Agent) RunWithContext(ctx context.Context, session Session, prompt stri
 		outcomes := runTools(ctx, prepared, a.MaxParallelTools)
 		for i, outcome := range outcomes {
 			call := prepared[i].call
+			result := &ToolResult{Value: outcome.value, Err: outcome.err}
+			if err := a.afterTool(ctx, &ToolCall{RunID: runID, SessionID: session.ID, Call: &call}, result); err != nil {
+				return nil, err
+			}
 			if a.Hooks.OnToolResult != nil {
-				if err := a.Hooks.OnToolResult(ctx, runID, call, outcome.value, outcome.err); err != nil {
+				if err := a.Hooks.OnToolResult(ctx, runID, call, result.Value, result.Err); err != nil {
 					return nil, err
 				}
 			}
-			if outcome.err != nil {
-				return nil, outcome.err
+			if result.Err != nil {
+				return nil, result.Err
 			}
-			raw, err := json.Marshal(outcome.value)
+			raw, err := json.Marshal(result.Value)
 			if err != nil {
 				return nil, err
 			}
@@ -305,8 +336,11 @@ func (a *Agent) RunWithContext(ctx context.Context, session Session, prompt stri
 }
 
 type preparedTool struct {
-	call model.ToolCall
-	tool tool.Tool
+	call   model.ToolCall
+	tool   tool.Tool
+	skip   bool
+	result any
+	err    error
 }
 
 type toolOutcome struct {
@@ -318,6 +352,10 @@ func runTools(ctx context.Context, prepared []preparedTool, parallel int) []tool
 	out := make([]toolOutcome, len(prepared))
 	if parallel <= 1 || len(prepared) <= 1 {
 		for i := range prepared {
+			if prepared[i].skip {
+				out[i].value, out[i].err = prepared[i].result, prepared[i].err
+				continue
+			}
 			out[i].value, out[i].err = invokeTool(ctx, prepared[i].tool, prepared[i].call)
 		}
 		return out
@@ -326,6 +364,10 @@ func runTools(ctx context.Context, prepared []preparedTool, parallel int) []tool
 	sem := make(chan struct{}, parallel)
 	var wg sync.WaitGroup
 	for i := range prepared {
+		if prepared[i].skip {
+			out[i].value, out[i].err = prepared[i].result, prepared[i].err
+			continue
+		}
 		wg.Add(1)
 		go func(i int) {
 			defer wg.Done()
