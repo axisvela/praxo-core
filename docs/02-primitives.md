@@ -14,6 +14,7 @@
 | `pkg/flow` | `Runnable`, `Chain`, `Parallel` | prompt/agent composition |
 | `pkg/prompt` | `Template`, `ChatTemplate` | prompt assembly |
 | `pkg/retriever` | `Document`, `Retriever` | Mnemovela/GNOSIVELA retrieval |
+| `pkg/format` | code formatter registry | PRAXOVELA formatting tools |
 
 ## Tool Contract
 
