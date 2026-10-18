@@ -5,7 +5,7 @@
 
 ## Audit Result
 
-- Exported declarations: **434**
+- Exported declarations: **436**
 - Exported declarations without a doc comment: **0**
 - Scope: `pkg/...`; examples, tests, unexported receiver methods, and testdata
   are excluded.

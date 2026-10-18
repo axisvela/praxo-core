@@ -13,6 +13,8 @@ All notable changes to PRAXO-CORE are documented here.
 - `toolcall.ToolCall` documents `Operation`, `Resource`, `Risk`, `Reason`, and
   `IdempotencyKey` as optional product governance metadata; the parser does not
   interpret or validate them.
+- `pkg/httpclient` bounds response bodies by default (`DefaultMaxBodyBytes`,
+  32 MiB), with `Config.MaxBodyBytes` and `ErrBodyTooLarge` for callers.
 
 ## [0.15.0] - 2026-10-18
 

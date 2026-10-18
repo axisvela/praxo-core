@@ -6,6 +6,7 @@ import (
 	"bytes"
 	"context"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io"
 	"net/http"
@@ -20,8 +21,17 @@ type Config struct {
 	Headers     map[string]string
 	Timeout     time.Duration
 	MaxAttempts int
-	TraceID     string
+	// MaxBodyBytes bounds a response body. Zero applies DefaultMaxBodyBytes;
+	// a negative value disables the bound.
+	MaxBodyBytes int64
+	TraceID      string
 }
+
+// DefaultMaxBodyBytes bounds response bodies unless Config overrides it.
+const DefaultMaxBodyBytes int64 = 32 << 20
+
+// ErrBodyTooLarge reports a response body that exceeded Config.MaxBodyBytes.
+var ErrBodyTooLarge = errors.New("httpclient: response body too large")
 
 // Request is an HTTP request for a boundary adapter.
 type Request struct {
@@ -51,6 +61,9 @@ func New(cfg Config) *Client {
 	}
 	if cfg.MaxAttempts == 0 {
 		cfg.MaxAttempts = 3
+	}
+	if cfg.MaxBodyBytes == 0 {
+		cfg.MaxBodyBytes = DefaultMaxBodyBytes
 	}
 	return &Client{cfg: cfg, httpClient: &http.Client{Timeout: cfg.Timeout}}
 }
@@ -147,9 +160,16 @@ func (c *Client) doOnce(ctx context.Context, req Request) (*Response, error) {
 		return nil, fmt.Errorf("httpclient: %w", err)
 	}
 	defer resp.Body.Close()
-	raw, err := io.ReadAll(resp.Body)
+	var reader io.Reader = resp.Body
+	if c.cfg.MaxBodyBytes > 0 {
+		reader = io.LimitReader(resp.Body, c.cfg.MaxBodyBytes+1)
+	}
+	raw, err := io.ReadAll(reader)
 	if err != nil {
 		return nil, fmt.Errorf("httpclient: read body: %w", err)
+	}
+	if c.cfg.MaxBodyBytes > 0 && int64(len(raw)) > c.cfg.MaxBodyBytes {
+		return nil, ErrBodyTooLarge
 	}
 	return &Response{Status: resp.StatusCode, Body: raw, Headers: resp.Header}, nil
 }
