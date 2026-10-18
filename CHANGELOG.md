@@ -2,6 +2,13 @@
 
 All notable changes to PRAXO-CORE are documented here.
 
+## [0.5.0] - 2026-10-18
+
+### Added
+
+- Extracted durable checkpoint snapshot types and the `Store` contract into
+  `pkg/checkpoint`; PRAXOVELA keeps only the effect-ledger cursor builder.
+
 ## [0.4.0] - 2026-10-18
 
 ### Added
