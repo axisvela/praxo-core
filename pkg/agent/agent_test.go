@@ -445,6 +445,36 @@ func TestRecallInjectsMemory(t *testing.T) {
 	}
 }
 
+func TestNewRequiresModel(t *testing.T) {
+	if _, err := New(Options{}); err == nil {
+		t.Fatal("expected a model error")
+	}
+}
+
+func TestNewAppliesOptions(t *testing.T) {
+	ag, err := New(Options{Model: simpleModel{}, SystemPrompt: "be terse", MaxSteps: 3})
+	if err != nil {
+		t.Fatal(err)
+	}
+	if ag.SystemPrompt != "be terse" || ag.MaxSteps != 3 {
+		t.Fatalf("agent = %+v", ag)
+	}
+}
+
+func TestSystemPromptPrepended(t *testing.T) {
+	m := &requestModel{}
+	ag, err := New(Options{Model: m, SystemPrompt: "be terse"})
+	if err != nil {
+		t.Fatal(err)
+	}
+	if _, err := ag.Run(context.Background(), Session{ID: "s1"}, "do it"); err != nil {
+		t.Fatal(err)
+	}
+	if len(m.req.Messages) == 0 || m.req.Messages[0].Role != model.RoleSystem || m.req.Messages[0].Content != "be terse" {
+		t.Fatalf("messages = %+v", m.req.Messages)
+	}
+}
+
 func TestMemoryWriteHook(t *testing.T) {
 	mem := &fakeMemory{}
 	var written []memory.Record

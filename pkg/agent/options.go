@@ -2,11 +2,60 @@ package agent
 
 import (
 	"context"
+	"errors"
 	"time"
 
+	"github.com/axisvela/praxo-core/pkg/event"
 	"github.com/axisvela/praxo-core/pkg/memory"
 	"github.com/axisvela/praxo-core/pkg/model"
+	"github.com/axisvela/praxo-core/pkg/policy"
+	"github.com/axisvela/praxo-core/pkg/tool"
 )
+
+// Options is the constructor bundle for a governed agent.
+type Options struct {
+	Model            model.Model
+	SystemPrompt     string
+	Tools            *tool.Registry
+	Memory           memory.Store
+	Events           event.Sink
+	Policy           policy.Hook
+	MaxSteps         int
+	MaxParallelTools int
+	MaxTokens        int64
+	ToolChoice       string
+	AllowedTools     []string
+	Recall           bool
+	RecallLimit      int
+	Retry            RetryPolicy
+	Hooks            Hooks
+	OnDelta          func(delta string)
+}
+
+// New validates options and builds an agent.
+func New(opts Options) (*Agent, error) {
+	if opts.Model == nil {
+		return nil, errors.New("agent: model is required")
+	}
+	return &Agent{
+		Model:            opts.Model,
+		SystemPrompt:     opts.SystemPrompt,
+		Tools:            opts.Tools,
+		Memory:           opts.Memory,
+		Events:           opts.Events,
+		Policy:           opts.Policy,
+		MaxSteps:         opts.MaxSteps,
+		MaxParallelTools: opts.MaxParallelTools,
+		MaxTokens:        opts.MaxTokens,
+		ToolChoice:       opts.ToolChoice,
+		AllowedTools:     opts.AllowedTools,
+		Recall:           opts.Recall,
+		RecallLimit:      opts.RecallLimit,
+		Retry:            opts.Retry,
+		Hooks:            opts.Hooks,
+		OnDelta:          opts.OnDelta,
+	}, nil
+}
 
 // RetryPolicy controls retries around model calls. The zero value performs a
 // single attempt.

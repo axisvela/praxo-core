@@ -2,6 +2,14 @@
 
 All notable changes to PRAXO-CORE are documented here.
 
+## [0.9.0] - 2026-10-18
+
+### Added
+
+- `New(Options)` constructor bundling model, prompt, tools, memory, policy,
+  budgets, retry, hooks, and streaming.
+- `Agent.SystemPrompt` is prepended as a system message.
+
 ## [0.8.0] - 2026-10-18
 
 ### Added
