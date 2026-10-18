@@ -18,7 +18,6 @@ boundary, event boundary, or scheduler contract.
 ## What It Is Not
 
 - PRAXOVELA the product
-- COORDIVELA the coordination control plane
 - a model provider
 - a memory database
 - a workflow engine
@@ -32,8 +31,6 @@ praxo-core (MIT)
   +-- PRAXOVELA (AGPL product)
   +-- external integrators
 ```
-
-COORDIVELA is independent and does not consume PRAXO-CORE.
 
 PRAXOVELA remains an AGPL product. The MIT framework is a separate work so it
 can be embedded without AGPL obligations.

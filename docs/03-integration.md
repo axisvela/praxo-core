@@ -12,12 +12,6 @@ PRAXOVELA is the first product built on PRAXO-CORE. The product supplies:
 - desktop shell
 - policy and approval enforcement
 
-## With COORDIVELA
-
-COORDIVELA is an independent product and does not consume PRAXO-CORE. It calls
-PRAXOVELA through the product HTTP API for coding execution and owns its own
-coordination runtime.
-
 ## With External Integrators
 
 External integrators can implement the framework interfaces directly:
