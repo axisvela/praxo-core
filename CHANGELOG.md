@@ -2,7 +2,7 @@
 
 All notable changes to PRAXO-CORE are documented here.
 
-## [Unreleased]
+## [0.2.0] - 2026-10-18
 
 ### Added
 
@@ -11,6 +11,13 @@ All notable changes to PRAXO-CORE are documented here.
   only a thin product alias.
 - Extracted tool-call parsing into `pkg/output` and JSON Schema validation into
   `pkg/tool/schema`. PRAXOVELA now aliases both framework packages.
+- Added `pkg/flow` Runnable/Chain/Parallel composition.
+- Added `pkg/prompt` template and chat-template interpolation.
+- Added `pkg/retriever` Document/Retriever contracts.
+
+### Changed
+
+- Module path is `github.com/axisvela/praxo-core` (no major suffix while 0.x).
 
 ## [0.1.0] - 2026-10-18
 

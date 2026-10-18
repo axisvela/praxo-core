@@ -9,6 +9,11 @@
 | `pkg/policy` | `Hook.Authorize` | AEGIVELA / Archon Guard |
 | `pkg/sandbox` | `Sandbox.Run` | Vulcan Forge |
 | `pkg/scheduler` | `Scheduler.Add/Remove/List`; cron engine extracted from PRAXOVELA | PRAXOVELA durable scheduler |
+| `pkg/output` | `ParseToolCall`, `StripToolCallMarkup` | model response parsing |
+| `pkg/tool/schema` | JSON Schema validation | tool input/output validation |
+| `pkg/flow` | `Runnable`, `Chain`, `Parallel` | prompt/agent composition |
+| `pkg/prompt` | `Template`, `ChatTemplate` | prompt assembly |
+| `pkg/retriever` | `Document`, `Retriever` | Mnemovela/GNOSIVELA retrieval |
 
 ## Tool Contract
 
