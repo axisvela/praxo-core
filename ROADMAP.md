@@ -137,6 +137,50 @@ Exit gate:
 - provider-profile conformance tests
 - rubric and interpreter tests
 
+## 1.4.0 - Agent Middleware Parity (planned)
+
+Scope is provisional; 1.3.0 is the current release.
+
+- Structured-output strategies (tool/provider/auto) with validation and repair.
+- LLM-based tool selection and provider tool-search hooks.
+- PII detection/redaction middleware.
+- Model fallback, tool retry, and per-model/tool call-limit middleware.
+
+Exit gate:
+
+- structured-output validation/repair tests
+- tool-selection and redaction tests
+- fallback/call-limit conformance tests
+
+## 1.5.0 - HITL and Execution Policies (planned)
+
+- HITL decisions: approve, edit, reject, respond.
+- Session-aware shell tool.
+- Execution policies (host, sandbox, container).
+- MCP elicitation (forms/URLs) and tool artifacts.
+
+Exit gate:
+
+- HITL decision-matrix tests
+- shell-session and execution-policy tests
+- MCP elicitation conformance tests
+
+## 2.0.0 - State Graph Runtime (planned)
+
+This is a major runtime addition, not a 1.x parity patch.
+
+- StateGraph/CompiledStateGraph, channels, Send/Command, subgraphs.
+- Durable interrupt/resume.
+- Typed stream projections (values/updates/messages/checkpoint/tasks/debug).
+- Per-node retry/timeout/cache/trace policies.
+- RemoteGraph/background executor and serialization allowlist.
+
+Exit gate:
+
+- graph/channel/subgraph conformance tests
+- durable interrupt/resume tests
+- stream-projection and serde-allowlist tests
+
 ## Non-Goals
 
 - PRAXOVELA product assembly
