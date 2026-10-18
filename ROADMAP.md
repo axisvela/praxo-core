@@ -1,8 +1,8 @@
 # PRAXO-CORE Roadmap
 
-**Current:** `1.4.0` agent middleware parity (2026-10-18)
+**Current:** `1.5.0` HITL decisions (2026-10-18)
 
-**Target:** `1.5.0` HITL decisions (in progress)
+**Target:** `1.6.0` runtime interoperability (planned)
 
 ## Release History
 
@@ -29,6 +29,7 @@
 | 1.2.0 | virtual filesystem backend/tools and async/fork subagent manager |
 | 1.3.0 | provider profiles, rubric evaluation, interpreter seam |
 | 1.4.0 | structured output, tool selection, PII, fallback, tool retry, call limits |
+| 1.5.0 | approve/edit/reject/respond HITL decisions |
 
 See `CHANGELOG.md` for exact changes.
 
@@ -151,7 +152,7 @@ Exit gate:
 - tool-selection and redaction tests
 - fallback/call-limit conformance tests
 
-## 1.5.0 - HITL Decisions (in progress)
+## 1.5.0 - HITL Decisions (released 2026-10-18)
 
 - HITL decisions: approve, edit, reject, respond.
 - Product/Janus-owned follow-ups: session-aware shell tool, execution policies
