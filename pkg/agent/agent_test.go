@@ -596,6 +596,60 @@ func TestRunContextVisibleToHooks(t *testing.T) {
 	}
 }
 
+func TestProfileFillsDefaults(t *testing.T) {
+	ag, err := New(Options{
+		Model:   simpleModel{},
+		Profile: &Profile{SystemPrompt: "profile", MaxSteps: 5, MaxTokens: 100},
+	})
+	if err != nil {
+		t.Fatal(err)
+	}
+	if ag.SystemPrompt != "profile" || ag.MaxSteps != 5 || ag.MaxTokens != 100 {
+		t.Fatalf("agent = %+v", ag)
+	}
+}
+
+func TestProfileDoesNotOverrideExplicit(t *testing.T) {
+	ag, err := New(Options{
+		Model:        simpleModel{},
+		SystemPrompt: "explicit",
+		MaxSteps:     2,
+		Profile:      &Profile{SystemPrompt: "profile", MaxSteps: 5},
+	})
+	if err != nil {
+		t.Fatal(err)
+	}
+	if ag.SystemPrompt != "explicit" || ag.MaxSteps != 2 {
+		t.Fatalf("agent = %+v", ag)
+	}
+}
+
+func TestModelMiddlewareOrder(t *testing.T) {
+	var order []string
+	mw := func(name string) ModelMiddleware {
+		return func(next func(context.Context, model.Request) (model.Response, error)) func(context.Context, model.Request) (model.Response, error) {
+			return func(ctx context.Context, req model.Request) (model.Response, error) {
+				order = append(order, name)
+				return next(ctx, req)
+			}
+		}
+	}
+	ag, err := New(Options{
+		Model:           simpleModel{},
+		ModelMiddleware: []ModelMiddleware{mw("outer"), mw("inner")},
+	})
+	if err != nil {
+		t.Fatal(err)
+	}
+	if _, err := ag.Run(context.Background(), Session{ID: "s1"}, "do it"); err != nil {
+		t.Fatal(err)
+	}
+	want := []string{"outer", "inner"}
+	if len(order) != len(want) || order[0] != want[0] || order[1] != want[1] {
+		t.Fatalf("order = %v", order)
+	}
+}
+
 func TestMemoryWriteHook(t *testing.T) {
 	mem := &fakeMemory{}
 	var written []memory.Record

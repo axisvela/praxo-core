@@ -2,6 +2,13 @@
 
 All notable changes to PRAXO-CORE are documented here.
 
+## [0.11.0] - 2026-10-18
+
+### Added
+
+- `Profile` bundles reusable defaults; explicit `Options` values win.
+- `ModelMiddleware` wraps model calls in order.
+
 ## [0.10.0] - 2026-10-18
 
 ### Added
