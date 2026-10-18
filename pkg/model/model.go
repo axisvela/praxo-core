@@ -1,10 +1,13 @@
 // Package model defines the provider-neutral model abstraction.
 package model
 
-import "context"
+import (
+	"context"
+	"fmt"
+)
 
 // Role is a message role.
-type Role string
+type Role = string
 
 const (
 	RoleSystem    Role = "system"
@@ -12,6 +15,26 @@ const (
 	RoleAssistant Role = "assistant"
 	RoleTool      Role = "tool"
 )
+
+// TaskClass is a coarse routing class.
+type TaskClass string
+
+const (
+	TaskClassify  TaskClass = "classify"
+	TaskSummarize TaskClass = "summarize"
+	TaskChat      TaskClass = "chat"
+	TaskCoding    TaskClass = "coding"
+	TaskReasoning TaskClass = "reasoning"
+	TaskVision    TaskClass = "vision"
+)
+
+// ContentBlock is one multi-modal content block.
+type ContentBlock struct {
+	Type     string `json:"type"`
+	Text     string `json:"text,omitempty"`
+	ImageURL string `json:"image_url,omitempty"`
+	Data     string `json:"data,omitempty"`
+}
 
 // ToolCall is a model-requested tool invocation.
 type ToolCall struct {
@@ -22,10 +45,17 @@ type ToolCall struct {
 
 // Message is one conversation message.
 type Message struct {
-	Role      Role       `json:"role"`
-	Content   string     `json:"content,omitempty"`
-	ToolCalls []ToolCall `json:"toolCalls,omitempty"`
-	ToolID    string     `json:"toolId,omitempty"`
+	Role          Role           `json:"role"`
+	Content       string         `json:"content,omitempty"`
+	ContentBlocks []ContentBlock `json:"contentBlocks,omitempty"`
+	ToolCalls     []ToolCall     `json:"toolCalls,omitempty"`
+	ToolID        string         `json:"toolId,omitempty"`
+}
+
+// StreamEvent is one streamed response fragment.
+type StreamEvent struct {
+	Delta string `json:"delta"`
+	Done  bool   `json:"done"`
 }
 
 // ToolSpec describes a tool exposed to the model.
@@ -61,4 +91,48 @@ type Response struct {
 // Model generates a response for a request.
 type Model interface {
 	Generate(ctx context.Context, req Request) (Response, error)
+}
+
+// Provider is the chat-oriented provider contract.
+type Provider interface {
+	Chat(messages []Message) ([]Message, error)
+	ChatStream(messages []Message) (<-chan StreamEvent, error)
+}
+
+// ModelRouter selects a provider for a task class.
+type ModelRouter interface {
+	Route(class TaskClass) (Provider, error)
+}
+
+// EchoProvider returns the input messages unchanged.
+type EchoProvider struct{}
+
+// Chat implements Provider.
+func (EchoProvider) Chat(messages []Message) ([]Message, error) {
+	return messages, nil
+}
+
+// ChatStream implements Provider.
+func (EchoProvider) ChatStream(messages []Message) (<-chan StreamEvent, error) {
+	ch := make(chan StreamEvent, len(messages))
+	go func() {
+		defer close(ch)
+		for _, message := range messages {
+			ch <- StreamEvent{Delta: message.Content, Done: true}
+		}
+	}()
+	return ch, nil
+}
+
+// SingleProviderRouter always returns one provider.
+type SingleProviderRouter struct {
+	Provider Provider
+}
+
+// Route implements ModelRouter.
+func (r SingleProviderRouter) Route(_ TaskClass) (Provider, error) {
+	if r.Provider == nil {
+		return nil, fmt.Errorf("no provider configured")
+	}
+	return r.Provider, nil
 }
