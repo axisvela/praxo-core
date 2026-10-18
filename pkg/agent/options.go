@@ -50,8 +50,47 @@ func RunContextFrom(ctx context.Context) RunContext {
 	return rc
 }
 
+// Profile is a reusable bundle of defaults. Explicit Options values win.
+type Profile struct {
+	Name             string
+	SystemPrompt     string
+	ToolChoice       string
+	MaxSteps         int
+	MaxTokens        int64
+	MaxParallelTools int
+	Retry            RetryPolicy
+}
+
+// Apply fills zero-valued options from the profile.
+func (p Profile) Apply(opts Options) Options {
+	if opts.SystemPrompt == "" {
+		opts.SystemPrompt = p.SystemPrompt
+	}
+	if opts.ToolChoice == "" {
+		opts.ToolChoice = p.ToolChoice
+	}
+	if opts.MaxSteps == 0 {
+		opts.MaxSteps = p.MaxSteps
+	}
+	if opts.MaxTokens == 0 {
+		opts.MaxTokens = p.MaxTokens
+	}
+	if opts.MaxParallelTools == 0 {
+		opts.MaxParallelTools = p.MaxParallelTools
+	}
+	if opts.Retry.Attempts == 0 && opts.Retry.BaseDelay == 0 && opts.Retry.MaxDelay == 0 && opts.Retry.ShouldRetry == nil {
+		opts.Retry = p.Retry
+	}
+	return opts
+}
+
+// ModelMiddleware wraps a model call.
+type ModelMiddleware func(next func(context.Context, model.Request) (model.Response, error)) func(context.Context, model.Request) (model.Response, error)
+
 // Options is the constructor bundle for a governed agent.
 type Options struct {
+	Profile          *Profile
+	ModelMiddleware  []ModelMiddleware
 	Model            model.Model
 	SystemPrompt     string
 	Tools            *tool.Registry
@@ -77,10 +116,14 @@ type Options struct {
 
 // New validates options and builds an agent.
 func New(opts Options) (*Agent, error) {
+	if opts.Profile != nil {
+		opts = opts.Profile.Apply(opts)
+	}
 	if opts.Model == nil {
 		return nil, errors.New("agent: model is required")
 	}
 	return &Agent{
+		ModelMiddleware:  opts.ModelMiddleware,
 		Model:            opts.Model,
 		SystemPrompt:     opts.SystemPrompt,
 		Tools:            opts.Tools,

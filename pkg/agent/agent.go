@@ -40,18 +40,19 @@ type Session struct {
 
 // Agent is a governed model/tool loop.
 type Agent struct {
-	Model          model.Model
-	SystemPrompt   string
-	Tools          *tool.Registry
-	Memory         memory.Store
-	Skills         SkillProvider
-	SkillsLimit    int
-	Events         event.Sink
-	Policy         policy.Hook
-	ResponseFormat *model.ResponseFormat
-	InterruptOn    map[string]bool
-	OnInterrupt    func(ctx context.Context, interrupt Interrupt) (bool, error)
-	MaxSteps       int
+	Model           model.Model
+	ModelMiddleware []ModelMiddleware
+	SystemPrompt    string
+	Tools           *tool.Registry
+	Memory          memory.Store
+	Skills          SkillProvider
+	SkillsLimit     int
+	Events          event.Sink
+	Policy          policy.Hook
+	ResponseFormat  *model.ResponseFormat
+	InterruptOn     map[string]bool
+	OnInterrupt     func(ctx context.Context, interrupt Interrupt) (bool, error)
+	MaxSteps        int
 	// MaxParallelTools bounds concurrent tool invocations within one step.
 	// Values <= 1 run tools sequentially.
 	MaxParallelTools int
@@ -347,6 +348,14 @@ func invokeTool(ctx context.Context, t tool.Tool, call model.ToolCall) (value an
 }
 
 func (a *Agent) generate(ctx context.Context, req model.Request) (model.Response, error) {
+	call := a.baseGenerate
+	for i := len(a.ModelMiddleware) - 1; i >= 0; i-- {
+		call = a.ModelMiddleware[i](call)
+	}
+	return call(ctx, req)
+}
+
+func (a *Agent) baseGenerate(ctx context.Context, req model.Request) (model.Response, error) {
 	if a.OnDelta != nil {
 		if streaming, ok := a.Model.(model.StreamingModel); ok {
 			return streaming.GenerateStream(ctx, req, a.OnDelta)
