@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/axisvela/praxo-core/v3/pkg/agent"
-	"github.com/axisvela/praxo-core/v3/pkg/model"
+	"github.com/axisvela/praxo-core/pkg/agent"
+	"github.com/axisvela/praxo-core/pkg/model"
 )
 
 type echoModel struct{}

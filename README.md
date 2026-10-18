@@ -19,6 +19,11 @@ and the agent loop. It is a framework, not a product.
 The MIT boundary lets PRAXOVELA and external products embed the framework
 without inheriting AGPL obligations. PRAXOVELA remains an AGPL product.
 
+## Module
+
+`github.com/axisvela/praxo-core` (no major suffix while the framework is in its
+`0.x` line).
+
 ## Primitives
 
 - `pkg/model` - model/provider abstraction and messages.
