@@ -2,6 +2,13 @@
 
 All notable changes to PRAXO-CORE are documented here.
 
+## [0.13.0] - 2026-10-18
+
+### Added
+
+- `pkg/httpclient` shared retry-capable HTTP transport with auth, tracing,
+  idempotency-aware retries, and response decoding. PRAXOVELA adapters alias it.
+
 ## [0.12.0] - 2026-10-18
 
 ### Added
