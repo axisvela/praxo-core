@@ -53,7 +53,10 @@ type Agent struct {
 	ResponseFormat  *model.ResponseFormat
 	InterruptOn     map[string]bool
 	OnInterrupt     func(ctx context.Context, interrupt Interrupt) (bool, error)
-	MaxSteps        int
+	// OnInterruptDecision, when set, takes precedence over OnInterrupt and
+	// supports approve/edit/reject/respond decisions.
+	OnInterruptDecision InterruptHandler
+	MaxSteps            int
 	// MaxParallelTools bounds concurrent tool invocations within one step.
 	// Values <= 1 run tools sequentially.
 	MaxParallelTools int
@@ -340,7 +343,7 @@ func (a *Agent) RunWithContext(ctx context.Context, session Session, prompt stri
 				continue
 			}
 			if a.InterruptOn[call.Name] {
-				if a.OnInterrupt == nil {
+				if a.OnInterruptDecision == nil && a.OnInterrupt == nil {
 					return nil, fmt.Errorf("%w: %s", ErrInterruptUnhandled, call.Name)
 				}
 				if err := a.emit(ctx, event.Event{
@@ -349,12 +352,35 @@ func (a *Agent) RunWithContext(ctx context.Context, session Session, prompt stri
 				}); err != nil {
 					return nil, err
 				}
-				approved, err := a.OnInterrupt(ctx, Interrupt{RunID: runID, SessionID: session.ID, Call: call})
-				if err != nil {
-					return nil, err
-				}
-				if !approved {
-					return nil, fmt.Errorf("%w: %s", ErrApprovalDenied, call.Name)
+				interrupt := Interrupt{RunID: runID, SessionID: session.ID, Call: call}
+				if a.OnInterruptDecision != nil {
+					decision, err := a.OnInterruptDecision(ctx, interrupt)
+					if err != nil {
+						return nil, err
+					}
+					switch decision.Action {
+					case InterruptApprove:
+					case InterruptEdit:
+						if decision.Arguments == nil {
+							return nil, fmt.Errorf("%w: edit requires arguments", ErrInterruptDecisionInvalid)
+						}
+						call.Arguments = decision.Arguments
+					case InterruptReject:
+						return nil, fmt.Errorf("%w: %s: %s", ErrApprovalDenied, call.Name, decision.Reason)
+					case InterruptRespond:
+						prepared = append(prepared, preparedTool{call: call, skip: true, result: decision.Response})
+						continue
+					default:
+						return nil, fmt.Errorf("%w: %q", ErrInterruptDecisionInvalid, decision.Action)
+					}
+				} else {
+					approved, err := a.OnInterrupt(ctx, interrupt)
+					if err != nil {
+						return nil, err
+					}
+					if !approved {
+						return nil, fmt.Errorf("%w: %s", ErrApprovalDenied, call.Name)
+					}
 				}
 			}
 			if a.Tools == nil {
