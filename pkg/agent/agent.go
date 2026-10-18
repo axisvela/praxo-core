@@ -61,6 +61,15 @@ type Agent struct {
 	MaxTokens int64
 	// Context bounds the estimated prompt size before each model call.
 	Context *ContextBudget
+	// Compactor optionally summarizes or offloads older context before the
+	// deterministic budget pass.
+	Compactor ContextCompactor
+	// Offloader stores large tool results outside the prompt when the result
+	// exceeds OffloadThresholdBytes.
+	Offloader             Offloader
+	OffloadThresholdBytes int
+	// PromptCache returns provider cache hints for the current prompt.
+	PromptCache func([]model.Message) *model.CacheHint
 	// ToolChoice is forwarded to the model (auto, none, required).
 	ToolChoice string
 	// AllowedTools limits both advertised and invokable tools. Empty means all.
@@ -194,6 +203,13 @@ func (a *Agent) RunWithContext(ctx context.Context, session Session, prompt stri
 
 		if a.Context != nil && a.Context.MaxTokens > 0 {
 			before := len(messages)
+			if a.Compactor != nil && estimateTokens(messages) > a.Context.MaxTokens {
+				compacted, err := a.Compactor.Compact(ctx, messages, *a.Context)
+				if err != nil {
+					return nil, err
+				}
+				messages = compacted
+			}
 			compacted, ok := a.Context.Compact(messages)
 			if !ok {
 				return nil, ErrContextBudget
@@ -213,6 +229,9 @@ func (a *Agent) RunWithContext(ctx context.Context, session Session, prompt stri
 			Tools:          a.toolSpecs(),
 			ToolChoice:     a.ToolChoice,
 			ResponseFormat: a.ResponseFormat,
+		}
+		if a.PromptCache != nil {
+			req.CacheHint = a.PromptCache(messages)
 		}
 		mc := &ModelCall{RunID: runID, SessionID: session.ID, Request: &req}
 		if err := a.beforeModel(ctx, mc); err != nil {
@@ -346,7 +365,23 @@ func (a *Agent) RunWithContext(ctx context.Context, session Session, prompt stri
 			if err != nil {
 				return nil, err
 			}
-			messages = append(messages, model.Message{Role: model.RoleTool, ToolID: call.ID, Content: string(raw)})
+			content := string(raw)
+			if a.Offloader != nil && a.OffloadThresholdBytes > 0 && len(raw) > a.OffloadThresholdBytes {
+				ref, err := a.Offloader.Offload(ctx, call.Name, call.ID, raw)
+				if err != nil {
+					return nil, err
+				}
+				if ref == "" {
+					return nil, errors.New("agent: offloader returned an empty placeholder")
+				}
+				content = ref
+				if a.Hooks.OnOffload != nil {
+					if err := a.Hooks.OnOffload(ctx, runID, call.Name, len(raw), len(ref)); err != nil {
+						return nil, err
+					}
+				}
+			}
+			messages = append(messages, model.Message{Role: model.RoleTool, ToolID: call.ID, Content: content})
 		}
 	}
 

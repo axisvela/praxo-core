@@ -2,6 +2,19 @@
 
 All notable changes to PRAXO-CORE are documented here.
 
+## [1.1.0] - 2026-10-18
+
+### Added
+
+- `agent.ContextCompactor` and `agent.ModelSummarizer`: model-based
+  summarization of older context before the deterministic budget pass.
+- `agent.Offloader` / `agent.OffloadFunc`: replace oversized tool results with
+  caller-owned offload placeholders; `OnOffload` reports the replacement.
+- `agent.LoadAgentsMD` and `Options.MemoryFiles`: always-loaded `AGENTS.md`
+  context, bounded by `MaxAgentsMDBytes`.
+- `model.CacheHint` and `Options.PromptCache`: provider-neutral prompt-cache
+  hook for stable prefixes.
+
 ## [1.0.0] - 2026-10-18
 
 ### Changed

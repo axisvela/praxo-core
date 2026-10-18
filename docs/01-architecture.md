@@ -40,6 +40,24 @@ external integrator.
 6. Fail closed on policy denial.
 7. Stop at `MaxSteps`, `MaxTokens`, or `ErrContextBudget`.
 
+## Context Management
+
+Context is managed in layers:
+
+- `Options.MemoryFiles` loads `AGENTS.md` content into the system prompt at
+  construction time, bounded by `MaxAgentsMDBytes`.
+- `ContextBudget` deterministically keeps recent turns and tool-call/result
+  pairs under an estimated token bound.
+- `ContextCompactor` can summarize older turns before the deterministic pass;
+  `ModelSummarizer` is the built-in model-backed implementation.
+- `Offloader` replaces tool results above `OffloadThresholdBytes` with a
+  caller-owned reference before they enter the prompt.
+- `Options.PromptCache` supplies a provider-neutral `model.CacheHint` for stable
+  prefixes; providers may translate it to their cache-control mechanism.
+
+Compaction and offload are observable through `Hooks.OnCompaction` and
+`Hooks.OnOffload`.
+
 ## Plugin Plane
 
 The plugin plane is split at a contract boundary:

@@ -1,0 +1,1656 @@
+### github.com/axisvela/praxo-core/pkg/agent
+
+CONSTANTS
+
+const DefaultTenantID = "default"
+
+const MaxAgentsMDBytes = 64 << 10
+
+
+VARIABLES
+
+var ErrApprovalDenied = errors.New("agent: tool call denied by approval")
+
+var ErrContextBudget = errors.New("agent: context budget exceeded")
+
+var ErrInterruptUnhandled = errors.New("agent: approval handler not configured")
+
+var ErrMaxSteps = errors.New("agent: max steps exceeded")
+
+var ErrMaxTokens = errors.New("agent: max tokens exceeded")
+
+
+FUNCTIONS
+
+func LoadAgentsMD(paths ...string) (string, error)
+
+func WithRunContext(ctx context.Context, rc RunContext) context.Context
+
+
+TYPES
+
+type Agent struct {
+	Model           model.Model
+	ModelMiddleware []ModelMiddleware
+	Middleware      []Middleware
+	SystemPrompt    string
+	Tools           *tool.Registry
+	Memory          memory.Store
+	Skills          SkillProvider
+	SkillsLimit     int
+	Events          event.Sink
+	Policy          policy.Hook
+	ResponseFormat  *model.ResponseFormat
+	InterruptOn     map[string]bool
+	OnInterrupt     func(ctx context.Context, interrupt Interrupt) (bool, error)
+	MaxSteps        int
+	MaxParallelTools int
+	MaxTokens int64
+	Context *ContextBudget
+	Compactor ContextCompactor
+	Offloader             Offloader
+	OffloadThresholdBytes int
+	PromptCache func([]model.Message) *model.CacheHint
+	ToolChoice string
+	AllowedTools []string
+	Recall      bool
+	RecallLimit int
+	Retry       RetryPolicy
+	Hooks       Hooks
+	OnDelta func(delta string)
+}
+
+func New(opts Options) (*Agent, error)
+
+func (a *Agent) Run(ctx context.Context, session Session, prompt string) (*Result, error)
+
+func (a *Agent) RunWithContext(ctx context.Context, session Session, prompt string, rc RunContext) (result *Result, err error)
+
+type ContextBudget struct {
+	MaxTokens  int
+	KeepRecent int
+}
+
+func (b ContextBudget) Compact(messages []model.Message) ([]model.Message, bool)
+
+type ContextCompactor interface {
+	Compact(ctx context.Context, messages []model.Message, budget ContextBudget) ([]model.Message, error)
+}
+
+type Hooks struct {
+	OnRunStart    func(ctx context.Context, runID string, session Session) error
+	OnStep        func(ctx context.Context, runID string, step int, messages []model.Message) error
+	OnModelCall   func(ctx context.Context, runID string, req model.Request) error
+	OnModelResult func(ctx context.Context, runID string, resp model.Response) error
+	OnToolCall    func(ctx context.Context, runID string, call model.ToolCall) error
+	OnToolResult  func(ctx context.Context, runID string, call model.ToolCall, result any, err error) error
+	OnMemoryRead  func(ctx context.Context, runID string, records []memory.Record) error
+	OnMemoryWrite func(ctx context.Context, runID string, record memory.Record) error
+	OnCompaction  func(ctx context.Context, runID string, before, after int) error
+	OnOffload     func(ctx context.Context, runID, toolName string, originalBytes, offloadedBytes int) error
+	OnRunComplete func(ctx context.Context, result *Result) error
+	OnRunError    func(ctx context.Context, runID string, err error)
+}
+
+type Interrupt struct {
+	RunID     string
+	SessionID string
+	Call      model.ToolCall
+}
+
+type Middleware struct {
+	Name string
+
+	BeforeRun   func(ctx context.Context, state *RunState) error
+	BeforeModel func(ctx context.Context, call *ModelCall) error
+	AfterModel  func(ctx context.Context, call *ModelCall, resp *model.Response) error
+	BeforeTool  func(ctx context.Context, call *ToolCall) error
+	AfterTool   func(ctx context.Context, call *ToolCall, result *ToolResult) error
+	AfterRun    func(ctx context.Context, result *Result, err error) error
+}
+
+
+type ModelCall struct {
+	RunID     string
+	SessionID string
+	Request   *model.Request
+	Skip      bool
+	Response  *model.Response
+}
+
+type ModelMiddleware func(next func(context.Context, model.Request) (model.Response, error)) func(context.Context, model.Request) (model.Response, error)
+
+type ModelSummarizer struct {
+	Model            model.Model
+	Prompt           string
+	MaxSummaryTokens int
+}
+
+func (s ModelSummarizer) Compact(ctx context.Context, messages []model.Message, budget ContextBudget) ([]model.Message, error)
+
+type OffloadFunc func(context.Context, string, string, []byte) (string, error)
+
+func (f OffloadFunc) Offload(ctx context.Context, toolName, toolCallID string, data []byte) (string, error)
+
+type Offloader interface {
+	Offload(ctx context.Context, toolName, toolCallID string, data []byte) (string, error)
+}
+
+type Options struct {
+	Profile               *Profile
+	Middleware            []Middleware
+	ModelMiddleware       []ModelMiddleware
+	Model                 model.Model
+	SystemPrompt          string
+	MemoryFiles           []string
+	Tools                 *tool.Registry
+	Memory                memory.Store
+	Skills                SkillProvider
+	SkillsLimit           int
+	Events                event.Sink
+	Policy                policy.Hook
+	MaxSteps              int
+	MaxParallelTools      int
+	MaxTokens             int64
+	Context               *ContextBudget
+	Compactor             ContextCompactor
+	Offloader             Offloader
+	OffloadThresholdBytes int
+	PromptCache           func([]model.Message) *model.CacheHint
+	ToolChoice            string
+	AllowedTools          []string
+	ResponseFormat        *model.ResponseFormat
+	Recall                bool
+	RecallLimit           int
+	InterruptOn           map[string]bool
+	OnInterrupt           func(ctx context.Context, interrupt Interrupt) (bool, error)
+	Retry                 RetryPolicy
+	Hooks                 Hooks
+	OnDelta               func(delta string)
+}
+
+type Profile struct {
+	Name             string
+	SystemPrompt     string
+	ToolChoice       string
+	MaxSteps         int
+	MaxTokens        int64
+	MaxParallelTools int
+	Context          *ContextBudget
+	Retry            RetryPolicy
+}
+
+func (p Profile) Apply(opts Options) Options
+
+type Result struct {
+	RunID  string      `json:"runId"`
+	Output string      `json:"output"`
+	Steps  int         `json:"steps"`
+	Usage  model.Usage `json:"usage"`
+}
+
+type RetryPolicy struct {
+	Attempts    int
+	BaseDelay   time.Duration
+	MaxDelay    time.Duration
+	ShouldRetry func(error) bool
+}
+
+func (p RetryPolicy) Do(ctx context.Context, fn func() error) error
+
+type RunContext map[string]any
+
+func RunContextFrom(ctx context.Context) RunContext
+
+type RunState struct {
+	RunID   string
+	Session *Session
+	Prompt  *string
+}
+
+type Session struct {
+	ID          string          `json:"id"`
+	TenantID    string          `json:"tenantId"`
+	WorkspaceID string          `json:"workspaceId"`
+	Messages    []model.Message `json:"messages,omitempty"`
+}
+
+type SessionStore interface {
+	Load(ctx context.Context, sessionID string) (*Session, error)
+	Save(ctx context.Context, session *Session) error
+}
+
+type Skill struct {
+	Name        string
+	Description string
+	Content     string
+}
+
+type SkillProvider interface {
+	Skills(ctx context.Context, query string) ([]Skill, error)
+}
+
+type Status string
+
+const (
+	StatusIdle            Status = "idle"
+	StatusPlanning        Status = "planning"
+	StatusWaitingApproval Status = "waiting_approval"
+	StatusExecuting       Status = "executing"
+	StatusObserving       Status = "observing"
+	StatusReplanning      Status = "replanning"
+	StatusPaused          Status = "paused"
+	StatusCancelled       Status = "cancelled"
+	StatusCompleted       Status = "completed"
+	StatusFailed          Status = "failed"
+)
+
+type ToolCall struct {
+	RunID     string
+	SessionID string
+	Call      *model.ToolCall
+	Skip      bool
+	Result    any
+	Err       error
+}
+
+type ToolResult struct {
+	Value any
+	Err   error
+}
+
+
+### github.com/axisvela/praxo-core/pkg/checkpoint
+used to resume a run without re-applying committed effects.
+
+TYPES
+
+type Checkpoint struct {
+	ID              string        `json:"id"`
+	SessionID       string        `json:"session_id"`
+	RunID           string        `json:"run_id"`
+	Version         int           `json:"version"`
+	Title           string        `json:"title,omitempty"`
+	ModelID         string        `json:"model_id,omitempty"`
+	Status          string        `json:"status"`
+	TenantID        string        `json:"tenant_id,omitempty"`
+	WorkspaceID     string        `json:"workspace_id,omitempty"`
+	ParentSessionID string        `json:"parent_session_id,omitempty"`
+	ParentRunID     string        `json:"parent_run_id,omitempty"`
+	AgentID         string        `json:"agent_id,omitempty"`
+	Messages        []Message     `json:"messages,omitempty"`
+	Runs            []RunSnapshot `json:"runs,omitempty"`
+	EffectCursor    *EffectCursor `json:"effect_cursor,omitempty"`
+	CreatedAt       time.Time     `json:"created_at"`
+}
+
+type EffectCursor struct {
+	RunID         string `json:"run_id"`
+	LastEffectID  string `json:"last_effect_id"`
+	LastCreatedAt int64  `json:"last_created_at"`
+}
+
+type Message struct {
+	Role    string `json:"role"`
+	Content string `json:"content"`
+	ContentBlocks any `json:"content_blocks,omitempty"`
+}
+
+type RecoveryReport struct {
+	CheckpointID   string        `json:"checkpoint_id"`
+	SessionID      string        `json:"session_id"`
+	RunID          string        `json:"run_id"`
+	Restored       bool          `json:"restored"`
+	MessageCount   int           `json:"message_count"`
+	CursorVerified bool          `json:"cursor_verified"`
+	Cursor         *EffectCursor `json:"cursor,omitempty"`
+	Reason         string        `json:"reason,omitempty"`
+}
+
+type RunSnapshot struct {
+	ID        string    `json:"id"`
+	SessionID string    `json:"session_id"`
+	Status    string    `json:"status"`
+	CreatedAt time.Time `json:"created_at"`
+}
+
+type Store interface {
+	Save(ctx context.Context, cp *Checkpoint) error
+	Load(ctx context.Context, sessionID string) (*Checkpoint, error)
+	LoadScoped(ctx context.Context, tenantID, sessionID string) (*Checkpoint, error)
+	LoadRun(ctx context.Context, runID string) (*Checkpoint, error)
+	LoadRunScoped(ctx context.Context, tenantID, runID string) (*Checkpoint, error)
+	List(ctx context.Context, sessionID string) ([]Checkpoint, error)
+	Delete(ctx context.Context, checkpointID string) error
+}
+
+
+### github.com/axisvela/praxo-core/pkg/event
+
+TYPES
+
+type Event struct {
+	Type      string         `json:"type"`
+	SessionID string         `json:"sessionId"`
+	RunID     string         `json:"runId,omitempty"`
+	Data      map[string]any `json:"data,omitempty"`
+	At        time.Time      `json:"at"`
+}
+
+type FilterSink struct {
+	Sink      Sink
+	Predicate Predicate
+}
+
+func (f FilterSink) Emit(ctx context.Context, event Event) error
+
+type FuncSink func(context.Context, Event) error
+
+func (f FuncSink) Emit(ctx context.Context, event Event) error
+
+type MultiSink []Sink
+
+func (m MultiSink) Emit(ctx context.Context, event Event) error
+
+type Predicate func(Event) bool
+
+type Publisher interface {
+	Publish(ctx context.Context, event Event) error
+}
+
+type PublisherSink struct {
+	Publisher Publisher
+}
+
+func (s PublisherSink) Emit(ctx context.Context, event Event) error
+
+type Sink interface {
+	Emit(ctx context.Context, event Event) error
+}
+
+
+### github.com/axisvela/praxo-core/pkg/flow
+
+TYPES
+
+type Chain[A, B, C any] struct {
+	First  Runnable[A, B]
+	Second Runnable[B, C]
+}
+
+func (c Chain[A, B, C]) Invoke(ctx context.Context, input A) (C, error)
+
+type Func[I, O any] func(context.Context, I) (O, error)
+
+func (f Func[I, O]) Invoke(ctx context.Context, input I) (O, error)
+
+type Parallel[I, O any] struct {
+	Runnables []Runnable[I, O]
+}
+
+func (p Parallel[I, O]) Invoke(ctx context.Context, input I) ([]O, error)
+
+type Runnable[I, O any] interface {
+	Invoke(ctx context.Context, input I) (O, error)
+}
+
+
+### github.com/axisvela/praxo-core/pkg/formatter
+OpenCode's format/ system 锟?auto-detects formatters from config files.
+
+FUNCTIONS
+
+func Format(filePath string) (string, error)
+
+
+TYPES
+
+type Formatter struct {
+	Name       string   `json:"name"`
+	Extensions []string `json:"extensions"`
+	Command    string   `json:"command"` // command + args template, $FILE is replaced
+}
+
+func AllAvailable() []Formatter
+
+func Detect(filePath string) *Formatter
+
+func List() []Formatter
+
+func (f *Formatter) CommandFields() []string
+
+func (f *Formatter) Run(filePath string) (string, error)
+
+type WatchFormat struct {
+}
+
+func NewWatch(dir string) *WatchFormat
+
+func (w *WatchFormat) FormatAll() ([]string, error)
+
+
+### github.com/axisvela/praxo-core/pkg/httpclient
+adapters and provider clients.
+
+CONSTANTS
+
+const DefaultMaxBodyBytes int64 = 32 << 20
+
+
+VARIABLES
+
+var ErrBodyTooLarge = errors.New("httpclient: response body too large")
+
+
+TYPES
+
+type Client struct {
+}
+
+func New(cfg Config) *Client
+
+func (c *Client) BaseURL() string
+
+func (c *Client) Do(ctx context.Context, req Request) (*Response, error)
+
+func (c *Client) HTTPClient() *http.Client
+
+func (c *Client) MaxAttempts() int
+
+func (c *Client) RequestHeaders() map[string]string
+
+type Config struct {
+	BaseURL     string
+	APIKey      string
+	Headers     map[string]string
+	Timeout     time.Duration
+	MaxAttempts int
+	MaxBodyBytes int64
+	TraceID      string
+}
+
+type Request struct {
+	Method  string
+	Path    string
+	Body    []byte
+	Headers map[string]string
+}
+
+type Response struct {
+	Status  int
+	Body    []byte
+	Headers http.Header
+}
+
+func (r *Response) DecodeJSON(out any) error
+
+
+### github.com/axisvela/praxo-core/pkg/memory
+
+TYPES
+
+type Backend interface {
+	Commit(ctx context.Context, sessionID string, record Record) error
+	Search(ctx context.Context, sessionID, query string, limit int) ([]Record, error)
+}
+
+type ContextAssembler struct {
+	Store Store
+	Limit int
+}
+
+func (a ContextAssembler) Assemble(ctx context.Context, sessionID, query string) ([]Record, error)
+
+type Frame string
+
+const (
+	FrameEvent          Frame = "event"
+	FrameDecision       Frame = "decision"
+	FrameExperience     Frame = "experience"
+	FrameProcedure      Frame = "procedure"
+	FrameWorkspaceState Frame = "workspace_state"
+	FrameConstraint     Frame = "constraint"
+	FrameIntention      Frame = "intention"
+)
+
+type MemoryStore struct {
+}
+
+func NewMemoryStore() *MemoryStore
+
+func (s *MemoryStore) Put(_ context.Context, sessionID string, record Record) error
+
+func (s *MemoryStore) Search(_ context.Context, sessionID, query string, limit int) ([]Record, error)
+
+type Record struct {
+	ID        string         `json:"id"`
+	Frame     Frame          `json:"frame"`
+	Content   string         `json:"content"`
+	Metadata  map[string]any `json:"metadata,omitempty"`
+	CreatedAt time.Time      `json:"createdAt"`
+}
+
+type RemoteStore struct {
+	Backend Backend
+}
+
+func (s RemoteStore) Put(ctx context.Context, sessionID string, record Record) error
+
+func (s RemoteStore) Search(ctx context.Context, sessionID, query string, limit int) ([]Record, error)
+
+type Store interface {
+	Put(ctx context.Context, sessionID string, record Record) error
+	Search(ctx context.Context, sessionID, query string, limit int) ([]Record, error)
+}
+
+
+### github.com/axisvela/praxo-core/pkg/model
+
+CONSTANTS
+
+const (
+	ToolChoiceAuto     = "auto"
+	ToolChoiceNone     = "none"
+	ToolChoiceRequired = "required"
+)
+
+
+TYPES
+
+type CacheHint struct {
+	StablePrefix int    `json:"stablePrefix,omitempty"`
+	TTL          string `json:"ttl,omitempty"`
+}
+
+type ChatModel struct {
+	Provider Provider
+}
+
+func (m ChatModel) Generate(ctx context.Context, req Request) (Response, error)
+
+type ContentBlock struct {
+	Type     string `json:"type"`
+	Text     string `json:"text,omitempty"`
+	ImageURL string `json:"image_url,omitempty"`
+	Data     string `json:"data,omitempty"`
+}
+
+type EchoProvider struct{}
+
+func (EchoProvider) Chat(messages []Message) ([]Message, error)
+
+func (EchoProvider) ChatStream(messages []Message) (<-chan StreamEvent, error)
+
+type Message struct {
+	Role          Role           `json:"role"`
+	Content       string         `json:"content,omitempty"`
+	ContentBlocks []ContentBlock `json:"contentBlocks,omitempty"`
+	ToolCalls     []ToolCall     `json:"toolCalls,omitempty"`
+	ToolID        string         `json:"toolId,omitempty"`
+}
+
+type Model interface {
+	Generate(ctx context.Context, req Request) (Response, error)
+}
+
+type ModelRouter interface {
+	Route(class TaskClass) (Provider, error)
+}
+
+type Provider interface {
+	Chat(messages []Message) ([]Message, error)
+	ChatStream(messages []Message) (<-chan StreamEvent, error)
+}
+
+type Request struct {
+	Model          string          `json:"model,omitempty"`
+	Messages       []Message       `json:"messages"`
+	Tools          []ToolSpec      `json:"tools,omitempty"`
+	ToolChoice     string          `json:"toolChoice,omitempty"`
+	ResponseFormat *ResponseFormat `json:"responseFormat,omitempty"`
+	CacheHint      *CacheHint      `json:"cacheHint,omitempty"`
+	Temperature    float64         `json:"temperature,omitempty"`
+}
+
+type Response struct {
+	Message      Message `json:"message"`
+	Usage        Usage   `json:"usage"`
+	FinishReason string  `json:"finishReason,omitempty"`
+}
+
+type ResponseFormat struct {
+	Name   string         `json:"name,omitempty"`
+	Schema map[string]any `json:"schema,omitempty"`
+}
+
+type Role = string
+
+const (
+	RoleSystem    Role = "system"
+	RoleUser      Role = "user"
+	RoleAssistant Role = "assistant"
+	RoleTool      Role = "tool"
+)
+
+type SingleProviderRouter struct {
+	Provider Provider
+}
+
+func (r SingleProviderRouter) Route(_ TaskClass) (Provider, error)
+
+type StreamEvent struct {
+	Delta string `json:"delta"`
+	Done  bool   `json:"done"`
+}
+
+type StreamingModel interface {
+	Model
+	GenerateStream(ctx context.Context, req Request, onDelta func(delta string)) (Response, error)
+}
+
+type TaskClass string
+
+const (
+	TaskClassify  TaskClass = "classify"
+	TaskSummarize TaskClass = "summarize"
+	TaskChat      TaskClass = "chat"
+	TaskCoding    TaskClass = "coding"
+	TaskReasoning TaskClass = "reasoning"
+	TaskVision    TaskClass = "vision"
+)
+
+type ToolCall struct {
+	ID        string         `json:"id"`
+	Name      string         `json:"name"`
+	Arguments map[string]any `json:"arguments"`
+}
+
+type ToolSpec struct {
+	Name        string         `json:"name"`
+	Description string         `json:"description"`
+	Parameters  map[string]any `json:"parameters,omitempty"`
+	Risk        string         `json:"risk,omitempty"`
+}
+
+type Usage struct {
+	InputTokens  int64 `json:"inputTokens"`
+	OutputTokens int64 `json:"outputTokens"`
+	CachedTokens int64 `json:"cachedTokens,omitempty"`
+}
+
+
+### github.com/axisvela/praxo-core/pkg/plugin
+
+It is the L5 (agent runtime) boundary for privileged runtime plugins that
+extend tools, model providers, policy, memory, and sandbox execution.
+Like the sibling pkg/contracts packages it is self-contained: it declares
+typed capability contracts, a guarded lifecycle, an adapter registry that
+binds by contract+version only, and per-plugin child scopes. It never resolves
+requirements (resolution belongs to the control plane) and it never imports
+plugin implementations.
+
+VARIABLES
+
+var (
+	ToolProvider = Contract{
+		Kind: KindToolProvider, Service: "tool.provider", Version: "v1",
+		Capability:     "tool.invoke",
+		RequestSchema:  "tool.provider.v1.invoke_request",
+		ResponseSchema: "tool.provider.v1.invoke_response",
+		Timeout:        30 * time.Second,
+	}
+	ModelProvider = Contract{
+		Kind: KindModelProvider, Service: "model.provider", Version: "v1",
+		Capability:     "model.generate",
+		RequestSchema:  "model.provider.v1.generate_request",
+		ResponseSchema: "model.provider.v1.generate_response",
+		Timeout:        2 * time.Minute,
+	}
+	PolicyProvider = Contract{
+		Kind: KindPolicyProvider, Service: "policy.provider", Version: "v1",
+		Capability:     "policy.evaluate",
+		RequestSchema:  "policy.provider.v1.evaluate_request",
+		ResponseSchema: "policy.provider.v1.evaluate_response",
+		Timeout:        5 * time.Second,
+	}
+	MemoryProvider = Contract{
+		Kind: KindMemoryProvider, Service: "memory.provider", Version: "v1",
+		Capability:     "memory.access",
+		RequestSchema:  "memory.provider.v1.access_request",
+		ResponseSchema: "memory.provider.v1.access_response",
+		Timeout:        10 * time.Second,
+	}
+	SandboxProvider = Contract{
+		Kind: KindSandboxProvider, Service: "sandbox.provider", Version: "v1",
+		Capability:     "sandbox.execute",
+		RequestSchema:  "sandbox.provider.v1.execute_request",
+		ResponseSchema: "sandbox.provider.v1.execute_response",
+		Timeout:        time.Minute,
+	}
+)
+var (
+	ErrNotActive = errors.New("pluginrt: instance not active")
+	ErrInvalidTransition = errors.New("pluginrt: invalid state transition")
+	ErrDrainTimeout = errors.New("pluginrt: drain timed out")
+	ErrDrainCanceled = errors.New("pluginrt: drain canceled")
+	ErrUnderflow = errors.New("pluginrt: release without acquire (inflight underflow)")
+)
+
+
+FUNCTIONS
+
+func AcceptsNewInvocations(s State) bool
+
+
+TYPES
+
+type Adapter struct {
+	Contract ServiceRef
+	Name     string
+	Provider ProviderIdentity
+	Invoke   AdapterInvoke
+}
+
+type AdapterInvoke func(context.Context, []byte) ([]byte, error)
+
+
+type AdapterRegistry struct {
+}
+
+func NewAdapterRegistry() *AdapterRegistry
+
+func (r *AdapterRegistry) Bind(service, version string) (Adapter, bool)
+
+func (r *AdapterRegistry) List(services ...string) []ServiceRef
+
+func (r *AdapterRegistry) Register(a Adapter, guards GuardSet) error
+
+func (r *AdapterRegistry) Unregister(service, version string) bool
+
+type CallError struct {
+	PluginID string
+	Service  string
+	Method   string
+	Message  string
+}
+
+func NewCallError(code CallErrorCode, pluginID, service, method, message string) *CallError
+
+func (e *CallError) Code() CallErrorCode
+
+func (e *CallError) Error() string
+
+func (e *CallError) Is(target error) bool
+
+type CallErrorCode string
+
+const (
+	CodeCapabilityDenied CallErrorCode = "CAPABILITY_DENIED"
+	CodeNotActive        CallErrorCode = "NOT_ACTIVE"
+	CodeNotFound         CallErrorCode = "NOT_FOUND"
+	CodeInvalidRequest   CallErrorCode = "INVALID_REQUEST"
+	CodeTimeout          CallErrorCode = "TIMEOUT"
+	CodeInternal         CallErrorCode = "INTERNAL"
+)
+
+type Contract struct {
+	Kind           Kind
+	Service        string
+	Version        string
+	Capability     string
+	RequestSchema  string
+	ResponseSchema string
+	Timeout        time.Duration
+}
+
+func Known() []Contract
+
+func Lookup(k Kind) (Contract, bool)
+
+type Disposer func()
+
+type Entrypoint struct {
+	Type    string   `json:"type"`
+	Command string   `json:"command,omitempty"`
+	Module  string   `json:"module,omitempty"`
+	Image   string   `json:"image,omitempty"`
+	Args    []string `json:"args,omitempty"`
+	Dir     string   `json:"dir,omitempty"`
+}
+
+type Event struct {
+	Kind        EventKind
+	PluginID    string
+	Provider    ProviderIdentity
+	Service     string
+	Method      string
+	RequestID   string
+	SandboxTier int
+	Code        string
+	Limits      ResourceLimits
+	Usage       ResourceUsage
+	Detail      map[string]any
+}
+
+type EventKind string
+
+const (
+	EventStart   EventKind = "start"
+	EventSuccess EventKind = "success"
+	EventFailure EventKind = "failure"
+	EventStop    EventKind = "stop"
+	EventCrash   EventKind = "crash"
+)
+
+const (
+	EventVerificationDenied  EventKind = "verification_denied"
+	EventRegistrationDenied  EventKind = "registration_denied"
+	EventAuthorizationDenied EventKind = "authorization_denied"
+	EventResourceLimit       EventKind = "resource_limit"
+	EventCanceled            EventKind = "canceled"
+	EventTerminated          EventKind = "terminated"
+)
+
+
+
+type FilesystemPermission struct {
+	Path string `json:"path"`
+	Mode string `json:"mode"`
+}
+
+type GuardSet struct {
+	Policy  Middleware
+	Trace   Middleware
+	Network Middleware
+	Sandbox Middleware
+}
+
+type Health struct {
+	Method     string `json:"method,omitempty"`
+	IntervalMs int    `json:"intervalMs,omitempty"`
+}
+
+type Host interface {
+	Invoke(ctx context.Context, pluginID string, service string, method string, payload []byte) ([]byte, error)
+}
+
+type InvokeFunc func(ctx context.Context, pluginID string, service string, method string, payload []byte) ([]byte, error)
+
+func (f InvokeFunc) Invoke(ctx context.Context, pluginID string, service string, method string, payload []byte) ([]byte, error)
+
+type Kind string
+
+const (
+	KindToolProvider Kind = "tool.provider.v1"
+	KindModelProvider Kind = "model.provider.v1"
+	KindPolicyProvider Kind = "policy.provider.v1"
+	KindMemoryProvider Kind = "memory.provider.v1"
+	KindSandboxProvider Kind = "sandbox.provider.v1"
+)
+type Lifecycle struct {
+}
+
+func NewLifecycle() *Lifecycle
+
+func (l *Lifecycle) Acquire() error
+
+func (l *Lifecycle) Drain(ctx context.Context) error
+
+
+
+func (l *Lifecycle) Fail() error
+
+func (l *Lifecycle) Inflight() int
+
+func (l *Lifecycle) Quarantine() error
+
+func (l *Lifecycle) Release() error
+
+func (l *Lifecycle) Revoke(ctx context.Context) error
+
+func (l *Lifecycle) State() State
+
+func (l *Lifecycle) Transit(next State) error
+
+type Limits struct {
+	MemoryMB    int `json:"memoryMB,omitempty"`
+	CPUMillis   int `json:"cpuMillis,omitempty"`
+	TimeoutMs   int `json:"timeoutMs,omitempty"`
+	MaxInflight int `json:"maxInflight,omitempty"`
+}
+
+func (l Limits) ResourceLimits() ResourceLimits
+
+type Manifest struct {
+	SchemaVersion int         `json:"schemaVersion"`
+	ID            string      `json:"id"`
+	Version       string      `json:"version"`
+	Kind          Kind        `json:"kind"`
+	Entrypoint    Entrypoint  `json:"entrypoint"`
+	Protocol      string      `json:"protocol"`
+	Capabilities  []string    `json:"capabilities"`
+	Permissions   Permissions `json:"permissions"`
+	Limits        Limits      `json:"limits"`
+	Isolation     string      `json:"isolation"`
+	Health        Health      `json:"health"`
+	Signature     *Signature  `json:"signature,omitempty"`
+	SBOM          string      `json:"sbom,omitempty"`
+}
+
+func ParseManifest(data []byte) (Manifest, error)
+
+func (m Manifest) Validate() error
+
+func (m Manifest) ValidateTrust(profile TrustProfile) error
+
+type Middleware func(AdapterInvoke) AdapterInvoke
+
+type NetworkPermission struct {
+	Host string `json:"host"`
+	Port int    `json:"port"`
+}
+
+type Permissions struct {
+	Filesystem []FilesystemPermission `json:"filesystem,omitempty"`
+	Network    []NetworkPermission    `json:"network,omitempty"`
+	Env        []string               `json:"env,omitempty"`
+}
+
+type PluginInfo struct {
+	PluginID     string
+	Version      string
+	State        State
+	Capabilities []string
+}
+
+type PluginManager interface {
+	Materialize(ctx context.Context, lock ResolutionLock) error
+	Enable(ctx context.Context, pluginID string) error
+	Disable(ctx context.Context, pluginID string) error
+	Revoke(ctx context.Context, pluginID string) error
+	Uninstall(ctx context.Context, pluginID string) error
+	Invoke(ctx context.Context, pluginID string, service string, method string, payload []byte) ([]byte, error)
+	State(pluginID string) (State, error)
+	List() []PluginInfo
+}
+
+type ProviderIdentity struct {
+	ID      string
+	Kind    string
+	Version string
+}
+
+type ResolutionLock struct {
+	LockID   string
+	Selected []SelectedBundle
+}
+
+type ResourceLimits struct {
+	MemoryMB int `json:"memory_mb,omitempty"`
+	CPUSeconds int `json:"cpu_seconds,omitempty"`
+	MaxProcesses int `json:"max_processes,omitempty"`
+}
+
+
+func (l ResourceLimits) IsZero() bool
+
+type ResourceUsage struct {
+	PeakMemoryMB int `json:"peak_memory_mb,omitempty"`
+	CPUSecondsUsed float64 `json:"cpu_seconds_used,omitempty"`
+	ActiveProcesses int `json:"active_processes,omitempty"`
+}
+
+type Scope struct {
+}
+
+
+func NewScope(pluginID string) *Scope
+
+func (s *Scope) Add(d Disposer)
+
+func (s *Scope) Dispose() error
+
+
+func (s *Scope) Disposed() bool
+
+func (s *Scope) PluginID() string
+
+type SelectedBundle struct {
+	BundleID string
+	Version  string
+	Digest   string
+}
+
+type ServiceRef struct {
+	Service string
+	Version string
+}
+
+func (s ServiceRef) String() string
+
+type Signature struct {
+	Algorithm string `json:"algorithm"`
+	KeyID     string `json:"keyId"`
+}
+
+type State string
+
+const (
+	StateFetched     State = "FETCHED"
+	StateValidated   State = "VALIDATED"
+	StateLoaded      State = "LOADED"
+	StateActive      State = "ACTIVE"
+	StateDraining    State = "DRAINING"
+	StateStopped     State = "STOPPED"
+	StateUnloaded    State = "UNLOADED"
+	StateFailed      State = "FAILED"
+	StateQuarantined State = "QUARANTINED"
+)
+
+type TelemetrySink interface {
+	RecordPluginEvent(context.Context, Event) error
+}
+
+
+type TrustProfile string
+
+const (
+	TrustSigned TrustProfile = "signed"
+	TrustUnsigned TrustProfile = "unsigned"
+)
+
+### github.com/axisvela/praxo-core/pkg/plugin/bridge
+It owns no lifecycle, trust, or policy decisions. Use it for pkg/plugin.Host
+implementations; use tool.Gateway for product-owned external gateways such as
+Janus.
+
+FUNCTIONS
+
+func Adapter(inv Invoker, contract plugin.Contract, opts ...Option) plugin.Adapter
+
+
+TYPES
+
+type Codec interface {
+	Encode(any) ([]byte, error)
+	Decode([]byte, any) error
+}
+
+type HostInvoker struct {
+	Host     plugin.Host
+	PluginID string
+}
+
+func (h HostInvoker) Invoke(ctx context.Context, service, method string, payload []byte) ([]byte, error)
+
+type Invoker interface {
+	Invoke(ctx context.Context, service, method string, payload []byte) ([]byte, error)
+}
+
+type JSONCodec struct{}
+
+func (JSONCodec) Decode(data []byte, v any) error
+
+func (JSONCodec) Encode(v any) ([]byte, error)
+
+type Memory struct {
+}
+
+func NewMemory(inv Invoker, contract plugin.Contract, opts ...Option) *Memory
+
+func (m *Memory) Put(ctx context.Context, sessionID string, record memory.Record) error
+
+func (m *Memory) Search(ctx context.Context, sessionID, query string, limit int) ([]memory.Record, error)
+
+type Model struct {
+}
+
+func NewModel(inv Invoker, contract plugin.Contract, opts ...Option) *Model
+
+func (m *Model) Generate(ctx context.Context, req model.Request) (model.Response, error)
+
+type Option func(*config)
+
+func WithCodec(codec Codec) Option
+
+func WithMethod(method string) Option
+
+func WithPluginID(id string) Option
+
+func WithProvider(p plugin.ProviderIdentity) Option
+
+func WithTimeout(d time.Duration) Option
+
+func WithToolIdentity(name, description string) Option
+
+type Policy struct {
+}
+
+func NewPolicy(inv Invoker, contract plugin.Contract, opts ...Option) *Policy
+
+func (p *Policy) Authorize(ctx context.Context, action policy.Action) (policy.Decision, error)
+
+type Sandbox struct {
+}
+
+func NewSandbox(inv Invoker, contract plugin.Contract, opts ...Option) *Sandbox
+
+func (s *Sandbox) Run(ctx context.Context, spec sandbox.Spec, command []string) (sandbox.Result, error)
+
+type Tool struct {
+}
+
+func NewTool(inv Invoker, contract plugin.Contract, opts ...Option) *Tool
+
+func (t *Tool) Description() string
+
+func (t *Tool) Invoke(ctx context.Context, args map[string]any) (any, error)
+
+func (t *Tool) Name() string
+
+
+### github.com/axisvela/praxo-core/pkg/plugin/host/process
+it runs a runtime plugin as a child process and mediates typed invocations over
+a local authenticated JSON-Lines channel on the child's stdio. The channel
+is authenticated by a per-process random token provisioned to the child via
+environment, never argv.
+
+The host enforces process containment and resource limits through the
+platform supervisor (a Windows Job Object or POSIX per-process rlimits),
+bounds invocations by the caller context and the configured InvokeTimeout,
+and guarantees cancellation: a canceled or timed-out invocation terminates the
+child process, reaps it, fails sibling calls, and emits terminal evidence.
+The package is stdlib-only apart from the platform supervisor.
+
+Containment guarantees are platform-specific and intentional:
+
+  - Windows (RequireLimits): the child is created suspended and assigned to a
+  - Linux: containment uses per-process rlimits plus a dedicated process group
+  - Other platforms: no supervisor; a RequireLimits host fails to start.
+
+CONSTANTS
+
+const (
+	ControlService = "host.control"
+	MethodHealth   = "health"
+	MethodShutdown = "shutdown"
+	MethodCancel = "cancel"
+)
+
+const (
+	DefaultStartTimeout  = 10 * time.Second
+	DefaultInvokeTimeout = 30 * time.Second
+	DefaultGracePeriod   = 5 * time.Second
+	DefaultCancelGrace = 250 * time.Millisecond
+	DefaultMaxFrame = 8 << 20
+)
+
+const CodeCanceled plugin.CallErrorCode = "CANCELED"
+
+const ProtocolVersion = 1
+
+
+VARIABLES
+
+var ErrLimitsUnsupported = errors.New("pluginrt/process: resource limits unsupported on this platform")
+
+
+FUNCTIONS
+
+func LimitsAvailable() error
+
+
+TYPES
+
+type Config struct {
+	PluginID string
+	Provider plugin.ProviderIdentity
+	Sink plugin.TelemetrySink
+	RequireEvidence bool
+	OnEvidenceError func(error)
+	Path string
+	Args []string
+	Dir  string
+	Env []string
+	Token string
+	TokenEnvVar string
+	StartTimeout time.Duration
+	InvokeTimeout time.Duration
+	GracePeriod time.Duration
+	CancelGrace time.Duration
+	MaxFrame int
+	Limits plugin.ResourceLimits
+	RequireLimits bool
+
+}
+
+type Host struct {
+}
+
+func New(cfg Config) (*Host, error)
+
+func (h *Host) ExitError() error
+
+func (h *Host) Exited() <-chan struct{}
+
+func (h *Host) Healthy(context.Context) error
+
+func (h *Host) Invoke(ctx context.Context, service, method string, payload []byte) ([]byte, error)
+
+func (h *Host) Start(ctx context.Context) error
+
+func (h *Host) Stop(ctx context.Context) error
+
+type Request struct {
+	ID       string `json:"id"`
+	Version  int    `json:"version"`
+	PluginID string `json:"plugin_id"`
+	Service  string `json:"service"`
+	Method   string `json:"method"`
+	Token    string `json:"token"`
+	Payload  []byte `json:"payload,omitempty"`
+}
+
+type Response struct {
+	ID      string `json:"id"`
+	Version int    `json:"version"`
+	OK      bool   `json:"ok"`
+	Code    string `json:"code,omitempty"`
+	Message string `json:"message,omitempty"`
+	Payload []byte `json:"payload,omitempty"`
+}
+
+
+### github.com/axisvela/praxo-core/pkg/plugin/host/wasm
+runs a runtime plugin as an isolated wazero WASM/WASI module and mediates typed
+invocations over JSON-Lines frames exchanged through the guest's linear memory.
+
+Guest ABI contract (fail-closed if unmet):
+
+
+CONSTANTS
+
+const (
+	ControlService = "host.control"
+	MethodHealth   = "health"
+	MethodShutdown = "shutdown"
+)
+
+const (
+	DefaultStartTimeout  = 10 * time.Second
+	DefaultInvokeTimeout = 30 * time.Second
+	DefaultGracePeriod   = 5 * time.Second
+	DefaultMaxFrame      = 8 << 20
+	DefaultMaxMemoryPages uint32 = 256
+	DefaultMaxConcurrency = 1
+)
+
+const CodeCanceled plugin.CallErrorCode = "CANCELED"
+
+const ProtocolVersion = 1
+
+
+TYPES
+
+type Config struct {
+	PluginID string
+	Provider plugin.ProviderIdentity
+	Sink plugin.TelemetrySink
+	RequireEvidence bool
+	OnEvidenceError func(error)
+	ModuleBinary []byte
+	Token string
+	StartTimeout time.Duration
+	InvokeTimeout time.Duration
+	GracePeriod time.Duration
+	MaxFrame int
+	MaxMemoryPages uint32
+	MaxConcurrency int
+}
+
+type Host struct {
+}
+
+func New(cfg Config) (*Host, error)
+
+func (h *Host) ExitError() error
+
+func (h *Host) Exited() <-chan struct{}
+
+func (h *Host) Healthy(ctx context.Context) error
+
+func (h *Host) Invoke(ctx context.Context, service, method string, payload []byte) ([]byte, error)
+
+func (h *Host) Start(ctx context.Context) error
+
+func (h *Host) Stop(ctx context.Context) error
+
+type Request struct {
+	ID       string `json:"id"`
+	Version  int    `json:"version"`
+	PluginID string `json:"plugin_id"`
+	Service  string `json:"service"`
+	Method   string `json:"method"`
+	Token    string `json:"token"`
+	Payload  []byte `json:"payload,omitempty"`
+}
+
+type Response struct {
+	ID      string `json:"id"`
+	Version int    `json:"version"`
+	OK      bool   `json:"ok"`
+	Code    string `json:"code,omitempty"`
+	Message string `json:"message,omitempty"`
+	Payload []byte `json:"payload,omitempty"`
+}
+
+
+### github.com/axisvela/praxo-core/pkg/plugin/tck
+Any implementation or composition of the lifecycle, adapter registry, and plugin
+host can be run through these checks to prove protocol-level behavior without
+depending on product governance.
+
+FUNCTIONS
+
+func CheckHost(factory HostFactory) error
+
+func CheckLifecycle(lc *plugin.Lifecycle) error
+
+func CheckRegistry(r *plugin.AdapterRegistry) error
+
+func RegisterTrusted(r *plugin.AdapterRegistry, a plugin.Adapter, guards plugin.GuardSet) error
+
+
+TYPES
+
+type HostFactory interface {
+	NewHost() (HostHarness, error)
+}
+
+type HostHarness interface {
+	Start(context.Context) error
+	Stop(context.Context) error
+	Invoke(ctx context.Context, service, method string, payload []byte) ([]byte, error)
+	PluginID() string
+	Contract() plugin.Contract
+	Methods() HostMethods
+}
+
+type HostMethods struct {
+	Echo string
+	Block string
+	Denied string
+	Timeout time.Duration
+}
+
+
+### github.com/axisvela/praxo-core/pkg/policy
+
+TYPES
+
+type Action struct {
+	Kind      string         `json:"kind"`
+	SessionID string         `json:"sessionId"`
+	ToolName  string         `json:"toolName,omitempty"`
+	Arguments map[string]any `json:"arguments,omitempty"`
+}
+
+type Decision struct {
+	Allowed bool   `json:"allowed"`
+	Reason  string `json:"reason,omitempty"`
+}
+
+type FuncHook func(context.Context, Action) (Decision, error)
+
+func (f FuncHook) Authorize(ctx context.Context, action Action) (Decision, error)
+
+type Hook interface {
+	Authorize(ctx context.Context, action Action) (Decision, error)
+}
+
+type PathAccess string
+
+const (
+	AccessRead PathAccess = "read"
+	AccessWrite PathAccess = "write"
+	AccessReadWrite PathAccess = "readwrite"
+)
+type PathChecker struct {
+}
+
+func NewPathChecker(grants []PathGrant) (*PathChecker, error)
+
+func (c *PathChecker) Allowed(target string, need PathAccess) bool
+
+func (c *PathChecker) Check(target string, need PathAccess) (Decision, error)
+
+type PathGrant struct {
+	Root   string     `json:"root"`
+	Access PathAccess `json:"access"`
+}
+
+
+### github.com/axisvela/praxo-core/pkg/prompt
+
+TYPES
+
+type ChatTemplate struct {
+	ID     string
+	System Template
+	Human  Template
+}
+
+func (c ChatTemplate) Format(vars map[string]string) (system, human string, err error)
+
+type Template struct {
+	ID        string
+	Source    string
+	Variables []string
+}
+
+func New(id, source string) Template
+
+func (t Template) Format(vars map[string]string) (string, error)
+
+
+### github.com/axisvela/praxo-core/pkg/retriever
+
+TYPES
+
+type Document struct {
+	ID       string            `json:"id"`
+	Content  string            `json:"content"`
+	Metadata map[string]string `json:"metadata,omitempty"`
+	Score    float64           `json:"score,omitempty"`
+}
+
+type Func func(context.Context, string, int) ([]Document, error)
+
+func (f Func) Retrieve(ctx context.Context, query string, limit int) ([]Document, error)
+
+type Retriever interface {
+	Retrieve(ctx context.Context, query string, limit int) ([]Document, error)
+}
+
+
+### github.com/axisvela/praxo-core/pkg/sandbox
+
+TYPES
+
+type FuncSandbox func(context.Context, Spec, []string) (Result, error)
+
+func (f FuncSandbox) Run(ctx context.Context, spec Spec, command []string) (Result, error)
+
+type Result struct {
+	ExitCode int    `json:"exitCode"`
+	Stdout   string `json:"stdout"`
+	Stderr   string `json:"stderr"`
+}
+
+type Sandbox interface {
+	Run(ctx context.Context, spec Spec, command []string) (Result, error)
+}
+
+type Spec struct {
+	Image   string            `json:"image,omitempty"`
+	WorkDir string            `json:"workDir,omitempty"`
+	Timeout time.Duration     `json:"timeout,omitempty"`
+	Env     map[string]string `json:"env,omitempty"`
+}
+
+
+### github.com/axisvela/praxo-core/pkg/scheduler
+
+
+TYPES
+
+type DispatchFunc func(schedule *Schedule)
+
+type Engine struct {
+}
+
+func NewEngine(dispatch DispatchFunc) *Engine
+
+func (e *Engine) Add(s *Schedule) error
+
+func (e *Engine) Get(id string) (*Schedule, error)
+
+func (e *Engine) List() []*Schedule
+
+func (e *Engine) Remove(id string) error
+
+func (e *Engine) SetEnabled(id string, enabled bool) error
+
+func (e *Engine) Start()
+
+func (e *Engine) Stop()
+
+type Schedule struct {
+	ID          string    `json:"id"`
+	CronExpr    string    `json:"cron_expr"`
+	WorkspaceID string    `json:"workspace_id"`
+	Message     string    `json:"message"`
+	ModelID     string    `json:"model_id"`
+	Enabled     bool      `json:"enabled"`
+	NextRun     time.Time `json:"next_run"`
+	LastRun     time.Time `json:"last_run"`
+	CreatedAt   time.Time `json:"created_at"`
+}
+
+
+### github.com/axisvela/praxo-core/pkg/tool
+
+VARIABLES
+
+var ErrNotFound = errors.New("tool not found")
+
+
+TYPES
+
+type Gateway interface {
+	Execute(ctx context.Context, name string, input map[string]any, token string) (any, error)
+	ListTools() []GatewayInfo
+}
+
+type GatewayInfo struct {
+	Name        string `json:"name"`
+	Description string `json:"description"`
+	Risk        string `json:"risk"`
+}
+
+type GatewayTool struct {
+	Gateway Gateway
+	Info    GatewayInfo
+}
+
+func (t GatewayTool) Description() string
+
+func (t GatewayTool) Invoke(ctx context.Context, args map[string]any) (any, error)
+
+func (t GatewayTool) Name() string
+
+type Middleware func(next Tool) Tool
+
+func MiddlewareFunc(name, description string, invoke func(context.Context, map[string]any) (any, error)) Middleware
+
+type Registry struct {
+}
+
+func NewRegistry() *Registry
+
+func (r *Registry) Get(name string) (Tool, error)
+
+func (r *Registry) Register(t Tool)
+
+func (r *Registry) Specs() []model.ToolSpec
+
+type SpecProvider interface {
+	Spec() model.ToolSpec
+}
+
+type Tool interface {
+	Name() string
+	Description() string
+	Invoke(ctx context.Context, args map[string]any) (any, error)
+}
+
+func NewGatewayTools(gw Gateway) []Tool
+
+func Wrap(t Tool, middlewares ...Middleware) Tool
+
+
+### github.com/axisvela/praxo-core/pkg/tool/jsonschema
+Reference: OpenCode's tool/json-schema.ts
+
+TYPES
+
+type Schema struct {
+	Type        string            `json:"type,omitempty"`
+	Properties  map[string]Schema `json:"properties,omitempty"`
+	Required    []string          `json:"required,omitempty"`
+	Items       *Schema           `json:"items,omitempty"`
+	Enum        []any             `json:"enum,omitempty"`
+	MinLength   int               `json:"minLength,omitempty"`
+	MaxLength   int               `json:"maxLength,omitempty"`
+	Minimum     float64           `json:"minimum,omitempty"`
+	Maximum     float64           `json:"maximum,omitempty"`
+	Pattern     string            `json:"pattern,omitempty"`
+	Description string            `json:"description,omitempty"`
+}
+
+func FromJSON(data []byte) (*Schema, error)
+
+func SchemaForTool(v any) (*Schema, error)
+
+func (s *Schema) Validate(data any) []ValidationError
+
+type ValidationError struct {
+	Path    string `json:"path"`
+	Message string `json:"message"`
+}
+
+
+### github.com/axisvela/praxo-core/pkg/toolcall
+
+FUNCTIONS
+
+func ParseInputJSON(raw string) (map[string]any, bool)
+
+func StripToolCallMarkup(content string) string
+
+
+TYPES
+
+type ToolCall struct {
+	CallID         string         `json:"call_id"`
+	Name           string         `json:"name"`
+	Operation      string         `json:"operation"`
+	Resource       string         `json:"resource"`
+	Risk           string         `json:"risk"`
+	Reason         string         `json:"reason"`
+	IdempotencyKey string         `json:"idempotency_key,omitempty"`
+	Input          map[string]any `json:"input"`
+}
+
+func ParseToolCall(content string) *ToolCall
+

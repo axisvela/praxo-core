@@ -2,8 +2,8 @@
 
 | Package | Contract | Typical adapter |
 | --- | --- | --- |
-| `pkg/model` | `Model.Generate`, `Provider.Chat/ChatStream`, `ModelRouter`, `ChatModel` | PRAXOVELA provider router |
-| `pkg/agent` | `Agent.Run`, middleware, hooks, token/step budgets, `ContextBudget` | PRAXOVELA agent loop |
+| `pkg/model` | `Model.Generate`, `Provider.Chat/ChatStream`, `ModelRouter`, `ChatModel`, `CacheHint` | PRAXOVELA provider router |
+| `pkg/agent` | `Agent.Run`, middleware, hooks, token/step budgets, `ContextBudget`, `ContextCompactor`, `Offloader`, `LoadAgentsMD` | PRAXOVELA agent loop |
 | `pkg/checkpoint` | `Checkpoint`, `Store.Save/Load/List`, recovery report | PRAXOVELA checkpoint store |
 | `pkg/httpclient` | retry-capable HTTP transport with auth, tracing, and decoding | PRAXOVELA adapters |
 | `pkg/tool` | `Tool`, `Registry`, `SpecProvider`, `Middleware`, `Gateway` | Janus Gateway tools |

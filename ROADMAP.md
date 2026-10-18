@@ -1,6 +1,6 @@
 # PRAXO-CORE Roadmap
 
-**Current:** `1.0.0` released 2026-10-18; `1.1.0` context parity next
+**Current:** `1.1.0` context management parity (2026-10-18)
 
 **Target:** `1.3.0` harness parity
 
@@ -25,6 +25,7 @@
 | 0.15.0 | plugin hosts, Manifest v1, TCK, path containment, context budget |
 | 0.16.0 | canonical `toolcall`/`formatter`/`jsonschema` paths with deprecated aliases |
 | 1.0.0 | API freeze, plugin hosts, TCK, security and release gates |
+| 1.1.0 | model summarization, tool-result offload, AGENTS.md memory, prompt-cache hook |
 
 See `CHANGELOG.md` for exact changes.
 
@@ -99,7 +100,7 @@ Exit gate:
 - Release gate, SBOM, and checksums.
 - No competitive harness-parity expansion; the items below are post-1.0.
 
-## 1.1.0 - Context Management Parity
+## 1.1.0 - Context Management Parity (released 2026-10-18)
 
 - `ContextCompactor` interface with model-based summarization and large-result
   offload.
