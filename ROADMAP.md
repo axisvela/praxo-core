@@ -227,7 +227,7 @@ Exit gate:
 - [x] Real NOETIVELA, Mnemovela, and GNOSIVELA SDK recipes.
 - [x] Bilingual docs site, adoption guide, recipes, and benchmarks.
 - [x] Release `v2.1.0`.
-- [ ] Tag `adapters/mcp/v0.1.0`.
+- [x] Tag `adapters/mcp/v0.1.0`.
 - [ ] Publish the launch announcement and collect first external feedback.
 
 Exit gate:
