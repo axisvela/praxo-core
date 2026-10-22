@@ -32,18 +32,23 @@ PRAXO-CORE 是 AxisVela 家族的框架层，不绑定单一产品：同一组�
 
 | 生态组件 | PRAXO-CORE 接缝 | 典型适配器 |
 | --- | --- | --- |
-| 模型 | `pkg/model`（`Model`、`Provider`、`ProviderProfile`） | PRAXOVELA 提供商路由器 / 使用方适配器 |
+| 模型与推理路由 | `pkg/model`（`Model`、`Provider`、`ModelRouter`、`ProviderProfile`） | NOETIVELA（NOETIVELA-open）/ PRAXOVELA 提供商路由器 |
 | 记忆 | `pkg/memory`（`Store`、`ContextAssembler`） | Mnemovela |
 | 事件 | `pkg/event`（`Sink`、`PublisherSink`） | Harmovela / Argus Trace |
 | 检索 | `pkg/retriever`（`Retriever`、`Document`） | GNOSIVELA / Mnemovela |
 | 策略 | `pkg/policy`（`Hook`、`PathChecker`） | AEGIVELA / Archon Guard |
 | 沙箱 | `pkg/sandbox`（`Sandbox`、`Interpreter`） | Vulcan Forge |
-| 工具 | `pkg/tool`（`Tool`、`Gateway`） | Janus Gateway |
+| 工具 | `pkg/tool`（`Tool`、`Gateway`） | Janus Gateway / LIMENORA |
 | 图执行 | `pkg/agent`、`pkg/agent/stream` | RHEOVELA |
 | 产品运行时 | 所有接口 | PRAXOVELA |
 
+NOETIVELA 是 AxisVela 的推理基础设施（inference fabric），可以通过 `model.Model` 或 `model.Provider`
+适配器接入模型接缝。其他 AxisVela 控制平面（身份、保障、HITL、能力、孪生、
+规划、协调）通过工具、事件或产品运行时适配器接入，而不是核心基础能力。
+
 适配器是可选的，且归产品所有；框架从不导入产品代码。参见
-[AxisVela 生态集成](docs/zh-CN/12-ecosystem.md)。
+[AxisVela 生态集成](docs/zh-CN/12-ecosystem.md) 与
+[适配器骨架](examples/ecosystem)。
 
 ## 模块
 

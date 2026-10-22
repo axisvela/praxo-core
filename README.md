@@ -35,18 +35,24 @@ integrator.
 
 | Ecosystem component | PRAXO-CORE seam | Typical adapter |
 | --- | --- | --- |
-| Models | `pkg/model` (`Model`, `Provider`, `ProviderProfile`) | PRAXOVELA provider router / consumer adapters |
+| Models and inference routing | `pkg/model` (`Model`, `Provider`, `ModelRouter`, `ProviderProfile`) | NOETIVELA (NOETIVELA-open) / PRAXOVELA provider router |
 | Memory | `pkg/memory` (`Store`, `ContextAssembler`) | Mnemovela |
 | Events | `pkg/event` (`Sink`, `PublisherSink`) | Harmovela / Argus Trace |
 | Retrieval | `pkg/retriever` (`Retriever`, `Document`) | GNOSIVELA / Mnemovela |
 | Policy | `pkg/policy` (`Hook`, `PathChecker`) | AEGIVELA / Archon Guard |
 | Sandbox | `pkg/sandbox` (`Sandbox`, `Interpreter`) | Vulcan Forge |
-| Tools | `pkg/tool` (`Tool`, `Gateway`) | Janus Gateway |
+| Tools | `pkg/tool` (`Tool`, `Gateway`) | Janus Gateway / LIMENORA |
 | Graph execution | `pkg/agent`, `pkg/agent/stream` | RHEOVELA |
 | Product runtime | All interfaces | PRAXOVELA |
 
+NOETIVELA is the AxisVela inference fabric and can back the model seam through
+a `model.Model` or `model.Provider` adapter. Other AxisVela control planes
+(identity, assurance, HITL, capabilities, twins, planning, coordination) plug in
+through tools, events, or product-runtime adapters rather than core primitives.
+
 Adapters are optional and product-owned; the framework never imports product
-code. See [AxisVela ecosystem integration](docs/12-ecosystem.md).
+code. See [AxisVela ecosystem integration](docs/12-ecosystem.md) and the
+[adapter skeletons](examples/ecosystem).
 
 ## Module
 
