@@ -197,6 +197,7 @@ planning. The framework is extracted from PRAXOVELA's proven runtime.
 [Documentation site](https://axisvela.github.io/praxo-core/) |
 [简体中文文档](docs/zh-CN/README.md)
 
+- [Adoption guide](docs/adoption.md)
 - [Recipes](docs/recipes.md)
 - [Comparison with other Go agent frameworks](docs/comparison.md)
 - [Benchmarks](docs/benchmarks.md)
