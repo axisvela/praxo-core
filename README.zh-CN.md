@@ -48,8 +48,9 @@ NOETIVELA 是 AxisVela 的推理基础设施（inference fabric），可以通�
 
 适配器是可选的，且归产品所有；框架从不导入产品代码。参见
 [AxisVela 生态集成](docs/zh-CN/12-ecosystem.md)、
-[适配器骨架](examples/ecosystem) 与
-[可运行接线示例](examples/ecosystem/cmd/demo)。
+[适配器骨架](examples/ecosystem)、
+[可运行接线示例](examples/ecosystem/cmd/demo) 与
+[真实 NOETIVELA SDK 示例](examples/ecosystem-sdk)。
 
 ## 模块
 

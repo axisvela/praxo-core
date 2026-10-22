@@ -2,7 +2,9 @@
 
 These adapters show how AxisVela components plug into PRAXO-CORE's interfaces.
 Each adapter accepts a callback, so product code can supply its own client
-without adding product dependencies to the framework.
+without adding product dependencies to the framework. These skeletons
+intentionally do not import ecosystem SDKs. For a real SDK-backed adapter, see
+[`../ecosystem-sdk`](../ecosystem-sdk) (NOETIVELA).
 
 | Adapter | PRAXO-CORE seam | Ecosystem component |
 | --- | --- | --- |
