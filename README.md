@@ -89,19 +89,23 @@ upstream projects evolve quickly, so verify details before adopting.
 | | PRAXO-CORE | LangChainGo | Eino | Google ADK Go | Microsoft Agent Framework Go |
 | --- | --- | --- | --- | --- | --- |
 | Primary focus | Governed, embeddable agent runtime primitives | LangChain-style composable LLM apps | LLM app framework with graph orchestration and ADK | Code-first agent toolkit, Gemini-optimized but model-agnostic | Production agents and multi-agent workflows (public preview) |
+| AxisVela ecosystem | First-class seams for NOETIVELA, Mnemovela, Harmovela, GNOSIVELA, AEGIVELA, RHEOVELA, LIMENORA | Custom adapters/tools | Custom adapters/tools | Custom adapters/tools | Custom adapters/tools |
 | Orchestration | Single-agent loop, middleware, subagents, `flow` Chain/Parallel | Chains, agents, tools | Graphs/workflows, ReAct `ChatModelAgent`, `DeepAgent` multi-agent | Workflow agents, graph workflows, multi-agent composition | Graph workflows: sequential, concurrent, group, routing, subworkflows |
-| Providers | Provider-neutral `model.Model`; adapters are consumer-owned | Broad built-in provider set | Extensions via `eino-ext` | Gemini first; OpenAI adapter; model-agnostic | Foundry, Azure, OpenAI, Anthropic, Gemini, Copilot |
-| Tools and MCP | Tool contracts, JSON Schema, retry, gateway; MCP client is consumer-owned | Tools; MCP not first-class | Tools; MCP via `eino-ext` | Rich tools, MCP toolset, A2A | Tools, MCP, A2A, AG-UI |
-| Memory and RAG | Interfaces and retrieval contracts; storage is consumer-owned | Memory, loaders, vector stores | Retriever and context components | Sessions, memory, artifacts | Memory, text search/RAG, vector stores |
-| Governance and extension | Policy hooks, path containment, sandbox seam, checkpoints, HITL, process/WASM plugin plane, event sinks | Callbacks | HITL interrupt/resume, callbacks | Lifecycle plugin hooks, auth, telemetry | Checkpointing, tool approval/HITL, OpenTelemetry |
+| Providers | Provider-neutral `model.Model`; NOETIVELA/PRAXOVELA adapters | Broad built-in provider set | Extensions via `eino-ext` | Gemini first; OpenAI adapter; model-agnostic | Foundry, Azure, OpenAI, Anthropic, Gemini, Copilot |
+| Tools and MCP | Tool contracts, JSON Schema, retry, gateway; Janus/LIMENORA gateway; MCP client is consumer-owned | Tools; MCP not first-class | Tools; MCP via `eino-ext` | Rich tools, MCP toolset, A2A | Tools, MCP, A2A, AG-UI |
+| Memory and RAG | Interfaces and retrieval contracts; Mnemovela memory, GNOSIVELA retrieval | Memory, loaders, vector stores | Retriever and context components | Sessions, memory, artifacts | Memory, text search/RAG, vector stores |
+| Governance and extension | Policy hooks, AEGIVELA policy, path containment, sandbox seam, checkpoints, HITL, process/WASM plugin plane, event sinks | Callbacks | HITL interrupt/resume, callbacks | Lifecycle plugin hooks, auth, telemetry | Checkpointing, tool approval/HITL, OpenTelemetry |
 | License | MIT | MIT | Apache-2.0 | Apache-2.0 | MIT |
 
 PRAXO-CORE is deliberately lower-level: it does not bundle provider SDKs,
-vector databases, or an MCP client. Choose it when you need a small,
-MIT-licensed governance and runtime boundary to embed. Choose LangChainGo,
-Eino, or ADK when you want batteries-included integrations and orchestration
-patterns. See the [full comparison](docs/comparison.md) for positioning and
-"when to choose" guidance.
+vector databases, or an MCP client. It is also the only framework here with
+first-class AxisVela seams; other frameworks can still integrate AxisVela
+through custom adapters or tools. Choose PRAXO-CORE when you need a small,
+MIT-licensed governance and runtime boundary to embed, or native access to
+NOETIVELA, Mnemovela, Harmovela, GNOSIVELA, AEGIVELA, RHEOVELA, and LIMENORA.
+Choose LangChainGo, Eino, or ADK when you want batteries-included integrations
+and orchestration patterns. See the [full comparison](docs/comparison.md) for
+positioning and "when to choose" guidance.
 
 ## Example
 
