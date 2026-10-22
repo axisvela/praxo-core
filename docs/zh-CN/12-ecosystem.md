@@ -36,10 +36,15 @@ PRAXO-CORE 是 AxisVela Agent 共享的框架层。它暴露中立的契约，�
   `model.ProviderProfile`。
 - 框架不内置 NOETIVELA Go SDK 或提供商凭据。`noetivela-open` 采用
   Apache-2.0，可由适配器或产品导入。
+- [`examples/ecosystem-sdk`](../../examples/ecosystem-sdk) 模块直接使用真实的
+  NOETIVELA Go SDK。它是独立模块，因此核心框架模块不依赖产品 SDK。
 - `ecosystem.Noetivela` 骨架展示了契约映射形态；`ecosystem.Model` 和
   `ecosystem.Provider` 覆盖通用回调形态。
 - [可运行示例](../../examples/ecosystem/cmd/demo) 将 NOETIVELA、记忆、事件、
   策略和工具网关适配器接入 Agent。
+- NOETIVELA SDK 的 `ChatResponse` 只暴露文本内容，不暴露工具调用。若需要
+  Agent 工具调用，应使用保留 tool-call 字段的自定义 HTTP 适配器，或把工具
+  执行留在产品运行时。
 
 ## 其他 AxisVela 组件
 

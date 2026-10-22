@@ -39,10 +39,16 @@ inference fabric and can back the model seam.
   stream, or cache capabilities.
 - The framework does not vendor the NOETIVELA Go SDK or provider credentials.
   `noetivela-open` is Apache-2.0 and can be imported by the adapter or product.
+- The [`examples/ecosystem-sdk`](../../examples/ecosystem-sdk) module uses the
+  real NOETIVELA Go SDK. It is a separate module so the core framework module
+  stays free of product SDK dependencies.
 - The `ecosystem.Noetivela` adapter skeleton shows a contract-mapping shape;
   `ecosystem.Model` and `ecosystem.Provider` cover the generic callback shape.
 - The [runnable demo](../../examples/ecosystem/cmd/demo) wires the NOETIVELA,
   memory, event, policy, and tool-gateway adapters into an agent.
+- The NOETIVELA SDK `ChatResponse` exposes text content, not tool calls. For
+  agent tool calling, use a custom HTTP adapter that preserves tool-call fields,
+  or keep tool execution in the product runtime.
 
 ## Other AxisVela Components
 

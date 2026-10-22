@@ -52,8 +52,9 @@ through tools, events, or product-runtime adapters rather than core primitives.
 
 Adapters are optional and product-owned; the framework never imports product
 code. See [AxisVela ecosystem integration](docs/12-ecosystem.md), the
-[adapter skeletons](examples/ecosystem), and the
-[runnable wiring demo](examples/ecosystem/cmd/demo).
+[adapter skeletons](examples/ecosystem), the
+[runnable wiring demo](examples/ecosystem/cmd/demo), and the
+[real NOETIVELA SDK example](examples/ecosystem-sdk).
 
 ## Module
 
