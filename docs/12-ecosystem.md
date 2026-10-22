@@ -32,13 +32,17 @@ inference fabric and can back the model seam.
 - Map the neutral `model.Request` to a NOETIVELA Inference Contract inside the
   adapter. Contract fields such as task, modality, region, and data
   classification are adapter or product configuration; the core request does
-  not add NOETIVELA-specific fields.
+  not add NOETIVELA-specific fields. The agent does not populate
+  `model.Request.Model`, so derive the contract from adapter state, run context,
+  or messages rather than assuming a model name.
 - Use `model.ProviderProfile` when you need per-endpoint context, output, tool,
   stream, or cache capabilities.
 - The framework does not vendor the NOETIVELA Go SDK or provider credentials.
   `noetivela-open` is Apache-2.0 and can be imported by the adapter or product.
-- The `ecosystem.Model` and `ecosystem.Provider` skeletons show the callback
-  shape an adapter can fill.
+- The `ecosystem.Noetivela` adapter skeleton shows a contract-mapping shape;
+  `ecosystem.Model` and `ecosystem.Provider` cover the generic callback shape.
+- The [runnable demo](../../examples/ecosystem/cmd/demo) wires the NOETIVELA,
+  memory, event, policy, and tool-gateway adapters into an agent.
 
 ## Other AxisVela Components
 
