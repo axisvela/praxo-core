@@ -62,9 +62,10 @@ not independent security sign-off.
 - **Offloaded tool results.** The `Offloader` is caller-owned; stored bytes may
   contain sensitive data. The framework only replaces prompt content and does
   not choose storage, encryption, or retention.
-- **Go standard-library fixes.** CI and release builds use Go `1.26.x` so the
-  `net/http` fixes in Go 1.26.9+ are present. Consumers on older toolchains
-  should upgrade before deploying the HTTP client.
+- **Go standard-library fixes.** CI and release builds use Go `1.26.10` so the
+  `net/http` fixes in Go 1.26.9+ and the `crypto/x509` fix for GO-2026-6809 are
+  present. Consumers on older toolchains should upgrade before deploying the
+  HTTP client.
 - **Prompt injection is not a framework vulnerability by itself.** The
   enforcement boundary is policy plus tool allowlisting, not model text.
 - **No plugin-to-plugin calls and no dynamic capability escalation** in v1.
