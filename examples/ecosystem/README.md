@@ -26,3 +26,9 @@ Run the tests with:
 ```bash
 GOWORK=off go test ./examples/ecosystem
 ```
+
+Run the end-to-end wiring demo:
+
+```bash
+GOWORK=off go run ./examples/ecosystem/cmd/demo
+```
