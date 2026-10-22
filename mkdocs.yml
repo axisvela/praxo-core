@@ -39,6 +39,8 @@ markdown_extensions:
 nav:
   - Home: index.md
   - Quickstart: quickstart.md
+  - Releases:
+      - 2.1.0: releases/2.1.0.md
   - Guide:
       - Adoption guide: adoption.md
       - Overview: 00-overview.md
@@ -61,6 +63,7 @@ nav:
   - 中文:
       - 中文首页: zh-CN/README.md
       - 快速开始: zh-CN/quickstart.md
+      - 2.1.0 发布说明: zh-CN/releases/2.1.0.md
       - 采用指南: zh-CN/adoption.md
       - 概览: zh-CN/00-overview.md
       - 架构: zh-CN/01-architecture.md

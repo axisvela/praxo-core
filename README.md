@@ -196,6 +196,7 @@ extracted from PRAXOVELA's proven runtime.
 [Documentation site](https://axisvela.github.io/praxo-core/) |
 [简体中文文档](docs/zh-CN/README.md)
 
+- [2.1.0 release notes](docs/releases/2.1.0.md)
 - [Adoption guide](docs/adoption.md)
 - [Recipes](docs/recipes.md)
 - [Comparison with other Go agent frameworks](docs/comparison.md)

@@ -9,6 +9,7 @@
 | 文档 | 内容 |
 | --- | --- |
 | [快速开始](quickstart.md) | 使用 Ollama 或 OpenAI 兼容端点运行 Agent |
+| [2.1.0 发布说明](releases/2.1.0.md) | 版本重点、升级方式与验证结果 |
 | [采用指南](adoption.md) | 评估、原型、生产清单与迁移注意事项 |
 | [Recipes](recipes.md) | OpenAI 兼容、MCP、NOETIVELA、Mnemovela、GNOSIVELA 接入片段 |
 | [与其他 Go Agent 框架的对比](comparison.md) | 与 LangChainGo、Eino、Google ADK Go、Microsoft Agent Framework Go 的对比 |
