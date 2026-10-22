@@ -58,6 +58,17 @@ jobs:
       - run: go build ./...
         working-directory: adapters/mcp
 
+  benchmarks:
+    runs-on: ubuntu-latest
+    env:
+      GOWORK: "off"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: "1.26.x"
+      - run: go test ./benchmarks -run=^$ -bench '.*' -benchtime=10x
+
   race:
     runs-on: ubuntu-latest
     env:
