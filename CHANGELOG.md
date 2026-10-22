@@ -1,5 +1,30 @@
 # Changelog
 
+## [Unreleased]
+
+### Added
+
+- `adapters/openaicompat`: standard-library OpenAI-compatible model adapter with
+  tool calls, tool choice, usage accounting, and SSE streaming.
+- `adapters/mcp`: optional module mapping MCP tools to `tool.Gateway`.
+- `examples/quickstart`: Ollama and OpenAI-compatible quickstart.
+- `examples/reference`: workspace agent with confined VFS tools, policy, memory,
+  events, and context budget.
+- `examples/ecosystem`: callback-based adapter skeletons for AxisVela components.
+- `examples/ecosystem-sdk`: real NOETIVELA, Mnemovela, and GNOSIVELA SDK recipes.
+- Agent-loop benchmarks and a benchmark CI job.
+- Bilingual docs site, adoption guide, recipes, Chinese documentation, and
+  deeper ecosystem comparison.
+
+### Changed
+
+- No `pkg/...` API changes. The `2.0.0` exported surface remains frozen.
+
+### Community
+
+- Added `CONTRIBUTING.md`, `CODE_OF_CONDUCT.md`, issue/PR templates, and GitHub
+  Discussions.
+
 ## [2.0.0] - 2026-10-18
 
 ### Changed

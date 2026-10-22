@@ -23,9 +23,30 @@ for the public roadmap.
 | 1.1.0 | context management parity: summarization, offload, `AGENTS.md`, prompt cache hooks (released 2026-10-18) |
 | 1.2.0 | delegation/execution parity: async/fork subagents, virtual FS backend, delete/glob/grep (released 2026-10-18) |
 | 1.3.0 | harness profiles, rubric/evaluation middleware, optional JS interpreter (released 2026-10-18) |
+| 1.4.0 | structured output, tool selection, PII, fallback, tool retry, call limits (released 2026-10-18) |
+| 1.5.0 | HITL approve/edit/reject/respond decisions (released 2026-10-18) |
+| 1.6.0 | capability package split, typed streams, session resume, checkpoint allowlist (released 2026-10-18) |
+| 1.7.0 | context editing and todo/planning middleware (released 2026-10-18) |
+| 2.0.0 | v2 module path; API functionally identical to 1.7.0 (released 2026-10-18) |
+| 2.1.0 | adoption surface: adapters, docs site, recipes, benchmarks, reference app (planned) |
 
-Post-1.0 items are competitive harness parity, not 1.0 blockers. They are
-sequenced after the stable API and release gates.
+Post-1.0 items are competitive harness parity and adoption work, not 1.0
+blockers. They are sequenced after the stable API and release gates.
+
+## Adoption Workstream
+
+The `2.1.0` workstream keeps the `pkg/...` API frozen while improving the path
+from discovery to production:
+
+- quickstart and reference app
+- OpenAI-compatible and MCP adapters
+- NOETIVELA, Mnemovela, and GNOSIVELA SDK recipes
+- bilingual docs site, adoption guide, and recipes
+- benchmarks and release notes
+- community files and good first issues
+
+The detailed 90-day plan is in
+[13-adoption-plan.md](13-adoption-plan.md).
 
 ## Evidence
 

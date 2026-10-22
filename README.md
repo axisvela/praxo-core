@@ -198,6 +198,7 @@ planning. The framework is extracted from PRAXOVELA's proven runtime.
 [简体中文文档](docs/zh-CN/README.md)
 
 - [Adoption guide](docs/adoption.md)
+- [Adoption plan](docs/13-adoption-plan.md)
 - [Recipes](docs/recipes.md)
 - [Comparison with other Go agent frameworks](docs/comparison.md)
 - [Benchmarks](docs/benchmarks.md)
