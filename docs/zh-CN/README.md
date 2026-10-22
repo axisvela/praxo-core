@@ -9,6 +9,7 @@
 | 文档 | 内容 |
 | --- | --- |
 | [快速开始](quickstart.md) | 使用 Ollama 或 OpenAI 兼容端点运行 Agent |
+| [Recipes](recipes.md) | OpenAI 兼容、MCP、NOETIVELA、Mnemovela、GNOSIVELA 接入片段 |
 | [与其他 Go Agent 框架的对比](comparison.md) | 与 LangChainGo、Eino、Google ADK Go、Microsoft Agent Framework Go 的对比 |
 | [基准测试](benchmarks.md) | Agent 循环回归基准与运行方法 |
 | [AxisVela 生态集成](12-ecosystem.md) | 模型、记忆、Harmovela、GNOSIVELA 等组件的接入接缝 |

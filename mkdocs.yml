@@ -44,6 +44,7 @@ nav:
       - Architecture: 01-architecture.md
       - Primitives: 02-primitives.md
       - Integration: 03-integration.md
+      - Recipes: recipes.md
       - AxisVela ecosystem: 12-ecosystem.md
       - Comparison: comparison.md
       - Plugin authoring: 10-plugin-authoring.md
@@ -63,6 +64,7 @@ nav:
       - 架构: zh-CN/01-architecture.md
       - 基础能力: zh-CN/02-primitives.md
       - 集成: zh-CN/03-integration.md
+      - Recipes: zh-CN/recipes.md
       - AxisVela 生态: zh-CN/12-ecosystem.md
       - 对比: zh-CN/comparison.md
       - 插件编写: zh-CN/10-plugin-authoring.md
