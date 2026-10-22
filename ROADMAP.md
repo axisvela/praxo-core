@@ -241,6 +241,7 @@ Exit gate:
 
 - [x] Native Anthropic adapter; Gemini adapter remains a candidate.
 - [x] MCP resources and prompts; streaming progress remains a candidate.
+- [x] Tag `adapters/mcp/v0.2.0`.
 - [x] OpenTelemetry event sink and trace correlation.
 - [x] Tag `adapters/otel/v0.1.0`.
 - [x] Tag `adapters/anthropic/v0.1.0`.
