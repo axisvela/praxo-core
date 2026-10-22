@@ -11,6 +11,9 @@ Agent 循环。它是框架，不是产品。
 > **一句话：** 构建受治理的 Agent，无需重复实现循环、模型提供商抽象、
 > 工具契约或记忆/事件边界。
 
+**对比：** [PRAXO-CORE 与其他 Go Agent 框架](docs/zh-CN/comparison.md)
+（LangChainGo、Eino、Google ADK Go、Microsoft Agent Framework Go）。
+
 ## 框架，而非产品
 
 | 层级 | 说明 | 许可证 |
@@ -63,7 +66,8 @@ Go Agent 生态中已有多个优秀框架。下表基于 2026 年 10 月的公�
 
 PRAXO-CORE 刻意保持底层：不捆绑提供商 SDK、向量数据库或 MCP 客户端。需要可嵌入、
 MIT 许可的治理与运行时边界时选择它；需要开箱即用的集成与编排模式时，可选择
-LangChainGo、Eino 或 ADK。
+LangChainGo、Eino 或 ADK。定位与选型建议参见
+[完整对比](docs/zh-CN/comparison.md)。
 
 ## 示例
 
@@ -101,6 +105,7 @@ result, err := ag.Run(ctx, agent.Session{
 ## 文档
 
 - [中文文档目录](docs/zh-CN/README.md)
+- [与其他 Go Agent 框架的对比](docs/zh-CN/comparison.md)
 - [概览](docs/zh-CN/00-overview.md)
 - [架构](docs/zh-CN/01-architecture.md)
 - [基础能力](docs/zh-CN/02-primitives.md)

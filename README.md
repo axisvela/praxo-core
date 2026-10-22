@@ -12,6 +12,9 @@ not a product.
 > **One-liner:** build governed agents without rebuilding the loop, provider
 > abstraction, tool contracts, or memory/event boundaries.
 
+**Comparison:** [PRAXO-CORE vs other Go agent frameworks](docs/comparison.md)
+(LangChainGo, Eino, Google ADK Go, Microsoft Agent Framework Go).
+
 ## Framework, Not Product
 
 | Layer | What it is | License |
@@ -68,7 +71,8 @@ PRAXO-CORE is deliberately lower-level: it does not bundle provider SDKs,
 vector databases, or an MCP client. Choose it when you need a small,
 MIT-licensed governance and runtime boundary to embed. Choose LangChainGo,
 Eino, or ADK when you want batteries-included integrations and orchestration
-patterns.
+patterns. See the [full comparison](docs/comparison.md) for positioning and
+"when to choose" guidance.
 
 ## Example
 
@@ -108,6 +112,7 @@ planning. The framework is extracted from PRAXOVELA's proven runtime.
 
 [简体中文文档](docs/zh-CN/README.md)
 
+- [Comparison with other Go agent frameworks](docs/comparison.md)
 - [Overview](docs/00-overview.md)
 - [Architecture](docs/01-architecture.md)
 - [Primitives](docs/02-primitives.md)

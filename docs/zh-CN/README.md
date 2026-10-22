@@ -7,6 +7,7 @@
 
 | 文档 | 内容 |
 | --- | --- |
+| [与其他 Go Agent 框架的对比](comparison.md) | 与 LangChainGo、Eino、Google ADK Go、Microsoft Agent Framework Go 的对比 |
 | [概览](00-overview.md) | 框架定位、边界与产品关系 |
 | [架构](01-architecture.md) | Agent 循环、上下文、插件平面与设计规则 |
 | [基础能力](02-primitives.md) | 各包的契约与典型适配器 |
