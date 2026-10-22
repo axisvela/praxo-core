@@ -56,7 +56,6 @@ nav:
       - Release process: 09-release.md
       - API freeze: 07-api-freeze.md
       - Roadmap: 06-roadmap.md
-      - Adoption plan: 13-adoption-plan.md
       - Compatibility: 05-compatibility.md
       - License and provenance: 04-license-and-provenance.md
   - 中文:
@@ -77,6 +76,5 @@ nav:
       - 发布流程: zh-CN/09-release.md
       - API 冻结: zh-CN/07-api-freeze.md
       - 路线图: zh-CN/06-roadmap.md
-      - 采用计划: zh-CN/13-adoption-plan.md
       - 兼容性: zh-CN/05-compatibility.md
       - 许可证与来源: zh-CN/04-license-and-provenance.md

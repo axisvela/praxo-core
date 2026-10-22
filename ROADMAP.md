@@ -51,8 +51,6 @@ integrate without changing the frozen `pkg/...` API.
 - **Release:** monthly minor cadence; separate tags for optional modules such as
   `adapters/mcp/v0.1.0`.
 
-See [docs/13-adoption-plan.md](docs/13-adoption-plan.md) for the 90-day plan.
-
 ## 0.1.0 - Contract Baseline
 
 Delivered:
