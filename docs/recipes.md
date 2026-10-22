@@ -55,6 +55,26 @@ MCP authentication belongs to the client session. Call `gateway.Refresh` after
 the server changes its tools. See the
 [MCP gateway](https://github.com/axisvela/praxo-core/tree/main/adapters/mcp).
 
+## OpenTelemetry Events
+
+Use the optional OpenTelemetry module to turn lifecycle events into spans.
+
+```go
+provider := sdktrace.NewTracerProvider(
+    sdktrace.WithBatcher(exporter),
+)
+defer provider.Shutdown(ctx)
+
+ag, err := agent.New(agent.Options{
+    Model:  modelAdapter,
+    Events: otelsink.New(provider),
+})
+```
+
+Each event becomes a `praxo.<event.type>` span with session, run, timestamp, and
+event-data attributes. See the
+[OpenTelemetry sink](https://github.com/axisvela/praxo-core/tree/main/adapters/otel).
+
 ## NOETIVELA
 
 NOETIVELA is the AxisVela inference fabric. Wrap its governed chat API in a

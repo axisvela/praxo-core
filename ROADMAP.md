@@ -241,7 +241,7 @@ Exit gate:
 
 - Native Anthropic and Gemini adapters or a provider-neutral adapter kit.
 - MCP resources, prompts, and streaming progress.
-- OpenTelemetry event sink and trace correlation.
+- [x] OpenTelemetry event sink and trace correlation.
 - More ecosystem recipes: Harmovela, AEGIVELA, LIMENORA, RHEOVELA.
 - Production case study and published benchmark methodology.
 
