@@ -46,6 +46,25 @@ MIT 边界使 PRAXOVELA 和外部产品可以嵌入该框架，而无需继承 A
 - `pkg/plugin` - 运行时插件契约、Manifest v1、生命周期、注册表、宿主与一致性测试套件。
 - `pkg/agent` - 受治理的 Agent 循环，包含中间件、预算、上下文压缩与子 Agent 管理。能力包位于 `pkg/agent/{types,context,delegation,evaluation,hitl,middleware,stream}`；根包别名保持 `agent.*` 导入源码兼容。
 
+## 与其他 Go Agent 框架的对比
+
+Go Agent 生态中已有多个优秀框架。下表基于 2026 年 10 月的公开文档做高层定位，
+上游项目迭代较快，采用前请核实最新细节。
+
+| | PRAXO-CORE | LangChainGo | Eino | Google ADK Go | Microsoft Agent Framework Go |
+| --- | --- | --- | --- | --- | --- |
+| 主要定位 | 面向嵌入的受治理 Agent 运行时基础能力 | LangChain 风格的可组合 LLM 应用 | 带图编排与 ADK 的 LLM 应用框架 | 代码优先的 Agent 工具包，针对 Gemini 优化但模型无关 | 生产级 Agent 与多 Agent 工作流（公开预览） |
+| 编排 | 单 Agent 循环、中间件、子 Agent、`flow` Chain/Parallel | Chains、Agents、Tools | Graph/Workflow、ReAct `ChatModelAgent`、`DeepAgent` 多 Agent | Workflow Agents、图工作流、多 Agent 组合 | 图工作流：顺序、并发、群组、路由、子工作流 |
+| 模型提供商 | 提供商中立的 `model.Model`；适配器由使用方提供 | 丰富的内置提供商 | 通过 `eino-ext` 扩展 | Gemini 优先；OpenAI 适配器；模型无关 | Foundry、Azure、OpenAI、Anthropic、Gemini、Copilot |
+| 工具与 MCP | 工具契约、JSON Schema、重试、网关；MCP 客户端由使用方提供 | 工具；MCP 非一等支持 | 工具；通过 `eino-ext` 支持 MCP | 丰富工具、MCP Toolset、A2A | 工具、MCP、A2A、AG-UI |
+| 记忆与 RAG | 接口与检索契约；存储由使用方提供 | Memory、文档加载器、向量存储 | Retriever 与上下文组件 | Sessions、Memory、Artifacts | Memory、文本搜索/RAG、向量存储 |
+| 治理与扩展 | 策略钩子、路径约束、沙箱接缝、检查点、HITL、进程/WASM 插件平面、事件 Sink | Callbacks | HITL 中断/恢复、Callbacks | 生命周期插件钩子、认证、遥测 | 检查点、工具审批/HITL、OpenTelemetry |
+| 许可证 | MIT | MIT | Apache-2.0 | Apache-2.0 | MIT |
+
+PRAXO-CORE 刻意保持底层：不捆绑提供商 SDK、向量数据库或 MCP 客户端。需要可嵌入、
+MIT 许可的治理与运行时边界时选择它；需要开箱即用的集成与编排模式时，可选择
+LangChainGo、Eino 或 ADK。
+
 ## 示例
 
 ```go
@@ -81,19 +100,20 @@ result, err := ag.Run(ctx, agent.Session{
 
 ## 文档
 
-- [概览](docs/00-overview.md)
-- [架构](docs/01-architecture.md)
-- [基础能力](docs/02-primitives.md)
-- [集成](docs/03-integration.md)
-- [许可证与来源](docs/04-license-and-provenance.md)
-- [兼容性](docs/05-compatibility.md)
-- [v2 迁移](docs/11-migration-v2.md)
+- [中文文档目录](docs/zh-CN/README.md)
+- [概览](docs/zh-CN/00-overview.md)
+- [架构](docs/zh-CN/01-architecture.md)
+- [基础能力](docs/zh-CN/02-primitives.md)
+- [集成](docs/zh-CN/03-integration.md)
+- [许可证与来源](docs/zh-CN/04-license-and-provenance.md)
+- [兼容性](docs/zh-CN/05-compatibility.md)
+- [v2 迁移](docs/zh-CN/11-migration-v2.md)
 - [安全策略](SECURITY.md)
-- [API 冻结清单](docs/07-api-freeze.md)
-- [安全模型](docs/08-security.md)
-- [发布流程](docs/09-release.md)
-- [插件编写](docs/10-plugin-authoring.md)
-- [路线图详情](docs/06-roadmap.md)
+- [API 冻结清单](docs/zh-CN/07-api-freeze.md)
+- [安全模型](docs/zh-CN/08-security.md)
+- [发布流程](docs/zh-CN/09-release.md)
+- [插件编写](docs/zh-CN/10-plugin-authoring.md)
+- [路线图详情](docs/zh-CN/06-roadmap.md)
 - [路线图](ROADMAP.md)
 
 内部提取规划与产品家族排期位于私有 PRAXOVELA-EE 仓库。
