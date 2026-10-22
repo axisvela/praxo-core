@@ -50,6 +50,7 @@ nav:
       - v2 migration: 11-migration-v2.md
   - Operations:
       - Security model: 08-security.md
+      - Benchmarks: benchmarks.md
       - Release process: 09-release.md
       - API freeze: 07-api-freeze.md
       - Roadmap: 06-roadmap.md
@@ -67,6 +68,7 @@ nav:
       - 插件编写: zh-CN/10-plugin-authoring.md
       - v2 迁移: zh-CN/11-migration-v2.md
       - 安全模型: zh-CN/08-security.md
+      - 基准测试: zh-CN/benchmarks.md
       - 发布流程: zh-CN/09-release.md
       - API 冻结: zh-CN/07-api-freeze.md
       - 路线图: zh-CN/06-roadmap.md

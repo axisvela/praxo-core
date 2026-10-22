@@ -196,6 +196,7 @@ planning. The framework is extracted from PRAXOVELA's proven runtime.
 [简体中文文档](docs/zh-CN/README.md)
 
 - [Comparison with other Go agent frameworks](docs/comparison.md)
+- [Benchmarks](docs/benchmarks.md)
 - [AxisVela ecosystem integration](docs/12-ecosystem.md)
 - [Overview](docs/00-overview.md)
 - [Architecture](docs/01-architecture.md)
