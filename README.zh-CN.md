@@ -2,6 +2,10 @@
 
 [English](README.md) | [简体中文](README.zh-CN.md)
 
+[![CI](https://github.com/axisvela/praxo-core/actions/workflows/ci.yml/badge.svg)](https://github.com/axisvela/praxo-core/actions/workflows/ci.yml)
+[![Go Reference](https://pkg.go.dev/badge/github.com/axisvela/praxo-core/v2.svg)](https://pkg.go.dev/github.com/axisvela/praxo-core/v2)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+
 **面向 AxisVela 生态的公开、MIT 许可 Agent 框架。**
 
 PRAXO-CORE 提供 PRAXOVELA 及其他 AxisVela Agent 背后的可复用基础能力：
@@ -23,6 +27,14 @@ Agent 循环。它是框架，不是产品。
 
 MIT 边界使 PRAXOVELA 和外部产品可以嵌入该框架，而无需继承 AGPL
 义务。PRAXOVELA 仍是 AGPL 产品。
+
+## 适用场景
+
+PRAXO-CORE 适合需要受治理 Agent 循环的产品，并要求明确的策略、沙箱、检查点、
+记忆、事件和插件边界。如果你希望把这些契约嵌入自己的运行时，同时把提供商和
+产品适配器掌握在自己手里，它是合适的选择。
+
+它不是托管式 Agent 服务、模型提供商、向量数据库或开箱即用的聊天 UI。
 
 ## AxisVela 生态
 
@@ -56,6 +68,29 @@ NOETIVELA 是 AxisVela 的推理基础设施（inference fabric），可以通�
 
 `github.com/axisvela/praxo-core/v2`（v2 语义导入路径）。尚未迁移的使用方
 仍可使用 `v1` 标签；参见 [v2 迁移指南](docs/11-migration-v2.md)。
+
+## 快速开始
+
+需要 Go 1.26+ 和一个 OpenAI 兼容端点。在本仓库中运行：
+
+```bash
+# Ollama（无需 API Key）
+export PRAXO_BASE_URL=http://localhost:11434/v1
+export PRAXO_MODEL=llama3.2
+GOWORK=off go run ./examples/quickstart
+
+# 任意 OpenAI 兼容端点
+export PRAXO_BASE_URL=https://api.openai.com/v1
+export PRAXO_API_KEY=...
+export PRAXO_MODEL=gpt-4o-mini
+GOWORK=off go run ./examples/quickstart
+```
+
+PowerShell 使用 `$env:PRAXO_BASE_URL = "..."`，变量名相同。可通过
+`PRAXO_PROMPT` 修改请求内容。模型适配器只使用标准库，不需要提供商 SDK；
+示例展示了工具调用、事件和策略。
+
+SDK 集成示例参见 [`examples/ecosystem-sdk`](examples/ecosystem-sdk)。
 
 ## 基础能力
 
