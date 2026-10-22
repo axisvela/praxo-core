@@ -1,8 +1,8 @@
 # PRAXO-CORE Roadmap
 
-**Current:** `1.7.0` context editing and planning (2026-10-18)
+**Current:** `2.0.0` v2 module path (2026-10-18)
 
-**Target:** `1.7.0` context editing and planning
+**Target:** `2.1.0` adoption surface (planned)
 
 ## Release History
 
@@ -32,8 +32,26 @@
 | 1.5.0 | approve/edit/reject/respond HITL decisions |
 | 1.6.0 | capability package split, typed streams, session resume, checkpoint allowlist |
 | 1.7.0 | context editing and todo/planning middleware |
+| 2.0.0 | v2 module path; API functionally identical to 1.7.0 |
+| 2.1.0 | adoption surface: adapters, docs site, recipes, benchmarks, reference app (planned) |
 
 See `CHANGELOG.md` for exact changes.
+
+## Adoption Workstream
+
+The next release focuses on making the framework easy to discover, try, and
+integrate without changing the frozen `pkg/...` API.
+
+- **Try:** one-command quickstart, reference workspace agent, public docs site.
+- **Integrate:** OpenAI-compatible and MCP adapters; NOETIVELA, Mnemovela, and
+  GNOSIVELA SDK recipes; AxisVela ecosystem map.
+- **Prove:** agent-loop benchmarks, security model, compatibility gates.
+- **Community:** contributing guide, issue/PR templates, Discussions, good first
+  issues.
+- **Release:** monthly minor cadence; separate tags for optional modules such as
+  `adapters/mcp/v0.1.0`.
+
+See [docs/13-adoption-plan.md](docs/13-adoption-plan.md) for the 90-day plan.
 
 ## 0.1.0 - Contract Baseline
 
@@ -190,6 +208,50 @@ Exit gate:
 
 - context-edit pairing tests
 - todo tool and prompt tests
+
+## 2.0.0 - v2 Module Path (released 2026-10-18)
+
+- [x] Move the module to `github.com/axisvela/praxo-core/v2`.
+- [x] Keep the exported API functionally identical to `1.7.0`.
+- [x] Keep v1 tags available for consumers that have not migrated.
+
+Exit gate:
+
+- v2 API snapshot and migration guide
+- no functional API change from `1.7.0`
+
+## 2.1.0 - Adoption Surface (planned)
+
+- [x] Standard-library OpenAI-compatible adapter with tool calls and SSE
+  streaming.
+- [x] Optional MCP tool gateway module.
+- [x] Quickstart, reference workspace agent, and ecosystem adapter skeletons.
+- [x] Real NOETIVELA, Mnemovela, and GNOSIVELA SDK recipes.
+- [x] Bilingual docs site, adoption guide, recipes, and benchmarks.
+- [ ] Release `v2.1.0` and tag `adapters/mcp/v0.1.0`.
+- [ ] Publish the launch announcement and collect first external feedback.
+
+Exit gate:
+
+- quickstart works against Ollama and a hosted OpenAI-compatible endpoint
+- docs site and recipes deployed
+- benchmark and security checks green
+- no `pkg/...` API change
+
+## 2.2.0 - Provider and Protocol Depth (candidate)
+
+- Native Anthropic and Gemini adapters or a provider-neutral adapter kit.
+- MCP resources, prompts, and streaming progress.
+- OpenTelemetry event sink and trace correlation.
+- More ecosystem recipes: Harmovela, AEGIVELA, LIMENORA, RHEOVELA.
+- Production case study and published benchmark methodology.
+
+## 2.3.0 - Ecosystem Depth (candidate)
+
+- Richer checkpoints and resume recipes.
+- Sandbox and policy integration examples for high-risk tools.
+- Plugin authoring walkthrough with a minimal process/WASM plugin.
+- Community-maintained adapter index.
 
 ## Graph Runtime Boundary
 
