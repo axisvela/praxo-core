@@ -21,6 +21,13 @@ PRAXO-CORE 是 AxisVela Agent 共享的框架层。它暴露中立的契约，�
 
 适配器骨架：[`examples/ecosystem`](../../examples/ecosystem)。
 
+## 适配器模块
+
+- [`adapters/openaicompat`](../../adapters/openaicompat) 是仅使用标准库的
+  OpenAI 兼容模型适配器，适用于 Ollama、vLLM 和支持 OpenAI 兼容接口的服务。
+- [`adapters/mcp`](../../adapters/mcp) 是可选的 MCP 工具网关模块。它是独立的
+  Go 模块，因此核心框架不依赖 MCP SDK。
+
 ## NOETIVELA 与模型路由
 
 可以。[NOETIVELA](https://github.com/axisvela/noetivela-open) 是 AxisVela 的

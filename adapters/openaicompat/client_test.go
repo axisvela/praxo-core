@@ -1,8 +1,9 @@
-package main
+package openaicompat
 
 import (
 	"context"
 	"encoding/json"
+	"errors"
 	"net/http"
 	"net/http/httptest"
 	"strings"
@@ -11,7 +12,15 @@ import (
 	"github.com/axisvela/praxo-core/v2/pkg/model"
 )
 
-func TestChatModelGenerate(t *testing.T) {
+var _ model.Model = Adapter{}
+
+func TestAdapterRequiresBaseURL(t *testing.T) {
+	if _, err := (Adapter{}).Generate(context.Background(), model.Request{}); !errors.Is(err, ErrBaseURLRequired) {
+		t.Fatalf("got %v, want %v", err, ErrBaseURLRequired)
+	}
+}
+
+func TestAdapterGenerate(t *testing.T) {
 	var gotAuth, gotPath string
 	var gotRequest apiRequest
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
@@ -39,7 +48,7 @@ func TestChatModelGenerate(t *testing.T) {
 	}))
 	defer server.Close()
 
-	adapter := chatModel{
+	adapter := Adapter{
 		BaseURL: server.URL,
 		APIKey:  "secret",
 		Model:   "test-model",
@@ -80,13 +89,13 @@ func TestChatModelGenerate(t *testing.T) {
 	}
 }
 
-func TestChatModelHTTPError(t *testing.T) {
+func TestAdapterHTTPError(t *testing.T) {
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
 		http.Error(w, "bad model", http.StatusBadRequest)
 	}))
 	defer server.Close()
 
-	adapter := chatModel{BaseURL: server.URL, Model: "bad", HTTP: server.Client()}
+	adapter := Adapter{BaseURL: server.URL, Model: "bad", HTTP: server.Client()}
 	_, err := adapter.Generate(context.Background(), model.Request{})
 	if err == nil {
 		t.Fatal("expected an error")
