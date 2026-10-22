@@ -52,8 +52,21 @@ for _, item := range tool.NewGatewayTools(gateway) {
 ```
 
 MCP authentication belongs to the client session. Call `gateway.Refresh` after
-the server changes its tools. See the
-[MCP gateway](https://github.com/axisvela/praxo-core/tree/main/adapters/mcp).
+the server changes its tools.
+
+The same module exposes resources and prompts:
+
+```go
+resources, err := mcpadapter.ListResources(ctx, session)
+contents, err := mcpadapter.ReadResource(ctx, session, "embedded:info")
+prompts, err := mcpadapter.ListPrompts(ctx, session)
+messages, err := mcpadapter.GetPrompt(ctx, session, "greet", map[string]string{
+    "name": "Ada",
+})
+```
+
+See the
+[MCP adapter](https://github.com/axisvela/praxo-core/tree/main/adapters/mcp).
 
 ## Anthropic Messages
 

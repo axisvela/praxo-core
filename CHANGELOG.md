@@ -8,6 +8,8 @@
   spans.
 - `adapters/anthropic`: native Anthropic Messages adapter with tool calls,
   usage, and SSE streaming.
+- `adapters/mcp`: resource and prompt listing/reading helpers in addition to the
+  tool gateway.
 
 ### Changed
 
