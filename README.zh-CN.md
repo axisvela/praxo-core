@@ -83,17 +83,20 @@ Go Agent 生态中已有多个优秀框架。下表基于 2026 年 10 月的公�
 | | PRAXO-CORE | LangChainGo | Eino | Google ADK Go | Microsoft Agent Framework Go |
 | --- | --- | --- | --- | --- | --- |
 | 主要定位 | 面向嵌入的受治理 Agent 运行时基础能力 | LangChain 风格的可组合 LLM 应用 | 带图编排与 ADK 的 LLM 应用框架 | 代码优先的 Agent 工具包，针对 Gemini 优化但模型无关 | 生产级 Agent 与多 Agent 工作流（公开预览） |
+| AxisVela 生态 | 为 NOETIVELA、Mnemovela、Harmovela、GNOSIVELA、AEGIVELA、RHEOVELA、LIMENORA 提供一等接缝 | 自定义适配器/工具 | 自定义适配器/工具 | 自定义适配器/工具 | 自定义适配器/工具 |
 | 编排 | 单 Agent 循环、中间件、子 Agent、`flow` Chain/Parallel | Chains、Agents、Tools | Graph/Workflow、ReAct `ChatModelAgent`、`DeepAgent` 多 Agent | Workflow Agents、图工作流、多 Agent 组合 | 图工作流：顺序、并发、群组、路由、子工作流 |
-| 模型提供商 | 提供商中立的 `model.Model`；适配器由使用方提供 | 丰富的内置提供商 | 通过 `eino-ext` 扩展 | Gemini 优先；OpenAI 适配器；模型无关 | Foundry、Azure、OpenAI、Anthropic、Gemini、Copilot |
-| 工具与 MCP | 工具契约、JSON Schema、重试、网关；MCP 客户端由使用方提供 | 工具；MCP 非一等支持 | 工具；通过 `eino-ext` 支持 MCP | 丰富工具、MCP Toolset、A2A | 工具、MCP、A2A、AG-UI |
-| 记忆与 RAG | 接口与检索契约；存储由使用方提供 | Memory、文档加载器、向量存储 | Retriever 与上下文组件 | Sessions、Memory、Artifacts | Memory、文本搜索/RAG、向量存储 |
-| 治理与扩展 | 策略钩子、路径约束、沙箱接缝、检查点、HITL、进程/WASM 插件平面、事件 Sink | Callbacks | HITL 中断/恢复、Callbacks | 生命周期插件钩子、认证、遥测 | 检查点、工具审批/HITL、OpenTelemetry |
+| 模型提供商 | 提供商中立的 `model.Model`；NOETIVELA/PRAXOVELA 适配器 | 丰富的内置提供商 | 通过 `eino-ext` 扩展 | Gemini 优先；OpenAI 适配器；模型无关 | Foundry、Azure、OpenAI、Anthropic、Gemini、Copilot |
+| 工具与 MCP | 工具契约、JSON Schema、重试、网关；Janus/LIMENORA 网关；MCP 客户端由使用方提供 | 工具；MCP 非一等支持 | 工具；通过 `eino-ext` 支持 MCP | 丰富工具、MCP Toolset、A2A | 工具、MCP、A2A、AG-UI |
+| 记忆与 RAG | 接口与检索契约；Mnemovela 记忆、GNOSIVELA 检索 | Memory、文档加载器、向量存储 | Retriever 与上下文组件 | Sessions、Memory、Artifacts | Memory、文本搜索/RAG、向量存储 |
+| 治理与扩展 | 策略钩子、AEGIVELA 策略、路径约束、沙箱接缝、检查点、HITL、进程/WASM 插件平面、事件 Sink | Callbacks | HITL 中断/恢复、Callbacks | 生命周期插件钩子、认证、遥测 | 检查点、工具审批/HITL、OpenTelemetry |
 | 许可证 | MIT | MIT | Apache-2.0 | Apache-2.0 | MIT |
 
-PRAXO-CORE 刻意保持底层：不捆绑提供商 SDK、向量数据库或 MCP 客户端。需要可嵌入、
-MIT 许可的治理与运行时边界时选择它；需要开箱即用的集成与编排模式时，可选择
-LangChainGo、Eino 或 ADK。定位与选型建议参见
-[完整对比](docs/zh-CN/comparison.md)。
+PRAXO-CORE 刻意保持底层：不捆绑提供商 SDK、向量数据库或 MCP 客户端。它也是
+表中唯一为 AxisVela 提供一等接缝的框架；其他框架仍可通过自定义适配器或工具
+接入 AxisVela。需要可嵌入、MIT 许可的治理与运行时边界，或需要原生接入
+NOETIVELA、Mnemovela、Harmovela、GNOSIVELA、AEGIVELA、RHEOVELA、LIMENORA
+时，选择 PRAXO-CORE；需要开箱即用的集成与编排模式时，可选择 LangChainGo、
+Eino 或 ADK。定位与选型建议参见 [完整对比](docs/zh-CN/comparison.md)。
 
 ## 示例
 
