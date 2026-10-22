@@ -1,40 +1,82 @@
 # AxisVela Ecosystem Integration
 
 PRAXO-CORE is the framework layer shared by AxisVela agents. It exposes neutral
-contracts so each ecosystem component can supply an adapter without changing the
-agent loop.
+contracts so ecosystem components can supply adapters without changing the agent
+loop. Most AxisVela public repositories integrate in one of four ways: a core
+runtime seam, a tool or gateway, an event/coordination protocol, or a
+product-runtime adapter.
 
-## Integration Map
+## Core Integration Map
 
 | Ecosystem component | PRAXO-CORE seam | Typical adapter |
 | --- | --- | --- |
-| Models | `pkg/model` (`Model`, `Provider`, `ProviderProfile`) | PRAXOVELA provider router / consumer adapters |
-| Memory | `pkg/memory` (`Store`, `ContextAssembler`) | Mnemovela |
-| Events | `pkg/event` (`Sink`, `PublisherSink`) | Harmovela / Argus Trace |
-| Retrieval | `pkg/retriever` (`Retriever`, `Document`) | GNOSIVELA / Mnemovela |
-| Policy | `pkg/policy` (`Hook`, `PathChecker`) | AEGIVELA / Archon Guard |
+| Models and inference routing | `pkg/model` (`Model`, `Provider`, `ModelRouter`, `ProviderProfile`) | [NOETIVELA](https://github.com/axisvela/noetivela-open) / PRAXOVELA provider router |
+| Memory | `pkg/memory` (`Store`, `ContextAssembler`) | [Mnemovela](https://github.com/axisvela/mnemovela-open) |
+| Events | `pkg/event` (`Sink`, `PublisherSink`) | [Harmovela](https://github.com/axisvela/harmovela) / Argus Trace |
+| Retrieval | `pkg/retriever` (`Retriever`, `Document`) | [GNOSIVELA](https://github.com/axisvela/gnosivela-open) / Mnemovela |
+| Policy | `pkg/policy` (`Hook`, `PathChecker`) | [AEGIVELA](https://github.com/axisvela/aegivela-open) / Archon Guard |
 | Sandbox | `pkg/sandbox` (`Sandbox`, `Interpreter`) | Vulcan Forge |
-| Tools | `pkg/tool` (`Tool`, `Gateway`) | Janus Gateway |
-| Graph execution | `pkg/agent`, `pkg/agent/stream` | RHEOVELA |
-| Product runtime | All interfaces | PRAXOVELA |
+| Tools | `pkg/tool` (`Tool`, `Gateway`) | Janus Gateway / [LIMENORA](https://github.com/axisvela/limenora-open) |
+| Graph execution | `pkg/agent`, `pkg/agent/stream` | [RHEOVELA](https://github.com/axisvela/rheovela-open) |
+| Product runtime | All interfaces | [PRAXOVELA](https://github.com/axisvela/praxovela-open) |
 
-## How the Seams Work
+Adapter skeletons: [`examples/ecosystem`](../../examples/ecosystem).
+
+## NOETIVELA and Model Routing
+
+Yes. [NOETIVELA](https://github.com/axisvela/noetivela-open) is the AxisVela
+inference fabric and can back the model seam.
+
+- Wrap the NOETIVELA governed chat API in `model.Model` or `model.Provider`;
+  `model.ChatModel` adapts a `Provider` to `Model`.
+- Map the neutral `model.Request` to a NOETIVELA Inference Contract inside the
+  adapter. Contract fields such as task, modality, region, and data
+  classification are adapter or product configuration; the core request does
+  not add NOETIVELA-specific fields.
+- Use `model.ProviderProfile` when you need per-endpoint context, output, tool,
+  stream, or cache capabilities.
+- The framework does not vendor the NOETIVELA Go SDK or provider credentials.
+  `noetivela-open` is Apache-2.0 and can be imported by the adapter or product.
+- The `ecosystem.Model` and `ecosystem.Provider` skeletons show the callback
+  shape an adapter can fill.
+
+## Other AxisVela Components
+
+These components are not core agent-loop primitives, but they can integrate
+through tools, events, policy inputs, or product-runtime adapters. Browse the
+[current public repository list](https://github.com/orgs/axisvela/repositories?q=visibility%3Apublic+archived%3Afalse).
+
+| Component | Public repository | Integration mode |
+| --- | --- | --- |
+| EIDOVELA | [eidovela-open](https://github.com/axisvela/eidovela-open) | Agent identity; product runtime or policy input |
+| NOMIVELA | [NOMIVELA-open](https://github.com/axisvela/NOMIVELA-open) | Agent registry and namespace; product runtime or tool discovery |
+| SYMBIVELA | [symbivela-open](https://github.com/axisvela/symbivela-open) | Human approval and intervention; HITL decisions or product UI |
+| TEKMOVELA | [tekmovela-open](https://github.com/axisvela/tekmovela-open) | Verification and assurance; tools or release gates |
+| MODUREGIS | [moduregis-open](https://github.com/axisvela/moduregis-open) | Capability registry; `tool.Registry` or `tool.Gateway` |
+| SYNDOVELA | [SYNDOVELA-open](https://github.com/axisvela/SYNDOVELA-open) | Skill composition; tools or skills loaded by the product |
+| ONTOVELA | [ontovela-open](https://github.com/axisvela/ontovela-open) | Digital twins and world models; tools or retrieval |
+| ORCHADYN | [orchadyn-open](https://github.com/axisvela/orchadyn-open) | Capability planning; tools or product orchestration |
+| COORDIVELA | [coordivela-open](https://github.com/axisvela/coordivela-open) | Development coordination; events, tools, or product integration |
+| KINETOVELA | [kinetovela-open](https://github.com/axisvela/kinetovela-open) | Robot fleet execution; tools, sandbox, or product integration |
+| PEIRAVELA | [peiravela-open](https://github.com/axisvela/peiravela-open) | Experiment control; tools or product integration |
+
+## How the Core Seams Work
 
 - **Models.** Implement `model.Model` or adapt an existing provider router.
   `model.ProviderProfile` describes context, output, tool, stream, and cache
   capabilities by model prefix.
 - **Memory.** Implement `memory.Store` for conversation, workspace, or long-term
-  memory. Mnemovela supplies the product-backed store.
+  memory.
 - **Events.** Implement `event.Sink` and publish lifecycle facts to Harmovela.
   The same events can be persisted in Argus Trace.
 - **Retrieval.** Implement `retriever.Retriever`; GNOSIVELA and Mnemovela can
-  supply documents and context.
+  supply documents, semantic grounding, and context.
 - **Policy.** Implement `policy.Hook` for authorization; AEGIVELA and Archon
   Guard plug in here. `policy.PathChecker` provides built-in path containment.
 - **Sandbox.** Implement `sandbox.Sandbox` for isolated command execution;
   Vulcan Forge supplies the product isolation.
-- **Tools.** Register `tool.Tool` values. Janus Gateway exposes product-owned
-  external tools through `tool.Gateway`.
+- **Tools.** Register `tool.Tool` values. Janus Gateway and LIMENORA expose
+  product-owned external tools through `tool.Gateway`.
 - **Graph execution.** RHEOVELA owns graph and subgraph execution. PRAXO-CORE
   exposes the agent node, session, and stream boundary.
 - **Plugins.** `pkg/plugin/bridge` maps a runtime plugin host to the tool,
