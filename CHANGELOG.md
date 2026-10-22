@@ -6,6 +6,8 @@
 
 - `adapters/otel`: optional OpenTelemetry event sink mapping lifecycle events to
   spans.
+- `adapters/anthropic`: native Anthropic Messages adapter with tool calls,
+  usage, and SSE streaming.
 
 ### Changed
 

@@ -239,7 +239,7 @@ Exit gate:
 
 ## 2.2.0 - Provider and Protocol Depth (candidate)
 
-- Native Anthropic and Gemini adapters or a provider-neutral adapter kit.
+- [x] Native Anthropic adapter; Gemini adapter remains a candidate.
 - MCP resources, prompts, and streaming progress.
 - [x] OpenTelemetry event sink and trace correlation.
 - [x] Tag `adapters/otel/v0.1.0`.
