@@ -22,8 +22,9 @@ without inheriting AGPL obligations. PRAXOVELA remains an AGPL product.
 
 ## Module
 
-`github.com/axisvela/praxo-core/v2` (v2 semantic import path; v1 tags remain
-available).
+`github.com/axisvela/praxo-core/v2` (v2 semantic import path). The `v1` tags
+remain available for consumers that have not migrated; see the
+[v2 migration guide](docs/11-migration-v2.md).
 
 ## Primitives
 
@@ -41,8 +42,9 @@ available).
 - `pkg/flow` - Runnable, Chain, and Parallel composition.
 - `pkg/prompt` - prompt and chat templates.
 - `pkg/retriever` - document retrieval contracts.
-- `pkg/vfs` - virtual filesystem backend contract, confined local backend, and filesystem tools.`n- `pkg/plugin` - runtime plugin contracts, manifest v1, lifecycle, registry, hosts, and conformance kit.
-- `pkg/agent` - the governed agent loop with middleware, budgets, context compaction, and subagent management.
+- `pkg/vfs` - virtual filesystem backend contract, confined local backend, and filesystem tools.
+- `pkg/plugin` - runtime plugin contracts, manifest v1, lifecycle, registry, hosts, and conformance kit.
+- `pkg/agent` - the governed agent loop with middleware, budgets, context compaction, and subagent management. Capability packages live under `pkg/agent/{types,context,delegation,evaluation,hitl,middleware,stream}`; root aliases keep `agent.*` imports source-compatible.
 
 ## Example
 
@@ -68,12 +70,15 @@ See [examples/integrator](examples/integrator/main.go) for a self-contained exte
 
 ## Status
 
-`1.0.0` was released on 2026-10-18. It freezes the exported API (`api/1.0.0.txt`; the `0.16.0` diff is alias
-removal only) and removes the deprecated package paths. The canonical layout is
-`pkg/toolcall`, `pkg/formatter`, and `pkg/tool/jsonschema`. It also includes the
-plugin hosts, conformance kit, Manifest v1, path containment, and context budget
-compaction added in `0.15.0`. The framework is extracted from PRAXOVELA's
-proven runtime and the API is now frozen.
+`2.0.0` was released on 2026-10-18. It changes only the module path to
+`github.com/axisvela/praxo-core/v2`; the exported API is functionally identical
+to `1.7.0` (`api/2.0.0.txt`; the `1.7.0` diff is module-path updates only). The
+`1.0.0` API freeze remains in effect, and the canonical package paths are
+`pkg/toolcall`, `pkg/formatter`, and `pkg/tool/jsonschema`. The `1.x` line adds
+plugin hosts, the conformance kit, Manifest v1, path containment, context budget
+compaction, context summarization/offload, VFS tools, async subagents,
+structured output, PII redaction, HITL decisions, typed streams, and todo
+planning. The framework is extracted from PRAXOVELA's proven runtime.
 
 ## Documentation
 
@@ -83,6 +88,7 @@ proven runtime and the API is now frozen.
 - [Integration](docs/03-integration.md)
 - [License and provenance](docs/04-license-and-provenance.md)
 - [Compatibility](docs/05-compatibility.md)
+- [v2 migration](docs/11-migration-v2.md)
 - [Security policy](SECURITY.md)
 - [API freeze inventory](docs/07-api-freeze.md)
 - [Security model](docs/08-security.md)
