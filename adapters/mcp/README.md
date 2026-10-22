@@ -5,6 +5,10 @@ can be registered in a PRAXO-CORE `tool.Registry` and used by the agent loop.
 
 This is an optional module. The core framework does not depend on the MCP SDK.
 
+```bash
+go get github.com/axisvela/praxo-core/adapters/mcp@v0.2.0
+```
+
 ```go
 client := mcp.NewClient(&mcp.Implementation{Name: "agent", Version: "v0.1.0"}, nil)
 session, err := client.Connect(ctx, &mcp.CommandTransport{
@@ -28,6 +32,23 @@ for _, item := range tools {
 `NewGateway` caches the tool list at construction. Call `Refresh` to reload it
 after the server changes its tools. MCP authentication belongs to the client
 session, so the token argument in `tool.Gateway.Execute` is ignored.
+
+## Resources and Prompts
+
+The module also exposes MCP resources and prompts:
+
+```go
+resources, err := mcpx.ListResources(ctx, session)
+contents, err := mcpx.ReadResource(ctx, session, "embedded:info")
+
+prompts, err := mcpx.ListPrompts(ctx, session)
+messages, err := mcpx.GetPrompt(ctx, session, "greet", map[string]string{
+    "name": "Ada",
+})
+```
+
+These helpers follow pagination cursors and return plain Go values. They are
+module-level conveniences, not part of the core agent interfaces.
 
 The gateway returns structured content when the MCP server provides it;
 otherwise it returns text content as a string, or a `[]string` for multiple

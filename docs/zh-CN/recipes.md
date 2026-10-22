@@ -48,8 +48,21 @@ for _, item := range tool.NewGatewayTools(gateway) {
 }
 ```
 
-MCP 认证绑定在客户端会话上。服务器工具变化后调用 `gateway.Refresh`。参见
-[MCP 网关](https://github.com/axisvela/praxo-core/tree/main/adapters/mcp)。
+MCP 认证绑定在客户端会话上。服务器工具变化后调用 `gateway.Refresh`。
+
+同一模块也暴露 resources 和 prompts：
+
+```go
+resources, err := mcpadapter.ListResources(ctx, session)
+contents, err := mcpadapter.ReadResource(ctx, session, "embedded:info")
+prompts, err := mcpadapter.ListPrompts(ctx, session)
+messages, err := mcpadapter.GetPrompt(ctx, session, "greet", map[string]string{
+    "name": "Ada",
+})
+```
+
+参见
+[MCP 适配器](https://github.com/axisvela/praxo-core/tree/main/adapters/mcp)。
 
 ## Anthropic Messages
 

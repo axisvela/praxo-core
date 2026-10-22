@@ -27,9 +27,9 @@ Adapter skeletons: [`examples/ecosystem`](https://github.com/axisvela/praxo-core
 - [`adapters/openaicompat`](https://github.com/axisvela/praxo-core/tree/main/adapters/openaicompat) is a standard-library
   OpenAI-compatible model adapter. It works with Ollama, vLLM, and hosted
   OpenAI-compatible endpoints.
-- [`adapters/mcp`](https://github.com/axisvela/praxo-core/tree/main/adapters/mcp) is an optional MCP tool gateway module.
-  It is a separate Go module so the core framework does not depend on the MCP
-  SDK.
+- [`adapters/mcp`](https://github.com/axisvela/praxo-core/tree/main/adapters/mcp) is an optional MCP module for tools,
+  resources, and prompts. It is a separate Go module so the core framework does
+  not depend on the MCP SDK.
 - [`adapters/otel`](https://github.com/axisvela/praxo-core/tree/main/adapters/otel) is an optional OpenTelemetry event sink.
   It maps lifecycle events to spans without adding OpenTelemetry to the core
   module.

@@ -240,7 +240,7 @@ Exit gate:
 ## 2.2.0 - Provider and Protocol Depth (candidate)
 
 - [x] Native Anthropic adapter; Gemini adapter remains a candidate.
-- MCP resources, prompts, and streaming progress.
+- [x] MCP resources and prompts; streaming progress remains a candidate.
 - [x] OpenTelemetry event sink and trace correlation.
 - [x] Tag `adapters/otel/v0.1.0`.
 - [x] Tag `adapters/anthropic/v0.1.0`.
