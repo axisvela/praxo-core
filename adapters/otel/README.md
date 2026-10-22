@@ -3,6 +3,10 @@
 `adapters/otel` maps `pkg/event` events to OpenTelemetry spans. It is an
 optional module; the core framework does not depend on the OpenTelemetry SDK.
 
+```bash
+go get github.com/axisvela/praxo-core/adapters/otel@v0.1.0
+```
+
 ```go
 provider := sdktrace.NewTracerProvider(
     sdktrace.WithBatcher(exporter),
