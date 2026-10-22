@@ -97,7 +97,8 @@ PowerShell 使用 `$env:PRAXO_BASE_URL = "..."`，变量名相同。可通过
   OpenAI 兼容模型适配器
 - [`adapters/mcp`](adapters/mcp) - 可选的 MCP 工具网关模块
 
-SDK 集成示例参见 [`examples/ecosystem-sdk`](examples/ecosystem-sdk)。
+SDK 集成示例参见 [`examples/ecosystem-sdk`](examples/ecosystem-sdk)
+（NOETIVELA、Mnemovela、GNOSIVELA）。
 
 ## 基础能力
 
