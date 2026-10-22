@@ -48,6 +48,28 @@ remain available for consumers that have not migrated; see the
 - `pkg/plugin` - runtime plugin contracts, manifest v1, lifecycle, registry, hosts, and conformance kit.
 - `pkg/agent` - the governed agent loop with middleware, budgets, context compaction, and subagent management. Capability packages live under `pkg/agent/{types,context,delegation,evaluation,hitl,middleware,stream}`; root aliases keep `agent.*` imports source-compatible.
 
+## How It Compares
+
+The Go agent ecosystem has several strong frameworks. This table is a
+high-level orientation based on public documentation as of October 2026;
+upstream projects evolve quickly, so verify details before adopting.
+
+| | PRAXO-CORE | LangChainGo | Eino | Google ADK Go | Microsoft Agent Framework Go |
+| --- | --- | --- | --- | --- | --- |
+| Primary focus | Governed, embeddable agent runtime primitives | LangChain-style composable LLM apps | LLM app framework with graph orchestration and ADK | Code-first agent toolkit, Gemini-optimized but model-agnostic | Production agents and multi-agent workflows (public preview) |
+| Orchestration | Single-agent loop, middleware, subagents, `flow` Chain/Parallel | Chains, agents, tools | Graphs/workflows, ReAct `ChatModelAgent`, `DeepAgent` multi-agent | Workflow agents, graph workflows, multi-agent composition | Graph workflows: sequential, concurrent, group, routing, subworkflows |
+| Providers | Provider-neutral `model.Model`; adapters are consumer-owned | Broad built-in provider set | Extensions via `eino-ext` | Gemini first; OpenAI adapter; model-agnostic | Foundry, Azure, OpenAI, Anthropic, Gemini, Copilot |
+| Tools and MCP | Tool contracts, JSON Schema, retry, gateway; MCP client is consumer-owned | Tools; MCP not first-class | Tools; MCP via `eino-ext` | Rich tools, MCP toolset, A2A | Tools, MCP, A2A, AG-UI |
+| Memory and RAG | Interfaces and retrieval contracts; storage is consumer-owned | Memory, loaders, vector stores | Retriever and context components | Sessions, memory, artifacts | Memory, text search/RAG, vector stores |
+| Governance and extension | Policy hooks, path containment, sandbox seam, checkpoints, HITL, process/WASM plugin plane, event sinks | Callbacks | HITL interrupt/resume, callbacks | Lifecycle plugin hooks, auth, telemetry | Checkpointing, tool approval/HITL, OpenTelemetry |
+| License | MIT | MIT | Apache-2.0 | Apache-2.0 | MIT |
+
+PRAXO-CORE is deliberately lower-level: it does not bundle provider SDKs,
+vector databases, or an MCP client. Choose it when you need a small,
+MIT-licensed governance and runtime boundary to embed. Choose LangChainGo,
+Eino, or ADK when you want batteries-included integrations and orchestration
+patterns.
+
 ## Example
 
 ```go
@@ -83,6 +105,8 @@ structured output, PII redaction, HITL decisions, typed streams, and todo
 planning. The framework is extracted from PRAXOVELA's proven runtime.
 
 ## Documentation
+
+[简体中文文档](docs/zh-CN/README.md)
 
 - [Overview](docs/00-overview.md)
 - [Architecture](docs/01-architecture.md)
