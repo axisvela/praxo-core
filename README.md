@@ -1,5 +1,7 @@
 # PRAXO-CORE
 
+[English](README.md) | [简体中文](README.zh-CN.md)
+
 **A public, MIT-licensed agent framework for the AxisVela ecosystem.**
 
 PRAXO-CORE provides the reusable primitives behind PRAXOVELA and other
