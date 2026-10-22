@@ -43,6 +43,7 @@ Set `PRAXO_PROMPT` to change the request.
 
 - [OpenAI-compatible adapter](https://github.com/axisvela/praxo-core/tree/main/adapters/openaicompat)
 - [MCP tool gateway](https://github.com/axisvela/praxo-core/tree/main/adapters/mcp)
+- [Reference workspace agent](https://github.com/axisvela/praxo-core/tree/main/examples/reference)
 - [AxisVela ecosystem integration](12-ecosystem.md)
 - [Comparison with other Go agent frameworks](comparison.md)
 - [Plugin authoring](10-plugin-authoring.md)

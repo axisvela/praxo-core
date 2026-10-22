@@ -176,7 +176,9 @@ result, err := ag.Run(ctx, agent.Session{
 }, "Inspect the failing test and propose a fix")
 ```
 
-See [examples/integrator](examples/integrator/main.go) for a self-contained external-integrator example.
+See [examples/integrator](examples/integrator/main.go) for a self-contained
+external-integrator example, and [examples/reference](examples/reference) for a
+workspace agent with confined VFS tools, policy, memory, and events.
 
 ## Status
 
