@@ -1,8 +1,8 @@
 # PRAXO-CORE Roadmap
 
-**Current:** `2.0.0` v2 module path (2026-10-18)
+**Current:** `2.1.0` adoption surface (2026-10-22)
 
-**Target:** `2.1.0` adoption surface (planned)
+**Target:** `2.2.0` provider and protocol depth
 
 ## Release History
 
@@ -33,7 +33,7 @@
 | 1.6.0 | capability package split, typed streams, session resume, checkpoint allowlist |
 | 1.7.0 | context editing and todo/planning middleware |
 | 2.0.0 | v2 module path; API functionally identical to 1.7.0 |
-| 2.1.0 | adoption surface: adapters, docs site, recipes, benchmarks, reference app (planned) |
+| 2.1.0 | adoption surface: adapters, docs site, recipes, benchmarks, reference app |
 
 See `CHANGELOG.md` for exact changes.
 
@@ -218,7 +218,7 @@ Exit gate:
 - v2 API snapshot and migration guide
 - no functional API change from `1.7.0`
 
-## 2.1.0 - Adoption Surface (planned)
+## 2.1.0 - Adoption Surface (released 2026-10-22)
 
 - [x] Standard-library OpenAI-compatible adapter with tool calls and SSE
   streaming.
@@ -226,7 +226,8 @@ Exit gate:
 - [x] Quickstart, reference workspace agent, and ecosystem adapter skeletons.
 - [x] Real NOETIVELA, Mnemovela, and GNOSIVELA SDK recipes.
 - [x] Bilingual docs site, adoption guide, recipes, and benchmarks.
-- [ ] Release `v2.1.0` and tag `adapters/mcp/v0.1.0`.
+- [x] Release `v2.1.0`.
+- [ ] Tag `adapters/mcp/v0.1.0`.
 - [ ] Publish the launch announcement and collect first external feedback.
 
 Exit gate:

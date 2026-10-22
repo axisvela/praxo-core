@@ -182,15 +182,14 @@ workspace agent with confined VFS tools, policy, memory, and events.
 
 ## Status
 
-`2.0.0` was released on 2026-10-18. It changes only the module path to
-`github.com/axisvela/praxo-core/v2`; the exported API is functionally identical
-to `1.7.0` (`api/2.0.0.txt`; the `1.7.0` diff is module-path updates only). The
-`1.0.0` API freeze remains in effect, and the canonical package paths are
-`pkg/toolcall`, `pkg/formatter`, and `pkg/tool/jsonschema`. The `1.x` line adds
-plugin hosts, the conformance kit, Manifest v1, path containment, context budget
-compaction, context summarization/offload, VFS tools, async subagents,
-structured output, PII redaction, HITL decisions, typed streams, and todo
-planning. The framework is extracted from PRAXOVELA's proven runtime.
+`2.1.0` was released on 2026-10-22. It is an adoption-focused additive release
+and does not change the `pkg/...` API from `2.0.0` (`api/2.1.0.txt` is identical
+to `api/2.0.0.txt`). It adds the OpenAI-compatible model adapter with SSE
+streaming, the optional MCP tool gateway, quickstart and reference examples,
+NOETIVELA/Mnemovela/GNOSIVELA SDK recipes, benchmarks, and the bilingual docs
+site. The `1.0.0` API freeze remains in effect, and the canonical package paths
+are `pkg/toolcall`, `pkg/formatter`, and `pkg/tool/jsonschema`. The framework is
+extracted from PRAXOVELA's proven runtime.
 
 ## Documentation
 

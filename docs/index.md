@@ -38,6 +38,7 @@ go get github.com/axisvela/praxo-core/v2@v2.0.0
 
 ## Status
 
-`2.0.0` is the current release. The exported `pkg/...` API is frozen; new
-capabilities are additive. See [compatibility](05-compatibility.md) and the
+`2.1.0` is the current release. The exported `pkg/...` API is frozen and
+identical to `2.0.0`; new capabilities are additive. See
+[compatibility](05-compatibility.md) and the
 [v2 migration guide](11-migration-v2.md).
