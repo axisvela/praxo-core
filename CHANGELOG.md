@@ -10,6 +10,8 @@
 ### Changed
 
 - No `pkg/...` API changes.
+- CI and release workflows pin Go `1.26.10` for the `crypto/x509` fix in
+  GO-2026-6809.
 
 ## [2.1.0] - 2026-10-22
 
