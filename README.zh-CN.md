@@ -169,13 +169,12 @@ result, err := ag.Run(ctx, agent.Session{
 
 ## 状态
 
-`2.0.0` 于 2026-10-18 发布。该版本仅将模块路径改为
-`github.com/axisvela/praxo-core/v2`；导出的 API 与 `1.7.0` 在功能上完全一致
-（`api/2.0.0.txt`；与 `1.7.0` 的差异仅为模块路径）。`1.0.0` 的 API 冻结仍然有效，
-规范包路径为 `pkg/toolcall`、`pkg/formatter` 和 `pkg/tool/jsonschema`。`1.x`
-系列新增了插件宿主、一致性测试套件、Manifest v1、路径约束、上下文预算压缩、
-上下文摘要/卸载、VFS 工具、异步子 Agent、结构化输出、PII 脱敏、HITL 决策、
-类型化流以及待办规划。该框架提取自 PRAXOVELA 经过验证的运行时。
+`2.1.0` 于 2026-10-22 发布。该版本聚焦采用体验，且不改变 `2.0.0` 的
+`pkg/...` API（`api/2.1.0.txt` 与 `api/2.0.0.txt` 相同）。它新增了带 SSE 流式
+输出的 OpenAI 兼容模型适配器、可选的 MCP 工具网关、quickstart 和 reference
+示例、NOETIVELA/Mnemovela/GNOSIVELA SDK recipes、基准测试以及中英文文档站。
+`1.0.0` 的 API 冻结仍然有效，规范包路径为 `pkg/toolcall`、`pkg/formatter` 和
+`pkg/tool/jsonschema`。该框架提取自 PRAXOVELA 经过验证的运行时。
 
 ## 文档
 

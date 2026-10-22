@@ -28,7 +28,7 @@ for the public roadmap.
 | 1.6.0 | capability package split, typed streams, session resume, checkpoint allowlist (released 2026-10-18) |
 | 1.7.0 | context editing and todo/planning middleware (released 2026-10-18) |
 | 2.0.0 | v2 module path; API functionally identical to 1.7.0 (released 2026-10-18) |
-| 2.1.0 | adoption surface: adapters, docs site, recipes, benchmarks, reference app (planned) |
+| 2.1.0 | adoption surface: adapters, docs site, recipes, benchmarks, reference app (released 2026-10-22) |
 
 Post-1.0 items are competitive harness parity and adoption work, not 1.0
 blockers. They are sequenced after the stable API and release gates.
