@@ -19,6 +19,9 @@ ag, err := agent.New(agent.Options{
 })
 ```
 
+该适配器也实现 `model.StreamingModel`。设置 `agent.Options.OnDelta` 可接收流式
+文本；工具调用增量会聚合到最终响应中。
+
 参见 [快速开始](quickstart.md) 和
 [OpenAI 兼容适配器](https://github.com/axisvela/praxo-core/tree/main/adapters/openaicompat)。
 
