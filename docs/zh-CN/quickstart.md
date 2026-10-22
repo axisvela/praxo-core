@@ -42,6 +42,7 @@ PowerShell 使用 `$env:PRAXO_BASE_URL = "..."`，变量名相同。可通过
 
 - [OpenAI 兼容适配器](https://github.com/axisvela/praxo-core/tree/main/adapters/openaicompat)
 - [MCP 工具网关](https://github.com/axisvela/praxo-core/tree/main/adapters/mcp)
+- [Reference workspace Agent](https://github.com/axisvela/praxo-core/tree/main/examples/reference)
 - [AxisVela 生态集成](12-ecosystem.md)
 - [与其他 Go Agent 框架的对比](comparison.md)
 - [插件编写](10-plugin-authoring.md)

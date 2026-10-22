@@ -164,7 +164,8 @@ result, err := ag.Run(ctx, agent.Session{
 ```
 
 自包含的外部集成示例参见
-[examples/integrator](examples/integrator/main.go)。
+[examples/integrator](examples/integrator/main.go)；带受限 VFS 工具、策略、记忆
+和事件的 workspace Agent 参见 [examples/reference](examples/reference)。
 
 ## 状态
 
