@@ -83,4 +83,4 @@ not independent security sign-off.
 
 ## Reporting
 
-See [SECURITY.md](../SECURITY.md).
+See [SECURITY.md](https://github.com/axisvela/praxo-core/blob/main/SECURITY.md).

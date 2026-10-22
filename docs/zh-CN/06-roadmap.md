@@ -1,6 +1,7 @@
 # 路线图详情
 
-公开路线图参见 [ROADMAP.md](../../ROADMAP.md)。
+公开路线图参见
+[ROADMAP.md](https://github.com/axisvela/praxo-core/blob/main/ROADMAP.md)。
 
 ## 发布纪律
 

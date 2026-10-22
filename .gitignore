@@ -3,6 +3,7 @@
 *.out
 bin/
 dist/
+site/
 vendor/
 go.work
 go.work.sum

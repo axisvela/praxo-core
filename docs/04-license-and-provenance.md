@@ -1,6 +1,7 @@
 # License and Provenance
 
-PRAXO-CORE is MIT-licensed. See [LICENSE](../LICENSE).
+PRAXO-CORE is MIT-licensed. See the
+[LICENSE](https://github.com/axisvela/praxo-core/blob/main/LICENSE).
 
 ## Provenance Rules
 

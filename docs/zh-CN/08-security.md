@@ -77,4 +77,4 @@
 
 ## 报告
 
-参见 [SECURITY.md](../../SECURITY.md)。
+参见 [SECURITY.md](https://github.com/axisvela/praxo-core/blob/main/SECURITY.md)。

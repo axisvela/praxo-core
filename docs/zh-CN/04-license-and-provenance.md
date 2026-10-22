@@ -1,6 +1,7 @@
 # 许可证与来源
 
-PRAXO-CORE 采用 MIT 许可。参见 [LICENSE](../../LICENSE)。
+PRAXO-CORE 采用 MIT 许可。参见
+[LICENSE](https://github.com/axisvela/praxo-core/blob/main/LICENSE)。
 
 ## 来源规则
 
