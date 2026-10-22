@@ -2,6 +2,10 @@
 
 [English](README.md) | [简体中文](README.zh-CN.md)
 
+[![CI](https://github.com/axisvela/praxo-core/actions/workflows/ci.yml/badge.svg)](https://github.com/axisvela/praxo-core/actions/workflows/ci.yml)
+[![Go Reference](https://pkg.go.dev/badge/github.com/axisvela/praxo-core/v2.svg)](https://pkg.go.dev/github.com/axisvela/praxo-core/v2)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+
 **A public, MIT-licensed agent framework for the AxisVela ecosystem.**
 
 PRAXO-CORE provides the reusable primitives behind PRAXOVELA and other
@@ -24,6 +28,16 @@ not a product.
 
 The MIT boundary lets PRAXOVELA and external products embed the framework
 without inheriting AGPL obligations. PRAXOVELA remains an AGPL product.
+
+## Who It's For
+
+PRAXO-CORE fits products that need a governed agent loop with explicit policy,
+sandbox, checkpoint, memory, event, and plugin boundaries. It is a good fit when
+you want to embed these contracts in your own runtime and keep provider and
+product adapters under your control.
+
+It is not a hosted agent service, a model provider, a vector database, or a
+turnkey chat UI.
 
 ## AxisVela Ecosystem
 
@@ -61,6 +75,31 @@ code. See [AxisVela ecosystem integration](docs/12-ecosystem.md), the
 `github.com/axisvela/praxo-core/v2` (v2 semantic import path). The `v1` tags
 remain available for consumers that have not migrated; see the
 [v2 migration guide](docs/11-migration-v2.md).
+
+## Quickstart
+
+Requires Go 1.26+ and an OpenAI-compatible endpoint. From this repository:
+
+```bash
+# Ollama (no API key required)
+export PRAXO_BASE_URL=http://localhost:11434/v1
+export PRAXO_MODEL=llama3.2
+GOWORK=off go run ./examples/quickstart
+
+# Any OpenAI-compatible endpoint
+export PRAXO_BASE_URL=https://api.openai.com/v1
+export PRAXO_API_KEY=...
+export PRAXO_MODEL=gpt-4o-mini
+GOWORK=off go run ./examples/quickstart
+```
+
+On PowerShell use `$env:PRAXO_BASE_URL = "..."` and the same variable names.
+Set `PRAXO_PROMPT` to change the request. The model adapter uses only the
+standard library; no provider SDK is required. The example demonstrates tool
+calling, events, and policy.
+
+For an SDK-backed integration, see
+[`examples/ecosystem-sdk`](examples/ecosystem-sdk).
 
 ## Primitives
 
