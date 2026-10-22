@@ -105,8 +105,9 @@ Optional adapters:
   OpenAI-compatible model adapter
 - [`adapters/mcp`](adapters/mcp) - optional MCP tool gateway module
 
-For an SDK-backed integration, see
-[`examples/ecosystem-sdk`](examples/ecosystem-sdk).
+For SDK-backed integrations, see
+[`examples/ecosystem-sdk`](examples/ecosystem-sdk) (NOETIVELA, Mnemovela,
+GNOSIVELA).
 
 ## Primitives
 

@@ -1,2 +1,6 @@
+github.com/axisvela/GNOSIVELA-open/v3 v3.0.0-20261017184051-f48e5c568d1b h1:Uu7HxQOx1SDKNUhmv1QiD9U7xPkp48Sn4TVfsf6Zj3Y=
+github.com/axisvela/GNOSIVELA-open/v3 v3.0.0-20261017184051-f48e5c568d1b/go.mod h1:8xEgsT/ES/GIbbG6BTiiKhl6rqxKlJJRwS1qk6GYGsg=
+github.com/axisvela/mnemovela-open/sdk/go/v3 v3.0.0 h1:4OdUI6pvRo/25UycajA7PVTYJrGujfY4RdHwj9glTcs=
+github.com/axisvela/mnemovela-open/sdk/go/v3 v3.0.0/go.mod h1:RYWknxcNj4a4D7KSkUX8bycYQGh0huIQzJmsPZ4m+AA=
 github.com/axisvela/noetivela-open/sdk/go/v3 v3.0.0 h1:lsbUNg+EX//8XQtU8mggqk0AUnazr/yQmIbRA04stWw=
 github.com/axisvela/noetivela-open/sdk/go/v3 v3.0.0/go.mod h1:qFLoLiqdecuhXVql59fc+cILOWWzzNfqNODo+2iVy8I=
