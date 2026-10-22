@@ -21,6 +21,10 @@ ag, err := agent.New(agent.Options{
 })
 ```
 
+The adapter also implements `model.StreamingModel`. Set
+`agent.Options.OnDelta` to receive streamed text; tool-call deltas are
+aggregated into the final response.
+
 See [Quickstart](quickstart.md) and the
 [OpenAI-compatible adapter](https://github.com/axisvela/praxo-core/tree/main/adapters/openaicompat).
 

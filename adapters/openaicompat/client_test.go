@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
+	"fmt"
 	"net/http"
 	"net/http/httptest"
 	"strings"
@@ -12,7 +13,10 @@ import (
 	"github.com/axisvela/praxo-core/v2/pkg/model"
 )
 
-var _ model.Model = Adapter{}
+var (
+	_ model.Model          = Adapter{}
+	_ model.StreamingModel = Adapter{}
+)
 
 func TestAdapterRequiresBaseURL(t *testing.T) {
 	if _, err := (Adapter{}).Generate(context.Background(), model.Request{}); !errors.Is(err, ErrBaseURLRequired) {
@@ -102,5 +106,59 @@ func TestAdapterHTTPError(t *testing.T) {
 	}
 	if !strings.Contains(err.Error(), "bad model") {
 		t.Fatalf("error = %v", err)
+	}
+}
+
+func TestAdapterGenerateStream(t *testing.T) {
+	var gotRequest apiRequest
+	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if err := json.NewDecoder(r.Body).Decode(&gotRequest); err != nil {
+			http.Error(w, err.Error(), http.StatusBadRequest)
+			return
+		}
+		w.Header().Set("Content-Type", "text/event-stream")
+		flusher, _ := w.(http.Flusher)
+		write := func(value string) {
+			_, _ = fmt.Fprint(w, value)
+			if flusher != nil {
+				flusher.Flush()
+			}
+		}
+		write("data: {\"choices\":[{\"delta\":{\"content\":\"he\"}}]}\n\n")
+		write("data: {\"choices\":[{\"delta\":{\"content\":\"llo\"}}]}\n\n")
+		write("data: {\"choices\":[{\"delta\":{\"tool_calls\":[{\"index\":0,\"id\":\"call-1\",\"function\":{\"name\":\"echo\",\"arguments\":\"{\\\"value\\\":\"}}]}}]}\n\n")
+		write("data: {\"choices\":[{\"delta\":{\"tool_calls\":[{\"index\":0,\"function\":{\"arguments\":\"\\\"ok\\\"}\"}}]},\"finish_reason\":\"tool_calls\"}]}\n\n")
+		write("data: [DONE]\n\n")
+	}))
+	defer server.Close()
+
+	adapter := Adapter{BaseURL: server.URL, Model: "test-model", HTTP: server.Client()}
+	var deltas []string
+	response, err := adapter.GenerateStream(context.Background(), model.Request{
+		Messages: []model.Message{{Role: model.RoleUser, Content: "hi"}},
+	}, func(delta string) {
+		deltas = append(deltas, delta)
+	})
+	if err != nil {
+		t.Fatal(err)
+	}
+	if !gotRequest.Stream {
+		t.Fatal("expected stream=true")
+	}
+	if strings.Join(deltas, "") != "hello" {
+		t.Fatalf("deltas = %#v", deltas)
+	}
+	if response.Message.Content != "hello" {
+		t.Fatalf("content = %q", response.Message.Content)
+	}
+	if len(response.Message.ToolCalls) != 1 {
+		t.Fatalf("tool calls = %#v", response.Message.ToolCalls)
+	}
+	call := response.Message.ToolCalls[0]
+	if call.ID != "call-1" || call.Name != "echo" || call.Arguments["value"] != "ok" {
+		t.Fatalf("call = %#v", call)
+	}
+	if response.FinishReason != "tool_calls" {
+		t.Fatalf("finish reason = %q", response.FinishReason)
 	}
 }

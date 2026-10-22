@@ -3,6 +3,7 @@
 package openaicompat
 
 import (
+	"bufio"
 	"bytes"
 	"context"
 	"encoding/json"
@@ -10,6 +11,7 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"sort"
 	"strings"
 	"time"
 
@@ -103,8 +105,130 @@ func (a Adapter) Generate(ctx context.Context, req model.Request) (model.Respons
 	}, nil
 }
 
+// GenerateStream sends one streaming chat completion request and returns the
+// complete response after forwarding text deltas to onDelta.
+func (a Adapter) GenerateStream(ctx context.Context, req model.Request, onDelta func(string)) (model.Response, error) {
+	if a.BaseURL == "" {
+		return model.Response{}, ErrBaseURLRequired
+	}
+	body := apiRequest{
+		Model:       a.Model,
+		Messages:    apiMessages(req.Messages),
+		Tools:       apiTools(req.Tools),
+		ToolChoice:  req.ToolChoice,
+		Temperature: req.Temperature,
+		Stream:      true,
+	}
+	raw, err := json.Marshal(body)
+	if err != nil {
+		return model.Response{}, err
+	}
+	url := strings.TrimRight(a.BaseURL, "/") + "/chat/completions"
+	httpReq, err := http.NewRequestWithContext(ctx, http.MethodPost, url, bytes.NewReader(raw))
+	if err != nil {
+		return model.Response{}, err
+	}
+	httpReq.Header.Set("Content-Type", "application/json")
+	httpReq.Header.Set("Accept", "text/event-stream")
+	if a.APIKey != "" {
+		httpReq.Header.Set("Authorization", "Bearer "+a.APIKey)
+	}
+	client := a.HTTP
+	if client == nil {
+		client = &http.Client{Timeout: 120 * time.Second}
+	}
+	resp, err := client.Do(httpReq)
+	if err != nil {
+		return model.Response{}, err
+	}
+	defer resp.Body.Close()
+	if resp.StatusCode < 200 || resp.StatusCode >= 300 {
+		payload, _ := io.ReadAll(io.LimitReader(resp.Body, 1<<20))
+		return model.Response{}, fmt.Errorf("openaicompat: %s: %s", resp.Status, strings.TrimSpace(string(payload)))
+	}
+
+	type callState struct {
+		id   string
+		name string
+		args strings.Builder
+	}
+	calls := map[int]*callState{}
+	var content strings.Builder
+	finishReason := ""
+	scanner := bufio.NewScanner(resp.Body)
+	scanner.Buffer(make([]byte, 64*1024), 1<<20)
+	for scanner.Scan() {
+		line := strings.TrimSpace(scanner.Text())
+		if line == "" || strings.HasPrefix(line, ":") || !strings.HasPrefix(line, "data:") {
+			continue
+		}
+		data := strings.TrimSpace(strings.TrimPrefix(line, "data:"))
+		if data == "[DONE]" {
+			break
+		}
+		var chunk apiStreamChunk
+		if err := json.Unmarshal([]byte(data), &chunk); err != nil {
+			return model.Response{}, err
+		}
+		if chunk.Error != nil {
+			return model.Response{}, fmt.Errorf("openaicompat: %s", chunk.Error.Message)
+		}
+		for _, choice := range chunk.Choices {
+			if choice.Delta.Content != "" {
+				content.WriteString(choice.Delta.Content)
+				if onDelta != nil {
+					onDelta(choice.Delta.Content)
+				}
+			}
+			for _, call := range choice.Delta.ToolCalls {
+				state := calls[call.Index]
+				if state == nil {
+					state = &callState{}
+					calls[call.Index] = state
+				}
+				if call.ID != "" {
+					state.id = call.ID
+				}
+				if call.Function.Name != "" {
+					state.name += call.Function.Name
+				}
+				state.args.WriteString(call.Function.Arguments)
+			}
+			if choice.FinishReason != "" {
+				finishReason = choice.FinishReason
+			}
+		}
+	}
+	if err := scanner.Err(); err != nil {
+		return model.Response{}, err
+	}
+
+	message := model.Message{Role: model.RoleAssistant, Content: content.String()}
+	indexes := make([]int, 0, len(calls))
+	for index := range calls {
+		indexes = append(indexes, index)
+	}
+	sort.Ints(indexes)
+	for _, index := range indexes {
+		state := calls[index]
+		arguments := map[string]any{}
+		if state.args.Len() > 0 {
+			if err := json.Unmarshal([]byte(state.args.String()), &arguments); err != nil {
+				return model.Response{}, fmt.Errorf("openaicompat: tool %s arguments: %w", state.name, err)
+			}
+		}
+		message.ToolCalls = append(message.ToolCalls, model.ToolCall{
+			ID:        state.id,
+			Name:      state.name,
+			Arguments: arguments,
+		})
+	}
+	return model.Response{Message: message, FinishReason: finishReason}, nil
+}
+
 type apiRequest struct {
 	Model       string       `json:"model"`
+	Stream      bool         `json:"stream,omitempty"`
 	Messages    []apiMessage `json:"messages"`
 	Tools       []apiTool    `json:"tools,omitempty"`
 	ToolChoice  string       `json:"tool_choice,omitempty"`
@@ -149,6 +273,26 @@ type apiResponse struct {
 		PromptTokens     int64 `json:"prompt_tokens"`
 		CompletionTokens int64 `json:"completion_tokens"`
 	} `json:"usage"`
+	Error *struct {
+		Message string `json:"message"`
+	} `json:"error"`
+}
+
+type apiStreamChunk struct {
+	Choices []struct {
+		Delta struct {
+			Content   string `json:"content"`
+			ToolCalls []struct {
+				Index    int    `json:"index"`
+				ID       string `json:"id"`
+				Function struct {
+					Name      string `json:"name"`
+					Arguments string `json:"arguments"`
+				} `json:"function"`
+			} `json:"tool_calls"`
+		} `json:"delta"`
+		FinishReason string `json:"finish_reason"`
+	} `json:"choices"`
 	Error *struct {
 		Message string `json:"message"`
 	} `json:"error"`

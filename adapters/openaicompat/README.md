@@ -19,6 +19,8 @@ ag, err := agent.New(agent.Options{
 Set `APIKey` for endpoints that require a bearer token. Set `HTTP` to supply a
 custom client; otherwise the adapter uses a 120-second timeout.
 
-The adapter supports text responses, tool calls, tool choice, and usage
-accounting. It does not implement streaming; wrap it with a streaming adapter if
-you need `StreamingModel`.
+The adapter supports text responses, tool calls, tool choice, usage accounting,
+and SSE streaming. Set `agent.Options.OnDelta` to receive streamed text
+fragments; the agent uses `GenerateStream` when the model implements
+`model.StreamingModel`. Streamed tool-call deltas are aggregated into the final
+response.
