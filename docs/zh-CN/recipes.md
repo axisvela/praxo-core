@@ -51,6 +51,26 @@ for _, item := range tool.NewGatewayTools(gateway) {
 MCP 认证绑定在客户端会话上。服务器工具变化后调用 `gateway.Refresh`。参见
 [MCP 网关](https://github.com/axisvela/praxo-core/tree/main/adapters/mcp)。
 
+## OpenTelemetry 事件
+
+使用可选的 OpenTelemetry 模块将生命周期事件转换为 span。
+
+```go
+provider := sdktrace.NewTracerProvider(
+    sdktrace.WithBatcher(exporter),
+)
+defer provider.Shutdown(ctx)
+
+ag, err := agent.New(agent.Options{
+    Model:  modelAdapter,
+    Events: otelsink.New(provider),
+})
+```
+
+每个事件会成为 `praxo.<event.type>` span，并带有会话、运行、时间戳和事件数据
+属性。参见
+[OpenTelemetry Sink](https://github.com/axisvela/praxo-core/tree/main/adapters/otel)。
+
 ## NOETIVELA
 
 NOETIVELA 是 AxisVela 的推理基础设施。将其受治理 Chat API 包装为

@@ -1,5 +1,16 @@
 # Changelog
 
+## [Unreleased]
+
+### Added
+
+- `adapters/otel`: optional OpenTelemetry event sink mapping lifecycle events to
+  spans.
+
+### Changed
+
+- No `pkg/...` API changes.
+
 ## [2.1.0] - 2026-10-22
 
 ### Added
