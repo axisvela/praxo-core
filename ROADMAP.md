@@ -243,6 +243,7 @@ Exit gate:
 - MCP resources, prompts, and streaming progress.
 - [x] OpenTelemetry event sink and trace correlation.
 - [x] Tag `adapters/otel/v0.1.0`.
+- [x] Tag `adapters/anthropic/v0.1.0`.
 - More ecosystem recipes: Harmovela, AEGIVELA, LIMENORA, RHEOVELA.
 - Production case study and published benchmark methodology.
 
