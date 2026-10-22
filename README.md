@@ -98,6 +98,12 @@ Set `PRAXO_PROMPT` to change the request. The model adapter uses only the
 standard library; no provider SDK is required. The example demonstrates tool
 calling, events, and policy.
 
+Optional adapters:
+
+- [`adapters/openaicompat`](adapters/openaicompat) - standard-library
+  OpenAI-compatible model adapter
+- [`adapters/mcp`](adapters/mcp) - optional MCP tool gateway module
+
 For an SDK-backed integration, see
 [`examples/ecosystem-sdk`](examples/ecosystem-sdk).
 

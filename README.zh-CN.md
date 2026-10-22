@@ -90,6 +90,12 @@ PowerShell 使用 `$env:PRAXO_BASE_URL = "..."`，变量名相同。可通过
 `PRAXO_PROMPT` 修改请求内容。模型适配器只使用标准库，不需要提供商 SDK；
 示例展示了工具调用、事件和策略。
 
+可选适配器：
+
+- [`adapters/openaicompat`](adapters/openaicompat) - 仅用标准库的
+  OpenAI 兼容模型适配器
+- [`adapters/mcp`](adapters/mcp) - 可选的 MCP 工具网关模块
+
 SDK 集成示例参见 [`examples/ecosystem-sdk`](examples/ecosystem-sdk)。
 
 ## 基础能力

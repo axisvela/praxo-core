@@ -22,6 +22,15 @@ product-runtime adapter.
 
 Adapter skeletons: [`examples/ecosystem`](../../examples/ecosystem).
 
+## Adapter Modules
+
+- [`adapters/openaicompat`](../../adapters/openaicompat) is a standard-library
+  OpenAI-compatible model adapter. It works with Ollama, vLLM, and hosted
+  OpenAI-compatible endpoints.
+- [`adapters/mcp`](../../adapters/mcp) is an optional MCP tool gateway module.
+  It is a separate Go module so the core framework does not depend on the MCP
+  SDK.
+
 ## NOETIVELA and Model Routing
 
 Yes. [NOETIVELA](https://github.com/axisvela/noetivela-open) is the AxisVela
