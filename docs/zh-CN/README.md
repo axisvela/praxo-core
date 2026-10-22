@@ -10,7 +10,6 @@
 | --- | --- |
 | [快速开始](quickstart.md) | 使用 Ollama 或 OpenAI 兼容端点运行 Agent |
 | [采用指南](adoption.md) | 评估、原型、生产清单与迁移注意事项 |
-| [采用计划](13-adoption-plan.md) | 90 天发布、内容与推广计划 |
 | [Recipes](recipes.md) | OpenAI 兼容、MCP、NOETIVELA、Mnemovela、GNOSIVELA 接入片段 |
 | [与其他 Go Agent 框架的对比](comparison.md) | 与 LangChainGo、Eino、Google ADK Go、Microsoft Agent Framework Go 的对比 |
 | [基准测试](benchmarks.md) | Agent 循环回归基准与运行方法 |

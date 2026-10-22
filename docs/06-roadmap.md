@@ -45,9 +45,6 @@ from discovery to production:
 - benchmarks and release notes
 - community files and good first issues
 
-The detailed 90-day plan is in
-[13-adoption-plan.md](13-adoption-plan.md).
-
 ## Evidence
 
 - unit tests
