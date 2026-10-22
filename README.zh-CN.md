@@ -24,6 +24,27 @@ Agent 循环。它是框架，不是产品。
 MIT 边界使 PRAXOVELA 和外部产品可以嵌入该框架，而无需继承 AGPL
 义务。PRAXOVELA 仍是 AGPL 产品。
 
+## AxisVela 生态
+
+PRAXO-CORE 是 AxisVela 家族的框架层，不绑定单一产品：同一组接口可以将模型、
+记忆、事件、检索、策略、沙箱、工具和图执行接入对应的 AxisVela 组件。具体
+适配器和凭据由产品或集成方持有。
+
+| 生态组件 | PRAXO-CORE 接缝 | 典型适配器 |
+| --- | --- | --- |
+| 模型 | `pkg/model`（`Model`、`Provider`、`ProviderProfile`） | PRAXOVELA 提供商路由器 / 使用方适配器 |
+| 记忆 | `pkg/memory`（`Store`、`ContextAssembler`） | Mnemovela |
+| 事件 | `pkg/event`（`Sink`、`PublisherSink`） | Harmovela / Argus Trace |
+| 检索 | `pkg/retriever`（`Retriever`、`Document`） | GNOSIVELA / Mnemovela |
+| 策略 | `pkg/policy`（`Hook`、`PathChecker`） | AEGIVELA / Archon Guard |
+| 沙箱 | `pkg/sandbox`（`Sandbox`、`Interpreter`） | Vulcan Forge |
+| 工具 | `pkg/tool`（`Tool`、`Gateway`） | Janus Gateway |
+| 图执行 | `pkg/agent`、`pkg/agent/stream` | RHEOVELA |
+| 产品运行时 | 所有接口 | PRAXOVELA |
+
+适配器是可选的，且归产品所有；框架从不导入产品代码。参见
+[AxisVela 生态集成](docs/zh-CN/12-ecosystem.md)。
+
 ## 模块
 
 `github.com/axisvela/praxo-core/v2`（v2 语义导入路径）。尚未迁移的使用方
@@ -106,6 +127,7 @@ result, err := ag.Run(ctx, agent.Session{
 
 - [中文文档目录](docs/zh-CN/README.md)
 - [与其他 Go Agent 框架的对比](docs/zh-CN/comparison.md)
+- [AxisVela 生态集成](docs/zh-CN/12-ecosystem.md)
 - [概览](docs/zh-CN/00-overview.md)
 - [架构](docs/zh-CN/01-architecture.md)
 - [基础能力](docs/zh-CN/02-primitives.md)

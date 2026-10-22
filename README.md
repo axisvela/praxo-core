@@ -25,6 +25,29 @@ not a product.
 The MIT boundary lets PRAXOVELA and external products embed the framework
 without inheriting AGPL obligations. PRAXOVELA remains an AGPL product.
 
+## AxisVela Ecosystem
+
+PRAXO-CORE is the framework layer of the AxisVela family. It is not tied to a
+single product: the same interfaces connect models, memory, events, retrieval,
+policy, sandboxing, tools, and graph execution to the corresponding AxisVela
+components. Concrete adapters and credentials stay with the product or
+integrator.
+
+| Ecosystem component | PRAXO-CORE seam | Typical adapter |
+| --- | --- | --- |
+| Models | `pkg/model` (`Model`, `Provider`, `ProviderProfile`) | PRAXOVELA provider router / consumer adapters |
+| Memory | `pkg/memory` (`Store`, `ContextAssembler`) | Mnemovela |
+| Events | `pkg/event` (`Sink`, `PublisherSink`) | Harmovela / Argus Trace |
+| Retrieval | `pkg/retriever` (`Retriever`, `Document`) | GNOSIVELA / Mnemovela |
+| Policy | `pkg/policy` (`Hook`, `PathChecker`) | AEGIVELA / Archon Guard |
+| Sandbox | `pkg/sandbox` (`Sandbox`, `Interpreter`) | Vulcan Forge |
+| Tools | `pkg/tool` (`Tool`, `Gateway`) | Janus Gateway |
+| Graph execution | `pkg/agent`, `pkg/agent/stream` | RHEOVELA |
+| Product runtime | All interfaces | PRAXOVELA |
+
+Adapters are optional and product-owned; the framework never imports product
+code. See [AxisVela ecosystem integration](docs/12-ecosystem.md).
+
 ## Module
 
 `github.com/axisvela/praxo-core/v2` (v2 semantic import path). The `v1` tags
@@ -113,6 +136,7 @@ planning. The framework is extracted from PRAXOVELA's proven runtime.
 [简体中文文档](docs/zh-CN/README.md)
 
 - [Comparison with other Go agent frameworks](docs/comparison.md)
+- [AxisVela ecosystem integration](docs/12-ecosystem.md)
 - [Overview](docs/00-overview.md)
 - [Architecture](docs/01-architecture.md)
 - [Primitives](docs/02-primitives.md)
