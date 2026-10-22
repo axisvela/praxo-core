@@ -1,6 +1,7 @@
 # Roadmap Detail
 
-See [ROADMAP.md](../ROADMAP.md) for the public roadmap.
+See [ROADMAP.md](https://github.com/axisvela/praxo-core/blob/main/ROADMAP.md)
+for the public roadmap.
 
 ## Release Discipline
 

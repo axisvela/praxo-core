@@ -1,12 +1,14 @@
 # PRAXO-CORE 中文文档
 
-[English README](../../README.md) | [中文 README](../../README.zh-CN.md)
+[English README](https://github.com/axisvela/praxo-core/blob/main/README.md) |
+[中文 README](https://github.com/axisvela/praxo-core/blob/main/README.zh-CN.md)
 
 本目录是 PRAXO-CORE 文档的简体中文版本。英文文档从
 [`docs/00-overview.md`](../00-overview.md) 开始。
 
 | 文档 | 内容 |
 | --- | --- |
+| [快速开始](quickstart.md) | 使用 Ollama 或 OpenAI 兼容端点运行 Agent |
 | [与其他 Go Agent 框架的对比](comparison.md) | 与 LangChainGo、Eino、Google ADK Go、Microsoft Agent Framework Go 的对比 |
 | [AxisVela 生态集成](12-ecosystem.md) | 模型、记忆、Harmovela、GNOSIVELA 等组件的接入接缝 |
 | [概览](00-overview.md) | 框架定位、边界与产品关系 |

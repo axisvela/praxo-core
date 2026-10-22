@@ -3,6 +3,7 @@
 [English](README.md) | [简体中文](README.zh-CN.md)
 
 [![CI](https://github.com/axisvela/praxo-core/actions/workflows/ci.yml/badge.svg)](https://github.com/axisvela/praxo-core/actions/workflows/ci.yml)
+[![Docs](https://img.shields.io/badge/docs-axisvela.github.io-blue)](https://axisvela.github.io/praxo-core/)
 [![Go Reference](https://pkg.go.dev/badge/github.com/axisvela/praxo-core/v2.svg)](https://pkg.go.dev/github.com/axisvela/praxo-core/v2)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
@@ -190,6 +191,7 @@ planning. The framework is extracted from PRAXOVELA's proven runtime.
 
 ## Documentation
 
+[Documentation site](https://axisvela.github.io/praxo-core/) |
 [简体中文文档](docs/zh-CN/README.md)
 
 - [Comparison with other Go agent frameworks](docs/comparison.md)

@@ -3,6 +3,7 @@
 [English](README.md) | [简体中文](README.zh-CN.md)
 
 [![CI](https://github.com/axisvela/praxo-core/actions/workflows/ci.yml/badge.svg)](https://github.com/axisvela/praxo-core/actions/workflows/ci.yml)
+[![Docs](https://img.shields.io/badge/docs-axisvela.github.io-blue)](https://axisvela.github.io/praxo-core/)
 [![Go Reference](https://pkg.go.dev/badge/github.com/axisvela/praxo-core/v2.svg)](https://pkg.go.dev/github.com/axisvela/praxo-core/v2)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
@@ -175,6 +176,9 @@ result, err := ag.Run(ctx, agent.Session{
 类型化流以及待办规划。该框架提取自 PRAXOVELA 经过验证的运行时。
 
 ## 文档
+
+[文档站](https://axisvela.github.io/praxo-core/) |
+[中文文档目录](docs/zh-CN/README.md)
 
 - [中文文档目录](docs/zh-CN/README.md)
 - [与其他 Go Agent 框架的对比](docs/zh-CN/comparison.md)

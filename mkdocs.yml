@@ -1,0 +1,74 @@
+site_name: PRAXO-CORE
+site_description: A public, MIT-licensed agent framework for the AxisVela ecosystem.
+site_url: https://axisvela.github.io/praxo-core/
+repo_url: https://github.com/axisvela/praxo-core
+repo_name: axisvela/praxo-core
+
+docs_dir: docs
+
+theme:
+  name: material
+  palette:
+    - scheme: default
+      primary: teal
+      accent: teal
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - scheme: slate
+      primary: teal
+      accent: teal
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  features:
+    - navigation.sections
+    - navigation.top
+    - search.suggest
+    - content.code.copy
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - tables
+  - toc:
+      permalink: true
+  - pymdownx.highlight
+  - pymdownx.superfences
+
+nav:
+  - Home: index.md
+  - Quickstart: quickstart.md
+  - Guide:
+      - Overview: 00-overview.md
+      - Architecture: 01-architecture.md
+      - Primitives: 02-primitives.md
+      - Integration: 03-integration.md
+      - AxisVela ecosystem: 12-ecosystem.md
+      - Comparison: comparison.md
+      - Plugin authoring: 10-plugin-authoring.md
+      - v2 migration: 11-migration-v2.md
+  - Operations:
+      - Security model: 08-security.md
+      - Release process: 09-release.md
+      - API freeze: 07-api-freeze.md
+      - Roadmap: 06-roadmap.md
+      - Compatibility: 05-compatibility.md
+      - License and provenance: 04-license-and-provenance.md
+  - 中文:
+      - 中文首页: zh-CN/README.md
+      - 快速开始: zh-CN/quickstart.md
+      - 概览: zh-CN/00-overview.md
+      - 架构: zh-CN/01-architecture.md
+      - 基础能力: zh-CN/02-primitives.md
+      - 集成: zh-CN/03-integration.md
+      - AxisVela 生态: zh-CN/12-ecosystem.md
+      - 对比: zh-CN/comparison.md
+      - 插件编写: zh-CN/10-plugin-authoring.md
+      - v2 迁移: zh-CN/11-migration-v2.md
+      - 安全模型: zh-CN/08-security.md
+      - 发布流程: zh-CN/09-release.md
+      - API 冻结: zh-CN/07-api-freeze.md
+      - 路线图: zh-CN/06-roadmap.md
+      - 兼容性: zh-CN/05-compatibility.md
+      - 许可证与来源: zh-CN/04-license-and-provenance.md

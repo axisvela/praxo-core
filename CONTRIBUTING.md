@@ -23,6 +23,22 @@ GOWORK=off go vet ./...
 GOWORK=off go build ./...
 ```
 
+The MCP adapter is also a separate module:
+
+```bash
+cd adapters/mcp
+GOWORK=off go test ./...
+GOWORK=off go vet ./...
+GOWORK=off go build ./...
+```
+
+Documentation:
+
+```bash
+pip install -r requirements-docs.txt
+mkdocs build --strict
+```
+
 ## Pull Requests
 
 - Keep changes focused and explain the reason in the PR summary.
