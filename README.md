@@ -105,6 +105,7 @@ Optional adapters:
   OpenAI-compatible model adapter
 - [`adapters/mcp`](adapters/mcp) - optional MCP tool gateway module
 - [`adapters/otel`](adapters/otel) - optional OpenTelemetry event sink
+- [`adapters/anthropic`](adapters/anthropic) - native Anthropic Messages adapter
 
 For SDK-backed integrations, see
 [`examples/ecosystem-sdk`](examples/ecosystem-sdk) (NOETIVELA, Mnemovela,

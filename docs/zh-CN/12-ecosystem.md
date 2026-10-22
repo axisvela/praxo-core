@@ -29,6 +29,8 @@ PRAXO-CORE 是 AxisVela Agent 共享的框架层。它暴露中立的契约，�
   Go 模块，因此核心框架不依赖 MCP SDK。
 - [`adapters/otel`](https://github.com/axisvela/praxo-core/tree/main/adapters/otel) 是可选的 OpenTelemetry 事件
   Sink，将生命周期事件映射为 span，且不会把 OpenTelemetry 加入核心模块。
+- [`adapters/anthropic`](https://github.com/axisvela/praxo-core/tree/main/adapters/anthropic) 是原生 Anthropic Messages
+  适配器，支持工具调用、usage 和 SSE 流式输出。
 
 ## NOETIVELA 与模型路由
 

@@ -51,6 +51,26 @@ for _, item := range tool.NewGatewayTools(gateway) {
 MCP 认证绑定在客户端会话上。服务器工具变化后调用 `gateway.Refresh`。参见
 [MCP 网关](https://github.com/axisvela/praxo-core/tree/main/adapters/mcp)。
 
+## Anthropic Messages
+
+使用原生适配器连接 Anthropic 模型，支持工具调用、usage 和 SSE 流式输出。
+
+```go
+adapter := anthropic.Adapter{
+    APIKey:    os.Getenv("ANTHROPIC_API_KEY"),
+    Model:     "claude-sonnet-4-5",
+    MaxTokens: 1024,
+}
+
+ag, err := agent.New(agent.Options{
+    Model:    adapter,
+    MaxSteps: 4,
+})
+```
+
+参见
+[Anthropic 适配器](https://github.com/axisvela/praxo-core/tree/main/adapters/anthropic)。
+
 ## OpenTelemetry 事件
 
 使用可选的 OpenTelemetry 模块将生命周期事件转换为 span。

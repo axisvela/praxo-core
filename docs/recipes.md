@@ -55,6 +55,27 @@ MCP authentication belongs to the client session. Call `gateway.Refresh` after
 the server changes its tools. See the
 [MCP gateway](https://github.com/axisvela/praxo-core/tree/main/adapters/mcp).
 
+## Anthropic Messages
+
+Use the native adapter for Anthropic models. It supports tool calls, usage, and
+SSE streaming.
+
+```go
+adapter := anthropic.Adapter{
+    APIKey:    os.Getenv("ANTHROPIC_API_KEY"),
+    Model:     "claude-sonnet-4-5",
+    MaxTokens: 1024,
+}
+
+ag, err := agent.New(agent.Options{
+    Model:    adapter,
+    MaxSteps: 4,
+})
+```
+
+See the
+[Anthropic adapter](https://github.com/axisvela/praxo-core/tree/main/adapters/anthropic).
+
 ## OpenTelemetry Events
 
 Use the optional OpenTelemetry module to turn lifecycle events into spans.

@@ -33,6 +33,8 @@ Adapter skeletons: [`examples/ecosystem`](https://github.com/axisvela/praxo-core
 - [`adapters/otel`](https://github.com/axisvela/praxo-core/tree/main/adapters/otel) is an optional OpenTelemetry event sink.
   It maps lifecycle events to spans without adding OpenTelemetry to the core
   module.
+- [`adapters/anthropic`](https://github.com/axisvela/praxo-core/tree/main/adapters/anthropic) is a native Anthropic Messages
+  adapter with tool calls, usage, and SSE streaming.
 
 ## NOETIVELA and Model Routing
 
