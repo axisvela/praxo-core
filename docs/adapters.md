@@ -24,6 +24,7 @@ native adapters for their respective APIs.
 | OpenTelemetry | `github.com/axisvela/praxo-core/adapters/otel` | `event.Sink` | `adapters/otel/v0.2.0` |
 | Harmovela | `github.com/axisvela/praxo-core/adapters/harmovela` | `event.Sink` | `adapters/harmovela/v0.1.0` |
 | A2A | `github.com/axisvela/praxo-core/adapters/a2a` | `a2asrv.AgentExecutor` | `adapters/a2a/v0.1.0` |
+| Multi-agent | `github.com/axisvela/praxo-core/adapters/multiagent` | supervisor and sequential delegation | `adapters/multiagent/v0.1.0` |
 
 The MCP module exposes tools through `tool.Gateway` and provides module-level
 helpers for resources and prompts. The OpenTelemetry module maps lifecycle

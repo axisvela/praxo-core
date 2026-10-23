@@ -109,6 +109,7 @@ Optional adapters:
 - [`adapters/gemini`](adapters/gemini) - native Gemini generateContent adapter
 - [`adapters/harmovela`](adapters/harmovela) - Harmovela HTTP event sink
 - [`adapters/a2a`](adapters/a2a) - A2A server adapter for agent-to-agent clients
+- [`adapters/multiagent`](adapters/multiagent) - optional supervisor and sequential delegation
 
 For SDK-backed integrations, see
 [`examples/ecosystem-sdk`](examples/ecosystem-sdk) (NOETIVELA, Mnemovela,
