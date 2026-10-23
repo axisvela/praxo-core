@@ -26,6 +26,7 @@ go get github.com/axisvela/praxo-core/v2@v2.0.0
 ## Explore
 
 - [Quickstart](quickstart.md)
+- [2.2.0 release notes](releases/2.2.0.md)
 - [2.1.0 release notes](releases/2.1.0.md)
 - [Adoption guide](adoption.md)
 - [Recipes](recipes.md)
@@ -41,8 +42,8 @@ go get github.com/axisvela/praxo-core/v2@v2.0.0
 
 ## Status
 
-`2.1.0` is the current core release. The exported `pkg/...` API is frozen and
-identical to `2.0.0`; new capabilities are additive. Optional adapters are
+`2.2.0` is the current core release. The exported `pkg/...` API is frozen and
+identical to `2.1.0`; new capabilities are additive. Optional adapters are
 versioned independently (`adapters/mcp/v0.2.0`, `adapters/otel/v0.2.0`,
 `adapters/anthropic/v0.1.0`, `adapters/gemini/v0.1.0`,
 `adapters/harmovela/v0.1.0`, `adapters/a2a/v0.1.0`,

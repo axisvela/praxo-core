@@ -179,11 +179,11 @@ result, err := ag.Run(ctx, agent.Session{
 
 ## 状态
 
-`2.1.0` 是当前核心版本。该版本聚焦采用体验，且不改变 `2.0.0` 的 `pkg/...`
-API（`api/2.1.0.txt` 与 `api/2.0.0.txt` 相同）。它新增了带 SSE 流式输出的
-OpenAI 兼容模型适配器、quickstart 和 reference 示例、生态 SDK recipes、
-基准测试以及中英文文档站。`1.0.0` 的 API 冻结仍然有效，规范包路径为
-`pkg/toolcall`、`pkg/formatter` 和 `pkg/tool/jsonschema`。
+`2.2.0` 是当前核心版本。该版本聚焦生态深度，且不改变 `2.1.0` 的 `pkg/...`
+API（`api/2.2.0.txt` 与 `api/2.1.0.txt` 相同）。它新增了 MCP resources/prompts、
+OpenTelemetry、Anthropic、Gemini、Harmovela、A2A 和多 Agent 适配器/模块，
+以及新示例、多 Agent 指南和隐私/正确性修复。`1.0.0` 的 API 冻结仍然有效，
+规范包路径为 `pkg/toolcall`、`pkg/formatter` 和 `pkg/tool/jsonschema`。
 
 可选适配器独立版本化：`adapters/mcp/v0.2.0`、`adapters/otel/v0.2.0`、
 `adapters/anthropic/v0.1.0`、`adapters/gemini/v0.1.0`、
@@ -196,6 +196,7 @@ OpenAI 兼容模型适配器、quickstart 和 reference 示例、生态 SDK reci
 [中文文档目录](docs/zh-CN/README.md)
 
 - [中文文档目录](docs/zh-CN/README.md)
+- [2.2.0 发布说明](docs/zh-CN/releases/2.2.0.md)
 - [2.1.0 发布说明](docs/zh-CN/releases/2.1.0.md)
 - [采用指南](docs/zh-CN/adoption.md)
 - [Recipes](docs/zh-CN/recipes.md)

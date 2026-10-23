@@ -1,17 +1,32 @@
 # Changelog
 
-## [Unreleased]
+## [2.2.0] - 2026-10-23
 
 ### Added
 
-- `adapters/harmovela`: HTTP event sink for Harmovela, without importing the
+- `adapters/otel`: optional OpenTelemetry event sink mapping lifecycle events to
+  spans.
+- `adapters/anthropic`: native Anthropic Messages adapter with tool calls,
+  usage, and SSE streaming.
+- `adapters/gemini`: native Gemini generateContent adapter with function calls
+  and SSE streaming.
+- `adapters/harmovela`: HTTP event sink for Harmovela without importing the
   heavier Harmovela Go module.
-- `adapters/a2a`: A2A server executor adapter for exposing a PRAXO-CORE agent
-  to agent-to-agent clients.
-- `examples/multiagent`: asynchronous subagent delegation, aggregation, and
-  cancellation example, plus bilingual multi-agent guidance.
+- `adapters/a2a`: A2A server executor adapter for exposing a PRAXO-CORE agent to
+  agent-to-agent clients.
 - `adapters/multiagent`: optional parallel supervisor and sequential delegation
   over `pkg/agent/delegation`.
+- `adapters/mcp`: resource and prompt listing/reading helpers in addition to the
+  tool gateway.
+- `examples/multiagent`: asynchronous subagent delegation, aggregation, and
+  cancellation example, plus bilingual multi-agent guidance.
+- `examples/plugin`: minimal process plugin host with JSON-Lines and end-to-end
+  tests, plus a WASM host smoke example.
+- `examples/checkpoint`: in-memory checkpoint store and session resume flow.
+- `examples/sandbox`: policy-gated command execution with a strict allowlist.
+- `examples/ecosystem-sdk`: AEGIVELA policy, LIMENORA tool-gateway, and RHEOVELA
+  workflow recipes.
+- Adapter index, bilingual multi-agent guidance, and deeper ecosystem docs.
 
 ### Security
 
@@ -23,28 +38,18 @@
 - `adapters/mcp`: add `NewTools` to preserve input schemas in model-visible tool
   specifications; tool discovery follows pagination and rejects repeated cursors.
 
-### Added
-
-- `adapters/otel`: optional OpenTelemetry event sink mapping lifecycle events to
-  spans.
-- `adapters/anthropic`: native Anthropic Messages adapter with tool calls,
-  usage, and SSE streaming.
-- `adapters/gemini`: native Gemini generateContent adapter with function calls
-  and SSE streaming.
-- `adapters/mcp`: resource and prompt listing/reading helpers in addition to the
-  tool gateway.
-- `examples/ecosystem-sdk`: AEGIVELA policy, LIMENORA tool-gateway, RHEOVELA
-  workflow, and Harmovela HTTP event recipes.
-- `examples/plugin`: minimal process plugin host with JSON-Lines and end-to-end
-  tests, plus a WASM host smoke example.
-- `examples/checkpoint`: in-memory checkpoint store and session resume flow.
-- `examples/sandbox`: policy-gated command execution with a strict allowlist.
-
 ### Changed
 
-- No `pkg/...` API changes.
+- No `pkg/...` API changes; the `1.0.0` API freeze remains in effect.
 - CI and release workflows pin Go `1.26.10` for the `crypto/x509` fix in
   GO-2026-6809.
+
+### Modules
+
+Optional adapter modules are versioned independently:
+`adapters/mcp/v0.2.0`, `adapters/otel/v0.2.0`, `adapters/anthropic/v0.1.0`,
+`adapters/gemini/v0.1.0`, `adapters/harmovela/v0.1.0`, `adapters/a2a/v0.1.0`,
+and `adapters/multiagent/v0.1.0`.
 
 ## [2.1.0] - 2026-10-22
 
