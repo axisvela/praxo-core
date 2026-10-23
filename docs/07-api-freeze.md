@@ -2,8 +2,9 @@
 
 **Status:** v2 module-path audit for `2.0.0`; `2.1.0` and `2.2.0` add no
 `pkg/...` declarations. `2.3.0` adds `SubagentManager.Wait` and
-`SubagentManager.Prune`; all other declarations are unchanged. The `1.0.0`
-surface remains frozen; new declarations are additive.
+`SubagentManager.Prune`; all other declarations are unchanged. `2.3.1` adds
+no `pkg/...` declarations. The `1.0.0` surface remains frozen; new declarations
+are additive.
 
 ## Audit Result
 

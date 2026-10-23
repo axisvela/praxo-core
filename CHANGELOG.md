@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+## [2.3.1] - 2026-10-23
+
 ### Added
 
 - `adapters/a2a`: in-process gRPC client/server round-trip test.
@@ -9,11 +11,14 @@
 ### Changed
 
 - `examples/multiagent` uses `SubagentManager.Wait` instead of polling.
+- The sandbox recipe accepts both `[]string` and `[]any` command arguments
+  without panicking or referencing an out-of-scope variable.
+- The docs workflow builds on pull requests with `mkdocs build --strict`.
 
 ### Fixed
 
-- `SubagentManager.Wait` returns the terminal snapshot even if the task is
-  pruned concurrently.
+- `SubagentManager.Wait` returns the terminal snapshot to every concurrent
+  waiter, including when the task is pruned concurrently.
 
 ## [2.3.0] - 2026-10-23
 

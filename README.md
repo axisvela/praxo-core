@@ -192,12 +192,12 @@ workspace agent with confined VFS tools, policy, memory, and events,
 
 ## Status
 
-`2.3.0` is the current core release. It keeps the `pkg/...` API frozen and adds
-`SubagentManager.Wait` and `SubagentManager.Prune`. It also makes
-`flow.Parallel` genuinely concurrent, hardens subagent terminal state, makes
-multi-agent waits event-driven with bounded concurrency, adds optional streamed
-usage to the OpenAI-compatible adapter, and hardens memory IDs/search and MCP
-pagination. The `1.0.0` API freeze remains in effect, and the canonical package
+`2.3.1` is the current core release. It is a patch over 2.3.0's execution
+correctness work and adds no exported `pkg/...` declarations. `Wait` now returns
+the terminal snapshot to every concurrent waiter, including when the task is
+pruned; the A2A adapter has an in-process gRPC round-trip test; the multi-agent
+example and docs use event-driven waits; and docs CI runs a strict build on pull
+requests. The `1.0.0` API freeze remains in effect, and the canonical package
 paths are `pkg/toolcall`, `pkg/formatter`, and `pkg/tool/jsonschema`.
 
 Optional adapters are versioned independently: `adapters/mcp/v0.3.0`,
@@ -211,6 +211,7 @@ extracted from PRAXOVELA's proven runtime.
 [Documentation site](https://axisvela.github.io/praxo-core/) |
 [简体中文文档](docs/zh-CN/README.md)
 
+- [2.3.1 release notes](docs/releases/2.3.1.md)
 - [2.3.0 release notes](docs/releases/2.3.0.md)
 - [2.2.0 release notes](docs/releases/2.2.0.md)
 - [2.1.0 release notes](docs/releases/2.1.0.md)
