@@ -22,6 +22,7 @@ Anthropic 与 Gemini 是对应 API 的原生适配器。
 | OpenTelemetry | `github.com/axisvela/praxo-core/adapters/otel` | `event.Sink` | `adapters/otel/v0.2.0` |
 | Harmovela | `github.com/axisvela/praxo-core/adapters/harmovela` | `event.Sink` | `adapters/harmovela/v0.1.0` |
 | A2A | `github.com/axisvela/praxo-core/adapters/a2a` | `a2asrv.AgentExecutor` | `adapters/a2a/v0.1.0` |
+| Multi-agent | `github.com/axisvela/praxo-core/adapters/multiagent` | supervisor 与顺序委派 | `adapters/multiagent/v0.1.0` |
 
 MCP 模块通过 `tool.Gateway` 暴露工具，并提供 resources 和 prompts 的模块级
 辅助函数。OpenTelemetry 模块将生命周期事件映射为 span。

@@ -256,6 +256,8 @@ Exit gate:
 ## 2.3.0 - Ecosystem Depth (candidate)
 
 - [x] Multi-agent delegation example and bilingual guidance.
+- [x] `adapters/multiagent` parallel supervisor and sequential delegation.
+- [ ] Tag `adapters/multiagent/v0.1.0`.
 - [x] Checkpoint and resume example.
 - [x] Sandbox and policy example for high-risk tools.
 - [x] Minimal process plugin and WASM host examples.

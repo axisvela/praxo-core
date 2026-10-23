@@ -101,6 +101,7 @@ PowerShell 使用 `$env:PRAXO_BASE_URL = "..."`，变量名相同。可通过
 - [`adapters/gemini`](adapters/gemini) - 原生 Gemini generateContent 适配器
 - [`adapters/harmovela`](adapters/harmovela) - Harmovela HTTP 事件 Sink
 - [`adapters/a2a`](adapters/a2a) - 面向 Agent-to-Agent 客户端的 A2A 服务端适配器
+- [`adapters/multiagent`](adapters/multiagent) - 可选的 supervisor 与顺序委派模块
 
 SDK 集成示例参见 [`examples/ecosystem-sdk`](examples/ecosystem-sdk)
 （NOETIVELA、Mnemovela、GNOSIVELA）。

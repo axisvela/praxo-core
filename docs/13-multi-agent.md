@@ -48,6 +48,18 @@ task, err := manager.Launch(ctx, delegation.SubagentRequest{
 A product supplies the router and `SubagentRunner`; the framework owns the task
 lifecycle and observable state.
 
+## Optional Composition Module
+
+[`adapters/multiagent`](https://github.com/axisvela/praxo-core/tree/main/adapters/multiagent)
+adds a small optional layer over `SubagentManager`:
+
+- `Supervisor.Run` launches workers in parallel and aggregates outputs.
+- `Supervisor.Sequential` passes each output to the next worker as
+  `Context["previous"]`.
+- Timeouts cancel outstanding child contexts and return `ErrTimeout`.
+
+It is not a graph or durable workflow runtime and does not change the core API.
+
 ## Choosing a Pattern
 
 | Need | Pattern |

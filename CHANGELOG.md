@@ -10,6 +10,8 @@
   to agent-to-agent clients.
 - `examples/multiagent`: asynchronous subagent delegation, aggregation, and
   cancellation example, plus bilingual multi-agent guidance.
+- `adapters/multiagent`: optional parallel supervisor and sequential delegation
+  over `pkg/agent/delegation`.
 
 ### Security
 

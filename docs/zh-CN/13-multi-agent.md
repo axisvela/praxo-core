@@ -44,6 +44,18 @@ task, err := manager.Launch(ctx, delegation.SubagentRequest{
 
 路由器与 `SubagentRunner` 由产品提供；框架负责任务生命周期和可观察状态。
 
+## 可选编排模块
+
+[`adapters/multiagent`](https://github.com/axisvela/praxo-core/tree/main/adapters/multiagent)
+在 `SubagentManager` 之上提供一个小的可选层：
+
+- `Supervisor.Run` 并行启动 worker 并按名称聚合输出。
+- `Supervisor.Sequential` 将前一个输出作为 `Context["previous"]` 传给下一个
+  worker。
+- 超时会取消未完成的子上下文并返回 `ErrTimeout`。
+
+它不是图或持久化工作流运行时，也不会改变核心 API。
+
 ## 选择模式
 
 | 需求 | 模式 |
