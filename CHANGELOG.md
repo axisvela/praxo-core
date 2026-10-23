@@ -10,7 +10,8 @@
   usage, and SSE streaming.
 - `adapters/mcp`: resource and prompt listing/reading helpers in addition to the
   tool gateway.
-- `examples/ecosystem-sdk`: AEGIVELA policy and LIMENORA tool-gateway recipes.
+- `examples/ecosystem-sdk`: AEGIVELA policy, LIMENORA tool-gateway, and
+  RHEOVELA workflow recipes.
 
 ### Changed
 

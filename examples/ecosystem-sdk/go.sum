@@ -8,7 +8,13 @@ github.com/axisvela/mnemovela-open/sdk/go/v3 v3.0.0 h1:4OdUI6pvRo/25UycajA7PVTYJ
 github.com/axisvela/mnemovela-open/sdk/go/v3 v3.0.0/go.mod h1:RYWknxcNj4a4D7KSkUX8bycYQGh0huIQzJmsPZ4m+AA=
 github.com/axisvela/noetivela-open/sdk/go/v3 v3.0.0 h1:lsbUNg+EX//8XQtU8mggqk0AUnazr/yQmIbRA04stWw=
 github.com/axisvela/noetivela-open/sdk/go/v3 v3.0.0/go.mod h1:qFLoLiqdecuhXVql59fc+cILOWWzzNfqNODo+2iVy8I=
+github.com/axisvela/rheovela-open/sdk/go/v3 v3.0.0 h1:jHvlTM6w98be5/97TxWC9Cf4Z99ENskLFfuXOVJHDCw=
+github.com/axisvela/rheovela-open/sdk/go/v3 v3.0.0/go.mod h1:A7sHphwc4UfNfxvXf3wX9PXR+KZgPAedQEkQcFuhxx0=
 github.com/santhosh-tekuri/jsonschema/v6 v6.0.3 h1:1EYB5IzjZawrrnELUi78f9fPu57HuXjmddZPjrls/28=
 github.com/santhosh-tekuri/jsonschema/v6 v6.0.3/go.mod h1:JXeL+ps8p7/KNMjDQk3TCwPpBy0wYklyWTfbkIzdIFU=
+github.com/stretchr/testify v1.12.1 h1:EuwCh5fleGS7H32xRwO3wRGT7DxrDhLAT6FF8MpWDWE=
+github.com/stretchr/testify v1.12.1/go.mod h1:MDEgiDPPsNp5cuIrHPPCyornHKgEVbtFUmoNlxoYthg=
+go.yaml.in/yaml/v3 v3.0.5 h1:N6y/pJk8buWs9NY5ERU2HSMfm+IuD/OtfdAnq6kESPw=
+go.yaml.in/yaml/v3 v3.0.5/go.mod h1:HVTZu1O7/Vkt2N+BFy8Zza+lnLsABggaTM2ZpNIGuKg=
 golang.org/x/text v0.36.0 h1:JfKh3XmcRPqZPKevfXVpI1wXPTqbkE5f7JA92a55Yxg=
 golang.org/x/text v0.36.0/go.mod h1:NIdBknypM8iqVmPiuco0Dh6P5Jcdk8lJL0CUebqK164=

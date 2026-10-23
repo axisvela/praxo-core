@@ -15,6 +15,7 @@ SDKs. The example still imports PRAXO-CORE through a local `replace`.
 | `gnosivela.Retriever` | `retriever.Retriever` | GNOSIVELA |
 | `aegivela.Hook` | `policy.Hook` | AEGIVELA |
 | `limenora.Gateway` | `tool.Gateway` | LIMENORA |
+| `rheovela.Runner` | agent session to workflow instance | RHEOVELA |
 
 ### NOETIVELA
 
@@ -100,6 +101,24 @@ gateway := limenoraadapter.Gateway{
         ActorID:     "agent-1",
     },
 }
+```
+
+### RHEOVELA
+
+`rheovela.Runner` maps an `agent.Session` to a RHEOVELA workflow instance and
+advances it through stages.
+
+```go
+runner := rheovelaadapter.Runner{
+    Client:    rheovela.NewClient("http://127.0.0.1:8080"),
+    Workflow:  "agent",
+    ProjectID: "proj",
+    Actor:     "agent-1",
+}
+
+instance, err := runner.Start(ctx, session)
+err = runner.Step(ctx, instance.InstanceID, "advance", "review")
+audit, err := runner.Audit(ctx, instance.InstanceID)
 ```
 
 ## Run
