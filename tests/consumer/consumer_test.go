@@ -6,7 +6,9 @@ import (
 	"os"
 	"os/exec"
 	"strings"
+	"sync"
 	"testing"
+	"time"
 
 	a2aadapter "github.com/axisvela/praxo-core/adapters/a2a"
 	"github.com/axisvela/praxo-core/adapters/anthropic"
@@ -68,7 +70,7 @@ func TestPublishedDependencyGraph(t *testing.T) {
 		t.Fatal(err)
 	}
 	expected := map[string]string{
-		"github.com/axisvela/praxo-core/v2":                  "v2.3.0",
+		"github.com/axisvela/praxo-core/v2":                  "v2.3.1",
 		"github.com/axisvela/praxo-core/adapters/a2a":        "v0.1.0",
 		"github.com/axisvela/praxo-core/adapters/anthropic":  "v0.1.0",
 		"github.com/axisvela/praxo-core/adapters/gemini":     "v0.1.0",
@@ -108,6 +110,19 @@ func (publishedRunner) Run(_ context.Context, req delegation.SubagentRequest) (d
 	return delegation.SubagentResult{TaskID: "task", AgentID: req.AgentID, Output: "done"}, nil
 }
 
+type blockingPublishedRunner struct {
+	release chan struct{}
+}
+
+func (r *blockingPublishedRunner) Run(ctx context.Context, req delegation.SubagentRequest) (delegation.SubagentResult, error) {
+	select {
+	case <-r.release:
+		return delegation.SubagentResult{TaskID: "task", AgentID: req.AgentID, Output: "done"}, nil
+	case <-ctx.Done():
+		return delegation.SubagentResult{}, ctx.Err()
+	}
+}
+
 func TestPublishedSubagentLifecycle(t *testing.T) {
 	ctx := context.Background()
 	manager := delegation.NewSubagentManager(publishedRunner{})
@@ -130,5 +145,61 @@ func TestPublishedSubagentLifecycle(t *testing.T) {
 	}
 	if _, ok := manager.Check(task.ID); ok {
 		t.Fatal("pruned task is still present")
+	}
+}
+
+func TestPublishedSubagentWaitersSurvivePrune(t *testing.T) {
+	ctx := context.Background()
+	runner := &blockingPublishedRunner{release: make(chan struct{})}
+	manager := delegation.NewSubagentManager(runner)
+	task, err := manager.Launch(ctx, delegation.SubagentRequest{
+		ParentSessionID: "consumer",
+		AgentID:         "child",
+	})
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	const waiters = 4
+	type outcome struct {
+		task delegation.SubagentTask
+		err  error
+	}
+	results := make(chan outcome, waiters)
+	var started sync.WaitGroup
+	started.Add(waiters)
+	for i := 0; i < waiters; i++ {
+		go func() {
+			started.Done()
+			done, err := manager.Wait(ctx, task.ID)
+			results <- outcome{task: done, err: err}
+		}()
+	}
+	started.Wait()
+	time.Sleep(20 * time.Millisecond)
+	close(runner.release)
+
+	done, err := manager.Wait(ctx, task.ID)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if done.Status != delegation.SubagentCompleted || done.Output != "done" {
+		t.Fatalf("task = %#v", done)
+	}
+	if removed := manager.Prune(0); removed != 1 {
+		t.Fatalf("pruned = %d", removed)
+	}
+	for i := 0; i < waiters; i++ {
+		select {
+		case result := <-results:
+			if result.err != nil {
+				t.Fatal(result.err)
+			}
+			if result.task.Status != delegation.SubagentCompleted || result.task.Output != "done" {
+				t.Fatalf("waiter task = %#v", result.task)
+			}
+		case <-time.After(3 * time.Second):
+			t.Fatal("waiter did not return")
+		}
 	}
 }
