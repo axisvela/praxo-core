@@ -238,3 +238,52 @@ func TestSubagentManagerWaitUnknown(t *testing.T) {
 		t.Fatal("expected an error")
 	}
 }
+
+func TestSubagentManagerWaitAllWaitersSeeTerminalSnapshotAfterPrune(t *testing.T) {
+	r := newFakeSubRunner()
+	m := NewSubagentManager(r)
+	task, err := m.Launch(context.Background(), SubagentRequest{ParentSessionID: "p", AgentID: "child"})
+	if err != nil {
+		t.Fatal(err)
+	}
+	<-r.started
+
+	const waiters = 4
+	type outcome struct {
+		task SubagentTask
+		err  error
+	}
+	results := make(chan outcome, waiters)
+	var launched sync.WaitGroup
+	launched.Add(waiters)
+	for i := 0; i < waiters; i++ {
+		go func() {
+			launched.Done()
+			done, err := m.Wait(context.Background(), task.ID)
+			results <- outcome{task: done, err: err}
+		}()
+	}
+	launched.Wait()
+	time.Sleep(20 * time.Millisecond)
+	close(r.release)
+	waitStatus(t, m, task.ID, SubagentCompleted)
+	if removed := m.Prune(0); removed != 1 {
+		t.Fatalf("removed = %d", removed)
+	}
+	for i := 0; i < waiters; i++ {
+		select {
+		case result := <-results:
+			if result.err != nil {
+				t.Fatal(result.err)
+			}
+			if result.task.Status != SubagentCompleted || result.task.Output != "child result" {
+				t.Fatalf("waiter task = %#v", result.task)
+			}
+		case <-time.After(3 * time.Second):
+			t.Fatal("waiter did not return")
+		}
+	}
+	if _, ok := m.Check(task.ID); ok {
+		t.Fatal("completed task was not pruned")
+	}
+}
