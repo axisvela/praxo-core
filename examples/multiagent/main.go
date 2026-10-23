@@ -2,7 +2,6 @@ package main
 
 import (
 	"context"
-	"errors"
 	"fmt"
 	"log"
 	"time"
@@ -73,32 +72,24 @@ func runSupervisor(ctx context.Context) (outcome, error) {
 		taskIDs[job.name] = task.ID
 	}
 
+	waitCtx, waitCancel := context.WithTimeout(ctx, 2*time.Second)
+	defer waitCancel()
 	outputs := map[string]string{}
-	deadline := time.Now().Add(2 * time.Second)
-	for len(outputs) < len(jobs) {
-		for name, taskID := range taskIDs {
-			task, ok := manager.Check(taskID)
-			if !ok {
-				return outcome{}, fmt.Errorf("missing subagent task %s", taskID)
-			}
-			switch task.Status {
-			case delegation.SubagentCompleted:
-				if _, done := outputs[name]; !done {
-					outputs[name] = task.Output
-				}
-			case delegation.SubagentFailed:
-				return outcome{}, fmt.Errorf("%s failed: %s", name, task.Error)
-			case delegation.SubagentCanceled:
-				return outcome{}, fmt.Errorf("%s was canceled", name)
-			}
+	for _, job := range jobs {
+		task, err := manager.Wait(waitCtx, taskIDs[job.name])
+		if err != nil {
+			return outcome{}, fmt.Errorf("wait for %s: %w", job.name, err)
 		}
-		if len(outputs) == len(jobs) {
-			break
+		switch task.Status {
+		case delegation.SubagentCompleted:
+			outputs[job.name] = task.Output
+		case delegation.SubagentFailed:
+			return outcome{}, fmt.Errorf("%s failed: %s", job.name, task.Error)
+		case delegation.SubagentCanceled:
+			return outcome{}, fmt.Errorf("%s was canceled", job.name)
+		default:
+			return outcome{}, fmt.Errorf("%s returned status %s", job.name, task.Status)
 		}
-		if time.Now().After(deadline) {
-			return outcome{}, errors.New("timed out waiting for subagents")
-		}
-		time.Sleep(5 * time.Millisecond)
 	}
 
 	slow, err := manager.Launch(ctx, delegation.SubagentRequest{
@@ -113,19 +104,11 @@ func runSupervisor(ctx context.Context) (outcome, error) {
 	if err := manager.Cancel(slow.ID); err != nil {
 		return outcome{}, err
 	}
-	canceled := false
-	for i := 0; i < 100; i++ {
-		task, ok := manager.Check(slow.ID)
-		if !ok {
-			return outcome{}, fmt.Errorf("missing slow task %s", slow.ID)
-		}
-		if task.Status == delegation.SubagentCanceled {
-			canceled = true
-			break
-		}
-		time.Sleep(2 * time.Millisecond)
+	task, err := manager.Wait(ctx, slow.ID)
+	if err != nil {
+		return outcome{}, err
 	}
-	return outcome{Outputs: outputs, Canceled: canceled}, nil
+	return outcome{Outputs: outputs, Canceled: task.Status == delegation.SubagentCanceled}, nil
 }
 
 type staticModel struct {
