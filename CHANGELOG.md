@@ -1,5 +1,11 @@
 # Changelog
 
+## [Unreleased]
+
+### Added
+
+- `adapters/a2a`: in-process gRPC client/server round-trip test.
+
 ## [2.3.0] - 2026-10-23
 
 ### Added
