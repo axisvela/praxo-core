@@ -243,6 +243,26 @@ gateway := limenoraadapter.Gateway{
 See the
 [LIMENORA SDK example](https://github.com/axisvela/praxo-core/tree/main/examples/ecosystem-sdk/limenora).
 
+## Harmovela Events
+
+Publish lifecycle events to Harmovela's HTTP API through `event.Sink`.
+
+```go
+sink := harmovelaadapter.Sink{
+    BaseURL: "http://127.0.0.1:8790/aep/api",
+    Source:  "praxo-core",
+}
+
+ag, err := agent.New(agent.Options{
+    Model:  modelAdapter,
+    Events: sink,
+})
+```
+
+The sink emits `spec_version`, `id`, `type`, `source`, `created_at`, and a
+payload containing session, run, and event data. See the
+[Harmovela recipe](https://github.com/axisvela/praxo-core/tree/main/examples/ecosystem-sdk/harmovela).
+
 ## RHEOVELA Workflow
 
 Map an agent session to a RHEOVELA workflow instance. RHEOVELA owns graph and

@@ -57,8 +57,8 @@ inference fabric and can back the model seam.
   `noetivela-open` is Apache-2.0 and can be imported by the adapter or product.
 - The [`examples/ecosystem-sdk`](https://github.com/axisvela/praxo-core/tree/main/examples/ecosystem-sdk) module uses the
   real NOETIVELA, Mnemovela, GNOSIVELA, AEGIVELA, LIMENORA, and RHEOVELA Go
-  SDKs. It is a separate module so the core framework module stays free of
-  product SDK dependencies.
+  SDKs, plus the Harmovela HTTP protocol. It is a separate module so the core
+  framework module stays free of product SDK dependencies.
 - The `ecosystem.Noetivela` adapter skeleton shows a contract-mapping shape;
   `ecosystem.Model` and `ecosystem.Provider` cover the generic callback shape.
 - The [runnable demo](https://github.com/axisvela/praxo-core/tree/main/examples/ecosystem/cmd/demo) wires the NOETIVELA,
