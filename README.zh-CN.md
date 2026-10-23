@@ -188,6 +188,7 @@ result, err := ag.Run(ctx, agent.Session{
 - [2.1.0 发布说明](docs/zh-CN/releases/2.1.0.md)
 - [采用指南](docs/zh-CN/adoption.md)
 - [Recipes](docs/zh-CN/recipes.md)
+- [适配器索引](docs/zh-CN/adapters.md)
 - [与其他 Go Agent 框架的对比](docs/zh-CN/comparison.md)
 - [基准测试](docs/zh-CN/benchmarks.md)
 - [AxisVela 生态集成](docs/zh-CN/12-ecosystem.md)

@@ -29,6 +29,7 @@ go get github.com/axisvela/praxo-core/v2@v2.0.0
 - [2.1.0 release notes](releases/2.1.0.md)
 - [Adoption guide](adoption.md)
 - [Recipes](recipes.md)
+- [Adapter index](adapters.md)
 - [Comparison with other Go agent frameworks](comparison.md)
 - [AxisVela ecosystem integration](12-ecosystem.md)
 - [Architecture](01-architecture.md)
