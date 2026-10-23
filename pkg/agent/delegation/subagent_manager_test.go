@@ -118,3 +118,77 @@ func TestSubagentManagerListFiltersParent(t *testing.T) {
 		t.Fatalf("list = %+v", list)
 	}
 }
+
+func TestSubagentManagerCancelAfterCompletedIsNoop(t *testing.T) {
+	r := newFakeSubRunner()
+	m := NewSubagentManager(r)
+	task, err := m.Launch(context.Background(), SubagentRequest{ParentSessionID: "p", AgentID: "child"})
+	if err != nil {
+		t.Fatal(err)
+	}
+	<-r.started
+	close(r.release)
+	waitStatus(t, m, task.ID, SubagentCompleted)
+	if err := m.Cancel(task.ID); err != nil {
+		t.Fatal(err)
+	}
+	got, ok := m.Check(task.ID)
+	if !ok || got.Status != SubagentCompleted || got.Output != "child result" {
+		t.Fatalf("task = %#v", got)
+	}
+}
+
+func TestSubagentManagerUpdateTerminalFails(t *testing.T) {
+	r := newFakeSubRunner()
+	m := NewSubagentManager(r)
+	task, err := m.Launch(context.Background(), SubagentRequest{ParentSessionID: "p", AgentID: "child"})
+	if err != nil {
+		t.Fatal(err)
+	}
+	<-r.started
+	close(r.release)
+	waitStatus(t, m, task.ID, SubagentCompleted)
+	if err := m.Update(context.Background(), task.ID, "late"); err == nil {
+		t.Fatal("expected an error updating a completed task")
+	}
+	r.mu.Lock()
+	defer r.mu.Unlock()
+	if len(r.updates) != 0 {
+		t.Fatalf("updates = %v", r.updates)
+	}
+}
+
+func TestSubagentManagerPrune(t *testing.T) {
+	r := newFakeSubRunner()
+	m := NewSubagentManager(r)
+	task, err := m.Launch(context.Background(), SubagentRequest{ParentSessionID: "p", AgentID: "child"})
+	if err != nil {
+		t.Fatal(err)
+	}
+	<-r.started
+	close(r.release)
+	waitStatus(t, m, task.ID, SubagentCompleted)
+	if removed := m.Prune(0); removed != 1 {
+		t.Fatalf("removed = %d", removed)
+	}
+	if _, ok := m.Check(task.ID); ok {
+		t.Fatal("completed task was not pruned")
+	}
+}
+
+func TestSubagentManagerPruneKeepsRunning(t *testing.T) {
+	r := newFakeSubRunner()
+	m := NewSubagentManager(r)
+	defer close(r.release)
+	task, err := m.Launch(context.Background(), SubagentRequest{ParentSessionID: "p", AgentID: "child"})
+	if err != nil {
+		t.Fatal(err)
+	}
+	<-r.started
+	if removed := m.Prune(0); removed != 0 {
+		t.Fatalf("removed = %d", removed)
+	}
+	if _, ok := m.Check(task.ID); !ok {
+		t.Fatal("running task was pruned")
+	}
+}

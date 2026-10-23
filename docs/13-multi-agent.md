@@ -6,9 +6,11 @@ agent-registry runtime.
 
 ## What Is Built In
 
-- `pkg/agent/delegation.SubagentManager`: launch, check, update, cancel, list
+- `pkg/agent/delegation.SubagentManager`: launch, check, update, cancel, list,
+  and prune
 - `SubagentIsolated`: child receives only the request context
 - `SubagentFork`: child receives the parent message history
+- Terminal tasks are not changed by `Cancel`; only running tasks accept `Update`
 - `SubagentRunner`: product-owned interface for executing a child run
 - `flow.Chain` and `flow.Parallel`: generic runnable composition
 - Parallel tool execution inside one agent step

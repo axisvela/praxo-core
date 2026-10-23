@@ -5,9 +5,11 @@ graph、handoff、supervisor、共享状态或 Agent registry 运行时。
 
 ## 已内置
 
-- `pkg/agent/delegation.SubagentManager`：launch、check、update、cancel、list
+- `pkg/agent/delegation.SubagentManager`：launch、check、update、cancel、list、
+  prune
 - `SubagentIsolated`：子 Agent 仅接收请求上下文
 - `SubagentFork`：子 Agent 继承父消息历史
+- 终态任务不会被 `Cancel` 覆盖；只有运行中的任务接受 `Update`
 - `SubagentRunner`：由产品实现的子运行接口
 - `flow.Chain` 和 `flow.Parallel`：通用 Runnable 组合
 - 单 Agent 步骤内的并行工具调用

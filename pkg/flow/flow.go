@@ -1,7 +1,10 @@
 // Package flow provides composable runnables and chains.
 package flow
 
-import "context"
+import (
+	"context"
+	"sync"
+)
 
 // Runnable is a composable unit of work.
 type Runnable[I, O any] interface {
@@ -37,15 +40,26 @@ type Parallel[I, O any] struct {
 	Runnables []Runnable[I, O]
 }
 
-// Invoke runs all runnables and returns their outputs in order.
+// Invoke runs all runnables concurrently and returns their outputs in order.
 func (p Parallel[I, O]) Invoke(ctx context.Context, input I) ([]O, error) {
-	out := make([]O, 0, len(p.Runnables))
-	for _, runnable := range p.Runnables {
-		value, err := runnable.Invoke(ctx, input)
+	if err := ctx.Err(); err != nil {
+		return nil, err
+	}
+	values := make([]O, len(p.Runnables))
+	errs := make([]error, len(p.Runnables))
+	var wg sync.WaitGroup
+	wg.Add(len(p.Runnables))
+	for i, runnable := range p.Runnables {
+		go func() {
+			defer wg.Done()
+			values[i], errs[i] = runnable.Invoke(ctx, input)
+		}()
+	}
+	wg.Wait()
+	for _, err := range errs {
 		if err != nil {
 			return nil, err
 		}
-		out = append(out, value)
 	}
-	return out, nil
+	return values, nil
 }

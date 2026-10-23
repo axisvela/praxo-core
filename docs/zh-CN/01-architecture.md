@@ -103,10 +103,12 @@ Agent 循环仅依赖其所需的接口。插件宿主、HTTP 客户端、调度
 
 ## 委派
 
-- `SubagentManager` 异步运行委派的子任务，支持启动/检查/更新/取消/列表。
+- `SubagentManager` 异步运行委派的子任务，支持启动/检查/更新/取消/列表/
+  清理。
 - `SubagentIsolated` 仅携带请求上下文启动子 Agent；`SubagentFork` 携带父
   消息历史。
 - 实现 `ControllableRunner` 的运行器可以接受运行中的转向指令。
+- `Cancel` 不改变终态任务；`Update` 只接受运行中的任务。
 
 ## 虚拟文件系统
 
