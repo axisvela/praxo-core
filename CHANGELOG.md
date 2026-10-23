@@ -7,6 +7,11 @@
 - `adapters/otel`: exclude `Event.Data` by default; export only fields explicitly
   selected by `AllowedDataKeys`. Published v0.1.0 exports all event data.
 
+### Fixed
+
+- `adapters/mcp`: add `NewTools` to preserve input schemas in model-visible tool
+  specifications; tool discovery follows pagination and rejects repeated cursors.
+
 ### Added
 
 - `adapters/otel`: optional OpenTelemetry event sink mapping lifecycle events to

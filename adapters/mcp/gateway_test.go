@@ -78,3 +78,34 @@ func TestGatewayRequiresSession(t *testing.T) {
 		t.Fatalf("got %v, want %v", err, ErrSessionRequired)
 	}
 }
+
+func TestNewToolsPreservesSchema(t *testing.T) {
+	ctx := context.Background()
+	tools, err := NewTools(ctx, newSession(t))
+	if err != nil {
+		t.Fatal(err)
+	}
+	registry := tool.NewRegistry()
+	for _, item := range tools {
+		registry.Register(item)
+	}
+	specs := registry.Specs()
+	if len(specs) != 1 || specs[0].Parameters["type"] != "object" {
+		t.Fatalf("specs = %#v", specs)
+	}
+	properties, ok := specs[0].Parameters["properties"].(map[string]any)
+	if !ok || properties["name"] == nil {
+		t.Fatalf("schema = %#v", specs[0].Parameters)
+	}
+	required, ok := specs[0].Parameters["required"].([]any)
+	if !ok || len(required) != 1 || required[0] != "name" {
+		t.Fatalf("required = %#v", specs[0].Parameters["required"])
+	}
+	value, err := tools[0].Invoke(ctx, map[string]any{"name": "Ada"})
+	if err != nil || value != "echo: Ada" {
+		t.Fatalf("value=%v err=%v", value, err)
+	}
+	if _, err := NewTools(ctx, nil); !errors.Is(err, ErrSessionRequired) {
+		t.Fatalf("nil session: %v", err)
+	}
+}

@@ -35,6 +35,14 @@ session, so the token argument in `tool.Gateway.Execute` is ignored.
 
 ## Resources and Prompts
 
+For model-facing registration, use `NewTools(ctx, session)` and register the
+returned `tool.Tool` values. This unreleased entry point preserves MCP input
+schemas through `tool.SpecProvider`. The generic `tool.NewGatewayTools` path
+retains names and descriptions but cannot carry MCP input schemas.
+
+Tool discovery follows pagination and rejects repeated cursors and duplicate
+names. Resources and prompts retain their existing separate listing helpers.
+
 The module also exposes MCP resources and prompts:
 
 ```go
