@@ -6,8 +6,8 @@ agent-registry runtime.
 
 ## What Is Built In
 
-- `pkg/agent/delegation.SubagentManager`: launch, check, update, cancel, list,
-  and prune
+- `pkg/agent/delegation.SubagentManager`: launch, check, wait, update, cancel,
+  list, and prune
 - `SubagentIsolated`: child receives only the request context
 - `SubagentFork`: child receives the parent message history
 - Terminal tasks are not changed by `Cancel`; only running tasks accept `Update`
@@ -58,6 +58,8 @@ adds a small optional layer over `SubagentManager`:
 - `Supervisor.Run` launches workers in parallel and aggregates outputs.
 - `Supervisor.Sequential` passes each output to the next worker as
   `Context["previous"]`.
+- Completion is event-driven through `SubagentManager.Wait`; the supervisor
+  does not poll.
 - Timeouts cancel outstanding child contexts and return `ErrTimeout`.
 
 It is not a graph or durable workflow runtime and does not change the core API.

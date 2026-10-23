@@ -25,6 +25,8 @@ outputs, err := supervisor.Run(ctx, "session-1", []multiagent.Worker{
 - `Run`: launch workers in parallel and aggregate outputs by worker name.
 - `Sequential`: run workers in order and pass the previous output to the next
   worker as `Context["previous"]`.
+- Completion is event-driven through `delegation.SubagentManager.Wait`;
+  `Supervisor.PollInterval` is retained but ignored.
 
 Worker names must be unique. `AgentID` selects the runner inside the product
 router. The caller owns the `delegation.SubagentRunner`, policy, events,

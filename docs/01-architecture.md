@@ -114,7 +114,7 @@ Compaction and offload are observable through `Hooks.OnCompaction` and
 ## Delegation
 
 - `SubagentManager` runs delegated child tasks asynchronously with
-  launch/check/update/cancel/list/prune.
+  launch/check/wait/update/cancel/list/prune.
 - `SubagentIsolated` starts a child with only the request context;
   `SubagentFork` carries the parent message history.
 - A runner that implements `ControllableRunner` can accept mid-flight steering.

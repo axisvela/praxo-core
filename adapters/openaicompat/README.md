@@ -23,4 +23,5 @@ The adapter supports text responses, tool calls, tool choice, usage accounting,
 and SSE streaming. Set `agent.Options.OnDelta` to receive streamed text
 fragments; the agent uses `GenerateStream` when the model implements
 `model.StreamingModel`. Streamed tool-call deltas are aggregated into the final
-response.
+response. Set `IncludeUsage` to request streamed token usage from endpoints that
+support `stream_options.include_usage`.

@@ -128,11 +128,12 @@ func TestAdapterGenerateStream(t *testing.T) {
 		write("data: {\"choices\":[{\"delta\":{\"content\":\"llo\"}}]}\n\n")
 		write("data: {\"choices\":[{\"delta\":{\"tool_calls\":[{\"index\":0,\"id\":\"call-1\",\"function\":{\"name\":\"echo\",\"arguments\":\"{\\\"value\\\":\"}}]}}]}\n\n")
 		write("data: {\"choices\":[{\"delta\":{\"tool_calls\":[{\"index\":0,\"function\":{\"arguments\":\"\\\"ok\\\"}\"}}]},\"finish_reason\":\"tool_calls\"}]}\n\n")
+		write("data: {\"choices\":[],\"usage\":{\"prompt_tokens\":5,\"completion_tokens\":2}}\n\n")
 		write("data: [DONE]\n\n")
 	}))
 	defer server.Close()
 
-	adapter := Adapter{BaseURL: server.URL, Model: "test-model", HTTP: server.Client()}
+	adapter := Adapter{BaseURL: server.URL, Model: "test-model", HTTP: server.Client(), IncludeUsage: true}
 	var deltas []string
 	response, err := adapter.GenerateStream(context.Background(), model.Request{
 		Messages: []model.Message{{Role: model.RoleUser, Content: "hi"}},
@@ -144,6 +145,12 @@ func TestAdapterGenerateStream(t *testing.T) {
 	}
 	if !gotRequest.Stream {
 		t.Fatal("expected stream=true")
+	}
+	if gotRequest.StreamOptions == nil || !gotRequest.StreamOptions.IncludeUsage {
+		t.Fatalf("stream options = %#v", gotRequest.StreamOptions)
+	}
+	if response.Usage.InputTokens != 5 || response.Usage.OutputTokens != 2 {
+		t.Fatalf("usage = %#v", response.Usage)
 	}
 	if strings.Join(deltas, "") != "hello" {
 		t.Fatalf("deltas = %#v", deltas)

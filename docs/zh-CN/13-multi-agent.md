@@ -5,8 +5,8 @@ graph、handoff、supervisor、共享状态或 Agent registry 运行时。
 
 ## 已内置
 
-- `pkg/agent/delegation.SubagentManager`：launch、check、update、cancel、list、
-  prune
+- `pkg/agent/delegation.SubagentManager`：launch、check、wait、update、cancel、
+  list、prune
 - `SubagentIsolated`：子 Agent 仅接收请求上下文
 - `SubagentFork`：子 Agent 继承父消息历史
 - 终态任务不会被 `Cancel` 覆盖；只有运行中的任务接受 `Update`
@@ -54,6 +54,7 @@ task, err := manager.Launch(ctx, delegation.SubagentRequest{
 - `Supervisor.Run` 并行启动 worker 并按名称聚合输出。
 - `Supervisor.Sequential` 将前一个输出作为 `Context["previous"]` 传给下一个
   worker。
+- 完成事件通过 `SubagentManager.Wait` 驱动，Supervisor 不再轮询。
 - 超时会取消未完成的子上下文并返回 `ErrTimeout`。
 
 它不是图或持久化工作流运行时，也不会改变核心 API。

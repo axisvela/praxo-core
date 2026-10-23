@@ -23,10 +23,11 @@ var ErrBaseURLRequired = errors.New("openaicompat: base URL is required")
 
 // Adapter implements model.Model for OpenAI-compatible endpoints.
 type Adapter struct {
-	BaseURL string
-	APIKey  string
-	Model   string
-	HTTP    *http.Client
+	BaseURL      string
+	APIKey       string
+	Model        string
+	HTTP         *http.Client
+	IncludeUsage bool
 }
 
 // Generate sends one chat completion request.
@@ -119,6 +120,9 @@ func (a Adapter) GenerateStream(ctx context.Context, req model.Request, onDelta 
 		Temperature: req.Temperature,
 		Stream:      true,
 	}
+	if a.IncludeUsage {
+		body.StreamOptions = &apiStreamOptions{IncludeUsage: true}
+	}
 	raw, err := json.Marshal(body)
 	if err != nil {
 		return model.Response{}, err
@@ -154,6 +158,7 @@ func (a Adapter) GenerateStream(ctx context.Context, req model.Request, onDelta 
 	}
 	calls := map[int]*callState{}
 	var content strings.Builder
+	var usage apiUsage
 	finishReason := ""
 	scanner := bufio.NewScanner(resp.Body)
 	scanner.Buffer(make([]byte, 64*1024), 1<<20)
@@ -172,6 +177,9 @@ func (a Adapter) GenerateStream(ctx context.Context, req model.Request, onDelta 
 		}
 		if chunk.Error != nil {
 			return model.Response{}, fmt.Errorf("openaicompat: %s", chunk.Error.Message)
+		}
+		if chunk.Usage != nil {
+			usage = *chunk.Usage
 		}
 		for _, choice := range chunk.Choices {
 			if choice.Delta.Content != "" {
@@ -223,16 +231,33 @@ func (a Adapter) GenerateStream(ctx context.Context, req model.Request, onDelta 
 			Arguments: arguments,
 		})
 	}
-	return model.Response{Message: message, FinishReason: finishReason}, nil
+	return model.Response{
+		Message: message,
+		Usage: model.Usage{
+			InputTokens:  usage.PromptTokens,
+			OutputTokens: usage.CompletionTokens,
+		},
+		FinishReason: finishReason,
+	}, nil
 }
 
 type apiRequest struct {
-	Model       string       `json:"model"`
-	Stream      bool         `json:"stream,omitempty"`
-	Messages    []apiMessage `json:"messages"`
-	Tools       []apiTool    `json:"tools,omitempty"`
-	ToolChoice  string       `json:"tool_choice,omitempty"`
-	Temperature float64      `json:"temperature,omitempty"`
+	Model         string            `json:"model"`
+	Stream        bool              `json:"stream,omitempty"`
+	StreamOptions *apiStreamOptions `json:"stream_options,omitempty"`
+	Messages      []apiMessage      `json:"messages"`
+	Tools         []apiTool         `json:"tools,omitempty"`
+	ToolChoice    string            `json:"tool_choice,omitempty"`
+	Temperature   float64           `json:"temperature,omitempty"`
+}
+
+type apiStreamOptions struct {
+	IncludeUsage bool `json:"include_usage"`
+}
+
+type apiUsage struct {
+	PromptTokens     int64 `json:"prompt_tokens"`
+	CompletionTokens int64 `json:"completion_tokens"`
 }
 
 type apiMessage struct {
@@ -269,10 +294,7 @@ type apiResponse struct {
 		Message      apiMessage `json:"message"`
 		FinishReason string     `json:"finish_reason"`
 	} `json:"choices"`
-	Usage struct {
-		PromptTokens     int64 `json:"prompt_tokens"`
-		CompletionTokens int64 `json:"completion_tokens"`
-	} `json:"usage"`
+	Usage apiUsage `json:"usage"`
 	Error *struct {
 		Message string `json:"message"`
 	} `json:"error"`
@@ -293,6 +315,7 @@ type apiStreamChunk struct {
 		} `json:"delta"`
 		FinishReason string `json:"finish_reason"`
 	} `json:"choices"`
+	Usage *apiUsage `json:"usage"`
 	Error *struct {
 		Message string `json:"message"`
 	} `json:"error"`
