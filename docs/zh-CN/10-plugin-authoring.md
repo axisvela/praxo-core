@@ -3,6 +3,9 @@
 本指南涵盖框架侧的运行时插件契约。签名信任、物化、SBOM/证据和更新策略归
 产品（PRAXOVELA）所有。
 
+可运行的最小 process plugin 与 host 位于
+[`examples/plugin`](https://github.com/axisvela/praxo-core/tree/main/examples/plugin)。
+
 ## Manifest v1
 
 插件附带严格的 JSON manifest。未知字段和尾随数据会被拒绝。
