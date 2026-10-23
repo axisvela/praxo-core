@@ -235,6 +235,26 @@ gateway := limenoraadapter.Gateway{
 参见
 [LIMENORA SDK 示例](https://github.com/axisvela/praxo-core/tree/main/examples/ecosystem-sdk/limenora)。
 
+## Harmovela 事件
+
+通过 `event.Sink` 将生命周期事件发布到 Harmovela HTTP API。
+
+```go
+sink := harmovelaadapter.Sink{
+    BaseURL: "http://127.0.0.1:8790/aep/api",
+    Source:  "praxo-core",
+}
+
+ag, err := agent.New(agent.Options{
+    Model:  modelAdapter,
+    Events: sink,
+})
+```
+
+Sink 会发送 `spec_version`、`id`、`type`、`source`、`created_at`，以及包含
+session、run 和事件数据的 payload。参见
+[Harmovela recipe](https://github.com/axisvela/praxo-core/tree/main/examples/ecosystem-sdk/harmovela)。
+
 ## RHEOVELA 工作流
 
 将 Agent 会话映射为 RHEOVELA 工作流实例。RHEOVELA 拥有图与子图执行；

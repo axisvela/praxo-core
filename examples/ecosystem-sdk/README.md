@@ -16,6 +16,7 @@ SDKs. The example still imports PRAXO-CORE through a local `replace`.
 | `aegivela.Hook` | `policy.Hook` | AEGIVELA |
 | `limenora.Gateway` | `tool.Gateway` | LIMENORA |
 | `rheovela.Runner` | agent session to workflow instance | RHEOVELA |
+| `harmovela.Sink` | `event.Sink` | Harmovela HTTP protocol |
 
 ### NOETIVELA
 
@@ -119,6 +120,23 @@ runner := rheovelaadapter.Runner{
 instance, err := runner.Start(ctx, session)
 err = runner.Step(ctx, instance.InstanceID, "advance", "review")
 audit, err := runner.Audit(ctx, instance.InstanceID)
+```
+
+### Harmovela
+
+`harmovela.Sink` publishes lifecycle events to the Harmovela HTTP events API
+without importing the heavier Harmovela module.
+
+```go
+sink := harmovelaadapter.Sink{
+    BaseURL: "http://127.0.0.1:8790/aep/api",
+    Source:  "praxo-core",
+}
+
+ag, err := agent.New(agent.Options{
+    Model:  modelAdapter,
+    Events: sink,
+})
 ```
 
 ## Run
