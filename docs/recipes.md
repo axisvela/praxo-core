@@ -293,9 +293,10 @@ custom mapping. The
 [Google ADK Go order-cancellation example](https://github.com/axisvela/enterprise-autonomy/tree/main/examples/a2a-adk-order-cancellation)
 uses an external A2A consumer to discover this server through its agent card and
 call it over JSON-RPC. It covers approval, business denial, remote failure,
-timeout, optional bearer authentication, and a two-process loopback run with
-deterministic fixtures. It does not prove a deployed remote peer, external gRPC,
-TLS termination, cross-origin card trust, or load behavior. See the
+timeout, optional bearer authentication, a two-process loopback run, and
+concurrent consumers with deterministic fixtures. It does not prove a deployed
+remote peer, external gRPC, TLS termination, cross-origin card trust, or
+deployed throughput/SLO behavior. See the
 [A2A adapter](https://github.com/axisvela/praxo-core/tree/main/adapters/a2a).
 
 ## RHEOVELA Workflow

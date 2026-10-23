@@ -279,9 +279,9 @@ mux.Handle("/invoke", a2asrv.NewJSONRPCHandler(handler))
 默认将 A2A `ContextID` 映射为会话 ID；可通过 `Executor.Session` 自定义映射。
 [Google ADK Go 订单取消示例](https://github.com/axisvela/enterprise-autonomy/tree/main/examples/a2a-adk-order-cancellation)
 使用外部 A2A consumer 通过 agent card 发现此服务端，并经 JSON-RPC 调用。它以
-确定性 fixture 覆盖批准、业务拒绝、远端失败、超时、可选 bearer 认证和双进程
-loopback 运行；不代表已验证部署远端 peer、外部 gRPC、TLS 终止、跨来源 card
-trust 或负载行为。参见
+确定性 fixture 覆盖批准、业务拒绝、远端失败、超时、可选 bearer 认证、双进程
+loopback 运行和并发 consumer；不代表已验证部署远端 peer、外部 gRPC、TLS 终止、
+跨来源 card trust 或部署吞吐/SLO。参见
 [A2A 适配器](https://github.com/axisvela/praxo-core/tree/main/adapters/a2a)。
 
 ## RHEOVELA 工作流
