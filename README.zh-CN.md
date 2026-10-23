@@ -179,16 +179,17 @@ result, err := ag.Run(ctx, agent.Session{
 
 ## 状态
 
-`2.2.0` 是当前核心版本。该版本聚焦生态深度，且不改变 `2.1.0` 的 `pkg/...`
-API（`api/2.2.0.txt` 与 `api/2.1.0.txt` 相同）。它新增了 MCP resources/prompts、
-OpenTelemetry、Anthropic、Gemini、Harmovela、A2A 和多 Agent 适配器/模块，
-以及新示例、多 Agent 指南和隐私/正确性修复。`1.0.0` 的 API 冻结仍然有效，
-规范包路径为 `pkg/toolcall`、`pkg/formatter` 和 `pkg/tool/jsonschema`。
+`2.3.0` 是当前核心版本。该版本保持 `pkg/...` API 冻结，并新增
+`SubagentManager.Wait` 和 `SubagentManager.Prune`。同时让 `flow.Parallel`
+真正并发、修复子 Agent 终态语义、将多 Agent 等待改为事件驱动并支持并发上限、
+为 OpenAI 兼容适配器增加可选流式用量，并加固记忆 ID/搜索和 MCP 分页。
+`1.0.0` 的 API 冻结仍然有效，规范包路径为 `pkg/toolcall`、`pkg/formatter`
+和 `pkg/tool/jsonschema`。
 
-可选适配器独立版本化：`adapters/mcp/v0.2.0`、`adapters/otel/v0.2.0`、
+可选适配器独立版本化：`adapters/mcp/v0.3.0`、`adapters/otel/v0.2.0`、
 `adapters/anthropic/v0.1.0`、`adapters/gemini/v0.1.0`、
 `adapters/harmovela/v0.1.0`、`adapters/a2a/v0.1.0` 和
-`adapters/multiagent/v0.1.0`。该框架提取自 PRAXOVELA 经过验证的运行时。
+`adapters/multiagent/v0.2.0`。该框架提取自 PRAXOVELA 经过验证的运行时。
 
 ## 文档
 
@@ -196,6 +197,7 @@ OpenTelemetry、Anthropic、Gemini、Harmovela、A2A 和多 Agent 适配器/模�
 [中文文档目录](docs/zh-CN/README.md)
 
 - [中文文档目录](docs/zh-CN/README.md)
+- [2.3.0 发布说明](docs/zh-CN/releases/2.3.0.md)
 - [2.2.0 发布说明](docs/zh-CN/releases/2.2.0.md)
 - [2.1.0 发布说明](docs/zh-CN/releases/2.1.0.md)
 - [采用指南](docs/zh-CN/adoption.md)

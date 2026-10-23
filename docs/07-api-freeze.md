@@ -1,13 +1,13 @@
 # API Freeze Inventory
 
 **Status:** v2 module-path audit for `2.0.0`; `2.1.0` and `2.2.0` add no
-`pkg/...` declarations. The exported surface is functionally identical to
-`1.7.0`. The `1.0.0` surface remains frozen; new declarations are additive.
-Unreleased adds `SubagentManager.Wait` and `SubagentManager.Prune`.
+`pkg/...` declarations. `2.3.0` adds `SubagentManager.Wait` and
+`SubagentManager.Prune`; all other declarations are unchanged. The `1.0.0`
+surface remains frozen; new declarations are additive.
 
 ## Audit Result
 
-- Exported declarations: **699**
+- Exported declarations: **701**
 - Exported declarations without a doc comment: **0**
 - Scope: `pkg/...`; examples, tests, unexported receiver methods, and testdata
   are excluded.

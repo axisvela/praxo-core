@@ -192,18 +192,18 @@ workspace agent with confined VFS tools, policy, memory, and events,
 
 ## Status
 
-`2.2.0` is the current core release. It is an ecosystem-depth additive release
-and does not change the `pkg/...` API from `2.1.0` (`api/2.2.0.txt` is identical
-to `api/2.1.0.txt`). It adds MCP resources/prompts, OpenTelemetry, Anthropic,
-Gemini, Harmovela, A2A, and multi-agent adapters/modules, plus new examples,
-multi-agent guidance, and privacy/correctness fixes. The `1.0.0` API freeze
-remains in effect, and the canonical package paths are `pkg/toolcall`,
-`pkg/formatter`, and `pkg/tool/jsonschema`.
+`2.3.0` is the current core release. It keeps the `pkg/...` API frozen and adds
+`SubagentManager.Wait` and `SubagentManager.Prune`. It also makes
+`flow.Parallel` genuinely concurrent, hardens subagent terminal state, makes
+multi-agent waits event-driven with bounded concurrency, adds optional streamed
+usage to the OpenAI-compatible adapter, and hardens memory IDs/search and MCP
+pagination. The `1.0.0` API freeze remains in effect, and the canonical package
+paths are `pkg/toolcall`, `pkg/formatter`, and `pkg/tool/jsonschema`.
 
-Optional adapters are versioned independently: `adapters/mcp/v0.2.0`,
+Optional adapters are versioned independently: `adapters/mcp/v0.3.0`,
 `adapters/otel/v0.2.0`, `adapters/anthropic/v0.1.0`,
 `adapters/gemini/v0.1.0`, `adapters/harmovela/v0.1.0`,
-`adapters/a2a/v0.1.0`, and `adapters/multiagent/v0.1.0`. The framework is
+`adapters/a2a/v0.1.0`, and `adapters/multiagent/v0.2.0`. The framework is
 extracted from PRAXOVELA's proven runtime.
 
 ## Documentation
@@ -211,6 +211,7 @@ extracted from PRAXOVELA's proven runtime.
 [Documentation site](https://axisvela.github.io/praxo-core/) |
 [简体中文文档](docs/zh-CN/README.md)
 
+- [2.3.0 release notes](docs/releases/2.3.0.md)
 - [2.2.0 release notes](docs/releases/2.2.0.md)
 - [2.1.0 release notes](docs/releases/2.1.0.md)
 - [Adoption guide](docs/adoption.md)
