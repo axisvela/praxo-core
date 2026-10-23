@@ -13,6 +13,11 @@
 - `adapters/openaicompat`: opt-in `IncludeUsage` requests streamed token usage
   and maps it into `model.Usage`.
 
+### Changed
+
+- `memory.MemoryStore` generates collision-resistant IDs with a per-store
+  counter and precomputes search text on `Put`; the zero value is usable.
+
 ### Fixed
 
 - `flow.Parallel` now invokes runnables concurrently while preserving output
