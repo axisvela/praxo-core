@@ -33,6 +33,11 @@ it preserves each server's input schema, unlike the generic
 `tool.NewGatewayTools` path. The OpenTelemetry module maps lifecycle events to
 spans and excludes event data by default.
 
+The A2A adapter has in-process JSON-RPC and gRPC round-trip tests plus a
+[Google ADK Go external-consumer example](https://github.com/axisvela/enterprise-autonomy/tree/main/examples/a2a-adk-order-cancellation)
+for agent-card discovery and JSON-RPC message exchange. It is not production or
+gRPC interoperability evidence.
+
 ## AxisVela SDK Recipes
 
 These recipes live in
