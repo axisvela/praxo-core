@@ -17,7 +17,8 @@ var ErrTracerRequired = errors.New("otel: tracer is required")
 
 // Sink implements event.Sink with OpenTelemetry spans.
 type Sink struct {
-	Tracer trace.Tracer
+	Tracer          trace.Tracer
+	AllowedDataKeys []string
 }
 
 // New returns a sink using the provider's PRAXO-CORE tracer.
@@ -46,8 +47,10 @@ func (s Sink) Emit(ctx context.Context, ev event.Event) error {
 	if !ev.At.IsZero() {
 		span.SetAttributes(attribute.String("praxo.event.at", ev.At.UTC().Format(time.RFC3339Nano)))
 	}
-	for key, value := range ev.Data {
-		span.SetAttributes(attribute.String("praxo.event.data."+key, fmt.Sprint(value)))
+	for _, key := range s.AllowedDataKeys {
+		if value, ok := ev.Data[key]; ok {
+			span.SetAttributes(attribute.String("praxo.event.data."+key, fmt.Sprint(value)))
+		}
 	}
 	return nil
 }

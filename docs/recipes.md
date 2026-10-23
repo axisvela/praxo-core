@@ -126,8 +126,10 @@ ag, err := agent.New(agent.Options{
 })
 ```
 
-Each event becomes a `praxo.<event.type>` span with session, run, timestamp, and
-event-data attributes. See the
+Each event becomes a `praxo.<event.type>` span with session, run, and timestamp
+attributes. Adapter v0.2.0 excludes event data by default; use
+`AllowedDataKeys` to opt in to individually reviewed fields. Published v0.1.0
+exports all event data and requires caller-side filtering before `Emit`. See the
 [OpenTelemetry sink](https://github.com/axisvela/praxo-core/tree/main/adapters/otel).
 
 ## NOETIVELA
