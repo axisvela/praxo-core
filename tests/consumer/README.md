@@ -10,5 +10,6 @@ GOWORK=off go build -mod=readonly ./...
 ```
 
 The tests compile the published adapter interfaces, execute a deterministic
-agent run, and check the dependency graph for unexpected replacements or version
-changes. They do not call live providers or validate production integrations.
+agent run, exercise subagent `Wait`/`Prune`, and check the dependency graph for
+unexpected replacements or version changes. They do not call live providers or
+validate production integrations.
