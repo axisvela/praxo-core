@@ -45,6 +45,7 @@ go get github.com/axisvela/praxo-core/v2@v2.0.0
 identical to `2.0.0`; new capabilities are additive. Optional adapters are
 versioned independently (`adapters/mcp/v0.2.0`, `adapters/otel/v0.2.0`,
 `adapters/anthropic/v0.1.0`, `adapters/gemini/v0.1.0`,
-`adapters/harmovela/v0.1.0`, `adapters/a2a/v0.1.0`). See
+`adapters/harmovela/v0.1.0`, `adapters/a2a/v0.1.0`,
+`adapters/multiagent/v0.1.0`). See
 [compatibility](05-compatibility.md) and the
 [v2 migration guide](11-migration-v2.md).

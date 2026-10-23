@@ -8,6 +8,7 @@ require (
 	github.com/axisvela/praxo-core/adapters/gemini v0.1.0
 	github.com/axisvela/praxo-core/adapters/harmovela v0.1.0
 	github.com/axisvela/praxo-core/adapters/mcp v0.2.0
+	github.com/axisvela/praxo-core/adapters/multiagent v0.1.0
 	github.com/axisvela/praxo-core/adapters/otel v0.2.0
 	github.com/axisvela/praxo-core/v2 v2.1.0
 )

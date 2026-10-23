@@ -187,8 +187,8 @@ OpenAI 兼容模型适配器、quickstart 和 reference 示例、生态 SDK reci
 
 可选适配器独立版本化：`adapters/mcp/v0.2.0`、`adapters/otel/v0.2.0`、
 `adapters/anthropic/v0.1.0`、`adapters/gemini/v0.1.0`、
-`adapters/harmovela/v0.1.0` 和 `adapters/a2a/v0.1.0`。该框架提取自
-PRAXOVELA 经过验证的运行时。
+`adapters/harmovela/v0.1.0`、`adapters/a2a/v0.1.0` 和
+`adapters/multiagent/v0.1.0`。该框架提取自 PRAXOVELA 经过验证的运行时。
 
 ## 文档
 
