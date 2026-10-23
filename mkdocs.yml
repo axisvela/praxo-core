@@ -48,6 +48,7 @@ nav:
       - Primitives: 02-primitives.md
       - Integration: 03-integration.md
       - Recipes: recipes.md
+      - Adapter index: adapters.md
       - AxisVela ecosystem: 12-ecosystem.md
       - Comparison: comparison.md
       - Plugin authoring: 10-plugin-authoring.md
@@ -70,6 +71,7 @@ nav:
       - 基础能力: zh-CN/02-primitives.md
       - 集成: zh-CN/03-integration.md
       - Recipes: zh-CN/recipes.md
+      - 适配器索引: zh-CN/adapters.md
       - AxisVela 生态: zh-CN/12-ecosystem.md
       - 对比: zh-CN/comparison.md
       - 插件编写: zh-CN/10-plugin-authoring.md

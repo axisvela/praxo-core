@@ -12,6 +12,7 @@
 | [2.1.0 发布说明](releases/2.1.0.md) | 版本重点、升级方式与验证结果 |
 | [采用指南](adoption.md) | 评估、原型、生产清单与迁移注意事项 |
 | [Recipes](recipes.md) | OpenAI 兼容、MCP、NOETIVELA、Mnemovela、GNOSIVELA 接入片段 |
+| [适配器索引](adapters.md) | 模型、工具、协议适配器与模块 tag |
 | [与其他 Go Agent 框架的对比](comparison.md) | 与 LangChainGo、Eino、Google ADK Go、Microsoft Agent Framework Go 的对比 |
 | [基准测试](benchmarks.md) | Agent 循环回归基准与运行方法 |
 | [AxisVela 生态集成](12-ecosystem.md) | 模型、记忆、Harmovela、GNOSIVELA 等组件的接入接缝 |

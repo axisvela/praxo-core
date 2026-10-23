@@ -202,6 +202,7 @@ extracted from PRAXOVELA's proven runtime.
 - [2.1.0 release notes](docs/releases/2.1.0.md)
 - [Adoption guide](docs/adoption.md)
 - [Recipes](docs/recipes.md)
+- [Adapter index](docs/adapters.md)
 - [Comparison with other Go agent frameworks](docs/comparison.md)
 - [Benchmarks](docs/benchmarks.md)
 - [AxisVela ecosystem integration](docs/12-ecosystem.md)

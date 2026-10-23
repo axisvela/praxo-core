@@ -255,7 +255,7 @@ Exit gate:
 - Richer checkpoints and resume recipes.
 - Sandbox and policy integration examples for high-risk tools.
 - Plugin authoring walkthrough with a minimal process/WASM plugin.
-- Community-maintained adapter index.
+- [x] Public adapter index.
 
 ## Graph Runtime Boundary
 
