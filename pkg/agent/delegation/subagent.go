@@ -82,7 +82,7 @@ var ErrSubagentUpdateUnsupported = errors.New("agent: subagent update unsupporte
 type subagentState struct {
 	task   SubagentTask
 	cancel context.CancelFunc
-	done   chan SubagentTask
+	done   chan struct{}
 }
 
 // SubagentManager owns asynchronous delegated tasks over a SubagentRunner.
@@ -117,7 +117,7 @@ func (m *SubagentManager) Launch(ctx context.Context, req SubagentRequest) (Suba
 		Mode: req.Mode, Status: SubagentQueued, CreatedAt: now, UpdatedAt: now,
 	}
 	m.mu.Lock()
-	m.tasks[id] = &subagentState{task: task, cancel: cancel, done: make(chan SubagentTask, 1)}
+	m.tasks[id] = &subagentState{task: task, cancel: cancel, done: make(chan struct{})}
 	m.mu.Unlock()
 
 	go func() {
@@ -164,7 +164,10 @@ func (m *SubagentManager) Wait(ctx context.Context, taskID string) (SubagentTask
 	done := st.done
 	m.mu.Unlock()
 	select {
-	case task := <-done:
+	case <-done:
+		m.mu.Lock()
+		task := st.task
+		m.mu.Unlock()
 		return task, nil
 	case <-ctx.Done():
 		return SubagentTask{}, ctx.Err()
@@ -265,7 +268,6 @@ func (m *SubagentManager) setStatus(taskID string, status SubagentStatus, output
 
 func closeDone(st *subagentState) {
 	if st.done != nil {
-		st.done <- st.task
 		close(st.done)
 		st.done = nil
 	}
