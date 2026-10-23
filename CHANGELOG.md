@@ -14,6 +14,8 @@
   tool gateway.
 - `examples/ecosystem-sdk`: AEGIVELA policy, LIMENORA tool-gateway, RHEOVELA
   workflow, and Harmovela HTTP event recipes.
+- `examples/plugin`: minimal process plugin and host with a JSON-Lines protocol
+  test and an end-to-end process host test.
 
 ### Changed
 
