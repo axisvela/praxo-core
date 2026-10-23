@@ -8,6 +8,8 @@
   heavier Harmovela Go module.
 - `adapters/a2a`: A2A server executor adapter for exposing a PRAXO-CORE agent
   to agent-to-agent clients.
+- `examples/multiagent`: asynchronous subagent delegation, aggregation, and
+  cancellation example, plus bilingual multi-agent guidance.
 
 ### Security
 

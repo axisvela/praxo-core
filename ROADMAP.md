@@ -255,6 +255,7 @@ Exit gate:
 
 ## 2.3.0 - Ecosystem Depth (candidate)
 
+- [x] Multi-agent delegation example and bilingual guidance.
 - [x] Checkpoint and resume example.
 - [x] Sandbox and policy example for high-risk tools.
 - [x] Minimal process plugin and WASM host examples.

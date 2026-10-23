@@ -145,6 +145,7 @@ upstream projects evolve quickly, so verify details before adopting.
 | Primary focus | Governed, embeddable agent runtime primitives | LangChain-style composable LLM apps | LLM app framework with graph orchestration and ADK | Code-first agent toolkit, Gemini-optimized but model-agnostic | Production agents and multi-agent workflows (public preview) |
 | AxisVela ecosystem | First-class seams for NOETIVELA, Mnemovela, Harmovela, GNOSIVELA, AEGIVELA, RHEOVELA, LIMENORA | Custom adapters/tools | Custom adapters/tools | Custom adapters/tools | Custom adapters/tools |
 | Orchestration | Single-agent loop, middleware, subagents, `flow` Chain/Parallel | Chains, agents, tools | Graphs/workflows, ReAct `ChatModelAgent`, `DeepAgent` multi-agent | Workflow agents, graph workflows, multi-agent composition | Graph workflows: sequential, concurrent, group, routing, subworkflows |
+| Multi-agent | Async subagent delegation (`isolated`/`fork`); no built-in graph, handoff, or agent registry | Multi-agent via agent/chain composition | `DeepAgent` multi-agent patterns | Multi-agent composition and workflow agents | Graph-based multi-agent workflows |
 | Providers | Provider-neutral `model.Model`; NOETIVELA/PRAXOVELA adapters | Broad built-in provider set | Extensions via `eino-ext` | Gemini first; OpenAI adapter; model-agnostic | Foundry, Azure, OpenAI, Anthropic, Gemini, Copilot |
 | Tools and MCP | Tool contracts, JSON Schema, retry, gateway; Janus/LIMENORA gateway; MCP client is consumer-owned | Tools; MCP not first-class | Tools; MCP via `eino-ext` | Rich tools, MCP toolset, A2A | Tools, MCP, A2A, AG-UI |
 | Memory and RAG | Interfaces and retrieval contracts; Mnemovela memory, GNOSIVELA retrieval | Memory, loaders, vector stores | Retriever and context components | Sessions, memory, artifacts | Memory, text search/RAG, vector stores |
@@ -184,8 +185,9 @@ result, err := ag.Run(ctx, agent.Session{
 See [examples/integrator](examples/integrator/main.go) for a self-contained
 external-integrator example, [examples/reference](examples/reference) for a
 workspace agent with confined VFS tools, policy, memory, and events,
-[examples/checkpoint](examples/checkpoint) for checkpoint/resume, and
-[examples/sandbox](examples/sandbox) for policy-gated command execution.
+[examples/checkpoint](examples/checkpoint) for checkpoint/resume,
+[examples/sandbox](examples/sandbox) for policy-gated command execution, and
+[examples/multiagent](examples/multiagent) for subagent delegation.
 
 ## Status
 
@@ -212,6 +214,7 @@ runtime.
 - [Adoption guide](docs/adoption.md)
 - [Recipes](docs/recipes.md)
 - [Adapter index](docs/adapters.md)
+- [Multi-agent patterns](docs/13-multi-agent.md)
 - [Comparison with other Go agent frameworks](docs/comparison.md)
 - [Benchmarks](docs/benchmarks.md)
 - [AxisVela ecosystem integration](docs/12-ecosystem.md)

@@ -135,6 +135,7 @@ Go Agent 生态中已有多个优秀框架。下表基于 2026 年 10 月的公�
 | 主要定位 | 面向嵌入的受治理 Agent 运行时基础能力 | LangChain 风格的可组合 LLM 应用 | 带图编排与 ADK 的 LLM 应用框架 | 代码优先的 Agent 工具包，针对 Gemini 优化但模型无关 | 生产级 Agent 与多 Agent 工作流（公开预览） |
 | AxisVela 生态 | 为 NOETIVELA、Mnemovela、Harmovela、GNOSIVELA、AEGIVELA、RHEOVELA、LIMENORA 提供一等接缝 | 自定义适配器/工具 | 自定义适配器/工具 | 自定义适配器/工具 | 自定义适配器/工具 |
 | 编排 | 单 Agent 循环、中间件、子 Agent、`flow` Chain/Parallel | Chains、Agents、Tools | Graph/Workflow、ReAct `ChatModelAgent`、`DeepAgent` 多 Agent | Workflow Agents、图工作流、多 Agent 组合 | 图工作流：顺序、并发、群组、路由、子工作流 |
+| 多 Agent | 异步子 Agent 委派（`isolated`/`fork`）；无内置 graph、handoff 或 agent registry | 通过 Agent/Chain 组合 | `DeepAgent` 多 Agent 模式 | 多 Agent 组合与 Workflow Agents | 基于图的多 Agent 工作流 |
 | 模型提供商 | 提供商中立的 `model.Model`；NOETIVELA/PRAXOVELA 适配器 | 丰富的内置提供商 | 通过 `eino-ext` 扩展 | Gemini 优先；OpenAI 适配器；模型无关 | Foundry、Azure、OpenAI、Anthropic、Gemini、Copilot |
 | 工具与 MCP | 工具契约、JSON Schema、重试、网关；Janus/LIMENORA 网关；MCP 客户端由使用方提供 | 工具；MCP 非一等支持 | 工具；通过 `eino-ext` 支持 MCP | 丰富工具、MCP Toolset、A2A | 工具、MCP、A2A、AG-UI |
 | 记忆与 RAG | 接口与检索契约；Mnemovela 记忆、GNOSIVELA 检索 | Memory、文档加载器、向量存储 | Retriever 与上下文组件 | Sessions、Memory、Artifacts | Memory、文本搜索/RAG、向量存储 |
@@ -172,7 +173,8 @@ result, err := ag.Run(ctx, agent.Session{
 [examples/integrator](examples/integrator/main.go)；带受限 VFS 工具、策略、记忆
 和事件的 workspace Agent 参见 [examples/reference](examples/reference)；
 检查点/恢复流程参见 [examples/checkpoint](examples/checkpoint)；
-策略门控的命令执行参见 [examples/sandbox](examples/sandbox)。
+策略门控的命令执行参见 [examples/sandbox](examples/sandbox)；
+子 Agent 委派参见 [examples/multiagent](examples/multiagent)。
 
 ## 状态
 
@@ -197,6 +199,7 @@ PRAXOVELA 经过验证的运行时。
 - [采用指南](docs/zh-CN/adoption.md)
 - [Recipes](docs/zh-CN/recipes.md)
 - [适配器索引](docs/zh-CN/adapters.md)
+- [多 Agent 模式](docs/zh-CN/13-multi-agent.md)
 - [与其他 Go Agent 框架的对比](docs/zh-CN/comparison.md)
 - [基准测试](docs/zh-CN/benchmarks.md)
 - [AxisVela 生态集成](docs/zh-CN/12-ecosystem.md)
