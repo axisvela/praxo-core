@@ -19,7 +19,9 @@ Anthropic 与 Gemini 是对应 API 的原生适配器。
 | 适配器 | 导入路径 | 接缝 | 状态 |
 | --- | --- | --- | --- |
 | MCP | `github.com/axisvela/praxo-core/adapters/mcp` | `tool.Gateway`、resources、prompts | `adapters/mcp/v0.2.0` |
-| OpenTelemetry | `github.com/axisvela/praxo-core/adapters/otel` | `event.Sink` | `adapters/otel/v0.1.0` |
+| OpenTelemetry | `github.com/axisvela/praxo-core/adapters/otel` | `event.Sink` | `adapters/otel/v0.2.0` |
+| Harmovela | `github.com/axisvela/praxo-core/adapters/harmovela` | `event.Sink` | `adapters/harmovela/v0.1.0` |
+| A2A | `github.com/axisvela/praxo-core/adapters/a2a` | `a2asrv.AgentExecutor` | `adapters/a2a/v0.1.0` |
 
 MCP 模块通过 `tool.Gateway` 暴露工具，并提供 resources 和 prompts 的模块级
 辅助函数。OpenTelemetry 模块将生命周期事件映射为 span。
@@ -38,9 +40,9 @@ MCP 模块通过 `tool.Gateway` 暴露工具，并提供 resources 和 prompts �
 | AEGIVELA | `aegivela.Hook` | `policy.Hook` |
 | LIMENORA | `limenora.Gateway` | `tool.Gateway` |
 | RHEOVELA | `rheovela.Runner` | Agent 会话到工作流实例 |
-| Harmovela | `harmovela.Sink` | `event.Sink` |
 
-Harmovela recipe 使用 HTTP events 协议；示例不导入较重的 Harmovela Go 模块。
+Harmovela 是已发布的适配器模块，而不是 recipe：它直接使用 HTTP events 协议，
+不需要较重的 Harmovela Go 模块。
 
 ## 新增适配器
 
