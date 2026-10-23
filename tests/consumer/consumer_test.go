@@ -17,6 +17,7 @@ import (
 	oteladapter "github.com/axisvela/praxo-core/adapters/otel"
 	"github.com/axisvela/praxo-core/v2/adapters/openaicompat"
 	"github.com/axisvela/praxo-core/v2/pkg/agent"
+	"github.com/axisvela/praxo-core/v2/pkg/agent/delegation"
 	"github.com/axisvela/praxo-core/v2/pkg/event"
 	"github.com/axisvela/praxo-core/v2/pkg/model"
 	"github.com/axisvela/praxo-core/v2/pkg/tool"
@@ -31,6 +32,10 @@ var (
 	_ event.Sink           = harmovela.Sink{}
 	_                      = a2aadapter.Executor{}
 	_                      = multiagent.Supervisor{}
+	_                      = openaicompat.Adapter{IncludeUsage: true}
+	_                      = multiagent.Supervisor{MaxConcurrency: 1}
+	_                      = (*delegation.SubagentManager).Wait
+	_                      = (*delegation.SubagentManager).Prune
 )
 
 type finalModel struct{}
@@ -63,13 +68,13 @@ func TestPublishedDependencyGraph(t *testing.T) {
 		t.Fatal(err)
 	}
 	expected := map[string]string{
-		"github.com/axisvela/praxo-core/v2":                  "v2.2.0",
+		"github.com/axisvela/praxo-core/v2":                  "v2.3.0",
 		"github.com/axisvela/praxo-core/adapters/a2a":        "v0.1.0",
 		"github.com/axisvela/praxo-core/adapters/anthropic":  "v0.1.0",
 		"github.com/axisvela/praxo-core/adapters/gemini":     "v0.1.0",
 		"github.com/axisvela/praxo-core/adapters/harmovela":  "v0.1.0",
-		"github.com/axisvela/praxo-core/adapters/mcp":        "v0.2.0",
-		"github.com/axisvela/praxo-core/adapters/multiagent": "v0.1.0",
+		"github.com/axisvela/praxo-core/adapters/mcp":        "v0.3.0",
+		"github.com/axisvela/praxo-core/adapters/multiagent": "v0.2.0",
 		"github.com/axisvela/praxo-core/adapters/otel":       "v0.2.0",
 	}
 	decoder := json.NewDecoder(strings.NewReader(string(output)))
