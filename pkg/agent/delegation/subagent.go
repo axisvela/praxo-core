@@ -82,6 +82,7 @@ var ErrSubagentUpdateUnsupported = errors.New("agent: subagent update unsupporte
 type subagentState struct {
 	task   SubagentTask
 	cancel context.CancelFunc
+	done   chan struct{}
 }
 
 // SubagentManager owns asynchronous delegated tasks over a SubagentRunner.
@@ -116,7 +117,7 @@ func (m *SubagentManager) Launch(ctx context.Context, req SubagentRequest) (Suba
 		Mode: req.Mode, Status: SubagentQueued, CreatedAt: now, UpdatedAt: now,
 	}
 	m.mu.Lock()
-	m.tasks[id] = &subagentState{task: task, cancel: cancel}
+	m.tasks[id] = &subagentState{task: task, cancel: cancel, done: make(chan struct{})}
 	m.mu.Unlock()
 
 	go func() {
@@ -145,6 +146,37 @@ func (m *SubagentManager) Check(taskID string) (SubagentTask, bool) {
 		return SubagentTask{}, false
 	}
 	return st.task, true
+}
+
+// Wait blocks until a task reaches a terminal state or ctx is done.
+func (m *SubagentManager) Wait(ctx context.Context, taskID string) (SubagentTask, error) {
+	m.mu.Lock()
+	st, ok := m.tasks[taskID]
+	if !ok {
+		m.mu.Unlock()
+		return SubagentTask{}, fmt.Errorf("agent: unknown subagent task %q", taskID)
+	}
+	if terminal(st.task.Status) || st.done == nil {
+		task := st.task
+		m.mu.Unlock()
+		return task, nil
+	}
+	done := st.done
+	m.mu.Unlock()
+	select {
+	case <-done:
+		m.mu.Lock()
+		st, ok := m.tasks[taskID]
+		if !ok {
+			m.mu.Unlock()
+			return SubagentTask{}, fmt.Errorf("agent: subagent task %q was pruned", taskID)
+		}
+		task := st.task
+		m.mu.Unlock()
+		return task, nil
+	case <-ctx.Done():
+		return SubagentTask{}, ctx.Err()
+	}
 }
 
 // Update forwards a mid-flight steering prompt when the runner supports it.
@@ -183,6 +215,7 @@ func (m *SubagentManager) Cancel(taskID string) error {
 	st.cancel()
 	st.task.Status = SubagentCanceled
 	st.task.UpdatedAt = time.Now().UTC()
+	closeDone(st)
 	m.mu.Unlock()
 	return nil
 }
@@ -233,6 +266,16 @@ func (m *SubagentManager) setStatus(taskID string, status SubagentStatus, output
 	st.task.Output = output
 	st.task.Error = errMsg
 	st.task.UpdatedAt = time.Now().UTC()
+	if terminal(status) {
+		closeDone(st)
+	}
+}
+
+func closeDone(st *subagentState) {
+	if st.done != nil {
+		close(st.done)
+		st.done = nil
+	}
 }
 
 func terminal(status SubagentStatus) bool {

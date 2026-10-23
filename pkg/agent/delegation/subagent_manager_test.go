@@ -2,6 +2,7 @@ package delegation
 
 import (
 	"context"
+	"errors"
 	"sync"
 	"testing"
 	"time"
@@ -190,5 +191,50 @@ func TestSubagentManagerPruneKeepsRunning(t *testing.T) {
 	}
 	if _, ok := m.Check(task.ID); !ok {
 		t.Fatal("running task was pruned")
+	}
+}
+
+func TestSubagentManagerWait(t *testing.T) {
+	r := newFakeSubRunner()
+	m := NewSubagentManager(r)
+	task, err := m.Launch(context.Background(), SubagentRequest{ParentSessionID: "p", AgentID: "child"})
+	if err != nil {
+		t.Fatal(err)
+	}
+	<-r.started
+	go func() {
+		time.Sleep(10 * time.Millisecond)
+		close(r.release)
+	}()
+	done, err := m.Wait(context.Background(), task.ID)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if done.Status != SubagentCompleted || done.Output != "child result" {
+		t.Fatalf("task = %#v", done)
+	}
+}
+
+func TestSubagentManagerWaitContextCanceled(t *testing.T) {
+	r := newFakeSubRunner()
+	m := NewSubagentManager(r)
+	task, err := m.Launch(context.Background(), SubagentRequest{ParentSessionID: "p", AgentID: "child"})
+	if err != nil {
+		t.Fatal(err)
+	}
+	<-r.started
+	ctx, cancel := context.WithCancel(context.Background())
+	cancel()
+	if _, err := m.Wait(ctx, task.ID); !errors.Is(err, context.Canceled) {
+		t.Fatalf("err = %v", err)
+	}
+	if err := m.Cancel(task.ID); err != nil {
+		t.Fatal(err)
+	}
+}
+
+func TestSubagentManagerWaitUnknown(t *testing.T) {
+	if _, err := NewSubagentManager(newFakeSubRunner()).Wait(context.Background(), "missing"); err == nil {
+		t.Fatal("expected an error")
 	}
 }

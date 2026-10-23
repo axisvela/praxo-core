@@ -4,8 +4,14 @@
 
 ### Added
 
+- `delegation.SubagentManager.Wait` blocks until a task reaches a terminal
+  state and returns its final snapshot.
 - `delegation.SubagentManager.Prune` removes terminal tasks older than a
   caller-supplied duration.
+- `adapters/multiagent` waits on completion events instead of polling;
+  `Supervisor.PollInterval` is retained but ignored.
+- `adapters/openaicompat`: opt-in `IncludeUsage` requests streamed token usage
+  and maps it into `model.Usage`.
 
 ### Fixed
 

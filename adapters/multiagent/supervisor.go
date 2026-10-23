@@ -29,8 +29,10 @@ type Worker struct {
 
 // Supervisor runs delegated workers through delegation.SubagentManager.
 type Supervisor struct {
-	Runner       delegation.SubagentRunner
-	Timeout      time.Duration
+	Runner  delegation.SubagentRunner
+	Timeout time.Duration
+	// PollInterval is retained for source compatibility and ignored. Waits are
+	// event-driven through delegation.SubagentManager.Wait.
 	PollInterval time.Duration
 }
 
@@ -94,49 +96,52 @@ func (s Supervisor) wait(ctx context.Context, manager *delegation.SubagentManage
 	if timeout <= 0 {
 		timeout = 2 * time.Minute
 	}
-	interval := s.PollInterval
-	if interval <= 0 {
-		interval = 10 * time.Millisecond
+	waitCtx, cancel := context.WithTimeout(ctx, timeout)
+	defer cancel()
+
+	type result struct {
+		name string
+		task delegation.SubagentTask
+		err  error
 	}
-	deadline := time.Now().Add(timeout)
+	results := make(chan result, len(tasks))
+	for name, taskID := range tasks {
+		go func(name, taskID string) {
+			task, err := manager.Wait(waitCtx, taskID)
+			results <- result{name: name, task: task, err: err}
+		}(name, taskID)
+	}
+
 	outputs := make(map[string]string, len(tasks))
-	for {
-		active := 0
-		for name, taskID := range tasks {
-			task, ok := manager.Check(taskID)
-			if !ok {
-				cancelAll(manager, tasks)
-				return nil, fmt.Errorf("multiagent: missing task %s", taskID)
-			}
-			switch task.Status {
-			case delegation.SubagentCompleted:
-				if _, done := outputs[name]; !done {
-					outputs[name] = task.Output
-				}
-			case delegation.SubagentFailed:
-				cancelAll(manager, tasks)
-				return nil, fmt.Errorf("multiagent: %s failed: %s", name, task.Error)
-			case delegation.SubagentCanceled:
-				cancelAll(manager, tasks)
-				return nil, fmt.Errorf("multiagent: %s canceled", name)
-			default:
-				active++
-			}
-		}
-		if active == 0 {
-			return outputs, nil
-		}
+	for range tasks {
 		select {
 		case <-ctx.Done():
 			cancelAll(manager, tasks)
 			return nil, ctx.Err()
-		case <-time.After(interval):
-		}
-		if time.Now().After(deadline) {
-			cancelAll(manager, tasks)
-			return nil, ErrTimeout
+		case result := <-results:
+			if result.err != nil {
+				cancelAll(manager, tasks)
+				if errors.Is(waitCtx.Err(), context.DeadlineExceeded) {
+					return nil, ErrTimeout
+				}
+				return nil, result.err
+			}
+			switch result.task.Status {
+			case delegation.SubagentCompleted:
+				outputs[result.name] = result.task.Output
+			case delegation.SubagentFailed:
+				cancelAll(manager, tasks)
+				return nil, fmt.Errorf("multiagent: %s failed: %s", result.name, result.task.Error)
+			case delegation.SubagentCanceled:
+				cancelAll(manager, tasks)
+				return nil, fmt.Errorf("multiagent: %s canceled", result.name)
+			default:
+				cancelAll(manager, tasks)
+				return nil, fmt.Errorf("multiagent: %s returned status %s", result.name, result.task.Status)
+			}
 		}
 	}
+	return outputs, nil
 }
 
 func request(parentSessionID string, worker Worker) delegation.SubagentRequest {

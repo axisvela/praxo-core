@@ -13,7 +13,8 @@ tags.
 | Gemini | `github.com/axisvela/praxo-core/adapters/gemini` | `model.Model`, `model.StreamingModel` | `adapters/gemini/v0.1.0` |
 
 The OpenAI-compatible adapter uses only the standard library and works with
-Ollama, vLLM, and hosted OpenAI-compatible endpoints. Anthropic and Gemini are
+Ollama, vLLM, and hosted OpenAI-compatible endpoints. Set `IncludeUsage` for
+streamed token usage on endpoints that support it. Anthropic and Gemini are
 native adapters for their respective APIs.
 
 ## Tool and Protocol Adapters

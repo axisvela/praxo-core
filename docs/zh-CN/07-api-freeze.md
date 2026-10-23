@@ -2,7 +2,8 @@
 
 **状态：** 针对 `2.0.0` 的 v2 模块路径审计；`2.1.0` 和 `2.2.0` 没有新增
 `pkg/...` 声明。导出的表面与 `1.7.0` 在功能上一致。`1.0.0` 表面仍处于冻结
-状态；新声明是增量式的。未发布版本新增 `SubagentManager.Prune`。
+状态；新声明是增量式的。未发布版本新增 `SubagentManager.Wait` 和
+`SubagentManager.Prune`。
 
 ## 审计结果
 
@@ -38,7 +39,7 @@
 | --- | --- |
 | `pkg/agent` | `Agent`、`Options`、`Profile`、`New`、能力类型的兼容别名 |
 | `pkg/agent/context` | 预算、压缩、摘要、卸载、`AGENTS.md` |
-| `pkg/agent/delegation` | 异步子 Agent 管理器、模式与终态任务清理 |
+| `pkg/agent/delegation` | 异步子 Agent 管理器、模式、等待与终态任务清理 |
 | `pkg/agent/evaluation` | 评分与评估器 |
 | `pkg/agent/hitl` | 中断动作、决策、处理器 |
 | `pkg/agent/middleware` | 调用限制、回退、PII、结构化输出、工具选择、上下文编辑、待办 |

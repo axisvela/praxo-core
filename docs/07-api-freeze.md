@@ -3,7 +3,7 @@
 **Status:** v2 module-path audit for `2.0.0`; `2.1.0` and `2.2.0` add no
 `pkg/...` declarations. The exported surface is functionally identical to
 `1.7.0`. The `1.0.0` surface remains frozen; new declarations are additive.
-Unreleased adds `SubagentManager.Prune`.
+Unreleased adds `SubagentManager.Wait` and `SubagentManager.Prune`.
 
 ## Audit Result
 
@@ -42,7 +42,7 @@ Not covered:
 | --- | --- |
 | `pkg/agent` | `Agent`, `Options`, `Profile`, `New`, compatibility aliases for capability types |
 | `pkg/agent/context` | budgets, compaction, summarization, offload, `AGENTS.md` |
-| `pkg/agent/delegation` | async subagent manager, modes, and terminal-task pruning |
+| `pkg/agent/delegation` | async subagent manager, modes, waiting, and terminal-task pruning |
 | `pkg/agent/evaluation` | rubrics and evaluators |
 | `pkg/agent/hitl` | interrupt actions, decisions, handlers |
 | `pkg/agent/middleware` | call limits, fallback, PII, structured output, tool selection, context editing, todos |
