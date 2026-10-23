@@ -254,7 +254,7 @@ Exit gate:
 
 - Richer checkpoints and resume recipes.
 - Sandbox and policy integration examples for high-risk tools.
-- [x] Minimal process plugin example; WASM plugin remains a candidate.
+- [x] Minimal process plugin and WASM host examples.
 - [x] Public adapter index.
 
 ## Graph Runtime Boundary

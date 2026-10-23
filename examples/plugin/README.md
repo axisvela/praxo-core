@@ -30,6 +30,8 @@ go run ./examples/plugin/host -plugin ./echo-plugin.exe
 The host starts the plugin, performs the `host.control/health` handshake,
 invokes `tool.provider/invoke`, prints the echoed payload, and stops the plugin.
 
+A minimal WASM host smoke example lives in [`wasm/`](wasm).
+
 ## Protocol
 
 The plugin speaks JSON-Lines over stdio and validates the
