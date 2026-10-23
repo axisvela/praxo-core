@@ -187,14 +187,18 @@ workspace agent with confined VFS tools, policy, memory, and events,
 
 ## Status
 
-`2.1.0` was released on 2026-10-22. It is an adoption-focused additive release
+`2.1.0` is the current core release. It is an adoption-focused additive release
 and does not change the `pkg/...` API from `2.0.0` (`api/2.1.0.txt` is identical
 to `api/2.0.0.txt`). It adds the OpenAI-compatible model adapter with SSE
-streaming, the optional MCP tool gateway, quickstart and reference examples,
-NOETIVELA/Mnemovela/GNOSIVELA SDK recipes, benchmarks, and the bilingual docs
-site. The `1.0.0` API freeze remains in effect, and the canonical package paths
-are `pkg/toolcall`, `pkg/formatter`, and `pkg/tool/jsonschema`. The framework is
-extracted from PRAXOVELA's proven runtime.
+streaming, quickstart and reference examples, ecosystem SDK recipes, benchmarks,
+and the bilingual docs site. The `1.0.0` API freeze remains in effect, and the
+canonical package paths are `pkg/toolcall`, `pkg/formatter`, and
+`pkg/tool/jsonschema`.
+
+Optional adapters are versioned independently:
+`adapters/mcp/v0.2.0`, `adapters/otel/v0.1.0`, `adapters/anthropic/v0.1.0`, and
+`adapters/gemini/v0.1.0`. The framework is extracted from PRAXOVELA's proven
+runtime.
 
 ## Documentation
 

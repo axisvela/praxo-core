@@ -174,12 +174,15 @@ result, err := ag.Run(ctx, agent.Session{
 
 ## 状态
 
-`2.1.0` 于 2026-10-22 发布。该版本聚焦采用体验，且不改变 `2.0.0` 的
-`pkg/...` API（`api/2.1.0.txt` 与 `api/2.0.0.txt` 相同）。它新增了带 SSE 流式
-输出的 OpenAI 兼容模型适配器、可选的 MCP 工具网关、quickstart 和 reference
-示例、NOETIVELA/Mnemovela/GNOSIVELA SDK recipes、基准测试以及中英文文档站。
-`1.0.0` 的 API 冻结仍然有效，规范包路径为 `pkg/toolcall`、`pkg/formatter` 和
-`pkg/tool/jsonschema`。该框架提取自 PRAXOVELA 经过验证的运行时。
+`2.1.0` 是当前核心版本。该版本聚焦采用体验，且不改变 `2.0.0` 的 `pkg/...`
+API（`api/2.1.0.txt` 与 `api/2.0.0.txt` 相同）。它新增了带 SSE 流式输出的
+OpenAI 兼容模型适配器、quickstart 和 reference 示例、生态 SDK recipes、
+基准测试以及中英文文档站。`1.0.0` 的 API 冻结仍然有效，规范包路径为
+`pkg/toolcall`、`pkg/formatter` 和 `pkg/tool/jsonschema`。
+
+可选适配器独立版本化：`adapters/mcp/v0.2.0`、`adapters/otel/v0.1.0`、
+`adapters/anthropic/v0.1.0` 和 `adapters/gemini/v0.1.0`。该框架提取自
+PRAXOVELA 经过验证的运行时。
 
 ## 文档
 
