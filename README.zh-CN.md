@@ -182,8 +182,9 @@ OpenAI 兼容模型适配器、quickstart 和 reference 示例、生态 SDK reci
 基准测试以及中英文文档站。`1.0.0` 的 API 冻结仍然有效，规范包路径为
 `pkg/toolcall`、`pkg/formatter` 和 `pkg/tool/jsonschema`。
 
-可选适配器独立版本化：`adapters/mcp/v0.2.0`、`adapters/otel/v0.1.0`、
-`adapters/anthropic/v0.1.0` 和 `adapters/gemini/v0.1.0`。该框架提取自
+可选适配器独立版本化：`adapters/mcp/v0.2.0`、`adapters/otel/v0.2.0`、
+`adapters/anthropic/v0.1.0`、`adapters/gemini/v0.1.0`、
+`adapters/harmovela/v0.1.0` 和 `adapters/a2a/v0.1.0`。该框架提取自
 PRAXOVELA 经过验证的运行时。
 
 ## 文档

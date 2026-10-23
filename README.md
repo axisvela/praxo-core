@@ -197,9 +197,10 @@ and the bilingual docs site. The `1.0.0` API freeze remains in effect, and the
 canonical package paths are `pkg/toolcall`, `pkg/formatter`, and
 `pkg/tool/jsonschema`.
 
-Optional adapters are versioned independently:
-`adapters/mcp/v0.2.0`, `adapters/otel/v0.1.0`, `adapters/anthropic/v0.1.0`, and
-`adapters/gemini/v0.1.0`. The framework is extracted from PRAXOVELA's proven
+Optional adapters are versioned independently: `adapters/mcp/v0.2.0`,
+`adapters/otel/v0.2.0`, `adapters/anthropic/v0.1.0`,
+`adapters/gemini/v0.1.0`, `adapters/harmovela/v0.1.0`, and
+`adapters/a2a/v0.1.0`. The framework is extracted from PRAXOVELA's proven
 runtime.
 
 ## Documentation
