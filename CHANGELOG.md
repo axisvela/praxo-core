@@ -1,5 +1,19 @@
 # Changelog
 
+## [Unreleased]
+
+### Added
+
+- `delegation.SubagentManager.Prune` removes terminal tasks older than a
+  caller-supplied duration.
+
+### Fixed
+
+- `flow.Parallel` now invokes runnables concurrently while preserving output
+  order; it returns the first error by index after all calls finish.
+- `delegation.SubagentManager` no longer overwrites completed/failed tasks on
+  `Cancel`; `Update` is rejected unless the task is running.
+
 ## [2.2.0] - 2026-10-23
 
 ### Added

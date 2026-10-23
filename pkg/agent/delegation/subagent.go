@@ -153,13 +153,22 @@ func (m *SubagentManager) Update(ctx context.Context, taskID, prompt string) err
 	if !ok {
 		return ErrSubagentUpdateUnsupported
 	}
-	if _, ok := m.Check(taskID); !ok {
+	m.mu.Lock()
+	st, exists := m.tasks[taskID]
+	if !exists {
+		m.mu.Unlock()
 		return fmt.Errorf("agent: unknown subagent task %q", taskID)
 	}
+	if st.task.Status != SubagentRunning {
+		status := st.task.Status
+		m.mu.Unlock()
+		return fmt.Errorf("agent: subagent task %q is not running (%s)", taskID, status)
+	}
+	m.mu.Unlock()
 	return runner.Update(ctx, taskID, prompt)
 }
 
-// Cancel stops a task and marks it canceled.
+// Cancel stops a queued or running task. Terminal tasks are unchanged.
 func (m *SubagentManager) Cancel(taskID string) error {
 	m.mu.Lock()
 	st, ok := m.tasks[taskID]
@@ -167,11 +176,34 @@ func (m *SubagentManager) Cancel(taskID string) error {
 		m.mu.Unlock()
 		return fmt.Errorf("agent: unknown subagent task %q", taskID)
 	}
+	if terminal(st.task.Status) {
+		m.mu.Unlock()
+		return nil
+	}
 	st.cancel()
 	st.task.Status = SubagentCanceled
 	st.task.UpdatedAt = time.Now().UTC()
 	m.mu.Unlock()
 	return nil
+}
+
+// Prune removes terminal tasks that have not changed for olderThan. A zero
+// duration removes all terminal tasks.
+func (m *SubagentManager) Prune(olderThan time.Duration) int {
+	cutoff := time.Now().UTC()
+	if olderThan > 0 {
+		cutoff = cutoff.Add(-olderThan)
+	}
+	m.mu.Lock()
+	defer m.mu.Unlock()
+	removed := 0
+	for id, st := range m.tasks {
+		if terminal(st.task.Status) && !st.task.UpdatedAt.After(cutoff) {
+			delete(m.tasks, id)
+			removed++
+		}
+	}
+	return removed
 }
 
 // List returns tasks for a parent session, oldest first. An empty parent
@@ -194,11 +226,15 @@ func (m *SubagentManager) setStatus(taskID string, status SubagentStatus, output
 	m.mu.Lock()
 	defer m.mu.Unlock()
 	st, ok := m.tasks[taskID]
-	if !ok {
+	if !ok || terminal(st.task.Status) {
 		return
 	}
 	st.task.Status = status
 	st.task.Output = output
 	st.task.Error = errMsg
 	st.task.UpdatedAt = time.Now().UTC()
+}
+
+func terminal(status SubagentStatus) bool {
+	return status == SubagentCompleted || status == SubagentFailed || status == SubagentCanceled
 }
