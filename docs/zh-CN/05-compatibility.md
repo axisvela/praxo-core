@@ -10,6 +10,8 @@
   一致。
 - `2.2.0` 的变更是 `pkg/...` 之外的增量；导出的 `pkg/...` API 仍与 `2.1.0`
   一致。
+- `2.3.0` 新增 `SubagentManager.Wait` 和 `SubagentManager.Prune`；其余导出
+  `pkg/...` 声明不变。
 
 - 框架版本从 `0.x` 开始。
 - PRAXOVELA 产品版本独立。

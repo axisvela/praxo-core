@@ -20,12 +20,13 @@ sandboxing, checkpoints, the runtime plugin plane, and the agent loop.
 ## Install
 
 ```bash
-go get github.com/axisvela/praxo-core/v2@v2.0.0
+go get github.com/axisvela/praxo-core/v2@v2.3.0
 ```
 
 ## Explore
 
 - [Quickstart](quickstart.md)
+- [2.3.0 release notes](releases/2.3.0.md)
 - [2.2.0 release notes](releases/2.2.0.md)
 - [2.1.0 release notes](releases/2.1.0.md)
 - [Adoption guide](adoption.md)
@@ -42,11 +43,11 @@ go get github.com/axisvela/praxo-core/v2@v2.0.0
 
 ## Status
 
-`2.2.0` is the current core release. The exported `pkg/...` API is frozen and
-identical to `2.1.0`; new capabilities are additive. Optional adapters are
-versioned independently (`adapters/mcp/v0.2.0`, `adapters/otel/v0.2.0`,
+`2.3.0` is the current core release. The exported `pkg/...` API remains frozen;
+2.3.0 adds `SubagentManager.Wait` and `SubagentManager.Prune`. Optional adapters
+are versioned independently (`adapters/mcp/v0.3.0`, `adapters/otel/v0.2.0`,
 `adapters/anthropic/v0.1.0`, `adapters/gemini/v0.1.0`,
 `adapters/harmovela/v0.1.0`, `adapters/a2a/v0.1.0`,
-`adapters/multiagent/v0.1.0`). See
+`adapters/multiagent/v0.2.0`). See
 [compatibility](05-compatibility.md) and the
 [v2 migration guide](11-migration-v2.md).

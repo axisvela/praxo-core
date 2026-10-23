@@ -1,8 +1,8 @@
 # PRAXO-CORE Roadmap
 
-**Current:** `2.2.0` ecosystem depth (2026-10-23)
+**Current:** `2.3.0` execution correctness (2026-10-23)
 
-**Target:** `2.3.0` orchestration depth
+**Target:** `2.4.0` adoption evidence
 
 ## Release History
 
@@ -35,6 +35,7 @@
 | 2.0.0 | v2 module path; API functionally identical to 1.7.0 |
 | 2.1.0 | adoption surface: adapters, docs site, recipes, benchmarks, reference app |
 | 2.2.0 | ecosystem depth: protocol adapters, multi-agent composition, examples, security fixes |
+| 2.3.0 | execution correctness: event-driven subagents, real parallelism, bounded concurrency |
 
 See `CHANGELOG.md` for exact changes.
 
@@ -253,17 +254,23 @@ Exit gate:
 - [x] `adapters/a2a` A2A server adapter.
 - [x] Tag `adapters/a2a/v0.1.0`.
 
-## 2.3.0 - Orchestration Depth (candidate)
+## 2.3.0 - Execution Correctness (released 2026-10-23)
 
-- [x] Multi-agent delegation example and bilingual guidance.
-- [x] `adapters/multiagent` parallel supervisor and sequential delegation.
-- [x] Tag `adapters/multiagent/v0.1.0`.
-- [x] RHEOVELA durable orchestration boundary docs and checklist.
-- [x] Checkpoint and resume example.
-- [x] Sandbox and policy example for high-risk tools.
-- [x] Minimal process plugin and WASM host examples.
-- [x] Public adapter index.
+- [x] `SubagentManager.Wait` and terminal-task pruning.
+- [x] Real `flow.Parallel` concurrency with deterministic error ordering.
+- [x] Event-driven multi-agent waits and `MaxConcurrency`.
+- [x] Opt-in streamed usage in the OpenAI-compatible adapter.
+- [x] Collision-resistant memory IDs and precomputed search text.
+- [x] MCP repeated-cursor guards and multi-page tests.
+- [x] Tag `adapters/multiagent/v0.2.0`.
+- [x] Tag `adapters/mcp/v0.3.0`.
+- [x] In-process A2A HTTP JSON-RPC round trip.
+
+## 2.4.0 - Adoption Evidence (candidate)
+
 - [ ] Production case study and external benchmark validation.
+- [ ] External A2A peer interoperability.
+- [ ] Further provider/security recipe review.
 
 ## Graph Runtime Boundary
 

@@ -5,7 +5,7 @@ over `pkg/agent/delegation`. It does not add a graph or durable workflow
 runtime to the core.
 
 ```bash
-go get github.com/axisvela/praxo-core/adapters/multiagent@v0.1.0
+go get github.com/axisvela/praxo-core/adapters/multiagent@v0.2.0
 ```
 
 ```go

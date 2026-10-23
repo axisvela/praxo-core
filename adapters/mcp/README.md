@@ -6,7 +6,7 @@ can be registered in a PRAXO-CORE `tool.Registry` and used by the agent loop.
 This is an optional module. The core framework does not depend on the MCP SDK.
 
 ```bash
-go get github.com/axisvela/praxo-core/adapters/mcp@v0.2.0
+go get github.com/axisvela/praxo-core/adapters/mcp@v0.3.0
 ```
 
 ```go

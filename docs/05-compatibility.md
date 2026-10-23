@@ -10,6 +10,8 @@
   identical to `2.0.0`.
 - `2.2.0` is additive outside `pkg/...`; the exported `pkg/...` API remains
   identical to `2.1.0`.
+- `2.3.0` adds `SubagentManager.Wait` and `SubagentManager.Prune`; all other
+  exported `pkg/...` declarations are unchanged.
 
 - Framework versions start at `0.x`.
 - PRAXOVELA product versions are independent.
