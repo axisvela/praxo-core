@@ -45,6 +45,7 @@ task, err := manager.Launch(ctx, delegation.SubagentRequest{
     Prompt:          "find the status",
     Mode:            delegation.SubagentIsolated,
 })
+done, err := manager.Wait(ctx, task.ID)
 ```
 
 A product supplies the router and `SubagentRunner`; the framework owns the task

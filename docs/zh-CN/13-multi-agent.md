@@ -42,6 +42,7 @@ task, err := manager.Launch(ctx, delegation.SubagentRequest{
     Prompt:          "find the status",
     Mode:            delegation.SubagentIsolated,
 })
+done, err := manager.Wait(ctx, task.ID)
 ```
 
 路由器与 `SubagentRunner` 由产品提供；框架负责任务生命周期和可观察状态。
