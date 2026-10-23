@@ -31,6 +31,9 @@ type Worker struct {
 type Supervisor struct {
 	Runner  delegation.SubagentRunner
 	Timeout time.Duration
+	// MaxConcurrency limits concurrently running workers in Run. Values <= 0
+	// mean no explicit limit.
+	MaxConcurrency int
 	// PollInterval is retained for source compatibility and ignored. Waits are
 	// event-driven through delegation.SubagentManager.Wait.
 	PollInterval time.Duration
@@ -49,6 +52,9 @@ func (s Supervisor) Run(ctx context.Context, parentSessionID string, workers []W
 		return map[string]string{}, nil
 	}
 	manager := delegation.NewSubagentManager(s.Runner)
+	if s.MaxConcurrency > 0 && s.MaxConcurrency < len(workers) {
+		return s.runLimited(ctx, manager, parentSessionID, workers, names)
+	}
 	tasks := make(map[string]string, len(workers))
 	for _, worker := range workers {
 		task, err := manager.Launch(ctx, request(parentSessionID, worker))
@@ -87,6 +93,81 @@ func (s Supervisor) Sequential(ctx context.Context, parentSessionID string, work
 		}
 		outputs[name] = result[name]
 		previous = result[name]
+	}
+	return outputs, nil
+}
+
+func (s Supervisor) runLimited(ctx context.Context, manager *delegation.SubagentManager, parentSessionID string, workers []Worker, names map[string]string) (map[string]string, error) {
+	timeout := s.Timeout
+	if timeout <= 0 {
+		timeout = 2 * time.Minute
+	}
+	waitCtx, cancel := context.WithTimeout(ctx, timeout)
+	defer cancel()
+
+	type result struct {
+		name string
+		task delegation.SubagentTask
+		err  error
+	}
+	results := make(chan result, len(workers))
+	tasks := make(map[string]string, len(workers))
+	outputs := make(map[string]string, len(workers))
+	next, inFlight := 0, 0
+
+	launch := func(worker Worker) error {
+		name := names[worker.AgentID]
+		task, err := manager.Launch(waitCtx, request(parentSessionID, worker))
+		if err != nil {
+			return err
+		}
+		tasks[name] = task.ID
+		inFlight++
+		go func(name, taskID string) {
+			done, err := manager.Wait(waitCtx, taskID)
+			results <- result{name: name, task: done, err: err}
+		}(name, task.ID)
+		return nil
+	}
+
+	for next < len(workers) || inFlight > 0 {
+		for inFlight < s.MaxConcurrency && next < len(workers) {
+			if err := launch(workers[next]); err != nil {
+				cancelAll(manager, tasks)
+				return nil, err
+			}
+			next++
+		}
+		if inFlight == 0 {
+			break
+		}
+		select {
+		case <-ctx.Done():
+			cancelAll(manager, tasks)
+			return nil, ctx.Err()
+		case result := <-results:
+			inFlight--
+			if result.err != nil {
+				cancelAll(manager, tasks)
+				if errors.Is(waitCtx.Err(), context.DeadlineExceeded) {
+					return nil, ErrTimeout
+				}
+				return nil, result.err
+			}
+			switch result.task.Status {
+			case delegation.SubagentCompleted:
+				outputs[result.name] = result.task.Output
+			case delegation.SubagentFailed:
+				cancelAll(manager, tasks)
+				return nil, fmt.Errorf("multiagent: %s failed: %s", result.name, result.task.Error)
+			case delegation.SubagentCanceled:
+				cancelAll(manager, tasks)
+				return nil, fmt.Errorf("multiagent: %s canceled", result.name)
+			default:
+				cancelAll(manager, tasks)
+				return nil, fmt.Errorf("multiagent: %s returned status %s", result.name, result.task.Status)
+			}
+		}
 	}
 	return outputs, nil
 }

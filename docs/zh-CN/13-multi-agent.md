@@ -51,7 +51,8 @@ task, err := manager.Launch(ctx, delegation.SubagentRequest{
 [`adapters/multiagent`](https://github.com/axisvela/praxo-core/tree/main/adapters/multiagent)
 在 `SubagentManager` 之上提供一个小的可选层：
 
-- `Supervisor.Run` 并行启动 worker 并按名称聚合输出。
+- `Supervisor.Run` 并行启动 worker 并按名称聚合输出；`MaxConcurrency` 限制
+  同时运行的 worker 数量。
 - `Supervisor.Sequential` 将前一个输出作为 `Context["previous"]` 传给下一个
   worker。
 - 完成事件通过 `SubagentManager.Wait` 驱动，Supervisor 不再轮询。

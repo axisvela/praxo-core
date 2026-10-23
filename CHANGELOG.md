@@ -9,7 +9,8 @@
 - `delegation.SubagentManager.Prune` removes terminal tasks older than a
   caller-supplied duration.
 - `adapters/multiagent` waits on completion events instead of polling;
-  `Supervisor.PollInterval` is retained but ignored.
+  `Supervisor.PollInterval` is retained but ignored. `MaxConcurrency` bounds
+  parallel workers in `Run`.
 - `adapters/openaicompat`: opt-in `IncludeUsage` requests streamed token usage
   and maps it into `model.Usage`.
 

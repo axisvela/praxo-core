@@ -117,3 +117,48 @@ func TestValidation(t *testing.T) {
 		t.Fatal("expected an error for duplicate workers")
 	}
 }
+
+type concurrencyRunner struct {
+	mu     sync.Mutex
+	active int
+	max    int
+}
+
+func (r *concurrencyRunner) Run(_ context.Context, req delegation.SubagentRequest) (delegation.SubagentResult, error) {
+	r.mu.Lock()
+	r.active++
+	if r.active > r.max {
+		r.max = r.active
+	}
+	r.mu.Unlock()
+	time.Sleep(20 * time.Millisecond)
+	r.mu.Lock()
+	r.active--
+	r.mu.Unlock()
+	return delegation.SubagentResult{AgentID: req.AgentID, Output: req.AgentID}, nil
+}
+
+func (r *concurrencyRunner) peak() int {
+	r.mu.Lock()
+	defer r.mu.Unlock()
+	return r.max
+}
+
+func TestRunMaxConcurrency(t *testing.T) {
+	runner := &concurrencyRunner{}
+	supervisor := Supervisor{Runner: runner, Timeout: time.Second, MaxConcurrency: 2}
+	workers := make([]Worker, 0, 6)
+	for _, id := range []string{"a", "b", "c", "d", "e", "f"} {
+		workers = append(workers, Worker{AgentID: id, Prompt: id})
+	}
+	outputs, err := supervisor.Run(context.Background(), "session-1", workers)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if len(outputs) != len(workers) {
+		t.Fatalf("outputs = %#v", outputs)
+	}
+	if peak := runner.peak(); peak > 2 {
+		t.Fatalf("peak concurrency = %d, want <= 2", peak)
+	}
+}
