@@ -299,8 +299,27 @@ audit, err := runner.Audit(ctx, instance.InstanceID)
 执行前先授权，并将高风险命令放在 `sandbox.Sandbox` 之后。
 
 ```go
+func commandArgs(value any) ([]string, bool) {
+    switch v := value.(type) {
+    case []string:
+        return v, true
+    case []any:
+        out := make([]string, len(v))
+        for i, item := range v {
+            text, ok := item.(string)
+            if !ok {
+                return nil, false
+            }
+            out[i] = text
+        }
+        return out, true
+    default:
+        return nil, false
+    }
+}
+
 hook := policy.FuncHook(func(_ context.Context, action policy.Action) (policy.Decision, error) {
-    command, ok := action.Arguments["command"].([]string)
+    command, ok := commandArgs(action.Arguments["command"])
     if action.ToolName != "exec" || !ok || len(command) != 2 ||
         command[0] != "go" || command[1] != "version" {
         return policy.Decision{Allowed: false, Reason: "command is not allowlisted"}, nil
@@ -308,7 +327,7 @@ hook := policy.FuncHook(func(_ context.Context, action policy.Action) (policy.De
     return policy.Decision{Allowed: true}, nil
 })
 
-result, err := runner.Run(ctx, sandbox.Spec{Timeout: 5 * time.Second}, command)
+result, err := runner.Run(ctx, sandbox.Spec{Timeout: 5 * time.Second}, []string{"go", "version"})
 ```
 
 参见

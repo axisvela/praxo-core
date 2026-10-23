@@ -20,12 +20,13 @@ sandboxing, checkpoints, the runtime plugin plane, and the agent loop.
 ## Install
 
 ```bash
-go get github.com/axisvela/praxo-core/v2@v2.3.0
+go get github.com/axisvela/praxo-core/v2@v2.3.1
 ```
 
 ## Explore
 
 - [Quickstart](quickstart.md)
+- [2.3.1 release notes](releases/2.3.1.md)
 - [2.3.0 release notes](releases/2.3.0.md)
 - [2.2.0 release notes](releases/2.2.0.md)
 - [2.1.0 release notes](releases/2.1.0.md)
@@ -43,11 +44,13 @@ go get github.com/axisvela/praxo-core/v2@v2.3.0
 
 ## Status
 
-`2.3.0` is the current core release. The exported `pkg/...` API remains frozen;
-2.3.0 adds `SubagentManager.Wait` and `SubagentManager.Prune`. Optional adapters
-are versioned independently (`adapters/mcp/v0.3.0`, `adapters/otel/v0.2.0`,
-`adapters/anthropic/v0.1.0`, `adapters/gemini/v0.1.0`,
-`adapters/harmovela/v0.1.0`, `adapters/a2a/v0.1.0`,
-`adapters/multiagent/v0.2.0`). See
+`2.3.1` is the current core release. The exported `pkg/...` API remains frozen;
+2.3.1 is a patch over 2.3.0 with no API changes. It adds A2A gRPC round-trip
+coverage, makes every concurrent `Wait` return the terminal snapshot even after
+pruning, and hardens the multi-agent examples, recipes, and docs gate. Optional
+adapters are versioned independently (`adapters/mcp/v0.3.0`,
+`adapters/otel/v0.2.0`, `adapters/anthropic/v0.1.0`,
+`adapters/gemini/v0.1.0`, `adapters/harmovela/v0.1.0`,
+`adapters/a2a/v0.1.0`, `adapters/multiagent/v0.2.0`). See
 [compatibility](05-compatibility.md) and the
 [v2 migration guide](11-migration-v2.md).

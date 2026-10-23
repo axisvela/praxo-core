@@ -12,6 +12,8 @@
   identical to `2.1.0`.
 - `2.3.0` adds `SubagentManager.Wait` and `SubagentManager.Prune`; all other
   exported `pkg/...` declarations are unchanged.
+- `2.3.1` is a patch release; the exported `pkg/...` API is identical to
+  `2.3.0`.
 
 - Framework versions start at `0.x`.
 - PRAXOVELA product versions are independent.
