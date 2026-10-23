@@ -248,7 +248,9 @@ Exit gate:
 - [x] Tag `adapters/anthropic/v0.1.0`.
 - [x] AEGIVELA policy, LIMENORA tool-gateway, and RHEOVELA workflow recipes.
 - [x] `adapters/harmovela` HTTP event adapter.
+- [x] Tag `adapters/harmovela/v0.1.0`.
 - [x] `adapters/a2a` A2A server adapter.
+- [x] Tag `adapters/a2a/v0.1.0`.
 - Production case study and published benchmark methodology.
 
 ## 2.3.0 - Ecosystem Depth (candidate)

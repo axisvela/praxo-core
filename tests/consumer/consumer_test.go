@@ -8,8 +8,10 @@ import (
 	"strings"
 	"testing"
 
+	a2aadapter "github.com/axisvela/praxo-core/adapters/a2a"
 	"github.com/axisvela/praxo-core/adapters/anthropic"
 	"github.com/axisvela/praxo-core/adapters/gemini"
+	"github.com/axisvela/praxo-core/adapters/harmovela"
 	mcpadapter "github.com/axisvela/praxo-core/adapters/mcp"
 	oteladapter "github.com/axisvela/praxo-core/adapters/otel"
 	"github.com/axisvela/praxo-core/v2/adapters/openaicompat"
@@ -25,6 +27,8 @@ var (
 	_ model.StreamingModel = gemini.Adapter{}
 	_ tool.Gateway         = (*mcpadapter.Gateway)(nil)
 	_ event.Sink           = oteladapter.Sink{}
+	_ event.Sink           = harmovela.Sink{}
+	_                      = a2aadapter.Executor{}
 )
 
 type finalModel struct{}
@@ -58,10 +62,12 @@ func TestPublishedDependencyGraph(t *testing.T) {
 	}
 	expected := map[string]string{
 		"github.com/axisvela/praxo-core/v2":                 "v2.1.0",
+		"github.com/axisvela/praxo-core/adapters/a2a":       "v0.1.0",
 		"github.com/axisvela/praxo-core/adapters/anthropic": "v0.1.0",
 		"github.com/axisvela/praxo-core/adapters/gemini":    "v0.1.0",
+		"github.com/axisvela/praxo-core/adapters/harmovela": "v0.1.0",
 		"github.com/axisvela/praxo-core/adapters/mcp":       "v0.2.0",
-		"github.com/axisvela/praxo-core/adapters/otel":      "v0.1.0",
+		"github.com/axisvela/praxo-core/adapters/otel":      "v0.2.0",
 	}
 	decoder := json.NewDecoder(strings.NewReader(string(output)))
 	for decoder.More() {
