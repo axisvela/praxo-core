@@ -10,6 +10,11 @@
 
 - `examples/multiagent` uses `SubagentManager.Wait` instead of polling.
 
+### Fixed
+
+- `SubagentManager.Wait` returns the terminal snapshot even if the task is
+  pruned concurrently.
+
 ## [2.3.0] - 2026-10-23
 
 ### Added
