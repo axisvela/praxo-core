@@ -11,6 +11,7 @@ projects evolve quickly, so verify details before adopting.
 | Primary focus | Governed, embeddable agent runtime primitives | LangChain-style composable LLM apps | LLM app framework with graph orchestration and ADK | Code-first agent toolkit, Gemini-optimized but model-agnostic | Production agents and multi-agent workflows (public preview) |
 | AxisVela ecosystem | First-class seams for NOETIVELA, Mnemovela, Harmovela, GNOSIVELA, AEGIVELA, RHEOVELA, LIMENORA | Custom adapters/tools; no AxisVela-specific seams | Custom adapters/tools; no AxisVela-specific seams | Custom adapters/tools; no AxisVela-specific seams | Custom adapters/tools; no AxisVela-specific seams |
 | Orchestration | Single-agent loop, middleware, subagents, `flow` Chain/Parallel | Chains, agents, tools | Graphs/workflows, ReAct `ChatModelAgent`, `DeepAgent` multi-agent | Workflow agents, graph workflows, multi-agent composition | Graph workflows: sequential, concurrent, group, routing, subworkflows |
+| Multi-agent | Async subagent delegation (`isolated`/`fork`); no built-in graph, handoff, or agent registry | Multi-agent via agent/chain composition | `DeepAgent` multi-agent patterns | Multi-agent composition and workflow agents | Graph-based multi-agent workflows |
 | Providers | Provider-neutral `model.Model`; NOETIVELA/PRAXOVELA adapters | Broad built-in provider set | Extensions via `eino-ext` | Gemini first; OpenAI adapter; model-agnostic | Foundry, Azure, OpenAI, Anthropic, Gemini, Copilot |
 | Tools and MCP | Tool contracts, JSON Schema, retry, gateway; Janus/LIMENORA gateway; MCP client is consumer-owned | Tools; MCP not first-class | Tools; MCP via `eino-ext` | Rich tools, MCP toolset, A2A | Tools, MCP, A2A, AG-UI |
 | Memory and RAG | Interfaces and retrieval contracts; Mnemovela memory, GNOSIVELA retrieval | Memory, loaders, vector stores | Retriever and context components | Sessions, memory, artifacts | Memory, text search/RAG, vector stores |
@@ -52,6 +53,11 @@ contracts. See [AxisVela ecosystem integration](12-ecosystem.md).
 - **Microsoft Agent Framework Go** targets production agents and graph-based
   multi-agent workflows, with checkpointing, HITL, OpenTelemetry, MCP, and A2A.
   The Go implementation is in public preview.
+
+PRAXO-CORE is single-agent at the loop level but supports asynchronous subagent
+delegation. It does not bundle handoff, supervisor, shared-state, or graph
+orchestration; those belong to RHEOVELA or the product runtime. See
+[Multi-agent patterns](13-multi-agent.md).
 
 ## When to Choose PRAXO-CORE
 
