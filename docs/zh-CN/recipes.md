@@ -280,8 +280,9 @@ mux.Handle("/invoke", a2asrv.NewJSONRPCHandler(handler))
 [Google ADK Go 订单取消示例](https://github.com/axisvela/enterprise-autonomy/tree/main/examples/a2a-adk-order-cancellation)
 使用外部 A2A consumer 通过 agent card 发现此服务端，并经 JSON-RPC 调用。它以
 确定性 fixture 覆盖批准、业务拒绝、远端失败、超时、可选 bearer 认证、双进程
-loopback 运行和并发 consumer；不代表已验证部署远端 peer、外部 gRPC、TLS 终止、
-跨来源 card trust 或部署吞吐/SLO。`enterprise-autonomy` 仓库还提供
+loopback 运行、并发 consumer、loopback TLS 终止和跨来源 card 拒绝；不代表已验证
+部署远端 peer、外部 gRPC、部署 TLS/身份或部署吞吐/SLO。`enterprise-autonomy`
+仓库还提供
 [直连](https://github.com/axisvela/enterprise-autonomy/tree/main/examples/a2a-agent-iam/direct)
 和 [LIMENORA 前置](https://github.com/axisvela/enterprise-autonomy/tree/main/examples/a2a-agent-iam/limenora)
 的 Agent IAM 合同示例，组合 NOMIVELA、EIDOVELA、AEGIVELA、Google ADK 与

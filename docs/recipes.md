@@ -293,10 +293,11 @@ custom mapping. The
 [Google ADK Go order-cancellation example](https://github.com/axisvela/enterprise-autonomy/tree/main/examples/a2a-adk-order-cancellation)
 uses an external A2A consumer to discover this server through its agent card and
 call it over JSON-RPC. It covers approval, business denial, remote failure,
-timeout, optional bearer authentication, a two-process loopback run, and
-concurrent consumers with deterministic fixtures. It does not prove a deployed
-remote peer, external gRPC, TLS termination, cross-origin card trust, or
-deployed throughput/SLO behavior. The `enterprise-autonomy` repository also has
+timeout, optional bearer authentication, a two-process loopback run, concurrent
+consumers, loopback TLS termination, and cross-origin agent-card rejection with
+deterministic fixtures. It does not prove a deployed remote peer, external gRPC,
+deployed TLS/identity, or deployed throughput/SLO behavior. The
+`enterprise-autonomy` repository also has
 [direct](https://github.com/axisvela/enterprise-autonomy/tree/main/examples/a2a-agent-iam/direct)
 and [LIMENORA-fronted](https://github.com/axisvela/enterprise-autonomy/tree/main/examples/a2a-agent-iam/limenora)
 Agent IAM contract examples with NOMIVELA, EIDOVELA, AEGIVELA, Google ADK, and
