@@ -38,8 +38,11 @@ Use `Executor.Session` to provide a product-specific mapping.
 
 ## Limits
 
-- Tests cover in-process HTTP JSON-RPC and gRPC client/server round trips; they
-  do not prove interoperability with an external A2A peer.
+- Tests cover in-process HTTP JSON-RPC and gRPC client/server round trips. The
+  [Google ADK Go order-cancellation example](https://github.com/axisvela/enterprise-autonomy/tree/main/examples/a2a-adk-order-cancellation)
+  additionally verifies external-peer JSON-RPC discovery and message exchange.
+- The external example does not cover deployed peers, gRPC interoperability,
+  authentication, cross-origin card trust, or load behavior.
 - The adapter accepts text message parts and returns one agent text message.
 - It does not stream intermediate model or tool events over A2A.
 - A2A cancellation maps to a canceled task status; the underlying agent run is

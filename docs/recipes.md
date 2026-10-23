@@ -289,7 +289,12 @@ mux.Handle("/invoke", a2asrv.NewJSONRPCHandler(handler))
 ```
 
 A2A `ContextID` maps to the session ID by default; use `Executor.Session` for a
-custom mapping. See the
+custom mapping. The
+[Google ADK Go order-cancellation example](https://github.com/axisvela/enterprise-autonomy/tree/main/examples/a2a-adk-order-cancellation)
+uses an external A2A consumer to discover this server through its agent card and
+call it over JSON-RPC. It covers approval, business denial, remote failure, and
+timeout handling with deterministic fixtures. It does not prove deployed-peer,
+gRPC, authentication, or cross-origin card-trust interoperability. See the
 [A2A adapter](https://github.com/axisvela/praxo-core/tree/main/adapters/a2a).
 
 ## RHEOVELA Workflow
