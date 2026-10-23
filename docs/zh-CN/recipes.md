@@ -276,6 +276,28 @@ audit, err := runner.Audit(ctx, instance.InstanceID)
 参见
 [RHEOVELA SDK 示例](https://github.com/axisvela/praxo-core/tree/main/examples/ecosystem-sdk/rheovela)。
 
+## Sandbox 与策略
+
+执行前先授权，并将高风险命令放在 `sandbox.Sandbox` 之后。
+
+```go
+hook := policy.FuncHook(func(_ context.Context, action policy.Action) (policy.Decision, error) {
+    if action.ToolName != "exec" {
+        return policy.Decision{Allowed: false}, nil
+    }
+    command := action.Arguments["command"].([]any)
+    if len(command) == 2 && command[0] == "go" && command[1] == "version" {
+        return policy.Decision{Allowed: true}, nil
+    }
+    return policy.Decision{Allowed: false, Reason: "command is not allowlisted"}, nil
+})
+
+result, err := runner.Run(ctx, sandbox.Spec{Timeout: 5 * time.Second}, command)
+```
+
+参见
+[sandbox 示例](https://github.com/axisvela/praxo-core/tree/main/examples/sandbox)。
+
 ## Reference Workspace Agent
 
 reference app 组合了 OpenAI 兼容适配器、受限 VFS 工具、策略、记忆、事件和

@@ -284,6 +284,29 @@ audit, err := runner.Audit(ctx, instance.InstanceID)
 See the
 [RHEOVELA SDK example](https://github.com/axisvela/praxo-core/tree/main/examples/ecosystem-sdk/rheovela).
 
+## Sandbox and Policy
+
+Authorize before execution and keep high-risk commands behind
+`sandbox.Sandbox`.
+
+```go
+hook := policy.FuncHook(func(_ context.Context, action policy.Action) (policy.Decision, error) {
+    if action.ToolName != "exec" {
+        return policy.Decision{Allowed: false}, nil
+    }
+    command := action.Arguments["command"].([]any)
+    if len(command) == 2 && command[0] == "go" && command[1] == "version" {
+        return policy.Decision{Allowed: true}, nil
+    }
+    return policy.Decision{Allowed: false, Reason: "command is not allowlisted"}, nil
+})
+
+result, err := runner.Run(ctx, sandbox.Spec{Timeout: 5 * time.Second}, command)
+```
+
+See the
+[sandbox example](https://github.com/axisvela/praxo-core/tree/main/examples/sandbox).
+
 ## Reference Workspace Agent
 
 The reference app combines the OpenAI-compatible adapter, confined VFS tools,

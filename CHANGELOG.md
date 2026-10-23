@@ -17,6 +17,7 @@
 - `examples/plugin`: minimal process plugin host with JSON-Lines and end-to-end
   tests, plus a WASM host smoke example.
 - `examples/checkpoint`: in-memory checkpoint store and session resume flow.
+- `examples/sandbox`: policy-gated command execution with a strict allowlist.
 
 ### Changed
 

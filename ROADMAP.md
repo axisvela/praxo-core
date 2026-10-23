@@ -253,7 +253,7 @@ Exit gate:
 ## 2.3.0 - Ecosystem Depth (candidate)
 
 - [x] Checkpoint and resume example.
-- Sandbox and policy integration examples for high-risk tools.
+- [x] Sandbox and policy example for high-risk tools.
 - [x] Minimal process plugin and WASM host examples.
 - [x] Public adapter index.
 
