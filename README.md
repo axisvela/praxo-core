@@ -192,17 +192,14 @@ workspace agent with confined VFS tools, policy, memory, and events,
 
 ## Status
 
-`2.3.1` is the current core release. It is a patch over 2.3.0's execution
-correctness work and adds no exported `pkg/...` declarations. `Wait` now returns
-the terminal snapshot to every concurrent waiter, including when the task is
-pruned; the A2A adapter has an in-process gRPC round-trip test; the multi-agent
-example and docs use event-driven waits; and docs CI runs a strict build on pull
-requests. The `1.0.0` API freeze remains in effect, and the canonical package
+`2.3.2` is the current core release. It adds no exported `pkg/...` declarations,
+corrects Gemini streaming candidate selection, and hardens provider and security
+recipes. The `1.0.0` API freeze remains in effect, and the canonical package
 paths are `pkg/toolcall`, `pkg/formatter`, and `pkg/tool/jsonschema`.
 
 Optional adapters are versioned independently: `adapters/mcp/v0.3.0`,
 `adapters/otel/v0.2.0`, `adapters/anthropic/v0.1.0`,
-`adapters/gemini/v0.1.0`, `adapters/harmovela/v0.1.0`,
+`adapters/gemini/v0.1.1`, `adapters/harmovela/v0.1.0`,
 `adapters/a2a/v0.1.0`, and `adapters/multiagent/v0.2.0`. The framework is
 extracted from PRAXOVELA's proven runtime.
 
@@ -211,6 +208,7 @@ extracted from PRAXOVELA's proven runtime.
 [Documentation site](https://axisvela.github.io/praxo-core/) |
 [简体中文文档](docs/zh-CN/README.md)
 
+- [2.3.2 release notes](docs/releases/2.3.2.md)
 - [2.3.1 release notes](docs/releases/2.3.1.md)
 - [2.3.0 release notes](docs/releases/2.3.0.md)
 - [2.2.0 release notes](docs/releases/2.2.0.md)

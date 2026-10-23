@@ -142,24 +142,26 @@ func (a Adapter) GenerateStream(ctx context.Context, req model.Request, onDelta 
 			chunk.UsageMetadata.CachedContentTokenCount != 0 {
 			usage = chunk.UsageMetadata
 		}
-		for _, candidate := range chunk.Candidates {
-			if candidate.FinishReason != "" {
-				finishReason = candidate.FinishReason
+		if len(chunk.Candidates) == 0 {
+			continue
+		}
+		candidate := chunk.Candidates[0]
+		if candidate.FinishReason != "" {
+			finishReason = candidate.FinishReason
+		}
+		for _, part := range candidate.Content.Parts {
+			if part.Text != "" {
+				content.WriteString(part.Text)
+				if onDelta != nil {
+					onDelta(part.Text)
+				}
 			}
-			for _, part := range candidate.Content.Parts {
-				if part.Text != "" {
-					content.WriteString(part.Text)
-					if onDelta != nil {
-						onDelta(part.Text)
-					}
-				}
-				if part.FunctionCall != nil {
-					calls = append(calls, model.ToolCall{
-						ID:        fmt.Sprintf("call-%d", len(calls)+1),
-						Name:      part.FunctionCall.Name,
-						Arguments: part.FunctionCall.Args,
-					})
-				}
+			if part.FunctionCall != nil {
+				calls = append(calls, model.ToolCall{
+					ID:        fmt.Sprintf("call-%d", len(calls)+1),
+					Name:      part.FunctionCall.Name,
+					Arguments: part.FunctionCall.Args,
+				})
 			}
 		}
 	}

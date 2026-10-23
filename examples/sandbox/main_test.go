@@ -47,6 +47,51 @@ func TestPolicyDeniesNonAllowlistedCommand(t *testing.T) {
 	}
 }
 
+func TestPolicyAllowsExactCommand(t *testing.T) {
+	for name, command := range map[string]any{
+		"string slice": []string{"go", "version"},
+		"any slice":    []any{"go", "version"},
+	} {
+		t.Run(name, func(t *testing.T) {
+			decision, err := allowGoVersion(t).Authorize(context.Background(), policy.Action{
+				Kind:      "sandbox",
+				ToolName:  "exec",
+				Arguments: map[string]any{"command": command},
+			})
+			if err != nil {
+				t.Fatal(err)
+			}
+			if !decision.Allowed {
+				t.Fatalf("decision = %#v", decision)
+			}
+		})
+	}
+}
+
+func TestPolicyRejectsMalformedCommand(t *testing.T) {
+	commands := []any{
+		nil,
+		"go version",
+		[]any{"go"},
+		[]any{"go", 1},
+		[]any{"go", "version", "extra"},
+		[]string{"rm", "-rf", "/"},
+	}
+	for _, command := range commands {
+		decision, err := allowGoVersion(t).Authorize(context.Background(), policy.Action{
+			Kind:      "sandbox",
+			ToolName:  "exec",
+			Arguments: map[string]any{"command": command},
+		})
+		if err != nil {
+			t.Fatal(err)
+		}
+		if decision.Allowed {
+			t.Fatalf("command %#v was allowed", command)
+		}
+	}
+}
+
 func TestDeniedCommandIsNotExecuted(t *testing.T) {
 	called := false
 	runner := sandbox.FuncSandbox(func(context.Context, sandbox.Spec, []string) (sandbox.Result, error) {

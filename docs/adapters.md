@@ -28,8 +28,10 @@ native adapters for their respective APIs.
 | Multi-agent | `github.com/axisvela/praxo-core/adapters/multiagent` | supervisor and sequential delegation | `adapters/multiagent/v0.2.0` |
 
 The MCP module exposes tools through `tool.Gateway` and provides module-level
-helpers for resources and prompts. The OpenTelemetry module maps lifecycle
-events to spans.
+helpers for resources and prompts. Use `NewTools` for model-facing registration:
+it preserves each server's input schema, unlike the generic
+`tool.NewGatewayTools` path. The OpenTelemetry module maps lifecycle events to
+spans and excludes event data by default.
 
 ## AxisVela SDK Recipes
 

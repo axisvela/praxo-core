@@ -197,3 +197,41 @@ func TestAdapterGenerateStream(t *testing.T) {
 		t.Fatalf("finish reason = %q", response.FinishReason)
 	}
 }
+
+func TestAdapterGenerateStreamUsesFirstCandidate(t *testing.T) {
+	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
+		w.Header().Set("Content-Type", "text/event-stream")
+		flusher, _ := w.(http.Flusher)
+		write := func(value string) {
+			_, _ = fmt.Fprint(w, value)
+			if flusher != nil {
+				flusher.Flush()
+			}
+		}
+		write("data: {\"candidates\":[{\"content\":{\"role\":\"model\",\"parts\":[{\"text\":\"first\"}]}},{\"content\":{\"role\":\"model\",\"parts\":[{\"text\":\"second\"}]}}]}\n\n")
+		write("data: {\"candidates\":[{\"content\":{\"role\":\"model\",\"parts\":[{\"text\":\"!\"}]},\"finishReason\":\"STOP\"}]}\n\n")
+	}))
+	defer server.Close()
+
+	adapter := Adapter{
+		BaseURL: server.URL,
+		APIKey:  "secret",
+		Model:   "gemini-test",
+		HTTP:    server.Client(),
+	}
+	var deltas []string
+	response, err := adapter.GenerateStream(context.Background(), model.Request{
+		Messages: []model.Message{{Role: model.RoleUser, Content: "hi"}},
+	}, func(delta string) {
+		deltas = append(deltas, delta)
+	})
+	if err != nil {
+		t.Fatal(err)
+	}
+	if response.Message.Content != "first!" || strings.Join(deltas, "") != "first!" {
+		t.Fatalf("content=%q deltas=%#v", response.Message.Content, deltas)
+	}
+	if response.FinishReason != "STOP" {
+		t.Fatalf("finish reason = %q", response.FinishReason)
+	}
+}

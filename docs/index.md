@@ -20,12 +20,13 @@ sandboxing, checkpoints, the runtime plugin plane, and the agent loop.
 ## Install
 
 ```bash
-go get github.com/axisvela/praxo-core/v2@v2.3.1
+go get github.com/axisvela/praxo-core/v2@v2.3.2
 ```
 
 ## Explore
 
 - [Quickstart](quickstart.md)
+- [2.3.2 release notes](releases/2.3.2.md)
 - [2.3.1 release notes](releases/2.3.1.md)
 - [2.3.0 release notes](releases/2.3.0.md)
 - [2.2.0 release notes](releases/2.2.0.md)
@@ -44,13 +45,12 @@ go get github.com/axisvela/praxo-core/v2@v2.3.1
 
 ## Status
 
-`2.3.1` is the current core release. The exported `pkg/...` API remains frozen;
-2.3.1 is a patch over 2.3.0 with no API changes. It adds A2A gRPC round-trip
-coverage, makes every concurrent `Wait` return the terminal snapshot even after
-pruning, and hardens the multi-agent examples, recipes, and docs gate. Optional
-adapters are versioned independently (`adapters/mcp/v0.3.0`,
+`2.3.2` is the current core release. The exported `pkg/...` API remains frozen;
+2.3.2 corrects Gemini streaming candidate selection and hardens provider and
+security recipes, with no API changes. Optional adapters are versioned
+independently (`adapters/mcp/v0.3.0`,
 `adapters/otel/v0.2.0`, `adapters/anthropic/v0.1.0`,
-`adapters/gemini/v0.1.0`, `adapters/harmovela/v0.1.0`,
+`adapters/gemini/v0.1.1`, `adapters/harmovela/v0.1.0`,
 `adapters/a2a/v0.1.0`, `adapters/multiagent/v0.2.0`). See
 [compatibility](05-compatibility.md) and the
 [v2 migration guide](11-migration-v2.md).

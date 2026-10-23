@@ -43,17 +43,22 @@ if err != nil {
 }
 defer session.Close()
 
-gateway, err := mcpadapter.NewGateway(ctx, session)
+tools, err := mcpadapter.NewTools(ctx, session)
 if err != nil {
     return err
 }
-for _, item := range tool.NewGatewayTools(gateway) {
+for _, item := range tools {
     registry.Register(item)
 }
 ```
 
-MCP authentication belongs to the client session. Call `gateway.Refresh` after
-the server changes its tools.
+MCP authentication belongs to the client session. `NewTools` preserves each
+server's input schema through `tool.SpecProvider`; the lower-level
+`NewGateway`/`tool.NewGatewayTools` path carries only names and descriptions.
+If you use `NewGateway` directly, call `Refresh` after the server changes its
+tools. Treat every MCP server as untrusted code: run it under the same policy,
+sandbox, and credential boundary as other tools, and do not pass ambient
+secrets.
 
 The same module exposes resources and prompts:
 
@@ -217,7 +222,9 @@ hook := aegivelaadapter.Hook{
 }
 ```
 
-See the
+The hook allows only an exact `allow` outcome; every other outcome is denied.
+Load `WorkloadAssertion` from your secret manager at runtime instead of
+hardcoding it, and keep `Route` values static. See the
 [AEGIVELA SDK example](https://github.com/axisvela/praxo-core/tree/main/examples/ecosystem-sdk/aegivela).
 
 ## LIMENORA Gateway
@@ -243,7 +250,8 @@ gateway := limenoraadapter.Gateway{
 }
 ```
 
-See the
+Keep routes static and allowlisted. Do not derive `URL`, `Method`, or headers
+from model output; let LIMENORA enforce the egress policy. See the
 [LIMENORA SDK example](https://github.com/axisvela/praxo-core/tree/main/examples/ecosystem-sdk/limenora).
 
 ## Harmovela Events
@@ -263,7 +271,9 @@ ag, err := agent.New(agent.Options{
 ```
 
 The sink emits `spec_version`, `id`, `type`, `source`, `created_at`, and a
-payload containing session, run, and event data. See the
+payload containing session, run, and event data. Scrub or omit secrets,
+credentials, and PII before emitting, or use an event sink that enforces
+redaction. See the
 [Harmovela adapter](https://github.com/axisvela/praxo-core/tree/main/adapters/harmovela).
 
 ## A2A Server
@@ -328,19 +338,35 @@ func commandArgs(value any) ([]string, bool) {
     }
 }
 
+command := []string{"go", "version"}
+
 hook := policy.FuncHook(func(_ context.Context, action policy.Action) (policy.Decision, error) {
-    command, ok := commandArgs(action.Arguments["command"])
-    if action.ToolName != "exec" || !ok || len(command) != 2 ||
-        command[0] != "go" || command[1] != "version" {
+    requested, ok := commandArgs(action.Arguments["command"])
+    if action.ToolName != "exec" || !ok || len(requested) != 2 ||
+        requested[0] != "go" || requested[1] != "version" {
         return policy.Decision{Allowed: false, Reason: "command is not allowlisted"}, nil
     }
     return policy.Decision{Allowed: true}, nil
 })
 
-result, err := runner.Run(ctx, sandbox.Spec{Timeout: 5 * time.Second}, []string{"go", "version"})
+decision, err := hook.Authorize(ctx, policy.Action{
+    Kind:      "sandbox",
+    ToolName:  "exec",
+    Arguments: map[string]any{"command": command},
+})
+if err != nil {
+    return err
+}
+if !decision.Allowed {
+    return fmt.Errorf("sandbox: %s", decision.Reason)
+}
+result, err := runner.Run(ctx, sandbox.Spec{Timeout: 5 * time.Second}, command)
 ```
 
-See the
+Pass the same command to authorization and execution. `sandbox.Sandbox` is an
+interface: this example gates host execution but does not provide OS-level
+isolation. Keep the allowlist static and do not build it from model output. See
+the
 [sandbox example](https://github.com/axisvela/praxo-core/tree/main/examples/sandbox).
 
 ## Reference Workspace Agent
@@ -352,5 +378,6 @@ policy, memory, events, and a context budget.
 GOWORK=off go run ./examples/reference -workspace ./workspace
 ```
 
-See the
+The example policy allows only `model.generate` and `fs.*` tool calls, and the
+VFS backend confines paths to the workspace. See the
 [reference app](https://github.com/axisvela/praxo-core/tree/main/examples/reference).

@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"strings"
 	"time"
 
 	"github.com/axisvela/praxo-core/v2/adapters/openaicompat"
@@ -51,9 +52,7 @@ func main() {
 			fmt.Fprintln(os.Stderr, "event:", ev.Type)
 			return nil
 		}),
-		Policy: policy.FuncHook(func(_ context.Context, action policy.Action) (policy.Decision, error) {
-			return policy.Decision{Allowed: true, Reason: "workspace policy"}, nil
-		}),
+		Policy: policy.FuncHook(workspacePolicy),
 	})
 	if err != nil {
 		log.Fatal(err)
@@ -75,4 +74,11 @@ func envOr(key, fallback string) string {
 		return value
 	}
 	return fallback
+}
+
+func workspacePolicy(_ context.Context, action policy.Action) (policy.Decision, error) {
+	if action.Kind == "model.generate" || strings.HasPrefix(action.ToolName, "fs.") {
+		return policy.Decision{Allowed: true, Reason: "workspace policy"}, nil
+	}
+	return policy.Decision{Allowed: false, Reason: "action is not allowed"}, nil
 }

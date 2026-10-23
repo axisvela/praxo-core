@@ -1,6 +1,6 @@
 # PRAXO-CORE Roadmap
 
-**Current:** `2.3.1` post-release hardening (2026-10-23)
+**Current:** `2.3.2` provider and security recipe hardening (2026-10-23)
 
 **Target:** `2.4.0` adoption evidence
 
@@ -37,6 +37,7 @@
 | 2.2.0 | ecosystem depth: protocol adapters, multi-agent composition, examples, security fixes |
 | 2.3.0 | execution correctness: event-driven subagents, real parallelism, bounded concurrency |
 | 2.3.1 | post-release hardening: A2A gRPC round trip, wait/prune snapshot, docs gate |
+| 2.3.2 | provider and security recipe hardening; Gemini stream candidate isolation |
 
 See `CHANGELOG.md` for exact changes.
 
@@ -276,6 +277,14 @@ Exit gate:
 - [x] Safe sandbox recipe and `IncludeUsage` documentation.
 - [x] Published consumer `Wait`/`Prune` lifecycle.
 - [x] Strict docs build on pull requests.
+
+## 2.3.2 - Provider And Security Recipe Hardening (released 2026-10-23)
+
+- [x] Gemini streaming consumes only the first candidate, matching non-streaming.
+- [x] Provider and security recipes document schema, credential, egress, event,
+  sandbox, and workspace-policy boundaries.
+- [x] Reference and sandbox examples cover their allowlists.
+- [x] Tag `adapters/gemini/v0.1.1`.
 
 ## 2.4.0 - Adoption Evidence (candidate)
 
