@@ -32,6 +32,17 @@ PRAXOVELA 通过轻量别名导入这些宿主，以保持产品行为不变。
 - 用于持久化恢复的检查点存储
 - 针对其运行时的插件宿主/桥接接线
 
+## 检查点与恢复
+
+`pkg/checkpoint` 定义持久化快照和存储契约。框架不内置存储；持久化和恢复策略
+由产品负责。
+
+会话恢复通过加载最新检查点并预先填充 `agent.Session.Messages` 实现。
+[checkpoint 示例](https://github.com/axisvela/praxo-core/tree/main/examples/checkpoint)
+展示了一个小型内存存储和恢复流程。
+
+生产存储应增加持久化、租户隔离、加密、保留策略和恢复测试。
+
 ## 非目标
 
 - 不要导入 PRAXOVELA 内部包。
