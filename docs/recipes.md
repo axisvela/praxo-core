@@ -23,7 +23,8 @@ ag, err := agent.New(agent.Options{
 
 The adapter also implements `model.StreamingModel`. Set
 `agent.Options.OnDelta` to receive streamed text; tool-call deltas are
-aggregated into the final response.
+aggregated into the final response. Set `IncludeUsage: true` to request
+streamed token usage from compatible endpoints.
 
 See [Quickstart](quickstart.md) and the
 [OpenAI-compatible adapter](https://github.com/axisvela/praxo-core/tree/main/adapters/openaicompat).
@@ -309,14 +310,12 @@ Authorize before execution and keep high-risk commands behind
 
 ```go
 hook := policy.FuncHook(func(_ context.Context, action policy.Action) (policy.Decision, error) {
-    if action.ToolName != "exec" {
-        return policy.Decision{Allowed: false}, nil
+    command, ok := action.Arguments["command"].([]string)
+    if action.ToolName != "exec" || !ok || len(command) != 2 ||
+        command[0] != "go" || command[1] != "version" {
+        return policy.Decision{Allowed: false, Reason: "command is not allowlisted"}, nil
     }
-    command := action.Arguments["command"].([]any)
-    if len(command) == 2 && command[0] == "go" && command[1] == "version" {
-        return policy.Decision{Allowed: true}, nil
-    }
-    return policy.Decision{Allowed: false, Reason: "command is not allowlisted"}, nil
+    return policy.Decision{Allowed: true}, nil
 })
 
 result, err := runner.Run(ctx, sandbox.Spec{Timeout: 5 * time.Second}, command)
