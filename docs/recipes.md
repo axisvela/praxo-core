@@ -89,6 +89,27 @@ ag, err := agent.New(agent.Options{
 See the
 [Anthropic adapter](https://github.com/axisvela/praxo-core/tree/main/adapters/anthropic).
 
+## Gemini generateContent
+
+Use the native adapter for Gemini models. It supports function calls, usage, and
+SSE streaming.
+
+```go
+adapter := gemini.Adapter{
+    APIKey:    os.Getenv("GEMINI_API_KEY"),
+    Model:     "gemini-2.5-pro",
+    MaxTokens: 1024,
+}
+
+ag, err := agent.New(agent.Options{
+    Model:    adapter,
+    MaxSteps: 4,
+})
+```
+
+See the
+[Gemini adapter](https://github.com/axisvela/praxo-core/tree/main/adapters/gemini).
+
 ## OpenTelemetry Events
 
 Use the optional OpenTelemetry module to turn lifecycle events into spans.

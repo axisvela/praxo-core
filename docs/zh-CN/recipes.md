@@ -84,6 +84,26 @@ ag, err := agent.New(agent.Options{
 参见
 [Anthropic 适配器](https://github.com/axisvela/praxo-core/tree/main/adapters/anthropic)。
 
+## Gemini generateContent
+
+使用原生适配器连接 Gemini 模型，支持 function call、usage 和 SSE 流式输出。
+
+```go
+adapter := gemini.Adapter{
+    APIKey:    os.Getenv("GEMINI_API_KEY"),
+    Model:     "gemini-2.5-pro",
+    MaxTokens: 1024,
+}
+
+ag, err := agent.New(agent.Options{
+    Model:    adapter,
+    MaxSteps: 4,
+})
+```
+
+参见
+[Gemini 适配器](https://github.com/axisvela/praxo-core/tree/main/adapters/gemini)。
+
 ## OpenTelemetry 事件
 
 使用可选的 OpenTelemetry 模块将生命周期事件转换为 span。
