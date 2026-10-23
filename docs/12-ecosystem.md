@@ -35,6 +35,8 @@ Adapter skeletons: [`examples/ecosystem`](https://github.com/axisvela/praxo-core
   module.
 - [`adapters/anthropic`](https://github.com/axisvela/praxo-core/tree/main/adapters/anthropic) is a native Anthropic Messages
   adapter with tool calls, usage, and SSE streaming.
+- [`adapters/gemini`](https://github.com/axisvela/praxo-core/tree/main/adapters/gemini) is a native Gemini generateContent
+  adapter with function calls and SSE streaming.
 
 ## NOETIVELA and Model Routing
 
