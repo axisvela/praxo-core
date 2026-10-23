@@ -20,7 +20,8 @@ ag, err := agent.New(agent.Options{
 ```
 
 该适配器也实现 `model.StreamingModel`。设置 `agent.Options.OnDelta` 可接收流式
-文本；工具调用增量会聚合到最终响应中。
+文本；工具调用增量会聚合到最终响应中。支持的端点可设置 `IncludeUsage: true`
+获取流式 token 用量。
 
 参见 [快速开始](quickstart.md) 和
 [OpenAI 兼容适配器](https://github.com/axisvela/praxo-core/tree/main/adapters/openaicompat)。
@@ -299,14 +300,12 @@ audit, err := runner.Audit(ctx, instance.InstanceID)
 
 ```go
 hook := policy.FuncHook(func(_ context.Context, action policy.Action) (policy.Decision, error) {
-    if action.ToolName != "exec" {
-        return policy.Decision{Allowed: false}, nil
+    command, ok := action.Arguments["command"].([]string)
+    if action.ToolName != "exec" || !ok || len(command) != 2 ||
+        command[0] != "go" || command[1] != "version" {
+        return policy.Decision{Allowed: false, Reason: "command is not allowlisted"}, nil
     }
-    command := action.Arguments["command"].([]any)
-    if len(command) == 2 && command[0] == "go" && command[1] == "version" {
-        return policy.Decision{Allowed: true}, nil
-    }
-    return policy.Decision{Allowed: false, Reason: "command is not allowlisted"}, nil
+    return policy.Decision{Allowed: true}, nil
 })
 
 result, err := runner.Run(ctx, sandbox.Spec{Timeout: 5 * time.Second}, command)
