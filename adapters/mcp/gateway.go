@@ -3,12 +3,14 @@ package mcp
 
 import (
 	"context"
+	"encoding/json"
 	"errors"
 	"fmt"
 	"sort"
 	"strings"
 	"sync"
 
+	"github.com/axisvela/praxo-core/v2/pkg/model"
 	"github.com/axisvela/praxo-core/v2/pkg/tool"
 	sdk "github.com/modelcontextprotocol/go-sdk/mcp"
 )
@@ -25,6 +27,7 @@ type Gateway struct {
 
 	mu    sync.RWMutex
 	tools []tool.GatewayInfo
+	specs map[string]model.ToolSpec
 }
 
 // NewGateway lists the session's tools and returns a gateway.
@@ -44,23 +47,74 @@ func (g *Gateway) Refresh(ctx context.Context) error {
 	if g == nil || g.session == nil {
 		return ErrSessionRequired
 	}
-	result, err := g.session.ListTools(ctx, nil)
-	if err != nil {
-		return err
-	}
-	infos := make([]tool.GatewayInfo, 0, len(result.Tools))
-	for _, item := range result.Tools {
-		infos = append(infos, tool.GatewayInfo{
-			Name:        item.Name,
-			Description: item.Description,
-		})
+	infos := []tool.GatewayInfo{}
+	specs := map[string]model.ToolSpec{}
+	cursor := ""
+	seen := map[string]bool{}
+	for {
+		result, err := g.session.ListTools(ctx, &sdk.ListToolsParams{Cursor: cursor})
+		if err != nil {
+			return err
+		}
+		for _, item := range result.Tools {
+			if item == nil {
+				return errors.New("mcp: nil tool definition")
+			}
+			raw, err := json.Marshal(item.InputSchema)
+			if err != nil {
+				return err
+			}
+			var parameters map[string]any
+			if err := json.Unmarshal(raw, &parameters); err != nil {
+				return err
+			}
+			if parameters == nil {
+				return fmt.Errorf("mcp: missing input schema for %s", item.Name)
+			}
+			if _, exists := specs[item.Name]; exists {
+				return fmt.Errorf("mcp: duplicate tool %s", item.Name)
+			}
+			infos = append(infos, tool.GatewayInfo{Name: item.Name, Description: item.Description})
+			specs[item.Name] = model.ToolSpec{Name: item.Name, Description: item.Description, Parameters: parameters}
+		}
+		if result.NextCursor == "" {
+			break
+		}
+		if seen[result.NextCursor] {
+			return errors.New("mcp: repeated tool pagination cursor")
+		}
+		seen[result.NextCursor] = true
+		cursor = result.NextCursor
 	}
 	sort.Slice(infos, func(i, j int) bool { return infos[i].Name < infos[j].Name })
 	g.mu.Lock()
 	g.tools = infos
+	g.specs = specs
 	g.mu.Unlock()
 	return nil
 }
+
+func NewTools(ctx context.Context, session *sdk.ClientSession) ([]tool.Tool, error) {
+	gateway, err := NewGateway(ctx, session)
+	if err != nil {
+		return nil, err
+	}
+	tools := make([]tool.Tool, 0, len(gateway.tools))
+	for _, info := range gateway.tools {
+		tools = append(tools, schemaTool{
+			GatewayTool: tool.GatewayTool{Gateway: gateway, Info: info},
+			spec:        gateway.specs[info.Name],
+		})
+	}
+	return tools, nil
+}
+
+type schemaTool struct {
+	tool.GatewayTool
+	spec model.ToolSpec
+}
+
+func (t schemaTool) Spec() model.ToolSpec { return t.spec }
 
 // ListTools returns a copy of the cached tool list.
 func (g *Gateway) ListTools() []tool.GatewayInfo {
