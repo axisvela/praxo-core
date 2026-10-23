@@ -222,6 +222,27 @@ gateway := limenoraadapter.Gateway{
 See the
 [LIMENORA SDK example](https://github.com/axisvela/praxo-core/tree/main/examples/ecosystem-sdk/limenora).
 
+## RHEOVELA Workflow
+
+Map an agent session to a RHEOVELA workflow instance. RHEOVELA owns graph and
+subgraph execution; PRAXO-CORE supplies the agent node/session boundary.
+
+```go
+runner := rheovelaadapter.Runner{
+    Client:    rheovela.NewClient("http://127.0.0.1:8080"),
+    Workflow:  "agent",
+    ProjectID: "proj",
+    Actor:     "agent-1",
+}
+
+instance, err := runner.Start(ctx, session)
+err = runner.Step(ctx, instance.InstanceID, "advance", "review")
+audit, err := runner.Audit(ctx, instance.InstanceID)
+```
+
+See the
+[RHEOVELA SDK example](https://github.com/axisvela/praxo-core/tree/main/examples/ecosystem-sdk/rheovela).
+
 ## Reference Workspace Agent
 
 The reference app combines the OpenAI-compatible adapter, confined VFS tools,

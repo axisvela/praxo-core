@@ -11,4 +11,6 @@ require (
 	github.com/axisvela/praxo-core/v2 v2.1.0
 )
 
+require github.com/axisvela/rheovela-open/sdk/go/v3 v3.0.0
+
 replace github.com/axisvela/praxo-core/v2 => ../..

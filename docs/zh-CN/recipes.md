@@ -215,6 +215,27 @@ gateway := limenoraadapter.Gateway{
 参见
 [LIMENORA SDK 示例](https://github.com/axisvela/praxo-core/tree/main/examples/ecosystem-sdk/limenora)。
 
+## RHEOVELA 工作流
+
+将 Agent 会话映射为 RHEOVELA 工作流实例。RHEOVELA 拥有图与子图执行；
+PRAXO-CORE 提供 Agent 节点/会话边界。
+
+```go
+runner := rheovelaadapter.Runner{
+    Client:    rheovela.NewClient("http://127.0.0.1:8080"),
+    Workflow:  "agent",
+    ProjectID: "proj",
+    Actor:     "agent-1",
+}
+
+instance, err := runner.Start(ctx, session)
+err = runner.Step(ctx, instance.InstanceID, "advance", "review")
+audit, err := runner.Audit(ctx, instance.InstanceID)
+```
+
+参见
+[RHEOVELA SDK 示例](https://github.com/axisvela/praxo-core/tree/main/examples/ecosystem-sdk/rheovela)。
+
 ## Reference Workspace Agent
 
 reference app 组合了 OpenAI 兼容适配器、受限 VFS 工具、策略、记忆、事件和
