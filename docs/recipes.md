@@ -296,7 +296,11 @@ call it over JSON-RPC. It covers approval, business denial, remote failure,
 timeout, optional bearer authentication, a two-process loopback run, and
 concurrent consumers with deterministic fixtures. It does not prove a deployed
 remote peer, external gRPC, TLS termination, cross-origin card trust, or
-deployed throughput/SLO behavior. See the
+deployed throughput/SLO behavior. The `enterprise-autonomy` repository also has
+[direct](https://github.com/axisvela/enterprise-autonomy/tree/main/examples/a2a-agent-iam/direct)
+and [LIMENORA-fronted](https://github.com/axisvela/enterprise-autonomy/tree/main/examples/a2a-agent-iam/limenora)
+Agent IAM contract examples with NOMIVELA, EIDOVELA, AEGIVELA, Google ADK, and
+PRAXO-CORE. See the
 [A2A adapter](https://github.com/axisvela/praxo-core/tree/main/adapters/a2a).
 
 ## RHEOVELA Workflow

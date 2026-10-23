@@ -36,8 +36,11 @@ spans and excludes event data by default.
 The A2A adapter has in-process JSON-RPC and gRPC round-trip tests plus a
 [Google ADK Go external-consumer example](https://github.com/axisvela/enterprise-autonomy/tree/main/examples/a2a-adk-order-cancellation)
 for agent-card discovery, JSON-RPC message exchange, optional bearer
-authentication, a two-process loopback run, and concurrent consumers. It is not
-production, deployed-peer, external gRPC, or deployed-load evidence.
+authentication, a two-process loopback run, and concurrent consumers. The
+`enterprise-autonomy` repository also has direct and LIMENORA-fronted Agent IAM
+contract examples combining NOMIVELA, EIDOVELA, AEGIVELA, Google ADK, and
+PRAXO-CORE. They are not production, deployed-peer, external gRPC, or
+deployed-load evidence.
 
 ## AxisVela SDK Recipes
 

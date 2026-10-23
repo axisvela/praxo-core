@@ -52,3 +52,15 @@ Use `Executor.Session` to provide a product-specific mapping.
   canceled through its context.
 - Product services still own authentication, authorization, task storage, and
   agent-card trust.
+
+## Agent IAM Examples
+
+The public `enterprise-autonomy` repository contains contract-level examples
+that combine PRAXO-CORE A2A with NOMIVELA registration, EIDOVELA tokens, and
+AEGIVELA authorization:
+
+- [Direct A2A Agent IAM](https://github.com/axisvela/enterprise-autonomy/tree/main/examples/a2a-agent-iam/direct)
+- [LIMENORA-fronted A2A Agent IAM](https://github.com/axisvela/enterprise-autonomy/tree/main/examples/a2a-agent-iam/limenora)
+
+They use real SDK contracts with local service fakes; they are not evidence of
+a live IAM deployment.
