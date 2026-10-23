@@ -29,21 +29,23 @@ for the public roadmap.
 | 1.7.0 | context editing and todo/planning middleware (released 2026-10-18) |
 | 2.0.0 | v2 module path; API functionally identical to 1.7.0 (released 2026-10-18) |
 | 2.1.0 | adoption surface: adapters, docs site, recipes, benchmarks, reference app (released 2026-10-22) |
+| 2.2.0 | ecosystem depth: protocol adapters, multi-agent composition, examples, security fixes (released 2026-10-23) |
 
 Post-1.0 items are competitive harness parity and adoption work, not 1.0
 blockers. They are sequenced after the stable API and release gates.
 
 ## Adoption Workstream
 
-The `2.1.0` workstream keeps the `pkg/...` API frozen while improving the path
+The `2.2.0` workstream keeps the `pkg/...` API frozen while improving the path
 from discovery to production:
 
 - quickstart and reference app
-- OpenAI-compatible and MCP adapters
-- NOETIVELA, Mnemovela, and GNOSIVELA SDK recipes
-- bilingual docs site, adoption guide, and recipes
+- OpenAI-compatible, MCP, OTel, Anthropic, Gemini, Harmovela, A2A, and
+  multi-agent adapters/modules
+- NOETIVELA, Mnemovela, GNOSIVELA, AEGIVELA, LIMENORA, and RHEOVELA recipes
+- bilingual docs site, multi-agent guidance, adoption guide, and recipes
 - benchmarks and release notes
-- community files and good first issues
+- published-module consumer checks and community files
 
 ## Evidence
 

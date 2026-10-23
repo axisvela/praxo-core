@@ -1,8 +1,8 @@
 # PRAXO-CORE Roadmap
 
-**Current:** `2.1.0` adoption surface (2026-10-22)
+**Current:** `2.2.0` ecosystem depth (2026-10-23)
 
-**Target:** `2.2.0` provider and protocol depth
+**Target:** `2.3.0` orchestration depth
 
 ## Release History
 
@@ -34,6 +34,7 @@
 | 1.7.0 | context editing and todo/planning middleware |
 | 2.0.0 | v2 module path; API functionally identical to 1.7.0 |
 | 2.1.0 | adoption surface: adapters, docs site, recipes, benchmarks, reference app |
+| 2.2.0 | ecosystem depth: protocol adapters, multi-agent composition, examples, security fixes |
 
 See `CHANGELOG.md` for exact changes.
 
@@ -237,7 +238,7 @@ Exit gate:
 - benchmark and security checks green
 - no `pkg/...` API change
 
-## 2.2.0 - Provider and Protocol Depth (candidate)
+## 2.2.0 - Ecosystem Depth (released 2026-10-23)
 
 - [x] Native Anthropic and Gemini adapters.
 - [x] Tag `adapters/gemini/v0.1.0`.
@@ -251,9 +252,8 @@ Exit gate:
 - [x] Tag `adapters/harmovela/v0.1.0`.
 - [x] `adapters/a2a` A2A server adapter.
 - [x] Tag `adapters/a2a/v0.1.0`.
-- Production case study and published benchmark methodology.
 
-## 2.3.0 - Ecosystem Depth (candidate)
+## 2.3.0 - Orchestration Depth (candidate)
 
 - [x] Multi-agent delegation example and bilingual guidance.
 - [x] `adapters/multiagent` parallel supervisor and sequential delegation.
@@ -263,6 +263,7 @@ Exit gate:
 - [x] Sandbox and policy example for high-risk tools.
 - [x] Minimal process plugin and WASM host examples.
 - [x] Public adapter index.
+- [ ] Production case study and external benchmark validation.
 
 ## Graph Runtime Boundary
 

@@ -1,8 +1,8 @@
 # API Freeze Inventory
 
-**Status:** v2 module-path audit for `2.0.0`; `2.1.0` adds no `pkg/...`
-declarations. The exported surface is functionally identical to `1.7.0`. The
-`1.0.0` surface remains frozen; new declarations are additive.
+**Status:** v2 module-path audit for `2.0.0`; `2.1.0` and `2.2.0` add no
+`pkg/...` declarations. The exported surface is functionally identical to
+`1.7.0`. The `1.0.0` surface remains frozen; new declarations are additive.
 
 ## Audit Result
 
