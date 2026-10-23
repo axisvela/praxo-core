@@ -250,7 +250,7 @@ See the
 Publish lifecycle events to Harmovela's HTTP API through `event.Sink`.
 
 ```go
-sink := harmovelaadapter.Sink{
+sink := harmovela.Sink{
     BaseURL: "http://127.0.0.1:8790/aep/api",
     Source:  "praxo-core",
 }
@@ -263,7 +263,23 @@ ag, err := agent.New(agent.Options{
 
 The sink emits `spec_version`, `id`, `type`, `source`, `created_at`, and a
 payload containing session, run, and event data. See the
-[Harmovela recipe](https://github.com/axisvela/praxo-core/tree/main/examples/ecosystem-sdk/harmovela).
+[Harmovela adapter](https://github.com/axisvela/praxo-core/tree/main/adapters/harmovela).
+
+## A2A Server
+
+Expose a PRAXO-CORE agent as an A2A server executor.
+
+```go
+executor := a2aadapter.Executor{Agent: ag}
+handler := a2asrv.NewHandler(executor)
+
+mux := http.NewServeMux()
+mux.Handle("/invoke", a2asrv.NewJSONRPCHandler(handler))
+```
+
+A2A `ContextID` maps to the session ID by default; use `Executor.Session` for a
+custom mapping. See the
+[A2A adapter](https://github.com/axisvela/praxo-core/tree/main/adapters/a2a).
 
 ## RHEOVELA Workflow
 

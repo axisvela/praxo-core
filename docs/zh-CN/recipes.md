@@ -241,7 +241,7 @@ gateway := limenoraadapter.Gateway{
 通过 `event.Sink` 将生命周期事件发布到 Harmovela HTTP API。
 
 ```go
-sink := harmovelaadapter.Sink{
+sink := harmovela.Sink{
     BaseURL: "http://127.0.0.1:8790/aep/api",
     Source:  "praxo-core",
 }
@@ -254,7 +254,23 @@ ag, err := agent.New(agent.Options{
 
 Sink 会发送 `spec_version`、`id`、`type`、`source`、`created_at`，以及包含
 session、run 和事件数据的 payload。参见
-[Harmovela recipe](https://github.com/axisvela/praxo-core/tree/main/examples/ecosystem-sdk/harmovela)。
+[Harmovela 适配器](https://github.com/axisvela/praxo-core/tree/main/adapters/harmovela)。
+
+## A2A 服务端
+
+将 PRAXO-CORE Agent 暴露为 A2A 服务端 Executor。
+
+```go
+executor := a2aadapter.Executor{Agent: ag}
+handler := a2asrv.NewHandler(executor)
+
+mux := http.NewServeMux()
+mux.Handle("/invoke", a2asrv.NewJSONRPCHandler(handler))
+```
+
+默认将 A2A `ContextID` 映射为会话 ID；可通过 `Executor.Session` 自定义映射。
+参见
+[A2A 适配器](https://github.com/axisvela/praxo-core/tree/main/adapters/a2a)。
 
 ## RHEOVELA 工作流
 

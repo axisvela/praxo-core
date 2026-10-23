@@ -21,7 +21,9 @@ native adapters for their respective APIs.
 | Adapter | Import | Seam | Status |
 | --- | --- | --- | --- |
 | MCP | `github.com/axisvela/praxo-core/adapters/mcp` | `tool.Gateway`, resources, prompts | `adapters/mcp/v0.2.0` |
-| OpenTelemetry | `github.com/axisvela/praxo-core/adapters/otel` | `event.Sink` | `adapters/otel/v0.1.0` |
+| OpenTelemetry | `github.com/axisvela/praxo-core/adapters/otel` | `event.Sink` | `adapters/otel/v0.2.0` |
+| Harmovela | `github.com/axisvela/praxo-core/adapters/harmovela` | `event.Sink` | `adapters/harmovela/v0.1.0` |
+| A2A | `github.com/axisvela/praxo-core/adapters/a2a` | `a2asrv.AgentExecutor` | `adapters/a2a/v0.1.0` |
 
 The MCP module exposes tools through `tool.Gateway` and provides module-level
 helpers for resources and prompts. The OpenTelemetry module maps lifecycle
@@ -41,10 +43,9 @@ and are examples rather than published adapter modules.
 | AEGIVELA | `aegivela.Hook` | `policy.Hook` |
 | LIMENORA | `limenora.Gateway` | `tool.Gateway` |
 | RHEOVELA | `rheovela.Runner` | agent session to workflow instance |
-| Harmovela | `harmovela.Sink` | `event.Sink` |
 
-The Harmovela recipe uses the HTTP events protocol; the heavier Harmovela Go
-module is not imported by the example.
+Harmovela is a published adapter module rather than a recipe because it uses the
+HTTP events protocol directly and does not need the heavier Harmovela Go module.
 
 ## Adding an Adapter
 

@@ -244,10 +244,11 @@ Exit gate:
 - [x] MCP resources and prompts; streaming progress remains a candidate.
 - [x] Tag `adapters/mcp/v0.2.0`.
 - [x] OpenTelemetry event sink and trace correlation.
-- [x] Tag `adapters/otel/v0.1.0`.
+- [x] Tag `adapters/otel/v0.2.0` (v0.1.0 remains published).
 - [x] Tag `adapters/anthropic/v0.1.0`.
-- [x] AEGIVELA policy, LIMENORA tool-gateway, RHEOVELA workflow, and Harmovela
-  HTTP event recipes.
+- [x] AEGIVELA policy, LIMENORA tool-gateway, and RHEOVELA workflow recipes.
+- [x] `adapters/harmovela` HTTP event adapter.
+- [x] `adapters/a2a` A2A server adapter.
 - Production case study and published benchmark methodology.
 
 ## 2.3.0 - Ecosystem Depth (candidate)

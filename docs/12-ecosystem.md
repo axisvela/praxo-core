@@ -37,6 +37,10 @@ Adapter skeletons: [`examples/ecosystem`](https://github.com/axisvela/praxo-core
   adapter with tool calls, usage, and SSE streaming.
 - [`adapters/gemini`](https://github.com/axisvela/praxo-core/tree/main/adapters/gemini) is a native Gemini generateContent
   adapter with function calls and SSE streaming.
+- [`adapters/harmovela`](https://github.com/axisvela/praxo-core/tree/main/adapters/harmovela) publishes lifecycle events
+  through the Harmovela HTTP events API without importing the Harmovela SDK.
+- [`adapters/a2a`](https://github.com/axisvela/praxo-core/tree/main/adapters/a2a) exposes an agent as an A2A
+  server executor for agent-to-agent clients.
 
 ## NOETIVELA and Model Routing
 
@@ -57,8 +61,9 @@ inference fabric and can back the model seam.
   `noetivela-open` is Apache-2.0 and can be imported by the adapter or product.
 - The [`examples/ecosystem-sdk`](https://github.com/axisvela/praxo-core/tree/main/examples/ecosystem-sdk) module uses the
   real NOETIVELA, Mnemovela, GNOSIVELA, AEGIVELA, LIMENORA, and RHEOVELA Go
-  SDKs, plus the Harmovela HTTP protocol. It is a separate module so the core
-  framework module stays free of product SDK dependencies.
+  SDKs. It is a separate module so the core framework module stays free of
+  product SDK dependencies. Harmovela is published separately as
+  `adapters/harmovela`.
 - The `ecosystem.Noetivela` adapter skeleton shows a contract-mapping shape;
   `ecosystem.Model` and `ecosystem.Provider` cover the generic callback shape.
 - The [runnable demo](https://github.com/axisvela/praxo-core/tree/main/examples/ecosystem/cmd/demo) wires the NOETIVELA,

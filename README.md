@@ -107,6 +107,8 @@ Optional adapters:
 - [`adapters/otel`](adapters/otel) - optional OpenTelemetry event sink
 - [`adapters/anthropic`](adapters/anthropic) - native Anthropic Messages adapter
 - [`adapters/gemini`](adapters/gemini) - native Gemini generateContent adapter
+- [`adapters/harmovela`](adapters/harmovela) - Harmovela HTTP event sink
+- [`adapters/a2a`](adapters/a2a) - A2A server adapter for agent-to-agent clients
 
 For SDK-backed integrations, see
 [`examples/ecosystem-sdk`](examples/ecosystem-sdk) (NOETIVELA, Mnemovela,

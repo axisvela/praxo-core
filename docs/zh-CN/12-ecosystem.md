@@ -33,6 +33,10 @@ PRAXO-CORE 是 AxisVela Agent 共享的框架层。它暴露中立的契约，�
   适配器，支持工具调用、usage 和 SSE 流式输出。
 - [`adapters/gemini`](https://github.com/axisvela/praxo-core/tree/main/adapters/gemini) 是原生 Gemini generateContent
   适配器，支持 function call 和 SSE 流式输出。
+- [`adapters/harmovela`](https://github.com/axisvela/praxo-core/tree/main/adapters/harmovela) 通过 Harmovela HTTP
+  事件 API 发布生命周期事件，无需导入 Harmovela SDK。
+- [`adapters/a2a`](https://github.com/axisvela/praxo-core/tree/main/adapters/a2a) 将 Agent 暴露为 A2A 服务端
+  Executor，供 Agent-to-Agent 客户端调用。
 
 ## NOETIVELA 与模型路由
 
@@ -50,8 +54,9 @@ PRAXO-CORE 是 AxisVela Agent 共享的框架层。它暴露中立的契约，�
 - 框架不内置 NOETIVELA Go SDK 或提供商凭据。`noetivela-open` 采用
   Apache-2.0，可由适配器或产品导入。
 - [`examples/ecosystem-sdk`](https://github.com/axisvela/praxo-core/tree/main/examples/ecosystem-sdk) 模块直接使用真实的
-  NOETIVELA、Mnemovela、GNOSIVELA、AEGIVELA、LIMENORA 和 RHEOVELA Go SDK，
-  以及 Harmovela HTTP 协议。它是独立模块，因此核心框架模块不依赖产品 SDK。
+  NOETIVELA、Mnemovela、GNOSIVELA、AEGIVELA、LIMENORA 和 RHEOVELA Go SDK。
+  它是独立模块，因此核心框架模块不依赖产品 SDK。Harmovela 单独发布为
+  `adapters/harmovela`。
 - `ecosystem.Noetivela` 骨架展示了契约映射形态；`ecosystem.Model` 和
   `ecosystem.Provider` 覆盖通用回调形态。
 - [可运行示例](https://github.com/axisvela/praxo-core/tree/main/examples/ecosystem/cmd/demo) 将 NOETIVELA、记忆、事件、

@@ -2,6 +2,13 @@
 
 ## [Unreleased]
 
+### Added
+
+- `adapters/harmovela`: HTTP event sink for Harmovela, without importing the
+  heavier Harmovela Go module.
+- `adapters/a2a`: A2A server executor adapter for exposing a PRAXO-CORE agent
+  to agent-to-agent clients.
+
 ### Security
 
 - `adapters/otel`: exclude `Event.Data` by default; export only fields explicitly
