@@ -166,6 +166,55 @@ GNOSIVELA 尚未为该模块路径发布 `v3` semver 标签；示例模块固定
 pseudo-version。参见
 [GNOSIVELA SDK 示例](https://github.com/axisvela/praxo-core/tree/main/examples/ecosystem-sdk/gnosivela)。
 
+## AEGIVELA 策略
+
+将 AEGIVELA 策略评估映射到 `policy.Hook`。
+
+```go
+hook := aegivelaadapter.Hook{
+    Client: pepsdk.NewClient("https://aegivela.internal:1886", http.DefaultClient),
+    Route: pepsdk.Route{
+        Audience:  "agent",
+        Action:    "tool:invoke",
+        Scope:     []string{"tool:invoke"},
+        Kind:      "tool",
+        Reference: "lookup",
+    },
+    Input: pepsdk.AuthorizationInput{
+        Mode:              pepsdk.ModeSystemAPI,
+        WorkloadAssertion: "...",
+    },
+}
+```
+
+参见
+[AEGIVELA SDK 示例](https://github.com/axisvela/praxo-core/tree/main/examples/ecosystem-sdk/aegivela)。
+
+## LIMENORA 网关
+
+将工具名映射为受治理的出站请求，并通过 LIMENORA 网络网关发送。
+
+```go
+gateway := limenoraadapter.Gateway{
+    Client: proxyEgress,
+    Tools: map[string]limenoraadapter.Route{
+        "lookup": {
+            URL:         "https://api.example.com/status",
+            Method:      "POST",
+            Description: "Look up status",
+        },
+    },
+    Ctx: sdk.AuthzContext{
+        TenantID:    "acme",
+        WorkspaceID: "default",
+        ActorID:     "agent-1",
+    },
+}
+```
+
+参见
+[LIMENORA SDK 示例](https://github.com/axisvela/praxo-core/tree/main/examples/ecosystem-sdk/limenora)。
+
 ## Reference Workspace Agent
 
 reference app 组合了 OpenAI 兼容适配器、受限 VFS 工具、策略、记忆、事件和
