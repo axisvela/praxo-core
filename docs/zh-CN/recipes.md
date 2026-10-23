@@ -40,16 +40,20 @@ if err != nil {
 }
 defer session.Close()
 
-gateway, err := mcpadapter.NewGateway(ctx, session)
+tools, err := mcpadapter.NewTools(ctx, session)
 if err != nil {
     return err
 }
-for _, item := range tool.NewGatewayTools(gateway) {
+for _, item := range tools {
     registry.Register(item)
 }
 ```
 
-MCP 认证绑定在客户端会话上。服务器工具变化后调用 `gateway.Refresh`。
+MCP 认证绑定在客户端会话上。`NewTools` 通过 `tool.SpecProvider` 保留每个
+server 的输入 schema；底层 `NewGateway`/`tool.NewGatewayTools` 路径只携带名称
+和描述。若直接使用 `NewGateway`，服务器工具变化后调用 `Refresh`。应将每个
+MCP server 视为不可信代码：与其他工具使用相同的策略、sandbox 和凭据边界，
+不要传递环境中的隐式密钥。
 
 同一模块也暴露 resources 和 prompts：
 
@@ -209,7 +213,8 @@ hook := aegivelaadapter.Hook{
 }
 ```
 
-参见
+Hook 仅在结果精确为 `allow` 时放行，其他结果一律拒绝。`WorkloadAssertion`
+应在运行时从密钥管理系统读取，不要硬编码；`Route` 值应保持静态。参见
 [AEGIVELA SDK 示例](https://github.com/axisvela/praxo-core/tree/main/examples/ecosystem-sdk/aegivela)。
 
 ## LIMENORA 网关
@@ -234,7 +239,8 @@ gateway := limenoraadapter.Gateway{
 }
 ```
 
-参见
+Route 应保持静态并加入允许列表。不要从模型输出推导 `URL`、`Method` 或请求头；
+出站策略由 LIMENORA 执行。参见
 [LIMENORA SDK 示例](https://github.com/axisvela/praxo-core/tree/main/examples/ecosystem-sdk/limenora)。
 
 ## Harmovela 事件
@@ -254,7 +260,8 @@ ag, err := agent.New(agent.Options{
 ```
 
 Sink 会发送 `spec_version`、`id`、`type`、`source`、`created_at`，以及包含
-session、run 和事件数据的 payload。参见
+session、run 和事件数据的 payload。发送前应清除或省略密钥、凭据和 PII，或改用
+强制脱敏的事件 Sink。参见
 [Harmovela 适配器](https://github.com/axisvela/praxo-core/tree/main/adapters/harmovela)。
 
 ## A2A 服务端
@@ -318,19 +325,33 @@ func commandArgs(value any) ([]string, bool) {
     }
 }
 
+command := []string{"go", "version"}
+
 hook := policy.FuncHook(func(_ context.Context, action policy.Action) (policy.Decision, error) {
-    command, ok := commandArgs(action.Arguments["command"])
-    if action.ToolName != "exec" || !ok || len(command) != 2 ||
-        command[0] != "go" || command[1] != "version" {
+    requested, ok := commandArgs(action.Arguments["command"])
+    if action.ToolName != "exec" || !ok || len(requested) != 2 ||
+        requested[0] != "go" || requested[1] != "version" {
         return policy.Decision{Allowed: false, Reason: "command is not allowlisted"}, nil
     }
     return policy.Decision{Allowed: true}, nil
 })
 
-result, err := runner.Run(ctx, sandbox.Spec{Timeout: 5 * time.Second}, []string{"go", "version"})
+decision, err := hook.Authorize(ctx, policy.Action{
+    Kind:      "sandbox",
+    ToolName:  "exec",
+    Arguments: map[string]any{"command": command},
+})
+if err != nil {
+    return err
+}
+if !decision.Allowed {
+    return fmt.Errorf("sandbox: %s", decision.Reason)
+}
+result, err := runner.Run(ctx, sandbox.Spec{Timeout: 5 * time.Second}, command)
 ```
 
-参见
+授权与执行必须使用同一条命令。`sandbox.Sandbox` 是接口：该示例对宿主命令执行做
+策略门控，但不提供 OS 级隔离。允许列表应保持静态，不要从模型输出构建。参见
 [sandbox 示例](https://github.com/axisvela/praxo-core/tree/main/examples/sandbox)。
 
 ## Reference Workspace Agent
@@ -342,5 +363,6 @@ reference app 组合了 OpenAI 兼容适配器、受限 VFS 工具、策略、�
 GOWORK=off go run ./examples/reference -workspace ./workspace
 ```
 
-参见
+示例策略只允许 `model.generate` 和 `fs.*` 工具调用，VFS 后端将路径限制在
+workspace 内。参见
 [reference app](https://github.com/axisvela/praxo-core/tree/main/examples/reference)。

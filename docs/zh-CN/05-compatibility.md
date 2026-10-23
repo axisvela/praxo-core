@@ -13,6 +13,7 @@
 - `2.3.0` 新增 `SubagentManager.Wait` 和 `SubagentManager.Prune`；其余导出
   `pkg/...` 声明不变。
 - `2.3.1` 是补丁版本；导出 `pkg/...` API 与 `2.3.0` 相同。
+- `2.3.2` 是补丁版本；导出 `pkg/...` API 与 `2.3.1` 相同。
 
 - 框架版本从 `0.x` 开始。
 - PRAXOVELA 产品版本独立。

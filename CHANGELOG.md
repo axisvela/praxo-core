@@ -2,6 +2,19 @@
 
 ## [Unreleased]
 
+## [2.3.2] - 2026-10-23
+
+### Changed
+
+- Provider and security recipes now document schema-preserving MCP registration,
+  static egress routes, policy credential handling, event-data hygiene, and
+  sandbox and workspace boundaries.
+
+### Fixed
+
+- `adapters/gemini` streaming now consumes only the first candidate, matching
+  the non-streaming response behavior.
+
 ## [2.3.1] - 2026-10-23
 
 ### Added

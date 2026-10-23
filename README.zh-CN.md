@@ -179,14 +179,12 @@ result, err := ag.Run(ctx, agent.Session{
 
 ## 状态
 
-`2.3.1` 是当前核心版本。它是 2.3.0 执行正确性工作的补丁版本，不新增任何
-导出 `pkg/...` 声明。`Wait` 现在会向所有并发等待者返回终态快照，即使任务被
-清理；A2A 适配器新增进程内 gRPC 往返测试；多 Agent 示例与文档改用事件驱动
-等待；文档 CI 在 pull request 上执行严格构建。`1.0.0` 的 API 冻结仍然有效，
+`2.3.2` 是当前核心版本。它不新增任何导出 `pkg/...` 声明，修复 Gemini 流式
+候选选择并加固 provider 与安全 recipe。`1.0.0` 的 API 冻结仍然有效，
 规范包路径为 `pkg/toolcall`、`pkg/formatter` 和 `pkg/tool/jsonschema`。
 
 可选适配器独立版本化：`adapters/mcp/v0.3.0`、`adapters/otel/v0.2.0`、
-`adapters/anthropic/v0.1.0`、`adapters/gemini/v0.1.0`、
+`adapters/anthropic/v0.1.0`、`adapters/gemini/v0.1.1`、
 `adapters/harmovela/v0.1.0`、`adapters/a2a/v0.1.0` 和
 `adapters/multiagent/v0.2.0`。该框架提取自 PRAXOVELA 经过验证的运行时。
 
@@ -196,6 +194,7 @@ result, err := ag.Run(ctx, agent.Session{
 [中文文档目录](docs/zh-CN/README.md)
 
 - [中文文档目录](docs/zh-CN/README.md)
+- [2.3.2 发布说明](docs/zh-CN/releases/2.3.2.md)
 - [2.3.1 发布说明](docs/zh-CN/releases/2.3.1.md)
 - [2.3.0 发布说明](docs/zh-CN/releases/2.3.0.md)
 - [2.2.0 发布说明](docs/zh-CN/releases/2.2.0.md)

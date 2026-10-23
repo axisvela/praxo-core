@@ -29,6 +29,7 @@ ag, err := agent.New(agent.Options{
 
 `GenerateStream` parses Gemini SSE chunks, forwards text deltas to
 `agent.Options.OnDelta`, and aggregates function calls into the final response.
+It consumes only the first candidate in each chunk, matching `Generate`.
 
 ## Limitations
 

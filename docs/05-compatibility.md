@@ -14,6 +14,8 @@
   exported `pkg/...` declarations are unchanged.
 - `2.3.1` is a patch release; the exported `pkg/...` API is identical to
   `2.3.0`.
+- `2.3.2` is a patch release; the exported `pkg/...` API is identical to
+  `2.3.1`.
 
 - Framework versions start at `0.x`.
 - PRAXOVELA product versions are independent.

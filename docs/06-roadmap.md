@@ -32,6 +32,7 @@ for the public roadmap.
 | 2.2.0 | ecosystem depth: protocol adapters, multi-agent composition, examples, security fixes (released 2026-10-23) |
 | 2.3.0 | execution correctness: event-driven subagents, real parallelism, bounded concurrency (released 2026-10-23) |
 | 2.3.1 | post-release hardening: A2A gRPC round trip, wait/prune snapshot, docs gate (released 2026-10-23) |
+| 2.3.2 | provider and security recipe hardening; Gemini stream candidate isolation (released 2026-10-23) |
 
 Post-1.0 items are competitive harness parity and adoption work, not 1.0
 blockers. They are sequenced after the stable API and release gates.
