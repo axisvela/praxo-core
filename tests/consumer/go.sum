@@ -10,6 +10,8 @@ github.com/axisvela/praxo-core/adapters/harmovela v0.1.0 h1:RwlG+zbrCUZYKf8N4a3y
 github.com/axisvela/praxo-core/adapters/harmovela v0.1.0/go.mod h1:/szmZoNRVQuAPL+j0WfyPOLk5glUKA8o+WlGUwLF7Q4=
 github.com/axisvela/praxo-core/adapters/mcp v0.2.0 h1:v5WGbq/8gwP7Tto2xU1eBBvI5s16f65w93NfBM3oOFI=
 github.com/axisvela/praxo-core/adapters/mcp v0.2.0/go.mod h1:IW0G94o+9i9Te6sW18/g3J5CyaZBF39ow4mySiWTpbc=
+github.com/axisvela/praxo-core/adapters/multiagent v0.1.0 h1:RnzVmNQ7hS7hu5JE3toG4zzpXtlUAyjB/iBxV7TED0g=
+github.com/axisvela/praxo-core/adapters/multiagent v0.1.0/go.mod h1:rNxEKjb+AiJWcPJ1/XP7vV+6dMlPMga73ASqChb81kU=
 github.com/axisvela/praxo-core/adapters/otel v0.2.0 h1:YCvNFf2HD5LzoAl/tMdziSLnkFAtZCy0RdxR8mi//Xk=
 github.com/axisvela/praxo-core/adapters/otel v0.2.0/go.mod h1:oa+4gsnC11tz1UZb/coOQ1l7ORusZ23g5IJGJ2VXpHc=
 github.com/axisvela/praxo-core/v2 v2.1.0 h1:45XLJVieceeGKwZj4fYR6JdQ8VVU/zmyhTv0Y+jLLMM=

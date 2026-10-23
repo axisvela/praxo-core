@@ -60,6 +60,37 @@ adds a small optional layer over `SubagentManager`:
 
 It is not a graph or durable workflow runtime and does not change the core API.
 
+## Durable Orchestration with RHEOVELA
+
+Use RHEOVELA when the workflow needs durable graph/subgraph execution, recovery,
+leases, or graph-level interrupts. PRAXO-CORE supplies the agent session and
+stream boundary; RHEOVELA owns the graph.
+
+[`examples/ecosystem-sdk`](https://github.com/axisvela/praxo-core/tree/main/examples/ecosystem-sdk/rheovela)
+contains a `rheovela.Runner` recipe:
+
+```go
+runner := rheovela.Runner{
+    Client:    rheovela.NewClient("http://127.0.0.1:8080"),
+    Workflow:  "agent",
+    ProjectID: "proj",
+    Actor:     "agent-1",
+}
+
+instance, err := runner.Start(ctx, session)
+err = runner.Step(ctx, instance.InstanceID, "advance", "review")
+audit, err := runner.Audit(ctx, instance.InstanceID)
+```
+
+### Boundary Checklist
+
+- PRAXO-CORE does not define graph nodes, edges, subgraphs, or graph interrupts.
+- RHEOVELA owns graph execution, durable recovery, leases, and routing.
+- PRAXO-CORE exposes the agent node/session/stream contract only.
+- The product owns task stores, credentials, authorization, and audit retention.
+- Use `adapters/multiagent` only for in-process supervisor/sequential delegation.
+- Do not claim durable execution for `SubagentManager` or `adapters/multiagent`.
+
 ## Choosing a Pattern
 
 | Need | Pattern |

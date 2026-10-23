@@ -56,6 +56,36 @@ task, err := manager.Launch(ctx, delegation.SubagentRequest{
 
 它不是图或持久化工作流运行时，也不会改变核心 API。
 
+## 使用 RHEOVELA 做持久化编排
+
+当工作流需要持久化图/子图执行、恢复、租约或图级中断时，应使用 RHEOVELA。
+PRAXO-CORE 提供 Agent 会话和流边界；RHEOVELA 拥有图。
+
+[`examples/ecosystem-sdk`](https://github.com/axisvela/praxo-core/tree/main/examples/ecosystem-sdk/rheovela)
+中有 `rheovela.Runner` recipe：
+
+```go
+runner := rheovela.Runner{
+    Client:    rheovela.NewClient("http://127.0.0.1:8080"),
+    Workflow:  "agent",
+    ProjectID: "proj",
+    Actor:     "agent-1",
+}
+
+instance, err := runner.Start(ctx, session)
+err = runner.Step(ctx, instance.InstanceID, "advance", "review")
+audit, err := runner.Audit(ctx, instance.InstanceID)
+```
+
+### 边界清单
+
+- PRAXO-CORE 不定义 graph 节点、边、子图或图级中断。
+- RHEOVELA 拥有图执行、持久化恢复、租约和路由。
+- PRAXO-CORE 只暴露 Agent 节点/会话/流契约。
+- 产品拥有任务存储、凭据、授权和审计保留。
+- `adapters/multiagent` 只用于进程内 supervisor/顺序委派。
+- 不要声称 `SubagentManager` 或 `adapters/multiagent` 具备持久化执行能力。
+
 ## 选择模式
 
 | 需求 | 模式 |

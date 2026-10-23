@@ -202,9 +202,9 @@ canonical package paths are `pkg/toolcall`, `pkg/formatter`, and
 
 Optional adapters are versioned independently: `adapters/mcp/v0.2.0`,
 `adapters/otel/v0.2.0`, `adapters/anthropic/v0.1.0`,
-`adapters/gemini/v0.1.0`, `adapters/harmovela/v0.1.0`, and
-`adapters/a2a/v0.1.0`. The framework is extracted from PRAXOVELA's proven
-runtime.
+`adapters/gemini/v0.1.0`, `adapters/harmovela/v0.1.0`,
+`adapters/a2a/v0.1.0`, and `adapters/multiagent/v0.1.0`. The framework is
+extracted from PRAXOVELA's proven runtime.
 
 ## Documentation
 
