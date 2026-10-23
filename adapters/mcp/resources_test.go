@@ -112,3 +112,47 @@ func TestResourcesRequireSession(t *testing.T) {
 		t.Fatalf("GetPrompt: %v", err)
 	}
 }
+
+func TestResourcesAndPromptsPaginate(t *testing.T) {
+	ctx := context.Background()
+	serverTransport, clientTransport := sdk.NewInMemoryTransports()
+	server := sdk.NewServer(&sdk.Implementation{Name: "paged-server", Version: "v0.0.1"}, &sdk.ServerOptions{PageSize: 2})
+	for _, name := range []string{"a", "b", "c"} {
+		server.AddResource(&sdk.Resource{
+			Name:     name,
+			URI:      "embedded:" + name,
+			MIMEType: "text/plain",
+		}, infoResource)
+	}
+	for _, name := range []string{"p1", "p2", "p3"} {
+		server.AddPrompt(&sdk.Prompt{Name: name}, greetPrompt)
+	}
+	serverSession, err := server.Connect(ctx, serverTransport, nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+	client := sdk.NewClient(&sdk.Implementation{Name: "paged-client", Version: "v0.0.1"}, nil)
+	clientSession, err := client.Connect(ctx, clientTransport, nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+	t.Cleanup(func() {
+		_ = clientSession.Close()
+		_ = serverSession.Wait()
+	})
+
+	resources, err := ListResources(ctx, clientSession)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if len(resources) != 3 || resources[0].URI != "embedded:a" || resources[2].URI != "embedded:c" {
+		t.Fatalf("resources = %#v", resources)
+	}
+	prompts, err := ListPrompts(ctx, clientSession)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if len(prompts) != 3 || prompts[0].Name != "p1" || prompts[2].Name != "p3" {
+		t.Fatalf("prompts = %#v", prompts)
+	}
+}

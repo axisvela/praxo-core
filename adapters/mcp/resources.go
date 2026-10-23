@@ -3,6 +3,7 @@ package mcp
 import (
 	"context"
 	"encoding/json"
+	"errors"
 
 	sdk "github.com/modelcontextprotocol/go-sdk/mcp"
 )
@@ -54,6 +55,7 @@ func ListResources(ctx context.Context, session *sdk.ClientSession) ([]Resource,
 	}
 	resources := []Resource{}
 	cursor := ""
+	seen := map[string]bool{}
 	for {
 		result, err := session.ListResources(ctx, &sdk.ListResourcesParams{Cursor: cursor})
 		if err != nil {
@@ -72,6 +74,10 @@ func ListResources(ctx context.Context, session *sdk.ClientSession) ([]Resource,
 		if result.NextCursor == "" {
 			return resources, nil
 		}
+		if seen[result.NextCursor] {
+			return nil, errors.New("mcp: repeated resource pagination cursor")
+		}
+		seen[result.NextCursor] = true
 		cursor = result.NextCursor
 	}
 }
@@ -104,6 +110,7 @@ func ListPrompts(ctx context.Context, session *sdk.ClientSession) ([]Prompt, err
 	}
 	prompts := []Prompt{}
 	cursor := ""
+	seen := map[string]bool{}
 	for {
 		result, err := session.ListPrompts(ctx, &sdk.ListPromptsParams{Cursor: cursor})
 		if err != nil {
@@ -129,6 +136,10 @@ func ListPrompts(ctx context.Context, session *sdk.ClientSession) ([]Prompt, err
 		if result.NextCursor == "" {
 			return prompts, nil
 		}
+		if seen[result.NextCursor] {
+			return nil, errors.New("mcp: repeated prompt pagination cursor")
+		}
+		seen[result.NextCursor] = true
 		cursor = result.NextCursor
 	}
 }
