@@ -23,6 +23,7 @@ outputs, err := supervisor.Run(ctx, "session-1", []multiagent.Worker{
 ## Patterns
 
 - `Run`: launch workers in parallel and aggregate outputs by worker name.
+  `MaxConcurrency` caps how many workers run at once.
 - `Sequential`: run workers in order and pass the previous output to the next
   worker as `Context["previous"]`.
 - Completion is event-driven through `delegation.SubagentManager.Wait`;

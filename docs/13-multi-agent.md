@@ -56,6 +56,7 @@ lifecycle and observable state.
 adds a small optional layer over `SubagentManager`:
 
 - `Supervisor.Run` launches workers in parallel and aggregates outputs.
+  `MaxConcurrency` caps how many run at once.
 - `Supervisor.Sequential` passes each output to the next worker as
   `Context["previous"]`.
 - Completion is event-driven through `SubagentManager.Wait`; the supervisor
