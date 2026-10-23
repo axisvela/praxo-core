@@ -3,13 +3,18 @@ package a2a
 import (
 	"context"
 	"errors"
+	"net"
 	"net/http/httptest"
 	"testing"
 
 	sdk "github.com/a2aproject/a2a-go/v2/a2a"
 	"github.com/a2aproject/a2a-go/v2/a2aclient"
+	"github.com/a2aproject/a2a-go/v2/a2agrpc/v1"
 	"github.com/a2aproject/a2a-go/v2/a2asrv"
 	"github.com/axisvela/praxo-core/v2/pkg/agent"
+	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials/insecure"
+	"google.golang.org/grpc/test/bufconn"
 )
 
 var _ Runner = (*agent.Agent)(nil)
@@ -156,6 +161,44 @@ func TestJSONRPCClientRoundTrip(t *testing.T) {
 		t.Fatalf("result = %#v", result)
 	}
 	if text := reply.Parts[0].Text(); text != "agent reply" {
+		t.Fatalf("text = %q", text)
+	}
+}
+
+func TestGRPCClientRoundTrip(t *testing.T) {
+	runner := &fakeRunner{result: &agent.Result{Output: "grpc reply"}}
+	listener := bufconn.Listen(1 << 20)
+	server := grpc.NewServer()
+	a2agrpc.NewHandler(a2asrv.NewHandler(Executor{Agent: runner})).RegisterWith(server)
+	go func() { _ = server.Serve(listener) }()
+	defer server.Stop()
+
+	ctx := context.Background()
+	dialer := func(context.Context, string) (net.Conn, error) { return listener.Dial() }
+	factory := a2aclient.NewFactory(a2agrpc.WithGRPCTransport(
+		grpc.WithContextDialer(dialer),
+		grpc.WithTransportCredentials(insecure.NewCredentials()),
+	))
+	client, err := factory.CreateFromCard(ctx, &sdk.AgentCard{
+		Name: "gRPC Test Agent",
+		SupportedInterfaces: []*sdk.AgentInterface{
+			sdk.NewAgentInterface("passthrough:///bufnet", sdk.TransportProtocolGRPC),
+		},
+	})
+	if err != nil {
+		t.Fatal(err)
+	}
+	result, err := client.SendMessage(ctx, &sdk.SendMessageRequest{
+		Message: sdk.NewMessage(sdk.MessageRoleUser, sdk.NewTextPart("hello")),
+	})
+	if err != nil {
+		t.Fatal(err)
+	}
+	reply, ok := result.(*sdk.Message)
+	if !ok || reply.Role != sdk.MessageRoleAgent || len(reply.Parts) != 1 {
+		t.Fatalf("result = %#v", result)
+	}
+	if text := reply.Parts[0].Text(); text != "grpc reply" {
 		t.Fatalf("text = %q", text)
 	}
 }
