@@ -33,6 +33,19 @@ External integrators can implement the framework interfaces directly:
 - checkpoint store for durable resume
 - plugin host/bridge wiring for their runtime
 
+## Checkpoint and Resume
+
+`pkg/checkpoint` defines the durable snapshot and store contract. The framework
+does not ship a store; products own persistence and recovery policy.
+
+A session resumes by loading the latest checkpoint and pre-populating
+`agent.Session.Messages`. The
+[checkpoint example](https://github.com/axisvela/praxo-core/tree/main/examples/checkpoint)
+shows a small in-memory store and the resume flow.
+
+Production stores should add durable persistence, tenant scoping, encryption,
+retention, and recovery tests.
+
 ## Non-Goals
 
 - Do not import PRAXOVELA internal packages.
