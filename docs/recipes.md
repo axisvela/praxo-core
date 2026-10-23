@@ -172,6 +172,56 @@ GNOSIVELA does not yet publish a `v3` semver tag for this module path; the
 example module pins a pseudo-version from `master`. See the
 [GNOSIVELA SDK example](https://github.com/axisvela/praxo-core/tree/main/examples/ecosystem-sdk/gnosivela).
 
+## AEGIVELA Policy
+
+Map AEGIVELA policy evaluation to `policy.Hook`.
+
+```go
+hook := aegivelaadapter.Hook{
+    Client: pepsdk.NewClient("https://aegivela.internal:1886", http.DefaultClient),
+    Route: pepsdk.Route{
+        Audience:  "agent",
+        Action:    "tool:invoke",
+        Scope:     []string{"tool:invoke"},
+        Kind:      "tool",
+        Reference: "lookup",
+    },
+    Input: pepsdk.AuthorizationInput{
+        Mode:              pepsdk.ModeSystemAPI,
+        WorkloadAssertion: "...",
+    },
+}
+```
+
+See the
+[AEGIVELA SDK example](https://github.com/axisvela/praxo-core/tree/main/examples/ecosystem-sdk/aegivela).
+
+## LIMENORA Gateway
+
+Map tool names to governed outbound requests through the LIMENORA network
+gateway.
+
+```go
+gateway := limenoraadapter.Gateway{
+    Client: proxyEgress,
+    Tools: map[string]limenoraadapter.Route{
+        "lookup": {
+            URL:         "https://api.example.com/status",
+            Method:      "POST",
+            Description: "Look up status",
+        },
+    },
+    Ctx: sdk.AuthzContext{
+        TenantID:    "acme",
+        WorkspaceID: "default",
+        ActorID:     "agent-1",
+    },
+}
+```
+
+See the
+[LIMENORA SDK example](https://github.com/axisvela/praxo-core/tree/main/examples/ecosystem-sdk/limenora).
+
 ## Reference Workspace Agent
 
 The reference app combines the OpenAI-compatible adapter, confined VFS tools,

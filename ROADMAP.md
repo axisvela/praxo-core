@@ -245,7 +245,8 @@ Exit gate:
 - [x] OpenTelemetry event sink and trace correlation.
 - [x] Tag `adapters/otel/v0.1.0`.
 - [x] Tag `adapters/anthropic/v0.1.0`.
-- More ecosystem recipes: Harmovela, AEGIVELA, LIMENORA, RHEOVELA.
+- [x] AEGIVELA policy and LIMENORA tool-gateway recipes; Harmovela and
+  RHEOVELA recipes remain.
 - Production case study and published benchmark methodology.
 
 ## 2.3.0 - Ecosystem Depth (candidate)

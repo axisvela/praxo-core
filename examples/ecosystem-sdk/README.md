@@ -13,6 +13,8 @@ SDKs. The example still imports PRAXO-CORE through a local `replace`.
 | `noetivela.Adapter` | `model.Model` | NOETIVELA |
 | `mnemovela.Store` | `memory.Store` | Mnemovela |
 | `gnosivela.Retriever` | `retriever.Retriever` | GNOSIVELA |
+| `aegivela.Hook` | `policy.Hook` | AEGIVELA |
+| `limenora.Gateway` | `tool.Gateway` | LIMENORA |
 
 ### NOETIVELA
 
@@ -54,6 +56,51 @@ adapter := gnosivelaadapter.Retriever{
 GNOSIVELA does not yet publish a `v3` semver tag for this module path, so
 `go.mod` pins a pseudo-version from `master`. Update it when a release tag is
 available.
+
+### AEGIVELA
+
+`aegivela.Hook` evaluates actions through the AEGIVELA PEP SDK and maps the
+outcome to `policy.Decision`.
+
+```go
+hook := aegivelaadapter.Hook{
+    Client: pepsdk.NewClient("https://aegivela.internal:1886", http.DefaultClient),
+    Route: pepsdk.Route{
+        Audience:  "agent",
+        Action:    "tool:invoke",
+        Scope:     []string{"tool:invoke"},
+        Kind:      "tool",
+        Reference: "lookup",
+    },
+    Input: pepsdk.AuthorizationInput{
+        Mode:              pepsdk.ModeSystemAPI,
+        WorkloadAssertion: "...",
+    },
+}
+```
+
+### LIMENORA
+
+`limenora.Gateway` maps tool names to governed outbound requests and sends them
+through the LIMENORA `NetworkGateway`.
+
+```go
+gateway := limenoraadapter.Gateway{
+    Client: proxyEgress,
+    Tools: map[string]limenoraadapter.Route{
+        "lookup": {
+            URL:         "https://api.example.com/status",
+            Method:      "POST",
+            Description: "Look up status",
+        },
+    },
+    Ctx: sdk.AuthzContext{
+        TenantID:    "acme",
+        WorkspaceID: "default",
+        ActorID:     "agent-1",
+    },
+}
+```
 
 ## Run
 
