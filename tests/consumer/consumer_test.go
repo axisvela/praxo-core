@@ -101,3 +101,34 @@ func TestPublishedDependencyGraph(t *testing.T) {
 		t.Fatalf("missing modules: %v", expected)
 	}
 }
+
+type publishedRunner struct{}
+
+func (publishedRunner) Run(_ context.Context, req delegation.SubagentRequest) (delegation.SubagentResult, error) {
+	return delegation.SubagentResult{TaskID: "task", AgentID: req.AgentID, Output: "done"}, nil
+}
+
+func TestPublishedSubagentLifecycle(t *testing.T) {
+	ctx := context.Background()
+	manager := delegation.NewSubagentManager(publishedRunner{})
+	task, err := manager.Launch(ctx, delegation.SubagentRequest{
+		ParentSessionID: "consumer",
+		AgentID:         "child",
+	})
+	if err != nil {
+		t.Fatal(err)
+	}
+	done, err := manager.Wait(ctx, task.ID)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if done.Status != delegation.SubagentCompleted || done.Output != "done" {
+		t.Fatalf("task = %#v", done)
+	}
+	if removed := manager.Prune(0); removed != 1 {
+		t.Fatalf("pruned = %d", removed)
+	}
+	if _, ok := manager.Check(task.ID); ok {
+		t.Fatal("pruned task is still present")
+	}
+}
