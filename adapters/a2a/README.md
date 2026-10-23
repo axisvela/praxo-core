@@ -38,6 +38,8 @@ Use `Executor.Session` to provide a product-specific mapping.
 
 ## Limits
 
+- Tests cover an in-process HTTP JSON-RPC client/server round trip; they do not
+  prove interoperability with an external A2A peer.
 - The adapter accepts text message parts and returns one agent text message.
 - It does not stream intermediate model or tool events over A2A.
 - A2A cancellation maps to a canceled task status; the underlying agent run is

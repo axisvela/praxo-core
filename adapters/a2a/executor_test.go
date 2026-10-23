@@ -3,9 +3,11 @@ package a2a
 import (
 	"context"
 	"errors"
+	"net/http/httptest"
 	"testing"
 
 	sdk "github.com/a2aproject/a2a-go/v2/a2a"
+	"github.com/a2aproject/a2a-go/v2/a2aclient"
 	"github.com/a2aproject/a2a-go/v2/a2asrv"
 	"github.com/axisvela/praxo-core/v2/pkg/agent"
 )
@@ -128,4 +130,32 @@ func collect(events func(yield func(sdk.Event, error) bool)) ([]sdk.Event, error
 		out = append(out, event)
 	}
 	return out, nil
+}
+
+func TestJSONRPCClientRoundTrip(t *testing.T) {
+	runner := &fakeRunner{result: &agent.Result{Output: "agent reply"}}
+	handler := a2asrv.NewJSONRPCHandler(a2asrv.NewHandler(Executor{Agent: runner}))
+	server := httptest.NewServer(handler)
+	defer server.Close()
+
+	ctx := context.Background()
+	client, err := a2aclient.NewFromEndpoints(ctx, []*sdk.AgentInterface{
+		sdk.NewAgentInterface(server.URL, sdk.TransportProtocolJSONRPC),
+	})
+	if err != nil {
+		t.Fatal(err)
+	}
+	result, err := client.SendMessage(ctx, &sdk.SendMessageRequest{
+		Message: sdk.NewMessage(sdk.MessageRoleUser, sdk.NewTextPart("hello")),
+	})
+	if err != nil {
+		t.Fatal(err)
+	}
+	reply, ok := result.(*sdk.Message)
+	if !ok || reply.Role != sdk.MessageRoleAgent || len(reply.Parts) != 1 {
+		t.Fatalf("result = %#v", result)
+	}
+	if text := reply.Parts[0].Text(); text != "agent reply" {
+		t.Fatalf("text = %q", text)
+	}
 }

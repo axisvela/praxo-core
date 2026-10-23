@@ -27,6 +27,8 @@
   `Cancel`; `Update` is rejected unless the task is running.
 - `adapters/mcp`: resource and prompt listings reject repeated pagination
   cursors; multi-page listing is covered by tests.
+- `adapters/a2a`: added an in-process HTTP JSON-RPC client/server round-trip
+  test.
 
 ## [2.2.0] - 2026-10-23
 
