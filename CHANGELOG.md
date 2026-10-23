@@ -6,6 +6,10 @@
 
 - `adapters/a2a`: in-process gRPC client/server round-trip test.
 
+### Changed
+
+- `examples/multiagent` uses `SubagentManager.Wait` instead of polling.
+
 ## [2.3.0] - 2026-10-23
 
 ### Added

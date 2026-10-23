@@ -10,7 +10,7 @@ go run ./examples/multiagent
 It demonstrates:
 
 - a router that maps agent IDs to runners
-- `SubagentManager` launch/check/cancel
+- `SubagentManager` launch/wait/cancel
 - isolated subagent sessions
 - result aggregation
 
