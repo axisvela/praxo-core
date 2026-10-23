@@ -25,6 +25,8 @@
   order; it returns the first error by index after all calls finish.
 - `delegation.SubagentManager` no longer overwrites completed/failed tasks on
   `Cancel`; `Update` is rejected unless the task is running.
+- `adapters/mcp`: resource and prompt listings reject repeated pagination
+  cursors; multi-page listing is covered by tests.
 
 ## [2.2.0] - 2026-10-23
 
