@@ -2,6 +2,11 @@
 
 ## [Unreleased]
 
+### Security
+
+- `adapters/otel`: exclude `Event.Data` by default; export only fields explicitly
+  selected by `AllowedDataKeys`. Published v0.1.0 exports all event data.
+
 ### Added
 
 - `adapters/otel`: optional OpenTelemetry event sink mapping lifecycle events to

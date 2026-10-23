@@ -120,8 +120,9 @@ ag, err := agent.New(agent.Options{
 })
 ```
 
-每个事件会成为 `praxo.<event.type>` span，并带有会话、运行、时间戳和事件数据
-属性。参见
+每个事件会成为 `praxo.<event.type>` span，并带有会话、运行和时间戳属性。
+适配器 v0.2.0 默认排除事件数据，可通过 `AllowedDataKeys` 选择经过审查的字段。
+已发布的 v0.1.0 会导出全部事件数据，需在调用 `Emit` 前自行过滤。参见
 [OpenTelemetry Sink](https://github.com/axisvela/praxo-core/tree/main/adapters/otel)。
 
 ## NOETIVELA
