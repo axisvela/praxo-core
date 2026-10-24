@@ -384,7 +384,8 @@ This release does not claim production, deployed, or independent validation.
   separate CubeSandbox adapter until live create/connect and traffic-token
   behavior is confirmed.
 - [ ] Re-test CubeSandbox as an E2B profile against a live endpoint.
-- [ ] Compatibility and deprecation rules for exported contracts.
+- [x] Compatibility and deprecation rules for exported contracts
+  (`docs/16-compatibility-policy.md`).
 - [ ] At least one independent implementation running the conformance suite.
 - [ ] No AGPL imports; MIT boundary preserved.
 

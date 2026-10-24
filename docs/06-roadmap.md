@@ -62,7 +62,7 @@ declarations:
 - live verification of the E2B, Daytona, OpenSandbox, and CubeSandbox adapters
 - live CubeSandbox E2B-profile confirmation after the offline compatibility
   review
-- compatibility and deprecation rules for exported contracts
+- compatibility and deprecation rules for exported contracts (published)
 - an independent implementation running the conformance suite
 
 ## Long-Term Technical Direction

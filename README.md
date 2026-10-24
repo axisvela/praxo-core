@@ -240,6 +240,7 @@ extracted from PRAXOVELA's proven runtime.
 - [Integration](docs/03-integration.md)
 - [License and provenance](docs/04-license-and-provenance.md)
 - [Compatibility](docs/05-compatibility.md)
+- [Compatibility and deprecation policy](docs/16-compatibility-policy.md)
 - [v2 migration](docs/11-migration-v2.md)
 - [Security policy](SECURITY.md)
 - [API freeze inventory](docs/07-api-freeze.md)

@@ -91,6 +91,9 @@ in `1.0.0`; the release note and migration line live in
 
 ## Compatibility Rules
 
+See the [compatibility and deprecation policy](16-compatibility-policy.md) for
+the full review and removal process.
+
 - Additive exported changes are allowed in minor releases.
 - Removing or changing an exported signature/field requires a major release
   after `1.0.0`.

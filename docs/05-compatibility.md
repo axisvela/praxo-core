@@ -74,6 +74,10 @@ The frozen plugin v1 surfaces are:
 Materialization, signature verification, SBOM/evidence, trust stores, and
 rolling updates are product-owned and may evolve independently.
 
+See the [compatibility and deprecation policy](16-compatibility-policy.md) for
+the covered surface, additive-change rules, deprecation window, and optional
+module versioning.
+
 ## Compatibility Tests
 
 Each consumer should maintain:

@@ -222,6 +222,7 @@ result, err := ag.Run(ctx, agent.Session{
 - [集成](docs/zh-CN/03-integration.md)
 - [许可证与来源](docs/zh-CN/04-license-and-provenance.md)
 - [兼容性](docs/zh-CN/05-compatibility.md)
+- [兼容与弃用策略](docs/zh-CN/16-compatibility-policy.md)
 - [v2 迁移](docs/zh-CN/11-migration-v2.md)
 - [安全策略](SECURITY.md)
 - [API 冻结清单](docs/zh-CN/07-api-freeze.md)

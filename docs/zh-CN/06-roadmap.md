@@ -58,7 +58,7 @@
   示例，并已对本地 RHEOVELA 验证；部署/多节点验证与契约提升仍待完成
 - E2B、Daytona、OpenSandbox、CubeSandbox 适配器的实网验证
 - 离线 E2B 兼容性评审后的实网 CubeSandbox profile 确认
-- 导出契约的兼容与弃用规则
+- 导出契约的兼容与弃用规则（已发布）
 - 至少一个独立实现运行一致性套件
 
 ## 长期技术方向

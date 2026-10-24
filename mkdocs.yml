@@ -75,6 +75,7 @@ nav:
       - API freeze: 07-api-freeze.md
       - Roadmap: 06-roadmap.md
       - Compatibility: 05-compatibility.md
+      - Compatibility policy: 16-compatibility-policy.md
       - License and provenance: 04-license-and-provenance.md
   - 中文:
       - 中文首页: zh-CN/README.md
@@ -111,4 +112,5 @@ nav:
       - API 冻结: zh-CN/07-api-freeze.md
       - 路线图: zh-CN/06-roadmap.md
       - 兼容性: zh-CN/05-compatibility.md
+      - 兼容与弃用策略: zh-CN/16-compatibility-policy.md
       - 许可证与来源: zh-CN/04-license-and-provenance.md
