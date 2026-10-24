@@ -173,6 +173,8 @@ result, err := ag.Run(ctx, agent.Session{
 自包含的外部集成示例参见
 [examples/integrator](examples/integrator/main.go)；带受限 VFS 工具、策略、记忆
 和事件的 workspace Agent 参见 [examples/reference](examples/reference)；
+确定性只读、审批、拒绝与 trace 演示参见
+[examples/governed-workspace](examples/governed-workspace)；
 检查点/恢复流程参见 [examples/checkpoint](examples/checkpoint)；
 策略门控的命令执行参见 [examples/sandbox](examples/sandbox)；
 子 Agent 委派参见 [examples/multiagent](examples/multiagent)。

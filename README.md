@@ -187,6 +187,8 @@ result, err := ag.Run(ctx, agent.Session{
 See [examples/integrator](examples/integrator/main.go) for a self-contained
 external-integrator example, [examples/reference](examples/reference) for a
 workspace agent with confined VFS tools, policy, memory, and events,
+[examples/governed-workspace](examples/governed-workspace) for a deterministic
+read-only, approval, denial, and trace demo,
 [examples/checkpoint](examples/checkpoint) for checkpoint/resume,
 [examples/sandbox](examples/sandbox) for policy-gated command execution, and
 [examples/multiagent](examples/multiagent) for subagent delegation.

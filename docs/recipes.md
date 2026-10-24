@@ -381,6 +381,22 @@ isolation. Keep the allowlist static and do not build it from model output. See
 the
 [sandbox example](https://github.com/axisvela/praxo-core/tree/main/examples/sandbox).
 
+## Governed Workspace Demo
+
+The governed workspace demo is a deterministic, no-API-key path through
+read-only tools, write approval, denial, and policy rejection with an event
+trace. It uses a scripted model and does not claim real model behavior.
+
+```bash
+GOWORK=off go run ./examples/governed-workspace -mode read
+GOWORK=off go run ./examples/governed-workspace -mode write
+GOWORK=off go run ./examples/governed-workspace -mode deny
+GOWORK=off go run ./examples/governed-workspace -mode escape
+```
+
+See the
+[governed workspace demo](https://github.com/axisvela/praxo-core/tree/main/examples/governed-workspace).
+
 ## Reference Workspace Agent
 
 The reference app combines the OpenAI-compatible adapter, confined VFS tools,
