@@ -17,10 +17,14 @@ type interruptModel struct {
 func (m *interruptModel) Generate(_ context.Context, req model.Request) (model.Response, error) {
 	m.calls++
 	if m.calls == 1 {
+		var value any = "original"
+		if m.mode == "nested" {
+			value = map[string]any{"path": "allowed"}
+		}
 		return model.Response{Message: model.Message{ToolCalls: []model.ToolCall{{
 			ID:        "call-1",
 			Name:      "echo",
-			Arguments: map[string]any{"value": "original"},
+			Arguments: map[string]any{"value": value},
 		}}}}, nil
 	}
 	if m.mode == "respond" {

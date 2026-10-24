@@ -79,7 +79,8 @@ remain available for consumers that have not migrated; see the
 
 ## Quickstart
 
-Requires Go 1.26+ and an OpenAI-compatible endpoint. From this repository:
+Use Go 1.26.10 (the tested CI/release toolchain) and an OpenAI-compatible
+endpoint. From this repository:
 
 ```bash
 # Ollama (no API key required)

@@ -43,6 +43,10 @@ jobs:
       - run: go vet ./...
       - run: go build ./...
 
+      - name: Verify release gate failure propagation
+        shell: pwsh
+        run: ./scripts/release-check.Tests.ps1
+
   examples:
     runs-on: ubuntu-latest
     env:

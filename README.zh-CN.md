@@ -72,7 +72,7 @@ NOETIVELA 是 AxisVela 的推理基础设施（inference fabric），可以通�
 
 ## 快速开始
 
-需要 Go 1.26+ 和一个 OpenAI 兼容端点。在本仓库中运行：
+推荐使用 Go 1.26.10（CI/发布验证版本）和一个 OpenAI 兼容端点。在本仓库中运行：
 
 ```bash
 # Ollama（无需 API Key）

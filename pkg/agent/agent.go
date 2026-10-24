@@ -1,6 +1,7 @@
 package agent
 
 import (
+	"bytes"
 	"context"
 	"encoding/json"
 	"errors"
@@ -335,6 +336,14 @@ func (a *Agent) RunWithContext(ctx context.Context, session Session, prompt stri
 			if !a.toolAllowed(call.Name) {
 				return nil, fmt.Errorf("agent: tool %s is not allowed", call.Name)
 			}
+			var authorizedCall []byte
+			if a.Policy != nil {
+				var err error
+				authorizedCall, err = json.Marshal(call)
+				if err != nil {
+					return nil, err
+				}
+			}
 			if err := a.authorize(ctx, policy.Action{
 				Kind: "tool.invoke", SessionID: session.ID, ToolName: call.Name, Arguments: call.Arguments,
 			}); err != nil {
@@ -416,7 +425,29 @@ func (a *Agent) RunWithContext(ctx context.Context, session Session, prompt stri
 			}); err != nil {
 				return nil, err
 			}
-			prepared = append(prepared, preparedTool{call: call, tool: t})
+			prepared = append(prepared, preparedTool{call: call, tool: t, authorizedCall: authorizedCall})
+		}
+
+		for _, item := range prepared {
+			if item.skip {
+				continue
+			}
+			if !a.toolAllowed(item.call.Name) {
+				return nil, fmt.Errorf("agent: tool %s is not allowed", item.call.Name)
+			}
+			if a.Policy != nil {
+				finalCall, err := json.Marshal(item.call)
+				if err != nil {
+					return nil, err
+				}
+				if !bytes.Equal(item.authorizedCall, finalCall) {
+					if err := a.authorize(ctx, policy.Action{
+						Kind: "tool.invoke", SessionID: session.ID, ToolName: item.call.Name, Arguments: item.call.Arguments,
+					}); err != nil {
+						return nil, err
+					}
+				}
+			}
 		}
 
 		outcomes := runTools(ctx, prepared, a.MaxParallelTools)
@@ -477,11 +508,12 @@ func (a *Agent) RunWithContext(ctx context.Context, session Session, prompt stri
 }
 
 type preparedTool struct {
-	call   model.ToolCall
-	tool   tool.Tool
-	skip   bool
-	result any
-	err    error
+	authorizedCall []byte
+	call           model.ToolCall
+	tool           tool.Tool
+	skip           bool
+	result         any
+	err            error
 }
 
 type toolOutcome struct {

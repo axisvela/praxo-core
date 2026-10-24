@@ -37,6 +37,11 @@ for the public roadmap.
 Post-1.0 items are competitive harness parity and adoption work, not 1.0
 blockers. They are sequenced after the stable API and release gates.
 
+The current release remains `2.3.2`. Unreleased `2.3.3` candidate work rechecks
+final tool calls after preparation callbacks without changing the public API.
+`2.4.0` remains an adoption-evidence candidate; local A2A interoperability is
+not deployed-peer, complete v2 IAM, or production-load evidence.
+
 ## Adoption Workstream
 
 The `2.3.x` workstream keeps the `pkg/...` API additive and otherwise frozen

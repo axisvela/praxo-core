@@ -1,7 +1,8 @@
 # 多 Agent 模式
 
-PRAXO-CORE 的核心是单 Agent 执行循环，并提供异步子 Agent 委派。它不自带
-graph、handoff、supervisor、共享状态或 Agent registry 运行时。
+PRAXO-CORE 的核心是单 Agent 执行循环，并提供异步子 Agent 委派。核心不自带
+graph、handoff、supervisor、共享状态或 Agent registry 运行时；下文的可选模块
+提供进程内 supervisor 与顺序组合，不提供持久化工作流语义。
 
 ## 已内置
 

@@ -55,8 +55,10 @@ contracts. See [AxisVela ecosystem integration](12-ecosystem.md).
   The Go implementation is in public preview.
 
 PRAXO-CORE is single-agent at the loop level but supports asynchronous subagent
-delegation. It does not bundle handoff, supervisor, shared-state, or graph
-orchestration; those belong to RHEOVELA or the product runtime. See
+delegation. The optional `adapters/multiagent` module adds bounded in-process
+supervisor and sequential composition. It does not provide dynamic handoff,
+shared-state, graph orchestration, or durable recovery; those belong to RHEOVELA
+or the product runtime. See
 [Multi-agent patterns](13-multi-agent.md).
 
 ## When to Choose PRAXO-CORE

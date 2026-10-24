@@ -19,24 +19,24 @@ if err != nil {
 }
 defer session.Close()
 
-gateway, err := mcpx.NewGateway(ctx, session)
+tools, err := mcpx.NewTools(ctx, session)
 if err != nil {
     return err
 }
-tools := tool.NewGatewayTools(gateway)
 for _, item := range tools {
     registry.Register(item)
 }
 ```
 
-`NewGateway` caches the tool list at construction. Call `Refresh` to reload it
+`NewTools` preserves model-facing input schemas. For generic gateway consumers,
+`NewGateway` caches the tool list at construction; call `Refresh` to reload it
 after the server changes its tools. MCP authentication belongs to the client
 session, so the token argument in `tool.Gateway.Execute` is ignored.
 
 ## Resources and Prompts
 
 For model-facing registration, use `NewTools(ctx, session)` and register the
-returned `tool.Tool` values. This unreleased entry point preserves MCP input
+returned `tool.Tool` values. This entry point is published in v0.3.0 and preserves MCP input
 schemas through `tool.SpecProvider`. The generic `tool.NewGatewayTools` path
 retains names and descriptions but cannot carry MCP input schemas.
 
@@ -71,5 +71,5 @@ GOWORK=off go test ./...
 
 ## Publishing
 
-This module is currently developed in-tree and can be used with a local
-`replace`. Tag `adapters/mcp/v<version>` to publish it for `go get`.
+The current published tag is `adapters/mcp/v0.3.0`. Module releases are
+independent of the core; use `adapters/mcp/v<version>` tags for `go get`.

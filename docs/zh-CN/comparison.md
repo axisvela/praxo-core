@@ -48,8 +48,9 @@ PRAXO-CORE 是表中唯一按 AxisVela 框架层设计的框架。它提供以�
 - **Microsoft Agent Framework Go** 面向生产级 Agent 和基于图的多 Agent 工作流，
   提供检查点、HITL、OpenTelemetry、MCP 和 A2A。其 Go 实现处于公开预览阶段。
 
-PRAXO-CORE 在循环层是单 Agent，但支持异步子 Agent 委派。它不内置 handoff、
-supervisor、共享状态或图编排；这些属于 RHEOVELA 或产品运行时。参见
+PRAXO-CORE 在循环层是单 Agent，但支持异步子 Agent 委派。可选模块
+`adapters/multiagent` 提供有界的进程内 supervisor 和顺序组合。动态 handoff、
+共享状态、图编排与持久恢复仍属于 RHEOVELA 或产品运行时。参见
 [多 Agent 模式](13-multi-agent.md)。
 
 ## 何时选择 PRAXO-CORE

@@ -1,8 +1,9 @@
 # Multi-Agent Patterns
 
 PRAXO-CORE has a single-agent execution loop and asynchronous subagent
-delegation. It does not ship a graph, handoff, supervisor, shared-state, or
-agent-registry runtime.
+delegation. The core does not ship a graph, handoff, supervisor, shared-state,
+or agent-registry runtime; the optional module below provides in-process
+supervisor and sequential composition without durable workflow semantics.
 
 ## What Is Built In
 

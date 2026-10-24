@@ -8,9 +8,9 @@ credential storage, and plugin materialization belong to the embedding product
 
 | Version | Support |
 | --- | --- |
-| `0.16.x` | current pre-1.0 line |
-| `1.0.x` | security fixes after release |
-| older `0.x` | upgrade to the current line |
+| `2.3.x` | current release line; use the latest patch |
+| older `2.x` | upgrade to the current patch line |
+| `1.x` and `0.x` | legacy; migrate to v2 for current fixes |
 
 ## Reporting a Vulnerability
 
@@ -20,8 +20,7 @@ security advisory feature:
 `https://github.com/axisvela/praxo-core/security/advisories/new`
 
 Include the affected package, version, a minimal reproducer, and the impact.
-Reports are handled on a best-effort basis; no SLA is promised for the `0.x`
-line.
+Reports are handled on a best-effort basis; no response or backport SLA is promised.
 
 ## Scope
 

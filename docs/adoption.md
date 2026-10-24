@@ -18,10 +18,14 @@ turnkey chat UI.
 
 ## 2. Build a 30-Minute Prototype
 
+Use Go `1.26.10`, the tested CI and release toolchain. The root `go.mod`
+declares `1.25.0`, but that declaration is not a guarantee that all optional
+modules or security fixes are supported on that toolchain.
+
 1. Add the module:
 
    ```bash
-   go get github.com/axisvela/praxo-core/v2@v2.0.0
+   go get github.com/axisvela/praxo-core/v2@v2.3.2
    ```
 
 2. Use the OpenAI-compatible adapter with Ollama or a hosted endpoint:

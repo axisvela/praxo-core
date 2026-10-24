@@ -289,8 +289,22 @@ Exit gate:
 ## 2.4.0 - Adoption Evidence (candidate)
 
 - [ ] Production case study and external benchmark validation.
-- [ ] External A2A peer interoperability.
-- [ ] Further provider/security recipe review.
+- [x] External Google ADK Go JSON-RPC consumer interoperability on loopback,
+  including discovery, authentication, concurrency, TLS, and card-origin checks.
+- [ ] Deployed remote A2A peer, external gRPC, complete v2 IAM, real gateway
+  reverse ingress, instance leases, and deployed throughput/SLO evidence.
+- [x] Baseline provider/security recipe review in 2.3.2.
+- [ ] Follow-up security review of final tool-call authorization and host
+  containment; do not equate an implemented hook with an independent review.
+
+## 2.3.3 - Final Tool Authorization (unreleased candidate)
+
+- Recheck final tool names against the allowlist after preparation callbacks.
+- Reauthorize changed JSON tool arguments or names before batch execution while
+  keeping the original denial gate and one policy request for unchanged calls.
+- Cover middleware, HITL edits, hooks, event/stream callbacks, and batch mutation.
+- Keep public API declarations unchanged. Release only after compatibility,
+  race, fuzz, security, and published-consumer gates; this work is not in 2.3.2.
 
 ## Graph Runtime Boundary
 
