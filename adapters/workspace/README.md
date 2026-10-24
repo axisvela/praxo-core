@@ -30,4 +30,7 @@ GOWORK=off go build ./...
 
 The shared contract, fake, conformance checks, and offline E2B/Daytona adapters
 exist. Neither adapter has been run against a live provider in this environment.
-Provider SDKs stay in their own adapter modules, and live tests must be opt-in.
+OpenSandbox and CubeSandbox are the next adapter candidates; CubeSandbox is
+E2B-compatible, so the E2B adapter may serve as a compatibility profile before a
+separate implementation. Provider SDKs stay in their own adapter modules, and
+live tests must be opt-in.

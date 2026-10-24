@@ -132,6 +132,23 @@ type Pauser interface {
 - 提升前仍需：实网一致性、最小错误分类、取消与并发测试、大文件传输测试、
   attach 语义决策。
 
+## 后续候选
+
+下一轮 spike 还应纳入两个提供商：
+
+- **OpenSandbox**（Apache-2.0）：Go SDK
+  `github.com/alibaba/OpenSandbox/sdks/sandbox/go`；提供 lifecycle、execd 和
+  egress API；支持 Docker/Kubernetes、Firecracker pause/resume 和网络策略。
+  适配器状态：未开始。
+- **CubeSandbox**（Apache-2.0，列明的第三方组件除外）：Go SDK
+  `github.com/tencentcloud/CubeSandbox/sdk/go`；兼容 E2B API；RustVMM/KVM
+  隔离；pause/resume、快照、卷和 egress 策略。适配器状态：未开始。先验证
+  E2B 适配器能否作为兼容 profile，再决定是否单独实现。
+
+OpenSandbox 增加自托管 Go SDK 与出站控制路径；CubeSandbox 增加硬件级隔离和
+E2B 兼容面。两者都不改变核心契约，只作为 provider adapter，也不会把控制平面
+放进 `pkg/`。
+
 ## 原型计划
 
 1. 在核心之外增加两个适配器模块：`adapters/workspace/e2b` 和

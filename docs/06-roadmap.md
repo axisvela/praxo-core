@@ -62,8 +62,9 @@ hardening, and stable integration contracts, without changing the frozen
 - event and OpenTelemetry schema compatibility rules (published)
 - the remote worker contract with RHEOVELA
 - workspace/session evaluation, contract, fake, conformance checks, offline
-  E2B/Daytona adapters, and capability findings; live provider verification
-  remains; no provider SDK enters the core module
+  E2B/Daytona adapters, capability findings, and OpenSandbox/CubeSandbox
+  candidates; live provider verification remains; no provider SDK enters the
+  core module
 - plugin trust and SBOM handoff checklist for product-owned verification and
   materialization
 

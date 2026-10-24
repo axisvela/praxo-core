@@ -142,6 +142,25 @@ which capabilities are unavailable.
   cancellation and concurrency, test large file transfer, and decide attach
   semantics.
 
+## Further Candidates
+
+Two more providers should join the next spike:
+
+- **OpenSandbox** (Apache-2.0): Go SDK
+  `github.com/alibaba/OpenSandbox/sdks/sandbox/go`; lifecycle, execd, and
+  egress APIs; Docker and Kubernetes deployment; Firecracker pause/resume and
+  network policy. Adapter status: not started.
+- **CubeSandbox** (Apache-2.0 except listed third-party components): Go SDK
+  `github.com/tencentcloud/CubeSandbox/sdk/go`; E2B-compatible API; RustVMM/KVM
+  isolation; pause/resume, snapshots, volumes, and egress policy. Adapter
+  status: not started. Test whether the E2B adapter can serve as a compatibility
+  profile before writing a separate implementation.
+
+OpenSandbox adds a self-hosted Go SDK path with egress controls. CubeSandbox adds
+hardware-level isolation and an E2B-compatible surface. Neither changes the core
+contract; they are provider adapters and do not move the control plane into
+`pkg/`.
+
 ## Prototype Plan
 
 1. Add two adapter modules outside the core, for example
