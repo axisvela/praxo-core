@@ -289,11 +289,12 @@ loopback 运行、并发 consumer、loopback TLS 终止和跨来源 card 拒绝�
 PRAXO-CORE。参见
 [A2A 适配器](https://github.com/axisvela/praxo-core/tree/main/adapters/a2a)。
 
-另见[本地 IAM 运行记录](https://github.com/axisvela/enterprise-autonomy/blob/f7c3177/examples/a2a-agent-iam-local/RUN-RECORD.md#v2-verification-update)：
+另见[本地 IAM 运行记录](https://github.com/axisvela/enterprise-autonomy/blob/f6297d0/examples/a2a-agent-iam-local/RUN-RECORD.md#v2-verification-update)：
 已验证真实本地 IAM 服务参与的 Google ADK 直连 PRAXO-CORE A2A 调用
 （`system_api`），以及独立的 AEGIVELA `serviceAgentApi` v2 `allow` 决策
-（policy `v1`，后端修复提交 `3ceb44c`）。定向回归测试与后端 vet 通过，但
-后端全量测试仍受另一份 identity protobuf 描述符初始化 panic 阻断。
+（policy `v1`，后端修复提交 `3ceb44c`）。后续重新生成 protobuf 描述符（`c14b781`）后，
+identity 初始化 panic 已解除；后端无缓存全量测试、vet 和 build 均通过。
+未配置测试数据库时，数据库相关测试仍可能跳过。
 这不代表完整 v2 A2A、实例租约校验或真实 LIMENORA 反向入口已验证；
 未修改框架公开 API 或适配器版本。
 
