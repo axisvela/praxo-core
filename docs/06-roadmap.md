@@ -36,12 +36,13 @@ for the public roadmap.
 | 2.3.3 | final tool authorization, fail-fast release gates, independent module security checks (released 2026-10-24) |
 | 2.3.4 | JSON Schema subset semantics and HTTP client failure-path coverage (released 2026-10-24) |
 | 2.3.5 | scheduler disable waits for in-flight dispatch (released 2026-10-24) |
+| 2.3.6 | formatter runtime and mutation fixes (released 2026-10-24) |
 
 Post-1.0 items are competitive harness parity and adoption work, not 1.0
 blockers. They are sequenced after the stable API and release gates.
 
-The current release is `2.3.5`, which makes scheduler disable wait for an
-in-flight dispatch without changing the public API.
+The current release is `2.3.6`, which fixes formatter empty-command, shared-slice,
+and walk-error behavior without changing the public API.
 `2.4.0` remains an adoption-evidence candidate; local A2A interoperability is
 not deployed-peer, complete v2 IAM, or production-load evidence.
 

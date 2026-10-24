@@ -1,6 +1,6 @@
 # PRAXO-CORE Roadmap
 
-**Current:** `2.3.5` scheduler disable race fix (2026-10-24)
+**Current:** `2.3.6` formatter runtime fix (2026-10-24)
 
 **Target:** `2.4.0` adoption evidence
 
@@ -41,6 +41,7 @@
 | 2.3.3 | final tool authorization, fail-fast release gates, independent module security checks |
 | 2.3.4 | JSON Schema subset semantics and HTTP client failure-path coverage |
 | 2.3.5 | scheduler disable waits for in-flight dispatch |
+| 2.3.6 | formatter empty-command, shared-slice, and walk-error fixes |
 
 See `CHANGELOG.md` for exact changes.
 
@@ -299,6 +300,13 @@ Exit gate:
 - [x] Baseline provider/security recipe review in 2.3.2.
 - [ ] Follow-up security review of final tool-call authorization and host
   containment; do not equate an implemented hook with an independent review.
+
+## 2.3.6 - Formatter Runtime Fix (released 2026-10-24)
+
+- Return an error instead of panicking on an empty formatter command.
+- Stop exposing the formatter registry's extension slice to callers.
+- Return filesystem walk errors from `FormatAll`.
+- Keep public API declarations unchanged.
 
 ## 2.3.5 - Scheduler Disable (released 2026-10-24)
 

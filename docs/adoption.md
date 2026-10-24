@@ -25,7 +25,7 @@ modules or security fixes are supported on that toolchain.
 1. Add the module:
 
    ```bash
-   go get github.com/axisvela/praxo-core/v2@v2.3.5
+   go get github.com/axisvela/praxo-core/v2@v2.3.6
    ```
 
 2. Use the OpenAI-compatible adapter with Ollama or a hosted endpoint:
