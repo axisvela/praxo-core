@@ -19,6 +19,9 @@
 - `2.3.3` is a patch release; the exported `pkg/...` API is identical to
   `2.3.2`. Changed final tool calls require fresh policy approval, and arguments
   must remain JSON-serializable when policy is enabled.
+- `2.3.4` is a patch release; the exported `pkg/...` API is identical to
+  `2.3.3`. Typed schemas reject null, `pattern` uses Go/RE2 regular expressions,
+  and length limits count Unicode code points.
 
 - Framework versions start at `0.x`.
 - PRAXOVELA product versions are independent.

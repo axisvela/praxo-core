@@ -34,12 +34,13 @@ for the public roadmap.
 | 2.3.1 | post-release hardening: A2A gRPC round trip, wait/prune snapshot, docs gate (released 2026-10-23) |
 | 2.3.2 | provider and security recipe hardening; Gemini stream candidate isolation (released 2026-10-23) |
 | 2.3.3 | final tool authorization, fail-fast release gates, independent module security checks (released 2026-10-24) |
+| 2.3.4 | JSON Schema subset semantics and HTTP client failure-path coverage (released 2026-10-24) |
 
 Post-1.0 items are competitive harness parity and adoption work, not 1.0
 blockers. They are sequenced after the stable API and release gates.
 
-The current release is `2.3.3`, which rechecks final tool calls after preparation
-callbacks without changing the public API and expands independent-module checks.
+The current release is `2.3.4`, which corrects the declared JSON Schema subset
+semantics and expands HTTP failure-path coverage without changing the public API.
 `2.4.0` remains an adoption-evidence candidate; local A2A interoperability is
 not deployed-peer, complete v2 IAM, or production-load evidence.
 
