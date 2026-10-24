@@ -42,6 +42,8 @@ use opaque identifiers and restrict access to your telemetry backend.
 
 Event spans inherit the parent span from the context passed to `Emit`. Each
 span represents one emitted event, not the duration of a complete agent run.
+See the [event and OpenTelemetry schema](https://github.com/axisvela/praxo-core/blob/main/docs/event-schema.md)
+for the stable event names, payloads, and compatibility rules.
 
 This default differs from the published `v0.1.0`, which exports all event data.
 The safer behavior is introduced in v0.2.0. Users upgrading from v0.1.0 must

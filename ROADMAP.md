@@ -362,7 +362,7 @@ claim production, deployed, or independent validation.
   model, streaming model, tool, and retriever seams.
 - [x] `conformance.Run` executes named checks and reports all failures in one
   pass.
-- [ ] Event and OpenTelemetry schema compatibility notes.
+- [x] Event and OpenTelemetry schema compatibility notes.
 - [ ] Remote worker contract with RHEOVELA.
 
 ## 2.6.0 - Independent Implementations (candidate)
