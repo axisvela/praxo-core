@@ -2,6 +2,14 @@
 
 ## [Unreleased]
 
+## [2.3.6] - 2026-10-24
+
+### Fixed
+
+- `pkg/formatter`: an empty formatter command returns an error instead of
+  panicking, `List`/`AllAvailable`/`Detect` no longer expose shared extension
+  slices, and `FormatAll` returns filesystem walk errors.
+
 ## [2.3.5] - 2026-10-24
 
 ### Fixed

@@ -24,6 +24,9 @@
   and length limits count Unicode code points.
 - `2.3.5` is a patch release; the exported `pkg/...` API is identical to
   `2.3.4`. Disabling a schedule waits for an in-flight dispatch to finish.
+- `2.3.6` is a patch release; the exported `pkg/...` API is identical to
+  `2.3.5`. Empty formatter commands return an error, formatter registry slices
+  are copied, and `FormatAll` returns walk errors.
 
 - Framework versions start at `0.x`.
 - PRAXOVELA product versions are independent.
