@@ -8,7 +8,7 @@ require (
 )
 
 require (
-	github.com/axisvela/praxo-core/v2 v2.3.6 // indirect
+	github.com/axisvela/praxo-core/v2 v2.4.0 // indirect
 	github.com/google/jsonschema-go v0.4.3 // indirect
 	github.com/segmentio/asm v1.1.3 // indirect
 	github.com/segmentio/encoding v0.5.4 // indirect
