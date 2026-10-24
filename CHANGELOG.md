@@ -2,6 +2,12 @@
 
 ## [Unreleased]
 
+### Fixed
+
+- `pkg/tool/jsonschema`: reject `nil` for typed schemas, reject fractional
+  values for `integer`, apply `enum` to numeric and boolean values, treat
+  `pattern` as a regular expression, and count Unicode code points for length.
+
 ## [2.3.3] - 2026-10-24
 
 ### Fixed

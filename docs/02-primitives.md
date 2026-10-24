@@ -20,7 +20,7 @@
 | `pkg/sandbox` | `Sandbox.Run`, optional `Interpreter.Eval` | Vulcan Forge |
 | `pkg/scheduler` | `Scheduler.Add/Remove/List`; cron engine extracted from PRAXOVELA | PRAXOVELA durable scheduler |
 | `pkg/toolcall` | `ParseToolCall`, `StripToolCallMarkup`, `ParseInputJSON` | model-output parsing |
-| `pkg/tool/jsonschema` | JSON Schema validation | tool input/output validation |
+| `pkg/tool/jsonschema` | Minimal JSON Schema subset validation | tool input/output validation; not a full validator |
 | `pkg/flow` | `Runnable`, `Chain`, `Parallel` | prompt/agent composition |
 | `pkg/prompt` | `Template`, `ChatTemplate` | prompt assembly |
 | `pkg/retriever` | `Document`, `Retriever` | Mnemovela/GNOSIVELA retrieval |
@@ -36,6 +36,13 @@
 `pkg/format`, and `pkg/tool/schema` are deprecated aliases removed in `1.0.0`;
 new code should import `pkg/toolcall`, `pkg/formatter`, and
 `pkg/tool/jsonschema`.
+
+`pkg/tool/jsonschema` supports `type` (object, array, string, number, integer,
+boolean), `properties`, `required`, `items`, `enum`, `minLength`, `maxLength`,
+`minimum`, `maximum`, `pattern` (Go/RE2), and `description`. It ignores
+unsupported keywords such as `$ref`, `allOf`, `anyOf`, `oneOf`, `not`,
+`additionalProperties`, and `format`; a `minimum` or `maximum` of zero is treated
+as unset. Use a full JSON Schema library when those keywords are required.
 
 See [Plugin authoring](10-plugin-authoring.md) for Manifest v1, the process/WASM
 host protocol, and the conformance kit.
