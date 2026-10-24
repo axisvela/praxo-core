@@ -8,8 +8,8 @@ github.com/axisvela/mnemovela-open/sdk/go/v3 v3.0.0 h1:4OdUI6pvRo/25UycajA7PVTYJ
 github.com/axisvela/mnemovela-open/sdk/go/v3 v3.0.0/go.mod h1:RYWknxcNj4a4D7KSkUX8bycYQGh0huIQzJmsPZ4m+AA=
 github.com/axisvela/noetivela-open/sdk/go/v3 v3.0.0 h1:lsbUNg+EX//8XQtU8mggqk0AUnazr/yQmIbRA04stWw=
 github.com/axisvela/noetivela-open/sdk/go/v3 v3.0.0/go.mod h1:qFLoLiqdecuhXVql59fc+cILOWWzzNfqNODo+2iVy8I=
-github.com/axisvela/rheovela-open/sdk/go/v3 v3.0.0 h1:jHvlTM6w98be5/97TxWC9Cf4Z99ENskLFfuXOVJHDCw=
-github.com/axisvela/rheovela-open/sdk/go/v3 v3.0.0/go.mod h1:A7sHphwc4UfNfxvXf3wX9PXR+KZgPAedQEkQcFuhxx0=
+github.com/axisvela/rheovela-open/sdk/go/v3 v3.1.0 h1:cYgFCskshgJvAvbMtQPklN1gH/Hg+/NiSZEeuAfyjpU=
+github.com/axisvela/rheovela-open/sdk/go/v3 v3.1.0/go.mod h1:A7sHphwc4UfNfxvXf3wX9PXR+KZgPAedQEkQcFuhxx0=
 github.com/santhosh-tekuri/jsonschema/v6 v6.0.3 h1:1EYB5IzjZawrrnELUi78f9fPu57HuXjmddZPjrls/28=
 github.com/santhosh-tekuri/jsonschema/v6 v6.0.3/go.mod h1:JXeL+ps8p7/KNMjDQk3TCwPpBy0wYklyWTfbkIzdIFU=
 github.com/stretchr/testify v1.12.1 h1:EuwCh5fleGS7H32xRwO3wRGT7DxrDhLAT6FF8MpWDWE=

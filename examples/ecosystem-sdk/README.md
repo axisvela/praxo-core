@@ -124,6 +124,35 @@ err = runner.Step(ctx, instance.InstanceID, "advance", "review")
 audit, err := runner.Audit(ctx, instance.InstanceID)
 ```
 
+### RHEOVELA durable worker
+
+`rheovela.DurableWorker` runs RHEOVELA work items through a `StepRunner`. It
+uses the RHEOVELA worker SDK's `ResultStore` and `ApprovalStore` ports, so a
+successful step persists a typed result plus checkpoint/effect references, and
+an approval step pauses the work item durably.
+
+```go
+runner := rheovelaadapter.AgentRunner{
+    Agent: ag,
+    Prompt: func(item worker.WorkItem) string {
+        return "execute stage " + item.ActivityID
+    },
+}
+worker, err := rheovelaadapter.NewDurableWorker(
+    rheovela.NewClient("http://127.0.0.1:8080"),
+    runner,
+    rheovelaadapter.WithLease(30*time.Second),
+)
+if err != nil {
+    return err
+}
+return worker.Run(ctx)
+```
+
+`AgentRunner` is a simple example that runs one PRAXO agent invocation per work
+item. A product-specific `StepRunner` can request approval, emit a checkpoint
+reference, and return an effect cursor.
+
 ## Run
 
 ```bash

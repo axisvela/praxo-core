@@ -8,9 +8,9 @@ require (
 	github.com/axisvela/aegivela-open/sdk/go/v3 v3.0.0
 	github.com/axisvela/mnemovela-open/sdk/go/v3 v3.0.0
 	github.com/axisvela/noetivela-open/sdk/go/v3 v3.0.0
-	github.com/axisvela/praxo-core/v2 v2.1.0
+	github.com/axisvela/praxo-core/v2 v2.5.0
 )
 
-require github.com/axisvela/rheovela-open/sdk/go/v3 v3.0.0
+require github.com/axisvela/rheovela-open/sdk/go/v3 v3.1.0
 
 replace github.com/axisvela/praxo-core/v2 => ../..

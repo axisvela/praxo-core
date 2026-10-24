@@ -371,7 +371,10 @@ This release does not claim production, deployed, or independent validation.
 - [ ] Adversarial containment harness for TOCTOU, Linux process trees, and WASM
   CPU limits.
 - [ ] OpenTelemetry reference example (#3).
-- [ ] Remote worker contract with RHEOVELA.
+- [x] Add a RHEOVELA durable-worker example using `ResultStore`,
+  `ApprovalStore`, and one agent invocation per work item.
+- [ ] Promote the agent node/session/stream remote-worker contract after live
+  RHEOVELA validation.
 - [ ] Verify E2B, Daytona, OpenSandbox, and CubeSandbox adapters against live
   providers and decide whether to promote a common workspace contract to
   `pkg/`. Provider SDKs stay in separate modules.

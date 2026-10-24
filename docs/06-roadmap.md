@@ -56,7 +56,8 @@ declarations:
 
 - adversarial containment for TOCTOU, Linux process trees, and WASM CPU limits
 - the OpenTelemetry reference example (#3)
-- the remote worker contract with RHEOVELA
+- a RHEOVELA durable-worker example using result, checkpoint/effect, and
+  approval ports, followed by a promoted remote-worker contract
 - live verification of the E2B, Daytona, OpenSandbox, and CubeSandbox adapters
 - live CubeSandbox E2B-profile confirmation after the offline compatibility
   review

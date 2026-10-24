@@ -54,7 +54,8 @@
 
 - TOCTOU、Linux 进程树和 WASM CPU 限制的对抗性 containment
 - OpenTelemetry reference 示例（#3）
-- 与 RHEOVELA 的远程 worker 契约
+- 使用 result、checkpoint/effect 和 approval 端口的 RHEOVELA durable worker
+  示例，随后提升远程 worker 契约
 - E2B、Daytona、OpenSandbox、CubeSandbox 适配器的实网验证
 - 离线 E2B 兼容性评审后的实网 CubeSandbox profile 确认
 - 导出契约的兼容与弃用规则
