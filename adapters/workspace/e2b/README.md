@@ -34,8 +34,15 @@ in-process fake platform and envd server. It does not call E2B.
 ## Live Verification
 
 Live verification requires an `E2B_API_KEY` and is intentionally not part of
-default CI. Record the tested API version, region, template, and observed
-capability gaps.
+default CI. The live test skips when the key is absent.
+
+```bash
+cd adapters/workspace/e2b
+E2B_API_KEY=... GOWORK=off go test -run TestLiveConformance -v ./...
+```
+
+Optional: `E2B_TEMPLATE`, `E2B_PLATFORM_URL`, `E2B_ENVD_URL`. Record the tested
+API version, region, template, and observed capability gaps.
 
 ## Limits
 

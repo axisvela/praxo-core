@@ -30,9 +30,17 @@ in-process fake SDK client. It does not call Daytona.
 
 ## Live Verification
 
-Live verification requires a `DAYTONA_API_KEY` and is intentionally not part of
-default CI. Record the SDK version, target region, image or snapshot, and
-observed capability gaps.
+Live verification requires `DAYTONA_API_KEY` and `DAYTONA_IMAGE` and is
+intentionally not part of default CI. The live test skips when either is absent.
+
+```bash
+cd adapters/workspace/daytona
+DAYTONA_API_KEY=... DAYTONA_IMAGE=ubuntu:22.04 \
+  GOWORK=off go test -run TestLiveConformance -v ./...
+```
+
+Optional: `DAYTONA_API_URL`, `DAYTONA_TARGET`, `DAYTONA_ORGANIZATION_ID`.
+Record the SDK version, target region, image, and observed capability gaps.
 
 ## Limits
 

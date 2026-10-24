@@ -147,6 +147,10 @@ spike 填写。
 包含候选契约、内存 fake、一致性检查，以及 E2B 和 Daytona 的离线适配器。
 当前环境尚未对任一实网提供商进行验证。
 
+实网检查按需运行：缺少凭据时自动跳过。E2B 需要 `E2B_API_KEY`；Daytona 需要
+`DAYTONA_API_KEY` 和 `DAYTONA_IMAGE`。在各自模块中运行
+`go test -run TestLiveConformance`。
+
 ## 非目标
 
 - Sandbox 控制平面、调度器、热池、镜像仓库或计费系统。

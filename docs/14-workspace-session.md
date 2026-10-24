@@ -159,6 +159,10 @@ and provides the candidate contract, an in-memory fake, conformance checks, and
 offline E2B and Daytona adapters. Neither adapter has been verified against a
 live provider in this environment.
 
+The live checks are opt-in and skip unless provider credentials are present:
+`E2B_API_KEY` for E2B, and `DAYTONA_API_KEY` plus `DAYTONA_IMAGE` for Daytona.
+Run them from each adapter module with `go test -run TestLiveConformance`.
+
 ## Non-Goals
 
 - A sandbox control plane, scheduler, warm pool, image registry, or billing
