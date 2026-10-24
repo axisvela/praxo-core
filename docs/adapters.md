@@ -43,6 +43,16 @@ combining NOMIVELA, EIDOVELA, AEGIVELA, Google ADK, and PRAXO-CORE. They are not
 production, deployed-peer, external gRPC, deployed TLS, or deployed-load
 evidence.
 
+The [local IAM run record](https://github.com/axisvela/enterprise-autonomy/blob/f7c3177/examples/a2a-agent-iam-local/RUN-RECORD.md#v2-verification-update)
+also records a direct Google ADK -> PRAXO-CORE A2A call using real local IAM
+services with `system_api` authorization, and a separate patched AEGIVELA
+`serviceAgentApi` v2 decision returning `allow` (policy `v1`). The v2 backend
+fixes are recorded in AEGIVELA commit `3ceb44c`. Targeted backend regression
+tests and `go vet ./...` passed, but the full backend test suite remains blocked
+by a separate generated identity protobuf descriptor panic. These results do
+not establish end-to-end v2 A2A, instance-lease enforcement, or a real LIMENORA
+reverse-ingress route. No framework API or adapter version changes are involved.
+
 ## AxisVela SDK Recipes
 
 These recipes live in
