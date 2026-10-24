@@ -1,12 +1,25 @@
-// Package jsonschema provides JSON Schema validation for tool inputs and outputs.
-// Reference: OpenCode's tool/json-schema.ts
+// Package jsonschema provides a deliberately small JSON Schema subset for tool
+// inputs and outputs. It is not a complete JSON Schema implementation.
+//
+// Supported keywords: type (object, array, string, number, integer, boolean),
+// properties, required, items, enum, minLength, maxLength, minimum, maximum,
+// pattern (Go/RE2 regular expression), and description.
+//
+// Unsupported keywords are ignored, including $ref, allOf, anyOf, oneOf, not,
+// additionalProperties, format, default, and examples. A minimum or maximum of
+// zero is treated as unset. Callers that need those keywords must validate with
+// a full JSON Schema library before trusting the result. Object schemas allow
+// additional properties, matching the JSON Schema default.
 package jsonschema
 
 import (
 	"encoding/json"
 	"fmt"
+	"math"
 	"reflect"
+	"regexp"
 	"strings"
+	"unicode/utf8"
 )
 
 // Schema is a minimal JSON Schema validator.
@@ -39,6 +52,9 @@ func (s *Schema) Validate(data any) []ValidationError {
 
 func (s *Schema) validate(data any, path string, errors *[]ValidationError) {
 	if data == nil {
+		if s.Type != "" {
+			*errors = append(*errors, ValidationError{Path: path, Message: fmt.Sprintf("expected %s, got null", s.Type)})
+		}
 		return
 	}
 
@@ -78,21 +94,25 @@ func (s *Schema) validate(data any, path string, errors *[]ValidationError) {
 			*errors = append(*errors, ValidationError{Path: path, Message: "expected string"})
 			return
 		}
-		if s.MinLength > 0 && len(str) < s.MinLength {
-			*errors = append(*errors, ValidationError{Path: path, Message: fmt.Sprintf("min length %d, got %d", s.MinLength, len(str))})
+		length := utf8.RuneCountInString(str)
+		if s.MinLength > 0 && length < s.MinLength {
+			*errors = append(*errors, ValidationError{Path: path, Message: fmt.Sprintf("min length %d, got %d", s.MinLength, length)})
 		}
-		if s.MaxLength > 0 && len(str) > s.MaxLength {
-			*errors = append(*errors, ValidationError{Path: path, Message: fmt.Sprintf("max length %d, got %d", s.MaxLength, len(str))})
+		if s.MaxLength > 0 && length > s.MaxLength {
+			*errors = append(*errors, ValidationError{Path: path, Message: fmt.Sprintf("max length %d, got %d", s.MaxLength, length)})
 		}
 		if s.Pattern != "" {
-			if !matchPattern(s.Pattern, str) {
+			matched, err := regexp.MatchString(s.Pattern, str)
+			if err != nil {
+				*errors = append(*errors, ValidationError{Path: path, Message: fmt.Sprintf("invalid pattern '%s': %v", s.Pattern, err)})
+			} else if !matched {
 				*errors = append(*errors, ValidationError{Path: path, Message: fmt.Sprintf("pattern '%s' not matched", s.Pattern)})
 			}
 		}
 		if len(s.Enum) > 0 {
 			found := false
 			for _, e := range s.Enum {
-				if fmt.Sprint(e) == str {
+				if reflect.DeepEqual(e, data) {
 					found = true
 					break
 				}
@@ -107,10 +127,31 @@ func (s *Schema) validate(data any, path string, errors *[]ValidationError) {
 		case float64:
 			num = v
 		case json.Number:
-			num, _ = v.Float64()
+			var err error
+			num, err = v.Float64()
+			if err != nil {
+				*errors = append(*errors, ValidationError{Path: path, Message: fmt.Sprintf("expected number, got %q", v)})
+				return
+			}
 		default:
 			*errors = append(*errors, ValidationError{Path: path, Message: fmt.Sprintf("expected number, got %T", data)})
 			return
+		}
+		if s.Type == "integer" && math.Trunc(num) != num {
+			*errors = append(*errors, ValidationError{Path: path, Message: fmt.Sprintf("expected integer, got %v", num)})
+			return
+		}
+		if len(s.Enum) > 0 {
+			found := false
+			for _, e := range s.Enum {
+				if reflect.DeepEqual(e, data) {
+					found = true
+					break
+				}
+			}
+			if !found {
+				*errors = append(*errors, ValidationError{Path: path, Message: fmt.Sprintf("value not in enum: %v", s.Enum)})
+			}
 		}
 		if s.Minimum != 0 && num < s.Minimum {
 			*errors = append(*errors, ValidationError{Path: path, Message: fmt.Sprintf("value %v below minimum %v", num, s.Minimum)})
@@ -121,41 +162,21 @@ func (s *Schema) validate(data any, path string, errors *[]ValidationError) {
 	case "boolean":
 		if _, ok := data.(bool); !ok {
 			*errors = append(*errors, ValidationError{Path: path, Message: fmt.Sprintf("expected boolean, got %T", data)})
+			return
 		}
-	}
-}
-
-func matchPattern(pattern, s string) bool {
-	// Simple glob-like pattern matching
-	return matchGlob(pattern, s)
-}
-
-func matchGlob(pattern, str string) bool {
-	px, sx := 0, 0
-	nextP, nextS := 0, 0
-	for px < len(pattern) || sx < len(str) {
-		if px < len(pattern) {
-			c := pattern[px]
-			switch c {
-			case '*':
-				nextP = px
-				nextS = sx + 1
-				px++
-				continue
-			case str[sx]:
-				px++
-				sx++
-				continue
+		if len(s.Enum) > 0 {
+			found := false
+			for _, e := range s.Enum {
+				if reflect.DeepEqual(e, data) {
+					found = true
+					break
+				}
+			}
+			if !found {
+				*errors = append(*errors, ValidationError{Path: path, Message: fmt.Sprintf("value not in enum: %v", s.Enum)})
 			}
 		}
-		if nextS > 0 && nextS <= len(str) {
-			px = nextP
-			sx = nextS
-			continue
-		}
-		return false
 	}
-	return true
 }
 
 // FromJSON parses a JSON Schema from raw JSON.

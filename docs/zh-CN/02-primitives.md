@@ -20,7 +20,7 @@
 | `pkg/sandbox` | `Sandbox.Run`、可选 `Interpreter.Eval` | Vulcan Forge |
 | `pkg/scheduler` | `Scheduler.Add/Remove/List`；从 PRAXOVELA 提取的 cron 引擎 | PRAXOVELA 持久化调度器 |
 | `pkg/toolcall` | `ParseToolCall`、`StripToolCallMarkup`、`ParseInputJSON` | 模型输出解析 |
-| `pkg/tool/jsonschema` | JSON Schema 校验 | 工具输入/输出校验 |
+| `pkg/tool/jsonschema` | 最小 JSON Schema 子集校验 | 工具输入/输出校验；不是完整校验器 |
 | `pkg/flow` | `Runnable`、`Chain`、`Parallel` | 提示词/Agent 组合 |
 | `pkg/prompt` | `Template`、`ChatTemplate` | 提示词组装 |
 | `pkg/retriever` | `Document`、`Retriever` | Mnemovela/GNOSIVELA 检索 |
@@ -35,6 +35,13 @@
 `pkg/toolcall` 存放模型输出中的工具调用解析。`pkg/output`、`pkg/format` 和
 `pkg/tool/schema` 是已在 `1.0.0` 中移除的废弃别名；新代码应导入
 `pkg/toolcall`、`pkg/formatter` 和 `pkg/tool/jsonschema`。
+
+`pkg/tool/jsonschema` 支持 `type`（object、array、string、number、integer、
+boolean）、`properties`、`required`、`items`、`enum`、`minLength`、`maxLength`、
+`minimum`、`maximum`、`pattern`（Go/RE2）和 `description`。不支持的关键字会被
+忽略，包括 `$ref`、`allOf`、`anyOf`、`oneOf`、`not`、`additionalProperties`
+和 `format`；`minimum` 或 `maximum` 为 0 时视为未设置。需要这些关键字时应使用
+完整 JSON Schema 库。
 
 Manifest v1、进程/WASM 宿主协议以及一致性测试套件参见
 [插件编写](10-plugin-authoring.md)。
