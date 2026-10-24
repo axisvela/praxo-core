@@ -39,3 +39,20 @@ state.
 cd examples/ecosystem-sdk
 GOWORK=off go test ./rheovela
 ```
+
+## Live Test
+
+Start a disposable RHEOVELA server, then run the durable worker against it:
+
+```bash
+cd Rheovela
+./rheo serve --addr 127.0.0.1:18080 --db /tmp/praxo-rheo-live.db
+
+cd ../praxo-core/examples/ecosystem-sdk
+RHEO_URL=http://127.0.0.1:18080 GOWORK=off \
+  go test -run TestLiveDurableWorker -v ./rheovela
+```
+
+The test publishes a one-stage workflow, opens a run, commits a result with
+checkpoint/effect refs, then repeats with an approval request and resumes after
+approval. Use a disposable database.

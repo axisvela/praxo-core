@@ -373,8 +373,10 @@ This release does not claim production, deployed, or independent validation.
 - [ ] OpenTelemetry reference example (#3).
 - [x] Add a RHEOVELA durable-worker example using `ResultStore`,
   `ApprovalStore`, and one agent invocation per work item.
-- [ ] Promote the agent node/session/stream remote-worker contract after live
-  RHEOVELA validation.
+- [x] Verify the durable worker against a local RHEOVELA server: result/refs,
+  approval request, and resume after approval.
+- [ ] Promote the agent node/session/stream remote-worker contract after
+  deployed or multi-node RHEOVELA validation.
 - [ ] Verify E2B, Daytona, OpenSandbox, and CubeSandbox adapters against live
   providers and decide whether to promote a common workspace contract to
   `pkg/`. Provider SDKs stay in separate modules.
