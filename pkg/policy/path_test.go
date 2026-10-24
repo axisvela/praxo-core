@@ -179,6 +179,33 @@ func TestPathCheckerInvalidAccess(t *testing.T) {
 	}
 }
 
+func TestPathCheckerRejectsNULByte(t *testing.T) {
+	root := t.TempDir()
+	c, err := NewPathChecker([]PathGrant{{Root: root, Access: AccessReadWrite}})
+	if err != nil {
+		t.Fatal(err)
+	}
+	d, err := c.Check(filepath.Join(root, "bad\x00name"), AccessRead)
+	if err == nil && d.Allowed {
+		t.Fatal("path containing a NUL byte was allowed")
+	}
+}
+
+func TestPathCheckerDeniesDriveRelativePath(t *testing.T) {
+	if runtime.GOOS != "windows" {
+		t.Skip("windows-only drive-relative check")
+	}
+	root := t.TempDir()
+	c, err := NewPathChecker([]PathGrant{{Root: root, Access: AccessReadWrite}})
+	if err != nil {
+		t.Fatal(err)
+	}
+	d, err := c.Check(`C:evil.txt`, AccessRead)
+	if err == nil && d.Allowed {
+		t.Fatal("drive-relative path was allowed")
+	}
+}
+
 func TestPathCheckerWindowsCaseInsensitive(t *testing.T) {
 	if runtime.GOOS != "windows" {
 		t.Skip("windows-only case check")
