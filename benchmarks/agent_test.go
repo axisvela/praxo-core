@@ -7,6 +7,7 @@ import (
 	"testing"
 
 	"github.com/axisvela/praxo-core/v2/pkg/agent"
+	"github.com/axisvela/praxo-core/v2/pkg/memory"
 	"github.com/axisvela/praxo-core/v2/pkg/model"
 	"github.com/axisvela/praxo-core/v2/pkg/tool"
 )
@@ -120,6 +121,37 @@ func BenchmarkAgentParallelTools(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		script.reset()
 		if _, err := instance.Run(ctx, session, "run the tools"); err != nil {
+			b.Fatal(err)
+		}
+	}
+}
+
+func BenchmarkAgentMemoryRecall(b *testing.B) {
+	ctx := context.Background()
+	store := memory.NewMemoryStore()
+	for i := 0; i < 20; i++ {
+		record := memory.Record{
+			Frame:   memory.FrameExperience,
+			Content: fmt.Sprintf("deployment note %d: region %d is healthy", i, i),
+		}
+		if err := store.Put(ctx, "bench", record); err != nil {
+			b.Fatal(err)
+		}
+	}
+	instance, script := newAgent(b, []model.Response{{
+		Message: model.Message{Role: model.RoleAssistant, Content: "ok"},
+	}}, nil, func(options *agent.Options) {
+		options.Memory = store
+		options.Recall = true
+		options.RecallLimit = 5
+	})
+	session := agent.Session{ID: "bench"}
+
+	b.ReportAllocs()
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		script.reset()
+		if _, err := instance.Run(ctx, session, "deployment status"); err != nil {
 			b.Fatal(err)
 		}
 	}

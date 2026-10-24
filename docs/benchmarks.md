@@ -17,6 +17,7 @@ GOWORK=off go test ./benchmarks -bench '.*' -benchmem
 | `BenchmarkAgentSimple` | one model call and a final answer |
 | `BenchmarkAgentToolCall` | one tool call followed by a final answer |
 | `BenchmarkAgentParallelTools` | eight tool calls in one step |
+| `BenchmarkAgentMemoryRecall` | recall from a 20-record in-memory store |
 | `BenchmarkAgentContextBudget` | a 40-message session with context compaction |
 
 ## Methodology

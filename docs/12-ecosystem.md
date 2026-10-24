@@ -21,6 +21,8 @@ product-runtime adapter.
 | Product runtime | All interfaces | [PRAXOVELA](https://github.com/axisvela/praxovela-open) |
 
 Adapter skeletons: [`examples/ecosystem`](https://github.com/axisvela/praxo-core/tree/main/examples/ecosystem).
+The separate [`examples/ecosystem/mcp`](https://github.com/axisvela/praxo-core/tree/main/examples/ecosystem/mcp)
+module demonstrates MCP resources and prompts with an in-memory server.
 
 ## Adapter Modules
 

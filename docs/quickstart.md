@@ -35,7 +35,8 @@ Set `PRAXO_PROMPT` to change the request.
 
 - a model adapter built on the standard library
 - a `get_time` tool exposed through `tool.Registry`
-- event delivery through `event.Sink`
+- streamed text deltas through `agent.Options.OnDelta`
+- event delivery through `event.Sink` (written to stderr)
 - policy authorization through `policy.Hook`
 - the governed agent loop
 

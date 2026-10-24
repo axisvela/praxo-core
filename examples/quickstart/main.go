@@ -45,6 +45,7 @@ func main() {
 	tools := tool.NewRegistry()
 	tools.Register(timeTool{})
 
+	streamed := false
 	ag, err := agent.New(agent.Options{
 		Model: openaicompat.Adapter{
 			BaseURL: baseURL,
@@ -56,9 +57,13 @@ func main() {
 		Tools:        tools,
 		MaxSteps:     4,
 		Events: event.FuncSink(func(_ context.Context, ev event.Event) error {
-			fmt.Println("event:", ev.Type)
+			fmt.Fprintln(os.Stderr, "event:", ev.Type)
 			return nil
 		}),
+		OnDelta: func(delta string) {
+			streamed = true
+			fmt.Print(delta)
+		},
 		Policy: policy.FuncHook(func(context.Context, policy.Action) (policy.Decision, error) {
 			return policy.Decision{Allowed: true}, nil
 		}),
@@ -73,6 +78,10 @@ func main() {
 	}, prompt)
 	if err != nil {
 		log.Fatalf("quickstart: %v\n\nConfigure PRAXO_BASE_URL (current %s), PRAXO_MODEL (current %s), and PRAXO_API_KEY as needed.", err, baseURL, modelName)
+	}
+	if streamed {
+		fmt.Println()
+		return
 	}
 	fmt.Println(result.Output)
 }

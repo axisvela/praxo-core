@@ -16,6 +16,7 @@ GOWORK=off go test ./benchmarks -bench '.*' -benchmem
 | `BenchmarkAgentSimple` | 一次模型调用并返回最终答案 |
 | `BenchmarkAgentToolCall` | 一次工具调用后返回最终答案 |
 | `BenchmarkAgentParallelTools` | 单步内八次工具调用 |
+| `BenchmarkAgentMemoryRecall` | 从 20 条内存记录中召回 |
 | `BenchmarkAgentContextBudget` | 40 条消息会话加上下文压缩 |
 
 ## 方法
