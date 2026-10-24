@@ -97,30 +97,45 @@ type Pauser interface {
 
 ## 提供商评估
 
-下表是检查清单，不是对当前提供商行为或许可证的断言。请根据上游文档和适配器
-spike 填写。
+下表记录离线适配器 spike 实际验证过的内容。“离线”表示该操作在进程内 fake 上
+通过共享一致性检查，不代表实网提供商行为。
 
-| 问题 | E2B | OpenSandbox | CubeSandbox |
-| --- | --- | --- | --- |
-| Go SDK 或稳定 HTTP API | 待确认 | 待确认 | 待确认 |
-| Create / attach / close | 待确认 | 待确认 | 待确认 |
-| 重复命令执行 | 待确认 | 待确认 | 待确认 |
-| Upload / download | 待确认 | 待确认 | 待确认 |
-| Pause / resume | 待确认 | 待确认 | 待确认 |
-| Snapshot 或模板 | 待确认 | 待确认 | 待确认 |
-| 网络与端口策略 | 待确认 | 待确认 | 待确认 |
-| 超时与取消 | 待确认 | 待确认 | 待确认 |
-| 错误分类 | 待确认 | 待确认 | 待确认 |
-| 认证与租户模型 | 待确认 | 待确认 | 待确认 |
-| 许可证兼容性 | 待确认 | 待确认 | 待确认 |
-| 控制平面功能 | 待确认 | 待确认 | 待确认 |
+| 问题 | E2B | Daytona |
+| --- | --- | --- |
+| Go SDK 或稳定 HTTP API | REST + envd Connect/JSON；无官方 Go SDK | Go SDK `v0.226.1` |
+| Create / attach / close | 离线通过；实网待验证 | 离线通过；实网待验证 |
+| 重复命令执行 | 离线通过 | 离线通过 |
+| Upload / download | 离线通过 | 离线通过 |
+| Pause / resume | 离线通过；实网待验证 | 离线通过；实网待验证 |
+| Snapshot 或模板 | 提供商支持；适配器未映射 | 提供商支持；适配器未映射 |
+| 网络与端口策略 | 提供商支持；适配器未暴露 | 提供商支持；适配器未暴露 |
+| 超时与取消 | Context + Connect timeout | Context + execution timeout |
+| 错误分类 | Connect/envd 错误；仅映射 not-found/closed | SDK 错误；仅映射 not-found/closed |
+| 认证与租户模型 | API key + envd access token | API key 或 JWT，organization 与 target |
+| 许可证兼容性 | Apache-2.0 | `cli/` 外为 Apache-2.0；`cli/` 为 AGPL-3.0 |
+| 控制平面功能 | 提供商拥有 | 提供商拥有 |
 
 适配器 spike 必须记录测试版本、端点类型、许可证，以及哪些能力不可用。
 
+## Spike 结论
+
+- 共同子集与候选 `Session` 一致：create/attach、execute、upload/download、
+  VFS 读写、pause/resume。
+- 嵌入 `vfs.Backend` 和 `sandbox.Sandbox` 对两个适配器都适用；可选 `Pauser`
+  也适用。
+- E2B 需要自定义 Connect frame 编解码和 envd 头；Daytona 需要 SDK 包装，因为
+  SDK 只返回一个合并的命令输出字符串。
+- 两个适配器的 `Glob`/`Grep` 都是客户端遍历；没有可移植的服务端搜索契约。
+- Snapshot 和网络策略是提供商特有能力，不应进入第一版契约。
+- 路径和工作目录语义不同。适配器归一化相对路径；实网验证必须确认 home 和
+  cwd 行为。
+- 提升前仍需：实网一致性、最小错误分类、取消与并发测试、大文件传输测试、
+  attach 语义决策。
+
 ## 原型计划
 
-1. 在核心之外增加两个适配器模块，例如 `adapters/workspace/e2b` 和
-   `adapters/workspace/opensandbox`。各自独立 `go.mod` 和 tag。
+1. 在核心之外增加两个适配器模块：`adapters/workspace/e2b` 和
+   `adapters/workspace/daytona`。各自独立 `go.mod` 和 tag。
 2. 使用调用方提供的凭据实现 create/attach、execute、upload/download 和 close。
    不把提供商 SDK 加入核心模块。
 3. 增加一个实现相同契约的内存 fake，用于离线测试。

@@ -102,26 +102,45 @@ Alternatives to evaluate:
 
 ## Provider Evaluation
 
-This table is a checklist, not a claim about current provider behavior or
-licensing. Fill it from upstream documentation and adapter spikes.
+This table records what the offline adapter spikes exercised. "Offline" means
+the operation passed the shared conformance suite against an in-process fake; it
+does not prove live provider behavior.
 
-| Question | E2B | OpenSandbox | CubeSandbox |
-| --- | --- | --- | --- |
-| Go SDK or stable HTTP API | TBD | TBD | TBD |
-| Create / attach / close | TBD | TBD | TBD |
-| Repeated command execution | TBD | TBD | TBD |
-| Upload / download | TBD | TBD | TBD |
-| Pause / resume | TBD | TBD | TBD |
-| Snapshot or template | TBD | TBD | TBD |
-| Network and port policy | TBD | TBD | TBD |
-| Timeout and cancellation | TBD | TBD | TBD |
-| Error taxonomy | TBD | TBD | TBD |
-| Auth and tenancy model | TBD | TBD | TBD |
-| License compatibility | TBD | TBD | TBD |
-| Control-plane features | TBD | TBD | TBD |
+| Question | E2B | Daytona |
+| --- | --- | --- |
+| Go SDK or stable HTTP API | REST plus envd Connect/JSON; no official Go SDK | Go SDK `v0.226.1` |
+| Create / attach / close | Offline pass; live pending | Offline pass; live pending |
+| Repeated command execution | Offline pass | Offline pass |
+| Upload / download | Offline pass | Offline pass |
+| Pause / resume | Offline pass; live pending | Offline pass; live pending |
+| Snapshot or template | Provider documented; adapter not mapped | Provider documented; adapter not mapped |
+| Network and port policy | Provider documented; adapter not exposed | Provider documented; adapter not exposed |
+| Timeout and cancellation | Context plus Connect timeout | Context plus execution timeout |
+| Error taxonomy | Connect/envd errors; only not-found and closed are mapped | SDK errors; only not-found and closed are mapped |
+| Auth and tenancy model | API key plus envd access token | API key or JWT, organization and target |
+| License compatibility | Apache-2.0 | Apache-2.0 outside `cli/`; `cli/` is AGPL-3.0 |
+| Control-plane features | Provider-owned | Provider-owned |
 
 The adapter spike must record the tested version, endpoint type, license, and
 which capabilities are unavailable.
+
+## Spike Findings
+
+- The common subset matches the candidate `Session`: create/attach, execute,
+  upload/download, VFS reads and writes, and pause/resume.
+- Embedding `vfs.Backend` and `sandbox.Sandbox` fit both adapters. Optional
+  `Pauser` also fit both.
+- E2B required a custom Connect frame codec and envd headers. Daytona required
+  an SDK wrapper because the SDK returns one combined command output string.
+- `Glob` and `Grep` are client-side walks on both adapters; neither exposes a
+  portable server-side search contract.
+- Snapshot and network policy are provider-specific and should not enter the
+  first contract.
+- Path and working-directory semantics differ. The adapters normalize relative
+  paths; live verification must confirm home-directory and cwd behavior.
+- Before promotion: run live conformance, define a minimal error taxonomy, test
+  cancellation and concurrency, test large file transfer, and decide attach
+  semantics.
 
 ## Prototype Plan
 

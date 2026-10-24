@@ -372,6 +372,7 @@ claim production, deployed, or independent validation.
 - [x] Add the provider-neutral contract, in-memory fake, and conformance checks
   in `adapters/workspace`.
 - [x] Add E2B and Daytona adapter modules with offline conformance tests.
+- [x] Publish the offline adapter capability findings.
 - [ ] Verify both adapters against live providers and decide whether to promote
   a common contract to `pkg/`. Provider SDKs stay in separate modules.
 - [ ] Plugin trust and SBOM handoff documentation.
