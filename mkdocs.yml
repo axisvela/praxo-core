@@ -59,6 +59,7 @@ nav:
       - Recipes: recipes.md
       - Adapter index: adapters.md
       - Multi-agent patterns: 13-multi-agent.md
+      - Workspace and session contract: 14-workspace-session.md
       - AxisVela ecosystem: 12-ecosystem.md
       - Comparison: comparison.md
       - Plugin authoring: 10-plugin-authoring.md
@@ -94,6 +95,7 @@ nav:
       - Recipes: zh-CN/recipes.md
       - 适配器索引: zh-CN/adapters.md
       - 多 Agent 模式: zh-CN/13-multi-agent.md
+      - Workspace 与 Session 契约: zh-CN/14-workspace-session.md
       - AxisVela 生态: zh-CN/12-ecosystem.md
       - 对比: zh-CN/comparison.md
       - 插件编写: zh-CN/10-plugin-authoring.md

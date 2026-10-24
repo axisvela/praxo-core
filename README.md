@@ -228,6 +228,7 @@ extracted from PRAXOVELA's proven runtime.
 - [Recipes](docs/recipes.md)
 - [Adapter index](docs/adapters.md)
 - [Multi-agent patterns](docs/13-multi-agent.md)
+- [Workspace and session contract](docs/14-workspace-session.md)
 - [Comparison with other Go agent frameworks](docs/comparison.md)
 - [Benchmarks](docs/benchmarks.md)
 - [AxisVela ecosystem integration](docs/12-ecosystem.md)
