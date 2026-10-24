@@ -138,6 +138,18 @@ jobs:
         working-directory: adapters/workspace/daytona
       - run: go build ./...
         working-directory: adapters/workspace/daytona
+      - run: go test ./...
+        working-directory: adapters/workspace/opensandbox
+      - run: go vet ./...
+        working-directory: adapters/workspace/opensandbox
+      - run: go build ./...
+        working-directory: adapters/workspace/opensandbox
+      - run: go test ./...
+        working-directory: adapters/workspace/cubesandbox
+      - run: go vet ./...
+        working-directory: adapters/workspace/cubesandbox
+      - run: go build ./...
+        working-directory: adapters/workspace/cubesandbox
 
   module-security:
     strategy:
@@ -154,6 +166,8 @@ jobs:
           - adapters/workspace
           - adapters/workspace/e2b
           - adapters/workspace/daytona
+          - adapters/workspace/opensandbox
+          - adapters/workspace/cubesandbox
           - examples/ecosystem-sdk
           - examples/ecosystem/mcp
           - tests/consumer

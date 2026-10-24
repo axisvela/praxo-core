@@ -25,12 +25,14 @@ GOWORK=off go build ./...
 
 - `e2b`: E2B platform REST and envd adapter, with an in-process fake server test.
 - `daytona`: Daytona Go SDK adapter, with an in-process fake client test.
+- `opensandbox`: OpenSandbox Go SDK adapter, with an in-process fake client test.
+- `cubesandbox`: CubeSandbox Go SDK adapter, with an in-process fake client test.
 
 ## Status
 
-The shared contract, fake, conformance checks, and offline E2B/Daytona adapters
-exist. Neither adapter has been run against a live provider in this environment.
-OpenSandbox and CubeSandbox are the next adapter candidates; CubeSandbox is
-E2B-compatible, so the E2B adapter may serve as a compatibility profile before a
-separate implementation. Provider SDKs stay in their own adapter modules, and
-live tests must be opt-in.
+The shared contract, fake, conformance checks, and offline E2B, Daytona,
+OpenSandbox, and CubeSandbox adapters exist. None has been run against a live
+provider in this environment. CubeSandbox is E2B-compatible, so the E2B adapter
+may still be evaluated as a compatibility profile before keeping a separate
+implementation. Provider SDKs stay in their own adapter modules, and live tests
+must be opt-in.

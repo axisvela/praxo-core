@@ -373,10 +373,12 @@ claim production, deployed, or independent validation.
   in `adapters/workspace`.
 - [x] Add E2B and Daytona adapter modules with offline conformance tests.
 - [x] Publish the offline adapter capability findings.
-- [ ] Verify both adapters against live providers and decide whether to promote
-  a common contract to `pkg/`. Provider SDKs stay in separate modules.
-- [ ] Add OpenSandbox and CubeSandbox adapter spikes. Test whether CubeSandbox
-  can reuse the E2B compatibility path before writing a separate implementation.
+- [x] Add OpenSandbox and CubeSandbox adapter modules with offline conformance
+  tests.
+- [ ] Verify all four adapters against live providers and decide whether to
+  promote a common contract to `pkg/`. Provider SDKs stay in separate modules.
+- [ ] Test whether CubeSandbox can reuse the E2B compatibility path before
+  keeping the separate implementation.
 - [x] Plugin trust and SBOM handoff documentation
   (`docs/15-plugin-trust-sbom.md`).
 - [ ] Compatibility and deprecation rules for exported contracts.
