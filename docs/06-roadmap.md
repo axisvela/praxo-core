@@ -68,8 +68,8 @@ declarations:
 
 ## Long-Term Technical Direction
 
-- **3-6 months:** containment hardening, conformance suite, and remote worker
-  contract.
+- **3-6 months:** containment hardening, OpenTelemetry reference, live
+  workspace verification, and the remote worker contract.
 - **6-12 months:** stable event/OpenTelemetry schemas, compatibility rules, and
   independent implementations.
 - **12+ months:** frozen `pkg/...` API, verifiable consumers for every feature,

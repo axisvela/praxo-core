@@ -9,8 +9,9 @@ are additive.
 
 ## Audit Result
 
-- Exported declarations: **701**
+- Exported declarations at the `2.0.0` audit: **701**
 - Exported declarations without a doc comment: **0**
+- Later additions are tracked by `api/<version>.txt` snapshots.
 - Scope: `pkg/...`; examples, tests, unexported receiver methods, and testdata
   are excluded.
 - The audit covers exported functions, methods on exported types, types,

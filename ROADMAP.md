@@ -47,22 +47,20 @@
 
 See `CHANGELOG.md` for exact changes.
 
-## Post-2.4 Framework Priorities
+## Post-2.5 Framework Priorities
 
-`2.4.0` completed the adoption surface. The next framework work is verification,
-hardening, and stable integration contracts, without changing the frozen
-`pkg/...` API.
+`2.5.0` delivered the conformance suite, localfs special-path hardening,
+event/OTel schema notes, plugin trust/SBOM handoff, and the workspace/session
+evaluation. Remaining framework work, without changing existing exported
+`pkg/...` declarations:
 
 | Priority | Work | Exit evidence |
 | --- | --- | --- |
-| P0 | Published-consumer verification for `v2.4.0` | an external module pins `v2.4.0` with no replace; test, vet, and build pass |
 | P0 | Containment hardening | adversarial tests for TOCTOU, Linux process trees, and WASM CPU limits; residual-risk update |
 | P1 | OpenTelemetry reference example (#3) | opt-in example, tests, and documentation |
-| P1 | Conformance suite | an external implementation can run the suite |
-| P1 | Event and OpenTelemetry schema notes | documented compatibility rules |
-| P1 | Remote worker contract with RHEOVELA | node/session/stream contract tests; no graph runtime in core |
-| P1 | Stateful workspace/session contract | at least two sandbox-provider adapters fit without provider-specific fields; provider SDKs stay out of core |
-| P2 | Plugin trust and SBOM handoff | product-owned materialization boundary documented |
+| P1 | Stateful workspace/session contract | live verification of at least two provider adapters without provider-specific fields; SDKs stay out of core |
+| P1 | Remote worker contract with RHEOVELA | core integration contract; RHEOVELA-ee owns deployment HA and identity |
+| P2 | Conformance adoption | at least one independent implementation runs the suite |
 
 ## Long-Term Technical Direction
 
@@ -352,7 +350,7 @@ Exit gate:
 
 ## 2.5.0 - Framework Hardening (released 2026-10-24)
 
-- [x] Published-consumer verification for `v2.4.0`.
+- [x] Published-consumer verification for `v2.5.0`.
 - [x] Conformance checks for VFS, memory, sandbox, event, policy, gateway,
   model, streaming model, tool, and retriever seams.
 - [x] `conformance.Run` executes named checks and reports all failures in one

@@ -64,7 +64,8 @@
 
 ## 长期技术方向
 
-- **3-6 个月：** containment 加固、契约测试套件和远程 worker 契约。
+- **3-6 个月：** containment 加固、OpenTelemetry reference、workspace 实网
+  验证和远程 worker 契约。
 - **6-12 个月：** 稳定事件/OpenTelemetry schema、兼容规则和独立实现。
 - **12 个月以上：** 冻结 `pkg/...` API，每项功能都有可验证使用方，并保持 MIT
   边界。
