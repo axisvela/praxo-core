@@ -64,6 +64,45 @@ Linux.
 
 This writes `dist/praxo-core-1.0.0.tar.gz` and `dist/SHA256SUMS`.
 
+## Optional Adapter Modules
+
+Modules under `adapters/<name>` have their own `go.mod` and an independent
+semantic-version line. They keep provider and protocol SDKs out of the core
+module, so a core release does not require an adapter release and vice versa.
+
+Tag an optional module as `adapters/<name>/vX.Y.Z`:
+
+```bash
+git tag -s adapters/mcp/v0.3.1 -m "praxo-core adapters/mcp v0.3.1"
+git tag -v adapters/mcp/v0.3.1
+git push origin adapters/mcp/v0.3.1
+```
+
+Existing module tags are immutable. Consumers install the tagged module with
+the version segment from the tag:
+
+```bash
+go get github.com/axisvela/praxo-core/adapters/mcp@v0.3.1
+```
+
+The module tag must match the module's `go.mod` path. Update the module
+`README.md` and `docs/adapters.md` in the same change, and run the module's
+tests, vet, and build from its directory before tagging. The root `release.yml`
+workflow runs only for `v*` tags; a tag such as `adapters/mcp/v0.3.1` does not
+produce the core archive, SBOM, or GitHub release. Verify and publish optional
+module releases separately.
+
+Current optional modules:
+
+- [`adapters/mcp`](https://github.com/axisvela/praxo-core/tree/main/adapters/mcp) - MCP tools, resources, and prompts
+- [`adapters/otel`](https://github.com/axisvela/praxo-core/tree/main/adapters/otel) - OpenTelemetry event sink
+- [`adapters/anthropic`](https://github.com/axisvela/praxo-core/tree/main/adapters/anthropic) - native Anthropic adapter
+- [`adapters/gemini`](https://github.com/axisvela/praxo-core/tree/main/adapters/gemini) - native Gemini adapter
+
+The same scheme applies to `adapters/harmovela`, `adapters/a2a`, and
+`adapters/multiagent`. The OpenAI-compatible adapter stays in the core module
+because it uses only the standard library.
+
 ## Tag and Publish
 
 ```bash

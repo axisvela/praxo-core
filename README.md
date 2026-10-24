@@ -98,7 +98,8 @@ GOWORK=off go run ./examples/quickstart
 On PowerShell use `$env:PRAXO_BASE_URL = "..."` and the same variable names.
 Set `PRAXO_PROMPT` to change the request. The model adapter uses only the
 standard library; no provider SDK is required. The example demonstrates tool
-calling, events, and policy.
+calling, streamed text deltas through `agent.Options.OnDelta`, events, and
+policy.
 
 Optional adapters:
 

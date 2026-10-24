@@ -34,3 +34,11 @@ Run the end-to-end wiring demo:
 ```bash
 GOWORK=off go run ./examples/ecosystem/cmd/demo
 ```
+
+For MCP resources and prompts, see [`mcp`](mcp), a separate module that uses
+`adapters/mcp` with an in-memory server:
+
+```bash
+cd examples/ecosystem/mcp
+GOWORK=off go run .
+```

@@ -34,7 +34,8 @@ PowerShell 使用 `$env:PRAXO_BASE_URL = "..."`，变量名相同。可通过
 
 - 仅使用标准库的模型适配器
 - 通过 `tool.Registry` 暴露的 `get_time` 工具
-- 通过 `event.Sink` 传递事件
+- 通过 `agent.Options.OnDelta` 流式输出文本增量
+- 通过 `event.Sink` 传递事件（写入 stderr）
 - 通过 `policy.Hook` 执行策略授权
 - 受治理的 Agent 循环
 

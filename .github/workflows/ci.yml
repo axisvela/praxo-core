@@ -62,6 +62,12 @@ jobs:
         working-directory: examples/ecosystem-sdk
       - run: go build ./...
         working-directory: examples/ecosystem-sdk
+      - run: go test ./...
+        working-directory: examples/ecosystem/mcp
+      - run: go vet ./...
+        working-directory: examples/ecosystem/mcp
+      - run: go build ./...
+        working-directory: examples/ecosystem/mcp
 
   adapters:
     runs-on: ubuntu-latest
@@ -128,6 +134,7 @@ jobs:
           - adapters/a2a
           - adapters/multiagent
           - examples/ecosystem-sdk
+          - examples/ecosystem/mcp
           - tests/consumer
     runs-on: ubuntu-latest
     env:

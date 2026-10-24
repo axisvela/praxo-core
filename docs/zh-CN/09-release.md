@@ -62,6 +62,40 @@ go install github.com/CycloneDX/cyclonedx-gomod/cmd/cyclonedx-gomod@latest
 
 这会写入 `dist/praxo-core-1.0.0.tar.gz` 和 `dist/SHA256SUMS`。
 
+## 可选适配器模块
+
+`adapters/<name>` 下的模块有自己的 `go.mod` 和独立语义化版本线。它们让提供商
+和协议 SDK 不进入核心模块，因此核心发布不要求适配器发布，反之亦然。
+
+可选模块使用 `adapters/<name>/vX.Y.Z` 标签：
+
+```bash
+git tag -s adapters/mcp/v0.3.1 -m "praxo-core adapters/mcp v0.3.1"
+git tag -v adapters/mcp/v0.3.1
+git push origin adapters/mcp/v0.3.1
+```
+
+已存在的模块标签不可移动。使用方通过标签中的版本段安装模块：
+
+```bash
+go get github.com/axisvela/praxo-core/adapters/mcp@v0.3.1
+```
+
+模块标签必须与模块的 `go.mod` 路径匹配。打标签前，在同一次变更中更新模块
+`README.md` 和 `docs/adapters.md`，并在模块目录运行 test、vet 和 build。根目录的
+`release.yml` 只响应 `v*` 标签；`adapters/mcp/v0.3.1` 这类标签不会生成核心归档、
+SBOM 或 GitHub Release。可选模块发布需单独验证和发布。
+
+当前可选模块：
+
+- [`adapters/mcp`](https://github.com/axisvela/praxo-core/tree/main/adapters/mcp) - MCP 工具、资源和提示词
+- [`adapters/otel`](https://github.com/axisvela/praxo-core/tree/main/adapters/otel) - OpenTelemetry 事件接收器
+- [`adapters/anthropic`](https://github.com/axisvela/praxo-core/tree/main/adapters/anthropic) - 原生 Anthropic 适配器
+- [`adapters/gemini`](https://github.com/axisvela/praxo-core/tree/main/adapters/gemini) - 原生 Gemini 适配器
+
+同一方案适用于 `adapters/harmovela`、`adapters/a2a` 和 `adapters/multiagent`。
+OpenAI 兼容适配器只使用标准库，因此保留在核心模块中。
+
 ## 打标签与发布
 
 ```bash

@@ -20,6 +20,8 @@ PRAXO-CORE 是 AxisVela Agent 共享的框架层。它暴露中立的契约，�
 | 产品运行时 | 所有接口 | [PRAXOVELA](https://github.com/axisvela/praxovela-open) |
 
 适配器骨架：[`examples/ecosystem`](https://github.com/axisvela/praxo-core/tree/main/examples/ecosystem)。
+独立的 [`examples/ecosystem/mcp`](https://github.com/axisvela/praxo-core/tree/main/examples/ecosystem/mcp)
+模块使用内存服务器演示 MCP 资源和提示词。
 
 ## 适配器模块
 
