@@ -14,8 +14,8 @@ github.com/axisvela/praxo-core/adapters/multiagent v0.2.0 h1:sIuUdmN5lCBTVRxKCBp
 github.com/axisvela/praxo-core/adapters/multiagent v0.2.0/go.mod h1:k5Mr9tDhg57etMO4wpsVaERMlcmTyoLGFBGnuXF0/bg=
 github.com/axisvela/praxo-core/adapters/otel v0.2.0 h1:YCvNFf2HD5LzoAl/tMdziSLnkFAtZCy0RdxR8mi//Xk=
 github.com/axisvela/praxo-core/adapters/otel v0.2.0/go.mod h1:oa+4gsnC11tz1UZb/coOQ1l7ORusZ23g5IJGJ2VXpHc=
-github.com/axisvela/praxo-core/v2 v2.3.2 h1:ZFq5TrlHgWPowNshAnkJRjHYE8JyHlpYFLTOPXvldTQ=
-github.com/axisvela/praxo-core/v2 v2.3.2/go.mod h1:B1HB9Eu8Tk1mdWhd0954ANj6Zni0rBn+Tobj+9Kve3o=
+github.com/axisvela/praxo-core/v2 v2.3.3 h1:sg1uFkjxYS+PYYLrCmXiZRaGSHUgqZ8bCXEagYkYblI=
+github.com/axisvela/praxo-core/v2 v2.3.3/go.mod h1:B1HB9Eu8Tk1mdWhd0954ANj6Zni0rBn+Tobj+9Kve3o=
 github.com/cespare/xxhash/v2 v2.3.0 h1:UL815xU9SqsFlibzuggzjXhog7bL6oX9BbNZnL2UFvs=
 github.com/cespare/xxhash/v2 v2.3.0/go.mod h1:VGX0DQ3Q6kWi7AoAeZDth3/j3BFtOZR5XLFGgcrjCOs=
 github.com/go-logr/logr v1.4.4 h1:tG4xh9yMsRCAiodLVTxyrkzSZ9+o0L1Kg/+cPVcbP/8=
