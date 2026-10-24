@@ -111,6 +111,60 @@ func TestSchedulerEnableDisable(t *testing.T) {
 	}
 }
 
+func TestSchedulerDisableWaitsForInflightDispatch(t *testing.T) {
+	started := make(chan struct{}, 1)
+	release := make(chan struct{})
+	var mu sync.Mutex
+	fired := 0
+
+	eng := NewEngine(func(*Schedule) {
+		mu.Lock()
+		fired++
+		mu.Unlock()
+		select {
+		case started <- struct{}{}:
+		default:
+		}
+		<-release
+	})
+	eng.Start()
+	defer eng.Stop()
+	eng.Add(&Schedule{ID: "s1", CronExpr: "@every 10ms", Enabled: true})
+
+	select {
+	case <-started:
+	case <-time.After(2 * time.Second):
+		t.Fatal("schedule did not fire")
+	}
+	done := make(chan struct{})
+	go func() {
+		_ = eng.SetEnabled("s1", false)
+		close(done)
+	}()
+	select {
+	case <-done:
+		t.Fatal("disable returned before inflight dispatch completed")
+	case <-time.After(20 * time.Millisecond):
+	}
+	close(release)
+	select {
+	case <-done:
+	case <-time.After(2 * time.Second):
+		t.Fatal("disable did not return")
+	}
+
+	mu.Lock()
+	before := fired
+	mu.Unlock()
+	time.Sleep(50 * time.Millisecond)
+	mu.Lock()
+	after := fired
+	mu.Unlock()
+	if after != before {
+		t.Fatalf("dispatch continued after disable: %d -> %d", before, after)
+	}
+}
+
 func TestSchedulerDefaultCronExpr(t *testing.T) {
 	eng := NewEngine(nil)
 	eng.Start()
