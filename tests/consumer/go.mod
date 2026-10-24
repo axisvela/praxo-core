@@ -10,7 +10,7 @@ require (
 	github.com/axisvela/praxo-core/adapters/mcp v0.3.0
 	github.com/axisvela/praxo-core/adapters/multiagent v0.2.0
 	github.com/axisvela/praxo-core/adapters/otel v0.2.0
-	github.com/axisvela/praxo-core/v2 v2.3.5
+	github.com/axisvela/praxo-core/v2 v2.3.6
 )
 
 require (
