@@ -30,8 +30,10 @@ native adapters for their respective APIs.
 The MCP module exposes tools through `tool.Gateway` and provides module-level
 helpers for resources and prompts. Use `NewTools` for model-facing registration:
 it preserves each server's input schema, unlike the generic
-`tool.NewGatewayTools` path. The OpenTelemetry module maps lifecycle events to
-spans and excludes event data by default.
+`tool.NewGatewayTools` path. See the
+[in-memory resources and prompts example](https://github.com/axisvela/praxo-core/tree/main/examples/ecosystem/mcp).
+The OpenTelemetry module maps lifecycle events to spans and excludes event data
+by default.
 
 The A2A adapter has in-process JSON-RPC and gRPC round-trip tests plus a
 [Google ADK Go external-consumer example](https://github.com/axisvela/enterprise-autonomy/tree/main/examples/a2a-adk-order-cancellation)
