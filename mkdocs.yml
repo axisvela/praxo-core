@@ -62,6 +62,7 @@ nav:
       - v2 migration: 11-migration-v2.md
   - Operations:
       - Security model: 08-security.md
+      - Containment review: containment-review.md
       - Benchmarks: benchmarks.md
       - Release process: 09-release.md
       - API freeze: 07-api-freeze.md

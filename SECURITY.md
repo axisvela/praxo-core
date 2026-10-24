@@ -40,4 +40,6 @@ Out of scope for this repository:
 - prompt-injection content that is correctly denied by policy
 
 See [docs/08-security.md](docs/08-security.md) for the framework threat model
-and known limitations.
+and known limitations, and [docs/containment-review.md](docs/containment-review.md)
+for the internal control map and residual risks. The containment review is not
+independent sign-off.
