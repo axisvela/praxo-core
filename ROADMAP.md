@@ -60,6 +60,7 @@ hardening, and stable integration contracts, without changing the frozen
 | P1 | Conformance suite | an external implementation can run the suite |
 | P1 | Event and OpenTelemetry schema notes | documented compatibility rules |
 | P1 | Remote worker contract with RHEOVELA | node/session/stream contract tests; no graph runtime in core |
+| P1 | Stateful workspace/session contract | at least two sandbox-provider adapters fit without provider-specific fields; provider SDKs stay out of core |
 | P2 | Plugin trust and SBOM handoff | product-owned materialization boundary documented |
 
 ## Long-Term Technical Direction
@@ -363,6 +364,10 @@ claim production, deployed, or independent validation.
 
 ## 2.6.0 - Independent Implementations (candidate)
 
+- [ ] Evaluate a stateful workspace/session contract with at least two sandbox
+  provider adapters (for example E2B, OpenSandbox, or CubeSandbox). Provider
+  adapters stay in separate modules; promote a common contract to `pkg/` only
+  after both fit without provider-specific fields.
 - [ ] Plugin trust and SBOM handoff documentation.
 - [ ] Compatibility and deprecation rules for exported contracts.
 - [ ] At least one independent implementation running the conformance suite.

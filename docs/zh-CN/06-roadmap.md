@@ -57,6 +57,8 @@
 - 外部实现可运行的契约测试套件
 - 事件与 OpenTelemetry schema 兼容规则
 - 与 RHEOVELA 的远程 worker 契约
+- 用至少两个 sandbox provider 适配器评估有状态 workspace/session 契约；
+  提供商 SDK 不进入核心模块
 
 ## 长期技术方向
 
