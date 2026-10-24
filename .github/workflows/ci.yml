@@ -115,6 +115,35 @@ jobs:
       - run: go build ./...
         working-directory: adapters/multiagent
 
+  module-security:
+    strategy:
+      fail-fast: false
+      matrix:
+        module:
+          - adapters/mcp
+          - adapters/otel
+          - adapters/anthropic
+          - adapters/gemini
+          - adapters/harmovela
+          - adapters/a2a
+          - adapters/multiagent
+          - examples/ecosystem-sdk
+          - tests/consumer
+    runs-on: ubuntu-latest
+    env:
+      GOWORK: "off"
+    defaults:
+      run:
+        working-directory: ${{ matrix.module }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: "1.26.10"
+          cache-dependency-path: ${{ matrix.module }}/go.sum
+      - run: go test -race -mod=readonly ./...
+      - run: go run golang.org/x/vuln/cmd/govulncheck@latest ./...
+
   benchmarks:
     runs-on: ubuntu-latest
     env:
