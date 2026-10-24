@@ -56,7 +56,7 @@
 - OpenTelemetry reference 示例（#3）
 - VFS、memory、sandbox、event、policy、gateway、model、流式 model、tool 和
   retriever 的外部契约检查，以及统一 runner
-- 事件与 OpenTelemetry schema 兼容规则
+- 事件与 OpenTelemetry schema 兼容规则（已发布）
 - 与 RHEOVELA 的远程 worker 契约
 - 用至少两个 sandbox provider 适配器评估有状态 workspace/session 契约；
   提供商 SDK 不进入核心模块
