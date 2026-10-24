@@ -90,8 +90,11 @@ if err := conformance.CheckMemoryStore(ctx, store); err != nil {
 
 The checks cover VFS write, stat, read, list, glob, grep, delete, recursive
 delete, and `ErrNotFound`, plus memory put, search, session isolation, and
-result limits. They are additive and do not replace
-implementation-specific tests.
+result limits. `CheckEventSink`, `CheckPolicyHook`, `CheckGateway`,
+`CheckGatewayExecute`, and `CheckSandbox` cover the other runtime seams.
+Policy, gateway execution, and sandbox cases are caller-supplied because their
+behavior is product- and environment-specific. They are additive and do not
+replace implementation-specific tests.
 
 ## Adding an Adapter
 

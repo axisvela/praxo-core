@@ -60,8 +60,11 @@ if err := conformance.CheckMemoryStore(ctx, store); err != nil {
 ```
 
 检查覆盖 VFS 的 write、stat、read、list、glob、grep、delete、递归删除和
-`ErrNotFound`，以及 memory 的 put、search、会话隔离和结果上限。这些检查是
-增量补充，不替代实现方自己的测试。
+`ErrNotFound`，以及 memory 的 put、search、会话隔离和结果上限。
+`CheckEventSink`、`CheckPolicyHook`、`CheckGateway`、`CheckGatewayExecute`
+和 `CheckSandbox` 覆盖其他运行时接缝。Policy、gateway 执行和 sandbox 用例由
+调用方提供，因为其行为取决于产品和环境。这些检查是增量补充，不替代实现方
+自己的测试。
 
 ## 新增适配器
 
