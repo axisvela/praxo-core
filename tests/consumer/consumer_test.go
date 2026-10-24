@@ -70,7 +70,7 @@ func TestPublishedDependencyGraph(t *testing.T) {
 		t.Fatal(err)
 	}
 	expected := map[string]string{
-		"github.com/axisvela/praxo-core/v2":                  "v2.3.3",
+		"github.com/axisvela/praxo-core/v2":                  "v2.3.4",
 		"github.com/axisvela/praxo-core/adapters/a2a":        "v0.1.0",
 		"github.com/axisvela/praxo-core/adapters/anthropic":  "v0.1.0",
 		"github.com/axisvela/praxo-core/adapters/gemini":     "v0.1.1",
