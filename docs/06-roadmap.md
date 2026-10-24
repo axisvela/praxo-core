@@ -45,24 +45,44 @@ blockers. They are sequenced after the stable API and release gates.
 The current release is `2.4.0`, an adoption-surface refresh with a streaming
 quickstart, an in-memory MCP resources/prompts example, and a memory recall
 benchmark. It changes no exported `pkg/...` API.
-`2.5.0` remains the adoption-evidence candidate; local A2A interoperability is
-not deployed-peer, complete v2 IAM, or production-load evidence.
+`2.5.0` is the framework-hardening candidate; it does not claim external
+adoption or deployed-product evidence.
 
-## Adoption Workstream
+## Post-2.4 Framework Priorities
 
-The `2.4.x` workstream keeps the `pkg/...` API additive and otherwise frozen
-while improving execution correctness and the path from discovery to
-production:
+`2.4.0` completed the adoption surface. The next framework work is verification,
+hardening, and stable integration contracts, without changing the frozen
+`pkg/...` API:
 
-- quickstart and reference app
+- published-consumer verification for `v2.4.0`
+- adversarial containment tests for TOCTOU, Linux process trees, and WASM CPU
+- the OpenTelemetry reference example (#3)
+- an external conformance suite
+- event and OpenTelemetry schema compatibility rules
+- the remote worker contract with RHEOVELA
+
+## Long-Term Technical Direction
+
+- **3-6 months:** containment hardening, conformance suite, and remote worker
+  contract.
+- **6-12 months:** stable event/OpenTelemetry schemas, compatibility rules, and
+  independent implementations.
+- **12+ months:** frozen `pkg/...` API, verifiable consumers for every feature,
+  and an intact MIT boundary.
+
+Product adoption, case studies, and go-to-market planning are tracked outside
+this repository.
+
+## Adoption Surface (delivered)
+
+- streaming quickstart and reference app
 - event-driven subagent waits, real `flow.Parallel` concurrency, and bounded
   multi-agent supervision
 - OpenAI-compatible, MCP, OTel, Anthropic, Gemini, Harmovela, A2A, and
   multi-agent adapters/modules
 - NOETIVELA, Mnemovela, GNOSIVELA, AEGIVELA, LIMENORA, and RHEOVELA recipes
 - bilingual docs site, multi-agent guidance, adoption guide, and recipes
-- benchmarks and release notes
-- published-module consumer checks and community files
+- benchmarks, release notes, and published-module consumer checks
 
 ## Evidence
 

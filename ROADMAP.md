@@ -2,7 +2,7 @@
 
 **Current:** `2.4.0` adoption surface refresh (2026-10-24)
 
-**Target:** `2.5.0` adoption evidence
+**Target:** `2.5.0` framework hardening
 
 ## Release History
 
@@ -46,19 +46,33 @@
 
 See `CHANGELOG.md` for exact changes.
 
-## Adoption Workstream
+## Post-2.4 Framework Priorities
 
-The next release focuses on making the framework easy to discover, try, and
-integrate without changing the frozen `pkg/...` API.
+`2.4.0` completed the adoption surface. The next framework work is verification,
+hardening, and stable integration contracts, without changing the frozen
+`pkg/...` API.
 
-- **Try:** one-command quickstart, reference workspace agent, public docs site.
-- **Integrate:** OpenAI-compatible and MCP adapters; NOETIVELA, Mnemovela, and
-  GNOSIVELA SDK recipes; AxisVela ecosystem map.
-- **Prove:** agent-loop benchmarks, security model, compatibility gates.
-- **Community:** contributing guide, issue/PR templates, Discussions, good first
-  issues.
-- **Release:** monthly minor cadence; separate tags for optional modules such as
-  `adapters/mcp/v0.1.0`.
+| Priority | Work | Exit evidence |
+| --- | --- | --- |
+| P0 | Published-consumer verification for `v2.4.0` | an external module pins `v2.4.0` with no replace; test, vet, and build pass |
+| P0 | Containment hardening | adversarial tests for TOCTOU, Linux process trees, and WASM CPU limits; residual-risk update |
+| P1 | OpenTelemetry reference example (#3) | opt-in example, tests, and documentation |
+| P1 | Conformance suite | an external implementation can run the suite |
+| P1 | Event and OpenTelemetry schema notes | documented compatibility rules |
+| P1 | Remote worker contract with RHEOVELA | node/session/stream contract tests; no graph runtime in core |
+| P2 | Plugin trust and SBOM handoff | product-owned materialization boundary documented |
+
+## Long-Term Technical Direction
+
+- **3-6 months:** finish containment hardening, the conformance suite, and the
+  remote worker contract.
+- **6-12 months:** stabilize event and OpenTelemetry schemas, publish
+  compatibility rules, and support independent implementations.
+- **12+ months:** keep the `pkg/...` API frozen, add features only with a
+  verifiable consumer, and preserve the MIT boundary.
+
+Technical direction only: product adoption, case studies, and go-to-market
+planning live outside this repository.
 
 ## 0.1.0 - Contract Baseline
 
@@ -334,19 +348,25 @@ Exit gate:
   CI.
 - No exported `pkg/...` API change.
 
-The external-evidence items below remain for 2.5.0. This release does not claim
-production, deployed, or independent validation.
+The framework-hardening items below remain for 2.5.0. This release does not
+claim production, deployed, or independent validation.
 
-## 2.5.0 - Adoption Evidence (candidate)
+## 2.5.0 - Framework Hardening (candidate)
 
-- [ ] Production case study and external benchmark validation.
-- [x] External Google ADK Go JSON-RPC consumer interoperability on loopback,
-  including discovery, authentication, concurrency, TLS, and card-origin checks.
-- [ ] Deployed remote A2A peer, external gRPC, complete v2 IAM, real gateway
-  reverse ingress, instance leases, and deployed throughput/SLO evidence.
-- [x] Baseline provider/security recipe review in 2.3.2.
-- [ ] Follow-up security review of final tool-call authorization and host
-  containment; do not equate an implemented hook with an independent review.
+- [ ] Published-consumer verification for `v2.4.0`.
+- [ ] Adversarial containment harness for TOCTOU, Linux process trees, and WASM
+  CPU limits.
+- [ ] OpenTelemetry reference example (#3).
+- [ ] Conformance suite that an external implementation can run.
+- [ ] Event and OpenTelemetry schema compatibility notes.
+- [ ] Remote worker contract with RHEOVELA.
+
+## 2.6.0 - Independent Implementations (candidate)
+
+- [ ] Plugin trust and SBOM handoff documentation.
+- [ ] Compatibility and deprecation rules for exported contracts.
+- [ ] At least one independent implementation running the conformance suite.
+- [ ] No AGPL imports; MIT boundary preserved.
 
 ## Graph Runtime Boundary
 

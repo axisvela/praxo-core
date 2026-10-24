@@ -43,8 +43,39 @@
 稳定 API 和发布门禁之后。
 
 当前已发布版本为 `2.4.0`，这是一次采用面更新，包含流式 quickstart、内存 MCP
-资源/提示词示例和记忆召回基准，不改变导出 `pkg/...` API。`2.5.0` 仍以采用证据
-验收；本地 A2A 互操作不等于部署远端 peer、完整 v2 IAM 或生产负载验证。
+资源/提示词示例和记忆召回基准，不改变导出 `pkg/...` API。`2.5.0` 是框架加固
+候选版本，不声称外部采用或部署产品证据。
+
+## 2.4 之后的框架优先级
+
+`2.4.0` 已完成采用面。接下来的框架工作是验证、加固和稳定的集成契约，不改变
+冻结的 `pkg/...` API：
+
+- `v2.4.0` 的已发布版本 consumer 验证
+- TOCTOU、Linux 进程树和 WASM CPU 限制的对抗性 containment 测试
+- OpenTelemetry reference 示例（#3）
+- 外部实现可运行的契约测试套件
+- 事件与 OpenTelemetry schema 兼容规则
+- 与 RHEOVELA 的远程 worker 契约
+
+## 长期技术方向
+
+- **3-6 个月：** containment 加固、契约测试套件和远程 worker 契约。
+- **6-12 个月：** 稳定事件/OpenTelemetry schema、兼容规则和独立实现。
+- **12 个月以上：** 冻结 `pkg/...` API，每项功能都有可验证使用方，并保持 MIT
+  边界。
+
+产品采用、案例研究和市场推广不在本仓库跟踪。
+
+## 已交付的采用面
+
+- 流式 quickstart 与 reference app
+- 事件驱动子 Agent 等待、真实 `flow.Parallel` 并发、有界多 Agent 监督
+- OpenAI 兼容、MCP、OTel、Anthropic、Gemini、Harmovela、A2A 与多 Agent
+  适配器/模块
+- NOETIVELA、Mnemovela、GNOSIVELA、AEGIVELA、LIMENORA 与 RHEOVELA recipes
+- 双语文档站、多 Agent 指南、采用指南与 recipes
+- 基准、发布说明与已发布模块 consumer 检查
 
 ## 证据
 
