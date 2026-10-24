@@ -372,6 +372,21 @@ result, err := runner.Run(ctx, sandbox.Spec{Timeout: 5 * time.Second}, command)
 策略门控，但不提供 OS 级隔离。允许列表应保持静态，不要从模型输出构建。参见
 [sandbox 示例](https://github.com/axisvela/praxo-core/tree/main/examples/sandbox)。
 
+## Governed Workspace Demo
+
+governed workspace demo 是无需 API key 的确定性路径，演示只读工具、写入审批、
+拒绝、策略拒绝和事件 trace。它使用脚本化模型，不声称真实模型行为。
+
+```bash
+GOWORK=off go run ./examples/governed-workspace -mode read
+GOWORK=off go run ./examples/governed-workspace -mode write
+GOWORK=off go run ./examples/governed-workspace -mode deny
+GOWORK=off go run ./examples/governed-workspace -mode escape
+```
+
+参见
+[governed workspace demo](https://github.com/axisvela/praxo-core/tree/main/examples/governed-workspace)。
+
 ## Reference Workspace Agent
 
 reference app 组合了 OpenAI 兼容适配器、受限 VFS 工具、策略、记忆、事件和
