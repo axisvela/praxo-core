@@ -2,6 +2,11 @@
 
 ## [Unreleased]
 
+### Fixed
+
+- `pkg/scheduler`: disabling a schedule now rejects callbacks that have not
+  started and waits for an in-flight dispatch to finish before returning.
+
 ## [2.3.4] - 2026-10-24
 
 ### Fixed

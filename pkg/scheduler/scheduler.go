@@ -25,11 +25,12 @@ type DispatchFunc func(schedule *Schedule)
 
 // Engine manages cron-based schedule dispatch.
 type Engine struct {
-	mu        sync.RWMutex
-	cron      *cron.Cron
-	schedules map[string]*Schedule
-	entries   map[string]cron.EntryID
-	dispatch  DispatchFunc
+	mu         sync.RWMutex
+	cron       *cron.Cron
+	schedules  map[string]*Schedule
+	entries    map[string]cron.EntryID
+	dispatch   DispatchFunc
+	dispatchWG sync.WaitGroup
 }
 
 // NewEngine creates a scheduler engine. dispatch is called when a schedule fires.
@@ -69,7 +70,7 @@ func (e *Engine) addCronEntry(s *Schedule) {
 	*entryID, _ = e.cron.AddFunc(s.CronExpr, func() {
 		e.mu.Lock()
 		sch := e.schedules[sid]
-		if sch == nil {
+		if sch == nil || !sch.Enabled {
 			e.mu.Unlock()
 			return
 		}
@@ -78,8 +79,12 @@ func (e *Engine) addCronEntry(s *Schedule) {
 			sch.NextRun = entry.Next
 		}
 		snapshot := *sch
+		if e.dispatch != nil {
+			e.dispatchWG.Add(1)
+		}
 		e.mu.Unlock()
 		if e.dispatch != nil {
+			defer e.dispatchWG.Done()
 			e.dispatch(&snapshot)
 		}
 	})
@@ -127,14 +132,10 @@ func (e *Engine) List() []*Schedule {
 // SetEnabled enables or disables a schedule.
 func (e *Engine) SetEnabled(id string, enabled bool) error {
 	e.mu.Lock()
-	defer e.mu.Unlock()
 
 	s, ok := e.schedules[id]
-	if !ok {
-		return nil
-	}
-
-	if enabled == s.Enabled {
+	if !ok || enabled == s.Enabled {
+		e.mu.Unlock()
 		return nil
 	}
 
@@ -142,12 +143,15 @@ func (e *Engine) SetEnabled(id string, enabled bool) error {
 
 	if enabled {
 		e.addCronEntry(s)
-	} else {
-		if entryID, ok := e.entries[id]; ok {
-			e.cron.Remove(entryID)
-			delete(e.entries, id)
-		}
+		e.mu.Unlock()
+		return nil
 	}
+	if entryID, ok := e.entries[id]; ok {
+		e.cron.Remove(entryID)
+		delete(e.entries, id)
+	}
+	e.mu.Unlock()
+	e.dispatchWG.Wait()
 	return nil
 }
 
