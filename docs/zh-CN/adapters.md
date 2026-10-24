@@ -46,6 +46,23 @@ MCP 模块通过 `tool.Gateway` 暴露工具，并提供 resources 和 prompts �
 Harmovela 是已发布的适配器模块，而不是 recipe：它直接使用 HTTP events 协议，
 不需要较重的 Harmovela Go 模块。
 
+## 一致性检查
+
+在实现方自己的测试中使用 `pkg/conformance` 验证公开契约：
+
+```go
+if err := conformance.CheckVFSBackend(ctx, backend); err != nil {
+    t.Fatal(err)
+}
+if err := conformance.CheckMemoryStore(ctx, store); err != nil {
+    t.Fatal(err)
+}
+```
+
+检查覆盖 VFS 的 write、stat、read、list、glob、grep、delete、递归删除和
+`ErrNotFound`，以及 memory 的 put、search、会话隔离和结果上限。这些检查是
+增量补充，不替代实现方自己的测试。
+
 ## 新增适配器
 
 1. 实现对应的核心接口。

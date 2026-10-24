@@ -57,7 +57,8 @@ hardening, and stable integration contracts, without changing the frozen
 - published-consumer verification for `v2.4.0`
 - adversarial containment tests for TOCTOU, Linux process trees, and WASM CPU
 - the OpenTelemetry reference example (#3)
-- an external conformance suite
+- initial external conformance checks for VFS backends and memory stores, then
+  sandbox, event, policy, and gateway seams
 - event and OpenTelemetry schema compatibility rules
 - the remote worker contract with RHEOVELA
 - evaluation of a stateful workspace/session contract with at least two sandbox

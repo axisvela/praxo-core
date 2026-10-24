@@ -358,7 +358,8 @@ claim production, deployed, or independent validation.
 - [ ] Adversarial containment harness for TOCTOU, Linux process trees, and WASM
   CPU limits.
 - [ ] OpenTelemetry reference example (#3).
-- [ ] Conformance suite that an external implementation can run.
+- [x] Conformance suite for VFS backends and memory stores.
+- [ ] Extend conformance checks to sandbox, event, policy, and gateway seams.
 - [ ] Event and OpenTelemetry schema compatibility notes.
 - [ ] Remote worker contract with RHEOVELA.
 
