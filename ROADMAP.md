@@ -358,10 +358,10 @@ claim production, deployed, or independent validation.
 - [ ] Adversarial containment harness for TOCTOU, Linux process trees, and WASM
   CPU limits.
 - [ ] OpenTelemetry reference example (#3).
-- [x] Conformance checks for VFS backends, memory stores, sandbox runners,
-  event sinks, policy hooks, and gateways.
-- [ ] Add model, tool, and retriever checks plus a runner that reports all
-  failures in one pass.
+- [x] Conformance checks for VFS, memory, sandbox, event, policy, gateway,
+  model, streaming model, tool, and retriever seams.
+- [x] `conformance.Run` executes named checks and reports all failures in one
+  pass.
 - [ ] Event and OpenTelemetry schema compatibility notes.
 - [ ] Remote worker contract with RHEOVELA.
 

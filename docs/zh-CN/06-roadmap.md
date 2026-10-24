@@ -54,8 +54,8 @@
 - `v2.4.0` 的已发布版本 consumer 验证
 - TOCTOU、Linux 进程树和 WASM CPU 限制的对抗性 containment 测试
 - OpenTelemetry reference 示例（#3）
-- VFS、memory、sandbox、event、policy 和 gateway 的外部契约检查；model、
-  tool、retriever 检查与统一 runner 仍待补
+- VFS、memory、sandbox、event、policy、gateway、model、流式 model、tool 和
+  retriever 的外部契约检查，以及统一 runner
 - 事件与 OpenTelemetry schema 兼容规则
 - 与 RHEOVELA 的远程 worker 契约
 - 用至少两个 sandbox provider 适配器评估有状态 workspace/session 契约；
