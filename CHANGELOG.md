@@ -2,11 +2,22 @@
 
 ## [Unreleased]
 
+## [2.3.4] - 2026-10-24
+
 ### Fixed
 
 - `pkg/tool/jsonschema`: reject `nil` for typed schemas, reject fractional
   values for `integer`, apply `enum` to numeric and boolean values, treat
   `pattern` as a regular expression, and count Unicode code points for length.
+- The tool schema boundary is documented explicitly: unsupported `$ref`,
+  composition, `additionalProperties`, and `format` keywords are ignored, and a
+  `minimum` or `maximum` of zero is treated as unset.
+
+### Changed
+
+- HTTP client tests now cover idempotent retries, non-idempotent server errors,
+  cancellation during backoff, disabled body bounds, request-header precedence,
+  malformed JSON, and base-URL path joins.
 
 ## [2.3.3] - 2026-10-24
 

@@ -1,6 +1,6 @@
 # PRAXO-CORE Roadmap
 
-**Current:** `2.3.3` final tool authorization and release gates (2026-10-24)
+**Current:** `2.3.4` JSON Schema and HTTP failure-path hardening (2026-10-24)
 
 **Target:** `2.4.0` adoption evidence
 
@@ -39,6 +39,7 @@
 | 2.3.1 | post-release hardening: A2A gRPC round trip, wait/prune snapshot, docs gate |
 | 2.3.2 | provider and security recipe hardening; Gemini stream candidate isolation |
 | 2.3.3 | final tool authorization, fail-fast release gates, independent module security checks |
+| 2.3.4 | JSON Schema subset semantics and HTTP client failure-path coverage |
 
 See `CHANGELOG.md` for exact changes.
 
@@ -297,6 +298,14 @@ Exit gate:
 - [x] Baseline provider/security recipe review in 2.3.2.
 - [ ] Follow-up security review of final tool-call authorization and host
   containment; do not equate an implemented hook with an independent review.
+
+## 2.3.4 - JSON Schema And HTTP Hardening (released 2026-10-24)
+
+- Correct typed-null, integer, enum, regex pattern, and Unicode length semantics
+  in the declared JSON Schema subset.
+- Document ignored unsupported keywords and the zero minimum/maximum limitation.
+- Add HTTP retry, cancellation, body-bound, header, and base-URL failure tests.
+- Keep public API declarations unchanged; this is not a full JSON Schema library.
 
 ## 2.3.3 - Final Tool Authorization (released 2026-10-24)
 
