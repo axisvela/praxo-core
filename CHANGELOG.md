@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+## [2.3.5] - 2026-10-24
+
 ### Fixed
 
 - `pkg/scheduler`: disabling a schedule now rejects callbacks that have not

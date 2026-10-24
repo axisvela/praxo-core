@@ -181,8 +181,8 @@ result, err := ag.Run(ctx, agent.Session{
 
 ## 状态
 
-`2.3.4` 是当前核心版本。它不新增任何导出 `pkg/...` 声明，修复已声明 JSON
-Schema 子集语义并补充 HTTP 客户端失败路径测试。`1.0.0` 的 API 冻结仍然有效，
+`2.3.5` 是当前核心版本。它不新增任何导出 `pkg/...` 声明，使 scheduler disable
+等待 in-flight dispatch。`1.0.0` 的 API 冻结仍然有效，
 规范包路径为 `pkg/toolcall`、`pkg/formatter` 和 `pkg/tool/jsonschema`。
 
 可选适配器独立版本化：`adapters/mcp/v0.3.0`、`adapters/otel/v0.2.0`、
@@ -196,6 +196,7 @@ Schema 子集语义并补充 HTTP 客户端失败路径测试。`1.0.0` 的 API 
 [中文文档目录](docs/zh-CN/README.md)
 
 - [中文文档目录](docs/zh-CN/README.md)
+- [2.3.5 发布说明](docs/zh-CN/releases/2.3.5.md)
 - [2.3.4 发布说明](docs/zh-CN/releases/2.3.4.md)
 - [2.3.3 发布说明](docs/zh-CN/releases/2.3.3.md)
 - [2.3.2 发布说明](docs/zh-CN/releases/2.3.2.md)

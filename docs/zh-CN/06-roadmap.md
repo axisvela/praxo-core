@@ -35,12 +35,13 @@
 | 2.3.2 | provider/security recipes 加固、Gemini 候选隔离（2026-10-23 发布） |
 | 2.3.3 | 最终工具授权、发布门禁失败传播、独立模块安全检查（2026-10-24 发布） |
 | 2.3.4 | JSON Schema 子集语义与 HTTP 失败路径测试（2026-10-24 发布） |
+| 2.3.5 | scheduler disable 等待 in-flight dispatch（2026-10-24 发布） |
 
 1.0 之后的项目是竞争力层面的 Harness 对齐，不是 1.0 的阻塞项。它们排在
 稳定 API 和发布门禁之后。
 
-当前已发布版本为 `2.3.4`，修复已声明 JSON Schema 子集语义并扩展 HTTP
-失败路径测试，保持公开 API 不变。`2.4.0` 仍以采用证据验收；本地 A2A
+当前已发布版本为 `2.3.5`，使 scheduler disable 等待 in-flight dispatch，
+保持公开 API 不变。`2.4.0` 仍以采用证据验收；本地 A2A
 互操作不等于部署远端 peer、完整 v2 IAM 或生产负载验证。
 
 ## 证据
