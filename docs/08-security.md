@@ -47,10 +47,10 @@ not independent security sign-off.
 - **Governance is opt-in.** A nil `Policy` permits actions, and an empty
   `AllowedTools` permits all registered tools. Configure both explicitly for a
   least-privilege application; the framework is not an authorization service.
-- **Unreleased final tool-call checks.** Original policy denials still stop
+- **Final tool-call checks since 2.3.3.** Original policy denials still stop
   preparation. Changes to a tool name or JSON arguments during preparation are
   rechecked before the batch executes; unchanged calls keep one policy request.
-  This is unreleased patch work, not a capability of the existing 2.3.2 tag.
+  This fix is not included in the older 2.3.2 tag.
   Hook arguments must remain JSON-serializable when policy is enabled. Callbacks
   must not mutate retained arguments asynchronously, and tools still own their
   internal side effects and resource-level checks.

@@ -16,6 +16,9 @@
   `2.3.0`.
 - `2.3.2` is a patch release; the exported `pkg/...` API is identical to
   `2.3.1`.
+- `2.3.3` is a patch release; the exported `pkg/...` API is identical to
+  `2.3.2`. Changed final tool calls require fresh policy approval, and arguments
+  must remain JSON-serializable when policy is enabled.
 
 - Framework versions start at `0.x`.
 - PRAXOVELA product versions are independent.
