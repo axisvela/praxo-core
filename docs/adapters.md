@@ -74,6 +74,25 @@ and are examples rather than published adapter modules.
 Harmovela is a published adapter module rather than a recipe because it uses the
 HTTP events protocol directly and does not need the heavier Harmovela Go module.
 
+## Conformance Checks
+
+Use `pkg/conformance` to verify an implementation against the public contract
+from its own tests:
+
+```go
+if err := conformance.CheckVFSBackend(ctx, backend); err != nil {
+    t.Fatal(err)
+}
+if err := conformance.CheckMemoryStore(ctx, store); err != nil {
+    t.Fatal(err)
+}
+```
+
+The checks cover VFS write, stat, read, list, glob, grep, delete, recursive
+delete, and `ErrNotFound`, plus memory put, search, session isolation, and
+result limits. They are additive and do not replace
+implementation-specific tests.
+
 ## Adding an Adapter
 
 1. Implement the relevant core interface.
