@@ -191,8 +191,9 @@ workspace agent with confined VFS tools, policy, memory, and events,
 [examples/governed-workspace](examples/governed-workspace) for a deterministic
 read-only, approval, denial, and trace demo,
 [examples/checkpoint](examples/checkpoint) for checkpoint/resume,
-[examples/sandbox](examples/sandbox) for policy-gated command execution, and
-[examples/multiagent](examples/multiagent) for subagent delegation.
+[examples/sandbox](examples/sandbox) for policy-gated command execution,
+[examples/multiagent](examples/multiagent) for subagent delegation, and
+[examples/ecosystem/mcp](examples/ecosystem/mcp) for MCP resources and prompts.
 
 ## Status
 
