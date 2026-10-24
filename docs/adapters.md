@@ -92,9 +92,12 @@ The checks cover VFS write, stat, read, list, glob, grep, delete, recursive
 delete, and `ErrNotFound`, plus memory put, search, session isolation, and
 result limits. `CheckEventSink`, `CheckPolicyHook`, `CheckGateway`,
 `CheckGatewayExecute`, and `CheckSandbox` cover the other runtime seams.
-Policy, gateway execution, and sandbox cases are caller-supplied because their
-behavior is product- and environment-specific. They are additive and do not
-replace implementation-specific tests.
+`CheckModel`, `CheckStreamingModel`, `CheckTool`, and `CheckRetriever` cover
+the remaining contracts. Policy, gateway execution, sandbox, model, and
+retriever cases are caller-supplied because their behavior is product- and
+environment-specific. `Run` executes named checks and reports every failure in
+one pass. These checks are additive and do not replace implementation-specific
+tests.
 
 ## Adding an Adapter
 

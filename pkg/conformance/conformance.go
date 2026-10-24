@@ -19,6 +19,13 @@ func uniqueName(prefix string) string {
 	return fmt.Sprintf("%s-%d-%d", prefix, time.Now().UnixNano(), sequence.Add(1))
 }
 
+func caseLabel(name string, index int) string {
+	if name != "" {
+		return name
+	}
+	return fmt.Sprintf("case-%d", index)
+}
+
 // CheckVFSBackend verifies the generic vfs.Backend contract: write, stat,
 // read, list, glob, grep, delete, recursive delete, and ErrNotFound. It uses a
 // unique virtual directory and removes it before returning.
