@@ -5,7 +5,7 @@ No provider SDK is required.
 
 ## Prerequisites
 
-- Go 1.26 or newer
+- Go 1.26.10 (the tested CI/release toolchain; use a complete installation)
 - An OpenAI-compatible endpoint:
   - local Ollama, or
   - a hosted OpenAI-compatible API
