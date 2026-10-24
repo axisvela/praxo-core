@@ -375,7 +375,8 @@ claim production, deployed, or independent validation.
 - [x] Publish the offline adapter capability findings.
 - [ ] Verify both adapters against live providers and decide whether to promote
   a common contract to `pkg/`. Provider SDKs stay in separate modules.
-- [ ] Plugin trust and SBOM handoff documentation.
+- [x] Plugin trust and SBOM handoff documentation
+  (`docs/15-plugin-trust-sbom.md`).
 - [ ] Compatibility and deprecation rules for exported contracts.
 - [ ] At least one independent implementation running the conformance suite.
 - [ ] No AGPL imports; MIT boundary preserved.

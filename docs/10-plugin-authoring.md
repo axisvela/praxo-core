@@ -146,3 +146,5 @@ not-active gate. Each check gets a fresh host from the factory.
 Core hosts start already-verified payloads. The product must verify the
 descriptor signature, SBOM, identity, ABI, and compatibility before constructing
 a host. `pkg/plugin` never resolves requirements and never calls a trust store.
+See [Plugin trust and SBOM handoff](15-plugin-trust-sbom.md) for the full
+product checklist.

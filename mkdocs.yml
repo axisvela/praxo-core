@@ -68,6 +68,7 @@ nav:
       - Security model: 08-security.md
       - Containment review: containment-review.md
       - Event schema: event-schema.md
+      - Plugin trust and SBOM: 15-plugin-trust-sbom.md
       - Benchmarks: benchmarks.md
       - Release process: 09-release.md
       - API freeze: 07-api-freeze.md
@@ -102,6 +103,7 @@ nav:
       - v2 迁移: zh-CN/11-migration-v2.md
       - 安全模型: zh-CN/08-security.md
       - 事件 schema: zh-CN/event-schema.md
+      - 插件信任与 SBOM: zh-CN/15-plugin-trust-sbom.md
       - 基准测试: zh-CN/benchmarks.md
       - 发布流程: zh-CN/09-release.md
       - API 冻结: zh-CN/07-api-freeze.md

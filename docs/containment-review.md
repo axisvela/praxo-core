@@ -48,7 +48,8 @@ claim that deployed products inherit these properties.
 4. **HTTP redirects use Go's default policy.** Callers must choose trusted base
    URLs; redirect handling and SSRF allowlisting remain caller-owned.
 5. **No signature/SBOM verification in core.** Products must verify descriptors,
-   signatures, SBOMs, and trust roots before starting a host.
+   signatures, SBOMs, and trust roots before starting a host. See
+   [Plugin trust and SBOM handoff](15-plugin-trust-sbom.md).
 6. **Sandbox seam is an interface.** A policy-gated host command is not OS-level
    isolation.
 7. **Approval is a handler.** Products must bind approval to an authenticated

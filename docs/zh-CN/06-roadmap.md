@@ -60,6 +60,7 @@
 - 与 RHEOVELA 的远程 worker 契约
 - workspace/session 评估、契约、fake、一致性检查、E2B/Daytona 离线适配器
   与能力结论；实网验证仍待完成；提供商 SDK 不进入核心模块
+- 产品侧插件验证与 materialization 的信任/SBOM 交接清单
 
 ## 长期技术方向
 

@@ -64,6 +64,8 @@ hardening, and stable integration contracts, without changing the frozen
 - workspace/session evaluation, contract, fake, conformance checks, offline
   E2B/Daytona adapters, and capability findings; live provider verification
   remains; no provider SDK enters the core module
+- plugin trust and SBOM handoff checklist for product-owned verification and
+  materialization
 
 ## Long-Term Technical Direction
 

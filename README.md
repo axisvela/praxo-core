@@ -244,6 +244,7 @@ extracted from PRAXOVELA's proven runtime.
 - [Security model](docs/08-security.md)
 - [Release process](docs/09-release.md)
 - [Plugin authoring](docs/10-plugin-authoring.md)
+- [Plugin trust and SBOM](docs/15-plugin-trust-sbom.md)
 - [Roadmap detail](docs/06-roadmap.md)
 - [Roadmap](ROADMAP.md)
 

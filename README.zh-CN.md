@@ -227,6 +227,7 @@ result, err := ag.Run(ctx, agent.Session{
 - [安全模型](docs/zh-CN/08-security.md)
 - [发布流程](docs/zh-CN/09-release.md)
 - [插件编写](docs/zh-CN/10-plugin-authoring.md)
+- [插件信任与 SBOM](docs/zh-CN/15-plugin-trust-sbom.md)
 - [路线图详情](docs/zh-CN/06-roadmap.md)
 - [路线图](ROADMAP.md)
 
