@@ -379,11 +379,9 @@ This release does not claim production, deployed, or independent validation.
 - [x] Verify concurrent schedulers append exactly one `TimerFired` event.
 - [x] Verify client TLS trust and identity-header injection against a local
   RHEOVELA TLS server.
-- [ ] Validate a deployed Postgres-backed, multi-node RHEOVELA setup; leader
-  election, replication, and failover are not proven by the local test.
-- [ ] Validate identity enforcement with the enterprise Keycloak/tenant stack.
-- [ ] Promote the agent node/session/stream remote-worker contract after the
-  deployed validation.
+- [ ] Promote the agent node/session/stream remote-worker contract after core
+  integration evidence. RHEOVELA-ee owns Postgres multi-node, leader election,
+  replication/failover, and enterprise identity enforcement.
 - [ ] Verify E2B, Daytona, OpenSandbox, and CubeSandbox adapters against live
   providers and decide whether to promote a common workspace contract to
   `pkg/`. Provider SDKs stay in separate modules.
@@ -395,6 +393,14 @@ This release does not claim production, deployed, or independent validation.
   (`docs/16-compatibility-policy.md`).
 - [ ] At least one independent implementation running the conformance suite.
 - [ ] No AGPL imports; MIT boundary preserved.
+
+## RHEOVELA Deployment Boundary
+
+RHEOVELA-ee owns Postgres multi-node deployment, leader election,
+replication/failover, and enterprise identity enforcement (Keycloak/tenant).
+PRAXO-CORE tests only the durable-worker client contract, lease/fencing,
+scheduler deduplication, and TLS/header wiring. Do not claim RHEOVELA HA or
+identity validation from this repository.
 
 ## Graph Runtime Boundary
 

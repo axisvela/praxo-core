@@ -58,8 +58,8 @@ declarations:
 - the OpenTelemetry reference example (#3)
 - a RHEOVELA durable-worker example using result, checkpoint/effect, and
   approval ports, validated locally including lease/fencing takeover, scheduler
-  deduplication, and TLS/header wiring; Postgres multi-node, enterprise identity
-  enforcement, and contract promotion remain
+  deduplication, and TLS/header wiring; RHEOVELA-ee owns Postgres multi-node,
+  HA, and identity enforcement; contract promotion remains
 - live verification of the E2B, Daytona, OpenSandbox, and CubeSandbox adapters
 - live CubeSandbox E2B-profile confirmation after the offline compatibility
   review

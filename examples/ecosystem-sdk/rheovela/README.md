@@ -61,28 +61,21 @@ approval. Use a disposable database.
 lease, lets it expire, claims it with a successor, and verifies the stale
 worker's commit is rejected.
 
-## Multi-Node Validation
+## Deployment Boundary
 
-True multi-node validation needs a shared Postgres database and at least two
-`rheo serve` processes. This environment has no Docker or Postgres, so the
-committed tests cover a single local server plus lease/fencing takeover only.
+Postgres multi-node deployment, leader election, replication/failover, and
+enterprise identity enforcement belong to RHEOVELA/RHEOVELA-ee. They are not
+PRAXO-CORE validation targets.
 
-A Postgres run should:
+PRAXO's live tests cover only the client side:
 
-1. Start two nodes with `rheo serve --store postgres --db-url <dsn>` on
-   different ports.
-2. Point one PRAXO `DurableWorker` at each node URL.
-3. Run `TestLiveDurableWorker` and `TestLiveMultiWorkerLeaseFencing` against
-   both node URLs.
-4. Claim on node A, expire the lease, claim on node B, and confirm A's stale
-   commit is rejected.
-5. Record whether scheduler duplication, leader election, replication, and
-   failover are safe for the tested version.
+- durable worker result/checkpoint/effect persistence
+- approval request and resume
+- lease expiry and successor fencing
+- concurrent scheduler deduplication (RHEOVELA core test)
+- TLS CA trust and optional identity-header injection
 
-RHEOVELA's current HA note says leader election, replication, and automatic
-failover are deferred. Shared-Postgres fencing is not a production HA claim.
-
-## TLS and Identity
+## TLS and Header Wiring
 
 The live tests accept optional TLS and header injection:
 
@@ -94,7 +87,6 @@ RHEO_AUTH_VALUE=praxo-live \
 GOWORK=off go test -run TestLiveDurableWorker -v ./rheovela
 ```
 
-Start the server with `rheo serve --tls-cert <cert> --tls-key <key>`. The core
-server does not enforce identity; `rheo-ee` with Keycloak/tenant middleware does.
-This test proves client CA trust and header injection, not authorization
-enforcement. Full identity validation requires the enterprise identity stack.
+Start the server with `rheo serve --tls-cert <cert> --tls-key <key>`. This
+proves client CA trust and header transport, not enterprise authorization or a
+deployed identity stack.
