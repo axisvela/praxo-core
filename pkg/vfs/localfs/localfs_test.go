@@ -4,6 +4,7 @@ import (
 	"context"
 	"os"
 	"path/filepath"
+	"runtime"
 	"testing"
 )
 
@@ -66,6 +67,50 @@ func TestLocalBackendRejectsSymlinkEscape(t *testing.T) {
 	}
 	if _, err := b.Read(context.Background(), "link/secret"); err == nil {
 		t.Fatal("symlink escape accepted")
+	}
+}
+
+func TestLocalBackendRejectsNULByte(t *testing.T) {
+	b, err := New(t.TempDir())
+	if err != nil {
+		t.Fatal(err)
+	}
+	if err := b.Write(context.Background(), "bad\x00name", []byte("x")); err == nil {
+		t.Fatal("NUL byte path accepted")
+	}
+}
+
+func TestLocalBackendRejectsWindowsSpecialPaths(t *testing.T) {
+	if runtime.GOOS != "windows" {
+		t.Skip("windows-only path checks")
+	}
+	b, err := New(t.TempDir())
+	if err != nil {
+		t.Fatal(err)
+	}
+	ctx := context.Background()
+	for _, target := range []string{
+		"C:evil.txt",
+		"NUL",
+		"nul.txt",
+		"CON",
+		"PRN",
+		"AUX",
+		"COM1",
+		"LPT1",
+		"file:stream",
+		"trailing.",
+		"trailing ",
+		"nested/NUL.txt",
+	} {
+		if err := b.Write(ctx, target, []byte("x")); err == nil {
+			t.Errorf("special path %q accepted", target)
+		}
+	}
+	for _, target := range []string{"normal.txt", "COM10", "console"} {
+		if err := b.Write(ctx, target, []byte("x")); err != nil {
+			t.Errorf("normal path %q rejected: %v", target, err)
+		}
 	}
 }
 

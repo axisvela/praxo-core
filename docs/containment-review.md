@@ -24,6 +24,7 @@ claim that deployed products inherit these properties.
 | Traversal and sibling prefixes | Traversal and `root-evil`-style sibling prefixes are rejected | `TestPathCheckerDeniesTraversal`, `TestPathCheckerDeniesSiblingPrefix` |
 | Symlinks | Grant roots and targets are resolved; a symlink cannot move a path outside the root | `TestPathCheckerSymlinkEscape`, `TestPathCheckerRootSymlink` |
 | Malformed paths | NUL bytes and Windows drive-relative paths fail closed or are denied | `TestPathCheckerRejectsNULByte`, `TestPathCheckerDeniesDriveRelativePath` |
+| Windows special names | `localfs` rejects drive-relative paths, NUL, reserved device names, alternate data streams, and trailing dots or spaces | `TestLocalBackendRejectsNULByte`, `TestLocalBackendRejectsWindowsSpecialPaths` |
 | Windows path case | Comparison is case-insensitive on Windows | `TestPathCheckerWindowsCaseInsensitive` |
 | VFS | `localfs` rejects absolute paths and resolves through `PathChecker`; VFS tools expose no shell unless the backend implements `Executor` | `pkg/vfs/localfs`, `pkg/vfs/vfstools` |
 | Plugin lifecycle | Only `ACTIVE` admits calls; transitions are a guarded table; terminal states are irreversible | `pkg/plugin/lifecycle.go`, `pkg/plugin/lifecycle_failure_test.go` |
@@ -75,6 +76,7 @@ These gaps remain open. The independent review request is tracked in
 ```text
 go test ./pkg/policy ./pkg/vfs/... ./pkg/plugin/... ./pkg/httpclient ./pkg/agent
 go test ./pkg/policy -run 'TestPathChecker'
+go test ./pkg/vfs/localfs -run 'TestLocalBackendRejects'
 go test ./pkg/plugin/host/process -run 'TestNoChildSurvivesHostStop|TestProcessCountLimitBlocksGrandchild|TestSuspendedSpawnContainsEarlyGrandchild'
 go test ./pkg/plugin/host/wasm -run 'TestInvokeCancellationTerminatesCPUboundGuest|TestInvokeTimeoutTerminatesGuest|TestMemoryGrowthBeyondLimitFailsClosed'
 go vet ./...

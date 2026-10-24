@@ -9,6 +9,7 @@ import (
 	"os"
 	"path/filepath"
 	"regexp"
+	"runtime"
 	"sort"
 	"strings"
 
@@ -52,11 +53,44 @@ func (b *Backend) resolve(rel string, access policy.PathAccess) (string, error) 
 	if clean == "." {
 		clean = ""
 	}
+	if err := validateVirtualPath(clean); err != nil {
+		return "", err
+	}
 	abs := filepath.Join(b.root, clean)
 	if b.checker != nil && !b.checker.Allowed(abs, access) {
 		return "", os.ErrPermission
 	}
 	return abs, nil
+}
+
+func validateVirtualPath(rel string) error {
+	if strings.IndexByte(rel, 0) >= 0 {
+		return os.ErrPermission
+	}
+	if filepath.VolumeName(rel) != "" {
+		return os.ErrPermission
+	}
+	if runtime.GOOS != "windows" {
+		return nil
+	}
+	for _, part := range strings.FieldsFunc(rel, func(r rune) bool { return r == '/' || r == '\\' }) {
+		if part == "" || part == "." {
+			continue
+		}
+		if strings.Contains(part, ":") ||
+			strings.HasSuffix(part, ".") ||
+			strings.HasSuffix(part, " ") {
+			return os.ErrPermission
+		}
+		base := strings.ToUpper(strings.SplitN(part, ".", 2)[0])
+		switch base {
+		case "CON", "PRN", "AUX", "NUL",
+			"COM1", "COM2", "COM3", "COM4", "COM5", "COM6", "COM7", "COM8", "COM9",
+			"LPT1", "LPT2", "LPT3", "LPT4", "LPT5", "LPT6", "LPT7", "LPT8", "LPT9":
+			return os.ErrPermission
+		}
+	}
+	return nil
 }
 
 func virtualPath(root, abs string) string {
