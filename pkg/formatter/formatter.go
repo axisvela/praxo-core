@@ -3,6 +3,7 @@
 package formatter
 
 import (
+	"errors"
 	"os"
 	"os/exec"
 	"path/filepath"
@@ -21,10 +22,10 @@ func Detect(filePath string) *Formatter {
 	ext := strings.ToLower(filepath.Ext(filePath))
 	for _, f := range formatters {
 		for _, e := range f.Extensions {
-			if e == ext {
-				if f.isAvailable() {
-					return &f
-				}
+			if e == ext && f.isAvailable() {
+				detected := f
+				detected.Extensions = append([]string(nil), f.Extensions...)
+				return &detected
 			}
 		}
 	}
@@ -42,8 +43,12 @@ func Format(filePath string) (string, error) {
 
 // Run executes the formatter on the given file.
 func (f *Formatter) Run(filePath string) (string, error) {
-	args := make([]string, len(f.CommandFields()))
-	for i, field := range f.CommandFields() {
+	fields := f.CommandFields()
+	if len(fields) == 0 {
+		return "", errors.New("formatter: empty command")
+	}
+	args := make([]string, len(fields))
+	for i, field := range fields {
 		if field == "$FILE" {
 			args[i] = filePath
 		} else {
@@ -74,6 +79,7 @@ func AllAvailable() []Formatter {
 	var available []Formatter
 	for _, f := range formatters {
 		if f.isAvailable() {
+			f.Extensions = append([]string(nil), f.Extensions...)
 			available = append(available, f)
 		}
 	}
@@ -82,7 +88,12 @@ func AllAvailable() []Formatter {
 
 // List returns all registered formatters (regardless of availability).
 func List() []Formatter {
-	return formatters
+	listed := make([]Formatter, len(formatters))
+	for i, f := range formatters {
+		f.Extensions = append([]string(nil), f.Extensions...)
+		listed[i] = f
+	}
+	return listed
 }
 
 var formatters = []Formatter{
@@ -117,8 +128,11 @@ func NewWatch(dir string) *WatchFormat {
 // FormatAll formats every detected file under the watched directory.
 func (w *WatchFormat) FormatAll() ([]string, error) {
 	var formatted []string
-	filepath.Walk(w.dir, func(path string, info os.FileInfo, err error) error {
-		if err != nil || info.IsDir() {
+	walkErr := filepath.Walk(w.dir, func(path string, info os.FileInfo, err error) error {
+		if err != nil {
+			return err
+		}
+		if info == nil || info.IsDir() {
 			return nil
 		}
 		f := Detect(path)
@@ -130,5 +144,5 @@ func (w *WatchFormat) FormatAll() ([]string, error) {
 		}
 		return nil
 	})
-	return formatted, nil
+	return formatted, walkErr
 }
