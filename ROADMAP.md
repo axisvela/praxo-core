@@ -371,9 +371,9 @@ claim production, deployed, or independent validation.
   (`docs/14-workspace-session.md`).
 - [x] Add the provider-neutral contract, in-memory fake, and conformance checks
   in `adapters/workspace`.
-- [ ] Prototype the contract with E2B and Daytona adapters. Provider SDKs stay
-  in separate modules; promote a common contract to `pkg/` only after both fit
-  without provider-specific fields.
+- [x] Add E2B and Daytona adapter modules with offline conformance tests.
+- [ ] Verify both adapters against live providers and decide whether to promote
+  a common contract to `pkg/`. Provider SDKs stay in separate modules.
 - [ ] Plugin trust and SBOM handoff documentation.
 - [ ] Compatibility and deprecation rules for exported contracts.
 - [ ] At least one independent implementation running the conformance suite.

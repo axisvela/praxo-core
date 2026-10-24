@@ -21,8 +21,13 @@ GOWORK=off go vet ./...
 GOWORK=off go build ./...
 ```
 
+## Adapters
+
+- `e2b`: E2B platform REST and envd adapter, with an in-process fake server test.
+- `daytona`: Daytona Go SDK adapter, with an in-process fake client test.
+
 ## Status
 
-The shared contract, fake, and conformance checks exist. E2B and Daytona
-adapters are the next evaluation step. Provider SDKs must stay in their own
-adapter modules, and live provider tests must be opt-in.
+The shared contract, fake, conformance checks, and offline E2B/Daytona adapters
+exist. Neither adapter has been run against a live provider in this environment.
+Provider SDKs stay in their own adapter modules, and live tests must be opt-in.

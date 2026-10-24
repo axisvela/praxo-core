@@ -144,7 +144,8 @@ spike 填写。
 
 在此之前，契约只存在于适配器或评估模块中。当前 spike 位于
 [`adapters/workspace`](https://github.com/axisvela/praxo-core/tree/main/adapters/workspace)，
-包含候选契约、内存 fake 和一致性检查。
+包含候选契约、内存 fake、一致性检查，以及 E2B 和 Daytona 的离线适配器。
+当前环境尚未对任一实网提供商进行验证。
 
 ## 非目标
 
