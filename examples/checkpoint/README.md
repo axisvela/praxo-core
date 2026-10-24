@@ -27,8 +27,23 @@ ledger and a test showing that a committed effect is returned from the ledger
 after a restart instead of being executed again.
 
 This demonstrates a recovery pattern only. It does not provide exactly-once
-delivery, durable leases/fencing, or graph-level recovery; those remain
-product/RHEOVELA responsibilities.
+delivery or graph-level recovery; those remain product/RHEOVELA responsibilities.
+
+## Approval And Lease Pattern
+
+`durable.go` shows an application-owned pattern for:
+
+- saving an `awaiting_approval` checkpoint before any effect runs;
+- resuming only after an approval decision;
+- acquiring a time-bounded lease before committing;
+- rejecting another worker while the lease is held;
+- taking over after lease expiry; and
+- replaying a completed checkpoint without executing the effect again.
+
+The lease store is in-memory and teaching-only. Production workers need a
+durable lease/fencing store, and the approval must be bound to an authenticated
+decision and exact arguments. This is not a RHEOVELA graph runtime and does not
+claim exactly-once delivery.
 
 ## Test
 
