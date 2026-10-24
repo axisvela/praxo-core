@@ -376,9 +376,12 @@ This release does not claim production, deployed, or independent validation.
 - [x] Verify the durable worker against a local RHEOVELA server: result/refs,
   approval request, and resume after approval.
 - [x] Verify lease expiry and successor fencing on a local RHEOVELA server.
-- [ ] Validate a deployed Postgres-backed, multi-node RHEOVELA setup; scheduler
-  duplication, leader election, replication, and failover are not proven by the
-  local test.
+- [x] Verify concurrent schedulers append exactly one `TimerFired` event.
+- [x] Verify client TLS trust and identity-header injection against a local
+  RHEOVELA TLS server.
+- [ ] Validate a deployed Postgres-backed, multi-node RHEOVELA setup; leader
+  election, replication, and failover are not proven by the local test.
+- [ ] Validate identity enforcement with the enterprise Keycloak/tenant stack.
 - [ ] Promote the agent node/session/stream remote-worker contract after the
   deployed validation.
 - [ ] Verify E2B, Daytona, OpenSandbox, and CubeSandbox adapters against live

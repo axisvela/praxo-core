@@ -57,8 +57,9 @@ declarations:
 - adversarial containment for TOCTOU, Linux process trees, and WASM CPU limits
 - the OpenTelemetry reference example (#3)
 - a RHEOVELA durable-worker example using result, checkpoint/effect, and
-  approval ports, validated locally including lease/fencing takeover;
-  Postgres-backed multi-node validation and contract promotion remain
+  approval ports, validated locally including lease/fencing takeover, scheduler
+  deduplication, and TLS/header wiring; Postgres multi-node, enterprise identity
+  enforcement, and contract promotion remain
 - live verification of the E2B, Daytona, OpenSandbox, and CubeSandbox adapters
 - live CubeSandbox E2B-profile confirmation after the offline compatibility
   review

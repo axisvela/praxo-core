@@ -81,3 +81,20 @@ A Postgres run should:
 
 RHEOVELA's current HA note says leader election, replication, and automatic
 failover are deferred. Shared-Postgres fencing is not a production HA claim.
+
+## TLS and Identity
+
+The live tests accept optional TLS and header injection:
+
+```bash
+RHEO_URL=https://127.0.0.1:18443 \
+RHEO_CA=/path/to/cert.pem \
+RHEO_AUTH_HEADER=X-Auth-User \
+RHEO_AUTH_VALUE=praxo-live \
+GOWORK=off go test -run TestLiveDurableWorker -v ./rheovela
+```
+
+Start the server with `rheo serve --tls-cert <cert> --tls-key <key>`. The core
+server does not enforce identity; `rheo-ee` with Keycloak/tenant middleware does.
+This test proves client CA trust and header injection, not authorization
+enforcement. Full identity validation requires the enterprise identity stack.

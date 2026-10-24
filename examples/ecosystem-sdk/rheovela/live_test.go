@@ -3,6 +3,8 @@ package rheovela
 import (
 	"bytes"
 	"context"
+	"crypto/tls"
+	"crypto/x509"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -15,19 +17,63 @@ import (
 	"github.com/axisvela/rheovela-open/sdk/go/v3/worker"
 )
 
-func TestLiveDurableWorker(t *testing.T) {
+func newLiveClient(t *testing.T) (*rheovela.Client, string, *http.Client) {
+	t.Helper()
 	baseURL := os.Getenv("RHEO_URL")
 	if baseURL == "" {
 		t.Skip("RHEO_URL is not set")
 	}
+	var transport http.RoundTripper = http.DefaultTransport
+	if ca := os.Getenv("RHEO_CA"); ca != "" {
+		pem, err := os.ReadFile(ca)
+		if err != nil {
+			t.Fatal(err)
+		}
+		pool := x509.NewCertPool()
+		if !pool.AppendCertsFromPEM(pem) {
+			t.Fatalf("RHEO_CA contains no certificates")
+		}
+		transport = &http.Transport{TLSClientConfig: &tls.Config{
+			MinVersion: tls.VersionTLS12,
+			RootCAs:    pool,
+		}}
+	}
+	if header := os.Getenv("RHEO_AUTH_HEADER"); header != "" {
+		transport = headerTransport{
+			base:   transport,
+			header: header,
+			value:  os.Getenv("RHEO_AUTH_VALUE"),
+		}
+	}
+	httpClient := &http.Client{
+		Transport: transport,
+		Timeout:   30 * time.Second,
+	}
+	return rheovela.NewClient(baseURL, rheovela.WithHTTPClient(httpClient)), baseURL, httpClient
+}
+
+type headerTransport struct {
+	base   http.RoundTripper
+	header string
+	value  string
+}
+
+func (t headerTransport) RoundTrip(request *http.Request) (*http.Response, error) {
+	clone := request.Clone(request.Context())
+	clone.Header = request.Header.Clone()
+	clone.Header.Set(t.header, t.value)
+	return t.base.RoundTrip(clone)
+}
+
+func TestLiveDurableWorker(t *testing.T) {
+	client, baseURL, httpClient := newLiveClient(t)
 	ctx, cancel := context.WithTimeout(context.Background(), 2*time.Minute)
 	defer cancel()
-	client := rheovela.NewClient(baseURL)
 	if err := client.Health(ctx); err != nil {
 		t.Fatal(err)
 	}
 	workflowID := fmt.Sprintf("praxo-live-%d", time.Now().UnixNano())
-	if err := publishWorkflow(ctx, baseURL, workflowID); err != nil {
+	if err := publishWorkflow(ctx, httpClient, baseURL, workflowID); err != nil {
 		t.Fatal(err)
 	}
 
@@ -108,7 +154,7 @@ func TestLiveDurableWorker(t *testing.T) {
 	awaitWorkItem(t, ctx, client, approvalRun.InstanceID, "done")
 }
 
-func publishWorkflow(ctx context.Context, baseURL, workflowID string) error {
+func publishWorkflow(ctx context.Context, httpClient *http.Client, baseURL, workflowID string) error {
 	body, err := json.Marshal(map[string]any{
 		"schema_version": "1",
 		"workflow_id":    workflowID,
@@ -126,7 +172,7 @@ func publishWorkflow(ctx context.Context, baseURL, workflowID string) error {
 		return err
 	}
 	request.Header.Set("Content-Type", "application/json")
-	response, err := http.DefaultClient.Do(request)
+	response, err := httpClient.Do(request)
 	if err != nil {
 		return err
 	}
@@ -158,18 +204,14 @@ func awaitWorkItem(t *testing.T, ctx context.Context, client *rheovela.Client, i
 }
 
 func TestLiveMultiWorkerLeaseFencing(t *testing.T) {
-	baseURL := os.Getenv("RHEO_URL")
-	if baseURL == "" {
-		t.Skip("RHEO_URL is not set")
-	}
+	client, baseURL, httpClient := newLiveClient(t)
 	ctx, cancel := context.WithTimeout(context.Background(), 2*time.Minute)
 	defer cancel()
-	client := rheovela.NewClient(baseURL)
 	if err := client.Health(ctx); err != nil {
 		t.Fatal(err)
 	}
 	workflowID := fmt.Sprintf("praxo-lease-%d", time.Now().UnixNano())
-	if err := publishWorkflow(ctx, baseURL, workflowID); err != nil {
+	if err := publishWorkflow(ctx, httpClient, baseURL, workflowID); err != nil {
 		t.Fatal(err)
 	}
 	run, err := client.OpenRun(ctx, rheovela.OpenRunRequest{
