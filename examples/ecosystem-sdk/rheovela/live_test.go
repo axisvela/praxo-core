@@ -156,3 +156,61 @@ func awaitWorkItem(t *testing.T, ctx context.Context, client *rheovela.Client, i
 	t.Fatalf("work item for %s did not reach %s", instanceID, state)
 	return rheovela.WorkItem{}
 }
+
+func TestLiveMultiWorkerLeaseFencing(t *testing.T) {
+	baseURL := os.Getenv("RHEO_URL")
+	if baseURL == "" {
+		t.Skip("RHEO_URL is not set")
+	}
+	ctx, cancel := context.WithTimeout(context.Background(), 2*time.Minute)
+	defer cancel()
+	client := rheovela.NewClient(baseURL)
+	if err := client.Health(ctx); err != nil {
+		t.Fatal(err)
+	}
+	workflowID := fmt.Sprintf("praxo-lease-%d", time.Now().UnixNano())
+	if err := publishWorkflow(ctx, baseURL, workflowID); err != nil {
+		t.Fatal(err)
+	}
+	run, err := client.OpenRun(ctx, rheovela.OpenRunRequest{
+		Workflow:       workflowID,
+		Actor:          "praxo-lease",
+		IdempotencyKey: workflowID,
+	})
+	if err != nil {
+		t.Fatal(err)
+	}
+	item := awaitWorkItem(t, ctx, client, run.InstanceID, "ready")
+	first, err := client.ClaimWorkItem(ctx, item.ID, "200ms")
+	if err != nil {
+		t.Fatal(err)
+	}
+	time.Sleep(500 * time.Millisecond)
+	second, err := client.ClaimWorkItem(ctx, item.ID, "30s")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if first.Token == second.Token {
+		t.Fatal("successor claim reused the stale fencing token")
+	}
+	staleErr := client.CompleteWorkItemWithResult(ctx, item.ID, first.Token, rheovela.WorkResult{
+		Result: json.RawMessage(`{"stale":true}`),
+	})
+	if staleErr == nil {
+		t.Fatal("stale worker completed after lease takeover")
+	}
+	if err := client.CompleteWorkItemWithResult(ctx, item.ID, second.Token, rheovela.WorkResult{
+		Result:        json.RawMessage(`{"ok":true}`),
+		CheckpointRef: "lease-ckpt",
+		EffectCursor:  "lease-eff",
+	}); err != nil {
+		t.Fatal(err)
+	}
+	done := awaitWorkItem(t, ctx, client, run.InstanceID, "done")
+	if !bytes.Contains(done.Result, []byte(`"ok":true`)) {
+		t.Fatalf("result = %s", done.Result)
+	}
+	if done.CheckpointRef != "lease-ckpt" || done.EffectCursor != "lease-eff" {
+		t.Fatalf("refs = %#v", done)
+	}
+}

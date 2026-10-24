@@ -375,8 +375,12 @@ This release does not claim production, deployed, or independent validation.
   `ApprovalStore`, and one agent invocation per work item.
 - [x] Verify the durable worker against a local RHEOVELA server: result/refs,
   approval request, and resume after approval.
-- [ ] Promote the agent node/session/stream remote-worker contract after
-  deployed or multi-node RHEOVELA validation.
+- [x] Verify lease expiry and successor fencing on a local RHEOVELA server.
+- [ ] Validate a deployed Postgres-backed, multi-node RHEOVELA setup; scheduler
+  duplication, leader election, replication, and failover are not proven by the
+  local test.
+- [ ] Promote the agent node/session/stream remote-worker contract after the
+  deployed validation.
 - [ ] Verify E2B, Daytona, OpenSandbox, and CubeSandbox adapters against live
   providers and decide whether to promote a common workspace contract to
   `pkg/`. Provider SDKs stay in separate modules.

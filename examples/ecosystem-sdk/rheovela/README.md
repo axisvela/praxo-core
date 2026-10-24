@@ -56,3 +56,28 @@ RHEO_URL=http://127.0.0.1:18080 GOWORK=off \
 The test publishes a one-stage workflow, opens a run, commits a result with
 checkpoint/effect refs, then repeats with an approval request and resumes after
 approval. Use a disposable database.
+
+`TestLiveMultiWorkerLeaseFencing` additionally claims a work item with a short
+lease, lets it expire, claims it with a successor, and verifies the stale
+worker's commit is rejected.
+
+## Multi-Node Validation
+
+True multi-node validation needs a shared Postgres database and at least two
+`rheo serve` processes. This environment has no Docker or Postgres, so the
+committed tests cover a single local server plus lease/fencing takeover only.
+
+A Postgres run should:
+
+1. Start two nodes with `rheo serve --store postgres --db-url <dsn>` on
+   different ports.
+2. Point one PRAXO `DurableWorker` at each node URL.
+3. Run `TestLiveDurableWorker` and `TestLiveMultiWorkerLeaseFencing` against
+   both node URLs.
+4. Claim on node A, expire the lease, claim on node B, and confirm A's stale
+   commit is rejected.
+5. Record whether scheduler duplication, leader election, replication, and
+   failover are safe for the tested version.
+
+RHEOVELA's current HA note says leader election, replication, and automatic
+failover are deferred. Shared-Postgres fencing is not a production HA claim.
