@@ -58,8 +58,8 @@
   retriever 的外部契约检查，以及统一 runner
 - 事件与 OpenTelemetry schema 兼容规则（已发布）
 - 与 RHEOVELA 的远程 worker 契约
-- workspace/session 评估与提升标准，然后用至少两个 sandbox provider 适配器
-  做原型；提供商 SDK 不进入核心模块
+- workspace/session 评估、契约、fake 与一致性检查，然后做 E2B 和 Daytona
+  适配器原型；提供商 SDK 不进入核心模块
 
 ## 长期技术方向
 

@@ -61,9 +61,8 @@ hardening, and stable integration contracts, without changing the frozen
   model, streaming model, tool, and retriever seams, plus a combined runner
 - event and OpenTelemetry schema compatibility rules (published)
 - the remote worker contract with RHEOVELA
-- workspace/session evaluation and promotion criteria, followed by a prototype
-  with at least two sandbox provider adapters; no provider SDK enters the core
-  module
+- workspace/session evaluation, contract, fake, and conformance checks, followed
+  by E2B and Daytona adapter prototypes; no provider SDK enters the core module
 
 ## Long-Term Technical Direction
 

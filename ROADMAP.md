@@ -369,10 +369,11 @@ claim production, deployed, or independent validation.
 
 - [x] Publish the workspace/session evaluation and promotion criteria
   (`docs/14-workspace-session.md`).
-- [ ] Prototype the contract with at least two sandbox provider adapters (for
-  example E2B, OpenSandbox, or CubeSandbox). Provider adapters stay in separate
-  modules; promote a common contract to `pkg/` only after both fit without
-  provider-specific fields.
+- [x] Add the provider-neutral contract, in-memory fake, and conformance checks
+  in `adapters/workspace`.
+- [ ] Prototype the contract with E2B and Daytona adapters. Provider SDKs stay
+  in separate modules; promote a common contract to `pkg/` only after both fit
+  without provider-specific fields.
 - [ ] Plugin trust and SBOM handoff documentation.
 - [ ] Compatibility and deprecation rules for exported contracts.
 - [ ] At least one independent implementation running the conformance suite.

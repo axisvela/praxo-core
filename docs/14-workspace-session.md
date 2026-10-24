@@ -152,7 +152,10 @@ A workspace/session contract is ready for `pkg/` only when:
   `sandbox.Sandbox`;
 - the compatibility and migration notes are written.
 
-Until then, the contract stays in an adapter or evaluation module.
+Until then, the contract stays in an adapter or evaluation module. The current
+spike lives in
+[`adapters/workspace`](https://github.com/axisvela/praxo-core/tree/main/adapters/workspace)
+and provides the candidate contract, an in-memory fake, and conformance checks.
 
 ## Non-Goals
 

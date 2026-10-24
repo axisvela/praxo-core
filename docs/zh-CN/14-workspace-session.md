@@ -142,7 +142,9 @@ spike 填写。
 - API 是加法式的，不改变 `vfs.Backend`、`vfs.Executor` 或 `sandbox.Sandbox`；
 - 已编写兼容与迁移说明。
 
-在此之前，契约只存在于适配器或评估模块中。
+在此之前，契约只存在于适配器或评估模块中。当前 spike 位于
+[`adapters/workspace`](https://github.com/axisvela/praxo-core/tree/main/adapters/workspace)，
+包含候选契约、内存 fake 和一致性检查。
 
 ## 非目标
 

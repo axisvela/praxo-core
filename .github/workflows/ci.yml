@@ -120,6 +120,12 @@ jobs:
         working-directory: adapters/multiagent
       - run: go build ./...
         working-directory: adapters/multiagent
+      - run: go test ./...
+        working-directory: adapters/workspace
+      - run: go vet ./...
+        working-directory: adapters/workspace
+      - run: go build ./...
+        working-directory: adapters/workspace
 
   module-security:
     strategy:
@@ -133,6 +139,7 @@ jobs:
           - adapters/harmovela
           - adapters/a2a
           - adapters/multiagent
+          - adapters/workspace
           - examples/ecosystem-sdk
           - examples/ecosystem/mcp
           - tests/consumer
