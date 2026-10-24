@@ -58,7 +58,8 @@ declarations:
 - the OpenTelemetry reference example (#3)
 - the remote worker contract with RHEOVELA
 - live verification of the E2B, Daytona, OpenSandbox, and CubeSandbox adapters
-- CubeSandbox E2B-compatibility review before keeping a separate adapter
+- live CubeSandbox E2B-profile confirmation after the offline compatibility
+  review
 - compatibility and deprecation rules for exported contracts
 - an independent implementation running the conformance suite
 

@@ -56,7 +56,7 @@
 - OpenTelemetry reference 示例（#3）
 - 与 RHEOVELA 的远程 worker 契约
 - E2B、Daytona、OpenSandbox、CubeSandbox 适配器的实网验证
-- 保留独立 CubeSandbox 适配器前的 E2B 兼容性评审
+- 离线 E2B 兼容性评审后的实网 CubeSandbox profile 确认
 - 导出契约的兼容与弃用规则
 - 至少一个独立实现运行一致性套件
 

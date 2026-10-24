@@ -6,6 +6,11 @@ an evaluation adapter, not part of `pkg/...`.
 
 CubeSandbox is Apache-2.0 except for listed third-party components.
 
+The offline E2B compatibility review found that CubeSandbox is E2B-compatible
+but not a drop-in profile for the E2B adapter: create/connect use `/sandboxes`,
+and data-plane calls also send traffic-token headers. Keep this dedicated
+adapter until a live endpoint confirms the v2 paths and token behavior.
+
 ## Configuration
 
 ```go

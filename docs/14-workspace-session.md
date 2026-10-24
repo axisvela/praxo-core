@@ -162,6 +162,24 @@ hardware-level isolation and an E2B-compatible surface. Neither changes the core
 contract; they are provider adapters and do not move the control plane into
 `pkg/`.
 
+### CubeSandbox and E2B Compatibility
+
+The offline review found that CubeSandbox is E2B-compatible at the SDK and data
+plane level, but it is not a drop-in configuration for the current E2B adapter:
+
+- CubeSandbox `Client.Create` and `Client.Connect` use `/sandboxes`, while the
+  E2B adapter uses `/v2/sandboxes`. CubeSandbox does expose `/v2/sandboxes` for
+  listing, but that does not prove the create/connect v2 path is identical.
+- CubeSandbox data-plane calls send `X-Access-Token` and also
+  `e2b-traffic-access-token` / `cube-traffic-access-token`; the E2B adapter
+  sends only `X-Access-Token`.
+- CubeSandbox accepts `E2B_API_URL` and `E2B_API_KEY` as configuration
+  fallbacks, so a shared profile may be possible after live verification.
+
+Recommendation: keep the dedicated CubeSandbox adapter. Do not treat the E2B
+adapter as a CubeSandbox profile until a live CubeSandbox endpoint confirms the
+v2 create/connect paths and traffic-token behavior.
+
 ## Prototype Plan
 
 1. Add two adapter modules outside the core, for example

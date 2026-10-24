@@ -375,8 +375,10 @@ This release does not claim production, deployed, or independent validation.
 - [ ] Verify E2B, Daytona, OpenSandbox, and CubeSandbox adapters against live
   providers and decide whether to promote a common workspace contract to
   `pkg/`. Provider SDKs stay in separate modules.
-- [ ] Test whether CubeSandbox can reuse the E2B compatibility path before
-  keeping the separate implementation.
+- [x] Complete the offline CubeSandbox/E2B compatibility review. Keep the
+  separate CubeSandbox adapter until live create/connect and traffic-token
+  behavior is confirmed.
+- [ ] Re-test CubeSandbox as an E2B profile against a live endpoint.
 - [ ] Compatibility and deprecation rules for exported contracts.
 - [ ] At least one independent implementation running the conformance suite.
 - [ ] No AGPL imports; MIT boundary preserved.

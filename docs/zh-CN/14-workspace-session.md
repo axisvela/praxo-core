@@ -150,6 +150,24 @@ OpenSandbox 增加自托管 Go SDK 与出站控制路径；CubeSandbox 增加硬
 E2B 兼容面。两者都不改变核心契约，只作为 provider adapter，也不会把控制平面
 放进 `pkg/`。
 
+### CubeSandbox 与 E2B 兼容性
+
+离线复核发现 CubeSandbox 在 SDK 和数据面层面兼容 E2B，但不是当前 E2B 适配器
+的直接配置替代：
+
+- CubeSandbox 的 `Client.Create` 和 `Client.Connect` 使用 `/sandboxes`，而
+  E2B 适配器使用 `/v2/sandboxes`。CubeSandbox 确实为列表提供
+  `/v2/sandboxes`，但这不证明 create/connect 的 v2 路径完全一致。
+- CubeSandbox 数据面发送 `X-Access-Token`，并额外发送
+  `e2b-traffic-access-token` / `cube-traffic-access-token`；E2B 适配器只发送
+  `X-Access-Token`。
+- CubeSandbox 接受 `E2B_API_URL` 和 `E2B_API_KEY` 作为配置回退，因此实网
+  验证后共享 profile 仍有可能。
+
+建议：保留独立的 CubeSandbox 适配器。在实网 CubeSandbox 端点确认
+create/connect v2 路径和 traffic token 行为前，不要把 E2B 适配器当作
+CubeSandbox profile。
+
 ## 原型计划
 
 1. 在核心之外增加两个适配器模块：`adapters/workspace/e2b` 和
