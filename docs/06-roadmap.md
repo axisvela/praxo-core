@@ -60,6 +60,8 @@ hardening, and stable integration contracts, without changing the frozen
 - an external conformance suite
 - event and OpenTelemetry schema compatibility rules
 - the remote worker contract with RHEOVELA
+- evaluation of a stateful workspace/session contract with at least two sandbox
+  provider adapters; no provider SDK enters the core module
 
 ## Long-Term Technical Direction
 
