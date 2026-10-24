@@ -20,12 +20,13 @@ sandboxing, checkpoints, the runtime plugin plane, and the agent loop.
 ## Install
 
 ```bash
-go get github.com/axisvela/praxo-core/v2@v2.3.2
+go get github.com/axisvela/praxo-core/v2@v2.3.3
 ```
 
 ## Explore
 
 - [Quickstart](quickstart.md)
+- [2.3.3 release notes](releases/2.3.3.md)
 - [2.3.2 release notes](releases/2.3.2.md)
 - [2.3.1 release notes](releases/2.3.1.md)
 - [2.3.0 release notes](releases/2.3.0.md)
@@ -45,9 +46,9 @@ go get github.com/axisvela/praxo-core/v2@v2.3.2
 
 ## Status
 
-`2.3.2` is the current core release. The exported `pkg/...` API remains frozen;
-2.3.2 corrects Gemini streaming candidate selection and hardens provider and
-security recipes, with no API changes. Optional adapters are versioned
+`2.3.3` is the current core release. The exported `pkg/...` API remains frozen;
+2.3.3 reauthorizes changed final tool calls and propagates release-check failures,
+with no API changes. Optional adapters are versioned
 independently (`adapters/mcp/v0.3.0`,
 `adapters/otel/v0.2.0`, `adapters/anthropic/v0.1.0`,
 `adapters/gemini/v0.1.1`, `adapters/harmovela/v0.1.0`,

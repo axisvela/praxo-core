@@ -193,9 +193,9 @@ workspace agent with confined VFS tools, policy, memory, and events,
 
 ## Status
 
-`2.3.2` is the current core release. It adds no exported `pkg/...` declarations,
-corrects Gemini streaming candidate selection, and hardens provider and security
-recipes. The `1.0.0` API freeze remains in effect, and the canonical package
+`2.3.3` is the current core release. It adds no exported `pkg/...` declarations,
+reauthorizes changed final tool calls, and propagates release-check failures.
+The `1.0.0` API freeze remains in effect, and the canonical package
 paths are `pkg/toolcall`, `pkg/formatter`, and `pkg/tool/jsonschema`.
 
 Optional adapters are versioned independently: `adapters/mcp/v0.3.0`,
@@ -209,6 +209,7 @@ extracted from PRAXOVELA's proven runtime.
 [Documentation site](https://axisvela.github.io/praxo-core/) |
 [简体中文文档](docs/zh-CN/README.md)
 
+- [2.3.3 release notes](docs/releases/2.3.3.md)
 - [2.3.2 release notes](docs/releases/2.3.2.md)
 - [2.3.1 release notes](docs/releases/2.3.1.md)
 - [2.3.0 release notes](docs/releases/2.3.0.md)

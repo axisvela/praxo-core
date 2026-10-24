@@ -33,12 +33,13 @@ for the public roadmap.
 | 2.3.0 | execution correctness: event-driven subagents, real parallelism, bounded concurrency (released 2026-10-23) |
 | 2.3.1 | post-release hardening: A2A gRPC round trip, wait/prune snapshot, docs gate (released 2026-10-23) |
 | 2.3.2 | provider and security recipe hardening; Gemini stream candidate isolation (released 2026-10-23) |
+| 2.3.3 | final tool authorization, fail-fast release gates, independent module security checks (released 2026-10-24) |
 
 Post-1.0 items are competitive harness parity and adoption work, not 1.0
 blockers. They are sequenced after the stable API and release gates.
 
-The current release remains `2.3.2`. Unreleased `2.3.3` candidate work rechecks
-final tool calls after preparation callbacks without changing the public API.
+The current release is `2.3.3`, which rechecks final tool calls after preparation
+callbacks without changing the public API and expands independent-module checks.
 `2.4.0` remains an adoption-evidence candidate; local A2A interoperability is
 not deployed-peer, complete v2 IAM, or production-load evidence.
 

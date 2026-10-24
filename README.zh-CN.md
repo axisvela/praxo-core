@@ -179,8 +179,8 @@ result, err := ag.Run(ctx, agent.Session{
 
 ## 状态
 
-`2.3.2` 是当前核心版本。它不新增任何导出 `pkg/...` 声明，修复 Gemini 流式
-候选选择并加固 provider 与安全 recipe。`1.0.0` 的 API 冻结仍然有效，
+`2.3.3` 是当前核心版本。它不新增任何导出 `pkg/...` 声明，修复最终工具调用
+重新授权与发布检查失败传播。`1.0.0` 的 API 冻结仍然有效，
 规范包路径为 `pkg/toolcall`、`pkg/formatter` 和 `pkg/tool/jsonschema`。
 
 可选适配器独立版本化：`adapters/mcp/v0.3.0`、`adapters/otel/v0.2.0`、
@@ -194,6 +194,7 @@ result, err := ag.Run(ctx, agent.Session{
 [中文文档目录](docs/zh-CN/README.md)
 
 - [中文文档目录](docs/zh-CN/README.md)
+- [2.3.3 发布说明](docs/zh-CN/releases/2.3.3.md)
 - [2.3.2 发布说明](docs/zh-CN/releases/2.3.2.md)
 - [2.3.1 发布说明](docs/zh-CN/releases/2.3.1.md)
 - [2.3.0 发布说明](docs/zh-CN/releases/2.3.0.md)

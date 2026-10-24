@@ -2,6 +2,24 @@
 
 ## [Unreleased]
 
+## [2.3.3] - 2026-10-24
+
+### Fixed
+
+- Recheck final tool names and reauthorize changed JSON arguments after
+  preparation callbacks, before executing the batch. Original denials still
+  stop preparation; unchanged calls keep one tool-policy request.
+- Release checks stop on every failed Go command, including race and fuzz
+  checks, instead of letting later successes mask failures.
+
+### Changed
+
+- Linux race and vulnerability checks now cover all seven independent adapter
+  modules, ecosystem SDK recipes, and the published-module consumer.
+- Security support, MCP schema-preserving registration, optional supervisor
+  boundaries, and Go 1.26.10 guidance are aligned with the delivered modules.
+- No exported `pkg/...` API changes; optional adapter tags are unchanged.
+
 ## [2.3.2] - 2026-10-23
 
 ### Changed

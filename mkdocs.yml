@@ -40,6 +40,7 @@ nav:
   - Home: index.md
   - Quickstart: quickstart.md
   - Releases:
+      - 2.3.3: releases/2.3.3.md
       - 2.3.2: releases/2.3.2.md
       - 2.3.1: releases/2.3.1.md
       - 2.3.0: releases/2.3.0.md
@@ -69,6 +70,7 @@ nav:
   - 中文:
       - 中文首页: zh-CN/README.md
       - 快速开始: zh-CN/quickstart.md
+      - 2.3.3 发布说明: zh-CN/releases/2.3.3.md
       - 2.3.2 发布说明: zh-CN/releases/2.3.2.md
       - 2.3.1 发布说明: zh-CN/releases/2.3.1.md
       - 2.3.0 发布说明: zh-CN/releases/2.3.0.md

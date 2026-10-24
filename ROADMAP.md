@@ -1,6 +1,6 @@
 # PRAXO-CORE Roadmap
 
-**Current:** `2.3.2` provider and security recipe hardening (2026-10-23)
+**Current:** `2.3.3` final tool authorization and release gates (2026-10-24)
 
 **Target:** `2.4.0` adoption evidence
 
@@ -38,6 +38,7 @@
 | 2.3.0 | execution correctness: event-driven subagents, real parallelism, bounded concurrency |
 | 2.3.1 | post-release hardening: A2A gRPC round trip, wait/prune snapshot, docs gate |
 | 2.3.2 | provider and security recipe hardening; Gemini stream candidate isolation |
+| 2.3.3 | final tool authorization, fail-fast release gates, independent module security checks |
 
 See `CHANGELOG.md` for exact changes.
 
@@ -297,14 +298,16 @@ Exit gate:
 - [ ] Follow-up security review of final tool-call authorization and host
   containment; do not equate an implemented hook with an independent review.
 
-## 2.3.3 - Final Tool Authorization (unreleased candidate)
+## 2.3.3 - Final Tool Authorization (released 2026-10-24)
 
 - Recheck final tool names against the allowlist after preparation callbacks.
 - Reauthorize changed JSON tool arguments or names before batch execution while
   keeping the original denial gate and one policy request for unchanged calls.
 - Cover middleware, HITL edits, hooks, event/stream callbacks, and batch mutation.
-- Keep public API declarations unchanged. Release only after compatibility,
-  race, fuzz, security, and published-consumer gates; this work is not in 2.3.2.
+- Keep public API declarations unchanged. Compatibility, Linux race/fuzz,
+  security, and three-platform gates pass; this fix is not in 2.3.2.
+- Independently check all seven adapters, ecosystem recipes, and the published
+  consumer with Linux race and vulnerability scanning.
 
 ## Graph Runtime Boundary
 
