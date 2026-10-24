@@ -1,6 +1,6 @@
 # PRAXO-CORE Roadmap
 
-**Current:** `2.3.4` JSON Schema and HTTP failure-path hardening (2026-10-24)
+**Current:** `2.3.5` scheduler disable race fix (2026-10-24)
 
 **Target:** `2.4.0` adoption evidence
 
@@ -40,6 +40,7 @@
 | 2.3.2 | provider and security recipe hardening; Gemini stream candidate isolation |
 | 2.3.3 | final tool authorization, fail-fast release gates, independent module security checks |
 | 2.3.4 | JSON Schema subset semantics and HTTP client failure-path coverage |
+| 2.3.5 | scheduler disable waits for in-flight dispatch |
 
 See `CHANGELOG.md` for exact changes.
 
@@ -298,6 +299,12 @@ Exit gate:
 - [x] Baseline provider/security recipe review in 2.3.2.
 - [ ] Follow-up security review of final tool-call authorization and host
   containment; do not equate an implemented hook with an independent review.
+
+## 2.3.5 - Scheduler Disable (released 2026-10-24)
+
+- Reject callbacks that have not started after disable and wait for an in-flight
+  dispatch to finish.
+- Keep public API declarations unchanged; this is not durable scheduling.
 
 ## 2.3.4 - JSON Schema And HTTP Hardening (released 2026-10-24)
 

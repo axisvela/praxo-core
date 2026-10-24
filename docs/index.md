@@ -20,12 +20,13 @@ sandboxing, checkpoints, the runtime plugin plane, and the agent loop.
 ## Install
 
 ```bash
-go get github.com/axisvela/praxo-core/v2@v2.3.4
+go get github.com/axisvela/praxo-core/v2@v2.3.5
 ```
 
 ## Explore
 
 - [Quickstart](quickstart.md)
+- [2.3.5 release notes](releases/2.3.5.md)
 - [2.3.4 release notes](releases/2.3.4.md)
 - [2.3.3 release notes](releases/2.3.3.md)
 - [2.3.2 release notes](releases/2.3.2.md)
@@ -47,9 +48,9 @@ go get github.com/axisvela/praxo-core/v2@v2.3.4
 
 ## Status
 
-`2.3.4` is the current core release. The exported `pkg/...` API remains frozen;
-2.3.4 corrects the declared JSON Schema subset semantics and adds HTTP failure-path
-coverage, with no API changes. Optional adapters are versioned
+`2.3.5` is the current core release. The exported `pkg/...` API remains frozen;
+2.3.5 makes scheduler disable wait for in-flight dispatches, with no API changes.
+Optional adapters are versioned
 independently (`adapters/mcp/v0.3.0`,
 `adapters/otel/v0.2.0`, `adapters/anthropic/v0.1.0`,
 `adapters/gemini/v0.1.1`, `adapters/harmovela/v0.1.0`,

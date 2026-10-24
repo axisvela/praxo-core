@@ -195,9 +195,9 @@ read-only, approval, denial, and trace demo,
 
 ## Status
 
-`2.3.4` is the current core release. It adds no exported `pkg/...` declarations,
-corrects the declared JSON Schema subset semantics, and adds HTTP client
-failure-path coverage. The `1.0.0` API freeze remains in effect, and the canonical package
+`2.3.5` is the current core release. It adds no exported `pkg/...` declarations
+and makes scheduler disable wait for in-flight dispatches. The `1.0.0` API freeze
+remains in effect, and the canonical package
 paths are `pkg/toolcall`, `pkg/formatter`, and `pkg/tool/jsonschema`.
 
 Optional adapters are versioned independently: `adapters/mcp/v0.3.0`,
@@ -211,6 +211,7 @@ extracted from PRAXOVELA's proven runtime.
 [Documentation site](https://axisvela.github.io/praxo-core/) |
 [简体中文文档](docs/zh-CN/README.md)
 
+- [2.3.5 release notes](docs/releases/2.3.5.md)
 - [2.3.4 release notes](docs/releases/2.3.4.md)
 - [2.3.3 release notes](docs/releases/2.3.3.md)
 - [2.3.2 release notes](docs/releases/2.3.2.md)
