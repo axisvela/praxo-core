@@ -1,8 +1,8 @@
 # PRAXO-CORE Roadmap
 
-**Current:** `2.3.6` formatter runtime fix (2026-10-24)
+**Current:** `2.4.0` adoption surface refresh (2026-10-24)
 
-**Target:** `2.4.0` adoption evidence
+**Target:** `2.5.0` adoption evidence
 
 ## Release History
 
@@ -42,6 +42,7 @@
 | 2.3.4 | JSON Schema subset semantics and HTTP client failure-path coverage |
 | 2.3.5 | scheduler disable waits for in-flight dispatch |
 | 2.3.6 | formatter empty-command, shared-slice, and walk-error fixes |
+| 2.4.0 | adoption surface: streaming quickstart, MCP example, recall benchmark |
 
 See `CHANGELOG.md` for exact changes.
 
@@ -290,17 +291,6 @@ Exit gate:
 - [x] Reference and sandbox examples cover their allowlists.
 - [x] Tag `adapters/gemini/v0.1.1`.
 
-## 2.4.0 - Adoption Evidence (candidate)
-
-- [ ] Production case study and external benchmark validation.
-- [x] External Google ADK Go JSON-RPC consumer interoperability on loopback,
-  including discovery, authentication, concurrency, TLS, and card-origin checks.
-- [ ] Deployed remote A2A peer, external gRPC, complete v2 IAM, real gateway
-  reverse ingress, instance leases, and deployed throughput/SLO evidence.
-- [x] Baseline provider/security recipe review in 2.3.2.
-- [ ] Follow-up security review of final tool-call authorization and host
-  containment; do not equate an implemented hook with an independent review.
-
 ## 2.3.6 - Formatter Runtime Fix (released 2026-10-24)
 
 - Return an error instead of panicking on an empty formatter command.
@@ -332,6 +322,31 @@ Exit gate:
   security, and three-platform gates pass; this fix is not in 2.3.2.
 - Independently check all seven adapters, ecosystem recipes, and the published
   consumer with Linux race and vulnerability scanning.
+
+## 2.4.0 - Adoption Surface Refresh (released 2026-10-24)
+
+- [x] Quickstart streams text deltas through `agent.Options.OnDelta` with a
+  deterministic SSE regression test.
+- [x] `examples/ecosystem/mcp` demonstrates MCP resources and prompts in a
+  separate module.
+- [x] `BenchmarkAgentMemoryRecall` covers deterministic in-memory recall.
+- [x] Optional adapter tagging is documented and the MCP example is covered by
+  CI.
+- No exported `pkg/...` API change.
+
+The external-evidence items below remain for 2.5.0. This release does not claim
+production, deployed, or independent validation.
+
+## 2.5.0 - Adoption Evidence (candidate)
+
+- [ ] Production case study and external benchmark validation.
+- [x] External Google ADK Go JSON-RPC consumer interoperability on loopback,
+  including discovery, authentication, concurrency, TLS, and card-origin checks.
+- [ ] Deployed remote A2A peer, external gRPC, complete v2 IAM, real gateway
+  reverse ingress, instance leases, and deployed throughput/SLO evidence.
+- [x] Baseline provider/security recipe review in 2.3.2.
+- [ ] Follow-up security review of final tool-call authorization and host
+  containment; do not equate an implemented hook with an independent review.
 
 ## Graph Runtime Boundary
 

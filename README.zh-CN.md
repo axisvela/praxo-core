@@ -181,9 +181,10 @@ result, err := ag.Run(ctx, agent.Session{
 
 ## 状态
 
-`2.3.6` 是当前核心版本。它不改变任何导出 `pkg/...` 声明，并修复
-`pkg/formatter` 的空命令、共享切片和遍历错误行为。`1.0.0` 的 API 冻结仍然有效，
-规范包路径为 `pkg/toolcall`、`pkg/formatter` 和 `pkg/tool/jsonschema`。
+`2.4.0` 是当前核心版本。它新增流式快速开始、内存 MCP 资源/提示词示例和记忆
+召回基准，不改变任何导出 `pkg/...` 声明。这是采用面更新，不是外部验证。
+`1.0.0` 的 API 冻结仍然有效，规范包路径为 `pkg/toolcall`、`pkg/formatter` 和
+`pkg/tool/jsonschema`。
 
 可选适配器独立版本化：`adapters/mcp/v0.3.0`、`adapters/otel/v0.2.0`、
 `adapters/anthropic/v0.1.0`、`adapters/gemini/v0.1.1`、
@@ -196,6 +197,7 @@ result, err := ag.Run(ctx, agent.Session{
 [中文文档目录](docs/zh-CN/README.md)
 
 - [中文文档目录](docs/zh-CN/README.md)
+- [2.4.0 发布说明](docs/zh-CN/releases/2.4.0.md)
 - [2.3.6 发布说明](docs/zh-CN/releases/2.3.6.md)
 - [2.3.5 发布说明](docs/zh-CN/releases/2.3.5.md)
 - [2.3.4 发布说明](docs/zh-CN/releases/2.3.4.md)

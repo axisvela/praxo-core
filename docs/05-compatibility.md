@@ -27,6 +27,9 @@
 - `2.3.6` is a patch release; the exported `pkg/...` API is identical to
   `2.3.5`. Empty formatter commands return an error, formatter registry slices
   are copied, and `FormatAll` returns walk errors.
+- `2.4.0` is an adoption-surface release; the exported `pkg/...` API is
+  identical to `2.3.6`. It adds examples, a benchmark, and documentation but no
+  API or behavior change in `pkg/...`.
 
 - Framework versions start at `0.x`.
 - PRAXOVELA product versions are independent.

@@ -2,6 +2,30 @@
 
 ## [Unreleased]
 
+## [2.4.0] - 2026-10-24
+
+### Added
+
+- `examples/quickstart` streams text deltas through `agent.Options.OnDelta` and
+  includes a deterministic SSE regression test. Events are written to stderr.
+- `examples/ecosystem/mcp` is a separate module that demonstrates MCP resources
+  and prompts with an in-memory server.
+- `BenchmarkAgentMemoryRecall` measures recall from a deterministic in-memory
+  store.
+
+### Changed
+
+- Quickstart, benchmark, ecosystem, and release docs describe the streaming
+  path, memory recall scenario, and optional `adapters/<name>/vX.Y.Z` tags.
+- CI runs the new MCP example module in the examples and module-security
+  matrices.
+
+### Compatibility
+
+- No exported `pkg/...` API changes; `api/2.4.0.txt` is identical to
+  `api/2.3.6.txt`.
+- Optional adapter versions are unchanged.
+
 ## [2.3.6] - 2026-10-24
 
 ### Fixed

@@ -9,6 +9,7 @@
 | 文档 | 内容 |
 | --- | --- |
 | [快速开始](quickstart.md) | 使用 Ollama 或 OpenAI 兼容端点运行 Agent |
+| [2.4.0 发布说明](releases/2.4.0.md) | 流式 quickstart、MCP 示例与记忆召回基准 |
 | [2.3.6 发布说明](releases/2.3.6.md) | formatter 运行时与可变状态修复 |
 | [2.3.5 发布说明](releases/2.3.5.md) | scheduler disable 等待 in-flight dispatch |
 | [2.3.4 发布说明](releases/2.3.4.md) | JSON Schema 语义修复与 HTTP 失败路径测试 |

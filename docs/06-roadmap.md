@@ -37,18 +37,20 @@ for the public roadmap.
 | 2.3.4 | JSON Schema subset semantics and HTTP client failure-path coverage (released 2026-10-24) |
 | 2.3.5 | scheduler disable waits for in-flight dispatch (released 2026-10-24) |
 | 2.3.6 | formatter runtime and mutation fixes (released 2026-10-24) |
+| 2.4.0 | adoption surface: streaming quickstart, MCP resources/prompts example, recall benchmark (released 2026-10-24) |
 
 Post-1.0 items are competitive harness parity and adoption work, not 1.0
 blockers. They are sequenced after the stable API and release gates.
 
-The current release is `2.3.6`, which fixes formatter empty-command, shared-slice,
-and walk-error behavior without changing the public API.
-`2.4.0` remains an adoption-evidence candidate; local A2A interoperability is
+The current release is `2.4.0`, an adoption-surface refresh with a streaming
+quickstart, an in-memory MCP resources/prompts example, and a memory recall
+benchmark. It changes no exported `pkg/...` API.
+`2.5.0` remains the adoption-evidence candidate; local A2A interoperability is
 not deployed-peer, complete v2 IAM, or production-load evidence.
 
 ## Adoption Workstream
 
-The `2.3.x` workstream keeps the `pkg/...` API additive and otherwise frozen
+The `2.4.x` workstream keeps the `pkg/...` API additive and otherwise frozen
 while improving execution correctness and the path from discovery to
 production:
 

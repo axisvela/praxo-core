@@ -197,9 +197,10 @@ read-only, approval, denial, and trace demo,
 
 ## Status
 
-`2.3.6` is the current core release. It changes no exported `pkg/...`
-declarations and fixes `pkg/formatter` empty-command, shared-slice, and walk-error
-behavior. The `1.0.0` API freeze remains in effect, and the canonical package
+`2.4.0` is the current core release. It adds a streaming quickstart, an
+in-memory MCP resources/prompts example, and a memory recall benchmark, with no
+exported `pkg/...` API changes. It is an adoption-surface refresh, not external
+validation. The `1.0.0` API freeze remains in effect, and the canonical package
 paths are `pkg/toolcall`, `pkg/formatter`, and `pkg/tool/jsonschema`.
 
 Optional adapters are versioned independently: `adapters/mcp/v0.3.0`,
@@ -213,6 +214,7 @@ extracted from PRAXOVELA's proven runtime.
 [Documentation site](https://axisvela.github.io/praxo-core/) |
 [简体中文文档](docs/zh-CN/README.md)
 
+- [2.4.0 release notes](docs/releases/2.4.0.md)
 - [2.3.6 release notes](docs/releases/2.3.6.md)
 - [2.3.5 release notes](docs/releases/2.3.5.md)
 - [2.3.4 release notes](docs/releases/2.3.4.md)

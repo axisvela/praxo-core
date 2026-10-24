@@ -20,12 +20,13 @@ sandboxing, checkpoints, the runtime plugin plane, and the agent loop.
 ## Install
 
 ```bash
-go get github.com/axisvela/praxo-core/v2@v2.3.6
+go get github.com/axisvela/praxo-core/v2@v2.4.0
 ```
 
 ## Explore
 
 - [Quickstart](quickstart.md)
+- [2.4.0 release notes](releases/2.4.0.md)
 - [2.3.6 release notes](releases/2.3.6.md)
 - [2.3.5 release notes](releases/2.3.5.md)
 - [2.3.4 release notes](releases/2.3.4.md)
@@ -49,9 +50,10 @@ go get github.com/axisvela/praxo-core/v2@v2.3.6
 
 ## Status
 
-`2.3.6` is the current core release. The exported `pkg/...` API remains frozen;
-2.3.6 fixes formatter empty-command, shared-slice, and walk-error behavior, with
-no API changes.
+`2.4.0` is the current core release. The exported `pkg/...` API remains frozen;
+2.4.0 adds a streaming quickstart, an in-memory MCP resources/prompts example,
+and a memory recall benchmark, with no API changes. It is an adoption-surface
+refresh, not external validation.
 Optional adapters are versioned
 independently (`adapters/mcp/v0.3.0`,
 `adapters/otel/v0.2.0`, `adapters/anthropic/v0.1.0`,

@@ -8,7 +8,7 @@ credential storage, and plugin materialization belong to the embedding product
 
 | Version | Support |
 | --- | --- |
-| `2.3.x` | current release line; use the latest patch |
+| `2.4.x` | current release line; use the latest patch |
 | older `2.x` | upgrade to the current patch line |
 | `1.x` and `0.x` | legacy; migrate to v2 for current fixes |
 
