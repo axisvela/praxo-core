@@ -30,6 +30,9 @@
 - `2.4.0` is an adoption-surface release; the exported `pkg/...` API is
   identical to `2.3.6`. It adds examples, a benchmark, and documentation but no
   API or behavior change in `pkg/...`.
+- `2.5.0` adds the additive `pkg/conformance` package and hardens
+  `pkg/vfs/localfs` path validation. Existing exported declarations are
+  unchanged from `2.4.0`.
 
 - Framework versions start at `0.x`.
 - PRAXOVELA product versions are independent.

@@ -2,6 +2,33 @@
 
 ## [Unreleased]
 
+## [2.5.0] - 2026-10-24
+
+### Added
+
+- `pkg/conformance`: reusable contract checks for VFS backends, memory stores,
+  sandbox runners, event sinks, policy hooks, gateways, models, streaming
+  models, tools, and retrievers.
+- `conformance.Run` executes named checks and reports all failures in one pass.
+
+### Fixed
+
+- `pkg/vfs/localfs` rejects NUL bytes, Windows drive-relative paths, reserved
+  device names, alternate data streams, and trailing dots or spaces.
+
+### Changed
+
+- Added event and OpenTelemetry schema compatibility notes.
+- Added the plugin trust and SBOM product handoff checklist.
+- Added the workspace/session evaluation and offline E2B, Daytona, OpenSandbox,
+  and CubeSandbox adapter modules. The adapters remain optional, untagged
+  evaluation modules.
+
+### Compatibility
+
+- `pkg/conformance` is a new additive package.
+- Existing exported `pkg/...` declarations are unchanged from 2.4.0.
+
 ## [2.4.0] - 2026-10-24
 
 ### Added

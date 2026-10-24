@@ -1,8 +1,8 @@
 # PRAXO-CORE Roadmap
 
-**Current:** `2.4.0` adoption surface refresh (2026-10-24)
+**Current:** `2.5.0` framework hardening (2026-10-24)
 
-**Target:** `2.5.0` framework hardening
+**Target:** `2.6.0` independent implementations and remaining hardening
 
 ## Release History
 
@@ -43,6 +43,7 @@
 | 2.3.5 | scheduler disable waits for in-flight dispatch |
 | 2.3.6 | formatter empty-command, shared-slice, and walk-error fixes |
 | 2.4.0 | adoption surface: streaming quickstart, MCP example, recall benchmark |
+| 2.5.0 | framework hardening: conformance package, localfs special-path checks, schema and trust docs |
 
 See `CHANGELOG.md` for exact changes.
 
@@ -349,38 +350,33 @@ Exit gate:
   CI.
 - No exported `pkg/...` API change.
 
-The framework-hardening items below remain for 2.5.0. This release does not
-claim production, deployed, or independent validation.
+## 2.5.0 - Framework Hardening (released 2026-10-24)
 
-## 2.5.0 - Framework Hardening (candidate)
-
-- [ ] Published-consumer verification for `v2.4.0`.
-- [ ] Adversarial containment harness for TOCTOU, Linux process trees, and WASM
-  CPU limits.
-- [ ] OpenTelemetry reference example (#3).
+- [x] Published-consumer verification for `v2.4.0`.
 - [x] Conformance checks for VFS, memory, sandbox, event, policy, gateway,
   model, streaming model, tool, and retriever seams.
 - [x] `conformance.Run` executes named checks and reports all failures in one
   pass.
 - [x] Event and OpenTelemetry schema compatibility notes.
+- [x] Reject NUL, Windows drive-relative paths, reserved device names,
+  alternate data streams, and trailing dots or spaces in `localfs`.
+- [x] Plugin trust and SBOM handoff documentation.
+- [x] Workspace/session evaluation and offline E2B, Daytona, OpenSandbox, and
+  CubeSandbox adapter modules.
+
+This release does not claim production, deployed, or independent validation.
+
+## 2.6.0 - Independent Implementations and Hardening (candidate)
+
+- [ ] Adversarial containment harness for TOCTOU, Linux process trees, and WASM
+  CPU limits.
+- [ ] OpenTelemetry reference example (#3).
 - [ ] Remote worker contract with RHEOVELA.
-
-## 2.6.0 - Independent Implementations (candidate)
-
-- [x] Publish the workspace/session evaluation and promotion criteria
-  (`docs/14-workspace-session.md`).
-- [x] Add the provider-neutral contract, in-memory fake, and conformance checks
-  in `adapters/workspace`.
-- [x] Add E2B and Daytona adapter modules with offline conformance tests.
-- [x] Publish the offline adapter capability findings.
-- [x] Add OpenSandbox and CubeSandbox adapter modules with offline conformance
-  tests.
-- [ ] Verify all four adapters against live providers and decide whether to
-  promote a common contract to `pkg/`. Provider SDKs stay in separate modules.
+- [ ] Verify E2B, Daytona, OpenSandbox, and CubeSandbox adapters against live
+  providers and decide whether to promote a common workspace contract to
+  `pkg/`. Provider SDKs stay in separate modules.
 - [ ] Test whether CubeSandbox can reuse the E2B compatibility path before
   keeping the separate implementation.
-- [x] Plugin trust and SBOM handoff documentation
-  (`docs/15-plugin-trust-sbom.md`).
 - [ ] Compatibility and deprecation rules for exported contracts.
 - [ ] At least one independent implementation running the conformance suite.
 - [ ] No AGPL imports; MIT boundary preserved.

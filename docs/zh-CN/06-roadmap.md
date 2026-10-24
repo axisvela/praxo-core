@@ -38,30 +38,27 @@
 | 2.3.5 | scheduler disable 等待 in-flight dispatch（2026-10-24 发布） |
 | 2.3.6 | formatter 运行时与可变状态修复（2026-10-24 发布） |
 | 2.4.0 | 采用面更新：流式 quickstart、MCP 资源/提示词示例、记忆召回基准（2026-10-24 发布） |
+| 2.5.0 | 框架加固：`pkg/conformance`、localfs 特殊路径校验、schema 与信任交接文档（2026-10-24 发布） |
 
 1.0 之后的项目是竞争力层面的 Harness 对齐，不是 1.0 的阻塞项。它们排在
 稳定 API 和发布门禁之后。
 
-当前已发布版本为 `2.4.0`，这是一次采用面更新，包含流式 quickstart、内存 MCP
-资源/提示词示例和记忆召回基准，不改变导出 `pkg/...` API。`2.5.0` 是框架加固
-候选版本，不声称外部采用或部署产品证据。
+当前已发布版本为 `2.5.0`。它新增 `pkg/conformance`，加固本地 VFS 特殊路径
+校验，并补充事件/OTel schema 与插件信任交接文档。workspace 适配器仍是离线
+评估模块，尚未实网验证或提升到 `pkg/`。
 
-## 2.4 之后的框架优先级
+## 2.5 之后的框架优先级
 
-`2.4.0` 已完成采用面。接下来的框架工作是验证、加固和稳定的集成契约，不改变
-冻结的 `pkg/...` API：
+`2.5.0` 已完成一致性测试套件和第一轮 containment 加固。剩余框架工作不改变
+现有导出 `pkg/...` 声明：
 
-- `v2.4.0` 的已发布版本 consumer 验证
-- TOCTOU、Linux 进程树和 WASM CPU 限制的对抗性 containment 测试
+- TOCTOU、Linux 进程树和 WASM CPU 限制的对抗性 containment
 - OpenTelemetry reference 示例（#3）
-- VFS、memory、sandbox、event、policy、gateway、model、流式 model、tool 和
-  retriever 的外部契约检查，以及统一 runner
-- 事件与 OpenTelemetry schema 兼容规则（已发布）
 - 与 RHEOVELA 的远程 worker 契约
-- workspace/session 评估、契约、fake、一致性检查、E2B/Daytona/OpenSandbox/
-  CubeSandbox 离线适配器与能力结论；实网验证仍待完成；提供商 SDK 不进入
-  核心模块
-- 产品侧插件验证与 materialization 的信任/SBOM 交接清单
+- E2B、Daytona、OpenSandbox、CubeSandbox 适配器的实网验证
+- 保留独立 CubeSandbox 适配器前的 E2B 兼容性评审
+- 导出契约的兼容与弃用规则
+- 至少一个独立实现运行一致性套件
 
 ## 长期技术方向
 

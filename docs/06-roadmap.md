@@ -38,34 +38,29 @@ for the public roadmap.
 | 2.3.5 | scheduler disable waits for in-flight dispatch (released 2026-10-24) |
 | 2.3.6 | formatter runtime and mutation fixes (released 2026-10-24) |
 | 2.4.0 | adoption surface: streaming quickstart, MCP resources/prompts example, recall benchmark (released 2026-10-24) |
+| 2.5.0 | framework hardening: conformance package, localfs special-path checks, schema and trust docs (released 2026-10-24) |
 
 Post-1.0 items are competitive harness parity and adoption work, not 1.0
 blockers. They are sequenced after the stable API and release gates.
 
-The current release is `2.4.0`, an adoption-surface refresh with a streaming
-quickstart, an in-memory MCP resources/prompts example, and a memory recall
-benchmark. It changes no exported `pkg/...` API.
-`2.5.0` is the framework-hardening candidate; it does not claim external
-adoption or deployed-product evidence.
+The current release is `2.5.0`. It adds the additive `pkg/conformance` package,
+hardens local VFS special-path validation, and publishes the event/OTel schema
+and plugin trust/SBOM handoff docs. Workspace adapters remain offline evaluation
+modules; they are not live-verified or promoted to `pkg/`.
 
-## Post-2.4 Framework Priorities
+## Post-2.5 Framework Priorities
 
-`2.4.0` completed the adoption surface. The next framework work is verification,
-hardening, and stable integration contracts, without changing the frozen
-`pkg/...` API:
+`2.5.0` completed the conformance suite and the first containment hardening
+pass. Remaining framework work, without changing existing exported `pkg/...`
+declarations:
 
-- published-consumer verification for `v2.4.0`
-- adversarial containment tests for TOCTOU, Linux process trees, and WASM CPU
+- adversarial containment for TOCTOU, Linux process trees, and WASM CPU limits
 - the OpenTelemetry reference example (#3)
-- external conformance checks for VFS, memory, sandbox, event, policy, gateway,
-  model, streaming model, tool, and retriever seams, plus a combined runner
-- event and OpenTelemetry schema compatibility rules (published)
 - the remote worker contract with RHEOVELA
-- workspace/session evaluation, contract, fake, conformance checks, offline
-  E2B, Daytona, OpenSandbox, and CubeSandbox adapters, and capability findings;
-  live provider verification remains; no provider SDK enters the core module
-- plugin trust and SBOM handoff checklist for product-owned verification and
-  materialization
+- live verification of the E2B, Daytona, OpenSandbox, and CubeSandbox adapters
+- CubeSandbox E2B-compatibility review before keeping a separate adapter
+- compatibility and deprecation rules for exported contracts
+- an independent implementation running the conformance suite
 
 ## Long-Term Technical Direction
 
