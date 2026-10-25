@@ -15,7 +15,14 @@ func main() {
 	if err != nil {
 		fail("BRIDGE_IO", err)
 	}
-	result, err := bridge.Run(os.Args[1:], input)
+	emit := func(value any) {
+		encoder := json.NewEncoder(os.Stdout)
+		encoder.SetEscapeHTML(false)
+		if err := encoder.Encode(value); err != nil {
+			fmt.Fprintln(os.Stderr, err)
+		}
+	}
+	result, err := bridge.RunWithEmitter(os.Args[1:], input, emit)
 	if err != nil {
 		var contract *bridge.ContractError
 		if errors.As(err, &contract) {
@@ -27,11 +34,13 @@ func main() {
 		}
 		fail("BRIDGE_COMMAND", err)
 	}
-	encoder := json.NewEncoder(os.Stdout)
-	encoder.SetEscapeHTML(false)
-	if err := encoder.Encode(result); err != nil {
-		fmt.Fprintln(os.Stderr, err)
-		os.Exit(1)
+	if result != nil {
+		encoder := json.NewEncoder(os.Stdout)
+		encoder.SetEscapeHTML(false)
+		if err := encoder.Encode(result); err != nil {
+			fmt.Fprintln(os.Stderr, err)
+			os.Exit(1)
+		}
 	}
 }
 

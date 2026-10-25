@@ -62,7 +62,9 @@
   PowerShell, Shell, PHP, Swift, R, Julia, Haskell, Fortran, and Lisp.
 - `spec/languages.md`: canonical language support matrix.
 - `spec/bridge.md` and `cmd/praxo-bridge`: process bridge for toolcall,
-  JSON Schema, plugin validation, and version, with unit tests.
+  JSON Schema, plugin validation, version, tool listing, run, and event
+  streaming, with unit tests.
+- Shell and PowerShell bridge wrappers with a CI smoke job.
 
 ### Changed
 

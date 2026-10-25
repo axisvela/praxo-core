@@ -109,6 +109,20 @@ jobs:
       - run: java --add-modules jdk.httpserver -cp target/classes:target/test-classes io.axisvela.praxo.adapters.OpenAICompatibleSelfTest
       - run: java -cp target/classes:target/test-classes io.axisvela.praxo.agent.AgentConcurrencySelfTest
 
+  bridge:
+    runs-on: ubuntu-latest
+    env:
+      GOWORK: "off"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: "1.26.10"
+      - run: go test ./internal/bridge ./cmd/praxo-bridge
+      - run: go run ./cmd/praxo-bridge version
+      - run: bash shell/praxo-bridge.sh version
+      - run: pwsh -NoProfile -Command "Import-Module ./powershell/PraxoBridge.psm1; Invoke-PraxoBridge -Arguments @('version')"
+
   rust-conformance:
     runs-on: ubuntu-latest
     defaults:

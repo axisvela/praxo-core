@@ -79,6 +79,58 @@ Output:
 {"valid":true,"errorPaths":[]}
 ```
 
+### `tool list`
+
+Input: `{}`
+
+Output:
+
+```json
+{"tools":[]}
+```
+
+The bridge does not host tool plugins yet. A bridge run uses no tools.
+
+### `run`
+
+Input:
+
+```json
+{"prompt":"hello","sessionId":"s1","maxSteps":8}
+```
+
+Model configuration comes from the environment, never argv:
+
+- `PRAXO_BASE_URL` (required)
+- `PRAXO_API_KEY` (optional)
+- `PRAXO_MODEL` (optional)
+- `PRAXO_MAX_STEPS` (optional, default 8)
+
+Output:
+
+```json
+{
+  "runId":"run-...",
+  "output":"...",
+  "steps":1,
+  "usage":{"inputTokens":1,"outputTokens":2,"cachedTokens":0}
+}
+```
+
+### `event stream`
+
+Input is the same as `run`. Output is JSON Lines: each event object is written
+as one line, followed by a final result line:
+
+```json
+{"type":"run.started","sessionId":"s1","runId":"run-..."}
+{"type":"run.completed","sessionId":"s1","runId":"run-..."}
+{"type":"result","result":{"runId":"run-...","output":"...","steps":1}}
+```
+
+When the caller does not supply a streaming emitter, the same data is returned
+as one object with `events` and `result` keys.
+
 ### `plugin validate`
 
 Input, one of:

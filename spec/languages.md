@@ -27,8 +27,8 @@ scope. A language may ship more than one tier over time.
 | C | Core | planned | `c/v0.1.0` | Local C compiler blocked; CI pending |
 | C# | Core (.NET) | planned | `csharp/v0.1.0` | Next native SDK; .NET SDK pending |
 | Visual Basic | Sample (.NET) | planned | none | Ships with the .NET package |
-| PowerShell | Bridge | planned | `powershell/v0.1.0` | Wraps the bridge CLI |
-| Shell | Bridge | planned | `shell/v0.1.0` | Wraps the bridge CLI |
+| PowerShell | Bridge | released | `powershell/v0.1.0` | Wraps the bridge CLI |
+| Shell | Bridge | released | `shell/v0.1.0` | Wraps the bridge CLI |
 | PHP | Wire, then Core | planned | `php/v0.1.0` | Wire first; core by demand |
 | Swift | Core | planned | `swift/v0.1.0` | Validate on macOS CI |
 | Julia | Wire | planned | `julia/v0.1.0` | Wire subset |
