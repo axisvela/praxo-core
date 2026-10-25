@@ -31,7 +31,8 @@
 | [架构](01-architecture.md) | Agent 循环、上下文、插件平面与设计规则 |
 | [基础能力](02-primitives.md) | 各包的契约与典型适配器 |
 | [多语言 SDK 设计](17-multilingual-sdk.md) | 共享契约、仓库布局、命名与一致性模型 |
-| [多语言路线图](18-multilingual-roadmap.md) | Python、TypeScript、Java 的分阶段计划与门禁 |
+| [多语言路线图](18-multilingual-roadmap.md) | Python、TypeScript、Java、Rust 与 C 的分阶段计划与门禁 |
+| [语言扩展计划](19-language-expansion.md) | C#、PHP、Swift、Shell 等语言的分层策略与优先级 |
 | [集成](03-integration.md) | 与 PRAXOVELA 及外部集成方的集成方式 |
 | [许可证与来源](04-license-and-provenance.md) | MIT 边界与代码来源规则 |
 | [兼容性](05-compatibility.md) | 版本策略、API 稳定性与兼容性测试 |

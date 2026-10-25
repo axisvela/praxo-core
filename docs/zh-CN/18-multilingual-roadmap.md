@@ -112,7 +112,8 @@ Java SDK 已通过全部十一组向量、API 快照/parity 检查及适配器/�
 | C API 快照/parity | 计划中 | 未实现 |
 
 Rust SDK 已通过全部十一组向量及 7 个单元测试。C 是下一个实现；两者都使用
-共享向量与 wire 契约。
+共享向量与 wire 契约。长尾语言分层见
+[语言扩展计划](19-language-expansion.md)。
 
 ## 阶段 0 - 契约抽取
 

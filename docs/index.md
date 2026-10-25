@@ -47,6 +47,7 @@ go get github.com/axisvela/praxo-core/v2@v2.5.0
 - [Primitives](02-primitives.md)
 - [Multilingual SDK design](17-multilingual-sdk.md)
 - [Multilingual roadmap](18-multilingual-roadmap.md)
+- [Language expansion plan](19-language-expansion.md)
 - [Plugin authoring](10-plugin-authoring.md)
 - [Security model](08-security.md)
 - [中文文档](zh-CN/README.md)

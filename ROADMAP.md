@@ -78,6 +78,11 @@ TypeScript, then Java. The detailed design and work breakdown live in
 | M3 | Java SDK core, Maven Central release | all P1 vectors and parity linter green for `java/` |
 | M4 | Anthropic, Gemini, MCP, OTel, VFS, process and WASM plugin hosts | per-adapter conformance plus a named consumer |
 
+Additional languages follow the tiered plan in
+[Language expansion plan](docs/19-language-expansion.md): C#/.NET next, then PHP
+and Swift, with wire-level or bridge-only support for Shell, PowerShell, Visual
+Basic, R, Julia, Haskell, Fortran, and Lisp.
+
 ## Long-Term Technical Direction
 
 - **3-6 months:** finish containment hardening, the conformance suite, the

@@ -42,6 +42,8 @@ this framework.
   pass.
 - Keep every SDK MIT; review dependency licenses before adopting one.
 - See `docs/17-multilingual-sdk.md` and `docs/18-multilingual-roadmap.md`.
+- New languages follow the tier model in `docs/19-language-expansion.md`; do
+  not hand-write a new agent loop without a named consumer.
 
 ## Build And Test
 

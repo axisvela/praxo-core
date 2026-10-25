@@ -124,6 +124,8 @@ Maven Central release is done.
 
 The Rust SDK passes all eleven vector groups and its seven unit tests. C is the
 next implementation; both SDKs will use the shared vectors and wire contract.
+Long-tail language tiers are evaluated in the
+[language expansion plan](19-language-expansion.md).
 
 ## Phase 0 - Contract Extraction
 

@@ -58,6 +58,8 @@
 - `rust/src/bin/conformance.rs`, the `rust-conformance` CI job, and seven
   Rust unit tests. The Rust SDK passes all eleven conformance vector groups.
 - Rust SDK `0.1.0` source tag `rust/v0.1.0`.
+- `docs/19-language-expansion.md`: tiered plan for C#, Visual Basic,
+  PowerShell, Shell, PHP, Swift, R, Julia, Haskell, Fortran, and Lisp.
 
 ### Changed
 
