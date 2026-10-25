@@ -9,6 +9,7 @@ from typing import Any
 
 from .agent import Agent, AgentOptions, Session
 from .checkpoint import Allowlist
+from .context import ContextBudget, estimate_tokens
 from .errors import PluginError, PolicyError, PraxoError, TypeNotAllowedError
 from .event import Event, FilterSink, MultiSink
 from .jsonschema import validate as validate_schema
@@ -275,6 +276,30 @@ def _policy(vector: dict[str, Any]) -> None:
         )
 
 
+def _context(vector: dict[str, Any]) -> None:
+    inp = vector["input"]
+    exp = vector["expect"]
+    messages = [Message.from_wire(item) for item in inp.get("messages", [])]
+    operation = inp.get("operation")
+    if operation == "estimate":
+        got = estimate_tokens(messages)
+        _assert(got == exp.get("tokens"), f"tokens: got {got}")
+        return
+    budget_input = inp.get("budget") or {}
+    budget = ContextBudget(
+        max_tokens=budget_input.get("maxTokens", 0),
+        keep_recent=budget_input.get("keepRecent", 0),
+    )
+    out, ok = budget.compact(messages)
+    _assert(ok == bool(exp.get("ok")), f"ok: got {ok}")
+    if not ok:
+        return
+    got_tokens = estimate_tokens(out)
+    _assert(got_tokens == exp.get("tokens"), f"tokens: got {got_tokens}")
+    wire = [message.to_wire() for message in out]
+    _assert(wire == exp.get("messages"), f"messages: got {wire}")
+
+
 def _agent_loop(vector: dict[str, Any]) -> None:
     asyncio.run(_agent_loop_async(vector))
 
@@ -392,5 +417,6 @@ _RUNNERS = {
     "stream": _stream,
     "checkpoint": _checkpoint,
     "policy": _policy,
+    "context": _context,
     "agent-loop": _agent_loop,
 }

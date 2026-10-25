@@ -26,8 +26,8 @@ A released SDK must have no `planned` or `partial` row in its declared P1 scope.
 | `pkg/agent` | agent loop and options | partial | planned | planned | P1 |
 | `pkg/agent/types` | run state, hooks, session | partial | planned | planned | P1 |
 | `pkg/agent/stream` | typed stream projections | parity | planned | planned | P1 |
-| `pkg/agent/context` | budget, compact, offload, AGENTS.md | planned | planned | planned | P1 |
-| `pkg/agent/middleware` | call limits, fallback, PII, structured output, tool selection, todos | planned | planned | planned | P1 |
+| `pkg/agent/context` | budget, compact, offload, AGENTS.md | parity | planned | planned | P1 |
+| `pkg/agent/middleware` | call limits, fallback, PII, structured output, tool selection, todos | partial | planned | planned | P1 |
 | `pkg/agent/hitl` | interrupt decisions | planned | planned | planned | P2 |
 | `pkg/agent/evaluation` | rubric evaluation | planned | planned | planned | P2 |
 | `pkg/agent/delegation` | subagent manager | planned | planned | planned | P2 |
@@ -90,6 +90,31 @@ lands. Names in the SDK columns are required targets, not current symbols.
 | `agent/types.Session` | struct | `praxo.agent.Session` | `Session` | `Session` | P1 |
 | `agent/types.Result` | struct | `praxo.agent.Result` | `Result` | `Result` | P1 |
 | `agent/stream.StreamPart` | struct | `praxo.stream.StreamPart` | `StreamPart` | `StreamPart` | P1 |
+| `agent/types.Middleware` | struct | `praxo.middleware.Middleware` | `Middleware` | `Middleware` | P1 |
+| `agent/types.RunState` | struct | `praxo.middleware.RunState` | `RunState` | `RunState` | P1 |
+| `agent/types.ModelCall` | struct | `praxo.middleware.ModelCall` | `ModelCall` | `ModelCall` | P1 |
+| `agent/types.ToolCall` | struct | `praxo.middleware.ToolCall` | `ToolCall` | `ToolCall` | P1 |
+| `agent/types.ToolResult` | struct | `praxo.middleware.ToolResult` | `ToolResult` | `ToolResult` | P1 |
+| `agent/context.MaxAgentsMDBytes` | const | `praxo.context.MaxAgentsMDBytes` | `MAX_AGENTS_MD_BYTES` | `Contexts.MAX_AGENTS_MD_BYTES` | P1 |
+| `agent/context.ErrContextBudget` | var | `praxo.errors.ContextBudgetError` | `ContextBudgetError` | `ContextBudgetException` | P1 |
+| `agent/context.EstimateTokens` | function | `praxo.context.estimate_tokens` | `estimateTokens` | `Contexts.estimateTokens` | P1 |
+| `agent/context.LoadAgentsMD` | function | `praxo.context.load_agents_md` | `loadAgentsMd` | `Contexts.loadAgentsMd` | P1 |
+| `agent/context.ContextBudget` | struct | `praxo.context.ContextBudget` | `ContextBudget` | `ContextBudget` | P1 |
+| `agent/context.ContextCompactor` | interface | `praxo.context.ContextCompactor` | `ContextCompactor` | `ContextCompactor` | P1 |
+| `agent/context.ModelSummarizer` | struct | `praxo.context.ModelSummarizer` | `ModelSummarizer` | `ModelSummarizer` | P1 |
+| `agent/context.OffloadFunc` | type | `praxo.context.OffloadFunc` | `OffloadFunc` | `OffloadFunc` | P1 |
+| `agent/context.Offloader` | interface | `praxo.context.Offloader` | `Offloader` | `Offloader` | P1 |
+| `agent/middleware.CallLimitMiddleware` | function | `praxo.middleware.call_limit_middleware` | `callLimitMiddleware` | `Middleware.callLimit` | P1 |
+| `agent/middleware.FallbackModel` | function | `praxo.middleware.fallback_model` | `fallbackModel` | `Middleware.fallbackModel` | P1 |
+| `agent/middleware.PIIMiddleware` | function | `praxo.middleware.pii_middleware` | `piiMiddleware` | `Middleware.pii` | P1 |
+| `agent/middleware.PIIRedactor` | struct | `praxo.middleware.PIIRedactor` | `PiiRedactor` | `PiiRedactor` | P1 |
+| `agent/middleware.PIIRule` | struct | `praxo.middleware.PIIRule` | `PiiRule` | `PiiRule` | P1 |
+| `agent/middleware.NewPIIRule` | function | `praxo.middleware.new_pii_rule` | `newPiiRule` | `PiiRule.of` | P1 |
+| `agent/middleware.DefaultPIIRules` | function | `praxo.middleware.default_pii_rules` | `defaultPiiRules` | `PiiRules.defaults` | P1 |
+| `agent/middleware.StructuredOutput` | struct | `praxo.middleware.StructuredOutput` | `StructuredOutput` | `StructuredOutput` | P1 |
+| `agent/middleware.ToolSelector` | interface | `praxo.middleware.ToolSelector` | `ToolSelector` | `ToolSelector` | P1 |
+| `agent/middleware.ToolSelectionMiddleware` | function | `praxo.middleware.tool_selection_middleware` | `toolSelectionMiddleware` | `Middleware.toolSelection` | P1 |
+| `agent/middleware.ModelToolSelector` | struct | `praxo.middleware.ModelToolSelector` | `ModelToolSelector` | `ModelToolSelector` | P1 |
 | `tool/jsonschema.Schema` | struct | `praxo.jsonschema.Schema` | `Schema` | `Schema` | P1 |
 | `tool/jsonschema.ValidationError` | struct | `praxo.jsonschema.ValidationError` | `ValidationError` | `ValidationError` | P1 |
 | `tool/jsonschema.FromJSON` | function | `praxo.jsonschema.from_json` | `fromJson` | `Schemas.fromJson` | P1 |

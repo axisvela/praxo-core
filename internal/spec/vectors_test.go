@@ -41,6 +41,8 @@ func runVector(group string, v vectorCase) error {
 		return runPolicy(v)
 	case "agent-loop":
 		return runAgentLoop(v)
+	case "context":
+		return runContext(v)
 	default:
 		return fmt.Errorf("no runner for group %q", group)
 	}

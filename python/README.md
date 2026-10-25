@@ -3,9 +3,10 @@
 Python implementation of the PRAXO-CORE contract. The normative contract is
 [`spec/`](../spec/README.md); Go remains the reference implementation.
 
-**Status:** Phase 1 core plus streaming and an OpenAI-compatible adapter. The
-package passes all nine conformance vector groups. Context budgets, middleware,
-VFS, and plugin hosts are not yet implemented.
+**Status:** Phase 1 core plus streaming, context management, middleware, and an
+OpenAI-compatible adapter. The package passes all ten conformance vector groups.
+VFS and plugin hosts are not yet implemented. Wheel and sdist builds are
+verified; PyPI publication is pending release credentials.
 
 ## Requirements
 
@@ -63,6 +64,8 @@ asyncio.run(main())
 | `praxo.memory` | `Store`, `Record`, `MemoryStore`, `ContextAssembler` |
 | `praxo.checkpoint` | `Checkpoint`, `Allowlist` |
 | `praxo.agent` | `Agent`, `AgentOptions`, `Session`, `Result` |
+| `praxo.context` | `ContextBudget`, `ModelSummarizer`, `Offloader`, `load_agents_md` |
+| `praxo.middleware` | call limits, fallback, PII, structured output, tool selection |
 | `praxo.toolcall` | `parse_tool_call`, `strip_tool_call_markup` |
 | `praxo.jsonschema` | `Schema`, `ValidationError` |
 | `praxo.plugin` | Manifest v1 parsing and validation |
@@ -81,6 +84,17 @@ python -m unittest discover -s tests -v
 
 Both commands read `../spec/vectors/*.json`. A released SDK must pass every
 vector and keep `spec/parity.md` current.
+
+## API Reference and Build
+
+See [API.md](API.md). Refresh the checked-in symbol snapshot after a public API
+change:
+
+```bash
+python api-snapshot.py
+python api-snapshot.py --check
+python -m build --wheel --sdist .
+```
 
 ## License
 

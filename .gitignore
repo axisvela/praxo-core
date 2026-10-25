@@ -2,6 +2,7 @@
 *.test
 *.out
 bin/
+build/
 dist/
 site/
 vendor/

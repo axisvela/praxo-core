@@ -21,7 +21,7 @@ Implemented:
 
 - `wire/` event, error, JSON Schema, and plugin contracts
 - `vectors/` groups for agent loop, toolcall, JSON Schema, plugin, memory,
-  event, stream, checkpoint, and policy
+  event, stream, checkpoint, policy, and context
 - Go runner and parity linter in `internal/spec`, run by CI job
   `spec-conformance`
 - Python runner and parity check in `python/praxo/conformance.py`, run by CI job

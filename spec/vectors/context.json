@@ -1,0 +1,100 @@
+{
+  "specVersion": "0.1.0",
+  "group": "context",
+  "vectors": [
+    {
+      "id": "context.estimate-tokens",
+      "description": "Token estimate counts message overhead and content",
+      "input": {
+        "operation": "estimate",
+        "messages": [
+          { "role": "system", "content": "sys" },
+          { "role": "user", "content": "message 0" },
+          { "role": "user", "content": "message 1" }
+        ]
+      },
+      "expect": {
+        "tokens": 16
+      }
+    },
+    {
+      "id": "context.compact-keeps-recent",
+      "description": "Compaction keeps recent messages and inserts a marker",
+      "input": {
+        "operation": "compact",
+        "messages": [
+          { "role": "system", "content": "sys" },
+          { "role": "user", "content": "message 0" },
+          { "role": "user", "content": "message 1" },
+          { "role": "user", "content": "message 2" },
+          { "role": "user", "content": "message 3" },
+          { "role": "user", "content": "message 4" },
+          { "role": "user", "content": "message 5" },
+          { "role": "user", "content": "message 6" },
+          { "role": "user", "content": "message 7" },
+          { "role": "user", "content": "message 8" },
+          { "role": "user", "content": "message 9" }
+        ],
+        "budget": { "maxTokens": 30, "keepRecent": 2 }
+      },
+      "expect": {
+        "ok": true,
+        "tokens": 25,
+        "messages": [
+          { "role": "system", "content": "sys" },
+          {
+            "role": "system",
+            "content": "[context compacted: 8 older messages omitted]"
+          },
+          { "role": "user", "content": "message 9" }
+        ]
+      }
+    },
+    {
+      "id": "context.system-truncated",
+      "description": "An oversized system prompt is truncated to fit",
+      "input": {
+        "operation": "compact",
+        "messages": [{ "role": "system", "content": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" }],
+        "budget": { "maxTokens": 5, "keepRecent": 0 }
+      },
+      "expect": {
+        "ok": true,
+        "tokens": 5,
+        "messages": [{ "role": "system", "content": "xxxx" }]
+      }
+    },
+    {
+      "id": "context.disabled",
+      "description": "A zero budget returns the prompt unchanged",
+      "input": {
+        "operation": "compact",
+        "messages": [
+          { "role": "system", "content": "sys" },
+          { "role": "user", "content": "hi" }
+        ],
+        "budget": { "maxTokens": 0, "keepRecent": 0 }
+      },
+      "expect": {
+        "ok": true,
+        "tokens": 8,
+        "messages": [
+          { "role": "system", "content": "sys" },
+          { "role": "user", "content": "hi" }
+        ]
+      }
+    },
+    {
+      "id": "context.impossible-budget",
+      "description": "A system prompt that cannot fit fails closed",
+      "input": {
+        "operation": "compact",
+        "messages": [{ "role": "system", "content": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" }],
+        "budget": { "maxTokens": 2, "keepRecent": 0 }
+      },
+      "expect": {
+        "ok": false
+      }
+    }
+  ]
+}

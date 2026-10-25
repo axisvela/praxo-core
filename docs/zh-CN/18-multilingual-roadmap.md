@@ -34,7 +34,7 @@
 | P0-3 错误 wire 产物 | 完成 | `spec/wire/errors.json` |
 | P0-4 插件 wire 产物 | 完成 | `spec/wire/plugin.json` |
 | P0-5 JSON Schema wire 产物 | 完成 | `spec/wire/jsonschema.json` |
-| P0-6 行为向量 | 完成 | 九组全绿：agent loop、toolcall、jsonschema、plugin、memory、event、stream、checkpoint、policy |
+| P0-6 行为向量 | 完成 | 十组全绿：agent loop、toolcall、jsonschema、plugin、memory、event、stream、checkpoint、policy、context |
 | P0-7 Go 向量 runner | 完成 | `internal/spec` |
 | P0-8 `spec-conformance` CI 任务 | 完成 | `.github/workflows/ci.yml` |
 | P0-9 一致性 linter | 完成 | `internal/spec` 中的 `TestParityInventory` 与 `TestParitySymbols` |
@@ -49,12 +49,12 @@
 | --- | --- | --- |
 | P1-1 核心模块 | 完成 | `python/praxo/{model,tool,event,policy,memory,checkpoint,agent}.py` |
 | P1-2 异步循环、取消、流式 | 完成 | `Agent`、`AgentOptions.on_delta`、流式测试 |
-| P1-3 上下文预算、压缩、卸载、`AGENTS.md` | 计划中 | 未实现 |
-| P1-4 中间件子集 | 计划中 | 未实现 |
+| P1-3 上下文预算、压缩、卸载、`AGENTS.md` | 完成 | `python/praxo/context.py`、上下文测试 |
+| P1-4 中间件子集 | 完成 | `python/praxo/middleware/`、中间件测试 |
 | P1-5 OpenAI 兼容适配器 | 完成 | `python/praxo/adapters/openaicompat.py`、假 SSE 测试 |
 | P1-6 Python 一致性 runner | 完成 | `python/conformance/run.py`、CI 任务 `python-conformance` |
-| P1-7 SDK 文档 | 部分完成 | `python/README.md`；API 参考待补 |
-| P1-8 PyPI 发布 | 计划中 | 尚未发布 |
+| P1-7 SDK 文档 | 完成 | `python/README.md`、`python/API.md`、`python/api/0.1.0.txt` |
+| P1-8 PyPI 发布 | 就绪 | wheel/sdist 构建与干净 venv 安装通过；发布待凭据 |
 
 本地检查：
 
@@ -64,7 +64,7 @@ python conformance/run.py
 python -m unittest discover -s tests -v
 ```
 
-P1-3、P1-4、P1-7、P1-8 完成前，阶段 1 不算完成。
+阶段 1 的代码与文档门禁已满足；PyPI 发布仍待发布凭据。
 
 ## 阶段 0 - 契约抽取
 

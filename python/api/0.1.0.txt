@@ -1,0 +1,295 @@
+# PRAXO-CORE Python API 0.1.0
+
+## praxo
+praxo.Action
+praxo.Agent
+praxo.AgentOptions
+praxo.Allowlist
+praxo.CacheHint
+praxo.ChatModel
+praxo.Checkpoint
+praxo.CheckpointMessage
+praxo.ContentBlock
+praxo.ContextBudget
+praxo.ContextCompactor
+praxo.Decision
+praxo.Event
+praxo.FilterSink
+praxo.FuncHook
+praxo.FuncTool
+praxo.Gateway
+praxo.GatewayInfo
+praxo.GatewayTool
+praxo.Hook
+praxo.Message
+praxo.Middleware
+praxo.Model
+praxo.ModelCall
+praxo.ModelMiddleware
+praxo.ModelSummarizer
+praxo.ModelToolSelector
+praxo.MultiSink
+praxo.OffloadFunc
+praxo.Offloader
+praxo.PIIRedactor
+praxo.PathChecker
+praxo.PathGrant
+praxo.Registry
+praxo.Request
+praxo.Response
+praxo.Result
+praxo.RunState
+praxo.Session
+praxo.Sink
+praxo.StructuredOutput
+praxo.Tool
+praxo.ToolCall
+praxo.ToolResult
+praxo.ToolSpec
+praxo.Usage
+praxo.call_limit_middleware(model_limit: 'int', tool_limit: 'int') -> 'Middleware'
+praxo.default_pii_rules() -> 'list[PIIRule]'
+praxo.estimate_tokens(messages: 'list[Message]') -> 'int'
+praxo.fallback_model(fallback: 'Model | None') -> 'ModelMiddleware'
+praxo.load_agents_md(paths: 'list[str] | tuple[str, ...]') -> 'str'
+praxo.parse_tool_call(content: 'str') -> 'ToolCall | None'
+praxo.pii_middleware(redactor: 'PIIRedactor') -> 'Middleware'
+praxo.strip_tool_call_markup(content: 'str') -> 'str'
+praxo.tool_selection_middleware(selector: 'ToolSelector | None') -> 'Middleware'
+
+## praxo.adapters
+praxo.adapters.OpenAICompatibleModel
+praxo.adapters.OpenAIConfig
+
+## praxo.adapters.openaicompat
+praxo.adapters.openaicompat.OpenAICompatibleModel
+praxo.adapters.openaicompat.OpenAIConfig
+praxo.adapters.openaicompat.ROLE_ASSISTANT
+
+## praxo.agent
+praxo.agent.Agent
+praxo.agent.AgentOptions
+praxo.agent.ROLE_SYSTEM
+praxo.agent.ROLE_TOOL
+praxo.agent.ROLE_USER
+praxo.agent.Result
+praxo.agent.Session
+
+## praxo.checkpoint
+praxo.checkpoint.Allowlist
+praxo.checkpoint.Checkpoint
+praxo.checkpoint.EffectCursor
+praxo.checkpoint.Envelope
+praxo.checkpoint.Message
+praxo.checkpoint.RunSnapshot
+praxo.checkpoint.Store
+
+## praxo.context
+praxo.context.COMPACT_MARKER_PREFIX
+praxo.context.ContextBudget
+praxo.context.ContextCompactor
+praxo.context.DEFAULT_SUMMARY_PROMPT
+praxo.context.ModelSummarizer
+praxo.context.OffloadFunc
+praxo.context.Offloader
+praxo.context.ROLE_SYSTEM
+praxo.context.ROLE_TOOL
+praxo.context.SUMMARY_MARKER_PREFIX
+praxo.context.estimate_tokens(messages: 'list[Message]') -> 'int'
+praxo.context.load_agents_md(paths: 'list[str] | tuple[str, ...]') -> 'str'
+praxo.context.truncate_to_tokens(value: 'str', tokens: 'int') -> 'str'
+
+## praxo.errors
+praxo.errors.ApprovalDeniedError
+praxo.errors.BodyTooLargeError
+praxo.errors.CheckpointError
+praxo.errors.ContextBudgetError
+praxo.errors.DrainCanceledError
+praxo.errors.DrainTimeoutError
+praxo.errors.InterruptDecisionInvalidError
+praxo.errors.InterruptUnhandledError
+praxo.errors.InvalidTransitionError
+praxo.errors.MaxStepsError
+praxo.errors.MaxTokensError
+praxo.errors.ModelCallLimitError
+praxo.errors.NotActiveError
+praxo.errors.PluginError
+praxo.errors.PolicyDeniedError
+praxo.errors.PolicyError
+praxo.errors.PraxoError
+praxo.errors.RubricFailedError
+praxo.errors.StructuredOutputError
+praxo.errors.SubagentUpdateUnsupportedError
+praxo.errors.ToolCallLimitError
+praxo.errors.ToolNotFoundError
+praxo.errors.ToolNotSelectedError
+praxo.errors.TypeNotAllowedError
+praxo.errors.UnderflowError
+
+## praxo.event
+praxo.event.Event
+praxo.event.FilterSink
+praxo.event.MultiSink
+praxo.event.Sink
+
+## praxo.jsonschema
+praxo.jsonschema.Schema
+praxo.jsonschema.ValidationError
+praxo.jsonschema.from_json(raw: 'str | bytes') -> 'Schema'
+praxo.jsonschema.validate(schema: 'Schema | dict[str, Any]', data: 'Any') -> 'list[ValidationError]'
+
+## praxo.memory
+praxo.memory.ContextAssembler
+praxo.memory.FRAME_CONSTRAINT
+praxo.memory.FRAME_DECISION
+praxo.memory.FRAME_EVENT
+praxo.memory.FRAME_EXPERIENCE
+praxo.memory.FRAME_INTENTION
+praxo.memory.FRAME_PROCEDURE
+praxo.memory.FRAME_WORKSPACE_STATE
+praxo.memory.MemoryStore
+praxo.memory.Record
+praxo.memory.Store
+
+## praxo.middleware
+praxo.middleware.Middleware
+praxo.middleware.ModelCall
+praxo.middleware.ModelHandler
+praxo.middleware.ModelMiddleware
+praxo.middleware.ModelToolSelector
+praxo.middleware.PIIRedactor
+praxo.middleware.PIIRule
+praxo.middleware.RunState
+praxo.middleware.STRATEGY_AUTO
+praxo.middleware.STRATEGY_PROVIDER
+praxo.middleware.STRATEGY_TOOL
+praxo.middleware.StructuredOutput
+praxo.middleware.ToolCall
+praxo.middleware.ToolResult
+praxo.middleware.ToolSelector
+praxo.middleware.call_limit_middleware(model_limit: 'int', tool_limit: 'int') -> 'Middleware'
+praxo.middleware.default_pii_rules() -> 'list[PIIRule]'
+praxo.middleware.extract_json(output: 'str') -> 'Any'
+praxo.middleware.fallback_model(fallback: 'Model | None') -> 'ModelMiddleware'
+praxo.middleware.last_user_message(messages: 'list[Message]') -> 'str'
+praxo.middleware.maybe_await(value: 'Any') -> 'Any'
+praxo.middleware.merge_middleware(items: 'list[Middleware]') -> 'list[Middleware]'
+praxo.middleware.new_pii_rule(name: 'str', pattern: 'str', replacement: 'str') -> 'PIIRule'
+praxo.middleware.pii_middleware(redactor: 'PIIRedactor') -> 'Middleware'
+praxo.middleware.tool_selection_middleware(selector: 'ToolSelector | None') -> 'Middleware'
+
+## praxo.middleware.base
+praxo.middleware.base.AfterModel
+praxo.middleware.base.AfterRun
+praxo.middleware.base.AfterTool
+praxo.middleware.base.BeforeModel
+praxo.middleware.base.BeforeRun
+praxo.middleware.base.BeforeTool
+praxo.middleware.base.Middleware
+praxo.middleware.base.ModelCall
+praxo.middleware.base.ModelHandler
+praxo.middleware.base.ModelMiddleware
+praxo.middleware.base.RunState
+praxo.middleware.base.ToolCall
+praxo.middleware.base.ToolResult
+praxo.middleware.base.maybe_await(value: 'Any') -> 'Any'
+praxo.middleware.base.merge_middleware(items: 'list[Middleware]') -> 'list[Middleware]'
+
+## praxo.middleware.calllimit
+praxo.middleware.calllimit.call_limit_middleware(model_limit: 'int', tool_limit: 'int') -> 'Middleware'
+
+## praxo.middleware.fallback
+praxo.middleware.fallback.fallback_model(fallback: 'Model | None') -> 'ModelMiddleware'
+
+## praxo.middleware.pii
+praxo.middleware.pii.PIIRedactor
+praxo.middleware.pii.PIIRule
+praxo.middleware.pii.default_pii_rules() -> 'list[PIIRule]'
+praxo.middleware.pii.new_pii_rule(name: 'str', pattern: 'str', replacement: 'str') -> 'PIIRule'
+praxo.middleware.pii.pii_middleware(redactor: 'PIIRedactor') -> 'Middleware'
+praxo.middleware.pii.redact_value(redactor: 'PIIRedactor', value: 'Any') -> 'Any'
+
+## praxo.middleware.structured
+praxo.middleware.structured.STRATEGY_AUTO
+praxo.middleware.structured.STRATEGY_PROVIDER
+praxo.middleware.structured.STRATEGY_TOOL
+praxo.middleware.structured.StructuredOutput
+praxo.middleware.structured.extract_json(output: 'str') -> 'Any'
+
+## praxo.middleware.toolselect
+praxo.middleware.toolselect.DEFAULT_TOOL_SELECTOR_PROMPT
+praxo.middleware.toolselect.ModelToolSelector
+praxo.middleware.toolselect.ROLE_SYSTEM
+praxo.middleware.toolselect.ROLE_USER
+praxo.middleware.toolselect.ToolSelector
+praxo.middleware.toolselect.last_user_message(messages: 'list[Message]') -> 'str'
+praxo.middleware.toolselect.tool_selection_middleware(selector: 'ToolSelector | None') -> 'Middleware'
+
+## praxo.model
+praxo.model.CacheHint
+praxo.model.ChatModel
+praxo.model.ContentBlock
+praxo.model.Message
+praxo.model.Model
+praxo.model.ModelRouter
+praxo.model.Provider
+praxo.model.ROLE_ASSISTANT
+praxo.model.ROLE_SYSTEM
+praxo.model.ROLE_TOOL
+praxo.model.ROLE_USER
+praxo.model.Request
+praxo.model.Response
+praxo.model.ResponseFormat
+praxo.model.StreamEvent
+praxo.model.StreamingModel
+praxo.model.TOOL_CHOICE_AUTO
+praxo.model.TOOL_CHOICE_NONE
+praxo.model.TOOL_CHOICE_REQUIRED
+praxo.model.ToolCall
+praxo.model.ToolSpec
+praxo.model.Usage
+
+## praxo.plugin
+praxo.plugin.CALL_ERROR_CODES
+praxo.plugin.EVENT_KINDS
+praxo.plugin.KINDS
+praxo.plugin.Manifest
+praxo.plugin.STATES
+praxo.plugin.parse_manifest(data: 'bytes | str') -> 'Manifest'
+praxo.plugin.validate_trust(manifest: 'Manifest', profile: 'str') -> 'None'
+
+## praxo.policy
+praxo.policy.ACCESS_READ
+praxo.policy.ACCESS_READWRITE
+praxo.policy.ACCESS_WRITE
+praxo.policy.Action
+praxo.policy.Decision
+praxo.policy.FuncHook
+praxo.policy.Hook
+praxo.policy.PathChecker
+praxo.policy.PathGrant
+
+## praxo.stream
+praxo.stream.STREAM_CHECKPOINT
+praxo.stream.STREAM_DEBUG
+praxo.stream.STREAM_KINDS
+praxo.stream.STREAM_MESSAGES
+praxo.stream.STREAM_TASKS
+praxo.stream.STREAM_UPDATES
+praxo.stream.STREAM_VALUES
+praxo.stream.StreamPart
+
+## praxo.tool
+praxo.tool.FuncTool
+praxo.tool.Gateway
+praxo.tool.GatewayInfo
+praxo.tool.GatewayTool
+praxo.tool.Registry
+praxo.tool.Tool
+praxo.tool.new_gateway_tools(gateway: 'Gateway') -> 'list[Tool]'
+
+## praxo.toolcall
+praxo.toolcall.ToolCall
+praxo.toolcall.parse_input_json(raw: 'str') -> 'dict[str, Any] | None'
+praxo.toolcall.parse_tool_call(content: 'str') -> 'ToolCall | None'
+praxo.toolcall.strip_tool_call_markup(content: 'str') -> 'str'
