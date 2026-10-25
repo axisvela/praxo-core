@@ -1,0 +1,92 @@
+{
+  "specVersion": "0.1.0",
+  "group": "memory",
+  "vectors": [
+    {
+      "id": "memory.case-insensitive-newest-first",
+      "description": "Search is case-insensitive and returns newest matching records first",
+      "input": {
+        "puts": [
+          { "session": "s1", "record": { "id": "m1", "frame": "event", "content": "Alpha", "createdAt": "2026-01-01T00:00:00Z" } },
+          { "session": "s1", "record": { "id": "m2", "frame": "event", "content": "beta", "createdAt": "2026-01-02T00:00:00Z" } },
+          { "session": "s1", "record": { "id": "m3", "frame": "decision", "content": "ALPHABET", "createdAt": "2026-01-03T00:00:00Z" } }
+        ],
+        "session": "s1",
+        "query": "alpha",
+        "limit": 10
+      },
+      "expect": {
+        "ids": ["m3", "m1"],
+        "contents": ["ALPHABET", "Alpha"]
+      }
+    },
+    {
+      "id": "memory.limit-applies-after-ordering",
+      "description": "The limit applies to the newest-first result",
+      "input": {
+        "puts": [
+          { "session": "s1", "record": { "id": "m1", "frame": "event", "content": "alpha one", "createdAt": "2026-01-01T00:00:00Z" } },
+          { "session": "s1", "record": { "id": "m2", "frame": "event", "content": "alpha two", "createdAt": "2026-01-02T00:00:00Z" } }
+        ],
+        "session": "s1",
+        "query": "alpha",
+        "limit": 1
+      },
+      "expect": {
+        "ids": ["m2"],
+        "contents": ["alpha two"]
+      }
+    },
+    {
+      "id": "memory.empty-query-returns-all",
+      "description": "An empty query returns every record newest first",
+      "input": {
+        "puts": [
+          { "session": "s1", "record": { "id": "m1", "frame": "event", "content": "one", "createdAt": "2026-01-01T00:00:00Z" } },
+          { "session": "s1", "record": { "id": "m2", "frame": "event", "content": "two", "createdAt": "2026-01-02T00:00:00Z" } },
+          { "session": "s1", "record": { "id": "m3", "frame": "event", "content": "three", "createdAt": "2026-01-03T00:00:00Z" } }
+        ],
+        "session": "s1",
+        "query": "",
+        "limit": 0
+      },
+      "expect": {
+        "ids": ["m3", "m2", "m1"],
+        "contents": ["three", "two", "one"]
+      }
+    },
+    {
+      "id": "memory.session-isolation",
+      "description": "Records from another session are not returned",
+      "input": {
+        "puts": [
+          { "session": "s1", "record": { "id": "m1", "frame": "event", "content": "alpha one", "createdAt": "2026-01-01T00:00:00Z" } },
+          { "session": "s2", "record": { "id": "m2", "frame": "event", "content": "alpha two", "createdAt": "2026-01-02T00:00:00Z" } }
+        ],
+        "session": "s2",
+        "query": "alpha",
+        "limit": 10
+      },
+      "expect": {
+        "ids": ["m2"],
+        "contents": ["alpha two"]
+      }
+    },
+    {
+      "id": "memory.no-match",
+      "description": "A non-matching query returns no records",
+      "input": {
+        "puts": [
+          { "session": "s1", "record": { "id": "m1", "frame": "event", "content": "alpha", "createdAt": "2026-01-01T00:00:00Z" } }
+        ],
+        "session": "s1",
+        "query": "zzz",
+        "limit": 10
+      },
+      "expect": {
+        "ids": null,
+        "contents": null
+      }
+    }
+  ]
+}

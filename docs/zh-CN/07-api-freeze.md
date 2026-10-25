@@ -84,6 +84,18 @@
 PRAXOVELA 在 `0.16.0` 中迁移到规范路径。别名在 `1.0.0` 中移除；发布说明和
 迁移条目位于 `docs/05-compatibility.md`。
 
+## 多语言投影
+
+本清单中的 Go 表面是 Python、TypeScript 和 Java SDK 的参考契约：
+
+- `spec/parity.md` 将每个导出包和契约类型映射到对应语言符号。
+- SDK 不放宽 Go API 冻结；任何 SDK 不得添加此处不存在的契约能力。
+- Go JSON 标签、事件类型字符串、stream kind 和插件信封字段是所有 SDK 的 wire
+  契约，包括 `image_url` 等现有混用大小写。
+- 增加语言绑定不需要 Go 主要版本；删除或重命名 wire 字段则需要。
+
+参见[多语言 SDK 设计](17-multilingual-sdk.md)。
+
 ## 兼容性规则
 
 - 允许在次要版本中添加导出变更。

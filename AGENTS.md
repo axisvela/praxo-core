@@ -28,12 +28,27 @@ this framework.
 - Prefer interfaces over concrete integrations.
 - Do not add code comments unless asked.
 
+## Multilingual SDKs
+
+- `spec/` is the normative contract for the Python, TypeScript, and Java SDKs.
+- Go remains the reference implementation; do not widen the `pkg/...` API for an
+  SDK.
+- A wire change (JSON field, event, stream kind, plugin envelope, error code)
+  must update `spec/` and is breaking for every SDK.
+- Add a `spec/parity.md` row for every new contract symbol.
+- An SDK change is done only when its conformance vectors and parity linter
+  pass.
+- Keep every SDK MIT; review dependency licenses before adopting one.
+- See `docs/17-multilingual-sdk.md` and `docs/18-multilingual-roadmap.md`.
+
 ## Build And Test
 
 ```bash
 GOWORK=off go test ./...
 GOWORK=off go vet ./...
 GOWORK=off go build ./...
+cd python; python conformance/run.py
+cd python; python -m unittest discover -s tests -v
 ```
 
 ## Compatibility

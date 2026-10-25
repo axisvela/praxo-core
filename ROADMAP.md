@@ -62,14 +62,30 @@ evaluation. Remaining framework work, without changing existing exported
 | P1 | Remote worker contract with RHEOVELA | core integration contract; RHEOVELA-ee owns deployment HA and identity |
 | P2 | Conformance adoption | at least one independent implementation runs the suite |
 
+## Multilingual SDK Track
+
+Python, TypeScript, and Java SDKs share the contract in `spec/`. Go remains the
+reference implementation; no Go API is widened. Sequencing is Python, then
+TypeScript, then Java. The detailed design and work breakdown live in
+[Multilingual SDK design](docs/17-multilingual-sdk.md) and the
+[multilingual roadmap](docs/18-multilingual-roadmap.md).
+
+| Phase | Work | Exit evidence |
+| --- | --- | --- |
+| M0 | Extract `spec/`, parity inventory, wire artifacts, Go vector runner | every vector passes on Go; `spec-conformance` CI gate |
+| M1 | Python SDK core, OpenAI-compatible adapter, PyPI release | all P1 vectors and parity linter green for `python/` |
+| M2 | TypeScript SDK core, npm release | all P1 vectors and parity linter green for `typescript/` |
+| M3 | Java SDK core, Maven Central release | all P1 vectors and parity linter green for `java/` |
+| M4 | Anthropic, Gemini, MCP, OTel, VFS, process and WASM plugin hosts | per-adapter conformance plus a named consumer |
+
 ## Long-Term Technical Direction
 
-- **3-6 months:** finish containment hardening, the conformance suite, and the
-  remote worker contract.
+- **3-6 months:** finish containment hardening, the conformance suite, the
+  remote worker contract, and Phase M0-M1 of the multilingual track.
 - **6-12 months:** stabilize event and OpenTelemetry schemas, publish
-  compatibility rules, and support independent implementations.
+  compatibility rules, and reach Python and TypeScript core parity.
 - **12+ months:** keep the `pkg/...` API frozen, add features only with a
-  verifiable consumer, and preserve the MIT boundary.
+  verifiable consumer, preserve the MIT boundary, and complete Java parity.
 
 Technical direction only: product adoption, case studies, and go-to-market
 planning live outside this repository.

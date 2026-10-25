@@ -6,7 +6,7 @@ AxisVela 产品和外部集成方能够构建受治理的 Agent，而无需重�
 
 ## 它是什么
 
-- 一个小型 Go 框架
+- 一个小型 Go 参考框架，并提供 Python、TypeScript 和 Java SDK
 - 提供商中立
 - 工具驱动
 - 感知记忆
@@ -35,6 +35,14 @@ praxo-core (MIT)
 
 PRAXOVELA 仍是 AGPL 产品。MIT 框架是独立作品，因此可以在不产生 AGPL
 义务的情况下嵌入。
+
+## 多语言 SDK
+
+Go 模块是参考实现。Python、TypeScript 和 Java SDK 共享 `spec/` 中的一份语言
+无关契约，并由同一套一致性测试强制执行。各语言 wire 形状完全相同；源码 API
+一对一映射，但使用符合语言习惯的名称。设计见
+[多语言 SDK 设计](17-multilingual-sdk.md)；阶段与门禁见
+[多语言路线图](18-multilingual-roadmap.md)。
 
 ## 运行时插件平面
 

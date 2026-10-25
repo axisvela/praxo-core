@@ -62,13 +62,27 @@
 - 导出契约的兼容与弃用规则（已发布）
 - 至少一个独立实现运行一致性套件
 
+## 多语言 SDK 门禁
+
+| 门禁 | 要求 |
+| --- | --- |
+| M0 | `spec/` wire 产物、一致性清单和 Go 向量 runner；全部向量在 Go 上通过 |
+| M1 | Python 核心达到一致；发布 PyPI；一致性 linter 全绿 |
+| M2 | TypeScript 核心达到一致；发布 npm；一致性 linter 全绿 |
+| M3 | Java 核心达到一致；发布 Maven Central；一致性 linter 全绿 |
+| M4 | 可选适配器与插件宿主，各自具备一致性证据和使用方 |
+
+Go API 仍是参考，SDK 不得放宽。参见[多语言 SDK 设计](17-multilingual-sdk.md)和
+[多语言路线图](18-multilingual-roadmap.md)。
+
 ## 长期技术方向
 
 - **3-6 个月：** containment 加固、OpenTelemetry reference、workspace 实网
-  验证和远程 worker 契约。
-- **6-12 个月：** 稳定事件/OpenTelemetry schema、兼容规则和独立实现。
-- **12 个月以上：** 冻结 `pkg/...` API，每项功能都有可验证使用方，并保持 MIT
-  边界。
+  验证、远程 worker 契约，以及多语言 M0-M1。
+- **6-12 个月：** 稳定事件/OpenTelemetry schema、兼容规则、独立实现，以及
+  Python/TypeScript 核心一致性。
+- **12 个月以上：** 冻结 `pkg/...` API，每项功能都有可验证使用方，保持 MIT
+  边界，并完成 Java 核心一致性。
 
 产品采用、案例研究和市场推广不在本仓库跟踪。
 

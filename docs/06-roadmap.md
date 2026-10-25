@@ -66,14 +66,29 @@ declarations:
 - compatibility and deprecation rules for exported contracts (published)
 - an independent implementation running the conformance suite
 
+## Multilingual SDK Gates
+
+| Gate | Requirement |
+| --- | --- |
+| M0 | `spec/` wire artifacts, parity inventory, and Go vector runner; all vectors pass on Go |
+| M1 | Python core at parity; PyPI release; parity linter green |
+| M2 | TypeScript core at parity; npm release; parity linter green |
+| M3 | Java core at parity; Maven Central release; parity linter green |
+| M4 | Optional adapters and plugin hosts, each with its own conformance and consumer |
+
+The Go API remains the reference. SDKs never widen it. See
+[Multilingual SDK design](17-multilingual-sdk.md) and the
+[multilingual roadmap](18-multilingual-roadmap.md).
+
 ## Long-Term Technical Direction
 
 - **3-6 months:** containment hardening, OpenTelemetry reference, live
-  workspace verification, and the remote worker contract.
-- **6-12 months:** stable event/OpenTelemetry schemas, compatibility rules, and
-  independent implementations.
+  workspace verification, the remote worker contract, and M0-M1 of the
+  multilingual track.
+- **6-12 months:** stable event/OpenTelemetry schemas, compatibility rules,
+  independent implementations, and Python/TypeScript core parity.
 - **12+ months:** frozen `pkg/...` API, verifiable consumers for every feature,
-  and an intact MIT boundary.
+  an intact MIT boundary, and Java core parity.
 
 Product adoption, case studies, and go-to-market planning are tracked outside
 this repository.

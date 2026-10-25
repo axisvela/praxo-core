@@ -96,6 +96,29 @@ SBOM 或 GitHub Release。可选模块发布需单独验证和发布。
 同一方案适用于 `adapters/harmovela`、`adapters/a2a` 和 `adapters/multiagent`。
 OpenAI 兼容适配器只使用标准库，因此保留在核心模块中。
 
+## 标签身份
+
+- 发布标签使用发布签名身份：`AxisVela Release Signing <releases@axisvela.com>`。
+- 已有标签保留其记录的身份；新标签不得使用个人身份。
+- 仅为打标签命令临时设置 committer 身份，不要永久修改仓库配置；用 `-u`
+  显式选择发布密钥：
+
+```powershell
+$env:GIT_COMMITTER_NAME="AxisVela Release Signing"
+$env:GIT_COMMITTER_EMAIL="releases@axisvela.com"
+git tag -s -u 55C1F509 v2.5.1 -m "praxo-core v2.5.1"
+```
+
+## 多语言标签
+
+- `spec/vX.Y.Z` 标记规范契约，必须与 `spec/SPEC_VERSION` 一致。
+- `python/vX.Y.Z` 标记 Python SDK，必须与 `python/pyproject.toml` 一致。
+- `python/adapters/<name>/vX.Y.Z`、`typescript/...` 和 `java/...` 采用相同的
+  按语言划分方案。
+- 这些标签不触发 `release.yml`（仅 `v*`），不生成 Go 归档、SBOM 或 GitHub
+  Release。
+- 仅在一致性向量和一致性 linter 通过后才打 spec 或 SDK 标签。
+
 ## 打标签与发布
 
 ```bash

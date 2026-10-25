@@ -1,0 +1,44 @@
+{
+  "specVersion": "0.1.0",
+  "group": "event",
+  "vectors": [
+    {
+      "id": "event.filter-matching",
+      "description": "FilterSink forwards only matching event types",
+      "input": {
+        "sink": "filter",
+        "events": ["run.started", "tool.call", "run.completed"],
+        "predicateTypes": ["run.started"]
+      },
+      "expect": {
+        "delivered": ["run.started"]
+      }
+    },
+    {
+      "id": "event.filter-nil-predicate",
+      "description": "A nil predicate forwards every event",
+      "input": {
+        "sink": "filter",
+        "events": ["run.started", "run.completed"]
+      },
+      "expect": {
+        "delivered": ["run.started", "run.completed"]
+      }
+    },
+    {
+      "id": "event.multi-fanout",
+      "description": "MultiSink delivers every event to every sink",
+      "input": {
+        "sink": "multi",
+        "sinkCount": 2,
+        "events": ["run.started", "run.completed"]
+      },
+      "expect": {
+        "perSink": [
+          ["run.started", "run.completed"],
+          ["run.started", "run.completed"]
+        ]
+      }
+    }
+  ]
+}

@@ -7,7 +7,7 @@ boundary, event boundary, or scheduler contract.
 
 ## What It Is
 
-- a small Go framework
+- a small Go reference framework with Python, TypeScript, and Java SDKs
 - provider-neutral
 - tool-driven
 - memory-aware
@@ -36,6 +36,15 @@ praxo-core (MIT)
 
 PRAXOVELA remains an AGPL product. The MIT framework is a separate work so it
 can be embedded without AGPL obligations.
+
+## Multilingual SDKs
+
+The Go module is the reference implementation. Python, TypeScript, and Java
+SDKs share one language-neutral contract in `spec/`, enforced by a single
+conformance suite. Wire shapes are identical across languages; source APIs map
+one-to-one with idiomatic names. The design is in
+[Multilingual SDK design](17-multilingual-sdk.md); sequencing and gates are in
+the [multilingual roadmap](18-multilingual-roadmap.md).
 
 ## Runtime Plugin Plane
 

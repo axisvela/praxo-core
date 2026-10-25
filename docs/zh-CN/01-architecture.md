@@ -141,6 +141,40 @@ Agent 循环仅依赖其所需的接口。插件宿主、HTTP 客户端、调度
 - 每个导出的行为都有测试。
 - 事件和策略错误会向上传播；不会被静默丢弃。
 
+## 语言边界与共享契约
+
+Go 保留为参考实现。Python、TypeScript 和 Java 消费的契约定义在 `spec/` 中，并由
+共享一致性套件强制执行：
+
+```text
+spec/                    规范契约与向量
+  wire/                  JSON 字段名、事件、错误、插件信封
+  vectors/               语言无关的行为夹具
+  parity.md              Go 符号 -> SDK 符号清单
+        |
+        +-- Go 参考实现（pkg/...，表面不可变）
+        +-- Python SDK
+        +-- TypeScript SDK
+        +-- Java SDK
+```
+
+契约分四层：
+
+| 层 | 跨语言是否相同 | 强制执行方式 |
+| --- | --- | --- |
+| 线格式 | 是，逐字节一致 | wire 夹具与快照测试 |
+| 行为 | 是，可观察一致 | 一致性向量 |
+| API 表面 | 一对一，名称符合语言习惯 | 一致性 linter |
+| 一致性 | 同一套件 | 每个 SDK 的 CI 任务 |
+
+源码 API 是映射而非照搬。Go 接口变成 Python protocol、TypeScript interface 和
+Java interface；`context.Context` 变成语言的取消原语；sentinel 错误变成稳定异常
+类。具体适配器、辅助函数和包内部实现不属于契约。
+
+wire 改名、事件变更、stream kind 变更或插件信封变更对所有 SDK 都是破坏性变更，
+即使只有一个 SDK 发布。参见[多语言 SDK 设计](17-multilingual-sdk.md)和
+[多语言路线图](18-multilingual-roadmap.md)。
+
 ## 并发
 
 框架按运行无状态。调用方可以并发运行多个 Agent。共享适配器必须自行提供

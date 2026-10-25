@@ -1,0 +1,135 @@
+{
+  "specVersion": "0.1.0",
+  "group": "plugin",
+  "vectors": [
+    {
+      "id": "plugin.manifest-valid-process",
+      "description": "A minimal process manifest is valid",
+      "input": {
+        "manifest": {
+          "schemaVersion": 1,
+          "id": "com.example.echo",
+          "version": "1.0.0",
+          "kind": "tool.provider.v1",
+          "entrypoint": { "type": "process", "command": "echo" },
+          "protocol": "jsonrpc-2",
+          "capabilities": ["echo"],
+          "permissions": {},
+          "limits": {},
+          "health": {},
+          "isolation": "process"
+        }
+      },
+      "expect": { "valid": true, "id": "com.example.echo", "kind": "tool.provider.v1" }
+    },
+    {
+      "id": "plugin.manifest-valid-wasm",
+      "description": "A minimal WASM manifest is valid",
+      "input": {
+        "manifest": {
+          "schemaVersion": 1,
+          "id": "com.example.echo",
+          "version": "1.0.0",
+          "kind": "tool.provider.v1",
+          "entrypoint": { "type": "wasm", "module": "echo.wasm" },
+          "protocol": "jsonrpc-2",
+          "capabilities": [],
+          "permissions": {},
+          "limits": {},
+          "health": {},
+          "isolation": "wasm"
+        }
+      },
+      "expect": { "valid": true, "id": "com.example.echo" }
+    },
+    {
+      "id": "plugin.manifest-unknown-field",
+      "description": "Unknown manifest fields are rejected",
+      "input": {
+        "manifest": {
+          "schemaVersion": 1,
+          "id": "com.example.echo",
+          "version": "1.0.0",
+          "kind": "tool.provider.v1",
+          "entrypoint": { "type": "process", "command": "echo" },
+          "protocol": "jsonrpc-2",
+          "capabilities": [],
+          "permissions": {},
+          "limits": {},
+          "health": {},
+          "isolation": "process",
+          "extra": true
+        }
+      },
+      "expect": { "valid": false }
+    },
+    {
+      "id": "plugin.manifest-missing-command",
+      "description": "A process entrypoint requires a command",
+      "input": {
+        "manifest": {
+          "schemaVersion": 1,
+          "id": "com.example.echo",
+          "version": "1.0.0",
+          "kind": "tool.provider.v1",
+          "entrypoint": { "type": "process" },
+          "protocol": "jsonrpc-2",
+          "capabilities": [],
+          "permissions": {},
+          "limits": {},
+          "health": {},
+          "isolation": "process"
+        }
+      },
+      "expect": { "valid": false }
+    },
+    {
+      "id": "plugin.manifest-bad-protocol",
+      "description": "Only jsonrpc-2 is accepted",
+      "input": {
+        "manifest": {
+          "schemaVersion": 1,
+          "id": "com.example.echo",
+          "version": "1.0.0",
+          "kind": "tool.provider.v1",
+          "entrypoint": { "type": "process", "command": "echo" },
+          "protocol": "v1",
+          "capabilities": [],
+          "permissions": {},
+          "limits": {},
+          "health": {},
+          "isolation": "process"
+        }
+      },
+      "expect": { "valid": false }
+    },
+    {
+      "id": "plugin.manifest-duplicate-capability",
+      "description": "Duplicate capabilities are rejected",
+      "input": {
+        "manifest": {
+          "schemaVersion": 1,
+          "id": "com.example.echo",
+          "version": "1.0.0",
+          "kind": "tool.provider.v1",
+          "entrypoint": { "type": "process", "command": "echo" },
+          "protocol": "jsonrpc-2",
+          "capabilities": ["echo", "echo"],
+          "permissions": {},
+          "limits": {},
+          "health": {},
+          "isolation": "process"
+        }
+      },
+      "expect": { "valid": false }
+    },
+    {
+      "id": "plugin.manifest-trailing-data",
+      "description": "Trailing JSON data is rejected",
+      "input": {
+        "raw": "{\"schemaVersion\":1,\"id\":\"com.example.echo\",\"version\":\"1.0.0\",\"kind\":\"tool.provider.v1\",\"entrypoint\":{\"type\":\"process\",\"command\":\"echo\"},\"protocol\":\"jsonrpc-2\",\"capabilities\":[],\"permissions\":{},\"limits\":{},\"health\":{},\"isolation\":\"process\"}\n{}"
+      },
+      "expect": { "valid": false }
+    }
+  ]
+}

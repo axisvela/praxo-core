@@ -2,6 +2,28 @@
 
 ## [Unreleased]
 
+### Added
+
+- Multilingual SDK design (`docs/17-multilingual-sdk.md`) and roadmap
+  (`docs/18-multilingual-roadmap.md`) for Python, TypeScript, and Java SDKs.
+- `spec/` scaffold: `SPEC_VERSION`, event/error/schema/plugin wire artifacts,
+  `parity.md`, and the conformance-vector format.
+- Conformance vectors for the agent loop, toolcall, JSON Schema, plugin,
+  memory, event, stream, checkpoint, and policy groups.
+- `internal/spec`: the Go vector runner, spec-version checks, wire-reference
+  checks, and the parity linter.
+- `spec-conformance` CI job.
+- `python/praxo`: Python SDK core for model, tool, event, policy, memory,
+  checkpoint, agent loop, streaming, and JSON Schema validation.
+- `python/praxo/adapters/openaicompat`: OpenAI-compatible adapter with
+  non-streaming and SSE streaming paths.
+- `python/conformance/run.py` and the `python-conformance` CI job. The Python
+  SDK passes all nine conformance vector groups.
+
+### Compatibility
+
+- No Go API changes. `spec/` and the new docs are additive.
+
 ## [2.5.0] - 2026-10-24
 
 ### Added

@@ -56,6 +56,8 @@ nav:
       - Overview: 00-overview.md
       - Architecture: 01-architecture.md
       - Primitives: 02-primitives.md
+      - Multilingual SDK design: 17-multilingual-sdk.md
+      - Multilingual roadmap: 18-multilingual-roadmap.md
       - Integration: 03-integration.md
       - Recipes: recipes.md
       - Adapter index: adapters.md
@@ -95,6 +97,8 @@ nav:
       - 概览: zh-CN/00-overview.md
       - 架构: zh-CN/01-architecture.md
       - 基础能力: zh-CN/02-primitives.md
+      - 多语言 SDK 设计: zh-CN/17-multilingual-sdk.md
+      - 多语言路线图: zh-CN/18-multilingual-roadmap.md
       - 集成: zh-CN/03-integration.md
       - Recipes: zh-CN/recipes.md
       - 适配器索引: zh-CN/adapters.md

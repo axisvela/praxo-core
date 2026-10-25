@@ -46,6 +46,18 @@ boolean）、`properties`、`required`、`items`、`enum`、`minLength`、`maxLe
 Manifest v1、进程/WASM 宿主协议以及一致性测试套件参见
 [插件编写](10-plugin-authoring.md)。
 
+## 语言无关契约
+
+`pkg/...` 中的 Go 声明是参考表面。所有 SDK 的规范契约位于 `spec/`：
+
+- `spec/wire/` 冻结 JSON 字段名、事件、错误和插件信封。
+- `spec/vectors/` 定义每个 SDK 必须复现的可观察行为。
+- `spec/parity.md` 将每个 Go 符号映射到 Python、TypeScript 和 Java 对应符号。
+
+wire 名称保留现有大小写，包括 `model.ContentBlock` 中的 `image_url` 以及
+`runId` 等 camelCase 标识符。源码 API 按语言惯例实现，但保持一对一映射。参见
+[多语言 SDK 设计](17-multilingual-sdk.md)。
+
 ## 工具契约
 
 工具包含名称、描述和 `Invoke(ctx, args)`。工具规格通过注册表暴露给模型。

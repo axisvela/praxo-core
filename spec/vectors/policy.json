@@ -1,0 +1,94 @@
+{
+  "specVersion": "0.1.0",
+  "group": "policy",
+  "vectors": [
+    {
+      "id": "policy.read-inside-root",
+      "description": "A read inside a readwrite root is allowed",
+      "input": {
+        "grants": [{ "root": "root", "access": "readwrite" }],
+        "makeDirs": ["root"],
+        "target": "root/a.txt",
+        "need": "read"
+      },
+      "expect": { "allowed": true }
+    },
+    {
+      "id": "policy.sibling-prefix",
+      "description": "A sibling prefix is outside the root",
+      "input": {
+        "grants": [{ "root": "root", "access": "readwrite" }],
+        "makeDirs": ["root", "root-evil"],
+        "target": "root-evil/x.txt",
+        "need": "read"
+      },
+      "expect": { "allowed": false }
+    },
+    {
+      "id": "policy.traversal",
+      "description": "Traversal outside the root is denied",
+      "input": {
+        "grants": [{ "root": "root", "access": "readwrite" }],
+        "makeDirs": ["root", "outside"],
+        "target": "root/../outside/x.txt",
+        "need": "read"
+      },
+      "expect": { "allowed": false }
+    },
+    {
+      "id": "policy.read-grant-denies-write",
+      "description": "A read grant does not allow writes",
+      "input": {
+        "grants": [{ "root": "root", "access": "read" }],
+        "makeDirs": ["root"],
+        "target": "root/a.txt",
+        "need": "write"
+      },
+      "expect": { "allowed": false }
+    },
+    {
+      "id": "policy.write-grant-allows-write",
+      "description": "A write grant allows writes",
+      "input": {
+        "grants": [{ "root": "root", "access": "write" }],
+        "makeDirs": ["root"],
+        "target": "root/a.txt",
+        "need": "write"
+      },
+      "expect": { "allowed": true }
+    },
+    {
+      "id": "policy.readwrite-allows-readwrite",
+      "description": "A readwrite grant allows readwrite",
+      "input": {
+        "grants": [{ "root": "root", "access": "readwrite" }],
+        "makeDirs": ["root"],
+        "target": "root/a.txt",
+        "need": "readwrite"
+      },
+      "expect": { "allowed": true }
+    },
+    {
+      "id": "policy.no-grants-denies",
+      "description": "An empty grant set denies every path",
+      "input": {
+        "grants": [],
+        "makeDirs": ["root"],
+        "target": "root/a.txt",
+        "need": "read"
+      },
+      "expect": { "allowed": false }
+    },
+    {
+      "id": "policy.invalid-access",
+      "description": "An invalid access level is an error",
+      "input": {
+        "grants": [{ "root": "root", "access": "read" }],
+        "makeDirs": ["root"],
+        "target": "root/a.txt",
+        "need": "execute"
+      },
+      "expect": { "error": true }
+    }
+  ]
+}

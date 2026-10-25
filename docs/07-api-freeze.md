@@ -90,6 +90,23 @@ PRAXOVELA migrated to the canonical paths in `0.16.0`. The aliases are removed
 in `1.0.0`; the release note and migration line live in
 `docs/05-compatibility.md`.
 
+## Multilingual Projection
+
+The Go surface in this inventory is the reference contract for the Python,
+TypeScript, and Java SDKs:
+
+- `spec/parity.md` maps each exported package and contract type to its
+  language-specific symbol.
+- The Go API freeze is not widened by the SDKs; an SDK may not add a contract
+  capability that does not exist here.
+- Go JSON tags, event type strings, stream kinds, and plugin envelope fields are
+  wire contracts for every SDK, including the existing mixed casing such as
+  `image_url`.
+- Adding a language binding does not require a Go major release. Removing or
+  renaming a wire field does.
+
+See [Multilingual SDK design](17-multilingual-sdk.md).
+
 ## Compatibility Rules
 
 See the [compatibility and deprecation policy](16-compatibility-policy.md) for

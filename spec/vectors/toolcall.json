@@ -1,0 +1,87 @@
+{
+  "specVersion": "0.1.0",
+  "group": "toolcall",
+  "vectors": [
+    {
+      "id": "toolcall.json-object",
+      "description": "Parse the canonical JSON tool-call shape",
+      "input": {
+        "operation": "parse",
+        "content": "{\"name\":\"echo\",\"input\":{\"text\":\"hi\"}}"
+      },
+      "expect": {
+        "name": "echo",
+        "input": { "text": "hi" }
+      }
+    },
+    {
+      "id": "toolcall.xml-style",
+      "description": "Parse an XML-style tool call",
+      "input": {
+        "operation": "parse",
+        "content": "<tool_call name=\"echo\">{\"text\":\"hi\"}</tool_call>"
+      },
+      "expect": {
+        "name": "echo",
+        "input": { "text": "hi" }
+      }
+    },
+    {
+      "id": "toolcall.tag-style",
+      "description": "Parse a dotted tag-style tool call",
+      "input": {
+        "operation": "parse",
+        "content": "<echo.echo>{\"text\":\"hi\"}</echo.echo>"
+      },
+      "expect": {
+        "name": "echo.echo",
+        "input": { "text": "hi" }
+      }
+    },
+    {
+      "id": "toolcall.plain-style",
+      "description": "Parse a plain dotted tool call line",
+      "input": {
+        "operation": "parse",
+        "content": "echo.run {\"text\":\"hi\"}"
+      },
+      "expect": {
+        "name": "echo.run",
+        "input": { "text": "hi" }
+      }
+    },
+    {
+      "id": "toolcall.invalid",
+      "description": "Plain text is not a tool call",
+      "input": {
+        "operation": "parse",
+        "content": "plain text"
+      },
+      "expect": {
+        "nil": true
+      }
+    },
+    {
+      "id": "toolcall.empty",
+      "description": "Empty content is not a tool call",
+      "input": {
+        "operation": "parse",
+        "content": ""
+      },
+      "expect": {
+        "nil": true
+      }
+    },
+    {
+      "id": "toolcall.strip-markup",
+      "description": "Remove a recognized tool-call block from assistant text",
+      "input": {
+        "operation": "strip",
+        "content": "hello<tool_call name=\"echo\">{\"text\":\"hi\"}</tool_call>world"
+      },
+      "expect": {
+        "text": "helloworld"
+      }
+    }
+  ]
+}

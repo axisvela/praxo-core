@@ -103,6 +103,33 @@ The same scheme applies to `adapters/harmovela`, `adapters/a2a`, and
 `adapters/multiagent`. The OpenAI-compatible adapter stays in the core module
 because it uses only the standard library.
 
+## Tag Identity
+
+- Release tags use the release signing identity:
+  `AxisVela Release Signing <releases@axisvela.com>`.
+- Existing tags keep their recorded identity; new tags must not use personal
+  identities.
+- Set the committer identity for the tag command only. Do not change repository
+  config permanently. Select the release key explicitly with `-u`:
+
+```powershell
+$env:GIT_COMMITTER_NAME="AxisVela Release Signing"
+$env:GIT_COMMITTER_EMAIL="releases@axisvela.com"
+git tag -s -u 55C1F509 v2.5.1 -m "praxo-core v2.5.1"
+```
+
+## Multilingual Tags
+
+- `spec/vX.Y.Z` tags the normative contract and must match
+  `spec/SPEC_VERSION`.
+- `python/vX.Y.Z` tags the Python SDK and must match `python/pyproject.toml`.
+- `python/adapters/<name>/vX.Y.Z`, `typescript/...`, and `java/...` follow the
+  same per-language scheme.
+- These tags do not trigger `release.yml` (`v*` only). They produce no Go
+  archive, SBOM, or GitHub release.
+- Tag a spec or SDK release only after its conformance vectors and parity linter
+  pass.
+
 ## Tag and Publish
 
 ```bash

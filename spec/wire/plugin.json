@@ -1,0 +1,141 @@
+{
+  "specVersion": "0.1.0",
+  "kind": "plugin",
+  "source": "pkg/plugin, pkg/plugin/host/process, pkg/plugin/host/wasm",
+  "manifest": {
+    "schemaVersion": 1,
+    "strict": true,
+    "rejectUnknownFields": true,
+    "rejectTrailingData": true,
+    "fields": [
+      { "name": "schemaVersion", "type": "integer", "required": true },
+      { "name": "id", "type": "string", "required": true, "format": "reverse-dns" },
+      { "name": "version", "type": "string", "required": true, "format": "semver" },
+      { "name": "kind", "type": "string", "required": true, "enumRef": "kinds" },
+      { "name": "entrypoint", "type": "object", "required": true },
+      { "name": "protocol", "type": "string", "required": true, "const": "jsonrpc-2" },
+      { "name": "capabilities", "type": "string[]", "required": true },
+      { "name": "permissions", "type": "object", "required": true },
+      { "name": "limits", "type": "object", "required": true },
+      { "name": "isolation", "type": "string", "required": true },
+      { "name": "health", "type": "object", "required": true },
+      { "name": "signature", "type": "object", "required": false },
+      { "name": "sbom", "type": "string", "required": false }
+    ],
+    "entrypoint": {
+      "fields": [
+        { "name": "type", "type": "string", "required": true, "enum": ["process", "wasm", "container"] },
+        { "name": "command", "type": "string", "required": false },
+        { "name": "module", "type": "string", "required": false },
+        { "name": "image", "type": "string", "required": false },
+        { "name": "args", "type": "string[]", "required": false },
+        { "name": "dir", "type": "string", "required": false }
+      ],
+      "rules": [
+        "process requires command",
+        "wasm requires module",
+        "container requires image",
+        "isolation must equal entrypoint.type"
+      ]
+    },
+    "permissions": {
+      "denyByDefault": true,
+      "filesystem": { "path": "string", "mode": ["read", "write", "readwrite"] },
+      "network": { "host": "string", "port": "integer" },
+      "env": "string[]",
+      "rules": ["permission paths must not contain a '..' path segment"]
+    },
+    "limits": {
+      "memoryMB": "integer",
+      "cpuMillis": "integer",
+      "timeoutMs": "integer",
+      "maxInflight": "integer"
+    },
+    "health": {
+      "method": "string",
+      "intervalMs": "integer",
+      "rules": ["a positive intervalMs requires method"]
+    },
+    "signature": {
+      "algorithm": "string",
+      "keyId": "string"
+    },
+    "trustProfiles": {
+      "signed": "requires signature and sbom (third-party default)",
+      "unsigned": "explicit local-development opt-out"
+    }
+  },
+  "kinds": [
+    "tool.provider.v1",
+    "model.provider.v1",
+    "policy.provider.v1",
+    "memory.provider.v1",
+    "sandbox.provider.v1"
+  ],
+  "states": [
+    "FETCHED",
+    "VALIDATED",
+    "LOADED",
+    "ACTIVE",
+    "DRAINING",
+    "STOPPED",
+    "UNLOADED",
+    "FAILED",
+    "QUARANTINED"
+  ],
+  "eventKinds": [
+    "start",
+    "success",
+    "failure",
+    "stop",
+    "crash",
+    "verification_denied",
+    "registration_denied",
+    "authorization_denied",
+    "resource_limit",
+    "canceled",
+    "terminated"
+  ],
+  "envelopes": {
+    "protocolVersion": 1,
+    "transport": {
+      "process": "JSON Lines over child stdio",
+      "wasm": "JSON Lines over guest linear memory"
+    },
+    "request": {
+      "fields": [
+        { "name": "id", "type": "string", "required": true },
+        { "name": "version", "type": "integer", "required": true },
+        { "name": "plugin_id", "type": "string", "required": true },
+        { "name": "service", "type": "string", "required": true },
+        { "name": "method", "type": "string", "required": true },
+        { "name": "token", "type": "string", "required": true },
+        { "name": "payload", "type": "base64", "required": false }
+      ],
+      "notes": [
+        "plugin_id is snake_case; do not normalize it.",
+        "payload is opaque contract bytes, base64 on the wire.",
+        "token authenticates the channel and is provisioned through the environment, never argv."
+      ]
+    },
+    "response": {
+      "fields": [
+        { "name": "id", "type": "string", "required": true },
+        { "name": "version", "type": "integer", "required": true },
+        { "name": "ok", "type": "boolean", "required": true },
+        { "name": "code", "type": "string", "required": false, "enumRef": "callErrorCodes" },
+        { "name": "message", "type": "string", "required": false },
+        { "name": "payload", "type": "base64", "required": false }
+      ],
+      "rules": ["unknown codes map to INTERNAL"]
+    }
+  },
+  "callErrorCodes": [
+    "CAPABILITY_DENIED",
+    "NOT_ACTIVE",
+    "NOT_FOUND",
+    "INVALID_REQUEST",
+    "TIMEOUT",
+    "INTERNAL"
+  ]
+}

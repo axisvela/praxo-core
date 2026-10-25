@@ -1,0 +1,89 @@
+{
+  "specVersion": "0.1.0",
+  "group": "agent-loop",
+  "vectors": [
+    {
+      "id": "agent-loop.direct-answer",
+      "description": "A direct answer emits started then completed",
+      "input": {
+        "prompt": "hello",
+        "script": [{ "content": "hello" }],
+        "maxSteps": 8
+      },
+      "expect": {
+        "output": "hello",
+        "steps": 1,
+        "events": ["run.started", "run.completed"],
+        "toolInvocations": 0
+      }
+    },
+    {
+      "id": "agent-loop.tool-then-answer",
+      "description": "A tool call emits tool.call and continues to the final answer",
+      "input": {
+        "prompt": "use the tool",
+        "script": [
+          {
+            "content": "",
+            "toolCalls": [
+              { "id": "c1", "name": "echo", "arguments": { "text": "hi" } }
+            ]
+          },
+          { "content": "done" }
+        ],
+        "tools": [{ "name": "echo", "description": "Echo arguments" }],
+        "maxSteps": 8
+      },
+      "expect": {
+        "output": "done",
+        "steps": 2,
+        "events": ["run.started", "tool.call", "run.completed"],
+        "toolInvocations": 1
+      }
+    },
+    {
+      "id": "agent-loop.max-steps",
+      "description": "The step budget fails closed after the last tool call",
+      "input": {
+        "prompt": "loop",
+        "script": [
+          {
+            "content": "",
+            "toolCalls": [
+              { "id": "c1", "name": "echo", "arguments": { "text": "one" } }
+            ]
+          },
+          {
+            "content": "",
+            "toolCalls": [
+              { "id": "c2", "name": "echo", "arguments": { "text": "two" } }
+            ]
+          }
+        ],
+        "tools": [{ "name": "echo", "description": "Echo arguments" }],
+        "maxSteps": 1
+      },
+      "expect": {
+        "error": true,
+        "errorCode": "AGENT_MAX_STEPS",
+        "events": ["run.started", "tool.call", "run.failed"],
+        "toolInvocations": 1
+      }
+    },
+    {
+      "id": "agent-loop.max-tokens",
+      "description": "The token budget fails closed before appending the answer",
+      "input": {
+        "prompt": "budget",
+        "script": [{ "content": "hello", "outputTokens": 10 }],
+        "maxTokens": 5
+      },
+      "expect": {
+        "error": true,
+        "errorCode": "AGENT_MAX_TOKENS",
+        "events": ["run.started", "run.failed"],
+        "toolInvocations": 0
+      }
+    }
+  ]
+}

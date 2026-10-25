@@ -45,6 +45,8 @@ go get github.com/axisvela/praxo-core/v2@v2.5.0
 - [AxisVela ecosystem integration](12-ecosystem.md)
 - [Architecture](01-architecture.md)
 - [Primitives](02-primitives.md)
+- [Multilingual SDK design](17-multilingual-sdk.md)
+- [Multilingual roadmap](18-multilingual-roadmap.md)
 - [Plugin authoring](10-plugin-authoring.md)
 - [Security model](08-security.md)
 - [中文文档](zh-CN/README.md)

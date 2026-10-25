@@ -78,6 +78,24 @@ See the [compatibility and deprecation policy](16-compatibility-policy.md) for
 the covered surface, additive-change rules, deprecation window, and optional
 module versioning.
 
+## Multi-language SDK Compatibility
+
+Python, TypeScript, and Java SDKs share the contract in `spec/` and version
+independently. Their compatibility rules are:
+
+- The wire contract is identical across languages. Renaming a JSON field,
+  event, stream kind, or plugin envelope field is breaking for every SDK.
+- Source APIs map one-to-one but use idiomatic names per language.
+- An SDK declares the `spec/SPEC_VERSION` it implements.
+- No SDK may implement a contract feature that the Go reference lacks.
+- SDK versions do not imply a Go module version, and vice versa.
+
+The Go surface remains covered by the `v2` rules above. Multilingual SDKs are
+additive packages and do not change the Go module path or the `pkg/...` freeze.
+
+See [Multilingual SDK design](17-multilingual-sdk.md) and the
+[multilingual roadmap](18-multilingual-roadmap.md).
+
 ## Compatibility Tests
 
 Each consumer should maintain:

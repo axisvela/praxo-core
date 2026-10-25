@@ -65,6 +65,15 @@ NOETIVELA 是 AxisVela 的推理基础设施（inference fabric），可以通�
 [可运行接线示例](examples/ecosystem/cmd/demo) 与
 [真实 NOETIVELA SDK 示例](examples/ecosystem-sdk)。
 
+## 多语言 SDK
+
+Go 仍是参考实现。Python、TypeScript 和 Java SDK 基于
+[`spec/`](spec/README.md) 中的一份语言无关契约：wire 形状相同、共用一套一致性
+测试、API 一对一且符合各语言习惯。[Python SDK](python/README.md) 的核心、流式
+路径和 OpenAI 兼容适配器已可用，并通过全部九组向量。参见
+[设计](docs/zh-CN/17-multilingual-sdk.md)与
+[路线图](docs/zh-CN/18-multilingual-roadmap.md)。
+
 ## 模块
 
 `github.com/axisvela/praxo-core/v2`（v2 语义导入路径）。尚未迁移的使用方

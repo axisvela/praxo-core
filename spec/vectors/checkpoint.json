@@ -1,0 +1,56 @@
+{
+  "specVersion": "0.1.0",
+  "group": "checkpoint",
+  "vectors": [
+    {
+      "id": "checkpoint.roundtrip",
+      "description": "A registered payload round-trips through the allowlist envelope",
+      "input": {
+        "operation": "roundtrip",
+        "registered": ["spec.payload"],
+        "type": "spec.payload",
+        "value": { "value": "x" }
+      },
+      "expect": {
+        "value": { "value": "x" }
+      }
+    },
+    {
+      "id": "checkpoint.roundtrip-nested",
+      "description": "Nested registered payload data round-trips",
+      "input": {
+        "operation": "roundtrip",
+        "registered": ["spec.payload"],
+        "type": "spec.payload",
+        "value": { "value": "x", "nested": { "count": 2 } }
+      },
+      "expect": {
+        "value": { "value": "x", "nested": { "count": 2 } }
+      }
+    },
+    {
+      "id": "checkpoint.marshal-unregistered",
+      "description": "Marshaling an unregistered type is rejected",
+      "input": {
+        "operation": "marshal",
+        "type": "spec.missing",
+        "value": {}
+      },
+      "expect": {
+        "errorCode": "CHECKPOINT_TYPE_NOT_ALLOWED"
+      }
+    },
+    {
+      "id": "checkpoint.unmarshal-unregistered",
+      "description": "Unmarshaling an unregistered envelope type is rejected",
+      "input": {
+        "operation": "unmarshal",
+        "type": "spec.missing",
+        "value": {}
+      },
+      "expect": {
+        "errorCode": "CHECKPOINT_TYPE_NOT_ALLOWED"
+      }
+    }
+  ]
+}

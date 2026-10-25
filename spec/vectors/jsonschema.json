@@ -1,0 +1,107 @@
+{
+  "specVersion": "0.1.0",
+  "group": "jsonschema",
+  "vectors": [
+    {
+      "id": "jsonschema.object-valid",
+      "description": "Required object property present",
+      "input": {
+        "schema": {
+          "type": "object",
+          "properties": { "name": { "type": "string" } },
+          "required": ["name"]
+        },
+        "data": { "name": "ok" }
+      },
+      "expect": { "valid": true }
+    },
+    {
+      "id": "jsonschema.object-missing-required",
+      "description": "Missing required property reports the property path",
+      "input": {
+        "schema": {
+          "type": "object",
+          "properties": { "name": { "type": "string" } },
+          "required": ["name"]
+        },
+        "data": {}
+      },
+      "expect": { "valid": false, "errorPaths": ["$.name"] }
+    },
+    {
+      "id": "jsonschema.type-mismatch",
+      "description": "String schema rejects a number",
+      "input": {
+        "schema": { "type": "string" },
+        "data": 42
+      },
+      "expect": { "valid": false, "errorPaths": ["$"] }
+    },
+    {
+      "id": "jsonschema.null-rejected",
+      "description": "A typed schema rejects null",
+      "input": {
+        "schema": { "type": "string" },
+        "data": null
+      },
+      "expect": { "valid": false, "errorPaths": ["$"] }
+    },
+    {
+      "id": "jsonschema.enum-invalid",
+      "description": "Value outside the enum is rejected",
+      "input": {
+        "schema": { "type": "string", "enum": ["a", "b"] },
+        "data": "c"
+      },
+      "expect": { "valid": false, "errorPaths": ["$"] }
+    },
+    {
+      "id": "jsonschema.unicode-min-length",
+      "description": "Length counts Unicode code points",
+      "input": {
+        "schema": { "type": "string", "minLength": 2 },
+        "data": "é"
+      },
+      "expect": { "valid": false, "errorPaths": ["$"] }
+    },
+    {
+      "id": "jsonschema.pattern-valid",
+      "description": "RE2 pattern matches",
+      "input": {
+        "schema": { "type": "string", "pattern": "^a+$" },
+        "data": "aaa"
+      },
+      "expect": { "valid": true }
+    },
+    {
+      "id": "jsonschema.pattern-invalid",
+      "description": "RE2 pattern rejects a non-match",
+      "input": {
+        "schema": { "type": "string", "pattern": "^a+$" },
+        "data": "b"
+      },
+      "expect": { "valid": false, "errorPaths": ["$"] }
+    },
+    {
+      "id": "jsonschema.additional-properties-ignored",
+      "description": "Object schemas allow additional properties",
+      "input": {
+        "schema": {
+          "type": "object",
+          "properties": { "name": { "type": "string" } }
+        },
+        "data": { "name": "ok", "extra": 1 }
+      },
+      "expect": { "valid": true }
+    },
+    {
+      "id": "jsonschema.minimum-zero-unset",
+      "description": "A minimum of zero is treated as unset",
+      "input": {
+        "schema": { "type": "number", "minimum": 0 },
+        "data": -5
+      },
+      "expect": { "valid": true }
+    }
+  ]
+}

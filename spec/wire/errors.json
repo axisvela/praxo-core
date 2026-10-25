@@ -1,0 +1,153 @@
+{
+  "specVersion": "0.1.0",
+  "kind": "errors",
+  "comparison": "Compare codes, not messages. Messages are human-readable and may change.",
+  "sdkNaming": {
+    "python": "{Base}Error",
+    "typescript": "{Base}Error",
+    "java": "{Base}Exception"
+  },
+  "sentinels": [
+    {
+      "code": "AGENT_MAX_STEPS",
+      "go": "agent.ErrMaxSteps",
+      "package": "pkg/agent",
+      "message": "agent: max steps exceeded",
+      "base": "MaxSteps"
+    },
+    {
+      "code": "AGENT_MAX_TOKENS",
+      "go": "agent.ErrMaxTokens",
+      "package": "pkg/agent",
+      "message": "agent: max tokens exceeded",
+      "base": "MaxTokens"
+    },
+    {
+      "code": "AGENT_APPROVAL_DENIED",
+      "go": "agent.ErrApprovalDenied",
+      "package": "pkg/agent",
+      "message": "agent: tool call denied by approval",
+      "base": "ApprovalDenied"
+    },
+    {
+      "code": "AGENT_INTERRUPT_UNHANDLED",
+      "go": "agent.ErrInterruptUnhandled",
+      "package": "pkg/agent",
+      "message": "agent: approval handler not configured",
+      "base": "InterruptUnhandled"
+    },
+    {
+      "code": "AGENT_CONTEXT_BUDGET",
+      "go": "agent.ErrContextBudget",
+      "package": "pkg/agent/context",
+      "message": "agent: context budget exceeded",
+      "base": "ContextBudget"
+    },
+    {
+      "code": "AGENT_SUBAGENT_UPDATE_UNSUPPORTED",
+      "go": "agent.ErrSubagentUpdateUnsupported",
+      "package": "pkg/agent/delegation",
+      "message": "agent: subagent update unsupported",
+      "base": "SubagentUpdateUnsupported"
+    },
+    {
+      "code": "AGENT_RUBRIC_FAILED",
+      "go": "agent.ErrRubricFailed",
+      "package": "pkg/agent/evaluation",
+      "message": "agent: rubric failed",
+      "base": "RubricFailed"
+    },
+    {
+      "code": "AGENT_INTERRUPT_DECISION_INVALID",
+      "go": "agent.ErrInterruptDecisionInvalid",
+      "package": "pkg/agent/hitl",
+      "message": "agent: invalid interrupt decision",
+      "base": "InterruptDecisionInvalid"
+    },
+    {
+      "code": "AGENT_MODEL_CALL_LIMIT",
+      "go": "agent.ErrModelCallLimit",
+      "package": "pkg/agent/middleware",
+      "message": "agent: model call limit exceeded",
+      "base": "ModelCallLimit"
+    },
+    {
+      "code": "AGENT_TOOL_CALL_LIMIT",
+      "go": "agent.ErrToolCallLimit",
+      "package": "pkg/agent/middleware",
+      "message": "agent: tool call limit exceeded",
+      "base": "ToolCallLimit"
+    },
+    {
+      "code": "AGENT_STRUCTURED_OUTPUT",
+      "go": "agent.ErrStructuredOutput",
+      "package": "pkg/agent/middleware",
+      "message": "agent: structured output validation failed",
+      "base": "StructuredOutput"
+    },
+    {
+      "code": "AGENT_TOOL_NOT_SELECTED",
+      "go": "agent.ErrToolNotSelected",
+      "package": "pkg/agent/middleware",
+      "message": "agent: tool not selected",
+      "base": "ToolNotSelected"
+    },
+    {
+      "code": "CHECKPOINT_TYPE_NOT_ALLOWED",
+      "go": "checkpoint.ErrTypeNotAllowed",
+      "package": "pkg/checkpoint",
+      "message": "checkpoint: payload type not allowed",
+      "base": "TypeNotAllowed"
+    },
+    {
+      "code": "HTTP_BODY_TOO_LARGE",
+      "go": "httpclient.ErrBodyTooLarge",
+      "package": "pkg/httpclient",
+      "message": "httpclient: response body too large",
+      "base": "BodyTooLarge"
+    },
+    {
+      "code": "PLUGIN_NOT_ACTIVE",
+      "go": "plugin.ErrNotActive",
+      "package": "pkg/plugin",
+      "message": "pluginrt: instance not active",
+      "base": "NotActive"
+    },
+    {
+      "code": "PLUGIN_INVALID_TRANSITION",
+      "go": "plugin.ErrInvalidTransition",
+      "package": "pkg/plugin",
+      "message": "pluginrt: invalid state transition",
+      "base": "InvalidTransition"
+    },
+    {
+      "code": "PLUGIN_DRAIN_TIMEOUT",
+      "go": "plugin.ErrDrainTimeout",
+      "package": "pkg/plugin",
+      "message": "pluginrt: drain timed out",
+      "base": "DrainTimeout"
+    },
+    {
+      "code": "PLUGIN_DRAIN_CANCELED",
+      "go": "plugin.ErrDrainCanceled",
+      "package": "pkg/plugin",
+      "message": "pluginrt: drain canceled",
+      "base": "DrainCanceled"
+    },
+    {
+      "code": "PLUGIN_INFLIGHT_UNDERFLOW",
+      "go": "plugin.ErrUnderflow",
+      "package": "pkg/plugin",
+      "message": "pluginrt: release without acquire (inflight underflow)",
+      "base": "Underflow"
+    }
+  ],
+  "pluginCallErrorCodes": [
+    "CAPABILITY_DENIED",
+    "NOT_ACTIVE",
+    "NOT_FOUND",
+    "INVALID_REQUEST",
+    "TIMEOUT",
+    "INTERNAL"
+  ]
+}

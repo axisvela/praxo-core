@@ -47,6 +47,21 @@ as unset. Use a full JSON Schema library when those keywords are required.
 See [Plugin authoring](10-plugin-authoring.md) for Manifest v1, the process/WASM
 host protocol, and the conformance kit.
 
+## Language-Neutral Contracts
+
+The Go declarations in `pkg/...` are the reference surface. The normative
+contract for all SDKs lives in `spec/`:
+
+- `spec/wire/` freezes JSON field names, events, errors, and plugin envelopes.
+- `spec/vectors/` defines the observable behavior every SDK must reproduce.
+- `spec/parity.md` maps each Go symbol to its Python, TypeScript, and Java
+  counterpart.
+
+Wire names keep their existing casing, including `image_url` in
+`model.ContentBlock` and camelCase identifiers such as `runId`. The source APIs
+are idiomatic per language but map one-to-one. See
+[Multilingual SDK design](17-multilingual-sdk.md).
+
 ## Tool Contract
 
 A tool has a name, description, and `Invoke(ctx, args)`. Tool specs are exposed

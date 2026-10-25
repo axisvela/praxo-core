@@ -153,6 +153,44 @@ updates. The framework never imports product governance.
 - Every exported behavior has a test.
 - Event and policy errors propagate; they are not silently dropped.
 
+## Language Boundary and Shared Contract
+
+Go remains the reference implementation. The contract that Python, TypeScript,
+and Java consume is defined in `spec/` and enforced by a shared conformance
+suite:
+
+```text
+spec/                    normative contract and vectors
+  wire/                  JSON field names, events, errors, plugin envelopes
+  vectors/               language-neutral behavior fixtures
+  parity.md              Go symbol -> SDK symbol inventory
+        |
+        +-- Go reference implementation (pkg/..., immutable surface)
+        +-- Python SDK
+        +-- TypeScript SDK
+        +-- Java SDK
+```
+
+The contract has four layers:
+
+| Layer | Identical across languages | Enforced by |
+| --- | --- | --- |
+| Wire | yes, byte-for-byte | wire fixtures and snapshot tests |
+| Behavior | yes, observably | conformance vectors |
+| API surface | one-to-one, idiomatic names | parity linter |
+| Conformance | one suite | each SDK's CI job |
+
+Source APIs are mapped, not copied. Go interfaces become Python protocols,
+TypeScript interfaces, and Java interfaces; `context.Context` becomes the
+language cancellation primitive; sentinel errors become stable exception
+classes. Concrete adapters, helpers, and package internals are not part of the
+contract.
+
+A wire rename, event change, stream-kind change, or plugin envelope change is
+breaking for every SDK, even if only one SDK ships it. See
+[Multilingual SDK design](17-multilingual-sdk.md) and the
+[multilingual roadmap](18-multilingual-roadmap.md).
+
 ## Concurrency
 
 The framework is stateless per run. Callers may run multiple agents

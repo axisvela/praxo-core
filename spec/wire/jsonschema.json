@@ -1,0 +1,41 @@
+{
+  "specVersion": "0.1.0",
+  "kind": "jsonschema-subset",
+  "source": "pkg/tool/jsonschema and docs/02-primitives.md",
+  "scope": "tool input and output validation only; not a general JSON Schema implementation",
+  "types": ["object", "array", "string", "number", "integer", "boolean"],
+  "supportedKeywords": [
+    "type",
+    "properties",
+    "required",
+    "items",
+    "enum",
+    "minLength",
+    "maxLength",
+    "minimum",
+    "maximum",
+    "pattern",
+    "description"
+  ],
+  "ignoredKeywords": [
+    "$ref",
+    "allOf",
+    "anyOf",
+    "oneOf",
+    "not",
+    "additionalProperties",
+    "format"
+  ],
+  "semantics": {
+    "patternSyntax": "Go/RE2",
+    "stringLengthUnit": "Unicode code points",
+    "null": "rejected by typed schemas",
+    "minimumZero": "treated as unset",
+    "maximumZero": "treated as unset",
+    "unknownKeywords": "ignored"
+  },
+  "notes": [
+    "Use a full JSON Schema library when ignored keywords are required.",
+    "SDKs may use their ecosystem validator only if these acceptance rules match."
+  ]
+}
