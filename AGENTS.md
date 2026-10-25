@@ -26,6 +26,8 @@ this framework.
 - Preserve provenance in `docs/04-license-and-provenance.md`.
 - Add tests for every exported interface and loop behavior.
 - Prefer interfaces over concrete integrations.
+- Keep source files under 500 lines; split by responsibility instead of growing
+  a single file.
 - Do not add code comments unless asked.
 
 ## Multilingual SDKs
