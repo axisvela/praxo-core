@@ -43,6 +43,8 @@ func runVector(group string, v vectorCase) error {
 		return runAgentLoop(v)
 	case "context":
 		return runContext(v)
+	case "middleware":
+		return runMiddleware(v)
 	default:
 		return fmt.Errorf("no runner for group %q", group)
 	}

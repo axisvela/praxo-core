@@ -7,24 +7,43 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
-from .agent import Agent, AgentOptions, Session
 from .checkpoint import Allowlist
+from .conformance_agent import run_agent_loop
 from .context import ContextBudget, estimate_tokens
-from .errors import PluginError, PolicyError, PraxoError, TypeNotAllowedError
+from .errors import (
+    PluginError,
+    PolicyError,
+    StructuredOutputError,
+    TypeNotAllowedError,
+)
 from .event import Event, FilterSink, MultiSink
 from .jsonschema import validate as validate_schema
 from .memory import MemoryStore, Record
+from .middleware import (
+    ModelCall,
+    PIIRedactor,
+    RunState,
+    StructuredOutput,
+    ToolCall as MiddlewareToolCall,
+    ToolResult,
+    call_limit_middleware,
+    default_pii_rules,
+    fallback_model,
+    maybe_await,
+    pii_middleware,
+    tool_selection_middleware,
+)
 from .model import (
     ROLE_ASSISTANT,
     Message,
+    Request,
     Response,
     ToolCall,
-    Usage,
+    ToolSpec,
 )
 from .plugin import parse_manifest
 from .policy import PathChecker, PathGrant
 from .stream import STREAM_KINDS
-from .tool import Registry
 from .toolcall import parse_tool_call, strip_tool_call_markup
 
 
@@ -176,6 +195,14 @@ async def _memory_async(vector: dict[str, Any]) -> None:
     )
 
 
+class _RecordingSink:
+    def __init__(self) -> None:
+        self.types: list[str] = []
+
+    async def emit(self, event: Event) -> None:
+        self.types.append(event.type)
+
+
 def _event(vector: dict[str, Any]) -> None:
     asyncio.run(_event_async(vector))
 
@@ -300,106 +327,164 @@ def _context(vector: dict[str, Any]) -> None:
     _assert(wire == exp.get("messages"), f"messages: got {wire}")
 
 
-def _agent_loop(vector: dict[str, Any]) -> None:
-    asyncio.run(_agent_loop_async(vector))
+def _middleware(vector: dict[str, Any]) -> None:
+    asyncio.run(_middleware_async(vector))
 
 
-async def _agent_loop_async(vector: dict[str, Any]) -> None:
+async def _middleware_async(vector: dict[str, Any]) -> None:
     inp = vector["input"]
     exp = vector["expect"]
-    counter = [0]
-    registry = Registry()
-    for tool in inp.get("tools", []):
-        registry.register(
-            _EchoTool(tool.get("name", ""), tool.get("description", ""), counter)
-        )
-    sink = _RecordingSink()
-    agent = Agent(
-        AgentOptions(
-            model=_ScriptedModel(inp.get("script", [])),
-            tools=registry,
-            events=sink,
-            max_steps=inp.get("maxSteps", 0),
-            max_tokens=inp.get("maxTokens", 0),
-        )
-    )
-    error: Exception | None = None
-    result = None
-    try:
-        result = await agent.run(Session(id="s1"), inp.get("prompt", ""))
-    except Exception as exc:
-        error = exc
-
-    if exp.get("error"):
-        _assert(error is not None, "expected an error")
-        code = exp.get("errorCode")
-        if code:
-            _assert(isinstance(error, PraxoError), f"error: got {error!r}")
-            _assert(error.code == code, f"errorCode: got {error.code!r}")
-    else:
-        _assert(error is None, f"unexpected error: {error!r}")
-
-    if result is not None:
-        _assert(result.output == exp.get("output", ""), f"output: got {result.output!r}")
-        _assert(result.steps == exp.get("steps", 0), f"steps: got {result.steps}")
-    _assert(
-        counter[0] == exp.get("toolInvocations", 0),
-        f"tool invocations: got {counter[0]}",
-    )
-    got_events = sink.types or None
-    _assert(
-        got_events == (exp.get("events") or None),
-        f"events: got {got_events!r}",
-    )
-
-
-class _RecordingSink:
-    def __init__(self) -> None:
-        self.types: list[str] = []
-
-    async def emit(self, event: Event) -> None:
-        self.types.append(event.type)
-
-
-class _EchoTool:
-    def __init__(self, name: str, description: str, counter: list[int]) -> None:
-        self.name = name
-        self.description = description
-        self.counter = counter
-
-    async def invoke(self, args: dict[str, Any]) -> Any:
-        self.counter[0] += 1
-        return args
-
-
-class _ScriptedModel:
-    def __init__(self, steps: list[dict[str, Any]]) -> None:
-        self.steps = steps
-        self.next = 0
-
-    async def generate(self, request: Any) -> Response:
-        if self.next >= len(self.steps):
-            raise AssertionError("script exhausted")
-        step = self.steps[self.next]
-        self.next += 1
-        calls = [
-            ToolCall(
-                id=call.get("id", ""),
-                name=call.get("name", ""),
-                arguments=call.get("arguments") or {},
+    operation = inp.get("operation")
+    if operation == "pii":
+        redactor = PIIRedactor(default_pii_rules())
+        got = redactor.redact(inp.get("text", ""))
+        _assert(got == exp.get("text"), f"text: got {got!r}")
+        return
+    if operation == "pii-value":
+        middleware = pii_middleware(PIIRedactor(default_pii_rules()))
+        result = ToolResult(value=inp.get("value"))
+        await maybe_await(
+            middleware.after_tool(
+                MiddlewareToolCall(
+                    "r1", "s1", ToolCall(id="c", name="echo", arguments={})
+                ),
+                result,
             )
-            for call in step.get("toolCalls", [])
-        ]
+        )
+        _assert(
+            result.value == exp.get("value"),
+            f"value: got {result.value!r}",
+        )
+        return
+    if operation == "structured":
+        output = StructuredOutput(
+            schema=inp.get("schema") or {},
+            max_repairs=inp.get("maxRepairs", 0),
+        )
+        if inp.get("repairOutput"):
+            output.repair = (
+                lambda current, error: inp["repairOutput"]
+            )
+        target = _Output(inp.get("output", ""))
+        try:
+            await output.apply(target)
+        except StructuredOutputError as exc:
+            if exp.get("ok"):
+                raise
+            _assert(
+                exc.code == exp.get("errorCode"),
+                f"errorCode: got {exc.code!r}",
+            )
+            return
+        _assert(bool(exp.get("ok")), "expected a structured output error")
+        _assert(
+            target.output == exp.get("output"),
+            f"output: got {target.output!r}",
+        )
+        return
+    if operation == "call-limit":
+        middleware = call_limit_middleware(
+            inp.get("modelLimit", 0), inp.get("toolLimit", 0)
+        )
+        await maybe_await(
+            middleware.before_run(RunState("r1", None, ""))
+        )
+        outcomes: list[str] = []
+        for kind in inp.get("calls", []):
+            try:
+                if kind == "model":
+                    await maybe_await(
+                        middleware.before_model(
+                            ModelCall("r1", "s1", Request())
+                        )
+                    )
+                elif kind == "tool":
+                    await maybe_await(
+                        middleware.before_tool(
+                            MiddlewareToolCall(
+                                "r1",
+                                "s1",
+                                ToolCall(id="c", name="echo", arguments={}),
+                            )
+                        )
+                    )
+                else:
+                    raise AssertionError(f"unknown call kind {kind!r}")
+                outcomes.append("ok")
+            except Exception as exc:
+                outcomes.append(getattr(exc, "code", "ERROR"))
+        _assert(
+            outcomes == (exp.get("outcomes") or []),
+            f"outcomes: got {outcomes}",
+        )
+        return
+    if operation == "tool-selection":
+        middleware = tool_selection_middleware(
+            _FixedSelector(inp.get("selected") or [])
+        )
+        tools = [ToolSpec(name=name) for name in inp.get("tools", [])]
+        call = ModelCall("r1", "s1", Request(tools=tools))
+        await maybe_await(middleware.before_model(call))
+        advertised = [spec.name for spec in call.request.tools]
+        _assert(
+            advertised == (exp.get("advertised") or []),
+            f"advertised: got {advertised}",
+        )
+        try:
+            await maybe_await(
+                middleware.before_tool(
+                    MiddlewareToolCall(
+                        "r1",
+                        "s1",
+                        ToolCall(
+                            id="c",
+                            name=inp.get("requested", ""),
+                            arguments={},
+                        ),
+                    )
+                )
+            )
+            reject = "ok"
+        except Exception as exc:
+            reject = getattr(exc, "code", "ERROR")
+        _assert(reject == exp.get("reject"), f"reject: got {reject!r}")
+        return
+    if operation == "fallback":
+        async def primary(request: Request) -> Response:
+            raise RuntimeError("primary failed")
+
+        handler = fallback_model(
+            _FallbackModel(inp.get("fallbackContent", ""))
+        )(primary)
+        response = await handler(Request())
+        _assert(
+            response.message.content == exp.get("output"),
+            f"output: got {response.message.content!r}",
+        )
+        return
+    raise AssertionError(f"unknown middleware operation {operation!r}")
+
+
+class _Output:
+    def __init__(self, output: str) -> None:
+        self.output = output
+
+
+class _FixedSelector:
+    def __init__(self, names: list[str]) -> None:
+        self.names = names
+
+    async def select(self, query: str, tools: list[ToolSpec]) -> list[str]:
+        return self.names
+
+
+class _FallbackModel:
+    def __init__(self, content: str) -> None:
+        self.content = content
+
+    async def generate(self, request: Request) -> Response:
         return Response(
-            message=Message(
-                role=ROLE_ASSISTANT,
-                content=step.get("content", ""),
-                tool_calls=calls,
-            ),
-            usage=Usage(
-                input_tokens=step.get("inputTokens", 0),
-                output_tokens=step.get("outputTokens", 0),
-            ),
+            message=Message(role=ROLE_ASSISTANT, content=self.content)
         )
 
 
@@ -418,5 +503,6 @@ _RUNNERS = {
     "checkpoint": _checkpoint,
     "policy": _policy,
     "context": _context,
-    "agent-loop": _agent_loop,
+    "middleware": _middleware,
+    "agent-loop": run_agent_loop,
 }

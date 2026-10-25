@@ -1,0 +1,127 @@
+{
+  "specVersion": "0.2.0",
+  "group": "middleware",
+  "vectors": [
+    {
+      "id": "middleware.pii-default",
+      "description": "Default PII rules redact email addresses",
+      "input": {
+        "operation": "pii",
+        "text": "email a@b.com"
+      },
+      "expect": {
+        "text": "email [REDACTED:email]"
+      }
+    },
+    {
+      "id": "middleware.pii-tool-value",
+      "description": "PII redaction walks nested tool result values",
+      "input": {
+        "operation": "pii-value",
+        "value": {
+          "email": "a@b.com",
+          "nested": ["c@d.com"]
+        }
+      },
+      "expect": {
+        "value": {
+          "email": "[REDACTED:email]",
+          "nested": ["[REDACTED:email]"]
+        }
+      }
+    },
+    {
+      "id": "middleware.structured-valid",
+      "description": "Structured output accepts schema-valid JSON",
+      "input": {
+        "operation": "structured",
+        "schema": {
+          "type": "object",
+          "properties": { "value": { "type": "integer" } },
+          "required": ["value"]
+        },
+        "output": "{\"value\":1}",
+        "maxRepairs": 0
+      },
+      "expect": {
+        "ok": true,
+        "output": "{\"value\":1}"
+      }
+    },
+    {
+      "id": "middleware.structured-invalid",
+      "description": "Structured output fails closed on invalid JSON",
+      "input": {
+        "operation": "structured",
+        "schema": {
+          "type": "object",
+          "properties": { "value": { "type": "integer" } },
+          "required": ["value"]
+        },
+        "output": "not json",
+        "maxRepairs": 0
+      },
+      "expect": {
+        "ok": false,
+        "errorCode": "AGENT_STRUCTURED_OUTPUT"
+      }
+    },
+    {
+      "id": "middleware.structured-repair",
+      "description": "Structured output applies a repair callback",
+      "input": {
+        "operation": "structured",
+        "schema": {
+          "type": "object",
+          "properties": { "value": { "type": "integer" } },
+          "required": ["value"]
+        },
+        "output": "{\"value\":\"bad\"}",
+        "maxRepairs": 1,
+        "repairOutput": "{\"value\":2}"
+      },
+      "expect": {
+        "ok": true,
+        "output": "{\"value\":2}"
+      }
+    },
+    {
+      "id": "middleware.call-limit",
+      "description": "Call limits are counted independently per run",
+      "input": {
+        "operation": "call-limit",
+        "modelLimit": 1,
+        "toolLimit": 0,
+        "calls": ["model", "model", "tool"]
+      },
+      "expect": {
+        "outcomes": ["ok", "AGENT_MODEL_CALL_LIMIT", "ok"]
+      }
+    },
+    {
+      "id": "middleware.tool-selection",
+      "description": "Tool selection filters advertised tools and rejects unselected calls",
+      "input": {
+        "operation": "tool-selection",
+        "selected": ["echo"],
+        "tools": ["echo", "other"],
+        "requested": "other"
+      },
+      "expect": {
+        "advertised": ["echo"],
+        "reject": "AGENT_TOOL_NOT_SELECTED"
+      }
+    },
+    {
+      "id": "middleware.fallback",
+      "description": "A failed primary model call falls back to the fallback model",
+      "input": {
+        "operation": "fallback",
+        "fallbackContent": "fallback text"
+      },
+      "expect": {
+        "output": "fallback text"
+      }
+    }
+  ]
+}

@@ -40,7 +40,7 @@ engineer per language sequentially is **12-18 months**.
 | P0-3 error wire artifact | done | `spec/wire/errors.json` |
 | P0-4 plugin wire artifact | done | `spec/wire/plugin.json` |
 | P0-5 JSON Schema wire artifact | done | `spec/wire/jsonschema.json` |
-| P0-6 behavior vectors | done | ten groups green: agent loop, toolcall, jsonschema, plugin, memory, event, stream, checkpoint, policy, context |
+| P0-6 behavior vectors | done | eleven groups green: agent loop, toolcall, jsonschema, plugin, memory, event, stream, checkpoint, policy, context, middleware |
 | P0-7 Go vector runner | done | `internal/spec` |
 | P0-8 `spec-conformance` CI job | done | `.github/workflows/ci.yml` |
 | P0-9 parity linter | done | `TestParityInventory` and `TestParitySymbols` in `internal/spec` |
@@ -59,7 +59,7 @@ Phase 0's contract extraction exit gate is met.
 | P1-4 middleware subset | done | `python/praxo/middleware/`, middleware tests |
 | P1-5 OpenAI-compatible adapter | done | `python/praxo/adapters/openaicompat.py`, fake SSE test |
 | P1-6 Python conformance runner | done | `python/conformance/run.py`, CI job `python-conformance` |
-| P1-7 SDK docs | done | `python/README.md`, `python/API.md`, `python/api/0.1.0.txt` |
+| P1-7 SDK docs | done | `python/README.md`, `python/API.md`, `python/api/0.2.0.txt` |
 | P1-8 PyPI release | ready | wheel/sdist build and clean-venv install pass; publication pending credentials |
 
 Local checks:
@@ -72,6 +72,10 @@ python -m unittest discover -s tests -v
 
 Phase 1's code and documentation gates are met. PyPI publication remains a
 release-credential step.
+
+Release state: `spec/v0.2.0` tags the eleven-group contract and
+`python/v0.2.0` tags the Python SDK implementing it. The `0.1.0` tags remain
+available for consumers that pinned the earlier contract.
 
 ## Phase 0 - Contract Extraction
 

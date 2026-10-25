@@ -1,5 +1,5 @@
 {
-  "specVersion": "0.1.0",
+  "specVersion": "0.2.0",
   "kind": "jsonschema-subset",
   "source": "pkg/tool/jsonschema and docs/02-primitives.md",
   "scope": "tool input and output validation only; not a general JSON Schema implementation",

@@ -21,7 +21,7 @@ Implemented:
 
 - `wire/` event, error, JSON Schema, and plugin contracts
 - `vectors/` groups for agent loop, toolcall, JSON Schema, plugin, memory,
-  event, stream, checkpoint, policy, and context
+  event, stream, checkpoint, policy, context, and middleware
 - Go runner and parity linter in `internal/spec`, run by CI job
   `spec-conformance`
 - Python runner and parity check in `python/praxo/conformance.py`, run by CI job
@@ -48,7 +48,7 @@ Planned additions:
 
 ## Versioning
 
-- `SPEC_VERSION` starts at `0.1.0`.
+- `SPEC_VERSION` starts at `0.1.0`; the current contract is `0.2.0`.
 - Additive contract changes bump the minor version.
 - Removing or renaming a wire artifact bumps the major version.
 - `spec/vX.Y.Z` tags never move.

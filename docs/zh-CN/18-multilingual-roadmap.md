@@ -34,7 +34,7 @@
 | P0-3 错误 wire 产物 | 完成 | `spec/wire/errors.json` |
 | P0-4 插件 wire 产物 | 完成 | `spec/wire/plugin.json` |
 | P0-5 JSON Schema wire 产物 | 完成 | `spec/wire/jsonschema.json` |
-| P0-6 行为向量 | 完成 | 十组全绿：agent loop、toolcall、jsonschema、plugin、memory、event、stream、checkpoint、policy、context |
+| P0-6 行为向量 | 完成 | 十一组全绿：agent loop、toolcall、jsonschema、plugin、memory、event、stream、checkpoint、policy、context、middleware |
 | P0-7 Go 向量 runner | 完成 | `internal/spec` |
 | P0-8 `spec-conformance` CI 任务 | 完成 | `.github/workflows/ci.yml` |
 | P0-9 一致性 linter | 完成 | `internal/spec` 中的 `TestParityInventory` 与 `TestParitySymbols` |
@@ -53,7 +53,7 @@
 | P1-4 中间件子集 | 完成 | `python/praxo/middleware/`、中间件测试 |
 | P1-5 OpenAI 兼容适配器 | 完成 | `python/praxo/adapters/openaicompat.py`、假 SSE 测试 |
 | P1-6 Python 一致性 runner | 完成 | `python/conformance/run.py`、CI 任务 `python-conformance` |
-| P1-7 SDK 文档 | 完成 | `python/README.md`、`python/API.md`、`python/api/0.1.0.txt` |
+| P1-7 SDK 文档 | 完成 | `python/README.md`、`python/API.md`、`python/api/0.2.0.txt` |
 | P1-8 PyPI 发布 | 就绪 | wheel/sdist 构建与干净 venv 安装通过；发布待凭据 |
 
 本地检查：
@@ -65,6 +65,9 @@ python -m unittest discover -s tests -v
 ```
 
 阶段 1 的代码与文档门禁已满足；PyPI 发布仍待发布凭据。
+
+发布状态：`spec/v0.2.0` 标记十一组契约，`python/v0.2.0` 标记实现该契约的
+Python SDK。`0.1.0` 标签继续保留给已固定早期契约的使用方。
 
 ## 阶段 0 - 契约抽取
 

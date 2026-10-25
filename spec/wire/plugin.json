@@ -1,5 +1,5 @@
 {
-  "specVersion": "0.1.0",
+  "specVersion": "0.2.0",
   "kind": "plugin",
   "source": "pkg/plugin, pkg/plugin/host/process, pkg/plugin/host/wasm",
   "manifest": {

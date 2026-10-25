@@ -18,15 +18,23 @@
 - `python/praxo/adapters/openaicompat`: OpenAI-compatible adapter with
   non-streaming and SSE streaming paths.
 - `python/conformance/run.py` and the `python-conformance` CI job. The Python
-  SDK passes all nine conformance vector groups.
+  SDK passes all eleven conformance vector groups.
 - Python context management: `ContextBudget`, deterministic compaction,
   `ModelSummarizer`, offload hooks, and bounded `AGENTS.md` loading.
 - Python middleware: call limits, fallback model, PII redaction, structured
   output, and tool selection, integrated into the agent loop.
 - `spec/vectors/context.json`: token estimation, deterministic compaction,
   truncation, and fail-closed budget vectors for Go and Python.
-- `python/API.md`, `python/api-snapshot.py`, and `python/api/0.1.0.txt`.
+- `spec/vectors/middleware.json`: PII, structured output, call limits, tool
+  selection, and fallback vectors for Go and Python.
+- `python/API.md`, `python/api-snapshot.py`, and `python/api/0.2.0.txt`.
 - Python wheel and sdist build verified in a clean virtual environment.
+
+### Changed
+
+- The contract advances to `SPEC_VERSION` `0.2.0` with the context and
+  middleware vector groups.
+- The Python SDK advances to `0.2.0` and declares `SPEC_VERSION` `0.2.0`.
 
 ### Compatibility
 

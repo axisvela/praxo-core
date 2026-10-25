@@ -17,6 +17,7 @@ spec/vectors/
   checkpoint.json       implemented
   policy.json           implemented
   context.json          implemented
+  middleware.json       implemented
 ```
 
 Each file is one group. Files are added only after the Go runner passes them.
@@ -65,8 +66,8 @@ reviewed; if an SDK fails a vector that Go passes, the SDK has a parity bug.
 
 ## Status
 
-The Go and Python runners execute all ten groups; every group passes in both.
-No vector file is normative until it passes the Go runner.
+The Go and Python runners execute all eleven groups; every group passes in
+both. No vector file is normative until it passes the Go runner.
 
 Run locally:
 
