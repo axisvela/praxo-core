@@ -38,6 +38,10 @@
   non-streaming and SSE paths.
 - `typescript/api-snapshot.js`, `typescript/api/0.1.0.txt`, and the TypeScript
   parity check.
+- TypeScript `npm pack` and `npm publish --dry-run` verification. Publication
+  remains a release-credential step.
+- Decision D9: TypeScript keeps the dependency-free JSON Schema subset
+  validator instead of adopting Zod.
 
 ### Changed
 

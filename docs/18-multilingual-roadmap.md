@@ -84,15 +84,15 @@ consumers that pinned the earlier contract.
 | --- | --- | --- |
 | P2-1 package and build | done | `typescript/`, `package.json`, `tsconfig.json` |
 | P2-2 async loop, streaming, cancellation | done | async loop, `onDelta`, `AbortSignal` |
-| P2-3 schema validation | partial | dependency-free subset validator; Zod not adopted |
+| P2-3 schema validation | done | dependency-free subset validator; Zod not adopted (D9) |
 | P2-4 core loop, middleware, memory, checkpoint, policy, events | done | `typescript/src`, `node --test` |
 | P2-5 OpenAI-compatible adapter | done | `typescript/src/adapters/openaicompat.ts`, fake HTTP/SSE tests |
 | P2-6 conformance runner and parity | done | `typescript/src/conformance/`, CI job `typescript-conformance` |
-| P2-7 npm release | planned | build verified; publication pending |
+| P2-7 npm release | ready | `npm pack` and `npm publish --dry-run` verified; publication pending credentials |
 
-The TypeScript SDK passes all eleven vector groups and its parity check. Phase
-2 is not complete until the schema-validation decision, npm publication, and the
-optional VFS/plugin work are done.
+The TypeScript SDK passes all eleven vector groups and its parity check. M2's
+code and documentation gates are met; npm publication remains a
+release-credential step. VFS and plugin hosts remain optional follow-up work.
 
 ## Phase 0 - Contract Extraction
 
@@ -257,6 +257,7 @@ materially across languages.
 | D6 | No cross-SDK runtime dependency or FFI | accepted |
 | D7 | WASM plugin hosts are last | accepted |
 | D8 | Browser support for TypeScript is documented, not promised | accepted |
+| D9 | TypeScript uses the dependency-free JSON Schema subset validator; Zod is not adopted | accepted |
 
 Open decisions:
 

@@ -76,14 +76,14 @@ python -m unittest discover -s tests -v
 | --- | --- | --- |
 | P2-1 包与构建 | 完成 | `typescript/`、`package.json`、`tsconfig.json` |
 | P2-2 异步循环、流式、取消 | 完成 | 异步循环、`onDelta`、`AbortSignal` |
-| P2-3 schema 校验 | 部分完成 | 无依赖子集校验器；未采用 Zod |
+| P2-3 schema 校验 | 完成 | 无依赖子集校验器；未采用 Zod（D9） |
 | P2-4 核心循环、中间件、记忆、检查点、策略、事件 | 完成 | `typescript/src`、`node --test` |
 | P2-5 OpenAI 兼容适配器 | 完成 | `typescript/src/adapters/openaicompat.ts`、假 HTTP/SSE 测试 |
 | P2-6 一致性 runner 与 parity | 完成 | `typescript/src/conformance/`、CI 任务 `typescript-conformance` |
-| P2-7 npm 发布 | 计划中 | 构建已验证；发布待完成 |
+| P2-7 npm 发布 | 就绪 | `npm pack` 与 `npm publish --dry-run` 已验证；发布待凭据 |
 
-TypeScript SDK 已通过全部十一组向量与 parity 检查。阶段 2 尚未完成：
-schema 校验方案决策、npm 发布，以及可选的 VFS/插件工作。
+TypeScript SDK 已通过全部十一组向量与 parity 检查。阶段 2 的代码与文档门禁
+已满足；npm 发布仍待发布凭据。VFS 与插件宿主属于可选后续工作。
 
 ## 阶段 0 - 契约抽取
 
@@ -244,6 +244,7 @@ schema 校验方案决策、npm 发布，以及可选的 VFS/插件工作。
 | D6 | 无跨 SDK 运行时依赖或 FFI | 已接受 |
 | D7 | WASM 插件宿主最后做 | 已接受 |
 | D8 | TypeScript 浏览器支持只记录，不承诺 | 已接受 |
+| D9 | TypeScript 使用无依赖 JSON Schema 子集校验器；不采用 Zod | 已接受 |
 
 待定事项：
 
