@@ -52,6 +52,11 @@ GOWORK=off go build ./...
 cd python; python conformance/run.py
 cd python; python api-snapshot.py --check
 cd python; python -m unittest discover -s tests -v
+cd typescript; npm ci
+cd typescript; npm run build
+cd typescript; npm run api:check
+cd typescript; npm run conformance
+cd typescript; node --test tests/sdk.test.js tests/openaicompat.test.js
 ```
 
 ## Compatibility

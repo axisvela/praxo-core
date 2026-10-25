@@ -66,8 +66,24 @@ python -m unittest discover -s tests -v
 
 阶段 1 的代码与文档门禁已满足；PyPI 发布仍待发布凭据。
 
-发布状态：`spec/v0.2.0` 标记十一组契约，`python/v0.2.0` 标记实现该契约的
-Python SDK。`0.1.0` 标签继续保留给已固定早期契约的使用方。
+发布状态：`spec/v0.2.0` 标记十一组契约，`python/v0.2.0` 标记 Python SDK，
+`typescript/v0.1.0` 标记实现该契约的 TypeScript 核心。`0.1.0` 标签继续保留
+给已固定早期契约的使用方。
+
+### 阶段 2 进度（2026-10-25）
+
+| 项目 | 状态 | 证据 |
+| --- | --- | --- |
+| P2-1 包与构建 | 完成 | `typescript/`、`package.json`、`tsconfig.json` |
+| P2-2 异步循环、流式、取消 | 完成 | 异步循环、`onDelta`、`AbortSignal` |
+| P2-3 schema 校验 | 部分完成 | 无依赖子集校验器；未采用 Zod |
+| P2-4 核心循环、中间件、记忆、检查点、策略、事件 | 完成 | `typescript/src`、`node --test` |
+| P2-5 OpenAI 兼容适配器 | 完成 | `typescript/src/adapters/openaicompat.ts`、假 HTTP/SSE 测试 |
+| P2-6 一致性 runner 与 parity | 完成 | `typescript/src/conformance/`、CI 任务 `typescript-conformance` |
+| P2-7 npm 发布 | 计划中 | 构建已验证；发布待完成 |
+
+TypeScript SDK 已通过全部十一组向量与 parity 检查。阶段 2 尚未完成：
+schema 校验方案决策、npm 发布，以及可选的 VFS/插件工作。
 
 ## 阶段 0 - 契约抽取
 

@@ -29,6 +29,15 @@
   selection, and fallback vectors for Go and Python.
 - `python/API.md`, `python/api-snapshot.py`, and `python/api/0.2.0.txt`.
 - Python wheel and sdist build verified in a clean virtual environment.
+- `typescript/`: TypeScript SDK core for model, tool, event, policy, memory,
+  checkpoint, context, middleware, streaming, and the agent loop.
+- `typescript/src/conformance/run.ts` and the `typescript-conformance` CI job.
+  The TypeScript SDK passes all eleven conformance vector groups.
+- TypeScript package build, `node:test` smoke coverage, and npm lockfile.
+- TypeScript `AbortSignal` cancellation and OpenAI-compatible adapter with
+  non-streaming and SSE paths.
+- `typescript/api-snapshot.js`, `typescript/api/0.1.0.txt`, and the TypeScript
+  parity check.
 
 ### Changed
 

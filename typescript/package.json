@@ -1,0 +1,29 @@
+{
+  "name": "@axisvela/praxo-core",
+  "version": "0.1.0",
+  "description": "TypeScript SDK for the PRAXO-CORE agent contract",
+  "license": "MIT",
+  "type": "commonjs",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "clean": "node -e \"require('fs').rmSync('dist',{recursive:true,force:true})\"",
+    "api": "node api-snapshot.js",
+    "api:check": "node api-snapshot.js --check",
+    "conformance": "node dist/conformance/run.js",
+    "test": "npm run build && npm run conformance && node --test tests/sdk.test.js tests/openaicompat.test.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "typescript": "^5.7.0"
+  }
+}

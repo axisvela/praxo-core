@@ -73,9 +73,26 @@ python -m unittest discover -s tests -v
 Phase 1's code and documentation gates are met. PyPI publication remains a
 release-credential step.
 
-Release state: `spec/v0.2.0` tags the eleven-group contract and
-`python/v0.2.0` tags the Python SDK implementing it. The `0.1.0` tags remain
-available for consumers that pinned the earlier contract.
+Release state: `spec/v0.2.0` tags the eleven-group contract,
+`python/v0.2.0` tags the Python SDK, and `typescript/v0.1.0` tags the
+TypeScript core implementing it. The `0.1.0` tags remain available for
+consumers that pinned the earlier contract.
+
+### Phase 2 Progress (2026-10-25)
+
+| Item | Status | Evidence |
+| --- | --- | --- |
+| P2-1 package and build | done | `typescript/`, `package.json`, `tsconfig.json` |
+| P2-2 async loop, streaming, cancellation | done | async loop, `onDelta`, `AbortSignal` |
+| P2-3 schema validation | partial | dependency-free subset validator; Zod not adopted |
+| P2-4 core loop, middleware, memory, checkpoint, policy, events | done | `typescript/src`, `node --test` |
+| P2-5 OpenAI-compatible adapter | done | `typescript/src/adapters/openaicompat.ts`, fake HTTP/SSE tests |
+| P2-6 conformance runner and parity | done | `typescript/src/conformance/`, CI job `typescript-conformance` |
+| P2-7 npm release | planned | build verified; publication pending |
+
+The TypeScript SDK passes all eleven vector groups and its parity check. Phase
+2 is not complete until the schema-validation decision, npm publication, and the
+optional VFS/plugin work are done.
 
 ## Phase 0 - Contract Extraction
 

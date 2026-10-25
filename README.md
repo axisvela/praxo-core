@@ -76,8 +76,9 @@ code. See [AxisVela ecosystem integration](docs/12-ecosystem.md), the
 Go remains the reference implementation. Python, TypeScript, and Java SDKs share
 one language-neutral contract in [`spec/`](spec/README.md): identical wire
 shapes, one conformance suite, and one-to-one idiomatic APIs. The
-[Python SDK](python/README.md) core, streaming path, and OpenAI-compatible
-adapter are available; it passes all nine vector groups. See the
+[Python SDK](python/README.md) and [TypeScript SDK](typescript/README.md) core
+implementations pass all eleven vector groups; both include streaming and an
+OpenAI-compatible adapter. See the
 [design](docs/17-multilingual-sdk.md) and
 [roadmap](docs/18-multilingual-roadmap.md).
 
