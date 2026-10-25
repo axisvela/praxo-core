@@ -109,6 +109,17 @@ jobs:
       - run: java --add-modules jdk.httpserver -cp target/classes:target/test-classes io.axisvela.praxo.adapters.OpenAICompatibleSelfTest
       - run: java -cp target/classes:target/test-classes io.axisvela.praxo.agent.AgentConcurrencySelfTest
 
+  c-conformance:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: c
+    steps:
+      - uses: actions/checkout@v4
+      - run: cmake -S . -B build
+      - run: cmake --build build
+      - run: ctest --test-dir build --output-on-failure
+
   bridge:
     runs-on: ubuntu-latest
     env:

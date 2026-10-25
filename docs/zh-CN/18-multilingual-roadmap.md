@@ -69,7 +69,8 @@ python -m unittest discover -s tests -v
 发布状态：`spec/v0.2.0` 标记十一组契约，`python/v0.2.0` 标记 Python SDK，
 `typescript/v0.1.0` 标记 TypeScript 核心，`java/v0.2.1` 标记 Java 核心，
 `rust/v0.1.0` 标记 Rust 核心，`shell/v0.1.0` 与 `powershell/v0.1.0` 标记桥接
-包装。`0.1.0` 标签继续保留给已固定早期契约的使用方。
+包装，`c/v0.1.0` 标记 C 一致性核心。`0.1.0` 标签继续保留给已固定早期契约的
+使用方。
 
 ### 阶段 2 进度（2026-10-25）
 
@@ -109,8 +110,8 @@ Java SDK 已通过全部十一组向量、API 快照/parity 检查及适配器/�
 | Rust 核心 | 完成 | `rust/`、11 组向量、`cargo test` |
 | Rust OpenAI 适配器 | 计划中 | 未实现 |
 | Rust API 快照/parity | 计划中 | 未实现 |
-| C 核心 | 计划中 | 未实现 |
-| C API 快照/parity | 计划中 | 未实现 |
+| C 核心 | 完成 | `c/`、11 组向量、`ctest`、`c/v0.1.0` |
+| C API 快照/parity | 部分完成 | wire 级 parity 与 linter；惯用 Agent API 待补 |
 
 Rust SDK 已通过全部十一组向量及 7 个单元测试。C 是下一个实现；两者都使用
 共享向量与 wire 契约。长尾语言分层见

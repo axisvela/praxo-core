@@ -70,6 +70,7 @@ cd rust; cargo test
 cd rust; cargo run --quiet --bin conformance
 go test ./internal/bridge ./cmd/praxo-bridge
 go run ./cmd/praxo-bridge version
+cd c; cmake -S . -B build; cmake --build build; ctest --test-dir build --output-on-failure
 ```
 
 ## Compatibility

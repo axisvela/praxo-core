@@ -24,7 +24,7 @@ scope. A language may ship more than one tier over time.
 | TypeScript | Core | released | `typescript/v0.1.0` | 11 vectors, OpenAI adapter |
 | Java | Core | released | `java/v0.2.1` | 11 vectors, OpenAI adapter, API snapshot |
 | Rust | Core | released | `rust/v0.1.0` | 11 vectors, 7 tests |
-| C | Core | planned | `c/v0.1.0` | Local C compiler blocked; CI pending |
+| C | Core | released | `c/v0.1.0` | All 11 vectors; public API is wire-level |
 | C# | Core (.NET) | planned | `csharp/v0.1.0` | Next native SDK; .NET SDK pending |
 | Visual Basic | Sample (.NET) | planned | none | Ships with the .NET package |
 | PowerShell | Bridge | released | `powershell/v0.1.0` | Wraps the bridge CLI |
@@ -46,8 +46,9 @@ scope. A language may ship more than one tier over time.
 | TypeScript | `typescript-conformance` | build, vectors, parity, API snapshot, node:test |
 | Java | `java-conformance` | Maven build, vectors, API snapshot, self-tests |
 | Rust | `rust-conformance` | cargo test, vectors |
+| C | `c-conformance` | CMake build, vectors, C core tests |
 | Shell / PowerShell | `bridge` | bridge tests, both wrappers |
-| C, C#, PHP, Swift, Julia, R, Haskell, Fortran, Lisp | none yet | pending toolchain or implementation |
+| C#, PHP, Swift, Julia, R, Haskell, Fortran, Lisp | none yet | pending toolchain or implementation |
 
 ## Required Gates per Tier
 

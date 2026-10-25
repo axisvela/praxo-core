@@ -66,6 +66,9 @@
   streaming, with unit tests.
 - Shell and PowerShell bridge wrappers with a CI smoke job, tagged
   `shell/v0.1.0` and `powershell/v0.1.0`.
+- `c/`: C11 conformance core with JSON, toolcall, JSON Schema, plugin,
+  memory, event, checkpoint, policy, context, middleware, and agent vectors.
+  Tagged `c/v0.1.0`; the public API is wire-level.
 - Split per-language parity inventories under `spec/parity/` with a structural
   linter.
 

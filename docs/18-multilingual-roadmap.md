@@ -76,8 +76,9 @@ release-credential step.
 Release state: `spec/v0.2.0` tags the eleven-group contract,
 `python/v0.2.0` tags the Python SDK, `typescript/v0.1.0` tags the TypeScript
 core, `java/v0.2.1` tags the Java core, `rust/v0.1.0` tags the Rust core implementing
-it, and `shell/v0.1.0` / `powershell/v0.1.0` tag the bridge wrappers. The
-`0.1.0` tags remain available for consumers that pinned the earlier contract.
+it, `shell/v0.1.0` / `powershell/v0.1.0` tag the bridge wrappers, and
+`c/v0.1.0` tags the C conformance core. The `0.1.0` tags remain available for
+consumers that pinned the earlier contract.
 
 ### Phase 2 Progress (2026-10-25)
 
@@ -119,8 +120,8 @@ Maven Central release is done.
 | Rust core | done | `rust/`, 11 vector groups, `cargo test` |
 | Rust OpenAI adapter | planned | not implemented |
 | Rust API snapshot/parity | planned | not implemented |
-| C core | planned | not implemented |
-| C API snapshot/parity | planned | not implemented |
+| C core | done | `c/`, 11 vectors, `ctest`, tagged `c/v0.1.0` |
+| C API snapshot/parity | partial | wire-level parity and parity linter; idiomatic agent API pending |
 
 The Rust SDK passes all eleven vector groups and its seven unit tests. C is the
 next implementation; both SDKs will use the shared vectors and wire contract.
