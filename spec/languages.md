@@ -37,6 +37,18 @@ scope. A language may ship more than one tier over time.
 | Fortran | Bridge | consumer-gated | `fortran/v0.1.0` | Requires a named consumer |
 | Lisp | Bridge | consumer-gated | `lisp/v0.1.0` | Requires a named consumer |
 
+## CI Coverage
+
+| Language | CI job | Scope |
+| --- | --- | --- |
+| Go | `test` | matrix OS, test/vet/build |
+| Python | `python-conformance` | vectors, parity, API snapshot, unittest |
+| TypeScript | `typescript-conformance` | build, vectors, parity, API snapshot, node:test |
+| Java | `java-conformance` | Maven build, vectors, API snapshot, self-tests |
+| Rust | `rust-conformance` | cargo test, vectors |
+| Shell / PowerShell | `bridge` | bridge tests, both wrappers |
+| C, C#, PHP, Swift, Julia, R, Haskell, Fortran, Lisp | none yet | pending toolchain or implementation |
+
 ## Required Gates per Tier
 
 ### Core
