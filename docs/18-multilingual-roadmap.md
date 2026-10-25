@@ -75,9 +75,9 @@ release-credential step.
 
 Release state: `spec/v0.2.0` tags the eleven-group contract,
 `python/v0.2.0` tags the Python SDK, `typescript/v0.1.0` tags the TypeScript
-core, `java/v0.2.1` tags the Java core, and `rust/v0.1.0` tags the Rust core
-implementing it. The `0.1.0` tags remain available for consumers that pinned the
-earlier contract.
+core, `java/v0.2.1` tags the Java core, `rust/v0.1.0` tags the Rust core implementing
+it, and `shell/v0.1.0` / `powershell/v0.1.0` tag the bridge wrappers. The
+`0.1.0` tags remain available for consumers that pinned the earlier contract.
 
 ### Phase 2 Progress (2026-10-25)
 

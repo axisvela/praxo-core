@@ -64,7 +64,8 @@
 - `spec/bridge.md` and `cmd/praxo-bridge`: process bridge for toolcall,
   JSON Schema, plugin validation, version, tool listing, run, and event
   streaming, with unit tests.
-- Shell and PowerShell bridge wrappers with a CI smoke job.
+- Shell and PowerShell bridge wrappers with a CI smoke job, tagged
+  `shell/v0.1.0` and `powershell/v0.1.0`.
 
 ### Changed
 

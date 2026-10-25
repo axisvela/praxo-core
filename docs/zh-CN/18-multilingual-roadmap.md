@@ -68,7 +68,8 @@ python -m unittest discover -s tests -v
 
 发布状态：`spec/v0.2.0` 标记十一组契约，`python/v0.2.0` 标记 Python SDK，
 `typescript/v0.1.0` 标记 TypeScript 核心，`java/v0.2.1` 标记 Java 核心，
-`rust/v0.1.0` 标记 Rust 核心。`0.1.0` 标签继续保留给已固定早期契约的使用方。
+`rust/v0.1.0` 标记 Rust 核心，`shell/v0.1.0` 与 `powershell/v0.1.0` 标记桥接
+包装。`0.1.0` 标签继续保留给已固定早期契约的使用方。
 
 ### 阶段 2 进度（2026-10-25）
 
