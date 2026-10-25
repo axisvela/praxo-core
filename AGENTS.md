@@ -63,6 +63,8 @@ cd java; java -cp target/classes io.axisvela.praxo.conformance.ApiSnapshot --che
 cd java; java -cp target/classes io.axisvela.praxo.conformance.Run
 cd java; java --add-modules jdk.httpserver -cp target/classes:target/test-classes io.axisvela.praxo.adapters.OpenAICompatibleSelfTest
 cd java; java -cp target/classes:target/test-classes io.axisvela.praxo.agent.AgentConcurrencySelfTest
+cd rust; cargo test
+cd rust; cargo run --quiet --bin conformance
 ```
 
 ## Compatibility

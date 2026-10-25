@@ -111,6 +111,19 @@ The Java SDK passes all eleven vector groups, its API snapshot/parity check,
 and the adapter/concurrency self-tests. Phase 3 is not complete until the
 Maven Central release is done.
 
+### Rust and C SDKs (2026-10-25)
+
+| Item | Status | Evidence |
+| --- | --- | --- |
+| Rust core | done | `rust/`, 11 vector groups, `cargo test` |
+| Rust OpenAI adapter | planned | not implemented |
+| Rust API snapshot/parity | planned | not implemented |
+| C core | planned | not implemented |
+| C API snapshot/parity | planned | not implemented |
+
+The Rust SDK passes all eleven vector groups and its seven unit tests. C is the
+next implementation; both SDKs will use the shared vectors and wire contract.
+
 ## Phase 0 - Contract Extraction
 
 **Goal:** make "same contract" machine-checkable without changing Go behavior.

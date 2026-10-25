@@ -1,0 +1,16 @@
+[package]
+name = "praxo-core"
+version = "0.1.0"
+edition = "2021"
+license = "MIT"
+description = "Rust SDK for the PRAXO-CORE agent contract"
+repository = "https://github.com/axisvela/praxo-core"
+
+[dependencies]
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+regex = "1"
+
+[[bin]]
+name = "conformance"
+path = "src/bin/conformance.rs"

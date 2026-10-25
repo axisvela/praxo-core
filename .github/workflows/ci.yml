@@ -109,6 +109,17 @@ jobs:
       - run: java --add-modules jdk.httpserver -cp target/classes:target/test-classes io.axisvela.praxo.adapters.OpenAICompatibleSelfTest
       - run: java -cp target/classes:target/test-classes io.axisvela.praxo.agent.AgentConcurrencySelfTest
 
+  rust-conformance:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: rust
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - run: cargo test
+      - run: cargo run --quiet --bin conformance
+
   examples:
     runs-on: ubuntu-latest
     env:

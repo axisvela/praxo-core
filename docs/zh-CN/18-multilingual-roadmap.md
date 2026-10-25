@@ -101,6 +101,19 @@ TypeScript SDK 已通过全部十一组向量与 parity 检查。阶段 2 的代
 Java SDK 已通过全部十一组向量、API 快照/parity 检查及适配器/并发自测。
 阶段 3 尚未完成：Maven Central 发布。
 
+### Rust 与 C SDK（2026-10-25）
+
+| 项目 | 状态 | 证据 |
+| --- | --- | --- |
+| Rust 核心 | 完成 | `rust/`、11 组向量、`cargo test` |
+| Rust OpenAI 适配器 | 计划中 | 未实现 |
+| Rust API 快照/parity | 计划中 | 未实现 |
+| C 核心 | 计划中 | 未实现 |
+| C API 快照/parity | 计划中 | 未实现 |
+
+Rust SDK 已通过全部十一组向量及 7 个单元测试。C 是下一个实现；两者都使用
+共享向量与 wire 契约。
+
 ## 阶段 0 - 契约抽取
 
 **目标：**在不改变 Go 行为的前提下，让“同一份契约”可被机器检查。

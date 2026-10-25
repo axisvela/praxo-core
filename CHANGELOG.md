@@ -53,6 +53,10 @@
   adapter and concurrency self-tests.
 - Java API snapshot (`java/api/0.2.0.txt`), `ApiSnapshot --check`, and the
   Java parity checker.
+- `rust/`: Rust SDK core for model, tool, event, policy, memory, checkpoint,
+  context, middleware, streaming types, and the agent loop.
+- `rust/src/bin/conformance.rs`, the `rust-conformance` CI job, and seven
+  Rust unit tests. The Rust SDK passes all eleven conformance vector groups.
 
 ### Changed
 
