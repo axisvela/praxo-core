@@ -67,8 +67,8 @@ python -m unittest discover -s tests -v
 阶段 1 的代码与文档门禁已满足；PyPI 发布仍待发布凭据。
 
 发布状态：`spec/v0.2.0` 标记十一组契约，`python/v0.2.0` 标记 Python SDK，
-`typescript/v0.1.0` 标记实现该契约的 TypeScript 核心。`0.1.0` 标签继续保留
-给已固定早期契约的使用方。
+`typescript/v0.1.0` 标记 TypeScript 核心，`java/v0.2.0` 标记 Java 核心。
+`0.1.0` 标签继续保留给已固定早期契约的使用方。
 
 ### 阶段 2 进度（2026-10-25）
 
@@ -90,15 +90,15 @@ TypeScript SDK 已通过全部十一组向量与 parity 检查。阶段 2 的代
 | 项目 | 状态 | 证据 |
 | --- | --- | --- |
 | P3-1 Java 模块与包 | 完成 | `java/`、`pom.xml`、record 类型 |
-| P3-2 虚拟线程执行与取消 | 部分完成 | 同步 Agent；虚拟线程与取消待补 |
+| P3-2 虚拟线程执行与取消 | 完成 | 虚拟线程执行器、`CancellationToken`、并发自测 |
 | P3-3 JSON 编解码 | 完成 | 无依赖 `util/Json.java`；未采用 Jackson（D10） |
 | P3-4 核心循环、中间件、记忆、检查点、策略、事件 | 完成 | `java/src`、`javac` + `jrun` 一致性运行 |
-| P3-5 OpenAI 兼容适配器 | 计划中 | 未实现 |
+| P3-5 OpenAI 兼容适配器 | 完成 | `java/.../adapters`、本地 HTTP/SSE 自测 |
 | P3-6 一致性 runner | 完成 | `java/.../conformance/Run.java`、CI 任务 `java-conformance` |
 | P3-7 Maven Central 发布 | 计划中 | CI 执行 Maven 构建；发布待完成 |
 
-Java SDK 已通过全部十一组向量。阶段 3 尚未完成：OpenAI 适配器、
-虚拟线程/取消、API 快照/parity 检查与 Maven Central 发布。
+Java SDK 已通过全部十一组向量及适配器/并发自测。阶段 3 尚未完成：
+API 快照/parity 检查与 Maven Central 发布。
 
 ## 阶段 0 - 契约抽取
 

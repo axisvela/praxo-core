@@ -48,12 +48,17 @@
   SDK passes all eleven conformance vector groups.
 - Decision D10: Java keeps the dependency-free JSON utility instead of adopting
   Jackson.
+- Java virtual-thread model/tool execution and `CancellationToken` cancellation.
+- Java OpenAI-compatible adapter with non-streaming and SSE paths, plus local
+  adapter and concurrency self-tests.
 
 ### Changed
 
 - The contract advances to `SPEC_VERSION` `0.2.0` with the context and
   middleware vector groups.
 - The Python SDK advances to `0.2.0` and declares `SPEC_VERSION` `0.2.0`.
+- The Java SDK advances to `0.2.0` with the OpenAI adapter, virtual-thread
+  execution, and cancellation.
 
 ### Compatibility
 

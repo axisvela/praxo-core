@@ -8,6 +8,10 @@ public class PraxoException extends RuntimeException {
         this.code = code;
     }
 
+    public static PraxoException aborted() {
+        return new PraxoException("AGENT_ABORTED", "agent: aborted");
+    }
+
     public static PraxoException maxSteps() {
         return new PraxoException("AGENT_MAX_STEPS", "agent: max steps exceeded");
     }

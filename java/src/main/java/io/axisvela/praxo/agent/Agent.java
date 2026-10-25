@@ -34,6 +34,13 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 public final class Agent {
     private final AgentOptions options;
@@ -87,6 +94,7 @@ public final class Agent {
         beforeRun(new RunState(runId, session, prompt));
         emit(new Event("run.started", session.id, runId, null, null));
         boolean afterRunInvoked = false;
+        ExecutorService executor = Executors.newVirtualThreadPerTaskExecutor();
         try {
             for (int step = 1; step <= maxSteps; step++) {
                 authorize(Action.of("model.generate", session.id));
@@ -104,7 +112,7 @@ public final class Agent {
                     }
                     response = call.response;
                 } else {
-                    response = generate(call.request);
+                    response = generate(call.request, executor);
                 }
                 afterModel(call, response);
                 usage = usage.plus(response.usage());
@@ -122,7 +130,8 @@ public final class Agent {
                     return result;
                 }
                 for (ToolCall toolCall : response.message().toolCalls()) {
-                    messages.add(invokeTool(toolCall, runId, session.id));
+                    messages.add(invokeTool(
+                            toolCall, runId, session.id, executor));
                 }
             }
             throw PraxoException.maxSteps();
@@ -142,6 +151,42 @@ public final class Agent {
                 // event sinks must not mask the run error
             }
             throw error;
+        } finally {
+            executor.close();
+        }
+    }
+
+    private <T> T runCall(ExecutorService executor, Callable<T> task)
+            throws Exception {
+        CancellationToken token = options.cancellation;
+        if (token != null && token.isCancelled()) {
+            throw PraxoException.aborted();
+        }
+        Future<T> future = executor.submit(task);
+        try {
+            while (true) {
+                try {
+                    return future.get(10, TimeUnit.MILLISECONDS);
+                } catch (TimeoutException ignored) {
+                    if (token != null && token.isCancelled()) {
+                        future.cancel(true);
+                        throw PraxoException.aborted();
+                    }
+                }
+            }
+        } catch (InterruptedException error) {
+            future.cancel(true);
+            Thread.currentThread().interrupt();
+            throw PraxoException.aborted();
+        } catch (ExecutionException error) {
+            Throwable cause = error.getCause();
+            if (cause instanceof Exception exception) {
+                throw exception;
+            }
+            if (cause instanceof Error fatal) {
+                throw fatal;
+            }
+            throw new RuntimeException(cause);
         }
     }
 
@@ -185,7 +230,8 @@ public final class Agent {
                 || options.allowedTools.contains(name);
     }
 
-    private Response generate(Request request) throws Exception {
+    private Response generate(Request request, ExecutorService executor)
+            throws Exception {
         Middleware.ModelHandler base = req -> {
             if (options.onDelta != null
                     && options.model instanceof StreamingModel streaming) {
@@ -197,11 +243,13 @@ public final class Agent {
         for (int index = modelMiddleware.size() - 1; index >= 0; index--) {
             handler = modelMiddleware.get(index).apply(handler);
         }
-        return handler.handle(request);
+        Middleware.ModelHandler finalHandler = handler;
+        return runCall(executor, () -> finalHandler.handle(request));
     }
 
-    private Message invokeTool(ToolCall call, String runId, String sessionId)
-            throws Exception {
+    private Message invokeTool(
+            ToolCall call, String runId, String sessionId,
+            ExecutorService executor) throws Exception {
         if (!toolAllowed(call.name())) {
             throw new IllegalArgumentException(
                     "agent: tool " + call.name() + " is not allowed");
@@ -227,7 +275,8 @@ public final class Agent {
             data.put("arguments", active.arguments());
             emit(new Event("tool.call", sessionId, runId, data, null));
             try {
-                value = tool.invoke(active.arguments());
+                value = runCall(executor,
+                        () -> tool.invoke(active.arguments()));
                 error = null;
             } catch (Exception caught) {
                 value = null;

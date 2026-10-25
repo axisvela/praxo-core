@@ -43,6 +43,7 @@ public final class AgentOptions {
     public long maxTokens;
     public int maxParallelTools = 1;
     public Consumer<String> onDelta;
+    public CancellationToken cancellation;
 
     public AgentOptions(Model model) {
         this.model = model;

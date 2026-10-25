@@ -102,8 +102,11 @@ jobs:
           distribution: temurin
           java-version: "21"
           cache: maven
+      - run: mvn -q -DskipTests test-compile
       - run: mvn -q -DskipTests package
       - run: java -cp target/classes io.axisvela.praxo.conformance.Run
+      - run: java --add-modules jdk.httpserver -cp target/classes:target/test-classes io.axisvela.praxo.adapters.OpenAICompatibleSelfTest
+      - run: java -cp target/classes:target/test-classes io.axisvela.praxo.agent.AgentConcurrencySelfTest
 
   examples:
     runs-on: ubuntu-latest

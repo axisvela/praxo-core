@@ -4,10 +4,11 @@ Java implementation of the PRAXO-CORE contract. The normative contract is
 [`spec/`](../spec/README.md); Go remains the reference implementation.
 
 **Status:** M3 core. The package passes all eleven conformance vector groups.
-Context budgets, middleware, streaming, and the agent loop are included. The
-OpenAI-compatible adapter, VFS, and plugin hosts are not yet implemented.
+Context budgets, middleware, streaming, virtual-thread execution, cancellation,
+the OpenAI-compatible adapter, and the agent loop are included. VFS and plugin
+hosts are not yet implemented.
 
-Package version: `0.1.0`. Supported contract: `SPEC_VERSION` `0.2.0`
+Package version: `0.2.0`. Supported contract: `SPEC_VERSION` `0.2.0`
 (`io.axisvela.praxo.Version.SPEC_VERSION`).
 
 ## Requirements
@@ -19,8 +20,11 @@ Package version: `0.1.0`. Supported contract: `SPEC_VERSION` `0.2.0`
 
 ```bash
 cd java
+mvn -q -DskipTests test-compile
 mvn -q -DskipTests package
 java -cp target/classes io.axisvela.praxo.conformance.Run
+java --add-modules jdk.httpserver -cp target/classes:target/test-classes io.axisvela.praxo.adapters.OpenAICompatibleSelfTest
+java -cp target/classes:target/test-classes io.axisvela.praxo.agent.AgentConcurrencySelfTest
 ```
 
 ## Usage
@@ -60,10 +64,12 @@ System.out.println(result.output + " " + result.steps);
 | `io.axisvela.praxo.toolcall` | tool-call parsing and markup stripping |
 | `io.axisvela.praxo.jsonschema` | documented JSON Schema subset |
 | `io.axisvela.praxo.plugin` | Manifest v1 parsing and validation |
+| `io.axisvela.praxo.adapters` | OpenAI-compatible non-streaming and SSE adapter |
 
 Wire codecs preserve the Go names, including `image_url`, `runId`, and
 `plugin_id`. The Java SDK uses a dependency-free JSON utility (`util/Json.java`)
-with no runtime dependencies.
+with no runtime dependencies. Model and tool calls run on virtual threads with
+`CancellationToken`-based cancellation.
 
 ## Conformance
 
