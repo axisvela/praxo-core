@@ -57,6 +57,7 @@
   context, middleware, streaming types, and the agent loop.
 - `rust/src/bin/conformance.rs`, the `rust-conformance` CI job, and seven
   Rust unit tests. The Rust SDK passes all eleven conformance vector groups.
+- Rust SDK `0.1.0` source tag `rust/v0.1.0`.
 
 ### Changed
 
