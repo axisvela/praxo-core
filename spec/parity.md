@@ -1,5 +1,9 @@
 # Contract Parity Inventory
 
+Newer SDKs keep their inventories under `spec/parity/` (`rust.md`, `c.md`,
+`csharp.md`, `php.md`, `swift.md`, and the bridge files). This page remains the
+inventory for the original core languages.
+
 Every exported Go contract package and core symbol must have a row here and an
 implementation in each shipped SDK. The parity linter consumes this file and the
 `api/<version>.txt` snapshots.

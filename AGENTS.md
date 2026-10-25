@@ -37,7 +37,8 @@ this framework.
   SDK.
 - A wire change (JSON field, event, stream kind, plugin envelope, error code)
   must update `spec/` and is breaking for every SDK.
-- Add a `spec/parity.md` row for every new contract symbol.
+- Add a parity row for every new contract symbol: `spec/parity.md` for the
+  original core SDKs, `spec/parity/<language>.md` for newer SDKs.
 - An SDK change is done only when its conformance vectors and parity linter
   pass.
 - Keep every SDK MIT; review dependency licenses before adopting one.

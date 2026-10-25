@@ -1,6 +1,7 @@
 package spec
 
 import (
+	"os"
 	"path/filepath"
 	"regexp"
 	"strings"
@@ -184,4 +185,103 @@ func parseParityRows(t *testing.T, md string) []parityRow {
 		t.Fatal("no package rows found in spec/parity.md")
 	}
 	return out
+}
+
+func TestSplitParity(t *testing.T) {
+	root := repoRoot(t)
+	version := strings.TrimSpace(string(readFile(t, filepath.Join(root, "VERSION"))))
+	specVersion := strings.TrimSpace(string(readFile(t, filepath.Join(root, vectorDir, "SPEC_VERSION"))))
+	api := string(readFile(t, filepath.Join(root, "api", version+".txt")))
+	const prefix = "### github.com/axisvela/praxo-core/v2/"
+	packages := map[string]bool{}
+	for _, line := range strings.Split(api, "\n") {
+		line = strings.TrimSpace(line)
+		if strings.HasPrefix(line, prefix) {
+			pkg := strings.TrimPrefix(line, prefix)
+			if strings.HasPrefix(pkg, "pkg/") {
+				packages[pkg] = true
+			}
+		}
+	}
+
+	required := []string{
+		"rust", "c", "csharp", "swift", "php", "julia", "r", "haskell",
+		"vbnet", "fortran", "lisp", "bridge-shell", "bridge-powershell",
+	}
+	validTier := map[string]bool{
+		"core": true, "wire": true, "bridge": true, "sample": true,
+	}
+	validStatus := map[string]bool{
+		"planned": true, "partial": true, "parity": true, "n/a": true,
+	}
+	validPhase := map[string]bool{
+		"P1": true, "P2": true, "P3": true, "P4": true, "n/a": true,
+	}
+	for _, name := range required {
+		path := filepath.Join(root, "spec", "parity", name+".md")
+		data, err := os.ReadFile(path)
+		if err != nil {
+			t.Errorf("%s: %v", path, err)
+			continue
+		}
+		text := string(data)
+		tier := metaValue(text, "- Tier:")
+		if !validTier[tier] {
+			t.Errorf("%s: invalid tier %q", name, tier)
+		}
+		if got := metaValue(text, "- SPEC_VERSION:"); got != specVersion {
+			t.Errorf("%s: SPEC_VERSION %q, want %q", name, got, specVersion)
+		}
+		seen := map[string]bool{}
+		for _, line := range strings.Split(text, "\n") {
+			line = strings.TrimSpace(line)
+			if !strings.HasPrefix(line, "| `") || strings.HasPrefix(line, "| `pkg/") {
+				continue
+			}
+			cells := strings.Split(line, "|")
+			if len(cells) < 6 {
+				t.Errorf("%s: malformed row %s", name, line)
+				continue
+			}
+			goSymbol := strings.Trim(cells[1], " `")
+			languageSymbol := strings.Trim(cells[2], " `")
+			status := strings.TrimSpace(cells[3])
+			phase := strings.TrimSpace(cells[4])
+			if !validStatus[status] {
+				t.Errorf("%s: %s invalid status %q", name, goSymbol, status)
+			}
+			if !validPhase[phase] {
+				t.Errorf("%s: %s invalid phase %q", name, goSymbol, phase)
+			}
+			if status == "parity" && languageSymbol == "" {
+				t.Errorf("%s: %s parity row without language symbol", name, goSymbol)
+			}
+			if seen[goSymbol] {
+				t.Errorf("%s: duplicate symbol %s", name, goSymbol)
+			}
+			seen[goSymbol] = true
+			dot := strings.LastIndex(goSymbol, ".")
+			if dot < 0 {
+				t.Errorf("%s: %s is not a Go symbol", name, goSymbol)
+				continue
+			}
+			pkg := goSymbol[:dot]
+			if !strings.HasPrefix(pkg, "pkg/") {
+				pkg = "pkg/" + pkg
+			}
+			if !packages[pkg] {
+				t.Errorf("%s: %s is not in api/%s.txt", name, pkg, version)
+			}
+		}
+	}
+}
+
+func metaValue(text, prefix string) string {
+	for _, line := range strings.Split(text, "\n") {
+		line = strings.TrimSpace(line)
+		if strings.HasPrefix(line, prefix) {
+			return strings.TrimSpace(strings.TrimPrefix(line, prefix))
+		}
+	}
+	return ""
 }

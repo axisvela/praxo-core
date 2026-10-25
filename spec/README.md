@@ -14,7 +14,8 @@ spec/
   README.md           this file
   languages.md        language tiers, status, and tags
   bridge.md           process contract for shell and PowerShell bridges
-  parity.md           Go symbol -> SDK symbol inventory and linter input
+  parity.md           Go symbol -> core SDK symbol inventory
+  parity/             per-language inventories for newer SDKs
   wire/               JSON envelopes, events, errors, schema, plugin contract
   vectors/            language-neutral behavior fixtures
 ```

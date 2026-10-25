@@ -66,6 +66,8 @@
   streaming, with unit tests.
 - Shell and PowerShell bridge wrappers with a CI smoke job, tagged
   `shell/v0.1.0` and `powershell/v0.1.0`.
+- Split per-language parity inventories under `spec/parity/` with a structural
+  linter.
 
 ### Changed
 
