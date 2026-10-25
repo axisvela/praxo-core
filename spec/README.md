@@ -12,6 +12,8 @@ specification is normative; Go is used to discover and verify it.
 spec/
   SPEC_VERSION        contract version, independent of SDK versions
   README.md           this file
+  languages.md        language tiers, status, and tags
+  bridge.md           process contract for shell and PowerShell bridges
   parity.md           Go symbol -> SDK symbol inventory and linter input
   wire/               JSON envelopes, events, errors, schema, plugin contract
   vectors/            language-neutral behavior fixtures

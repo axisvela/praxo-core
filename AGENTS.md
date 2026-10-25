@@ -67,6 +67,8 @@ cd java; java --add-modules jdk.httpserver -cp target/classes:target/test-classe
 cd java; java -cp target/classes:target/test-classes io.axisvela.praxo.agent.AgentConcurrencySelfTest
 cd rust; cargo test
 cd rust; cargo run --quiet --bin conformance
+go test ./internal/bridge ./cmd/praxo-bridge
+go run ./cmd/praxo-bridge version
 ```
 
 ## Compatibility

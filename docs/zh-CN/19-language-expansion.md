@@ -4,6 +4,8 @@
 R、PHP、Swift、Fortran、Lisp、Julia 与 Haskell，不新增 SDK。C 与 Rust 的
 进度见[多语言路线图](18-multilingual-roadmap.md)。
 
+各语言的规范状态见 `spec/languages.md`。
+
 ## 结论
 
 不要手写十一个完整 Agent 循环。契约已经由五个实现验证：Go、Python、

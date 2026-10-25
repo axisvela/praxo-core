@@ -5,6 +5,8 @@ Visual Basic, R, PHP, Swift, Fortran, Lisp, Julia, and Haskell. It does not add
 new SDKs. C and Rust are tracked separately in
 [Multilingual roadmap](18-multilingual-roadmap.md).
 
+Canonical per-language status lives in `spec/languages.md`.
+
 ## Decision
 
 Do not hand-write eleven more full agent loops. The contract is already
