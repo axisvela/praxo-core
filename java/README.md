@@ -8,7 +8,7 @@ Context budgets, middleware, streaming, virtual-thread execution, cancellation,
 the OpenAI-compatible adapter, and the agent loop are included. VFS and plugin
 hosts are not yet implemented.
 
-Package version: `0.2.0`. Supported contract: `SPEC_VERSION` `0.2.0`
+Package version: `0.2.1`. Supported contract: `SPEC_VERSION` `0.2.0`
 (`io.axisvela.praxo.Version.SPEC_VERSION`).
 
 ## Requirements
@@ -22,6 +22,7 @@ Package version: `0.2.0`. Supported contract: `SPEC_VERSION` `0.2.0`
 cd java
 mvn -q -DskipTests test-compile
 mvn -q -DskipTests package
+java -cp target/classes io.axisvela.praxo.conformance.ApiSnapshot --check
 java -cp target/classes io.axisvela.praxo.conformance.Run
 java --add-modules jdk.httpserver -cp target/classes:target/test-classes io.axisvela.praxo.adapters.OpenAICompatibleSelfTest
 java -cp target/classes:target/test-classes io.axisvela.praxo.agent.AgentConcurrencySelfTest

@@ -51,6 +51,8 @@
 - Java virtual-thread model/tool execution and `CancellationToken` cancellation.
 - Java OpenAI-compatible adapter with non-streaming and SSE paths, plus local
   adapter and concurrency self-tests.
+- Java API snapshot (`java/api/0.2.0.txt`), `ApiSnapshot --check`, and the
+  Java parity checker.
 
 ### Changed
 
@@ -58,7 +60,8 @@
   middleware vector groups.
 - The Python SDK advances to `0.2.0` and declares `SPEC_VERSION` `0.2.0`.
 - The Java SDK advances to `0.2.0` with the OpenAI adapter, virtual-thread
-  execution, and cancellation.
+  execution, and cancellation, then to `0.2.1` with the API snapshot and
+  parity release tooling.
 
 ### Compatibility
 

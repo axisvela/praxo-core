@@ -59,6 +59,7 @@ cd typescript; npm run conformance
 cd typescript; node --test tests/sdk.test.js tests/openaicompat.test.js
 cd java; mvn -q -DskipTests test-compile
 cd java; mvn -q -DskipTests package
+cd java; java -cp target/classes io.axisvela.praxo.conformance.ApiSnapshot --check
 cd java; java -cp target/classes io.axisvela.praxo.conformance.Run
 cd java; java --add-modules jdk.httpserver -cp target/classes:target/test-classes io.axisvela.praxo.adapters.OpenAICompatibleSelfTest
 cd java; java -cp target/classes:target/test-classes io.axisvela.praxo.agent.AgentConcurrencySelfTest

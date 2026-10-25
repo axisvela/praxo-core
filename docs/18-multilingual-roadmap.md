@@ -75,7 +75,7 @@ release-credential step.
 
 Release state: `spec/v0.2.0` tags the eleven-group contract,
 `python/v0.2.0` tags the Python SDK, `typescript/v0.1.0` tags the TypeScript
-core, and `java/v0.2.0` tags the Java core implementing it. The `0.1.0` tags
+core, and `java/v0.2.1` tags the Java core implementing it. The `0.1.0` tags
 remain available for consumers that pinned the earlier contract.
 
 ### Phase 2 Progress (2026-10-25)
@@ -104,11 +104,12 @@ release-credential step. VFS and plugin hosts remain optional follow-up work.
 | P3-4 core loop, middleware, memory, checkpoint, policy, events | done | `java/src`, `javac` + `jrun` conformance |
 | P3-5 OpenAI-compatible adapter | done | `java/.../adapters`, local HTTP/SSE self-test |
 | P3-6 conformance runner | done | `java/.../conformance/Run.java`, CI job `java-conformance` |
+| P3-API API snapshot and parity | done | `java/api/0.2.0.txt`, `Parity.check()` |
 | P3-7 Maven Central release | planned | Maven build runs in CI; publication pending |
 
-The Java SDK passes all eleven vector groups and its adapter/concurrency
-self-tests. Phase 3 is not complete until the API snapshot/parity check and the
-Maven Central release are done.
+The Java SDK passes all eleven vector groups, its API snapshot/parity check,
+and the adapter/concurrency self-tests. Phase 3 is not complete until the
+Maven Central release is done.
 
 ## Phase 0 - Contract Extraction
 

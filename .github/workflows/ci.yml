@@ -104,6 +104,7 @@ jobs:
           cache: maven
       - run: mvn -q -DskipTests test-compile
       - run: mvn -q -DskipTests package
+      - run: java -cp target/classes io.axisvela.praxo.conformance.ApiSnapshot --check
       - run: java -cp target/classes io.axisvela.praxo.conformance.Run
       - run: java --add-modules jdk.httpserver -cp target/classes:target/test-classes io.axisvela.praxo.adapters.OpenAICompatibleSelfTest
       - run: java -cp target/classes:target/test-classes io.axisvela.praxo.agent.AgentConcurrencySelfTest

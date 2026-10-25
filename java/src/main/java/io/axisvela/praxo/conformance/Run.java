@@ -33,7 +33,8 @@ public final class Run {
     public static void main(String[] args) throws Exception {
         Path root = ConformanceUtil.repoRoot();
         List<String> failures = runAll(root);
-        if (failures.isEmpty()) {
+        List<String> parity = Parity.check();
+        if (failures.isEmpty() && parity.isEmpty()) {
             System.out.println(
                     "all spec vectors and Java parity checks passed");
             return;
@@ -41,7 +42,11 @@ public final class Run {
         for (String failure : failures) {
             System.out.println(failure);
         }
-        System.out.println(failures.size() + " vector(s) failed");
+        for (String failure : parity) {
+            System.out.println("parity: " + failure);
+        }
+        System.out.println(failures.size() + " vector(s) failed, "
+                + parity.size() + " parity gap(s)");
         System.exit(1);
     }
 
