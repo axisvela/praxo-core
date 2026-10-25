@@ -94,6 +94,22 @@ The TypeScript SDK passes all eleven vector groups and its parity check. M2's
 code and documentation gates are met; npm publication remains a
 release-credential step. VFS and plugin hosts remain optional follow-up work.
 
+### Phase 3 Progress (2026-10-25)
+
+| Item | Status | Evidence |
+| --- | --- | --- |
+| P3-1 Java module and packages | done | `java/`, `pom.xml`, records |
+| P3-2 virtual-thread execution and cancellation | partial | synchronous agent; virtual threads and cancellation planned |
+| P3-3 JSON codecs | done | dependency-free `util/Json.java`; Jackson not adopted (D10) |
+| P3-4 core loop, middleware, memory, checkpoint, policy, events | done | `java/src`, `javac` + `jrun` conformance |
+| P3-5 OpenAI-compatible adapter | planned | not implemented |
+| P3-6 conformance runner | done | `java/.../conformance/Run.java`, CI job `java-conformance` |
+| P3-7 Maven Central release | planned | Maven build runs in CI; publication pending |
+
+The Java SDK passes all eleven vector groups. Phase 3 is not complete until the
+OpenAI adapter, virtual-thread/cancellation behavior, an API snapshot/parity
+check, and the Maven Central release are done.
+
 ## Phase 0 - Contract Extraction
 
 **Goal:** make "same contract" machine-checkable without changing Go behavior.
@@ -258,6 +274,7 @@ materially across languages.
 | D7 | WASM plugin hosts are last | accepted |
 | D8 | Browser support for TypeScript is documented, not promised | accepted |
 | D9 | TypeScript uses the dependency-free JSON Schema subset validator; Zod is not adopted | accepted |
+| D10 | Java uses the dependency-free JSON utility; Jackson is not adopted | accepted |
 
 Open decisions:
 

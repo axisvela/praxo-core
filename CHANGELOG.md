@@ -42,6 +42,12 @@
   remains a release-credential step.
 - Decision D9: TypeScript keeps the dependency-free JSON Schema subset
   validator instead of adopting Zod.
+- `java/`: Java 21 SDK core for model, tool, event, policy, memory, checkpoint,
+  context, middleware, streaming, and the agent loop.
+- `java/.../conformance/Run.java` and the `java-conformance` CI job. The Java
+  SDK passes all eleven conformance vector groups.
+- Decision D10: Java keeps the dependency-free JSON utility instead of adopting
+  Jackson.
 
 ### Changed
 

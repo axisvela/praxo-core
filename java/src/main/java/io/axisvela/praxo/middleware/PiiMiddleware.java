@@ -1,0 +1,54 @@
+package io.axisvela.praxo.middleware;
+
+import io.axisvela.praxo.model.ContentBlock;
+import io.axisvela.praxo.model.Message;
+import io.axisvela.praxo.model.Request;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public final class PiiMiddleware implements Middleware {
+    private final PiiRedactor redactor;
+
+    public PiiMiddleware(PiiRedactor redactor) {
+        this.redactor = redactor;
+    }
+
+    @Override
+    public String name() {
+        return "pii";
+    }
+
+    @Override
+    public void beforeModel(ModelCall call) {
+        if (call.request == null) {
+            return;
+        }
+        List<Message> messages = new ArrayList<>();
+        for (Message message : call.request.messages()) {
+            List<ContentBlock> blocks = new ArrayList<>();
+            for (ContentBlock block : message.contentBlocks()) {
+                blocks.add(new ContentBlock(
+                        block.type(),
+                        redactor.redact(block.text()),
+                        block.imageUrl(),
+                        block.data()));
+            }
+            messages.add(new Message(
+                    message.role(),
+                    redactor.redact(message.content()),
+                    blocks,
+                    message.toolCalls(),
+                    message.toolId()));
+        }
+        call.request = new Request(
+                call.request.model(), messages, call.request.tools(),
+                call.request.toolChoice(), call.request.responseFormat(),
+                call.request.cacheHint(), call.request.temperature());
+    }
+
+    @Override
+    public void afterTool(MiddlewareToolCall call, ToolResult result) {
+        result.value = redactor.redactValue(result.value);
+    }
+}

@@ -85,6 +85,21 @@ python -m unittest discover -s tests -v
 TypeScript SDK 已通过全部十一组向量与 parity 检查。阶段 2 的代码与文档门禁
 已满足；npm 发布仍待发布凭据。VFS 与插件宿主属于可选后续工作。
 
+### 阶段 3 进度（2026-10-25）
+
+| 项目 | 状态 | 证据 |
+| --- | --- | --- |
+| P3-1 Java 模块与包 | 完成 | `java/`、`pom.xml`、record 类型 |
+| P3-2 虚拟线程执行与取消 | 部分完成 | 同步 Agent；虚拟线程与取消待补 |
+| P3-3 JSON 编解码 | 完成 | 无依赖 `util/Json.java`；未采用 Jackson（D10） |
+| P3-4 核心循环、中间件、记忆、检查点、策略、事件 | 完成 | `java/src`、`javac` + `jrun` 一致性运行 |
+| P3-5 OpenAI 兼容适配器 | 计划中 | 未实现 |
+| P3-6 一致性 runner | 完成 | `java/.../conformance/Run.java`、CI 任务 `java-conformance` |
+| P3-7 Maven Central 发布 | 计划中 | CI 执行 Maven 构建；发布待完成 |
+
+Java SDK 已通过全部十一组向量。阶段 3 尚未完成：OpenAI 适配器、
+虚拟线程/取消、API 快照/parity 检查与 Maven Central 发布。
+
 ## 阶段 0 - 契约抽取
 
 **目标：**在不改变 Go 行为的前提下，让“同一份契约”可被机器检查。
@@ -245,6 +260,7 @@ TypeScript SDK 已通过全部十一组向量与 parity 检查。阶段 2 的代
 | D7 | WASM 插件宿主最后做 | 已接受 |
 | D8 | TypeScript 浏览器支持只记录，不承诺 | 已接受 |
 | D9 | TypeScript 使用无依赖 JSON Schema 子集校验器；不采用 Zod | 已接受 |
+| D10 | Java 使用无依赖 JSON 工具；不采用 Jackson | 已接受 |
 
 待定事项：
 

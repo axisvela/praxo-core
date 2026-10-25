@@ -19,22 +19,22 @@ A released SDK must have no `planned` or `partial` row in its declared P1 scope.
 
 | Go package | Contract area | Python | TypeScript | Java | Phase |
 | --- | --- | --- | --- | --- | --- |
-| `pkg/model` | model, provider, messages, usage | partial | partial | planned | P1 |
-| `pkg/tool` | tool, registry, gateway, middleware, retry | partial | partial | planned | P1 |
-| `pkg/tool/jsonschema` | JSON Schema subset | partial | partial | planned | P1 |
-| `pkg/toolcall` | tool-call parsing | parity | parity | planned | P1 |
-| `pkg/agent` | agent loop and options | partial | partial | planned | P1 |
-| `pkg/agent/types` | run state, hooks, session | partial | partial | planned | P1 |
-| `pkg/agent/stream` | typed stream projections | parity | parity | planned | P1 |
-| `pkg/agent/context` | budget, compact, offload, AGENTS.md | parity | parity | planned | P1 |
-| `pkg/agent/middleware` | call limits, fallback, PII, structured output, tool selection, todos | partial | partial | planned | P1 |
+| `pkg/model` | model, provider, messages, usage | partial | partial | partial | P1 |
+| `pkg/tool` | tool, registry, gateway, middleware, retry | partial | partial | partial | P1 |
+| `pkg/tool/jsonschema` | JSON Schema subset | partial | partial | partial | P1 |
+| `pkg/toolcall` | tool-call parsing | parity | parity | parity | P1 |
+| `pkg/agent` | agent loop and options | partial | partial | partial | P1 |
+| `pkg/agent/types` | run state, hooks, session | partial | partial | partial | P1 |
+| `pkg/agent/stream` | typed stream projections | parity | parity | parity | P1 |
+| `pkg/agent/context` | budget, compact, offload, AGENTS.md | parity | parity | partial | P1 |
+| `pkg/agent/middleware` | call limits, fallback, PII, structured output, tool selection, todos | partial | partial | partial | P1 |
 | `pkg/agent/hitl` | interrupt decisions | planned | planned | planned | P2 |
 | `pkg/agent/evaluation` | rubric evaluation | planned | planned | planned | P2 |
 | `pkg/agent/delegation` | subagent manager | planned | planned | planned | P2 |
-| `pkg/event` | event envelope and sinks | partial | partial | planned | P1 |
-| `pkg/memory` | memory store and context assembler | partial | partial | planned | P1 |
-| `pkg/checkpoint` | checkpoint store and allowlist | partial | partial | planned | P1 |
-| `pkg/policy` | authorization and path containment | parity | parity | planned | P1 |
+| `pkg/event` | event envelope and sinks | partial | partial | partial | P1 |
+| `pkg/memory` | memory store and context assembler | partial | partial | partial | P1 |
+| `pkg/checkpoint` | checkpoint store and allowlist | partial | partial | partial | P1 |
+| `pkg/policy` | authorization and path containment | parity | parity | parity | P1 |
 | `pkg/prompt` | prompt templates | planned | planned | planned | P2 |
 | `pkg/flow` | runnable, chain, parallel | planned | planned | planned | P2 |
 | `pkg/retriever` | document retrieval contract | planned | planned | planned | P2 |
@@ -89,7 +89,7 @@ lands. Names in the SDK columns are required targets, not current symbols.
 | `agent.New` | function | `praxo.agent.Agent` | `Agent` | `Agent.create` | P1 |
 | `agent/types.Session` | struct | `praxo.agent.Session` | `Session` | `Session` | P1 |
 | `agent/types.Result` | struct | `praxo.agent.Result` | `Result` | `Result` | P1 |
-| `agent/stream.StreamPart` | struct | `praxo.stream.StreamPart` | `StreamPart` | `StreamPart` | P1 |
+| `agent/stream.StreamPart` | struct | `praxo.stream.StreamPart` | `StreamPart` | `Streams.StreamPart` | P1 |
 | `agent/types.Middleware` | struct | `praxo.middleware.Middleware` | `Middleware` | `Middleware` | P1 |
 | `agent/types.RunState` | struct | `praxo.middleware.RunState` | `RunState` | `RunState` | P1 |
 | `agent/types.ModelCall` | struct | `praxo.middleware.ModelCall` | `ModelCall` | `ModelCall` | P1 |

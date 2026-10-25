@@ -57,6 +57,8 @@ cd typescript; npm run build
 cd typescript; npm run api:check
 cd typescript; npm run conformance
 cd typescript; node --test tests/sdk.test.js tests/openaicompat.test.js
+cd java; mvn -q -DskipTests package
+cd java; java -cp target/classes io.axisvela.praxo.conformance.Run
 ```
 
 ## Compatibility
