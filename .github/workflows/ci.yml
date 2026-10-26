@@ -171,6 +171,14 @@ jobs:
       - run: swift run praxo-conformance
       - run: python3 api-snapshot.py --check
 
+  perl-conformance:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: perl perl/conformance/run.pl
+      - run: perl perl/api-snapshot.pl --check
+      - run: perl perl/tests/run.pl
+
   julia-conformance:
     runs-on: ubuntu-latest
     steps:

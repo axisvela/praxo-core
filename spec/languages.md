@@ -43,7 +43,7 @@ scope. A language may ship more than one tier over time.
 | Kotlin | Sample (JVM) | planned | none | Uses the Java SDK |
 | Scala | Sample (JVM) | planned | none | Uses the Java SDK |
 | MATLAB | Wire | planned | `matlab/v0.1.0` | Wire subset |
-| Perl | Core | planned | `perl/v0.1.0` | Core SDK planned |
+| Perl | Core | released | `perl/v0.1.0` | 11 vectors, 27 tests, API snapshot |
 | Delphi | Wire / Bridge | planned | `delphi/v0.1.0` | Consumer-gated |
 | OCaml / Caml | Wire | planned | `ocaml/v0.1.0` | Wire subset |
 | Lua | Core | planned | `lua/v0.1.0` | Core with an embedding host |
@@ -64,6 +64,7 @@ scope. A language may ship more than one tier over time.
 | C | `c-conformance` | CMake build, vectors, C core tests |
 | C# / VB.NET | `csharp-conformance` | build, vectors, API snapshot, core tests, VB sample |
 | PHP | `php-conformance` | vectors, API snapshot, core tests |
+| Perl | `perl-conformance` | 11 vectors, API snapshot, tests |
 | Swift | `swift-conformance` | swift test, 11 vectors, API snapshot |
 | Julia | `julia-conformance` | Julia tests, 11 vectors, API snapshot |
 | R | `r-conformance` | R tests, 11 vectors, API snapshot |

@@ -76,9 +76,10 @@ Release state: `spec/v0.2.0` tags the eleven-group contract,
 core, `java/v0.2.1` tags the Java core, `rust/v0.1.0` tags the Rust core implementing
 it, `shell/v0.1.0` / `powershell/v0.1.0` tag the bridge wrappers, and
 `c/v0.1.0` tags the C conformance core, `csharp/v0.1.0` tags the C# core,
-`php/v0.1.0` tags the PHP core, and `swift/v0.2.0`, `julia/v0.2.0`, and
-`r/v0.2.0` tag their core SDKs. Their `0.1.0` tags remain available for
-consumers that pinned the wire subset.
+`php/v0.1.0` tags the PHP core, `perl/v0.1.0` tags the Perl core, and
+`swift/v0.2.0`, `julia/v0.2.0`, and `r/v0.2.0` tag their core SDKs. The Swift,
+Julia, and R `0.1.0` tags remain available for consumers that pinned the wire
+subset.
 
 ### Phase 2 Progress (2026-10-25)
 
@@ -148,6 +149,17 @@ its API snapshot check. The VB.NET sample consumes the same assembly.
 
 The PHP SDK passes all eleven vector groups, its dependency-free tests, and its
 API snapshot check. It is a synchronous, standard-library-only package.
+
+### Perl core (2026-10-26)
+
+| Item | Status | Evidence |
+| --- | --- | --- |
+| Perl core | done | `perl/`, 11 vector groups, `perl/v0.1.0` |
+| Perl tests | done | `perl perl/tests/run.pl` |
+| Perl API snapshot | done | `perl/api/0.1.0.txt` |
+
+The Perl SDK uses only core modules and passes all eleven vector groups, its 27
+tests, and its API snapshot check.
 
 ### Swift core (2026-10-26)
 

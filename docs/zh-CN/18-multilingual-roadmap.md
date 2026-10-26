@@ -69,8 +69,9 @@ python -m unittest discover -s tests -v
 `typescript/v0.1.0` 标记 TypeScript 核心，`java/v0.2.1` 标记 Java 核心，
 `rust/v0.1.0` 标记 Rust 核心，`shell/v0.1.0` 与 `powershell/v0.1.0` 标记桥接
 包装，`c/v0.1.0` 标记 C 一致性核心，`csharp/v0.1.0` 标记 C# 核心，
-`php/v0.1.0` 标记 PHP 核心，`swift/v0.2.0`、`julia/v0.2.0` 和 `r/v0.2.0`
-分别标记对应核心 SDK。它们的 `0.1.0` 标签继续保留给已固定 wire 子集的使用方。
+`php/v0.1.0` 标记 PHP 核心，`perl/v0.1.0` 标记 Perl 核心，
+`swift/v0.2.0`、`julia/v0.2.0` 和 `r/v0.2.0` 分别标记对应核心 SDK。
+Swift、Julia 和 R 的 `0.1.0` 标签继续保留给已固定 wire 子集的使用方。
 
 ### 阶段 2 进度（2026-10-25）
 
@@ -138,6 +139,16 @@ C# SDK 已通过全部十一组向量、无依赖核心测试和 API 快照检�
 
 PHP SDK 已通过全部十一组向量、无依赖测试和 API 快照检查。它是同步的、
 仅依赖标准库的包。
+
+### Perl 核心（2026-10-26）
+
+| 项目 | 状态 | 证据 |
+| --- | --- | --- |
+| Perl core | 完成 | `perl/`、11 组向量、`perl/v0.1.0` |
+| Perl 测试 | 完成 | `perl perl/tests/run.pl` |
+| Perl API 快照 | 完成 | `perl/api/0.1.0.txt` |
+
+Perl SDK 仅使用核心模块，并通过全部十一组向量、27 个测试和 API 快照检查。
 
 ### Swift 核心（2026-10-26）
 

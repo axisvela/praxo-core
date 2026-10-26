@@ -63,7 +63,7 @@ core loop without a named consumer and a maintenance owner.
 | Kotlin | Sample (JVM) | Consumes the Java SDK | Kotlin sample only; no separate core |
 | Scala | Sample (JVM) | Consumes the Java SDK | Scala sample only; no separate core |
 | MATLAB | Wire | Scientific workflows; JSON and HTTP available | Wire-level package |
-| Perl | Core | CPAN, JSON, and HTTP for legacy glue | Core SDK with a maintenance owner |
+| Perl | Core (delivered) | CPAN, JSON, and HTTP for legacy glue | Core shipped in `perl/v0.1.0` |
 | Delphi | Wire / Bridge | Windows enterprise integration | Wire or bridge with a consumer |
 | OCaml / Caml | Wire | Strong types; niche agent demand | Wire-level package |
 | Lua | Core | Embeddable scripting; needs an embedded JSON/HTTP host | Core SDK with an embedding host |

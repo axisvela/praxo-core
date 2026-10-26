@@ -84,6 +84,9 @@ php php/tests/run.php
 cd swift; swift test
 cd swift; swift run praxo-conformance
 cd swift; python3 api-snapshot.py --check
+perl perl/conformance/run.pl
+perl perl/api-snapshot.pl --check
+perl perl/tests/run.pl
 julia --project=julia -e 'using Pkg; Pkg.instantiate()'
 julia --project=julia julia/conformance/run.jl
 julia --project=julia julia/api-snapshot.jl --check

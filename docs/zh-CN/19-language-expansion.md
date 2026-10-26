@@ -60,7 +60,7 @@ TypeScript、Java 与 Rust。下一步采用**分层语言策略**：
 | Kotlin | Sample（JVM） | 使用 Java SDK | 仅 Kotlin 示例，不做独立核心 |
 | Scala | Sample（JVM） | 使用 Java SDK | 仅 Scala 示例，不做独立核心 |
 | MATLAB | Wire | 科学工作流；JSON/HTTP 可用 | Wire 级包 |
-| Perl | Core | CPAN、JSON、HTTP，适合遗留胶水 | 有维护者的 Core SDK |
+| Perl | Core（已交付） | CPAN、JSON、HTTP，适合遗留胶水 | 核心已随 `perl/v0.1.0` 发布 |
 | Delphi | Wire / Bridge | Windows 企业集成 | 有使用方时做 Wire 或桥接 |
 | OCaml / Caml | Wire | 类型强，Agent 需求较小 | Wire 级包 |
 | Lua | Core | 可嵌入脚本；需要嵌入式 JSON/HTTP 宿主 | 有嵌入宿主的 Core SDK |
