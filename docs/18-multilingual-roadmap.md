@@ -77,9 +77,10 @@ Release state: `spec/v0.2.0` tags the eleven-group contract,
 `python/v0.2.0` tags the Python SDK, `typescript/v0.1.0` tags the TypeScript
 core, `java/v0.2.1` tags the Java core, `rust/v0.1.0` tags the Rust core implementing
 it, `shell/v0.1.0` / `powershell/v0.1.0` tag the bridge wrappers, and
-`c/v0.1.0` tags the C conformance core, `csharp/v0.1.0` tags the C# core, and
-`php/v0.1.0` tags the PHP core. The `0.1.0` tags remain available for consumers
-that pinned the earlier contract.
+`c/v0.1.0` tags the C conformance core, `csharp/v0.1.0` tags the C# core,
+`php/v0.1.0` tags the PHP core, and `swift/v0.1.0` tags the Swift wire package.
+The `0.1.0` tags remain available for consumers that pinned the earlier
+contract.
 
 ### Phase 2 Progress (2026-10-25)
 
@@ -149,6 +150,17 @@ its API snapshot check. The VB.NET sample consumes the same assembly.
 
 The PHP SDK passes all eleven vector groups, its dependency-free tests, and its
 API snapshot check. It is a synchronous, standard-library-only package.
+
+### Swift wire package (2026-10-26)
+
+| Item | Status | Evidence |
+| --- | --- | --- |
+| Swift wire | done | `swift/`, toolcall/jsonschema/plugin vectors |
+| Swift XCTest | done | `swift test` on macOS |
+| Swift core loop | planned | not in `swift/v0.1.0` |
+
+The Swift package is wire-level only. The macOS CI job builds it and runs the
+wire vectors; the core loop remains future work.
 
 Long-tail language tiers are evaluated in the
 [language expansion plan](19-language-expansion.md).

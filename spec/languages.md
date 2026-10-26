@@ -30,7 +30,7 @@ scope. A language may ship more than one tier over time.
 | PowerShell | Bridge | released | `powershell/v0.1.0` | Wraps the bridge CLI |
 | Shell | Bridge | released | `shell/v0.1.0` | Wraps the bridge CLI |
 | PHP | Core | released | `php/v0.1.0` | 11 vectors, API snapshot, dependency-free |
-| Swift | Core | planned | `swift/v0.1.0` | Validate on macOS CI |
+| Swift | Wire | released | `swift/v0.1.0` | 3 wire groups on macOS CI; core planned |
 | Julia | Wire | planned | `julia/v0.1.0` | Wire subset |
 | R | Wire | planned | `r/v0.1.0` | Wire subset |
 | Haskell | Wire | planned | `haskell/v0.1.0` | Wire subset |
@@ -49,8 +49,9 @@ scope. A language may ship more than one tier over time.
 | C | `c-conformance` | CMake build, vectors, C core tests |
 | C# / VB.NET | `csharp-conformance` | build, vectors, API snapshot, core tests, VB sample |
 | PHP | `php-conformance` | vectors, API snapshot, core tests |
+| Swift | `swift-conformance` | swift test, wire vectors |
 | Shell / PowerShell | `bridge` | bridge tests, both wrappers |
-| Swift, Julia, R, Haskell, Fortran, Lisp | none yet | pending toolchain or implementation |
+| Julia, R, Haskell, Fortran, Lisp | none yet | pending toolchain or implementation |
 
 ## Required Gates per Tier
 

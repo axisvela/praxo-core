@@ -144,6 +144,16 @@ jobs:
       - run: php php/conformance/run.php --check-api
       - run: php php/tests/run.php
 
+  swift-conformance:
+    runs-on: macos-latest
+    defaults:
+      run:
+        working-directory: swift
+    steps:
+      - uses: actions/checkout@v4
+      - run: swift test
+      - run: swift run praxo-conformance
+
   bridge:
     runs-on: ubuntu-latest
     env:

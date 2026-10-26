@@ -74,6 +74,8 @@
   Tagged `csharp/v0.1.0`.
 - `php/`: PHP 8 core with all eleven vector groups, an API snapshot, and
   dependency-free tests. Tagged `php/v0.1.0`.
+- `swift/`: Swift wire package for toolcall, JSON Schema, and plugin
+  manifests, with XCTest coverage and a macOS CI job. Tagged `swift/v0.1.0`.
 - Split per-language parity inventories under `spec/parity/` with a structural
   linter.
 

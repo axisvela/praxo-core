@@ -1,6 +1,15 @@
 # Swift Parity
 
-- Tier: core
+- Tier: wire
 - SPEC_VERSION: 0.2.0
 
-No symbols declared yet.
+`swift/v0.1.0` ships the wire subset: toolcall, JSON Schema, and plugin
+manifests. The core loop, middleware, and adapters are follow-up work.
+
+| Go symbol | Swift symbol | Status | Phase |
+| --- | --- | --- | --- |
+| `toolcall.ParseToolCall` | `ToolCallParser.parse` | partial | P1 |
+| `toolcall.StripToolCallMarkup` | `ToolCallParser.stripMarkup` | partial | P1 |
+| `toolcall.ParseInputJSON` | `ToolCallParser.parseInputJson` | partial | P1 |
+| `tool/jsonschema.Schema` | `JsonSchema.validate` | partial | P1 |
+| `plugin.ParseManifest` | `Plugin.parseManifest` | partial | P1 |
