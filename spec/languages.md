@@ -29,7 +29,7 @@ scope. A language may ship more than one tier over time.
 | Visual Basic | Sample (.NET) | released | `csharp/v0.1.0` | VB.NET consumer sample in `csharp/samples` |
 | PowerShell | Bridge | released | `powershell/v0.1.0` | Wraps the bridge CLI |
 | Shell | Bridge | released | `shell/v0.1.0` | Wraps the bridge CLI |
-| PHP | Wire, then Core | planned | `php/v0.1.0` | Wire first; core by demand |
+| PHP | Core | released | `php/v0.1.0` | 11 vectors, API snapshot, dependency-free |
 | Swift | Core | planned | `swift/v0.1.0` | Validate on macOS CI |
 | Julia | Wire | planned | `julia/v0.1.0` | Wire subset |
 | R | Wire | planned | `r/v0.1.0` | Wire subset |
@@ -48,8 +48,9 @@ scope. A language may ship more than one tier over time.
 | Rust | `rust-conformance` | cargo test, vectors |
 | C | `c-conformance` | CMake build, vectors, C core tests |
 | C# / VB.NET | `csharp-conformance` | build, vectors, API snapshot, core tests, VB sample |
+| PHP | `php-conformance` | vectors, API snapshot, core tests |
 | Shell / PowerShell | `bridge` | bridge tests, both wrappers |
-| PHP, Swift, Julia, R, Haskell, Fortran, Lisp | none yet | pending toolchain or implementation |
+| Swift, Julia, R, Haskell, Fortran, Lisp | none yet | pending toolchain or implementation |
 
 ## Required Gates per Tier
 

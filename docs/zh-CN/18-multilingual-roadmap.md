@@ -69,8 +69,8 @@ python -m unittest discover -s tests -v
 发布状态：`spec/v0.2.0` 标记十一组契约，`python/v0.2.0` 标记 Python SDK，
 `typescript/v0.1.0` 标记 TypeScript 核心，`java/v0.2.1` 标记 Java 核心，
 `rust/v0.1.0` 标记 Rust 核心，`shell/v0.1.0` 与 `powershell/v0.1.0` 标记桥接
-包装，`c/v0.1.0` 标记 C 一致性核心，`csharp/v0.1.0` 标记 C# 核心。
-`0.1.0` 标签继续保留给已固定早期契约的使用方。
+包装，`c/v0.1.0` 标记 C 一致性核心，`csharp/v0.1.0` 标记 C# 核心，
+`php/v0.1.0` 标记 PHP 核心。`0.1.0` 标签继续保留给已固定早期契约的使用方。
 
 ### 阶段 2 进度（2026-10-25）
 
@@ -127,6 +127,17 @@ Rust SDK 已通过全部十一组向量及 7 个单元测试。C 是 wire 级一
 
 C# SDK 已通过全部十一组向量、无依赖核心测试和 API 快照检查。VB.NET 示例
 直接复用同一程序集。
+
+### PHP（2026-10-26）
+
+| 项目 | 状态 | 证据 |
+| --- | --- | --- |
+| PHP 核心 | 完成 | `php/`、11 组向量、API 快照、测试 |
+| PHP API 快照/parity | 完成 | `php/api/0.1.0.txt`、`spec/parity/php.md` |
+| PHP 提供商适配器 | 计划中 | `0.1.0` 未包含 |
+
+PHP SDK 已通过全部十一组向量、无依赖测试和 API 快照检查。它是同步的、
+仅依赖标准库的包。
 
 长尾语言分层见
 [语言扩展计划](19-language-expansion.md)。

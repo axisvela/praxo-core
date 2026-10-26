@@ -78,9 +78,9 @@ one language-neutral contract in [`spec/`](spec/README.md): identical wire
 shapes, one conformance suite, and one-to-one idiomatic APIs. The
 [Python SDK](python/README.md), [TypeScript SDK](typescript/README.md),
 [Java SDK](java/README.md), [Rust SDK](rust/README.md), [C SDK](c/README.md),
-and [C# SDK](csharp/README.md) core implementations pass all eleven vector
-groups; Python, TypeScript, Java, and C# include streaming and an
-OpenAI-compatible adapter. See the
+[C# SDK](csharp/README.md), and [PHP SDK](php/README.md) core implementations
+pass all eleven vector groups; Python, TypeScript, Java, and C# include
+streaming and an OpenAI-compatible adapter. See the
 [design](docs/17-multilingual-sdk.md) and
 [roadmap](docs/18-multilingual-roadmap.md).
 

@@ -1,0 +1,296 @@
+### Praxo\Core\Action
+?array $arguments
+?string $toolName
+Action(string $kind, string $sessionId, ?string $toolName, ?array $arguments)
+string $kind
+string $sessionId
+### Praxo\Core\Agent
+Agent(Praxo\Core\AgentOptions $options)
+Praxo\Core\RunResult run(Praxo\Core\Session $session, string $prompt)
+### Praxo\Core\AgentOptions
+?Praxo\Core\ContextBudget $context
+?Praxo\Core\EventSink $events
+?Praxo\Core\Model $fallbackModel
+?Praxo\Core\PiiRedactor $piiRedactor
+?Praxo\Core\PolicyHook $policy
+?Praxo\Core\StructuredOutput $structuredOutput
+?Praxo\Core\ToolRegistry $tools
+?Praxo\Core\ToolSelector $toolSelector
+?array $responseFormat
+?string $toolChoice
+AgentOptions(Praxo\Core\Model $model)
+Praxo\Core\Model $model
+array $allowedTools
+array $memoryFiles
+array $middleware
+array $modelMiddleware
+int $maxSteps
+int $maxTokens
+int $modelCallLimit
+int $toolCallLimit
+string $systemPrompt
+### Praxo\Core\BaseMiddleware
+string name()
+void afterModel(Praxo\Core\ModelCall $call, Praxo\Core\Response $response)
+void afterRun(?Praxo\Core\RunResult $result, ?Praxo\Core\PraxoException $error)
+void afterTool(Praxo\Core\MiddlewareToolCall $call, Praxo\Core\ToolResult $result)
+void beforeModel(Praxo\Core\ModelCall $call)
+void beforeRun(Praxo\Core\RunState $state)
+void beforeTool(Praxo\Core\MiddlewareToolCall $call)
+### Praxo\Core\CallLimitMiddleware
+CallLimitMiddleware(int $modelLimit, int $toolLimit)
+string name()
+void afterRun(?Praxo\Core\RunResult $result, ?Praxo\Core\PraxoException $error)
+void beforeModel(Praxo\Core\ModelCall $call)
+void beforeRun(Praxo\Core\RunState $state)
+void beforeTool(Praxo\Core\MiddlewareToolCall $call)
+### Praxo\Core\CheckpointAllowlist
+mixed unmarshal(string $data)
+string marshal(string $type, mixed $value)
+void register(string $type)
+### Praxo\Core\ContentBlock
+?string $data
+?string $imageUrl
+?string $text
+ContentBlock(string $type, ?string $text, ?string $imageUrl, ?string $data)
+array toArray()
+string $type
+### Praxo\Core\ContextBudget
+ContextBudget(int $maxTokens, int $keepRecent)
+array compact(array $messages)
+int $keepRecent
+int $maxTokens
+### Praxo\Core\ContextEstimator
+int estimateTokens(array $messages)
+string truncateToTokens(string $value, int $tokens)
+### Praxo\Core\Decision
+Decision(bool $allowed, string $reason)
+bool $allowed
+self allow(string $reason)
+self deny(string $reason)
+string $reason
+### Praxo\Core\Event
+?array $data
+?string $at
+?string $runId
+Event(string $type, string $sessionId, ?string $runId, ?array $data, ?string $at)
+self withData(array $data)
+self withRun(string $runId)
+string $sessionId
+string $type
+### Praxo\Core\FilterSink
+FilterSink(Praxo\Core\EventSink $sink, $predicate)
+void emit(Praxo\Core\Event $event)
+### Praxo\Core\FuncTool
+FuncTool(string $toolName, string $toolDescription, callable $function)
+mixed invoke(array $arguments)
+string description()
+string name()
+### Praxo\Core\InMemoryMemoryStore
+array search(string $sessionId, string $query, int $limit)
+void put(string $sessionId, Praxo\Core\MemoryRecord $record)
+### Praxo\Core\Json
+?string string(mixed $node, string $key, ?string $fallback)
+array array(mixed $node, string $key)
+bool bool(mixed $node, string $key, bool $fallback)
+bool equals(mixed $left, mixed $right)
+int int(mixed $node, string $key, int $fallback)
+mixed decode(string $text)
+mixed get(mixed $node, string $key)
+mixed normalizeEmpty(array $values)
+string encode(mixed $value)
+### Praxo\Core\JsonSchema
+array validate(mixed $schema, mixed $data)
+### Praxo\Core\MemoryRecord
+?array $metadata
+?string $createdAt
+MemoryRecord(string $id, string $frame, string $content, ?array $metadata, ?string $createdAt)
+string $content
+string $frame
+string $id
+### Praxo\Core\Message
+?string $content
+?string $toolId
+Message(string $role, ?string $content, array $contentBlocks, array $toolCalls, ?string $toolId)
+array $contentBlocks
+array $toolCalls
+array toArray()
+self assistant(string $content, array $toolCalls)
+self text(string $role, string $content)
+self tool(string $content, string $toolId)
+string $role
+### Praxo\Core\MiddlewareToolCall
+?Praxo\Core\PraxoException $error
+MiddlewareToolCall(string $runId, string $sessionId, Praxo\Core\ToolCall $call, bool $skip, mixed $result, ?Praxo\Core\PraxoException $error)
+Praxo\Core\ToolCall $call
+bool $skip
+mixed $result
+string $runId
+string $sessionId
+### Praxo\Core\ModelCall
+?Praxo\Core\Response $response
+ModelCall(string $runId, string $sessionId, Praxo\Core\Request $request, bool $skip, ?Praxo\Core\Response $response)
+Praxo\Core\Request $request
+bool $skip
+string $runId
+string $sessionId
+### Praxo\Core\ModelFallback
+callable fallback(?Praxo\Core\Model $fallback)
+callable fallbackWithContent(string $content)
+### Praxo\Core\MultiSink
+MultiSink(array $sinks)
+void emit(Praxo\Core\Event $event)
+### Praxo\Core\ParsedToolCall
+ParsedToolCall(string $callId, string $name, array $input, string $operation, string $resource, string $risk, string $reason, string $idempotencyKey)
+array $input
+string $callId
+string $idempotencyKey
+string $name
+string $operation
+string $reason
+string $resource
+string $risk
+### Praxo\Core\PathChecker
+PathChecker(array $grants)
+Praxo\Core\Decision check(string $target, string $need)
+bool allowed(string $target, string $need)
+### Praxo\Core\PathGrant
+PathGrant(string $root, string $access)
+string $access
+string $root
+### Praxo\Core\PiiMiddleware
+PiiMiddleware(Praxo\Core\PiiRedactor $redactor)
+string name()
+void afterTool(Praxo\Core\MiddlewareToolCall $call, Praxo\Core\ToolResult $result)
+void beforeModel(Praxo\Core\ModelCall $call)
+### Praxo\Core\PiiRedactor
+PiiRedactor(array $rules)
+mixed redactValue(mixed $value)
+self defaults()
+string redact(string $text)
+### Praxo\Core\PiiRule
+PiiRule(string $name, string $pattern, string $replacement)
+string $name
+string $pattern
+string $replacement
+### Praxo\Core\Plugin
+Praxo\Core\PluginManifest parseManifest(string $raw)
+### Praxo\Core\PluginManifest
+?array $signature
+PluginManifest(int $schemaVersion, string $id, string $version, string $kind, array $entrypoint, string $protocol, array $capabilities, array $permissions, array $limits, string $isolation, array $health, ?array $signature, string $sbom)
+array $capabilities
+array $entrypoint
+array $health
+array $limits
+array $permissions
+int $schemaVersion
+string $id
+string $isolation
+string $kind
+string $protocol
+string $sbom
+string $version
+### Praxo\Core\PraxoException
+PraxoException(string $praxoCode, string $message)
+self checkpoint(string $message)
+self contextBudget()
+self maxSteps()
+self maxTokens()
+self modelCallLimit()
+self plugin(string $message)
+self policy(string $message)
+self structuredOutput(string $message)
+self toolCallLimit()
+self toolNotFound(string $message)
+self toolNotSelected()
+self typeNotAllowed(string $message)
+string $praxoCode
+### Praxo\Core\Request
+?array $responseFormat
+?string $toolChoice
+Request(array $messages, array $tools, ?string $toolChoice, ?array $responseFormat, float $temperature)
+array $messages
+array $tools
+float $temperature
+self of(array $messages)
+### Praxo\Core\Response
+?string $finishReason
+Praxo\Core\Message $message
+Praxo\Core\Usage $usage
+Response(Praxo\Core\Message $message, Praxo\Core\Usage $usage, ?string $finishReason)
+### Praxo\Core\Roles
+### Praxo\Core\RunResult
+Praxo\Core\Usage $usage
+RunResult(string $runId, string $output, int $steps, Praxo\Core\Usage $usage)
+int $steps
+string $output
+string $runId
+### Praxo\Core\RunState
+RunState(string $runId, string $prompt)
+string $prompt
+string $runId
+### Praxo\Core\Session
+Session(string $id, string $tenantId, string $workspaceId, array $messages)
+array $messages
+string $id
+string $tenantId
+string $workspaceId
+### Praxo\Core\StaticModel
+Praxo\Core\Response generate(Praxo\Core\Request $request)
+StaticModel(string $content)
+### Praxo\Core\StreamKinds
+### Praxo\Core\StructuredOutput
+$repairer
+StructuredOutput(array $schema, string $outputName, string $strategy, int $maxRepairs)
+array $schema
+int $maxRepairs
+mixed extractJson(string $output)
+string $outputName
+string $strategy
+string name()
+void afterRun(?Praxo\Core\RunResult $result, ?Praxo\Core\PraxoException $error)
+void apply(Praxo\Core\RunResult $result)
+void beforeModel(Praxo\Core\ModelCall $call)
+### Praxo\Core\ToolCall
+ToolCall(string $id, string $name, array $arguments)
+array $arguments
+array toArray()
+string $id
+string $name
+### Praxo\Core\ToolCallParser
+?Praxo\Core\ParsedToolCall parse(string $content)
+?array parseInputJson(string $raw)
+string stripMarkup(string $content)
+### Praxo\Core\ToolRegistry
+Praxo\Core\Tool get(string $name)
+array specs()
+bool contains(string $name)
+int count()
+void register(Praxo\Core\Tool $tool)
+### Praxo\Core\ToolResult
+?Praxo\Core\PraxoException $error
+ToolResult(mixed $value, ?Praxo\Core\PraxoException $error)
+mixed $value
+### Praxo\Core\ToolSelectionMiddleware
+ToolSelectionMiddleware(Praxo\Core\ToolSelector $selector)
+string lastUserMessage(array $messages)
+string name()
+void afterRun(?Praxo\Core\RunResult $result, ?Praxo\Core\PraxoException $error)
+void beforeModel(Praxo\Core\ModelCall $call)
+void beforeTool(Praxo\Core\MiddlewareToolCall $call)
+### Praxo\Core\ToolSpec
+?array $parameters
+?string $risk
+ToolSpec(string $name, string $description, ?array $parameters, ?string $risk)
+string $description
+string $name
+### Praxo\Core\Usage
+Usage(int $inputTokens, int $outputTokens, int $cachedTokens)
+int $cachedTokens
+int $inputTokens
+int $outputTokens
+self plus(Praxo\Core\Usage $other)
+### Praxo\Core\ValidationError
+ValidationError(string $path, string $message)
+string $message
+string $path

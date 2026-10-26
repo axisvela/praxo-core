@@ -77,9 +77,9 @@ Release state: `spec/v0.2.0` tags the eleven-group contract,
 `python/v0.2.0` tags the Python SDK, `typescript/v0.1.0` tags the TypeScript
 core, `java/v0.2.1` tags the Java core, `rust/v0.1.0` tags the Rust core implementing
 it, `shell/v0.1.0` / `powershell/v0.1.0` tag the bridge wrappers, and
-`c/v0.1.0` tags the C conformance core, and `csharp/v0.1.0` tags the C# core.
-The `0.1.0` tags remain available for consumers that pinned the earlier
-contract.
+`c/v0.1.0` tags the C conformance core, `csharp/v0.1.0` tags the C# core, and
+`php/v0.1.0` tags the PHP core. The `0.1.0` tags remain available for consumers
+that pinned the earlier contract.
 
 ### Phase 2 Progress (2026-10-25)
 
@@ -138,6 +138,17 @@ wire-level conformance core; both SDKs use the shared vectors and wire contract.
 
 The C# SDK passes all eleven vector groups, its dependency-free core tests, and
 its API snapshot check. The VB.NET sample consumes the same assembly.
+
+### PHP (2026-10-26)
+
+| Item | Status | Evidence |
+| --- | --- | --- |
+| PHP core | done | `php/`, 11 vector groups, API snapshot, tests |
+| PHP API snapshot/parity | done | `php/api/0.1.0.txt`, `spec/parity/php.md` |
+| PHP provider adapter | planned | not included in `0.1.0` |
+
+The PHP SDK passes all eleven vector groups, its dependency-free tests, and its
+API snapshot check. It is a synchronous, standard-library-only package.
 
 Long-tail language tiers are evaluated in the
 [language expansion plan](19-language-expansion.md).

@@ -41,7 +41,7 @@ is bridge-only, while PHP can start wire-only and later grow a core loop.
 | Visual Basic | Sample (.NET) | Same runtime and assemblies as C# | Ship VB samples, not a second implementation |
 | PowerShell | Bridge | Automation and operator glue; not a runtime host | Wrap the .NET CLI or a core CLI |
 | Shell | Bridge | POSIX/Bash glue; unsafe for policy, JSON, and plugin hosts | Wrap a CLI over stdio/JSON |
-| PHP | Wire, then core | Large web integration surface; synchronous ecosystem | Wire first; core by demand |
+| PHP | Core (delivered) | Large web integration surface; synchronous ecosystem | Core shipped in `php/v0.1.0` |
 | Swift | Core | Apple platforms, structured concurrency, `Codable` | Core after .NET/PHP |
 | Julia | Wire | Scientific computing; JSON/HTTP are available but agent loops are unusual | Wire-level package |
 | R | Wire | Statistics and data workflows; package ecosystem is CRAN | Wire-level package |
@@ -134,7 +134,7 @@ Rules:
 | --- | --- | --- |
 | L0 | Stabilize Go/Python/TS/Java/Rust; finish C via toolchain or CI | existing gates green |
 | L1 | .NET core (C#), VB samples, PowerShell bridge | 11 vectors + .NET API snapshot |
-| L2 | PHP wire, then core by demand | declared wire vectors |
+| L2 | PHP core (delivered) | 11 vectors + API snapshot |
 | L3 | Swift core | 11 vectors + API snapshot |
 | L4 | Julia, R, Haskell wire | declared wire vectors |
 | L5 | Shell bridge, Fortran/Lisp if consumer | bridge contract tests |

@@ -133,6 +133,17 @@ jobs:
       - run: dotnet run --project csharp/Praxo.Tests -c Release
       - run: dotnet run --project csharp/samples/VbSample -c Release
 
+  php-conformance:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.4"
+      - run: php php/conformance/run.php
+      - run: php php/conformance/run.php --check-api
+      - run: php php/tests/run.php
+
   bridge:
     runs-on: ubuntu-latest
     env:

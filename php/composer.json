@@ -1,0 +1,22 @@
+{
+  "name": "axisvela/praxo-core",
+  "description": "PHP SDK for the PRAXO-CORE agent contract",
+  "type": "library",
+  "license": "MIT",
+  "version": "0.1.0",
+  "require": {
+    "php": ">=8.2"
+  },
+  "autoload": {
+    "psr-4": {
+      "Praxo\\Core\\": "src/"
+    }
+  },
+  "scripts": {
+    "conformance": "php conformance/run.php",
+    "test": "php tests/run.php"
+  },
+  "config": {
+    "sort-packages": true
+  }
+}

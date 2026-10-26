@@ -76,6 +76,9 @@ cd csharp; dotnet run --project Praxo.Conformance
 cd csharp; dotnet run --project Praxo.Conformance -- --check-api
 cd csharp; dotnet run --project Praxo.Tests
 cd csharp; dotnet run --project samples/VbSample
+php php/conformance/run.php
+php php/conformance/run.php --check-api
+php php/tests/run.php
 ```
 
 ## Compatibility

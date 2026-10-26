@@ -71,9 +71,10 @@ Go 仍是参考实现。Python、TypeScript 和 Java SDK 基于
 [`spec/`](spec/README.md) 中的一份语言无关契约：wire 形状相同、共用一套一致性
 测试、API 一对一且符合各语言习惯。[Python SDK](python/README.md) 与
 [TypeScript SDK](typescript/README.md)、[Java SDK](java/README.md)、
-[Rust SDK](rust/README.md)、[C SDK](c/README.md) 与
-[C# SDK](csharp/README.md) 的核心实现已通过全部十一组向量；Python、
-TypeScript、Java 与 C# 包含流式路径和 OpenAI 兼容适配器。参见
+[Rust SDK](rust/README.md)、[C SDK](c/README.md)、
+[C# SDK](csharp/README.md) 与 [PHP SDK](php/README.md) 的核心实现已通过
+全部十一组向量；Python、TypeScript、Java 与 C# 包含流式路径和 OpenAI 兼容
+适配器。参见
 [设计](docs/zh-CN/17-multilingual-sdk.md)与
 [路线图](docs/zh-CN/18-multilingual-roadmap.md)。
 
