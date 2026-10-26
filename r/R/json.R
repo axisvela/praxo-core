@@ -145,7 +145,9 @@ json_array <- function(node, key) {
 }
 
 json_equals <- function(left, right) {
-  if (is_json_null(left) || is_json_null(right)) return(is_json_null(left) && is_json_null(right))
+  if (is_json_null(left) || is_json_null(right)) {
+    return((is.null(left) || is_json_null(left)) && (is.null(right) || is_json_null(right)))
+  }
   if (is.list(left) && is.list(right)) {
     if (!identical(names(left), names(right))) return(FALSE)
     if (length(left) != length(right)) return(FALSE)

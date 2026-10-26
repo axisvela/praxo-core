@@ -2,11 +2,13 @@ using JSON
 using PraxoCore
 
 const ROOT = normpath(joinpath(@__DIR__, "..", ".."))
-const WIRE_GROUPS = Set(["toolcall", "jsonschema", "plugin"])
+
 
 function check(condition::Bool, message::String)
     condition || error(message)
 end
+
+include(joinpath(@__DIR__, "core.jl"))
 
 function run_toolcall(input, expect)
     operation = Json.getstring(input, "operation", "")
@@ -71,6 +73,22 @@ function run_vector(group, vector)
         run_jsonschema(input, expect)
     elseif group == "plugin"
         run_plugin(input, expect)
+    elseif group == "memory"
+        run_memory(input, expect)
+    elseif group == "event"
+        run_event(input, expect)
+    elseif group == "stream"
+        run_stream(expect)
+    elseif group == "checkpoint"
+        run_checkpoint(input, expect)
+    elseif group == "policy"
+        run_policy(input, expect)
+    elseif group == "context"
+        run_context(input, expect)
+    elseif group == "middleware"
+        run_middleware(input, expect)
+    elseif group == "agent-loop"
+        run_agent_loop(input, expect)
     end
 end
 
@@ -91,7 +109,6 @@ function run_all()
         get(file_data, "specVersion", "") == version ||
             push!(failures, "$(name): specVersion mismatch")
         name == group || push!(failures, "$(name): group mismatch")
-        group in WIRE_GROUPS || continue
         for vector in get(file_data, "vectors", Any[])
             id = get(vector, "id", "")
             if haskey(seen, id)
@@ -110,7 +127,7 @@ end
 
 failures = run_all()
 if isempty(failures)
-    println("all wire vectors passed")
+    println("all spec vectors passed")
     exit(0)
 end
 for failure in failures

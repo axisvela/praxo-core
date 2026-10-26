@@ -7,6 +7,8 @@ source(file.path(root, "r", "R", "json.R"))
 source(file.path(root, "r", "R", "toolcall.R"))
 source(file.path(root, "r", "R", "jsonschema.R"))
 source(file.path(root, "r", "R", "plugin.R"))
+source(file.path(root, "r", "R", "core.R"))
+source(file.path(root, "r", "conformance", "core.R"))
 
 read_text <- function(path) {
   paste(readLines(path, warn = FALSE, encoding = "UTF-8"), collapse = "\n")
@@ -62,6 +64,14 @@ run_vector <- function(group, vector) {
   if (group == "toolcall") run_toolcall(input, expect)
   if (group == "jsonschema") run_jsonschema(input, expect)
   if (group == "plugin") run_plugin(input, expect)
+  if (group == "memory") run_memory(input, expect)
+  if (group == "event") run_event(input, expect)
+  if (group == "stream") run_stream(expect)
+  if (group == "checkpoint") run_checkpoint(input, expect)
+  if (group == "policy") run_policy(input, expect)
+  if (group == "context") run_context(input, expect)
+  if (group == "middleware") run_middleware(input, expect)
+  if (group == "agent-loop") run_agent_loop(input, expect)
 }
 
 version <- trimws(read_text(file.path(root, "spec", "SPEC_VERSION")))
@@ -80,7 +90,6 @@ for (path in files) {
   group <- json_string(file, "group", "")
   if (!identical(json_string(file, "specVersion", ""), version)) failures <- c(failures, paste0(name, ": specVersion mismatch"))
   if (!identical(name, group)) failures <- c(failures, paste0(name, ": group mismatch"))
-  if (!(group %in% wire_groups)) next
   for (vector in json_array(file, "vectors")) {
     id <- json_string(vector, "id", "")
     if (!is.null(seen[[id]])) failures <- c(failures, paste0(group, "/", id, ": duplicate id with ", seen[[id]]))
@@ -91,7 +100,7 @@ for (path in files) {
 }
 
 if (length(failures) == 0L) {
-  cat("all wire vectors passed\n")
+  cat("all spec vectors passed\n")
   quit(status = 0)
 }
 for (failure in failures) cat(failure, "\n", file = stderr())

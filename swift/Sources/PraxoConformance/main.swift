@@ -135,7 +135,7 @@ func runAll() -> [String] {
 
 let failures = runAll()
 if failures.isEmpty {
-    print("all wire vectors passed")
+    print("all spec vectors passed")
     exit(0)
 }
 for failure in failures {
