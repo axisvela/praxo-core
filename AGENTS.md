@@ -86,6 +86,9 @@ cd swift; swift run praxo-conformance
 cd swift; python3 api-snapshot.py --check
 cmake -S cpp -B cpp/build; cmake --build cpp/build; ctest --test-dir cpp/build --output-on-failure
 python cpp/api-snapshot.py --check
+ruby ruby/conformance/run.rb
+ruby ruby/api-snapshot.rb --check
+ruby ruby/tests/run.rb
 perl perl/conformance/run.pl
 perl perl/api-snapshot.pl --check
 perl perl/tests/run.pl

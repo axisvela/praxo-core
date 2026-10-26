@@ -59,7 +59,7 @@ core loop without a named consumer and a maintenance owner.
 | JavaScript | Sample (TypeScript) | TypeScript already compiles to JavaScript for Node and browsers | Ship JS samples and exports; do not fork a second core |
 | C++ | Core (delivered) | Native systems and embedding; large surface | Core shipped in `cpp/v0.1.0` |
 | Dart | Wire, then Core with consumer | Flutter/Dart async, JSON, packaging | Wire first; core with a consumer |
-| Ruby | Core | Large web integration surface | Core SDK with a maintenance owner |
+| Ruby | Core (delivered) | Large web integration surface | Core shipped in `ruby/v0.1.0` |
 | Kotlin | Sample (JVM) | Consumes the Java SDK | Kotlin sample only; no separate core |
 | Scala | Sample (JVM) | Consumes the Java SDK | Scala sample only; no separate core |
 | MATLAB | Wire | Scientific workflows; JSON and HTTP available | Wire-level package |

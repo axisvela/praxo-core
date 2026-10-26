@@ -171,6 +171,17 @@ jobs:
       - run: swift run praxo-conformance
       - run: python3 api-snapshot.py --check
 
+  ruby-conformance:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.4"
+      - run: ruby ruby/conformance/run.rb
+      - run: ruby ruby/api-snapshot.rb --check
+      - run: ruby ruby/tests/run.rb
+
   cpp-conformance:
     runs-on: ubuntu-latest
     steps:
