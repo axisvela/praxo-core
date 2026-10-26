@@ -1,7 +1,7 @@
 # Bridge Contract
 
-**Status:** draft for Shell and PowerShell; `SPEC_VERSION` `0.2.0`.
-**Implementation:** Go bridge CLI (`cmd/praxo-bridge`), planned.
+**Status:** implemented for Shell and PowerShell; `SPEC_VERSION` `0.2.0`.
+**Implementation:** Go bridge CLI (`cmd/praxo-bridge`).
 
 Bridge languages must not reimplement the agent loop. They call a maintained
 runtime through a small process boundary.
@@ -169,8 +169,9 @@ Envelope:
 
 ## Streaming
 
-Future event and run commands use JSON Lines: one JSON object per line on
-stdout. `stderr` is diagnostic only. Do not mix logs into stdout.
+The `event stream` command uses JSON Lines: one JSON object per line on stdout,
+followed by its result line. The `run` command returns one result object.
+`stderr` is diagnostic only. Do not mix logs into stdout.
 
 ## Security
 

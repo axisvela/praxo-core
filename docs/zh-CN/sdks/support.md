@@ -20,6 +20,8 @@ Go 是参考实现。[语言支持矩阵](https://github.com/axisvela/praxo-core
 - Python、TypeScript 当前提供源码构建方式，PyPI、npm 发布仍待完成。
 - Java 提供 Maven 源码构建方式，源码标签不证明 Maven Central 可用。
 - Fortran 仍在开发中，不应作为已发布的软件包宣传。
+- Haskell 是未发布的 Wire 候选实现，只声明三个向量组，不是原生 Agent 运行时或
+  已发布的 Hackage 软件包。
 
 ## 功能边界
 

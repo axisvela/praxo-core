@@ -7,7 +7,7 @@ import yaml
 
 
 ROOT = Path(__file__).resolve().parents[1]
-LANGUAGES = "python typescript java rust c cpp csharp php ruby perl lua dart swift julia r d zig cobol fortran".split()
+LANGUAGES = "python typescript java rust c cpp csharp php ruby perl lua dart swift julia r d zig cobol fortran haskell".split()
 BINDINGS = ["shell", "powershell"]
 SAMPLES = ["javascript", "kotlin", "scala"]
 
@@ -51,6 +51,38 @@ class LayoutTests(unittest.TestCase):
     def test_rust_binary_source_is_not_ignored(self):
         result = subprocess.run(["git", "check-ignore", "--no-index", "-q", "sdk/rust/src/bin/conformance.rs"], cwd=ROOT)
         self.assertEqual(result.returncode, 1)
+
+    def test_delivered_languages_have_site_entries(self):
+        matrix = (ROOT / "spec/languages.md").read_text(encoding="utf-8")
+        navigation = (ROOT / "mkdocs.yml").read_text(encoding="utf-8")
+        for line in matrix.splitlines():
+            if not line.startswith("| "):
+                continue
+            cells = [cell.strip() for cell in line.split("|")]
+            if len(cells) < 7 or cells[3] not in ("released", "in progress"):
+                continue
+            slug = {"C++": "cpp", "C#": "csharp"}.get(cells[1], cells[1].lower().replace(" ", "-"))
+            path = "sdks/" + slug + ".md"
+            self.assertTrue((ROOT / "docs" / path).is_file(), cells[1])
+            self.assertIn(path, navigation)
+
+    def test_planned_languages_do_not_claim_release_tags(self):
+        matrix = (ROOT / "spec/languages.md").read_text(encoding="utf-8")
+        for line in matrix.splitlines():
+            if not line.startswith("| "):
+                continue
+            cells = [cell.strip() for cell in line.split("|")]
+            if len(cells) >= 7 and cells[3] in ("planned", "consumer-gated"):
+                self.assertEqual(cells[4], "none", cells[1])
+
+    def test_bridge_parity_scope(self):
+        version = (ROOT / "spec/SPEC_VERSION").read_text().strip()
+        for language in BINDINGS:
+            text = (ROOT / "spec/parity" / ("bridge-" + language + ".md")).read_text()
+            self.assertIn("- Tier: bridge", text)
+            self.assertIn("- SPEC_VERSION: " + version, text)
+            self.assertIn("toolcall.ParseToolCall", text)
+            self.assertIn("event.Sink", text)
 
 
 if __name__ == "__main__":

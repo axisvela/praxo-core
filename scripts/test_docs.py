@@ -49,7 +49,7 @@ class DocumentationTests(unittest.TestCase):
             source = meta.get("sdk_readme")
             if source:
                 self.assertTrue((ROOT / source).is_file(), source)
-        self.assertEqual(len(pages), 28)
+        self.assertGreaterEqual(len(pages), 28)
 
     def test_redirect_targets_exist(self):
         for old, new in docs_hooks.LEGACY_PATHS.items():

@@ -1,0 +1,32 @@
+# PRAXO-CORE Haskell Wire API 0.1.0
+# SPEC_VERSION 0.2.0
+
+## Praxo.Json
+data Json = JObject [(String, Json)] | JArray [Json] | JString String | JNumber Rational | JBool Bool | JNull deriving (Eq, Show)
+asArray :: Json -> [Json]
+asObject :: Json -> [(String, Json)]
+asString :: Json -> String
+encodeJson :: Json -> Either String String
+equalJson :: Json -> Json -> Bool
+field :: String -> Json -> Json
+parseJson :: String -> Either String Json
+
+## Praxo.JsonSchema
+data ValidationError = ValidationError { errorPath :: String, errorMessage :: String } deriving (Eq, Show)
+validateSchema :: Json -> Json -> Either String [ValidationError]
+
+## Praxo.Pattern
+matchPattern :: String -> String -> Either String Bool
+
+## Praxo.Plugin
+parseManifest :: String -> Either String Json
+validateManifest :: Json -> Either String ()
+
+## Praxo.ToolCall
+data ToolCall = ToolCall { callName :: String, callInput :: Json, callMetadata :: [(String, String)] } deriving (Eq, Show)
+parseToolCall :: String -> Maybe ToolCall
+stripToolCallMarkup :: String -> String
+
+## Praxo.Wire
+sdkVersion :: String
+specVersion :: String

@@ -26,6 +26,8 @@ Read each SDK's limitations before adopting it.
 - Python and TypeScript document source builds; PyPI and npm publication are pending.
 - Java documents a Maven source build; Maven Central publication is not established by a source tag.
 - Fortran remains in progress and must not be represented as a released package.
+- Haskell is an unreleased Wire candidate with three declared vector groups;
+  it is not a native agent runtime or a published Hackage package.
 
 ## Feature Boundaries
 

@@ -38,28 +38,28 @@ imply every Go feature is available.
 | Swift | Core | released | `swift/v0.2.0` | 11 vectors, XCTest, API snapshot |
 | Julia | Core | released | `julia/v0.2.0` | 11 vectors, JSON.jl, API snapshot |
 | R | Core | released | `r/v0.2.0` | 11 vectors, base-R JSON, API snapshot |
-| Haskell | Wire | planned | `haskell/v0.1.0` | Wire subset |
-| Fortran | Core | in progress | none | 11 vectors groups, native tests, API snapshot; CI/release pending |
-| Lisp | Bridge | consumer-gated | `lisp/v0.1.0` | Requires a named consumer |
+| Haskell | Wire | in progress | none | 24 vectors in 3 wire groups, native tests, API snapshot/parity; remote CI/release pending |
+| Fortran | Core | in progress | none | 11 vector groups, native tests, API snapshot; CI job verified, release review pending |
+| Lisp | Bridge | consumer-gated | none | Requires a named consumer |
 | JavaScript | Sample (TypeScript) | released | none | Uses the TypeScript package; no separate core |
 | C++ | Core | released | `cpp/v0.1.0` | 11 vectors, core tests, API snapshot |
 | Dart | Core | released | `dart/v0.1.0` | 11 vectors, core tests, API snapshot |
 | Ruby | Core | released | `ruby/v0.1.0` | 11 vectors, core tests, API snapshot |
 | Kotlin | Sample (JVM) | released | none | Uses the Java SDK |
 | Scala | Sample (JVM) | released | none | Uses the Java SDK |
-| MATLAB | Wire | planned | `matlab/v0.1.0` | Wire subset |
+| MATLAB | Wire | planned | none | Wire subset |
 | Perl | Core | released | `perl/v0.1.0` | 11 vectors, 27 tests, API snapshot |
-| Delphi | Wire / Bridge | planned | `delphi/v0.1.0` | Consumer-gated |
-| OCaml / Caml | Core | planned | `ocaml/v0.1.0` | Core SDK planned |
+| Delphi | Wire / Bridge | planned | none | Consumer-gated |
+| OCaml / Caml | Core | planned | none | Requires a consumer and maintenance owner before a native loop |
 | D | Core | released | `d/v0.1.0` | 11 vectors, API snapshot |
-| Objective-C | Core | planned | `objc/v0.1.0` | Core SDK planned |
+| Objective-C | Core | planned | none | Requires a consumer and maintenance owner before a native loop |
 | VBScript | Bridge | planned | none | Bridge over .NET or the bridge CLI |
 | Zig | Core | released | `zig/v0.2.0` | 11 vectors, API snapshot; `zig/v0.1.0` remains wire |
 | Lua | Core | released | `lua/v0.1.0` | 11 vectors, core tests, API snapshot |
 | Scratch | Bridge / extension | consumer-gated | none | Extension only |
 | COBOL | Core | released | `cobol/v0.1.0` | 11 vectors, native/contract tests, API snapshot |
-| Prolog | Bridge | consumer-gated | `prolog/v0.1.0` | Requires a named consumer |
-| ABAP | Bridge | consumer-gated | `abap/v0.1.0` | Requires a named consumer |
+| Prolog | Bridge | consumer-gated | none | Requires a named consumer |
+| ABAP | Bridge | consumer-gated | none | Requires a named consumer |
 
 ## CI Coverage
 
@@ -87,7 +87,8 @@ imply every Go feature is available.
 | Shell / PowerShell | `bridge` | bridge tests, both wrappers |
 | Fortran | `fortran-conformance` | native tests, 11 vector groups, API snapshot; release pending |
 | COBOL | `cobol-conformance` | 11 vectors, API snapshot, native/tooling tests |
-| Haskell, Lisp | none yet | pending toolchain or implementation |
+| Haskell | `haskell-conformance` | 3 wire groups, native tests, source API/parity; remote evidence pending |
+| Lisp | none yet | consumer-gated bridge |
 | Objective-C, OCaml | none yet | core planned |
 | Wave 2 languages | none yet | planned; gate depends on declared tier |
 

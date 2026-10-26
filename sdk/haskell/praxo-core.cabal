@@ -1,0 +1,35 @@
+cabal-version: 2.4
+name: praxo-core
+version: 0.1.0
+synopsis: Wire-level PRAXO-CORE contract implementation
+description: Native JSON, tool-call parsing, bounded JSON Schema validation,
+             and plugin manifest checks for the declared PRAXO-CORE wire subset.
+category: Development
+maintainer: AxisVela <releases@axisvela.com>
+license: MIT
+license-file: LICENSE
+author: AxisVela
+build-type: Simple
+extra-source-files: README.md, api/0.1.0.txt, run-tests.py, api-snapshot.py
+
+library
+  hs-source-dirs: src
+  exposed-modules: Praxo.Json, Praxo.ToolCall, Praxo.JsonSchema, Praxo.Pattern, Praxo.Plugin, Praxo.Wire
+  build-depends: base >=4.14 && <5, containers >=0.6 && <0.9
+  default-language: Haskell2010
+  ghc-options: -Wall
+
+executable praxo-haskell-conformance
+  hs-source-dirs: conformance
+  main-is: Main.hs
+  build-depends: base >=4.14 && <5, praxo-core
+  default-language: Haskell2010
+  ghc-options: -Wall
+
+test-suite wire-tests
+  type: exitcode-stdio-1.0
+  hs-source-dirs: tests
+  main-is: Main.hs
+  build-depends: base >=4.14 && <5, praxo-core
+  default-language: Haskell2010
+  ghc-options: -Wall

@@ -3,7 +3,8 @@
 An unreleased, native Fortran 2008 implementation. This is not a bridge to Go,
 C, Python, or another SDK. All 62 normative vectors across eleven groups pass
 locally, alongside native regression tests and the API declaration snapshot.
-It is not released, and remote CI evidence is still pending.
+It is not released. The `fortran-conformance` job passed on the migration
+commit `bdc23a8`; consumer/release review and a version/tag decision remain pending.
 
 ## Build and Test
 
@@ -117,8 +118,8 @@ part of the test driver; intentional changes require review and regeneration
 with `--update`. It is a source declaration check, not a binary ABI guarantee.
 
 The `fortran-conformance` CI job runs native tests, all eleven groups, tooling
-tests, and the snapshot check. A release still requires successful remote CI,
-consumer/release review, and an explicit version/tag decision. Passing fixtures
+tests, and the snapshot check. The migration job provides remote test evidence;
+a release still requires consumer/release review and an explicit version/tag decision. Passing fixtures
 does not erase the declared partial surfaces in `spec/parity/fortran.md`.
 
 The SDK sources are original MIT-licensed code under the repository license.

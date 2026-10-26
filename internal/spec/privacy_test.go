@@ -24,7 +24,7 @@ var (
 
 func TestNoDisallowedEmails(t *testing.T) {
 	blocked := blockedDomains()
-	for _, file := range trackedFiles(t) {
+	for _, file := range workingTreeFiles(t) {
 		data, ok := readSmallTextFile(file)
 		if !ok {
 			continue
@@ -47,7 +47,7 @@ func TestNoDisallowedEmails(t *testing.T) {
 }
 
 func TestNoInternalHostnames(t *testing.T) {
-	for _, file := range trackedFiles(t) {
+	for _, file := range workingTreeFiles(t) {
 		data, ok := readSmallTextFile(file)
 		if !ok {
 			continue
@@ -100,19 +100,50 @@ func blockedDomains() map[string]bool {
 	return blocked
 }
 
-func trackedFiles(t *testing.T) []string {
+func workingTreeFiles(t *testing.T) []string {
 	t.Helper()
-	out, err := exec.Command("git", "ls-files", "-z").Output()
+	root := repoRoot(t)
+	command := exec.Command("git", "ls-files", "--cached", "--others", "--exclude-standard", "-z")
+	command.Dir = root
+	out, err := command.Output()
 	if err != nil {
 		t.Skipf("git ls-files unavailable: %v", err)
 	}
 	var files []string
 	for _, name := range strings.Split(string(out), "\x00") {
 		if name != "" {
-			files = append(files, filepath.FromSlash(name))
+			files = append(files, filepath.Join(root, filepath.FromSlash(name)))
 		}
 	}
 	return files
+}
+
+func TestPrivacyFileDiscovery(t *testing.T) {
+	root := repoRoot(t)
+	file, err := os.CreateTemp(root, "privacy-scan-test-*.txt")
+	if err != nil {
+		t.Fatal(err)
+	}
+	name := file.Name()
+	if err := file.Close(); err != nil {
+		_ = os.Remove(name)
+		t.Fatal(err)
+	}
+	t.Cleanup(func() { _ = os.Remove(name) })
+	wanted := map[string]bool{
+		filepath.Join(root, "VERSION"): false,
+		name:                           false,
+	}
+	for _, path := range workingTreeFiles(t) {
+		if _, ok := wanted[path]; ok {
+			wanted[path] = true
+		}
+	}
+	for path, found := range wanted {
+		if !found {
+			t.Errorf("privacy scan did not discover %s", path)
+		}
+	}
 }
 
 func readSmallTextFile(name string) ([]byte, bool) {

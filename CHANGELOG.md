@@ -4,6 +4,10 @@
 
 ### Added
 
+- `sdk/haskell/`: unreleased native Wire candidate for strict JSON, tool-call
+  parsing, bounded JSON Schema validation, and plugin manifest checks. Local
+  tests pass 24 shared vectors across three declared groups, native regressions,
+  and source API/parity checks. No agent loop or Hackage release is claimed.
 - `sdk/swift/Sources/PraxoCore`: Swift core loop, middleware, context, memory,
   checkpoint, policy, event, and conformance dispatch for all eleven vector
   groups.
@@ -119,6 +123,7 @@
 
 ### Changed
 
+- Planned language entries no longer display hypothetical release tags.
 - Documentation navigation is grouped by Quickstart, Adoption, Comparison,
   Adapters, Event Schema, Security, Compatibility, Plugin Authoring, Language
   SDKs, Releases, and Reference.
@@ -132,6 +137,13 @@
 - The Java SDK advances to `0.2.0` with the OpenAI adapter, virtual-thread
   execution, and cancellation, then to `0.2.1` with the API snapshot and
   parity release tooling.
+
+### Fixed
+
+- Privacy tests now scan the repository root and new untracked files instead
+  of only the test package directory; example endpoints use public placeholders.
+- D compiler CI downloads use a pinned official GitHub release artifact with
+  SHA256 verification, avoiding the failing upstream download/GPG-key service.
 
 ### Compatibility
 

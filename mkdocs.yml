@@ -141,6 +141,7 @@ nav:
       - Zig: sdks/zig.md
       - COBOL: sdks/cobol.md
       - Fortran: sdks/fortran.md
+      - Haskell: sdks/haskell.md
       - Shell: sdks/shell.md
       - PowerShell: sdks/powershell.md
   - Integrations:

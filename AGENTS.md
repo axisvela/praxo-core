@@ -78,6 +78,8 @@ cd sdk/rust; cargo test
 cd sdk/rust; cargo run --quiet --bin conformance
 go test ./internal/bridge ./cmd/praxo-bridge
 go run ./cmd/praxo-bridge version
+python sdk/haskell/run-tests.py
+python sdk/haskell/api-snapshot.py --check
 cd sdk/c; cmake -S . -B build; cmake --build build; ctest --test-dir build --output-on-failure
 cd sdk/csharp; dotnet build Praxo.Core/Praxo.Core.csproj
 cd sdk/csharp; dotnet run --project Praxo.Conformance

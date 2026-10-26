@@ -88,6 +88,25 @@ jobs:
       - run: python api-snapshot.py --check
       - run: python -m unittest discover -s tests -v
 
+  haskell-conformance:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: haskell-actions/setup@v2
+        with:
+          ghc-version: "9.12.2"
+          cabal-version: "3.14.2.0"
+      - run: python sdk/haskell/run-tests.py
+      - run: cabal build --offline all
+        working-directory: sdk/haskell
+
   typescript-conformance:
     runs-on: ubuntu-latest
     defaults:
@@ -226,9 +245,14 @@ jobs:
         working-directory: sdk/d
     steps:
       - uses: actions/checkout@v4
-      - uses: dlang-community/setup-dlang@v1
-        with:
-          compiler: dmd-2.113.0
+      - name: Install pinned DMD compiler
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release download v2.113.0 --repo dlang/dmd --pattern dmd.2.113.0.linux.tar.xz --dir "$RUNNER_TEMP/praxo-dmd"
+          echo "b342ab8bd40cc0c46407692b31d7cd69661ff01da686234f426949e881727294  $RUNNER_TEMP/praxo-dmd/dmd.2.113.0.linux.tar.xz" | sha256sum --check
+          tar -xJf "$RUNNER_TEMP/praxo-dmd/dmd.2.113.0.linux.tar.xz" -C "$RUNNER_TEMP/praxo-dmd"
+          echo "$RUNNER_TEMP/praxo-dmd/dmd2/linux/bin64" >> "$GITHUB_PATH"
       - run: mkdir -p build
       - run: dmd -i -Isource -O -release source/conformance.d -of=build/conformance
       - run: ./build/conformance
