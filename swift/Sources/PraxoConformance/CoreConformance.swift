@@ -196,8 +196,10 @@ func runMiddleware(_ input: Any?, _ expect: Any?) throws {
         try check(rejected == (Json.string(expect, "reject") ?? ""), "reject mismatch")
     case "fallback":
         let content = Json.string(input, "fallbackContent") ?? ""
-        let handler = Fallback.wrap(StaticModel(content)) { _ in throw PraxoError("PRIMARY_FAILED", "primary") }
-        try check(try handler(Request()).message.content == content, "output mismatch")
+        let middleware = Fallback.wrap(StaticModel(content))
+        let handler = middleware { _ in throw PraxoError("PRIMARY_FAILED", "primary") }
+        let response = try handler(Request())
+        try check(response.message.content == content, "output mismatch")
     default:
         throw PraxoError("CONFORMANCE", "unknown middleware operation")
     }
