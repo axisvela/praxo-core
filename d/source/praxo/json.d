@@ -1,9 +1,9 @@
 module praxo.json;
 
-public import std.json : JSONValue, JSONType, parseJSON;
+public import std.json : JSONValue, JSONType, JSONOptions, parseJSON;
 
 JSONValue parse(string text) {
-    return parseJSON(text);
+    return parseJSON(text, -1, JSONOptions.strictParsing);
 }
 
 string stringify(JSONValue value) {
