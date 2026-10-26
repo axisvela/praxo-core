@@ -95,7 +95,7 @@ lua lua/tests/run.lua
 cd dart; dart run conformance/run.dart
 cd dart; python api-snapshot.py --check
 cd dart; dart run tests/run.dart
-cd zig; zig build-exe src/conformance.zig -O ReleaseSafe -femit-bin=build/conformance
+cd zig; mkdir -p build; zig build-exe src/conformance.zig -O ReleaseSafe -femit-bin=build/conformance
 cd zig; ./build/conformance
 cd zig; zig test src/toolcall.zig
 cd zig; zig test src/jsonschema.zig
