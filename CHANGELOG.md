@@ -18,6 +18,8 @@
   snapshot, and the `ruby-conformance` CI job. Tagged `ruby/v0.1.0`.
 - `lua/`: Lua 5.4 core SDK with all eleven vector groups, core tests, an API
   snapshot, and the `lua-conformance` CI job. Tagged `lua/v0.1.0`.
+- `javascript/`: Node sample that consumes the TypeScript package, with a CI
+  smoke job. No separate JavaScript core or tag.
 - Wave 2 language plan for JavaScript, C++, Dart, Ruby, Kotlin, Scala, MATLAB,
   Perl, Delphi, OCaml/Caml, Lua, Scratch, COBOL, Prolog, and ABAP. C++, Ruby,
   Perl, Lua, and COBOL target core tier.

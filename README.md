@@ -81,7 +81,8 @@ shapes, one conformance suite, and one-to-one idiomatic APIs. The
 [C# SDK](csharp/README.md), [PHP SDK](php/README.md), [Perl SDK](perl/README.md),
 [C++ SDK](cpp/README.md), [Ruby SDK](ruby/README.md), and
 [Lua SDK](lua/README.md) core implementations pass all eleven vector groups;
-Python, TypeScript, Java, and C# include
+JavaScript consumes the TypeScript package through the
+[JavaScript sample](javascript/README.md). Python, TypeScript, Java, and C# include
 streaming and an OpenAI-compatible adapter. The [Swift SDK](swift/README.md),
 [Julia SDK](julia/README.md), and [R SDK](r/README.md) also implement the core
 loop and are tagged `swift/v0.2.0`, `julia/v0.2.0`, and `r/v0.2.0`. The

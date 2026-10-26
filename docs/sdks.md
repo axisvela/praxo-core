@@ -35,6 +35,7 @@ targets.
 
 | Language | Documentation | Tier | Status |
 | --- | --- | --- | --- |
+| JavaScript | [JavaScript sample](https://github.com/axisvela/praxo-core/tree/main/javascript) | Sample (TypeScript) | released |
 | Haskell | planned | Wire | planned |
 | Shell | [Shell bridge](https://github.com/axisvela/praxo-core/tree/main/shell) | Bridge | released |
 | PowerShell | [PowerShell bridge](https://github.com/axisvela/praxo-core/tree/main/powershell) | Bridge | released |
@@ -42,7 +43,7 @@ targets.
 
 ## Wave 2 Candidates
 
-JavaScript, Dart, Kotlin, Scala, MATLAB, Delphi, OCaml/Caml,
+Dart, Kotlin, Scala, MATLAB, Delphi, OCaml/Caml,
 Scratch, COBOL, Prolog, and ABAP are planned in the
 [language expansion plan](19-language-expansion.md). JavaScript reuses the
 TypeScript package; Kotlin and Scala reuse the Java SDK.

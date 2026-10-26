@@ -151,6 +151,17 @@ its API snapshot check. The VB.NET sample consumes the same assembly.
 The PHP SDK passes all eleven vector groups, its dependency-free tests, and its
 API snapshot check. It is a synchronous, standard-library-only package.
 
+### JavaScript sample (2026-10-26)
+
+| Item | Status | Evidence |
+| --- | --- | --- |
+| JavaScript sample | done | `javascript/sample.mjs` |
+| JavaScript discovery | done | `javascript/README.md`, `docs/sdks.md` |
+| Separate JavaScript core | not planned | TypeScript remains the source |
+
+The sample imports the built TypeScript package from Node and passes in CI.
+There is no separate JavaScript tag.
+
 ### Lua core (2026-10-26)
 
 | Item | Status | Evidence |

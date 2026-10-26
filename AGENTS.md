@@ -92,6 +92,8 @@ ruby ruby/tests/run.rb
 lua lua/conformance/run.lua
 python lua/api-snapshot.py --check
 lua lua/tests/run.lua
+cd typescript; npm run build
+node javascript/sample.mjs
 perl perl/conformance/run.pl
 perl perl/api-snapshot.pl --check
 perl perl/tests/run.pl

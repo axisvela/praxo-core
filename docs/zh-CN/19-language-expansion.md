@@ -53,7 +53,7 @@ TypeScript、Java 与 Rust。下一步采用**分层语言策略**：
 
 | 语言 | 目标层 | 理由 | 建议 |
 | --- | --- | --- | --- |
-| JavaScript | Sample（TypeScript） | TypeScript 已可编译到 Node 与浏览器 | 提供 JS 示例和导出，不做第二套核心 |
+| JavaScript | Sample（TypeScript，已交付） | TypeScript 已可编译到 Node 与浏览器 | 示例位于 `javascript/`，不做第二套核心 |
 | C++ | Core（已交付） | 原生系统与嵌入场景，工作量大 | 核心已随 `cpp/v0.1.0` 发布 |
 | Dart | Wire，后按需 Core | Flutter/Dart 异步、JSON、打包 | 先 Wire；有使用方再做 Core |
 | Ruby | Core（已交付） | Web 集成面大 | 核心已随 `ruby/v0.1.0` 发布 |

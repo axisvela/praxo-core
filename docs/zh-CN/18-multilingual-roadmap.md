@@ -142,6 +142,17 @@ C# SDK 已通过全部十一组向量、无依赖核心测试和 API 快照检�
 PHP SDK 已通过全部十一组向量、无依赖测试和 API 快照检查。它是同步的、
 仅依赖标准库的包。
 
+### JavaScript 示例（2026-10-26）
+
+| 项目 | 状态 | 证据 |
+| --- | --- | --- |
+| JavaScript 示例 | 完成 | `javascript/sample.mjs` |
+| JavaScript 入口 | 完成 | `javascript/README.md`、`docs/sdks.md` |
+| 独立 JavaScript 核心 | 不计划 | TypeScript 仍是源实现 |
+
+示例在 Node 中导入构建后的 TypeScript 包，并在 CI 中运行。没有独立的
+JavaScript 标签。
+
 ### Lua 核心（2026-10-26）
 
 | 项目 | 状态 | 证据 |

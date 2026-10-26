@@ -56,7 +56,7 @@ core loop without a named consumer and a maintenance owner.
 
 | Language | Target tier | Rationale | Recommendation |
 | --- | --- | --- | --- |
-| JavaScript | Sample (TypeScript) | TypeScript already compiles to JavaScript for Node and browsers | Ship JS samples and exports; do not fork a second core |
+| JavaScript | Sample (TypeScript, delivered) | TypeScript already compiles to JavaScript for Node and browsers | JS sample in `javascript/`; no separate core |
 | C++ | Core (delivered) | Native systems and embedding; large surface | Core shipped in `cpp/v0.1.0` |
 | Dart | Wire, then Core with consumer | Flutter/Dart async, JSON, packaging | Wire first; core with a consumer |
 | Ruby | Core (delivered) | Large web integration surface | Core shipped in `ruby/v0.1.0` |
