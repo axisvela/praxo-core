@@ -18,6 +18,9 @@ add_library(praxo_core STATIC
     src/conformance.c
 )
 target_include_directories(praxo_core PUBLIC include src)
+if(NOT WIN32)
+    target_link_libraries(praxo_core PUBLIC m)
+endif()
 
 add_executable(praxo-conformance src/main.c)
 target_link_libraries(praxo-conformance PRIVATE praxo_core)

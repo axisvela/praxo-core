@@ -2,6 +2,8 @@
 *.test
 *.out
 bin/
+!rust/src/bin/
+!rust/src/bin/**
 obj/
 build/
 dist/
