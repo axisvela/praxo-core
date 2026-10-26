@@ -19,9 +19,9 @@ loop. It includes a public API snapshot and a test runner.
 
 ```bash
 mkdir -p build
-dmd -i -I source -O -release source/conformance.d -of=build/conformance
+dmd -i -Isource -O -release source/conformance.d -of=build/conformance
 ./build/conformance
-dmd -i -I source -O -release source/tests.d -of=build/tests
+dmd -i -Isource -O -release source/tests.d -of=build/tests
 ./build/tests
 python api-snapshot.py --check
 ```

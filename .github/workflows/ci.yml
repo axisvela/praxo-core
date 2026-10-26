@@ -208,9 +208,9 @@ jobs:
         with:
           compiler: dmd-2.113.0
       - run: mkdir -p build
-      - run: dmd -i -I source -O -release source/conformance.d -of=build/conformance
+      - run: dmd -i -Isource -O -release source/conformance.d -of=build/conformance
       - run: ./build/conformance
-      - run: dmd -i -I source -O -release source/tests.d -of=build/tests
+      - run: dmd -i -Isource -O -release source/tests.d -of=build/tests
       - run: ./build/tests
       - run: python3 api-snapshot.py --check
 

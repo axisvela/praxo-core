@@ -95,9 +95,9 @@ lua lua/tests/run.lua
 cd dart; dart run conformance/run.dart
 cd dart; python api-snapshot.py --check
 cd dart; dart run tests/run.dart
-cd d; mkdir -p build; dmd -i -I source -O -release source/conformance.d -of=build/conformance
+cd d; mkdir -p build; dmd -i -Isource -O -release source/conformance.d -of=build/conformance
 cd d; ./build/conformance
-cd d; dmd -i -I source -O -release source/tests.d -of=build/tests
+cd d; dmd -i -Isource -O -release source/tests.d -of=build/tests
 cd d; ./build/tests
 cd d; python api-snapshot.py --check
 cd zig; mkdir -p build; zig build-exe src/conformance.zig -O ReleaseSafe -femit-bin=build/conformance
