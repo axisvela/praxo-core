@@ -171,6 +171,15 @@ jobs:
       - run: swift run praxo-conformance
       - run: python3 api-snapshot.py --check
 
+  lua-conformance:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: sudo apt-get update && sudo apt-get install -y lua5.4
+      - run: lua5.4 lua/conformance/run.lua
+      - run: python3 lua/api-snapshot.py --check
+      - run: lua5.4 lua/tests/run.lua
+
   ruby-conformance:
     runs-on: ubuntu-latest
     steps:

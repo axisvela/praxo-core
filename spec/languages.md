@@ -46,7 +46,7 @@ scope. A language may ship more than one tier over time.
 | Perl | Core | released | `perl/v0.1.0` | 11 vectors, 27 tests, API snapshot |
 | Delphi | Wire / Bridge | planned | `delphi/v0.1.0` | Consumer-gated |
 | OCaml / Caml | Wire | planned | `ocaml/v0.1.0` | Wire subset |
-| Lua | Core | planned | `lua/v0.1.0` | Core with an embedding host |
+| Lua | Core | released | `lua/v0.1.0` | 11 vectors, core tests, API snapshot |
 | Scratch | Bridge / extension | consumer-gated | none | Extension only |
 | COBOL | Core | planned | `cobol/v0.1.0` | Core with a named consumer |
 | Prolog | Bridge | consumer-gated | `prolog/v0.1.0` | Requires a named consumer |
@@ -65,6 +65,7 @@ scope. A language may ship more than one tier over time.
 | C# / VB.NET | `csharp-conformance` | build, vectors, API snapshot, core tests, VB sample |
 | PHP | `php-conformance` | vectors, API snapshot, core tests |
 | Ruby | `ruby-conformance` | 11 vectors, API snapshot, tests |
+| Lua | `lua-conformance` | 11 vectors, API snapshot, tests |
 | C++ | `cpp-conformance` | CMake build, 11 vectors, API snapshot, tests |
 | Perl | `perl-conformance` | 11 vectors, API snapshot, tests |
 | Swift | `swift-conformance` | swift test, 11 vectors, API snapshot |

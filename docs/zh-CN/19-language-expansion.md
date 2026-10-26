@@ -63,7 +63,7 @@ TypeScript、Java 与 Rust。下一步采用**分层语言策略**：
 | Perl | Core（已交付） | CPAN、JSON、HTTP，适合遗留胶水 | 核心已随 `perl/v0.1.0` 发布 |
 | Delphi | Wire / Bridge | Windows 企业集成 | 有使用方时做 Wire 或桥接 |
 | OCaml / Caml | Wire | 类型强，Agent 需求较小 | Wire 级包 |
-| Lua | Core | 可嵌入脚本；需要嵌入式 JSON/HTTP 宿主 | 有嵌入宿主的 Core SDK |
+| Lua | Core（已交付） | 可嵌入脚本；需要嵌入式 JSON/HTTP 宿主 | 核心已随 `lua/v0.1.0` 发布 |
 | Scratch | Bridge / 扩展 | 图形化环境，无原生 JSON/HTTP | 扩展桥接，需使用方 |
 | COBOL | Core | 遗留企业批处理与流程集成 | 有明确使用方的 Core SDK |
 | Prolog | Bridge | 逻辑与 CLI 工作流；无标准 HTTP/JSON 栈 | 有明确使用方时做桥接 |

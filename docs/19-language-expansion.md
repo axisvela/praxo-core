@@ -66,7 +66,7 @@ core loop without a named consumer and a maintenance owner.
 | Perl | Core (delivered) | CPAN, JSON, and HTTP for legacy glue | Core shipped in `perl/v0.1.0` |
 | Delphi | Wire / Bridge | Windows enterprise integration | Wire or bridge with a consumer |
 | OCaml / Caml | Wire | Strong types; niche agent demand | Wire-level package |
-| Lua | Core | Embeddable scripting; needs an embedded JSON/HTTP host | Core SDK with an embedding host |
+| Lua | Core (delivered) | Embeddable scripting; needs an embedded JSON/HTTP host | Core shipped in `lua/v0.1.0` |
 | Scratch | Bridge / extension | Visual/block environment without native JSON/HTTP | Extension bridge; consumer-gated |
 | COBOL | Core | Legacy enterprise batch and process integration | Core SDK with a named consumer |
 | Prolog | Bridge | Logic and CLI workflows; no standard HTTP/JSON stack | Bridge with a named consumer |

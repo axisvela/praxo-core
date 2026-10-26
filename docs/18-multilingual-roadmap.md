@@ -77,10 +77,10 @@ core, `java/v0.2.1` tags the Java core, `rust/v0.1.0` tags the Rust core impleme
 it, `shell/v0.1.0` / `powershell/v0.1.0` tag the bridge wrappers, and
 `c/v0.1.0` tags the C conformance core, `csharp/v0.1.0` tags the C# core,
 `php/v0.1.0` tags the PHP core, `perl/v0.1.0` tags the Perl core,
-`cpp/v0.1.0` tags the C++ core, `ruby/v0.1.0` tags the Ruby core, and
-`swift/v0.2.0`, `julia/v0.2.0`, and `r/v0.2.0` tag their core SDKs. The Swift,
-Julia, and R `0.1.0` tags remain available for consumers that pinned the wire
-subset.
+`cpp/v0.1.0` tags the C++ core, `ruby/v0.1.0` tags the Ruby core,
+`lua/v0.1.0` tags the Lua core, and `swift/v0.2.0`, `julia/v0.2.0`, and
+`r/v0.2.0` tag their core SDKs. The Swift, Julia, and R `0.1.0` tags remain
+available for consumers that pinned the wire subset.
 
 ### Phase 2 Progress (2026-10-25)
 
@@ -150,6 +150,17 @@ its API snapshot check. The VB.NET sample consumes the same assembly.
 
 The PHP SDK passes all eleven vector groups, its dependency-free tests, and its
 API snapshot check. It is a synchronous, standard-library-only package.
+
+### Lua core (2026-10-26)
+
+| Item | Status | Evidence |
+| --- | --- | --- |
+| Lua core | done | `lua/`, 11 vector groups, `lua/v0.1.0` |
+| Lua tests | done | `lua lua/tests/run.lua` |
+| Lua API snapshot | done | `lua/api/0.1.0.txt` |
+
+The Lua SDK uses only the standard library and passes all eleven vector groups,
+its core tests, and its API snapshot check.
 
 ### Ruby core (2026-10-26)
 
