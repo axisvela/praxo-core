@@ -67,7 +67,7 @@ func runEvent(_ input: Any?, _ expect: Any?) throws {
         Event(type: $0 as? String ?? "", sessionID: "s1")
     }
     if Json.string(input, "sink") == "multi" {
-        let count = max(1, Json.int(input, "sinkCount", 1))
+        let count = max(1, Json.int(input, "sinkCount", fallback: 1))
         let sinks = (0..<count).map { _ in RecordingSink() }
         let multi = MultiSink(sinks)
         events.forEach { multi.emit($0) }
