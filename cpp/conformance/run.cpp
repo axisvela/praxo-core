@@ -59,8 +59,9 @@ bool jbool(const Json& node, const std::string& key, bool fallback = false) {
     return node.contains(key) && node.at(key).is_bool() ? node.at(key).as_bool() : fallback;
 }
 
-Json jarray(const Json& node, const std::string& key) {
-    return node.contains(key) && node.at(key).is_array() ? node.at(key) : Json::array();
+const Json& jarray(const Json& node, const std::string& key) {
+    static const Json empty = Json::array();
+    return node.contains(key) && node.at(key).is_array() ? node.at(key) : empty;
 }
 
 Json jget(const Json& node, const std::string& key) {
