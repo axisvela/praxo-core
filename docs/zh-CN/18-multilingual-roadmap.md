@@ -71,8 +71,8 @@ python -m unittest discover -s tests -v
 `rust/v0.1.0` 标记 Rust 核心，`shell/v0.1.0` 与 `powershell/v0.1.0` 标记桥接
 包装，`c/v0.1.0` 标记 C 一致性核心，`csharp/v0.1.0` 标记 C# 核心，
 `php/v0.1.0` 标记 PHP 核心，`swift/v0.1.0` 标记 Swift wire 包，
-`julia/v0.1.0` 标记 Julia wire 包。`0.1.0` 标签继续保留给已固定早期契约的
-使用方。
+`julia/v0.1.0` 标记 Julia wire 包，`r/v0.1.0` 标记 R wire 包。
+`0.1.0` 标签继续保留给已固定早期契约的使用方。
 
 ### 阶段 2 进度（2026-10-25）
 
@@ -161,6 +161,16 @@ Swift 包目前仅覆盖 wire 层。macOS CI 会构建并运行 wire 向量；�
 | Julia 核心循环 | 计划中 | `julia/v0.1.0` 未包含 |
 
 Julia 包使用 JSON.jl 并通过 wire 向量。核心循环属于后续工作。
+
+### R wire 包（2026-10-26）
+
+| 项目 | 状态 | 证据 |
+| --- | --- | --- |
+| R wire | 完成 | `r/`、toolcall/jsonschema/plugin 向量 |
+| R 测试 | 完成 | `Rscript r/tests/run_tests.R` |
+| R 核心循环 | 计划中 | `r/v0.1.0` 未包含 |
+
+R 包使用基础 R 的 JSON 解析器并通过 wire 向量。核心循环属于后续工作。
 
 长尾语言分层见
 [语言扩展计划](19-language-expansion.md)。

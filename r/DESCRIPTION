@@ -1,0 +1,10 @@
+Package: praxocore
+Type: Package
+Title: PRAXO-CORE Wire Contract
+Version: 0.1.0
+Authors@R: person("AxisVela", role = c("aut", "cre"), email = "releases@axisvela.com")
+Description: R implementation of the PRAXO-CORE wire contract: tool calls,
+    JSON Schema subset, and plugin manifests.
+License: MIT
+Encoding: UTF-8
+RoxygenNote: 7.3.2

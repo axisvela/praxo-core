@@ -82,6 +82,8 @@ php php/tests/run.php
 julia --project=julia -e 'using Pkg; Pkg.instantiate()'
 julia --project=julia julia/conformance/run.jl
 julia --project=julia julia/test/runtests.jl
+Rscript r/conformance/run.R
+Rscript r/tests/run_tests.R
 ```
 
 ## Compatibility

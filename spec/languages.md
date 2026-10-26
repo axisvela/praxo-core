@@ -32,7 +32,7 @@ scope. A language may ship more than one tier over time.
 | PHP | Core | released | `php/v0.1.0` | 11 vectors, API snapshot, dependency-free |
 | Swift | Wire | released | `swift/v0.1.0` | 3 wire groups on macOS CI; core planned |
 | Julia | Wire | released | `julia/v0.1.0` | 3 wire groups, JSON.jl |
-| R | Wire | planned | `r/v0.1.0` | Wire subset |
+| R | Wire | released | `r/v0.1.0` | 3 wire groups, base-R JSON |
 | Haskell | Wire | planned | `haskell/v0.1.0` | Wire subset |
 | Fortran | Bridge | consumer-gated | `fortran/v0.1.0` | Requires a named consumer |
 | Lisp | Bridge | consumer-gated | `lisp/v0.1.0` | Requires a named consumer |
@@ -51,8 +51,9 @@ scope. A language may ship more than one tier over time.
 | PHP | `php-conformance` | vectors, API snapshot, core tests |
 | Swift | `swift-conformance` | swift test, wire vectors |
 | Julia | `julia-conformance` | Julia tests, wire vectors |
+| R | `r-conformance` | R tests, wire vectors |
 | Shell / PowerShell | `bridge` | bridge tests, both wrappers |
-| R, Haskell, Fortran, Lisp | none yet | pending toolchain or implementation |
+| Haskell, Fortran, Lisp | none yet | pending toolchain or implementation |
 
 ## Required Gates per Tier
 

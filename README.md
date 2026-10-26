@@ -81,7 +81,8 @@ shapes, one conformance suite, and one-to-one idiomatic APIs. The
 [C# SDK](csharp/README.md), and [PHP SDK](php/README.md) core implementations
 pass all eleven vector groups; Python, TypeScript, Java, and C# include
 streaming and an OpenAI-compatible adapter. The [Swift SDK](swift/README.md)
-and [Julia SDK](julia/README.md) provide wire-level subsets. See the
+and [Julia SDK](julia/README.md) and [R SDK](r/README.md) provide wire-level
+subsets. See the
 [design](docs/17-multilingual-sdk.md) and
 [roadmap](docs/18-multilingual-roadmap.md).
 

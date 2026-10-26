@@ -79,6 +79,8 @@
 - `julia/`: Julia wire package for toolcall, JSON Schema, and plugin
   manifests, with JSON.jl, tests, and a `julia-conformance` CI job. Tagged
   `julia/v0.1.0`.
+- `r/`: R wire package with a base-R JSON parser, tests, and an
+  `r-conformance` CI job. Tagged `r/v0.1.0`.
 - Split per-language parity inventories under `spec/parity/` with a structural
   linter.
 
