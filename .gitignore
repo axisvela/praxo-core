@@ -31,3 +31,4 @@ dart/pubspec.lock
 kotlin/*.jar
 kotlin-compiler.zip
 .scala-build/
+.bsp/
