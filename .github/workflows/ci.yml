@@ -197,6 +197,28 @@ jobs:
       - run: swift run praxo-conformance
       - run: python3 api-snapshot.py --check
 
+  fortran-conformance:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: sudo apt-get update
+      - run: sudo apt-get install -y gfortran
+      - run: python3 fortran/run-tests.py
+
+  cobol-native:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: sudo apt-get update
+      - run: sudo apt-get install -y gnucobol
+      - run: python3 cobol/run-tests.py
+
   d-conformance:
     runs-on: ubuntu-latest
     defaults:

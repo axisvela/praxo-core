@@ -34,7 +34,7 @@ scope. A language may ship more than one tier over time.
 | Julia | Core | released | `julia/v0.2.0` | 11 vectors, JSON.jl, API snapshot |
 | R | Core | released | `r/v0.2.0` | 11 vectors, base-R JSON, API snapshot |
 | Haskell | Wire | planned | `haskell/v0.1.0` | Wire subset |
-| Fortran | Core | consumer-gated | `fortran/v0.1.0` | Core requires a named consumer |
+| Fortran | Core | in progress | none | 11 vectors groups, native tests, API snapshot; CI/release pending |
 | Lisp | Bridge | consumer-gated | `lisp/v0.1.0` | Requires a named consumer |
 | JavaScript | Sample (TypeScript) | released | none | Uses the TypeScript package; no separate core |
 | C++ | Core | released | `cpp/v0.1.0` | 11 vectors, core tests, API snapshot |
@@ -52,7 +52,7 @@ scope. A language may ship more than one tier over time.
 | Zig | Core | released | `zig/v0.2.0` | 11 vectors, API snapshot; `zig/v0.1.0` remains wire |
 | Lua | Core | released | `lua/v0.1.0` | 11 vectors, core tests, API snapshot |
 | Scratch | Bridge / extension | consumer-gated | none | Extension only |
-| COBOL | Core | planned | `cobol/v0.1.0` | Core with a named consumer |
+| COBOL | Core | in progress | none | Native agent and JSON utilities; full conformance pending |
 | Prolog | Bridge | consumer-gated | `prolog/v0.1.0` | Requires a named consumer |
 | ABAP | Bridge | consumer-gated | `abap/v0.1.0` | Requires a named consumer |
 
@@ -80,8 +80,10 @@ scope. A language may ship more than one tier over time.
 | Julia | `julia-conformance` | Julia tests, 11 vectors, API snapshot |
 | R | `r-conformance` | R tests, 11 vectors, API snapshot |
 | Shell / PowerShell | `bridge` | bridge tests, both wrappers |
-| Haskell, Fortran, Lisp | none yet | pending toolchain or implementation |
-| D, Objective-C, OCaml, COBOL | none yet | core planned |
+| Fortran | `fortran-conformance` | native tests, 11 vector groups, API snapshot; release pending |
+| COBOL | `cobol-native` | native agent and JSON tests; not a release gate |
+| Haskell, Lisp | none yet | pending toolchain or implementation |
+| Objective-C, OCaml | none yet | core planned |
 | Wave 2 languages | none yet | planned; gate depends on declared tier |
 
 ## Required Gates per Tier

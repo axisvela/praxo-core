@@ -32,3 +32,14 @@ the product. The framework is a separate work with a separate repository.
 The reverse direction is authorized under the same internal relicensing
 record: PRAXOVELA implementation code may be copied into PRAXO-CORE and
 relicensed as MIT. The copy must be recorded with its source path and commit.
+
+## Native SDK Work
+
+The unreleased `cobol/` and `fortran/` sources are original MIT-licensed
+implementations of the contracts in `spec/`. Context compaction in the Fortran
+SDK follows the reference algorithm in `pkg/agent/context/compact.go`.
+No third-party JSON parser source is copied into these SDKs.
+
+GnuCOBOL, GNU Fortran, and their runtimes are external toolchain dependencies,
+not vendored SDK source. Their separate licenses and redistribution obligations
+continue to apply to compiler and runtime distributions.

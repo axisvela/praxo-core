@@ -123,6 +123,15 @@ Rscript r/tests/run_tests.R
 
 ## Compatibility
 
+Unreleased native SDK checks:
+
+```bash
+python fortran/run-tests.py
+python cobol/run-tests.py
+```
+
+These checks are partial implementation gates, not complete Core release gates.
+
 - Framework versions start at `0.x`.
 - PRAXOVELA product versions are independent.
 - Breaking changes require a minor bump before `1.0.0`.
