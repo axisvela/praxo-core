@@ -100,6 +100,7 @@ cd zig; ./build/conformance
 cd zig; zig test src/toolcall.zig
 cd zig; zig test src/jsonschema.zig
 cd zig; zig test src/plugin.zig
+cd zig; zig test src/pii_test.zig
 cd zig; python api-snapshot.py --check
 cd typescript; npm run build
 node javascript/sample.mjs

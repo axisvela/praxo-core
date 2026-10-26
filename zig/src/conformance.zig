@@ -1,4 +1,5 @@
 const std = @import("std");
+const core = @import("core_conformance.zig");
 const json = @import("json.zig");
 const jsonschema = @import("jsonschema.zig");
 const plugin = @import("plugin.zig");
@@ -73,7 +74,7 @@ fn runVector(allocator: Allocator, group: []const u8, vector: json.Json) !void {
     if (std.mem.eql(u8, group, "toolcall")) return runToolcall(allocator, input, expect);
     if (std.mem.eql(u8, group, "jsonschema")) return runJsonschema(allocator, input, expect);
     if (std.mem.eql(u8, group, "plugin")) return runPlugin(allocator, input, expect);
-    return error.UnknownGroup;
+    return core.run(allocator, group, vector);
 }
 
 fn readSpec(allocator: Allocator, io: std.Io, path: []const u8) ![]u8 {
@@ -113,8 +114,16 @@ pub fn main() !void {
     try runFile(allocator, io, "spec/vectors/toolcall.json", "toolcall", &failures);
     try runFile(allocator, io, "spec/vectors/jsonschema.json", "jsonschema", &failures);
     try runFile(allocator, io, "spec/vectors/plugin.json", "plugin", &failures);
+    try runFile(allocator, io, "spec/vectors/memory.json", "memory", &failures);
+    try runFile(allocator, io, "spec/vectors/event.json", "event", &failures);
+    try runFile(allocator, io, "spec/vectors/stream.json", "stream", &failures);
+    try runFile(allocator, io, "spec/vectors/checkpoint.json", "checkpoint", &failures);
+    try runFile(allocator, io, "spec/vectors/policy.json", "policy", &failures);
+    try runFile(allocator, io, "spec/vectors/context.json", "context", &failures);
+    try runFile(allocator, io, "spec/vectors/middleware.json", "middleware", &failures);
+    try runFile(allocator, io, "spec/vectors/agent-loop.json", "agent-loop", &failures);
     if (failures.items.len == 0) {
-        std.debug.print("all wire vectors passed\n", .{});
+        std.debug.print("all spec vectors passed\n", .{});
         return;
     }
     for (failures.items) |failure| std.debug.print("{s}\n", .{failure});

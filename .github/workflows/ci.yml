@@ -213,6 +213,7 @@ jobs:
       - run: zig test src/toolcall.zig
       - run: zig test src/jsonschema.zig
       - run: zig test src/plugin.zig
+      - run: zig test src/pii_test.zig
       - run: python3 api-snapshot.py --check
 
   dart-conformance:

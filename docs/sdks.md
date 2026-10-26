@@ -25,6 +25,7 @@ targets.
 | Ruby | [Ruby SDK](https://github.com/axisvela/praxo-core/tree/main/ruby) | Core | released |
 | Lua | [Lua SDK](https://github.com/axisvela/praxo-core/tree/main/lua) | Core | released |
 | Dart | [Dart SDK](https://github.com/axisvela/praxo-core/tree/main/dart) | Core | released |
+| Zig | [Zig SDK](https://github.com/axisvela/praxo-core/tree/main/zig) | Core | released |
 | C# | [C# SDK](https://github.com/axisvela/praxo-core/tree/main/csharp) | Core | released |
 | PHP | [PHP SDK](https://github.com/axisvela/praxo-core/tree/main/php) | Core | released |
 | Perl | [Perl SDK](https://github.com/axisvela/praxo-core/tree/main/perl) | Core | released |
@@ -37,7 +38,6 @@ targets.
 | Language | Documentation | Tier | Status |
 | --- | --- | --- | --- |
 | JavaScript | [JavaScript sample](https://github.com/axisvela/praxo-core/tree/main/javascript) | Sample (TypeScript) | released |
-| Zig | [Zig SDK](https://github.com/axisvela/praxo-core/tree/main/zig) | Wire | released |
 | Haskell | planned | Wire | planned |
 | Shell | [Shell bridge](https://github.com/axisvela/praxo-core/tree/main/shell) | Bridge | released |
 | PowerShell | [PowerShell bridge](https://github.com/axisvela/praxo-core/tree/main/powershell) | Bridge | released |

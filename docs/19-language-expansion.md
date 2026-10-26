@@ -46,7 +46,7 @@ is bridge-only, while PHP can start wire-only and later grow a core loop.
 | Julia | Core (delivered) | Scientific computing; JSON/HTTP are available but agent loops are unusual | Core shipped in `julia/v0.2.0` |
 | R | Core (delivered) | Statistics and data workflows; package ecosystem is CRAN | Core shipped in `r/v0.2.0` |
 | Haskell | Wire | Strong types, smaller AI tooling demand | Wire-level package |
-| Fortran | Bridge | Numeric code; no practical agent runtime | Only with a named consumer |
+| Fortran | Core | Numeric code; core requires a named consumer | Core SDK with a named consumer |
 | Lisp | Bridge | Niche; S-expression/JSON bridge is cheaper than a core port | Only with a named consumer |
 
 ## Wave 2 Candidates
@@ -65,11 +65,10 @@ core loop without a named consumer and a maintenance owner.
 | MATLAB | Wire | Scientific workflows; JSON and HTTP available | Wire-level package |
 | Perl | Core (delivered) | CPAN, JSON, and HTTP for legacy glue | Core shipped in `perl/v0.1.0` |
 | Delphi | Wire / Bridge | Windows enterprise integration | Wire or bridge with a consumer |
-| OCaml / Caml | Wire | Strong types; niche agent demand | Wire-level package |
-| D | Wire | Systems language with native JSON and C interop | Wire first; core with a consumer |
-| Objective-C | Wire | Apple platforms; can bridge to Swift | Wire or Swift bridge; no second Apple core |
-| VBScript | Bridge | Legacy Windows automation; no modern runtime | Bridge over the C# or bridge CLI |
-| Zig | Wire (delivered) | Native systems, `std.json`, no runtime | Wire shipped in `zig/v0.1.0`; core with a consumer |
+| OCaml / Caml | Core | Strong types; niche agent demand | Core SDK with a maintenance owner |
+| D | Core | Systems language with native JSON and C interop | Core SDK with a maintenance owner |
+| Objective-C | Core | Apple platforms; can consume or bridge Swift | Core SDK on Apple platforms |
+| Zig | Core (delivered) | Native systems, `std.json`, no runtime | Core shipped in `zig/v0.2.0` |
 | Scratch | Bridge / extension | Visual/block environment without native JSON/HTTP | Extension bridge; consumer-gated |
 | COBOL | Core | Legacy enterprise batch and process integration | Core SDK with a named consumer |
 | Prolog | Bridge | Logic and CLI workflows; no standard HTTP/JSON stack | Bridge with a named consumer |
@@ -167,10 +166,10 @@ Rules:
 | L2 | PHP core (delivered) | 11 vectors + API snapshot |
 | L3 | Swift core (delivered) | 11 vectors + API snapshot |
 | L4 | Julia, R core (delivered); Haskell wire | 11 vectors + API snapshot |
-| L5 | Shell bridge, Fortran/Lisp if consumer | bridge contract tests |
+| L5 | Shell bridge; Lisp if consumer | bridge contract tests |
 | L6 | C++, Ruby, Perl, Lua, COBOL core; JavaScript, Kotlin, Scala samples | 11 vectors + API snapshot |
-| L7 | Dart core; MATLAB, OCaml wire; Delphi wire/bridge; Scratch, Prolog, ABAP bridges | declared wire or bridge gate |
-| L8 | D, Objective-C, Zig wire; VBScript bridge | declared wire or bridge gate |
+| L7 | Dart core; MATLAB wire; Delphi wire/bridge; Scratch, Prolog, ABAP bridges | declared wire or bridge gate |
+| L8 | D, Objective-C, OCaml, Zig core; Fortran core with consumer; VBScript bridge | 11 vectors + API snapshot or bridge gate |
 
 Internal effort estimates are tracked outside this repository.
 
@@ -182,7 +181,7 @@ Internal effort estimates are tracked outside this repository.
 - Treating Visual Basic as a separate SDK from C#.
 - Adding a second JVM core when the Java SDK owns the contract.
 - Adding a separate JavaScript core when the TypeScript package is the source.
-- Adding Fortran/Lisp without a named consumer.
+- Adding Fortran core or Lisp without a named consumer.
 - Implementing a native Scratch, Prolog, or ABAP agent loop.
 
 ## Decision Log
@@ -193,12 +192,12 @@ Internal effort estimates are tracked outside this repository.
 | L2 | C# is the next native core SDK | accepted |
 | L3 | Visual Basic consumes the .NET package; no separate port | accepted |
 | L4 | Shell and PowerShell are bridge languages | accepted |
-| L5 | Fortran and Lisp require a named consumer | accepted |
+| L5 | Fortran core and Lisp require a named consumer | accepted |
 | L6 | Move parity to per-language files as languages grow | proposed |
 | L7 | Wave 2 reuses TypeScript for JavaScript and Java for Kotlin/Scala | proposed |
 | L8 | C++, Ruby, Perl, Lua, and COBOL target core | proposed |
 | L9 | Scratch, Prolog, and ABAP remain consumer-gated bridges | proposed |
-| L10 | D, Objective-C, and Zig start at wire tier; VBScript is a bridge | proposed |
+| L10 | D, Objective-C, OCaml, and Zig target core; Fortran core needs a consumer | proposed |
 
 ## Related Documents
 

@@ -79,7 +79,7 @@ Go 仍是参考实现。Python、TypeScript 和 Java SDK 基于
 JavaScript 通过 [JavaScript 示例](javascript/README.md)复用 TypeScript 包，
 Kotlin 与 Scala 通过 [Kotlin](kotlin/README.md) 和
 [Scala](scala/README.md) 示例复用 Java SDK。
-[Zig SDK](zig/README.md) 提供 wire 子集。
+[Zig SDK](zig/README.md) 实现核心循环。
 Python、TypeScript、Java 与 C# 包含流式路径和 OpenAI 兼容
 适配器。[Swift SDK](swift/README.md)、[Julia SDK](julia/README.md) 与
 [R SDK](r/README.md) 也已实现核心循环，并分别以 `swift/v0.2.0`、

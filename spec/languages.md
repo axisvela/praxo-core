@@ -34,22 +34,22 @@ scope. A language may ship more than one tier over time.
 | Julia | Core | released | `julia/v0.2.0` | 11 vectors, JSON.jl, API snapshot |
 | R | Core | released | `r/v0.2.0` | 11 vectors, base-R JSON, API snapshot |
 | Haskell | Wire | planned | `haskell/v0.1.0` | Wire subset |
-| Fortran | Bridge | consumer-gated | `fortran/v0.1.0` | Requires a named consumer |
+| Fortran | Core | consumer-gated | `fortran/v0.1.0` | Core requires a named consumer |
 | Lisp | Bridge | consumer-gated | `lisp/v0.1.0` | Requires a named consumer |
 | JavaScript | Sample (TypeScript) | released | none | Uses the TypeScript package; no separate core |
 | C++ | Core | released | `cpp/v0.1.0` | 11 vectors, core tests, API snapshot |
 | Dart | Core | released | `dart/v0.1.0` | 11 vectors, core tests, API snapshot |
 | Ruby | Core | released | `ruby/v0.1.0` | 11 vectors, core tests, API snapshot |
-| Kotlin | Sample (JVM) | planned | none | Uses the Java SDK |
-| Scala | Sample (JVM) | planned | none | Uses the Java SDK |
+| Kotlin | Sample (JVM) | released | none | Uses the Java SDK |
+| Scala | Sample (JVM) | released | none | Uses the Java SDK |
 | MATLAB | Wire | planned | `matlab/v0.1.0` | Wire subset |
 | Perl | Core | released | `perl/v0.1.0` | 11 vectors, 27 tests, API snapshot |
 | Delphi | Wire / Bridge | planned | `delphi/v0.1.0` | Consumer-gated |
-| OCaml / Caml | Wire | planned | `ocaml/v0.1.0` | Wire subset |
-| D | Wire | planned | `d/v0.1.0` | Wire subset |
-| Objective-C | Wire | planned | `objc/v0.1.0` | Wire subset |
+| OCaml / Caml | Core | planned | `ocaml/v0.1.0` | Core SDK planned |
+| D | Core | planned | `d/v0.1.0` | Core SDK planned |
+| Objective-C | Core | planned | `objc/v0.1.0` | Core SDK planned |
 | VBScript | Bridge | planned | none | Bridge over .NET or the bridge CLI |
-| Zig | Wire | released | `zig/v0.1.0` | 3 wire groups, API snapshot |
+| Zig | Core | released | `zig/v0.2.0` | 11 vectors, API snapshot; `zig/v0.1.0` remains wire |
 | Lua | Core | released | `lua/v0.1.0` | 11 vectors, core tests, API snapshot |
 | Scratch | Bridge / extension | consumer-gated | none | Extension only |
 | COBOL | Core | planned | `cobol/v0.1.0` | Core with a named consumer |
@@ -71,7 +71,7 @@ scope. A language may ship more than one tier over time.
 | Ruby | `ruby-conformance` | 11 vectors, API snapshot, tests |
 | Lua | `lua-conformance` | 11 vectors, API snapshot, tests |
 | Dart | `dart-conformance` | 11 vectors, API snapshot, tests |
-| Zig | `zig-conformance` | 3 wire groups, API snapshot, tests |
+| Zig | `zig-conformance` | 11 vectors, API snapshot, tests |
 | JavaScript | `javascript-sample` | TypeScript build + Node sample |
 | C++ | `cpp-conformance` | CMake build, 11 vectors, API snapshot, tests |
 | Perl | `perl-conformance` | 11 vectors, API snapshot, tests |
@@ -80,6 +80,7 @@ scope. A language may ship more than one tier over time.
 | R | `r-conformance` | R tests, 11 vectors, API snapshot |
 | Shell / PowerShell | `bridge` | bridge tests, both wrappers |
 | Haskell, Fortran, Lisp | none yet | pending toolchain or implementation |
+| D, Objective-C, OCaml, COBOL | none yet | core planned |
 | Wave 2 languages | none yet | planned; gate depends on declared tier |
 
 ## Required Gates per Tier

@@ -25,9 +25,9 @@
 - `kotlin/` and `scala/`: JVM samples that consume the Java SDK, with
   `kotlin-sample` and `scala-sample` CI jobs. No separate tags.
 - Language expansion now also tracks D, Objective-C, VBScript, and Zig.
-- `zig/`: Zig 0.17 wire SDK for toolcall, JSON Schema, and plugin manifests,
-  with tests, an API snapshot, and the `zig-conformance` CI job. Tagged
-  `zig/v0.1.0`.
+- `zig/`: Zig 0.17 core SDK with all eleven vector groups, tests, an API
+  snapshot, and the `zig-conformance` CI job. Core tagged `zig/v0.2.0`;
+  `zig/v0.1.0` remains the wire tag.
 - Wave 2 language plan for JavaScript, C++, Dart, Ruby, Kotlin, Scala, MATLAB,
   Perl, Delphi, OCaml/Caml, Lua, Scratch, COBOL, Prolog, and ABAP. C++, Ruby,
   Perl, Lua, and COBOL target core tier.
