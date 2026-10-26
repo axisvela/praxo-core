@@ -46,6 +46,7 @@ contains
       logical :: ok, accepted
       type(sdk_error) :: pattern_error
       if (json_kind(rules, rule) /= 'O' .or. error%failed()) return
+      allocate(entries(0), children(0))
       kind = json_text(rules, json_get(rules, rule, 'type'))
       if (json_kind(value, node) == 'Z') then
         if (kind /= '') call add(path, 'typed value cannot be null')
