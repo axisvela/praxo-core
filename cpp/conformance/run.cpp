@@ -422,19 +422,24 @@ void run_agent_loop(const Json& input, const Json& expect) {
     options.max_steps = jint(input, "maxSteps");
     options.max_tokens = jint(input, "maxTokens");
     std::optional<RunResult> result;
-    std::string failure;
+    bool threw = false;
+    std::string failure_code;
+    std::string failure_message;
     try {
         result = run_agent(options, Session{"s1", {}}, jstring(input, "prompt"));
     } catch (const std::exception& error) {
-        failure = error_code(error);
+        threw = true;
+        failure_code = error_code(error);
+        failure_message = error.what();
     }
     if (jbool(expect, "error")) {
-        check(!failure.empty(), "unexpected success");
+        check(threw, "unexpected success");
         if (expect.contains("errorCode")) {
-            check(failure == jstring(expect, "errorCode"), "errorCode mismatch");
+            check(failure_code == jstring(expect, "errorCode"), "errorCode mismatch");
         }
     } else {
-        check(failure.empty(), "unexpected failure: " + failure);
+        check(!threw, "unexpected failure: " + failure_message);
+        check(result.has_value(), "missing result");
         check(result->output == jstring(expect, "output"), "output mismatch");
         check(result->steps == jint(expect, "steps"), "steps mismatch");
     }
