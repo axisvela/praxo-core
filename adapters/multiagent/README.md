@@ -41,7 +41,7 @@ credentials, and child-agent construction.
   to RHEOVELA or the product runtime.
 - Timeouts cancel outstanding child contexts and return `ErrTimeout`.
 - Use `examples/multiagent` for the dependency-free delegation demo and
-  `docs/13-multi-agent.md` for the full boundary description.
+  `docs/guides/multi-agent.md` for the full boundary description.
 
 ## Test
 

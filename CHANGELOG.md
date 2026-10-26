@@ -33,12 +33,12 @@
 - Wave 2 language plan for JavaScript, C++, Dart, Ruby, Kotlin, Scala, MATLAB,
   Perl, Delphi, OCaml/Caml, Lua, Scratch, COBOL, Prolog, and ABAP. C++, Ruby,
   Perl, Lua, and COBOL target core tier.
-- `docs/sdks.md` and `docs/documentation-index.md` for SDK discovery and docs
+- `docs/sdks/index.md` and `docs/getting-started/index.md` for SDK discovery and docs
   navigation.
 - `internal/spec/privacy_test.go`: opt-in git-history and working-tree checks
   for non-public email domains and internal hostnames.
-- Multilingual SDK design (`docs/17-multilingual-sdk.md`) and roadmap
-  (`docs/18-multilingual-roadmap.md`) for Python, TypeScript, and Java SDKs.
+- Multilingual SDK design (`docs/contributing/sdk-design.md`) and roadmap
+  (`docs/sdks/support.md`) for Python, TypeScript, and Java SDKs.
 - `spec/` scaffold: `SPEC_VERSION`, event/error/schema/plugin wire artifacts,
   `parity.md`, and the conformance-vector format.
 - Conformance vectors for the agent loop, toolcall, JSON Schema, plugin,
@@ -91,7 +91,7 @@
 - `rust/src/bin/conformance.rs`, the `rust-conformance` CI job, and seven
   Rust unit tests. The Rust SDK passes all eleven conformance vector groups.
 - Rust SDK `0.1.0` source tag `rust/v0.1.0`.
-- `docs/19-language-expansion.md`: tiered plan for C#, Visual Basic,
+- `docs/contributing/language-policy.md`: tiered plan for C#, Visual Basic,
   PowerShell, Shell, PHP, Swift, R, Julia, Haskell, Fortran, and Lisp.
 - `spec/languages.md`: canonical language support matrix.
 - `spec/bridge.md` and `cmd/praxo-bridge`: process bridge for toolcall,
@@ -386,7 +386,7 @@ and `adapters/multiagent/v0.1.0`.
 
 ### Migration
 
-- See `docs/11-migration-v2.md`.
+- See `docs/project/migration-v2.md`.
 
 All notable changes to PRAXO-CORE are documented here.
 
@@ -486,7 +486,7 @@ All notable changes to PRAXO-CORE are documented here.
 
 ### Changed
 
-- Exported API frozen; see `docs/07-api-freeze.md`.
+- Exported API frozen; see `docs/project/api-stability.md`.
 - Removed the deprecated `pkg/output`, `pkg/format`, and `pkg/tool/schema`
   aliases. Use `pkg/toolcall`, `pkg/formatter`, and `pkg/tool/jsonschema`.
 - API snapshot `api/1.0.0.txt`; the diff from `0.16.0` is alias removal only.
@@ -509,7 +509,7 @@ All notable changes to PRAXO-CORE are documented here.
 - `examples/integrator`: a self-contained external-integrator wiring example.
 - API snapshot/diff scripts, release-check gate, SBOM/checksums scripts, and a
   tag-triggered release workflow.
-- `docs/10-plugin-authoring.md`: Manifest v1, process/WASM protocol, TCK usage.
+- `docs/guides/plugins.md`: Manifest v1, process/WASM protocol, TCK usage.
 
 ### Changed
 
@@ -517,7 +517,7 @@ All notable changes to PRAXO-CORE are documented here.
   `pkg/formatter` (was `pkg/format`), and `pkg/tool/jsonschema` (was
   `pkg/tool/schema`). The old paths remain as deprecated aliases through the
   `0.16` line and are removed in `1.0.0`; migration is tracked in
-  `docs/07-api-freeze.md`.
+  `docs/project/api-stability.md`.
 - `toolcall.ToolCall` documents `Operation`, `Resource`, `Risk`, `Reason`, and
   `IdempotencyKey` as optional product governance metadata; the parser does not
   interpret or validate them.

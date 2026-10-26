@@ -190,7 +190,7 @@ Wrappers may add argument parsing and file I/O, but must:
 
 ## Related Documents
 
-- [Language expansion plan](../docs/19-language-expansion.md)
+- [Language expansion plan](../docs/contributing/language-policy.md)
 - [Language support matrix](languages.md)
-- [Event schema](../docs/event-schema.md)
-- [Plugin authoring](../docs/10-plugin-authoring.md)
+- [Event schema](../docs/reference/events.md)
+- [Plugin authoring](../docs/guides/plugins.md)

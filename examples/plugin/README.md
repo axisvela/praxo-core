@@ -46,7 +46,7 @@ Unknown methods return `NOT_FOUND`; a bad token returns `CAPABILITY_DENIED`.
 
 The example sets `RequireLimits: false` for portability. Production hosts should
 set `RequireLimits` and `RequireEvidence` as described in
-[docs/10-plugin-authoring.md](../../docs/10-plugin-authoring.md).
+[plugin authoring guide](../../docs/guides/plugins.md).
 
 ## Test
 

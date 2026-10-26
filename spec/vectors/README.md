@@ -76,4 +76,4 @@ GOWORK=off go test -count=1 ./internal/spec/... -v
 cd python && python conformance/run.py
 ```
 
-See the [multilingual roadmap](../../docs/18-multilingual-roadmap.md).
+See the [multilingual roadmap](../../docs/sdks/support.md).

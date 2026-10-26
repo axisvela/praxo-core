@@ -1,9 +1,8 @@
 site_name: PRAXO-CORE
-site_description: A public, MIT-licensed agent framework for the AxisVela ecosystem.
+site_description: An embeddable MIT-licensed agent framework with explicit policy controls, checkpoints, and event tracing.
 site_url: https://axisvela.github.io/praxo-core/
 repo_url: https://github.com/axisvela/praxo-core
 repo_name: axisvela/praxo-core
-
 docs_dir: docs
 
 theme:
@@ -22,10 +21,76 @@ theme:
         icon: material/brightness-4
         name: Switch to light mode
   features:
-    - navigation.sections
+    - navigation.indexes
     - navigation.top
     - search.suggest
     - content.code.copy
+
+plugins:
+  - search:
+      lang:
+        - en
+        - zh
+  - i18n:
+      docs_structure: folder
+      languages:
+        - locale: en
+          default: true
+          name: English
+          build: true
+        - locale: zh-CN
+          name: 简体中文
+          build: true
+          theme:
+            language: zh
+          nav_translations:
+            Home: 首页
+            Getting Started: 开始使用
+            Start Here: 阅读导览
+            Overview: 概览
+            Quickstart: 快速开始
+            Adoption: 采用指南
+            Guides: 使用指南
+            Integration: 集成
+            Recipes: 接入示例
+            Multi-Agent: 多 Agent 模式
+            Plugins: 插件编写
+            Language SDKs: 语言 SDK
+            SDK Directory: SDK 目录
+            Support Policy: 支持政策
+            Integrations: 适配与生态
+            Adapter Directory: 适配器目录
+            Ecosystem: 生态集成
+            Reference: 技术参考
+            Architecture: 架构
+            Primitives: 基础能力
+            Events: 事件
+            Workspace and Session: 工作区与会话
+            Security: 安全
+            Security Model: 安全模型
+            Containment: 路径隔离
+            Plugin Trust: 插件信任
+            Project: 项目信息
+            Compatibility: 兼容性
+            Compatibility Policy: 兼容政策
+            API Stability: API 稳定性
+            v2 Migration: v2 迁移
+            Comparison: 框架对比
+            Benchmarks: 基准测试
+            Roadmap: 公开路线图
+            License and Provenance: 许可证与来源
+            Contributing: 参与贡献
+            SDK Design: SDK 设计
+            Language Policy: 语言支持规范
+            Releases: 版本发布
+            Release Overview: 版本总览
+            Latest Release: 最新版本
+            Release Process: 发布规范
+  - redirects:
+      redirect_maps: {}
+
+hooks:
+  - scripts/docs_hooks.py
 
 markdown_extensions:
   - admonition
@@ -38,89 +103,70 @@ markdown_extensions:
 
 nav:
   - Home: index.md
-  - Documentation index: documentation-index.md
-  - Quickstart: quickstart.md
-  - Adoption: adoption.md
-  - Comparison: comparison.md
-  - Adapters: adapters.md
-  - Event Schema: event-schema.md
-  - Security:
-      - Security model: 08-security.md
-      - Containment assessment: containment-review.md
-      - Plugin trust and SBOM: 15-plugin-trust-sbom.md
-  - Compatibility:
-      - Compatibility: 05-compatibility.md
-      - Compatibility policy: 16-compatibility-policy.md
-      - API freeze: 07-api-freeze.md
-      - v2 migration: 11-migration-v2.md
-  - Plugin Authoring: 10-plugin-authoring.md
+  - Getting Started:
+      - Start Here: getting-started/index.md
+      - Overview: getting-started/overview.md
+      - Quickstart: getting-started/quickstart.md
+      - Adoption: getting-started/adoption.md
+  - Guides:
+      - Integration: guides/integration.md
+      - Recipes: guides/recipes.md
+      - Multi-Agent: guides/multi-agent.md
+      - Plugins: guides/plugins.md
   - Language SDKs:
-      - SDK directory: sdks.md
-      - Multilingual SDK design: 17-multilingual-sdk.md
-      - Multilingual roadmap: 18-multilingual-roadmap.md
-      - Language expansion plan: 19-language-expansion.md
-  - Releases:
-      - Release process: 09-release.md
-      - 2.5.0: releases/2.5.0.md
-      - 2.4.0: releases/2.4.0.md
-      - 2.3.6: releases/2.3.6.md
-      - 2.3.5: releases/2.3.5.md
-      - 2.3.4: releases/2.3.4.md
-      - 2.3.3: releases/2.3.3.md
-      - 2.3.2: releases/2.3.2.md
-      - 2.3.1: releases/2.3.1.md
-      - 2.3.0: releases/2.3.0.md
-      - 2.2.0: releases/2.2.0.md
-      - 2.1.0: releases/2.1.0.md
+      - SDK Directory: sdks/index.md
+      - Support Policy: sdks/support.md
+      - Go: sdks/go.md
+      - Python: sdks/python.md
+      - TypeScript: sdks/typescript.md
+      - JavaScript: sdks/javascript.md
+      - Java: sdks/java.md
+      - Kotlin: sdks/kotlin.md
+      - Scala: sdks/scala.md
+      - Rust: sdks/rust.md
+      - C: sdks/c.md
+      - C++: sdks/cpp.md
+      - C# / .NET: sdks/csharp.md
+      - Visual Basic: sdks/visual-basic.md
+      - PHP: sdks/php.md
+      - Ruby: sdks/ruby.md
+      - Perl: sdks/perl.md
+      - Lua: sdks/lua.md
+      - Dart: sdks/dart.md
+      - Swift: sdks/swift.md
+      - Julia: sdks/julia.md
+      - R: sdks/r.md
+      - D: sdks/d.md
+      - Zig: sdks/zig.md
+      - COBOL: sdks/cobol.md
+      - Fortran: sdks/fortran.md
+      - Shell: sdks/shell.md
+      - PowerShell: sdks/powershell.md
+  - Integrations:
+      - Adapter Directory: integrations/index.md
+      - Ecosystem: integrations/ecosystem.md
   - Reference:
-      - Overview: 00-overview.md
-      - Architecture: 01-architecture.md
-      - Primitives: 02-primitives.md
-      - Integration: 03-integration.md
-      - Recipes: recipes.md
-      - Multi-agent patterns: 13-multi-agent.md
-      - Workspace and session contract: 14-workspace-session.md
-      - AxisVela ecosystem: 12-ecosystem.md
-      - Benchmarks: benchmarks.md
-      - Roadmap: 06-roadmap.md
-      - License and provenance: 04-license-and-provenance.md
-  - 中文:
-      - 中文首页: zh-CN/README.md
-      - 快速开始: zh-CN/quickstart.md
-      - 2.5.0 发布说明: zh-CN/releases/2.5.0.md
-      - 2.4.0 发布说明: zh-CN/releases/2.4.0.md
-      - 2.3.6 发布说明: zh-CN/releases/2.3.6.md
-      - 2.3.5 发布说明: zh-CN/releases/2.3.5.md
-      - 2.3.4 发布说明: zh-CN/releases/2.3.4.md
-      - 2.3.3 发布说明: zh-CN/releases/2.3.3.md
-      - 2.3.2 发布说明: zh-CN/releases/2.3.2.md
-      - 2.3.1 发布说明: zh-CN/releases/2.3.1.md
-      - 2.3.0 发布说明: zh-CN/releases/2.3.0.md
-      - 2.2.0 发布说明: zh-CN/releases/2.2.0.md
-      - 2.1.0 发布说明: zh-CN/releases/2.1.0.md
-      - 采用指南: zh-CN/adoption.md
-      - 概览: zh-CN/00-overview.md
-      - 架构: zh-CN/01-architecture.md
-      - 基础能力: zh-CN/02-primitives.md
-      - 多语言 SDK 设计: zh-CN/17-multilingual-sdk.md
-      - 多语言路线图: zh-CN/18-multilingual-roadmap.md
-      - 语言扩展计划: zh-CN/19-language-expansion.md
-      - 集成: zh-CN/03-integration.md
-      - Recipes: zh-CN/recipes.md
-      - 适配器索引: zh-CN/adapters.md
-      - 多 Agent 模式: zh-CN/13-multi-agent.md
-      - Workspace 与 Session 契约: zh-CN/14-workspace-session.md
-      - AxisVela 生态: zh-CN/12-ecosystem.md
-      - 对比: zh-CN/comparison.md
-      - 插件编写: zh-CN/10-plugin-authoring.md
-      - v2 迁移: zh-CN/11-migration-v2.md
-      - 安全模型: zh-CN/08-security.md
-      - 事件 schema: zh-CN/event-schema.md
-      - 插件信任与 SBOM: zh-CN/15-plugin-trust-sbom.md
-      - 基准测试: zh-CN/benchmarks.md
-      - 发布流程: zh-CN/09-release.md
-      - API 冻结: zh-CN/07-api-freeze.md
-      - 路线图: zh-CN/06-roadmap.md
-      - 兼容性: zh-CN/05-compatibility.md
-      - 兼容与弃用策略: zh-CN/16-compatibility-policy.md
-      - 许可证与来源: zh-CN/04-license-and-provenance.md
+      - Architecture: reference/architecture.md
+      - Primitives: reference/primitives.md
+      - Events: reference/events.md
+      - Workspace and Session: reference/workspace-session.md
+  - Security:
+      - Security Model: security/index.md
+      - Containment: security/containment.md
+      - Plugin Trust: security/plugin-trust.md
+  - Project:
+      - Compatibility: project/compatibility.md
+      - Compatibility Policy: project/compatibility-policy.md
+      - API Stability: project/api-stability.md
+      - v2 Migration: project/migration-v2.md
+      - Comparison: project/comparison.md
+      - Benchmarks: project/benchmarks.md
+      - Roadmap: project/roadmap.md
+      - License and Provenance: project/provenance.md
+  - Contributing:
+      - SDK Design: contributing/sdk-design.md
+      - Language Policy: contributing/language-policy.md
+  - Releases:
+      - Release Overview: releases/index.md
+      - Latest Release: releases/2.5.0.md
+      - Release Process: project/releasing.md

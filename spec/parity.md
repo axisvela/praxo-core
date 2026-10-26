@@ -149,4 +149,4 @@ The parity linter:
 5. Confirm the Go runner passes.
 6. Implement in each SDK and change its status to `parity`.
 
-See [Multilingual SDK design](../docs/17-multilingual-sdk.md).
+See [Multilingual SDK design](../docs/contributing/sdk-design.md).

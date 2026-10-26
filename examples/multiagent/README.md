@@ -18,5 +18,5 @@ This is **delegation**, not a graph/handoff runtime. PRAXO-CORE keeps the
 single-agent loop and exposes subagents as child runs; durable graph execution
 belongs to RHEOVELA or the product runtime.
 
-See [Multi-agent patterns](../../docs/13-multi-agent.md) for the supported
+See [Multi-agent patterns](../../docs/guides/multi-agent.md) for the supported
 patterns and boundaries.

@@ -15,4 +15,4 @@ against the candidate:
 
 The snapshot is a release gate, not a generated build artifact. Review every
 difference and record intentional changes in `CHANGELOG.md` and
-`docs/05-compatibility.md`.
+`docs/project/compatibility.md`.

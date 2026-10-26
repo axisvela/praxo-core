@@ -64,8 +64,8 @@ Every SDK provides a runner that consumes `vectors/**/*.json` and reports
 The Go runner is built first and is the authority for whether a vector is
 correct.
 
-See [Multilingual SDK design](../docs/17-multilingual-sdk.md) and the
-[multilingual roadmap](../docs/18-multilingual-roadmap.md).
+See [Multilingual SDK design](../docs/contributing/sdk-design.md) and the
+[SDK support policy](../docs/sdks/support.md).
 
 ## License
 

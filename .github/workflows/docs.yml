@@ -7,12 +7,20 @@ on:
       - "docs/**"
       - "mkdocs.yml"
       - "requirements-docs.txt"
+      - "scripts/docs_hooks.py"
+      - "scripts/test_docs.py"
+      - "**/README.md"
+      - "spec/languages.md"
       - ".github/workflows/docs.yml"
   pull_request:
     paths:
       - "docs/**"
       - "mkdocs.yml"
       - "requirements-docs.txt"
+      - "scripts/docs_hooks.py"
+      - "scripts/test_docs.py"
+      - "**/README.md"
+      - "spec/languages.md"
       - ".github/workflows/docs.yml"
   workflow_dispatch:
 
@@ -36,6 +44,7 @@ jobs:
       - uses: actions/configure-pages@v5
       - run: pip install -r requirements-docs.txt
       - run: mkdocs build --strict
+      - run: python -m unittest discover -s scripts -p test_docs.py -v
       - uses: actions/upload-pages-artifact@v3
         with:
           path: site

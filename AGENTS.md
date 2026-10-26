@@ -16,6 +16,10 @@ this framework.
 - COORDIVELA documents: `COORDIVELA/docs/` and `COORDIVELA-ee/docs/`.
 - Do not add product-family planning or enterprise-only material to this public
   repository.
+- Internal execution plans, estimates, staffing, and release-operator procedures
+  belong in `PRAXOVELA-EE/docs/praxo-core/`, even when excluded from site navigation.
+- Group public docs by user task and mirror translated paths under `docs/zh-CN/`.
+- Preserve published URLs through `scripts/docs_hooks.py` redirects when moving pages.
 
 ## Guardrails
 
@@ -25,7 +29,7 @@ this framework.
 - Keep provider credentials, tenant data, and secrets outside the framework.
 - Do not commit non-public email domains or `.internal` hostnames;
   `internal/spec/privacy_test.go` enforces the working-tree allowlist.
-- Preserve provenance in `docs/04-license-and-provenance.md`.
+- Preserve provenance in `docs/project/provenance.md`.
 - Add tests for every exported interface and loop behavior.
 - Prefer interfaces over concrete integrations.
 - Keep source files under 500 lines; split by responsibility instead of growing
@@ -44,8 +48,8 @@ this framework.
 - An SDK change is done only when its conformance vectors and parity linter
   pass.
 - Keep every SDK MIT; review dependency licenses before adopting one.
-- See `docs/17-multilingual-sdk.md` and `docs/18-multilingual-roadmap.md`.
-- New languages follow the tier model in `docs/19-language-expansion.md`; do
+- See `docs/contributing/sdk-design.md` and `docs/sdks/support.md`.
+- New languages follow the tier model in `docs/contributing/language-policy.md`; do
   not hand-write a new agent loop without a named consumer.
 
 ## Build And Test

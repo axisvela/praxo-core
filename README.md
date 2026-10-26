@@ -7,278 +7,126 @@
 [![Go Reference](https://pkg.go.dev/badge/github.com/axisvela/praxo-core/v2.svg)](https://pkg.go.dev/github.com/axisvela/praxo-core/v2)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
-**A public, MIT-licensed agent framework for the AxisVela ecosystem.**
+**An embeddable MIT-licensed agent framework with explicit policy controls,
+checkpoints, and event tracing.**
 
-PRAXO-CORE provides the reusable primitives behind PRAXOVELA and other
-AxisVela agents: models, tools, memory, events, scheduling, policy, sandboxing,
-checkpoints, the runtime plugin plane, and the agent loop. It is a framework,
-not a product.
+Build governed agents inside your own product without rebuilding the agent
+loop, model abstraction, tool contracts, or execution boundaries. Use your own
+model providers and integrations. AxisVela products are not required.
 
-> **One-liner:** build governed agents without rebuilding the loop, provider
-> abstraction, tool contracts, or memory/event boundaries.
+[Documentation](https://axisvela.github.io/praxo-core/) |
+[Quickstart](docs/getting-started/quickstart.md) |
+[Language SDKs](docs/sdks/index.md) |
+[Examples](examples)
 
-**Comparison:** [PRAXO-CORE vs other Go agent frameworks](docs/comparison.md)
-(LangChainGo, Eino, Google ADK Go, Microsoft Agent Framework Go).
-
-## Framework, Not Product
-
-| Layer | What it is | License |
-| --- | --- | --- |
-| `praxo-core` | Reusable agent framework and contracts (PRAXOVELA family) | MIT |
-| PRAXOVELA | Runnable agent runtime product built on the framework | AGPL-3.0 |
-
-The MIT boundary lets PRAXOVELA and external products embed the framework
-without inheriting AGPL obligations. PRAXOVELA remains an AGPL product.
-
-## Who It's For
-
-PRAXO-CORE fits products that need a governed agent loop with explicit policy,
-sandbox, checkpoint, memory, event, and plugin boundaries. It is a good fit when
-you want to embed these contracts in your own runtime and keep provider and
-product adapters under your control.
-
-It is not a hosted agent service, a model provider, a vector database, or a
-turnkey chat UI.
-
-## AxisVela Ecosystem
-
-PRAXO-CORE is the framework layer of the AxisVela family. It is not tied to a
-single product: the same interfaces connect models, memory, events, retrieval,
-policy, sandboxing, tools, and graph execution to the corresponding AxisVela
-components. Concrete adapters and credentials stay with the product or
-integrator.
-
-| Ecosystem component | PRAXO-CORE seam | Typical adapter |
-| --- | --- | --- |
-| Models and inference routing | `pkg/model` (`Model`, `Provider`, `ModelRouter`, `ProviderProfile`) | NOETIVELA (NOETIVELA-open) / PRAXOVELA provider router |
-| Memory | `pkg/memory` (`Store`, `ContextAssembler`) | Mnemovela |
-| Events | `pkg/event` (`Sink`, `PublisherSink`) | Harmovela / product event store |
-| Retrieval | `pkg/retriever` (`Retriever`, `Document`) | GNOSIVELA / Mnemovela |
-| Policy | `pkg/policy` (`Hook`, `PathChecker`) | AEGIVELA / product policy engine |
-| Sandbox | `pkg/sandbox` (`Sandbox`, `Interpreter`) | product sandbox |
-| Tools | `pkg/tool` (`Tool`, `Gateway`) | product tool gateway / LIMENORA |
-| Graph execution | `pkg/agent`, `pkg/agent/stream` | RHEOVELA |
-| Product runtime | All interfaces | PRAXOVELA |
-
-NOETIVELA is the AxisVela inference fabric and can back the model seam through
-a `model.Model` or `model.Provider` adapter. Other AxisVela control planes
-(identity, assurance, HITL, capabilities, twins, planning, coordination) plug in
-through tools, events, or product-runtime adapters rather than core primitives.
-
-Adapters are optional and product-owned; the framework never imports product
-code. See [AxisVela ecosystem integration](docs/12-ecosystem.md), the
-[adapter skeletons](examples/ecosystem), the
-[runnable wiring demo](examples/ecosystem/cmd/demo), and the
-[real NOETIVELA SDK example](examples/ecosystem-sdk).
-
-## Multilingual SDKs
-
-Go remains the reference implementation. Python, TypeScript, and Java SDKs share
-one language-neutral contract in [`spec/`](spec/README.md): identical wire
-shapes, one conformance suite, and one-to-one idiomatic APIs. The
-[Python SDK](python/README.md), [TypeScript SDK](typescript/README.md),
-[Java SDK](java/README.md), [Rust SDK](rust/README.md), [C SDK](c/README.md),
-[C# SDK](csharp/README.md), [PHP SDK](php/README.md), [Perl SDK](perl/README.md),
-[C++ SDK](cpp/README.md), [Ruby SDK](ruby/README.md), [Lua SDK](lua/README.md),
-and [Dart SDK](dart/README.md) core implementations pass all eleven vector
-groups; JavaScript consumes the TypeScript package through the
-[JavaScript sample](javascript/README.md), and Kotlin and Scala consume the Java
-SDK through the [Kotlin](kotlin/README.md) and [Scala](scala/README.md)
-samples. The [Zig SDK](zig/README.md) and [D SDK](d/README.md) implement the
-core loop. Python, TypeScript, Java, and C# include
-streaming and an OpenAI-compatible adapter. The [Swift SDK](swift/README.md),
-[Julia SDK](julia/README.md), and [R SDK](r/README.md) also implement the core
-loop and are tagged `swift/v0.2.0`, `julia/v0.2.0`, and `r/v0.2.0`. The
-[language expansion plan](docs/19-language-expansion.md) covers JavaScript,
-C++, Dart, Ruby, Kotlin, Scala, MATLAB, Perl, Delphi, OCaml/Caml, Lua, Scratch,
-COBOL, Prolog, and ABAP. See the
-[design](docs/17-multilingual-sdk.md) and
-[roadmap](docs/18-multilingual-roadmap.md), or the
-[SDK directory](docs/sdks.md).
-
-## Module
-
-`github.com/axisvela/praxo-core/v2` (v2 semantic import path). The `v1` tags
-remain available for consumers that have not migrated; see the
-[v2 migration guide](docs/11-migration-v2.md).
-
-## Quickstart
-
-Use Go 1.26.10 (the tested CI/release toolchain) and an OpenAI-compatible
-endpoint. From this repository:
+## Start With Go
 
 ```bash
-# Ollama (no API key required)
+go get github.com/axisvela/praxo-core/v2@v2.5.0
+```
+
+Run the quickstart from a checkout using Ollama:
+
+```bash
 export PRAXO_BASE_URL=http://localhost:11434/v1
 export PRAXO_MODEL=llama3.2
 GOWORK=off go run ./examples/quickstart
+```
 
-# Any OpenAI-compatible endpoint
+Or connect an OpenAI-compatible endpoint:
+
+```bash
 export PRAXO_BASE_URL=https://api.openai.com/v1
 export PRAXO_API_KEY=...
 export PRAXO_MODEL=gpt-4o-mini
 GOWORK=off go run ./examples/quickstart
 ```
 
-On PowerShell use `$env:PRAXO_BASE_URL = "..."` and the same variable names.
-Set `PRAXO_PROMPT` to change the request. The model adapter uses only the
-standard library; no provider SDK is required. The example demonstrates tool
-calling, streamed text deltas through `agent.Options.OnDelta`, events, and
-policy.
+Use Go 1.26.10, the tested CI/release toolchain. On PowerShell, set environment
+variables with `$env:PRAXO_BASE_URL = "..."` and the same names. The example
+demonstrates tools, streamed text, events, and policy. See the
+[quickstart guide](docs/getting-started/quickstart.md) for prerequisites.
 
-Optional adapters:
+## Why PRAXO-CORE
 
-- [`adapters/openaicompat`](adapters/openaicompat) - standard-library
-  OpenAI-compatible model adapter
-- [`adapters/mcp`](adapters/mcp) - optional MCP tool gateway module
-- [`adapters/otel`](adapters/otel) - optional OpenTelemetry event sink
-- [`adapters/anthropic`](adapters/anthropic) - native Anthropic Messages adapter
-- [`adapters/gemini`](adapters/gemini) - native Gemini generateContent adapter
-- [`adapters/harmovela`](adapters/harmovela) - Harmovela HTTP event sink
-- [`adapters/a2a`](adapters/a2a) - A2A server adapter for agent-to-agent clients
-- [`adapters/multiagent`](adapters/multiagent) - optional supervisor and sequential delegation
+- **Explicit governance:** policy hooks, tool authorization, and HITL decisions.
+- **Recoverable execution:** checkpoint and session contracts with resume support.
+- **Observable behavior:** structured events and optional OpenTelemetry integration.
+- **Provider-neutral embedding:** model, memory, tool, retrieval, and sandbox interfaces.
+- **MIT boundary:** optional integrations stay separate from the core framework.
 
-For SDK-backed integrations, see
-[`examples/ecosystem-sdk`](examples/ecosystem-sdk) (NOETIVELA, Mnemovela,
-GNOSIVELA).
+It is a framework, not a hosted agent service, vector database, model provider,
+or turnkey chat UI. Review the [adoption guide](docs/getting-started/adoption.md),
+[security model](docs/security/index.md), and
+[framework comparison](docs/project/comparison.md) before choosing it.
 
-## Primitives
+## Choose Your Language
 
-- `pkg/model` - model/provider abstraction and messages.
-- `pkg/tool` - tool contracts and registry; `pkg/tool/jsonschema` validates schemas.
-- `pkg/toolcall` - model-output tool-call parsing and markup stripping.
-- `pkg/memory` - memory and context interfaces.
-- `pkg/event` - event envelopes and sinks.
-- `pkg/scheduler` - schedule definitions and scheduler engine.
-- `pkg/policy` - decision hooks, authorization boundary, and path containment.
-- `pkg/sandbox` - execution sandbox interface.
-- `pkg/checkpoint` - durable run snapshots and the resume store contract.
-- `pkg/httpclient` - shared retry-capable HTTP transport for adapters.
-- `pkg/formatter` - language formatter detection and execution.
-- `pkg/flow` - Runnable, Chain, and Parallel composition.
-- `pkg/prompt` - prompt and chat templates.
-- `pkg/retriever` - document retrieval contracts.
-- `pkg/vfs` - virtual filesystem backend contract, confined local backend, and filesystem tools.
-- `pkg/plugin` - runtime plugin contracts, manifest v1, lifecycle, registry, hosts, and conformance kit.
-- `pkg/agent` - the governed agent loop with middleware, budgets, context compaction, and subagent management. Capability packages live under `pkg/agent/{types,context,delegation,evaluation,hitl,middleware,stream}`; root aliases keep `agent.*` imports source-compatible.
+Go is the reference implementation. SDKs share a normative contract in
+[`spec/`](spec/README.md), with language-specific APIs and declared limitations.
 
-## How It Compares
+| Runtime | Start here |
+| --- | --- |
+| Go | [Install and quickstart](docs/sdks/go.md) |
+| Python | [Python SDK](https://axisvela.github.io/praxo-core/sdks/python/) |
+| TypeScript / JavaScript | [TypeScript SDK](https://axisvela.github.io/praxo-core/sdks/typescript/), [JavaScript sample](https://axisvela.github.io/praxo-core/sdks/javascript/) |
+| Java / Kotlin / Scala | [Java SDK](https://axisvela.github.io/praxo-core/sdks/java/), [Kotlin](https://axisvela.github.io/praxo-core/sdks/kotlin/), [Scala](https://axisvela.github.io/praxo-core/sdks/scala/) |
+| .NET | [C# SDK](https://axisvela.github.io/praxo-core/sdks/csharp/), [Visual Basic sample](docs/sdks/visual-basic.md) |
+| Other languages | [Complete SDK directory](docs/sdks/index.md) |
 
-The Go agent ecosystem has several strong frameworks. This table is a
-high-level orientation based on public documentation as of October 2026;
-upstream projects evolve quickly, so verify details before adopting.
+Source releases, package-registry publication, conformance, and production
+verification are different states. Follow each language's installation
+instructions and [support policy](docs/sdks/support.md); do not infer full Go
+feature parity or registry availability from a source tag.
 
-| | PRAXO-CORE | LangChainGo | Eino | Google ADK Go | Microsoft Agent Framework Go |
-| --- | --- | --- | --- | --- | --- |
-| Primary focus | Governed, embeddable agent runtime primitives | LangChain-style composable LLM apps | LLM app framework with graph orchestration and ADK | Code-first agent toolkit, Gemini-optimized but model-agnostic | Production agents and multi-agent workflows (public preview) |
-| AxisVela ecosystem | First-class seams for NOETIVELA, Mnemovela, Harmovela, GNOSIVELA, AEGIVELA, RHEOVELA, LIMENORA | Custom adapters/tools | Custom adapters/tools | Custom adapters/tools | Custom adapters/tools |
-| Orchestration | Single-agent loop, middleware, subagents, `flow` Chain/Parallel | Chains, agents, tools | Graphs/workflows, ReAct `ChatModelAgent`, `DeepAgent` multi-agent | Workflow agents, graph workflows, multi-agent composition | Graph workflows: sequential, concurrent, group, routing, subworkflows |
-| Multi-agent | Async subagent delegation (`isolated`/`fork`); no built-in graph, handoff, or agent registry | Multi-agent via agent/chain composition | `DeepAgent` multi-agent patterns | Multi-agent composition and workflow agents | Graph-based multi-agent workflows |
-| Providers | Provider-neutral `model.Model`; NOETIVELA/PRAXOVELA adapters | Broad built-in provider set | Extensions via `eino-ext` | Gemini first; OpenAI adapter; model-agnostic | Foundry, Azure, OpenAI, Anthropic, Gemini, Copilot |
-| Tools and MCP | Tool contracts, JSON Schema, retry, gateway; product-owned/LIMENORA gateway; MCP client is consumer-owned | Tools; MCP not first-class | Tools; MCP via `eino-ext` | Rich tools, MCP toolset, A2A | Tools, MCP, A2A, AG-UI |
-| Memory and RAG | Interfaces and retrieval contracts; Mnemovela memory, GNOSIVELA retrieval | Memory, loaders, vector stores | Retriever and context components | Sessions, memory, artifacts | Memory, text search/RAG, vector stores |
-| Governance and extension | Policy hooks, AEGIVELA policy, path containment, sandbox seam, checkpoints, HITL, process/WASM plugin plane, event sinks | Callbacks | HITL interrupt/resume, callbacks | Lifecycle plugin hooks, auth, telemetry | Checkpointing, tool approval/HITL, OpenTelemetry |
-| License | MIT | MIT | Apache-2.0 | Apache-2.0 | MIT |
+## Examples
 
-PRAXO-CORE is deliberately lower-level: it does not bundle provider SDKs,
-vector databases, or an MCP client. It is also the only framework here with
-first-class AxisVela seams; other frameworks can still integrate AxisVela
-through custom adapters or tools. Choose PRAXO-CORE when you need a small,
-MIT-licensed governance and runtime boundary to embed, or native access to
-NOETIVELA, Mnemovela, Harmovela, GNOSIVELA, AEGIVELA, RHEOVELA, and LIMENORA.
-Choose LangChainGo, Eino, or ADK when you want batteries-included integrations
-and orchestration patterns. See the [full comparison](docs/comparison.md) for
-positioning and "when to choose" guidance.
+| Goal | Example |
+| --- | --- |
+| Call a model with tools and streaming | [Quickstart](examples/quickstart) |
+| Observe approval and denial boundaries | [Governed workspace](examples/governed-workspace) |
+| Resume a run | [Checkpoint](examples/checkpoint) |
+| Gate command execution through policy | [Sandbox](examples/sandbox) |
+| Delegate work | [Multi-agent](examples/multiagent) |
+| Embed with your own adapters | [Integrator](examples/integrator) |
 
-## Example
+## Repository Map
 
-```go
-ag, err := agent.New(agent.Options{
-    Model:    myModel,
-    Tools:    tools,
-    Events:   sink,
-    Policy:   hook,
-    MaxSteps: 8,
-})
-if err != nil {
-    return err
-}
-result, err := ag.Run(ctx, agent.Session{
-    ID: "session-1",
-    TenantID: "acme",
-    WorkspaceID: "default",
-}, "Inspect the failing test and propose a fix")
-```
+| Location | Purpose |
+| --- | --- |
+| [`pkg/`](pkg) | Public Go framework APIs |
+| [`adapters/`](adapters) | Optional model, protocol, telemetry, and runtime integrations |
+| Language directories such as [`python/`](python), [`typescript/`](typescript), [`java/`](java) | SDK source, builds, tests, and API references |
+| [`spec/`](spec) | Normative wire contract, vectors, and parity inventories |
+| [`examples/`](examples) | Runnable integration examples |
+| [`docs/`](docs) | Public documentation grouped by user task |
 
-See [examples/integrator](examples/integrator/main.go) for a self-contained
-external-integrator example, [examples/reference](examples/reference) for a
-workspace agent with confined VFS tools, policy, memory, and events,
-[examples/governed-workspace](examples/governed-workspace) for a deterministic
-read-only, approval, denial, and trace demo,
-[examples/checkpoint](examples/checkpoint) for checkpoint/resume,
-[examples/sandbox](examples/sandbox) for policy-gated command execution,
-[examples/multiagent](examples/multiagent) for subagent delegation, and
-[examples/ecosystem/mcp](examples/ecosystem/mcp) for MCP resources and prompts.
+The existing source locations and Go module paths remain unchanged. See the
+[SDK directory](docs/sdks/index.md) for all implementations and bridges.
 
-## Status
+## Framework and Ecosystem
 
-`2.5.0` is the current core release. It adds the additive `pkg/conformance`
-package and hardens local VFS path validation. Existing exported `pkg/...`
-declarations are unchanged. The workspace adapters remain offline evaluation
-modules, not live-verified production integrations. The `1.0.0` API freeze
-remains in effect, and the canonical package paths are `pkg/toolcall`,
-`pkg/formatter`, and `pkg/tool/jsonschema`.
+PRAXO-CORE is extracted from PRAXOVELA, but it is a separate MIT-licensed
+framework. PRAXOVELA is an AGPL-3.0 runtime product. The framework never imports
+product code; credentials and tenant data remain with the integrator.
 
-Optional adapters are versioned independently: `adapters/mcp/v0.3.0`,
-`adapters/otel/v0.2.0`, `adapters/anthropic/v0.1.0`,
-`adapters/gemini/v0.1.1`, `adapters/harmovela/v0.1.0`,
-`adapters/a2a/v0.1.0`, and `adapters/multiagent/v0.2.0`. The framework is
-extracted from PRAXOVELA's proven runtime.
+Connect models, memory, events, retrieval, and policy through your own adapters
+or [optional AxisVela integrations](docs/integrations/ecosystem.md). See the
+[adapter directory](docs/integrations/index.md) for module scope and limitations.
 
-## Documentation
+## Releases and Contributing
 
-[Documentation site](https://axisvela.github.io/praxo-core/) |
-[简体中文文档](docs/zh-CN/README.md)
+Core `2.5.0` adds the conformance package and local VFS hardening. Optional
+adapters and SDKs are versioned independently.
 
-- [2.5.0 release notes](docs/releases/2.5.0.md)
-- [2.4.0 release notes](docs/releases/2.4.0.md)
-- [2.3.6 release notes](docs/releases/2.3.6.md)
-- [2.3.5 release notes](docs/releases/2.3.5.md)
-- [2.3.4 release notes](docs/releases/2.3.4.md)
-- [2.3.3 release notes](docs/releases/2.3.3.md)
-- [2.3.2 release notes](docs/releases/2.3.2.md)
-- [2.3.1 release notes](docs/releases/2.3.1.md)
-- [2.3.0 release notes](docs/releases/2.3.0.md)
-- [2.2.0 release notes](docs/releases/2.2.0.md)
-- [2.1.0 release notes](docs/releases/2.1.0.md)
-- [Adoption guide](docs/adoption.md)
-- [Recipes](docs/recipes.md)
-- [Adapter index](docs/adapters.md)
-- [Multi-agent patterns](docs/13-multi-agent.md)
-- [Workspace and session contract](docs/14-workspace-session.md)
-- [Comparison with other Go agent frameworks](docs/comparison.md)
-- [Benchmarks](docs/benchmarks.md)
-- [AxisVela ecosystem integration](docs/12-ecosystem.md)
-- [Overview](docs/00-overview.md)
-- [Architecture](docs/01-architecture.md)
-- [Primitives](docs/02-primitives.md)
-- [Integration](docs/03-integration.md)
-- [License and provenance](docs/04-license-and-provenance.md)
-- [Compatibility](docs/05-compatibility.md)
-- [Compatibility and deprecation policy](docs/16-compatibility-policy.md)
-- [v2 migration](docs/11-migration-v2.md)
-- [Security policy](SECURITY.md)
-- [API freeze inventory](docs/07-api-freeze.md)
-- [Security model](docs/08-security.md)
-- [Release process](docs/09-release.md)
-- [Plugin authoring](docs/10-plugin-authoring.md)
-- [Plugin trust and SBOM](docs/15-plugin-trust-sbom.md)
-- [Roadmap detail](docs/06-roadmap.md)
-- [Roadmap](ROADMAP.md)
-
-Internal extraction planning and product-family sequencing live in the private
-PRAXOVELA-EE repository.
+- [Latest release notes](docs/releases/2.5.0.md)
+- [Release history](docs/releases/index.md)
+- [Compatibility policy](docs/project/compatibility-policy.md)
+- [v2 migration](docs/project/migration-v2.md)
+- [Public roadmap](ROADMAP.md)
+- [Contributing](CONTRIBUTING.md)
+- [Security reporting](SECURITY.md)
 
 ## License
 
-MIT. See [LICENSE](LICENSE).
+MIT. See [LICENSE](LICENSE) and [provenance](docs/project/provenance.md).

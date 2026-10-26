@@ -1,69 +1,49 @@
 # PRAXO-CORE
 
-**A public, MIT-licensed agent framework for the AxisVela ecosystem.**
+**An embeddable MIT-licensed agent framework with explicit policy controls,
+checkpoints, and event tracing.**
 
-PRAXO-CORE provides the reusable primitives behind PRAXOVELA and other
-AxisVela agents: models, tools, memory, events, scheduling, policy,
-sandboxing, checkpoints, the runtime plugin plane, and the agent loop.
+Build agents inside your own product without rebuilding the loop, model
+abstraction, tool contracts, or execution boundaries. Use your own providers
+and integrations; AxisVela products are not required.
 
-[Quickstart](quickstart.md){ .md-button .md-button--primary }
+[Quickstart](getting-started/quickstart.md){ .md-button .md-button--primary }
+[Choose Your Language](sdks/index.md){ .md-button }
 [GitHub](https://github.com/axisvela/praxo-core){ .md-button }
 
 ## Why PRAXO-CORE
 
-- Small, MIT-licensed runtime boundary for embedding in products
-- Provider-neutral model, memory, event, policy, sandbox, and tool contracts
-- Governed agent loop with middleware, budgets, checkpoints, and HITL
-- Optional OpenAI-compatible and MCP adapters
-- First-class seams for the AxisVela ecosystem
+- Control tool execution through explicit policy hooks and approval boundaries.
+- Resume work with checkpoints and inspect execution through structured events.
+- Embed provider-neutral model, tool, memory, and sandbox contracts.
+- Start with Go or choose an SDK with a documented scope and conformance gate.
+- Keep the framework MIT-licensed and optional integrations separate.
 
-## Install
+## Start With Go
 
 ```bash
 go get github.com/axisvela/praxo-core/v2@v2.5.0
 ```
 
-## Explore
+Follow the [quickstart](getting-started/quickstart.md) to run an agent against
+Ollama or an OpenAI-compatible endpoint. For other languages, start with the
+[SDK directory](sdks/index.md); source tags do not imply package-registry availability.
 
-- [Documentation index](documentation-index.md)
-- [Language SDK directory](sdks.md)
-- [Quickstart](quickstart.md)
-- [2.5.0 release notes](releases/2.5.0.md)
-- [2.4.0 release notes](releases/2.4.0.md)
-- [2.3.6 release notes](releases/2.3.6.md)
-- [2.3.5 release notes](releases/2.3.5.md)
-- [2.3.4 release notes](releases/2.3.4.md)
-- [2.3.3 release notes](releases/2.3.3.md)
-- [2.3.2 release notes](releases/2.3.2.md)
-- [2.3.1 release notes](releases/2.3.1.md)
-- [2.3.0 release notes](releases/2.3.0.md)
-- [2.2.0 release notes](releases/2.2.0.md)
-- [2.1.0 release notes](releases/2.1.0.md)
-- [Adoption guide](adoption.md)
-- [Recipes](recipes.md)
-- [Adapter index](adapters.md)
-- [Multi-agent patterns](13-multi-agent.md)
-- [Comparison with other Go agent frameworks](comparison.md)
-- [AxisVela ecosystem integration](12-ecosystem.md)
-- [Architecture](01-architecture.md)
-- [Primitives](02-primitives.md)
-- [Multilingual SDK design](17-multilingual-sdk.md)
-- [Multilingual roadmap](18-multilingual-roadmap.md)
-- [Language expansion plan](19-language-expansion.md)
-- [Plugin authoring](10-plugin-authoring.md)
-- [Security model](08-security.md)
-- [中文文档](zh-CN/README.md)
+## Find What You Need
 
-## Status
+| Your goal | Start here |
+| --- | --- |
+| Evaluate whether it fits your product | [Adoption guide](getting-started/adoption.md) and [comparison](project/comparison.md) |
+| Connect a model or external tool | [Adapter directory](integrations/index.md) and [recipes](guides/recipes.md) |
+| Understand runtime boundaries | [Architecture](reference/architecture.md) and [security](security/index.md) |
+| Build plugins or delegate work | [Plugin guide](guides/plugins.md) and [multi-agent patterns](guides/multi-agent.md) |
+| Upgrade an existing integration | [Compatibility](project/compatibility.md) and [release history](releases/index.md) |
 
-`2.5.0` is the current core release. It adds the additive `pkg/conformance`
-package and hardens local VFS path validation. Existing exported `pkg/...`
-declarations are unchanged. The workspace adapters remain offline evaluation
-modules, not live-verified production integrations.
-Optional adapters are versioned
-independently (`adapters/mcp/v0.3.0`,
-`adapters/otel/v0.2.0`, `adapters/anthropic/v0.1.0`,
-`adapters/gemini/v0.1.1`, `adapters/harmovela/v0.1.0`,
-`adapters/a2a/v0.1.0`, `adapters/multiagent/v0.2.0`). See
-[compatibility](05-compatibility.md) and the
-[v2 migration guide](11-migration-v2.md).
+## Current Release
+
+Core `2.5.0` adds the conformance package and hardens local VFS path validation.
+See the [release notes](releases/2.5.0.md) for changes and limitations, or the
+[release overview](releases/index.md) for older versions.
+
+PRAXO-CORE is a framework, not a hosted service or a turnkey chat UI. It is
+extracted from PRAXOVELA; [AxisVela integrations](integrations/ecosystem.md) are optional.

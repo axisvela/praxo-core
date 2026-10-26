@@ -3,11 +3,11 @@
 TypeScript implementation of the PRAXO-CORE contract. The normative contract is
 [`spec/`](../spec/README.md); Go remains the reference implementation.
 
-**Status:** M2 complete. The package passes all eleven conformance vector groups
+**Status:** The package passes all eleven conformance vector groups
 and the TypeScript parity check. Context budgets, middleware, streaming,
 `AbortSignal` cancellation, and the OpenAI-compatible adapter are included.
-`npm pack` and `npm publish --dry-run` are verified; publication is pending
-credentials. VFS and plugin hosts are not yet implemented.
+`npm pack` and `npm publish --dry-run` are verified; npm publication is pending.
+Use the source build below. VFS and plugin hosts are not yet implemented.
 
 Package version: `0.1.0`. Supported contract: `SPEC_VERSION` `0.2.0`
 (`SPEC_VERSION` export).

@@ -11,7 +11,7 @@ The included `echo.wasm` is a tiny host-ABI fixture used by the framework tests.
 It acknowledges requests but does not echo arbitrary payloads. A real WASM tool
 plugin must export `memory`, `alloc`, and `prax_request`, and import
 `env.prax_respond`; see
-[docs/10-plugin-authoring.md](../../docs/10-plugin-authoring.md).
+[plugin authoring guide](../../../docs/guides/plugins.md).
 
 ## Test
 

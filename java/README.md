@@ -3,7 +3,7 @@
 Java implementation of the PRAXO-CORE contract. The normative contract is
 [`spec/`](../spec/README.md); Go remains the reference implementation.
 
-**Status:** M3 core. The package passes all eleven conformance vector groups.
+**Status:** The package passes all eleven conformance vector groups.
 Context budgets, middleware, streaming, virtual-thread execution, cancellation,
 the OpenAI-compatible adapter, and the agent loop are included. VFS and plugin
 hosts are not yet implemented.

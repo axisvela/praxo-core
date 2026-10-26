@@ -1,10 +1,15 @@
 # Language Support Matrix
 
 **Contract:** `SPEC_VERSION` `0.2.0`
-**Policy:** [Language expansion plan](../docs/19-language-expansion.md)
+**Policy:** [Language implementation policy](../docs/contributing/language-policy.md)
 
 This page is the canonical list of language implementations and their declared
 scope. A language may ship more than one tier over time.
+
+`released` records a source release, not package-registry publication or a
+production-readiness guarantee. Follow the [SDK support policy](../docs/sdks/support.md)
+and each language's installation instructions. Implementation type does not
+imply every Go feature is available.
 
 ## Tiers
 
@@ -81,7 +86,7 @@ scope. A language may ship more than one tier over time.
 | R | `r-conformance` | R tests, 11 vectors, API snapshot |
 | Shell / PowerShell | `bridge` | bridge tests, both wrappers |
 | Fortran | `fortran-conformance` | native tests, 11 vector groups, API snapshot; release pending |
-| COBOL | `cobol-conformance` | 11 vectors, API snapshot, native/tooling tests; release pending |
+| COBOL | `cobol-conformance` | 11 vectors, API snapshot, native/tooling tests |
 | Haskell, Lisp | none yet | pending toolchain or implementation |
 | Objective-C, OCaml | none yet | core planned |
 | Wave 2 languages | none yet | planned; gate depends on declared tier |
@@ -127,6 +132,6 @@ linter enforces only the declared tier.
 
 ## Related Documents
 
-- [Multilingual SDK design](../docs/17-multilingual-sdk.md)
-- [Multilingual roadmap](../docs/18-multilingual-roadmap.md)
-- [Language expansion plan](../docs/19-language-expansion.md)
+- [Multilingual SDK design](../docs/contributing/sdk-design.md)
+- [SDK support policy](../docs/sdks/support.md)
+- [Language implementation policy](../docs/contributing/language-policy.md)

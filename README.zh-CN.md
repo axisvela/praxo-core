@@ -3,264 +3,112 @@
 [English](README.md) | [简体中文](README.zh-CN.md)
 
 [![CI](https://github.com/axisvela/praxo-core/actions/workflows/ci.yml/badge.svg)](https://github.com/axisvela/praxo-core/actions/workflows/ci.yml)
-[![Docs](https://img.shields.io/badge/docs-axisvela.github.io-blue)](https://axisvela.github.io/praxo-core/)
+[![Docs](https://img.shields.io/badge/docs-axisvela.github.io-blue)](https://axisvela.github.io/praxo-core/zh-CN/)
 [![Go Reference](https://pkg.go.dev/badge/github.com/axisvela/praxo-core/v2.svg)](https://pkg.go.dev/github.com/axisvela/praxo-core/v2)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
-**面向 AxisVela 生态的公开、MIT 许可 Agent 框架。**
+**可嵌入产品的 MIT 许可 Agent 框架，提供显式策略控制、检查点与事件追踪。**
 
-PRAXO-CORE 提供 PRAXOVELA 及其他 AxisVela Agent 背后的可复用基础能力：
-模型、工具、记忆、事件、调度、策略、沙箱、检查点、运行时插件平面以及
-Agent 循环。它是框架，不是产品。
+无需重复实现 Agent 循环、模型抽象、工具契约和执行边界。可以使用自己的模型
+提供商与集成，不要求使用 AxisVela 产品。
 
-> **一句话：** 构建受治理的 Agent，无需重复实现循环、模型提供商抽象、
-> 工具契约或记忆/事件边界。
+[中文文档](https://axisvela.github.io/praxo-core/zh-CN/) |
+[快速开始](docs/zh-CN/getting-started/quickstart.md) |
+[语言 SDK](docs/zh-CN/sdks/index.md) |
+[示例](examples)
 
-**对比：** [PRAXO-CORE 与其他 Go Agent 框架](docs/zh-CN/comparison.md)
-（LangChainGo、Eino、Google ADK Go、Microsoft Agent Framework Go）。
-
-## 框架，而非产品
-
-| 层级 | 说明 | 许可证 |
-| --- | --- | --- |
-| `praxo-core` | 可复用的 Agent 框架与契约（PRAXOVELA 家族） | MIT |
-| PRAXOVELA | 构建于该框架之上的可运行 Agent 运行时产品 | AGPL-3.0 |
-
-MIT 边界使 PRAXOVELA 和外部产品可以嵌入该框架，而无需继承 AGPL
-义务。PRAXOVELA 仍是 AGPL 产品。
-
-## 适用场景
-
-PRAXO-CORE 适合需要受治理 Agent 循环的产品，并要求明确的策略、沙箱、检查点、
-记忆、事件和插件边界。如果你希望把这些契约嵌入自己的运行时，同时把提供商和
-产品适配器掌握在自己手里，它是合适的选择。
-
-它不是托管式 Agent 服务、模型提供商、向量数据库或开箱即用的聊天 UI。
-
-## AxisVela 生态
-
-PRAXO-CORE 是 AxisVela 家族的框架层，不绑定单一产品：同一组接口可以将模型、
-记忆、事件、检索、策略、沙箱、工具和图执行接入对应的 AxisVela 组件。具体
-适配器和凭据由产品或集成方持有。
-
-| 生态组件 | PRAXO-CORE 接缝 | 典型适配器 |
-| --- | --- | --- |
-| 模型与推理路由 | `pkg/model`（`Model`、`Provider`、`ModelRouter`、`ProviderProfile`） | NOETIVELA（NOETIVELA-open）/ PRAXOVELA 提供商路由器 |
-| 记忆 | `pkg/memory`（`Store`、`ContextAssembler`） | Mnemovela |
-| 事件 | `pkg/event`（`Sink`、`PublisherSink`） | Harmovela / 产品事件存储 |
-| 检索 | `pkg/retriever`（`Retriever`、`Document`） | GNOSIVELA / Mnemovela |
-| 策略 | `pkg/policy`（`Hook`、`PathChecker`） | AEGIVELA / 产品策略引擎 |
-| 沙箱 | `pkg/sandbox`（`Sandbox`、`Interpreter`） | 产品沙箱 |
-| 工具 | `pkg/tool`（`Tool`、`Gateway`） | 产品工具网关 / LIMENORA |
-| 图执行 | `pkg/agent`、`pkg/agent/stream` | RHEOVELA |
-| 产品运行时 | 所有接口 | PRAXOVELA |
-
-NOETIVELA 是 AxisVela 的推理基础设施（inference fabric），可以通过 `model.Model` 或 `model.Provider`
-适配器接入模型接缝。其他 AxisVela 控制平面（身份、保障、HITL、能力、孪生、
-规划、协调）通过工具、事件或产品运行时适配器接入，而不是核心基础能力。
-
-适配器是可选的，且归产品所有；框架从不导入产品代码。参见
-[AxisVela 生态集成](docs/zh-CN/12-ecosystem.md)、
-[适配器骨架](examples/ecosystem)、
-[可运行接线示例](examples/ecosystem/cmd/demo) 与
-[真实 NOETIVELA SDK 示例](examples/ecosystem-sdk)。
-
-## 多语言 SDK
-
-Go 仍是参考实现。Python、TypeScript 和 Java SDK 基于
-[`spec/`](spec/README.md) 中的一份语言无关契约：wire 形状相同、共用一套一致性
-测试、API 一对一且符合各语言习惯。[Python SDK](python/README.md) 与
-[TypeScript SDK](typescript/README.md)、[Java SDK](java/README.md)、
-[Rust SDK](rust/README.md)、[C SDK](c/README.md)、
-[C# SDK](csharp/README.md)、[PHP SDK](php/README.md)、
-[Perl SDK](perl/README.md)、[C++ SDK](cpp/README.md)、
-[Ruby SDK](ruby/README.md)、[Lua SDK](lua/README.md) 与
-[Dart SDK](dart/README.md) 的核心实现已通过全部十一组向量；
-JavaScript 通过 [JavaScript 示例](javascript/README.md)复用 TypeScript 包，
-Kotlin 与 Scala 通过 [Kotlin](kotlin/README.md) 和
-[Scala](scala/README.md) 示例复用 Java SDK。
-[Zig SDK](zig/README.md) 与 [D SDK](d/README.md) 实现核心循环。
-Python、TypeScript、Java 与 C# 包含流式路径和 OpenAI 兼容
-适配器。[Swift SDK](swift/README.md)、[Julia SDK](julia/README.md) 与
-[R SDK](r/README.md) 也已实现核心循环，并分别以 `swift/v0.2.0`、
-`julia/v0.2.0` 和 `r/v0.2.0` 发布。
-[语言扩展计划](docs/zh-CN/19-language-expansion.md)覆盖 JavaScript、C++、
-Dart、Ruby、Kotlin、Scala、MATLAB、Perl、Delphi、OCaml/Caml、Lua、
-Scratch、COBOL、Prolog 与 ABAP。参见
-[设计](docs/zh-CN/17-multilingual-sdk.md)、
-[路线图](docs/zh-CN/18-multilingual-roadmap.md)与
-[SDK 目录](docs/sdks.md)。
-
-## 模块
-
-`github.com/axisvela/praxo-core/v2`（v2 语义导入路径）。尚未迁移的使用方
-仍可使用 `v1` 标签；参见 [v2 迁移指南](docs/11-migration-v2.md)。
-
-## 快速开始
-
-推荐使用 Go 1.26.10（CI/发布验证版本）和一个 OpenAI 兼容端点。在本仓库中运行：
+## 从 Go 开始
 
 ```bash
-# Ollama（无需 API Key）
+go get github.com/axisvela/praxo-core/v2@v2.5.0
+```
+
+从源码仓库运行 Ollama 示例：
+
+```bash
 export PRAXO_BASE_URL=http://localhost:11434/v1
 export PRAXO_MODEL=llama3.2
 GOWORK=off go run ./examples/quickstart
-
-# 任意 OpenAI 兼容端点
-export PRAXO_BASE_URL=https://api.openai.com/v1
-export PRAXO_API_KEY=...
-export PRAXO_MODEL=gpt-4o-mini
-GOWORK=off go run ./examples/quickstart
 ```
 
-PowerShell 使用 `$env:PRAXO_BASE_URL = "..."`，变量名相同。可通过
-`PRAXO_PROMPT` 修改请求内容。模型适配器只使用标准库，不需要提供商 SDK；
-示例展示了工具调用、事件和策略。
+连接其他 OpenAI 兼容端点时，设置 `PRAXO_BASE_URL`、`PRAXO_API_KEY` 和
+`PRAXO_MODEL`。PowerShell 使用 `$env:PRAXO_BASE_URL = "..."` 等写法。
+CI 与发布使用 Go 1.26.10。示例展示工具调用、流式文本、事件与策略，前置条件见
+[快速开始](docs/zh-CN/getting-started/quickstart.md)。
 
-可选适配器：
+## 核心价值
 
-- [`adapters/openaicompat`](adapters/openaicompat) - 仅用标准库的
-  OpenAI 兼容模型适配器
-- [`adapters/mcp`](adapters/mcp) - 可选的 MCP 工具网关模块
-- [`adapters/otel`](adapters/otel) - 可选的 OpenTelemetry 事件 Sink
-- [`adapters/anthropic`](adapters/anthropic) - 原生 Anthropic Messages 适配器
-- [`adapters/gemini`](adapters/gemini) - 原生 Gemini generateContent 适配器
-- [`adapters/harmovela`](adapters/harmovela) - Harmovela HTTP 事件 Sink
-- [`adapters/a2a`](adapters/a2a) - 面向 Agent-to-Agent 客户端的 A2A 服务端适配器
-- [`adapters/multiagent`](adapters/multiagent) - 可选的 supervisor 与顺序委派模块
+- **明确治理边界：** 策略钩子、工具授权、人工审批与决策。
+- **可恢复执行：** 检查点与会话契约支持恢复任务。
+- **可观察行为：** 结构化事件与可选 OpenTelemetry 集成。
+- **提供商无关：** 模型、记忆、工具、检索、沙箱接口可自行适配。
+- **MIT 边界：** 可选集成与框架核心分离。
 
-SDK 集成示例参见 [`examples/ecosystem-sdk`](examples/ecosystem-sdk)
-（NOETIVELA、Mnemovela、GNOSIVELA）。
+它不是托管 Agent 服务、向量数据库、模型提供商或开箱即用的聊天产品。采用前请阅读
+[采用指南](docs/zh-CN/getting-started/adoption.md)、[安全模型](docs/zh-CN/security/index.md)
+和[框架对比](docs/zh-CN/project/comparison.md)。
 
-## 基础能力
+## 选择语言
 
-- `pkg/model` - 模型/提供商抽象与消息。
-- `pkg/tool` - 工具契约与注册表；`pkg/tool/jsonschema` 校验 schema。
-- `pkg/toolcall` - 模型输出中的工具调用解析与标记清理。
-- `pkg/memory` - 记忆与上下文接口。
-- `pkg/event` - 事件信封与 Sink。
-- `pkg/scheduler` - 调度定义与调度器引擎。
-- `pkg/policy` - 决策钩子、授权边界与路径约束。
-- `pkg/sandbox` - 执行沙箱接口。
-- `pkg/checkpoint` - 持久化运行快照与恢复存储契约。
-- `pkg/httpclient` - 供适配器共享的、支持重试的 HTTP 传输层。
-- `pkg/formatter` - 语言格式化器检测与执行。
-- `pkg/flow` - Runnable、Chain 与 Parallel 组合。
-- `pkg/prompt` - 提示词与聊天模板。
-- `pkg/retriever` - 文档检索契约。
-- `pkg/vfs` - 虚拟文件系统后端契约、受限本地后端与文件系统工具。
-- `pkg/plugin` - 运行时插件契约、Manifest v1、生命周期、注册表、宿主与一致性测试套件。
-- `pkg/agent` - 受治理的 Agent 循环，包含中间件、预算、上下文压缩与子 Agent 管理。能力包位于 `pkg/agent/{types,context,delegation,evaluation,hitl,middleware,stream}`；根包别名保持 `agent.*` 导入源码兼容。
+Go 是参考实现，语言 SDK 共享 [`spec/`](spec/README.md) 中的规范契约，
+提供符合各语言习惯的 API，并分别声明支持范围与限制。
 
-## 与其他 Go Agent 框架的对比
+| 运行时 | 使用入口 |
+| --- | --- |
+| Go | [安装与快速开始](docs/sdks/go.md) |
+| Python | [Python SDK](https://axisvela.github.io/praxo-core/zh-CN/sdks/python/) |
+| TypeScript / JavaScript | [TypeScript SDK](https://axisvela.github.io/praxo-core/zh-CN/sdks/typescript/)、[JavaScript 示例](https://axisvela.github.io/praxo-core/zh-CN/sdks/javascript/) |
+| Java / Kotlin / Scala | [Java SDK](https://axisvela.github.io/praxo-core/zh-CN/sdks/java/)、[Kotlin](https://axisvela.github.io/praxo-core/zh-CN/sdks/kotlin/)、[Scala](https://axisvela.github.io/praxo-core/zh-CN/sdks/scala/) |
+| .NET | [C# SDK](https://axisvela.github.io/praxo-core/zh-CN/sdks/csharp/)、[Visual Basic 示例](docs/sdks/visual-basic.md) |
+| 其他语言 | [完整 SDK 目录](docs/zh-CN/sdks/index.md) |
 
-Go Agent 生态中已有多个优秀框架。下表基于 2026 年 10 月的公开文档做高层定位，
-上游项目迭代较快，采用前请核实最新细节。
+源码发布、包管理器发布、一致性测试和生产验证是不同状态。请按各语言页面安装，
+并阅读[支持政策](docs/zh-CN/sdks/support.md)，不能从源码标签推断完整功能一致或包仓库可用。
 
-| | PRAXO-CORE | LangChainGo | Eino | Google ADK Go | Microsoft Agent Framework Go |
-| --- | --- | --- | --- | --- | --- |
-| 主要定位 | 面向嵌入的受治理 Agent 运行时基础能力 | LangChain 风格的可组合 LLM 应用 | 带图编排与 ADK 的 LLM 应用框架 | 代码优先的 Agent 工具包，针对 Gemini 优化但模型无关 | 生产级 Agent 与多 Agent 工作流（公开预览） |
-| AxisVela 生态 | 为 NOETIVELA、Mnemovela、Harmovela、GNOSIVELA、AEGIVELA、RHEOVELA、LIMENORA 提供一等接缝 | 自定义适配器/工具 | 自定义适配器/工具 | 自定义适配器/工具 | 自定义适配器/工具 |
-| 编排 | 单 Agent 循环、中间件、子 Agent、`flow` Chain/Parallel | Chains、Agents、Tools | Graph/Workflow、ReAct `ChatModelAgent`、`DeepAgent` 多 Agent | Workflow Agents、图工作流、多 Agent 组合 | 图工作流：顺序、并发、群组、路由、子工作流 |
-| 多 Agent | 异步子 Agent 委派（`isolated`/`fork`）；无内置 graph、handoff 或 agent registry | 通过 Agent/Chain 组合 | `DeepAgent` 多 Agent 模式 | 多 Agent 组合与 Workflow Agents | 基于图的多 Agent 工作流 |
-| 模型提供商 | 提供商中立的 `model.Model`；NOETIVELA/PRAXOVELA 适配器 | 丰富的内置提供商 | 通过 `eino-ext` 扩展 | Gemini 优先；OpenAI 适配器；模型无关 | Foundry、Azure、OpenAI、Anthropic、Gemini、Copilot |
-| 工具与 MCP | 工具契约、JSON Schema、重试、网关；产品所有/LIMENORA 网关；MCP 客户端由使用方提供 | 工具；MCP 非一等支持 | 工具；通过 `eino-ext` 支持 MCP | 丰富工具、MCP Toolset、A2A | 工具、MCP、A2A、AG-UI |
-| 记忆与 RAG | 接口与检索契约；Mnemovela 记忆、GNOSIVELA 检索 | Memory、文档加载器、向量存储 | Retriever 与上下文组件 | Sessions、Memory、Artifacts | Memory、文本搜索/RAG、向量存储 |
-| 治理与扩展 | 策略钩子、AEGIVELA 策略、路径约束、沙箱接缝、检查点、HITL、进程/WASM 插件平面、事件 Sink | Callbacks | HITL 中断/恢复、Callbacks | 生命周期插件钩子、认证、遥测 | 检查点、工具审批/HITL、OpenTelemetry |
-| 许可证 | MIT | MIT | Apache-2.0 | Apache-2.0 | MIT |
+## 可运行示例
 
-PRAXO-CORE 刻意保持底层：不捆绑提供商 SDK、向量数据库或 MCP 客户端。它也是
-表中唯一为 AxisVela 提供一等接缝的框架；其他框架仍可通过自定义适配器或工具
-接入 AxisVela。需要可嵌入、MIT 许可的治理与运行时边界，或需要原生接入
-NOETIVELA、Mnemovela、Harmovela、GNOSIVELA、AEGIVELA、RHEOVELA、LIMENORA
-时，选择 PRAXO-CORE；需要开箱即用的集成与编排模式时，可选择 LangChainGo、
-Eino 或 ADK。定位与选型建议参见 [完整对比](docs/zh-CN/comparison.md)。
+| 目标 | 示例 |
+| --- | --- |
+| 模型、工具与流式输出 | [Quickstart](examples/quickstart) |
+| 审批与拒绝边界 | [Governed workspace](examples/governed-workspace) |
+| 检查点恢复 | [Checkpoint](examples/checkpoint) |
+| 策略控制命令执行 | [Sandbox](examples/sandbox) |
+| 委派任务 | [Multi-agent](examples/multiagent) |
+| 使用自己的适配器嵌入 | [Integrator](examples/integrator) |
 
-## 示例
+## 仓库导览
 
-```go
-ag, err := agent.New(agent.Options{
-    Model:    myModel,
-    Tools:    tools,
-    Events:   sink,
-    Policy:   hook,
-    MaxSteps: 8,
-})
-if err != nil {
-    return err
-}
-result, err := ag.Run(ctx, agent.Session{
-    ID: "session-1",
-    TenantID: "acme",
-    WorkspaceID: "default",
-}, "Inspect the failing test and propose a fix")
-```
+| 位置 | 职责 |
+| --- | --- |
+| [`pkg/`](pkg) | Go 公开 API |
+| [`adapters/`](adapters) | 可选模型、协议、遥测与运行时集成 |
+| `python/`、`typescript/`、`java/` 等语言目录 | SDK 源码、构建、测试与 API 参考 |
+| [`spec/`](spec) | 规范契约、共享向量与 parity 清单 |
+| [`examples/`](examples) | 可运行示例 |
+| [`docs/`](docs) | 按用户任务分类的公开文档 |
 
-自包含的外部集成示例参见
-[examples/integrator](examples/integrator/main.go)；带受限 VFS 工具、策略、记忆
-和事件的 workspace Agent 参见 [examples/reference](examples/reference)；
-确定性只读、审批、拒绝与 trace 演示参见
-[examples/governed-workspace](examples/governed-workspace)；
-检查点/恢复流程参见 [examples/checkpoint](examples/checkpoint)；
-策略门控的命令执行参见 [examples/sandbox](examples/sandbox)；
-子 Agent 委派参见 [examples/multiagent](examples/multiagent)。
+现有源码位置与 Go 导入路径保持不变。全部语言与桥接入口见 [SDK 目录](docs/zh-CN/sdks/index.md)。
 
-## 状态
+## 框架与生态
 
-`2.5.0` 是当前核心版本。它新增加法式 `pkg/conformance` 包，并加固本地 VFS
-路径校验。现有导出 `pkg/...` 声明不变。workspace 适配器仍是离线评估模块，
-不是实网验证的生产集成。`1.0.0` 的 API 冻结仍然有效，规范包路径为
-`pkg/toolcall`、`pkg/formatter` 和 `pkg/tool/jsonschema`。
+PRAXO-CORE 源自 PRAXOVELA，但它是独立的 MIT 框架；PRAXOVELA 是 AGPL-3.0
+运行时产品。框架不导入产品代码，凭据和租户数据由集成方持有。
 
-可选适配器独立版本化：`adapters/mcp/v0.3.0`、`adapters/otel/v0.2.0`、
-`adapters/anthropic/v0.1.0`、`adapters/gemini/v0.1.1`、
-`adapters/harmovela/v0.1.0`、`adapters/a2a/v0.1.0` 和
-`adapters/multiagent/v0.2.0`。该框架提取自 PRAXOVELA 经过验证的运行时。
+可使用自己的适配器，或接入[可选 AxisVela 生态](docs/zh-CN/integrations/ecosystem.md)。
+具体模块范围和限制见[适配器目录](docs/zh-CN/integrations/index.md)。
 
-## 文档
+## 版本与贡献
 
-[文档站](https://axisvela.github.io/praxo-core/) |
-[中文文档目录](docs/zh-CN/README.md)
+核心 `2.5.0` 新增 conformance 包并加固本地 VFS。适配器和 SDK 独立版本化。
 
-- [中文文档目录](docs/zh-CN/README.md)
-- [2.5.0 发布说明](docs/zh-CN/releases/2.5.0.md)
-- [2.4.0 发布说明](docs/zh-CN/releases/2.4.0.md)
-- [2.3.6 发布说明](docs/zh-CN/releases/2.3.6.md)
-- [2.3.5 发布说明](docs/zh-CN/releases/2.3.5.md)
-- [2.3.4 发布说明](docs/zh-CN/releases/2.3.4.md)
-- [2.3.3 发布说明](docs/zh-CN/releases/2.3.3.md)
-- [2.3.2 发布说明](docs/zh-CN/releases/2.3.2.md)
-- [2.3.1 发布说明](docs/zh-CN/releases/2.3.1.md)
-- [2.3.0 发布说明](docs/zh-CN/releases/2.3.0.md)
-- [2.2.0 发布说明](docs/zh-CN/releases/2.2.0.md)
-- [2.1.0 发布说明](docs/zh-CN/releases/2.1.0.md)
-- [采用指南](docs/zh-CN/adoption.md)
-- [Recipes](docs/zh-CN/recipes.md)
-- [适配器索引](docs/zh-CN/adapters.md)
-- [多 Agent 模式](docs/zh-CN/13-multi-agent.md)
-- [Workspace 与 Session 契约](docs/zh-CN/14-workspace-session.md)
-- [与其他 Go Agent 框架的对比](docs/zh-CN/comparison.md)
-- [基准测试](docs/zh-CN/benchmarks.md)
-- [AxisVela 生态集成](docs/zh-CN/12-ecosystem.md)
-- [概览](docs/zh-CN/00-overview.md)
-- [架构](docs/zh-CN/01-architecture.md)
-- [基础能力](docs/zh-CN/02-primitives.md)
-- [集成](docs/zh-CN/03-integration.md)
-- [许可证与来源](docs/zh-CN/04-license-and-provenance.md)
-- [兼容性](docs/zh-CN/05-compatibility.md)
-- [兼容与弃用策略](docs/zh-CN/16-compatibility-policy.md)
-- [v2 迁移](docs/zh-CN/11-migration-v2.md)
-- [安全策略](SECURITY.md)
-- [API 冻结清单](docs/zh-CN/07-api-freeze.md)
-- [安全模型](docs/zh-CN/08-security.md)
-- [发布流程](docs/zh-CN/09-release.md)
-- [插件编写](docs/zh-CN/10-plugin-authoring.md)
-- [插件信任与 SBOM](docs/zh-CN/15-plugin-trust-sbom.md)
-- [路线图详情](docs/zh-CN/06-roadmap.md)
-- [路线图](ROADMAP.md)
-
-内部提取规划与产品家族排期位于私有 PRAXOVELA-EE 仓库。
+- [最新发布说明](docs/zh-CN/releases/2.5.0.md)
+- [版本历史](docs/zh-CN/releases/index.md)
+- [兼容政策](docs/zh-CN/project/compatibility-policy.md)
+- [v2 迁移](docs/zh-CN/project/migration-v2.md)
+- [公开路线图](ROADMAP.md)
+- [贡献指南](CONTRIBUTING.md)
+- [安全问题报告](SECURITY.md)
 
 ## 许可证
 
-MIT。参见 [LICENSE](LICENSE)。
+MIT。参见 [LICENSE](LICENSE) 与[来源说明](docs/zh-CN/project/provenance.md)。

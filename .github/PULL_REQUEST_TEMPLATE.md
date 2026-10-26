@@ -13,7 +13,7 @@ Explain the change and why it is needed.
 ## Compatibility
 
 - [ ] No exported API change
-- [ ] Exported API change documented in `CHANGELOG.md` and `docs/05-compatibility.md`
+- [ ] Exported API change documented in `CHANGELOG.md` and `docs/project/compatibility.md`
 
 ## Checklist
 

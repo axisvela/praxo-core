@@ -39,8 +39,8 @@ Out of scope for this repository:
 - third-party provider or sandbox implementations
 - prompt-injection content that is correctly denied by policy
 
-See [docs/08-security.md](docs/08-security.md) for the framework threat model
-and known limitations, [docs/15-plugin-trust-sbom.md](docs/15-plugin-trust-sbom.md)
+See [security model](docs/security/index.md) for the framework threat model
+and known limitations, [plugin trust and SBOM](docs/security/plugin-trust.md)
 for the product-owned plugin verification and SBOM handoff, and
-[docs/containment-review.md](docs/containment-review.md) for the internal control
+[docs/containment-review.md](docs/security/containment.md) for the internal control
 map and residual risks. The containment review is not independent sign-off.
