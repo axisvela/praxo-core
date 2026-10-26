@@ -435,4 +435,3 @@ def generate_all(root, build):
         generate_group(root, destination, group, data)
         outputs.append((group, destination, len(data["vectors"])))
     return outputs
-
