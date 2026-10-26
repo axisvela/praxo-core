@@ -28,3 +28,6 @@ out/
 out-test/
 .dart_tool/
 dart/pubspec.lock
+kotlin/*.jar
+kotlin-compiler.zip
+.scala-build/

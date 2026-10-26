@@ -1,0 +1,20 @@
+{
+  "name": "scala-cli",
+  "argv": [
+    "D:\\dev\\scala-cli\\scala-cli.exe",
+    "bsp",
+    "--json-options",
+    "D:\\profile\\paper-code\\axis-vela\\praxo-core\\scala\\.scala-build\\ide-options-v2.json",
+    "--json-launcher-options",
+    "D:\\profile\\paper-code\\axis-vela\\praxo-core\\scala\\.scala-build\\ide-launcher-options.json",
+    "--envs-file",
+    "D:\\profile\\paper-code\\axis-vela\\praxo-core\\scala\\.scala-build\\ide-envs.json",
+    "D:\\profile\\paper-code\\axis-vela\\praxo-core\\scala\\sample.scala"
+  ],
+  "version": "1.15.0",
+  "bspVersion": "2.1.1",
+  "languages": [
+    "scala",
+    "java"
+  ]
+}
