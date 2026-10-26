@@ -125,7 +125,7 @@ public final class ToolSelection {
 }
 
 public typealias ModelHandler = (Request) throws -> Response
-public typealias ModelMiddleware = (ModelHandler) -> ModelHandler
+public typealias ModelMiddleware = (@escaping ModelHandler) -> ModelHandler
 
 public enum Fallback {
     public static func wrap(_ fallback: (any Model)?) -> ModelMiddleware {
