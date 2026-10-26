@@ -3,10 +3,9 @@
 - Tier: core
 - SPEC_VERSION: 0.2.0
 
-The Swift core loop passes all eleven vector groups. `swift/v0.1.0` tagged the
-wire subset; the core loop is untagged follow-up work. `partial` marks a surface
-that covers the vector behavior and common path but not every optional Go hook
-or provider adapter.
+`swift/v0.2.0` ships the core loop. The SDK passes all eleven vector groups and
+checks its public API snapshot. `partial` marks a surface that covers the vector
+behavior and common path but not every optional Go hook or provider adapter.
 
 | Go symbol | Swift symbol | Status | Phase |
 | --- | --- | --- | --- |

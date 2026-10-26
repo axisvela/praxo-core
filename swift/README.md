@@ -3,35 +3,34 @@
 Swift implementation of the PRAXO-CORE contract.
 
 - `SPEC_VERSION`: `0.2.0`
-- SDK version: `0.1.0`
+- SDK version: `0.2.0`
 - Tier: core
 - License: MIT
 
 ## Scope
 
-The package implements all eleven conformance vector groups: tool-call
-parsing/stripping, the JSON Schema subset, plugin manifest validation, memory,
-events, stream kinds, checkpoint envelopes, path policy, context budgets,
-middleware, and the agent loop.
-
-`swift/v0.1.0` tagged the wire subset. The core loop is untagged follow-up work;
-the API snapshot and provider adapters remain follow-up items.
+`0.2.0` implements all eleven conformance vector groups: tool-call parsing, JSON
+Schema, plugin manifests, memory, events, stream kinds, checkpoint envelopes,
+path policy, context budgets, middleware, and the agent loop. Provider adapters
+remain follow-up work.
 
 ## Build and test
 
 ```bash
 swift test
 swift run praxo-conformance
+python api-snapshot.py --check
 ```
 
-CI runs both on macOS. The package has no external dependencies.
+CI runs all three on macOS. The package has no external dependencies.
 
 ## Layout
 
 - `Sources/PraxoCore/` library.
 - `Sources/PraxoConformance/` wire and core vector runner.
+- `api-snapshot.py` and `api/` public API snapshot.
 - `Tests/PraxoCoreTests/` XCTest coverage.
 
 ## Release
 
-Tag shape: `swift/v0.1.0`. The tag targets `SPEC_VERSION` `0.2.0`.
+Tag shape: `swift/v0.2.0`. The tag targets `SPEC_VERSION` `0.2.0`.

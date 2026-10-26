@@ -83,10 +83,13 @@ php php/conformance/run.php --check-api
 php php/tests/run.php
 cd swift; swift test
 cd swift; swift run praxo-conformance
+cd swift; python3 api-snapshot.py --check
 julia --project=julia -e 'using Pkg; Pkg.instantiate()'
 julia --project=julia julia/conformance/run.jl
+julia --project=julia julia/api-snapshot.jl --check
 julia --project=julia julia/test/runtests.jl
 Rscript r/conformance/run.R
+Rscript r/api-snapshot.R --check
 Rscript r/tests/run_tests.R
 ```
 

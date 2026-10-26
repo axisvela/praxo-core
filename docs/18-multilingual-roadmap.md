@@ -76,10 +76,9 @@ Release state: `spec/v0.2.0` tags the eleven-group contract,
 core, `java/v0.2.1` tags the Java core, `rust/v0.1.0` tags the Rust core implementing
 it, `shell/v0.1.0` / `powershell/v0.1.0` tag the bridge wrappers, and
 `c/v0.1.0` tags the C conformance core, `csharp/v0.1.0` tags the C# core,
-`php/v0.1.0` tags the PHP core, and `swift/v0.1.0`, `julia/v0.1.0`, and
-`r/v0.1.0` tag their wire packages. The Swift, Julia, and R core loops are
-untagged follow-up work. The `0.1.0` tags remain available for consumers that
-pinned the earlier contract.
+`php/v0.1.0` tags the PHP core, and `swift/v0.2.0`, `julia/v0.2.0`, and
+`r/v0.2.0` tag their core SDKs. Their `0.1.0` tags remain available for
+consumers that pinned the wire subset.
 
 ### Phase 2 Progress (2026-10-25)
 
@@ -154,38 +153,34 @@ API snapshot check. It is a synchronous, standard-library-only package.
 
 | Item | Status | Evidence |
 | --- | --- | --- |
-| Swift wire | done | `swift/`, toolcall/jsonschema/plugin vectors |
+| Swift core | done | `swift/`, 11 vector groups, `swift/v0.2.0` |
 | Swift XCTest | done | `swift test` on macOS |
-| Swift core loop | done, untagged | `swift/Sources/PraxoCore`, 11 vector groups |
-| Swift API snapshot | planned | not implemented |
+| Swift API snapshot | done | `swift/api/0.2.0.txt` |
 
-The Swift core loop is implemented and runs all eleven vector groups. The
-`swift/v0.1.0` tag remains the wire subset; the core loop is untagged until the
-API snapshot and macOS CI confirmation land.
+The Swift core passes all eleven vector groups, its XCTest suite, and its API
+snapshot check.
 
 ### Julia core (2026-10-26)
 
 | Item | Status | Evidence |
 | --- | --- | --- |
-| Julia wire | done | `julia/`, toolcall/jsonschema/plugin vectors |
+| Julia core | done | `julia/`, 11 vector groups, `julia/v0.2.0` |
 | Julia tests | done | `julia --project=julia julia/test/runtests.jl` |
-| Julia core loop | done, untagged | `julia/src`, 11 vector groups |
-| Julia API snapshot | planned | not implemented |
+| Julia API snapshot | done | `julia/api/0.2.0.txt` |
 
-The Julia package uses JSON.jl and passes all eleven vector groups. The
-`julia/v0.1.0` tag remains the wire subset.
+The Julia package uses JSON.jl and passes all eleven vector groups and its API
+snapshot check.
 
 ### R core (2026-10-26)
 
 | Item | Status | Evidence |
 | --- | --- | --- |
-| R wire | done | `r/`, toolcall/jsonschema/plugin vectors |
+| R core | done | `r/`, 11 vector groups, `r/v0.2.0` |
 | R tests | done | `Rscript r/tests/run_tests.R` |
-| R core loop | done, untagged | `r/R/core.R`, 11 vector groups |
-| R API snapshot | planned | not implemented |
+| R API snapshot | done | `r/api/0.2.0.txt` |
 
-The R package uses a base-R JSON parser and passes all eleven vector groups. The
-`r/v0.1.0` tag remains the wire subset.
+The R package uses a base-R JSON parser and passes all eleven vector groups and
+its API snapshot check.
 
 Long-tail language tiers are evaluated in the
 [language expansion plan](19-language-expansion.md).

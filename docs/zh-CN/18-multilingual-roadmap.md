@@ -69,9 +69,8 @@ python -m unittest discover -s tests -v
 `typescript/v0.1.0` 标记 TypeScript 核心，`java/v0.2.1` 标记 Java 核心，
 `rust/v0.1.0` 标记 Rust 核心，`shell/v0.1.0` 与 `powershell/v0.1.0` 标记桥接
 包装，`c/v0.1.0` 标记 C 一致性核心，`csharp/v0.1.0` 标记 C# 核心，
-`php/v0.1.0` 标记 PHP 核心，`swift/v0.1.0`、`julia/v0.1.0` 和 `r/v0.1.0`
-分别标记对应 wire 包。Swift、Julia 和 R 的核心循环尚未打标签。
-`0.1.0` 标签继续保留给已固定早期契约的使用方。
+`php/v0.1.0` 标记 PHP 核心，`swift/v0.2.0`、`julia/v0.2.0` 和 `r/v0.2.0`
+分别标记对应核心 SDK。它们的 `0.1.0` 标签继续保留给已固定 wire 子集的使用方。
 
 ### 阶段 2 进度（2026-10-25）
 
@@ -144,35 +143,31 @@ PHP SDK 已通过全部十一组向量、无依赖测试和 API 快照检查。�
 
 | 项目 | 状态 | 证据 |
 | --- | --- | --- |
-| Swift wire | 完成 | `swift/`、toolcall/jsonschema/plugin 向量 |
+| Swift core | 完成 | `swift/`、11 组向量、`swift/v0.2.0` |
 | Swift XCTest | 完成 | macOS 上的 `swift test` |
-| Swift 核心循环 | 完成，未打标签 | `swift/Sources/PraxoCore`、11 组向量 |
-| Swift API 快照 | 计划中 | 尚未实现 |
+| Swift API 快照 | 完成 | `swift/api/0.2.0.txt` |
 
-Swift 核心循环已实现并通过全部十一组向量。`swift/v0.1.0` 仍标记 wire 子集；
-在 API 快照和 macOS CI 确认前，核心循环不打标签。
+Swift 核心通过全部十一组向量、XCTest 和 API 快照检查。
 
 ### Julia 核心（2026-10-26）
 
 | 项目 | 状态 | 证据 |
 | --- | --- | --- |
-| Julia wire | 完成 | `julia/`、toolcall/jsonschema/plugin 向量 |
+| Julia core | 完成 | `julia/`、11 组向量、`julia/v0.2.0` |
 | Julia 测试 | 完成 | `julia --project=julia julia/test/runtests.jl` |
-| Julia 核心循环 | 完成，未打标签 | `julia/src`、11 组向量 |
-| Julia API 快照 | 计划中 | 尚未实现 |
+| Julia API 快照 | 完成 | `julia/api/0.2.0.txt` |
 
-Julia 包使用 JSON.jl 并通过全部十一组向量。`julia/v0.1.0` 仍标记 wire 子集。
+Julia 包使用 JSON.jl 并通过全部十一组向量和 API 快照检查。
 
 ### R 核心（2026-10-26）
 
 | 项目 | 状态 | 证据 |
 | --- | --- | --- |
-| R wire | 完成 | `r/`、toolcall/jsonschema/plugin 向量 |
+| R core | 完成 | `r/`、11 组向量、`r/v0.2.0` |
 | R 测试 | 完成 | `Rscript r/tests/run_tests.R` |
-| R 核心循环 | 完成，未打标签 | `r/R/core.R`、11 组向量 |
-| R API 快照 | 计划中 | 尚未实现 |
+| R API 快照 | 完成 | `r/api/0.2.0.txt` |
 
-R 包使用基础 R 的 JSON 解析器并通过全部十一组向量。`r/v0.1.0` 仍标记 wire 子集。
+R 包使用基础 R 的 JSON 解析器并通过全部十一组向量和 API 快照检查。
 
 长尾语言分层见
 [语言扩展计划](19-language-expansion.md)。

@@ -1,0 +1,225 @@
+# PRAXO-CORE Swift API 0.2.0
+# SPEC_VERSION 0.2.0
+
+Action.arguments var
+Action.init
+Action.kind var
+Action.sessionID var
+Action.toolName var
+Agent.init
+Agent.run func
+AgentOptions.context var
+AgentOptions.events var
+AgentOptions.init
+AgentOptions.maxSteps var
+AgentOptions.maxTokens var
+AgentOptions.model var
+AgentOptions.policy var
+AgentOptions.systemPrompt var
+AgentOptions.tools var
+CallLimit.init
+CheckpointAllowlist.init
+CheckpointAllowlist.register func
+ContentBlock.data var
+ContentBlock.imageURL var
+ContentBlock.init
+ContentBlock.text var
+ContentBlock.type var
+ContextBudget.init
+ContextBudget.keepRecent var
+ContextBudget.maxTokens var
+ContextEstimator.estimate func
+Decision.allowed var
+Decision.init
+Decision.reason var
+Event.data var
+Event.init
+Event.runID var
+Event.sessionID var
+Event.type var
+Fallback.wrap func
+FilterSink.init
+FuncTool.description let
+FuncTool.init
+FuncTool.name let
+Json.parse func
+JsonError.description var
+JsonSchema.validate func
+MemoryRecord.content var
+MemoryRecord.createdAt var
+MemoryRecord.frame var
+MemoryRecord.id var
+MemoryRecord.init
+MemoryStore.init
+MemoryStore.put func
+Message.content var
+Message.contentBlocks var
+Message.init
+Message.role var
+Message.toolCalls var
+Message.toolID var
+ModelHandler typealias
+ModelMiddleware typealias
+MultiSink.emit func
+MultiSink.init
+ParsedToolCall.callId var
+ParsedToolCall.idempotencyKey var
+ParsedToolCall.init
+ParsedToolCall.input var
+ParsedToolCall.name var
+ParsedToolCall.operation var
+ParsedToolCall.reason var
+ParsedToolCall.resource var
+ParsedToolCall.risk var
+PathChecker.init
+PathGrant.access var
+PathGrant.init
+PathGrant.root var
+PiiRedactor.init
+Plugin.kinds let
+Plugin.parseManifest func
+PluginError.description var
+PluginManifest.capabilities let
+PluginManifest.entrypoint let
+PluginManifest.health let
+PluginManifest.id let
+PluginManifest.init
+PluginManifest.isolation let
+PluginManifest.kind let
+PluginManifest.limits let
+PluginManifest.permissions let
+PluginManifest.protocolName let
+PluginManifest.schemaVersion let
+PluginManifest.version let
+PraxoError.code let
+PraxoError.init
+PraxoError.message let
+Request.init
+Request.messages var
+Request.responseFormat var
+Request.temperature var
+Request.toolChoice var
+Request.tools var
+Response.finishReason var
+Response.init
+Response.message var
+Response.usage var
+Roles.assistant let
+Roles.system let
+Roles.tool let
+Roles.user let
+RunResult.init
+RunResult.output var
+RunResult.runID var
+RunResult.steps var
+RunResult.usage var
+Session.id var
+Session.init
+Session.messages var
+StaticModel.generate func
+StaticModel.init
+StructuredOutput.init
+StructuredOutput.maxRepairs let
+StructuredOutput.repairer var
+StructuredOutput.schema let
+ToolCall.arguments var
+ToolCall.id var
+ToolCall.init
+ToolCall.name var
+ToolCallParser.parse func
+ToolRegistry.get func
+ToolRegistry.init
+ToolRegistry.register func
+ToolSelection.init
+ToolSpec.description var
+ToolSpec.init
+ToolSpec.name var
+ToolSpec.parameters var
+ToolSpec.risk var
+Usage.cachedTokens var
+Usage.init
+Usage.inputTokens var
+Usage.outputTokens var
+ValidationError.init
+ValidationError.message let
+ValidationError.path let
+allowed func
+apply func
+array func
+assistant func
+beforeModel func
+beforeTool func
+bool func
+check func
+class Agent
+class AgentOptions
+class CallLimit
+class CheckpointAllowlist
+class Event
+class FilterSink
+class FuncTool
+class MemoryRecord
+class MemoryStore
+class MultiSink
+class PiiRedactor
+class StaticModel
+class StructuredOutput
+class ToolRegistry
+class ToolSelection
+compact func
+emit func
+enum ContextEstimator
+enum Fallback
+enum Json
+enum JsonError
+enum JsonSchema
+enum Plugin
+enum PluginError
+enum Roles
+enum ToolCallParser
+equals func
+extractJSON func
+filter func
+get func
+int func
+invoke func
+marshal func
+parseInputJson func
+plus func
+protocol EventSink
+protocol Model
+protocol PolicyHook
+protocol Tool
+protocol ToolSelector
+redact func
+redactValue func
+reject func
+search func
+specs func
+streamKinds let
+string func
+stringify func
+stripMarkup func
+struct Action
+struct ContentBlock
+struct ContextBudget
+struct Decision
+struct Message
+struct ParsedToolCall
+struct PathChecker
+struct PathGrant
+struct PluginManifest
+struct PraxoError
+struct Request
+struct Response
+struct RunResult
+struct Session
+struct ToolCall
+struct ToolSpec
+struct Usage
+struct ValidationError
+text func
+tool func
+truncate func
+unmarshal func
+wire func

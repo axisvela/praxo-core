@@ -169,6 +169,7 @@ jobs:
       - uses: actions/checkout@v4
       - run: swift test
       - run: swift run praxo-conformance
+      - run: python3 api-snapshot.py --check
 
   julia-conformance:
     runs-on: ubuntu-latest
@@ -179,6 +180,7 @@ jobs:
           version: "1"
       - run: julia --project=julia -e 'using Pkg; Pkg.instantiate()'
       - run: julia --project=julia julia/conformance/run.jl
+      - run: julia --project=julia julia/api-snapshot.jl --check
       - run: julia --project=julia julia/test/runtests.jl
 
   r-conformance:
@@ -189,6 +191,7 @@ jobs:
         with:
           r-version: "release"
       - run: Rscript r/conformance/run.R
+      - run: Rscript r/api-snapshot.R --check
       - run: Rscript r/tests/run_tests.R
 
   bridge:

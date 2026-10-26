@@ -23,9 +23,9 @@ targets.
 | C | [C SDK](https://github.com/axisvela/praxo-core/tree/main/c) | Core | released |
 | C# | [C# SDK](https://github.com/axisvela/praxo-core/tree/main/csharp) | Core | released |
 | PHP | [PHP SDK](https://github.com/axisvela/praxo-core/tree/main/php) | Core | released |
-| Swift | [Swift SDK](https://github.com/axisvela/praxo-core/tree/main/swift) | Core | untagged |
-| Julia | [Julia SDK](https://github.com/axisvela/praxo-core/tree/main/julia) | Core | untagged |
-| R | [R SDK](https://github.com/axisvela/praxo-core/tree/main/r) | Core | untagged |
+| Swift | [Swift SDK](https://github.com/axisvela/praxo-core/tree/main/swift) | Core | released |
+| Julia | [Julia SDK](https://github.com/axisvela/praxo-core/tree/main/julia) | Core | released |
+| R | [R SDK](https://github.com/axisvela/praxo-core/tree/main/r) | Core | released |
 
 ## Wire and Bridge SDKs
 

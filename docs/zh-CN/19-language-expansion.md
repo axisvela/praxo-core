@@ -39,9 +39,9 @@ TypeScript、Java 与 Rust。下一步采用**分层语言策略**：
 | PowerShell | Bridge | 自动化与运维胶水，不适合承载运行时 | 包装 .NET CLI 或核心 CLI |
 | Shell | Bridge | POSIX/Bash 胶水；策略、JSON、插件宿主风险高 | 通过 stdio/JSON 包装 CLI |
 | PHP | Core（已交付） | Web 集成面大；同步生态 | 核心已随 `php/v0.1.0` 发布 |
-| Swift | Core（未打标签） | Apple 平台、结构化并发、`Codable` | 11 组向量；`swift/v0.1.0` 仍为 wire |
-| Julia | Core（未打标签） | 科学计算；JSON/HTTP 可用但 Agent 循环少见 | 11 组向量；`julia/v0.1.0` 仍为 wire |
-| R | Core（未打标签） | 统计与数据工作流；CRAN 生态 | 11 组向量；`r/v0.1.0` 仍为 wire |
+| Swift | Core（已交付） | Apple 平台、结构化并发、`Codable` | 核心已随 `swift/v0.2.0` 发布 |
+| Julia | Core（已交付） | 科学计算；JSON/HTTP 可用但 Agent 循环少见 | 核心已随 `julia/v0.2.0` 发布 |
+| R | Core（已交付） | 统计与数据工作流；CRAN 生态 | 核心已随 `r/v0.2.0` 发布 |
 | Haskell | Wire | 类型强，但 AI 工具需求较小 | Wire 级包 |
 | Fortran | Bridge | 数值代码；不适合 Agent 运行时 | 仅在明确使用方时做 |
 | Lisp | Bridge | 小众；S 表达式/JSON 桥接比完整移植便宜 | 仅在明确使用方时做 |
@@ -154,8 +154,8 @@ spec/
 | L0 | 稳定 Go/Python/TS/Java/Rust；通过工具链或 CI 完成 C | 现有门禁全绿 |
 | L1 | .NET 核心（C#）、VB 示例、PowerShell 桥接 | 11 组向量 + .NET API 快照 |
 | L2 | PHP core（已交付） | 11 组向量 + API 快照 |
-| L3 | Swift core（未打标签） | 11 组向量 + API 快照 |
-| L4 | Julia、R core（未打标签）；Haskell wire | 声明的 wire 向量 |
+| L3 | Swift core（已交付） | 11 组向量 + API 快照 |
+| L4 | Julia、R core（已交付）；Haskell wire | 11 组向量 + API 快照 |
 | L5 | Shell 桥接，Fortran/Lisp 视使用方 | 桥接契约测试 |
 | L6 | C++、Ruby、Perl、Lua、COBOL core；JavaScript、Kotlin、Scala 示例 | 11 组向量 + API 快照 |
 | L7 | Dart 按使用方转 core；MATLAB、OCaml wire；Delphi wire/桥接；Scratch、Prolog、ABAP 桥接 | 声明的 wire 或桥接门禁 |

@@ -30,9 +30,9 @@ scope. A language may ship more than one tier over time.
 | PowerShell | Bridge | released | `powershell/v0.1.0` | Wraps the bridge CLI |
 | Shell | Bridge | released | `shell/v0.1.0` | Wraps the bridge CLI |
 | PHP | Core | released | `php/v0.1.0` | 11 vectors, API snapshot, dependency-free |
-| Swift | Core (untagged) | in progress | `swift/v0.1.0` (wire) | 11 vectors, XCTest; core untagged, API snapshot pending |
-| Julia | Core (untagged) | in progress | `julia/v0.1.0` (wire) | 11 vectors, JSON.jl; core untagged |
-| R | Core (untagged) | in progress | `r/v0.1.0` (wire) | 11 vectors, base-R JSON; core untagged |
+| Swift | Core | released | `swift/v0.2.0` | 11 vectors, XCTest, API snapshot |
+| Julia | Core | released | `julia/v0.2.0` | 11 vectors, JSON.jl, API snapshot |
+| R | Core | released | `r/v0.2.0` | 11 vectors, base-R JSON, API snapshot |
 | Haskell | Wire | planned | `haskell/v0.1.0` | Wire subset |
 | Fortran | Bridge | consumer-gated | `fortran/v0.1.0` | Requires a named consumer |
 | Lisp | Bridge | consumer-gated | `lisp/v0.1.0` | Requires a named consumer |
@@ -64,9 +64,9 @@ scope. A language may ship more than one tier over time.
 | C | `c-conformance` | CMake build, vectors, C core tests |
 | C# / VB.NET | `csharp-conformance` | build, vectors, API snapshot, core tests, VB sample |
 | PHP | `php-conformance` | vectors, API snapshot, core tests |
-| Swift | `swift-conformance` | swift test, all 11 vector groups |
-| Julia | `julia-conformance` | Julia tests, all 11 vector groups |
-| R | `r-conformance` | R tests, all 11 vector groups |
+| Swift | `swift-conformance` | swift test, 11 vectors, API snapshot |
+| Julia | `julia-conformance` | Julia tests, 11 vectors, API snapshot |
+| R | `r-conformance` | R tests, 11 vectors, API snapshot |
 | Shell / PowerShell | `bridge` | bridge tests, both wrappers |
 | Haskell, Fortran, Lisp | none yet | pending toolchain or implementation |
 | Wave 2 languages | none yet | planned; gate depends on declared tier |

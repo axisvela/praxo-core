@@ -82,7 +82,7 @@ shapes, one conformance suite, and one-to-one idiomatic APIs. The
 pass all eleven vector groups; Python, TypeScript, Java, and C# include
 streaming and an OpenAI-compatible adapter. The [Swift SDK](swift/README.md),
 [Julia SDK](julia/README.md), and [R SDK](r/README.md) also implement the core
-loop; their released tags remain wire-only. The
+loop and are tagged `swift/v0.2.0`, `julia/v0.2.0`, and `r/v0.2.0`. The
 [language expansion plan](docs/19-language-expansion.md) covers JavaScript,
 C++, Dart, Ruby, Kotlin, Scala, MATLAB, Perl, Delphi, OCaml/Caml, Lua, Scratch,
 COBOL, Prolog, and ABAP. See the

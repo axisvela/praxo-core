@@ -8,6 +8,8 @@
   checkpoint, policy, event, and conformance dispatch for all eleven vector
   groups.
 - Julia and R core loops with conformance wiring for all eleven vector groups.
+- Swift, Julia, and R `0.2.0` core SDKs with API snapshots, tagged
+  `swift/v0.2.0`, `julia/v0.2.0`, and `r/v0.2.0`.
 - Wave 2 language plan for JavaScript, C++, Dart, Ruby, Kotlin, Scala, MATLAB,
   Perl, Delphi, OCaml/Caml, Lua, Scratch, COBOL, Prolog, and ABAP. C++, Ruby,
   Perl, Lua, and COBOL target core tier.

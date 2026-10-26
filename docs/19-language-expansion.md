@@ -42,9 +42,9 @@ is bridge-only, while PHP can start wire-only and later grow a core loop.
 | PowerShell | Bridge | Automation and operator glue; not a runtime host | Wrap the .NET CLI or a core CLI |
 | Shell | Bridge | POSIX/Bash glue; unsafe for policy, JSON, and plugin hosts | Wrap a CLI over stdio/JSON |
 | PHP | Core (delivered) | Large web integration surface; synchronous ecosystem | Core shipped in `php/v0.1.0` |
-| Swift | Core (untagged) | Apple platforms, structured concurrency, `Codable` | 11 vectors; `swift/v0.1.0` remains wire |
-| Julia | Core (untagged) | Scientific computing; JSON/HTTP are available but agent loops are unusual | 11 vectors; `julia/v0.1.0` remains wire |
-| R | Core (untagged) | Statistics and data workflows; package ecosystem is CRAN | 11 vectors; `r/v0.1.0` remains wire |
+| Swift | Core (delivered) | Apple platforms, structured concurrency, `Codable` | Core shipped in `swift/v0.2.0` |
+| Julia | Core (delivered) | Scientific computing; JSON/HTTP are available but agent loops are unusual | Core shipped in `julia/v0.2.0` |
+| R | Core (delivered) | Statistics and data workflows; package ecosystem is CRAN | Core shipped in `r/v0.2.0` |
 | Haskell | Wire | Strong types, smaller AI tooling demand | Wire-level package |
 | Fortran | Bridge | Numeric code; no practical agent runtime | Only with a named consumer |
 | Lisp | Bridge | Niche; S-expression/JSON bridge is cheaper than a core port | Only with a named consumer |
@@ -162,8 +162,8 @@ Rules:
 | L0 | Stabilize Go/Python/TS/Java/Rust; finish C via toolchain or CI | existing gates green |
 | L1 | .NET core (C#), VB samples, PowerShell bridge | 11 vectors + .NET API snapshot |
 | L2 | PHP core (delivered) | 11 vectors + API snapshot |
-| L3 | Swift core (untagged) | 11 vectors + API snapshot |
-| L4 | Julia, R core (untagged); Haskell wire | declared wire vectors |
+| L3 | Swift core (delivered) | 11 vectors + API snapshot |
+| L4 | Julia, R core (delivered); Haskell wire | 11 vectors + API snapshot |
 | L5 | Shell bridge, Fortran/Lisp if consumer | bridge contract tests |
 | L6 | C++, Ruby, Perl, Lua, COBOL core; JavaScript, Kotlin, Scala samples | 11 vectors + API snapshot |
 | L7 | Dart core with consumer; MATLAB, OCaml wire; Delphi wire/bridge; Scratch, Prolog, ABAP bridges | declared wire or bridge gate |
