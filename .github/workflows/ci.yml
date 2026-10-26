@@ -149,7 +149,7 @@ jobs:
           java-version: "21"
       - run: javac -d java/build/classes $(find java/src/main/java -name '*.java')
       - uses: VirtusLab/scala-cli-setup@main
-      - run: scala-cli run scala/sample.scala --classpath java/build/classes --server=false
+      - run: scala-cli run scala/sample.scala --classpath java/build/classes --server=false --jvm 21
 
   c-conformance:
     runs-on: ubuntu-latest
