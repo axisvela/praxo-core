@@ -206,7 +206,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: dlang-community/setup-dlang@v1
         with:
-          compiler: dmd
+          compiler: dmd-2.113.0
       - run: mkdir -p build
       - run: dmd -i -I source -O -release source/conformance.d -of=build/conformance
       - run: ./build/conformance
