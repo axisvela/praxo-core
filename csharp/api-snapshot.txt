@@ -1,0 +1,385 @@
+### Praxo.Core.Action
+Action()
+System.String Kind { get; set; }
+System.String SessionId { get; set; }
+System.String ToolName { get; set; }
+System.Text.Json.Nodes.JsonObject Arguments { get; set; }
+### Praxo.Core.Agent
+Agent(Praxo.Core.AgentOptions options)
+Praxo.Core.RunResult Run(Praxo.Core.Session session, System.String prompt)
+### Praxo.Core.AgentOptions
+AgentOptions(Praxo.Core.IModel model)
+Praxo.Core.ContextBudget Context { get; set; }
+Praxo.Core.IContextCompactor Compactor { get; set; }
+Praxo.Core.IEventSink Events { get; set; }
+Praxo.Core.IModel FallbackModel { get; set; }
+Praxo.Core.IModel Model { get; }
+Praxo.Core.IPolicyHook Policy { get; set; }
+Praxo.Core.IToolSelector ToolSelector { get; set; }
+Praxo.Core.PiiRedactor PiiRedactor { get; set; }
+Praxo.Core.ResponseFormat ResponseFormat { get; set; }
+Praxo.Core.StructuredOutput StructuredOutput { get; set; }
+Praxo.Core.ToolRegistry Tools { get; set; }
+System.Collections.Generic.List`1[Praxo.Core.IMiddleware] Middleware { get; set; }
+System.Collections.Generic.List`1[Praxo.Core.ModelMiddleware] ModelMiddleware { get; set; }
+System.Collections.Generic.List`1[System.String] AllowedTools { get; set; }
+System.Collections.Generic.List`1[System.String] MemoryFiles { get; set; }
+System.Int32 MaxSteps { get; set; }
+System.Int32 ModelCallLimit { get; set; }
+System.Int32 ToolCallLimit { get; set; }
+System.Int64 MaxTokens { get; set; }
+System.String SystemPrompt { get; set; }
+System.String ToolChoice { get; set; }
+### Praxo.Core.CallLimitMiddleware
+CallLimitMiddleware(System.Int32 modelLimit, System.Int32 toolLimit)
+System.String Name { get; }
+System.Void AfterRun(Praxo.Core.RunResult result, Praxo.Core.PraxoException error)
+System.Void BeforeModel(Praxo.Core.ModelCall call)
+System.Void BeforeRun(Praxo.Core.RunState state)
+System.Void BeforeTool(Praxo.Core.MiddlewareToolCall call)
+### Praxo.Core.CheckpointAllowlist
+CheckpointAllowlist()
+System.String Marshal(System.String typeName, System.Text.Json.Nodes.JsonNode value)
+System.Text.Json.Nodes.JsonNode Unmarshal(System.String data)
+System.Void Register(System.String typeName)
+### Praxo.Core.Clock
+System.String NowIso()
+### Praxo.Core.ContentBlock
+ContentBlock()
+Praxo.Core.ContentBlock TextBlock(System.String text)
+System.String Data { get; set; }
+System.String ImageUrl { get; set; }
+System.String Text { get; set; }
+System.String Type { get; set; }
+### Praxo.Core.ContextBudget
+ContextBudget(System.Int32 maxTokens, System.Int32 keepRecent)
+System.Int32 KeepRecent { get; }
+System.Int32 MaxTokens { get; }
+System.ValueTuple`2[System.Collections.Generic.List`1[Praxo.Core.Message],System.Boolean] Compact(System.Collections.Generic.IReadOnlyList`1[Praxo.Core.Message] messages)
+### Praxo.Core.ContextEstimator
+System.Int32 EstimateTokens(System.Collections.Generic.IReadOnlyList`1[Praxo.Core.Message] messages)
+System.String CompactMarkerPrefix
+System.String TruncateToTokens(System.String value, System.Int32 tokens)
+### Praxo.Core.Decision
+Decision()
+Praxo.Core.Decision Allow(System.String reason)
+Praxo.Core.Decision Deny(System.String reason)
+System.Boolean Allowed { get; set; }
+System.String Reason { get; set; }
+### Praxo.Core.Event
+Event(System.String type, System.String sessionId)
+Praxo.Core.Event WithData(System.Text.Json.Nodes.JsonObject data)
+Praxo.Core.Event WithRun(System.String runId)
+System.String At { get; set; }
+System.String RunId { get; set; }
+System.String SessionId { get; set; }
+System.String Type { get; set; }
+System.Text.Json.Nodes.JsonObject Data { get; set; }
+### Praxo.Core.FilterSink
+FilterSink(Praxo.Core.IEventSink sink, System.Func`2[Praxo.Core.Event,System.Boolean] predicate)
+System.Void Emit(Praxo.Core.Event event)
+### Praxo.Core.FuncTool
+FuncTool(System.String name, System.String description, System.Func`2[System.Text.Json.Nodes.JsonObject,System.Text.Json.Nodes.JsonNode] function)
+System.String Description { get; }
+System.String Name { get; }
+System.Text.Json.Nodes.JsonNode Invoke(System.Text.Json.Nodes.JsonObject arguments)
+### Praxo.Core.IContextCompactor
+System.Collections.Generic.List`1[Praxo.Core.Message] Compact(System.Collections.Generic.IReadOnlyList`1[Praxo.Core.Message] messages, Praxo.Core.ContextBudget budget)
+### Praxo.Core.IEventSink
+System.Void Emit(Praxo.Core.Event event)
+### Praxo.Core.IMemoryStore
+System.Collections.Generic.IReadOnlyList`1[Praxo.Core.MemoryRecord] Search(System.String sessionId, System.String query, System.Int32 limit)
+System.Void Put(System.String sessionId, Praxo.Core.MemoryRecord record)
+### Praxo.Core.IMiddleware
+System.String Name { get; }
+System.Void AfterModel(Praxo.Core.ModelCall call, Praxo.Core.Response response)
+System.Void AfterRun(Praxo.Core.RunResult result, Praxo.Core.PraxoException error)
+System.Void AfterTool(Praxo.Core.MiddlewareToolCall call, Praxo.Core.ToolResult result)
+System.Void BeforeModel(Praxo.Core.ModelCall call)
+System.Void BeforeRun(Praxo.Core.RunState state)
+System.Void BeforeTool(Praxo.Core.MiddlewareToolCall call)
+### Praxo.Core.IModel
+Praxo.Core.Response Generate(Praxo.Core.Request request)
+### Praxo.Core.IPolicyHook
+Praxo.Core.Decision Authorize(Praxo.Core.Action action)
+### Praxo.Core.IStreamingModel
+Praxo.Core.Response GenerateStream(Praxo.Core.Request request, System.Action`1[System.String] onDelta)
+### Praxo.Core.ITool
+System.String Description { get; }
+System.String Name { get; }
+System.Text.Json.Nodes.JsonNode Invoke(System.Text.Json.Nodes.JsonObject arguments)
+### Praxo.Core.IToolSelector
+System.Collections.Generic.List`1[System.String] Select(System.String query, System.Collections.Generic.IReadOnlyList`1[Praxo.Core.ToolSpec] tools)
+### Praxo.Core.InMemoryMemoryStore
+InMemoryMemoryStore()
+System.Collections.Generic.IReadOnlyList`1[Praxo.Core.MemoryRecord] Search(System.String sessionId, System.String query, System.Int32 limit)
+System.Void Put(System.String sessionId, Praxo.Core.MemoryRecord record)
+### Praxo.Core.Json
+System.Boolean DeepEquals(System.Text.Json.Nodes.JsonNode left, System.Text.Json.Nodes.JsonNode right)
+System.Boolean GetBool(System.Text.Json.Nodes.JsonNode node, System.String name, System.Boolean fallback)
+System.Boolean TryParseObject(System.String raw, System.Text.Json.Nodes.JsonObject& obj)
+System.Double GetNumber(System.Text.Json.Nodes.JsonNode node, System.String name, System.Double fallback)
+System.Int32 GetInt(System.Text.Json.Nodes.JsonNode node, System.String name, System.Int32 fallback)
+System.String GetString(System.Text.Json.Nodes.JsonNode node, System.String name)
+System.String Stringify(System.Text.Json.Nodes.JsonNode node)
+System.Text.Json.JsonSerializerOptions Options
+System.Text.Json.Nodes.JsonArray Array(System.Text.Json.Nodes.JsonNode node)
+System.Text.Json.Nodes.JsonNode From(T value)
+System.Text.Json.Nodes.JsonNode Get(System.Text.Json.Nodes.JsonNode node, System.String name)
+System.Text.Json.Nodes.JsonNode Parse(System.String text)
+System.Text.Json.Nodes.JsonObject Object(System.Text.Json.Nodes.JsonNode node)
+### Praxo.Core.JsonSchema
+System.Collections.Generic.List`1[Praxo.Core.ValidationError] Validate(System.Text.Json.Nodes.JsonNode schema, System.Text.Json.Nodes.JsonNode data)
+### Praxo.Core.MemoryRecord
+MemoryRecord()
+System.String Content { get; set; }
+System.String CreatedAt { get; set; }
+System.String Frame { get; set; }
+System.String Id { get; set; }
+System.Text.Json.Nodes.JsonObject Metadata { get; set; }
+### Praxo.Core.Message
+Message()
+Praxo.Core.Message Assistant(System.String content, System.Collections.Generic.IEnumerable`1[Praxo.Core.ToolCall] toolCalls)
+Praxo.Core.Message Text(System.String role, System.String content)
+Praxo.Core.Message Tool(System.String content, System.String toolId)
+System.Collections.Generic.List`1[Praxo.Core.ContentBlock] ContentBlocks { get; set; }
+System.Collections.Generic.List`1[Praxo.Core.ToolCall] ToolCalls { get; set; }
+System.String Content { get; set; }
+System.String Role { get; set; }
+System.String ToolId { get; set; }
+### Praxo.Core.MiddlewareChain
+System.Collections.Generic.List`1[Praxo.Core.IMiddleware] Merge(System.Collections.Generic.IEnumerable`1[Praxo.Core.IMiddleware] items)
+### Praxo.Core.MiddlewareToolCall
+MiddlewareToolCall()
+Praxo.Core.PraxoException Error { get; set; }
+Praxo.Core.ToolCall Call { get; set; }
+System.Boolean Skip { get; set; }
+System.String RunId { get; set; }
+System.String SessionId { get; set; }
+System.Text.Json.Nodes.JsonNode Result { get; set; }
+### Praxo.Core.ModelCall
+ModelCall()
+Praxo.Core.Request Request { get; set; }
+Praxo.Core.Response Response { get; set; }
+System.Boolean Skip { get; set; }
+System.String RunId { get; set; }
+System.String SessionId { get; set; }
+### Praxo.Core.ModelFallback
+Praxo.Core.ModelMiddleware Fallback(Praxo.Core.IModel fallback)
+Praxo.Core.ModelMiddleware FallbackWithContent(System.String content)
+### Praxo.Core.ModelHandler
+ModelHandler(System.Object object, System.IntPtr method)
+Praxo.Core.Response EndInvoke(System.IAsyncResult result)
+Praxo.Core.Response Invoke(Praxo.Core.Request request)
+System.IAsyncResult BeginInvoke(Praxo.Core.Request request, System.AsyncCallback callback, System.Object object)
+### Praxo.Core.ModelMiddleware
+ModelMiddleware(System.Object object, System.IntPtr method)
+Praxo.Core.ModelHandler EndInvoke(System.IAsyncResult result)
+Praxo.Core.ModelHandler Invoke(Praxo.Core.ModelHandler next)
+System.IAsyncResult BeginInvoke(Praxo.Core.ModelHandler next, System.AsyncCallback callback, System.Object object)
+### Praxo.Core.ModelSummarizer
+ModelSummarizer(Praxo.Core.IModel model, System.String prompt, System.Int32 maxSummaryTokens)
+System.Collections.Generic.List`1[Praxo.Core.Message] Compact(System.Collections.Generic.IReadOnlyList`1[Praxo.Core.Message] messages, Praxo.Core.ContextBudget budget)
+System.String DefaultSummaryPrompt
+System.String SummaryMarkerPrefix
+### Praxo.Core.MultiSink
+MultiSink(System.Collections.Generic.IEnumerable`1[Praxo.Core.IEventSink] sinks)
+System.Void Emit(Praxo.Core.Event event)
+### Praxo.Core.OpenAiCompatibleModel
+OpenAiCompatibleModel(System.Net.Http.HttpClient client, Praxo.Core.OpenAiCompatibleOptions options)
+Praxo.Core.Response Generate(Praxo.Core.Request request)
+Praxo.Core.Response GenerateStream(Praxo.Core.Request request, System.Action`1[System.String] onDelta)
+### Praxo.Core.OpenAiCompatibleOptions
+OpenAiCompatibleOptions()
+System.String ApiKey { get; set; }
+System.String BaseUrl { get; set; }
+System.String Model { get; set; }
+System.TimeSpan Timeout { get; set; }
+### Praxo.Core.ParsedToolCall
+ParsedToolCall()
+System.String CallId { get; set; }
+System.String IdempotencyKey { get; set; }
+System.String Name { get; set; }
+System.String Operation { get; set; }
+System.String Reason { get; set; }
+System.String Resource { get; set; }
+System.String Risk { get; set; }
+System.Text.Json.Nodes.JsonObject Input { get; set; }
+### Praxo.Core.PathChecker
+PathChecker(System.Collections.Generic.IEnumerable`1[Praxo.Core.PathGrant] grants)
+Praxo.Core.Decision Check(System.String target, System.String need)
+System.Boolean Allowed(System.String target, System.String need)
+### Praxo.Core.PathGrant
+PathGrant()
+System.String Access { get; set; }
+System.String Root { get; set; }
+### Praxo.Core.PiiMiddleware
+PiiMiddleware(Praxo.Core.PiiRedactor redactor)
+System.String Name { get; }
+System.Void AfterTool(Praxo.Core.MiddlewareToolCall call, Praxo.Core.ToolResult result)
+System.Void BeforeModel(Praxo.Core.ModelCall call)
+### Praxo.Core.PiiRedactor
+PiiRedactor(System.Collections.Generic.IEnumerable`1[Praxo.Core.PiiRule] rules)
+Praxo.Core.PiiRedactor Defaults()
+System.String Redact(System.String text)
+System.Text.Json.Nodes.JsonNode RedactValue(System.Text.Json.Nodes.JsonNode value)
+### Praxo.Core.PiiRule
+PiiRule(System.String name, System.String pattern, System.String replacement)
+System.String Name { get; }
+System.String Replacement { get; }
+System.Text.RegularExpressions.Regex Pattern { get; }
+### Praxo.Core.Plugin
+Praxo.Core.PluginManifest ParseManifest(System.String raw)
+System.String[] Kinds
+System.Void ValidateTrust(Praxo.Core.PluginManifest manifest, System.String profile)
+### Praxo.Core.PluginManifest
+PluginManifest()
+System.Collections.Generic.List`1[System.String] Capabilities { get; set; }
+System.Int32 SchemaVersion { get; set; }
+System.String Id { get; set; }
+System.String Isolation { get; set; }
+System.String Kind { get; set; }
+System.String Protocol { get; set; }
+System.String Sbom { get; set; }
+System.String Version { get; set; }
+System.Text.Json.Nodes.JsonObject Entrypoint { get; set; }
+System.Text.Json.Nodes.JsonObject Health { get; set; }
+System.Text.Json.Nodes.JsonObject Limits { get; set; }
+System.Text.Json.Nodes.JsonObject Permissions { get; set; }
+System.Text.Json.Nodes.JsonObject Signature { get; set; }
+### Praxo.Core.PraxoException
+Praxo.Core.PraxoException Checkpoint(System.String message)
+Praxo.Core.PraxoException ContextBudget()
+Praxo.Core.PraxoException MaxSteps()
+Praxo.Core.PraxoException MaxTokens()
+Praxo.Core.PraxoException ModelCallLimit()
+Praxo.Core.PraxoException Plugin(System.String message)
+Praxo.Core.PraxoException Policy(System.String message)
+Praxo.Core.PraxoException StructuredOutput(System.String message)
+Praxo.Core.PraxoException ToolCallLimit()
+Praxo.Core.PraxoException ToolNotFound(System.String message)
+Praxo.Core.PraxoException ToolNotSelected()
+Praxo.Core.PraxoException TypeNotAllowed(System.String message)
+PraxoException(System.String code, System.String message)
+System.String Code { get; }
+### Praxo.Core.Request
+Praxo.Core.Request Of(System.Collections.Generic.IEnumerable`1[Praxo.Core.Message] messages)
+Praxo.Core.ResponseFormat ResponseFormat { get; set; }
+Request()
+System.Collections.Generic.List`1[Praxo.Core.Message] Messages { get; set; }
+System.Collections.Generic.List`1[Praxo.Core.ToolSpec] Tools { get; set; }
+System.Double Temperature { get; set; }
+System.String ToolChoice { get; set; }
+### Praxo.Core.Response
+Praxo.Core.Message Message { get; set; }
+Praxo.Core.Usage Usage { get; set; }
+Response()
+System.String FinishReason { get; set; }
+### Praxo.Core.ResponseFormat
+ResponseFormat()
+System.String Name { get; set; }
+System.Text.Json.Nodes.JsonObject Schema { get; set; }
+### Praxo.Core.Roles
+System.String Assistant
+System.String System
+System.String Tool
+System.String User
+### Praxo.Core.RunResult
+Praxo.Core.Usage Usage { get; set; }
+RunResult()
+System.Int32 Steps { get; set; }
+System.String Output { get; set; }
+System.String RunId { get; set; }
+### Praxo.Core.RunState
+RunState()
+System.String Prompt { get; set; }
+System.String RunId { get; set; }
+### Praxo.Core.Session
+Session(System.String id)
+System.Collections.Generic.List`1[Praxo.Core.Message] Messages { get; set; }
+System.String Id { get; set; }
+System.String TenantId { get; set; }
+System.String WorkspaceId { get; set; }
+### Praxo.Core.StaticModel
+Praxo.Core.Response Generate(Praxo.Core.Request request)
+StaticModel(System.String content)
+### Praxo.Core.StreamKinds
+System.String Checkpoint
+System.String Debug
+System.String Messages
+System.String Tasks
+System.String Updates
+System.String Values
+System.String[] All
+### Praxo.Core.StreamPart
+StreamPart()
+System.Int32 Step { get; set; }
+System.String At { get; set; }
+System.String Kind { get; set; }
+System.String RunId { get; set; }
+System.String SessionId { get; set; }
+System.Text.Json.Nodes.JsonNode Data { get; set; }
+### Praxo.Core.StructuredOutput
+StructuredOutput(System.Text.Json.Nodes.JsonObject schema, System.String name, System.String strategy, System.Int32 maxRepairs)
+System.Func`3[System.String,Praxo.Core.PraxoException,System.String] Repairer { get; set; }
+System.Int32 MaxRepairs { get; }
+System.String Name { get; }
+System.String OutputName { get; }
+System.String Strategy { get; }
+System.String StrategyAuto
+System.String StrategyProvider
+System.String StrategyTool
+System.Text.Json.Nodes.JsonNode ExtractJson(System.String output)
+System.Text.Json.Nodes.JsonObject Schema { get; }
+System.Void AfterRun(Praxo.Core.RunResult result, Praxo.Core.PraxoException error)
+System.Void Apply(Praxo.Core.RunResult result)
+System.Void BeforeModel(Praxo.Core.ModelCall call)
+### Praxo.Core.ToolCall
+System.String Id { get; set; }
+System.String Name { get; set; }
+System.Text.Json.Nodes.JsonObject Arguments { get; set; }
+ToolCall()
+### Praxo.Core.ToolCallParser
+Praxo.Core.ParsedToolCall Parse(System.String content)
+System.String StripMarkup(System.String content)
+System.Text.Json.Nodes.JsonObject ParseInputJson(System.String raw)
+### Praxo.Core.ToolRegistry
+Praxo.Core.ITool Get(System.String name)
+System.Boolean Contains(System.String name)
+System.Collections.Generic.IReadOnlyList`1[Praxo.Core.ToolSpec] Specs()
+System.Int32 Count { get; }
+System.Void Register(Praxo.Core.ITool tool)
+ToolRegistry()
+### Praxo.Core.ToolResult
+Praxo.Core.PraxoException Error { get; set; }
+System.Text.Json.Nodes.JsonNode Value { get; set; }
+ToolResult()
+### Praxo.Core.ToolSelectionMiddleware
+System.String LastUserMessage(System.Collections.Generic.IReadOnlyList`1[Praxo.Core.Message] messages)
+System.String Name { get; }
+System.Void AfterRun(Praxo.Core.RunResult result, Praxo.Core.PraxoException error)
+System.Void BeforeModel(Praxo.Core.ModelCall call)
+System.Void BeforeTool(Praxo.Core.MiddlewareToolCall call)
+ToolSelectionMiddleware(Praxo.Core.IToolSelector selector)
+### Praxo.Core.ToolSpec
+System.String Description { get; set; }
+System.String Name { get; set; }
+System.String Risk { get; set; }
+System.Text.Json.Nodes.JsonObject Parameters { get; set; }
+ToolSpec()
+### Praxo.Core.Usage
+Praxo.Core.Usage Plus(Praxo.Core.Usage other)
+System.Int64 CachedTokens { get; set; }
+System.Int64 InputTokens { get; set; }
+System.Int64 OutputTokens { get; set; }
+Usage()
+### Praxo.Core.ValidationError
+Praxo.Core.ValidationError <Clone>$()
+System.Boolean Equals(Praxo.Core.ValidationError other)
+System.Boolean Equals(System.Object obj)
+System.Int32 GetHashCode()
+System.String Message { get; set; }
+System.String Path { get; set; }
+System.String ToString()
+System.Void Deconstruct(System.String& Path, System.String& Message)
+ValidationError(System.String Path, System.String Message)

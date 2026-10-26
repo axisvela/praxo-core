@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <LangVersion>latest</LangVersion>
+    <RootNamespace>Praxo.Core</RootNamespace>
+    <AssemblyName>Praxo.Core</AssemblyName>
+    <PackageId>Praxo.Core</PackageId>
+    <Version>0.1.0</Version>
+    <Authors>AxisVela</Authors>
+    <Description>C# SDK for the PRAXO-CORE agent contract</Description>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <RepositoryUrl>https://github.com/axisvela/praxo-core</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+  </PropertyGroup>
+</Project>

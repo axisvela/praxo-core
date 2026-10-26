@@ -71,6 +71,11 @@ cd rust; cargo run --quiet --bin conformance
 go test ./internal/bridge ./cmd/praxo-bridge
 go run ./cmd/praxo-bridge version
 cd c; cmake -S . -B build; cmake --build build; ctest --test-dir build --output-on-failure
+cd csharp; dotnet build Praxo.Core/Praxo.Core.csproj
+cd csharp; dotnet run --project Praxo.Conformance
+cd csharp; dotnet run --project Praxo.Conformance -- --check-api
+cd csharp; dotnet run --project Praxo.Tests
+cd csharp; dotnet run --project samples/VbSample
 ```
 
 ## Compatibility

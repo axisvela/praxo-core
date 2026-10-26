@@ -25,8 +25,8 @@ scope. A language may ship more than one tier over time.
 | Java | Core | released | `java/v0.2.1` | 11 vectors, OpenAI adapter, API snapshot |
 | Rust | Core | released | `rust/v0.1.0` | 11 vectors, 7 tests |
 | C | Core | released | `c/v0.1.0` | All 11 vectors; public API is wire-level |
-| C# | Core (.NET) | planned | `csharp/v0.1.0` | Next native SDK; .NET SDK pending |
-| Visual Basic | Sample (.NET) | planned | none | Ships with the .NET package |
+| C# | Core (.NET) | released | `csharp/v0.1.0` | 11 vectors, API snapshot, OpenAI adapter |
+| Visual Basic | Sample (.NET) | released | `csharp/v0.1.0` | VB.NET consumer sample in `csharp/samples` |
 | PowerShell | Bridge | released | `powershell/v0.1.0` | Wraps the bridge CLI |
 | Shell | Bridge | released | `shell/v0.1.0` | Wraps the bridge CLI |
 | PHP | Wire, then Core | planned | `php/v0.1.0` | Wire first; core by demand |
@@ -47,8 +47,9 @@ scope. A language may ship more than one tier over time.
 | Java | `java-conformance` | Maven build, vectors, API snapshot, self-tests |
 | Rust | `rust-conformance` | cargo test, vectors |
 | C | `c-conformance` | CMake build, vectors, C core tests |
+| C# / VB.NET | `csharp-conformance` | build, vectors, API snapshot, core tests, VB sample |
 | Shell / PowerShell | `bridge` | bridge tests, both wrappers |
-| C#, PHP, Swift, Julia, R, Haskell, Fortran, Lisp | none yet | pending toolchain or implementation |
+| PHP, Swift, Julia, R, Haskell, Fortran, Lisp | none yet | pending toolchain or implementation |
 
 ## Required Gates per Tier
 

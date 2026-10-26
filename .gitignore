@@ -2,6 +2,7 @@
 *.test
 *.out
 bin/
+obj/
 build/
 dist/
 site/

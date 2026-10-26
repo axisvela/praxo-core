@@ -77,8 +77,9 @@ Release state: `spec/v0.2.0` tags the eleven-group contract,
 `python/v0.2.0` tags the Python SDK, `typescript/v0.1.0` tags the TypeScript
 core, `java/v0.2.1` tags the Java core, `rust/v0.1.0` tags the Rust core implementing
 it, `shell/v0.1.0` / `powershell/v0.1.0` tag the bridge wrappers, and
-`c/v0.1.0` tags the C conformance core. The `0.1.0` tags remain available for
-consumers that pinned the earlier contract.
+`c/v0.1.0` tags the C conformance core, and `csharp/v0.1.0` tags the C# core.
+The `0.1.0` tags remain available for consumers that pinned the earlier
+contract.
 
 ### Phase 2 Progress (2026-10-25)
 
@@ -124,7 +125,20 @@ Maven Central release is done.
 | C API snapshot/parity | partial | wire-level parity and parity linter; idiomatic agent API pending |
 
 The Rust SDK passes all eleven vector groups and its seven unit tests. C is the
-next implementation; both SDKs will use the shared vectors and wire contract.
+wire-level conformance core; both SDKs use the shared vectors and wire contract.
+
+### C# and VB.NET (2026-10-26)
+
+| Item | Status | Evidence |
+| --- | --- | --- |
+| C# core | done | `csharp/`, 11 vector groups, API snapshot, `dotnet` tests |
+| C# OpenAI adapter | done | `OpenAiCompatibleModel`, synchronous and streaming |
+| C# API snapshot/parity | done | `csharp/api-snapshot.txt`, `spec/parity/csharp.md` |
+| VB.NET sample | done | `csharp/samples/VbSample` |
+
+The C# SDK passes all eleven vector groups, its dependency-free core tests, and
+its API snapshot check. The VB.NET sample consumes the same assembly.
+
 Long-tail language tiers are evaluated in the
 [language expansion plan](19-language-expansion.md).
 

@@ -69,6 +69,9 @@
 - `c/`: C11 conformance core with JSON, toolcall, JSON Schema, plugin,
   memory, event, checkpoint, policy, context, middleware, and agent vectors.
   Tagged `c/v0.1.0`; the public API is wire-level.
+- `csharp/`: .NET 8 C# core with all eleven vector groups, an API snapshot,
+  dependency-free tests, OpenAI-compatible streaming, and a VB.NET sample.
+  Tagged `csharp/v0.1.0`.
 - Split per-language parity inventories under `spec/parity/` with a structural
   linter.
 

@@ -69,8 +69,8 @@ python -m unittest discover -s tests -v
 发布状态：`spec/v0.2.0` 标记十一组契约，`python/v0.2.0` 标记 Python SDK，
 `typescript/v0.1.0` 标记 TypeScript 核心，`java/v0.2.1` 标记 Java 核心，
 `rust/v0.1.0` 标记 Rust 核心，`shell/v0.1.0` 与 `powershell/v0.1.0` 标记桥接
-包装，`c/v0.1.0` 标记 C 一致性核心。`0.1.0` 标签继续保留给已固定早期契约的
-使用方。
+包装，`c/v0.1.0` 标记 C 一致性核心，`csharp/v0.1.0` 标记 C# 核心。
+`0.1.0` 标签继续保留给已固定早期契约的使用方。
 
 ### 阶段 2 进度（2026-10-25）
 
@@ -113,8 +113,22 @@ Java SDK 已通过全部十一组向量、API 快照/parity 检查及适配器/�
 | C 核心 | 完成 | `c/`、11 组向量、`ctest`、`c/v0.1.0` |
 | C API 快照/parity | 部分完成 | wire 级 parity 与 linter；惯用 Agent API 待补 |
 
-Rust SDK 已通过全部十一组向量及 7 个单元测试。C 是下一个实现；两者都使用
-共享向量与 wire 契约。长尾语言分层见
+Rust SDK 已通过全部十一组向量及 7 个单元测试。C 是 wire 级一致性核心；
+两者都使用共享向量与 wire 契约。
+
+### C# 与 VB.NET（2026-10-26）
+
+| 项目 | 状态 | 证据 |
+| --- | --- | --- |
+| C# 核心 | 完成 | `csharp/`、11 组向量、API 快照、`dotnet` 测试 |
+| C# OpenAI 适配器 | 完成 | `OpenAiCompatibleModel`，支持同步与流式 |
+| C# API 快照/parity | 完成 | `csharp/api-snapshot.txt`、`spec/parity/csharp.md` |
+| VB.NET 示例 | 完成 | `csharp/samples/VbSample` |
+
+C# SDK 已通过全部十一组向量、无依赖核心测试和 API 快照检查。VB.NET 示例
+直接复用同一程序集。
+
+长尾语言分层见
 [语言扩展计划](19-language-expansion.md)。
 
 ## 阶段 0 - 契约抽取

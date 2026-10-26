@@ -120,6 +120,19 @@ jobs:
       - run: cmake --build build
       - run: ctest --test-dir build --output-on-failure
 
+  csharp-conformance:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "8.0.x"
+      - run: dotnet build csharp/Praxo.Core/Praxo.Core.csproj -c Release
+      - run: dotnet run --project csharp/Praxo.Conformance -c Release
+      - run: dotnet run --project csharp/Praxo.Conformance -c Release -- --check-api
+      - run: dotnet run --project csharp/Praxo.Tests -c Release
+      - run: dotnet run --project csharp/samples/VbSample -c Release
+
   bridge:
     runs-on: ubuntu-latest
     env:
