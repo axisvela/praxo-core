@@ -66,7 +66,7 @@ core loop without a named consumer and a maintenance owner.
 | Perl | Core (delivered) | CPAN, JSON, and HTTP for legacy glue | Core shipped in `perl/v0.1.0` |
 | Delphi | Wire / Bridge | Windows enterprise integration | Wire or bridge with a consumer |
 | OCaml / Caml | Core | Strong types; niche agent demand | Core SDK with a maintenance owner |
-| D | Core | Systems language with native JSON and C interop | Core SDK with a maintenance owner |
+| D | Core (delivered) | Systems language with native JSON and C interop | Core shipped in `d/v0.1.0` |
 | Objective-C | Core | Apple platforms; can consume or bridge Swift | Core SDK on Apple platforms |
 | Zig | Core (delivered) | Native systems, `std.json`, no runtime | Core shipped in `zig/v0.2.0` |
 | Scratch | Bridge / extension | Visual/block environment without native JSON/HTTP | Extension bridge; consumer-gated |

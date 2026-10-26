@@ -197,6 +197,23 @@ jobs:
       - run: swift run praxo-conformance
       - run: python3 api-snapshot.py --check
 
+  d-conformance:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: d
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dlang-community/setup-dlang@v1
+        with:
+          compiler: dmd
+      - run: mkdir -p build
+      - run: dmd -i -I source -O -release source/conformance.d -of=build/conformance
+      - run: ./build/conformance
+      - run: dmd -i -I source -O -release source/tests.d -of=build/tests
+      - run: ./build/tests
+      - run: python3 api-snapshot.py --check
+
   zig-conformance:
     runs-on: ubuntu-latest
     defaults:

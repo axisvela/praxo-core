@@ -84,8 +84,8 @@ and [Dart SDK](dart/README.md) core implementations pass all eleven vector
 groups; JavaScript consumes the TypeScript package through the
 [JavaScript sample](javascript/README.md), and Kotlin and Scala consume the Java
 SDK through the [Kotlin](kotlin/README.md) and [Scala](scala/README.md)
-samples. The [Zig SDK](zig/README.md) implements the core loop. Python,
-TypeScript, Java, and C# include
+samples. The [Zig SDK](zig/README.md) and [D SDK](d/README.md) implement the
+core loop. Python, TypeScript, Java, and C# include
 streaming and an OpenAI-compatible adapter. The [Swift SDK](swift/README.md),
 [Julia SDK](julia/README.md), and [R SDK](r/README.md) also implement the core
 loop and are tagged `swift/v0.2.0`, `julia/v0.2.0`, and `r/v0.2.0`. The

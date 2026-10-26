@@ -26,6 +26,7 @@ targets.
 | Lua | [Lua SDK](https://github.com/axisvela/praxo-core/tree/main/lua) | Core | released |
 | Dart | [Dart SDK](https://github.com/axisvela/praxo-core/tree/main/dart) | Core | released |
 | Zig | [Zig SDK](https://github.com/axisvela/praxo-core/tree/main/zig) | Core | released |
+| D | [D SDK](https://github.com/axisvela/praxo-core/tree/main/d) | Core | released |
 | C# | [C# SDK](https://github.com/axisvela/praxo-core/tree/main/csharp) | Core | released |
 | PHP | [PHP SDK](https://github.com/axisvela/praxo-core/tree/main/php) | Core | released |
 | Perl | [Perl SDK](https://github.com/axisvela/praxo-core/tree/main/perl) | Core | released |

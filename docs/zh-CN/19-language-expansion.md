@@ -63,7 +63,7 @@ TypeScript、Java 与 Rust。下一步采用**分层语言策略**：
 | Perl | Core（已交付） | CPAN、JSON、HTTP，适合遗留胶水 | 核心已随 `perl/v0.1.0` 发布 |
 | Delphi | Wire / Bridge | Windows 企业集成 | 有使用方时做 Wire 或桥接 |
 | OCaml / Caml | Core | 类型强，Agent 需求较小 | 有维护者的 Core SDK |
-| D | Core | 系统语言，原生 JSON 与 C 互操作 | 有维护者的 Core SDK |
+| D | Core（已交付） | 系统语言，原生 JSON 与 C 互操作 | 核心已随 `d/v0.1.0` 发布 |
 | Objective-C | Core | Apple 平台，可复用或桥接 Swift | Apple 平台的 Core SDK |
 | Zig | Core（已交付） | 原生系统、`std.json`、无运行时 | 核心已随 `zig/v0.2.0` 发布 |
 | Scratch | Bridge / 扩展 | 图形化环境，无原生 JSON/HTTP | 扩展桥接，需使用方 |

@@ -28,6 +28,8 @@
 - `zig/`: Zig 0.17 core SDK with all eleven vector groups, tests, an API
   snapshot, and the `zig-conformance` CI job. Core tagged `zig/v0.2.0`;
   `zig/v0.1.0` remains the wire tag.
+- `d/`: D core SDK with all eleven vector groups, tests, an API snapshot, and
+  the `d-conformance` CI job. Tagged `d/v0.1.0`.
 - Wave 2 language plan for JavaScript, C++, Dart, Ruby, Kotlin, Scala, MATLAB,
   Perl, Delphi, OCaml/Caml, Lua, Scratch, COBOL, Prolog, and ABAP. C++, Ruby,
   Perl, Lua, and COBOL target core tier.

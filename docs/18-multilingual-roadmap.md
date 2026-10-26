@@ -79,10 +79,10 @@ it, `shell/v0.1.0` / `powershell/v0.1.0` tag the bridge wrappers, and
 `php/v0.1.0` tags the PHP core, `perl/v0.1.0` tags the Perl core,
 `cpp/v0.1.0` tags the C++ core, `ruby/v0.1.0` tags the Ruby core,
 `lua/v0.1.0` tags the Lua core, `dart/v0.1.0` tags the Dart core,
-`zig/v0.2.0` tags the Zig core, and `swift/v0.2.0`, `julia/v0.2.0`, and
-`r/v0.2.0` tag their core SDKs. `zig/v0.1.0` remains the wire tag. The Swift,
-Julia, and R `0.1.0` tags remain available for consumers that pinned the wire
-subset.
+`zig/v0.2.0` tags the Zig core, `d/v0.1.0` tags the D core, and
+`swift/v0.2.0`, `julia/v0.2.0`, and `r/v0.2.0` tag their core SDKs.
+`zig/v0.1.0` remains the wire tag. The Swift, Julia, and R `0.1.0` tags remain
+available for consumers that pinned the wire subset.
 
 ### Phase 2 Progress (2026-10-25)
 
@@ -152,6 +152,17 @@ its API snapshot check. The VB.NET sample consumes the same assembly.
 
 The PHP SDK passes all eleven vector groups, its dependency-free tests, and its
 API snapshot check. It is a synchronous, standard-library-only package.
+
+### D core (2026-10-26)
+
+| Item | Status | Evidence |
+| --- | --- | --- |
+| D core | done | `d/`, 11 vector groups, `d/v0.1.0` |
+| D tests | done | `./build/tests` |
+| D API snapshot | done | `d/api/0.1.0.txt` |
+
+The D SDK uses only the standard library and passes all eleven vector groups
+plus its API snapshot check.
 
 ### Zig core (2026-10-26)
 
