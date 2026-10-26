@@ -129,7 +129,7 @@ public typealias ModelMiddleware = (ModelHandler) -> ModelHandler
 
 public enum Fallback {
     public static func wrap(_ fallback: (any Model)?) -> ModelMiddleware {
-        return { next in
+        return { (next: @escaping ModelHandler) -> ModelHandler in
             return { request in
                 do {
                     return try next(request)
