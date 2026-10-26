@@ -96,13 +96,14 @@ feature parity or registry availability from a source tag.
 | --- | --- |
 | [`pkg/`](pkg) | Public Go framework APIs |
 | [`adapters/`](adapters) | Optional model, protocol, telemetry, and runtime integrations |
-| Language directories such as [`python/`](python), [`typescript/`](typescript), [`java/`](java) | SDK source, builds, tests, and API references |
+| [`sdk/`](sdk/README.md) | Independent language SDK source, builds, tests, and API references |
+| [`bindings/`](bindings/README.md) | Shell and PowerShell runtime bridges |
 | [`spec/`](spec) | Normative wire contract, vectors, and parity inventories |
 | [`examples/`](examples) | Runnable integration examples |
 | [`docs/`](docs) | Public documentation grouped by user task |
 
-The existing source locations and Go module paths remain unchanged. See the
-[SDK directory](docs/sdks/index.md) for all implementations and bridges.
+Go module paths remain unchanged. Language sources have moved under `sdk/`,
+`bindings/`, and `examples/`; see the [source migration guide](docs/project/repository-layout.md).
 
 ## Framework and Ecosystem
 

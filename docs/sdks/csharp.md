@@ -1,4 +1,4 @@
 ---
 title: C# / .NET SDK
-sdk_readme: csharp/README.md
+sdk_readme: sdk/csharp/README.md
 ---

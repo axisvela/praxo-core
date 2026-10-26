@@ -31,7 +31,7 @@ imply every Go feature is available.
 | Rust | Core | released | `rust/v0.1.0` | 11 vectors, 7 tests |
 | C | Core | released | `c/v0.1.0` | All 11 vectors; public API is wire-level |
 | C# | Core (.NET) | released | `csharp/v0.1.0` | 11 vectors, API snapshot, OpenAI adapter |
-| Visual Basic | Sample (.NET) | released | `csharp/v0.1.0` | VB.NET consumer sample in `csharp/samples` |
+| Visual Basic | Sample (.NET) | released | `csharp/v0.1.0` | VB.NET consumer sample in `sdk/csharp/samples` |
 | PowerShell | Bridge | released | `powershell/v0.1.0` | Wraps the bridge CLI |
 | Shell | Bridge | released | `shell/v0.1.0` | Wraps the bridge CLI |
 | PHP | Core | released | `php/v0.1.0` | 11 vectors, API snapshot, dependency-free |

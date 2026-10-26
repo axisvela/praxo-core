@@ -32,9 +32,9 @@ class Links(HTMLParser):
 
 class DocumentationTests(unittest.TestCase):
     def test_sdk_readme_links(self):
-        text = "[API](API.md) [spec](../spec/README.md#wire) [anchor](#usage) [web](https://example.com/)"
-        result = docs_hooks.sdk_readme(text, "python/README.md")
-        self.assertIn(docs_hooks.REPOSITORY + "python/API.md", result)
+        text = "[API](API.md) [spec](../../spec/README.md#wire) [anchor](#usage) [web](https://example.com/)"
+        result = docs_hooks.sdk_readme(text, "sdk/python/README.md")
+        self.assertIn(docs_hooks.REPOSITORY + "sdk/python/API.md", result)
         self.assertIn(docs_hooks.REPOSITORY + "spec/README.md#wire", result)
         self.assertIn("[anchor](#usage)", result)
         self.assertIn("[web](https://example.com/)", result)
@@ -59,6 +59,10 @@ class DocumentationTests(unittest.TestCase):
     def test_repository_document_links(self):
         sources = list((ROOT / "docs").rglob("*.md"))
         sources += list((ROOT / "spec").rglob("*.md"))
+        sources += [ROOT / name / "README.md" for name in ("sdk", "bindings")]
+        sources += list((ROOT / "sdk").glob("*/README.md"))
+        sources += list((ROOT / "bindings").glob("*/README.md"))
+        sources += [ROOT / "examples" / name / "README.md" for name in ("javascript", "kotlin", "scala")]
         sources += [ROOT / name for name in ("README.md", "README.zh-CN.md", "CONTRIBUTING.md", "SECURITY.md", "ROADMAP.md")]
         for source in sources:
             for target in re.findall(r"!?\[[^\]\n]*\]\(([^\s)]+)", source.read_text(encoding="utf-8")):
@@ -121,7 +125,7 @@ class DocumentationTests(unittest.TestCase):
             content.feed(sdk)
             self.assertIn("pip install", "".join(content.text))
             self.assertIn("Contract Surface", sdk)
-            self.assertIn(docs_hooks.REPOSITORY + "python/API.md", sdk)
+            self.assertIn(docs_hooks.REPOSITORY + "sdk/python/API.md", sdk)
 
 
 if __name__ == "__main__":

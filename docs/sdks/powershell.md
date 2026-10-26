@@ -1,4 +1,4 @@
 ---
 title: PowerShell Bridge
-sdk_readme: powershell/README.md
+sdk_readme: bindings/powershell/README.md
 ---

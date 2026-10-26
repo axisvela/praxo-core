@@ -1,4 +1,4 @@
 ---
 title: Swift SDK
-sdk_readme: swift/README.md
+sdk_readme: sdk/swift/README.md
 ---

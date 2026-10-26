@@ -79,6 +79,7 @@ plugins:
             Benchmarks: 基准测试
             Roadmap: 公开路线图
             License and Provenance: 许可证与来源
+            Repository Layout: 仓库布局
             Contributing: 参与贡献
             SDK Design: SDK 设计
             Language Policy: 语言支持规范
@@ -163,6 +164,7 @@ nav:
       - Benchmarks: project/benchmarks.md
       - Roadmap: project/roadmap.md
       - License and Provenance: project/provenance.md
+      - Repository Layout: project/repository-layout.md
   - Contributing:
       - SDK Design: contributing/sdk-design.md
       - Language Policy: contributing/language-policy.md

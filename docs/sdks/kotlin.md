@@ -1,4 +1,4 @@
 ---
 title: Kotlin Sample
-sdk_readme: kotlin/README.md
+sdk_readme: examples/kotlin/README.md
 ---

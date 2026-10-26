@@ -1,4 +1,4 @@
 ---
 title: TypeScript SDK
-sdk_readme: typescript/README.md
+sdk_readme: sdk/typescript/README.md
 ---

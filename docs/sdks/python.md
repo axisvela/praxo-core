@@ -1,4 +1,4 @@
 ---
 title: Python SDK
-sdk_readme: python/README.md
+sdk_readme: sdk/python/README.md
 ---

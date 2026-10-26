@@ -1,4 +1,4 @@
 ---
 title: PHP SDK
-sdk_readme: php/README.md
+sdk_readme: sdk/php/README.md
 ---

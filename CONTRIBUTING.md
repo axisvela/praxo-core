@@ -37,7 +37,7 @@ Documentation:
 ```bash
 pip install -r requirements-docs.txt
 mkdocs build --strict
-python -m unittest discover -s scripts -p test_docs.py -v
+python -m unittest discover -s scripts -p "test_*.py" -v
 ```
 
 ## Documentation
@@ -46,6 +46,11 @@ Public documentation under `docs/` is organized by user task: getting started,
 guides, SDKs, integrations, reference, security, project information, releases,
 and contributing. Keep the same paths under `docs/zh-CN/` for translations.
 Missing translations fall back to English.
+
+Independent language implementations live under `sdk/`, runtime wrappers under
+`bindings/`, and shared-runtime samples under `examples/`. See the
+[source migration guide](docs/project/repository-layout.md) before updating
+source-based consumer scripts. The Go root module and public imports stay unchanged.
 
 Each language has an entry under `docs/sdks/`. Pages with `sdk_readme` metadata
 render the source README during the site build so examples, installation

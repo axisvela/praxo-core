@@ -1,4 +1,4 @@
 ---
 title: C SDK
-sdk_readme: c/README.md
+sdk_readme: sdk/c/README.md
 ---

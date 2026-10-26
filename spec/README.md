@@ -27,7 +27,7 @@ Implemented:
   event, stream, checkpoint, policy, context, and middleware
 - Go runner and parity linter in `internal/spec`, run by CI job
   `spec-conformance`
-- Python runner and parity check in `python/praxo/conformance.py`, run by CI job
+- Python runner and parity check in `sdk/python/praxo/conformance.py`, run by CI job
   `python-conformance`
 
 Planned additions:

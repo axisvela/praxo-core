@@ -7,7 +7,7 @@ Released native Core SDK. All 62 vectors in eleven groups, native agent tests,
 JSON tests, contract boundary tests, tooling tests, and the API declaration
 snapshot pass locally. The remote `cobol-conformance` job passes; `cobol/v0.1.0`
 is the released tag. `partial` does not claim every optional Go hook, provider
-adapter, or full model surface. See `cobol/README.md` for bounded JSON, pattern,
+adapter, or full model surface. See `sdk/cobol/README.md` for bounded JSON, pattern,
 path-policy, plugin, and middleware behavior.
 
 | Go symbol | COBOL symbol | Status | Phase |
@@ -50,6 +50,6 @@ path-policy, plugin, and middleware behavior.
 SDK-local utilities with no new normative contract symbols:
 `praxo-json-parse`, `praxo-json-generate`, `praxo-json-string`,
 `praxo-json-quote`, `praxo-json-slice`, and `praxo-utf8`. They use the bounded
-records in `cobol/copy/json.cpy`; see `cobol/README.md` for capacities and local
+records in `sdk/cobol/copy/json.cpy`; see `sdk/cobol/README.md` for capacities and local
 statuses. `praxo-agent-vector` and its callback programs live under
-`cobol/tests/` and are conformance adapters over `praxo-run`, not public API.
+`sdk/cobol/tests/` and are conformance adapters over `praxo-run`, not public API.

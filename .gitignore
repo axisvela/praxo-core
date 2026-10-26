@@ -2,8 +2,8 @@
 *.test
 *.out
 bin/
-!rust/src/bin/
-!rust/src/bin/**
+!sdk/rust/src/bin/
+!sdk/rust/src/bin/**
 obj/
 build/
 dist/
@@ -27,8 +27,8 @@ target/
 out/
 out-test/
 .dart_tool/
-dart/pubspec.lock
-kotlin/*.jar
+sdk/dart/pubspec.lock
+examples/kotlin/*.jar
 kotlin-compiler.zip
 .scala-build/
 .bsp/

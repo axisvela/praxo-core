@@ -1,4 +1,4 @@
 ---
 title: Ruby SDK
-sdk_readme: ruby/README.md
+sdk_readme: sdk/ruby/README.md
 ---

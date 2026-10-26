@@ -1,4 +1,4 @@
 ---
 title: COBOL SDK
-sdk_readme: cobol/README.md
+sdk_readme: sdk/cobol/README.md
 ---

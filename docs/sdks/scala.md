@@ -1,4 +1,4 @@
 ---
 title: Scala Sample
-sdk_readme: scala/README.md
+sdk_readme: examples/scala/README.md
 ---

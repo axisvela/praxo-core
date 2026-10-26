@@ -1,4 +1,4 @@
 ---
 title: R SDK
-sdk_readme: r/README.md
+sdk_readme: sdk/r/README.md
 ---
