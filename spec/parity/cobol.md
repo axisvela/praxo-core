@@ -5,10 +5,11 @@
 
 Unreleased native Core candidate. All 62 vectors in eleven groups, native agent
 tests, JSON tests, contract boundary tests, tooling tests, and the API
-declaration snapshot pass locally. Remote CI and release evidence are pending.
-`partial` does not claim every optional Go hook, provider adapter, or full model
-surface. See `cobol/README.md` for bounded JSON, pattern, path-policy, plugin,
-and middleware behavior.
+declaration snapshot pass locally. The remote `cobol-conformance` job passes;
+`cobol/v0.1.0-rc.1` is a prerelease, not a stable release. `partial` does not
+claim every optional Go hook, provider adapter, or full model surface. See
+`cobol/README.md` for bounded JSON, pattern, path-policy, plugin, and middleware
+behavior.
 
 | Go symbol | COBOL symbol | Status | Phase |
 | --- | --- | --- | --- |

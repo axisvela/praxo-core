@@ -3,7 +3,8 @@
 An unreleased, native GnuCOBOL implementation, not a bridge to another SDK.
 All 62 normative vectors across the eleven groups pass locally, together with
 native agent, JSON, contract-boundary, tooling, and API declaration checks.
-Remote CI and a release tag are still pending.
+The `cobol-conformance` remote job passes; `cobol/v0.1.0-rc.1` is a prerelease
+candidate, not a stable release.
 
 ## Build and Test
 

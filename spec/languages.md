@@ -52,7 +52,7 @@ scope. A language may ship more than one tier over time.
 | Zig | Core | released | `zig/v0.2.0` | 11 vectors, API snapshot; `zig/v0.1.0` remains wire |
 | Lua | Core | released | `lua/v0.1.0` | 11 vectors, core tests, API snapshot |
 | Scratch | Bridge / extension | consumer-gated | none | Extension only |
-| COBOL | Core | candidate | none | 11 vectors, native/contract tests, API snapshot; CI/release pending |
+| COBOL | Core | candidate | `cobol/v0.1.0-rc.1` | 11 vectors, native/contract tests, API snapshot; prerelease |
 | Prolog | Bridge | consumer-gated | `prolog/v0.1.0` | Requires a named consumer |
 | ABAP | Bridge | consumer-gated | `abap/v0.1.0` | Requires a named consumer |
 

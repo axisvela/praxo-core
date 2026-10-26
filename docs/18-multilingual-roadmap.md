@@ -181,7 +181,7 @@ plus its API snapshot check. `zig/v0.1.0` remains the wire tag.
 | --- | --- | --- |
 | COBOL core | candidate | `cobol/`, 11 vector groups, native agent/JSON/contract tests |
 | COBOL API snapshot | candidate | `cobol/api/unreleased.txt`, `cobol/api-snapshot.py --check` |
-| COBOL release | pending | no tag; remote CI and release review pending |
+| COBOL release | prerelease | `cobol/v0.1.0-rc.1`; full repository run pending an unrelated Swift queue |
 
 The COBOL SDK is native GnuCOBOL, not a bridge. Bounded JSON, pattern, path,
 plugin, and middleware surfaces are documented in `cobol/README.md`; the
