@@ -175,17 +175,16 @@ plus its API snapshot check.
 The Zig SDK uses only the standard library and passes all eleven vector groups
 plus its API snapshot check. `zig/v0.1.0` remains the wire tag.
 
-### COBOL core candidate (2026-10-26)
+### COBOL core (2026-10-26)
 
 | Item | Status | Evidence |
 | --- | --- | --- |
-| COBOL core | candidate | `cobol/`, 11 vector groups, native agent/JSON/contract tests |
-| COBOL API snapshot | candidate | `cobol/api/unreleased.txt`, `cobol/api-snapshot.py --check` |
-| COBOL release | prerelease | `cobol/v0.1.0-rc.1`; full repository run pending an unrelated Swift queue |
+| COBOL core | done | `cobol/`, 11 vector groups, native agent/JSON/contract tests |
+| COBOL API snapshot | done | `cobol/api/unreleased.txt`, `cobol/api-snapshot.py --check` |
+| COBOL release | done | `cobol/v0.1.0` |
 
 The COBOL SDK is native GnuCOBOL, not a bridge. Bounded JSON, pattern, path,
-plugin, and middleware surfaces are documented in `cobol/README.md`; the
-implementation remains an unreleased candidate.
+plugin, and middleware surfaces are documented in `cobol/README.md`.
 
 ### Kotlin and Scala samples (2026-10-26)
 

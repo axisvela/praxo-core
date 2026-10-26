@@ -165,16 +165,16 @@ D SDK 仅使用标准库，并通过全部十一组向量和 API 快照检查。
 Zig SDK 仅使用标准库，并通过全部十一组向量和 API 快照检查。
 `zig/v0.1.0` 继续保留为 wire 标签。
 
-### COBOL 核心候选（2026-10-26）
+### COBOL 核心（2026-10-26）
 
 | 项目 | 状态 | 证据 |
 | --- | --- | --- |
-| COBOL core | 候选 | `cobol/`、11 组向量、原生 agent/JSON/边界测试 |
-| COBOL API 快照 | 候选 | `cobol/api/unreleased.txt`、`cobol/api-snapshot.py --check` |
-| COBOL 发布 | 预发布 | `cobol/v0.1.0-rc.1`；完整仓库运行仍等待无关的 Swift 队列 |
+| COBOL core | 完成 | `cobol/`、11 组向量、原生 agent/JSON/边界测试 |
+| COBOL API 快照 | 完成 | `cobol/api/unreleased.txt`、`cobol/api-snapshot.py --check` |
+| COBOL 发布 | 完成 | `cobol/v0.1.0` |
 
 COBOL SDK 是原生 GnuCOBOL 实现，不是桥接。JSON、模式、路径、插件和中间件的
-受限范围记录在 `cobol/README.md`；当前仍是未发布候选。
+受限范围记录在 `cobol/README.md`。
 
 ### Kotlin 与 Scala 示例（2026-10-26）
 
