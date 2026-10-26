@@ -78,9 +78,9 @@ one language-neutral contract in [`spec/`](spec/README.md): identical wire
 shapes, one conformance suite, and one-to-one idiomatic APIs. The
 [Python SDK](python/README.md), [TypeScript SDK](typescript/README.md),
 [Java SDK](java/README.md), [Rust SDK](rust/README.md), [C SDK](c/README.md),
-[C# SDK](csharp/README.md), [PHP SDK](php/README.md), and [Perl SDK](perl/README.md)
-core implementations pass all eleven vector groups; Python, TypeScript, Java,
-and C# include
+[C# SDK](csharp/README.md), [PHP SDK](php/README.md), [Perl SDK](perl/README.md),
+and [C++ SDK](cpp/README.md) core implementations pass all eleven vector
+groups; Python, TypeScript, Java, and C# include
 streaming and an OpenAI-compatible adapter. The [Swift SDK](swift/README.md),
 [Julia SDK](julia/README.md), and [R SDK](r/README.md) also implement the core
 loop and are tagged `swift/v0.2.0`, `julia/v0.2.0`, and `r/v0.2.0`. The

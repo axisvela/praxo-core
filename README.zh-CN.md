@@ -72,9 +72,9 @@ Go 仍是参考实现。Python、TypeScript 和 Java SDK 基于
 测试、API 一对一且符合各语言习惯。[Python SDK](python/README.md) 与
 [TypeScript SDK](typescript/README.md)、[Java SDK](java/README.md)、
 [Rust SDK](rust/README.md)、[C SDK](c/README.md)、
-[C# SDK](csharp/README.md)、[PHP SDK](php/README.md) 与
-[Perl SDK](perl/README.md) 的核心实现已通过全部十一组向量；
-Python、TypeScript、Java 与 C# 包含流式路径和 OpenAI 兼容
+[C# SDK](csharp/README.md)、[PHP SDK](php/README.md)、
+[Perl SDK](perl/README.md) 与 [C++ SDK](cpp/README.md) 的核心实现已通过
+全部十一组向量；Python、TypeScript、Java 与 C# 包含流式路径和 OpenAI 兼容
 适配器。[Swift SDK](swift/README.md)、[Julia SDK](julia/README.md) 与
 [R SDK](r/README.md) 也已实现核心循环，并分别以 `swift/v0.2.0`、
 `julia/v0.2.0` 和 `r/v0.2.0` 发布。

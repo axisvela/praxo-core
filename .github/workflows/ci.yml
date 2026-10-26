@@ -171,6 +171,15 @@ jobs:
       - run: swift run praxo-conformance
       - run: python3 api-snapshot.py --check
 
+  cpp-conformance:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: cmake -S cpp -B cpp/build
+      - run: cmake --build cpp/build
+      - run: ctest --test-dir cpp/build --output-on-failure
+      - run: python3 cpp/api-snapshot.py --check
+
   perl-conformance:
     runs-on: ubuntu-latest
     steps:
