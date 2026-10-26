@@ -79,6 +79,9 @@ cd csharp; dotnet run --project samples/VbSample
 php php/conformance/run.php
 php php/conformance/run.php --check-api
 php php/tests/run.php
+julia --project=julia -e 'using Pkg; Pkg.instantiate()'
+julia --project=julia julia/conformance/run.jl
+julia --project=julia julia/test/runtests.jl
 ```
 
 ## Compatibility

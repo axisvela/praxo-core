@@ -43,7 +43,7 @@ is bridge-only, while PHP can start wire-only and later grow a core loop.
 | Shell | Bridge | POSIX/Bash glue; unsafe for policy, JSON, and plugin hosts | Wrap a CLI over stdio/JSON |
 | PHP | Core (delivered) | Large web integration surface; synchronous ecosystem | Core shipped in `php/v0.1.0` |
 | Swift | Wire (delivered) | Apple platforms, structured concurrency, `Codable` | Wire shipped in `swift/v0.1.0`; core later |
-| Julia | Wire | Scientific computing; JSON/HTTP are available but agent loops are unusual | Wire-level package |
+| Julia | Wire (delivered) | Scientific computing; JSON/HTTP are available but agent loops are unusual | Wire shipped in `julia/v0.1.0` |
 | R | Wire | Statistics and data workflows; package ecosystem is CRAN | Wire-level package |
 | Haskell | Wire | Strong types, smaller AI tooling demand | Wire-level package |
 | Fortran | Bridge | Numeric code; no practical agent runtime | Only with a named consumer |

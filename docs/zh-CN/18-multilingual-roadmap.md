@@ -70,8 +70,9 @@ python -m unittest discover -s tests -v
 `typescript/v0.1.0` 标记 TypeScript 核心，`java/v0.2.1` 标记 Java 核心，
 `rust/v0.1.0` 标记 Rust 核心，`shell/v0.1.0` 与 `powershell/v0.1.0` 标记桥接
 包装，`c/v0.1.0` 标记 C 一致性核心，`csharp/v0.1.0` 标记 C# 核心，
-`php/v0.1.0` 标记 PHP 核心，`swift/v0.1.0` 标记 Swift wire 包。
-`0.1.0` 标签继续保留给已固定早期契约的使用方。
+`php/v0.1.0` 标记 PHP 核心，`swift/v0.1.0` 标记 Swift wire 包，
+`julia/v0.1.0` 标记 Julia wire 包。`0.1.0` 标签继续保留给已固定早期契约的
+使用方。
 
 ### 阶段 2 进度（2026-10-25）
 
@@ -150,6 +151,16 @@ PHP SDK 已通过全部十一组向量、无依赖测试和 API 快照检查。�
 
 Swift 包目前仅覆盖 wire 层。macOS CI 会构建并运行 wire 向量；核心循环属于
 后续工作。
+
+### Julia wire 包（2026-10-26）
+
+| 项目 | 状态 | 证据 |
+| --- | --- | --- |
+| Julia wire | 完成 | `julia/`、toolcall/jsonschema/plugin 向量 |
+| Julia 测试 | 完成 | `julia --project=julia julia/test/runtests.jl` |
+| Julia 核心循环 | 计划中 | `julia/v0.1.0` 未包含 |
+
+Julia 包使用 JSON.jl 并通过 wire 向量。核心循环属于后续工作。
 
 长尾语言分层见
 [语言扩展计划](19-language-expansion.md)。

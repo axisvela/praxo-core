@@ -74,7 +74,8 @@ Go 仍是参考实现。Python、TypeScript 和 Java SDK 基于
 [Rust SDK](rust/README.md)、[C SDK](c/README.md)、
 [C# SDK](csharp/README.md) 与 [PHP SDK](php/README.md) 的核心实现已通过
 全部十一组向量；Python、TypeScript、Java 与 C# 包含流式路径和 OpenAI 兼容
-适配器。[Swift SDK](swift/README.md) 提供 wire 级子集。参见
+适配器。[Swift SDK](swift/README.md) 与 [Julia SDK](julia/README.md) 提供
+wire 级子集。参见
 [设计](docs/zh-CN/17-multilingual-sdk.md)与
 [路线图](docs/zh-CN/18-multilingual-roadmap.md)。
 

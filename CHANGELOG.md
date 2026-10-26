@@ -76,6 +76,9 @@
   dependency-free tests. Tagged `php/v0.1.0`.
 - `swift/`: Swift wire package for toolcall, JSON Schema, and plugin
   manifests, with XCTest coverage and a macOS CI job. Tagged `swift/v0.1.0`.
+- `julia/`: Julia wire package for toolcall, JSON Schema, and plugin
+  manifests, with JSON.jl, tests, and a `julia-conformance` CI job. Tagged
+  `julia/v0.1.0`.
 - Split per-language parity inventories under `spec/parity/` with a structural
   linter.
 

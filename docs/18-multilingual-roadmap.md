@@ -78,9 +78,9 @@ Release state: `spec/v0.2.0` tags the eleven-group contract,
 core, `java/v0.2.1` tags the Java core, `rust/v0.1.0` tags the Rust core implementing
 it, `shell/v0.1.0` / `powershell/v0.1.0` tag the bridge wrappers, and
 `c/v0.1.0` tags the C conformance core, `csharp/v0.1.0` tags the C# core,
-`php/v0.1.0` tags the PHP core, and `swift/v0.1.0` tags the Swift wire package.
-The `0.1.0` tags remain available for consumers that pinned the earlier
-contract.
+`php/v0.1.0` tags the PHP core, `swift/v0.1.0` tags the Swift wire package, and
+`julia/v0.1.0` tags the Julia wire package. The `0.1.0` tags remain available
+for consumers that pinned the earlier contract.
 
 ### Phase 2 Progress (2026-10-25)
 
@@ -161,6 +161,17 @@ API snapshot check. It is a synchronous, standard-library-only package.
 
 The Swift package is wire-level only. The macOS CI job builds it and runs the
 wire vectors; the core loop remains future work.
+
+### Julia wire package (2026-10-26)
+
+| Item | Status | Evidence |
+| --- | --- | --- |
+| Julia wire | done | `julia/`, toolcall/jsonschema/plugin vectors |
+| Julia tests | done | `julia --project=julia julia/test/runtests.jl` |
+| Julia core loop | planned | not in `julia/v0.1.0` |
+
+The Julia package uses JSON.jl and passes the wire vectors. The core loop is
+future work.
 
 Long-tail language tiers are evaluated in the
 [language expansion plan](19-language-expansion.md).
