@@ -52,7 +52,7 @@ scope. A language may ship more than one tier over time.
 | Zig | Core | released | `zig/v0.2.0` | 11 vectors, API snapshot; `zig/v0.1.0` remains wire |
 | Lua | Core | released | `lua/v0.1.0` | 11 vectors, core tests, API snapshot |
 | Scratch | Bridge / extension | consumer-gated | none | Extension only |
-| COBOL | Core | in progress | none | Native agent and JSON utilities; full conformance pending |
+| COBOL | Core | candidate | none | 11 vectors, native/contract tests, API snapshot; CI/release pending |
 | Prolog | Bridge | consumer-gated | `prolog/v0.1.0` | Requires a named consumer |
 | ABAP | Bridge | consumer-gated | `abap/v0.1.0` | Requires a named consumer |
 
@@ -81,7 +81,7 @@ scope. A language may ship more than one tier over time.
 | R | `r-conformance` | R tests, 11 vectors, API snapshot |
 | Shell / PowerShell | `bridge` | bridge tests, both wrappers |
 | Fortran | `fortran-conformance` | native tests, 11 vector groups, API snapshot; release pending |
-| COBOL | `cobol-native` | native agent and JSON tests; not a release gate |
+| COBOL | `cobol-conformance` | 11 vectors, API snapshot, native/tooling tests; release pending |
 | Haskell, Lisp | none yet | pending toolchain or implementation |
 | Objective-C, OCaml | none yet | core planned |
 | Wave 2 languages | none yet | planned; gate depends on declared tier |

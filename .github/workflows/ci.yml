@@ -208,7 +208,7 @@ jobs:
       - run: sudo apt-get install -y gfortran
       - run: python3 fortran/run-tests.py
 
-  cobol-native:
+  cobol-conformance:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
