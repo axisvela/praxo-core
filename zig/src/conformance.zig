@@ -76,8 +76,16 @@ fn runVector(allocator: Allocator, group: []const u8, vector: json.Json) !void {
     return error.UnknownGroup;
 }
 
+fn readSpec(allocator: Allocator, io: std.Io, path: []const u8) ![]u8 {
+    return std.Io.Dir.cwd().readFileAlloc(io, path, allocator, .limited(1024 * 1024)) catch |error_value| {
+        if (error_value != error.FileNotFound) return error_value;
+        const alternate = try std.fmt.allocPrint(allocator, "../{s}", .{path});
+        return std.Io.Dir.cwd().readFileAlloc(io, alternate, allocator, .limited(1024 * 1024));
+    };
+}
+
 fn runFile(allocator: Allocator, io: std.Io, path: []const u8, group: []const u8, failures: *std.array_list.Managed([]const u8)) !void {
-    const text = try std.Io.Dir.cwd().readFileAlloc(io, path, allocator, .limited(1024 * 1024));
+    const text = try readSpec(allocator, io, path);
     const file = try json.parse(allocator, text);
     if (!std.mem.eql(u8, json.string(file, "group") orelse "", group)) {
         try failures.append(try std.fmt.allocPrint(allocator, "{s}: group mismatch", .{group}));
