@@ -58,6 +58,22 @@ jobs:
           go-version: "1.26.10"
       - run: go test -count=1 ./internal/spec/... -v
 
+  privacy:
+    runs-on: ubuntu-latest
+    env:
+      GOWORK: "off"
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-go@v5
+        with:
+          go-version: "1.26.10"
+      - run: go test -count=1 ./internal/spec -run 'TestNoDisallowedEmails|TestNoInternalHostnames' -v
+      - run: go test -count=1 ./internal/spec -run TestGitHistoryEmails -v
+        env:
+          PRAXO_DISALLOWED_EMAIL_DOMAINS: ${{ secrets.PRAXO_DISALLOWED_EMAIL_DOMAINS }}
+
   python-conformance:
     runs-on: ubuntu-latest
     defaults:

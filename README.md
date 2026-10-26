@@ -52,11 +52,11 @@ integrator.
 | --- | --- | --- |
 | Models and inference routing | `pkg/model` (`Model`, `Provider`, `ModelRouter`, `ProviderProfile`) | NOETIVELA (NOETIVELA-open) / PRAXOVELA provider router |
 | Memory | `pkg/memory` (`Store`, `ContextAssembler`) | Mnemovela |
-| Events | `pkg/event` (`Sink`, `PublisherSink`) | Harmovela / Argus Trace |
+| Events | `pkg/event` (`Sink`, `PublisherSink`) | Harmovela / product event store |
 | Retrieval | `pkg/retriever` (`Retriever`, `Document`) | GNOSIVELA / Mnemovela |
-| Policy | `pkg/policy` (`Hook`, `PathChecker`) | AEGIVELA / Archon Guard |
-| Sandbox | `pkg/sandbox` (`Sandbox`, `Interpreter`) | Vulcan Forge |
-| Tools | `pkg/tool` (`Tool`, `Gateway`) | Janus Gateway / LIMENORA |
+| Policy | `pkg/policy` (`Hook`, `PathChecker`) | AEGIVELA / product policy engine |
+| Sandbox | `pkg/sandbox` (`Sandbox`, `Interpreter`) | product sandbox |
+| Tools | `pkg/tool` (`Tool`, `Gateway`) | product tool gateway / LIMENORA |
 | Graph execution | `pkg/agent`, `pkg/agent/stream` | RHEOVELA |
 | Product runtime | All interfaces | PRAXOVELA |
 
@@ -80,11 +80,15 @@ shapes, one conformance suite, and one-to-one idiomatic APIs. The
 [Java SDK](java/README.md), [Rust SDK](rust/README.md), [C SDK](c/README.md),
 [C# SDK](csharp/README.md), and [PHP SDK](php/README.md) core implementations
 pass all eleven vector groups; Python, TypeScript, Java, and C# include
-streaming and an OpenAI-compatible adapter. The [Swift SDK](swift/README.md)
-and [Julia SDK](julia/README.md) and [R SDK](r/README.md) provide wire-level
-subsets. See the
+streaming and an OpenAI-compatible adapter. The [Swift SDK](swift/README.md),
+[Julia SDK](julia/README.md), and [R SDK](r/README.md) also implement the core
+loop; their released tags remain wire-only. The
+[language expansion plan](docs/19-language-expansion.md) covers JavaScript,
+C++, Dart, Ruby, Kotlin, Scala, MATLAB, Perl, Delphi, OCaml/Caml, Lua, Scratch,
+COBOL, Prolog, and ABAP. See the
 [design](docs/17-multilingual-sdk.md) and
-[roadmap](docs/18-multilingual-roadmap.md).
+[roadmap](docs/18-multilingual-roadmap.md), or the
+[SDK directory](docs/sdks.md).
 
 ## Module
 
@@ -165,7 +169,7 @@ upstream projects evolve quickly, so verify details before adopting.
 | Orchestration | Single-agent loop, middleware, subagents, `flow` Chain/Parallel | Chains, agents, tools | Graphs/workflows, ReAct `ChatModelAgent`, `DeepAgent` multi-agent | Workflow agents, graph workflows, multi-agent composition | Graph workflows: sequential, concurrent, group, routing, subworkflows |
 | Multi-agent | Async subagent delegation (`isolated`/`fork`); no built-in graph, handoff, or agent registry | Multi-agent via agent/chain composition | `DeepAgent` multi-agent patterns | Multi-agent composition and workflow agents | Graph-based multi-agent workflows |
 | Providers | Provider-neutral `model.Model`; NOETIVELA/PRAXOVELA adapters | Broad built-in provider set | Extensions via `eino-ext` | Gemini first; OpenAI adapter; model-agnostic | Foundry, Azure, OpenAI, Anthropic, Gemini, Copilot |
-| Tools and MCP | Tool contracts, JSON Schema, retry, gateway; Janus/LIMENORA gateway; MCP client is consumer-owned | Tools; MCP not first-class | Tools; MCP via `eino-ext` | Rich tools, MCP toolset, A2A | Tools, MCP, A2A, AG-UI |
+| Tools and MCP | Tool contracts, JSON Schema, retry, gateway; product-owned/LIMENORA gateway; MCP client is consumer-owned | Tools; MCP not first-class | Tools; MCP via `eino-ext` | Rich tools, MCP toolset, A2A | Tools, MCP, A2A, AG-UI |
 | Memory and RAG | Interfaces and retrieval contracts; Mnemovela memory, GNOSIVELA retrieval | Memory, loaders, vector stores | Retriever and context components | Sessions, memory, artifacts | Memory, text search/RAG, vector stores |
 | Governance and extension | Policy hooks, AEGIVELA policy, path containment, sandbox seam, checkpoints, HITL, process/WASM plugin plane, event sinks | Callbacks | HITL interrupt/resume, callbacks | Lifecycle plugin hooks, auth, telemetry | Checkpointing, tool approval/HITL, OpenTelemetry |
 | License | MIT | MIT | Apache-2.0 | Apache-2.0 | MIT |

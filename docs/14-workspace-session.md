@@ -245,5 +245,5 @@ Run them from each adapter module with `go test -run TestLiveConformance`.
 
 - [Deep Agents backends](https://docs.langchain.com/oss/python/deepagents/backends)
 - [Sandbox seam security boundary](08-security.md)
-- [Containment review](containment-review.md)
+- [Containment assessment](containment-review.md)
 - [Event schema](event-schema.md)

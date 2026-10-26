@@ -12,11 +12,11 @@ product-runtime adapter.
 | --- | --- | --- |
 | Models and inference routing | `pkg/model` (`Model`, `Provider`, `ModelRouter`, `ProviderProfile`) | [NOETIVELA](https://github.com/axisvela/noetivela-open) / PRAXOVELA provider router |
 | Memory | `pkg/memory` (`Store`, `ContextAssembler`) | [Mnemovela](https://github.com/axisvela/mnemovela-open) |
-| Events | `pkg/event` (`Sink`, `PublisherSink`) | [Harmovela](https://github.com/axisvela/harmovela) / Argus Trace |
+| Events | `pkg/event` (`Sink`, `PublisherSink`) | [Harmovela](https://github.com/axisvela/harmovela) / product event store |
 | Retrieval | `pkg/retriever` (`Retriever`, `Document`) | [GNOSIVELA](https://github.com/axisvela/gnosivela-open) / Mnemovela |
-| Policy | `pkg/policy` (`Hook`, `PathChecker`) | [AEGIVELA](https://github.com/axisvela/aegivela-open) / Archon Guard |
-| Sandbox | `pkg/sandbox` (`Sandbox`, `Interpreter`) | Vulcan Forge |
-| Tools | `pkg/tool` (`Tool`, `Gateway`) | Janus Gateway / [LIMENORA](https://github.com/axisvela/limenora-open) |
+| Policy | `pkg/policy` (`Hook`, `PathChecker`) | [AEGIVELA](https://github.com/axisvela/aegivela-open) / product policy engine |
+| Sandbox | `pkg/sandbox` (`Sandbox`, `Interpreter`) | product sandbox |
+| Tools | `pkg/tool` (`Tool`, `Gateway`) | product tool gateway / [LIMENORA](https://github.com/axisvela/limenora-open) |
 | Graph execution | `pkg/agent`, `pkg/agent/stream` | [RHEOVELA](https://github.com/axisvela/rheovela-open) |
 | Product runtime | All interfaces | [PRAXOVELA](https://github.com/axisvela/praxovela-open) |
 
@@ -102,15 +102,16 @@ through tools, events, policy inputs, or product-runtime adapters. Browse the
 - **Memory.** Implement `memory.Store` for conversation, workspace, or long-term
   memory.
 - **Events.** Implement `event.Sink` and publish lifecycle facts to Harmovela.
-  The same events can be persisted in Argus Trace.
+  The same events can be persisted in a product event store.
 - **Retrieval.** Implement `retriever.Retriever`; GNOSIVELA and Mnemovela can
   supply documents, semantic grounding, and context.
-- **Policy.** Implement `policy.Hook` for authorization; AEGIVELA and Archon
-  Guard plug in here. `policy.PathChecker` provides built-in path containment.
+- **Policy.** Implement `policy.Hook` for authorization; AEGIVELA and product
+  policy engines plug in here. `policy.PathChecker` provides built-in path
+  containment.
 - **Sandbox.** Implement `sandbox.Sandbox` for isolated command execution;
-  Vulcan Forge supplies the product isolation.
-- **Tools.** Register `tool.Tool` values. Janus Gateway and LIMENORA expose
-  product-owned external tools through `tool.Gateway`.
+  product sandboxes supply the isolation.
+- **Tools.** Register `tool.Tool` values. Product tool gateways and LIMENORA
+  expose product-owned external tools through `tool.Gateway`.
 - **Graph execution.** RHEOVELA owns graph and subgraph execution. PRAXO-CORE
   exposes the agent node, session, and stream boundary.
 - **Plugins.** `pkg/plugin/bridge` maps a runtime plugin host to the tool,

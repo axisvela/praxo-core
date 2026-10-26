@@ -38,8 +38,29 @@ markdown_extensions:
 
 nav:
   - Home: index.md
+  - Documentation index: documentation-index.md
   - Quickstart: quickstart.md
+  - Adoption: adoption.md
+  - Comparison: comparison.md
+  - Adapters: adapters.md
+  - Event Schema: event-schema.md
+  - Security:
+      - Security model: 08-security.md
+      - Containment assessment: containment-review.md
+      - Plugin trust and SBOM: 15-plugin-trust-sbom.md
+  - Compatibility:
+      - Compatibility: 05-compatibility.md
+      - Compatibility policy: 16-compatibility-policy.md
+      - API freeze: 07-api-freeze.md
+      - v2 migration: 11-migration-v2.md
+  - Plugin Authoring: 10-plugin-authoring.md
+  - Language SDKs:
+      - SDK directory: sdks.md
+      - Multilingual SDK design: 17-multilingual-sdk.md
+      - Multilingual roadmap: 18-multilingual-roadmap.md
+      - Language expansion plan: 19-language-expansion.md
   - Releases:
+      - Release process: 09-release.md
       - 2.5.0: releases/2.5.0.md
       - 2.4.0: releases/2.4.0.md
       - 2.3.6: releases/2.3.6.md
@@ -51,34 +72,17 @@ nav:
       - 2.3.0: releases/2.3.0.md
       - 2.2.0: releases/2.2.0.md
       - 2.1.0: releases/2.1.0.md
-  - Guide:
-      - Adoption guide: adoption.md
+  - Reference:
       - Overview: 00-overview.md
       - Architecture: 01-architecture.md
       - Primitives: 02-primitives.md
-      - Multilingual SDK design: 17-multilingual-sdk.md
-      - Multilingual roadmap: 18-multilingual-roadmap.md
-      - Language expansion plan: 19-language-expansion.md
       - Integration: 03-integration.md
       - Recipes: recipes.md
-      - Adapter index: adapters.md
       - Multi-agent patterns: 13-multi-agent.md
       - Workspace and session contract: 14-workspace-session.md
       - AxisVela ecosystem: 12-ecosystem.md
-      - Comparison: comparison.md
-      - Plugin authoring: 10-plugin-authoring.md
-      - v2 migration: 11-migration-v2.md
-  - Operations:
-      - Security model: 08-security.md
-      - Containment review: containment-review.md
-      - Event schema: event-schema.md
-      - Plugin trust and SBOM: 15-plugin-trust-sbom.md
       - Benchmarks: benchmarks.md
-      - Release process: 09-release.md
-      - API freeze: 07-api-freeze.md
       - Roadmap: 06-roadmap.md
-      - Compatibility: 05-compatibility.md
-      - Compatibility policy: 16-compatibility-policy.md
       - License and provenance: 04-license-and-provenance.md
   - 中文:
       - 中文首页: zh-CN/README.md

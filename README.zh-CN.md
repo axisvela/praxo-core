@@ -47,11 +47,11 @@ PRAXO-CORE 是 AxisVela 家族的框架层，不绑定单一产品：同一组�
 | --- | --- | --- |
 | 模型与推理路由 | `pkg/model`（`Model`、`Provider`、`ModelRouter`、`ProviderProfile`） | NOETIVELA（NOETIVELA-open）/ PRAXOVELA 提供商路由器 |
 | 记忆 | `pkg/memory`（`Store`、`ContextAssembler`） | Mnemovela |
-| 事件 | `pkg/event`（`Sink`、`PublisherSink`） | Harmovela / Argus Trace |
+| 事件 | `pkg/event`（`Sink`、`PublisherSink`） | Harmovela / 产品事件存储 |
 | 检索 | `pkg/retriever`（`Retriever`、`Document`） | GNOSIVELA / Mnemovela |
-| 策略 | `pkg/policy`（`Hook`、`PathChecker`） | AEGIVELA / Archon Guard |
-| 沙箱 | `pkg/sandbox`（`Sandbox`、`Interpreter`） | Vulcan Forge |
-| 工具 | `pkg/tool`（`Tool`、`Gateway`） | Janus Gateway / LIMENORA |
+| 策略 | `pkg/policy`（`Hook`、`PathChecker`） | AEGIVELA / 产品策略引擎 |
+| 沙箱 | `pkg/sandbox`（`Sandbox`、`Interpreter`） | 产品沙箱 |
+| 工具 | `pkg/tool`（`Tool`、`Gateway`） | 产品工具网关 / LIMENORA |
 | 图执行 | `pkg/agent`、`pkg/agent/stream` | RHEOVELA |
 | 产品运行时 | 所有接口 | PRAXOVELA |
 
@@ -75,9 +75,13 @@ Go 仍是参考实现。Python、TypeScript 和 Java SDK 基于
 [C# SDK](csharp/README.md) 与 [PHP SDK](php/README.md) 的核心实现已通过
 全部十一组向量；Python、TypeScript、Java 与 C# 包含流式路径和 OpenAI 兼容
 适配器。[Swift SDK](swift/README.md)、[Julia SDK](julia/README.md) 与
-[R SDK](r/README.md) 提供 wire 级子集。参见
-[设计](docs/zh-CN/17-multilingual-sdk.md)与
-[路线图](docs/zh-CN/18-multilingual-roadmap.md)。
+[R SDK](r/README.md) 也已实现核心循环，但已发布标签仍只覆盖 wire 层。
+[语言扩展计划](docs/zh-CN/19-language-expansion.md)覆盖 JavaScript、C++、
+Dart、Ruby、Kotlin、Scala、MATLAB、Perl、Delphi、OCaml/Caml、Lua、
+Scratch、COBOL、Prolog 与 ABAP。参见
+[设计](docs/zh-CN/17-multilingual-sdk.md)、
+[路线图](docs/zh-CN/18-multilingual-roadmap.md)与
+[SDK 目录](docs/sdks.md)。
 
 ## 模块
 
@@ -152,7 +156,7 @@ Go Agent 生态中已有多个优秀框架。下表基于 2026 年 10 月的公�
 | 编排 | 单 Agent 循环、中间件、子 Agent、`flow` Chain/Parallel | Chains、Agents、Tools | Graph/Workflow、ReAct `ChatModelAgent`、`DeepAgent` 多 Agent | Workflow Agents、图工作流、多 Agent 组合 | 图工作流：顺序、并发、群组、路由、子工作流 |
 | 多 Agent | 异步子 Agent 委派（`isolated`/`fork`）；无内置 graph、handoff 或 agent registry | 通过 Agent/Chain 组合 | `DeepAgent` 多 Agent 模式 | 多 Agent 组合与 Workflow Agents | 基于图的多 Agent 工作流 |
 | 模型提供商 | 提供商中立的 `model.Model`；NOETIVELA/PRAXOVELA 适配器 | 丰富的内置提供商 | 通过 `eino-ext` 扩展 | Gemini 优先；OpenAI 适配器；模型无关 | Foundry、Azure、OpenAI、Anthropic、Gemini、Copilot |
-| 工具与 MCP | 工具契约、JSON Schema、重试、网关；Janus/LIMENORA 网关；MCP 客户端由使用方提供 | 工具；MCP 非一等支持 | 工具；通过 `eino-ext` 支持 MCP | 丰富工具、MCP Toolset、A2A | 工具、MCP、A2A、AG-UI |
+| 工具与 MCP | 工具契约、JSON Schema、重试、网关；产品所有/LIMENORA 网关；MCP 客户端由使用方提供 | 工具；MCP 非一等支持 | 工具；通过 `eino-ext` 支持 MCP | 丰富工具、MCP Toolset、A2A | 工具、MCP、A2A、AG-UI |
 | 记忆与 RAG | 接口与检索契约；Mnemovela 记忆、GNOSIVELA 检索 | Memory、文档加载器、向量存储 | Retriever 与上下文组件 | Sessions、Memory、Artifacts | Memory、文本搜索/RAG、向量存储 |
 | 治理与扩展 | 策略钩子、AEGIVELA 策略、路径约束、沙箱接缝、检查点、HITL、进程/WASM 插件平面、事件 Sink | Callbacks | HITL 中断/恢复、Callbacks | 生命周期插件钩子、认证、遥测 | 检查点、工具审批/HITL、OpenTelemetry |
 | 许可证 | MIT | MIT | Apache-2.0 | Apache-2.0 | MIT |

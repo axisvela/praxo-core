@@ -11,11 +11,11 @@ PRAXO-CORE 是 AxisVela Agent 共享的框架层。它暴露中立的契约，�
 | --- | --- | --- |
 | 模型与推理路由 | `pkg/model`（`Model`、`Provider`、`ModelRouter`、`ProviderProfile`） | [NOETIVELA](https://github.com/axisvela/noetivela-open) / PRAXOVELA 提供商路由器 |
 | 记忆 | `pkg/memory`（`Store`、`ContextAssembler`） | [Mnemovela](https://github.com/axisvela/mnemovela-open) |
-| 事件 | `pkg/event`（`Sink`、`PublisherSink`） | [Harmovela](https://github.com/axisvela/harmovela) / Argus Trace |
+| 事件 | `pkg/event`（`Sink`、`PublisherSink`） | [Harmovela](https://github.com/axisvela/harmovela) / 产品事件存储 |
 | 检索 | `pkg/retriever`（`Retriever`、`Document`） | [GNOSIVELA](https://github.com/axisvela/gnosivela-open) / Mnemovela |
-| 策略 | `pkg/policy`（`Hook`、`PathChecker`） | [AEGIVELA](https://github.com/axisvela/aegivela-open) / Archon Guard |
-| 沙箱 | `pkg/sandbox`（`Sandbox`、`Interpreter`） | Vulcan Forge |
-| 工具 | `pkg/tool`（`Tool`、`Gateway`） | Janus Gateway / [LIMENORA](https://github.com/axisvela/limenora-open) |
+| 策略 | `pkg/policy`（`Hook`、`PathChecker`） | [AEGIVELA](https://github.com/axisvela/aegivela-open) / 产品策略引擎 |
+| 沙箱 | `pkg/sandbox`（`Sandbox`、`Interpreter`） | 产品沙箱 |
+| 工具 | `pkg/tool`（`Tool`、`Gateway`） | 产品工具网关 / [LIMENORA](https://github.com/axisvela/limenora-open) |
 | 图执行 | `pkg/agent`、`pkg/agent/stream` | [RHEOVELA](https://github.com/axisvela/rheovela-open) |
 | 产品运行时 | 所有接口 | [PRAXOVELA](https://github.com/axisvela/praxovela-open) |
 
@@ -93,14 +93,13 @@ PRAXO-CORE 是 AxisVela Agent 共享的框架层。它暴露中立的契约，�
   `model.ProviderProfile` 按模型前缀描述上下文、输出、工具、流和缓存能力。
 - **记忆。** 实现 `memory.Store` 以支持会话、工作区或长期记忆。
 - **事件。** 实现 `event.Sink`，将生命周期事实发布到 Harmovela。相同事件
-  也可以持久化到 Argus Trace。
+  也可以持久化到产品事件存储。
 - **检索。** 实现 `retriever.Retriever`；GNOSIVELA 和 Mnemovela 可以提供
   文档、语义依据和上下文。
-- **策略。** 实现 `policy.Hook` 进行授权；AEGIVELA 和 Archon Guard 在此
+- **策略。** 实现 `policy.Hook` 进行授权；AEGIVELA 和产品策略引擎在此
   接入。`policy.PathChecker` 提供内置路径约束。
-- **沙箱。** 实现 `sandbox.Sandbox` 以隔离命令执行；Vulcan Forge 提供产品侧
-  隔离实现。
-- **工具。** 注册 `tool.Tool`。Janus Gateway 和 LIMENORA 通过
+- **沙箱。** 实现 `sandbox.Sandbox` 以隔离命令执行；产品沙箱提供隔离。
+- **工具。** 注册 `tool.Tool`。产品工具网关和 LIMENORA 通过
   `tool.Gateway` 暴露产品拥有的外部工具。
 - **图执行。** RHEOVELA 拥有图与子图执行。PRAXO-CORE 暴露 Agent 节点、
   会话和流边界。

@@ -89,7 +89,7 @@ Agent 循环仅依赖其所需的接口。插件宿主、HTTP 客户端、调度
 - `InterruptDecision` 支持批准、编辑、拒绝和回复。
 - `Options.OnInterruptDecision` 优先于旧的布尔 `OnInterrupt`；编辑会替换工具
   参数，回复会跳过执行并将人类回复反馈给模型。
-- Shell 会话、执行策略和 MCP 引导仍由产品/Janus 负责；核心只拥有决策契约。
+- Shell 会话、执行策略和 MCP 引导仍由产品方负责；核心只拥有决策契约。
 
 ## 运行时互操作性
 

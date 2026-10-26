@@ -81,8 +81,24 @@ func runVector(_ group: String, _ vector: Any?) throws {
         try runJsonSchema(input, expect)
     case "plugin":
         try runPlugin(input, expect)
+    case "memory":
+        try runMemory(input, expect)
+    case "event":
+        try runEvent(input, expect)
+    case "stream":
+        try runStream(expect)
+    case "checkpoint":
+        try runCheckpoint(input, expect)
+    case "policy":
+        try runPolicy(input, expect)
+    case "context":
+        try runContext(input, expect)
+    case "middleware":
+        try runMiddleware(input, expect)
+    case "agent-loop":
+        try runAgentLoop(input, expect)
     default:
-        break
+        throw JsonError.invalid("no runner for group \(group)")
     }
 }
 

@@ -1,17 +1,21 @@
 # PRAXO-CORE Swift SDK
 
-Swift implementation of the PRAXO-CORE wire contract.
+Swift implementation of the PRAXO-CORE contract.
 
 - `SPEC_VERSION`: `0.2.0`
 - SDK version: `0.1.0`
-- Tier: wire (toolcall, JSON Schema, plugin manifest)
+- Tier: core
 - License: MIT
 
 ## Scope
 
-`0.1.0` implements the wire subset: tool-call parsing/stripping, the JSON
-Schema subset, and plugin manifest validation. The core agent loop, middleware,
-and provider adapters are follow-up work.
+The package implements all eleven conformance vector groups: tool-call
+parsing/stripping, the JSON Schema subset, plugin manifest validation, memory,
+events, stream kinds, checkpoint envelopes, path policy, context budgets,
+middleware, and the agent loop.
+
+`swift/v0.1.0` tagged the wire subset. The core loop is untagged follow-up work;
+the API snapshot and provider adapters remain follow-up items.
 
 ## Build and test
 
@@ -25,7 +29,7 @@ CI runs both on macOS. The package has no external dependencies.
 ## Layout
 
 - `Sources/PraxoCore/` library.
-- `Sources/PraxoConformance/` wire vector runner.
+- `Sources/PraxoConformance/` wire and core vector runner.
 - `Tests/PraxoCoreTests/` XCTest coverage.
 
 ## Release

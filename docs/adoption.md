@@ -75,7 +75,7 @@ variants.
 | Tools | `pkg/tool` | `tool.Registry`, `tool.Gateway`, MCP adapter |
 | Events | `pkg/event` | `event.Sink`, Harmovela publisher |
 | Authorization | `pkg/policy` | `policy.Hook`, AEGIVELA |
-| Execution | `pkg/sandbox` | `sandbox.Sandbox`, Vulcan Forge |
+| Execution | `pkg/sandbox` | `sandbox.Sandbox`, product sandbox |
 | Files | `pkg/vfs` | `localfs`, `vfstools` |
 | Durability | `pkg/checkpoint` | product-owned checkpoint store |
 

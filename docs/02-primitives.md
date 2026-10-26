@@ -13,11 +13,11 @@
 | `pkg/agent/types` | shared run-state contracts | framework consumers |
 | `pkg/checkpoint` | `Checkpoint`, `Store.Save/Load/List`, recovery report | PRAXOVELA checkpoint store |
 | `pkg/httpclient` | retry-capable HTTP transport with auth, tracing, and decoding | PRAXOVELA adapters |
-| `pkg/tool` | `Tool`, `Registry`, `SpecProvider`, `Middleware`, `Retry`, `Gateway` | Janus Gateway tools |
+| `pkg/tool` | `Tool`, `Registry`, `SpecProvider`, `Middleware`, `Retry`, `Gateway` | product tool gateway |
 | `pkg/memory` | `Store.Put/Search`, `MemoryStore`, `ContextAssembler`, `RemoteStore` | Mnemovela |
-| `pkg/event` | `Sink.Emit`, `MultiSink`, `FilterSink`, `PublisherSink` | Harmovela / Argus Trace |
-| `pkg/policy` | `Hook.Authorize`, `PathChecker` read/write containment | AEGIVELA / Archon Guard |
-| `pkg/sandbox` | `Sandbox.Run`, optional `Interpreter.Eval` | Vulcan Forge |
+| `pkg/event` | `Sink.Emit`, `MultiSink`, `FilterSink`, `PublisherSink` | Harmovela / product event store |
+| `pkg/policy` | `Hook.Authorize`, `PathChecker` read/write containment | AEGIVELA / product policy engine |
+| `pkg/sandbox` | `Sandbox.Run`, optional `Interpreter.Eval` | product sandbox |
 | `pkg/scheduler` | `Scheduler.Add/Remove/List`; cron engine extracted from PRAXOVELA | PRAXOVELA durable scheduler |
 | `pkg/toolcall` | `ParseToolCall`, `StripToolCallMarkup`, `ParseInputJSON` | model-output parsing |
 | `pkg/tool/jsonschema` | Minimal JSON Schema subset validation | tool input/output validation; not a full validator |
@@ -76,7 +76,7 @@ admission; adapters do.
 ## Event Contract
 
 Events are lifecycle facts, not logs. Consumers may publish them to Harmovela
-or persist them in Argus Trace.
+or persist them in a product event store.
 
 ## Policy Contract
 

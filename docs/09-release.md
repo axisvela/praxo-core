@@ -4,8 +4,8 @@
 
 - Versions are clean semver: `major.minor.patch`. No `-rc`, `-beta`, or other
   suffixes.
-- `PRAXOVELA` and `PRAXOVELA-open` share the exact `vX.Y.Z` tag.
-  `PRAXOVELA-EE` may release independently on the same clean semver scheme.
+- Product repositories may release independently on the same clean semver
+  scheme.
 - `VERSION` and `CHANGELOG.md` are updated before tagging.
 - A release tag is signed by the operator. If no signing key is available, use an annotated tag and record that fact in the release notes; signed tags are preferred.
 
@@ -29,6 +29,7 @@ The release also requires:
 - CI green for Linux, Windows, and macOS
 - green race/fuzz/staticcheck/govulncheck jobs
 - API diff review (below)
+- privacy checks pass for non-public email domains and internal hostnames
 - security review completed per `docs/08-security.md`
 - SBOM and checksums generated
 
@@ -115,7 +116,7 @@ because it uses only the standard library.
 ```powershell
 $env:GIT_COMMITTER_NAME="AxisVela Release Signing"
 $env:GIT_COMMITTER_EMAIL="releases@axisvela.com"
-git tag -s -u 55C1F509 v2.5.1 -m "praxo-core v2.5.1"
+git tag -s -u <release-key-id> v2.5.1 -m "praxo-core v2.5.1"
 ```
 
 ## Multilingual Tags
@@ -144,10 +145,10 @@ publishes the GitHub release.
 
 ## Consumer Update
 
-1. Update `PRAXOVELA` module pins to `vX.Y.Z`.
-2. Run `go mod tidy` and `go mod vendor` in `packages/axon-core`.
-3. Run the full `PRAXOVELA` and `PRAXOVELA-open` suites.
-4. Update the extraction docs in `PRAXOVELA-EE`.
+1. Update downstream module pins to `vX.Y.Z`.
+2. Run `go mod tidy` and `go mod vendor` in each consumer module.
+3. Run every downstream test suite.
+4. Record release evidence in the internal release tracker.
 
 ## Checklist
 
@@ -158,4 +159,4 @@ publishes the GitHub release.
 - [ ] SBOM and checksums generated
 - [ ] signed tag created and verified
 - [ ] GitHub release published
-- [ ] PRAXOVELA and PRAXOVELA-open pinned and tested
+- [ ] downstream consumers pinned and tested

@@ -25,6 +25,8 @@ go get github.com/axisvela/praxo-core/v2@v2.5.0
 
 ## Explore
 
+- [Documentation index](documentation-index.md)
+- [Language SDK directory](sdks.md)
 - [Quickstart](quickstart.md)
 - [2.5.0 release notes](releases/2.5.0.md)
 - [2.4.0 release notes](releases/2.4.0.md)

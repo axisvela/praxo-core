@@ -13,11 +13,11 @@
 | `pkg/agent/types` | 共享运行状态契约 | 框架使用方 |
 | `pkg/checkpoint` | `Checkpoint`、`Store.Save/Load/List`、恢复报告 | PRAXOVELA 检查点存储 |
 | `pkg/httpclient` | 支持重试、带认证、追踪与解码的 HTTP 传输层 | PRAXOVELA 适配器 |
-| `pkg/tool` | `Tool`、`Registry`、`SpecProvider`、`Middleware`、`Retry`、`Gateway` | Janus Gateway 工具 |
+| `pkg/tool` | `Tool`、`Registry`、`SpecProvider`、`Middleware`、`Retry`、`Gateway` | 产品工具网关 |
 | `pkg/memory` | `Store.Put/Search`、`MemoryStore`、`ContextAssembler`、`RemoteStore` | Mnemovela |
-| `pkg/event` | `Sink.Emit`、`MultiSink`、`FilterSink`、`PublisherSink` | Harmovela / Argus Trace |
-| `pkg/policy` | `Hook.Authorize`、`PathChecker` 读写约束 | AEGIVELA / Archon Guard |
-| `pkg/sandbox` | `Sandbox.Run`、可选 `Interpreter.Eval` | Vulcan Forge |
+| `pkg/event` | `Sink.Emit`、`MultiSink`、`FilterSink`、`PublisherSink` | Harmovela / 产品事件存储 |
+| `pkg/policy` | `Hook.Authorize`、`PathChecker` 读写约束 | AEGIVELA / 产品策略引擎 |
+| `pkg/sandbox` | `Sandbox.Run`、可选 `Interpreter.Eval` | 产品沙箱 |
 | `pkg/scheduler` | `Scheduler.Add/Remove/List`；从 PRAXOVELA 提取的 cron 引擎 | PRAXOVELA 持久化调度器 |
 | `pkg/toolcall` | `ParseToolCall`、`StripToolCallMarkup`、`ParseInputJSON` | 模型输出解析 |
 | `pkg/tool/jsonschema` | 最小 JSON Schema 子集校验 | 工具输入/输出校验；不是完整校验器 |
@@ -71,7 +71,7 @@ wire 名称保留现有大小写，包括 `model.ContentBlock` 中的 `image_url
 ## 事件契约
 
 事件是生命周期事实，不是日志。使用方可以将它们发布到 Harmovela 或持久化到
-Argus Trace。
+产品事件存储。
 
 ## 策略契约
 

@@ -19,17 +19,15 @@ estimates and may change without a spec change.
 
 ## Phase Overview
 
-| Phase | Outcome | Duration | Depends on |
-| --- | --- | --- | --- |
-| 0 | Normative spec, parity inventory, Go vector runner, CI gate | 3-4 weeks | none |
-| 1 | Python SDK core at parity, published to PyPI | 10-12 weeks | Phase 0 |
-| 2 | TypeScript SDK core at parity, published to npm | 10-12 weeks | Phase 1 core green |
-| 3 | Java SDK core at parity, published to Maven Central | 12-14 weeks | Phase 2 core green |
-| 4 | Optional adapters and plugin hosts by demand | ongoing | Phase 3 |
+| Phase | Outcome | Gate |
+| --- | --- | --- |
+| 0 | Normative spec, parity inventory, Go vector runner, CI gate | vectors green on Go |
+| 1 | Python SDK core at parity, published to PyPI | 11 vectors + parity |
+| 2 | TypeScript SDK core at parity, published to npm | 11 vectors + parity |
+| 3 | Java SDK core at parity, published to Maven Central | 11 vectors + parity |
+| 4 | Optional adapters and plugin hosts by demand | named consumer + evidence |
 
-Estimated calendar time with two to three engineers working in parallel across
-the later phases: **8-11 months** to three-language core parity. A single
-engineer per language sequentially is **12-18 months**.
+Internal effort, staffing, and risk tracking live outside this repository.
 
 ## Current Status (2026-10-25)
 
@@ -78,10 +76,10 @@ Release state: `spec/v0.2.0` tags the eleven-group contract,
 core, `java/v0.2.1` tags the Java core, `rust/v0.1.0` tags the Rust core implementing
 it, `shell/v0.1.0` / `powershell/v0.1.0` tag the bridge wrappers, and
 `c/v0.1.0` tags the C conformance core, `csharp/v0.1.0` tags the C# core,
-`php/v0.1.0` tags the PHP core, `swift/v0.1.0` tags the Swift wire package, and
-`julia/v0.1.0` tags the Julia wire package, and `r/v0.1.0` tags the R wire
-package. The `0.1.0` tags remain available for consumers that pinned the
-earlier contract.
+`php/v0.1.0` tags the PHP core, and `swift/v0.1.0`, `julia/v0.1.0`, and
+`r/v0.1.0` tag their wire packages. The Swift, Julia, and R core loops are
+untagged follow-up work. The `0.1.0` tags remain available for consumers that
+pinned the earlier contract.
 
 ### Phase 2 Progress (2026-10-25)
 
@@ -152,38 +150,42 @@ its API snapshot check. The VB.NET sample consumes the same assembly.
 The PHP SDK passes all eleven vector groups, its dependency-free tests, and its
 API snapshot check. It is a synchronous, standard-library-only package.
 
-### Swift wire package (2026-10-26)
+### Swift core (2026-10-26)
 
 | Item | Status | Evidence |
 | --- | --- | --- |
 | Swift wire | done | `swift/`, toolcall/jsonschema/plugin vectors |
 | Swift XCTest | done | `swift test` on macOS |
-| Swift core loop | planned | not in `swift/v0.1.0` |
+| Swift core loop | done, untagged | `swift/Sources/PraxoCore`, 11 vector groups |
+| Swift API snapshot | planned | not implemented |
 
-The Swift package is wire-level only. The macOS CI job builds it and runs the
-wire vectors; the core loop remains future work.
+The Swift core loop is implemented and runs all eleven vector groups. The
+`swift/v0.1.0` tag remains the wire subset; the core loop is untagged until the
+API snapshot and macOS CI confirmation land.
 
-### Julia wire package (2026-10-26)
+### Julia core (2026-10-26)
 
 | Item | Status | Evidence |
 | --- | --- | --- |
 | Julia wire | done | `julia/`, toolcall/jsonschema/plugin vectors |
 | Julia tests | done | `julia --project=julia julia/test/runtests.jl` |
-| Julia core loop | planned | not in `julia/v0.1.0` |
+| Julia core loop | done, untagged | `julia/src`, 11 vector groups |
+| Julia API snapshot | planned | not implemented |
 
-The Julia package uses JSON.jl and passes the wire vectors. The core loop is
-future work.
+The Julia package uses JSON.jl and passes all eleven vector groups. The
+`julia/v0.1.0` tag remains the wire subset.
 
-### R wire package (2026-10-26)
+### R core (2026-10-26)
 
 | Item | Status | Evidence |
 | --- | --- | --- |
 | R wire | done | `r/`, toolcall/jsonschema/plugin vectors |
 | R tests | done | `Rscript r/tests/run_tests.R` |
-| R core loop | planned | not in `r/v0.1.0` |
+| R core loop | done, untagged | `r/R/core.R`, 11 vector groups |
+| R API snapshot | planned | not implemented |
 
-The R package uses a base-R JSON parser and passes the wire vectors. The core
-loop is future work.
+The R package uses a base-R JSON parser and passes all eleven vector groups. The
+`r/v0.1.0` tag remains the wire subset.
 
 Long-tail language tiers are evaluated in the
 [language expansion plan](19-language-expansion.md).
@@ -312,33 +314,6 @@ Each item ships only with a named consumer and its own conformance evidence.
 WASM hosts are last because runtime bindings and resource limits differ
 materially across languages.
 
-## Work Breakdown
-
-| Epic | Phase | Owner shape |
-| --- | --- | --- |
-| Contract extraction and vector runner | 0 | Go maintainer |
-| Parity linter and CI | 0 | build/infra |
-| Python core | 1 | Python maintainer |
-| Python adapter and packaging | 1 | Python maintainer |
-| TypeScript core | 2 | TS maintainer |
-| TypeScript packaging | 2 | TS maintainer |
-| Java core | 3 | Java maintainer |
-| Java packaging | 3 | Java maintainer |
-| Adapters and plugin hosts | 4 | per adapter |
-
-## Risk Register
-
-| Risk | Impact | Mitigation |
-| --- | --- | --- |
-| Behavioral drift across SDKs | High | vectors are release blockers; no prose-only parity |
-| Wire normalization by a well-meaning SDK | High | snapshot tests on wire fixtures; mixed casing documented |
-| Go-specific semantics leak into other APIs | Medium | per-language idiom review; no goroutine/channel-shaped APIs |
-| Plugin hosts diverge | Medium | ship wire contract first, hosts per language later |
-| Packaging and release overhead | Medium | one release workflow per language, independent tags |
-| Security regressions in path/sandbox code | High | per-language adversarial tests, not Go-only review |
-| Scope creep into adapters | Medium | P1 exit gate blocks adapter work |
-| Bus factor per language | High | two reviewers per SDK; spec is the shared artifact |
-
 ## Decision Log
 
 | ID | Decision | Status |
@@ -353,22 +328,6 @@ materially across languages.
 | D8 | Browser support for TypeScript is documented, not promised | accepted |
 | D9 | TypeScript uses the dependency-free JSON Schema subset validator; Zod is not adopted | accepted |
 | D10 | Java uses the dependency-free JSON utility; Jackson is not adopted | accepted |
-
-Open decisions:
-
-- Whether the Python SDK targets `asyncio` only or also sync wrappers.
-- Whether Java ships one artifact or per-domain artifacts.
-- Whether `spec/vectors` is generated from Go tests or hand-authored first.
-- Whether an SDK may ship a P2 adapter before all P1 vector groups are green.
-
-## Metrics
-
-- Vector pass rate per SDK: target 100% for released versions.
-- Parity coverage: implemented rows divided by total rows in
-  `spec/parity.md`; target 100% for P1 scope.
-- Wire fixture count: monotonically increasing.
-- Consumer smoke time: under five minutes per language in CI.
-- Cross-language divergence bugs: target zero per release.
 
 ## Definition of Done for an SDK
 

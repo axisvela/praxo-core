@@ -198,7 +198,7 @@ pseudo-version。参见
 
 ```go
 hook := aegivelaadapter.Hook{
-    Client: pepsdk.NewClient("https://aegivela.internal:1886", http.DefaultClient),
+    Client: pepsdk.NewClient("https://aegivela.example.com", http.DefaultClient),
     Route: pepsdk.Route{
         Audience:  "agent",
         Action:    "tool:invoke",

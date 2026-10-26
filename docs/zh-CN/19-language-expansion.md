@@ -38,13 +38,39 @@ TypeScript、Java 与 Rust。下一步采用**分层语言策略**：
 | Visual Basic | Sample（.NET） | 与 C# 共享运行时与程序集 | 提供 VB 示例，不做第二套实现 |
 | PowerShell | Bridge | 自动化与运维胶水，不适合承载运行时 | 包装 .NET CLI 或核心 CLI |
 | Shell | Bridge | POSIX/Bash 胶水；策略、JSON、插件宿主风险高 | 通过 stdio/JSON 包装 CLI |
-| PHP | Wire，后 Core | Web 集成面大；同步生态 | 先 Wire；按需求再 Core |
-| Swift | Core | Apple 平台、结构化并发、`Codable` | .NET/PHP 之后做 Core |
-| Julia | Wire | 科学计算；JSON/HTTP 可用但 Agent 循环少见 | Wire 级包 |
-| R | Wire | 统计与数据工作流；CRAN 生态 | Wire 级包 |
+| PHP | Core（已交付） | Web 集成面大；同步生态 | 核心已随 `php/v0.1.0` 发布 |
+| Swift | Core（未打标签） | Apple 平台、结构化并发、`Codable` | 11 组向量；`swift/v0.1.0` 仍为 wire |
+| Julia | Core（未打标签） | 科学计算；JSON/HTTP 可用但 Agent 循环少见 | 11 组向量；`julia/v0.1.0` 仍为 wire |
+| R | Core（未打标签） | 统计与数据工作流；CRAN 生态 | 11 组向量；`r/v0.1.0` 仍为 wire |
 | Haskell | Wire | 类型强，但 AI 工具需求较小 | Wire 级包 |
 | Fortran | Bridge | 数值代码；不适合 Agent 运行时 | 仅在明确使用方时做 |
 | Lisp | Bridge | 小众；S 表达式/JSON 桥接比完整移植便宜 | 仅在明确使用方时做 |
+
+## 第二批候选
+
+这些语言已列入计划但尚未实现。规则不变：没有明确使用方和维护者，不做新
+核心循环。
+
+| 语言 | 目标层 | 理由 | 建议 |
+| --- | --- | --- | --- |
+| JavaScript | Sample（TypeScript） | TypeScript 已可编译到 Node 与浏览器 | 提供 JS 示例和导出，不做第二套核心 |
+| C++ | Core | 原生系统与嵌入场景，工作量大 | 有维护者的 Core SDK |
+| Dart | Wire，后按需 Core | Flutter/Dart 异步、JSON、打包 | 先 Wire；有使用方再做 Core |
+| Ruby | Core | Web 集成面大 | 有维护者的 Core SDK |
+| Kotlin | Sample（JVM） | 使用 Java SDK | 仅 Kotlin 示例，不做独立核心 |
+| Scala | Sample（JVM） | 使用 Java SDK | 仅 Scala 示例，不做独立核心 |
+| MATLAB | Wire | 科学工作流；JSON/HTTP 可用 | Wire 级包 |
+| Perl | Core | CPAN、JSON、HTTP，适合遗留胶水 | 有维护者的 Core SDK |
+| Delphi | Wire / Bridge | Windows 企业集成 | 有使用方时做 Wire 或桥接 |
+| OCaml / Caml | Wire | 类型强，Agent 需求较小 | Wire 级包 |
+| Lua | Core | 可嵌入脚本；需要嵌入式 JSON/HTTP 宿主 | 有嵌入宿主的 Core SDK |
+| Scratch | Bridge / 扩展 | 图形化环境，无原生 JSON/HTTP | 扩展桥接，需使用方 |
+| COBOL | Core | 遗留企业批处理与流程集成 | 有明确使用方的 Core SDK |
+| Prolog | Bridge | 逻辑与 CLI 工作流；无标准 HTTP/JSON 栈 | 有明确使用方时做桥接 |
+| ABAP | Bridge | SAP 企业运行时 | 有使用方时做桥接 |
+
+JavaScript、Kotlin 和 Scala 必须复用 TypeScript 或 Java 包，不能另写一套
+契约实现。Scratch、Prolog 和 ABAP 不值得写原生循环。
 
 ## .NET 统一
 
@@ -127,27 +153,14 @@ spec/
 | --- | --- | --- |
 | L0 | 稳定 Go/Python/TS/Java/Rust；通过工具链或 CI 完成 C | 现有门禁全绿 |
 | L1 | .NET 核心（C#）、VB 示例、PowerShell 桥接 | 11 组向量 + .NET API 快照 |
-| L2 | PHP wire，按需求转 core | 声明的 wire 向量 |
-| L3 | Swift core | 11 组向量 + API 快照 |
-| L4 | Julia、R、Haskell wire | 声明的 wire 向量 |
+| L2 | PHP core（已交付） | 11 组向量 + API 快照 |
+| L3 | Swift core（未打标签） | 11 组向量 + API 快照 |
+| L4 | Julia、R core（未打标签）；Haskell wire | 声明的 wire 向量 |
 | L5 | Shell 桥接，Fortran/Lisp 视使用方 | 桥接契约测试 |
+| L6 | C++、Ruby、Perl、Lua、COBOL core；JavaScript、Kotlin、Scala 示例 | 11 组向量 + API 快照 |
+| L7 | Dart 按使用方转 core；MATLAB、OCaml wire；Delphi wire/桥接；Scratch、Prolog、ABAP 桥接 | 声明的 wire 或桥接门禁 |
 
-## 投入估算
-
-完整 Core SDK 的粗略量级：
-
-| 语言 | Core 估算 | Wire 估算 |
-| --- | --- | --- |
-| C# | 8-12 周 | 2-3 周 |
-| PHP | 8-12 周 | 2-3 周 |
-| Swift | 8-12 周 | 2-3 周 |
-| Julia | 6-10 周 | 2 周 |
-| R | 6-10 周 | 2 周 |
-| Haskell | 8-12 周 | 2-3 周 |
-| Shell/PowerShell | 仅桥接 | 1-2 周 |
-| Fortran/Lisp | 仅桥接 | 1-2 周（有使用方时） |
-
-按每语言一名工程师、复用现有向量估算，不构成承诺。
+内部投入估算位于本仓库之外。
 
 ## 不建议
 
@@ -155,7 +168,10 @@ spec/
 - 用 FFI 把 Go/Rust 嵌入每个运行时。
 - 在 Shell 语言中重新实现策略/路径约束或插件信任。
 - 把 Visual Basic 当作 C# 之外的独立 SDK。
+- Java SDK 已拥有契约时再做一套 JVM 核心。
+- TypeScript 已是源实现时再做一套 JavaScript 核心。
 - 没有明确使用方就做 Fortran/Lisp。
+- 为 Scratch、Prolog 或 ABAP 写原生 Agent 循环。
 
 ## 决策记录
 
@@ -167,6 +183,9 @@ spec/
 | L4 | Shell 与 PowerShell 是桥接语言 | 已接受 |
 | L5 | Fortran/Lisp 需要明确使用方 | 已接受 |
 | L6 | 语言增多后 parity 迁移到按语言文件 | 提议中 |
+| L7 | 第二批复用 TypeScript（JavaScript）与 Java（Kotlin/Scala） | 提议中 |
+| L8 | C++、Ruby、Perl、Lua、COBOL 目标为 core | 提议中 |
+| L9 | Scratch、Prolog、ABAP 为使用方门控桥接 | 提议中 |
 
 ## 相关文档
 

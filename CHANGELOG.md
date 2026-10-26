@@ -4,6 +4,17 @@
 
 ### Added
 
+- `swift/Sources/PraxoCore`: Swift core loop, middleware, context, memory,
+  checkpoint, policy, event, and conformance dispatch for all eleven vector
+  groups.
+- Julia and R core loops with conformance wiring for all eleven vector groups.
+- Wave 2 language plan for JavaScript, C++, Dart, Ruby, Kotlin, Scala, MATLAB,
+  Perl, Delphi, OCaml/Caml, Lua, Scratch, COBOL, Prolog, and ABAP. C++, Ruby,
+  Perl, Lua, and COBOL target core tier.
+- `docs/sdks.md` and `docs/documentation-index.md` for SDK discovery and docs
+  navigation.
+- `internal/spec/privacy_test.go`: opt-in git-history and working-tree checks
+  for non-public email domains and internal hostnames.
 - Multilingual SDK design (`docs/17-multilingual-sdk.md`) and roadmap
   (`docs/18-multilingual-roadmap.md`) for Python, TypeScript, and Java SDKs.
 - `spec/` scaffold: `SPEC_VERSION`, event/error/schema/plugin wire artifacts,
@@ -86,6 +97,13 @@
 
 ### Changed
 
+- Documentation navigation is grouped by Quickstart, Adoption, Comparison,
+  Adapters, Event Schema, Security, Compatibility, Plugin Authoring, Language
+  SDKs, Releases, and Reference.
+- Internal effort, staffing, release-runbook, provenance, and containment
+  details moved to the private EE documentation tree.
+- Public docs no longer contain internal hostnames, codenames, signing key IDs,
+  or non-public contact details.
 - The contract advances to `SPEC_VERSION` `0.2.0` with the context and
   middleware vector groups.
 - The Python SDK advances to `0.2.0` and declares `SPEC_VERSION` `0.2.0`.

@@ -68,7 +68,7 @@
 | 工具 | `pkg/tool` | `tool.Registry`、`tool.Gateway`、MCP 适配器 |
 | 事件 | `pkg/event` | `event.Sink`、Harmovela publisher |
 | 授权 | `pkg/policy` | `policy.Hook`、AEGIVELA |
-| 执行 | `pkg/sandbox` | `sandbox.Sandbox`、Vulcan Forge |
+| 执行 | `pkg/sandbox` | `sandbox.Sandbox`、产品沙箱 |
 | 文件 | `pkg/vfs` | `localfs`、`vfstools` |
 | 持久化 | `pkg/checkpoint` | 产品拥有的检查点存储 |
 

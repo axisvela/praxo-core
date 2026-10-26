@@ -42,12 +42,39 @@ is bridge-only, while PHP can start wire-only and later grow a core loop.
 | PowerShell | Bridge | Automation and operator glue; not a runtime host | Wrap the .NET CLI or a core CLI |
 | Shell | Bridge | POSIX/Bash glue; unsafe for policy, JSON, and plugin hosts | Wrap a CLI over stdio/JSON |
 | PHP | Core (delivered) | Large web integration surface; synchronous ecosystem | Core shipped in `php/v0.1.0` |
-| Swift | Wire (delivered) | Apple platforms, structured concurrency, `Codable` | Wire shipped in `swift/v0.1.0`; core later |
-| Julia | Wire (delivered) | Scientific computing; JSON/HTTP are available but agent loops are unusual | Wire shipped in `julia/v0.1.0` |
-| R | Wire (delivered) | Statistics and data workflows; package ecosystem is CRAN | Wire shipped in `r/v0.1.0` |
+| Swift | Core (untagged) | Apple platforms, structured concurrency, `Codable` | 11 vectors; `swift/v0.1.0` remains wire |
+| Julia | Core (untagged) | Scientific computing; JSON/HTTP are available but agent loops are unusual | 11 vectors; `julia/v0.1.0` remains wire |
+| R | Core (untagged) | Statistics and data workflows; package ecosystem is CRAN | 11 vectors; `r/v0.1.0` remains wire |
 | Haskell | Wire | Strong types, smaller AI tooling demand | Wire-level package |
 | Fortran | Bridge | Numeric code; no practical agent runtime | Only with a named consumer |
 | Lisp | Bridge | Niche; S-expression/JSON bridge is cheaper than a core port | Only with a named consumer |
+
+## Wave 2 Candidates
+
+These languages are planned but not implemented. The same rules apply: no new
+core loop without a named consumer and a maintenance owner.
+
+| Language | Target tier | Rationale | Recommendation |
+| --- | --- | --- | --- |
+| JavaScript | Sample (TypeScript) | TypeScript already compiles to JavaScript for Node and browsers | Ship JS samples and exports; do not fork a second core |
+| C++ | Core | Native systems and embedding; large surface | Core SDK with a maintenance owner |
+| Dart | Wire, then Core with consumer | Flutter/Dart async, JSON, packaging | Wire first; core with a consumer |
+| Ruby | Core | Large web integration surface | Core SDK with a maintenance owner |
+| Kotlin | Sample (JVM) | Consumes the Java SDK | Kotlin sample only; no separate core |
+| Scala | Sample (JVM) | Consumes the Java SDK | Scala sample only; no separate core |
+| MATLAB | Wire | Scientific workflows; JSON and HTTP available | Wire-level package |
+| Perl | Core | CPAN, JSON, and HTTP for legacy glue | Core SDK with a maintenance owner |
+| Delphi | Wire / Bridge | Windows enterprise integration | Wire or bridge with a consumer |
+| OCaml / Caml | Wire | Strong types; niche agent demand | Wire-level package |
+| Lua | Core | Embeddable scripting; needs an embedded JSON/HTTP host | Core SDK with an embedding host |
+| Scratch | Bridge / extension | Visual/block environment without native JSON/HTTP | Extension bridge; consumer-gated |
+| COBOL | Core | Legacy enterprise batch and process integration | Core SDK with a named consumer |
+| Prolog | Bridge | Logic and CLI workflows; no standard HTTP/JSON stack | Bridge with a named consumer |
+| ABAP | Bridge | SAP enterprise runtime | Consumer-gated bridge |
+
+JavaScript, Kotlin, and Scala must reuse the TypeScript or Java package rather
+than create another contract implementation. Scratch, Prolog, and ABAP do not
+justify a native loop.
 
 ## .NET Unification
 
@@ -135,27 +162,13 @@ Rules:
 | L0 | Stabilize Go/Python/TS/Java/Rust; finish C via toolchain or CI | existing gates green |
 | L1 | .NET core (C#), VB samples, PowerShell bridge | 11 vectors + .NET API snapshot |
 | L2 | PHP core (delivered) | 11 vectors + API snapshot |
-| L3 | Swift core | 11 vectors + API snapshot |
-| L4 | Julia, R, Haskell wire | declared wire vectors |
+| L3 | Swift core (untagged) | 11 vectors + API snapshot |
+| L4 | Julia, R core (untagged); Haskell wire | declared wire vectors |
 | L5 | Shell bridge, Fortran/Lisp if consumer | bridge contract tests |
+| L6 | C++, Ruby, Perl, Lua, COBOL core; JavaScript, Kotlin, Scala samples | 11 vectors + API snapshot |
+| L7 | Dart core with consumer; MATLAB, OCaml wire; Delphi wire/bridge; Scratch, Prolog, ABAP bridges | declared wire or bridge gate |
 
-## Effort
-
-Rough order of magnitude for a full core SDK:
-
-| Language | Core estimate | Wire estimate |
-| --- | --- | --- |
-| C# | 8-12 weeks | 2-3 weeks |
-| PHP | 8-12 weeks | 2-3 weeks |
-| Swift | 8-12 weeks | 2-3 weeks |
-| Julia | 6-10 weeks | 2 weeks |
-| R | 6-10 weeks | 2 weeks |
-| Haskell | 8-12 weeks | 2-3 weeks |
-| Shell/PowerShell | bridge only | 1-2 weeks |
-| Fortran/Lisp | bridge only | 1-2 weeks with consumer |
-
-These assume one engineer per language and reuse of the existing vectors. They
-are not commitments.
+Internal effort estimates are tracked outside this repository.
 
 ## Not Recommended
 
@@ -163,7 +176,10 @@ are not commitments.
 - Using FFI to embed Go/Rust into every runtime.
 - Reimplementing policy/path containment or plugin trust in shell languages.
 - Treating Visual Basic as a separate SDK from C#.
+- Adding a second JVM core when the Java SDK owns the contract.
+- Adding a separate JavaScript core when the TypeScript package is the source.
 - Adding Fortran/Lisp without a named consumer.
+- Implementing a native Scratch, Prolog, or ABAP agent loop.
 
 ## Decision Log
 
@@ -175,6 +191,9 @@ are not commitments.
 | L4 | Shell and PowerShell are bridge languages | accepted |
 | L5 | Fortran and Lisp require a named consumer | accepted |
 | L6 | Move parity to per-language files as languages grow | proposed |
+| L7 | Wave 2 reuses TypeScript for JavaScript and Java for Kotlin/Scala | proposed |
+| L8 | C++, Ruby, Perl, Lua, and COBOL target core | proposed |
+| L9 | Scratch, Prolog, and ABAP remain consumer-gated bridges | proposed |
 
 ## Related Documents
 

@@ -30,12 +30,27 @@ scope. A language may ship more than one tier over time.
 | PowerShell | Bridge | released | `powershell/v0.1.0` | Wraps the bridge CLI |
 | Shell | Bridge | released | `shell/v0.1.0` | Wraps the bridge CLI |
 | PHP | Core | released | `php/v0.1.0` | 11 vectors, API snapshot, dependency-free |
-| Swift | Wire | released | `swift/v0.1.0` | 3 wire groups on macOS CI; core planned |
-| Julia | Wire | released | `julia/v0.1.0` | 3 wire groups, JSON.jl |
-| R | Wire | released | `r/v0.1.0` | 3 wire groups, base-R JSON |
+| Swift | Core (untagged) | in progress | `swift/v0.1.0` (wire) | 11 vectors, XCTest; core untagged, API snapshot pending |
+| Julia | Core (untagged) | in progress | `julia/v0.1.0` (wire) | 11 vectors, JSON.jl; core untagged |
+| R | Core (untagged) | in progress | `r/v0.1.0` (wire) | 11 vectors, base-R JSON; core untagged |
 | Haskell | Wire | planned | `haskell/v0.1.0` | Wire subset |
 | Fortran | Bridge | consumer-gated | `fortran/v0.1.0` | Requires a named consumer |
 | Lisp | Bridge | consumer-gated | `lisp/v0.1.0` | Requires a named consumer |
+| JavaScript | Sample (TypeScript) | planned | none | Uses the TypeScript package; no separate core |
+| C++ | Core | planned | `cpp/v0.1.0` | Core SDK planned |
+| Dart | Wire | planned | `dart/v0.1.0` | Wire first; core requires a consumer |
+| Ruby | Core | planned | `ruby/v0.1.0` | Core SDK planned |
+| Kotlin | Sample (JVM) | planned | none | Uses the Java SDK |
+| Scala | Sample (JVM) | planned | none | Uses the Java SDK |
+| MATLAB | Wire | planned | `matlab/v0.1.0` | Wire subset |
+| Perl | Core | planned | `perl/v0.1.0` | Core SDK planned |
+| Delphi | Wire / Bridge | planned | `delphi/v0.1.0` | Consumer-gated |
+| OCaml / Caml | Wire | planned | `ocaml/v0.1.0` | Wire subset |
+| Lua | Core | planned | `lua/v0.1.0` | Core with an embedding host |
+| Scratch | Bridge / extension | consumer-gated | none | Extension only |
+| COBOL | Core | planned | `cobol/v0.1.0` | Core with a named consumer |
+| Prolog | Bridge | consumer-gated | `prolog/v0.1.0` | Requires a named consumer |
+| ABAP | Bridge | consumer-gated | `abap/v0.1.0` | Requires a named consumer |
 
 ## CI Coverage
 
@@ -49,11 +64,12 @@ scope. A language may ship more than one tier over time.
 | C | `c-conformance` | CMake build, vectors, C core tests |
 | C# / VB.NET | `csharp-conformance` | build, vectors, API snapshot, core tests, VB sample |
 | PHP | `php-conformance` | vectors, API snapshot, core tests |
-| Swift | `swift-conformance` | swift test, wire vectors |
-| Julia | `julia-conformance` | Julia tests, wire vectors |
-| R | `r-conformance` | R tests, wire vectors |
+| Swift | `swift-conformance` | swift test, all 11 vector groups |
+| Julia | `julia-conformance` | Julia tests, all 11 vector groups |
+| R | `r-conformance` | R tests, all 11 vector groups |
 | Shell / PowerShell | `bridge` | bridge tests, both wrappers |
 | Haskell, Fortran, Lisp | none yet | pending toolchain or implementation |
+| Wave 2 languages | none yet | planned; gate depends on declared tier |
 
 ## Required Gates per Tier
 

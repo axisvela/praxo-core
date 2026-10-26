@@ -4,8 +4,7 @@
 
 - 版本使用干净的 semver：`major.minor.patch`。不使用 `-rc`、`-beta` 或其他
   后缀。
-- `PRAXOVELA` 和 `PRAXOVELA-open` 共享完全相同的 `vX.Y.Z` 标签。
-  `PRAXOVELA-EE` 可以在相同的干净 semver 方案上独立发布。
+- 产品仓库可以在相同的干净 semver 方案上独立发布。
 - 在打标签之前更新 `VERSION` 和 `CHANGELOG.md`。
 - 发布标签由操作员签名。如果没有可用的签名密钥，使用附注标签并在发布说明
   中记录该事实；优先使用签名标签。
@@ -106,7 +105,7 @@ OpenAI 兼容适配器只使用标准库，因此保留在核心模块中。
 ```powershell
 $env:GIT_COMMITTER_NAME="AxisVela Release Signing"
 $env:GIT_COMMITTER_EMAIL="releases@axisvela.com"
-git tag -s -u 55C1F509 v2.5.1 -m "praxo-core v2.5.1"
+git tag -s -u <release-key-id> v2.5.1 -m "praxo-core v2.5.1"
 ```
 
 ## 多语言标签
@@ -132,18 +131,19 @@ git push origin v1.0.0
 
 ## 使用方更新
 
-1. 将 `PRAXOVELA` 模块固定版本更新为 `vX.Y.Z`。
-2. 在 `packages/axon-core` 中运行 `go mod tidy` 和 `go mod vendor`。
-3. 运行完整的 `PRAXOVELA` 和 `PRAXOVELA-open` 测试套件。
-4. 更新 `PRAXOVELA-EE` 中的提取文档。
+1. 将下游模块固定版本更新为 `vX.Y.Z`。
+2. 在每个使用方模块中运行 `go mod tidy` 和 `go mod vendor`。
+3. 运行所有下游测试套件。
+4. 在内部发布跟踪记录中登记发布证据。
 
 ## 清单
 
 - [ ] `VERSION` 和 `CHANGELOG.md` 已更新
 - [ ] API 快照和差异已审查
+- [ ] 隐私检查通过：无内部邮箱域名和 `.internal` 主机名
 - [ ] release-check、race、fuzz、staticcheck、govulncheck 通过
 - [ ] 安全检查清单完成
 - [ ] SBOM 和校验和已生成
 - [ ] 签名标签已创建并验证
 - [ ] GitHub Release 已发布
-- [ ] PRAXOVELA 和 PRAXOVELA-open 已固定版本并测试
+- [ ] 下游使用方已固定版本并测试

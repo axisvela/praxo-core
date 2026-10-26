@@ -133,8 +133,9 @@ func runPolicy(_ input: Any?, _ expect: Any?) throws {
     let target = root.appendingPathComponent(Json.string(input, "target") ?? "").path
     let need = Json.string(input, "need") ?? "read"
     if Json.bool(expect, "error") {
-        do { _ = try checker.check(target, need); throw PraxoError("POLICY_ERROR", "expected error") }
-        catch { try check(code(error) == "POLICY_ERROR", "expected policy error") }
+        var caught = false
+        do { _ = try checker.check(target, need) } catch { caught = true }
+        try check(caught, "expected a policy error")
         return
     }
     let allowed = try checker.check(target, need).allowed

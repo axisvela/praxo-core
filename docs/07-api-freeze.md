@@ -34,7 +34,7 @@ The `1.0.0` compatibility promise covers:
 
 Not covered:
 
-- concrete adapters, product wiring, and Janus/Vulcan internals
+- concrete adapters, product wiring, and product internals
 - unexported helpers
 - examples
 - fields explicitly documented as experimental
@@ -129,7 +129,7 @@ the full review and removal process.
 2. `checkpoint.Message` deliberately stays a dependency-free serialization
    shape rather than aliasing `model.Message`.
 3. `tool.Gateway` is the seam for product-owned external gateways such as
-   Janus. `pkg/plugin/bridge` is the seam for `plugin.Host` implementations.
+   a product gateway. `pkg/plugin/bridge` is the seam for `plugin.Host` implementations.
    Both package docs state the distinction.
 4. The deprecated aliases are removed in `1.0.0`; PRAXOVELA already migrated in
    `0.16.0`.

@@ -97,7 +97,7 @@ Compaction and offload are observable through `Hooks.OnCompaction` and
 - `Options.OnInterruptDecision` takes precedence over the legacy boolean
   `OnInterrupt`; edit replaces tool arguments, respond skips execution and
   feeds the human response back to the model.
-- Shell sessions, execution policies, and MCP elicitation remain product/Janus
+- Shell sessions, execution policies, and MCP elicitation remain product-owned
   responsibilities; the core only owns the decision contract.
 
 ## Runtime Interoperability

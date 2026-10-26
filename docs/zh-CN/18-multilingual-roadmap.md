@@ -14,16 +14,15 @@
 
 ## 阶段总览
 
-| 阶段 | 产出 | 周期 | 依赖 |
-| --- | --- | --- | --- |
-| 0 | 规范 spec、一致性清单、Go 向量 runner、CI 门禁 | 3-4 周 | 无 |
-| 1 | Python SDK 核心达到一致并发布到 PyPI | 10-12 周 | 阶段 0 |
-| 2 | TypeScript SDK 核心达到一致并发布到 npm | 10-12 周 | 阶段 1 核心全绿 |
-| 3 | Java SDK 核心达到一致并发布到 Maven Central | 12-14 周 | 阶段 2 核心全绿 |
-| 4 | 按需求交付可选适配器与插件宿主 | 持续 | 阶段 3 |
+| 阶段 | 产出 | 门禁 |
+| --- | --- | --- |
+| 0 | 规范 spec、一致性清单、Go 向量 runner、CI 门禁 | Go 向量全绿 |
+| 1 | Python SDK 核心达到一致并发布到 PyPI | 11 组向量 + parity |
+| 2 | TypeScript SDK 核心达到一致并发布到 npm | 11 组向量 + parity |
+| 3 | Java SDK 核心达到一致并发布到 Maven Central | 11 组向量 + parity |
+| 4 | 按需求交付可选适配器与插件宿主 | 明确使用方 + 证据 |
 
-两到三名工程师并行推进后续阶段时，预计 **8-11 个月**达到三语言核心一致性。每语言
-单人串行则为 **12-18 个月**。
+内部工期、人力和风险跟踪位于本仓库之外。
 
 ## 当前状态（2026-10-25）
 
@@ -70,8 +69,8 @@ python -m unittest discover -s tests -v
 `typescript/v0.1.0` 标记 TypeScript 核心，`java/v0.2.1` 标记 Java 核心，
 `rust/v0.1.0` 标记 Rust 核心，`shell/v0.1.0` 与 `powershell/v0.1.0` 标记桥接
 包装，`c/v0.1.0` 标记 C 一致性核心，`csharp/v0.1.0` 标记 C# 核心，
-`php/v0.1.0` 标记 PHP 核心，`swift/v0.1.0` 标记 Swift wire 包，
-`julia/v0.1.0` 标记 Julia wire 包，`r/v0.1.0` 标记 R wire 包。
+`php/v0.1.0` 标记 PHP 核心，`swift/v0.1.0`、`julia/v0.1.0` 和 `r/v0.1.0`
+分别标记对应 wire 包。Swift、Julia 和 R 的核心循环尚未打标签。
 `0.1.0` 标签继续保留给已固定早期契约的使用方。
 
 ### 阶段 2 进度（2026-10-25）
@@ -141,36 +140,39 @@ C# SDK 已通过全部十一组向量、无依赖核心测试和 API 快照检�
 PHP SDK 已通过全部十一组向量、无依赖测试和 API 快照检查。它是同步的、
 仅依赖标准库的包。
 
-### Swift wire 包（2026-10-26）
+### Swift 核心（2026-10-26）
 
 | 项目 | 状态 | 证据 |
 | --- | --- | --- |
 | Swift wire | 完成 | `swift/`、toolcall/jsonschema/plugin 向量 |
 | Swift XCTest | 完成 | macOS 上的 `swift test` |
-| Swift 核心循环 | 计划中 | `swift/v0.1.0` 未包含 |
+| Swift 核心循环 | 完成，未打标签 | `swift/Sources/PraxoCore`、11 组向量 |
+| Swift API 快照 | 计划中 | 尚未实现 |
 
-Swift 包目前仅覆盖 wire 层。macOS CI 会构建并运行 wire 向量；核心循环属于
-后续工作。
+Swift 核心循环已实现并通过全部十一组向量。`swift/v0.1.0` 仍标记 wire 子集；
+在 API 快照和 macOS CI 确认前，核心循环不打标签。
 
-### Julia wire 包（2026-10-26）
+### Julia 核心（2026-10-26）
 
 | 项目 | 状态 | 证据 |
 | --- | --- | --- |
 | Julia wire | 完成 | `julia/`、toolcall/jsonschema/plugin 向量 |
 | Julia 测试 | 完成 | `julia --project=julia julia/test/runtests.jl` |
-| Julia 核心循环 | 计划中 | `julia/v0.1.0` 未包含 |
+| Julia 核心循环 | 完成，未打标签 | `julia/src`、11 组向量 |
+| Julia API 快照 | 计划中 | 尚未实现 |
 
-Julia 包使用 JSON.jl 并通过 wire 向量。核心循环属于后续工作。
+Julia 包使用 JSON.jl 并通过全部十一组向量。`julia/v0.1.0` 仍标记 wire 子集。
 
-### R wire 包（2026-10-26）
+### R 核心（2026-10-26）
 
 | 项目 | 状态 | 证据 |
 | --- | --- | --- |
 | R wire | 完成 | `r/`、toolcall/jsonschema/plugin 向量 |
 | R 测试 | 完成 | `Rscript r/tests/run_tests.R` |
-| R 核心循环 | 计划中 | `r/v0.1.0` 未包含 |
+| R 核心循环 | 完成，未打标签 | `r/R/core.R`、11 组向量 |
+| R API 快照 | 计划中 | 尚未实现 |
 
-R 包使用基础 R 的 JSON 解析器并通过 wire 向量。核心循环属于后续工作。
+R 包使用基础 R 的 JSON 解析器并通过全部十一组向量。`r/v0.1.0` 仍标记 wire 子集。
 
 长尾语言分层见
 [语言扩展计划](19-language-expansion.md)。
@@ -295,33 +297,6 @@ R 包使用基础 R 的 JSON 解析器并通过 wire 向量。核心循环属于
 每一项只在有明确使用方和自身一致性证据时发布。WASM 宿主最后做，因为各语言的运行时
 绑定与资源限制差异很大。
 
-## 工作分解
-
-| Epic | 阶段 | 承担角色 |
-| --- | --- | --- |
-| 契约抽取与向量 runner | 0 | Go 维护者 |
-| 一致性 linter 与 CI | 0 | 构建/基础设施 |
-| Python 核心 | 1 | Python 维护者 |
-| Python 适配器与打包 | 1 | Python 维护者 |
-| TypeScript 核心 | 2 | TS 维护者 |
-| TypeScript 打包 | 2 | TS 维护者 |
-| Java 核心 | 3 | Java 维护者 |
-| Java 打包 | 3 | Java 维护者 |
-| 适配器与插件宿主 | 4 | 按适配器 |
-
-## 风险清单
-
-| 风险 | 影响 | 缓解 |
-| --- | --- | --- |
-| SDK 行为漂移 | 高 | 向量是发布阻断项；不接受仅文字一致性 |
-| 某 SDK 自行规范化 wire | 高 | wire 夹具快照测试；记录混用大小写 |
-| Go 特有语义泄漏到其他 API | 中 | 逐语言惯用法审查；不使用 goroutine/channel 形状的 API |
-| 插件宿主分歧 | 中 | 先发布 wire 契约，宿主后做 |
-| 打包与发布开销 | 中 | 每语言独立发布 workflow 与 tag |
-| 路径/沙箱安全回归 | 高 | 每语言对抗性测试，不能只靠 Go 审查 |
-| 范围蔓延到适配器 | 中 | P1 退出门禁阻断适配器工作 |
-| 每语言单点依赖 | 高 | 每个 SDK 两名评审；spec 是共享产物 |
-
 ## 决策记录
 
 | ID | 决策 | 状态 |
@@ -336,21 +311,6 @@ R 包使用基础 R 的 JSON 解析器并通过 wire 向量。核心循环属于
 | D8 | TypeScript 浏览器支持只记录，不承诺 | 已接受 |
 | D9 | TypeScript 使用无依赖 JSON Schema 子集校验器；不采用 Zod | 已接受 |
 | D10 | Java 使用无依赖 JSON 工具；不采用 Jackson | 已接受 |
-
-待定事项：
-
-- Python SDK 只支持 `asyncio`，还是同时提供同步包装。
-- Java 发布单一构件还是按领域拆分构件。
-- `spec/vectors` 由 Go 测试生成，还是先手工编写。
-- SDK 是否可在 P1 向量全绿前发布 P2 适配器。
-
-## 指标
-
-- 每个 SDK 的向量通过率：已发布版本目标 100%。
-- 一致性覆盖率：已实现行数除以 `spec/parity.md` 总行数；P1 范围目标 100%。
-- wire 夹具数量：单调增长。
-- 使用方冒烟时间：每语言 CI 低于五分钟。
-- 跨语言分歧缺陷：每个版本目标为零。
 
 ## SDK 完成定义
 

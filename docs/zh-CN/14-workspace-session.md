@@ -223,5 +223,5 @@ CubeSandbox profile。
 
 - [Deep Agents backends](https://docs.langchain.com/oss/python/deepagents/backends)
 - [Sandbox 安全边界](08-security.md)
-- [Containment review](../containment-review.md)
+- [Containment assessment](../containment-review.md)
 - [事件 schema](event-schema.md)

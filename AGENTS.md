@@ -23,6 +23,8 @@ this framework.
 - Do not import AGPL-only packages; this repository must remain MIT.
 - Do not copy third-party code without compatible licensing and notices.
 - Keep provider credentials, tenant data, and secrets outside the framework.
+- Do not commit non-public email domains or `.internal` hostnames;
+  `internal/spec/privacy_test.go` enforces the working-tree allowlist.
 - Preserve provenance in `docs/04-license-and-provenance.md`.
 - Add tests for every exported interface and loop behavior.
 - Prefer interfaces over concrete integrations.
@@ -79,6 +81,8 @@ cd csharp; dotnet run --project samples/VbSample
 php php/conformance/run.php
 php php/conformance/run.php --check-api
 php php/tests/run.php
+cd swift; swift test
+cd swift; swift run praxo-conformance
 julia --project=julia -e 'using Pkg; Pkg.instantiate()'
 julia --project=julia julia/conformance/run.jl
 julia --project=julia julia/test/runtests.jl
