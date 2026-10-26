@@ -78,10 +78,10 @@ it, `shell/v0.1.0` / `powershell/v0.1.0` tag the bridge wrappers, and
 `c/v0.1.0` tags the C conformance core, `csharp/v0.1.0` tags the C# core,
 `php/v0.1.0` tags the PHP core, `perl/v0.1.0` tags the Perl core,
 `cpp/v0.1.0` tags the C++ core, `ruby/v0.1.0` tags the Ruby core,
-`lua/v0.1.0` tags the Lua core, `dart/v0.1.0` tags the Dart core, and
-`swift/v0.2.0`, `julia/v0.2.0`, and `r/v0.2.0` tag their core SDKs. The Swift,
-Julia, and R `0.1.0` tags remain available for consumers that pinned the wire
-subset.
+`lua/v0.1.0` tags the Lua core, `dart/v0.1.0` tags the Dart core,
+`zig/v0.1.0` tags the Zig wire package, and `swift/v0.2.0`, `julia/v0.2.0`, and
+`r/v0.2.0` tag their core SDKs. The Swift, Julia, and R `0.1.0` tags remain
+available for consumers that pinned the wire subset.
 
 ### Phase 2 Progress (2026-10-25)
 
@@ -151,6 +151,29 @@ its API snapshot check. The VB.NET sample consumes the same assembly.
 
 The PHP SDK passes all eleven vector groups, its dependency-free tests, and its
 API snapshot check. It is a synchronous, standard-library-only package.
+
+### Zig wire package (2026-10-26)
+
+| Item | Status | Evidence |
+| --- | --- | --- |
+| Zig wire | done | `zig/`, toolcall/jsonschema/plugin vectors |
+| Zig tests | done | `zig test src/toolcall.zig`, `jsonschema.zig`, `plugin.zig` |
+| Zig API snapshot | done | `zig/api/0.1.0.txt` |
+
+The Zig SDK uses only the standard library and passes the three wire vector
+groups plus its API snapshot check. It is tagged `zig/v0.1.0`; the core loop
+remains a follow-up.
+
+### Kotlin and Scala samples (2026-10-26)
+
+| Item | Status | Evidence |
+| --- | --- | --- |
+| Kotlin sample | done | `kotlin/sample.kt`, `kotlin-sample` CI |
+| Scala sample | done | `scala/sample.scala`, `scala-sample` CI |
+| Separate JVM cores | not planned | Java remains the source |
+
+Both samples consume the compiled Java SDK. There are no separate Kotlin or
+Scala tags.
 
 ### Dart core (2026-10-26)
 

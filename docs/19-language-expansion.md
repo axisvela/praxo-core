@@ -66,7 +66,10 @@ core loop without a named consumer and a maintenance owner.
 | Perl | Core (delivered) | CPAN, JSON, and HTTP for legacy glue | Core shipped in `perl/v0.1.0` |
 | Delphi | Wire / Bridge | Windows enterprise integration | Wire or bridge with a consumer |
 | OCaml / Caml | Wire | Strong types; niche agent demand | Wire-level package |
-| Lua | Core (delivered) | Embeddable scripting; needs an embedded JSON/HTTP host | Core shipped in `lua/v0.1.0` |
+| D | Wire | Systems language with native JSON and C interop | Wire first; core with a consumer |
+| Objective-C | Wire | Apple platforms; can bridge to Swift | Wire or Swift bridge; no second Apple core |
+| VBScript | Bridge | Legacy Windows automation; no modern runtime | Bridge over the C# or bridge CLI |
+| Zig | Wire (delivered) | Native systems, `std.json`, no runtime | Wire shipped in `zig/v0.1.0`; core with a consumer |
 | Scratch | Bridge / extension | Visual/block environment without native JSON/HTTP | Extension bridge; consumer-gated |
 | COBOL | Core | Legacy enterprise batch and process integration | Core SDK with a named consumer |
 | Prolog | Bridge | Logic and CLI workflows; no standard HTTP/JSON stack | Bridge with a named consumer |
@@ -166,7 +169,8 @@ Rules:
 | L4 | Julia, R core (delivered); Haskell wire | 11 vectors + API snapshot |
 | L5 | Shell bridge, Fortran/Lisp if consumer | bridge contract tests |
 | L6 | C++, Ruby, Perl, Lua, COBOL core; JavaScript, Kotlin, Scala samples | 11 vectors + API snapshot |
-| L7 | Dart core with consumer; MATLAB, OCaml wire; Delphi wire/bridge; Scratch, Prolog, ABAP bridges | declared wire or bridge gate |
+| L7 | Dart core; MATLAB, OCaml wire; Delphi wire/bridge; Scratch, Prolog, ABAP bridges | declared wire or bridge gate |
+| L8 | D, Objective-C, Zig wire; VBScript bridge | declared wire or bridge gate |
 
 Internal effort estimates are tracked outside this repository.
 
@@ -194,6 +198,7 @@ Internal effort estimates are tracked outside this repository.
 | L7 | Wave 2 reuses TypeScript for JavaScript and Java for Kotlin/Scala | proposed |
 | L8 | C++, Ruby, Perl, Lua, and COBOL target core | proposed |
 | L9 | Scratch, Prolog, and ABAP remain consumer-gated bridges | proposed |
+| L10 | D, Objective-C, and Zig start at wire tier; VBScript is a bridge | proposed |
 
 ## Related Documents
 

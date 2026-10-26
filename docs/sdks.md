@@ -37,14 +37,17 @@ targets.
 | Language | Documentation | Tier | Status |
 | --- | --- | --- | --- |
 | JavaScript | [JavaScript sample](https://github.com/axisvela/praxo-core/tree/main/javascript) | Sample (TypeScript) | released |
+| Zig | [Zig SDK](https://github.com/axisvela/praxo-core/tree/main/zig) | Wire | released |
 | Haskell | planned | Wire | planned |
 | Shell | [Shell bridge](https://github.com/axisvela/praxo-core/tree/main/shell) | Bridge | released |
 | PowerShell | [PowerShell bridge](https://github.com/axisvela/praxo-core/tree/main/powershell) | Bridge | released |
 | Visual Basic | [VB.NET sample](https://github.com/axisvela/praxo-core/tree/main/csharp/samples) | Sample | released |
+| Kotlin | [Kotlin sample](https://github.com/axisvela/praxo-core/tree/main/kotlin) | Sample (JVM) | released |
+| Scala | [Scala sample](https://github.com/axisvela/praxo-core/tree/main/scala) | Sample (JVM) | released |
 
 ## Wave 2 Candidates
 
-Kotlin, Scala, MATLAB, Delphi, OCaml/Caml,
-Scratch, COBOL, Prolog, and ABAP are planned in the
+MATLAB, Delphi, OCaml/Caml, D, Objective-C, VBScript, Zig, Scratch, COBOL,
+Prolog, and ABAP are planned in the
 [language expansion plan](19-language-expansion.md). JavaScript reuses the
 TypeScript package; Kotlin and Scala reuse the Java SDK.

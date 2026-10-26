@@ -63,7 +63,10 @@ TypeScript、Java 与 Rust。下一步采用**分层语言策略**：
 | Perl | Core（已交付） | CPAN、JSON、HTTP，适合遗留胶水 | 核心已随 `perl/v0.1.0` 发布 |
 | Delphi | Wire / Bridge | Windows 企业集成 | 有使用方时做 Wire 或桥接 |
 | OCaml / Caml | Wire | 类型强，Agent 需求较小 | Wire 级包 |
-| Lua | Core（已交付） | 可嵌入脚本；需要嵌入式 JSON/HTTP 宿主 | 核心已随 `lua/v0.1.0` 发布 |
+| D | Wire | 系统语言，原生 JSON 与 C 互操作 | 先 Wire；有使用方再做 Core |
+| Objective-C | Wire | Apple 平台，可桥接 Swift | Wire 或 Swift 桥接，不做第二套 Apple 核心 |
+| VBScript | Bridge | 遗留 Windows 自动化，无现代运行时 | 桥接 C# 或 bridge CLI |
+| Zig | Wire（已交付） | 原生系统、`std.json`、无运行时 | Wire 已随 `zig/v0.1.0` 发布；有使用方再做 Core |
 | Scratch | Bridge / 扩展 | 图形化环境，无原生 JSON/HTTP | 扩展桥接，需使用方 |
 | COBOL | Core | 遗留企业批处理与流程集成 | 有明确使用方的 Core SDK |
 | Prolog | Bridge | 逻辑与 CLI 工作流；无标准 HTTP/JSON 栈 | 有明确使用方时做桥接 |
@@ -158,7 +161,8 @@ spec/
 | L4 | Julia、R core（已交付）；Haskell wire | 11 组向量 + API 快照 |
 | L5 | Shell 桥接，Fortran/Lisp 视使用方 | 桥接契约测试 |
 | L6 | C++、Ruby、Perl、Lua、COBOL core；JavaScript、Kotlin、Scala 示例 | 11 组向量 + API 快照 |
-| L7 | Dart 按使用方转 core；MATLAB、OCaml wire；Delphi wire/桥接；Scratch、Prolog、ABAP 桥接 | 声明的 wire 或桥接门禁 |
+| L7 | Dart core；MATLAB、OCaml wire；Delphi wire/桥接；Scratch、Prolog、ABAP 桥接 | 声明的 wire 或桥接门禁 |
+| L8 | D、Objective-C、Zig wire；VBScript 桥接 | 声明的 wire 或桥接门禁 |
 
 内部投入估算位于本仓库之外。
 
@@ -186,6 +190,7 @@ spec/
 | L7 | 第二批复用 TypeScript（JavaScript）与 Java（Kotlin/Scala） | 提议中 |
 | L8 | C++、Ruby、Perl、Lua、COBOL 目标为 core | 提议中 |
 | L9 | Scratch、Prolog、ABAP 为使用方门控桥接 | 提议中 |
+| L10 | D、Objective-C、Zig 先做 wire；VBScript 为桥接 | 提议中 |
 
 ## 相关文档
 

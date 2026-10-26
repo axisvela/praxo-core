@@ -1,0 +1,25 @@
+# PRAXO-CORE Zig API 0.1.0
+# SPEC_VERSION 0.2.0
+
+Allocator
+Json
+ParsedToolCall
+PluginError
+PluginManifest
+ValidationError
+array
+boolean
+equals
+get
+has
+integer
+object
+parse
+parseInputJson
+parseManifest
+parseToolCall
+string
+stringify
+stripMarkup
+utf8Length
+validate

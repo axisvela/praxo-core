@@ -72,8 +72,9 @@ python -m unittest discover -s tests -v
 `php/v0.1.0` 标记 PHP 核心，`perl/v0.1.0` 标记 Perl 核心，
 `cpp/v0.1.0` 标记 C++ 核心，`ruby/v0.1.0` 标记 Ruby 核心，
 `lua/v0.1.0` 标记 Lua 核心，`dart/v0.1.0` 标记 Dart 核心，
-`swift/v0.2.0`、`julia/v0.2.0` 和 `r/v0.2.0` 分别标记对应核心 SDK。
-Swift、Julia 和 R 的 `0.1.0` 标签继续保留给已固定 wire 子集的使用方。
+`zig/v0.1.0` 标记 Zig wire 包，`swift/v0.2.0`、`julia/v0.2.0` 和
+`r/v0.2.0` 分别标记对应核心 SDK。Swift、Julia 和 R 的 `0.1.0` 标签继续
+保留给已固定 wire 子集的使用方。
 
 ### 阶段 2 进度（2026-10-25）
 
@@ -141,6 +142,27 @@ C# SDK 已通过全部十一组向量、无依赖核心测试和 API 快照检�
 
 PHP SDK 已通过全部十一组向量、无依赖测试和 API 快照检查。它是同步的、
 仅依赖标准库的包。
+
+### Zig wire 包（2026-10-26）
+
+| 项目 | 状态 | 证据 |
+| --- | --- | --- |
+| Zig wire | 完成 | `zig/`、toolcall/jsonschema/plugin 向量 |
+| Zig 测试 | 完成 | `zig test src/toolcall.zig`、`jsonschema.zig`、`plugin.zig` |
+| Zig API 快照 | 完成 | `zig/api/0.1.0.txt` |
+
+Zig SDK 仅使用标准库，并通过三组 wire 向量和 API 快照检查。
+已标记 `zig/v0.1.0`；核心循环仍属后续工作。
+
+### Kotlin 与 Scala 示例（2026-10-26）
+
+| 项目 | 状态 | 证据 |
+| --- | --- | --- |
+| Kotlin 示例 | 完成 | `kotlin/sample.kt`、`kotlin-sample` CI |
+| Scala 示例 | 完成 | `scala/sample.scala`、`scala-sample` CI |
+| 独立 JVM 核心 | 不计划 | Java 仍是源实现 |
+
+两个示例都使用编译后的 Java SDK。没有独立的 Kotlin 或 Scala 标签。
 
 ### Dart 核心（2026-10-26）
 

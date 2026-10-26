@@ -46,6 +46,10 @@ scope. A language may ship more than one tier over time.
 | Perl | Core | released | `perl/v0.1.0` | 11 vectors, 27 tests, API snapshot |
 | Delphi | Wire / Bridge | planned | `delphi/v0.1.0` | Consumer-gated |
 | OCaml / Caml | Wire | planned | `ocaml/v0.1.0` | Wire subset |
+| D | Wire | planned | `d/v0.1.0` | Wire subset |
+| Objective-C | Wire | planned | `objc/v0.1.0` | Wire subset |
+| VBScript | Bridge | planned | none | Bridge over .NET or the bridge CLI |
+| Zig | Wire | released | `zig/v0.1.0` | 3 wire groups, API snapshot |
 | Lua | Core | released | `lua/v0.1.0` | 11 vectors, core tests, API snapshot |
 | Scratch | Bridge / extension | consumer-gated | none | Extension only |
 | COBOL | Core | planned | `cobol/v0.1.0` | Core with a named consumer |
@@ -67,6 +71,7 @@ scope. A language may ship more than one tier over time.
 | Ruby | `ruby-conformance` | 11 vectors, API snapshot, tests |
 | Lua | `lua-conformance` | 11 vectors, API snapshot, tests |
 | Dart | `dart-conformance` | 11 vectors, API snapshot, tests |
+| Zig | `zig-conformance` | 3 wire groups, API snapshot, tests |
 | JavaScript | `javascript-sample` | TypeScript build + Node sample |
 | C++ | `cpp-conformance` | CMake build, 11 vectors, API snapshot, tests |
 | Perl | `perl-conformance` | 11 vectors, API snapshot, tests |
