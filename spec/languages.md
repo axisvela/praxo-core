@@ -38,7 +38,7 @@ scope. A language may ship more than one tier over time.
 | Lisp | Bridge | consumer-gated | `lisp/v0.1.0` | Requires a named consumer |
 | JavaScript | Sample (TypeScript) | released | none | Uses the TypeScript package; no separate core |
 | C++ | Core | released | `cpp/v0.1.0` | 11 vectors, core tests, API snapshot |
-| Dart | Wire | planned | `dart/v0.1.0` | Wire first; core requires a consumer |
+| Dart | Core | released | `dart/v0.1.0` | 11 vectors, core tests, API snapshot |
 | Ruby | Core | released | `ruby/v0.1.0` | 11 vectors, core tests, API snapshot |
 | Kotlin | Sample (JVM) | planned | none | Uses the Java SDK |
 | Scala | Sample (JVM) | planned | none | Uses the Java SDK |
@@ -66,6 +66,7 @@ scope. A language may ship more than one tier over time.
 | PHP | `php-conformance` | vectors, API snapshot, core tests |
 | Ruby | `ruby-conformance` | 11 vectors, API snapshot, tests |
 | Lua | `lua-conformance` | 11 vectors, API snapshot, tests |
+| Dart | `dart-conformance` | 11 vectors, API snapshot, tests |
 | JavaScript | `javascript-sample` | TypeScript build + Node sample |
 | C++ | `cpp-conformance` | CMake build, 11 vectors, API snapshot, tests |
 | Perl | `perl-conformance` | 11 vectors, API snapshot, tests |

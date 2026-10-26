@@ -171,6 +171,20 @@ jobs:
       - run: swift run praxo-conformance
       - run: python3 api-snapshot.py --check
 
+  dart-conformance:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: dart
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dart-lang/setup-dart@v1
+        with:
+          sdk: stable
+      - run: dart run conformance/run.dart
+      - run: python3 api-snapshot.py --check
+      - run: dart run tests/run.dart
+
   javascript-sample:
     runs-on: ubuntu-latest
     defaults:

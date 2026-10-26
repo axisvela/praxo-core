@@ -74,8 +74,9 @@ Go 仍是参考实现。Python、TypeScript 和 Java SDK 基于
 [Rust SDK](rust/README.md)、[C SDK](c/README.md)、
 [C# SDK](csharp/README.md)、[PHP SDK](php/README.md)、
 [Perl SDK](perl/README.md)、[C++ SDK](cpp/README.md)、
-[Ruby SDK](ruby/README.md) 与 [Lua SDK](lua/README.md) 的核心实现已通过
-全部十一组向量；JavaScript 通过
+[Ruby SDK](ruby/README.md)、[Lua SDK](lua/README.md) 与
+[Dart SDK](dart/README.md) 的核心实现已通过全部十一组向量；
+JavaScript 通过
 [JavaScript 示例](javascript/README.md)复用 TypeScript 包。
 Python、TypeScript、Java 与 C# 包含流式路径和 OpenAI 兼容
 适配器。[Swift SDK](swift/README.md)、[Julia SDK](julia/README.md) 与

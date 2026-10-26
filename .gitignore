@@ -26,3 +26,5 @@ node_modules/
 target/
 out/
 out-test/
+.dart_tool/
+dart/pubspec.lock

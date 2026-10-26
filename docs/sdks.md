@@ -24,6 +24,7 @@ targets.
 | C++ | [C++ SDK](https://github.com/axisvela/praxo-core/tree/main/cpp) | Core | released |
 | Ruby | [Ruby SDK](https://github.com/axisvela/praxo-core/tree/main/ruby) | Core | released |
 | Lua | [Lua SDK](https://github.com/axisvela/praxo-core/tree/main/lua) | Core | released |
+| Dart | [Dart SDK](https://github.com/axisvela/praxo-core/tree/main/dart) | Core | released |
 | C# | [C# SDK](https://github.com/axisvela/praxo-core/tree/main/csharp) | Core | released |
 | PHP | [PHP SDK](https://github.com/axisvela/praxo-core/tree/main/php) | Core | released |
 | Perl | [Perl SDK](https://github.com/axisvela/praxo-core/tree/main/perl) | Core | released |
@@ -43,7 +44,7 @@ targets.
 
 ## Wave 2 Candidates
 
-Dart, Kotlin, Scala, MATLAB, Delphi, OCaml/Caml,
+Kotlin, Scala, MATLAB, Delphi, OCaml/Caml,
 Scratch, COBOL, Prolog, and ABAP are planned in the
 [language expansion plan](19-language-expansion.md). JavaScript reuses the
 TypeScript package; Kotlin and Scala reuse the Java SDK.

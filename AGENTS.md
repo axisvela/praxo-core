@@ -92,6 +92,9 @@ ruby ruby/tests/run.rb
 lua lua/conformance/run.lua
 python lua/api-snapshot.py --check
 lua lua/tests/run.lua
+cd dart; dart run conformance/run.dart
+cd dart; python api-snapshot.py --check
+cd dart; dart run tests/run.dart
 cd typescript; npm run build
 node javascript/sample.mjs
 perl perl/conformance/run.pl

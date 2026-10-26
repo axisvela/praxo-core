@@ -79,9 +79,9 @@ shapes, one conformance suite, and one-to-one idiomatic APIs. The
 [Python SDK](python/README.md), [TypeScript SDK](typescript/README.md),
 [Java SDK](java/README.md), [Rust SDK](rust/README.md), [C SDK](c/README.md),
 [C# SDK](csharp/README.md), [PHP SDK](php/README.md), [Perl SDK](perl/README.md),
-[C++ SDK](cpp/README.md), [Ruby SDK](ruby/README.md), and
-[Lua SDK](lua/README.md) core implementations pass all eleven vector groups;
-JavaScript consumes the TypeScript package through the
+[C++ SDK](cpp/README.md), [Ruby SDK](ruby/README.md), [Lua SDK](lua/README.md),
+and [Dart SDK](dart/README.md) core implementations pass all eleven vector
+groups; JavaScript consumes the TypeScript package through the
 [JavaScript sample](javascript/README.md). Python, TypeScript, Java, and C# include
 streaming and an OpenAI-compatible adapter. The [Swift SDK](swift/README.md),
 [Julia SDK](julia/README.md), and [R SDK](r/README.md) also implement the core
