@@ -112,9 +112,7 @@ Go module paths remain unchanged. Language sources have moved under `language/`,
 
 ## Framework and Ecosystem
 
-PRAXO-CORE is extracted from PRAXOVELA, but it is a separate MIT-licensed
-framework. PRAXOVELA is an AGPL-3.0 runtime product. The framework never imports
-product code; credentials and tenant data remain with the integrator.
+PRAXO-CORE is an independent MIT-licensed framework.
 
 Connect models, memory, events, retrieval, and policy through your own adapters
 or [optional AxisVela integrations](docs/integrations/ecosystem.md). See the

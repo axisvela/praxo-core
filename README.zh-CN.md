@@ -93,8 +93,7 @@ Go 导入路径保持不变，语言源码已归入 `language/`、`bindings/` �
 
 ## 框架与生态
 
-PRAXO-CORE 源自 PRAXOVELA，但它是独立的 MIT 框架；PRAXOVELA 是 AGPL-3.0
-运行时产品。框架不导入产品代码，凭据和租户数据由集成方持有。
+PRAXO-CORE 是独立的 MIT 框架。
 
 可使用自己的适配器，或接入[可选 AxisVela 生态](docs/zh-CN/integrations/ecosystem.md)。
 具体模块范围和限制见[适配器目录](docs/zh-CN/integrations/index.md)。

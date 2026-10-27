@@ -45,5 +45,5 @@ Core `2.5.0` adds the conformance package and hardens local VFS path validation.
 See the [release notes](releases/2.5.0.md) for changes and limitations, or the
 [release overview](releases/index.md) for older versions.
 
-PRAXO-CORE is a framework, not a hosted service or a turnkey chat UI. It is
-extracted from PRAXOVELA; [AxisVela integrations](integrations/ecosystem.md) are optional.
+PRAXO-CORE is a framework, not a hosted service or a turnkey chat UI.
+[AxisVela integrations](integrations/ecosystem.md) are optional.
