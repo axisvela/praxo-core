@@ -80,7 +80,7 @@ production readiness or full Go feature parity.
 | V | Core | released | `v/v0.1.0` | partial | 11 vectors, native tests, API snapshot/parity; opt-in PII/structured output/call limits/tool selection are partial |
 | D | Core | released | `d/v0.1.0` | complete | 11 vectors, API snapshot |
 | VBScript | Bridge | planned | none | planned | Bridge over .NET or the bridge CLI |
-| Erlang | Core | planned | none | planned | Native BEAM loop requested; OTP 27+ `:json`; separate consumer and maintainer required |
+| Erlang | Core | released | `erlang/v0.1.0` | partial | 11 vectors, native tests, API snapshot/parity; OTP 29; opt-in middleware partial |
 | Ada | Core | planned | none | planned | Native loop target; GNAT toolchain; consumer and maintainer required |
 | Mojo | Core | planned | none | planned | Native loop target; toolchain and CI maturity gate |
 | F# | Sample (.NET) | released | `csharp/v0.1.0` | sample | F# consumer sample in `examples/fsharp`; uses the C# SDK |
@@ -132,6 +132,7 @@ production readiness or full Go feature parity.
 | OCaml | `ocaml-conformance` | 3 wire groups, native tests, source API/parity; local OCaml 4.14.2 bytecode and Linux CI verified; source release tagged `ocaml/v0.1.0`; `ocamlopt` unverified |
 | Objective-C | `objc-conformance` | 11 vectors, native tests, source API/parity; local clang + GNUstep verified; macOS CI pending |
 | Elixir | `elixir-conformance` | 11 vectors, API snapshot, tests; OTP 29 + Elixir 1.20.4 |
+| Erlang | `erlang-conformance` | 11 vectors, native tests, API snapshot/parity; OTP 29 |
 | Nim | `nim-conformance` | 11 vectors, API snapshot, tests; Nim 2.2.12 |
 | V | `v-conformance` | 11 vectors, API snapshot, tests; V 0.5.2 |
 | Lisp | `lisp-bridge` | forwarding, UTF-8 JSON, errors, exit codes; local SBCL 2.6.9 and Linux CI verified; source release tagged `lisp/v0.1.0` |

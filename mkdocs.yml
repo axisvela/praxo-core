@@ -150,6 +150,7 @@ nav:
       - OCaml: languages/ocaml.md
       - Objective-C: languages/objective-c.md
       - Elixir: languages/elixir.md
+      - Erlang: languages/erlang.md
       - Nim: languages/nim.md
       - V: languages/v.md
       - Lisp: languages/lisp.md

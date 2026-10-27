@@ -41,6 +41,9 @@ Bridge、Sample 描述运行时的接入方式，不证明其语言缺乏 Framew
 - MATLAB/Octave、Delphi/Free Pascal 和 OCaml 已有源码标签 `matlab/v0.1.0`、
   `delphi/v0.1.0` 和 `ocaml/v0.1.0`。它们仍是 Wire 阶段候选实现；MATLAB、商业
   Delphi、循环的远端 CI 和包管理器发布均未声明。
+- Erlang 已有源码标签 `erlang/v0.1.0`，包含原生 BEAM Core 循环、11 个向量组、
+  原生测试和 API 快照/parity 清单。包管理器、提供商适配器、流式路径和生产就绪
+  均未声明；可选中间件能力仍为部分完成。
 - Lisp 已有 SBCL 桥接的源码标签 `lisp/v0.1.0`，不提供原生 Lisp 循环；转发、UTF-8、
   错误和退出码检查已在本地和 Linux CI 通过。消费者细节与包管理器发布仍待完成。
 - Tcl 已有桥接包装器的源码标签 `tcl/v0.1.0`，不提供原生 Tcl 循环；本地转发、UTF-8、

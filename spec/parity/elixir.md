@@ -13,8 +13,7 @@ returns `{:ok, response}` or `{:error, code}`; provider state is managed
 externally, and exceptions and malformed returns are not converted to model
 errors. Built-in provider configuration, streaming, and plugin hosts are not
 provided. `partial` marks these and other incomplete surfaces.
-Erlang shares the BEAM runtime and is documented as a runtime, not a second
-agent loop.
+Erlang has its own native Core loop under `language/erlang`.
 
 Local tests, conformance, and the API snapshot passed with Elixir 1.20.4 and
 Erlang/OTP 29. The `elixir-conformance` remote job passed for the integrated

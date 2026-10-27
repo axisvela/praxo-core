@@ -163,6 +163,19 @@ jobs:
       - run: elixir -pa language/elixir/build/ebin language/elixir/tests/run_tests.exs
       - run: elixir -pa language/elixir/build/ebin language/elixir/conformance/run.exs
 
+  erlang-conformance:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: erlef/setup-beam@v1
+        with:
+          otp-version: "29"
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python language/erlang/run-tests.py
+      - run: python language/erlang/api-snapshot.py --check
+
   nim-conformance:
     runs-on: ubuntu-latest
     steps:

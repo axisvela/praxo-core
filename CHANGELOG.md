@@ -4,6 +4,9 @@
 
 ### Added
 
+- Added a native Erlang Core SDK under `language/erlang` with all eleven vector
+  groups, native tests, API snapshot/parity, and an OTP 29 CI job; tagged
+  `erlang/v0.1.0` with documented partial opt-in surfaces.
 - Added an F# sample over the C# / .NET SDK in `examples/fsharp`, registered it
   in the language matrix, and added it to the .NET CI job.
 - Added a maturity column to the language support matrix, separate from source

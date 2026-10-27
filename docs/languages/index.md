@@ -37,6 +37,7 @@ wire-only scope requires documented technical limitations. See the
 | COBOL | [COBOL SDK](cobol.md) |
 | Fortran | [Fortran implementation](fortran.md) |
 | Elixir | [Elixir SDK](elixir.md) |
+| Erlang | [Erlang SDK](erlang.md) |
 | Nim | [Nim SDK](nim.md) |
 | V | [V SDK](v.md) |
 | Objective-C | [Objective-C SDK](objective-c.md) |

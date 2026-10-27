@@ -98,6 +98,8 @@ python language/elixir/api-snapshot.py --check
 mkdir -p language/elixir/build/ebin; elixirc -o language/elixir/build/ebin language/elixir/lib/praxo/*.ex
 elixir -pa language/elixir/build/ebin language/elixir/tests/run_tests.exs
 elixir -pa language/elixir/build/ebin language/elixir/conformance/run.exs
+python language/erlang/run-tests.py
+python language/erlang/api-snapshot.py --check
 python language/nim/api-snapshot.py --check
 nim c --path:language/nim/src --hints:off --out:build/praxo-nim-conformance language/nim/conformance/run.nim
 ./build/praxo-nim-conformance
