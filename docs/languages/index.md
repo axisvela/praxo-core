@@ -63,6 +63,10 @@ CI have not yet been verified.
 a native Framework. Three vector groups pass locally with Free Pascal 3.2.2 on
 Windows i386; the Delphi compiler and remote CI have not yet been verified.
 
+[OCaml](ocaml.md) is an unreleased Wire-stage candidate targeting a native
+Framework. Three vector groups pass locally with OCaml 4.14.2 bytecode; native
+compilation and remote CI have not yet been verified.
+
 Source tags, registry publication, conformance, and production verification are
 different states. A language page includes the source README so installation,
 examples, and limitations stay aligned with the implementation.

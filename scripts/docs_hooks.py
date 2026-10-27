@@ -66,7 +66,7 @@ def language_matrix(markdown, chinese=False):
         if name in seen or stage not in stages or status not in statuses:
             raise ValueError("duplicate or unknown language matrix value: " + line)
         seen.add(name)
-        slug = {"C++": "cpp", "C#": "csharp"}.get(name, name.lower().replace(" ", "-"))
+        slug = {"C++": "cpp", "C#": "csharp", "OCaml / Caml": "ocaml"}.get(name, name.lower().replace(" ", "-"))
         if (ROOT / "docs/languages" / (slug + ".md")).is_file():
             name = f"[{name}]({slug}.md)"
         rows.append((name, stages[stage], statuses[status] if chinese else status, "—" if chinese and tag == "none" else tag, notes))

@@ -127,6 +127,16 @@ jobs:
       - run: sudo apt-get update && sudo apt-get install -y fp-compiler fp-units-base fp-units-fcl
       - run: python language/delphi/run-tests.py --compiler fpc
 
+  ocaml-conformance:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: sudo apt-get update && sudo apt-get install -y ocaml
+      - run: python language/ocaml/run-tests.py --compiler ocamlc
+
   typescript-conformance:
     runs-on: ubuntu-latest
     defaults:

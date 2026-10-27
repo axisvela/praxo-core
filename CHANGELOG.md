@@ -11,6 +11,10 @@
   targeting Framework, with local Free Pascal 3.2.2 validation for toolcall,
   JSON Schema, and plugin vectors. Delphi compiler, remote CI, agent loop, and
   release are not claimed.
+- `language/ocaml/`: unreleased native OCaml Wire-stage candidate targeting
+  Framework, with local OCaml 4.14.2 bytecode validation for toolcall, JSON
+  Schema, and plugin vectors. Native compilation, remote CI, agent loop, and
+  release are not claimed.
 - Rust compiler-derived public API snapshots and parity symbol checks, with
   regression tests for rustdoc extraction and stale-page exclusion. No Rust
   runtime APIs or dependencies changed.

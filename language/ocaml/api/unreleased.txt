@@ -1,0 +1,17 @@
+# PRAXO-CORE OCaml Wire API 0.1.0
+# SPEC_VERSION 0.2.0
+
+type json =
+type call = {
+exception Json_error of string
+exception Schema_error of string
+exception Toolcall_error of string
+val spec_version : string
+val sdk_version : string
+val parse_json : string -> json
+val encode_json : json -> string
+val json_equal : json -> json -> bool
+val parse_tool_call : string -> call option
+val strip_tool_call_markup : string -> string
+val validate_schema : json -> json -> string list
+val validate_manifest : string -> json option

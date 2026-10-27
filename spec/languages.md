@@ -58,7 +58,7 @@ imply every Go feature is available.
 | MATLAB | Wire | in progress | none | Framework target; Octave-local toolcall, JSON Schema and plugin vector groups; MATLAB and remote CI not yet verified |
 | Perl | Core | released | `perl/v0.1.0` | 11 vectors, 27 tests, API snapshot |
 | Delphi | Wire | in progress | none | Framework target; Free Pascal 3.2.2 local toolcall/JSON Schema/plugin vectors, native tests, API/parity; Delphi compiler and remote CI pending |
-| OCaml / Caml | Core | planned | none | Requires a consumer and maintenance owner before a native loop |
+| OCaml / Caml | Wire | in progress | none | Framework target; native toolcall/JSON Schema/plugin wire subset verified locally with OCaml 4.14.2 bytecode; native build and remote CI pending |
 | D | Core | released | `d/v0.1.0` | 11 vectors, API snapshot |
 | Objective-C | Core | planned | none | Requires a consumer and maintenance owner before a native loop |
 | VBScript | Bridge | planned | none | Bridge over .NET or the bridge CLI |
@@ -97,9 +97,10 @@ imply every Go feature is available.
 | COBOL | `cobol-conformance` | 11 vectors, API snapshot, native/tooling tests |
 | Haskell | `haskell-conformance` | Linux/Windows: 3 wire groups, native tests, source API/parity, Cabal build |
 | Delphi / Free Pascal | `delphi-conformance` | 3 wire groups, native tests, source API/parity; local FPC 3.2.2 Windows i386 verified; remote CI pending |
+| OCaml | `ocaml-conformance` | 3 wire groups, native tests, source API/parity; local OCaml 4.14.2 bytecode verified; native/remote CI pending |
 | MATLAB / Octave | `matlab-wire` | Octave: 3 wire groups, native tests, source API/parity; remote evidence pending; MATLAB unverified |
 | Lisp | none yet | consumer-gated bridge |
-| Objective-C, OCaml | none yet | core planned |
+| Objective-C | none yet | core planned |
 | Wave 2 languages | none yet | planned; gate depends on declared tier |
 
 ## Required Gates per Tier

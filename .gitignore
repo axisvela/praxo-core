@@ -35,3 +35,7 @@ kotlin-compiler.zip
 .bsp/
 *.ppu
 language/delphi/*.o
+*.cmi
+*.cmo
+*.cmx
+*.cma

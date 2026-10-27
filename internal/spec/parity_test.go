@@ -206,7 +206,7 @@ func TestSplitParity(t *testing.T) {
 
 	required := []string{
 		"rust", "c", "csharp", "swift", "php", "julia", "r", "haskell",
-		"vbnet", "fortran", "cobol", "matlab", "delphi", "lisp", "bridge-shell", "bridge-powershell",
+		"vbnet", "fortran", "cobol", "matlab", "delphi", "ocaml", "lisp", "bridge-shell", "bridge-powershell",
 	}
 	validTier := map[string]bool{
 		"core": true, "wire": true, "bridge": true, "sample": true,
