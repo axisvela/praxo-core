@@ -51,4 +51,4 @@ Existing tag prefixes such as `python/v0.2.0` identify the same historical
 release. Source tags still do not imply package-registry publication.
 
 Run each language's documented conformance, API, and test commands from its new
-location. See [SDK support](../sdks/support.md) for feature and distribution limits.
+location. See [SDK support](../languages/support.md) for feature and distribution limits.

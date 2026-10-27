@@ -40,12 +40,12 @@
 - Wave 2 language plan for JavaScript, C++, Dart, Ruby, Kotlin, Scala, MATLAB,
   Perl, Delphi, OCaml/Caml, Lua, Scratch, COBOL, Prolog, and ABAP. C++, Ruby,
   Perl, Lua, and COBOL target core tier.
-- `docs/sdks/index.md` and `docs/getting-started/index.md` for SDK discovery and docs
+- `docs/languages/index.md` and `docs/getting-started/index.md` for SDK discovery and docs
   navigation.
 - `internal/spec/privacy_test.go`: opt-in git-history and working-tree checks
   for non-public email domains and internal hostnames.
 - Multilingual SDK design (`docs/contributing/sdk-design.md`) and roadmap
-  (`docs/sdks/support.md`) for Python, TypeScript, and Java SDKs.
+  (`docs/languages/support.md`) for Python, TypeScript, and Java SDKs.
 - `spec/` scaffold: `SPEC_VERSION`, event/error/schema/plugin wire artifacts,
   `parity.md`, and the conformance-vector format.
 - Conformance vectors for the agent loop, toolcall, JSON Schema, plugin,

@@ -39,7 +39,7 @@ See [compatibility policy](../project/compatibility-policy.md) and
 [API stability](../project/api-stability.md).
 
 The shared contract is not a promise that all SDKs expose every reference
-feature. Consult the [support policy](../sdks/support.md) and SDK-specific API.
+feature. Consult the [support policy](../languages/support.md) and SDK-specific API.
 
 ## Security and Licensing
 

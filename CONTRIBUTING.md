@@ -52,7 +52,7 @@ Independent language implementations live under `sdk/`, runtime wrappers under
 [source migration guide](docs/project/repository-layout.md) before updating
 source-based consumer scripts. The Go root module and public imports stay unchanged.
 
-Each language has an entry under `docs/sdks/`. Pages with `sdk_readme` metadata
+Each language has an entry under `docs/languages/`. Pages with `sdk_readme` metadata
 render the source README during the site build so examples, installation
 instructions, and limitations have one source. Update that README rather than
 copying its content. Distinguish source tags from package-registry availability.

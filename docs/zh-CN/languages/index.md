@@ -1,8 +1,12 @@
-# 语言 SDK
+# 语言实现
 
 先选择语言，再按对应页面安装或从源码构建。Go 是参考实现；共享契约不代表
 所有语言都有 Go 的全部功能。请先阅读[支持政策](support.md)与
 [规范支持矩阵](https://github.com/axisvela/praxo-core/blob/main/spec/languages.md)。
+
+具备原生实现能力的独立语言默认以 Framework 为最终目标。处于 Wire 阶段的实现
+当前尚不提供完整 Framework；仅有明确的技术限制时才以 Wire 为最终范围。当前能力
+和最终目标的区别见[支持政策](support.md)。
 
 ## 原生实现
 
@@ -42,8 +46,9 @@
 
 ## Wire 候选实现
 
-[Haskell](haskell.md) 是尚未发布的 Wire 实现，本地已通过三个声明组的 24 个向量，
-不包含 Agent 循环。Linux、Windows CI 已通过，发布审查仍待完成，不声明 Hackage 软件包或正式标签。
+[Haskell](haskell.md) 是以原生 Framework 为目标、尚未发布的 Wire 阶段实现，本地已通过
+三个声明组的 24 个向量，当前不包含 Agent 循环。Linux、Windows CI 已通过，发布审查
+仍待完成，不声明 Hackage 软件包、正式标签或交付日期。
 
 源码标签、包管理器发布、一致性测试和生产验证是不同状态。语言页面复用对应
 源码 README，使安装、示例与限制保持一致。尚未翻译的语言说明会回退到英文。

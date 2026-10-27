@@ -14,7 +14,7 @@
 
 [中文文档](https://axisvela.github.io/praxo-core/zh-CN/) |
 [快速开始](docs/zh-CN/getting-started/quickstart.md) |
-[语言 SDK](docs/zh-CN/sdks/index.md) |
+[语言实现](docs/zh-CN/languages/index.md) |
 [示例](examples)
 
 ## 从 Go 开始
@@ -55,15 +55,15 @@ Go 是参考实现，语言 SDK 共享 [`spec/`](spec/README.md) 中的规范契
 
 | 运行时 | 使用入口 |
 | --- | --- |
-| Go | [安装与快速开始](docs/sdks/go.md) |
-| Python | [Python SDK](https://axisvela.github.io/praxo-core/zh-CN/sdks/python/) |
-| TypeScript / JavaScript | [TypeScript SDK](https://axisvela.github.io/praxo-core/zh-CN/sdks/typescript/)、[JavaScript 示例](https://axisvela.github.io/praxo-core/zh-CN/sdks/javascript/) |
-| Java / Kotlin / Scala | [Java SDK](https://axisvela.github.io/praxo-core/zh-CN/sdks/java/)、[Kotlin](https://axisvela.github.io/praxo-core/zh-CN/sdks/kotlin/)、[Scala](https://axisvela.github.io/praxo-core/zh-CN/sdks/scala/) |
-| .NET | [C# SDK](https://axisvela.github.io/praxo-core/zh-CN/sdks/csharp/)、[Visual Basic 示例](docs/sdks/visual-basic.md) |
-| 其他语言 | [完整 SDK 目录](docs/zh-CN/sdks/index.md) |
+| Go | [安装与快速开始](docs/languages/go.md) |
+| Python | [Python SDK](https://axisvela.github.io/praxo-core/zh-CN/languages/python/) |
+| TypeScript / JavaScript | [TypeScript SDK](https://axisvela.github.io/praxo-core/zh-CN/languages/typescript/)、[JavaScript 示例](https://axisvela.github.io/praxo-core/zh-CN/languages/javascript/) |
+| Java / Kotlin / Scala | [Java SDK](https://axisvela.github.io/praxo-core/zh-CN/languages/java/)、[Kotlin](https://axisvela.github.io/praxo-core/zh-CN/languages/kotlin/)、[Scala](https://axisvela.github.io/praxo-core/zh-CN/languages/scala/) |
+| .NET | [C# SDK](https://axisvela.github.io/praxo-core/zh-CN/languages/csharp/)、[Visual Basic 示例](docs/languages/visual-basic.md) |
+| 其他语言 | [完整语言实现目录](docs/zh-CN/languages/index.md) |
 
 源码发布、包管理器发布、一致性测试和生产验证是不同状态。请按各语言页面安装，
-并阅读[支持政策](docs/zh-CN/sdks/support.md)，不能从源码标签推断完整功能一致或包仓库可用。
+并阅读[支持政策](docs/zh-CN/languages/support.md)，不能从源码标签推断完整功能一致或包仓库可用。
 
 ## 可运行示例
 

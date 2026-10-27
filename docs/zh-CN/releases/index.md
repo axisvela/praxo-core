@@ -2,7 +2,7 @@
 
 当前框架核心版本为 `2.5.0`。升级前请查看对应发布说明与
 [兼容政策](../project/compatibility-policy.md)。SDK 和适配器独立版本化，分别见
-[SDK 支持政策](../sdks/support.md)和[适配器目录](../integrations/index.md)。
+[SDK 支持政策](../languages/support.md)和[适配器目录](../integrations/index.md)。
 
 | 核心版本 | 发布说明 |
 | --- | --- |

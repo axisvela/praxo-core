@@ -63,7 +63,7 @@ Go 表面仍受上述 `v2` 规则约束。多语言 SDK 是增量包，不改变
 `pkg/...` 冻结。
 
 参见[多语言 SDK 设计](../contributing/sdk-design.md)和
-[SDK 支持政策](../sdks/support.md)。
+[SDK 支持政策](../languages/support.md)。
 
 ## 兼容性测试
 

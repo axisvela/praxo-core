@@ -26,7 +26,7 @@ LEGACY_PATHS = {
     "15-plugin-trust-sbom.md": "security/plugin-trust.md",
     "16-compatibility-policy.md": "project/compatibility-policy.md",
     "17-multilingual-sdk.md": "contributing/sdk-design.md",
-    "18-multilingual-roadmap.md": "sdks/support.md",
+    "18-multilingual-roadmap.md": "languages/support.md",
     "19-language-expansion.md": "contributing/language-policy.md",
     "adapters.md": "integrations/index.md",
     "benchmarks.md": "project/benchmarks.md",
@@ -35,8 +35,15 @@ LEGACY_PATHS = {
     "documentation-index.md": "getting-started/index.md",
     "event-schema.md": "reference/events.md",
     "recipes.md": "guides/recipes.md",
-    "sdks.md": "sdks/index.md",
+    "sdks.md": "languages/index.md",
 }
+MOVED_LANGUAGE_PAGES = (
+    "index support go python typescript javascript java kotlin scala rust c cpp "
+    "csharp visual-basic php ruby perl lua dart swift julia r d zig cobol fortran "
+    "haskell shell powershell"
+).split()
+LEGACY_PATHS.update({f"sdks/{page}.md": f"languages/{page}.md"
+                     for page in MOVED_LANGUAGE_PAGES})
 
 
 def on_config(config):
@@ -45,6 +52,10 @@ def on_config(config):
     redirects.update({"zh-CN/" + old: "zh-CN/" + new
                       for old, new in LEGACY_PATHS.items()
                       if (ROOT / "docs/zh-CN" / new).exists()})
+    redirects.update({"zh-CN/sdks/" + page + ".md":
+                      urljoin(config.site_url, "zh-CN/languages/" + page + "/")
+                      for page in MOVED_LANGUAGE_PAGES
+                      if not (ROOT / "docs/zh-CN/languages" / (page + ".md")).exists()})
     return config
 
 

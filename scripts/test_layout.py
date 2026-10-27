@@ -62,7 +62,7 @@ class LayoutTests(unittest.TestCase):
             if len(cells) < 7 or cells[3] not in ("released", "in progress"):
                 continue
             slug = {"C++": "cpp", "C#": "csharp"}.get(cells[1], cells[1].lower().replace(" ", "-"))
-            path = "sdks/" + slug + ".md"
+            path = "languages/" + slug + ".md"
             self.assertTrue((ROOT / "docs" / path).is_file(), cells[1])
             self.assertIn(path, navigation)
 

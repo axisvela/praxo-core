@@ -1,9 +1,14 @@
-# Language SDKs
+# Language Implementations
 
 Choose your language, then follow its installation or source-build instructions.
 Go is the reference implementation; other implementations share the declared
 contract, not necessarily every Go feature. Read the [support policy](support.md)
 and the [canonical scope matrix](https://github.com/axisvela/praxo-core/blob/main/spec/languages.md).
+
+Framework is the default target for independently implemented, native-capable
+languages. Current Wire stages do not yet provide the full Framework; final
+wire-only scope requires documented technical limitations. See the
+[support policy](support.md) for the distinction between current scope and target.
 
 ## Native Implementations
 
@@ -43,9 +48,10 @@ and the [canonical scope matrix](https://github.com/axisvela/praxo-core/blob/mai
 
 ## Wire Candidates
 
-[Haskell](haskell.md) is an unreleased Wire implementation, with 24 vectors in
-three declared groups. It does not include an agent loop. Linux and Windows CI
-have passed; release review remains pending. No Hackage package or release tag is claimed.
+[Haskell](haskell.md) is an unreleased Wire-stage implementation targeting a
+native Framework, with 24 vectors in three declared groups. It does not currently
+include an agent loop. Linux and Windows CI have passed; release review remains
+pending. No Hackage package, release tag, or delivery date is claimed.
 
 Source tags, registry publication, conformance, and production verification are
 different states. A language page includes the source README so installation,

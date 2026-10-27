@@ -16,7 +16,7 @@ model providers and integrations. AxisVela products are not required.
 
 [Documentation](https://axisvela.github.io/praxo-core/) |
 [Quickstart](docs/getting-started/quickstart.md) |
-[Language SDKs](docs/sdks/index.md) |
+[Language Implementations](docs/languages/index.md) |
 [Examples](examples)
 
 ## Start With Go
@@ -67,16 +67,16 @@ Go is the reference implementation. SDKs share a normative contract in
 
 | Runtime | Start here |
 | --- | --- |
-| Go | [Install and quickstart](docs/sdks/go.md) |
-| Python | [Python SDK](https://axisvela.github.io/praxo-core/sdks/python/) |
-| TypeScript / JavaScript | [TypeScript SDK](https://axisvela.github.io/praxo-core/sdks/typescript/), [JavaScript sample](https://axisvela.github.io/praxo-core/sdks/javascript/) |
-| Java / Kotlin / Scala | [Java SDK](https://axisvela.github.io/praxo-core/sdks/java/), [Kotlin](https://axisvela.github.io/praxo-core/sdks/kotlin/), [Scala](https://axisvela.github.io/praxo-core/sdks/scala/) |
-| .NET | [C# SDK](https://axisvela.github.io/praxo-core/sdks/csharp/), [Visual Basic sample](docs/sdks/visual-basic.md) |
-| Other languages | [Complete SDK directory](docs/sdks/index.md) |
+| Go | [Install and quickstart](docs/languages/go.md) |
+| Python | [Python SDK](https://axisvela.github.io/praxo-core/languages/python/) |
+| TypeScript / JavaScript | [TypeScript SDK](https://axisvela.github.io/praxo-core/languages/typescript/), [JavaScript sample](https://axisvela.github.io/praxo-core/languages/javascript/) |
+| Java / Kotlin / Scala | [Java SDK](https://axisvela.github.io/praxo-core/languages/java/), [Kotlin](https://axisvela.github.io/praxo-core/languages/kotlin/), [Scala](https://axisvela.github.io/praxo-core/languages/scala/) |
+| .NET | [C# SDK](https://axisvela.github.io/praxo-core/languages/csharp/), [Visual Basic sample](docs/languages/visual-basic.md) |
+| Other languages | [Complete implementation directory](docs/languages/index.md) |
 
 Source releases, package-registry publication, conformance, and production
 verification are different states. Follow each language's installation
-instructions and [support policy](docs/sdks/support.md); do not infer full Go
+instructions and [support policy](docs/languages/support.md); do not infer full Go
 feature parity or registry availability from a source tag.
 
 ## Examples

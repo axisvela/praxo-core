@@ -36,13 +36,16 @@ this framework.
   a single file.
 - Do not add code comments unless asked.
 
-## Multilingual SDKs
+## Language Implementations
 
 - `spec/` is the normative contract for the Python, TypeScript, and Java SDKs.
 - Go remains the reference implementation; do not widen the `pkg/...` API for an
   SDK.
 - Keep independent implementations under `sdk/`, bridge wrappers under
   `bindings/`, and shared-runtime language samples under `examples/`.
+- Framework is the default target for native-capable languages. Wire is an
+  intermediate stage; final wire-only scope requires documented technical
+  limitations. Keep current capability claims separate from that target.
 - A wire change (JSON field, event, stream kind, plugin envelope, error code)
   must update `spec/` and is breaking for every SDK.
 - Add a parity row for every new contract symbol: `spec/parity.md` for the
@@ -50,7 +53,7 @@ this framework.
 - An SDK change is done only when its conformance vectors and parity linter
   pass.
 - Keep every SDK MIT; review dependency licenses before adopting one.
-- See `docs/contributing/sdk-design.md` and `docs/sdks/support.md`.
+- See `docs/contributing/sdk-design.md` and `docs/languages/support.md`.
 - New languages follow the tier model in `docs/contributing/language-policy.md`; do
   not hand-write a new agent loop without a named consumer.
 

@@ -22,4 +22,4 @@
 SDK 或适配器的源码标签不会自动完成包管理器发布。
 
 升级前查看[版本总览](../releases/index.md)、[兼容性](compatibility.md)和
-[SDK 支持政策](../sdks/support.md)。产品版本与框架版本独立。
+[SDK 支持政策](../languages/support.md)。产品版本与框架版本独立。

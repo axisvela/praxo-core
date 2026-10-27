@@ -189,7 +189,7 @@ contract.
 A wire rename, event change, stream-kind change, or plugin envelope change is
 breaking for every SDK, even if only one SDK ships it. See
 [Multilingual SDK design](../contributing/sdk-design.md) and the
-[SDK support policy](../sdks/support.md).
+[SDK support policy](../languages/support.md).
 
 ## Concurrency
 

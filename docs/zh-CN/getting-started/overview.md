@@ -42,7 +42,7 @@ Go 模块是参考实现。Python、TypeScript 和 Java SDK 共享 `spec/` 中�
 无关契约，并由同一套一致性测试强制执行。各语言 wire 形状完全相同；源码 API
 一对一映射，但使用符合语言习惯的名称。设计见
 [多语言 SDK 设计](../contributing/sdk-design.md)；实现类型、分发与限制见
-[SDK 支持政策](../sdks/support.md)。
+[SDK 支持政策](../languages/support.md)。
 
 ## 运行时插件平面
 

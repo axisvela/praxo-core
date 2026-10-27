@@ -6,7 +6,7 @@
 提供商和集成，不要求使用任何 AxisVela 产品。
 
 [快速开始](getting-started/quickstart.md){ .md-button .md-button--primary }
-[选择语言](sdks/index.md){ .md-button }
+[选择语言](languages/index.md){ .md-button }
 [GitHub](https://github.com/axisvela/praxo-core){ .md-button }
 
 ## 为什么选择 PRAXO-CORE
@@ -14,7 +14,7 @@
 - 通过明确的策略钩子与审批边界控制工具执行。
 - 使用检查点恢复任务，通过结构化事件观察执行过程。
 - 嵌入与提供商无关的模型、工具、记忆和沙箱契约。
-- 从 Go 参考实现开始，或选择范围明确的语言 SDK。
+- 从 Go 参考实现开始，或选择范围明确的语言实现。
 - 框架保持 MIT 许可，可选集成与核心分离。
 
 ## 从 Go 开始
@@ -24,7 +24,7 @@ go get github.com/axisvela/praxo-core/v2@v2.5.0
 ```
 
 通过[快速开始](getting-started/quickstart.md)连接 Ollama 或 OpenAI 兼容端点。
-其他语言请查看 [SDK 目录](sdks/index.md)。源码标签不等于已发布到包管理器。
+其他语言请查看[语言实现目录](languages/index.md)。源码标签不等于已发布到包管理器。
 
 ## 按目标阅读
 

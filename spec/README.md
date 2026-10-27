@@ -65,7 +65,7 @@ The Go runner is built first and is the authority for whether a vector is
 correct.
 
 See [Multilingual SDK design](../docs/contributing/sdk-design.md) and the
-[SDK support policy](../docs/sdks/support.md).
+[SDK support policy](../docs/languages/support.md).
 
 ## License
 

@@ -94,7 +94,7 @@ The Go surface remains covered by the `v2` rules above. Multilingual SDKs are
 additive packages and do not change the Go module path or the `pkg/...` freeze.
 
 See [Multilingual SDK design](../contributing/sdk-design.md) and the
-[SDK support policy](../sdks/support.md).
+[SDK support policy](../languages/support.md).
 
 ## Compatibility Tests
 

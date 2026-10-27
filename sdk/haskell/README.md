@@ -4,6 +4,8 @@ An unreleased, native Haskell implementation of the declared wire subset.
 It does not call Go or another SDK and does not implement an agent loop.
 
 - Implementation type: Wire, not Core.
+- Target: native Framework. The current Wire stage does not yet provide an
+  agent loop; starting one still requires a named consumer and maintenance owner.
 - Candidate package version: `0.1.0`; supported `SPEC_VERSION`: `0.2.0`.
 - Local gate: 24 shared vectors across toolcall, JSON Schema, and plugin groups,
   plus native regression tests and source API/parity checks.

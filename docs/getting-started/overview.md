@@ -44,7 +44,7 @@ SDKs share one language-neutral contract in `spec/`, enforced by a single
 conformance suite. Wire shapes are identical across languages; source APIs map
 one-to-one with idiomatic names. The design is in
 [SDK contract and design](../contributing/sdk-design.md); implementation types,
-distribution, and limitations are described in the [SDK support policy](../sdks/support.md).
+distribution, and limitations are described in the [SDK support policy](../languages/support.md).
 
 ## Runtime Plugin Plane
 

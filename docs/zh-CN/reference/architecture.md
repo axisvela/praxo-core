@@ -173,7 +173,7 @@ Java interface；`context.Context` 变成语言的取消原语；sentinel 错误
 
 wire 改名、事件变更、stream kind 变更或插件信封变更对所有 SDK 都是破坏性变更，
 即使只有一个 SDK 发布。参见[多语言 SDK 设计](../contributing/sdk-design.md)和
-[SDK 支持政策](../sdks/support.md)。
+[SDK 支持政策](../languages/support.md)。
 
 ## 并发
 

@@ -55,8 +55,8 @@ plugins:
             Recipes: 接入示例
             Multi-Agent: 多 Agent 模式
             Plugins: 插件编写
-            Language SDKs: 语言 SDK
-            SDK Directory: SDK 目录
+            Language Implementations: 语言实现
+            Implementation Directory: 实现目录
             Support Policy: 支持政策
             Integrations: 适配与生态
             Adapter Directory: 适配器目录
@@ -114,36 +114,36 @@ nav:
       - Recipes: guides/recipes.md
       - Multi-Agent: guides/multi-agent.md
       - Plugins: guides/plugins.md
-  - Language SDKs:
-      - SDK Directory: sdks/index.md
-      - Support Policy: sdks/support.md
-      - Go: sdks/go.md
-      - Python: sdks/python.md
-      - TypeScript: sdks/typescript.md
-      - JavaScript: sdks/javascript.md
-      - Java: sdks/java.md
-      - Kotlin: sdks/kotlin.md
-      - Scala: sdks/scala.md
-      - Rust: sdks/rust.md
-      - C: sdks/c.md
-      - C++: sdks/cpp.md
-      - C# / .NET: sdks/csharp.md
-      - Visual Basic: sdks/visual-basic.md
-      - PHP: sdks/php.md
-      - Ruby: sdks/ruby.md
-      - Perl: sdks/perl.md
-      - Lua: sdks/lua.md
-      - Dart: sdks/dart.md
-      - Swift: sdks/swift.md
-      - Julia: sdks/julia.md
-      - R: sdks/r.md
-      - D: sdks/d.md
-      - Zig: sdks/zig.md
-      - COBOL: sdks/cobol.md
-      - Fortran: sdks/fortran.md
-      - Haskell: sdks/haskell.md
-      - Shell: sdks/shell.md
-      - PowerShell: sdks/powershell.md
+  - Language Implementations:
+      - Implementation Directory: languages/index.md
+      - Support Policy: languages/support.md
+      - Go: languages/go.md
+      - Python: languages/python.md
+      - TypeScript: languages/typescript.md
+      - JavaScript: languages/javascript.md
+      - Java: languages/java.md
+      - Kotlin: languages/kotlin.md
+      - Scala: languages/scala.md
+      - Rust: languages/rust.md
+      - C: languages/c.md
+      - C++: languages/cpp.md
+      - C# / .NET: languages/csharp.md
+      - Visual Basic: languages/visual-basic.md
+      - PHP: languages/php.md
+      - Ruby: languages/ruby.md
+      - Perl: languages/perl.md
+      - Lua: languages/lua.md
+      - Dart: languages/dart.md
+      - Swift: languages/swift.md
+      - Julia: languages/julia.md
+      - R: languages/r.md
+      - D: languages/d.md
+      - Zig: languages/zig.md
+      - COBOL: languages/cobol.md
+      - Fortran: languages/fortran.md
+      - Haskell: languages/haskell.md
+      - Shell: languages/shell.md
+      - PowerShell: languages/powershell.md
   - Integrations:
       - Adapter Directory: integrations/index.md
       - Ecosystem: integrations/ecosystem.md

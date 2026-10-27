@@ -1,21 +1,38 @@
-# SDK Support Policy
+# Language Implementation Support
 
 Go is the reference implementation. The normative contract, implementation
 scope, source tags, and CI coverage are recorded in the
 [language support matrix](https://github.com/axisvela/praxo-core/blob/main/spec/languages.md).
 
-## Implementation Types
+## Framework Target
+
+The default target for every independently implemented language is a native
+Framework implementation of the shared core contract. Wire is an intermediate
+stage, not a permanent product category. A language remains wire-only as its
+final scope only when documented language or runtime technical limitations
+prevent a complete Framework implementation.
+
+An unavailable toolchain, unfinished work, low demand, or an unassigned
+maintainer is not evidence that a language cannot support Framework behavior.
+Consumer and maintenance gates control when work starts, not the final target.
+The target does not imply current availability, a delivery date, every optional
+Go integration, or production readiness.
+
+## Current Stages and Delivery Forms
 
 | Type | Meaning |
 | --- | --- |
-| Core | An implementation of the declared core contract, with shared behavior vectors |
-| Wire | Serialization and declared wire-level contract surfaces; no native agent loop implied |
+| Framework (`Core`) | Native framework behavior within the declared public scope, with shared behavior vectors |
+| Wire | An intermediate implementation of serialization and declared wire surfaces, progressing toward Framework |
 | Bridge | A client of the maintained runtime through a process or HTTP boundary |
-| Sample | Usage of another SDK, not an independent contract implementation |
+| Sample | Usage of an existing language implementation, not another independent runtime |
 
 Implementation type is not a stability rating or a promise of every Go feature.
 C currently exposes a wire-level public API despite its Core matrix classification.
-Read each SDK's limitations before adopting it.
+Read each implementation's current public API and limitations before adopting it.
+Bridge and Sample describe how users access a runtime, not proof that their
+languages are incapable of Framework support. Shared-runtime languages can
+reuse the host Framework rather than duplicate its agent loop.
 
 ## Versions and Distribution
 

@@ -20,7 +20,7 @@ dependencies = []
 
 [project.urls]
 Homepage = "https://github.com/axisvela/praxo-core"
-Documentation = "https://axisvela.github.io/praxo-core/sdks/python/"
+Documentation = "https://axisvela.github.io/praxo-core/languages/python/"
 Source = "https://github.com/axisvela/praxo-core/tree/main/sdk/python"
 
 [tool.setuptools.packages.find]

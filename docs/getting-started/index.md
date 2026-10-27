@@ -1,7 +1,7 @@
 # Start Here
 
 1. Read the [overview](overview.md) to understand the framework boundary.
-2. Choose [Go or a language SDK](../sdks/index.md).
+2. Choose [Go or a language SDK](../languages/index.md).
 3. Run the [quickstart](quickstart.md).
 4. Review the [adoption guide](adoption.md) before embedding it in a product.
 

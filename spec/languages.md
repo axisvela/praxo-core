@@ -4,19 +4,27 @@
 **Policy:** [Language implementation policy](../docs/contributing/language-policy.md)
 
 This page is the canonical list of language implementations and their declared
-scope. A language may ship more than one tier over time.
+scope. The table records current implementation stages and delivery forms, not
+permanent language categories.
+
+Framework is the default target for independently implemented languages that
+can support the shared core contract. Wire is an intermediate stage toward that
+target. A final wire-only scope requires documented language/runtime technical
+limitations and an explicit exception in the language's documentation and matrix.
+Missing tooling or unfinished work is not such a limitation. The target does not
+change today's scope, verification requirements, or release status.
 
 `released` records a source release, not package-registry publication or a
-production-readiness guarantee. Follow the [SDK support policy](../docs/sdks/support.md)
+production-readiness guarantee. Follow the [implementation support policy](../docs/languages/support.md)
 and each language's installation instructions. Implementation type does not
 imply every Go feature is available.
 
-## Tiers
+## Current Stages and Delivery Forms
 
 | Tier | Scope | Gate |
 | --- | --- | --- |
-| Core | Full contract: model, tool, event, policy, memory, checkpoint, context, middleware, agent | All 11 vector groups + API snapshot/parity |
-| Wire | Serialization, toolcall, JSON Schema, plugin manifest, events, checkpoint envelopes | Declared wire/subset vectors |
+| Core | Framework implementation of the declared core contract and public API | All 11 vector groups + API snapshot/parity |
+| Wire | Intermediate stage toward Framework; currently declared serialization and wire surfaces only | Declared wire/subset vectors |
 | Bridge | Process/stdio/HTTP client over a core runtime | Bridge contract tests |
 | Sample | Usage sample for another implementation | Compiles against that package |
 
@@ -38,7 +46,7 @@ imply every Go feature is available.
 | Swift | Core | released | `swift/v0.2.0` | 11 vectors, XCTest, API snapshot |
 | Julia | Core | released | `julia/v0.2.0` | 11 vectors, JSON.jl, API snapshot |
 | R | Core | released | `r/v0.2.0` | 11 vectors, base-R JSON, API snapshot |
-| Haskell | Wire | in progress | none | 24 vectors in 3 wire groups, native tests, API snapshot/parity; Linux/Windows CI verified, release review pending |
+| Haskell | Wire | in progress | none | Framework target; currently 24 vectors in 3 wire groups, native tests, API snapshot/parity; Linux/Windows CI verified, release review pending |
 | Fortran | Core | in progress | none | 11 vector groups, native tests, API snapshot; CI job verified, release review pending |
 | Lisp | Bridge | consumer-gated | none | Requires a named consumer |
 | JavaScript | Sample (TypeScript) | released | none | Uses the TypeScript package; no separate core |
@@ -47,7 +55,7 @@ imply every Go feature is available.
 | Ruby | Core | released | `ruby/v0.1.0` | 11 vectors, core tests, API snapshot |
 | Kotlin | Sample (JVM) | released | none | Uses the Java SDK |
 | Scala | Sample (JVM) | released | none | Uses the Java SDK |
-| MATLAB | Wire | planned | none | Wire subset |
+| MATLAB | Wire | planned | none | Framework target; initial wire stage planned |
 | Perl | Core | released | `perl/v0.1.0` | 11 vectors, 27 tests, API snapshot |
 | Delphi | Wire / Bridge | planned | none | Consumer-gated |
 | OCaml / Caml | Core | planned | none | Requires a consumer and maintenance owner before a native loop |
@@ -134,5 +142,5 @@ linter enforces only the declared tier.
 ## Related Documents
 
 - [Multilingual SDK design](../docs/contributing/sdk-design.md)
-- [SDK support policy](../docs/sdks/support.md)
+- [SDK support policy](../docs/languages/support.md)
 - [Language implementation policy](../docs/contributing/language-policy.md)

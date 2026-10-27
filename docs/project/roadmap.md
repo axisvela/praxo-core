@@ -16,7 +16,7 @@ delivery schedule or a promise that every SDK supports every feature.
 Keep the public Go API small, preserve the MIT boundary, and require consumers
 and tests for new contracts. SDKs must not widen the Go API merely to simplify
 a port. See [compatibility policy](compatibility-policy.md),
-[SDK support](../sdks/support.md), and [language policy](../contributing/language-policy.md).
+[SDK support](../languages/support.md), and [language policy](../contributing/language-policy.md).
 
 ## Delivered Work
 

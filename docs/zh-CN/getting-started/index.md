@@ -1,7 +1,7 @@
 # 阅读导览
 
 1. 阅读[概览](overview.md)，理解框架的职责与边界。
-2. 选择 [Go 或语言 SDK](../sdks/index.md)。
+2. 选择 [Go 或语言 SDK](../languages/index.md)。
 3. 运行[快速开始](quickstart.md)。
 4. 嵌入产品之前检查[采用指南](adoption.md)。
 

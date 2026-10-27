@@ -2,7 +2,7 @@ from html.parser import HTMLParser
 from pathlib import Path
 import re
 import unittest
-from urllib.parse import unquote, urlsplit
+from urllib.parse import unquote, urljoin, urlsplit
 
 import yaml
 
@@ -40,7 +40,7 @@ class DocumentationTests(unittest.TestCase):
         self.assertIn("[web](https://example.com/)", result)
 
     def test_sdk_sources_exist(self):
-        pages = list((ROOT / "docs/sdks").glob("*.md"))
+        pages = list((ROOT / "docs/languages").glob("*.md"))
         for page in pages:
             text = page.read_text(encoding="utf-8")
             if not text.startswith("---\n"):
@@ -55,6 +55,12 @@ class DocumentationTests(unittest.TestCase):
         for old, new in docs_hooks.LEGACY_PATHS.items():
             self.assertFalse((ROOT / "docs" / old).exists(), old)
             self.assertTrue((ROOT / "docs" / new).exists(), new)
+
+    def test_moved_language_redirects_cover_all_pages(self):
+        pages = {path.name for path in (ROOT / "docs/languages").glob("*.md")}
+        self.assertEqual(pages, {page + ".md" for page in docs_hooks.MOVED_LANGUAGE_PAGES})
+        for prefix in ("", "zh-CN/"):
+            self.assertFalse((ROOT / "docs" / prefix / "sdks").exists())
 
     def test_repository_document_links(self):
         sources = list((ROOT / "docs").rglob("*.md"))
@@ -85,15 +91,32 @@ class DocumentationTests(unittest.TestCase):
                         self.assertTrue(all(isinstance(value, str) for value in child.values()))
         releases = next(item["Releases"] for item in config["nav"] if "Releases" in item)
         self.assertEqual(len(releases), 3)
+        languages = next(item["Language Implementations"] for item in config["nav"] if "Language Implementations" in item)
+        self.assertEqual(languages[0], {"Implementation Directory": "languages/index.md"})
+        locales = config["plugins"][1]["i18n"]["languages"]
+        chinese = next(locale for locale in locales if locale["locale"] == "zh-CN")
+        self.assertEqual(chinese["nav_translations"]["Language Implementations"], "语言实现")
 
     def test_built_legacy_redirects(self):
         for prefix in ("", "zh-CN/"):
             for old, new in docs_hooks.LEGACY_PATHS.items():
-                if prefix and not (ROOT / "docs" / prefix / new).exists():
+                if prefix and not old.startswith("sdks/") and not (ROOT / "docs" / prefix / new).exists():
                     continue
-                redirect = ROOT / "site" / prefix / old.removesuffix(".md") / "index.html"
+                redirect = ROOT / "site" / prefix / old.removesuffix(".md")
+                redirect = redirect.with_suffix(".html") if old.endswith("/index.md") else redirect / "index.html"
                 self.assertTrue(redirect.is_file(), str(redirect))
-                self.assertIn('http-equiv="refresh"', redirect.read_text(encoding="utf-8"))
+                html = redirect.read_text(encoding="utf-8")
+                self.assertIn('http-equiv="refresh"', html)
+                if old.startswith("sdks/"):
+                    target = re.search(r'url=([^"\s]+)', html, re.IGNORECASE)
+                    self.assertIsNotNone(target, str(redirect))
+                    resolved = urljoin(redirect.relative_to(ROOT / "site").as_posix(), target.group(1))
+                    if urlsplit(resolved).netloc:
+                        resolved = urlsplit(resolved).path.removeprefix("/praxo-core/")
+                    expected = prefix + new.removesuffix(".md")
+                    expected = expected.removesuffix("/index") + "/" if new.endswith("/index.md") else expected + "/"
+                    self.assertEqual(resolved, expected)
+                    self.assertTrue((ROOT / "site" / resolved / "index.html").is_file(), resolved)
 
     def test_built_local_links(self):
         site = ROOT / "site"
@@ -120,7 +143,7 @@ class DocumentationTests(unittest.TestCase):
             self.assertTrue(any(item.get("hreflang") == "en" for item in parser.alternates))
             self.assertTrue(any(item.get("hreflang") == "zh-CN" for item in parser.alternates))
             self.assertIn('name="viewport"', home)
-            sdk = (ROOT / "site" / prefix / "sdks/python/index.html").read_text(encoding="utf-8")
+            sdk = (ROOT / "site" / prefix / "languages/python/index.html").read_text(encoding="utf-8")
             content = Links()
             content.feed(sdk)
             self.assertIn("pip install", "".join(content.text))

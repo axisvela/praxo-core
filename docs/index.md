@@ -8,7 +8,7 @@ abstraction, tool contracts, or execution boundaries. Use your own providers
 and integrations; AxisVela products are not required.
 
 [Quickstart](getting-started/quickstart.md){ .md-button .md-button--primary }
-[Choose Your Language](sdks/index.md){ .md-button }
+[Choose Your Language](languages/index.md){ .md-button }
 [GitHub](https://github.com/axisvela/praxo-core){ .md-button }
 
 ## Why PRAXO-CORE
@@ -16,7 +16,7 @@ and integrations; AxisVela products are not required.
 - Control tool execution through explicit policy hooks and approval boundaries.
 - Resume work with checkpoints and inspect execution through structured events.
 - Embed provider-neutral model, tool, memory, and sandbox contracts.
-- Start with Go or choose an SDK with a documented scope and conformance gate.
+- Start with Go or choose a language implementation with a documented scope and conformance gate.
 - Keep the framework MIT-licensed and optional integrations separate.
 
 ## Start With Go
@@ -27,7 +27,7 @@ go get github.com/axisvela/praxo-core/v2@v2.5.0
 
 Follow the [quickstart](getting-started/quickstart.md) to run an agent against
 Ollama or an OpenAI-compatible endpoint. For other languages, start with the
-[SDK directory](sdks/index.md); source tags do not imply package-registry availability.
+[language implementation directory](languages/index.md); source tags do not imply package-registry availability.
 
 ## Find What You Need
 

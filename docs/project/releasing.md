@@ -29,5 +29,5 @@ an SDK or adapter does not by itself publish a package-registry artifact.
 
 Use [release notes](../releases/index.md) to review changes, then follow the
 artifact's documented installation method. Check [compatibility](compatibility.md)
-and [SDK support](../sdks/support.md) before upgrading. Product release versions
+and [SDK support](../languages/support.md) before upgrading. Product release versions
 are independent from framework versions.

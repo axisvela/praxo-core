@@ -3,7 +3,7 @@
 Independent implementations of the PRAXO-CORE contract live in this directory.
 Go remains the reference implementation at the repository root.
 
-Start with the [SDK directory](../docs/sdks/index.md) for language-specific
+Start with the [SDK directory](../docs/languages/index.md) for language-specific
 installation, build instructions, and limitations, or the
 [language matrix](../spec/languages.md) for declared scope and source tags.
 
