@@ -74,13 +74,13 @@ production readiness or full Go feature parity.
 | Perl | Core | released | `perl/v0.1.0` | complete | 11 vectors, 27 tests, API snapshot |
 | Delphi | Wire | released | `delphi/v0.1.0` | partial | Framework target; Free Pascal 3.2.2 local toolcall/JSON Schema/plugin and agent-loop vectors; remote CI for loop and Delphi compiler pending |
 | OCaml / Caml | Core | released | `ocaml/v0.2.0` | complete | 11 vectors, native tests, API snapshot/parity; OCaml 4.14.2 bytecode; opt-in middleware integrated |
-| Objective-C | Core | released | `objc/v0.1.0` | partial | 11 vectors, native tests, API snapshot/parity; opt-in PII/structured output/call limits/tool selection are partial; Apple Foundation/macOS CI pending |
-| Elixir | Core | released | `elixir/v0.1.0` | partial | 11 vectors, native tests, API snapshot/parity; opt-in PII/structured output/call limits/tool selection are partial |
-| Nim | Core | released | `nim/v0.1.0` | partial | 11 vectors, native tests, API snapshot/parity; opt-in PII/structured output/call limits/tool selection are partial |
-| V | Core | released | `v/v0.1.0` | partial | 11 vectors, native tests, API snapshot/parity; opt-in PII/structured output/call limits/tool selection are partial |
+| Objective-C | Core | released | `objc/v0.1.0` | complete | 11 vectors, native tests, API snapshot/parity; opt-in middleware integrated; Windows GNUstep and macOS CI |
+| Elixir | Core | released | `elixir/v0.1.0` | complete | 11 vectors, native tests, API snapshot/parity; opt-in middleware integrated |
+| Nim | Core | released | `nim/v0.1.0` | complete | 11 vectors, native tests, API snapshot/parity; opt-in middleware integrated |
+| V | Core | released | `v/v0.1.0` | complete | 11 vectors, native tests, API snapshot/parity; opt-in middleware integrated |
 | D | Core | released | `d/v0.1.0` | complete | 11 vectors, API snapshot |
 | VBScript | Bridge | planned | none | planned | Bridge over .NET or the bridge CLI |
-| Erlang | Core | released | `erlang/v0.1.0` | partial | 11 vectors, native tests, API snapshot/parity; OTP 29; opt-in middleware partial |
+| Erlang | Core | released | `erlang/v0.1.0` | complete | 11 vectors, native tests, API snapshot/parity; OTP 29; opt-in middleware integrated |
 | Ada | Core | planned | none | planned | Native loop target; GNAT toolchain; consumer and maintainer required |
 | Mojo | Core | planned | none | planned | Native loop target; toolchain and CI maturity gate |
 | F# | Sample (.NET) | released | `csharp/v0.1.0` | sample | F# consumer sample in `examples/fsharp`; uses the C# SDK |
@@ -130,7 +130,7 @@ production readiness or full Go feature parity.
 | Haskell | `haskell-conformance` | 3 wire groups plus agent-loop vectors, native tests, source API/parity, Cabal build; source release tagged `haskell/v0.1.0`; remote CI for loop pending |
 | Delphi / Free Pascal | `delphi-conformance` | 3 wire groups plus agent-loop vectors, native tests, source API/parity; source release tagged `delphi/v0.1.0`; remote CI for loop and Delphi unverified |
 | OCaml | `ocaml-conformance` | 11 vectors, native tests, source API/parity; local OCaml 4.14.2 bytecode and Linux CI verified; source release tagged `ocaml/v0.2.0`; `ocamlopt` unverified |
-| Objective-C | `objc-conformance` | 11 vectors, native tests, source API/parity; local clang + GNUstep verified; macOS CI pending |
+| Objective-C | `objc-conformance` | 11 vectors, native tests, source API/parity; local clang + GNUstep verified; macOS CI verified |
 | Elixir | `elixir-conformance` | 11 vectors, API snapshot, tests; OTP 29 + Elixir 1.20.4 |
 | Erlang | `erlang-conformance` | 11 vectors, native tests, API snapshot/parity; OTP 29 |
 | Nim | `nim-conformance` | 11 vectors, API snapshot, tests; Nim 2.2.12 |

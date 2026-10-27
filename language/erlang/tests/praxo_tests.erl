@@ -21,6 +21,8 @@ run() ->
     test_fallback_state(),
     test_custom_model(),
     test_custom_model_error(),
+    test_agent_pii(),
+    test_agent_structured(),
     test_agent_limits(),
     io:format("erlang tests passed~n").
 
@@ -456,6 +458,94 @@ test_custom_model_error() ->
         <<"use">>
     ),
     check(maps:get(output, Result) == <<"recovered">>, <<"custom model fallback">>).
+
+test_agent_pii() ->
+    Parent = self(),
+    Tool = praxo_agent:new_tool(<<"echo">>, <<"Echo">>, fun(Arguments) ->
+        Parent ! {arguments, Arguments},
+        #{<<"nested">> => [<<"a@b.com">>, #{<<"ssn">> => <<"123-45-6789">>}]}
+    end),
+    Model = fun Loop(Request) ->
+        Parent ! {request, Request},
+        case length(maps:get(messages, Request)) of
+            3 ->
+                {ok, praxo_models:response(
+                    praxo_models:message_assistant(<<"a@b.com">>, [
+                        praxo_models:tool_call(<<"c">>, <<"echo">>, #{<<"email">> => <<"a@b.com">>})
+                    ])
+                ), Loop};
+            _ ->
+                {ok, praxo_models:response(praxo_models:message_assistant(<<"a@b.com">>)), Loop}
+        end
+    end,
+    History = (praxo_models:message(<<"user">>, <<"a@b.com">>))#{
+        content_blocks => [praxo_models:content_block(<<"text">>, <<"123-45-6789">>)]
+    },
+    Options0 = praxo_agent:new_agent_options(Model),
+    Options = Options0#{
+        tools => [Tool],
+        system_prompt => <<"a@b.com">>,
+        pii => true
+    },
+    {ok, Result, _} = praxo_agent:run_agent(
+        Options,
+        praxo_models:session(<<"s1">>, [History]),
+        <<"a@b.com">>
+    ),
+    check(maps:get(output, Result) == <<"a@b.com">>, <<"pii final output">>),
+    receive
+        {request, FirstRequest} ->
+            [System, Past, Prompt] = maps:get(messages, FirstRequest),
+            check(maps:get(content, System) == <<"[REDACTED:email]">>, <<"pii system">>),
+            check(maps:get(content, Past) == <<"[REDACTED:email]">>, <<"pii history">>),
+            check(maps:get(content, Prompt) == <<"[REDACTED:email]">>, <<"pii prompt">>),
+            [Block] = maps:get(content_blocks, Past),
+            check(maps:get(text, Block) == <<"[REDACTED:ssn]">>, <<"pii block">>)
+    after 0 -> erlang:error(<<"missing pii request">>) end,
+    receive
+        {arguments, Arguments} ->
+            check(maps:get(<<"email">>, Arguments) == <<"a@b.com">>, <<"pii tool arguments">>)
+    after 0 -> erlang:error(<<"missing tool arguments">>) end,
+    receive
+        {request, SecondRequest} ->
+            Messages = maps:get(messages, SecondRequest),
+            Assistant = lists:nth(4, Messages),
+            check(maps:get(content, Assistant) == <<"[REDACTED:email]">>, <<"pii assistant">>),
+            {ok, Value} = praxo_json:parse(maps:get(content, lists:last(Messages))),
+            check(
+                praxo_json:equals(
+                    Value,
+                    #{<<"nested">> => [<<"[REDACTED:email]">>, #{<<"ssn">> => <<"[REDACTED:ssn]">>}]}
+                ),
+                <<"pii tool result">>
+            )
+    after 0 -> erlang:error(<<"missing second pii request">>) end,
+    check(maps:get(content, History) == <<"a@b.com">>, <<"pii session unchanged">>).
+
+test_agent_structured() ->
+    Schema = #{
+        <<"type">> => <<"object">>,
+        <<"required">> => [<<"name">>],
+        <<"properties">> => #{<<"name">> => #{<<"type">> => <<"string">>}}
+    },
+    Config = praxo_middleware:structured_output(
+        Schema,
+        1,
+        fun(_) -> {ok, <<"{\"name\":\"fixed\"}">>} end
+    ),
+    Options0 = praxo_agent:new_agent_options(praxo_agent:static_model(<<"bad">>)),
+    {ok, Result, _} = praxo_agent:run_agent(
+        Options0#{structured_output => Config},
+        praxo_models:session(<<"s1">>),
+        <<"x">>
+    ),
+    check(maps:get(output, Result) == <<"{\"name\":\"fixed\"}">>, <<"structured repair">>),
+    NoRepair = praxo_middleware:structured_output(Schema, 0),
+    {error, <<"AGENT_STRUCTURED_OUTPUT">>, _} = praxo_agent:run_agent(
+        Options0#{structured_output => NoRepair},
+        praxo_models:session(<<"s1">>),
+        <<"x">>
+    ).
 
 test_agent_limits() ->
     put(tool_invocations, 0),

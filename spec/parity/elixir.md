@@ -3,17 +3,16 @@
 - Tier: core
 - SPEC_VERSION: 0.2.0
 
-Released source tag `elixir/v0.1.0` includes a core loop. It passes all eleven
-vector groups, its tests, and its public API snapshot. These results do not
-establish full Core parity or production readiness. The agent can opt into PII
-redaction, structured output, call limits, and tool selection; the
-implementations remain partial. A synchronous
-function can serve as a consumer-supplied model and participate in fallback. It
-returns `{:ok, response}` or `{:error, code}`; provider state is managed
-externally, and exceptions and malformed returns are not converted to model
-errors. Built-in provider configuration, streaming, and plugin hosts are not
-provided. `partial` marks these and other incomplete surfaces.
-Erlang has its own native Core loop under `language/erlang`.
+Released source tag `elixir/v0.1.0` ships the core loop. The SDK passes all
+eleven vector groups, its tests, and its public API snapshot. The agent
+integrates opt-in PII redaction, structured output, call limits, and tool
+selection; fallback models are supported. `partial` marks a surface that covers
+the vector behavior and common path but not every optional Go hook or provider
+adapter. Built-in provider configuration, streaming, and plugin hosts are not
+provided. A synchronous function can serve as a consumer-supplied model and
+participate in fallback; provider state is managed externally and exceptions are
+not converted to model errors. Erlang has its own native Core loop under
+`language/erlang`.
 
 Local tests, conformance, and the API snapshot passed with Elixir 1.20.4 and
 Erlang/OTP 29. The `elixir-conformance` remote job passed for the integrated
@@ -46,8 +45,8 @@ middleware commit. Toolchain and check instructions are recorded in
 | `toolcall.ParseInputJSON` | `Praxo.ToolCallParser.parse_input_json` | parity | P1 |
 | `tool/jsonschema.Schema` | `Praxo.JsonSchema.validate` | partial | P1 |
 | `plugin.ParseManifest` | `Praxo.Plugin.parse_manifest` | parity | P1 |
-| `agent/middleware.CallLimitMiddleware` | `Praxo.Middleware.call_limit` | partial | P1 |
-| `agent/middleware.FallbackModel` | `Praxo.Agent.fallback_model` | partial | P1 |
-| `agent/middleware.PIIMiddleware` | `Praxo.Middleware.pii_redact` | partial | P1 |
-| `agent/middleware.StructuredOutput` | `Praxo.StructuredOutput` | partial | P1 |
-| `agent/middleware.ToolSelectionMiddleware` | `Praxo.Middleware.tool_selection` | partial | P1 |
+| `agent/middleware.CallLimitMiddleware` | `Praxo.Middleware.call_limit` | parity | P1 |
+| `agent/middleware.FallbackModel` | `Praxo.Agent.fallback_model` | parity | P1 |
+| `agent/middleware.PIIMiddleware` | `Praxo.Middleware.pii_redact` | parity | P1 |
+| `agent/middleware.StructuredOutput` | `Praxo.StructuredOutput` | parity | P1 |
+| `agent/middleware.ToolSelectionMiddleware` | `Praxo.Middleware.tool_selection` | parity | P1 |

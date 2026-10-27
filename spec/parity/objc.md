@@ -4,12 +4,12 @@
 - SPEC_VERSION: 0.2.0
 
 Released source tag `objc/v0.1.0`. Local validation uses clang 21.1.8 with
-GNUstep Base 1.31.1 on Windows and covers all eleven vector groups, native
-tests, and the public declaration snapshot. Apple Foundation and macOS local
-verification remain pending. These results do not establish full Core parity or
-production readiness. The agent can opt into PII redaction, structured output,
-call limits, and tool selection; `partial` marks these and other incomplete
-surfaces.
+GNUstep Base 1.31.1 on Windows and the macOS CI job runs the same suite. Both
+cover all eleven vector groups, native tests, and the public declaration
+snapshot. The agent integrates opt-in PII redaction, structured output, call
+limits, and tool selection; fallback models are supported. `partial` marks a
+surface that covers the vector behavior and common path but not every optional
+Go hook or provider adapter.
 
 | Go symbol | Objective-C symbol | Status | Phase |
 | --- | --- | --- | --- |
@@ -37,11 +37,11 @@ surfaces.
 | `toolcall.ParseInputJSON` | `PXRParseInputJSON` | parity | P1 |
 | `tool/jsonschema.Schema` | `PXRValidateSchema` | partial | P1 |
 | `plugin.ParseManifest` | `PXRParseManifest` | parity | P1 |
-| `agent/middleware.CallLimitMiddleware` | `PXRCallLimitCreate` | partial | P1 |
+| `agent/middleware.CallLimitMiddleware` | `PXRCallLimitCreate` | parity | P1 |
 | `agent/middleware.FallbackModel` | `PXRModelCreateFallback` | parity | P1 |
-| `agent/middleware.PIIMiddleware` | `PXRPIIRedact` | partial | P1 |
-| `agent/middleware.StructuredOutput` | `PXRStructuredOutputCreate` | partial | P1 |
-| `agent/middleware.ToolSelectionMiddleware` | `PXRToolSelectionCreate` | partial | P1 |
+| `agent/middleware.PIIMiddleware` | `PXRPIIRedact` | parity | P1 |
+| `agent/middleware.StructuredOutput` | `PXRStructuredOutputCreate` | parity | P1 |
+| `agent/middleware.ToolSelectionMiddleware` | `PXRToolSelectionCreate` | parity | P1 |
 
 The JSON, path, pattern, and policy helpers are implementation utilities. See
 `language/objc/README.md` for runtime, Unicode, regex, and security limits.

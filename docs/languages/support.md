@@ -58,12 +58,13 @@ reuse the host Framework rather than duplicate its agent loop.
 - Elixir, Nim, V, and Objective-C have source tags `elixir/v0.1.0`,
   `nim/v0.1.0`, `v/v0.1.0`, and `objc/v0.1.0`. They include all eleven vector
   groups, native tests, and API snapshots. Package-registry publication,
-  production readiness, and complete Go parity are not claimed; opt-in
-  middleware surfaces remain partial.
+  production readiness, and complete Go parity are not claimed; optional Go
+  hooks and provider adapters are not included.
 - Erlang has source tag `erlang/v0.1.0` with a native BEAM Core loop, eleven
   vector groups, native tests, and an API snapshot/parity inventory. Package
   registries, provider adapters, streaming, and production readiness are not
-  claimed; opt-in middleware surfaces remain partial.
+  claimed; opt-in middleware is integrated, while optional Go hooks are not
+  included.
 - Lisp has source tag `lisp/v0.1.0` for the SBCL bridge over the bridge CLI. It
   does not provide a native Lisp loop; forwarding, UTF-8, error, and exit-code
   checks pass locally and in Linux CI. Consumer details and package-registry

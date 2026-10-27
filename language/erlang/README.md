@@ -54,7 +54,7 @@ This is a source declaration check, not a binary ABI promise. Regenerate it with
 - No provider adapter, streaming runtime, plugin host, or persistent session
   store is provided. The loop is synchronous and executes tools serially.
 - PII redaction, structured output, per-run call limits, and tool selection are
-  opt-in and marked partial in the parity inventory.
+  opt-in and integrated into the agent loop.
 - Path checks are lexical and do not resolve symlinks or reparse points; they
   are not an OS containment boundary.
 - Model and tool callbacks are caller-supplied functions. Callback exceptions

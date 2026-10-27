@@ -3,15 +3,14 @@
 - Tier: core
 - SPEC_VERSION: 0.2.0
 
-Released source tag `nim/v0.1.0` includes a core loop. It passes all eleven
-vector groups, its tests, and its public API snapshot. These results do not
-establish full Core parity or production readiness. The agent can opt into PII
-redaction, structured output, call limits, and tool selection; the
-implementations remain partial.
+Released source tag `nim/v0.1.0` ships the core loop. The SDK passes all eleven
+vector groups, its tests, and its public API snapshot. The agent integrates
+opt-in PII redaction, structured output, call limits, and tool selection.
 `callbackModel` accepts a synchronous consumer closure from `Request` to
-`Response`; catchable errors propagate and can trigger `fallbackModel`. Built-in
-provider integrations, streaming wire encodings, and plugin hosts are not
-provided. `partial` marks these and other incomplete surfaces.
+`Response`; catchable errors propagate and can trigger `fallbackModel`.
+`partial` marks a surface that covers the vector behavior and common path but
+not every optional Go hook or provider adapter. Built-in provider integrations,
+streaming wire encodings, and plugin hosts are not provided.
 
 | Go symbol | Nim symbol | Status | Phase |
 | --- | --- | --- | --- |
@@ -39,8 +38,8 @@ provided. `partial` marks these and other incomplete surfaces.
 | `toolcall.ParseInputJSON` | `parseInputJson` | parity | P1 |
 | `tool/jsonschema.Schema` | `validateSchema` | partial | P1 |
 | `plugin.ParseManifest` | `parseManifest` | parity | P1 |
-| `agent/middleware.CallLimitMiddleware` | `callLimit` | partial | P1 |
-| `agent/middleware.FallbackModel` | `fallbackModel` | partial | P1 |
-| `agent/middleware.PIIMiddleware` | `piiRedact` | partial | P1 |
-| `agent/middleware.StructuredOutput` | `StructuredOutput` | partial | P1 |
-| `agent/middleware.ToolSelectionMiddleware` | `toolSelection` | partial | P1 |
+| `agent/middleware.CallLimitMiddleware` | `callLimit` | parity | P1 |
+| `agent/middleware.FallbackModel` | `fallbackModel` | parity | P1 |
+| `agent/middleware.PIIMiddleware` | `piiRedact` | parity | P1 |
+| `agent/middleware.StructuredOutput` | `StructuredOutput` | parity | P1 |
+| `agent/middleware.ToolSelectionMiddleware` | `toolSelection` | parity | P1 |

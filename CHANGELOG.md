@@ -4,6 +4,8 @@
 
 ### Added
 
+- Marked the Elixir, Nim, V, Objective-C, and Erlang Core SDKs complete after
+  their integrated middleware surfaces passed their tests and CI jobs.
 - Promoted OCaml to a native Core SDK with integrated PII, structured output,
   call limits, and tool selection; released source tag `ocaml/v0.2.0`.
 - Added an OpenCL sample in `examples/opencl` that uses the C SDK and an OpenCL

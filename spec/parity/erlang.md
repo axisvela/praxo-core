@@ -3,14 +3,14 @@
 - Tier: core
 - SPEC_VERSION: 0.2.0
 
-Released source tag `erlang/v0.1.0` includes a native core loop on Erlang/OTP 29.
-It passes all eleven vector groups, native tests, and the public API snapshot.
-These results do not establish full Core parity or production readiness. The
-agent can opt into PII redaction, structured output, call limits, and tool
-selection; those surfaces remain partial. A synchronous function can serve as a
-consumer-supplied model and participate in fallback. Built-in provider
-configuration, streaming, and plugin hosts are not provided. `partial` marks
-these and other incomplete surfaces.
+Released source tag `erlang/v0.1.0` ships a native core loop on Erlang/OTP 29.
+The SDK passes all eleven vector groups, native tests, and the public API
+snapshot. The agent integrates opt-in PII redaction, structured output, call
+limits, and tool selection; fallback models are supported. `partial` marks a
+surface that covers the vector behavior and common path but not every optional Go
+hook or provider adapter. Built-in provider configuration, streaming, and plugin
+hosts are not provided. A synchronous function can serve as a consumer-supplied
+model and participate in fallback.
 
 | Go symbol | Erlang symbol | Status | Phase |
 | --- | --- | --- | --- |
@@ -38,8 +38,8 @@ these and other incomplete surfaces.
 | `toolcall.ParseInputJSON` | `praxo_toolcall.parse_input_json/1` | parity | P1 |
 | `tool/jsonschema.Schema` | `praxo_jsonschema.validate/2` | partial | P1 |
 | `plugin.ParseManifest` | `praxo_plugin.parse_manifest/1` | parity | P1 |
-| `agent/middleware.CallLimitMiddleware` | `praxo_middleware.call_limit/2` | partial | P1 |
-| `agent/middleware.FallbackModel` | `praxo_agent.fallback_model/2` | partial | P1 |
-| `agent/middleware.PIIMiddleware` | `praxo_middleware.pii_redact/1` | partial | P1 |
-| `agent/middleware.StructuredOutput` | `praxo_middleware.structured_output/3` | partial | P1 |
-| `agent/middleware.ToolSelectionMiddleware` | `praxo_middleware.tool_selection/1` | partial | P1 |
+| `agent/middleware.CallLimitMiddleware` | `praxo_middleware.call_limit/2` | parity | P1 |
+| `agent/middleware.FallbackModel` | `praxo_agent.fallback_model/2` | parity | P1 |
+| `agent/middleware.PIIMiddleware` | `praxo_middleware.pii_redact/1` | parity | P1 |
+| `agent/middleware.StructuredOutput` | `praxo_middleware.structured_output/3` | parity | P1 |
+| `agent/middleware.ToolSelectionMiddleware` | `praxo_middleware.tool_selection/1` | parity | P1 |
