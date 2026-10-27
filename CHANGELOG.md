@@ -13,6 +13,8 @@
   Elixir, Nim, V, and Objective-C SDKs, with boundary regressions.
 - Use collision-resistant run IDs in the Elixir, Nim, and V agent loops, with
   regression tests for rapid successive runs.
+- Add a Tcl bridge wrapper over the maintained bridge CLI, with forwarding,
+  UTF-8, error, and exit-code tests.
 - Opt-in PII redaction, structured-output validation, and per-run model/tool
   call limits in the Elixir, Nim, V, and Objective-C agent loops.
 - Opt-in agent tool selection in the Elixir, Nim, V, and Objective-C

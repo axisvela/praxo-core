@@ -52,6 +52,9 @@ reuse the host Framework rather than duplicate its agent loop.
   production readiness, and complete Go parity are not claimed; opt-in
   middleware surfaces remain partial. Erlang shares the Elixir BEAM runtime and
   does not add another loop.
+- Tcl has a Bridge wrapper over the bridge CLI. It does not provide a native
+  Tcl loop; local forwarding, UTF-8, error, and exit-code tests pass, while
+  remote CI and release are pending.
 
 ## Feature Boundaries
 

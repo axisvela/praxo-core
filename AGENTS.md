@@ -109,6 +109,7 @@ v -o build/praxo-v-conformance language/v/conformance/run.v
 v -o build/praxo-v-tests language/v/tests/run.v
 ./build/praxo-v-tests
 python bindings/lisp/test_bridge.py
+python bindings/tcl/test_bridge.py
 cd language/c; cmake -S . -B build; cmake --build build; ctest --test-dir build --output-on-failure
 cd language/csharp; dotnet build Praxo.Core/Praxo.Core.csproj
 cd language/csharp; dotnet run --project Praxo.Conformance

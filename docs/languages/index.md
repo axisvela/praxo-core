@@ -52,6 +52,7 @@ wire-only scope requires documented technical limitations. See the
 | Shell | [Runtime bridge](shell.md) |
 | PowerShell | [Runtime bridge](powershell.md) |
 | Lisp | [SBCL runtime bridge](lisp.md) |
+| Tcl | [Runtime bridge](tcl.md) |
 
 ## Wire Candidates
 

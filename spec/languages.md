@@ -76,7 +76,7 @@ imply every Go feature is available.
 | J# | Sample (.NET) | consumer-gated | none | Legacy J# runtime and toolchain are unsupported; requires a named consumer and compatible .NET path |
 | FoxPro | Bridge | planned | none | Bridge over the maintained runtime; Visual FoxPro is Windows-only and legacy |
 | Classic Visual Basic | Bridge | planned | none | Bridge over the .NET SDK or bridge CLI; VB6 cannot consume modern .NET directly |
-| TCL | Core | planned | none | Native loop target; Tcl toolchain and named consumer/maintainer required |
+| TCL | Bridge | in progress | none | Framework target; Tcl 8.6 wrapper over the bridge CLI; local forwarding, UTF-8, errors, and exit codes tested; remote CI pending |
 | Q | Bridge | planned | none | Requires a licensed kdb+/q runtime and a named consumer |
 | Assembly | Bridge / extension | consumer-gated | none | No portable language or ABI; target-specific binding requires a named consumer |
 | Zig | Core | released | `zig/v0.2.0` | 11 vectors, API snapshot; `zig/v0.1.0` remains wire |
@@ -120,6 +120,7 @@ imply every Go feature is available.
 | Nim | `nim-conformance` | 11 vectors, API snapshot, tests; Nim 2.2.12 |
 | V | `v-conformance` | 11 vectors, API snapshot, tests; V 0.5.2 |
 | Lisp | `lisp-bridge` | forwarding, UTF-8 JSON, errors, exit codes; local SBCL 2.6.9 and Linux CI verified |
+| Tcl | `tcl-bridge` | forwarding, UTF-8 JSON, errors, exit codes; local Tcl 8.6 |
 | MATLAB / Octave | `matlab-wire` | Octave: 3 wire groups plus agent-loop vectors, native tests, source API/parity; remote CI for loop and MATLAB unverified |
 | Further languages | none yet | planned; gate depends on declared tier |
 

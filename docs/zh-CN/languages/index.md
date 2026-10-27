@@ -50,6 +50,7 @@
 | Shell | [运行时桥接](shell.md) |
 | PowerShell | [运行时桥接](powershell.md) |
 | Lisp | [SBCL 运行时桥接](lisp.md) |
+| Tcl | [运行时桥接](tcl.md) |
 
 ## Wire 候选实现
 

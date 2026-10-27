@@ -7,5 +7,6 @@ implement another agent loop. Use a prebuilt executable through
 - [Shell wrapper](shell/README.md)
 - [PowerShell module](powershell/README.md)
 - [Lisp bridge](lisp/README.md)
+- [Tcl bridge](tcl/README.md)
 - [Bridge contract](../spec/bridge.md)
 - [Source path migration](../docs/project/repository-layout.md)

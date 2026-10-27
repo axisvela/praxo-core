@@ -152,6 +152,7 @@ nav:
       - Nim: languages/nim.md
       - V: languages/v.md
       - Lisp: languages/lisp.md
+      - Tcl: languages/tcl.md
       - Shell: languages/shell.md
       - PowerShell: languages/powershell.md
   - Integrations:
