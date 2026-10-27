@@ -48,7 +48,7 @@ imply every Go feature is available.
 | R | Core | released | `r/v0.2.0` | 11 vectors, base-R JSON, API snapshot |
 | Haskell | Wire | released | `haskell/v0.1.0` | Framework target; 3 wire groups plus agent-loop vectors; Linux/Windows CI for wire groups; remote CI for loop pending |
 | Fortran | Core | released | `fortran/v0.1.0` | 11 vector groups, native tests, API snapshot; source tag only; partial surfaces documented |
-| Lisp | Bridge | in progress | none | SBCL bridge verified locally (forwarding, UTF-8, errors, exit codes) and in Linux CI; consumer reported, details pending |
+| Lisp | Bridge | released | `lisp/v0.1.0` | SBCL bridge over the bridge CLI; forwarding, UTF-8, errors, and exit codes verified locally and in Linux CI; consumer details pending |
 | JavaScript | Sample (TypeScript) | released | none | Uses the TypeScript package; no separate core |
 | C++ | Core | released | `cpp/v0.1.0` | 11 vectors, core tests, API snapshot |
 | Dart | Core | released | `dart/v0.1.0` | 11 vectors, core tests, API snapshot |
@@ -76,7 +76,7 @@ imply every Go feature is available.
 | J# | Sample (.NET) | consumer-gated | none | Legacy J# runtime and toolchain are unsupported; requires a named consumer and compatible .NET path |
 | FoxPro | Bridge | planned | none | Bridge over the maintained runtime; Visual FoxPro is Windows-only and legacy |
 | Classic Visual Basic | Bridge | planned | none | Bridge over the .NET SDK or bridge CLI; VB6 cannot consume modern .NET directly |
-| TCL | Bridge | in progress | none | Framework target; Tcl 8.6 wrapper over the bridge CLI; local forwarding, UTF-8, errors, and exit codes tested; remote CI pending |
+| TCL | Bridge | released | `tcl/v0.1.0` | Framework target; Tcl 8.6 wrapper over the bridge CLI; local forwarding, UTF-8, errors, and exit codes tested; remote CI pending |
 | Q | Bridge | planned | none | Requires a licensed kdb+/q runtime and a named consumer |
 | Assembly | Bridge / extension | consumer-gated | none | No portable language or ABI; target-specific binding requires a named consumer |
 | Zig | Core | released | `zig/v0.2.0` | 11 vectors, API snapshot; `zig/v0.1.0` remains wire |
@@ -119,8 +119,8 @@ imply every Go feature is available.
 | Elixir | `elixir-conformance` | 11 vectors, API snapshot, tests; OTP 29 + Elixir 1.20.4 |
 | Nim | `nim-conformance` | 11 vectors, API snapshot, tests; Nim 2.2.12 |
 | V | `v-conformance` | 11 vectors, API snapshot, tests; V 0.5.2 |
-| Lisp | `lisp-bridge` | forwarding, UTF-8 JSON, errors, exit codes; local SBCL 2.6.9 and Linux CI verified |
-| Tcl | `tcl-bridge` | forwarding, UTF-8 JSON, errors, exit codes; local Tcl 8.6 |
+| Lisp | `lisp-bridge` | forwarding, UTF-8 JSON, errors, exit codes; local SBCL 2.6.9 and Linux CI verified; source release tagged `lisp/v0.1.0` |
+| Tcl | `tcl-bridge` | forwarding, UTF-8 JSON, errors, exit codes; local Tcl 8.6; source release tagged `tcl/v0.1.0` |
 | MATLAB / Octave | `matlab-wire` | Octave: 3 wire groups plus agent-loop vectors, native tests, source API/parity; source release tagged `matlab/v0.1.0`; remote CI for loop and MATLAB unverified |
 | Further languages | none yet | planned; gate depends on declared tier |
 

@@ -3,10 +3,10 @@
 - Tier: bridge
 - SPEC_VERSION: 0.2.0
 
-Unreleased Common Lisp bridge over the maintained runtime. Local SBCL 2.6.9
-checks cover forwarding, UTF-8 JSON, error output, and exit codes. Linux CI and
-consumer evidence remain pending. These rows cover the bridge command surface,
-not an independent agent loop.
+Released source tag `lisp/v0.1.0`. This is a Common Lisp bridge over the
+maintained runtime. Local SBCL 2.6.9 checks and Linux CI cover forwarding, UTF-8
+JSON, error output, and exit codes. Consumer evidence remains pending. These
+rows cover the bridge command surface, not an independent agent loop.
 
 | Go symbol | Lisp symbol | Status | Phase |
 | --- | --- | --- | --- |

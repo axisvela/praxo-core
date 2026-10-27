@@ -57,9 +57,14 @@ reuse the host Framework rather than duplicate its agent loop.
   production readiness, and complete Go parity are not claimed; opt-in
   middleware surfaces remain partial. Erlang shares the Elixir BEAM runtime and
   does not add another loop.
-- Tcl has a Bridge wrapper over the bridge CLI. It does not provide a native
-  Tcl loop; local forwarding, UTF-8, error, and exit-code tests pass, while
-  remote CI and release are pending.
+- Lisp has source tag `lisp/v0.1.0` for the SBCL bridge over the bridge CLI. It
+  does not provide a native Lisp loop; forwarding, UTF-8, error, and exit-code
+  checks pass locally and in Linux CI. Consumer details and package-registry
+  publication remain pending.
+- Tcl has source tag `tcl/v0.1.0` for the Bridge wrapper over the bridge CLI. It
+  does not provide a native Tcl loop; local forwarding, UTF-8, error, and
+  exit-code tests pass, while remote CI and package-registry publication remain
+  pending.
 
 ## Feature Boundaries
 

@@ -1,9 +1,9 @@
 # Lisp Bridge (SBCL)
 
-An unreleased Common Lisp bridge over the maintained `praxo-bridge` runtime. It
-does not implement another agent loop or duplicate model, tool, policy, or
-plugin behavior. Local validation uses SBCL 2.6.9 on Windows; Linux CI is
-configured but remote evidence remains pending.
+A Common Lisp bridge with source tag `lisp/v0.1.0` over the maintained
+`praxo-bridge` runtime. It does not implement another agent loop or duplicate
+model, tool, policy, or plugin behavior. Local validation uses SBCL 2.6.9 on
+Windows, and the Linux CI job covers the bridge.
 
 ## Run
 
@@ -45,8 +45,8 @@ JSON over stdin, checks JSON output, and verifies exit-code propagation.
   [`spec/bridge.md`](../../spec/bridge.md). No separate Lisp wire codec is
   claimed.
 - A consumer was reported by the maintainer, but the consumer identity and
-  production evidence are not yet recorded. No release tag or package-registry
-  publication is claimed.
+  production evidence are not yet recorded. The source tag does not establish
+  package-registry publication or production readiness.
 
 The source is MIT; see [LICENSE](../../LICENSE). SBCL is a separate runtime,
 not vendored code.

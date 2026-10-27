@@ -1,9 +1,9 @@
 # PRAXO Bridge for TCL
 
-TCL is a Bridge over the maintained Go runtime. The wrapper forwards arguments
-and stdin to `praxo-bridge`, preserves stdout and stderr, and propagates the
-bridge exit code. It does not implement an agent loop, provider adapter, or
-plugin host.
+TCL is a Bridge with source tag `tcl/v0.1.0` over the maintained Go runtime. The
+wrapper forwards arguments and stdin to `praxo-bridge`, preserves stdout and
+stderr, and propagates the bridge exit code. It does not implement an agent loop,
+provider adapter, or plugin host. Remote CI remains pending.
 
 The declared Framework target for TCL remains open; this wrapper is an
 intermediate delivery form. It supports `SPEC_VERSION` 0.2.0 through the
@@ -50,7 +50,8 @@ Set `TCLSH` to select a specific interpreter.
 - No native TCL agent loop, provider configuration, streaming API, plugin host,
   or filesystem sandbox.
 - The bridge process boundary, not the TCL wrapper, enforces contract errors.
-- Package-registry publication and production readiness are not claimed.
+- The source tag does not establish package-registry publication or production
+  readiness.
 
 See the [bridge contract](../../spec/bridge.md),
 [parity inventory](../../spec/parity/bridge-tcl.md), and

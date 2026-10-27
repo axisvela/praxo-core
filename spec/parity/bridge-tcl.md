@@ -3,6 +3,11 @@
 - Tier: bridge
 - SPEC_VERSION: 0.2.0
 
+Released source tag `tcl/v0.1.0`. The Tcl wrapper forwards to the maintained
+runtime and passes local forwarding, UTF-8, error, and exit-code checks. Remote
+CI and package-registry publication are not claimed. These rows cover the bridge
+command surface, not an independent agent loop.
+
 | Go symbol | Tcl symbol | Status | Phase |
 | --- | --- | --- | --- |
 | `toolcall.ParseToolCall` | `praxo-bridge toolcall parse` | partial | P1 |
