@@ -15,3 +15,90 @@ val parse_tool_call : string -> call option
 val strip_tool_call_markup : string -> string
 val validate_schema : json -> json -> string list
 val validate_manifest : string -> json option
+type content_block = {
+type tool_invocation = {
+type core_message = {
+type core_tool_spec = { spec_name : string; spec_description : string }
+type usage = { input_tokens : int; output_tokens : int }
+type request = { request_messages : core_message list; request_tools : core_tool_spec list }
+type response = { response_message : core_message; response_usage : usage }
+type session = { session_id : string; session_messages : core_message list }
+type run_result = {
+type memory_record = {
+type path_grant = { grant_root : string; grant_access : string }
+type decision = { decision_allowed : bool; decision_reason : string }
+type core_event = {
+type context_budget = { budget_max_tokens : int; budget_keep_recent : int }
+type sink = core_event -> unit
+type memory_store = {
+type checkpoint_allowlist = (string, unit) Hashtbl.t
+type path_checker = path_grant list
+type call_limit = {
+type tool_selection = string list
+type structured_output = {
+type tool = {
+type model = { generate : request -> response }
+type agent_options = {
+exception Core_error of string * string
+val raise_core : string -> string -> 'a
+val error_code : exn -> string
+val field_bool : string -> json -> bool option
+val field_array : string -> json -> json list
+val field_object : string -> json -> json option
+val json_text : json -> string
+val starts_with : string -> string -> bool
+val ends_with : string -> string -> bool
+val content_block_make : string -> string option -> content_block
+val tool_invocation_make : string -> string -> json -> tool_invocation
+val text_message : string -> string -> core_message
+val assistant_message : string -> tool_invocation list -> core_message
+val tool_message : string -> string -> core_message
+val tool_spec_make : string -> string -> core_tool_spec
+val usage_make : int -> int -> usage
+val usage_add : usage -> usage -> usage
+val request_make : core_message list -> core_tool_spec list -> request
+val response_make : core_message -> usage -> response
+val session_make : string -> core_message list -> session
+val run_result_make : string -> string -> int -> usage -> run_result
+val memory_record_make : string -> string -> string -> string option -> memory_record
+val path_grant_make : string -> string -> path_grant
+val decision_make : bool -> string -> decision
+val event_make : string -> string -> string option -> json -> core_event
+val context_budget_make : int -> int -> context_budget
+val message_wire : core_message -> json
+val emit : sink -> core_event -> unit
+val multi_sink : sink list -> sink
+val filter_sink : sink -> string list -> sink
+val memory_store : unit -> memory_store
+val memory_put : memory_store -> string -> memory_record -> memory_record
+val memory_search : memory_store -> string -> string -> int -> memory_record list
+val checkpoint_allowlist : unit -> checkpoint_allowlist
+val checkpoint_register : checkpoint_allowlist -> string -> unit
+val checkpoint_marshal : checkpoint_allowlist -> string -> json -> string
+val checkpoint_unmarshal : checkpoint_allowlist -> string -> json
+val normalize_path : string -> string
+val path_checker : path_grant list -> path_checker
+val path_check : path_checker -> string -> string -> decision
+val path_allowed : path_checker -> string -> string -> bool
+val estimate_tokens : core_message list -> int
+val truncate_to_tokens : string -> int -> string
+val compact_context : context_budget -> core_message list -> core_message list * bool
+val pii_redact : string -> string
+val redact_value : json -> json
+val extract_json : string -> json option
+val structured_output : json -> int -> (string -> string) option -> structured_output
+val structured_apply : structured_output -> string -> string option * string
+val call_limit : int -> int -> call_limit
+val call_limit_model : call_limit -> unit
+val call_limit_tool : call_limit -> unit
+val tool_selection : string list -> tool_selection
+val select_tools : tool_selection -> core_tool_spec list -> core_tool_spec list
+val check_tool_selected : tool_selection -> string -> unit
+val scripted_model : response list -> model
+val static_model : string -> model
+val failing_model : unit -> model
+val fallback_model : model -> model -> model
+val agent_options : model -> agent_options
+val tool_make : string -> string -> (json -> json) -> tool
+val find_tool : tool list -> string -> tool option
+val run_agent : agent_options -> session -> string -> run_result

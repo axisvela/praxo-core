@@ -2,6 +2,8 @@ module Main (main) where
 
 import Control.Monad (forM, unless)
 import Data.List (sort)
+import Data.IORef
+import qualified Praxo.Agent as A
 import Praxo.Json
 import Praxo.JsonSchema
 import Praxo.Plugin
@@ -17,7 +19,7 @@ main = do
     spec <- case arguments of
         [path] -> pure path
         _ -> fail "usage: praxo-haskell-conformance <spec-directory>"
-    failures <- fmap concat $ forM ["toolcall", "jsonschema", "plugin"] $ \group -> do
+    failures <- fmap concat $ forM ["toolcall", "jsonschema", "plugin", "agent-loop"] $ \group -> do
         withFile (spec ++ "/vectors/" ++ group ++ ".json") ReadMode $ \handle -> do
             hSetEncoding handle utf8
             text <- hGetContents handle
@@ -28,13 +30,50 @@ main = do
             unless (not (null vectors)) (fail "empty vector group")
             forM vectors $ \vector -> do
                 let name = asString (field "id" vector)
-                    result = checkVector group (field "input" vector) (field "expect" vector)
+                result <- if group == "agent-loop" then checkAgent (field "input" vector) (field "expect" vector)
+                          else pure (checkVector group (field "input" vector) (field "expect" vector))
                 case result of
                     Right () -> putStrLn ("PASS " ++ name) >> pure []
                     Left message -> pure [name ++ ": " ++ message]
     let errors = concat failures
     unless (null errors) (mapM_ putStrLn errors >> exitFailure)
-    putStrLn "All declared wire vector groups passed"
+    putStrLn "All declared vector groups passed"
+
+checkAgent :: Json -> Json -> IO (Either String ())
+checkAgent input expected = do
+    script <- newIORef (asArray (field "script" input))
+    events <- newIORef []
+    invocations <- newIORef (0 :: Int)
+    let number value = case value of JNumber n -> truncate n; _ -> 0
+        model _ = do
+            remaining <- readIORef script
+            case remaining of
+                [] -> pure (Left (A.AgentError "SCRIPT" "script exhausted"))
+                (step:rest) -> do
+                    writeIORef script rest
+                    let call item = A.ToolCall (asString (field "id" item)) (asString (field "name" item)) (field "arguments" item)
+                    pure (Right (A.Response (asString (field "content" step)) (map call (asArray (field "toolCalls" step))) (number (field "inputTokens" step)) (number (field "outputTokens" step))))
+        tool call = do
+            modifyIORef' invocations (+1)
+            if A.toolCallName call `elem` map (asString . field "name") (asArray (field "tools" input))
+                then pure (Right (A.toolCallArguments call))
+                else pure (Left (A.AgentError "TOOL_NOT_FOUND" "tool not found"))
+        sink event = modifyIORef' events (++ [JString event]) >> pure (Right ())
+        options = A.AgentOptions model tool sink (fromInteger (number (field "maxSteps" input))) (number (field "maxTokens" input))
+    result <- A.runAgent options [] (asString (field "prompt" input))
+    actualEvents <- readIORef events
+    count <- readIORef invocations
+    pure $ do
+        case result of
+            Left err -> do
+                check (field "error" expected == JBool True) (show err)
+                check (JString (A.errorCode err) == field "errorCode" expected) "error code mismatch"
+            Right value -> do
+                check (field "error" expected /= JBool True) "unexpected success"
+                check (JString (A.runOutput value) == field "output" expected) "output mismatch"
+                check (JNumber (fromIntegral (A.runSteps value)) == field "steps" expected) "steps mismatch"
+        check (JArray actualEvents == field "events" expected) "events mismatch"
+        check (JNumber (fromIntegral count) == field "toolInvocations" expected) "tool count mismatch"
 
 checkVector :: String -> Json -> Json -> Either String ()
 checkVector "toolcall" input expected

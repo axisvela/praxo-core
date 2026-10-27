@@ -45,7 +45,7 @@ static BOOL PXRCheckKeys(NSDictionary<NSString *, id> *value,
                          NSString *where,
                          NSError **error) {
     for (NSString *key in value) {
-        if (![allowed containsObject:key]) {
+        if ([allowed member:key] == nil) {
             return PXRManifestFail(error, [NSString stringWithFormat:
                 @"plugin: manifest: unknown field %@ in %@", key, where]);
         }
@@ -98,10 +98,11 @@ static BOOL PXRTextPresent(id value) {
 }
 
 static BOOL PXRKnownKind(NSString *kind) {
-    return [[NSSet setWithArray:@[
+    NSSet<NSString *> *kinds = [NSSet setWithArray:@[
         @"tool.provider.v1", @"model.provider.v1", @"policy.provider.v1",
         @"memory.provider.v1", @"sandbox.provider.v1",
-    ]] containsObject:kind];
+    ]];
+    return [kinds member:kind] != nil;
 }
 
 NSDictionary<NSString *, id> * _Nullable PXRParseManifest(

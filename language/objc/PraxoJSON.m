@@ -210,7 +210,7 @@ static BOOL PXRScanObject(PXRScan *scan, NSUInteger depth, NSError **error) {
         if (!PXRScanString(scan, key, error)) {
             return NO;
         }
-        if ([keys containsObject:key]) {
+        if ([keys member:key] != nil) {
             return PXRFail(error, PXRWireErrorInvalidJSON, @"duplicate object key");
         }
         [keys addObject:key];
@@ -342,6 +342,43 @@ BOOL PXRIsBooleanValue(id value) {
 
 BOOL PXRIsNumberValue(id value) {
     return [value isKindOfClass:[NSNumber class]] && !PXRIsBooleanValue(value);
+}
+
+NSString *PXRJSONText(id value, NSError **error) {
+    if (![NSJSONSerialization isValidJSONObject:value]) {
+        if (error != NULL) {
+            *error = PXRError(PXRWireErrorInvalidJSON, @"value is not JSON encodable");
+        }
+        return nil;
+    }
+    NSData *data = [NSJSONSerialization dataWithJSONObject:value
+                                                   options:0
+                                                     error:error];
+    if (data == nil) {
+        return nil;
+    }
+    return [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+}
+
+BOOL PXRStringHasPrefix(NSString *text, NSString *prefix) {
+    if (text == nil || prefix == nil || prefix.length > text.length) {
+        return NO;
+    }
+    if (prefix.length == 0) {
+        return YES;
+    }
+    return [text rangeOfString:prefix options:NSAnchoredSearch].location != NSNotFound;
+}
+
+BOOL PXRStringHasSuffix(NSString *text, NSString *suffix) {
+    if (text == nil || suffix == nil || suffix.length > text.length) {
+        return NO;
+    }
+    if (suffix.length == 0) {
+        return YES;
+    }
+    return [text rangeOfString:suffix
+                       options:(NSAnchoredSearch | NSBackwardsSearch)].location != NSNotFound;
 }
 
 BOOL PXRJSONEqual(id left, id right) {

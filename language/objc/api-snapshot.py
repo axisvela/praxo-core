@@ -9,7 +9,11 @@ REPO = ROOT.parents[1]
 
 
 def header_text():
-    return (ROOT / "PraxoWire.h").read_text(encoding="utf-8")
+    parts = [
+        (ROOT / name).read_text(encoding="utf-8")
+        for name in ("PraxoJSON.h", "PraxoWire.h", "PraxoCore.h")
+    ]
+    return "\n".join(parts)
 
 
 def declared_symbols():
@@ -47,7 +51,7 @@ def snapshot():
         raise ValueError("no public Objective-C declarations found")
     return "\n".join(
         [
-            "# PRAXO-CORE Objective-C Wire API " + sdk,
+            "# PRAXO-CORE Objective-C Core API " + sdk,
             "# SPEC_VERSION " + spec,
             "",
             *symbols,

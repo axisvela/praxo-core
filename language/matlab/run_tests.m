@@ -5,7 +5,7 @@ addpath(implementation);
 addpath(fullfile(implementation, 'tests'));
 spec = strtrim(fileread(fullfile(root, 'spec', 'SPEC_VERSION')));
 assert(strcmp(spec, '0.2.0'));
-groups = {'toolcall', 'jsonschema', 'plugin'};
+groups = {'toolcall', 'jsonschema', 'plugin', 'agent-loop'};
 for i = 1:numel(groups)
     document = praxo.parse_json(fileread(fullfile(root, 'spec', 'vectors', [groups{i} '.json'])));
     assert(strcmp(field_value(document, 'specVersion').value, spec));
@@ -17,6 +17,7 @@ test_json();
 test_toolcall();
 test_schema();
 test_manifest();
+test_agent();
 disp('All declared Octave wire vector groups passed');
 end
 

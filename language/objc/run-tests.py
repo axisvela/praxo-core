@@ -14,6 +14,8 @@ SOURCES = [
     "PraxoJsonSchema.m",
     "PraxoPlugin.m",
     "PraxoWire.m",
+    "PraxoCore.m",
+    "PraxoAgent.m",
     "tests/main.m",
 ]
 
@@ -30,7 +32,7 @@ def main():
     build = ROOT / "build"
     build.mkdir(exist_ok=True)
     executable = build / ("praxo_tests.exe" if os.name == "nt" else "praxo_tests")
-    command = [compiler, "-fobjc-arc", "-I", str(ROOT), "-o", str(executable)]
+    command = [compiler, "-fobjc-arc", "-fblocks", "-I", str(ROOT), "-o", str(executable)]
     command.extend(str(ROOT / source) for source in SOURCES)
     if platform.system() == "Darwin":
         command.extend(["-framework", "Foundation"])
@@ -40,6 +42,7 @@ def main():
             "-fuse-ld=lld",
             "-lgnustep-base",
             "-lobjc",
+            "-lstdc++",
         ])
     environment = os.environ.copy()
     compiler_dir = str(Path(compiler).resolve().parent)

@@ -955,3 +955,632 @@ let validate_manifest raw =
         | _ -> None
     | _ -> None
   with _ -> None
+type content_block = {
+  block_type : string;
+  block_text : string option;
+  block_image_url : string option;
+  block_data : string option;
+}
+
+type tool_invocation = {
+  invocation_id : string;
+  invocation_name : string;
+  invocation_arguments : json;
+}
+
+type core_message = {
+  message_role : string;
+  message_content : string;
+  message_blocks : content_block list;
+  message_calls : tool_invocation list;
+  message_tool_id : string option;
+}
+
+type core_tool_spec = { spec_name : string; spec_description : string }
+type usage = { input_tokens : int; output_tokens : int }
+type request = { request_messages : core_message list; request_tools : core_tool_spec list }
+type response = { response_message : core_message; response_usage : usage }
+type session = { session_id : string; session_messages : core_message list }
+type run_result = {
+  result_run_id : string;
+  result_output : string;
+  result_steps : int;
+  result_usage : usage;
+}
+type memory_record = {
+  record_id : string;
+  record_frame : string;
+  record_content : string;
+  record_created_at : string option;
+}
+type path_grant = { grant_root : string; grant_access : string }
+type decision = { decision_allowed : bool; decision_reason : string }
+type core_event = {
+  event_type : string;
+  event_session_id : string;
+  event_run_id : string option;
+  event_data : json;
+}
+type context_budget = { budget_max_tokens : int; budget_keep_recent : int }
+type sink = core_event -> unit
+type memory_store = {
+  records : (string, memory_record list ref) Hashtbl.t;
+  mutable sequence : int;
+}
+type checkpoint_allowlist = (string, unit) Hashtbl.t
+type path_checker = path_grant list
+type call_limit = {
+  model_limit : int;
+  tool_limit : int;
+  mutable models_called : int;
+  mutable tools_called : int;
+}
+type tool_selection = string list
+type structured_output = {
+  output_schema : json;
+  max_repairs : int;
+  repairer : (string -> string) option;
+}
+type tool = {
+  tool_name : string;
+  tool_description : string;
+  tool_invoke : json -> json;
+}
+type model = { generate : request -> response }
+type agent_options = {
+  agent_model : model;
+  agent_tools : tool list;
+  agent_events : sink option;
+  agent_system_prompt : string;
+  agent_max_steps : int;
+  agent_max_tokens : int;
+  agent_session_id : string;
+}
+
+exception Core_error of string * string
+
+let raise_core code message = raise (Core_error (code, message))
+
+let error_code = function Core_error (code, _) -> code | _ -> ""
+
+let field_bool key object_value =
+  match field key object_value with Some (Bool value) -> Some value | _ -> None
+
+let field_array key object_value =
+  match field key object_value with Some (Array values) -> values | _ -> []
+
+let field_object key object_value =
+  match field key object_value with Some (Object fields) -> Some (Object fields) | _ -> None
+
+let json_text value = encode_json value
+
+let starts_with prefix text =
+  let n = String.length prefix in
+  String.length text >= n && String.sub text 0 n = prefix
+
+let ends_with suffix text =
+  let n = String.length suffix and m = String.length text in
+  m >= n && String.sub text (m - n) n = suffix
+
+let content_block_make kind text = {
+  block_type = kind;
+  block_text = text;
+  block_image_url = None;
+  block_data = None;
+}
+
+let tool_invocation_make id name arguments = {
+  invocation_id = id;
+  invocation_name = name;
+  invocation_arguments = arguments;
+}
+
+let text_message role content = {
+  message_role = role;
+  message_content = content;
+  message_blocks = [];
+  message_calls = [];
+  message_tool_id = None;
+}
+
+let assistant_message content calls = {
+  message_role = "assistant";
+  message_content = content;
+  message_blocks = [];
+  message_calls = calls;
+  message_tool_id = None;
+}
+
+let tool_message content tool_id = {
+  message_role = "tool";
+  message_content = content;
+  message_blocks = [];
+  message_calls = [];
+  message_tool_id = Some tool_id;
+}
+
+let tool_spec_make name description = { spec_name = name; spec_description = description }
+let usage_make input_tokens output_tokens = { input_tokens; output_tokens }
+let usage_add left right = usage_make
+  (left.input_tokens + right.input_tokens)
+  (left.output_tokens + right.output_tokens)
+
+let request_make messages tools = { request_messages = messages; request_tools = tools }
+let response_make message usage_value = { response_message = message; response_usage = usage_value }
+let session_make session_id messages = { session_id; session_messages = messages }
+
+let run_result_make run_id output steps usage_value = {
+  result_run_id = run_id;
+  result_output = output;
+  result_steps = steps;
+  result_usage = usage_value;
+}
+
+let memory_record_make id frame content created_at = {
+  record_id = id;
+  record_frame = frame;
+  record_content = content;
+  record_created_at = created_at;
+}
+
+let path_grant_make root access = { grant_root = root; grant_access = access }
+let decision_make allowed reason = { decision_allowed = allowed; decision_reason = reason }
+
+let event_make event_type session_id run_id data = {
+  event_type;
+  event_session_id = session_id;
+  event_run_id = run_id;
+  event_data = data;
+}
+
+let context_budget_make max_tokens keep_recent = {
+  budget_max_tokens = max_tokens;
+  budget_keep_recent = keep_recent;
+}
+
+let message_wire message =
+  let fields = ref [("role", String message.message_role)] in
+  if message.message_content <> "" ||
+     (message.message_blocks = [] && message.message_calls = [] && message.message_tool_id = None)
+  then fields := !fields @ [("content", String message.message_content)];
+  if message.message_blocks <> [] then
+    fields := !fields @ [("contentBlocks", Array (List.map (fun block ->
+      let item = ref [("type", String block.block_type)] in
+      (match block.block_text with Some value -> item := !item @ [("text", String value)] | None -> ());
+      (match block.block_image_url with Some value -> item := !item @ [("image_url", String value)] | None -> ());
+      (match block.block_data with Some value -> item := !item @ [("data", String value)] | None -> ());
+      Object !item) message.message_blocks))];
+  if message.message_calls <> [] then
+    fields := !fields @ [("toolCalls", Array (List.map (fun call -> Object [
+      ("id", String call.invocation_id);
+      ("name", String call.invocation_name);
+      ("arguments", call.invocation_arguments);
+    ]) message.message_calls))];
+  (match message.message_tool_id with Some value -> fields := !fields @ [("toolId", String value)] | None -> ());
+  Object !fields
+
+let emit sink event = sink event
+let multi_sink sinks = fun event -> List.iter (fun sink -> sink event) sinks
+let filter_sink sink predicate_types = fun event ->
+  if predicate_types = [] || List.mem event.event_type predicate_types then sink event
+
+let memory_store () = { records = Hashtbl.create 8; sequence = 0 }
+
+let memory_put store session_id record =
+  let record =
+    if record.record_id = "" then begin
+      let id = Printf.sprintf "mem-%d" store.sequence in
+      store.sequence <- store.sequence + 1;
+      { record with record_id = id }
+    end else record
+  in
+  let existing = match Hashtbl.find_opt store.records session_id with Some value -> value | None ->
+    let value = ref [] in Hashtbl.add store.records session_id value; value
+  in
+  existing := !existing @ [record];
+  record
+
+let memory_search store session_id query limit =
+  let records = match Hashtbl.find_opt store.records session_id with Some value -> !value | None -> [] in
+  let needle = String.lowercase_ascii (String.trim query) in
+  let matches = List.filter (fun record ->
+    needle = "" ||
+      match find_sub (String.lowercase_ascii record.record_content) needle 0 with
+      | Some _ -> true
+      | None -> false
+  ) records in
+  let sorted = List.sort (fun left right ->
+    compare (Option.value ~default:"" right.record_created_at)
+            (Option.value ~default:"" left.record_created_at)) matches in
+  if limit > 0 then
+    let rec take n values = if n <= 0 then [] else match values with [] -> [] | head :: tail -> head :: take (n - 1) tail in
+    take limit sorted
+  else sorted
+
+let checkpoint_allowlist () = Hashtbl.create 8
+
+let checkpoint_register allowlist event_type =
+  if event_type = "" then raise_core "CHECKPOINT_ERROR" "checkpoint: type is required";
+  Hashtbl.replace allowlist event_type ()
+
+let checkpoint_marshal allowlist event_type value =
+  if not (Hashtbl.mem allowlist event_type) then
+    raise_core "CHECKPOINT_TYPE_NOT_ALLOWED" "checkpoint: payload type not allowed";
+  encode_json (Object [("type", String event_type); ("data", value)])
+
+let checkpoint_unmarshal allowlist data =
+  match parse_json data with
+  | Object _ as envelope ->
+      let event_type = match field_string "type" envelope with Some value -> value | None -> "" in
+      if not (Hashtbl.mem allowlist event_type) then
+        raise_core "CHECKPOINT_TYPE_NOT_ALLOWED" "checkpoint: payload type not allowed";
+      (match field "data" envelope with Some value -> value | None -> Null)
+  | _ -> raise_core "CHECKPOINT_ERROR" "checkpoint: envelope must be an object"
+
+let normalize_path value =
+  let path = String.map (fun character -> if character = '\\' then '/' else character) value in
+  let prefix, body =
+    if String.length path >= 2 && path.[1] = ':' then
+      (String.sub path 0 2, String.sub path 2 (String.length path - 2))
+    else if starts_with "/" path then ("/", path)
+    else ("", path)
+  in
+  let parts = ref [] in
+  List.iter (fun part ->
+    if part = "" || part = "." then ()
+    else if part = ".." then (match !parts with
+      | head :: rest when head <> ".." -> parts := rest
+      | _ when prefix <> "/" && not (starts_with "/" body) -> parts := ".." :: !parts
+      | _ -> ())
+    else parts := part :: !parts) (String.split_on_char '/' body);
+  let result = prefix ^ String.concat "/" (List.rev !parts) in
+  if Sys.win32 then String.lowercase_ascii result else result
+
+let path_within root target = root = target || starts_with (root ^ "/") target
+
+let access_allows grant need =
+  if need = "read" then grant = "read" || grant = "readwrite"
+  else if need = "write" then grant = "write" || grant = "readwrite"
+  else grant = "readwrite"
+
+let path_checker grants =
+  List.map (fun grant ->
+    if grant.grant_root = "" then raise_core "POLICY_ERROR" "policy: path grant root is required";
+    if not (List.mem grant.grant_access ["read"; "write"; "readwrite"]) then
+      raise_core "POLICY_ERROR" "policy: invalid grant access";
+    { grant with grant_root = normalize_path grant.grant_root }) grants
+
+let path_check checker target need =
+  if not (List.mem need ["read"; "write"; "readwrite"]) then
+    raise_core "POLICY_ERROR" "policy: invalid requested access";
+  if checker = [] then decision_make false "no allowed roots"
+  else
+    let resolved = normalize_path target in
+    let matched = ref false in
+    let allowed = List.exists (fun grant ->
+      if path_within grant.grant_root resolved then begin
+        matched := true;
+        access_allows grant.grant_access need
+      end else false) checker in
+    if allowed then decision_make true "allowed"
+    else decision_make false (if !matched then "insufficient grant" else "outside roots")
+
+let path_allowed checker target need =
+  try (path_check checker target need).decision_allowed with Core_error _ -> false
+
+let estimate_tokens messages =
+  List.fold_left (fun total message ->
+    let total = total + 4 + String.length message.message_content / 4 + String.length (Option.value ~default:"" message.message_tool_id) / 4 in
+    let total = List.fold_left (fun acc block -> acc + 4 + String.length (Option.value ~default:"" block.block_text) / 4) total message.message_blocks in
+    List.fold_left (fun acc call -> acc + 4 + String.length call.invocation_name / 4 + String.length (encode_json call.invocation_arguments) / 4) total message.message_calls
+  ) 0 messages
+
+let truncate_to_tokens value tokens =
+  if tokens <= 0 then ""
+  else
+    let limit = tokens * 4 in
+    if String.length value <= limit then value
+    else if limit <= 16 then String.sub value 0 limit
+    else String.sub value 0 (limit - 16) ^ "\n[truncated]"
+
+let compact_context budget messages =
+  if budget.budget_max_tokens <= 0 || estimate_tokens messages <= budget.budget_max_tokens then (messages, true)
+  else
+    let system, rest = List.partition (fun message -> message.message_role = "system" &&
+      not (starts_with "[context compacted:" message.message_content)) messages in
+    let system =
+      if estimate_tokens system > budget.budget_max_tokens then
+        match system with
+        | [] -> []
+        | first :: _ -> [{ first with message_content = truncate_to_tokens first.message_content (budget.budget_max_tokens - 4) }]
+      else system
+    in
+    if estimate_tokens system > budget.budget_max_tokens then ([], false)
+    else
+      let keep = if budget.budget_keep_recent > 0 then budget.budget_keep_recent else 4 in
+      let rest_array = Array.of_list rest in
+      let start = ref (max 0 (Array.length rest_array - keep)) in
+      while !start > 0 && rest_array.(!start).message_role = "tool" do decr start done;
+      let marker = text_message "system" (Printf.sprintf "[context compacted: %d older messages omitted]" !start) in
+      let kept = if !start >= Array.length rest_array then [] else Array.to_list (Array.sub rest_array !start (Array.length rest_array - !start)) in
+      let build kept = system @ (if !start > 0 then [marker] else []) @ kept in
+      let rec shrink kept =
+        let output = build kept in
+        if estimate_tokens output > budget.budget_max_tokens && List.length kept > 1 then
+          match kept with
+          | _ :: second :: _ when second.message_role = "tool" -> (output, false)
+          | _ -> shrink (List.tl kept)
+        else (output, estimate_tokens output <= budget.budget_max_tokens)
+      in
+      shrink kept
+
+let is_email_local character =
+  (character >= 'a' && character <= 'z') || (character >= 'A' && character <= 'Z') ||
+  (character >= '0' && character <= '9') || List.mem character ['.'; '_'; '%'; '+'; '-']
+
+let is_domain_character character =
+  (character >= 'a' && character <= 'z') || (character >= 'A' && character <= 'Z') ||
+  (character >= '0' && character <= '9') || List.mem character ['.'; '-']
+
+let is_alpha character = (character >= 'a' && character <= 'z') || (character >= 'A' && character <= 'Z')
+let is_digit_char character = character >= '0' && character <= '9'
+
+let pii_redact text =
+  let n = String.length text in
+  let buffer = Buffer.create n in
+  let rec email i =
+    if i >= n then ()
+    else if text.[i] = '@' then begin
+      let start = ref i in
+      while !start > 0 && is_email_local text.[!start - 1] do decr start done;
+      let ending = ref (i + 1) in
+      while !ending < n && is_domain_character text.[!ending] do incr ending done;
+      let domain = String.sub text (i + 1) (!ending - i - 1) in
+      let dot = try Some (String.rindex domain '.') with Not_found -> None in
+      let valid = match dot with
+        | Some position when position > 0 && String.length domain - position - 1 >= 2 ->
+            let tld = String.sub domain (position + 1) (String.length domain - position - 1) in
+            String.for_all is_alpha tld
+        | _ -> false
+      in
+      if valid then begin
+        let remove = i - !start in
+        Buffer.truncate buffer (Buffer.length buffer - remove);
+        Buffer.add_string buffer "[REDACTED:email]";
+        email !ending
+      end else begin
+        Buffer.add_char buffer text.[i];
+        email (i + 1)
+      end
+    end else begin
+      Buffer.add_char buffer text.[i];
+      email (i + 1)
+    end
+  in
+  email 0;
+  let first = Buffer.contents buffer in
+  let buffer = Buffer.create (String.length first) in
+  let rec ssn i =
+    if i >= String.length first then ()
+    else if i + 11 <= String.length first && is_digit_char first.[i] && is_digit_char first.[i+1] &&
+            is_digit_char first.[i+2] && first.[i+3] = '-' && is_digit_char first.[i+4] &&
+            is_digit_char first.[i+5] && first.[i+6] = '-' && is_digit_char first.[i+7] &&
+            is_digit_char first.[i+8] && is_digit_char first.[i+9] && is_digit_char first.[i+10] then begin
+      Buffer.add_string buffer "[REDACTED:ssn]";
+      ssn (i + 11)
+    end else begin
+      Buffer.add_char buffer first.[i];
+      ssn (i + 1)
+    end
+  in
+  ssn 0;
+  let second = Buffer.contents buffer in
+  let buffer = Buffer.create (String.length second) in
+  let credit_card_at start =
+    let index = ref start in
+    let valid = ref true in
+    for group = 0 to 3 do
+      if group > 0 && !index < String.length second && List.mem second.[!index] [' '; '-'] then incr index;
+      for _ = 0 to 3 do
+        if !index >= String.length second || not (is_digit_char second.[!index]) then valid := false
+        else incr index
+      done
+    done;
+    if !valid then !index else start
+  in
+  let rec card i =
+    if i >= String.length second then ()
+    else
+      let ending = credit_card_at i in
+      if ending > i then begin
+        Buffer.add_string buffer "[REDACTED:credit_card]";
+        card ending
+      end else begin
+        Buffer.add_char buffer second.[i];
+        card (i + 1)
+      end
+  in
+  card 0;
+  Buffer.contents buffer
+
+let rec redact_value value =
+  match value with
+  | String text -> String (pii_redact text)
+  | Array items -> Array (List.map redact_value items)
+  | Object fields -> Object (List.map (fun (key, item) -> (key, redact_value item)) fields)
+  | other -> other
+
+let extract_json text =
+  let value = String.trim text in
+  let value =
+    if starts_with "```" value then
+      let value = match String.index_opt value '\n' with
+        | Some index -> String.sub value (index + 1) (String.length value - index - 1)
+        | None -> value
+      in
+      match String.rindex_opt value '`' with
+      | Some _ ->
+          let rec find_close index =
+            if index < 0 then 0
+            else if index >= 2 && String.sub value (index - 2) 3 = "```" then index - 2
+            else find_close (index - 1)
+          in
+          String.trim (String.sub value 0 (find_close (String.length value - 1)))
+      | None -> String.trim value
+    else value
+  in
+  let object_start = String.index_opt value '{' in
+  let array_start = String.index_opt value '[' in
+  let start = match object_start, array_start with
+    | Some a, Some b -> Some (min a b)
+    | Some a, None -> Some a
+    | None, Some b -> Some b
+    | None, None -> None
+  in
+  match start with
+  | None -> None
+  | Some index -> (try Some (parse_json (String.sub value index (String.length value - index))) with _ -> None)
+
+let structured_output schema max_repairs repairer = {
+  output_schema = schema;
+  max_repairs;
+  repairer;
+}
+
+let structured_apply config text =
+  let rec attempt count output =
+    let valid = match extract_json output with
+      | Some value -> validate_schema config.output_schema value = []
+      | None -> false
+    in
+    if valid then (Some output, "")
+    else if count = config.max_repairs then (None, "AGENT_STRUCTURED_OUTPUT")
+    else match config.repairer with
+      | None -> (None, "AGENT_STRUCTURED_OUTPUT")
+      | Some repair ->
+          let repaired = repair output in
+          if String.trim repaired = "" then (None, "AGENT_STRUCTURED_OUTPUT")
+          else attempt (count + 1) repaired
+  in
+  attempt 0 text
+
+let call_limit model_limit tool_limit = {
+  model_limit;
+  tool_limit;
+  models_called = 0;
+  tools_called = 0;
+}
+
+let call_limit_model limit =
+  limit.models_called <- limit.models_called + 1;
+  if limit.model_limit > 0 && limit.models_called > limit.model_limit then
+    raise_core "AGENT_MODEL_CALL_LIMIT" "model call limit"
+
+let call_limit_tool limit =
+  limit.tools_called <- limit.tools_called + 1;
+  if limit.tool_limit > 0 && limit.tools_called > limit.tool_limit then
+    raise_core "AGENT_TOOL_CALL_LIMIT" "tool call limit"
+
+let tool_selection selected = selected
+let select_tools selection tools = List.filter (fun tool -> List.mem tool.spec_name selection) tools
+
+let check_tool_selected selection name =
+  if not (List.mem name selection) then raise_core "AGENT_TOOL_NOT_SELECTED" "tool not selected"
+
+let scripted_model responses =
+  let index = ref 0 in
+  { generate = fun _ ->
+      if !index >= List.length responses then raise_core "MODEL_ERROR" "script exhausted";
+      let response = List.nth responses !index in
+      incr index;
+      response }
+
+let static_model content = {
+  generate = fun _ -> response_make (assistant_message content []) (usage_make 0 0);
+}
+
+let failing_model () = {
+  generate = fun _ -> raise_core "MODEL_ERROR" "primary model failed";
+}
+
+let fallback_model primary fallback = {
+  generate = fun request -> try primary.generate request with _ -> fallback.generate request;
+}
+
+let agent_options model = {
+  agent_model = model;
+  agent_tools = [];
+  agent_events = None;
+  agent_system_prompt = "";
+  agent_max_steps = 8;
+  agent_max_tokens = 0;
+  agent_session_id = "s1";
+}
+
+let tool_make name description invoke = {
+  tool_name = name;
+  tool_description = description;
+  tool_invoke = invoke;
+}
+
+let find_tool tools name =
+  let rec loop = function
+    | [] -> None
+    | tool :: rest -> if tool.tool_name = name then Some tool else loop rest
+  in
+  loop tools
+
+let run_agent options session prompt =
+  let max_steps = if options.agent_max_steps > 0 then options.agent_max_steps else 8 in
+  let max_tokens = options.agent_max_tokens in
+  let run_id = "run-" ^ string_of_int (int_of_float (Sys.time ())) in
+  let messages = ref session.session_messages in
+  if options.agent_system_prompt <> "" then
+    messages := text_message "system" options.agent_system_prompt :: !messages;
+  messages := !messages @ [text_message "user" prompt];
+  let emit_event event_type data =
+    match options.agent_events with
+    | Some sink -> sink (event_make event_type session.session_id (Some run_id) data)
+    | None -> ()
+  in
+  let emit_failed message =
+    emit_event "run.failed" (Object [("error", String message)])
+  in
+  try
+    emit_event "run.started" Null;
+    let total = ref (usage_make 0 0) in
+    let step = ref 0 in
+    let result = ref None in
+    while !result = None do
+      if !step >= max_steps then raise_core "AGENT_MAX_STEPS" "maximum steps exceeded";
+      incr step;
+      let specs = List.map (fun tool -> tool_spec_make tool.tool_name tool.tool_description) options.agent_tools in
+      let response = options.agent_model.generate (request_make !messages specs) in
+      total := usage_add !total response.response_usage;
+      if max_tokens > 0 && (!total).input_tokens + (!total).output_tokens > max_tokens then
+        raise_core "AGENT_MAX_TOKENS" "token budget exceeded";
+      messages := !messages @ [response.response_message];
+      if response.response_message.message_calls = [] then begin
+        emit_event "run.completed" Null;
+        result := Some (run_result_make run_id response.response_message.message_content !step !total)
+      end else
+        List.iter (fun call ->
+          match find_tool options.agent_tools call.invocation_name with
+          | None -> raise_core "TOOL_NOT_FOUND" ("tool not found: " ^ call.invocation_name)
+          | Some tool ->
+              emit_event "tool.call" (Object [
+                ("name", String call.invocation_name);
+                ("arguments", call.invocation_arguments)]);
+              let value = tool.tool_invoke call.invocation_arguments in
+              messages := !messages @ [tool_message (encode_json value) call.invocation_id]
+        ) response.response_message.message_calls
+    done;
+    match !result with Some value -> value | None -> raise_core "AGENT_MAX_STEPS" "maximum steps exceeded"
+  with error ->
+    let backtrace = Printexc.get_raw_backtrace () in
+    let message = match error with
+      | Core_error (_, message) -> message
+      | _ -> Printexc.to_string error
+    in
+    (try emit_failed message with _ -> ());
+    Printexc.raise_with_backtrace error backtrace

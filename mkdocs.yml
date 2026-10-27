@@ -148,6 +148,9 @@ nav:
       - Delphi / Free Pascal: languages/delphi.md
       - OCaml: languages/ocaml.md
       - Objective-C: languages/objective-c.md
+      - Elixir: languages/elixir.md
+      - Nim: languages/nim.md
+      - V: languages/v.md
       - Lisp: languages/lisp.md
       - Shell: languages/shell.md
       - PowerShell: languages/powershell.md

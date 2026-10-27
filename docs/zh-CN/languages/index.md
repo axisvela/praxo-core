@@ -34,6 +34,10 @@
 | Zig | [Zig SDK](zig.md) |
 | COBOL | [COBOL SDK](cobol.md) |
 | Fortran | [Fortran 实现](fortran.md)，仍在开发中 |
+| Elixir | [Elixir SDK](elixir.md) |
+| Nim | [Nim SDK](nim.md) |
+| V | [V SDK](v.md) |
+| Objective-C | [Objective-C SDK](objective-c.md) |
 
 ## 共享运行时示例与桥接
 
@@ -50,19 +54,17 @@
 ## Wire 候选实现
 
 [Haskell](haskell.md) 是以原生 Framework 为目标、尚未发布的 Wire 阶段实现，本地已通过
-三个声明组的 24 个向量，当前不包含 Agent 循环。Linux、Windows CI 已通过，发布审查
-仍待完成，不声明 Hackage 软件包、正式标签或交付日期。
+三个 Wire 向量组和实验性 Agent 循环向量；新循环的远端 CI 和发布审查仍待完成。
+不声明 Hackage 软件包、正式标签或交付日期。
 
 [MATLAB / Octave](matlab.md) 是以原生 Framework 为目标、尚未发布的 Wire 阶段候选实现。
-三个向量组已在本地 Octave 通过；MATLAB 和远端 CI 尚未验证。
+三个 Wire 向量组和 Agent 循环向量已在本地 Octave 通过；MATLAB 和新循环的远端 CI 尚未验证。
 
 [Delphi / Free Pascal](delphi.md) 是以原生 Framework 为目标、尚未发布的 Wire 阶段候选实现。
-三个向量组已在本地 Free Pascal 3.2.2（Windows i386）和 Linux CI 通过；Delphi 编译器仍待验证。
+三个 Wire 向量组和 Agent 循环向量已在本地 Free Pascal 3.2.2（Windows i386）通过；新循环的远端 CI 和 Delphi 编译器仍待验证。
 
 [OCaml](ocaml.md) 是以原生 Framework 为目标、尚未发布的 Wire 阶段候选实现。
 三个向量组已在本地 OCaml 4.14.2 bytecode 和 Linux CI 通过；ocamlopt 原生编译仍待验证。
-
-[Objective-C](objective-c.md) 是以原生 Framework 为目标、尚未发布的 Wire 阶段候选实现；三个向量组已在本地 clang + GNUstep Base 通过；Apple Foundation 和 macOS CI 仍待验证。
 
 源码标签、包管理器发布、一致性测试和生产验证是不同状态。语言页面复用对应
 源码 README，使安装、示例与限制保持一致。尚未翻译的语言说明会回退到英文。

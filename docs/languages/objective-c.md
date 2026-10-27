@@ -1,4 +1,4 @@
 ---
-title: Objective-C Wire Candidate
+title: Objective-C SDK
 sdk_readme: language/objc/README.md
 ---

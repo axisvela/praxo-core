@@ -25,11 +25,11 @@ def main():
     subprocess.run([sys.executable, str(ROOT / "api-snapshot.py"), "--check"], check=True)
     build = ROOT / "build"
     build.mkdir(exist_ok=True)
-    subprocess.run([compiler, "-c", "praxo.mli"], cwd=ROOT, check=True)
-    subprocess.run([compiler, "-c", "praxo.ml"], cwd=ROOT, check=True)
-    subprocess.run([compiler, "-c", "praxo_tests.ml"], cwd=ROOT, check=True)
+    subprocess.run([compiler, "-g", "-c", "praxo.mli"], cwd=ROOT, check=True)
+    subprocess.run([compiler, "-g", "-c", "praxo.ml"], cwd=ROOT, check=True)
+    subprocess.run([compiler, "-g", "-c", "praxo_tests.ml"], cwd=ROOT, check=True)
     executable = build / ("praxo_tests.exe" if os.name == "nt" else "praxo_tests")
-    subprocess.run([compiler, "-o", str(executable), "praxo.cmo", "praxo_tests.cmo"],
+    subprocess.run([compiler, "-g", "-o", str(executable), "praxo.cmo", "praxo_tests.cmo"],
                    cwd=ROOT, check=True)
     subprocess.run([runtime, str(executable), str(ROOT.parents[1] / "spec")],
                    cwd=ROOT, check=True, timeout=120)

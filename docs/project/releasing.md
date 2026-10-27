@@ -21,8 +21,9 @@ version lines. A release must document its scope and compatibility impact.
 | Language SDK | `<language>/vX.Y.Z` |
 | Optional Go adapter | `adapters/<name>/vX.Y.Z` |
 
-Existing tags are immutable. SDK releases declare their supported contract
-version. The root release workflow handles only `v*` core tags; a source tag for
+Tags and `VERSION` files use plain `X.Y.Z` versions. Do not add pre-release
+suffixes such as `-rc.1`, `-beta`, or `-alpha`. Existing tags are immutable.
+SDK releases declare their supported contract version. The root release workflow handles only `v*` core tags; a source tag for
 an SDK or adapter does not by itself publish a package-registry artifact.
 
 ## Consumer Guidance

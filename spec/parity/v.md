@@ -1,0 +1,41 @@
+# V Parity
+
+- Tier: core
+- SPEC_VERSION: 0.2.0
+
+`v/0.1.0` ships the core loop. The SDK passes all eleven vector groups, its
+tests, and its public API snapshot. `partial` marks a surface that covers the
+vector behavior and common path but not every optional Go hook or provider
+adapter.
+
+| Go symbol | V symbol | Status | Phase |
+| --- | --- | --- | --- |
+| `model.Message` | `praxo.Message` | parity | P1 |
+| `model.Request` | `praxo.Request` | parity | P1 |
+| `model.Response` | `praxo.Response` | parity | P1 |
+| `model.Usage` | `praxo.Usage` | parity | P1 |
+| `tool.Tool` | `praxo.Tool` | parity | P1 |
+| `tool.Registry` | `praxo.AgentOptions` | partial | P1 |
+| `event.Event` | `praxo.Event` | parity | P1 |
+| `event.Sink` | `praxo.Sink` | parity | P1 |
+| `policy.Decision` | `praxo.Decision` | parity | P1 |
+| `policy.PathChecker` | `praxo.PathChecker` | parity | P1 |
+| `memory.Store` | `praxo.MemoryStore` | parity | P1 |
+| `memory.Record` | `praxo.MemoryRecord` | parity | P1 |
+| `checkpoint.Allowlist` | `praxo.CheckpointAllowlist` | parity | P1 |
+| `agent/context.ContextBudget` | `praxo.ContextBudget` | parity | P1 |
+| `agent/context.EstimateTokens` | `praxo.estimate_tokens` | parity | P1 |
+| `agent.Agent` | `praxo.run_agent` | parity | P1 |
+| `agent.Options` | `praxo.AgentOptions` | parity | P1 |
+| `agent.New` | `praxo.agent_options` | parity | P1 |
+| `agent/stream.StreamPart` | `praxo.stream_kinds` | partial | P1 |
+| `toolcall.ParseToolCall` | `praxo.parse_tool_call` | parity | P1 |
+| `toolcall.StripToolCallMarkup` | `praxo.strip_tool_call_markup` | parity | P1 |
+| `toolcall.ParseInputJSON` | `praxo.parse_input_json` | parity | P1 |
+| `tool/jsonschema.Schema` | `praxo.validate_schema` | partial | P1 |
+| `plugin.ParseManifest` | `praxo.parse_manifest` | parity | P1 |
+| `agent/middleware.CallLimitMiddleware` | `praxo.call_limit` | parity | P1 |
+| `agent/middleware.FallbackModel` | `praxo.fallback_model` | parity | P1 |
+| `agent/middleware.PIIMiddleware` | `praxo.pii_redact` | parity | P1 |
+| `agent/middleware.StructuredOutput` | `praxo.StructuredOutput` | parity | P1 |
+| `agent/middleware.ToolSelectionMiddleware` | `praxo.tool_selection` | parity | P1 |

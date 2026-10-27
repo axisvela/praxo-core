@@ -13,6 +13,7 @@ typedef NS_ENUM(NSInteger, PXRWireErrorCode) {
     PXRWireErrorInvalidManifest = 4,
 };
 
+FOUNDATION_EXPORT NSDictionary<NSString *, id> * _Nullable PXRParseInputJSON(NSString *raw);
 FOUNDATION_EXPORT NSDictionary<NSString *, id> * _Nullable PXRParseToolCall(
     NSString *content, NSError **error);
 FOUNDATION_EXPORT NSString *PXRStripToolCallMarkup(NSString *content);

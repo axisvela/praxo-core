@@ -8,8 +8,8 @@ ROOT = Path(__file__).resolve().parent
 REPO = ROOT.parents[1]
 
 
-def interface_text():
-    text = (ROOT / "praxo.pas").read_text(encoding="utf-8")
+def interface_text(filename="praxo.pas"):
+    text = (ROOT / filename).read_text(encoding="utf-8")
     match = re.search(r"\binterface\b(.*?)\bimplementation\b", text, re.DOTALL)
     if not match:
         raise ValueError("missing interface section")
@@ -25,7 +25,7 @@ def snapshot():
         raise ValueError("Pascal SDK or contract version does not match specification")
     lines = ["# PRAXO-CORE Delphi/Free Pascal Wire API " + sdk[1],
              "# SPEC_VERSION " + spec, ""]
-    for raw in interface.splitlines():
+    for raw in (interface + "\n" + interface_text("praxo_agent.pas")).splitlines():
         line = raw.strip()
         match = re.match(r"^(function|procedure)\s+(\w+)", line, re.IGNORECASE)
         if match:
@@ -37,7 +37,7 @@ def snapshot():
 
 def parity_errors():
     text = (REPO / "spec/parity/delphi.md").read_text(encoding="utf-8")
-    interface = interface_text()
+    interface = interface_text() + "\n" + interface_text("praxo_agent.pas")
     spec = (REPO / "spec/SPEC_VERSION").read_text(encoding="utf-8").strip()
     errors = []
     if "- SPEC_VERSION: " + spec not in text.splitlines():

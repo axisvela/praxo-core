@@ -92,6 +92,22 @@ cd language/delphi; python run-tests.py
 python language/delphi/api-snapshot.py --check
 cd language/ocaml; python run-tests.py
 python language/ocaml/api-snapshot.py --check
+python language/objc/api-snapshot.py --check
+python language/objc/run-tests.py
+python language/elixir/api-snapshot.py --check
+mkdir -p language/elixir/build/ebin; elixirc -o language/elixir/build/ebin language/elixir/lib/praxo/*.ex
+elixir -pa language/elixir/build/ebin language/elixir/tests/run_tests.exs
+elixir -pa language/elixir/build/ebin language/elixir/conformance/run.exs
+python language/nim/api-snapshot.py --check
+nim c --path:language/nim/src --hints:off --out:build/praxo-nim-conformance language/nim/conformance/run.nim
+./build/praxo-nim-conformance
+nim c --path:language/nim/src --hints:off --out:build/praxo-nim-tests language/nim/tests/run_tests.nim
+./build/praxo-nim-tests
+python language/v/api-snapshot.py --check
+v -o build/praxo-v-conformance language/v/conformance/run.v
+./build/praxo-v-conformance
+v -o build/praxo-v-tests language/v/tests/run.v
+./build/praxo-v-tests
 python bindings/lisp/test_bridge.py
 cd language/c; cmake -S . -B build; cmake --build build; ctest --test-dir build --output-on-failure
 cd language/csharp; dotnet build Praxo.Core/Praxo.Core.csproj
@@ -154,6 +170,8 @@ python language/cobol/run-tests.py
 These checks are partial implementation gates, not complete Core release gates.
 
 - Framework versions start at `0.x`.
+- Version tags and `VERSION` files use plain `X.Y.Z`; do not add `-rc`,
+  `-beta`, `-alpha`, or other pre-release suffixes.
 - PRAXOVELA product versions are independent.
 - Breaking changes require a minor bump before `1.0.0`.
 - Publish a compatibility note when a consumer (PRAXOVELA or an external

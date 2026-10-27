@@ -1,8 +1,17 @@
 # PRAXO-CORE for OCaml
 
 Unreleased native Wire-stage candidate targeting a Framework implementation.
-The current code has no agent loop, model provider, process bridge, or plugin
-host. It does not call Go or another language SDK.
+The current source also contains an experimental agent loop and implementations
+for additional vector groups. These additions have not completed Core review;
+there is no provider adapter, process bridge, or plugin host. It does not call
+Go or another language SDK.
+
+The experimental path check is lexical and does not resolve symlinks or reparse
+points; it must not be used as an OS containment boundary. The loop does not
+persist session history and its run IDs can collide. Callback exceptions trigger
+a best-effort `run.failed` notification before the original exception is
+re-raised; notification failure does not replace it. Do not treat the loop as
+production-ready.
 
 Local validation uses OCaml 4.14.2 in bytecode mode. Native compilation, remote
 CI, package-registry publication, commercial support, production readiness, and
@@ -20,6 +29,7 @@ python language/ocaml/api-snapshot.py --check
 Set `OCAMLC` or pass `--compiler /path/to/ocamlc`. The runner also needs
 `ocamlrun` from the same distribution. Python only launches the native compiler,
 runtime, and API checks; the implementation and tests are OCaml.
+See [SETUP.md](SETUP.md) for the tested toolchain configuration and commands.
 
 To build manually from `language/ocaml/`:
 

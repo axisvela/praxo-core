@@ -4,11 +4,35 @@
 
 ### Added
 
-- `language/objc/`: unreleased native Objective-C Wire-stage candidate targeting
-  Framework, with local clang + GNUstep validation for toolcall, JSON Schema,
-  and plugin vectors, strict JSON duplicate/trailing rejection, native tests,
-  and API/parity. Apple Foundation, macOS CI, agent loop, and release are not
-  yet claimed.
+- Experimental Haskell, Free Pascal, and MATLAB/Octave agent loops with local
+  agent-loop vector tests. These remain Wire-stage candidates pending the
+  remaining Framework behavior and verification.
+- OCaml experimental agent-loop callback failure tests and local toolchain
+  setup instructions. The loop remains unreleased and requires further review.
+
+### Fixed
+
+- Preserve unresolved parent path components in the unreleased Elixir, Nim, V,
+  Objective-C, and OCaml lexical path checks. These checks still do not provide
+  filesystem or symlink containment.
+- Preserve nested model state in the unreleased Elixir fallback model and reject
+  negative usage in the Haskell experimental agent loop.
+
+### Added
+
+- `language/elixir/`: unreleased native Elixir Core SDK with all eleven vector
+  groups, native tests, API snapshot/parity, and a CI job. Verified locally with
+  Elixir 1.20.4 on Erlang/OTP 29; release and remote CI are not yet claimed.
+- `language/nim/`: unreleased native Nim Core SDK with all eleven vector groups,
+  native tests, API snapshot/parity, and a CI job. Verified locally with Nim
+  2.2.12 and MinGW; release and remote CI are not yet claimed.
+- `language/v/`: unreleased native V Core SDK with all eleven vector groups,
+  native tests, API snapshot/parity, and a CI job. Verified locally with V
+  0.5.2; release and remote CI are not yet claimed.
+- `language/objc/`: unreleased native Objective-C Core SDK with all eleven
+  vector groups, native tests, API snapshot/parity, and a CI job. Verified
+  locally with clang + GNUstep, including strict JSON duplicate/trailing
+  rejection. Apple Foundation, macOS CI, and release are not yet claimed.
 - `language/matlab/`: unreleased native MATLAB/Octave Wire-stage candidate targeting
   Framework, with local Octave validation for toolcall, JSON Schema, and plugin
   vectors. MATLAB runtime, remote CI, agent loop, and release are not claimed.

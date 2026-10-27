@@ -32,7 +32,7 @@ static NSArray<NSArray<NSString *> *> *PXRMatches(NSString *pattern, NSString *t
     return result;
 }
 
-static NSDictionary<NSString *, id> *PXRParseInputJSON(NSString *raw) {
+NSDictionary<NSString *, id> *PXRParseInputJSON(NSString *raw) {
     NSString *trimmed = [raw stringByTrimmingCharactersInSet:
         [NSCharacterSet whitespaceAndNewlineCharacterSet]];
     id value = nil;

@@ -1,0 +1,64 @@
+# PRAXO-CORE for Nim
+
+Nim is a native Core implementation of the declared PRAXO-CORE contract. It
+passes all eleven shared vector groups with `Nim 2.2.12` and includes the native
+agent loop, context compaction, memory store, path policy, checkpoint
+allowlist, PII and structured-output middleware, and tool-call parsing.
+
+The SDK does not call Go or another language runtime. It has no provider
+adapter or plugin host; those remain outside the declared Core scope.
+
+## Build And Test
+
+From the repository root with Nim and a C compiler on `PATH`:
+
+```bash
+python language/nim/api-snapshot.py --check
+nim c --path:language/nim/src --hints:off --out:build/praxo-nim-conformance.exe language/nim/conformance/run.nim
+./build/praxo-nim-conformance.exe
+nim c --path:language/nim/src --hints:off --out:build/praxo-nim-tests.exe language/nim/tests/run_tests.nim
+./build/praxo-nim-tests.exe
+```
+
+On Linux omit the `.exe` suffix. The complete local environment procedure,
+including manual Nim and MinGW installation, is in [SETUP.md](SETUP.md).
+
+## API
+
+```nim
+import praxo
+
+let call = parseToolCall("""<tool_call name="echo">{"text":"hi"}</tool_call>""")
+assert call.isSome
+assert call.get().name == "echo"
+
+let schema = parseJsonText("""{"type":"string","pattern":"^a+$"}""")
+assert validateSchema(schema, %"aaa").len == 0
+```
+
+Public declarations are inventoried in [`api/0.1.0.txt`](api/0.1.0.txt).
+
+## Current Limits
+
+- Verified with `Nim 2.2.12` and MSYS2 `gcc 15.2.0` on Windows. Other Nim
+  releases, other C compilers, and remote CI are not yet verified.
+- JSON uses `std/json`. Invalid JSON and trailing data are rejected. Duplicate
+  object keys are not a declared vector and should not be treated as a security
+  boundary.
+- Schema patterns support a bounded subset (anchors, literals, `.`, character
+  classes, `\d`, `\w`, `\s`, and `*`, `+`, `?`). Unsupported constructs are
+  rejected by the subset matcher; the SDK does not link PCRE at runtime.
+- Tool calls cover canonical JSON, XML-style, dotted tags, and dotted plain
+  lines. Generated call IDs are not provided. Markup stripping is not an
+  authorization control or sanitizer.
+- Path checks are lexical and confined by separator boundaries. They do not
+  resolve symlinks or replace operating-system sandboxing.
+- Provider adapters, streaming wire encodings, and plugin hosts are not part of
+  this SDK.
+
+The source is MIT; see [LICENSE](LICENSE). Nim, MinGW, and other toolchain
+components are separate projects, not vendored code.
+
+See [language policy](../../docs/contributing/language-policy.md),
+[parity inventory](../../spec/parity/nim.md), and
+[implementation support](../../docs/languages/support.md).

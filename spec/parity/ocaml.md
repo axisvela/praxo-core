@@ -15,6 +15,7 @@ Framework behavior.
 | `toolcall.StripToolCallMarkup` | `Praxo.strip_tool_call_markup` | partial | P1 |
 | `tool/jsonschema.Schema` | `Praxo.validate_schema` | partial | P1 |
 | `plugin.ParseManifest` | `Praxo.validate_manifest` | partial | P1 |
+| `agent.Agent` | `Praxo.run_agent` | partial | P1 |
 
 Typed JSON helpers are implementation-local utilities. See
 `language/ocaml/README.md` for number, UTF-8, pattern, and runtime limits.

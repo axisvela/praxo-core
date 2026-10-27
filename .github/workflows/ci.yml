@@ -137,7 +137,7 @@ jobs:
       - run: sudo apt-get update && sudo apt-get install -y ocaml
       - run: python language/ocaml/run-tests.py --compiler ocamlc
 
-  objc-wire:
+  objc-conformance:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v4
@@ -145,6 +145,60 @@ jobs:
         with:
           python-version: "3.12"
       - run: python language/objc/run-tests.py --compiler clang
+
+  elixir-conformance:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: erlef/setup-beam@v1
+        with:
+          otp-version: "29"
+          elixir-version: "1.20.4"
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python language/elixir/api-snapshot.py --check
+      - run: mkdir -p language/elixir/build/ebin
+      - run: elixirc -o language/elixir/build/ebin language/elixir/lib/praxo/*.ex
+      - run: elixir -pa language/elixir/build/ebin language/elixir/tests/run_tests.exs
+      - run: elixir -pa language/elixir/build/ebin language/elixir/conformance/run.exs
+
+  nim-conformance:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: jiro4989/setup-nim-action@v2
+        with:
+          nim-version: "2.2.12"
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python language/nim/api-snapshot.py --check
+      - run: mkdir -p build
+      - run: nim c --path:language/nim/src --hints:off --out:build/praxo-nim-conformance language/nim/conformance/run.nim
+      - run: ./build/praxo-nim-conformance
+      - run: nim c --path:language/nim/src --hints:off --out:build/praxo-nim-tests language/nim/tests/run_tests.nim
+      - run: ./build/praxo-nim-tests
+
+  v-conformance:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install V 0.5.2
+        run: |
+          git clone --depth 1 --branch 0.5.2 https://github.com/vlang/v "$RUNNER_TEMP/v"
+          make -C "$RUNNER_TEMP/v"
+          echo "$RUNNER_TEMP/v" >> "$GITHUB_PATH"
+      - run: v version
+      - run: python language/v/api-snapshot.py --check
+      - run: mkdir -p build
+      - run: v -o build/praxo-v-conformance language/v/conformance/run.v
+      - run: ./build/praxo-v-conformance
+      - run: v -o build/praxo-v-tests language/v/tests/run.v
+      - run: ./build/praxo-v-tests
 
   lisp-bridge:
     runs-on: ubuntu-latest

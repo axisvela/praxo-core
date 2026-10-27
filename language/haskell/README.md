@@ -1,13 +1,12 @@
 # PRAXO-CORE Haskell Wire SDK
 
 An unreleased, native Haskell implementation of the declared wire subset.
-It does not call Go or another SDK and does not implement an agent loop.
+It does not call Go or another SDK. It includes a native, callback-based agent loop.
 
 - Implementation type: Wire, not Core.
-- Target: native Framework. The current Wire stage does not yet provide an
-  agent loop; starting one still requires a named consumer and maintenance owner.
+- Target: native Framework. The agent loop alone does not establish Core parity.
 - Candidate package version: `0.1.0`; supported `SPEC_VERSION`: `0.2.0`.
-- Local gate: 24 shared vectors across toolcall, JSON Schema, and plugin groups,
+- Local gate: shared vectors across toolcall, JSON Schema, plugin, and agent-loop groups,
   plus native regression tests and source API/parity checks.
 - Linux and Windows CI passed on commit `4273f47`. Release review remains pending;
   no release tag or Hackage publication is implied.
@@ -81,7 +80,18 @@ changes require review and regeneration with `python api-snapshot.py`.
 - Plugin checks cover declared manifest fields, entrypoint/isolation, limits,
   permissions, health, capabilities, and signature/SBOM declarations. They do
   not execute plugins, verify signatures, establish trust, or enforce OS confinement.
-- There is no model provider, native agent loop, memory implementation,
+- The loop accepts model, tool, and event callbacks returning explicit errors.
+  It runs tools sequentially, preserves message history, and enforces step and
+  cumulative input/output token budgets. Negative model-reported input or output
+  counts fail with the SDK-local `AGENT_INVALID_USAGE` error and a `run.failed`
+  event before that response's tools run, even when the token budget is disabled.
+  The loop relies on callbacks to report accurate non-negative usage; it cannot
+  independently verify counts. Callbacks must return errors rather
+  than throw exceptions; exceptions are not converted to agent errors. Tool
+  lookup and validation are the caller's responsibility. Events contain only
+  their kind, not full wire event envelopes. There is no streaming, cancellation,
+  policy, middleware, or concurrent session management.
+- There is no model provider, memory implementation,
   checkpoint runtime, asynchronous event stream, or plugin host in this SDK.
   Generic JSON can preserve wire field names; typed codecs for other contract
   envelopes are not claimed.
@@ -89,6 +99,8 @@ changes require review and regeneration with `python api-snapshot.py`.
 See the [normative specification](../../spec/README.md),
 [parity inventory](../../spec/parity/haskell.md), and
 [language policy](../../docs/contributing/language-policy.md).
+The shared Haskell parity inventory predates the loop and has not been updated.
+See [SETUP.md](SETUP.md) for local setup and test commands.
 
 ## License
 

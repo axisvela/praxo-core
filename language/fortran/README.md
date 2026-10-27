@@ -14,6 +14,9 @@ Use GNU Fortran and Python 3.10 or later:
 python language/fortran/run-tests.py
 ```
 
+See [SETUP.md](SETUP.md) for the recorded environment, configuration, test
+commands, and local results.
+
 Set `FC` or pass `--compiler /path/to/gfortran` if needed. The driver compiles
 with Fortran 2008 mode, warnings as errors, and runtime checks. Generated
 modules and executables are confined to `language/fortran/build/`.

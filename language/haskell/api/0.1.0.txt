@@ -1,6 +1,15 @@
 # PRAXO-CORE Haskell Wire API 0.1.0
 # SPEC_VERSION 0.2.0
 
+## Praxo.Agent
+data AgentError = AgentError { errorCode :: String, errorMessage :: String } deriving (Eq, Show)
+data AgentOptions = AgentOptions { generate :: [Message] -> IO (Either AgentError Response), invoke :: ToolCall -> IO (Either AgentError Json), emit :: String -> IO (Either AgentError ()), maxSteps :: Int, maxTokens :: Integer }
+data Message = Message { messageRole :: String, messageContent :: String, messageToolCalls :: [ToolCall], messageToolCallId :: String } deriving (Eq, Show)
+data Response = Response { responseContent :: String, responseToolCalls :: [ToolCall], inputTokens :: Integer, outputTokens :: Integer } deriving (Eq, Show)
+data RunResult = RunResult { runOutput :: String, runSteps :: Int, runInputTokens :: Integer, runOutputTokens :: Integer, runMessages :: [Message] } deriving (Eq, Show)
+data ToolCall = ToolCall { toolCallId :: String, toolCallName :: String, toolCallArguments :: Json } deriving (Eq, Show)
+runAgent :: AgentOptions -> [Message] -> String -> IO (Either AgentError RunResult)
+
 ## Praxo.Json
 data Json = JObject [(String, Json)] | JArray [Json] | JString String | JNumber Rational | JBool Bool | JNull deriving (Eq, Show)
 asArray :: Json -> [Json]

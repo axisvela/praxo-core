@@ -3,6 +3,8 @@ module Main (main) where
 import Control.Monad (forM_, unless)
 import Data.Either (isLeft)
 import Data.Ratio ((%))
+import Data.IORef
+import qualified Praxo.Agent as A
 import Praxo.Json
 import Praxo.JsonSchema
 import Praxo.Pattern
@@ -12,6 +14,7 @@ import Praxo.Wire
 
 main :: IO ()
 main = do
+    agentTests
     assert "contract version" (specVersion == "0.2.0" && sdkVersion == "0.1.0")
     forM_ ["", "01", "1.", "+1", "NaN", "1e", "[1,]", "{\"a\":1,}", "{}{}", "\"\\q\"", "\"\\ud800\"", "\"\\udc00\"", "\"\\ud800\\u0041\"", "\"line\nbreak\"", "true garbage"] $ \raw ->
         assert ("invalid JSON " ++ show raw) (isLeft (parseJson raw))
@@ -69,6 +72,69 @@ main = do
         assert ("invalid manifest " ++ key) (isLeft (validateManifest (set key value base)))
     assert "manifest trailing data" (isLeft (parseManifest "{} {}"))
     putStrLn "Haskell wire regression tests passed"
+
+agentTests :: IO ()
+agentTests = do
+    events <- newIORef []
+    requests <- newIORef []
+    calls <- newIORef (0 :: Int)
+    let call = A.ToolCall "id" "echo" (JObject [("x", JNumber 1)])
+        sink name = modifyIORef' events (++ [name]) >> pure (Right ())
+        model messages = do
+            modifyIORef' requests (++ [messages])
+            n <- readIORef calls
+            pure (Right (if n == 0 then A.Response "" [call] 2 1 else A.Response "done" [] 1 1))
+        tool _ = modifyIORef' calls (+1) >> pure (Right JNull)
+        options = A.AgentOptions model tool sink 2 5
+    result <- A.runAgent options [] "hello"
+    assert "agent success and usage" (case result of Right r -> A.runSteps r == 2 && A.runInputTokens r == 3 && A.runOutputTokens r == 2; _ -> False)
+    history <- readIORef requests
+    assert "agent tool history" (case history of [_, [user, assistant, toolMessage]] -> A.messageRole user == "user" && A.messageToolCalls assistant == [call] && A.messageToolCallId toolMessage == "id" && A.messageContent toolMessage == "null"; _ -> False)
+    recorded <- readIORef events
+    assert "agent event order" (recorded == ["run.started", "tool.call", "run.completed"])
+    let failure = A.AgentError "CUSTOM" "failure"
+        checkFailure label opts expectedEvents = do
+            writeIORef events []
+            actual <- A.runAgent opts [] "x"
+            recordedEvents <- readIORef events
+            assert label (actual == Left failure && recordedEvents == expectedEvents)
+    checkFailure "model error" (options { A.generate = \_ -> pure (Left failure) }) ["run.started", "run.failed"]
+    checkFailure "tool error" (options { A.generate = \_ -> pure (Right (A.Response "" [call] 0 0)), A.invoke = \_ -> pure (Left failure) }) ["run.started", "tool.call", "run.failed"]
+    let badSink name = sink name >> pure (if name == "tool.call" then Left failure else Right ())
+    checkFailure "event error" (options { A.generate = \_ -> pure (Right (A.Response "" [call] 0 0)), A.emit = badSink }) ["run.started", "tool.call", "run.failed"]
+    writeIORef events []
+    started <- A.runAgent (options { A.emit = \name -> sink name >> pure (Left failure) }) [] "x"
+    startedEvents <- readIORef events
+    assert "started event error" (started == Left failure && startedEvents == ["run.started"])
+    let completedSink name = sink name >> pure (if name == "run.completed" || name == "run.failed" then Left failure else Right ())
+    checkFailure "completion event error" (options { A.generate = \_ -> pure (Right (A.Response "done" [] 0 0)), A.emit = completedSink }) ["run.started", "run.completed", "run.failed"]
+    let failedSink name = sink name >> pure (if name == "run.failed" then Left (A.AgentError "SINK" "sink failure") else Right ())
+    checkFailure "failure event preserves original error" (options { A.generate = \_ -> pure (Left failure), A.emit = failedSink }) ["run.started", "run.failed"]
+    writeIORef events []
+    budget <- A.runAgent (options { A.generate = \_ -> pure (Right (A.Response "x" [] 3 3)) }) [] "x"
+    assert "input and output token budget" (case budget of Left err -> A.errorCode err == "AGENT_MAX_TOKENS"; _ -> False)
+    let invalidUsage = Left (A.AgentError "AGENT_INVALID_USAGE" "agent: token usage must be non-negative")
+    forM_ [("negative input", -1, 2), ("negative output", 2, -1)] $ \(label, input, output) -> do
+        writeIORef events []
+        writeIORef calls 0
+        invalid <- A.runAgent (options { A.maxTokens = 0, A.generate = \_ -> pure (Right (A.Response "" [call] input output)) }) [] "x"
+        invalidEvents <- readIORef events
+        invalidCalls <- readIORef calls
+        assert label (invalid == invalidUsage && invalidEvents == ["run.started", "run.failed"] && invalidCalls == 0)
+    writeIORef events []
+    writeIORef calls 0
+    offset <- A.runAgent (options { A.generate = \_ -> do
+        n <- readIORef calls
+        pure (Right (if n == 0 then A.Response "" [call] 4 1 else A.Response "" [call] (-5) 2)) }) [] "x"
+    offsetEvents <- readIORef events
+    offsetCalls <- readIORef calls
+    assert "negative usage cannot offset prior steps" (offset == invalidUsage && offsetEvents == ["run.started", "tool.call", "run.failed"] && offsetCalls == 1)
+    encoding <- A.runAgent (options { A.generate = \_ -> pure (Right (A.Response "" [call] 0 0)), A.invoke = \_ -> pure (Right (JNumber (1 % 3))) }) [] "x"
+    assert "tool result encoding error" (case encoding of Left err -> A.errorCode err == "TOOL_RESULT"; _ -> False)
+    writeIORef calls 0
+    limited <- A.runAgent (options { A.maxSteps = 0, A.generate = \_ -> pure (Right (A.Response "" [call] 0 0)) }) [] "x"
+    count <- readIORef calls
+    assert "default step budget" (count == 8 && case limited of Left err -> A.errorCode err == "AGENT_MAX_STEPS"; _ -> False)
 
 assert :: String -> Bool -> IO ()
 assert label condition = unless condition (fail label)

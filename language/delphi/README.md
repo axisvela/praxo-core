@@ -1,8 +1,8 @@
 # PRAXO-CORE for Delphi and Free Pascal
 
 Unreleased native Wire-stage candidate targeting a Framework implementation.
-The current code has no agent loop, model provider, process bridge, or plugin
-host. It does not call Go or another language SDK.
+The current code includes a partial native agent loop but no model provider,
+process bridge, or plugin host. It does not call Go or another language SDK.
 
 Local validation uses Free Pascal 3.2.2 on Windows i386. It does not establish
 commercial Delphi compiler compatibility, Linux/macOS support, package-registry
@@ -20,9 +20,10 @@ python language/delphi/api-snapshot.py --check
 
 Set `FPC` or pass `--compiler /path/to/fpc` to select the compiler. Python only
 launches the native build and validates source API/parity metadata. The test
-programs and implementation run under Free Pascal. The three shared groups are
-`toolcall`, `jsonschema`, and `plugin`; the runner verifies the contract version
-before running them.
+programs and implementation run under Free Pascal. The shared groups are
+`toolcall`, `jsonschema`, `plugin`, and `agent-loop`; the runner verifies the
+contract version before running them. See [SETUP.md](SETUP.md) for prerequisites
+and individual test commands.
 
 To build manually from `language/delphi/`:
 
@@ -30,6 +31,8 @@ To build manually from `language/delphi/`:
 fpc -Mobjfpc -Scghi -O2 -Fu. -FEbuild praxo.pas
 fpc -Mobjfpc -Scghi -O2 -Fu. -Futests -FEbuild tests/praxo_tests.lpr
 ./build/praxo_tests ../../spec
+fpc -Mobjfpc -Scghi -O2 -Fu. -Futests -FEbuild tests/agent_tests.lpr
+./build/agent_tests ../../spec
 ```
 
 ## API
@@ -55,6 +58,19 @@ Public declarations are inventoried in [`api/unreleased.txt`](api/unreleased.txt
 The JSON node type is Free Pascal's `TJSONData` (`fpjson`), so consumers already
 using `fpjson` can inspect results directly. `TPraxoCall.Input` is caller-owned.
 `PraxoValidateManifest` returns an owned `TJSONObject` on success.
+
+The separate `praxo_agent` unit provides `PraxoRunAgent` and an abstract
+`TPraxoAgentHost`. Implement `Generate`, `Invoke`, and `Emit` to connect a model,
+tools, and an event sink. `Generate` receives a borrowed message array and must
+return an owned object with a string `content`, optional integer `inputTokens`
+and `outputTokens`, and optional `toolCalls` array containing objects with
+string `id`, nonempty string `name`, and object `arguments`. `Invoke` receives
+borrowed arguments and returns an owned JSON value. The loop frees returned
+objects and values; callbacks must not retain or mutate borrowed data. Tool
+results are serialized as JSON in subsequent tool messages. Host exceptions
+propagate, with a best-effort `run.failed` event. Budget and malformed response
+errors use `EPraxoAgent.Code`; these local validation codes are not wire codes.
+Nonpositive `MaxSteps` defaults to eight and nonpositive `MaxTokens` is unlimited.
 
 ## Current Limits
 
@@ -82,8 +98,14 @@ using `fpjson` can inspect results directly. `TPraxoCall.Input` is caller-owned.
 - Manifest checks validate declarations only. They do not verify signatures,
   establish trust, execute plugins, or enforce OS sandboxing. Duplicate-field
   rejection is stricter than the Go JSON decoder.
-- SDK-local exceptions are not new shared wire error codes. Passing three vector
-  groups does not imply full Framework or Go feature parity.
+- The loop is synchronous, uses fresh in-memory history, executes tools serially,
+  and trusts the host to enforce tool availability and authorization. It lacks
+  policy, hooks, cancellation, streaming, persistence, and other Core features.
+  Multiple tool calls are validated and executed sequentially, rather than all
+  being prepared before invocation as in Go. Events contain only their type.
+- SDK-local exceptions are not new shared wire error codes. Passing four vector
+  groups does not imply full Framework or Go feature parity. The shared Delphi
+  parity inventory does not yet include the partial agent loop.
 
 The source is MIT; see [LICENSE](LICENSE). Free Pascal, its RTL, `fpjson`, and
 `RegExpr` are separate toolchain components, not vendored code.

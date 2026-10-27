@@ -27,6 +27,10 @@ def main():
     if not executable.is_file():
         executable = build / "praxo_tests"
     subprocess.run([str(executable), str(ROOT.parents[1] / "spec")], cwd=ROOT, check=True, timeout=120)
+    subprocess.run([compiler, *flags, "-Futests", f"-FE{build}", "tests/agent_tests.lpr"],
+                   cwd=ROOT, check=True)
+    executable = build / ("agent_tests.exe" if os.name == "nt" else "agent_tests")
+    subprocess.run([str(executable), str(ROOT.parents[1] / "spec")], cwd=ROOT, check=True, timeout=120)
 
 
 if __name__ == "__main__":

@@ -45,6 +45,12 @@ reuse the host Framework rather than duplicate its agent loop.
 - Fortran remains in progress and must not be represented as a released package.
 - Haskell is an unreleased Wire candidate with three declared vector groups;
   it is not a native agent runtime or a published Hackage package.
+- Elixir, Nim, V, and Objective-C are unreleased Core implementations with all
+  eleven vector groups, native tests, and API snapshots. They are verified
+  locally with Elixir 1.20.4/OTP 29, Nim 2.2.12, V 0.5.2, and clang + GNUstep
+  respectively; release tags, package-registry publication, remote CI, and
+  production readiness are not claimed. Erlang shares the Elixir BEAM runtime
+  and does not add another loop.
 
 ## Feature Boundaries
 
