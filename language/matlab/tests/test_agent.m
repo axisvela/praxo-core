@@ -71,7 +71,44 @@ try
 catch err
     assert(strcmp(err.identifier, 'praxo:agent'));
 end
+secret = struct('name', 'secret', 'invoke', @(args) error('test:secret', 'invoked'));
+echo = praxo.tool('echo', 'Echo', @(args) args);
+call = struct('id', 'c1', 'name', 'echo', 'arguments', praxo.parse_json('{}'));
+options = praxo.agent_options(scripted({struct('content', '', 'toolCalls', {{call}}), struct('content', 'done')}));
+options.tools = {echo, secret};
+options.toolSelection = {'echo'};
+result = praxo.agent_run('use', options.model, options.tools, options);
+assert(isempty(result.errorCode) && strcmp(result.output, 'done') && result.toolInvocations == 1);
+
+seen = containers.Map();
+pii_model = @(request) capture_pii(request, seen);
+options = praxo.agent_options(pii_model);
+options.pii = true;
+result = praxo.agent_run('a@b.com', pii_model, {}, options);
+assert(strcmp(result.output, 'a@b.com'));
+messages_seen = seen('messages');
+assert(strcmp(messages_seen{1}.content, '[REDACTED:email]'));
+
+schema = praxo.parse_json('{"type":"object","required":["name"],"properties":{"name":{"type":"string"}}}');
+options = praxo.agent_options(scripted({struct('content', 'bad')}));
+options.structuredOutput = praxo.structured_output(schema, 1, @(text) '{"name":"fixed"}');
+result = praxo.agent_run('x', options.model, {}, options);
+assert(isempty(result.errorCode) && strcmp(result.output, '{"name":"fixed"}'));
+
+limited_calls = {struct('id', '1', 'name', 'echo', 'arguments', praxo.parse_json('{}')), ...
+    struct('id', '2', 'name', 'echo', 'arguments', praxo.parse_json('{}'))};
+options = praxo.agent_options(scripted({struct('content', '', 'toolCalls', {limited_calls})}));
+options.tools = {praxo.tool('echo', 'Echo', @(args) args)};
+options.callLimit = praxo.call_limit(0, 1);
+result = praxo.agent_run('x', options.model, options.tools, options);
+assert(strcmp(result.errorCode, 'AGENT_TOOL_CALL_LIMIT'));
+
 disp('test_agent passed');
+end
+
+function response = capture_pii(request, seen)
+seen('messages') = request.messages;
+response = struct('content', 'a@b.com');
 end
 
 function model = scripted(steps)

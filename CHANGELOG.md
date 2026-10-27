@@ -4,6 +4,8 @@
 
 ### Added
 
+- Promoted MATLAB/Octave to a native Core SDK with all eleven vector groups,
+  integrated middleware, and tagged `matlab/v0.2.0`.
 - Completed Fortran PII redaction for email, SSN, credit-card, and phone
   patterns, upgraded its Core parity inventory, and tagged it `fortran/v0.2.0`.
 - Marked the Elixir, Nim, V, Objective-C, and Erlang Core SDKs complete after

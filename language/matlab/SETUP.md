@@ -18,22 +18,22 @@ Alternatively put `octave-cli` on `PATH` or set `$env:OCTAVE` to its executable 
 `run_tests.m` with startup files and history disabled. `run_tests.m` checks the
 spec version and vector group headers, then runs `tests/test_json.m`,
 `tests/test_toolcall.m`, `tests/test_schema.m`, `tests/test_manifest.m`, and
-`tests/test_agent.m`. The latter four exercise shared vectors; the JSON tests
-and all test scripts also cover local behavior and failures.
+`tests/test_agent.m` and the additional group tests. All eleven vector groups
+and the native regression scripts run under Octave.
 
-The reported Windows run of `run-tests.py` with the executable above passed the
-wire and agent vectors. Actual MATLAB and remote CI for the agent loop remain
+The reported Windows run of `run-tests.py` with the executable above passed all
+eleven vector groups and the native tests. Actual MATLAB and remote CI remain
 unverified.
 
-`api-snapshot.py --check` verifies `api/0.1.0.txt`, the contract version,
-and symbols in `spec/parity/matlab.md`, including the partial agent-loop row.
-Without `--check` it regenerates the local snapshot. The shared Go spec checks
-can also be run from the repository root:
+`api-snapshot.py --check` verifies `api/0.2.0.txt`, the contract version,
+and symbols in `spec/parity/matlab.md`. Without `--check` it regenerates the
+local snapshot. The shared Go spec checks can also be run from the repository
+root:
 
 ```powershell
 $env:GOWORK = 'off'
 go test ./internal/spec
 ```
 
-No result for that shared Go check is claimed here. Passing these checks does
-not satisfy full Core gates or change this implementation's Wire status.
+No result for that shared Go check is claimed here. These checks cover the
+declared Core gate under Octave; MATLAB itself is not independently verified.

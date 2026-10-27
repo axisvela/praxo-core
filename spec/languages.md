@@ -70,7 +70,7 @@ production readiness or full Go feature parity.
 | Ruby | Core | released | `ruby/v0.1.0` | complete | 11 vectors, core tests, API snapshot |
 | Kotlin | Sample (JVM) | released | none | sample | Uses the Java SDK |
 | Scala | Sample (JVM) | released | none | sample | Uses the Java SDK |
-| MATLAB | Wire | released | `matlab/v0.1.0` | partial | Framework target; Octave-local toolcall, JSON Schema, plugin and agent-loop vectors; MATLAB and remote CI for loop pending |
+| MATLAB | Core | released | `matlab/v0.2.0` | complete | 11 vectors, native tests, API snapshot/parity; Octave 11.3.0; MATLAB runtime unverified |
 | Perl | Core | released | `perl/v0.1.0` | complete | 11 vectors, 27 tests, API snapshot |
 | Delphi | Wire | released | `delphi/v0.1.0` | partial | Framework target; Free Pascal 3.2.2 local toolcall/JSON Schema/plugin and agent-loop vectors; remote CI for loop and Delphi compiler pending |
 | OCaml / Caml | Core | released | `ocaml/v0.2.0` | complete | 11 vectors, native tests, API snapshot/parity; OCaml 4.14.2 bytecode; opt-in middleware integrated |
@@ -138,7 +138,7 @@ production readiness or full Go feature parity.
 | Lisp | `lisp-bridge` | forwarding, UTF-8 JSON, errors, exit codes; local SBCL 2.6.9 and Linux CI verified; source release tagged `lisp/v0.1.0` |
 | Tcl | `tcl-bridge` | forwarding, UTF-8 JSON, errors, exit codes; local Tcl 8.6; source release tagged `tcl/v0.1.0` |
 | Prolog | `prolog-bridge` | forwarding, UTF-8 JSON, errors, exit codes; SWI-Prolog; source release tagged `prolog/v0.1.1` |
-| MATLAB / Octave | `matlab-wire` | Octave: 3 wire groups plus agent-loop vectors, native tests, source API/parity; source release tagged `matlab/v0.1.0`; remote CI for loop and MATLAB unverified |
+| MATLAB / Octave | `matlab-conformance` | Octave: 11 vectors, native tests, source API/parity; source release tagged `matlab/v0.2.0`; MATLAB runtime unverified |
 | Further languages | none yet | planned; gate depends on declared tier |
 
 ## Required Gates per Tier

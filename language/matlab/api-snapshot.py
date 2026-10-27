@@ -8,9 +8,21 @@ ROOT = Path(__file__).resolve().parent
 REPO = ROOT.parents[1]
 
 
-def snapshot():
+def version():
+    sdk = (ROOT / "VERSION").read_text(encoding="utf-8").strip()
     spec = (REPO / "spec/SPEC_VERSION").read_text(encoding="utf-8").strip()
-    lines = ["# PRAXO-CORE MATLAB/Octave Wire API 0.1.0", "# SPEC_VERSION " + spec, ""]
+    declared_sdk = re.search(r"value = '([^']+)'", (ROOT / "+praxo/sdk_version.m").read_text(encoding="utf-8"))[1]
+    declared_spec = re.search(r"value = '([^']+)'", (ROOT / "+praxo/spec_version.m").read_text(encoding="utf-8"))[1]
+    if declared_sdk != sdk:
+        raise ValueError("MATLAB/Octave SDK version does not match VERSION")
+    if declared_spec != spec:
+        raise ValueError("MATLAB/Octave contract version does not match spec/SPEC_VERSION")
+    return sdk, spec
+
+
+def snapshot():
+    sdk, spec = version()
+    lines = ["# PRAXO-CORE MATLAB/Octave Core API " + sdk, "# SPEC_VERSION " + spec, ""]
     for path in sorted((ROOT / "+praxo").glob("*.m")):
         text = path.read_text(encoding="utf-8")
         match = re.match(r"function\s+([^\n]+)", text)
@@ -22,10 +34,14 @@ def snapshot():
 
 def parity_errors():
     text = (REPO / "spec/parity/matlab.md").read_text(encoding="utf-8")
-    spec = (REPO / "spec/SPEC_VERSION").read_text(encoding="utf-8").strip()
+    sdk, spec = version()
     errors = []
+    if "- Tier: core" not in text.splitlines():
+        errors.append("MATLAB/Octave parity tier is not core")
     if "- SPEC_VERSION: " + spec not in text.splitlines():
         errors.append("contract version mismatch")
+    if "`matlab/v" + sdk + "`" not in text:
+        errors.append("parity release tag does not match VERSION")
     rows = 0
     for line in text.splitlines():
         if not line.startswith("| `"):
@@ -44,7 +60,8 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--check", action="store_true")
     args = parser.parse_args()
-    target = ROOT / "api/0.1.0.txt"
+    sdk, _ = version()
+    target = ROOT / "api" / f"{sdk}.txt"
     content = snapshot()
     errors = parity_errors()
     if errors:

@@ -107,7 +107,7 @@ jobs:
       - run: cabal build --offline all
         working-directory: language/haskell
 
-  matlab-wire:
+  matlab-conformance:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4

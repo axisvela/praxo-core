@@ -106,8 +106,8 @@ class DocumentationTests(unittest.TestCase):
         self.assertEqual(english.count("\n| ") - 1, len(source_rows))
         self.assertIn("| Maturity |", english)
         self.assertIn("[Python](python.md) | Framework (Core) | released | `python/v0.2.0` | complete", english)
-        self.assertIn("[MATLAB](matlab.md) | Wire | released | `matlab/v0.1.0` | partial", english)
-        self.assertIn("[MATLAB](matlab.md) | Wire | 源码已发布 | `matlab/v0.1.0` | 部分完成", chinese)
+        self.assertIn("[MATLAB](matlab.md) | Framework (Core) | released | `matlab/v0.2.0` | complete", english)
+        self.assertIn("[MATLAB](matlab.md) | Framework (Core) | 源码已发布 | `matlab/v0.2.0` | 完整", chinese)
         self.assertIn("[Haskell](haskell.md)", chinese)
         self.assertIn("public API is wire-level", english)
         with self.assertRaises(ValueError):

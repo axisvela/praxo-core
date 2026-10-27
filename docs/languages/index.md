@@ -42,6 +42,7 @@ wire-only scope requires documented technical limitations. See the
 | V | [V SDK](v.md) |
 | Objective-C | [Objective-C SDK](objective-c.md) |
 | OCaml / Caml | [OCaml SDK](ocaml.md) |
+| MATLAB / Octave | [MATLAB/Octave SDK](matlab.md) |
 
 ## Shared-Runtime Samples and Bridges
 
@@ -66,10 +67,6 @@ wire-only scope requires documented technical limitations. See the
 [Haskell](haskell.md) has source tag `haskell/v0.1.0`. It targets a native
 Framework. Three wire groups and an experimental agent loop pass locally; remote
 CI for the loop remains pending. No Hackage package or delivery date is claimed.
-
-[MATLAB / Octave](matlab.md) has source tag `matlab/v0.1.0`. It targets a native
-Framework. Three wire groups and agent-loop vectors pass locally in Octave;
-MATLAB and remote CI for the loop have not yet been verified.
 
 [Delphi / Free Pascal](delphi.md) has source tag `delphi/v0.1.0`. It targets a
 native Framework. Three wire groups and agent-loop vectors pass locally with Free

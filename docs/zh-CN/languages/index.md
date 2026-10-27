@@ -40,6 +40,7 @@
 | V | [V SDK](v.md) |
 | Objective-C | [Objective-C SDK](objective-c.md) |
 | OCaml / Caml | [OCaml SDK](ocaml.md) |
+| MATLAB / Octave | [MATLAB/Octave SDK](matlab.md) |
 
 ## 共享运行时示例与桥接
 
@@ -64,9 +65,6 @@
 [Haskell](haskell.md) 已有源码标签 `haskell/v0.1.0`，以原生 Framework 为目标。本地已通过
 三个 Wire 向量组和实验性 Agent 循环向量；新循环的远端 CI 仍待完成。不声明 Hackage
 软件包或交付日期。
-
-[MATLAB / Octave](matlab.md) 已有源码标签 `matlab/v0.1.0`，以原生 Framework 为目标。
-三个 Wire 向量组和 Agent 循环向量已在本地 Octave 通过；MATLAB 和新循环的远端 CI 尚未验证。
 
 [Delphi / Free Pascal](delphi.md) 已有源码标签 `delphi/v0.1.0`，以原生 Framework 为目标。
 三个 Wire 向量组和 Agent 循环向量已在本地 Free Pascal 3.2.2（Windows i386）通过；新循环的远端 CI 和 Delphi 编译器仍待验证。
