@@ -62,11 +62,15 @@ CI have not yet been verified.
 
 [Delphi / Free Pascal](delphi.md) is an unreleased Wire-stage candidate targeting
 a native Framework. Three vector groups pass locally with Free Pascal 3.2.2 on
-Windows i386; the Delphi compiler and remote CI have not yet been verified.
+Windows i386 and in Linux CI; the Delphi compiler remains unverified.
 
 [OCaml](ocaml.md) is an unreleased Wire-stage candidate targeting a native
-Framework. Three vector groups pass locally with OCaml 4.14.2 bytecode; native
-compilation and remote CI have not yet been verified.
+Framework. Three vector groups pass locally with OCaml 4.14.2 bytecode and in
+Linux CI; native `ocamlopt` compilation remains unverified.
+
+[Objective-C](objective-c.md) is an unreleased Wire-stage candidate targeting a
+native Framework. Three vector groups pass locally with clang and GNUstep Base
+on Windows; Apple Foundation and macOS CI remain pending.
 
 Source tags, registry publication, conformance, and production verification are
 different states. A language page includes the source README so installation,

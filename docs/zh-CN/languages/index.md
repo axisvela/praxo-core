@@ -57,10 +57,12 @@
 三个向量组已在本地 Octave 通过；MATLAB 和远端 CI 尚未验证。
 
 [Delphi / Free Pascal](delphi.md) 是以原生 Framework 为目标、尚未发布的 Wire 阶段候选实现。
-三个向量组已在本地 Free Pascal 3.2.2（Windows i386）通过；Delphi 编译器和远端 CI 尚未验证。
+三个向量组已在本地 Free Pascal 3.2.2（Windows i386）和 Linux CI 通过；Delphi 编译器仍待验证。
 
 [OCaml](ocaml.md) 是以原生 Framework 为目标、尚未发布的 Wire 阶段候选实现。
-三个向量组已在本地 OCaml 4.14.2 bytecode 通过；原生编译和远端 CI 尚未验证。
+三个向量组已在本地 OCaml 4.14.2 bytecode 和 Linux CI 通过；ocamlopt 原生编译仍待验证。
+
+[Objective-C](objective-c.md) 是以原生 Framework 为目标、尚未发布的 Wire 阶段候选实现；三个向量组已在本地 clang + GNUstep Base 通过；Apple Foundation 和 macOS CI 仍待验证。
 
 源码标签、包管理器发布、一致性测试和生产验证是不同状态。语言页面复用对应
 源码 README，使安装、示例与限制保持一致。尚未翻译的语言说明会回退到英文。

@@ -48,7 +48,7 @@ imply every Go feature is available.
 | R | Core | released | `r/v0.2.0` | 11 vectors, base-R JSON, API snapshot |
 | Haskell | Wire | in progress | none | Framework target; currently 24 vectors in 3 wire groups, native tests, API snapshot/parity; Linux/Windows CI verified, release review pending |
 | Fortran | Core | in progress | none | 11 vector groups, native tests, API snapshot; CI job verified, release review pending |
-| Lisp | Bridge | in progress | none | SBCL bridge verified locally (forwarding, UTF-8, errors, exit codes); consumer reported, details pending; Linux CI pending |
+| Lisp | Bridge | in progress | none | SBCL bridge verified locally (forwarding, UTF-8, errors, exit codes) and in Linux CI; consumer reported, details pending |
 | JavaScript | Sample (TypeScript) | released | none | Uses the TypeScript package; no separate core |
 | C++ | Core | released | `cpp/v0.1.0` | 11 vectors, core tests, API snapshot |
 | Dart | Core | released | `dart/v0.1.0` | 11 vectors, core tests, API snapshot |
@@ -57,10 +57,10 @@ imply every Go feature is available.
 | Scala | Sample (JVM) | released | none | Uses the Java SDK |
 | MATLAB | Wire | in progress | none | Framework target; Octave-local toolcall, JSON Schema and plugin vector groups; MATLAB and remote CI not yet verified |
 | Perl | Core | released | `perl/v0.1.0` | 11 vectors, 27 tests, API snapshot |
-| Delphi | Wire | in progress | none | Framework target; Free Pascal 3.2.2 local toolcall/JSON Schema/plugin vectors, native tests, API/parity; Delphi compiler and remote CI pending |
-| OCaml / Caml | Wire | in progress | none | Framework target; native toolcall/JSON Schema/plugin wire subset verified locally with OCaml 4.14.2 bytecode; native build and remote CI pending |
+| Delphi | Wire | in progress | none | Framework target; Free Pascal 3.2.2 local toolcall/JSON Schema/plugin vectors, native tests, API/parity; Linux CI verified; Delphi compiler pending |
+| OCaml / Caml | Wire | in progress | none | Framework target; native toolcall/JSON Schema/plugin wire subset verified locally with OCaml 4.14.2 bytecode and in Linux CI; native build pending |
+| Objective-C | Wire | in progress | none | Framework target; clang + GNUstep Base toolcall/JSON Schema/plugin vectors locally on Windows; native tests, API/parity; macOS CI pending |
 | D | Core | released | `d/v0.1.0` | 11 vectors, API snapshot |
-| Objective-C | Core | planned | none | Requires a consumer and maintenance owner before a native loop |
 | VBScript | Bridge | planned | none | Bridge over .NET or the bridge CLI |
 | Zig | Core | released | `zig/v0.2.0` | 11 vectors, API snapshot; `zig/v0.1.0` remains wire |
 | Lua | Core | released | `lua/v0.1.0` | 11 vectors, core tests, API snapshot |
@@ -96,11 +96,11 @@ imply every Go feature is available.
 | Fortran | `fortran-conformance` | native tests, 11 vector groups, API snapshot; release pending |
 | COBOL | `cobol-conformance` | 11 vectors, API snapshot, native/tooling tests |
 | Haskell | `haskell-conformance` | Linux/Windows: 3 wire groups, native tests, source API/parity, Cabal build |
-| Delphi / Free Pascal | `delphi-conformance` | 3 wire groups, native tests, source API/parity; local FPC 3.2.2 Windows i386 verified; remote CI pending |
-| OCaml | `ocaml-conformance` | 3 wire groups, native tests, source API/parity; local OCaml 4.14.2 bytecode verified; native/remote CI pending |
-| Lisp | `lisp-bridge` | forwarding, UTF-8 JSON, errors, exit codes; local SBCL 2.6.9 verified; remote CI pending |
+| Delphi / Free Pascal | `delphi-conformance` | 3 wire groups, native tests, source API/parity; local FPC 3.2.2 Windows i386 and Linux CI verified; Delphi unverified |
+| OCaml | `ocaml-conformance` | 3 wire groups, native tests, source API/parity; local OCaml 4.14.2 bytecode and Linux CI verified; `ocamlopt` unverified |
+| Objective-C | `objc-wire` | 3 wire groups, native tests, source API/parity; local clang + GNUstep verified; macOS CI pending |
+| Lisp | `lisp-bridge` | forwarding, UTF-8 JSON, errors, exit codes; local SBCL 2.6.9 and Linux CI verified |
 | MATLAB / Octave | `matlab-wire` | Octave: 3 wire groups, native tests, source API/parity; remote evidence pending; MATLAB unverified |
-| Objective-C | none yet | core planned |
 | Wave 2 languages | none yet | planned; gate depends on declared tier |
 
 ## Required Gates per Tier

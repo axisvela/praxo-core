@@ -4,6 +4,11 @@
 
 ### Added
 
+- `language/objc/`: unreleased native Objective-C Wire-stage candidate targeting
+  Framework, with local clang + GNUstep validation for toolcall, JSON Schema,
+  and plugin vectors, strict JSON duplicate/trailing rejection, native tests,
+  and API/parity. Apple Foundation, macOS CI, agent loop, and release are not
+  yet claimed.
 - `language/matlab/`: unreleased native MATLAB/Octave Wire-stage candidate targeting
   Framework, with local Octave validation for toolcall, JSON Schema, and plugin
   vectors. MATLAB runtime, remote CI, agent loop, and release are not claimed.
