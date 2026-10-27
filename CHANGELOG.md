@@ -4,6 +4,8 @@
 
 ### Added
 
+- Added Groovy and Clojure samples over the Java SDK, with CI jobs and language
+  matrix entries.
 - Added a native Erlang Core SDK under `language/erlang` with all eleven vector
   groups, native tests, API snapshot/parity, and an OTP 29 CI job; tagged
   `erlang/v0.1.0` with documented partial opt-in surfaces.

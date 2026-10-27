@@ -305,6 +305,31 @@ jobs:
       - uses: VirtusLab/scala-cli-setup@main
       - run: scala-cli run examples/scala/sample.scala --classpath language/java/build/classes --server=false --jvm 21
 
+  groovy-sample:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+      - run: javac -d language/java/build/classes $(find language/java/src/main/java -name '*.java')
+      - run: curl -fL -o groovy.zip https://archive.apache.org/dist/groovy/4.0.24/distribution/apache-groovy-binary-4.0.24.zip
+      - run: unzip -q groovy.zip
+      - run: groovy-4.0.24/bin/groovy -cp language/java/build/classes examples/groovy/sample.groovy
+
+  clojure-sample:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+      - run: javac -d language/java/build/classes $(find language/java/src/main/java -name '*.java')
+      - run: sudo apt-get update && sudo apt-get install -y clojure
+      - run: CLASSPATH=language/java/build/classes clojure examples/clojure/sample.clj
+
   c-conformance:
     runs-on: ubuntu-latest
     defaults:

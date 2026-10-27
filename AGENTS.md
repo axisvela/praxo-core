@@ -150,6 +150,9 @@ cd language/zig; zig test src/pii_test.zig
 cd language/zig; python api-snapshot.py --check
 cd language/typescript; npm run build
 node examples/javascript/sample.mjs
+cd language/java; javac -d build/classes $(find src/main/java -name '*.java')
+groovy -cp language/java/build/classes examples/groovy/sample.groovy
+CLASSPATH=language/java/build/classes clojure examples/clojure/sample.clj
 perl language/perl/conformance/run.pl
 perl language/perl/api-snapshot.pl --check
 perl language/perl/tests/run.pl

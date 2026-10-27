@@ -126,6 +126,8 @@ nav:
       - Java: languages/java.md
       - Kotlin: languages/kotlin.md
       - Scala: languages/scala.md
+      - Groovy: languages/groovy.md
+      - Clojure: languages/clojure.md
       - Rust: languages/rust.md
       - C: languages/c.md
       - C++: languages/cpp.md

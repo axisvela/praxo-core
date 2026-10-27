@@ -84,10 +84,10 @@ production readiness or full Go feature parity.
 | Ada | Core | planned | none | planned | Native loop target; GNAT toolchain; consumer and maintainer required |
 | Mojo | Core | planned | none | planned | Native loop target; toolchain and CI maturity gate |
 | F# | Sample (.NET) | released | `csharp/v0.1.0` | sample | F# consumer sample in `examples/fsharp`; uses the C# SDK |
-| Clojure | Sample (JVM) | planned | none | planned | Uses the Java SDK; no separate agent loop |
+| Clojure | Sample (JVM) | released | `java/v0.2.1` | sample | Clojure consumer sample in `examples/clojure`; uses the Java SDK |
 | Solidity | Wire | planned | none | planned | Candidate contract integration; scope and technical limitations require investigation |
 | OpenCL | Sample | planned | none | planned | Candidate compute integration; scope and host requirements require investigation |
-| Groovy | Sample (JVM) | planned | none | planned | Uses the Java SDK; no separate agent loop |
+| Groovy | Sample (JVM) | released | `java/v0.2.1` | sample | Groovy consumer sample in `examples/groovy`; uses the Java SDK |
 | J# | Sample (.NET) | consumer-gated | none | gated | Legacy J# runtime and toolchain are unsupported; requires a named consumer and compatible .NET path |
 | FoxPro | Bridge | planned | none | planned | Bridge over the maintained runtime; Visual FoxPro is Windows-only and legacy |
 | Classic Visual Basic | Bridge | planned | none | planned | Bridge over the .NET SDK or bridge CLI; VB6 cannot consume modern .NET directly |

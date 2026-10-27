@@ -9,7 +9,7 @@ import yaml
 ROOT = Path(__file__).resolve().parents[1]
 LANGUAGES = "python typescript java rust c cpp csharp php ruby perl lua dart swift julia r d zig cobol fortran haskell matlab delphi ocaml objc elixir erlang nim v".split()
 BINDINGS = ["shell", "powershell", "lisp", "tcl"]
-SAMPLES = ["javascript", "kotlin", "scala", "fsharp"]
+SAMPLES = ["javascript", "kotlin", "scala", "groovy", "clojure", "fsharp"]
 
 
 class LayoutTests(unittest.TestCase):
