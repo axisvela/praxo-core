@@ -72,7 +72,7 @@ production readiness or full Go feature parity.
 | Scala | Sample (JVM) | released | none | sample | Uses the Java SDK |
 | MATLAB | Core | released | `matlab/v0.2.0` | complete | 11 vectors, native tests, API snapshot/parity; Octave 11.3.0; MATLAB runtime unverified |
 | Perl | Core | released | `perl/v0.1.0` | complete | 11 vectors, 27 tests, API snapshot |
-| Delphi | Wire | released | `delphi/v0.1.0` | partial | Framework target; Free Pascal 3.2.2 local toolcall/JSON Schema/plugin and agent-loop vectors; remote CI for loop and Delphi compiler pending |
+| Delphi | Core | released | `delphi/v0.2.0` | complete | 11 vectors, native tests, API snapshot/parity; Free Pascal 3.2.2; commercial Delphi unverified |
 | OCaml / Caml | Core | released | `ocaml/v0.2.0` | complete | 11 vectors, native tests, API snapshot/parity; OCaml 4.14.2 bytecode; opt-in middleware integrated |
 | Objective-C | Core | released | `objc/v0.1.0` | complete | 11 vectors, native tests, API snapshot/parity; opt-in middleware integrated; Windows GNUstep and macOS CI |
 | Elixir | Core | released | `elixir/v0.1.0` | complete | 11 vectors, native tests, API snapshot/parity; opt-in middleware integrated |
@@ -128,7 +128,7 @@ production readiness or full Go feature parity.
 | Fortran | `fortran-conformance` | native tests, 11 vector groups, API snapshot; source release tagged `fortran/v0.2.0` |
 | COBOL | `cobol-conformance` | 11 vectors, API snapshot, native/tooling tests |
 | Haskell | `haskell-conformance` | 11 vectors, native tests, source API/parity, Cabal build; source release tagged `haskell/v0.2.0` |
-| Delphi / Free Pascal | `delphi-conformance` | 3 wire groups plus agent-loop vectors, native tests, source API/parity; source release tagged `delphi/v0.1.0`; remote CI for loop and Delphi unverified |
+| Delphi / Free Pascal | `delphi-conformance` | 11 vectors, native tests, source API/parity; source release tagged `delphi/v0.2.0`; commercial Delphi unverified |
 | OCaml | `ocaml-conformance` | 11 vectors, native tests, source API/parity; local OCaml 4.14.2 bytecode and Linux CI verified; source release tagged `ocaml/v0.2.0`; `ocamlopt` unverified |
 | Objective-C | `objc-conformance` | 11 vectors, native tests, source API/parity; local clang + GNUstep verified; macOS CI verified |
 | Elixir | `elixir-conformance` | 11 vectors, API snapshot, tests; OTP 29 + Elixir 1.20.4 |

@@ -4,6 +4,8 @@
 
 ### Added
 
+- Promoted Delphi/Free Pascal to a native Core SDK with runtime and middleware
+  helpers, all eleven vector groups, and source tag `delphi/v0.2.0`.
 - Promoted Haskell to a native Core SDK with runtime, middleware, and all eleven
   vector groups; released source tag `haskell/v0.2.0`.
 - Promoted MATLAB/Octave to a native Core SDK with all eleven vector groups,

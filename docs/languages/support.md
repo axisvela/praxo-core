@@ -51,9 +51,9 @@ reuse the host Framework rather than duplicate its agent loop.
 - Haskell has source tag `haskell/v0.2.0` with all eleven vector groups, native
   tests, API snapshot/parity, and runtime/middleware helpers. Hackage publication
   and production readiness are not claimed.
-- Delphi/Free Pascal has source tag `delphi/v0.1.0` and remains a Wire-stage
-  candidate; the commercial Delphi compiler, remote CI for the loop, and package
-  registries are not claimed.
+- Delphi/Free Pascal has source tag `delphi/v0.2.0` with all eleven vector groups,
+  native tests, and API snapshot/parity under Free Pascal 3.2.2. The commercial
+  Delphi compiler, other targets, and package registries are not claimed.
 - MATLAB/Octave has source tag `matlab/v0.2.0` with all eleven vector groups,
   native tests, and API snapshot/parity under Octave. The MATLAB runtime,
   provider adapters, and package registries are not claimed.

@@ -1,4 +1,4 @@
 ---
-title: Delphi / Free Pascal Wire SDK
+title: Delphi / Free Pascal SDK
 sdk_readme: language/delphi/README.md
 ---

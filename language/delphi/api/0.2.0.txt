@@ -1,0 +1,44 @@
+# PRAXO-CORE Delphi/Free Pascal Core API 0.2.0
+# SPEC_VERSION 0.2.0
+
+function PraxoParseJSON(const Text: UTF8String): TJSONData;
+function PraxoEncodeJSON(Data: TJSONData): UTF8String;
+function PraxoParseToolCall(const Content: UTF8String; out Call: TPraxoCall): Boolean;
+function PraxoStripToolCallMarkup(const Content: UTF8String): UTF8String;
+function PraxoValidateSchema(Schema, Data: TJSONData): TPraxoStringArray;
+function PraxoValidateManifest(const Raw: UTF8String; out Manifest: TJSONObject): Boolean;
+function PraxoJSONEqual(A, B: TJSONData): Boolean;
+function Generate(Messages: TJSONArray): TJSONObject; virtual; abstract;
+function Invoke(const Name: UTF8String; Arguments: TJSONObject): TJSONData; virtual; abstract;
+procedure Emit(const EventType: UTF8String); virtual; abstract;
+function PraxoRunAgent(Host: TPraxoAgentHost; const Prompt: UTF8String; MaxSteps: Integer; MaxTokens: Int64): TPraxoAgentResult;
+function PraxoMemoryNew: TPraxoMemoryStore;
+function PraxoMemoryPut(var Store: TPraxoMemoryStore; const Session: UTF8String;
+function PraxoMemorySearch(const Store: TPraxoMemoryStore; const Session, Query: UTF8String;
+function PraxoEventNew: TPraxoEventSink;
+function PraxoEventMulti(const Sinks: array of TPraxoEventSink): TPraxoEventSink;
+function PraxoEventFilter(Target: TPraxoEventSink; const Predicate: TPraxoStringArray): TPraxoEventSink;
+procedure PraxoEventEmit(Sink: TPraxoEventSink; const Event: TPraxoEvent);
+function PraxoStreamKinds: TPraxoStringArray;
+function PraxoCheckpointNew: TPraxoStringArray;
+procedure PraxoCheckpointRegister(var Allow: TPraxoStringArray; const Kind: UTF8String);
+function PraxoCheckpointMarshal(const Allow: TPraxoStringArray; const Kind: UTF8String;
+function PraxoCheckpointUnmarshal(const Allow: TPraxoStringArray; const Data: UTF8String;
+function PraxoNormalizePath(const Value: UTF8String): UTF8String;
+function PraxoPathChecker(const Grants: array of TPraxoPathGrant; out Checker: TPraxoPathChecker): UTF8String;
+function PraxoPathCheck(const Checker: TPraxoPathChecker; const Target, Need: UTF8String;
+function PraxoPathAllowed(const Checker: TPraxoPathChecker; const Target, Need: UTF8String): Boolean;
+function PraxoEstimateTokens(const Messages: TPraxoContextMessages): Integer;
+function PraxoCompactContext(const Budget: TPraxoContextBudget;
+function PraxoMessageWire(const Message: TPraxoContextMessage): TJSONObject;
+function PraxoPiiRedact(const Text: UTF8String): UTF8String;
+function PraxoRedactValue(Value: TJSONData): TJSONData;
+function PraxoExtractJson(const Text: UTF8String): TJSONData;
+function PraxoStructuredOutput(Schema: TJSONData; MaxRepairs: Integer;
+function PraxoApplyStructured(const Config: TPraxoStructuredOutput; const Text: UTF8String): UTF8String;
+function PraxoCallLimit(ModelLimit, ToolLimit: Integer): TPraxoCallLimit;
+function PraxoCallLimitModel(var Limit: TPraxoCallLimit): UTF8String;
+function PraxoCallLimitTool(var Limit: TPraxoCallLimit): UTF8String;
+function PraxoSelectTools(const Selection, Tools: TPraxoStringArray): TPraxoStringArray;
+function PraxoFallback(const PrimaryFailed: Boolean; const Primary, Fallback: UTF8String): UTF8String;
+function PraxoCheckToolSelected(const Selection: TPraxoStringArray; const Name: UTF8String): UTF8String;

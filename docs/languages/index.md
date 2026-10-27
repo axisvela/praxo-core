@@ -44,6 +44,7 @@ wire-only scope requires documented technical limitations. See the
 | OCaml / Caml | [OCaml SDK](ocaml.md) |
 | MATLAB / Octave | [MATLAB/Octave SDK](matlab.md) |
 | Haskell | [Haskell SDK](haskell.md) |
+| Delphi / Free Pascal | [Delphi / Free Pascal SDK](delphi.md) |
 
 ## Shared-Runtime Samples and Bridges
 
@@ -62,13 +63,6 @@ wire-only scope requires documented technical limitations. See the
 | Lisp | [SBCL runtime bridge](lisp.md) |
 | Tcl | [Runtime bridge](tcl.md) |
 | Prolog | [SWI-Prolog runtime bridge](prolog.md) |
-
-## Wire Implementations
-
-[Delphi / Free Pascal](delphi.md) has source tag `delphi/v0.1.0`. It targets a
-native Framework. Three wire groups and agent-loop vectors pass locally with Free
-Pascal 3.2.2 on Windows i386; remote CI for the loop and the Delphi compiler
-remain unverified.
 
 Source tags, registry publication, conformance, and production verification are
 different states. A language page includes the source README so installation,

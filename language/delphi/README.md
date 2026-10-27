@@ -1,14 +1,14 @@
 # PRAXO-CORE for Delphi and Free Pascal
 
-Native Wire-stage candidate with source tag `delphi/v0.1.0`, targeting a
-Framework implementation. The current code includes a partial native agent loop
-but no model provider, process bridge, or plugin host. It does not call Go or
-another language SDK.
+Native Core implementation with source tag `delphi/v0.2.0`. It passes all eleven
+vector groups and includes the native agent loop plus memory, event, checkpoint,
+policy, context, and middleware helpers. It does not call Go or another language
+SDK; there is no model provider, process bridge, or plugin host.
 
 Local validation uses Free Pascal 3.2.2 on Windows i386. It does not establish
 commercial Delphi compiler compatibility, Linux/macOS support, package-registry
 publication, production readiness, or a delivery date. The CI recipe targets
-Free Pascal on Ubuntu; remote evidence remains pending.
+Free Pascal on Ubuntu.
 
 ## Build and Test
 
@@ -101,12 +101,14 @@ Nonpositive `MaxSteps` defaults to eight and nonpositive `MaxTokens` is unlimite
   rejection is stricter than the Go JSON decoder.
 - The loop is synchronous, uses fresh in-memory history, executes tools serially,
   and trusts the host to enforce tool availability and authorization. It lacks
-  policy, hooks, cancellation, streaming, persistence, and other Core features.
-  Multiple tool calls are validated and executed sequentially, rather than all
-  being prepared before invocation as in Go. Events contain only their type.
-- SDK-local exceptions are not new shared wire error codes. Passing four vector
-  groups does not imply full Framework or Go feature parity. The shared Delphi
-  parity inventory does not yet include the partial agent loop.
+  cancellation, asynchronous streaming, persistence, and other advanced Core
+  features. Multiple tool calls are validated and executed sequentially, rather
+  than all being prepared before invocation as in Go. Events contain only their
+  type. `praxo_core` provides memory, event sinks, checkpoints, lexical path
+  policy, context compaction, PII/structured-output helpers, call limits, and
+  tool selection; the agent loop does not automatically apply every opt-in helper.
+- SDK-local exceptions are not new shared wire error codes. Passing the eleven
+  vector groups does not imply full Go feature parity or production readiness.
 
 The source is MIT; see [LICENSE](LICENSE). Free Pascal, its RTL, `fpjson`, and
 `RegExpr` are separate toolchain components, not vendored code.

@@ -23,9 +23,10 @@ def snapshot():
     declared_spec = re.search(r"PraxoSpecVersion\s*=\s*'([^']+)'", interface)
     if not sdk or not declared_spec or declared_spec[1] != spec:
         raise ValueError("Pascal SDK or contract version does not match specification")
-    lines = ["# PRAXO-CORE Delphi/Free Pascal Wire API " + sdk[1],
+    lines = ["# PRAXO-CORE Delphi/Free Pascal Core API " + sdk[1],
              "# SPEC_VERSION " + spec, ""]
-    for raw in (interface + "\n" + interface_text("praxo_agent.pas")).splitlines():
+    for raw in (interface + "\n" + interface_text("praxo_agent.pas") + "\n" +
+                interface_text("praxo_core.pas")).splitlines():
         line = raw.strip()
         match = re.match(r"^(function|procedure)\s+(\w+)", line, re.IGNORECASE)
         if match:
@@ -37,7 +38,8 @@ def snapshot():
 
 def parity_errors():
     text = (REPO / "spec/parity/delphi.md").read_text(encoding="utf-8")
-    interface = interface_text() + "\n" + interface_text("praxo_agent.pas")
+    interface = (interface_text() + "\n" + interface_text("praxo_agent.pas") + "\n" +
+                 interface_text("praxo_core.pas"))
     spec = (REPO / "spec/SPEC_VERSION").read_text(encoding="utf-8").strip()
     errors = []
     if "- SPEC_VERSION: " + spec not in text.splitlines():
@@ -60,7 +62,8 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--check", action="store_true")
     args = parser.parse_args()
-    target = ROOT / "api/0.1.0.txt"
+    sdk = re.search(r"PraxoSdkVersion\s*=\s*'([^']+)'", interface_text())
+    target = ROOT / "api" / f"{sdk[1]}.txt"
     content = snapshot()
     errors = parity_errors()
     if errors:
