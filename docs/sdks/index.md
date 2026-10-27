@@ -44,8 +44,8 @@ and the [canonical scope matrix](https://github.com/axisvela/praxo-core/blob/mai
 ## Wire Candidates
 
 [Haskell](haskell.md) is an unreleased Wire implementation, with 24 vectors in
-three declared groups. It does not include an agent loop. Remote CI and release
-review remain pending; no Hackage package or release tag is claimed.
+three declared groups. It does not include an agent loop. Linux and Windows CI
+have passed; release review remains pending. No Hackage package or release tag is claimed.
 
 Source tags, registry publication, conformance, and production verification are
 different states. A language page includes the source README so installation,

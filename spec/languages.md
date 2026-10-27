@@ -28,7 +28,7 @@ imply every Go feature is available.
 | Python | Core | released | `python/v0.2.0` | 11 vectors, OpenAI adapter |
 | TypeScript | Core | released | `typescript/v0.1.0` | 11 vectors, OpenAI adapter |
 | Java | Core | released | `java/v0.2.1` | 11 vectors, OpenAI adapter, API snapshot |
-| Rust | Core | released | `rust/v0.1.0` | 11 vectors, 7 tests |
+| Rust | Core | released | `rust/v0.1.0` | 11 vectors, native tests; current source adds compiler-derived API/parity gate |
 | C | Core | released | `c/v0.1.0` | All 11 vectors; public API is wire-level |
 | C# | Core (.NET) | released | `csharp/v0.1.0` | 11 vectors, API snapshot, OpenAI adapter |
 | Visual Basic | Sample (.NET) | released | `csharp/v0.1.0` | VB.NET consumer sample in `sdk/csharp/samples` |
@@ -38,7 +38,7 @@ imply every Go feature is available.
 | Swift | Core | released | `swift/v0.2.0` | 11 vectors, XCTest, API snapshot |
 | Julia | Core | released | `julia/v0.2.0` | 11 vectors, JSON.jl, API snapshot |
 | R | Core | released | `r/v0.2.0` | 11 vectors, base-R JSON, API snapshot |
-| Haskell | Wire | in progress | none | 24 vectors in 3 wire groups, native tests, API snapshot/parity; remote CI/release pending |
+| Haskell | Wire | in progress | none | 24 vectors in 3 wire groups, native tests, API snapshot/parity; Linux/Windows CI verified, release review pending |
 | Fortran | Core | in progress | none | 11 vector groups, native tests, API snapshot; CI job verified, release review pending |
 | Lisp | Bridge | consumer-gated | none | Requires a named consumer |
 | JavaScript | Sample (TypeScript) | released | none | Uses the TypeScript package; no separate core |
@@ -69,7 +69,7 @@ imply every Go feature is available.
 | Python | `python-conformance` | vectors, parity, API snapshot, unittest |
 | TypeScript | `typescript-conformance` | build, vectors, parity, API snapshot, node:test |
 | Java | `java-conformance` | Maven build, vectors, API snapshot, self-tests |
-| Rust | `rust-conformance` | cargo test, vectors |
+| Rust | `rust-conformance` | cargo test, vectors, compiler-derived API snapshot/parity, gate regressions |
 | C | `c-conformance` | CMake build, vectors, C core tests |
 | C# / VB.NET | `csharp-conformance` | build, vectors, API snapshot, core tests, VB sample |
 | PHP | `php-conformance` | vectors, API snapshot, core tests |
@@ -87,7 +87,7 @@ imply every Go feature is available.
 | Shell / PowerShell | `bridge` | bridge tests, both wrappers |
 | Fortran | `fortran-conformance` | native tests, 11 vector groups, API snapshot; release pending |
 | COBOL | `cobol-conformance` | 11 vectors, API snapshot, native/tooling tests |
-| Haskell | `haskell-conformance` | 3 wire groups, native tests, source API/parity; remote evidence pending |
+| Haskell | `haskell-conformance` | Linux/Windows: 3 wire groups, native tests, source API/parity, Cabal build |
 | Lisp | none yet | consumer-gated bridge |
 | Objective-C, OCaml | none yet | core planned |
 | Wave 2 languages | none yet | planned; gate depends on declared tier |

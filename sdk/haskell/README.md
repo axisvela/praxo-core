@@ -7,8 +7,8 @@ It does not call Go or another SDK and does not implement an agent loop.
 - Candidate package version: `0.1.0`; supported `SPEC_VERSION`: `0.2.0`.
 - Local gate: 24 shared vectors across toolcall, JSON Schema, and plugin groups,
   plus native regression tests and source API/parity checks.
-- No release tag or Hackage publication is implied. Remote CI is pending for
-  this new implementation.
+- Linux and Windows CI passed on commit `4273f47`. Release review remains pending;
+  no release tag or Hackage publication is implied.
 
 ## Build and Test
 

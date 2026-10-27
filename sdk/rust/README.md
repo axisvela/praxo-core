@@ -13,6 +13,7 @@ Package version: `0.1.0`. Supported contract: `SPEC_VERSION` `0.2.0`
 ## Requirements
 
 - Rust 1.80 or newer
+- Python 3.10 or newer for the API gate (not a runtime dependency)
 
 ## Build and test
 
@@ -20,6 +21,8 @@ Package version: `0.1.0`. Supported contract: `SPEC_VERSION` `0.2.0`
 cd sdk/rust
 cargo test
 cargo run --quiet --bin conformance
+python api-snapshot.py --check
+python -m unittest discover -s tests -p "test_*.py" -v
 ```
 
 ## Usage
@@ -69,6 +72,21 @@ Wire codecs preserve the Go names, including `image_url`, `runId`, and
 
 The runner reads `../../spec/vectors/*.json`. A released SDK must pass every vector
 and keep `spec/parity.md` current.
+
+## API Gate
+
+`api-snapshot.py` uses stable compiler-generated rustdoc, not a source regex
+scanner. It records reachable public declarations, fields, inherent methods,
+and direct trait implementations, and checks implemented symbols against
+[`spec/parity/rust.md`](../../spec/parity/rust.md). Stale, unlinked rustdoc pages
+are excluded. Auto traits, blanket implementations, and expanded alias internals
+are excluded to avoid compiler/platform-specific noise.
+
+The baseline is [`api/0.1.0.txt`](api/0.1.0.txt). Regenerate it with
+`python api-snapshot.py` only after reviewing an intentional API change.
+This is not a binary ABI or automated semver-compatibility guarantee. Serde/wire
+attributes still require specification review and conformance tests; they are
+not inferred from rustdoc. The gate uses `Cargo.lock` and adds no Rust dependencies.
 
 ## License
 

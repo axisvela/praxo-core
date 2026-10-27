@@ -76,6 +76,8 @@ cd sdk/java; java --add-modules jdk.httpserver -cp target/classes:target/test-cl
 cd sdk/java; java -cp target/classes:target/test-classes io.axisvela.praxo.agent.AgentConcurrencySelfTest
 cd sdk/rust; cargo test
 cd sdk/rust; cargo run --quiet --bin conformance
+cd sdk/rust; python api-snapshot.py --check
+cd sdk/rust; python -m unittest discover -s tests -p "test_*.py" -v
 go test ./internal/bridge ./cmd/praxo-bridge
 go run ./cmd/praxo-bridge version
 python sdk/haskell/run-tests.py

@@ -389,8 +389,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: dtolnay/rust-toolchain@stable
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
       - run: cargo test
       - run: cargo run --quiet --bin conformance
+      - run: python api-snapshot.py --check
+      - run: python -m unittest discover -s tests -p "test_*.py" -v
 
   examples:
     runs-on: ubuntu-latest

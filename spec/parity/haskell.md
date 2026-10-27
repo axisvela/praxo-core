@@ -5,7 +5,8 @@
 
 Unreleased Wire candidate. Local checks cover 24 vectors in the three groups
 `toolcall`, `jsonschema`, and `plugin`, native regression tests, and the source
-API snapshot. Remote CI and release review remain pending. This is not Core
+API snapshot. Linux and Windows CI passed on commit `4273f47`; release review
+remains pending. This is not Core
 parity and does not provide an agent loop or provider adapter.
 
 | Go symbol | Haskell symbol | Status | Phase |

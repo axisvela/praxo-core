@@ -1,0 +1,539 @@
+# PRAXO-CORE Rust API 0.1.0
+# SPEC_VERSION 0.2.0
+
+## constant praxo_core::SDK_VERSION
+pub const SDK_VERSION: &str = "0.1.0";
+
+## constant praxo_core::SPEC_VERSION
+pub const SPEC_VERSION: &str = "0.2.0";
+
+## constant praxo_core::context::COMPACT_MARKER_PREFIX
+pub const COMPACT_MARKER_PREFIX: &str = "[context compacted:";
+
+## constant praxo_core::context::DEFAULT_SUMMARY_PROMPT
+pub const DEFAULT_SUMMARY_PROMPT: &str = "Summarize the conversation so far. Preserve decisions, open tasks, \ tool results, constraints, and user preferences. Be concise.";
+
+## constant praxo_core::context::MAX_AGENTS_MD_BYTES
+pub const MAX_AGENTS_MD_BYTES: usize = _; // 65_536usize
+
+## constant praxo_core::context::SUMMARY_MARKER_PREFIX
+pub const SUMMARY_MARKER_PREFIX: &str = "[context summary:";
+
+## constant praxo_core::memory::FRAME_CONSTRAINT
+pub const FRAME_CONSTRAINT: &str = "constraint";
+
+## constant praxo_core::memory::FRAME_DECISION
+pub const FRAME_DECISION: &str = "decision";
+
+## constant praxo_core::memory::FRAME_EVENT
+pub const FRAME_EVENT: &str = "event";
+
+## constant praxo_core::memory::FRAME_EXPERIENCE
+pub const FRAME_EXPERIENCE: &str = "experience";
+
+## constant praxo_core::memory::FRAME_INTENTION
+pub const FRAME_INTENTION: &str = "intention";
+
+## constant praxo_core::memory::FRAME_PROCEDURE
+pub const FRAME_PROCEDURE: &str = "procedure";
+
+## constant praxo_core::memory::FRAME_WORKSPACE_STATE
+pub const FRAME_WORKSPACE_STATE: &str = "workspace_state";
+
+## constant praxo_core::middleware::DEFAULT_TOOL_SELECTOR_PROMPT
+pub const DEFAULT_TOOL_SELECTOR_PROMPT: &str = "Select the tools needed to answer the user query.\n\ Return only JSON in the form {\"tools\":[\"tool_name\"]}.\n\ Prefer the smallest sufficient set. Return {\"tools\":[]} when no tool is needed.";
+
+## constant praxo_core::middleware::STRATEGY_AUTO
+pub const STRATEGY_AUTO: &str = "auto";
+
+## constant praxo_core::middleware::STRATEGY_PROVIDER
+pub const STRATEGY_PROVIDER: &str = "provider";
+
+## constant praxo_core::middleware::STRATEGY_TOOL
+pub const STRATEGY_TOOL: &str = "tool";
+
+## constant praxo_core::model::ROLE_ASSISTANT
+pub const ROLE_ASSISTANT: &str = "assistant";
+
+## constant praxo_core::model::ROLE_SYSTEM
+pub const ROLE_SYSTEM: &str = "system";
+
+## constant praxo_core::model::ROLE_TOOL
+pub const ROLE_TOOL: &str = "tool";
+
+## constant praxo_core::model::ROLE_USER
+pub const ROLE_USER: &str = "user";
+
+## constant praxo_core::plugin::EVENT_KINDS
+pub const EVENT_KINDS: [&str; 11];
+
+## constant praxo_core::plugin::KINDS
+pub const KINDS: [&str; 5];
+
+## constant praxo_core::plugin::STATES
+pub const STATES: [&str; 9];
+
+## constant praxo_core::stream::STREAM_CHECKPOINT
+pub const STREAM_CHECKPOINT: &str = "checkpoint";
+
+## constant praxo_core::stream::STREAM_DEBUG
+pub const STREAM_DEBUG: &str = "debug";
+
+## constant praxo_core::stream::STREAM_KINDS
+pub const STREAM_KINDS: [&str; 6];
+
+## constant praxo_core::stream::STREAM_MESSAGES
+pub const STREAM_MESSAGES: &str = "messages";
+
+## constant praxo_core::stream::STREAM_TASKS
+pub const STREAM_TASKS: &str = "tasks";
+
+## constant praxo_core::stream::STREAM_UPDATES
+pub const STREAM_UPDATES: &str = "updates";
+
+## constant praxo_core::stream::STREAM_VALUES
+pub const STREAM_VALUES: &str = "values";
+
+## fn praxo_core::conformance::run_all
+pub fn run_all() -> Vec<String>
+
+## fn praxo_core::context::estimate_tokens
+pub fn estimate_tokens(messages: &[Message]) -> usize
+
+## fn praxo_core::context::load_agents_md
+pub fn load_agents_md(paths: &[String]) -> Result<String>
+
+## fn praxo_core::context::truncate_to_tokens
+pub fn truncate_to_tokens(value: &str, tokens: usize) -> String
+
+## fn praxo_core::event::now_iso
+pub fn now_iso() -> String
+
+## fn praxo_core::jsonschema::validate
+pub fn validate(schema: &Value, data: &Value) -> Vec<ValidationError>
+
+## fn praxo_core::middleware::default_pii_rules
+pub fn default_pii_rules() -> Vec<PiiRule>
+
+## fn praxo_core::middleware::extract_json
+pub fn extract_json(output: &str) -> Result<Value>
+
+## fn praxo_core::middleware::fallback_model
+pub fn fallback_model(fallback: Option<Arc<dyn Model>>) -> ModelMiddleware
+
+## fn praxo_core::middleware::fallback_with_content
+pub fn fallback_with_content(content: String) -> ModelMiddleware
+
+## fn praxo_core::middleware::last_user_message
+pub fn last_user_message(messages: &[Message]) -> &str
+
+## fn praxo_core::middleware::merge_middleware
+pub fn merge_middleware( items: Vec<Box<dyn Middleware>>, ) -> Vec<Box<dyn Middleware>>
+
+## fn praxo_core::plugin::parse_manifest
+pub fn parse_manifest(raw: &str) -> Result<Manifest>
+
+## fn praxo_core::plugin::validate_trust
+pub fn validate_trust(manifest: &Manifest, profile: &str) -> Result<()>
+
+## fn praxo_core::toolcall::parse
+pub fn parse(content: &str) -> Option<ParsedToolCall>
+
+## fn praxo_core::toolcall::parse_input_json
+pub fn parse_input_json(raw: &str) -> Option<Map<String, Value>>
+
+## fn praxo_core::toolcall::strip_markup
+pub fn strip_markup(content: &str) -> String
+
+## module praxo_core
+
+## module praxo_core::agent
+
+## module praxo_core::checkpoint
+
+## module praxo_core::conformance
+
+## module praxo_core::context
+
+## module praxo_core::errors
+
+## module praxo_core::event
+
+## module praxo_core::jsonschema
+
+## module praxo_core::memory
+
+## module praxo_core::middleware
+
+## module praxo_core::model
+
+## module praxo_core::plugin
+
+## module praxo_core::policy
+
+## module praxo_core::stream
+
+## module praxo_core::tool
+
+## module praxo_core::toolcall
+
+## struct praxo_core::agent::Agent
+pub struct Agent { /* private fields */ }
+impl Agent
+method pub fn new(options: AgentOptions) -> Result<Self>
+method pub fn run(&self, session: &Session, prompt: &str) -> Result<RunResult>
+
+## struct praxo_core::agent::AgentOptions
+pub struct AgentOptions { pub model: Arc<dyn Model>, pub tools: Option<Arc<Registry>>, pub events: Option<Arc<dyn Sink>>, pub policy: Option<Arc<dyn Hook>>, pub system_prompt: String, pub memory_files: Vec<String>, pub context: Option<ContextBudget>, pub compactor: Option<Arc<dyn ContextCompactor>>, pub offloader: Option<Arc<dyn Offloader>>, pub offload_threshold_bytes: usize, pub middleware: Vec<Box<dyn Middleware>>, pub model_middleware: Vec<ModelMiddleware>, pub structured_output: Option<StructuredOutput>, pub allowed_tools: Vec<String>, pub tool_selector: Option<Arc<dyn ToolSelector>>, pub pii_redactor: Option<PiiRedactor>, pub model_call_limit: usize, pub tool_call_limit: usize, pub fallback_model: Option<Arc<dyn Model>>, pub tool_choice: Option<String>, pub response_format: Option<ResponseFormat>, pub max_steps: usize, pub max_tokens: i64, }
+impl AgentOptions
+method pub fn new(model: Arc<dyn Model>) -> Self
+
+## struct praxo_core::agent::RunResult
+pub struct RunResult { pub run_id: String, pub output: String, pub steps: usize, pub usage: Usage, }
+impl Clone for RunResult
+impl Debug for RunResult
+
+## struct praxo_core::agent::Session
+pub struct Session { pub id: String, pub tenant_id: String, pub workspace_id: String, pub messages: Vec<Message>, }
+impl Session
+method pub fn new(id: impl Into<String>) -> Self
+
+## struct praxo_core::checkpoint::Allowlist
+pub struct Allowlist { /* private fields */ }
+impl Allowlist
+impl Default for Allowlist
+method pub fn marshal(&self, name: &str, value: Value) -> Result<String>
+method pub fn new() -> Self
+method pub fn register( &self, name: &str, factory: impl Fn() -> Value + Send + Sync + 'static, ) -> Result<()>
+method pub fn unmarshal(&self, data: &str) -> Result<Value>
+
+## struct praxo_core::context::ContextBudget
+pub struct ContextBudget { pub max_tokens: usize, pub keep_recent: usize, }
+impl Clone for ContextBudget
+impl ContextBudget
+impl Copy for ContextBudget
+impl Debug for ContextBudget
+method pub fn compact(&self, messages: &[Message]) -> (Vec<Message>, bool)
+method pub fn new(max_tokens: usize, keep_recent: usize) -> Self
+
+## struct praxo_core::context::ModelSummarizer
+pub struct ModelSummarizer { /* private fields */ }
+impl ContextCompactor for ModelSummarizer
+impl ModelSummarizer
+method pub fn new(model: Option<Arc<dyn Model>>) -> Self
+method pub fn with_prompt( self, prompt: impl Into<String>, max_summary_tokens: usize, ) -> Self
+
+## struct praxo_core::context::OffloadFunc
+pub struct OffloadFunc<F> where F: Fn(&str, &str, &[u8]) -> Result<String> + Send + Sync,{ /* private fields */ }
+impl<F> OffloadFunc<F> where F: Fn(&str, &str, &[u8]) -> Result<String> + Send + Sync,
+impl<F> Offloader for OffloadFunc<F> where F: Fn(&str, &str, &[u8]) -> Result<String> + Send + Sync,
+method pub fn new(function: F) -> Self
+
+## struct praxo_core::errors::PraxoError
+pub struct PraxoError { pub code: &'static str, pub message: String, }
+impl Clone for PraxoError
+impl Debug for PraxoError
+impl Display for PraxoError
+impl Error for PraxoError
+impl PraxoError
+method pub fn aborted() -> Self
+method pub fn checkpoint(message: impl Into<String>) -> Self
+method pub fn context_budget() -> Self
+method pub fn max_steps() -> Self
+method pub fn max_tokens() -> Self
+method pub fn model_call_limit() -> Self
+method pub fn new(code: &'static str, message: impl Into<String>) -> Self
+method pub fn plugin(message: impl Into<String>) -> Self
+method pub fn policy(message: impl Into<String>) -> Self
+method pub fn structured_output(message: impl Into<String>) -> Self
+method pub fn tool_call_limit() -> Self
+method pub fn tool_not_found(message: impl Into<String>) -> Self
+method pub fn tool_not_selected() -> Self
+method pub fn type_not_allowed(message: impl Into<String>) -> Self
+
+## struct praxo_core::event::Event
+pub struct Event { pub kind: String, pub session_id: String, pub run_id: Option<String>, pub data: Option<Map<String, Value>>, pub at: Option<String>, }
+impl Clone for Event
+impl Debug for Event
+impl Event
+impl Serialize for Event
+impl<'de> Deserialize<'de> for Event
+method pub fn data(self, data: Map<String, Value>) -> Self
+method pub fn new(kind: impl Into<String>, session_id: impl Into<String>) -> Self
+method pub fn run(self, run_id: impl Into<String>) -> Self
+
+## struct praxo_core::event::FilterSink
+pub struct FilterSink { /* private fields */ }
+impl FilterSink
+impl Sink for FilterSink
+method pub fn new( sink: Arc<dyn Sink>, predicate: impl Fn(&Event) -> bool + Send + Sync + 'static, ) -> Self
+
+## struct praxo_core::event::MultiSink
+pub struct MultiSink { /* private fields */ }
+impl MultiSink
+impl Sink for MultiSink
+method pub fn new(sinks: Vec<Arc<dyn Sink>>) -> Self
+
+## struct praxo_core::jsonschema::ValidationError
+pub struct ValidationError { pub path: String, pub message: String, }
+impl Clone for ValidationError
+impl Debug for ValidationError
+impl PartialEq for ValidationError
+
+## struct praxo_core::memory::MemoryRecord
+pub struct MemoryRecord { pub id: String, pub frame: String, pub content: String, pub metadata: Option<Map<String, Value>>, pub created_at: Option<String>, }
+impl Clone for MemoryRecord
+impl Debug for MemoryRecord
+impl PartialEq for MemoryRecord
+impl Serialize for MemoryRecord
+impl<'de> Deserialize<'de> for MemoryRecord
+
+## struct praxo_core::memory::MemoryStore
+pub struct MemoryStore { /* private fields */ }
+impl Default for MemoryStore
+impl MemoryStore
+impl Store for MemoryStore
+method pub fn new() -> Self
+
+## struct praxo_core::middleware::CallLimitMiddleware
+pub struct CallLimitMiddleware { /* private fields */ }
+impl CallLimitMiddleware
+impl Middleware for CallLimitMiddleware
+method pub fn new(model_limit: usize, tool_limit: usize) -> Self
+
+## struct praxo_core::middleware::MiddlewareToolCall
+pub struct MiddlewareToolCall { pub run_id: String, pub session_id: String, pub call: ToolCall, pub skip: bool, pub result: Option<Value>, pub error: Option<PraxoError>, }
+
+## struct praxo_core::middleware::ModelCall
+pub struct ModelCall { pub run_id: String, pub session_id: String, pub request: Request, pub skip: bool, pub response: Option<Response>, }
+
+## struct praxo_core::middleware::ModelToolSelector
+pub struct ModelToolSelector { /* private fields */ }
+impl ModelToolSelector
+impl ToolSelector for ModelToolSelector
+method pub fn new(model: Option<Arc<dyn Model>>) -> Self
+method pub fn with_prompt(self, prompt: impl Into<String>, max_tools: usize) -> Self
+
+## struct praxo_core::middleware::PiiMiddleware
+pub struct PiiMiddleware { /* private fields */ }
+impl Middleware for PiiMiddleware
+impl PiiMiddleware
+method pub fn new(redactor: PiiRedactor) -> Self
+
+## struct praxo_core::middleware::PiiRedactor
+pub struct PiiRedactor { /* private fields */ }
+impl PiiRedactor
+method pub fn defaults() -> Self
+method pub fn new(rules: Vec<PiiRule>) -> Self
+method pub fn redact(&self, text: &str) -> String
+method pub fn redact_value(&self, value: &Value) -> Value
+
+## struct praxo_core::middleware::PiiRule
+pub struct PiiRule { pub name: String, pub pattern: Regex, pub replacement: String, }
+impl PiiRule
+method pub fn new(name: &str, pattern: &str, replacement: &str) -> Self
+
+## struct praxo_core::middleware::RunState
+pub struct RunState { pub run_id: String, pub prompt: String, }
+
+## struct praxo_core::middleware::StructuredOutput
+pub struct StructuredOutput { pub schema: Map<String, Value>, pub name: String, pub strategy: String, pub max_repairs: usize, /* private fields */ }
+impl Middleware for StructuredOutput
+impl StructuredOutput
+method pub fn apply(&self, result: &mut RunResult) -> Result<()>
+method pub fn new(schema: Map<String, Value>) -> Self
+method pub fn output_name(&self) -> String
+method pub fn response_format(&self) -> Option<ResponseFormat>
+method pub fn tool_spec(&self) -> ToolSpec
+method pub fn validate_arguments(&self, arguments: &Map<String, Value>) -> Result<()>
+method pub fn with_name(self, name: impl Into<String>) -> Self
+method pub fn with_repairer( self, repairer: impl Fn(&str, &PraxoError) -> Result<String> + Send + Sync + 'static, ) -> Self
+method pub fn with_repairs(self, max_repairs: usize) -> Self
+method pub fn with_strategy(self, strategy: impl Into<String>) -> Self
+method pub fn with_validator( self, validator: impl Fn(&str) -> Result<()> + Send + Sync + 'static, ) -> Self
+
+## struct praxo_core::middleware::ToolResult
+pub struct ToolResult { pub value: Value, pub error: Option<PraxoError>, }
+
+## struct praxo_core::middleware::ToolSelectionMiddleware
+pub struct ToolSelectionMiddleware { /* private fields */ }
+impl Middleware for ToolSelectionMiddleware
+impl ToolSelectionMiddleware
+method pub fn new(selector: Arc<dyn ToolSelector>) -> Self
+
+## struct praxo_core::model::CacheHint
+pub struct CacheHint { pub stable_prefix: i64, pub ttl: Option<String>, }
+impl Clone for CacheHint
+impl Debug for CacheHint
+impl PartialEq for CacheHint
+impl Serialize for CacheHint
+impl<'de> Deserialize<'de> for CacheHint
+
+## struct praxo_core::model::ContentBlock
+pub struct ContentBlock { pub kind: String, pub text: Option<String>, pub image_url: Option<String>, pub data: Option<String>, }
+impl Clone for ContentBlock
+impl Debug for ContentBlock
+impl PartialEq for ContentBlock
+impl Serialize for ContentBlock
+impl<'de> Deserialize<'de> for ContentBlock
+
+## struct praxo_core::model::Message
+pub struct Message { pub role: String, pub content: Option<String>, pub content_blocks: Vec<ContentBlock>, pub tool_calls: Vec<ToolCall>, pub tool_id: Option<String>, }
+impl Clone for Message
+impl Debug for Message
+impl Default for Message
+impl Message
+impl PartialEq for Message
+impl Serialize for Message
+impl<'de> Deserialize<'de> for Message
+method pub fn assistant(content: impl Into<String>, tool_calls: Vec<ToolCall>) -> Self
+method pub fn text(role: &str, content: impl Into<String>) -> Self
+method pub fn tool(content: impl Into<String>, tool_id: impl Into<String>) -> Self
+
+## struct praxo_core::model::Request
+pub struct Request { pub model: Option<String>, pub messages: Vec<Message>, pub tools: Vec<ToolSpec>, pub tool_choice: Option<String>, pub response_format: Option<ResponseFormat>, pub cache_hint: Option<CacheHint>, pub temperature: f64, }
+impl Clone for Request
+impl Debug for Request
+impl Default for Request
+impl Request
+method pub fn of(messages: Vec<Message>) -> Self
+
+## struct praxo_core::model::Response
+pub struct Response { pub message: Message, pub usage: Usage, pub finish_reason: Option<String>, }
+impl Clone for Response
+impl Debug for Response
+impl Default for Response
+
+## struct praxo_core::model::ResponseFormat
+pub struct ResponseFormat { pub name: Option<String>, pub schema: Option<Map<String, Value>>, }
+impl Clone for ResponseFormat
+impl Debug for ResponseFormat
+impl PartialEq for ResponseFormat
+impl Serialize for ResponseFormat
+impl<'de> Deserialize<'de> for ResponseFormat
+
+## struct praxo_core::model::ToolCall
+pub struct ToolCall { pub id: String, pub name: String, pub arguments: Map<String, Value>, }
+impl Clone for ToolCall
+impl Debug for ToolCall
+impl PartialEq for ToolCall
+impl Serialize for ToolCall
+impl<'de> Deserialize<'de> for ToolCall
+
+## struct praxo_core::model::ToolSpec
+pub struct ToolSpec { pub name: String, pub description: String, pub parameters: Option<Map<String, Value>>, pub risk: Option<String>, }
+impl Clone for ToolSpec
+impl Debug for ToolSpec
+impl PartialEq for ToolSpec
+impl Serialize for ToolSpec
+impl<'de> Deserialize<'de> for ToolSpec
+
+## struct praxo_core::model::Usage
+pub struct Usage { pub input_tokens: i64, pub output_tokens: i64, pub cached_tokens: i64, }
+impl Clone for Usage
+impl Copy for Usage
+impl Debug for Usage
+impl Default for Usage
+impl PartialEq for Usage
+impl Serialize for Usage
+impl Usage
+impl<'de> Deserialize<'de> for Usage
+method pub fn plus(self, other: Usage) -> Usage
+
+## struct praxo_core::plugin::Manifest
+pub struct Manifest { pub schema_version: i64, pub id: String, pub version: String, pub kind: String, pub entrypoint: Map<String, Value>, pub protocol: String, pub capabilities: Vec<String>, pub permissions: Map<String, Value>, pub limits: Map<String, Value>, pub isolation: String, pub health: Map<String, Value>, pub signature: Option<Map<String, Value>>, pub sbom: String, }
+impl Clone for Manifest
+impl Debug for Manifest
+
+## struct praxo_core::policy::Action
+pub struct Action { pub kind: String, pub session_id: String, pub tool_name: Option<String>, pub arguments: Option<Map<String, Value>>, }
+impl Clone for Action
+impl Debug for Action
+
+## struct praxo_core::policy::Decision
+pub struct Decision { pub allowed: bool, pub reason: String, }
+impl Clone for Decision
+impl Debug for Decision
+impl Decision
+impl PartialEq for Decision
+method pub fn allow(reason: impl Into<String>) -> Self
+method pub fn deny(reason: impl Into<String>) -> Self
+
+## struct praxo_core::policy::PathChecker
+pub struct PathChecker { /* private fields */ }
+impl PathChecker
+method pub fn allowed(&self, target: &str, need: &str) -> bool
+method pub fn check(&self, target: &str, need: &str) -> Result<Decision>
+method pub fn new(grants: Vec<PathGrant>) -> Result<Self>
+
+## struct praxo_core::policy::PathGrant
+pub struct PathGrant { pub root: String, pub access: String, }
+impl Clone for PathGrant
+impl Debug for PathGrant
+
+## struct praxo_core::stream::StreamPart
+pub struct StreamPart { pub run_id: String, pub session_id: String, pub kind: String, pub step: usize, pub data: Option<Value>, pub at: Option<String>, }
+impl Clone for StreamPart
+impl Debug for StreamPart
+
+## struct praxo_core::tool::FuncTool
+pub struct FuncTool<F> where F: Fn(&Map<String, Value>) -> Result<Value> + Send + Sync,{ /* private fields */ }
+impl<F> FuncTool<F> where F: Fn(&Map<String, Value>) -> Result<Value> + Send + Sync,
+impl<F> Tool for FuncTool<F> where F: Fn(&Map<String, Value>) -> Result<Value> + Send + Sync,
+method pub fn new( name: impl Into<String>, description: impl Into<String>, function: F, ) -> Self
+
+## struct praxo_core::tool::Registry
+pub struct Registry { /* private fields */ }
+impl Default for Registry
+impl Registry
+method pub fn get(&self, name: &str) -> Result<Arc<dyn Tool>>
+method pub fn is_empty(&self) -> bool
+method pub fn len(&self) -> usize
+method pub fn new() -> Self
+method pub fn register(&mut self, tool: Arc<dyn Tool>)
+method pub fn specs(&self) -> Vec<ToolSpec>
+
+## struct praxo_core::toolcall::ParsedToolCall
+pub struct ParsedToolCall { pub call_id: String, pub name: String, pub operation: String, pub resource: String, pub risk: String, pub reason: String, pub idempotency_key: String, pub input: Map<String, Value>, }
+impl Clone for ParsedToolCall
+impl Debug for ParsedToolCall
+impl PartialEq for ParsedToolCall
+
+## trait praxo_core::context::ContextCompactor
+pub trait ContextCompactor: Send + Sync { fn compact( &self, messages: &[Message], budget: &ContextBudget, ) -> Result<Vec<Message>>; }
+
+## trait praxo_core::context::Offloader
+pub trait Offloader: Send + Sync { fn offload( &self, tool_name: &str, tool_call_id: &str, data: &[u8], ) -> Result<String>; }
+
+## trait praxo_core::event::Sink
+pub trait Sink: Send + Sync { fn emit(&self, event: &Event) -> Result<()>; }
+
+## trait praxo_core::memory::Store
+pub trait Store: Send + Sync { fn put(&self, session_id: &str, record: MemoryRecord) -> Result<()>; fn search( &self, session_id: &str, query: &str, limit: usize, ) -> Result<Vec<MemoryRecord>>; }
+
+## trait praxo_core::middleware::Middleware
+pub trait Middleware: Send + Sync { fn name(&self) -> &str { ... } fn before_run(&self, _state: &RunState) -> Result<()> { ... } fn before_model(&self, _call: &mut ModelCall) -> Result<()> { ... } fn after_model(&self, _call: &ModelCall, _response: &Response) -> Result<()> { ... } fn before_tool(&self, _call: &mut MiddlewareToolCall) -> Result<()> { ... } fn after_tool( &self, _call: &MiddlewareToolCall, _result: &mut ToolResult, ) -> Result<()> { ... } fn after_run( &self, _result: Option<&mut RunResult>, _error: Option<&PraxoError>, ) -> Result<()> { ... } }
+
+## trait praxo_core::middleware::ToolSelector
+pub trait ToolSelector: Send + Sync { fn select(&self, query: &str, tools: &[ToolSpec]) -> Result<Vec<String>>; }
+
+## trait praxo_core::model::Model
+pub trait Model: Send + Sync { fn generate(&self, request: &Request) -> Result<Response>; }
+
+## trait praxo_core::model::StreamingModel
+pub trait StreamingModel: Model { fn generate_stream( &self, request: &Request, on_delta: &mut dyn FnMut(&str), ) -> Result<Response>; }
+
+## trait praxo_core::policy::Hook
+pub trait Hook: Send + Sync { fn authorize(&self, action: &Action) -> Result<Decision>; }
+
+## trait praxo_core::tool::Tool
+pub trait Tool: Send + Sync { fn name(&self) -> &str; fn description(&self) -> &str; fn invoke(&self, args: &Map<String, Value>) -> Result<Value>; }
+
+## type praxo_core::errors::Result
+pub type Result<T> = Result<T, PraxoError>;
+
+## type praxo_core::middleware::ModelHandler
+pub type ModelHandler = Box<dyn Fn(&Request) -> Result<Response> + Send + Sync>;
+
+## type praxo_core::middleware::ModelMiddleware
+pub type ModelMiddleware = Box<dyn Fn(ModelHandler) -> ModelHandler + Send + Sync>;

@@ -4,6 +4,9 @@
 
 ### Added
 
+- Rust compiler-derived public API snapshots and parity symbol checks, with
+  regression tests for rustdoc extraction and stale-page exclusion. No Rust
+  runtime APIs or dependencies changed.
 - `sdk/haskell/`: unreleased native Wire candidate for strict JSON, tool-call
   parsing, bounded JSON Schema validation, and plugin manifest checks. Local
   tests pass 24 shared vectors across three declared groups, native regressions,
