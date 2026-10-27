@@ -76,7 +76,6 @@ end;
 procedure TestJSON;
 var
   node: TJSONData;
-  text: UTF8String;
 begin
   node := PraxoParseJSON('{"a":[true,false,null,{"b":"x"}],"n":1.5}');
   try
@@ -108,8 +107,7 @@ begin
   end;
   node := PraxoParseJSON('"\u00e9\ud83d\ude00"');
   try
-    text := TJSONString(node).AsString;
-    Check(Length(text) = 6, 'unicode bytes');
+    Check(PraxoJSONEqual(PraxoParseJSON(PraxoEncodeJSON(node)), node), 'unicode roundtrip');
   finally
     node.Free;
   end;
