@@ -9,7 +9,7 @@ import yaml
 ROOT = Path(__file__).resolve().parents[1]
 LANGUAGES = "python typescript java rust c cpp csharp php ruby perl lua dart swift julia r d zig cobol fortran haskell matlab delphi ocaml objc elixir nim v".split()
 BINDINGS = ["shell", "powershell", "lisp", "tcl"]
-SAMPLES = ["javascript", "kotlin", "scala"]
+SAMPLES = ["javascript", "kotlin", "scala", "fsharp"]
 
 
 class LayoutTests(unittest.TestCase):
@@ -62,7 +62,7 @@ class LayoutTests(unittest.TestCase):
             cells = [cell.strip() for cell in line.split("|")]
             if len(cells) < 7 or cells[3] not in ("released", "in progress"):
                 continue
-            slug = {"C++": "cpp", "C#": "csharp", "OCaml / Caml": "ocaml"}.get(cells[1], cells[1].lower().replace(" ", "-"))
+            slug = {"C++": "cpp", "C#": "csharp", "F#": "fsharp", "OCaml / Caml": "ocaml"}.get(cells[1], cells[1].lower().replace(" ", "-"))
             path = "languages/" + slug + ".md"
             self.assertTrue((ROOT / "docs" / path).is_file(), cells[1])
             self.assertIn(path, navigation)

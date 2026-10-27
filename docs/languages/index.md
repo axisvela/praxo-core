@@ -49,6 +49,7 @@ wire-only scope requires documented technical limitations. See the
 | Kotlin | [Sample using Java](kotlin.md) |
 | Scala | [Sample using Java](scala.md) |
 | Visual Basic | [Sample using .NET](visual-basic.md) |
+| F# | [Sample using .NET](fsharp.md) |
 | Shell | [Runtime bridge](shell.md) |
 | PowerShell | [Runtime bridge](powershell.md) |
 | Lisp | [SBCL runtime bridge](lisp.md) |

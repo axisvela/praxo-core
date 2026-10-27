@@ -131,6 +131,7 @@ nav:
       - C++: languages/cpp.md
       - C# / .NET: languages/csharp.md
       - Visual Basic: languages/visual-basic.md
+      - F#: languages/fsharp.md
       - PHP: languages/php.md
       - Ruby: languages/ruby.md
       - Perl: languages/perl.md

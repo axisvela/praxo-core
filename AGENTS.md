@@ -116,6 +116,7 @@ cd language/csharp; dotnet run --project Praxo.Conformance
 cd language/csharp; dotnet run --project Praxo.Conformance -- --check-api
 cd language/csharp; dotnet run --project Praxo.Tests
 cd language/csharp; dotnet run --project samples/VbSample
+dotnet run --project examples/fsharp/Praxo.FSharp.Sample.fsproj
 php language/php/conformance/run.php
 php language/php/conformance/run.php --check-api
 php language/php/tests/run.php

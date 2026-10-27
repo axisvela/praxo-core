@@ -47,6 +47,7 @@
 | Kotlin | [复用 Java](kotlin.md) |
 | Scala | [复用 Java](scala.md) |
 | Visual Basic | [复用 .NET](visual-basic.md) |
+| F# | [复用 .NET](fsharp.md) |
 | Shell | [运行时桥接](shell.md) |
 | PowerShell | [运行时桥接](powershell.md) |
 | Lisp | [SBCL 运行时桥接](lisp.md) |

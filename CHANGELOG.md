@@ -4,6 +4,8 @@
 
 ### Added
 
+- Added an F# sample over the C# / .NET SDK in `examples/fsharp`, registered it
+  in the language matrix, and added it to the .NET CI job.
 - Added a maturity column to the language support matrix, separate from source
   tags and version numbers; it distinguishes reference, complete, partial,
   sample, planned, and consumer-gated declared scope.

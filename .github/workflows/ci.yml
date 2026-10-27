@@ -315,6 +315,7 @@ jobs:
       - run: dotnet run --project language/csharp/Praxo.Conformance -c Release -- --check-api
       - run: dotnet run --project language/csharp/Praxo.Tests -c Release
       - run: dotnet run --project language/csharp/samples/VbSample -c Release
+      - run: dotnet run --project examples/fsharp/Praxo.FSharp.Sample.fsproj -c Release
 
   php-conformance:
     runs-on: ubuntu-latest

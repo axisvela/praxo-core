@@ -8,7 +8,7 @@
 | `pkg/`、`internal/`、`cmd/` | Go 参考实现与桥接 CLI |
 | `language/<language>/` | 独立语言实现 |
 | `bindings/shell/`、`bindings/powershell/` | 运行时桥接 |
-| `examples/javascript/`、`examples/kotlin/`、`examples/scala/` | 复用 TypeScript 或 Java 的示例 |
+| `examples/javascript/`、`examples/kotlin/`、`examples/scala/`、`examples/fsharp/` | 复用 TypeScript、Java 或 .NET 的示例 |
 | `adapters/` | 可选集成 |
 | `spec/` | 规范契约、共享向量与 parity 清单 |
 
@@ -20,8 +20,9 @@
 
 原根目录的 Python、TypeScript、Java、Rust、C、C++、C#、PHP、Ruby、Perl、Lua、
 Dart、Swift、Julia、R、D、Zig、COBOL 和 Fortran 实现统一迁入 `language/`。
-Shell 与 PowerShell 迁入 `bindings/`；JavaScript、Kotlin、Scala 迁入 `examples/`。
-Visual Basic 示例继续位于 .NET SDK 的 `language/csharp/samples/VbSample/`。
+Shell 与 PowerShell 迁入 `bindings/`；JavaScript、Kotlin、Scala 迁入 `examples/`，
+F# 示例位于 `examples/fsharp/`。Visual Basic 示例继续位于 .NET SDK 的
+`language/csharp/samples/VbSample/`。
 
 更新本地脚本、CI 工作目录、源码依赖、编辑器配置中的路径。仓库根目录示例：
 

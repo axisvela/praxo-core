@@ -83,7 +83,7 @@ production readiness or full Go feature parity.
 | Erlang | Core | planned | none | planned | Native BEAM loop requested; OTP 27+ `:json`; separate consumer and maintainer required |
 | Ada | Core | planned | none | planned | Native loop target; GNAT toolchain; consumer and maintainer required |
 | Mojo | Core | planned | none | planned | Native loop target; toolchain and CI maturity gate |
-| F# | Sample (.NET) | planned | none | planned | Uses the C# SDK; no separate agent loop |
+| F# | Sample (.NET) | released | `csharp/v0.1.0` | sample | F# consumer sample in `examples/fsharp`; uses the C# SDK |
 | Clojure | Sample (JVM) | planned | none | planned | Uses the Java SDK; no separate agent loop |
 | Solidity | Wire | planned | none | planned | Candidate contract integration; scope and technical limitations require investigation |
 | OpenCL | Sample | planned | none | planned | Candidate compute integration; scope and host requirements require investigation |
