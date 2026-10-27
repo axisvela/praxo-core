@@ -24,6 +24,7 @@ type
     content*: string
     primary*: Model
     fallback*: Model
+    invoke*: proc(request: Request): Response {.closure.}
 
   AgentOptions* = object
     model*: Model
@@ -45,6 +46,10 @@ proc call*(tool: Tool, arguments: JsonNode): JsonNode =
   return tool.invoke(arguments)
 
 proc generate*(model: Model, request: Request): Response =
+  if model.mode == "callback":
+    if model.invoke.isNil:
+      raisePraxo("MODEL_ERROR", "model callback is not configured")
+    return model.invoke(request)
   if model.mode == "fallback":
     if not model.primary.isNil:
       try:
@@ -65,6 +70,9 @@ proc generate*(model: Model, request: Request): Response =
 
 proc scriptedModel*(steps: seq[Response]): Model =
   return Model(mode: "scripted", script: steps)
+
+proc callbackModel*(invoke: proc(request: Request): Response {.closure.}): Model =
+  return Model(mode: "callback", invoke: invoke)
 
 proc staticModel*(content: string): Model =
   return Model(mode: "static", content: content)

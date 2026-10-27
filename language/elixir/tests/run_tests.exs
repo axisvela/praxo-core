@@ -26,6 +26,8 @@ defmodule Praxo.Tests do
     test_agent()
     test_agent_tool()
     test_fallback_state()
+    test_custom_model()
+    test_custom_model_error()
     IO.puts("elixir tests passed")
   end
 
@@ -171,6 +173,42 @@ defmodule Praxo.Tests do
     model = Agent.fallback_model(nested, nil)
     {:error, "MODEL_ERROR", updated} = Agent.generate(model, Models.request([], []))
     check(updated.primary == nested, "nested failure state retained")
+  end
+
+  defp test_custom_model do
+    model = fn request ->
+      check(Enum.map(request.tools, & &1.name) == ["echo"], "custom model tool specs")
+
+      case request.messages do
+        [%{role: "system", content: "system"}, %{role: "user", content: "use"}] ->
+          {:ok, Models.response(Models.message_assistant("", [Models.tool_call("c1", "echo", %{"text" => "hi"})]), Models.usage(1, 2))}
+
+        [%{role: "system"}, %{role: "user"}, %{role: "assistant"}, %{role: "tool", tool_id: "c1", content: content}] ->
+          check(Json.parse!(content) == %{"text" => "hi"}, "custom model tool result")
+          {:ok, Models.response(Models.message_assistant("done"), Models.usage(3, 4))}
+      end
+    end
+
+    for model <- [model, Agent.fallback_model(Agent.failing_model(), model), Agent.fallback_model(model, nil)] do
+      options = %{Agent.new_agent_options(model) | tools: [Agent.new_tool("echo", "Echo")], system_prompt: "system", events: Sink.new()}
+      {:ok, result, options} = Agent.run_agent(options, Models.session("s1"), "use")
+      check(result.output == "done" and result.steps == 2, "custom model multi-step")
+      check(result.usage == Models.usage(4, 6), "custom model usage")
+      check(hd(options.tools).calls == 1, "custom model tool invocation")
+      check(options.events.kinds == ["run.started", "tool.call", "run.completed"], "custom model events")
+    end
+  end
+
+  defp test_custom_model_error do
+    model = fn _request -> {:error, "PROVIDER_ERROR"} end
+    options = %{Agent.new_agent_options(model) | events: Sink.new()}
+    {:error, "PROVIDER_ERROR", options} = Agent.run_agent(options, Models.session("s1"), "use")
+    check(options.model == model, "custom model retained on error")
+    check(options.events.kinds == ["run.started", "run.failed"], "custom model failure event")
+
+    fallback = Agent.fallback_model(model, Agent.static_model("recovered"))
+    {:ok, result, options} = Agent.run_agent(Agent.new_agent_options(fallback), Models.session("s1"), "use")
+    check(result.output == "recovered" and options.model.primary == model, "custom model fallback on error")
   end
 end
 

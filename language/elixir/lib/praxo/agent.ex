@@ -33,6 +33,13 @@ defmodule Praxo.Agent do
   def failing_model, do: %Model{mode: :failing}
   def fallback_model(primary, fallback), do: %Model{mode: :fallback, primary: primary, fallback: fallback}
 
+  def generate(model, request) when is_function(model, 1) do
+    case model.(request) do
+      {:ok, response} -> {:ok, response, model}
+      {:error, code} -> {:error, code, model}
+    end
+  end
+
   def generate(%Model{mode: :fallback, primary: primary, fallback: fallback} = model, request) do
     case generate(primary, request) do
       {:ok, response, primary} ->

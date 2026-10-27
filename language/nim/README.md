@@ -38,6 +38,19 @@ let schema = parseJsonText("""{"type":"string","pattern":"^a+$"}""")
 assert validateSchema(schema, %"aaa").len == 0
 ```
 
+Consumers can connect a synchronous model implementation with a closure:
+
+```nim
+let model = callbackModel(proc(request: Request): Response =
+  return newResponse(newMessageAssistant("Hello"))
+)
+let result = runAgent(newAgentOptions(model), newSession("s1"), "Hi")
+```
+
+The callback receives the current messages and tool specifications on each
+step. It returns a response including any tool calls and usage. Catchable
+errors propagate through the agent and can trigger `fallbackModel`.
+
 Public declarations are inventoried in [`api/0.1.0.txt`](api/0.1.0.txt).
 
 ## Current Limits
@@ -57,8 +70,6 @@ Public declarations are inventoried in [`api/0.1.0.txt`](api/0.1.0.txt).
   resolve symlinks or replace operating-system sandboxing.
 - Provider adapters, streaming wire encodings, and plugin hosts are not part of
   this SDK.
-- Concrete built-in model modes, including fallback, cannot directly accept a
-  consumer-supplied provider.
 
 The source is MIT; see [LICENSE](LICENSE). Nim, MinGW, and other toolchain
 components are separate projects, not vendored code.

@@ -155,6 +155,60 @@ fn test_agent_tool() {
 	assert sink.kinds == ['run.started', 'tool.call', 'run.completed']
 }
 
+fn consumer_model(req praxo.Request) !praxo.Response {
+	assert req.tools.len == 1
+	assert req.tools[0].name == 'echo'
+	assert req.messages[0].content == 'use'
+	if req.messages.len == 1 {
+		return praxo.response(praxo.message_assistant('', [
+			praxo.tool_call('c1', 'echo', {'text': json2.Any('hi')}),
+		]), praxo.usage(2, 3))
+	}
+	assert req.messages.len == 3
+	assert req.messages[1].tool_calls[0].id == 'c1'
+	assert req.messages[2].role == praxo.role_tool
+	assert req.messages[2].tool_id == 'c1'
+	value := praxo.parse_json(req.messages[2].content)!
+	assert praxo.get_string(value, 'text') or { '' } == 'hi'
+	return praxo.response(praxo.message_assistant('custom done', []praxo.ToolCall{}), praxo.usage(4, 5))
+}
+
+fn consumer_failure(_req praxo.Request) !praxo.Response {
+	return praxo.praxo_error('MODEL_ERROR', 'consumer failed')
+}
+
+fn test_callback_model() {
+	tool := praxo.func_tool('echo', 'Echo')
+	sink := &praxo.Sink{}
+	mut options := praxo.agent_options(praxo.callback_model(consumer_model))
+	options.tools = [tool]
+	options.events = sink
+	result := praxo.run_agent(options, praxo.session('s1', []praxo.Message{}), 'use') or { panic(err) }
+	assert result.output == 'custom done'
+	assert result.steps == 2
+	assert result.usage.input_tokens == 6
+	assert result.usage.output_tokens == 8
+	assert tool.calls == 1
+	assert sink.kinds == ['run.started', 'tool.call', 'run.completed']
+
+	failure_sink := &praxo.Sink{}
+	mut failure_options := praxo.agent_options(praxo.callback_model(consumer_failure))
+	failure_options.events = failure_sink
+	mut failed := false
+	praxo.run_agent(failure_options, praxo.session('s1', []praxo.Message{}), 'use') or {
+		failed = true
+		assert praxo.error_code(err) == 'MODEL_ERROR'
+		assert err.msg().contains('consumer failed')
+		praxo.RunResult{}
+	}
+	assert failed
+	assert failure_sink.kinds == ['run.started', 'run.failed']
+
+	fallback := praxo.fallback_model(praxo.callback_model(consumer_failure), praxo.static_model('fallback'))
+	fallback_result := praxo.run_agent(praxo.agent_options(fallback), praxo.session('s1', []praxo.Message{}), 'use') or { panic(err) }
+	assert fallback_result.output == 'fallback'
+}
+
 fn main() {
 	test_json()
 	test_toolcall()
@@ -167,5 +221,6 @@ fn main() {
 	test_pii()
 	test_agent()
 	test_agent_tool()
+	test_callback_model()
 	println('v tests passed')
 }

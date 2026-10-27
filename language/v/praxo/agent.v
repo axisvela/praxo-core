@@ -25,6 +25,10 @@ pub fn func_tool(name string, description string) &Tool {
 	return &Tool{name: name, description: description}
 }
 
+fn missing_model_callback(_request Request) !Response {
+	return praxo_error('MODEL_ERROR', 'model callback is not configured')
+}
+
 @[heap]
 pub struct Model {
 pub mut:
@@ -34,9 +38,13 @@ pub mut:
 	content  string
 	primary  &Model = unsafe { nil }
 	fallback &Model = unsafe { nil }
+	callback fn (Request) !Response = missing_model_callback
 }
 
 pub fn (mut model Model) generate(_request Request) !Response {
+	if model.mode == 'callback' {
+		return model.callback(_request)
+	}
 	if model.mode == 'fallback' {
 		if model.primary != unsafe { nil } {
 			return model.primary.generate(_request) or {
@@ -64,6 +72,10 @@ pub fn (mut model Model) generate(_request Request) !Response {
 
 pub fn scripted_model(steps []Response) &Model {
 	return &Model{mode: 'scripted', script: steps}
+}
+
+pub fn callback_model(callback fn (Request) !Response) &Model {
+	return &Model{mode: 'callback', callback: callback}
 }
 
 pub fn static_model(content string) &Model {

@@ -77,9 +77,20 @@ v -cc tcc -gc none -o build/praxo-v-tests.exe language/v/tests/run.v
 For repository-wide metadata and parity checks, run `python scripts/test_layout.py`
 and `$env:GOWORK = "off"; go test ./internal/spec/...` separately in PowerShell.
 
+The tests cover the synchronous `praxo.callback_model` adapter across agent
+steps, errors, and fallback. PII, structured output, call limit, and tool
+selection remain standalone helpers rather than integrated agent middleware.
+Built-in provider integrations, streaming wire encodings, and plugin hosts are
+not provided; see the README for the callback contract and other limits.
+
 ## Results
 
 For this turn, local Windows testing with V 0.5.2, bundled tcc, and `-gc none`
 passed the tests and conformance vectors. The API snapshot and repository-wide
 checks are listed above but are not claimed as part of these reported results.
 Remote CI results are pending.
+
+In a subsequent local Windows session, `python language/v/api-snapshot.py
+--check` passed with Python 3.14.6. V was not on `PATH`, so tests and
+conformance were not rerun in that session; the earlier results above are not
+evidence of a fresh run against the callback changes.

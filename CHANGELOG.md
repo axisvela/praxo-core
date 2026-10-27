@@ -4,6 +4,9 @@
 
 ### Added
 
+- Consumer-supplied synchronous model callbacks for the unreleased Elixir,
+  Nim, and V agent-loop candidates, with multi-step and error regression tests.
+- Objective-C event correlation tests for distinct run IDs and session IDs.
 - Experimental Haskell, Free Pascal, and MATLAB/Octave agent loops with local
   agent-loop vector tests. These remain Wire-stage candidates pending the
   remaining Framework behavior and verification.

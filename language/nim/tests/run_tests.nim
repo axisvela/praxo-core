@@ -126,6 +126,54 @@ proc testAgentTool() =
   assert tool.calls == 1
   assert sink.kinds == @["run.started", "tool.call", "run.completed"]
 
+proc testCallbackModel() =
+  var calls = 0
+  let model = callbackModel(proc(request: Request): Response =
+    inc calls
+    assert request.tools.len == 1 and request.tools[0].name == "echo"
+    assert request.messages[0].role == ROLE_SYSTEM
+    assert request.messages[1].content == "previous"
+    assert request.messages[2].content == "use"
+    if calls == 1:
+      assert request.messages.len == 3
+      return newResponse(newMessageAssistant("", @[
+        newToolCall("c1", "echo", %*{"text": "hi"})]), newUsage(2, 3))
+    assert request.messages.len == 5
+    assert request.messages[3].toolCalls[0].id == "c1"
+    assert request.messages[4].role == ROLE_TOOL
+    assert request.messages[4].toolId == "c1"
+    assert parseJsonText(request.messages[4].content)["text"].getStr == "hi"
+    return newResponse(newMessageAssistant("done"), newUsage(4, 5))
+  )
+  var options = newAgentOptions(model)
+  options.systemPrompt = "system"
+  options.tools = @[newTool("echo", "Echo")]
+  let result = runAgent(options, newSession("s1", @[newMessage(ROLE_USER, "previous")]), "use")
+  assert calls == 2 and result.steps == 2 and result.output == "done"
+  assert result.usage.inputTokens == 6 and result.usage.outputTokens == 8
+
+proc testCallbackErrors() =
+  let failing = callbackModel(proc(request: Request): Response =
+    raise newException(ValueError, "provider failed")
+  )
+  let sink = newSink()
+  var options = newAgentOptions(failing)
+  options.events = sink
+  try:
+    discard runAgent(options, newSession("s1"), "hello")
+    assert false
+  except ValueError as error:
+    assert error.msg == "provider failed"
+  assert sink.kinds == @["run.started", "run.failed"]
+  options.model = fallbackModel(failing, staticModel("recovered"))
+  assert runAgent(options, newSession("s1"), "hello").output == "recovered"
+  options.model = callbackModel(nil)
+  try:
+    discard runAgent(options, newSession("s1"), "hello")
+    assert false
+  except PraxoError as error:
+    assert errorCode(error) == "MODEL_ERROR"
+
 testJson()
 testToolcall()
 testJsonschema()
@@ -137,4 +185,6 @@ testContext()
 testPii()
 testAgent()
 testAgentTool()
+testCallbackModel()
+testCallbackErrors()
 echo "nim tests passed"

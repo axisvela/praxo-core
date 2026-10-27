@@ -306,12 +306,13 @@ static NSDictionary *PXRFindTool(NSArray<NSDictionary<NSString *, id> *> *tools,
 }
 
 static NSDictionary *PXRAgentFail(NSMutableDictionary<NSString *, id> *options,
+                                  NSString *sessionId,
                                   NSString *runId,
                                   NSString *code,
                                   NSString *message,
                                   NSError **error) {
     PXREventSink sink = options[@"events"];
-    PXREmit(sink, PXREventCreate(@"run.failed", PXRString(options[@"sessionId"]), runId,
+    PXREmit(sink, PXREventCreate(@"run.failed", sessionId, runId,
                                  @{@"error": message ?: @""}));
     if (error != NULL) {
         *error = PXRCoreError(code, message ?: code);
@@ -323,13 +324,12 @@ NSDictionary<NSString *, id> *PXRAgentRun(NSMutableDictionary<NSString *, id> *o
                                           NSDictionary<NSString *, id> *session,
                                           NSString *prompt,
                                           NSError **error) {
+    NSString *sessionId = [PXRString(session[@"id"]) copy];
     PXRModelGenerate model = options[@"model"];
     if (model == nil) {
-        return PXRAgentFail(options, @"", @"MODEL_ERROR", @"model is not configured", error);
+        return PXRAgentFail(options, sessionId, @"", @"MODEL_ERROR", @"model is not configured", error);
     }
-    NSString *sessionId = PXRString(options[@"sessionId"]);
-    NSString *runId = [NSString stringWithFormat:@"run-%lld",
-                       (long long)[NSDate date].timeIntervalSince1970];
+    NSString *runId = [@"run-" stringByAppendingString:[[NSUUID UUID] UUIDString]];
     PXREventSink sink = options[@"events"];
     NSMutableArray *messages = [NSMutableArray arrayWithArray:PXRArray(session[@"messages"])];
     NSString *systemPrompt = PXRString(options[@"systemPrompt"]);
@@ -350,13 +350,13 @@ NSDictionary<NSString *, id> *PXRAgentRun(NSMutableDictionary<NSString *, id> *o
         NSError *modelError = nil;
         NSDictionary *request = PXRRequestCreate(messages, PXRToolSpecs(tools));
         if (!model(request, &response, &modelError)) {
-            return PXRAgentFail(options, runId, PXRCodeFromError(modelError),
+            return PXRAgentFail(options, sessionId, runId, PXRCodeFromError(modelError),
                                 modelError.localizedDescription ?: @"model failed", error);
         }
         total = PXRUsageAdd(total, response[@"usage"] ?: PXRUsageCreate(0, 0));
         if (maxTokens > 0 &&
             PXRInteger(total[@"inputTokens"]) + PXRInteger(total[@"outputTokens"]) > maxTokens) {
-            return PXRAgentFail(options, runId, @"AGENT_MAX_TOKENS", @"token budget exceeded", error);
+            return PXRAgentFail(options, sessionId, runId, @"AGENT_MAX_TOKENS", @"token budget exceeded", error);
         }
         NSDictionary *message = response[@"message"] ?: @{};
         [messages addObject:message];
@@ -368,7 +368,7 @@ NSDictionary<NSString *, id> *PXRAgentRun(NSMutableDictionary<NSString *, id> *o
         for (NSDictionary *call in calls) {
             NSDictionary *tool = PXRFindTool(tools, PXRString(call[@"name"]));
             if (tool == nil) {
-                return PXRAgentFail(options, runId, @"TOOL_NOT_FOUND",
+                return PXRAgentFail(options, sessionId, runId, @"TOOL_NOT_FOUND",
                                     @"tool not found", error);
             }
             PXREmit(sink, PXREventCreate(@"tool.call", sessionId, runId,
@@ -378,12 +378,12 @@ NSDictionary<NSString *, id> *PXRAgentRun(NSMutableDictionary<NSString *, id> *o
             NSError *toolError = nil;
             id value = invoke != nil ? invoke(call[@"arguments"] ?: @{}, &toolError) : call[@"arguments"];
             if (toolError != nil) {
-                return PXRAgentFail(options, runId, PXRCodeFromError(toolError),
+                return PXRAgentFail(options, sessionId, runId, PXRCodeFromError(toolError),
                                     toolError.localizedDescription ?: @"tool failed", error);
             }
             NSString *content = PXRJSONText(value ?: [NSNull null], NULL) ?: @"null";
             [messages addObject:PXRMessageTool(content, PXRString(call[@"id"]))];
         }
     }
-    return PXRAgentFail(options, runId, @"AGENT_MAX_STEPS", @"maximum steps exceeded", error);
+    return PXRAgentFail(options, sessionId, runId, @"AGENT_MAX_STEPS", @"maximum steps exceeded", error);
 }

@@ -45,6 +45,19 @@ assert praxo.validate_schema(schema, praxo.parse_json('"aaa"') or { panic(err) }
 
 Public declarations are inventoried in [`api/0.1.0.txt`](api/0.1.0.txt).
 
+Supply a model callback to receive each request and return a response or an
+error. The callback can inspect the conversation and tool results on each step;
+callback-backed models also work with `fallback_model`.
+
+```v
+fn generate(req praxo.Request) !praxo.Response {
+    return praxo.response(praxo.message_assistant('Hello', []praxo.ToolCall{}), praxo.usage(0, 0))
+}
+
+options := praxo.agent_options(praxo.callback_model(generate))
+result := praxo.run_agent(options, praxo.session('s1', []praxo.Message{}), 'Hi') or { panic(err) }
+```
+
 ## Current Limits
 
 - Verified with `V 0.5.2` and the bundled `tcc` on Windows. Other V releases,
@@ -61,8 +74,6 @@ Public declarations are inventoried in [`api/0.1.0.txt`](api/0.1.0.txt).
   resolve symlinks or replace operating-system sandboxing.
 - Provider adapters, streaming wire encodings, and plugin hosts are not part of
   this SDK.
-- Concrete built-in model modes, including fallback, cannot directly accept a
-  consumer-supplied provider.
 
 The source is MIT; see [LICENSE](LICENSE). V and its bundled toolchain are
 separate projects, not vendored code.

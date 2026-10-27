@@ -39,6 +39,7 @@ asArray
 asObject
 call
 callLimit
+callbackModel
 check
 checkToolSelected
 compactContext

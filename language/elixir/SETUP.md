@@ -90,13 +90,13 @@ python language/elixir/api-snapshot.py --check
 elixir -pa language/elixir/build/ebin language/elixir/conformance/run.exs
 ```
 
+The local tests exercise consumer model callbacks across tool steps, errors,
+and fallback. See the README for the callback contract and its limitations.
+
 For repository-wide metadata and parity checks, run `python scripts/test_layout.py`
 and `$env:GOWORK = "off"; go test ./internal/spec/...` separately.
 
 ## Results
 
-For this turn, local Windows testing with Elixir 1.20.4 and OTP 29 passed the
-tests and all 11 conformance vectors, including traversal and fallback cases.
-The API snapshot and repository-wide checks are listed above but are not
-claimed as part of these reported results. The configured `elixir-conformance`
-job uses `erlef/setup-beam@v1`; remote CI results are pending.
+The configured `elixir-conformance` job uses `erlef/setup-beam@v1`; local
+results do not establish remote CI results.

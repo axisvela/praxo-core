@@ -35,7 +35,7 @@ To build manually on macOS from `language/objc/`:
 ```bash
 clang -fobjc-arc -fblocks -I. -o build/praxo_tests \
   PraxoJSON.m PraxoJsonSchema.m PraxoPlugin.m PraxoWire.m \
-  PraxoCore.m PraxoAgent.m tests/main.m \
+  PraxoCore.m PraxoAgent.m tests/main.m tests/correlation.m \
   -framework Foundation
 build/praxo_tests ../../spec
 ```
@@ -63,6 +63,8 @@ NSDictionary *result = PXRAgentRun(options, PXRSessionCreate(@"s1", @[]), @"hell
 ```
 
 Public declarations are inventoried in [`api/unreleased.txt`](api/unreleased.txt).
+Agent events use the supplied session's `id` and a UUID-based run ID; the
+existing event sink callback is unchanged.
 The parser returns `nil` when the content is not a recognized call or the
 manifest is invalid. Schema validation returns error paths. SDK-local
 `PXRWireErrorDomain` and `PXRCoreErrorDomain` codes are not new shared wire

@@ -43,7 +43,7 @@ Foundation is not evidence of a verified macOS run.
    New-Item -ItemType Directory -Force build
    clang -fobjc-arc -fblocks -I. -o build\praxo_tests.exe `
      PraxoJSON.m PraxoJsonSchema.m PraxoPlugin.m PraxoWire.m `
-     PraxoCore.m PraxoAgent.m tests\main.m `
+     PraxoCore.m PraxoAgent.m tests\main.m tests\correlation.m `
      -fobjc-runtime=gnustep-2.0 -fuse-ld=lld `
      -lgnustep-base -lobjc -lstdc++
    build\praxo_tests.exe ..\..\spec
@@ -59,7 +59,7 @@ are native and no `-lstdc++` link is needed:
 mkdir -p build
 clang -fobjc-arc -fblocks -I. -o build/praxo_tests \
   PraxoJSON.m PraxoJsonSchema.m PraxoPlugin.m PraxoWire.m \
-  PraxoCore.m PraxoAgent.m tests/main.m \
+  PraxoCore.m PraxoAgent.m tests/main.m tests/correlation.m \
   -framework Foundation
 build/praxo_tests ../../spec
 ```

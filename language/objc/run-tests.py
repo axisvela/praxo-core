@@ -17,6 +17,7 @@ SOURCES = [
     "PraxoCore.m",
     "PraxoAgent.m",
     "tests/main.m",
+    "tests/correlation.m",
 ]
 
 

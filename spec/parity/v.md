@@ -6,9 +6,11 @@
 The unreleased V candidate includes a core loop. It passes all eleven vector groups, its
 tests, and its public API snapshot. These results do not establish full Core
 parity or production readiness. PII, structured output, call limit, and tool
-selection are standalone helpers, not integrated agent middleware. The concrete
-built-in model modes, including fallback, cannot directly accept a
-consumer-supplied provider. `partial` marks these and other incomplete surfaces.
+selection are standalone helpers, not integrated agent middleware.
+`praxo.callback_model` accepts a synchronous consumer function from `Request` to
+`!Response`; errors propagate and can trigger `praxo.fallback_model`. Built-in
+provider integrations, streaming wire encodings, and plugin hosts are not
+provided. `partial` marks these and other incomplete surfaces.
 
 | Go symbol | V symbol | Status | Phase |
 | --- | --- | --- | --- |

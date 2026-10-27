@@ -50,6 +50,24 @@ assert Praxo.JsonSchema.validate(schema, "aaa") == []
 
 Public declarations are inventoried in [`api/0.1.0.txt`](api/0.1.0.txt).
 
+An agent model can be a function accepting a `Praxo.Request` and returning
+`{:ok, %Praxo.Response{}}` or `{:error, code}`, where `code` is a string:
+
+```elixir
+model = fn request ->
+  {:ok, Praxo.Models.response(Praxo.Models.message_assistant("received #{length(request.messages)} messages"))}
+end
+
+options = Praxo.Agent.new_agent_options(model)
+{:ok, result, options} = Praxo.Agent.run_agent(options, Praxo.Models.session("s1"), "hello")
+```
+
+The callback receives the current messages and tool specifications on each
+step. It can also be either child of `Praxo.Agent.fallback_model/2`.
+Manage any provider state externally; the callback itself is retained unchanged
+in returned options. Return errors explicitly to trigger failure or fallback;
+exceptions and malformed returns are not converted into model errors.
+
 ## Current Limits
 
 - Verified with `Elixir 1.20.4` and `Erlang/OTP 29` on Windows. Other OTP
@@ -65,8 +83,8 @@ Public declarations are inventoried in [`api/0.1.0.txt`](api/0.1.0.txt).
   resolve symlinks or replace operating-system sandboxing.
 - Provider adapters, streaming wire encodings, and plugin hosts are not part of
   this SDK.
-- Concrete built-in model modes, including fallback, cannot directly accept a
-  consumer-supplied provider.
+- Provider callbacks are synchronous; streaming and built-in provider
+  configuration are not provided.
 
 The source is MIT; see [LICENSE](LICENSE). Erlang, Elixir, and other toolchain
 components are separate projects, not vendored code.

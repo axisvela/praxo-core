@@ -37,6 +37,7 @@ as_int
 as_object
 as_string
 call_limit
+callback_model
 check_tool_selected
 checkpoint_allowlist
 compact_context

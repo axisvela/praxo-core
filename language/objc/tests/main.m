@@ -7,6 +7,8 @@
 static NSUInteger failures = 0;
 static NSUInteger checks = 0;
 
+void runCorrelationTests(void (*check)(BOOL, NSString *));
+
 static void check(BOOL condition, NSString *message) {
     checks++;
     if (!condition) {
@@ -451,6 +453,7 @@ int main(int argc, const char *argv[]) {
                 }
             }
         }
+        runCorrelationTests(check);
         NSArray *relativeChecker = PXRPathCheckerCreate(@[PXRPathGrantCreate(@"allowed", @"read")], nil);
         check(!PXRPathAllowed(relativeChecker, @"../allowed/secret", @"read"),
               @"relative target outside root");

@@ -6,11 +6,19 @@
 The unreleased Elixir candidate includes a core loop. It passes all eleven vector groups, its
 tests, and its public API snapshot. These results do not establish full Core
 parity or production readiness. PII, structured output, call limit, and tool
-selection are standalone helpers, not integrated agent middleware. The concrete
-built-in model modes, including fallback, cannot directly accept a
-consumer-supplied provider. `partial` marks these and other incomplete surfaces.
+selection are standalone helpers, not integrated agent middleware. A synchronous
+function can serve as a consumer-supplied model and participate in fallback. It
+returns `{:ok, response}` or `{:error, code}`; provider state is managed
+externally, and exceptions and malformed returns are not converted to model
+errors. Built-in provider configuration, streaming, and plugin hosts are not
+provided. `partial` marks these and other incomplete surfaces.
 Erlang shares the BEAM runtime and is documented as a runtime, not a second
 agent loop.
+
+Locally, `python language/elixir/api-snapshot.py --check` passed on Windows with
+Python 3.14.6. Elixir tests and conformance were not rerun in that session:
+Elixir was not on `PATH`. Prior toolchain and check instructions are recorded in
+`language/elixir/SETUP.md`.
 
 | Go symbol | Elixir symbol | Status | Phase |
 | --- | --- | --- | --- |

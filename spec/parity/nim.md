@@ -6,9 +6,11 @@
 The unreleased Nim candidate includes a core loop. It passes all eleven vector groups, its
 tests, and its public API snapshot. These results do not establish full Core
 parity or production readiness. PII, structured output, call limit, and tool
-selection are standalone helpers, not integrated agent middleware. The concrete
-built-in model modes, including fallback, cannot directly accept a
-consumer-supplied provider. `partial` marks these and other incomplete surfaces.
+selection are standalone helpers, not integrated agent middleware.
+`callbackModel` accepts a synchronous consumer closure from `Request` to
+`Response`; catchable errors propagate and can trigger `fallbackModel`. Built-in
+provider integrations, streaming wire encodings, and plugin hosts are not
+provided. `partial` marks these and other incomplete surfaces.
 
 | Go symbol | Nim symbol | Status | Phase |
 | --- | --- | --- | --- |
