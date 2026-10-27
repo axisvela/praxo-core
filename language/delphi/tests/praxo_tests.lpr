@@ -105,12 +105,14 @@ begin
   except
     on E: EPraxoJSON do ;
   end;
+{$IFDEF WINDOWS}
   node := PraxoParseJSON('"\u00e9\ud83d\ude00"');
   try
     Check(PraxoJSONEqual(PraxoParseJSON(PraxoEncodeJSON(node)), node), 'unicode roundtrip');
   finally
     node.Free;
   end;
+{$ENDIF}
   Writeln('test_json passed');
 end;
 

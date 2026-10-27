@@ -64,7 +64,10 @@ using `fpjson` can inspect results directly. `TPraxoCall.Input` is caller-owned.
   Tool-call input is bounded to 262,144 characters.
 - `fpjson` is used for structure, but Unicode escapes are expanded before parsing
   to preserve supplementary code points on FPC 3.2.2. Strings are represented as
-  UTF-8; callers should use `UTF8String` for lossless non-ASCII data.
+  UTF-8 on the verified Windows target; callers should use `UTF8String` for
+  lossless non-ASCII data. The supplementary-code-point round-trip test is
+  Windows-only; Linux CI currently covers the shared wire vectors but not that
+  specific round-trip assertion.
 - Numbers are finite doubles; large integers and exact decimal spellings may lose
   precision. Nonfinite values, malformed UTF-8, invalid escapes, duplicate
   manifest fields, and trailing JSON are rejected.
