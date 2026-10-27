@@ -94,3 +94,6 @@ test driver. On Windows, the standalone snapshot check passed, the layout check
 passed all 8 tests, and the Go specification tests passed. GNUstep headers,
 libraries, lld, and runtime DLLs must be discoverable by the selected compiler
 and Windows loader; the example paths may need adjustment for the installation.
+
+The Windows clang/GNUstep runner passed 423 checks, including the opt-in tool
+selection integration. This result does not establish a macOS CI result.

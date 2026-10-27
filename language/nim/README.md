@@ -3,8 +3,8 @@
 Nim is a native Core implementation targeting the PRAXO-CORE contract. It
 passes all eleven shared vector groups with `Nim 2.2.12` and includes the native
 agent loop, context compaction, memory store, path policy, checkpoint
-allowlist, and tool-call parsing. PII, structured output, call limit, and tool
-selection are standalone helpers, not integrated agent middleware. Vector
+allowlist, tool-call parsing, and opt-in agent tool selection. PII, structured
+output, and call limit are standalone helpers, not integrated agent middleware. Vector
 coverage does not establish full Core parity or production readiness.
 
 The SDK does not call Go or another language runtime. It has no provider
@@ -50,6 +50,11 @@ let result = runAgent(newAgentOptions(model), newSession("s1"), "Hi")
 The callback receives the current messages and tool specifications on each
 step. It returns a response including any tool calls and usage. Catchable
 errors propagate through the agent and can trigger `fallbackModel`.
+
+Set `options.toolSelection = some(toolSelection(@["echo"]))` (import
+`std/options`) to advertise only selected tools and reject calls to other
+registered tools with `AGENT_TOOL_NOT_SELECTED`. An empty selection denies all
+tools; leaving the option unset advertises and permits all registered tools.
 
 Public declarations are inventoried in [`api/0.1.0.txt`](api/0.1.0.txt).
 

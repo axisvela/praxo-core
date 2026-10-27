@@ -9,6 +9,7 @@ end
 defmodule Praxo.AgentOptions do
   defstruct model: nil,
             tools: [],
+            tool_selection: nil,
             events: nil,
             system_prompt: "",
             max_steps: 8,
@@ -17,7 +18,7 @@ defmodule Praxo.AgentOptions do
 end
 
 defmodule Praxo.Agent do
-  alias Praxo.{AgentOptions, Json, Model, Models, Sink, Tool, ToolSpec, Usage}
+  alias Praxo.{AgentOptions, Json, Middleware, Model, Models, Sink, Tool, ToolSpec, Usage}
 
   def new_tool(name, description, invoke \\ nil) do
     invoke = invoke || fn arguments -> arguments end
@@ -99,7 +100,9 @@ defmodule Praxo.Agent do
     if step > max_steps do
       fail(options, run_id, "AGENT_MAX_STEPS")
     else
-      request = Models.request(messages, tool_specs(options.tools))
+      specs = tool_specs(options.tools)
+      specs = if options.tool_selection == nil, do: specs, else: Middleware.select_tools(options.tool_selection, specs)
+      request = Models.request(messages, specs)
 
       case generate(options.model, request) do
         {:error, code, model} ->
@@ -136,16 +139,25 @@ defmodule Praxo.Agent do
     Enum.reduce_while(calls, {:ok, options, messages}, fn tool_call, {:ok, options, messages} ->
       index = Enum.find_index(options.tools, fn tool -> tool.name == tool_call.name end)
 
-      if index == nil do
-        options = emit(options, "run.failed", run_id, %{"error" => "tool not found"})
-        {:halt, {:error, "TOOL_NOT_FOUND", options}}
-      else
-        tool = Enum.at(options.tools, index)
-        options = emit(options, "tool.call", run_id, %{"name" => tool_call.name, "arguments" => tool_call.arguments})
-        {tool, value} = call(tool, tool_call.arguments)
-        options = %{options | tools: List.replace_at(options.tools, index, tool)}
-        messages = messages ++ [Models.message_tool(Json.encode(value), tool_call.id)]
-        {:cont, {:ok, options, messages}}
+      selection = if options.tool_selection == nil, do: :ok, else: Middleware.check_tool_selected(options.tool_selection, tool_call.name)
+
+      cond do
+        selection != :ok ->
+          {:error, code} = selection
+          {:error, code, options} = fail(options, run_id, code)
+          {:halt, {:error, code, options}}
+
+        index == nil ->
+          options = emit(options, "run.failed", run_id, %{"error" => "tool not found"})
+          {:halt, {:error, "TOOL_NOT_FOUND", options}}
+
+        true ->
+          tool = Enum.at(options.tools, index)
+          options = emit(options, "tool.call", run_id, %{"name" => tool_call.name, "arguments" => tool_call.arguments})
+          {tool, value} = call(tool, tool_call.arguments)
+          options = %{options | tools: List.replace_at(options.tools, index, tool)}
+          messages = messages ++ [Models.message_tool(Json.encode(value), tool_call.id)]
+          {:cont, {:ok, options, messages}}
       end
     end)
   end

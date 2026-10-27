@@ -188,9 +188,12 @@ jobs:
         with:
           python-version: "3.12"
       - name: Install V 0.5.2
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
-          git clone --depth 1 --branch 0.5.2 https://github.com/vlang/v "$RUNNER_TEMP/v"
-          make -C "$RUNNER_TEMP/v"
+          gh release download 0.5.2 --repo vlang/v --pattern v_linux.zip --dir "$RUNNER_TEMP"
+          echo "86caf9e70c3342d48ef19eb4f6c47b709f18c90ae86255520d5c29df6b482e23  $RUNNER_TEMP/v_linux.zip" | sha256sum --check
+          unzip -q "$RUNNER_TEMP/v_linux.zip" -d "$RUNNER_TEMP"
           echo "$RUNNER_TEMP/v" >> "$GITHUB_PATH"
       - run: v version
       - run: python language/v/api-snapshot.py --check

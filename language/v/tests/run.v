@@ -177,6 +177,76 @@ fn consumer_failure(_req praxo.Request) !praxo.Response {
 	return praxo.praxo_error('MODEL_ERROR', 'consumer failed')
 }
 
+fn selection_model(req praxo.Request) !praxo.Response {
+	assert req.tools.len == 1
+	assert req.tools[0].name == 'echo'
+	if req.messages.len == 1 {
+		return praxo.response(praxo.message_assistant('', [
+			praxo.tool_call('c1', 'echo', {}),
+		]), praxo.usage(0, 0))
+	}
+	return praxo.response(praxo.message_assistant('', [
+		praxo.tool_call('c2', 'denied', {}),
+	]), praxo.usage(0, 0))
+}
+
+fn empty_selection_model(req praxo.Request) !praxo.Response {
+	assert req.tools.len == 0
+	return praxo.response(praxo.message_assistant('', [
+		praxo.tool_call('c1', 'echo', {}),
+	]), praxo.usage(0, 0))
+}
+
+fn default_selection_model(req praxo.Request) !praxo.Response {
+	assert req.tools.len == 2
+	assert req.tools[0].name == 'echo'
+	assert req.tools[1].name == 'denied'
+	if req.messages.len == 1 {
+		return praxo.response(praxo.message_assistant('', [
+			praxo.tool_call('c1', 'denied', {}),
+		]), praxo.usage(0, 0))
+	}
+	return praxo.response(praxo.message_assistant('done', []praxo.ToolCall{}), praxo.usage(0, 0))
+}
+
+fn test_agent_tool_selection() {
+	allowed := praxo.func_tool('echo', 'Echo')
+	denied := praxo.func_tool('denied', 'Denied')
+	sink := &praxo.Sink{}
+	mut options := praxo.agent_options(praxo.callback_model(selection_model))
+	options.tools = [allowed, denied]
+	options.tool_selection = praxo.tool_selection(['echo'])
+	options.events = sink
+	mut code := ''
+	praxo.run_agent(options, praxo.session('s1', []praxo.Message{}), 'use') or {
+		code = praxo.error_code(err)
+		praxo.RunResult{}
+	}
+	assert code == 'AGENT_TOOL_NOT_SELECTED'
+	assert allowed.calls == 1
+	assert denied.calls == 0
+	assert sink.kinds == ['run.started', 'tool.call', 'run.failed']
+
+	mut empty_options := praxo.agent_options(praxo.callback_model(empty_selection_model))
+	empty_options.tools = [allowed]
+	empty_options.tool_selection = praxo.tool_selection([]string{})
+	code = ''
+	praxo.run_agent(empty_options, praxo.session('s1', []praxo.Message{}), 'use') or {
+		code = praxo.error_code(err)
+		praxo.RunResult{}
+	}
+	assert code == 'AGENT_TOOL_NOT_SELECTED'
+	assert allowed.calls == 1
+
+	mut default_options := praxo.agent_options(praxo.callback_model(default_selection_model))
+	default_options.tools = [allowed, denied]
+	result := praxo.run_agent(default_options, praxo.session('s1', []praxo.Message{}), 'use') or {
+		panic(err)
+	}
+	assert result.output == 'done'
+	assert denied.calls == 1
+}
+
 fn test_callback_model() {
 	tool := praxo.func_tool('echo', 'Echo')
 	sink := &praxo.Sink{}
@@ -221,6 +291,7 @@ fn main() {
 	test_pii()
 	test_agent()
 	test_agent_tool()
+	test_agent_tool_selection()
 	test_callback_model()
 	println('v tests passed')
 }

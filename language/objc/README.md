@@ -3,8 +3,8 @@
 Objective-C is a native Core implementation targeting the PRAXO-CORE
 contract. It passes all eleven shared vector groups and includes the native
 agent loop, context compaction, memory store, path policy, checkpoint
-allowlist, and tool-call parsing. PII, structured output, call limit, and tool
-selection are standalone helpers, not integrated agent middleware. Vector
+allowlist, tool selection, and tool-call parsing. PII, structured output, and
+call limit are standalone helpers, not integrated agent middleware. Vector
 coverage does not establish full Core parity or production readiness.
 
 The SDK does not call Go or another language runtime. It has no provider
@@ -65,6 +65,10 @@ NSDictionary *result = PXRAgentRun(options, PXRSessionCreate(@"s1", @[]), @"hell
 Public declarations are inventoried in [`api/unreleased.txt`](api/unreleased.txt).
 Agent events use the supplied session's `id` and a UUID-based run ID; the
 existing event sink callback is unchanged.
+Set `options[@"toolSelection"]` to a set from `PXRToolSelectionCreate` to
+advertise and permit only selected tool names. An empty set denies all tools;
+omitting the option preserves unrestricted tool behavior. A call to an
+unselected name fails with `AGENT_TOOL_NOT_SELECTED` before invocation.
 The parser returns `nil` when the content is not a recognized call or the
 manifest is invalid. Schema validation returns error paths. SDK-local
 `PXRWireErrorDomain` and `PXRCoreErrorDomain` codes are not new shared wire

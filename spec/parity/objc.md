@@ -8,8 +8,8 @@ GNUstep Base 1.31.1 on Windows and covers all eleven vector groups, native
 tests, and the public declaration snapshot. Apple Foundation, macOS CI, release
 review, provider adapters, and plugin hosts are not yet verified. These results
 do not establish full Core parity or production readiness. PII, structured
-output, call limit, and tool selection are standalone helpers, not integrated
-agent middleware. `partial` marks these and other incomplete surfaces.
+output, and call limit remain standalone helpers; opt-in tool selection is
+enforced by the agent. `partial` marks these and other incomplete surfaces.
 
 | Go symbol | Objective-C symbol | Status | Phase |
 | --- | --- | --- | --- |

@@ -25,6 +25,7 @@ defmodule Praxo.Tests do
     test_pii()
     test_agent()
     test_agent_tool()
+    test_agent_tool_selection()
     test_fallback_state()
     test_custom_model()
     test_custom_model_error()
@@ -150,6 +151,65 @@ defmodule Praxo.Tests do
     check(result.output == "done", "agent tool output")
     check(hd(options.tools).calls == 1, "agent tool calls")
     check(options.events.kinds == ["run.started", "tool.call", "run.completed"], "agent tool events")
+  end
+
+  defp test_agent_tool_selection do
+    parent = self()
+    tools = [Agent.new_tool("echo", "Echo"), Agent.new_tool("secret", "Secret", fn _ -> send(parent, :invoked); :null end)]
+
+    model = fn request ->
+      send(parent, {:specs, Enum.map(request.tools, & &1.name)})
+      if length(request.messages) == 1 do
+        {:ok, Models.response(Models.message_assistant("", [Models.tool_call("c1", "echo", %{})]))}
+      else
+        {:ok, Models.response(Models.message_assistant("done"))}
+      end
+    end
+
+    options = %{Agent.new_agent_options(model) | tools: tools, tool_selection: Middleware.tool_selection(["echo"])}
+    {:ok, result, options} = Agent.run_agent(options, Models.session("s1"), "use")
+    check(result.output == "done" and hd(options.tools).calls == 1, "selected tool invoked")
+    for _ <- 1..2 do
+      receive do
+        {:specs, names} -> check(names == ["echo"], "selected specs on every step")
+      after
+        0 -> raise "missing selected specs"
+      end
+    end
+
+    denied_model = fn request ->
+      send(parent, {:specs, Enum.map(request.tools, & &1.name)})
+      {:ok, Models.response(Models.message_assistant("", [Models.tool_call("c2", "secret", %{})]))}
+    end
+
+    options = %{Agent.new_agent_options(denied_model) | tools: tools, tool_selection: Middleware.tool_selection([]), events: Sink.new()}
+    {:error, "AGENT_TOOL_NOT_SELECTED", options} = Agent.run_agent(options, Models.session("s1"), "use")
+    receive do
+      {:specs, names} -> check(names == [], "empty selection filters specs")
+    after
+      0 -> raise "missing empty specs"
+    end
+    receive do
+      :invoked -> raise "unselected tool invoked"
+    after
+      0 -> :ok
+    end
+    check(Enum.all?(options.tools, &(&1.calls == 0)), "unselected tool call count")
+    check(options.events.kinds == ["run.started", "run.failed"], "unselected tool failure events")
+
+    options = %{Agent.new_agent_options(denied_model) | tools: tools, max_steps: 1}
+    {:error, "AGENT_MAX_STEPS", options} = Agent.run_agent(options, Models.session("s1"), "use")
+    receive do
+      {:specs, names} -> check(names == ["echo", "secret"], "default advertises all tools")
+    after
+      0 -> raise "missing default specs"
+    end
+    receive do
+      :invoked -> :ok
+    after
+      0 -> raise "default tool not invoked"
+    end
+    check(Enum.at(options.tools, 1).calls == 1, "default permits tool")
   end
 
   defp test_fallback_state do

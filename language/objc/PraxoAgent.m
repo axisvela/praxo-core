@@ -343,12 +343,14 @@ NSDictionary<NSString *, id> *PXRAgentRun(NSMutableDictionary<NSString *, id> *o
     }
     NSInteger maxTokens = PXRInteger(options[@"maxTokens"]);
     NSArray *tools = PXRArray(options[@"tools"]);
+    NSMutableSet *selection = options[@"toolSelection"];
     NSDictionary *total = PXRUsageCreate(0, 0);
     PXREmit(sink, PXREventCreate(@"run.started", sessionId, runId, nil));
     for (NSInteger step = 1; step <= maxSteps; step++) {
         NSDictionary *response = nil;
         NSError *modelError = nil;
-        NSDictionary *request = PXRRequestCreate(messages, PXRToolSpecs(tools));
+        NSDictionary *request = PXRRequestCreate(messages, PXRToolSpecs(
+            selection != nil ? PXRSelectTools(selection, tools) : tools));
         if (!model(request, &response, &modelError)) {
             return PXRAgentFail(options, sessionId, runId, PXRCodeFromError(modelError),
                                 modelError.localizedDescription ?: @"model failed", error);
@@ -366,6 +368,11 @@ NSDictionary<NSString *, id> *PXRAgentRun(NSMutableDictionary<NSString *, id> *o
             return PXRRunResultCreate(runId, PXRString(message[@"content"]), step, total);
         }
         for (NSDictionary *call in calls) {
+            NSError *selectionError = nil;
+            if (selection != nil && !PXRCheckToolSelected(selection, PXRString(call[@"name"]), &selectionError)) {
+                return PXRAgentFail(options, sessionId, runId, PXRCodeFromError(selectionError),
+                                    selectionError.localizedDescription, error);
+            }
             NSDictionary *tool = PXRFindTool(tools, PXRString(call[@"name"]));
             if (tool == nil) {
                 return PXRAgentFail(options, sessionId, runId, @"TOOL_NOT_FOUND",

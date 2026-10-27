@@ -94,6 +94,7 @@ pub struct AgentOptions {
 pub mut:
 	model         &Model = unsafe { nil }
 	tools         []&Tool
+	tool_selection ?ToolSelection
 	events        &Sink = unsafe { nil }
 	system_prompt string
 	max_steps     int = 8
@@ -136,7 +137,11 @@ fn run_agent_inner(options AgentOptions, session_value Session, run_id string,
 	mut total := usage(0, 0)
 	for step := 1; step <= max_steps; step++ {
 		mut model := options.model
-		result := model.generate(request(messages, tool_specs(options.tools))) or {
+		mut specs := tool_specs(options.tools)
+		if selection := options.tool_selection {
+			specs = select_tools(selection, specs)
+		}
+		result := model.generate(request(messages, specs)) or {
 			return err
 		}
 		total = usage_plus(total, result.usage)
@@ -149,6 +154,9 @@ fn run_agent_inner(options AgentOptions, session_value Session, run_id string,
 			return run_result(run_id, result.message.content, step, total)
 		}
 		for call in result.message.tool_calls {
+			if selection := options.tool_selection {
+				check_tool_selected(selection, call.name)!
+			}
 			index := find_tool_index(options.tools, call.name)
 			if index < 0 {
 				return praxo_error('TOOL_NOT_FOUND', 'tool not found: ${call.name}')

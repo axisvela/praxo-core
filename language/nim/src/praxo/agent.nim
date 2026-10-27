@@ -1,10 +1,12 @@
 import std/json
+import std/options
 import std/strutils
 import std/times
 
 import ./errors
 import ./jsonutil
 import ./models
+import ./middleware
 import ./runtime
 
 proc echoInvoke(arguments: JsonNode): JsonNode =
@@ -29,6 +31,7 @@ type
   AgentOptions* = object
     model*: Model
     tools*: seq[Tool]
+    toolSelection*: Option[ToolSelection]
     events*: Sink
     systemPrompt*: string
     maxSteps*: int
@@ -117,8 +120,10 @@ proc runAgent*(options: AgentOptions, session: Session, prompt: string): RunResu
     let maxSteps = if options.maxSteps > 0: options.maxSteps else: 8
     var total = newUsage()
     for step in 1 .. maxSteps:
-      let response = options.model.generate(
-        newRequest(messages, toolSpecs(options.tools)))
+      var specs = toolSpecs(options.tools)
+      if options.toolSelection.isSome:
+        specs = selectTools(options.toolSelection.get(), specs)
+      let response = options.model.generate(newRequest(messages, specs))
       total = addUsage(total, response.usage)
       if options.maxTokens > 0 and total.inputTokens + total.outputTokens > options.maxTokens:
         raisePraxo("AGENT_MAX_TOKENS", "token budget exceeded")
@@ -130,6 +135,8 @@ proc runAgent*(options: AgentOptions, session: Session, prompt: string): RunResu
         let index = findToolIndex(options.tools, call.name)
         if index < 0:
           raisePraxo("TOOL_NOT_FOUND", "tool not found: " & call.name)
+        if options.toolSelection.isSome:
+          checkToolSelected(options.toolSelection.get(), call.name)
         var data = newJObject()
         data["name"] = %call.name
         data["arguments"] = if call.arguments.isNil: newJObject() else: call.arguments

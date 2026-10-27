@@ -4,6 +4,8 @@
 
 ### Added
 
+- Opt-in agent tool selection in the unreleased Elixir, Nim, V, and
+  Objective-C candidates, including end-to-end allow and deny tests.
 - Consumer-supplied synchronous model callbacks for the unreleased Elixir,
   Nim, and V agent-loop candidates, with multi-step and error regression tests.
 - Objective-C event correlation tests for distinct run IDs and session IDs.

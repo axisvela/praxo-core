@@ -48,4 +48,55 @@ void runCorrelationTests(void (*check)(BOOL, NSString *)) {
           events.count == 1 && [events[0][@"type"] isEqualToString:@"run.failed"] &&
           [events[0][@"sessionId"] isEqualToString:@"missing-model-session"] &&
           [events[0][@"runId"] isEqualToString:@""], @"missing model callback behavior");
+
+    __block NSUInteger allowedCalls = 0;
+    __block NSUInteger deniedCalls = 0;
+    __block NSUInteger requests = 0;
+    NSMutableArray *advertised = [NSMutableArray array];
+    options[@"tools"] = @[
+        PXRToolCreate(@"allowed", @"allowed description", ^id(NSDictionary *arguments, NSError **toolError) {
+            allowedCalls++;
+            return arguments;
+        }),
+        PXRToolCreate(@"denied", @"denied description", ^id(NSDictionary *arguments, NSError **toolError) {
+            deniedCalls++;
+            return arguments;
+        })
+    ];
+    options[@"toolSelection"] = PXRToolSelectionCreate(@[@"allowed"]);
+    options[@"model"] = ^BOOL(NSDictionary *request, NSDictionary **response, NSError **modelError) {
+        [advertised addObject:request[@"tools"]];
+        NSString *name = requests++ == 0 ? @"allowed" : @"denied";
+        *response = PXRResponseCreate(PXRMessageAssistant(@"", @[
+            PXRToolCallCreate(@"call", name, @{})
+        ]), PXRUsageCreate(0, 0));
+        return YES;
+    };
+    [events removeAllObjects];
+    error = nil;
+    check(PXRAgentRun(options, PXRSessionCreate(@"selection", @[]), @"hi", &error) == nil &&
+          [PXRCodeFromError(error) isEqualToString:@"AGENT_TOOL_NOT_SELECTED"], @"unselected call fails");
+    check(allowedCalls == 1 && deniedCalls == 0, @"only selected tool invoked");
+    check(advertised.count == 2 &&
+          PXRJSONEqual(advertised[0], @[PXRToolSpecCreate(@"allowed", @"allowed description")]) &&
+          PXRJSONEqual(advertised[1], advertised[0]), @"only selected specs advertised on every step");
+    check(events.count == 3 && [events[1][@"type"] isEqualToString:@"tool.call"] &&
+          [events[2][@"type"] isEqualToString:@"run.failed"], @"denied call emits no tool event");
+
+    options[@"toolSelection"] = PXRToolSelectionCreate(@[]);
+    [advertised removeAllObjects];
+    error = nil;
+    check(PXRAgentRun(options, PXRSessionCreate(@"empty-selection", @[]), @"hi", &error) == nil &&
+          [PXRCodeFromError(error) isEqualToString:@"AGENT_TOOL_NOT_SELECTED"] &&
+          advertised.count == 1 && [advertised[0] count] == 0 && deniedCalls == 0,
+          @"empty selection advertises and invokes no tools");
+
+    [options removeObjectForKey:@"toolSelection"];
+    [advertised removeAllObjects];
+    options[@"maxSteps"] = @1;
+    error = nil;
+    check(PXRAgentRun(options, PXRSessionCreate(@"default-selection", @[]), @"hi", &error) == nil &&
+          [PXRCodeFromError(error) isEqualToString:@"AGENT_MAX_STEPS"] && deniedCalls == 1 &&
+          advertised.count == 1 && [advertised[0] count] == 2,
+          @"default selection advertises and permits all tools");
 }

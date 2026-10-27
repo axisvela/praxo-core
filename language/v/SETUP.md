@@ -42,18 +42,28 @@ configuration.
 
 ## Manual Install On Linux And CI
 
-Use the official source build or a release archive. A minimal source build is:
+For Linux x86-64, CI uses the official `0.5.2` release archive rather than
+building from source:
 
 ```bash
-git clone --depth 1 https://github.com/vlang/v
-cd v
-make
-sudo ./v symlink
+gh release download 0.5.2 --repo vlang/v --pattern v_linux.zip
+echo '86caf9e70c3342d48ef19eb4f6c47b709f18c90ae86255520d5c29df6b482e23  v_linux.zip' | sha256sum --check
+unzip -q v_linux.zip
+export PATH="$PWD/v:$PATH"
+v version
 ```
 
-Install a C compiler (`build-essential` or `gcc`) before building. The
-configured `v-conformance` CI job clones the pinned `0.5.2` tag, builds V from
-source with `make`.
+The checksum matches the GitHub release asset digest. CI uses the runner's
+compiler environment and adds the extracted `v` directory to `PATH`.
+Other platforms need their corresponding release archive.
+
+Job [122092667286](https://github.com/axisvela/praxo-core/actions/runs/40475516685/job/122092667286)
+for commit `e7fd5a7` failed during installation, before SDK checks. Its `make`
+cloned the moving `vlang/vc` default branch and ran `v1` against the 0.5.2
+source; `vlib/math/bits/bits.v:621` then failed on a parenthesized `if`
+expression. The release archive avoids that unpinned bootstrap. The downloaded
+archive's SHA-256 was checked locally against the release API digest; the new
+Linux CI installation and SDK checks have not yet been verified remotely.
 
 ## Environment Variables
 
@@ -78,8 +88,8 @@ For repository-wide metadata and parity checks, run `python scripts/test_layout.
 and `$env:GOWORK = "off"; go test ./internal/spec/...` separately in PowerShell.
 
 The tests cover the synchronous `praxo.callback_model` adapter across agent
-steps, errors, and fallback. PII, structured output, call limit, and tool
-selection remain standalone helpers rather than integrated agent middleware.
+steps, errors, and fallback. Opt-in tool selection is exercised in agent runs.
+PII, structured output, and call limit remain standalone helpers.
 Built-in provider integrations, streaming wire encodings, and plugin hosts are
 not provided; see the README for the callback contract and other limits.
 
@@ -90,7 +100,6 @@ passed the tests and conformance vectors. The API snapshot and repository-wide
 checks are listed above but are not claimed as part of these reported results.
 Remote CI results are pending.
 
-In a subsequent local Windows session, `python language/v/api-snapshot.py
---check` passed with Python 3.14.6. V was not on `PATH`, so tests and
-conformance were not rerun in that session; the earlier results above are not
-evidence of a fresh run against the callback changes.
+With V 0.5.2 and `-cc tcc -gc none`, the tests, conformance runner, and API
+snapshot check passed again after the tool-selection integration. Remote CI for
+these changes is pending.

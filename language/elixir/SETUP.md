@@ -91,12 +91,15 @@ elixir -pa language/elixir/build/ebin language/elixir/conformance/run.exs
 ```
 
 The local tests exercise consumer model callbacks across tool steps, errors,
-and fallback. See the README for the callback contract and its limitations.
+fallback, and opt-in tool selection, including filtered specifications and
+rejected invocations. See the README for the contracts and limitations.
 
 For repository-wide metadata and parity checks, run `python scripts/test_layout.py`
 and `$env:GOWORK = "off"; go test ./internal/spec/...` separately.
 
 ## Results
 
-The configured `elixir-conformance` job uses `erlef/setup-beam@v1`; local
-results do not establish remote CI results.
+On Windows with Elixir 1.20.4 and Erlang/OTP 29, the build, tests, eleven
+conformance vector groups, and API snapshot check passed after the opt-in
+tool-selection integration. The configured `elixir-conformance` job uses
+`erlef/setup-beam@v1`; remote CI for these changes is pending.

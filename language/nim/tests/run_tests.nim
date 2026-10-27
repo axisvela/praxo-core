@@ -174,6 +174,59 @@ proc testCallbackErrors() =
   except PraxoError as error:
     assert errorCode(error) == "MODEL_ERROR"
 
+proc testAgentToolSelection() =
+  let allowed = newTool("allowed", "Allowed")
+  var invoked = false
+  let denied = newTool("denied", "Denied", proc(arguments: JsonNode): JsonNode =
+    invoked = true
+    return arguments
+  )
+  var calls = 0
+  let model = callbackModel(proc(request: Request): Response =
+    inc calls
+    assert request.tools.len == 1
+    assert request.tools[0].name == "allowed"
+    assert request.tools[0].description == "Allowed"
+    if calls == 1:
+      return newResponse(newMessageAssistant("", @[
+        newToolCall("c1", "allowed", newJObject())]))
+    return newResponse(newMessageAssistant("", @[
+      newToolCall("c2", "denied", newJObject())]))
+  )
+  let sink = newSink()
+  var options = newAgentOptions(model)
+  options.tools = @[allowed, denied]
+  options.events = sink
+  options.toolSelection = some(toolSelection(@["allowed"]))
+  try:
+    discard runAgent(options, newSession("s1"), "use")
+    assert false
+  except PraxoError as error:
+    assert errorCode(error) == "AGENT_TOOL_NOT_SELECTED"
+  assert calls == 2 and allowed.calls == 1
+  assert denied.calls == 0 and not invoked
+  assert sink.kinds == @["run.started", "tool.call", "run.failed"]
+
+  options.toolSelection = some(toolSelection(@[]))
+  options.model = callbackModel(proc(request: Request): Response =
+    assert request.tools.len == 0
+    return newResponse(newMessageAssistant("", @[
+      newToolCall("c3", "allowed", newJObject())]))
+  )
+  try:
+    discard runAgent(options, newSession("s1"), "use")
+    assert false
+  except PraxoError as error:
+    assert errorCode(error) == "AGENT_TOOL_NOT_SELECTED"
+  assert allowed.calls == 1
+
+  options.toolSelection = none(ToolSelection)
+  options.model = callbackModel(proc(request: Request): Response =
+    assert request.tools.len == 2
+    return newResponse(newMessageAssistant("done"))
+  )
+  assert runAgent(options, newSession("s1"), "use").output == "done"
+
 testJson()
 testToolcall()
 testJsonschema()
@@ -187,4 +240,5 @@ testAgent()
 testAgentTool()
 testCallbackModel()
 testCallbackErrors()
+testAgentToolSelection()
 echo "nim tests passed"

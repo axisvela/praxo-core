@@ -5,8 +5,8 @@
 
 The unreleased Elixir candidate includes a core loop. It passes all eleven vector groups, its
 tests, and its public API snapshot. These results do not establish full Core
-parity or production readiness. PII, structured output, call limit, and tool
-selection are standalone helpers, not integrated agent middleware. A synchronous
+parity or production readiness. PII, structured output, and call limit remain
+standalone helpers; opt-in tool selection is enforced by the agent. A synchronous
 function can serve as a consumer-supplied model and participate in fallback. It
 returns `{:ok, response}` or `{:error, code}`; provider state is managed
 externally, and exceptions and malformed returns are not converted to model

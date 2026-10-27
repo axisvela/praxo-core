@@ -3,8 +3,8 @@
 Elixir is a native Core implementation targeting the PRAXO-CORE contract. It
 passes all eleven shared vector groups with `Elixir 1.20.4` on `Erlang/OTP 29`
 and includes the native agent loop, context compaction, memory store, path
-policy, checkpoint allowlist, and tool-call parsing. PII, structured output,
-call limit, and tool selection are standalone helpers, not integrated agent
+policy, checkpoint allowlist, tool-call parsing, and opt-in tool selection. PII,
+structured output, and call limit are standalone helpers, not integrated agent
 middleware. Vector coverage does not establish full Core parity or production
 readiness.
 
@@ -67,6 +67,19 @@ step. It can also be either child of `Praxo.Agent.fallback_model/2`.
 Manage any provider state externally; the callback itself is retained unchanged
 in returned options. Return errors explicitly to trigger failure or fallback;
 exceptions and malformed returns are not converted into model errors.
+
+Set `tool_selection` to opt into filtering advertised tools and rejecting calls
+to unselected names before invocation:
+
+```elixir
+options = %{options | tool_selection: Praxo.Middleware.tool_selection(["echo"])}
+```
+
+The default `nil` advertises and permits all registered tools as before. An
+empty selection advertises none and rejects every tool call with
+`AGENT_TOOL_NOT_SELECTED`. A selected but unregistered name still fails with
+`TOOL_NOT_FOUND`. This is an agent-loop restriction, not a sandbox for direct
+calls to `Praxo.Agent.call/2`.
 
 ## Current Limits
 

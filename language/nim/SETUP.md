@@ -84,8 +84,8 @@ metadata and parity checks, run `python scripts/test_layout.py` and
 `$env:GOWORK = "off"; go test ./internal/spec/...` separately in PowerShell.
 
 The tests cover the synchronous `callbackModel` adapter across agent steps,
-errors, and fallback. PII, structured output, call limit, and tool selection
-remain standalone helpers rather than integrated agent middleware. Built-in
+errors, and fallback. Opt-in tool selection is exercised in agent runs. PII,
+structured output, and call limit remain standalone helpers. Built-in
 provider integrations, streaming wire encodings, and plugin hosts are not
 provided; see the README for the callback contract and other limits.
 
@@ -96,7 +96,6 @@ passed the tests and conformance vectors, with unused import warnings. The API
 snapshot and repository-wide checks are listed above but are not claimed as
 part of these reported results. Remote CI results are pending.
 
-In a subsequent local Windows session, `python language/nim/api-snapshot.py
---check` passed with Python 3.14.6. Nim was not on `PATH`, so tests and
-conformance were not rerun in that session; the earlier results above are not
-evidence of a fresh run against the callback changes.
+With the toolchain above on `PATH`, the tests, conformance runner, and API
+snapshot check passed again after the tool-selection integration. Compilation
+reported unused-import warnings. Remote CI for these changes is pending.

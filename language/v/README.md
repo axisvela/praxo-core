@@ -3,8 +3,8 @@
 V is a native Core implementation targeting the PRAXO-CORE contract. It
 passes all eleven shared vector groups with `V 0.5.2` and includes the native
 agent loop, context compaction, memory store, path policy, checkpoint
-allowlist, and tool-call parsing. PII, structured output, call limit, and tool
-selection are standalone helpers, not integrated agent middleware. Vector
+allowlist, and tool-call parsing. Tool selection is opt-in in the agent; PII,
+structured output, and call limit are standalone helpers. Vector
 coverage does not establish full Core parity or production readiness.
 
 The SDK does not call Go or another language runtime. It has no provider
@@ -48,6 +48,11 @@ Public declarations are inventoried in [`api/0.1.0.txt`](api/0.1.0.txt).
 Supply a model callback to receive each request and return a response or an
 error. The callback can inspect the conversation and tool results on each step;
 callback-backed models also work with `fallback_model`.
+
+Set `options.tool_selection = praxo.tool_selection(['echo'])` to advertise and
+allow only the named tools. An empty selection denies all tools. Without a
+selection, all configured tools remain available. A request for an unselected
+tool fails with `AGENT_TOOL_NOT_SELECTED` before the tool is invoked.
 
 ```v
 fn generate(req praxo.Request) !praxo.Response {
