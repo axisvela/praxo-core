@@ -7,15 +7,19 @@ import Data.IORef
 import qualified Praxo.Agent as A
 import Praxo.Json
 import Praxo.JsonSchema
+import Praxo.Middleware
 import Praxo.Pattern
 import Praxo.Plugin
+import Praxo.Runtime
 import Praxo.ToolCall
 import Praxo.Wire
 
 main :: IO ()
 main = do
     agentTests
-    assert "contract version" (specVersion == "0.2.0" && sdkVersion == "0.1.0")
+    runtimeTests
+    middlewareTests
+    assert "contract version" (specVersion == "0.2.0" && sdkVersion == "0.2.0")
     forM_ ["", "01", "1.", "+1", "NaN", "1e", "[1,]", "{\"a\":1,}", "{}{}", "\"\\q\"", "\"\\ud800\"", "\"\\udc00\"", "\"\\ud800\\u0041\"", "\"line\nbreak\"", "true garbage"] $ \raw ->
         assert ("invalid JSON " ++ show raw) (isLeft (parseJson raw))
     assert "unicode escape" (parseJson "\"\\u00e9\\ud83d\\ude00\"" == Right (JString "\x00e9\x1f600"))
@@ -71,7 +75,7 @@ main = do
            ("permissions", JObject [("network", JArray [JObject [("host", JString "example.com"), ("port", JNumber 65536)]])])] $ \(key, value) ->
         assert ("invalid manifest " ++ key) (isLeft (validateManifest (set key value base)))
     assert "manifest trailing data" (isLeft (parseManifest "{} {}"))
-    putStrLn "Haskell wire regression tests passed"
+    putStrLn "Haskell Core regression tests passed"
 
 agentTests :: IO ()
 agentTests = do
@@ -135,6 +139,53 @@ agentTests = do
     limited <- A.runAgent (options { A.maxSteps = 0, A.generate = \_ -> pure (Right (A.Response "" [call] 0 0)) }) [] "x"
     count <- readIORef calls
     assert "default step budget" (count == 8 && case limited of Left err -> A.errorCode err == "AGENT_MAX_STEPS"; _ -> False)
+
+runtimeTests :: IO ()
+runtimeTests = do
+    let (store1, _) = memoryPut newMemoryStore "s1" (MemoryRecord "m1" "event" "Alpha" "2026-01-01")
+        (store2, _) = memoryPut store1 "s1" (MemoryRecord "m2" "event" "beta" "2026-01-02")
+        (store3, _) = memoryPut store2 "s1" (MemoryRecord "m3" "decision" "ALPHABET" "2026-01-03")
+    assert "memory ordering" (map recordId (memorySearch store3 "s1" "alpha" 10) == ["m3", "m1"])
+    assert "memory limit" (map recordId (memorySearch store3 "s1" "alpha" 1) == ["m3"])
+    assert "memory isolation" (null (memorySearch store3 "s2" "alpha" 10))
+    let events = [Event "a" "s1" Nothing JNull, Event "b" "s1" Nothing JNull]
+        filtered = foldl emitSink (filterSink newSink ["b"]) events
+        multi = foldl emitSink (multiSink [newSink, newSink]) events
+    assert "event filter" (sinkKinds filtered == ["b"])
+    assert "event multi" (sinkKindLists multi == [["a", "b"], ["a", "b"]])
+    assert "stream kinds" (streamKinds == ["values", "updates", "messages", "tasks", "debug", "checkpoint"])
+    let allow = either error id (registerCheckpoint newCheckpoint "spec.payload")
+    case checkpointMarshal allow "spec.payload" (json "{\"value\":\"x\"}") of
+        Left detail -> fail detail
+        Right data' -> case checkpointUnmarshal allow data' of
+            Left detail -> fail detail
+            Right decoded -> assert "checkpoint roundtrip" (equalJson decoded (json "{\"value\":\"x\"}"))
+    assert "checkpoint allowlist" (checkpointMarshal allow "missing" JNull == Left "CHECKPOINT_TYPE_NOT_ALLOWED")
+    let checker = either error id (pathChecker [PathGrant "allowed" "read"])
+    assert "policy traversal" (not (pathAllowed checker "../allowed/secret" "read"))
+    assert "policy inside" (pathAllowed checker "allowed/sub/../secret" "read")
+    assert "policy parent segments" (normalizePath "../../a/../b" == "../../b")
+    let messages = [ContextMessage "system" "sys" [] [] Nothing, ContextMessage "user" "message 0" [] [] Nothing, ContextMessage "user" "message 1" [] [] Nothing]
+    assert "context estimate" (estimateTokens messages == 16)
+    assert "context disabled" (let (output, ok) = compactContext (ContextBudget 0 0) messages in ok && length output == 3)
+
+middlewareTests :: IO ()
+middlewareTests = do
+    assert "pii email" (piiRedact "email a@b.com" == "email [REDACTED:email]")
+    assert "pii ssn" (piiRedact "ssn 123-45-6789" == "ssn [REDACTED:ssn]")
+    assert "pii card" (piiRedact "card 4111 1111 1111 1111" == "card [REDACTED:credit_card]")
+    assert "pii phone" (piiRedact "call 415-555-2671" == "call [REDACTED:phone]")
+    assert "pii boundary" (piiRedact "version 1.2.3" == "version 1.2.3")
+    let schema = json "{\"type\":\"object\",\"required\":[\"name\"],\"properties\":{\"name\":{\"type\":\"string\"}}}"
+        repaired = structuredOutput schema 1 (Just (\_ -> Right "{\"name\":\"fixed\"}"))
+        failing = structuredOutput schema 0 Nothing
+    assert "structured repair" (applyStructured repaired "bad" == Right "{\"name\":\"fixed\"}")
+    assert "structured failure" (applyStructured failing "bad" == Left "AGENT_STRUCTURED_OUTPUT")
+    assert "tool limit" (case callLimitTool (callLimit 0 1) >>= callLimitTool of Left code -> code == "AGENT_TOOL_CALL_LIMIT"; _ -> False)
+    assert "model limit" (case callLimitModel (callLimit 1 0) >>= callLimitModel of Left code -> code == "AGENT_MODEL_CALL_LIMIT"; _ -> False)
+    assert "tool selection" (selectTools (toolSelection ["echo"]) ["echo", "other"] == ["echo"])
+    assert "tool selection reject" (checkToolSelected (toolSelection []) "echo" == Left "AGENT_TOOL_NOT_SELECTED")
+    assert "fallback" (fallbackEither (Left "MODEL_ERROR" :: Either String String) (Right "ok") == Right "ok")
 
 assert :: String -> Bool -> IO ()
 assert label condition = unless condition (fail label)

@@ -61,7 +61,7 @@ production readiness or full Go feature parity.
 | Swift | Core | released | `swift/v0.2.0` | complete | 11 vectors, XCTest, API snapshot |
 | Julia | Core | released | `julia/v0.2.0` | complete | 11 vectors, JSON.jl, API snapshot |
 | R | Core | released | `r/v0.2.0` | complete | 11 vectors, base-R JSON, API snapshot |
-| Haskell | Wire | released | `haskell/v0.1.0` | partial | Framework target; 3 wire groups plus agent-loop vectors; Linux/Windows CI for wire groups; remote CI for loop pending |
+| Haskell | Core | released | `haskell/v0.2.0` | complete | 11 vectors, native tests, API snapshot/parity; GHC 9.12.2; runtime and middleware helpers |
 | Fortran | Core | released | `fortran/v0.2.0` | complete | 11 vectors, native tests, API snapshot; integrated PII/middleware; source tag only; stream and schema subset partial |
 | Lisp | Bridge | released | `lisp/v0.1.0` | complete | SBCL bridge over the bridge CLI; forwarding, UTF-8, errors, and exit codes verified locally and in Linux CI; consumer details pending |
 | JavaScript | Sample (TypeScript) | released | none | sample | Uses the TypeScript package; no separate core |
@@ -127,7 +127,7 @@ production readiness or full Go feature parity.
 | Shell / PowerShell | `bridge` | bridge tests, both wrappers |
 | Fortran | `fortran-conformance` | native tests, 11 vector groups, API snapshot; source release tagged `fortran/v0.2.0` |
 | COBOL | `cobol-conformance` | 11 vectors, API snapshot, native/tooling tests |
-| Haskell | `haskell-conformance` | 3 wire groups plus agent-loop vectors, native tests, source API/parity, Cabal build; source release tagged `haskell/v0.1.0`; remote CI for loop pending |
+| Haskell | `haskell-conformance` | 11 vectors, native tests, source API/parity, Cabal build; source release tagged `haskell/v0.2.0` |
 | Delphi / Free Pascal | `delphi-conformance` | 3 wire groups plus agent-loop vectors, native tests, source API/parity; source release tagged `delphi/v0.1.0`; remote CI for loop and Delphi unverified |
 | OCaml | `ocaml-conformance` | 11 vectors, native tests, source API/parity; local OCaml 4.14.2 bytecode and Linux CI verified; source release tagged `ocaml/v0.2.0`; `ocamlopt` unverified |
 | Objective-C | `objc-conformance` | 11 vectors, native tests, source API/parity; local clang + GNUstep verified; macOS CI verified |

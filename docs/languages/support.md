@@ -48,9 +48,9 @@ reuse the host Framework rather than duplicate its agent loop.
   tests, an API snapshot, and integrated PII/middleware. It is not a
   package-registry release; asynchronous stream support and the bounded JSON
   Schema subset remain partial.
-- Haskell has source tag `haskell/v0.1.0` and declares three wire groups plus an
-  agent loop. It is not a published Hackage package or a production-ready agent
-  runtime.
+- Haskell has source tag `haskell/v0.2.0` with all eleven vector groups, native
+  tests, API snapshot/parity, and runtime/middleware helpers. Hackage publication
+  and production readiness are not claimed.
 - Delphi/Free Pascal has source tag `delphi/v0.1.0` and remains a Wire-stage
   candidate; the commercial Delphi compiler, remote CI for the loop, and package
   registries are not claimed.

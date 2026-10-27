@@ -111,7 +111,7 @@ class DocumentationTests(unittest.TestCase):
         self.assertIn("[Haskell](haskell.md)", chinese)
         self.assertIn("public API is wire-level", english)
         with self.assertRaises(ValueError):
-            docs_hooks.language_matrix(source.replace("| Haskell | Wire |", "| Haskell | Unknown |"))
+            docs_hooks.language_matrix(source.replace("| Delphi | Wire |", "| Delphi | Unknown |"))
 
     def test_built_language_matrix(self):
         for prefix in ("", "zh-CN/"):

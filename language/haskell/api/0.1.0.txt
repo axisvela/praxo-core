@@ -1,4 +1,4 @@
-# PRAXO-CORE Haskell Wire API 0.1.0
+# PRAXO-CORE Haskell Wire API 0.2.0
 # SPEC_VERSION 0.2.0
 
 ## Praxo.Agent
@@ -24,6 +24,23 @@ parseJson :: String -> Either String Json
 data ValidationError = ValidationError { errorPath :: String, errorMessage :: String } deriving (Eq, Show)
 validateSchema :: Json -> Json -> Either String [ValidationError]
 
+## Praxo.Middleware
+data CallLimit = CallLimit
+data StructuredOutput = StructuredOutput
+applyStructured :: StructuredOutput -> String -> Either String String
+callLimit :: Int -> Int -> CallLimit
+callLimitModel :: CallLimit -> Either String CallLimit
+callLimitTool :: CallLimit -> Either String CallLimit
+checkToolSelected :: ToolSelection -> String -> Either String ()
+extractJson :: String -> Maybe Json
+fallbackEither :: Either e a -> Either e a -> Either e a
+fallbackGenerate :: IO (Either e a) -> IO (Either e a) -> IO (Either e a)
+piiRedact :: String -> String
+redactValue :: Json -> Json
+selectTools :: ToolSelection -> [String] -> [String]
+structuredOutput :: Json -> Int -> Maybe (String -> Either String String) -> StructuredOutput
+toolSelection :: [String] -> ToolSelection
+
 ## Praxo.Pattern
 matchPattern :: String -> String -> Either String Bool
 
@@ -31,8 +48,41 @@ matchPattern :: String -> String -> Either String Bool
 parseManifest :: String -> Either String Json
 validateManifest :: Json -> Either String ()
 
+## Praxo.Runtime
+data ContextBudget = ContextBudget { budgetMaxTokens :: Int, budgetKeepRecent :: Int } deriving (Eq, Show)
+data ContextMessage = ContextMessage
+data Decision = Decision { decisionAllowed :: Bool, decisionReason :: String } deriving (Eq, Show)
+data Event = Event
+data MemoryRecord = MemoryRecord
+data MemoryStore = MemoryStore
+newtype PathChecker = PathChecker [PathGrant] deriving (Eq, Show)
+data PathGrant = PathGrant { grantRoot :: String, grantAccess :: String } deriving (Eq, Show)
+data Sink = RecordSink [String] | MultiSink [Sink] | FilterSink Sink [String] deriving (Eq, Show)
+checkpointMarshal :: CheckpointAllowlist -> String -> Json -> Either String String
+checkpointUnmarshal :: CheckpointAllowlist -> String -> Either String Json
+compactContext :: ContextBudget -> [ContextMessage] -> ([ContextMessage], Bool)
+emitSink :: Sink -> Event -> Sink
+estimateTokens :: [ContextMessage] -> Int
+filterSink :: Sink -> [String] -> Sink
+memoryPut :: MemoryStore -> String -> MemoryRecord -> (MemoryStore, MemoryRecord)
+memorySearch :: MemoryStore -> String -> String -> Int -> [MemoryRecord]
+messageWire :: ContextMessage -> Json
+multiSink :: [Sink] -> Sink
+newCheckpoint :: CheckpointAllowlist
+newMemoryStore :: MemoryStore
+newSink :: Sink
+normalizePath :: String -> String
+pathAllowed :: PathChecker -> String -> String -> Bool
+pathCheck :: PathChecker -> String -> String -> Either String Decision
+pathChecker :: [PathGrant] -> Either String PathChecker
+registerCheckpoint :: CheckpointAllowlist -> String -> Either String CheckpointAllowlist
+sinkKindLists :: Sink -> [[String]]
+sinkKinds :: Sink -> [String]
+streamKinds :: [String]
+
 ## Praxo.ToolCall
 data ToolCall = ToolCall { callName :: String, callInput :: Json, callMetadata :: [(String, String)] } deriving (Eq, Show)
+parseInputJson :: String -> Maybe Json
 parseToolCall :: String -> Maybe ToolCall
 stripToolCallMarkup :: String -> String
 

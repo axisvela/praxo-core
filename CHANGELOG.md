@@ -4,6 +4,8 @@
 
 ### Added
 
+- Promoted Haskell to a native Core SDK with runtime, middleware, and all eleven
+  vector groups; released source tag `haskell/v0.2.0`.
 - Promoted MATLAB/Octave to a native Core SDK with all eleven vector groups,
   integrated middleware, and tagged `matlab/v0.2.0`.
 - Completed Fortran PII redaction for email, SSN, credit-card, and phone

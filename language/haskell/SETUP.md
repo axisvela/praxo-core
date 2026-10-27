@@ -12,11 +12,12 @@ python language/haskell/run-tests.py
 python language/haskell/api-snapshot.py --check
 ```
 
-The test driver builds and runs the native regression tests and all declared
-conformance vector groups, and checks the API snapshot and existing parity
-inventory. The reported Windows run passed 28 vectors and the negative usage
-tests; the driver's successful run includes the snapshot check. Alternatively
-pass `--compiler` to select GHC. Build products go to `language/haskell/build/`.
+The test driver builds and runs the native regression tests and all eleven
+conformance vector groups, and checks the API snapshot and parity inventory. The
+reported Windows run passed all declared vectors and the native runtime,
+middleware, and agent tests; the driver's successful run includes the snapshot
+check. Alternatively pass `--compiler` to select GHC. Build products go to
+`language/haskell/build/`.
 
 To exercise the conformance executable's argument validation after the driver
 builds it, run from the repository root. Both invocations should print usage

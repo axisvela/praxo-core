@@ -1,16 +1,14 @@
-# PRAXO-CORE Haskell Wire SDK
+# PRAXO-CORE Haskell Core SDK
 
-A native Haskell Wire SDK with source tag `haskell/v0.1.0`. It implements the
-declared wire subset and does not call Go or another SDK. It includes a native,
-callback-based agent loop.
+A native Haskell Core SDK with source tag `haskell/v0.2.0`. It implements all
+eleven declared vector groups and does not call Go or another SDK. It includes a
+native callback-based agent loop plus runtime and middleware helpers.
 
-- Implementation type: Wire, not Core.
-- Target: native Framework. The agent loop alone does not establish Core parity.
-- Package version: `0.1.0`; supported `SPEC_VERSION`: `0.2.0`.
-- Local gate: shared vectors across toolcall, JSON Schema, plugin, and agent-loop groups,
-  plus native regression tests and source API/parity checks.
-- Linux and Windows CI passed on commit `4273f47` for the three wire groups. Remote
-  CI for the agent loop remains pending. Hackage publication and production
+- Implementation type: Core.
+- Package version: `0.2.0`; supported `SPEC_VERSION`: `0.2.0`.
+- Local gate: all eleven shared vector groups, native regression tests, and
+  source API/parity checks.
+- Linux and Windows CI run the full suite. Hackage publication and production
   readiness are not implied by the source tag.
 
 ## Build and Test
@@ -91,17 +89,21 @@ changes require review and regeneration with `python api-snapshot.py`.
   independently verify counts. Callbacks must return errors rather
   than throw exceptions; exceptions are not converted to agent errors. Tool
   lookup and validation are the caller's responsibility. Events contain only
-  their kind, not full wire event envelopes. There is no streaming, cancellation,
-  policy, middleware, or concurrent session management.
-- There is no model provider, memory implementation,
-  checkpoint runtime, asynchronous event stream, or plugin host in this SDK.
-  Generic JSON can preserve wire field names; typed codecs for other contract
-  envelopes are not claimed.
+  their kind, not full wire event envelopes. There is no asynchronous streaming
+  runtime, cancellation, or concurrent session management.
+- `Praxo.Runtime` provides memory, event sinks, checkpoints, lexical path policy,
+  context compaction, and stream-kind constants. `Praxo.Middleware` provides PII
+  redaction, structured-output validation, call limits, tool selection, and
+  fallback helpers. The callback-based agent loop does not automatically apply
+  these opt-in helpers.
+- There is no model provider, asynchronous event stream, or plugin host in this
+  SDK. Generic JSON can preserve wire field names; typed codecs for other
+  contract envelopes are not claimed.
 
 See the [normative specification](../../spec/README.md),
 [parity inventory](../../spec/parity/haskell.md), and
 [language policy](../../docs/contributing/language-policy.md).
-The parity inventory marks partial coverage, including the loop.
+The parity inventory records the implemented Core surfaces.
 See [SETUP.md](SETUP.md) for local setup and test commands.
 
 ## License

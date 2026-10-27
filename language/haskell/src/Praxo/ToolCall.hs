@@ -1,4 +1,4 @@
-module Praxo.ToolCall (ToolCall(..), parseToolCall, stripToolCallMarkup) where
+module Praxo.ToolCall (ToolCall(..), parseInputJson, parseToolCall, stripToolCallMarkup) where
 
 import Data.Char (isAlpha, isAlphaNum, isAscii, isSpace)
 import Data.List (findIndex, isPrefixOf, isSuffixOf, stripPrefix, tails)
@@ -6,6 +6,11 @@ import Data.Maybe (mapMaybe)
 import Praxo.Json
 
 data ToolCall = ToolCall { callName :: String, callInput :: Json, callMetadata :: [(String, String)] } deriving (Eq, Show)
+
+parseInputJson :: String -> Maybe Json
+parseInputJson text = case parseJson (trim text) of
+    Right value@(JObject _) -> Just value
+    _ -> Nothing
 
 parseToolCall :: String -> Maybe ToolCall
 parseToolCall content | length content > 262144 = Nothing

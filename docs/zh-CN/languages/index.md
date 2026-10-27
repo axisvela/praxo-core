@@ -41,6 +41,7 @@
 | Objective-C | [Objective-C SDK](objective-c.md) |
 | OCaml / Caml | [OCaml SDK](ocaml.md) |
 | MATLAB / Octave | [MATLAB/Octave SDK](matlab.md) |
+| Haskell | [Haskell SDK](haskell.md) |
 
 ## 共享运行时示例与桥接
 
@@ -61,10 +62,6 @@
 | Prolog | [SWI-Prolog 运行时桥接](prolog.md) |
 
 ## Wire 实现
-
-[Haskell](haskell.md) 已有源码标签 `haskell/v0.1.0`，以原生 Framework 为目标。本地已通过
-三个 Wire 向量组和实验性 Agent 循环向量；新循环的远端 CI 仍待完成。不声明 Hackage
-软件包或交付日期。
 
 [Delphi / Free Pascal](delphi.md) 已有源码标签 `delphi/v0.1.0`，以原生 Framework 为目标。
 三个 Wire 向量组和 Agent 循环向量已在本地 Free Pascal 3.2.2（Windows i386）通过；新循环的远端 CI 和 Delphi 编译器仍待验证。

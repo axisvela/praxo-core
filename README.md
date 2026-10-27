@@ -75,6 +75,7 @@ Go is the reference implementation. SDKs share a normative contract in
 | C / OpenCL | [C SDK](https://axisvela.github.io/praxo-core/languages/c/), [OpenCL sample](https://axisvela.github.io/praxo-core/languages/opencl/) |
 | OCaml | [OCaml SDK](https://axisvela.github.io/praxo-core/languages/ocaml/) |
 | MATLAB / Octave | [MATLAB/Octave SDK](https://axisvela.github.io/praxo-core/languages/matlab/) |
+| Haskell | [Haskell SDK](https://axisvela.github.io/praxo-core/languages/haskell/) |
 | Other languages | [Complete implementation directory](docs/languages/index.md) |
 
 Source releases, package-registry publication, conformance, and production

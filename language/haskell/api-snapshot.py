@@ -14,14 +14,14 @@ def snapshot():
     entries = ["# PRAXO-CORE Haskell Wire API " + sdk, "# SPEC_VERSION " + spec, ""]
     for path in sorted((ROOT / "src/Praxo").glob("*.hs")):
         text = path.read_text(encoding="utf-8")
-        header = re.search(r"^module (\S+) \(([^\n]+)\) where$", text, re.MULTILINE)
+        header = re.search(r"^module (\S+)\s+\((.*?)\)\s+where$", text, re.MULTILINE | re.DOTALL)
         if not header:
             raise ValueError("missing explicit exports: " + str(path))
         module = header[1]
         exports = header[2].replace("(..)", "").split(",")
         entries.append("## " + module)
         for name in sorted(export.strip() for export in exports):
-            pattern = r"^(?:data " + re.escape(name) + r"\b.*|" + re.escape(name) + r" :: .*)$"
+            pattern = r"^(?:(?:data|newtype) " + re.escape(name) + r"\b.*|" + re.escape(name) + r" :: .*)$"
             declaration = re.search(pattern, text, re.MULTILINE)
             if not declaration:
                 raise ValueError("missing declaration: " + module + "." + name)
@@ -52,7 +52,7 @@ def parity_errors():
         if not path.is_file():
             errors.append("missing parity module: " + module)
             continue
-        header = re.search(r"^module \S+ \(([^\n]+)\) where$", path.read_text(encoding="utf-8"), re.MULTILINE)
+        header = re.search(r"^module \S+\s+\((.*?)\)\s+where$", path.read_text(encoding="utf-8"), re.MULTILINE | re.DOTALL)
         exports = [entry.strip() for entry in header[1].replace("(..)", "").split(",")]
         if name not in exports:
             errors.append("missing parity export: " + symbol)

@@ -1,0 +1,41 @@
+# PRAXO-CORE Haskell Wire API 0.1.0
+# SPEC_VERSION 0.2.0
+
+## Praxo.Agent
+data AgentError = AgentError { errorCode :: String, errorMessage :: String } deriving (Eq, Show)
+data AgentOptions = AgentOptions { generate :: [Message] -> IO (Either AgentError Response), invoke :: ToolCall -> IO (Either AgentError Json), emit :: String -> IO (Either AgentError ()), maxSteps :: Int, maxTokens :: Integer }
+data Message = Message { messageRole :: String, messageContent :: String, messageToolCalls :: [ToolCall], messageToolCallId :: String } deriving (Eq, Show)
+data Response = Response { responseContent :: String, responseToolCalls :: [ToolCall], inputTokens :: Integer, outputTokens :: Integer } deriving (Eq, Show)
+data RunResult = RunResult { runOutput :: String, runSteps :: Int, runInputTokens :: Integer, runOutputTokens :: Integer, runMessages :: [Message] } deriving (Eq, Show)
+data ToolCall = ToolCall { toolCallId :: String, toolCallName :: String, toolCallArguments :: Json } deriving (Eq, Show)
+runAgent :: AgentOptions -> [Message] -> String -> IO (Either AgentError RunResult)
+
+## Praxo.Json
+data Json = JObject [(String, Json)] | JArray [Json] | JString String | JNumber Rational | JBool Bool | JNull deriving (Eq, Show)
+asArray :: Json -> [Json]
+asObject :: Json -> [(String, Json)]
+asString :: Json -> String
+encodeJson :: Json -> Either String String
+equalJson :: Json -> Json -> Bool
+field :: String -> Json -> Json
+parseJson :: String -> Either String Json
+
+## Praxo.JsonSchema
+data ValidationError = ValidationError { errorPath :: String, errorMessage :: String } deriving (Eq, Show)
+validateSchema :: Json -> Json -> Either String [ValidationError]
+
+## Praxo.Pattern
+matchPattern :: String -> String -> Either String Bool
+
+## Praxo.Plugin
+parseManifest :: String -> Either String Json
+validateManifest :: Json -> Either String ()
+
+## Praxo.ToolCall
+data ToolCall = ToolCall { callName :: String, callInput :: Json, callMetadata :: [(String, String)] } deriving (Eq, Show)
+parseToolCall :: String -> Maybe ToolCall
+stripToolCallMarkup :: String -> String
+
+## Praxo.Wire
+sdkVersion :: String
+specVersion :: String

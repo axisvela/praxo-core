@@ -37,8 +37,8 @@ Bridge、Sample 描述运行时的接入方式，不证明其语言缺乏 Framew
 - Fortran 已有源码标签 `fortran/v0.2.0`，包含全部 11 个向量组、原生测试、API 快照
   以及集成的 PII/中间件。不代表已发布到包管理器；异步流和受限 JSON Schema 子集
   仍为部分完成。
-- Haskell 已有源码标签 `haskell/v0.1.0`，声明三个 Wire 向量组和 Agent 循环；不是
-  已发布的 Hackage 软件包，也不是生产就绪的 Agent 运行时。
+- Haskell 已有源码标签 `haskell/v0.2.0`，包含全部 11 个向量组、原生测试、API
+  快照/parity 以及运行时/中间件辅助函数。未声明 Hackage 发布或生产就绪。
 - Delphi/Free Pascal 已有源码标签 `delphi/v0.1.0`，仍是 Wire 阶段候选实现；
   商业 Delphi 编译器、循环的远端 CI 和包管理器发布均未声明。
 - MATLAB/Octave 已有源码标签 `matlab/v0.2.0`，在 Octave 下通过全部 11 个向量组、
