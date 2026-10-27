@@ -145,6 +145,7 @@ nav:
       - Fortran: languages/fortran.md
       - Haskell: languages/haskell.md
       - MATLAB / Octave: languages/matlab.md
+      - Delphi / Free Pascal: languages/delphi.md
       - Shell: languages/shell.md
       - PowerShell: languages/powershell.md
   - Integrations:

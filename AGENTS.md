@@ -87,6 +87,9 @@ python language/haskell/run-tests.py
 python language/haskell/api-snapshot.py --check
 python language/matlab/run-tests.py
 python language/matlab/api-snapshot.py --check
+cd language/delphi; fpc -Mobjfpc -Scghi -O2 -Fu. -FEbuild praxo.pas
+cd language/delphi; python run-tests.py
+python language/delphi/api-snapshot.py --check
 cd language/c; cmake -S . -B build; cmake --build build; ctest --test-dir build --output-on-failure
 cd language/csharp; dotnet build Praxo.Core/Praxo.Core.csproj
 cd language/csharp; dotnet run --project Praxo.Conformance

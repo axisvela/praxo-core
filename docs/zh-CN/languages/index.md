@@ -55,5 +55,8 @@
 [MATLAB / Octave](matlab.md) 是以原生 Framework 为目标、尚未发布的 Wire 阶段候选实现。
 三个向量组已在本地 Octave 通过；MATLAB 和远端 CI 尚未验证。
 
+[Delphi / Free Pascal](delphi.md) 是以原生 Framework 为目标、尚未发布的 Wire 阶段候选实现。
+三个向量组已在本地 Free Pascal 3.2.2（Windows i386）通过；Delphi 编译器和远端 CI 尚未验证。
+
 源码标签、包管理器发布、一致性测试和生产验证是不同状态。语言页面复用对应
 源码 README，使安装、示例与限制保持一致。尚未翻译的语言说明会回退到英文。

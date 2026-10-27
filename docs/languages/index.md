@@ -59,6 +59,10 @@ pending. No Hackage package, release tag, or delivery date is claimed.
 native Framework. Three vector groups pass locally in Octave; MATLAB and remote
 CI have not yet been verified.
 
+[Delphi / Free Pascal](delphi.md) is an unreleased Wire-stage candidate targeting
+a native Framework. Three vector groups pass locally with Free Pascal 3.2.2 on
+Windows i386; the Delphi compiler and remote CI have not yet been verified.
+
 Source tags, registry publication, conformance, and production verification are
 different states. A language page includes the source README so installation,
 examples, and limitations stay aligned with the implementation.

@@ -57,7 +57,7 @@ imply every Go feature is available.
 | Scala | Sample (JVM) | released | none | Uses the Java SDK |
 | MATLAB | Wire | in progress | none | Framework target; Octave-local toolcall, JSON Schema and plugin vector groups; MATLAB and remote CI not yet verified |
 | Perl | Core | released | `perl/v0.1.0` | 11 vectors, 27 tests, API snapshot |
-| Delphi | Wire / Bridge | planned | none | Consumer-gated |
+| Delphi | Wire | in progress | none | Framework target; Free Pascal 3.2.2 local toolcall/JSON Schema/plugin vectors, native tests, API/parity; Delphi compiler and remote CI pending |
 | OCaml / Caml | Core | planned | none | Requires a consumer and maintenance owner before a native loop |
 | D | Core | released | `d/v0.1.0` | 11 vectors, API snapshot |
 | Objective-C | Core | planned | none | Requires a consumer and maintenance owner before a native loop |
@@ -96,6 +96,7 @@ imply every Go feature is available.
 | Fortran | `fortran-conformance` | native tests, 11 vector groups, API snapshot; release pending |
 | COBOL | `cobol-conformance` | 11 vectors, API snapshot, native/tooling tests |
 | Haskell | `haskell-conformance` | Linux/Windows: 3 wire groups, native tests, source API/parity, Cabal build |
+| Delphi / Free Pascal | `delphi-conformance` | 3 wire groups, native tests, source API/parity; local FPC 3.2.2 Windows i386 verified; remote CI pending |
 | MATLAB / Octave | `matlab-wire` | Octave: 3 wire groups, native tests, source API/parity; remote evidence pending; MATLAB unverified |
 | Lisp | none yet | consumer-gated bridge |
 | Objective-C, OCaml | none yet | core planned |

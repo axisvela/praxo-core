@@ -33,3 +33,5 @@ examples/kotlin/*.jar
 kotlin-compiler.zip
 .scala-build/
 .bsp/
+*.ppu
+language/delphi/*.o
