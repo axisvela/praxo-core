@@ -144,9 +144,6 @@ begin
     jtArray:
       for i := 0 to TJSONArray(Data).Count - 1 do
         ValidateTree(TJSONArray(Data).Items[i], Depth + 1);
-    jtString:
-      if not UTF8CodePoints(TJSONString(Data).AsString, i) then
-        raise EPraxoJSON.Create('Invalid UTF-8 string');
     jtNumber:
       begin
         number := TJSONNumber(Data);
@@ -384,10 +381,13 @@ end;
 function PraxoParseJSON(const Text: UTF8String): TJSONData;
 var
   valueText, expanded: UTF8String;
+  codePoints: Integer;
 begin
   if Length(Text) > MaxJSONChars then
     raise EPraxoJSON.Create('JSON input exceeds capacity');
   expanded := ExpandUnicodeEscapes(Text);
+  if not UTF8CodePoints(expanded, codePoints) then
+    raise EPraxoJSON.Create('Invalid UTF-8 string');
   if not ExtractFirstValue(expanded, valueText) then
     raise EPraxoJSON.Create('Invalid JSON or trailing content');
   try
