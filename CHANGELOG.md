@@ -4,6 +4,9 @@
 
 ### Added
 
+- Tagged source releases `haskell/v0.1.0`, `matlab/v0.1.0`,
+  `delphi/v0.1.0`, and `ocaml/v0.1.0`; these are Wire-stage source tags, not
+  package-registry releases, and documented partial surfaces remain.
 - Tagged source releases `fortran/v0.1.0`, `elixir/v0.1.0`, `nim/v0.1.0`,
   `v/v0.1.0`, and `objc/v0.1.0`; these are source tags, not package-registry
   releases, and documented partial surfaces remain.

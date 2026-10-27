@@ -3,9 +3,9 @@
 - Tier: wire
 - SPEC_VERSION: 0.2.0
 
-Unreleased Wire candidate. Local checks cover the `toolcall`, `jsonschema`,
-`plugin`, and `agent-loop` vectors, native regression tests, and the source API
-snapshot. Previous Linux and Windows CI covered the three wire groups; the new
+Released source tag `haskell/v0.1.0`. Local checks cover the `toolcall`,
+`jsonschema`, `plugin`, and `agent-loop` vectors, native regression tests, and
+the source API snapshot. Linux and Windows CI covered the three wire groups; the
 loop has not been verified in remote CI. This does not establish Core parity or
 provide a provider adapter.
 

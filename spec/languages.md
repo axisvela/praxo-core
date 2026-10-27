@@ -46,7 +46,7 @@ imply every Go feature is available.
 | Swift | Core | released | `swift/v0.2.0` | 11 vectors, XCTest, API snapshot |
 | Julia | Core | released | `julia/v0.2.0` | 11 vectors, JSON.jl, API snapshot |
 | R | Core | released | `r/v0.2.0` | 11 vectors, base-R JSON, API snapshot |
-| Haskell | Wire | in progress | none | Framework target; 3 wire groups and agent-loop vectors locally; remote CI for loop pending |
+| Haskell | Wire | released | `haskell/v0.1.0` | Framework target; 3 wire groups plus agent-loop vectors; Linux/Windows CI for wire groups; remote CI for loop pending |
 | Fortran | Core | released | `fortran/v0.1.0` | 11 vector groups, native tests, API snapshot; source tag only; partial surfaces documented |
 | Lisp | Bridge | in progress | none | SBCL bridge verified locally (forwarding, UTF-8, errors, exit codes) and in Linux CI; consumer reported, details pending |
 | JavaScript | Sample (TypeScript) | released | none | Uses the TypeScript package; no separate core |
@@ -55,10 +55,10 @@ imply every Go feature is available.
 | Ruby | Core | released | `ruby/v0.1.0` | 11 vectors, core tests, API snapshot |
 | Kotlin | Sample (JVM) | released | none | Uses the Java SDK |
 | Scala | Sample (JVM) | released | none | Uses the Java SDK |
-| MATLAB | Wire | in progress | none | Framework target; Octave-local toolcall, JSON Schema, plugin and agent-loop vectors; MATLAB and remote CI for loop pending |
+| MATLAB | Wire | released | `matlab/v0.1.0` | Framework target; Octave-local toolcall, JSON Schema, plugin and agent-loop vectors; MATLAB and remote CI for loop pending |
 | Perl | Core | released | `perl/v0.1.0` | 11 vectors, 27 tests, API snapshot |
-| Delphi | Wire | in progress | none | Framework target; Free Pascal 3.2.2 local toolcall/JSON Schema/plugin and agent-loop vectors; remote CI for loop and Delphi compiler pending |
-| OCaml / Caml | Wire | in progress | none | Framework target; native toolcall/JSON Schema/plugin wire subset verified locally with OCaml 4.14.2 bytecode and in Linux CI; native build pending |
+| Delphi | Wire | released | `delphi/v0.1.0` | Framework target; Free Pascal 3.2.2 local toolcall/JSON Schema/plugin and agent-loop vectors; remote CI for loop and Delphi compiler pending |
+| OCaml / Caml | Wire | released | `ocaml/v0.1.0` | Framework target; native toolcall/JSON Schema/plugin wire subset verified locally with OCaml 4.14.2 bytecode and in Linux CI; native build pending |
 | Objective-C | Core | released | `objc/v0.1.0` | 11 vectors, native tests, API snapshot/parity; opt-in PII/structured output/call limits/tool selection are partial; Apple Foundation/macOS CI pending |
 | Elixir | Core | released | `elixir/v0.1.0` | 11 vectors, native tests, API snapshot/parity; opt-in PII/structured output/call limits/tool selection are partial |
 | Nim | Core | released | `nim/v0.1.0` | 11 vectors, native tests, API snapshot/parity; opt-in PII/structured output/call limits/tool selection are partial |
@@ -112,16 +112,16 @@ imply every Go feature is available.
 | Shell / PowerShell | `bridge` | bridge tests, both wrappers |
 | Fortran | `fortran-conformance` | native tests, 11 vector groups, API snapshot; source release tagged `fortran/v0.1.0` |
 | COBOL | `cobol-conformance` | 11 vectors, API snapshot, native/tooling tests |
-| Haskell | `haskell-conformance` | 3 wire groups plus agent-loop vectors, native tests, source API/parity, Cabal build; remote CI for loop pending |
-| Delphi / Free Pascal | `delphi-conformance` | 3 wire groups plus agent-loop vectors, native tests, source API/parity; remote CI for loop and Delphi unverified |
-| OCaml | `ocaml-conformance` | 3 wire groups, native tests, source API/parity; local OCaml 4.14.2 bytecode and Linux CI verified; `ocamlopt` unverified |
+| Haskell | `haskell-conformance` | 3 wire groups plus agent-loop vectors, native tests, source API/parity, Cabal build; source release tagged `haskell/v0.1.0`; remote CI for loop pending |
+| Delphi / Free Pascal | `delphi-conformance` | 3 wire groups plus agent-loop vectors, native tests, source API/parity; source release tagged `delphi/v0.1.0`; remote CI for loop and Delphi unverified |
+| OCaml | `ocaml-conformance` | 3 wire groups, native tests, source API/parity; local OCaml 4.14.2 bytecode and Linux CI verified; source release tagged `ocaml/v0.1.0`; `ocamlopt` unverified |
 | Objective-C | `objc-conformance` | 11 vectors, native tests, source API/parity; local clang + GNUstep verified; macOS CI pending |
 | Elixir | `elixir-conformance` | 11 vectors, API snapshot, tests; OTP 29 + Elixir 1.20.4 |
 | Nim | `nim-conformance` | 11 vectors, API snapshot, tests; Nim 2.2.12 |
 | V | `v-conformance` | 11 vectors, API snapshot, tests; V 0.5.2 |
 | Lisp | `lisp-bridge` | forwarding, UTF-8 JSON, errors, exit codes; local SBCL 2.6.9 and Linux CI verified |
 | Tcl | `tcl-bridge` | forwarding, UTF-8 JSON, errors, exit codes; local Tcl 8.6 |
-| MATLAB / Octave | `matlab-wire` | Octave: 3 wire groups plus agent-loop vectors, native tests, source API/parity; remote CI for loop and MATLAB unverified |
+| MATLAB / Octave | `matlab-wire` | Octave: 3 wire groups plus agent-loop vectors, native tests, source API/parity; source release tagged `matlab/v0.1.0`; remote CI for loop and MATLAB unverified |
 | Further languages | none yet | planned; gate depends on declared tier |
 
 ## Required Gates per Tier

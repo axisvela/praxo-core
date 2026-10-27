@@ -25,7 +25,7 @@ The reported Windows run of `run-tests.py` with the executable above passed the
 wire and agent vectors. Actual MATLAB and remote CI for the agent loop remain
 unverified.
 
-`api-snapshot.py --check` verifies `api/unreleased.txt`, the contract version,
+`api-snapshot.py --check` verifies `api/0.1.0.txt`, the contract version,
 and symbols in `spec/parity/matlab.md`, including the partial agent-loop row.
 Without `--check` it regenerates the local snapshot. The shared Go spec checks
 can also be run from the repository root:

@@ -60,7 +60,7 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--check", action="store_true")
     args = parser.parse_args()
-    target = ROOT / "api/unreleased.txt"
+    target = ROOT / "api/0.1.0.txt"
     content = snapshot()
     errors = parity_errors()
     if errors:

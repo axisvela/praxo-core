@@ -1,15 +1,17 @@
 # PRAXO-CORE Haskell Wire SDK
 
-An unreleased, native Haskell implementation of the declared wire subset.
-It does not call Go or another SDK. It includes a native, callback-based agent loop.
+A native Haskell Wire SDK with source tag `haskell/v0.1.0`. It implements the
+declared wire subset and does not call Go or another SDK. It includes a native,
+callback-based agent loop.
 
 - Implementation type: Wire, not Core.
 - Target: native Framework. The agent loop alone does not establish Core parity.
-- Candidate package version: `0.1.0`; supported `SPEC_VERSION`: `0.2.0`.
+- Package version: `0.1.0`; supported `SPEC_VERSION`: `0.2.0`.
 - Local gate: shared vectors across toolcall, JSON Schema, plugin, and agent-loop groups,
   plus native regression tests and source API/parity checks.
-- Linux and Windows CI passed on commit `4273f47`. Release review remains pending;
-  no release tag or Hackage publication is implied.
+- Linux and Windows CI passed on commit `4273f47` for the three wire groups. Remote
+  CI for the agent loop remains pending. Hackage publication and production
+  readiness are not implied by the source tag.
 
 ## Build and Test
 
@@ -99,7 +101,7 @@ changes require review and regeneration with `python api-snapshot.py`.
 See the [normative specification](../../spec/README.md),
 [parity inventory](../../spec/parity/haskell.md), and
 [language policy](../../docs/contributing/language-policy.md).
-The shared Haskell parity inventory predates the loop and has not been updated.
+The parity inventory marks partial coverage, including the loop.
 See [SETUP.md](SETUP.md) for local setup and test commands.
 
 ## License

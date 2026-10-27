@@ -10,7 +10,7 @@ REPO = ROOT.parents[1]
 
 def snapshot():
     spec = (REPO / "spec/SPEC_VERSION").read_text(encoding="utf-8").strip()
-    lines = ["# PRAXO-CORE MATLAB/Octave Wire API (unreleased)", "# SPEC_VERSION " + spec, ""]
+    lines = ["# PRAXO-CORE MATLAB/Octave Wire API 0.1.0", "# SPEC_VERSION " + spec, ""]
     for path in sorted((ROOT / "+praxo").glob("*.m")):
         text = path.read_text(encoding="utf-8")
         match = re.match(r"function\s+([^\n]+)", text)
@@ -44,7 +44,7 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--check", action="store_true")
     args = parser.parse_args()
-    target = ROOT / "api/unreleased.txt"
+    target = ROOT / "api/0.1.0.txt"
     content = snapshot()
     errors = parity_errors()
     if errors:

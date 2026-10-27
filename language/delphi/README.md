@@ -1,8 +1,9 @@
 # PRAXO-CORE for Delphi and Free Pascal
 
-Unreleased native Wire-stage candidate targeting a Framework implementation.
-The current code includes a partial native agent loop but no model provider,
-process bridge, or plugin host. It does not call Go or another language SDK.
+Native Wire-stage candidate with source tag `delphi/v0.1.0`, targeting a
+Framework implementation. The current code includes a partial native agent loop
+but no model provider, process bridge, or plugin host. It does not call Go or
+another language SDK.
 
 Local validation uses Free Pascal 3.2.2 on Windows i386. It does not establish
 commercial Delphi compiler compatibility, Linux/macOS support, package-registry
@@ -54,7 +55,7 @@ begin
 end;
 ```
 
-Public declarations are inventoried in [`api/unreleased.txt`](api/unreleased.txt).
+Public declarations are inventoried in [`api/0.1.0.txt`](api/0.1.0.txt).
 The JSON node type is Free Pascal's `TJSONData` (`fpjson`), so consumers already
 using `fpjson` can inspect results directly. `TPraxoCall.Input` is caller-owned.
 `PraxoValidateManifest` returns an owned `TJSONObject` on success.

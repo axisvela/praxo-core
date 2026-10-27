@@ -105,8 +105,8 @@ class DocumentationTests(unittest.TestCase):
         source_rows = [line for line in matrix_section.splitlines() if line.startswith("| ")][2:]
         self.assertEqual(english.count("\n| ") - 1, len(source_rows))
         self.assertIn("[Python](python.md) | Framework (Core) | released | `python/v0.2.0`", english)
-        self.assertIn("[MATLAB](matlab.md) | Wire | in progress | none", english)
-        self.assertIn("[MATLAB](matlab.md) | Wire | 开发中 | —", chinese)
+        self.assertIn("[MATLAB](matlab.md) | Wire | released | `matlab/v0.1.0`", english)
+        self.assertIn("[MATLAB](matlab.md) | Wire | 源码已发布 | `matlab/v0.1.0`", chinese)
         self.assertIn("[Haskell](haskell.md)", chinese)
         self.assertIn("public API is wire-level", english)
         with self.assertRaises(ValueError):

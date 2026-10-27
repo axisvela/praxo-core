@@ -1,10 +1,10 @@
 # PRAXO-CORE for OCaml
 
-Unreleased native Wire-stage candidate targeting a Framework implementation.
-The current source also contains an experimental agent loop and implementations
-for additional vector groups. These additions have not completed Core review;
-there is no provider adapter, process bridge, or plugin host. It does not call
-Go or another language SDK.
+Native Wire-stage candidate with source tag `ocaml/v0.1.0`, targeting a
+Framework implementation. The current source also contains an experimental agent
+loop and implementations for additional vector groups. These additions have not
+completed Core review; there is no provider adapter, process bridge, or plugin
+host. It does not call Go or another language SDK.
 
 The experimental path check is lexical and does not resolve symlinks or reparse
 points; it must not be used as an OS containment boundary. The loop does not
@@ -13,9 +13,11 @@ a best-effort `run.failed` notification before the original exception is
 re-raised; notification failure does not replace it. Do not treat the loop as
 production-ready.
 
-Local validation uses OCaml 4.14.2 in bytecode mode. Native compilation, remote
-CI, package-registry publication, commercial support, production readiness, and
-a delivery date are not claimed. A Linux CI job is configured but has not run.
+Local validation uses OCaml 4.14.2 in bytecode mode, and the Linux CI job covers
+the three declared wire groups. Native compilation, remote CI for the loop,
+package-registry publication, commercial support, production readiness, and a
+delivery date are not claimed. The source tag does not imply package-registry
+publication.
 
 ## Build and Test
 
@@ -51,13 +53,13 @@ let _paths = Praxo.validate_schema (Praxo.parse_json "{\"type\":\"string\"}") no
 let _manifest = Praxo.validate_manifest "{}"
 ```
 
-Public declarations are inventoried in [`api/unreleased.txt`](api/unreleased.txt).
+Public declarations are inventoried in [`api/0.1.0.txt`](api/0.1.0.txt).
 `validate_manifest` returns `Some manifest` only for a valid declaration.
 
 ## Current Limits
 
-- The verified target is OCaml 4.14.2 bytecode on Windows. Native OCaml, other
-  versions, Linux CI, and macOS are not yet verified.
+- The verified target is OCaml 4.14.2 bytecode. Native OCaml, other versions,
+  remote CI for the agent loop, and macOS are not yet verified.
 - JSON input and output are bounded to 1,048,576 characters and nesting to 64.
   Tool-call input is bounded to 262,144 characters.
 - JSON strings are UTF-8 and accept surrogate escapes; the encoder escapes

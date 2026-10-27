@@ -1,13 +1,13 @@
 # PRAXO-CORE for MATLAB and Octave
 
-Unreleased native Wire-stage candidate targeting a Framework implementation.
-The current code includes a synchronous native agent loop but no model provider,
-process bridge, or plugin host. It does not delegate its behavior to Go or
-another language SDK.
+Native Wire-stage candidate with source tag `matlab/v0.1.0`, targeting a
+Framework implementation. The current code includes a synchronous native agent
+loop but no model provider, process bridge, or plugin host. It does not delegate
+its behavior to Go or another language SDK.
 
 Local validation uses GNU Octave 11.3.0; MATLAB compatibility is a target, not
-yet independently verified. No MATLAB release, package-registry publication,
-production-readiness claim, or delivery date is implied.
+yet independently verified. The source tag does not imply package-registry
+publication, production readiness, or a delivery date.
 
 ## Run the Checks
 

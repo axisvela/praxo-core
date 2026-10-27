@@ -1,4 +1,4 @@
-# PRAXO-CORE MATLAB/Octave Wire API (unreleased)
+# PRAXO-CORE MATLAB/Octave Wire API 0.1.0
 # SPEC_VERSION 0.2.0
 
 praxo.result = agent_run(prompt, model, tools, options)

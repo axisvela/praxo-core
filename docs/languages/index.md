@@ -54,25 +54,24 @@ wire-only scope requires documented technical limitations. See the
 | Lisp | [SBCL runtime bridge](lisp.md) |
 | Tcl | [Runtime bridge](tcl.md) |
 
-## Wire Candidates
+## Wire Implementations
 
-[Haskell](haskell.md) is an unreleased Wire-stage implementation targeting a
-native Framework. Three wire groups and an experimental agent loop pass locally;
-remote CI for the loop and release review remain pending. No Hackage package,
-release tag, or delivery date is claimed.
+[Haskell](haskell.md) has source tag `haskell/v0.1.0`. It targets a native
+Framework. Three wire groups and an experimental agent loop pass locally; remote
+CI for the loop remains pending. No Hackage package or delivery date is claimed.
 
-[MATLAB / Octave](matlab.md) is an unreleased Wire-stage candidate targeting a
-native Framework. Three wire groups and agent-loop vectors pass locally in
-Octave; MATLAB and remote CI for the loop have not yet been verified.
+[MATLAB / Octave](matlab.md) has source tag `matlab/v0.1.0`. It targets a native
+Framework. Three wire groups and agent-loop vectors pass locally in Octave;
+MATLAB and remote CI for the loop have not yet been verified.
 
-[Delphi / Free Pascal](delphi.md) is an unreleased Wire-stage candidate targeting
-a native Framework. Three wire groups and agent-loop vectors pass locally with
-Free Pascal 3.2.2 on Windows i386; remote CI for the loop and the Delphi compiler
+[Delphi / Free Pascal](delphi.md) has source tag `delphi/v0.1.0`. It targets a
+native Framework. Three wire groups and agent-loop vectors pass locally with Free
+Pascal 3.2.2 on Windows i386; remote CI for the loop and the Delphi compiler
 remain unverified.
 
-[OCaml](ocaml.md) is an unreleased Wire-stage candidate targeting a native
-Framework. Three vector groups pass locally with OCaml 4.14.2 bytecode and in
-Linux CI; native `ocamlopt` compilation remains unverified.
+[OCaml](ocaml.md) has source tag `ocaml/v0.1.0`. It targets a native Framework.
+Three vector groups pass locally with OCaml 4.14.2 bytecode and in Linux CI;
+native `ocamlopt` compilation remains unverified.
 
 Source tags, registry publication, conformance, and production verification are
 different states. A language page includes the source README so installation,

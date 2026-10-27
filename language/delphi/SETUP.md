@@ -25,7 +25,7 @@ vectors and agent error tests. The compiler emitted an existing managed result
 warning. Commercial Delphi, other operating systems, and remote CI for the new
 loop remain unverified.
 
-The snapshot check compares `api/unreleased.txt` and checks the contract version
+The snapshot check compares `api/0.1.0.txt` and checks the contract version
 and symbols in `spec/parity/delphi.md`, including the partial agent-loop row.
 The shared Go spec checks can also be run from the repository root:
 
@@ -35,4 +35,5 @@ go test ./internal/spec
 ```
 
 No result for that shared Go check is claimed here. These checks do not establish
-full Framework parity; this remains an unreleased Wire-stage candidate.
+full Framework parity; this remains a Wire-stage candidate with source tag
+`delphi/v0.1.0`.

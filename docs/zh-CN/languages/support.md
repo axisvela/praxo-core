@@ -33,9 +33,13 @@ Bridge、Sample 描述运行时的接入方式，不证明其语言缺乏 Framew
 - 源码标签不等于已发布到包管理器，应按语言页面中的安装或源码构建步骤操作。
 - Python、TypeScript 当前提供源码构建方式，PyPI、npm 发布仍待完成。
 - Java 提供 Maven 源码构建方式，源码标签不证明 Maven Central 可用。
-- Fortran 仍在开发中，不应作为已发布的软件包宣传。
-- Haskell 是未发布的 Wire 候选实现，只声明三个向量组，不是原生 Agent 运行时或
-  已发布的 Hackage 软件包。
+- Fortran 已有源码标签 `fortran/v0.1.0`，不代表已发布到包管理器，其部分能力边界仍
+  按文档保留。
+- Haskell 已有源码标签 `haskell/v0.1.0`，声明三个 Wire 向量组和 Agent 循环；不是
+  已发布的 Hackage 软件包，也不是生产就绪的 Agent 运行时。
+- MATLAB/Octave、Delphi/Free Pascal 和 OCaml 已有源码标签 `matlab/v0.1.0`、
+  `delphi/v0.1.0` 和 `ocaml/v0.1.0`。它们仍是 Wire 阶段候选实现；MATLAB、商业
+  Delphi、循环的远端 CI 和包管理器发布均未声明。
 
 ## 功能边界
 

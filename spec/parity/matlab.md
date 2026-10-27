@@ -3,10 +3,10 @@
 - Tier: wire
 - SPEC_VERSION: 0.2.0
 
-Unreleased Wire-stage candidate targeting a native Framework. Local Octave
-checks cover toolcall, JSON Schema, plugin, and agent-loop vector groups.
-MATLAB itself, remote CI for the loop, and release review are not yet verified.
-These partial rows do not claim full reference parser or schema behavior.
+Released source tag `matlab/v0.1.0`. Local Octave checks cover toolcall, JSON
+Schema, plugin, and agent-loop vector groups. MATLAB itself and remote CI for the
+loop are not yet verified. These partial rows do not claim full reference parser
+or schema behavior.
 
 | Go symbol | MATLAB/Octave symbol | Status | Phase |
 | --- | --- | --- | --- |

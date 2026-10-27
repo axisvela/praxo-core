@@ -52,19 +52,19 @@
 | Lisp | [SBCL 运行时桥接](lisp.md) |
 | Tcl | [运行时桥接](tcl.md) |
 
-## Wire 候选实现
+## Wire 实现
 
-[Haskell](haskell.md) 是以原生 Framework 为目标、尚未发布的 Wire 阶段实现，本地已通过
-三个 Wire 向量组和实验性 Agent 循环向量；新循环的远端 CI 和发布审查仍待完成。
-不声明 Hackage 软件包、正式标签或交付日期。
+[Haskell](haskell.md) 已有源码标签 `haskell/v0.1.0`，以原生 Framework 为目标。本地已通过
+三个 Wire 向量组和实验性 Agent 循环向量；新循环的远端 CI 仍待完成。不声明 Hackage
+软件包或交付日期。
 
-[MATLAB / Octave](matlab.md) 是以原生 Framework 为目标、尚未发布的 Wire 阶段候选实现。
+[MATLAB / Octave](matlab.md) 已有源码标签 `matlab/v0.1.0`，以原生 Framework 为目标。
 三个 Wire 向量组和 Agent 循环向量已在本地 Octave 通过；MATLAB 和新循环的远端 CI 尚未验证。
 
-[Delphi / Free Pascal](delphi.md) 是以原生 Framework 为目标、尚未发布的 Wire 阶段候选实现。
+[Delphi / Free Pascal](delphi.md) 已有源码标签 `delphi/v0.1.0`，以原生 Framework 为目标。
 三个 Wire 向量组和 Agent 循环向量已在本地 Free Pascal 3.2.2（Windows i386）通过；新循环的远端 CI 和 Delphi 编译器仍待验证。
 
-[OCaml](ocaml.md) 是以原生 Framework 为目标、尚未发布的 Wire 阶段候选实现。
+[OCaml](ocaml.md) 已有源码标签 `ocaml/v0.1.0`，以原生 Framework 为目标。
 三个向量组已在本地 OCaml 4.14.2 bytecode 和 Linux CI 通过；ocamlopt 原生编译仍待验证。
 
 源码标签、包管理器发布、一致性测试和生产验证是不同状态。语言页面复用对应
