@@ -92,6 +92,7 @@ cd language/delphi; python run-tests.py
 python language/delphi/api-snapshot.py --check
 cd language/ocaml; python run-tests.py
 python language/ocaml/api-snapshot.py --check
+python bindings/lisp/test_bridge.py
 cd language/c; cmake -S . -B build; cmake --build build; ctest --test-dir build --output-on-failure
 cd language/csharp; dotnet build Praxo.Core/Praxo.Core.csproj
 cd language/csharp; dotnet run --project Praxo.Conformance

@@ -45,6 +45,7 @@
 | Visual Basic | [复用 .NET](visual-basic.md) |
 | Shell | [运行时桥接](shell.md) |
 | PowerShell | [运行时桥接](powershell.md) |
+| Lisp | [SBCL 运行时桥接](lisp.md) |
 
 ## Wire 候选实现
 

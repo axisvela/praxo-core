@@ -8,7 +8,7 @@ import yaml
 
 ROOT = Path(__file__).resolve().parents[1]
 LANGUAGES = "python typescript java rust c cpp csharp php ruby perl lua dart swift julia r d zig cobol fortran haskell matlab delphi ocaml".split()
-BINDINGS = ["shell", "powershell"]
+BINDINGS = ["shell", "powershell", "lisp"]
 SAMPLES = ["javascript", "kotlin", "scala"]
 
 
@@ -79,7 +79,7 @@ class LayoutTests(unittest.TestCase):
     def test_bridge_parity_scope(self):
         version = (ROOT / "spec/SPEC_VERSION").read_text().strip()
         for language in BINDINGS:
-            text = (ROOT / "spec/parity" / ("bridge-" + language + ".md")).read_text()
+            filename = {"shell": "bridge-shell.md", "powershell": "bridge-powershell.md", "lisp": "lisp.md"}[language]; text = (ROOT / "spec/parity" / filename).read_text()
             self.assertIn("- Tier: bridge", text)
             self.assertIn("- SPEC_VERSION: " + version, text)
             self.assertIn("toolcall.ParseToolCall", text)

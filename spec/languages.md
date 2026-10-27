@@ -48,7 +48,7 @@ imply every Go feature is available.
 | R | Core | released | `r/v0.2.0` | 11 vectors, base-R JSON, API snapshot |
 | Haskell | Wire | in progress | none | Framework target; currently 24 vectors in 3 wire groups, native tests, API snapshot/parity; Linux/Windows CI verified, release review pending |
 | Fortran | Core | in progress | none | 11 vector groups, native tests, API snapshot; CI job verified, release review pending |
-| Lisp | Bridge | consumer-gated | none | Requires a named consumer |
+| Lisp | Bridge | in progress | none | SBCL bridge verified locally (forwarding, UTF-8, errors, exit codes); consumer reported, details pending; Linux CI pending |
 | JavaScript | Sample (TypeScript) | released | none | Uses the TypeScript package; no separate core |
 | C++ | Core | released | `cpp/v0.1.0` | 11 vectors, core tests, API snapshot |
 | Dart | Core | released | `dart/v0.1.0` | 11 vectors, core tests, API snapshot |
@@ -98,8 +98,8 @@ imply every Go feature is available.
 | Haskell | `haskell-conformance` | Linux/Windows: 3 wire groups, native tests, source API/parity, Cabal build |
 | Delphi / Free Pascal | `delphi-conformance` | 3 wire groups, native tests, source API/parity; local FPC 3.2.2 Windows i386 verified; remote CI pending |
 | OCaml | `ocaml-conformance` | 3 wire groups, native tests, source API/parity; local OCaml 4.14.2 bytecode verified; native/remote CI pending |
+| Lisp | `lisp-bridge` | forwarding, UTF-8 JSON, errors, exit codes; local SBCL 2.6.9 verified; remote CI pending |
 | MATLAB / Octave | `matlab-wire` | Octave: 3 wire groups, native tests, source API/parity; remote evidence pending; MATLAB unverified |
-| Lisp | none yet | consumer-gated bridge |
 | Objective-C | none yet | core planned |
 | Wave 2 languages | none yet | planned; gate depends on declared tier |
 

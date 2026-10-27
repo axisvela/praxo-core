@@ -147,6 +147,7 @@ nav:
       - MATLAB / Octave: languages/matlab.md
       - Delphi / Free Pascal: languages/delphi.md
       - OCaml: languages/ocaml.md
+      - Lisp: languages/lisp.md
       - Shell: languages/shell.md
       - PowerShell: languages/powershell.md
   - Integrations:

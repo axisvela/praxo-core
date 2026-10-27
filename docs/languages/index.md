@@ -47,6 +47,7 @@ wire-only scope requires documented technical limitations. See the
 | Visual Basic | [Sample using .NET](visual-basic.md) |
 | Shell | [Runtime bridge](shell.md) |
 | PowerShell | [Runtime bridge](powershell.md) |
+| Lisp | [SBCL runtime bridge](lisp.md) |
 
 ## Wire Candidates
 

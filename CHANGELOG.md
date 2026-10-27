@@ -15,6 +15,9 @@
   Framework, with local OCaml 4.14.2 bytecode validation for toolcall, JSON
   Schema, and plugin vectors. Native compilation, remote CI, agent loop, and
   release are not claimed.
+- `bindings/lisp/`: unreleased SBCL bridge over the maintained runtime, with
+  local UTF-8, forwarding, error, and exit-code tests. It does not implement a
+  Lisp agent loop; remote CI and consumer details remain pending.
 - Rust compiler-derived public API snapshots and parity symbol checks, with
   regression tests for rustdoc extraction and stale-page exclusion. No Rust
   runtime APIs or dependencies changed.
