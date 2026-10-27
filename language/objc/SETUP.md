@@ -98,5 +98,6 @@ and Windows loader; the example paths may need adjustment for the installation.
 The native regressions cover opt-in tool selection, PII redaction of message and
 block text and recursive tool results, preservation of non-text block fields and
 tool-call arguments, structured output, and per-run call limits. The Windows
-runner passed 446 checks after these additions. This does not establish a macOS
-CI result for the uncommitted changes.
+runner passed 446 checks after these additions. The `objc-conformance` remote
+job passed for commit `3ad6958`. The source release tag is `objc/v0.1.0`; macOS
+local verification and package-registry publication are not claimed.

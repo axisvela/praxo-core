@@ -2,7 +2,7 @@
 #import "PraxoJSON.h"
 
 NSString *const PXRSpecVersion = @"0.2.0";
-NSString *const PXRSDKVersion = @"0.2.0";
+NSString *const PXRSDKVersion = @"0.1.0";
 
 static NSArray<NSArray<NSString *> *> *PXRMatches(NSString *pattern, NSString *text) {
     NSError *error = nil;

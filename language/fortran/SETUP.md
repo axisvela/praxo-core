@@ -79,7 +79,7 @@ An earlier `python language/fortran/run-tests.py` run passed the API snapshot,
 5 tooling tests, 69 native assertions, 59 JSON assertions, 62 contract
 assertions, and 62 conformance vectors across 11 groups. These results are
 historical evidence, not a claim that the checks were rerun for this document.
-Consumer and release review, including a version/tag decision, remains pending;
-passing these checks does not make the SDK released or remove its documented
-partial surfaces. See `language/fortran/README.md` and
+The source release tag is `fortran/v0.1.0`. This does not establish a
+package-registry release or remove the documented partial surfaces. See
+`language/fortran/README.md` and
 `spec/parity/fortran.md` for scope and remaining gates.

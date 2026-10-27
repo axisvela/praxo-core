@@ -42,15 +42,16 @@ reuse the host Framework rather than duplicate its agent loop.
 - Use the installation or source-build instructions on the language page.
 - Python and TypeScript document source builds; PyPI and npm publication are pending.
 - Java documents a Maven source build; Maven Central publication is not established by a source tag.
-- Fortran remains in progress and must not be represented as a released package.
+- Fortran has source tag `fortran/v0.1.0`. It is not a package-registry release
+  and its partial surfaces remain documented.
 - Haskell is an unreleased Wire candidate with three declared vector groups;
   it is not a native agent runtime or a published Hackage package.
-- Elixir, Nim, V, and Objective-C are unreleased Core implementations with all
-  eleven vector groups, native tests, and API snapshots. They are verified
-  locally with Elixir 1.20.4/OTP 29, Nim 2.2.12, V 0.5.2, and clang + GNUstep
-  respectively; release tags, package-registry publication, remote CI, and
-  production readiness are not claimed. Erlang shares the Elixir BEAM runtime
-  and does not add another loop.
+- Elixir, Nim, V, and Objective-C have source tags `elixir/v0.1.0`,
+  `nim/v0.1.0`, `v/v0.1.0`, and `objc/v0.1.0`. They include all eleven vector
+  groups, native tests, and API snapshots. Package-registry publication,
+  production readiness, and complete Go parity are not claimed; opt-in
+  middleware surfaces remain partial. Erlang shares the Elixir BEAM runtime and
+  does not add another loop.
 
 ## Feature Boundaries
 

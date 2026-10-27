@@ -1,6 +1,6 @@
 # PRAXO-CORE for Elixir
 
-Elixir is a native Core implementation targeting the PRAXO-CORE contract. It
+Elixir is a native Core implementation with source tag `elixir/v0.1.0`. It
 passes all eleven shared vector groups with `Elixir 1.20.4` on `Erlang/OTP 29`
 and includes the native agent loop, context compaction, memory store, path
 policy, checkpoint allowlist, tool-call parsing, and opt-in tool selection, PII

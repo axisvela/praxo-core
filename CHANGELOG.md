@@ -4,12 +4,15 @@
 
 ### Added
 
+- Tagged source releases `fortran/v0.1.0`, `elixir/v0.1.0`, `nim/v0.1.0`,
+  `v/v0.1.0`, and `objc/v0.1.0`; these are source tags, not package-registry
+  releases, and documented partial surfaces remain.
 - Opt-in PII redaction, structured-output validation, and per-run model/tool
-  call limits in the unreleased Elixir, Nim, V, and Objective-C agent loops.
-- Opt-in agent tool selection in the unreleased Elixir, Nim, V, and
-  Objective-C candidates, including end-to-end allow and deny tests.
-- Consumer-supplied synchronous model callbacks for the unreleased Elixir,
-  Nim, and V agent-loop candidates, with multi-step and error regression tests.
+  call limits in the Elixir, Nim, V, and Objective-C agent loops.
+- Opt-in agent tool selection in the Elixir, Nim, V, and Objective-C
+  candidates, including end-to-end allow and deny tests.
+- Consumer-supplied synchronous model callbacks for the Elixir, Nim, and V
+  agent-loop candidates, with multi-step and error regression tests.
 - Objective-C event correlation tests for distinct run IDs and session IDs.
 - Experimental Haskell, Free Pascal, and MATLAB/Octave agent loops with local
   agent-loop vector tests. These remain Wire-stage candidates pending the

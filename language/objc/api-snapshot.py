@@ -85,7 +85,8 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--check", action="store_true")
     args = parser.parse_args()
-    target = ROOT / "api/unreleased.txt"
+    sdk_version = source_version("PXRSDKVersion")
+    target = ROOT / "api" / f"{sdk_version}.txt"
     content = snapshot()
     errors = parity_errors()
     if errors:

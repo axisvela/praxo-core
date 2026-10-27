@@ -35,7 +35,7 @@ wire-only scope requires documented technical limitations. See the
 | D | [D SDK](d.md) |
 | Zig | [Zig SDK](zig.md) |
 | COBOL | [COBOL SDK](cobol.md) |
-| Fortran | [Fortran implementation](fortran.md), in progress |
+| Fortran | [Fortran implementation](fortran.md) |
 | Elixir | [Elixir SDK](elixir.md) |
 | Nim | [Nim SDK](nim.md) |
 | V | [V SDK](v.md) |

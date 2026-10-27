@@ -102,5 +102,6 @@ and `$env:GOWORK = "off"; go test ./internal/spec/...` separately.
 
 On Windows with Elixir 1.20.4 and Erlang/OTP 29, the build, tests, eleven
 conformance vector groups, and API snapshot check passed after the opt-in
-agent-loop integrations. The configured `elixir-conformance` job uses
-`erlef/setup-beam@v1`; remote CI for these changes is pending.
+agent-loop integrations. The `elixir-conformance` remote job passed for commit
+`3ad6958`. The source release tag is `elixir/v0.1.0`; this does not establish
+package-registry publication or production readiness.

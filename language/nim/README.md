@@ -1,7 +1,7 @@
 # PRAXO-CORE for Nim
 
-Nim is a native Core implementation targeting the PRAXO-CORE contract. It
-passes all eleven shared vector groups with `Nim 2.2.12` and includes the native
+Nim is a native Core implementation with source tag `nim/v0.1.0`. It passes all
+eleven shared vector groups with `Nim 2.2.12` and includes the native
 agent loop, context compaction, memory store, path policy, checkpoint
 allowlist, tool-call parsing, and opt-in agent tool selection, PII redaction,
 structured output, and call limits. Vector coverage does not establish full

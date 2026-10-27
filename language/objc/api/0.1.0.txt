@@ -1,4 +1,4 @@
-# PRAXO-CORE Objective-C Core API 0.2.0
+# PRAXO-CORE Objective-C Core API 0.1.0
 # SPEC_VERSION 0.2.0
 
 NSArray<NSString *> *PXRValidateSchema(NSDictionary<NSString *, id> *schema, id data)

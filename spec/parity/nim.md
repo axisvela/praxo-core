@@ -3,10 +3,11 @@
 - Tier: core
 - SPEC_VERSION: 0.2.0
 
-The unreleased Nim candidate includes a core loop. It passes all eleven vector groups, its
-tests, and its public API snapshot. These results do not establish full Core
-parity or production readiness. The agent can opt into PII redaction, structured
-output, call limits, and tool selection; the implementations remain partial.
+Released source tag `nim/v0.1.0` includes a core loop. It passes all eleven
+vector groups, its tests, and its public API snapshot. These results do not
+establish full Core parity or production readiness. The agent can opt into PII
+redaction, structured output, call limits, and tool selection; the
+implementations remain partial.
 `callbackModel` accepts a synchronous consumer closure from `Request` to
 `Response`; catchable errors propagate and can trigger `fallbackModel`. Built-in
 provider integrations, streaming wire encodings, and plugin hosts are not

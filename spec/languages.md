@@ -47,7 +47,7 @@ imply every Go feature is available.
 | Julia | Core | released | `julia/v0.2.0` | 11 vectors, JSON.jl, API snapshot |
 | R | Core | released | `r/v0.2.0` | 11 vectors, base-R JSON, API snapshot |
 | Haskell | Wire | in progress | none | Framework target; 3 wire groups and agent-loop vectors locally; remote CI for loop pending |
-| Fortran | Core | in progress | none | 11 vector groups, native tests, API snapshot; CI job verified, release review pending |
+| Fortran | Core | released | `fortran/v0.1.0` | 11 vector groups, native tests, API snapshot; source tag only; partial surfaces documented |
 | Lisp | Bridge | in progress | none | SBCL bridge verified locally (forwarding, UTF-8, errors, exit codes) and in Linux CI; consumer reported, details pending |
 | JavaScript | Sample (TypeScript) | released | none | Uses the TypeScript package; no separate core |
 | C++ | Core | released | `cpp/v0.1.0` | 11 vectors, core tests, API snapshot |
@@ -59,10 +59,10 @@ imply every Go feature is available.
 | Perl | Core | released | `perl/v0.1.0` | 11 vectors, 27 tests, API snapshot |
 | Delphi | Wire | in progress | none | Framework target; Free Pascal 3.2.2 local toolcall/JSON Schema/plugin and agent-loop vectors; remote CI for loop and Delphi compiler pending |
 | OCaml / Caml | Wire | in progress | none | Framework target; native toolcall/JSON Schema/plugin wire subset verified locally with OCaml 4.14.2 bytecode and in Linux CI; native build pending |
-| Objective-C | Core | in progress | none | 11 vectors, native tests, API snapshot/parity; opt-in PII/structured output/call limits/tool selection are partial; local clang + GNUstep Base; Apple Foundation/macOS CI pending |
-| Elixir | Core | in progress | none | 11 vectors, native tests, API snapshot/parity; opt-in PII/structured output/call limits/tool selection are partial; local Elixir 1.20.4 + OTP 29; remote CI pending |
-| Nim | Core | in progress | none | 11 vectors, native tests, API snapshot/parity; opt-in PII/structured output/call limits/tool selection are partial; local Nim 2.2.12 + MinGW; remote CI pending |
-| V | Core | in progress | none | 11 vectors, native tests, API snapshot/parity; opt-in PII/structured output/call limits/tool selection are partial; local V 0.5.2 + tcc; remote CI pending |
+| Objective-C | Core | released | `objc/v0.1.0` | 11 vectors, native tests, API snapshot/parity; opt-in PII/structured output/call limits/tool selection are partial; Apple Foundation/macOS CI pending |
+| Elixir | Core | released | `elixir/v0.1.0` | 11 vectors, native tests, API snapshot/parity; opt-in PII/structured output/call limits/tool selection are partial |
+| Nim | Core | released | `nim/v0.1.0` | 11 vectors, native tests, API snapshot/parity; opt-in PII/structured output/call limits/tool selection are partial |
+| V | Core | released | `v/v0.1.0` | 11 vectors, native tests, API snapshot/parity; opt-in PII/structured output/call limits/tool selection are partial |
 | D | Core | released | `d/v0.1.0` | 11 vectors, API snapshot |
 | VBScript | Bridge | planned | none | Bridge over .NET or the bridge CLI |
 | Erlang | Core | planned | none | Native BEAM loop requested; OTP 27+ `:json`; separate consumer and maintainer required |
@@ -103,7 +103,7 @@ imply every Go feature is available.
 | Julia | `julia-conformance` | Julia tests, 11 vectors, API snapshot |
 | R | `r-conformance` | R tests, 11 vectors, API snapshot |
 | Shell / PowerShell | `bridge` | bridge tests, both wrappers |
-| Fortran | `fortran-conformance` | native tests, 11 vector groups, API snapshot; release pending |
+| Fortran | `fortran-conformance` | native tests, 11 vector groups, API snapshot; source release tagged `fortran/v0.1.0` |
 | COBOL | `cobol-conformance` | 11 vectors, API snapshot, native/tooling tests |
 | Haskell | `haskell-conformance` | 3 wire groups plus agent-loop vectors, native tests, source API/parity, Cabal build; remote CI for loop pending |
 | Delphi / Free Pascal | `delphi-conformance` | 3 wire groups plus agent-loop vectors, native tests, source API/parity; remote CI for loop and Delphi unverified |

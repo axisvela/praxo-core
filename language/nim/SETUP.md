@@ -91,11 +91,8 @@ the README for the callback contract and other limits.
 
 ## Results
 
-For this turn, local Windows testing with Nim 2.2.12 and MinGW GCC 15.2.0
-passed the tests and conformance vectors, with unused import warnings. The API
-snapshot and repository-wide checks are listed above but are not claimed as
-part of these reported results. Remote CI results are pending.
-
-With the toolchain above on `PATH`, the tests, conformance runner, and API
-snapshot check passed again after the tool-selection integration. Compilation
-reported unused-import warnings. Remote CI for these changes is pending.
+Local Windows testing with Nim 2.2.12 and MinGW GCC 15.2.0 passed the tests,
+conformance vectors, and API snapshot check after the tool-selection and
+middleware integrations, with unused-import warnings. The `nim-conformance`
+remote job passed for commit `3ad6958`. The source release tag is `nim/v0.1.0`;
+this does not establish package-registry publication or production readiness.

@@ -33,7 +33,7 @@
 | D | [D SDK](d.md) |
 | Zig | [Zig SDK](zig.md) |
 | COBOL | [COBOL SDK](cobol.md) |
-| Fortran | [Fortran 实现](fortran.md)，仍在开发中 |
+| Fortran | [Fortran 实现](fortran.md) |
 | Elixir | [Elixir SDK](elixir.md) |
 | Nim | [Nim SDK](nim.md) |
 | V | [V SDK](v.md) |

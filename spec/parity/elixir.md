@@ -3,11 +3,11 @@
 - Tier: core
 - SPEC_VERSION: 0.2.0
 
-The unreleased Elixir candidate includes a core loop. It passes all eleven vector groups, its
-tests, and its public API snapshot. These results do not establish full Core
-parity or production readiness. The agent can opt into PII redaction, structured
-output, call limits, and tool selection; the implementations remain partial.
-A synchronous
+Released source tag `elixir/v0.1.0` includes a core loop. It passes all eleven
+vector groups, its tests, and its public API snapshot. These results do not
+establish full Core parity or production readiness. The agent can opt into PII
+redaction, structured output, call limits, and tool selection; the
+implementations remain partial. A synchronous
 function can serve as a consumer-supplied model and participate in fallback. It
 returns `{:ok, response}` or `{:error, code}`; provider state is managed
 externally, and exceptions and malformed returns are not converted to model
@@ -16,9 +16,9 @@ provided. `partial` marks these and other incomplete surfaces.
 Erlang shares the BEAM runtime and is documented as a runtime, not a second
 agent loop.
 
-Locally, `python language/elixir/api-snapshot.py --check` passed on Windows with
-Python 3.14.6. Elixir tests and conformance were not rerun in that session:
-Elixir was not on `PATH`. Prior toolchain and check instructions are recorded in
+Local tests, conformance, and the API snapshot passed with Elixir 1.20.4 and
+Erlang/OTP 29. The `elixir-conformance` remote job passed for the integrated
+middleware commit. Toolchain and check instructions are recorded in
 `language/elixir/SETUP.md`.
 
 | Go symbol | Elixir symbol | Status | Phase |

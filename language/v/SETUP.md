@@ -95,14 +95,8 @@ not provided; see the README for the callback contract and other limits.
 
 ## Results
 
-For this turn, local Windows testing with V 0.5.2, bundled tcc, and `-gc none`
-passed the tests and conformance vectors. The API snapshot and repository-wide
-checks are listed above but are not claimed as part of these reported results.
-Remote CI results are pending.
-
-With V 0.5.2 and `-cc tcc -gc none`, the tests, conformance runner, and API
-snapshot check passed again after the tool-selection integration. Remote CI for
-these changes is pending.
-
-The agent middleware integration was verified locally with V 0.5.2, bundled
-tcc, and `-gc none`: tests, conformance vectors, and API snapshot check passed.
+Local Windows testing with V 0.5.2, bundled tcc, and `-cc tcc -gc none` passed
+the tests, conformance vectors, and API snapshot check after the tool-selection
+and middleware integrations. The `v-conformance` remote job passed for commit
+`3ad6958`. The source release tag is `v/v0.1.0`; this does not establish
+package-registry publication or production readiness.

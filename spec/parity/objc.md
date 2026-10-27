@@ -3,13 +3,13 @@
 - Tier: core
 - SPEC_VERSION: 0.2.0
 
-Unreleased native Core candidate. Local validation uses clang 21.1.8 with
+Released source tag `objc/v0.1.0`. Local validation uses clang 21.1.8 with
 GNUstep Base 1.31.1 on Windows and covers all eleven vector groups, native
-tests, and the public declaration snapshot. Apple Foundation, macOS CI, release
-review, provider adapters, and plugin hosts are not yet verified. These results
-do not establish full Core parity or production readiness. The agent can opt
-into PII redaction, structured output, call limits, and tool selection;
-`partial` marks these and other incomplete surfaces.
+tests, and the public declaration snapshot. Apple Foundation and macOS local
+verification remain pending. These results do not establish full Core parity or
+production readiness. The agent can opt into PII redaction, structured output,
+call limits, and tool selection; `partial` marks these and other incomplete
+surfaces.
 
 | Go symbol | Objective-C symbol | Status | Phase |
 | --- | --- | --- | --- |
