@@ -78,7 +78,7 @@ imply every Go feature is available.
 | Classic Visual Basic | Bridge | planned | none | Bridge over the .NET SDK or bridge CLI; VB6 cannot consume modern .NET directly |
 | TCL | Core | planned | none | Native loop target; Tcl toolchain and named consumer/maintainer required |
 | Q | Bridge | planned | none | Requires a licensed kdb+/q runtime and a named consumer |
-| Assembly | Bridge / platform binding | consumer-gated | none | No portable language or ABI; target-specific binding requires a named consumer |
+| Assembly | Bridge / extension | consumer-gated | none | No portable language or ABI; target-specific binding requires a named consumer |
 | Zig | Core | released | `zig/v0.2.0` | 11 vectors, API snapshot; `zig/v0.1.0` remains wire |
 | Lua | Core | released | `lua/v0.1.0` | 11 vectors, core tests, API snapshot |
 | Scratch | Bridge / extension | planned | none | Extension bridge; implementation requested |
