@@ -1,10 +1,10 @@
-# Fortran Core SDK Candidate
+# Fortran Core SDK
 
-A native Fortran 2008 implementation with source tag `fortran/v0.1.0`. This is
+A native Fortran 2008 implementation with source tag `fortran/v0.2.0`. This is
 not a bridge to Go, C, Python, or another SDK. All 62 normative vectors across
 eleven groups pass locally, alongside native regression tests and the API
 declaration snapshot. The tag is a source release, not package-registry
-publication. Partial surfaces remain documented below.
+publication. Documented limitations remain below.
 
 ## Build and Test
 
@@ -42,7 +42,7 @@ them. Python is not required by a compiled SDK consumer.
 | `praxo_schema`, `praxo_pattern` | Contract schema validation and bounded ASCII patterns |
 | `praxo_policy` | Lexical path grants |
 | `praxo_plugin` | Strict manifest parsing and validation |
-| `praxo_middleware` | Per-run limits, tool selection, fallback, structured-output repair, email redaction |
+| `praxo_middleware` | Per-run limits, tool selection, fallback, structured-output repair, PII redaction |
 | `praxo_stream` | Stream-kind constants and part record |
 
 Implement the deferred interfaces in `praxo_interfaces`; see
@@ -74,9 +74,10 @@ actions fail before the corresponding invocation. Context compaction is checked
 before each model invocation. Negative usage and counter overflow fail closed.
 
 Optional `limits` and `selection` pointers enable per-run call limits and tool
-advertising/invocation checks. Set `redact_emails` to redact model-bound message
-content, decoded historical tool arguments, and tool results. This only covers
-email addresses, not all PII classes. Use `fallback_model` and `structured_model`
+advertising/invocation checks. Set `redact_pii` (or the legacy `redact_emails`)
+to redact model-bound message content, decoded historical tool arguments, and
+tool results. Built-in rules cover email, SSN, credit-card, and phone patterns.
+Use `fallback_model` and `structured_model`
 as native model decorators. Structured repair callbacks receive the previous
 output, validation errors, and attempt number.
 
@@ -115,15 +116,15 @@ hooks not listed in the parity inventory are not implemented.
 
 ## Remaining Gates
 
-`api/unreleased.txt` inventories exported declarations, type layouts, bound
+`api/0.2.0.txt` inventories exported declarations, type layouts, bound
 method signatures, and callback interfaces. `api-snapshot.py --check` runs as
 part of the test driver; intentional changes require review and regeneration
 with `--update`. It is a source declaration check, not a binary ABI guarantee.
 
 The `fortran-conformance` CI job runs native tests, all eleven groups, tooling
-tests, and the snapshot check. The migration job provides remote test evidence;
-a release still requires consumer/release review and an explicit version/tag decision. Passing fixtures
-does not erase the declared partial surfaces in `spec/parity/fortran.md`.
+tests, and the snapshot check. Passing fixtures covers the declared Core scope;
+the parity inventory records the two partial surfaces (asynchronous stream
+support and the bounded JSON Schema subset).
 
 The SDK sources are original MIT-licensed code under the repository license.
 GNU Fortran and its runtime are separately licensed toolchain dependencies; no

@@ -44,8 +44,10 @@ reuse the host Framework rather than duplicate its agent loop.
 - Use the installation or source-build instructions on the language page.
 - Python and TypeScript document source builds; PyPI and npm publication are pending.
 - Java documents a Maven source build; Maven Central publication is not established by a source tag.
-- Fortran has source tag `fortran/v0.1.0`. It is not a package-registry release
-  and its partial surfaces remain documented.
+- Fortran has source tag `fortran/v0.2.0` with all eleven vector groups, native
+  tests, an API snapshot, and integrated PII/middleware. It is not a
+  package-registry release; asynchronous stream support and the bounded JSON
+  Schema subset remain partial.
 - Haskell has source tag `haskell/v0.1.0` and declares three wire groups plus an
   agent loop. It is not a published Hackage package or a production-ready agent
   runtime.

@@ -7,7 +7,7 @@ module praxo_middleware
   implicit none
   private
   public :: call_limit, tool_selection, fallback_model, structured_model, structured_output
-  public :: redact_email, redact_json_email, repair_interface
+  public :: redact_email, redact_json_email, redact_pii, redact_json_pii, repair_interface
 
   type :: run_count
     character(:), allocatable :: id
@@ -198,7 +198,60 @@ contains
     if (.not. error%failed()) res%message%content = output
   end subroutine
 
-  function redact_email(text) result(output)
+  logical function is_digit_char(value)
+    character, intent(in) :: value
+    is_digit_char = value >= '0' .and. value <= '9'
+  end function
+
+  logical function is_word_char(value)
+    character, intent(in) :: value
+    is_word_char = is_digit_char(value) .or. (value >= 'a' .and. value <= 'z') .or. &
+      (value >= 'A' .and. value <= 'Z') .or. value == '_'
+  end function
+
+  logical function boundary_left(text, position)
+    character(*), intent(in) :: text
+    integer, intent(in) :: position
+    if (position <= 1) then
+      boundary_left = .true.
+    else
+      boundary_left = .not. is_word_char(text(position - 1:position - 1))
+    end if
+  end function
+
+  logical function boundary_right(text, position)
+    character(*), intent(in) :: text
+    integer, intent(in) :: position
+    if (position >= len(text)) then
+      boundary_right = .true.
+    else
+      boundary_right = .not. is_word_char(text(position + 1:position + 1))
+    end if
+  end function
+
+  logical function digits_at(text, position, count)
+    character(*), intent(in) :: text
+    integer, intent(in) :: position, count
+    integer :: offset
+    digits_at = .false.
+    if (position < 1 .or. position + count - 1 > len(text)) return
+    do offset = 0, count - 1
+      if (.not. is_digit_char(text(position + offset:position + offset))) return
+    end do
+    digits_at = .true.
+  end function
+
+  integer function skip_separator(text, position)
+    character(*), intent(in) :: text
+    integer, intent(in) :: position
+    skip_separator = position
+    if (position >= 1 .and. position <= len(text)) then
+      if (text(position:position) == ' ' .or. text(position:position) == '-' .or. &
+          text(position:position) == '.') skip_separator = position + 1
+    end if
+  end function
+
+  function redact_email_addresses(text) result(output)
     character(*), intent(in) :: text
     character(:), allocatable :: output
     integer :: cursor, at, first, last, dot, i, suffix
@@ -240,6 +293,164 @@ contains
     output = output//text(cursor:)
   end function
 
+  function redact_ssn(text) result(output)
+    character(*), intent(in) :: text
+    character(:), allocatable :: output
+    integer :: cursor, i, n
+    output = ''
+    n = len(text)
+    cursor = 1
+    i = 1
+    do while (i <= n - 10)
+      if (boundary_left(text, i) .and. digits_at(text, i, 3) .and. &
+          text(i + 3:i + 3) == '-' .and. digits_at(text, i + 4, 2) .and. &
+          text(i + 6:i + 6) == '-' .and. digits_at(text, i + 7, 4) .and. &
+          boundary_right(text, i + 10)) then
+        output = output//text(cursor:i - 1)//'[REDACTED:ssn]'
+        cursor = i + 11
+        i = cursor
+      else
+        i = i + 1
+      end if
+    end do
+    output = output//text(cursor:)
+  end function
+
+  logical function match_card(text, start, finish)
+    character(*), intent(in) :: text
+    integer, intent(in) :: start
+    integer, intent(out) :: finish
+    integer :: position, group
+    match_card = .false.
+    finish = start - 1
+    if (.not. boundary_left(text, start)) return
+    position = start
+    do group = 1, 4
+      if (.not. digits_at(text, position, 4)) return
+      position = position + 4
+      if (group < 4) position = skip_separator(text, position)
+    end do
+    finish = position - 1
+    match_card = boundary_right(text, finish)
+  end function
+
+  function redact_card(text) result(output)
+    character(*), intent(in) :: text
+    character(:), allocatable :: output
+    integer :: cursor, i, n, finish
+    output = ''
+    n = len(text)
+    cursor = 1
+    i = 1
+    do while (i <= n - 15)
+      if (match_card(text, i, finish)) then
+        output = output//text(cursor:i - 1)//'[REDACTED:credit_card]'
+        cursor = finish + 1
+        i = cursor
+      else
+        i = i + 1
+      end if
+    end do
+    output = output//text(cursor:)
+  end function
+
+  logical function match_phone_body(text, start, finish)
+    character(*), intent(in) :: text
+    integer, intent(in) :: start
+    integer, intent(out) :: finish
+    integer :: position
+    match_phone_body = .false.
+    finish = start - 1
+    position = start
+    if (position > len(text)) return
+    if (text(position:position) == '(') then
+      position = position + 1
+      if (.not. digits_at(text, position, 3)) return
+      position = position + 3
+      if (position > len(text)) return
+      if (text(position:position) /= ')') return
+      position = position + 1
+    else
+      if (.not. digits_at(text, position, 3)) return
+      position = position + 3
+    end if
+    position = skip_separator(text, position)
+    if (.not. digits_at(text, position, 3)) return
+    position = position + 3
+    position = skip_separator(text, position)
+    if (.not. digits_at(text, position, 4)) return
+    position = position + 4
+    finish = position - 1
+    match_phone_body = boundary_right(text, finish)
+  end function
+
+  logical function match_phone(text, start, finish)
+    character(*), intent(in) :: text
+    integer, intent(in) :: start
+    integer, intent(out) :: finish
+    integer :: position
+    match_phone = .false.
+    finish = start - 1
+    if (.not. boundary_left(text, start)) return
+    if (match_phone_body(text, start, finish)) then
+      match_phone = .true.
+      return
+    end if
+    if (start <= len(text)) then
+      if (text(start:start) == '1') then
+        position = skip_separator(text, start + 1)
+        if (match_phone_body(text, position, finish)) then
+          match_phone = .true.
+          return
+        end if
+      end if
+    end if
+    if (start + 1 <= len(text)) then
+      if (text(start:start) == '+' .and. text(start + 1:start + 1) == '1') then
+        position = skip_separator(text, start + 2)
+        if (match_phone_body(text, position, finish)) then
+          match_phone = .true.
+          return
+        end if
+      end if
+    end if
+  end function
+
+  function redact_phone(text) result(output)
+    character(*), intent(in) :: text
+    character(:), allocatable :: output
+    integer :: cursor, i, n, finish
+    output = ''
+    n = len(text)
+    cursor = 1
+    i = 1
+    do while (i <= n - 9)
+      if (match_phone(text, i, finish)) then
+        output = output//text(cursor:i - 1)//'[REDACTED:phone]'
+        cursor = finish + 1
+        i = cursor
+      else
+        i = i + 1
+      end if
+    end do
+    output = output//text(cursor:)
+  end function
+
+  function redact_pii(text) result(output)
+    character(*), intent(in) :: text
+    character(:), allocatable :: output
+    output = redact_email_addresses(text)
+    output = redact_ssn(output)
+    output = redact_card(output)
+    output = redact_phone(output)
+  end function
+
+  function redact_email(text) result(output)
+    character(*), intent(in) :: text
+    character(:), allocatable :: output
+    output = redact_pii(text)
+  end function
+
   function redact_json_email(raw, error) result(output)
     character(*), intent(in) :: raw
     type(sdk_error), intent(out) :: error
@@ -250,8 +461,15 @@ contains
     call parse_json(raw, doc, error)
     if (error%failed()) return
     do i = 1, size(doc%nodes)
-      if (json_kind(doc, i) == 'S') doc%nodes(i)%text = redact_email(json_text(doc, i))
+      if (json_kind(doc, i) == 'S') doc%nodes(i)%text = redact_pii(json_text(doc, i))
     end do
     output = encode_json(doc, 1, error)
+  end function
+
+  function redact_json_pii(raw, error) result(output)
+    character(*), intent(in) :: raw
+    type(sdk_error), intent(out) :: error
+    character(:), allocatable :: output
+    output = redact_json_email(raw, error)
   end function
 end module

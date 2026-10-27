@@ -62,7 +62,7 @@ production readiness or full Go feature parity.
 | Julia | Core | released | `julia/v0.2.0` | complete | 11 vectors, JSON.jl, API snapshot |
 | R | Core | released | `r/v0.2.0` | complete | 11 vectors, base-R JSON, API snapshot |
 | Haskell | Wire | released | `haskell/v0.1.0` | partial | Framework target; 3 wire groups plus agent-loop vectors; Linux/Windows CI for wire groups; remote CI for loop pending |
-| Fortran | Core | released | `fortran/v0.1.0` | partial | 11 vector groups, native tests, API snapshot; source tag only; partial surfaces documented |
+| Fortran | Core | released | `fortran/v0.2.0` | complete | 11 vectors, native tests, API snapshot; integrated PII/middleware; source tag only; stream and schema subset partial |
 | Lisp | Bridge | released | `lisp/v0.1.0` | complete | SBCL bridge over the bridge CLI; forwarding, UTF-8, errors, and exit codes verified locally and in Linux CI; consumer details pending |
 | JavaScript | Sample (TypeScript) | released | none | sample | Uses the TypeScript package; no separate core |
 | C++ | Core | released | `cpp/v0.1.0` | complete | 11 vectors, core tests, API snapshot |
@@ -125,7 +125,7 @@ production readiness or full Go feature parity.
 | Julia | `julia-conformance` | Julia tests, 11 vectors, API snapshot |
 | R | `r-conformance` | R tests, 11 vectors, API snapshot |
 | Shell / PowerShell | `bridge` | bridge tests, both wrappers |
-| Fortran | `fortran-conformance` | native tests, 11 vector groups, API snapshot; source release tagged `fortran/v0.1.0` |
+| Fortran | `fortran-conformance` | native tests, 11 vector groups, API snapshot; source release tagged `fortran/v0.2.0` |
 | COBOL | `cobol-conformance` | 11 vectors, API snapshot, native/tooling tests |
 | Haskell | `haskell-conformance` | 3 wire groups plus agent-loop vectors, native tests, source API/parity, Cabal build; source release tagged `haskell/v0.1.0`; remote CI for loop pending |
 | Delphi / Free Pascal | `delphi-conformance` | 3 wire groups plus agent-loop vectors, native tests, source API/parity; source release tagged `delphi/v0.1.0`; remote CI for loop and Delphi unverified |

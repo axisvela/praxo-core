@@ -21,6 +21,7 @@ module praxo_agent
     type(call_limit), pointer :: limits => null()
     type(tool_selection), pointer :: selection => null()
     logical :: redact_emails = .false.
+    logical :: redact_pii = .false.
   end type
 contains
   subroutine run_agent(options, state, prompt, run_id, result, error)
@@ -71,14 +72,14 @@ contains
         call options%limits%check(run_id, 'model', error)
         if (error%failed()) exit
       end if
-      if (options%redact_emails) then
+      if (options%redact_emails .or. options%redact_pii) then
         do i = 1, size(req%messages)
-          req%messages(i)%content = redact_email(string_value(req%messages(i)%content))
+          req%messages(i)%content = redact_pii(string_value(req%messages(i)%content))
           if (.not. allocated(req%messages(i)%tool_calls)) cycle
           do j = 1, size(req%messages(i)%tool_calls)
             output = '{}'
             if (allocated(req%messages(i)%tool_calls(j)%arguments)) output = req%messages(i)%tool_calls(j)%arguments
-            redacted = redact_json_email(output, error)
+            redacted = redact_json_pii(output, error)
             if (error%failed()) exit
             req%messages(i)%tool_calls(j)%arguments = redacted
           end do
@@ -164,9 +165,9 @@ contains
         call options%tools%invoke(call%name, string_value(call%arguments), output, error)
         if (error%failed()) exit
         if (.not. allocated(output)) output = ''
-        if (options%redact_emails) then
-          redacted = redact_json_email(output, redaction_error)
-          if (redaction_error%failed()) redacted = redact_email(output)
+        if (options%redact_emails .or. options%redact_pii) then
+          redacted = redact_json_pii(output, redaction_error)
+          if (redaction_error%failed()) redacted = redact_pii(output)
           output = redacted
         end if
         call append_message(req%messages, text_message('tool', output, string_value(call%id)))

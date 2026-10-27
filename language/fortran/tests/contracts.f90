@@ -157,6 +157,13 @@ program contract_tests
   call check(error%failed(), 'selected tool names are exact')
   call check(redact_email('a@b.com and c@d.com') == &
     '[REDACTED:email] and [REDACTED:email]', 'multiple email redaction')
+  call check(redact_pii('ssn 123-45-6789') == 'ssn [REDACTED:ssn]', 'ssn redaction')
+  call check(redact_pii('card 4111 1111 1111 1111') == &
+    'card [REDACTED:credit_card]', 'card redaction')
+  call check(redact_pii('call 415-555-2671') == 'call [REDACTED:phone]', 'phone redaction')
+  call check(redact_pii('call +1 (415) 555-2671.') == &
+    'call [REDACTED:phone].', 'formatted phone redaction')
+  call check(redact_pii('version 1.2.3') == 'version 1.2.3', 'phone boundary')
   text = redact_json_email('{"x":[{"mail":"a@b.com"}],"n":3}', error)
   call check(.not. error%failed() .and. index(text, 'a@b.com') == 0, 'deep JSON redaction')
 

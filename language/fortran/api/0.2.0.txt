@@ -1,4 +1,4 @@
-Fortran API declaration inventory (unreleased)
+Fortran API declaration inventory 0.2.0
 
 module praxo_agent
 public :: agent_options, run_agent
@@ -14,6 +14,7 @@ type(context_budget) :: context
 type(call_limit), pointer :: limits => null()
 type(tool_selection), pointer :: selection => null()
 logical :: redact_emails = .false.
+logical :: redact_pii = .false.
 end type
 subroutine run_agent(options, state, prompt, run_id, result, error)
 type(agent_options), intent(in) :: options
@@ -199,7 +200,7 @@ integer, intent(in) :: ai, bi
 end interface declaration
 
 module praxo_middleware
-public :: call_limit, fallback_model, redact_email, redact_json_email, repair_interface, structured_model, structured_output, tool_selection
+public :: call_limit, fallback_model, redact_email, redact_json_email, redact_json_pii, redact_pii, repair_interface, structured_model, structured_output, tool_selection
 type :: call_limit
 integer(int64) :: model_limit = 0, tool_limit = 0
 type(run_count), allocatable, private :: runs(:)
@@ -274,11 +275,20 @@ type(request), intent(in) :: req
 type(response), intent(out) :: res
 type(sdk_error), intent(out) :: error
 end interface declaration
+function redact_pii(text) result(output)
+character(*), intent(in) :: text
+character(:), allocatable :: output
+end interface declaration
 function redact_email(text) result(output)
 character(*), intent(in) :: text
 character(:), allocatable :: output
 end interface declaration
 function redact_json_email(raw, error) result(output)
+character(*), intent(in) :: raw
+type(sdk_error), intent(out) :: error
+character(:), allocatable :: output
+end interface declaration
+function redact_json_pii(raw, error) result(output)
 character(*), intent(in) :: raw
 type(sdk_error), intent(out) :: error
 character(:), allocatable :: output

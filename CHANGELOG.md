@@ -4,6 +4,8 @@
 
 ### Added
 
+- Completed Fortran PII redaction for email, SSN, credit-card, and phone
+  patterns, upgraded its Core parity inventory, and tagged it `fortran/v0.2.0`.
 - Marked the Elixir, Nim, V, Objective-C, and Erlang Core SDKs complete after
   their integrated middleware surfaces passed their tests and CI jobs.
 - Promoted OCaml to a native Core SDK with integrated PII, structured output,
