@@ -47,6 +47,8 @@
 
 ### Fixed
 
+- Avoid catching `halt/1` inside the Prolog bridge wrapper and tag the fix as
+  `prolog/v0.1.1`.
 - Preserve unresolved parent path components in the unreleased Elixir, Nim, V,
   Objective-C, and OCaml lexical path checks. These checks still do not provide
   filesystem or symlink containment.

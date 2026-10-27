@@ -48,7 +48,7 @@ Bridge、Sample 描述运行时的接入方式，不证明其语言缺乏 Framew
   错误和退出码检查已在本地和 Linux CI 通过。消费者细节与包管理器发布仍待完成。
 - Tcl 已有桥接包装器的源码标签 `tcl/v0.1.0`，不提供原生 Tcl 循环；本地转发、UTF-8、
   错误和退出码测试已通过，远端 CI 与包管理器发布仍待完成。
-- Prolog 已有 SWI-Prolog 桥接的源码标签 `prolog/v0.1.0`，不提供原生 Prolog 循环；
+- Prolog 已有 SWI-Prolog 桥接的源码标签 `prolog/v0.1.1`，不提供原生 Prolog 循环；
   转发、UTF-8、错误和退出码测试已通过。包管理器发布与生产就绪仍未声明。
 
 ## 功能边界

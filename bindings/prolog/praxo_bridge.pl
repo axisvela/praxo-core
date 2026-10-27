@@ -7,12 +7,13 @@ main :-
     command(Command, CommandArguments),
     append(CommandArguments, Arguments, AllArguments),
     catch(
-        run_bridge(Command, AllArguments),
+        run_bridge(Command, AllArguments, Code),
         Error,
         ( format(user_error, "Cannot start praxo-bridge: ~w~n", [Error]),
-          halt(1)
+          Code = 1
         )
-    ).
+    ),
+    halt(Code).
 
 command(Command, Arguments) :-
     ( catch(getenv('PRAXO_BRIDGE_BIN', Binary), _, fail),
@@ -25,7 +26,7 @@ command(Command, Arguments) :-
         Arguments = ['run', './cmd/praxo-bridge']
     ).
 
-run_bridge(Command, Arguments) :-
+run_bridge(Command, Arguments, Code) :-
     process_create(
         Command,
         Arguments,
@@ -54,7 +55,7 @@ run_bridge(Command, Arguments) :-
     flush_output(user_output),
     format(user_error, "~s", [StandardError]),
     flush_output(user_error),
-    exit_status(Status).
+    status_code(Status, Code).
 
 read_all(Stream, String) :-
     read_codes(Stream, [], Reversed),
@@ -68,8 +69,6 @@ read_codes(Stream, Accumulator, Codes) :-
     ;  read_codes(Stream, [Character | Accumulator], Codes)
     ).
 
-exit_status(exit(Code)) :-
-    !,
-    halt(Code).
-exit_status(_) :-
-    halt(1).
+status_code(exit(Code), Code) :-
+    !.
+status_code(_, 1).

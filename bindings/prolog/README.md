@@ -1,6 +1,6 @@
 # PRAXO Bridge for Prolog
 
-SWI-Prolog is a Bridge with source tag `prolog/v0.1.0` over the maintained Go
+SWI-Prolog is a Bridge with source tag `prolog/v0.1.1` over the maintained Go
 runtime. The wrapper forwards arguments and stdin to `praxo-bridge`, preserves
 stdout and stderr, and propagates the bridge exit code. It does not implement an
 agent loop, provider adapter, or plugin host.
