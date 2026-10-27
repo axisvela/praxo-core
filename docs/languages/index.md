@@ -57,6 +57,7 @@ wire-only scope requires documented technical limitations. See the
 | PowerShell | [Runtime bridge](powershell.md) |
 | Lisp | [SBCL runtime bridge](lisp.md) |
 | Tcl | [Runtime bridge](tcl.md) |
+| Prolog | [SWI-Prolog runtime bridge](prolog.md) |
 
 ## Wire Implementations
 

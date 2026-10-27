@@ -70,6 +70,10 @@ reuse the host Framework rather than duplicate its agent loop.
   does not provide a native Tcl loop; local forwarding, UTF-8, error, and
   exit-code tests pass, while remote CI and package-registry publication remain
   pending.
+- Prolog has source tag `prolog/v0.1.0` for the SWI-Prolog bridge over the bridge
+  CLI. It does not provide a native Prolog loop; forwarding, UTF-8, error, and
+  exit-code tests pass. Package-registry publication and production readiness
+  are not claimed.
 
 ## Feature Boundaries
 

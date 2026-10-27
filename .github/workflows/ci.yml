@@ -330,6 +330,19 @@ jobs:
       - run: sudo apt-get update && sudo apt-get install -y clojure
       - run: CLASSPATH=language/java/build/classes clojure examples/clojure/sample.clj
 
+  prolog-bridge:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: "1.26.10"
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: sudo apt-get update && sudo apt-get install -y swi-prolog
+      - run: python bindings/prolog/test_bridge.py
+
   c-conformance:
     runs-on: ubuntu-latest
     defaults:

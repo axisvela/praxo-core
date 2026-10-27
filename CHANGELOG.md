@@ -4,6 +4,8 @@
 
 ### Added
 
+- Added a SWI-Prolog bridge over the maintained bridge CLI, with forwarding,
+  UTF-8, error, and exit-code tests, and tagged it `prolog/v0.1.0`.
 - Added Groovy and Clojure samples over the Java SDK, with CI jobs and language
   matrix entries.
 - Added a native Erlang Core SDK under `language/erlang` with all eleven vector

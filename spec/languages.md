@@ -98,7 +98,7 @@ production readiness or full Go feature parity.
 | Lua | Core | released | `lua/v0.1.0` | complete | 11 vectors, core tests, API snapshot |
 | Scratch | Bridge / extension | planned | none | planned | Extension bridge; implementation requested |
 | COBOL | Core | released | `cobol/v0.1.0` | complete | 11 vectors, native/contract tests, API snapshot |
-| Prolog | Bridge | planned | none | planned | Bridge over the maintained runtime |
+| Prolog | Bridge | released | `prolog/v0.1.0` | complete | SWI-Prolog wrapper over the bridge CLI; forwarding, UTF-8, errors, and exit codes tested |
 | ABAP | Bridge | planned | none | planned | Bridge over the maintained runtime |
 
 ## CI Coverage
@@ -137,6 +137,7 @@ production readiness or full Go feature parity.
 | V | `v-conformance` | 11 vectors, API snapshot, tests; V 0.5.2 |
 | Lisp | `lisp-bridge` | forwarding, UTF-8 JSON, errors, exit codes; local SBCL 2.6.9 and Linux CI verified; source release tagged `lisp/v0.1.0` |
 | Tcl | `tcl-bridge` | forwarding, UTF-8 JSON, errors, exit codes; local Tcl 8.6; source release tagged `tcl/v0.1.0` |
+| Prolog | `prolog-bridge` | forwarding, UTF-8 JSON, errors, exit codes; SWI-Prolog; source release tagged `prolog/v0.1.0` |
 | MATLAB / Octave | `matlab-wire` | Octave: 3 wire groups plus agent-loop vectors, native tests, source API/parity; source release tagged `matlab/v0.1.0`; remote CI for loop and MATLAB unverified |
 | Further languages | none yet | planned; gate depends on declared tier |
 

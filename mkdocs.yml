@@ -157,6 +157,7 @@ nav:
       - V: languages/v.md
       - Lisp: languages/lisp.md
       - Tcl: languages/tcl.md
+      - Prolog: languages/prolog.md
       - Shell: languages/shell.md
       - PowerShell: languages/powershell.md
   - Integrations:

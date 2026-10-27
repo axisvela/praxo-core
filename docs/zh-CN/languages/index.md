@@ -55,6 +55,7 @@
 | PowerShell | [运行时桥接](powershell.md) |
 | Lisp | [SBCL 运行时桥接](lisp.md) |
 | Tcl | [运行时桥接](tcl.md) |
+| Prolog | [SWI-Prolog 运行时桥接](prolog.md) |
 
 ## Wire 实现
 
