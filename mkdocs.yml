@@ -131,6 +131,7 @@ nav:
       - Rust: languages/rust.md
       - C: languages/c.md
       - C++: languages/cpp.md
+      - OpenCL: languages/opencl.md
       - C# / .NET: languages/csharp.md
       - Visual Basic: languages/visual-basic.md
       - F#: languages/fsharp.md

@@ -72,6 +72,7 @@ Go is the reference implementation. SDKs share a normative contract in
 | TypeScript / JavaScript | [TypeScript SDK](https://axisvela.github.io/praxo-core/languages/typescript/), [JavaScript sample](https://axisvela.github.io/praxo-core/languages/javascript/) |
 | Java / Kotlin / Scala / Groovy / Clojure | [Java SDK](https://axisvela.github.io/praxo-core/languages/java/), [Kotlin](https://axisvela.github.io/praxo-core/languages/kotlin/), [Scala](https://axisvela.github.io/praxo-core/languages/scala/), [Groovy](https://axisvela.github.io/praxo-core/languages/groovy/), [Clojure](https://axisvela.github.io/praxo-core/languages/clojure/) |
 | .NET | [C# SDK](https://axisvela.github.io/praxo-core/languages/csharp/), [Visual Basic sample](docs/languages/visual-basic.md), [F# sample](docs/languages/fsharp.md) |
+| C / OpenCL | [C SDK](https://axisvela.github.io/praxo-core/languages/c/), [OpenCL sample](https://axisvela.github.io/praxo-core/languages/opencl/) |
 | Other languages | [Complete implementation directory](docs/languages/index.md) |
 
 Source releases, package-registry publication, conformance, and production

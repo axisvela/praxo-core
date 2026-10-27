@@ -86,7 +86,7 @@ production readiness or full Go feature parity.
 | F# | Sample (.NET) | released | `csharp/v0.1.0` | sample | F# consumer sample in `examples/fsharp`; uses the C# SDK |
 | Clojure | Sample (JVM) | released | `java/v0.2.1` | sample | Clojure consumer sample in `examples/clojure`; uses the Java SDK |
 | Solidity | Wire | planned | none | planned | Candidate contract integration; scope and technical limitations require investigation |
-| OpenCL | Sample | planned | none | planned | Candidate compute integration; scope and host requirements require investigation |
+| OpenCL | Sample | released | `c/v0.1.0` | sample | Compute integration sample in `examples/opencl`; uses the C SDK and an OpenCL ICD |
 | Groovy | Sample (JVM) | released | `java/v0.2.1` | sample | Groovy consumer sample in `examples/groovy`; uses the Java SDK |
 | J# | Sample (.NET) | consumer-gated | none | gated | Legacy J# runtime and toolchain are unsupported; requires a named consumer and compatible .NET path |
 | FoxPro | Bridge | planned | none | planned | Bridge over the maintained runtime; Visual FoxPro is Windows-only and legacy |

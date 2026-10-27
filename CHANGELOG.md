@@ -4,6 +4,8 @@
 
 ### Added
 
+- Added an OpenCL sample in `examples/opencl` that uses the C SDK and an OpenCL
+  ICD, with a CPU-capable POCL CI job.
 - Added a SWI-Prolog bridge over the maintained bridge CLI, with forwarding,
   UTF-8, error, and exit-code tests, and tagged it `prolog/v0.1.0`.
 - Added Groovy and Clojure samples over the Java SDK, with CI jobs and language

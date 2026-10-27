@@ -25,8 +25,9 @@ maintenance, conformance, security, or licensing gates. Current stage, final
 target, feature coverage, verification, and distribution are separate facts.
 
 JavaScript reuses TypeScript; Kotlin, Scala, Groovy, and Clojure reuse Java;
-Visual Basic and F# reuse .NET. Do not create another agent loop for the same
-runtime without a concrete consumer need and a maintenance owner.
+Visual Basic and F# reuse .NET; the OpenCL sample reuses the C SDK. Do not
+create another agent loop for the same runtime without a concrete consumer need
+and a maintenance owner.
 
 ## Required Evidence
 

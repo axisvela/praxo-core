@@ -51,6 +51,7 @@ wire-only scope requires documented technical limitations. See the
 | Scala | [Sample using Java](scala.md) |
 | Groovy | [Sample using Java](groovy.md) |
 | Clojure | [Sample using Java](clojure.md) |
+| OpenCL | [Compute sample using C](opencl.md) |
 | Visual Basic | [Sample using .NET](visual-basic.md) |
 | F# | [Sample using .NET](fsharp.md) |
 | Shell | [Runtime bridge](shell.md) |

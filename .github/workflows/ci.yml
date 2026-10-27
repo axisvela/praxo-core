@@ -330,6 +330,15 @@ jobs:
       - run: sudo apt-get update && sudo apt-get install -y clojure
       - run: CLASSPATH=language/java/build/classes clojure examples/clojure/sample.clj
 
+  opencl-sample:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: sudo apt-get update && sudo apt-get install -y ocl-icd-opencl-dev pocl-opencl-icd
+      - run: mkdir -p build
+      - run: cc -std=c11 -DCL_TARGET_OPENCL_VERSION=300 -I language/c/include -I language/c/src examples/opencl/sample.c language/c/src/json.c -lOpenCL -lm -o build/opencl-sample
+      - run: ./build/opencl-sample
+
   prolog-bridge:
     runs-on: ubuntu-latest
     steps:

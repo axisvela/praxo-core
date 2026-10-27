@@ -9,7 +9,7 @@ unchanged. This is a source-tree migration, not a new framework release.
 | `pkg/`, `internal/`, `cmd/` | Go reference implementation and bridge CLI |
 | `language/<language>/` | Independent language implementations |
 | `bindings/shell/`, `bindings/powershell/` | Wrappers over the bridge runtime |
-| `examples/javascript/`, `examples/kotlin/`, `examples/scala/`, `examples/groovy/`, `examples/clojure/`, `examples/fsharp/` | Samples consuming TypeScript, Java, or .NET |
+| `examples/javascript/`, `examples/kotlin/`, `examples/scala/`, `examples/groovy/`, `examples/clojure/`, `examples/fsharp/`, `examples/opencl/` | Samples consuming TypeScript, Java, .NET, or C |
 | `adapters/` | Optional integrations |
 | `spec/` | Normative contract, shared vectors, and parity inventories |
 | `docs/` | Public documentation |
@@ -26,8 +26,9 @@ Root-level `python/`, `typescript/`, `java/`, `rust/`, `c/`, `cpp/`, `csharp/`,
 
 Root-level `shell/` and `powershell/` are now under `bindings/`. Root-level
 `javascript/`, `kotlin/`, `scala/`, `groovy/`, and `clojure/` are now under
-`examples/`. The F# sample is at `examples/fsharp/`. The Visual Basic sample
-remains with the .NET SDK at `language/csharp/samples/VbSample/`.
+`examples/`. The F# and OpenCL samples are at `examples/fsharp/` and
+`examples/opencl/`. The Visual Basic sample remains with the .NET SDK at
+`language/csharp/samples/VbSample/`.
 
 Update local scripts, CI working directories, source dependency paths, and
 paths in editor or build configuration. For example, from the repository root:

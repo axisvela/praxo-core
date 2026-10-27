@@ -154,6 +154,8 @@ node examples/javascript/sample.mjs
 cd language/java; javac -d build/classes $(find src/main/java -name '*.java')
 groovy -cp language/java/build/classes examples/groovy/sample.groovy
 CLASSPATH=language/java/build/classes clojure examples/clojure/sample.clj
+cc -std=c11 -DCL_TARGET_OPENCL_VERSION=300 -I language/c/include -I language/c/src examples/opencl/sample.c language/c/src/json.c -lOpenCL -lm -o build/opencl-sample
+./build/opencl-sample
 perl language/perl/conformance/run.pl
 perl language/perl/api-snapshot.pl --check
 perl language/perl/tests/run.pl

@@ -19,7 +19,7 @@
 默认目标不是发布承诺，也不允许跳过消费者、维护、一致性、安全与许可门槛。
 当前阶段、最终目标、功能覆盖、验证和分发状态是彼此独立的信息。
 
-JavaScript 复用 TypeScript，Kotlin、Scala、Groovy 和 Clojure 复用 Java，Visual Basic 和 F# 复用 .NET。
+JavaScript 复用 TypeScript，Kotlin、Scala、Groovy 和 Clojure 复用 Java，Visual Basic 和 F# 复用 .NET，OpenCL 示例复用 C SDK。
 同一运行时不应在缺少具体消费者和维护者时重复实现 Agent 循环。
 
 ## 验证要求

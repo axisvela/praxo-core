@@ -49,6 +49,7 @@
 | Scala | [复用 Java](scala.md) |
 | Groovy | [复用 Java](groovy.md) |
 | Clojure | [复用 Java](clojure.md) |
+| OpenCL | [复用 C 的计算示例](opencl.md) |
 | Visual Basic | [复用 .NET](visual-basic.md) |
 | F# | [复用 .NET](fsharp.md) |
 | Shell | [运行时桥接](shell.md) |
