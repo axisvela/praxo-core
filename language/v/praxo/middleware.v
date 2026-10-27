@@ -112,10 +112,105 @@ fn redact_credit_card(text string) string {
 	return output
 }
 
+fn is_word_char(character u8) bool {
+	return is_alpha(character) || is_digit(character) || character == `_`
+}
+
+fn take_digits(text string, start int, count int) int {
+	mut index := start
+	mut digit := 0
+	for digit < count {
+		if index >= text.len || !is_digit(text[index]) {
+			return -1
+		}
+		index++
+		digit++
+	}
+	return index
+}
+
+fn skip_separator(text string, index int) int {
+	if index < text.len && (text[index] == `-` || text[index] == `.` || text[index] == ` `) {
+		return index + 1
+	}
+	return index
+}
+
+fn phone_end_without_prefix(text string, start int) int {
+	mut index := start
+	if index < text.len && text[index] == `(` {
+		index++
+	}
+	index = take_digits(text, index, 3)
+	if index < 0 {
+		return start
+	}
+	if index < text.len && text[index] == `)` {
+		index++
+	}
+	index = skip_separator(text, index)
+	index = take_digits(text, index, 3)
+	if index < 0 {
+		return start
+	}
+	index = skip_separator(text, index)
+	index = take_digits(text, index, 4)
+	if index < 0 {
+		return start
+	}
+	return index
+}
+
+fn phone_at(text string, start int) int {
+	if start > 0 && is_word_char(text[start - 1]) {
+		return start
+	}
+	mut best := start
+	direct := phone_end_without_prefix(text, start)
+	if direct > start && (direct >= text.len || !is_word_char(text[direct])) {
+		best = direct
+	}
+	mut index := start
+	if index < text.len && text[index] == `+` {
+		if index + 1 < text.len && text[index + 1] == `1` {
+			index += 2
+		} else {
+			return best
+		}
+	} else if index < text.len && text[index] == `1` {
+		index++
+	} else {
+		return best
+	}
+	index = skip_separator(text, index)
+	prefixed := phone_end_without_prefix(text, index)
+	if prefixed > index && (prefixed >= text.len || !is_word_char(text[prefixed])) && prefixed > best {
+		best = prefixed
+	}
+	return best
+}
+
+fn redact_phone(text string) string {
+	mut output := ''
+	mut index := 0
+	for index < text.len {
+		ending := phone_at(text, index)
+		if ending > index {
+			output += '[REDACTED:phone]'
+			index = ending
+			continue
+		}
+		output += text.substr(index, index + 1)
+		index++
+	}
+	return output
+}
+
 pub fn pii_redact(text string) string {
 	mut output := redact_email(text)
 	output = redact_ssn(output)
-	return redact_credit_card(output)
+	output = redact_credit_card(output)
+	return redact_phone(output)
 }
 
 pub fn redact_value(value json2.Any) json2.Any {

@@ -113,6 +113,8 @@ defmodule Praxo.Tests do
   defp test_pii do
     check(Middleware.pii_redact("email a@b.com") == "email [REDACTED:email]", "pii email")
     check(Middleware.pii_redact("ssn 123-45-6789") == "ssn [REDACTED:ssn]", "pii ssn")
+    check(Middleware.pii_redact("call 415-555-2671") == "call [REDACTED:phone]", "pii phone")
+    check(Middleware.pii_redact("version 1.2.3") == "version 1.2.3", "pii phone boundary")
   end
 
   defp test_paths do

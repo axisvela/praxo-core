@@ -54,8 +54,8 @@ allow only the named tools. An empty selection denies all tools. Without a
 selection, all configured tools remain available. A request for an unselected
 tool fails with `AGENT_TOOL_NOT_SELECTED` before the tool is invoked.
 
-Set `options.pii_redaction = true` to redact the existing email, SSN, and
-credit-card patterns in model-bound message content and text blocks, and in
+Set `options.pii_redaction = true` to redact the existing email, SSN,
+credit-card, and US-style phone patterns in model-bound message content and text blocks, and in
 tool results recursively. This does not redact tool arguments, events, final
 output, block image/data fields, or arbitrary PII; it is not a complete privacy
 boundary. The original session messages are not modified.

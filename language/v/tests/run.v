@@ -126,6 +126,9 @@ fn test_pii() {
 	assert praxo.pii_redact('ssn 123-45-6789') == 'ssn [REDACTED:ssn]'
 	assert praxo.pii_redact('Contact a@b.com. Then a@b.com, a@b.com! (a@b.com).') == 'Contact [REDACTED:email]. Then [REDACTED:email], [REDACTED:email]! ([REDACTED:email]).'
 	assert praxo.pii_redact('a@b.com...') == '[REDACTED:email]...'
+	assert praxo.pii_redact('call 415-555-2671') == 'call [REDACTED:phone]'
+	assert praxo.pii_redact('call +1 (415) 555-2671.') == 'call [REDACTED:phone].'
+	assert praxo.pii_redact('version 1.2.3') == 'version 1.2.3'
 }
 
 fn test_agent() {

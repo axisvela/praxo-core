@@ -58,7 +58,7 @@ tools; leaving the option unset advertises and permits all registered tools.
 
 Set `options.pii = true` to redact message content and text blocks sent to the
 model and recursively redact string values in tool results. The existing PII
-helper covers email, SSN, and credit card patterns; it is not a complete privacy
+helper covers email, SSN, credit card, and US-style phone patterns; it is not a complete privacy
 filter. Tool arguments, events, and final output are not redacted. Original
 session messages are not modified.
 

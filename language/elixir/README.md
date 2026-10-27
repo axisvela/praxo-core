@@ -92,7 +92,7 @@ options = %{options |
 }
 ```
 
-`pii: true` applies the existing email, SSN, and credit-card rules to message
+`pii: true` applies the existing email, SSN, credit-card, and US-style phone rules to message
 content and text content blocks sent to the model, and recursively to string
 values in tool results before encoding. It does not redact tool-call arguments,
 map keys, non-text blocks, events, final output, or the original session. It is

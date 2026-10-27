@@ -71,7 +71,7 @@ omitting the option preserves unrestricted tool behavior. A call to an
 unselected name fails with `AGENT_TOOL_NOT_SELECTED` before invocation.
 Set `options[@"pii"]` to `@YES` to redact model-bound message content and
 content-block text, and recursively redact tool results, using the built-in
-rules. Other block fields and historical tool-call arguments remain unchanged.
+email, SSN, credit-card, and US-style phone rules. Other block fields and historical tool-call arguments remain unchanged.
 Tool invocations and events receive original arguments, and final output is not
 redacted. Redaction is not a comprehensive privacy or logging control.
 Set `options[@"structuredOutput"]` to a `PXRStructuredOutputCreate` configuration

@@ -16,12 +16,14 @@ defmodule Praxo.Middleware do
   @email ~r/[A-Za-z0-9._%+\-]+@[A-Za-z0-9.\-]+\.[A-Za-z]{2,}/
   @ssn ~r/\b\d{3}-\d{2}-\d{4}\b/
   @card ~r/\b(?:\d{4}[ -]?){3}\d{4}\b/
+  @phone ~r/\b(?:\+?1[-. ]?)?\(?\d{3}\)?[-. ]?\d{3}[-. ]?\d{4}\b/
 
   def pii_redact(text) do
     text
     |> then(&Regex.replace(@email, &1, "[REDACTED:email]"))
     |> then(&Regex.replace(@ssn, &1, "[REDACTED:ssn]"))
     |> then(&Regex.replace(@card, &1, "[REDACTED:credit_card]"))
+    |> then(&Regex.replace(@phone, &1, "[REDACTED:phone]"))
   end
 
   def redact_value(value) when is_binary(value), do: pii_redact(value)

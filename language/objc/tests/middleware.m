@@ -3,6 +3,10 @@
 
 void runMiddlewareIntegrationTests(void (*check)(BOOL, NSString *)) {
     NSString *email = @"person@example.com";
+    check([PXRPIIRedact(@"call 415-555-2671") isEqualToString:@"call [REDACTED:phone]"],
+          @"phone redacted");
+    check([PXRPIIRedact(@"version 1.2.3") isEqualToString:@"version 1.2.3"],
+          @"phone boundary preserved");
     __block NSUInteger models = 0;
     __block NSUInteger tools = 0;
     NSMutableArray *requests = [NSMutableArray array];

@@ -100,6 +100,9 @@ proc testPii() =
   assert piiRedact("a@b.c. a@b. a@b.com, a@b.com!") ==
     "a@b.c. a@b. [REDACTED:email], [REDACTED:email]!"
   assert piiRedact("ssn 123-45-6789") == "ssn [REDACTED:ssn]"
+  assert piiRedact("call 415-555-2671") == "call [REDACTED:phone]"
+  assert piiRedact("call +1 (415) 555-2671.") == "call [REDACTED:phone]."
+  assert piiRedact("version 1.2.3") == "version 1.2.3"
 
 proc testAgent() =
   let model = scriptedModel(@[

@@ -9,6 +9,8 @@
   releases, and documented partial surfaces remain.
 - Registered Groovy, J#, FoxPro, classic Visual Basic, TCL, Q, and Assembly as
   planned or consumer-gated candidates. Clojure and OpenCL were already listed.
+- Added the Go-reference US-style phone rule to built-in PII redaction in the
+  Elixir, Nim, V, and Objective-C SDKs, with boundary regressions.
 - Use collision-resistant run IDs in the Elixir, Nim, and V agent loops, with
   regression tests for rapid successive runs.
 - Opt-in PII redaction, structured-output validation, and per-run model/tool
