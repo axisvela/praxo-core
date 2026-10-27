@@ -28,63 +28,78 @@ imply every Go feature is available.
 | Bridge | Process/stdio/HTTP client over a core runtime | Bridge contract tests |
 | Sample | Usage sample for another implementation | Compiles against that package |
 
+## Maturity
+
+Maturity is independent of the version tag. It records completion of the
+declared scope and verification against the tier gate. It does not imply
+production readiness or full Go feature parity.
+
+| Maturity | Meaning |
+| --- | --- |
+| `reference` | Go reference implementation. |
+| `complete` | Released with all declared-scope gates passing. |
+| `partial` | Released with documented scope gaps or pending required runtime/CI verification. |
+| `sample` | Usage sample of another implementation, not an independent runtime. |
+| `planned` | Planned; no source tag. |
+| `gated` | Requires a named consumer or compatible runtime before implementation starts. |
+
 ## Matrix
 
-| Language | Tier | Status | Tag | Notes |
-| --- | --- | --- | --- | --- |
-| Go | Core (reference) | released | `v2.5.0` | Reference implementation |
-| Python | Core | released | `python/v0.2.0` | 11 vectors, OpenAI adapter |
-| TypeScript | Core | released | `typescript/v0.1.0` | 11 vectors, OpenAI adapter |
-| Java | Core | released | `java/v0.2.1` | 11 vectors, OpenAI adapter, API snapshot |
-| Rust | Core | released | `rust/v0.1.0` | 11 vectors, native tests; current source adds compiler-derived API/parity gate |
-| C | Core | released | `c/v0.1.0` | All 11 vectors; public API is wire-level |
-| C# | Core (.NET) | released | `csharp/v0.1.0` | 11 vectors, API snapshot, OpenAI adapter |
-| Visual Basic | Sample (.NET) | released | `csharp/v0.1.0` | VB.NET consumer sample in `language/csharp/samples` |
-| PowerShell | Bridge | released | `powershell/v0.1.0` | Wraps the bridge CLI |
-| Shell | Bridge | released | `shell/v0.1.0` | Wraps the bridge CLI |
-| PHP | Core | released | `php/v0.1.0` | 11 vectors, API snapshot, dependency-free |
-| Swift | Core | released | `swift/v0.2.0` | 11 vectors, XCTest, API snapshot |
-| Julia | Core | released | `julia/v0.2.0` | 11 vectors, JSON.jl, API snapshot |
-| R | Core | released | `r/v0.2.0` | 11 vectors, base-R JSON, API snapshot |
-| Haskell | Wire | released | `haskell/v0.1.0` | Framework target; 3 wire groups plus agent-loop vectors; Linux/Windows CI for wire groups; remote CI for loop pending |
-| Fortran | Core | released | `fortran/v0.1.0` | 11 vector groups, native tests, API snapshot; source tag only; partial surfaces documented |
-| Lisp | Bridge | released | `lisp/v0.1.0` | SBCL bridge over the bridge CLI; forwarding, UTF-8, errors, and exit codes verified locally and in Linux CI; consumer details pending |
-| JavaScript | Sample (TypeScript) | released | none | Uses the TypeScript package; no separate core |
-| C++ | Core | released | `cpp/v0.1.0` | 11 vectors, core tests, API snapshot |
-| Dart | Core | released | `dart/v0.1.0` | 11 vectors, core tests, API snapshot |
-| Ruby | Core | released | `ruby/v0.1.0` | 11 vectors, core tests, API snapshot |
-| Kotlin | Sample (JVM) | released | none | Uses the Java SDK |
-| Scala | Sample (JVM) | released | none | Uses the Java SDK |
-| MATLAB | Wire | released | `matlab/v0.1.0` | Framework target; Octave-local toolcall, JSON Schema, plugin and agent-loop vectors; MATLAB and remote CI for loop pending |
-| Perl | Core | released | `perl/v0.1.0` | 11 vectors, 27 tests, API snapshot |
-| Delphi | Wire | released | `delphi/v0.1.0` | Framework target; Free Pascal 3.2.2 local toolcall/JSON Schema/plugin and agent-loop vectors; remote CI for loop and Delphi compiler pending |
-| OCaml / Caml | Wire | released | `ocaml/v0.1.0` | Framework target; native toolcall/JSON Schema/plugin wire subset verified locally with OCaml 4.14.2 bytecode and in Linux CI; native build pending |
-| Objective-C | Core | released | `objc/v0.1.0` | 11 vectors, native tests, API snapshot/parity; opt-in PII/structured output/call limits/tool selection are partial; Apple Foundation/macOS CI pending |
-| Elixir | Core | released | `elixir/v0.1.0` | 11 vectors, native tests, API snapshot/parity; opt-in PII/structured output/call limits/tool selection are partial |
-| Nim | Core | released | `nim/v0.1.0` | 11 vectors, native tests, API snapshot/parity; opt-in PII/structured output/call limits/tool selection are partial |
-| V | Core | released | `v/v0.1.0` | 11 vectors, native tests, API snapshot/parity; opt-in PII/structured output/call limits/tool selection are partial |
-| D | Core | released | `d/v0.1.0` | 11 vectors, API snapshot |
-| VBScript | Bridge | planned | none | Bridge over .NET or the bridge CLI |
-| Erlang | Core | planned | none | Native BEAM loop requested; OTP 27+ `:json`; separate consumer and maintainer required |
-| Ada | Core | planned | none | Native loop target; GNAT toolchain; consumer and maintainer required |
-| Mojo | Core | planned | none | Native loop target; toolchain and CI maturity gate |
-| F# | Sample (.NET) | planned | none | Uses the C# SDK; no separate agent loop |
-| Clojure | Sample (JVM) | planned | none | Uses the Java SDK; no separate agent loop |
-| Solidity | Wire | planned | none | Candidate contract integration; scope and technical limitations require investigation |
-| OpenCL | Sample | planned | none | Candidate compute integration; scope and host requirements require investigation |
-| Groovy | Sample (JVM) | planned | none | Uses the Java SDK; no separate agent loop |
-| J# | Sample (.NET) | consumer-gated | none | Legacy J# runtime and toolchain are unsupported; requires a named consumer and compatible .NET path |
-| FoxPro | Bridge | planned | none | Bridge over the maintained runtime; Visual FoxPro is Windows-only and legacy |
-| Classic Visual Basic | Bridge | planned | none | Bridge over the .NET SDK or bridge CLI; VB6 cannot consume modern .NET directly |
-| TCL | Bridge | released | `tcl/v0.1.0` | Framework target; Tcl 8.6 wrapper over the bridge CLI; local forwarding, UTF-8, errors, and exit codes tested; remote CI pending |
-| Q | Bridge | planned | none | Requires a licensed kdb+/q runtime and a named consumer |
-| Assembly | Bridge / extension | consumer-gated | none | No portable language or ABI; target-specific binding requires a named consumer |
-| Zig | Core | released | `zig/v0.2.0` | 11 vectors, API snapshot; `zig/v0.1.0` remains wire |
-| Lua | Core | released | `lua/v0.1.0` | 11 vectors, core tests, API snapshot |
-| Scratch | Bridge / extension | planned | none | Extension bridge; implementation requested |
-| COBOL | Core | released | `cobol/v0.1.0` | 11 vectors, native/contract tests, API snapshot |
-| Prolog | Bridge | planned | none | Bridge over the maintained runtime |
-| ABAP | Bridge | planned | none | Bridge over the maintained runtime |
+| Language | Tier | Status | Tag | Maturity | Notes |
+| --- | --- | --- | --- | --- | --- |
+| Go | Core (reference) | released | `v2.5.0` | reference | Reference implementation |
+| Python | Core | released | `python/v0.2.0` | complete | 11 vectors, OpenAI adapter |
+| TypeScript | Core | released | `typescript/v0.1.0` | complete | 11 vectors, OpenAI adapter |
+| Java | Core | released | `java/v0.2.1` | complete | 11 vectors, OpenAI adapter, API snapshot |
+| Rust | Core | released | `rust/v0.1.0` | complete | 11 vectors, native tests; current source adds compiler-derived API/parity gate |
+| C | Core | released | `c/v0.1.0` | partial | All 11 vectors; public API is wire-level |
+| C# | Core (.NET) | released | `csharp/v0.1.0` | complete | 11 vectors, API snapshot, OpenAI adapter |
+| Visual Basic | Sample (.NET) | released | `csharp/v0.1.0` | sample | VB.NET consumer sample in `language/csharp/samples` |
+| PowerShell | Bridge | released | `powershell/v0.1.0` | complete | Wraps the bridge CLI |
+| Shell | Bridge | released | `shell/v0.1.0` | complete | Wraps the bridge CLI |
+| PHP | Core | released | `php/v0.1.0` | complete | 11 vectors, API snapshot, dependency-free |
+| Swift | Core | released | `swift/v0.2.0` | complete | 11 vectors, XCTest, API snapshot |
+| Julia | Core | released | `julia/v0.2.0` | complete | 11 vectors, JSON.jl, API snapshot |
+| R | Core | released | `r/v0.2.0` | complete | 11 vectors, base-R JSON, API snapshot |
+| Haskell | Wire | released | `haskell/v0.1.0` | partial | Framework target; 3 wire groups plus agent-loop vectors; Linux/Windows CI for wire groups; remote CI for loop pending |
+| Fortran | Core | released | `fortran/v0.1.0` | partial | 11 vector groups, native tests, API snapshot; source tag only; partial surfaces documented |
+| Lisp | Bridge | released | `lisp/v0.1.0` | complete | SBCL bridge over the bridge CLI; forwarding, UTF-8, errors, and exit codes verified locally and in Linux CI; consumer details pending |
+| JavaScript | Sample (TypeScript) | released | none | sample | Uses the TypeScript package; no separate core |
+| C++ | Core | released | `cpp/v0.1.0` | complete | 11 vectors, core tests, API snapshot |
+| Dart | Core | released | `dart/v0.1.0` | complete | 11 vectors, core tests, API snapshot |
+| Ruby | Core | released | `ruby/v0.1.0` | complete | 11 vectors, core tests, API snapshot |
+| Kotlin | Sample (JVM) | released | none | sample | Uses the Java SDK |
+| Scala | Sample (JVM) | released | none | sample | Uses the Java SDK |
+| MATLAB | Wire | released | `matlab/v0.1.0` | partial | Framework target; Octave-local toolcall, JSON Schema, plugin and agent-loop vectors; MATLAB and remote CI for loop pending |
+| Perl | Core | released | `perl/v0.1.0` | complete | 11 vectors, 27 tests, API snapshot |
+| Delphi | Wire | released | `delphi/v0.1.0` | partial | Framework target; Free Pascal 3.2.2 local toolcall/JSON Schema/plugin and agent-loop vectors; remote CI for loop and Delphi compiler pending |
+| OCaml / Caml | Wire | released | `ocaml/v0.1.0` | partial | Framework target; native toolcall/JSON Schema/plugin wire subset verified locally with OCaml 4.14.2 bytecode and in Linux CI; native build pending |
+| Objective-C | Core | released | `objc/v0.1.0` | partial | 11 vectors, native tests, API snapshot/parity; opt-in PII/structured output/call limits/tool selection are partial; Apple Foundation/macOS CI pending |
+| Elixir | Core | released | `elixir/v0.1.0` | partial | 11 vectors, native tests, API snapshot/parity; opt-in PII/structured output/call limits/tool selection are partial |
+| Nim | Core | released | `nim/v0.1.0` | partial | 11 vectors, native tests, API snapshot/parity; opt-in PII/structured output/call limits/tool selection are partial |
+| V | Core | released | `v/v0.1.0` | partial | 11 vectors, native tests, API snapshot/parity; opt-in PII/structured output/call limits/tool selection are partial |
+| D | Core | released | `d/v0.1.0` | complete | 11 vectors, API snapshot |
+| VBScript | Bridge | planned | none | planned | Bridge over .NET or the bridge CLI |
+| Erlang | Core | planned | none | planned | Native BEAM loop requested; OTP 27+ `:json`; separate consumer and maintainer required |
+| Ada | Core | planned | none | planned | Native loop target; GNAT toolchain; consumer and maintainer required |
+| Mojo | Core | planned | none | planned | Native loop target; toolchain and CI maturity gate |
+| F# | Sample (.NET) | planned | none | planned | Uses the C# SDK; no separate agent loop |
+| Clojure | Sample (JVM) | planned | none | planned | Uses the Java SDK; no separate agent loop |
+| Solidity | Wire | planned | none | planned | Candidate contract integration; scope and technical limitations require investigation |
+| OpenCL | Sample | planned | none | planned | Candidate compute integration; scope and host requirements require investigation |
+| Groovy | Sample (JVM) | planned | none | planned | Uses the Java SDK; no separate agent loop |
+| J# | Sample (.NET) | consumer-gated | none | gated | Legacy J# runtime and toolchain are unsupported; requires a named consumer and compatible .NET path |
+| FoxPro | Bridge | planned | none | planned | Bridge over the maintained runtime; Visual FoxPro is Windows-only and legacy |
+| Classic Visual Basic | Bridge | planned | none | planned | Bridge over the .NET SDK or bridge CLI; VB6 cannot consume modern .NET directly |
+| TCL | Bridge | released | `tcl/v0.1.0` | complete | Framework target; Tcl 8.6 wrapper over the bridge CLI; local forwarding, UTF-8, errors, and exit codes tested; remote CI pending |
+| Q | Bridge | planned | none | planned | Requires a licensed kdb+/q runtime and a named consumer |
+| Assembly | Bridge / extension | consumer-gated | none | gated | No portable language or ABI; target-specific binding requires a named consumer |
+| Zig | Core | released | `zig/v0.2.0` | complete | 11 vectors, API snapshot; `zig/v0.1.0` remains wire |
+| Lua | Core | released | `lua/v0.1.0` | complete | 11 vectors, core tests, API snapshot |
+| Scratch | Bridge / extension | planned | none | planned | Extension bridge; implementation requested |
+| COBOL | Core | released | `cobol/v0.1.0` | complete | 11 vectors, native/contract tests, API snapshot |
+| Prolog | Bridge | planned | none | planned | Bridge over the maintained runtime |
+| ABAP | Bridge | planned | none | planned | Bridge over the maintained runtime |
 
 ## CI Coverage
 

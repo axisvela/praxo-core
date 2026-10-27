@@ -56,23 +56,27 @@ def language_matrix(markdown, chinese=False):
               "Sample": "Sample", "Sample (.NET)": "Sample (.NET)",
               "Sample (TypeScript)": "Sample (TypeScript)", "Sample (JVM)": "Sample (JVM)"}
     statuses = {"released": "源码已发布", "in progress": "开发中", "planned": "计划中", "consumer-gated": "需消费者"}
+    maturities = {"reference": "参考实现", "complete": "完整", "partial": "部分完成",
+                  "sample": "示例", "planned": "计划中", "gated": "需消费者"}
     for line in section.splitlines():
         if not line.startswith("| ") or line.startswith("| Language") or line.startswith("| ---"):
             continue
         cells = [cell.strip() for cell in line.strip().strip("|").split("|")]
-        if len(cells) != 5:
+        if len(cells) != 6:
             raise ValueError("invalid language matrix row: " + line)
-        name, stage, status, tag, notes = cells
-        if name in seen or stage not in stages or status not in statuses:
+        name, stage, status, tag, maturity, notes = cells
+        if name in seen or stage not in stages or status not in statuses or maturity not in maturities:
             raise ValueError("duplicate or unknown language matrix value: " + line)
         seen.add(name)
         slug = {"C++": "cpp", "C#": "csharp", "OCaml / Caml": "ocaml"}.get(name, name.lower().replace(" ", "-"))
         if (ROOT / "docs/languages" / (slug + ".md")).is_file():
             name = f"[{name}]({slug}.md)"
-        rows.append((name, stages[stage], statuses[status] if chinese else status, "—" if chinese and tag == "none" else tag, notes))
+        rows.append((name, stages[stage], statuses[status] if chinese else status,
+                     "—" if chinese and tag == "none" else tag,
+                     maturities[maturity] if chinese else maturity, notes))
     if not rows:
         raise ValueError("language matrix is empty")
-    header = ("语言", "当前阶段 / 形式", "状态", "源码标签", "当前范围与证据（英文）") if chinese else ("Language", "Current stage / form", "Status", "Source tag", "Current scope and evidence")
+    header = ("语言", "当前阶段 / 形式", "状态", "源码标签", "成熟度", "当前范围与证据（英文）") if chinese else ("Language", "Current stage / form", "Status", "Source tag", "Maturity", "Current scope and evidence")
     return "\n".join(["| " + " | ".join(header) + " |", "| " + " | ".join(["---"] * len(header)) + " |"] +
                      ["| " + " | ".join(row) + " |" for row in rows])
 

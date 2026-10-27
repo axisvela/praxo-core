@@ -4,6 +4,9 @@
 
 ### Added
 
+- Added a maturity column to the language support matrix, separate from source
+  tags and version numbers; it distinguishes reference, complete, partial,
+  sample, planned, and consumer-gated declared scope.
 - Tagged source releases `lisp/v0.1.0` and `tcl/v0.1.0`; these are Bridge-stage
   source tags, not package-registry releases.
 - Tagged source releases `haskell/v0.1.0`, `matlab/v0.1.0`,

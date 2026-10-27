@@ -37,6 +37,8 @@ reuse the host Framework rather than duplicate its agent loop.
 ## Versions and Distribution
 
 - Core, SDK, adapter, and contract versions are independent.
+- Version tags and maturity are separate: a source tag records a release, while
+  maturity records declared-scope completion and verification.
 - Each SDK declares its supported `SPEC_VERSION`.
 - A source release tag does not establish package-registry availability.
 - Use the installation or source-build instructions on the language page.
