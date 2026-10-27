@@ -39,6 +39,7 @@
 | Nim | [Nim SDK](nim.md) |
 | V | [V SDK](v.md) |
 | Objective-C | [Objective-C SDK](objective-c.md) |
+| OCaml / Caml | [OCaml SDK](ocaml.md) |
 
 ## 共享运行时示例与桥接
 
@@ -69,9 +70,6 @@
 
 [Delphi / Free Pascal](delphi.md) 已有源码标签 `delphi/v0.1.0`，以原生 Framework 为目标。
 三个 Wire 向量组和 Agent 循环向量已在本地 Free Pascal 3.2.2（Windows i386）通过；新循环的远端 CI 和 Delphi 编译器仍待验证。
-
-[OCaml](ocaml.md) 已有源码标签 `ocaml/v0.1.0`，以原生 Framework 为目标。
-三个向量组已在本地 OCaml 4.14.2 bytecode 和 Linux CI 通过；ocamlopt 原生编译仍待验证。
 
 源码标签、包管理器发布、一致性测试和生产验证是不同状态。语言页面复用对应
 源码 README，使安装、示例与限制保持一致。尚未翻译的语言说明会回退到英文。

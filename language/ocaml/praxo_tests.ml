@@ -174,8 +174,7 @@ let test_event root =
   print_endline "test_event passed"
 
 let test_stream root =
-  let kinds = Praxo.Array (List.map (fun kind -> Praxo.String kind)
-    ["values"; "updates"; "messages"; "tasks"; "debug"; "checkpoint"]) in
+  let kinds = Praxo.Array (List.map (fun kind -> Praxo.String kind) Praxo.stream_kinds) in
   List.iter (fun vector ->
     let expect = match field "expect" vector with Some value -> value | None -> fail "expect" in
     check (Praxo.json_equal kinds (match field "kinds" expect with Some value -> value | None -> Praxo.Null)) "stream kinds") (group root "stream");
@@ -388,6 +387,94 @@ let test_agent_failures () =
     "core error failure event data";
   print_endline "test_agent_failures passed"
 
+let test_agent_middleware () =
+  let selected_calls = ref 0 in
+  let secret_calls = ref 0 in
+  let model = { Praxo.generate = fun request ->
+    let names = List.map (fun spec -> spec.Praxo.spec_name) request.Praxo.request_tools in
+    check (names = ["echo"]) "agent selected specs";
+    if List.length request.Praxo.request_messages = 1 then
+      Praxo.response_make
+        (Praxo.assistant_message "" [Praxo.tool_invocation_make "c1" "echo" (Praxo.Object [])])
+        (Praxo.usage_make 0 0)
+    else
+      Praxo.response_make (Praxo.assistant_message "done" []) (Praxo.usage_make 0 0)
+  } in
+  let options = { (Praxo.agent_options model) with
+    Praxo.agent_tools = [
+      Praxo.tool_make "echo" "Echo" (fun arguments -> incr selected_calls; arguments);
+      Praxo.tool_make "secret" "Secret" (fun arguments -> incr secret_calls; arguments)
+    ];
+    Praxo.agent_tool_selection = Some (Praxo.tool_selection ["echo"]);
+  } in
+  let result = Praxo.run_agent options (Praxo.session_make "s1" []) "use" in
+  check (result.Praxo.result_output = "done") "agent tool selection output";
+  check (!selected_calls = 1 && !secret_calls = 0) "agent tool selection calls";
+
+  let captured = ref [] in
+  let pii_model = { Praxo.generate = fun request ->
+    captured := request :: !captured;
+    Praxo.response_make (Praxo.assistant_message "a@b.com" []) (Praxo.usage_make 0 0)
+  } in
+  let history = { (Praxo.text_message "user" "a@b.com") with
+    Praxo.message_blocks = [Praxo.content_block_make "text" (Some "123-45-6789")] } in
+  let pii_options = { (Praxo.agent_options pii_model) with
+    Praxo.agent_pii = true;
+    Praxo.agent_system_prompt = "a@b.com";
+  } in
+  let pii_result = Praxo.run_agent pii_options (Praxo.session_make "s1" [history]) "a@b.com" in
+  check (pii_result.Praxo.result_output = "a@b.com") "pii output";
+  let request = List.hd !captured in
+  let contents = List.map (fun message -> message.Praxo.message_content) request.Praxo.request_messages in
+  check (contents = ["[REDACTED:email]"; "[REDACTED:email]"; "[REDACTED:email]"]) "pii request contents";
+  let blocks = (List.nth request.Praxo.request_messages 1).Praxo.message_blocks in
+  check (List.exists (fun block -> block.Praxo.block_text = Some "[REDACTED:ssn]") blocks) "pii block";
+
+  let schema = Praxo.Object [
+    ("type", Praxo.String "object");
+    ("required", Praxo.Array [Praxo.String "name"]);
+    ("properties", Praxo.Object [("name", Praxo.Object [("type", Praxo.String "string")])])
+  ] in
+  let config = Praxo.structured_output schema 1 (Some (fun _ -> "{\"name\":\"fixed\"}")) in
+  let structured_options = { (Praxo.agent_options (Praxo.static_model "bad")) with
+    Praxo.agent_structured_output = Some config } in
+  let structured_result = Praxo.run_agent structured_options (Praxo.session_make "s1" []) "x" in
+  check (structured_result.Praxo.result_output = "{\"name\":\"fixed\"}") "structured repaired output";
+
+  let limit_model = { Praxo.generate = fun _ ->
+    Praxo.response_make
+      (Praxo.assistant_message "" [
+        Praxo.tool_invocation_make "1" "echo" (Praxo.Object []);
+        Praxo.tool_invocation_make "2" "echo" (Praxo.Object [])
+      ])
+      (Praxo.usage_make 0 0)
+  } in
+  let tool_limit_options = { (Praxo.agent_options limit_model) with
+    Praxo.agent_tools = [Praxo.tool_make "echo" "Echo" (fun arguments -> arguments)];
+    Praxo.agent_call_limit = Some (Praxo.call_limit 0 1);
+  } in
+  let tool_code =
+    try ignore (Praxo.run_agent tool_limit_options (Praxo.session_make "s1" []) "x"); ""
+    with Praxo.Core_error (code, _) -> code
+  in
+  check (tool_code = "AGENT_TOOL_CALL_LIMIT") "tool call limit";
+
+  let model_limit_model = { Praxo.generate = fun _ ->
+    Praxo.response_make
+      (Praxo.assistant_message "" [Praxo.tool_invocation_make "1" "echo" (Praxo.Object [])])
+      (Praxo.usage_make 0 0)
+  } in
+  let model_limit_options = { (Praxo.agent_options model_limit_model) with
+    Praxo.agent_tools = [Praxo.tool_make "echo" "Echo" (fun arguments -> arguments)];
+    Praxo.agent_call_limit = Some (Praxo.call_limit 1 0);
+  } in
+  let model_code =
+    try ignore (Praxo.run_agent model_limit_options (Praxo.session_make "s1" []) "x"); ""
+    with Praxo.Core_error (code, _) -> code
+  in
+  check (model_code = "AGENT_MODEL_CALL_LIMIT") "model call limit";
+  print_endline "test_agent_middleware passed"
+
 let () =
   let root = if Array.length Sys.argv > 1 then Sys.argv.(1) else "../../spec" in
   test_json ();
@@ -402,5 +489,6 @@ let () =
   test_context root;
   test_middleware root;
   test_agent_loop root;
+  test_agent_middleware ();
   test_agent_failures ();
-  print_endline "OCaml declared vector tests passed; Core review remains pending"
+  print_endline "OCaml Core tests passed"

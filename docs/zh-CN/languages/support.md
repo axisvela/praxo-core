@@ -38,9 +38,11 @@ Bridge、Sample 描述运行时的接入方式，不证明其语言缺乏 Framew
   按文档保留。
 - Haskell 已有源码标签 `haskell/v0.1.0`，声明三个 Wire 向量组和 Agent 循环；不是
   已发布的 Hackage 软件包，也不是生产就绪的 Agent 运行时。
-- MATLAB/Octave、Delphi/Free Pascal 和 OCaml 已有源码标签 `matlab/v0.1.0`、
-  `delphi/v0.1.0` 和 `ocaml/v0.1.0`。它们仍是 Wire 阶段候选实现；MATLAB、商业
-  Delphi、循环的远端 CI 和包管理器发布均未声明。
+- MATLAB/Octave 和 Delphi/Free Pascal 已有源码标签 `matlab/v0.1.0` 和
+  `delphi/v0.1.0`。它们仍是 Wire 阶段候选实现；MATLAB、商业 Delphi、循环的远端
+  CI 和包管理器发布均未声明。
+- OCaml 已有源码标签 `ocaml/v0.2.0`，包含全部 11 个向量组、原生测试和 API
+  快照/parity。原生 `ocamlopt` 编译、提供商适配器和包管理器发布均未声明。
 - Erlang 已有源码标签 `erlang/v0.1.0`，包含原生 BEAM Core 循环、11 个向量组、
   原生测试和 API 快照/parity 清单。包管理器、提供商适配器、流式路径和生产就绪
   均未声明；可选中间件能力仍为部分完成。

@@ -24,10 +24,9 @@ go test ./internal/spec/...
 The runner locates `ocamlrun` on `PATH` or next to the compiler. It checks the
 API snapshot and parity, compiles the interface, implementation and tests, and
 runs the bytecode test executable against `spec/`. On the stated Windows setup,
-the 11 vector test groups and agent failure tests passed, as did the API parity
-snapshot check. Compilation emitted existing pattern match warnings.
+the 11 vector test groups, middleware integration tests, and agent failure tests
+passed, as did the API parity snapshot check. Compilation emitted existing
+pattern match warnings.
 
-These checks do not verify Core. The stream test compares hardcoded stream
-kinds to the vector expectations rather than exercising stream behavior. Native
-`ocamlopt` and the new loop in remote CI have not been verified. Path checks are
-lexical, not OS containment.
+These checks cover the declared Core gate on bytecode OCaml. Native `ocamlopt`
+is not exercised. Path checks are lexical, not OS containment.

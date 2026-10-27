@@ -22,10 +22,12 @@ exception Toolcall_error of string
 
 val spec_version : string
 val sdk_version : string
+val stream_kinds : string list
 val parse_json : string -> json
 val encode_json : json -> string
 val json_equal : json -> json -> bool
 val parse_tool_call : string -> call option
+val parse_input_json : string -> json option
 val strip_tool_call_markup : string -> string
 val validate_schema : json -> json -> string list
 val validate_manifest : string -> json option
@@ -105,6 +107,10 @@ type model = { generate : request -> response }
 type agent_options = {
   agent_model : model;
   agent_tools : tool list;
+  agent_tool_selection : tool_selection option;
+  agent_pii : bool;
+  agent_structured_output : structured_output option;
+  agent_call_limit : call_limit option;
   agent_events : sink option;
   agent_system_prompt : string;
   agent_max_steps : int;

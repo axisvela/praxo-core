@@ -21,7 +21,9 @@ exception Schema_error of string
 exception Toolcall_error of string
 
 let spec_version = "0.2.0"
-let sdk_version = "0.1.0"
+let sdk_version = "0.2.0"
+
+let stream_kinds = ["values"; "updates"; "messages"; "tasks"; "debug"; "checkpoint"]
 let max_json = 1048576
 let max_tool = 262144
 let max_depth = 64
@@ -543,6 +545,13 @@ let collapse_newlines text =
   loop 0;
   Buffer.contents buffer
 
+let parse_input_json raw =
+  try
+    match parse_json (String.trim raw) with
+    | Object _ as value -> Some value
+    | _ -> None
+  with _ -> None
+
 let strip_tool_call_markup content =
   if String.length content > max_tool then raise (Toolcall_error "content exceeds capacity");
   let result = strip_blocks content "<tool_call" "</tool_call>" in
@@ -1030,6 +1039,10 @@ type model = { generate : request -> response }
 type agent_options = {
   agent_model : model;
   agent_tools : tool list;
+  agent_tool_selection : tool_selection option;
+  agent_pii : bool;
+  agent_structured_output : structured_output option;
+  agent_call_limit : call_limit option;
   agent_events : sink option;
   agent_system_prompt : string;
   agent_max_steps : int;
@@ -1510,6 +1523,10 @@ let fallback_model primary fallback = {
 let agent_options model = {
   agent_model = model;
   agent_tools = [];
+  agent_tool_selection = None;
+  agent_pii = false;
+  agent_structured_output = None;
+  agent_call_limit = None;
   agent_events = None;
   agent_system_prompt = "";
   agent_max_steps = 8;
@@ -1530,9 +1547,19 @@ let find_tool tools name =
   in
   loop tools
 
+let redact_message message = {
+  message with
+  message_content = pii_redact message.message_content;
+  message_blocks = List.map (fun block ->
+    { block with block_text = Option.map pii_redact block.block_text }) message.message_blocks;
+}
+
 let run_agent options session prompt =
   let max_steps = if options.agent_max_steps > 0 then options.agent_max_steps else 8 in
   let max_tokens = options.agent_max_tokens in
+  (match options.agent_call_limit with
+   | Some limit -> limit.models_called <- 0; limit.tools_called <- 0
+   | None -> ());
   let run_id = "run-" ^ string_of_int (int_of_float (Sys.time ())) in
   let messages = ref session.session_messages in
   if options.agent_system_prompt <> "" then
@@ -1554,24 +1581,45 @@ let run_agent options session prompt =
     while !result = None do
       if !step >= max_steps then raise_core "AGENT_MAX_STEPS" "maximum steps exceeded";
       incr step;
-      let specs = List.map (fun tool -> tool_spec_make tool.tool_name tool.tool_description) options.agent_tools in
-      let response = options.agent_model.generate (request_make !messages specs) in
+      let specs =
+        let specs = List.map (fun tool -> tool_spec_make tool.tool_name tool.tool_description) options.agent_tools in
+        match options.agent_tool_selection with
+        | None -> specs
+        | Some selection -> select_tools selection specs
+      in
+      (match options.agent_call_limit with Some limit -> call_limit_model limit | None -> ());
+      let request_messages = if options.agent_pii then List.map redact_message !messages else !messages in
+      let response = options.agent_model.generate (request_make request_messages specs) in
       total := usage_add !total response.response_usage;
       if max_tokens > 0 && (!total).input_tokens + (!total).output_tokens > max_tokens then
         raise_core "AGENT_MAX_TOKENS" "token budget exceeded";
       messages := !messages @ [response.response_message];
       if response.response_message.message_calls = [] then begin
+        let output =
+          match options.agent_structured_output with
+          | None -> response.response_message.message_content
+          | Some config ->
+              let value, code = structured_apply config response.response_message.message_content in
+              (match value with
+               | Some text -> text
+               | None -> raise_core code "structured output failed")
+        in
         emit_event "run.completed" Null;
-        result := Some (run_result_make run_id response.response_message.message_content !step !total)
+        result := Some (run_result_make run_id output !step !total)
       end else
         List.iter (fun call ->
+          (match options.agent_tool_selection with
+           | None -> ()
+           | Some selection -> check_tool_selected selection call.invocation_name);
           match find_tool options.agent_tools call.invocation_name with
           | None -> raise_core "TOOL_NOT_FOUND" ("tool not found: " ^ call.invocation_name)
           | Some tool ->
+              (match options.agent_call_limit with Some limit -> call_limit_tool limit | None -> ());
               emit_event "tool.call" (Object [
                 ("name", String call.invocation_name);
                 ("arguments", call.invocation_arguments)]);
               let value = tool.tool_invoke call.invocation_arguments in
+              let value = if options.agent_pii then redact_value value else value in
               messages := !messages @ [tool_message (encode_json value) call.invocation_id]
         ) response.response_message.message_calls
     done;

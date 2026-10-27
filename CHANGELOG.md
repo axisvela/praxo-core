@@ -4,6 +4,8 @@
 
 ### Added
 
+- Promoted OCaml to a native Core SDK with integrated PII, structured output,
+  call limits, and tool selection; released source tag `ocaml/v0.2.0`.
 - Added an OpenCL sample in `examples/opencl` that uses the C SDK and an OpenCL
   ICD, with a CPU-capable POCL CI job.
 - Added a SWI-Prolog bridge over the maintained bridge CLI, with forwarding,

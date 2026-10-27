@@ -49,10 +49,12 @@ reuse the host Framework rather than duplicate its agent loop.
 - Haskell has source tag `haskell/v0.1.0` and declares three wire groups plus an
   agent loop. It is not a published Hackage package or a production-ready agent
   runtime.
-- MATLAB/Octave, Delphi/Free Pascal, and OCaml have source tags
-  `matlab/v0.1.0`, `delphi/v0.1.0`, and `ocaml/v0.1.0`. They remain Wire-stage
-  candidates; MATLAB, commercial Delphi, remote CI for the loops, and package
-  registries are not claimed.
+- MATLAB/Octave and Delphi/Free Pascal have source tags `matlab/v0.1.0` and
+  `delphi/v0.1.0`. They remain Wire-stage candidates; MATLAB, commercial Delphi,
+  remote CI for the loops, and package registries are not claimed.
+- OCaml has source tag `ocaml/v0.2.0` with all eleven vector groups, native
+  tests, and API snapshot/parity. Native `ocamlopt` compilation, provider
+  adapters, and package registries are not claimed.
 - Elixir, Nim, V, and Objective-C have source tags `elixir/v0.1.0`,
   `nim/v0.1.0`, `v/v0.1.0`, and `objc/v0.1.0`. They include all eleven vector
   groups, native tests, and API snapshots. Package-registry publication,

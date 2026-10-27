@@ -73,7 +73,7 @@ production readiness or full Go feature parity.
 | MATLAB | Wire | released | `matlab/v0.1.0` | partial | Framework target; Octave-local toolcall, JSON Schema, plugin and agent-loop vectors; MATLAB and remote CI for loop pending |
 | Perl | Core | released | `perl/v0.1.0` | complete | 11 vectors, 27 tests, API snapshot |
 | Delphi | Wire | released | `delphi/v0.1.0` | partial | Framework target; Free Pascal 3.2.2 local toolcall/JSON Schema/plugin and agent-loop vectors; remote CI for loop and Delphi compiler pending |
-| OCaml / Caml | Wire | released | `ocaml/v0.1.0` | partial | Framework target; native toolcall/JSON Schema/plugin wire subset verified locally with OCaml 4.14.2 bytecode and in Linux CI; native build pending |
+| OCaml / Caml | Core | released | `ocaml/v0.2.0` | complete | 11 vectors, native tests, API snapshot/parity; OCaml 4.14.2 bytecode; opt-in middleware integrated |
 | Objective-C | Core | released | `objc/v0.1.0` | partial | 11 vectors, native tests, API snapshot/parity; opt-in PII/structured output/call limits/tool selection are partial; Apple Foundation/macOS CI pending |
 | Elixir | Core | released | `elixir/v0.1.0` | partial | 11 vectors, native tests, API snapshot/parity; opt-in PII/structured output/call limits/tool selection are partial |
 | Nim | Core | released | `nim/v0.1.0` | partial | 11 vectors, native tests, API snapshot/parity; opt-in PII/structured output/call limits/tool selection are partial |
@@ -129,7 +129,7 @@ production readiness or full Go feature parity.
 | COBOL | `cobol-conformance` | 11 vectors, API snapshot, native/tooling tests |
 | Haskell | `haskell-conformance` | 3 wire groups plus agent-loop vectors, native tests, source API/parity, Cabal build; source release tagged `haskell/v0.1.0`; remote CI for loop pending |
 | Delphi / Free Pascal | `delphi-conformance` | 3 wire groups plus agent-loop vectors, native tests, source API/parity; source release tagged `delphi/v0.1.0`; remote CI for loop and Delphi unverified |
-| OCaml | `ocaml-conformance` | 3 wire groups, native tests, source API/parity; local OCaml 4.14.2 bytecode and Linux CI verified; source release tagged `ocaml/v0.1.0`; `ocamlopt` unverified |
+| OCaml | `ocaml-conformance` | 11 vectors, native tests, source API/parity; local OCaml 4.14.2 bytecode and Linux CI verified; source release tagged `ocaml/v0.2.0`; `ocamlopt` unverified |
 | Objective-C | `objc-conformance` | 11 vectors, native tests, source API/parity; local clang + GNUstep verified; macOS CI pending |
 | Elixir | `elixir-conformance` | 11 vectors, API snapshot, tests; OTP 29 + Elixir 1.20.4 |
 | Erlang | `erlang-conformance` | 11 vectors, native tests, API snapshot/parity; OTP 29 |

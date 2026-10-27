@@ -20,7 +20,10 @@ def snapshot():
     declared_spec = re.search(r'let spec_version = "([^"]+)"', (ROOT / "praxo.ml").read_text(encoding="utf-8"))
     if not sdk or not declared_spec or declared_spec[1] != spec:
         raise ValueError("OCaml SDK or contract version does not match specification")
-    lines = ["# PRAXO-CORE OCaml Wire API " + sdk[1], "# SPEC_VERSION " + spec, ""]
+    version_file = (ROOT / "VERSION").read_text(encoding="utf-8").strip()
+    if sdk[1] != version_file:
+        raise ValueError("OCaml SDK version does not match VERSION")
+    lines = ["# PRAXO-CORE OCaml Core API " + sdk[1], "# SPEC_VERSION " + spec, ""]
     for raw in text.splitlines():
         line = raw.strip()
         if line.startswith("val ") or line.startswith("type ") or line.startswith("exception "):
@@ -35,8 +38,13 @@ def parity_errors():
     mli = interface()
     spec = (REPO / "spec/SPEC_VERSION").read_text(encoding="utf-8").strip()
     errors = []
+    sdk = re.search(r'let sdk_version = "([^"]+)"', (ROOT / "praxo.ml").read_text(encoding="utf-8"))[1]
+    if "- Tier: core" not in text.splitlines():
+        errors.append("OCaml parity tier is not core")
     if "- SPEC_VERSION: " + spec not in text.splitlines():
         errors.append("contract version mismatch")
+    if "`ocaml/v" + sdk + "`" not in text:
+        errors.append("parity release tag does not match VERSION")
     rows = 0
     for line in text.splitlines():
         if not line.startswith("| `"):
@@ -44,8 +52,8 @@ def parity_errors():
         cells = line.split("|")
         symbol = cells[2].strip(" `")
         name = symbol.split(".")[-1]
-        if not re.search(r"^val\s+" + re.escape(name) + r"\b", mli, re.MULTILINE):
-            errors.append("missing parity value: " + symbol)
+        if not re.search(r"^(val|type|exception)\s+" + re.escape(name) + r"\b", mli, re.MULTILINE):
+            errors.append("missing parity declaration: " + symbol)
         rows += 1
     if rows == 0:
         errors.append("empty parity inventory")
@@ -56,7 +64,8 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--check", action="store_true")
     args = parser.parse_args()
-    target = ROOT / "api/0.1.0.txt"
+    sdk = re.search(r'let sdk_version = "([^"]+)"', (ROOT / "praxo.ml").read_text(encoding="utf-8"))[1]
+    target = ROOT / "api" / f"{sdk}.txt"
     content = snapshot()
     errors = parity_errors()
     if errors:

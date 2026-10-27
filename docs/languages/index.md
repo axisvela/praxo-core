@@ -41,6 +41,7 @@ wire-only scope requires documented technical limitations. See the
 | Nim | [Nim SDK](nim.md) |
 | V | [V SDK](v.md) |
 | Objective-C | [Objective-C SDK](objective-c.md) |
+| OCaml / Caml | [OCaml SDK](ocaml.md) |
 
 ## Shared-Runtime Samples and Bridges
 
@@ -74,10 +75,6 @@ MATLAB and remote CI for the loop have not yet been verified.
 native Framework. Three wire groups and agent-loop vectors pass locally with Free
 Pascal 3.2.2 on Windows i386; remote CI for the loop and the Delphi compiler
 remain unverified.
-
-[OCaml](ocaml.md) has source tag `ocaml/v0.1.0`. It targets a native Framework.
-Three vector groups pass locally with OCaml 4.14.2 bytecode and in Linux CI;
-native `ocamlopt` compilation remains unverified.
 
 Source tags, registry publication, conformance, and production verification are
 different states. A language page includes the source README so installation,
