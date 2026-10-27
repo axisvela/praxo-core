@@ -95,6 +95,10 @@ proc testContext() =
 
 proc testPii() =
   assert piiRedact("email a@b.com") == "email [REDACTED:email]"
+  assert piiRedact("Contact a@b.com. Next c@d.com...") ==
+    "Contact [REDACTED:email]. Next [REDACTED:email]..."
+  assert piiRedact("a@b.c. a@b. a@b.com, a@b.com!") ==
+    "a@b.c. a@b. [REDACTED:email], [REDACTED:email]!"
   assert piiRedact("ssn 123-45-6789") == "ssn [REDACTED:ssn]"
 
 proc testAgent() =
@@ -227,6 +231,109 @@ proc testAgentToolSelection() =
   )
   assert runAgent(options, newSession("s1"), "use").output == "done"
 
+proc testAgentPii() =
+  var history = newMessage(ROLE_USER, "a@b.com")
+  history.contentBlocks = @[ContentBlock(kind: "text", text: "123-45-6789")]
+  let session = newSession("s1", @[history])
+  var calls = 0
+  let tool = newTool("echo", "Echo", proc(arguments: JsonNode): JsonNode =
+    assert arguments["email"].getStr == "a@b.com"
+    return %*{"nested": ["a@b.com", {"ssn": "123-45-6789", "text": "Email a@b.com."}]}
+  )
+  let model = callbackModel(proc(request: Request): Response =
+    inc calls
+    assert request.messages[0].content == "[REDACTED:email]"
+    assert request.messages[1].contentBlocks[0].text == "[REDACTED:ssn]"
+    assert request.messages[1].content == "[REDACTED:email]"
+    assert request.messages[2].content == "[REDACTED:email]"
+    if calls == 1:
+      return newResponse(newMessageAssistant("a@b.com", @[
+        newToolCall("c1", "echo", %*{"email": "a@b.com"})]))
+    assert request.messages[3].content == "[REDACTED:email]"
+    let value = parseJsonText(request.messages[4].content)
+    assert value["nested"][0].getStr == "[REDACTED:email]"
+    assert value["nested"][1]["ssn"].getStr == "[REDACTED:ssn]"
+    assert value["nested"][1]["text"].getStr == "Email [REDACTED:email]."
+    return newResponse(newMessageAssistant("a@b.com"))
+  )
+  var options = newAgentOptions(model)
+  options.pii = true
+  options.systemPrompt = "a@b.com"
+  options.tools = @[tool]
+  assert runAgent(options, session, "a@b.com").output == "a@b.com"
+  assert session.messages[0].content == "a@b.com"
+  assert session.messages[0].contentBlocks[0].text == "123-45-6789"
+  options.pii = false
+  options.model = callbackModel(proc(request: Request): Response =
+    assert request.messages[0].content == "a@b.com"
+    assert request.messages[1].content == "a@b.com"
+    assert request.messages[2].content == "a@b.com"
+    return newResponse(newMessageAssistant("ok"))
+  )
+  assert runAgent(options, session, "a@b.com").output == "ok"
+
+proc testAgentStructuredOutput() =
+  let schema = parseJsonText("""{"type":"object","required":["name"],"properties":{"name":{"type":"string"}}}""")
+  let sink = newSink()
+  var options = newAgentOptions(staticModel("invalid"))
+  options.events = sink
+  assert runAgent(options, newSession("s1"), "x").output == "invalid"
+  options.structuredOutput = some(structuredOutput(schema, 1, proc(text: string): string =
+    assert text == "invalid"
+    return """{"name":"fixed"}"""
+  ))
+  assert runAgent(options, newSession("s1"), "x").output == """{"name":"fixed"}"""
+  options.model = staticModel("""{"name":"valid"}""")
+  assert runAgent(options, newSession("s1"), "x").output == """{"name":"valid"}"""
+  options.model = staticModel("{}")
+  options.structuredOutput = some(structuredOutput(schema, 0))
+  try:
+    discard runAgent(options, newSession("s1"), "x")
+    assert false
+  except PraxoError as error:
+    assert errorCode(error) == "AGENT_STRUCTURED_OUTPUT"
+  assert sink.kinds == @["run.started", "run.completed", "run.started", "run.completed",
+                         "run.started", "run.completed", "run.started", "run.failed"]
+
+proc testAgentCallLimits() =
+  var modelCalls = 0
+  let tool = newTool("echo", "Echo")
+  let model = callbackModel(proc(request: Request): Response =
+    inc modelCalls
+    return newResponse(newMessageAssistant("", @[
+      newToolCall("c1", "echo"), newToolCall("c2", "echo")]))
+  )
+  let sink = newSink()
+  var options = newAgentOptions(model)
+  options.tools = @[tool]
+  options.events = sink
+  options.toolCallLimit = 1
+  for run in 1 .. 2:
+    try:
+      discard runAgent(options, newSession("s1"), "x")
+      assert false
+    except PraxoError as error:
+      assert errorCode(error) == "AGENT_TOOL_CALL_LIMIT"
+    assert modelCalls == run and tool.calls == run
+  assert sink.kinds == @["run.started", "tool.call", "run.failed",
+                         "run.started", "tool.call", "run.failed"]
+  options.toolCallLimit = 0
+  options.modelCallLimit = 1
+  options.model = callbackModel(proc(request: Request): Response =
+    inc modelCalls
+    return newResponse(newMessageAssistant("", @[newToolCall("c1", "echo")]))
+  )
+  for run in 1 .. 2:
+    try:
+      discard runAgent(options, newSession("s1"), "x")
+      assert false
+    except PraxoError as error:
+      assert errorCode(error) == "AGENT_MODEL_CALL_LIMIT"
+    assert modelCalls == 2 + run and tool.calls == 2 + run
+  options.modelCallLimit = 0
+  options.model = staticModel("done")
+  assert runAgent(options, newSession("s1"), "x").output == "done"
+
 testJson()
 testToolcall()
 testJsonschema()
@@ -241,4 +348,7 @@ testAgentTool()
 testCallbackModel()
 testCallbackErrors()
 testAgentToolSelection()
+testAgentPii()
+testAgentStructuredOutput()
+testAgentCallLimits()
 echo "nim tests passed"

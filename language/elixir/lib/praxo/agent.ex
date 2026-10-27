@@ -10,6 +10,9 @@ defmodule Praxo.AgentOptions do
   defstruct model: nil,
             tools: [],
             tool_selection: nil,
+            pii: false,
+            structured_output: nil,
+            call_limit: nil,
             events: nil,
             system_prompt: "",
             max_steps: 8,
@@ -93,17 +96,27 @@ defmodule Praxo.Agent do
       end
 
     max_steps = if options.max_steps > 0, do: options.max_steps, else: 8
-    loop(options, messages, run_id, 1, max_steps, %Usage{})
+    limit = if options.call_limit == nil, do: nil, else: %{options.call_limit | models: 0, tools: 0}
+    loop(options, messages, run_id, 1, max_steps, %Usage{}, limit)
   end
 
-  defp loop(options, messages, run_id, step, max_steps, total) do
+  defp loop(options, messages, run_id, step, max_steps, total, limit) do
     if step > max_steps do
       fail(options, run_id, "AGENT_MAX_STEPS")
     else
       specs = tool_specs(options.tools)
       specs = if options.tool_selection == nil, do: specs, else: Middleware.select_tools(options.tool_selection, specs)
-      request = Models.request(messages, specs)
+      request_messages = if options.pii, do: Enum.map(messages, &redact_message/1), else: messages
+      request = Models.request(request_messages, specs)
 
+      case check_model_limit(limit) do
+        {:error, code, _limit} -> fail(options, run_id, code)
+        {:ok, limit} -> run_model(options, messages, request, run_id, step, max_steps, total, limit)
+      end
+    end
+  end
+
+  defp run_model(options, messages, request, run_id, step, max_steps, total, limit) do
       case generate(options.model, request) do
         {:error, code, model} ->
           fail(%{options | model: model}, run_id, code)
@@ -118,13 +131,21 @@ defmodule Praxo.Agent do
             messages = messages ++ [response.message]
 
             if response.message.tool_calls == [] do
-              options = emit(options, "run.completed", run_id)
-              result = Models.run_result(run_id, response.message.content, step, total)
-              {:ok, result, options}
+              output = response.message.content
+              validated = if options.structured_output == nil, do: {:ok, output}, else: Middleware.apply_structured(options.structured_output, output)
+              case validated do
+                {:ok, output} ->
+                  options = emit(options, "run.completed", run_id)
+                  {:ok, Models.run_result(run_id, output, step, total), options}
+                {:error, code} when is_binary(code) -> fail(options, run_id, code)
+                {:error, error} ->
+                  options = emit(options, "run.failed", run_id, %{"error" => "AGENT_STRUCTURED_OUTPUT"})
+                  {:error, error, options}
+              end
             else
-              case invoke_tools(options, response.message.tool_calls, messages, run_id) do
-                {:ok, options, messages} ->
-                  loop(options, messages, run_id, step + 1, max_steps, total)
+              case invoke_tools(options, response.message.tool_calls, messages, run_id, limit) do
+                {:ok, options, messages, limit} ->
+                  loop(options, messages, run_id, step + 1, max_steps, total, limit)
 
                 {:error, code, options} ->
                   {:error, code, options}
@@ -132,11 +153,10 @@ defmodule Praxo.Agent do
             end
           end
       end
-    end
   end
 
-  defp invoke_tools(options, calls, messages, run_id) do
-    Enum.reduce_while(calls, {:ok, options, messages}, fn tool_call, {:ok, options, messages} ->
+  defp invoke_tools(options, calls, messages, run_id, limit) do
+    Enum.reduce_while(calls, {:ok, options, messages, limit}, fn tool_call, {:ok, options, messages, limit} ->
       index = Enum.find_index(options.tools, fn tool -> tool.name == tool_call.name end)
 
       selection = if options.tool_selection == nil, do: :ok, else: Middleware.check_tool_selected(options.tool_selection, tool_call.name)
@@ -152,14 +172,33 @@ defmodule Praxo.Agent do
           {:halt, {:error, "TOOL_NOT_FOUND", options}}
 
         true ->
-          tool = Enum.at(options.tools, index)
-          options = emit(options, "tool.call", run_id, %{"name" => tool_call.name, "arguments" => tool_call.arguments})
-          {tool, value} = call(tool, tool_call.arguments)
-          options = %{options | tools: List.replace_at(options.tools, index, tool)}
-          messages = messages ++ [Models.message_tool(Json.encode(value), tool_call.id)]
-          {:cont, {:ok, options, messages}}
+          case check_tool_limit(limit) do
+            {:error, code, _limit} ->
+              {:error, code, options} = fail(options, run_id, code)
+              {:halt, {:error, code, options}}
+            {:ok, limit} ->
+              tool = Enum.at(options.tools, index)
+              options = emit(options, "tool.call", run_id, %{"name" => tool_call.name, "arguments" => tool_call.arguments})
+              {tool, value} = call(tool, tool_call.arguments)
+              options = %{options | tools: List.replace_at(options.tools, index, tool)}
+              value = if options.pii, do: Middleware.redact_value(value), else: value
+              messages = messages ++ [Models.message_tool(Json.encode(value), tool_call.id)]
+              {:cont, {:ok, options, messages, limit}}
+          end
       end
     end)
+  end
+
+  defp check_model_limit(nil), do: {:ok, nil}
+  defp check_model_limit(limit), do: Middleware.model_call(limit)
+  defp check_tool_limit(nil), do: {:ok, nil}
+  defp check_tool_limit(limit), do: Middleware.tool_call(limit)
+
+  defp redact_message(message) do
+    blocks = Enum.map(message.content_blocks, fn block ->
+      %{block | text: if(is_binary(block.text), do: Middleware.pii_redact(block.text), else: block.text)}
+    end)
+    %{message | content: Middleware.pii_redact(message.content), content_blocks: blocks}
   end
 
   defp tool_specs(tools) do

@@ -344,12 +344,43 @@ NSDictionary<NSString *, id> *PXRAgentRun(NSMutableDictionary<NSString *, id> *o
     NSInteger maxTokens = PXRInteger(options[@"maxTokens"]);
     NSArray *tools = PXRArray(options[@"tools"]);
     NSMutableSet *selection = options[@"toolSelection"];
+    BOOL pii = [options[@"pii"] boolValue];
+    NSDictionary *structured = options[@"structuredOutput"];
+    NSMutableDictionary *limit = PXRCallLimitCreate(PXRInteger(options[@"modelCallLimit"]),
+                                                     PXRInteger(options[@"toolCallLimit"]));
     NSDictionary *total = PXRUsageCreate(0, 0);
     PXREmit(sink, PXREventCreate(@"run.started", sessionId, runId, nil));
     for (NSInteger step = 1; step <= maxSteps; step++) {
         NSDictionary *response = nil;
         NSError *modelError = nil;
-        NSDictionary *request = PXRRequestCreate(messages, PXRToolSpecs(
+        if (!PXRCallLimitModel(limit, &modelError)) {
+            return PXRAgentFail(options, sessionId, runId, PXRCodeFromError(modelError),
+                                modelError.localizedDescription, error);
+        }
+        NSMutableArray *modelMessages = [NSMutableArray array];
+        for (NSDictionary *item in messages) {
+            NSMutableDictionary *copy = [item mutableCopy];
+            if (pii && [copy[@"content"] isKindOfClass:[NSString class]]) {
+                copy[@"content"] = PXRPIIRedact(copy[@"content"]);
+            }
+            if (pii && [copy[@"contentBlocks"] isKindOfClass:[NSArray class]]) {
+                NSMutableArray *blocks = [NSMutableArray array];
+                for (id block in copy[@"contentBlocks"]) {
+                    if ([block isKindOfClass:[NSDictionary class]]) {
+                        NSMutableDictionary *safeBlock = [block mutableCopy];
+                        if ([safeBlock[@"text"] isKindOfClass:[NSString class]]) {
+                            safeBlock[@"text"] = PXRPIIRedact(safeBlock[@"text"]);
+                        }
+                        [blocks addObject:safeBlock];
+                    } else {
+                        [blocks addObject:block];
+                    }
+                }
+                copy[@"contentBlocks"] = blocks;
+            }
+            [modelMessages addObject:copy];
+        }
+        NSDictionary *request = PXRRequestCreate(modelMessages, PXRToolSpecs(
             selection != nil ? PXRSelectTools(selection, tools) : tools));
         if (!model(request, &response, &modelError)) {
             return PXRAgentFail(options, sessionId, runId, PXRCodeFromError(modelError),
@@ -364,8 +395,17 @@ NSDictionary<NSString *, id> *PXRAgentRun(NSMutableDictionary<NSString *, id> *o
         [messages addObject:message];
         NSArray *calls = PXRArray(message[@"toolCalls"]);
         if (calls.count == 0) {
+            NSString *output = PXRString(message[@"content"]);
+            if (structured != nil) {
+                NSError *structuredError = nil;
+                output = PXRStructuredApply(structured, output, &structuredError);
+                if (output == nil) {
+                    return PXRAgentFail(options, sessionId, runId, PXRCodeFromError(structuredError),
+                                        structuredError.localizedDescription, error);
+                }
+            }
             PXREmit(sink, PXREventCreate(@"run.completed", sessionId, runId, nil));
-            return PXRRunResultCreate(runId, PXRString(message[@"content"]), step, total);
+            return PXRRunResultCreate(runId, output, step, total);
         }
         for (NSDictionary *call in calls) {
             NSError *selectionError = nil;
@@ -378,6 +418,11 @@ NSDictionary<NSString *, id> *PXRAgentRun(NSMutableDictionary<NSString *, id> *o
                 return PXRAgentFail(options, sessionId, runId, @"TOOL_NOT_FOUND",
                                     @"tool not found", error);
             }
+            NSError *limitError = nil;
+            if (!PXRCallLimitTool(limit, &limitError)) {
+                return PXRAgentFail(options, sessionId, runId, PXRCodeFromError(limitError),
+                                    limitError.localizedDescription, error);
+            }
             PXREmit(sink, PXREventCreate(@"tool.call", sessionId, runId,
                                         @{@"name": PXRString(call[@"name"]),
                                           @"arguments": call[@"arguments"] ?: @{}}));
@@ -388,7 +433,8 @@ NSDictionary<NSString *, id> *PXRAgentRun(NSMutableDictionary<NSString *, id> *o
                 return PXRAgentFail(options, sessionId, runId, PXRCodeFromError(toolError),
                                     toolError.localizedDescription ?: @"tool failed", error);
             }
-            NSString *content = PXRJSONText(value ?: [NSNull null], NULL) ?: @"null";
+            id resultValue = value ?: [NSNull null];
+            NSString *content = PXRJSONText(pii ? PXRRedactValue(resultValue) : resultValue, NULL) ?: @"null";
             [messages addObject:PXRMessageTool(content, PXRString(call[@"id"]))];
         }
     }

@@ -29,6 +29,9 @@ defmodule Praxo.Tests do
     test_fallback_state()
     test_custom_model()
     test_custom_model_error()
+    test_agent_pii()
+    test_agent_structured()
+    test_agent_limits()
     IO.puts("elixir tests passed")
   end
 
@@ -269,6 +272,122 @@ defmodule Praxo.Tests do
     fallback = Agent.fallback_model(model, Agent.static_model("recovered"))
     {:ok, result, options} = Agent.run_agent(Agent.new_agent_options(fallback), Models.session("s1"), "use")
     check(result.output == "recovered" and options.model.primary == model, "custom model fallback on error")
+  end
+
+  defp test_agent_pii do
+    parent = self()
+    tool = Agent.new_tool("echo", "Echo", fn args ->
+      send(parent, {:arguments, args})
+      %{"nested" => ["a@b.com", %{"ssn" => "123-45-6789"}]}
+    end)
+    model = fn request ->
+      send(parent, {:request, request})
+      if length(request.messages) == 3 do
+        {:ok, Models.response(Models.message_assistant("a@b.com", [Models.tool_call("c", "echo", %{"email" => "a@b.com"})]))}
+      else
+        {:ok, Models.response(Models.message_assistant("a@b.com"))}
+      end
+    end
+    history = %{Models.message("user", "a@b.com") | content_blocks: [Models.content_block("text", "123-45-6789")]}
+    session = Models.session("s1", [history])
+    options = %{Agent.new_agent_options(model) | tools: [tool], system_prompt: "a@b.com", pii: true}
+    {:ok, result, _} = Agent.run_agent(options, session, "a@b.com")
+    check(result.output == "a@b.com", "pii does not redact final output")
+    receive do
+      {:request, request} ->
+        [system, past, prompt] = request.messages
+        check(system.content == "[REDACTED:email]" and past.content == system.content and prompt.content == system.content, "pii model inputs")
+        check(hd(past.content_blocks).text == "[REDACTED:ssn]", "pii content blocks")
+    after 0 -> raise "missing pii request" end
+    receive do
+      {:arguments, args} -> check(args["email"] == "a@b.com", "pii preserves tool arguments")
+    after 0 -> raise "missing tool arguments" end
+    receive do
+      {:request, request} ->
+        assistant = Enum.at(request.messages, 3)
+        value = request.messages |> List.last() |> Map.fetch!(:content) |> Json.parse!()
+        check(assistant.content == "[REDACTED:email]", "pii assistant history")
+        check(value == %{"nested" => ["[REDACTED:email]", %{"ssn" => "[REDACTED:ssn]"}]}, "pii nested result")
+    after 0 -> raise "missing second pii request" end
+    check(history.content == "a@b.com", "pii session unchanged")
+    plain = fn request -> send(parent, {:plain, hd(request.messages).content}); {:ok, Models.response(Models.message_assistant("ok"))} end
+    {:ok, _, _} = Agent.run_agent(Agent.new_agent_options(plain), Models.session("s1"), "a@b.com")
+    receive do {:plain, text} -> check(text == "a@b.com", "pii default disabled") after 0 -> raise "missing plain request" end
+  end
+
+  defp test_agent_structured do
+    schema = %{"type" => "object", "required" => ["name"], "properties" => %{"name" => %{"type" => "string"}}}
+    config = Middleware.structured_output(schema, 1, fn _ -> ~s({"name":"fixed"}) end)
+    options = %{Agent.new_agent_options(Agent.static_model("bad")) | structured_output: config, events: Sink.new()}
+    {:ok, result, options} = Agent.run_agent(options, Models.session("s1"), "x")
+    check(result.output == ~s({"name":"fixed"}), "structured repaired output")
+    check(options.events.kinds == ["run.started", "run.completed"], "structured success event")
+    for {text, repairer, repairs} <- [{"{}", nil, 0}, {"bad", fn _ -> "" end, 1}, {"bad", fn _ -> "{}" end, 1}, {"bad", fn _ -> nil end, 1}, {"bad", fn _ -> "{}" end, -1}] do
+      config = Middleware.structured_output(schema, repairs, repairer)
+      options = %{Agent.new_agent_options(Agent.static_model(text)) | structured_output: config, events: Sink.new()}
+      {:error, "AGENT_STRUCTURED_OUTPUT", options} = Agent.run_agent(options, Models.session("s1"), "x")
+      check(options.events.kinds == ["run.started", "run.failed"], "structured failure event")
+    end
+    error = ArgumentError.exception("repair failed")
+    repairer = fn _ -> raise error end
+    config = Middleware.structured_output(schema, 1, repairer)
+    check(Middleware.apply_structured(config, "bad") == {:error, error}, "structured helper preserves repair exception")
+    model = Agent.scripted_model([
+      Models.response(Models.message_assistant("", [Models.tool_call("c", "echo", %{})])),
+      Models.response(Models.message_assistant("bad"))
+    ])
+    options = %{Agent.new_agent_options(model) | structured_output: config, tools: [Agent.new_tool("echo", "Echo")], events: Sink.new()}
+    {:error, ^error, returned} = Agent.run_agent(options, Models.session("s1"), "x")
+    check(returned.events.kinds == ["run.started", "tool.call", "run.failed"], "repair exception failure lifecycle")
+    check(returned.model.index == 2 and hd(returned.tools).calls == 1, "repair exception retains run state")
+    options = %{Agent.new_agent_options(Agent.static_model("bad")) | structured_output: config}
+    {:error, ^error, returned} = Agent.run_agent(options, Models.session("s1"), "x")
+    check(returned.events == nil, "repair exception without event sink")
+    config = Middleware.structured_output(schema, 0)
+    options = %{Agent.new_agent_options(Agent.static_model(~s({"name":"ok"}))) | structured_output: config}
+    {:ok, result, _} = Agent.run_agent(options, Models.session("s1"), "x")
+    check(result.output == ~s({"name":"ok"}), "structured valid output")
+    model = Agent.scripted_model([
+      Models.response(Models.message_assistant("not json", [Models.tool_call("c", "echo", %{})])),
+      Models.response(Models.message_assistant(~s({"name":"ok"})))
+    ])
+    options = %{Agent.new_agent_options(model) | structured_output: config, tools: [Agent.new_tool("echo", "Echo")]}
+    {:ok, result, _} = Agent.run_agent(options, Models.session("s1"), "x")
+    check(result.steps == 2, "structured validates only final response")
+    {:ok, result, _} = Agent.run_agent(Agent.new_agent_options(Agent.static_model("bad")), Models.session("s1"), "x")
+    check(result.output == "bad", "structured default disabled")
+  end
+
+  defp test_agent_limits do
+    parent = self()
+    tool = Agent.new_tool("echo", "Echo", fn _ -> send(parent, :tool_invoked); "ok" end)
+    calls = [Models.tool_call("1", "echo", %{}), Models.tool_call("2", "echo", %{})]
+    model = fn _ -> send(parent, :model_invoked); {:ok, Models.response(Models.message_assistant("", calls))} end
+    options = %{Agent.new_agent_options(model) | tools: [tool], call_limit: Middleware.call_limit(0, 1), events: Sink.new()}
+    for _ <- 1..2 do
+      {:error, "AGENT_TOOL_CALL_LIMIT", returned} = Agent.run_agent(options, Models.session("s1"), "x")
+      check(hd(returned.tools).calls == 1, "tool budget blocks second invocation")
+      check(returned.events.kinds == ["run.started", "tool.call", "run.failed"], "tool budget events")
+      receive do :model_invoked -> :ok after 0 -> raise "model not invoked" end
+      receive do :tool_invoked -> :ok after 0 -> raise "tool not invoked" end
+      receive do :tool_invoked -> raise "tool exceeded limit" after 0 -> :ok end
+    end
+    one_call = fn _ -> send(parent, :model_invoked); {:ok, Models.response(Models.message_assistant("", [hd(calls)]))} end
+    options = %{Agent.new_agent_options(one_call) | tools: [tool], call_limit: Middleware.call_limit(1, 0), events: Sink.new()}
+    {:error, "AGENT_MODEL_CALL_LIMIT", returned} = Agent.run_agent(options, Models.session("s1"), "x")
+    check(returned.events.kinds == ["run.started", "tool.call", "run.failed"], "model budget events")
+    receive do :model_invoked -> :ok after 0 -> raise "model not invoked" end
+    receive do :model_invoked -> raise "model exceeded limit" after 0 -> :ok end
+    receive do :tool_invoked -> :ok after 0 -> raise "tool not invoked" end
+    {:error, "AGENT_MODEL_CALL_LIMIT", _} = Agent.run_agent(returned, Models.session("s1"), "x")
+    receive do :model_invoked -> :ok after 0 -> raise "model budget not reset after limit failure" end
+    receive do :tool_invoked -> :ok after 0 -> raise "tool not invoked on reused options" end
+    success = %{Agent.new_agent_options(Agent.static_model("ok")) | call_limit: Middleware.call_limit(1, 1)}
+    {:ok, _, success} = Agent.run_agent(success, Models.session("s1"), "x")
+    {:ok, _, _} = Agent.run_agent(success, Models.session("s1"), "x")
+    failed = %{Agent.new_agent_options(Agent.failing_model()) | call_limit: Middleware.call_limit(1, 0)}
+    {:error, "MODEL_ERROR", failed} = Agent.run_agent(failed, Models.session("s1"), "x")
+    {:error, "MODEL_ERROR", _} = Agent.run_agent(failed, Models.session("s1"), "x")
   end
 end
 

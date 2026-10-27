@@ -46,6 +46,12 @@ fn test_jsonschema() {
 	pattern := praxo.parse_json('{"type":"string","pattern":"^a+$"}') or { panic(err) }
 	assert praxo.validate_schema(pattern, json2.Any('aaa')).len == 0
 	assert praxo.validate_schema(pattern, json2.Any('b')).len == 1
+	array_schema := praxo.parse_json('{"type":"array","items":{"type":"object","properties":{"values":{"type":"array","items":{"type":"integer"}}},"required":["values"]}}') or { panic(err) }
+	invalid := praxo.parse_json('[{"values":[1,"bad"]},{}]') or { panic(err) }
+	array_errors := praxo.validate_schema(array_schema, invalid)
+	assert array_errors.len == 2
+	assert array_errors[0].path == '$[0].values[1]'
+	assert array_errors[1].path == '$[1].values'
 }
 
 fn test_plugin() {
@@ -118,6 +124,8 @@ fn test_context() {
 fn test_pii() {
 	assert praxo.pii_redact('email a@b.com') == 'email [REDACTED:email]'
 	assert praxo.pii_redact('ssn 123-45-6789') == 'ssn [REDACTED:ssn]'
+	assert praxo.pii_redact('Contact a@b.com. Then a@b.com, a@b.com! (a@b.com).') == 'Contact [REDACTED:email]. Then [REDACTED:email], [REDACTED:email]! ([REDACTED:email]).'
+	assert praxo.pii_redact('a@b.com...') == '[REDACTED:email]...'
 }
 
 fn test_agent() {
@@ -279,6 +287,130 @@ fn test_callback_model() {
 	assert fallback_result.output == 'fallback'
 }
 
+fn privacy_model(req praxo.Request) !praxo.Response {
+	assert req.messages[0].content == 'system [REDACTED:email]'
+	assert req.messages[1].content == 'history [REDACTED:ssn]'
+	assert req.messages[1].content_blocks[0].text == '[REDACTED:email]'
+	assert req.messages[2].content == 'prompt [REDACTED:email].'
+	if req.messages.len == 3 {
+		return praxo.response(praxo.message_assistant('assistant a@b.com', [
+			praxo.tool_call('c1', 'echo', {'nested': json2.Any([json2.Any('Contact a@b.com.')])}),
+		]), praxo.usage(0, 0))
+	}
+	assert req.messages[3].content == 'assistant [REDACTED:email]'
+	assert (req.messages[3].tool_calls[0].arguments['nested'] or { json2.null }).str().contains('a@b.com')
+	value := praxo.parse_json(req.messages[4].content)!
+	assert praxo.encode_json(value).contains('Contact [REDACTED:email].')
+	assert !praxo.encode_json(value).contains('a@b.com')
+	return praxo.response(praxo.message_assistant('final a@b.com', []praxo.ToolCall{}), praxo.usage(0, 0))
+}
+
+fn plain_privacy_model(req praxo.Request) !praxo.Response {
+	assert req.messages[0].content == 'a@b.com'
+	return praxo.response(praxo.message_assistant('ok', []praxo.ToolCall{}), praxo.usage(0, 0))
+}
+
+fn repair_output(_text string) string {
+	return '{"name":"repaired"}'
+}
+
+fn test_agent_middleware() {
+	history := praxo.Message{role: praxo.role_user, content: 'history 123-45-6789', content_blocks: [praxo.content_block('text', 'a@b.com')]}
+	session := praxo.session('s1', [history])
+	tool := praxo.func_tool('echo', 'Echo')
+	mut options := praxo.agent_options(praxo.callback_model(privacy_model))
+	options.system_prompt = 'system a@b.com'
+	options.pii_redaction = true
+	options.tools = [tool]
+	for _ in 0 .. 2 {
+		result := praxo.run_agent(options, session, 'prompt a@b.com.') or { panic(err) }
+		assert result.output == 'final a@b.com'
+	}
+	assert session.messages[0].content == 'history 123-45-6789'
+	assert session.messages[0].content_blocks[0].text == 'a@b.com'
+	praxo.run_agent(praxo.agent_options(praxo.callback_model(plain_privacy_model)), praxo.session('s1', []praxo.Message{}), 'a@b.com') or { panic(err) }
+
+	schema := praxo.parse_json('{"type":"object","required":["name"]}') or { panic(err) }
+	mut structured := praxo.agent_options(praxo.static_model('{"name":"valid"}'))
+	structured.structured_output = praxo.structured_output(schema, 0, none)
+	result := praxo.run_agent(structured, praxo.session('s1', []praxo.Message{}), '') or { panic(err) }
+	assert result.output == '{"name":"valid"}'
+	structured.model = praxo.static_model('invalid')
+	sink := &praxo.Sink{}
+	structured.events = sink
+	mut code := ''
+	praxo.run_agent(structured, praxo.session('s1', []praxo.Message{}), '') or {
+		code = praxo.error_code(err)
+		praxo.RunResult{}
+	}
+	assert code == 'AGENT_STRUCTURED_OUTPUT'
+	assert sink.kinds == ['run.started', 'run.failed']
+	structured.structured_output = praxo.structured_output(schema, 1, repair_output)
+	repaired := praxo.run_agent(structured, praxo.session('s1', []praxo.Message{}), '') or { panic(err) }
+	assert repaired.output == '{"name":"repaired"}'
+	array_schema := praxo.parse_json('{"type":"array","items":{"type":"object","properties":{"name":{"type":"string"}},"required":["name"]}}') or { panic(err) }
+	structured.structured_output = praxo.structured_output(array_schema, 0, none)
+	structured.model = praxo.static_model('[{"name":"valid"}]')
+	valid_array := praxo.run_agent(structured, praxo.session('s1', []praxo.Message{}), '') or { panic(err) }
+	assert valid_array.output == '[{"name":"valid"}]'
+	structured.model = praxo.static_model('[{"name":"valid"},{"name":42}]')
+	code = ''
+	praxo.run_agent(structured, praxo.session('s1', []praxo.Message{}), '') or {
+		code = praxo.error_code(err)
+		praxo.RunResult{}
+	}
+	assert code == 'AGENT_STRUCTURED_OUTPUT'
+}
+
+fn limit_model(req praxo.Request) !praxo.Response {
+	if req.messages.len == 1 {
+		return praxo.response(praxo.message_assistant('', [
+			praxo.tool_call('c1', 'echo', {}),
+			praxo.tool_call('c2', 'echo', {}),
+		]), praxo.usage(0, 0))
+	}
+	return praxo.response(praxo.message_assistant('done', []praxo.ToolCall{}), praxo.usage(0, 0))
+}
+
+fn test_agent_call_limits() {
+	tool := praxo.func_tool('echo', 'Echo')
+	sink := &praxo.Sink{}
+	mut options := praxo.agent_options(praxo.callback_model(limit_model))
+	options.tools = [tool]
+	options.events = sink
+	options.tool_call_limit = 1
+	for _ in 0 .. 2 {
+		mut code := ''
+		praxo.run_agent(options, praxo.session('s1', []praxo.Message{}), 'use') or {
+			code = praxo.error_code(err)
+			praxo.RunResult{}
+		}
+		assert code == 'AGENT_TOOL_CALL_LIMIT'
+	}
+	assert tool.calls == 2
+	assert sink.kinds == ['run.started', 'tool.call', 'run.failed', 'run.started', 'tool.call', 'run.failed']
+	options.tool_call_limit = 0
+	options.model_call_limit = 1
+	model := praxo.scripted_model([
+		praxo.response(praxo.message_assistant('', [praxo.tool_call('c1', 'echo', {})]), praxo.usage(0, 0)),
+		praxo.response(praxo.message_assistant('done', []praxo.ToolCall{}), praxo.usage(0, 0)),
+	])
+	options.model = model
+	mut code := ''
+	praxo.run_agent(options, praxo.session('s1', []praxo.Message{}), 'use') or {
+		code = praxo.error_code(err)
+		praxo.RunResult{}
+	}
+	assert code == 'AGENT_MODEL_CALL_LIMIT'
+	assert model.index == 1
+	result := praxo.run_agent(options, praxo.session('s1', []praxo.Message{}), 'use') or { panic(err) }
+	assert result.output == 'done'
+	options.model = praxo.callback_model(limit_model)
+	options.model_call_limit = 0
+	result2 := praxo.run_agent(options, praxo.session('s1', []praxo.Message{}), 'use') or { panic(err) }
+	assert result2.output == 'done'
+}
+
 fn main() {
 	test_json()
 	test_toolcall()
@@ -293,5 +425,7 @@ fn main() {
 	test_agent_tool()
 	test_agent_tool_selection()
 	test_callback_model()
+	test_agent_middleware()
+	test_agent_call_limits()
 	println('v tests passed')
 }

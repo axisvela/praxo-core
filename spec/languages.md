@@ -59,10 +59,10 @@ imply every Go feature is available.
 | Perl | Core | released | `perl/v0.1.0` | 11 vectors, 27 tests, API snapshot |
 | Delphi | Wire | in progress | none | Framework target; Free Pascal 3.2.2 local toolcall/JSON Schema/plugin and agent-loop vectors; remote CI for loop and Delphi compiler pending |
 | OCaml / Caml | Wire | in progress | none | Framework target; native toolcall/JSON Schema/plugin wire subset verified locally with OCaml 4.14.2 bytecode and in Linux CI; native build pending |
-| Objective-C | Core | in progress | none | 11 vectors, native tests, API snapshot/parity; local clang + GNUstep Base on Windows; Apple Foundation/macOS CI pending |
-| Elixir | Core | in progress | none | 11 vectors, native tests, API snapshot/parity; local Elixir 1.20.4 + OTP 29; remote CI pending |
-| Nim | Core | in progress | none | 11 vectors, native tests, API snapshot/parity; local Nim 2.2.12 + MinGW; remote CI pending |
-| V | Core | in progress | none | 11 vectors, native tests, API snapshot/parity; local V 0.5.2 + tcc; remote CI pending |
+| Objective-C | Core | in progress | none | 11 vectors, native tests, API snapshot/parity; opt-in PII/structured output/call limits/tool selection are partial; local clang + GNUstep Base; Apple Foundation/macOS CI pending |
+| Elixir | Core | in progress | none | 11 vectors, native tests, API snapshot/parity; opt-in PII/structured output/call limits/tool selection are partial; local Elixir 1.20.4 + OTP 29; remote CI pending |
+| Nim | Core | in progress | none | 11 vectors, native tests, API snapshot/parity; opt-in PII/structured output/call limits/tool selection are partial; local Nim 2.2.12 + MinGW; remote CI pending |
+| V | Core | in progress | none | 11 vectors, native tests, API snapshot/parity; opt-in PII/structured output/call limits/tool selection are partial; local V 0.5.2 + tcc; remote CI pending |
 | D | Core | released | `d/v0.1.0` | 11 vectors, API snapshot |
 | VBScript | Bridge | planned | none | Bridge over .NET or the bridge CLI |
 | Erlang | Core | planned | none | Native BEAM loop requested; OTP 27+ `:json`; separate consumer and maintainer required |

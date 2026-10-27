@@ -84,10 +84,10 @@ metadata and parity checks, run `python scripts/test_layout.py` and
 `$env:GOWORK = "off"; go test ./internal/spec/...` separately in PowerShell.
 
 The tests cover the synchronous `callbackModel` adapter across agent steps,
-errors, and fallback. Opt-in tool selection is exercised in agent runs. PII,
-structured output, and call limit remain standalone helpers. Built-in
-provider integrations, streaming wire encodings, and plugin hosts are not
-provided; see the README for the callback contract and other limits.
+errors, and fallback. Opt-in tool selection, PII redaction, structured output,
+and per-run call limits are exercised in agent runs. Built-in provider
+integrations, streaming wire encodings, and plugin hosts are not provided; see
+the README for the callback contract and other limits.
 
 ## Results
 

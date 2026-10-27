@@ -37,6 +37,10 @@ type
     maxSteps*: int
     maxTokens*: int
     sessionId*: string
+    pii*: bool
+    structuredOutput*: Option[StructuredOutput]
+    modelCallLimit*: int
+    toolCallLimit*: int
 
 proc newTool*(name: string, description: string,
               invoke: proc(arguments: JsonNode): JsonNode {.closure.} = echoInvoke): Tool =
@@ -119,30 +123,51 @@ proc runAgent*(options: AgentOptions, session: Session, prompt: string): RunResu
   try:
     let maxSteps = if options.maxSteps > 0: options.maxSteps else: 8
     var total = newUsage()
+    let limits = callLimit(options.modelCallLimit, options.toolCallLimit)
     for step in 1 .. maxSteps:
       var specs = toolSpecs(options.tools)
       if options.toolSelection.isSome:
         specs = selectTools(options.toolSelection.get(), specs)
-      let response = options.model.generate(newRequest(messages, specs))
+      var modelMessages = messages
+      if options.pii:
+        modelMessages = @[]
+        for original in messages:
+          var message = original
+          message.content = piiRedact(message.content)
+          message.contentBlocks = @[]
+          for originalBlock in original.contentBlocks:
+            var item = originalBlock
+            item.text = piiRedact(item.text)
+            message.contentBlocks.add(item)
+          modelMessages.add(message)
+      limits.modelCall()
+      let response = options.model.generate(newRequest(modelMessages, specs))
       total = addUsage(total, response.usage)
       if options.maxTokens > 0 and total.inputTokens + total.outputTokens > options.maxTokens:
         raisePraxo("AGENT_MAX_TOKENS", "token budget exceeded")
       messages.add(response.message)
       if response.message.toolCalls.len == 0:
+        var output = response.message.content
+        if options.structuredOutput.isSome:
+          let checked = options.structuredOutput.get().apply(output)
+          if checked.code.len > 0:
+            raisePraxo(checked.code, "structured output validation failed")
+          output = checked.output
         emitEvent(options.events, "run.completed", session.id, runId, newJNull())
-        return newRunResult(runId, response.message.content, step, total)
+        return newRunResult(runId, output, step, total)
       for call in response.message.toolCalls:
         let index = findToolIndex(options.tools, call.name)
         if index < 0:
           raisePraxo("TOOL_NOT_FOUND", "tool not found: " & call.name)
         if options.toolSelection.isSome:
           checkToolSelected(options.toolSelection.get(), call.name)
+        limits.toolCall()
         var data = newJObject()
         data["name"] = %call.name
         data["arguments"] = if call.arguments.isNil: newJObject() else: call.arguments
         emitEvent(options.events, "tool.call", session.id, runId, data)
         let value = options.tools[index].call(call.arguments)
-        messages.add(newMessageTool(encodeJson(value), call.id))
+        messages.add(newMessageTool(encodeJson(if options.pii: redactValue(value) else: value), call.id))
     raisePraxo("AGENT_MAX_STEPS", "maximum steps exceeded")
   except CatchableError as error:
     var data = newJObject()

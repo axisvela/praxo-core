@@ -34,6 +34,9 @@ fn redact_email(text string) string {
 			for end < text.len && is_domain_character(text[end]) {
 				end++
 			}
+			for end > index + 1 && text[end - 1] == `.` {
+				end--
+			}
 			if end > index + 1 {
 				domain := text.substr(index + 1, end)
 				dot := domain.last_index('.') or { -1 }

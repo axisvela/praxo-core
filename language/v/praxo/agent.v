@@ -95,6 +95,10 @@ pub mut:
 	model         &Model = unsafe { nil }
 	tools         []&Tool
 	tool_selection ?ToolSelection
+	pii_redaction bool
+	structured_output ?StructuredOutput
+	model_call_limit int
+	tool_call_limit int
 	events        &Sink = unsafe { nil }
 	system_prompt string
 	max_steps     int = 8
@@ -135,13 +139,26 @@ fn run_agent_inner(options AgentOptions, session_value Session, run_id string,
 	mut messages []Message) !RunResult {
 	max_steps := if options.max_steps > 0 { options.max_steps } else { 8 }
 	mut total := usage(0, 0)
+	mut limit := call_limit(options.model_call_limit, options.tool_call_limit)
 	for step := 1; step <= max_steps; step++ {
 		mut model := options.model
 		mut specs := tool_specs(options.tools)
 		if selection := options.tool_selection {
 			specs = select_tools(selection, specs)
 		}
-		result := model.generate(request(messages, specs)) or {
+		mut model_messages := messages.clone()
+		if options.pii_redaction {
+			model_messages = []Message{cap: messages.len}
+			for msg in messages {
+				mut blocks := []ContentBlock{cap: msg.content_blocks.len}
+				for block in msg.content_blocks {
+					blocks << ContentBlock{...block, text: pii_redact(block.text)}
+				}
+				model_messages << Message{...msg, content: pii_redact(msg.content), content_blocks: blocks}
+			}
+		}
+		limit.model_call()!
+		result := model.generate(request(model_messages, specs)) or {
 			return err
 		}
 		total = usage_plus(total, result.usage)
@@ -150,8 +167,16 @@ fn run_agent_inner(options AgentOptions, session_value Session, run_id string,
 		}
 		messages << result.message
 		if result.message.tool_calls.len == 0 {
+			mut output := result.message.content
+			if structured := options.structured_output {
+				validated, code := structured.apply(output)
+				if code != '' {
+					return praxo_error(code, 'structured output validation failed')
+				}
+				output = validated
+			}
 			emit_event(options.events, 'run.completed', session_value.id, run_id, json2.null)
-			return run_result(run_id, result.message.content, step, total)
+			return run_result(run_id, output, step, total)
 		}
 		for call in result.message.tool_calls {
 			if selection := options.tool_selection {
@@ -161,12 +186,16 @@ fn run_agent_inner(options AgentOptions, session_value Session, run_id string,
 			if index < 0 {
 				return praxo_error('TOOL_NOT_FOUND', 'tool not found: ${call.name}')
 			}
+			limit.tool_call()!
 			mut data := map[string]json2.Any{}
 			data['name'] = json2.Any(call.name)
 			data['arguments'] = json2.Any(call.arguments)
 			emit_event(options.events, 'tool.call', session_value.id, run_id, json2.Any(data))
 			mut tool := options.tools[index]
-			value := tool.call(call.arguments)
+			mut value := tool.call(call.arguments)
+			if options.pii_redaction {
+				value = redact_value(value)
+			}
 			messages << message_tool(encode_json(value), call.id)
 		}
 	}

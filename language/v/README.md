@@ -3,8 +3,8 @@
 V is a native Core implementation targeting the PRAXO-CORE contract. It
 passes all eleven shared vector groups with `V 0.5.2` and includes the native
 agent loop, context compaction, memory store, path policy, checkpoint
-allowlist, and tool-call parsing. Tool selection is opt-in in the agent; PII,
-structured output, and call limit are standalone helpers. Vector
+allowlist, and tool-call parsing. Tool selection, PII redaction, structured
+output, and call limits are opt-in in the agent. Vector
 coverage does not establish full Core parity or production readiness.
 
 The SDK does not call Go or another language runtime. It has no provider
@@ -53,6 +53,20 @@ Set `options.tool_selection = praxo.tool_selection(['echo'])` to advertise and
 allow only the named tools. An empty selection denies all tools. Without a
 selection, all configured tools remain available. A request for an unselected
 tool fails with `AGENT_TOOL_NOT_SELECTED` before the tool is invoked.
+
+Set `options.pii_redaction = true` to redact the existing email, SSN, and
+credit-card patterns in model-bound message content and text blocks, and in
+tool results recursively. This does not redact tool arguments, events, final
+output, block image/data fields, or arbitrary PII; it is not a complete privacy
+boundary. The original session messages are not modified.
+
+Set `options.structured_output = praxo.structured_output(schema, max_repairs, repairer)`
+to validate the final output with the existing schema helper. A successful repair
+becomes the output; invalid output fails with `AGENT_STRUCTURED_OUTPUT`.
+Set `options.model_call_limit` and `options.tool_call_limit` to positive values
+to bound calls per run. Nonpositive values are unlimited. The next invocation
+is blocked with `AGENT_MODEL_CALL_LIMIT` or `AGENT_TOOL_CALL_LIMIT`; counters
+are independent for each run. All these options are disabled by default.
 
 ```v
 fn generate(req praxo.Request) !praxo.Response {

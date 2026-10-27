@@ -81,19 +81,24 @@ defmodule Praxo.Middleware do
       valid ->
         {:ok, output}
 
-      attempt == config.max_repairs ->
+      attempt >= config.max_repairs ->
         {:error, "AGENT_STRUCTURED_OUTPUT"}
 
       config.repairer == nil ->
         {:error, "AGENT_STRUCTURED_OUTPUT"}
 
       true ->
-        repaired = config.repairer.(output)
+        result = try do
+          {:ok, config.repairer.(output)}
+        rescue
+          error -> {:error, error}
+        end
 
-        if String.trim(repaired) == "" do
-          {:error, "AGENT_STRUCTURED_OUTPUT"}
-        else
-          do_apply(config, repaired, attempt + 1)
+        case result do
+          {:error, error} -> {:error, error}
+          {:ok, repaired} when is_binary(repaired) ->
+            if String.trim(repaired) == "", do: {:error, "AGENT_STRUCTURED_OUTPUT"}, else: do_apply(config, repaired, attempt + 1)
+          {:ok, _} -> {:error, "AGENT_STRUCTURED_OUTPUT"}
         end
     end
   end

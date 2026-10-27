@@ -4,6 +4,8 @@
 
 ### Added
 
+- Opt-in PII redaction, structured-output validation, and per-run model/tool
+  call limits in the unreleased Elixir, Nim, V, and Objective-C agent loops.
 - Opt-in agent tool selection in the unreleased Elixir, Nim, V, and
   Objective-C candidates, including end-to-end allow and deny tests.
 - Consumer-supplied synchronous model callbacks for the unreleased Elixir,

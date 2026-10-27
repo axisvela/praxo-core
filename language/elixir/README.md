@@ -3,10 +3,9 @@
 Elixir is a native Core implementation targeting the PRAXO-CORE contract. It
 passes all eleven shared vector groups with `Elixir 1.20.4` on `Erlang/OTP 29`
 and includes the native agent loop, context compaction, memory store, path
-policy, checkpoint allowlist, tool-call parsing, and opt-in tool selection. PII,
-structured output, and call limit are standalone helpers, not integrated agent
-middleware. Vector coverage does not establish full Core parity or production
-readiness.
+policy, checkpoint allowlist, tool-call parsing, and opt-in tool selection, PII
+redaction, structured output validation, and call limits. Vector coverage does
+not establish full Core parity or production readiness.
 
 The SDK uses the OTP 27+ `:json` module and does not call Go or another
 language runtime. Erlang shares the BEAM runtime and does not add a second
@@ -80,6 +79,44 @@ empty selection advertises none and rejects every tool call with
 `AGENT_TOOL_NOT_SELECTED`. A selected but unregistered name still fails with
 `TOOL_NOT_FOUND`. This is an agent-loop restriction, not a sandbox for direct
 calls to `Praxo.Agent.call/2`.
+
+The following options are independently opt-in and leave default behavior unchanged:
+
+```elixir
+options = %{options |
+  pii: true,
+  structured_output: Praxo.Middleware.structured_output(
+    %{"type" => "object", "required" => ["name"]}, 0
+  ),
+  call_limit: Praxo.Middleware.call_limit(4, 8)
+}
+```
+
+`pii: true` applies the existing email, SSN, and credit-card rules to message
+content and text content blocks sent to the model, and recursively to string
+values in tool results before encoding. It does not redact tool-call arguments,
+map keys, non-text blocks, events, final output, or the original session. It is
+not a comprehensive privacy filter. Tool invocations receive original arguments.
+
+`structured_output` validates the final response using the existing JSON
+extraction and schema helper, without provider schema binding. A repairer passed
+as the third argument receives the invalid output and returns replacement text;
+at most `max_repairs` attempts are made. Exhausted validation or an empty or
+non-string repair result fails with `AGENT_STRUCTURED_OUTPUT`, without a completion event. If
+the repairer raises, `apply_structured/2` returns `{:error, exception}` and
+`run_agent/3` returns `{:error, exception, options}` with the original exception;
+the latter emits `run.failed` using `AGENT_STRUCTURED_OUTPUT` when a sink is
+configured. Repairer throws and exits are not caught. This boundary does not
+apply to model or tool callbacks. The schema helper supports only its implemented
+subset of JSON Schema.
+
+`call_limit` bounds model and tool calls independently per run; nonpositive
+limits are unlimited. Calls are checked before invocation and fail with
+`AGENT_MODEL_CALL_LIMIT` or `AGENT_TOOL_CALL_LIMIT`. A fallback model's internal
+primary and fallback attempts together count as one loop-level model call.
+Tool selection and existence are checked before consuming the tool budget.
+Counters reset on every run, including when returned options are reused. These
+limits do not restrict direct calls or external work performed by callbacks.
 
 ## Current Limits
 

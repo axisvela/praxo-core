@@ -3,9 +3,9 @@
 Nim is a native Core implementation targeting the PRAXO-CORE contract. It
 passes all eleven shared vector groups with `Nim 2.2.12` and includes the native
 agent loop, context compaction, memory store, path policy, checkpoint
-allowlist, tool-call parsing, and opt-in agent tool selection. PII, structured
-output, and call limit are standalone helpers, not integrated agent middleware. Vector
-coverage does not establish full Core parity or production readiness.
+allowlist, tool-call parsing, and opt-in agent tool selection, PII redaction,
+structured output, and call limits. Vector coverage does not establish full
+Core parity or production readiness.
 
 The SDK does not call Go or another language runtime. It has no provider
 adapter or plugin host; those remain outside the declared Core scope.
@@ -55,6 +55,22 @@ Set `options.toolSelection = some(toolSelection(@["echo"]))` (import
 `std/options`) to advertise only selected tools and reject calls to other
 registered tools with `AGENT_TOOL_NOT_SELECTED`. An empty selection denies all
 tools; leaving the option unset advertises and permits all registered tools.
+
+Set `options.pii = true` to redact message content and text blocks sent to the
+model and recursively redact string values in tool results. The existing PII
+helper covers email, SSN, and credit card patterns; it is not a complete privacy
+filter. Tool arguments, events, and final output are not redacted. Original
+session messages are not modified.
+
+Set `options.structuredOutput = some(structuredOutput(schema, maxRepairs, repairer))`
+to validate the final output and optionally repair it using the existing helper.
+Invalid output fails with `AGENT_STRUCTURED_OUTPUT` rather than completing.
+The optional repairer is a synchronous closure and is not a model call.
+
+Set `options.modelCallLimit` and `options.toolCallLimit` to positive values to
+limit calls per run. Zero or negative values leave the corresponding limit
+unbounded. Limits are checked before invoking the model or tool and reset for
+each run; a fallback model counts as one agent model call.
 
 Public declarations are inventoried in [`api/0.1.0.txt`](api/0.1.0.txt).
 

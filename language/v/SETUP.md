@@ -88,8 +88,8 @@ For repository-wide metadata and parity checks, run `python scripts/test_layout.
 and `$env:GOWORK = "off"; go test ./internal/spec/...` separately in PowerShell.
 
 The tests cover the synchronous `praxo.callback_model` adapter across agent
-steps, errors, and fallback. Opt-in tool selection is exercised in agent runs.
-PII, structured output, and call limit remain standalone helpers.
+steps, errors, and fallback. Opt-in tool selection, PII redaction, structured
+output, and per-run call limits are exercised in agent runs.
 Built-in provider integrations, streaming wire encodings, and plugin hosts are
 not provided; see the README for the callback contract and other limits.
 
@@ -103,3 +103,6 @@ Remote CI results are pending.
 With V 0.5.2 and `-cc tcc -gc none`, the tests, conformance runner, and API
 snapshot check passed again after the tool-selection integration. Remote CI for
 these changes is pending.
+
+The agent middleware integration was verified locally with V 0.5.2, bundled
+tcc, and `-gc none`: tests, conformance vectors, and API snapshot check passed.

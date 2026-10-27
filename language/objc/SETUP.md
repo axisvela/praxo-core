@@ -43,7 +43,7 @@ Foundation is not evidence of a verified macOS run.
    New-Item -ItemType Directory -Force build
    clang -fobjc-arc -fblocks -I. -o build\praxo_tests.exe `
      PraxoJSON.m PraxoJsonSchema.m PraxoPlugin.m PraxoWire.m `
-     PraxoCore.m PraxoAgent.m tests\main.m tests\correlation.m `
+     PraxoCore.m PraxoAgent.m tests\main.m tests\correlation.m tests\middleware.m `
      -fobjc-runtime=gnustep-2.0 -fuse-ld=lld `
      -lgnustep-base -lobjc -lstdc++
    build\praxo_tests.exe ..\..\spec
@@ -59,7 +59,7 @@ are native and no `-lstdc++` link is needed:
 mkdir -p build
 clang -fobjc-arc -fblocks -I. -o build/praxo_tests \
   PraxoJSON.m PraxoJsonSchema.m PraxoPlugin.m PraxoWire.m \
-  PraxoCore.m PraxoAgent.m tests/main.m tests/correlation.m \
+  PraxoCore.m PraxoAgent.m tests/main.m tests/correlation.m tests/middleware.m \
   -framework Foundation
 build/praxo_tests ../../spec
 ```
@@ -95,5 +95,8 @@ passed all 8 tests, and the Go specification tests passed. GNUstep headers,
 libraries, lld, and runtime DLLs must be discoverable by the selected compiler
 and Windows loader; the example paths may need adjustment for the installation.
 
-The Windows clang/GNUstep runner passed 423 checks, including the opt-in tool
-selection integration. This result does not establish a macOS CI result.
+The native regressions cover opt-in tool selection, PII redaction of message and
+block text and recursive tool results, preservation of non-text block fields and
+tool-call arguments, structured output, and per-run call limits. The Windows
+runner passed 446 checks after these additions. This does not establish a macOS
+CI result for the uncommitted changes.

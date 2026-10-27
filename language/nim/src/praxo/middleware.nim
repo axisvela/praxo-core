@@ -30,6 +30,8 @@ proc redactEmail(text: string): string =
       var ending = index + 1
       while ending < text.len and isDomainCharacter(text[ending]):
         inc ending
+      while ending > index + 1 and text[ending - 1] == '.':
+        dec ending
       if ending > index + 1:
         let domain = text[index + 1 ..< ending]
         let dot = domain.rfind('.')

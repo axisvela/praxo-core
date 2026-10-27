@@ -5,8 +5,8 @@
 
 The unreleased V candidate includes a core loop. It passes all eleven vector groups, its
 tests, and its public API snapshot. These results do not establish full Core
-parity or production readiness. PII, structured output, and call limit remain
-standalone helpers; opt-in tool selection is enforced by the agent.
+parity or production readiness. The agent can opt into PII redaction, structured
+output, call limits, and tool selection; the implementations remain partial.
 `praxo.callback_model` accepts a synchronous consumer function from `Request` to
 `!Response`; errors propagate and can trigger `praxo.fallback_model`. Built-in
 provider integrations, streaming wire encodings, and plugin hosts are not

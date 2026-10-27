@@ -3,8 +3,8 @@
 Objective-C is a native Core implementation targeting the PRAXO-CORE
 contract. It passes all eleven shared vector groups and includes the native
 agent loop, context compaction, memory store, path policy, checkpoint
-allowlist, tool selection, and tool-call parsing. PII, structured output, and
-call limit are standalone helpers, not integrated agent middleware. Vector
+allowlist, tool selection, tool-call parsing, and opt-in PII redaction,
+structured output validation, and call limits. Vector
 coverage does not establish full Core parity or production readiness.
 
 The SDK does not call Go or another language runtime. It has no provider
@@ -35,7 +35,7 @@ To build manually on macOS from `language/objc/`:
 ```bash
 clang -fobjc-arc -fblocks -I. -o build/praxo_tests \
   PraxoJSON.m PraxoJsonSchema.m PraxoPlugin.m PraxoWire.m \
-  PraxoCore.m PraxoAgent.m tests/main.m tests/correlation.m \
+  PraxoCore.m PraxoAgent.m tests/main.m tests/correlation.m tests/middleware.m \
   -framework Foundation
 build/praxo_tests ../../spec
 ```
@@ -69,6 +69,17 @@ Set `options[@"toolSelection"]` to a set from `PXRToolSelectionCreate` to
 advertise and permit only selected tool names. An empty set denies all tools;
 omitting the option preserves unrestricted tool behavior. A call to an
 unselected name fails with `AGENT_TOOL_NOT_SELECTED` before invocation.
+Set `options[@"pii"]` to `@YES` to redact model-bound message content and
+content-block text, and recursively redact tool results, using the built-in
+rules. Other block fields and historical tool-call arguments remain unchanged.
+Tool invocations and events receive original arguments, and final output is not
+redacted. Redaction is not a comprehensive privacy or logging control.
+Set `options[@"structuredOutput"]` to a `PXRStructuredOutputCreate` configuration
+to validate and optionally repair the final output; failures return
+`AGENT_STRUCTURED_OUTPUT` without completing the run. Set
+`options[@"modelCallLimit"]` and `options[@"toolCallLimit"]` to positive numbers
+to bound invocations independently per run. Values at or below zero are unlimited.
+These options are disabled by default.
 The parser returns `nil` when the content is not a recognized call or the
 manifest is invalid. Schema validation returns error paths. SDK-local
 `PXRWireErrorDomain` and `PXRCoreErrorDomain` codes are not new shared wire

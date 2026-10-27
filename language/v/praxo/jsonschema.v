@@ -62,10 +62,13 @@ fn visit_schema(schema json2.Any, data json2.Any, path string, mut errors []Vali
 			add_error(mut errors, path, 'expected array')
 			return
 		}
-		items := get_array(schema, 'items')
+		items := get(schema, 'items') or { json2.null }
+		legacy_items := as_array(items)
 		for index, value in as_array(data) {
-			if items.len > 0 {
-				visit_schema(items[0], value, '${path}[${index}]', mut errors)
+			if is_object(items) {
+				visit_schema(items, value, '${path}[${index}]', mut errors)
+			} else if legacy_items.len > 0 {
+				visit_schema(legacy_items[0], value, '${path}[${index}]', mut errors)
 			}
 		}
 		return
