@@ -13,6 +13,7 @@ add_library(praxo_core STATIC
     src/toolcall.c
     src/jsonschema.c
     src/plugin.c
+    src/core.c
     src/vectors_core.c
     src/vectors_agent.c
     src/conformance.c
@@ -28,5 +29,9 @@ target_link_libraries(praxo-conformance PRIVATE praxo_core)
 add_executable(praxo-c-tests tests/test_core.c)
 target_link_libraries(praxo-c-tests PRIVATE praxo_core)
 
+add_executable(praxo-c-core-tests tests/test_core_api.c)
+target_link_libraries(praxo-c-core-tests PRIVATE praxo_core)
+
 add_test(NAME praxo-conformance COMMAND praxo-conformance)
 add_test(NAME praxo-c-tests COMMAND praxo-c-tests)
+add_test(NAME praxo-c-core-tests COMMAND praxo-c-core-tests)

@@ -19,7 +19,7 @@
 | TypeScript | [TypeScript SDK](typescript.md) |
 | Java | [Java SDK](java.md) |
 | Rust | [Rust SDK](rust.md) |
-| C | [C SDK](c.md)，当前公开 API 为 wire 级别 |
+| C | [C SDK](c.md) |
 | C++ | [C++ SDK](cpp.md) |
 | C# / .NET | [C# SDK](csharp.md) |
 | PHP | [PHP SDK](php.md) |

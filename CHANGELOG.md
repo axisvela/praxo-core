@@ -4,6 +4,8 @@
 
 ### Added
 
+- Promoted C to a native Core SDK with a public memory/event/checkpoint/policy/
+  context/middleware/agent API and source tag `c/v0.2.0`.
 - Promoted Delphi/Free Pascal to a native Core SDK with runtime and middleware
   helpers, all eleven vector groups, and source tag `delphi/v0.2.0`.
 - Promoted Haskell to a native Core SDK with runtime, middleware, and all eleven

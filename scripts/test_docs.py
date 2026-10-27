@@ -109,7 +109,7 @@ class DocumentationTests(unittest.TestCase):
         self.assertIn("[MATLAB](matlab.md) | Framework (Core) | released | `matlab/v0.2.0` | complete", english)
         self.assertIn("[MATLAB](matlab.md) | Framework (Core) | 源码已发布 | `matlab/v0.2.0` | 完整", chinese)
         self.assertIn("[Haskell](haskell.md)", chinese)
-        self.assertIn("public API is wire-level", english)
+        self.assertIn("public Core API plus wire JSON primitives", english)
         with self.assertRaises(ValueError):
             docs_hooks.language_matrix(source.replace("| VBScript | Bridge | planned |", "| VBScript | Bridge | unknown |"))
 

@@ -30,4 +30,4 @@ does not implement the PRAXO-CORE contract.
 
 ## Release
 
-No separate tag. The sample reuses the C package `c/v0.1.0`.
+No separate tag. The sample reuses the C package `c/v0.2.0`.

@@ -28,7 +28,7 @@ Go integration, or production readiness.
 | Sample | Usage of an existing language implementation, not another independent runtime |
 
 Implementation type is not a stability rating or a promise of every Go feature.
-C currently exposes a wire-level public API despite its Core matrix classification.
+C exposes both wire-level JSON primitives and a public Core API.
 Read each implementation's current public API and limitations before adopting it.
 Bridge and Sample describe how users access a runtime, not proof that their
 languages are incapable of Framework support. Shared-runtime languages can

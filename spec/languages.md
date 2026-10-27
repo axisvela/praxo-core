@@ -52,7 +52,7 @@ production readiness or full Go feature parity.
 | TypeScript | Core | released | `typescript/v0.1.0` | complete | 11 vectors, OpenAI adapter |
 | Java | Core | released | `java/v0.2.1` | complete | 11 vectors, OpenAI adapter, API snapshot |
 | Rust | Core | released | `rust/v0.1.0` | complete | 11 vectors, native tests; current source adds compiler-derived API/parity gate |
-| C | Core | released | `c/v0.1.0` | partial | All 11 vectors; public API is wire-level |
+| C | Core | released | `c/v0.2.0` | complete | 11 vectors, native tests; public Core API plus wire JSON primitives |
 | C# | Core (.NET) | released | `csharp/v0.1.0` | complete | 11 vectors, API snapshot, OpenAI adapter |
 | Visual Basic | Sample (.NET) | released | `csharp/v0.1.0` | sample | VB.NET consumer sample in `language/csharp/samples` |
 | PowerShell | Bridge | released | `powershell/v0.1.0` | complete | Wraps the bridge CLI |
@@ -86,7 +86,7 @@ production readiness or full Go feature parity.
 | F# | Sample (.NET) | released | `csharp/v0.1.0` | sample | F# consumer sample in `examples/fsharp`; uses the C# SDK |
 | Clojure | Sample (JVM) | released | `java/v0.2.1` | sample | Clojure consumer sample in `examples/clojure`; uses the Java SDK |
 | Solidity | Wire | planned | none | planned | Candidate contract integration; scope and technical limitations require investigation |
-| OpenCL | Sample | released | `c/v0.1.0` | sample | Compute integration sample in `examples/opencl`; uses the C SDK and an OpenCL ICD |
+| OpenCL | Sample | released | `c/v0.2.0` | sample | Compute integration sample in `examples/opencl`; uses the C SDK and an OpenCL ICD |
 | Groovy | Sample (JVM) | released | `java/v0.2.1` | sample | Groovy consumer sample in `examples/groovy`; uses the Java SDK |
 | J# | Sample (.NET) | consumer-gated | none | gated | Legacy J# runtime and toolchain are unsupported; requires a named consumer and compatible .NET path |
 | FoxPro | Bridge | planned | none | planned | Bridge over the maintained runtime; Visual FoxPro is Windows-only and legacy |
@@ -110,7 +110,7 @@ production readiness or full Go feature parity.
 | TypeScript | `typescript-conformance` | build, vectors, parity, API snapshot, node:test |
 | Java | `java-conformance` | Maven build, vectors, API snapshot, self-tests |
 | Rust | `rust-conformance` | cargo test, vectors, compiler-derived API snapshot/parity, gate regressions |
-| C | `c-conformance` | CMake build, vectors, C core tests |
+| C | `c-conformance` | CMake build, 11 vectors, C core tests, public Core API tests |
 | C# / VB.NET | `csharp-conformance` | build, vectors, API snapshot, core tests, VB sample |
 | PHP | `php-conformance` | vectors, API snapshot, core tests |
 | Ruby | `ruby-conformance` | 11 vectors, API snapshot, tests |

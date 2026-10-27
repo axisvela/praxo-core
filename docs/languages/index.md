@@ -21,7 +21,7 @@ wire-only scope requires documented technical limitations. See the
 | TypeScript | [TypeScript SDK](typescript.md) |
 | Java | [Java SDK](java.md) |
 | Rust | [Rust SDK](rust.md) |
-| C | [C SDK](c.md), currently a wire-level public API |
+| C | [C SDK](c.md) |
 | C++ | [C++ SDK](cpp.md) |
 | C# / .NET | [C# SDK](csharp.md) |
 | PHP | [PHP SDK](php.md) |

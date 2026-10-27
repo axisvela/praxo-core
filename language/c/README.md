@@ -1,11 +1,12 @@
 # PRAXO-CORE C SDK
 
-C11 implementation of the PRAXO-CORE wire contract. The normative contract is
-[`spec/`](../../spec/README.md); Go remains the reference implementation.
+C11 implementation of the PRAXO-CORE Core contract with source tag `c/v0.2.0`.
+The normative contract is [`spec/`](../../spec/README.md); Go remains the
+reference implementation.
 
-**Status:** C11 core passes all eleven conformance vector groups. The public C
-API is currently wire-level (JSON, toolcall, JSON Schema, plugin) plus the
-conformance runner; idiomatic model/agent C structs are follow-up work.
+**Status:** C11 passes all eleven conformance vector groups. `include/praxo.h`
+provides the wire-level JSON primitives, and `include/praxo_core.h` adds public
+memory, event, checkpoint, policy, context, middleware, and agent APIs.
 
 ## Build and test
 
@@ -22,7 +23,7 @@ With Zig on Windows:
 
 ```powershell
 cd language/c
-zig cc -std=c11 -Iinclude -Isrc src/files.c src/json.c src/json_equals.c src/toolcall.c src/jsonschema.c src/plugin.c src/vectors_core.c src/vectors_agent.c src/conformance.c src/main.c -o build/conformance.exe
+zig cc -std=c11 -Iinclude -Isrc src/files.c src/json.c src/json_equals.c src/toolcall.c src/jsonschema.c src/plugin.c src/core.c src/vectors_core.c src/vectors_agent.c src/conformance.c src/main.c -o build/conformance.exe
 .\build\conformance.exe
 ```
 
@@ -34,6 +35,8 @@ to a toolchain install root.
 | File | Contract |
 | --- | --- |
 | `include/praxo.h` | Arena, JSON value, and parse/stringify API |
+| `include/praxo_core.h` | Memory, events, checkpoint, policy, context, middleware, and agent API |
+| `src/core.c` | Public Core implementation |
 | `src/toolcall.c` | Tool-call parsing and markup stripping |
 | `src/jsonschema.c` | Documented JSON Schema subset |
 | `src/plugin.c` | Manifest v1 parsing and validation |
