@@ -1,10 +1,12 @@
 # PRAXO-CORE for Elixir
 
-Elixir is a native Core implementation of the declared PRAXO-CORE contract. It
+Elixir is a native Core implementation targeting the PRAXO-CORE contract. It
 passes all eleven shared vector groups with `Elixir 1.20.4` on `Erlang/OTP 29`
 and includes the native agent loop, context compaction, memory store, path
-policy, checkpoint allowlist, PII and structured-output middleware, and
-tool-call parsing.
+policy, checkpoint allowlist, and tool-call parsing. PII, structured output,
+call limit, and tool selection are standalone helpers, not integrated agent
+middleware. Vector coverage does not establish full Core parity or production
+readiness.
 
 The SDK uses the OTP 27+ `:json` module and does not call Go or another
 language runtime. Erlang shares the BEAM runtime and does not add a second
@@ -63,6 +65,8 @@ Public declarations are inventoried in [`api/0.1.0.txt`](api/0.1.0.txt).
   resolve symlinks or replace operating-system sandboxing.
 - Provider adapters, streaming wire encodings, and plugin hosts are not part of
   this SDK.
+- Concrete built-in model modes, including fallback, cannot directly accept a
+  consumer-supplied provider.
 
 The source is MIT; see [LICENSE](LICENSE). Erlang, Elixir, and other toolchain
 components are separate projects, not vendored code.

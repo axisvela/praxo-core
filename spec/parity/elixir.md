@@ -3,11 +3,14 @@
 - Tier: core
 - SPEC_VERSION: 0.2.0
 
-`elixir/0.1.0` ships the core loop. The SDK passes all eleven vector groups, its
-tests, and its public API snapshot. `partial` marks a surface that covers the
-vector behavior and common path but not every optional Go hook or provider
-adapter. Erlang shares the BEAM runtime and is documented as a runtime, not a
-second agent loop.
+The unreleased Elixir candidate includes a core loop. It passes all eleven vector groups, its
+tests, and its public API snapshot. These results do not establish full Core
+parity or production readiness. PII, structured output, call limit, and tool
+selection are standalone helpers, not integrated agent middleware. The concrete
+built-in model modes, including fallback, cannot directly accept a
+consumer-supplied provider. `partial` marks these and other incomplete surfaces.
+Erlang shares the BEAM runtime and is documented as a runtime, not a second
+agent loop.
 
 | Go symbol | Elixir symbol | Status | Phase |
 | --- | --- | --- | --- |
@@ -35,8 +38,8 @@ second agent loop.
 | `toolcall.ParseInputJSON` | `Praxo.ToolCallParser.parse_input_json` | parity | P1 |
 | `tool/jsonschema.Schema` | `Praxo.JsonSchema.validate` | partial | P1 |
 | `plugin.ParseManifest` | `Praxo.Plugin.parse_manifest` | parity | P1 |
-| `agent/middleware.CallLimitMiddleware` | `Praxo.Middleware.call_limit` | parity | P1 |
-| `agent/middleware.FallbackModel` | `Praxo.Agent.fallback_model` | parity | P1 |
-| `agent/middleware.PIIMiddleware` | `Praxo.Middleware.pii_redact` | parity | P1 |
-| `agent/middleware.StructuredOutput` | `Praxo.StructuredOutput` | parity | P1 |
-| `agent/middleware.ToolSelectionMiddleware` | `Praxo.Middleware.tool_selection` | parity | P1 |
+| `agent/middleware.CallLimitMiddleware` | `Praxo.Middleware.call_limit` | partial | P1 |
+| `agent/middleware.FallbackModel` | `Praxo.Agent.fallback_model` | partial | P1 |
+| `agent/middleware.PIIMiddleware` | `Praxo.Middleware.pii_redact` | partial | P1 |
+| `agent/middleware.StructuredOutput` | `Praxo.StructuredOutput` | partial | P1 |
+| `agent/middleware.ToolSelectionMiddleware` | `Praxo.Middleware.tool_selection` | partial | P1 |

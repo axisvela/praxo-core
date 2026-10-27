@@ -3,10 +3,12 @@
 - Tier: core
 - SPEC_VERSION: 0.2.0
 
-`v/0.1.0` ships the core loop. The SDK passes all eleven vector groups, its
-tests, and its public API snapshot. `partial` marks a surface that covers the
-vector behavior and common path but not every optional Go hook or provider
-adapter.
+The unreleased V candidate includes a core loop. It passes all eleven vector groups, its
+tests, and its public API snapshot. These results do not establish full Core
+parity or production readiness. PII, structured output, call limit, and tool
+selection are standalone helpers, not integrated agent middleware. The concrete
+built-in model modes, including fallback, cannot directly accept a
+consumer-supplied provider. `partial` marks these and other incomplete surfaces.
 
 | Go symbol | V symbol | Status | Phase |
 | --- | --- | --- | --- |
@@ -34,8 +36,8 @@ adapter.
 | `toolcall.ParseInputJSON` | `praxo.parse_input_json` | parity | P1 |
 | `tool/jsonschema.Schema` | `praxo.validate_schema` | partial | P1 |
 | `plugin.ParseManifest` | `praxo.parse_manifest` | parity | P1 |
-| `agent/middleware.CallLimitMiddleware` | `praxo.call_limit` | parity | P1 |
-| `agent/middleware.FallbackModel` | `praxo.fallback_model` | parity | P1 |
-| `agent/middleware.PIIMiddleware` | `praxo.pii_redact` | parity | P1 |
-| `agent/middleware.StructuredOutput` | `praxo.StructuredOutput` | parity | P1 |
-| `agent/middleware.ToolSelectionMiddleware` | `praxo.tool_selection` | parity | P1 |
+| `agent/middleware.CallLimitMiddleware` | `praxo.call_limit` | partial | P1 |
+| `agent/middleware.FallbackModel` | `praxo.fallback_model` | partial | P1 |
+| `agent/middleware.PIIMiddleware` | `praxo.pii_redact` | partial | P1 |
+| `agent/middleware.StructuredOutput` | `praxo.StructuredOutput` | partial | P1 |
+| `agent/middleware.ToolSelectionMiddleware` | `praxo.tool_selection` | partial | P1 |

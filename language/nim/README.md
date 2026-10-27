@@ -1,9 +1,11 @@
 # PRAXO-CORE for Nim
 
-Nim is a native Core implementation of the declared PRAXO-CORE contract. It
+Nim is a native Core implementation targeting the PRAXO-CORE contract. It
 passes all eleven shared vector groups with `Nim 2.2.12` and includes the native
 agent loop, context compaction, memory store, path policy, checkpoint
-allowlist, PII and structured-output middleware, and tool-call parsing.
+allowlist, and tool-call parsing. PII, structured output, call limit, and tool
+selection are standalone helpers, not integrated agent middleware. Vector
+coverage does not establish full Core parity or production readiness.
 
 The SDK does not call Go or another language runtime. It has no provider
 adapter or plugin host; those remain outside the declared Core scope.
@@ -55,6 +57,8 @@ Public declarations are inventoried in [`api/0.1.0.txt`](api/0.1.0.txt).
   resolve symlinks or replace operating-system sandboxing.
 - Provider adapters, streaming wire encodings, and plugin hosts are not part of
   this SDK.
+- Concrete built-in model modes, including fallback, cannot directly accept a
+  consumer-supplied provider.
 
 The source is MIT; see [LICENSE](LICENSE). Nim, MinGW, and other toolchain
 components are separate projects, not vendored code.

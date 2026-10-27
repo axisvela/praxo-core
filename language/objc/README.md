@@ -1,9 +1,11 @@
 # PRAXO-CORE for Objective-C
 
-Objective-C is a native Core implementation of the declared PRAXO-CORE
+Objective-C is a native Core implementation targeting the PRAXO-CORE
 contract. It passes all eleven shared vector groups and includes the native
 agent loop, context compaction, memory store, path policy, checkpoint
-allowlist, PII and structured-output middleware, and tool-call parsing.
+allowlist, and tool-call parsing. PII, structured output, call limit, and tool
+selection are standalone helpers, not integrated agent middleware. Vector
+coverage does not establish full Core parity or production readiness.
 
 The SDK does not call Go or another language runtime. It has no provider
 adapter or plugin host; those remain outside the declared Core scope.

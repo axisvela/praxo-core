@@ -6,9 +6,10 @@
 Unreleased native Core candidate. Local validation uses clang 21.1.8 with
 GNUstep Base 1.31.1 on Windows and covers all eleven vector groups, native
 tests, and the public declaration snapshot. Apple Foundation, macOS CI, release
-review, provider adapters, and plugin hosts are not yet verified. `partial`
-marks a surface that covers the vector behavior and common path but not every
-optional Go hook.
+review, provider adapters, and plugin hosts are not yet verified. These results
+do not establish full Core parity or production readiness. PII, structured
+output, call limit, and tool selection are standalone helpers, not integrated
+agent middleware. `partial` marks these and other incomplete surfaces.
 
 | Go symbol | Objective-C symbol | Status | Phase |
 | --- | --- | --- | --- |
@@ -36,11 +37,11 @@ optional Go hook.
 | `toolcall.ParseInputJSON` | `PXRParseInputJSON` | parity | P1 |
 | `tool/jsonschema.Schema` | `PXRValidateSchema` | partial | P1 |
 | `plugin.ParseManifest` | `PXRParseManifest` | parity | P1 |
-| `agent/middleware.CallLimitMiddleware` | `PXRCallLimitCreate` | parity | P1 |
+| `agent/middleware.CallLimitMiddleware` | `PXRCallLimitCreate` | partial | P1 |
 | `agent/middleware.FallbackModel` | `PXRModelCreateFallback` | parity | P1 |
-| `agent/middleware.PIIMiddleware` | `PXRPIIRedact` | parity | P1 |
-| `agent/middleware.StructuredOutput` | `PXRStructuredOutputCreate` | parity | P1 |
-| `agent/middleware.ToolSelectionMiddleware` | `PXRToolSelectionCreate` | parity | P1 |
+| `agent/middleware.PIIMiddleware` | `PXRPIIRedact` | partial | P1 |
+| `agent/middleware.StructuredOutput` | `PXRStructuredOutputCreate` | partial | P1 |
+| `agent/middleware.ToolSelectionMiddleware` | `PXRToolSelectionCreate` | partial | P1 |
 
 The JSON, path, pattern, and policy helpers are implementation utilities. See
 `language/objc/README.md` for runtime, Unicode, regex, and security limits.

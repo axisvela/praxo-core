@@ -3,10 +3,12 @@
 - Tier: core
 - SPEC_VERSION: 0.2.0
 
-`nim/0.1.0` ships the core loop. The SDK passes all eleven vector groups, its
-tests, and its public API snapshot. `partial` marks a surface that covers the
-vector behavior and common path but not every optional Go hook or provider
-adapter.
+The unreleased Nim candidate includes a core loop. It passes all eleven vector groups, its
+tests, and its public API snapshot. These results do not establish full Core
+parity or production readiness. PII, structured output, call limit, and tool
+selection are standalone helpers, not integrated agent middleware. The concrete
+built-in model modes, including fallback, cannot directly accept a
+consumer-supplied provider. `partial` marks these and other incomplete surfaces.
 
 | Go symbol | Nim symbol | Status | Phase |
 | --- | --- | --- | --- |
@@ -34,8 +36,8 @@ adapter.
 | `toolcall.ParseInputJSON` | `parseInputJson` | parity | P1 |
 | `tool/jsonschema.Schema` | `validateSchema` | partial | P1 |
 | `plugin.ParseManifest` | `parseManifest` | parity | P1 |
-| `agent/middleware.CallLimitMiddleware` | `callLimit` | parity | P1 |
-| `agent/middleware.FallbackModel` | `fallbackModel` | parity | P1 |
-| `agent/middleware.PIIMiddleware` | `piiRedact` | parity | P1 |
-| `agent/middleware.StructuredOutput` | `StructuredOutput` | parity | P1 |
-| `agent/middleware.ToolSelectionMiddleware` | `toolSelection` | parity | P1 |
+| `agent/middleware.CallLimitMiddleware` | `callLimit` | partial | P1 |
+| `agent/middleware.FallbackModel` | `fallbackModel` | partial | P1 |
+| `agent/middleware.PIIMiddleware` | `piiRedact` | partial | P1 |
+| `agent/middleware.StructuredOutput` | `StructuredOutput` | partial | P1 |
+| `agent/middleware.ToolSelectionMiddleware` | `toolSelection` | partial | P1 |
