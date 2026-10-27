@@ -128,6 +128,12 @@ begin
   Result := True;
 end;
 
+function UTF8Length(const S: UTF8String): Integer;
+begin
+  if not UTF8CodePoints(S, Result) then
+    Result := Length(S);
+end;
+
 procedure ValidateTree(Data: TJSONData; Depth: Integer);
 var
   i: Integer;
@@ -1052,8 +1058,7 @@ begin
       Exit;
     end;
     text := TJSONString(Data).AsString;
-    if not UTF8CodePoints(text, codePoints) then
-      raise EPraxoSchema.Create('Invalid UTF-8 data');
+    codePoints := UTF8Length(text);
     keyword := LastField(objectValue, 'minLength');
     if (keyword <> nil) and (TJSONNumber(keyword).AsInt64 > 0) and (codePoints < TJSONNumber(keyword).AsInt64) then
       AddPath(Paths, Path);
