@@ -381,13 +381,10 @@ end;
 function PraxoParseJSON(const Text: UTF8String): TJSONData;
 var
   valueText, expanded: UTF8String;
-  codePoints: Integer;
 begin
   if Length(Text) > MaxJSONChars then
     raise EPraxoJSON.Create('JSON input exceeds capacity');
   expanded := ExpandUnicodeEscapes(Text);
-  if not UTF8CodePoints(expanded, codePoints) then
-    raise EPraxoJSON.Create('Invalid UTF-8 string');
   if not ExtractFirstValue(expanded, valueText) then
     raise EPraxoJSON.Create('Invalid JSON or trailing content');
   try
