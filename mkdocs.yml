@@ -57,6 +57,7 @@ plugins:
             Plugins: 插件编写
             Language Implementations: 语言实现
             Implementation Directory: 实现目录
+            Language Matrix: 语言总表
             Support Policy: 支持政策
             Integrations: 适配与生态
             Adapter Directory: 适配器目录
@@ -116,6 +117,7 @@ nav:
       - Plugins: guides/plugins.md
   - Language Implementations:
       - Implementation Directory: languages/index.md
+      - Language Matrix: languages/matrix.md
       - Support Policy: languages/support.md
       - Go: languages/go.md
       - Python: languages/python.md
@@ -142,6 +144,7 @@ nav:
       - COBOL: languages/cobol.md
       - Fortran: languages/fortran.md
       - Haskell: languages/haskell.md
+      - MATLAB / Octave: languages/matlab.md
       - Shell: languages/shell.md
       - PowerShell: languages/powershell.md
   - Integrations:

@@ -1,4 +1,4 @@
 ---
 title: Dart SDK
-sdk_readme: sdk/dart/README.md
+sdk_readme: language/dart/README.md
 ---

@@ -7,12 +7,12 @@ implementation. The sample runs on the JVM.
 
 ```bash
 # Compile the Java SDK first.
-find sdk/java/src/main/java -name '*.java' > java-sources.txt
-javac -d sdk/java/build/classes @java-sources.txt
+find language/java/src/main/java -name '*.java' > java-sources.txt
+javac -d language/java/build/classes @java-sources.txt
 
 # Then compile and run the Kotlin sample.
-kotlinc -cp sdk/java/build/classes -include-runtime -d examples/kotlin/sample.jar examples/kotlin/sample.kt
-java -cp examples/kotlin/sample.jar:sdk/java/build/classes SampleKt
+kotlinc -cp language/java/build/classes -include-runtime -d examples/kotlin/sample.jar examples/kotlin/sample.kt
+java -cp examples/kotlin/sample.jar:language/java/build/classes SampleKt
 ```
 
 CI installs Kotlin and runs the same sample.

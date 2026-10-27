@@ -1,4 +1,4 @@
 ---
 title: Rust SDK
-sdk_readme: sdk/rust/README.md
+sdk_readme: language/rust/README.md
 ---

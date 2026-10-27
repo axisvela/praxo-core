@@ -41,7 +41,7 @@ this framework.
 - `spec/` is the normative contract for the Python, TypeScript, and Java SDKs.
 - Go remains the reference implementation; do not widen the `pkg/...` API for an
   SDK.
-- Keep independent implementations under `sdk/`, bridge wrappers under
+- Keep independent implementations under `language/`, bridge wrappers under
   `bindings/`, and shared-runtime language samples under `examples/`.
 - Framework is the default target for native-capable languages. Wire is an
   intermediate stage; final wire-only scope requires documented technical
@@ -63,75 +63,77 @@ this framework.
 GOWORK=off go test ./...
 GOWORK=off go vet ./...
 GOWORK=off go build ./...
-cd sdk/python; python conformance/run.py
-cd sdk/python; python api-snapshot.py --check
-cd sdk/python; python -m unittest discover -s tests -v
-cd sdk/typescript; npm ci
-cd sdk/typescript; npm run build
-cd sdk/typescript; npm run api:check
-cd sdk/typescript; npm run conformance
-cd sdk/typescript; node --test tests/sdk.test.js tests/openaicompat.test.js
-cd sdk/java; mvn -q -DskipTests test-compile
-cd sdk/java; mvn -q -DskipTests package
-cd sdk/java; java -cp target/classes io.axisvela.praxo.conformance.ApiSnapshot --check
-cd sdk/java; java -cp target/classes io.axisvela.praxo.conformance.Run
-cd sdk/java; java --add-modules jdk.httpserver -cp target/classes:target/test-classes io.axisvela.praxo.adapters.OpenAICompatibleSelfTest
-cd sdk/java; java -cp target/classes:target/test-classes io.axisvela.praxo.agent.AgentConcurrencySelfTest
-cd sdk/rust; cargo test
-cd sdk/rust; cargo run --quiet --bin conformance
-cd sdk/rust; python api-snapshot.py --check
-cd sdk/rust; python -m unittest discover -s tests -p "test_*.py" -v
+cd language/python; python conformance/run.py
+cd language/python; python api-snapshot.py --check
+cd language/python; python -m unittest discover -s tests -v
+cd language/typescript; npm ci
+cd language/typescript; npm run build
+cd language/typescript; npm run api:check
+cd language/typescript; npm run conformance
+cd language/typescript; node --test tests/sdk.test.js tests/openaicompat.test.js
+cd language/java; mvn -q -DskipTests test-compile
+cd language/java; mvn -q -DskipTests package
+cd language/java; java -cp target/classes io.axisvela.praxo.conformance.ApiSnapshot --check
+cd language/java; java -cp target/classes io.axisvela.praxo.conformance.Run
+cd language/java; java --add-modules jdk.httpserver -cp target/classes:target/test-classes io.axisvela.praxo.adapters.OpenAICompatibleSelfTest
+cd language/java; java -cp target/classes:target/test-classes io.axisvela.praxo.agent.AgentConcurrencySelfTest
+cd language/rust; cargo test
+cd language/rust; cargo run --quiet --bin conformance
+cd language/rust; python api-snapshot.py --check
+cd language/rust; python -m unittest discover -s tests -p "test_*.py" -v
 go test ./internal/bridge ./cmd/praxo-bridge
 go run ./cmd/praxo-bridge version
-python sdk/haskell/run-tests.py
-python sdk/haskell/api-snapshot.py --check
-cd sdk/c; cmake -S . -B build; cmake --build build; ctest --test-dir build --output-on-failure
-cd sdk/csharp; dotnet build Praxo.Core/Praxo.Core.csproj
-cd sdk/csharp; dotnet run --project Praxo.Conformance
-cd sdk/csharp; dotnet run --project Praxo.Conformance -- --check-api
-cd sdk/csharp; dotnet run --project Praxo.Tests
-cd sdk/csharp; dotnet run --project samples/VbSample
-php sdk/php/conformance/run.php
-php sdk/php/conformance/run.php --check-api
-php sdk/php/tests/run.php
-cd sdk/swift; swift test
-cd sdk/swift; swift run praxo-conformance
-cd sdk/swift; python3 api-snapshot.py --check
-cmake -S sdk/cpp -B sdk/cpp/build; cmake --build sdk/cpp/build; ctest --test-dir sdk/cpp/build --output-on-failure
-python sdk/cpp/api-snapshot.py --check
-ruby sdk/ruby/conformance/run.rb
-ruby sdk/ruby/api-snapshot.rb --check
-ruby sdk/ruby/tests/run.rb
-lua sdk/lua/conformance/run.lua
-python sdk/lua/api-snapshot.py --check
-lua sdk/lua/tests/run.lua
-cd sdk/dart; dart run conformance/run.dart
-cd sdk/dart; python api-snapshot.py --check
-cd sdk/dart; dart run tests/run.dart
-cd sdk/d; mkdir -p build; dmd -i -Isource -O -release source/conformance.d -of=build/conformance
-cd sdk/d; ./build/conformance
-cd sdk/d; dmd -i -Isource -O -release source/tests.d -of=build/tests
-cd sdk/d; ./build/tests
-cd sdk/d; python api-snapshot.py --check
-cd sdk/zig; mkdir -p build; zig build-exe src/conformance.zig -O ReleaseSafe -femit-bin=build/conformance
-cd sdk/zig; ./build/conformance
-cd sdk/zig; zig test src/toolcall.zig
-cd sdk/zig; zig test src/jsonschema.zig
-cd sdk/zig; zig test src/plugin.zig
-cd sdk/zig; zig test src/pii_test.zig
-cd sdk/zig; python api-snapshot.py --check
-cd sdk/typescript; npm run build
+python language/haskell/run-tests.py
+python language/haskell/api-snapshot.py --check
+python language/matlab/run-tests.py
+python language/matlab/api-snapshot.py --check
+cd language/c; cmake -S . -B build; cmake --build build; ctest --test-dir build --output-on-failure
+cd language/csharp; dotnet build Praxo.Core/Praxo.Core.csproj
+cd language/csharp; dotnet run --project Praxo.Conformance
+cd language/csharp; dotnet run --project Praxo.Conformance -- --check-api
+cd language/csharp; dotnet run --project Praxo.Tests
+cd language/csharp; dotnet run --project samples/VbSample
+php language/php/conformance/run.php
+php language/php/conformance/run.php --check-api
+php language/php/tests/run.php
+cd language/swift; swift test
+cd language/swift; swift run praxo-conformance
+cd language/swift; python3 api-snapshot.py --check
+cmake -S language/cpp -B language/cpp/build; cmake --build language/cpp/build; ctest --test-dir language/cpp/build --output-on-failure
+python language/cpp/api-snapshot.py --check
+ruby language/ruby/conformance/run.rb
+ruby language/ruby/api-snapshot.rb --check
+ruby language/ruby/tests/run.rb
+lua language/lua/conformance/run.lua
+python language/lua/api-snapshot.py --check
+lua language/lua/tests/run.lua
+cd language/dart; dart run conformance/run.dart
+cd language/dart; python api-snapshot.py --check
+cd language/dart; dart run tests/run.dart
+cd language/d; mkdir -p build; dmd -i -Isource -O -release source/conformance.d -of=build/conformance
+cd language/d; ./build/conformance
+cd language/d; dmd -i -Isource -O -release source/tests.d -of=build/tests
+cd language/d; ./build/tests
+cd language/d; python api-snapshot.py --check
+cd language/zig; mkdir -p build; zig build-exe src/conformance.zig -O ReleaseSafe -femit-bin=build/conformance
+cd language/zig; ./build/conformance
+cd language/zig; zig test src/toolcall.zig
+cd language/zig; zig test src/jsonschema.zig
+cd language/zig; zig test src/plugin.zig
+cd language/zig; zig test src/pii_test.zig
+cd language/zig; python api-snapshot.py --check
+cd language/typescript; npm run build
 node examples/javascript/sample.mjs
-perl sdk/perl/conformance/run.pl
-perl sdk/perl/api-snapshot.pl --check
-perl sdk/perl/tests/run.pl
-julia --project=sdk/julia -e 'using Pkg; Pkg.instantiate()'
-julia --project=sdk/julia sdk/julia/conformance/run.jl
-julia --project=sdk/julia sdk/julia/api-snapshot.jl --check
-julia --project=sdk/julia sdk/julia/test/runtests.jl
-Rscript sdk/r/conformance/run.R
-Rscript sdk/r/api-snapshot.R --check
-Rscript sdk/r/tests/run_tests.R
+perl language/perl/conformance/run.pl
+perl language/perl/api-snapshot.pl --check
+perl language/perl/tests/run.pl
+julia --project=language/julia -e 'using Pkg; Pkg.instantiate()'
+julia --project=language/julia language/julia/conformance/run.jl
+julia --project=language/julia language/julia/api-snapshot.jl --check
+julia --project=language/julia language/julia/test/runtests.jl
+Rscript language/r/conformance/run.R
+Rscript language/r/api-snapshot.R --check
+Rscript language/r/tests/run_tests.R
 ```
 
 ## Compatibility
@@ -139,8 +141,8 @@ Rscript sdk/r/tests/run_tests.R
 Unreleased native SDK checks:
 
 ```bash
-python sdk/fortran/run-tests.py
-python sdk/cobol/run-tests.py
+python language/fortran/run-tests.py
+python language/cobol/run-tests.py
 ```
 
 These checks are partial implementation gates, not complete Core release gates.

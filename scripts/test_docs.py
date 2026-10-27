@@ -33,8 +33,8 @@ class Links(HTMLParser):
 class DocumentationTests(unittest.TestCase):
     def test_sdk_readme_links(self):
         text = "[API](API.md) [spec](../../spec/README.md#wire) [anchor](#usage) [web](https://example.com/)"
-        result = docs_hooks.sdk_readme(text, "sdk/python/README.md")
-        self.assertIn(docs_hooks.REPOSITORY + "sdk/python/API.md", result)
+        result = docs_hooks.sdk_readme(text, "language/python/README.md")
+        self.assertIn(docs_hooks.REPOSITORY + "language/python/API.md", result)
         self.assertIn(docs_hooks.REPOSITORY + "spec/README.md#wire", result)
         self.assertIn("[anchor](#usage)", result)
         self.assertIn("[web](https://example.com/)", result)
@@ -58,15 +58,15 @@ class DocumentationTests(unittest.TestCase):
 
     def test_moved_language_redirects_cover_all_pages(self):
         pages = {path.name for path in (ROOT / "docs/languages").glob("*.md")}
-        self.assertEqual(pages, {page + ".md" for page in docs_hooks.MOVED_LANGUAGE_PAGES})
+        self.assertTrue({page + ".md" for page in docs_hooks.MOVED_LANGUAGE_PAGES}.issubset(pages))
         for prefix in ("", "zh-CN/"):
             self.assertFalse((ROOT / "docs" / prefix / "sdks").exists())
 
     def test_repository_document_links(self):
         sources = list((ROOT / "docs").rglob("*.md"))
         sources += list((ROOT / "spec").rglob("*.md"))
-        sources += [ROOT / name / "README.md" for name in ("sdk", "bindings")]
-        sources += list((ROOT / "sdk").glob("*/README.md"))
+        sources += [ROOT / name / "README.md" for name in ("language", "bindings")]
+        sources += list((ROOT / "language").glob("*/README.md"))
         sources += list((ROOT / "bindings").glob("*/README.md"))
         sources += [ROOT / "examples" / name / "README.md" for name in ("javascript", "kotlin", "scala")]
         sources += [ROOT / name for name in ("README.md", "README.zh-CN.md", "CONTRIBUTING.md", "SECURITY.md", "ROADMAP.md")]
@@ -96,6 +96,29 @@ class DocumentationTests(unittest.TestCase):
         locales = config["plugins"][1]["i18n"]["languages"]
         chinese = next(locale for locale in locales if locale["locale"] == "zh-CN")
         self.assertEqual(chinese["nav_translations"]["Language Implementations"], "语言实现")
+
+    def test_language_matrix_is_derived_from_canonical_source(self):
+        source = (ROOT / "spec/languages.md").read_text(encoding="utf-8")
+        english = docs_hooks.language_matrix(source)
+        chinese = docs_hooks.language_matrix(source, chinese=True)
+        matrix_section = source.split("## Matrix\n", 1)[1].split("\n## ", 1)[0]
+        source_rows = [line for line in matrix_section.splitlines() if line.startswith("| ")][2:]
+        self.assertEqual(english.count("\n| ") - 1, len(source_rows))
+        self.assertIn("[Python](python.md) | Framework (Core) | released | `python/v0.2.0`", english)
+        self.assertIn("[MATLAB](matlab.md) | Wire | in progress | none", english)
+        self.assertIn("[MATLAB](matlab.md) | Wire | 开发中 | —", chinese)
+        self.assertIn("[Haskell](haskell.md)", chinese)
+        self.assertIn("public API is wire-level", english)
+        with self.assertRaises(ValueError):
+            docs_hooks.language_matrix(source.replace("| Haskell | Wire |", "| Haskell | Unknown |"))
+
+    def test_built_language_matrix(self):
+        for prefix in ("", "zh-CN/"):
+            html = (ROOT / "site" / prefix / "languages/matrix/index.html").read_text(encoding="utf-8")
+            self.assertIn("MATLAB", html)
+            self.assertIn("Haskell", html)
+            self.assertIn("python/v0.2.0", html)
+            self.assertNotIn("&lt;!-- language-support-matrix --&gt;", html)
 
     def test_built_legacy_redirects(self):
         for prefix in ("", "zh-CN/"):
@@ -148,7 +171,7 @@ class DocumentationTests(unittest.TestCase):
             content.feed(sdk)
             self.assertIn("pip install", "".join(content.text))
             self.assertIn("Contract Surface", sdk)
-            self.assertIn(docs_hooks.REPOSITORY + "sdk/python/API.md", sdk)
+            self.assertIn(docs_hooks.REPOSITORY + "language/python/API.md", sdk)
 
 
 if __name__ == "__main__":

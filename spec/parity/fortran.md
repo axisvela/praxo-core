@@ -7,7 +7,7 @@ Unreleased native Core candidate. All 62 vectors in eleven groups, native
 regression tests, and the API declaration snapshot pass locally. The remote
 `fortran-conformance` job passed on migration commit `bdc23a8`; release review is
 pending. `partial` does not claim every optional Go hook,
-provider integration, or full wire/model surface. See `sdk/fortran/README.md` for
+provider integration, or full wire/model surface. See `language/fortran/README.md` for
 bounded JSON, pattern, path-policy, PII, and stream limitations.
 
 | Go symbol | Fortran symbol | Status | Phase |

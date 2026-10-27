@@ -1,4 +1,4 @@
 ---
 title: Lua SDK
-sdk_readme: sdk/lua/README.md
+sdk_readme: language/lua/README.md
 ---

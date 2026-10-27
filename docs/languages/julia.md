@@ -1,4 +1,4 @@
 ---
 title: Julia SDK
-sdk_readme: sdk/julia/README.md
+sdk_readme: language/julia/README.md
 ---

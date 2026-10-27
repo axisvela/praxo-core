@@ -7,14 +7,15 @@ import yaml
 
 
 ROOT = Path(__file__).resolve().parents[1]
-LANGUAGES = "python typescript java rust c cpp csharp php ruby perl lua dart swift julia r d zig cobol fortran haskell".split()
+LANGUAGES = "python typescript java rust c cpp csharp php ruby perl lua dart swift julia r d zig cobol fortran haskell matlab".split()
 BINDINGS = ["shell", "powershell"]
 SAMPLES = ["javascript", "kotlin", "scala"]
 
 
 class LayoutTests(unittest.TestCase):
     def test_language_locations(self):
-        for category, names in (("sdk", LANGUAGES), ("bindings", BINDINGS), ("examples", SAMPLES)):
+        self.assertFalse((ROOT / "sdk").exists())
+        for category, names in (("language", LANGUAGES), ("bindings", BINDINGS), ("examples", SAMPLES)):
             for name in names:
                 self.assertFalse((ROOT / name).exists(), name)
                 self.assertTrue((ROOT / category / name / "README.md").is_file(), name)
@@ -46,10 +47,10 @@ class LayoutTests(unittest.TestCase):
         self.assertEqual(stale, [])
         self.assertIn("node ../../examples/javascript/sample.mjs", text)
         self.assertIn("uses: ruby/setup-ruby@v1", text)
-        self.assertNotIn("uses: sdk/", text)
+        self.assertNotIn("uses: language/", text)
 
     def test_rust_binary_source_is_not_ignored(self):
-        result = subprocess.run(["git", "check-ignore", "--no-index", "-q", "sdk/rust/src/bin/conformance.rs"], cwd=ROOT)
+        result = subprocess.run(["git", "check-ignore", "--no-index", "-q", "language/rust/src/bin/conformance.rs"], cwd=ROOT)
         self.assertEqual(result.returncode, 1)
 
     def test_delivered_languages_have_site_entries(self):

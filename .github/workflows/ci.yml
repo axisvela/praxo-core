@@ -78,7 +78,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: sdk/python
+        working-directory: language/python
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -103,22 +103,32 @@ jobs:
         with:
           ghc-version: "9.12.2"
           cabal-version: "3.14.2.0"
-      - run: python sdk/haskell/run-tests.py
+      - run: python language/haskell/run-tests.py
       - run: cabal build --offline all
-        working-directory: sdk/haskell
+        working-directory: language/haskell
+
+  matlab-wire:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: sudo apt-get update && sudo apt-get install -y octave
+      - run: python language/matlab/run-tests.py --octave octave-cli
 
   typescript-conformance:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: sdk/typescript
+        working-directory: language/typescript
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: "20"
           cache: npm
-          cache-dependency-path: sdk/typescript/package-lock.json
+          cache-dependency-path: language/typescript/package-lock.json
       - run: npm ci
       - run: npm run build
       - run: npm run api:check
@@ -129,7 +139,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: sdk/java
+        working-directory: language/java
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-java@v4
@@ -152,11 +162,11 @@ jobs:
         with:
           distribution: temurin
           java-version: "21"
-      - run: javac -d sdk/java/build/classes $(find sdk/java/src/main/java -name '*.java')
+      - run: javac -d language/java/build/classes $(find language/java/src/main/java -name '*.java')
       - run: curl -fL -o kotlin-compiler.zip https://github.com/JetBrains/kotlin/releases/download/v2.4.21/kotlin-compiler-2.4.21.zip
       - run: unzip -q kotlin-compiler.zip
-      - run: kotlinc/bin/kotlinc -cp sdk/java/build/classes -include-runtime -d examples/kotlin/sample.jar examples/kotlin/sample.kt
-      - run: java -cp examples/kotlin/sample.jar:sdk/java/build/classes SampleKt
+      - run: kotlinc/bin/kotlinc -cp language/java/build/classes -include-runtime -d examples/kotlin/sample.jar examples/kotlin/sample.kt
+      - run: java -cp examples/kotlin/sample.jar:language/java/build/classes SampleKt
 
   scala-sample:
     runs-on: ubuntu-latest
@@ -166,15 +176,15 @@ jobs:
         with:
           distribution: temurin
           java-version: "21"
-      - run: javac -d sdk/java/build/classes $(find sdk/java/src/main/java -name '*.java')
+      - run: javac -d language/java/build/classes $(find language/java/src/main/java -name '*.java')
       - uses: VirtusLab/scala-cli-setup@main
-      - run: scala-cli run examples/scala/sample.scala --classpath sdk/java/build/classes --server=false --jvm 21
+      - run: scala-cli run examples/scala/sample.scala --classpath language/java/build/classes --server=false --jvm 21
 
   c-conformance:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: sdk/c
+        working-directory: language/c
     steps:
       - uses: actions/checkout@v4
       - run: cmake -S . -B build
@@ -188,11 +198,11 @@ jobs:
       - uses: actions/setup-dotnet@v4
         with:
           dotnet-version: "8.0.x"
-      - run: dotnet build sdk/csharp/Praxo.Core/Praxo.Core.csproj -c Release
-      - run: dotnet run --project sdk/csharp/Praxo.Conformance -c Release
-      - run: dotnet run --project sdk/csharp/Praxo.Conformance -c Release -- --check-api
-      - run: dotnet run --project sdk/csharp/Praxo.Tests -c Release
-      - run: dotnet run --project sdk/csharp/samples/VbSample -c Release
+      - run: dotnet build language/csharp/Praxo.Core/Praxo.Core.csproj -c Release
+      - run: dotnet run --project language/csharp/Praxo.Conformance -c Release
+      - run: dotnet run --project language/csharp/Praxo.Conformance -c Release -- --check-api
+      - run: dotnet run --project language/csharp/Praxo.Tests -c Release
+      - run: dotnet run --project language/csharp/samples/VbSample -c Release
 
   php-conformance:
     runs-on: ubuntu-latest
@@ -201,15 +211,15 @@ jobs:
       - uses: shivammathur/setup-php@v2
         with:
           php-version: "8.4"
-      - run: php sdk/php/conformance/run.php
-      - run: php sdk/php/conformance/run.php --check-api
-      - run: php sdk/php/tests/run.php
+      - run: php language/php/conformance/run.php
+      - run: php language/php/conformance/run.php --check-api
+      - run: php language/php/tests/run.php
 
   swift-conformance:
     runs-on: macos-latest
     defaults:
       run:
-        working-directory: sdk/swift
+        working-directory: language/swift
     steps:
       - uses: actions/checkout@v4
       - run: swift test
@@ -225,7 +235,7 @@ jobs:
           python-version: "3.12"
       - run: sudo apt-get update
       - run: sudo apt-get install -y gfortran
-      - run: python3 sdk/fortran/run-tests.py
+      - run: python3 language/fortran/run-tests.py
 
   cobol-conformance:
     runs-on: ubuntu-latest
@@ -236,13 +246,13 @@ jobs:
           python-version: "3.12"
       - run: sudo apt-get update
       - run: sudo apt-get install -y gnucobol
-      - run: python3 sdk/cobol/run-tests.py
+      - run: python3 language/cobol/run-tests.py
 
   d-conformance:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: sdk/d
+        working-directory: language/d
     steps:
       - uses: actions/checkout@v4
       - name: Install pinned DMD compiler
@@ -264,7 +274,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: sdk/zig
+        working-directory: language/zig
     steps:
       - uses: actions/checkout@v4
       - uses: mlugg/setup-zig@v2
@@ -283,7 +293,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: sdk/dart
+        working-directory: language/dart
     steps:
       - uses: actions/checkout@v4
       - uses: dart-lang/setup-dart@v1
@@ -297,7 +307,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: sdk/typescript
+        working-directory: language/typescript
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -312,9 +322,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: sudo apt-get update && sudo apt-get install -y lua5.4
-      - run: lua5.4 sdk/lua/conformance/run.lua
-      - run: python3 sdk/lua/api-snapshot.py --check
-      - run: lua5.4 sdk/lua/tests/run.lua
+      - run: lua5.4 language/lua/conformance/run.lua
+      - run: python3 language/lua/api-snapshot.py --check
+      - run: lua5.4 language/lua/tests/run.lua
 
   ruby-conformance:
     runs-on: ubuntu-latest
@@ -323,26 +333,26 @@ jobs:
       - uses: ruby/setup-ruby@v1
         with:
           ruby-version: "3.4"
-      - run: ruby sdk/ruby/conformance/run.rb
-      - run: ruby sdk/ruby/api-snapshot.rb --check
-      - run: ruby sdk/ruby/tests/run.rb
+      - run: ruby language/ruby/conformance/run.rb
+      - run: ruby language/ruby/api-snapshot.rb --check
+      - run: ruby language/ruby/tests/run.rb
 
   cpp-conformance:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - run: cmake -S sdk/cpp -B sdk/cpp/build
-      - run: cmake --build sdk/cpp/build
-      - run: ctest --test-dir sdk/cpp/build --output-on-failure
-      - run: python3 sdk/cpp/api-snapshot.py --check
+      - run: cmake -S language/cpp -B language/cpp/build
+      - run: cmake --build language/cpp/build
+      - run: ctest --test-dir language/cpp/build --output-on-failure
+      - run: python3 language/cpp/api-snapshot.py --check
 
   perl-conformance:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - run: perl sdk/perl/conformance/run.pl
-      - run: perl sdk/perl/api-snapshot.pl --check
-      - run: perl sdk/perl/tests/run.pl
+      - run: perl language/perl/conformance/run.pl
+      - run: perl language/perl/api-snapshot.pl --check
+      - run: perl language/perl/tests/run.pl
 
   julia-conformance:
     runs-on: ubuntu-latest
@@ -351,10 +361,10 @@ jobs:
       - uses: julia-actions/setup-julia@v2
         with:
           version: "1"
-      - run: julia --project=sdk/julia -e 'using Pkg; Pkg.instantiate()'
-      - run: julia --project=sdk/julia sdk/julia/conformance/run.jl
-      - run: julia --project=sdk/julia sdk/julia/api-snapshot.jl --check
-      - run: julia --project=sdk/julia sdk/julia/test/runtests.jl
+      - run: julia --project=language/julia -e 'using Pkg; Pkg.instantiate()'
+      - run: julia --project=language/julia language/julia/conformance/run.jl
+      - run: julia --project=language/julia language/julia/api-snapshot.jl --check
+      - run: julia --project=language/julia language/julia/test/runtests.jl
 
   r-conformance:
     runs-on: ubuntu-latest
@@ -363,9 +373,9 @@ jobs:
       - uses: r-lib/actions/setup-r@v2
         with:
           r-version: "release"
-      - run: Rscript sdk/r/conformance/run.R
-      - run: Rscript sdk/r/api-snapshot.R --check
-      - run: Rscript sdk/r/tests/run_tests.R
+      - run: Rscript language/r/conformance/run.R
+      - run: Rscript language/r/api-snapshot.R --check
+      - run: Rscript language/r/tests/run_tests.R
 
   bridge:
     runs-on: ubuntu-latest
@@ -385,7 +395,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: sdk/rust
+        working-directory: language/rust
     steps:
       - uses: actions/checkout@v4
       - uses: dtolnay/rust-toolchain@stable

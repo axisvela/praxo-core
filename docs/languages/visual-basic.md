@@ -6,10 +6,10 @@ independent agent loop or contract implementation.
 From the repository root, use the .NET SDK to run:
 
 ```bash
-dotnet run --project sdk/csharp/samples/VbSample
+dotnet run --project language/csharp/samples/VbSample
 ```
 
 See the [C# / .NET SDK](csharp.md) for runtime requirements, supported features,
 contract version, and limitations, and the
-[VB sample source](https://github.com/axisvela/praxo-core/tree/main/sdk/csharp/samples/VbSample)
+[VB sample source](https://github.com/axisvela/praxo-core/tree/main/language/csharp/samples/VbSample)
 for usage. No separate Visual Basic package or release is implied.

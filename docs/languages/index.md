@@ -5,6 +5,8 @@ Go is the reference implementation; other implementations share the declared
 contract, not necessarily every Go feature. Read the [support policy](support.md)
 and the [canonical scope matrix](https://github.com/axisvela/praxo-core/blob/main/spec/languages.md).
 
+[View all languages and their current status](matrix.md){ .md-button }
+
 Framework is the default target for independently implemented, native-capable
 languages. Current Wire stages do not yet provide the full Framework; final
 wire-only scope requires documented technical limitations. See the
@@ -52,6 +54,10 @@ wire-only scope requires documented technical limitations. See the
 native Framework, with 24 vectors in three declared groups. It does not currently
 include an agent loop. Linux and Windows CI have passed; release review remains
 pending. No Hackage package, release tag, or delivery date is claimed.
+
+[MATLAB / Octave](matlab.md) is an unreleased Wire-stage candidate targeting a
+native Framework. Three vector groups pass locally in Octave; MATLAB and remote
+CI have not yet been verified.
 
 Source tags, registry publication, conformance, and production verification are
 different states. A language page includes the source README so installation,

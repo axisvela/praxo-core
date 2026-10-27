@@ -61,6 +61,14 @@ to:
 - v2 does not remove `toolcall.ToolCall` governance metadata; that remains a
   product contract used by PRAXOVELA.
 
+## Language Directory
+
+Independent language implementations have moved from `sdk/` to `language/`.
+Update checkout paths, scripts, and links accordingly; package names and SDK
+release tags such as `python/v0.2.0` are unchanged. Historical tags retain the
+repository layout they had when published, including `sdk/` where applicable;
+use `language/` when referring to the current checkout.
+
 ## Release Gate
 
 Do not publish `v2.0.0` until PRAXOVELA/open and EE have a v2 branch that

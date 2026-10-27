@@ -1,4 +1,4 @@
 ---
 title: Java SDK
-sdk_readme: sdk/java/README.md
+sdk_readme: language/java/README.md
 ---

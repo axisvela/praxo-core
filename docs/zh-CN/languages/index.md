@@ -4,6 +4,8 @@
 所有语言都有 Go 的全部功能。请先阅读[支持政策](support.md)与
 [规范支持矩阵](https://github.com/axisvela/praxo-core/blob/main/spec/languages.md)。
 
+[查看全部语言与当前状态](matrix.md){ .md-button }
+
 具备原生实现能力的独立语言默认以 Framework 为最终目标。处于 Wire 阶段的实现
 当前尚不提供完整 Framework；仅有明确的技术限制时才以 Wire 为最终范围。当前能力
 和最终目标的区别见[支持政策](support.md)。
@@ -49,6 +51,9 @@
 [Haskell](haskell.md) 是以原生 Framework 为目标、尚未发布的 Wire 阶段实现，本地已通过
 三个声明组的 24 个向量，当前不包含 Agent 循环。Linux、Windows CI 已通过，发布审查
 仍待完成，不声明 Hackage 软件包、正式标签或交付日期。
+
+[MATLAB / Octave](matlab.md) 是以原生 Framework 为目标、尚未发布的 Wire 阶段候选实现。
+三个向量组已在本地 Octave 通过；MATLAB 和远端 CI 尚未验证。
 
 源码标签、包管理器发布、一致性测试和生产验证是不同状态。语言页面复用对应
 源码 README，使安装、示例与限制保持一致。尚未翻译的语言说明会回退到英文。

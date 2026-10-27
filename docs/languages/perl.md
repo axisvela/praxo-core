@@ -1,4 +1,4 @@
 ---
 title: Perl SDK
-sdk_readme: sdk/perl/README.md
+sdk_readme: language/perl/README.md
 ---

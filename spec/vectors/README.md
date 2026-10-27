@@ -73,7 +73,7 @@ Run locally:
 
 ```bash
 GOWORK=off go test -count=1 ./internal/spec/... -v
-cd sdk/python && python conformance/run.py
+cd language/python && python conformance/run.py
 ```
 
 See the [multilingual roadmap](../../docs/languages/support.md).

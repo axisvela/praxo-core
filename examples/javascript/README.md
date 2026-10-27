@@ -7,10 +7,10 @@ implementation. The TypeScript package compiles to CommonJS and works from Node
 ## Build and run
 
 ```bash
-cd sdk/typescript
+cd language/typescript
 npm ci
 npm run build
-cd ..
+cd ../..
 node examples/javascript/sample.mjs
 ```
 
@@ -19,7 +19,7 @@ node examples/javascript/sample.mjs
 ```js
 import { createRequire } from "node:module";
 const require = createRequire(import.meta.url);
-const praxo = require("../../sdk/typescript/dist/index.js");
+const praxo = require("../../language/typescript/dist/index.js");
 
 const model = {
   async generate() {

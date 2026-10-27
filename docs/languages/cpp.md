@@ -1,4 +1,4 @@
 ---
 title: C++ SDK
-sdk_readme: sdk/cpp/README.md
+sdk_readme: language/cpp/README.md
 ---

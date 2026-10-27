@@ -1,4 +1,4 @@
 ---
 title: D SDK
-sdk_readme: sdk/d/README.md
+sdk_readme: language/d/README.md
 ---

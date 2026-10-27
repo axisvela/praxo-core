@@ -6,7 +6,7 @@
 | 位置 | 职责 |
 | --- | --- |
 | `pkg/`、`internal/`、`cmd/` | Go 参考实现与桥接 CLI |
-| `sdk/<language>/` | 独立语言实现 |
+| `language/<language>/` | 独立语言实现 |
 | `bindings/shell/`、`bindings/powershell/` | 运行时桥接 |
 | `examples/javascript/`、`examples/kotlin/`、`examples/scala/` | 复用 TypeScript 或 Java 的示例 |
 | `adapters/` | 可选集成 |
@@ -14,17 +14,21 @@
 
 ## 使用方需要更新的路径
 
+上一版的 `sdk/<language>/` 源码路径现已调整为 `language/<language>/`。
+使用源码的消费者、CI 脚本、包路径和编辑器配置都需要同步更新；不保留 `sdk/`
+兼容占位目录。
+
 原根目录的 Python、TypeScript、Java、Rust、C、C++、C#、PHP、Ruby、Perl、Lua、
-Dart、Swift、Julia、R、D、Zig、COBOL 和 Fortran 实现统一迁入 `sdk/`。
+Dart、Swift、Julia、R、D、Zig、COBOL 和 Fortran 实现统一迁入 `language/`。
 Shell 与 PowerShell 迁入 `bindings/`；JavaScript、Kotlin、Scala 迁入 `examples/`。
-Visual Basic 示例继续位于 .NET SDK 的 `sdk/csharp/samples/VbSample/`。
+Visual Basic 示例继续位于 .NET SDK 的 `language/csharp/samples/VbSample/`。
 
 更新本地脚本、CI 工作目录、源码依赖、编辑器配置中的路径。仓库根目录示例：
 
 ```bash
-pip install ./sdk/python
-cmake -S sdk/c -B build/c
-swift build --package-path sdk/swift
+pip install ./language/python
+cmake -S language/c -B build/c
+swift build --package-path language/swift
 ```
 
 Swift 与 C 的源码消费者需要明确选择新目录。普通 Swift Git 包依赖不能仅通过 URL

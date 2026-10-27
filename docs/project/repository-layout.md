@@ -7,7 +7,7 @@ unchanged. This is a source-tree migration, not a new framework release.
 | Location | Purpose |
 | --- | --- |
 | `pkg/`, `internal/`, `cmd/` | Go reference implementation and bridge CLI |
-| `sdk/<language>/` | Independent language implementations |
+| `language/<language>/` | Independent language implementations |
 | `bindings/shell/`, `bindings/powershell/` | Wrappers over the bridge runtime |
 | `examples/javascript/`, `examples/kotlin/`, `examples/scala/` | Samples consuming TypeScript or Java |
 | `adapters/` | Optional integrations |
@@ -16,21 +16,25 @@ unchanged. This is a source-tree migration, not a new framework release.
 
 ## Updating a Source Checkout
 
+The previous `sdk/<language>/` source paths have moved to
+`language/<language>/`. Update source-based consumers, CI scripts, package
+paths, and editor configuration. The `sdk/` directory is not kept as a shim.
+
 Root-level `python/`, `typescript/`, `java/`, `rust/`, `c/`, `cpp/`, `csharp/`,
 `php/`, `ruby/`, `perl/`, `lua/`, `dart/`, `swift/`, `julia/`, `r/`, `d/`,
-`zig/`, `cobol/`, and `fortran/` are now under `sdk/`.
+`zig/`, `cobol/`, and `fortran/` are now under `language/`.
 
 Root-level `shell/` and `powershell/` are now under `bindings/`. Root-level
 `javascript/`, `kotlin/`, and `scala/` are now under `examples/`. The Visual Basic
-sample remains with the .NET SDK at `sdk/csharp/samples/VbSample/`.
+sample remains with the .NET SDK at `language/csharp/samples/VbSample/`.
 
 Update local scripts, CI working directories, source dependency paths, and
 paths in editor or build configuration. For example, from the repository root:
 
 ```bash
-pip install ./sdk/python
-cmake -S sdk/c -B build/c
-swift build --package-path sdk/swift
+pip install ./language/python
+cmake -S language/c -B build/c
+swift build --package-path language/swift
 ```
 
 Swift and C consumers using a source checkout must select the new package or

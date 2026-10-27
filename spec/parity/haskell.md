@@ -19,4 +19,4 @@ parity and does not provide an agent loop or provider adapter.
 | `plugin.ParseManifest` | `Praxo.Plugin.parseManifest` | partial | P1 |
 
 JSON and bounded pattern helpers are SDK-local utilities, not new normative
-contract symbols. See `sdk/haskell/README.md` for syntax and resource limits.
+contract symbols. See `language/haskell/README.md` for syntax and resource limits.

@@ -47,7 +47,7 @@ guides, SDKs, integrations, reference, security, project information, releases,
 and contributing. Keep the same paths under `docs/zh-CN/` for translations.
 Missing translations fall back to English.
 
-Independent language implementations live under `sdk/`, runtime wrappers under
+Independent language implementations live under `language/`, runtime wrappers under
 `bindings/`, and shared-runtime samples under `examples/`. See the
 [source migration guide](docs/project/repository-layout.md) before updating
 source-based consumer scripts. The Go root module and public imports stay unchanged.

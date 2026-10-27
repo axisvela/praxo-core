@@ -1,0 +1,9 @@
+# PRAXO-CORE MATLAB/Octave Wire API (unreleased)
+# SPEC_VERSION 0.2.0
+
+praxo.raw = encode_json(node)
+praxo.node = parse_json(raw)
+praxo.call = parse_tool_call(content)
+praxo.out = strip_tool_call_markup(content)
+praxo.[valid, manifest] = validate_manifest(raw)
+praxo.paths = validate_schema(schema, data)

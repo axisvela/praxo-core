@@ -39,7 +39,7 @@ imply every Go feature is available.
 | Rust | Core | released | `rust/v0.1.0` | 11 vectors, native tests; current source adds compiler-derived API/parity gate |
 | C | Core | released | `c/v0.1.0` | All 11 vectors; public API is wire-level |
 | C# | Core (.NET) | released | `csharp/v0.1.0` | 11 vectors, API snapshot, OpenAI adapter |
-| Visual Basic | Sample (.NET) | released | `csharp/v0.1.0` | VB.NET consumer sample in `sdk/csharp/samples` |
+| Visual Basic | Sample (.NET) | released | `csharp/v0.1.0` | VB.NET consumer sample in `language/csharp/samples` |
 | PowerShell | Bridge | released | `powershell/v0.1.0` | Wraps the bridge CLI |
 | Shell | Bridge | released | `shell/v0.1.0` | Wraps the bridge CLI |
 | PHP | Core | released | `php/v0.1.0` | 11 vectors, API snapshot, dependency-free |
@@ -55,7 +55,7 @@ imply every Go feature is available.
 | Ruby | Core | released | `ruby/v0.1.0` | 11 vectors, core tests, API snapshot |
 | Kotlin | Sample (JVM) | released | none | Uses the Java SDK |
 | Scala | Sample (JVM) | released | none | Uses the Java SDK |
-| MATLAB | Wire | planned | none | Framework target; initial wire stage planned |
+| MATLAB | Wire | in progress | none | Framework target; Octave-local toolcall, JSON Schema and plugin vector groups; MATLAB and remote CI not yet verified |
 | Perl | Core | released | `perl/v0.1.0` | 11 vectors, 27 tests, API snapshot |
 | Delphi | Wire / Bridge | planned | none | Consumer-gated |
 | OCaml / Caml | Core | planned | none | Requires a consumer and maintenance owner before a native loop |
@@ -96,6 +96,7 @@ imply every Go feature is available.
 | Fortran | `fortran-conformance` | native tests, 11 vector groups, API snapshot; release pending |
 | COBOL | `cobol-conformance` | 11 vectors, API snapshot, native/tooling tests |
 | Haskell | `haskell-conformance` | Linux/Windows: 3 wire groups, native tests, source API/parity, Cabal build |
+| MATLAB / Octave | `matlab-wire` | Octave: 3 wire groups, native tests, source API/parity; remote evidence pending; MATLAB unverified |
 | Lisp | none yet | consumer-gated bridge |
 | Objective-C, OCaml | none yet | core planned |
 | Wave 2 languages | none yet | planned; gate depends on declared tier |

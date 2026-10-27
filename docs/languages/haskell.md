@@ -1,4 +1,4 @@
 ---
 title: Haskell Wire SDK (Unreleased)
-sdk_readme: sdk/haskell/README.md
+sdk_readme: language/haskell/README.md
 ---

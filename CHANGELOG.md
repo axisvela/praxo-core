@@ -4,14 +4,17 @@
 
 ### Added
 
+- `language/matlab/`: unreleased native MATLAB/Octave Wire-stage candidate targeting
+  Framework, with local Octave validation for toolcall, JSON Schema, and plugin
+  vectors. MATLAB runtime, remote CI, agent loop, and release are not claimed.
 - Rust compiler-derived public API snapshots and parity symbol checks, with
   regression tests for rustdoc extraction and stale-page exclusion. No Rust
   runtime APIs or dependencies changed.
-- `sdk/haskell/`: unreleased native Wire candidate for strict JSON, tool-call
+- `language/haskell/`: unreleased native Wire candidate for strict JSON, tool-call
   parsing, bounded JSON Schema validation, and plugin manifest checks. Local
   tests pass 24 shared vectors across three declared groups, native regressions,
   and source API/parity checks. No agent loop or Hackage release is claimed.
-- `sdk/swift/Sources/PraxoCore`: Swift core loop, middleware, context, memory,
+- `language/swift/Sources/PraxoCore`: Swift core loop, middleware, context, memory,
   checkpoint, policy, event, and conformance dispatch for all eleven vector
   groups.
 - Julia and R core loops with conformance wiring for all eleven vector groups.
@@ -53,11 +56,11 @@
 - `internal/spec`: the Go vector runner, spec-version checks, wire-reference
   checks, and the parity linter.
 - `spec-conformance` CI job.
-- `sdk/python/praxo`: Python SDK core for model, tool, event, policy, memory,
+- `language/python/praxo`: Python SDK core for model, tool, event, policy, memory,
   checkpoint, agent loop, streaming, and JSON Schema validation.
-- `sdk/python/praxo/adapters/openaicompat`: OpenAI-compatible adapter with
+- `language/python/praxo/adapters/openaicompat`: OpenAI-compatible adapter with
   non-streaming and SSE streaming paths.
-- `sdk/python/conformance/run.py` and the `python-conformance` CI job. The Python
+- `language/python/conformance/run.py` and the `python-conformance` CI job. The Python
   SDK passes all eleven conformance vector groups.
 - Python context management: `ContextBudget`, deterministic compaction,
   `ModelSummarizer`, offload hooks, and bounded `AGENTS.md` loading.
@@ -67,16 +70,16 @@
   truncation, and fail-closed budget vectors for Go and Python.
 - `spec/vectors/middleware.json`: PII, structured output, call limits, tool
   selection, and fallback vectors for Go and Python.
-- `sdk/python/API.md`, `sdk/python/api-snapshot.py`, and `sdk/python/api/0.2.0.txt`.
+- `language/python/API.md`, `language/python/api-snapshot.py`, and `language/python/api/0.2.0.txt`.
 - Python wheel and sdist build verified in a clean virtual environment.
 - `typescript/`: TypeScript SDK core for model, tool, event, policy, memory,
   checkpoint, context, middleware, streaming, and the agent loop.
-- `sdk/typescript/src/conformance/run.ts` and the `typescript-conformance` CI job.
+- `language/typescript/src/conformance/run.ts` and the `typescript-conformance` CI job.
   The TypeScript SDK passes all eleven conformance vector groups.
 - TypeScript package build, `node:test` smoke coverage, and npm lockfile.
 - TypeScript `AbortSignal` cancellation and OpenAI-compatible adapter with
   non-streaming and SSE paths.
-- `sdk/typescript/api-snapshot.js`, `sdk/typescript/api/0.1.0.txt`, and the TypeScript
+- `language/typescript/api-snapshot.js`, `language/typescript/api/0.1.0.txt`, and the TypeScript
   parity check.
 - TypeScript `npm pack` and `npm publish --dry-run` verification. Publication
   remains a release-credential step.
@@ -84,18 +87,18 @@
   validator instead of adopting Zod.
 - `java/`: Java 21 SDK core for model, tool, event, policy, memory, checkpoint,
   context, middleware, streaming, and the agent loop.
-- `sdk/java/.../conformance/Run.java` and the `java-conformance` CI job. The Java
+- `language/java/.../conformance/Run.java` and the `java-conformance` CI job. The Java
   SDK passes all eleven conformance vector groups.
 - Decision D10: Java keeps the dependency-free JSON utility instead of adopting
   Jackson.
 - Java virtual-thread model/tool execution and `CancellationToken` cancellation.
 - Java OpenAI-compatible adapter with non-streaming and SSE paths, plus local
   adapter and concurrency self-tests.
-- Java API snapshot (`sdk/java/api/0.2.0.txt`), `ApiSnapshot --check`, and the
+- Java API snapshot (`language/java/api/0.2.0.txt`), `ApiSnapshot --check`, and the
   Java parity checker.
 - `rust/`: Rust SDK core for model, tool, event, policy, memory, checkpoint,
   context, middleware, streaming types, and the agent loop.
-- `sdk/rust/src/bin/conformance.rs`, the `rust-conformance` CI job, and seven
+- `language/rust/src/bin/conformance.rs`, the `rust-conformance` CI job, and seven
   Rust unit tests. The Rust SDK passes all eleven conformance vector groups.
 - Rust SDK `0.1.0` source tag `rust/v0.1.0`.
 - `docs/contributing/language-policy.md`: tiered plan for C#, Visual Basic,

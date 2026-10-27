@@ -82,13 +82,13 @@ Go 是参考实现，语言 SDK 共享 [`spec/`](spec/README.md) 中的规范契
 | --- | --- |
 | [`pkg/`](pkg) | Go 公开 API |
 | [`adapters/`](adapters) | 可选模型、协议、遥测与运行时集成 |
-| [`sdk/`](sdk/README.md) | 独立语言 SDK 源码、构建、测试与 API 参考 |
+| [`language/`](language/README.md) | 独立语言 SDK 源码、构建、测试与 API 参考 |
 | [`bindings/`](bindings/README.md) | Shell 与 PowerShell 运行时桥接 |
 | [`spec/`](spec) | 规范契约、共享向量与 parity 清单 |
 | [`examples/`](examples) | 可运行示例 |
 | [`docs/`](docs) | 按用户任务分类的公开文档 |
 
-Go 导入路径保持不变，语言源码已归入 `sdk/`、`bindings/` 和 `examples/`，
+Go 导入路径保持不变，语言源码已归入 `language/`、`bindings/` 和 `examples/`，
 使用方请查看[源码迁移说明](docs/zh-CN/project/repository-layout.md)。
 
 ## 框架与生态
