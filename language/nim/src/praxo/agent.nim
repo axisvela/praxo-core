@@ -110,10 +110,14 @@ proc emitEvent(events: Sink, kind: string, sessionId: string, runId: string, dat
     return
   events.emit(newEvent(kind, sessionId, runId, data))
 
+var runSequence = 0
+
 proc runAgent*(options: AgentOptions, session: Session, prompt: string): RunResult =
   if options.model.isNil:
     raisePraxo("MODEL_ERROR", "model is not configured")
-  let runId = "run-" & $getTime().toUnix()
+  let now = getTime()
+  inc runSequence
+  let runId = "run-" & $now.toUnix() & "-" & $now.nanosecond & "-" & $runSequence
   var messages: seq[Message] = @[]
   messages.add(session.messages)
   if options.systemPrompt.len > 0:

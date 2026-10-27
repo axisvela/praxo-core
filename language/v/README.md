@@ -87,6 +87,8 @@ result := praxo.run_agent(options, praxo.session('s1', []praxo.Message{}), 'Hi')
 - Tool calls cover canonical JSON, XML-style, dotted tags, and dotted plain
   lines. Generated call IDs are not provided. Markup stripping is not an
   authorization control or sanitizer.
+- Run IDs combine nanosecond time with a random suffix. They are not a
+  guaranteed global identifier.
 - Schema patterns use the V `regex` module. Unsupported patterns are reported
   as schema errors rather than silently accepted.
 - Path checks are lexical and confined by separator boundaries. They do not

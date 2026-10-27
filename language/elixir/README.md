@@ -131,6 +131,8 @@ limits do not restrict direct calls or external work performed by callbacks.
   error rather than being silently accepted.
 - Path checks are lexical and confined by separator boundaries. They do not
   resolve symlinks or replace operating-system sandboxing.
+- Run IDs combine nanosecond time with a VM-local unique integer. They are not
+  a global cross-node identifier.
 - Provider adapters, streaming wire encodings, and plugin hosts are not part of
   this SDK.
 - Provider callbacks are synchronous; streaming and built-in provider

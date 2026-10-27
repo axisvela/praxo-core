@@ -87,6 +87,8 @@ Public declarations are inventoried in [`api/0.1.0.txt`](api/0.1.0.txt).
 - Tool calls cover canonical JSON, XML-style, dotted tags, and dotted plain
   lines. Generated call IDs are not provided. Markup stripping is not an
   authorization control or sanitizer.
+- Run IDs combine process time, nanoseconds, and a process-local sequence. They
+  are not cross-process unique.
 - Path checks are lexical and confined by separator boundaries. They do not
   resolve symlinks or replace operating-system sandboxing.
 - Provider adapters, streaming wire encodings, and plugin hosts are not part of

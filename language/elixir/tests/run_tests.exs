@@ -24,6 +24,7 @@ defmodule Praxo.Tests do
     test_paths()
     test_pii()
     test_agent()
+    test_run_ids()
     test_agent_tool()
     test_agent_tool_selection()
     test_fallback_state()
@@ -139,6 +140,14 @@ defmodule Praxo.Tests do
     check(result.output == "hello", "agent output")
     check(result.steps == 1, "agent steps")
     check(options.events.kinds == ["run.started", "run.completed"], "agent events")
+  end
+
+  defp test_run_ids do
+    model = Agent.static_model("ok")
+
+    {:ok, first, _} = Agent.run_agent(Agent.new_agent_options(model), Models.session("s1"), "hi")
+    {:ok, second, _} = Agent.run_agent(Agent.new_agent_options(model), Models.session("s1"), "hi")
+    check(first.run_id != second.run_id, "run ids are distinct")
   end
 
   defp test_agent_tool do

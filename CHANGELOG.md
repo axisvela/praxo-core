@@ -7,6 +7,10 @@
 - Tagged source releases `fortran/v0.1.0`, `elixir/v0.1.0`, `nim/v0.1.0`,
   `v/v0.1.0`, and `objc/v0.1.0`; these are source tags, not package-registry
   releases, and documented partial surfaces remain.
+- Registered Groovy, J#, FoxPro, classic Visual Basic, TCL, Q, and Assembly as
+  planned or consumer-gated candidates. Clojure and OpenCL were already listed.
+- Use collision-resistant run IDs in the Elixir, Nim, and V agent loops, with
+  regression tests for rapid successive runs.
 - Opt-in PII redaction, structured-output validation, and per-run model/tool
   call limits in the Elixir, Nim, V, and Objective-C agent loops.
 - Opt-in agent tool selection in the Elixir, Nim, V, and Objective-C

@@ -113,6 +113,12 @@ proc testAgent() =
   assert result.steps == 1
   assert sink.kinds == @["run.started", "run.completed"]
 
+proc testRunIds() =
+  let model = staticModel("ok")
+  let first = runAgent(newAgentOptions(model), newSession("s1"), "hi")
+  let second = runAgent(newAgentOptions(model), newSession("s1"), "hi")
+  assert first.runId != second.runId
+
 proc testAgentTool() =
   let model = scriptedModel(@[
     newResponse(newMessageAssistant("", @[
@@ -344,6 +350,7 @@ testPaths()
 testContext()
 testPii()
 testAgent()
+testRunIds()
 testAgentTool()
 testCallbackModel()
 testCallbackErrors()

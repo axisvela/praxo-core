@@ -1,5 +1,6 @@
 module praxo
 
+import rand
 import time
 import x.json2
 
@@ -206,7 +207,7 @@ pub fn run_agent(options AgentOptions, session_value Session, prompt string) !Ru
 	if options.model == unsafe { nil } {
 		return praxo_error('MODEL_ERROR', 'model is not configured')
 	}
-	run_id := 'run-${time.now().unix()}'
+	run_id := 'run-${time.now().unix_nano()}-${rand.u64()}'
 	mut messages := []Message{}
 	messages << session_value.messages
 	if options.system_prompt != '' {

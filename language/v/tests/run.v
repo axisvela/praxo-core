@@ -143,6 +143,13 @@ fn test_agent() {
 	assert sink.kinds == ['run.started', 'run.completed']
 }
 
+fn test_run_ids() {
+	model := praxo.static_model('ok')
+	first := praxo.run_agent(praxo.agent_options(model), praxo.session('s1', []praxo.Message{}), 'hi') or { panic(err) }
+	second := praxo.run_agent(praxo.agent_options(model), praxo.session('s1', []praxo.Message{}), 'hi') or { panic(err) }
+	assert first.run_id != second.run_id
+}
+
 fn test_agent_tool() {
 	model := praxo.scripted_model([
 		praxo.response(praxo.message_assistant('', [
@@ -422,6 +429,7 @@ fn main() {
 	test_context()
 	test_pii()
 	test_agent()
+	test_run_ids()
 	test_agent_tool()
 	test_agent_tool_selection()
 	test_callback_model()

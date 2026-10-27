@@ -85,7 +85,7 @@ defmodule Praxo.Agent do
 
   def run_agent(%AgentOptions{} = options, session, prompt) do
     options = emit(options, "run.started")
-    run_id = "run-#{System.system_time(:second)}"
+    run_id = "run-#{System.system_time(:nanosecond)}-#{System.unique_integer([:positive, :monotonic])}"
     messages = session.messages ++ [Models.message("user", prompt)]
 
     messages =
