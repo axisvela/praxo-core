@@ -9,7 +9,8 @@ groups.
 VFS and plugin hosts are not yet implemented. Wheel and sdist builds are
 verified; PyPI publication is pending. Use the source installation below.
 
-Package version: `0.2.0`. Supported contract: `SPEC_VERSION` `0.2.0`
+Package version: `0.2.1` source candidate; the latest released source tag is
+`python/v0.2.0`. Supported contract: `SPEC_VERSION` `0.2.0`
 (`praxo.SPEC_VERSION`).
 
 ## Requirements

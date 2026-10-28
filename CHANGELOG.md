@@ -14,10 +14,13 @@
 
 ### Changed
 
-+- Compatibility policy now distinguishes rejecting invalid input from tightening
-+  the documented valid domain, and requires lifecycle/order changes to be
-+  released with behavioral evidence. Pre-1.0 SDK breaking changes require a
-+  minor version and migration note rather than a silent patch.
+- Prepared the Python 0.2.1 source candidate with new `api/0.2.1.txt` and
+  `api/0.2.1.signatures.txt` baselines. No `python/v0.2.1` tag or PyPI upload has
+  occurred; `python/v0.2.0` and its historical snapshots remain unchanged.
+- Compatibility policy now distinguishes rejecting invalid input from tightening
+  the documented valid domain, and requires lifecycle/order changes to be
+  released with behavioral evidence. Pre-1.0 SDK breaking changes require a
+  minor version and migration note rather than a silent patch.
 
 ### Fixed
 
