@@ -1,0 +1,125 @@
+# PRAXO-CORE Erlang Core API 0.1.1
+# SPEC_VERSION 0.2.0
+
+## praxo_agent
+praxo_agent.call/2
+praxo_agent.failing_model/0
+praxo_agent.fallback_model/2
+praxo_agent.generate/2
+praxo_agent.new_agent_options/1
+praxo_agent.new_tool/2
+praxo_agent.new_tool/3
+praxo_agent.run_agent/3
+praxo_agent.scripted_model/1
+praxo_agent.static_model/1
+
+## praxo_checkpoint
+praxo_checkpoint.marshal/3
+praxo_checkpoint.new/0
+praxo_checkpoint.register/2
+praxo_checkpoint.unmarshal/2
+
+## praxo_json
+praxo_json.encode/1
+praxo_json.equals/2
+praxo_json.get/2
+praxo_json.get_array/2
+praxo_json.get_bool/2
+praxo_json.get_bool/3
+praxo_json.get_int/2
+praxo_json.get_int/3
+praxo_json.get_object/2
+praxo_json.get_string/2
+praxo_json.is_null/1
+praxo_json.parse/1
+
+## praxo_jsonschema
+praxo_jsonschema.validate/2
+
+## praxo_memory
+praxo_memory.new/0
+praxo_memory.put/3
+praxo_memory.search/4
+
+## praxo_middleware
+praxo_middleware.apply_structured/2
+praxo_middleware.call_limit/2
+praxo_middleware.check_tool_selected/2
+praxo_middleware.extract_json/1
+praxo_middleware.model_call/1
+praxo_middleware.pii_redact/1
+praxo_middleware.redact_value/1
+praxo_middleware.select_tools/2
+praxo_middleware.structured_output/2
+praxo_middleware.structured_output/3
+praxo_middleware.tool_call/1
+praxo_middleware.tool_selection/1
+
+## praxo_models
+praxo_models.action/2
+praxo_models.action/3
+praxo_models.action/4
+praxo_models.add_usage/2
+praxo_models.content_block/2
+praxo_models.context_budget/2
+praxo_models.decision/1
+praxo_models.decision/2
+praxo_models.event/2
+praxo_models.event/3
+praxo_models.event/4
+praxo_models.memory_record/3
+praxo_models.memory_record/4
+praxo_models.message/2
+praxo_models.message_assistant/1
+praxo_models.message_assistant/2
+praxo_models.message_tool/2
+praxo_models.message_wire/1
+praxo_models.path_grant/1
+praxo_models.path_grant/2
+praxo_models.request/1
+praxo_models.request/2
+praxo_models.response/1
+praxo_models.response/2
+praxo_models.roles/0
+praxo_models.run_result/4
+praxo_models.sdk_version/0
+praxo_models.session/1
+praxo_models.session/2
+praxo_models.spec_version/0
+praxo_models.stream_kinds/0
+praxo_models.tool_call/2
+praxo_models.tool_call/3
+praxo_models.tool_spec/2
+praxo_models.usage/0
+praxo_models.usage/2
+
+## praxo_plugin
+praxo_plugin.parse_manifest/1
+
+## praxo_runtime
+praxo_runtime.check/3
+praxo_runtime.compact_context/2
+praxo_runtime.estimate_tokens/1
+praxo_runtime.normalize_path/1
+praxo_runtime.path_allowed/3
+praxo_runtime.path_checker/1
+praxo_runtime.stream_kinds/0
+praxo_runtime.truncate_to_tokens/2
+
+## praxo_sink
+praxo_sink.emit/2
+praxo_sink.filter/2
+praxo_sink.kinds/1
+praxo_sink.multi/1
+praxo_sink.new/0
+
+## praxo_toolcall
+praxo_toolcall.parse_input_json/1
+praxo_toolcall.parse_tool_call/1
+praxo_toolcall.strip_tool_call_markup/1
+
+## praxo_util
+praxo_util.default/2
+praxo_util.index_of/2
+praxo_util.join/2
+praxo_util.to_bin/1

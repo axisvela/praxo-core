@@ -1,13 +1,13 @@
 # PRAXO-CORE Erlang Core
 
-Erlang is a native Core implementation with source tag `erlang/v0.1.0`. It
+Erlang is a native Core implementation with source tag `erlang/v0.1.1`. It
 passes all eleven shared vector groups on Erlang/OTP 29 and includes the native
 agent loop, memory store, checkpoint allowlist, lexical path policy, context
 compaction, event sinks, middleware helpers, and tool selection. It does not
 call Go or another Core.
 
 - Implementation type: Core.
-- Package version: `0.1.0`; supported `SPEC_VERSION`: `0.2.0`.
+- Package version: `0.1.1`; supported `SPEC_VERSION`: `0.2.0`.
 - Toolchain: Erlang/OTP 29 or newer. JSON uses the OTP `json` module.
 - Local gate: eleven vector groups, native regression tests, API snapshot, and
   parity inventory.
@@ -43,7 +43,7 @@ Options = praxo_agent:new_agent_options(Model),
 io:format("~s~n", [maps:get(output, Result)]).
 ```
 
-Public declarations are inventoried in [`api/0.1.0.txt`](api/0.1.0.txt).
+Public declarations are inventoried in [`api/0.1.1.txt`](api/0.1.1.txt).
 This is a source declaration check, not a binary ABI promise. Regenerate it with
 `python api-snapshot.py`.
 
