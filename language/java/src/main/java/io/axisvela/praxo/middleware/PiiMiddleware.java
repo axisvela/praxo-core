@@ -37,12 +37,13 @@ public final class PiiMiddleware implements Middleware {
                         block.data()));
             }
             List<ToolCall> calls = new ArrayList<>();
-            for (ToolCall call : message.toolCalls()) {
+            for (ToolCall toolCall : message.toolCalls()) {
                 @SuppressWarnings("unchecked")
                 Map<String, Object> arguments =
                         (Map<String, Object>) redactor.redactValue(
-                                call.arguments());
-                calls.add(new ToolCall(call.id(), call.name(), arguments));
+                                toolCall.arguments());
+                calls.add(new ToolCall(
+                        toolCall.id(), toolCall.name(), arguments));
             }
             messages.add(new Message(
                     message.role(),
