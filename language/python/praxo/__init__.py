@@ -41,7 +41,7 @@ from .policy import Action, Decision, FuncHook, Hook, PathChecker, PathGrant
 from .tool import FuncTool, Gateway, GatewayInfo, GatewayTool, Registry, Tool
 from .toolcall import parse_tool_call, strip_tool_call_markup
 
-__version__ = "0.2.1"
+__version__ = "0.2.2"
 SPEC_VERSION = "0.2.0"
 
 __all__ = [

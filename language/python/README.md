@@ -9,7 +9,7 @@ groups.
 VFS and plugin hosts are not yet implemented. Wheel and sdist are published to
 PyPI.
 
-Package version: `0.2.1`; source tag `python/v0.2.1`. Supported contract:
+Package version: `0.2.2`; source tag `python/v0.2.2`. Supported contract:
 `SPEC_VERSION` `0.2.0` (`praxo.SPEC_VERSION`).
 
 ## Requirements
@@ -20,7 +20,7 @@ Package version: `0.2.1`; source tag `python/v0.2.1`. Supported contract:
 ## Install
 
 ```bash
-pip install praxo-core==0.2.1
+pip install praxo-core==0.2.2
 ```
 
 For a source checkout:
