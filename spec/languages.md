@@ -49,7 +49,7 @@ production readiness or full Go feature parity.
 | --- | --- | --- | --- | --- | --- |
 | Go | Core (reference) | released | `v2.5.0` | reference | Reference implementation |
 | Python | Core | released | `python/v0.2.1` | complete | 11 vectors, OpenAI adapter, PyPI `praxo-core==0.2.1` |
-| TypeScript | Core | released | `typescript/v0.1.0` | complete | 11 vectors, OpenAI adapter |
+| TypeScript | Core | released | `typescript/v0.1.2` | complete | 11 vectors, OpenAI adapter; npm `@axisvela/praxo-core@0.1.2` |
 | Java | Core | released | `java/v0.2.1` | complete | 11 vectors, OpenAI adapter, API snapshot |
 | Rust | Core | released | `rust/v0.1.0` | complete | 11 vectors, native tests; current source adds compiler-derived API/parity gate |
 | C | Core | released | `c/v0.2.0` | complete | 11 vectors, native tests; public Core API plus wire JSON primitives; agent cancellation and call-limit concurrency are partial |
