@@ -39,6 +39,9 @@
   `SetEnabled` returns entry-registration errors instead of ignoring them.
 - `formatter.WatchFormat.FormatAll` reports per-file formatter failures while
   continuing to format other detected files, instead of silently succeeding.
+- PII middleware now redacts historical tool-call arguments before they are sent
+  back to a model, covering nested argument maps without mutating the caller's
+  original values or live tool invocation arguments.
 - The C conformance runner validates specVersion, group names, non-empty vector
   groups, unique IDs, and input/expect objects before executing fixtures, with
   negative CTest coverage.

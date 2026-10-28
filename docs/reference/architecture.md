@@ -81,8 +81,9 @@ Compaction and offload are observable through `Hooks.OnCompaction` and
   virtual tool, validates the final output, and optionally repairs it.
 - `ToolSelectionMiddleware` narrows advertised tools per run;
   `ModelToolSelector` is the built-in model-backed selector.
-- `PIIMiddleware` redacts model-bound messages and tool results before they
-  enter the prompt.
+- `PIIMiddleware` redacts message content, historical tool-call arguments, and
+  tool results before they enter the prompt. Live invocation arguments, errors,
+  and event payloads remain product-owned.
 - `FallbackModel` retries a failed primary model call on a fallback model.
 - `CallLimitMiddleware` bounds per-run model and tool calls.
 - `ContextEditingMiddleware` clears old tool results without dropping

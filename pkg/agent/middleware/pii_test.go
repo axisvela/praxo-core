@@ -33,6 +33,36 @@ func TestPIIMiddlewareRedactsModelRequest(t *testing.T) {
 	}
 }
 
+func TestPIIMiddlewareRedactsToolCallHistory(t *testing.T) {
+	mw := PIIMiddleware(NewPIIRedactor(DefaultPIIRules()...))
+	original := map[string]any{
+		"email":  "a@b.com",
+		"nested": map[string]any{"note": "ssn 123-45-6789"},
+	}
+	req := &model.Request{Messages: []model.Message{{
+		Role: model.RoleAssistant,
+		ToolCalls: []model.ToolCall{{
+			ID:        "call-1",
+			Name:      "lookup",
+			Arguments: original,
+		}},
+	}}}
+	if err := mw.BeforeModel(context.Background(), &types.ModelCall{RunID: "r", Request: req}); err != nil {
+		t.Fatal(err)
+	}
+	args := req.Messages[0].ToolCalls[0].Arguments
+	if strings.Contains(args["email"].(string), "a@b.com") {
+		t.Fatalf("tool-call history leaked: %+v", args)
+	}
+	nested := args["nested"].(map[string]any)
+	if strings.Contains(nested["note"].(string), "123-45-6789") {
+		t.Fatalf("nested tool-call history leaked: %+v", args)
+	}
+	if !strings.Contains(original["email"].(string), "a@b.com") {
+		t.Fatalf("middleware mutated caller arguments: %+v", original)
+	}
+}
+
 func TestPIIMiddlewareRedactsToolResult(t *testing.T) {
 	mw := PIIMiddleware(NewPIIRedactor(DefaultPIIRules()...))
 	result := &types.ToolResult{Value: map[string]any{

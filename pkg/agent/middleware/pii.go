@@ -58,8 +58,9 @@ func (r PIIRedactor) Redact(text string) string {
 	return text
 }
 
-// PIIMiddleware redacts model-bound messages and tool results. It does not
-// retain the original values.
+// PIIMiddleware redacts model-bound message content, historical tool-call
+// arguments, and tool results. Live tool invocation arguments, errors, and
+// event payloads are left to the product's trust boundaries.
 func PIIMiddleware(redactor PIIRedactor) types.Middleware {
 	return types.Middleware{
 		Name: "pii",
@@ -77,6 +78,20 @@ func PIIMiddleware(redactor PIIRedactor) types.Middleware {
 						blocks[j].Text = redactor.Redact(blocks[j].Text)
 					}
 					message.ContentBlocks = blocks
+				}
+				if len(message.ToolCalls) > 0 {
+					calls := make([]model.ToolCall, len(message.ToolCalls))
+					copy(calls, message.ToolCalls)
+					for j := range calls {
+						if calls[j].Arguments == nil {
+							continue
+						}
+						redacted, ok := redactValue(redactor, calls[j].Arguments).(map[string]any)
+						if ok {
+							calls[j].Arguments = redacted
+						}
+					}
+					message.ToolCalls = calls
 				}
 				messages[i] = message
 			}
