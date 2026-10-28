@@ -48,22 +48,22 @@
 
 物化、签名验证、SBOM/证据、信任存储和滚动更新归产品所有，可以独立演进。
 
-## 多语言 SDK 兼容性
+## 多语言 Core 兼容性
 
-Python、TypeScript 和 Java SDK 共享 `spec/` 中的契约，并独立版本化。规则如下：
+Python、TypeScript 和 Java Core 共享 `spec/` 中的契约，并独立版本化。规则如下：
 
 - wire 契约在各语言中完全相同。重命名 JSON 字段、事件、stream kind 或插件信封
-  字段对所有 SDK 都是破坏性变更。
+  字段对所有 Core 都是破坏性变更。
 - 源码 API 一对一映射，但使用各语言惯用名称。
-- 每个 SDK 声明其实现的 `spec/SPEC_VERSION`。
-- 任何 SDK 不得实现 Go 参考实现尚不具备的契约能力。
-- SDK 版本不隐含 Go 模块版本，反之亦然。
+- 每个 Core 声明其实现的 `spec/SPEC_VERSION`。
+- 任何 Core 不得实现 Go 参考实现尚不具备的契约能力。
+- Core 版本不隐含 Go 模块版本，反之亦然。
 
-Go 表面仍受上述 `v2` 规则约束。多语言 SDK 是增量包，不改变 Go 模块路径或
+Go 表面仍受上述 `v2` 规则约束。多语言 Core 是增量包，不改变 Go 模块路径或
 `pkg/...` 冻结。
 
-参见[多语言 SDK 设计](../contributing/sdk-design.md)和
-[SDK 支持政策](../languages/support.md)。
+参见[多语言 Core 设计](../contributing/sdk-design.md)和
+[Core 支持政策](../languages/support.md)。
 
 ## 兼容性测试
 

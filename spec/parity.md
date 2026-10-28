@@ -1,23 +1,23 @@
 # Contract Parity Inventory
 
-Newer SDKs keep their inventories under `spec/parity/` (`rust.md`, `c.md`,
+Newer Core implementations keep their inventories under `spec/parity/` (`rust.md`, `c.md`,
 `csharp.md`, `php.md`, `swift.md`, and the bridge files). This page remains the
 inventory for the original core languages.
 
 Every exported Go contract package and core symbol must have a row here and an
-implementation in each shipped SDK. The parity linter consumes this file and the
+implementation in each shipped Core. The parity linter consumes this file and the
 `api/<version>.txt` snapshots.
 
 ## Status Legend
 
-| Status | Meaning | Released SDK gate |
+| Status | Meaning | Released Core gate |
 | --- | --- | --- |
-| `planned` | Mapped in the design, not implemented | allowed before the SDK's first release |
+| `planned` | Mapped in the design, not implemented | allowed before the Core's first release |
 | `partial` | Implemented for a subset of symbols | blocks release |
 | `parity` | Implemented and covered by vectors | required |
 | `n/a` | Not applicable; the language provides its own harness | allowed |
 
-A released SDK must have no `planned` or `partial` row in its declared P1 scope.
+A released Core implementation must have no `planned` or `partial` row in its declared P1 scope.
 
 ## Package Inventory
 
@@ -56,13 +56,13 @@ A released SDK must have no `planned` or `partial` row in its declared P1 scope.
 | `pkg/plugin/tck` | host conformance kit | n/a | n/a | n/a | P3 |
 | `pkg/conformance` | reusable Go contract checks | n/a | n/a | n/a | n/a |
 
-`pkg/conformance` and `pkg/plugin/tck` are Go harnesses. Each SDK ships its own
+`pkg/conformance` and `pkg/plugin/tck` are Go harnesses. Each Core implementation ships its own
 runner over `spec/vectors`; a Go-only harness is not a parity gap.
 
 ## Seed Symbol Inventory
 
-This is the starting set for the symbol-level linter. Expand it as each SDK
-lands. Names in the SDK columns are required targets, not current symbols.
+This is the starting set for the symbol-level linter. Expand it as each Core implementation
+lands. Names in the Core columns are required targets, not current symbols.
 
 | Go symbol | Kind | Python | TypeScript | Java | Phase |
 | --- | --- | --- | --- | --- | --- |
@@ -133,8 +133,8 @@ The parity linter:
 1. Reads `api/<version>.txt` and fails on any exported `pkg/...` package absent
    from the package inventory.
 2. Fails on any package whose Phase is `P1` and whose status is not `parity` for
-   an SDK that declares a released version.
-3. Fails when a row names a symbol that the SDK does not export.
+   a Core implementation that declares a released version.
+3. Fails when a row names a symbol that the Core does not export.
 4. Fails when a wire artifact in `spec/wire` references an event, error, stream
    kind, or plugin field absent from the Go reference.
 5. Does not compare source signatures; it compares symbol existence and vector
@@ -147,6 +147,6 @@ The parity linter:
 3. Add the package or symbol row here.
 4. Add a vector for the behavior.
 5. Confirm the Go runner passes.
-6. Implement in each SDK and change its status to `parity`.
+6. Implement in each Core implementation and change its status to `parity`.
 
-See [Multilingual SDK design](../docs/contributing/sdk-design.md).
+See [Multilingual Core design](../docs/contributing/sdk-design.md).

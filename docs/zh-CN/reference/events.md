@@ -50,7 +50,7 @@
 这些回调和写入不是原子事务。checkpoint 投影之后记忆写入仍可能失败；事件投递
 失败也不会回滚已写入的记忆。checkpoint stream part 是最终结果投影，不代表
 持久 checkpoint 已落盘或 exactly-once 执行。需要事务持久化时由消费者实现。
-历史 source tag 保留原来的回调顺序，其他 SDK 的生命周期需要分别验证。
+历史 source tag 保留原来的回调顺序，其他 Core 的生命周期需要分别验证。
 
 已进入的 middleware 即使在后续 `BeforeRun` 失败时也会执行 `AfterRun`，范围仅限
 已进入的前缀，包括返回错误的回调；启动拒绝仍不发送运行事件。`AfterRun` 返回

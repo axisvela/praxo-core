@@ -66,12 +66,13 @@ GOWORK=off go vet ./...
 GOWORK=off go build ./...
 cd language/python; python conformance/run.py
 cd language/python; python api-snapshot.py --check
+cd language/python; python api-signatures.py --check
 cd language/python; python -m unittest discover -s tests -v
 cd language/typescript; npm ci
 cd language/typescript; npm run build
 cd language/typescript; npm run api:check
 cd language/typescript; npm run conformance
-cd language/typescript; node --test tests/sdk.test.js tests/openaicompat.test.js
+cd language/typescript; node --test tests/sdk.test.js tests/openaicompat.test.js tests/api-signatures.test.js
 cd language/java; mvn -q -DskipTests test-compile
 cd language/java; mvn -q -DskipTests package
 cd language/java; java -cp target/classes io.axisvela.praxo.conformance.ApiSnapshot --check
@@ -171,14 +172,15 @@ Rscript language/r/tests/run_tests.R
 
 ## Compatibility
 
-Unreleased native SDK checks:
+Additional native SDK checks:
 
 ```bash
 python language/fortran/run-tests.py
 python language/cobol/run-tests.py
 ```
 
-These checks are partial implementation gates, not complete Core release gates.
+These commands are implementation gates for the listed SDKs; consult
+`spec/languages.md` for release and maturity status.
 
 - Framework versions start at `0.x`.
 - Version tags and `VERSION` files use plain `X.Y.Z`; do not add `-rc`,

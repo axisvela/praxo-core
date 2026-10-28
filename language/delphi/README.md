@@ -3,7 +3,7 @@
 Native Core implementation with source tag `delphi/v0.2.0`. It passes all eleven
 vector groups and includes the native agent loop plus memory, event, checkpoint,
 policy, context, and middleware helpers. It does not call Go or another language
-SDK; there is no model provider, process bridge, or plugin host.
+Core; there is no model provider, process bridge, or plugin host.
 
 Local validation uses Free Pascal 3.2.2 on Windows i386. It does not establish
 commercial Delphi compiler compatibility, Linux/macOS support, package-registry
@@ -106,7 +106,7 @@ Nonpositive `MaxSteps` defaults to eight and nonpositive `MaxTokens` is unlimite
   type. `praxo_core` provides memory, event sinks, checkpoints, lexical path
   policy, context compaction, PII/structured-output helpers, call limits, and
   tool selection; the agent loop does not automatically apply every opt-in helper.
-- SDK-local exceptions are not new shared wire error codes. Passing the eleven
+- Core-local exceptions are not new shared wire error codes. Passing the eleven
   vector groups does not imply full Go feature parity or production readiness.
 
 The source is MIT; see [LICENSE](LICENSE). Free Pascal, its RTL, `fpjson`, and

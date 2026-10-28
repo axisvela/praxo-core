@@ -3,7 +3,7 @@
 - Tier: core
 - SPEC_VERSION: 0.2.0
 
-Released native Core SDK. All 62 vectors in eleven groups, native agent tests,
+Released native Core. All 62 vectors in eleven groups, native agent tests,
 JSON tests, contract boundary tests, tooling tests, and the API declaration
 snapshot pass locally. The remote `cobol-conformance` job passes; `cobol/v0.1.0`
 is the released tag. `partial` does not claim every optional Go hook, provider
@@ -47,7 +47,7 @@ path-policy, plugin, and middleware behavior.
 | `agent/middleware.PIIMiddleware` | `praxo-middleware` pii and pii-json operations | partial | P1 |
 | `tool.Registry` | not implemented | planned | P1 |
 
-SDK-local utilities with no new normative contract symbols:
+Core-local utilities with no new normative contract symbols:
 `praxo-json-parse`, `praxo-json-generate`, `praxo-json-string`,
 `praxo-json-quote`, `praxo-json-slice`, and `praxo-utf8`. They use the bounded
 records in `language/cobol/copy/json.cpy`; see `language/cobol/README.md` for capacities and local

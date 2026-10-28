@@ -1,4 +1,4 @@
 ---
-title: Ruby SDK
+title: Ruby Core
 sdk_readme: language/ruby/README.md
 ---

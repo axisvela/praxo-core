@@ -20,5 +20,5 @@ Rules:
 - A `parity` row must name a language symbol.
 - Every Go symbol must exist in `api/<version>.txt`.
 - A language may declare no rows while it is planned.
-- The Go linter validates structure; the language SDK validates behavior with
+- The Go linter validates structure; the language Core validates behavior with
   `spec/vectors`.

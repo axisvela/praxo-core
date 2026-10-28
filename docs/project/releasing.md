@@ -1,13 +1,13 @@
 # Release Requirements
 
-Core, SDKs, optional adapters, and the shared specification have independent
+The Go core, language Core implementations, optional adapters, and the shared specification have independent
 version lines. A release must document its scope and compatibility impact.
 
 ## Required Evidence
 
 - Update the applicable version file, changelog, and user-facing release notes.
 - Pass build, tests, API checks, and security checks for the affected artifact.
-- SDKs pass their declared conformance vectors and parity checks.
+- Core implementations pass their declared conformance vectors and parity checks.
 - Review dependency licenses and generate applicable SBOMs and checksums.
 - Publish a release manifest with the tag, commit SHA, version, spec version,
   Go toolchain, SBOM scope, and every attachment hash. Checksums cover the
@@ -41,7 +41,7 @@ manual runs, allowing live gate validation without creating a tag or release.
 version, reported Go toolchain, SBOM scope, and the size and SHA-256 of each
 attachment. `SHA256SUMS` covers the source archive, `sbom.json`, and the
 manifest. The SBOM scope is currently the root Go module's dependencies only; it
-is not a combined SBOM for every independent adapter, language SDK, or native
+is not a combined SBOM for every independent adapter, language Core, or native
 dependency. Record that distinction instead of presenting the root SBOM as a
 complete archive inventory.
 
@@ -51,13 +51,13 @@ complete archive inventory.
 | --- | --- |
 | Go core | `vX.Y.Z` |
 | Shared specification | `spec/vX.Y.Z` |
-| Language SDK | `<language>/vX.Y.Z` |
+| Language Core | `<language>/vX.Y.Z` |
 | Optional Go adapter | `adapters/<name>/vX.Y.Z` |
 
 Tags and `VERSION` files use plain `X.Y.Z` versions. Do not add pre-release
 suffixes such as `-rc.1`, `-beta`, or `-alpha`. Existing tags are immutable.
-SDK releases declare their supported contract version. The root release workflow handles only `v*` core tags; a source tag for
-an SDK or adapter does not by itself publish a package-registry artifact.
+Core releases declare their supported contract version. The root release workflow handles only `v*` core tags; a source tag for
+a Core implementation or adapter does not by itself publish a package-registry artifact.
 
 Python publication uses PyPI Trusted Publishing through
 `.github/workflows/python-release.yml`. A `python/vX.Y.Z` tag must match
@@ -82,5 +82,5 @@ that PyPI publication occurred.
 
 Use [release notes](../releases/index.md) to review changes, then follow the
 artifact's documented installation method. Check [compatibility](compatibility.md)
-and [SDK support](../languages/support.md) before upgrading. Product release versions
+and [Core support](../languages/support.md) before upgrading. Product release versions
 are independent from framework versions.

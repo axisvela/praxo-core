@@ -1,8 +1,8 @@
 # Fortran Environment Setup
 
-Run commands from the repository root unless otherwise stated. The Fortran SDK
+Run commands from the repository root unless otherwise stated. The Fortran Core implementation
 is a native Core implementation; Python is needed for its build and test
-tooling, not by a compiled SDK consumer.
+tooling, not by a compiled Core consumer.
 
 ## Prerequisites
 

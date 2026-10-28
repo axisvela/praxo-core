@@ -1,9 +1,9 @@
-# COBOL Core SDK
+# COBOL Core
 
-A native GnuCOBOL implementation, not a bridge to another SDK. All 62 normative
+A native GnuCOBOL implementation, not a bridge to another Core. All 62 normative
 vectors across the eleven groups pass, together with native agent, JSON,
 contract-boundary, tooling, and API declaration checks. The
-`cobol-conformance` remote job passes; `cobol/v0.1.0` is the released SDK tag.
+`cobol-conformance` remote job passes; `cobol/v0.1.0` is the released Core implementation tag.
 
 ## Build and Test
 
@@ -17,7 +17,7 @@ Set `COBC` or pass `--compiler /path/to/cobc` when the compiler is not on PATH.
 The driver builds one combined COBOL source per suite to avoid an old
 GnuCOBOL multi-file code-generation issue. Generated files stay in
 `language/cobol/build/`. Python only generates and launches native tests; it is not
-required by a compiled SDK consumer.
+required by a compiled Core consumer.
 
 ## Native API
 
@@ -103,5 +103,5 @@ programs.
 `cobol/v0.1.0` is the released source tag. `api/unreleased.txt` is the legacy
 filename for the 0.1.0 declaration snapshot; later changes require a new
 version/tag decision and release review. `spec/parity/cobol.md` records partial
-surfaces. The SDK sources are MIT-licensed; GnuCOBOL and its runtime are
+surfaces. The Core sources are MIT-licensed; GnuCOBOL and its runtime are
 separately licensed external toolchain dependencies.

@@ -17,34 +17,34 @@ wire-only scope requires documented technical limitations. See the
 | Language | Entry point |
 | --- | --- |
 | Go | [Install and quickstart](go.md) |
-| Python | [Python SDK](python.md) |
-| TypeScript | [TypeScript SDK](typescript.md) |
-| Java | [Java SDK](java.md) |
-| Rust | [Rust SDK](rust.md) |
-| C | [C SDK](c.md) |
-| C++ | [C++ SDK](cpp.md) |
-| C# / .NET | [C# SDK](csharp.md) |
-| PHP | [PHP SDK](php.md) |
-| Ruby | [Ruby SDK](ruby.md) |
-| Perl | [Perl SDK](perl.md) |
-| Lua | [Lua SDK](lua.md) |
-| Dart | [Dart SDK](dart.md) |
-| Swift | [Swift SDK](swift.md) |
-| Julia | [Julia SDK](julia.md) |
-| R | [R SDK](r.md) |
-| D | [D SDK](d.md) |
-| Zig | [Zig SDK](zig.md) |
-| COBOL | [COBOL SDK](cobol.md) |
-| Fortran | [Fortran implementation](fortran.md) |
-| Elixir | [Elixir SDK](elixir.md) |
-| Erlang | [Erlang SDK](erlang.md) |
-| Nim | [Nim SDK](nim.md) |
-| V | [V SDK](v.md) |
-| Objective-C | [Objective-C SDK](objective-c.md) |
-| OCaml / Caml | [OCaml SDK](ocaml.md) |
-| MATLAB / Octave | [MATLAB/Octave SDK](matlab.md) |
-| Haskell | [Haskell SDK](haskell.md) |
-| Delphi / Free Pascal | [Delphi / Free Pascal SDK](delphi.md) |
+| Python | [Python Core](python.md) |
+| TypeScript | [TypeScript Core](typescript.md) |
+| Java | [Java Core](java.md) |
+| Rust | [Rust Core](rust.md) |
+| C | [C Core](c.md) |
+| C++ | [C++ Core](cpp.md) |
+| C# / .NET | [C# Core](csharp.md) |
+| PHP | [PHP Core](php.md) |
+| Ruby | [Ruby Core](ruby.md) |
+| Perl | [Perl Core](perl.md) |
+| Lua | [Lua Core](lua.md) |
+| Dart | [Dart Core](dart.md) |
+| Swift | [Swift Core](swift.md) |
+| Julia | [Julia Core](julia.md) |
+| R | [R Core](r.md) |
+| D | [D Core](d.md) |
+| Zig | [Zig Core](zig.md) |
+| COBOL | [COBOL Core](cobol.md) |
+| Fortran | [Fortran Core](fortran.md) |
+| Elixir | [Elixir Core](elixir.md) |
+| Erlang | [Erlang Core](erlang.md) |
+| Nim | [Nim Core](nim.md) |
+| V | [V Core](v.md) |
+| Objective-C | [Objective-C Core](objective-c.md) |
+| OCaml / Caml | [OCaml Core](ocaml.md) |
+| MATLAB / Octave | [MATLAB/Octave Core](matlab.md) |
+| Haskell | [Haskell Core](haskell.md) |
+| Delphi / Free Pascal | [Delphi / Free Pascal Core](delphi.md) |
 
 ## Shared-Runtime Samples and Bridges
 

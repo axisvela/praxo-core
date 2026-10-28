@@ -7,7 +7,7 @@ allowlist, and tool-call parsing. Tool selection, PII redaction, structured
 output, and call limits are opt-in in the agent. Vector
 coverage does not establish full Core parity or production readiness.
 
-The SDK does not call Go or another language runtime. It has no provider
+The Core does not call Go or another language runtime. It has no provider
 adapter or plugin host; those remain outside the declared Core scope.
 
 ## Build And Test
@@ -94,7 +94,7 @@ result := praxo.run_agent(options, praxo.session('s1', []praxo.Message{}), 'Hi')
 - Path checks are lexical and confined by separator boundaries. They do not
   resolve symlinks or replace operating-system sandboxing.
 - Provider adapters, streaming wire encodings, and plugin hosts are not part of
-  this SDK.
+  this Core.
 
 The source is MIT; see [LICENSE](LICENSE). V and its bundled toolchain are
 separate projects, not vendored code.

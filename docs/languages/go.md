@@ -1,4 +1,4 @@
-# Go SDK
+# Go Core
 
 Go is the reference implementation. Install the current core release:
 

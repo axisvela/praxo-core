@@ -1,4 +1,4 @@
 ---
-title: Fortran Implementation (Unreleased)
+title: Fortran Core
 sdk_readme: language/fortran/README.md
 ---

@@ -31,7 +31,7 @@ module demonstrates MCP resources and prompts with an in-memory server.
   OpenAI-compatible endpoints.
 - [`adapters/mcp`](https://github.com/axisvela/praxo-core/tree/main/adapters/mcp) is an optional MCP module for tools,
   resources, and prompts. It is a separate Go module so the core framework does
-  not depend on the MCP SDK.
+  not depend on the MCP Core.
 - [`adapters/otel`](https://github.com/axisvela/praxo-core/tree/main/adapters/otel) is an optional OpenTelemetry event sink.
   It maps lifecycle events to spans without adding OpenTelemetry to the core
   module.
@@ -40,7 +40,7 @@ module demonstrates MCP resources and prompts with an in-memory server.
 - [`adapters/gemini`](https://github.com/axisvela/praxo-core/tree/main/adapters/gemini) is a native Gemini generateContent
   adapter with function calls and SSE streaming.
 - [`adapters/harmovela`](https://github.com/axisvela/praxo-core/tree/main/adapters/harmovela) publishes lifecycle events
-  through the Harmovela HTTP events API without importing the Harmovela SDK.
+  through the Harmovela HTTP events API without importing the Harmovela Core.
 - [`adapters/a2a`](https://github.com/axisvela/praxo-core/tree/main/adapters/a2a) exposes an agent as an A2A
   server executor for agent-to-agent clients.
 
@@ -59,12 +59,12 @@ inference fabric and can back the model seam.
   or messages rather than assuming a model name.
 - Use `model.ProviderProfile` when you need per-endpoint context, output, tool,
   stream, or cache capabilities.
-- The framework does not vendor the NOETIVELA Go SDK or provider credentials.
+- The framework does not vendor the NOETIVELA Go Core or provider credentials.
   `noetivela-open` is Apache-2.0 and can be imported by the adapter or product.
 - The [`examples/ecosystem-sdk`](https://github.com/axisvela/praxo-core/tree/main/examples/ecosystem-sdk) module uses the
   real NOETIVELA, Mnemovela, GNOSIVELA, AEGIVELA, LIMENORA, and RHEOVELA Go
-  SDKs. It is a separate module so the core framework module stays free of
-  product SDK dependencies. Harmovela is published separately as
+  Core implementations. It is a separate module so the core framework module stays free of
+  product Core dependencies. Harmovela is published separately as
   `adapters/harmovela`.
 - The `ecosystem.Noetivela` adapter skeleton shows a contract-mapping shape;
   `ecosystem.Model` and `ecosystem.Provider` cover the generic callback shape.

@@ -7,7 +7,7 @@ allowlist, tool selection, tool-call parsing, and opt-in PII redaction,
 structured output validation, and call limits. Vector
 coverage does not establish full Core parity or production readiness.
 
-The SDK does not call Go or another language runtime. It has no provider
+The Core does not call Go or another language runtime. It has no provider
 adapter or plugin host; those remain outside the declared Core scope.
 
 Local validation uses clang 21.1.8 with GNUstep Base 1.31.1 and lld on Windows.
@@ -81,7 +81,7 @@ to validate and optionally repair the final output; failures return
 to bound invocations independently per run. Values at or below zero are unlimited.
 These options are disabled by default.
 The parser returns `nil` when the content is not a recognized call or the
-manifest is invalid. Schema validation returns error paths. SDK-local
+manifest is invalid. Schema validation returns error paths. Core-local
 `PXRWireErrorDomain` and `PXRCoreErrorDomain` codes are not new shared wire
 error codes.
 
@@ -107,7 +107,7 @@ error codes.
 - Manifest checks validate declarations only. They do not verify signatures,
   establish trust, execute plugins, or enforce OS sandboxing.
 - Provider adapters, streaming wire encodings, and plugin hosts are not part of
-  this SDK.
+  this Core.
 
 The source is MIT; see [LICENSE](LICENSE). Clang, GNUstep, and other toolchain
 components are separate projects, not vendored code.

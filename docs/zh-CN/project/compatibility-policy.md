@@ -101,23 +101,23 @@ literal，否则视为破坏性变更。
 - 可选模块标签为 `adapters/<name>/vX.Y.Z`。
 - 不得移动或复用已有模块标签。
 - 在模块 `go.mod` 中声明最低兼容核心版本。
-- 提供商 SDK 不进入核心模块。
+- 提供商 Core 不进入核心模块。
 - 提供商或协议变化时，模块可以独立发布。
 - 适配器兼容性针对声明的核心版本和已发布 consumer 模块测试。
 
-## 多语言 SDK
+## 多语言 Core
 
-`spec/` 树是 Python、TypeScript 和 Java SDK 的规范契约。Go 仍是参考实现。
+`spec/` 树是 Python、TypeScript 和 Java Core 的规范契约。Go 仍是参考实现。
 
-- `spec/SPEC_VERSION` 独立于 SDK 版本，对契约进行版本化。
-- 每个 SDK 声明其实现的 `SPEC_VERSION`，并独立版本化。
+- `spec/SPEC_VERSION` 独立于 Core 版本，对契约进行版本化。
+- 每个 Core 声明其实现的 `SPEC_VERSION`，并独立版本化。
 - wire 变更（JSON 字段名与大小写、事件类型、stream kind、插件 Manifest v1 与
-  信封、错误码）对所有 SDK 都是破坏性变更。
-- 行为变更需要更新一致性向量，并以 SDK 次要版本发布。
-- SDK 处于 `0.x` 时，破坏性源码或行为变更需要次要版本和迁移说明；补丁版本不得
-  静默破坏文档化有效用法。无论 SDK 版本如何，wire 变更仍需同步 `spec/`。
+  信封、错误码）对所有 Core 都是破坏性变更。
+- 行为变更需要更新一致性向量，并以 Core 次要版本发布。
+- Core 处于 `0.x` 时，破坏性源码或行为变更需要次要版本和迁移说明；补丁版本不得
+  静默破坏文档化有效用法。无论 Core 版本如何，wire 变更仍需同步 `spec/`。
 - 源码 API 一对一映射，名称符合语言习惯；一致性记录在 `spec/parity.md`。
-- 任何 SDK 不得实现 Go 参考实现尚不具备的契约能力。
+- 任何 Core 不得实现 Go 参考实现尚不具备的契约能力。
 - 改变文档化 wire 行为的 `pkg/...` 变更必须在同一次变更中更新 `spec/`。
 
 ## 发布门禁
@@ -128,7 +128,7 @@ literal，否则视为破坏性变更。
 - 根模块 test、vet、build、race、fuzz、staticcheck 和 govulncheck
 - 独立适配器 test、vet 和 build
 - 无本地 `replace` 的已发布 consumer 测试
-- 每个已发布 SDK 的 `spec/` 一致性向量和一致性 linter
+- 每个已发布 Core 的 `spec/` 一致性向量和一致性 linter
 - 严格文档构建
 - `CHANGELOG.md`、`VERSION`、兼容说明和发布说明已更新
 - 发布工作流生成 SBOM 和校验和

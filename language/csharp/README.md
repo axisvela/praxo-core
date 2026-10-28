@@ -1,15 +1,15 @@
-# PRAXO-CORE C# SDK
+# PRAXO-CORE C# Core
 
 C# 12 / .NET 8 implementation of the PRAXO-CORE agent contract.
 
 - `SPEC_VERSION`: `0.2.0`
-- SDK version: `0.1.0`
+- Core version: `0.1.0`
 - License: MIT
 - Dependencies: none beyond the .NET base class library
 
 ## Scope
 
-The SDK implements all eleven vector groups: toolcall, jsonschema, plugin,
+The Core implements all eleven vector groups: toolcall, jsonschema, plugin,
 checkpoint, event, memory, policy, stream, context, middleware, and agent loop.
 It also includes a synchronous `OpenAiCompatibleModel` and a streaming variant.
 The public API is idiomatic C#; wire shapes keep the Go casing (`image_url`,

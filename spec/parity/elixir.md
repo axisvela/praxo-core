@@ -3,7 +3,7 @@
 - Tier: core
 - SPEC_VERSION: 0.2.0
 
-Released source tag `elixir/v0.1.0` ships the core loop. The SDK passes all
+Released source tag `elixir/v0.1.0` ships the core loop. The Core passes all
 eleven vector groups, its tests, and its public API snapshot. The agent
 integrates opt-in PII redaction, structured output, call limits, and tool
 selection; fallback models are supported. `partial` marks a surface that covers

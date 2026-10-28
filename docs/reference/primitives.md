@@ -50,17 +50,17 @@ host protocol, and the conformance kit.
 ## Language-Neutral Contracts
 
 The Go declarations in `pkg/...` are the reference surface. The normative
-contract for all SDKs lives in `spec/`:
+contract for all Core implementations lives in `spec/`:
 
 - `spec/wire/` freezes JSON field names, events, errors, and plugin envelopes.
-- `spec/vectors/` defines the observable behavior every SDK must reproduce.
+- `spec/vectors/` defines the observable behavior every Core implementation must reproduce.
 - `spec/parity.md` maps each Go symbol to its Python, TypeScript, and Java
   counterpart.
 
 Wire names keep their existing casing, including `image_url` in
 `model.ContentBlock` and camelCase identifiers such as `runId`. The source APIs
 are idiomatic per language but map one-to-one. See
-[Multilingual SDK design](../contributing/sdk-design.md).
+[Multilingual Core design](../contributing/sdk-design.md).
 
 ## Tool Contract
 

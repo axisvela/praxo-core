@@ -114,6 +114,6 @@ def on_page_markdown(markdown, page, config, files):
     if source:
         path = (ROOT / source).resolve()
         if not path.is_relative_to(ROOT) or path.name != "README.md":
-            raise ValueError("SDK documentation must reference a repository README.md")
+            raise ValueError("Core documentation must reference a repository README.md")
         return markdown + "\n\n" + sdk_readme(path.read_text(encoding="utf-8"), source)
     return markdown

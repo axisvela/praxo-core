@@ -1,7 +1,7 @@
-# PRAXO-CORE Haskell Core SDK
+# PRAXO-CORE Haskell Core
 
-A native Haskell Core SDK with source tag `haskell/v0.2.0`. It implements all
-eleven declared vector groups and does not call Go or another SDK. It includes a
+A native Haskell Core with source tag `haskell/v0.2.0`. It implements all
+eleven declared vector groups and does not call Go or another Core. It includes a
 native callback-based agent loop plus runtime and middleware helpers.
 
 - Implementation type: Core.
@@ -75,15 +75,15 @@ changes require review and regeneration with `python api-snapshot.py`.
 - Patterns support ASCII literals, dot, ranges/classes, anchors, `*`, `+`, `?`,
   and basic escaped classes. This is not full RE2. Unsupported syntax fails
   explicitly; work is bounded by pattern and input size. Pattern failures such
-  as `SCHEMA_PATTERN_UNSUPPORTED` are SDK-local, not new wire error codes.
-  Other `Left` diagnostic strings are also SDK-local rather than wire envelopes.
+  as `SCHEMA_PATTERN_UNSUPPORTED` are Core-local, not new wire error codes.
+  Other `Left` diagnostic strings are also Core-local rather than wire envelopes.
 - Plugin checks cover declared manifest fields, entrypoint/isolation, limits,
   permissions, health, capabilities, and signature/SBOM declarations. They do
   not execute plugins, verify signatures, establish trust, or enforce OS confinement.
 - The loop accepts model, tool, and event callbacks returning explicit errors.
   It runs tools sequentially, preserves message history, and enforces step and
   cumulative input/output token budgets. Negative model-reported input or output
-  counts fail with the SDK-local `AGENT_INVALID_USAGE` error and a `run.failed`
+  counts fail with the Core-local `AGENT_INVALID_USAGE` error and a `run.failed`
   event before that response's tools run, even when the token budget is disabled.
   The loop relies on callbacks to report accurate non-negative usage; it cannot
   independently verify counts. Callbacks must return errors rather
@@ -97,7 +97,7 @@ changes require review and regeneration with `python api-snapshot.py`.
   fallback helpers. The callback-based agent loop does not automatically apply
   these opt-in helpers.
 - There is no model provider, asynchronous event stream, or plugin host in this
-  SDK. Generic JSON can preserve wire field names; typed codecs for other
+  Core. Generic JSON can preserve wire field names; typed codecs for other
   contract envelopes are not claimed.
 
 See the [normative specification](../../spec/README.md),

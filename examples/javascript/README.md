@@ -1,6 +1,6 @@
 # PRAXO-CORE JavaScript Sample
 
-JavaScript consumes the TypeScript SDK; it is a sample, not a second contract
+JavaScript consumes the TypeScript Core; it is a sample, not a second contract
 implementation. The TypeScript package compiles to CommonJS and works from Node
 20+.
 

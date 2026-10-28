@@ -1,7 +1,7 @@
-# SDK Contract and Design
+# Core Contract and Design
 
 Go is the reference implementation. [`spec/`](https://github.com/axisvela/praxo-core/tree/main/spec)
-is the normative contract; SDKs provide idiomatic APIs without changing its wire
+is the normative contract; Core implementations provide idiomatic APIs without changing its wire
 names or declared behavior. A disagreement between the reference and the spec
 is a bug, not a license to silently fork the contract.
 
@@ -24,26 +24,26 @@ per-language parity inventories. Do not normalize wire names for local style.
 2. Update wire definitions and vectors when changing the contract.
 3. Update the applicable parity inventory.
 4. Verify the reference implementation against the vectors.
-5. Implement the SDK change and run its conformance and API checks.
+5. Implement the Core change and run its conformance and API checks.
 6. Document supported scope, version compatibility, and limitations.
 
-Do not widen the Go `pkg/...` API merely to support an SDK. Concrete integrations
+Do not widen the Go `pkg/...` API merely to support a Core implementation. Concrete integrations
 are optional and do not imply cross-language availability.
 
 ## Versions and Compatibility
 
-`spec/SPEC_VERSION` versions the shared contract independently of SDK releases.
+`spec/SPEC_VERSION` versions the shared contract independently of Core releases.
 A wire field, event, stream kind, plugin envelope, or error-code change must
-update the specification and be evaluated as breaking for every affected SDK.
+update the specification and be evaluated as breaking for every affected Core.
 See [compatibility policy](../project/compatibility-policy.md) and
 [API stability](../project/api-stability.md).
 
-The shared contract is not a promise that all SDKs expose every reference
-feature. Consult the [support policy](../languages/support.md) and SDK-specific API.
+The shared contract is not a promise that all Core implementations expose every reference
+feature. Consult the [support policy](../languages/support.md) and Core-specific API.
 
 ## Security and Licensing
 
-SDKs remain MIT; dependencies require compatible licenses. Credentials and
+Core implementations remain MIT; dependencies require compatible licenses. Credentials and
 tenant data stay in caller configuration. Product-owned trust roots, deployment,
 and plugin materialization do not belong in framework implementations.
 Re-test security-sensitive behavior in each language.

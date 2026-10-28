@@ -4,7 +4,7 @@
 - SPEC_VERSION: 0.2.0
 
 Released source tag `erlang/v0.1.0` ships a native core loop on Erlang/OTP 29.
-The SDK passes all eleven vector groups, native tests, and the public API
+The Core passes all eleven vector groups, native tests, and the public API
 snapshot. The agent integrates opt-in PII redaction, structured output, call
 limits, and tool selection; fallback models are supported. `partial` marks a
 surface that covers the vector behavior and common path but not every optional Go

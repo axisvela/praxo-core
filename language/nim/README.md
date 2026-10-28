@@ -7,7 +7,7 @@ allowlist, tool-call parsing, and opt-in agent tool selection, PII redaction,
 structured output, and call limits. Vector coverage does not establish full
 Core parity or production readiness.
 
-The SDK does not call Go or another language runtime. It has no provider
+The Core does not call Go or another language runtime. It has no provider
 adapter or plugin host; those remain outside the declared Core scope.
 
 ## Build And Test
@@ -83,7 +83,7 @@ Public declarations are inventoried in [`api/0.1.0.txt`](api/0.1.0.txt).
   boundary.
 - Schema patterns support a bounded subset (anchors, literals, `.`, character
   classes, `\d`, `\w`, `\s`, and `*`, `+`, `?`). Unsupported constructs are
-  rejected by the subset matcher; the SDK does not link PCRE at runtime.
+  rejected by the subset matcher; the Core does not link PCRE at runtime.
 - Tool calls cover canonical JSON, XML-style, dotted tags, and dotted plain
   lines. Generated call IDs are not provided. Markup stripping is not an
   authorization control or sanitizer.
@@ -92,7 +92,7 @@ Public declarations are inventoried in [`api/0.1.0.txt`](api/0.1.0.txt).
 - Path checks are lexical and confined by separator boundaries. They do not
   resolve symlinks or replace operating-system sandboxing.
 - Provider adapters, streaming wire encodings, and plugin hosts are not part of
-  this SDK.
+  this Core.
 
 The source is MIT; see [LICENSE](LICENSE). Nim, MinGW, and other toolchain
 components are separate projects, not vendored code.

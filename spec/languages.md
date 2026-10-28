@@ -52,7 +52,7 @@ production readiness or full Go feature parity.
 | TypeScript | Core | released | `typescript/v0.1.0` | complete | 11 vectors, OpenAI adapter |
 | Java | Core | released | `java/v0.2.1` | complete | 11 vectors, OpenAI adapter, API snapshot |
 | Rust | Core | released | `rust/v0.1.0` | complete | 11 vectors, native tests; current source adds compiler-derived API/parity gate |
-| C | Core | released | `c/v0.2.0` | complete | 11 vectors, native tests; public Core API plus wire JSON primitives |
+| C | Core | released | `c/v0.2.0` | complete | 11 vectors, native tests; public Core API plus wire JSON primitives; agent cancellation and call-limit concurrency are partial |
 | C# | Core (.NET) | released | `csharp/v0.1.0` | complete | 11 vectors, API snapshot, OpenAI adapter |
 | Visual Basic | Sample (.NET) | released | `csharp/v0.1.0` | sample | VB.NET consumer sample in `language/csharp/samples` |
 | PowerShell | Bridge | released | `powershell/v0.1.0` | complete | Wraps the bridge CLI |
@@ -68,8 +68,8 @@ production readiness or full Go feature parity.
 | C++ | Core | released | `cpp/v0.1.0` | complete | 11 vectors, core tests, API snapshot |
 | Dart | Core | released | `dart/v0.1.0` | complete | 11 vectors, core tests, API snapshot |
 | Ruby | Core | released | `ruby/v0.1.0` | complete | 11 vectors, core tests, API snapshot |
-| Kotlin | Sample (JVM) | released | none | sample | Uses the Java SDK |
-| Scala | Sample (JVM) | released | none | sample | Uses the Java SDK |
+| Kotlin | Sample (JVM) | released | none | sample | Uses the Java Core |
+| Scala | Sample (JVM) | released | none | sample | Uses the Java Core |
 | MATLAB | Core | released | `matlab/v0.2.0` | complete | 11 vectors, native tests, API snapshot/parity; Octave 11.3.0; MATLAB runtime unverified |
 | Perl | Core | released | `perl/v0.1.0` | complete | 11 vectors, 27 tests, API snapshot |
 | Delphi | Core | released | `delphi/v0.2.0` | complete | 11 vectors, native tests, API snapshot/parity; Free Pascal 3.2.2; commercial Delphi unverified |
@@ -83,14 +83,14 @@ production readiness or full Go feature parity.
 | Erlang | Core | released | `erlang/v0.1.0` | complete | 11 vectors, native tests, API snapshot/parity; OTP 29; opt-in middleware integrated |
 | Ada | Core | planned | none | planned | Native loop target; GNAT toolchain; consumer and maintainer required |
 | Mojo | Core | planned | none | planned | Native loop target; toolchain and CI maturity gate |
-| F# | Sample (.NET) | released | `csharp/v0.1.0` | sample | F# consumer sample in `examples/fsharp`; uses the C# SDK |
-| Clojure | Sample (JVM) | released | `java/v0.2.1` | sample | Clojure consumer sample in `examples/clojure`; uses the Java SDK |
+| F# | Sample (.NET) | released | `csharp/v0.1.0` | sample | F# consumer sample in `examples/fsharp`; uses the C# Core |
+| Clojure | Sample (JVM) | released | `java/v0.2.1` | sample | Clojure consumer sample in `examples/clojure`; uses the Java Core |
 | Solidity | Wire | planned | none | planned | Candidate contract integration; scope and technical limitations require investigation |
-| OpenCL | Sample | released | `c/v0.2.0` | sample | Compute integration sample in `examples/opencl`; uses the C SDK and an OpenCL ICD |
-| Groovy | Sample (JVM) | released | `java/v0.2.1` | sample | Groovy consumer sample in `examples/groovy`; uses the Java SDK |
+| OpenCL | Sample | released | `c/v0.2.0` | sample | Compute integration sample in `examples/opencl`; uses the C Core and an OpenCL ICD |
+| Groovy | Sample (JVM) | released | `java/v0.2.1` | sample | Groovy consumer sample in `examples/groovy`; uses the Java Core |
 | J# | Sample (.NET) | consumer-gated | none | gated | Legacy J# runtime and toolchain are unsupported; requires a named consumer and compatible .NET path |
 | FoxPro | Bridge | planned | none | planned | Bridge over the maintained runtime; Visual FoxPro is Windows-only and legacy |
-| Classic Visual Basic | Bridge | planned | none | planned | Bridge over the .NET SDK or bridge CLI; VB6 cannot consume modern .NET directly |
+| Classic Visual Basic | Bridge | planned | none | planned | Bridge over the .NET Core or bridge CLI; VB6 cannot consume modern .NET directly |
 | TCL | Bridge | released | `tcl/v0.1.0` | complete | Framework target; Tcl 8.6 wrapper over the bridge CLI; forwarding, UTF-8, errors, and exit codes tested locally and in Linux CI; package-registry publication pending |
 | Q | Bridge | planned | none | planned | Requires a licensed kdb+/q runtime and a named consumer |
 | Assembly | Bridge / extension | consumer-gated | none | gated | No portable language or ABI; target-specific binding requires a named consumer |
@@ -182,6 +182,6 @@ linter enforces only the declared tier.
 
 ## Related Documents
 
-- [Multilingual SDK design](../docs/contributing/sdk-design.md)
-- [SDK support policy](../docs/languages/support.md)
+- [Multilingual Core design](../docs/contributing/sdk-design.md)
+- [Core support policy](../docs/languages/support.md)
 - [Language implementation policy](../docs/contributing/language-policy.md)

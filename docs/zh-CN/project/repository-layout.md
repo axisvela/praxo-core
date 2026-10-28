@@ -22,7 +22,7 @@
 Dart、Swift、Julia、R、D、Zig、COBOL 和 Fortran 实现统一迁入 `language/`。
 Shell 与 PowerShell 迁入 `bindings/`；JavaScript、Kotlin、Scala、Groovy、Clojure
 迁入 `examples/`，F# 和 OpenCL 示例分别位于 `examples/fsharp/` 和
-`examples/opencl/`。Visual Basic 示例继续位于 .NET SDK 的
+`examples/opencl/`。Visual Basic 示例继续位于 C# Core 实现的
 `language/csharp/samples/VbSample/`。
 
 更新本地脚本、CI 工作目录、源码依赖、编辑器配置中的路径。仓库根目录示例：
@@ -41,4 +41,4 @@ CMake 应使用全新构建目录，不要复用绑定旧源码位置的缓存�
 
 包名、代码导入和既有标签前缀不随目录变更。源码标签仍不等于已发布到包管理器。
 请在新位置执行语言 README 中的一致性、API 与测试命令，功能限制见
-[SDK 支持政策](../languages/support.md)。
+[Core 支持政策](../languages/support.md)。

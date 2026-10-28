@@ -1,7 +1,7 @@
 # Elixir And Erlang Environment Setup
 
 This page records the manual toolchain procedure used to verify the Elixir
-SDK. Commands run from the repository root unless noted.
+Core. Commands run from the repository root unless noted.
 
 ## Verified Local Layout
 
@@ -33,7 +33,7 @@ use any location; only `erl` and `elixir` need to be on `PATH`.
    erl -version
    ```
 
-The Elixir SDK requires OTP 27 or newer because it uses the standard `:json`
+The Elixir Core requires OTP 27 or newer because it uses the standard `:json`
 module. The verified release is OTP 29.1.2.
 
 ## Manual Install Of Elixir
@@ -82,7 +82,7 @@ by the documented commands.
 
 ## Test Scripts
 
-Run the SDK checks from the repository root in PowerShell after building:
+Run the Core checks from the repository root in PowerShell after building:
 
 ```powershell
 elixir -pa language/elixir/build/ebin language/elixir/tests/run_tests.exs

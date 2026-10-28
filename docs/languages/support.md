@@ -36,10 +36,10 @@ reuse the host Framework rather than duplicate its agent loop.
 
 ## Versions and Distribution
 
-- Core, SDK, adapter, and contract versions are independent.
+- The Go core, language Core implementations, adapters, and contract versions are independent.
 - Version tags and maturity are separate: a source tag records a release, while
   maturity records declared-scope completion and verification.
-- Each SDK declares its supported `SPEC_VERSION`.
+- Each Core implementation declares its supported `SPEC_VERSION`.
 - A source release tag does not establish package-registry availability.
 - Use the installation or source-build instructions on the language page.
 - Python publishes `praxo-core==0.2.1` on PyPI. TypeScript documents source builds;
@@ -92,12 +92,12 @@ Passing shared vectors does not prove complete feature parity with Go, live
 provider verification, production readiness, or package publication.
 
 VFS backends, plugin hosts, scheduling, and optional integrations must be
-evaluated against the specific SDK's README and API reference.
+evaluated against the specific Core's README and API reference.
 
 ## Contribution Gates
 
 Core changes require the declared vector groups, parity inventory, API checks,
 and language tests. Wire, Bridge, and Sample implementations have narrower gates.
 See [language policy](../contributing/language-policy.md) and
-[SDK design](../contributing/sdk-design.md). Security-sensitive behavior requires
+[Core design](../contributing/sdk-design.md). Security-sensitive behavior requires
 language-specific tests in addition to shared fixtures.

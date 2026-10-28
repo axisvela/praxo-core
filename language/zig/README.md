@@ -1,11 +1,11 @@
-# PRAXO-CORE Zig SDK
+# PRAXO-CORE Zig Core
 
 Zig 0.17 implementation of the PRAXO-CORE agent contract. The normative
 contract is [`spec/`](../../spec/README.md); Go remains the reference
 implementation.
 
 - `SPEC_VERSION`: `0.2.0`
-- SDK version: `0.2.0`
+- Core version: `0.2.0`
 - Tier: core
 - License: MIT
 - Dependencies: Zig standard library only

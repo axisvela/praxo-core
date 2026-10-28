@@ -1,12 +1,12 @@
 # Wire Contract
 
-This directory freezes the JSON shapes shared by every SDK. Names and casing are
+This directory freezes the JSON shapes shared by every Core implementation. Names and casing are
 normative. Do not "fix" casing or reorder fields to look idiomatic.
 
 | File | Contract |
 | --- | --- |
 | `events.json` | `event.Event` shape, event names, data keys, stream kinds |
-| `errors.json` | Exported sentinels, stable codes, SDK exception names, plugin call error codes |
+| `errors.json` | Exported sentinels, stable codes, Core exception names, plugin call error codes |
 | `jsonschema.json` | Supported and ignored JSON Schema keywords |
 | `plugin.json` | Manifest v1, kinds, states, event kinds, protocol |
 

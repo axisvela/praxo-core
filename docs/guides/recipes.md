@@ -156,7 +156,7 @@ adapter := noetivelaadapter.Adapter{
 }
 ```
 
-The SDK exposes text content, not tool calls. For tool calling, use a custom
+The Core exposes text content, not tool calls. For tool calling, use a custom
 HTTP adapter that preserves tool-call fields. See the
 [NOETIVELA SDK example](https://github.com/axisvela/praxo-core/tree/main/examples/ecosystem-sdk/noetivela).
 
@@ -180,7 +180,7 @@ ag, err := agent.New(agent.Options{
 ```
 
 See the
-[Mnemovela SDK example](https://github.com/axisvela/praxo-core/tree/main/examples/ecosystem-sdk/mnemovela).
+[Mnemovela Core example](https://github.com/axisvela/praxo-core/tree/main/examples/ecosystem-sdk/mnemovela).
 
 ## GNOSIVELA
 
@@ -199,7 +199,7 @@ documents, err := adapter.Retrieve(ctx, "current status", 8)
 
 GNOSIVELA does not yet publish a `v3` semver tag for this module path; the
 example module pins a pseudo-version from `master`. See the
-[GNOSIVELA SDK example](https://github.com/axisvela/praxo-core/tree/main/examples/ecosystem-sdk/gnosivela).
+[GNOSIVELA Core example](https://github.com/axisvela/praxo-core/tree/main/examples/ecosystem-sdk/gnosivela).
 
 ## AEGIVELA Policy
 
@@ -225,7 +225,7 @@ hook := aegivelaadapter.Hook{
 The hook allows only an exact `allow` outcome; every other outcome is denied.
 Load `WorkloadAssertion` from your secret manager at runtime instead of
 hardcoding it, and keep `Route` values static. See the
-[AEGIVELA SDK example](https://github.com/axisvela/praxo-core/tree/main/examples/ecosystem-sdk/aegivela).
+[AEGIVELA Core example](https://github.com/axisvela/praxo-core/tree/main/examples/ecosystem-sdk/aegivela).
 
 ## LIMENORA Gateway
 
@@ -252,7 +252,7 @@ gateway := limenoraadapter.Gateway{
 
 Keep routes static and allowlisted. Do not derive `URL`, `Method`, or headers
 from model output; let LIMENORA enforce the egress policy. See the
-[LIMENORA SDK example](https://github.com/axisvela/praxo-core/tree/main/examples/ecosystem-sdk/limenora).
+[LIMENORA Core example](https://github.com/axisvela/praxo-core/tree/main/examples/ecosystem-sdk/limenora).
 
 ## Harmovela Events
 
@@ -323,7 +323,7 @@ audit, err := runner.Audit(ctx, instance.InstanceID)
 ```
 
 See the
-[RHEOVELA SDK example](https://github.com/axisvela/praxo-core/tree/main/examples/ecosystem-sdk/rheovela).
+[RHEOVELA Core example](https://github.com/axisvela/praxo-core/tree/main/examples/ecosystem-sdk/rheovela).
 
 ## Sandbox and Policy
 

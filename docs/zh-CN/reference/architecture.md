@@ -150,12 +150,12 @@ Go 保留为参考实现。Python、TypeScript 和 Java 消费的契约定义在
 spec/                    规范契约与向量
   wire/                  JSON 字段名、事件、错误、插件信封
   vectors/               语言无关的行为夹具
-  parity.md              Go 符号 -> SDK 符号清单
+  parity.md              Go 符号 -> Core 符号清单
         |
         +-- Go 参考实现（pkg/...，表面不可变）
-        +-- Python SDK
-        +-- TypeScript SDK
-        +-- Java SDK
+        +-- Python Core
+        +-- TypeScript Core
+        +-- Java Core
 ```
 
 契约分四层：
@@ -165,15 +165,15 @@ spec/                    规范契约与向量
 | 线格式 | 是，逐字节一致 | wire 夹具与快照测试 |
 | 行为 | 是，可观察一致 | 一致性向量 |
 | API 表面 | 一对一，名称符合语言习惯 | 一致性 linter |
-| 一致性 | 同一套件 | 每个 SDK 的 CI 任务 |
+| 一致性 | 同一套件 | 每个 Core 的 CI 任务 |
 
 源码 API 是映射而非照搬。Go 接口变成 Python protocol、TypeScript interface 和
 Java interface；`context.Context` 变成语言的取消原语；sentinel 错误变成稳定异常
 类。具体适配器、辅助函数和包内部实现不属于契约。
 
-wire 改名、事件变更、stream kind 变更或插件信封变更对所有 SDK 都是破坏性变更，
-即使只有一个 SDK 发布。参见[多语言 SDK 设计](../contributing/sdk-design.md)和
-[SDK 支持政策](../languages/support.md)。
+wire 改名、事件变更、stream kind 变更或插件信封变更对所有 Core 都是破坏性变更，
+即使只有一个 Core 发布。参见[多语言 Core 设计](../contributing/sdk-design.md)和
+[Core 支持政策](../languages/support.md)。
 
 ## 并发
 

@@ -1,17 +1,17 @@
-# PRAXO-CORE Dart SDK
+# PRAXO-CORE Dart Core
 
 Dart 3 implementation of the PRAXO-CORE agent contract. The normative contract
 is [`spec/`](../../spec/README.md); Go remains the reference implementation.
 
 - `SPEC_VERSION`: `0.2.0`
-- SDK version: `0.1.0`
+- Core version: `0.1.0`
 - Tier: core
 - License: MIT
 - Dependencies: Dart standard library only
 
 ## Scope
 
-The SDK implements all eleven vector groups: toolcall, JSON Schema, plugin,
+The Core implements all eleven vector groups: toolcall, JSON Schema, plugin,
 memory, event, stream, checkpoint, policy, context, middleware, and the agent
 loop. It includes a public API snapshot and a dependency-free test runner.
 

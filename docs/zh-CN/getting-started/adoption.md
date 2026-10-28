@@ -63,8 +63,8 @@
 | 需求 | 接缝 | 起点 |
 | --- | --- | --- |
 | 模型访问 | `pkg/model` | `adapters/openaicompat`、NOETIVELA SDK 示例 |
-| 记忆 | `pkg/memory` | `memory.MemoryStore`、Mnemovela SDK 示例 |
-| 检索 | `pkg/retriever` | GNOSIVELA SDK 示例 |
+| 记忆 | `pkg/memory` | `memory.MemoryStore`、Mnemovela Core 示例 |
+| 检索 | `pkg/retriever` | GNOSIVELA Core 示例 |
 | 工具 | `pkg/tool` | `tool.Registry`、`tool.Gateway`、MCP 适配器 |
 | 事件 | `pkg/event` | `event.Sink`、Harmovela publisher |
 | 授权 | `pkg/policy` | `policy.Hook`、AEGIVELA |

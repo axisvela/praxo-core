@@ -105,7 +105,7 @@ tests.
 ## Adding an Adapter
 
 1. Implement the relevant core interface.
-2. Keep product SDKs out of the core module; use a separate module when needed.
+2. Keep product Core implementations out of the core module; use a separate module when needed.
 3. Add tests, including a conformance assertion such as `var _ model.Model = Adapter{}`.
 4. Document the mapping and limitations.
 5. Tag optional modules as `adapters/<name>/vX.Y.Z`.

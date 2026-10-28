@@ -1,15 +1,15 @@
-# PRAXO-CORE PHP SDK
+# PRAXO-CORE PHP Core
 
 PHP 8.2+ implementation of the PRAXO-CORE agent contract.
 
 - `SPEC_VERSION`: `0.2.0`
-- SDK version: `0.1.0`
+- Core version: `0.1.0`
 - License: MIT
 - Dependencies: none beyond the PHP standard library
 
 ## Scope
 
-The SDK implements all eleven vector groups: toolcall, jsonschema, plugin,
+The Core implements all eleven vector groups: toolcall, jsonschema, plugin,
 checkpoint, event, memory, policy, stream, context, middleware, and agent loop.
 It includes a public API snapshot and dependency-free tests. Provider adapters
 are not included in `0.1.0`.

@@ -22,7 +22,7 @@ create or attach -> execute -> upload/download -> pause/resume -> close
 ```
 
 Deep Agents 把它建模为可插拔 backend 协议，并让 sandbox backend 增加执行能力。
-PRAXO-CORE 应学习这种形态，但不复制 LangGraph state、图运行时或提供商 SDK。
+PRAXO-CORE 应学习这种形态，但不复制 LangGraph state、图运行时或提供商 Core。
 
 缺口不是“接入更多 sandbox”，而是能对至少两个实现验证的、提供商中立的 session
 契约。
@@ -102,7 +102,7 @@ type Pauser interface {
 
 | 问题 | E2B | Daytona |
 | --- | --- | --- |
-| Go SDK 或稳定 HTTP API | REST + envd Connect/JSON；无官方 Go SDK | Go SDK `v0.226.1` |
+| Go Core 或稳定 HTTP API | REST + envd Connect/JSON；无官方 Go Core | Go Core `v0.226.1` |
 | Create / attach / close | 离线通过；实网待验证 | 离线通过；实网待验证 |
 | 重复命令执行 | 离线通过 | 离线通过 |
 | Upload / download | 离线通过 | 离线通过 |
@@ -110,7 +110,7 @@ type Pauser interface {
 | Snapshot 或模板 | 提供商支持；适配器未映射 | 提供商支持；适配器未映射 |
 | 网络与端口策略 | 提供商支持；适配器未暴露 | 提供商支持；适配器未暴露 |
 | 超时与取消 | Context + Connect timeout | Context + execution timeout |
-| 错误分类 | Connect/envd 错误；仅映射 not-found/closed | SDK 错误；仅映射 not-found/closed |
+| 错误分类 | Connect/envd 错误；仅映射 not-found/closed | Core 错误；仅映射 not-found/closed |
 | 认证与租户模型 | API key + envd access token | API key 或 JWT，organization 与 target |
 | 许可证兼容性 | Apache-2.0 | `cli/` 外为 Apache-2.0；`cli/` 为 AGPL-3.0 |
 | 控制平面功能 | 提供商拥有 | 提供商拥有 |
@@ -123,8 +123,8 @@ type Pauser interface {
   VFS 读写、pause/resume。
 - 嵌入 `vfs.Backend` 和 `sandbox.Sandbox` 对两个适配器都适用；可选 `Pauser`
   也适用。
-- E2B 需要自定义 Connect frame 编解码和 envd 头；Daytona 需要 SDK 包装，因为
-  SDK 只返回一个合并的命令输出字符串。
+- E2B 需要自定义 Connect frame 编解码和 envd 头；Daytona 需要 Core 包装，因为
+  Core 只返回一个合并的命令输出字符串。
 - 两个适配器的 `Glob`/`Grep` 都是客户端遍历；没有可移植的服务端搜索契约。
 - Snapshot 和网络策略是提供商特有能力，不应进入第一版契约。
 - 路径和工作目录语义不同。适配器归一化相对路径；实网验证必须确认 home 和
@@ -136,23 +136,23 @@ type Pauser interface {
 
 下一轮 spike 还应纳入两个提供商：
 
-- **OpenSandbox**（Apache-2.0）：Go SDK
+- **OpenSandbox**（Apache-2.0）：Go Core
   `github.com/alibaba/OpenSandbox/sdks/sandbox/go`；提供 lifecycle、execd 和
   egress API；支持 Docker/Kubernetes、Firecracker pause/resume 和网络策略。
   适配器状态：离线 conformance 适配器；实网待验证。
-- **CubeSandbox**（Apache-2.0，列明的第三方组件除外）：Go SDK
+- **CubeSandbox**（Apache-2.0，列明的第三方组件除外）：Go Core
   `github.com/tencentcloud/CubeSandbox/sdk/go`；兼容 E2B API；RustVMM/KVM
   隔离；pause/resume、快照、卷和 egress 策略。适配器状态：离线 conformance
   适配器；实网待验证。先验证 E2B 适配器能否作为兼容 profile，再决定是否保留
   单独实现。
 
-OpenSandbox 增加自托管 Go SDK 与出站控制路径；CubeSandbox 增加硬件级隔离和
+OpenSandbox 增加自托管 Go Core 与出站控制路径；CubeSandbox 增加硬件级隔离和
 E2B 兼容面。两者都不改变核心契约，只作为 provider adapter，也不会把控制平面
 放进 `pkg/`。
 
 ### CubeSandbox 与 E2B 兼容性
 
-离线复核发现 CubeSandbox 在 SDK 和数据面层面兼容 E2B，但不是当前 E2B 适配器
+离线复核发现 CubeSandbox 在 Core 和数据面层面兼容 E2B，但不是当前 E2B 适配器
 的直接配置替代：
 
 - CubeSandbox 的 `Client.Create` 和 `Client.Connect` 使用 `/sandboxes`，而
@@ -173,7 +173,7 @@ CubeSandbox profile。
 1. 在核心之外增加两个适配器模块：`adapters/workspace/e2b` 和
    `adapters/workspace/daytona`。各自独立 `go.mod` 和 tag。
 2. 使用调用方提供的凭据实现 create/attach、execute、upload/download 和 close。
-   不把提供商 SDK 加入核心模块。
+   不把提供商 Core 加入核心模块。
 3. 增加一个实现相同契约的内存 fake，用于离线测试。
 4. 对 fake 和两个适配器运行同一套 conformance 检查。实网提供商测试必须按需
    运行，不能进入默认 CI。
@@ -189,7 +189,7 @@ CubeSandbox profile。
 - fake 和两个适配器通过同一套一致性检查；
 - 取消和超时不会泄漏 session；
 - 错误映射有文档和测试；
-- 核心模块仍不依赖提供商 SDK；
+- 核心模块仍不依赖提供商 Core；
 - API 是加法式的，不改变 `vfs.Backend`、`vfs.Executor` 或 `sandbox.Sandbox`；
 - 已编写兼容与迁移说明。
 

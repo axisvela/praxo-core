@@ -1,6 +1,6 @@
 # Nim Environment Setup
 
-This page records the manual toolchain procedure used to verify the Nim SDK.
+This page records the manual toolchain procedure used to verify the Nim Core.
 Commands run from the repository root unless noted.
 
 ## Verified Local Layout
@@ -42,7 +42,7 @@ use any location; only `nim` and a C compiler need to be on `PATH`.
    nim --version
    ```
 
-Set the example variables to the actual installation directories. The SDK
+Set the example variables to the actual installation directories. The Core
 commands below provide the compilation check without creating a smoke-test file.
 
 ## Manual Install On Linux And CI
@@ -68,7 +68,7 @@ No repository-specific environment variable is required. `PATH` must contain
 
 ## Test Scripts
 
-Run the SDK checks from the repository root in PowerShell:
+Run the Core checks from the repository root in PowerShell:
 
 ```powershell
 New-Item -ItemType Directory -Force -Path build | Out-Null

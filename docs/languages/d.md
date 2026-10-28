@@ -1,4 +1,4 @@
 ---
-title: D SDK
+title: D Core
 sdk_readme: language/d/README.md
 ---

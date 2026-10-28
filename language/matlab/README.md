@@ -4,7 +4,7 @@ Native Core implementation with source tag `matlab/v0.2.0`. It passes all eleven
 vector groups under GNU Octave 11.3.0 and includes the native agent loop, memory
 store, checkpoint allowlist, lexical path policy, context compaction, event
 sinks, middleware helpers, and tool selection. It does not delegate its behavior
-to Go or another language SDK.
+to Go or another language Core.
 
 Local validation uses GNU Octave 11.3.0; MATLAB compatibility is a target, not
 yet independently verified. The source tag does not imply package-registry
@@ -91,7 +91,7 @@ full reference agent surface. The shared parity inventory remains unchanged.
   declarations. It does not verify signatures, establish trust, execute
   plugins, or enforce OS sandboxing. Duplicate-field rejection is stricter than
   the Go JSON decoder.
-- SDK-local errors are not new shared wire error codes. Neither passing four
+- Core-local errors are not new shared wire error codes. Neither passing four
   vector groups nor an Octave test implies full Framework or Go feature parity.
 
 The source is MIT; see [LICENSE](LICENSE). Octave is a separate GPL-licensed

@@ -2,7 +2,7 @@
 
 Core `2.5.0` is the current framework release. Review the notes for the version
 you are adopting and follow the [compatibility policy](../project/compatibility-policy.md).
-SDK and adapter versions are independent; see [SDK support](../languages/support.md)
+Core and adapter versions are independent; see [Core support](../languages/support.md)
 and the [adapter directory](../integrations/index.md).
 
 | Core version | Release notes |

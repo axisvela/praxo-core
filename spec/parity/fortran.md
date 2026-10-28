@@ -48,7 +48,7 @@ limitations.
 | `agent/middleware.StructuredOutput` | `praxo_middleware.structured_output`, `structured_model` | parity | P1 |
 | `agent/middleware.PIIMiddleware` | `praxo_middleware.redact_pii`, `redact_json_pii`, agent options hook | parity | P1 |
 
-SDK-local utilities do not add new normative contract symbols:
+Core-local utilities do not add new normative contract symbols:
 `praxo_json` provides native JSON documents, node traversal, encoding, exact
 decimal equality, and numeric access. `praxo_unicode` provides UTF-8 validation,
 JSON quoting/decoding, and Unicode length. `praxo_pattern.match_pattern` is an

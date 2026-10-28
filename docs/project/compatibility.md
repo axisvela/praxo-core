@@ -78,23 +78,23 @@ See the [compatibility and deprecation policy](compatibility-policy.md) for
 the covered surface, additive-change rules, deprecation window, and optional
 module versioning.
 
-## Multi-language SDK Compatibility
+## Multi-language Core Compatibility
 
-Python, TypeScript, and Java SDKs share the contract in `spec/` and version
+Python, TypeScript, and Java Core implementations share the contract in `spec/` and version
 independently. Their compatibility rules are:
 
 - The wire contract is identical across languages. Renaming a JSON field,
-  event, stream kind, or plugin envelope field is breaking for every SDK.
+  event, stream kind, or plugin envelope field is breaking for every Core implementation.
 - Source APIs map one-to-one but use idiomatic names per language.
-- An SDK declares the `spec/SPEC_VERSION` it implements.
-- No SDK may implement a contract feature that the Go reference lacks.
-- SDK versions do not imply a Go module version, and vice versa.
+- A Core implementation declares the `spec/SPEC_VERSION` it implements.
+- No Core may implement a contract feature that the Go reference lacks.
+- Core versions do not imply a Go module version, and vice versa.
 
-The Go surface remains covered by the `v2` rules above. Multilingual SDKs are
+The Go surface remains covered by the `v2` rules above. Multilingual Core implementations are
 additive packages and do not change the Go module path or the `pkg/...` freeze.
 
-See [Multilingual SDK design](../contributing/sdk-design.md) and the
-[SDK support policy](../languages/support.md).
+See [Multilingual Core design](../contributing/sdk-design.md) and the
+[Core support policy](../languages/support.md).
 
 ## Compatibility Tests
 

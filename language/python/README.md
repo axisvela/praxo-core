@@ -1,4 +1,4 @@
-# PRAXO-CORE Python SDK
+# PRAXO-CORE Python Core
 
 Python implementation of the PRAXO-CORE contract. The normative contract is
 [`spec/`](../../spec/README.md); Go remains the reference implementation.
@@ -92,7 +92,7 @@ python conformance/run.py
 python -m unittest discover -s tests -v
 ```
 
-Both commands read `../../spec/vectors/*.json`. A released SDK must pass every
+Both commands read `../../spec/vectors/*.json`. A released Core implementation must pass every
 vector and keep `spec/parity.md` current.
 
 ## API Reference and Build

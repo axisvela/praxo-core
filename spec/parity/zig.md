@@ -3,7 +3,7 @@
 - Tier: core
 - SPEC_VERSION: 0.2.0
 
-`zig/v0.2.0` ships the core loop. The SDK passes all eleven vector groups, its
+`zig/v0.2.0` ships the core loop. The Core passes all eleven vector groups, its
 tests, and its public API snapshot. `zig/v0.1.0` remains the wire tag.
 `partial` marks a surface that covers the vector behavior and common path but
 not every optional Go hook or provider adapter.

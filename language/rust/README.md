@@ -1,4 +1,4 @@
-# PRAXO-CORE Rust SDK
+# PRAXO-CORE Rust Core
 
 Rust implementation of the PRAXO-CORE contract. The normative contract is
 [`spec/`](../../spec/README.md); Go remains the reference implementation.
@@ -70,7 +70,7 @@ Wire codecs preserve the Go names, including `image_url`, `runId`, and
 
 ## Conformance
 
-The runner reads `../../spec/vectors/*.json`. A released SDK must pass every vector
+The runner reads `../../spec/vectors/*.json`. A released Core implementation must pass every vector
 and keep `spec/parity.md` current.
 
 ## API Gate

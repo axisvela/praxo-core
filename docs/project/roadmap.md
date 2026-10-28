@@ -1,7 +1,7 @@
 # Public Roadmap
 
 Current core release: `2.5.0`. This page describes technical direction, not a
-delivery schedule or a promise that every SDK supports every feature.
+delivery schedule or a promise that every Core implementation supports every feature.
 
 ## Current Focus
 
@@ -14,9 +14,9 @@ delivery schedule or a promise that every SDK supports every feature.
 ## Compatibility Commitments
 
 Keep the public Go API small, preserve the MIT boundary, and require consumers
-and tests for new contracts. SDKs must not widen the Go API merely to simplify
+and tests for new contracts. Core implementations must not widen the Go API merely to simplify
 a port. See [compatibility policy](compatibility-policy.md),
-[SDK support](../languages/support.md), and [language policy](../contributing/language-policy.md).
+[Core support](../languages/support.md), and [language policy](../contributing/language-policy.md).
 
 ## Delivered Work
 

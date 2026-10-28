@@ -2,7 +2,7 @@
 
 The reported local environment used GNU Octave 11.3.0 on Windows and Python
 3.10 or later. MATLAB compatibility is a target and has not been independently tested.
-Octave is a separate GPL-licensed interpreter; the SDK is MIT-licensed.
+Octave is a separate GPL-licensed interpreter; the Core is MIT-licensed.
 
 On the Windows development environment, the Octave CLI is at
 `D:\dev\octave-11.3.0-w64\mingw64\bin\octave-cli.exe`. From the repository

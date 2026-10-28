@@ -1,12 +1,12 @@
 # PRAXO-CORE Clojure Sample
 
-Clojure consumes the Java SDK; it is a sample, not a second contract
+Clojure consumes the Java Core; it is a sample, not a second contract
 implementation. The sample runs on the JVM.
 
 ## Build and run
 
 ```bash
-# Compile the Java SDK first.
+# Compile the Java Core first.
 find language/java/src/main/java -name '*.java' > java-sources.txt
 javac -d language/java/build/classes @java-sources.txt
 
@@ -28,7 +28,7 @@ CI installs Clojure and runs the same sample.
 (println (.output result))
 ```
 
-Tools, middleware, memory, checkpoints, policy, and streaming are the Java SDK
+Tools, middleware, memory, checkpoints, policy, and streaming are the Java Core
 APIs; do not create a separate Clojure core.
 
 ## Release

@@ -35,7 +35,7 @@ PRAXO-CORE 是表中唯一按 AxisVela 框架层设计的框架。它提供以�
 
 ## 定位
 
-- **PRAXO-CORE** 刻意保持底层。它不捆绑提供商 SDK、向量数据库或 MCP 客户端。
+- **PRAXO-CORE** 刻意保持底层。它不捆绑提供商 Core、向量数据库或 MCP 客户端。
   其价值在于一个可被产品嵌入的、小型且 MIT 许可的治理与运行时边界，并为
   AxisVela 生态提供一等接缝。
 - **LangChainGo** 是 Go 中覆盖面较广的 LangChain 风格实现，提供大量提供商、

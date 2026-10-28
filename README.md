@@ -62,21 +62,21 @@ or turnkey chat UI. Review the [adoption guide](docs/getting-started/adoption.md
 
 ## Choose Your Language
 
-Go is the reference implementation. SDKs share a normative contract in
+Go is the reference implementation. Core implementations share a normative contract in
 [`spec/`](spec/README.md), with language-specific APIs and declared limitations.
 
 | Runtime | Start here |
 | --- | --- |
 | Go | [Install and quickstart](docs/languages/go.md) |
-| Python | [Python SDK](https://axisvela.github.io/praxo-core/languages/python/) |
-| TypeScript / JavaScript | [TypeScript SDK](https://axisvela.github.io/praxo-core/languages/typescript/), [JavaScript sample](https://axisvela.github.io/praxo-core/languages/javascript/) |
-| Java / Kotlin / Scala / Groovy / Clojure | [Java SDK](https://axisvela.github.io/praxo-core/languages/java/), [Kotlin](https://axisvela.github.io/praxo-core/languages/kotlin/), [Scala](https://axisvela.github.io/praxo-core/languages/scala/), [Groovy](https://axisvela.github.io/praxo-core/languages/groovy/), [Clojure](https://axisvela.github.io/praxo-core/languages/clojure/) |
-| .NET | [C# SDK](https://axisvela.github.io/praxo-core/languages/csharp/), [Visual Basic sample](docs/languages/visual-basic.md), [F# sample](docs/languages/fsharp.md) |
-| C / OpenCL | [C SDK](https://axisvela.github.io/praxo-core/languages/c/), [OpenCL sample](https://axisvela.github.io/praxo-core/languages/opencl/) |
-| OCaml | [OCaml SDK](https://axisvela.github.io/praxo-core/languages/ocaml/) |
-| MATLAB / Octave | [MATLAB/Octave SDK](https://axisvela.github.io/praxo-core/languages/matlab/) |
-| Haskell | [Haskell SDK](https://axisvela.github.io/praxo-core/languages/haskell/) |
-| Delphi / Free Pascal | [Delphi / Free Pascal SDK](https://axisvela.github.io/praxo-core/languages/delphi/) |
+| Python | [Python Core](https://axisvela.github.io/praxo-core/languages/python/) |
+| TypeScript / JavaScript | [TypeScript Core](https://axisvela.github.io/praxo-core/languages/typescript/), [JavaScript sample](https://axisvela.github.io/praxo-core/languages/javascript/) |
+| Java / Kotlin / Scala / Groovy / Clojure | [Java Core](https://axisvela.github.io/praxo-core/languages/java/), [Kotlin](https://axisvela.github.io/praxo-core/languages/kotlin/), [Scala](https://axisvela.github.io/praxo-core/languages/scala/), [Groovy](https://axisvela.github.io/praxo-core/languages/groovy/), [Clojure](https://axisvela.github.io/praxo-core/languages/clojure/) |
+| .NET | [C# Core](https://axisvela.github.io/praxo-core/languages/csharp/), [Visual Basic sample](docs/languages/visual-basic.md), [F# sample](docs/languages/fsharp.md) |
+| C / OpenCL | [C Core](https://axisvela.github.io/praxo-core/languages/c/), [OpenCL sample](https://axisvela.github.io/praxo-core/languages/opencl/) |
+| OCaml | [OCaml Core](https://axisvela.github.io/praxo-core/languages/ocaml/) |
+| MATLAB / Octave | [MATLAB/Octave Core](https://axisvela.github.io/praxo-core/languages/matlab/) |
+| Haskell | [Haskell Core](https://axisvela.github.io/praxo-core/languages/haskell/) |
+| Delphi / Free Pascal | [Delphi / Free Pascal Core](https://axisvela.github.io/praxo-core/languages/delphi/) |
 | Other languages | [Complete implementation directory](docs/languages/index.md) |
 
 Source releases, package-registry publication, conformance, and production
@@ -101,7 +101,7 @@ feature parity or registry availability from a source tag.
 | --- | --- |
 | [`pkg/`](pkg) | Public Go framework APIs |
 | [`adapters/`](adapters) | Optional model, protocol, telemetry, and runtime integrations |
-| [`language/`](language/README.md) | Independent language SDK source, builds, tests, and API references |
+| [`language/`](language/README.md) | Independent language Core source, builds, tests, and API references |
 | [`bindings/`](bindings/README.md) | Shell and PowerShell runtime bridges |
 | [`spec/`](spec) | Normative wire contract, vectors, and parity inventories |
 | [`examples/`](examples) | Runnable integration examples |
@@ -121,7 +121,7 @@ or [optional AxisVela integrations](docs/integrations/ecosystem.md). See the
 ## Releases and Contributing
 
 Core `2.5.0` adds the conformance package and local VFS hardening. Optional
-adapters and SDKs are versioned independently.
+adapters and Core implementations are versioned independently.
 
 - [Latest release notes](docs/releases/2.5.0.md)
 - [Release history](docs/releases/index.md)

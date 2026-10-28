@@ -1,7 +1,7 @@
-# Fortran Core SDK
+# Fortran Core
 
 A native Fortran 2008 implementation with source tag `fortran/v0.2.0`. This is
-not a bridge to Go, C, Python, or another SDK. All 62 normative vectors across
+not a bridge to Go, C, Python, or another Core. All 62 normative vectors across
 eleven groups pass locally, alongside native regression tests and the API
 declaration snapshot. The tag is a source release, not package-registry
 publication. Documented limitations remain below.
@@ -23,9 +23,9 @@ modules and executables are confined to `language/fortran/build/`.
 
 Python is only a build/test dependency. `conformance.py` translates the declared
 JSON fixtures into Fortran test inputs and assertions; every behavior under test
-runs in the compiled Fortran SDK. The generator verifies the complete vector
+runs in the compiled Fortran Core implementation. The generator verifies the complete vector
 group inventory and rejects unknown operations rather than silently skipping
-them. Python is not required by a compiled SDK consumer.
+them. Python is not required by a compiled Core consumer.
 
 ## API
 
@@ -126,6 +126,6 @@ tests, and the snapshot check. Passing fixtures covers the declared Core scope;
 the parity inventory records the two partial surfaces (asynchronous stream
 support and the bounded JSON Schema subset).
 
-The SDK sources are original MIT-licensed code under the repository license.
+The Core sources are original MIT-licensed code under the repository license.
 GNU Fortran and its runtime are separately licensed toolchain dependencies; no
 compiler or runtime binaries are vendored here.

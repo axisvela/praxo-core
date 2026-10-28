@@ -1,7 +1,7 @@
 # PRAXO-CORE OpenCL Sample
 
 OpenCL is a compute API, not an independent contract implementation. This sample
-reuses the C SDK's JSON parser and runs a trivial OpenCL kernel, showing one way
+reuses the C Core's JSON parser and runs a trivial OpenCL kernel, showing one way
 to host GPU/compute work alongside a PRAXO-CORE tool implementation. It does not
 implement an agent loop, wire codec, or provider adapter.
 

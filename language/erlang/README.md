@@ -1,10 +1,10 @@
-# PRAXO-CORE Erlang Core SDK
+# PRAXO-CORE Erlang Core
 
 Erlang is a native Core implementation with source tag `erlang/v0.1.0`. It
 passes all eleven shared vector groups on Erlang/OTP 29 and includes the native
 agent loop, memory store, checkpoint allowlist, lexical path policy, context
 compaction, event sinks, middleware helpers, and tool selection. It does not
-call Go or another SDK.
+call Go or another Core.
 
 - Implementation type: Core.
 - Package version: `0.1.0`; supported `SPEC_VERSION`: `0.2.0`.
@@ -59,7 +59,7 @@ This is a source declaration check, not a binary ABI promise. Regenerate it with
   are not an OS containment boundary.
 - Model and tool callbacks are caller-supplied functions. Callback exceptions
   are not converted to contract errors.
-- SDK-local errors and exception terms are not new shared wire error codes.
+- Core-local errors and exception terms are not new shared wire error codes.
   Passing the vectors does not establish full Core parity or production
   readiness.
 

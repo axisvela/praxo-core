@@ -35,4 +35,4 @@ models, custom models, and call limits.
 
 These checks do not establish production readiness, provider integration,
 streaming, or plugin-host behavior. Path checks are lexical, not OS
-containment. SDK-local errors are not new wire error codes.
+containment. Core-local errors are not new wire error codes.

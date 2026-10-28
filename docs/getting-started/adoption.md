@@ -70,8 +70,8 @@ variants.
 | Need | Seam | Starting point |
 | --- | --- | --- |
 | Model access | `pkg/model` | `adapters/openaicompat`, NOETIVELA SDK example |
-| Memory | `pkg/memory` | `memory.MemoryStore`, Mnemovela SDK example |
-| Retrieval | `pkg/retriever` | GNOSIVELA SDK example |
+| Memory | `pkg/memory` | `memory.MemoryStore`, Mnemovela Core example |
+| Retrieval | `pkg/retriever` | GNOSIVELA Core example |
 | Tools | `pkg/tool` | `tool.Registry`, `tool.Gateway`, MCP adapter |
 | Events | `pkg/event` | `event.Sink`, Harmovela publisher |
 | Authorization | `pkg/policy` | `policy.Hook`, AEGIVELA |

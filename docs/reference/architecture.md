@@ -163,12 +163,12 @@ suite:
 spec/                    normative contract and vectors
   wire/                  JSON field names, events, errors, plugin envelopes
   vectors/               language-neutral behavior fixtures
-  parity.md              Go symbol -> SDK symbol inventory
+  parity.md              Go symbol -> Core symbol inventory
         |
         +-- Go reference implementation (pkg/..., immutable surface)
-        +-- Python SDK
-        +-- TypeScript SDK
-        +-- Java SDK
+        +-- Python Core
+        +-- TypeScript Core
+        +-- Java Core
 ```
 
 The contract has four layers:
@@ -178,7 +178,7 @@ The contract has four layers:
 | Wire | yes, byte-for-byte | wire fixtures and snapshot tests |
 | Behavior | yes, observably | conformance vectors |
 | API surface | one-to-one, idiomatic names | parity linter |
-| Conformance | one suite | each SDK's CI job |
+| Conformance | one suite | each Core implementation's CI job |
 
 Source APIs are mapped, not copied. Go interfaces become Python protocols,
 TypeScript interfaces, and Java interfaces; `context.Context` becomes the
@@ -187,9 +187,9 @@ classes. Concrete adapters, helpers, and package internals are not part of the
 contract.
 
 A wire rename, event change, stream-kind change, or plugin envelope change is
-breaking for every SDK, even if only one SDK ships it. See
-[Multilingual SDK design](../contributing/sdk-design.md) and the
-[SDK support policy](../languages/support.md).
+breaking for every Core implementation, even if only one Core implementation ships it. See
+[Multilingual Core design](../contributing/sdk-design.md) and the
+[Core support policy](../languages/support.md).
 
 ## Concurrency
 

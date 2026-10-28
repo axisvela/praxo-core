@@ -61,7 +61,7 @@ not rolled back when event delivery fails. The checkpoint stream part is a final
 result projection, not proof of durable checkpoint storage or exactly-once
 execution. Consumers must provide their own transactional persistence where
 required. Earlier source tags retain their original callback ordering; other
-SDKs require separate lifecycle verification.
+Core implementations require separate lifecycle verification.
 
 Entered middleware is finalized even when a later `BeforeRun` callback fails.
 Only the entered prefix, including the rejecting callback, receives `AfterRun`;

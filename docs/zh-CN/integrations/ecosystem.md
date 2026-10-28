@@ -28,7 +28,7 @@ PRAXO-CORE 是 AxisVela Agent 共享的框架层。它暴露中立的契约，�
 - [`adapters/openaicompat`](https://github.com/axisvela/praxo-core/tree/main/adapters/openaicompat) 是仅使用标准库的
   OpenAI 兼容模型适配器，适用于 Ollama、vLLM 和支持 OpenAI 兼容接口的服务。
 - [`adapters/mcp`](https://github.com/axisvela/praxo-core/tree/main/adapters/mcp) 是可选的 MCP 模块，支持工具、
-  resources 和 prompts。它是独立的 Go 模块，因此核心框架不依赖 MCP SDK。
+  resources 和 prompts。它是独立的 Go 模块，因此核心框架不依赖 MCP Core。
 - [`adapters/otel`](https://github.com/axisvela/praxo-core/tree/main/adapters/otel) 是可选的 OpenTelemetry 事件
   Sink，将生命周期事件映射为 span，且不会把 OpenTelemetry 加入核心模块。
 - [`adapters/anthropic`](https://github.com/axisvela/praxo-core/tree/main/adapters/anthropic) 是原生 Anthropic Messages
@@ -36,7 +36,7 @@ PRAXO-CORE 是 AxisVela Agent 共享的框架层。它暴露中立的契约，�
 - [`adapters/gemini`](https://github.com/axisvela/praxo-core/tree/main/adapters/gemini) 是原生 Gemini generateContent
   适配器，支持 function call 和 SSE 流式输出。
 - [`adapters/harmovela`](https://github.com/axisvela/praxo-core/tree/main/adapters/harmovela) 通过 Harmovela HTTP
-  事件 API 发布生命周期事件，无需导入 Harmovela SDK。
+  事件 API 发布生命周期事件，无需导入 Harmovela Core。
 - [`adapters/a2a`](https://github.com/axisvela/praxo-core/tree/main/adapters/a2a) 将 Agent 暴露为 A2A 服务端
   Executor，供 Agent-to-Agent 客户端调用。
 
@@ -53,11 +53,11 @@ PRAXO-CORE 是 AxisVela Agent 共享的框架层。它暴露中立的契约，�
   因此应从适配器状态、运行上下文或消息中推导契约，而不是假设模型名。
 - 需要按端点描述上下文、输出、工具、流或缓存能力时，使用
   `model.ProviderProfile`。
-- 框架不内置 NOETIVELA Go SDK 或提供商凭据。`noetivela-open` 采用
+- 框架不内置 NOETIVELA Go Core 或提供商凭据。`noetivela-open` 采用
   Apache-2.0，可由适配器或产品导入。
 - [`examples/ecosystem-sdk`](https://github.com/axisvela/praxo-core/tree/main/examples/ecosystem-sdk) 模块直接使用真实的
-  NOETIVELA、Mnemovela、GNOSIVELA、AEGIVELA、LIMENORA 和 RHEOVELA Go SDK。
-  它是独立模块，因此核心框架模块不依赖产品 SDK。Harmovela 单独发布为
+  NOETIVELA、Mnemovela、GNOSIVELA、AEGIVELA、LIMENORA 和 RHEOVELA Go Core。
+  它是独立模块，因此核心框架模块不依赖产品 Core。Harmovela 单独发布为
   `adapters/harmovela`。
 - `ecosystem.Noetivela` 骨架展示了契约映射形态；`ecosystem.Model` 和
   `ecosystem.Provider` 覆盖通用回调形态。
@@ -110,6 +110,6 @@ PRAXO-CORE 是 AxisVela Agent 共享的框架层。它暴露中立的契约，�
 
 - 接口和线格式契约位于 MIT 框架中。
 - 具体适配器、凭据、租户策略、信任存储、SBOM/证据和插件物化归产品所有。
-- 框架不导入产品代码，也不捆绑提供商 SDK、向量数据库或 MCP 客户端。
+- 框架不导入产品代码，也不捆绑提供商 Core、向量数据库或 MCP 客户端。
 - 本仓库列出的是集成接缝，而不是已随框架发布的适配器。产品实现可以位于
   PRAXOVELA 或其他 AxisVela 仓库。

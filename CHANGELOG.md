@@ -19,10 +19,13 @@
   `api/0.2.1.signatures.txt` baselines. `python/v0.2.0` and its historical
   snapshots remain unchanged. A clean `pip install praxo-core==0.2.1` and
   installed-package smoke passed.
+- Public documentation now calls language implementations Core/Core
+  implementations instead of SDKs, while preserving third-party provider SDK
+  names and historical release notes.
 - Compatibility policy now distinguishes rejecting invalid input from tightening
   the documented valid domain, and requires lifecycle/order changes to be
-  released with behavioral evidence. Pre-1.0 SDK breaking changes require a
-  minor version and migration note rather than a silent patch.
+  released with behavioral evidence. Pre-1.0 Core implementation breaking
+  changes require a minor version and migration note rather than a silent patch.
 
 ### Fixed
 
@@ -77,9 +80,10 @@
   defaults, methods, properties, functions, and constants, with mutation tests.
   The historical export-name snapshot remains unchanged.
 - Corrected stale language status text: C now documents its public Core API and
-  limits, MATLAB/Delphi list all eleven vector groups, Tcl records verified Linux
-  CI, COBOL no longer describes its released tag as pending, and `spec/` names
-  all independently implemented Core SDKs.
+  partial cancellation/concurrency limits, MATLAB/Delphi list all eleven vector
+  groups, Tcl records verified Linux CI, COBOL no longer describes its released
+  tag as pending, provenance uses current paths and tags, and `spec/`/`AGENTS.md`
+  name all independently implemented Core SDKs and current test commands.
 - Go validates and repairs final output before completion hooks, checkpoint
   projections, memory writes, and completion notification, for both text and
   structured-tool answers. A completion sink error is returned without a second,

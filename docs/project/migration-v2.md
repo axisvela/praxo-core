@@ -64,7 +64,7 @@ to:
 ## Language Directory
 
 Independent language implementations have moved from `sdk/` to `language/`.
-Update checkout paths, scripts, and links accordingly; package names and SDK
+Update checkout paths, scripts, and links accordingly; package names and Core
 release tags such as `python/v0.2.0` are unchanged. Historical tags retain the
 repository layout they had when published, including `sdk/` where applicable;
 use `language/` when referring to the current checkout.

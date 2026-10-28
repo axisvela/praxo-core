@@ -1,7 +1,7 @@
 # Objective-C Environment Setup
 
 This page records the manual toolchain procedure used to verify the
-Objective-C SDK. Commands run from the repository root unless noted.
+Objective-C Core. Commands run from the repository root unless noted.
 
 ## Verified Local Layout
 
@@ -87,7 +87,7 @@ $env:GOWORK = 'off'
 go test ./internal/spec/...
 ```
 
-`run-tests.py` compiles the native SDK, runs all eleven vector groups and the
+`run-tests.py` compiles the native Core, runs all eleven vector groups and the
 native regression checks, and verifies the API snapshot/parity. The broader
 commands cover repository-wide metadata and parity and are not part of the
 test driver. On Windows, the standalone snapshot check passed, the layout check

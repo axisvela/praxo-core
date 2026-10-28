@@ -108,7 +108,7 @@ does not prove live provider behavior.
 
 | Question | E2B | Daytona |
 | --- | --- | --- |
-| Go SDK or stable HTTP API | REST plus envd Connect/JSON; no official Go SDK | Go SDK `v0.226.1` |
+| Go Core or stable HTTP API | REST plus envd Connect/JSON; no official Go Core | Go Core `v0.226.1` |
 | Create / attach / close | Offline pass; live pending | Offline pass; live pending |
 | Repeated command execution | Offline pass | Offline pass |
 | Upload / download | Offline pass | Offline pass |
@@ -116,7 +116,7 @@ does not prove live provider behavior.
 | Snapshot or template | Provider documented; adapter not mapped | Provider documented; adapter not mapped |
 | Network and port policy | Provider documented; adapter not exposed | Provider documented; adapter not exposed |
 | Timeout and cancellation | Context plus Connect timeout | Context plus execution timeout |
-| Error taxonomy | Connect/envd errors; only not-found and closed are mapped | SDK errors; only not-found and closed are mapped |
+| Error taxonomy | Connect/envd errors; only not-found and closed are mapped | Core errors; only not-found and closed are mapped |
 | Auth and tenancy model | API key plus envd access token | API key or JWT, organization and target |
 | License compatibility | Apache-2.0 | Apache-2.0 outside `cli/`; `cli/` is AGPL-3.0 |
 | Control-plane features | Provider-owned | Provider-owned |
@@ -131,7 +131,7 @@ which capabilities are unavailable.
 - Embedding `vfs.Backend` and `sandbox.Sandbox` fit both adapters. Optional
   `Pauser` also fit both.
 - E2B required a custom Connect frame codec and envd headers. Daytona required
-  an SDK wrapper because the SDK returns one combined command output string.
+  a Core implementation wrapper because the Core returns one combined command output string.
 - `Glob` and `Grep` are client-side walks on both adapters; neither exposes a
   portable server-side search contract.
 - Snapshot and network policy are provider-specific and should not enter the
@@ -146,25 +146,25 @@ which capabilities are unavailable.
 
 Two more providers should join the next spike:
 
-- **OpenSandbox** (Apache-2.0): Go SDK
+- **OpenSandbox** (Apache-2.0): Go Core
   `github.com/alibaba/OpenSandbox/sdks/sandbox/go`; lifecycle, execd, and
   egress APIs; Docker and Kubernetes deployment; Firecracker pause/resume and
   network policy. Adapter status: offline conformance adapter; live pending.
-- **CubeSandbox** (Apache-2.0 except listed third-party components): Go SDK
+- **CubeSandbox** (Apache-2.0 except listed third-party components): Go Core
   `github.com/tencentcloud/CubeSandbox/sdk/go`; E2B-compatible API; RustVMM/KVM
   isolation; pause/resume, snapshots, volumes, and egress policy. Adapter
   status: offline conformance adapter; live pending. Test whether the E2B
   adapter can serve as a compatibility profile before keeping the separate
   implementation.
 
-OpenSandbox adds a self-hosted Go SDK path with egress controls. CubeSandbox adds
+OpenSandbox adds a self-hosted Go Core path with egress controls. CubeSandbox adds
 hardware-level isolation and an E2B-compatible surface. Neither changes the core
 contract; they are provider adapters and do not move the control plane into
 `pkg/`.
 
 ### CubeSandbox and E2B Compatibility
 
-The offline review found that CubeSandbox is E2B-compatible at the SDK and data
+The offline review found that CubeSandbox is E2B-compatible at the Core and data
 plane level, but it is not a drop-in configuration for the current E2B adapter:
 
 - CubeSandbox `Client.Create` and `Client.Connect` use `/sandboxes`, while the

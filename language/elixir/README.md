@@ -7,7 +7,7 @@ policy, checkpoint allowlist, tool-call parsing, and opt-in tool selection, PII
 redaction, structured output validation, and call limits. Vector coverage does
 not establish full Core parity or production readiness.
 
-The SDK uses the OTP 27+ `:json` module and does not call Go or another
+The Core uses the OTP 27+ `:json` module and does not call Go or another
 language runtime. Erlang shares the BEAM runtime and does not add a second
 agent loop. Provider adapters and plugin hosts remain outside the declared Core
 scope.
@@ -134,7 +134,7 @@ limits do not restrict direct calls or external work performed by callbacks.
 - Run IDs combine nanosecond time with a VM-local unique integer. They are not
   a global cross-node identifier.
 - Provider adapters, streaming wire encodings, and plugin hosts are not part of
-  this SDK.
+  this Core.
 - Provider callbacks are synchronous; streaming and built-in provider
   configuration are not provided.
 

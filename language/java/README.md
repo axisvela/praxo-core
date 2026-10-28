@@ -1,4 +1,4 @@
-# PRAXO-CORE Java SDK
+# PRAXO-CORE Java Core
 
 Java implementation of the PRAXO-CORE contract. The normative contract is
 [`spec/`](../../spec/README.md); Go remains the reference implementation.
@@ -68,13 +68,13 @@ System.out.println(result.output + " " + result.steps);
 | `io.axisvela.praxo.adapters` | OpenAI-compatible non-streaming and SSE adapter |
 
 Wire codecs preserve the Go names, including `image_url`, `runId`, and
-`plugin_id`. The Java SDK uses a dependency-free JSON utility (`util/Json.java`)
+`plugin_id`. The Java Core uses a dependency-free JSON utility (`util/Json.java`)
 with no runtime dependencies. Model and tool calls run on virtual threads with
 `CancellationToken`-based cancellation.
 
 ## Conformance
 
-The runner reads `../../spec/vectors/*.json`. A released SDK must pass every vector
+The runner reads `../../spec/vectors/*.json`. A released Core implementation must pass every vector
 and keep `spec/parity.md` current.
 
 ## License

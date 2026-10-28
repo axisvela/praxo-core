@@ -82,7 +82,7 @@ plugins:
             License and Provenance: 许可证与来源
             Repository Layout: 仓库布局
             Contributing: 参与贡献
-            SDK Design: SDK 设计
+            Core Design: Core 设计
             Language Policy: 语言支持规范
             Releases: 版本发布
             Release Overview: 版本总览
@@ -184,7 +184,7 @@ nav:
       - License and Provenance: project/provenance.md
       - Repository Layout: project/repository-layout.md
   - Contributing:
-      - SDK Design: contributing/sdk-design.md
+      - Core Design: contributing/sdk-design.md
       - Language Policy: contributing/language-policy.md
   - Releases:
       - Release Overview: releases/index.md

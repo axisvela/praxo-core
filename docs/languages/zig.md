@@ -1,4 +1,4 @@
 ---
-title: Zig SDK
+title: Zig Core
 sdk_readme: language/zig/README.md
 ---

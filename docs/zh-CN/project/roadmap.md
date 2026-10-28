@@ -1,6 +1,6 @@
 # 公开路线图
 
-当前核心版本为 `2.5.0`。本文说明技术方向，不承诺交付排期，也不表示所有 SDK
+当前核心版本为 `2.5.0`。本文说明技术方向，不承诺交付排期，也不表示所有 Core
 都具有每一项功能。
 
 ## 当前方向
@@ -13,8 +13,8 @@
 
 ## 兼容承诺
 
-保持 Go 公开 API 精简、MIT 边界完整，新契约需要消费者和测试。不能仅为移植 SDK
-扩大 Go API。参见[兼容政策](compatibility-policy.md)、[SDK 支持](../languages/support.md)
+保持 Go 公开 API 精简、MIT 边界完整，新契约需要消费者和测试。不能仅为移植 Core
+扩大 Go API。参见[兼容政策](compatibility-policy.md)、[Core 支持](../languages/support.md)
 与[语言规范](../contributing/language-policy.md)。
 
 ## 已交付内容

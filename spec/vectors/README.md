@@ -1,7 +1,7 @@
 # Conformance Vectors
 
 Vectors are the executable definition of behavioral parity. A vector is
-language-neutral JSON; every SDK ships a runner that executes it.
+language-neutral JSON; every Core implementation ships a runner that executes it.
 
 ## Layout
 
@@ -56,13 +56,13 @@ Rules:
 A runner:
 
 1. Reads every `spec/vectors/**/*.json`.
-2. Filters by the groups the SDK implements.
+2. Filters by the groups the Core implements.
 3. Executes each vector in a fresh state.
 4. Reports `{id, status, detail}` for every vector.
 5. Exits non-zero on any failure, including a missing required group.
 
 The Go runner is the authority. If Go fails a vector, the vector is wrong until
-reviewed; if an SDK fails a vector that Go passes, the SDK has a parity bug.
+reviewed; if a Core implementation fails a vector that Go passes, the Core has a parity bug.
 
 ## Status
 

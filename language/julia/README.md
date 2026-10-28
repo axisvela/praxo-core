@@ -1,9 +1,9 @@
-# PRAXO-CORE Julia SDK
+# PRAXO-CORE Julia Core
 
 Julia implementation of the PRAXO-CORE contract.
 
 - `SPEC_VERSION`: `0.2.0`
-- SDK version: `0.2.0`
+- Core version: `0.2.0`
 - Tier: core
 - License: MIT
 - Dependency: JSON.jl

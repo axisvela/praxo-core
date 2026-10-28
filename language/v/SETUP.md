@@ -1,6 +1,6 @@
 # V Environment Setup
 
-This page records the manual toolchain procedure used to verify the V SDK.
+This page records the manual toolchain procedure used to verify the V Core.
 Commands run from the repository root unless noted.
 
 ## Verified Local Layout
@@ -33,7 +33,7 @@ commands below use V's bundled tcc; other compiler configurations may differ.
    v version
    ```
 
-Set `V_HOME` to the actual directory containing `v.exe`. The SDK commands
+Set `V_HOME` to the actual directory containing `v.exe`. The Core commands
 below verify compilation with the bundled compiler.
 
 If `gcc` is used instead of `tcc`, pass `-cc gcc`. The verified Windows setup
@@ -58,12 +58,12 @@ compiler environment and adds the extracted `v` directory to `PATH`.
 Other platforms need their corresponding release archive.
 
 Job [122092667286](https://github.com/axisvela/praxo-core/actions/runs/40475516685/job/122092667286)
-for commit `e7fd5a7` failed during installation, before SDK checks. Its `make`
+for commit `e7fd5a7` failed during installation, before Core checks. Its `make`
 cloned the moving `vlang/vc` default branch and ran `v1` against the 0.5.2
 source; `vlib/math/bits/bits.v:621` then failed on a parenthesized `if`
 expression. The release archive avoids that unpinned bootstrap. The downloaded
 archive's SHA-256 was checked locally against the release API digest; the new
-Linux CI installation and SDK checks have not yet been verified remotely.
+Linux CI installation and Core checks have not yet been verified remotely.
 
 ## Environment Variables
 
@@ -73,7 +73,7 @@ No repository-specific environment variable is required. `PATH` must contain
 
 ## Test Scripts
 
-Run the SDK checks from the repository root in PowerShell:
+Run the Core checks from the repository root in PowerShell:
 
 ```powershell
 New-Item -ItemType Directory -Force -Path build | Out-Null

@@ -19,7 +19,7 @@
 默认目标不是发布承诺，也不允许跳过消费者、维护、一致性、安全与许可门槛。
 当前阶段、最终目标、功能覆盖、验证和分发状态是彼此独立的信息。
 
-JavaScript 复用 TypeScript，Kotlin、Scala、Groovy 和 Clojure 复用 Java，Visual Basic 和 F# 复用 .NET，OpenCL 示例复用 C SDK。
+JavaScript 复用 TypeScript，Kotlin、Scala、Groovy 和 Clojure 复用 Java，Visual Basic 和 F# 复用 .NET，OpenCL 示例复用 C Core。
 同一运行时不应在缺少具体消费者和维护者时重复实现 Agent 循环。
 
 ## 验证要求
@@ -43,5 +43,5 @@ parity 清单。
 Wire 条目应说明 Framework 目标，除非存在已记录的技术例外。不能只因最终目标是
 Framework，或一致性运行器通过了核心向量，就把当前范围直接改成 Core。
 
-所有 SDK 保持 MIT，依赖必须具有兼容许可。提供商凭据、租户数据和产品专属逻辑
-不属于 SDK。
+所有 Core 保持 MIT，依赖必须具有兼容许可。提供商凭据、租户数据和产品专属逻辑
+不属于 Core。

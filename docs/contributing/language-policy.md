@@ -25,7 +25,7 @@ maintenance, conformance, security, or licensing gates. Current stage, final
 target, feature coverage, verification, and distribution are separate facts.
 
 JavaScript reuses TypeScript; Kotlin, Scala, Groovy, and Clojure reuse Java;
-Visual Basic and F# reuse .NET; the OpenCL sample reuses the C SDK. Do not
+Visual Basic and F# reuse .NET; the OpenCL sample reuses the C Core. Do not
 create another agent loop for the same runtime without a concrete consumer need
 and a maintenance owner.
 
@@ -53,5 +53,5 @@ Wire entries state Framework as their target unless a documented technical
 exception applies. Do not change the current scope to Core merely because that
 is the target, or because a conformance runner passes core vectors.
 
-All SDKs remain MIT. Dependencies require compatible licenses; provider
-credentials, tenant data, and product-only behavior do not belong in the SDK.
+All Core implementations remain MIT. Dependencies require compatible licenses; provider
+credentials, tenant data, and product-only behavior do not belong in the Core.

@@ -29,7 +29,7 @@ Bridge、Sample 描述运行时的接入方式，不证明其语言缺乏 Framew
 
 ## 版本与分发
 
-- 核心、SDK、适配器与契约独立版本化，每个 SDK 声明其 `SPEC_VERSION`。
+- 核心、Core、适配器与契约独立版本化，每个 Core 声明其 `SPEC_VERSION`。
 - 版本标签与成熟度相互独立：源码标签记录发布，成熟度记录声明范围的完成情况与验证状态。
 - 源码标签不等于已发布到包管理器，应按语言页面中的安装或源码构建步骤操作。
 - Python、TypeScript 当前提供源码构建方式，PyPI、npm 发布仍待完成。
@@ -62,6 +62,6 @@ Python、TypeScript、Java、C# 包含流式路径与 OpenAI 兼容适配器，�
 其他语言也具备这些能力。共享向量通过不等于 Go 全功能一致、真实提供商验证、
 生产就绪或包仓库发布完成。
 
-VFS、插件宿主、调度与可选集成应以对应 SDK 的 README 和 API 参考为准。
-贡献要求见 [SDK 设计](../contributing/sdk-design.md)和
+VFS、插件宿主、调度与可选集成应以对应 Core 的 README 和 API 参考为准。
+贡献要求见 [Core 设计](../contributing/sdk-design.md)和
 [语言支持规范](../contributing/language-policy.md)。

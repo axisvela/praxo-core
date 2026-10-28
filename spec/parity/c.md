@@ -3,7 +3,7 @@
 - Tier: core
 - SPEC_VERSION: 0.2.0
 
-Released source tag `c/v0.2.0`. The C11 SDK exercises all eleven vector groups through a
+Released source tag `c/v0.2.0`. The C11 Core exercises all eleven vector groups through a
 public Core API for memory, events, checkpoints, policy, context, middleware, and
 the agent loop. JSON remains the wire-level primitive; `partial` marks a surface
 that is narrower than the corresponding Go type or provider integration.

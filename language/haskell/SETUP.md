@@ -1,6 +1,6 @@
 # Haskell Setup And Tests
 
-Install GHC 9.0 or newer and Python 3.10 or newer. The SDK uses the GHC boot
+Install GHC 9.0 or newer and Python 3.10 or newer. The Core uses the GHC boot
 packages `base` and `containers`; Cabal is optional. The reported Windows run
 used GHC 9.12.2. From the repository root, adjust the compiler path for the
 local installation:

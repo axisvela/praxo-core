@@ -27,7 +27,7 @@ Root-level `python/`, `typescript/`, `java/`, `rust/`, `c/`, `cpp/`, `csharp/`,
 Root-level `shell/` and `powershell/` are now under `bindings/`. Root-level
 `javascript/`, `kotlin/`, `scala/`, `groovy/`, and `clojure/` are now under
 `examples/`. The F# and OpenCL samples are at `examples/fsharp/` and
-`examples/opencl/`. The Visual Basic sample remains with the .NET SDK at
+`examples/opencl/`. The Visual Basic sample remains with the .NET Core at
 `language/csharp/samples/VbSample/`.
 
 Update local scripts, CI working directories, source dependency paths, and
@@ -57,4 +57,4 @@ Existing tag prefixes such as `python/v0.2.0` identify the same historical
 release. Source tags still do not imply package-registry publication.
 
 Run each language's documented conformance, API, and test commands from its new
-location. See [SDK support](../languages/support.md) for feature and distribution limits.
+location. See [Core support](../languages/support.md) for feature and distribution limits.

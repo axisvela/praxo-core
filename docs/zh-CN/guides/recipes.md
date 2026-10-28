@@ -148,7 +148,7 @@ adapter := noetivelaadapter.Adapter{
 }
 ```
 
-该 SDK 暴露文本内容，不暴露工具调用。需要工具调用时，应使用保留 tool-call
+该 Core 暴露文本内容，不暴露工具调用。需要工具调用时，应使用保留 tool-call
 字段的自定义 HTTP 适配器。参见
 [NOETIVELA SDK 示例](https://github.com/axisvela/praxo-core/tree/main/examples/ecosystem-sdk/noetivela)。
 
@@ -171,7 +171,7 @@ ag, err := agent.New(agent.Options{
 ```
 
 参见
-[Mnemovela SDK 示例](https://github.com/axisvela/praxo-core/tree/main/examples/ecosystem-sdk/mnemovela)。
+[Mnemovela Core 示例](https://github.com/axisvela/praxo-core/tree/main/examples/ecosystem-sdk/mnemovela)。
 
 ## GNOSIVELA
 
@@ -190,7 +190,7 @@ documents, err := adapter.Retrieve(ctx, "current status", 8)
 
 GNOSIVELA 尚未为该模块路径发布 `v3` semver 标签；示例模块固定 `master` 的
 pseudo-version。参见
-[GNOSIVELA SDK 示例](https://github.com/axisvela/praxo-core/tree/main/examples/ecosystem-sdk/gnosivela)。
+[GNOSIVELA Core 示例](https://github.com/axisvela/praxo-core/tree/main/examples/ecosystem-sdk/gnosivela)。
 
 ## AEGIVELA 策略
 
@@ -215,7 +215,7 @@ hook := aegivelaadapter.Hook{
 
 Hook 仅在结果精确为 `allow` 时放行，其他结果一律拒绝。`WorkloadAssertion`
 应在运行时从密钥管理系统读取，不要硬编码；`Route` 值应保持静态。参见
-[AEGIVELA SDK 示例](https://github.com/axisvela/praxo-core/tree/main/examples/ecosystem-sdk/aegivela)。
+[AEGIVELA Core 示例](https://github.com/axisvela/praxo-core/tree/main/examples/ecosystem-sdk/aegivela)。
 
 ## LIMENORA 网关
 
@@ -241,7 +241,7 @@ gateway := limenoraadapter.Gateway{
 
 Route 应保持静态并加入允许列表。不要从模型输出推导 `URL`、`Method` 或请求头；
 出站策略由 LIMENORA 执行。参见
-[LIMENORA SDK 示例](https://github.com/axisvela/praxo-core/tree/main/examples/ecosystem-sdk/limenora)。
+[LIMENORA Core 示例](https://github.com/axisvela/praxo-core/tree/main/examples/ecosystem-sdk/limenora)。
 
 ## Harmovela 事件
 
@@ -317,7 +317,7 @@ audit, err := runner.Audit(ctx, instance.InstanceID)
 ```
 
 参见
-[RHEOVELA SDK 示例](https://github.com/axisvela/praxo-core/tree/main/examples/ecosystem-sdk/rheovela)。
+[RHEOVELA Core 示例](https://github.com/axisvela/praxo-core/tree/main/examples/ecosystem-sdk/rheovela)。
 
 ## Sandbox 与策略
 
