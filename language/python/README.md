@@ -97,8 +97,14 @@ change:
 ```bash
 python api-snapshot.py
 python api-snapshot.py --check
+python api-signatures.py --check
 python -m build --wheel --sdist .
 ```
+
+The name snapshot and signature snapshot are checked independently. The
+signature baseline covers class constructors, dataclass fields/defaults,
+methods, properties, functions, and exported constants. Both are source-API
+gates, not runtime or ABI guarantees.
 
 CI installs the built wheel and sdist into separate clean virtual environments
 and runs `tests/installed_smoke.py` from outside the source tree. This verifies

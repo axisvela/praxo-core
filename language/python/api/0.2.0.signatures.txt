@@ -1,0 +1,1472 @@
+# PRAXO-CORE Python API Signatures 0.2.0
+# SPEC_VERSION 0.2.0
+# Format 1: public classes, fields, methods, functions, and constants
+
+# module praxo
+## Action
+class Action
+constructor(kind: 'str', session_id: 'str', tool_name: 'str | None' = None, arguments: 'dict[str, Any]' = <factory>) -> None
+field kind: str
+field session_id: str
+field tool_name: str | None = None
+field arguments: dict[str, Any] = <factory>
+
+## Agent
+class Agent
+constructor(options: 'AgentOptions') -> 'None'
+method run(session: 'Session', prompt: 'str') -> 'Result'
+
+## AgentOptions
+class AgentOptions
+constructor(model: 'Model', tools: 'Registry | None' = None, events: 'Sink | None' = None, policy: 'Hook | None' = None, system_prompt: 'str' = '', memory_files: 'list[str]' = <factory>, context: 'ContextBudget | None' = None, compactor: 'ContextCompactor | None' = None, offloader: 'Offloader | None' = None, offload_threshold_bytes: 'int' = 0, middleware: 'list[Middleware]' = <factory>, model_middleware: 'list[ModelMiddleware]' = <factory>, structured_output: 'StructuredOutput | None' = None, allowed_tools: 'list[str]' = <factory>, tool_selector: 'ToolSelector | None' = None, pii_redactor: 'PIIRedactor | None' = None, model_call_limit: 'int' = 0, tool_call_limit: 'int' = 0, fallback_model: 'Model | None' = None, tool_choice: 'str | None' = None, response_format: 'ResponseFormat | None' = None, max_steps: 'int' = 8, max_tokens: 'int' = 0, max_parallel_tools: 'int' = 1, on_delta: 'Callable[[str], Any] | None' = None) -> None
+field model: Model
+field tools: Registry | None = None
+field events: Sink | None = None
+field policy: Hook | None = None
+field system_prompt: str = ''
+field memory_files: list[str] = <factory>
+field context: ContextBudget | None = None
+field compactor: ContextCompactor | None = None
+field offloader: Offloader | None = None
+field offload_threshold_bytes: int = 0
+field middleware: list[Middleware] = <factory>
+field model_middleware: list[ModelMiddleware] = <factory>
+field structured_output: StructuredOutput | None = None
+field allowed_tools: list[str] = <factory>
+field tool_selector: ToolSelector | None = None
+field pii_redactor: PIIRedactor | None = None
+field model_call_limit: int = 0
+field tool_call_limit: int = 0
+field fallback_model: Model | None = None
+field tool_choice: str | None = None
+field response_format: ResponseFormat | None = None
+field max_steps: int = 8
+field max_tokens: int = 0
+field max_parallel_tools: int = 1
+field on_delta: Callable[[str], Any] | None = None
+
+## Allowlist
+class Allowlist
+constructor() -> 'None'
+method register(name: 'str', factory: 'Callable[[], Any]') -> 'None'
+method marshal(name: 'str', value: 'Any') -> 'bytes'
+method unmarshal(data: 'bytes | str') -> 'Any'
+
+## CacheHint
+class CacheHint
+constructor(stable_prefix: 'int' = 0, ttl: 'str | None' = None) -> None
+field stable_prefix: int = 0
+field ttl: str | None = None
+method to_wire() -> 'dict[str, Any]'
+
+## ChatModel
+class ChatModel
+constructor(provider: 'Provider') -> 'None'
+method generate(request: 'Request') -> 'Response'
+
+## Checkpoint
+class Checkpoint
+constructor(id: 'str', session_id: 'str', run_id: 'str', status: 'str', version: 'int' = 0, title: 'str' = '', model_id: 'str' = '', tenant_id: 'str' = '', workspace_id: 'str' = '', parent_session_id: 'str' = '', parent_run_id: 'str' = '', agent_id: 'str' = '', messages: 'list[Message]' = <factory>, runs: 'list[RunSnapshot]' = <factory>, effect_cursor: 'EffectCursor | None' = None, created_at: 'datetime | None' = None) -> None
+field id: str
+field session_id: str
+field run_id: str
+field status: str
+field version: int = 0
+field title: str = ''
+field model_id: str = ''
+field tenant_id: str = ''
+field workspace_id: str = ''
+field parent_session_id: str = ''
+field parent_run_id: str = ''
+field agent_id: str = ''
+field messages: list[Message] = <factory>
+field runs: list[RunSnapshot] = <factory>
+field effect_cursor: EffectCursor | None = None
+field created_at: datetime | None = None
+
+## CheckpointMessage
+class Message
+constructor(role: 'str', content: 'str' = '', content_blocks: 'Any' = None) -> None
+field role: str
+field content: str = ''
+field content_blocks: Any = None
+method to_wire() -> 'dict[str, Any]'
+
+## ContentBlock
+class ContentBlock
+constructor(type: 'str', text: 'str | None' = None, image_url: 'str | None' = None, data: 'str | None' = None) -> None
+field type: str
+field text: str | None = None
+field image_url: str | None = None
+field data: str | None = None
+method to_wire() -> 'dict[str, Any]'
+classmethod from_wire(raw: 'dict[str, Any]') -> 'ContentBlock'
+
+## ContextBudget
+class ContextBudget
+constructor(max_tokens: 'int' = 0, keep_recent: 'int' = 0) -> None
+field max_tokens: int = 0
+field keep_recent: int = 0
+method compact(messages: 'list[Message]') -> 'tuple[list[Message], bool]'
+
+## ContextCompactor
+class ContextCompactor
+bases: Protocol
+constructor(*args, **kwargs)
+method compact(messages: 'list[Message]', budget: 'ContextBudget') -> 'list[Message]'
+
+## Decision
+class Decision
+constructor(allowed: 'bool', reason: 'str' = '') -> None
+field allowed: bool
+field reason: str = ''
+
+## Event
+class Event
+constructor(type: 'str', session_id: 'str', run_id: 'str' = '', data: 'dict[str, Any]' = <factory>, at: 'datetime' = <factory>) -> None
+field type: str
+field session_id: str
+field run_id: str = ''
+field data: dict[str, Any] = <factory>
+field at: datetime = <factory>
+method to_wire() -> 'dict[str, Any]'
+classmethod from_wire(raw: 'dict[str, Any]') -> 'Event'
+
+## FilterSink
+class FilterSink
+constructor(sink: 'Sink', predicate: 'Callable[[Event], bool] | None' = None) -> 'None'
+method emit(event: 'Event') -> 'None'
+
+## FuncHook
+class FuncHook
+constructor(fn: 'Any') -> 'None'
+method authorize(action: 'Action') -> 'Decision'
+
+## FuncTool
+class FuncTool
+constructor(name: 'str', description: 'str', fn: 'Callable[[dict[str, Any]], Awaitable[Any] | Any]') -> 'None'
+method invoke(args: 'dict[str, Any]') -> 'Any'
+
+## Gateway
+class Gateway
+bases: Protocol
+constructor(*args, **kwargs)
+method execute(name: 'str', input: 'dict[str, Any]', token: 'str' = '') -> 'Any'
+method list_tools() -> 'list[GatewayInfo]'
+
+## GatewayInfo
+class GatewayInfo
+constructor(name: 'str', description: 'str' = '', risk: 'str' = '') -> None
+field name: str
+field description: str = ''
+field risk: str = ''
+
+## GatewayTool
+class GatewayTool
+constructor(gateway: 'Gateway', info: 'GatewayInfo') -> 'None'
+method invoke(args: 'dict[str, Any]') -> 'Any'
+
+## Hook
+class Hook
+bases: Protocol
+constructor(*args, **kwargs)
+method authorize(action: 'Action') -> 'Decision'
+
+## Message
+class Message
+constructor(role: 'str', content: 'str' = '', content_blocks: 'list[ContentBlock]' = <factory>, tool_calls: 'list[ToolCall]' = <factory>, tool_id: 'str | None' = None) -> None
+field role: str
+field content: str = ''
+field content_blocks: list[ContentBlock] = <factory>
+field tool_calls: list[ToolCall] = <factory>
+field tool_id: str | None = None
+method to_wire() -> 'dict[str, Any]'
+classmethod from_wire(raw: 'dict[str, Any]') -> 'Message'
+
+## Middleware
+class Middleware
+constructor(name: 'str' = '', before_run: 'BeforeRun | None' = None, before_model: 'BeforeModel | None' = None, after_model: 'AfterModel | None' = None, before_tool: 'BeforeTool | None' = None, after_tool: 'AfterTool | None' = None, after_run: 'AfterRun | None' = None) -> None
+field name: str = ''
+field before_run: BeforeRun | None = None
+field before_model: BeforeModel | None = None
+field after_model: AfterModel | None = None
+field before_tool: BeforeTool | None = None
+field after_tool: AfterTool | None = None
+field after_run: AfterRun | None = None
+
+## Model
+class Model
+bases: Protocol
+constructor(*args, **kwargs)
+method generate(request: 'Request') -> 'Response'
+
+## ModelCall
+class ModelCall
+constructor(run_id: 'str', session_id: 'str', request: 'Request', skip: 'bool' = False, response: 'Response | None' = None) -> None
+field run_id: str
+field session_id: str
+field request: Request
+field skip: bool = False
+field response: Response | None = None
+
+
+## ModelSummarizer
+class ModelSummarizer
+constructor(model: 'Model | None', prompt: 'str' = '', max_summary_tokens: 'int' = 0) -> 'None'
+method compact(messages: 'list[Message]', budget: 'ContextBudget') -> 'list[Message]'
+
+## ModelToolSelector
+class ModelToolSelector
+constructor(model: 'Model | None', prompt: 'str' = '', max_tools: 'int' = 0) -> 'None'
+method select(query: 'str', tools: 'list[ToolSpec]') -> 'list[str]'
+
+## MultiSink
+class MultiSink
+constructor(sinks: 'list[Sink]') -> 'None'
+method emit(event: 'Event') -> 'None'
+
+## OffloadFunc
+class OffloadFunc
+constructor(fn: 'Callable[[str, str, bytes], Awaitable[str] | str]') -> 'None'
+method offload(tool_name: 'str', tool_call_id: 'str', data: 'bytes') -> 'str'
+
+## Offloader
+class Offloader
+bases: Protocol
+constructor(*args, **kwargs)
+method offload(tool_name: 'str', tool_call_id: 'str', data: 'bytes') -> 'str'
+
+## PIIRedactor
+class PIIRedactor
+constructor(rules: 'list[PIIRule]' = <factory>) -> None
+field rules: list[PIIRule] = <factory>
+method redact(text: 'str') -> 'str'
+
+## PathChecker
+class PathChecker
+constructor(grants: 'list[PathGrant]') -> None
+field grants: list[PathGrant]
+method check(target: 'str', need: 'str' = 'read') -> 'Decision'
+method allowed(target: 'str', need: 'str' = 'read') -> 'bool'
+
+## PathGrant
+class PathGrant
+constructor(root: 'str', access: 'str') -> None
+field root: str
+field access: str
+
+## Registry
+class Registry
+constructor(_tools: 'dict[str, Tool]' = <factory>) -> None
+field _tools: dict[str, Tool] = <factory>
+method register(tool: 'Tool') -> 'None'
+method get(name: 'str') -> 'Tool'
+method specs() -> 'list[ToolSpec]'
+
+## Request
+class Request
+constructor(messages: 'list[Message]' = <factory>, model: 'str | None' = None, tools: 'list[ToolSpec]' = <factory>, tool_choice: 'str | None' = None, response_format: 'ResponseFormat | None' = None, cache_hint: 'CacheHint | None' = None, temperature: 'float' = 0.0) -> None
+field messages: list[Message] = <factory>
+field model: str | None = None
+field tools: list[ToolSpec] = <factory>
+field tool_choice: str | None = None
+field response_format: ResponseFormat | None = None
+field cache_hint: CacheHint | None = None
+field temperature: float = 0.0
+method to_wire() -> 'dict[str, Any]'
+
+## Response
+class Response
+constructor(message: 'Message', usage: 'Usage' = <factory>, finish_reason: 'str | None' = None) -> None
+field message: Message
+field usage: Usage = <factory>
+field finish_reason: str | None = None
+method to_wire() -> 'dict[str, Any]'
+
+## Result
+class Result
+constructor(run_id: 'str', output: 'str', steps: 'int', usage: 'Usage' = <factory>) -> None
+field run_id: str
+field output: str
+field steps: int
+field usage: Usage = <factory>
+
+## RunState
+class RunState
+constructor(run_id: 'str', session: 'Any', prompt: 'str') -> None
+field run_id: str
+field session: Any
+field prompt: str
+
+## SPEC_VERSION
+constant SPEC_VERSION: str = '0.2.0'
+
+## Session
+class Session
+constructor(id: 'str', tenant_id: 'str' = 'default', workspace_id: 'str' = '', messages: 'list[Message]' = <factory>) -> None
+field id: str
+field tenant_id: str = 'default'
+field workspace_id: str = ''
+field messages: list[Message] = <factory>
+
+## Sink
+class Sink
+bases: Protocol
+constructor(*args, **kwargs)
+method emit(event: 'Event') -> 'None'
+
+## StructuredOutput
+class StructuredOutput
+constructor(schema: 'dict[str, Any]' = <factory>, name: 'str' = '', strategy: 'str' = 'auto', max_repairs: 'int' = 0, validate: 'ValidateFunc | None' = None, repair: 'RepairFunc | None' = None) -> None
+field schema: dict[str, Any] = <factory>
+field name: str = ''
+field strategy: str = 'auto'
+field max_repairs: int = 0
+field validate: ValidateFunc | None = None
+field repair: RepairFunc | None = None
+method output_name() -> 'str'
+method response_format() -> 'ResponseFormat | None'
+method tool_spec() -> 'ToolSpec'
+method middleware() -> 'Middleware'
+method apply(result: 'Any') -> 'None'
+method validate_arguments(arguments: 'dict[str, Any]') -> 'None'
+
+## Tool
+class Tool
+bases: Protocol
+constructor(*args, **kwargs)
+field name: str = None
+field description: str = None
+method invoke(args: 'dict[str, Any]') -> 'Any'
+
+## ToolCall
+class ToolCall
+constructor(id: 'str', name: 'str', arguments: 'dict[str, Any]' = <factory>) -> None
+field id: str
+field name: str
+field arguments: dict[str, Any] = <factory>
+method to_wire() -> 'dict[str, Any]'
+classmethod from_wire(raw: 'dict[str, Any]') -> 'ToolCall'
+
+## ToolResult
+class ToolResult
+constructor(value: 'Any' = None, error: 'BaseException | None' = None) -> None
+field value: Any = None
+field error: BaseException | None = None
+
+## ToolSpec
+class ToolSpec
+constructor(name: 'str', description: 'str' = '', parameters: 'dict[str, Any] | None' = None, risk: 'str | None' = None) -> None
+field name: str
+field description: str = ''
+field parameters: dict[str, Any] | None = None
+field risk: str | None = None
+method to_wire() -> 'dict[str, Any]'
+
+## Usage
+class Usage
+constructor(input_tokens: 'int' = 0, output_tokens: 'int' = 0, cached_tokens: 'int' = 0) -> None
+field input_tokens: int = 0
+field output_tokens: int = 0
+field cached_tokens: int = 0
+method to_wire() -> 'dict[str, Any]'
+
+## call_limit_middleware
+function call_limit_middleware(model_limit: 'int', tool_limit: 'int') -> 'Middleware'
+
+## default_pii_rules
+function default_pii_rules() -> 'list[PIIRule]'
+
+## estimate_tokens
+function estimate_tokens(messages: 'list[Message]') -> 'int'
+
+## fallback_model
+function fallback_model(fallback: 'Model | None') -> 'ModelMiddleware'
+
+## load_agents_md
+function load_agents_md(paths: 'list[str] | tuple[str, ...]') -> 'str'
+
+## parse_tool_call
+function parse_tool_call(content: 'str') -> 'ToolCall | None'
+
+## pii_middleware
+function pii_middleware(redactor: 'PIIRedactor') -> 'Middleware'
+
+## strip_tool_call_markup
+function strip_tool_call_markup(content: 'str') -> 'str'
+
+## tool_selection_middleware
+function tool_selection_middleware(selector: 'ToolSelector | None') -> 'Middleware'
+
+# module praxo.adapters
+## OpenAICompatibleModel
+class OpenAICompatibleModel
+constructor(config: 'OpenAIConfig') -> 'None'
+method generate(request: 'Request') -> 'Response'
+method generate_stream(request: 'Request', on_delta: 'Callable[[str], Any]') -> 'Response'
+
+## OpenAIConfig
+class OpenAIConfig
+constructor(base_url: 'str', api_key: 'str' = '', model: 'str' = '', timeout: 'float' = 60.0, headers: 'dict[str, str]' = <factory>) -> None
+field base_url: str
+field api_key: str = ''
+field model: str = ''
+field timeout: float = 60.0
+field headers: dict[str, str] = <factory>
+
+# module praxo.adapters.openaicompat
+## OpenAICompatibleModel
+class OpenAICompatibleModel
+constructor(config: 'OpenAIConfig') -> 'None'
+method generate(request: 'Request') -> 'Response'
+method generate_stream(request: 'Request', on_delta: 'Callable[[str], Any]') -> 'Response'
+
+## OpenAIConfig
+class OpenAIConfig
+constructor(base_url: 'str', api_key: 'str' = '', model: 'str' = '', timeout: 'float' = 60.0, headers: 'dict[str, str]' = <factory>) -> None
+field base_url: str
+field api_key: str = ''
+field model: str = ''
+field timeout: float = 60.0
+field headers: dict[str, str] = <factory>
+
+## ROLE_ASSISTANT
+constant ROLE_ASSISTANT: str = 'assistant'
+
+# module praxo.agent
+## Agent
+class Agent
+constructor(options: 'AgentOptions') -> 'None'
+method run(session: 'Session', prompt: 'str') -> 'Result'
+
+## AgentOptions
+class AgentOptions
+constructor(model: 'Model', tools: 'Registry | None' = None, events: 'Sink | None' = None, policy: 'Hook | None' = None, system_prompt: 'str' = '', memory_files: 'list[str]' = <factory>, context: 'ContextBudget | None' = None, compactor: 'ContextCompactor | None' = None, offloader: 'Offloader | None' = None, offload_threshold_bytes: 'int' = 0, middleware: 'list[Middleware]' = <factory>, model_middleware: 'list[ModelMiddleware]' = <factory>, structured_output: 'StructuredOutput | None' = None, allowed_tools: 'list[str]' = <factory>, tool_selector: 'ToolSelector | None' = None, pii_redactor: 'PIIRedactor | None' = None, model_call_limit: 'int' = 0, tool_call_limit: 'int' = 0, fallback_model: 'Model | None' = None, tool_choice: 'str | None' = None, response_format: 'ResponseFormat | None' = None, max_steps: 'int' = 8, max_tokens: 'int' = 0, max_parallel_tools: 'int' = 1, on_delta: 'Callable[[str], Any] | None' = None) -> None
+field model: Model
+field tools: Registry | None = None
+field events: Sink | None = None
+field policy: Hook | None = None
+field system_prompt: str = ''
+field memory_files: list[str] = <factory>
+field context: ContextBudget | None = None
+field compactor: ContextCompactor | None = None
+field offloader: Offloader | None = None
+field offload_threshold_bytes: int = 0
+field middleware: list[Middleware] = <factory>
+field model_middleware: list[ModelMiddleware] = <factory>
+field structured_output: StructuredOutput | None = None
+field allowed_tools: list[str] = <factory>
+field tool_selector: ToolSelector | None = None
+field pii_redactor: PIIRedactor | None = None
+field model_call_limit: int = 0
+field tool_call_limit: int = 0
+field fallback_model: Model | None = None
+field tool_choice: str | None = None
+field response_format: ResponseFormat | None = None
+field max_steps: int = 8
+field max_tokens: int = 0
+field max_parallel_tools: int = 1
+field on_delta: Callable[[str], Any] | None = None
+
+## ROLE_SYSTEM
+constant ROLE_SYSTEM: str = 'system'
+
+## ROLE_TOOL
+constant ROLE_TOOL: str = 'tool'
+
+## ROLE_USER
+constant ROLE_USER: str = 'user'
+
+## Result
+class Result
+constructor(run_id: 'str', output: 'str', steps: 'int', usage: 'Usage' = <factory>) -> None
+field run_id: str
+field output: str
+field steps: int
+field usage: Usage = <factory>
+
+## Session
+class Session
+constructor(id: 'str', tenant_id: 'str' = 'default', workspace_id: 'str' = '', messages: 'list[Message]' = <factory>) -> None
+field id: str
+field tenant_id: str = 'default'
+field workspace_id: str = ''
+field messages: list[Message] = <factory>
+
+# module praxo.checkpoint
+## Allowlist
+class Allowlist
+constructor() -> 'None'
+method register(name: 'str', factory: 'Callable[[], Any]') -> 'None'
+method marshal(name: 'str', value: 'Any') -> 'bytes'
+method unmarshal(data: 'bytes | str') -> 'Any'
+
+## Checkpoint
+class Checkpoint
+constructor(id: 'str', session_id: 'str', run_id: 'str', status: 'str', version: 'int' = 0, title: 'str' = '', model_id: 'str' = '', tenant_id: 'str' = '', workspace_id: 'str' = '', parent_session_id: 'str' = '', parent_run_id: 'str' = '', agent_id: 'str' = '', messages: 'list[Message]' = <factory>, runs: 'list[RunSnapshot]' = <factory>, effect_cursor: 'EffectCursor | None' = None, created_at: 'datetime | None' = None) -> None
+field id: str
+field session_id: str
+field run_id: str
+field status: str
+field version: int = 0
+field title: str = ''
+field model_id: str = ''
+field tenant_id: str = ''
+field workspace_id: str = ''
+field parent_session_id: str = ''
+field parent_run_id: str = ''
+field agent_id: str = ''
+field messages: list[Message] = <factory>
+field runs: list[RunSnapshot] = <factory>
+field effect_cursor: EffectCursor | None = None
+field created_at: datetime | None = None
+
+## EffectCursor
+class EffectCursor
+constructor(run_id: 'str', last_effect_id: 'str', last_created_at: 'int') -> None
+field run_id: str
+field last_effect_id: str
+field last_created_at: int
+
+## Envelope
+class Envelope
+constructor(type: 'str', data: 'Any') -> None
+field type: str
+field data: Any
+
+## Message
+class Message
+constructor(role: 'str', content: 'str' = '', content_blocks: 'Any' = None) -> None
+field role: str
+field content: str = ''
+field content_blocks: Any = None
+method to_wire() -> 'dict[str, Any]'
+
+## RunSnapshot
+class RunSnapshot
+constructor(id: 'str', session_id: 'str', status: 'str', created_at: 'datetime | None' = None) -> None
+field id: str
+field session_id: str
+field status: str
+field created_at: datetime | None = None
+method to_wire() -> 'dict[str, Any]'
+
+## Store
+class Store
+bases: Protocol
+constructor(*args, **kwargs)
+method save(checkpoint: 'Checkpoint') -> 'None'
+method load(session_id: 'str') -> 'Checkpoint | None'
+method load_scoped(tenant_id: 'str', session_id: 'str') -> 'Checkpoint | None'
+method load_run(run_id: 'str') -> 'Checkpoint | None'
+method load_run_scoped(tenant_id: 'str', run_id: 'str') -> 'Checkpoint | None'
+method list(session_id: 'str') -> 'list[Checkpoint]'
+method delete(checkpoint_id: 'str') -> 'None'
+
+# module praxo.context
+## COMPACT_MARKER_PREFIX
+constant COMPACT_MARKER_PREFIX: str = '[context compacted:'
+
+## ContextBudget
+class ContextBudget
+constructor(max_tokens: 'int' = 0, keep_recent: 'int' = 0) -> None
+field max_tokens: int = 0
+field keep_recent: int = 0
+method compact(messages: 'list[Message]') -> 'tuple[list[Message], bool]'
+
+## ContextCompactor
+class ContextCompactor
+bases: Protocol
+constructor(*args, **kwargs)
+method compact(messages: 'list[Message]', budget: 'ContextBudget') -> 'list[Message]'
+
+## DEFAULT_SUMMARY_PROMPT
+constant DEFAULT_SUMMARY_PROMPT: str = 'Summarize the conversation so far. Preserve decisions, open tasks, tool results, constraints, and user preferences. Be concise.'
+
+## ModelSummarizer
+class ModelSummarizer
+constructor(model: 'Model | None', prompt: 'str' = '', max_summary_tokens: 'int' = 0) -> 'None'
+method compact(messages: 'list[Message]', budget: 'ContextBudget') -> 'list[Message]'
+
+## OffloadFunc
+class OffloadFunc
+constructor(fn: 'Callable[[str, str, bytes], Awaitable[str] | str]') -> 'None'
+method offload(tool_name: 'str', tool_call_id: 'str', data: 'bytes') -> 'str'
+
+## Offloader
+class Offloader
+bases: Protocol
+constructor(*args, **kwargs)
+method offload(tool_name: 'str', tool_call_id: 'str', data: 'bytes') -> 'str'
+
+## ROLE_SYSTEM
+constant ROLE_SYSTEM: str = 'system'
+
+## ROLE_TOOL
+constant ROLE_TOOL: str = 'tool'
+
+## SUMMARY_MARKER_PREFIX
+constant SUMMARY_MARKER_PREFIX: str = '[context summary:'
+
+## estimate_tokens
+function estimate_tokens(messages: 'list[Message]') -> 'int'
+
+## load_agents_md
+function load_agents_md(paths: 'list[str] | tuple[str, ...]') -> 'str'
+
+## truncate_to_tokens
+function truncate_to_tokens(value: 'str', tokens: 'int') -> 'str'
+
+# module praxo.errors
+## ApprovalDeniedError
+class ApprovalDeniedError
+bases: PraxoError
+constructor(message: 'str | None' = None) -> 'None'
+attribute code: str = 'AGENT_APPROVAL_DENIED'
+
+## BodyTooLargeError
+class BodyTooLargeError
+bases: PraxoError
+constructor(message: 'str | None' = None) -> 'None'
+attribute code: str = 'HTTP_BODY_TOO_LARGE'
+
+## CheckpointError
+class CheckpointError
+bases: PraxoError
+constructor(message: 'str | None' = None) -> 'None'
+attribute code: str = 'CHECKPOINT_ERROR'
+
+## ContextBudgetError
+class ContextBudgetError
+bases: PraxoError
+constructor(message: 'str | None' = None) -> 'None'
+attribute code: str = 'AGENT_CONTEXT_BUDGET'
+
+## DrainCanceledError
+class DrainCanceledError
+bases: PraxoError
+constructor(message: 'str | None' = None) -> 'None'
+attribute code: str = 'PLUGIN_DRAIN_CANCELED'
+
+## DrainTimeoutError
+class DrainTimeoutError
+bases: PraxoError
+constructor(message: 'str | None' = None) -> 'None'
+attribute code: str = 'PLUGIN_DRAIN_TIMEOUT'
+
+## InterruptDecisionInvalidError
+class InterruptDecisionInvalidError
+bases: PraxoError
+constructor(message: 'str | None' = None) -> 'None'
+attribute code: str = 'AGENT_INTERRUPT_DECISION_INVALID'
+
+## InterruptUnhandledError
+class InterruptUnhandledError
+bases: PraxoError
+constructor(message: 'str | None' = None) -> 'None'
+attribute code: str = 'AGENT_INTERRUPT_UNHANDLED'
+
+## InvalidTransitionError
+class InvalidTransitionError
+bases: PraxoError
+constructor(message: 'str | None' = None) -> 'None'
+attribute code: str = 'PLUGIN_INVALID_TRANSITION'
+
+## MaxStepsError
+class MaxStepsError
+bases: PraxoError
+constructor(message: 'str | None' = None) -> 'None'
+attribute code: str = 'AGENT_MAX_STEPS'
+
+## MaxTokensError
+class MaxTokensError
+bases: PraxoError
+constructor(message: 'str | None' = None) -> 'None'
+attribute code: str = 'AGENT_MAX_TOKENS'
+
+## ModelCallLimitError
+class ModelCallLimitError
+bases: PraxoError
+constructor(message: 'str | None' = None) -> 'None'
+attribute code: str = 'AGENT_MODEL_CALL_LIMIT'
+
+## NotActiveError
+class NotActiveError
+bases: PraxoError
+constructor(message: 'str | None' = None) -> 'None'
+attribute code: str = 'PLUGIN_NOT_ACTIVE'
+
+## PluginError
+class PluginError
+bases: PraxoError
+constructor(message: 'str | None' = None) -> 'None'
+attribute code: str = 'PLUGIN_INVALID_MANIFEST'
+
+## PolicyDeniedError
+class PolicyDeniedError
+bases: PraxoError
+constructor(message: 'str | None' = None) -> 'None'
+attribute code: str = 'AGENT_POLICY_DENIED'
+
+## PolicyError
+class PolicyError
+bases: PraxoError
+constructor(message: 'str | None' = None) -> 'None'
+attribute code: str = 'POLICY_ERROR'
+
+## PraxoError
+class PraxoError
+bases: Exception
+constructor(message: 'str | None' = None) -> 'None'
+attribute code: str = 'PRAXO_ERROR'
+
+## RubricFailedError
+class RubricFailedError
+bases: PraxoError
+constructor(message: 'str | None' = None) -> 'None'
+attribute code: str = 'AGENT_RUBRIC_FAILED'
+
+## StructuredOutputError
+class StructuredOutputError
+bases: PraxoError
+constructor(message: 'str | None' = None) -> 'None'
+attribute code: str = 'AGENT_STRUCTURED_OUTPUT'
+
+## SubagentUpdateUnsupportedError
+class SubagentUpdateUnsupportedError
+bases: PraxoError
+constructor(message: 'str | None' = None) -> 'None'
+attribute code: str = 'AGENT_SUBAGENT_UPDATE_UNSUPPORTED'
+
+## ToolCallLimitError
+class ToolCallLimitError
+bases: PraxoError
+constructor(message: 'str | None' = None) -> 'None'
+attribute code: str = 'AGENT_TOOL_CALL_LIMIT'
+
+## ToolNotFoundError
+class ToolNotFoundError
+bases: PraxoError
+constructor(message: 'str | None' = None) -> 'None'
+attribute code: str = 'TOOL_NOT_FOUND'
+
+## ToolNotSelectedError
+class ToolNotSelectedError
+bases: PraxoError
+constructor(message: 'str | None' = None) -> 'None'
+attribute code: str = 'AGENT_TOOL_NOT_SELECTED'
+
+## TypeNotAllowedError
+class TypeNotAllowedError
+bases: PraxoError
+constructor(message: 'str | None' = None) -> 'None'
+attribute code: str = 'CHECKPOINT_TYPE_NOT_ALLOWED'
+
+## UnderflowError
+class UnderflowError
+bases: PraxoError
+constructor(message: 'str | None' = None) -> 'None'
+attribute code: str = 'PLUGIN_INFLIGHT_UNDERFLOW'
+
+# module praxo.event
+## Event
+class Event
+constructor(type: 'str', session_id: 'str', run_id: 'str' = '', data: 'dict[str, Any]' = <factory>, at: 'datetime' = <factory>) -> None
+field type: str
+field session_id: str
+field run_id: str = ''
+field data: dict[str, Any] = <factory>
+field at: datetime = <factory>
+method to_wire() -> 'dict[str, Any]'
+classmethod from_wire(raw: 'dict[str, Any]') -> 'Event'
+
+## FilterSink
+class FilterSink
+constructor(sink: 'Sink', predicate: 'Callable[[Event], bool] | None' = None) -> 'None'
+method emit(event: 'Event') -> 'None'
+
+## MultiSink
+class MultiSink
+constructor(sinks: 'list[Sink]') -> 'None'
+method emit(event: 'Event') -> 'None'
+
+## Sink
+class Sink
+bases: Protocol
+constructor(*args, **kwargs)
+method emit(event: 'Event') -> 'None'
+
+# module praxo.jsonschema
+## Schema
+class Schema
+constructor(type: 'str' = '', properties: 'dict[str, Schema]' = <factory>, required: 'list[str]' = <factory>, items: 'Schema | None' = None, enum: 'list[Any]' = <factory>, min_length: 'int' = 0, max_length: 'int' = 0, minimum: 'float' = 0, maximum: 'float' = 0, pattern: 'str' = '', description: 'str' = '') -> None
+field type: str = ''
+field properties: dict[str, Schema] = <factory>
+field required: list[str] = <factory>
+field items: Schema | None = None
+field enum: list[Any] = <factory>
+field min_length: int = 0
+field max_length: int = 0
+field minimum: float = 0
+field maximum: float = 0
+field pattern: str = ''
+field description: str = ''
+classmethod from_dict(raw: 'dict[str, Any] | None') -> 'Schema'
+method validate(data: 'Any') -> 'list[ValidationError]'
+
+## ValidationError
+class ValidationError
+constructor(path: 'str', message: 'str') -> None
+field path: str
+field message: str
+
+## from_json
+function from_json(raw: 'str | bytes') -> 'Schema'
+
+## validate
+function validate(schema: 'Schema | dict[str, Any]', data: 'Any') -> 'list[ValidationError]'
+
+# module praxo.memory
+## ContextAssembler
+class ContextAssembler
+constructor(store: 'Store', limit: 'int' = 8) -> None
+field store: Store
+field limit: int = 8
+method assemble(session_id: 'str', query: 'str') -> 'list[Record]'
+
+## FRAME_CONSTRAINT
+constant FRAME_CONSTRAINT: str = 'constraint'
+
+## FRAME_DECISION
+constant FRAME_DECISION: str = 'decision'
+
+## FRAME_EVENT
+constant FRAME_EVENT: str = 'event'
+
+## FRAME_EXPERIENCE
+constant FRAME_EXPERIENCE: str = 'experience'
+
+## FRAME_INTENTION
+constant FRAME_INTENTION: str = 'intention'
+
+## FRAME_PROCEDURE
+constant FRAME_PROCEDURE: str = 'procedure'
+
+## FRAME_WORKSPACE_STATE
+constant FRAME_WORKSPACE_STATE: str = 'workspace_state'
+
+## MemoryStore
+class MemoryStore
+constructor() -> 'None'
+method put(session_id: 'str', record: 'Record') -> 'None'
+method search(session_id: 'str', query: 'str', limit: 'int' = 0) -> 'list[Record]'
+
+## Record
+class Record
+constructor(id: 'str' = '', frame: 'str' = 'event', content: 'str' = '', metadata: 'dict[str, Any]' = <factory>, created_at: 'datetime | None' = None) -> None
+field id: str = ''
+field frame: str = 'event'
+field content: str = ''
+field metadata: dict[str, Any] = <factory>
+field created_at: datetime | None = None
+method to_wire() -> 'dict[str, Any]'
+classmethod from_wire(raw: 'dict[str, Any]') -> 'Record'
+
+## Store
+class Store
+bases: Protocol
+constructor(*args, **kwargs)
+method put(session_id: 'str', record: 'Record') -> 'None'
+method search(session_id: 'str', query: 'str', limit: 'int' = 0) -> 'list[Record]'
+
+# module praxo.middleware
+## Middleware
+class Middleware
+constructor(name: 'str' = '', before_run: 'BeforeRun | None' = None, before_model: 'BeforeModel | None' = None, after_model: 'AfterModel | None' = None, before_tool: 'BeforeTool | None' = None, after_tool: 'AfterTool | None' = None, after_run: 'AfterRun | None' = None) -> None
+field name: str = ''
+field before_run: BeforeRun | None = None
+field before_model: BeforeModel | None = None
+field after_model: AfterModel | None = None
+field before_tool: BeforeTool | None = None
+field after_tool: AfterTool | None = None
+field after_run: AfterRun | None = None
+
+## ModelCall
+class ModelCall
+constructor(run_id: 'str', session_id: 'str', request: 'Request', skip: 'bool' = False, response: 'Response | None' = None) -> None
+field run_id: str
+field session_id: str
+field request: Request
+field skip: bool = False
+field response: Response | None = None
+
+
+
+## ModelToolSelector
+class ModelToolSelector
+constructor(model: 'Model | None', prompt: 'str' = '', max_tools: 'int' = 0) -> 'None'
+method select(query: 'str', tools: 'list[ToolSpec]') -> 'list[str]'
+
+## PIIRedactor
+class PIIRedactor
+constructor(rules: 'list[PIIRule]' = <factory>) -> None
+field rules: list[PIIRule] = <factory>
+method redact(text: 'str') -> 'str'
+
+## PIIRule
+class PIIRule
+constructor(name: 'str', pattern: 're.Pattern[str]', replacement: 'str' = '') -> None
+field name: str
+field pattern: re.Pattern[str]
+field replacement: str = ''
+
+## RunState
+class RunState
+constructor(run_id: 'str', session: 'Any', prompt: 'str') -> None
+field run_id: str
+field session: Any
+field prompt: str
+
+## STRATEGY_AUTO
+constant STRATEGY_AUTO: str = 'auto'
+
+## STRATEGY_PROVIDER
+constant STRATEGY_PROVIDER: str = 'provider'
+
+## STRATEGY_TOOL
+constant STRATEGY_TOOL: str = 'tool'
+
+## StructuredOutput
+class StructuredOutput
+constructor(schema: 'dict[str, Any]' = <factory>, name: 'str' = '', strategy: 'str' = 'auto', max_repairs: 'int' = 0, validate: 'ValidateFunc | None' = None, repair: 'RepairFunc | None' = None) -> None
+field schema: dict[str, Any] = <factory>
+field name: str = ''
+field strategy: str = 'auto'
+field max_repairs: int = 0
+field validate: ValidateFunc | None = None
+field repair: RepairFunc | None = None
+method output_name() -> 'str'
+method response_format() -> 'ResponseFormat | None'
+method tool_spec() -> 'ToolSpec'
+method middleware() -> 'Middleware'
+method apply(result: 'Any') -> 'None'
+method validate_arguments(arguments: 'dict[str, Any]') -> 'None'
+
+## ToolCall
+class ToolCall
+constructor(run_id: 'str', session_id: 'str', call: 'ModelToolCall', skip: 'bool' = False, result: 'Any' = None, error: 'BaseException | None' = None) -> None
+field run_id: str
+field session_id: str
+field call: ModelToolCall
+field skip: bool = False
+field result: Any = None
+field error: BaseException | None = None
+
+## ToolResult
+class ToolResult
+constructor(value: 'Any' = None, error: 'BaseException | None' = None) -> None
+field value: Any = None
+field error: BaseException | None = None
+
+## ToolSelector
+class ToolSelector
+bases: Protocol
+constructor(*args, **kwargs)
+method select(query: 'str', tools: 'list[ToolSpec]') -> 'list[str]'
+
+## call_limit_middleware
+function call_limit_middleware(model_limit: 'int', tool_limit: 'int') -> 'Middleware'
+
+## default_pii_rules
+function default_pii_rules() -> 'list[PIIRule]'
+
+## extract_json
+function extract_json(output: 'str') -> 'Any'
+
+## fallback_model
+function fallback_model(fallback: 'Model | None') -> 'ModelMiddleware'
+
+## last_user_message
+function last_user_message(messages: 'list[Message]') -> 'str'
+
+## maybe_await
+function maybe_await(value: 'Any') -> 'Any'
+
+## merge_middleware
+function merge_middleware(items: 'list[Middleware]') -> 'list[Middleware]'
+
+## new_pii_rule
+function new_pii_rule(name: 'str', pattern: 'str', replacement: 'str') -> 'PIIRule'
+
+## pii_middleware
+function pii_middleware(redactor: 'PIIRedactor') -> 'Middleware'
+
+## tool_selection_middleware
+function tool_selection_middleware(selector: 'ToolSelector | None') -> 'Middleware'
+
+# module praxo.middleware.base
+
+
+
+
+
+
+## Middleware
+class Middleware
+constructor(name: 'str' = '', before_run: 'BeforeRun | None' = None, before_model: 'BeforeModel | None' = None, after_model: 'AfterModel | None' = None, before_tool: 'BeforeTool | None' = None, after_tool: 'AfterTool | None' = None, after_run: 'AfterRun | None' = None) -> None
+field name: str = ''
+field before_run: BeforeRun | None = None
+field before_model: BeforeModel | None = None
+field after_model: AfterModel | None = None
+field before_tool: BeforeTool | None = None
+field after_tool: AfterTool | None = None
+field after_run: AfterRun | None = None
+
+## ModelCall
+class ModelCall
+constructor(run_id: 'str', session_id: 'str', request: 'Request', skip: 'bool' = False, response: 'Response | None' = None) -> None
+field run_id: str
+field session_id: str
+field request: Request
+field skip: bool = False
+field response: Response | None = None
+
+
+
+## RunState
+class RunState
+constructor(run_id: 'str', session: 'Any', prompt: 'str') -> None
+field run_id: str
+field session: Any
+field prompt: str
+
+## ToolCall
+class ToolCall
+constructor(run_id: 'str', session_id: 'str', call: 'ModelToolCall', skip: 'bool' = False, result: 'Any' = None, error: 'BaseException | None' = None) -> None
+field run_id: str
+field session_id: str
+field call: ModelToolCall
+field skip: bool = False
+field result: Any = None
+field error: BaseException | None = None
+
+## ToolResult
+class ToolResult
+constructor(value: 'Any' = None, error: 'BaseException | None' = None) -> None
+field value: Any = None
+field error: BaseException | None = None
+
+## maybe_await
+function maybe_await(value: 'Any') -> 'Any'
+
+## merge_middleware
+function merge_middleware(items: 'list[Middleware]') -> 'list[Middleware]'
+
+# module praxo.middleware.calllimit
+## call_limit_middleware
+function call_limit_middleware(model_limit: 'int', tool_limit: 'int') -> 'Middleware'
+
+# module praxo.middleware.fallback
+## fallback_model
+function fallback_model(fallback: 'Model | None') -> 'ModelMiddleware'
+
+# module praxo.middleware.pii
+## PIIRedactor
+class PIIRedactor
+constructor(rules: 'list[PIIRule]' = <factory>) -> None
+field rules: list[PIIRule] = <factory>
+method redact(text: 'str') -> 'str'
+
+## PIIRule
+class PIIRule
+constructor(name: 'str', pattern: 're.Pattern[str]', replacement: 'str' = '') -> None
+field name: str
+field pattern: re.Pattern[str]
+field replacement: str = ''
+
+## default_pii_rules
+function default_pii_rules() -> 'list[PIIRule]'
+
+## new_pii_rule
+function new_pii_rule(name: 'str', pattern: 'str', replacement: 'str') -> 'PIIRule'
+
+## pii_middleware
+function pii_middleware(redactor: 'PIIRedactor') -> 'Middleware'
+
+## redact_value
+function redact_value(redactor: 'PIIRedactor', value: 'Any') -> 'Any'
+
+# module praxo.middleware.structured
+## STRATEGY_AUTO
+constant STRATEGY_AUTO: str = 'auto'
+
+## STRATEGY_PROVIDER
+constant STRATEGY_PROVIDER: str = 'provider'
+
+## STRATEGY_TOOL
+constant STRATEGY_TOOL: str = 'tool'
+
+## StructuredOutput
+class StructuredOutput
+constructor(schema: 'dict[str, Any]' = <factory>, name: 'str' = '', strategy: 'str' = 'auto', max_repairs: 'int' = 0, validate: 'ValidateFunc | None' = None, repair: 'RepairFunc | None' = None) -> None
+field schema: dict[str, Any] = <factory>
+field name: str = ''
+field strategy: str = 'auto'
+field max_repairs: int = 0
+field validate: ValidateFunc | None = None
+field repair: RepairFunc | None = None
+method output_name() -> 'str'
+method response_format() -> 'ResponseFormat | None'
+method tool_spec() -> 'ToolSpec'
+method middleware() -> 'Middleware'
+method apply(result: 'Any') -> 'None'
+method validate_arguments(arguments: 'dict[str, Any]') -> 'None'
+
+## extract_json
+function extract_json(output: 'str') -> 'Any'
+
+# module praxo.middleware.toolselect
+## DEFAULT_TOOL_SELECTOR_PROMPT
+constant DEFAULT_TOOL_SELECTOR_PROMPT: str = 'Select the tools needed to answer the user query.\nReturn only JSON in the form {"tools":["tool_name"]}.\nPrefer the smallest sufficient set. Return {"tools":[]} when no tool is needed.'
+
+## ModelToolSelector
+class ModelToolSelector
+constructor(model: 'Model | None', prompt: 'str' = '', max_tools: 'int' = 0) -> 'None'
+method select(query: 'str', tools: 'list[ToolSpec]') -> 'list[str]'
+
+## ROLE_SYSTEM
+constant ROLE_SYSTEM: str = 'system'
+
+## ROLE_USER
+constant ROLE_USER: str = 'user'
+
+## ToolSelector
+class ToolSelector
+bases: Protocol
+constructor(*args, **kwargs)
+method select(query: 'str', tools: 'list[ToolSpec]') -> 'list[str]'
+
+## last_user_message
+function last_user_message(messages: 'list[Message]') -> 'str'
+
+## tool_selection_middleware
+function tool_selection_middleware(selector: 'ToolSelector | None') -> 'Middleware'
+
+# module praxo.model
+## CacheHint
+class CacheHint
+constructor(stable_prefix: 'int' = 0, ttl: 'str | None' = None) -> None
+field stable_prefix: int = 0
+field ttl: str | None = None
+method to_wire() -> 'dict[str, Any]'
+
+## ChatModel
+class ChatModel
+constructor(provider: 'Provider') -> 'None'
+method generate(request: 'Request') -> 'Response'
+
+## ContentBlock
+class ContentBlock
+constructor(type: 'str', text: 'str | None' = None, image_url: 'str | None' = None, data: 'str | None' = None) -> None
+field type: str
+field text: str | None = None
+field image_url: str | None = None
+field data: str | None = None
+method to_wire() -> 'dict[str, Any]'
+classmethod from_wire(raw: 'dict[str, Any]') -> 'ContentBlock'
+
+## Message
+class Message
+constructor(role: 'str', content: 'str' = '', content_blocks: 'list[ContentBlock]' = <factory>, tool_calls: 'list[ToolCall]' = <factory>, tool_id: 'str | None' = None) -> None
+field role: str
+field content: str = ''
+field content_blocks: list[ContentBlock] = <factory>
+field tool_calls: list[ToolCall] = <factory>
+field tool_id: str | None = None
+method to_wire() -> 'dict[str, Any]'
+classmethod from_wire(raw: 'dict[str, Any]') -> 'Message'
+
+## Model
+class Model
+bases: Protocol
+constructor(*args, **kwargs)
+method generate(request: 'Request') -> 'Response'
+
+## ModelRouter
+class ModelRouter
+bases: Protocol
+constructor(*args, **kwargs)
+method route(task_class: 'str') -> 'Provider'
+
+## Provider
+class Provider
+bases: Protocol
+constructor(*args, **kwargs)
+method chat(messages: 'list[Message]') -> 'list[Message]'
+method chat_stream(messages: 'list[Message]') -> 'Any'
+
+## ROLE_ASSISTANT
+constant ROLE_ASSISTANT: str = 'assistant'
+
+## ROLE_SYSTEM
+constant ROLE_SYSTEM: str = 'system'
+
+## ROLE_TOOL
+constant ROLE_TOOL: str = 'tool'
+
+## ROLE_USER
+constant ROLE_USER: str = 'user'
+
+## Request
+class Request
+constructor(messages: 'list[Message]' = <factory>, model: 'str | None' = None, tools: 'list[ToolSpec]' = <factory>, tool_choice: 'str | None' = None, response_format: 'ResponseFormat | None' = None, cache_hint: 'CacheHint | None' = None, temperature: 'float' = 0.0) -> None
+field messages: list[Message] = <factory>
+field model: str | None = None
+field tools: list[ToolSpec] = <factory>
+field tool_choice: str | None = None
+field response_format: ResponseFormat | None = None
+field cache_hint: CacheHint | None = None
+field temperature: float = 0.0
+method to_wire() -> 'dict[str, Any]'
+
+## Response
+class Response
+constructor(message: 'Message', usage: 'Usage' = <factory>, finish_reason: 'str | None' = None) -> None
+field message: Message
+field usage: Usage = <factory>
+field finish_reason: str | None = None
+method to_wire() -> 'dict[str, Any]'
+
+## ResponseFormat
+class ResponseFormat
+constructor(name: 'str' = '', schema: 'dict[str, Any] | None' = None) -> None
+field name: str = ''
+field schema: dict[str, Any] | None = None
+method to_wire() -> 'dict[str, Any]'
+
+## StreamEvent
+class StreamEvent
+constructor(delta: 'str' = '', done: 'bool' = False) -> None
+field delta: str = ''
+field done: bool = False
+
+## StreamingModel
+class StreamingModel
+bases: Model, Protocol
+constructor(*args, **kwargs)
+method generate_stream(request: 'Request', on_delta: 'Any') -> 'Response'
+
+## TOOL_CHOICE_AUTO
+constant TOOL_CHOICE_AUTO: str = 'auto'
+
+## TOOL_CHOICE_NONE
+constant TOOL_CHOICE_NONE: str = 'none'
+
+## TOOL_CHOICE_REQUIRED
+constant TOOL_CHOICE_REQUIRED: str = 'required'
+
+## ToolCall
+class ToolCall
+constructor(id: 'str', name: 'str', arguments: 'dict[str, Any]' = <factory>) -> None
+field id: str
+field name: str
+field arguments: dict[str, Any] = <factory>
+method to_wire() -> 'dict[str, Any]'
+classmethod from_wire(raw: 'dict[str, Any]') -> 'ToolCall'
+
+## ToolSpec
+class ToolSpec
+constructor(name: 'str', description: 'str' = '', parameters: 'dict[str, Any] | None' = None, risk: 'str | None' = None) -> None
+field name: str
+field description: str = ''
+field parameters: dict[str, Any] | None = None
+field risk: str | None = None
+method to_wire() -> 'dict[str, Any]'
+
+## Usage
+class Usage
+constructor(input_tokens: 'int' = 0, output_tokens: 'int' = 0, cached_tokens: 'int' = 0) -> None
+field input_tokens: int = 0
+field output_tokens: int = 0
+field cached_tokens: int = 0
+method to_wire() -> 'dict[str, Any]'
+
+# module praxo.plugin
+## CALL_ERROR_CODES
+constant CALL_ERROR_CODES: tuple = ('CAPABILITY_DENIED', 'NOT_ACTIVE', 'NOT_FOUND', 'INVALID_REQUEST', 'TIMEOUT', 'INTERNAL')
+
+## EVENT_KINDS
+constant EVENT_KINDS: tuple = ('start', 'success', 'failure', 'stop', 'crash', 'verification_denied', 'registration_denied', 'authorization_denied', 'resource_limit', 'canceled', 'terminated')
+
+
+## Manifest
+class Manifest
+constructor(schema_version: 'int', id: 'str', version: 'str', kind: 'str', entrypoint: 'dict[str, Any]', protocol: 'str', capabilities: 'list[str]' = <factory>, permissions: 'dict[str, Any]' = <factory>, limits: 'dict[str, Any]' = <factory>, isolation: 'str' = '', health: 'dict[str, Any]' = <factory>, signature: 'dict[str, Any] | None' = None, sbom: 'str' = '') -> None
+field schema_version: int
+field id: str
+field version: str
+field kind: str
+field entrypoint: dict[str, Any]
+field protocol: str
+field capabilities: list[str] = <factory>
+field permissions: dict[str, Any] = <factory>
+field limits: dict[str, Any] = <factory>
+field isolation: str = ''
+field health: dict[str, Any] = <factory>
+field signature: dict[str, Any] | None = None
+field sbom: str = ''
+
+## STATES
+constant STATES: tuple = ('FETCHED', 'VALIDATED', 'LOADED', 'ACTIVE', 'DRAINING', 'STOPPED', 'UNLOADED', 'FAILED', 'QUARANTINED')
+
+## parse_manifest
+function parse_manifest(data: 'bytes | str') -> 'Manifest'
+
+## validate_trust
+function validate_trust(manifest: 'Manifest', profile: 'str') -> 'None'
+
+# module praxo.policy
+## ACCESS_READ
+constant ACCESS_READ: str = 'read'
+
+## ACCESS_READWRITE
+constant ACCESS_READWRITE: str = 'readwrite'
+
+## ACCESS_WRITE
+constant ACCESS_WRITE: str = 'write'
+
+## Action
+class Action
+constructor(kind: 'str', session_id: 'str', tool_name: 'str | None' = None, arguments: 'dict[str, Any]' = <factory>) -> None
+field kind: str
+field session_id: str
+field tool_name: str | None = None
+field arguments: dict[str, Any] = <factory>
+
+## Decision
+class Decision
+constructor(allowed: 'bool', reason: 'str' = '') -> None
+field allowed: bool
+field reason: str = ''
+
+## FuncHook
+class FuncHook
+constructor(fn: 'Any') -> 'None'
+method authorize(action: 'Action') -> 'Decision'
+
+## Hook
+class Hook
+bases: Protocol
+constructor(*args, **kwargs)
+method authorize(action: 'Action') -> 'Decision'
+
+## PathChecker
+class PathChecker
+constructor(grants: 'list[PathGrant]') -> None
+field grants: list[PathGrant]
+method check(target: 'str', need: 'str' = 'read') -> 'Decision'
+method allowed(target: 'str', need: 'str' = 'read') -> 'bool'
+
+## PathGrant
+class PathGrant
+constructor(root: 'str', access: 'str') -> None
+field root: str
+field access: str
+
+# module praxo.stream
+## STREAM_CHECKPOINT
+constant STREAM_CHECKPOINT: str = 'checkpoint'
+
+## STREAM_DEBUG
+constant STREAM_DEBUG: str = 'debug'
+
+## STREAM_KINDS
+constant STREAM_KINDS: tuple = ('values', 'updates', 'messages', 'tasks', 'debug', 'checkpoint')
+
+## STREAM_MESSAGES
+constant STREAM_MESSAGES: str = 'messages'
+
+## STREAM_TASKS
+constant STREAM_TASKS: str = 'tasks'
+
+## STREAM_UPDATES
+constant STREAM_UPDATES: str = 'updates'
+
+## STREAM_VALUES
+constant STREAM_VALUES: str = 'values'
+
+## StreamPart
+class StreamPart
+constructor(run_id: 'str', session_id: 'str', kind: 'str', step: 'int' = 0, data: 'Any' = None, at: 'datetime' = <factory>) -> None
+field run_id: str
+field session_id: str
+field kind: str
+field step: int = 0
+field data: Any = None
+field at: datetime = <factory>
+
+# module praxo.tool
+## FuncTool
+class FuncTool
+constructor(name: 'str', description: 'str', fn: 'Callable[[dict[str, Any]], Awaitable[Any] | Any]') -> 'None'
+method invoke(args: 'dict[str, Any]') -> 'Any'
+
+## Gateway
+class Gateway
+bases: Protocol
+constructor(*args, **kwargs)
+method execute(name: 'str', input: 'dict[str, Any]', token: 'str' = '') -> 'Any'
+method list_tools() -> 'list[GatewayInfo]'
+
+## GatewayInfo
+class GatewayInfo
+constructor(name: 'str', description: 'str' = '', risk: 'str' = '') -> None
+field name: str
+field description: str = ''
+field risk: str = ''
+
+## GatewayTool
+class GatewayTool
+constructor(gateway: 'Gateway', info: 'GatewayInfo') -> 'None'
+method invoke(args: 'dict[str, Any]') -> 'Any'
+
+## Registry
+class Registry
+constructor(_tools: 'dict[str, Tool]' = <factory>) -> None
+field _tools: dict[str, Tool] = <factory>
+method register(tool: 'Tool') -> 'None'
+method get(name: 'str') -> 'Tool'
+method specs() -> 'list[ToolSpec]'
+
+## Tool
+class Tool
+bases: Protocol
+constructor(*args, **kwargs)
+field name: str = None
+field description: str = None
+method invoke(args: 'dict[str, Any]') -> 'Any'
+
+## new_gateway_tools
+function new_gateway_tools(gateway: 'Gateway') -> 'list[Tool]'
+
+# module praxo.toolcall
+## ToolCall
+class ToolCall
+constructor(call_id: 'str', name: 'str', operation: 'str' = '', resource: 'str' = '', risk: 'str' = '', reason: 'str' = '', idempotency_key: 'str' = '', input: 'dict[str, Any]' = <factory>) -> None
+field call_id: str
+field name: str
+field operation: str = ''
+field resource: str = ''
+field risk: str = ''
+field reason: str = ''
+field idempotency_key: str = ''
+field input: dict[str, Any] = <factory>
+
+## parse_input_json
+function parse_input_json(raw: 'str') -> 'dict[str, Any] | None'
+
+## parse_tool_call
+function parse_tool_call(content: 'str') -> 'ToolCall | None'
+
+## strip_tool_call_markup
+function strip_tool_call_markup(content: 'str') -> 'str'

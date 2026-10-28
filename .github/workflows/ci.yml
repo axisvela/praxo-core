@@ -94,6 +94,7 @@ jobs:
           python-version: "3.12"
       - run: python conformance/run.py
       - run: python api-snapshot.py --check
+      - run: python api-signatures.py --check
       - run: python -m unittest discover -s tests -v
       - name: Build wheel and sdist
         run: |

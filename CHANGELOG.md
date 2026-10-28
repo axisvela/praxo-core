@@ -51,6 +51,9 @@
 - CI installs the Python wheel and sdist and the TypeScript package tarball in
   clean environments, then runs the installed-package smoke tests outside the
   source tree. Registry publication remains pending.
+- Python adds a signature snapshot for class constructors, dataclass fields and
+  defaults, methods, properties, functions, and constants, with mutation tests.
+  The historical export-name snapshot remains unchanged.
 - Go validates and repairs final output before completion hooks, checkpoint
   projections, memory writes, and completion notification, for both text and
   structured-tool answers. A completion sink error is returned without a second,

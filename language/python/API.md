@@ -123,4 +123,13 @@ Python surface. The checked-in snapshot is `api/<version>.txt`.
 ```bash
 python api-snapshot.py
 python api-snapshot.py --check
+python api-signatures.py
+python api-signatures.py --check
 ```
+
+`api/<version>.txt` records exported names and top-level function signatures.
+`api/<version>.signatures.txt` adds class constructors, dataclass fields and
+defaults, methods, properties, functions, and exported constants. The signature
+snapshot was added after `0.2.0`; it does not rewrite the historical name
+snapshot or imply that the released package already contained this gate. It is a
+source-API check, not a runtime, serializer, or ABI guarantee.
