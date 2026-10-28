@@ -11,9 +11,8 @@ The Core does not call Go or another language runtime. It has no provider
 adapter or plugin host; those remain outside the declared Core scope.
 
 Local validation uses clang 21.1.8 with GNUstep Base 1.31.1 and lld on Windows.
-A macOS CI job using Apple Foundation is configured. Local Apple Foundation,
-macOS CI, release review, package publication, and a delivery date are not
-claimed.
+A macOS CI job runs the Apple Foundation build. Local Apple Foundation, release
+review, package publication, and a delivery date are not claimed.
 
 ## Build And Test
 
@@ -87,8 +86,8 @@ error codes.
 
 ## Current Limits
 
-- The verified target is Windows clang + GNUstep. Apple Foundation and macOS CI
-  are not yet verified. Windows support depends on the GNUstep package and lld.
+- The verified local target is Windows clang + GNUstep; the macOS CI job covers
+  Apple Foundation. Windows support depends on the GNUstep package and lld.
 - JSON is bounded to 1,048,576 characters and nesting to 64. Invalid UTF-8,
   malformed escapes, duplicate object keys, and trailing JSON are rejected.
   Numbers use Foundation JSON numbers, so large integers and exact decimal

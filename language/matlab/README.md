@@ -91,8 +91,9 @@ full reference agent surface. The shared parity inventory remains unchanged.
   declarations. It does not verify signatures, establish trust, execute
   plugins, or enforce OS sandboxing. Duplicate-field rejection is stricter than
   the Go JSON decoder.
-- Core-local errors are not new shared wire error codes. Neither passing four
-  vector groups nor an Octave test implies full Framework or Go feature parity.
+- Core-local errors are not new shared wire error codes. Neither passing all
+  eleven vector groups nor an Octave test implies full Framework or Go feature
+  parity.
 
 The source is MIT; see [LICENSE](LICENSE). Octave is a separate GPL-licensed
 interpreter and test tool, not a package dependency or code copied into this

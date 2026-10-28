@@ -1,6 +1,6 @@
 # COBOL Core
 
-A native GnuCOBOL implementation, not a bridge to another Core. All 62 normative
+A native GnuCOBOL implementation, not a bridge to another Core. All 63 normative
 vectors across the eleven groups pass, together with native agent, JSON,
 contract-boundary, tooling, and API declaration checks. The
 `cobol-conformance` remote job passes; `cobol/v0.1.0` is the released Core implementation tag.

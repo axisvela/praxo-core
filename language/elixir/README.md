@@ -120,8 +120,8 @@ limits do not restrict direct calls or external work performed by callbacks.
 
 ## Current Limits
 
-- Verified with `Elixir 1.20.4` and `Erlang/OTP 29` on Windows. Other OTP
-  releases, other Elixir releases, and remote CI are not yet verified.
+- Verified with `Elixir 1.20.4` and `Erlang/OTP 29` on Windows and in Linux CI.
+  Other OTP releases, other Elixir releases, and macOS are not yet verified.
 - JSON requires OTP 27 or newer and uses the `:json` module. Invalid JSON and
   trailing data are rejected; JSON `null` is represented by the `:null` atom.
 - Tool calls cover canonical JSON, XML-style, dotted tags, and dotted plain

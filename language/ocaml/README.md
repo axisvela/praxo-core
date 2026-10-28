@@ -76,8 +76,8 @@ Public declarations are inventoried in [`api/0.2.0.txt`](api/0.2.0.txt).
 - Manifest checks validate declarations only. They do not verify signatures,
   establish trust, execute plugins, or enforce OS sandboxing. Duplicate fields
   are rejected as a local hardening rule.
-- Core-local exceptions are not new shared wire error codes. Passing three vector
-  groups does not imply full Framework or Go feature parity.
+- Core-local exceptions are not new shared wire error codes. Passing all eleven
+  vector groups does not imply full Framework or Go feature parity.
 
 The source is MIT; see [LICENSE](LICENSE). OCaml and its runtime are separate
 toolchain components, not vendored code.
