@@ -77,7 +77,7 @@ Agent 循环仅依赖其所需的接口。插件宿主、HTTP 客户端、调度
   最终输出，并可选择修复。
 - `ToolSelectionMiddleware` 按运行缩小对外公布的工具有范围；
   `ModelToolSelector` 是内置的基于模型的选择器。
-- `PIIMiddleware` 在发往模型的消息和工具结果进入提示词之前进行脱敏。
+- `PIIMiddleware` 在进入提示词前脱敏消息内容、历史工具调用参数和工具结果。实际调用参数、错误和事件载荷仍由产品侧负责。
 - `FallbackModel` 在主模型调用失败时重试回退模型。
 - `CallLimitMiddleware` 限制每次运行的模型和工具调用次数。
 - `ContextEditingMiddleware` 清除旧工具结果而不丢弃消息对。
