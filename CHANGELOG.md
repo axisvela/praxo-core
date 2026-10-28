@@ -12,6 +12,13 @@
   for the exact tag SHA before the publication job receives write permissions.
   Main-push documentation builds are no longer path-filtered.
 
+### Changed
+
++- Compatibility policy now distinguishes rejecting invalid input from tightening
++  the documented valid domain, and requires lifecycle/order changes to be
++  released with behavioral evidence. Pre-1.0 SDK breaking changes require a
++  minor version and migration note rather than a silent patch.
+
 ### Fixed
 
 - Go API checks compare declaration sections rather than shell-decoded package

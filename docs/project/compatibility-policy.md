@@ -72,6 +72,34 @@ The following require a major release:
 - changing a documented default in a way that alters behavior
 - changing a wire format without a versioned compatibility path
 
+## Behavioral and Validation Changes
+
+Validation tightening and behavior changes are breaking by default when documented
+valid input or a documented default changes. A patch release may correct behavior
+only when all of these hold:
+
+- the normative specification or existing exported documentation already required
+  the new behavior, and the old behavior contradicted it;
+- rejected input was outside the documented valid domain, malformed, or unsafe;
+- tests or consumer evidence show no documented valid usage depends on the old
+  behavior;
+- the changelog, compatibility note, and release notes identify the correction
+  and any migration step;
+- security fixes follow the same evidence rule and document why earlier input was
+  not valid under the contract.
+
+If previously documented valid usage must break, provide an opt-in compatibility
+path or require a major release. A security exception that cannot preserve that
+path must be explicit, approved in the release review, and documented with the
+affected behavior and residual risk.
+
+Event ordering, lifecycle callbacks, retry/cancellation semantics, and checkpoint
+projection are compatibility-relevant even when exported declarations are
+unchanged. They require behavioral tests, a conformance-vector update where the
+contract covers them, a release note, and consumer verification for the affected
+scope. Do not classify a patch as behavior-free solely because `api/` is
+unchanged.
+
 ## Deprecation
 
 1. Mark the declaration as deprecated in its doc comment and in
@@ -106,6 +134,10 @@ SDKs. Go remains the reference implementation.
   Manifest v1 and envelopes, error codes) are breaking for every SDK.
 - Behavioral changes require a conformance-vector update and an SDK minor
   release.
+- While an SDK is `0.x`, a breaking source or behavioral change requires a minor
+  version and a migration note; a patch must not silently break documented valid
+  usage. Wire changes still require `spec/` coordination regardless of SDK
+  version.
 - Source APIs map one-to-one with idiomatic per-language names; parity is
   tracked in `spec/parity.md`.
 - An SDK may not implement a contract feature that the Go reference lacks.
@@ -134,7 +166,8 @@ Ask these questions before merging:
 3. Is an existing interface method set affected?
 4. Does an unkeyed struct literal become invalid?
 5. Does a JSON tag, event type, stream kind, or plugin field change?
-6. Is a default or validation rule tightened?
+6. Is a default or validation rule tightened, and was the rejected input valid
+   under the previous documented contract?
 7. Is the change covered by the API snapshot diff and a consumer test?
 8. Is a deprecation period required?
 9. Does an optional module need a new tag?
