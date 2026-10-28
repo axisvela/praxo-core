@@ -21,10 +21,9 @@ python language/delphi/api-snapshot.py --check
 
 Set `FPC` or pass `--compiler /path/to/fpc` to select the compiler. Python only
 launches the native build and validates source API/parity metadata. The test
-programs and implementation run under Free Pascal. The shared groups are
-`toolcall`, `jsonschema`, `plugin`, and `agent-loop`; the runner verifies the
-contract version before running them. See [SETUP.md](SETUP.md) for prerequisites
-and individual test commands.
+programs and implementation run under Free Pascal. The runner covers all eleven
+shared vector groups and verifies the contract version before running them.
+See [SETUP.md](SETUP.md) for prerequisites and individual test commands.
 
 To build manually from `language/delphi/`:
 

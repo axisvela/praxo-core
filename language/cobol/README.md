@@ -100,7 +100,8 @@ determinism, assertion polarity, and snapshot sensitivity. The
 `cobol-conformance` CI job runs all of these plus the two original native test
 programs.
 
-A release still requires successful remote CI, consumer/release review, and an
-explicit version/tag decision. `spec/parity/cobol.md` records partial surfaces.
-The SDK sources are MIT-licensed; GnuCOBOL and its runtime are separately
-licensed external toolchain dependencies.
+`cobol/v0.1.0` is the released source tag. `api/unreleased.txt` is the legacy
+filename for the 0.1.0 declaration snapshot; later changes require a new
+version/tag decision and release review. `spec/parity/cobol.md` records partial
+surfaces. The SDK sources are MIT-licensed; GnuCOBOL and its runtime are
+separately licensed external toolchain dependencies.

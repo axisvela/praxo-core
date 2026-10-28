@@ -1,7 +1,9 @@
 # PRAXO-CORE Contract Specification
 
 `spec/` is the normative, language-neutral contract for the Python, TypeScript,
-and Java SDKs. Go remains the reference implementation in `pkg/...`.
+Java, and independently implemented Core SDKs listed in
+[`languages.md`](languages.md). Go remains the reference implementation in
+`pkg/...`.
 
 When this directory and the Go implementation disagree, that is a bug. The
 specification is normative; Go is used to discover and verify it.

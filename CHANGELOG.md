@@ -54,6 +54,10 @@
 - Python adds a signature snapshot for class constructors, dataclass fields and
   defaults, methods, properties, functions, and constants, with mutation tests.
   The historical export-name snapshot remains unchanged.
+- Corrected stale language status text: C now documents its public Core API and
+  limits, MATLAB/Delphi list all eleven vector groups, Tcl records verified Linux
+  CI, COBOL no longer describes its released tag as pending, and `spec/` names
+  all independently implemented Core SDKs.
 - Go validates and repairs final output before completion hooks, checkpoint
   projections, memory writes, and completion notification, for both text and
   structured-tool answers. A completion sink error is returned without a second,

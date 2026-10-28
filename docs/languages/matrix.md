@@ -8,6 +8,6 @@ This table covers all languages in the [normative support matrix](https://github
 
 **How to read maturity:** `reference` is the Go reference implementation. `complete` means the declared tier and scope gates pass. `partial` means the release has documented scope gaps or pending required runtime/CI verification. `sample` is a usage sample of another implementation. `planned` has no source tag. `gated` requires a named consumer or compatible runtime. Maturity is independent of the version tag and does not imply production readiness or full Go feature parity.
 
-The notes report declared scope and evidence, not a promise of full Go feature parity. C's current public API is wire-level despite its historical Core classification. For exact CI jobs and tier gates, see the [canonical matrix](https://github.com/axisvela/praxo-core/blob/main/spec/languages.md) and [implementation support policy](support.md).
+The notes report declared scope and evidence, not a promise of full Go feature parity. C now exposes a public Core API for memory, events, checkpoints, policy, context, middleware, and the agent loop in addition to wire JSON primitives. Its agent loop has no cancellation path, and call-limit state must not be shared across concurrent runs. For exact CI jobs and tier gates, see the [canonical matrix](https://github.com/axisvela/praxo-core/blob/main/spec/languages.md) and [implementation support policy](support.md).
 
 <!-- language-support-matrix -->

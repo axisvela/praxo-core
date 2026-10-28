@@ -38,7 +38,8 @@ this framework.
 
 ## Language Implementations
 
-- `spec/` is the normative contract for the Python, TypeScript, and Java SDKs.
+- `spec/` is the normative contract for the Python, TypeScript, Java, and
+  independently implemented Core SDKs listed in `spec/languages.md`.
 - Go remains the reference implementation; do not widen the `pkg/...` API for an
   SDK.
 - Keep independent implementations under `language/`, bridge wrappers under

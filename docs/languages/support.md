@@ -75,8 +75,8 @@ reuse the host Framework rather than duplicate its agent loop.
   checks pass locally and in Linux CI. Consumer details and package-registry
   publication remain pending.
 - Tcl has source tag `tcl/v0.1.0` for the Bridge wrapper over the bridge CLI. It
-  does not provide a native Tcl loop; local forwarding, UTF-8, error, and
-  exit-code tests pass, while remote CI and package-registry publication remain
+  does not provide a native Tcl loop; forwarding, UTF-8, error, and exit-code
+  tests pass locally and in Linux CI, while package-registry publication remains
   pending.
 - Prolog has source tag `prolog/v0.1.1` for the SWI-Prolog bridge over the bridge
   CLI. It does not provide a native Prolog loop; forwarding, UTF-8, error, and

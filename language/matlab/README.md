@@ -21,9 +21,9 @@ python language/matlab/api-snapshot.py --check
 
 Set `OCTAVE` or pass `--octave /path/to/octave-cli` to select the interpreter.
 Python only launches the native tests and checks the source API inventory.
-The implementation and tests run in Octave, not Python. The four shared vector
-groups are `toolcall`, `jsonschema`, `plugin`, and `agent-loop`; the test runner verifies the
-fixture group and `SPEC_VERSION` before running them.
+The implementation and tests run in Octave, not Python. The runner covers all
+eleven shared vector groups and verifies each fixture's group and
+`SPEC_VERSION` before running it.
 
 ## API
 
