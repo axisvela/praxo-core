@@ -101,6 +101,7 @@ func (a Adapter) Generate(ctx context.Context, req model.Request) (model.Respons
 		Usage: model.Usage{
 			InputTokens:  decoded.Usage.PromptTokens,
 			OutputTokens: decoded.Usage.CompletionTokens,
+			CachedTokens: decoded.Usage.PromptTokensDetails.CachedTokens,
 		},
 		FinishReason: choice.FinishReason,
 	}, nil
@@ -160,6 +161,7 @@ func (a Adapter) GenerateStream(ctx context.Context, req model.Request, onDelta 
 	var content strings.Builder
 	var usage apiUsage
 	finishReason := ""
+	done := false
 	scanner := bufio.NewScanner(resp.Body)
 	scanner.Buffer(make([]byte, 64*1024), 1<<20)
 	for scanner.Scan() {
@@ -169,6 +171,7 @@ func (a Adapter) GenerateStream(ctx context.Context, req model.Request, onDelta 
 		}
 		data := strings.TrimSpace(strings.TrimPrefix(line, "data:"))
 		if data == "[DONE]" {
+			done = true
 			break
 		}
 		var chunk apiStreamChunk
@@ -210,6 +213,9 @@ func (a Adapter) GenerateStream(ctx context.Context, req model.Request, onDelta 
 	if err := scanner.Err(); err != nil {
 		return model.Response{}, err
 	}
+	if !done && finishReason == "" {
+		return model.Response{}, errors.New("openaicompat: stream ended before completion")
+	}
 
 	message := model.Message{Role: model.RoleAssistant, Content: content.String()}
 	indexes := make([]int, 0, len(calls))
@@ -236,6 +242,7 @@ func (a Adapter) GenerateStream(ctx context.Context, req model.Request, onDelta 
 		Usage: model.Usage{
 			InputTokens:  usage.PromptTokens,
 			OutputTokens: usage.CompletionTokens,
+			CachedTokens: usage.PromptTokensDetails.CachedTokens,
 		},
 		FinishReason: finishReason,
 	}, nil
@@ -256,8 +263,11 @@ type apiStreamOptions struct {
 }
 
 type apiUsage struct {
-	PromptTokens     int64 `json:"prompt_tokens"`
-	CompletionTokens int64 `json:"completion_tokens"`
+	PromptTokens        int64 `json:"prompt_tokens"`
+	CompletionTokens    int64 `json:"completion_tokens"`
+	PromptTokensDetails struct {
+		CachedTokens int64 `json:"cached_tokens"`
+	} `json:"prompt_tokens_details"`
 }
 
 type apiMessage struct {

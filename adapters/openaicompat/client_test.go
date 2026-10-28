@@ -47,7 +47,7 @@ func TestAdapterGenerate(t *testing.T) {
 				},
 				"finish_reason": "tool_calls"
 			}],
-			"usage": {"prompt_tokens": 7, "completion_tokens": 3}
+			"usage": {"prompt_tokens": 7, "completion_tokens": 3, "prompt_tokens_details": {"cached_tokens": 2}}
 		}`))
 	}))
 	defer server.Close()
@@ -85,7 +85,7 @@ func TestAdapterGenerate(t *testing.T) {
 	if call.ID != "call-1" || call.Name != "get_time" || len(call.Arguments) != 0 {
 		t.Fatalf("call = %#v", call)
 	}
-	if response.Usage.InputTokens != 7 || response.Usage.OutputTokens != 3 {
+	if response.Usage.InputTokens != 7 || response.Usage.OutputTokens != 3 || response.Usage.CachedTokens != 2 {
 		t.Fatalf("usage = %#v", response.Usage)
 	}
 	if response.FinishReason != "tool_calls" {
@@ -128,7 +128,7 @@ func TestAdapterGenerateStream(t *testing.T) {
 		write("data: {\"choices\":[{\"delta\":{\"content\":\"llo\"}}]}\n\n")
 		write("data: {\"choices\":[{\"delta\":{\"tool_calls\":[{\"index\":0,\"id\":\"call-1\",\"function\":{\"name\":\"echo\",\"arguments\":\"{\\\"value\\\":\"}}]}}]}\n\n")
 		write("data: {\"choices\":[{\"delta\":{\"tool_calls\":[{\"index\":0,\"function\":{\"arguments\":\"\\\"ok\\\"}\"}}]},\"finish_reason\":\"tool_calls\"}]}\n\n")
-		write("data: {\"choices\":[],\"usage\":{\"prompt_tokens\":5,\"completion_tokens\":2}}\n\n")
+		write("data: {\"choices\":[],\"usage\":{\"prompt_tokens\":5,\"completion_tokens\":2,\"prompt_tokens_details\":{\"cached_tokens\":4}}}\n\n")
 		write("data: [DONE]\n\n")
 	}))
 	defer server.Close()
@@ -149,7 +149,7 @@ func TestAdapterGenerateStream(t *testing.T) {
 	if gotRequest.StreamOptions == nil || !gotRequest.StreamOptions.IncludeUsage {
 		t.Fatalf("stream options = %#v", gotRequest.StreamOptions)
 	}
-	if response.Usage.InputTokens != 5 || response.Usage.OutputTokens != 2 {
+	if response.Usage.InputTokens != 5 || response.Usage.OutputTokens != 2 || response.Usage.CachedTokens != 4 {
 		t.Fatalf("usage = %#v", response.Usage)
 	}
 	if strings.Join(deltas, "") != "hello" {
@@ -167,5 +167,60 @@ func TestAdapterGenerateStream(t *testing.T) {
 	}
 	if response.FinishReason != "tool_calls" {
 		t.Fatalf("finish reason = %q", response.FinishReason)
+	}
+}
+
+func TestAdapterGenerateStreamRejectsTruncatedStream(t *testing.T) {
+	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "text/event-stream")
+		_, _ = fmt.Fprint(w, "data: {\"choices\":[{\"delta\":{\"content\":\"partial\"}}]}\n\n")
+	}))
+	defer server.Close()
+
+	adapter := Adapter{BaseURL: server.URL, Model: "test-model", HTTP: server.Client()}
+	response, err := adapter.GenerateStream(context.Background(), model.Request{
+		Messages: []model.Message{{Role: model.RoleUser, Content: "hi"}},
+	}, nil)
+	if err == nil || !strings.Contains(err.Error(), "stream ended before completion") {
+		t.Fatalf("response=%#v error=%v", response, err)
+	}
+}
+
+func TestAdapterGenerateStreamAllowsFinishReasonWithoutDone(t *testing.T) {
+	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "text/event-stream")
+		_, _ = fmt.Fprint(w, "data: {\"choices\":[{\"delta\":{\"content\":\"ok\"},\"finish_reason\":\"stop\"}]}\n\n")
+	}))
+	defer server.Close()
+
+	adapter := Adapter{BaseURL: server.URL, Model: "test-model", HTTP: server.Client()}
+	response, err := adapter.GenerateStream(context.Background(), model.Request{
+		Messages: []model.Message{{Role: model.RoleUser, Content: "hi"}},
+	}, nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if response.Message.Content != "ok" || response.FinishReason != "stop" {
+		t.Fatalf("response = %#v", response)
+	}
+}
+
+func TestAdapterGenerateStreamAllowsDoneWithoutFinishReason(t *testing.T) {
+	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "text/event-stream")
+		_, _ = fmt.Fprint(w, "data: {\"choices\":[{\"delta\":{\"content\":\"ok\"}}]}\n\n")
+		_, _ = fmt.Fprint(w, "data: [DONE]\n\n")
+	}))
+	defer server.Close()
+
+	adapter := Adapter{BaseURL: server.URL, Model: "test-model", HTTP: server.Client()}
+	response, err := adapter.GenerateStream(context.Background(), model.Request{
+		Messages: []model.Message{{Role: model.RoleUser, Content: "hi"}},
+	}, nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if response.Message.Content != "ok" || response.FinishReason != "" {
+		t.Fatalf("response = %#v", response)
 	}
 }

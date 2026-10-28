@@ -26,6 +26,8 @@
 
 ### Fixed
 
+- OpenAI-compatible streams now reject EOF without either `[DONE]` or a finish
+  reason, and map cached prompt tokens from `prompt_tokens_details`.
 - Go API checks compare declaration sections rather than shell-decoded package
   descriptions, preserve UTF-8 declaration changes, and report declaration diffs.
 - Process crash tests use explicit post-start synchronization instead of racing

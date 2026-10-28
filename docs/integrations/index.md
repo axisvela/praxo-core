@@ -14,8 +14,11 @@ tags.
 
 The OpenAI-compatible adapter uses only the standard library and works with
 Ollama, vLLM, and hosted OpenAI-compatible endpoints. Set `IncludeUsage` for
-streamed token usage on endpoints that support it. Anthropic and Gemini are
-native adapters for their respective APIs.
+streamed token usage on endpoints that support it. A stream that ends without
+either `[DONE]` or a finish reason is rejected instead of being accepted as a
+complete answer. Cached prompt tokens are mapped when the endpoint reports
+`prompt_tokens_details.cached_tokens`. Anthropic and Gemini are native adapters
+for their respective APIs.
 
 ## Tool and Protocol Adapters
 

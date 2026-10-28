@@ -12,7 +12,9 @@ PRAXO-CORE 保持核心 `pkg/...` API 冻结，适配器放在可选包和独立
 | Gemini | `github.com/axisvela/praxo-core/adapters/gemini` | `model.Model`、`model.StreamingModel` | `adapters/gemini/v0.1.0` |
 
 OpenAI 兼容适配器仅使用标准库，适用于 Ollama、vLLM 和托管 OpenAI 兼容端点。
-支持的端点可设置 `IncludeUsage` 获取流式 token 用量。Anthropic 与 Gemini 是
+支持的端点可设置 `IncludeUsage` 获取流式 token 用量。流在既没有 `[DONE]` 也没有
+finish reason 时结束会被拒绝，不再当作完整回答。端点报告
+`prompt_tokens_details.cached_tokens` 时会映射缓存 token。Anthropic 与 Gemini 是
 对应 API 的原生适配器。
 
 ## 工具与协议适配器
