@@ -119,10 +119,22 @@ func redactValue(redactor PIIRedactor, value any) any {
 			out[key] = redactValue(redactor, item)
 		}
 		return out
+	case map[string]string:
+		out := make(map[string]string, len(v))
+		for key, item := range v {
+			out[key] = redactor.Redact(item)
+		}
+		return out
 	case []any:
 		out := make([]any, len(v))
 		for i, item := range v {
 			out[i] = redactValue(redactor, item)
+		}
+		return out
+	case []string:
+		out := make([]string, len(v))
+		for i, item := range v {
+			out[i] = redactor.Redact(item)
 		}
 		return out
 	default:

@@ -81,3 +81,23 @@ func TestPIIMiddlewareRedactsToolResult(t *testing.T) {
 		t.Fatalf("nested tool result leaked: %+v", m)
 	}
 }
+
+func TestPIIMiddlewareRedactsTypedToolResult(t *testing.T) {
+	mw := PIIMiddleware(NewPIIRedactor(DefaultPIIRules()...))
+	result := &types.ToolResult{Value: map[string]any{
+		"attrs":  map[string]string{"email": "a@b.com"},
+		"values": []string{"ssn 123-45-6789"},
+	}}
+	if err := mw.AfterTool(context.Background(), &types.ToolCall{}, result); err != nil {
+		t.Fatal(err)
+	}
+	m := result.Value.(map[string]any)
+	attrs := m["attrs"].(map[string]string)
+	if strings.Contains(attrs["email"], "a@b.com") {
+		t.Fatalf("typed map tool result leaked: %+v", attrs)
+	}
+	values := m["values"].([]string)
+	if strings.Contains(values[0], "123-45-6789") {
+		t.Fatalf("typed slice tool result leaked: %+v", values)
+	}
+}

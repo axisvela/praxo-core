@@ -40,8 +40,9 @@
 - `formatter.WatchFormat.FormatAll` reports per-file formatter failures while
   continuing to format other detected files, instead of silently succeeding.
 - PII middleware now redacts historical tool-call arguments before they are sent
-  back to a model, covering nested argument maps without mutating the caller's
-  original values or live tool invocation arguments.
+  back to a model and handles typed `map[string]string` / `[]string` tool
+  results. Nested values are copied without mutating the caller's originals or
+  live tool invocation arguments.
 - The C conformance runner validates specVersion, group names, non-empty vector
   groups, unique IDs, and input/expect objects before executing fixtures, with
   negative CTest coverage.
