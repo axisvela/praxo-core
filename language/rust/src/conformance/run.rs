@@ -18,6 +18,20 @@ use crate::toolcall::{parse, strip_markup};
 
 use super::{agent_loop::run_agent_loop, middleware::run_middleware};
 
+const REQUIRED_GROUPS: [&str; 11] = [
+    "agent-loop",
+    "checkpoint",
+    "context",
+    "event",
+    "jsonschema",
+    "memory",
+    "middleware",
+    "plugin",
+    "policy",
+    "stream",
+    "toolcall",
+];
+
 pub fn run_all() -> Vec<String> {
     let root = repo_root();
     let version = fs::read_to_string(root.join("spec").join("SPEC_VERSION"))
@@ -26,6 +40,7 @@ pub fn run_all() -> Vec<String> {
         .to_string();
     let mut failures = Vec::new();
     let mut seen = HashMap::new();
+    let mut groups = HashSet::new();
     let mut paths: Vec<PathBuf> = fs::read_dir(root.join("spec").join("vectors"))
         .expect("read vectors")
         .filter_map(Result::ok)
@@ -49,16 +64,30 @@ pub fn run_all() -> Vec<String> {
         if name != group {
             failures.push(format!("{name}: group mismatch"));
         }
-        if let Some(vectors) = file["vectors"].as_array() {
-            for vector in vectors {
-                let id = vector["id"].as_str().unwrap_or("");
-                if let Some(previous) = seen.insert(id.to_string(), group.to_string()) {
-                    failures.push(format!("{group}/{id}: duplicate id with {previous}"));
-                }
-                if let Err(error) = run_vector(group, vector) {
-                    failures.push(format!("{group}/{id}: {error}"));
-                }
+        groups.insert(group.to_string());
+        let vectors = match file["vectors"].as_array() {
+            Some(vectors) => vectors,
+            None => {
+                failures.push(format!("{group}: missing vectors array"));
+                continue;
             }
+        };
+        if vectors.is_empty() {
+            failures.push(format!("{group}: empty vector group"));
+        }
+        for vector in vectors {
+            let id = vector["id"].as_str().unwrap_or("");
+            if let Some(previous) = seen.insert(id.to_string(), group.to_string()) {
+                failures.push(format!("{group}/{id}: duplicate id with {previous}"));
+            }
+            if let Err(error) = run_vector(group, vector) {
+                failures.push(format!("{group}/{id}: {error}"));
+            }
+        }
+    }
+    for group in REQUIRED_GROUPS {
+        if !groups.contains(group) {
+            failures.push(format!("missing required vector group: {group}"));
         }
     }
     failures
