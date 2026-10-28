@@ -35,26 +35,46 @@ func runTools(ctx context.Context, prepared []preparedTool, parallel int) []tool
 				out[i].value, out[i].err = prepared[i].result, prepared[i].err
 				continue
 			}
+			if err := ctx.Err(); err != nil {
+				out[i].err = err
+				continue
+			}
 			out[i].value, out[i].err = invokeTool(ctx, prepared[i].tool, prepared[i].call)
 		}
 		return out
 	}
 
-	sem := make(chan struct{}, parallel)
+	workers := parallel
+	if workers > len(prepared) {
+		workers = len(prepared)
+	}
+	jobs := make(chan int)
 	var wg sync.WaitGroup
+	for worker := 0; worker < workers; worker++ {
+		wg.Add(1)
+		go func() {
+			defer wg.Done()
+			for i := range jobs {
+				if err := ctx.Err(); err != nil {
+					out[i].err = err
+					continue
+				}
+				out[i].value, out[i].err = invokeTool(ctx, prepared[i].tool, prepared[i].call)
+			}
+		}()
+	}
 	for i := range prepared {
 		if prepared[i].skip {
 			out[i].value, out[i].err = prepared[i].result, prepared[i].err
 			continue
 		}
-		wg.Add(1)
-		go func(i int) {
-			defer wg.Done()
-			sem <- struct{}{}
-			defer func() { <-sem }()
-			out[i].value, out[i].err = invokeTool(ctx, prepared[i].tool, prepared[i].call)
-		}(i)
+		select {
+		case jobs <- i:
+		case <-ctx.Done():
+			out[i].err = ctx.Err()
+		}
 	}
+	close(jobs)
 	wg.Wait()
 	return out
 }
