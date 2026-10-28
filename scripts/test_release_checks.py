@@ -279,7 +279,7 @@ class ReleaseChecksTests(unittest.TestCase):
         self.assertNotIn("always()", text)
         for command in ('test "v${version}" = "${GITHUB_REF_NAME}"', "go test ./...",
                         "go vet ./...", "go build ./...", "cyclonedx-gomod mod",
-                        "git archive", "sha256sum", "gh release create"):
+                        "git archive", "release_manifest.py", "gh release create"):
             self.assertIn(command, release)
 
     def test_docs_triggers_include_release_metadata_and_gate_files(self):

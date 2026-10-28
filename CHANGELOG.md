@@ -45,6 +45,9 @@
 - TypeScript adds a source-declaration snapshot covering public signatures,
   fields, optionality, constructors, methods, aliases, enums, and constant
   types, with mutation tests; the historical export-name snapshot is unchanged.
+- Release artifacts include a deterministic manifest with tag, commit, spec,
+  toolchain, SBOM scope, and attachment hashes. Checksums cover archive, SBOM,
+  and manifest; the SBOM remains root-module scoped.
 - Go validates and repairs final output before completion hooks, checkpoint
   projections, memory writes, and completion notification, for both text and
   structured-tool answers. A completion sink error is returned without a second,

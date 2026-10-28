@@ -9,6 +9,9 @@ version lines. A release must document its scope and compatibility impact.
 - Pass build, tests, API checks, and security checks for the affected artifact.
 - SDKs pass their declared conformance vectors and parity checks.
 - Review dependency licenses and generate applicable SBOMs and checksums.
+- Publish a release manifest with the tag, commit SHA, version, spec version,
+  Go toolchain, SBOM scope, and every attachment hash. Checksums cover the
+  archive, SBOM, and manifest; the checksum file does not list itself.
 - Verify release tags; signed tags are preferred and exceptions are documented.
 - Verify installation from the artifact users will actually consume.
 
@@ -31,6 +34,16 @@ to create a new version tag.
 Manual dispatch runs only the read-only prerequisite for the selected commit.
 The publication job additionally requires a `v*` tag push and is skipped on
 manual runs, allowing live gate validation without creating a tag or release.
+
+## Artifact Evidence
+
+`release-manifest.json` records the release version, tag, full commit SHA, spec
+version, reported Go toolchain, SBOM scope, and the size and SHA-256 of each
+attachment. `SHA256SUMS` covers the source archive, `sbom.json`, and the
+manifest. The SBOM scope is currently the root Go module's dependencies only; it
+is not a combined SBOM for every independent adapter, language SDK, or native
+dependency. Record that distinction instead of presenting the root SBOM as a
+complete archive inventory.
 
 ## Tag Names
 

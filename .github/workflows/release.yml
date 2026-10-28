@@ -25,6 +25,8 @@ jobs:
           python-version: "3.12"
       - name: Test release gate
         run: python -m unittest discover -s scripts -p "test_release_checks.py" -v
+      - name: Test release manifest
+        run: python -m unittest discover -s scripts -p "test_release_manifest.py" -v
       - name: Verify same-commit main push checks
         env:
           GH_TOKEN: ${{ github.token }}
@@ -57,12 +59,22 @@ jobs:
           go install github.com/CycloneDX/cyclonedx-gomod/cmd/cyclonedx-gomod@latest
           mkdir -p dist
           cyclonedx-gomod mod -json -output dist/sbom.json
-      - name: Create source archive and checksums
+      - name: Create source archive
         run: |
           version="${GITHUB_REF_NAME#v}"
           git archive --format=tar.gz --prefix="praxo-core-${version}/" \
             -o "dist/praxo-core-${version}.tar.gz" HEAD
-          sha256sum dist/praxo-core-${version}.tar.gz > dist/SHA256SUMS
+      - name: Build release manifest and checksums
+        run: |
+          version="${GITHUB_REF_NAME#v}"
+          python3 scripts/release_manifest.py \
+            --root dist \
+            --version "${version}" \
+            --tag "${GITHUB_REF_NAME}" \
+            --sha "$(git rev-parse HEAD)" \
+            --go-version "$(go version)" \
+            --spec-version "$(cat spec/SPEC_VERSION)" \
+            --sbom-scope "root Go module dependencies only"
       - name: Publish GitHub release
         env:
           GH_TOKEN: ${{ github.token }}

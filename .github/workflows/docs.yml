@@ -17,6 +17,8 @@ on:
       - "ROADMAP*.md"
       - "scripts/verify_release_checks.py"
       - "scripts/test_release_checks.py"
+      - "scripts/release_manifest.py"
+      - "scripts/test_release_manifest.py"
       - ".github/workflows/release.yml"
       - "spec/languages.md"
       - "spec/SPEC_VERSION"
