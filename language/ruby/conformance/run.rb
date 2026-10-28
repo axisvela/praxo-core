@@ -8,6 +8,10 @@ require_relative '../lib/praxo'
 ROOT = File.expand_path('../../..', __dir__)
 J = Praxo::Json
 M = Praxo::Models
+REQUIRED_GROUPS = %w[
+  agent-loop checkpoint context event jsonschema memory middleware plugin policy
+  stream toolcall
+].freeze
 
 def check(condition, message)
   raise message unless condition
@@ -335,6 +339,7 @@ end
 
 failures = []
 seen = {}
+groups = {}
 version = File.read(File.join(ROOT, 'spec', 'SPEC_VERSION')).strip
 Dir.glob(File.join(ROOT, 'spec', 'vectors', '*.json')).sort.each do |path|
   name = File.basename(path, '.json')
@@ -345,9 +350,12 @@ Dir.glob(File.join(ROOT, 'spec', 'vectors', '*.json')).sort.each do |path|
     next
   end
   group = J.string(file, 'group').to_s
+  groups[group] = true
   failures << "#{name}: specVersion mismatch" unless J.string(file, 'specVersion') == version
   failures << "#{name}: group mismatch" unless name == group
-  J.array(file, 'vectors').each do |vector|
+  vectors = J.array(file, 'vectors')
+  failures << "#{group}: empty vector group" if vectors.empty?
+  vectors.each do |vector|
     id = J.string(vector, 'id').to_s
     if seen.key?(id)
       failures << "#{group}/#{id}: duplicate id with #{seen[id]}"
@@ -359,6 +367,9 @@ Dir.glob(File.join(ROOT, 'spec', 'vectors', '*.json')).sort.each do |path|
       failures << "#{group}/#{id}: #{e.message}"
     end
   end
+end
+REQUIRED_GROUPS.each do |group|
+  failures << "missing required vector group: #{group}" unless groups[group]
 end
 
 if failures.empty?

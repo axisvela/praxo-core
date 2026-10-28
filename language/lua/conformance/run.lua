@@ -371,7 +371,11 @@ for _, group in ipairs(GROUPS) do
   if (json.string(file, "specVersion") or "") ~= version then
     failures[#failures + 1] = group .. ": specVersion mismatch"
   end
-  for _, vector in ipairs(json.array_of(file, "vectors")) do
+  local vectors = json.array_of(file, "vectors")
+  if #vectors == 0 then
+    failures[#failures + 1] = group .. ": empty vector group"
+  end
+  for _, vector in ipairs(vectors) do
     local id = json.string(vector, "id") or ""
     if seen[id] then
       failures[#failures + 1] = group .. "/" .. id .. ": duplicate id with " .. seen[id]

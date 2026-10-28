@@ -54,7 +54,9 @@
   the next release.
 - The C conformance runner validates specVersion, group names, non-empty vector
   groups, unique IDs, and input/expect objects before executing fixtures, with
-  negative CTest coverage.
+  negative CTest coverage. Ruby, Perl, Lua, and PHP runners now also reject
+  missing required vector groups and empty groups; Ruby and Perl have local
+  negative checks.
 - The OpenAI-compatible adapter maps text/image_url content blocks and
   schema-backed response formats; unsupported blocks and schema-less response
   formats now fail explicitly instead of being silently dropped.

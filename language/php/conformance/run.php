@@ -55,6 +55,11 @@ function runAll(): array
     $version = trim((string) file_get_contents($root . '/spec/SPEC_VERSION'));
     $failures = [];
     $seen = [];
+    $groups = [];
+    $required = [
+        'agent-loop', 'checkpoint', 'context', 'event', 'jsonschema',
+        'memory', 'middleware', 'plugin', 'policy', 'stream', 'toolcall',
+    ];
     $paths = glob($root . '/spec/vectors/*.json') ?: [];
     sort($paths, SORT_STRING);
     foreach ($paths as $path) {
@@ -69,13 +74,18 @@ function runAll(): array
             continue;
         }
         $group = Json::string($file, 'group') ?? '';
+        $groups[$group] = true;
         if (Json::string($file, 'specVersion') !== $version) {
             $failures[] = "{$name}: specVersion mismatch";
         }
         if ($name !== $group) {
             $failures[] = "{$name}: group mismatch";
         }
-        foreach (Json::array($file, 'vectors') as $vector) {
+        $vectors = Json::array($file, 'vectors');
+        if ($vectors === []) {
+            $failures[] = "{$group}: empty vector group";
+        }
+        foreach ($vectors as $vector) {
             $id = Json::string($vector, 'id') ?? '';
             if (isset($seen[$id])) {
                 $failures[] = "{$group}/{$id}: duplicate id with {$seen[$id]}";
@@ -86,6 +96,11 @@ function runAll(): array
             } catch (\Throwable $error) {
                 $failures[] = "{$group}/{$id}: {$error->getMessage()}";
             }
+        }
+    }
+    foreach ($required as $group) {
+        if (!isset($groups[$group])) {
+            $failures[] = "missing required vector group: {$group}";
         }
     }
     return $failures;

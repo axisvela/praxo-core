@@ -391,7 +391,12 @@ sub run_all {
     my $version = read_text(File::Spec->catfile($ROOT, 'spec', 'SPEC_VERSION'));
     $version =~ s/^\s+|\s+$//g;
     my @files = sort glob(File::Spec->catfile($ROOT, 'spec', 'vectors', '*.json'));
+    my @required = qw(
+        agent-loop checkpoint context event jsonschema memory middleware plugin
+        policy stream toolcall
+    );
     my @failures;
+    my %groups;
     my %seen;
     for my $path (@files) {
         my ($name) = $path =~ m{([^/\\]+)\.json$};
@@ -401,10 +406,13 @@ sub run_all {
             next;
         }
         my $group = Praxo::Json::string($file, 'group') // '';
+        $groups{$group} = 1;
         push @failures, "$name: specVersion mismatch"
             unless (Praxo::Json::string($file, 'specVersion') // '') eq $version;
         push @failures, "$name: group mismatch" unless $name eq $group;
-        for my $vector (@{ Praxo::Json::array($file, 'vectors') }) {
+        my $vectors = Praxo::Json::array($file, 'vectors');
+        push @failures, "$group: empty vector group" unless @$vectors;
+        for my $vector (@$vectors) {
             my $id = Praxo::Json::string($vector, 'id') // '';
             push @failures, "$group/$id: duplicate id with $seen{$id}"
                 if exists $seen{$id};
@@ -412,6 +420,10 @@ sub run_all {
             my $ok = eval { run_vector($group, $vector); 1 };
             push @failures, "$group/$id: $@" unless $ok;
         }
+    }
+    for my $group (@required) {
+        push @failures, "missing required vector group: $group"
+            unless $groups{$group};
     }
     return @failures;
 }
