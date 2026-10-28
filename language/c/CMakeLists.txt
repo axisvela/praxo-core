@@ -73,6 +73,10 @@ if(BUILD_TESTING)
     add_test(NAME praxo-c-api-snapshot-tests
         COMMAND "${Python3_EXECUTABLE}" -m unittest discover
             -s "${CMAKE_CURRENT_SOURCE_DIR}/tests" -p test_api_snapshot.py -v)
+    add_test(NAME praxo-c-inventory-tests
+        COMMAND "${Python3_EXECUTABLE}"
+            "${CMAKE_CURRENT_SOURCE_DIR}/tests/test_conformance_inventory.py"
+            $<TARGET_FILE:praxo-conformance>)
     if(PRAXO_API_COMPILER_ARGS)
         set_tests_properties(praxo-c-api-snapshot-tests PROPERTIES
             ENVIRONMENT "PRAXO_API_TEST_COMPILER=${CMAKE_C_COMPILER}")

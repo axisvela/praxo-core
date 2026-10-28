@@ -110,7 +110,7 @@ production readiness or full Go feature parity.
 | TypeScript | `typescript-conformance` | build, vectors, parity, API snapshot, node:test |
 | Java | `java-conformance` | Maven build, vectors, API snapshot, self-tests |
 | Rust | `rust-conformance` | cargo test, vectors, compiler-derived API snapshot/parity, gate regressions |
-| C | `c-conformance` | CMake build, 11 vectors, API snapshot, public Core API tests, installed-library consumer |
+| C | `c-conformance` | CMake build, 11 vectors, API snapshot, public Core API tests, inventory negative controls, installed-library consumer |
 | C# / VB.NET | `csharp-conformance` | build, vectors, API snapshot, core tests, VB sample |
 | PHP | `php-conformance` | vectors, API snapshot, core tests |
 | Ruby | `ruby-conformance` | 11 vectors, API snapshot, tests |

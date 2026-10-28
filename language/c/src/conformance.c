@@ -10,6 +10,9 @@
 #include <stdlib.h>
 #include <string.h>
 
+#define MAX_VECTOR_IDS 512
+#define MAX_VECTOR_ID_LEN 128
+
 typedef struct {
     const char *file;
     const char *group;
@@ -246,7 +249,19 @@ static bool run_checkpoint(PxArena *arena, PxValue *input, PxValue *expect) {
     return check(want == NULL || px_equals(decoded, want), "checkpoint value mismatch");
 }
 
-static int run_file(const char *root, const VectorGroup *group) {
+static bool seen_id(char (*seen_ids)[MAX_VECTOR_ID_LEN], size_t count,
+        const char *id) {
+    for (size_t index = 0; index < count; index++) {
+        if (strcmp(seen_ids[index], id) == 0) {
+            return true;
+        }
+    }
+    return false;
+}
+
+static int run_file(const char *root, const VectorGroup *group,
+        const char *spec_version, char (*seen_ids)[MAX_VECTOR_ID_LEN],
+        size_t *seen_count) {
     char path[2400];
     snprintf(path, sizeof(path), "%s/spec/vectors/%s", root, group->file);
     char *text = px_read_file(path);
@@ -263,22 +278,61 @@ static int run_file(const char *root, const VectorGroup *group) {
         px_arena_free(&arena);
         return 1;
     }
+    const char *file_version = px_get_str(file, "specVersion");
+    const char *file_group = px_get_str(file, "group");
+    if (file_version == NULL || strcmp(file_version, spec_version) != 0) {
+        fprintf(stderr, "%s: specVersion mismatch\n", group->file);
+        px_arena_free(&arena);
+        return 1;
+    }
+    if (file_group == NULL || strcmp(file_group, group->group) != 0) {
+        fprintf(stderr, "%s: group mismatch\n", group->file);
+        px_arena_free(&arena);
+        return 1;
+    }
     if (!group->implemented) {
         printf("  skip %s (C agent groups pending)\n", group->group);
         px_arena_free(&arena);
         return 0;
     }
     PxValue *vectors = px_obj_get(file, "vectors");
-    if (vectors == NULL || vectors->type != PX_ARR) {
+    if (vectors == NULL || vectors->type != PX_ARR
+            || vectors->as.array.len == 0) {
+        fprintf(stderr, "%s: missing or empty vectors\n", group->file);
         px_arena_free(&arena);
         return 1;
     }
     int failures = 0;
     for (size_t index = 0; index < vectors->as.array.len; index++) {
         PxValue *vector = vectors->as.array.items[index];
+        if (vector == NULL || vector->type != PX_OBJ) {
+            fprintf(stderr, "%s: invalid vector entry\n", group->group);
+            failures++;
+            continue;
+        }
         const char *id = px_get_str(vector, "id");
         PxValue *input = px_obj_get(vector, "input");
         PxValue *expect = px_obj_get(vector, "expect");
+        if (id == NULL || id[0] == '\0' || strlen(id) >= MAX_VECTOR_ID_LEN) {
+            fprintf(stderr, "%s: vector without valid id\n", group->group);
+            failures++;
+            continue;
+        }
+        if (*seen_count >= MAX_VECTOR_IDS
+                || seen_id(seen_ids, *seen_count, id)) {
+            fprintf(stderr, "%s/%s: duplicate or excess vector id\n",
+                    group->group, id);
+            failures++;
+            continue;
+        }
+        snprintf(seen_ids[*seen_count], MAX_VECTOR_ID_LEN, "%s", id);
+        (*seen_count)++;
+        if (input == NULL || input->type != PX_OBJ
+                || expect == NULL || expect->type != PX_OBJ) {
+            fprintf(stderr, "%s/%s: missing input or expect\n", group->group, id);
+            failures++;
+            continue;
+        }
         bool ok = false;
         if (strcmp(group->group, "toolcall") == 0) {
             ok = run_toolcall(&arena, input, expect);
@@ -314,9 +368,34 @@ static int run_file(const char *root, const VectorGroup *group) {
 }
 
 int px_run_conformance(const char *root) {
+    char path[2400];
+    snprintf(path, sizeof(path), "%s/spec/SPEC_VERSION", root);
+    char *version_text = px_read_file(path);
+    if (version_text == NULL) {
+        fprintf(stderr, "spec/SPEC_VERSION: cannot read\n");
+        return 1;
+    }
+    char spec_version[64];
+    snprintf(spec_version, sizeof(spec_version), "%s", version_text);
+    free(version_text);
+    size_t length = strlen(spec_version);
+    while (length > 0 && (spec_version[length - 1] == '\n'
+            || spec_version[length - 1] == '\r'
+            || spec_version[length - 1] == ' '
+            || spec_version[length - 1] == '\t')) {
+        spec_version[--length] = '\0';
+    }
+    if (length == 0) {
+        fprintf(stderr, "spec/SPEC_VERSION: empty\n");
+        return 1;
+    }
+
     int failures = 0;
+    char seen_ids[MAX_VECTOR_IDS][MAX_VECTOR_ID_LEN];
+    size_t seen_count = 0;
     for (size_t index = 0; index < sizeof(GROUPS) / sizeof(GROUPS[0]); index++) {
-        failures += run_file(root, &GROUPS[index]);
+        failures += run_file(root, &GROUPS[index], spec_version, seen_ids,
+                &seen_count);
     }
     if (failures == 0) {
         printf("all spec vectors passed\n");
