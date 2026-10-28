@@ -13,6 +13,19 @@ against the candidate:
 .\scripts\api-diff.ps1 -From <previous> -To <candidate>
 ```
 
+Verify current source against the committed snapshot without writing it:
+
+```powershell
+.\scripts\api-snapshot.ps1 -Check
+.\scripts\api-snapshot.Tests.ps1
+```
+
+The check uses `VERSION` by default and accepts `-Version` or `-OutFile` for an
+explicit baseline. Missing snapshots, source drift, or failed Go commands fail
+the check. Windows and Unix line endings compare equally. CI checks source
+against the committed snapshot on all three Go platforms; this detects drift,
+not semantic-version compatibility or runtime behavior changes.
+
 The snapshot is a release gate, not a generated build artifact. Review every
 difference and record intentional changes in `CHANGELOG.md` and
 `docs/project/compatibility.md`.

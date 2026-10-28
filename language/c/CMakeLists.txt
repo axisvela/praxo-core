@@ -51,3 +51,20 @@ add_test(NAME praxo-conformance COMMAND praxo-conformance)
 add_test(NAME praxo-c-tests COMMAND praxo-c-tests)
 add_test(NAME praxo-c-core-tests COMMAND praxo-c-core-tests)
 add_test(NAME praxo-c-adapter-tests COMMAND praxo-c-adapter-tests)
+
+if(BUILD_TESTING)
+    find_package(Python3 3.10 REQUIRED COMPONENTS Interpreter)
+    include(cmake/ApiCompiler.cmake)
+    praxo_api_compiler_args(PRAXO_API_COMPILER_ARGS "${CMAKE_C_COMPILER_ID}"
+        "${CMAKE_C_COMPILER_FRONTEND_VARIANT}" "${CMAKE_C_COMPILER}")
+    add_test(NAME praxo-c-api-snapshot
+        COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/api-snapshot.py"
+            --check ${PRAXO_API_COMPILER_ARGS})
+    add_test(NAME praxo-c-api-snapshot-tests
+        COMMAND "${Python3_EXECUTABLE}" -m unittest discover
+            -s "${CMAKE_CURRENT_SOURCE_DIR}/tests" -p test_api_snapshot.py -v)
+    if(PRAXO_API_COMPILER_ARGS)
+        set_tests_properties(praxo-c-api-snapshot-tests PROPERTIES
+            ENVIRONMENT "PRAXO_API_TEST_COMPILER=${CMAKE_C_COMPILER}")
+    endif()
+endif()

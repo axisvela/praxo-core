@@ -1,0 +1,7 @@
+function(praxo_api_compiler_args output compiler_id frontend compiler)
+    if(compiler_id MATCHES "GNU|Clang" AND NOT frontend STREQUAL "MSVC")
+        set(${output} --compiler "${compiler}" PARENT_SCOPE)
+    else()
+        set(${output} "" PARENT_SCOPE)
+    endif()
+endfunction()

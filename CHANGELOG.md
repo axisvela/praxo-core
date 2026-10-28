@@ -2,6 +2,16 @@
 
 ## [Unreleased]
 
+### Added
+
+- Go public API snapshot check mode, with nonwriting drift and command-failure
+  regressions, enforced on all three Go CI platforms.
+- Compiler-derived C public-header snapshots, immutable version baselines, and
+  CTest gates for declaration, field, callback, enum, and macro changes.
+- A read-only release prerequisite verifies successful CI/docs main-push runs
+  for the exact tag SHA before the publication job receives write permissions.
+  Main-push documentation builds are no longer path-filtered.
+
 ### Fixed
 
 - Go runs cleanup for middleware entered before startup failure, continues

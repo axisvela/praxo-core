@@ -47,6 +47,14 @@ jobs:
         shell: pwsh
         run: ./scripts/release-check.Tests.ps1
 
+      - name: Verify API snapshot failure propagation
+        shell: pwsh
+        run: ./scripts/api-snapshot.Tests.ps1
+
+      - name: Check Go public API snapshot
+        shell: pwsh
+        run: ./scripts/api-snapshot.ps1 -Check
+
   spec-conformance:
     runs-on: ubuntu-latest
     env:
@@ -359,6 +367,11 @@ jobs:
         working-directory: language/c
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Check C public API snapshot
+        run: python api-snapshot.py --check
       - run: cmake -S . -B build
       - run: cmake --build build
       - run: ctest --test-dir build --output-on-failure

@@ -3,19 +3,6 @@ name: docs
 on:
   push:
     branches: [main]
-    paths:
-      - "docs/**"
-      - "mkdocs.yml"
-      - "requirements-docs.txt"
-      - "scripts/docs_hooks.py"
-      - "scripts/test_docs.py"
-      - "scripts/test_layout.py"
-      - "**/README.md"
-      - "spec/languages.md"
-      - "spec/SPEC_VERSION"
-      - ".github/workflows/docs.yml"
-      - ".github/workflows/ci.yml"
-      - ".gitignore"
   pull_request:
     paths:
       - "docs/**"
@@ -24,7 +11,13 @@ on:
       - "scripts/docs_hooks.py"
       - "scripts/test_docs.py"
       - "scripts/test_layout.py"
-      - "**/README.md"
+      - "**/README*.md"
+      - "VERSION"
+      - "CHANGELOG*.md"
+      - "ROADMAP*.md"
+      - "scripts/verify_release_checks.py"
+      - "scripts/test_release_checks.py"
+      - ".github/workflows/release.yml"
       - "spec/languages.md"
       - "spec/SPEC_VERSION"
       - ".github/workflows/docs.yml"

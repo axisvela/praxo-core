@@ -1,0 +1,92 @@
+# PRAXO-CORE C API 0.2.0
+# SPEC_VERSION 0.2.0
+# Format 1: C11 preprocessed declaration tokens
+
+## include/praxo.h
+include <stdbool.h>
+include <stddef.h>
+define PRAXO_H
+define PRAXO_SDK_VERSION "0.2.0"
+define PRAXO_SPEC_VERSION "0.2.0"
+typedef struct PxArenaBlock PxArenaBlock ;
+typedef struct { PxArenaBlock * head ; } PxArena ;
+void px_arena_init ( PxArena * arena ) ;
+void * px_arena_alloc ( PxArena * arena , size_t size ) ;
+char * px_arena_strdup ( PxArena * arena , const char * text ) ;
+void px_arena_free ( PxArena * arena ) ;
+typedef enum { PX_NULL , PX_BOOL , PX_NUM , PX_STR , PX_ARR , PX_OBJ } PxType ;
+typedef struct PxValue PxValue ;
+typedef struct { char * key ; PxValue * value ; } PxPair ;
+struct PxValue { PxType type ; union { _Bool boolean ; double number ; char * string ; struct { PxValue * * items ; size_t len ; } array ; struct { PxPair * pairs ; size_t len ; } object ; } as ; } ;
+PxValue * px_null ( PxArena * arena ) ;
+PxValue * px_bool ( PxArena * arena , _Bool value ) ;
+PxValue * px_num ( PxArena * arena , double value ) ;
+PxValue * px_str ( PxArena * arena , const char * value ) ;
+PxValue * px_arr ( PxArena * arena ) ;
+PxValue * px_obj ( PxArena * arena ) ;
+void px_arr_push ( PxArena * arena , PxValue * array , PxValue * item ) ;
+void px_obj_set ( PxArena * arena , PxValue * object , const char * key , PxValue * value ) ;
+PxValue * px_obj_get ( const PxValue * object , const char * key ) ;
+const char * px_get_str ( const PxValue * object , const char * key ) ;
+double px_get_num ( const PxValue * object , const char * key , double fallback ) ;
+_Bool px_get_bool ( const PxValue * object , const char * key , _Bool fallback ) ;
+_Bool px_equals ( const PxValue * left , const PxValue * right ) ;
+char * px_stringify ( PxArena * arena , const PxValue * value ) ;
+PxValue * px_parse ( PxArena * arena , const char * text ) ;
+char * px_read_file ( const char * path ) ;
+char * px_repo_root ( void ) ;
+
+## include/praxo_core.h
+include <stdbool.h>
+include <stddef.h>
+include "praxo.h"
+define PRAXO_CORE_H
+define PRAXO_CORE_VERSION "0.2.0"
+typedef struct { const char * session ; const char * id ; const char * frame ; const char * content ; const char * created_at ; } PxMemoryRecord ;
+typedef struct { PxMemoryRecord * records ; size_t len ; int sequence ; } PxMemoryStore ;
+void px_memory_init ( PxMemoryStore * store ) ;
+_Bool px_memory_put ( PxArena * arena , PxMemoryStore * store , const char * session , const char * id , const char * frame , const char * content , const char * created_at , PxMemoryRecord * out ) ;
+size_t px_memory_search ( PxArena * arena , const PxMemoryStore * store , const char * session , const char * query , int limit , PxMemoryRecord * * out ) ;
+typedef struct { const char * kind ; const char * session_id ; const char * run_id ; PxValue * data ; } PxEvent ;
+typedef struct PxSink PxSink ;
+PxSink * px_sink_new ( PxArena * arena ) ;
+PxSink * px_sink_multi ( PxArena * arena , PxSink * * sinks , size_t count ) ;
+PxSink * px_sink_filter ( PxArena * arena , PxSink * target , const char * * predicate , size_t count ) ;
+void px_sink_emit ( PxSink * sink , const PxEvent * event ) ;
+size_t px_sink_kinds ( const PxSink * sink , const char * * * out ) ;
+size_t px_sink_child_count ( const PxSink * sink ) ;
+const PxSink * px_sink_child ( const PxSink * sink , size_t index ) ;
+typedef struct { const char * * kinds ; size_t len ; } PxAllowlist ;
+void px_checkpoint_init ( PxAllowlist * allow ) ;
+_Bool px_checkpoint_register ( PxArena * arena , PxAllowlist * allow , const char * kind ) ;
+const char * px_checkpoint_marshal ( PxArena * arena , const PxAllowlist * allow , const char * kind , PxValue * value , char * * out ) ;
+const char * px_checkpoint_unmarshal ( PxArena * arena , const PxAllowlist * allow , const char * data , PxValue * * out ) ;
+typedef struct { const char * root ; const char * access ; } PxPathGrant ;
+typedef struct { PxPathGrant * grants ; size_t len ; } PxPathChecker ;
+typedef struct { _Bool allowed ; const char * reason ; } PxDecision ;
+const char * px_normalize_path ( PxArena * arena , const char * value , char * * out ) ;
+_Bool px_path_checker ( PxArena * arena , const PxPathGrant * grants , size_t count , PxPathChecker * checker , const char * * code ) ;
+_Bool px_path_check ( PxArena * arena , const PxPathChecker * checker , const char * target , const char * need , PxDecision * decision , const char * * code ) ;
+_Bool px_path_allowed ( PxArena * arena , const PxPathChecker * checker , const char * target , const char * need ) ;
+typedef struct { const char * role ; const char * content ; } PxContextMessage ;
+typedef struct { int max_tokens ; int keep_recent ; } PxContextBudget ;
+int px_estimate_tokens ( const PxContextMessage * messages , size_t count ) ;
+_Bool px_compact_context ( PxArena * arena , const PxContextBudget * budget , const PxContextMessage * messages , size_t count , PxContextMessage * * out , size_t * out_count ) ;
+PxValue * px_message_wire ( PxArena * arena , const PxContextMessage * message ) ;
+char * px_pii_redact ( PxArena * arena , const char * text ) ;
+PxValue * px_redact_value ( PxArena * arena , PxValue * value ) ;
+PxValue * px_extract_json ( PxArena * arena , const char * text ) ;
+typedef char * ( * PxRepairer ) ( PxArena * arena , const char * text , void * ctx ) ;
+typedef struct { PxValue * schema ; int max_repairs ; PxRepairer repairer ; void * ctx ; } PxStructuredOutput ;
+char * px_apply_structured ( PxArena * arena , const PxStructuredOutput * config , const char * text ) ;
+typedef struct { int model_limit ; int tool_limit ; int models ; int tools ; } PxCallLimit ;
+void px_call_limit_init ( PxCallLimit * limit , int model_limit , int tool_limit ) ;
+const char * px_call_limit_model ( PxCallLimit * limit ) ;
+const char * px_call_limit_tool ( PxCallLimit * limit ) ;
+size_t px_stream_kinds ( const char * * * out ) ;
+const char * px_fallback ( const char * primary , const char * fallback , _Bool primary_failed ) ;
+size_t px_select_tools ( PxArena * arena , const char * * selection , size_t selection_count , const char * * tools , size_t tool_count , const char * * * out ) ;
+const char * px_check_tool_selected ( const char * * selection , size_t selection_count , const char * name ) ;
+typedef struct { PxValue * ( * generate ) ( PxArena * arena , PxValue * messages , PxValue * tools , void * ctx ) ; PxValue * ( * invoke ) ( PxArena * arena , const char * name , PxValue * arguments , void * ctx ) ; void ( * emit ) ( const char * kind , void * ctx ) ; void * ctx ; int max_steps ; long max_tokens ; } PxAgentOptions ;
+typedef struct { const char * output ; int steps ; long input_tokens ; long output_tokens ; } PxAgentResult ;
+const char * px_agent_run ( PxArena * arena , const PxAgentOptions * options , PxValue * session_messages , const char * prompt , PxAgentResult * result ) ;

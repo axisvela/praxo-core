@@ -12,6 +12,26 @@ version lines. A release must document its scope and compatibility impact.
 - Verify release tags; signed tags are preferred and exceptions are documented.
 - Verify installation from the artifact users will actually consume.
 
+## Automated Checks
+
+The core release workflow requires successful `ci` and `docs` push workflows
+for the tagged commit's exact SHA on `main`, before a separate job receives
+release-write permissions. Missing, unfinished, skipped, cancelled, or failed
+runs block publication; an older successful attempt cannot mask a newer failed
+attempt. Checks from another commit, branch, repository, or pull request do not
+satisfy this requirement.
+
+Documentation builds run for every push to `main`, including source-only changes,
+so the same-commit requirement is attainable. Pull-request documentation builds
+remain path-filtered. These checks observe GitHub Actions state at verification
+time; they do not lock later reruns or replace compatibility, artifact-installation,
+signature, and release-scope review. A green workflow is not by itself a reason
+to create a new version tag.
+
+Manual dispatch runs only the read-only prerequisite for the selected commit.
+The publication job additionally requires a `v*` tag push and is skipped on
+manual runs, allowing live gate validation without creating a tag or release.
+
 ## Tag Names
 
 | Artifact | Tag |
