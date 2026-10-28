@@ -81,13 +81,17 @@ result = praxo.agent_run('use', options.model, options.tools, options);
 assert(isempty(result.errorCode) && strcmp(result.output, 'done') && result.toolInvocations == 1);
 
 seen = containers.Map();
+seen('calls') = 0;
 pii_model = @(request) capture_pii(request, seen);
 options = praxo.agent_options(pii_model);
 options.pii = true;
-result = praxo.agent_run('a@b.com', pii_model, {}, options);
+options.tools = {praxo.tool('echo', 'Echo', @(args) args)};
+result = praxo.agent_run('a@b.com', pii_model, options.tools, options);
 assert(strcmp(result.output, 'a@b.com'));
 messages_seen = seen('messages');
 assert(strcmp(messages_seen{1}.content, '[REDACTED:email]'));
+[email, found] = praxo.json_field(messages_seen{2}.toolCalls{1}.arguments, 'email');
+assert(found && strcmp(email.value, '[REDACTED:email]'));
 
 schema = praxo.parse_json('{"type":"object","required":["name"],"properties":{"name":{"type":"string"}}}');
 options = praxo.agent_options(scripted({struct('content', 'bad')}));
@@ -108,7 +112,15 @@ end
 
 function response = capture_pii(request, seen)
 seen('messages') = request.messages;
-response = struct('content', 'a@b.com');
+calls = seen('calls') + 1;
+seen('calls') = calls;
+if calls == 1
+    call = struct('id', 'c1', 'name', 'echo', ...
+        'arguments', praxo.parse_json('{"email":"a@b.com"}'));
+    response = struct('content', 'a@b.com', 'toolCalls', {{call}});
+else
+    response = struct('content', 'a@b.com');
+end
 end
 
 function model = scripted(steps)

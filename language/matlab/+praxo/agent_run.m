@@ -146,6 +146,13 @@ for i = 1:numel(output)
             end
         end
     end
+    if isfield(output{i}, 'toolCalls')
+        for j = 1:numel(output{i}.toolCalls)
+            if isfield(output{i}.toolCalls{j}, 'arguments')
+                output{i}.toolCalls{j}.arguments = praxo.redact_value(output{i}.toolCalls{j}.arguments);
+            end
+        end
+    end
 end
 end
 
