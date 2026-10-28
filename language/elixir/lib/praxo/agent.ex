@@ -198,7 +198,10 @@ defmodule Praxo.Agent do
     blocks = Enum.map(message.content_blocks, fn block ->
       %{block | text: if(is_binary(block.text), do: Middleware.pii_redact(block.text), else: block.text)}
     end)
-    %{message | content: Middleware.pii_redact(message.content), content_blocks: blocks}
+    tool_calls = Enum.map(message.tool_calls, fn call ->
+      %{call | arguments: Middleware.redact_value(call.arguments)}
+    end)
+    %{message | content: Middleware.pii_redact(message.content), content_blocks: blocks, tool_calls: tool_calls}
   end
 
   defp tool_specs(tools) do

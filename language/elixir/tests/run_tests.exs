@@ -318,6 +318,7 @@ defmodule Praxo.Tests do
         assistant = Enum.at(request.messages, 3)
         value = request.messages |> List.last() |> Map.fetch!(:content) |> Json.parse!()
         check(assistant.content == "[REDACTED:email]", "pii assistant history")
+        check(hd(assistant.tool_calls).arguments["email"] == "[REDACTED:email]", "pii assistant tool call")
         check(value == %{"nested" => ["[REDACTED:email]", %{"ssn" => "[REDACTED:ssn]"}]}, "pii nested result")
     after 0 -> raise "missing second pii request" end
     check(history.content == "a@b.com", "pii session unchanged")

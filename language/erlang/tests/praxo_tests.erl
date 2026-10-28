@@ -511,6 +511,11 @@ test_agent_pii() ->
             Messages = maps:get(messages, SecondRequest),
             Assistant = lists:nth(4, Messages),
             check(maps:get(content, Assistant) == <<"[REDACTED:email]">>, <<"pii assistant">>),
+            [AssistantCall] = maps:get(tool_calls, Assistant),
+            check(
+                maps:get(<<"email">>, maps:get(arguments, AssistantCall)) == <<"[REDACTED:email]">>,
+                <<"pii assistant tool call">>
+            ),
             {ok, Value} = praxo_json:parse(maps:get(content, lists:last(Messages))),
             check(
                 praxo_json:equals(

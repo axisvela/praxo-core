@@ -260,9 +260,14 @@ redact_message(Message) ->
         end
      || Block <- maps:get(content_blocks, Message)
     ],
+    ToolCalls = [
+        Call#{arguments => praxo_middleware:redact_value(maps:get(arguments, Call))}
+     || Call <- maps:get(tool_calls, Message)
+    ],
     Message#{
         content => praxo_middleware:pii_redact(maps:get(content, Message)),
-        content_blocks => Blocks
+        content_blocks => Blocks,
+        tool_calls => ToolCalls
     }.
 
 tool_specs(Tools) ->
