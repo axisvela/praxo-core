@@ -6,12 +6,11 @@ Python implementation of the PRAXO-CORE contract. The normative contract is
 **Status:** Core plus streaming, context management, middleware, and an
 OpenAI-compatible adapter. The package passes all eleven conformance vector
 groups.
-VFS and plugin hosts are not yet implemented. Wheel and sdist builds are
-verified; PyPI publication is pending. Use the source installation below.
+VFS and plugin hosts are not yet implemented. Wheel and sdist are published to
+PyPI.
 
-Package version: `0.2.1` source candidate; the latest released source tag is
-`python/v0.2.0`. Supported contract: `SPEC_VERSION` `0.2.0`
-(`praxo.SPEC_VERSION`).
+Package version: `0.2.1`; source tag `python/v0.2.1`. Supported contract:
+`SPEC_VERSION` `0.2.0` (`praxo.SPEC_VERSION`).
 
 ## Requirements
 
@@ -19,6 +18,12 @@ Package version: `0.2.1` source candidate; the latest released source tag is
 - No runtime dependencies
 
 ## Install
+
+```bash
+pip install praxo-core==0.2.1
+```
+
+For a source checkout:
 
 ```bash
 pip install ./language/python

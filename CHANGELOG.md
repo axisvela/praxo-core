@@ -14,9 +14,11 @@
 
 ### Changed
 
-- Prepared the Python 0.2.1 source candidate with new `api/0.2.1.txt` and
-  `api/0.2.1.signatures.txt` baselines. No `python/v0.2.1` tag or PyPI upload has
-  occurred; `python/v0.2.0` and its historical snapshots remain unchanged.
+- Published Python 0.2.1 as `praxo-core==0.2.1` on PyPI via Trusted Publishing,
+  with source tag `python/v0.2.1` and new `api/0.2.1.txt` /
+  `api/0.2.1.signatures.txt` baselines. `python/v0.2.0` and its historical
+  snapshots remain unchanged. A clean `pip install praxo-core==0.2.1` and
+  installed-package smoke passed.
 - Compatibility policy now distinguishes rejecting invalid input from tightening
   the documented valid domain, and requires lifecycle/order changes to be
   released with behavioral evidence. Pre-1.0 SDK breaking changes require a

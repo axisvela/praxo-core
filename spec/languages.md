@@ -48,7 +48,7 @@ production readiness or full Go feature parity.
 | Language | Tier | Status | Tag | Maturity | Notes |
 | --- | --- | --- | --- | --- | --- |
 | Go | Core (reference) | released | `v2.5.0` | reference | Reference implementation |
-| Python | Core | released | `python/v0.2.0` | complete | 11 vectors, OpenAI adapter |
+| Python | Core | released | `python/v0.2.1` | complete | 11 vectors, OpenAI adapter, PyPI `praxo-core==0.2.1` |
 | TypeScript | Core | released | `typescript/v0.1.0` | complete | 11 vectors, OpenAI adapter |
 | Java | Core | released | `java/v0.2.1` | complete | 11 vectors, OpenAI adapter, API snapshot |
 | Rust | Core | released | `rust/v0.1.0` | complete | 11 vectors, native tests; current source adds compiler-derived API/parity gate |

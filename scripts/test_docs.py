@@ -105,7 +105,7 @@ class DocumentationTests(unittest.TestCase):
         source_rows = [line for line in matrix_section.splitlines() if line.startswith("| ")][2:]
         self.assertEqual(english.count("\n| ") - 1, len(source_rows))
         self.assertIn("| Maturity |", english)
-        self.assertIn("[Python](python.md) | Framework (Core) | released | `python/v0.2.0` | complete", english)
+        self.assertIn("[Python](python.md) | Framework (Core) | released | `python/v0.2.1` | complete", english)
         self.assertIn("[MATLAB](matlab.md) | Framework (Core) | released | `matlab/v0.2.0` | complete", english)
         self.assertIn("[MATLAB](matlab.md) | Framework (Core) | 源码已发布 | `matlab/v0.2.0` | 完整", chinese)
         self.assertIn("[Haskell](haskell.md)", chinese)
@@ -118,7 +118,7 @@ class DocumentationTests(unittest.TestCase):
             html = (ROOT / "site" / prefix / "languages/matrix/index.html").read_text(encoding="utf-8")
             self.assertIn("MATLAB", html)
             self.assertIn("Haskell", html)
-            self.assertIn("python/v0.2.0", html)
+            self.assertIn("python/v0.2.1", html)
             self.assertNotIn("&lt;!-- language-support-matrix --&gt;", html)
 
     def test_built_legacy_redirects(self):
