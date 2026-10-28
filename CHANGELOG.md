@@ -37,6 +37,8 @@
 - Scheduler registration rejects nil schedules, empty IDs, and invalid cron
   expressions, and replacing an existing ID removes its previous cron entry.
   `SetEnabled` returns entry-registration errors instead of ignoring them.
+- `formatter.WatchFormat.FormatAll` reports per-file formatter failures while
+  continuing to format other detected files, instead of silently succeeding.
 - Go API checks compare declaration sections rather than shell-decoded package
   descriptions, preserve UTF-8 declaration changes, and report declaration diffs.
 - Process crash tests use explicit post-start synchronization instead of racing

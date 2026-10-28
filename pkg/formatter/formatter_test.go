@@ -113,3 +113,21 @@ func TestFormatAllFormatsGoFile(t *testing.T) {
 		t.Fatalf("file was not formatted:\n%s", data)
 	}
 }
+
+func TestFormatAllReportsFormatterFailure(t *testing.T) {
+	if _, err := exec.LookPath("gofmt"); err != nil {
+		t.Skip("gofmt not installed")
+	}
+	dir := t.TempDir()
+	path := filepath.Join(dir, "broken.go")
+	if err := os.WriteFile(path, []byte("package main\nfunc {{{"), 0o600); err != nil {
+		t.Fatal(err)
+	}
+	formatted, err := NewWatch(dir).FormatAll()
+	if err == nil {
+		t.Fatalf("expected formatter error, formatted = %v", formatted)
+	}
+	if len(formatted) != 0 {
+		t.Fatalf("formatted = %v", formatted)
+	}
+}

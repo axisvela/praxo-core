@@ -4,6 +4,7 @@ package formatter
 
 import (
 	"errors"
+	"fmt"
 	"os"
 	"os/exec"
 	"path/filepath"
@@ -128,6 +129,7 @@ func NewWatch(dir string) *WatchFormat {
 // FormatAll formats every detected file under the watched directory.
 func (w *WatchFormat) FormatAll() ([]string, error) {
 	var formatted []string
+	var failures []error
 	walkErr := filepath.Walk(w.dir, func(path string, info os.FileInfo, err error) error {
 		if err != nil {
 			return err
@@ -139,10 +141,15 @@ func (w *WatchFormat) FormatAll() ([]string, error) {
 		if f == nil {
 			return nil
 		}
-		if _, err := f.Run(path); err == nil {
-			formatted = append(formatted, path)
+		if _, err := f.Run(path); err != nil {
+			failures = append(failures, fmt.Errorf("formatter %s: %w", path, err))
+			return nil
 		}
+		formatted = append(formatted, path)
 		return nil
 	})
-	return formatted, walkErr
+	if walkErr != nil {
+		failures = append(failures, walkErr)
+	}
+	return formatted, errors.Join(failures...)
 }
