@@ -25,7 +25,11 @@
   with source tag `python/v0.2.2`, new `api/0.2.2.txt` /
   `api/0.2.2.signatures.txt` baselines, and historical PII tool-call redaction.
   A clean `pip install praxo-core==0.2.2` and installed smoke passed.
-- Released Rust source tag `rust/v0.1.1` with PII tool-call history redaction and\n  the Rust conformance inventory gate; exported API is unchanged.\n- Published TypeScript `@axisvela/praxo-core@0.1.2` on npm with matching API and
+- Released Rust source tag `rust/v0.1.1` with PII tool-call history redaction and
+  the Rust conformance inventory gate; exported API is unchanged. Also released
+  `elixir/v0.1.1`, `erlang/v0.1.1`, `objc/v0.1.1`, and `delphi/v0.2.1` with the
+  same PII history fix and their conformance inventory gates.
+- Published TypeScript `@axisvela/praxo-core@0.1.2` on npm with matching API and
   signature snapshots. The first publication used a short-lived bypass token
   because staged approval was unavailable, so it carries no provenance claim.
   Configure an npm trusted publisher before the next release.
