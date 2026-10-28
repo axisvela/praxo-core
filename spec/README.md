@@ -64,6 +64,13 @@ Every SDK provides a runner that consumes `vectors/**/*.json` and reports
 The Go runner is built first and is the authority for whether a vector is
 correct.
 
+A runner must fail on a missing required group, an empty group, an unknown
+group, a version mismatch, or a duplicate vector ID. Reporting success while a
+group was not discovered is not conformance. Required groups currently are
+`agent-loop`, `checkpoint`, `context`, `event`, `jsonschema`, `memory`,
+`middleware`, `plugin`, `policy`, `stream`, and `toolcall`; adding a group
+requires updating each runner and its inventory gate.
+
 See [Multilingual SDK design](../docs/contributing/sdk-design.md) and the
 [SDK support policy](../docs/languages/support.md).
 

@@ -23,6 +23,11 @@ type vectorCase struct {
 	Expect      json.RawMessage `json:"expect"`
 }
 
+var requiredVectorGroups = []string{
+	"agent-loop", "checkpoint", "context", "event", "jsonschema", "memory",
+	"middleware", "plugin", "policy", "stream", "toolcall",
+}
+
 func TestVectors(t *testing.T) {
 	root := repoRoot(t)
 	version := strings.TrimSpace(string(readFile(t, filepath.Join(root, vectorDir, "SPEC_VERSION"))))
@@ -30,22 +35,11 @@ func TestVectors(t *testing.T) {
 	if len(files) == 0 {
 		t.Fatal("no vector files")
 	}
-	seen := map[string]string{}
+	for _, problem := range vectorInventoryProblems(files, version) {
+		t.Error(problem)
+	}
 	for _, f := range files {
 		f := f
-		if f.SpecVersion != version {
-			t.Errorf("%s: specVersion %q, want %q", f.Group, f.SpecVersion, version)
-		}
-		for _, v := range f.Vectors {
-			if v.ID == "" {
-				t.Errorf("%s: vector without id", f.Group)
-				continue
-			}
-			if prev, ok := seen[v.ID]; ok {
-				t.Errorf("duplicate vector id %q in %s and %s", v.ID, prev, f.Group)
-			}
-			seen[v.ID] = f.Group
-		}
 		t.Run(f.Group, func(t *testing.T) {
 			for _, v := range f.Vectors {
 				v := v
@@ -56,6 +50,76 @@ func TestVectors(t *testing.T) {
 				})
 			}
 		})
+	}
+}
+
+func vectorInventoryProblems(files []vectorFile, version string) []string {
+	var problems []string
+	seenIDs := map[string]string{}
+	seenGroups := map[string]bool{}
+	required := map[string]bool{}
+	for _, group := range requiredVectorGroups {
+		required[group] = true
+	}
+	for _, f := range files {
+		seenGroups[f.Group] = true
+		if f.SpecVersion != version {
+			problems = append(problems, f.Group+": specVersion "+f.SpecVersion+", want "+version)
+		}
+		if !required[f.Group] {
+			problems = append(problems, f.Group+": unexpected vector group")
+		}
+		if len(f.Vectors) == 0 {
+			problems = append(problems, f.Group+": vector group is empty")
+		}
+		for _, v := range f.Vectors {
+			if v.ID == "" {
+				problems = append(problems, f.Group+": vector without id")
+				continue
+			}
+			if previous, ok := seenIDs[v.ID]; ok {
+				problems = append(problems, "duplicate vector id "+v.ID+" in "+previous+" and "+f.Group)
+			}
+			seenIDs[v.ID] = f.Group
+		}
+	}
+	for _, group := range requiredVectorGroups {
+		if !seenGroups[group] {
+			problems = append(problems, "missing required vector group "+group)
+		}
+	}
+	return problems
+}
+
+func TestVectorInventoryRejectsMissingEmptyDuplicateAndVersion(t *testing.T) {
+	files := []vectorFile{{
+		SpecVersion: "0.1.0",
+		Group:       "toolcall",
+		Vectors:     []vectorCase{{ID: "same"}},
+	}}
+	problems := strings.Join(vectorInventoryProblems(files, "0.2.0"), "\n")
+	for _, want := range []string{
+		"specVersion 0.1.0, want 0.2.0",
+		"missing required vector group agent-loop",
+		"missing required vector group stream",
+	} {
+		if !strings.Contains(problems, want) {
+			t.Errorf("problems do not contain %q:\n%s", want, problems)
+		}
+	}
+	files[0].SpecVersion = "0.2.0"
+	event := vectorFile{SpecVersion: "0.2.0", Group: "event", Vectors: []vectorCase{{ID: "same"}, {ID: ""}}}
+	empty := vectorFile{SpecVersion: "0.2.0", Group: "plugin"}
+	files = append(files, event, empty)
+	problems = strings.Join(vectorInventoryProblems(files, "0.2.0"), "\n")
+	for _, want := range []string{
+		"plugin: vector group is empty",
+		"duplicate vector id same",
+		"event: vector without id",
+	} {
+		if !strings.Contains(problems, want) {
+			t.Errorf("problems do not contain %q:\n%s", want, problems)
+		}
 	}
 }
 

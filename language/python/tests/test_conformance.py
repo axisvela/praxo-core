@@ -1,6 +1,8 @@
 from __future__ import annotations
 
+import shutil
 import sys
+import tempfile
 import unittest
 from pathlib import Path
 
@@ -16,6 +18,27 @@ class ConformanceTest(unittest.TestCase):
         failures = run_all()
         if failures:
             self.fail("\n".join(str(failure) for failure in failures))
+
+    def test_missing_vector_group_fails(self) -> None:
+        source = Path(__file__).resolve().parents[3]
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            vectors = root / "spec" / "vectors"
+            vectors.mkdir(parents=True)
+            shutil.copyfile(
+                source / "spec" / "SPEC_VERSION",
+                root / "spec" / "SPEC_VERSION",
+            )
+            shutil.copyfile(
+                source / "spec" / "vectors" / "toolcall.json",
+                vectors / "toolcall.json",
+            )
+            failures = run_all(root)
+        details = "\n".join(str(failure) for failure in failures)
+        self.assertIn(
+            "agent-loop/agent-loop: missing required vector group",
+            details,
+        )
 
     def test_python_parity(self) -> None:
         failures = check_parity()

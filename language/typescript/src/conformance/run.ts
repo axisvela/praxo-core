@@ -48,6 +48,20 @@ export interface VectorFailure {
   detail: string;
 }
 
+const REQUIRED_GROUPS = [
+  "agent-loop",
+  "checkpoint",
+  "context",
+  "event",
+  "jsonschema",
+  "memory",
+  "middleware",
+  "plugin",
+  "policy",
+  "stream",
+  "toolcall",
+] as const;
+
 export function repoRoot(): string {
   return path.resolve(__dirname, "../../../..");
 }
@@ -63,10 +77,12 @@ export async function runAll(root = repoRoot()): Promise<VectorFailure[]> {
     .sort();
   const failures: VectorFailure[] = [];
   const seen = new Map<string, string>();
+  const seenGroups = new Set<string>();
   for (const name of files) {
     const file = JSON.parse(
       fs.readFileSync(path.join(specDir, "vectors", name), "utf8")
     ) as VectorFile;
+    seenGroups.add(file.group || name.replace(/\.json$/, ""));
     if (file.specVersion !== version) {
       failures.push({
         vectorId: name,
@@ -81,6 +97,21 @@ export async function runAll(root = repoRoot()): Promise<VectorFailure[]> {
         detail: `group mismatch`,
       });
     }
+    if (!(REQUIRED_GROUPS as readonly string[]).includes(file.group)) {
+      failures.push({
+        vectorId: name,
+        group: file.group,
+        detail: "unexpected vector group",
+      });
+    }
+    if (!Array.isArray(file.vectors) || file.vectors.length === 0) {
+      failures.push({
+        vectorId: name,
+        group: file.group,
+        detail: "vector group is empty",
+      });
+      continue;
+    }
     for (const vector of file.vectors) {
       const previous = seen.get(vector.id);
       if (previous) {
@@ -91,6 +122,9 @@ export async function runAll(root = repoRoot()): Promise<VectorFailure[]> {
         });
       }
       seen.set(vector.id, file.group);
+      if (!(REQUIRED_GROUPS as readonly string[]).includes(file.group)) {
+        continue;
+      }
       try {
         await runVector(file.group, vector);
       } catch (error) {
@@ -100,6 +134,15 @@ export async function runAll(root = repoRoot()): Promise<VectorFailure[]> {
           detail: error instanceof Error ? error.message : String(error),
         });
       }
+    }
+  }
+  for (const group of REQUIRED_GROUPS) {
+    if (!seenGroups.has(group)) {
+      failures.push({
+        vectorId: group,
+        group,
+        detail: "missing required vector group",
+      });
     }
   }
   return failures;

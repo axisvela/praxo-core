@@ -39,6 +39,9 @@
 - C parity now marks the agent loop and call limits partial: the loop has no
   cancellation path, and call-limit state is not safe to share across
   concurrent runs. Boundary tests cover step, token, usage, and limit edges.
+- Conformance runners reject missing, empty, or unexpected vector groups instead
+  of succeeding with files that were never executed. Go inventory checks and
+  Python/TypeScript diagnostics have negative tests.
 - Go validates and repairs final output before completion hooks, checkpoint
   projections, memory writes, and completion notification, for both text and
   structured-tool answers. A completion sink error is returned without a second,

@@ -47,6 +47,23 @@ from .stream import STREAM_KINDS
 from .toolcall import parse_tool_call, strip_tool_call_markup
 
 
+REQUIRED_GROUPS = frozenset(
+    {
+        "agent-loop",
+        "checkpoint",
+        "context",
+        "event",
+        "jsonschema",
+        "memory",
+        "middleware",
+        "plugin",
+        "policy",
+        "stream",
+        "toolcall",
+    }
+)
+
+
 @dataclass
 class VectorFailure:
     vector_id: str
@@ -66,9 +83,14 @@ def run_all(root: Path | None = None) -> list[VectorFailure]:
     version = (root / "spec" / "SPEC_VERSION").read_text(encoding="utf-8").strip()
     failures: list[VectorFailure] = []
     seen: dict[str, str] = {}
+    seen_groups: set[str] = set()
     for path in sorted((root / "spec" / "vectors").glob("*.json")):
         data = json.loads(path.read_text(encoding="utf-8"))
-        group = data.get("group", "")
+        group = data.get("group", "") if isinstance(data, dict) else ""
+        seen_groups.add(group or path.stem)
+        if not isinstance(data, dict):
+            failures.append(VectorFailure(path.stem, path.stem, "invalid vector file"))
+            continue
         if data.get("specVersion") != version:
             failures.append(
                 VectorFailure(
@@ -85,7 +107,22 @@ def run_all(root: Path | None = None) -> list[VectorFailure]:
                     f"group {group!r}, want {path.stem!r}",
                 )
             )
-        for vector in data.get("vectors", []):
+        if group not in _RUNNERS:
+            failures.append(
+                VectorFailure(path.stem, group or path.stem, "no runner for group")
+            )
+        vectors = data.get("vectors")
+        if not isinstance(vectors, list) or not vectors:
+            failures.append(
+                VectorFailure(path.stem, group or path.stem, "vector group is empty")
+            )
+            continue
+        for vector in vectors:
+            if not isinstance(vector, dict):
+                failures.append(
+                    VectorFailure(path.stem, group, "invalid vector entry")
+                )
+                continue
             vector_id = vector.get("id", "")
             if not vector_id:
                 failures.append(VectorFailure(path.stem, group, "vector without id"))
@@ -99,6 +136,8 @@ def run_all(root: Path | None = None) -> list[VectorFailure]:
                     )
                 )
             seen[vector_id] = group
+            if group not in _RUNNERS:
+                continue
             try:
                 run_vector(group, vector)
             except Exception as exc:
@@ -107,6 +146,8 @@ def run_all(root: Path | None = None) -> list[VectorFailure]:
                         vector_id, group, f"{type(exc).__name__}: {exc}"
                     )
                 )
+    for group in sorted(REQUIRED_GROUPS - seen_groups):
+        failures.append(VectorFailure(group, group, "missing required vector group"))
     return failures
 
 

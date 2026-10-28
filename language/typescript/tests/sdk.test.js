@@ -13,6 +13,30 @@ test("all spec vectors pass", async () => {
   assert.deepEqual(failures, []);
 });
 
+test("missing required vector group fails", async () => {
+  const source = path.resolve(__dirname, "../../..");
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), "praxo-vectors-"));
+  try {
+    fs.mkdirSync(path.join(root, "spec", "vectors"), { recursive: true });
+    fs.copyFileSync(
+      path.join(source, "spec", "SPEC_VERSION"),
+      path.join(root, "spec", "SPEC_VERSION")
+    );
+    fs.copyFileSync(
+      path.join(source, "spec", "vectors", "toolcall.json"),
+      path.join(root, "spec", "vectors", "toolcall.json")
+    );
+    const failures = await runAll(root);
+    assert.ok(
+      failures.some((failure) =>
+        failure.detail.includes("missing required vector group")
+      )
+    );
+  } finally {
+    fs.rmSync(root, { recursive: true, force: true });
+  }
+});
+
 test("TypeScript parity snapshot is current", () => {
   const failures = checkParity(path.resolve(__dirname, "../../.."));
   assert.deepEqual(failures, []);
