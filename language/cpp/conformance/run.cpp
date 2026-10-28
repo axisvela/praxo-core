@@ -480,8 +480,12 @@ int run_conformance() {
             if (entry.path().extension() == ".json") files.push_back(entry.path());
         }
         std::sort(files.begin(), files.end());
+        const std::vector<std::string> required = {
+            "agent-loop", "checkpoint", "context", "event", "jsonschema",
+            "memory", "middleware", "plugin", "policy", "stream", "toolcall"};
         std::vector<std::string> failures;
         std::map<std::string, std::string> seen;
+        std::set<std::string> groups;
         for (const auto& path : files) {
             std::string name = path.stem().string();
             Json file;
@@ -492,11 +496,18 @@ int run_conformance() {
                 continue;
             }
             std::string group = jstring(file, "group");
+            groups.insert(group);
             if (jstring(file, "specVersion") != version) {
                 failures.push_back(name + ": specVersion mismatch");
             }
             if (name != group) failures.push_back(name + ": group mismatch");
-            for (const auto& vector : jarray(file, "vectors").as_array()) {
+            if (!file.contains("vectors") || !file.at("vectors").is_array()) {
+                failures.push_back(group + ": missing vectors array");
+                continue;
+            }
+            const auto& vectors = file.at("vectors").as_array();
+            if (vectors.empty()) failures.push_back(group + ": empty vector group");
+            for (const auto& vector : vectors) {
                 std::string id = jstring(vector, "id");
                 if (seen.count(id)) {
                     failures.push_back(group + "/" + id + ": duplicate id with " + seen[id]);
@@ -507,6 +518,11 @@ int run_conformance() {
                 } catch (const std::exception& error) {
                     failures.push_back(group + "/" + id + ": " + error.what());
                 }
+            }
+        }
+        for (const auto& group : required) {
+            if (!groups.count(group)) {
+                failures.push_back("missing required vector group: " + group);
             }
         }
         if (failures.empty()) {
