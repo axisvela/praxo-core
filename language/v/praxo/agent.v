@@ -155,7 +155,11 @@ fn run_agent_inner(options AgentOptions, session_value Session, run_id string,
 				for block in msg.content_blocks {
 					blocks << ContentBlock{...block, text: pii_redact(block.text)}
 				}
-				model_messages << Message{...msg, content: pii_redact(msg.content), content_blocks: blocks}
+				mut tool_calls := []ToolCall{cap: msg.tool_calls.len}
+				for call in msg.tool_calls {
+					tool_calls << ToolCall{...call, arguments: redact_value(call.arguments)}
+				}
+				model_messages << Message{...msg, content: pii_redact(msg.content), content_blocks: blocks, tool_calls: tool_calls}
 			}
 		}
 		limit.model_call()!

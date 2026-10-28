@@ -143,6 +143,12 @@ proc runAgent*(options: AgentOptions, session: Session, prompt: string): RunResu
             var item = originalBlock
             item.text = piiRedact(item.text)
             message.contentBlocks.add(item)
+          var toolCalls: seq[ToolCall] = @[]
+          for originalCall in original.toolCalls:
+            var call = originalCall
+            call.arguments = redactValue(call.arguments)
+            toolCalls.add(call)
+          message.toolCalls = toolCalls
           modelMessages.add(message)
       limits.modelCall()
       let response = options.model.generate(newRequest(modelMessages, specs))

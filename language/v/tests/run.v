@@ -308,7 +308,8 @@ fn privacy_model(req praxo.Request) !praxo.Response {
 		]), praxo.usage(0, 0))
 	}
 	assert req.messages[3].content == 'assistant [REDACTED:email]'
-	assert (req.messages[3].tool_calls[0].arguments['nested'] or { json2.null }).str().contains('a@b.com')
+	assert !(req.messages[3].tool_calls[0].arguments['nested'] or { json2.null }).str().contains('a@b.com')
+	assert (req.messages[3].tool_calls[0].arguments['nested'] or { json2.null }).str().contains('[REDACTED:email]')
 	value := praxo.parse_json(req.messages[4].content)!
 	assert praxo.encode_json(value).contains('Contact [REDACTED:email].')
 	assert !praxo.encode_json(value).contains('a@b.com')

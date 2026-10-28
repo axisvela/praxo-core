@@ -380,6 +380,19 @@ NSDictionary<NSString *, id> *PXRAgentRun(NSMutableDictionary<NSString *, id> *o
                 }
                 copy[@"contentBlocks"] = blocks;
             }
+            if (pii && [copy[@"toolCalls"] isKindOfClass:[NSArray class]]) {
+                NSMutableArray *toolCalls = [NSMutableArray array];
+                for (id call in copy[@"toolCalls"]) {
+                    if ([call isKindOfClass:[NSDictionary class]]) {
+                        NSMutableDictionary *safeCall = [call mutableCopy];
+                        safeCall[@"arguments"] = PXRRedactValue(safeCall[@"arguments"]);
+                        [toolCalls addObject:safeCall];
+                    } else {
+                        [toolCalls addObject:call];
+                    }
+                }
+                copy[@"toolCalls"] = toolCalls;
+            }
             [modelMessages addObject:copy];
         }
         NSDictionary *request = PXRRequestCreate(modelMessages, PXRToolSpecs(

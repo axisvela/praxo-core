@@ -50,9 +50,9 @@ void runMiddlewareIntegrationTests(void (*check)(BOOL, NSString *)) {
           [first[1][@"contentBlocks"][1][@"text"] isEqualToString:@"[REDACTED:email]"] &&
           [first[1][@"contentBlocks"][1][@"image_url"][@"url"] isEqualToString:email] &&
           [first[1][@"contentBlocks"][1][@"data"] isEqualToString:email], @"only block text redacted");
-    check([first[1][@"toolCalls"][0][@"arguments"][@"nested"][0] isEqualToString:email] &&
-          [second[3][@"toolCalls"][0][@"arguments"][@"nested"][0] isEqualToString:email],
-          @"historical tool arguments unchanged");
+    check([first[1][@"toolCalls"][0][@"arguments"][@"nested"][0] isEqualToString:@"[REDACTED:email]"] &&
+          [second[3][@"toolCalls"][0][@"arguments"][@"nested"][0] isEqualToString:@"[REDACTED:email]"],
+          @"historical tool arguments redacted");
     NSDictionary *toolResult = [NSJSONSerialization JSONObjectWithData:
         [second[4][@"content"] dataUsingEncoding:NSUTF8StringEncoding] options:0 error:nil];
     check([toolResult[@"nested"][0] isEqualToString:@"[REDACTED:email]"], @"nested tool result redacted");

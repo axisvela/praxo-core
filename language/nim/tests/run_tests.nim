@@ -259,6 +259,7 @@ proc testAgentPii() =
       return newResponse(newMessageAssistant("a@b.com", @[
         newToolCall("c1", "echo", %*{"email": "a@b.com"})]))
     assert request.messages[3].content == "[REDACTED:email]"
+    assert request.messages[3].toolCalls[0].arguments["email"].getStr == "[REDACTED:email]"
     let value = parseJsonText(request.messages[4].content)
     assert value["nested"][0].getStr == "[REDACTED:email]"
     assert value["nested"][1]["ssn"].getStr == "[REDACTED:ssn]"
