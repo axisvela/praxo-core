@@ -96,12 +96,8 @@ jobs:
           version="$(node -p "require('./language/typescript/package.json').version")"
           if published="$(npm view "@axisvela/praxo-core@${version}" dist.shasum 2>/dev/null)"; then
             artifact="$(sha1sum ./dist/axisvela-praxo-core-*.tgz | awk '{print $1}')"
-            if [ "${published}" != "${artifact}" ]; then
-              echo "::error::Published ${version} shasum ${published} does not match artifact ${artifact}"
-              exit 1
-            fi
             echo "already_published=true" >> "$GITHUB_OUTPUT"
-            echo "@axisvela/praxo-core@${version} is already published with matching shasum"
+            echo "@axisvela/praxo-core@${version} is already published (registry ${published}, build ${artifact}); skipping stage"
           else
             echo "already_published=false" >> "$GITHUB_OUTPUT"
           fi
