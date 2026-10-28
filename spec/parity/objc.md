@@ -3,7 +3,7 @@
 - Tier: core
 - SPEC_VERSION: 0.2.0
 
-Released source tag `objc/v0.1.0`. Local validation uses clang 21.1.8 with
+Released source tag `objc/v0.1.1`. Local validation uses clang 21.1.8 with
 GNUstep Base 1.31.1 on Windows and the macOS CI job runs the same suite. Both
 cover all eleven vector groups, native tests, and the public declaration
 snapshot. The agent integrates opt-in PII redaction, structured output, call

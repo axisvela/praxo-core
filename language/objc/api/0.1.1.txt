@@ -1,0 +1,13 @@
+# PRAXO-CORE Objective-C Core API 0.1.1
+# SPEC_VERSION 0.2.0
+
+NSArray<NSString *> *PXRValidateSchema(NSDictionary<NSString *, id> *schema, id data)
+NSDictionary<NSString *, id> * _Nullable PXRParseInputJSON(NSString *raw)
+NSDictionary<NSString *, id> * _Nullable PXRParseManifest(NSString *raw, NSError **error)
+NSDictionary<NSString *, id> * _Nullable PXRParseToolCall(NSString *content, NSError **error)
+NSString *PXRStripToolCallMarkup(NSString *content)
+NSString *const PXRCodeKey
+NSString *const PXRCoreErrorDomain
+NSString *const PXRSDKVersion
+NSString *const PXRSpecVersion
+NSString *const PXRWireErrorDomain

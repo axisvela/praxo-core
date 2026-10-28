@@ -1,6 +1,6 @@
 # PRAXO-CORE for Objective-C
 
-Objective-C is a native Core implementation with source tag `objc/v0.1.0`. It
+Objective-C is a native Core implementation with source tag `objc/v0.1.1`. It
 passes all eleven shared vector groups and includes the native
 agent loop, context compaction, memory store, path policy, checkpoint
 allowlist, tool selection, tool-call parsing, and opt-in PII redaction,
@@ -61,7 +61,7 @@ NSError *runError = nil;
 NSDictionary *result = PXRAgentRun(options, PXRSessionCreate(@"s1", @[]), @"hello", &runError);
 ```
 
-Public declarations are inventoried in [`api/0.1.0.txt`](api/0.1.0.txt).
+Public declarations are inventoried in [`api/0.1.1.txt`](api/0.1.1.txt).
 Agent events use the supplied session's `id` and a UUID-based run ID; the
 existing event sink callback is unchanged.
 Set `options[@"toolSelection"]` to a set from `PXRToolSelectionCreate` to
