@@ -190,3 +190,68 @@ func TestSchedulerCreatedAt(t *testing.T) {
 		t.Fatal("expected non-zero created_at")
 	}
 }
+
+func TestSchedulerRejectsInvalidCron(t *testing.T) {
+	eng := NewEngine(nil)
+	err := eng.Add(&Schedule{ID: "bad", CronExpr: "not a cron", Enabled: true})
+	if err == nil {
+		t.Fatal("expected invalid cron error")
+	}
+	s, _ := eng.Get("bad")
+	if s != nil {
+		t.Fatal("invalid schedule was stored")
+	}
+	if entries := eng.cron.Entries(); len(entries) != 0 {
+		t.Fatalf("invalid schedule registered %d entries", len(entries))
+	}
+}
+
+func TestSchedulerDuplicateIDReplacesEntry(t *testing.T) {
+	eng := NewEngine(nil)
+	if err := eng.Add(&Schedule{ID: "same", CronExpr: "@every 1h", Enabled: true}); err != nil {
+		t.Fatal(err)
+	}
+	if entries := eng.cron.Entries(); len(entries) != 1 {
+		t.Fatalf("entries = %d, want 1", len(entries))
+	}
+	if err := eng.Add(&Schedule{ID: "same", CronExpr: "@every 2h", Enabled: true}); err != nil {
+		t.Fatal(err)
+	}
+	if entries := eng.cron.Entries(); len(entries) != 1 {
+		t.Fatalf("duplicate add left %d entries", len(entries))
+	}
+	s, _ := eng.Get("same")
+	if s == nil || s.CronExpr != "@every 2h" {
+		t.Fatalf("schedule = %+v", s)
+	}
+}
+
+func TestSchedulerDisabledDuplicateRemovesEntry(t *testing.T) {
+	eng := NewEngine(nil)
+	if err := eng.Add(&Schedule{ID: "same", CronExpr: "@every 1h", Enabled: true}); err != nil {
+		t.Fatal(err)
+	}
+	if err := eng.Add(&Schedule{ID: "same", CronExpr: "@every 1h", Enabled: false}); err != nil {
+		t.Fatal(err)
+	}
+	if entries := eng.cron.Entries(); len(entries) != 0 {
+		t.Fatalf("disabled duplicate left %d entries", len(entries))
+	}
+	s, _ := eng.Get("same")
+	if s == nil || s.Enabled {
+		t.Fatalf("schedule = %+v", s)
+	}
+}
+
+func TestSchedulerRejectsNilAndEmptyID(t *testing.T) {
+	eng := NewEngine(nil)
+	if err := eng.Add(nil); err == nil {
+		t.Fatal("nil schedule accepted")
+	}
+	if err := eng.Add(&Schedule{CronExpr: "@every 1h"}); err == nil {
+		t.Fatal("empty id accepted")
+	}
+	if len(eng.List()) != 0 {
+		t.Fatalf("invalid adds stored schedules: %+v", eng.List())
+	}
+}

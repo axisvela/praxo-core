@@ -1,6 +1,8 @@
 package scheduler
 
 import (
+	"errors"
+	"fmt"
 	"sync"
 	"time"
 
@@ -45,29 +47,54 @@ func NewEngine(dispatch DispatchFunc) *Engine {
 
 // Add registers a new schedule. The engine must be started first.
 func (e *Engine) Add(s *Schedule) error {
+	if s == nil {
+		return errors.New("scheduler: schedule is required")
+	}
+	if s.ID == "" {
+		return errors.New("scheduler: schedule id is required")
+	}
+
 	e.mu.Lock()
 	defer e.mu.Unlock()
 
 	if s.CronExpr == "" {
 		s.CronExpr = "@every 1h"
 	}
+	if _, err := cron.ParseStandard(s.CronExpr); err != nil {
+		return fmt.Errorf("scheduler: invalid cron expression: %w", err)
+	}
 	if s.CreatedAt.IsZero() {
 		s.CreatedAt = time.Now()
 	}
 
 	cp := *s
-	e.schedules[s.ID] = &cp
+	var newEntry cron.EntryID
+	if cp.Enabled {
+		var err error
+		newEntry, err = e.addCronEntry(&cp)
+		if err != nil {
+			return err
+		}
+	}
 
-	if s.Enabled {
-		e.addCronEntry(s)
+	oldEntry, hadOld := e.entries[cp.ID]
+	e.schedules[cp.ID] = &cp
+	if cp.Enabled {
+		e.entries[cp.ID] = newEntry
+	} else {
+		delete(e.entries, cp.ID)
+	}
+	if hadOld {
+		e.cron.Remove(oldEntry)
 	}
 	return nil
 }
 
-func (e *Engine) addCronEntry(s *Schedule) {
+func (e *Engine) addCronEntry(s *Schedule) (cron.EntryID, error) {
 	sid := s.ID
 	entryID := new(cron.EntryID)
-	*entryID, _ = e.cron.AddFunc(s.CronExpr, func() {
+	var err error
+	*entryID, err = e.cron.AddFunc(s.CronExpr, func() {
 		e.mu.Lock()
 		sch := e.schedules[sid]
 		if sch == nil || !sch.Enabled {
@@ -88,7 +115,10 @@ func (e *Engine) addCronEntry(s *Schedule) {
 			e.dispatch(&snapshot)
 		}
 	})
-	e.entries[s.ID] = *entryID
+	if err != nil {
+		return 0, fmt.Errorf("scheduler: add entry: %w", err)
+	}
+	return *entryID, nil
 }
 
 // Remove deletes a schedule.
@@ -142,7 +172,13 @@ func (e *Engine) SetEnabled(id string, enabled bool) error {
 	s.Enabled = enabled
 
 	if enabled {
-		e.addCronEntry(s)
+		entryID, err := e.addCronEntry(s)
+		if err != nil {
+			s.Enabled = false
+			e.mu.Unlock()
+			return err
+		}
+		e.entries[id] = entryID
 		e.mu.Unlock()
 		return nil
 	}

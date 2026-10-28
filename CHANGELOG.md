@@ -34,6 +34,9 @@
 - Tool execution no longer starts another tool after cancellation, including
   tools waiting for a parallel execution slot; the worker count is bounded by
   the batch size.
+- Scheduler registration rejects nil schedules, empty IDs, and invalid cron
+  expressions, and replacing an existing ID removes its previous cron entry.
+  `SetEnabled` returns entry-registration errors instead of ignoring them.
 - Go API checks compare declaration sections rather than shell-decoded package
   descriptions, preserve UTF-8 declaration changes, and report declaration diffs.
 - Process crash tests use explicit post-start synchronization instead of racing
