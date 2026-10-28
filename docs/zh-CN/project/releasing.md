@@ -58,8 +58,10 @@ trusted publisher。首次创建标签前，必须在 PyPI 配置 owner、reposi
 TypeScript 使用独立的 npm 工作流
 `.github/workflows/typescript-release.yml`。它校验包名、repository URL、版本和
 `typescript/v*` 标签；标签默认只 stage 包，等待维护者批准。直接 `npm publish` 是
-显式手动目标，并需要在 npm trusted publisher 中允许该动作。在首个包创建并发布前，
-npm publication 仍是 pending；手动触发默认只 build-only。
+显式手动目标，并需要在 npm trusted publisher 中允许该动作。npm trusted publisher
+要求包已存在，因此首个版本必须通过交互式 2FA 认证完成 stage 或 publish；包创建后
+再配置 trusted publisher。首次发布不要使用长期自动化 token。手动触发默认只
+build-only。
 
 升级前查看[版本总览](../releases/index.md)、[兼容性](compatibility.md)和
 [Core 支持政策](../languages/support.md)。产品版本与框架版本独立。
