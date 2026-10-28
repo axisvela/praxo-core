@@ -42,6 +42,9 @@
 - The C conformance runner validates specVersion, group names, non-empty vector
   groups, unique IDs, and input/expect objects before executing fixtures, with
   negative CTest coverage.
+- The OpenAI-compatible adapter maps text/image_url content blocks and
+  schema-backed response formats; unsupported blocks and schema-less response
+  formats now fail explicitly instead of being silently dropped.
 - Go API checks compare declaration sections rather than shell-decoded package
   descriptions, preserve UTF-8 declaration changes, and report declaration diffs.
 - Process crash tests use explicit post-start synchronization instead of racing

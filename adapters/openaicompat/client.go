@@ -35,12 +35,9 @@ func (a Adapter) Generate(ctx context.Context, req model.Request) (model.Respons
 	if a.BaseURL == "" {
 		return model.Response{}, ErrBaseURLRequired
 	}
-	body := apiRequest{
-		Model:       a.Model,
-		Messages:    apiMessages(req.Messages),
-		Tools:       apiTools(req.Tools),
-		ToolChoice:  req.ToolChoice,
-		Temperature: req.Temperature,
+	body, err := a.requestBody(req, false)
+	if err != nil {
+		return model.Response{}, err
 	}
 	raw, err := json.Marshal(body)
 	if err != nil {
@@ -113,16 +110,9 @@ func (a Adapter) GenerateStream(ctx context.Context, req model.Request, onDelta 
 	if a.BaseURL == "" {
 		return model.Response{}, ErrBaseURLRequired
 	}
-	body := apiRequest{
-		Model:       a.Model,
-		Messages:    apiMessages(req.Messages),
-		Tools:       apiTools(req.Tools),
-		ToolChoice:  req.ToolChoice,
-		Temperature: req.Temperature,
-		Stream:      true,
-	}
-	if a.IncludeUsage {
-		body.StreamOptions = &apiStreamOptions{IncludeUsage: true}
+	body, err := a.requestBody(req, true)
+	if err != nil {
+		return model.Response{}, err
 	}
 	raw, err := json.Marshal(body)
 	if err != nil {
@@ -248,14 +238,79 @@ func (a Adapter) GenerateStream(ctx context.Context, req model.Request, onDelta 
 	}, nil
 }
 
+func (a Adapter) requestBody(req model.Request, stream bool) (apiRequest, error) {
+	messages, err := apiMessages(req.Messages)
+	if err != nil {
+		return apiRequest{}, err
+	}
+	format, err := apiResponseFormatFor(req.ResponseFormat)
+	if err != nil {
+		return apiRequest{}, err
+	}
+	body := apiRequest{
+		Model:          a.Model,
+		Messages:       messages,
+		Tools:          apiTools(req.Tools),
+		ToolChoice:     req.ToolChoice,
+		Temperature:    req.Temperature,
+		Stream:         stream,
+		ResponseFormat: format,
+	}
+	if stream && a.IncludeUsage {
+		body.StreamOptions = &apiStreamOptions{IncludeUsage: true}
+	}
+	return body, nil
+}
+
 type apiRequest struct {
-	Model         string            `json:"model"`
-	Stream        bool              `json:"stream,omitempty"`
-	StreamOptions *apiStreamOptions `json:"stream_options,omitempty"`
-	Messages      []apiMessage      `json:"messages"`
-	Tools         []apiTool         `json:"tools,omitempty"`
-	ToolChoice    string            `json:"tool_choice,omitempty"`
-	Temperature   float64           `json:"temperature,omitempty"`
+	Model          string              `json:"model"`
+	Stream         bool                `json:"stream,omitempty"`
+	StreamOptions  *apiStreamOptions   `json:"stream_options,omitempty"`
+	Messages       []apiRequestMessage `json:"messages"`
+	Tools          []apiTool           `json:"tools,omitempty"`
+	ToolChoice     string              `json:"tool_choice,omitempty"`
+	Temperature    float64             `json:"temperature,omitempty"`
+	ResponseFormat *apiResponseFormat  `json:"response_format,omitempty"`
+}
+
+type apiResponseFormat struct {
+	Type       string         `json:"type"`
+	JSONSchema *apiJSONSchema `json:"json_schema,omitempty"`
+}
+
+type apiJSONSchema struct {
+	Name   string         `json:"name"`
+	Schema map[string]any `json:"schema"`
+}
+
+func apiResponseFormatFor(format *model.ResponseFormat) (*apiResponseFormat, error) {
+	if format == nil {
+		return nil, nil
+	}
+	if format.Schema == nil {
+		return nil, errors.New("openaicompat: response format requires a schema")
+	}
+	name := format.Name
+	if name == "" {
+		name = "response"
+	}
+	return &apiResponseFormat{
+		Type: "json_schema",
+		JSONSchema: &apiJSONSchema{
+			Name:   name,
+			Schema: format.Schema,
+		},
+	}, nil
+}
+
+type apiContentPart struct {
+	Type     string       `json:"type"`
+	Text     string       `json:"text,omitempty"`
+	ImageURL *apiImageURL `json:"image_url,omitempty"`
+}
+
+type apiImageURL struct {
+	URL string `json:"url"`
 }
 
 type apiStreamOptions struct {
@@ -273,6 +328,13 @@ type apiUsage struct {
 type apiMessage struct {
 	Role       string        `json:"role"`
 	Content    string        `json:"content,omitempty"`
+	ToolCalls  []apiToolCall `json:"tool_calls,omitempty"`
+	ToolCallID string        `json:"tool_call_id,omitempty"`
+}
+
+type apiRequestMessage struct {
+	Role       string        `json:"role"`
+	Content    any           `json:"content,omitempty"`
 	ToolCalls  []apiToolCall `json:"tool_calls,omitempty"`
 	ToolCallID string        `json:"tool_call_id,omitempty"`
 }
@@ -331,16 +393,23 @@ type apiStreamChunk struct {
 	} `json:"error"`
 }
 
-func apiMessages(messages []model.Message) []apiMessage {
-	out := make([]apiMessage, 0, len(messages))
+func apiMessages(messages []model.Message) ([]apiRequestMessage, error) {
+	out := make([]apiRequestMessage, 0, len(messages))
 	for _, message := range messages {
-		item := apiMessage{
+		content, err := apiMessageContent(message)
+		if err != nil {
+			return nil, err
+		}
+		item := apiRequestMessage{
 			Role:       message.Role,
-			Content:    message.Content,
+			Content:    content,
 			ToolCallID: message.ToolID,
 		}
 		for _, call := range message.ToolCalls {
-			arguments, _ := json.Marshal(call.Arguments)
+			arguments, err := json.Marshal(call.Arguments)
+			if err != nil {
+				return nil, fmt.Errorf("openaicompat: tool %s arguments: %w", call.Name, err)
+			}
 			item.ToolCalls = append(item.ToolCalls, apiToolCall{
 				ID:   call.ID,
 				Type: "function",
@@ -352,7 +421,46 @@ func apiMessages(messages []model.Message) []apiMessage {
 		}
 		out = append(out, item)
 	}
-	return out
+	return out, nil
+}
+
+func apiMessageContent(message model.Message) (any, error) {
+	if len(message.ContentBlocks) == 0 {
+		if message.Content == "" {
+			return nil, nil
+		}
+		return message.Content, nil
+	}
+	parts := make([]apiContentPart, 0, len(message.ContentBlocks)+1)
+	if message.Content != "" {
+		parts = append(parts, apiContentPart{Type: "text", Text: message.Content})
+	}
+	for _, block := range message.ContentBlocks {
+		switch block.Type {
+		case "text":
+			if block.Text == "" {
+				return nil, errors.New("openaicompat: text content block is empty")
+			}
+			parts = append(parts, apiContentPart{Type: "text", Text: block.Text})
+		case "image_url":
+			if block.ImageURL == "" {
+				return nil, errors.New("openaicompat: image_url content block is empty")
+			}
+			parts = append(parts, apiContentPart{
+				Type:     "image_url",
+				ImageURL: &apiImageURL{URL: block.ImageURL},
+			})
+		default:
+			return nil, fmt.Errorf("openaicompat: unsupported content block type %q", block.Type)
+		}
+	}
+	if len(parts) == 0 {
+		return nil, nil
+	}
+	if len(parts) == 1 && parts[0].Type == "text" {
+		return parts[0].Text, nil
+	}
+	return parts, nil
 }
 
 func apiTools(specs []model.ToolSpec) []apiTool {

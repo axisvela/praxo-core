@@ -25,3 +25,9 @@ fragments; the agent uses `GenerateStream` when the model implements
 `model.StreamingModel`. Streamed tool-call deltas are aggregated into the final
 response. Set `IncludeUsage` to request streamed token usage from endpoints that
 support `stream_options.include_usage`.
+
+`model.ContentBlock` entries of type `text` and `image_url` are mapped to an
+OpenAI content array; other block types fail explicitly instead of being
+dropped. A `model.ResponseFormat` with a schema is sent as
+`response_format: {"type":"json_schema", ...}`; a response format without a
+schema is rejected. `CacheHint` is not translated by this adapter.

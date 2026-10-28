@@ -224,3 +224,123 @@ func TestAdapterGenerateStreamAllowsDoneWithoutFinishReason(t *testing.T) {
 		t.Fatalf("response = %#v", response)
 	}
 }
+
+func TestAdapterRequestBodyMapsMultimodalBlocks(t *testing.T) {
+	body, err := (Adapter{Model: "test-model"}).requestBody(model.Request{
+		Messages: []model.Message{{
+			Role:    model.RoleUser,
+			Content: "caption",
+			ContentBlocks: []model.ContentBlock{
+				{Type: "text", Text: "detail"},
+				{Type: "image_url", ImageURL: "https://example.com/image.png"},
+			},
+		}},
+	}, false)
+	if err != nil {
+		t.Fatal(err)
+	}
+	parts, ok := body.Messages[0].Content.([]apiContentPart)
+	if !ok || len(parts) != 3 {
+		t.Fatalf("content = %#v", body.Messages[0].Content)
+	}
+	if parts[0].Type != "text" || parts[0].Text != "caption" ||
+		parts[1].Type != "text" || parts[1].Text != "detail" ||
+		parts[2].Type != "image_url" || parts[2].ImageURL == nil ||
+		parts[2].ImageURL.URL != "https://example.com/image.png" {
+		t.Fatalf("parts = %#v", parts)
+	}
+}
+
+func TestAdapterRequestJSONShape(t *testing.T) {
+	body, err := (Adapter{Model: "test-model"}).requestBody(model.Request{
+		Messages: []model.Message{{
+			Role:    model.RoleUser,
+			Content: "hi",
+			ContentBlocks: []model.ContentBlock{
+				{Type: "image_url", ImageURL: "https://example.com/image.png"},
+			},
+		}},
+		ResponseFormat: &model.ResponseFormat{
+			Name:   "answer",
+			Schema: map[string]any{"type": "object"},
+		},
+	}, true)
+	if err != nil {
+		t.Fatal(err)
+	}
+	raw, err := json.Marshal(body)
+	if err != nil {
+		t.Fatal(err)
+	}
+	var decoded struct {
+		Stream   bool `json:"stream"`
+		Messages []struct {
+			Content []struct {
+				Type     string `json:"type"`
+				Text     string `json:"text"`
+				ImageURL *struct {
+					URL string `json:"url"`
+				} `json:"image_url"`
+			} `json:"content"`
+		} `json:"messages"`
+		ResponseFormat *struct {
+			Type       string `json:"type"`
+			JSONSchema *struct {
+				Name string `json:"name"`
+			} `json:"json_schema"`
+		} `json:"response_format"`
+	}
+	if err := json.Unmarshal(raw, &decoded); err != nil {
+		t.Fatal(err)
+	}
+	if !decoded.Stream || len(decoded.Messages) != 1 || len(decoded.Messages[0].Content) != 2 {
+		t.Fatalf("decoded = %#v", decoded)
+	}
+	if decoded.Messages[0].Content[1].ImageURL == nil ||
+		decoded.Messages[0].Content[1].ImageURL.URL != "https://example.com/image.png" {
+		t.Fatalf("image = %#v", decoded.Messages[0].Content[1])
+	}
+	if decoded.ResponseFormat == nil || decoded.ResponseFormat.Type != "json_schema" ||
+		decoded.ResponseFormat.JSONSchema == nil || decoded.ResponseFormat.JSONSchema.Name != "answer" {
+		t.Fatalf("response format = %#v", decoded.ResponseFormat)
+	}
+}
+
+func TestAdapterRequestBodyRejectsUnsupportedBlock(t *testing.T) {
+	_, err := (Adapter{Model: "test-model"}).requestBody(model.Request{
+		Messages: []model.Message{{
+			Role:          model.RoleUser,
+			ContentBlocks: []model.ContentBlock{{Type: "data", Data: "AAAA"}},
+		}},
+	}, false)
+	if err == nil || !strings.Contains(err.Error(), "unsupported content block type") {
+		t.Fatalf("error = %v", err)
+	}
+}
+
+func TestAdapterRequestBodyMapsResponseFormat(t *testing.T) {
+	body, err := (Adapter{Model: "test-model"}).requestBody(model.Request{
+		Messages: []model.Message{{Role: model.RoleUser, Content: "hi"}},
+		ResponseFormat: &model.ResponseFormat{
+			Name:   "answer",
+			Schema: map[string]any{"type": "object"},
+		},
+	}, false)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if body.ResponseFormat == nil || body.ResponseFormat.Type != "json_schema" ||
+		body.ResponseFormat.JSONSchema == nil || body.ResponseFormat.JSONSchema.Name != "answer" {
+		t.Fatalf("response format = %#v", body.ResponseFormat)
+	}
+}
+
+func TestAdapterRequestBodyRejectsResponseFormatWithoutSchema(t *testing.T) {
+	_, err := (Adapter{Model: "test-model"}).requestBody(model.Request{
+		Messages:       []model.Message{{Role: model.RoleUser, Content: "hi"}},
+		ResponseFormat: &model.ResponseFormat{Name: "answer"},
+	}, false)
+	if err == nil || !strings.Contains(err.Error(), "requires a schema") {
+		t.Fatalf("error = %v", err)
+	}
+}
