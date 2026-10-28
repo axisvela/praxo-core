@@ -1,4 +1,4 @@
-# PRAXO-CORE TypeScript API 0.1.1
+# PRAXO-CORE TypeScript API 0.1.2
 # SPEC_VERSION 0.2.0
 
 AbortError
