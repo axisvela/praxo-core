@@ -67,7 +67,15 @@ selection. TestPyPI needs its own trusted publisher. Configure the
 PyPI trusted publisher for owner, repository, workflow filename, and environment
 before creating the first tag. The PyPI workflow field must be exactly
 `python-release.yml`; a generic `workflow.yml` value will not match this
-repository. A source tag or successful build does not establish
+repository.
+
+TypeScript has a separate npm workflow,
+`.github/workflows/typescript-release.yml`. It verifies the package name,
+repository URL, version, and `typescript/v*` tag; a tag stages the package for
+maintainer approval by default. Direct `npm publish` is an explicit manual
+target and requires that action in the npm trusted-publisher configuration.
+npm publication remains pending until the first package is created and published.
+Manual dispatch defaults to build-only. A source tag or successful build does not establish
 that PyPI publication occurred.
 
 ## Consumer Guidance

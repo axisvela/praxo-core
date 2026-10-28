@@ -1,0 +1,98 @@
+name: typescript-release
+
+on:
+  push:
+    tags:
+      - "typescript/v*"
+  workflow_dispatch:
+    inputs:
+      target:
+        description: Publish target
+        required: true
+        default: build-only
+        type: choice
+        options:
+          - build-only
+          - stage
+          - publish
+
+permissions:
+  contents: read
+
+concurrency:
+  group: typescript-release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: language/typescript
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          registry-url: "https://registry.npmjs.org"
+          package-manager-cache: false
+      - run: npm ci
+      - name: Verify package metadata and tag
+        shell: bash
+        run: |
+          name="$(node -p "require('./package.json').name")"
+          version="$(node -p "require('./package.json').version")"
+          repository="$(node -p "require('./package.json').repository.url")"
+          test "${name}" = "@axisvela/praxo-core"
+          test "${repository}" = "git+https://github.com/axisvela/praxo-core.git"
+          if [ "${GITHUB_REF_TYPE}" = "tag" ]; then
+            test "typescript/v${version}" = "${GITHUB_REF_NAME}"
+          fi
+      - run: npm run build
+      - run: npm run api:check
+      - run: npm run conformance
+      - run: node --test tests/sdk.test.js tests/openaicompat.test.js tests/api-signatures.test.js
+      - name: Pack and consume the package
+        shell: bash
+        run: |
+          mkdir -p build
+          npm pack --pack-destination build
+          consumer="$RUNNER_TEMP/praxo-ts-consumer"
+          mkdir -p "$consumer"
+          cd "$consumer"
+          npm init -y >/dev/null
+          npm install --no-save --no-audit --no-fund "$GITHUB_WORKSPACE/language/typescript/build"/axisvela-praxo-core-*.tgz
+          cp "$GITHUB_WORKSPACE/language/typescript/tests/installed-smoke.js" .
+          PRAXO_CONSUMER_ROOT="$consumer" node installed-smoke.js
+      - uses: actions/upload-artifact@v4
+        with:
+          name: typescript-package
+          path: language/typescript/build/axisvela-praxo-core-*.tgz
+          if-no-files-found: error
+
+  publish:
+    needs: build
+    if: github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && inputs.target != 'build-only')
+    runs-on: ubuntu-latest
+    environment:
+      name: npm
+      url: https://www.npmjs.com/package/@axisvela/praxo-core
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: typescript-package
+          path: dist
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          registry-url: "https://registry.npmjs.org"
+          package-manager-cache: false
+      - name: Stage for approval
+        if: github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && inputs.target == 'stage')
+        run: npm stage publish ./dist/axisvela-praxo-core-*.tgz --access public
+      - name: Publish directly
+        if: github.event_name == 'workflow_dispatch' && inputs.target == 'publish'
+        run: npm publish ./dist/axisvela-praxo-core-*.tgz --access public

@@ -310,6 +310,25 @@ class ReleaseChecksTests(unittest.TestCase):
         self.assertNotIn("PYPI_API_TOKEN", text)
         self.assertNotIn("password:", text)
 
+    def test_typescript_release_uses_trusted_or_staged_publish(self):
+        text = (ROOT / ".github/workflows/typescript-release.yml").read_text(encoding="utf-8")
+        for expected in (
+            '"typescript/v*"',
+            "default: build-only",
+            "node-version: \"24\"",
+            "id-token: write",
+            "npm ci",
+            "npm run api:check",
+            "npm run conformance",
+            "installed-smoke.js",
+            "npm stage publish",
+            "npm publish",
+            "registry-url: \"https://registry.npmjs.org\"",
+        ):
+            self.assertIn(expected, text)
+        self.assertNotIn("NODE_AUTH_TOKEN", text)
+        self.assertNotIn("NPM_TOKEN", text)
+
     def test_manual_dispatch_cannot_publish(self):
         text = (ROOT / ".github/workflows/release.yml").read_text(encoding="utf-8")
         triggers = text.split("\npermissions:", 1)[0]

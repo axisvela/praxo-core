@@ -55,5 +55,11 @@ trusted publisher。首次创建标签前，必须在 PyPI 配置 owner、reposi
 精确填写 `python-release.yml`；填写通用的 `workflow.yml` 不会匹配本仓库。源码标签或构建成功都不
 代表 PyPI 已完成发布。
 
+TypeScript 使用独立的 npm 工作流
+`.github/workflows/typescript-release.yml`。它校验包名、repository URL、版本和
+`typescript/v*` 标签；标签默认只 stage 包，等待维护者批准。直接 `npm publish` 是
+显式手动目标，并需要在 npm trusted publisher 中允许该动作。在首个包创建并发布前，
+npm publication 仍是 pending；手动触发默认只 build-only。
+
 升级前查看[版本总览](../releases/index.md)、[兼容性](compatibility.md)和
 [SDK 支持政策](../languages/support.md)。产品版本与框架版本独立。

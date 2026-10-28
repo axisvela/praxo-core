@@ -66,6 +66,10 @@
   and sdist, consumes both installed artifacts, and publishes via OIDC. Manual
   dispatch defaults to build-only; PyPI publisher configuration and the first
   successful upload remain pending.
+- Added TypeScript npm package metadata and a release workflow that verifies the
+  repository URL/version/tag, builds and consumes the tarball, stages npm
+  packages by default, and allows explicit direct publish after npm trusted
+  publisher approval. npm publication remains pending.
 - CI installs the Python wheel and sdist and the TypeScript package tarball in
   clean environments, then runs the installed-package smoke tests outside the
   source tree. Registry publication remains pending.
