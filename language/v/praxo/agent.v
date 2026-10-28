@@ -157,7 +157,12 @@ fn run_agent_inner(options AgentOptions, session_value Session, run_id string,
 				}
 				mut tool_calls := []ToolCall{cap: msg.tool_calls.len}
 				for call in msg.tool_calls {
-					tool_calls << ToolCall{...call, arguments: redact_value(call.arguments)}
+					redacted := redact_value(call.arguments)
+					if redacted is map[string]json2.Any {
+						tool_calls << ToolCall{...call, arguments: redacted as map[string]json2.Any}
+					} else {
+						tool_calls << call
+					}
 				}
 				model_messages << Message{...msg, content: pii_redact(msg.content), content_blocks: blocks, tool_calls: tool_calls}
 			}
