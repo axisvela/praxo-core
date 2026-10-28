@@ -74,11 +74,11 @@ TypeScript has a separate npm workflow,
 repository URL, version, and `typescript/v*` tag; a tag stages the package for
 maintainer approval by default. Direct `npm publish` is an explicit manual
 target and requires that action in the npm trusted-publisher configuration.
-npm publication remains pending until the first package is created and published.
-npm trusted publishers require an existing package, so the first version must be
-staged or published with interactive 2FA authentication; configure the trusted
-publisher only after that package exists. Do not use a long-lived automation
-token for the first publication.
+The first npm package was published as `0.1.2` with a short-lived bypass token
+because staged approval was unavailable; that release has no provenance claim.
+npm trusted publishers require an existing package, so configure the trusted
+publisher before the next release. Do not use a long-lived automation token for
+routine publication.
 Manual dispatch defaults to build-only. A source tag or successful build does not establish
 that PyPI publication occurred.
 

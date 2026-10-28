@@ -42,8 +42,8 @@ reuse the host Framework rather than duplicate its agent loop.
 - Each Core implementation declares its supported `SPEC_VERSION`.
 - A source release tag does not establish package-registry availability.
 - Use the installation or source-build instructions on the language page.
-- Python publishes `praxo-core==0.2.1` on PyPI. TypeScript documents source builds;
-  npm publication is pending.
+- Python publishes `praxo-core==0.2.1` on PyPI. TypeScript publishes
+  `@axisvela/praxo-core@0.1.2` on npm.
 - Java documents a Maven source build; Maven Central publication is not established by a source tag.
 - Fortran has source tag `fortran/v0.2.0` with all eleven vector groups, native
   tests, an API snapshot, and integrated PII/middleware. It is not a

@@ -6,10 +6,12 @@ TypeScript implementation of the PRAXO-CORE contract. The normative contract is
 **Status:** The package passes all eleven conformance vector groups
 and the TypeScript parity check. Context budgets, middleware, streaming,
 `AbortSignal` cancellation, and the OpenAI-compatible adapter are included.
-`npm pack` and `npm publish --dry-run` are verified; npm publication is pending.
-Use the source build below. VFS and plugin hosts are not yet implemented.
+Published on npm as `@axisvela/praxo-core@0.1.2`. The first publication used a
+short-lived bypass token because staged approval was unavailable; no provenance
+attestation is claimed for that release. VFS and plugin hosts are not yet
+implemented.
 
-Package version: `0.1.0`. Supported contract: `SPEC_VERSION` `0.2.0`
+Package version: `0.1.2`. Supported contract: `SPEC_VERSION` `0.2.0`
 (`SPEC_VERSION` export).
 
 ## Requirements
@@ -32,6 +34,10 @@ and runs `tests/installed-smoke.js` with `PRAXO_CONSUMER_ROOT` set. This verifie
 the published file set and installed import path, not npm registry availability.
 
 ## Usage
+
+```bash
+npm install @axisvela/praxo-core@0.1.2
+```
 
 ```ts
 import {

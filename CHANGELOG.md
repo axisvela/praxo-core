@@ -19,9 +19,10 @@
   `api/0.2.1.signatures.txt` baselines. `python/v0.2.0` and its historical
   snapshots remain unchanged. A clean `pip install praxo-core==0.2.1` and
   installed-package smoke passed.
-- TypeScript package metadata now targets `0.1.2` with matching API and
-  signature snapshots. First npm publication remains pending interactive 2FA;
-  npm trusted publishers require the package to exist before OIDC is configured.
+- Published TypeScript `@axisvela/praxo-core@0.1.2` on npm with matching API and
+  signature snapshots. The first publication used a short-lived bypass token
+  because staged approval was unavailable, so it carries no provenance claim.
+  Configure an npm trusted publisher before the next release.
 - Public documentation now calls language implementations Core/Core
   implementations instead of SDKs, while preserving third-party provider SDK
   names and historical release notes.

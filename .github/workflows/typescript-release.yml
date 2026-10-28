@@ -90,9 +90,25 @@ jobs:
           node-version: "24"
           registry-url: "https://registry.npmjs.org"
           package-manager-cache: false
+      - name: Check published version
+        id: registry
+        shell: bash
+        run: |
+          version="$(node -p "require('./language/typescript/package.json').version")"
+          if published="$(npm view "@axisvela/praxo-core@${version}" dist.shasum 2>/dev/null)"; then
+            artifact="$(sha1sum ./dist/axisvela-praxo-core-*.tgz | awk '{print $1}')"
+            if [ "${published}" != "${artifact}" ]; then
+              echo "::error::Published ${version} shasum ${published} does not match artifact ${artifact}"
+              exit 1
+            fi
+            echo "already_published=true" >> "$GITHUB_OUTPUT"
+            echo "@axisvela/praxo-core@${version} is already published with matching shasum"
+          else
+            echo "already_published=false" >> "$GITHUB_OUTPUT"
+          fi
       - name: Stage for approval
-        if: github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && inputs.target == 'stage')
+        if: (github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && inputs.target == 'stage')) && steps.registry.outputs.already_published != 'true'
         run: npm stage publish ./dist/axisvela-praxo-core-*.tgz --access public
       - name: Publish directly
-        if: github.event_name == 'workflow_dispatch' && inputs.target == 'publish'
+        if: github.event_name == 'workflow_dispatch' && inputs.target == 'publish' && steps.registry.outputs.already_published != 'true'
         run: npm publish ./dist/axisvela-praxo-core-*.tgz --access public
