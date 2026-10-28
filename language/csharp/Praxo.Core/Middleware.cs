@@ -173,7 +173,12 @@ public sealed class PiiMiddleware : IMiddleware
                 ImageUrl = block.ImageUrl,
                 Data = block.Data,
             }).ToList(),
-            ToolCalls = message.ToolCalls,
+            ToolCalls = message.ToolCalls.Select(toolCall => new ToolCall
+            {
+                Id = toolCall.Id,
+                Name = toolCall.Name,
+                Arguments = (JsonObject)_redactor.RedactValue(toolCall.Arguments)!,
+            }).ToList(),
             ToolId = message.ToolId,
         }).ToList();
     }

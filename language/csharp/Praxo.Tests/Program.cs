@@ -103,6 +103,31 @@ internal static class Program
     private static void TestPiiRedaction()
     {
         Check(PiiRedactor.Defaults().Redact("email a@b.com") == "email [REDACTED:email]", "pii redaction");
+
+        var original = new JsonObject
+        {
+            ["email"] = "a@b.com",
+            ["nested"] = new JsonObject { ["ssn"] = "123-45-6789" },
+        };
+        var request = Request.Of(new[]
+        {
+            new Message
+            {
+                Role = "assistant",
+                ToolCalls = new List<ToolCall>
+                {
+                    new() { Id = "call-1", Name = "lookup", Arguments = original },
+                },
+            },
+        });
+        var call = new ModelCall { RunId = "r1", SessionId = "s1", Request = request };
+        new PiiMiddleware(PiiRedactor.Defaults()).BeforeModel(call);
+        var redacted = call.Request.Messages[0].ToolCalls[0].Arguments;
+        Check(redacted["email"]?.GetValue<string>() == "[REDACTED:email]", "pii tool-call email");
+        Check(
+            (redacted["nested"] as JsonObject)?["ssn"]?.GetValue<string>() == "[REDACTED:ssn]",
+            "pii nested tool-call ssn");
+        Check(original["email"]?.GetValue<string>() == "a@b.com", "pii caller arguments unchanged");
     }
 
     private static void TestPluginValidation()

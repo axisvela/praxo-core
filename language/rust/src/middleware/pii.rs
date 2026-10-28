@@ -5,7 +5,7 @@ use serde_json::{Map, Value};
 
 use crate::errors::Result;
 use crate::middleware::{Middleware, MiddlewareToolCall, ModelCall, ToolResult};
-use crate::model::{ContentBlock, Message, Request};
+use crate::model::{ContentBlock, Message, Request, ToolCall};
 
 pub struct PiiRule {
     pub name: String,
@@ -121,7 +121,21 @@ impl Middleware for PiiMiddleware {
                         data: block.data.clone(),
                     })
                     .collect(),
-                tool_calls: message.tool_calls.clone(),
+                tool_calls: message
+                    .tool_calls
+                    .iter()
+                    .map(|tool_call| ToolCall {
+                        id: tool_call.id.clone(),
+                        name: tool_call.name.clone(),
+                        arguments: tool_call
+                            .arguments
+                            .iter()
+                            .map(|(key, value)| {
+                                (key.clone(), self.redactor.redact_value(value))
+                            })
+                            .collect(),
+                    })
+                    .collect(),
                 tool_id: message.tool_id.clone(),
             })
             .collect();

@@ -4,7 +4,9 @@ use praxo_core::agent::{Agent, AgentOptions, Session};
 use praxo_core::checkpoint::Allowlist;
 use praxo_core::context::{estimate_tokens, ContextBudget};
 use praxo_core::event::{Event, Sink};
-use praxo_core::middleware::{PiiRedactor, StructuredOutput};
+use praxo_core::middleware::{
+    Middleware, ModelCall, PiiMiddleware, PiiRedactor, StructuredOutput,
+};
 use praxo_core::model::{Message, Model, Request, Response, ToolCall, Usage};
 use praxo_core::plugin::parse_manifest;
 use praxo_core::policy::{PathChecker, PathGrant};
@@ -107,6 +109,33 @@ fn context_budget_compacts() {
 fn pii_redacts_email() {
     let redactor = PiiRedactor::defaults();
     assert_eq!(redactor.redact("a@b.com"), "[REDACTED:email]");
+}
+
+#[test]
+fn pii_redacts_tool_call_history() {
+    let mut original = Map::new();
+    original.insert("email".into(), json!("a@b.com"));
+    original.insert("nested".into(), json!({"ssn": "123-45-6789"}));
+    let middleware = PiiMiddleware::new(PiiRedactor::defaults());
+    let mut call = ModelCall {
+        run_id: "r1".into(),
+        session_id: "s1".into(),
+        request: Request::of(vec![Message::assistant(
+            "",
+            vec![ToolCall {
+                id: "call-1".into(),
+                name: "lookup".into(),
+                arguments: original.clone(),
+            }],
+        )]),
+        skip: false,
+        response: None,
+    };
+    middleware.before_model(&mut call).unwrap();
+    let redacted = &call.request.messages[0].tool_calls[0].arguments;
+    assert_eq!(redacted["email"], json!("[REDACTED:email]"));
+    assert_eq!(redacted["nested"]["ssn"], json!("[REDACTED:ssn]"));
+    assert_eq!(original["email"], json!("a@b.com"));
 }
 
 #[test]
