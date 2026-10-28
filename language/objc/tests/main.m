@@ -417,6 +417,13 @@ int main(int argc, const char *argv[]) {
         NSString *spec = argc > 1
             ? [NSString stringWithUTF8String:argv[1]]
             : @"../../spec";
+        NSError *versionError = nil;
+        NSString *version = [NSString stringWithContentsOfFile:
+            [spec stringByAppendingPathComponent:@"SPEC_VERSION"]
+            encoding:NSUTF8StringEncoding error:&versionError];
+        if (version == nil) return 1;
+        version = [version stringByTrimmingCharactersInSet:
+            [NSCharacterSet whitespaceAndNewlineCharacterSet]];
         NSArray<NSString *> *groups = @[
             @"toolcall", @"jsonschema", @"plugin", @"memory", @"event",
             @"stream", @"checkpoint", @"policy", @"context", @"middleware",
@@ -428,7 +435,15 @@ int main(int argc, const char *argv[]) {
             if (file == nil) {
                 return 1;
             }
-            for (NSDictionary *vector in vectors(file)) {
+            if (![file[@"group"] isEqualToString:group] ||
+                ![file[@"specVersion"] isEqualToString:version]) {
+                return 1;
+            }
+            NSArray<NSDictionary<NSString *, id> *> *items = vectors(file);
+            if (items.count == 0) {
+                return 1;
+            }
+            for (NSDictionary *vector in items) {
                 if ([group isEqualToString:@"toolcall"]) {
                     runToolCall(vector);
                 } else if ([group isEqualToString:@"jsonschema"]) {

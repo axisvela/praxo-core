@@ -56,7 +56,8 @@
   groups, unique IDs, and input/expect objects before executing fixtures, with
   negative CTest coverage. Ruby, Perl, Lua, PHP, Rust, C++, Elixir, Erlang, Dart, and D runners
   now reject missing or empty required vector groups; Ruby, Perl, Rust, C++,
-  Elixir, Erlang, and Dart have local negative checks.
+  Elixir, Erlang, and Dart have local negative checks. The Objective-C
+  conformance harness now also checks specVersion, group, and non-empty vectors.
 - The OpenAI-compatible adapter maps text/image_url content blocks and
   schema-backed response formats; unsupported blocks and schema-less response
   formats now fail explicitly instead of being silently dropped.
