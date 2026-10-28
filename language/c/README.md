@@ -94,6 +94,12 @@ Context messages currently support role/content text only, and policy path
 checks are lexical, not filesystem or symlink containment. A null event-filter
 predicate forwards all events; a non-null empty predicate forwards none.
 
+The agent loop has no cancellation token or callback-abort path. A run is
+bounded by its step limit, token limit, or a callback error, not by context
+cancellation. `PxCallLimit` is mutable per-run state without synchronization;
+do not share one instance across concurrent runs. Both limits are explicit
+partial-parity surfaces until a versioned API change is designed.
+
 ## License
 
 MIT. See [LICENSE](LICENSE).

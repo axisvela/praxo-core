@@ -29,6 +29,9 @@
   matrix and checks Go declarations, methods, and fields against the API
   snapshot. Fortran and COBOL inventory rows reference the existing Hook and
   Result symbols rather than nonexistent Policy and RunResult names.
+- C parity now marks the agent loop and call limits partial: the loop has no
+  cancellation path, and call-limit state is not safe to share across
+  concurrent runs. Boundary tests cover step, token, usage, and limit edges.
 - Go validates and repairs final output before completion hooks, checkpoint
   projections, memory writes, and completion notification, for both text and
   structured-tool answers. A completion sink error is returned without a second,
