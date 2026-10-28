@@ -49,8 +49,9 @@ SDK 或适配器的源码标签不会自动完成包管理器发布。
 Python 使用 PyPI Trusted Publishing，工作流为
 `.github/workflows/python-release.yml`。`python/vX.Y.Z` 标签必须与
 `pyproject.toml`、`praxo.__version__` 和 `praxo.SPEC_VERSION` 一致。手动触发默认
-发布到 TestPyPI；PyPI 使用独立受保护 environment。首次创建标签前，必须在 PyPI
-配置 owner、repository、workflow 文件名和 environment。PyPI 的 workflow 字段必须
+只构建 `build-only`；发布到 TestPyPI 或 PyPI 必须显式选择。TestPyPI 需要单独的
+trusted publisher。首次创建标签前，必须在 PyPI 配置 owner、repository、workflow
+文件名和 environment。PyPI 的 workflow 字段必须
 精确填写 `python-release.yml`；填写通用的 `workflow.yml` 不会匹配本仓库。源码标签或构建成功都不
 代表 PyPI 已完成发布。
 

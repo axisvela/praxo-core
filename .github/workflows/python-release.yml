@@ -9,9 +9,10 @@ on:
       repository:
         description: Publish target
         required: true
-        default: testpypi
+        default: build-only
         type: choice
         options:
+          - build-only
           - testpypi
           - pypi
 
@@ -89,7 +90,7 @@ jobs:
 
   publish-pypi:
     needs: build
-    if: github.event_name == 'push' || inputs.repository == 'pypi'
+    if: github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && inputs.repository == 'pypi')
     runs-on: ubuntu-latest
     environment:
       name: pypi

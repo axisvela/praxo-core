@@ -294,6 +294,9 @@ class ReleaseChecksTests(unittest.TestCase):
         for expected in (
             '"python/v*"',
             "workflow_dispatch:",
+            "default: build-only",
+            "          - testpypi",
+            "          - pypi",
             "id-token: write",
             "name: testpypi",
             "name: pypi",

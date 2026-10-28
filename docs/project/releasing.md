@@ -62,7 +62,8 @@ an SDK or adapter does not by itself publish a package-registry artifact.
 Python publication uses PyPI Trusted Publishing through
 `.github/workflows/python-release.yml`. A `python/vX.Y.Z` tag must match
 `pyproject.toml`, `praxo.__version__`, and `praxo.SPEC_VERSION`. Manual dispatch
-defaults to TestPyPI; the PyPI environment is separately protected. Configure the
+defaults to `build-only`; TestPyPI or PyPI publication requires an explicit
+selection. TestPyPI needs its own trusted publisher. Configure the
 PyPI trusted publisher for owner, repository, workflow filename, and environment
 before creating the first tag. The PyPI workflow field must be exactly
 `python-release.yml`; a generic `workflow.yml` value will not match this
