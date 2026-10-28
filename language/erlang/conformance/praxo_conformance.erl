@@ -26,6 +26,11 @@ main([SpecDir]) ->
             {ok, File} = praxo_json:parse(Content),
             Failures1 = check_meta(Failures0, Group, File, Version),
             Vectors = praxo_json:get_array(File, <<"vectors">>),
+            Failures1a =
+                case Vectors of
+                    [] -> Failures1 ++ [format_failure(Group, <<"meta">>, <<"empty vector group">>)];
+                    _ -> Failures1
+                end,
             lists:foldl(
                 fun(Vector, {Failures2, Seen2}) ->
                     Id = praxo_util:default(praxo_json:get_string(Vector, <<"id">>), <<>>),
@@ -48,7 +53,7 @@ main([SpecDir]) ->
                         Message -> {Failures3 ++ [format_failure(Group, Id, Message)], Seen3}
                     end
                 end,
-                {Failures1, Seen0},
+                {Failures1a, Seen0},
                 Vectors
             )
         end,

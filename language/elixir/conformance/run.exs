@@ -33,8 +33,15 @@ defmodule Praxo.Conformance do
       content = File.read!("spec/vectors/#{group}.json")
       file = Json.parse!(content)
       failures = check_meta(failures, group, file, version)
+      vectors = Json.get_array(file, "vectors")
+      failures =
+        if vectors == [] do
+          failures ++ ["#{group}: empty vector group"]
+        else
+          failures
+        end
 
-      Enum.reduce(Json.get_array(file, "vectors"), {failures, seen}, fn vector, {failures, seen} ->
+      Enum.reduce(vectors, {failures, seen}, fn vector, {failures, seen} ->
         id = Json.get_string(vector, "id") || ""
         failures = if MapSet.member?(seen, id), do: failures ++ ["#{group}/#{id}: duplicate id"], else: failures
         seen = MapSet.put(seen, id)
