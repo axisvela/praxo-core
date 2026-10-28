@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+## [2.5.1] - 2026-10-28
+
 ### Added
 
 - Go public API snapshot check mode, with nonwriting drift and command-failure

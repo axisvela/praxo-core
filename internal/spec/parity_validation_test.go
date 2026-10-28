@@ -89,7 +89,7 @@ func TestDiscoverSplitParity(t *testing.T) {
 	const matrix = `## Matrix
 | Language | Tier | Status | Tag | Maturity | Notes |
 | --- | --- | --- | --- | --- | --- |
-| Go | Core (reference) | released | ` + "`v2.5.0`" + ` | reference | Reference |
+| Go | Core (reference) | released | ` + "`v2.5.1`" + ` | reference | Reference |
 | Python | Core | released | python/v0.2.0 | complete | Original |
 | TypeScript | Core | released | typescript/v0.1.0 | complete | Original |
 | Java | Core | released | java/v0.2.1 | complete | Original |

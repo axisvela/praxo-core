@@ -1,11 +1,12 @@
 # 版本总览
 
-当前框架核心版本为 `2.5.0`。升级前请查看对应发布说明与
+当前框架核心版本为 `2.5.1`。升级前请查看对应发布说明与
 [兼容政策](../project/compatibility-policy.md)。Core 和适配器独立版本化，分别见
 [Core 支持政策](../languages/support.md)和[适配器目录](../integrations/index.md)。
 
 | 核心版本 | 发布说明 |
 | --- | --- |
+| 2.5.1 | [安全与行为修正](2.5.1.md) |
 | 2.5.0 | [conformance 包与 VFS 加固](2.5.0.md) |
 | 2.4.0 | [流式 quickstart、MCP 示例与记忆召回基准](2.4.0.md) |
 | 2.3.6 | [formatter 运行时与可变状态修复](2.3.6.md) |

@@ -188,5 +188,5 @@ nav:
       - Language Policy: contributing/language-policy.md
   - Releases:
       - Release Overview: releases/index.md
-      - Latest Release: releases/2.5.0.md
+      - Latest Release: releases/2.5.1.md
       - Release Process: project/releasing.md

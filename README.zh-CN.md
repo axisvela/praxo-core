@@ -20,7 +20,7 @@
 ## 从 Go 开始
 
 ```bash
-go get github.com/axisvela/praxo-core/v2@v2.5.0
+go get github.com/axisvela/praxo-core/v2@v2.5.1
 ```
 
 从源码仓库运行 Ollama 示例：
@@ -100,9 +100,10 @@ PRAXO-CORE 是独立的 MIT 框架。
 
 ## 版本与贡献
 
-核心 `2.5.0` 新增 conformance 包并加固本地 VFS。适配器和 SDK 独立版本化。
+核心 `2.5.1` 是安全与行为修正补丁，覆盖 PII 历史参数脱敏、执行清理、流完成与
+一致性门禁。适配器和 Core 实现独立版本化。
 
-- [最新发布说明](docs/zh-CN/releases/2.5.0.md)
+- [最新发布说明](docs/zh-CN/releases/2.5.1.md)
 - [版本历史](docs/zh-CN/releases/index.md)
 - [兼容政策](docs/zh-CN/project/compatibility-policy.md)
 - [v2 迁移](docs/zh-CN/project/migration-v2.md)

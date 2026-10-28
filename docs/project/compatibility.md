@@ -33,6 +33,9 @@
 - `2.5.0` adds the additive `pkg/conformance` package and hardens
   `pkg/vfs/localfs` path validation. Existing exported declarations are
   unchanged from `2.4.0`.
+- `2.5.1` is a patch release; exported `pkg/...` declarations are identical to
+  `2.5.0`. It corrects PII history redaction, execution cleanup, stream
+  completion, scheduler/formatter behavior, and conformance gates.
 
 - Framework versions start at `0.x`.
 - PRAXOVELA product versions are independent.

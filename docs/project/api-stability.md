@@ -4,8 +4,9 @@
 `pkg/...` declarations. `2.3.0` adds `SubagentManager.Wait` and
 `SubagentManager.Prune`; all other declarations are unchanged. `2.3.1` through
 `2.4.0` add no `pkg/...` declarations. `2.5.0` adds the additive
-`pkg/conformance` package. The `1.0.0` surface remains frozen; new declarations
-are additive.
+`pkg/conformance` package. `2.5.1` is a patch release; its exported `pkg/...`
+declarations are identical to `2.5.0`. The `1.0.0` surface remains frozen; new
+declarations are additive.
 
 ## Audit Result
 

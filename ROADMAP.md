@@ -1,6 +1,6 @@
 # PRAXO-CORE Roadmap
 
-Current core release: `2.5.0`.
+Current core release: `2.5.1`.
 
 The [public technical roadmap](docs/project/roadmap.md) describes current focus
 and compatibility commitments. It is not a delivery schedule.

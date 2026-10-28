@@ -1,12 +1,13 @@
 # Release Overview
 
-Core `2.5.0` is the current framework release. Review the notes for the version
+Core `2.5.1` is the current framework release. Review the notes for the version
 you are adopting and follow the [compatibility policy](../project/compatibility-policy.md).
 Core and adapter versions are independent; see [Core support](../languages/support.md)
 and the [adapter directory](../integrations/index.md).
 
 | Core version | Release notes |
 | --- | --- |
+| 2.5.1 | [Security and behavior corrections](2.5.1.md) |
 | 2.5.0 | [Conformance package and VFS hardening](2.5.0.md) |
 | 2.4.0 | [Streaming quickstart, MCP examples, and recall benchmark](2.4.0.md) |
 | 2.3.6 | [Formatter runtime and mutable-state fixes](2.3.6.md) |

@@ -3,7 +3,7 @@
 Go is the reference implementation. Install the current core release:
 
 ```bash
-go get github.com/axisvela/praxo-core/v2@v2.5.0
+go get github.com/axisvela/praxo-core/v2@v2.5.1
 ```
 
 The module declares Go 1.25; CI and releases use Go 1.26.10. Follow the

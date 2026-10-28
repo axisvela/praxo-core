@@ -1,6 +1,6 @@
 # Public Roadmap
 
-Current core release: `2.5.0`. This page describes technical direction, not a
+Current core release: `2.5.1`. This page describes technical direction, not a
 delivery schedule or a promise that every Core implementation supports every feature.
 
 ## Current Focus
