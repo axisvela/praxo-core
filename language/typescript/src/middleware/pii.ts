@@ -88,6 +88,12 @@ export function piiMiddleware(redactor: PIIRedactor): Middleware {
         for (const block of message.contentBlocks ?? []) {
           block.text = redactor.redact(block.text ?? "");
         }
+        for (const toolCall of message.toolCalls ?? []) {
+          toolCall.arguments = redactValue(
+            redactor,
+            toolCall.arguments
+          ) as Record<string, unknown>;
+        }
       }
       call.request.messages = messages;
     },

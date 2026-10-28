@@ -17,11 +17,13 @@ from praxo.errors import (
     ToolNotSelectedError,
 )
 from praxo.middleware import (
+    ModelCall,
     PIIRedactor,
     StructuredOutput,
     default_pii_rules,
+    pii_middleware,
 )
-from praxo.model import Message, Response, ToolCall, Usage
+from praxo.model import Message, Request, Response, ToolCall, Usage
 from praxo.tool import Registry
 
 
@@ -86,6 +88,38 @@ class MiddlewareTest(unittest.IsolatedAsyncioTestCase):
         content = model.requests[0].messages[-1].content
         self.assertNotIn("a@b.com", content)
         self.assertIn("[REDACTED:email]", content)
+
+    async def test_pii_redacts_tool_call_history(self) -> None:
+        middleware = pii_middleware(
+            PIIRedactor(default_pii_rules())
+        )
+        call = ModelCall(
+            run_id="r1",
+            session_id="s1",
+            request=Request(
+                messages=[
+                    Message(
+                        role="assistant",
+                        tool_calls=[
+                            ToolCall(
+                                id="call-1",
+                                name="lookup",
+                                arguments={
+                                    "email": "a@b.com",
+                                    "nested": {"ssn": "123-45-6789"},
+                                },
+                            )
+                        ],
+                    )
+                ]
+            ),
+        )
+        await middleware.before_model(call)
+        arguments = call.request.messages[0].tool_calls[0].arguments
+        self.assertEqual(arguments["email"], "[REDACTED:email]")
+        self.assertEqual(
+            arguments["nested"]["ssn"], "[REDACTED:ssn]"
+        )
 
     async def test_model_call_limit(self) -> None:
         registry = Registry()

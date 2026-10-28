@@ -46,7 +46,11 @@
 - PII middleware now redacts historical tool-call arguments before they are sent
   back to a model and handles typed `map[string]string` / `[]string` tool
   results. Nested values are copied without mutating the caller's originals or
-  live tool invocation arguments.
+  live tool invocation arguments. Python, TypeScript, and Java now apply the
+  same historical tool-call redaction.
+- TypeScript source now targets `0.1.3` and derives `SDK_VERSION` consistency
+  from a test, fixing the published `0.1.2` artifact's stale `0.1.0` export in
+  the next release.
 - The C conformance runner validates specVersion, group names, non-empty vector
   groups, unique IDs, and input/expect objects before executing fixtures, with
   negative CTest coverage.

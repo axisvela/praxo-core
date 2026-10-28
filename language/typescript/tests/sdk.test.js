@@ -8,6 +8,11 @@ const praxo = require("../dist");
 const { runAll } = require("../dist/conformance/run");
 const { checkParity } = require("../dist/conformance/parity");
 
+test("SDK_VERSION matches package version", () => {
+  const pkg = require("../package.json");
+  assert.equal(praxo.SDK_VERSION, pkg.version);
+});
+
 test("all spec vectors pass", async () => {
   const failures = await runAll(path.resolve(__dirname, "../../.."));
   assert.deepEqual(failures, []);
@@ -93,6 +98,37 @@ test("context budget compacts under the limit", () => {
 test("PII middleware redacts email", () => {
   const redactor = new praxo.PIIRedactor(praxo.defaultPiiRules());
   assert.equal(redactor.redact("a@b.com"), "[REDACTED:email]");
+});
+
+test("PII middleware redacts tool-call history", () => {
+  const middleware = praxo.piiMiddleware(
+    new praxo.PIIRedactor(praxo.defaultPiiRules())
+  );
+  const call = {
+    runId: "r1",
+    sessionId: "s1",
+    request: {
+      messages: [
+        {
+          role: "assistant",
+          toolCalls: [
+            {
+              id: "call-1",
+              name: "lookup",
+              arguments: {
+                email: "a@b.com",
+                nested: { ssn: "123-45-6789" },
+              },
+            },
+          ],
+        },
+      ],
+    },
+  };
+  middleware.beforeModel(call);
+  const args = call.request.messages[0].toolCalls[0].arguments;
+  assert.equal(args.email, "[REDACTED:email]");
+  assert.equal(args.nested.ssn, "[REDACTED:ssn]");
 });
 
 test("plugin manifest rejects unknown fields", () => {

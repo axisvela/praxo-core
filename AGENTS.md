@@ -79,6 +79,7 @@ cd language/java; java -cp target/classes io.axisvela.praxo.conformance.ApiSnaps
 cd language/java; java -cp target/classes io.axisvela.praxo.conformance.Run
 cd language/java; java --add-modules jdk.httpserver -cp target/classes:target/test-classes io.axisvela.praxo.adapters.OpenAICompatibleSelfTest
 cd language/java; java -cp target/classes:target/test-classes io.axisvela.praxo.agent.AgentConcurrencySelfTest
+cd language/java; java -cp target/classes:target/test-classes io.axisvela.praxo.middleware.PiiMiddlewareSelfTest
 cd language/rust; cargo test
 cd language/rust; cargo run --quiet --bin conformance
 cd language/rust; python api-snapshot.py --check

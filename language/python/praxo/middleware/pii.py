@@ -74,6 +74,10 @@ def pii_middleware(redactor: PIIRedactor) -> Middleware:
             message.content = redactor.redact(message.content)
             for block in message.content_blocks:
                 block.text = redactor.redact(block.text or "")
+            for tool_call in message.tool_calls:
+                tool_call.arguments = redact_value(
+                    redactor, tool_call.arguments
+                )
         call.request.messages = messages
 
     async def after_tool(_: ToolCall, result: ToolResult) -> None:

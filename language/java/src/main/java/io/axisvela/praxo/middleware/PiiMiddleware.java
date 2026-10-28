@@ -3,9 +3,11 @@ package io.axisvela.praxo.middleware;
 import io.axisvela.praxo.model.ContentBlock;
 import io.axisvela.praxo.model.Message;
 import io.axisvela.praxo.model.Request;
+import io.axisvela.praxo.model.ToolCall;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public final class PiiMiddleware implements Middleware {
     private final PiiRedactor redactor;
@@ -34,11 +36,19 @@ public final class PiiMiddleware implements Middleware {
                         block.imageUrl(),
                         block.data()));
             }
+            List<ToolCall> calls = new ArrayList<>();
+            for (ToolCall call : message.toolCalls()) {
+                @SuppressWarnings("unchecked")
+                Map<String, Object> arguments =
+                        (Map<String, Object>) redactor.redactValue(
+                                call.arguments());
+                calls.add(new ToolCall(call.id(), call.name(), arguments));
+            }
             messages.add(new Message(
                     message.role(),
                     redactor.redact(message.content()),
                     blocks,
-                    message.toolCalls(),
+                    calls,
                     message.toolId()));
         }
         call.request = new Request(

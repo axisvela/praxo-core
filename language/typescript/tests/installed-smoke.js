@@ -2,6 +2,7 @@ const assert = require("node:assert/strict");
 const path = require("node:path");
 
 const praxo = require("@axisvela/praxo-core");
+const pkg = require("@axisvela/praxo-core/package.json");
 
 class StaticModel {
   async generate() {
@@ -10,7 +11,7 @@ class StaticModel {
 }
 
 async function main() {
-  assert.equal(praxo.SDK_VERSION, "0.1.0");
+  assert.equal(praxo.SDK_VERSION, pkg.version);
   assert.equal(praxo.SPEC_VERSION, "0.2.0");
   const resolved = require.resolve("@axisvela/praxo-core");
   const expected = process.env.PRAXO_CONSUMER_ROOT;

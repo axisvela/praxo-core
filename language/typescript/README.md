@@ -8,11 +8,12 @@ and the TypeScript parity check. Context budgets, middleware, streaming,
 `AbortSignal` cancellation, and the OpenAI-compatible adapter are included.
 Published on npm as `@axisvela/praxo-core@0.1.2`. The first publication used a
 short-lived bypass token because staged approval was unavailable; no provenance
-attestation is claimed for that release. VFS and plugin hosts are not yet
-implemented.
+attestation is claimed for that release. Source `0.1.3` adds PII tool-call
+history redaction and fixes `SDK_VERSION`; it is not published yet. VFS and
+plugin hosts are not yet implemented.
 
-Package version: `0.1.2`. Supported contract: `SPEC_VERSION` `0.2.0`
-(`SPEC_VERSION` export).
+Package version: `0.1.3` (source; npm latest is `0.1.2`). Supported contract:
+`SPEC_VERSION` `0.2.0` (`SPEC_VERSION` export).
 
 ## Requirements
 
