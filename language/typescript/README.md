@@ -27,6 +27,10 @@ npm run conformance
 node --test tests
 ```
 
+CI packs the package tarball, installs it into a temporary consumer project,
+and runs `tests/installed-smoke.js` with `PRAXO_CONSUMER_ROOT` set. This verifies
+the published file set and installed import path, not npm registry availability.
+
 ## Usage
 
 ```ts

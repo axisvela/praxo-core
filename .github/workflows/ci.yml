@@ -95,6 +95,22 @@ jobs:
       - run: python conformance/run.py
       - run: python api-snapshot.py --check
       - run: python -m unittest discover -s tests -v
+      - name: Build wheel and sdist
+        run: |
+          python -m pip install --upgrade build
+          python -m build --wheel --sdist
+      - name: Run installed wheel smoke
+        run: |
+          python -m venv "$RUNNER_TEMP/praxo-py-wheel"
+          "$RUNNER_TEMP/praxo-py-wheel/bin/python" -m pip install --no-deps dist/*.whl
+          cd "$RUNNER_TEMP"
+          "$RUNNER_TEMP/praxo-py-wheel/bin/python" "$GITHUB_WORKSPACE/language/python/tests/installed_smoke.py"
+      - name: Run installed sdist smoke
+        run: |
+          python -m venv "$RUNNER_TEMP/praxo-py-sdist"
+          "$RUNNER_TEMP/praxo-py-sdist/bin/python" -m pip install --no-deps dist/*.tar.gz
+          cd "$RUNNER_TEMP"
+          "$RUNNER_TEMP/praxo-py-sdist/bin/python" "$GITHUB_WORKSPACE/language/python/tests/installed_smoke.py"
 
   haskell-conformance:
     strategy:
@@ -267,6 +283,16 @@ jobs:
       - run: npm run api:check
       - run: npm run conformance
       - run: node --test tests/sdk.test.js tests/openaicompat.test.js tests/api-signatures.test.js
+      - name: Run installed package smoke
+        run: |
+          npm pack --pack-destination "$RUNNER_TEMP"
+          consumer="$RUNNER_TEMP/praxo-ts-consumer"
+          mkdir -p "$consumer"
+          cd "$consumer"
+          npm init -y >/dev/null
+          npm install --no-save --no-audit --no-fund "$RUNNER_TEMP"/axisvela-praxo-core-*.tgz
+          cp "$GITHUB_WORKSPACE/language/typescript/tests/installed-smoke.js" .
+          PRAXO_CONSUMER_ROOT="$consumer" node installed-smoke.js
 
   java-conformance:
     runs-on: ubuntu-latest

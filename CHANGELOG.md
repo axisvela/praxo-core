@@ -48,6 +48,9 @@
 - Release artifacts include a deterministic manifest with tag, commit, spec,
   toolchain, SBOM scope, and attachment hashes. Checksums cover archive, SBOM,
   and manifest; the SBOM remains root-module scoped.
+- CI installs the Python wheel and sdist and the TypeScript package tarball in
+  clean environments, then runs the installed-package smoke tests outside the
+  source tree. Registry publication remains pending.
 - Go validates and repairs final output before completion hooks, checkpoint
   projections, memory writes, and completion notification, for both text and
   structured-tool answers. A completion sink error is returned without a second,

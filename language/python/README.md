@@ -100,6 +100,11 @@ python api-snapshot.py --check
 python -m build --wheel --sdist .
 ```
 
+CI installs the built wheel and sdist into separate clean virtual environments
+and runs `tests/installed_smoke.py` from outside the source tree. This verifies
+the packaged artifacts, not the checkout. It does not prove PyPI publication or
+installation from a package registry.
+
 ## License
 
 MIT. See [LICENSE](../../LICENSE).
