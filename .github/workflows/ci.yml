@@ -399,9 +399,17 @@ jobs:
           python-version: "3.12"
       - name: Check C public API snapshot
         run: python api-snapshot.py --check
-      - run: cmake -S . -B build
+      - run: cmake -S . -B build -DCMAKE_INSTALL_PREFIX="$RUNNER_TEMP/praxo-c"
       - run: cmake --build build
       - run: ctest --test-dir build --output-on-failure
+      - name: Install C package and run consumer
+        run: |
+          cmake --install build
+          library="$(find "$RUNNER_TEMP/praxo-c" -name libpraxo_core.a -print -quit)"
+          test -n "$library"
+          cc -std=c11 -I"$RUNNER_TEMP/praxo-c/include" tests/install_consumer.c \
+            "$library" -lm -o "$RUNNER_TEMP/praxo-c-consumer"
+          "$RUNNER_TEMP/praxo-c-consumer"
 
   csharp-conformance:
     runs-on: ubuntu-latest

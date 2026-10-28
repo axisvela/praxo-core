@@ -30,6 +30,20 @@ zig cc -std=c11 -Iinclude -Isrc src/files.c src/json.c src/json_equals.c src/too
 Outputs should be written under `language/c/build` (or another workspace directory), not
 to a toolchain install root.
 
+## Install
+
+```bash
+cmake -S . -B build -DCMAKE_INSTALL_PREFIX=/tmp/praxo-c
+cmake --build build
+cmake --install build
+```
+
+The install prefix receives `include/praxo.h`, `include/praxo_core.h`, and the
+static `praxo_core` library. CI compiles and runs `tests/install_consumer.c`
+against that prefix, without repository include paths. The install does not yet
+provide pkg-config metadata, a CMake package config, shared libraries, or ABI
+guarantees.
+
 ## Public API Snapshot
 
 CTest registers the public-header snapshot check and its regression tests when

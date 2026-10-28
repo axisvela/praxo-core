@@ -48,6 +48,9 @@
 - Release artifacts include a deterministic manifest with tag, commit, spec,
   toolchain, SBOM scope, and attachment hashes. Checksums cover archive, SBOM,
   and manifest; the SBOM remains root-module scoped.
+- C adds CMake install rules for the static library and public headers. CI
+  compiles and runs a consumer against the installed prefix. pkg-config, CMake
+  package config, shared libraries, and ABI guarantees remain out of scope.
 - CI installs the Python wheel and sdist and the TypeScript package tarball in
   clean environments, then runs the installed-package smoke tests outside the
   source tree. Registry publication remains pending.

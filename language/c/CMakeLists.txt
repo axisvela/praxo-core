@@ -5,6 +5,7 @@ set(CMAKE_C_STANDARD 11)
 set(CMAKE_C_STANDARD_REQUIRED ON)
 
 include(CTest)
+include(GNUInstallDirs)
 
 add_library(praxo_core STATIC
     src/files.c
@@ -20,10 +21,19 @@ add_library(praxo_core STATIC
     src/vectors_agent.c
     src/conformance.c
 )
-target_include_directories(praxo_core PUBLIC include src)
+target_include_directories(praxo_core PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src>
+    $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)
 if(NOT WIN32)
     target_link_libraries(praxo_core PUBLIC m)
 endif()
+install(TARGETS praxo_core
+    ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
+install(FILES include/praxo.h include/praxo_core.h
+    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 
 add_executable(praxo-conformance src/main.c)
 target_link_libraries(praxo-conformance PRIVATE praxo_core)
