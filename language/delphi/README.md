@@ -1,6 +1,6 @@
 # PRAXO-CORE for Delphi and Free Pascal
 
-Native Core implementation with source tag `delphi/v0.2.0`. It passes all eleven
+Native Core implementation with source tag `delphi/v0.2.1`. It passes all eleven
 vector groups and includes the native agent loop plus memory, event, checkpoint,
 policy, context, and middleware helpers. It does not call Go or another language
 Core; there is no model provider, process bridge, or plugin host.
@@ -54,7 +54,7 @@ begin
 end;
 ```
 
-Public declarations are inventoried in [`api/0.1.0.txt`](api/0.1.0.txt).
+Public declarations are inventoried in [`api/0.2.1.txt`](api/0.2.1.txt).
 The JSON node type is Free Pascal's `TJSONData` (`fpjson`), so consumers already
 using `fpjson` can inspect results directly. `TPraxoCall.Input` is caller-owned.
 `PraxoValidateManifest` returns an owned `TJSONObject` on success.

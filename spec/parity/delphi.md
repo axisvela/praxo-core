@@ -3,7 +3,7 @@
 - Tier: core
 - SPEC_VERSION: 0.2.0
 
-Released source tag `delphi/v0.2.0` ships a native Core implementation verified
+Released source tag `delphi/v0.2.1` ships a native Core implementation verified
 with Free Pascal 3.2.2 on Windows i386. It passes all eleven vector groups, native
 tests, and the public API snapshot. The commercial Delphi compiler and other
 targets are not independently verified. `partial` marks a surface that covers the
