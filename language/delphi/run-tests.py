@@ -1,4 +1,5 @@
 import argparse
+import json
 import os
 from pathlib import Path
 import shutil
@@ -7,9 +8,29 @@ import sys
 
 
 ROOT = Path(__file__).resolve().parent
+REPO = ROOT.parents[1]
+GROUPS = (
+    "agent-loop", "checkpoint", "context", "event", "jsonschema",
+    "memory", "middleware", "plugin", "policy", "stream", "toolcall",
+)
+
+
+def validate_vectors():
+    spec = REPO / "spec"
+    version = (spec / "SPEC_VERSION").read_text(encoding="utf-8").strip()
+    available = {path.stem for path in (spec / "vectors").glob("*.json")}
+    if available != set(GROUPS):
+        raise SystemExit(f"vector group inventory changed: {sorted(available ^ set(GROUPS))}")
+    for group in GROUPS:
+        data = json.loads((spec / "vectors" / f"{group}.json").read_text(encoding="utf-8"))
+        if data.get("specVersion") != version or data.get("group") != group:
+            raise SystemExit(f"invalid vector metadata: {group}")
+        if not data.get("vectors"):
+            raise SystemExit(f"empty vector group: {group}")
 
 
 def main():
+    validate_vectors()
     parser = argparse.ArgumentParser()
     parser.add_argument("--compiler", default=os.environ.get("FPC", "fpc"))
     args = parser.parse_args()
