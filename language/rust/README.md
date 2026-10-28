@@ -7,7 +7,7 @@ Rust implementation of the PRAXO-CORE contract. The normative contract is
 Context budgets, middleware, and the synchronous agent loop are included. The
 OpenAI-compatible adapter, VFS, and plugin hosts are not yet implemented.
 
-Package version: `0.1.0`. Supported contract: `SPEC_VERSION` `0.2.0`
+Package version: `0.1.1`. Supported contract: `SPEC_VERSION` `0.2.0`
 (`praxo_core::SPEC_VERSION`).
 
 ## Requirements
