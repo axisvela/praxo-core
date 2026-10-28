@@ -59,6 +59,16 @@ suffixes such as `-rc.1`, `-beta`, or `-alpha`. Existing tags are immutable.
 SDK releases declare their supported contract version. The root release workflow handles only `v*` core tags; a source tag for
 an SDK or adapter does not by itself publish a package-registry artifact.
 
+Python publication uses PyPI Trusted Publishing through
+`.github/workflows/python-release.yml`. A `python/vX.Y.Z` tag must match
+`pyproject.toml`, `praxo.__version__`, and `praxo.SPEC_VERSION`. Manual dispatch
+defaults to TestPyPI; the PyPI environment is separately protected. Configure the
+PyPI trusted publisher for owner, repository, workflow filename, and environment
+before creating the first tag. The PyPI workflow field must be exactly
+`python-release.yml`; a generic `workflow.yml` value will not match this
+repository. A source tag or successful build does not establish
+that PyPI publication occurred.
+
 ## Consumer Guidance
 
 Use [release notes](../releases/index.md) to review changes, then follow the

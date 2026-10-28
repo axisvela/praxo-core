@@ -1,0 +1,107 @@
+name: python-release
+
+on:
+  push:
+    tags:
+      - "python/v*"
+  workflow_dispatch:
+    inputs:
+      repository:
+        description: Publish target
+        required: true
+        default: testpypi
+        type: choice
+        options:
+          - testpypi
+          - pypi
+
+permissions:
+  contents: read
+
+concurrency:
+  group: python-release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: language/python
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Verify version and tag
+        shell: bash
+        run: |
+          version="$(python -c 'import praxo; print(praxo.__version__)')"
+          spec="$(python -c 'import praxo; print(praxo.SPEC_VERSION)')"
+          metadata="$(python -c 'import pathlib, tomllib; print(tomllib.loads(pathlib.Path("pyproject.toml").read_text(encoding="utf-8"))["project"]["version"])')"
+          test "${metadata}" = "${version}"
+          test "${spec}" = "$(cat ../../spec/SPEC_VERSION)"
+          if [ "${GITHUB_REF_TYPE}" = "tag" ]; then
+            test "python/v${version}" = "${GITHUB_REF_NAME}"
+          fi
+      - name: Build distributions
+        run: |
+          python -m pip install --upgrade build twine
+          python -m build --wheel --sdist
+          python -m twine check dist/*
+      - name: Run installed wheel smoke
+        run: |
+          python -m venv "$RUNNER_TEMP/praxo-py-wheel"
+          "$RUNNER_TEMP/praxo-py-wheel/bin/python" -m pip install --no-deps dist/*.whl
+          cd "$RUNNER_TEMP"
+          "$RUNNER_TEMP/praxo-py-wheel/bin/python" "$GITHUB_WORKSPACE/language/python/tests/installed_smoke.py"
+      - name: Run installed sdist smoke
+        run: |
+          python -m venv "$RUNNER_TEMP/praxo-py-sdist"
+          "$RUNNER_TEMP/praxo-py-sdist/bin/python" -m pip install --no-deps dist/*.tar.gz
+          cd "$RUNNER_TEMP"
+          "$RUNNER_TEMP/praxo-py-sdist/bin/python" "$GITHUB_WORKSPACE/language/python/tests/installed_smoke.py"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: python-dist
+          path: language/python/dist/*
+          if-no-files-found: error
+
+  publish-testpypi:
+    needs: build
+    if: github.event_name == 'workflow_dispatch' && inputs.repository == 'testpypi'
+    runs-on: ubuntu-latest
+    environment:
+      name: testpypi
+      url: https://test.pypi.org/project/praxo-core/
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: python-dist
+          path: dist
+      - uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          repository-url: https://test.pypi.org/legacy/
+          packages-dir: dist/
+
+  publish-pypi:
+    needs: build
+    if: github.event_name == 'push' || inputs.repository == 'pypi'
+    runs-on: ubuntu-latest
+    environment:
+      name: pypi
+      url: https://pypi.org/project/praxo-core/
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: python-dist
+          path: dist
+      - uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          packages-dir: dist/

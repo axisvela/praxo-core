@@ -51,6 +51,10 @@
 - C adds CMake install rules for the static library and public headers. CI
   compiles and runs a consumer against the installed prefix. pkg-config, CMake
   package config, shared libraries, and ABI guarantees remain out of scope.
+- Added a Python Trusted Publishing workflow for `python/v*` tags and manual
+  TestPyPI/PyPI dispatch. It verifies version, SPEC_VERSION, tag, builds wheel
+  and sdist, consumes both installed artifacts, and publishes via OIDC. PyPI
+  publisher configuration and the first successful upload remain pending.
 - CI installs the Python wheel and sdist and the TypeScript package tarball in
   clean environments, then runs the installed-package smoke tests outside the
   source tree. Registry publication remains pending.

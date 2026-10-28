@@ -289,6 +289,24 @@ class ReleaseChecksTests(unittest.TestCase):
                         ".github/workflows/release.yml"):
             self.assertEqual(text.count(f'- "{pattern}"'), 1, pattern)
 
+    def test_python_release_uses_trusted_publishing(self):
+        text = (ROOT / ".github/workflows/python-release.yml").read_text(encoding="utf-8")
+        for expected in (
+            '"python/v*"',
+            "workflow_dispatch:",
+            "id-token: write",
+            "name: testpypi",
+            "name: pypi",
+            "repository-url: https://test.pypi.org/legacy/",
+            "pypa/gh-action-pypi-publish@release/v1",
+            "python -m twine check dist/*",
+            "installed_smoke.py",
+            "test \"python/v${version}\" = \"${GITHUB_REF_NAME}\"",
+        ):
+            self.assertIn(expected, text)
+        self.assertNotIn("PYPI_API_TOKEN", text)
+        self.assertNotIn("password:", text)
+
     def test_manual_dispatch_cannot_publish(self):
         text = (ROOT / ".github/workflows/release.yml").read_text(encoding="utf-8")
         triggers = text.split("\npermissions:", 1)[0]

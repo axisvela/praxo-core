@@ -20,6 +20,7 @@ on:
       - "scripts/release_manifest.py"
       - "scripts/test_release_manifest.py"
       - ".github/workflows/release.yml"
+      - ".github/workflows/python-release.yml"
       - "spec/languages.md"
       - "spec/SPEC_VERSION"
       - ".github/workflows/docs.yml"
