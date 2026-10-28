@@ -21,8 +21,8 @@ cases. Build output goes to `language/delphi/build/`.
 
 The reported local run with FPC 3.2.2 on Windows i386 passed all eleven vector
 groups and the native tests. The compiler emitted existing managed result
-warnings. Commercial Delphi, other operating systems, and remote CI remain
-unverified.
+warnings. Commercial Delphi and other operating systems remain unverified;
+Linux CI runs FPC.
 
 The snapshot check compares `api/0.2.0.txt` and checks the contract version
 and symbols in `spec/parity/delphi.md`.

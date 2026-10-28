@@ -77,7 +77,7 @@ Public declarations are inventoried in [`api/0.1.0.txt`](api/0.1.0.txt).
 ## Current Limits
 
 - Verified with `Nim 2.2.12` and MSYS2 `gcc 15.2.0` on Windows. Other Nim
-  releases, other C compilers, and remote CI are not yet verified.
+  releases and other C compilers are not verified; Linux CI runs the same suite.
 - JSON uses `std/json`. Invalid JSON and trailing data are rejected. Duplicate
   object keys are not a declared vector and should not be treated as a security
   boundary.

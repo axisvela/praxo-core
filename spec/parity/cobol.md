@@ -3,7 +3,7 @@
 - Tier: core
 - SPEC_VERSION: 0.2.0
 
-Released native Core. All 62 vectors in eleven groups, native agent tests,
+Released native Core. All 63 vectors in eleven groups, native agent tests,
 JSON tests, contract boundary tests, tooling tests, and the API declaration
 snapshot pass locally. The remote `cobol-conformance` job passes; `cobol/v0.1.0`
 is the released tag. `partial` does not claim every optional Go hook, provider

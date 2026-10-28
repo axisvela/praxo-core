@@ -22,8 +22,8 @@ spec version and vector group headers, then runs `tests/test_json.m`,
 and the native regression scripts run under Octave.
 
 The reported Windows run of `run-tests.py` with the executable above passed all
-eleven vector groups and the native tests. Actual MATLAB and remote CI remain
-unverified.
+eleven vector groups and the native tests. Actual MATLAB remains unverified;
+Linux Octave CI runs the same suite.
 
 `api-snapshot.py --check` verifies `api/0.2.0.txt`, the contract version,
 and symbols in `spec/parity/matlab.md`. Without `--check` it regenerates the

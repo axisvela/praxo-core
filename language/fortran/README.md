@@ -1,7 +1,7 @@
 # Fortran Core
 
 A native Fortran 2008 implementation with source tag `fortran/v0.2.0`. This is
-not a bridge to Go, C, Python, or another Core. All 62 normative vectors across
+not a bridge to Go, C, Python, or another Core. All 63 normative vectors across
 eleven groups pass locally, alongside native regression tests and the API
 declaration snapshot. The tag is a source release, not package-registry
 publication. Documented limitations remain below.

@@ -80,7 +80,7 @@ result := praxo.run_agent(options, praxo.session('s1', []praxo.Message{}), 'Hi')
 ## Current Limits
 
 - Verified with `V 0.5.2` and the bundled `tcc` on Windows. Other V releases,
-  `gcc`, and remote CI are not yet verified.
+  and `gcc` are not verified; Linux CI runs the same suite.
 - JSON is decoded with `x.json2`. Invalid JSON and trailing data are rejected;
   duplicate object keys are not a declared vector and should not be treated as
   a security boundary.
