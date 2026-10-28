@@ -72,8 +72,16 @@ console.log(result.output, result.steps, result.usage);
 | `src/adapters/openaicompat.ts` | OpenAI-compatible non-streaming and SSE adapter |
 
 Wire codecs preserve the Go names, including `image_url`, `runId`, and
-`plugin_id`. The checked-in API snapshot is `api/<version>.txt`; refresh it with
-`npm run api` and verify it with `npm run api:check`.
+`plugin_id`. The checked-in export-name snapshot is `api/<version>.txt`; the
+source-declaration snapshot is `api/<version>.signatures.txt`. Refresh both with
+`npm run api` and verify both with `npm run api:check`.
+
+The signature snapshot records public class constructors and members, interface
+fields and optionality, function and method parameters and return types, type
+aliases, enum members, and exported constant types. It is a TypeScript source
+declaration gate, not a binary ABI, serializer-schema, or runtime behavior
+guarantee. The export-name baseline remains unchanged for the existing version;
+the signature baseline was added after that release.
 
 ## Conformance
 

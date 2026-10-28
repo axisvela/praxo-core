@@ -42,6 +42,9 @@
 - Conformance runners reject missing, empty, or unexpected vector groups instead
   of succeeding with files that were never executed. Go inventory checks and
   Python/TypeScript diagnostics have negative tests.
+- TypeScript adds a source-declaration snapshot covering public signatures,
+  fields, optionality, constructors, methods, aliases, enums, and constant
+  types, with mutation tests; the historical export-name snapshot is unchanged.
 - Go validates and repairs final output before completion hooks, checkpoint
   projections, memory writes, and completion notification, for both text and
   structured-tool answers. A completion sink error is returned without a second,

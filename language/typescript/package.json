@@ -14,10 +14,10 @@
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "clean": "node -e \"require('fs').rmSync('dist',{recursive:true,force:true})\"",
-    "api": "node api-snapshot.js",
-    "api:check": "node api-snapshot.js --check",
+    "api": "node api-snapshot.js && node api-signatures.js",
+    "api:check": "node api-snapshot.js --check && node api-signatures.js --check",
     "conformance": "node dist/conformance/run.js",
-    "test": "npm run build && npm run conformance && node --test tests/sdk.test.js tests/openaicompat.test.js"
+    "test": "npm run build && npm run conformance && node --test tests/sdk.test.js tests/openaicompat.test.js tests/api-signatures.test.js"
   },
   "engines": {
     "node": ">=20"
