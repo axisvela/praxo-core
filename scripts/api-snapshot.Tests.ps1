@@ -1,11 +1,12 @@
 $ErrorActionPreference = 'Stop'
 $priorGoWork = $env:GOWORK
 $priorExitCode = $global:LASTEXITCODE
+$priorEncoding = [Console]::OutputEncoding.CodePage
 $temp = Join-Path ([System.IO.Path]::GetTempPath()) ([System.Guid]::NewGuid().ToString('N'))
 $null = New-Item -ItemType Directory -Path $temp
 $baseline = Join-Path $temp 'snapshot.txt'
 $script = Join-Path $PSScriptRoot 'api-snapshot.ps1'
-$state = @{ Calls = 0; FailAt = 0; Empty = $false; FieldType = 'string'; ReturnType = 'string' }
+$state = @{ Calls = 0; FailAt = 0; Empty = $false; FieldType = 'string'; ReturnType = 'string'; Constant = 'const Marker = "a"' }
 
 function go {
     $state.Calls++
@@ -19,9 +20,15 @@ function go {
         }
         return
     }
+    'Package example contains description text.'
+    'Non-API prose before declarations.'
+    'CONSTANTS'
+    $state.Constant
+    'TYPES'
     'type Example struct {'
     "`tName $($state.FieldType)"
     '}'
+    'FUNCTIONS'
     "func Generate() $($state.ReturnType)"
 }
 
@@ -39,10 +46,11 @@ function Assert-SnapshotFailure([string]$Expected, [string]$Path = $baseline, [s
 try {
     $env:GOWORK = 'preserved-workspace'
     & $script -OutFile $baseline
-    if ($state.Calls -ne 3 -or $env:GOWORK -ne 'preserved-workspace') {
+    if ($state.Calls -ne 3 -or $env:GOWORK -ne 'preserved-workspace' -or [Console]::OutputEncoding.CodePage -ne $priorEncoding) {
         throw 'snapshot generation skipped packages or did not restore GOWORK'
     }
     $original = [System.IO.File]::ReadAllText($baseline)
+    if ($original.Contains('Non-API prose')) { throw 'snapshot retained package prose' }
     $stamp = [datetime]'2001-01-01T00:00:00Z'
     [System.IO.File]::SetLastWriteTimeUtc($baseline, $stamp)
     $stamp = [System.IO.File]::GetLastWriteTimeUtc($baseline)
@@ -50,12 +58,20 @@ try {
     if ([System.IO.File]::GetLastWriteTimeUtc($baseline) -ne $stamp) {
         throw 'check rewrote baseline'
     }
+    $header = '### github.com/axisvela/praxo-core/v2/pkg/example'
+    $prose = "legacy prose $([char]0xFFFD)`n"
+    [System.IO.File]::WriteAllText($baseline, $original.Replace("$header`n", "$header`n$prose"))
+    & $script -OutFile $baseline -Check
+    [System.IO.File]::WriteAllText($baseline, $original)
     $state.FieldType = 'int'
     Assert-SnapshotFailure 'differs from current source'
     $state.FieldType = 'string'
     $state.ReturnType = 'bool'
     Assert-SnapshotFailure 'differs from current source'
     $state.ReturnType = 'string'
+    $state.Constant = 'const Marker = "' + [char]0x03C0 + '"'
+    Assert-SnapshotFailure 'differs from current source'
+    $state.Constant = 'const Marker = "a"'
     if ([System.IO.File]::ReadAllText($baseline) -cne $original) {
         throw 'failed check changed baseline'
     }
@@ -72,6 +88,7 @@ try {
             throw "generation continued or wrote output after failure $failAt"
         }
         if ($env:GOWORK -ne 'preserved-workspace') { throw 'failure did not restore GOWORK' }
+        if ([Console]::OutputEncoding.CodePage -ne $priorEncoding) { throw 'failure did not restore output encoding' }
     }
     $state.Calls = 0
     $state.FailAt = 0

@@ -26,6 +26,13 @@ the check. Windows and Unix line endings compare equally. CI checks source
 against the committed snapshot on all three Go platforms; this detects drift,
 not semantic-version compatibility or runtime behavior changes.
 
+Comparison retains package headings and the constants, variables, functions,
+types, fields, tags, and methods sections. Package-description prose before
+those sections is excluded from both source and historical snapshots: old
+snapshots can contain shell-dependent text decoding in descriptions. Native Go
+output is decoded as UTF-8, historical files are not rewritten, and declaration
+differences are reported when the check fails.
+
 The snapshot is a release gate, not a generated build artifact. Review every
 difference and record intentional changes in `CHANGELOG.md` and
 `docs/project/compatibility.md`.

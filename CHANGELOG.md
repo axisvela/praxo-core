@@ -14,6 +14,10 @@
 
 ### Fixed
 
+- Go API checks compare declaration sections rather than shell-decoded package
+  descriptions, preserve UTF-8 declaration changes, and report declaration diffs.
+- Process crash tests use explicit post-start synchronization instead of racing
+  the startup health response against immediate child exit.
 - Go runs cleanup for middleware entered before startup failure, continues
   remaining AfterRun callbacks after an error, and releases call-limit and tool
   selection state even when a failed run has no Result. The original execution

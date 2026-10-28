@@ -6,6 +6,24 @@ param(
 
 $ErrorActionPreference = 'Stop'
 $root = Split-Path -Parent $PSScriptRoot
+function ConvertTo-ApiDeclarations([string]$Text) {
+    $normalized = New-Object System.Collections.Generic.List[string]
+    $declarations = $false
+    foreach ($line in $Text.Replace("`r`n", "`n").Split("`n")) {
+        if ($line.StartsWith('### ')) {
+            $declarations = $false
+            $normalized.Add($line)
+            continue
+        }
+        if ($line -cmatch '^(CONSTANTS|VARIABLES|FUNCTIONS|TYPES)$') {
+            $declarations = $true
+        }
+        if ($declarations) {
+            $normalized.Add($line)
+        }
+    }
+    return $normalized -join "`n"
+}
 if (-not $Version) {
     $Version = (Get-Content (Join-Path $root 'VERSION') -Raw).Trim()
 }
@@ -13,9 +31,11 @@ if (-not $OutFile) {
     $OutFile = Join-Path $root "api\$Version.txt"
 }
 $priorGoWork = $env:GOWORK
+$priorEncoding = [Console]::OutputEncoding
 $env:GOWORK = 'off'
 try {
     Push-Location $root
+    [Console]::OutputEncoding = New-Object System.Text.UTF8Encoding($false)
     $packages = go list ./pkg/...
     if ($LASTEXITCODE -ne 0) {
         throw "go list failed (exit $LASTEXITCODE)"
@@ -38,13 +58,15 @@ try {
         }
         $lines.Add('')
     }
-    $snapshot = $lines -join "`n"
+    $snapshot = ConvertTo-ApiDeclarations ($lines -join "`n")
     if ($Check) {
         if (-not (Test-Path -LiteralPath $OutFile -PathType Leaf)) {
             throw "API snapshot missing: $OutFile"
         }
-        $baseline = [System.IO.File]::ReadAllText($OutFile).Replace("`r`n", "`n")
+        $baseline = ConvertTo-ApiDeclarations ([System.IO.File]::ReadAllText($OutFile))
         if ($snapshot -cne $baseline) {
+            Compare-Object -ReferenceObject $baseline.Split("`n") -DifferenceObject $snapshot.Split("`n") -CaseSensitive |
+                ForEach-Object { Write-Output ("{0} {1}" -f $_.SideIndicator, ($_.InputObject | ConvertTo-Json -Compress)) }
             throw "API snapshot differs from current source: $OutFile"
         }
         Write-Output "API snapshot matches current source: $OutFile"
@@ -57,4 +79,5 @@ try {
 } finally {
     Pop-Location
     $env:GOWORK = $priorGoWork
+    [Console]::OutputEncoding = $priorEncoding
 }
