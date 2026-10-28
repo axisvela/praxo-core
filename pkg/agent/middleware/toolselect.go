@@ -5,6 +5,7 @@ import (
 	"errors"
 	"sync"
 
+	"github.com/axisvela/praxo-core/v2/internal/runid"
 	"github.com/axisvela/praxo-core/v2/pkg/agent/types"
 	"github.com/axisvela/praxo-core/v2/pkg/model"
 )
@@ -67,13 +68,17 @@ func ToolSelectionMiddleware(selector ToolSelector) types.Middleware {
 			}
 			return nil
 		},
-		AfterRun: func(_ context.Context, result *types.Result, _ error) error {
-			if result == nil {
+		AfterRun: func(ctx context.Context, result *types.Result, _ error) error {
+			id := runid.From(ctx)
+			if id == "" && result == nil {
 				return nil
+			}
+			if id == "" {
+				id = result.RunID
 			}
 			mu.Lock()
 			defer mu.Unlock()
-			delete(selected, result.RunID)
+			delete(selected, id)
 			return nil
 		},
 	}

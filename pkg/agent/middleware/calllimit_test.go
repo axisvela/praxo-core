@@ -5,6 +5,7 @@ import (
 	"errors"
 	"testing"
 
+	"github.com/axisvela/praxo-core/v2/internal/runid"
 	"github.com/axisvela/praxo-core/v2/pkg/agent/types"
 	"github.com/axisvela/praxo-core/v2/pkg/model"
 )
@@ -53,5 +54,30 @@ func TestCallLimitMiddlewareSeparatesRuns(t *testing.T) {
 	}
 	if err := mw.BeforeModel(context.Background(), callB); err != nil {
 		t.Fatalf("second run was affected by first: %v", err)
+	}
+}
+
+func TestCallLimitMiddlewareCleansFailedRunWithoutResult(t *testing.T) {
+	ctx := runid.With(context.Background(), "failed")
+	mw := CallLimitMiddleware(1, 1)
+	if err := mw.BeforeRun(ctx, &types.RunState{RunID: "failed"}); err != nil {
+		t.Fatal(err)
+	}
+	modelCall := &types.ModelCall{RunID: "failed"}
+	toolCall := &types.ToolCall{RunID: "failed"}
+	if err := mw.BeforeModel(ctx, modelCall); err != nil {
+		t.Fatal(err)
+	}
+	if err := mw.BeforeTool(ctx, toolCall); err != nil {
+		t.Fatal(err)
+	}
+	if err := mw.AfterRun(ctx, nil, context.Canceled); err != nil {
+		t.Fatal(err)
+	}
+	if err := mw.BeforeModel(ctx, modelCall); err != nil {
+		t.Fatalf("failed run model count was retained: %v", err)
+	}
+	if err := mw.BeforeTool(ctx, toolCall); err != nil {
+		t.Fatalf("failed run tool count was retained: %v", err)
 	}
 }

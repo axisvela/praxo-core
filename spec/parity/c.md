@@ -3,10 +3,17 @@
 - Tier: core
 - SPEC_VERSION: 0.2.0
 
-Released source tag `c/v0.2.0`. The C11 SDK passes all eleven vectors and adds a
+Released source tag `c/v0.2.0`. The C11 SDK exercises all eleven vector groups through a
 public Core API for memory, events, checkpoints, policy, context, middleware, and
 the agent loop. JSON remains the wire-level primitive; `partial` marks a surface
 that is narrower than the corresponding Go type or provider integration.
+
+The vector adapters call the public Core APIs; scripted models and echo tools
+provide fixture setup only. The context API represents role/content text only,
+so adapters reject rich messages rather than dropping their fields. The agent
+options do not expose a tool registry or advertised tool list. Policy checks
+are lexical and do not establish filesystem or symlink containment. Fixture
+coverage does not imply parity for these unrepresented capabilities.
 
 | Go symbol | C symbol | Status | Phase |
 | --- | --- | --- | --- |
@@ -19,12 +26,12 @@ that is narrower than the corresponding Go type or provider integration.
 | `event.Event` | `px_sink_emit` | parity | P1 |
 | `event.Sink` | `px_sink_new` | parity | P1 |
 | `policy.Decision` | `px_path_check` | parity | P1 |
-| `policy.PathChecker` | `px_path_checker` | parity | P1 |
+| `policy.PathChecker` | `px_path_checker` | partial | P1 |
 | `memory.Store` | `px_memory_init` | parity | P1 |
 | `memory.Record` | `px_memory_put` | parity | P1 |
 | `checkpoint.Allowlist` | `px_checkpoint_init` | parity | P1 |
-| `agent/context.ContextBudget` | `px_compact_context` | parity | P1 |
-| `agent/context.EstimateTokens` | `px_estimate_tokens` | parity | P1 |
+| `agent/context.ContextBudget` | `px_compact_context` | partial | P1 |
+| `agent/context.EstimateTokens` | `px_estimate_tokens` | partial | P1 |
 | `agent.Agent` | `px_agent_run` | parity | P1 |
 | `agent.Options` | `px_agent_run` | partial | P1 |
 | `agent.New` | `px_agent_run` | partial | P1 |

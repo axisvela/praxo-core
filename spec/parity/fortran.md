@@ -24,7 +24,7 @@ limitations.
 | `event.Sink` | `praxo_interfaces.event_sink` | parity | P1 |
 | `event.FilterSink` | `praxo_runtime.filter_sink` | parity | P1 |
 | `event.MultiSink` | `praxo_runtime.multi_sink` | parity | P1 |
-| `policy.Policy` | `praxo_interfaces.policy`, `praxo_types.action` | parity | P1 |
+| `policy.Hook` | `praxo_interfaces.policy`, `praxo_types.action` | parity | P1 |
 | `policy.Decision` | `praxo_types.decision` | parity | P1 |
 | `memory.Record` | `praxo_runtime.memory_record` | parity | P1 |
 | `memory.Store` | `praxo_runtime.memory_store` | parity | P1 |
@@ -32,7 +32,7 @@ limitations.
 | `agent/context.EstimateTokens` | `praxo_context.estimate_tokens` | parity | P1 |
 | `agent.Agent` | `praxo_agent.run_agent` | parity | P1 |
 | `agent.Options` | `praxo_agent.agent_options` | parity | P1 |
-| `agent.RunResult` | `praxo_types.run_result` | parity | P1 |
+| `agent.Result` | `praxo_types.run_result` | parity | P1 |
 | `agent.Session` | `praxo_types.session` | parity | P1 |
 | `checkpoint.Allowlist` | `praxo_checkpoint.checkpoint_allowlist` | parity | P1 |
 | `policy.PathChecker` | `praxo_policy.path_checker`, `path_grant` | parity | P1 |

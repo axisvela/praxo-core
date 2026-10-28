@@ -5,6 +5,7 @@ package process
 import (
 	"fmt"
 	"os/exec"
+	"sync"
 	"syscall"
 	"unsafe"
 
@@ -20,13 +21,19 @@ func LimitsAvailable() error { return nil }
 // jobResourceHandle owns the Job Object that contains one plugin process tree.
 // Closing it (or killing the host) terminates every process still in the job.
 type jobResourceHandle struct {
+	mu  sync.Mutex
 	job windows.Handle
 }
 
 // Close releases the job handle, which triggers kill-on-close and reaps any
 // descendant that escaped the plugin's own exit.
 func (h *jobResourceHandle) Close() error {
-	if h == nil || h.job == 0 {
+	if h == nil {
+		return nil
+	}
+	h.mu.Lock()
+	defer h.mu.Unlock()
+	if h.job == 0 {
 		return nil
 	}
 	job := h.job
@@ -36,7 +43,12 @@ func (h *jobResourceHandle) Close() error {
 
 // Usage reports peak memory, CPU time and active processes for the job.
 func (h *jobResourceHandle) Usage() (plugin.ResourceUsage, error) {
-	if h == nil || h.job == 0 {
+	if h == nil {
+		return plugin.ResourceUsage{}, nil
+	}
+	h.mu.Lock()
+	defer h.mu.Unlock()
+	if h.job == 0 {
 		return plugin.ResourceUsage{}, nil
 	}
 	return queryJobUsage(h.job)
@@ -65,9 +77,14 @@ func assignLimits(pid int, limits plugin.ResourceLimits) (resourceHandle, error)
 // killProcessTree terminates the whole job if a handle is present, falling back
 // to killing the main process.
 func killProcessTree(handle resourceHandle, cmd *exec.Cmd) {
-	if jh, ok := handle.(*jobResourceHandle); ok && jh != nil && jh.job != 0 {
-		_ = terminateJob(jh.job)
-		return
+	if jh, ok := handle.(*jobResourceHandle); ok && jh != nil {
+		jh.mu.Lock()
+		if jh.job != 0 {
+			_ = terminateJob(jh.job)
+			jh.mu.Unlock()
+			return
+		}
+		jh.mu.Unlock()
 	}
 	if cmd != nil && cmd.Process != nil {
 		_ = cmd.Process.Kill()

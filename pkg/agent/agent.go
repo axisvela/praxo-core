@@ -7,9 +7,9 @@ import (
 	"errors"
 	"fmt"
 	"strings"
-	"sync"
 	"time"
 
+	"github.com/axisvela/praxo-core/v2/internal/runid"
 	"github.com/axisvela/praxo-core/v2/pkg/event"
 	"github.com/axisvela/praxo-core/v2/pkg/memory"
 	"github.com/axisvela/praxo-core/v2/pkg/model"
@@ -102,24 +102,37 @@ func (a *Agent) RunWithContext(ctx context.Context, session Session, prompt stri
 	}
 
 	runID := fmt.Sprintf("run-%d", time.Now().UnixNano())
-	if err := a.beforeRun(ctx, &RunState{RunID: runID, Session: &session, Prompt: &prompt}); err != nil {
-		return nil, err
-	}
+	ctx = runid.With(ctx, runID)
+	entered := 0
+	admitted := false
 	defer func() {
-		if afterErr := a.afterRun(ctx, result, err); afterErr != nil && err == nil {
+		if afterErr := a.afterRun(ctx, result, err, entered); afterErr != nil && err == nil {
 			err = afterErr
+		}
+		if !admitted {
+			return
+		}
+		completed := false
+		if err == nil && result != nil {
+			completed, err = a.completeRun(ctx, session.ID, result)
 		}
 		if err == nil {
 			return
 		}
-		_ = a.emit(ctx, event.Event{
-			Type: "run.failed", SessionID: session.ID, RunID: runID,
-			Data: map[string]any{"error": err.Error()},
-		})
+		if !completed {
+			_ = a.emit(ctx, event.Event{
+				Type: "run.failed", SessionID: session.ID, RunID: runID,
+				Data: map[string]any{"error": err.Error()},
+			})
+		}
 		if a.Hooks.OnRunError != nil {
 			a.Hooks.OnRunError(ctx, runID, err)
 		}
 	}()
+	if err = a.beforeRun(ctx, &RunState{RunID: runID, Session: &session, Prompt: &prompt}, &entered); err != nil {
+		return nil, err
+	}
+	admitted = true
 
 	if a.Hooks.OnRunStart != nil {
 		if err := a.Hooks.OnRunStart(ctx, runID, session); err != nil {
@@ -202,7 +215,8 @@ func (a *Agent) RunWithContext(ctx context.Context, session Session, prompt stri
 
 		if a.Context != nil && a.Context.MaxTokens > 0 {
 			before := len(messages)
-			if a.Compactor != nil && estimateTokens(messages) > a.Context.MaxTokens {
+			overBudget := estimateTokens(messages) > a.Context.MaxTokens
+			if a.Compactor != nil && overBudget {
 				compacted, err := a.Compactor.Compact(ctx, messages, *a.Context)
 				if err != nil {
 					return nil, err
@@ -213,8 +227,8 @@ func (a *Agent) RunWithContext(ctx context.Context, session Session, prompt stri
 			if !ok {
 				return nil, ErrContextBudget
 			}
-			if len(compacted) != before {
-				messages = compacted
+			messages = compacted
+			if overBudget {
 				if a.Hooks.OnCompaction != nil {
 					if err := a.Hooks.OnCompaction(ctx, runID, before, len(compacted)); err != nil {
 						return nil, err
@@ -279,22 +293,6 @@ func (a *Agent) RunWithContext(ctx context.Context, session Session, prompt stri
 		messages = append(messages, resp.Message)
 		if len(resp.Message.ToolCalls) == 0 {
 			result = &Result{RunID: runID, Output: resp.Message.Content, Steps: step, Usage: usage}
-			if err := a.stream(StreamPart{
-				RunID: runID, SessionID: session.ID, Kind: StreamCheckpoint, Step: step, Data: *result,
-			}); err != nil {
-				return nil, err
-			}
-			if err := a.remember(ctx, runID, session.ID, result); err != nil {
-				return nil, err
-			}
-			if err := a.emit(ctx, event.Event{Type: "run.completed", SessionID: session.ID, RunID: runID}); err != nil {
-				return nil, err
-			}
-			if a.Hooks.OnRunComplete != nil {
-				if err := a.Hooks.OnRunComplete(ctx, result); err != nil {
-					return nil, err
-				}
-			}
 			return result, nil
 		}
 
@@ -311,22 +309,6 @@ func (a *Agent) RunWithContext(ctx context.Context, session Session, prompt stri
 					return nil, err
 				}
 				result = &Result{RunID: runID, Output: string(raw), Steps: step, Usage: usage}
-				if err := a.stream(StreamPart{
-					RunID: runID, SessionID: session.ID, Kind: StreamCheckpoint, Step: step, Data: *result,
-				}); err != nil {
-					return nil, err
-				}
-				if err := a.remember(ctx, runID, session.ID, result); err != nil {
-					return nil, err
-				}
-				if err := a.emit(ctx, event.Event{Type: "run.completed", SessionID: session.ID, RunID: runID}); err != nil {
-					return nil, err
-				}
-				if a.Hooks.OnRunComplete != nil {
-					if err := a.Hooks.OnRunComplete(ctx, result); err != nil {
-						return nil, err
-					}
-				}
 				return result, nil
 			}
 		}
@@ -505,175 +487,4 @@ func (a *Agent) RunWithContext(ctx context.Context, session Session, prompt stri
 	}
 
 	return nil, ErrMaxSteps
-}
-
-type preparedTool struct {
-	authorizedCall []byte
-	call           model.ToolCall
-	tool           tool.Tool
-	skip           bool
-	result         any
-	err            error
-}
-
-type toolOutcome struct {
-	value any
-	err   error
-}
-
-func runTools(ctx context.Context, prepared []preparedTool, parallel int) []toolOutcome {
-	out := make([]toolOutcome, len(prepared))
-	if parallel <= 1 || len(prepared) <= 1 {
-		for i := range prepared {
-			if prepared[i].skip {
-				out[i].value, out[i].err = prepared[i].result, prepared[i].err
-				continue
-			}
-			out[i].value, out[i].err = invokeTool(ctx, prepared[i].tool, prepared[i].call)
-		}
-		return out
-	}
-
-	sem := make(chan struct{}, parallel)
-	var wg sync.WaitGroup
-	for i := range prepared {
-		if prepared[i].skip {
-			out[i].value, out[i].err = prepared[i].result, prepared[i].err
-			continue
-		}
-		wg.Add(1)
-		go func(i int) {
-			defer wg.Done()
-			sem <- struct{}{}
-			defer func() { <-sem }()
-			out[i].value, out[i].err = invokeTool(ctx, prepared[i].tool, prepared[i].call)
-		}(i)
-	}
-	wg.Wait()
-	return out
-}
-
-func invokeTool(ctx context.Context, t tool.Tool, call model.ToolCall) (value any, err error) {
-	defer func() {
-		if r := recover(); r != nil {
-			err = fmt.Errorf("agent: tool %s panicked: %v", call.Name, r)
-		}
-	}()
-	return t.Invoke(ctx, call.Arguments)
-}
-
-func (a *Agent) generate(ctx context.Context, req model.Request) (model.Response, error) {
-	call := a.baseGenerate
-	for i := len(a.ModelMiddleware) - 1; i >= 0; i-- {
-		call = a.ModelMiddleware[i](call)
-	}
-	return call(ctx, req)
-}
-
-func (a *Agent) baseGenerate(ctx context.Context, req model.Request) (model.Response, error) {
-	if a.OnDelta != nil {
-		if streaming, ok := a.Model.(model.StreamingModel); ok {
-			return streaming.GenerateStream(ctx, req, a.OnDelta)
-		}
-	}
-	return a.Model.Generate(ctx, req)
-}
-
-func (a *Agent) authorize(ctx context.Context, action policy.Action) error {
-	if a.Policy == nil {
-		return nil
-	}
-	decision, err := a.Policy.Authorize(ctx, action)
-	if err != nil {
-		return err
-	}
-	if !decision.Allowed {
-		return fmt.Errorf("agent: %s denied: %s", action.Kind, decision.Reason)
-	}
-	return nil
-}
-
-func (a *Agent) emit(ctx context.Context, e event.Event) error {
-	if a.Events == nil {
-		return nil
-	}
-	if e.At.IsZero() {
-		e.At = time.Now().UTC()
-	}
-	return a.Events.Emit(ctx, e)
-}
-
-func (a *Agent) stream(part StreamPart) error {
-	if a.OnStream == nil {
-		return nil
-	}
-	if part.At.IsZero() {
-		part.At = time.Now().UTC()
-	}
-	return a.OnStream(part)
-}
-
-func (a *Agent) toolSpecs() []model.ToolSpec {
-	var specs []model.ToolSpec
-	if a.Tools != nil {
-		specs = a.Tools.Specs()
-	}
-	if a.StructuredOutput != nil && a.StructuredOutput.Strategy == StructuredOutputTool {
-		name := a.StructuredOutput.OutputName()
-		found := false
-		for _, spec := range specs {
-			if spec.Name == name {
-				found = true
-				break
-			}
-		}
-		if !found {
-			specs = append(specs, a.StructuredOutput.ToolSpec())
-		}
-	}
-	if len(a.AllowedTools) == 0 {
-		return specs
-	}
-	allowed := make(map[string]struct{}, len(a.AllowedTools))
-	for _, name := range a.AllowedTools {
-		allowed[name] = struct{}{}
-	}
-	filtered := specs[:0]
-	for _, spec := range specs {
-		if _, ok := allowed[spec.Name]; ok {
-			filtered = append(filtered, spec)
-		}
-	}
-	return filtered
-}
-
-func (a *Agent) toolAllowed(name string) bool {
-	if len(a.AllowedTools) == 0 {
-		return true
-	}
-	for _, allowed := range a.AllowedTools {
-		if allowed == name {
-			return true
-		}
-	}
-	return false
-}
-
-func (a *Agent) remember(ctx context.Context, runID, sessionID string, result *Result) error {
-	if a.Memory == nil {
-		return nil
-	}
-	record := memory.Record{
-		ID:        result.RunID,
-		Frame:     memory.FrameEvent,
-		Content:   result.Output,
-		CreatedAt: time.Now().UTC(),
-		Metadata:  map[string]any{"steps": result.Steps},
-	}
-	if a.Hooks.OnMemoryWrite != nil {
-		if err := a.Hooks.OnMemoryWrite(ctx, runID, record); err != nil {
-			return err
-		}
-	}
-	return a.Memory.Put(ctx, sessionID, record)
 }

@@ -33,6 +33,45 @@ later sink may not receive that event.
 `arguments` can contain tenant data, prompts, file paths, or credentials supplied
 by a tool caller. Redact before persisting or exporting it.
 
+## Go Finalization Order
+
+In the unreleased Go source, a final answer passes `AfterRun` middleware,
+including structured-output validation and repair, before `OnRunComplete`, the
+`checkpoint` projection, memory write, and `run.completed`, in that order.
+Validation or repair failure does not publish a final checkpoint, save the
+answer, or send completion. Raw model messages and text deltas remain provisional
+and may already have been streamed before final validation.
+
+`OnRunComplete` receives a copy of the validated result. It may reject completion
+by returning an error, but changes to that copy do not rewrite the final result,
+run identity, checkpoint projection, or memory record. Use `AfterRun` middleware
+for intentional output transformations before finalization.
+
+A completion hook, checkpoint callback, or memory error prevents the completion
+notification and follows the run-failure path. If the `run.completed` sink itself
+returns an error, `Run` returns that error and invokes `OnRunError`, but does not
+attempt `run.failed`: a fail-fast sink may already have delivered completion to
+some consumers. Thus a completion notification alone does not guarantee that
+`Run` returned nil. A non-nil error must always be checked, even if a result is
+also returned.
+
+These callbacks and writes do not form an atomic transaction. A checkpoint
+projection can precede a failing memory write, and a successful memory write is
+not rolled back when event delivery fails. The checkpoint stream part is a final
+result projection, not proof of durable checkpoint storage or exactly-once
+execution. Consumers must provide their own transactional persistence where
+required. Earlier source tags retain their original callback ordering; other
+SDKs require separate lifecycle verification.
+
+Entered middleware is finalized even when a later `BeforeRun` callback fails.
+Only the entered prefix, including the rejecting callback, receives `AfterRun`;
+startup rejection still emits no run events. An `AfterRun` error does not stop
+later cleanup callbacks, which receive the original execution error or the first
+finalization error. The first error remains primary. Ordinary callback panics
+still propagate; cleanup is not guaranteed to continue after an `AfterRun` panic.
+Built-in call limits and tool selection use an internal run identity to release
+their state even when no `Result` exists.
+
 ## Stream Projections
 
 `agent.Options.OnStream` receives `agent.StreamPart` values. They are a separate

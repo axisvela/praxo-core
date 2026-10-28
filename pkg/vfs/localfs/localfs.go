@@ -219,6 +219,10 @@ func (b *Backend) Grep(_ context.Context, pattern, path string) ([]vfs.Match, er
 	}
 	var out []vfs.Match
 	add := func(p string) error {
+		p, err := b.resolve(virtualPath(b.root, p), policy.AccessRead)
+		if err != nil {
+			return err
+		}
 		data, err := os.ReadFile(p)
 		if err != nil {
 			return nil

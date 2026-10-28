@@ -5,6 +5,7 @@ import (
 	"errors"
 	"os"
 	"path/filepath"
+	"reflect"
 	"strings"
 	"testing"
 
@@ -109,6 +110,31 @@ func TestAgentContextBudgetFailsClosed(t *testing.T) {
 	_, err := ag.Run(context.Background(), Session{ID: "s1"}, "do it")
 	if !errors.Is(err, ErrContextBudget) {
 		t.Fatalf("err = %v, want ErrContextBudget", err)
+	}
+}
+
+func TestAgentContextBudgetAppliesSameLengthCompaction(t *testing.T) {
+	m := &requestModel{}
+	budget := &ContextBudget{MaxTokens: 30, KeepRecent: 1}
+	ag := &Agent{Model: m, Context: budget}
+	session := Session{ID: "session", Messages: []model.Message{{Role: model.RoleUser, Content: strings.Repeat("s", 1000)}}}
+	want, ok := budget.Compact(append(append([]model.Message(nil), session.Messages...), model.Message{Role: model.RoleUser, Content: "now"}))
+	if !ok || len(want) != 2 {
+		t.Fatalf("expected same-length compaction: %v %v", want, ok)
+	}
+	var compactions int
+	ag.Hooks.OnCompaction = func(_ context.Context, _ string, before, after int) error {
+		compactions++
+		if before != 2 || after != 2 {
+			t.Fatalf("before=%d after=%d", before, after)
+		}
+		return nil
+	}
+	if _, err := ag.Run(context.Background(), session, "now"); err != nil {
+		t.Fatal(err)
+	}
+	if !reflect.DeepEqual(m.req.Messages, want) || EstimateTokens(m.req.Messages) > budget.MaxTokens || compactions != 1 {
+		t.Fatalf("messages=%v want=%v compactions=%d", m.req.Messages, want, compactions)
 	}
 }
 

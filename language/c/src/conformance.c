@@ -1,4 +1,5 @@
 #include "praxo.h"
+#include "praxo_core.h"
 #include "jsonschema.h"
 #include "plugin.h"
 #include "toolcall.h"
@@ -110,52 +111,6 @@ static bool run_plugin(PxArena *arena, PxValue *input, PxValue *expect) {
     return true;
 }
 
-static bool contains_ci(const char *text, const char *query) {
-    size_t text_len = strlen(text);
-    size_t query_len = strlen(query);
-    if (query_len == 0) {
-        return true;
-    }
-    if (query_len > text_len) {
-        return false;
-    }
-    for (size_t start = 0; start + query_len <= text_len; start++) {
-        bool match = true;
-        for (size_t index = 0; index < query_len; index++) {
-            char left = text[start + index];
-            char right = query[index];
-            if (left >= 'A' && left <= 'Z') {
-                left = (char)(left - 'A' + 'a');
-            }
-            if (right >= 'A' && right <= 'Z') {
-                right = (char)(right - 'A' + 'a');
-            }
-            if (left != right) {
-                match = false;
-                break;
-            }
-        }
-        if (match) {
-            return true;
-        }
-    }
-    return false;
-}
-
-static int compare_records(const void *left, const void *right) {
-    PxValue *a = *(PxValue **)left;
-    PxValue *b = *(PxValue **)right;
-    const char *ac = px_get_str(a, "createdAt");
-    const char *bc = px_get_str(b, "createdAt");
-    if (ac == NULL) {
-        ac = "";
-    }
-    if (bc == NULL) {
-        bc = "";
-    }
-    return strcmp(bc, ac);
-}
-
 static bool array_matches(PxValue *array, PxValue *expected) {
     if (expected == NULL || expected->type == PX_NULL) {
         return array->as.array.len == 0;
@@ -165,109 +120,92 @@ static bool array_matches(PxValue *array, PxValue *expected) {
 
 static bool run_memory(PxArena *arena, PxValue *input, PxValue *expect) {
     PxValue *puts = px_obj_get(input, "puts");
-    const char *session = px_get_str(input, "session");
     size_t count = puts == NULL ? 0 : puts->as.array.len;
-    PxValue **records = px_arena_alloc(
-        arena, sizeof(PxValue *) * (count == 0 ? 1 : count));
-    if (records == NULL) {
-        return false;
-    }
-    size_t stored = 0;
+    PxMemoryStore store;
+    px_memory_init(&store);
     for (size_t index = 0; index < count; index++) {
         PxValue *put = puts->as.array.items[index];
-        const char *put_session = px_get_str(put, "session");
-        if (put_session != NULL && session != NULL
-                && strcmp(put_session, session) == 0) {
-            PxValue *record = px_obj_get(put, "record");
-            if (record != NULL) {
-                records[stored++] = record;
-            }
+        PxValue *record = px_obj_get(put, "record");
+        if (!px_memory_put(arena, &store, px_get_str(put, "session"),
+                px_get_str(record, "id"), px_get_str(record, "frame"),
+                px_get_str(record, "content"), px_get_str(record, "createdAt"), NULL)) {
+            return check(false, "memory put failed");
         }
     }
-    qsort(records, stored, sizeof(PxValue *), compare_records);
-    const char *query = px_get_str(input, "query");
-    size_t limit = (size_t)px_get_num(input, "limit", 0);
+    PxMemoryRecord *records = NULL;
+    size_t found = px_memory_search(arena, &store, px_get_str(input, "session"),
+        px_get_str(input, "query"), (int)px_get_num(input, "limit", 0), &records);
     PxValue *ids = px_arr(arena);
     PxValue *contents = px_arr(arena);
-    for (size_t index = 0; index < stored; index++) {
-        const char *content = px_get_str(records[index], "content");
-        if (query != NULL && query[0] != '\0'
-                && !contains_ci(content == NULL ? "" : content, query)) {
-            continue;
-        }
-        if (limit > 0 && ids->as.array.len >= limit) {
-            break;
-        }
-        px_arr_push(arena, ids, px_obj_get(records[index], "id"));
-        px_arr_push(arena, contents, px_obj_get(records[index], "content"));
+    for (size_t index = 0; index < found; index++) {
+        px_arr_push(arena, ids, px_str(arena, records[index].id));
+        px_arr_push(arena, contents, px_str(arena, records[index].content));
     }
     bool ok = array_matches(ids, px_obj_get(expect, "ids"))
            && array_matches(contents, px_obj_get(expect, "contents"));
     return check(ok, "memory mismatch");
 }
 
+static PxValue *sink_kinds(PxArena *arena, const PxSink *sink) {
+    const char **kinds = NULL;
+    size_t count = px_sink_kinds(sink, &kinds);
+    PxValue *out = px_arr(arena);
+    for (size_t index = 0; index < count; index++) {
+        px_arr_push(arena, out, px_str(arena, kinds[index]));
+    }
+    return out;
+}
+
 static bool run_event(PxArena *arena, PxValue *input, PxValue *expect) {
     PxValue *events = px_obj_get(input, "events");
-    const char *sink = px_get_str(input, "sink");
-    if (sink != NULL && strcmp(sink, "multi") == 0) {
+    const char *kind = px_get_str(input, "sink");
+    PxSink *sink;
+    bool multi = kind != NULL && strcmp(kind, "multi") == 0;
+    if (multi) {
         int count = (int)px_get_num(input, "sinkCount", 1);
         if (count < 1) {
             count = 1;
         }
-        PxValue *per_sink = px_arr(arena);
+        PxSink **children = px_arena_alloc(arena, sizeof(PxSink *) * (size_t)count);
         for (int sink_index = 0; sink_index < count; sink_index++) {
-            PxValue *types = px_arr(arena);
-            for (size_t index = 0; index < events->as.array.len; index++) {
-                px_arr_push(arena, types, events->as.array.items[index]);
-            }
-            px_arr_push(arena, per_sink, types);
+            children[sink_index] = px_sink_new(arena);
         }
-        return check(px_equals(per_sink, px_obj_get(expect, "perSink")),
-                     "perSink mismatch");
-    }
-    PxValue *predicate = px_obj_get(input, "predicateTypes");
-    PxValue *delivered = px_arr(arena);
-    for (size_t index = 0; index < events->as.array.len; index++) {
-        PxValue *type = events->as.array.items[index];
-        bool allowed = true;
+        sink = px_sink_multi(arena, children, (size_t)count);
+    } else {
+        PxValue *predicate = px_obj_get(input, "predicateTypes");
+        size_t count = predicate == NULL ? 0 : predicate->as.array.len;
+        const char **types = predicate == NULL ? NULL
+            : px_arena_alloc(arena, sizeof(char *) * (count + 1));
         if (predicate != NULL) {
-            allowed = false;
-            for (size_t item = 0; item < predicate->as.array.len; item++) {
-                if (px_equals(predicate->as.array.items[item], type)) {
-                    allowed = true;
-                    break;
-                }
+            for (size_t index = 0; index < count; index++) {
+                types[index] = predicate->as.array.items[index]->as.string;
             }
         }
-        if (allowed) {
-            px_arr_push(arena, delivered, type);
-        }
+        sink = px_sink_filter(arena, px_sink_new(arena), types, count);
     }
-    return check(px_equals(delivered, px_obj_get(expect, "delivered")),
+    for (size_t index = 0; index < events->as.array.len; index++) {
+        PxEvent event = {events->as.array.items[index]->as.string, NULL, NULL, NULL};
+        px_sink_emit(sink, &event);
+    }
+    if (multi) {
+        PxValue *per_sink = px_arr(arena);
+        for (size_t index = 0; index < px_sink_child_count(sink); index++) {
+            px_arr_push(arena, per_sink, sink_kinds(arena, px_sink_child(sink, index)));
+        }
+        return check(px_equals(per_sink, px_obj_get(expect, "perSink")), "perSink mismatch");
+    }
+    return check(px_equals(sink_kinds(arena, sink), px_obj_get(expect, "delivered")),
                  "delivered mismatch");
 }
 
 static bool run_stream(PxArena *arena, PxValue *expect) {
-    static const char *const kinds[] = {
-        "values", "updates", "messages", "tasks", "debug", "checkpoint"};
+    const char **kinds = NULL;
+    size_t count = px_stream_kinds(&kinds);
     PxValue *array = px_arr(arena);
-    for (size_t index = 0; index < 6; index++) {
+    for (size_t index = 0; index < count; index++) {
         px_arr_push(arena, array, px_str(arena, kinds[index]));
     }
     return check(px_equals(array, px_obj_get(expect, "kinds")), "kinds mismatch");
-}
-
-static bool registered(PxValue *registered_list, const char *name) {
-    if (registered_list == NULL || registered_list->type != PX_ARR) {
-        return false;
-    }
-    for (size_t index = 0; index < registered_list->as.array.len; index++) {
-        PxValue *item = registered_list->as.array.items[index];
-        if (item->type == PX_STR && strcmp(item->as.string, name) == 0) {
-            return true;
-        }
-    }
-    return false;
 }
 
 static bool run_checkpoint(PxArena *arena, PxValue *input, PxValue *expect) {
@@ -275,18 +213,37 @@ static bool run_checkpoint(PxArena *arena, PxValue *input, PxValue *expect) {
     PxValue *registered_list = px_obj_get(input, "registered");
     PxValue *value = px_obj_get(input, "value");
     const char *operation = px_get_str(input, "operation");
-    const char *error_code = px_get_str(expect, "errorCode");
-    if (operation == NULL || strcmp(operation, "roundtrip") == 0) {
-        return check(px_equals(value, px_obj_get(expect, "value")),
-                     "value mismatch");
+    PxAllowlist allow;
+    px_checkpoint_init(&allow);
+    if (registered_list != NULL) {
+        for (size_t index = 0; index < registered_list->as.array.len; index++) {
+            if (!px_checkpoint_register(arena, &allow,
+                    registered_list->as.array.items[index]->as.string)) {
+                return check(false, "checkpoint registration failed");
+            }
+        }
     }
-    bool allowed = registered(registered_list, type);
-    if (!allowed) {
-        return check(error_code != NULL
-                         && strcmp(error_code, "CHECKPOINT_TYPE_NOT_ALLOWED") == 0,
-                     "errorCode mismatch");
+    const char *code;
+    PxValue *decoded = NULL;
+    char *data = NULL;
+    if (operation != NULL && strcmp(operation, "unmarshal") == 0) {
+        PxValue *envelope = px_obj(arena);
+        px_obj_set(arena, envelope, "type", px_str(arena, type));
+        px_obj_set(arena, envelope, "data", value);
+        code = px_checkpoint_unmarshal(arena, &allow, px_stringify(arena, envelope), &decoded);
+    } else {
+        code = px_checkpoint_marshal(arena, &allow, type, value, &data);
+        if (code == NULL && (operation == NULL || strcmp(operation, "roundtrip") == 0)) {
+            code = px_checkpoint_unmarshal(arena, &allow, data, &decoded);
+        }
     }
-    return check(error_code == NULL, "unexpected error");
+    const char *want_code = px_get_str(expect, "errorCode");
+    if (code != NULL || want_code != NULL) {
+        return check(code != NULL && want_code != NULL && strcmp(code, want_code) == 0,
+            "checkpoint errorCode mismatch");
+    }
+    PxValue *want = px_obj_get(expect, "value");
+    return check(want == NULL || px_equals(decoded, want), "checkpoint value mismatch");
 }
 
 static int run_file(const char *root, const VectorGroup *group) {
@@ -351,6 +308,7 @@ static int run_file(const char *root, const VectorGroup *group) {
             failures++;
         }
     }
+    printf("%s: %zu fixtures, %d failures\n", group->group, vectors->as.array.len, failures);
     px_arena_free(&arena);
     return failures;
 }

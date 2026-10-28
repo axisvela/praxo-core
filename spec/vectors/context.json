@@ -51,6 +51,26 @@
       }
     },
     {
+      "id": "context.compact-same-message-count",
+      "description": "Replacing an older message with a marker can preserve the message count",
+      "input": {
+        "operation": "compact",
+        "messages": [
+          { "role": "user", "content": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" },
+          { "role": "user", "content": "now" }
+        ],
+        "budget": { "maxTokens": 20, "keepRecent": 1 }
+      },
+      "expect": {
+        "ok": true,
+        "tokens": 19,
+        "messages": [
+          { "role": "system", "content": "[context compacted: 1 older messages omitted]" },
+          { "role": "user", "content": "now" }
+        ]
+      }
+    },
+    {
       "id": "context.system-truncated",
       "description": "An oversized system prompt is truncated to fit",
       "input": {

@@ -1,6 +1,7 @@
 package spec
 
 import (
+	"fmt"
 	"os"
 	"path/filepath"
 	"regexp"
@@ -192,22 +193,118 @@ func TestSplitParity(t *testing.T) {
 	version := strings.TrimSpace(string(readFile(t, filepath.Join(root, "VERSION"))))
 	specVersion := strings.TrimSpace(string(readFile(t, filepath.Join(root, vectorDir, "SPEC_VERSION"))))
 	api := string(readFile(t, filepath.Join(root, "api", version+".txt")))
-	const prefix = "### github.com/axisvela/praxo-core/v2/"
-	packages := map[string]bool{}
-	for _, line := range strings.Split(api, "\n") {
-		line = strings.TrimSpace(line)
-		if strings.HasPrefix(line, prefix) {
-			pkg := strings.TrimPrefix(line, prefix)
-			if strings.HasPrefix(pkg, "pkg/") {
-				packages[pkg] = true
+	symbols := parseAPISymbols(api)
+	inventories, problems := discoverSplitParity(root)
+	for _, problem := range problems {
+		t.Error(problem)
+	}
+	for name, text := range inventories {
+		t.Run(name, func(t *testing.T) {
+			for _, problem := range validateSplitParity(text, specVersion, symbols) {
+				t.Error(problem)
 			}
+		})
+	}
+}
+
+func discoverSplitParity(root string) (map[string]string, []string) {
+	inventories := map[string]string{}
+	var problems []string
+	matrix, err := os.ReadFile(filepath.Join(root, "spec", "languages.md"))
+	if err != nil {
+		return inventories, []string{err.Error()}
+	}
+	type scope struct{ language, tier, status string }
+	scopes := map[string]scope{}
+	samples := map[string]scope{}
+	inMatrix := false
+	for _, line := range strings.Split(string(matrix), "\n") {
+		if strings.HasPrefix(line, "## ") {
+			inMatrix = strings.TrimSpace(line) == "## Matrix"
+		}
+		if !inMatrix {
+			continue
+		}
+		cells := strings.Split(line, "|")
+		if len(cells) != 8 {
+			continue
+		}
+		language := strings.TrimSpace(cells[1])
+		tiers := strings.Fields(cells[2])
+		if len(tiers) == 0 {
+			problems = append(problems, fmt.Sprintf("%s: empty language tier", language))
+			continue
+		}
+		tier := strings.ToLower(tiers[0])
+		s := scope{language, tier, strings.TrimSpace(cells[3])}
+		if tier == "sample" {
+			samples[strings.ToLower(language)] = s
+			continue
+		}
+		tag := strings.Trim(strings.TrimSpace(cells[4]), "`")
+		if slug, _, ok := strings.Cut(tag, "/v"); ok {
+			if _, exists := scopes[slug]; exists {
+				problems = append(problems, fmt.Sprintf("duplicate language release scope %s", slug))
+			}
+			scopes[slug] = s
+		} else if s.status == "released" && tier == "core" && !strings.Contains(cells[2], "(reference)") {
+			problems = append(problems, fmt.Sprintf("%s: released Core language has no release-tag scope", language))
 		}
 	}
-
-	required := []string{
-		"rust", "c", "csharp", "swift", "php", "julia", "r", "haskell",
-		"vbnet", "fortran", "cobol", "matlab", "delphi", "ocaml", "elixir", "erlang", "nim", "v", "lisp", "prolog", "bridge-tcl", "bridge-shell", "bridge-powershell",
+	if len(scopes) == 0 {
+		problems = append(problems, "no language release scopes found in spec/languages.md")
 	}
+	entries, err := os.ReadDir(filepath.Join(root, "spec", "parity"))
+	if err != nil {
+		return inventories, append(problems, err.Error())
+	}
+	seen := map[string]bool{}
+	for _, entry := range entries {
+		if entry.IsDir() || filepath.Ext(entry.Name()) != ".md" || entry.Name() == "README.md" {
+			continue
+		}
+		name := strings.TrimSuffix(entry.Name(), ".md")
+		data, err := os.ReadFile(filepath.Join(root, "spec", "parity", entry.Name()))
+		if err != nil {
+			problems = append(problems, err.Error())
+			continue
+		}
+		text := string(data)
+		inventories[name] = text
+		key := strings.TrimPrefix(name, "bridge-")
+		s, ok := scopes[key]
+		if metaValue(text, "- Tier:") == "sample" {
+			heading := strings.TrimSuffix(strings.TrimPrefix(strings.TrimSpace(strings.Split(text, "\n")[0]), "# "), " Parity")
+			key = "sample:" + strings.ToLower(strings.TrimSpace(heading))
+			s, ok = samples[strings.TrimPrefix(key, "sample:")]
+		}
+		if !ok {
+			problems = append(problems, fmt.Sprintf("%s: orphan inventory without a language release scope", entry.Name()))
+			continue
+		}
+		if seen[key] {
+			problems = append(problems, fmt.Sprintf("%s: duplicate inventory scope %s", entry.Name(), key))
+		}
+		seen[key] = true
+		if tier := metaValue(text, "- Tier:"); tier != s.tier {
+			problems = append(problems, fmt.Sprintf("%s: tier %q disagrees with languages.md tier %q", entry.Name(), tier, s.tier))
+		}
+	}
+	for key, s := range scopes {
+		if s.status == "released" && s.tier == "core" && !seen[key] {
+			switch key {
+			case "python", "typescript", "java":
+				continue
+			}
+			problems = append(problems, fmt.Sprintf("%s: released Core scope %s has no split parity inventory", s.language, key))
+		}
+	}
+	return inventories, problems
+}
+
+func validateSplitParity(text, specVersion string, symbols map[string]map[string]bool) []string {
+	var problems []string
+	report := func(format string, args ...any) { problems = append(problems, fmt.Sprintf(format, args...)) }
 	validTier := map[string]bool{
 		"core": true, "wire": true, "bridge": true, "sample": true,
 	}
@@ -217,63 +314,100 @@ func TestSplitParity(t *testing.T) {
 	validPhase := map[string]bool{
 		"P1": true, "P2": true, "P3": true, "P4": true, "n/a": true,
 	}
-	for _, name := range required {
-		path := filepath.Join(root, "spec", "parity", name+".md")
-		data, err := os.ReadFile(path)
-		if err != nil {
-			t.Errorf("%s: %v", path, err)
+	tier := metaValue(text, "- Tier:")
+	if !validTier[tier] {
+		report("invalid tier %q", tier)
+	}
+	if got := metaValue(text, "- SPEC_VERSION:"); got != specVersion {
+		report("SPEC_VERSION %q, want %q", got, specVersion)
+	}
+	seen := map[string]bool{}
+	for _, line := range strings.Split(text, "\n") {
+		line = strings.TrimSpace(line)
+		if !strings.HasPrefix(line, "|") {
 			continue
 		}
-		text := string(data)
-		tier := metaValue(text, "- Tier:")
-		if !validTier[tier] {
-			t.Errorf("%s: invalid tier %q", name, tier)
+		cells := strings.Split(line, "|")
+		if len(cells) > 2 && (strings.TrimSpace(cells[1]) == "Go symbol" || strings.HasPrefix(strings.TrimSpace(cells[1]), "---")) {
+			continue
 		}
-		if got := metaValue(text, "- SPEC_VERSION:"); got != specVersion {
-			t.Errorf("%s: SPEC_VERSION %q, want %q", name, got, specVersion)
+		if len(cells) != 6 {
+			report("malformed row %s", line)
+			continue
 		}
-		seen := map[string]bool{}
-		for _, line := range strings.Split(text, "\n") {
-			line = strings.TrimSpace(line)
-			if !strings.HasPrefix(line, "| `") || strings.HasPrefix(line, "| `pkg/") {
-				continue
+		goSymbol := strings.Trim(cells[1], " `")
+		languageSymbol := strings.Trim(cells[2], " `")
+		status := strings.TrimSpace(cells[3])
+		phase := strings.TrimSpace(cells[4])
+		if !validStatus[status] {
+			report("%s invalid status %q", goSymbol, status)
+		}
+		if !validPhase[phase] {
+			report("%s invalid phase %q", goSymbol, phase)
+		}
+		if (status == "parity" || status == "partial") && languageSymbol == "" {
+			report("%s %s row without language symbol", goSymbol, status)
+		}
+		pkg, symbol, ok := splitGoSymbol(goSymbol, symbols)
+		key := pkg + "." + symbol
+		if seen[key] {
+			report("duplicate symbol %s", goSymbol)
+		}
+		seen[key] = true
+		if !ok || !symbols[pkg][symbol] {
+			report("%s: Go symbol is not in current API snapshot", goSymbol)
+		}
+	}
+	if len(seen) == 0 && tier == "core" {
+		report("Core inventory has no symbol rows")
+	}
+	return problems
+}
+
+func splitGoSymbol(symbol string, symbols map[string]map[string]bool) (string, string, bool) {
+	symbol = strings.TrimPrefix(symbol, "github.com/axisvela/praxo-core/v2/")
+	if !strings.HasPrefix(symbol, "pkg/") {
+		symbol = "pkg/" + symbol
+	}
+	pkg, name, ok := strings.Cut(symbol, ".")
+	return pkg, name, ok && symbols[pkg] != nil && name != ""
+}
+
+func parseAPISymbols(api string) map[string]map[string]bool {
+	out := map[string]map[string]bool{}
+	decl := regexp.MustCompile(`^(?:type|func|const|var) ([A-Z][A-Za-z0-9_]*)\b`)
+	method := regexp.MustCompile(`^func \((?:[A-Za-z_][A-Za-z0-9_]*\s+)?\*?([A-Z][A-Za-z0-9_]*)(?:\[[^\]]*\])?\) ([A-Z][A-Za-z0-9_]*)\(`)
+	member := regexp.MustCompile(`^\s+([A-Z][A-Za-z0-9_]*)\b`)
+	for pkg, section := range parseAPISections(api) {
+		out[pkg] = map[string]bool{}
+		owner, group := "", false
+		for _, line := range strings.Split(section, "\n") {
+			line = strings.TrimSuffix(line, "\r")
+			if m := decl.FindStringSubmatch(line); m != nil {
+				out[pkg][m[1]] = true
+				if strings.HasPrefix(line, "type ") && strings.HasSuffix(line, "{") {
+					owner = m[1]
+				}
 			}
-			cells := strings.Split(line, "|")
-			if len(cells) < 6 {
-				t.Errorf("%s: malformed row %s", name, line)
-				continue
+			if m := method.FindStringSubmatch(line); m != nil {
+				out[pkg][m[1]+"."+m[2]] = true
 			}
-			goSymbol := strings.Trim(cells[1], " `")
-			languageSymbol := strings.Trim(cells[2], " `")
-			status := strings.TrimSpace(cells[3])
-			phase := strings.TrimSpace(cells[4])
-			if !validStatus[status] {
-				t.Errorf("%s: %s invalid status %q", name, goSymbol, status)
+			if line == "const (" || line == "var (" {
+				group = true
 			}
-			if !validPhase[phase] {
-				t.Errorf("%s: %s invalid phase %q", name, goSymbol, phase)
+			if m := member.FindStringSubmatch(line); m != nil {
+				if group {
+					out[pkg][m[1]] = true
+				} else if owner != "" {
+					out[pkg][owner+"."+m[1]] = true
+				}
 			}
-			if status == "parity" && languageSymbol == "" {
-				t.Errorf("%s: %s parity row without language symbol", name, goSymbol)
-			}
-			if seen[goSymbol] {
-				t.Errorf("%s: duplicate symbol %s", name, goSymbol)
-			}
-			seen[goSymbol] = true
-			dot := strings.LastIndex(goSymbol, ".")
-			if dot < 0 {
-				t.Errorf("%s: %s is not a Go symbol", name, goSymbol)
-				continue
-			}
-			pkg := goSymbol[:dot]
-			if !strings.HasPrefix(pkg, "pkg/") {
-				pkg = "pkg/" + pkg
-			}
-			if !packages[pkg] {
-				t.Errorf("%s: %s is not in api/%s.txt", name, pkg, version)
+			if line == "}" || line == ")" {
+				owner, group = "", false
 			}
 		}
 	}
+	return out
 }
 
 func metaValue(text, prefix string) string {

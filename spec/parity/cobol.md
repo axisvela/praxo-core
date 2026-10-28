@@ -22,7 +22,7 @@ path-policy, plugin, and middleware behavior.
 | `event.Sink` | event callback program | partial | P1 |
 | `event.FilterSink` | `praxo-event` filter operation | partial | P1 |
 | `event.MultiSink` | `praxo-event` multi operation | partial | P1 |
-| `policy.Policy` | policy callback program, `px-action` | partial | P1 |
+| `policy.Hook` | policy callback program, `px-action` | partial | P1 |
 | `policy.Decision` | policy callback status | partial | P1 |
 | `policy.PathChecker` | `praxo-policy`, `praxo-path-normalize` | partial | P1 |
 | `memory.Record` | `px-mem-record` fields | partial | P1 |
@@ -30,7 +30,7 @@ path-policy, plugin, and middleware behavior.
 | `checkpoint.Allowlist` | `praxo-checkpoint` | partial | P1 |
 | `agent.Agent` | `praxo-run` | partial | P1 |
 | `agent.Options` | `px-options` | partial | P1 |
-| `agent.RunResult` | `px-result` | partial | P1 |
+| `agent.Result` | `px-result` | partial | P1 |
 | `agent.Session` | `px-session` | partial | P1 |
 | `agent/context.ContextBudget` | `praxo-context` | partial | P1 |
 | `agent/context.EstimateTokens` | `praxo-context` estimate operation | partial | P1 |

@@ -23,7 +23,7 @@ With Zig on Windows:
 
 ```powershell
 cd language/c
-zig cc -std=c11 -Iinclude -Isrc src/files.c src/json.c src/json_equals.c src/toolcall.c src/jsonschema.c src/plugin.c src/core.c src/vectors_core.c src/vectors_agent.c src/conformance.c src/main.c -o build/conformance.exe
+zig cc -std=c11 -Iinclude -Isrc src/files.c src/json.c src/json_equals.c src/toolcall.c src/jsonschema.c src/plugin.c src/core.c src/core_context.c src/core_middleware.c src/vectors_core.c src/vectors_agent.c src/conformance.c src/main.c -o build/conformance.exe
 .\build\conformance.exe
 ```
 
@@ -36,7 +36,7 @@ to a toolchain install root.
 | --- | --- |
 | `include/praxo.h` | Arena, JSON value, and parse/stringify API |
 | `include/praxo_core.h` | Memory, events, checkpoint, policy, context, middleware, and agent API |
-| `src/core.c` | Public Core implementation |
+| `src/core.c`, `src/core_context.c`, `src/core_middleware.c` | Public Core implementation |
 | `src/toolcall.c` | Tool-call parsing and markup stripping |
 | `src/jsonschema.c` | Documented JSON Schema subset |
 | `src/plugin.c` | Manifest v1 parsing and validation |
@@ -44,6 +44,12 @@ to a toolchain install root.
 | `src/main.c` | Conformance entry point |
 
 Wire names preserve the Go casing, including `image_url` and `runId`.
+
+The unreleased source runs all eleven vector groups through the public API,
+including actual checkpoint serialization and model/tool history roundtrips.
+Context messages currently support role/content text only, and policy path
+checks are lexical, not filesystem or symlink containment. A null event-filter
+predicate forwards all events; a non-null empty predicate forwards none.
 
 ## License
 

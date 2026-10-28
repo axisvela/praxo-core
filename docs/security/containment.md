@@ -27,5 +27,11 @@ Containment is layered and product-owned. Callers must still provide OS-level
 isolation, trusted base URLs, signature and SBOM verification, approval binding,
 and idempotency where their threat model requires it.
 
+In the unreleased Go source, recursive local VFS `Grep` validates each file path
+before reading it. A denied path aborts the search with no partial matches;
+in-root file symlinks remain usable. This check is still check-then-use and does
+not resolve filesystem races. Symlink regressions require a host permitted to
+create symlinks; skipped tests are not containment verification.
+
 The independent containment review request is tracked in
 [issue #8](https://github.com/axisvela/praxo-core/issues/8).

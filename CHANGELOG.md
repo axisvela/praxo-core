@@ -2,6 +2,31 @@
 
 ## [Unreleased]
 
+### Fixed
+
+- Go runs cleanup for middleware entered before startup failure, continues
+  remaining AfterRun callbacks after an error, and releases call-limit and tool
+  selection state even when a failed run has no Result. The original execution
+  error remains primary; startup rejection still emits no run events.
+- C conformance invokes the public Core API instead of test-only algorithms,
+  including actual checkpoint roundtrips and agent tool history. Tool results
+  use `toolId`, and empty event predicates no longer forward all events.
+- Split parity validation discovers released Core inventories from the language
+  matrix and checks Go declarations, methods, and fields against the API
+  snapshot. Fortran and COBOL inventory rows reference the existing Hook and
+  Result symbols rather than nonexistent Policy and RunResult names.
+- Go validates and repairs final output before completion hooks, checkpoint
+  projections, memory writes, and completion notification, for both text and
+  structured-tool answers. A completion sink error is returned without a second,
+  contradictory failure notification. Completion hooks receive a result copy
+  and cannot rewrite validated output or identity; final writes are not transactional.
+- Go adopts context compaction output even when replacing an older message with
+  a marker leaves the message count unchanged, and reports the compaction hook.
+- Recursive local VFS searches recheck each file path before reading it and
+  discard partial matches when a path is denied. Filesystem TOCTOU remains open.
+- Windows process hosts serialize Job Object close, usage queries, and tree
+  termination to avoid handle races during shutdown.
+
 ### Added
 
 - Promoted C to a native Core SDK with a public memory/event/checkpoint/policy/

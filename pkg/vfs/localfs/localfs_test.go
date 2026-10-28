@@ -2,10 +2,14 @@ package localfs
 
 import (
 	"context"
+	"errors"
 	"os"
 	"path/filepath"
+	"reflect"
 	"runtime"
 	"testing"
+
+	"github.com/axisvela/praxo-core/v2/pkg/vfs"
 )
 
 func TestLocalBackendRoundTrip(t *testing.T) {
@@ -121,5 +125,104 @@ func TestLocalBackendRefusesRootDelete(t *testing.T) {
 	}
 	if err := b.Delete(context.Background(), "", true); err == nil {
 		t.Fatal("root delete accepted")
+	}
+}
+
+func TestLocalBackendGrepRejectsSymlinkEscape(t *testing.T) {
+	b, err := New(t.TempDir())
+	if err != nil {
+		t.Fatal(err)
+	}
+	ctx := context.Background()
+	if err := b.Write(ctx, "nested/a.txt", []byte("needle inside")); err != nil {
+		t.Fatal(err)
+	}
+	outside := filepath.Join(t.TempDir(), "secret.txt")
+	if err := os.WriteFile(outside, []byte("needle external secret"), 0o600); err != nil {
+		t.Fatal(err)
+	}
+	if err := os.Symlink(outside, filepath.Join(b.Root(), "nested", "z-link.txt")); err != nil {
+		t.Skipf("symlinks unavailable: %v", err)
+	}
+	for _, path := range []string{"nested/z-link.txt", "nested", ""} {
+		t.Run("path="+path, func(t *testing.T) {
+			matches, err := b.Grep(ctx, "needle", path)
+			if !errors.Is(err, os.ErrPermission) || matches != nil {
+				t.Fatalf("grep = %+v, %v; want nil matches and permission error", matches, err)
+			}
+		})
+	}
+}
+
+func TestLocalBackendGrepInRootSymlink(t *testing.T) {
+	b, err := New(t.TempDir())
+	if err != nil {
+		t.Fatal(err)
+	}
+	ctx := context.Background()
+	if err := b.Write(ctx, "target.txt", []byte("other\nneedle inside\n")); err != nil {
+		t.Fatal(err)
+	}
+	if err := os.Symlink(filepath.Join(b.Root(), "target.txt"), filepath.Join(b.Root(), "link.txt")); err != nil {
+		t.Skipf("symlinks unavailable: %v", err)
+	}
+	for _, path := range []string{"link.txt", ""} {
+		want := []vfs.Match{{Path: "link.txt", Line: 2, Text: "needle inside"}}
+		if path == "" {
+			want = append(want, vfs.Match{Path: "target.txt", Line: 2, Text: "needle inside"})
+		}
+		matches, err := b.Grep(ctx, "needle", path)
+		if err != nil || !reflect.DeepEqual(matches, want) {
+			t.Fatalf("grep %q = %+v, %v; want %+v", path, matches, err, want)
+		}
+	}
+}
+
+func TestLocalBackendGrepBrokenSymlink(t *testing.T) {
+	b, err := New(t.TempDir())
+	if err != nil {
+		t.Fatal(err)
+	}
+	ctx := context.Background()
+	if err := b.Write(ctx, "a.txt", []byte("needle inside")); err != nil {
+		t.Fatal(err)
+	}
+	if err := os.Symlink(filepath.Join(b.Root(), "missing.txt"), filepath.Join(b.Root(), "broken.txt")); err != nil {
+		t.Skipf("symlinks unavailable: %v", err)
+	}
+	if matches, err := b.Grep(ctx, "needle", "broken.txt"); !errors.Is(err, vfs.ErrNotFound) || matches != nil {
+		t.Fatalf("direct grep = %+v, %v; want nil matches and not found", matches, err)
+	}
+	want := []vfs.Match{{Path: "a.txt", Line: 1, Text: "needle inside"}}
+	if matches, err := b.Grep(ctx, "needle", ""); err != nil || !reflect.DeepEqual(matches, want) {
+		t.Fatalf("directory grep = %+v, %v; want %+v", matches, err, want)
+	}
+}
+
+func TestLocalBackendGrepTraversal(t *testing.T) {
+	b, err := New(t.TempDir())
+	if err != nil {
+		t.Fatal(err)
+	}
+	ctx := context.Background()
+	for path, text := range map[string]string{
+		"a.txt":             "needle root",
+		"nested/b.txt":      "other\nneedle nested\n",
+		"nested/deep/c.txt": "needle deep",
+		"nested/other.txt":  "no match",
+	} {
+		if err := b.Write(ctx, path, []byte(text)); err != nil {
+			t.Fatal(err)
+		}
+	}
+	want := []vfs.Match{
+		{Path: "nested/b.txt", Line: 2, Text: "needle nested"},
+		{Path: "nested/deep/c.txt", Line: 1, Text: "needle deep"},
+	}
+	if matches, err := b.Grep(ctx, "needle", "nested"); err != nil || !reflect.DeepEqual(matches, want) {
+		t.Fatalf("grep = %+v, %v; want %+v", matches, err, want)
+	}
+	if matches, err := b.Grep(ctx, "needle", "../"); !errors.Is(err, os.ErrPermission) || matches != nil {
+		t.Fatalf("escape grep = %+v, %v; want nil matches and permission error", matches, err)
 	}
 }

@@ -31,6 +31,33 @@
 `arguments` 可能包含租户数据、提示词、文件路径或调用方提供的凭据。持久化或
 导出前必须脱敏。
 
+## Go 结束顺序
+
+尚未发布的 Go 源码先执行 `AfterRun` middleware，包括结构化输出校验和修复，
+然后依次执行 `OnRunComplete`、`checkpoint` 投影、记忆写入和 `run.completed`。
+校验或修复失败时不发送最终 checkpoint、不保存答案，也不发送完成通知。
+原始模型消息和文本增量仍是临时输出，可能已在最终校验之前发送。
+
+`OnRunComplete` 接收已验证结果的副本。它可以返回错误来阻止完成，但修改副本
+不会改写最终结果、运行 ID、checkpoint 投影或记忆记录。需要主动转换输出时，
+应使用结束提交前的 `AfterRun` middleware。
+
+完成 hook、checkpoint 回调或记忆写入出错会阻止完成通知，并进入运行失败路径。
+若 `run.completed` 的 Sink 自身返回错误，`Run` 会返回该错误并调用 `OnRunError`，
+但不再尝试 `run.failed`，因为 fail-fast Sink 可能已向部分消费者发送完成通知。
+因此收到完成通知不保证 `Run` 返回 nil；即使同时返回结果，也必须检查错误。
+
+这些回调和写入不是原子事务。checkpoint 投影之后记忆写入仍可能失败；事件投递
+失败也不会回滚已写入的记忆。checkpoint stream part 是最终结果投影，不代表
+持久 checkpoint 已落盘或 exactly-once 执行。需要事务持久化时由消费者实现。
+历史 source tag 保留原来的回调顺序，其他 SDK 的生命周期需要分别验证。
+
+已进入的 middleware 即使在后续 `BeforeRun` 失败时也会执行 `AfterRun`，范围仅限
+已进入的前缀，包括返回错误的回调；启动拒绝仍不发送运行事件。`AfterRun` 返回
+错误不再阻断后续清理，后续回调接收原始执行错误或第一个结束错误，第一个错误
+保持优先。普通回调 panic 仍向外传播，不保证在 `AfterRun` panic 后继续清理。
+内置调用限制和工具选择通过内部运行 ID 清理状态，不再依赖非空 `Result`。
+
 ## Stream 投影
 
 `agent.Options.OnStream` 接收 `agent.StreamPart`。它是独立的类型化投影，不是

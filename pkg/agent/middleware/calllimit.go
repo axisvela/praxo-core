@@ -5,6 +5,7 @@ import (
 	"errors"
 	"sync"
 
+	"github.com/axisvela/praxo-core/v2/internal/runid"
 	"github.com/axisvela/praxo-core/v2/pkg/agent/types"
 )
 
@@ -59,13 +60,17 @@ func CallLimitMiddleware(modelLimit, toolLimit int) types.Middleware {
 			}
 			return nil
 		},
-		AfterRun: func(_ context.Context, result *types.Result, _ error) error {
-			if result == nil {
+		AfterRun: func(ctx context.Context, result *types.Result, _ error) error {
+			id := runid.From(ctx)
+			if id == "" && result == nil {
 				return nil
+			}
+			if id == "" {
+				id = result.RunID
 			}
 			mu.Lock()
 			defer mu.Unlock()
-			delete(counts, result.RunID)
+			delete(counts, id)
 			return nil
 		},
 	}

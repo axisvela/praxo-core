@@ -24,8 +24,9 @@ func mergeMiddleware(in []Middleware) []Middleware {
 	return out
 }
 
-func (a *Agent) beforeRun(ctx context.Context, state *RunState) error {
-	for _, m := range a.Middleware {
+func (a *Agent) beforeRun(ctx context.Context, state *RunState, entered *int) error {
+	for i, m := range a.Middleware {
+		*entered = i + 1
 		if m.BeforeRun == nil {
 			continue
 		}
@@ -90,14 +91,20 @@ func (a *Agent) afterTool(ctx context.Context, call *ToolCall, result *ToolResul
 	return nil
 }
 
-func (a *Agent) afterRun(ctx context.Context, result *Result, runErr error) error {
-	for _, m := range a.Middleware {
+func (a *Agent) afterRun(ctx context.Context, result *Result, runErr error, entered int) error {
+	var firstErr error
+	for _, m := range a.Middleware[:entered] {
 		if m.AfterRun == nil {
 			continue
 		}
 		if err := m.AfterRun(ctx, result, runErr); err != nil {
-			return err
+			if firstErr == nil {
+				firstErr = err
+			}
+			if runErr == nil {
+				runErr = err
+			}
 		}
 	}
-	return nil
+	return firstErr
 }

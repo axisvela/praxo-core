@@ -5,6 +5,7 @@ import (
 	"errors"
 	"testing"
 
+	"github.com/axisvela/praxo-core/v2/internal/runid"
 	"github.com/axisvela/praxo-core/v2/pkg/agent/types"
 	"github.com/axisvela/praxo-core/v2/pkg/model"
 )
@@ -62,5 +63,23 @@ func TestToolSelectionMiddlewareNoSelectionAllowsAll(t *testing.T) {
 	mw := ToolSelectionMiddleware(&fakeSelector{})
 	if err := mw.BeforeTool(context.Background(), &types.ToolCall{RunID: "r3", Call: &model.ToolCall{Name: "echo"}}); err != nil {
 		t.Fatalf("err = %v", err)
+	}
+}
+
+func TestToolSelectionMiddlewareCleansFailedRunWithoutResult(t *testing.T) {
+	ctx := runid.With(context.Background(), "failed")
+	mw := ToolSelectionMiddleware(&fakeSelector{names: []string{"echo"}})
+	if err := mw.BeforeModel(ctx, &types.ModelCall{RunID: "failed", Request: &model.Request{}}); err != nil {
+		t.Fatal(err)
+	}
+	call := &types.ToolCall{RunID: "failed", Call: &model.ToolCall{Name: "other"}}
+	if err := mw.BeforeTool(ctx, call); !errors.Is(err, ErrToolNotSelected) {
+		t.Fatalf("selection error = %v", err)
+	}
+	if err := mw.AfterRun(ctx, nil, context.Canceled); err != nil {
+		t.Fatal(err)
+	}
+	if err := mw.BeforeTool(ctx, call); err != nil {
+		t.Fatalf("failed run selection was retained: %v", err)
 	}
 }
