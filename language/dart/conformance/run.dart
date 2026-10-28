@@ -415,6 +415,20 @@ void main() {
     ..sort((a, b) => a.path.compareTo(b.path));
   final failures = <String>[];
   final seen = <String, String>{};
+  final groups = <String>{};
+  const requiredGroups = <String>{
+    'agent-loop',
+    'checkpoint',
+    'context',
+    'event',
+    'jsonschema',
+    'memory',
+    'middleware',
+    'plugin',
+    'policy',
+    'stream',
+    'toolcall',
+  };
   for (final file in files) {
     final name = file.uri.pathSegments.last.replaceAll('.json', '');
     dynamic parsed;
@@ -425,11 +439,16 @@ void main() {
       continue;
     }
     final group = Json.string(parsed, 'group') ?? '';
+    groups.add(group);
     if (Json.string(parsed, 'specVersion') != version) {
       failures.add('$name: specVersion mismatch');
     }
     if (name != group) failures.add('$name: group mismatch');
-    for (final vector in Json.array(parsed, 'vectors')) {
+    final vectors = Json.array(parsed, 'vectors');
+    if (vectors.isEmpty) {
+      failures.add('$group: empty vector group');
+    }
+    for (final vector in vectors) {
       final id = Json.string(vector, 'id') ?? '';
       if (seen.containsKey(id)) {
         failures.add('$group/$id: duplicate id with ${seen[id]}');
@@ -440,6 +459,11 @@ void main() {
       } catch (error) {
         failures.add('$group/$id: $error');
       }
+    }
+  }
+  for (final group in requiredGroups) {
+    if (!groups.contains(group)) {
+      failures.add('missing required vector group: $group');
     }
   }
   if (failures.isEmpty) {

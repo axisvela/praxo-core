@@ -386,7 +386,9 @@ void main() {
         auto file = parse(readSpec("spec/vectors/" ~ group ~ ".json"));
         if (getString(file, "group") != group) failures ~= group ~ ": group mismatch";
         if (getString(file, "specVersion") != specVersion) failures ~= group ~ ": specVersion mismatch";
-        foreach (vector; getArray(file, "vectors")) {
+        auto vectors = getArray(file, "vectors");
+        if (vectors.length == 0) failures ~= group ~ ": empty vector group";
+        foreach (vector; vectors) {
             auto id = getString(vector, "id");
             try {
                 runVector(group, vector);
