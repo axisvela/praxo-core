@@ -8,7 +8,7 @@ Context budgets, middleware, streaming, virtual-thread execution, cancellation,
 the OpenAI-compatible adapter, and the agent loop are included. VFS and plugin
 hosts are not yet implemented.
 
-Package version: `0.2.1`. Supported contract: `SPEC_VERSION` `0.2.0`
+Package version: `0.2.2`. Supported contract: `SPEC_VERSION` `0.2.0`
 (`io.axisvela.praxo.Version.SPEC_VERSION`).
 
 ## Requirements

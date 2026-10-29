@@ -50,7 +50,7 @@ production readiness or full Go feature parity.
 | Go | Core (reference) | released | `v2.5.1` | reference | Reference implementation |
 | Python | Core | released | `python/v0.2.2` | complete | 11 vectors, OpenAI adapter, PyPI `praxo-core==0.2.2` |
 | TypeScript | Core | released | `typescript/v0.1.2` | complete | 11 vectors, OpenAI adapter; npm `@axisvela/praxo-core@0.1.2` |
-| Java | Core | released | `java/v0.2.1` | complete | 11 vectors, OpenAI adapter, API snapshot |
+| Java | Core | released | `java/v0.2.2` | complete | 11 vectors, OpenAI adapter, API snapshot |
 | Rust | Core | released | `rust/v0.1.1` | complete | 11 vectors, native tests; current source adds compiler-derived API/parity gate |
 | C | Core | released | `c/v0.2.0` | complete | 11 vectors, native tests; public Core API plus wire JSON primitives; agent cancellation and call-limit concurrency are partial |
 | C# | Core (.NET) | released | `csharp/v0.1.1` | complete | 11 vectors, API snapshot, OpenAI adapter |
@@ -84,10 +84,10 @@ production readiness or full Go feature parity.
 | Ada | Core | planned | none | planned | Native loop target; GNAT toolchain; consumer and maintainer required |
 | Mojo | Core | planned | none | planned | Native loop target; toolchain and CI maturity gate |
 | F# | Sample (.NET) | released | `csharp/v0.1.1` | sample | F# consumer sample in `examples/fsharp`; uses the C# Core |
-| Clojure | Sample (JVM) | released | `java/v0.2.1` | sample | Clojure consumer sample in `examples/clojure`; uses the Java Core |
+| Clojure | Sample (JVM) | released | `java/v0.2.2` | sample | Clojure consumer sample in `examples/clojure`; uses the Java Core |
 | Solidity | Wire | planned | none | planned | Candidate contract integration; scope and technical limitations require investigation |
 | OpenCL | Sample | released | `c/v0.2.0` | sample | Compute integration sample in `examples/opencl`; uses the C Core and an OpenCL ICD |
-| Groovy | Sample (JVM) | released | `java/v0.2.1` | sample | Groovy consumer sample in `examples/groovy`; uses the Java Core |
+| Groovy | Sample (JVM) | released | `java/v0.2.2` | sample | Groovy consumer sample in `examples/groovy`; uses the Java Core |
 | J# | Sample (.NET) | consumer-gated | none | gated | Legacy J# runtime and toolchain are unsupported; requires a named consumer and compatible .NET path |
 | FoxPro | Bridge | planned | none | planned | Bridge over the maintained runtime; Visual FoxPro is Windows-only and legacy |
 | Classic Visual Basic | Bridge | planned | none | planned | Bridge over the .NET Core or bridge CLI; VB6 cannot consume modern .NET directly |
