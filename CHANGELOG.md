@@ -28,8 +28,9 @@
 - Released Rust source tag `rust/v0.1.1` with PII tool-call history redaction and
   the Rust conformance inventory gate; exported API is unchanged. Also released
   `elixir/v0.1.1`, `erlang/v0.1.1`, `objc/v0.1.1`, `delphi/v0.2.1`,
-  `v/v0.1.1`, `nim/v0.1.1`, and `matlab/v0.2.1` with the same PII history fix
-  and their conformance inventory gates.
+  `v/v0.1.1`, `nim/v0.1.1`, `matlab/v0.2.1`, `java/v0.2.2`, and
+  `csharp/v0.1.1` with the same PII history fix and their conformance
+  inventory gates.
 - Published TypeScript `@axisvela/praxo-core@0.1.2` on npm with matching API and
   signature snapshots. The first publication used a short-lived bypass token
   because staged approval was unavailable, so it carries no provenance claim.
