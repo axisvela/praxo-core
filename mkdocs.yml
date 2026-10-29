@@ -80,6 +80,7 @@ plugins:
             Comparison: 框架对比
             Benchmarks: 基准测试
             Roadmap: 公开路线图
+            Verification Evidence: 验证证据
             License and Provenance: 许可证与来源
             Repository Layout: 仓库布局
             Contributing: 参与贡献
@@ -184,6 +185,7 @@ nav:
       - Comparison: project/comparison.md
       - Benchmarks: project/benchmarks.md
       - Roadmap: project/roadmap.md
+      - Verification Evidence: project/verification-evidence.md
       - License and Provenance: project/provenance.md
       - Repository Layout: project/repository-layout.md
   - Contributing:

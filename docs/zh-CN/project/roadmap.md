@@ -37,6 +37,6 @@ Core 测试验证框架行为；跨仓库测试仅验证实际执行的集成与
 
 ## 已交付内容
 
-参见[版本历史](../releases/index.md)和
+参见[版本历史](../releases/index.md)、[验证证据索引](verification-evidence.md)和
 [完整变更日志](https://github.com/axisvela/praxo-core/blob/main/CHANGELOG.md)。
 可选适配器的离线评估不等于真实生产验证。

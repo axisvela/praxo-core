@@ -43,6 +43,7 @@ a port. See [compatibility policy](compatibility-policy.md),
 
 ## Delivered Work
 
-See [release history](../releases/index.md) and the
+See [release history](../releases/index.md), the
+[verification evidence index](verification-evidence.md), and the
 [changelog](https://github.com/axisvela/praxo-core/blob/main/CHANGELOG.md).
 Optional adapter evaluation is not equivalent to live production verification.

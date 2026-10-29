@@ -16,6 +16,9 @@
   changing ordinary recall, skill, compaction, or restore behavior.
 - The OpenTelemetry adapter has a runnable in-memory example and regression test
   covering event spans and allowlisted data without a collector or model key.
+- Added a public verification evidence index covering Core tests, governed
+  examples, containment, adapters, A2A/IAM contracts, integration recovery, and
+  product effect ledgers, with explicit claim levels and remaining limits.
 
 ### Fixed
 
