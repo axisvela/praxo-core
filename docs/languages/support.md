@@ -52,21 +52,21 @@ reuse the host Framework rather than duplicate its agent loop.
 - Haskell has source tag `haskell/v0.2.0` with all eleven vector groups, native
   tests, API snapshot/parity, and runtime/middleware helpers. Hackage publication
   and production readiness are not claimed.
-- Delphi/Free Pascal has source tag `delphi/v0.2.0` with all eleven vector groups,
+- Delphi/Free Pascal has source tag `delphi/v0.2.1` with all eleven vector groups,
   native tests, and API snapshot/parity under Free Pascal 3.2.2. The commercial
   Delphi compiler, other targets, and package registries are not claimed.
-- MATLAB/Octave has source tag `matlab/v0.2.0` with all eleven vector groups,
+- MATLAB/Octave has source tag `matlab/v0.2.1` with all eleven vector groups,
   native tests, and API snapshot/parity under Octave. The MATLAB runtime,
   provider adapters, and package registries are not claimed.
 - OCaml has source tag `ocaml/v0.2.0` with all eleven vector groups, native
   tests, and API snapshot/parity. Native `ocamlopt` compilation, provider
   adapters, and package registries are not claimed.
-- Elixir, Nim, V, and Objective-C have source tags `elixir/v0.1.0`,
-  `nim/v0.1.0`, `v/v0.1.0`, and `objc/v0.1.0`. They include all eleven vector
+- Elixir, Nim, V, and Objective-C have source tags `elixir/v0.1.1`,
+  `nim/v0.1.1`, `v/v0.1.1`, and `objc/v0.1.1`. They include all eleven vector
   groups, native tests, and API snapshots. Package-registry publication,
   production readiness, and complete Go parity are not claimed; optional Go
   hooks and provider adapters are not included.
-- Erlang has source tag `erlang/v0.1.0` with a native BEAM Core loop, eleven
+- Erlang has source tag `erlang/v0.1.1` with a native BEAM Core loop, eleven
   vector groups, native tests, and an API snapshot/parity inventory. Package
   registries, provider adapters, streaming, and production readiness are not
   claimed; opt-in middleware is integrated, while optional Go hooks are not

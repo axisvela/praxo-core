@@ -105,20 +105,50 @@ class DocumentationTests(unittest.TestCase):
         source_rows = [line for line in matrix_section.splitlines() if line.startswith("| ")][2:]
         self.assertEqual(english.count("\n| ") - 1, len(source_rows))
         self.assertIn("| Maturity |", english)
-        self.assertIn("[Python](python.md) | Framework (Core) | released | `python/v0.2.1` | complete", english)
-        self.assertIn("[MATLAB](matlab.md) | Framework (Core) | released | `matlab/v0.2.0` | complete", english)
-        self.assertIn("[MATLAB](matlab.md) | Framework (Core) | 源码已发布 | `matlab/v0.2.0` | 完整", chinese)
-        self.assertIn("[Haskell](haskell.md)", chinese)
-        self.assertIn("public Core API plus wire JSON primitives", english)
-        with self.assertRaises(ValueError):
-            docs_hooks.language_matrix(source.replace("| VBScript | Bridge | planned |", "| VBScript | Bridge | unknown |"))
+        for row in source_rows:
+            name, _, _, tag, _, notes = [cell.strip() for cell in row.strip("| ").split("|")]
+            self.assertIn(name, english)
+            self.assertIn(name, chinese)
+            if tag != "none":
+                self.assertIn(tag, english)
+                self.assertIn(tag, chinese)
+            self.assertIn(notes, english)
+
+    def test_language_matrix_fixture(self):
+        source = """## Matrix
+| Language | Tier | Status | Tag | Maturity | Notes |
+| --- | --- | --- | --- | --- | --- |
+| Python | Core | released | `python/v9.8.7` | complete | fixture scope |
+| MATLAB | Core | released | `matlab/v9.8.7` | partial | runtime unverified |
+| Future | Bridge | planned | none | planned | consumer required |
+"""
+        self.assertIn("[Python](python.md) | Framework (Core) | released | `python/v9.8.7` | complete | fixture scope", docs_hooks.language_matrix(source))
+        chinese = docs_hooks.language_matrix(source, chinese=True)
+        self.assertIn("[MATLAB](matlab.md) | Framework (Core) | 源码已发布 | `matlab/v9.8.7` | 部分完成", chinese)
+        self.assertIn("Future | Bridge | 计划中 | — | 计划中 | consumer required", chinese)
+        for invalid in (source.replace("| planned | none", "| unknown | none"),
+                        source + source.splitlines()[3] + "\n",
+                        source.replace("| Core |", "| Unknown |"),
+                        source.replace("| partial |", "| unknown |"),
+                        source.replace("| fixture scope", "| extra | fixture scope"),
+                        "## Matrix\n"):
+            with self.subTest(source=invalid), self.assertRaises(ValueError):
+                docs_hooks.language_matrix(invalid)
 
     def test_built_language_matrix(self):
+        source = (ROOT / "spec/languages.md").read_text(encoding="utf-8")
+        section = source.split("## Matrix\n", 1)[1].split("\n## ", 1)[0]
+        rows = [line for line in section.splitlines() if line.startswith("| ")][2:]
         for prefix in ("", "zh-CN/"):
             html = (ROOT / "site" / prefix / "languages/matrix/index.html").read_text(encoding="utf-8")
-            self.assertIn("MATLAB", html)
-            self.assertIn("Haskell", html)
-            self.assertIn("python/v0.2.1", html)
+            parser = Links()
+            parser.feed(html)
+            text = "".join(parser.text)
+            for row in rows:
+                name, _, _, tag, _, _ = [cell.strip() for cell in row.strip("| ").split("|")]
+                self.assertIn(name, text)
+                if tag != "none":
+                    self.assertIn(tag.strip("`"), text)
             self.assertNotIn("&lt;!-- language-support-matrix --&gt;", html)
 
     def test_built_legacy_redirects(self):

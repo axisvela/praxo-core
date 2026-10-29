@@ -103,11 +103,7 @@ func runDemo(ctx context.Context, mode, workspace string) (string, []string, err
 	default:
 		return "", trace, fmt.Errorf("unknown mode %q", mode)
 	}
-	ag, err := agent.New(opts)
-	if err != nil {
-		return "", trace, err
-	}
-	result, err := ag.Run(ctx, agent.Session{ID: "governed-workspace", TenantID: "local", WorkspaceID: workspace}, "inspect the workspace")
+	result, err := runGovernedWorkspace(ctx, opts, agent.Session{ID: "governed-workspace", TenantID: "local", WorkspaceID: workspace}, "inspect the workspace")
 	if err != nil {
 		return "", trace, err
 	}

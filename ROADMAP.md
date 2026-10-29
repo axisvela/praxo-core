@@ -9,4 +9,6 @@ and compatibility commitments. It is not a delivery schedule.
 - [Complete changelog](CHANGELOG.md)
 - [SDK support and distribution](docs/languages/support.md)
 - [Language implementation policy](docs/contributing/language-policy.md)
+- [Governed execution design](docs/reference/governed-execution.md)
+- [Test evidence standard and record template](docs/contributing/test-evidence.md)
 - [Compatibility policy](docs/project/compatibility-policy.md)

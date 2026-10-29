@@ -2,6 +2,26 @@
 
 ## [Unreleased]
 
+### Added
+
+- The governed-workspace example validates required controls before model calls,
+  binds single-use in-memory approvals to final filesystem arguments, and
+  rechecks policy at invocation. Regression fixtures cover control failures,
+  post-approval edits, queued revocation, and masked tool errors. This does not
+  add a Core profile/API or change ordinary agent defaults.
+- The governed-workspace example includes an opt-in context admission path for
+  caller-fetched memory and skills. Untrusted material is data-wrapped, approved
+  skills are digest-bound, summaries retain lineage, and restore rebuilds
+  instructions. It rejects late System injection and unmanaged inputs without
+  changing ordinary recall, skill, compaction, or restore behavior.
+
+### Fixed
+
+- Documentation matrix tests use fixed parsing fixtures and current canonical
+  source metadata instead of hard-coded release tags, preventing language
+  releases from invalidating documentation gates. Language support pages and
+  CI coverage notes now match the latest recorded source tags.
+
 ## [2.5.1] - 2026-10-28
 
 ### Added
