@@ -55,6 +55,18 @@ jobs:
         shell: pwsh
         run: ./scripts/api-snapshot.ps1 -Check
 
+  containment-linux:
+    runs-on: ubuntu-latest
+    env:
+      GOWORK: "off"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: "1.26.10"
+      - name: Verify platform containment controls
+        run: go test -count=1 -v -timeout 10m ./pkg/policy ./pkg/vfs/localfs ./pkg/plugin/host/process ./pkg/plugin/host/wasm
+
   spec-conformance:
     runs-on: ubuntu-latest
     env:
