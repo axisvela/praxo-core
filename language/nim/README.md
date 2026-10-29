@@ -1,6 +1,6 @@
 # PRAXO-CORE for Nim
 
-Nim is a native Core implementation with source tag `nim/v0.1.0`. It passes all
+Nim is a native Core implementation with source tag `nim/v0.1.1`. It passes all
 eleven shared vector groups with `Nim 2.2.12` and includes the native
 agent loop, context compaction, memory store, path policy, checkpoint
 allowlist, tool-call parsing, and opt-in agent tool selection, PII redaction,
@@ -72,7 +72,7 @@ limit calls per run. Zero or negative values leave the corresponding limit
 unbounded. Limits are checked before invoking the model or tool and reset for
 each run; a fallback model counts as one agent model call.
 
-Public declarations are inventoried in [`api/0.1.0.txt`](api/0.1.0.txt).
+Public declarations are inventoried in [`api/0.1.1.txt`](api/0.1.1.txt).
 
 ## Current Limits
 

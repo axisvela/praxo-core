@@ -1,6 +1,6 @@
 # PRAXO-CORE for V
 
-V is a native Core implementation with source tag `v/v0.1.0`. It passes all
+V is a native Core implementation with source tag `v/v0.1.1`. It passes all
 eleven shared vector groups with `V 0.5.2` and includes the native
 agent loop, context compaction, memory store, path policy, checkpoint
 allowlist, and tool-call parsing. Tool selection, PII redaction, structured
@@ -43,7 +43,7 @@ schema := praxo.parse_json('{"type":"string","pattern":"^a+$"}') or { panic(err)
 assert praxo.validate_schema(schema, praxo.parse_json('"aaa"') or { panic(err) }).len == 0
 ```
 
-Public declarations are inventoried in [`api/0.1.0.txt`](api/0.1.0.txt).
+Public declarations are inventoried in [`api/0.1.1.txt`](api/0.1.1.txt).
 
 Supply a model callback to receive each request and return a response or an
 error. The callback can inspect the conversation and tool results on each step;
