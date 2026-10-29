@@ -3,7 +3,7 @@
 C# 12 / .NET 8 implementation of the PRAXO-CORE agent contract.
 
 - `SPEC_VERSION`: `0.2.0`
-- Core version: `0.1.0`
+- Core version: `0.1.1`
 - License: MIT
 - Dependencies: none beyond the .NET base class library
 
@@ -62,4 +62,4 @@ var agent = new Agent(new AgentOptions(model)
 
 ## Release
 
-Tag shape: `csharp/v0.1.0`. The tag targets `SPEC_VERSION` `0.2.0`.
+Tag shape: `csharp/v0.1.1`. The tag targets `SPEC_VERSION` `0.2.0`.

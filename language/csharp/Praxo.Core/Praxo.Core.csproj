@@ -7,7 +7,7 @@
     <RootNamespace>Praxo.Core</RootNamespace>
     <AssemblyName>Praxo.Core</AssemblyName>
     <PackageId>Praxo.Core</PackageId>
-    <Version>0.1.0</Version>
+    <Version>0.1.1</Version>
     <Authors>AxisVela</Authors>
     <Description>C# SDK for the PRAXO-CORE agent contract</Description>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
