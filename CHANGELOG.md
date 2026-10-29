@@ -14,6 +14,8 @@
   skills are digest-bound, summaries retain lineage, and restore rebuilds
   instructions. It rejects late System injection and unmanaged inputs without
   changing ordinary recall, skill, compaction, or restore behavior.
+- The OpenTelemetry adapter has a runnable in-memory example and regression test
+  covering event spans and allowlisted data without a collector or model key.
 
 ### Fixed
 

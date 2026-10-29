@@ -49,6 +49,20 @@ This default differs from the published `v0.1.0`, which exports all event data.
 The safer behavior is introduced in v0.2.0. Users upgrading from v0.1.0 must
 explicitly select any event data fields they still want exported.
 
+## Runnable Example
+
+The example runs a deterministic agent loop with an in-memory exporter, so it
+needs no collector, network, model key, or external service:
+
+```bash
+cd adapters/otel
+GOWORK=off go run ./example
+```
+
+It prints one span per emitted event (`run.started`, `tool.call`,
+`run.completed`) and configures `AllowedDataKeys` to export only the tool name.
+The example's tests assert that tool arguments and results are not exported.
+
 ## Test
 
 ```bash
