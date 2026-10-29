@@ -4,20 +4,40 @@ Newer Core implementations keep their inventories under `spec/parity/` (`rust.md
 `csharp.md`, `php.md`, `swift.md`, and the bridge files). This page remains the
 inventory for the original core languages.
 
-Every exported Go contract package and core symbol must have a row here and an
-implementation in each shipped Core. The parity linter consumes this file and the
+Every exported Go contract package and core symbol must have a row here. The Core
+columns record declared feature coverage relative to Go; they do not assert full
+Go feature parity. The parity linter consumes this file and the
 `api/<version>.txt` snapshots.
+
+## Maturity Dimensions
+
+Keep these dimensions separate:
+
+- **Contract conformance:** the Core's declared vector groups, API snapshot, and
+  build/tests pass.
+- **Feature coverage:** the rows below relative to Go. `partial` and `planned`
+  rows are expected outside a Core's declared scope and may remain inside a
+  declared subset.
+- **Operational evidence:** real runtime, provider, platform, failure, and
+  production observations. A source tag or a `complete` matrix label does not
+  supply this evidence.
+
+`complete` in [the language matrix](languages.md) means declared-scope
+conformance, not that every parity row is `parity`.
 
 ## Status Legend
 
 | Status | Meaning | Released Core gate |
 | --- | --- | --- |
-| `planned` | Mapped in the design, not implemented | allowed before the Core's first release |
-| `partial` | Implemented for a subset of symbols | blocks release |
-| `parity` | Implemented and covered by vectors | required |
+| `planned` | Mapped in the design, outside the currently implemented subset | allowed when outside the declared scope |
+| `partial` | Implemented for a subset of the row's Go symbols or behaviors | allowed with a documented scope gap; not a vector-conformance failure by itself |
+| `parity` | Declared symbols implemented and covered by vectors | required for the row's declared scope |
 | `n/a` | Not applicable; the language provides its own harness | allowed |
 
-A released Core implementation must have no `planned` or `partial` row in its declared P1 scope.
+A released Core must pass its declared vector groups, API snapshot, and language
+tests. Its inventory must record known `planned` or `partial` rows honestly.
+Those rows describe relative feature coverage and do not by themselves fail a
+release; the matrix notes and the declared scope decide what the release claims.
 
 ## Package Inventory
 
@@ -132,13 +152,18 @@ The parity linter:
 
 1. Reads `api/<version>.txt` and fails on any exported `pkg/...` package absent
    from the package inventory.
-2. Fails on any package whose Phase is `P1` and whose status is not `parity` for
-   a Core implementation that declares a released version.
-3. Fails when a row names a symbol that the Core does not export.
+2. Discovers released Core scopes from [the language matrix](languages.md) and
+   fails when a released Core has no split parity inventory. It does not require
+   every P1 package row to be `parity`: `partial` and `planned` rows are feature
+   coverage records, not vector-conformance results.
+3. Validates declared rows and fails when a row names a symbol that the Core
+   does not export, when a status/phase is invalid, or when a `parity`/`partial`
+   row lacks its language symbol.
 4. Fails when a wire artifact in `spec/wire` references an event, error, stream
    kind, or plugin field absent from the Go reference.
 5. Does not compare source signatures; it compares symbol existence and vector
-   behavior.
+   behavior. It does not infer runtime, provider, or production maturity from a
+   parity row or matrix label.
 
 ## Change Process
 
@@ -147,6 +172,8 @@ The parity linter:
 3. Add the package or symbol row here.
 4. Add a vector for the behavior.
 5. Confirm the Go runner passes.
-6. Implement in each Core implementation and change its status to `parity`.
+6. Implement in each Core implementation. Record `parity` when the declared
+   behavior is implemented and covered; record a documented `partial` gap when
+   it is intentionally outside the current scope.
 
 See [Multilingual Core design](../docs/contributing/sdk-design.md).

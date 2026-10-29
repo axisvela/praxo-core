@@ -60,7 +60,8 @@ Bridge、Sample 描述运行时的接入方式，不证明其语言缺乏 Framew
 ## 功能边界
 
 Python、TypeScript、Java、C# 包含流式路径与 OpenAI 兼容适配器，不能据此推断
-其他语言也具备这些能力。共享向量通过不等于 Go 全功能一致、真实提供商验证、
+其他语言也具备这些能力。`complete` 表示声明范围内的契约一致性；parity 清单仍可包含
+该范围之外的功能 `partial`/`planned` 行。共享向量通过不等于 Go 全功能一致、真实提供商验证、
 生产就绪或包仓库发布完成。
 
 VFS、插件宿主、调度与可选集成应以对应 Core 的 README 和 API 参考为准。

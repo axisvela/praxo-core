@@ -43,6 +43,11 @@ production readiness or full Go feature parity.
 | `planned` | Planned; no source tag. |
 | `gated` | Requires a named consumer or compatible runtime before implementation starts. |
 
+`complete` describes contract conformance for the declared scope. It is not a
+statement that every feature-coverage row in [the parity inventory](parity.md)
+is `parity`; some rows may remain `partial` or `planned`. Operational evidence
+for real providers, platforms, and production behavior is reported separately.
+
 ## Matrix
 
 | Language | Tier | Status | Tag | Maturity | Notes |

@@ -88,7 +88,9 @@ reuse the host Framework rather than duplicate its agent loop.
 
 Python, TypeScript, Java, and C# include streaming and an OpenAI-compatible
 adapter. This does not imply those features exist in every other implementation.
-Passing shared vectors does not prove complete feature parity with Go, live
+`complete` records declared-scope conformance; the parity inventory may still
+contain `partial` or `planned` rows for features outside that scope. Passing
+shared vectors does not prove complete feature parity with Go, live
 provider verification, production readiness, or package publication.
 
 VFS backends, plugin hosts, scheduling, and optional integrations must be
