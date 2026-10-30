@@ -39,7 +39,7 @@ JavaScript 复用 TypeScript，Kotlin、Scala、Groovy 和 Clojure 复用 Java�
 
 每个交付的实现需要独立语言入口页、源码 README、安装或构建方法、契约版本、
 限制与测试命令。源码标签和包管理器发布必须分开说明，范围变更同步更新矩阵和
-parity 清单。
+parity 清单。维护者确认后才记录支持等级；不要从成熟度、源码标签或注册表可用性推断官方支持。
 Wire 条目应说明 Framework 目标，除非存在已记录的技术例外。不能只因最终目标是
 Framework，或一致性运行器通过了核心向量，就把当前范围直接改成 Core。
 

@@ -48,7 +48,9 @@ security-sensitive behavior.
 Every delivered implementation needs a language entry page, a source README,
 installation or build instructions, supported contract version, limitations, and
 test commands. Distinguish source tags from registry publication. Update the
-matrix and parity inventory with changes to the declared scope.
+matrix and parity inventory with changes to the declared scope. Record a support
+level only after a maintainer confirms it; do not infer official support from
+maturity, a source tag, or registry availability.
 Wire entries state Framework as their target unless a documented technical
 exception applies. Do not change the current scope to Core merely because that
 is the target, or because a conformance runner passes core vectors.

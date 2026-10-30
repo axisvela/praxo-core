@@ -34,6 +34,23 @@ Bridge and Sample describe how users access a runtime, not proof that their
 languages are incapable of Framework support. Shared-runtime languages can
 reuse the host Framework rather than duplicate its agent loop.
 
+## Support Levels
+
+Maturity records completion of the declared scope. Support level records who is
+expected to respond to issues and security corrections; the two are independent.
+
+| Level | Meaning | Not implied |
+| --- | --- | --- |
+| `maintained` | Named maintainer or team, CI, and applicable security fixes | Response SLA, full Go parity, every provider |
+| `community` | Community maintainers, best-effort updates | Response time, security backport commitment |
+| `experimental` | Scope may change; no stability promise | Production use |
+| `deprecated` | No new features; migration path documented | Removal date unless stated |
+
+The matrix does not yet publish a support-level column for every row. Until a row
+records one, do not infer an official support commitment from `complete`, a
+source tag, or package-registry availability. Support levels will be added as
+maintainers confirm them.
+
 ## Versions and Distribution
 
 - The Go core, language Core implementations, adapters, and contract versions are independent.
