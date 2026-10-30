@@ -330,6 +330,7 @@ jobs:
       - run: java --add-modules jdk.httpserver -cp target/classes:target/test-classes io.axisvela.praxo.adapters.OpenAICompatibleSelfTest
       - run: java -cp target/classes:target/test-classes io.axisvela.praxo.agent.AgentConcurrencySelfTest
       - run: java -cp target/classes:target/test-classes io.axisvela.praxo.agent.AgentAuthorizationSelfTest
+      - run: java -cp target/classes:target/test-classes io.axisvela.praxo.agent.AgentLifecycleSelfTest
       - run: java -cp target/classes:target/test-classes io.axisvela.praxo.middleware.PiiMiddlewareSelfTest
 
   kotlin-sample:

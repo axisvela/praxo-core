@@ -141,7 +141,15 @@ class Agent:
         messages.append(Message(role=ROLE_USER, content=prompt))
         usage = Usage()
 
-        await self._before_run(RunState(run_id, session, prompt))
+        entered: list[Middleware] = []
+        try:
+            await self._before_run(RunState(run_id, session, prompt), entered)
+        except Exception as exc:
+            try:
+                await self._after_run(entered, None, exc)
+            except Exception:
+                pass
+            raise
         await self._emit(Event("run.started", session.id, run_id))
         after_run_invoked = False
         try:
@@ -189,7 +197,9 @@ class Agent:
                         usage=usage,
                     )
                     after_run_invoked = True
-                    await self._after_run(result, None)
+                    cleanup_error = await self._after_run(entered, result, None)
+                    if cleanup_error is not None:
+                        raise cleanup_error
                     await self._emit(
                         Event("run.completed", session.id, run_id)
                     )
@@ -202,7 +212,7 @@ class Agent:
         except Exception as exc:
             if not after_run_invoked:
                 try:
-                    await self._after_run(None, exc)
+                    await self._after_run(entered, None, exc)
                 except Exception:
                     pass
             try:
@@ -336,8 +346,11 @@ class Agent:
             content = ref
         return Message(role=ROLE_TOOL, content=content, tool_id=active.id)
 
-    async def _before_run(self, state: RunState) -> None:
+    async def _before_run(
+        self, state: RunState, entered: list[Middleware]
+    ) -> None:
         for middleware in self.middleware:
+            entered.append(middleware)
             if middleware.before_run is not None:
                 await maybe_await(middleware.before_run(state))
 
@@ -370,11 +383,23 @@ class Agent:
                 await maybe_await(middleware.after_tool(call, result))
 
     async def _after_run(
-        self, result: Result | None, error: BaseException | None
-    ) -> None:
-        for middleware in self.middleware:
-            if middleware.after_run is not None:
+        self,
+        entered: list[Middleware],
+        result: Result | None,
+        error: BaseException | None,
+    ) -> BaseException | None:
+        first_error: BaseException | None = None
+        for middleware in entered:
+            if middleware.after_run is None:
+                continue
+            try:
                 await maybe_await(middleware.after_run(result, error))
+            except BaseException as exc:
+                if first_error is None:
+                    first_error = exc
+                if error is None:
+                    error = exc
+        return first_error
 
     async def _authorize(self, action: Action) -> None:
         if self.options.policy is None:

@@ -11,6 +11,9 @@
 - TypeScript and Java now apply the same final-name/argument authorization and
   final-tool resolution, with regression self-tests for mutation, denial,
   unchanged calls, and allowlist enforcement.
+- Python, TypeScript, and Java now clean up middleware entered before a startup
+  failure, keep running later after-run callbacks after one fails, preserve the
+  original run error, and fail closed when cleanup itself fails after success.
 - Compatibility Lab now writes a unique directory per execution with run ID,
   UTC start/finish, pre-run Git metadata, explicit `not_run` commands, and a
   `latest.json` pointer, so a later success cannot overwrite an earlier failure.

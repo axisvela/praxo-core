@@ -91,7 +91,13 @@ public final class Agent {
         messages.add(Message.of(Message.USER, prompt));
         Usage usage = Usage.zero();
 
-        beforeRun(new RunState(runId, session, prompt));
+        List<Middleware> entered = new ArrayList<>();
+        try {
+            beforeRun(new RunState(runId, session, prompt), entered);
+        } catch (Exception error) {
+            afterRun(entered, null, error);
+            throw error;
+        }
         emit(new Event("run.started", session.id, runId, null, null));
         boolean afterRunInvoked = false;
         ExecutorService executor = Executors.newVirtualThreadPerTaskExecutor();
@@ -125,7 +131,16 @@ public final class Agent {
                     Result result = new Result(
                             runId, response.message().content(), step, usage);
                     afterRunInvoked = true;
-                    afterRun(result, null);
+                    Throwable cleanupError = afterRun(entered, result, null);
+                    if (cleanupError instanceof Exception exception) {
+                        throw exception;
+                    }
+                    if (cleanupError instanceof Error error) {
+                        throw error;
+                    }
+                    if (cleanupError != null) {
+                        throw new RuntimeException(cleanupError);
+                    }
                     emit(new Event("run.completed", session.id, runId, null, null));
                     return result;
                 }
@@ -137,11 +152,7 @@ public final class Agent {
             throw PraxoException.maxSteps();
         } catch (Exception error) {
             if (!afterRunInvoked) {
-                try {
-                    afterRun(null, error);
-                } catch (Exception ignored) {
-                    // preserve the original run error
-                }
+                afterRun(entered, null, error);
             }
             try {
                 Map<String, Object> data = new LinkedHashMap<>();
@@ -323,8 +334,10 @@ public final class Agent {
         return Message.tool(content, active.id());
     }
 
-    private void beforeRun(RunState state) throws Exception {
+    private void beforeRun(RunState state, List<Middleware> entered)
+            throws Exception {
         for (Middleware item : middleware) {
+            entered.add(item);
             item.beforeRun(state);
         }
     }
@@ -360,10 +373,22 @@ public final class Agent {
         }
     }
 
-    private void afterRun(Result result, Throwable error) throws Exception {
-        for (Middleware item : middleware) {
-            item.afterRun(result, error);
+    private Throwable afterRun(List<Middleware> entered, Result result,
+            Throwable error) {
+        Throwable firstError = null;
+        for (Middleware item : entered) {
+            try {
+                item.afterRun(result, error);
+            } catch (Throwable caught) {
+                if (firstError == null) {
+                    firstError = caught;
+                }
+                if (error == null) {
+                    error = caught;
+                }
+            }
         }
+        return firstError;
     }
 
     private void authorize(Action action) throws Exception {

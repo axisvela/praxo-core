@@ -153,7 +153,17 @@ export class Agent {
     messages.push({ role: ROLE_USER, content: prompt });
     let total = usage();
 
-    await this.beforeRun({ runId, session, prompt });
+    const entered: Middleware[] = [];
+    try {
+      await this.beforeRun({ runId, session, prompt }, entered);
+    } catch (error) {
+      try {
+        await this.afterRun(entered, null, error);
+      } catch {
+        // preserve the startup error and emit no run events
+      }
+      throw error;
+    }
     await this.emit({ type: "run.started", sessionId: session.id, runId });
     let afterRunInvoked = false;
     try {
@@ -213,7 +223,10 @@ export class Agent {
             usage: total,
           };
           afterRunInvoked = true;
-          await this.afterRun(result, null);
+          const cleanupError = await this.afterRun(entered, result, null);
+          if (cleanupError) {
+            throw cleanupError;
+          }
           await this.emit({
             type: "run.completed",
             sessionId: session.id,
@@ -231,7 +244,7 @@ export class Agent {
     } catch (error) {
       if (!afterRunInvoked) {
         try {
-          await this.afterRun(null, error);
+          await this.afterRun(entered, null, error);
         } catch {
           // preserve the original run error
         }
@@ -395,8 +408,12 @@ export class Agent {
     return { role: ROLE_TOOL, content, toolId: active.id };
   }
 
-  private async beforeRun(state: RunState): Promise<void> {
+  private async beforeRun(
+    state: RunState,
+    entered: Middleware[]
+  ): Promise<void> {
     for (const middleware of this.middleware) {
+      entered.push(middleware);
       if (middleware.beforeRun) {
         await maybeAwait(middleware.beforeRun(state));
       }
@@ -444,14 +461,25 @@ export class Agent {
   }
 
   private async afterRun(
+    entered: Middleware[],
     result: Result | null,
     error: unknown
-  ): Promise<void> {
-    for (const middleware of this.middleware) {
-      if (middleware.afterRun) {
+  ): Promise<unknown | null> {
+    let firstError: unknown = null;
+    for (const middleware of entered) {
+      if (!middleware.afterRun) continue;
+      try {
         await maybeAwait(middleware.afterRun(result, error));
+      } catch (caught) {
+        if (firstError === null) {
+          firstError = caught;
+        }
+        if (error === null || error === undefined) {
+          error = caught;
+        }
       }
     }
+    return firstError;
   }
 
   private throwIfAborted(): void {

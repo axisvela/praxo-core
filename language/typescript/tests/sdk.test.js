@@ -363,3 +363,97 @@ test("unchanged tool is authorized once", async () => {
   );
   assert.deepEqual(tool.calls, [{ text: "ok" }]);
 });
+
+test("startup failure cleans entered middleware without run events", async () => {
+  const calls = [];
+  const events = [];
+  const first = {
+    beforeRun() {
+      calls.push("first.before");
+    },
+    afterRun(result, error) {
+      calls.push(`first.after:${error instanceof Error ? error.name : "unknown"}`);
+    },
+  };
+  const second = {
+    beforeRun() {
+      calls.push("second.before");
+      throw new Error("startup failed");
+    },
+    afterRun() {
+      calls.push("second.after");
+    },
+  };
+  const third = {
+    beforeRun() {
+      calls.push("third.before");
+    },
+    afterRun() {
+      calls.push("third.after");
+    },
+  };
+  const agent = new praxo.Agent({
+    model: { generate: async () => ({ message: { role: "assistant", content: "done" } }) },
+    events: { emit: async (event) => events.push(event.type) },
+    middleware: [first, second, third],
+  });
+  await assert.rejects(agent.run({ id: "s1" }, "go"), /startup failed/);
+  assert.deepEqual(calls, [
+    "first.before",
+    "second.before",
+    "first.after:Error",
+    "second.after",
+  ]);
+  assert.deepEqual(events, []);
+});
+
+test("cleanup continues and preserves the run error", async () => {
+  const calls = [];
+  const agent = new praxo.Agent({
+    model: {
+      generate: async () => {
+        throw new Error("run failed");
+      },
+    },
+    middleware: [
+      {
+        afterRun() {
+          calls.push("first.after");
+          throw new Error("cleanup failed");
+        },
+      },
+      {
+        afterRun() {
+          calls.push("second.after");
+        },
+      },
+    ],
+  });
+  await assert.rejects(agent.run({ id: "s1" }, "go"), /run failed/);
+  assert.deepEqual(calls, ["first.after", "second.after"]);
+});
+
+test("cleanup error after success fails closed", async () => {
+  const calls = [];
+  const events = [];
+  const agent = new praxo.Agent({
+    model: { generate: async () => ({ message: { role: "assistant", content: "done" } }) },
+    events: { emit: async (event) => events.push(event.type) },
+    middleware: [
+      {
+        afterRun() {
+          calls.push("first.after");
+          throw new Error("cleanup failed");
+        },
+      },
+      {
+        afterRun() {
+          calls.push("second.after");
+        },
+      },
+    ],
+  });
+  await assert.rejects(agent.run({ id: "s1" }, "go"), /cleanup failed/);
+  assert.deepEqual(calls, ["first.after", "second.after"]);
+  assert.deepEqual(events, ["run.started", "run.failed"]);
+});
