@@ -26,7 +26,7 @@ evidence.
 
 | Area | Verified | Level | Limits |
 | --- | --- | --- | --- |
-| Go Core | Tests, vet, build, API snapshot, race, fuzz and module-security CI; current main and release workflow checks | Contract/unit + CI | One JSON Schema fuzz run hit a 10s deadline and passed on rerun; slow-input risk remains under investigation |
+| Go Core | Tests, vet, build, API snapshot, race, fuzz and module-security CI; current main and release workflow checks; published `v2.5.2` installed from a clean external module without `replace` | Contract/unit + CI + local integration | One JSON Schema fuzz run hit a 10s deadline and passed on rerun; slow-input risk remains under investigation; consumer install covers one platform and a minimal agent |
 | Governed workspace | Policy-required configuration, final-argument authorization, single-use approvals, post-approval edits, queued revocation, fail-closed dependency errors | Contract/unit | Example-level contract; not a Core profile, authenticated identity service, or durable approval store |
 | Context trust | Memory, skill, tool-result and summary source separation; digest-bound approved skills; text restore; late System injection rejection | Contract/unit | Opt-in example path; not a general prompt-injection filter, source authenticator, or durable lineage proof |
 | Containment | Windows path/process/WASM controls; Linux path and symlink controls in a verbose CI job; local VFS operations use `os.Root` after policy checks | Contract/unit + CI | Windows symlink cases skipped without privilege; policy decisions remain check-then-use, Linux cgroup v2, WASM fuel, and independent review remain open |
