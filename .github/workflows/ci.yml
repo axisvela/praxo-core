@@ -191,6 +191,8 @@ jobs:
         with:
           otp-version: "29"
           elixir-version: "1.20.4"
+          install-hex: false
+          install-rebar: false
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
@@ -207,6 +209,8 @@ jobs:
       - uses: erlef/setup-beam@v1
         with:
           otp-version: "29"
+          install-hex: false
+          install-rebar: false
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
