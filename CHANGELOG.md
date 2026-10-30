@@ -22,8 +22,9 @@
   `validate`, and a `0.1.2` API snapshot. No source tag is published by this
   change.
 - Fortran source now carries the full typed stream-part fields (run/session IDs,
-  kind, step, data, timestamp) and a `0.2.1` API snapshot. No source tag is
-  published by this change.
+  kind, step, data, timestamp), a `schema`/`schema_from_json` wrapper, and a
+  `0.2.1` API snapshot. The validated JSON Schema subset still uses bounded
+  ASCII patterns. No source tag is published by this change.
 - COBOL source adds an in-memory `praxo-registry` program for tool
   register/get/list/clear under the unreleased API snapshot. It is partial
   parity: no concurrency and no custom spec provider.

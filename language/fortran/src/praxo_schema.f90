@@ -6,19 +6,42 @@ module praxo_schema
   use praxo_pattern
   implicit none
   private
-  public :: validation_error, validate_schema
+  public :: validation_error, validate_schema, schema, schema_from_json
 
   type :: validation_error
     character(:), allocatable :: path, message
   end type
+
+  type :: schema
+    character(:), allocatable :: raw
+  contains
+    procedure :: validate => schema_validate
+  end type
 contains
-  subroutine validate_schema(schema, data, errors, error)
-    character(*), intent(in) :: schema, data
+  function schema_from_json(raw, error) result(value)
+    character(*), intent(in) :: raw
+    type(sdk_error), intent(out) :: error
+    type(schema) :: value
+    type(json_document) :: document
+    call parse_json(raw, document, error)
+    if (.not. error%failed()) value%raw = raw
+  end function
+
+  function schema_validate(self, data, error) result(errors)
+    class(schema), intent(in) :: self
+    character(*), intent(in) :: data
+    type(sdk_error), intent(out) :: error
+    type(validation_error), allocatable :: errors(:)
+    call validate_schema(self%raw, data, errors, error)
+  end function
+
+  subroutine validate_schema(schema_json, data, errors, error)
+    character(*), intent(in) :: schema_json, data
     type(validation_error), allocatable, intent(out) :: errors(:)
     type(sdk_error), intent(out) :: error
     type(json_document) :: rules, value
     allocate(errors(0))
-    call parse_json(schema, rules, error)
+    call parse_json(schema_json, rules, error)
     if (error%failed()) return
     call parse_json(data, value, error)
     if (error%failed()) return

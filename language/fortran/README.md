@@ -39,7 +39,7 @@ them. Python is not required by a compiled Core consumer.
 | `praxo_unicode`, `praxo_json` | Native UTF-8, JSON parsing, encoding, traversal, and equality |
 | `praxo_checkpoint` | Registered-type JSON envelopes |
 | `praxo_toolcall` | JSON, XML-style, dotted-tag, and plain tool-call parsing; markup removal |
-| `praxo_schema`, `praxo_pattern` | Contract schema validation and bounded ASCII patterns |
+| `praxo_schema`, `praxo_pattern` | `schema`, `schema_from_json`, contract validation, and bounded ASCII patterns |
 | `praxo_policy` | Lexical path grants |
 | `praxo_plugin` | Strict manifest parsing and validation |
 | `praxo_middleware` | Per-run limits, tool selection, fallback, structured-output repair, PII redaction |

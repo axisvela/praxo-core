@@ -40,7 +40,9 @@ limitations.
 | `toolcall.ParseToolCall` | `praxo_toolcall.parse_tool_call`, `parsed_tool_call` | parity | P1 |
 | `toolcall.ParseInputJSON` | `praxo_toolcall.parse_input_json` | parity | P1 |
 | `toolcall.StripToolCallMarkup` | `praxo_toolcall.strip_markup` | parity | P1 |
-| `tool/jsonschema.Schema` | `praxo_schema.validate_schema`, `validation_error` | partial | P1 |
+| `tool/jsonschema.Schema` | `praxo_schema.schema`, `validate_schema` | partial | P1 |
+| `tool/jsonschema.ValidationError` | `praxo_schema.validation_error` | parity | P1 |
+| `tool/jsonschema.FromJSON` | `praxo_schema.schema_from_json` | parity | P1 |
 | `plugin.ParseManifest` | `praxo_plugin.parse_manifest`, `plugin_manifest` | parity | P1 |
 | `agent/middleware.CallLimitMiddleware` | `praxo_middleware.call_limit`, agent options hook | parity | P1 |
 | `agent/middleware.ToolSelectionMiddleware` | `praxo_middleware.tool_selection`, agent options hook | parity | P1 |

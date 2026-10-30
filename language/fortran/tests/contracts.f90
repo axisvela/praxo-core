@@ -23,6 +23,7 @@ program contract_tests
   type(decision) :: verdict
   type(plugin_manifest) :: manifest
   type(validation_error), allocatable :: errors(:)
+  type(schema) :: rules
   type(call_limit), target :: limits
   type(tool_selection), target :: selection
   type(scripted_model), target :: primary, secondary
@@ -108,6 +109,10 @@ program contract_tests
   call check(.not. error%failed() .and. size(errors) == 0, 'numeric enum semantic equality')
   call validate_schema('{"type":"string","enum":["x"]}', '"x "', errors, error)
   call check(size(errors) == 1, 'string enum preserves trailing spaces')
+  rules = schema_from_json('{"type":"string","minLength":2}', error)
+  call check(.not. error%failed(), 'schema from json')
+  errors = rules%validate('"a"', error)
+  call check(.not. error%failed() .and. size(errors) == 1, 'schema object validation')
 
   call parse_manifest(base, manifest, error)
   call check(.not. error%failed(), 'minimal manifest')

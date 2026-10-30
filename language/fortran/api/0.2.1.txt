@@ -393,12 +393,28 @@ type(memory_record), allocatable :: records(:), matching(:)
 end interface declaration
 
 module praxo_schema
-public :: validate_schema, validation_error
+public :: schema, schema_from_json, validate_schema, validation_error
 type :: validation_error
 character(:), allocatable :: path, message
 end type
-subroutine validate_schema(schema, data, errors, error)
-character(*), intent(in) :: schema, data
+type :: schema
+character(:), allocatable :: raw
+contains
+procedure :: validate => schema_validate
+end type
+function schema_from_json(raw, error) result(value)
+character(*), intent(in) :: raw
+type(sdk_error), intent(out) :: error
+type(schema) :: value
+end interface declaration
+function schema_validate(self, data, error) result(errors)
+class(schema), intent(in) :: self
+character(*), intent(in) :: data
+type(sdk_error), intent(out) :: error
+type(validation_error), allocatable :: errors(:)
+end interface declaration
+subroutine validate_schema(schema_json, data, errors, error)
+character(*), intent(in) :: schema_json, data
 type(validation_error), allocatable, intent(out) :: errors(:)
 type(sdk_error), intent(out) :: error
 end interface declaration
