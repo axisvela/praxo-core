@@ -10,6 +10,7 @@ import sys
 import time
 from dataclasses import dataclass
 from pathlib import Path
+from uuid import uuid4
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -17,6 +18,23 @@ DEFAULT_OUTPUT = ROOT / "build" / "compatibility-lab"
 SCHEMA = "praxo-compatibility-lab-1"
 OUTPUT_TAIL = 4000
 DEFAULT_LANGUAGES = ("python", "typescript", "java", "rust")
+
+
+def utc_now() -> str:
+    return dt.datetime.now(dt.timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
+
+
+def new_run_id() -> str:
+    stamp = dt.datetime.now(dt.timezone.utc).strftime("%Y%m%dT%H%M%SZ")
+    return f"{stamp}-{uuid4().hex[:8]}"
+
+
+def decode_output(value: object) -> str:
+    if value is None:
+        return ""
+    if isinstance(value, bytes):
+        return value.decode("utf-8", "replace")
+    return str(value)
 
 
 @dataclass(frozen=True)
@@ -229,8 +247,8 @@ def run_command(item: Command, timeout: float) -> dict[str, object]:
             "status": "failed",
             "exit_code": None,
             "duration_ms": int((time.monotonic() - started) * 1000),
-            "stdout": tail(error.stdout or ""),
-            "stderr": tail(error.stderr or ""),
+            "stdout": tail(decode_output(error.stdout)),
+            "stderr": tail(decode_output(error.stderr)),
             "reason": f"timeout after {timeout}s",
         }
     except OSError as error:
@@ -245,6 +263,20 @@ def run_command(item: Command, timeout: float) -> dict[str, object]:
             "stderr": "",
             "reason": str(error),
         }
+
+
+def not_run(item: Command, reason: str) -> dict[str, object]:
+    return {
+        "label": item.label,
+        "argv": list(item.argv),
+        "cwd": str(item.cwd),
+        "status": "not_run",
+        "exit_code": None,
+        "duration_ms": 0,
+        "stdout": "",
+        "stderr": "",
+        "reason": reason,
+    }
 
 
 def version_text(argv: tuple[str, ...], timeout: float) -> str:
@@ -275,11 +307,15 @@ def run_language(
             result = run_command(setup, timeout)
             commands.append(result)
             if result["status"] != "passed":
+                reason = "not run because setup did not pass"
+                commands.extend(not_run(step, reason) for step in item.run)
                 return language_result(item, commands, timeout)
-    for step in item.run:
+    for index, step in enumerate(item.run):
         result = run_command(step, timeout)
         commands.append(result)
         if result["status"] != "passed":
+            reason = "not run because a previous command did not pass"
+            commands.extend(not_run(rest, reason) for rest in item.run[index + 1:])
             break
     return language_result(item, commands, timeout)
 
@@ -294,6 +330,8 @@ def language_result(
         status = "failed"
     elif "skipped" in statuses:
         status = "skipped"
+    elif "not_run" in statuses:
+        status = "not_run"
     else:
         status = "passed"
     reason = next(
@@ -316,20 +354,30 @@ def summarize(results: list[dict[str, object]]) -> dict[str, int]:
         "passed": sum(1 for result in results if result["status"] == "passed"),
         "failed": sum(1 for result in results if result["status"] == "failed"),
         "skipped": sum(1 for result in results if result["status"] == "skipped"),
+        "not_run": sum(1 for result in results if result["status"] == "not_run"),
+        "commands_not_run": sum(
+            1
+            for result in results
+            for command in result.get("commands", [])
+            if command.get("status") == "not_run"
+        ),
     }
 
 
 def build_report(
     selected: list[str],
     results: list[dict[str, object]],
+    run_id: str,
+    started_at: str,
+    finished_at: str,
+    repository: dict[str, object],
 ) -> dict[str, object]:
     return {
         "schema": SCHEMA,
-        "generated_at": dt.datetime.now(dt.timezone.utc)
-        .replace(microsecond=0)
-        .isoformat()
-        .replace("+00:00", "Z"),
-        "repository": git_metadata(),
+        "run_id": run_id,
+        "started_at": started_at,
+        "finished_at": finished_at,
+        "repository": repository,
         "environment": {
             "platform": platform.platform(),
             "python": sys.version.split()[0],
@@ -346,12 +394,14 @@ def markdown_report(report: dict[str, object]) -> str:
     lines = [
         "# PRAXO-CORE Compatibility Lab",
         "",
-        f"- Generated: `{report['generated_at']}`",
+        f"- Run: `{report.get('run_id', 'unknown')}`",
+        f"- Started: `{report.get('started_at', 'unknown')}`",
+        f"- Finished: `{report.get('finished_at', 'unknown')}`",
         f"- Repository: `{repository.get('sha') or 'unknown'}`"
         f" ({'dirty' if repository.get('dirty') else 'clean' if repository.get('dirty') is False else 'unknown'})",
         f"- Platform: `{report['environment']['platform']}`",
         f"- Summary: {summary['passed']} passed, {summary['failed']} failed, "
-        f"{summary['skipped']} skipped of {summary['total']}",
+        f"{summary['skipped']} skipped, {summary['not_run']} not run of {summary['total']}",
         "",
         "| Language | Status | Toolchain | Detail |",
         "| --- | --- | --- | --- |",
@@ -371,6 +421,29 @@ def markdown_report(report: dict[str, object]) -> str:
         ]
     )
     return "\n".join(lines) + "\n"
+
+
+def write_report(report: dict[str, object], output_dir: Path) -> Path:
+    run_id = str(report["run_id"])
+    run_dir = output_dir / run_id
+    run_dir.mkdir(parents=True, exist_ok=True)
+    report_path = run_dir / "report.json"
+    report_path.write_text(
+        json.dumps(report, indent=2, sort_keys=True) + "\n",
+        encoding="utf-8",
+        newline="\n",
+    )
+    (run_dir / "report.md").write_text(
+        markdown_report(report),
+        encoding="utf-8",
+        newline="\n",
+    )
+    (output_dir / "latest.json").write_text(
+        json.dumps({"run_id": run_id, "report": f"{run_id}/report.json"}) + "\n",
+        encoding="utf-8",
+        newline="\n",
+    )
+    return report_path
 
 
 def exit_code(report: dict[str, object], strict: bool) -> int:
@@ -413,26 +486,24 @@ def main(argv: list[str] | None = None) -> int:
     except ValueError as error:
         parser.error(str(error))
 
+    run_id = new_run_id()
+    started_at = utc_now()
+    repository = git_metadata()
     results = [
         run_language(available[key], args.timeout, args.install) for key in selected
     ]
-    report = build_report(selected, results)
-    args.output_dir.mkdir(parents=True, exist_ok=True)
-    (args.output_dir / "report.json").write_text(
-        json.dumps(report, indent=2, sort_keys=True) + "\n",
-        encoding="utf-8",
-        newline="\n",
+    finished_at = utc_now()
+    report = build_report(
+        selected, results, run_id, started_at, finished_at, repository
     )
-    (args.output_dir / "report.md").write_text(
-        markdown_report(report),
-        encoding="utf-8",
-        newline="\n",
-    )
+    report_path = write_report(report, args.output_dir)
     summary = report["summary"]
     print(
         f"compatibility lab: {summary['passed']} passed, "
-        f"{summary['failed']} failed, {summary['skipped']} skipped"
+        f"{summary['failed']} failed, {summary['skipped']} skipped, "
+        f"{summary['not_run']} not run"
     )
+    print(f"compatibility lab report: {report_path}")
     return exit_code(report, args.strict)
 
 

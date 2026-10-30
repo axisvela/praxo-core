@@ -48,14 +48,18 @@ python scripts/compatibility_lab.py --install --strict
   set.
 - `--timeout 300` sets a per-command timeout.
 
-The command writes:
+The command writes a new directory for each execution:
 
-- `build/compatibility-lab/report.json`
-- `build/compatibility-lab/report.md`
+- `build/compatibility-lab/<run-id>/report.json`
+- `build/compatibility-lab/<run-id>/report.md`
+- `build/compatibility-lab/latest.json` (pointer to the newest report)
 
-The report records the Git revision and dirty state, platform, toolchain
-versions, every command, exit code, duration, and bounded stdout/stderr tails.
-It preserves failures and skips rather than replacing them with later runs.
+The report records the run ID, UTC start/finish, the Git revision and dirty
+state captured before the run, platform, toolchain versions, every command,
+exit code, duration, and bounded stdout/stderr tails. Commands skipped after an
+earlier failure are recorded as `not_run`, with separate language and command
+counts. Earlier run directories are not overwritten; `latest.json` is only a
+convenience pointer and is not itself evidence.
 
 ## Current Evidence
 

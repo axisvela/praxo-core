@@ -35,12 +35,13 @@ python scripts/compatibility_lab.py --install --strict
 - `--languages python,typescript,java,rust,fortran,cobol`：运行完整 Linux CI 集合。
 - `--timeout 300`：设置单条命令超时。
 
-命令会生成：
+每次执行会生成独立目录：
 
-- `build/compatibility-lab/report.json`
-- `build/compatibility-lab/report.md`
+- `build/compatibility-lab/<run-id>/report.json`
+- `build/compatibility-lab/<run-id>/report.md`
+- `build/compatibility-lab/latest.json`（指向最新报告的指针）
 
-报告记录 Git revision 和 dirty 状态、平台、工具链版本、每条命令、退出码、耗时，以及有长度限制的 stdout/stderr 尾部。失败和跳过会被保留，不会被后续成功运行覆盖。
+报告记录 run ID、UTC 起止时间、运行前采集的 Git revision 和 dirty 状态、平台、工具链版本、每条命令、退出码、耗时，以及有长度限制的 stdout/stderr 尾部。前序失败后未执行的命令标为 `not_run`，并分别统计语言和命令数量。旧运行目录不会被覆盖；`latest.json` 只是便利指针，本身不是证据。
 
 ## 当前证据
 

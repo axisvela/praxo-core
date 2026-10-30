@@ -1,5 +1,10 @@
+import json
+import subprocess
 import sys
+import tempfile
 import unittest
+from pathlib import Path
+from unittest.mock import patch
 
 import compatibility_lab as lab
 
@@ -36,7 +41,14 @@ class CompatibilityLabTests(unittest.TestCase):
         )
         self.assertEqual(
             report,
-            {"total": 4, "passed": 2, "failed": 1, "skipped": 1},
+            {
+                "total": 4,
+                "passed": 2,
+                "failed": 1,
+                "skipped": 1,
+                "not_run": 0,
+                "commands_not_run": 0,
+            },
         )
 
     def test_exit_code_honors_strict_skips(self):
@@ -48,10 +60,19 @@ class CompatibilityLabTests(unittest.TestCase):
 
     def test_markdown_report_lists_languages_and_limits(self):
         report = {
-            "generated_at": "2026-10-30T00:00:00Z",
+            "run_id": "20261030T000000Z-test",
+            "started_at": "2026-10-30T00:00:00Z",
+            "finished_at": "2026-10-30T00:00:01Z",
             "repository": {"sha": "a" * 40, "dirty": False},
             "environment": {"platform": "test"},
-            "summary": {"total": 1, "passed": 1, "failed": 0, "skipped": 0},
+            "summary": {
+                "total": 1,
+                "passed": 1,
+                "failed": 0,
+                "skipped": 0,
+                "not_run": 0,
+                "commands_not_run": 0,
+            },
             "languages": [
                 {
                     "name": "Python",
@@ -106,8 +127,77 @@ class CompatibilityLabTests(unittest.TestCase):
         )
         result = lab.run_language(item, 30, install=False)
         self.assertEqual(result["status"], "failed")
-        self.assertEqual(len(result["commands"]), 1)
+        self.assertEqual(len(result["commands"]), 2)
         self.assertEqual(result["commands"][0]["label"], "failure")
+        self.assertEqual(result["commands"][1]["status"], "not_run")
+        self.assertEqual(result["commands"][1]["reason"], "not run because a previous command did not pass")
+
+    def test_timeout_bytes_are_decoded(self):
+        error = subprocess.TimeoutExpired(
+            ["fixture"], 1, output=b"partial out", stderr=b"partial err"
+        )
+        item = lab.Command(
+            "timeout", (sys.executable, "-c", "pass"), lab.ROOT
+        )
+        with patch.object(lab.subprocess, "run", side_effect=error):
+            result = lab.run_command(item, 1)
+        self.assertEqual(result["status"], "failed")
+        self.assertEqual(result["stdout"], "partial out")
+        self.assertEqual(result["stderr"], "partial err")
+
+    def test_report_metadata_is_captured_before_run(self):
+        item = lab.Language(
+            "fixture",
+            "Fixture",
+            (sys.executable, "--version"),
+            (),
+            (lab.Command("ok", (sys.executable, "-c", "pass"), lab.ROOT),),
+        )
+        result = lab.run_language(item, 30, install=False)
+        report = lab.build_report(
+            ["fixture"],
+            [result],
+            "run-id",
+            "2026-10-30T00:00:00Z",
+            "2026-10-30T00:00:01Z",
+            {"sha": "a" * 40, "dirty": False},
+        )
+        self.assertEqual(report["run_id"], "run-id")
+        self.assertEqual(report["started_at"], "2026-10-30T00:00:00Z")
+        self.assertEqual(report["finished_at"], "2026-10-30T00:00:01Z")
+        self.assertEqual(report["repository"]["sha"], "a" * 40)
+
+    def test_write_report_keeps_each_run(self):
+        def report(run_id):
+            return {
+                "schema": lab.SCHEMA,
+                "run_id": run_id,
+                "started_at": "2026-10-30T00:00:00Z",
+                "finished_at": "2026-10-30T00:00:01Z",
+                "repository": {"sha": "a" * 40, "dirty": False},
+                "environment": {"platform": "test"},
+                "selection": ["fixture"],
+                "languages": [],
+                "summary": {
+                    "total": 0,
+                    "passed": 0,
+                    "failed": 0,
+                    "skipped": 0,
+                    "not_run": 0,
+                    "commands_not_run": 0,
+                },
+            }
+
+        with tempfile.TemporaryDirectory() as directory:
+            output = Path(directory)
+            first = lab.write_report(report("run-1"), output)
+            second = lab.write_report(report("run-2"), output)
+            self.assertTrue(first.is_file())
+            self.assertTrue(second.is_file())
+            self.assertNotEqual(first.parent, second.parent)
+            latest = json.loads((output / "latest.json").read_text(encoding="utf-8"))
+            self.assertEqual(latest["run_id"], "run-2")
+            self.assertEqual(latest["report"], "run-2/report.json")
 
 
 if __name__ == "__main__":

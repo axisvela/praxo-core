@@ -4,6 +4,9 @@
 
 ### Fixed
 
+- Compatibility Lab now writes a unique directory per execution with run ID,
+  UTC start/finish, pre-run Git metadata, explicit `not_run` commands, and a
+  `latest.json` pointer, so a later success cannot overwrite an earlier failure.
 - Workspace runtime profile tool construction now validates the profile before
   selecting tools and returns an error for invalid configuration. It cannot
   produce a partial or executable tool set from an invalid state/local/sandbox
