@@ -189,7 +189,7 @@ contract.
 
 A wire rename, event change, stream-kind change, or plugin envelope change is
 breaking for every Core implementation, even if only one Core implementation ships it. See
-[Multilingual Core design](../contributing/sdk-design.md) and the
+[Multilingual Core design](../contributing/core-design.md) and the
 [Core support policy](../languages/support.md).
 
 ## Concurrency

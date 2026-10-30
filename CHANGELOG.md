@@ -325,7 +325,7 @@
   navigation.
 - `internal/spec/privacy_test.go`: opt-in git-history and working-tree checks
   for non-public email domains and internal hostnames.
-- Multilingual SDK design (`docs/contributing/sdk-design.md`) and roadmap
+- Multilingual SDK design (`docs/contributing/core-design.md`) and roadmap
   (`docs/languages/support.md`) for Python, TypeScript, and Java SDKs.
 - `spec/` scaffold: `SPEC_VERSION`, event/error/schema/plugin wire artifacts,
   `parity.md`, and the conformance-vector format.

@@ -65,7 +65,7 @@ Python、TypeScript 和 Java Core 共享 `spec/` 中的契约，并独立版本�
 Go 表面仍受上述 `v2` 规则约束。多语言 Core 是增量包，不改变 Go 模块路径或
 `pkg/...` 冻结。
 
-参见[多语言 Core 设计](../contributing/sdk-design.md)和
+参见[多语言 Core 设计](../contributing/core-design.md)和
 [Core 支持政策](../languages/support.md)。
 
 ## 兼容性测试

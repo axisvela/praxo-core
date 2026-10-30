@@ -176,4 +176,4 @@ The parity linter:
    behavior is implemented and covered; record a documented `partial` gap when
    it is intentionally outside the current scope.
 
-See [Multilingual Core design](../docs/contributing/sdk-design.md).
+See [Multilingual Core design](../docs/contributing/core-design.md).

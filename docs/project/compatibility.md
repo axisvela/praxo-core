@@ -99,7 +99,7 @@ independently. Their compatibility rules are:
 The Go surface remains covered by the `v2` rules above. Multilingual Core implementations are
 additive packages and do not change the Go module path or the `pkg/...` freeze.
 
-See [Multilingual Core design](../contributing/sdk-design.md) and the
+See [Multilingual Core design](../contributing/core-design.md) and the
 [Core support policy](../languages/support.md).
 
 ## Compatibility Tests

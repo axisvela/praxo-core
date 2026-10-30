@@ -73,7 +73,7 @@ group was not discovered is not conformance. Required groups currently are
 `middleware`, `plugin`, `policy`, `stream`, and `toolcall`; adding a group
 requires updating each runner and its inventory gate.
 
-See [Multilingual Core design](../docs/contributing/sdk-design.md) and the
+See [Multilingual Core design](../docs/contributing/core-design.md) and the
 [Core support policy](../docs/languages/support.md).
 
 ## License

@@ -60,7 +60,7 @@ contract for all Core implementations lives in `spec/`:
 Wire names keep their existing casing, including `image_url` in
 `model.ContentBlock` and camelCase identifiers such as `runId`. The source APIs
 are idiomatic per language but map one-to-one. See
-[Multilingual Core design](../contributing/sdk-design.md).
+[Multilingual Core design](../contributing/core-design.md).
 
 ## Tool Contract
 

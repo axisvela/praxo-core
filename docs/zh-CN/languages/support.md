@@ -80,5 +80,5 @@ Python、TypeScript、Java、C# 包含流式路径与 OpenAI 兼容适配器，�
 生产就绪或包仓库发布完成。
 
 VFS、插件宿主、调度与可选集成应以对应 Core 的 README 和 API 参考为准。
-贡献要求见 [Core 设计](../contributing/sdk-design.md)和
+贡献要求见 [Core 设计](../contributing/core-design.md)和
 [语言支持规范](../contributing/language-policy.md)。

@@ -193,7 +193,7 @@ nav:
       - License and Provenance: project/provenance.md
       - Repository Layout: project/repository-layout.md
   - Contributing:
-      - Core Design: contributing/sdk-design.md
+      - Core Design: contributing/core-design.md
       - Language Policy: contributing/language-policy.md
       - Test Evidence: contributing/test-evidence.md
   - Releases:

@@ -107,7 +107,7 @@ TypeScript, and Java Core implementations:
 - Adding a language binding does not require a Go major release. Removing or
   renaming a wire field does.
 
-See [Multilingual Core design](../contributing/sdk-design.md).
+See [Multilingual Core design](../contributing/core-design.md).
 
 ## Compatibility Rules
 

@@ -95,7 +95,7 @@ PRAXOVELA 在 `0.16.0` 中迁移到规范路径。别名在 `1.0.0` 中移除；
   契约，包括 `image_url` 等现有混用大小写。
 - 增加语言绑定不需要 Go 主要版本；删除或重命名 wire 字段则需要。
 
-参见[多语言 Core 设计](../contributing/sdk-design.md)。
+参见[多语言 Core 设计](../contributing/core-design.md)。
 
 ## 兼容性规则
 

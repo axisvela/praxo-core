@@ -187,6 +187,6 @@ linter enforces only the declared tier.
 
 ## Related Documents
 
-- [Multilingual Core design](../docs/contributing/sdk-design.md)
+- [Multilingual Core design](../docs/contributing/core-design.md)
 - [Core support policy](../docs/languages/support.md)
 - [Language implementation policy](../docs/contributing/language-policy.md)

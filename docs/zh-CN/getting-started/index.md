@@ -17,4 +17,4 @@
 | 理解契约 | [架构](../reference/architecture.md)、[基础能力](../reference/primitives.md)、[事件](../reference/events.md) |
 | 评估安全性 | [安全模型](../security/index.md) |
 | 升级 | [兼容性](../project/compatibility.md)、[版本总览](../releases/index.md) |
-| 贡献 Core | [Core 设计](../contributing/sdk-design.md)、[语言支持规范](../contributing/language-policy.md) |
+| 贡献 Core | [Core 设计](../contributing/core-design.md)、[语言支持规范](../contributing/language-policy.md) |

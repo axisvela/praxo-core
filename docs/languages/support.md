@@ -123,5 +123,5 @@ evaluated against the specific Core's README and API reference.
 Core changes require the declared vector groups, parity inventory, API checks,
 and language tests. Wire, Bridge, and Sample implementations have narrower gates.
 See [language policy](../contributing/language-policy.md) and
-[Core design](../contributing/sdk-design.md). Security-sensitive behavior requires
+[Core design](../contributing/core-design.md). Security-sensitive behavior requires
 language-specific tests in addition to shared fixtures.

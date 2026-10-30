@@ -56,7 +56,7 @@ Manifest v1、进程/WASM 宿主协议以及一致性测试套件参见
 
 wire 名称保留现有大小写，包括 `model.ContentBlock` 中的 `image_url` 以及
 `runId` 等 camelCase 标识符。源码 API 按语言惯例实现，但保持一对一映射。参见
-[多语言 Core 设计](../contributing/sdk-design.md)。
+[多语言 Core 设计](../contributing/core-design.md)。
 
 ## 工具契约
 

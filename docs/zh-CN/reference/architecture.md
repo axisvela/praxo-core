@@ -172,7 +172,7 @@ Java interface；`context.Context` 变成语言的取消原语；sentinel 错误
 类。具体适配器、辅助函数和包内部实现不属于契约。
 
 wire 改名、事件变更、stream kind 变更或插件信封变更对所有 Core 都是破坏性变更，
-即使只有一个 Core 发布。参见[多语言 Core 设计](../contributing/sdk-design.md)和
+即使只有一个 Core 发布。参见[多语言 Core 设计](../contributing/core-design.md)和
 [Core 支持政策](../languages/support.md)。
 
 ## 并发

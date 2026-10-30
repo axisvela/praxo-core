@@ -17,4 +17,4 @@
 | Inspect contracts | [Architecture](../reference/architecture.md), [primitives](../reference/primitives.md), [events](../reference/events.md) |
 | Evaluate safety | [Security model](../security/index.md) |
 | Upgrade | [Compatibility](../project/compatibility.md), [releases](../releases/index.md) |
-| Contribute a Core implementation change | [Core design](../contributing/sdk-design.md), [language policy](../contributing/language-policy.md) |
+| Contribute a Core implementation change | [Core design](../contributing/core-design.md), [language policy](../contributing/language-policy.md) |

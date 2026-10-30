@@ -54,7 +54,7 @@ this framework.
 - An SDK change is done only when its conformance vectors and parity linter
   pass.
 - Keep every SDK MIT; review dependency licenses before adopting one.
-- See `docs/contributing/sdk-design.md` and `docs/languages/support.md`.
+- See `docs/contributing/core-design.md` and `docs/languages/support.md`.
 - New languages follow the tier model in `docs/contributing/language-policy.md`; do
   not hand-write a new agent loop without a named consumer.
 
