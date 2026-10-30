@@ -53,9 +53,9 @@ python scripts/compatibility_lab.py --install --strict
 | Java | passed | OpenJDK 21.0.8 |
 | Rust | passed | Cargo 1.96.0 |
 | Fortran | passed | GNU Fortran 16.2.0 |
-| COBOL | Linux CI 批次 | GNU COBOL |
+| COBOL | passed（Linux CI） | GNU COBOL |
 
-首次本地运行所在工作区包含尚未提交的证据工具改动，因此不是 clean-SHA 发布记录。引用完整六语言集合时，应使用 CI artifact 和合并后的 revision。
+首次本地运行所在工作区包含尚未提交的证据工具改动，因此不是 clean-SHA 发布记录。COBOL 已在 Linux CI job 中通过。引用完整六语言集合时，应使用 CI artifact 和合并后的 revision。
 
 ## 增加语言
 
