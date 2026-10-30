@@ -5,6 +5,7 @@ program core_tests
   use praxo_agent
   use praxo_runtime
   use praxo_context
+  use praxo_stream
   use test_doubles
   implicit none
   type(scripted_model), target :: provider
@@ -222,6 +223,19 @@ program core_tests
   budget%max_tokens = 0
   call budget%compact(messages, compacted, ok)
   call check(ok .and. compacted(1)%content == repeat('x', 100), 'disabled context budget')
+
+  block
+    type(stream_part) :: part
+    part%run_id = 'run-1'
+    part%session_id = 'session-1'
+    part%kind = 'values'
+    part%step = 3
+    part%data = '{"value":1}'
+    part%at = '2026-10-30T00:00:00Z'
+    call check(part%run_id == 'run-1' .and. part%session_id == 'session-1', 'stream part identity')
+    call check(part%kind == 'values' .and. part%step == 3, 'stream part kind and step')
+    call check(part%data == '{"value":1}' .and. part%at == '2026-10-30T00:00:00Z', 'stream part data and time')
+  end block
 
   if (failures > 0) error stop 1
   print '(a,i0,a)', 'PASS: ', checks, ' native Fortran assertions'

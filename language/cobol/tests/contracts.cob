@@ -14,6 +14,7 @@ copy "context.cpy".
 copy "memory.cpy".
 copy "plugin.cpy".
 copy "middleware.cpy".
+copy "registry.cpy".
 01 assertion-ok pic 9.
 01 assertion-label pic x(128).
 01 failures binary-long value 0.
@@ -28,6 +29,7 @@ procedure division.
     perform memory-cases
     perform plugin-cases
     perform middleware-cases
+    perform registry-cases
     if failures = 0
         display "PASS: native COBOL contract boundary cases"
     else
@@ -326,6 +328,105 @@ middleware-cases.
         move 0 to assertion-ok
     end-if
     move "middleware deep json pii" to assertion-label
+    perform assert-ok.
+registry-cases.
+    initialize px-registry-request px-registry-result
+    move "register" to px-reg-op
+    move "beta" to px-reg-name
+    move 4 to px-reg-name-length
+    move "Beta tool" to px-reg-description
+    move 9 to px-reg-description-length
+    move "beta-program" to px-reg-program
+    move 12 to px-reg-program-length
+    move "low" to px-reg-risk
+    move 3 to px-reg-risk-length
+    call "praxo-registry" using px-registry-request px-registry-result
+    move 1 to assertion-ok
+    if px-reg-error not = spaces move 0 to assertion-ok end-if
+    move "registry register beta" to assertion-label
+    perform assert-ok
+    initialize px-registry-request px-registry-result
+    move "register" to px-reg-op
+    move "alpha" to px-reg-name
+    move 5 to px-reg-name-length
+    move "Alpha tool" to px-reg-description
+    move 10 to px-reg-description-length
+    move "alpha-program" to px-reg-program
+    move 13 to px-reg-program-length
+    move "high" to px-reg-risk
+    move 4 to px-reg-risk-length
+    call "praxo-registry" using px-registry-request px-registry-result
+    move 1 to assertion-ok
+    if px-reg-error not = spaces move 0 to assertion-ok end-if
+    move "registry register alpha" to assertion-label
+    perform assert-ok
+    initialize px-registry-request px-registry-result
+    move "list" to px-reg-op
+    call "praxo-registry" using px-registry-request px-registry-result
+    move 1 to assertion-ok
+    if px-reg-count not = 2
+        or px-reg-entry-name(1)(1:5) not = "alpha"
+        or px-reg-entry-name(2)(1:4) not = "beta"
+        move 0 to assertion-ok
+    end-if
+    move "registry list sorted" to assertion-label
+    perform assert-ok
+    initialize px-registry-request px-registry-result
+    move "get" to px-reg-op
+    move "alpha" to px-reg-name
+    move 5 to px-reg-name-length
+    call "praxo-registry" using px-registry-request px-registry-result
+    move 1 to assertion-ok
+    if px-reg-count not = 1
+        or px-reg-entry-name(1)(1:5) not = "alpha"
+        or px-reg-entry-program(1)(1:13) not = "alpha-program"
+        move 0 to assertion-ok
+    end-if
+    move "registry get alpha" to assertion-label
+    perform assert-ok
+    initialize px-registry-request px-registry-result
+    move "get" to px-reg-op
+    move "missing" to px-reg-name
+    move 7 to px-reg-name-length
+    call "praxo-registry" using px-registry-request px-registry-result
+    move 1 to assertion-ok
+    if px-reg-error not = "TOOL_NOT_FOUND"
+        move 0 to assertion-ok
+    end-if
+    move "registry missing" to assertion-label
+    perform assert-ok
+    initialize px-registry-request px-registry-result
+    move "register" to px-reg-op
+    move "beta" to px-reg-name
+    move 4 to px-reg-name-length
+    move "Beta two" to px-reg-description
+    move 8 to px-reg-description-length
+    move "beta-program" to px-reg-program
+    move 12 to px-reg-program-length
+    move "low" to px-reg-risk
+    move 3 to px-reg-risk-length
+    call "praxo-registry" using px-registry-request px-registry-result
+    move "get" to px-reg-op
+    move "beta" to px-reg-name
+    move 4 to px-reg-name-length
+    call "praxo-registry" using px-registry-request px-registry-result
+    move 1 to assertion-ok
+    if px-reg-count not = 1
+        or px-reg-entry-description(1)(1:8) not = "Beta two"
+        move 0 to assertion-ok
+    end-if
+    move "registry replace" to assertion-label
+    perform assert-ok
+    initialize px-registry-request px-registry-result
+    move "register" to px-reg-op
+    move "bad" to px-reg-name
+    move 65 to px-reg-name-length
+    call "praxo-registry" using px-registry-request px-registry-result
+    move 1 to assertion-ok
+    if px-reg-error not = "INVALID_REQUEST"
+        move 0 to assertion-ok
+    end-if
+    move "registry invalid length" to assertion-label
     perform assert-ok.
 assert-ok.
     if assertion-ok = 0

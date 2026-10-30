@@ -36,6 +36,7 @@ required by a compiled Core consumer.
 | `praxo-pattern-check` | Bounded ASCII pattern matcher |
 | `praxo-plugin` | Strict manifest parsing and validation |
 | `praxo-policy` | Lexical path grants |
+| `praxo-registry` | In-memory tool registry with register/get/list/clear |
 | `praxo-stream` | Stream-kind constants |
 | `praxo-toolcall` | JSON, XML-style, dotted-tag, and plain tool-call parsing |
 | `praxo-json-parse`, `praxo-json-generate`, `praxo-json-string`, `praxo-json-quote`, `praxo-json-slice`, `praxo-utf8` | Native JSON and UTF-8 utilities |
@@ -89,7 +90,9 @@ drive-relative, and traversal-outside-root paths in the exercised cases but
 does not resolve symlinks, reparse points, filesystem case rules, or races. Do
 not use it as a sandbox. Email redaction covers only email addresses, not other
 PII classes. Memory search uses ASCII case folding and lexical ordering of
-canonical UTC timestamps.
+canonical UTC timestamps. The tool registry stores up to 32 entries, replaces
+duplicate names, and lists entries sorted by name; it has no concurrency
+semantics.
 
 ## Gates
 

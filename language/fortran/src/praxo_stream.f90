@@ -6,6 +6,7 @@ module praxo_stream
     [character(10) :: 'values', 'updates', 'messages', 'tasks', 'debug', 'checkpoint']
 
   type :: stream_part
-    character(:), allocatable :: kind, data
+    character(:), allocatable :: run_id, session_id, kind, data, at
+    integer :: step = 0
   end type
 end module

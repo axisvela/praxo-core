@@ -70,12 +70,12 @@ the local host does not have GnuCOBOL:
 | Java | passed | OpenJDK 21.0.8 |
 | Rust | passed | Cargo 1.96.0 |
 | Fortran | passed | GNU Fortran 16.2.0 |
-| COBOL | passed (Linux CI) | GNU COBOL |
+| COBOL | passed | GNU COBOL 2.0.0 (local) and Linux CI |
 
 The first local run was from a workspace with uncommitted evidence-tooling
-changes, so it is not a clean-SHA release record. COBOL passed in the Linux CI
-job. Use the CI artifact and the merged revision when citing the full
-six-language set.
+changes, so it is not a clean-SHA release record. COBOL passed locally and in
+the Linux CI job. Use the CI artifact and the merged revision when citing the
+full six-language set.
 
 ## Adding A Language
 

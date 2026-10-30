@@ -106,8 +106,9 @@ Path policy is lexical normalization, not OS confinement. It does not resolve
 symlinks, reparse points, filesystem case rules, or races. Do not use it as a
 substitute for sandbox or filesystem-enforced authorization. UNC and
 drive-relative paths are rejected. Plugin parsing validates declarations; it
-does not execute plugins or verify signatures. Stream support currently provides
-the part record and six contract kind strings, not an asynchronous agent stream.
+does not execute plugins or verify signatures. Stream support provides the typed
+part record (run/session IDs, kind, step, data, timestamp) and six contract kind
+strings, not an asynchronous agent stream.
 
 Memory search currently implements ASCII case folding and lexical ordering of
 canonical UTC timestamps. Context estimates normalize valid JSON argument text
@@ -116,15 +117,15 @@ hooks not listed in the parity inventory are not implemented.
 
 ## Remaining Gates
 
-`api/0.2.0.txt` inventories exported declarations, type layouts, bound
+`api/0.2.1.txt` inventories exported declarations, type layouts, bound
 method signatures, and callback interfaces. `api-snapshot.py --check` runs as
 part of the test driver; intentional changes require review and regeneration
 with `--update`. It is a source declaration check, not a binary ABI guarantee.
 
 The `fortran-conformance` CI job runs native tests, all eleven groups, tooling
-tests, and the snapshot check. Passing fixtures covers the declared Core scope;
-the parity inventory records the two partial surfaces (asynchronous stream
-support and the bounded JSON Schema subset).
+tests, and the snapshot check. Passing fixtures covers the declared Core scope.
+The parity inventory records the bounded JSON Schema subset as partial;
+asynchronous agent streaming remains outside the declared Core surface.
 
 The Core sources are original MIT-licensed code under the repository license.
 GNU Fortran and its runtime are separately licensed toolchain dependencies; no

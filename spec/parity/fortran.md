@@ -36,7 +36,7 @@ limitations.
 | `agent.Session` | `praxo_types.session` | parity | P1 |
 | `checkpoint.Allowlist` | `praxo_checkpoint.checkpoint_allowlist` | parity | P1 |
 | `policy.PathChecker` | `praxo_policy.path_checker`, `path_grant` | parity | P1 |
-| `agent/stream.StreamPart` | `praxo_stream.stream_part`, `stream_kinds` | partial | P1 |
+| `agent/stream.StreamPart` | `praxo_stream.stream_part`, `stream_kinds` | parity | P1 |
 | `toolcall.ParseToolCall` | `praxo_toolcall.parse_tool_call`, `parsed_tool_call` | parity | P1 |
 | `toolcall.ParseInputJSON` | `praxo_toolcall.parse_input_json` | parity | P1 |
 | `toolcall.StripToolCallMarkup` | `praxo_toolcall.strip_markup` | parity | P1 |

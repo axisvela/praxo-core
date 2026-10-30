@@ -45,7 +45,7 @@ path-policy, plugin, and middleware behavior.
 | `agent/middleware.FallbackModel` | `praxo-middleware` fallback operation | partial | P1 |
 | `agent/middleware.StructuredOutput` | `praxo-middleware` structured operation | partial | P1 |
 | `agent/middleware.PIIMiddleware` | `praxo-middleware` pii and pii-json operations | partial | P1 |
-| `tool.Registry` | not implemented | planned | P1 |
+| `tool.Registry` | `praxo-registry` | partial | P1 |
 
 Core-local utilities with no new normative contract symbols:
 `praxo-json-parse`, `praxo-json-generate`, `praxo-json-string`,

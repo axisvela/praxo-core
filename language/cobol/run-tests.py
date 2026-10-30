@@ -83,7 +83,7 @@ def main():
                            "src/context.cob", "src/event.cob", "src/memory.cob",
                            "src/middleware.cob", "src/path-normalize.cob",
                            "src/pattern.cob", "src/plugin.cob", "src/policy.cob",
-                           "src/schema.cob", "src/schema-visit.cob",
+                           "src/registry.cob", "src/schema.cob", "src/schema-visit.cob",
                            "src/schema-scalar.cob", "src/slice.cob",
                            "src/stream.cob", "src/toolcall.cob", *json_sources],
     }

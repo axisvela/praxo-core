@@ -235,6 +235,30 @@ copybook policy
   05 px-pol-allowedpic 9.
   05 px-pol-errorpic x(64).
 
+copybook registry
+  01 px-registry-request.
+  05 px-reg-oppic x(8).
+  05 px-reg-namepic x(64).
+  05 px-reg-name-lengthbinary-long.
+  05 px-reg-descriptionpic x(256).
+  05 px-reg-description-lengthbinary-long.
+  05 px-reg-programpic x(64).
+  05 px-reg-program-lengthbinary-long.
+  05 px-reg-riskpic x(16).
+  05 px-reg-risk-lengthbinary-long.
+  01 px-registry-result.
+  05 px-reg-countbinary-long.
+  05 px-reg-entriesoccurs 32 times.
+  10 px-reg-entry-namepic x(64).
+  10 px-reg-entry-name-lengthbinary-long.
+  10 px-reg-entry-descriptionpic x(256).
+  10 px-reg-entry-description-lengthbinary-long.
+  10 px-reg-entry-programpic x(64).
+  10 px-reg-entry-program-lengthbinary-long.
+  10 px-reg-entry-riskpic x(16).
+  10 px-reg-entry-risk-lengthbinary-long.
+  05 px-reg-errorpic x(64).
+
 copybook scalar
   01 px-scalar-request.
   05 px-scalar-schemapic x(32768).
@@ -358,6 +382,10 @@ program praxo-plugin
 module policy
 program praxo-policy
   using px-policy-request px-policy-result
+
+module registry
+program praxo-registry
+  using px-registry-request px-registry-result
 
 module schema-scalar
 program praxo-schema-scalar

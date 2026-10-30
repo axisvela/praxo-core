@@ -21,6 +21,12 @@
   `gateway_tools`, plus a `jsonschema.Schema` wrapper with `from_json` and
   `validate`, and a `0.1.2` API snapshot. No source tag is published by this
   change.
+- Fortran source now carries the full typed stream-part fields (run/session IDs,
+  kind, step, data, timestamp) and a `0.2.1` API snapshot. No source tag is
+  published by this change.
+- COBOL source adds an in-memory `praxo-registry` program for tool
+  register/get/list/clear under the unreleased API snapshot. It is partial
+  parity: no concurrency and no custom spec provider.
 
 ## [2.5.2] - 2026-10-30
 
