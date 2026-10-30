@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import asyncio
 import sys
 import unittest
 from pathlib import Path
@@ -114,6 +115,39 @@ class LifecycleTest(unittest.IsolatedAsyncioTestCase):
         with self.assertRaisesRegex(RuntimeError, "cleanup failed"):
             await agent.run(Session(id="s1"), "go")
         self.assertEqual(calls, ["first.after", "second.after"])
+        self.assertEqual(
+            [event.type for event in sink.events],
+            ["run.started", "run.failed"],
+        )
+
+    async def test_cancellation_runs_after_run_and_emits_failed(self) -> None:
+        started = asyncio.Event()
+        calls: list[str] = []
+        sink = RecordingSink()
+
+        class WaitModel:
+            async def generate(self, request):
+                started.set()
+                await asyncio.Event().wait()
+
+        middleware = Middleware(
+            after_run=lambda result, error: calls.append(
+                f"after:{type(error).__name__}"
+            )
+        )
+        agent = Agent(
+            AgentOptions(
+                model=WaitModel(),
+                events=sink,
+                middleware=[middleware],
+            )
+        )
+        task = asyncio.create_task(agent.run(Session(id="s1"), "go"))
+        await started.wait()
+        task.cancel()
+        with self.assertRaises(asyncio.CancelledError):
+            await task
+        self.assertEqual(calls, ["after:CancelledError"])
         self.assertEqual(
             [event.type for event in sink.events],
             ["run.started", "run.failed"],

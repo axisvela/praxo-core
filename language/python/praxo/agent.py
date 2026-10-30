@@ -144,10 +144,10 @@ class Agent:
         entered: list[Middleware] = []
         try:
             await self._before_run(RunState(run_id, session, prompt), entered)
-        except Exception as exc:
+        except BaseException as exc:
             try:
                 await self._after_run(entered, None, exc)
-            except Exception:
+            except BaseException:
                 pass
             raise
         await self._emit(Event("run.started", session.id, run_id))
@@ -209,17 +209,17 @@ class Agent:
                         await self._invoke_tool(call, run_id, session.id)
                     )
             raise MaxStepsError("agent: max steps exceeded")
-        except Exception as exc:
+        except BaseException as exc:
             if not after_run_invoked:
                 try:
                     await self._after_run(entered, None, exc)
-                except Exception:
+                except BaseException:
                     pass
             try:
                 await self._emit(
                     Event("run.failed", session.id, run_id, {"error": str(exc)})
                 )
-            except Exception:
+            except BaseException:
                 pass
             raise
 

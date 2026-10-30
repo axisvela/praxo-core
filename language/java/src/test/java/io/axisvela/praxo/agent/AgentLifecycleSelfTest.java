@@ -1,5 +1,6 @@
 package io.axisvela.praxo.agent;
 
+import io.axisvela.praxo.PraxoException;
 import io.axisvela.praxo.middleware.Middleware;
 import io.axisvela.praxo.middleware.RunState;
 import io.axisvela.praxo.model.Message;
@@ -19,6 +20,7 @@ public final class AgentLifecycleSelfTest {
         startupFailureCleansEntered();
         cleanupContinuesAndPreservesRunError();
         cleanupErrorAfterSuccessFailsClosed();
+        cancellationRunsAfterRun();
         System.out.println("agent lifecycle ok");
     }
 
@@ -135,6 +137,42 @@ public final class AgentLifecycleSelfTest {
         }
         check(calls.equals(List.of("first.after", "second.after")),
                 "calls: " + calls);
+        check(events.equals(List.of("run.started", "run.failed")),
+                "events: " + events);
+    }
+
+    private static void cancellationRunsAfterRun() throws Exception {
+        List<String> calls = new ArrayList<>();
+        List<String> events = new ArrayList<>();
+        AgentOptions options = new AgentOptions(request -> {
+            Thread.sleep(5000);
+            return Response.of(Message.assistant("late", List.of()));
+        });
+        CancellationToken token = new CancellationToken();
+        options.cancellation = token;
+        options.events = event -> events.add(event.type());
+        options.middleware.add(new Middleware() {
+            @Override
+            public void afterRun(Object result, Throwable error) {
+                calls.add(error == null ? "none" : error.getClass().getSimpleName());
+            }
+        });
+        Thread canceller = Thread.ofVirtual().start(() -> {
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException ignored) {
+                return;
+            }
+            token.cancel();
+        });
+        try {
+            new Agent(options).run(new Session("s1"), "go");
+            throw new AssertionError("expected cancellation");
+        } catch (PraxoException expected) {
+            check(expected.code.equals("AGENT_ABORTED"), "error: " + expected.code);
+        }
+        canceller.join();
+        check(calls.equals(List.of("PraxoException")), "calls: " + calls);
         check(events.equals(List.of("run.started", "run.failed")),
                 "events: " + events);
     }

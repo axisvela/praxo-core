@@ -457,3 +457,42 @@ test("cleanup error after success fails closed", async () => {
   assert.deepEqual(calls, ["first.after", "second.after"]);
   assert.deepEqual(events, ["run.started", "run.failed"]);
 });
+
+test("cancellation runs after-run and emits failed", async () => {
+  const controller = new AbortController();
+  let start;
+  const started = new Promise((resolve) => {
+    start = resolve;
+  });
+  const calls = [];
+  const events = [];
+  const agent = new praxo.Agent({
+    model: {
+      async generate() {
+        start();
+        return await new Promise((resolve, reject) => {
+          controller.signal.addEventListener(
+            "abort",
+            () => reject(new Error("aborted")),
+            { once: true }
+          );
+        });
+      },
+    },
+    events: { emit: async (event) => events.push(event.type) },
+    middleware: [
+      {
+        afterRun(result, error) {
+          calls.push(error instanceof Error ? error.message : String(error));
+        },
+      },
+    ],
+    signal: controller.signal,
+  });
+  const run = agent.run({ id: "s1" }, "go");
+  await started;
+  controller.abort();
+  await assert.rejects(run, /aborted/);
+  assert.deepEqual(calls, ["aborted"]);
+  assert.deepEqual(events, ["run.started", "run.failed"]);
+});
