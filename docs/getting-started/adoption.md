@@ -14,7 +14,8 @@ PRAXO-CORE is a good fit when you need:
 - first-class seams for the AxisVela ecosystem
 
 It is not a hosted agent service, a model provider, a vector database, or a
-turnkey chat UI.
+turnkey chat UI. If you need one of those, or a durable graph runtime, see
+[When Not to Use PRAXO-CORE](when-not-to-use.md) before investing in a prototype.
 
 ## 2. Build a 30-Minute Prototype
 

@@ -50,6 +50,7 @@ plugins:
             Overview: 概览
             Quickstart: 快速开始
             Adoption: 采用指南
+            When Not to Use: 何时不应选择
             Guides: 使用指南
             Integration: 集成
             Recipes: 接入示例
@@ -59,6 +60,7 @@ plugins:
             Implementation Directory: 实现目录
             Language Matrix: 语言总表
             Support Policy: 支持政策
+            Compatibility Lab: 兼容性实验
             Integrations: 适配与生态
             Adapter Directory: 适配器目录
             Ecosystem: 生态集成
@@ -113,6 +115,7 @@ nav:
       - Overview: getting-started/overview.md
       - Quickstart: getting-started/quickstart.md
       - Adoption: getting-started/adoption.md
+      - When Not to Use: getting-started/when-not-to-use.md
   - Guides:
       - Integration: guides/integration.md
       - Recipes: guides/recipes.md
@@ -122,6 +125,7 @@ nav:
       - Implementation Directory: languages/index.md
       - Language Matrix: languages/matrix.md
       - Support Policy: languages/support.md
+      - Compatibility Lab: languages/compatibility-lab.md
       - Go: languages/go.md
       - Python: languages/python.md
       - TypeScript: languages/typescript.md

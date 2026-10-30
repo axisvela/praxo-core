@@ -84,7 +84,9 @@ Choose PRAXO-CORE when you need:
   checkpointing inside the Microsoft/Foundry ecosystem.
 
 If you need deep AxisVela integration, start with PRAXO-CORE rather than adding
-product-specific adapters to a general-purpose framework.
+product-specific adapters to a general-purpose framework. For the full
+rule-out checklist and migration costs, see
+[When Not to Use PRAXO-CORE](../getting-started/when-not-to-use.md).
 
 ## Notes
 

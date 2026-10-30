@@ -4,6 +4,7 @@
 2. 选择 [Go 或语言 Core](../languages/index.md)。
 3. 运行[快速开始](quickstart.md)。
 4. 嵌入产品之前检查[采用指南](adoption.md)。
+5. 如果仍在评估是否适合，请阅读[何时不应选择 PRAXO-CORE](when-not-to-use.md)。
 
 ## 按任务继续
 

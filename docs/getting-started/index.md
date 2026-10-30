@@ -4,6 +4,7 @@
 2. Choose [Go or a language Core](../languages/index.md).
 3. Run the [quickstart](quickstart.md).
 4. Review the [adoption guide](adoption.md) before embedding it in a product.
+5. If you are still deciding, read [When Not to Use PRAXO-CORE](when-not-to-use.md).
 
 ## Continue by Task
 

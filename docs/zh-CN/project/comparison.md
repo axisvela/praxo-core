@@ -76,7 +76,7 @@ PRAXO-CORE 在循环层是单 Agent，但支持异步子 Agent 委派。可选�
   **Microsoft Agent Framework Go**。
 
 如果需要深度集成 AxisVela，应优先选择 PRAXO-CORE，而不是在通用框架上额外
-叠加产品专用适配器。
+叠加产品专用适配器。完整的排除清单和迁移成本见[何时不应选择 PRAXO-CORE](../getting-started/when-not-to-use.md)。
 
 ## 说明
 

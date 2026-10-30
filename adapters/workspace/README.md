@@ -8,6 +8,9 @@ two provider adapters fit without provider-specific fields.
 
 - `contract`: candidate `Provider`, `Session`, optional `Pauser` and
   `Snapshotter` interfaces.
+- `profile`: evaluation-only runtime profiles for state, local, and sandbox
+  composition. Tools are selected from explicit capabilities, not from backend
+  type assertions.
 - `fake`: in-memory provider and session for offline tests. It does not execute
   host commands and is not an isolation boundary.
 - `conformance`: reusable checks for adapters and fakes.

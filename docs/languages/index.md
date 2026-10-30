@@ -7,6 +7,9 @@ and the [canonical scope matrix](https://github.com/axisvela/praxo-core/blob/mai
 
 [View all languages and their current status](matrix.md){ .md-button }
 
+See the [compatibility lab](compatibility-lab.md) for reproducible conformance
+evidence across selected implementations.
+
 Framework is the default target for independently implemented, native-capable
 languages. Current Wire stages do not yet provide the full Framework; final
 wire-only scope requires documented technical limitations. See the

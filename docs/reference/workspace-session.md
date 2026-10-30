@@ -100,6 +100,27 @@ Alternatives to evaluate:
 - **Resource and network policy.** Keep them in adapter configuration until two
   providers show a stable common subset.
 
+## Runtime Profiles
+
+The seams above can be composed into explicit runtime profiles. This is an
+evaluation direction, not a `pkg/` API.
+
+| Profile | Files | Commands | Isolation |
+| --- | --- | --- | --- |
+| State | In-memory or run-scoped `vfs.Backend` | None | None; data only |
+| Local | `localfs` | Optional `vfs.Executor`, explicitly enabled | None; policy-gated host access |
+| Sandbox | Workspace session or provider VFS | `sandbox.Sandbox` or session | Provider-dependent; verify the claim |
+
+A profile should expose capabilities and trust metadata, not infer security from
+a backend type. In particular, a backend that happens to implement
+`vfs.Executor` should not silently add an execution tool when the profile does
+not grant it. The evaluation implementation lives in
+[`adapters/workspace/profile`](https://github.com/axisvela/praxo-core/tree/main/adapters/workspace/profile).
+
+Do not collapse state, local filesystem, and sandbox into one core `Backend`
+interface. Their authorization, lifecycle, failure, and isolation semantics are
+different.
+
 ## Provider Evaluation
 
 This table records what the offline adapter spikes exercised. "Offline" means

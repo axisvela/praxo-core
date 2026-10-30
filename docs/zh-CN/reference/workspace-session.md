@@ -95,6 +95,20 @@ type Pauser interface {
   必需能力。不要假设它们成本很低。
 - **资源与网络策略。** 在两个提供商证明有稳定共同子集前，留在适配器配置中。
 
+## 运行时 Profile
+
+上述接缝可以组合成显式的运行时 profile。这是评估方向，不是 `pkg/` API。
+
+| Profile | 文件 | 命令 | 隔离 |
+| --- | --- | --- | --- |
+| State | 内存或运行态 `vfs.Backend` | 无 | 无；仅数据 |
+| Local | `localfs` | 可选的 `vfs.Executor`，需显式启用 | 无；策略门控的宿主访问 |
+| Sandbox | workspace session 或 provider VFS | `sandbox.Sandbox` 或 session | 取决于 provider；必须核实声明 |
+
+Profile 应显式暴露能力和信任元数据，不能从 backend 类型推断安全性。特别是，一个 backend 恰好实现了 `vfs.Executor`，不应在 profile 未授权时静默增加执行工具。评估实现位于 [`adapters/workspace/profile`](https://github.com/axisvela/praxo-core/tree/main/adapters/workspace/profile)。
+
+不要把 state、本地文件系统和 sandbox 合并成单一 Core `Backend` 接口。它们的授权、生命周期、失败和隔离语义不同。
+
 ## 提供商评估
 
 下表记录离线适配器 spike 实际验证过的内容。“离线”表示该操作在进程内 fake 上
