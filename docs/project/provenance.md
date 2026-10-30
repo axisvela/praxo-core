@@ -44,3 +44,10 @@ third-party JSON parser source is copied into these Core implementations.
 GnuCOBOL, GNU Fortran, and their runtimes are external toolchain dependencies,
 not vendored Core source. Their separate licenses and redistribution obligations
 continue to apply to compiler and runtime distributions.
+
+Fortran `0.3.0` adds an original MIT C ABI wrapper
+around RE2 2025-11-05 (BSD-3-Clause) and Abseil 20250512.1 (Apache-2.0).
+The native build fetches immutable upstream revisions rather than copying their
+source into this repository, and installs both original license files with the
+wrapper. Their licenses and runtime redistribution obligations still apply.
+See the [dependency record](https://github.com/axisvela/praxo-core/blob/main/language/fortran/native/DEPENDENCIES.md).

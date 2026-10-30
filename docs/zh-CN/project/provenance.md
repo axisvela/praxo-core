@@ -29,3 +29,11 @@ PRAXOVELA 仍为 AGPL-3.0。它使用 MIT 框架，但不会重新许可产品�
 
 反方向在同一内部重新许可记录下获得授权：PRAXOVELA 实现代码可以复制到
 PRAXO-CORE 并以 MIT 重新许可。复制时必须记录源路径和提交。
+
+## Fortran 正则依赖
+
+Fortran `0.3.0` 源码通过原创 MIT C ABI wrapper 使用 RE2
+2025-11-05（BSD-3-Clause）和 Abseil 20250512.1（Apache-2.0）。构建固定到
+上游完整提交，不把第三方源码复制进本仓库；安装 wrapper 时同时安装两份原始
+许可证。框架的 MIT 许可不替代这些依赖及 C++ 运行时的分发义务。
+详见[依赖记录](https://github.com/axisvela/praxo-core/blob/main/language/fortran/native/DEPENDENCIES.md)。

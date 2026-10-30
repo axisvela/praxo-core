@@ -1,0 +1,533 @@
+Fortran API declaration inventory 0.3.0
+
+module praxo_agent
+public :: agent_options, run_agent
+type :: agent_options
+class(model), pointer :: provider => null()
+type(registry), pointer :: tools => null()
+class(event_sink), pointer :: events => null()
+class(policy), pointer :: gate => null()
+character(:), allocatable :: system_prompt
+integer :: max_steps = 8
+integer(int64) :: max_tokens = 0
+type(context_budget) :: context
+type(call_limit), pointer :: limits => null()
+type(tool_selection), pointer :: selection => null()
+logical :: redact_emails = .false.
+logical :: redact_pii = .false.
+end type
+subroutine run_agent(options, state, prompt, run_id, result, error)
+type(agent_options), intent(in) :: options
+type(session), intent(in) :: state
+character(*), intent(in) :: prompt, run_id
+type(run_result), intent(out) :: result
+type(sdk_error), intent(out) :: error
+end interface declaration
+
+module praxo_checkpoint
+public :: checkpoint_allowlist
+type :: checkpoint_allowlist
+private
+type(string_item), allocatable :: names(:)
+contains
+procedure :: register => register_type
+procedure :: marshal
+procedure :: unmarshal
+procedure, private :: allowed
+end type
+subroutine register_type(self, name, error)
+class(checkpoint_allowlist), intent(inout) :: self
+character(*), intent(in) :: name
+type(sdk_error), intent(out) :: error
+end interface declaration
+function marshal(self, name, value, error) result(envelope)
+class(checkpoint_allowlist), intent(in) :: self
+character(*), intent(in) :: name, value
+type(sdk_error), intent(out) :: error
+character(:), allocatable :: envelope, key, data
+end interface declaration
+function unmarshal(self, envelope, error) result(value)
+class(checkpoint_allowlist), intent(in) :: self
+character(*), intent(in) :: envelope
+type(sdk_error), intent(out) :: error
+character(:), allocatable :: value
+end interface declaration
+
+module praxo_context
+public :: context_budget, estimate_tokens
+type :: context_budget
+integer(int64) :: max_tokens = 0
+integer :: keep_recent = 0
+contains
+procedure :: compact
+end type
+function estimate_tokens(messages) result(tokens)
+type(message), intent(in) :: messages(:)
+integer(int64) :: tokens
+end interface declaration
+subroutine compact(self, messages, output, ok)
+class(context_budget), intent(in) :: self
+type(message), intent(in) :: messages(:)
+type(message), allocatable, intent(out) :: output(:)
+logical, intent(out) :: ok
+end interface declaration
+
+module praxo_interfaces
+public :: event_sink, model, policy, registry, tool
+type, abstract :: model
+contains
+procedure(generate_interface), deferred :: generate
+end type
+type, abstract :: tool
+type(tool_spec) :: spec
+contains
+procedure(invoke_interface), deferred :: invoke
+end type
+type, abstract :: policy
+contains
+procedure(check_interface), deferred :: check
+end type
+type, abstract :: event_sink
+contains
+procedure(emit_interface), deferred :: emit
+end type
+type :: registry
+private
+type(tool_entry), allocatable :: entries(:)
+contains
+procedure :: register => register_tool
+procedure :: invoke => invoke_registered
+procedure :: specs => registry_specs
+procedure :: has => registry_has
+end type
+abstract interface
+subroutine generate_interface(self, req, res, error)
+import model, request, response, sdk_error
+class(model), intent(inout) :: self
+type(request), intent(in) :: req
+type(response), intent(out) :: res
+type(sdk_error), intent(out) :: error
+end subroutine
+subroutine invoke_interface(self, arguments, output, error)
+import tool, sdk_error
+class(tool), intent(inout) :: self
+character(*), intent(in) :: arguments
+character(:), allocatable, intent(out) :: output
+type(sdk_error), intent(out) :: error
+end subroutine
+function check_interface(self, item) result(result)
+import policy, action, decision
+class(policy), intent(inout) :: self
+type(action), intent(in) :: item
+type(decision) :: result
+end function
+subroutine emit_interface(self, item)
+import event_sink, event
+class(event_sink), intent(inout) :: self
+type(event), intent(in) :: item
+end subroutine
+end interface
+logical function registry_has(self, name) result(found)
+class(registry), intent(in) :: self
+character(*), intent(in) :: name
+end interface declaration
+subroutine register_tool(self, item, error)
+class(registry), intent(inout) :: self
+class(tool), intent(in) :: item
+type(sdk_error), intent(out) :: error
+end interface declaration
+subroutine invoke_registered(self, name, arguments, output, error)
+class(registry), intent(inout) :: self
+character(*), intent(in) :: name, arguments
+character(:), allocatable, intent(out) :: output
+type(sdk_error), intent(out) :: error
+end interface declaration
+function registry_specs(self) result(specs)
+class(registry), intent(in) :: self
+type(tool_spec), allocatable :: specs(:)
+end interface declaration
+
+module praxo_json
+public :: encode_json, json_children, json_document, json_equal, json_get, json_kind, json_node, json_real, json_text, parse_json
+type :: json_node
+character :: kind = 'Z'
+integer :: parent = 0
+character(:), allocatable :: name, text
+end type
+type :: json_document
+type(json_node), allocatable :: nodes(:)
+end type
+subroutine parse_json(raw, doc, error)
+character(*), intent(in) :: raw
+type(json_document), intent(out) :: doc
+type(sdk_error), intent(out) :: error
+end interface declaration
+integer function json_get(doc, parent, name) result(node)
+type(json_document), intent(in) :: doc
+integer, intent(in) :: parent
+character(*), intent(in) :: name
+end interface declaration
+function json_children(doc, parent) result(children)
+type(json_document), intent(in) :: doc
+integer, intent(in) :: parent
+integer, allocatable :: children(:)
+end interface declaration
+function json_kind(doc, node) result(kind)
+type(json_document), intent(in) :: doc
+integer, intent(in) :: node
+character :: kind
+end interface declaration
+function json_text(doc, node) result(text)
+type(json_document), intent(in) :: doc
+integer, intent(in) :: node
+character(:), allocatable :: text
+end interface declaration
+function json_real(doc, node, ok) result(value)
+type(json_document), intent(in) :: doc
+integer, intent(in) :: node
+logical, intent(out) :: ok
+real(real64) :: value
+end interface declaration
+function encode_json(doc, node, error) result(output)
+type(json_document), intent(in) :: doc
+integer, intent(in) :: node
+type(sdk_error), intent(out) :: error
+character(:), allocatable :: output
+end interface declaration
+recursive logical function json_equal(a, ai, b, bi) result(equal)
+type(json_document), intent(in) :: a, b
+integer, intent(in) :: ai, bi
+end interface declaration
+
+module praxo_middleware
+public :: call_limit, fallback_model, redact_email, redact_json_email, redact_json_pii, redact_pii, repair_interface, structured_model, structured_output, tool_selection
+type :: call_limit
+integer(int64) :: model_limit = 0, tool_limit = 0
+type(run_count), allocatable, private :: runs(:)
+contains
+procedure :: check => check_limit
+procedure :: clear => clear_limits
+end type
+type :: tool_selection
+type(string_item), allocatable :: selected(:)
+contains
+procedure :: check => check_selected
+procedure :: advertised
+end type
+type, extends(model) :: fallback_model
+class(model), pointer :: primary => null(), fallback => null()
+contains
+procedure :: generate => generate_fallback
+end type
+type, extends(model) :: structured_model
+class(model), pointer :: provider => null()
+character(:), allocatable :: schema
+integer :: max_repairs = 0
+procedure(repair_interface), pointer, nopass :: repair => null()
+contains
+procedure :: generate => generate_structured
+end type
+abstract interface
+subroutine repair_interface(previous, errors, attempt, repaired, error)
+import validation_error, sdk_error
+character(*), intent(in) :: previous
+type(validation_error), intent(in) :: errors(:)
+integer, intent(in) :: attempt
+character(:), allocatable, intent(out) :: repaired
+type(sdk_error), intent(out) :: error
+end subroutine
+end interface
+subroutine repair_interface(previous, errors, attempt, repaired, error)
+end interface declaration
+subroutine check_limit(self, run_id, kind, error)
+class(call_limit), intent(inout) :: self
+character(*), intent(in) :: run_id, kind
+type(sdk_error), intent(out) :: error
+end interface declaration
+subroutine clear_limits(self)
+class(call_limit), intent(inout) :: self
+end interface declaration
+subroutine check_selected(self, name, error)
+class(tool_selection), intent(in) :: self
+character(*), intent(in) :: name
+type(sdk_error), intent(out) :: error
+end interface declaration
+function advertised(self, specs) result(output)
+class(tool_selection), intent(in) :: self
+type(tool_spec), intent(in) :: specs(:)
+type(tool_spec), allocatable :: output(:), matching(:)
+end interface declaration
+subroutine generate_fallback(self, req, res, error)
+class(fallback_model), intent(inout) :: self
+type(request), intent(in) :: req
+type(response), intent(out) :: res
+type(sdk_error), intent(out) :: error
+end interface declaration
+function structured_output(schema, content, max_repairs, error, repair) result(output)
+character(*), intent(in) :: schema, content
+integer, intent(in) :: max_repairs
+type(sdk_error), intent(out) :: error
+character(:), allocatable :: output, current, repaired
+end interface declaration
+subroutine generate_structured(self, req, res, error)
+class(structured_model), intent(inout) :: self
+type(request), intent(in) :: req
+type(response), intent(out) :: res
+type(sdk_error), intent(out) :: error
+end interface declaration
+function redact_pii(text) result(output)
+character(*), intent(in) :: text
+character(:), allocatable :: output
+end interface declaration
+function redact_email(text) result(output)
+character(*), intent(in) :: text
+character(:), allocatable :: output
+end interface declaration
+function redact_json_email(raw, error) result(output)
+character(*), intent(in) :: raw
+type(sdk_error), intent(out) :: error
+character(:), allocatable :: output
+end interface declaration
+function redact_json_pii(raw, error) result(output)
+character(*), intent(in) :: raw
+type(sdk_error), intent(out) :: error
+character(:), allocatable :: output
+end interface declaration
+
+module praxo_pattern
+public :: match_pattern
+logical function match_pattern(pattern, text, error) result(matched)
+character(*), intent(in) :: pattern, text
+type(sdk_error), intent(out) :: error
+end interface declaration
+
+module praxo_plugin
+public :: parse_manifest, plugin_manifest
+type :: plugin_manifest
+character(:), allocatable :: id, version, kind, protocol, isolation
+type(json_document) :: document
+end type
+subroutine parse_manifest(raw, manifest, error)
+character(*), intent(in) :: raw
+type(plugin_manifest), intent(out) :: manifest
+type(sdk_error), intent(out) :: error
+end interface declaration
+
+module praxo_policy
+public :: normalize_path, path_checker, path_grant
+type :: path_grant
+character(:), allocatable :: root, access
+end type
+type :: path_checker
+type(path_grant), allocatable :: grants(:)
+contains
+procedure :: check => check_path
+end type
+function normalize_path(path) result(normal)
+character(*), intent(in) :: path
+character(:), allocatable :: normal, text, part, prefix
+end interface declaration
+function check_path(self, target, need, error) result(verdict)
+class(path_checker), intent(in) :: self
+character(*), intent(in) :: target, need
+type(sdk_error), intent(out) :: error
+type(decision) :: verdict
+end interface declaration
+
+module praxo_runtime
+public :: filter_sink, memory_record, memory_store, multi_sink, recording_sink
+type, extends(event_sink) :: recording_sink
+type(event), allocatable :: items(:)
+contains
+procedure :: emit => record_event
+end type
+type, extends(event_sink) :: filter_sink
+class(event_sink), pointer :: target => null()
+character(:), allocatable :: kinds(:)
+contains
+procedure :: emit => filter_event
+end type
+type, extends(event_sink) :: multi_sink
+private
+type(sink_entry), allocatable :: entries(:)
+contains
+procedure :: add => add_sink
+procedure :: emit => multicast_event
+end type
+type :: memory_record
+character(:), allocatable :: id, frame, content, created_at
+end type
+type :: memory_store
+private
+type(memory_entry), allocatable :: entries(:)
+contains
+procedure :: put => put_memory
+procedure :: search => search_memory
+end type
+subroutine record_event(self, item)
+class(recording_sink), intent(inout) :: self
+type(event), intent(in) :: item
+end interface declaration
+subroutine filter_event(self, item)
+class(filter_sink), intent(inout) :: self
+type(event), intent(in) :: item
+end interface declaration
+subroutine add_sink(self, target)
+class(multi_sink), intent(inout) :: self
+class(event_sink), target, intent(inout) :: target
+end interface declaration
+subroutine multicast_event(self, item)
+class(multi_sink), intent(inout) :: self
+type(event), intent(in) :: item
+end interface declaration
+subroutine put_memory(self, session_id, record)
+class(memory_store), intent(inout) :: self
+character(*), intent(in) :: session_id
+type(memory_record), intent(in) :: record
+end interface declaration
+function search_memory(self, session_id, query, limit) result(records)
+class(memory_store), intent(in) :: self
+character(*), intent(in) :: session_id, query
+integer, intent(in) :: limit
+type(memory_record), allocatable :: records(:), matching(:)
+end interface declaration
+
+module praxo_schema
+public :: schema, schema_from_json, validate_schema, validation_error
+type :: validation_error
+character(:), allocatable :: path, message
+end type
+type :: schema
+character(:), allocatable :: raw
+contains
+procedure :: validate => schema_validate
+end type
+function schema_from_json(raw, error) result(value)
+character(*), intent(in) :: raw
+type(sdk_error), intent(out) :: error
+type(schema) :: value
+end interface declaration
+function schema_validate(self, data, error) result(errors)
+class(schema), intent(in) :: self
+character(*), intent(in) :: data
+type(sdk_error), intent(out) :: error
+type(validation_error), allocatable :: errors(:)
+end interface declaration
+subroutine validate_schema(schema_json, data, errors, error)
+character(*), intent(in) :: schema_json, data
+type(validation_error), allocatable, intent(out) :: errors(:)
+type(sdk_error), intent(out) :: error
+end interface declaration
+
+module praxo_stream
+public :: stream_kinds, stream_part
+type :: stream_part
+character(:), allocatable :: run_id, session_id, kind, data, at
+integer :: step = 0
+end type
+
+module praxo_toolcall
+public :: parse_input_json, parse_tool_call, parsed_tool_call, strip_markup
+type :: parsed_tool_call
+logical :: found = .false.
+character(:), allocatable :: name, input, call_id, operation, resource, risk, reason, idempotency_key
+end type
+function parse_input_json(raw, error) result(output)
+character(*), intent(in) :: raw
+type(sdk_error), intent(out) :: error
+character(:), allocatable :: output
+end interface declaration
+function parse_tool_call(content) result(call)
+character(*), intent(in) :: content
+type(parsed_tool_call) :: call
+end interface declaration
+function strip_markup(content) result(output)
+character(*), intent(in) :: content
+character(:), allocatable :: output, name, closing
+end interface declaration
+
+module praxo_types
+public :: action, decision, event, message, request, response, run_result, same_string, sdk_error, session, string_item, string_value, text_message, tool_call, tool_spec, usage
+type :: string_item
+character(:), allocatable :: value
+end type
+type :: sdk_error
+character(:), allocatable :: code
+contains
+procedure :: failed
+end type
+type :: usage
+integer(int64) :: input_tokens = 0, output_tokens = 0
+end type
+type :: tool_call
+character(:), allocatable :: id, name, arguments
+end type
+type :: message
+character(:), allocatable :: role, content, tool_call_id
+type(tool_call), allocatable :: tool_calls(:)
+end type
+type :: tool_spec
+character(:), allocatable :: name, description
+end type
+type :: request
+type(message), allocatable :: messages(:)
+type(tool_spec), allocatable :: tools(:)
+end type
+type :: response
+type(message) :: message
+type(usage) :: usage
+end type
+type :: session
+character(:), allocatable :: id
+type(message), allocatable :: messages(:)
+end type
+type :: event
+character(:), allocatable :: kind, session_id, run_id, tool_name, arguments
+end type
+type :: action
+character(:), allocatable :: kind, session_id, tool_name, arguments
+end type
+type :: decision
+logical :: allowed = .false.
+character(:), allocatable :: reason
+end type
+type :: run_result
+character(:), allocatable :: run_id, output
+integer :: steps = 0
+type(usage) :: usage
+end type
+logical function same_string(a, b) result(equal)
+character(*), intent(in) :: a, b
+end interface declaration
+logical function failed(self)
+class(sdk_error), intent(in) :: self
+end interface declaration
+function string_value(value) result(text)
+character(:), allocatable, intent(in) :: value
+character(:), allocatable :: text
+end interface declaration
+function text_message(role, content, call_id) result(item)
+character(*), intent(in) :: role, content
+character(*), optional, intent(in) :: call_id
+type(message) :: item
+end interface declaration
+
+module praxo_unicode
+public :: decode_json_string, quote_json, unicode_length, valid_utf8
+logical function valid_utf8(text) result(valid)
+character(*), intent(in) :: text
+end interface declaration
+integer function unicode_length(text) result(count)
+character(*), intent(in) :: text
+end interface declaration
+function quote_json(text, error) result(output)
+character(*), intent(in) :: text
+type(sdk_error), intent(out) :: error
+character(:), allocatable :: output
+end interface declaration
+subroutine decode_json_string(raw, cursor, text, error)
+character(*), intent(in) :: raw
+integer, intent(inout) :: cursor
+character(:), allocatable, intent(out) :: text
+type(sdk_error), intent(out) :: error
+end interface declaration

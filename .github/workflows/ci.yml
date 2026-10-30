@@ -472,7 +472,7 @@ jobs:
         with:
           python-version: "3.12"
       - run: sudo apt-get update
-      - run: sudo apt-get install -y gfortran
+      - run: sudo apt-get install -y gfortran g++ cmake ninja-build
       - run: python3 language/fortran/run-tests.py
 
   cobol-conformance:
@@ -664,9 +664,9 @@ jobs:
           cache: maven
       - uses: dtolnay/rust-toolchain@stable
       - run: sudo apt-get update
-      - run: sudo apt-get install -y gfortran gnucobol
+      - run: sudo apt-get install -y gfortran gnucobol g++ cmake ninja-build
       - run: python -m unittest discover -s scripts -p "test_compatibility_lab.py" -v
-      - run: python scripts/compatibility_lab.py --install --strict --languages python,typescript,java,rust,fortran,cobol
+      - run: python scripts/compatibility_lab.py --install --strict --timeout 1200 --languages python,typescript,java,rust,fortran,cobol
       - uses: actions/upload-artifact@v4
         if: always()
         with:

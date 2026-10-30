@@ -70,10 +70,13 @@ a merged implementation PR as a support commitment.
 - Rust has source tag `rust/v0.1.2` with all eleven vector groups, native tests,
   `tool.Gateway`, `jsonschema.Schema`, and an API snapshot. The OpenAI adapter,
   VFS, plugin hosts, and Go context/cancellation semantics are not included.
-- Fortran has source tag `fortran/v0.2.2` with all eleven vector groups, native
+- Fortran has source tag `fortran/v0.3.0` with all eleven vector groups, native
   tests, an API snapshot, and integrated PII/middleware. It is not a
   package-registry release; asynchronous streaming is outside the declared
   surface, and the bounded JSON Schema subset remains partial.
+  Version `0.3.0` replaces the ASCII matcher with RE2/Unicode and requires a
+  native C++ library. The historical `0.2.2` tag retains the old matcher without
+  that RE2/C++ requirement.
 - COBOL has source tag `cobol/v0.1.2` with all eleven vector groups, native and
   contract tests, caller-owned scoped registries, and an API snapshot. It is not a
   package-registry release; most remaining Go surfaces are partial and the

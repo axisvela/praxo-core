@@ -11,6 +11,11 @@
 
 ### Added
 
+- Fortran `0.3.0` source uses pinned upstream RE2 and Abseil through
+  an original MIT C ABI library for full default RE2 syntax and UTF-8 Unicode
+  patterns. Native tests cover groups, alternation, repetition, Unicode
+  properties/case folding, NUL, invalid patterns, and resource limits. This adds
+  C++ build/runtime requirements; the published `fortran/v0.2.2` tag is unchanged.
 - A cross-language compatibility lab runs deterministic conformance, API
   snapshot/signature checks, and parity checks for Python, TypeScript, Java,
   Rust, Fortran, and COBOL, records toolchains and command results, and writes

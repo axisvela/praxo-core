@@ -65,6 +65,18 @@ end module
             with self.subTest(path=path.name):
                 self.assertLess(len(path.read_text(encoding="utf-8").splitlines()), 500)
 
+    def test_native_regex_dependencies_are_pinned(self):
+        content = (ROOT / "native" / "CMakeLists.txt").read_text(encoding="utf-8")
+        self.assertIn("GIT_TAG 927f5d53caf8111721e734cf24724686bb745f55", content)
+        self.assertIn("GIT_TAG 76bb24329e8bf5f39704eb10d21b9a80befa7c81", content)
+        self.assertIn('"${re2_SOURCE_DIR}/LICENSE"', content)
+        self.assertIn('"${abseil_SOURCE_DIR}/LICENSE"', content)
+
+    def test_deployment_version_keeps_old_api_declarations(self):
+        previous = (ROOT / "api" / "0.2.2.txt").read_text(encoding="utf-8").splitlines()[1:]
+        current = (ROOT / "api" / "0.3.0.txt").read_text(encoding="utf-8").splitlines()[1:]
+        self.assertEqual(previous, current)
+
 
 if __name__ == "__main__":
     (ROOT / "build").mkdir(exist_ok=True)

@@ -7,6 +7,8 @@ tooling, not by a compiled Core consumer.
 ## Prerequisites
 
 - Python 3.10 or later, available as `python`.
+- Version `0.3.0` also needs a C++17 compiler, CMake 3.22+, Ninja, Git,
+  and access to the pinned upstream RE2/Abseil sources on the first build.
 - GNU Fortran (`gfortran`), installed and managed by the developer. The
   compiler and its runtime are separate toolchain dependencies, not vendored by
   this repository.
@@ -50,6 +52,13 @@ checks. Generated fixtures, modules, and executables are placed in
 `language/fortran/build/`. The fixture generator checks the vector group
 inventory and rejects unknown operations; behavior is tested in compiled Fortran.
 
+Current source builds the RE2 C ABI library, runs its CTest checks, installs it
+and the dependency license files under `build/re2-install`, and links all native
+suites against that installed library. `CXX` or `--cxx` selects a C++ compiler.
+The native pattern suite covers default RE2 syntax, Unicode, invalid inputs,
+and resource boundaries. See [README](README.md) and
+[dependency licensing](native/DEPENDENCIES.md) for deployment requirements.
+
 ## Ancillary Checks
 
 Run the snapshot and tooling checks independently when working on those areas:
@@ -79,7 +88,7 @@ An earlier `python language/fortran/run-tests.py` run passed the API snapshot,
 5 tooling tests, 69 native assertions, 59 JSON assertions, 62 contract
 assertions, and 62 conformance vectors across 11 groups. These results are
 historical evidence, not a claim that the checks were rerun for this document.
-The source release tag is `fortran/v0.2.2`. This does not establish a
+The source release tag is `fortran/v0.3.0`. This does not establish a
 package-registry release or remove the documented partial surfaces. See
 `language/fortran/README.md` and
 `spec/parity/fortran.md` for scope and remaining gates.

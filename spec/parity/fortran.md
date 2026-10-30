@@ -3,13 +3,19 @@
 - Tier: core
 - SPEC_VERSION: 0.2.0
 
-Native Core source tag `fortran/v0.2.2`. All 63 vectors in eleven
+Native Core source tag `fortran/v0.3.0`. All 63 vectors in eleven
 groups, native regression tests, and the API declaration snapshot pass locally;
 the remote `fortran-conformance` job runs the same suite. `partial` marks a
 surface that covers the vector behavior and common path but not every optional Go
 hook, provider integration, or full wire/model surface. See
 `language/fortran/README.md` for bounded JSON, pattern, path-policy, and stream
 limitations.
+
+Since `0.3.0`, the Fortran pattern entry point
+uses pinned upstream RE2 with UTF-8 and builtin Unicode tables through an
+original C ABI library. RE2/Unicode native tests pass locally. This closes the
+ASCII-only pattern limitation, not every JSON Schema or Go runtime difference;
+the Schema row remains partial. Native C++ build/runtime requirements are new.
 
 | Go symbol | Fortran symbol | Status | Phase |
 | --- | --- | --- | --- |
@@ -53,6 +59,7 @@ limitations.
 Core-local utilities do not add new normative contract symbols:
 `praxo_json` provides native JSON documents, node traversal, encoding, exact
 decimal equality, and numeric access. `praxo_unicode` provides UTF-8 validation,
-JSON quoting/decoding, and Unicode length. `praxo_pattern.match_pattern` is an
-explicitly bounded ASCII pattern subset. `praxo_types.sdk_error`, `string_item`,
+JSON quoting/decoding, and Unicode length. `praxo_pattern.match_pattern` uses
+upstream RE2 within documented byte and memory budgets in current source.
+`praxo_types.sdk_error`, `string_item`,
 `string_value`, and `same_string` support these native APIs.
