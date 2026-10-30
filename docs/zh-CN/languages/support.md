@@ -47,8 +47,8 @@ Bridge、Sample 描述运行时的接入方式，不证明其语言缺乏 Framew
 - 核心、Core、适配器与契约独立版本化，每个 Core 声明其 `SPEC_VERSION`。
 - 版本标签与成熟度相互独立：源码标签记录发布，成熟度记录声明范围的完成情况与验证状态。
 - 源码标签不等于已发布到包管理器，应按语言页面中的安装或源码构建步骤操作。
-- Python 已发布 `praxo-core==0.2.2` 到 PyPI；TypeScript 已发布
-  `@axisvela/praxo-core@0.1.2` 到 npm。
+- Python 已发布 `praxo-core==0.2.3` 到 PyPI；TypeScript 源码标签为
+  `typescript/v0.1.3`，npm staging 待批准，`0.1.2` 仍是已发布最新版本。
 - Java 提供 Maven 源码构建方式，源码标签不证明 Maven Central 可用。
 - Rust 已有源码标签 `rust/v0.1.2`，包含全部 11 个向量组、原生测试、`tool.Gateway`、`jsonschema.Schema` 和 API 快照。不包含 OpenAI adapter、VFS、plugin hosts 以及 Go context/cancellation 语义。
 - Fortran 源码标签 `fortran/v0.3.0` 包含全部 11 个向量组、原生测试、API 快照

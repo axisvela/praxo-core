@@ -69,6 +69,9 @@
 - Fortran `0.2.2` and COBOL `0.1.2` source-release preparation includes the
   schema corrections and scoped registry above. Fortran's full RE2 and Unicode
   pattern support are not implemented; no package-registry publication is claimed.
+- Release preparation for Python `0.2.3` (PyPI Trusted Publishing on tag),
+  TypeScript `0.1.3` (npm staging on tag), and Java `0.2.3` (source tag). These
+  include the final authorization and lifecycle/cancellation cleanup fixes.
 
 ## [2.5.2] - 2026-10-30
 

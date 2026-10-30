@@ -64,8 +64,9 @@ a merged implementation PR as a support commitment.
 - Each Core implementation declares its supported `SPEC_VERSION`.
 - A source release tag does not establish package-registry availability.
 - Use the installation or source-build instructions on the language page.
-- Python publishes `praxo-core==0.2.2` on PyPI. TypeScript publishes
-  `@axisvela/praxo-core@0.1.2` on npm.
+- Python publishes `praxo-core==0.2.3` on PyPI. TypeScript source tag is
+  `typescript/v0.1.3`; npm staging is pending approval, with `0.1.2` still the
+  latest published version.
 - Java documents a Maven source build; Maven Central publication is not established by a source tag.
 - Rust has source tag `rust/v0.1.2` with all eleven vector groups, native tests,
   `tool.Gateway`, `jsonschema.Schema`, and an API snapshot. The OpenAI adapter,

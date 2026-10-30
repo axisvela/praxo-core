@@ -46,7 +46,7 @@ class ConformanceTest(unittest.TestCase):
             self.fail("\n".join(failures))
 
     def test_version(self) -> None:
-        self.assertEqual(praxo.__version__, "0.2.2")
+        self.assertEqual(praxo.__version__, "0.2.3")
 
     def test_spec_version_matches_contract(self) -> None:
         spec_version = (
