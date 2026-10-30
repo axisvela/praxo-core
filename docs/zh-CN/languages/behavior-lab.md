@@ -54,7 +54,7 @@ python scripts/behavior_lab.py --strict --timeout 300
 
 ## 当前证据
 
-2026-10-30 的四语言十四场景本地运行通过了全部 56 个单元格。该运行所在工作区包含尚未提交的证据改动，因此不是 clean-SHA 记录。引用行为报告作为证据时，应使用对应 revision 的 clean-SHA Linux CI behavior job 及其 artifact。
+2026-10-30 的四语言十四场景本地运行通过了全部 56 个单元格。该运行所在工作区包含尚未提交的证据改动，因此不是 clean-SHA 记录。commit `be4f899` 上的 clean-SHA Linux CI 运行同样通过了全部 56 个单元格；引用行为报告作为证据时，应使用该 [behavior job](https://github.com/axisvela/praxo-core/actions/runs/41056965127/job/124066823868) 及其 artifact。
 
 ## 限制
 
