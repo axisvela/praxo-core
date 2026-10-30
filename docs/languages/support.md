@@ -51,6 +51,11 @@ records one, do not infer an official support commitment from `complete`, a
 source tag, or package-registry availability. Support levels will be added as
 maintainers confirm them.
 
+To record a support level, the responsible maintainer or team should provide the
+level, CI job, last verified tag or SHA, and the scope of applicable security
+fixes. Do not assign a support level on another person's behalf, and do not treat
+a merged implementation PR as a support commitment.
+
 ## Versions and Distribution
 
 - The Go core, language Core implementations, adapters, and contract versions are independent.
