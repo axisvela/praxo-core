@@ -4,6 +4,7 @@ use praxo_core::agent::{Agent, AgentOptions, Session};
 use praxo_core::checkpoint::Allowlist;
 use praxo_core::context::{estimate_tokens, ContextBudget};
 use praxo_core::event::{Event, Sink};
+use praxo_core::jsonschema::Schema;
 use praxo_core::middleware::{Middleware, ModelCall, PiiMiddleware, PiiRedactor, StructuredOutput};
 use praxo_core::model::{Message, Model, Request, Response, ToolCall, Usage};
 use praxo_core::plugin::parse_manifest;
@@ -269,4 +270,19 @@ fn gateway_tools_are_sorted_and_dispatch() {
         gateway.calls.lock().expect("calls").as_slice(),
         &[("a.tool".to_string(), String::new())]
     );
+}
+
+#[test]
+fn schema_parses_and_validates() {
+    let schema = Schema::from_json(
+        r#"{"type":"object","required":["path"],"properties":{"path":{"type":"string","minLength":1}}}"#,
+    )
+    .expect("schema");
+    assert!(schema.validate(&json!({"path": "a"})).is_empty());
+    assert_eq!(
+        schema.validate(&json!({"path": ""}))[0].message,
+        "min length 1, got 0"
+    );
+    assert!(Schema::from_json("[]").is_err());
+    assert!(Schema::from_json("not json").is_err());
 }

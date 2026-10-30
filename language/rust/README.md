@@ -62,7 +62,7 @@ println!("{} {}", result.output, result.steps);
 | `middleware` | call limits, fallback, PII, structured output, tool selection |
 | `agent` | Agent, AgentOptions, Session, RunResult |
 | `toolcall` | tool-call parsing and markup stripping |
-| `jsonschema` | documented JSON Schema subset |
+| `jsonschema` | `Schema`, `from_json`, `validate` over the documented subset |
 | `plugin` | Manifest v1 parsing and validation |
 
 Wire codecs preserve the Go names, including `image_url`, `runId`, and

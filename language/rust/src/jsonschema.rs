@@ -1,10 +1,35 @@
 use regex::Regex;
 use serde_json::{Map, Value};
 
+use crate::errors::{PraxoError, Result};
+
 #[derive(Debug, Clone, PartialEq)]
 pub struct ValidationError {
     pub path: String,
     pub message: String,
+}
+
+#[derive(Debug, Clone, PartialEq)]
+pub struct Schema {
+    value: Value,
+}
+
+impl Schema {
+    pub fn from_json(raw: &str) -> Result<Self> {
+        let value: Value = serde_json::from_str(raw)
+            .map_err(|error| PraxoError::new("SCHEMA_INVALID", error.to_string()))?;
+        if !value.is_object() {
+            return Err(PraxoError::new(
+                "SCHEMA_INVALID",
+                "schema must be an object",
+            ));
+        }
+        Ok(Self { value })
+    }
+
+    pub fn validate(&self, data: &Value) -> Vec<ValidationError> {
+        validate(&self.value, data)
+    }
 }
 
 pub fn validate(schema: &Value, data: &Value) -> Vec<ValidationError> {
@@ -62,7 +87,12 @@ fn visit_object(
         for (key, child) in properties {
             if let Some(value) = object.get(key) {
                 let empty = Map::new();
-                visit(child.as_object().unwrap_or(&empty), value, &format!("{path}.{key}"), errors);
+                visit(
+                    child.as_object().unwrap_or(&empty),
+                    value,
+                    &format!("{path}.{key}"),
+                    errors,
+                );
             }
         }
     }

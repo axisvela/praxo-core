@@ -36,7 +36,9 @@
 | `toolcall.ParseToolCall` | `toolcall::parse` | parity | P1 |
 | `toolcall.StripToolCallMarkup` | `toolcall::strip_markup` | parity | P1 |
 | `toolcall.ParseInputJSON` | `toolcall::parse_input_json` | parity | P1 |
-| `tool/jsonschema.Schema` | `jsonschema::validate` | partial | P1 |
+| `tool/jsonschema.Schema` | `jsonschema::Schema` | parity | P1 |
+| `tool/jsonschema.ValidationError` | `jsonschema::ValidationError` | parity | P1 |
+| `tool/jsonschema.FromJSON` | `jsonschema::Schema::from_json` | parity | P1 |
 | `plugin.ParseManifest` | `plugin::parse_manifest` | parity | P1 |
 | `agent/middleware.CallLimitMiddleware` | `middleware::CallLimitMiddleware` | parity | P1 |
 | `agent/middleware.FallbackModel` | `middleware::fallback_model` | parity | P1 |

@@ -277,6 +277,15 @@ impl MultiSink
 impl Sink for MultiSink
 method pub fn new(sinks: Vec<Arc<dyn Sink>>) -> Self
 
+## struct praxo_core::jsonschema::Schema
+pub struct Schema { /* private fields */ }
+impl Clone for Schema
+impl Debug for Schema
+impl PartialEq for Schema
+impl Schema
+method pub fn from_json(raw: &str) -> Result<Self>
+method pub fn validate(&self, data: &Value) -> Vec<ValidationError>
+
 ## struct praxo_core::jsonschema::ValidationError
 pub struct ValidationError { pub path: String, pub message: String, }
 impl Clone for ValidationError

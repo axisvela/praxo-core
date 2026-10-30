@@ -18,8 +18,9 @@
   and `deprecated`) separately from maturity, with matrix assignments pending
   maintainer confirmation.
 - Rust source now provides `tool.Gateway`, `GatewayInfo`, `GatewayTool`, and
-  `gateway_tools`, with a `0.1.2` API snapshot. No source tag is published by
-  this change.
+  `gateway_tools`, plus a `jsonschema.Schema` wrapper with `from_json` and
+  `validate`, and a `0.1.2` API snapshot. No source tag is published by this
+  change.
 
 ## [2.5.2] - 2026-10-30
 
