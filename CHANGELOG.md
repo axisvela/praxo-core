@@ -8,6 +8,9 @@
   changes to final name or arguments, and executes the final registered tool.
   Initial denial still prevents middleware and side effects; unchanged calls
   keep one authorization.
+- TypeScript and Java now apply the same final-name/argument authorization and
+  final-tool resolution, with regression self-tests for mutation, denial,
+  unchanged calls, and allowlist enforcement.
 - Compatibility Lab now writes a unique directory per execution with run ID,
   UTC start/finish, pre-run Git metadata, explicit `not_run` commands, and a
   `latest.json` pointer, so a later success cannot overwrite an earlier failure.

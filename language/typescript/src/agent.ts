@@ -1,3 +1,5 @@
+import { isDeepStrictEqual } from "node:util";
+
 import {
   ContextBudget,
   ContextCompactor,
@@ -300,21 +302,22 @@ export class Agent {
     sessionId: string
   ): Promise<Message> {
     this.throwIfAborted();
-    if (!this.toolAllowed(call.name)) {
-      throw new Error(`agent: tool ${call.name} is not allowed`);
+    const originalName = call.name;
+    const originalArguments = structuredClone(call.arguments);
+    if (!this.toolAllowed(originalName)) {
+      throw new Error(`agent: tool ${originalName} is not allowed`);
     }
     await this.authorize({
       kind: "tool.invoke",
       sessionId,
-      toolName: call.name,
-      arguments: call.arguments,
+      toolName: originalName,
+      arguments: structuredClone(originalArguments),
     });
     if (!this.options.tools) {
       throw new ToolNotFoundError(
-        `tool ${call.name} is not registered`
+        `tool ${originalName} is not registered`
       );
     }
-    const tool = this.options.tools.get(call.name);
     const toolCall: MiddlewareToolCall = {
       runId,
       sessionId,
@@ -328,14 +331,32 @@ export class Agent {
       value = toolCall.result;
       error = toolCall.error;
     } else {
+      if (!this.toolAllowed(active.name)) {
+        throw new Error(`agent: tool ${active.name} is not allowed`);
+      }
+      if (
+        active.name !== originalName ||
+        !isDeepStrictEqual(active.arguments, originalArguments)
+      ) {
+        await this.authorize({
+          kind: "tool.invoke",
+          sessionId,
+          toolName: active.name,
+          arguments: structuredClone(active.arguments),
+        });
+      }
+      const tool = this.options.tools.get(active.name);
       await this.emit({
         type: "tool.call",
         sessionId,
         runId,
-        data: { name: active.name, arguments: active.arguments },
+        data: {
+          name: active.name,
+          arguments: structuredClone(active.arguments),
+        },
       });
       try {
-        value = await tool.invoke(active.arguments);
+        value = await tool.invoke(structuredClone(active.arguments));
       } catch (caught) {
         error = caught;
       }

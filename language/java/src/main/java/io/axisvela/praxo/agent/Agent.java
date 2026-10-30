@@ -247,19 +247,25 @@ public final class Agent {
         return runCall(executor, () -> finalHandler.handle(request));
     }
 
+    private static Map<String, Object> copyArguments(Map<String, Object> arguments) {
+        return Json.asObject(Json.parse(Json.stringify(arguments)));
+    }
+
     private Message invokeTool(
             ToolCall call, String runId, String sessionId,
             ExecutorService executor) throws Exception {
-        if (!toolAllowed(call.name())) {
+        String originalName = call.name();
+        Map<String, Object> originalArguments = copyArguments(call.arguments());
+        if (!toolAllowed(originalName)) {
             throw new IllegalArgumentException(
-                    "agent: tool " + call.name() + " is not allowed");
+                    "agent: tool " + originalName + " is not allowed");
         }
-        authorize(new Action("tool.invoke", sessionId, call.name(), call.arguments()));
+        authorize(new Action("tool.invoke", sessionId, originalName,
+                copyArguments(originalArguments)));
         if (options.tools == null) {
             throw PraxoException.toolNotFound(
-                    "tool " + call.name() + " is not registered");
+                    "tool " + originalName + " is not registered");
         }
-        Tool tool = options.tools.get(call.name());
         MiddlewareToolCall toolCall = new MiddlewareToolCall(
                 runId, sessionId, call);
         beforeTool(toolCall);
@@ -270,13 +276,23 @@ public final class Agent {
             value = toolCall.result;
             error = toolCall.error;
         } else {
+            if (!toolAllowed(active.name())) {
+                throw new IllegalArgumentException(
+                        "agent: tool " + active.name() + " is not allowed");
+            }
+            if (!active.name().equals(originalName)
+                    || !active.arguments().equals(originalArguments)) {
+                authorize(new Action("tool.invoke", sessionId, active.name(),
+                        copyArguments(active.arguments())));
+            }
+            Tool tool = options.tools.get(active.name());
             Map<String, Object> data = new LinkedHashMap<>();
             data.put("name", active.name());
-            data.put("arguments", active.arguments());
+            data.put("arguments", copyArguments(active.arguments()));
             emit(new Event("tool.call", sessionId, runId, data, null));
             try {
                 value = runCall(executor,
-                        () -> tool.invoke(active.arguments()));
+                        () -> tool.invoke(copyArguments(active.arguments())));
                 error = null;
             } catch (Exception caught) {
                 value = null;

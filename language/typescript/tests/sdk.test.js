@@ -178,3 +178,188 @@ test("checkpoint allowlist round-trips", () => {
     allow.marshal("spec.missing", {})
   );
 });
+
+test("middleware argument changes are reauthorized", async () => {
+  const calls = [];
+  class Model {
+    constructor() {
+      this.step = 0;
+    }
+    async generate() {
+      this.step += 1;
+      if (this.step === 1) {
+        return {
+          message: {
+            role: "assistant",
+            content: "",
+            toolCalls: [{ id: "c1", name: "echo", arguments: { text: "ok" } }],
+          },
+        };
+      }
+      return { message: { role: "assistant", content: "done" } };
+    }
+  }
+  class Tool {
+    constructor(name) {
+      this.name = name;
+      this.description = name;
+      this.calls = [];
+    }
+    async invoke(args) {
+      this.calls.push(args);
+      return args;
+    }
+  }
+  const tool = new Tool("echo");
+  const tools = new praxo.Registry();
+  tools.register(tool);
+  const actions = [];
+  const hook = {
+    authorize(action) {
+      actions.push(action);
+      return {
+        allowed: !(action.arguments && action.arguments.text === "denied"),
+        reason: "fixture",
+      };
+    },
+  };
+  const agent = new praxo.Agent({
+    model: new Model(),
+    tools,
+    policy: hook,
+    middleware: [
+      {
+        beforeTool(call) {
+          call.call.arguments = { text: "denied" };
+        },
+      },
+    ],
+  });
+  await assert.rejects(agent.run({ id: "s1" }, "go"), /denied/);
+  assert.deepEqual(tool.calls, []);
+  const toolActions = actions.filter((action) => action.kind === "tool.invoke");
+  assert.deepEqual(
+    toolActions.map((action) => [action.toolName, action.arguments]),
+    [
+      ["echo", { text: "ok" }],
+      ["echo", { text: "denied" }],
+    ]
+  );
+});
+
+test("middleware name changes use the final tool and authorization", async () => {
+  class Model {
+    constructor() {
+      this.step = 0;
+    }
+    async generate() {
+      this.step += 1;
+      if (this.step === 1) {
+        return {
+          message: {
+            role: "assistant",
+            content: "",
+            toolCalls: [{ id: "c1", name: "echo", arguments: {} }],
+          },
+        };
+      }
+      return { message: { role: "assistant", content: "done" } };
+    }
+  }
+  class Tool {
+    constructor(name) {
+      this.name = name;
+      this.description = name;
+      this.calls = [];
+    }
+    async invoke(args) {
+      this.calls.push(args);
+      return args;
+    }
+  }
+  const original = new Tool("echo");
+  const replacement = new Tool("admin");
+  const tools = new praxo.Registry();
+  tools.register(original);
+  tools.register(replacement);
+  const actions = [];
+  const agent = new praxo.Agent({
+    model: new Model(),
+    tools,
+    policy: {
+      authorize(action) {
+        actions.push(action);
+        return { allowed: true };
+      },
+    },
+    middleware: [
+      {
+        beforeTool(call) {
+          call.call.name = "admin";
+        },
+      },
+    ],
+  });
+  const result = await agent.run({ id: "s1" }, "go");
+  assert.equal(result.output, "done");
+  assert.deepEqual(original.calls, []);
+  assert.deepEqual(replacement.calls, [{}]);
+  assert.deepEqual(
+    actions
+      .filter((action) => action.kind === "tool.invoke")
+      .map((action) => action.toolName),
+    ["echo", "admin"]
+  );
+});
+
+test("unchanged tool is authorized once", async () => {
+  class Model {
+    constructor() {
+      this.step = 0;
+    }
+    async generate() {
+      this.step += 1;
+      if (this.step === 1) {
+        return {
+          message: {
+            role: "assistant",
+            content: "",
+            toolCalls: [{ id: "c1", name: "echo", arguments: { text: "ok" } }],
+          },
+        };
+      }
+      return { message: { role: "assistant", content: "done" } };
+    }
+  }
+  class Tool {
+    constructor() {
+      this.name = "echo";
+      this.description = "echo";
+      this.calls = [];
+    }
+    async invoke(args) {
+      this.calls.push(args);
+      return args;
+    }
+  }
+  const tool = new Tool();
+  const tools = new praxo.Registry();
+  tools.register(tool);
+  const actions = [];
+  const agent = new praxo.Agent({
+    model: new Model(),
+    tools,
+    policy: {
+      authorize(action) {
+        actions.push(action);
+        return { allowed: true };
+      },
+    },
+  });
+  await agent.run({ id: "s1" }, "go");
+  assert.equal(
+    actions.filter((action) => action.kind === "tool.invoke").length,
+    1
+  );
+  assert.deepEqual(tool.calls, [{ text: "ok" }]);
+});
