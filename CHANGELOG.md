@@ -26,8 +26,10 @@
   `0.2.1` API snapshot. The validated JSON Schema subset still uses bounded
   ASCII patterns. No source tag is published by this change.
 - COBOL source adds an in-memory `praxo-registry` program for tool
-  register/get/list/clear under the unreleased API snapshot. It is partial
-  parity: no concurrency and no custom spec provider.
+  register/get/list/clear. It is partial parity: no concurrency and no custom
+  spec provider.
+- Released source tags `rust/v0.1.2`, `fortran/v0.2.1`, and `cobol/v0.1.1`.
+  These are source releases; no package-registry publication is claimed.
 
 ## [2.5.2] - 2026-10-30
 

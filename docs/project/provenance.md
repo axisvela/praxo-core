@@ -37,7 +37,7 @@ relicensed as MIT. The copy must be recorded with its source path and commit.
 
 The `language/cobol/` and `language/fortran/` sources are original MIT-licensed
 implementations of the contracts in `spec/`; their source tags are
-`cobol/v0.1.0` and `fortran/v0.2.0`. Context compaction in the Fortran Core implementation
+`cobol/v0.1.1` and `fortran/v0.2.1`. Context compaction in the Fortran Core implementation
 follows the reference algorithm in `pkg/agent/context/compact.go`. No
 third-party JSON parser source is copied into these Core implementations.
 

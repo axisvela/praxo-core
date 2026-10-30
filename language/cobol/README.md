@@ -3,7 +3,7 @@
 A native GnuCOBOL implementation, not a bridge to another Core. All 63 normative
 vectors across the eleven groups pass, together with native agent, JSON,
 contract-boundary, tooling, and API declaration checks. The
-`cobol-conformance` remote job passes; `cobol/v0.1.0` is the released Core implementation tag.
+`cobol-conformance` remote job passes; `cobol/v0.1.1` is the released Core implementation tag.
 
 ## Build and Test
 
@@ -96,15 +96,14 @@ semantics.
 
 ## Gates
 
-`api/unreleased.txt` inventories public copybook records, module program IDs,
+`api/0.1.1.txt` inventories public copybook records, module program IDs,
 and linkage parameters. `api-snapshot.py --check` runs in the test driver;
 regenerate intentionally with `--update`. Tooling tests check fixture
 determinism, assertion polarity, and snapshot sensitivity. The
 `cobol-conformance` CI job runs all of these plus the two original native test
 programs.
 
-`cobol/v0.1.0` is the released source tag. `api/unreleased.txt` is the legacy
-filename for the 0.1.0 declaration snapshot; later changes require a new
-version/tag decision and release review. `spec/parity/cobol.md` records partial
-surfaces. The Core sources are MIT-licensed; GnuCOBOL and its runtime are
+`cobol/v0.1.1` is the released source tag. `api/0.1.1.txt` inventories the
+current declaration surface; later changes require a new version/tag decision
+and release review. `spec/parity/cobol.md` records partial surfaces. The Core sources are MIT-licensed; GnuCOBOL and its runtime are
 separately licensed external toolchain dependencies.

@@ -1,4 +1,4 @@
-COBOL API inventory (unreleased)
+COBOL API inventory 0.1.1
 
 copybook api
 

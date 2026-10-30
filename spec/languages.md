@@ -56,7 +56,7 @@ for real providers, platforms, and production behavior is reported separately.
 | Python | Core | released | `python/v0.2.2` | complete | 11 vectors, OpenAI adapter, PyPI `praxo-core==0.2.2` |
 | TypeScript | Core | released | `typescript/v0.1.2` | complete | 11 vectors, OpenAI adapter; npm `@axisvela/praxo-core@0.1.2` |
 | Java | Core | released | `java/v0.2.2` | complete | 11 vectors, OpenAI adapter, API snapshot |
-| Rust | Core | released | `rust/v0.1.1` | complete | 11 vectors, native tests; current source adds `tool.Gateway`, a `jsonschema.Schema` API, a compiler-derived API/parity gate, and a `0.1.2` source snapshot |
+| Rust | Core | released | `rust/v0.1.2` | complete | 11 vectors, native tests, `tool.Gateway`, `jsonschema.Schema`, compiler-derived API/parity gate |
 | C | Core | released | `c/v0.2.0` | complete | 11 vectors, native tests; public Core API plus wire JSON primitives; agent cancellation and call-limit concurrency are partial |
 | C# | Core (.NET) | released | `csharp/v0.1.1` | complete | 11 vectors, API snapshot, OpenAI adapter |
 | Visual Basic | Sample (.NET) | released | `csharp/v0.1.1` | sample | VB.NET consumer sample in `language/csharp/samples` |
@@ -67,7 +67,7 @@ for real providers, platforms, and production behavior is reported separately.
 | Julia | Core | released | `julia/v0.2.0` | complete | 11 vectors, JSON.jl, API snapshot |
 | R | Core | released | `r/v0.2.0` | complete | 11 vectors, base-R JSON, API snapshot |
 | Haskell | Core | released | `haskell/v0.2.0` | complete | 11 vectors, native tests, API snapshot/parity; GHC 9.12.2; runtime and middleware helpers |
-| Fortran | Core | released | `fortran/v0.2.0` | complete | 11 vectors, native tests, API snapshot; integrated PII/middleware; source tag only; current source adds full stream-part fields and a `0.2.1` snapshot; JSON Schema subset remains partial |
+| Fortran | Core | released | `fortran/v0.2.1` | complete | 11 vectors, native tests, API snapshot; integrated PII/middleware; source tag only; full stream-part fields; JSON Schema subset remains partial |
 | Lisp | Bridge | released | `lisp/v0.1.0` | complete | SBCL bridge over the bridge CLI; forwarding, UTF-8, errors, and exit codes verified locally and in Linux CI; consumer details pending |
 | JavaScript | Sample (TypeScript) | released | none | sample | Uses the TypeScript package; no separate core |
 | C++ | Core | released | `cpp/v0.1.0` | complete | 11 vectors, core tests, API snapshot |
@@ -102,7 +102,7 @@ for real providers, platforms, and production behavior is reported separately.
 | Zig | Core | released | `zig/v0.2.0` | complete | 11 vectors, API snapshot; `zig/v0.1.0` remains wire |
 | Lua | Core | released | `lua/v0.1.0` | complete | 11 vectors, core tests, API snapshot |
 | Scratch | Bridge / extension | planned | none | planned | Extension bridge; implementation requested |
-| COBOL | Core | released | `cobol/v0.1.0` | complete | 11 vectors, native/contract tests, API snapshot; current source adds `praxo-registry` |
+| COBOL | Core | released | `cobol/v0.1.1` | complete | 11 vectors, native/contract tests, API snapshot; `praxo-registry` |
 | Prolog | Bridge | released | `prolog/v0.1.1` | complete | SWI-Prolog wrapper over the bridge CLI; forwarding, UTF-8, errors, and exit codes tested |
 | ABAP | Bridge | planned | none | planned | Bridge over the maintained runtime |
 
@@ -130,7 +130,7 @@ for real providers, platforms, and production behavior is reported separately.
 | Julia | `julia-conformance` | Julia tests, 11 vectors, API snapshot |
 | R | `r-conformance` | R tests, 11 vectors, API snapshot |
 | Shell / PowerShell | `bridge` | bridge tests, both wrappers |
-| Fortran | `fortran-conformance` | native tests, 11 vector groups, API snapshot; source release tagged `fortran/v0.2.0` |
+| Fortran | `fortran-conformance` | native tests, 11 vector groups, API snapshot; source release tagged `fortran/v0.2.1` |
 | COBOL | `cobol-conformance` | 11 vectors, API snapshot, native/tooling tests |
 | Haskell | `haskell-conformance` | 11 vectors, native tests, source API/parity, Cabal build; source release tagged `haskell/v0.2.0` |
 | Delphi / Free Pascal | `delphi-conformance` | 11 vectors, native tests, source API/parity; source release tagged `delphi/v0.2.1`; commercial Delphi unverified |
