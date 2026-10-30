@@ -82,6 +82,7 @@ cd language/java; java -cp target/classes:target/test-classes io.axisvela.praxo.
 cd language/java; java -cp target/classes:target/test-classes io.axisvela.praxo.agent.AgentAuthorizationSelfTest
 cd language/java; java -cp target/classes:target/test-classes io.axisvela.praxo.agent.AgentLifecycleSelfTest
 cd language/java; java -cp target/classes:target/test-classes io.axisvela.praxo.agent.AgentGuardrailSelfTest
+cd language/java; java -cp target/classes:target/test-classes io.axisvela.praxo.agent.AgentStreamSelfTest
 cd language/java; java -cp target/classes:target/test-classes io.axisvela.praxo.jsonschema.JsonSchemaSelfTest
 cd language/java; java -cp target/classes:target/test-classes io.axisvela.praxo.checkpoint.CheckpointSelfTest
 cd language/java; java -cp target/classes:target/test-classes io.axisvela.praxo.middleware.PiiMiddlewareSelfTest

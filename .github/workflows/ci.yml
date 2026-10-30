@@ -332,6 +332,7 @@ jobs:
       - run: java -cp target/classes:target/test-classes io.axisvela.praxo.agent.AgentAuthorizationSelfTest
       - run: java -cp target/classes:target/test-classes io.axisvela.praxo.agent.AgentLifecycleSelfTest
       - run: java -cp target/classes:target/test-classes io.axisvela.praxo.agent.AgentGuardrailSelfTest
+      - run: java -cp target/classes:target/test-classes io.axisvela.praxo.agent.AgentStreamSelfTest
       - run: java -cp target/classes:target/test-classes io.axisvela.praxo.jsonschema.JsonSchemaSelfTest
       - run: java -cp target/classes:target/test-classes io.axisvela.praxo.checkpoint.CheckpointSelfTest
       - run: java -cp target/classes:target/test-classes io.axisvela.praxo.middleware.PiiMiddlewareSelfTest

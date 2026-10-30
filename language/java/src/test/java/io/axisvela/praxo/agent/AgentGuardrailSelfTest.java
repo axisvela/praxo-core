@@ -21,6 +21,7 @@ public final class AgentGuardrailSelfTest {
     public static void main(String[] args) throws Exception {
         modelCallLimitFailsClosed();
         toolCallLimitFailsClosed();
+        callLimitSeparatesRuns();
         contextBudgetFailsClosed();
         System.out.println("agent guardrail ok");
     }
@@ -51,6 +52,14 @@ public final class AgentGuardrailSelfTest {
         } catch (PraxoException error) {
             check(error.code.equals("AGENT_TOOL_CALL_LIMIT"), "tool limit: " + error.code);
         }
+    }
+
+    private static void callLimitSeparatesRuns() {
+        CallLimitMiddleware middleware = new CallLimitMiddleware(1, 0);
+        middleware.beforeRun(new RunState("a", null, ""));
+        middleware.beforeRun(new RunState("b", null, ""));
+        middleware.beforeModel(new ModelCall("a", "s1", Request.of(List.of())));
+        middleware.beforeModel(new ModelCall("b", "s1", Request.of(List.of())));
     }
 
     private static void contextBudgetFailsClosed() throws Exception {

@@ -153,6 +153,24 @@ class StreamingAgentTest(unittest.IsolatedAsyncioTestCase):
         self.assertEqual(result.output, "hello")
         self.assertEqual(deltas, ["he", "llo"])
 
+    async def test_stream_callback_failure_aborts_run(self) -> None:
+        class Model:
+            async def generate(self, request: Request) -> Response:
+                return Response(message=Message(role="assistant", content="done"))
+
+            async def generate_stream(self, request: Request, on_delta) -> Response:
+                on_delta("he")
+                return Response(
+                    message=Message(role="assistant", content="done")
+                )
+
+        def fail(delta: str) -> None:
+            raise RuntimeError("stream down")
+
+        agent = Agent(AgentOptions(model=Model(), on_delta=fail))
+        with self.assertRaisesRegex(RuntimeError, "stream down"):
+            await agent.run(Session(id="s1"), "hi")
+
 
 if __name__ == "__main__":
     unittest.main()

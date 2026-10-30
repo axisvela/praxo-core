@@ -68,6 +68,42 @@ test("tool call limit fails closed", async () => {
   );
 });
 
+test("call limit state is isolated by run", () => {
+  const middleware = praxo.callLimitMiddleware(1, 0);
+  middleware.beforeRun({ runId: "a" });
+  middleware.beforeRun({ runId: "b" });
+  middleware.beforeModel({
+    runId: "a",
+    sessionId: "s1",
+    request: { messages: [] },
+  });
+  middleware.beforeModel({
+    runId: "b",
+    sessionId: "s1",
+    request: { messages: [] },
+  });
+});
+
+test("stream callback failure aborts run", async () => {
+  class Model {
+    async generate() {
+      return { message: { role: "assistant", content: "done" } };
+    }
+
+    async generateStream(request, onDelta) {
+      onDelta("he");
+      return { message: { role: "assistant", content: "done" } };
+    }
+  }
+  const agent = new praxo.Agent({
+    model: new Model(),
+    onDelta: () => {
+      throw new Error("stream down");
+    },
+  });
+  await assert.rejects(agent.run({ id: "s1" }, "go"), /stream down/);
+});
+
 test("context budget fails closed", async () => {
   const agent = new praxo.Agent({
     model: {

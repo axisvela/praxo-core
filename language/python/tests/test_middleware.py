@@ -19,7 +19,9 @@ from praxo.errors import (
 from praxo.middleware import (
     ModelCall,
     PIIRedactor,
+    RunState,
     StructuredOutput,
+    call_limit_middleware,
     default_pii_rules,
     pii_middleware,
 )
@@ -142,6 +144,17 @@ class MiddlewareTest(unittest.IsolatedAsyncioTestCase):
         )
         with self.assertRaises(ToolCallLimitError):
             await agent.run(Session(id="s1"), "go")
+
+    async def test_call_limit_state_is_isolated_by_run(self) -> None:
+        middleware = call_limit_middleware(1, 0)
+        await middleware.before_run(RunState("a", None, ""))
+        await middleware.before_run(RunState("b", None, ""))
+        await middleware.before_model(
+            ModelCall("a", "s1", Request(messages=[]))
+        )
+        await middleware.before_model(
+            ModelCall("b", "s1", Request(messages=[]))
+        )
 
     async def test_fallback_model(self) -> None:
         primary = ScriptModel([RuntimeError("primary")])

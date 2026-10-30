@@ -5,8 +5,9 @@
 The behavior lab runs named agent scenarios in Go, Python, TypeScript, and Java
 and writes one comparison report. It answers a narrower question than the
 [compatibility lab](compatibility-lab.md): do the implementations make the same
-authorization, lifecycle, cancellation, validation, call-limit, PII, checkpoint,
-and capacity decisions when exercised through their own test suites?
+authorization, lifecycle, cancellation, validation, call-limit, run isolation,
+PII, checkpoint, capacity, and stream-failure decisions when exercised through
+their own test suites?
 
 It does not prove complete feature parity, provider behavior, live-service
 integration, production readiness, or security. A passing report compares the
@@ -30,6 +31,8 @@ listed scenarios only.
 | `pii-tool-history` | Nested tool-call history is redacted without mutating input | scenario | scenario | scenario | scenario |
 | `checkpoint-content` | Allowlist round-trips nested payload content | scenario | scenario | scenario | scenario |
 | `capacity-failclosed` | Context budget fails closed instead of dropping required input | scenario | scenario | scenario | self-test group |
+| `run-state-isolation` | Call-limit state is isolated across concurrent runs | scenario | scenario | scenario | self-test group |
+| `stream-callback-error` | Stream callback failure aborts instead of completing the run | scenario | scenario | scenario | scenario |
 
 `scenario` means a test named for that behavior. `self-test group` means one
 Java self-test executable covers several scenarios, so a passing group does not
@@ -70,17 +73,18 @@ overwritten; `latest.json` is only a convenience pointer.
 
 ## Current Evidence
 
-The four-language local fourteen-scenario run on 2026-10-30 passed all 56
+The four-language local sixteen-scenario run on 2026-10-30 passed all 64
 cells. Because that run was made from a working tree with uncommitted evidence
-changes, it is not a clean-SHA record. The clean-SHA Linux CI run on commit
-`be4f899` also passed all 56 cells; use that [behavior job](https://github.com/axisvela/praxo-core/actions/runs/41056965127/job/124066823868)
-and its artifact when citing the report as evidence.
+changes, it is not a clean-SHA record. Use the clean-SHA Linux CI behavior job
+and artifact for the revision you are citing.
 
 ## Limits
 
-- Fourteen selected scenarios, not full agent or contract parity.
+- Sixteen selected scenarios, not full agent or contract parity.
 - Go and Python use scenario-level tests; TypeScript uses `node --test` name
   filters; some Java self-tests cover more than one scenario.
+- Parallel tool execution is not covered; the run-state scenario checks
+  call-limit state isolation only.
 - No provider, model, network, sandbox, HITL, checkpoint, or effect-recovery
   scenario.
 - A passing report is not a security review or production certification.

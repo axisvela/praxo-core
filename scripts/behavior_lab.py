@@ -77,6 +77,7 @@ def scenarios() -> tuple[Scenario, ...]:
     schema = java_class_test("io.axisvela.praxo.jsonschema.JsonSchemaSelfTest")
     checkpoint = java_class_test("io.axisvela.praxo.checkpoint.CheckpointSelfTest")
     pii = java_class_test("io.axisvela.praxo.middleware.PiiMiddlewareSelfTest")
+    stream = java_test("AgentStreamSelfTest")
     return (
         Scenario(
             "final-arguments",
@@ -374,6 +375,53 @@ def scenarios() -> tuple[Scenario, ...]:
                 "java": (guardrail,),
             },
             {"go": "scenario", "python": "scenario", "typescript": "scenario", "java": "group"},
+        ),
+        Scenario(
+            "run-state-isolation",
+            "Call-limit state is isolated across concurrent runs",
+            {
+                "go": (
+                    go_test(
+                        "^TestCallLimitMiddlewareSeparatesRuns$",
+                        "./pkg/agent/middleware",
+                    ),
+                ),
+                "python": (
+                    python_test(
+                        "tests.test_middleware.MiddlewareTest."
+                        "test_call_limit_state_is_isolated_by_run"
+                    ),
+                ),
+                "typescript": (
+                    typescript_test(
+                        "call limit state is isolated by run",
+                        "tests/behavior.test.js",
+                    ),
+                ),
+                "java": (guardrail,),
+            },
+            {"go": "scenario", "python": "scenario", "typescript": "scenario", "java": "group"},
+        ),
+        Scenario(
+            "stream-callback-error",
+            "Stream callback failure aborts the run instead of completing it",
+            {
+                "go": (go_test("^TestAgentStreamErrorAbortsRun$"),),
+                "python": (
+                    python_test(
+                        "tests.test_openaicompat.StreamingAgentTest."
+                        "test_stream_callback_failure_aborts_run"
+                    ),
+                ),
+                "typescript": (
+                    typescript_test(
+                        "stream callback failure aborts run",
+                        "tests/behavior.test.js",
+                    ),
+                ),
+                "java": (stream,),
+            },
+            {"go": "scenario", "python": "scenario", "typescript": "scenario", "java": "scenario"},
         ),
     )
 
