@@ -8,6 +8,8 @@ and compatibility commitments. It is not a delivery schedule.
 - [Release history](docs/releases/index.md)
 - [Complete changelog](CHANGELOG.md)
 - [SDK support and distribution](docs/languages/support.md)
+- [Compatibility lab](docs/languages/compatibility-lab.md)
+- [When not to use PRAXO-CORE](docs/getting-started/when-not-to-use.md)
 - [Language implementation policy](docs/contributing/language-policy.md)
 - [Governed execution design](docs/reference/governed-execution.md)
 - [Verification evidence index](docs/project/verification-evidence.md)
