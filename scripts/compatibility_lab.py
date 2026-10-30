@@ -50,7 +50,11 @@ def language_definitions() -> dict[str, Language]:
             "Python",
             (sys.executable, "--version"),
             (),
-            (command("conformance", python_dir, sys.executable, "conformance/run.py"),),
+            (
+                command("conformance", python_dir, sys.executable, "conformance/run.py"),
+                command("api snapshot", python_dir, sys.executable, "api-snapshot.py", "--check"),
+                command("api signatures", python_dir, sys.executable, "api-signatures.py", "--check"),
+            ),
         ),
         "typescript": Language(
             "typescript",
@@ -59,6 +63,7 @@ def language_definitions() -> dict[str, Language]:
             (command("npm ci", typescript_dir, "npm", "ci"),),
             (
                 command("build", typescript_dir, "npm", "run", "build"),
+                command("api check", typescript_dir, "npm", "run", "api:check"),
                 command("conformance", typescript_dir, "npm", "run", "conformance"),
             ),
         ),
@@ -69,6 +74,15 @@ def language_definitions() -> dict[str, Language]:
             (),
             (
                 command("package", java_dir, "mvn", "-q", "-DskipTests", "package"),
+                command(
+                    "api snapshot",
+                    java_dir,
+                    "java",
+                    "-cp",
+                    "target/classes",
+                    "io.axisvela.praxo.conformance.ApiSnapshot",
+                    "--check",
+                ),
                 command(
                     "conformance",
                     java_dir,
@@ -94,6 +108,7 @@ def language_definitions() -> dict[str, Language]:
                     "--bin",
                     "conformance",
                 ),
+                command("api snapshot", rust_dir, sys.executable, "api-snapshot.py", "--check"),
             ),
         ),
     }

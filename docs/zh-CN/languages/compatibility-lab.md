@@ -12,12 +12,12 @@
 
 | 语言 | 命令 |
 | --- | --- |
-| Python | `python conformance/run.py` |
-| TypeScript | `npm run build`，然后 `npm run conformance` |
-| Java | `mvn -q -DskipTests package`，然后运行 Java conformance runner |
-| Rust | `cargo run --quiet --bin conformance` |
+| Python | `conformance/run.py`、`api-snapshot.py --check`、`api-signatures.py --check` |
+| TypeScript | `npm run build`、`npm run api:check`、`npm run conformance` |
+| Java | `mvn -q -DskipTests package`、`ApiSnapshot --check`、conformance runner |
+| Rust | `cargo run --quiet --bin conformance`、`api-snapshot.py --check` |
 
-实验覆盖共享契约向量，以及该实现已有的 parity 检查。它不启动模型、不调用 provider、不使用凭证，也不运行真实 workspace provider。
+实验覆盖共享契约向量、API 快照或签名，以及该实现已有的 parity 检查。它不启动模型、不调用 provider、不使用凭证，也不运行真实 workspace provider。
 
 ## 运行
 

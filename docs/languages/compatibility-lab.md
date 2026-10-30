@@ -18,16 +18,16 @@ those separate claims.
 The first scope is Python, TypeScript, Java, and Rust. Each entry runs the
 implementation's own conformance entry point:
 
-| Language | Command |
+| Language | Commands |
 | --- | --- |
-| Python | `python conformance/run.py` |
-| TypeScript | `npm run build` then `npm run conformance` |
-| Java | `mvn -q -DskipTests package` then the Java conformance runner |
-| Rust | `cargo run --quiet --bin conformance` |
+| Python | `conformance/run.py`, `api-snapshot.py --check`, `api-signatures.py --check` |
+| TypeScript | `npm run build`, `npm run api:check`, `npm run conformance` |
+| Java | `mvn -q -DskipTests package`, `ApiSnapshot --check`, conformance runner |
+| Rust | `cargo run --quiet --bin conformance`, `api-snapshot.py --check` |
 
-The lab covers the shared contract vectors and, where the implementation has it,
-its parity check. It does not start a model, call a provider, use credentials, or
-run a live workspace provider.
+The lab covers the shared contract vectors, API snapshots or signatures, and,
+where the implementation has it, its parity check. It does not start a model,
+call a provider, use credentials, or run a live workspace provider.
 
 ## Run
 
