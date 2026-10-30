@@ -121,6 +121,10 @@ Do not collapse state, local filesystem, and sandbox into one core `Backend`
 interface. Their authorization, lifecycle, failure, and isolation semantics are
 different.
 
+Offline profile tests now cover E2B, Daytona, OpenSandbox, and CubeSandbox with
+fake providers. They do not verify live providers, product wiring, or isolation
+strength.
+
 ## Provider Evaluation
 
 This table records what the offline adapter spikes exercised. "Offline" means

@@ -109,6 +109,8 @@ Profile 应显式暴露能力和信任元数据，不能从 backend 类型推断
 
 不要把 state、本地文件系统和 sandbox 合并成单一 Core `Backend` 接口。它们的授权、生命周期、失败和隔离语义不同。
 
+离线 profile 测试现已覆盖 E2B、Daytona、OpenSandbox 和 CubeSandbox 的 fake provider。它们不验证 live provider、产品接线或隔离强度。
+
 ## 提供商评估
 
 下表记录离线适配器 spike 实际验证过的内容。“离线”表示该操作在进程内 fake 上
