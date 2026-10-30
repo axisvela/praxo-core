@@ -39,10 +39,30 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 public final class Agent {
+    private static final class PreparedTool {
+        private final MiddlewareToolCall toolCall;
+        private final ToolCall active;
+        private final Tool tool;
+        private final boolean skip;
+        private final Object value;
+        private final Throwable error;
+
+        private PreparedTool(MiddlewareToolCall toolCall, ToolCall active,
+                Tool tool, boolean skip, Object value, Throwable error) {
+            this.toolCall = toolCall;
+            this.active = active;
+            this.tool = tool;
+            this.skip = skip;
+            this.value = value;
+            this.error = error;
+        }
+    }
+
     private final AgentOptions options;
     private final String systemPrompt;
     private final List<Middleware> middleware;
@@ -144,10 +164,9 @@ public final class Agent {
                     emit(new Event("run.completed", session.id, runId, null, null));
                     return result;
                 }
-                for (ToolCall toolCall : response.message().toolCalls()) {
-                    messages.add(invokeTool(
-                            toolCall, runId, session.id, executor));
-                }
+                messages.addAll(invokeTools(
+                        response.message().toolCalls(), runId, session.id,
+                        executor));
             }
             throw PraxoException.maxSteps();
         } catch (Exception error) {
@@ -169,11 +188,15 @@ public final class Agent {
 
     private <T> T runCall(ExecutorService executor, Callable<T> task)
             throws Exception {
+        return awaitFuture(executor.submit(task));
+    }
+
+    private <T> T awaitFuture(Future<T> future) throws Exception {
         CancellationToken token = options.cancellation;
         if (token != null && token.isCancelled()) {
+            future.cancel(true);
             throw PraxoException.aborted();
         }
-        Future<T> future = executor.submit(task);
         try {
             while (true) {
                 try {
@@ -262,9 +285,52 @@ public final class Agent {
         return Json.asObject(Json.parse(Json.stringify(arguments)));
     }
 
+    private List<Message> invokeTools(
+            List<ToolCall> calls, String runId, String sessionId,
+            ExecutorService executor) throws Exception {
+        if (options.maxParallelTools <= 1 || calls.size() <= 1) {
+            List<Message> out = new ArrayList<>();
+            for (ToolCall call : calls) {
+                out.add(invokeTool(call, runId, sessionId, executor));
+            }
+            return out;
+        }
+        List<PreparedTool> prepared = new ArrayList<>();
+        for (ToolCall call : calls) {
+            prepared.add(prepareTool(call, runId, sessionId));
+        }
+        Semaphore permits = new Semaphore(
+                Math.min(options.maxParallelTools, prepared.size()));
+        List<Future<ToolResult>> futures = new ArrayList<>();
+        for (PreparedTool item : prepared) {
+            futures.add(executor.submit(() -> {
+                permits.acquire();
+                try {
+                    return executePrepared(item);
+                } finally {
+                    permits.release();
+                }
+            }));
+        }
+        List<Message> out = new ArrayList<>();
+        for (int index = 0; index < prepared.size(); index++) {
+            out.add(finishTool(prepared.get(index),
+                    awaitFuture(futures.get(index))));
+        }
+        return out;
+    }
+
     private Message invokeTool(
             ToolCall call, String runId, String sessionId,
             ExecutorService executor) throws Exception {
+        PreparedTool prepared = prepareTool(call, runId, sessionId);
+        ToolResult result = runCall(executor,
+                () -> executePrepared(prepared));
+        return finishTool(prepared, result);
+    }
+
+    private PreparedTool prepareTool(
+            ToolCall call, String runId, String sessionId) throws Exception {
         String originalName = call.name();
         Map<String, Object> originalArguments = copyArguments(call.arguments());
         if (!toolAllowed(originalName)) {
@@ -281,37 +347,44 @@ public final class Agent {
                 runId, sessionId, call);
         beforeTool(toolCall);
         ToolCall active = toolCall.call;
-        Object value;
-        Throwable error;
         if (toolCall.skip) {
-            value = toolCall.result;
-            error = toolCall.error;
-        } else {
-            if (!toolAllowed(active.name())) {
-                throw new IllegalArgumentException(
-                        "agent: tool " + active.name() + " is not allowed");
-            }
-            if (!active.name().equals(originalName)
-                    || !active.arguments().equals(originalArguments)) {
-                authorize(new Action("tool.invoke", sessionId, active.name(),
-                        copyArguments(active.arguments())));
-            }
-            Tool tool = options.tools.get(active.name());
-            Map<String, Object> data = new LinkedHashMap<>();
-            data.put("name", active.name());
-            data.put("arguments", copyArguments(active.arguments()));
-            emit(new Event("tool.call", sessionId, runId, data, null));
-            try {
-                value = runCall(executor,
-                        () -> tool.invoke(copyArguments(active.arguments())));
-                error = null;
-            } catch (Exception caught) {
-                value = null;
-                error = caught;
-            }
+            return new PreparedTool(
+                    toolCall, active, null, true,
+                    toolCall.result, toolCall.error);
         }
-        ToolResult result = new ToolResult(value, error);
-        afterTool(toolCall, result);
+        if (!toolAllowed(active.name())) {
+            throw new IllegalArgumentException(
+                    "agent: tool " + active.name() + " is not allowed");
+        }
+        if (!active.name().equals(originalName)
+                || !active.arguments().equals(originalArguments)) {
+            authorize(new Action("tool.invoke", sessionId, active.name(),
+                    copyArguments(active.arguments())));
+        }
+        Tool tool = options.tools.get(active.name());
+        Map<String, Object> data = new LinkedHashMap<>();
+        data.put("name", active.name());
+        data.put("arguments", copyArguments(active.arguments()));
+        emit(new Event("tool.call", sessionId, runId, data, null));
+        return new PreparedTool(
+                toolCall, active, tool, false, null, null);
+    }
+
+    private ToolResult executePrepared(PreparedTool prepared) {
+        if (prepared.skip) {
+            return new ToolResult(prepared.value, prepared.error);
+        }
+        try {
+            return new ToolResult(prepared.tool.invoke(
+                    copyArguments(prepared.active.arguments())), null);
+        } catch (Exception caught) {
+            return new ToolResult(null, caught);
+        }
+    }
+
+    private Message finishTool(PreparedTool prepared, ToolResult result)
+            throws Exception {
+        afterTool(prepared.toolCall, result);
         if (result.error != null) {
             if (result.error instanceof RuntimeException runtime) {
                 throw runtime;
@@ -324,14 +397,14 @@ public final class Agent {
                 && options.offloadThresholdBytes > 0
                 && raw.length > options.offloadThresholdBytes) {
             String reference = options.offloader.offload(
-                    active.name(), active.id(), raw);
+                    prepared.active.name(), prepared.active.id(), raw);
             if (reference == null || reference.isEmpty()) {
                 throw new IllegalStateException(
                         "agent: offloader returned an empty placeholder");
             }
             content = reference;
         }
-        return Message.tool(content, active.id());
+        return Message.tool(content, prepared.active.id());
     }
 
     private void beforeRun(RunState state, List<Middleware> entered)

@@ -127,10 +127,6 @@ contain `partial` or `planned` rows for features outside that scope. Passing
 shared vectors does not prove complete feature parity with Go, live
 provider verification, production readiness, or package publication.
 
-Go honors `MaxParallelTools`. Python, TypeScript, and Java currently accept the
-equivalent option but execute tool calls sequentially; the behavior lab does not
-claim parallel-tool coverage for them.
-
 VFS backends, plugin hosts, scheduling, and optional integrations must be
 evaluated against the specific Core's README and API reference.
 

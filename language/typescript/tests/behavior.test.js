@@ -84,6 +84,85 @@ test("call limit state is isolated by run", () => {
   });
 });
 
+test("maxParallelTools starts tools concurrently and keeps order", async () => {
+  class Model {
+    constructor() {
+      this.requests = [];
+      this.step = 0;
+    }
+
+    async generate(request) {
+      this.requests.push(request);
+      this.step += 1;
+      if (this.step === 1) {
+        return {
+          message: {
+            role: "assistant",
+            content: "",
+            toolCalls: [
+              { id: "c1", name: "barrier", arguments: { value: 1 } },
+              { id: "c2", name: "barrier", arguments: { value: 2 } },
+            ],
+          },
+        };
+      }
+      return { message: { role: "assistant", content: "done" } };
+    }
+  }
+  class BarrierTool {
+    constructor() {
+      this.name = "barrier";
+      this.description = "waits for both calls";
+      this.calls = [];
+      this.started = 0;
+      this.bothStarted = new Promise((resolve) => {
+        this.release = resolve;
+      });
+    }
+
+    async invoke(args) {
+      this.calls.push(args);
+      this.started += 1;
+      if (this.started === 2) this.release();
+      await this.bothStarted;
+      return args;
+    }
+  }
+  const tool = new BarrierTool();
+  const tools = new praxo.Registry();
+  tools.register(tool);
+  const model = new Model();
+  const agent = new praxo.Agent({
+    model,
+    tools,
+    maxParallelTools: 2,
+  });
+  let timer;
+  const timeout = new Promise((_, reject) => {
+    timer = setTimeout(
+      () => reject(new Error("tools did not start in parallel")),
+      2000
+    );
+  });
+  try {
+    const result = await Promise.race([
+      agent.run({ id: "s1" }, "go"),
+      timeout,
+    ]);
+    assert.equal(result.output, "done");
+  } finally {
+    clearTimeout(timer);
+  }
+  assert.deepEqual(tool.calls, [{ value: 1 }, { value: 2 }]);
+  const toolMessages = model.requests[1].messages.filter(
+    (message) => message.role === "tool"
+  );
+  assert.deepEqual(
+    toolMessages.map((message) => message.toolId),
+    ["c1", "c2"]
+  );
+});
+
 test("stream callback failure aborts run", async () => {
   class Model {
     async generate() {

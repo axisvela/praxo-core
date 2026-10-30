@@ -2,7 +2,7 @@
 
 **状态：** 证据工具，2026-10-30。该实验不是稳定的公开 API。
 
-行为实验在 Go、Python、TypeScript 和 Java 中运行具名 agent 场景，并生成一份对比报告。它回答的问题比[兼容性实验](compatibility-lab.md)更窄：当通过各实现自己的测试套件执行时，它们是否对授权、生命周期、取消、输入校验、调用上限、run 状态隔离、PII、checkpoint、容量和流失败做出相同决策？
+行为实验在 Go、Python、TypeScript 和 Java 中运行具名 agent 场景，并生成一份对比报告。它回答的问题比[兼容性实验](compatibility-lab.md)更窄：当通过各实现自己的测试套件执行时，它们是否对授权、生命周期、取消、输入校验、调用上限、并行工具执行、run 状态隔离、PII、checkpoint、容量和流失败做出相同决策？
 
 它不证明完整功能对齐、provider 行为、真实服务集成、生产就绪或安全性。报告通过只比较所列场景。
 
@@ -24,6 +24,7 @@
 | `pii-tool-history` | 嵌套工具调用历史被脱敏且不修改输入 | scenario | scenario | scenario | scenario |
 | `checkpoint-content` | allowlist 往返保留嵌套 payload 内容 | scenario | scenario | scenario | scenario |
 | `capacity-failclosed` | 上下文预算不足时失败关闭，不静默丢弃必需输入 | scenario | scenario | scenario | self-test group |
+| `parallel-tools` | 工具按上限并发启动并保持结果顺序 | scenario | scenario | scenario | self-test group |
 | `run-state-isolation` | 调用上限状态在并发 run 之间隔离 | scenario | scenario | scenario | self-test group |
 | `stream-callback-error` | 流回调失败中止 run，而不是继续完成 | scenario | scenario | scenario | scenario |
 
@@ -56,12 +57,12 @@ python scripts/behavior_lab.py --strict --timeout 300
 
 ## 当前证据
 
-2026-10-30 的四语言十六场景本地运行通过了全部 64 个单元格。该运行所在工作区包含尚未提交的证据改动，因此不是 clean-SHA 记录。commit `788753a` 上的 clean-SHA Linux CI 运行同样通过了全部 64 个单元格；引用行为报告作为证据时，应使用该 [behavior job](https://github.com/axisvela/praxo-core/actions/runs/41064580797/job/124092529710) 及其 artifact。
+2026-10-30 的四语言十七场景本地运行通过了全部 68 个单元格。该运行所在工作区包含尚未提交的证据改动，因此不是 clean-SHA 记录。引用行为报告作为证据时，应使用对应 revision 的 clean-SHA Linux CI behavior job 及其 artifact。
 
 ## 限制
 
-- 只覆盖十六个选定场景，不覆盖完整 agent 或契约对齐。
+- 只覆盖十七个选定场景，不覆盖完整 agent 或契约对齐。
 - Go 和 Python 使用场景级测试；TypeScript 使用 `node --test` 名称过滤；部分 Java self-test 覆盖多个场景。
-- 不覆盖并行工具执行；run 状态场景只检查调用上限状态隔离。
+- 并行场景使用确定性 barrier，不是吞吐或压力测试。
 - 不覆盖 provider、模型、网络、sandbox、HITL、checkpoint 或效果恢复场景。
 - 报告通过不等于安全审查或生产认证。

@@ -50,7 +50,7 @@ import {
   usage,
 } from "./model";
 import { Action, Decision, Hook } from "./policy";
-import { Registry } from "./tool";
+import { Registry, Tool } from "./tool";
 
 export interface Session {
   id: string;
@@ -93,6 +93,15 @@ export interface AgentOptions {
   maxParallelTools?: number;
   onDelta?: (delta: string) => void;
   signal?: AbortSignal;
+}
+
+interface PreparedTool {
+  toolCall: MiddlewareToolCall;
+  active: ToolCall;
+  tool?: Tool;
+  skip: boolean;
+  value?: unknown;
+  error?: unknown;
 }
 
 export class Agent {
@@ -174,8 +183,10 @@ export class Agent {
           sessionId: session.id,
         });
         const compacted = await this.compact(messages);
-        messages.length = 0;
-        messages.push(...compacted);
+        if (compacted !== messages) {
+          messages.length = 0;
+          messages.push(...compacted);
+        }
 
         const request: Request = {
           messages,
@@ -234,11 +245,13 @@ export class Agent {
           });
           return result;
         }
-        for (const call of response.message.toolCalls) {
-          messages.push(
-            await this.invokeTool(call, runId, session.id)
-          );
-        }
+        messages.push(
+          ...(await this.invokeTools(
+            response.message.toolCalls,
+            runId,
+            session.id
+          ))
+        );
       }
       throw new MaxStepsError();
     } catch (error) {
@@ -309,11 +322,58 @@ export class Agent {
     return handler(request);
   }
 
+  private async invokeTools(
+    calls: ToolCall[],
+    runId: string,
+    sessionId: string
+  ): Promise<Message[]> {
+    const limit = this.options.maxParallelTools ?? 1;
+    if (limit <= 1 || calls.length <= 1) {
+      const out: Message[] = [];
+      for (const call of calls) {
+        out.push(await this.invokeTool(call, runId, sessionId));
+      }
+      return out;
+    }
+    const prepared: PreparedTool[] = [];
+    for (const call of calls) {
+      prepared.push(await this.prepareTool(call, runId, sessionId));
+    }
+    const results = new Array<ToolResult>(prepared.length);
+    let next = 0;
+    const workers = Math.min(limit, prepared.length);
+    await Promise.all(
+      Array.from({ length: workers }, async () => {
+        while (true) {
+          const index = next;
+          next += 1;
+          if (index >= prepared.length) return;
+          results[index] = await this.executePrepared(prepared[index]);
+        }
+      })
+    );
+    const out: Message[] = [];
+    for (let index = 0; index < prepared.length; index += 1) {
+      out.push(await this.finishTool(prepared[index], results[index]));
+    }
+    return out;
+  }
+
   private async invokeTool(
     call: ToolCall,
     runId: string,
     sessionId: string
   ): Promise<Message> {
+    const prepared = await this.prepareTool(call, runId, sessionId);
+    const result = await this.executePrepared(prepared);
+    return this.finishTool(prepared, result);
+  }
+
+  private async prepareTool(
+    call: ToolCall,
+    runId: string,
+    sessionId: string
+  ): Promise<PreparedTool> {
     this.throwIfAborted();
     const originalName = call.name;
     const originalArguments = structuredClone(call.arguments);
@@ -338,47 +398,68 @@ export class Agent {
     };
     await this.beforeTool(toolCall);
     const active = toolCall.call;
-    let value: unknown;
-    let error: unknown;
     if (toolCall.skip) {
-      value = toolCall.result;
-      error = toolCall.error;
-    } else {
-      if (!this.toolAllowed(active.name)) {
-        throw new Error(`agent: tool ${active.name} is not allowed`);
-      }
-      if (
-        active.name !== originalName ||
-        !isDeepStrictEqual(active.arguments, originalArguments)
-      ) {
-        await this.authorize({
-          kind: "tool.invoke",
-          sessionId,
-          toolName: active.name,
-          arguments: structuredClone(active.arguments),
-        });
-      }
-      const tool = this.options.tools.get(active.name);
-      await this.emit({
-        type: "tool.call",
-        sessionId,
-        runId,
-        data: {
-          name: active.name,
-          arguments: structuredClone(active.arguments),
-        },
-      });
-      try {
-        value = await tool.invoke(structuredClone(active.arguments));
-      } catch (caught) {
-        error = caught;
-      }
+      return {
+        toolCall,
+        active,
+        skip: true,
+        value: toolCall.result,
+        error: toolCall.error,
+      };
     }
-    const result: ToolResult = { value, error };
-    await this.afterTool(toolCall, result);
+    if (!this.toolAllowed(active.name)) {
+      throw new Error(`agent: tool ${active.name} is not allowed`);
+    }
+    if (
+      active.name !== originalName ||
+      !isDeepStrictEqual(active.arguments, originalArguments)
+    ) {
+      await this.authorize({
+        kind: "tool.invoke",
+        sessionId,
+        toolName: active.name,
+        arguments: structuredClone(active.arguments),
+      });
+    }
+    const tool = this.options.tools.get(active.name);
+    await this.emit({
+      type: "tool.call",
+      sessionId,
+      runId,
+      data: {
+        name: active.name,
+        arguments: structuredClone(active.arguments),
+      },
+    });
+    return { toolCall, active, tool, skip: false };
+  }
+
+  private async executePrepared(
+    prepared: PreparedTool
+  ): Promise<ToolResult> {
+    if (prepared.skip) {
+      return { value: prepared.value, error: prepared.error };
+    }
+    this.throwIfAborted();
+    try {
+      const value = await prepared.tool!.invoke(
+        structuredClone(prepared.active.arguments)
+      );
+      return { value };
+    } catch (caught) {
+      return { value: undefined, error: caught };
+    }
+  }
+
+  private async finishTool(
+    prepared: PreparedTool,
+    result: ToolResult
+  ): Promise<Message> {
+    await this.afterTool(prepared.toolCall, result);
     if (result.error !== undefined && result.error !== null) {
       throw result.error;
     }
+    const active = prepared.active;
     let content: string;
     try {
       const raw = Buffer.from(JSON.stringify(result.value) ?? "null", "utf8");

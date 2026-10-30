@@ -78,6 +78,7 @@ def scenarios() -> tuple[Scenario, ...]:
     checkpoint = java_class_test("io.axisvela.praxo.checkpoint.CheckpointSelfTest")
     pii = java_class_test("io.axisvela.praxo.middleware.PiiMiddlewareSelfTest")
     stream = java_test("AgentStreamSelfTest")
+    concurrency = java_test("AgentConcurrencySelfTest")
     return (
         Scenario(
             "final-arguments",
@@ -373,6 +374,27 @@ def scenarios() -> tuple[Scenario, ...]:
                     ),
                 ),
                 "java": (guardrail,),
+            },
+            {"go": "scenario", "python": "scenario", "typescript": "scenario", "java": "group"},
+        ),
+        Scenario(
+            "parallel-tools",
+            "Tools start concurrently up to the configured limit and keep result order",
+            {
+                "go": (go_test("^TestRunInvokesToolsInParallel$"),),
+                "python": (
+                    python_test(
+                        "tests.test_parallel.ParallelToolTest."
+                        "test_tools_start_in_parallel_and_keep_call_order"
+                    ),
+                ),
+                "typescript": (
+                    typescript_test(
+                        "maxParallelTools starts tools concurrently and keeps order",
+                        "tests/behavior.test.js",
+                    ),
+                ),
+                "java": (concurrency,),
             },
             {"go": "scenario", "python": "scenario", "typescript": "scenario", "java": "group"},
         ),

@@ -83,9 +83,6 @@ Python、TypeScript、Java、C# 包含流式路径与 OpenAI 兼容适配器，�
 该范围之外的功能 `partial`/`planned` 行。共享向量通过不等于 Go 全功能一致、真实提供商验证、
 生产就绪或包仓库发布完成。
 
-Go 会执行 `MaxParallelTools`。Python、TypeScript 和 Java 目前接受等价选项，但仍顺序
-执行工具调用；行为实验不声称对它们覆盖并行工具执行。
-
 VFS、插件宿主、调度与可选集成应以对应 Core 的 README 和 API 参考为准。
 贡献要求见 [Core 设计](../contributing/core-design.md)和
 [语言支持规范](../contributing/language-policy.md)。
