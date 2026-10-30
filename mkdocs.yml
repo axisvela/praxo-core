@@ -194,5 +194,5 @@ nav:
       - Test Evidence: contributing/test-evidence.md
   - Releases:
       - Release Overview: releases/index.md
-      - Latest Release: releases/2.5.1.md
+      - Latest Release: releases/2.5.2.md
       - Release Process: project/releasing.md

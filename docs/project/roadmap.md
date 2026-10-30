@@ -1,6 +1,6 @@
 # Public Roadmap
 
-Current core release: `2.5.1`. This page describes technical direction, not a
+Current core release: `2.5.2`. This page describes technical direction, not a
 delivery schedule or a promise that every Core implementation supports every feature.
 
 ## Current Focus
@@ -32,7 +32,7 @@ reproduction, or production readiness.
 New shared security or effect contracts require a named consumer and negative
 tests before API promotion. Identity issuance, policy decision services, effect
 ledgers, and durable workflow engines remain integration responsibilities.
-The design does not change the default behavior or public API of `2.5.1`.
+The design does not by itself change default behavior or the public API.
 
 ## Compatibility Commitments
 

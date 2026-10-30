@@ -18,8 +18,8 @@ contract in reference integrations; do not add a Core constructor or enrich
 The source-tree [governed workspace example](https://github.com/axisvela/praxo-core/tree/main/examples/governed-workspace)
 demonstrates required local controls, single-use argument-bound approvals, and
 invocation-time policy rechecks. It is not a general Core profile, authenticated
-identity service, or durable approval/effect store, and is not a new `2.5.1`
-release guarantee.
+identity service, or durable approval/effect store, and is not a new release
+guarantee.
 
 ## Governed Deployment
 

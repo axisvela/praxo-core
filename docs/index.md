@@ -22,7 +22,7 @@ and integrations; AxisVela products are not required.
 ## Start With Go
 
 ```bash
-go get github.com/axisvela/praxo-core/v2@v2.5.1
+go get github.com/axisvela/praxo-core/v2@v2.5.2
 ```
 
 Follow the [quickstart](getting-started/quickstart.md) to run an agent against
@@ -41,9 +41,10 @@ Ollama or an OpenAI-compatible endpoint. For other languages, start with the
 
 ## Current Release
 
-Core `2.5.1` is a security and behavior patch release covering PII history
-redaction, execution cleanup, stream completion, and conformance gates.
-See the [release notes](releases/2.5.1.md) for changes and limitations, or the
+Core `2.5.2` is a security and behavior patch release covering rooted local VFS
+operations, governed examples, context trust, the OpenTelemetry example,
+verification evidence, and conformance gates.
+See the [release notes](releases/2.5.2.md) for changes and limitations, or the
 [release overview](releases/index.md) for older versions.
 
 PRAXO-CORE is a framework, not a hosted service or a turnkey chat UI.

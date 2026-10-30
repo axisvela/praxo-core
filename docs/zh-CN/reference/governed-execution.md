@@ -13,7 +13,7 @@ Core 构造器或扩展 `policy.Action`。
 
 源码中的[受治理工作区示例](https://github.com/axisvela/praxo-core/tree/main/examples/governed-workspace)
 演示必要本地控制、绑定参数的单次审批和执行前策略复核。它不是通用 Core Profile、可信身份服务
-或持久审批/效果存储，也不构成 `2.5.1` 新的发布保证。
+或持久审批/效果存储，也不构成新的发布保证。
 
 ## 受治理部署
 

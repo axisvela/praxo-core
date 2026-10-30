@@ -22,7 +22,7 @@ model providers and integrations. AxisVela products are not required.
 ## Start With Go
 
 ```bash
-go get github.com/axisvela/praxo-core/v2@v2.5.1
+go get github.com/axisvela/praxo-core/v2@v2.5.2
 ```
 
 Run the quickstart from a checkout using Ollama:
@@ -120,11 +120,12 @@ or [optional AxisVela integrations](docs/integrations/ecosystem.md). See the
 
 ## Releases and Contributing
 
-Core `2.5.1` is a security and behavior patch release covering PII history
-redaction, execution cleanup, stream completion, and conformance gates. Optional
-adapters and Core implementations are versioned independently.
+Core `2.5.2` is a security and behavior patch release covering rooted local VFS
+operations, governed examples, context trust, the OpenTelemetry example,
+verification evidence, and conformance gates. Optional adapters and Core
+implementations are versioned independently.
 
-- [Latest release notes](docs/releases/2.5.1.md)
+- [Latest release notes](docs/releases/2.5.2.md)
 - [Release history](docs/releases/index.md)
 - [Compatibility policy](docs/project/compatibility-policy.md)
 - [v2 migration](docs/project/migration-v2.md)

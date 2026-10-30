@@ -52,7 +52,7 @@ for real providers, platforms, and production behavior is reported separately.
 
 | Language | Tier | Status | Tag | Maturity | Notes |
 | --- | --- | --- | --- | --- | --- |
-| Go | Core (reference) | released | `v2.5.1` | reference | Reference implementation |
+| Go | Core (reference) | released | `v2.5.2` | reference | Reference implementation |
 | Python | Core | released | `python/v0.2.2` | complete | 11 vectors, OpenAI adapter, PyPI `praxo-core==0.2.2` |
 | TypeScript | Core | released | `typescript/v0.1.2` | complete | 11 vectors, OpenAI adapter; npm `@axisvela/praxo-core@0.1.2` |
 | Java | Core | released | `java/v0.2.2` | complete | 11 vectors, OpenAI adapter, API snapshot |

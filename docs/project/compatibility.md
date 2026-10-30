@@ -36,6 +36,9 @@
 - `2.5.1` is a patch release; exported `pkg/...` declarations are identical to
   `2.5.0`. It corrects PII history redaction, execution cleanup, stream
   completion, scheduler/formatter behavior, and conformance gates.
+- `2.5.2` is a security patch; exported `pkg/...` declarations are identical to
+  `2.5.1`. Local VFS operations use rooted handles and reject absolute symlinks;
+  use relative symlinks inside a workspace.
 
 - Framework versions start at `0.x`.
 - PRAXOVELA product versions are independent.

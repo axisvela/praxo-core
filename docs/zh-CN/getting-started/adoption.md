@@ -19,7 +19,7 @@
 1. 添加模块：
 
    ```bash
-   go get github.com/axisvela/praxo-core/v2@v2.5.1
+   go get github.com/axisvela/praxo-core/v2@v2.5.2
    ```
 
 2. 使用 OpenAI 兼容适配器连接 Ollama 或托管端点：
