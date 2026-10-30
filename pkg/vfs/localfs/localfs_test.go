@@ -163,7 +163,7 @@ func TestLocalBackendGrepInRootSymlink(t *testing.T) {
 	if err := b.Write(ctx, "target.txt", []byte("other\nneedle inside\n")); err != nil {
 		t.Fatal(err)
 	}
-	if err := os.Symlink(filepath.Join(b.Root(), "target.txt"), filepath.Join(b.Root(), "link.txt")); err != nil {
+	if err := os.Symlink("target.txt", filepath.Join(b.Root(), "link.txt")); err != nil {
 		t.Skipf("symlinks unavailable: %v", err)
 	}
 	for _, path := range []string{"link.txt", ""} {
@@ -178,6 +178,22 @@ func TestLocalBackendGrepInRootSymlink(t *testing.T) {
 	}
 }
 
+func TestLocalBackendRejectsAbsoluteSymlinkInsideRoot(t *testing.T) {
+	b, err := New(t.TempDir())
+	if err != nil {
+		t.Fatal(err)
+	}
+	if err := b.Write(context.Background(), "target.txt", []byte("inside")); err != nil {
+		t.Fatal(err)
+	}
+	if err := os.Symlink(filepath.Join(b.Root(), "target.txt"), filepath.Join(b.Root(), "link.txt")); err != nil {
+		t.Skipf("symlinks unavailable: %v", err)
+	}
+	if _, err := b.Read(context.Background(), "link.txt"); err == nil {
+		t.Fatal("absolute symlink target was accepted")
+	}
+}
+
 func TestLocalBackendGrepBrokenSymlink(t *testing.T) {
 	b, err := New(t.TempDir())
 	if err != nil {
@@ -187,7 +203,7 @@ func TestLocalBackendGrepBrokenSymlink(t *testing.T) {
 	if err := b.Write(ctx, "a.txt", []byte("needle inside")); err != nil {
 		t.Fatal(err)
 	}
-	if err := os.Symlink(filepath.Join(b.Root(), "missing.txt"), filepath.Join(b.Root(), "broken.txt")); err != nil {
+	if err := os.Symlink("missing.txt", filepath.Join(b.Root(), "broken.txt")); err != nil {
 		t.Skipf("symlinks unavailable: %v", err)
 	}
 	if matches, err := b.Grep(ctx, "needle", "broken.txt"); !errors.Is(err, vfs.ErrNotFound) || matches != nil {

@@ -27,11 +27,19 @@ Containment is layered and product-owned. Callers must still provide OS-level
 isolation, trusted base URLs, signature and SBOM verification, approval binding,
 and idempotency where their threat model requires it.
 
-In the unreleased Go source, recursive local VFS `Grep` validates each file path
-before reading it. A denied path aborts the search with no partial matches;
-in-root file symlinks remain usable. This check is still check-then-use and does
-not resolve filesystem races. Symlink regressions require a host permitted to
-create symlinks; skipped tests are not containment verification.
+In the unreleased Go source, the local VFS authorizes virtual paths with
+`policy.PathChecker`, then performs reads, writes, stats, listings, deletes,
+globs, and recursive Grep file reads through an `os.Root` rooted handle. A
+symlink swapped after the policy check cannot redirect the actual file operation
+outside the workspace root. `os.Root` rejects absolute symlinks, so workspace
+symlinks should use relative targets. `Grep` still validates each file before
+reading it; a denied path aborts with no partial matches. Policy decisions
+outside localfs remain check-then-use, and high-risk callers should still add
+OS-level confinement.
+
+Symlink regressions require a host permitted to create symlinks; skipped tests
+are not containment verification. Linux CI runs the symlink cases; Windows
+hosts without symlink privilege report them as skipped.
 
 The independent containment review request is tracked in
 [issue #8](https://github.com/axisvela/praxo-core/issues/8).

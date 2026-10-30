@@ -6,7 +6,9 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"io/fs"
 	"os"
+	pathpkg "path"
 	"path/filepath"
 	"regexp"
 	"runtime"
@@ -63,6 +65,28 @@ func (b *Backend) resolve(rel string, access policy.PathAccess) (string, error) 
 	return abs, nil
 }
 
+func (b *Backend) openRoot() (*os.Root, error) {
+	root, err := os.OpenRoot(b.root)
+	if err != nil {
+		return nil, fmt.Errorf("vfs/localfs: open root: %w", err)
+	}
+	return root, nil
+}
+
+func (b *Backend) rootedName(abs string) (string, error) {
+	rel, err := filepath.Rel(b.root, abs)
+	if err != nil {
+		return "", err
+	}
+	if rel == ".." || strings.HasPrefix(rel, ".."+string(filepath.Separator)) {
+		return "", os.ErrPermission
+	}
+	if rel == "." {
+		return ".", nil
+	}
+	return filepath.ToSlash(rel), nil
+}
+
 func validateVirtualPath(rel string) error {
 	if strings.IndexByte(rel, 0) >= 0 {
 		return os.ErrPermission
@@ -107,7 +131,16 @@ func (b *Backend) Stat(_ context.Context, path string) (vfs.Entry, error) {
 	if err != nil {
 		return vfs.Entry{}, err
 	}
-	info, err := os.Stat(abs)
+	root, err := b.openRoot()
+	if err != nil {
+		return vfs.Entry{}, err
+	}
+	defer root.Close()
+	name, err := b.rootedName(abs)
+	if err != nil {
+		return vfs.Entry{}, err
+	}
+	info, err := root.Stat(name)
 	if err != nil {
 		return vfs.Entry{}, mapErr(err)
 	}
@@ -120,7 +153,16 @@ func (b *Backend) Read(_ context.Context, path string) ([]byte, error) {
 	if err != nil {
 		return nil, err
 	}
-	data, err := os.ReadFile(abs)
+	root, err := b.openRoot()
+	if err != nil {
+		return nil, err
+	}
+	defer root.Close()
+	name, err := b.rootedName(abs)
+	if err != nil {
+		return nil, err
+	}
+	data, err := root.ReadFile(name)
 	if err != nil {
 		return nil, mapErr(err)
 	}
@@ -133,10 +175,21 @@ func (b *Backend) Write(_ context.Context, path string, data []byte) error {
 	if err != nil {
 		return err
 	}
-	if err := os.MkdirAll(filepath.Dir(abs), 0o700); err != nil {
+	root, err := b.openRoot()
+	if err != nil {
 		return err
 	}
-	return mapErr(os.WriteFile(abs, data, 0o600))
+	defer root.Close()
+	name, err := b.rootedName(abs)
+	if err != nil {
+		return err
+	}
+	if parent := pathpkg.Dir(name); parent != "." {
+		if err := root.MkdirAll(parent, 0o700); err != nil {
+			return err
+		}
+	}
+	return mapErr(root.WriteFile(name, data, 0o600))
 }
 
 // List implements vfs.Backend.
@@ -145,7 +198,21 @@ func (b *Backend) List(_ context.Context, path string) ([]vfs.Entry, error) {
 	if err != nil {
 		return nil, err
 	}
-	entries, err := os.ReadDir(abs)
+	root, err := b.openRoot()
+	if err != nil {
+		return nil, err
+	}
+	defer root.Close()
+	name, err := b.rootedName(abs)
+	if err != nil {
+		return nil, err
+	}
+	dir, err := root.Open(name)
+	if err != nil {
+		return nil, mapErr(err)
+	}
+	defer dir.Close()
+	entries, err := dir.ReadDir(-1)
 	if err != nil {
 		return nil, mapErr(err)
 	}
@@ -170,10 +237,19 @@ func (b *Backend) Delete(_ context.Context, path string, recursive bool) error {
 	if abs == b.root {
 		return errors.New("vfs/localfs: refusing to delete the root")
 	}
-	if recursive {
-		return mapErr(os.RemoveAll(abs))
+	root, err := b.openRoot()
+	if err != nil {
+		return err
 	}
-	return mapErr(os.Remove(abs))
+	defer root.Close()
+	name, err := b.rootedName(abs)
+	if err != nil {
+		return err
+	}
+	if recursive {
+		return mapErr(root.RemoveAll(name))
+	}
+	return mapErr(root.Remove(name))
 }
 
 // Glob implements vfs.Backend.
@@ -182,17 +258,19 @@ func (b *Backend) Glob(_ context.Context, pattern string) ([]string, error) {
 	if err != nil {
 		return nil, err
 	}
+	root, err := b.openRoot()
+	if err != nil {
+		return nil, err
+	}
+	defer root.Close()
 	var out []string
-	err = filepath.Walk(b.root, func(p string, info os.FileInfo, walkErr error) error {
-		if walkErr != nil {
+	err = fs.WalkDir(root.FS(), ".", func(p string, entry fs.DirEntry, walkErr error) error {
+		if walkErr != nil || entry.IsDir() {
 			return nil
 		}
-		if info.IsDir() {
-			return nil
-		}
-		rel := virtualPath(b.root, p)
-		if re.MatchString(rel) {
-			out = append(out, rel)
+		p = filepath.ToSlash(p)
+		if re.MatchString(p) {
+			out = append(out, p)
 		}
 		return nil
 	})
@@ -213,36 +291,45 @@ func (b *Backend) Grep(_ context.Context, pattern, path string) ([]vfs.Match, er
 	if err != nil {
 		return nil, err
 	}
-	info, err := os.Stat(abs)
+	root, err := b.openRoot()
+	if err != nil {
+		return nil, err
+	}
+	defer root.Close()
+	name, err := b.rootedName(abs)
+	if err != nil {
+		return nil, err
+	}
+	info, err := root.Stat(name)
 	if err != nil {
 		return nil, mapErr(err)
 	}
 	var out []vfs.Match
 	add := func(p string) error {
-		p, err := b.resolve(virtualPath(b.root, p), policy.AccessRead)
-		if err != nil {
+		p = filepath.ToSlash(p)
+		if _, err := b.resolve(p, policy.AccessRead); err != nil {
 			return err
 		}
-		data, err := os.ReadFile(p)
+		data, err := root.ReadFile(p)
 		if err != nil {
 			return nil
 		}
 		for i, line := range strings.Split(string(data), "\n") {
 			if re.MatchString(line) {
-				out = append(out, vfs.Match{Path: virtualPath(b.root, p), Line: i + 1, Text: line})
+				out = append(out, vfs.Match{Path: p, Line: i + 1, Text: line})
 			}
 		}
 		return nil
 	}
 	if info.IsDir() {
-		err = filepath.Walk(abs, func(p string, fi os.FileInfo, walkErr error) error {
-			if walkErr != nil || fi.IsDir() {
+		err = fs.WalkDir(root.FS(), name, func(p string, entry fs.DirEntry, walkErr error) error {
+			if walkErr != nil || entry.IsDir() {
 				return nil
 			}
 			return add(p)
 		})
 	} else {
-		err = add(abs)
+		err = add(name)
 	}
 	if err != nil {
 		return nil, err

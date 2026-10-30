@@ -19,6 +19,10 @@
 - Added a public verification evidence index covering Core tests, governed
   examples, containment, adapters, A2A/IAM contracts, integration recovery, and
   product effect ledgers, with explicit claim levels and remaining limits.
+- Local VFS operations now use `os.Root` after path authorization, preventing a
+  symlink swapped after the policy check from redirecting reads, writes, stats,
+  listings, deletes, or Grep file access outside the workspace. Absolute
+  symlinks are rejected; use relative targets inside the workspace.
 
 ### Fixed
 

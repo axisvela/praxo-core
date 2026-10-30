@@ -58,8 +58,9 @@ not independent security sign-off.
   descriptor, signature, and SBOM before starting a host. Unsigned local
   development is an explicit product trust-profile decision.
 - **PathChecker is check-then-use.** A symlink can change between the check and
-  the file operation. High-risk callers should combine it with OS-level
-  confinement or open-by-handle APIs.
+  the file operation. `pkg/vfs/localfs` mitigates this by performing the actual
+  operation through `os.Root`; other callers should combine PathChecker with
+  OS-level confinement or open-by-handle APIs.
 - **Linux process containment is weaker than Windows.** Per-process rlimits and
   a process group do not provide the same hard guarantee as a Windows Job
   Object; see `pkg/plugin/host/process/limits_linux.go`.
@@ -68,7 +69,7 @@ not independent security sign-off.
 - **HTTP redirects.** `pkg/httpclient` uses Go's default redirect policy.
   Response bodies are bounded by default (32 MiB) and can be overridden with
   `Config.MaxBodyBytes`; callers should still use trusted base URLs.
-- **Virtual filesystem confinement.** `pkg/vfs/localfs` rejects absolute paths, traversal, sibling prefixes, and symlink escapes via `policy.PathChecker`. It also rejects NUL bytes and, on Windows, drive-relative paths, reserved device names, alternate data streams, and trailing dots or spaces. Like PathChecker itself, it is check-then-use; high-risk callers should add OS-level confinement.
+- **Virtual filesystem confinement.** `pkg/vfs/localfs` rejects absolute paths, traversal, sibling prefixes, and symlink escapes via `policy.PathChecker`. It also rejects NUL bytes and, on Windows, drive-relative paths, reserved device names, alternate data streams, and trailing dots or spaces. Actual VFS operations use an `os.Root` rooted handle, so a symlink swapped after the check cannot escape the workspace root; absolute symlinks are rejected. High-risk callers should still add OS-level confinement.
 - **Offloaded tool results.** The `Offloader` is caller-owned; stored bytes may
   contain sensitive data. The framework only replaces prompt content and does
   not choose storage, encryption, or retention.
