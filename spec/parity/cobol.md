@@ -5,7 +5,7 @@
 
 Released native Core. All 63 vectors in eleven groups, native agent tests,
 JSON tests, contract boundary tests, tooling tests, and the API declaration
-snapshot pass locally. The remote `cobol-conformance` job passes; `cobol/v0.1.1`
+snapshot pass locally. The remote `cobol-conformance` job checks these; `cobol/v0.1.2`
 is the released tag. `partial` does not claim every optional Go hook, provider
 adapter, or full model surface. See `language/cobol/README.md` for bounded JSON, pattern,
 path-policy, plugin, and middleware behavior.
@@ -45,9 +45,16 @@ path-policy, plugin, and middleware behavior.
 | `agent/middleware.FallbackModel` | `praxo-middleware` fallback operation | partial | P1 |
 | `agent/middleware.StructuredOutput` | `praxo-middleware` structured operation | partial | P1 |
 | `agent/middleware.PIIMiddleware` | `praxo-middleware` pii and pii-json operations | partial | P1 |
-| `tool.Registry` | `praxo-registry` | partial | P1 |
+| `tool.Registry` | `praxo-registry`, `praxo-registry-scoped` | partial | P1 |
 
 Core-local utilities with no new normative contract symbols:
+`registry-state.cpy` adds caller-owned registry storage in `0.1.2`. The
+original two-parameter entry point retains its shared process-local state.
+`tests/registry-agent.cob` exercises discovery and dispatch through `praxo-run`
+with two independent registries, missing tools, and policy denial. Capacity,
+concurrency, and custom spec-provider limitations remain; this row stays partial.
+
+Other Core-local utilities:
 `praxo-json-parse`, `praxo-json-generate`, `praxo-json-string`,
 `praxo-json-quote`, `praxo-json-slice`, and `praxo-utf8`. They use the bounded
 records in `language/cobol/copy/json.cpy`; see `language/cobol/README.md` for capacities and local

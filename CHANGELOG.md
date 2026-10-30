@@ -2,6 +2,13 @@
 
 ## [Unreleased]
 
+### Fixed
+
+- Fortran schema parsing rejects malformed supported fields. Validation of an
+  unset or failed schema returns a local error rather than accessing unallocated
+  storage. Empty enums now match Go's documented unset-enum behavior. The
+  published `0.2.1` declaration snapshot and bounded pattern limits are unchanged.
+
 ### Added
 
 - A cross-language compatibility lab runs deterministic conformance, API
@@ -30,6 +37,13 @@
   spec provider.
 - Released source tags `rust/v0.1.2`, `fortran/v0.2.1`, and `cobol/v0.1.1`.
   These are source releases; no package-registry publication is claimed.
+- COBOL current source adds `praxo-registry-scoped` with caller-owned state and
+  a `0.1.2` API snapshot, preserving the published two-parameter
+  registry entry point and `0.1.1` snapshot. Native consumer fixtures cover tool
+  discovery, dispatch, policy denial, capacity, replacement, and agent isolation.
+- Fortran `0.2.2` and COBOL `0.1.2` source-release preparation includes the
+  schema corrections and scoped registry above. Fortran's full RE2 and Unicode
+  pattern support are not implemented; no package-registry publication is claimed.
 
 ## [2.5.2] - 2026-10-30
 

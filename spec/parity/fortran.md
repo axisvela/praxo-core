@@ -3,7 +3,7 @@
 - Tier: core
 - SPEC_VERSION: 0.2.0
 
-Released native Core source tag `fortran/v0.2.1`. All 63 vectors in eleven
+Native Core source tag `fortran/v0.2.2`. All 63 vectors in eleven
 groups, native regression tests, and the API declaration snapshot pass locally;
 the remote `fortran-conformance` job runs the same suite. `partial` marks a
 surface that covers the vector behavior and common path but not every optional Go

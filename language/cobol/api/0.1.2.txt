@@ -1,0 +1,431 @@
+COBOL API inventory 0.1.2
+
+copybook api
+
+copybook callbacks
+  01 px-response.
+  05 px-answerpic x(2048).
+  05 px-answer-lengthbinary-long.
+  05 px-input-tokenspic s9(15) comp-3.
+  05 px-output-tokenspic s9(15) comp-3.
+  05 px-call-countbinary-long.
+  05 px-callsoccurs 8 times.
+  10 px-call-idpic x(64).
+  10 px-call-namepic x(64).
+  10 px-call-inputpic x(2048).
+  10 px-call-input-lengthbinary-long.
+  01 px-call.
+  05 px-tool-idpic x(64).
+  05 px-tool-namepic x(64).
+  05 px-tool-inputpic x(2048).
+  05 px-tool-input-lengthbinary-long.
+  01 px-tool-result.
+  05 px-tool-outputpic x(2048).
+  05 px-tool-output-lengthbinary-long.
+  01 px-action.
+  05 px-action-kindpic x(32).
+  05 px-action-toolpic x(64).
+  05 px-action-inputpic x(2048).
+  05 px-action-input-lengthbinary-long.
+  01 px-event.
+  05 px-event-kindpic x(32).
+  05 px-event-toolpic x(64).
+  01 px-statuspic x(64).
+
+copybook checkpoint
+  01 px-checkpoint-request.
+  05 px-ck-oppic x(16).
+  05 px-ck-typepic x(128).
+  05 px-ck-type-lengthbinary-long.
+  05 px-ck-valuepic x(32768).
+  05 px-ck-value-lengthbinary-long.
+  01 px-checkpoint-result.
+  05 px-ck-outputpic x(32768).
+  05 px-ck-output-lengthbinary-long.
+  05 px-ck-errorpic x(64).
+
+copybook context
+  01 px-context-request.
+  05 px-ctx-oppic x(16).
+  05 px-ctx-max-tokenspic s9(15) comp-3.
+  05 px-ctx-keep-recentbinary-long.
+  05 px-ctx-countbinary-long.
+  05 px-ctx-messagesoccurs 64 times.
+  10 px-ctx-rolepic x(16).
+  10 px-ctx-contentpic x(2048).
+  10 px-ctx-content-lengthbinary-long.
+  01 px-context-result.
+  05 px-ctx-okpic 9.
+  05 px-ctx-tokenspic s9(15) comp-3.
+  05 px-ctx-out-countbinary-long.
+  05 px-ctx-outoccurs 64 times.
+  10 px-ctx-out-rolepic x(16).
+  10 px-ctx-out-contentpic x(2048).
+  10 px-ctx-out-content-lengthbinary-long.
+  05 px-ctx-errorpic x(64).
+
+copybook event
+  01 px-event-request.
+  05 px-evt-oppic x(8).
+  05 px-evt-predicate-countbinary-long.
+  05 px-evt-predicatesoccurs 32 times pic x(32).
+  05 px-evt-countbinary-long.
+  05 px-evt-eventsoccurs 64 times pic x(32).
+  05 px-evt-sink-countbinary-long.
+  01 px-event-result.
+  05 px-evt-delivered-countbinary-long.
+  05 px-evt-deliveredoccurs 64 times pic x(32).
+  05 px-evt-sink-totalbinary-long.
+  05 px-evt-sinksoccurs 8 times.
+  10 px-evt-sink-type-countbinary-long.
+  10 px-evt-sink-typesoccurs 64 times pic x(32).
+  05 px-evt-errorpic x(64).
+
+copybook history
+  05 px-message-countbinary-long.
+  05 px-messagesoccurs 64 times.
+  10 px-rolepic x(12).
+  10 px-contentpic x(2048).
+  10 px-content-lengthbinary-long.
+  10 px-message-call-idpic x(64).
+
+copybook inputs
+  01 px-options.
+  05 px-model-programpic x(64).
+  05 px-tool-programpic x(64).
+  05 px-policy-programpic x(64).
+  05 px-event-programpic x(64).
+  05 px-max-stepsbinary-long.
+  05 px-max-tokenspic s9(15) comp-3.
+  01 px-session.
+  01 px-prompt.
+  05 px-prompt-textpic x(2048).
+  05 px-prompt-lengthbinary-long.
+  01 px-result.
+  05 px-result-outputpic x(2048).
+  05 px-result-lengthbinary-long.
+  05 px-result-stepsbinary-long.
+  05 px-result-input-tokenspic s9(15) comp-3.
+  05 px-result-output-tokenspic s9(15) comp-3.
+  05 px-result-errorpic x(64).
+  01 px-user-datapic x(4096).
+
+copybook json
+  01 px-json-input.
+  05 px-json-textpic x(32768).
+  05 px-json-lengthbinary-long.
+  01 px-json-document.
+  05 px-json-countbinary-long.
+  05 px-json-nodesoccurs 512 times.
+  10 px-json-kindpic x.
+  10 px-json-parentbinary-long.
+  10 px-json-startbinary-long.
+  10 px-json-sizebinary-long.
+  10 px-json-valuepic x(2048).
+  10 px-json-value-lengthbinary-long.
+  01 px-json-string.
+  05 px-string-valuepic x(2048).
+  05 px-string-lengthbinary-long.
+  01 px-json-output.
+  05 px-output-textpic x(16384).
+  05 px-output-lengthbinary-long.
+  01 px-json-cursorbinary-long.
+  01 px-json-errorpic x(64).
+
+copybook memory
+  01 px-memory-request.
+  05 px-mem-oppic x(16).
+  05 px-mem-sessionpic x(128).
+  05 px-mem-session-lengthbinary-long.
+  05 px-mem-querypic x(2048).
+  05 px-mem-query-lengthbinary-long.
+  05 px-mem-limitbinary-long.
+  05 px-mem-idpic x(64).
+  05 px-mem-id-lengthbinary-long.
+  05 px-mem-framepic x(32).
+  05 px-mem-contentpic x(2048).
+  05 px-mem-content-lengthbinary-long.
+  05 px-mem-createdpic x(40).
+  01 px-memory-result.
+  05 px-mem-countbinary-long.
+  05 px-mem-recordsoccurs 64 times.
+  10 px-mem-res-idpic x(64).
+  10 px-mem-res-id-lengthbinary-long.
+  10 px-mem-res-contentpic x(2048).
+  10 px-mem-res-content-lengthbinary-long.
+  10 px-mem-res-createdpic x(40).
+  05 px-mem-errorpic x(64).
+
+copybook middleware
+  01 px-middleware-request.
+  05 px-mw-oppic x(24).
+  05 px-mw-textpic x(32768).
+  05 px-mw-text-lengthbinary-long.
+  05 px-mw-schemapic x(32768).
+  05 px-mw-schema-lengthbinary-long.
+  05 px-mw-outputpic x(32768).
+  05 px-mw-output-lengthbinary-long.
+  05 px-mw-max-repairsbinary-long.
+  05 px-mw-repairpic x(32768).
+  05 px-mw-repair-lengthbinary-long.
+  05 px-mw-runpic x(128).
+  05 px-mw-model-limitbinary-long.
+  05 px-mw-tool-limitbinary-long.
+  05 px-mw-kindpic x(16).
+  05 px-mw-selected-countbinary-long.
+  05 px-mw-selectedoccurs 32 times pic x(64).
+  05 px-mw-tool-countbinary-long.
+  05 px-mw-toolsoccurs 32 times pic x(64).
+  05 px-mw-requestedpic x(64).
+  05 px-mw-requested-lengthbinary-long.
+  05 px-mw-fallbackpic x(2048).
+  05 px-mw-fallback-lengthbinary-long.
+  01 px-middleware-result.
+  05 px-mw-okpic 9.
+  05 px-mw-resultpic x(32768).
+  05 px-mw-result-lengthbinary-long.
+  05 px-mw-advertised-countbinary-long.
+  05 px-mw-advertisedoccurs 32 times pic x(64).
+  05 px-mw-errorpic x(64).
+
+copybook path
+  01 px-path-request.
+  05 px-path-textpic x(4096).
+  05 px-path-lengthbinary-long.
+  01 px-path-result.
+  05 px-path-normalpic x(4096).
+  05 px-path-normal-lengthbinary-long.
+  05 px-path-errorpic x(64).
+
+copybook pattern
+  01 px-pattern-request.
+  05 px-pat-patternpic x(4096).
+  05 px-pat-pattern-lengthbinary-long.
+  05 px-pat-textpic x(8192).
+  05 px-pat-text-lengthbinary-long.
+  01 px-pattern-result.
+  05 px-pat-matchedpic 9.
+  05 px-pat-errorpic x(64).
+
+copybook plugin
+  01 px-plugin-request.
+  05 px-plug-rawpic x(32768).
+  05 px-plug-lengthbinary-long.
+  01 px-plugin-result.
+  05 px-plug-validpic 9.
+  05 px-plug-idpic x(128).
+  05 px-plug-id-lengthbinary-long.
+  05 px-plug-kindpic x(64).
+  05 px-plug-kind-lengthbinary-long.
+  05 px-plug-errorpic x(128).
+
+copybook policy
+  01 px-policy-request.
+  05 px-pol-grant-countbinary-long.
+  05 px-pol-grantsoccurs 32 times.
+  10 px-pol-rootpic x(1024).
+  10 px-pol-root-lengthbinary-long.
+  10 px-pol-accesspic x(16).
+  10 px-pol-access-lengthbinary-long.
+  05 px-pol-targetpic x(4096).
+  05 px-pol-target-lengthbinary-long.
+  05 px-pol-needpic x(16).
+  05 px-pol-need-lengthbinary-long.
+  01 px-policy-result.
+  05 px-pol-allowedpic 9.
+  05 px-pol-errorpic x(64).
+
+copybook registry-state
+  01 px-registry-state.
+  05 entry-countbinary-long value 0.
+  05 stored-entriesoccurs 32 times.
+  10 stored-namepic x(64).
+  10 stored-name-lengthbinary-long.
+  10 stored-descriptionpic x(256).
+  10 stored-description-lengthbinary-long.
+  10 stored-programpic x(64).
+  10 stored-program-lengthbinary-long.
+  10 stored-riskpic x(16).
+  10 stored-risk-lengthbinary-long.
+
+copybook registry
+  01 px-registry-request.
+  05 px-reg-oppic x(8).
+  05 px-reg-namepic x(64).
+  05 px-reg-name-lengthbinary-long.
+  05 px-reg-descriptionpic x(256).
+  05 px-reg-description-lengthbinary-long.
+  05 px-reg-programpic x(64).
+  05 px-reg-program-lengthbinary-long.
+  05 px-reg-riskpic x(16).
+  05 px-reg-risk-lengthbinary-long.
+  01 px-registry-result.
+  05 px-reg-countbinary-long.
+  05 px-reg-entriesoccurs 32 times.
+  10 px-reg-entry-namepic x(64).
+  10 px-reg-entry-name-lengthbinary-long.
+  10 px-reg-entry-descriptionpic x(256).
+  10 px-reg-entry-description-lengthbinary-long.
+  10 px-reg-entry-programpic x(64).
+  10 px-reg-entry-program-lengthbinary-long.
+  10 px-reg-entry-riskpic x(16).
+  10 px-reg-entry-risk-lengthbinary-long.
+  05 px-reg-errorpic x(64).
+
+copybook scalar
+  01 px-scalar-request.
+  05 px-scalar-schemapic x(32768).
+  05 px-scalar-schema-lengthbinary-long.
+  05 px-scalar-datapic x(32768).
+  05 px-scalar-data-lengthbinary-long.
+  05 px-scalar-pathpic x(256).
+  05 px-scalar-path-lengthbinary-long.
+  01 px-scalar-result.
+  05 px-scalar-countbinary-long.
+  05 px-scalar-errorsoccurs 64 times.
+  10 px-scalar-error-pathpic x(256).
+  10 px-scalar-error-messagepic x(128).
+  05 px-scalar-errorpic x(64).
+
+copybook schema
+  01 px-schema-request.
+  05 px-sch-schemapic x(32768).
+  05 px-sch-schema-lengthbinary-long.
+  05 px-sch-datapic x(32768).
+  05 px-sch-data-lengthbinary-long.
+  01 px-schema-result.
+  05 px-sch-error-countbinary-long.
+  05 px-sch-errorsoccurs 64 times.
+  10 px-sch-pathpic x(256).
+  10 px-sch-messagepic x(128).
+  05 px-sch-errorpic x(64).
+
+copybook slice
+  01 px-slice-request.
+  05 px-slice-sourcepic x(32768).
+  05 px-slice-source-lengthbinary-long.
+  05 px-slice-startbinary-long.
+  05 px-slice-sizebinary-long.
+  01 px-slice-result.
+  05 px-slice-outputpic x(32768).
+  05 px-slice-output-lengthbinary-long.
+  05 px-slice-errorpic x(64).
+
+copybook stream
+  01 px-stream-result.
+  05 px-stream-countbinary-long.
+  05 px-stream-kindoccurs 6 times pic x(16).
+
+copybook toolcall
+  01 px-toolcall-request.
+  05 px-tc-oppic x(16).
+  05 px-tc-contentpic x(32768).
+  05 px-tc-lengthbinary-long.
+  01 px-toolcall-result.
+  05 px-tc-foundpic 9.
+  05 px-tc-namepic x(128).
+  05 px-tc-name-lengthbinary-long.
+  05 px-tc-inputpic x(16384).
+  05 px-tc-input-lengthbinary-long.
+  05 px-tc-textpic x(32768).
+  05 px-tc-text-lengthbinary-long.
+  05 px-tc-errorpic x(64).
+
+copybook visit
+  01 px-visit-request.
+  05 px-visit-schemapic x(32768).
+  05 px-visit-schema-lengthbinary-long.
+  05 px-visit-datapic x(32768).
+  05 px-visit-data-lengthbinary-long.
+  05 px-visit-pathpic x(256).
+  05 px-visit-path-lengthbinary-long.
+
+module agent
+program praxo-run
+  using px-options px-session px-prompt px-result px-user-data
+
+module checkpoint
+program praxo-checkpoint
+  using px-checkpoint-request px-checkpoint-result
+
+module context
+program praxo-context
+  using px-context-request px-context-result
+
+module event
+program praxo-event
+  using px-event-request px-event-result
+
+module json-generate
+program praxo-json-generate
+  using px-json-document px-json-output px-json-error
+
+module json-parse
+program praxo-json-parse
+  using px-json-input px-json-document px-json-error
+
+module json-quote
+program praxo-json-quote
+  using px-json-string px-json-output px-json-error
+
+module json-string
+program praxo-json-string
+  using px-json-input px-json-cursor px-json-string px-json-error
+
+module memory
+program praxo-memory
+  using px-memory-request px-memory-result
+
+module middleware
+program praxo-middleware
+  using px-middleware-request px-middleware-result
+
+module path-normalize
+program praxo-path-normalize
+  using px-path-request px-path-result
+
+module pattern
+program praxo-pattern-check
+  using px-pattern-request px-pattern-result
+
+module plugin
+program praxo-plugin
+  using px-plugin-request px-plugin-result
+
+module policy
+program praxo-policy
+  using px-policy-request px-policy-result
+
+module registry
+program praxo-registry
+program praxo-registry-scoped
+  using px-registry-request px-registry-result
+  using px-registry-state px-registry-request px-registry-result
+
+module schema-scalar
+program praxo-schema-scalar
+  using px-scalar-request px-scalar-result
+
+module schema-visit
+program praxo-schema-visit
+  using px-visit-request px-schema-result
+
+module schema
+program praxo-jsonschema
+  using px-schema-request px-schema-result
+
+module slice
+program praxo-json-slice
+  using px-slice-request px-slice-result
+
+module stream
+program praxo-stream
+  using px-stream-result
+
+module toolcall
+program praxo-toolcall
+  using px-toolcall-request px-toolcall-result
+
+module utf8
+program praxo-utf8
+  using px-json-string px-json-error

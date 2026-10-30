@@ -24,6 +24,7 @@ contains
     type(schema) :: value
     type(json_document) :: document
     call parse_json(raw, document, error)
+    if (.not. error%failed()) call check_rules(document, 1, error)
     if (.not. error%failed()) value%raw = raw
   end function
 
@@ -32,8 +33,74 @@ contains
     character(*), intent(in) :: data
     type(sdk_error), intent(out) :: error
     type(validation_error), allocatable :: errors(:)
+    if (.not. allocated(self%raw)) then
+      allocate(errors(0))
+      error%code = 'SCHEMA_INVALID'
+      return
+    end if
     call validate_schema(self%raw, data, errors, error)
   end function
+
+  recursive subroutine check_rules(document, node, error)
+    type(json_document), intent(in) :: document
+    integer, intent(in) :: node
+    type(sdk_error), intent(inout) :: error
+    integer :: i, child, j
+    integer, allocatable :: entries(:), fields(:)
+    character(:), allocatable :: name, kind
+    real(real64) :: number
+    logical :: ok
+    if (error%failed()) return
+    kind = json_kind(document, node)
+    if (kind == 'Z') return
+    if (kind /= 'O') then
+      error%code = 'SCHEMA_INVALID'
+      return
+    end if
+    fields = json_children(document, node)
+    do i = 1, size(fields)
+      child = fields(i)
+      name = document%nodes(child)%name
+      kind = json_kind(document, child)
+      if (kind == 'Z') cycle
+      select case (name)
+      case ('type', 'pattern', 'description')
+        if (kind /= 'S') error%code = 'SCHEMA_INVALID'
+      case ('properties')
+        if (kind /= 'O') then
+          error%code = 'SCHEMA_INVALID'
+        else
+          entries = json_children(document, child)
+          do j = 1, size(entries)
+            call check_rules(document, entries(j), error)
+          end do
+        end if
+      case ('items')
+        call check_rules(document, child, error)
+      case ('required', 'enum')
+        if (kind /= 'A') then
+          error%code = 'SCHEMA_INVALID'
+        else if (name == 'required') then
+          entries = json_children(document, child)
+          do j = 1, size(entries)
+            kind = json_kind(document, entries(j))
+            if (kind /= 'S' .and. kind /= 'Z') error%code = 'SCHEMA_INVALID'
+          end do
+        end if
+      case ('minimum', 'maximum', 'minLength', 'maxLength')
+        if (kind /= 'N') then
+          error%code = 'SCHEMA_INVALID'
+        else
+          number = json_real(document, child, ok)
+          if (.not. ok) error%code = 'SCHEMA_INVALID'
+          if (name == 'minLength' .or. name == 'maxLength') then
+            if (abs(number - aint(number)) > 0) error%code = 'SCHEMA_INVALID'
+          end if
+        end if
+      end select
+      if (error%failed()) return
+    end do
+  end subroutine
 
   subroutine validate_schema(schema_json, data, errors, error)
     character(*), intent(in) :: schema_json, data
@@ -42,6 +109,8 @@ contains
     type(json_document) :: rules, value
     allocate(errors(0))
     call parse_json(schema_json, rules, error)
+    if (error%failed()) return
+    call check_rules(rules, 1, error)
     if (error%failed()) return
     call parse_json(data, value, error)
     if (error%failed()) return
@@ -159,6 +228,7 @@ contains
       values = json_get(rules, rule, 'enum')
       if (json_kind(rules, values) /= 'A') return
       entries = json_children(rules, values)
+      if (size(entries) == 0) return
       do i = 1, size(entries)
         if (json_equal(rules, entries(i), value, node)) return
       end do

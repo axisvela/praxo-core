@@ -67,7 +67,7 @@ for real providers, platforms, and production behavior is reported separately.
 | Julia | Core | released | `julia/v0.2.0` | complete | 11 vectors, JSON.jl, API snapshot |
 | R | Core | released | `r/v0.2.0` | complete | 11 vectors, base-R JSON, API snapshot |
 | Haskell | Core | released | `haskell/v0.2.0` | complete | 11 vectors, native tests, API snapshot/parity; GHC 9.12.2; runtime and middleware helpers |
-| Fortran | Core | released | `fortran/v0.2.1` | complete | 11 vectors, native tests, API snapshot; integrated PII/middleware; source tag only; full stream-part fields; JSON Schema subset remains partial |
+| Fortran | Core | released | `fortran/v0.2.2` | complete | 11 vectors, native tests, API snapshot; schema failure-path and empty-enum corrections; full stream-part fields; JSON Schema patterns remain a bounded ASCII subset |
 | Lisp | Bridge | released | `lisp/v0.1.0` | complete | SBCL bridge over the bridge CLI; forwarding, UTF-8, errors, and exit codes verified locally and in Linux CI; consumer details pending |
 | JavaScript | Sample (TypeScript) | released | none | sample | Uses the TypeScript package; no separate core |
 | C++ | Core | released | `cpp/v0.1.0` | complete | 11 vectors, core tests, API snapshot |
@@ -102,7 +102,7 @@ for real providers, platforms, and production behavior is reported separately.
 | Zig | Core | released | `zig/v0.2.0` | complete | 11 vectors, API snapshot; `zig/v0.1.0` remains wire |
 | Lua | Core | released | `lua/v0.1.0` | complete | 11 vectors, core tests, API snapshot |
 | Scratch | Bridge / extension | planned | none | planned | Extension bridge; implementation requested |
-| COBOL | Core | released | `cobol/v0.1.1` | complete | 11 vectors, native/contract tests, API snapshot; `praxo-registry` |
+| COBOL | Core | released | `cobol/v0.1.2` | complete | 11 vectors, native/contract tests, API snapshot; caller-owned scoped registries and native agent consumer fixtures |
 | Prolog | Bridge | released | `prolog/v0.1.1` | complete | SWI-Prolog wrapper over the bridge CLI; forwarding, UTF-8, errors, and exit codes tested |
 | ABAP | Bridge | planned | none | planned | Bridge over the maintained runtime |
 
@@ -130,7 +130,7 @@ for real providers, platforms, and production behavior is reported separately.
 | Julia | `julia-conformance` | Julia tests, 11 vectors, API snapshot |
 | R | `r-conformance` | R tests, 11 vectors, API snapshot |
 | Shell / PowerShell | `bridge` | bridge tests, both wrappers |
-| Fortran | `fortran-conformance` | native tests, 11 vector groups, API snapshot; source release tagged `fortran/v0.2.1` |
+| Fortran | `fortran-conformance` | native tests, 11 vector groups, API snapshot; source release tagged `fortran/v0.2.2` |
 | COBOL | `cobol-conformance` | 11 vectors, API snapshot, native/tooling tests |
 | Haskell | `haskell-conformance` | 11 vectors, native tests, source API/parity, Cabal build; source release tagged `haskell/v0.2.0` |
 | Delphi / Free Pascal | `delphi-conformance` | 11 vectors, native tests, source API/parity; source release tagged `delphi/v0.2.1`; commercial Delphi unverified |

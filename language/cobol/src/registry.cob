@@ -1,12 +1,24 @@
        >>source format free
 identification division.
 program-id. praxo-registry recursive.
+data division.
+working-storage section.
+copy "registry-state.cpy".
+linkage section.
+copy "registry.cpy".
+procedure division using px-registry-request px-registry-result.
+    call "praxo-registry-scoped" using px-registry-state
+        px-registry-request px-registry-result
+    goback.
+end program praxo-registry.
+
+identification division.
+program-id. praxo-registry-scoped recursive.
 environment division.
 configuration section.
 repository. function all intrinsic.
 data division.
-working-storage section.
-01 entry-count binary-long value 0.
+local-storage section.
 01 entry-index binary-long.
 01 search-index binary-long.
 01 found-index binary-long.
@@ -20,24 +32,34 @@ working-storage section.
    05 swap-program-length binary-long.
    05 swap-risk pic x(16).
    05 swap-risk-length binary-long.
-01 stored-entries occurs 32 times.
-   05 stored-name pic x(64).
-   05 stored-name-length binary-long.
-   05 stored-description pic x(256).
-   05 stored-description-length binary-long.
-   05 stored-program pic x(64).
-   05 stored-program-length binary-long.
-   05 stored-risk pic x(16).
-   05 stored-risk-length binary-long.
 linkage section.
+copy "registry-state.cpy".
 copy "registry.cpy".
-procedure division using px-registry-request px-registry-result.
+procedure division using px-registry-state
+    px-registry-request px-registry-result.
     initialize px-registry-result
+    if px-reg-op = "clear"
+        initialize px-registry-state
+        goback
+    end-if
+    if entry-count < 0 or > 32
+        move "INVALID_REQUEST" to px-reg-error
+        goback
+    end-if
+    perform varying entry-index from 1 by 1
+        until entry-index > entry-count
+        if stored-name-length(entry-index) < 0 or > 64
+            or stored-description-length(entry-index) < 0 or > 256
+            or stored-program-length(entry-index) < 0 or > 64
+            or stored-risk-length(entry-index) < 0 or > 16
+            move "INVALID_REQUEST" to px-reg-error
+            goback
+        end-if
+    end-perform
     evaluate px-reg-op
         when "register" perform register-entry
         when "get" perform get-entry
         when "list" perform list-entries
-        when "clear" move 0 to entry-count
         when other move "INVALID_REQUEST" to px-reg-error
     end-evaluate
     goback.
@@ -184,4 +206,4 @@ name-match.
             end-if
         end-if
     end-if.
-end program praxo-registry.
+end program praxo-registry-scoped.

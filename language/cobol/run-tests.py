@@ -75,6 +75,8 @@ def main():
         )
         subprocess.run([str(executable)], cwd=root, env=env, check=True)
     suites = {
+        "registry-tests": ["tests/registry.cob", "src/registry.cob"],
+        "registry-agent-tests": ["tests/registry-agent.cob", "src/agent.cob", "src/registry.cob"],
         "core-tests": ["tests/run.cob", "src/agent.cob"],
         "json-tests": ["tests/json.cob", "src/json-parse.cob",
                        "src/json-string.cob", "src/json-quote.cob", "src/utf8.cob",

@@ -3,7 +3,7 @@
 A native GnuCOBOL implementation, not a bridge to another Core. All 63 normative
 vectors across the eleven groups pass, together with native agent, JSON,
 contract-boundary, tooling, and API declaration checks. The
-`cobol-conformance` remote job passes; `cobol/v0.1.1` is the released Core implementation tag.
+`cobol-conformance` remote job checks the declared scope; `cobol/v0.1.2` is the Core source tag.
 
 ## Build and Test
 
@@ -37,6 +37,7 @@ required by a compiled Core consumer.
 | `praxo-plugin` | Strict manifest parsing and validation |
 | `praxo-policy` | Lexical path grants |
 | `praxo-registry` | In-memory tool registry with register/get/list/clear |
+| `praxo-registry-scoped` | Same operations with caller-owned registry state (since 0.1.2) |
 | `praxo-stream` | Stream-kind constants |
 | `praxo-toolcall` | JSON, XML-style, dotted-tag, and plain tool-call parsing |
 | `praxo-json-parse`, `praxo-json-generate`, `praxo-json-string`, `praxo-json-quote`, `praxo-json-slice`, `praxo-utf8` | Native JSON and UTF-8 utilities |
@@ -54,6 +55,44 @@ status means success; model/tool statuses propagate; a nonblank policy status
 denies the action. The input session is not mutated, and each run uses local
 history. Zero or negative `px-max-steps` selects eight steps; a nonpositive
 token budget is unlimited.
+
+## Scoped Registry Consumption
+
+Version `0.1.2` adds `praxo-registry-scoped` and `registry-state.cpy`. Initialize
+one state record for each independent registry; keep it alive during callbacks.
+The original two-parameter `praxo-registry` remains compatible and retains a
+shared process-local registry. Use the scoped entry point for independent agents.
+
+```cobol
+copy "registry-state.cpy".
+copy "registry.cpy".
+```
+
+```cobol
+initialize px-registry-state px-registry-request
+move "register" to px-reg-op
+move "echo" to px-reg-name
+move 4 to px-reg-name-length
+move "my-echo" to px-reg-program
+move 7 to px-reg-program-length
+call "praxo-registry-scoped" using px-registry-state
+    px-registry-request px-registry-result
+```
+
+Check `px-reg-error` after every call. `get` returns the registered callback
+program; `list` returns sorted metadata for model/tool discovery. Blank names
+and program fields remain accepted for compatibility with the original metadata
+registry; dispatchers must reject an empty callback program before invocation.
+The registry is not a model adapter or authorization boundary.
+
+`tests/registry-agent.cob` is an executable consumer fixture over the actual
+`praxo-run`: a model callback lists tools, a dispatcher looks up the program,
+and two agents using the same tool name reach different callbacks through two
+independent state records. It also verifies policy denial and missing tools
+produce no tool effects. Its state pointer in `px-user-data` is process-local,
+not serializable or safe to accept from an untrusted caller. The standard test
+driver runs this fixture alongside `tests/registry.cob` capacity/isolation tests.
+This is deterministic native integration evidence, not production validation.
 
 ## Scope and Limits
 
@@ -96,14 +135,15 @@ semantics.
 
 ## Gates
 
-`api/0.1.1.txt` inventories public copybook records, module program IDs,
+`api/0.1.2.txt` inventories public copybook records, module program IDs,
 and linkage parameters. `api-snapshot.py --check` runs in the test driver;
 regenerate intentionally with `--update`. Tooling tests check fixture
 determinism, assertion polarity, and snapshot sensitivity. The
 `cobol-conformance` CI job runs all of these plus the two original native test
 programs.
 
-`cobol/v0.1.1` is the released source tag. `api/0.1.1.txt` inventories the
-current declaration surface; later changes require a new version/tag decision
+`cobol/v0.1.2` is the source tag. `api/0.1.1.txt` remains the immutable
+previous declaration snapshot; `api/0.1.2.txt` adds the scoped registry surface.
+Later changes require a new version/tag decision
 and release review. `spec/parity/cobol.md` records partial surfaces. The Core sources are MIT-licensed; GnuCOBOL and its runtime are
 separately licensed external toolchain dependencies.

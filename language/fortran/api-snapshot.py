@@ -22,7 +22,7 @@ def logical_lines(path):
 
 
 def snapshot(root):
-    output = ["Fortran API declaration inventory 0.2.1"]
+    output = ["Fortran API declaration inventory 0.2.2"]
     for source in sorted((root / "src").glob("*.f90")):
         lines = logical_lines(source)
         module = re.fullmatch(r"module (\w+)", lines[0], re.I).group(1)
@@ -73,7 +73,7 @@ def main():
     mode.add_argument("--update", action="store_true")
     args = parser.parse_args()
     root = Path(__file__).resolve().parent
-    path = root / "api" / "0.2.1.txt"
+    path = root / "api" / "0.2.2.txt"
     current = snapshot(root)
     if args.update:
         path.parent.mkdir(exist_ok=True)

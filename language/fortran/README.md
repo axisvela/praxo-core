@@ -1,6 +1,6 @@
 # Fortran Core
 
-A native Fortran 2008 implementation with source tag `fortran/v0.2.1`. This is
+A native Fortran 2008 implementation with source tag `fortran/v0.2.2`. This is
 not a bridge to Go, C, Python, or another Core. All 63 normative vectors across
 eleven groups pass locally, alongside native regression tests and the API
 declaration snapshot. The tag is a source release, not package-registry
@@ -102,6 +102,15 @@ alternation, counted repetitions, Unicode pattern matching, and unsupported
 escapes fail explicitly with the local `SCHEMA_PATTERN_UNSUPPORTED` status.
 Pattern work is bounded, and unsupported patterns cannot silently accept data.
 
+Since `0.2.2`, malformed supported schema fields are rejected with the local
+`SCHEMA_INVALID` status. Default-constructed schemas and failed parse results
+also fail with that status instead of reading unallocated storage. Check both
+`error%failed()` and the validation errors: an empty errors array is not a pass
+when the operation failed. An explicit `{}` or `null` schema is unrestricted,
+matching the Go parser; an empty enum and zero numeric bounds are treated as
+unset. Invalid JSON still reports `JSON_INVALID`/`JSON_CAPACITY`. These statuses
+are local to the Fortran API, not additions to the shared wire error contract.
+
 Path policy is lexical normalization, not OS confinement. It does not resolve
 symlinks, reparse points, filesystem case rules, or races. Do not use it as a
 substitute for sandbox or filesystem-enforced authorization. UNC and
@@ -117,10 +126,11 @@ hooks not listed in the parity inventory are not implemented.
 
 ## Remaining Gates
 
-`api/0.2.1.txt` inventories exported declarations, type layouts, bound
+`api/0.2.2.txt` inventories exported declarations, type layouts, bound
 method signatures, and callback interfaces. `api-snapshot.py --check` runs as
 part of the test driver; intentional changes require review and regeneration
 with `--update`. It is a source declaration check, not a binary ABI guarantee.
+The declarations are unchanged from `0.2.1`; historical snapshots are retained.
 
 The `fortran-conformance` CI job runs native tests, all eleven groups, tooling
 tests, and the snapshot check. Passing fixtures covers the declared Core scope.
