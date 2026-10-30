@@ -27,7 +27,7 @@ Containment is layered and product-owned. Callers must still provide OS-level
 isolation, trusted base URLs, signature and SBOM verification, approval binding,
 and idempotency where their threat model requires it.
 
-In the unreleased Go source, the local VFS authorizes virtual paths with
+Since `2.5.2`, the local VFS authorizes virtual paths with
 `policy.PathChecker`, then performs reads, writes, stats, listings, deletes,
 globs, and recursive Grep file reads through an `os.Root` rooted handle. A
 symlink swapped after the policy check cannot redirect the actual file operation
