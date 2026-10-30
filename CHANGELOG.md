@@ -13,6 +13,9 @@
 - Added an evaluation-only workspace runtime profile that composes state, local,
   and sandbox environments while exposing execution tools only from explicit
   capabilities. It does not add a `pkg/...` API or change default behavior.
+- Documented language support levels (`maintained`, `community`, `experimental`,
+  and `deprecated`) separately from maturity, with matrix assignments pending
+  maintainer confirmation.
 
 ## [2.5.2] - 2026-10-30
 
