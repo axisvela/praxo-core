@@ -42,7 +42,7 @@ evidence.
 ## Public Evidence Links
 
 - [Compatibility lab](../languages/compatibility-lab.md) and the [CI compatibility job](https://github.com/axisvela/praxo-core/actions/runs/41000572198/job/123883752839)
-- [Behavior lab](../languages/behavior-lab.md) and its Linux CI job
+- [Behavior lab](../languages/behavior-lab.md) and the [CI behavior job](https://github.com/axisvela/praxo-core/actions/runs/41064580797/job/124092529710)
 - [Governed workspace example](https://github.com/axisvela/praxo-core/tree/main/examples/governed-workspace)
 - [Governed execution design](../reference/governed-execution.md)
 - [OpenTelemetry runnable example](https://github.com/axisvela/praxo-core/tree/main/adapters/otel/example)
