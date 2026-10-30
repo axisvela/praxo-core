@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import copy
 import json
 import time
 from dataclasses import dataclass, field
@@ -256,19 +257,20 @@ class Agent:
     async def _invoke_tool(
         self, call: Any, run_id: str, session_id: str
     ) -> Message:
-        if not self._tool_allowed(call.name):
-            raise ValueError(f"agent: tool {call.name} is not allowed")
+        original_name = call.name
+        original_arguments = copy.deepcopy(call.arguments)
+        if not self._tool_allowed(original_name):
+            raise ValueError(f"agent: tool {original_name} is not allowed")
         await self._authorize(
             Action(
                 kind="tool.invoke",
                 session_id=session_id,
-                tool_name=call.name,
-                arguments=call.arguments,
+                tool_name=original_name,
+                arguments=copy.deepcopy(original_arguments),
             )
         )
         if self.options.tools is None:
-            raise ToolNotFoundError(f"tool {call.name} is not registered")
-        tool = self.options.tools.get(call.name)
+            raise ToolNotFoundError(f"tool {original_name} is not registered")
         tool_call = MiddlewareToolCall(run_id, session_id, call)
         await self._before_tool(tool_call)
         active = tool_call.call
@@ -276,16 +278,34 @@ class Agent:
             value = tool_call.result
             error = tool_call.error
         else:
+            if not self._tool_allowed(active.name):
+                raise ValueError(f"agent: tool {active.name} is not allowed")
+            if (
+                active.name != original_name
+                or active.arguments != original_arguments
+            ):
+                await self._authorize(
+                    Action(
+                        kind="tool.invoke",
+                        session_id=session_id,
+                        tool_name=active.name,
+                        arguments=copy.deepcopy(active.arguments),
+                    )
+                )
+            tool = self.options.tools.get(active.name)
             await self._emit(
                 Event(
                     "tool.call",
                     session_id,
                     run_id,
-                    {"name": active.name, "arguments": active.arguments},
+                    {
+                        "name": active.name,
+                        "arguments": copy.deepcopy(active.arguments),
+                    },
                 )
             )
             try:
-                value = await tool.invoke(active.arguments)
+                value = await tool.invoke(copy.deepcopy(active.arguments))
                 error = None
             except Exception as exc:
                 value = None
@@ -300,7 +320,7 @@ class Agent:
             ).encode("utf-8")
         except (TypeError, ValueError) as exc:
             raise ValueError(
-                f"agent: tool {call.name} result is not JSON-serializable: {exc}"
+                f"agent: tool {active.name} result is not JSON-serializable: {exc}"
             ) from exc
         content = raw.decode("utf-8")
         if (

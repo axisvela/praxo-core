@@ -4,6 +4,10 @@
 
 ### Fixed
 
+- Python now snapshots the original tool name/arguments, authorizes middleware
+  changes to final name or arguments, and executes the final registered tool.
+  Initial denial still prevents middleware and side effects; unchanged calls
+  keep one authorization.
 - Compatibility Lab now writes a unique directory per execution with run ID,
   UTC start/finish, pre-run Git metadata, explicit `not_run` commands, and a
   `latest.json` pointer, so a later success cannot overwrite an earlier failure.
