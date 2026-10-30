@@ -65,10 +65,11 @@ overwritten; `latest.json` is only a convenience pointer.
 
 ## Current Evidence
 
-The four-language local run on 2026-10-30 passed all 36 cells. The run was made
-from a working tree with uncommitted evidence-tooling changes, so it is not a
-clean-SHA record. Use the CI artifact and merged revision when citing the
-behavior report as evidence.
+The four-language local run on 2026-10-30 passed all 36 cells. Because that run
+was made from a working tree with uncommitted evidence-tooling changes, it is
+not a clean-SHA record. The first clean-SHA Linux CI run on commit `54293fd`
+also passed all 36 cells; use that [behavior job](https://github.com/axisvela/praxo-core/actions/runs/41051293617/job/124047717624)
+and its artifact when citing the report as evidence.
 
 ## Limits
 
