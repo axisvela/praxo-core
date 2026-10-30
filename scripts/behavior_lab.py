@@ -1,0 +1,467 @@
+from __future__ import annotations
+
+import argparse
+import json
+import os
+import sys
+from dataclasses import dataclass
+from pathlib import Path
+
+from compatibility_lab import (
+    Command,
+    git_metadata,
+    new_run_id,
+    run_command,
+    utc_now,
+)
+
+
+ROOT = Path(__file__).resolve().parents[1]
+DEFAULT_OUTPUT = ROOT / "build" / "behavior-lab"
+SCHEMA = "praxo-behavior-lab-1"
+LANGUAGES = ("go", "python", "typescript", "java")
+
+
+@dataclass(frozen=True)
+class Scenario:
+    key: str
+    title: str
+    commands: dict[str, tuple[Command, ...]]
+    coverage: dict[str, str]
+
+
+def go_test(pattern: str) -> Command:
+    return Command(
+        "go " + pattern,
+        ("go", "test", "./pkg/agent", "-run", pattern, "-count=1"),
+        ROOT,
+    )
+
+
+def python_test(*names: str) -> Command:
+    return Command(
+        "python " + " ".join(names),
+        (sys.executable, "-m", "unittest", *names),
+        ROOT / "language" / "python",
+    )
+
+
+def typescript_test(pattern: str) -> Command:
+    return Command(
+        "node --test " + pattern,
+        ("node", "--test", "--test-name-pattern", pattern, "tests/sdk.test.js"),
+        ROOT / "language" / "typescript",
+    )
+
+
+def java_test(name: str) -> Command:
+    classpath = "target/classes" + os.pathsep + "target/test-classes"
+    return Command(
+        "java " + name,
+        (
+            "java",
+            "-cp",
+            classpath,
+            "io.axisvela.praxo.agent." + name,
+        ),
+        ROOT / "language" / "java",
+    )
+
+
+def scenarios() -> tuple[Scenario, ...]:
+    auth = java_test("AgentAuthorizationSelfTest")
+    lifecycle = java_test("AgentLifecycleSelfTest")
+    return (
+        Scenario(
+            "final-arguments",
+            "Middleware-mutated arguments are reauthorized before effects",
+            {
+                "go": (go_test("^TestFinalToolArgumentsAuthorized$"),),
+                "python": (
+                    python_test(
+                        "tests.test_authorization.AuthorizationTest."
+                        "test_middleware_argument_change_is_reauthorized"
+                    ),
+                ),
+                "typescript": (
+                    typescript_test("middleware argument changes"),
+                ),
+                "java": (auth,),
+            },
+            {"go": "scenario", "python": "scenario", "typescript": "scenario", "java": "group"},
+        ),
+        Scenario(
+            "final-name",
+            "Final tool name is checked against allowlist and policy",
+            {
+                "go": (
+                    go_test(
+                        "^(TestFinalToolNameReauthorized|TestFinalToolNameChecksAllowlist)$"
+                    ),
+                ),
+                "python": (
+                    python_test(
+                        "tests.test_authorization.AuthorizationTest."
+                        "test_middleware_name_change_uses_final_tool_and_authorization",
+                        "tests.test_authorization.AuthorizationTest."
+                        "test_final_name_must_remain_allowed",
+                    ),
+                ),
+                "typescript": (
+                    typescript_test(
+                        "middleware name changes|final name must remain allowed"
+                    ),
+                ),
+                "java": (auth,),
+            },
+            {"go": "scenario", "python": "scenario", "typescript": "scenario", "java": "group"},
+        ),
+        Scenario(
+            "unchanged-single-auth",
+            "Unchanged tool calls keep one authorization",
+            {
+                "go": (go_test("^TestFinalToolArgumentsAuthorized$"),),
+                "python": (
+                    python_test(
+                        "tests.test_authorization.AuthorizationTest."
+                        "test_unchanged_tool_is_authorized_once"
+                    ),
+                ),
+                "typescript": (
+                    typescript_test("unchanged tool is authorized once"),
+                ),
+                "java": (auth,),
+            },
+            {"go": "scenario", "python": "scenario", "typescript": "scenario", "java": "group"},
+        ),
+        Scenario(
+            "initial-denial",
+            "Initial policy denial prevents middleware and effects",
+            {
+                "go": (go_test("^TestOriginalToolDenialStillPrecedesMiddleware$"),),
+                "python": (
+                    python_test(
+                        "tests.test_authorization.AuthorizationTest."
+                        "test_initial_denial_prevents_middleware_and_effect"
+                    ),
+                ),
+                "typescript": (
+                    typescript_test("initial policy denial prevents middleware"),
+                ),
+                "java": (auth,),
+            },
+            {"go": "scenario", "python": "scenario", "typescript": "scenario", "java": "group"},
+        ),
+        Scenario(
+            "startup-cleanup",
+            "Before-run failure cleans entered middleware without run events",
+            {
+                "go": (go_test("^TestRunCleansUpEnteredMiddlewareOnStartFailure$"),),
+                "python": (
+                    python_test(
+                        "tests.test_lifecycle.LifecycleTest."
+                        "test_startup_failure_cleans_entered_and_emits_no_events"
+                    ),
+                ),
+                "typescript": (
+                    typescript_test("startup failure cleans entered middleware"),
+                ),
+                "java": (lifecycle,),
+            },
+            {"go": "scenario", "python": "scenario", "typescript": "scenario", "java": "group"},
+        ),
+        Scenario(
+            "after-run-continue",
+            "After-run continues later callbacks and preserves run error",
+            {
+                "go": (go_test("^TestRunCleansUpAfterMiddlewareFailure$"),),
+                "python": (
+                    python_test(
+                        "tests.test_lifecycle.LifecycleTest."
+                        "test_cleanup_continues_and_preserves_run_error"
+                    ),
+                ),
+                "typescript": (
+                    typescript_test("cleanup continues and preserves"),
+                ),
+                "java": (lifecycle,),
+            },
+            {"go": "scenario", "python": "scenario", "typescript": "scenario", "java": "group"},
+        ),
+        Scenario(
+            "cleanup-failclosed",
+            "Cleanup failure fails a successful run closed",
+            {
+                "go": (
+                    go_test(
+                        "^(TestRunCompletionCallbackFailureHasSingleTerminalEvent|"
+                        "TestRunFailurePreservesOriginalError)$"
+                    ),
+                ),
+                "python": (
+                    python_test(
+                        "tests.test_lifecycle.LifecycleTest."
+                        "test_cleanup_error_after_success_fails_closed"
+                    ),
+                ),
+                "typescript": (
+                    typescript_test("cleanup error after success"),
+                ),
+                "java": (lifecycle,),
+            },
+            {"go": "scenario", "python": "scenario", "typescript": "scenario", "java": "group"},
+        ),
+        Scenario(
+            "model-cancel-cleanup",
+            "Cancellation during model work runs after-run and emits failed",
+            {
+                "go": (go_test("^TestRunCancellationKeepsOriginalErrorOverAfterRunError$"),),
+                "python": (
+                    python_test(
+                        "tests.test_lifecycle.LifecycleTest."
+                        "test_cancellation_runs_after_run_and_emits_failed"
+                    ),
+                ),
+                "typescript": (
+                    typescript_test("^cancellation runs after-run and emits failed$"),
+                ),
+                "java": (lifecycle,),
+            },
+            {"go": "scenario", "python": "scenario", "typescript": "scenario", "java": "group"},
+        ),
+        Scenario(
+            "tool-cancel-cleanup",
+            "Cancellation during tool work stops effects and runs after-run",
+            {
+                "go": (go_test("^TestRunStopsStartingToolsAfterCancellation$"),),
+                "python": (
+                    python_test(
+                        "tests.test_lifecycle.LifecycleTest."
+                        "test_tool_cancellation_runs_after_run"
+                    ),
+                ),
+                "typescript": (
+                    typescript_test("tool cancellation runs after-run"),
+                ),
+                "java": (lifecycle,),
+            },
+            {"go": "scenario", "python": "scenario", "typescript": "scenario", "java": "group"},
+        ),
+    )
+
+
+def cell_status(commands: list[dict[str, object]]) -> str:
+    if not commands:
+        return "unsupported"
+    statuses = {str(item["status"]) for item in commands}
+    if "failed" in statuses:
+        return "failed"
+    if "skipped" in statuses:
+        return "skipped"
+    if "not_run" in statuses:
+        return "not_run"
+    return "passed"
+
+
+def run_scenario(
+    scenario: Scenario,
+    languages: list[str],
+    timeout: float,
+) -> dict[str, object]:
+    cells: dict[str, object] = {}
+    for language in languages:
+        commands = scenario.commands.get(language, ())
+        results: list[dict[str, object]] = []
+        if not commands:
+            cells[language] = {
+                "status": "unsupported",
+                "coverage": scenario.coverage.get(language, "none"),
+                "commands": [],
+                "reason": "no scenario test implemented for this language",
+            }
+            continue
+        for index, command in enumerate(commands):
+            result = run_command(command, timeout)
+            results.append(result)
+            if result["status"] != "passed":
+                for rest in commands[index + 1:]:
+                    results.append(
+                        {
+                            "label": rest.label,
+                            "argv": list(rest.argv),
+                            "cwd": str(rest.cwd),
+                            "status": "not_run",
+                            "exit_code": None,
+                            "duration_ms": 0,
+                            "stdout": "",
+                            "stderr": "",
+                            "reason": "not run because a previous command did not pass",
+                        }
+                    )
+                break
+        status = cell_status(results)
+        reason = next(
+            (item.get("reason") for item in results if item.get("reason")),
+            None,
+        )
+        cells[language] = {
+            "status": status,
+            "coverage": scenario.coverage.get(language, "scenario"),
+            "commands": results,
+            "reason": reason,
+        }
+    return {
+        "key": scenario.key,
+        "title": scenario.title,
+        "languages": cells,
+    }
+
+
+def summarize(results: list[dict[str, object]]) -> dict[str, int]:
+    counts = {"cells": 0, "passed": 0, "failed": 0, "skipped": 0, "not_run": 0, "unsupported": 0}
+    for result in results:
+        for cell in result["languages"].values():
+            counts["cells"] += 1
+            counts[str(cell["status"])] += 1
+    return counts
+
+
+def build_report(
+    selected: list[str],
+    results: list[dict[str, object]],
+    run_id: str,
+    started_at: str,
+    finished_at: str,
+    repository: dict[str, object],
+) -> dict[str, object]:
+    return {
+        "schema": SCHEMA,
+        "run_id": run_id,
+        "started_at": started_at,
+        "finished_at": finished_at,
+        "repository": repository,
+        "environment": {"platform": sys.platform, "python": sys.version.split()[0]},
+        "selection": selected,
+        "scenarios": results,
+        "summary": summarize(results),
+    }
+
+
+def markdown_report(report: dict[str, object]) -> str:
+    repository = report["repository"]
+    summary = report["summary"]
+    lines = [
+        "# PRAXO-CORE Behavior Lab",
+        "",
+        f"- Run: `{report['run_id']}`",
+        f"- Started: `{report['started_at']}`",
+        f"- Finished: `{report['finished_at']}`",
+        f"- Repository: `{repository.get('sha') or 'unknown'}`",
+        f"- Summary: {summary['passed']} passed, {summary['failed']} failed, "
+        f"{summary['skipped']} skipped, {summary['not_run']} not run, "
+        f"{summary['unsupported']} unsupported of {summary['cells']} cells",
+        "",
+        "| Scenario | Go | Python | TypeScript | Java |",
+        "| --- | --- | --- | --- | --- |",
+    ]
+    for result in report["scenarios"]:
+        cells = []
+        for language in LANGUAGES:
+            cell = result["languages"].get(language)
+            if cell is None:
+                cells.append("not-run")
+            else:
+                cells.append(f"{cell['status']} ({cell['coverage']})")
+        lines.append(
+            "| " + result["key"] + " | " + " | ".join(cells) + " |"
+        )
+    lines.extend(
+        [
+            "",
+            "This report compares scenario-level tests, not complete feature parity.",
+            "Group coverage means one language self-test covers multiple scenarios.",
+        ]
+    )
+    return "\n".join(lines) + "\n"
+
+
+def write_report(report: dict[str, object], output: Path) -> Path:
+    run_id = str(report["run_id"])
+    directory = output / run_id
+    directory.mkdir(parents=True, exist_ok=True)
+    path = directory / "report.json"
+    path.write_text(
+        json.dumps(report, indent=2, sort_keys=True) + "\n",
+        encoding="utf-8",
+        newline="\n",
+    )
+    (directory / "report.md").write_text(
+        markdown_report(report), encoding="utf-8", newline="\n"
+    )
+    (output / "latest.json").write_text(
+        json.dumps({"run_id": run_id, "report": f"{run_id}/report.json"}) + "\n",
+        encoding="utf-8",
+        newline="\n",
+    )
+    return path
+
+
+def exit_code(report: dict[str, object], strict: bool) -> int:
+    summary = report["summary"]
+    if summary["failed"]:
+        return 1
+    if strict and (
+        summary["not_run"] or summary["skipped"] or summary["unsupported"]
+    ):
+        return 1
+    return 0
+
+
+def parse_languages(value: str, available: list[str]) -> list[str]:
+    selected = [item.strip() for item in value.split(",") if item.strip()]
+    unknown = [item for item in selected if item not in available]
+    if unknown:
+        raise ValueError("unknown language: " + ", ".join(unknown))
+    if not selected:
+        raise ValueError("at least one language is required")
+    return selected
+
+
+def main(argv: list[str] | None = None) -> int:
+    parser = argparse.ArgumentParser(
+        description="Run cross-language agent behavior scenarios and write a report"
+    )
+    parser.add_argument("--languages", default=",".join(LANGUAGES))
+    parser.add_argument("--output-dir", type=Path, default=DEFAULT_OUTPUT)
+    parser.add_argument("--timeout", type=float, default=300.0)
+    parser.add_argument("--strict", action="store_true")
+    args = parser.parse_args(argv)
+    try:
+        selected = parse_languages(args.languages, list(LANGUAGES))
+    except ValueError as error:
+        parser.error(str(error))
+
+    run_id = new_run_id()
+    started_at = utc_now()
+    repository = git_metadata()
+    results = [
+        run_scenario(scenario, selected, args.timeout)
+        for scenario in scenarios()
+    ]
+    finished_at = utc_now()
+    report = build_report(
+        selected, results, run_id, started_at, finished_at, repository
+    )
+    path = write_report(report, args.output_dir)
+    summary = report["summary"]
+    print(
+        f"behavior lab: {summary['passed']} passed, {summary['failed']} failed, "
+        f"{summary['skipped']} skipped, {summary['not_run']} not run, "
+        f"{summary['unsupported']} unsupported"
+    )
+    print(f"behavior lab report: {path}")
+    return exit_code(report, args.strict)
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

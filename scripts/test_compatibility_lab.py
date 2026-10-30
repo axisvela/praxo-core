@@ -114,6 +114,22 @@ class CompatibilityLabTests(unittest.TestCase):
         self.assertEqual(failure["status"], "failed")
         self.assertEqual(failure["exit_code"], 9)
 
+    def test_utf8_output_is_decoded_independently_of_locale(self):
+        result = lab.run_command(
+            lab.Command(
+                "utf8",
+                (
+                    sys.executable,
+                    "-c",
+                    "import sys;sys.stdout.buffer.write('\\u2713'.encode('utf-8'))",
+                ),
+                lab.ROOT,
+            ),
+            30,
+        )
+        self.assertEqual(result["status"], "passed")
+        self.assertIn("\u2713", result["stdout"])
+
     def test_language_stops_after_failed_step(self):
         item = lab.Language(
             "fixture",

@@ -224,7 +224,8 @@ def run_command(item: Command, timeout: float) -> dict[str, object]:
             [executable, *item.argv[1:]],
             cwd=item.cwd,
             capture_output=True,
-            text=True,
+            encoding="utf-8",
+            errors="replace",
             timeout=timeout,
         )
         status = "passed" if completed.returncode == 0 else "failed"
@@ -287,7 +288,8 @@ def version_text(argv: tuple[str, ...], timeout: float) -> str:
         completed = subprocess.run(
             [executable, *argv[1:]],
             capture_output=True,
-            text=True,
+            encoding="utf-8",
+            errors="replace",
             timeout=timeout,
         )
         output = (completed.stdout or "").strip() or (completed.stderr or "").strip()

@@ -364,6 +364,112 @@ test("unchanged tool is authorized once", async () => {
   assert.deepEqual(tool.calls, [{ text: "ok" }]);
 });
 
+test("final name must remain allowed", async () => {
+  class Model {
+    constructor() {
+      this.step = 0;
+    }
+    async generate() {
+      this.step += 1;
+      if (this.step === 1) {
+        return {
+          message: {
+            role: "assistant",
+            content: "",
+            toolCalls: [{ id: "c1", name: "echo", arguments: {} }],
+          },
+        };
+      }
+      return { message: { role: "assistant", content: "done" } };
+    }
+  }
+  class Tool {
+    constructor(name) {
+      this.name = name;
+      this.description = name;
+      this.calls = [];
+    }
+    async invoke(args) {
+      this.calls.push(args);
+      return args;
+    }
+  }
+  const original = new Tool("echo");
+  const replacement = new Tool("admin");
+  const tools = new praxo.Registry();
+  tools.register(original);
+  tools.register(replacement);
+  let middlewareRan = false;
+  const agent = new praxo.Agent({
+    model: new Model(),
+    tools,
+    allowedTools: ["echo"],
+    middleware: [
+      {
+        beforeTool(call) {
+          middlewareRan = true;
+          call.call.name = "admin";
+        },
+      },
+    ],
+  });
+  await assert.rejects(agent.run({ id: "s1" }, "go"), /not allowed/);
+  assert.equal(middlewareRan, true);
+  assert.deepEqual(original.calls, []);
+  assert.deepEqual(replacement.calls, []);
+});
+
+test("initial policy denial prevents middleware and effect", async () => {
+  class Model {
+    async generate() {
+      return {
+        message: {
+          role: "assistant",
+          content: "",
+          toolCalls: [{ id: "c1", name: "echo", arguments: {} }],
+        },
+      };
+    }
+  }
+  class Tool {
+    constructor(name) {
+      this.name = name;
+      this.description = name;
+      this.calls = [];
+    }
+    async invoke(args) {
+      this.calls.push(args);
+      return args;
+    }
+  }
+  const tool = new Tool("echo");
+  const tools = new praxo.Registry();
+  tools.register(tool);
+  let middlewareRan = false;
+  const agent = new praxo.Agent({
+    model: new Model(),
+    tools,
+    policy: {
+      authorize(action) {
+        return {
+          allowed: action.kind !== "tool.invoke",
+          reason: "fixture",
+        };
+      },
+    },
+    middleware: [
+      {
+        beforeTool() {
+          middlewareRan = true;
+        },
+      },
+    ],
+  });
+  await assert.rejects(agent.run({ id: "s1" }, "go"), /denied/);
+  assert.equal(middlewareRan, false);
+  assert.deepEqual(tool.calls, []);
+});
+
 test("startup failure cleans entered middleware without run events", async () => {
   const calls = [];
   const events = [];

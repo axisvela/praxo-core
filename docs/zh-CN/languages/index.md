@@ -6,7 +6,7 @@
 
 [查看全部语言与当前状态](matrix.md){ .md-button }
 
-选定实现的可复现一致性证据见[兼容性实验](compatibility-lab.md)。
+选定实现的可复现一致性证据见[兼容性实验](compatibility-lab.md)，跨语言 agent 行为场景见[行为实验](behavior-lab.md)。
 
 具备原生实现能力的独立语言默认以 Framework 为最终目标。处于 Wire 阶段的实现
 当前尚不提供完整 Framework；仅有明确的技术限制时才以 Wire 为最终范围。当前能力

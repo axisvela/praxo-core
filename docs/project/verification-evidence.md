@@ -28,6 +28,7 @@ evidence.
 | --- | --- | --- | --- |
 | Go Core | Tests, vet, build, API snapshot, race, fuzz and module-security CI; current main and release workflow checks; published `v2.5.2` installed from a clean external module without `replace` | Contract/unit + CI + local integration | JSON Schema and plugin manifest fuzz runs have hit a 10s deadline and passed on rerun; slow-input risk remains under investigation; consumer install covers one platform and a minimal agent |
 | Cross-language conformance | Python, TypeScript, Java, Rust, Fortran, and COBOL compatibility lab runs deterministic vector, API snapshot/signature, and parity checks; Linux CI and local runs are recorded | Contract/unit + CI | Six languages only; COBOL was verified locally with GnuCOBOL and on Linux CI; no provider, HITL, checkpoint, sandbox, or production evidence; one platform and toolchain set per run; non-author reproduction pending |
+| Cross-language agent behavior | Go, Python, TypeScript, and Java behavior lab runs nine final-authorization, middleware-cleanup, and cancellation scenarios; Linux CI and local reports are recorded | Scenario tests + CI | Four languages and nine scenarios only; Java group self-tests do not isolate failures to a scenario; not full feature parity, provider, HITL, checkpoint, sandbox, or production evidence |
 | Governed workspace | Policy-required configuration, final-argument authorization, single-use approvals, post-approval edits, queued revocation, fail-closed dependency errors | Contract/unit | Example-level contract; not a Core profile, authenticated identity service, or durable approval store |
 | Context trust | Memory, skill, tool-result and summary source separation; digest-bound approved skills; text restore; late System injection rejection | Contract/unit | Opt-in example path; not a general prompt-injection filter, source authenticator, or durable lineage proof |
 | Containment | Windows path/process/WASM controls; Linux path and symlink controls in a verbose CI job; local VFS operations use `os.Root` after policy checks | Contract/unit + CI | Windows symlink cases skipped without privilege; policy decisions remain check-then-use, Linux cgroup v2, WASM fuel, and independent review remain open |
@@ -41,6 +42,7 @@ evidence.
 ## Public Evidence Links
 
 - [Compatibility lab](../languages/compatibility-lab.md) and the [CI compatibility job](https://github.com/axisvela/praxo-core/actions/runs/41000572198/job/123883752839)
+- [Behavior lab](../languages/behavior-lab.md) and its Linux CI job
 - [Governed workspace example](https://github.com/axisvela/praxo-core/tree/main/examples/governed-workspace)
 - [Governed execution design](../reference/governed-execution.md)
 - [OpenTelemetry runnable example](https://github.com/axisvela/praxo-core/tree/main/adapters/otel/example)
