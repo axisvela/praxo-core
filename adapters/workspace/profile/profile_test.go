@@ -206,7 +206,7 @@ func TestStateHidesBackendExecutorTool(t *testing.T) {
 	if err := profile.Validate(); err != nil {
 		t.Fatalf("state profile: %v", err)
 	}
-	if _, ok := findTool(profile.Tools(), "fs.execute"); ok {
+	if _, ok := findTool(mustTools(t, profile), "fs.execute"); ok {
 		t.Fatal("state profile exposed fs.execute from backend type assertion")
 	}
 	if backend.executed {
@@ -221,7 +221,7 @@ func TestLocalToolsExposeExecuteOnlyWhenEnabled(t *testing.T) {
 		Trust:     TrustHost,
 		Isolation: IsolationNone,
 	}
-	if _, ok := findTool(disabled.Tools(), "fs.execute"); ok {
+	if _, ok := findTool(mustTools(t, disabled), "fs.execute"); ok {
 		t.Fatal("local profile without executor exposed fs.execute")
 	}
 
@@ -229,7 +229,7 @@ func TestLocalToolsExposeExecuteOnlyWhenEnabled(t *testing.T) {
 	enabled := disabled
 	enabled.Executor = executor
 	enabled.Capabilities.Execute = true
-	executeTool, ok := findTool(enabled.Tools(), "fs.execute")
+	executeTool, ok := findTool(mustTools(t, enabled), "fs.execute")
 	if !ok {
 		t.Fatal("local profile with executor did not expose fs.execute")
 	}
@@ -262,7 +262,7 @@ func TestSandboxToolsWrapRun(t *testing.T) {
 	if err := profile.Validate(); err != nil {
 		t.Fatalf("sandbox profile: %v", err)
 	}
-	executeTool, ok := findTool(profile.Tools(), "fs.execute")
+	executeTool, ok := findTool(mustTools(t, profile), "fs.execute")
 	if !ok {
 		t.Fatal("sandbox profile did not expose fs.execute")
 	}
@@ -281,10 +281,28 @@ func TestSandboxToolsWrapRun(t *testing.T) {
 	}
 }
 
-func TestToolsReturnNilWithoutFiles(t *testing.T) {
-	if tools := (Profile{}).Tools(); tools != nil {
-		t.Fatalf("tools = %#v", tools)
+func TestToolsRejectInvalidProfile(t *testing.T) {
+	if tools, err := (Profile{}).Tools(); err == nil || tools != nil {
+		t.Fatalf("tools = %#v, err = %v", tools, err)
 	}
+	invalid := Profile{
+		Kind:     KindState,
+		Files:    &fakeBackend{},
+		Executor: &fakeExecutor{},
+		Trust:    TrustData,
+	}
+	if tools, err := invalid.Tools(); err == nil || tools != nil {
+		t.Fatalf("tools = %#v, err = %v", tools, err)
+	}
+}
+
+func mustTools(t *testing.T, profile Profile) []tool.Tool {
+	t.Helper()
+	tools, err := profile.Tools()
+	if err != nil {
+		t.Fatalf("tools: %v", err)
+	}
+	return tools
 }
 
 func findTool(tools []tool.Tool, name string) (tool.Tool, bool) {

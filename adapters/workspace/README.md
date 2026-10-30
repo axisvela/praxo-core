@@ -10,7 +10,8 @@ two provider adapters fit without provider-specific fields.
   `Snapshotter` interfaces.
 - `profile`: evaluation-only runtime profiles for state, local, and sandbox
   composition. Tools are selected from explicit capabilities, not from backend
-  type assertions.
+  type assertions. `Tools` validates the profile and returns an error instead of
+  producing a partial or executable tool set for invalid configuration.
 - `fake`: in-memory provider and session for offline tests. It does not execute
   host commands and is not an isolation boundary.
 - `conformance`: reusable checks for adapters and fakes.

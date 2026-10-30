@@ -135,17 +135,18 @@ func (p Profile) validateSandbox() error {
 	return nil
 }
 
-func (p Profile) Tools() []tool.Tool {
-	if p.Files == nil {
-		return nil
+func (p Profile) Tools() ([]tool.Tool, error) {
+	if err := p.Validate(); err != nil {
+		return nil, err
 	}
 	if p.Capabilities.Execute {
 		runner := p.executor()
-		if runner != nil {
-			return vfstools.Tools(executorFiles{Backend: p.Files, executor: runner})
+		if runner == nil {
+			return nil, errors.New("profile: execute capability requires an executor")
 		}
+		return vfstools.Tools(executorFiles{Backend: p.Files, executor: runner}), nil
 	}
-	return vfstools.Tools(filesOnly{Backend: p.Files})
+	return vfstools.Tools(filesOnly{Backend: p.Files}), nil
 }
 
 func (p Profile) executor() vfs.Executor {

@@ -34,7 +34,10 @@ func TestSandboxProfileWithWorkspaceSession(t *testing.T) {
 	if err := profile.Validate(); err != nil {
 		t.Fatalf("validate: %v", err)
 	}
-	tools := profile.Tools()
+	tools, err := profile.Tools()
+	if err != nil {
+		t.Fatalf("tools: %v", err)
+	}
 	if len(tools) == 0 {
 		t.Fatal("no tools")
 	}

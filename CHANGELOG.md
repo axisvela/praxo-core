@@ -4,6 +4,10 @@
 
 ### Fixed
 
+- Workspace runtime profile tool construction now validates the profile before
+  selecting tools and returns an error for invalid configuration. It cannot
+  produce a partial or executable tool set from an invalid state/local/sandbox
+  profile.
 - Fortran schema parsing rejects malformed supported fields. Validation of an
   unset or failed schema returns a local error rather than accessing unallocated
   storage. Empty enums now match Go's documented unset-enum behavior. The

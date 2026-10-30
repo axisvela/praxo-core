@@ -105,7 +105,7 @@ type Pauser interface {
 | Local | `localfs` | 可选的 `vfs.Executor`，需显式启用 | 无；策略门控的宿主访问 |
 | Sandbox | workspace session 或 provider VFS | `sandbox.Sandbox` 或 session | 取决于 provider；必须核实声明 |
 
-Profile 应显式暴露能力和信任元数据，不能从 backend 类型推断安全性。特别是，一个 backend 恰好实现了 `vfs.Executor`，不应在 profile 未授权时静默增加执行工具。评估实现位于 [`adapters/workspace/profile`](https://github.com/axisvela/praxo-core/tree/main/adapters/workspace/profile)。
+Profile 应显式暴露能力和信任元数据，不能从 backend 类型推断安全性。特别是，一个 backend 恰好实现了 `vfs.Executor`，不应在 profile 未授权时静默增加执行工具。评估用 `Tools` helper 会先校验 profile，配置无效时返回错误，不回退到部分或可执行的工具集。实现位于 [`adapters/workspace/profile`](https://github.com/axisvela/praxo-core/tree/main/adapters/workspace/profile)。
 
 不要把 state、本地文件系统和 sandbox 合并成单一 Core `Backend` 接口。它们的授权、生命周期、失败和隔离语义不同。
 

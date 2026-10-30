@@ -36,7 +36,10 @@ func TestProfileWithProvider(t *testing.T) {
 	if err := workspace.Validate(); err != nil {
 		t.Fatal(err)
 	}
-	tools := workspace.Tools()
+	tools, err := workspace.Tools()
+	if err != nil {
+		t.Fatal(err)
+	}
 	write := findProfileTool(t, tools, "fs.write")
 	if _, err := write.Invoke(ctx, map[string]any{"path": "notes.txt", "content": "hello"}); err != nil {
 		t.Fatal(err)

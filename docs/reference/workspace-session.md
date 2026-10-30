@@ -114,7 +114,9 @@ evaluation direction, not a `pkg/` API.
 A profile should expose capabilities and trust metadata, not infer security from
 a backend type. In particular, a backend that happens to implement
 `vfs.Executor` should not silently add an execution tool when the profile does
-not grant it. The evaluation implementation lives in
+not grant it. The evaluation `Tools` helper validates the profile first and
+returns an error for invalid configuration; it does not fall back to a partial
+or executable tool set. The implementation lives in
 [`adapters/workspace/profile`](https://github.com/axisvela/praxo-core/tree/main/adapters/workspace/profile).
 
 Do not collapse state, local filesystem, and sandbox into one core `Backend`
