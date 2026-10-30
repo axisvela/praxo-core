@@ -10,7 +10,8 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from praxo.agent import Agent, AgentOptions, Session
 from praxo.event import Event
 from praxo.middleware import Middleware
-from praxo.model import Message, Response
+from praxo.model import Message, Response, ToolCall
+from praxo.tool import Registry
 
 
 class ScriptModel:
@@ -151,6 +152,67 @@ class LifecycleTest(unittest.IsolatedAsyncioTestCase):
         self.assertEqual(
             [event.type for event in sink.events],
             ["run.started", "run.failed"],
+        )
+
+    async def test_tool_cancellation_runs_after_run(self) -> None:
+        started = asyncio.Event()
+        calls: list[str] = []
+        sink = RecordingSink()
+
+        class WaitTool:
+            name = "wait"
+            description = "wait"
+
+            async def invoke(self, args):
+                started.set()
+                await asyncio.Event().wait()
+
+        class ToolModel:
+            def __init__(self):
+                self.step = 0
+
+            async def generate(self, request):
+                self.step += 1
+                if self.step == 1:
+                    return Response(
+                        message=Message(
+                            role="assistant",
+                            content="",
+                            tool_calls=[
+                                ToolCall(
+                                    id="c1",
+                                    name="wait",
+                                    arguments={},
+                                )
+                            ],
+                        )
+                    )
+                return Response(message=Message(role="assistant", content="done"))
+
+        tools = Registry()
+        tools.register(WaitTool())
+        middleware = Middleware(
+            after_run=lambda result, error: calls.append(
+                f"after:{type(error).__name__}"
+            )
+        )
+        agent = Agent(
+            AgentOptions(
+                model=ToolModel(),
+                tools=tools,
+                events=sink,
+                middleware=[middleware],
+            )
+        )
+        task = asyncio.create_task(agent.run(Session(id="s1"), "go"))
+        await started.wait()
+        task.cancel()
+        with self.assertRaises(asyncio.CancelledError):
+            await task
+        self.assertEqual(calls, ["after:CancelledError"])
+        self.assertEqual(
+            [event.type for event in sink.events],
+            ["run.started", "tool.call", "run.failed"],
         )
 
 

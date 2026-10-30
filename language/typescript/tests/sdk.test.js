@@ -496,3 +496,63 @@ test("cancellation runs after-run and emits failed", async () => {
   assert.deepEqual(calls, ["aborted"]);
   assert.deepEqual(events, ["run.started", "run.failed"]);
 });
+
+test("tool cancellation runs after-run and emits failed", async () => {
+  const controller = new AbortController();
+  let start;
+  const started = new Promise((resolve) => {
+    start = resolve;
+  });
+  const calls = [];
+  const events = [];
+  const tool = {
+    name: "wait",
+    description: "wait",
+    async invoke() {
+      start();
+      return await new Promise((resolve, reject) => {
+        controller.signal.addEventListener(
+          "abort",
+          () => reject(new Error("tool aborted")),
+          { once: true }
+        );
+      });
+    },
+  };
+  const tools = new praxo.Registry();
+  tools.register(tool);
+  let step = 0;
+  const agent = new praxo.Agent({
+    model: {
+      async generate() {
+        step += 1;
+        if (step === 1) {
+          return {
+            message: {
+              role: "assistant",
+              content: "",
+              toolCalls: [{ id: "c1", name: "wait", arguments: {} }],
+            },
+          };
+        }
+        return { message: { role: "assistant", content: "done" } };
+      },
+    },
+    tools,
+    events: { emit: async (event) => events.push(event.type) },
+    middleware: [
+      {
+        afterRun(result, error) {
+          calls.push(error instanceof Error ? error.message : String(error));
+        },
+      },
+    ],
+    signal: controller.signal,
+  });
+  const run = agent.run({ id: "s1" }, "go");
+  await started;
+  controller.abort();
+  await assert.rejects(run, /tool aborted/);
+  assert.deepEqual(calls, ["tool aborted"]);
+  assert.deepEqual(events, ["run.started", "tool.call", "run.failed"]);
+});

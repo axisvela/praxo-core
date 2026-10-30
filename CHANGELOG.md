@@ -15,7 +15,8 @@
   failure, keep running later after-run callbacks after one fails, preserve the
   original run error, and fail closed when cleanup itself fails after success.
   Python task cancellation is now a `BaseException` cleanup path rather than
-  bypassing after-run; cancellation tests cover all three languages.
+  bypassing after-run; cancellation tests cover model and tool execution in all
+  three languages.
 - Compatibility Lab now writes a unique directory per execution with run ID,
   UTC start/finish, pre-run Git metadata, explicit `not_run` commands, and a
   `latest.json` pointer, so a later success cannot overwrite an earlier failure.
