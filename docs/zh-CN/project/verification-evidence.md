@@ -22,7 +22,7 @@
 | 领域 | 已验证 | 级别 | 限制 |
 | --- | --- | --- | --- |
 | Go Core | Tests、vet、build、API snapshot、race、fuzz 和 module-security CI；当前 main 与发布工作流检查；已发布 `v2.5.2` 从干净外部模块无 `replace` 安装 | 契约/单元 + CI + 本地集成 | 一次 JSON Schema fuzz 在 10s deadline 失败、rerun 通过；慢输入风险仍在调查；消费验证仅覆盖一个平台和最小 agent |
-| 跨语言一致性 | Python、TypeScript、Java、Rust compatibility lab 运行确定性向量和 parity；已记录 Linux CI job 与 clean-SHA 本地运行 | 契约/单元 + CI | 仅四种语言；不含 provider、HITL、checkpoint、sandbox 或生产证据；每次运行一个平台和工具链；非作者复现待办 |
+| 跨语言一致性 | Python、TypeScript、Java、Rust compatibility lab 运行确定性向量、API 快照/签名和 parity；已记录 Linux CI job 与 clean-SHA 本地运行 | 契约/单元 + CI | 仅四种语言；不含 provider、HITL、checkpoint、sandbox 或生产证据；每次运行一个平台和工具链；非作者复现待办 |
 | 受治理工作区 | Policy 必需配置、最终参数授权、单次审批、审批后修改、排队撤销、依赖失败关闭 | 契约/单元 | 示例级契约；不是 Core Profile、可信身份服务或持久审批存储 |
 | 上下文信任 | Memory、Skill、工具结果和摘要来源分离；批准 Skill 摘要绑定；文本恢复；拒绝晚期 System 注入 | 契约/单元 | 显式示例路径；不是通用 Prompt Injection 过滤器、来源认证或持久 lineage 证明 |
 | 隔离能力 | Windows path/process/WASM 控制；Linux path/symlink 的 verbose CI job；本地 VFS 在 policy 检查后使用 `os.Root` 执行实际操作 | 契约/单元 + CI | Windows symlink 因权限 SKIP；policy 决策仍是 check-then-use，Linux cgroup v2、WASM fuel 和独立复核仍开放 |
