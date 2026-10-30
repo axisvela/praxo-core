@@ -4,13 +4,11 @@ use praxo_core::agent::{Agent, AgentOptions, Session};
 use praxo_core::checkpoint::Allowlist;
 use praxo_core::context::{estimate_tokens, ContextBudget};
 use praxo_core::event::{Event, Sink};
-use praxo_core::middleware::{
-    Middleware, ModelCall, PiiMiddleware, PiiRedactor, StructuredOutput,
-};
+use praxo_core::middleware::{Middleware, ModelCall, PiiMiddleware, PiiRedactor, StructuredOutput};
 use praxo_core::model::{Message, Model, Request, Response, ToolCall, Usage};
 use praxo_core::plugin::parse_manifest;
 use praxo_core::policy::{PathChecker, PathGrant};
-use praxo_core::tool::{FuncTool, Registry};
+use praxo_core::tool::{gateway_tools, FuncTool, Gateway, GatewayInfo, Registry};
 use serde_json::{json, Map, Value};
 
 struct ScriptedModel {
@@ -100,9 +98,11 @@ fn context_budget_compacts() {
     let (out, ok) = budget.compact(&messages);
     assert!(ok);
     assert!(estimate_tokens(&out) <= 30);
-    assert!(out
-        .iter()
-        .any(|message| message.content.as_deref().unwrap_or("").contains("context compacted")));
+    assert!(out.iter().any(|message| message
+        .content
+        .as_deref()
+        .unwrap_or("")
+        .contains("context compacted")));
 }
 
 #[test]
@@ -206,9 +206,67 @@ fn path_checker_denies_traversal() {
 #[test]
 fn checkpoint_round_trips() {
     let allow = Allowlist::new();
-    allow.register("spec.payload", || json!({})).expect("register");
+    allow
+        .register("spec.payload", || json!({}))
+        .expect("register");
     let data = allow
         .marshal("spec.payload", json!({"value": "x"}))
         .expect("marshal");
-    assert_eq!(allow.unmarshal(&data).expect("unmarshal"), json!({"value": "x"}));
+    assert_eq!(
+        allow.unmarshal(&data).expect("unmarshal"),
+        json!({"value": "x"})
+    );
+}
+
+struct RecordingGateway {
+    calls: Mutex<Vec<(String, String)>>,
+}
+
+impl Gateway for RecordingGateway {
+    fn execute(
+        &self,
+        name: &str,
+        input: &Map<String, Value>,
+        token: &str,
+    ) -> praxo_core::errors::Result<Value> {
+        self.calls
+            .lock()
+            .expect("gateway")
+            .push((name.to_string(), token.to_string()));
+        Ok(json!({"name": name, "input": input}))
+    }
+
+    fn list_tools(&self) -> Vec<GatewayInfo> {
+        vec![
+            GatewayInfo {
+                name: "z.tool".to_string(),
+                description: "last".to_string(),
+                risk: "low".to_string(),
+            },
+            GatewayInfo {
+                name: "a.tool".to_string(),
+                description: "first".to_string(),
+                risk: "high".to_string(),
+            },
+        ]
+    }
+}
+
+#[test]
+fn gateway_tools_are_sorted_and_dispatch() {
+    let gateway = Arc::new(RecordingGateway {
+        calls: Mutex::new(Vec::new()),
+    });
+    let tools = gateway_tools(gateway.clone());
+    assert_eq!(tools.len(), 2);
+    assert_eq!(tools[0].name(), "a.tool");
+    assert_eq!(tools[1].name(), "z.tool");
+    let value = tools[0]
+        .invoke(&Map::from_iter([("x".to_string(), json!(1))]))
+        .expect("invoke");
+    assert_eq!(value["name"], json!("a.tool"));
+    assert_eq!(
+        gateway.calls.lock().expect("calls").as_slice(),
+        &[("a.tool".to_string(), String::new())]
+    );
 }

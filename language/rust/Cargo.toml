@@ -1,6 +1,6 @@
 [package]
 name = "praxo-core"
-version = "0.1.1"
+version = "0.1.2"
 edition = "2021"
 license = "MIT"
 description = "Rust SDK for the PRAXO-CORE agent contract"

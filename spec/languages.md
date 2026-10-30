@@ -56,7 +56,7 @@ for real providers, platforms, and production behavior is reported separately.
 | Python | Core | released | `python/v0.2.2` | complete | 11 vectors, OpenAI adapter, PyPI `praxo-core==0.2.2` |
 | TypeScript | Core | released | `typescript/v0.1.2` | complete | 11 vectors, OpenAI adapter; npm `@axisvela/praxo-core@0.1.2` |
 | Java | Core | released | `java/v0.2.2` | complete | 11 vectors, OpenAI adapter, API snapshot |
-| Rust | Core | released | `rust/v0.1.1` | complete | 11 vectors, native tests; current source adds compiler-derived API/parity gate |
+| Rust | Core | released | `rust/v0.1.1` | complete | 11 vectors, native tests; current source adds `tool.Gateway`, a compiler-derived API/parity gate, and a `0.1.2` source snapshot |
 | C | Core | released | `c/v0.2.0` | complete | 11 vectors, native tests; public Core API plus wire JSON primitives; agent cancellation and call-limit concurrency are partial |
 | C# | Core (.NET) | released | `csharp/v0.1.1` | complete | 11 vectors, API snapshot, OpenAI adapter |
 | Visual Basic | Sample (.NET) | released | `csharp/v0.1.1` | sample | VB.NET consumer sample in `language/csharp/samples` |

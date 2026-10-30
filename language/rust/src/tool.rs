@@ -95,3 +95,49 @@ impl Registry {
         self.tools.is_empty()
     }
 }
+
+#[derive(Clone, Debug, Default, PartialEq, Eq)]
+pub struct GatewayInfo {
+    pub name: String,
+    pub description: String,
+    pub risk: String,
+}
+
+pub trait Gateway: Send + Sync {
+    fn execute(&self, name: &str, input: &Map<String, Value>, token: &str) -> Result<Value>;
+    fn list_tools(&self) -> Vec<GatewayInfo>;
+}
+
+pub struct GatewayTool {
+    gateway: Arc<dyn Gateway>,
+    info: GatewayInfo,
+}
+
+impl GatewayTool {
+    pub fn new(gateway: Arc<dyn Gateway>, info: GatewayInfo) -> Self {
+        Self { gateway, info }
+    }
+}
+
+impl Tool for GatewayTool {
+    fn name(&self) -> &str {
+        &self.info.name
+    }
+
+    fn description(&self) -> &str {
+        &self.info.description
+    }
+
+    fn invoke(&self, args: &Map<String, Value>) -> Result<Value> {
+        self.gateway.execute(&self.info.name, args, "")
+    }
+}
+
+pub fn gateway_tools(gateway: Arc<dyn Gateway>) -> Vec<Arc<dyn Tool>> {
+    let mut infos = gateway.list_tools();
+    infos.sort_by(|left, right| left.name.cmp(&right.name));
+    infos
+        .into_iter()
+        .map(|info| Arc::new(GatewayTool::new(gateway.clone(), info)) as Arc<dyn Tool>)
+        .collect()
+}

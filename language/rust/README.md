@@ -7,7 +7,7 @@ Rust implementation of the PRAXO-CORE contract. The normative contract is
 Context budgets, middleware, and the synchronous agent loop are included. The
 OpenAI-compatible adapter, VFS, and plugin hosts are not yet implemented.
 
-Package version: `0.1.1`. Supported contract: `SPEC_VERSION` `0.2.0`
+Package version: `0.1.2`. Supported contract: `SPEC_VERSION` `0.2.0`
 (`praxo_core::SPEC_VERSION`).
 
 ## Requirements
@@ -53,7 +53,7 @@ println!("{} {}", result.output, result.steps);
 | Module | Contract |
 | --- | --- |
 | `model` | Model, messages, tool specs, request/response, usage |
-| `tool` | Tool, Registry, FuncTool |
+| `tool` | Tool, Registry, FuncTool, Gateway, GatewayTool, gateway_tools |
 | `event` | Event, Sink, multi/filter sinks |
 | `policy` | Hook, Decision, PathChecker |
 | `memory` | Store, MemoryRecord, MemoryStore |
@@ -82,7 +82,7 @@ and direct trait implementations, and checks implemented symbols against
 are excluded. Auto traits, blanket implementations, and expanded alias internals
 are excluded to avoid compiler/platform-specific noise.
 
-The baseline is [`api/0.1.0.txt`](api/0.1.0.txt). Regenerate it with
+The baseline is [`api/0.1.2.txt`](api/0.1.2.txt). Regenerate it with
 `python api-snapshot.py` only after reviewing an intentional API change.
 This is not a binary ABI or automated semver-compatibility guarantee. Serde/wire
 attributes still require specification review and conformance tests; they are
