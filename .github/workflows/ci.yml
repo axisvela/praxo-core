@@ -299,7 +299,7 @@ jobs:
       - run: npm run build
       - run: npm run api:check
       - run: npm run conformance
-      - run: node --test tests/sdk.test.js tests/openaicompat.test.js tests/api-signatures.test.js
+      - run: node --test tests/sdk.test.js tests/behavior.test.js tests/openaicompat.test.js tests/api-signatures.test.js
       - name: Run installed package smoke
         run: |
           npm pack --pack-destination "$RUNNER_TEMP"
@@ -331,6 +331,9 @@ jobs:
       - run: java -cp target/classes:target/test-classes io.axisvela.praxo.agent.AgentConcurrencySelfTest
       - run: java -cp target/classes:target/test-classes io.axisvela.praxo.agent.AgentAuthorizationSelfTest
       - run: java -cp target/classes:target/test-classes io.axisvela.praxo.agent.AgentLifecycleSelfTest
+      - run: java -cp target/classes:target/test-classes io.axisvela.praxo.agent.AgentGuardrailSelfTest
+      - run: java -cp target/classes:target/test-classes io.axisvela.praxo.jsonschema.JsonSchemaSelfTest
+      - run: java -cp target/classes:target/test-classes io.axisvela.praxo.checkpoint.CheckpointSelfTest
       - run: java -cp target/classes:target/test-classes io.axisvela.praxo.middleware.PiiMiddlewareSelfTest
 
   kotlin-sample:

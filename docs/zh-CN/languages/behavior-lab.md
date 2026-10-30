@@ -2,7 +2,7 @@
 
 **状态：** 证据工具，2026-10-30。该实验不是稳定的公开 API。
 
-行为实验在 Go、Python、TypeScript 和 Java 中运行具名 agent 场景，并生成一份对比报告。它回答的问题比[兼容性实验](compatibility-lab.md)更窄：当通过各实现自己的测试套件执行时，它们是否对授权、middleware 生命周期和取消做出相同决策？
+行为实验在 Go、Python、TypeScript 和 Java 中运行具名 agent 场景，并生成一份对比报告。它回答的问题比[兼容性实验](compatibility-lab.md)更窄：当通过各实现自己的测试套件执行时，它们是否对授权、生命周期、取消、输入校验、调用上限、PII、checkpoint 和容量做出相同决策？
 
 它不证明完整功能对齐、provider 行为、真实服务集成、生产就绪或安全性。报告通过只比较所列场景。
 
@@ -19,6 +19,11 @@
 | `cleanup-failclosed` | 清理失败使成功的 run 失败关闭 | scenario | scenario | scenario | self-test group |
 | `model-cancel-cleanup` | 模型阶段取消会执行 after-run 并发出 failed | scenario | scenario | scenario | self-test group |
 | `tool-cancel-cleanup` | 工具阶段取消会停止效果并执行 after-run | scenario | scenario | scenario | self-test group |
+| `schema-number-unicode` | 拒绝小数形式的 integer，字符串长度按 Unicode code point 计算 | scenario | scenario | scenario | scenario |
+| `call-limit` | 模型和工具调用上限失败关闭 | scenario | scenario | scenario | self-test group |
+| `pii-tool-history` | 嵌套工具调用历史被脱敏且不修改输入 | scenario | scenario | scenario | scenario |
+| `checkpoint-content` | allowlist 往返保留嵌套 payload 内容 | scenario | scenario | scenario | scenario |
+| `capacity-failclosed` | 上下文预算不足时失败关闭，不静默丢弃必需输入 | scenario | scenario | scenario | self-test group |
 
 `scenario` 表示为该行为命名的测试。`self-test group` 表示一个 Java self-test 可执行文件覆盖多个场景，因此组通过不能定位到具体场景断言。报告保留这一区别，不把组覆盖当作场景级证据。
 
@@ -49,11 +54,11 @@ python scripts/behavior_lab.py --strict --timeout 300
 
 ## 当前证据
 
-2026-10-30 的四语言本地运行通过了全部 36 个单元格。该运行所在工作区包含尚未提交的证据工具改动，因此不是 clean-SHA 记录。commit `54293fd` 上的首次 clean-SHA Linux CI 运行同样通过了全部 36 个单元格；引用行为报告作为证据时，应使用该 [behavior job](https://github.com/axisvela/praxo-core/actions/runs/41051293617/job/124047717624) 及其 artifact。
+2026-10-30 的四语言十四场景本地运行通过了全部 56 个单元格。该运行所在工作区包含尚未提交的证据改动，因此不是 clean-SHA 记录。引用行为报告作为证据时，应使用对应 revision 的 clean-SHA Linux CI behavior job 及其 artifact。
 
 ## 限制
 
-- 只覆盖九个选定场景，不覆盖完整 agent 或契约对齐。
-- Go 和 Python 使用场景级测试；TypeScript 使用 `node --test` 名称过滤；Java 使用组 self-test。
+- 只覆盖十四个选定场景，不覆盖完整 agent 或契约对齐。
+- Go 和 Python 使用场景级测试；TypeScript 使用 `node --test` 名称过滤；部分 Java self-test 覆盖多个场景。
 - 不覆盖 provider、模型、网络、sandbox、HITL、checkpoint 或效果恢复场景。
 - 报告通过不等于安全审查或生产认证。

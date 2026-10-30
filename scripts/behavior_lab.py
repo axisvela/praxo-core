@@ -30,10 +30,10 @@ class Scenario:
     coverage: dict[str, str]
 
 
-def go_test(pattern: str) -> Command:
+def go_test(pattern: str, package: str = "./pkg/agent") -> Command:
     return Command(
-        "go " + pattern,
-        ("go", "test", "./pkg/agent", "-run", pattern, "-count=1"),
+        "go test " + package + " " + pattern,
+        ("go", "test", package, "-run", pattern, "-count=1"),
         ROOT,
     )
 
@@ -46,31 +46,37 @@ def python_test(*names: str) -> Command:
     )
 
 
-def typescript_test(pattern: str) -> Command:
+def typescript_test(
+    pattern: str,
+    file: str = "tests/sdk.test.js",
+) -> Command:
     return Command(
-        "node --test " + pattern,
-        ("node", "--test", "--test-name-pattern", pattern, "tests/sdk.test.js"),
+        "node --test " + file + " " + pattern,
+        ("node", "--test", "--test-name-pattern", pattern, file),
         ROOT / "language" / "typescript",
     )
 
 
-def java_test(name: str) -> Command:
+def java_class_test(qualified_name: str) -> Command:
     classpath = "target/classes" + os.pathsep + "target/test-classes"
     return Command(
-        "java " + name,
-        (
-            "java",
-            "-cp",
-            classpath,
-            "io.axisvela.praxo.agent." + name,
-        ),
+        "java " + qualified_name,
+        ("java", "-cp", classpath, qualified_name),
         ROOT / "language" / "java",
     )
+
+
+def java_test(name: str) -> Command:
+    return java_class_test("io.axisvela.praxo.agent." + name)
 
 
 def scenarios() -> tuple[Scenario, ...]:
     auth = java_test("AgentAuthorizationSelfTest")
     lifecycle = java_test("AgentLifecycleSelfTest")
+    guardrail = java_test("AgentGuardrailSelfTest")
+    schema = java_class_test("io.axisvela.praxo.jsonschema.JsonSchemaSelfTest")
+    checkpoint = java_class_test("io.axisvela.praxo.checkpoint.CheckpointSelfTest")
+    pii = java_class_test("io.axisvela.praxo.middleware.PiiMiddlewareSelfTest")
     return (
         Scenario(
             "final-arguments",
@@ -244,6 +250,128 @@ def scenarios() -> tuple[Scenario, ...]:
                     typescript_test("tool cancellation runs after-run"),
                 ),
                 "java": (lifecycle,),
+            },
+            {"go": "scenario", "python": "scenario", "typescript": "scenario", "java": "group"},
+        ),
+        Scenario(
+            "schema-number-unicode",
+            "Schema rejects fractional integers and counts Unicode code points",
+            {
+                "go": (
+                    go_test(
+                        "^(TestIntegerRejectsFractions|TestLengthCountsRunes)$",
+                        "./pkg/tool/jsonschema",
+                    ),
+                ),
+                "python": (
+                    python_test(
+                        "tests.test_jsonschema.JsonSchemaTest."
+                        "test_integer_rejects_fractions",
+                        "tests.test_jsonschema.JsonSchemaTest."
+                        "test_length_counts_unicode_code_points",
+                    ),
+                ),
+                "typescript": (
+                    typescript_test(
+                        "schema integer rejects fractions|"
+                        "schema length counts Unicode",
+                        "tests/behavior.test.js",
+                    ),
+                ),
+                "java": (schema,),
+            },
+            {"go": "scenario", "python": "scenario", "typescript": "scenario", "java": "scenario"},
+        ),
+        Scenario(
+            "call-limit",
+            "Model and tool call limits fail closed",
+            {
+                "go": (
+                    go_test(
+                        "^(TestCallLimitMiddlewareModelLimit|"
+                        "TestCallLimitMiddlewareToolLimit)$",
+                        "./pkg/agent/middleware",
+                    ),
+                ),
+                "python": (
+                    python_test(
+                        "tests.test_middleware.MiddlewareTest."
+                        "test_model_call_limit",
+                        "tests.test_middleware.MiddlewareTest."
+                        "test_tool_call_limit",
+                    ),
+                ),
+                "typescript": (
+                    typescript_test(
+                        "model call limit fails closed|tool call limit fails closed",
+                        "tests/behavior.test.js",
+                    ),
+                ),
+                "java": (guardrail,),
+            },
+            {"go": "scenario", "python": "scenario", "typescript": "scenario", "java": "group"},
+        ),
+        Scenario(
+            "pii-tool-history",
+            "PII middleware redacts nested tool-call history without mutating input",
+            {
+                "go": (
+                    go_test(
+                        "^TestPIIMiddlewareRedactsToolCallHistory$",
+                        "./pkg/agent/middleware",
+                    ),
+                ),
+                "python": (
+                    python_test(
+                        "tests.test_middleware.MiddlewareTest."
+                        "test_pii_redacts_tool_call_history"
+                    ),
+                ),
+                "typescript": (
+                    typescript_test("PII middleware redacts tool-call history"),
+                ),
+                "java": (pii,),
+            },
+            {"go": "scenario", "python": "scenario", "typescript": "scenario", "java": "scenario"},
+        ),
+        Scenario(
+            "checkpoint-content",
+            "Checkpoint allowlist round-trips nested payload content",
+            {
+                "go": (
+                    go_test("^TestAllowlistRoundTrip$", "./pkg/checkpoint"),
+                ),
+                "python": (
+                    python_test(
+                        "tests.test_checkpoint.CheckpointTest."
+                        "test_allowlist_round_trips_content"
+                    ),
+                ),
+                "typescript": (
+                    typescript_test("checkpoint allowlist round-trips"),
+                ),
+                "java": (checkpoint,),
+            },
+            {"go": "scenario", "python": "scenario", "typescript": "scenario", "java": "scenario"},
+        ),
+        Scenario(
+            "capacity-failclosed",
+            "Context budget fails closed instead of silently dropping required input",
+            {
+                "go": (go_test("^TestAgentContextBudgetFailsClosed$"),),
+                "python": (
+                    python_test(
+                        "tests.test_middleware.MiddlewareTest."
+                        "test_context_budget_fails_closed"
+                    ),
+                ),
+                "typescript": (
+                    typescript_test(
+                        "context budget fails closed",
+                        "tests/behavior.test.js",
+                    ),
+                ),
+                "java": (guardrail,),
             },
             {"go": "scenario", "python": "scenario", "typescript": "scenario", "java": "group"},
         ),
