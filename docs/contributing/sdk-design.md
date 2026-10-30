@@ -18,6 +18,41 @@ Preserve mixed wire casing such as `image_url`, `runId`, and `plugin_id`.
 See the [event reference](../reference/events.md), shared wire artifacts, and
 per-language parity inventories. Do not normalize wire names for local style.
 
+## Language Layout
+
+Do not copy the Go `pkg/` tree into every language. Use the layout that is
+idiomatic for the language and package manager, while keeping the contract
+boundaries visible.
+
+A Core implementation should provide:
+
+- a source tree with clear core modules and no product-only code;
+- `README.md`, `LICENSE`, and installation/build instructions;
+- `api/` snapshots or equivalent API checks;
+- a conformance runner over `spec/vectors`;
+- language tests, including negative and security-sensitive paths;
+- an optional `adapters/` directory when the language has provider adapters.
+
+Map contract areas to local modules and record the mapping in the parity
+inventory. Similar names are helpful, but physical `pkg/...` parity is not a
+requirement and must not force non-idiomatic code.
+
+## Adapters
+
+Adapters are optional. A Core must not import its adapters, and adapters must
+not become required for conformance.
+
+- Place language-local adapters under `language/<language>/adapters/<provider>`
+  or in a separately versioned module when their dependencies are heavy.
+- Keep provider SDKs, credentials, endpoints, and tenant policy out of Core.
+- Test adapter behavior separately from the Core vectors. A passing Core
+  conformance run does not verify a live provider.
+- Do not mirror the Go root `adapters/` tree or implement every Go adapter in
+  every language. Add an adapter only with a consumer, a maintenance owner,
+  license review, and tests.
+- A source tag for an adapter does not imply package-registry publication or
+  live-provider verification.
+
 ## Change Workflow
 
 1. Review the reference behavior and normative artifacts.

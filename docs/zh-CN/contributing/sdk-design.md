@@ -14,6 +14,31 @@ Go 是参考实现，[`spec/`](https://github.com/axisvela/praxo-core/tree/main/
 保留 `image_url`、`runId`、`plugin_id` 等混合命名，不能为了本地风格统一改名。
 相关定义见[事件参考](../reference/events.md)、wire 工件和各语言 parity 清单。
 
+## 语言目录结构
+
+不要把 Go 的 `pkg/` 目录树复制到每种语言。应使用符合该语言和包管理器习惯的结构，同时保持契约边界清晰。
+
+Core 实现应提供：
+
+- 源码树，核心模块清晰，不包含产品专用代码；
+- `README.md`、`LICENSE` 和安装/构建说明；
+- `api/` 快照或等价的 API 检查；
+- 基于 `spec/vectors` 的 conformance runner；
+- 语言测试，包括负向和安全敏感路径；
+- 可选 `adapters/` 目录，用于该语言的 provider 适配器。
+
+将契约区域映射到本地模块，并在 parity 清单中记录映射。名称接近有帮助，但不要求物理上照搬 `pkg/...`，也不能为了结构一致写出不符合语言习惯的代码。
+
+## 适配器
+
+适配器是可选的。Core 不能导入自己的适配器，适配器也不能成为一致性测试的前置条件。
+
+- 语言本地适配器放在 `language/<language>/adapters/<provider>`；依赖较重时使用独立版本的模块。
+- provider SDK、凭据、端点和租户策略不能进入 Core。
+- 适配器测试与 Core 向量分开；Core conformance 通过不代表 live provider 已验证。
+- 不要镜像 Go 根目录的 `adapters/`，也不要为每种语言实现全部 Go 适配器。新增适配器必须有消费者、维护者、许可证审查和测试。
+- 适配器的源码标签不代表包注册表发布或 live provider 验证。
+
 ## 变更流程
 
 1. 检查参考行为与规范工件。
