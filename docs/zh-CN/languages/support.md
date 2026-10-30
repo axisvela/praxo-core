@@ -50,9 +50,11 @@ Bridge、Sample 描述运行时的接入方式，不证明其语言缺乏 Framew
 - Python 已发布 `praxo-core==0.2.2` 到 PyPI；TypeScript 已发布
   `@axisvela/praxo-core@0.1.2` 到 npm。
 - Java 提供 Maven 源码构建方式，源码标签不证明 Maven Central 可用。
+- Rust 已有源码标签 `rust/v0.1.2`，包含全部 11 个向量组、原生测试、`tool.Gateway`、`jsonschema.Schema` 和 API 快照。不包含 OpenAI adapter、VFS、plugin hosts 以及 Go context/cancellation 语义。
 - Fortran 已有源码标签 `fortran/v0.2.1`，包含全部 11 个向量组、原生测试、API 快照
-  以及集成的 PII/中间件。不代表已发布到包管理器；异步流不在声明范围，受限 JSON Schema 子集
+  以及集成的 PII/中间件。它不是包管理器发布；异步流不在声明范围，受限 JSON Schema 子集
   仍为部分完成。
+- COBOL 已有源码标签 `cobol/v0.1.1`，包含全部 11 个向量组、原生与契约测试、`praxo-registry` 和 API 快照。它不是包管理器发布；其余 Go 面大多为 partial，registry 无并发和 custom spec provider。
 - Haskell 已有源码标签 `haskell/v0.2.0`，包含全部 11 个向量组、原生测试、API
   快照/parity 以及运行时/中间件辅助函数。未声明 Hackage 发布或生产就绪。
 - Delphi/Free Pascal 已有源码标签 `delphi/v0.2.1`，在 Free Pascal 3.2.2 下通过
