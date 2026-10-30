@@ -8,7 +8,7 @@
 
 ## 范围
 
-首批范围是 Python、TypeScript、Java 和 Rust。每个条目运行该实现自己的 conformance 入口：
+首批范围是 Python、TypeScript、Java 和 Rust。Fortran 和 COBOL 是第二批；Linux CI 运行全部六种语言。每个条目运行该实现自己的 conformance 入口：
 
 | 语言 | 命令 |
 | --- | --- |
@@ -16,6 +16,8 @@
 | TypeScript | `npm run build`、`npm run api:check`、`npm run conformance` |
 | Java | `mvn -q -DskipTests package`、`ApiSnapshot --check`、conformance runner |
 | Rust | `cargo run --quiet --bin conformance`、`api-snapshot.py --check` |
+| Fortran | `run-tests.py`（原生测试、向量、API 快照） |
+| COBOL | `run-tests.py`（原生测试、向量、API 快照） |
 
 实验覆盖共享契约向量、API 快照或签名，以及该实现已有的 parity 检查。它不启动模型、不调用 provider、不使用凭证，也不运行真实 workspace provider。
 
@@ -30,6 +32,7 @@ python scripts/compatibility_lab.py --install --strict
 - `--install`：在执行构建前运行语言准备步骤（TypeScript 使用 `npm ci`）。
 - `--strict`：将跳过的语言或工具链视为失败。
 - `--languages python,java`：只运行指定语言。
+- `--languages python,typescript,java,rust,fortran,cobol`：运行完整 Linux CI 集合。
 - `--timeout 300`：设置单条命令超时。
 
 命令会生成：
@@ -41,16 +44,18 @@ python scripts/compatibility_lab.py --install --strict
 
 ## 当前证据
 
-2026-10-30 的首次本地运行中，四个选定实现全部通过：
+2026-10-30 的本地运行中，前四个实现全部通过；后续本地运行也通过了 Fortran。COBOL 由 Linux CI 覆盖，因为本地缺少 GnuCOBOL：
 
-| 语言 | 结果 | 本地使用的工具链 |
+| 语言 | 结果 | 工具链 |
 | --- | --- | --- |
 | Python | passed | Python 3.14.6 |
 | TypeScript | passed | Node.js 24.18.0 |
 | Java | passed | OpenJDK 21.0.8 |
 | Rust | passed | Cargo 1.96.0 |
+| Fortran | passed | GNU Fortran 16.2.0 |
+| COBOL | Linux CI 批次 | GNU COBOL |
 
-该次运行所在工作区包含尚未提交的证据工具改动，因此不是 clean-SHA 发布记录。将其作为可复现 CI 证据引用前，应在合并后的 revision 上重新运行。
+首次本地运行所在工作区包含尚未提交的证据工具改动，因此不是 clean-SHA 发布记录。引用完整六语言集合时，应使用 CI artifact 和合并后的 revision。
 
 ## 增加语言
 

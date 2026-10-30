@@ -7,7 +7,9 @@ import compatibility_lab as lab
 class CompatibilityLabTests(unittest.TestCase):
     def test_language_definitions_are_stable(self):
         languages = lab.language_definitions()
-        self.assertEqual(sorted(languages), sorted(lab.DEFAULT_LANGUAGES))
+        self.assertTrue(set(lab.DEFAULT_LANGUAGES).issubset(languages))
+        self.assertIn("fortran", languages)
+        self.assertIn("cobol", languages)
         for item in languages.values():
             self.assertTrue(item.version)
             self.assertTrue(item.run)

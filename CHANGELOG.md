@@ -5,10 +5,10 @@
 ### Added
 
 - A cross-language compatibility lab runs deterministic conformance, API
-  snapshot/signature checks, and parity checks for Python, TypeScript, Java, and
-  Rust, records toolchains and command results, and writes JSON and Markdown
-  reports. It is contract evidence only, not provider, production, or security
-  verification.
+  snapshot/signature checks, and parity checks for Python, TypeScript, Java,
+  Rust, Fortran, and COBOL, records toolchains and command results, and writes
+  JSON and Markdown reports. It is contract evidence only, not provider,
+  production, or security verification.
 - Added a "When Not to Use PRAXO-CORE" guide covering non-goals, alternative
   starting points, product-owned capabilities, and migration/exit costs.
 - Added an evaluation-only workspace runtime profile that composes state, local,

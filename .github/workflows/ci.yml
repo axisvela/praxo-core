@@ -663,8 +663,10 @@ jobs:
           java-version: "21"
           cache: maven
       - uses: dtolnay/rust-toolchain@stable
+      - run: sudo apt-get update
+      - run: sudo apt-get install -y gfortran gnucobol
       - run: python -m unittest discover -s scripts -p "test_compatibility_lab.py" -v
-      - run: python scripts/compatibility_lab.py --install --strict
+      - run: python scripts/compatibility_lab.py --install --strict --languages python,typescript,java,rust,fortran,cobol
       - uses: actions/upload-artifact@v4
         if: always()
         with:

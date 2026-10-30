@@ -44,6 +44,8 @@ def language_definitions() -> dict[str, Language]:
     typescript_dir = ROOT / "language" / "typescript"
     java_dir = ROOT / "language" / "java"
     rust_dir = ROOT / "language" / "rust"
+    fortran_dir = ROOT / "language" / "fortran"
+    cobol_dir = ROOT / "language" / "cobol"
     return {
         "python": Language(
             "python",
@@ -110,6 +112,20 @@ def language_definitions() -> dict[str, Language]:
                 ),
                 command("api snapshot", rust_dir, sys.executable, "api-snapshot.py", "--check"),
             ),
+        ),
+        "fortran": Language(
+            "fortran",
+            "Fortran",
+            ("gfortran", "--version"),
+            (),
+            (command("tests", fortran_dir, sys.executable, "run-tests.py"),),
+        ),
+        "cobol": Language(
+            "cobol",
+            "COBOL",
+            ("cobc", "--version"),
+            (),
+            (command("tests", cobol_dir, sys.executable, "run-tests.py"),),
         ),
     }
 
