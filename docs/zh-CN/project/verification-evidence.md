@@ -38,7 +38,7 @@
 ## 公开证据链接
 
 - [兼容性实验](../languages/compatibility-lab.md) 与 [CI compatibility job](https://github.com/axisvela/praxo-core/actions/runs/41000572198/job/123883752839)
-- [行为实验](../languages/behavior-lab.md) 与其 Linux CI job
+- [行为实验](../languages/behavior-lab.md) 与 [CI behavior job](https://github.com/axisvela/praxo-core/actions/runs/41144788172/job/124367263774)
 - [PyPI 上的 praxo-core 0.2.3](https://pypi.org/project/praxo-core/0.2.3/)
 
 - [受治理工作区示例](https://github.com/axisvela/praxo-core/tree/main/examples/governed-workspace)

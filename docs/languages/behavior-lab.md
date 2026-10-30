@@ -76,8 +76,9 @@ overwritten; `latest.json` is only a convenience pointer.
 
 The four-language local seventeen-scenario run on 2026-10-30 passed all 68
 cells. Because that run was made from a working tree with uncommitted evidence
-changes, it is not a clean-SHA record. Use the clean-SHA Linux CI behavior job
-and artifact for the revision you are citing.
+changes, it is not a clean-SHA record. The clean-SHA Linux CI run on commit
+`f1047b1` also passed all 68 cells; use that [behavior job](https://github.com/axisvela/praxo-core/actions/runs/41144788172/job/124367263774)
+and its artifact when citing the report as evidence.
 
 ## Limits
 

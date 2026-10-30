@@ -43,7 +43,7 @@ evidence.
 ## Public Evidence Links
 
 - [Compatibility lab](../languages/compatibility-lab.md) and the [CI compatibility job](https://github.com/axisvela/praxo-core/actions/runs/41000572198/job/123883752839)
-- [Behavior lab](../languages/behavior-lab.md) and its Linux CI job
+- [Behavior lab](../languages/behavior-lab.md) and the [CI behavior job](https://github.com/axisvela/praxo-core/actions/runs/41144788172/job/124367263774)
 - [praxo-core 0.2.3 on PyPI](https://pypi.org/project/praxo-core/0.2.3/)
 - [Governed workspace example](https://github.com/axisvela/praxo-core/tree/main/examples/governed-workspace)
 - [Governed execution design](../reference/governed-execution.md)
