@@ -24,6 +24,7 @@ run() ->
     test_agent_pii(),
     test_agent_structured(),
     test_agent_limits(),
+    test_run_state_isolation(),
     io:format("erlang tests passed~n").
 
 check(true, _Message) -> ok;
@@ -594,3 +595,12 @@ test_agent_limits() ->
     ),
     erase(tool_invocations),
     erase(model_invocations).
+
+test_run_state_isolation() ->
+    First = praxo_middleware:call_limit(1, 0),
+    Second = praxo_middleware:call_limit(1, 0),
+    {ok, FirstUsed} = praxo_middleware:model_call(First),
+    {ok, SecondUsed} = praxo_middleware:model_call(Second),
+    {error, <<"AGENT_MODEL_CALL_LIMIT">>, _} =
+        praxo_middleware:model_call(FirstUsed),
+    check(maps:get(models, SecondUsed) == 1, <<"run state isolation">>).

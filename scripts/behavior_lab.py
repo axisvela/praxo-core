@@ -653,6 +653,8 @@ def scenarios() -> tuple[Scenario, ...]:
                 "rust": (rust_test("call_limit_state_is_isolated_by_run"),),
                 "csharp": (csharp,),
                 "php": (php,),
+                "elixir": (elixir,),
+                "erlang": (erlang,),
             },
             {
                 "go": "scenario",
@@ -662,6 +664,8 @@ def scenarios() -> tuple[Scenario, ...]:
                 "rust": "scenario",
                 "csharp": "suite",
                 "php": "suite",
+                "elixir": "suite",
+                "erlang": "suite",
             },
         ),
         Scenario(
