@@ -11,14 +11,14 @@
 | 语言数 | 14 |
 | 场景数 | 19 |
 | 单元格数 | 266 |
-| 通过 | 123 |
-| 不支持 | 143 |
+| 通过 | 125 |
+| 不支持 | 141 |
 | 失败 | 0 |
 | 源报告 | `report.json` |
-| Run ID | `20261031T124030Z-eea3454e` |
-| Revision | `c677b159b800c6ae54a2d410eae0e01ddf8f97b5` |
+| Run ID | `20261031T132555Z-91331aa3` |
+| Revision | `4da2c6bf7ee4bbd9ec07f9a35d262b25f39cf2a0` |
 | 工作区未提交 | False |
-| CI 任务 | [GitHub Actions](https://github.com/axisvela/praxo-core/actions/runs/41201983414/job/124539422175) |
+| CI 任务 | [GitHub Actions](https://github.com/axisvela/praxo-core/actions/runs/41205416372/job/124549382274) |
 
 ## 矩阵图例
 
@@ -48,7 +48,7 @@
 | `checkpoint-content` | S | S | S | S | S | N | N | N | N | N | N | N | N | N |
 | `capacity-failclosed` | S | S | S | G | S | N | N | N | - | - | N | N | N | N |
 | `parallel-tools` | S | S | S | G | - | - | - | - | - | - | - | - | - | - |
-| `run-state-isolation` | S | S | S | G | S | - | - | - | - | - | - | - | - | - |
+| `run-state-isolation` | S | S | S | G | S | - | - | - | - | - | - | N | N | - |
 | `stream-callback-error` | S | S | S | S | - | - | - | - | - | - | - | - | - | - |
 | `sse-truncated` | S | S | S | G | - | - | - | - | - | - | - | - | - | - |
 | `sse-half-packet` | S | S | S | G | - | - | - | - | - | - | - | - | - | - |
@@ -278,10 +278,10 @@ python scripts/cpp_behavior_suite.py
 ### PHP
 
 - 覆盖类型: 套件级
-- 通过: 5/19
-- 不支持: 14
-- 已覆盖场景: `schema-number-unicode`, `call-limit`, `pii-tool-history`, `checkpoint-content`, `capacity-failclosed`
-- 未覆盖场景: `final-arguments`, `final-name`, `unchanged-single-auth`, `initial-denial`, `startup-cleanup`, `after-run-continue`, `cleanup-failclosed`, `model-cancel-cleanup`, `tool-cancel-cleanup`, `parallel-tools`, `run-state-isolation`, `stream-callback-error`, `sse-truncated`, `sse-half-packet`
+- 通过: 6/19
+- 不支持: 13
+- 已覆盖场景: `schema-number-unicode`, `call-limit`, `pii-tool-history`, `checkpoint-content`, `capacity-failclosed`, `run-state-isolation`
+- 未覆盖场景: `final-arguments`, `final-name`, `unchanged-single-auth`, `initial-denial`, `startup-cleanup`, `after-run-continue`, `cleanup-failclosed`, `model-cancel-cleanup`, `tool-cancel-cleanup`, `parallel-tools`, `stream-callback-error`, `sse-truncated`, `sse-half-packet`
 
 命令:
 
@@ -292,10 +292,10 @@ php language/php/tests/run.php
 ### C#
 
 - 覆盖类型: 套件级
-- 通过: 5/19
-- 不支持: 14
-- 已覆盖场景: `schema-number-unicode`, `call-limit`, `pii-tool-history`, `checkpoint-content`, `capacity-failclosed`
-- 未覆盖场景: `final-arguments`, `final-name`, `unchanged-single-auth`, `initial-denial`, `startup-cleanup`, `after-run-continue`, `cleanup-failclosed`, `model-cancel-cleanup`, `tool-cancel-cleanup`, `parallel-tools`, `run-state-isolation`, `stream-callback-error`, `sse-truncated`, `sse-half-packet`
+- 通过: 6/19
+- 不支持: 13
+- 已覆盖场景: `schema-number-unicode`, `call-limit`, `pii-tool-history`, `checkpoint-content`, `capacity-failclosed`, `run-state-isolation`
+- 未覆盖场景: `final-arguments`, `final-name`, `unchanged-single-auth`, `initial-denial`, `startup-cleanup`, `after-run-continue`, `cleanup-failclosed`, `model-cancel-cleanup`, `tool-cancel-cleanup`, `parallel-tools`, `stream-callback-error`, `sse-truncated`, `sse-half-packet`
 
 命令:
 
