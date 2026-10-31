@@ -17,6 +17,13 @@
   Python task cancellation is now a `BaseException` cleanup path rather than
   bypassing after-run; cancellation tests cover model and tool execution in all
   three languages.
+- Python, TypeScript, and Java now honor `maxParallelTools`/`max_parallel_tools`
+  with bounded concurrency while preserving authorization, result, and after-tool
+  ordering. TypeScript also preserves message history between steps when no
+  context budget is configured.
+- Python, TypeScript, and Java now reject OpenAI-compatible SSE streams that end
+  without completion or with a half-packet instead of returning partial output.
+  TypeScript also processes the final buffered line at EOF.
 - Compatibility Lab now writes a unique directory per execution with run ID,
   UTC start/finish, pre-run Git metadata, explicit `not_run` commands, and a
   `latest.json` pointer, so a later success cannot overwrite an earlier failure.
@@ -41,6 +48,9 @@
   Rust, Fortran, and COBOL, records toolchains and command results, and writes
   JSON and Markdown reports. It is contract evidence only, not provider,
   production, or security verification.
+- A cross-language behavior lab runs nineteen agent scenarios across the four
+  core languages, with selected Rust scenario tests and Fortran/COBOL native-suite
+  coverage. It reports explicit unsupported cells and suite-level limits.
 - Added a "When Not to Use PRAXO-CORE" guide covering non-goals, alternative
   starting points, product-owned capabilities, and migration/exit costs.
 - Added an evaluation-only workspace runtime profile that composes state, local,

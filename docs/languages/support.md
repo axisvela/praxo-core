@@ -65,9 +65,10 @@ a merged implementation PR as a support commitment.
 - A source release tag does not establish package-registry availability.
 - Use the installation or source-build instructions on the language page.
 - Python publishes `praxo-core==0.2.3` on PyPI. TypeScript source tag is
-  `typescript/v0.1.3`; npm staging failed authentication, so `0.1.2` remains the
-  latest published version. Configure the npm trusted publisher, then rerun the
-  release workflow.
+  `typescript/v0.1.3`; its npm package was staged for approval on 2026-10-31.
+  `0.1.2` remains the latest public version until the staged package is
+  approved. Current main has newer fixes that are not part of that staged
+  package.
 - Java documents a Maven source build; Maven Central publication is not established by a source tag.
 - Rust has source tag `rust/v0.1.2` with all eleven vector groups, native tests,
   `tool.Gateway`, `jsonschema.Schema`, and an API snapshot. The OpenAI adapter,
