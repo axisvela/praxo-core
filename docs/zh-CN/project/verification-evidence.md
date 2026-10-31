@@ -33,7 +33,7 @@
 | Erlang 已发布包 | 干净 rebar3 项目获取并编译 `praxo_core_erlang==0.1.1`，并从该包加载 `praxo_agent` | 本地安装 smoke | 仅一个平台；同机项目，不是独立或非作者消费验证；不含 provider 或生产证据 |
 | D 已发布包 | 从 DUB/code.dlang.org 使用 `dub fetch praxo-core` 获取 `praxo-core==0.1.0` | Registry 元数据 + 获取 | 未执行编译或独立消费者 smoke；一个包版本；不含 provider 或生产证据 |
 | Java 已发布包 | `com.axisvela:praxo-core:0.3.0` 已发布到 Maven Central，包含 sources、javadoc 和 GPG 签名 | 本地发布 + Central 校验 | 本地 Maven 经代理部署；未执行独立消费者安装 smoke；不含 provider 或生产证据 |
-| 跨语言 agent 行为 | Go、Python、TypeScript、Java 运行十九个授权、生命周期、取消、输入校验、调用上限、并行工具、run 隔离、PII、checkpoint、容量、SSE 截断和流失败场景；Rust 有部分场景级测试；Fortran/COBOL/Ruby/Elixir/Erlang 对部分行使用原生套件覆盖；已记录 Linux CI 与本地报告 | 场景测试 + CI | 核心覆盖为四种语言和十九个场景；扩展语言为套件级覆盖；部分 Java 组 self-test 与原生套件不能定位具体场景失败；不是吞吐/压力测试；不是完整功能对齐、provider、HITL、sandbox 或生产证据 |
+| 跨语言 agent 行为 | Go、Python、TypeScript、Java 运行十九个授权、生命周期、取消、输入校验、调用上限、并行工具、run 隔离、PII、checkpoint、容量、SSE 截断和流失败场景；Rust 有部分场景级测试；Fortran/COBOL/Ruby/Elixir/Erlang/C++ 对部分行使用原生套件覆盖；已记录 Linux CI 与本地报告 | 场景测试 + CI | 核心覆盖为四种语言和十九个场景；扩展语言为套件级覆盖；部分 Java 组 self-test 与原生套件不能定位具体场景失败；不是吞吐/压力测试；不是完整功能对齐、provider、HITL、sandbox 或生产证据 |
 | 受治理工作区 | Policy 必需配置、最终参数授权、单次审批、审批后修改、排队撤销、依赖失败关闭 | 契约/单元 | 示例级契约；不是 Core Profile、可信身份服务或持久审批存储 |
 | 上下文信任 | Memory、Skill、工具结果和摘要来源分离；批准 Skill 摘要绑定；文本恢复；拒绝晚期 System 注入 | 契约/单元 | 显式示例路径；不是通用 Prompt Injection 过滤器、来源认证或持久 lineage 证明 |
 | 隔离能力 | Windows path/process/WASM 控制；Linux path/symlink 的 verbose CI job；本地 VFS 在 policy 检查后使用 `os.Root` 执行实际操作 | 契约/单元 + CI | Windows symlink 因权限 SKIP；policy 决策仍是 check-then-use，Linux cgroup v2、WASM fuel 和独立复核仍开放 |

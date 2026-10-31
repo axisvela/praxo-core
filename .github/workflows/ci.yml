@@ -718,7 +718,9 @@ jobs:
         working-directory: language/typescript
       - run: mvn -q -DskipTests test-compile
         working-directory: language/java
-      - run: python scripts/behavior_lab.py --strict --timeout 600 --languages go,python,typescript,java,rust,fortran,cobol,ruby,elixir,erlang
+      - run: cmake -S language/cpp -B language/cpp/build
+      - run: cmake --build language/cpp/build
+      - run: python scripts/behavior_lab.py --strict --timeout 600 --languages go,python,typescript,java,rust,fortran,cobol,ruby,elixir,erlang,cpp
       - uses: actions/upload-artifact@v4
         if: always()
         with:

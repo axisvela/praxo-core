@@ -111,6 +111,16 @@ int main() {
               "[context compacted: 8 older messages omitted]", "context marker");
 
         check(PiiRedactor().redact("email a@b.com") == "email [REDACTED:email]", "pii");
+        Json pii_history = Json::parse(
+            R"({"messages":[{"content":"email a@b.com","toolCalls":[)"
+            R"({"arguments":{"email":"a@b.com","nested":{"ssn":"123-45-6789"}}}]}]})");
+        Json redacted_history = PiiRedactor().redact_value(pii_history);
+        check(redacted_history.dump().find("[REDACTED:email]") != std::string::npos,
+              "pii tool history email");
+        check(redacted_history.dump().find("[REDACTED:ssn]") != std::string::npos,
+              "pii tool history nested ssn");
+        check(pii_history.dump().find("a@b.com") != std::string::npos,
+              "pii input unchanged");
         Json structured_schema = Json::parse(
             R"({"type":"object","properties":{"value":{"type":"integer"}},"required":["value"]})");
         StructuredOutput structured(structured_schema, 0);
@@ -122,6 +132,23 @@ int main() {
         bool caught = false;
         try { limit.before_model(); } catch (const PraxoError&) { caught = true; }
         check(caught, "call limit");
+
+        CallLimit tool_limit(0, 1);
+        tool_limit.before_tool();
+        caught = false;
+        try { tool_limit.before_tool(); } catch (const PraxoError&) { caught = true; }
+        check(caught, "tool call limit");
+
+        bool capacity_caught = false;
+        try {
+            AgentOptions tight(std::make_shared<StaticModel>("done"));
+            tight.system_prompt = std::string(1000, 'x');
+            tight.context = ContextBudget{10, 0};
+            (void)run_agent(std::move(tight), Session{"s1", {}}, "go");
+        } catch (const PraxoError& error) {
+            capacity_caught = error.code() == "AGENT_CONTEXT_BUDGET";
+        }
+        check(capacity_caught, "capacity fail closed");
 
         ToolSelection selection({"echo"});
         std::vector<ToolSpec> tools;

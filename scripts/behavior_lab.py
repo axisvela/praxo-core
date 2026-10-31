@@ -20,7 +20,7 @@ ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_OUTPUT = ROOT / "build" / "behavior-lab"
 SCHEMA = "praxo-behavior-lab-1"
 CORE_LANGUAGES = ("go", "python", "typescript", "java")
-EXTENDED_LANGUAGES = ("rust", "fortran", "cobol", "ruby", "elixir", "erlang")
+EXTENDED_LANGUAGES = ("rust", "fortran", "cobol", "ruby", "elixir", "erlang", "cpp")
 LANGUAGES = (*CORE_LANGUAGES, *EXTENDED_LANGUAGES)
 DEFAULT_LANGUAGES = CORE_LANGUAGES
 LANGUAGE_NAMES = {
@@ -34,6 +34,7 @@ LANGUAGE_NAMES = {
     "ruby": "Ruby",
     "elixir": "Elixir",
     "erlang": "Erlang",
+    "cpp": "C++",
 }
 
 
@@ -117,6 +118,14 @@ def elixir_suite() -> Command:
     )
 
 
+def cpp_suite() -> Command:
+    return Command(
+        "python scripts/cpp_behavior_suite.py",
+        (sys.executable, "scripts/cpp_behavior_suite.py"),
+        ROOT,
+    )
+
+
 def scenarios() -> tuple[Scenario, ...]:
     auth = java_test("AgentAuthorizationSelfTest")
     lifecycle = java_test("AgentLifecycleSelfTest")
@@ -136,6 +145,7 @@ def scenarios() -> tuple[Scenario, ...]:
     erlang = native_suite("erlang")
     ruby = ruby_suite()
     elixir = elixir_suite()
+    cpp = cpp_suite()
     return (
         Scenario(
             "final-arguments",
@@ -384,6 +394,7 @@ def scenarios() -> tuple[Scenario, ...]:
                 "ruby": (ruby,),
                 "elixir": (elixir,),
                 "erlang": (erlang,),
+                "cpp": (cpp,),
             },
             {
                 "go": "scenario",
@@ -396,6 +407,7 @@ def scenarios() -> tuple[Scenario, ...]:
                 "ruby": "suite",
                 "elixir": "suite",
                 "erlang": "suite",
+                "cpp": "suite",
             },
         ),
         Scenario(
@@ -423,6 +435,7 @@ def scenarios() -> tuple[Scenario, ...]:
                 "cobol": (cobol,),
                 "elixir": (elixir,),
                 "erlang": (erlang,),
+                "cpp": (cpp,),
             },
             {
                 "go": "scenario",
@@ -434,6 +447,7 @@ def scenarios() -> tuple[Scenario, ...]:
                 "cobol": "suite",
                 "elixir": "suite",
                 "erlang": "suite",
+                "cpp": "suite",
             },
         ),
         Scenario(
@@ -459,6 +473,7 @@ def scenarios() -> tuple[Scenario, ...]:
                 "ruby": (ruby,),
                 "elixir": (elixir,),
                 "erlang": (erlang,),
+                "cpp": (cpp,),
             },
             {
                 "go": "scenario",
@@ -471,6 +486,7 @@ def scenarios() -> tuple[Scenario, ...]:
                 "ruby": "suite",
                 "elixir": "suite",
                 "erlang": "suite",
+                "cpp": "suite",
             },
         ),
         Scenario(
@@ -494,6 +510,7 @@ def scenarios() -> tuple[Scenario, ...]:
                 "rust": (rust_test("context_budget_fails_closed"),),
                 "fortran": (fortran,),
                 "cobol": (cobol,),
+                "cpp": (cpp,),
             },
             {
                 "go": "scenario",
@@ -503,6 +520,7 @@ def scenarios() -> tuple[Scenario, ...]:
                 "rust": "scenario",
                 "fortran": "suite",
                 "cobol": "suite",
+                "cpp": "suite",
             },
         ),
         Scenario(
