@@ -1,11 +1,11 @@
 # PRAXO-CORE for Nim
 
-Nim is a native Core implementation with source tag `nim/v0.1.1`. It passes all
-eleven shared vector groups with `Nim 2.2.12` and includes the native
-agent loop, context compaction, memory store, path policy, checkpoint
-allowlist, tool-call parsing, and opt-in agent tool selection, PII redaction,
-structured output, and call limits. Vector coverage does not establish full
-Core parity or production readiness.
+PRAXO-CORE is an embeddable, MIT-licensed agent framework. This package is its
+native Nim Core with source tag `nim/v0.1.1`. It passes all eleven shared vector
+groups with `Nim 2.2.12` and includes the native agent loop, context compaction,
+memory store, path policy, checkpoint allowlist, tool-call parsing, and opt-in
+agent tool selection, PII redaction, structured output, and call limits. Vector
+coverage does not establish full Core parity or production readiness.
 
 The Core does not call Go or another language runtime. It has no provider
 adapter or plugin host; those remain outside the declared Core scope.

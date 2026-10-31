@@ -1,0 +1,6 @@
+version = "0.1.1"
+author = "AxisVela"
+description = "Embeddable MIT-licensed agent framework for Nim: tools, policy, events, memory, context, middleware, checkpoints, and an agent loop"
+license = "MIT"
+srcDir = "src"
+requires "nim >= 1.6.0"
