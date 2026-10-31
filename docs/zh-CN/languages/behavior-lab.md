@@ -2,7 +2,7 @@
 
 **状态：** 证据工具，2026-10-30。该实验不是稳定的公开 API。
 
-行为实验在 Go、Python、TypeScript 和 Java 中运行具名 agent 场景，并生成一份对比报告。它回答的问题比[兼容性实验](compatibility-lab.md)更窄：当通过各实现自己的测试套件执行时，它们是否对授权、生命周期、取消、输入校验、调用上限、并行工具执行、run 状态隔离、PII、checkpoint、容量和流失败做出相同决策？
+行为实验在 Go、Python、TypeScript 和 Java 中运行具名 agent 场景，并生成一份对比报告。Rust、Fortran、COBOL 是扩展语言，覆盖范围更窄，使用场景级或原生套件证据。它回答的问题比[兼容性实验](compatibility-lab.md)更窄：当通过各实现自己的测试套件执行时，它们是否对授权、生命周期、取消、输入校验、调用上限、并行工具执行、run 状态隔离、PII、checkpoint、容量和流失败做出相同决策？
 
 它不证明完整功能对齐、provider 行为、真实服务集成、生产就绪或安全性。报告通过只比较所列场景。
 
@@ -27,10 +27,23 @@
 | `parallel-tools` | 工具按上限并发启动并保持结果顺序 | scenario | scenario | scenario | self-test group |
 | `run-state-isolation` | 调用上限状态在并发 run 之间隔离 | scenario | scenario | scenario | self-test group |
 | `stream-callback-error` | 流回调失败中止 run，而不是继续完成 | scenario | scenario | scenario | scenario |
+| `sse-truncated` | 未完成的 SSE 流被拒绝 | scenario | scenario | scenario | self-test group |
+| `sse-half-packet` | SSE 半包失败，不被静默丢弃 | scenario | scenario | scenario | self-test group |
 
 `scenario` 表示为该行为命名的测试。`self-test group` 表示一个 Java self-test 可执行文件覆盖多个场景，因此组通过不能定位到具体场景断言。报告保留这一区别，不把组覆盖当作场景级证据。
 
-Rust、Fortran、COBOL 及其余实现不在首批范围内。只有当它们提供等价的 agent 生命周期 hook 和具名行为测试后才应加入。
+## 扩展覆盖
+
+| 场景 | Rust | Fortran | COBOL |
+| --- | --- | --- | --- |
+| `schema-number-unicode` | scenario | unsupported | unsupported |
+| `call-limit` | scenario | native suite | native suite |
+| `pii-tool-history` | scenario | native suite | native suite |
+| `checkpoint-content` | scenario | native suite | native suite |
+| `capacity-failclosed` | scenario | native suite | native suite |
+| `run-state-isolation` | scenario | unsupported | unsupported |
+
+`native suite` 表示该实现的完整原生测试可执行文件通过；它不是场景隔离断言，因此不能仅凭该单元格定位具体场景失败。其余 Rust/Fortran/COBOL 场景仍为 `unsupported`；报告会显式列出，而不是删除这些语言。
 
 ## 运行
 
@@ -40,9 +53,12 @@ Rust、Fortran、COBOL 及其余实现不在首批范围内。只有当它们提
 cd language/typescript; npm ci; npm run build; cd ../..
 cd language/java; mvn -q -DskipTests test-compile; cd ../..
 python scripts/behavior_lab.py --strict --timeout 300
+python scripts/behavior_lab.py --strict --timeout 600 --languages go,python,typescript,java,rust,fortran,cobol
 ```
 
-- `--strict`：只要出现 `failed`、`skipped`、`not_run` 或 `unsupported` 单元格就失败。
+七语言运行还需要 Rust 工具链，以及 `gfortran`、`gnucobol`、`g++`、CMake 和 Ninja；Fortran 会构建 pinned RE2 bridge。Fortran/COBOL 的原生套件命令在一次报告内缓存，只执行一次。
+
+- `--strict`：对四种核心语言，只要出现 `failed`、`skipped`、`not_run` 或 `unsupported` 单元格就失败；扩展语言的缺口保留为 `unsupported`。
 - `--languages go,python`：只运行指定语言。
 - `--timeout 300`：设置单条命令超时。
 - `--output-dir build/behavior-lab`：修改报告位置。
@@ -57,12 +73,13 @@ python scripts/behavior_lab.py --strict --timeout 300
 
 ## 当前证据
 
-2026-10-30 的四语言十七场景本地运行通过了全部 68 个单元格。该运行所在工作区包含尚未提交的证据改动，因此不是 clean-SHA 记录。commit `f1047b1` 上的 clean-SHA Linux CI 运行同样通过了全部 68 个单元格；引用行为报告作为证据时，应使用该 [behavior job](https://github.com/axisvela/praxo-core/actions/runs/41144788172/job/124367263774) 及其 artifact。
+2026-10-31 的四语言十九场景本地运行通过了全部 76 个单元格。七语言本地运行通过 90 个单元格，另有 43 个显式 `unsupported`，无失败。两次运行所在工作区都包含尚未提交的改动，因此不是 clean-SHA 记录。引用行为报告作为证据时，应使用对应 revision 的 clean-SHA Linux CI behavior job 及其 artifact。
 
 ## 限制
 
-- 只覆盖十七个选定场景，不覆盖完整 agent 或契约对齐。
+- 只覆盖十九个选定场景，不覆盖完整 agent 或契约对齐。
 - Go 和 Python 使用场景级测试；TypeScript 使用 `node --test` 名称过滤；部分 Java self-test 覆盖多个场景。
-- 并行场景使用确定性 barrier，不是吞吐或压力测试。
-- 不覆盖 provider、模型、网络、sandbox、HITL、checkpoint 或效果恢复场景。
+- Rust 对部分场景有场景级测试；Fortran 和 COBOL 使用原生套件覆盖，不是场景隔离断言。
+- 并行场景使用确定性 barrier，不是吞吐或压力测试。SSE 测试使用本地 fixture，不调用 provider。
+- 不覆盖 provider、模型、网络、sandbox、HITL、持久 checkpoint 或效果恢复场景。
 - 报告通过不等于安全审查或生产认证。

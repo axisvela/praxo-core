@@ -1,6 +1,7 @@
 package io.axisvela.praxo.adapters;
 
 import com.sun.net.httpserver.HttpServer;
+import io.axisvela.praxo.PraxoException;
 import io.axisvela.praxo.model.Message;
 import io.axisvela.praxo.model.Request;
 import io.axisvela.praxo.model.Response;
@@ -26,11 +27,33 @@ public final class OpenAICompatibleSelfTest {
                     exchange.getRequestBody().readAllBytes(),
                     StandardCharsets.UTF_8));
             boolean stream = Boolean.TRUE.equals(payload.get("stream"));
+            String prompt = "";
+            if (payload.get("messages") != null) {
+                List<Object> messages = Json.asArray(payload.get("messages"));
+                if (!messages.isEmpty()) {
+                    Map<String, Object> last =
+                            Json.asObject(messages.get(messages.size() - 1));
+                    if (last.get("content") != null) {
+                        prompt = String.valueOf(last.get("content"));
+                    }
+                }
+            }
             exchange.getResponseHeaders().add("Content-Type",
                     stream ? "text/event-stream" : "application/json");
             if (stream) {
                 exchange.sendResponseHeaders(200, 0);
                 try (OutputStream out = exchange.getResponseBody()) {
+                    if ("truncate".equals(prompt)) {
+                        out.write(("data: {\"choices\":[{\"delta\":"
+                                + "{\"content\":\"partial\"}}]}\n\n")
+                                .getBytes(StandardCharsets.UTF_8));
+                        return;
+                    }
+                    if ("half".equals(prompt)) {
+                        out.write("data: {\"choices\":[{\"delta\":"
+                                .getBytes(StandardCharsets.UTF_8));
+                        return;
+                    }
                     for (Map<String, Object> chunk : streamChunks()) {
                         out.write(("data: " + Json.stringify(chunk) + "\n\n")
                                 .getBytes(StandardCharsets.UTF_8));
@@ -72,6 +95,29 @@ public final class OpenAICompatibleSelfTest {
                     "stream content");
             check(streamed.message().toolCalls().get(0).arguments()
                     .get("text").equals("hi"), "stream tool arguments");
+
+            try {
+                model.generateStream(
+                        Request.of(List.of(Message.of(
+                                Message.USER, "truncate"))),
+                        delta -> {
+                        });
+                throw new AssertionError("expected truncated stream error");
+            } catch (PraxoException error) {
+                check(error.getMessage().contains(
+                        "stream ended before completion"),
+                        "truncated stream: " + error.getMessage());
+            }
+            try {
+                model.generateStream(
+                        Request.of(List.of(Message.of(
+                                Message.USER, "half"))),
+                        delta -> {
+                        });
+                throw new AssertionError("expected half-packet error");
+            } catch (RuntimeException error) {
+                check(error.getMessage() != null, "half-packet error");
+            }
         } finally {
             server.stop(0);
         }

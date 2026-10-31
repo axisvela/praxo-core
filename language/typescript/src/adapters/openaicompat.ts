@@ -79,50 +79,62 @@ export class OpenAICompatibleModel implements StreamingModel {
     let total: Usage = usage();
     let finished = false;
 
+    const consumeLine = (raw: string): boolean => {
+      const line = raw.trim();
+      if (!line.startsWith("data:")) return false;
+      const chunk = line.slice(5).trim();
+      if (!chunk) return false;
+      if (chunk === "[DONE]") return true;
+      const event = JSON.parse(chunk) as Record<string, unknown>;
+      if (event.usage) total = parseUsage(event.usage);
+      for (const choice of (event.choices as Record<string, unknown>[]) ?? []) {
+        finishReason =
+          (choice.finish_reason as string | undefined) ?? finishReason;
+        const delta = (choice.delta as Record<string, unknown>) ?? {};
+        const text = delta.content;
+        if (typeof text === "string" && text) {
+          content.push(text);
+          onDelta(text);
+        }
+        for (const item of (delta.tool_calls as Record<string, unknown>[]) ?? []) {
+          const callIndex = Number(item.index ?? 0);
+          const slot = calls.get(callIndex) ?? {
+            id: "",
+            name: "",
+            arguments: "",
+          };
+          if (item.id) slot.id = String(item.id);
+          const fn = (item.function as Record<string, unknown>) ?? {};
+          if (fn.name) slot.name += String(fn.name);
+          if (fn.arguments) slot.arguments += String(fn.arguments);
+          calls.set(callIndex, slot);
+        }
+      }
+      return false;
+    };
+
     while (!finished) {
       const { done, value } = await reader.read();
-      if (done) break;
+      if (done) {
+        buffer += decoder.decode();
+        if (buffer.trim()) finished = consumeLine(buffer);
+        break;
+      }
       buffer += decoder.decode(value, { stream: true });
       let index = buffer.indexOf("\n");
       while (index >= 0) {
-        const line = buffer.slice(0, index).trim();
+        const line = buffer.slice(0, index);
         buffer = buffer.slice(index + 1);
         index = buffer.indexOf("\n");
-        if (!line.startsWith("data:")) continue;
-        const chunk = line.slice(5).trim();
-        if (!chunk) continue;
-        if (chunk === "[DONE]") {
+        if (consumeLine(line)) {
           finished = true;
-          index = -1;
           buffer = "";
           break;
         }
-        const event = JSON.parse(chunk) as Record<string, unknown>;
-        if (event.usage) total = parseUsage(event.usage);
-        for (const choice of (event.choices as Record<string, unknown>[]) ?? []) {
-          finishReason =
-            (choice.finish_reason as string | undefined) ?? finishReason;
-          const delta = (choice.delta as Record<string, unknown>) ?? {};
-          const text = delta.content;
-          if (typeof text === "string" && text) {
-            content.push(text);
-            onDelta(text);
-          }
-          for (const item of (delta.tool_calls as Record<string, unknown>[]) ?? []) {
-            const callIndex = Number(item.index ?? 0);
-            const slot = calls.get(callIndex) ?? {
-              id: "",
-              name: "",
-              arguments: "",
-            };
-            if (item.id) slot.id = String(item.id);
-            const fn = (item.function as Record<string, unknown>) ?? {};
-            if (fn.name) slot.name += String(fn.name);
-            if (fn.arguments) slot.arguments += String(fn.arguments);
-            calls.set(callIndex, slot);
-          }
-        }
       }
+    }
+    if (!finished && !finishReason) {
+      throw new PraxoError("openaicompat: stream ended before completion");
     }
     const toolCalls: ToolCall[] = [...calls.entries()]
       .sort((a, b) => a[0] - b[0])

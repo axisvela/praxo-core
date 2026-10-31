@@ -19,7 +19,19 @@ from compatibility_lab import (
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_OUTPUT = ROOT / "build" / "behavior-lab"
 SCHEMA = "praxo-behavior-lab-1"
-LANGUAGES = ("go", "python", "typescript", "java")
+CORE_LANGUAGES = ("go", "python", "typescript", "java")
+EXTENDED_LANGUAGES = ("rust", "fortran", "cobol")
+LANGUAGES = (*CORE_LANGUAGES, *EXTENDED_LANGUAGES)
+DEFAULT_LANGUAGES = CORE_LANGUAGES
+LANGUAGE_NAMES = {
+    "go": "Go",
+    "python": "Python",
+    "typescript": "TypeScript",
+    "java": "Java",
+    "rust": "Rust",
+    "fortran": "Fortran",
+    "cobol": "COBOL",
+}
 
 
 @dataclass(frozen=True)
@@ -57,17 +69,33 @@ def typescript_test(
     )
 
 
-def java_class_test(qualified_name: str) -> Command:
+def java_class_test(qualified_name: str, *options: str) -> Command:
     classpath = "target/classes" + os.pathsep + "target/test-classes"
     return Command(
-        "java " + qualified_name,
-        ("java", "-cp", classpath, qualified_name),
+        "java " + " ".join((*options, qualified_name)),
+        ("java", *options, "-cp", classpath, qualified_name),
         ROOT / "language" / "java",
     )
 
 
 def java_test(name: str) -> Command:
     return java_class_test("io.axisvela.praxo.agent." + name)
+
+
+def rust_test(name: str) -> Command:
+    return Command(
+        "cargo test --test sdk " + name,
+        ("cargo", "test", "--test", "sdk", name, "--", "--exact"),
+        ROOT / "language" / "rust",
+    )
+
+
+def native_suite(language: str) -> Command:
+    return Command(
+        "python language/" + language + "/run-tests.py",
+        (sys.executable, "language/" + language + "/run-tests.py"),
+        ROOT,
+    )
 
 
 def scenarios() -> tuple[Scenario, ...]:
@@ -79,6 +107,13 @@ def scenarios() -> tuple[Scenario, ...]:
     pii = java_class_test("io.axisvela.praxo.middleware.PiiMiddlewareSelfTest")
     stream = java_test("AgentStreamSelfTest")
     concurrency = java_test("AgentConcurrencySelfTest")
+    adapter = java_class_test(
+        "io.axisvela.praxo.adapters.OpenAICompatibleSelfTest",
+        "--add-modules",
+        "jdk.httpserver",
+    )
+    fortran = native_suite("fortran")
+    cobol = native_suite("cobol")
     return (
         Scenario(
             "final-arguments",
@@ -281,8 +316,19 @@ def scenarios() -> tuple[Scenario, ...]:
                     ),
                 ),
                 "java": (schema,),
+                "rust": (
+                    rust_test(
+                        "schema_counts_unicode_and_rejects_fractional_integers"
+                    ),
+                ),
             },
-            {"go": "scenario", "python": "scenario", "typescript": "scenario", "java": "scenario"},
+            {
+                "go": "scenario",
+                "python": "scenario",
+                "typescript": "scenario",
+                "java": "scenario",
+                "rust": "scenario",
+            },
         ),
         Scenario(
             "call-limit",
@@ -310,8 +356,19 @@ def scenarios() -> tuple[Scenario, ...]:
                     ),
                 ),
                 "java": (guardrail,),
+                "rust": (rust_test("call_limit_model_and_tool_fail_closed"),),
+                "fortran": (fortran,),
+                "cobol": (cobol,),
             },
-            {"go": "scenario", "python": "scenario", "typescript": "scenario", "java": "group"},
+            {
+                "go": "scenario",
+                "python": "scenario",
+                "typescript": "scenario",
+                "java": "group",
+                "rust": "scenario",
+                "fortran": "suite",
+                "cobol": "suite",
+            },
         ),
         Scenario(
             "pii-tool-history",
@@ -333,8 +390,19 @@ def scenarios() -> tuple[Scenario, ...]:
                     typescript_test("PII middleware redacts tool-call history"),
                 ),
                 "java": (pii,),
+                "rust": (rust_test("pii_redacts_tool_call_history"),),
+                "fortran": (fortran,),
+                "cobol": (cobol,),
             },
-            {"go": "scenario", "python": "scenario", "typescript": "scenario", "java": "scenario"},
+            {
+                "go": "scenario",
+                "python": "scenario",
+                "typescript": "scenario",
+                "java": "scenario",
+                "rust": "scenario",
+                "fortran": "suite",
+                "cobol": "suite",
+            },
         ),
         Scenario(
             "checkpoint-content",
@@ -353,8 +421,19 @@ def scenarios() -> tuple[Scenario, ...]:
                     typescript_test("checkpoint allowlist round-trips"),
                 ),
                 "java": (checkpoint,),
+                "rust": (rust_test("checkpoint_round_trips"),),
+                "fortran": (fortran,),
+                "cobol": (cobol,),
             },
-            {"go": "scenario", "python": "scenario", "typescript": "scenario", "java": "scenario"},
+            {
+                "go": "scenario",
+                "python": "scenario",
+                "typescript": "scenario",
+                "java": "scenario",
+                "rust": "scenario",
+                "fortran": "suite",
+                "cobol": "suite",
+            },
         ),
         Scenario(
             "capacity-failclosed",
@@ -374,8 +453,19 @@ def scenarios() -> tuple[Scenario, ...]:
                     ),
                 ),
                 "java": (guardrail,),
+                "rust": (rust_test("context_budget_fails_closed"),),
+                "fortran": (fortran,),
+                "cobol": (cobol,),
             },
-            {"go": "scenario", "python": "scenario", "typescript": "scenario", "java": "group"},
+            {
+                "go": "scenario",
+                "python": "scenario",
+                "typescript": "scenario",
+                "java": "group",
+                "rust": "scenario",
+                "fortran": "suite",
+                "cobol": "suite",
+            },
         ),
         Scenario(
             "parallel-tools",
@@ -421,8 +511,15 @@ def scenarios() -> tuple[Scenario, ...]:
                     ),
                 ),
                 "java": (guardrail,),
+                "rust": (rust_test("call_limit_state_is_isolated_by_run"),),
             },
-            {"go": "scenario", "python": "scenario", "typescript": "scenario", "java": "group"},
+            {
+                "go": "scenario",
+                "python": "scenario",
+                "typescript": "scenario",
+                "java": "group",
+                "rust": "scenario",
+            },
         ),
         Scenario(
             "stream-callback-error",
@@ -445,6 +542,58 @@ def scenarios() -> tuple[Scenario, ...]:
             },
             {"go": "scenario", "python": "scenario", "typescript": "scenario", "java": "scenario"},
         ),
+        Scenario(
+            "sse-truncated",
+            "SSE streams without completion are rejected",
+            {
+                "go": (
+                    go_test(
+                        "^TestAdapterGenerateStreamRejectsTruncatedStream$",
+                        "./adapters/openaicompat",
+                    ),
+                ),
+                "python": (
+                    python_test(
+                        "tests.test_openaicompat.OpenAICompatTest."
+                        "test_generate_stream_rejects_truncated_stream"
+                    ),
+                ),
+                "typescript": (
+                    typescript_test(
+                        "OpenAI-compatible stream rejects truncation",
+                        "tests/openaicompat.test.js",
+                    ),
+                ),
+                "java": (adapter,),
+            },
+            {"go": "scenario", "python": "scenario", "typescript": "scenario", "java": "group"},
+        ),
+        Scenario(
+            "sse-half-packet",
+            "SSE half-packets fail instead of being silently dropped",
+            {
+                "go": (
+                    go_test(
+                        "^TestAdapterGenerateStreamRejectsHalfPacket$",
+                        "./adapters/openaicompat",
+                    ),
+                ),
+                "python": (
+                    python_test(
+                        "tests.test_openaicompat.OpenAICompatTest."
+                        "test_generate_stream_rejects_half_packet"
+                    ),
+                ),
+                "typescript": (
+                    typescript_test(
+                        "OpenAI-compatible stream rejects half packet",
+                        "tests/openaicompat.test.js",
+                    ),
+                ),
+                "java": (adapter,),
+            },
+            {"go": "scenario", "python": "scenario", "typescript": "scenario", "java": "group"},
+        ),
     )
 
 
@@ -465,6 +614,7 @@ def run_scenario(
     scenario: Scenario,
     languages: list[str],
     timeout: float,
+    cache: dict[tuple[tuple[str, ...], str], dict[str, object]],
 ) -> dict[str, object]:
     cells: dict[str, object] = {}
     for language in languages:
@@ -479,7 +629,10 @@ def run_scenario(
             }
             continue
         for index, command in enumerate(commands):
-            result = run_command(command, timeout)
+            key = (command.argv, str(command.cwd))
+            if key not in cache:
+                cache[key] = run_command(command, timeout)
+            result = cache[key]
             results.append(result)
             if result["status"] != "passed":
                 for rest in commands[index + 1:]:
@@ -516,11 +669,22 @@ def run_scenario(
 
 
 def summarize(results: list[dict[str, object]]) -> dict[str, int]:
-    counts = {"cells": 0, "passed": 0, "failed": 0, "skipped": 0, "not_run": 0, "unsupported": 0}
+    counts = {
+        "cells": 0,
+        "passed": 0,
+        "failed": 0,
+        "skipped": 0,
+        "not_run": 0,
+        "unsupported": 0,
+        "core_unsupported": 0,
+    }
     for result in results:
-        for cell in result["languages"].values():
+        for language, cell in result["languages"].items():
             counts["cells"] += 1
-            counts[str(cell["status"])] += 1
+            status = str(cell["status"])
+            counts[status] += 1
+            if status == "unsupported" and language in CORE_LANGUAGES:
+                counts["core_unsupported"] += 1
     return counts
 
 
@@ -548,6 +712,7 @@ def build_report(
 def markdown_report(report: dict[str, object]) -> str:
     repository = report["repository"]
     summary = report["summary"]
+    selected = [str(item) for item in report.get("selection", CORE_LANGUAGES)]
     lines = [
         "# PRAXO-CORE Behavior Lab",
         "",
@@ -559,12 +724,14 @@ def markdown_report(report: dict[str, object]) -> str:
         f"{summary['skipped']} skipped, {summary['not_run']} not run, "
         f"{summary['unsupported']} unsupported of {summary['cells']} cells",
         "",
-        "| Scenario | Go | Python | TypeScript | Java |",
-        "| --- | --- | --- | --- | --- |",
+        "| Scenario | "
+        + " | ".join(LANGUAGE_NAMES[item] for item in selected)
+        + " |",
+        "| --- | " + " | ".join("---" for _ in selected) + " |",
     ]
     for result in report["scenarios"]:
         cells = []
-        for language in LANGUAGES:
+        for language in selected:
             cell = result["languages"].get(language)
             if cell is None:
                 cells.append("not-run")
@@ -578,6 +745,7 @@ def markdown_report(report: dict[str, object]) -> str:
             "",
             "This report compares scenario-level tests, not complete feature parity.",
             "Group coverage means one language self-test covers multiple scenarios.",
+            "Suite coverage means the native suite passed; it is not scenario-isolated.",
         ]
     )
     return "\n".join(lines) + "\n"
@@ -609,7 +777,9 @@ def exit_code(report: dict[str, object], strict: bool) -> int:
     if summary["failed"]:
         return 1
     if strict and (
-        summary["not_run"] or summary["skipped"] or summary["unsupported"]
+        summary["not_run"]
+        or summary["skipped"]
+        or summary["core_unsupported"]
     ):
         return 1
     return 0
@@ -629,7 +799,7 @@ def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(
         description="Run cross-language agent behavior scenarios and write a report"
     )
-    parser.add_argument("--languages", default=",".join(LANGUAGES))
+    parser.add_argument("--languages", default=",".join(DEFAULT_LANGUAGES))
     parser.add_argument("--output-dir", type=Path, default=DEFAULT_OUTPUT)
     parser.add_argument("--timeout", type=float, default=300.0)
     parser.add_argument("--strict", action="store_true")
@@ -642,8 +812,9 @@ def main(argv: list[str] | None = None) -> int:
     run_id = new_run_id()
     started_at = utc_now()
     repository = git_metadata()
+    cache: dict[tuple[tuple[str, ...], str], dict[str, object]] = {}
     results = [
-        run_scenario(scenario, selected, args.timeout)
+        run_scenario(scenario, selected, args.timeout, cache)
         for scenario in scenarios()
     ]
     finished_at = utc_now()

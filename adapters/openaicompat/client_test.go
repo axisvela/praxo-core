@@ -186,6 +186,22 @@ func TestAdapterGenerateStreamRejectsTruncatedStream(t *testing.T) {
 	}
 }
 
+func TestAdapterGenerateStreamRejectsHalfPacket(t *testing.T) {
+	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "text/event-stream")
+		_, _ = fmt.Fprint(w, "data: {\"choices\":[{\"delta\":")
+	}))
+	defer server.Close()
+
+	adapter := Adapter{BaseURL: server.URL, Model: "test-model", HTTP: server.Client()}
+	response, err := adapter.GenerateStream(context.Background(), model.Request{
+		Messages: []model.Message{{Role: model.RoleUser, Content: "hi"}},
+	}, nil)
+	if err == nil {
+		t.Fatalf("expected half-packet error, got %#v", response)
+	}
+}
+
 func TestAdapterGenerateStreamAllowsFinishReasonWithoutDone(t *testing.T) {
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "text/event-stream")

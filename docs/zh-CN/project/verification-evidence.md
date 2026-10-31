@@ -24,7 +24,7 @@
 | Go Core | Tests、vet、build、API snapshot、race、fuzz 和 module-security CI；当前 main 与发布工作流检查；已发布 `v2.5.2` 从干净外部模块无 `replace` 安装 | 契约/单元 + CI + 本地集成 | JSON Schema 和 plugin manifest fuzz 曾在 10s deadline 失败、rerun 通过；慢输入风险仍在调查；消费验证仅覆盖一个平台和最小 agent |
 | 跨语言一致性 | Python、TypeScript、Java、Rust、Fortran、COBOL compatibility lab 运行确定性向量、API 快照/签名和 parity；已记录 Linux CI 与本地运行 | 契约/单元 + CI | 仅六种语言；COBOL 已在本地 GnuCOBOL 和 Linux CI 验证；不含 provider、HITL、checkpoint、sandbox 或生产证据；每次运行一个平台和工具链；非作者复现待办 |
 | Python 已发布包 | 从 PyPI 在干净 venv 安装 `praxo-core==0.2.3`；最小 agent 调用工具并返回最终答案，版本为 `0.2.3` | 本地安装 smoke | 仅一个平台；同机干净 venv，不是独立或非作者消费验证；不含 provider 或生产证据 |
-| 跨语言 agent 行为 | Go、Python、TypeScript、Java 行为实验运行十七个授权、生命周期、取消、输入校验、调用上限、并行工具、run 隔离、PII、checkpoint、容量和流失败场景；已记录 Linux CI 与本地报告 | 场景测试 + CI | 仅四种语言和十七个场景；部分 Java 组 self-test 不能定位具体场景失败；不是吞吐/压力测试；不是完整功能对齐、provider、HITL、sandbox 或生产证据 |
+| 跨语言 agent 行为 | Go、Python、TypeScript、Java 运行十九个授权、生命周期、取消、输入校验、调用上限、并行工具、run 隔离、PII、checkpoint、容量、SSE 截断和流失败场景；Rust 有部分场景级测试，Fortran/COBOL 对部分行使用原生套件覆盖；已记录 Linux CI 与本地报告 | 场景测试 + CI | 核心覆盖为四种语言和十九个场景；部分 Java 组 self-test 与 Fortran/COBOL 原生套件不能定位具体场景失败；不是吞吐/压力测试；不是完整功能对齐、provider、HITL、sandbox 或生产证据 |
 | 受治理工作区 | Policy 必需配置、最终参数授权、单次审批、审批后修改、排队撤销、依赖失败关闭 | 契约/单元 | 示例级契约；不是 Core Profile、可信身份服务或持久审批存储 |
 | 上下文信任 | Memory、Skill、工具结果和摘要来源分离；批准 Skill 摘要绑定；文本恢复；拒绝晚期 System 注入 | 契约/单元 | 显式示例路径；不是通用 Prompt Injection 过滤器、来源认证或持久 lineage 证明 |
 | 隔离能力 | Windows path/process/WASM 控制；Linux path/symlink 的 verbose CI job；本地 VFS 在 policy 检查后使用 `os.Root` 执行实际操作 | 契约/单元 + CI | Windows symlink 因权限 SKIP；policy 决策仍是 check-then-use，Linux cgroup v2、WASM fuel 和独立复核仍开放 |

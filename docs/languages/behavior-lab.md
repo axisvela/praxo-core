@@ -3,11 +3,13 @@
 **Status:** evidence tooling, 2026-10-30. The lab is not a stable public API.
 
 The behavior lab runs named agent scenarios in Go, Python, TypeScript, and Java
-and writes one comparison report. It answers a narrower question than the
-[compatibility lab](compatibility-lab.md): do the implementations make the same
-authorization, lifecycle, cancellation, validation, call-limit, parallel-tool
-execution, run isolation, PII, checkpoint, capacity, and stream-failure
-decisions when exercised through their own test suites?
+and writes one comparison report. Rust, Fortran, and COBOL are extended
+languages with narrower scenario or native-suite coverage. It answers a
+narrower question than the [compatibility lab](compatibility-lab.md): do the
+implementations make the same authorization, lifecycle, cancellation,
+validation, call-limit, parallel-tool execution, run isolation, PII,
+checkpoint, capacity, and stream-failure decisions when exercised through their
+own test suites?
 
 It does not prove complete feature parity, provider behavior, live-service
 integration, production readiness, or security. A passing report compares the
@@ -34,15 +36,29 @@ listed scenarios only.
 | `parallel-tools` | Tools start concurrently up to the limit and keep result order | scenario | scenario | scenario | self-test group |
 | `run-state-isolation` | Call-limit state is isolated across concurrent runs | scenario | scenario | scenario | self-test group |
 | `stream-callback-error` | Stream callback failure aborts instead of completing the run | scenario | scenario | scenario | scenario |
+| `sse-truncated` | SSE streams without completion are rejected | scenario | scenario | scenario | self-test group |
+| `sse-half-packet` | SSE half-packets fail instead of being silently dropped | scenario | scenario | scenario | self-test group |
 
 `scenario` means a test named for that behavior. `self-test group` means one
 Java self-test executable covers several scenarios, so a passing group does not
 identify which scenario assertion failed. The report records that distinction
 instead of treating group coverage as scenario-level evidence.
 
-Rust, Fortran, COBOL, and the remaining implementations are outside the first
-scope. They should be added only after they expose equivalent agent lifecycle
-hooks and named behavior tests.
+## Extended Coverage
+
+| Scenario | Rust | Fortran | COBOL |
+| --- | --- | --- | --- |
+| `schema-number-unicode` | scenario | unsupported | unsupported |
+| `call-limit` | scenario | native suite | native suite |
+| `pii-tool-history` | scenario | native suite | native suite |
+| `checkpoint-content` | scenario | native suite | native suite |
+| `capacity-failclosed` | scenario | native suite | native suite |
+| `run-state-isolation` | scenario | unsupported | unsupported |
+
+`native suite` means the implementation's full native test executable passed.
+It is not isolated to the named scenario, so a failure cannot be attributed from
+this cell alone. Other Rust, Fortran, and COBOL scenarios remain `unsupported`.
+The report shows those cells explicitly instead of dropping the languages.
 
 ## Run
 
@@ -53,9 +69,15 @@ classes:
 cd language/typescript; npm ci; npm run build; cd ../..
 cd language/java; mvn -q -DskipTests test-compile; cd ../..
 python scripts/behavior_lab.py --strict --timeout 300
+python scripts/behavior_lab.py --strict --timeout 600 --languages go,python,typescript,java,rust,fortran,cobol
 ```
 
-- `--strict` fails on `failed`, `skipped`, `not_run`, and `unsupported` cells.
+The seven-language run also needs a Rust toolchain plus `gfortran`, `gnucobol`,
+`g++`, CMake, and Ninja; Fortran builds its pinned RE2 bridge. The native
+Fortran/COBOL suite command is cached within one report, so it runs once.
+
+- `--strict` fails on `failed`, `skipped`, `not_run`, and unsupported cells in
+  the four core languages. Extended-language holes remain `unsupported`.
 - `--languages go,python` limits the run.
 - `--timeout 300` sets a per-command timeout.
 - `--output-dir build/behavior-lab` changes the report location.
@@ -74,19 +96,21 @@ overwritten; `latest.json` is only a convenience pointer.
 
 ## Current Evidence
 
-The four-language local seventeen-scenario run on 2026-10-30 passed all 68
-cells. Because that run was made from a working tree with uncommitted evidence
-changes, it is not a clean-SHA record. The clean-SHA Linux CI run on commit
-`f1047b1` also passed all 68 cells; use that [behavior job](https://github.com/axisvela/praxo-core/actions/runs/41144788172/job/124367263774)
-and its artifact when citing the report as evidence.
+The four-language local nineteen-scenario run on 2026-10-31 passed all 76
+cells. The seven-language local run passed 90 cells with 43 explicit
+`unsupported` cells and no failures. Both runs used a working tree with
+uncommitted changes, so they are not clean-SHA records. Use the clean-SHA Linux
+CI behavior job and artifact for the revision you are citing.
 
 ## Limits
 
-- Seventeen selected scenarios, not full agent or contract parity.
+- Nineteen selected scenarios, not full agent or contract parity.
 - Go and Python use scenario-level tests; TypeScript uses `node --test` name
   filters; some Java self-tests cover more than one scenario.
+- Rust has scenario-level tests for selected rows. Fortran and COBOL use
+  native-suite coverage, not scenario-isolated assertions.
 - The parallel scenario uses deterministic barriers; it is not a throughput or
-  stress test.
-- No provider, model, network, sandbox, HITL, checkpoint, or effect-recovery
-  scenario.
+  stress test. SSE tests use local fixtures, not a provider.
+- No provider, model, network, sandbox, HITL, checkpoint persistence, or
+  effect-recovery scenario.
 - A passing report is not a security review or production certification.

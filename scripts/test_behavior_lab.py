@@ -11,7 +11,7 @@ class BehaviorLabTests(unittest.TestCase):
         items = lab.scenarios()
         keys = [item.key for item in items]
         self.assertEqual(len(keys), len(set(keys)))
-        allowed = set(lab.LANGUAGES) | {"rust", "fortran", "cobol"}
+        allowed = set(lab.LANGUAGES)
         for item in items:
             self.assertTrue(item.title)
             self.assertTrue(set(item.commands).issubset(allowed))
@@ -21,9 +21,9 @@ class BehaviorLabTests(unittest.TestCase):
                     self.assertTrue(step.argv)
                     self.assertTrue(step.cwd.is_dir())
 
-    def test_every_scenario_runs_in_all_four_languages(self):
+    def test_every_scenario_runs_in_core_languages(self):
         for item in lab.scenarios():
-            for language in lab.LANGUAGES:
+            for language in lab.CORE_LANGUAGES:
                 self.assertTrue(item.commands[language], (item.key, language))
                 self.assertNotEqual(item.coverage[language], "unsupported")
 
@@ -63,19 +63,59 @@ class BehaviorLabTests(unittest.TestCase):
                 "skipped": 0,
                 "not_run": 0,
                 "unsupported": 1,
+                "core_unsupported": 1,
             },
         )
 
-    def test_exit_code_rejects_strict_not_run_and_skips(self):
-        report = {"summary": {"failed": 0, "not_run": 1, "skipped": 0}}
+    def test_exit_code_rejects_strict_not_run_and_core_unsupported(self):
+        report = {
+            "summary": {
+                "failed": 0,
+                "not_run": 1,
+                "skipped": 0,
+                "core_unsupported": 0,
+            }
+        }
         self.assertEqual(lab.exit_code(report, strict=False), 0)
         self.assertEqual(lab.exit_code(report, strict=True), 1)
-        report = {"summary": {"failed": 0, "not_run": 0, "skipped": 1}}
+        report = {
+            "summary": {
+                "failed": 0,
+                "not_run": 0,
+                "skipped": 1,
+                "core_unsupported": 0,
+            }
+        }
         self.assertEqual(lab.exit_code(report, strict=True), 1)
-        report = {"summary": {"failed": 0, "not_run": 0, "skipped": 0, "unsupported": 1}}
+        report = {
+            "summary": {
+                "failed": 0,
+                "not_run": 0,
+                "skipped": 0,
+                "core_unsupported": 1,
+                "unsupported": 1,
+            }
+        }
         self.assertEqual(lab.exit_code(report, strict=False), 0)
         self.assertEqual(lab.exit_code(report, strict=True), 1)
-        report = {"summary": {"failed": 1, "not_run": 0, "skipped": 0}}
+        report = {
+            "summary": {
+                "failed": 0,
+                "not_run": 0,
+                "skipped": 0,
+                "core_unsupported": 0,
+                "unsupported": 3,
+            }
+        }
+        self.assertEqual(lab.exit_code(report, strict=True), 0)
+        report = {
+            "summary": {
+                "failed": 1,
+                "not_run": 0,
+                "skipped": 0,
+                "core_unsupported": 0,
+            }
+        }
         self.assertEqual(lab.exit_code(report, strict=False), 1)
 
     def test_markdown_report_marks_group_coverage(self):
@@ -91,6 +131,7 @@ class BehaviorLabTests(unittest.TestCase):
                 "skipped": 0,
                 "not_run": 0,
                 "unsupported": 1,
+                "core_unsupported": 1,
             },
             "scenarios": [
                 {
@@ -128,6 +169,7 @@ class BehaviorLabTests(unittest.TestCase):
                     "skipped": 0,
                     "not_run": 0,
                     "unsupported": 0,
+                    "core_unsupported": 0,
                 },
             }
 
@@ -144,8 +186,12 @@ class BehaviorLabTests(unittest.TestCase):
 
     def test_parse_languages_rejects_unknown_and_empty(self):
         self.assertEqual(lab.parse_languages("go,java", list(lab.LANGUAGES)), ["go", "java"])
+        self.assertEqual(
+            lab.parse_languages("rust,fortran,cobol", list(lab.LANGUAGES)),
+            ["rust", "fortran", "cobol"],
+        )
         with self.assertRaises(ValueError):
-            lab.parse_languages("go,cobol", list(lab.LANGUAGES))
+            lab.parse_languages("go,nope", list(lab.LANGUAGES))
         with self.assertRaises(ValueError):
             lab.parse_languages(" , ", list(lab.LANGUAGES))
 

@@ -5,7 +5,10 @@ use praxo_core::checkpoint::Allowlist;
 use praxo_core::context::{estimate_tokens, ContextBudget};
 use praxo_core::event::{Event, Sink};
 use praxo_core::jsonschema::Schema;
-use praxo_core::middleware::{Middleware, ModelCall, PiiMiddleware, PiiRedactor, StructuredOutput};
+use praxo_core::middleware::{
+    CallLimitMiddleware, Middleware, MiddlewareToolCall, ModelCall, PiiMiddleware, PiiRedactor,
+    RunState, StructuredOutput,
+};
 use praxo_core::model::{Message, Model, Request, Response, ToolCall, Usage};
 use praxo_core::plugin::parse_manifest;
 use praxo_core::policy::{PathChecker, PathGrant};
@@ -104,6 +107,82 @@ fn context_budget_compacts() {
         .as_deref()
         .unwrap_or("")
         .contains("context compacted")));
+}
+
+#[test]
+fn context_budget_fails_closed() {
+    let budget = ContextBudget::new(3, 0);
+    let messages = vec![Message::text("system", "x".repeat(1000))];
+    let (out, ok) = budget.compact(&messages);
+    assert!(!ok);
+    assert!(out.is_empty());
+}
+
+#[test]
+fn call_limit_model_and_tool_fail_closed() {
+    let middleware = CallLimitMiddleware::new(1, 1);
+    middleware
+        .before_run(&RunState {
+            run_id: "r1".into(),
+            prompt: "go".into(),
+        })
+        .expect("run");
+    let mut model = ModelCall {
+        run_id: "r1".into(),
+        session_id: "s1".into(),
+        request: Request::of(vec![]),
+        skip: false,
+        response: None,
+    };
+    middleware.before_model(&mut model).expect("first model");
+    assert!(middleware.before_model(&mut model).is_err());
+    let mut tool = MiddlewareToolCall {
+        run_id: "r1".into(),
+        session_id: "s1".into(),
+        call: ToolCall {
+            id: "c1".into(),
+            name: "echo".into(),
+            arguments: Map::new(),
+        },
+        skip: false,
+        result: None,
+        error: None,
+    };
+    middleware.before_tool(&mut tool).expect("first tool");
+    assert!(middleware.before_tool(&mut tool).is_err());
+}
+
+#[test]
+fn call_limit_state_is_isolated_by_run() {
+    let middleware = CallLimitMiddleware::new(1, 0);
+    middleware
+        .before_run(&RunState {
+            run_id: "a".into(),
+            prompt: "go".into(),
+        })
+        .expect("run a");
+    middleware
+        .before_run(&RunState {
+            run_id: "b".into(),
+            prompt: "go".into(),
+        })
+        .expect("run b");
+    let mut first = ModelCall {
+        run_id: "a".into(),
+        session_id: "s1".into(),
+        request: Request::of(vec![]),
+        skip: false,
+        response: None,
+    };
+    let mut second = ModelCall {
+        run_id: "b".into(),
+        session_id: "s1".into(),
+        request: Request::of(vec![]),
+        skip: false,
+        response: None,
+    };
+    middleware.before_model(&mut first).expect("first run");
+    middleware.before_model(&mut second).expect("second run");
 }
 
 #[test]
@@ -285,4 +364,15 @@ fn schema_parses_and_validates() {
     );
     assert!(Schema::from_json("[]").is_err());
     assert!(Schema::from_json("not json").is_err());
+}
+
+#[test]
+fn schema_counts_unicode_and_rejects_fractional_integers() {
+    let integer = Schema::from_json(r#"{"type":"integer"}"#).expect("integer");
+    assert!(integer.validate(&json!(2)).is_empty());
+    assert_eq!(integer.validate(&json!(2.5)).len(), 1);
+    let text = Schema::from_json(r#"{"type":"string","minLength":2,"maxLength":2}"#)
+        .expect("string");
+    assert!(text.validate(&json!("你好")).is_empty());
+    assert_eq!(text.validate(&json!("你")).len(), 1);
 }

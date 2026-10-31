@@ -115,6 +115,7 @@ class OpenAICompatibleModel:
         calls: dict[int, dict[str, Any]] = {}
         usage = Usage()
         finish_reason: str | None = None
+        done = False
         try:
             with urlopen(request, timeout=self.config.timeout) as response:
                 for raw_line in response:
@@ -123,6 +124,7 @@ class OpenAICompatibleModel:
                         continue
                     chunk = line[5:].strip()
                     if chunk == "[DONE]":
+                        done = True
                         break
                     if not chunk:
                         continue
@@ -156,6 +158,8 @@ class OpenAICompatibleModel:
             ) from exc
         except URLError as exc:
             raise PraxoError(f"openaicompat: {exc.reason}") from exc
+        if not done and finish_reason is None:
+            raise PraxoError("openaicompat: stream ended before completion")
         tool_calls = [_build_call(index, value) for index, value in sorted(calls.items())]
         return Response(
             message=Message(

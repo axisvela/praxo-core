@@ -153,6 +153,7 @@ public final class OpenAICompatibleModel implements StreamingModel {
         Map<Integer, String[]> calls = new LinkedHashMap<>();
         Usage usage = Usage.zero();
         String finishReason = null;
+        boolean done = false;
         try (lines) {
         for (String line : (Iterable<String>) lines::iterator) {
             String trimmed = line.trim();
@@ -164,6 +165,7 @@ public final class OpenAICompatibleModel implements StreamingModel {
                 continue;
             }
             if (chunk.equals("[DONE]")) {
+                done = true;
                 break;
             }
             Map<String, Object> event = Json.object(chunk);
@@ -208,6 +210,11 @@ public final class OpenAICompatibleModel implements StreamingModel {
                 }
             }
         }
+        }
+        if (!done && finishReason == null) {
+            throw new PraxoException(
+                    "OPENAI_COMPAT_ERROR",
+                    "openaicompat: stream ended before completion");
         }
         List<ToolCall> toolCalls = new ArrayList<>();
         for (Map.Entry<Integer, String[]> entry : calls.entrySet()) {

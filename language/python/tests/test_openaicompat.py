@@ -11,6 +11,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from praxo.adapters.openaicompat import OpenAIConfig, OpenAICompatibleModel
 from praxo.agent import Agent, AgentOptions, Session
+from praxo.errors import PraxoError
 from praxo.model import Message, Request, Response, Usage
 
 NON_STREAM = {
@@ -73,10 +74,20 @@ class Handler(BaseHTTPRequestHandler):
     def do_POST(self) -> None:
         length = int(self.headers.get("Content-Length", "0"))
         body = json.loads(self.rfile.read(length))
+        messages = body.get("messages") or []
+        prompt = messages[-1].get("content") if messages else None
         self.send_response(200)
         if body.get("stream"):
             self.send_header("Content-Type", "text/event-stream")
             self.end_headers()
+            if prompt == "truncate":
+                self.wfile.write(
+                    b'data: {"choices":[{"delta":{"content":"partial"}}]}\n\n'
+                )
+                return
+            if prompt == "half":
+                self.wfile.write(b'data: {"choices":[{"delta":')
+                return
             for chunk in STREAM:
                 self.wfile.write(f"data: {json.dumps(chunk)}\n\n".encode())
             self.wfile.write(b"data: [DONE]\n\n")
@@ -129,6 +140,22 @@ class OpenAICompatTest(unittest.IsolatedAsyncioTestCase):
         self.assertEqual(response.message.content, "hello")
         self.assertEqual(response.message.tool_calls[0].arguments, {"text": "hi"})
         self.assertEqual(response.usage.output_tokens, 4)
+
+    async def test_generate_stream_rejects_truncated_stream(self) -> None:
+        with self.assertRaisesRegex(
+            PraxoError, "stream ended before completion"
+        ):
+            await self.model().generate_stream(
+                Request(messages=[Message(role="user", content="truncate")]),
+                lambda delta: None,
+            )
+
+    async def test_generate_stream_rejects_half_packet(self) -> None:
+        with self.assertRaises(json.JSONDecodeError):
+            await self.model().generate_stream(
+                Request(messages=[Message(role="user", content="half")]),
+                lambda delta: None,
+            )
 
 
 class StreamingAgentTest(unittest.IsolatedAsyncioTestCase):
