@@ -11,14 +11,14 @@
 | 语言数 | 14 |
 | 场景数 | 19 |
 | 单元格数 | 266 |
-| 通过 | 127 |
-| 不支持 | 139 |
+| 通过 | 129 |
+| 不支持 | 137 |
 | 失败 | 0 |
 | 源报告 | `report.json` |
-| Run ID | `20261031T133723Z-285a34e4` |
-| Revision | `b408805f31f643ee6dc20a15296bab9707f7face` |
+| Run ID | `20261031T142606Z-abaeea2f` |
+| Revision | `7671fb9935480ec871061923cc6aba291a7a34a4` |
 | 工作区未提交 | False |
-| CI 任务 | [GitHub Actions](https://github.com/axisvela/praxo-core/actions/runs/41206338048/job/124552052271) |
+| CI 任务 | [GitHub Actions](https://github.com/axisvela/praxo-core/actions/runs/41210022256/job/124562871079) |
 
 ## 矩阵图例
 
@@ -46,7 +46,7 @@
 | `call-limit` | S | S | S | G | S | N | N | N | N | N | N | N | N | N |
 | `pii-tool-history` | S | S | S | S | S | N | N | N | N | N | N | N | N | N |
 | `checkpoint-content` | S | S | S | S | S | N | N | N | N | N | N | N | N | N |
-| `capacity-failclosed` | S | S | S | G | S | N | N | N | - | - | N | N | N | N |
+| `capacity-failclosed` | S | S | S | G | S | N | N | N | N | N | N | N | N | N |
 | `parallel-tools` | S | S | S | G | - | - | - | - | - | - | - | - | - | - |
 | `run-state-isolation` | S | S | S | G | S | - | - | - | N | N | - | N | N | - |
 | `stream-callback-error` | S | S | S | S | - | - | - | - | - | - | - | - | - | - |
@@ -236,10 +236,10 @@ ruby language/ruby/tests/run.rb
 ### Elixir
 
 - 覆盖类型: 套件级
-- 通过: 5/19
-- 不支持: 14
-- 已覆盖场景: `schema-number-unicode`, `call-limit`, `pii-tool-history`, `checkpoint-content`, `run-state-isolation`
-- 未覆盖场景: `final-arguments`, `final-name`, `unchanged-single-auth`, `initial-denial`, `startup-cleanup`, `after-run-continue`, `cleanup-failclosed`, `model-cancel-cleanup`, `tool-cancel-cleanup`, `capacity-failclosed`, `parallel-tools`, `stream-callback-error`, `sse-truncated`, `sse-half-packet`
+- 通过: 6/19
+- 不支持: 13
+- 已覆盖场景: `schema-number-unicode`, `call-limit`, `pii-tool-history`, `checkpoint-content`, `capacity-failclosed`, `run-state-isolation`
+- 未覆盖场景: `final-arguments`, `final-name`, `unchanged-single-auth`, `initial-denial`, `startup-cleanup`, `after-run-continue`, `cleanup-failclosed`, `model-cancel-cleanup`, `tool-cancel-cleanup`, `parallel-tools`, `stream-callback-error`, `sse-truncated`, `sse-half-packet`
 
 命令:
 
@@ -250,10 +250,10 @@ mix run tests/run_tests.exs
 ### Erlang
 
 - 覆盖类型: 套件级
-- 通过: 5/19
-- 不支持: 14
-- 已覆盖场景: `schema-number-unicode`, `call-limit`, `pii-tool-history`, `checkpoint-content`, `run-state-isolation`
-- 未覆盖场景: `final-arguments`, `final-name`, `unchanged-single-auth`, `initial-denial`, `startup-cleanup`, `after-run-continue`, `cleanup-failclosed`, `model-cancel-cleanup`, `tool-cancel-cleanup`, `capacity-failclosed`, `parallel-tools`, `stream-callback-error`, `sse-truncated`, `sse-half-packet`
+- 通过: 6/19
+- 不支持: 13
+- 已覆盖场景: `schema-number-unicode`, `call-limit`, `pii-tool-history`, `checkpoint-content`, `capacity-failclosed`, `run-state-isolation`
+- 未覆盖场景: `final-arguments`, `final-name`, `unchanged-single-auth`, `initial-denial`, `startup-cleanup`, `after-run-continue`, `cleanup-failclosed`, `model-cancel-cleanup`, `tool-cancel-cleanup`, `parallel-tools`, `stream-callback-error`, `sse-truncated`, `sse-half-packet`
 
 命令:
 
