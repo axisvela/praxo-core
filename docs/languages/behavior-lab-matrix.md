@@ -11,14 +11,14 @@ This page expands the summary in [Behavior Lab](behavior-lab.md) into a scenario
 | Languages | 14 |
 | Scenarios | 19 |
 | Cells | 266 |
-| Passed | 129 |
-| Unsupported | 137 |
+| Passed | 133 |
+| Unsupported | 133 |
 | Failed | 0 |
 | Source report | `report.json` |
-| Run ID | `20261031T142606Z-abaeea2f` |
-| Revision | `7671fb9935480ec871061923cc6aba291a7a34a4` |
+| Run ID | `20261031T144033Z-10a94682` |
+| Revision | `0b19d134689f77a644ef9c422fb83d6cbf88148a` |
 | Working tree dirty | False |
-| CI job | [GitHub Actions](https://github.com/axisvela/praxo-core/actions/runs/41210022256/job/124562871079) |
+| CI job | [GitHub Actions](https://github.com/axisvela/praxo-core/actions/runs/41211052980/job/124565939167) |
 
 ## Matrix legend
 
@@ -33,10 +33,10 @@ This page expands the summary in [Behavior Lab](behavior-lab.md) into a scenario
 
 | Scenario | Go | Py | TS | Java | Rust | Ftn | COB | Ruby | Ex | Erl | C++ | PHP | C# | Lua |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| `final-arguments` | S | S | S | G | - | - | - | - | - | - | - | - | - | - |
-| `final-name` | S | S | S | G | - | - | - | - | - | - | - | - | - | - |
-| `unchanged-single-auth` | S | S | S | G | - | - | - | - | - | - | - | - | - | - |
-| `initial-denial` | S | S | S | G | - | - | - | - | - | - | - | - | - | - |
+| `final-arguments` | S | S | S | G | - | - | - | - | - | - | - | - | N | - |
+| `final-name` | S | S | S | G | - | - | - | - | - | - | - | - | N | - |
+| `unchanged-single-auth` | S | S | S | G | - | - | - | - | - | - | - | - | N | - |
+| `initial-denial` | S | S | S | G | - | - | - | - | - | - | - | - | N | - |
 | `startup-cleanup` | S | S | S | G | - | - | - | - | - | - | - | - | - | - |
 | `after-run-continue` | S | S | S | G | - | - | - | - | - | - | - | - | - | - |
 | `cleanup-failclosed` | S | S | S | G | - | - | - | - | - | - | - | - | - | - |
@@ -292,10 +292,10 @@ php language/php/tests/run.php
 ### C#
 
 - Coverage: suite
-- Passed: 6/19
-- Unsupported: 13
-- Covered scenarios: `schema-number-unicode`, `call-limit`, `pii-tool-history`, `checkpoint-content`, `capacity-failclosed`, `run-state-isolation`
-- Unsupported scenarios: `final-arguments`, `final-name`, `unchanged-single-auth`, `initial-denial`, `startup-cleanup`, `after-run-continue`, `cleanup-failclosed`, `model-cancel-cleanup`, `tool-cancel-cleanup`, `parallel-tools`, `stream-callback-error`, `sse-truncated`, `sse-half-packet`
+- Passed: 10/19
+- Unsupported: 9
+- Covered scenarios: `final-arguments`, `final-name`, `unchanged-single-auth`, `initial-denial`, `schema-number-unicode`, `call-limit`, `pii-tool-history`, `checkpoint-content`, `capacity-failclosed`, `run-state-isolation`
+- Unsupported scenarios: `startup-cleanup`, `after-run-continue`, `cleanup-failclosed`, `model-cancel-cleanup`, `tool-cancel-cleanup`, `parallel-tools`, `stream-callback-error`, `sse-truncated`, `sse-half-packet`
 
 Commands:
 

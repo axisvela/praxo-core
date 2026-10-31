@@ -109,9 +109,9 @@ overwritten; `latest.json` is only a convenience pointer.
 ## Current Evidence
 
 The four-language local nineteen-scenario run on 2026-10-31 passed all 76
-cells. The clean-SHA Linux CI run on commit `7671fb9` passed the
-fourteen-language set with 129 passed, 137 explicitly unsupported, and no
-failures; use that [behavior job](https://github.com/axisvela/praxo-core/actions/runs/41210022256/job/124562871079)
+cells. The clean-SHA Linux CI run on commit `0b19d13` passed the
+fourteen-language set with 133 passed, 133 explicitly unsupported, and no
+failures; use that [behavior job](https://github.com/axisvela/praxo-core/actions/runs/41211052980/job/124565939167)
 and its artifact when citing the report as evidence. The
 [Behavior Lab Matrix](behavior-lab-matrix.md) lists every cell and each
 language's covered and unsupported scenarios.

@@ -52,7 +52,7 @@ evidence.
 ## Public Evidence Links
 
 - [Compatibility lab](../languages/compatibility-lab.md) and the [CI compatibility job](https://github.com/axisvela/praxo-core/actions/runs/41000572198/job/123883752839)
-- [Behavior lab](../languages/behavior-lab.md) and the [CI behavior job](https://github.com/axisvela/praxo-core/actions/runs/41210022256/job/124562871079)
+- [Behavior lab](../languages/behavior-lab.md) and the [CI behavior job](https://github.com/axisvela/praxo-core/actions/runs/41211052980/job/124565939167)
 - [praxo-core 0.2.4 on PyPI](https://pypi.org/project/praxo-core/0.2.4/)
 - [@axisvela/praxo-core 0.1.5 on npm](https://www.npmjs.com/package/@axisvela/praxo-core/v/0.1.5)
 - [praxo-core 0.1.4 on crates.io](https://crates.io/crates/praxo-core/0.1.4)
