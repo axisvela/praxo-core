@@ -21,6 +21,12 @@ schema = J.parse('{"type":"object","properties":{"name":{"type":"string"}},"requ
 errors = Praxo::JsonSchema.validate(schema, {})
 check(errors.length == 1 && errors[0].path == '$.name', 'jsonschema')
 check(Praxo::JsonSchema.validate(schema, { 'name' => 'ok' }).empty?, 'jsonschema valid')
+unicode_schema = J.parse('{"type":"string","minLength":2,"maxLength":2}')
+check(Praxo::JsonSchema.validate(unicode_schema, '你好').empty?, 'schema unicode two')
+check(Praxo::JsonSchema.validate(unicode_schema, '你').length == 1, 'schema unicode one')
+integer_schema = J.parse('{"type":"integer"}')
+check(Praxo::JsonSchema.validate(integer_schema, 2).empty?, 'schema integer')
+check(Praxo::JsonSchema.validate(integer_schema, 2.5).length == 1, 'schema integer fraction')
 
 manifest = Praxo::Plugin.parse_manifest(
   '{"schemaVersion":1,"id":"com.example.echo","version":"1.0.0",' \
@@ -59,6 +65,20 @@ check(Praxo::Runtime.estimate_tokens(output) == 25, 'context compact tokens')
 check(output[1].content == '[context compacted: 8 older messages omitted]', 'context marker')
 
 check(Praxo::Middleware.redact('email a@b.com') == 'email [REDACTED:email]', 'pii')
+pii_history = {
+  'messages' => [{
+    'content' => 'email a@b.com',
+    'toolCalls' => [{
+      'arguments' => { 'email' => 'a@b.com', 'nested' => { 'ssn' => '123-45-6789' } }
+    }]
+  }]
+}
+redacted_history = Praxo::Middleware.redact_value(pii_history)
+arguments = redacted_history.dig('messages', 0, 'toolCalls', 0, 'arguments')
+check(arguments['email'] == '[REDACTED:email]', 'pii tool-call email')
+check(arguments.dig('nested', 'ssn') == '[REDACTED:ssn]', 'pii nested tool-call ssn')
+check(pii_history.dig('messages', 0, 'toolCalls', 0, 'arguments', 'email') == 'a@b.com',
+      'pii input unchanged')
 structured_schema = J.parse(
   '{"type":"object","properties":{"value":{"type":"integer"}},"required":["value"]}'
 )
@@ -137,5 +157,16 @@ options.events = sink
 result = Praxo::Agent.run_agent(options, M.session(id: 's1'), 'go')
 check(result.output == 'done' && result.steps == 2 && invocations == 1, 'agent loop')
 check(sink.types == %w[run.started tool.call run.completed], 'agent events')
+
+capacity_options = Praxo::Agent::AgentOptions.new(TestModel.new([{ 'content' => 'done' }]))
+capacity_options.system_prompt = 'x' * 1000
+capacity_options.context = Praxo::Runtime::ContextBudget.new(max_tokens: 10, keep_recent: 0)
+caught = false
+begin
+  Praxo::Agent.run_agent(capacity_options, M.session(id: 's1'), 'go')
+rescue StandardError
+  caught = true
+end
+check(caught, 'capacity fail closed')
 
 puts 'ruby core tests passed'

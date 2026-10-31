@@ -68,7 +68,13 @@ test_jsonschema() ->
     check(length(Errors) == 1 andalso maps:get(path, hd(Errors)) == <<"$.name">>, <<"schema required">>),
     {ok, Pattern} = praxo_json:parse(<<"{\"type\":\"string\",\"pattern\":\"^a+$\"}">>),
     check(praxo_jsonschema:validate(Pattern, <<"aaa">>) == [], <<"schema pattern valid">>),
-    check(length(praxo_jsonschema:validate(Pattern, <<"b">>)) == 1, <<"schema pattern invalid">>).
+    check(length(praxo_jsonschema:validate(Pattern, <<"b">>)) == 1, <<"schema pattern invalid">>),
+    {ok, Unicode} = praxo_json:parse(<<"{\"type\":\"string\",\"minLength\":2,\"maxLength\":2}">>),
+    check(praxo_jsonschema:validate(Unicode, <<"你好"/utf8>>) == [], <<"schema unicode two">>),
+    check(length(praxo_jsonschema:validate(Unicode, <<"你"/utf8>>)) == 1, <<"schema unicode one">>),
+    {ok, Integer} = praxo_json:parse(<<"{\"type\":\"integer\"}">>),
+    check(praxo_jsonschema:validate(Integer, 2) == [], <<"schema integer">>),
+    check(length(praxo_jsonschema:validate(Integer, 2.5)) == 1, <<"schema integer fraction">>).
 
 test_plugin() ->
     Raw = <<"{\"schemaVersion\":1,\"id\":\"com.example.echo\",\"version\":\"1.0.0\",\"kind\":\"tool.provider.v1\",\"entrypoint\":{\"type\":\"process\",\"command\":\"echo\"},\"protocol\":\"jsonrpc-2\",\"capabilities\":[\"echo\"],\"permissions\":{},\"limits\":{},\"health\":{},\"isolation\":\"process\"}">>,

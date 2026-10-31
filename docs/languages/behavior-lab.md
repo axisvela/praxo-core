@@ -49,11 +49,11 @@ instead of treating group coverage as scenario-level evidence.
 
 | Scenario | Rust | Fortran | COBOL | Ruby | Elixir | Erlang | C++ | PHP | C# | Lua |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| `schema-number-unicode` | scenario | unsupported | unsupported | unsupported | unsupported | unsupported | unsupported | unsupported | unsupported | unsupported |
+| `schema-number-unicode` | scenario | unsupported | unsupported | native suite | native suite | native suite | native suite | native suite | native suite | native suite |
 | `call-limit` | scenario | native suite | native suite | native suite | native suite | native suite | native suite | native suite | native suite | native suite |
-| `pii-tool-history` | scenario | native suite | native suite | unsupported | native suite | native suite | native suite | native suite | native suite | native suite |
+| `pii-tool-history` | scenario | native suite | native suite | native suite | native suite | native suite | native suite | native suite | native suite | native suite |
 | `checkpoint-content` | scenario | native suite | native suite | native suite | native suite | native suite | native suite | native suite | native suite | native suite |
-| `capacity-failclosed` | scenario | native suite | native suite | unsupported | unsupported | unsupported | native suite | native suite | native suite | native suite |
+| `capacity-failclosed` | scenario | native suite | native suite | native suite | unsupported | unsupported | native suite | native suite | native suite | native suite |
 | `run-state-isolation` | scenario | unsupported | unsupported | unsupported | unsupported | unsupported | unsupported | unsupported | unsupported | unsupported |
 
 `native suite` means the implementation's full native test executable passed.

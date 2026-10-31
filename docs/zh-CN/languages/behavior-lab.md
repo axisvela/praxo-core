@@ -36,11 +36,11 @@
 
 | 场景 | Rust | Fortran | COBOL | Ruby | Elixir | Erlang | C++ | PHP | C# | Lua |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| `schema-number-unicode` | scenario | unsupported | unsupported | unsupported | unsupported | unsupported | unsupported | unsupported | unsupported | unsupported |
+| `schema-number-unicode` | scenario | unsupported | unsupported | native suite | native suite | native suite | native suite | native suite | native suite | native suite |
 | `call-limit` | scenario | native suite | native suite | native suite | native suite | native suite | native suite | native suite | native suite | native suite |
-| `pii-tool-history` | scenario | native suite | native suite | unsupported | native suite | native suite | native suite | native suite | native suite | native suite |
+| `pii-tool-history` | scenario | native suite | native suite | native suite | native suite | native suite | native suite | native suite | native suite | native suite |
 | `checkpoint-content` | scenario | native suite | native suite | native suite | native suite | native suite | native suite | native suite | native suite | native suite |
-| `capacity-failclosed` | scenario | native suite | native suite | unsupported | unsupported | unsupported | native suite | native suite | native suite | native suite |
+| `capacity-failclosed` | scenario | native suite | native suite | native suite | unsupported | unsupported | native suite | native suite | native suite | native suite |
 | `run-state-isolation` | scenario | unsupported | unsupported | unsupported | unsupported | unsupported | unsupported | unsupported | unsupported | unsupported |
 
 `native suite` 表示该实现的完整原生测试可执行文件通过；它不是场景隔离断言，因此不能仅凭该单元格定位具体场景失败。其余 Rust/Fortran/COBOL/Ruby/Elixir/Erlang/C++/PHP/C#/Lua 场景仍为 `unsupported`；报告会显式列出，而不是删除这些语言。

@@ -69,6 +69,12 @@ defmodule Praxo.Tests do
     pattern = Json.parse!(~s({"type":"string","pattern":"^a+$"}))
     check(JsonSchema.validate(pattern, "aaa") == [], "schema pattern valid")
     check(length(JsonSchema.validate(pattern, "b")) == 1, "schema pattern invalid")
+    unicode = Json.parse!(~s({"type":"string","minLength":2,"maxLength":2}))
+    check(JsonSchema.validate(unicode, "你好") == [], "schema unicode two")
+    check(length(JsonSchema.validate(unicode, "你")) == 1, "schema unicode one")
+    integer = Json.parse!(~s({"type":"integer"}))
+    check(JsonSchema.validate(integer, 2) == [], "schema integer")
+    check(length(JsonSchema.validate(integer, 2.5)) == 1, "schema integer fraction")
   end
 
   defp test_plugin do

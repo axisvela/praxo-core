@@ -71,6 +71,12 @@ $schema = Json::decode('{"type":"object","properties":{"name":{"type":"string"}}
 $errors = JsonSchema::validate($schema, []);
 check(count($errors) === 1 && $errors[0]->path === '$.name', 'schema required');
 check(JsonSchema::validate($schema, ['name' => 'ok']) === [], 'schema valid');
+$unicodeSchema = Json::decode('{"type":"string","minLength":2,"maxLength":2}');
+check(JsonSchema::validate($unicodeSchema, '你好') === [], 'schema unicode two');
+check(count(JsonSchema::validate($unicodeSchema, '你')) === 1, 'schema unicode one');
+$integerSchema = Json::decode('{"type":"integer"}');
+check(JsonSchema::validate($integerSchema, 2) === [], 'schema integer');
+check(count(JsonSchema::validate($integerSchema, 2.5)) === 1, 'schema integer fraction');
 
 $messages = [
     Message::text(Roles::SYSTEM, 'sys'),

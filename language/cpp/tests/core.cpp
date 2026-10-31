@@ -64,6 +64,13 @@ int main() {
         auto errors = validate(schema, Json::object());
         check(errors.size() == 1 && errors[0].path == "$.name", "schema required");
         check(validate(schema, Json::parse(R"({"name":"ok"})")).empty(), "schema valid");
+        Json unicode_schema = Json::parse(
+            R"({"type":"string","minLength":2,"maxLength":2})");
+        check(validate(unicode_schema, Json("你好")).empty(), "schema unicode two");
+        check(validate(unicode_schema, Json("你")).size() == 1, "schema unicode one");
+        Json integer_schema = Json::parse(R"({"type":"integer"})");
+        check(validate(integer_schema, Json(2)).empty(), "schema integer");
+        check(validate(integer_schema, Json(2.5)).size() == 1, "schema integer fraction");
 
         auto manifest = parse_manifest(
             R"({"schemaVersion":1,"id":"com.example.echo","version":"1.0.0",)"

@@ -23,6 +23,12 @@ local schema = json.parse('{"type":"object","properties":{"name":{"type":"string
 local validation = jsonschema.validate(schema, {})
 check(#validation == 1 and validation[1].path == "$.name", "jsonschema")
 check(#jsonschema.validate(schema, { name = "ok" }) == 0, "jsonschema valid")
+local unicode_schema = json.parse('{"type":"string","minLength":2,"maxLength":2}')
+check(#jsonschema.validate(unicode_schema, "你好") == 0, "schema unicode two")
+check(#jsonschema.validate(unicode_schema, "你") == 1, "schema unicode one")
+local integer_schema = json.parse('{"type":"integer"}')
+check(#jsonschema.validate(integer_schema, 2) == 0, "schema integer")
+check(#jsonschema.validate(integer_schema, 2.5) == 1, "schema integer fraction")
 
 local manifest = plugin.parse_manifest(
   '{"schemaVersion":1,"id":"com.example.echo","version":"1.0.0",' ..

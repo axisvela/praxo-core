@@ -394,6 +394,13 @@ def scenarios() -> tuple[Scenario, ...]:
                         "schema_counts_unicode_and_rejects_fractional_integers"
                     ),
                 ),
+                "cpp": (cpp,),
+                "php": (php,),
+                "csharp": (csharp,),
+                "lua": (lua,),
+                "ruby": (ruby,),
+                "elixir": (elixir,),
+                "erlang": (erlang,),
             },
             {
                 "go": "scenario",
@@ -401,6 +408,13 @@ def scenarios() -> tuple[Scenario, ...]:
                 "typescript": "scenario",
                 "java": "scenario",
                 "rust": "scenario",
+                "cpp": "suite",
+                "php": "suite",
+                "csharp": "suite",
+                "lua": "suite",
+                "ruby": "suite",
+                "elixir": "suite",
+                "erlang": "suite",
             },
         ),
         Scenario(
@@ -486,6 +500,7 @@ def scenarios() -> tuple[Scenario, ...]:
                 "php": (php,),
                 "csharp": (csharp,),
                 "lua": (lua,),
+                "ruby": (ruby,),
             },
             {
                 "go": "scenario",
@@ -501,6 +516,7 @@ def scenarios() -> tuple[Scenario, ...]:
                 "php": "suite",
                 "csharp": "suite",
                 "lua": "suite",
+                "ruby": "suite",
             },
         ),
         Scenario(
@@ -573,6 +589,7 @@ def scenarios() -> tuple[Scenario, ...]:
                 "php": (php,),
                 "csharp": (csharp,),
                 "lua": (lua,),
+                "ruby": (ruby,),
             },
             {
                 "go": "scenario",
@@ -586,6 +603,7 @@ def scenarios() -> tuple[Scenario, ...]:
                 "php": "suite",
                 "csharp": "suite",
                 "lua": "suite",
+                "ruby": "suite",
             },
         ),
         Scenario(

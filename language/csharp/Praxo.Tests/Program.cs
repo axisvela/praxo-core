@@ -48,6 +48,12 @@ internal static class Program
         var errors = JsonSchema.Validate(schema, new JsonObject());
         Check(errors.Count == 1 && errors[0].Path == "$.name", "schema required path");
         Check(JsonSchema.Validate(schema, new JsonObject { ["name"] = "ok" }).Count == 0, "schema valid");
+        var unicodeSchema = Json.Parse("{\"type\":\"string\",\"minLength\":2,\"maxLength\":2}");
+        Check(JsonSchema.Validate(unicodeSchema, JsonValue.Create("你好")).Count == 0, "schema unicode two");
+        Check(JsonSchema.Validate(unicodeSchema, JsonValue.Create("你")).Count == 1, "schema unicode one");
+        var integerSchema = Json.Parse("{\"type\":\"integer\"}");
+        Check(JsonSchema.Validate(integerSchema, JsonValue.Create(2.0)).Count == 0, "schema integer");
+        Check(JsonSchema.Validate(integerSchema, JsonValue.Create(2.5)).Count == 1, "schema integer fraction");
     }
 
     private static void TestContextEstimate()
