@@ -65,6 +65,21 @@ check(runtime.estimate_tokens(output) == 25, "context compact tokens")
 check(output[2].content == "[context compacted: 8 older messages omitted]", "context marker")
 
 check(middleware.redact("email a@b.com") == "email [REDACTED:email]", "pii")
+local pii_history = {
+  messages = { {
+    content = "email a@b.com",
+    toolCalls = { {
+      arguments = { email = "a@b.com", nested = { ssn = "123-45-6789" } },
+    } },
+  } },
+}
+local redacted_history = middleware.redact_value(pii_history)
+check(redacted_history.messages[1].toolCalls[1].arguments.email == "[REDACTED:email]",
+      "pii tool-call email")
+check(redacted_history.messages[1].toolCalls[1].arguments.nested.ssn == "[REDACTED:ssn]",
+      "pii nested tool-call ssn")
+check(pii_history.messages[1].toolCalls[1].arguments.email == "a@b.com",
+      "pii input unchanged")
 local structured_schema = json.parse(
   '{"type":"object","properties":{"value":{"type":"integer"}},"required":["value"]}'
 )
@@ -78,6 +93,16 @@ local caught = false
 local ok_call = pcall(middleware.call_limit_model, limit)
 caught = not ok_call
 check(caught, "call limit")
+
+local tool_limit = middleware.call_limit(0, 1)
+middleware.call_limit_tool(tool_limit)
+check(not pcall(middleware.call_limit_tool, tool_limit), "tool call limit")
+
+local capacity_options = agent.agent_options(agent.static_model("done"))
+capacity_options.system_prompt = string.rep("x", 1000)
+capacity_options.context = runtime.context_budget(10, 0)
+check(not pcall(agent.run_agent, capacity_options, models.session({ id = "s1" }), "go"),
+      "capacity fail closed")
 
 local selection = middleware.tool_selection({ "echo" })
 local tools = { models.tool_spec({ name = "echo" }), models.tool_spec({ name = "other" }) }

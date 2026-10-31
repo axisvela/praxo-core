@@ -4,8 +4,8 @@
 
 The behavior lab runs named agent scenarios in Go, Python, TypeScript, and Java
 and writes one comparison report. Rust, Fortran, COBOL, Ruby, Elixir, Erlang,
-C++, PHP, and C# are extended languages with narrower scenario or native-suite
-coverage. It answers a
+C++, PHP, C#, and Lua are extended languages with narrower scenario or
+native-suite coverage. It answers a
 narrower question than the [compatibility lab](compatibility-lab.md): do the
 implementations make the same authorization, lifecycle, cancellation,
 validation, call-limit, parallel-tool execution, run isolation, PII,
@@ -47,20 +47,23 @@ instead of treating group coverage as scenario-level evidence.
 
 ## Extended Coverage
 
-| Scenario | Rust | Fortran | COBOL | Ruby | Elixir | Erlang | C++ | PHP | C# |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| `schema-number-unicode` | scenario | unsupported | unsupported | unsupported | unsupported | unsupported | unsupported | unsupported | unsupported |
-| `call-limit` | scenario | native suite | native suite | native suite | native suite | native suite | native suite | native suite | native suite |
-| `pii-tool-history` | scenario | native suite | native suite | unsupported | native suite | native suite | native suite | native suite | native suite |
-| `checkpoint-content` | scenario | native suite | native suite | native suite | native suite | native suite | native suite | native suite | native suite |
-| `capacity-failclosed` | scenario | native suite | native suite | unsupported | unsupported | unsupported | native suite | native suite | native suite |
-| `run-state-isolation` | scenario | unsupported | unsupported | unsupported | unsupported | unsupported | unsupported | unsupported | unsupported |
+| Scenario | Rust | Fortran | COBOL | Ruby | Elixir | Erlang | C++ | PHP | C# | Lua |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| `schema-number-unicode` | scenario | unsupported | unsupported | unsupported | unsupported | unsupported | unsupported | unsupported | unsupported | unsupported |
+| `call-limit` | scenario | native suite | native suite | native suite | native suite | native suite | native suite | native suite | native suite | native suite |
+| `pii-tool-history` | scenario | native suite | native suite | unsupported | native suite | native suite | native suite | native suite | native suite | native suite |
+| `checkpoint-content` | scenario | native suite | native suite | native suite | native suite | native suite | native suite | native suite | native suite | native suite |
+| `capacity-failclosed` | scenario | native suite | native suite | unsupported | unsupported | unsupported | native suite | native suite | native suite | native suite |
+| `run-state-isolation` | scenario | unsupported | unsupported | unsupported | unsupported | unsupported | unsupported | unsupported | unsupported | unsupported |
 
 `native suite` means the implementation's full native test executable passed.
 It is not isolated to the named scenario, so a failure cannot be attributed from
-this cell alone. Other Rust, Fortran, COBOL, Ruby, Elixir, Erlang, C++, PHP, and
-C# scenarios remain `unsupported`. The report shows those cells explicitly
+this cell alone. Other Rust, Fortran, COBOL, Ruby, Elixir, Erlang, C++, PHP, C#,
+and Lua scenarios remain `unsupported`. The report shows those cells explicitly
 instead of dropping the languages.
+
+The full cell-by-cell matrix and per-language reports are in the
+[Behavior Lab Matrix](behavior-lab-matrix.md).
 
 ## Run
 
@@ -73,13 +76,13 @@ cd language/java; mvn -q -DskipTests test-compile; cd ../..
 cmake -S language/cpp -B language/cpp/build
 cmake --build language/cpp/build
 python scripts/behavior_lab.py --strict --timeout 300
-python scripts/behavior_lab.py --strict --timeout 600 --languages go,python,typescript,java,rust,fortran,cobol,ruby,elixir,erlang,cpp,php,csharp
+python scripts/behavior_lab.py --strict --timeout 600 --languages go,python,typescript,java,rust,fortran,cobol,ruby,elixir,erlang,cpp,php,csharp,lua
 ```
 
-The thirteen-language run also needs a Rust toolchain plus `gfortran`, `gnucobol`,
-`g++`, CMake, and Ninja; Ruby; Elixir 1.20.4 on Erlang/OTP 29; PHP 8.4; and the
-.NET 8 SDK. Fortran builds its pinned RE2 bridge. The native
-Fortran/COBOL/Erlang/C++/PHP/C# suite commands, Ruby test runner, and Elixir
+The fourteen-language run also needs a Rust toolchain plus `gfortran`, `gnucobol`,
+`g++`, CMake, and Ninja; Ruby; Elixir 1.20.4 on Erlang/OTP 29; PHP 8.4; the
+.NET 8 SDK; and Lua 5.4. Fortran builds its pinned RE2 bridge. The native
+Fortran/COBOL/Erlang/C++/PHP/C#/Lua suite commands, Ruby test runner, and Elixir
 `mix run` suite are cached within one report, so each runs once.
 `scripts/cpp_behavior_suite.py` adds the C++ compiler runtime directory to
 `PATH` before invoking `ctest`.
@@ -105,11 +108,13 @@ overwritten; `latest.json` is only a convenience pointer.
 ## Current Evidence
 
 The four-language local nineteen-scenario run on 2026-10-31 passed all 76
-cells. The thirteen-language local run passed 110 cells with 137 explicit
+cells. The fourteen-language local run passed 114 cells with 152 explicit
 `unsupported` cells and no failures. The clean-SHA Linux CI run on commit
 `7d9ab0c` passed the thirteen-language set with 110 passed, 137 explicitly
-unsupported, and no failures; use that [behavior job](https://github.com/axisvela/praxo-core/actions/runs/41191022045/job/124507663977)
-and its artifact when citing the report as evidence.
+unsupported, and no failures; the Lua extended-suite result is recorded by the
+behavior workflow artifact for the commit that adds it. The
+[Behavior Lab Matrix](behavior-lab-matrix.md) lists every cell and each
+language's covered and unsupported scenarios.
 
 ## Limits
 
@@ -117,7 +122,7 @@ and its artifact when citing the report as evidence.
 - Go and Python use scenario-level tests; TypeScript uses `node --test` name
   filters; some Java self-tests cover more than one scenario.
 - Rust has scenario-level tests for selected rows. Fortran, COBOL, Ruby,
-  Elixir, Erlang, C++, PHP, and C# use native-suite coverage, not
+  Elixir, Erlang, C++, PHP, C#, and Lua use native-suite coverage, not
   scenario-isolated assertions.
 - The parallel scenario uses deterministic barriers; it is not a throughput or
   stress test. SSE tests use local fixtures, not a provider.

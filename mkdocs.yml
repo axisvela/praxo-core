@@ -62,6 +62,7 @@ plugins:
             Support Policy: 支持政策
             Compatibility Lab: 兼容性实验
             Behavior Lab: 行为实验
+            Behavior Lab Matrix: 行为实验矩阵
             Integrations: 适配与生态
             Adapter Directory: 适配器目录
             Ecosystem: 生态集成
@@ -128,6 +129,7 @@ nav:
       - Support Policy: languages/support.md
       - Compatibility Lab: languages/compatibility-lab.md
       - Behavior Lab: languages/behavior-lab.md
+      - Behavior Lab Matrix: languages/behavior-lab-matrix.md
       - Go: languages/go.md
       - Python: languages/python.md
       - TypeScript: languages/typescript.md

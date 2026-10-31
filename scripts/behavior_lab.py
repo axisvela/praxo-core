@@ -30,6 +30,7 @@ EXTENDED_LANGUAGES = (
     "cpp",
     "php",
     "csharp",
+    "lua",
 )
 LANGUAGES = (*CORE_LANGUAGES, *EXTENDED_LANGUAGES)
 DEFAULT_LANGUAGES = CORE_LANGUAGES
@@ -47,6 +48,7 @@ LANGUAGE_NAMES = {
     "cpp": "C++",
     "php": "PHP",
     "csharp": "C#",
+    "lua": "Lua",
 }
 
 
@@ -154,6 +156,14 @@ def csharp_suite() -> Command:
     )
 
 
+def lua_suite() -> Command:
+    return Command(
+        "lua language/lua/tests/run.lua",
+        ("lua", "language/lua/tests/run.lua"),
+        ROOT,
+    )
+
+
 def scenarios() -> tuple[Scenario, ...]:
     auth = java_test("AgentAuthorizationSelfTest")
     lifecycle = java_test("AgentLifecycleSelfTest")
@@ -176,6 +186,7 @@ def scenarios() -> tuple[Scenario, ...]:
     cpp = cpp_suite()
     php = php_suite()
     csharp = csharp_suite()
+    lua = lua_suite()
     return (
         Scenario(
             "final-arguments",
@@ -427,6 +438,7 @@ def scenarios() -> tuple[Scenario, ...]:
                 "cpp": (cpp,),
                 "php": (php,),
                 "csharp": (csharp,),
+                "lua": (lua,),
             },
             {
                 "go": "scenario",
@@ -442,6 +454,7 @@ def scenarios() -> tuple[Scenario, ...]:
                 "cpp": "suite",
                 "php": "suite",
                 "csharp": "suite",
+                "lua": "suite",
             },
         ),
         Scenario(
@@ -472,6 +485,7 @@ def scenarios() -> tuple[Scenario, ...]:
                 "cpp": (cpp,),
                 "php": (php,),
                 "csharp": (csharp,),
+                "lua": (lua,),
             },
             {
                 "go": "scenario",
@@ -486,6 +500,7 @@ def scenarios() -> tuple[Scenario, ...]:
                 "cpp": "suite",
                 "php": "suite",
                 "csharp": "suite",
+                "lua": "suite",
             },
         ),
         Scenario(
@@ -514,6 +529,7 @@ def scenarios() -> tuple[Scenario, ...]:
                 "cpp": (cpp,),
                 "php": (php,),
                 "csharp": (csharp,),
+                "lua": (lua,),
             },
             {
                 "go": "scenario",
@@ -529,6 +545,7 @@ def scenarios() -> tuple[Scenario, ...]:
                 "cpp": "suite",
                 "php": "suite",
                 "csharp": "suite",
+                "lua": "suite",
             },
         ),
         Scenario(
@@ -555,6 +572,7 @@ def scenarios() -> tuple[Scenario, ...]:
                 "cpp": (cpp,),
                 "php": (php,),
                 "csharp": (csharp,),
+                "lua": (lua,),
             },
             {
                 "go": "scenario",
@@ -567,6 +585,7 @@ def scenarios() -> tuple[Scenario, ...]:
                 "cpp": "suite",
                 "php": "suite",
                 "csharp": "suite",
+                "lua": "suite",
             },
         ),
         Scenario(
