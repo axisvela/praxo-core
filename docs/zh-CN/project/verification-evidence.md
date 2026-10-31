@@ -47,7 +47,7 @@
 ## 公开证据链接
 
 - [兼容性实验](../languages/compatibility-lab.md) 与 [CI compatibility job](https://github.com/axisvela/praxo-core/actions/runs/41000572198/job/123883752839)
-- [行为实验](../languages/behavior-lab.md) 与 [CI behavior job](https://github.com/axisvela/praxo-core/actions/runs/41187763142/job/124498054205)
+- [行为实验](../languages/behavior-lab.md) 与 [CI behavior job](https://github.com/axisvela/praxo-core/actions/runs/41191022045/job/124507663977)
 - [PyPI 上的 praxo-core 0.2.3](https://pypi.org/project/praxo-core/0.2.3/)
 - [npm 上的 @axisvela/praxo-core 0.1.3](https://www.npmjs.com/package/@axisvela/praxo-core/v/0.1.3)
 - [crates.io 上的 praxo-core 0.1.4](https://crates.io/crates/praxo-core/0.1.4)
