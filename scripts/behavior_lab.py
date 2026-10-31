@@ -651,6 +651,8 @@ def scenarios() -> tuple[Scenario, ...]:
                 ),
                 "java": (guardrail,),
                 "rust": (rust_test("call_limit_state_is_isolated_by_run"),),
+                "csharp": (csharp,),
+                "php": (php,),
             },
             {
                 "go": "scenario",
@@ -658,6 +660,8 @@ def scenarios() -> tuple[Scenario, ...]:
                 "typescript": "scenario",
                 "java": "group",
                 "rust": "scenario",
+                "csharp": "suite",
+                "php": "suite",
             },
         ),
         Scenario(

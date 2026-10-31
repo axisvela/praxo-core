@@ -167,6 +167,22 @@ internal static class Program
             rejected = true;
         }
         Check(rejected, "tool call limit");
+
+        var isolated = new CallLimitMiddleware(1, 0);
+        var first = new ModelCall { RunId = "run-1" };
+        var second = new ModelCall { RunId = "run-2" };
+        isolated.BeforeModel(first);
+        isolated.BeforeModel(second);
+        rejected = false;
+        try
+        {
+            isolated.BeforeModel(first);
+        }
+        catch (PraxoException ex) when (ex.Code == "AGENT_MODEL_CALL_LIMIT")
+        {
+            rejected = true;
+        }
+        Check(rejected, "call limit state is isolated by run");
     }
 
     private static void TestCapacityFailClosed()

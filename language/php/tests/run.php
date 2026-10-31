@@ -156,6 +156,18 @@ try {
     check($error->praxoCode === 'AGENT_TOOL_CALL_LIMIT', 'tool call limit code');
 }
 
+$isolatedLimit = new CallLimitMiddleware(1, 0);
+$firstCall = new ModelCall('r1');
+$secondCall = new ModelCall('r2');
+$isolatedLimit->beforeModel($firstCall);
+$isolatedLimit->beforeModel($secondCall);
+try {
+    $isolatedLimit->beforeModel($firstCall);
+    check(false, 'call limit run isolation');
+} catch (PraxoException $error) {
+    check($error->praxoCode === 'AGENT_MODEL_CALL_LIMIT', 'call limit run isolation code');
+}
+
 $capacityOptions = new AgentOptions(new StaticModel('done'));
 $capacityOptions->systemPrompt = str_repeat('x', 1000);
 $capacityOptions->context = new ContextBudget(10, 0);
