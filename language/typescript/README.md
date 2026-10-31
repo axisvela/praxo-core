@@ -1,45 +1,25 @@
-# PRAXO-CORE TypeScript Core
+# PRAXO-CORE: TypeScript Agent Framework
 
-TypeScript implementation of the PRAXO-CORE contract. The normative contract is
-[`spec/`](../../spec/README.md); Go remains the reference implementation.
+PRAXO-CORE is a dependency-free TypeScript framework for building tool-using AI
+agents. It provides the agent runtime, not a model or hosted service, so you keep
+control of your models, tools, storage, and sandboxing.
 
-**Status:** The package passes all eleven conformance vector groups
-and the TypeScript parity check. Context budgets, middleware, streaming,
-`AbortSignal` cancellation, and the OpenAI-compatible adapter are included.
-Published on npm as `@axisvela/praxo-core@0.1.3`. The first publication used a
-short-lived bypass token because staged approval was unavailable; no provenance
-attestation is claimed for `0.1.2`. The `0.1.3` package was approved on
-2026-10-31 and published with npm provenance. Current source contains newer
-parallel-tool, SSE, and history fixes intended for a later release. VFS and
-plugin hosts are not yet implemented.
+It is for teams that want a small, explicit agent loop instead of a large
+orchestration platform:
 
-Package version: `0.1.3` (source and npm latest). Supported contract:
-`SPEC_VERSION` `0.2.0` (`SPEC_VERSION` export).
+- Typed models, tools, events, and sessions.
+- Policy hooks, approvals, path checks, PII redaction, and call limits.
+- Context budgets, checkpoints, middleware, and fallback models.
+- Streaming, `AbortSignal` cancellation, and an OpenAI-compatible adapter.
+- No runtime dependencies; Node.js 20 or newer.
 
-## Requirements
-
-- Node 20 or newer
-- No runtime dependencies
-
-## Build and test
+## Install
 
 ```bash
-cd language/typescript
-npm ci
-npm run build
-npm run conformance
-node --test tests
+npm install @axisvela/praxo-core@0.1.4
 ```
 
-CI packs the package tarball, installs it into a temporary consumer project,
-and runs `tests/installed-smoke.js` with `PRAXO_CONSUMER_ROOT` set. This verifies
-the published file set and installed import path, not npm registry availability.
-
-## Usage
-
-```bash
-npm install @axisvela/praxo-core@0.1.3
-```
+## Quickstart
 
 ```ts
 import {
@@ -64,6 +44,42 @@ const agent = new Agent({ model: new EchoModel(), tools });
 const result = await agent.run({ id: "session-1" }, "hi");
 console.log(result.output, result.steps, result.usage);
 ```
+
+## What you get
+
+| Area | Included |
+| --- | --- |
+| Agent loop | Tool calls, multi-step runs, parallel tools, structured output |
+| Governance | Policy hooks, tool selection, PII middleware, call limits |
+| Runtime | Context budgets, checkpoints, events, streaming, cancellation |
+| Integration | OpenAI-compatible adapter; bring your own model and tools |
+
+## Contract and status
+
+The normative contract is [`spec/`](../../spec/README.md); Go remains the
+reference implementation. This package supports `SPEC_VERSION` `0.2.0` and
+passes the TypeScript conformance and parity checks. Package version `0.1.4`
+is published on npm with provenance. VFS and plugin hosts are not yet
+implemented.
+
+## Requirements
+
+- Node 20 or newer
+- No runtime dependencies
+
+## Build and test
+
+```bash
+cd language/typescript
+npm ci
+npm run build
+npm run conformance
+node --test tests
+```
+
+CI packs the package tarball, installs it into a temporary consumer project,
+and runs `tests/installed-smoke.js` with `PRAXO_CONSUMER_ROOT` set. This verifies
+the published file set and installed import path, not npm registry availability.
 
 ## Contract Surface
 

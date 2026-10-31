@@ -88,6 +88,10 @@
   temporary-project install imported `Agent` and `Registry` and reported
   `SPEC_VERSION` `0.2.0`. Current main contains unreleased parallel-tool, SSE,
   and history fixes beyond `0.1.3`.
+- Prepared TypeScript `@axisvela/praxo-core@0.1.4` with an
+  agent-framework-first README and package description, current source, and
+  `0.1.4` API snapshots. The package is published from source tag
+  `typescript/v0.1.4`.
 - Published Rust `praxo-core@0.1.2` to crates.io from source tag
   `rust/v0.1.2`. A clean temporary project installed the crate and reported
   `SDK_VERSION` `0.1.2` and `SPEC_VERSION` `0.2.0`. That release did not include

@@ -1,0 +1,817 @@
+# PRAXO-CORE TypeScript API Signatures 0.1.4
+# SPEC_VERSION 0.2.0
+# Format 1: source declarations and public members
+
+## AbortError
+class AbortError
+constructor(message?: string): AbortError
+code: string
+name: string
+message: string
+stack?: string | undefined
+cause?: unknown
+
+## Action
+interface Action
+kind: string
+sessionId: string
+toolName?: string | undefined
+arguments?: Record<string, unknown> | undefined
+
+## Agent
+class Agent
+constructor(options: AgentOptions): Agent
+options: AgentOptions
+run(session: Session, prompt: string): Promise<Result>
+
+## AgentOptions
+interface AgentOptions
+model: Model
+tools?: Registry | undefined
+events?: Sink | undefined
+policy?: Hook | undefined
+systemPrompt?: string | undefined
+memoryFiles?: string[] | undefined
+context?: ContextBudget | undefined
+compactor?: ContextCompactor | undefined
+offloader?: Offloader | undefined
+offloadThresholdBytes?: number | undefined
+middleware?: Middleware[] | undefined
+modelMiddleware?: ModelMiddleware[] | undefined
+structuredOutput?: StructuredOutput | undefined
+allowedTools?: string[] | undefined
+toolSelector?: ToolSelector | undefined
+piiRedactor?: PIIRedactor | undefined
+modelCallLimit?: number | undefined
+toolCallLimit?: number | undefined
+fallbackModel?: Model | undefined
+toolChoice?: string | undefined
+responseFormat?: ResponseFormat | undefined
+maxSteps?: number | undefined
+maxTokens?: number | undefined
+maxParallelTools?: number | undefined
+onDelta?: ((delta: string) => void) | undefined
+signal?: AbortSignal | undefined
+
+## Allowlist
+class Allowlist
+constructor(): Allowlist
+register(name: string, factory: Factory): void
+marshal(name: string, value: unknown): string
+unmarshal(data: string | Buffer): unknown
+
+## CacheHint
+interface CacheHint
+stablePrefix?: number | undefined
+ttl?: string | undefined
+
+## CALL_ERROR_CODES
+const CALL_ERROR_CODES: readonly ["CAPABILITY_DENIED", "NOT_ACTIVE", "NOT_FOUND", "INVALID_REQUEST", "TIMEOUT", "INTERNAL"]
+
+## callLimitMiddleware
+function callLimitMiddleware
+callLimitMiddleware(modelLimit: number, toolLimit: number): Middleware
+
+## CheckpointError
+class CheckpointError
+constructor(message: string): CheckpointError
+code: string
+name: string
+message: string
+stack?: string | undefined
+cause?: unknown
+
+## COMPACT_MARKER_PREFIX
+const COMPACT_MARKER_PREFIX: "[context compacted:"
+
+## ContentBlock
+interface ContentBlock
+type: string
+text?: string | undefined
+imageUrl?: string | undefined
+data?: string | undefined
+
+## contentBlockFromWire
+function contentBlockFromWire
+contentBlockFromWire(raw: Record<string, unknown>): ContentBlock
+
+## contentBlockToWire
+function contentBlockToWire
+contentBlockToWire(block: ContentBlock): Record<string, unknown>
+
+## ContextAssembler
+class ContextAssembler
+constructor(store: Store, limit?: number): ContextAssembler
+assemble(sessionId: string, query: string): Promise<MemoryRecord[]>
+
+## ContextBudget
+class ContextBudget
+constructor(maxTokens?: number, keepRecent?: number): ContextBudget
+maxTokens: number
+keepRecent: number
+compact(messages: Message[]): [Message[], boolean]
+
+## ContextBudgetError
+class ContextBudgetError
+constructor(message?: string): ContextBudgetError
+code: string
+name: string
+message: string
+stack?: string | undefined
+cause?: unknown
+
+## ContextCompactor
+interface ContextCompactor
+compact(messages: Message[], budget: ContextBudget): Promise<Message[]>
+
+## Decision
+interface Decision
+allowed: boolean
+reason?: string | undefined
+
+## DEFAULT_SUMMARY_PROMPT
+const DEFAULT_SUMMARY_PROMPT: string
+
+## DEFAULT_TOOL_SELECTOR_PROMPT
+const DEFAULT_TOOL_SELECTOR_PROMPT: string
+
+## defaultPiiRules
+function defaultPiiRules
+defaultPiiRules(): PIIRule[]
+
+## Envelope
+interface Envelope
+type: string
+data: unknown
+
+## estimateTokens
+function estimateTokens
+estimateTokens(messages: Message[]): number
+
+## Event
+interface Event
+type: string
+sessionId: string
+runId?: string | undefined
+data?: Record<string, unknown> | undefined
+at?: string | undefined
+
+## EVENT_KINDS
+const EVENT_KINDS: readonly ["start", "success", "failure", "stop", "crash", "verification_denied", "registration_denied", "authorization_denied", "resource_limit", "canceled", "terminated"]
+
+## EventPredicate
+type EventPredicate = EventPredicate
+
+## eventToWire
+function eventToWire
+eventToWire(event: Event): Record<string, unknown>
+
+## extractJson
+function extractJson
+extractJson(output: string): unknown
+
+## Factory
+type Factory = Factory
+
+## fallbackModel
+function fallbackModel
+fallbackModel(fallback: Model | null): ModelMiddleware
+
+## FilterSink
+class FilterSink
+constructor(sink: Sink, predicate?: EventPredicate | undefined): FilterSink
+emit(event: Event): Promise<void>
+
+## Frame
+type Frame = string
+
+## FRAME_CONSTRAINT
+const FRAME_CONSTRAINT: "constraint"
+
+## FRAME_DECISION
+const FRAME_DECISION: "decision"
+
+## FRAME_EVENT
+const FRAME_EVENT: "event"
+
+## FRAME_EXPERIENCE
+const FRAME_EXPERIENCE: "experience"
+
+## FRAME_INTENTION
+const FRAME_INTENTION: "intention"
+
+## FRAME_PROCEDURE
+const FRAME_PROCEDURE: "procedure"
+
+## FRAME_WORKSPACE_STATE
+const FRAME_WORKSPACE_STATE: "workspace_state"
+
+## fromJson
+function fromJson
+fromJson(raw: string): Schema
+
+## FuncHook
+class FuncHook
+constructor(fn: (action: Action) => Promise<Decision> | Decision): FuncHook
+authorize(action: Action): Promise<Decision> | Decision
+
+## FuncTool
+class FuncTool
+constructor(name: string, description: string, fn: (args: Record<string, unknown>) => Promise<unknown> | unknown): FuncTool
+name: string
+description: string
+invoke(args: Record<string, unknown>): Promise<unknown> | unknown
+
+## Gateway
+interface Gateway
+execute(name: string, input: Record<string, unknown>, token?: string): Promise<unknown>
+listTools(): GatewayInfo[]
+
+## GatewayInfo
+interface GatewayInfo
+name: string
+description?: string | undefined
+risk?: string | undefined
+
+## GatewayTool
+class GatewayTool
+constructor(gateway: Gateway, info: GatewayInfo): GatewayTool
+name: string
+description: string
+invoke(args: Record<string, unknown>): Promise<unknown>
+
+## Hook
+interface Hook
+authorize(action: Action): Promise<Decision> | Decision
+
+## KINDS
+const KINDS: Set<string>
+
+## lastUserMessage
+function lastUserMessage
+lastUserMessage(messages: Message[]): string
+
+## loadAgentsMd
+function loadAgentsMd
+loadAgentsMd(paths: string[]): string
+
+## Manifest
+interface Manifest
+schemaVersion: number
+id: string
+version: string
+kind: string
+entrypoint: Record<string, unknown>
+protocol: string
+capabilities: string[]
+permissions: Record<string, unknown>
+limits: Record<string, unknown>
+isolation: string
+health: Record<string, unknown>
+signature?: Record<string, unknown> | undefined
+sbom: string
+
+## MAX_AGENTS_MD_BYTES
+const MAX_AGENTS_MD_BYTES: number
+
+## MaxStepsError
+class MaxStepsError
+constructor(message?: string): MaxStepsError
+code: string
+name: string
+message: string
+stack?: string | undefined
+cause?: unknown
+
+## MaxTokensError
+class MaxTokensError
+constructor(message?: string): MaxTokensError
+code: string
+name: string
+message: string
+stack?: string | undefined
+cause?: unknown
+
+## maybeAwait
+function maybeAwait
+maybeAwait<T>(value: MaybePromise<T>): Promise<T>
+
+## MaybePromise
+type MaybePromise = MaybePromise<T>
+
+## MemoryRecord
+interface MemoryRecord
+id: string
+frame: string
+content: string
+metadata?: Record<string, unknown> | undefined
+createdAt?: string | undefined
+
+## MemoryStore
+class MemoryStore
+constructor(): MemoryStore
+put(sessionId: string, record: MemoryRecord): Promise<void>
+search(sessionId: string, query: string, limit?: number): Promise<MemoryRecord[]>
+
+## mergeMiddleware
+function mergeMiddleware
+mergeMiddleware(items: Middleware[]): Middleware[]
+
+## Message
+interface Message
+role: string
+content?: string | undefined
+contentBlocks?: ContentBlock[] | undefined
+toolCalls?: ToolCall[] | undefined
+toolId?: string | undefined
+
+## messageFromWire
+function messageFromWire
+messageFromWire(raw: Record<string, unknown>): Message
+
+## messageToWire
+function messageToWire
+messageToWire(message: Message): Record<string, unknown>
+
+## Middleware
+interface Middleware
+name?: string | undefined
+beforeRun?: ((state: RunState) => MaybePromise<void>) | undefined
+beforeModel?: ((call: ModelCall) => MaybePromise<void>) | undefined
+afterModel?: ((call: ModelCall, response: Response) => MaybePromise<void>) | undefined
+beforeTool?: ((call: MiddlewareToolCall) => MaybePromise<void>) | undefined
+afterTool?: ((call: MiddlewareToolCall, result: ToolResult) => MaybePromise<void>) | undefined
+afterRun?: ((result: unknown, error: unknown) => MaybePromise<void>) | undefined
+
+## MiddlewareToolCall
+interface MiddlewareToolCall
+runId: string
+sessionId: string
+call: ToolCall
+skip?: boolean | undefined
+result?: unknown
+error?: unknown
+
+## Model
+interface Model
+generate(request: Request): Promise<Response>
+
+## ModelCall
+interface ModelCall
+runId: string
+sessionId: string
+request: Request
+skip?: boolean | undefined
+response?: Response | undefined
+
+## ModelCallLimitError
+class ModelCallLimitError
+constructor(message?: string): ModelCallLimitError
+code: string
+name: string
+message: string
+stack?: string | undefined
+cause?: unknown
+
+## ModelHandler
+type ModelHandler = ModelHandler
+
+## ModelMiddleware
+type ModelMiddleware = ModelMiddleware
+
+## ModelSummarizer
+class ModelSummarizer
+constructor(model: Model | null, prompt?: string, maxSummaryTokens?: number): ModelSummarizer
+compact(messages: Message[], budget: ContextBudget): Promise<Message[]>
+
+## ModelToolSelector
+class ModelToolSelector
+constructor(model: Model | null, prompt?: string, maxTools?: number): ModelToolSelector
+select(query: string, tools: ToolSpec[]): Promise<string[]>
+
+## MultiSink
+class MultiSink
+constructor(sinks: Sink[]): MultiSink
+emit(event: Event): Promise<void>
+
+## newGatewayTools
+function newGatewayTools
+newGatewayTools(gateway: Gateway): Tool[]
+
+## newPiiRule
+function newPiiRule
+newPiiRule(name: string, pattern: string, replacement: string): PIIRule
+
+## Offloader
+interface Offloader
+offload(toolName: string, toolCallId: string, data: Buffer): Promise<string>
+
+## OffloadFunc
+class OffloadFunc
+constructor(fn: (toolName: string, toolCallId: string, data: Buffer) => Promise<string> | string): OffloadFunc
+offload(toolName: string, toolCallId: string, data: Buffer): Promise<string>
+
+## OpenAICompatibleModel
+class OpenAICompatibleModel
+constructor(config: OpenAIConfig): OpenAICompatibleModel
+generate(request: Request): Promise<ModelResponse>
+generateStream(request: Request, onDelta: (delta: string) => void): Promise<ModelResponse>
+
+## OpenAIConfig
+interface OpenAIConfig
+baseUrl: string
+apiKey?: string | undefined
+model?: string | undefined
+timeoutMs?: number | undefined
+headers?: Record<string, string> | undefined
+
+## ParsedToolCall
+interface ParsedToolCall
+callId: string
+name: string
+operation: string
+resource: string
+risk: string
+reason: string
+idempotencyKey: string
+input: Record<string, unknown>
+
+## parseInputJson
+function parseInputJson
+parseInputJson(raw: string): Record<string, unknown> | null
+
+## parseManifest
+function parseManifest
+parseManifest(raw: string | Buffer): Manifest
+
+## parseToolCall
+function parseToolCall
+parseToolCall(content: string): ParsedToolCall | null
+
+## PathAccess
+type PathAccess = PathAccess
+
+## PathChecker
+class PathChecker
+constructor(grants: PathGrant[]): PathChecker
+check(target: string, need?: PathAccess): Decision
+allowed(target: string, need?: PathAccess): boolean
+
+## PathGrant
+interface PathGrant
+root: string
+access: PathAccess
+
+## piiMiddleware
+function piiMiddleware
+piiMiddleware(redactor: PIIRedactor): Middleware
+
+## PIIRedactor
+class PIIRedactor
+constructor(rules?: PIIRule[]): PIIRedactor
+rules: PIIRule[]
+redact(text: string): string
+
+## PIIRule
+interface PIIRule
+name: string
+pattern: RegExp
+replacement: string
+
+## PluginError
+class PluginError
+constructor(message: string): PluginError
+code: string
+name: string
+message: string
+stack?: string | undefined
+cause?: unknown
+
+## PolicyDeniedError
+class PolicyDeniedError
+constructor(message: string): PolicyDeniedError
+code: string
+name: string
+message: string
+stack?: string | undefined
+cause?: unknown
+
+## PolicyError
+class PolicyError
+constructor(message: string): PolicyError
+code: string
+name: string
+message: string
+stack?: string | undefined
+cause?: unknown
+
+## PraxoError
+class PraxoError
+constructor(message: string, code?: string): PraxoError
+code: string
+name: string
+message: string
+stack?: string | undefined
+cause?: unknown
+
+## redactValue
+function redactValue
+redactValue(redactor: PIIRedactor, value: unknown): unknown
+
+## Registry
+class Registry
+constructor(): Registry
+register(tool: Tool): void
+get(name: string): Tool
+specs(): ToolSpec[]
+size: number
+
+## Request
+interface Request
+model?: string | undefined
+messages: Message[]
+tools?: ToolSpec[] | undefined
+toolChoice?: string | undefined
+responseFormat?: ResponseFormat | undefined
+cacheHint?: CacheHint | undefined
+temperature?: number | undefined
+signal?: AbortSignal | undefined
+
+## Response
+interface Response
+message: Message
+usage?: Usage | undefined
+finishReason?: string | undefined
+
+## ResponseFormat
+interface ResponseFormat
+name?: string | undefined
+schema?: Record<string, unknown> | undefined
+
+## Result
+interface Result
+runId: string
+output: string
+steps: number
+usage: Usage
+
+## ROLE_ASSISTANT
+const ROLE_ASSISTANT: "assistant"
+
+## ROLE_SYSTEM
+const ROLE_SYSTEM: "system"
+
+## ROLE_TOOL
+const ROLE_TOOL: "tool"
+
+## ROLE_USER
+const ROLE_USER: "user"
+
+## RunState
+interface RunState
+runId: string
+session?: unknown
+prompt?: string | undefined
+
+## Schema
+interface Schema
+type?: string | undefined
+properties?: Record<string, Schema> | undefined
+required?: string[] | undefined
+items?: Schema | undefined
+enum?: unknown[] | undefined
+minLength?: number | undefined
+maxLength?: number | undefined
+minimum?: number | undefined
+maximum?: number | undefined
+pattern?: string | undefined
+description?: string | undefined
+
+## SDK_VERSION
+const SDK_VERSION: "0.1.4"
+
+## Session
+interface Session
+id: string
+tenantId?: string | undefined
+workspaceId?: string | undefined
+messages?: Message[] | undefined
+
+## Sink
+interface Sink
+emit(event: Event): Promise<void>
+
+## SPEC_VERSION
+const SPEC_VERSION: "0.2.0"
+
+## STATES
+const STATES: readonly ["FETCHED", "VALIDATED", "LOADED", "ACTIVE", "DRAINING", "STOPPED", "UNLOADED", "FAILED", "QUARANTINED"]
+
+## Store
+interface Store
+put(sessionId: string, record: MemoryRecord): Promise<void>
+search(sessionId: string, query: string, limit?: number): Promise<MemoryRecord[]>
+
+## STRATEGY_AUTO
+const STRATEGY_AUTO: "auto"
+
+## STRATEGY_PROVIDER
+const STRATEGY_PROVIDER: "provider"
+
+## STRATEGY_TOOL
+const STRATEGY_TOOL: "tool"
+
+## STREAM_CHECKPOINT
+const STREAM_CHECKPOINT: "checkpoint"
+
+## STREAM_DEBUG
+const STREAM_DEBUG: "debug"
+
+## STREAM_KINDS
+const STREAM_KINDS: readonly ["values", "updates", "messages", "tasks", "debug", "checkpoint"]
+
+## STREAM_MESSAGES
+const STREAM_MESSAGES: "messages"
+
+## STREAM_TASKS
+const STREAM_TASKS: "tasks"
+
+## STREAM_UPDATES
+const STREAM_UPDATES: "updates"
+
+## STREAM_VALUES
+const STREAM_VALUES: "values"
+
+## StreamingModel
+interface StreamingModel
+generateStream(request: Request, onDelta: (delta: string) => void): Promise<Response>
+generate(request: Request): Promise<Response>
+
+## StreamKind
+type StreamKind = "checkpoint" | "debug" | "values" | "updates" | "messages" | "tasks"
+
+## StreamPart
+interface StreamPart
+runId: string
+sessionId: string
+kind: "checkpoint" | "debug" | "values" | "updates" | "messages" | "tasks"
+step?: number | undefined
+data?: unknown
+at?: string | undefined
+
+## stripToolCallMarkup
+function stripToolCallMarkup
+stripToolCallMarkup(content: string): string
+
+## StructuredOutput
+class StructuredOutput
+constructor(options?: StructuredOutputOptions): StructuredOutput
+schema: Record<string, unknown>
+name: string
+strategy: string
+maxRepairs: number
+validateOutput?: ((output: string) => MaybePromise<void>) | undefined
+repair?: ((output: string, error: unknown) => MaybePromise<string>) | undefined
+outputName(): string
+responseFormat(): ResponseFormat | undefined
+toolSpec(): ToolSpec
+middleware(): Middleware
+apply(result: { output: string; }): Promise<void>
+validateArguments(args: Record<string, unknown>): Promise<void>
+
+## StructuredOutputError
+class StructuredOutputError
+constructor(message?: string): StructuredOutputError
+code: string
+name: string
+message: string
+stack?: string | undefined
+cause?: unknown
+
+## StructuredOutputOptions
+interface StructuredOutputOptions
+schema?: Record<string, unknown> | undefined
+name?: string | undefined
+strategy?: string | undefined
+maxRepairs?: number | undefined
+validate?: ((output: string) => MaybePromise<void>) | undefined
+repair?: ((output: string, error: unknown) => MaybePromise<string>) | undefined
+
+## SUMMARY_MARKER_PREFIX
+const SUMMARY_MARKER_PREFIX: "[context summary:"
+
+## Tool
+interface Tool
+name: string
+description: string
+invoke(args: Record<string, unknown>): Promise<unknown> | unknown
+
+## TOOL_CHOICE_AUTO
+const TOOL_CHOICE_AUTO: "auto"
+
+## TOOL_CHOICE_NONE
+const TOOL_CHOICE_NONE: "none"
+
+## TOOL_CHOICE_REQUIRED
+const TOOL_CHOICE_REQUIRED: "required"
+
+## ToolCall
+interface ToolCall
+id: string
+name: string
+arguments: Record<string, unknown>
+
+## toolCallFromWire
+function toolCallFromWire
+toolCallFromWire(raw: Record<string, unknown>): ToolCall
+
+## ToolCallLimitError
+class ToolCallLimitError
+constructor(message?: string): ToolCallLimitError
+code: string
+name: string
+message: string
+stack?: string | undefined
+cause?: unknown
+
+## toolCallToWire
+function toolCallToWire
+toolCallToWire(call: ToolCall): Record<string, unknown>
+
+## ToolNotFoundError
+class ToolNotFoundError
+constructor(message: string): ToolNotFoundError
+code: string
+name: string
+message: string
+stack?: string | undefined
+cause?: unknown
+
+## ToolNotSelectedError
+class ToolNotSelectedError
+constructor(message?: string): ToolNotSelectedError
+code: string
+name: string
+message: string
+stack?: string | undefined
+cause?: unknown
+
+## ToolResult
+interface ToolResult
+value?: unknown
+error?: unknown
+
+## toolSelectionMiddleware
+function toolSelectionMiddleware
+toolSelectionMiddleware(selector: ToolSelector | null): Middleware
+
+## ToolSelector
+interface ToolSelector
+select(query: string, tools: ToolSpec[]): MaybePromise<string[]>
+
+## ToolSpec
+interface ToolSpec
+name: string
+description: string
+parameters?: Record<string, unknown> | undefined
+risk?: string | undefined
+
+## toolSpecToWire
+function toolSpecToWire
+toolSpecToWire(spec: ToolSpec): Record<string, unknown>
+
+## truncateToTokens
+function truncateToTokens
+truncateToTokens(value: string, tokens: number): string
+
+## TypeNotAllowedError
+class TypeNotAllowedError
+constructor(message: string): TypeNotAllowedError
+code: string
+name: string
+message: string
+stack?: string | undefined
+cause?: unknown
+
+## usage
+function usage
+usage(inputTokens?: number, outputTokens?: number, cachedTokens?: number): Usage
+
+## Usage
+interface Usage
+inputTokens: number
+outputTokens: number
+cachedTokens?: number | undefined
+
+## validate
+function validate
+validate(schema: Schema | Record<string, unknown>, data: unknown): ValidationError[]
+
+## validateTrust
+function validateTrust
+validateTrust(manifest: Manifest, profile: string): void
+
+## ValidationError
+interface ValidationError
+path: string
+message: string
