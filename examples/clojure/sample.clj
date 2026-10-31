@@ -1,5 +1,5 @@
-(import '[io.axisvela.praxo.agent Agent AgentOptions Session]
-        '[io.axisvela.praxo.model Message Model Request Response])
+(import '[com.axisvela.praxo.agent Agent AgentOptions Session]
+        '[com.axisvela.praxo.model Message Model Request Response])
 
 (def model
   (reify Model

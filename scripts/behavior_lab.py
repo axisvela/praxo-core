@@ -79,7 +79,7 @@ def java_class_test(qualified_name: str, *options: str) -> Command:
 
 
 def java_test(name: str) -> Command:
-    return java_class_test("io.axisvela.praxo.agent." + name)
+    return java_class_test("com.axisvela.praxo.agent." + name)
 
 
 def rust_test(name: str) -> Command:
@@ -102,13 +102,13 @@ def scenarios() -> tuple[Scenario, ...]:
     auth = java_test("AgentAuthorizationSelfTest")
     lifecycle = java_test("AgentLifecycleSelfTest")
     guardrail = java_test("AgentGuardrailSelfTest")
-    schema = java_class_test("io.axisvela.praxo.jsonschema.JsonSchemaSelfTest")
-    checkpoint = java_class_test("io.axisvela.praxo.checkpoint.CheckpointSelfTest")
-    pii = java_class_test("io.axisvela.praxo.middleware.PiiMiddlewareSelfTest")
+    schema = java_class_test("com.axisvela.praxo.jsonschema.JsonSchemaSelfTest")
+    checkpoint = java_class_test("com.axisvela.praxo.checkpoint.CheckpointSelfTest")
+    pii = java_class_test("com.axisvela.praxo.middleware.PiiMiddlewareSelfTest")
     stream = java_test("AgentStreamSelfTest")
     concurrency = java_test("AgentConcurrencySelfTest")
     adapter = java_class_test(
-        "io.axisvela.praxo.adapters.OpenAICompatibleSelfTest",
+        "com.axisvela.praxo.adapters.OpenAICompatibleSelfTest",
         "--add-modules",
         "jdk.httpserver",
     )

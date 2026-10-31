@@ -1,6 +1,6 @@
-import io.axisvela.praxo.agent.{Agent, AgentOptions, Session}
-import io.axisvela.praxo.model.{Message, Model, Request, Response}
-import io.axisvela.praxo.tool.{FuncTool, Registry}
+import com.axisvela.praxo.agent.{Agent, AgentOptions, Session}
+import com.axisvela.praxo.model.{Message, Model, Request, Response}
+import com.axisvela.praxo.tool.{FuncTool, Registry}
 
 object Sample:
   def main(args: Array[String]): Unit =

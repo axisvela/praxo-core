@@ -100,7 +100,7 @@ def language_definitions() -> dict[str, Language]:
                     "java",
                     "-cp",
                     "target/classes",
-                    "io.axisvela.praxo.conformance.ApiSnapshot",
+                    "com.axisvela.praxo.conformance.ApiSnapshot",
                     "--check",
                 ),
                 command(
@@ -109,7 +109,7 @@ def language_definitions() -> dict[str, Language]:
                     "java",
                     "-cp",
                     "target/classes",
-                    "io.axisvela.praxo.conformance.Run",
+                    "com.axisvela.praxo.conformance.Run",
                 ),
             ),
         ),

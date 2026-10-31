@@ -1,10 +1,10 @@
-import io.axisvela.praxo.agent.Agent
-import io.axisvela.praxo.agent.AgentOptions
-import io.axisvela.praxo.agent.Session
-import io.axisvela.praxo.model.Message
-import io.axisvela.praxo.model.Model
-import io.axisvela.praxo.model.Request
-import io.axisvela.praxo.model.Response
+import com.axisvela.praxo.agent.Agent
+import com.axisvela.praxo.agent.AgentOptions
+import com.axisvela.praxo.agent.Session
+import com.axisvela.praxo.model.Message
+import com.axisvela.praxo.model.Model
+import com.axisvela.praxo.model.Request
+import com.axisvela.praxo.model.Response
 
 def model = new Model() {
     Response generate(Request request) {

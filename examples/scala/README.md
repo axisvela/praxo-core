@@ -18,8 +18,8 @@ CI installs Scala CLI and runs the same sample.
 ## Usage
 
 ```scala
-import io.axisvela.praxo.agent.{Agent, AgentOptions, Session}
-import io.axisvela.praxo.model.{Message, Model, Request, Response}
+import com.axisvela.praxo.agent.{Agent, AgentOptions, Session}
+import com.axisvela.praxo.model.{Message, Model, Request, Response}
 
 val model = new Model:
   override def generate(request: Request): Response =

@@ -325,17 +325,17 @@ jobs:
           cache: maven
       - run: mvn -q -DskipTests test-compile
       - run: mvn -q -DskipTests package
-      - run: java -cp target/classes io.axisvela.praxo.conformance.ApiSnapshot --check
-      - run: java -cp target/classes io.axisvela.praxo.conformance.Run
-      - run: java --add-modules jdk.httpserver -cp target/classes:target/test-classes io.axisvela.praxo.adapters.OpenAICompatibleSelfTest
-      - run: java -cp target/classes:target/test-classes io.axisvela.praxo.agent.AgentConcurrencySelfTest
-      - run: java -cp target/classes:target/test-classes io.axisvela.praxo.agent.AgentAuthorizationSelfTest
-      - run: java -cp target/classes:target/test-classes io.axisvela.praxo.agent.AgentLifecycleSelfTest
-      - run: java -cp target/classes:target/test-classes io.axisvela.praxo.agent.AgentGuardrailSelfTest
-      - run: java -cp target/classes:target/test-classes io.axisvela.praxo.agent.AgentStreamSelfTest
-      - run: java -cp target/classes:target/test-classes io.axisvela.praxo.jsonschema.JsonSchemaSelfTest
-      - run: java -cp target/classes:target/test-classes io.axisvela.praxo.checkpoint.CheckpointSelfTest
-      - run: java -cp target/classes:target/test-classes io.axisvela.praxo.middleware.PiiMiddlewareSelfTest
+      - run: java -cp target/classes com.axisvela.praxo.conformance.ApiSnapshot --check
+      - run: java -cp target/classes com.axisvela.praxo.conformance.Run
+      - run: java --add-modules jdk.httpserver -cp target/classes:target/test-classes com.axisvela.praxo.adapters.OpenAICompatibleSelfTest
+      - run: java -cp target/classes:target/test-classes com.axisvela.praxo.agent.AgentConcurrencySelfTest
+      - run: java -cp target/classes:target/test-classes com.axisvela.praxo.agent.AgentAuthorizationSelfTest
+      - run: java -cp target/classes:target/test-classes com.axisvela.praxo.agent.AgentLifecycleSelfTest
+      - run: java -cp target/classes:target/test-classes com.axisvela.praxo.agent.AgentGuardrailSelfTest
+      - run: java -cp target/classes:target/test-classes com.axisvela.praxo.agent.AgentStreamSelfTest
+      - run: java -cp target/classes:target/test-classes com.axisvela.praxo.jsonschema.JsonSchemaSelfTest
+      - run: java -cp target/classes:target/test-classes com.axisvela.praxo.checkpoint.CheckpointSelfTest
+      - run: java -cp target/classes:target/test-classes com.axisvela.praxo.middleware.PiiMiddlewareSelfTest
 
   kotlin-sample:
     runs-on: ubuntu-latest

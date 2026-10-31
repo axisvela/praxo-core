@@ -4,14 +4,14 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>io.axisvela</groupId>
+  <groupId>com.axisvela</groupId>
   <artifactId>praxo-core</artifactId>
-  <version>0.2.3</version>
+  <version>0.3.0</version>
   <packaging>jar</packaging>
 
   <name>PRAXO-CORE Java SDK</name>
-  <description>Java SDK for the PRAXO-CORE agent contract</description>
-  <url>https://github.com/axisvela/praxo-core</url>
+  <description>Embeddable MIT-licensed agent framework for Java: tools, policy, events, memory, middleware, and an agent loop</description>
+  <url>https://axisvela.github.io/praxo-core/</url>
 
   <licenses>
     <license>
@@ -19,6 +19,21 @@
       <url>https://opensource.org/licenses/MIT</url>
     </license>
   </licenses>
+
+  <developers>
+    <developer>
+      <id>axisvela</id>
+      <name>AxisVela</name>
+      <email>releases@axisvela.com</email>
+    </developer>
+  </developers>
+
+  <scm>
+    <connection>scm:git:https://github.com/axisvela/praxo-core.git</connection>
+    <developerConnection>scm:git:ssh://git@github.com/axisvela/praxo-core.git</developerConnection>
+    <url>https://github.com/axisvela/praxo-core</url>
+    <tag>java/v0.3.0</tag>
+  </scm>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -39,11 +54,80 @@
         <configuration>
           <archive>
             <manifest>
-              <mainClass>io.axisvela.praxo.conformance.Run</mainClass>
+              <mainClass>com.axisvela.praxo.conformance.Run</mainClass>
             </manifest>
           </archive>
         </configuration>
       </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-source-plugin</artifactId>
+        <version>3.3.1</version>
+        <executions>
+          <execution>
+            <id>attach-sources</id>
+            <phase>package</phase>
+            <goals>
+              <goal>jar-no-fork</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>3.11.2</version>
+        <executions>
+          <execution>
+            <id>attach-javadocs</id>
+            <phase>package</phase>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
   </build>
+
+  <profiles>
+    <profile>
+      <id>release</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.sonatype.central</groupId>
+            <artifactId>central-publishing-maven-plugin</artifactId>
+            <version>0.12.0</version>
+            <extensions>true</extensions>
+            <configuration>
+              <publishingServerId>central</publishingServerId>
+              <autoPublish>false</autoPublish>
+              <waitUntil>validated</waitUntil>
+            </configuration>
+          </plugin>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-gpg-plugin</artifactId>
+            <version>3.2.7</version>
+            <executions>
+              <execution>
+                <id>sign-artifacts</id>
+                <phase>verify</phase>
+                <goals>
+                  <goal>sign</goal>
+                </goals>
+              </execution>
+            </executions>
+            <configuration>
+              <gpgArguments>
+                <arg>--pinentry-mode</arg>
+                <arg>loopback</arg>
+              </gpgArguments>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
 </project>

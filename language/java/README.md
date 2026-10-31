@@ -8,8 +8,21 @@ Context budgets, middleware, streaming, virtual-thread execution, cancellation,
 the OpenAI-compatible adapter, and the agent loop are included. VFS and plugin
 hosts are not yet implemented.
 
-Package version: `0.2.3`. Supported contract: `SPEC_VERSION` `0.2.0`
-(`io.axisvela.praxo.Version.SPEC_VERSION`).
+Package version: `0.3.0` (source tag `java/v0.3.0`; the earlier
+`java/v0.2.3` tag retains `io.axisvela.praxo`). Supported contract:
+`SPEC_VERSION` `0.2.0` (`com.axisvela.praxo.Version.SPEC_VERSION`).
+
+Published on Maven Central as `com.axisvela:praxo-core:0.3.0`.
+
+## Install
+
+```xml
+<dependency>
+  <groupId>com.axisvela</groupId>
+  <artifactId>praxo-core</artifactId>
+  <version>0.3.0</version>
+</dependency>
+```
 
 ## Requirements
 
@@ -22,23 +35,23 @@ Package version: `0.2.3`. Supported contract: `SPEC_VERSION` `0.2.0`
 cd language/java
 mvn -q -DskipTests test-compile
 mvn -q -DskipTests package
-java -cp target/classes io.axisvela.praxo.conformance.ApiSnapshot --check
-java -cp target/classes io.axisvela.praxo.conformance.Run
-java --add-modules jdk.httpserver -cp target/classes:target/test-classes io.axisvela.praxo.adapters.OpenAICompatibleSelfTest
-java -cp target/classes:target/test-classes io.axisvela.praxo.agent.AgentConcurrencySelfTest
+java -cp target/classes com.axisvela.praxo.conformance.ApiSnapshot --check
+java -cp target/classes com.axisvela.praxo.conformance.Run
+java --add-modules jdk.httpserver -cp target/classes:target/test-classes com.axisvela.praxo.adapters.OpenAICompatibleSelfTest
+java -cp target/classes:target/test-classes com.axisvela.praxo.agent.AgentConcurrencySelfTest
 ```
 
 ## Usage
 
 ```java
-import io.axisvela.praxo.agent.Agent;
-import io.axisvela.praxo.agent.AgentOptions;
-import io.axisvela.praxo.agent.Session;
-import io.axisvela.praxo.model.Message;
-import io.axisvela.praxo.model.Request;
-import io.axisvela.praxo.model.Response;
-import io.axisvela.praxo.tool.FuncTool;
-import io.axisvela.praxo.tool.Registry;
+import com.axisvela.praxo.agent.Agent;
+import com.axisvela.praxo.agent.AgentOptions;
+import com.axisvela.praxo.agent.Session;
+import com.axisvela.praxo.model.Message;
+import com.axisvela.praxo.model.Request;
+import com.axisvela.praxo.model.Response;
+import com.axisvela.praxo.tool.FuncTool;
+import com.axisvela.praxo.tool.Registry;
 
 var tools = new Registry();
 tools.register(new FuncTool("echo", "Echo", args -> args));
@@ -53,19 +66,19 @@ System.out.println(result.output + " " + result.steps);
 
 | Package | Contract |
 | --- | --- |
-| `io.axisvela.praxo.model` | Model, messages, tool specs, request/response, usage |
-| `io.axisvela.praxo.tool` | Tool, Registry, FuncTool |
-| `io.axisvela.praxo.event` | Event, Sink, multi/filter sinks |
-| `io.axisvela.praxo.policy` | Hook, Decision, PathChecker |
-| `io.axisvela.praxo.memory` | Store, MemoryRecord, MemoryStore |
-| `io.axisvela.praxo.checkpoint` | Allowlist |
-| `io.axisvela.praxo.context` | budgets, summarization, offload, AGENTS.md |
-| `io.axisvela.praxo.middleware` | call limits, fallback, PII, structured output, tool selection |
-| `io.axisvela.praxo.agent` | Agent, AgentOptions, Session, Result |
-| `io.axisvela.praxo.toolcall` | tool-call parsing and markup stripping |
-| `io.axisvela.praxo.jsonschema` | documented JSON Schema subset |
-| `io.axisvela.praxo.plugin` | Manifest v1 parsing and validation |
-| `io.axisvela.praxo.adapters` | OpenAI-compatible non-streaming and SSE adapter |
+| `com.axisvela.praxo.model` | Model, messages, tool specs, request/response, usage |
+| `com.axisvela.praxo.tool` | Tool, Registry, FuncTool |
+| `com.axisvela.praxo.event` | Event, Sink, multi/filter sinks |
+| `com.axisvela.praxo.policy` | Hook, Decision, PathChecker |
+| `com.axisvela.praxo.memory` | Store, MemoryRecord, MemoryStore |
+| `com.axisvela.praxo.checkpoint` | Allowlist |
+| `com.axisvela.praxo.context` | budgets, summarization, offload, AGENTS.md |
+| `com.axisvela.praxo.middleware` | call limits, fallback, PII, structured output, tool selection |
+| `com.axisvela.praxo.agent` | Agent, AgentOptions, Session, Result |
+| `com.axisvela.praxo.toolcall` | tool-call parsing and markup stripping |
+| `com.axisvela.praxo.jsonschema` | documented JSON Schema subset |
+| `com.axisvela.praxo.plugin` | Manifest v1 parsing and validation |
+| `com.axisvela.praxo.adapters` | OpenAI-compatible non-streaming and SSE adapter |
 
 Wire codecs preserve the Go names, including `image_url`, `runId`, and
 `plugin_id`. The Java Core uses a dependency-free JSON utility (`util/Json.java`)

@@ -52,7 +52,7 @@ build directory after updating.
 ## What Did Not Change
 
 Do not change imports such as `praxo`, `@axisvela/praxo-core`,
-`io.axisvela.praxo`, or the Go module path merely because the source moved.
+`com.axisvela.praxo`, or the Go module path merely because the source moved.
 Existing tag prefixes such as `python/v0.2.0` identify the same historical
 release. Source tags still do not imply package-registry publication.
 
