@@ -106,9 +106,9 @@ overwritten; `latest.json` is only a convenience pointer.
 The four-language local nineteen-scenario run on 2026-10-31 passed all 76
 cells. The eleven-language local run passed 102 cells with 107 explicit
 `unsupported` cells and no failures. The clean-SHA Linux CI run on commit
-`aad952c` passed the ten-language set with 98 passed, 92 explicitly unsupported,
-and no failures; the C++ extended-suite job is recorded by the behavior workflow
-artifact for the commit that adds it.
+`645c4dd` passed the eleven-language set with 102 passed, 107 explicitly
+unsupported, and no failures; use that [behavior job](https://github.com/axisvela/praxo-core/actions/runs/41187763142/job/124498054205)
+and its artifact when citing the report as evidence.
 
 ## Limits
 
