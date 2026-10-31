@@ -48,9 +48,8 @@ Bridge、Sample 描述运行时的接入方式，不证明其语言缺乏 Framew
 - 版本标签与成熟度相互独立：源码标签记录发布，成熟度记录声明范围的完成情况与验证状态。
 - 源码标签不等于已发布到包管理器，应按语言页面中的安装或源码构建步骤操作。
 - Python 已发布 `praxo-core==0.2.4` 到 PyPI；TypeScript 已从源码标签
-  `typescript/v0.1.3` 发布 `@axisvela/praxo-core@0.1.3` 到 npm，该包于
-  2026-10-31 获批并带有 npm provenance。当前 main 有未包含在 `0.1.3` 中的
-  并行工具、SSE 和历史修复。
+  `typescript/v0.1.5` 发布 `@axisvela/praxo-core@0.1.5` 到 npm，带有 npm
+  provenance，并采用 agent framework 优先的 README 和元数据。
 - Java 已从源码标签 `java/v0.3.0` 在 Maven Central 发布
   `com.axisvela:praxo-core:0.3.0`，Maven groupId 为 `com.axisvela`，Java
   包名为 `com.axisvela.praxo`。较早的 `java/v0.2.3` 标签仍保留

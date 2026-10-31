@@ -45,6 +45,7 @@ LABELS = {
         "run_id": "Run ID",
         "sha": "Revision",
         "dirty": "Working tree dirty",
+        "job": "CI job",
         "legend": "## Matrix legend",
         "cell": "Cell",
         "meaning": "Meaning",
@@ -89,6 +90,7 @@ LABELS = {
         "run_id": "Run ID",
         "sha": "Revision",
         "dirty": "工作区未提交",
+        "job": "CI 任务",
         "legend": "## 矩阵图例",
         "cell": "单元格",
         "meaning": "含义",
@@ -137,7 +139,7 @@ def cell_symbol(cell: dict) -> str:
     return SYMBOLS.get(coverage, "P")
 
 
-def render(report: dict, lang: str, report_name: str) -> str:
+def render(report: dict, lang: str, report_name: str, evidence_url: str = "") -> str:
     labels = LABELS[lang]
     scenarios = report["scenarios"]
     summary = report["summary"]
@@ -164,6 +166,7 @@ def render(report: dict, lang: str, report_name: str) -> str:
         f"| {labels['run_id']} | `{report.get('run_id', '')}` |",
         f"| {labels['sha']} | `{report.get('repository', {}).get('sha', '')}` |",
         f"| {labels['dirty']} | {report.get('repository', {}).get('dirty', '')} |",
+        *( [f"| {labels['job']} | [GitHub Actions]({evidence_url}) |"] if evidence_url else [] ),
         "",
         labels["legend"],
         "",
@@ -228,11 +231,15 @@ def main() -> int:
     parser.add_argument("--report", required=True)
     parser.add_argument("--output", required=True)
     parser.add_argument("--lang", choices=("en", "zh"), default="en")
+    parser.add_argument("--evidence-url", default="")
     args = parser.parse_args()
     report = load_report(Path(args.report))
     output = Path(args.output)
     output.parent.mkdir(parents=True, exist_ok=True)
-    output.write_text(render(report, args.lang, Path(args.report).name), encoding="utf-8")
+    output.write_text(
+        render(report, args.lang, Path(args.report).name, args.evidence_url),
+        encoding="utf-8",
+    )
     return 0
 
 

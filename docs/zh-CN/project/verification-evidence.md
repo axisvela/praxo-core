@@ -24,7 +24,7 @@
 | Go Core | Tests、vet、build、API snapshot、race、fuzz 和 module-security CI；当前 main 与发布工作流检查；已发布 `v2.5.2` 从干净外部模块无 `replace` 安装 | 契约/单元 + CI + 本地集成 | JSON Schema 和 plugin manifest fuzz 曾在 10s deadline 失败、rerun 通过；慢输入风险仍在调查；消费验证仅覆盖一个平台和最小 agent |
 | 跨语言一致性 | Python、TypeScript、Java、Rust、Fortran、COBOL compatibility lab 运行确定性向量、API 快照/签名和 parity；已记录 Linux CI 与本地运行 | 契约/单元 + CI | 仅六种语言；COBOL 已在本地 GnuCOBOL 和 Linux CI 验证；不含 provider、HITL、checkpoint、sandbox 或生产证据；每次运行一个平台和工具链；非作者复现待办 |
 | Python 已发布包 | 从 PyPI 在干净 venv 安装 `praxo-core==0.2.4`；包报告版本 `0.2.4`，最小 agent 返回最终答案 | 本地安装 smoke | 仅一个平台；同机干净 venv，不是独立或非作者消费验证；不含 provider 或生产证据 |
-| TypeScript 已发布包 | 从 npm 在干净临时项目安装 `@axisvela/praxo-core@0.1.3`；包报告版本 `0.1.3`，导出 `Agent` 和 `Registry`，并报告 `SPEC_VERSION` `0.2.0` | 本地安装 smoke | 仅一个平台；同机临时项目，不是独立或非作者消费验证；仅导入 smoke，不含 provider 或生产证据 |
+| TypeScript 已发布包 | 从 npm 在干净临时项目安装 `@axisvela/praxo-core@0.1.5`；包报告版本 `0.1.5`，导出 `Agent` 和 `Registry`，并报告 `SPEC_VERSION` `0.2.0` | 本地安装 smoke | 仅一个平台；同机临时项目，不是独立或非作者消费验证；仅导入 smoke，不含 provider 或生产证据 |
 | Rust 已发布 crate | 从 crates.io 在干净临时项目安装 `praxo-core==0.1.4`；程序报告 `SDK_VERSION` `0.1.4` 和 `SPEC_VERSION` `0.2.0` | 本地安装 smoke | 仅一个平台；同机临时项目，不是独立或非作者消费验证；仅版本和导入 smoke，不含 provider 或生产证据 |
 | Dart 已发布包 | 从 pub.dev 在干净项目安装 `praxo_core==0.1.1`；程序导入 `package:praxo_core/praxo_core.dart`，并由最小 agent 返回 `hello` | 本地安装 smoke | 仅一个平台；同机项目，不是独立或非作者消费验证；仅最小 agent，不含 provider 或生产证据 |
 | Ruby 已发布 gem | 从 RubyGems 在干净临时目录安装 `praxo-core==0.1.0`；程序 `require 'praxo'` 并由最小 agent 返回 `hello` | 本地安装 smoke | 仅一个平台；同机临时目录，不是独立或非作者消费验证；仅最小 agent，不含 provider 或生产证据 |
@@ -47,9 +47,9 @@
 ## 公开证据链接
 
 - [兼容性实验](../languages/compatibility-lab.md) 与 [CI compatibility job](https://github.com/axisvela/praxo-core/actions/runs/41000572198/job/123883752839)
-- [行为实验](../languages/behavior-lab.md) 与 [CI behavior job](https://github.com/axisvela/praxo-core/actions/runs/41191022045/job/124507663977)
+- [行为实验](../languages/behavior-lab.md) 与 [CI behavior job](https://github.com/axisvela/praxo-core/actions/runs/41194831890/job/124518799372)
 - [PyPI 上的 praxo-core 0.2.4](https://pypi.org/project/praxo-core/0.2.4/)
-- [npm 上的 @axisvela/praxo-core 0.1.3](https://www.npmjs.com/package/@axisvela/praxo-core/v/0.1.3)
+- [npm 上的 @axisvela/praxo-core 0.1.5](https://www.npmjs.com/package/@axisvela/praxo-core/v/0.1.5)
 - [crates.io 上的 praxo-core 0.1.4](https://crates.io/crates/praxo-core/0.1.4)
 - [pub.dev 上的 praxo_core 0.1.1](https://pub.dev/packages/praxo_core)
 - [RubyGems 上的 praxo-core 0.1.0](https://rubygems.org/gems/praxo-core/versions/0.1.0)

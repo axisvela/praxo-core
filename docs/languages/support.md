@@ -65,9 +65,9 @@ a merged implementation PR as a support commitment.
 - A source release tag does not establish package-registry availability.
 - Use the installation or source-build instructions on the language page.
 - Python publishes `praxo-core==0.2.4` on PyPI. TypeScript publishes
-  `@axisvela/praxo-core@0.1.3` on npm from source tag `typescript/v0.1.3`;
-  the package was approved on 2026-10-31 and has npm provenance. Current main
-  has newer parallel-tool, SSE, and history fixes that are not part of `0.1.3`.
+  `@axisvela/praxo-core@0.1.5` on npm from source tag `typescript/v0.1.5`;
+  the package has npm provenance and an agent-framework-first README and
+  metadata.
 - Java publishes `com.axisvela:praxo-core:0.3.0` on Maven Central from source
   tag `java/v0.3.0`, with Maven groupId `com.axisvela` and Java packages under
   `com.axisvela.praxo`. The earlier `java/v0.2.3` tag retains

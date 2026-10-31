@@ -15,9 +15,10 @@
 | 不支持 | 152 |
 | 失败 | 0 |
 | 源报告 | `report.json` |
-| Run ID | `20261031T104513Z-b7ff122e` |
-| Revision | `1520d7d7b195362f61484fd2a0f7bb7cf9f384e4` |
-| 工作区未提交 | True |
+| Run ID | `20261031T105826Z-2e52a558` |
+| Revision | `eb1955fc501de9a03128dbf2f1d61723f037ea8c` |
+| 工作区未提交 | False |
+| CI 任务 | [GitHub Actions](https://github.com/axisvela/praxo-core/actions/runs/41194831890/job/124518799372) |
 
 ## 矩阵图例
 

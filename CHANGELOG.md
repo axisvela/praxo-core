@@ -88,11 +88,11 @@
   temporary-project install imported `Agent` and `Registry` and reported
   `SPEC_VERSION` `0.2.0`. Current main contains unreleased parallel-tool, SSE,
   and history fixes beyond `0.1.3`.
-- Prepared TypeScript `@axisvela/praxo-core@0.1.5` with an
-  agent-framework-first README, npm keywords, documentation/examples links,
-  current source, and `0.1.5` API snapshots. This supersedes the staged but
-  unapproved `0.1.4` package and is published from source tag
-  `typescript/v0.1.5`.
+- Published TypeScript `@axisvela/praxo-core@0.1.5` on npm from source tag
+  `typescript/v0.1.5`, with an agent-framework-first README, npm keywords,
+  documentation/examples links, current source, and `0.1.5` API snapshots.
+  A clean temporary-project install imported `Agent` and `Registry` and
+  reported `SPEC_VERSION` `0.2.0`.
 - Published Python `praxo-core==0.2.4` on PyPI from source tag
   `python/v0.2.4`, with an agent-framework-first README and package
   description, plus `0.2.4` API snapshots. A clean venv install reported

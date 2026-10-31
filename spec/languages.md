@@ -54,7 +54,7 @@ for real providers, platforms, and production behavior is reported separately.
 | --- | --- | --- | --- | --- | --- |
 | Go | Core (reference) | released | `v2.5.2` | reference | Reference implementation |
 | Python | Core | released | `python/v0.2.4` | complete | 11 vectors, OpenAI adapter, PyPI `praxo-core==0.2.4` |
-| TypeScript | Core | released | `typescript/v0.1.3` | complete | 11 vectors, OpenAI adapter; npm `@axisvela/praxo-core@0.1.3` with provenance; current main has unreleased fixes |
+| TypeScript | Core | released | `typescript/v0.1.5` | complete | 11 vectors, OpenAI adapter; npm `@axisvela/praxo-core@0.1.5` with provenance |
 | Java | Core | released | `java/v0.3.0` | complete | 11 vectors, OpenAI adapter, API snapshot; Maven Central `com.axisvela:praxo-core==0.3.0` |
 | Rust | Core | released | `rust/v0.1.4` | complete | 11 vectors, native tests, `tool.Gateway`, `jsonschema.Schema`, compiler-derived API/parity gate; crates.io `praxo-core==0.1.4` |
 | C | Core | released | `c/v0.2.0` | complete | 11 vectors, native tests; public Core API plus wire JSON primitives; agent cancellation and call-limit concurrency are partial |

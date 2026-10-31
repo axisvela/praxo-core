@@ -15,9 +15,10 @@ This page expands the summary in [Behavior Lab](behavior-lab.md) into a scenario
 | Unsupported | 152 |
 | Failed | 0 |
 | Source report | `report.json` |
-| Run ID | `20261031T104513Z-b7ff122e` |
-| Revision | `1520d7d7b195362f61484fd2a0f7bb7cf9f384e4` |
-| Working tree dirty | True |
+| Run ID | `20261031T105826Z-2e52a558` |
+| Revision | `eb1955fc501de9a03128dbf2f1d61723f037ea8c` |
+| Working tree dirty | False |
+| CI job | [GitHub Actions](https://github.com/axisvela/praxo-core/actions/runs/41194831890/job/124518799372) |
 
 ## Matrix legend
 
