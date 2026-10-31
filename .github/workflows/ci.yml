@@ -545,7 +545,7 @@ jobs:
           sdk: stable
       - run: dart run conformance/run.dart
       - run: python3 api-snapshot.py --check
-      - run: dart run tests/run.dart
+      - run: dart run test/run.dart
 
   javascript-sample:
     runs-on: ubuntu-latest

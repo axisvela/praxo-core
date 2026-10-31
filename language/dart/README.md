@@ -1,10 +1,16 @@
 # PRAXO-CORE Dart Core
 
-Dart 3 implementation of the PRAXO-CORE agent contract. The normative contract
-is [`spec/`](../../spec/README.md); Go remains the reference implementation.
+PRAXO-CORE is an embeddable, MIT-licensed agent framework. This package is its
+native Dart Core: an agent loop with tool registration and dispatch, policy
+hooks, typed events, memory, checkpoints, context budgets, middleware, JSON
+Schema validation, and plugin manifest parsing. It runs in-process and does not
+require a hosted service.
+
+The normative contract is [`spec/`](../../spec/README.md); Go remains the
+reference implementation.
 
 - `SPEC_VERSION`: `0.2.0`
-- Core version: `0.1.0`
+- Core version: `0.1.1`
 - Tier: core
 - License: MIT
 - Dependencies: Dart standard library only
@@ -20,7 +26,7 @@ loop. It includes a public API snapshot and a dependency-free test runner.
 ```bash
 dart run conformance/run.dart
 python api-snapshot.py --check
-dart run tests/run.dart
+dart run test/run.dart
 ```
 
 Run from the `dart/` directory, or use `dart language/dart/conformance/run.dart` from the
@@ -29,7 +35,7 @@ repository root.
 ## Quickstart
 
 ```dart
-import 'lib/praxo.dart';
+import 'package:praxo_core/praxo_core.dart';
 
 void main() {
   final agent = Agent(AgentOptions(StaticModel('hello')));
@@ -54,7 +60,7 @@ final options = AgentOptions(StaticModel('hello'))
 - `lib/` package source.
 - `conformance/run.dart` vector runner.
 - `api-snapshot.py` and `api/` public API snapshot.
-- `tests/run.dart` test suite.
+- `test/run.dart` test suite.
 
 ## Release
 

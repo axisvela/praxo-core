@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import '../lib/praxo.dart';
+import '../lib/praxo_core.dart';
 
 void check(bool condition, String message) {
   if (!condition) throw StateError(message);

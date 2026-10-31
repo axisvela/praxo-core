@@ -1,6 +1,12 @@
 name: praxo_core
-description: PRAXO-CORE Dart SDK
-version: 0.1.0
-publish_to: none
+description: Embeddable MIT-licensed agent framework for Dart with tools, policy, events, memory, middleware, and an agent loop.
+version: 0.1.1
+homepage: https://axisvela.github.io/praxo-core/
+repository: https://github.com/axisvela/praxo-core
+issue_tracker: https://github.com/axisvela/praxo-core/issues
+topics:
+  - agents
+  - llm
+  - framework
 environment:
   sdk: ">=3.0.0 <4.0.0"

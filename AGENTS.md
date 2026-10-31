@@ -145,7 +145,7 @@ python language/lua/api-snapshot.py --check
 lua language/lua/tests/run.lua
 cd language/dart; dart run conformance/run.dart
 cd language/dart; python api-snapshot.py --check
-cd language/dart; dart run tests/run.dart
+cd language/dart; dart run test/run.dart
 cd language/d; mkdir -p build; dmd -i -Isource -O -release source/conformance.d -of=build/conformance
 cd language/d; ./build/conformance
 cd language/d; dmd -i -Isource -O -release source/tests.d -of=build/tests

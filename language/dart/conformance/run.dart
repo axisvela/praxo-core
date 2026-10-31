@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import '../lib/praxo.dart';
+import '../lib/praxo_core.dart';
 
 class RecordingSink implements EventSink {
   final List<String> types = [];
