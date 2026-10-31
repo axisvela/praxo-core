@@ -30,6 +30,7 @@
 | Ruby 已发布 gem | 从 RubyGems 在干净临时目录安装 `praxo-core==0.1.0`；程序 `require 'praxo'` 并由最小 agent 返回 `hello` | 本地安装 smoke | 仅一个平台；同机临时目录，不是独立或非作者消费验证；仅最小 agent，不含 provider 或生产证据 |
 | C# 已发布包 | `Praxo.Core==0.1.2` 由 GitHub Actions Trusted Publishing 完成构建、测试、打包并推送到 NuGet | CI + registry | 本地无 .NET SDK，未执行消费者安装 smoke；一个包版本；不含 provider 或生产证据 |
 | Elixir 已发布包 | 从 Hex 在干净 Mix 项目安装 `praxo_core==0.1.1`；项目报告版本 `0.1.1` 并加载 `Praxo.Agent` | 本地安装 smoke | 仅一个平台；同机项目，不是独立或非作者消费验证；仅包发布，HexDocs 未发布；不含 provider 或生产证据 |
+| D 已发布包 | 从 DUB/code.dlang.org 使用 `dub fetch praxo-core` 获取 `praxo-core==0.1.0` | Registry 元数据 + 获取 | 未执行编译或独立消费者 smoke；一个包版本；不含 provider 或生产证据 |
 | Java 已发布包 | `com.axisvela:praxo-core:0.3.0` 已发布到 Maven Central，包含 sources、javadoc 和 GPG 签名 | 本地发布 + Central 校验 | 本地 Maven 经代理部署；未执行独立消费者安装 smoke；不含 provider 或生产证据 |
 | 跨语言 agent 行为 | Go、Python、TypeScript、Java 运行十九个授权、生命周期、取消、输入校验、调用上限、并行工具、run 隔离、PII、checkpoint、容量、SSE 截断和流失败场景；Rust 有部分场景级测试，Fortran/COBOL 对部分行使用原生套件覆盖；已记录 Linux CI 与本地报告 | 场景测试 + CI | 核心覆盖为四种语言和十九个场景；部分 Java 组 self-test 与 Fortran/COBOL 原生套件不能定位具体场景失败；不是吞吐/压力测试；不是完整功能对齐、provider、HITL、sandbox 或生产证据 |
 | 受治理工作区 | Policy 必需配置、最终参数授权、单次审批、审批后修改、排队撤销、依赖失败关闭 | 契约/单元 | 示例级契约；不是 Core Profile、可信身份服务或持久审批存储 |
@@ -54,6 +55,7 @@
 - [LuaRocks 上的 praxo-core 0.1.0-1](https://luarocks.org/modules/hanhhuiwen/praxo-core)
 - [NuGet 上的 Praxo.Core 0.1.2](https://www.nuget.org/packages/Praxo.Core/0.1.2)
 - [Hex 上的 praxo_core 0.1.1](https://hex.pm/packages/praxo_core/0.1.1)
+- [DUB 上的 praxo-core 0.1.0](https://code.dlang.org/packages/praxo-core)
 - [Maven Central 上的 com.axisvela:praxo-core 0.3.0](https://repo1.maven.org/maven2/com/axisvela/praxo-core/0.3.0/)
 - [受治理工作区示例](https://github.com/axisvela/praxo-core/tree/main/examples/governed-workspace)
 - [受治理执行设计](../reference/governed-execution.md)

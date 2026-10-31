@@ -35,6 +35,7 @@ evidence.
 | Ruby published gem | `praxo-core==0.1.0` installed from RubyGems into a clean temporary directory; the program required `praxo` and returned `hello` from a minimal agent | Local install smoke | One platform; same-machine temporary directory, not an independent or non-author consumer; minimal agent only, no provider or production evidence |
 | C# published package | `Praxo.Core==0.1.2` built, tested, packed, and pushed to NuGet by GitHub Actions Trusted Publishing | CI + registry | No local .NET SDK or consumer install smoke; one package version; no provider or production evidence |
 | Elixir published package | `praxo_core==0.1.1` installed from Hex into a clean Mix project; the project reported version `0.1.1` and loaded `Praxo.Agent` | Local install smoke | One platform; same-machine project, not an independent or non-author consumer; package-only release, HexDocs not published; no provider or production evidence |
+| D published package | `praxo-core==0.1.0` fetched from DUB/code.dlang.org with `dub fetch praxo-core` | Registry metadata + fetch | No compile or independent consumer smoke; one package version; no provider or production evidence |
 | Java published package | `com.axisvela:praxo-core:0.3.0` published to Maven Central with sources, javadoc, and GPG signatures | Local release deploy + Central validation | Local Maven deploy behind a proxy; no independent consumer install smoke; no provider or production evidence |
 | Cross-language agent behavior | Go, Python, TypeScript, and Java run nineteen authorization, lifecycle, cancellation, validation, call-limit, parallel-tool, run-isolation, PII, checkpoint, capacity, SSE-truncation, and stream-failure scenarios; Rust has selected scenario tests, while Fortran/COBOL use native-suite coverage for selected rows; Linux CI and local reports are recorded | Scenario tests + CI | Core coverage is four languages and nineteen scenarios; some Java group self-tests and Fortran/COBOL native suites do not isolate failures to a scenario; not a throughput/stress test; not full feature parity, provider, HITL, sandbox, or production evidence |
 | Governed workspace | Policy-required configuration, final-argument authorization, single-use approvals, post-approval edits, queued revocation, fail-closed dependency errors | Contract/unit | Example-level contract; not a Core profile, authenticated identity service, or durable approval store |
@@ -59,6 +60,7 @@ evidence.
 - [praxo-core 0.1.0-1 on LuaRocks](https://luarocks.org/modules/hanhhuiwen/praxo-core)
 - [Praxo.Core 0.1.2 on NuGet](https://www.nuget.org/packages/Praxo.Core/0.1.2)
 - [praxo_core 0.1.1 on Hex](https://hex.pm/packages/praxo_core/0.1.1)
+- [praxo-core 0.1.0 on DUB](https://code.dlang.org/packages/praxo-core)
 - [com.axisvela:praxo-core 0.3.0 on Maven Central](https://repo1.maven.org/maven2/com/axisvela/praxo-core/0.3.0/)
 - [Governed workspace example](https://github.com/axisvela/praxo-core/tree/main/examples/governed-workspace)
 - [Governed execution design](../reference/governed-execution.md)

@@ -83,7 +83,7 @@ for real providers, platforms, and production behavior is reported separately.
 | Elixir | Core | released | `elixir/v0.1.1` | complete | 11 vectors, native tests, API snapshot/parity; opt-in middleware integrated; Hex `praxo_core==0.1.1` |
 | Nim | Core | released | `nim/v0.1.1` | complete | 11 vectors, native tests, API snapshot/parity; opt-in middleware integrated |
 | V | Core | released | `v/v0.1.1` | complete | 11 vectors, native tests, API snapshot/parity; opt-in middleware integrated |
-| D | Core | released | `d/v0.1.0` | complete | 11 vectors, API snapshot |
+| D | Core | released | `d/v0.1.0` | complete | 11 vectors, API snapshot; DUB/code.dlang.org `praxo-core==0.1.0` |
 | VBScript | Bridge | planned | none | planned | Bridge over .NET or the bridge CLI |
 | Erlang | Core | released | `erlang/v0.1.1` | complete | 11 vectors, native tests, API snapshot/parity; OTP 29; opt-in middleware integrated |
 | Ada | Core | planned | none | planned | Native loop target; GNAT toolchain; consumer and maintainer required |

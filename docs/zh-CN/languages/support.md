@@ -64,6 +64,9 @@ Bridge、Sample 描述运行时的接入方式，不证明其语言缺乏 Framew
 - C# 已从源码标签 `csharp/v0.1.2` 通过 GitHub Actions Trusted Publishing 在
   NuGet 发布 `Praxo.Core==0.1.2`。CI 完成构建、测试、打包和推送；本地 .NET
   消费者安装尚未记录。
+- D 已从独立发布仓库 `axisvela/praxo-core-d`（tag `v0.1.0`）在
+  DUB/code.dlang.org 发布 `praxo-core==0.1.0`；主仓库保留源码标签
+  `d/v0.1.0`。`dub fetch praxo-core` 已通过。
 - Dart 已有源码标签 `dart/v0.1.1`，并在 publisher `axisvela.com` 下发布
   `praxo_core==0.1.1` 到 pub.dev。干净项目已安装该包、导入
   `package:praxo_core/praxo_core.dart` 并运行最小 agent。

@@ -13,6 +13,13 @@ reference implementation.
 - Tier: core
 - License: MIT
 - Dependencies: D standard library only
+- Published on DUB/code.dlang.org as `praxo-core@0.1.0`
+
+## Install
+
+```bash
+dub add praxo-core
+```
 
 ## Scope
 

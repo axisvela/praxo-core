@@ -119,6 +119,9 @@
 - Published Java `com.axisvela:praxo-core:0.3.0` on Maven Central from source
   tag `java/v0.3.0`, with `com.axisvela.praxo` packages, sources, javadoc, and
   GPG signatures. The historical `java/v0.2.3` tag retains `io.axisvela.praxo`.
+- Published D `praxo-core@0.1.0` on DUB/code.dlang.org from the split
+  repository `axisvela/praxo-core-d`. `dub fetch praxo-core` succeeded; the
+  main source tag remains `d/v0.1.0`.
 
 ### Changed
 

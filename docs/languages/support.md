@@ -82,6 +82,9 @@ a merged implementation PR as a support commitment.
 - C# publishes `Praxo.Core==0.1.2` on NuGet from source tag `csharp/v0.1.2`
   through GitHub Actions Trusted Publishing. CI built, tested, packed, and
   pushed the package; a local .NET consumer install is not yet recorded.
+- D publishes `praxo-core==0.1.0` on DUB/code.dlang.org from the split
+  repository `axisvela/praxo-core-d` (tag `v0.1.0`); source tag `d/v0.1.0`
+  remains in this repository. `dub fetch praxo-core` succeeded.
 - Dart has source tag `dart/v0.1.1` and publishes `praxo_core==0.1.1` on
   pub.dev under publisher `axisvela.com`. A clean project installed the package,
   imported `package:praxo_core/praxo_core.dart`, and ran a minimal agent.
