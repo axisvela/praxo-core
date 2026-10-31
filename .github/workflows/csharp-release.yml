@@ -1,0 +1,53 @@
+name: csharp-release
+
+on:
+  push:
+    tags:
+      - "csharp/v*"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "8.0.x"
+
+      - name: Verify tag matches package version
+        if: startsWith(github.ref, 'refs/tags/')
+        run: |
+          tag_version="${GITHUB_REF_NAME#csharp/v}"
+          project_version="$(grep -oP '(?<=<Version>)[^<]+' language/csharp/Praxo.Core/Praxo.Core.csproj)"
+          test "$tag_version" = "$project_version"
+
+      - name: Build
+        run: dotnet build language/csharp/Praxo.Core/Praxo.Core.csproj
+
+      - name: Conformance
+        run: dotnet run --project language/csharp/Praxo.Conformance
+
+      - name: API check
+        run: dotnet run --project language/csharp/Praxo.Conformance -- --check-api
+
+      - name: Tests
+        run: dotnet run --project language/csharp/Praxo.Tests
+
+      - name: Pack
+        run: dotnet pack language/csharp/Praxo.Core/Praxo.Core.csproj -c Release -o dist
+
+      - name: NuGet login (OIDC to temporary API key)
+        uses: NuGet/login@v1
+        id: login
+        with:
+          user: hanhhuiwen
+
+      - name: Push
+        run: dotnet nuget push dist/*.nupkg --api-key "${{ steps.login.outputs.NUGET_API_KEY }}" --source https://api.nuget.org/v3/index.json

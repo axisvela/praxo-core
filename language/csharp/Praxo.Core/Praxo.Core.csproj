@@ -7,12 +7,18 @@
     <RootNamespace>Praxo.Core</RootNamespace>
     <AssemblyName>Praxo.Core</AssemblyName>
     <PackageId>Praxo.Core</PackageId>
-    <Version>0.1.1</Version>
+    <Version>0.1.2</Version>
     <Authors>AxisVela</Authors>
-    <Description>C# SDK for the PRAXO-CORE agent contract</Description>
+    <Description>Embeddable MIT-licensed agent framework for .NET: tools, policy, events, memory, middleware, and an agent loop</Description>
+    <PackageTags>agents;llm;agent-framework;tool-calling;ai</PackageTags>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://axisvela.github.io/praxo-core/</PackageProjectUrl>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
     <RepositoryUrl>https://github.com/axisvela/praxo-core</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <GenerateDocumentationFile>false</GenerateDocumentationFile>
   </PropertyGroup>
+  <ItemGroup>
+    <None Include="../README.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
 </Project>

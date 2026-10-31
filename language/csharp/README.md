@@ -1,9 +1,13 @@
 # PRAXO-CORE C# Core
 
-C# 12 / .NET 8 implementation of the PRAXO-CORE agent contract.
+PRAXO-CORE is an embeddable, MIT-licensed agent framework. This package is its
+native .NET Core: an agent loop with tool registration and dispatch, policy
+hooks, typed events, memory, checkpoints, context budgets, middleware, JSON
+Schema validation, and plugin manifest parsing. It runs in-process and does not
+require a hosted service.
 
 - `SPEC_VERSION`: `0.2.0`
-- Core version: `0.1.1`
+- Core version: `0.1.2`
 - License: MIT
 - Dependencies: none beyond the .NET base class library
 
@@ -62,4 +66,4 @@ var agent = new Agent(new AgentOptions(model)
 
 ## Release
 
-Tag shape: `csharp/v0.1.1`. The tag targets `SPEC_VERSION` `0.2.0`.
+Tag shape: `csharp/v0.1.2`. The tag targets `SPEC_VERSION` `0.2.0`.
