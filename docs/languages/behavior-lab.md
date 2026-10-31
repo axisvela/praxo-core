@@ -101,12 +101,10 @@ overwritten; `latest.json` is only a convenience pointer.
 
 The four-language local nineteen-scenario run on 2026-10-31 passed all 76
 cells. The ten-language local run passed 98 cells with 92 explicit
-`unsupported` cells and no failures. The local run used a working tree with
-uncommitted changes, so it is not a clean-SHA record. The previous clean-SHA
-Linux CI run on commit `9f8987b` covered seven languages with 90 passed, 43
-explicitly unsupported, and no failures; the ten-language CI job is recorded by
-the workflow artifact for the commit that adds Ruby, Elixir, and Erlang suite
-coverage.
+`unsupported` cells and no failures. The clean-SHA Linux CI run on commit
+`aad952c` passed the ten-language set with 98 passed, 92 explicitly unsupported,
+and no failures; use that [behavior job](https://github.com/axisvela/praxo-core/actions/runs/41184886617/job/124489702442)
+and its artifact when citing the report as evidence.
 
 ## Limits
 

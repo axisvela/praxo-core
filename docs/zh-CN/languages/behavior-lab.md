@@ -73,7 +73,7 @@ python scripts/behavior_lab.py --strict --timeout 600 --languages go,python,type
 
 ## 当前证据
 
-2026-10-31 的四语言十九场景本地运行通过了全部 76 个单元格。十语言本地运行通过 98 个单元格，另有 92 个显式 `unsupported`，无失败。该本地运行所在工作区包含尚未提交的改动，因此不是 clean-SHA 记录。此前 commit `9f8987b` 上的 clean-SHA Linux CI 覆盖七语言：90 passed、43 个显式 unsupported、无失败；加入 Ruby、Elixir、Erlang 套件覆盖后的十语言 CI 结果以对应 workflow artifact 为准。
+2026-10-31 的四语言十九场景本地运行通过了全部 76 个单元格。十语言本地运行通过 98 个单元格，另有 92 个显式 `unsupported`，无失败。commit `aad952c` 上的 clean-SHA Linux CI 运行通过十语言集合：98 passed、92 个显式 unsupported、无失败；引用行为报告作为证据时，应使用该 [behavior job](https://github.com/axisvela/praxo-core/actions/runs/41184886617/job/124489702442) 及其 artifact。
 
 ## 限制
 
