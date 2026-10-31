@@ -32,6 +32,9 @@ func TestNoDisallowedEmails(t *testing.T) {
 		text := string(data)
 		for _, match := range emailPattern.FindAllStringSubmatchIndex(text, -1) {
 			domain := strings.ToLower(text[match[2]:match[3]])
+			if domain == "github.com" && strings.HasSuffix(text[:match[0]], "ssh://") {
+				continue
+			}
 			if blocked[domain] {
 				t.Errorf("%s:%d: email domain %q is blocked",
 					file, lineNumber(text, match[0]), domain)
