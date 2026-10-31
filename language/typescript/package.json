@@ -1,7 +1,11 @@
 {
   "name": "@axisvela/praxo-core",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Dependency-free TypeScript agent framework: tools, policy, memory, middleware, checkpoints, streaming.",
+  "homepage": "https://axisvela.github.io/praxo-core/languages/typescript/",
+  "bugs": {
+    "url": "https://github.com/axisvela/praxo-core/issues"
+  },
   "license": "MIT",
   "keywords": [
     "agents",

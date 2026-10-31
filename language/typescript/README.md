@@ -16,7 +16,7 @@ orchestration platform:
 ## Install
 
 ```bash
-npm install @axisvela/praxo-core@0.1.4
+npm install @axisvela/praxo-core@0.1.5
 ```
 
 ## Quickstart
@@ -54,11 +54,17 @@ console.log(result.output, result.steps, result.usage);
 | Runtime | Context budgets, checkpoints, events, streaming, cancellation |
 | Integration | OpenAI-compatible adapter; bring your own model and tools |
 
+## Documentation and examples
+
+- [Documentation](https://axisvela.github.io/praxo-core/languages/typescript/)
+- [中文文档](https://axisvela.github.io/praxo-core/zh-CN/languages/typescript/)
+- [Examples](https://github.com/axisvela/praxo-core/tree/main/examples)
+
 ## Contract and status
 
 The normative contract is [`spec/`](../../spec/README.md); Go remains the
 reference implementation. This package supports `SPEC_VERSION` `0.2.0` and
-passes the TypeScript conformance and parity checks. Package version `0.1.4`
+passes the TypeScript conformance and parity checks. Package version `0.1.5`
 is published on npm with provenance. VFS and plugin hosts are not yet
 implemented.
 
