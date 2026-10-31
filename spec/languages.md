@@ -85,7 +85,7 @@ for real providers, platforms, and production behavior is reported separately.
 | V | Core | released | `v/v0.1.1` | complete | 11 vectors, native tests, API snapshot/parity; opt-in middleware integrated |
 | D | Core | released | `d/v0.1.0` | complete | 11 vectors, API snapshot; DUB/code.dlang.org `praxo-core==0.1.0` |
 | VBScript | Bridge | planned | none | planned | Bridge over .NET or the bridge CLI |
-| Erlang | Core | released | `erlang/v0.1.1` | complete | 11 vectors, native tests, API snapshot/parity; OTP 29; opt-in middleware integrated |
+| Erlang | Core | released | `erlang/v0.1.1` | complete | 11 vectors, native tests, API snapshot/parity; OTP 29; opt-in middleware integrated; Hex `praxo_core_erlang==0.1.1` |
 | Ada | Core | planned | none | planned | Native loop target; GNAT toolchain; consumer and maintainer required |
 | Mojo | Core | planned | none | planned | Native loop target; toolchain and CI maturity gate |
 | F# | Sample (.NET) | released | `csharp/v0.1.1` | sample | F# consumer sample in `examples/fsharp`; uses the C# Core |

@@ -122,6 +122,9 @@
 - Published D `praxo-core@0.1.0` on DUB/code.dlang.org from the split
   repository `axisvela/praxo-core-d`. `dub fetch praxo-core` succeeded; the
   main source tag remains `d/v0.1.0`.
+- Published Erlang `praxo_core_erlang@0.1.1` on Hex from source tag
+  `erlang/v0.1.1`; the OTP application name remains `praxo_core`. A clean
+  rebar3 project fetched, compiled, and loaded `praxo_agent`.
 
 ### Changed
 

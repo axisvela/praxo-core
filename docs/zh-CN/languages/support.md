@@ -88,9 +88,10 @@ Bridge、Sample 描述运行时的接入方式，不证明其语言缺乏 Framew
 - Elixir 已有源码标签 `elixir/v0.1.1`，并在 Hex 发布 `praxo_core==0.1.1`。
   干净 Mix 项目已安装该包、加载 `Praxo.Agent`，版本为 `0.1.1`。这是仅包发布；
   HexDocs 尚未发布。
-- Erlang 已有源码标签 `erlang/v0.1.1`，包含原生 BEAM Core 循环、11 个向量组、
-  原生测试和 API 快照/parity 清单。包管理器、提供商适配器、流式路径和生产就绪
-  均未声明；可选中间件已集成，但未包含全部可选 Go 钩子。
+- Erlang 已有源码标签 `erlang/v0.1.1`，并在 Hex 发布
+  `praxo_core_erlang==0.1.1`；OTP application 名仍为 `praxo_core`。干净
+  rebar3 项目已获取、编译该包并加载 `praxo_agent`。提供商适配器、流式路径和
+  生产就绪均未声明；可选中间件已集成，但未包含全部可选 Go 钩子。
 - Lisp 已有 SBCL 桥接的源码标签 `lisp/v0.1.0`，不提供原生 Lisp 循环；转发、UTF-8、
   错误和退出码检查已在本地和 Linux CI 通过。消费者细节与包管理器发布仍待完成。
 - Tcl 已有桥接包装器的源码标签 `tcl/v0.1.0`，不提供原生 Tcl 循环；本地转发、UTF-8、
