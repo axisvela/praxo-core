@@ -1,14 +1,26 @@
 # PRAXO-CORE Rust Core
 
-Rust implementation of the PRAXO-CORE contract. The normative contract is
-[`spec/`](../../spec/README.md); Go remains the reference implementation.
+PRAXO-CORE is an embeddable, MIT-licensed agent framework. This crate is its
+native Rust Core: an agent loop with tool registration and dispatch, policy
+hooks, typed events, memory, checkpoints, context budgets, middleware, JSON
+Schema validation, and plugin manifest parsing. It runs in-process and does not
+require a hosted service.
+
+The normative contract is [`spec/`](../../spec/README.md); Go remains the
+reference implementation.
 
 **Status:** core. The package passes all eleven conformance vector groups.
 Context budgets, middleware, and the synchronous agent loop are included. The
 OpenAI-compatible adapter, VFS, and plugin hosts are not yet implemented.
 
-Package version: `0.1.2`. Supported contract: `SPEC_VERSION` `0.2.0`
-(`praxo_core::SPEC_VERSION`).
+Package version: `0.1.3` (source; crates.io latest is `0.1.2`). Supported
+contract: `SPEC_VERSION` `0.2.0` (`praxo_core::SPEC_VERSION`).
+
+## Install
+
+```bash
+cargo add praxo-core@0.1.2
+```
 
 ## Requirements
 
@@ -82,7 +94,7 @@ and direct trait implementations, and checks implemented symbols against
 are excluded. Auto traits, blanket implementations, and expanded alias internals
 are excluded to avoid compiler/platform-specific noise.
 
-The baseline is [`api/0.1.2.txt`](api/0.1.2.txt). Regenerate it with
+The baseline is [`api/0.1.3.txt`](api/0.1.3.txt). Regenerate it with
 `python api-snapshot.py` only after reviewing an intentional API change.
 This is not a binary ABI or automated semver-compatibility guarantee. Serde/wire
 attributes still require specification review and conformance tests; they are

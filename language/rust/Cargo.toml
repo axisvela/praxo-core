@@ -1,10 +1,16 @@
 [package]
 name = "praxo-core"
-version = "0.1.2"
+version = "0.1.3"
 edition = "2021"
+rust-version = "1.80"
 license = "MIT"
-description = "Rust SDK for the PRAXO-CORE agent contract"
+description = "Embeddable MIT-licensed agent framework for Rust: tools, policy, events, memory, context, middleware, checkpoints, and an agent loop"
 repository = "https://github.com/axisvela/praxo-core"
+homepage = "https://axisvela.github.io/praxo-core/"
+documentation = "https://docs.rs/praxo-core"
+readme = "README.md"
+keywords = ["agents", "llm", "framework", "tool-calling", "ai"]
+categories = ["development-tools", "api-bindings"]
 
 [dependencies]
 serde = { version = "1", features = ["derive"] }
