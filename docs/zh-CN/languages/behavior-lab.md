@@ -77,7 +77,7 @@ python scripts/behavior_lab.py --strict --timeout 600 --languages go,python,type
 
 ## 当前证据
 
-2026-10-31 的四语言十九场景本地运行通过了全部 76 个单元格。commit `4da2c6b` 上的 clean-SHA Linux CI 运行通过十四语言集合：125 passed、141 个显式 unsupported、无失败；引用行为报告作为证据时，应使用该 [behavior job](https://github.com/axisvela/praxo-core/actions/runs/41205416372/job/124549382274) 及其 artifact。[行为实验矩阵](behavior-lab-matrix.md) 列出每个单元格以及各语言的已覆盖和未覆盖场景。
+2026-10-31 的四语言十九场景本地运行通过了全部 76 个单元格。commit `b408805` 上的 clean-SHA Linux CI 运行通过十四语言集合：127 passed、139 个显式 unsupported、无失败；引用行为报告作为证据时，应使用该 [behavior job](https://github.com/axisvela/praxo-core/actions/runs/41206338048/job/124552052271) 及其 artifact。[行为实验矩阵](behavior-lab-matrix.md) 列出每个单元格以及各语言的已覆盖和未覆盖场景。
 
 ## 限制
 

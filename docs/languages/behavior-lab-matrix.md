@@ -11,14 +11,14 @@ This page expands the summary in [Behavior Lab](behavior-lab.md) into a scenario
 | Languages | 14 |
 | Scenarios | 19 |
 | Cells | 266 |
-| Passed | 125 |
-| Unsupported | 141 |
+| Passed | 127 |
+| Unsupported | 139 |
 | Failed | 0 |
 | Source report | `report.json` |
-| Run ID | `20261031T132555Z-91331aa3` |
-| Revision | `4da2c6bf7ee4bbd9ec07f9a35d262b25f39cf2a0` |
+| Run ID | `20261031T133723Z-285a34e4` |
+| Revision | `b408805f31f643ee6dc20a15296bab9707f7face` |
 | Working tree dirty | False |
-| CI job | [GitHub Actions](https://github.com/axisvela/praxo-core/actions/runs/41205416372/job/124549382274) |
+| CI job | [GitHub Actions](https://github.com/axisvela/praxo-core/actions/runs/41206338048/job/124552052271) |
 
 ## Matrix legend
 
@@ -48,7 +48,7 @@ This page expands the summary in [Behavior Lab](behavior-lab.md) into a scenario
 | `checkpoint-content` | S | S | S | S | S | N | N | N | N | N | N | N | N | N |
 | `capacity-failclosed` | S | S | S | G | S | N | N | N | - | - | N | N | N | N |
 | `parallel-tools` | S | S | S | G | - | - | - | - | - | - | - | - | - | - |
-| `run-state-isolation` | S | S | S | G | S | - | - | - | - | - | - | N | N | - |
+| `run-state-isolation` | S | S | S | G | S | - | - | - | N | N | - | N | N | - |
 | `stream-callback-error` | S | S | S | S | - | - | - | - | - | - | - | - | - | - |
 | `sse-truncated` | S | S | S | G | - | - | - | - | - | - | - | - | - | - |
 | `sse-half-packet` | S | S | S | G | - | - | - | - | - | - | - | - | - | - |
@@ -236,10 +236,10 @@ ruby language/ruby/tests/run.rb
 ### Elixir
 
 - Coverage: suite
-- Passed: 4/19
-- Unsupported: 15
-- Covered scenarios: `schema-number-unicode`, `call-limit`, `pii-tool-history`, `checkpoint-content`
-- Unsupported scenarios: `final-arguments`, `final-name`, `unchanged-single-auth`, `initial-denial`, `startup-cleanup`, `after-run-continue`, `cleanup-failclosed`, `model-cancel-cleanup`, `tool-cancel-cleanup`, `capacity-failclosed`, `parallel-tools`, `run-state-isolation`, `stream-callback-error`, `sse-truncated`, `sse-half-packet`
+- Passed: 5/19
+- Unsupported: 14
+- Covered scenarios: `schema-number-unicode`, `call-limit`, `pii-tool-history`, `checkpoint-content`, `run-state-isolation`
+- Unsupported scenarios: `final-arguments`, `final-name`, `unchanged-single-auth`, `initial-denial`, `startup-cleanup`, `after-run-continue`, `cleanup-failclosed`, `model-cancel-cleanup`, `tool-cancel-cleanup`, `capacity-failclosed`, `parallel-tools`, `stream-callback-error`, `sse-truncated`, `sse-half-packet`
 
 Commands:
 
@@ -250,10 +250,10 @@ mix run tests/run_tests.exs
 ### Erlang
 
 - Coverage: suite
-- Passed: 4/19
-- Unsupported: 15
-- Covered scenarios: `schema-number-unicode`, `call-limit`, `pii-tool-history`, `checkpoint-content`
-- Unsupported scenarios: `final-arguments`, `final-name`, `unchanged-single-auth`, `initial-denial`, `startup-cleanup`, `after-run-continue`, `cleanup-failclosed`, `model-cancel-cleanup`, `tool-cancel-cleanup`, `capacity-failclosed`, `parallel-tools`, `run-state-isolation`, `stream-callback-error`, `sse-truncated`, `sse-half-packet`
+- Passed: 5/19
+- Unsupported: 14
+- Covered scenarios: `schema-number-unicode`, `call-limit`, `pii-tool-history`, `checkpoint-content`, `run-state-isolation`
+- Unsupported scenarios: `final-arguments`, `final-name`, `unchanged-single-auth`, `initial-denial`, `startup-cleanup`, `after-run-continue`, `cleanup-failclosed`, `model-cancel-cleanup`, `tool-cancel-cleanup`, `capacity-failclosed`, `parallel-tools`, `stream-callback-error`, `sse-truncated`, `sse-half-packet`
 
 Commands:
 
