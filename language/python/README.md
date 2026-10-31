@@ -1,26 +1,22 @@
-# PRAXO-CORE Python Core
+# PRAXO-CORE: Python Agent Framework
 
-Python implementation of the PRAXO-CORE contract. The normative contract is
-[`spec/`](../../spec/README.md); Go remains the reference implementation.
+PRAXO-CORE is a dependency-free Python framework for building tool-using AI
+agents. It provides the agent runtime, not a model or hosted service, so you
+keep control of your models, tools, storage, and sandboxing.
 
-**Status:** Core plus streaming, context management, middleware, and an
-OpenAI-compatible adapter. The package passes all eleven conformance vector
-groups.
-VFS and plugin hosts are not yet implemented. Wheel and sdist are published to
-PyPI.
+It is for teams that want a small, explicit agent loop instead of a large
+orchestration platform:
 
-Package version: `0.2.3`; source tag `python/v0.2.3`. Supported contract:
-`SPEC_VERSION` `0.2.0` (`praxo.SPEC_VERSION`).
-
-## Requirements
-
-- Python 3.11 or newer
-- No runtime dependencies
+- Async-first models, tools, events, and sessions.
+- Policy hooks, approvals, path checks, PII redaction, and call limits.
+- Context budgets, checkpoints, middleware, and fallback models.
+- Streaming, cancellation, and an OpenAI-compatible adapter.
+- No runtime dependencies; Python 3.11 or newer.
 
 ## Install
 
 ```bash
-pip install praxo-core==0.2.3
+pip install praxo-core==0.2.4
 ```
 
 For a source checkout:
@@ -29,7 +25,7 @@ For a source checkout:
 pip install ./language/python
 ```
 
-## Usage
+## Quickstart
 
 ```python
 import asyncio
@@ -62,6 +58,27 @@ async def main() -> None:
 
 asyncio.run(main())
 ```
+
+## What you get
+
+| Area | Included |
+| --- | --- |
+| Agent loop | Tool calls, multi-step runs, parallel tools, structured output |
+| Governance | Policy hooks, tool selection, PII middleware, call limits |
+| Runtime | Context budgets, checkpoints, events, streaming, cancellation |
+| Integration | OpenAI-compatible adapter; bring your own model and tools |
+
+## Contract and status
+
+The normative contract is [`spec/`](../../spec/README.md); Go remains the
+reference implementation. This package supports `SPEC_VERSION` `0.2.0` and
+passes all eleven conformance vector groups. Package version `0.2.4` is
+published on PyPI. VFS and plugin hosts are not yet implemented.
+
+## Requirements
+
+- Python 3.11 or newer
+- No runtime dependencies
 
 ## Contract Surface
 

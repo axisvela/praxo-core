@@ -4,12 +4,13 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "praxo-core"
-version = "0.2.3"
-description = "Python SDK for the PRAXO-CORE agent contract"
+version = "0.2.4"
+description = "Dependency-free Python agent framework: tools, policy, memory, middleware, checkpoints, streaming."
 readme = "README.md"
 requires-python = ">=3.11"
 license = "MIT"
 authors = [{ name = "AxisVela" }]
+keywords = ["agents", "agent-framework", "llm", "tool-calling", "ai"]
 classifiers = [
   "Programming Language :: Python :: 3",
   "Programming Language :: Python :: 3.11",

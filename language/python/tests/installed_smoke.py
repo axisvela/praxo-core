@@ -15,7 +15,7 @@ class StaticModel:
 
 
 async def main() -> None:
-    assert praxo.__version__ == "0.2.3"
+    assert praxo.__version__ == "0.2.4"
     assert praxo.SPEC_VERSION == "0.2.0"
     location = Path(praxo.__file__).resolve()
     assert "site-packages" in location.parts, location
