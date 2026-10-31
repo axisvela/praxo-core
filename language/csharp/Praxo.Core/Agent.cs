@@ -232,16 +232,15 @@ public sealed class Agent
             throw new PraxoException(
                 "AGENT_TOOL_NOT_ALLOWED", $"agent: tool {call.Name} is not allowed");
         }
+        var originalName = call.Name;
+        var originalArguments = call.Arguments.DeepClone();
         Authorize(new Action
         {
             Kind = "tool.invoke",
             SessionId = sessionId,
-            ToolName = call.Name,
-            Arguments = call.Arguments,
+            ToolName = originalName,
+            Arguments = (JsonObject)originalArguments.DeepClone(),
         });
-        var tools = _options.Tools
-            ?? throw PraxoException.ToolNotFound($"tool {call.Name} is not registered");
-        var tool = tools.Get(call.Name);
         var middlewareCall = new MiddlewareToolCall
         {
             RunId = runId,
@@ -249,6 +248,24 @@ public sealed class Agent
             Call = call,
         };
         BeforeTool(middlewareCall);
+        var finalCall = middlewareCall.Call;
+        if (!ToolAllowed(finalCall.Name))
+        {
+            throw new PraxoException(
+                "AGENT_TOOL_NOT_ALLOWED", $"agent: tool {finalCall.Name} is not allowed");
+        }
+        var changed = finalCall.Name != originalName
+            || Json.Stringify(finalCall.Arguments) != Json.Stringify(originalArguments);
+        if (changed)
+        {
+            Authorize(new Action
+            {
+                Kind = "tool.invoke",
+                SessionId = sessionId,
+                ToolName = finalCall.Name,
+                Arguments = (JsonObject)finalCall.Arguments.DeepClone(),
+            });
+        }
         JsonNode? value;
         PraxoException? error;
         if (middlewareCall.Skip)
@@ -258,14 +275,17 @@ public sealed class Agent
         }
         else
         {
+            var tools = _options.Tools
+                ?? throw PraxoException.ToolNotFound($"tool {finalCall.Name} is not registered");
+            var tool = tools.Get(finalCall.Name);
             Emit("tool.call", sessionId, runId, new JsonObject
             {
-                ["name"] = call.Name,
-                ["arguments"] = call.Arguments.DeepClone(),
+                ["name"] = finalCall.Name,
+                ["arguments"] = finalCall.Arguments.DeepClone(),
             });
             try
             {
-                value = tool.Invoke(call.Arguments);
+                value = tool.Invoke(finalCall.Arguments);
                 error = null;
             }
             catch (PraxoException ex)

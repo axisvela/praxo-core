@@ -23,6 +23,10 @@ internal static class Program
         TestPolicy();
         TestAgentDirect();
         TestAgentToolLoop();
+        TestFinalArguments();
+        TestFinalName();
+        TestUnchangedSingleAuthorization();
+        TestInitialDenial();
         Console.WriteLine($"C# core tests passed ({_passed})");
         return 0;
     }
@@ -259,6 +263,142 @@ internal static class Program
         Check(result.Output == "done" && result.Steps == 2 && calls == 1, "agent tool loop");
     }
 
+    private static void TestFinalArguments()
+    {
+        var invoked = new List<JsonObject>();
+        var registry = new ToolRegistry();
+        registry.Register(new FuncTool("echo", "Echo", args =>
+        {
+            invoked.Add((JsonObject)args.DeepClone());
+            return args.DeepClone();
+        }));
+        var policy = new RecordingPolicy();
+        var middleware = new MutatingMiddleware
+        {
+            Mutate = call => call.Call.Arguments = new JsonObject { ["text"] = "mutated" },
+        };
+        var options = new AgentOptions(new ScriptedToolModel())
+        {
+            Tools = registry,
+            Policy = policy,
+        };
+        options.Middleware.Add(middleware);
+        var result = new Agent(options).Run(new Session("s1"), "go");
+        var toolActions = policy.Actions.Where(action => action.Kind == "tool.invoke").ToList();
+        Check(result.Output == "done" && invoked.Count == 1, "final arguments effect");
+        Check(toolActions.Count == 2, "final arguments reauthorized");
+        Check(toolActions[0].Arguments?["text"]?.GetValue<string>() == "hi", "original arguments authorized");
+        Check(toolActions[1].Arguments?["text"]?.GetValue<string>() == "mutated", "final arguments authorized");
+        Check(invoked[0]["text"]?.GetValue<string>() == "mutated", "final arguments invoked");
+    }
+
+    private static void TestFinalName()
+    {
+        var echoCalls = 0;
+        var otherCalls = 0;
+        var registry = new ToolRegistry();
+        registry.Register(new FuncTool("echo", "Echo", args => { echoCalls++; return args.DeepClone(); }));
+        registry.Register(new FuncTool("other", "Other", args => { otherCalls++; return args.DeepClone(); }));
+        var policy = new RecordingPolicy();
+        var middleware = new MutatingMiddleware
+        {
+            Mutate = call => call.Call.Name = "other",
+        };
+        var options = new AgentOptions(new ScriptedToolModel())
+        {
+            Tools = registry,
+            Policy = policy,
+        };
+        options.Middleware.Add(middleware);
+        new Agent(options).Run(new Session("s1"), "go");
+        var toolActions = policy.Actions.Where(action => action.Kind == "tool.invoke").ToList();
+        Check(echoCalls == 0 && otherCalls == 1, "final name uses final tool");
+        Check(toolActions.Count == 2
+            && toolActions[0].ToolName == "echo"
+            && toolActions[1].ToolName == "other", "final name authorized");
+
+        var deniedCalls = 0;
+        var deniedRegistry = new ToolRegistry();
+        deniedRegistry.Register(new FuncTool("echo", "Echo", args => args.DeepClone()));
+        deniedRegistry.Register(new FuncTool("other", "Other", args =>
+        {
+            deniedCalls++;
+            return args.DeepClone();
+        }));
+        var deniedMiddleware = new MutatingMiddleware
+        {
+            Mutate = call => call.Call.Name = "other",
+        };
+        var deniedOptions = new AgentOptions(new ScriptedToolModel())
+        {
+            Tools = deniedRegistry,
+            AllowedTools = new List<string> { "echo" },
+        };
+        deniedOptions.Middleware.Add(deniedMiddleware);
+        var denied = false;
+        try
+        {
+            new Agent(deniedOptions).Run(new Session("s1"), "go");
+        }
+        catch (PraxoException ex) when (ex.Code == "AGENT_TOOL_NOT_ALLOWED")
+        {
+            denied = true;
+        }
+        Check(denied && deniedCalls == 0, "final name checks allowlist");
+    }
+
+    private static void TestUnchangedSingleAuthorization()
+    {
+        var registry = new ToolRegistry();
+        registry.Register(new FuncTool("echo", "Echo", args => args.DeepClone()));
+        var policy = new RecordingPolicy();
+        var middleware = new MutatingMiddleware();
+        var options = new AgentOptions(new ScriptedToolModel())
+        {
+            Tools = registry,
+            Policy = policy,
+        };
+        options.Middleware.Add(middleware);
+        new Agent(options).Run(new Session("s1"), "go");
+        var toolActions = policy.Actions.Where(action => action.Kind == "tool.invoke").ToList();
+        Check(toolActions.Count == 1, "unchanged call authorized once");
+    }
+
+    private static void TestInitialDenial()
+    {
+        var toolCalls = 0;
+        var registry = new ToolRegistry();
+        registry.Register(new FuncTool("echo", "Echo", args =>
+        {
+            toolCalls++;
+            return args.DeepClone();
+        }));
+        var policy = new RecordingPolicy
+        {
+            Handler = action => action.Kind == "tool.invoke"
+                ? Decision.Deny("blocked")
+                : Decision.Allow("ok"),
+        };
+        var middleware = new MutatingMiddleware();
+        var options = new AgentOptions(new ScriptedToolModel())
+        {
+            Tools = registry,
+            Policy = policy,
+        };
+        options.Middleware.Add(middleware);
+        var denied = false;
+        try
+        {
+            new Agent(options).Run(new Session("s1"), "go");
+        }
+        catch (PraxoException ex) when (ex.Code == "AGENT_POLICY_DENIED")
+        {
+            denied = true;
+        }
+        Check(denied && middleware.BeforeToolCalls == 0 && toolCalls == 0,
+            "initial denial prevents middleware and effect");
+    }
+
     private static void Check(bool condition, string message)
     {
         if (!condition)
@@ -285,6 +425,38 @@ internal static class Program
                 };
             }
             return new Response { Message = Message.Assistant("done") };
+        }
+    }
+
+    private sealed class RecordingPolicy : IPolicyHook
+    {
+        public List<Praxo.Core.Action> Actions { get; } = new();
+
+        public Func<Praxo.Core.Action, Decision>? Handler { get; set; }
+
+        public Decision Authorize(Praxo.Core.Action action)
+        {
+            Actions.Add(new Praxo.Core.Action
+            {
+                Kind = action.Kind,
+                SessionId = action.SessionId,
+                ToolName = action.ToolName,
+                Arguments = (JsonObject?)action.Arguments?.DeepClone(),
+            });
+            return Handler?.Invoke(action) ?? Decision.Allow("ok");
+        }
+    }
+
+    private sealed class MutatingMiddleware : IMiddleware
+    {
+        public Action<MiddlewareToolCall>? Mutate { get; set; }
+
+        public int BeforeToolCalls { get; private set; }
+
+        public void BeforeTool(MiddlewareToolCall call)
+        {
+            BeforeToolCalls++;
+            Mutate?.Invoke(call);
         }
     }
 }

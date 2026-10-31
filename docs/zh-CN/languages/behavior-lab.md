@@ -45,7 +45,9 @@
 
 `native suite` 表示该实现的完整原生测试可执行文件通过；它不是场景隔离断言，因此不能仅凭该单元格定位具体场景失败。其余 Rust/Fortran/COBOL/Ruby/Elixir/Erlang/C++/PHP/C#/Lua 场景仍为 `unsupported`；报告会显式列出，而不是删除这些语言。
 
-完整的单元格矩阵和逐语言报告见[行为实验矩阵](behavior-lab-matrix.md)。
+C# 还对 `final-arguments`、`final-name`、`unchanged-single-auth` 和
+`initial-denial` 提供原生套件覆盖。完整的单元格矩阵和逐语言报告见
+[行为实验矩阵](behavior-lab-matrix.md)。
 
 ## 运行
 

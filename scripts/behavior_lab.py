@@ -203,8 +203,9 @@ def scenarios() -> tuple[Scenario, ...]:
                     typescript_test("middleware argument changes"),
                 ),
                 "java": (auth,),
+                "csharp": (csharp,),
             },
-            {"go": "scenario", "python": "scenario", "typescript": "scenario", "java": "group"},
+            {"go": "scenario", "python": "scenario", "typescript": "scenario", "java": "group", "csharp": "suite"},
         ),
         Scenario(
             "final-name",
@@ -229,8 +230,9 @@ def scenarios() -> tuple[Scenario, ...]:
                     ),
                 ),
                 "java": (auth,),
+                "csharp": (csharp,),
             },
-            {"go": "scenario", "python": "scenario", "typescript": "scenario", "java": "group"},
+            {"go": "scenario", "python": "scenario", "typescript": "scenario", "java": "group", "csharp": "suite"},
         ),
         Scenario(
             "unchanged-single-auth",
@@ -247,8 +249,9 @@ def scenarios() -> tuple[Scenario, ...]:
                     typescript_test("unchanged tool is authorized once"),
                 ),
                 "java": (auth,),
+                "csharp": (csharp,),
             },
-            {"go": "scenario", "python": "scenario", "typescript": "scenario", "java": "group"},
+            {"go": "scenario", "python": "scenario", "typescript": "scenario", "java": "group", "csharp": "suite"},
         ),
         Scenario(
             "initial-denial",
@@ -265,8 +268,9 @@ def scenarios() -> tuple[Scenario, ...]:
                     typescript_test("initial policy denial prevents middleware"),
                 ),
                 "java": (auth,),
+                "csharp": (csharp,),
             },
-            {"go": "scenario", "python": "scenario", "typescript": "scenario", "java": "group"},
+            {"go": "scenario", "python": "scenario", "typescript": "scenario", "java": "group", "csharp": "suite"},
         ),
         Scenario(
             "startup-cleanup",
