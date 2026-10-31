@@ -1,10 +1,10 @@
 # PRAXO-CORE Erlang Core
 
-Erlang is a native Core implementation with source tag `erlang/v0.1.1`. It
-passes all eleven shared vector groups on Erlang/OTP 29 and includes the native
-agent loop, memory store, checkpoint allowlist, lexical path policy, context
-compaction, event sinks, middleware helpers, and tool selection. It does not
-call Go or another Core.
+PRAXO-CORE is an embeddable, MIT-licensed agent framework. This package is its
+native Erlang Core with source tag `erlang/v0.1.1`. It passes all eleven shared
+vector groups on Erlang/OTP 29 and includes the native agent loop, memory store,
+checkpoint allowlist, lexical path policy, context compaction, event sinks,
+middleware helpers, and tool selection. It does not call Go or another Core.
 
 - Implementation type: Core.
 - Package version: `0.1.1`; supported `SPEC_VERSION`: `0.2.0`.

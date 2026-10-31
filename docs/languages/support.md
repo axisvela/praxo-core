@@ -64,15 +64,33 @@ a merged implementation PR as a support commitment.
 - Each Core implementation declares its supported `SPEC_VERSION`.
 - A source release tag does not establish package-registry availability.
 - Use the installation or source-build instructions on the language page.
-- Python publishes `praxo-core==0.2.3` on PyPI. TypeScript source tag is
-  `typescript/v0.1.3`; its npm package was staged for approval on 2026-10-31.
-  `0.1.2` remains the latest public version until the staged package is
-  approved. Current main has newer fixes that are not part of that staged
-  package.
-- Java documents a Maven source build; Maven Central publication is not established by a source tag.
-- Rust has source tag `rust/v0.1.2` with all eleven vector groups, native tests,
-  `tool.Gateway`, `jsonschema.Schema`, and an API snapshot. The OpenAI adapter,
-  VFS, plugin hosts, and Go context/cancellation semantics are not included.
+- Python publishes `praxo-core==0.2.3` on PyPI. TypeScript publishes
+  `@axisvela/praxo-core@0.1.3` on npm from source tag `typescript/v0.1.3`;
+  the package was approved on 2026-10-31 and has npm provenance. Current main
+  has newer parallel-tool, SSE, and history fixes that are not part of `0.1.3`.
+- Java publishes `com.axisvela:praxo-core:0.3.0` on Maven Central from source
+  tag `java/v0.3.0`, with Maven groupId `com.axisvela` and Java packages under
+  `com.axisvela.praxo`. The earlier `java/v0.2.3` tag retains
+  `io.axisvela.praxo`.
+- PHP publishes `axisvela/praxo-core==0.1.0` on Packagist from the split
+  publication repository `axisvela/praxo-core-php`; source tag `php/v0.1.0`
+  remains in this repository.
+- Ruby publishes `praxo-core==0.1.0` on RubyGems from source tag
+  `ruby/v0.1.0`. A clean project installed the gem and ran a minimal agent.
+- Lua publishes `praxo-core==0.1.0-1` on LuaRocks from source tag `lua/v0.1.0`.
+  A local rock build and module load passed; registry install smoke is pending.
+- C# publishes `Praxo.Core==0.1.2` on NuGet from source tag `csharp/v0.1.2`
+  through GitHub Actions Trusted Publishing. CI built, tested, packed, and
+  pushed the package; a local .NET consumer install is not yet recorded.
+- Dart has source tag `dart/v0.1.1` and publishes `praxo_core==0.1.1` on
+  pub.dev under publisher `axisvela.com`. A clean project installed the package,
+  imported `package:praxo_core/praxo_core.dart`, and ran a minimal agent.
+- Rust has source tag `rust/v0.1.4` and publishes `praxo-core==0.1.4` on
+  crates.io. It includes all eleven vector groups, native tests, `tool.Gateway`,
+  `jsonschema.Schema`, and an API snapshot. The OpenAI adapter, VFS, plugin
+  hosts, and Go context/cancellation semantics are not included. A clean
+  temporary project installed the crate and reported `SDK_VERSION` `0.1.4` and
+  `SPEC_VERSION` `0.2.0`.
 - Fortran has source tag `fortran/v0.3.0` with all eleven vector groups, native
   tests, an API snapshot, and integrated PII/middleware. It is not a
   package-registry release; asynchronous streaming is outside the declared
@@ -96,11 +114,14 @@ a merged implementation PR as a support commitment.
 - OCaml has source tag `ocaml/v0.2.0` with all eleven vector groups, native
   tests, and API snapshot/parity. Native `ocamlopt` compilation, provider
   adapters, and package registries are not claimed.
-- Elixir, Nim, V, and Objective-C have source tags `elixir/v0.1.1`,
-  `nim/v0.1.1`, `v/v0.1.1`, and `objc/v0.1.1`. They include all eleven vector
-  groups, native tests, and API snapshots. Package-registry publication,
-  production readiness, and complete Go parity are not claimed; optional Go
-  hooks and provider adapters are not included.
+- Elixir has source tag `elixir/v0.1.1` and publishes `praxo_core==0.1.1` on
+  Hex. A clean Mix project installed it, loaded `Praxo.Agent`, and reported
+  version `0.1.1`. This is a package-only release; HexDocs are not published.
+- Nim, V, and Objective-C have source tags `nim/v0.1.1`, `v/v0.1.1`, and
+  `objc/v0.1.1`. They include all eleven vector groups, native tests, and API
+  snapshots. Package-registry publication, production readiness, and complete
+  Go parity are not claimed; optional Go hooks and provider adapters are not
+  included.
 - Erlang has source tag `erlang/v0.1.1` with a native BEAM Core loop, eleven
   vector groups, native tests, and an API snapshot/parity inventory. Package
   registries, provider adapters, streaming, and production readiness are not

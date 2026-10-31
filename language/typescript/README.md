@@ -6,15 +6,14 @@ TypeScript implementation of the PRAXO-CORE contract. The normative contract is
 **Status:** The package passes all eleven conformance vector groups
 and the TypeScript parity check. Context budgets, middleware, streaming,
 `AbortSignal` cancellation, and the OpenAI-compatible adapter are included.
-Published on npm as `@axisvela/praxo-core@0.1.2`. The first publication used a
+Published on npm as `@axisvela/praxo-core@0.1.3`. The first publication used a
 short-lived bypass token because staged approval was unavailable; no provenance
-attestation is claimed for that release. The `0.1.3` package was staged for npm
-approval on 2026-10-31; `0.1.2` remains the latest public version until that
-staged package is approved. Current source contains newer parallel-tool, SSE,
-and history fixes intended for a later release. VFS and plugin hosts are not yet
-implemented.
+attestation is claimed for `0.1.2`. The `0.1.3` package was approved on
+2026-10-31 and published with npm provenance. Current source contains newer
+parallel-tool, SSE, and history fixes intended for a later release. VFS and
+plugin hosts are not yet implemented.
 
-Package version: `0.1.3` (source; npm latest is `0.1.2`). Supported contract:
+Package version: `0.1.3` (source and npm latest). Supported contract:
 `SPEC_VERSION` `0.2.0` (`SPEC_VERSION` export).
 
 ## Requirements
@@ -39,7 +38,7 @@ the published file set and installed import path, not npm registry availability.
 ## Usage
 
 ```bash
-npm install @axisvela/praxo-core@0.1.2
+npm install @axisvela/praxo-core@0.1.3
 ```
 
 ```ts

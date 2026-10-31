@@ -53,16 +53,16 @@ for real providers, platforms, and production behavior is reported separately.
 | Language | Tier | Status | Tag | Maturity | Notes |
 | --- | --- | --- | --- | --- | --- |
 | Go | Core (reference) | released | `v2.5.2` | reference | Reference implementation |
-| Python | Core | released | `python/v0.2.2` | complete | 11 vectors, OpenAI adapter, PyPI `praxo-core==0.2.2` |
-| TypeScript | Core | released | `typescript/v0.1.3` | complete | 11 vectors, OpenAI adapter; npm `@axisvela/praxo-core@0.1.2` remains latest because `0.1.3` staging failed authentication |
-| Java | Core | released | `java/v0.2.2` | complete | 11 vectors, OpenAI adapter, API snapshot |
-| Rust | Core | released | `rust/v0.1.2` | complete | 11 vectors, native tests, `tool.Gateway`, `jsonschema.Schema`, compiler-derived API/parity gate |
+| Python | Core | released | `python/v0.2.3` | complete | 11 vectors, OpenAI adapter, PyPI `praxo-core==0.2.3` |
+| TypeScript | Core | released | `typescript/v0.1.3` | complete | 11 vectors, OpenAI adapter; npm `@axisvela/praxo-core@0.1.3` with provenance; current main has unreleased fixes |
+| Java | Core | released | `java/v0.3.0` | complete | 11 vectors, OpenAI adapter, API snapshot; Maven Central `com.axisvela:praxo-core==0.3.0` |
+| Rust | Core | released | `rust/v0.1.4` | complete | 11 vectors, native tests, `tool.Gateway`, `jsonschema.Schema`, compiler-derived API/parity gate; crates.io `praxo-core==0.1.4` |
 | C | Core | released | `c/v0.2.0` | complete | 11 vectors, native tests; public Core API plus wire JSON primitives; agent cancellation and call-limit concurrency are partial |
-| C# | Core (.NET) | released | `csharp/v0.1.1` | complete | 11 vectors, API snapshot, OpenAI adapter |
+| C# | Core (.NET) | released | `csharp/v0.1.2` | complete | 11 vectors, API snapshot, OpenAI adapter; NuGet `Praxo.Core==0.1.2` |
 | Visual Basic | Sample (.NET) | released | `csharp/v0.1.1` | sample | VB.NET consumer sample in `language/csharp/samples` |
 | PowerShell | Bridge | released | `powershell/v0.1.0` | complete | Wraps the bridge CLI |
 | Shell | Bridge | released | `shell/v0.1.0` | complete | Wraps the bridge CLI |
-| PHP | Core | released | `php/v0.1.0` | complete | 11 vectors, API snapshot, dependency-free |
+| PHP | Core | released | `php/v0.1.0` | complete | 11 vectors, API snapshot, dependency-free; Packagist `axisvela/praxo-core==0.1.0` |
 | Swift | Core | released | `swift/v0.2.0` | complete | 11 vectors, XCTest, API snapshot |
 | Julia | Core | released | `julia/v0.2.0` | complete | 11 vectors, JSON.jl, API snapshot |
 | R | Core | released | `r/v0.2.0` | complete | 11 vectors, base-R JSON, API snapshot |
@@ -71,8 +71,8 @@ for real providers, platforms, and production behavior is reported separately.
 | Lisp | Bridge | released | `lisp/v0.1.0` | complete | SBCL bridge over the bridge CLI; forwarding, UTF-8, errors, and exit codes verified locally and in Linux CI; consumer details pending |
 | JavaScript | Sample (TypeScript) | released | none | sample | Uses the TypeScript package; no separate core |
 | C++ | Core | released | `cpp/v0.1.0` | complete | 11 vectors, core tests, API snapshot |
-| Dart | Core | released | `dart/v0.1.0` | complete | 11 vectors, core tests, API snapshot |
-| Ruby | Core | released | `ruby/v0.1.0` | complete | 11 vectors, core tests, API snapshot |
+| Dart | Core | released | `dart/v0.1.1` | complete | 11 vectors, core tests, API snapshot; pub.dev `praxo_core==0.1.1` |
+| Ruby | Core | released | `ruby/v0.1.0` | complete | 11 vectors, core tests, API snapshot; RubyGems `praxo-core==0.1.0` |
 | Kotlin | Sample (JVM) | released | none | sample | Uses the Java Core |
 | Scala | Sample (JVM) | released | none | sample | Uses the Java Core |
 | MATLAB | Core | released | `matlab/v0.2.1` | complete | 11 vectors, native tests, API snapshot/parity; Octave 11.3.0; MATLAB runtime unverified |
@@ -80,7 +80,7 @@ for real providers, platforms, and production behavior is reported separately.
 | Delphi | Core | released | `delphi/v0.2.1` | complete | 11 vectors, native tests, API snapshot/parity; Free Pascal 3.2.2; commercial Delphi unverified |
 | OCaml / Caml | Core | released | `ocaml/v0.2.0` | complete | 11 vectors, native tests, API snapshot/parity; OCaml 4.14.2 bytecode; opt-in middleware integrated |
 | Objective-C | Core | released | `objc/v0.1.1` | complete | 11 vectors, native tests, API snapshot/parity; opt-in middleware integrated; Windows GNUstep and macOS CI |
-| Elixir | Core | released | `elixir/v0.1.1` | complete | 11 vectors, native tests, API snapshot/parity; opt-in middleware integrated |
+| Elixir | Core | released | `elixir/v0.1.1` | complete | 11 vectors, native tests, API snapshot/parity; opt-in middleware integrated; Hex `praxo_core==0.1.1` |
 | Nim | Core | released | `nim/v0.1.1` | complete | 11 vectors, native tests, API snapshot/parity; opt-in middleware integrated |
 | V | Core | released | `v/v0.1.1` | complete | 11 vectors, native tests, API snapshot/parity; opt-in middleware integrated |
 | D | Core | released | `d/v0.1.0` | complete | 11 vectors, API snapshot |
@@ -100,7 +100,7 @@ for real providers, platforms, and production behavior is reported separately.
 | Q | Bridge | planned | none | planned | Requires a licensed kdb+/q runtime and a named consumer |
 | Assembly | Bridge / extension | consumer-gated | none | gated | No portable language or ABI; target-specific binding requires a named consumer |
 | Zig | Core | released | `zig/v0.2.0` | complete | 11 vectors, API snapshot; `zig/v0.1.0` remains wire |
-| Lua | Core | released | `lua/v0.1.0` | complete | 11 vectors, core tests, API snapshot |
+| Lua | Core | released | `lua/v0.1.0` | complete | 11 vectors, core tests, API snapshot; LuaRocks `praxo-core==0.1.0-1` |
 | Scratch | Bridge / extension | planned | none | planned | Extension bridge; implementation requested |
 | COBOL | Core | released | `cobol/v0.1.2` | complete | 11 vectors, native/contract tests, API snapshot; caller-owned scoped registries and native agent consumer fixtures |
 | Prolog | Bridge | released | `prolog/v0.1.1` | complete | SWI-Prolog wrapper over the bridge CLI; forwarding, UTF-8, errors, and exit codes tested |

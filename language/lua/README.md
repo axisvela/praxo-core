@@ -1,14 +1,26 @@
 # PRAXO-CORE Lua Core
 
-Lua 5.4 implementation of the PRAXO-CORE agent contract. The normative
-contract is [`spec/`](../../spec/README.md); Go remains the reference
-implementation.
+PRAXO-CORE is an embeddable, MIT-licensed agent framework. This rock is its
+native Lua Core: an agent loop with tool registration and dispatch, policy
+hooks, typed events, memory, checkpoints, context budgets, middleware, JSON
+Schema validation, and plugin manifest parsing.
+
+The normative contract is [`spec/`](../../spec/README.md); Go remains the
+reference implementation.
 
 - `SPEC_VERSION`: `0.2.0`
 - Core version: `0.1.0`
 - Tier: core
 - License: MIT
 - Dependencies: Lua standard library only
+- LuaRocks page: `praxo-core@0.1.0-1` (registry install failed); split repo
+  `axisvela/praxo-core-lua` and rock revision `0.1.0-2` fix pending upload
+
+## Install
+
+```bash
+luarocks install praxo-core
+```
 
 ## Scope
 

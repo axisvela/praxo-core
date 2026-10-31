@@ -1,17 +1,23 @@
 cabal-version: 2.4
 name: praxo-core
 version: 0.2.0
-synopsis: Native Core PRAXO-CORE contract implementation
-description: Native JSON, tool-call parsing, bounded JSON Schema validation,
-             plugin manifest checks, runtime helpers, middleware, and agent loop
-             for the declared PRAXO-CORE Core contract.
+synopsis: Embeddable MIT-licensed agent framework for Haskell
+description: Native agent loop with tools, policy hooks, typed events, memory,
+             checkpoints, context budgets, middleware, JSON Schema validation,
+             and plugin manifest parsing for the PRAXO-CORE agent framework.
 category: Development
 maintainer: AxisVela <releases@axisvela.com>
+homepage: https://axisvela.github.io/praxo-core/
+bug-reports: https://github.com/axisvela/praxo-core/issues
 license: MIT
 license-file: LICENSE
 author: AxisVela
 build-type: Simple
 extra-source-files: README.md, SETUP.md, api/0.2.0.txt, run-tests.py, api-snapshot.py
+
+source-repository head
+  type: git
+  location: https://github.com/axisvela/praxo-core
 
 library
   hs-source-dirs: src

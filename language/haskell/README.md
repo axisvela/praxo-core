@@ -1,8 +1,10 @@
 # PRAXO-CORE Haskell Core
 
-A native Haskell Core with source tag `haskell/v0.2.0`. It implements all
-eleven declared vector groups and does not call Go or another Core. It includes a
-native callback-based agent loop plus runtime and middleware helpers.
+PRAXO-CORE is an embeddable, MIT-licensed agent framework. This package is its
+native Haskell Core. It implements all eleven declared vector groups and does not
+call Go or another Core. It includes a native callback-based agent loop with
+tools, policy hooks, typed events, memory, checkpoints, context budgets,
+middleware, JSON Schema validation, plugin manifest parsing, and runtime helpers.
 
 - Implementation type: Core.
 - Package version: `0.2.0`; supported `SPEC_VERSION`: `0.2.0`.

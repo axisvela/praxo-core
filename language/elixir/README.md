@@ -1,16 +1,26 @@
 # PRAXO-CORE for Elixir
 
-Elixir is a native Core implementation with source tag `elixir/v0.1.1`. It
-passes all eleven shared vector groups with `Elixir 1.20.4` on `Erlang/OTP 29`
-and includes the native agent loop, context compaction, memory store, path
-policy, checkpoint allowlist, tool-call parsing, and opt-in tool selection, PII
-redaction, structured output validation, and call limits. Vector coverage does
-not establish full Core parity or production readiness.
+PRAXO-CORE is an embeddable, MIT-licensed agent framework. This package is its
+native Elixir Core with source tag `elixir/v0.1.1`. It passes all eleven shared
+vector groups with `Elixir 1.20.4` on `Erlang/OTP 29` and includes the native
+agent loop, context compaction, memory store, path policy, checkpoint allowlist,
+tool-call parsing, and opt-in tool selection, PII redaction, structured output
+validation, and call limits. Vector coverage does not establish full Core parity
+or production readiness.
 
 The Core uses the OTP 27+ `:json` module and does not call Go or another
 language runtime. Erlang shares the BEAM runtime and does not add a second
 agent loop. Provider adapters and plugin hosts remain outside the declared Core
 scope.
+
+Published on Hex as `praxo_core@0.1.1`; this is a package-only release and
+HexDocs are not published.
+
+## Install
+
+```elixir
+{:praxo_core, "~> 0.1.1"}
+```
 
 ## Build And Test
 

@@ -14,6 +14,13 @@ reference implementation.
 - Tier: core
 - License: MIT
 - Dependencies: Dart standard library only
+- Published on pub.dev as `praxo_core@0.1.1`
+
+## Install
+
+```bash
+dart pub add praxo_core
+```
 
 ## Scope
 

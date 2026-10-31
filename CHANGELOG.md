@@ -80,8 +80,53 @@
   schema corrections and scoped registry above. Fortran's full RE2 and Unicode
   pattern support are not implemented; no package-registry publication is claimed.
 - Release preparation for Python `0.2.3` (PyPI Trusted Publishing on tag),
-  TypeScript `0.1.3` (npm staging on tag), and Java `0.2.3` (source tag). These
-  include the final authorization and lifecycle/cancellation cleanup fixes.
+  TypeScript `0.1.3` (npm staged publishing on tag), and Java `0.2.3` (source
+  tag). These include the final authorization and lifecycle/cancellation cleanup
+  fixes.
+- Published TypeScript `@axisvela/praxo-core@0.1.3` on npm after maintainer
+  approval on 2026-10-31, with provenance from the trusted publisher. A clean
+  temporary-project install imported `Agent` and `Registry` and reported
+  `SPEC_VERSION` `0.2.0`. Current main contains unreleased parallel-tool, SSE,
+  and history fixes beyond `0.1.3`.
+- Published Rust `praxo-core@0.1.2` to crates.io from source tag
+  `rust/v0.1.2`. A clean temporary project installed the crate and reported
+  `SDK_VERSION` `0.1.2` and `SPEC_VERSION` `0.2.0`. That release did not include
+  the later Rust test additions.
+- Published Rust `praxo-core@0.1.3` with clearer crate metadata and README copy,
+  plus an `api/0.1.3.txt` snapshot.
+- Published Rust `praxo-core@0.1.4` to correct the crate README install
+  guidance. A clean temporary project reported `SDK_VERSION` `0.1.4` and
+  `SPEC_VERSION` `0.2.0`; `0.1.4` is the latest crates.io version.
+- Published PHP `axisvela/praxo-core@0.1.0` on Packagist from the split
+  repository `axisvela/praxo-core-php` at commit `bb07f56`. A Composer install
+  smoke is not yet recorded.
+- Published Dart `praxo_core@0.1.1` on pub.dev under publisher `axisvela.com`.
+  A clean project installed the package, imported
+  `package:praxo_core/praxo_core.dart`, and ran a minimal agent. The source tag
+  is `dart/v0.1.1`.
+- Published Ruby `praxo-core@0.1.0` on RubyGems from source tag
+  `ruby/v0.1.0`. A clean project installed the gem and ran a minimal agent.
+- Published Lua `praxo-core@0.1.0-1` on LuaRocks from source tag
+  `lua/v0.1.0`. Local rock build, module load, conformance, and tests passed;
+  registry install smoke is pending.
+- Published C# `Praxo.Core@0.1.2` on NuGet from source tag `csharp/v0.1.2`
+  through GitHub Actions Trusted Publishing. The workflow built, ran
+  conformance/API/tests, packed, and pushed the package; a local .NET consumer
+  install is not yet recorded.
+- Published Elixir `praxo_core@0.1.1` on Hex from source tag `elixir/v0.1.1`.
+  A clean Mix project installed the package, loaded `Praxo.Agent`, and reported
+  version `0.1.1`. This is a package-only release; HexDocs are not published.
+- Published Java `com.axisvela:praxo-core:0.3.0` on Maven Central from source
+  tag `java/v0.3.0`, with `com.axisvela.praxo` packages, sources, javadoc, and
+  GPG signatures. The historical `java/v0.2.3` tag retains `io.axisvela.praxo`.
+
+### Changed
+
+- Java source now uses `com.axisvela.praxo` packages and Maven groupId
+  `com.axisvela` for Maven Central. This is a breaking import and coordinate
+  change targeted at `0.3.0`; the last source tag `java/v0.2.3` retains
+  `io.axisvela.praxo`. No Java source tag or Maven Central publication is
+  claimed by this change.
 
 ## [2.5.2] - 2026-10-30
 

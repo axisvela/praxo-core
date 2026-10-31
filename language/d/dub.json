@@ -1,0 +1,23 @@
+{
+  "name": "praxo-core",
+  "description": "Embeddable MIT-licensed agent framework for D: tools, policy, events, memory, context, middleware, checkpoints, and an agent loop",
+  "authors": ["AxisVela"],
+  "copyright": "Copyright © 2026, AxisVela",
+  "license": "MIT",
+  "homepage": "https://axisvela.github.io/praxo-core/",
+  "targetType": "library",
+  "sourcePaths": [],
+  "excludedSourceFiles": ["source/conformance.d", "source/tests.d"],
+  "importPaths": ["source"],
+  "sourceFiles": [
+    "source/praxo/agent.d",
+    "source/praxo/errors.d",
+    "source/praxo/json.d",
+    "source/praxo/jsonschema.d",
+    "source/praxo/middleware.d",
+    "source/praxo/models.d",
+    "source/praxo/plugin.d",
+    "source/praxo/runtime.d",
+    "source/praxo/toolcall.d"
+  ]
+}

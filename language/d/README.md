@@ -1,7 +1,12 @@
 # PRAXO-CORE D Core
 
-D implementation of the PRAXO-CORE agent contract. The normative contract is
-[`spec/`](../../spec/README.md); Go remains the reference implementation.
+PRAXO-CORE is an embeddable, MIT-licensed agent framework. This package is its
+native D Core: an agent loop with tool registration and dispatch, policy hooks,
+typed events, memory, checkpoints, context budgets, middleware, JSON Schema
+validation, and plugin manifest parsing.
+
+The normative contract is [`spec/`](../../spec/README.md); Go remains the
+reference implementation.
 
 - `SPEC_VERSION`: `0.2.0`
 - Core version: `0.1.0`

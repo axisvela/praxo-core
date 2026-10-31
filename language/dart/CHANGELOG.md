@@ -2,7 +2,7 @@
 
 ## 0.1.1
 
-- Prepare the package for pub.dev publication with publisher metadata,
+- Publish the package to pub.dev as `praxo_core` with publisher metadata,
   `lib/praxo_core.dart`, and the conventional `test/` layout.
 
 ## 0.1.0

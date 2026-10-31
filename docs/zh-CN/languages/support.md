@@ -47,11 +47,27 @@ Bridge、Sample 描述运行时的接入方式，不证明其语言缺乏 Framew
 - 核心、Core、适配器与契约独立版本化，每个 Core 声明其 `SPEC_VERSION`。
 - 版本标签与成熟度相互独立：源码标签记录发布，成熟度记录声明范围的完成情况与验证状态。
 - 源码标签不等于已发布到包管理器，应按语言页面中的安装或源码构建步骤操作。
-- Python 已发布 `praxo-core==0.2.3` 到 PyPI；TypeScript 源码标签为
-  `typescript/v0.1.3`，其 npm 包已于 2026-10-31 成功进入待审批 staging。
-  审批通过前 `0.1.2` 仍是公开最新版本；当前 main 有未包含在该 staging 包中的新修复。
-- Java 提供 Maven 源码构建方式，源码标签不证明 Maven Central 可用。
-- Rust 已有源码标签 `rust/v0.1.2`，包含全部 11 个向量组、原生测试、`tool.Gateway`、`jsonschema.Schema` 和 API 快照。不包含 OpenAI adapter、VFS、plugin hosts 以及 Go context/cancellation 语义。
+- Python 已发布 `praxo-core==0.2.3` 到 PyPI；TypeScript 已从源码标签
+  `typescript/v0.1.3` 发布 `@axisvela/praxo-core@0.1.3` 到 npm，该包于
+  2026-10-31 获批并带有 npm provenance。当前 main 有未包含在 `0.1.3` 中的
+  并行工具、SSE 和历史修复。
+- Java 已从源码标签 `java/v0.3.0` 在 Maven Central 发布
+  `com.axisvela:praxo-core:0.3.0`，Maven groupId 为 `com.axisvela`，Java
+  包名为 `com.axisvela.praxo`。较早的 `java/v0.2.3` 标签仍保留
+  `io.axisvela.praxo`。
+- PHP 已从独立发布仓库 `axisvela/praxo-core-php` 在 Packagist 发布
+  `axisvela/praxo-core==0.1.0`；主仓库保留源码标签 `php/v0.1.0`。
+- Ruby 已从源码标签 `ruby/v0.1.0` 在 RubyGems 发布 `praxo-core==0.1.0`。
+  干净项目已安装该 gem 并运行最小 agent。
+- Lua 已从源码标签 `lua/v0.1.0` 在 LuaRocks 发布 `praxo-core==0.1.0-1`。
+  本地 rock 构建和模块加载通过；registry 安装 smoke 待完成。
+- C# 已从源码标签 `csharp/v0.1.2` 通过 GitHub Actions Trusted Publishing 在
+  NuGet 发布 `Praxo.Core==0.1.2`。CI 完成构建、测试、打包和推送；本地 .NET
+  消费者安装尚未记录。
+- Dart 已有源码标签 `dart/v0.1.1`，并在 publisher `axisvela.com` 下发布
+  `praxo_core==0.1.1` 到 pub.dev。干净项目已安装该包、导入
+  `package:praxo_core/praxo_core.dart` 并运行最小 agent。
+- Rust 已有源码标签 `rust/v0.1.4`，并在 crates.io 发布 `praxo-core==0.1.4`。包含全部 11 个向量组、原生测试、`tool.Gateway`、`jsonschema.Schema` 和 API 快照。不包含 OpenAI adapter、VFS、plugin hosts 以及 Go context/cancellation 语义。干净临时项目安装该 crate 后报告 `SDK_VERSION` `0.1.4` 和 `SPEC_VERSION` `0.2.0`。
 - Fortran 源码标签 `fortran/v0.3.0` 包含全部 11 个向量组、原生测试、API 快照
   以及集成的 PII/中间件。它不是包管理器发布；异步流不在声明范围，受限 JSON Schema 子集
   仍为部分完成。
@@ -66,6 +82,9 @@ Bridge、Sample 描述运行时的接入方式，不证明其语言缺乏 Framew
   原生测试和 API 快照/parity。MATLAB 运行时、提供商适配器和包管理器发布均未声明。
 - OCaml 已有源码标签 `ocaml/v0.2.0`，包含全部 11 个向量组、原生测试和 API
   快照/parity。原生 `ocamlopt` 编译、提供商适配器和包管理器发布均未声明。
+- Elixir 已有源码标签 `elixir/v0.1.1`，并在 Hex 发布 `praxo_core==0.1.1`。
+  干净 Mix 项目已安装该包、加载 `Praxo.Agent`，版本为 `0.1.1`。这是仅包发布；
+  HexDocs 尚未发布。
 - Erlang 已有源码标签 `erlang/v0.1.1`，包含原生 BEAM Core 循环、11 个向量组、
   原生测试和 API 快照/parity 清单。包管理器、提供商适配器、流式路径和生产就绪
   均未声明；可选中间件已集成，但未包含全部可选 Go 钩子。
