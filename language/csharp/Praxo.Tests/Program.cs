@@ -17,6 +17,8 @@ internal static class Program
         TestMemoryOrdering();
         TestCheckpointAllowlist();
         TestPiiRedaction();
+        TestCallLimit();
+        TestCapacityFailClosed();
         TestPluginValidation();
         TestPolicy();
         TestAgentDirect();
@@ -128,6 +130,56 @@ internal static class Program
             (redacted["nested"] as JsonObject)?["ssn"]?.GetValue<string>() == "[REDACTED:ssn]",
             "pii nested tool-call ssn");
         Check(original["email"]?.GetValue<string>() == "a@b.com", "pii caller arguments unchanged");
+    }
+
+    private static void TestCallLimit()
+    {
+        var modelLimit = new CallLimitMiddleware(1, 0);
+        var modelCall = new ModelCall { RunId = "r1" };
+        modelLimit.BeforeModel(modelCall);
+        var rejected = false;
+        try
+        {
+            modelLimit.BeforeModel(modelCall);
+        }
+        catch (PraxoException ex) when (ex.Code == "AGENT_MODEL_CALL_LIMIT")
+        {
+            rejected = true;
+        }
+        Check(rejected, "model call limit");
+
+        var toolLimit = new CallLimitMiddleware(0, 1);
+        var toolCall = new MiddlewareToolCall { RunId = "r2" };
+        toolLimit.BeforeTool(toolCall);
+        rejected = false;
+        try
+        {
+            toolLimit.BeforeTool(toolCall);
+        }
+        catch (PraxoException ex) when (ex.Code == "AGENT_TOOL_CALL_LIMIT")
+        {
+            rejected = true;
+        }
+        Check(rejected, "tool call limit");
+    }
+
+    private static void TestCapacityFailClosed()
+    {
+        var options = new AgentOptions(new StaticModel("done"))
+        {
+            SystemPrompt = new string('x', 1000),
+            Context = new ContextBudget(10, 0),
+        };
+        var rejected = false;
+        try
+        {
+            new Agent(options).Run(new Session("s1"), "go");
+        }
+        catch (PraxoException ex) when (ex.Code == "AGENT_CONTEXT_BUDGET")
+        {
+            rejected = true;
+        }
+        Check(rejected, "capacity fail closed");
     }
 
     private static void TestPluginValidation()

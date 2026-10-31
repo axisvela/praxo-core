@@ -2,7 +2,7 @@
 
 **状态：** 证据工具，2026-10-30。该实验不是稳定的公开 API。
 
-行为实验在 Go、Python、TypeScript 和 Java 中运行具名 agent 场景，并生成一份对比报告。Rust、Fortran、COBOL、Ruby、Elixir、Erlang、C++ 是扩展语言，覆盖范围更窄，使用场景级或原生套件证据。它回答的问题比[兼容性实验](compatibility-lab.md)更窄：当通过各实现自己的测试套件执行时，它们是否对授权、生命周期、取消、输入校验、调用上限、并行工具执行、run 状态隔离、PII、checkpoint、容量和流失败做出相同决策？
+行为实验在 Go、Python、TypeScript 和 Java 中运行具名 agent 场景，并生成一份对比报告。Rust、Fortran、COBOL、Ruby、Elixir、Erlang、C++、PHP、C# 是扩展语言，覆盖范围更窄，使用场景级或原生套件证据。它回答的问题比[兼容性实验](compatibility-lab.md)更窄：当通过各实现自己的测试套件执行时，它们是否对授权、生命周期、取消、输入校验、调用上限、并行工具执行、run 状态隔离、PII、checkpoint、容量和流失败做出相同决策？
 
 它不证明完整功能对齐、provider 行为、真实服务集成、生产就绪或安全性。报告通过只比较所列场景。
 
@@ -34,16 +34,16 @@
 
 ## 扩展覆盖
 
-| 场景 | Rust | Fortran | COBOL | Ruby | Elixir | Erlang | C++ |
-| --- | --- | --- | --- | --- | --- | --- | --- |
-| `schema-number-unicode` | scenario | unsupported | unsupported | unsupported | unsupported | unsupported | unsupported |
-| `call-limit` | scenario | native suite | native suite | native suite | native suite | native suite | native suite |
-| `pii-tool-history` | scenario | native suite | native suite | unsupported | native suite | native suite | native suite |
-| `checkpoint-content` | scenario | native suite | native suite | native suite | native suite | native suite | native suite |
-| `capacity-failclosed` | scenario | native suite | native suite | unsupported | unsupported | unsupported | native suite |
-| `run-state-isolation` | scenario | unsupported | unsupported | unsupported | unsupported | unsupported | unsupported |
+| 场景 | Rust | Fortran | COBOL | Ruby | Elixir | Erlang | C++ | PHP | C# |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| `schema-number-unicode` | scenario | unsupported | unsupported | unsupported | unsupported | unsupported | unsupported | unsupported | unsupported |
+| `call-limit` | scenario | native suite | native suite | native suite | native suite | native suite | native suite | native suite | native suite |
+| `pii-tool-history` | scenario | native suite | native suite | unsupported | native suite | native suite | native suite | native suite | native suite |
+| `checkpoint-content` | scenario | native suite | native suite | native suite | native suite | native suite | native suite | native suite | native suite |
+| `capacity-failclosed` | scenario | native suite | native suite | unsupported | unsupported | unsupported | native suite | native suite | native suite |
+| `run-state-isolation` | scenario | unsupported | unsupported | unsupported | unsupported | unsupported | unsupported | unsupported | unsupported |
 
-`native suite` 表示该实现的完整原生测试可执行文件通过；它不是场景隔离断言，因此不能仅凭该单元格定位具体场景失败。其余 Rust/Fortran/COBOL/Ruby/Elixir/Erlang/C++ 场景仍为 `unsupported`；报告会显式列出，而不是删除这些语言。
+`native suite` 表示该实现的完整原生测试可执行文件通过；它不是场景隔离断言，因此不能仅凭该单元格定位具体场景失败。其余 Rust/Fortran/COBOL/Ruby/Elixir/Erlang/C++/PHP/C# 场景仍为 `unsupported`；报告会显式列出，而不是删除这些语言。
 
 ## 运行
 
@@ -55,10 +55,10 @@ cd language/java; mvn -q -DskipTests test-compile; cd ../..
 cmake -S language/cpp -B language/cpp/build
 cmake --build language/cpp/build
 python scripts/behavior_lab.py --strict --timeout 300
-python scripts/behavior_lab.py --strict --timeout 600 --languages go,python,typescript,java,rust,fortran,cobol,ruby,elixir,erlang,cpp
+python scripts/behavior_lab.py --strict --timeout 600 --languages go,python,typescript,java,rust,fortran,cobol,ruby,elixir,erlang,cpp,php,csharp
 ```
 
-十一语言运行还需要 Rust 工具链，以及 `gfortran`、`gnucobol`、`g++`、CMake、Ninja、Ruby 和 Elixir 1.20.4/Erlang OTP 29；Fortran 会构建 pinned RE2 bridge。Fortran/COBOL/Erlang/C++ 原生套件、Ruby 测试运行器和 Elixir `mix run` 套件在一次报告内缓存，各执行一次。`scripts/cpp_behavior_suite.py` 会在调用 `ctest` 前把 C++ 编译器运行时目录加入 `PATH`。
+十三语言运行还需要 Rust 工具链，以及 `gfortran`、`gnucobol`、`g++`、CMake、Ninja、Ruby、Elixir 1.20.4/Erlang OTP 29、PHP 8.4 和 .NET 8 SDK；Fortran 会构建 pinned RE2 bridge。Fortran/COBOL/Erlang/C++/PHP/C# 原生套件、Ruby 测试运行器和 Elixir `mix run` 套件在一次报告内缓存，各执行一次。`scripts/cpp_behavior_suite.py` 会在调用 `ctest` 前把 C++ 编译器运行时目录加入 `PATH`。
 
 - `--strict`：对四种核心语言，只要出现 `failed`、`skipped`、`not_run` 或 `unsupported` 单元格就失败；扩展语言的缺口保留为 `unsupported`。
 - `--languages go,python`：只运行指定语言。
@@ -75,13 +75,13 @@ python scripts/behavior_lab.py --strict --timeout 600 --languages go,python,type
 
 ## 当前证据
 
-2026-10-31 的四语言十九场景本地运行通过了全部 76 个单元格。十一语言本地运行通过 102 个单元格，另有 107 个显式 `unsupported`，无失败。commit `645c4dd` 上的 clean-SHA Linux CI 运行通过十一语言集合：102 passed、107 个显式 unsupported、无失败；引用行为报告作为证据时，应使用该 [behavior job](https://github.com/axisvela/praxo-core/actions/runs/41187763142/job/124498054205) 及其 artifact。
+2026-10-31 的四语言十九场景本地运行通过了全部 76 个单元格。十三语言本地运行通过 110 个单元格，另有 137 个显式 `unsupported`，无失败。commit `645c4dd` 上的 clean-SHA Linux CI 运行通过十一语言集合：102 passed、107 个显式 unsupported、无失败；新增 PHP 和 C# 扩展套件的结果以 behavior workflow artifact 为准。
 
 ## 限制
 
 - 只覆盖十九个选定场景，不覆盖完整 agent 或契约对齐。
 - Go 和 Python 使用场景级测试；TypeScript 使用 `node --test` 名称过滤；部分 Java self-test 覆盖多个场景。
-- Rust 对部分场景有场景级测试；Fortran、COBOL、Ruby、Elixir、Erlang、C++ 使用原生套件覆盖，不是场景隔离断言。
+- Rust 对部分场景有场景级测试；Fortran、COBOL、Ruby、Elixir、Erlang、C++、PHP、C# 使用原生套件覆盖，不是场景隔离断言。
 - 并行场景使用确定性 barrier，不是吞吐或压力测试。SSE 测试使用本地 fixture，不调用 provider。
 - 不覆盖 provider、模型、网络、sandbox、HITL、持久 checkpoint 或效果恢复场景。
 - 报告通过不等于安全审查或生产认证。

@@ -4,8 +4,8 @@
 
 The behavior lab runs named agent scenarios in Go, Python, TypeScript, and Java
 and writes one comparison report. Rust, Fortran, COBOL, Ruby, Elixir, Erlang,
-and C++ are extended languages with narrower scenario or native-suite coverage.
-It answers a
+C++, PHP, and C# are extended languages with narrower scenario or native-suite
+coverage. It answers a
 narrower question than the [compatibility lab](compatibility-lab.md): do the
 implementations make the same authorization, lifecycle, cancellation,
 validation, call-limit, parallel-tool execution, run isolation, PII,
@@ -47,20 +47,20 @@ instead of treating group coverage as scenario-level evidence.
 
 ## Extended Coverage
 
-| Scenario | Rust | Fortran | COBOL | Ruby | Elixir | Erlang | C++ |
-| --- | --- | --- | --- | --- | --- | --- | --- |
-| `schema-number-unicode` | scenario | unsupported | unsupported | unsupported | unsupported | unsupported | unsupported |
-| `call-limit` | scenario | native suite | native suite | native suite | native suite | native suite | native suite |
-| `pii-tool-history` | scenario | native suite | native suite | unsupported | native suite | native suite | native suite |
-| `checkpoint-content` | scenario | native suite | native suite | native suite | native suite | native suite | native suite |
-| `capacity-failclosed` | scenario | native suite | native suite | unsupported | unsupported | unsupported | native suite |
-| `run-state-isolation` | scenario | unsupported | unsupported | unsupported | unsupported | unsupported | unsupported |
+| Scenario | Rust | Fortran | COBOL | Ruby | Elixir | Erlang | C++ | PHP | C# |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| `schema-number-unicode` | scenario | unsupported | unsupported | unsupported | unsupported | unsupported | unsupported | unsupported | unsupported |
+| `call-limit` | scenario | native suite | native suite | native suite | native suite | native suite | native suite | native suite | native suite |
+| `pii-tool-history` | scenario | native suite | native suite | unsupported | native suite | native suite | native suite | native suite | native suite |
+| `checkpoint-content` | scenario | native suite | native suite | native suite | native suite | native suite | native suite | native suite | native suite |
+| `capacity-failclosed` | scenario | native suite | native suite | unsupported | unsupported | unsupported | native suite | native suite | native suite |
+| `run-state-isolation` | scenario | unsupported | unsupported | unsupported | unsupported | unsupported | unsupported | unsupported | unsupported |
 
 `native suite` means the implementation's full native test executable passed.
 It is not isolated to the named scenario, so a failure cannot be attributed from
-this cell alone. Other Rust, Fortran, COBOL, Ruby, Elixir, Erlang, and C++
-scenarios remain `unsupported`. The report shows those cells explicitly instead
-of dropping the languages.
+this cell alone. Other Rust, Fortran, COBOL, Ruby, Elixir, Erlang, C++, PHP, and
+C# scenarios remain `unsupported`. The report shows those cells explicitly
+instead of dropping the languages.
 
 ## Run
 
@@ -73,15 +73,16 @@ cd language/java; mvn -q -DskipTests test-compile; cd ../..
 cmake -S language/cpp -B language/cpp/build
 cmake --build language/cpp/build
 python scripts/behavior_lab.py --strict --timeout 300
-python scripts/behavior_lab.py --strict --timeout 600 --languages go,python,typescript,java,rust,fortran,cobol,ruby,elixir,erlang,cpp
+python scripts/behavior_lab.py --strict --timeout 600 --languages go,python,typescript,java,rust,fortran,cobol,ruby,elixir,erlang,cpp,php,csharp
 ```
 
-The eleven-language run also needs a Rust toolchain plus `gfortran`, `gnucobol`,
-`g++`, CMake, and Ninja; Ruby; and Elixir 1.20.4 on Erlang/OTP 29. Fortran
-builds its pinned RE2 bridge. The native Fortran/COBOL/Erlang/C++ suite
-commands, Ruby test runner, and Elixir `mix run` suite are cached within one
-report, so each runs once. `scripts/cpp_behavior_suite.py` adds the C++ compiler
-runtime directory to `PATH` before invoking `ctest`.
+The thirteen-language run also needs a Rust toolchain plus `gfortran`, `gnucobol`,
+`g++`, CMake, and Ninja; Ruby; Elixir 1.20.4 on Erlang/OTP 29; PHP 8.4; and the
+.NET 8 SDK. Fortran builds its pinned RE2 bridge. The native
+Fortran/COBOL/Erlang/C++/PHP/C# suite commands, Ruby test runner, and Elixir
+`mix run` suite are cached within one report, so each runs once.
+`scripts/cpp_behavior_suite.py` adds the C++ compiler runtime directory to
+`PATH` before invoking `ctest`.
 
 - `--strict` fails on `failed`, `skipped`, `not_run`, and unsupported cells in
   the four core languages. Extended-language holes remain `unsupported`.
@@ -104,11 +105,11 @@ overwritten; `latest.json` is only a convenience pointer.
 ## Current Evidence
 
 The four-language local nineteen-scenario run on 2026-10-31 passed all 76
-cells. The eleven-language local run passed 102 cells with 107 explicit
+cells. The thirteen-language local run passed 110 cells with 137 explicit
 `unsupported` cells and no failures. The clean-SHA Linux CI run on commit
 `645c4dd` passed the eleven-language set with 102 passed, 107 explicitly
-unsupported, and no failures; use that [behavior job](https://github.com/axisvela/praxo-core/actions/runs/41187763142/job/124498054205)
-and its artifact when citing the report as evidence.
+unsupported, and no failures; the PHP and C# extended-suite results are recorded
+by the behavior workflow artifact for the commit that adds them.
 
 ## Limits
 
@@ -116,8 +117,8 @@ and its artifact when citing the report as evidence.
 - Go and Python use scenario-level tests; TypeScript uses `node --test` name
   filters; some Java self-tests cover more than one scenario.
 - Rust has scenario-level tests for selected rows. Fortran, COBOL, Ruby,
-  Elixir, Erlang, and C++ use native-suite coverage, not scenario-isolated
-  assertions.
+  Elixir, Erlang, C++, PHP, and C# use native-suite coverage, not
+  scenario-isolated assertions.
 - The parallel scenario uses deterministic barriers; it is not a throughput or
   stress test. SSE tests use local fixtures, not a provider.
 - No provider, model, network, sandbox, HITL, checkpoint persistence, or

@@ -20,7 +20,17 @@ ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_OUTPUT = ROOT / "build" / "behavior-lab"
 SCHEMA = "praxo-behavior-lab-1"
 CORE_LANGUAGES = ("go", "python", "typescript", "java")
-EXTENDED_LANGUAGES = ("rust", "fortran", "cobol", "ruby", "elixir", "erlang", "cpp")
+EXTENDED_LANGUAGES = (
+    "rust",
+    "fortran",
+    "cobol",
+    "ruby",
+    "elixir",
+    "erlang",
+    "cpp",
+    "php",
+    "csharp",
+)
 LANGUAGES = (*CORE_LANGUAGES, *EXTENDED_LANGUAGES)
 DEFAULT_LANGUAGES = CORE_LANGUAGES
 LANGUAGE_NAMES = {
@@ -35,6 +45,8 @@ LANGUAGE_NAMES = {
     "elixir": "Elixir",
     "erlang": "Erlang",
     "cpp": "C++",
+    "php": "PHP",
+    "csharp": "C#",
 }
 
 
@@ -126,6 +138,22 @@ def cpp_suite() -> Command:
     )
 
 
+def php_suite() -> Command:
+    return Command(
+        "php language/php/tests/run.php",
+        ("php", "language/php/tests/run.php"),
+        ROOT,
+    )
+
+
+def csharp_suite() -> Command:
+    return Command(
+        "dotnet run --project language/csharp/Praxo.Tests",
+        ("dotnet", "run", "--project", "language/csharp/Praxo.Tests"),
+        ROOT,
+    )
+
+
 def scenarios() -> tuple[Scenario, ...]:
     auth = java_test("AgentAuthorizationSelfTest")
     lifecycle = java_test("AgentLifecycleSelfTest")
@@ -146,6 +174,8 @@ def scenarios() -> tuple[Scenario, ...]:
     ruby = ruby_suite()
     elixir = elixir_suite()
     cpp = cpp_suite()
+    php = php_suite()
+    csharp = csharp_suite()
     return (
         Scenario(
             "final-arguments",
@@ -395,6 +425,8 @@ def scenarios() -> tuple[Scenario, ...]:
                 "elixir": (elixir,),
                 "erlang": (erlang,),
                 "cpp": (cpp,),
+                "php": (php,),
+                "csharp": (csharp,),
             },
             {
                 "go": "scenario",
@@ -408,6 +440,8 @@ def scenarios() -> tuple[Scenario, ...]:
                 "elixir": "suite",
                 "erlang": "suite",
                 "cpp": "suite",
+                "php": "suite",
+                "csharp": "suite",
             },
         ),
         Scenario(
@@ -436,6 +470,8 @@ def scenarios() -> tuple[Scenario, ...]:
                 "elixir": (elixir,),
                 "erlang": (erlang,),
                 "cpp": (cpp,),
+                "php": (php,),
+                "csharp": (csharp,),
             },
             {
                 "go": "scenario",
@@ -448,6 +484,8 @@ def scenarios() -> tuple[Scenario, ...]:
                 "elixir": "suite",
                 "erlang": "suite",
                 "cpp": "suite",
+                "php": "suite",
+                "csharp": "suite",
             },
         ),
         Scenario(
@@ -474,6 +512,8 @@ def scenarios() -> tuple[Scenario, ...]:
                 "elixir": (elixir,),
                 "erlang": (erlang,),
                 "cpp": (cpp,),
+                "php": (php,),
+                "csharp": (csharp,),
             },
             {
                 "go": "scenario",
@@ -487,6 +527,8 @@ def scenarios() -> tuple[Scenario, ...]:
                 "elixir": "suite",
                 "erlang": "suite",
                 "cpp": "suite",
+                "php": "suite",
+                "csharp": "suite",
             },
         ),
         Scenario(
@@ -511,6 +553,8 @@ def scenarios() -> tuple[Scenario, ...]:
                 "fortran": (fortran,),
                 "cobol": (cobol,),
                 "cpp": (cpp,),
+                "php": (php,),
+                "csharp": (csharp,),
             },
             {
                 "go": "scenario",
@@ -521,6 +565,8 @@ def scenarios() -> tuple[Scenario, ...]:
                 "fortran": "suite",
                 "cobol": "suite",
                 "cpp": "suite",
+                "php": "suite",
+                "csharp": "suite",
             },
         ),
         Scenario(

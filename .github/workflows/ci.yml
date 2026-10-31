@@ -709,6 +709,12 @@ jobs:
           elixir-version: "1.20.4"
           install-hex: false
           install-rebar: false
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.4"
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "8.0.x"
       - run: sudo apt-get update
       - run: sudo apt-get install -y gfortran gnucobol g++ cmake ninja-build
       - run: python -m unittest discover -s scripts -p "test_behavior_lab.py" -v
@@ -720,7 +726,7 @@ jobs:
         working-directory: language/java
       - run: cmake -S language/cpp -B language/cpp/build
       - run: cmake --build language/cpp/build
-      - run: python scripts/behavior_lab.py --strict --timeout 600 --languages go,python,typescript,java,rust,fortran,cobol,ruby,elixir,erlang,cpp
+      - run: python scripts/behavior_lab.py --strict --timeout 600 --languages go,python,typescript,java,rust,fortran,cobol,ruby,elixir,erlang,cpp,php,csharp
       - uses: actions/upload-artifact@v4
         if: always()
         with:
