@@ -703,6 +703,12 @@ jobs:
           java-version: "21"
           cache: maven
       - uses: dtolnay/rust-toolchain@stable
+      - uses: erlef/setup-beam@v1
+        with:
+          otp-version: "29"
+          elixir-version: "1.20.4"
+          install-hex: false
+          install-rebar: false
       - run: sudo apt-get update
       - run: sudo apt-get install -y gfortran gnucobol g++ cmake ninja-build
       - run: python -m unittest discover -s scripts -p "test_behavior_lab.py" -v
@@ -712,7 +718,7 @@ jobs:
         working-directory: language/typescript
       - run: mvn -q -DskipTests test-compile
         working-directory: language/java
-      - run: python scripts/behavior_lab.py --strict --timeout 600 --languages go,python,typescript,java,rust,fortran,cobol
+      - run: python scripts/behavior_lab.py --strict --timeout 600 --languages go,python,typescript,java,rust,fortran,cobol,ruby,elixir,erlang
       - uses: actions/upload-artifact@v4
         if: always()
         with:

@@ -20,7 +20,7 @@ ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_OUTPUT = ROOT / "build" / "behavior-lab"
 SCHEMA = "praxo-behavior-lab-1"
 CORE_LANGUAGES = ("go", "python", "typescript", "java")
-EXTENDED_LANGUAGES = ("rust", "fortran", "cobol")
+EXTENDED_LANGUAGES = ("rust", "fortran", "cobol", "ruby", "elixir", "erlang")
 LANGUAGES = (*CORE_LANGUAGES, *EXTENDED_LANGUAGES)
 DEFAULT_LANGUAGES = CORE_LANGUAGES
 LANGUAGE_NAMES = {
@@ -31,6 +31,9 @@ LANGUAGE_NAMES = {
     "rust": "Rust",
     "fortran": "Fortran",
     "cobol": "COBOL",
+    "ruby": "Ruby",
+    "elixir": "Elixir",
+    "erlang": "Erlang",
 }
 
 
@@ -98,6 +101,22 @@ def native_suite(language: str) -> Command:
     )
 
 
+def ruby_suite() -> Command:
+    return Command(
+        "ruby language/ruby/tests/run.rb",
+        ("ruby", "language/ruby/tests/run.rb"),
+        ROOT,
+    )
+
+
+def elixir_suite() -> Command:
+    return Command(
+        "mix run tests/run_tests.exs",
+        ("mix", "run", "tests/run_tests.exs"),
+        ROOT / "language" / "elixir",
+    )
+
+
 def scenarios() -> tuple[Scenario, ...]:
     auth = java_test("AgentAuthorizationSelfTest")
     lifecycle = java_test("AgentLifecycleSelfTest")
@@ -114,6 +133,9 @@ def scenarios() -> tuple[Scenario, ...]:
     )
     fortran = native_suite("fortran")
     cobol = native_suite("cobol")
+    erlang = native_suite("erlang")
+    ruby = ruby_suite()
+    elixir = elixir_suite()
     return (
         Scenario(
             "final-arguments",
@@ -359,6 +381,9 @@ def scenarios() -> tuple[Scenario, ...]:
                 "rust": (rust_test("call_limit_model_and_tool_fail_closed"),),
                 "fortran": (fortran,),
                 "cobol": (cobol,),
+                "ruby": (ruby,),
+                "elixir": (elixir,),
+                "erlang": (erlang,),
             },
             {
                 "go": "scenario",
@@ -368,6 +393,9 @@ def scenarios() -> tuple[Scenario, ...]:
                 "rust": "scenario",
                 "fortran": "suite",
                 "cobol": "suite",
+                "ruby": "suite",
+                "elixir": "suite",
+                "erlang": "suite",
             },
         ),
         Scenario(
@@ -393,6 +421,8 @@ def scenarios() -> tuple[Scenario, ...]:
                 "rust": (rust_test("pii_redacts_tool_call_history"),),
                 "fortran": (fortran,),
                 "cobol": (cobol,),
+                "elixir": (elixir,),
+                "erlang": (erlang,),
             },
             {
                 "go": "scenario",
@@ -402,6 +432,8 @@ def scenarios() -> tuple[Scenario, ...]:
                 "rust": "scenario",
                 "fortran": "suite",
                 "cobol": "suite",
+                "elixir": "suite",
+                "erlang": "suite",
             },
         ),
         Scenario(
@@ -424,6 +456,9 @@ def scenarios() -> tuple[Scenario, ...]:
                 "rust": (rust_test("checkpoint_round_trips"),),
                 "fortran": (fortran,),
                 "cobol": (cobol,),
+                "ruby": (ruby,),
+                "elixir": (elixir,),
+                "erlang": (erlang,),
             },
             {
                 "go": "scenario",
@@ -433,6 +468,9 @@ def scenarios() -> tuple[Scenario, ...]:
                 "rust": "scenario",
                 "fortran": "suite",
                 "cobol": "suite",
+                "ruby": "suite",
+                "elixir": "suite",
+                "erlang": "suite",
             },
         ),
         Scenario(
