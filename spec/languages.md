@@ -1,4 +1,4 @@
-# Language Support Matrix
+﻿# Language Support Matrix
 
 **Contract:** `SPEC_VERSION` `0.2.0`
 **Policy:** [Language implementation policy](../docs/contributing/language-policy.md)
@@ -53,7 +53,7 @@ for real providers, platforms, and production behavior is reported separately.
 | Language | Tier | Status | Tag | Maturity | Notes |
 | --- | --- | --- | --- | --- | --- |
 | Go | Core (reference) | released | `v2.5.2` | reference | Reference implementation |
-| Python | Core | released | `python/v0.2.3` | complete | 11 vectors, OpenAI adapter, PyPI `praxo-core==0.2.3` |
+| Python | Core | released | `python/v0.2.4` | complete | 11 vectors, OpenAI adapter, PyPI `praxo-core==0.2.4` |
 | TypeScript | Core | released | `typescript/v0.1.3` | complete | 11 vectors, OpenAI adapter; npm `@axisvela/praxo-core@0.1.3` with provenance; current main has unreleased fixes |
 | Java | Core | released | `java/v0.3.0` | complete | 11 vectors, OpenAI adapter, API snapshot; Maven Central `com.axisvela:praxo-core==0.3.0` |
 | Rust | Core | released | `rust/v0.1.4` | complete | 11 vectors, native tests, `tool.Gateway`, `jsonschema.Schema`, compiler-derived API/parity gate; crates.io `praxo-core==0.1.4` |

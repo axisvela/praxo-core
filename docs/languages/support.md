@@ -1,4 +1,4 @@
-# Language Implementation Support
+﻿# Language Implementation Support
 
 Go is the reference implementation. The normative contract, implementation
 scope, source tags, and CI coverage are recorded in the
@@ -64,7 +64,7 @@ a merged implementation PR as a support commitment.
 - Each Core implementation declares its supported `SPEC_VERSION`.
 - A source release tag does not establish package-registry availability.
 - Use the installation or source-build instructions on the language page.
-- Python publishes `praxo-core==0.2.3` on PyPI. TypeScript publishes
+- Python publishes `praxo-core==0.2.4` on PyPI. TypeScript publishes
   `@axisvela/praxo-core@0.1.3` on npm from source tag `typescript/v0.1.3`;
   the package was approved on 2026-10-31 and has npm provenance. Current main
   has newer parallel-tool, SSE, and history fixes that are not part of `0.1.3`.

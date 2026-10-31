@@ -93,9 +93,10 @@
   current source, and `0.1.5` API snapshots. This supersedes the staged but
   unapproved `0.1.4` package and is published from source tag
   `typescript/v0.1.5`.
-- Prepared Python `praxo-core==0.2.4` with an agent-framework-first README and
-  package description, plus `0.2.4` API snapshots. The package is published
-  from source tag `python/v0.2.4`.
+- Published Python `praxo-core==0.2.4` on PyPI from source tag
+  `python/v0.2.4`, with an agent-framework-first README and package
+  description, plus `0.2.4` API snapshots. A clean venv install reported
+  version `0.2.4` and returned a minimal agent answer.
 - Published Rust `praxo-core@0.1.2` to crates.io from source tag
   `rust/v0.1.2`. A clean temporary project installed the crate and reported
   `SDK_VERSION` `0.1.2` and `SPEC_VERSION` `0.2.0`. That release did not include

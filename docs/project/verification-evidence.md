@@ -1,4 +1,4 @@
-# Verification Evidence
+﻿# Verification Evidence
 
 This page indexes the verification claims PRAXO-CORE can support today. It is a
 public summary, not a production certificate, penetration test, or claim that
@@ -28,7 +28,7 @@ evidence.
 | --- | --- | --- | --- |
 | Go Core | Tests, vet, build, API snapshot, race, fuzz and module-security CI; current main and release workflow checks; published `v2.5.2` installed from a clean external module without `replace` | Contract/unit + CI + local integration | JSON Schema and plugin manifest fuzz runs have hit a 10s deadline and passed on rerun; slow-input risk remains under investigation; consumer install covers one platform and a minimal agent |
 | Cross-language conformance | Python, TypeScript, Java, Rust, Fortran, and COBOL compatibility lab runs deterministic vector, API snapshot/signature, and parity checks; Linux CI and local runs are recorded | Contract/unit + CI | Six languages only; COBOL was verified locally with GnuCOBOL and on Linux CI; no provider, HITL, checkpoint, sandbox, or production evidence; one platform and toolchain set per run; non-author reproduction pending |
-| Python published package | `praxo-core==0.2.3` installed from PyPI into a clean venv; a minimal agent invoked a tool, returned the final answer, and reported version `0.2.3` | Local install smoke | One platform; same-machine clean venv, not an independent or non-author consumer; no provider or production evidence |
+| Python published package | `praxo-core==0.2.4` installed from PyPI into a clean venv; the package reported version `0.2.4` and a minimal agent returned the final answer | Local install smoke | One platform; same-machine clean venv, not an independent or non-author consumer; no provider or production evidence |
 | TypeScript published package | `@axisvela/praxo-core@0.1.3` installed from npm into a clean temporary project; the package reported version `0.1.3`, exported `Agent` and `Registry`, and reported `SPEC_VERSION` `0.2.0` | Local install smoke | One platform; same-machine temporary project, not an independent or non-author consumer; import smoke only, no provider or production evidence |
 | Rust published crate | `praxo-core==0.1.4` installed from crates.io into a clean temporary project; the program reported `SDK_VERSION` `0.1.4` and `SPEC_VERSION` `0.2.0` | Local install smoke | One platform; same-machine temporary project, not an independent or non-author consumer; version and import smoke only, no provider or production evidence |
 | Dart published package | `praxo_core==0.1.1` installed from pub.dev into a clean project; the program imported `package:praxo_core/praxo_core.dart` and returned `hello` from a minimal agent | Local install smoke | One platform; same-machine project, not an independent or non-author consumer; minimal agent only, no provider or production evidence |
@@ -53,7 +53,7 @@ evidence.
 
 - [Compatibility lab](../languages/compatibility-lab.md) and the [CI compatibility job](https://github.com/axisvela/praxo-core/actions/runs/41000572198/job/123883752839)
 - [Behavior lab](../languages/behavior-lab.md) and the [CI behavior job](https://github.com/axisvela/praxo-core/actions/runs/41191022045/job/124507663977)
-- [praxo-core 0.2.3 on PyPI](https://pypi.org/project/praxo-core/0.2.3/)
+- [praxo-core 0.2.4 on PyPI](https://pypi.org/project/praxo-core/0.2.4/)
 - [@axisvela/praxo-core 0.1.3 on npm](https://www.npmjs.com/package/@axisvela/praxo-core/v/0.1.3)
 - [praxo-core 0.1.4 on crates.io](https://crates.io/crates/praxo-core/0.1.4)
 - [praxo_core 0.1.1 on pub.dev](https://pub.dev/packages/praxo_core)
