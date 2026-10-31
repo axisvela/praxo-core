@@ -81,6 +81,7 @@ new_agent_options(Model) ->
         call_limit => undefined,
         events => undefined,
         system_prompt => <<>>,
+        context => undefined,
         max_steps => 8,
         max_tokens => 0,
         session_id => <<"s1">>
@@ -102,7 +103,22 @@ run_agent(Options0, Session, Prompt) ->
             undefined -> undefined;
             Value -> Value#{models => 0, tools => 0}
         end,
-    loop(Options1, Messages, RunId, 1, MaxSteps, praxo_models:usage(), Limit).
+    case compact(Options1, Messages) of
+        {ok, Compacted} ->
+            loop(Options1, Compacted, RunId, 1, MaxSteps, praxo_models:usage(), Limit);
+        {error, Code} ->
+            fail(Options1, RunId, Code)
+    end.
+
+compact(Options, Messages) ->
+    case maps:get(context, Options, undefined) of
+        undefined -> {ok, Messages};
+        Budget ->
+            case praxo_runtime:compact_context(Budget, Messages) of
+                {Compacted, true} -> {ok, Compacted};
+                {_Compacted, false} -> {error, <<"AGENT_CONTEXT_BUDGET">>}
+            end
+    end.
 
 loop(Options, _Messages, RunId, Step, MaxSteps, _Total, _Limit) when Step > MaxSteps ->
     fail(Options, RunId, <<"AGENT_MAX_STEPS">>);

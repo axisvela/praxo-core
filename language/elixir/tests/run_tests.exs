@@ -33,6 +33,7 @@ defmodule Praxo.Tests do
     test_agent_pii()
     test_agent_structured()
     test_agent_limits()
+    test_agent_capacity()
     IO.puts("elixir tests passed")
   end
 
@@ -406,6 +407,15 @@ defmodule Praxo.Tests do
     failed = %{Agent.new_agent_options(Agent.failing_model()) | call_limit: Middleware.call_limit(1, 0)}
     {:error, "MODEL_ERROR", failed} = Agent.run_agent(failed, Models.session("s1"), "x")
     {:error, "MODEL_ERROR", _} = Agent.run_agent(failed, Models.session("s1"), "x")
+  end
+
+  defp test_agent_capacity do
+    options = %{Agent.new_agent_options(Agent.static_model("done")) |
+      system_prompt: String.duplicate("x", 1000),
+      context: Models.context_budget(10, 0),
+      events: Sink.new()}
+    {:error, "AGENT_CONTEXT_BUDGET", returned} = Agent.run_agent(options, Models.session("s1"), "go")
+    check(returned.events.kinds == ["run.started", "run.failed"], "capacity fail-closed events")
   end
 end
 

@@ -25,6 +25,7 @@ run() ->
     test_agent_structured(),
     test_agent_limits(),
     test_run_state_isolation(),
+    test_agent_capacity(),
     io:format("erlang tests passed~n").
 
 check(true, _Message) -> ok;
@@ -604,3 +605,21 @@ test_run_state_isolation() ->
     {error, <<"AGENT_MODEL_CALL_LIMIT">>, _} =
         praxo_middleware:model_call(FirstUsed),
     check(maps:get(models, SecondUsed) == 1, <<"run state isolation">>).
+
+test_agent_capacity() ->
+    Options0 = praxo_agent:new_agent_options(praxo_agent:static_model(<<"done">>)),
+    Options = Options0#{
+        system_prompt => binary:copy(<<"x">>, 1000),
+        context => praxo_models:context_budget(10, 0),
+        events => praxo_sink:new()
+    },
+    {error, <<"AGENT_CONTEXT_BUDGET">>, Returned} = praxo_agent:run_agent(
+        Options,
+        praxo_models:session(<<"s1">>),
+        <<"go">>
+    ),
+    check(
+        praxo_sink:kinds(maps:get(events, Returned)) ==
+            [<<"run.started">>, <<"run.failed">>],
+        <<"capacity fail-closed events">>
+    ).

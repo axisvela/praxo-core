@@ -590,6 +590,8 @@ def scenarios() -> tuple[Scenario, ...]:
                 "csharp": (csharp,),
                 "lua": (lua,),
                 "ruby": (ruby,),
+                "elixir": (elixir,),
+                "erlang": (erlang,),
             },
             {
                 "go": "scenario",
@@ -604,6 +606,8 @@ def scenarios() -> tuple[Scenario, ...]:
                 "csharp": "suite",
                 "lua": "suite",
                 "ruby": "suite",
+                "elixir": "suite",
+                "erlang": "suite",
             },
         ),
         Scenario(

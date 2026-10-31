@@ -53,7 +53,7 @@ instead of treating group coverage as scenario-level evidence.
 | `call-limit` | scenario | native suite | native suite | native suite | native suite | native suite | native suite | native suite | native suite | native suite |
 | `pii-tool-history` | scenario | native suite | native suite | native suite | native suite | native suite | native suite | native suite | native suite | native suite |
 | `checkpoint-content` | scenario | native suite | native suite | native suite | native suite | native suite | native suite | native suite | native suite | native suite |
-| `capacity-failclosed` | scenario | native suite | native suite | native suite | unsupported | unsupported | native suite | native suite | native suite | native suite |
+| `capacity-failclosed` | scenario | native suite | native suite | native suite | native suite | native suite | native suite | native suite | native suite | native suite |
 | `run-state-isolation` | scenario | unsupported | unsupported | unsupported | native suite | native suite | unsupported | native suite | native suite | unsupported |
 
 `native suite` means the implementation's full native test executable passed.

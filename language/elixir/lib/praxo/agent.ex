@@ -15,13 +15,14 @@ defmodule Praxo.AgentOptions do
             call_limit: nil,
             events: nil,
             system_prompt: "",
+            context: nil,
             max_steps: 8,
             max_tokens: 0,
             session_id: "s1"
 end
 
 defmodule Praxo.Agent do
-  alias Praxo.{AgentOptions, Json, Middleware, Model, Models, Sink, Tool, ToolSpec, Usage}
+  alias Praxo.{AgentOptions, Json, Middleware, Model, Models, Runtime, Sink, Tool, ToolSpec, Usage}
 
   def new_tool(name, description, invoke \\ nil) do
     invoke = invoke || fn arguments -> arguments end
@@ -97,7 +98,20 @@ defmodule Praxo.Agent do
 
     max_steps = if options.max_steps > 0, do: options.max_steps, else: 8
     limit = if options.call_limit == nil, do: nil, else: %{options.call_limit | models: 0, tools: 0}
-    loop(options, messages, run_id, 1, max_steps, %Usage{}, limit)
+
+    case compact(options, messages) do
+      {:ok, messages} -> loop(options, messages, run_id, 1, max_steps, %Usage{}, limit)
+      {:error, code} -> fail(options, run_id, code)
+    end
+  end
+
+  defp compact(%AgentOptions{context: nil}, messages), do: {:ok, messages}
+
+  defp compact(%AgentOptions{context: budget}, messages) do
+    case Runtime.compact_context(budget, messages) do
+      {compacted, true} -> {:ok, compacted}
+      {_compacted, false} -> {:error, "AGENT_CONTEXT_BUDGET"}
+    end
   end
 
   defp loop(options, messages, run_id, step, max_steps, total, limit) do
