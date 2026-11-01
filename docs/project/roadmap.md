@@ -28,10 +28,11 @@ Behavior coverage is tracked separately from contract tier:
 | Extended | C, PHP, Fortran, COBOL, Ruby, Elixir, Erlang, C++, Lua | Scenario-by-scenario only with a named consumer and maintainer |
 | Optional | Other declared implementations | Outside the behavior program; contract conformance unchanged |
 
-The clean sixteen-language report has 152 passed, 152 unsupported, and no
-failures. R and C are wired; C# and PHP include the three lifecycle scenarios.
-Do not treat an unsupported cell as a failure or a pass, and do not add
-languages or scenarios solely to raise the count.
+The clean sixteen-language report has 205 passed, 99 unsupported, and no
+failures. All agent-capable languages and C pass nineteen scenarios; PHP passes
+eighteen because parallel tools are not portable. Do not treat an unsupported
+cell as a failure or a pass, and do not add languages or scenarios solely to
+raise the count.
 
 See the [governed execution design](../reference/governed-execution.md) for proposed
 boundaries and the [test evidence standard](../contributing/test-evidence.md) for

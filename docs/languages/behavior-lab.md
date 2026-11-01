@@ -24,8 +24,8 @@ Behavior tier is separate from contract tier. See the
 
 | Tier | Languages | Current status |
 | --- | --- | --- |
-| Agent-capable | Go, Python, TypeScript, Java, Rust, R, C# | Go/Python/TypeScript/Java 19/19; Rust 6/19; R 6/19; C# 13/19, all suite-level |
-| Extended | C, PHP, Fortran, COBOL, Ruby, Elixir, Erlang, C++, Lua | C 3/19; PHP 13/19; other wired languages 4-6/19; native-suite coverage for selected rows |
+| Agent-capable | Go, Python, TypeScript, Java, Rust, R, C# | 19/19 for every agent-capable implementation |
+| Extended | C, PHP, Fortran, COBOL, Ruby, Elixir, Erlang, C++, Lua | C 19/19; PHP 18/19 (parallel unsupported); other wired languages 4-6/19 |
 | Optional | Other declared implementations | Outside the current behavior program |
 
 R and C are now wired. C# and PHP include the three lifecycle scenarios, and R
@@ -136,10 +136,11 @@ overwritten; `latest.json` is only a convenience pointer.
 ## Current Evidence
 
 The Go/Python/TypeScript/Java local nineteen-scenario run on 2026-10-31 passed
-all 76 cells. The clean-SHA Linux CI run on commit `33ea6cb` passed the
-sixteen-language set with 152 passed, 152 explicitly unsupported, and no
-failures; use that [behavior job](https://github.com/axisvela/praxo-core/actions/runs/41266751248/job/124731030053)
-and its artifact when citing the report. R and C are included. The
+all 76 cells. The clean-SHA Linux CI run on commit `85a9d7b` passed the
+sixteen-language set with 205 passed, 99 explicitly unsupported, and no
+failures; use that [behavior job](https://github.com/axisvela/praxo-core/actions/runs/41281280345/job/124773548368)
+and its artifact when citing the report. All agent-capable languages and C are
+at 19/19; PHP is 18/19 because parallel tools are not portable. The
 [Behavior Lab Matrix](behavior-lab-matrix.md) lists every cell and each
 language's covered and unsupported scenarios.
 
@@ -148,10 +149,10 @@ language's covered and unsupported scenarios.
 - Nineteen selected scenarios, not full agent or contract parity.
 - Go and Python use scenario-level tests; TypeScript uses `node --test` name
   filters; some Java self-tests cover more than one scenario.
-- Rust has scenario-level tests for selected rows. Fortran, COBOL, Ruby,
-  Elixir, Erlang, C++, PHP, C#, Lua, R, and C use native-suite coverage, not
-  scenario-isolated assertions. C# and PHP now include lifecycle scenarios;
-  R and C cover only the rows their native suites assert.
+- All agent-capable languages and C pass all nineteen scenarios. PHP passes
+  eighteen; parallel tools are unsupported because PHP has no portable thread
+  model. Fortran, COBOL, Ruby, Elixir, Erlang, C++, and Lua use native-suite
+  coverage, not scenario-isolated assertions.
 - The parallel scenario uses deterministic barriers; it is not a throughput or
   stress test. SSE tests use local fixtures, not a provider.
 - No provider, model, network, sandbox, HITL, checkpoint persistence, or

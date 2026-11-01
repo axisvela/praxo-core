@@ -37,9 +37,9 @@ Bridge、Sample 描述运行时的接入方式，不证明其语言缺乏 Framew
 | Extended | C、PHP、Fortran、COBOL、Ruby、Elixir、Erlang、C++、Lua | 契约型或聚焦型实现；在有明确消费者和维护者的前提下逐场景推进行为覆盖 |
 | Optional | 其他已声明实现 | 不在当前行为实验计划内；契约一致性不变，行为工作需有明确消费者和维护者 |
 
-2026-11-01 的源码集覆盖十六个已接入语言：agent-capable 的 Go、Python、TypeScript、Java、Rust、R、C#，以及 extended 的 C、PHP、Fortran、COBOL、Ruby、Elixir、Erlang、C++、Lua。在 agent-capable 层级内，Go/Python/TypeScript/Java 通过全部十九个场景，Rust 和 R 通过六个，C# 有十三个场景的原生套件覆盖。扩展语言使用原生套件覆盖，没有场景测试的单元格保持 `unsupported`。逐单元格结果见[行为实验矩阵](behavior-lab-matrix.md)。
+2026-11-01 的源码集覆盖十六个已接入语言：agent-capable 的 Go、Python、TypeScript、Java、Rust、R、C#，以及 extended 的 C、PHP、Fortran、COBOL、Ruby、Elixir、Erlang、C++、Lua。所有 agent-capable 语言和 C 均通过十九个场景；PHP 通过十八个，并行工具因无便携线程模型而不支持。其余扩展语言使用原生套件覆盖，没有场景测试的单元格保持 `unsupported`。逐单元格结果见[行为实验矩阵](behavior-lab-matrix.md)。
 
-`33ea6cb` 上的 clean-SHA CI 运行为十六语言集报告了 152 passed、152 unsupported、无失败。矩阵由该报告生成。
+`85a9d7b` 上的 clean-SHA CI 运行为十六语言集报告了 205 passed、99 unsupported、无失败。矩阵由该报告生成。
 
 `unsupported` 是明确记录的缺口，既不是失败，也不是通过。不要从契约成熟度 `complete` 推断完整行为对齐。
 

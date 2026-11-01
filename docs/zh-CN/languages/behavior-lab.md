@@ -12,8 +12,8 @@
 
 | 层级 | 语言 | 当前状态 |
 | --- | --- | --- |
-| Agent-capable | Go、Python、TypeScript、Java、Rust、R、C# | Go/Python/TypeScript/Java 19/19；Rust 6/19；R 6/19；C# 13/19，均为套件级 |
-| Extended | C、PHP、Fortran、COBOL、Ruby、Elixir、Erlang、C++、Lua | C 3/19；PHP 13/19；其他已接入语言 4-6/19；部分行使用原生套件覆盖 |
+| Agent-capable | Go、Python、TypeScript、Java、Rust、R、C# | 每个 agent-capable 实现均为 19/19 |
+| Extended | C、PHP、Fortran、COBOL、Ruby、Elixir、Erlang、C++、Lua | C 19/19；PHP 18/19（并行工具不支持）；其他已接入语言 4-6/19 |
 | Optional | 其他已声明实现 | 不在当前行为计划内 |
 
 R 和 C 现已接入。C# 与 PHP 包含三个生命周期场景；R 和 C 对原生套件实际断言的场景提供覆盖。
@@ -98,13 +98,13 @@ cmake --build language/c/build
 
 ## 当前证据
 
-2026-10-31 的 Go/Python/TypeScript/Java 十九场景本地运行通过了全部 76 个单元格。commit `33ea6cb` 上的 clean-SHA Linux CI 运行通过十六语言集合：152 passed、152 个显式 unsupported、无失败；引用报告时应使用该 [behavior job](https://github.com/axisvela/praxo-core/actions/runs/41266751248/job/124731030053) 及其 artifact。R 和 C 已包含在内。[行为实验矩阵](behavior-lab-matrix.md) 列出每个单元格以及各语言的已覆盖和未覆盖场景。
+2026-10-31 的 Go/Python/TypeScript/Java 十九场景本地运行通过了全部 76 个单元格。commit `85a9d7b` 上的 clean-SHA Linux CI 运行通过十六语言集合：205 passed、99 个显式 unsupported、无失败；引用报告时应使用该 [behavior job](https://github.com/axisvela/praxo-core/actions/runs/41281280345/job/124773548368) 及其 artifact。所有 agent-capable 语言和 C 均为 19/19；PHP 为 18/19，因为并行工具不可移植。[行为实验矩阵](behavior-lab-matrix.md) 列出每个单元格以及各语言的已覆盖和未覆盖场景。
 
 ## 限制
 
 - 只覆盖十九个选定场景，不覆盖完整 agent 或契约对齐。
 - Go 和 Python 使用场景级测试；TypeScript 使用 `node --test` 名称过滤；部分 Java self-test 覆盖多个场景。
-- Rust 对部分场景有场景级测试；Fortran、COBOL、Ruby、Elixir、Erlang、C++、PHP、C#、Lua、R、C 使用原生套件覆盖，不是场景隔离断言。C# 与 PHP 已包含生命周期场景；R 和 C 只覆盖其原生套件实际断言的场景行。
+- 所有 agent-capable 语言和 C 均为 19/19；PHP 为 18/19，并行工具因无便携线程模型而不支持。Fortran、COBOL、Ruby、Elixir、Erlang、C++、Lua 使用原生套件覆盖，不是场景隔离断言。
 - 并行场景使用确定性 barrier，不是吞吐或压力测试。SSE 测试使用本地 fixture，不调用 provider。
 - 不覆盖 provider、模型、网络、sandbox、HITL、持久 checkpoint 或效果恢复场景。
 - 报告通过不等于安全审查或生产认证。

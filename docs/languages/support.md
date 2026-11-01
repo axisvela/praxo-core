@@ -48,13 +48,13 @@ Behavior Lab entirely.
 
 The 2026-11-01 source set covers sixteen wired languages: agent-capable Go,
 Python, TypeScript, Java, Rust, R, and C# plus the extended C, PHP, Fortran,
-COBOL, Ruby, Elixir, Erlang, C++, and Lua implementations. Within the
-agent-capable tier, Go/Python/TypeScript/Java pass all nineteen scenarios, Rust
-and R pass six, and C# has native-suite coverage for thirteen. Extended rows use
-native-suite coverage and stay `unsupported` where no scenario test exists. See
-the [Behavior Lab matrix](behavior-lab-matrix.md) for every cell.
+COBOL, Ruby, Elixir, Erlang, C++, and Lua implementations. All agent-capable
+languages and C pass all nineteen scenarios. PHP passes eighteen; parallel tools
+are unsupported because PHP has no portable thread model. The remaining extended
+rows use native-suite coverage and stay `unsupported` where no scenario test
+exists. See the [Behavior Lab matrix](behavior-lab-matrix.md) for every cell.
 
-The clean-SHA CI run at `33ea6cb` reported 152 passed, 152 unsupported, and no
+The clean-SHA CI run at `85a9d7b` reported 205 passed, 99 unsupported, and no
 failures for the sixteen-language set. The matrix is generated from that
 report.
 
