@@ -1,10 +1,14 @@
 #include <algorithm>
 #include <cassert>
 #include <chrono>
+#include <condition_variable>
 #include <filesystem>
+#include <future>
 #include <iostream>
 #include <memory>
+#include <mutex>
 #include <stdexcept>
+#include <thread>
 
 #include "praxo/agent.hpp"
 #include "praxo/errors.hpp"
@@ -13,6 +17,7 @@
 #include "praxo/models.hpp"
 #include "praxo/plugin.hpp"
 #include "praxo/runtime.hpp"
+#include "praxo/sse.hpp"
 #include "praxo/toolcall.hpp"
 
 using namespace praxo;
@@ -55,6 +60,58 @@ public:
         (void)request;
         throw PraxoError("RUN_FAILED", "run failed");
     }
+};
+
+class RecordingSink : public EventSink {
+public:
+    std::vector<std::string> types;
+    void emit(const Event& event) override { types.push_back(event.type); }
+};
+
+class CancelModel : public Model {
+public:
+    explicit CancelModel(bool& flag) : flag_(flag) {}
+    Response generate(const Request& request) override {
+        (void)request;
+        flag_ = true;
+        Response response;
+        response.message = assistant_message("done");
+        return response;
+    }
+
+private:
+    bool& flag_;
+};
+
+class ParallelModel : public Model {
+public:
+    std::vector<std::string> order;
+
+    Response generate(const Request& request) override {
+        Response response;
+        if (!called_) {
+            called_ = true;
+            response.message = assistant_message("");
+            ToolCall a;
+            a.id = "c1";
+            a.name = "a";
+            ToolCall b;
+            b.id = "c2";
+            b.name = "b";
+            response.message.tool_calls = {a, b};
+            return response;
+        }
+        for (const auto& message : request.messages) {
+            if (message.role == TOOL && message.tool_id) {
+                order.push_back(*message.tool_id);
+            }
+        }
+        response.message = assistant_message("done");
+        return response;
+    }
+
+private:
+    bool called_ = false;
 };
 
 }  // namespace
@@ -372,6 +429,163 @@ int main() {
         }
         check(caught && cleanup_calls == std::vector<std::string>{
             "first.after", "second.after"}, "cpp cleanup fail closed");
+
+        check(parse_sse_stream(
+            "data: {\"choices\":[{\"delta\":{\"content\":\"hi\"}}]}\n\n"
+            "data: [DONE]\n\n") == "hi", "cpp sse complete");
+        caught = false;
+        try {
+            (void)parse_sse_stream(
+                "data: {\"choices\":[{\"delta\":{\"content\":\"hi\"}}]}\n\n");
+        } catch (const PraxoError& error) {
+            caught = error.code() == "MODEL_STREAM";
+        }
+        check(caught, "cpp sse truncated");
+        caught = false;
+        try {
+            (void)parse_sse_stream("data: {\"choices\"\n\n");
+        } catch (const PraxoError& error) {
+            caught = error.code() == "MODEL_STREAM";
+        }
+        check(caught, "cpp sse half packet");
+
+        CallLimit isolated(1, 0);
+        isolated.before_model("a");
+        caught = false;
+        try {
+            isolated.before_model("a");
+        } catch (const PraxoError& error) {
+            caught = error.code() == "AGENT_MODEL_CALL_LIMIT";
+        }
+        check(caught, "cpp call limit run a");
+        isolated.before_model("b");
+        check(true, "cpp call limit isolated run");
+
+        bool cancel_flag = false;
+        std::vector<std::string> cancel_after;
+        AgentOptions cancel_options(std::make_shared<CancelModel>(cancel_flag));
+        cancel_options.cancellation = [&] { return cancel_flag; };
+        Middleware cancel_middleware;
+        cancel_middleware.after_run = [&](const RunResult*, const std::string*) {
+            cancel_after.push_back("after");
+        };
+        cancel_options.middleware.push_back(cancel_middleware);
+        RecordingSink cancel_sink;
+        cancel_options.events = &cancel_sink;
+        caught = false;
+        try {
+            (void)run_agent(std::move(cancel_options), Session{"s1", {}}, "go");
+        } catch (const PraxoError& error) {
+            caught = error.code() == "AGENT_CANCELLED";
+        }
+        check(caught && cancel_after.size() == 1,
+              "cpp model cancellation cleanup");
+        check(cancel_sink.types == std::vector<std::string>{
+            "run.started", "run.failed"}, "cpp model cancellation events");
+
+        bool tool_cancel_flag = false;
+        std::vector<std::string> tool_cancel_after;
+        Json tool_cancel_steps = Json::parse(
+            R"([{"content":"","toolCalls":[{"id":"c1","name":"wait","arguments":{}}]},{"content":"done"}])");
+        AgentOptions tool_cancel_options(
+            std::make_shared<TestModel>(tool_cancel_steps));
+        auto tool_cancel_registry = std::make_shared<ToolRegistry>();
+        tool_cancel_registry->register_tool(std::make_shared<FuncTool>(
+            "wait", "wait", [&](const Json&) {
+                tool_cancel_flag = true;
+                return Json("ok");
+            }));
+        tool_cancel_options.tools = tool_cancel_registry;
+        tool_cancel_options.cancellation = [&] { return tool_cancel_flag; };
+        Middleware tool_cancel_middleware;
+        tool_cancel_middleware.after_run = [&](const RunResult*,
+                                               const std::string*) {
+            tool_cancel_after.push_back("after");
+        };
+        tool_cancel_options.middleware.push_back(tool_cancel_middleware);
+        RecordingSink tool_cancel_sink;
+        tool_cancel_options.events = &tool_cancel_sink;
+        caught = false;
+        try {
+            (void)run_agent(std::move(tool_cancel_options),
+                            Session{"s1", {}}, "go");
+        } catch (const PraxoError& error) {
+            caught = error.code() == "AGENT_CANCELLED";
+        }
+        check(caught && tool_cancel_after.size() == 1,
+              "cpp tool cancellation cleanup");
+        check(tool_cancel_sink.types == std::vector<std::string>{
+            "run.started", "tool.call", "run.failed"},
+            "cpp tool cancellation events");
+
+        std::vector<std::string> stream_parts;
+        AgentOptions stream_options(std::make_shared<StaticModel>("done"));
+        stream_options.on_stream = [&](const StreamPart& part) {
+            stream_parts.push_back(part.kind);
+            if (part.kind == "messages") {
+                throw std::runtime_error("stream failed");
+            }
+        };
+        RecordingSink stream_sink;
+        stream_options.events = &stream_sink;
+        caught = false;
+        try {
+            (void)run_agent(std::move(stream_options), Session{"s1", {}}, "go");
+        } catch (const std::exception& error) {
+            caught = std::string(error.what()).find("stream failed") !=
+                     std::string::npos;
+        }
+        check(caught && stream_parts == std::vector<std::string>{
+            "values", "messages"}, "cpp stream failure aborts");
+        check(stream_sink.types == std::vector<std::string>{
+            "run.started", "run.failed"}, "cpp stream failure events");
+
+        std::mutex parallel_mutex;
+        std::condition_variable parallel_cv;
+        int parallel_started = 0;
+        bool parallel_release = false;
+        auto parallel_model = std::make_shared<ParallelModel>();
+        AgentOptions parallel_options(parallel_model);
+        auto parallel_registry = std::make_shared<ToolRegistry>();
+        auto tool_a = std::make_shared<FuncTool>("a", "a", [&](const Json&) {
+            std::unique_lock<std::mutex> lock(parallel_mutex);
+            ++parallel_started;
+            parallel_cv.notify_all();
+            parallel_cv.wait(lock, [&] { return parallel_release; });
+            return Json("a");
+        });
+        auto tool_b = std::make_shared<FuncTool>("b", "b", [&](const Json&) {
+            std::unique_lock<std::mutex> lock(parallel_mutex);
+            ++parallel_started;
+            parallel_cv.notify_all();
+            parallel_cv.wait(lock, [&] { return parallel_release; });
+            return Json("b");
+        });
+        parallel_registry->register_tool(tool_a);
+        parallel_registry->register_tool(tool_b);
+        parallel_options.tools = parallel_registry;
+        parallel_options.max_parallel_tools = 2;
+        auto parallel_future = std::async(std::launch::async, [&] {
+            return run_agent(std::move(parallel_options), Session{"s1", {}},
+                             "go");
+        });
+        {
+            std::unique_lock<std::mutex> lock(parallel_mutex);
+            if (!parallel_cv.wait_for(lock, std::chrono::seconds(3), [&] {
+                    return parallel_started == 2;
+                })) {
+                parallel_release = true;
+                parallel_cv.notify_all();
+                throw std::runtime_error(
+                    "cpp parallel tools did not start together");
+            }
+            parallel_release = true;
+            parallel_cv.notify_all();
+        }
+        RunResult parallel_result = parallel_future.get();
+        check(parallel_result.output == "done", "cpp parallel tools result");
+        check(parallel_model->order == std::vector<std::string>{"c1", "c2"},
+              "cpp parallel tools preserve order");
 
         std::cout << "cpp core tests passed\n";
         return 0;

@@ -108,8 +108,9 @@ a merged implementation PR as a support commitment.
   native SSE parser, bounded parallel tools, and run-scoped call limits. The
   RubyGems package remains `praxo-core==0.1.0`; a clean project installed it and
   ran a minimal agent.
-- C++ source tag `cpp/v0.2.0` adds middleware hooks, final-tool allowlist
-  checks, reauthorization of middleware changes, and lifecycle cleanup.
+- C++ source tag `cpp/v0.3.0` adds middleware hooks, final-tool allowlist
+  checks, reauthorization, lifecycle cleanup, cancellation, stream callbacks, a
+  native SSE parser, bounded parallel tools, and run-scoped call limits.
   Cancellation, streaming, SSE, parallel tools, and run-state isolation remain
   unsupported.
 - Lua source tag `lua/v0.2.0` adds middleware hooks, final-tool allowlist

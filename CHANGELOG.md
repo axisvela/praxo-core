@@ -33,9 +33,9 @@
 - Lua `0.2.0` source adds middleware hooks, final-tool allowlist checks,
   reauthorization of middleware changes, and lifecycle cleanup. Cancellation,
   streaming, SSE, parallel tools, and run-state isolation remain unsupported.
-- C++ `0.2.0` source adds middleware hooks, final-tool allowlist checks,
-  reauthorization of middleware changes, and lifecycle cleanup. Cancellation,
-  streaming, SSE, parallel tools, and run-state isolation remain unsupported.
+- C++ `0.3.0` source adds middleware/lifecycle authorization, cancellation,
+  stream callbacks, a native SSE parser, bounded parallel tools, and run-scoped
+  call limits, reaching 19/19 behavior scenarios.
 - Ruby `0.3.0` source adds middleware/lifecycle authorization, cancellation,
   stream callbacks, a native SSE parser, bounded parallel tools, and run-scoped
   call limits, reaching 19/19 behavior scenarios.

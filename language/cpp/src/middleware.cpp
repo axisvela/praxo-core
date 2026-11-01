@@ -102,16 +102,22 @@ std::pair<std::optional<std::string>, std::optional<std::string>> StructuredOutp
 CallLimit::CallLimit(int model_limit, int tool_limit)
     : model_limit_(model_limit), tool_limit_(tool_limit) {}
 
-void CallLimit::before_model() {
-    ++models_;
-    if (model_limit_ > 0 && models_ > model_limit_) {
+void CallLimit::before_run(const std::string& run_id) {
+    runs_[run_id] = {0, 0};
+}
+
+void CallLimit::before_model(const std::string& run_id) {
+    auto& counts = runs_[run_id];
+    ++counts.first;
+    if (model_limit_ > 0 && counts.first > model_limit_) {
         throw PraxoError("AGENT_MODEL_CALL_LIMIT", "model call limit");
     }
 }
 
-void CallLimit::before_tool() {
-    ++tools_;
-    if (tool_limit_ > 0 && tools_ > tool_limit_) {
+void CallLimit::before_tool(const std::string& run_id) {
+    auto& counts = runs_[run_id];
+    ++counts.second;
+    if (tool_limit_ > 0 && counts.second > tool_limit_) {
         throw PraxoError("AGENT_TOOL_CALL_LIMIT", "tool call limit");
     }
 }

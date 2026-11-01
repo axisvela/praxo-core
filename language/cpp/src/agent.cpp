@@ -1,6 +1,8 @@
 #include "praxo/agent.hpp"
 
+#include <algorithm>
 #include <chrono>
+#include <future>
 
 #include "praxo/errors.hpp"
 
@@ -39,6 +41,46 @@ Response StaticModel::generate(const Request& request) {
 
 Message Agent::invoke_tool(const ToolCall& call, const std::string& run_id,
                            const std::string& session_id) {
+    auto [tool, active] = prepare_tool(call, run_id, session_id);
+    return execute_tool(tool, active);
+}
+
+std::vector<Message> Agent::invoke_tools(const std::vector<ToolCall>& calls,
+                                         const std::string& run_id,
+                                         const std::string& session_id) {
+    int limit = std::max(1, options_.max_parallel_tools);
+    std::vector<Message> out;
+    for (std::size_t start = 0; start < calls.size();
+         start += static_cast<std::size_t>(limit)) {
+        check_cancelled();
+        std::size_t end = std::min(calls.size(), start + static_cast<std::size_t>(limit));
+        std::vector<std::pair<std::shared_ptr<Tool>, ToolCall>> prepared;
+        for (std::size_t index = start; index < end; ++index) {
+            prepared.push_back(prepare_tool(calls[index], run_id, session_id));
+        }
+        if (limit <= 1) {
+            for (const auto& item : prepared) {
+                out.push_back(execute_tool(item.first, item.second));
+                check_cancelled();
+            }
+            continue;
+        }
+        std::vector<std::future<Message>> futures;
+        futures.reserve(prepared.size());
+        for (const auto& item : prepared) {
+            futures.push_back(std::async(
+                std::launch::async,
+                [this, item] { return execute_tool(item.first, item.second); }));
+        }
+        for (auto& future : futures) out.push_back(future.get());
+        check_cancelled();
+    }
+    return out;
+}
+
+std::pair<std::shared_ptr<Tool>, ToolCall> Agent::prepare_tool(
+    const ToolCall& call, const std::string& run_id,
+    const std::string& session_id) {
     const std::string original_name = call.name;
     const Json original_arguments = call.arguments;
     if (!allowed(original_name)) {
@@ -75,8 +117,32 @@ Message Agent::invoke_tool(const ToolCall& call, const std::string& run_id,
     data["name"] = active.name;
     data["arguments"] = active.arguments;
     emit("tool.call", session_id, run_id, data);
-    Json result = tool->invoke(active.arguments);
-    return tool_message(result.dump(), active.id);
+    return {tool, active};
+}
+
+Message Agent::execute_tool(const std::shared_ptr<Tool>& tool,
+                            const ToolCall& call) {
+    Json result = tool->invoke(call.arguments);
+    return tool_message(result.dump(), call.id);
+}
+
+void Agent::check_cancelled() const {
+    if (options_.cancellation && options_.cancellation()) {
+        throw PraxoError("AGENT_CANCELLED", "run cancelled");
+    }
+}
+
+void Agent::emit_stream(const std::string& run_id,
+                        const std::string& session_id, const std::string& kind,
+                        int step, const Json& data) const {
+    if (!options_.on_stream) return;
+    StreamPart part;
+    part.run_id = run_id;
+    part.session_id = session_id;
+    part.kind = kind;
+    part.step = step;
+    part.data = data;
+    options_.on_stream(part);
 }
 
 bool Agent::allowed(const std::string& name) const {
@@ -152,9 +218,11 @@ RunResult Agent::run(const Session& session, const std::string& prompt) {
         throw;
     }
     emit("run.started", session.id, run_id);
+    emit_stream(run_id, session.id, "values", 0, Json(prompt));
     bool after_run_invoked = false;
     try {
         for (int step = 1; step <= max_steps; ++step) {
+            check_cancelled();
             Action action;
             action.kind = "model.generate";
             action.session_id = session.id;
@@ -168,6 +236,7 @@ RunResult Agent::run(const Session& session, const std::string& prompt) {
             request.messages = messages;
             if (options_.tools) request.tools = options_.tools->specs();
             Response response = options_.model->generate(request);
+            check_cancelled();
             usage = usage.plus(response.usage);
             if (options_.max_tokens > 0 &&
                 usage.input_tokens + usage.output_tokens > options_.max_tokens) {
@@ -176,6 +245,8 @@ RunResult Agent::run(const Session& session, const std::string& prompt) {
             messages.push_back(response.message);
             if (response.message.tool_calls.empty()) {
                 RunResult result{run_id, response.message.content.value_or(""), step, usage};
+                emit_stream(run_id, session.id, "messages", step,
+                            Json(response.message.content.value_or("")));
                 after_run_invoked = true;
                 if (auto cleanup = after_run(entered, &result, nullptr)) {
                     std::rethrow_exception(cleanup);
@@ -183,9 +254,10 @@ RunResult Agent::run(const Session& session, const std::string& prompt) {
                 emit("run.completed", session.id, run_id);
                 return result;
             }
-            for (const auto& call : response.message.tool_calls) {
-                messages.push_back(invoke_tool(call, run_id, session.id));
-            }
+            auto tool_messages = invoke_tools(
+                response.message.tool_calls, run_id, session.id);
+            messages.insert(messages.end(), tool_messages.begin(),
+                            tool_messages.end());
         }
         throw PraxoError("AGENT_MAX_STEPS", "maximum steps");
     } catch (const std::exception& error) {

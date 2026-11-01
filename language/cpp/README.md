@@ -4,7 +4,7 @@ C++20 implementation of the PRAXO-CORE agent contract. The normative contract
 is [`spec/`](../../spec/README.md); Go remains the reference implementation.
 
 - `SPEC_VERSION`: `0.2.0`
-- Core version: `0.2.0`
+- Core version: `0.3.0`
 - Tier: core
 - License: MIT
 - Dependencies: C++20 standard library only
@@ -61,6 +61,19 @@ registry->register_tool(std::make_shared<praxo::FuncTool>(
 options.tools = registry;
 ```
 
+## Runtime options
+
+- `cancellation` is a predicate checked before model work and before and after
+  each tool. Cancellation raises `AGENT_CANCELLED` after after-run cleanup.
+- `on_stream` receives `StreamPart` values for `values` and `messages`. A
+  callback error aborts the run instead of completing it.
+- `max_parallel_tools` runs tool invocations with `std::async` within each batch
+  and preserves result order. Tool implementations own their thread safety.
+- `CallLimit::before_run` scopes counters by run ID so independent runs do not
+  share limits.
+- `parse_sse_stream` parses OpenAI-compatible server-sent-event text and throws
+  `MODEL_STREAM` for truncation or malformed half packets.
+
 ## Layout
 
 - `include/praxo/` public headers.
@@ -71,5 +84,5 @@ options.tools = registry;
 
 ## Release
 
-Tag shape: `cpp/v0.2.0`. The tag targets `SPEC_VERSION` `0.2.0`. See
+Tag shape: `cpp/v0.3.0`. The tag targets `SPEC_VERSION` `0.2.0`. See
 [CHANGELOG.md](CHANGELOG.md) for per-release changes and compatibility notes.

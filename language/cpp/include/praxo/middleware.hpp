@@ -1,10 +1,12 @@
 #pragma once
 
 #include <functional>
+#include <map>
 #include <optional>
 #include <regex>
 #include <set>
 #include <string>
+#include <utility>
 #include <vector>
 
 #include "praxo/models.hpp"
@@ -41,14 +43,14 @@ private:
 class CallLimit {
 public:
     CallLimit(int model_limit, int tool_limit);
-    void before_model();
-    void before_tool();
+    void before_run(const std::string& run_id);
+    void before_model(const std::string& run_id = "");
+    void before_tool(const std::string& run_id = "");
 
 private:
     int model_limit_;
     int tool_limit_;
-    int models_ = 0;
-    int tools_ = 0;
+    std::map<std::string, std::pair<int, int>> runs_;
 };
 
 class ToolSelection {

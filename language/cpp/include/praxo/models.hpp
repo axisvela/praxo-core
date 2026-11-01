@@ -77,6 +77,14 @@ struct Usage {
     }
 };
 
+struct StreamPart {
+    std::string run_id;
+    std::string session_id;
+    std::string kind;
+    int step = 0;
+    Json data = Json(nullptr);
+};
+
 struct Request {
     std::vector<Message> messages;
     std::vector<ToolSpec> tools;

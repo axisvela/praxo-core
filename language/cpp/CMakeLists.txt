@@ -12,6 +12,7 @@ add_library(praxo_cpp STATIC
     src/middleware.cpp
     src/plugin.cpp
     src/runtime.cpp
+    src/sse.cpp
     src/toolcall.cpp
 )
 target_include_directories(praxo_cpp PUBLIC include)

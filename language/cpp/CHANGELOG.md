@@ -1,5 +1,23 @@
 # C++ Core Release Notes
 
+## 0.3.0 - 2026-11-01
+
+Source version `0.3.0`; tag creation is a release step.
+
+### Added
+
+- Cancellation callback with model/tool cancellation cleanup.
+- Stream parts and an `on_stream` callback; stream errors abort the run.
+- Native `parse_sse_stream` parser rejecting truncated and half-packet streams.
+- Bounded parallel tool execution through `max_parallel_tools`.
+- Run-scoped `CallLimit` counters.
+- API snapshot `api/0.3.0.txt`.
+
+### Compatibility
+
+- New `AgentOptions` fields are additive and default to disabled or one tool.
+- The Core contract remains `SPEC_VERSION` `0.2.0`.
+
 ## 0.2.0 - 2026-11-01
 
 Source release tag `cpp/v0.2.0`.

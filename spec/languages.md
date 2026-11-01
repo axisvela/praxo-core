@@ -89,7 +89,7 @@ for real providers, platforms, and production behavior is reported separately.
 | Fortran | Core | released | `fortran/v0.3.0` | complete | 11 vectors, native tests, API snapshot; upstream RE2/Unicode patterns via native C++ library; JSON/schema limits remain documented |
 | Lisp | Bridge | released | `lisp/v0.1.0` | complete | SBCL bridge over the bridge CLI; forwarding, UTF-8, errors, and exit codes verified locally and in Linux CI; consumer details pending |
 | JavaScript | Sample (TypeScript) | released | none | sample | Uses the TypeScript package; no separate core |
-| C++ | Core | released | `cpp/v0.2.0` | complete | 11 vectors, core tests, API snapshot, middleware/lifecycle authorization |
+| C++ | Core | released | `cpp/v0.3.0` | complete | 11 vectors, core tests, API snapshot, middleware/lifecycle authorization, cancellation, streaming, SSE, parallel tools, and run-scoped call limits |
 | Dart | Core | released | `dart/v0.1.1` | complete | 11 vectors, core tests, API snapshot; pub.dev `praxo_core==0.1.1` |
 | Ruby | Core | released | `ruby/v0.3.0` | complete | 11 vectors, core tests, API snapshot, middleware/lifecycle authorization, cancellation, streaming, SSE, parallel tools, and run-scoped call limits; source `0.3.0`, RubyGems `praxo-core==0.1.0` |
 | Kotlin | Sample (JVM) | released | none | sample | Uses the Java Core |
@@ -143,7 +143,7 @@ for real providers, platforms, and production behavior is reported separately.
 | Zig | `zig-conformance` | 11 vectors, API snapshot, tests |
 | D | `d-conformance` | 11 vectors, API snapshot, tests |
 | JavaScript | `javascript-sample` | TypeScript build + Node sample |
-| C++ | `cpp-conformance` | CMake build, 11 vectors, API snapshot, tests |
+| C++ | `cpp-conformance` | CMake build, 11 vectors, API snapshot, native tests |
 | Perl | `perl-conformance` | 11 vectors, API snapshot, tests |
 | Swift | `swift-conformance` | swift test, 11 vectors, API snapshot |
 | Julia | `julia-conformance` | Julia tests, 11 vectors, API snapshot |

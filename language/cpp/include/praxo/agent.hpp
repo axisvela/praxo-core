@@ -6,6 +6,7 @@
 #include <memory>
 #include <optional>
 #include <string>
+#include <utility>
 #include <vector>
 
 #include "praxo/models.hpp"
@@ -82,6 +83,9 @@ public:
     int max_tokens = 0;
     std::vector<Middleware> middleware;
     std::vector<std::string> allowed_tools;
+    std::function<bool()> cancellation;
+    std::function<void(const StreamPart&)> on_stream;
+    int max_parallel_tools = 1;
 };
 
 class Agent {
@@ -92,6 +96,17 @@ public:
 private:
     Message invoke_tool(const ToolCall& call, const std::string& run_id,
                         const std::string& session_id);
+    std::vector<Message> invoke_tools(const std::vector<ToolCall>& calls,
+                                      const std::string& run_id,
+                                      const std::string& session_id);
+    std::pair<std::shared_ptr<Tool>, ToolCall> prepare_tool(
+        const ToolCall& call, const std::string& run_id,
+        const std::string& session_id);
+    Message execute_tool(const std::shared_ptr<Tool>& tool,
+                         const ToolCall& call);
+    void check_cancelled() const;
+    void emit_stream(const std::string& run_id, const std::string& session_id,
+                     const std::string& kind, int step, const Json& data) const;
     void authorize(const Action& action) const;
     bool allowed(const std::string& name) const;
     void before_run(const std::string& run_id, const std::string& prompt,
