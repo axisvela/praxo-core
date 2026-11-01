@@ -56,6 +56,22 @@ complete archive inventory.
 
 Tags and `VERSION` files use plain `X.Y.Z` versions. Do not add pre-release
 suffixes such as `-rc.1`, `-beta`, or `-alpha`. Existing tags are immutable.
+
+## Language Release Notes
+
+Each language Core keeps its release notes in `language/<language>/CHANGELOG.md`
+next to the implementation. The language `README.md` links that file, and the
+public language page includes the README, so one file serves source consumers
+and the documentation site.
+
+- Keep the package version, `SDK_VERSION`, source tag, and notes in agreement.
+- Use patch versions for fixes, minor versions for additive functionality under
+  `1.0.0`, and a major version for breaking changes.
+- Separate source-tag releases from package-registry publication and state which
+  one the notes describe.
+- Record Added, Changed, Fixed, and Compatibility sections when applicable.
+- Do not move language notes into the root changelog or a shared release page;
+  the root changelog remains the cross-language summary.
 Core releases declare their supported contract version. The root release workflow handles only `v*` core tags; a source tag for
 a Core implementation or adapter does not by itself publish a package-registry artifact.
 

@@ -115,12 +115,12 @@ a merged implementation PR as a support commitment.
 - Dart has source tag `dart/v0.1.1` and publishes `praxo_core==0.1.1` on
   pub.dev under publisher `axisvela.com`. A clean project installed the package,
   imported `package:praxo_core/praxo_core.dart`, and ran a minimal agent.
-- Rust has source tag `rust/v0.1.4` and publishes `praxo-core==0.1.4` on
-  crates.io. It includes all eleven vector groups, native tests, `tool.Gateway`,
-  `jsonschema.Schema`, and an API snapshot. The OpenAI adapter, VFS, plugin
-  hosts, and Go context/cancellation semantics are not included. A clean
-  temporary project installed the crate and reported `SDK_VERSION` `0.1.4` and
-  `SPEC_VERSION` `0.2.0`.
+- Rust source tag `rust/v0.2.0` includes all eleven vector groups, native tests,
+  `tool.Gateway`, `jsonschema.Schema`, streaming callbacks, cancellation,
+  bounded parallel tools, and an API snapshot. The crates.io package remains
+  `praxo-core==0.1.4`; a clean temporary project installed that package and
+  reported `SDK_VERSION` `0.1.4` and `SPEC_VERSION` `0.2.0`. The HTTP OpenAI
+  adapter, VFS, and plugin hosts are not included.
 - Fortran has source tag `fortran/v0.3.0` with all eleven vector groups, native
   tests, an API snapshot, and integrated PII/middleware. It is not a
   package-registry release; asynchronous streaming is outside the declared

@@ -2,7 +2,7 @@ use std::sync::atomic::{AtomicUsize, Ordering};
 use std::time::{Duration, Instant};
 use std::sync::{Arc, Mutex};
 
-use praxo_core::agent::{Agent, AgentOptions, RunResult, Session};
+use praxo_core::agent::{Agent, AgentOptions, CancellationToken, RunResult, Session};
 use praxo_core::checkpoint::Allowlist;
 use praxo_core::context::{estimate_tokens, ContextBudget};
 use praxo_core::event::{Event, Sink};
@@ -11,11 +11,12 @@ use praxo_core::middleware::{
     CallLimitMiddleware, Middleware, MiddlewareToolCall, ModelCall, PiiMiddleware, PiiRedactor,
     RunState, StructuredOutput,
 };
-use praxo_core::model::{Message, Model, Request, Response, ToolCall, Usage};
+use praxo_core::model::{Message, Model, Request, Response, StreamingModel, ToolCall, Usage};
 use praxo_core::plugin::parse_manifest;
 use praxo_core::policy::{Action, Decision, Hook, PathChecker, PathGrant};
 use praxo_core::tool::{gateway_tools, FuncTool, Gateway, GatewayInfo, Registry};
 use serde_json::{json, Map, Value};
+use std::io::Cursor;
 
 struct ScriptedModel {
     responses: Mutex<Vec<Response>>,
@@ -917,4 +918,194 @@ fn parallel_tools_start_together_and_keep_result_order() {
         })
         .collect();
     assert_eq!(names, vec!["a".to_string(), "b".to_string()]);
+}
+
+
+struct CancellingModel {
+    token: CancellationToken,
+}
+
+impl Model for CancellingModel {
+    fn generate(&self, _request: &Request) -> praxo_core::errors::Result<Response> {
+        self.token.cancel();
+        Ok(done_response())
+    }
+}
+
+#[test]
+fn model_cancellation_runs_after_run_and_emits_failed() {
+    let token = CancellationToken::new();
+    let calls = Arc::new(Mutex::new(Vec::new()));
+    let sink = Arc::new(RecordingSink {
+        types: Mutex::new(Vec::new()),
+    });
+    let after = LifecycleMiddleware::new(
+        None,
+        Some(Box::new({
+            let calls = calls.clone();
+            move |_, _| {
+                calls.lock().expect("calls").push("after".to_string());
+                Ok(())
+            }
+        })),
+    );
+    let mut options = AgentOptions::new(Arc::new(CancellingModel {
+        token: token.clone(),
+    }));
+    options.cancellation = Some(token);
+    options.events = Some(sink.clone());
+    options.middleware.push(Box::new(after));
+    let error = Agent::new(options)
+        .expect("agent")
+        .run(&Session::new("s1"), "go")
+        .expect_err("cancelled");
+    assert_eq!(error.code, "AGENT_CANCELLED");
+    assert_eq!(calls.lock().expect("calls").as_slice(), &["after".to_string()]);
+    assert_eq!(
+        sink.types.lock().expect("sink").as_slice(),
+        &["run.started".to_string(), "run.failed".to_string()]
+    );
+}
+
+struct CancellationToolModel;
+
+impl Model for CancellationToolModel {
+    fn generate(&self, request: &Request) -> praxo_core::errors::Result<Response> {
+        if request.messages.len() == 1 {
+            return Ok(Response {
+                message: Message::assistant(
+                    "",
+                    vec![
+                        ToolCall {
+                            id: "c1".to_string(),
+                            name: "cancel".to_string(),
+                            arguments: Map::new(),
+                        },
+                        ToolCall {
+                            id: "c2".to_string(),
+                            name: "effect".to_string(),
+                            arguments: Map::new(),
+                        },
+                    ],
+                ),
+                usage: Usage::default(),
+                finish_reason: None,
+            });
+        }
+        Ok(done_response())
+    }
+}
+
+#[test]
+fn tool_cancellation_stops_later_effects_and_runs_after_run() {
+    let token = CancellationToken::new();
+    let effects = Arc::new(AtomicUsize::new(0));
+    let calls = Arc::new(Mutex::new(Vec::new()));
+    let mut registry = Registry::new();
+    let cancel_token = token.clone();
+    registry.register(Arc::new(FuncTool::new("cancel", "Cancel", move |_| {
+        cancel_token.cancel();
+        Ok(Value::Null)
+    })));
+    let effect_count = effects.clone();
+    registry.register(Arc::new(FuncTool::new("effect", "Effect", move |_| {
+        effect_count.fetch_add(1, Ordering::SeqCst);
+        Ok(Value::Null)
+    })));
+    let after = LifecycleMiddleware::new(
+        None,
+        Some(Box::new({
+            let calls = calls.clone();
+            move |_, _| {
+                calls.lock().expect("calls").push("after".to_string());
+                Ok(())
+            }
+        })),
+    );
+    let mut options = AgentOptions::new(Arc::new(CancellationToolModel));
+    options.tools = Some(Arc::new(registry));
+    options.max_parallel_tools = 1;
+    options.cancellation = Some(token);
+    options.middleware.push(Box::new(after));
+    let error = Agent::new(options)
+        .expect("agent")
+        .run(&Session::new("s1"), "go")
+        .expect_err("cancelled");
+    assert_eq!(error.code, "AGENT_CANCELLED");
+    assert_eq!(effects.load(Ordering::SeqCst), 0);
+    assert_eq!(calls.lock().expect("calls").as_slice(), &["after".to_string()]);
+}
+
+struct StreamFailureModel;
+
+impl Model for StreamFailureModel {
+    fn generate(&self, _request: &Request) -> praxo_core::errors::Result<Response> {
+        Ok(done_response())
+    }
+}
+
+impl StreamingModel for StreamFailureModel {
+    fn generate_stream(
+        &self,
+        _request: &Request,
+        on_delta: &mut dyn FnMut(&str) -> praxo_core::errors::Result<()>,
+    ) -> praxo_core::errors::Result<Response> {
+        on_delta("x")?;
+        Ok(done_response())
+    }
+}
+
+#[test]
+fn stream_callback_failure_aborts_run() {
+    let calls = Arc::new(Mutex::new(Vec::new()));
+    let sink = Arc::new(RecordingSink {
+        types: Mutex::new(Vec::new()),
+    });
+    let model = Arc::new(StreamFailureModel);
+    let after = LifecycleMiddleware::new(
+        None,
+        Some(Box::new({
+            let calls = calls.clone();
+            move |_, _| {
+                calls.lock().expect("calls").push("after".to_string());
+                Ok(())
+            }
+        })),
+    );
+    let mut options = AgentOptions::new(model.clone());
+    options.streaming_model = Some(model);
+    options.events = Some(sink.clone());
+    options.middleware.push(Box::new(after));
+    let error = Agent::new(options)
+        .expect("agent")
+        .run_stream(&Session::new("s1"), "go", &mut |_| {
+            Err(praxo_core::errors::PraxoError::new(
+                "CALLBACK",
+                "callback failed",
+            ))
+        })
+        .expect_err("callback failure");
+    assert_eq!(error.code, "CALLBACK");
+    assert_eq!(calls.lock().expect("calls").as_slice(), &["after".to_string()]);
+    assert_eq!(
+        sink.types.lock().expect("sink").as_slice(),
+        &["run.started".to_string(), "run.failed".to_string()]
+    );
+}
+
+#[test]
+fn sse_stream_rejects_truncation_and_half_packets() {
+    let truncated = "data: {\"choices\":[{\"delta\":{\"content\":\"hi\"}}]}\n\n";
+    let error = praxo_core::openai_compat::parse_stream(Cursor::new(truncated), &mut |_| Ok(()))
+        .expect_err("truncated");
+    assert_eq!(error.code, "MODEL_STREAM");
+    let half = "data: {\"choices\":[{\"delta\":{\"content\":\"hi\"}}]}\n\ndata: {\"choices\"";
+    let error = praxo_core::openai_compat::parse_stream(Cursor::new(half), &mut |_| Ok(()))
+        .expect_err("half packet");
+    assert_eq!(error.code, "MODEL_STREAM");
+    let complete =
+        "data: {\"choices\":[{\"delta\":{\"content\":\"hi\"}}]}\n\ndata: [DONE]\n\n";
+    let response = praxo_core::openai_compat::parse_stream(Cursor::new(complete), &mut |_| Ok(()))
+        .expect("complete");
+    assert_eq!(response.message.content.as_deref(), Some("hi"));
 }

@@ -390,8 +390,9 @@ def scenarios() -> tuple[Scenario, ...]:
                 ),
                 "java": (lifecycle,),
                 "csharp": (csharp,),
+                "rust": (rust_test("model_cancellation_runs_after_run_and_emits_failed"),),
             },
-            {"go": "scenario", "python": "scenario", "typescript": "scenario", "java": "group", "csharp": "suite"},
+            {"go": "scenario", "python": "scenario", "typescript": "scenario", "java": "group", "csharp": "suite", "rust": "scenario"},
         ),
         Scenario(
             "tool-cancel-cleanup",
@@ -409,8 +410,9 @@ def scenarios() -> tuple[Scenario, ...]:
                 ),
                 "java": (lifecycle,),
                 "csharp": (csharp,),
+                "rust": (rust_test("tool_cancellation_stops_later_effects_and_runs_after_run"),),
             },
-            {"go": "scenario", "python": "scenario", "typescript": "scenario", "java": "group", "csharp": "suite"},
+            {"go": "scenario", "python": "scenario", "typescript": "scenario", "java": "group", "csharp": "suite", "rust": "scenario"},
         ),
         Scenario(
             "schema-number-unicode",
@@ -762,8 +764,9 @@ def scenarios() -> tuple[Scenario, ...]:
                 ),
                 "java": (stream,),
                 "csharp": (csharp,),
+                "rust": (rust_test("stream_callback_failure_aborts_run"),),
             },
-            {"go": "scenario", "python": "scenario", "typescript": "scenario", "java": "scenario", "csharp": "suite"},
+            {"go": "scenario", "python": "scenario", "typescript": "scenario", "java": "scenario", "csharp": "suite", "rust": "scenario"},
         ),
         Scenario(
             "sse-truncated",
@@ -789,8 +792,9 @@ def scenarios() -> tuple[Scenario, ...]:
                 ),
                 "java": (adapter,),
                 "csharp": (csharp,),
+                "rust": (rust_test("sse_stream_rejects_truncation_and_half_packets"),),
             },
-            {"go": "scenario", "python": "scenario", "typescript": "scenario", "java": "group", "csharp": "suite"},
+            {"go": "scenario", "python": "scenario", "typescript": "scenario", "java": "group", "csharp": "suite", "rust": "scenario"},
         ),
         Scenario(
             "sse-half-packet",
@@ -816,8 +820,9 @@ def scenarios() -> tuple[Scenario, ...]:
                 ),
                 "java": (adapter,),
                 "csharp": (csharp,),
+                "rust": (rust_test("sse_stream_rejects_truncation_and_half_packets"),),
             },
-            {"go": "scenario", "python": "scenario", "typescript": "scenario", "java": "group", "csharp": "suite"},
+            {"go": "scenario", "python": "scenario", "typescript": "scenario", "java": "group", "csharp": "suite", "rust": "scenario"},
         ),
     )
 

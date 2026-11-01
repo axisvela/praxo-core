@@ -46,6 +46,18 @@
 既有标签不可移动。Core 必须声明支持的契约版本。根发布工作流只处理 `v*` 核心标签，
 Core 或适配器的源码标签不会自动完成包管理器发布。
 
+## 语言发布说明
+
+每个语言 Core 的发布说明放在实现旁的 `language/<language>/CHANGELOG.md`。
+语言 `README.md` 链接该文件，公开语言页面又包含 README，因此同一份文件同时服务
+源码使用者和文档站点。
+
+- 包版本、`SDK_VERSION`、源码标签和发布说明必须一致。
+- `1.0.0` 之前，修复使用 patch，新增功能使用 minor，破坏性变更使用 major。
+- 明确区分源码标签发布与包管理器发布，并说明发布说明描述的是哪一种。
+- 按需记录 Added、Changed、Fixed 和 Compatibility。
+- 不要把语言发布说明移入根变更日志或共享发布页；根变更日志只保留跨语言摘要。
+
 Python 使用 PyPI Trusted Publishing，工作流为
 `.github/workflows/python-release.yml`。`python/vX.Y.Z` 标签必须与
 `pyproject.toml`、`praxo.__version__` 和 `praxo.SPEC_VERSION` 一致。手动触发默认

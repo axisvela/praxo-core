@@ -173,6 +173,6 @@ pub trait StreamingModel: Model {
     fn generate_stream(
         &self,
         request: &Request,
-        on_delta: &mut dyn FnMut(&str),
+        on_delta: &mut dyn FnMut(&str) -> Result<()>,
     ) -> Result<Response>;
 }

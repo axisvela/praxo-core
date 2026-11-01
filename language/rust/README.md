@@ -10,11 +10,14 @@ The normative contract is [`spec/`](../../spec/README.md); Go remains the
 reference implementation.
 
 **Status:** core. The package passes all eleven conformance vector groups.
-Context budgets, middleware, and the synchronous agent loop are included. The
-OpenAI-compatible adapter, VFS, and plugin hosts are not yet implemented.
+Context budgets, middleware, streaming callbacks, cancellation, bounded parallel
+tools, and the synchronous agent loop are included. A streaming SSE parser is
+included; an HTTP OpenAI-compatible client, VFS, and plugin hosts are not yet
+implemented.
 
-Package version: `0.1.4`. Published on crates.io as `praxo-core@0.1.4`.
-Supported contract: `SPEC_VERSION` `0.2.0` (`praxo_core::SPEC_VERSION`).
+Package version: `0.2.0`. The latest crates.io package is `praxo-core@0.1.4`;
+`0.2.0` is a source release. Supported contract: `SPEC_VERSION` `0.2.0`
+(`praxo_core::SPEC_VERSION`).
 
 ## Install
 
@@ -94,11 +97,16 @@ and direct trait implementations, and checks implemented symbols against
 are excluded. Auto traits, blanket implementations, and expanded alias internals
 are excluded to avoid compiler/platform-specific noise.
 
-The baseline is [`api/0.1.4.txt`](api/0.1.4.txt). Regenerate it with
+The baseline is [`api/0.2.0.txt`](api/0.2.0.txt). Regenerate it with
 `python api-snapshot.py` only after reviewing an intentional API change.
 This is not a binary ABI or automated semver-compatibility guarantee. Serde/wire
 attributes still require specification review and conformance tests; they are
 not inferred from rustdoc. The gate uses `Cargo.lock` and adds no Rust dependencies.
+
+## Release Notes
+
+See [CHANGELOG.md](CHANGELOG.md) for per-release changes and compatibility
+notes.
 
 ## License
 

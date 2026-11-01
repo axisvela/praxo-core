@@ -1,4 +1,4 @@
-use std::sync::atomic::{AtomicUsize, Ordering};
+use std::sync::atomic::{AtomicBool, AtomicUsize, Ordering};
 use std::sync::{Arc, Mutex};
 
 use serde_json::{Map, Value};
@@ -12,8 +12,8 @@ use crate::middleware::{
     StructuredOutput, ToolResult, ToolSelectionMiddleware, ToolSelector,
 };
 use crate::model::{
-    Message, Model, Request, Response, ResponseFormat, ToolCall, ToolSpec, Usage, ROLE_SYSTEM,
-    ROLE_USER,
+    Message, Model, Request, Response, ResponseFormat, StreamingModel, ToolCall, ToolSpec, Usage,
+    ROLE_SYSTEM, ROLE_USER,
 };
 use crate::policy::{Action, Hook};
 use crate::tool::{Registry, Tool};
@@ -44,6 +44,25 @@ pub struct RunResult {
     pub usage: Usage,
 }
 
+#[derive(Clone, Default)]
+pub struct CancellationToken {
+    inner: Arc<AtomicBool>,
+}
+
+impl CancellationToken {
+    pub fn new() -> Self {
+        Self::default()
+    }
+
+    pub fn cancel(&self) {
+        self.inner.store(true, Ordering::SeqCst);
+    }
+
+    pub fn is_cancelled(&self) -> bool {
+        self.inner.load(Ordering::SeqCst)
+    }
+}
+
 pub struct AgentOptions {
     pub model: Arc<dyn Model>,
     pub tools: Option<Arc<Registry>>,
@@ -68,6 +87,8 @@ pub struct AgentOptions {
     pub response_format: Option<ResponseFormat>,
     pub max_steps: usize,
     pub max_parallel_tools: usize,
+    pub cancellation: Option<CancellationToken>,
+    pub streaming_model: Option<Arc<dyn StreamingModel>>,
     pub max_tokens: i64,
 }
 
@@ -97,6 +118,8 @@ impl AgentOptions {
             response_format: None,
             max_steps: 8,
             max_parallel_tools: 0,
+            cancellation: None,
+            streaming_model: None,
             max_tokens: 0,
         }
     }
@@ -146,6 +169,25 @@ impl Agent {
     }
 
     pub fn run(&self, session: &Session, prompt: &str) -> Result<RunResult> {
+        self.run_internal(session, prompt, None)
+    }
+
+    pub fn run_stream(
+        &self,
+        session: &Session,
+        prompt: &str,
+        on_delta: &mut dyn FnMut(&str) -> Result<()>,
+    ) -> Result<RunResult> {
+        self.run_internal(session, prompt, Some(on_delta))
+    }
+
+    fn run_internal(
+        &self,
+        session: &Session,
+        prompt: &str,
+        mut on_delta: Option<&mut dyn FnMut(&str) -> Result<()>>,
+    ) -> Result<RunResult> {
+        self.throw_if_cancelled()?;
         let max_steps = if self.options.max_steps > 0 {
             self.options.max_steps
         } else {
@@ -174,6 +216,7 @@ impl Agent {
         let mut after_run_invoked = false;
         let outcome = (|| -> Result<RunResult> {
             for step in 1..=max_steps {
+                self.throw_if_cancelled()?;
                 self.authorize(&Action {
                     kind: "model.generate".to_string(),
                     session_id: session.id.clone(),
@@ -203,9 +246,22 @@ impl Agent {
                             "agent: model middleware skipped without a response",
                         )
                     })?
+                } else if let Some(callback) = on_delta.as_deref_mut() {
+                    let streaming = self
+                        .options
+                        .streaming_model
+                        .as_deref()
+                        .ok_or_else(|| {
+                            PraxoError::new(
+                                "AGENT_STREAM",
+                                "agent: model does not support streaming",
+                            )
+                        })?;
+                    streaming.generate_stream(&call.request, callback)?
                 } else {
                     self.generate(&call.request)?
                 };
+                self.throw_if_cancelled()?;
                 self.after_model(&call, &response)?;
                 usage = usage.plus(response.usage);
                 if self.options.max_tokens > 0
@@ -366,6 +422,7 @@ impl Agent {
         run_id: &str,
         session_id: &str,
     ) -> Result<PreparedTool> {
+        self.throw_if_cancelled()?;
         let original_name = call.name.clone();
         let original_arguments = call.arguments.clone();
         if !self.tool_allowed(&original_name) {
@@ -435,6 +492,12 @@ impl Agent {
     }
 
     fn execute_prepared(&self, prepared: &PreparedTool) -> ToolResult {
+        if let Err(error) = self.throw_if_cancelled() {
+            return ToolResult {
+                value: Value::Null,
+                error: Some(error),
+            };
+        }
         if prepared.skip {
             return ToolResult {
                 value: prepared.value.clone(),
@@ -548,6 +611,18 @@ impl Agent {
             }
         }
         first_error
+    }
+
+    fn throw_if_cancelled(&self) -> Result<()> {
+        if self
+            .options
+            .cancellation
+            .as_ref()
+            .is_some_and(CancellationToken::is_cancelled)
+        {
+            return Err(PraxoError::new("AGENT_CANCELLED", "agent: cancelled"));
+        }
+        Ok(())
     }
 
     fn authorize(&self, action: &Action) -> Result<()> {
