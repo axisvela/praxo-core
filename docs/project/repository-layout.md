@@ -7,12 +7,15 @@ unchanged. This is a source-tree migration, not a new framework release.
 | Location | Purpose |
 | --- | --- |
 | `pkg/`, `internal/`, `cmd/` | Go reference implementation and bridge CLI |
-| `language/<language>/` | Independent language implementations |
+| `language/<language>/` | Independent language implementations, tests, build output, per-language `CHANGELOG.md` |
 | `bindings/shell/`, `bindings/powershell/` | Wrappers over the bridge runtime |
 | `examples/javascript/`, `examples/kotlin/`, `examples/scala/`, `examples/groovy/`, `examples/clojure/`, `examples/fsharp/`, `examples/opencl/` | Samples consuming TypeScript, Java, .NET, or C |
 | `adapters/` | Optional integrations |
 | `spec/` | Normative contract, shared vectors, and parity inventories |
 | `docs/` | Public documentation |
+| `docs/languages/<language>/` | Per-language documentation; may hold examples, adapter notes, and release pages |
+| `build/common/` | Cross-language lab reports and shared artifacts |
+| `build/<language>/` | Per-language build and test artifacts |
 
 ## Updating a Source Checkout
 
@@ -48,6 +51,30 @@ Keep old tags pinned if you need their historical layout. New checkouts use the
 new paths; compatibility shims for old root-level directories are not provided.
 Do not reuse an old CMake build cache across source locations. Configure a fresh
 build directory after updating.
+
+## Language Documentation and Build Layout
+
+Each language owns a documentation directory at
+`docs/languages/<language>/`. The main page is `index.md`; future examples,
+adapter notes, and release pages belong in the same directory instead of the
+shared language root.
+
+Language release notes live next to the implementation at
+`language/<language>/CHANGELOG.md` and are linked from the language README.
+
+Build artifacts follow the same ownership split:
+
+```text
+build/
+  common/       cross-language labs and shared reports
+  <language>/   per-language build and test output
+```
+
+Use `build/common` for Behavior Lab, Compatibility Lab, and other shared
+evidence. Do not place one language's artifacts in another language's directory.
+Existing language-specific build caches may remain under
+`language/<language>/build` during migration; new tooling should prefer the
+owned build directory and document any exception.
 
 ## What Did Not Change
 

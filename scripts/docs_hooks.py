@@ -43,8 +43,15 @@ MOVED_LANGUAGE_PAGES = (
     "csharp visual-basic php ruby perl lua dart swift julia r d zig cobol fortran "
     "haskell shell powershell"
 ).split()
-LEGACY_PATHS.update({f"sdks/{page}.md": f"languages/{page}.md"
-                     for page in MOVED_LANGUAGE_PAGES})
+LANGUAGE_PAGE_SLUGS = [
+    page for page in MOVED_LANGUAGE_PAGES if page not in ("index", "support")
+]
+LEGACY_PATHS.update({
+    f"sdks/{page}.md": f"languages/{page}/index.md"
+    for page in LANGUAGE_PAGE_SLUGS
+})
+LEGACY_PATHS["sdks/index.md"] = "languages/index.md"
+LEGACY_PATHS["sdks/support.md"] = "languages/support.md"
 
 
 def language_matrix(markdown, chinese=False):
@@ -70,8 +77,8 @@ def language_matrix(markdown, chinese=False):
             raise ValueError("duplicate or unknown language matrix value: " + line)
         seen.add(name)
         slug = {"C++": "cpp", "C#": "csharp", "F#": "fsharp", "OCaml / Caml": "ocaml"}.get(name, name.lower().replace(" ", "-"))
-        if (ROOT / "docs/languages" / (slug + ".md")).is_file():
-            name = f"[{name}]({slug}.md)"
+        if (ROOT / "docs/languages" / slug / "index.md").is_file():
+            name = f"[{name}]({slug}/index.md)"
         rows.append((name, stages[stage], statuses[status] if chinese else status,
                      "—" if chinese and tag == "none" else tag,
                      maturities[maturity] if chinese else maturity, notes))
@@ -91,7 +98,12 @@ def on_config(config):
     redirects.update({"zh-CN/sdks/" + page + ".md":
                       urljoin(config.site_url, "zh-CN/languages/" + page + "/")
                       for page in MOVED_LANGUAGE_PAGES
-                      if not (ROOT / "docs/zh-CN/languages" / (page + ".md")).exists()})
+                      if page not in ("index", "support")
+                      and not (ROOT / "docs/zh-CN/languages" / page / "index.md").exists()})
+    redirects["zh-CN/sdks/index.md"] = urljoin(config.site_url, "zh-CN/languages/")
+    redirects["zh-CN/sdks/support.md"] = urljoin(
+        config.site_url, "zh-CN/languages/support/"
+    )
     return config
 
 

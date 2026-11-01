@@ -6,6 +6,8 @@
 
 [查看全部语言与当前状态](matrix.md){ .md-button }
 
+每个条目使用独立的 docs/languages/<language>/ 目录，用于 Core 页面以及后续示例、适配器说明和发布页面。
+
 选定实现的可复现一致性证据见[兼容性实验](compatibility-lab.md)，跨语言 agent 行为场景见[行为实验](behavior-lab.md)。行为覆盖分为 agent-capable、extended 和 optional 三个层级，见[支持政策](support.md)。
 
 具备原生实现能力的独立语言默认以 Framework 为最终目标。处于 Wire 阶段的实现
@@ -16,53 +18,53 @@
 
 | 语言 | 使用入口 |
 | --- | --- |
-| Go | [安装与快速开始](go.md) |
-| Python | [Python Core](python.md) |
-| TypeScript | [TypeScript Core](typescript.md) |
-| Java | [Java Core](java.md) |
-| Rust | [Rust Core](rust.md) |
-| C | [C Core](c.md) |
-| C++ | [C++ Core](cpp.md) |
-| C# / .NET | [C# Core](csharp.md) |
-| PHP | [PHP Core](php.md) |
-| Ruby | [Ruby Core](ruby.md) |
-| Perl | [Perl Core](perl.md) |
-| Lua | [Lua Core](lua.md) |
-| Dart | [Dart Core](dart.md) |
-| Swift | [Swift Core](swift.md) |
-| Julia | [Julia Core](julia.md) |
-| R | [R Core](r.md) |
-| D | [D Core](d.md) |
-| Zig | [Zig Core](zig.md) |
-| COBOL | [COBOL Core](cobol.md) |
-| Fortran | [Fortran Core](fortran.md) |
-| Elixir | [Elixir Core](elixir.md) |
-| Erlang | [Erlang Core](erlang.md) |
-| Nim | [Nim Core](nim.md) |
-| V | [V Core](v.md) |
-| Objective-C | [Objective-C Core](objective-c.md) |
-| OCaml / Caml | [OCaml Core](ocaml.md) |
-| MATLAB / Octave | [MATLAB/Octave Core](matlab.md) |
-| Haskell | [Haskell Core](haskell.md) |
-| Delphi / Free Pascal | [Delphi / Free Pascal Core](delphi.md) |
+| Go | [安装与快速开始](go/index.md) |
+| Python | [Python Core](python/index.md) |
+| TypeScript | [TypeScript Core](typescript/index.md) |
+| Java | [Java Core](java/index.md) |
+| Rust | [Rust Core](rust/index.md) |
+| C | [C Core](c/index.md) |
+| C++ | [C++ Core](cpp/index.md) |
+| C# / .NET | [C# Core](csharp/index.md) |
+| PHP | [PHP Core](php/index.md) |
+| Ruby | [Ruby Core](ruby/index.md) |
+| Perl | [Perl Core](perl/index.md) |
+| Lua | [Lua Core](lua/index.md) |
+| Dart | [Dart Core](dart/index.md) |
+| Swift | [Swift Core](swift/index.md) |
+| Julia | [Julia Core](julia/index.md) |
+| R | [R Core](r/index.md) |
+| D | [D Core](d/index.md) |
+| Zig | [Zig Core](zig/index.md) |
+| COBOL | [COBOL Core](cobol/index.md) |
+| Fortran | [Fortran Core](fortran/index.md) |
+| Elixir | [Elixir Core](elixir/index.md) |
+| Erlang | [Erlang Core](erlang/index.md) |
+| Nim | [Nim Core](nim/index.md) |
+| V | [V Core](v/index.md) |
+| Objective-C | [Objective-C Core](objective-c/index.md) |
+| OCaml / Caml | [OCaml Core](ocaml/index.md) |
+| MATLAB / Octave | [MATLAB/Octave Core](matlab/index.md) |
+| Haskell | [Haskell Core](haskell/index.md) |
+| Delphi / Free Pascal | [Delphi / Free Pascal Core](delphi/index.md) |
 
 ## 共享运行时示例与桥接
 
 | 语言 | 形式 |
 | --- | --- |
-| JavaScript | [复用 TypeScript](javascript.md) |
-| Kotlin | [复用 Java](kotlin.md) |
-| Scala | [复用 Java](scala.md) |
-| Groovy | [复用 Java](groovy.md) |
-| Clojure | [复用 Java](clojure.md) |
-| OpenCL | [复用 C 的计算示例](opencl.md) |
-| Visual Basic | [复用 .NET](visual-basic.md) |
-| F# | [复用 .NET](fsharp.md) |
-| Shell | [运行时桥接](shell.md) |
-| PowerShell | [运行时桥接](powershell.md) |
-| Lisp | [SBCL 运行时桥接](lisp.md) |
-| Tcl | [运行时桥接](tcl.md) |
-| Prolog | [SWI-Prolog 运行时桥接](prolog.md) |
+| JavaScript | [复用 TypeScript](javascript/index.md) |
+| Kotlin | [复用 Java](kotlin/index.md) |
+| Scala | [复用 Java](scala/index.md) |
+| Groovy | [复用 Java](groovy/index.md) |
+| Clojure | [复用 Java](clojure/index.md) |
+| OpenCL | [复用 C 的计算示例](opencl/index.md) |
+| Visual Basic | [复用 .NET](visual-basic/index.md) |
+| F# | [复用 .NET](fsharp/index.md) |
+| Shell | [运行时桥接](shell/index.md) |
+| PowerShell | [运行时桥接](powershell/index.md) |
+| Lisp | [SBCL 运行时桥接](lisp/index.md) |
+| Tcl | [运行时桥接](tcl/index.md) |
+| Prolog | [SWI-Prolog 运行时桥接](prolog/index.md) |
 
 源码标签、包管理器发布、一致性测试和生产验证是不同状态。语言页面复用对应
 源码 README，使安装、示例与限制保持一致。尚未翻译的语言说明会回退到英文。

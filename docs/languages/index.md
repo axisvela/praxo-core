@@ -7,6 +7,8 @@ and the [canonical scope matrix](https://github.com/axisvela/praxo-core/blob/mai
 
 [View all languages and their current status](matrix.md){ .md-button }
 
+Each entry has its own docs/languages/<language>/ directory for the Core page and future examples, adapter notes, and release pages.
+
 See the [compatibility lab](compatibility-lab.md) for reproducible conformance
 evidence across selected implementations, and the [behavior lab](behavior-lab.md)
 for cross-language agent behavior scenarios. Behavior coverage uses separate
@@ -21,53 +23,53 @@ wire-only scope requires documented technical limitations. See the
 
 | Language | Entry point |
 | --- | --- |
-| Go | [Install and quickstart](go.md) |
-| Python | [Python Core](python.md) |
-| TypeScript | [TypeScript Core](typescript.md) |
-| Java | [Java Core](java.md) |
-| Rust | [Rust Core](rust.md) |
-| C | [C Core](c.md) |
-| C++ | [C++ Core](cpp.md) |
-| C# / .NET | [C# Core](csharp.md) |
-| PHP | [PHP Core](php.md) |
-| Ruby | [Ruby Core](ruby.md) |
-| Perl | [Perl Core](perl.md) |
-| Lua | [Lua Core](lua.md) |
-| Dart | [Dart Core](dart.md) |
-| Swift | [Swift Core](swift.md) |
-| Julia | [Julia Core](julia.md) |
-| R | [R Core](r.md) |
-| D | [D Core](d.md) |
-| Zig | [Zig Core](zig.md) |
-| COBOL | [COBOL Core](cobol.md) |
-| Fortran | [Fortran Core](fortran.md) |
-| Elixir | [Elixir Core](elixir.md) |
-| Erlang | [Erlang Core](erlang.md) |
-| Nim | [Nim Core](nim.md) |
-| V | [V Core](v.md) |
-| Objective-C | [Objective-C Core](objective-c.md) |
-| OCaml / Caml | [OCaml Core](ocaml.md) |
-| MATLAB / Octave | [MATLAB/Octave Core](matlab.md) |
-| Haskell | [Haskell Core](haskell.md) |
-| Delphi / Free Pascal | [Delphi / Free Pascal Core](delphi.md) |
+| Go | [Install and quickstart](go/index.md) |
+| Python | [Python Core](python/index.md) |
+| TypeScript | [TypeScript Core](typescript/index.md) |
+| Java | [Java Core](java/index.md) |
+| Rust | [Rust Core](rust/index.md) |
+| C | [C Core](c/index.md) |
+| C++ | [C++ Core](cpp/index.md) |
+| C# / .NET | [C# Core](csharp/index.md) |
+| PHP | [PHP Core](php/index.md) |
+| Ruby | [Ruby Core](ruby/index.md) |
+| Perl | [Perl Core](perl/index.md) |
+| Lua | [Lua Core](lua/index.md) |
+| Dart | [Dart Core](dart/index.md) |
+| Swift | [Swift Core](swift/index.md) |
+| Julia | [Julia Core](julia/index.md) |
+| R | [R Core](r/index.md) |
+| D | [D Core](d/index.md) |
+| Zig | [Zig Core](zig/index.md) |
+| COBOL | [COBOL Core](cobol/index.md) |
+| Fortran | [Fortran Core](fortran/index.md) |
+| Elixir | [Elixir Core](elixir/index.md) |
+| Erlang | [Erlang Core](erlang/index.md) |
+| Nim | [Nim Core](nim/index.md) |
+| V | [V Core](v/index.md) |
+| Objective-C | [Objective-C Core](objective-c/index.md) |
+| OCaml / Caml | [OCaml Core](ocaml/index.md) |
+| MATLAB / Octave | [MATLAB/Octave Core](matlab/index.md) |
+| Haskell | [Haskell Core](haskell/index.md) |
+| Delphi / Free Pascal | [Delphi / Free Pascal Core](delphi/index.md) |
 
 ## Shared-Runtime Samples and Bridges
 
 | Language | Implementation |
 | --- | --- |
-| JavaScript | [Sample using TypeScript](javascript.md) |
-| Kotlin | [Sample using Java](kotlin.md) |
-| Scala | [Sample using Java](scala.md) |
-| Groovy | [Sample using Java](groovy.md) |
-| Clojure | [Sample using Java](clojure.md) |
-| OpenCL | [Compute sample using C](opencl.md) |
-| Visual Basic | [Sample using .NET](visual-basic.md) |
-| F# | [Sample using .NET](fsharp.md) |
-| Shell | [Runtime bridge](shell.md) |
-| PowerShell | [Runtime bridge](powershell.md) |
-| Lisp | [SBCL runtime bridge](lisp.md) |
-| Tcl | [Runtime bridge](tcl.md) |
-| Prolog | [SWI-Prolog runtime bridge](prolog.md) |
+| JavaScript | [Sample using TypeScript](javascript/index.md) |
+| Kotlin | [Sample using Java](kotlin/index.md) |
+| Scala | [Sample using Java](scala/index.md) |
+| Groovy | [Sample using Java](groovy/index.md) |
+| Clojure | [Sample using Java](clojure/index.md) |
+| OpenCL | [Compute sample using C](opencl/index.md) |
+| Visual Basic | [Sample using .NET](visual-basic/index.md) |
+| F# | [Sample using .NET](fsharp/index.md) |
+| Shell | [Runtime bridge](shell/index.md) |
+| PowerShell | [Runtime bridge](powershell/index.md) |
+| Lisp | [SBCL runtime bridge](lisp/index.md) |
+| Tcl | [Runtime bridge](tcl/index.md) |
+| Prolog | [SWI-Prolog runtime bridge](prolog/index.md) |
 
 Source tags, registry publication, conformance, and production verification are
 different states. A language page includes the source README so installation,

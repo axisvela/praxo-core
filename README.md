@@ -67,11 +67,11 @@ Go is the reference implementation. Core implementations share a normative contr
 
 | Runtime | Start here |
 | --- | --- |
-| Go | [Install and quickstart](docs/languages/go.md) |
+| Go | [Install and quickstart](docs/languages/go/index.md) |
 | Python | [Python Core](https://axisvela.github.io/praxo-core/languages/python/) |
 | TypeScript / JavaScript | [TypeScript Core](https://axisvela.github.io/praxo-core/languages/typescript/), [JavaScript sample](https://axisvela.github.io/praxo-core/languages/javascript/) |
 | Java / Kotlin / Scala / Groovy / Clojure | [Java Core](https://axisvela.github.io/praxo-core/languages/java/), [Kotlin](https://axisvela.github.io/praxo-core/languages/kotlin/), [Scala](https://axisvela.github.io/praxo-core/languages/scala/), [Groovy](https://axisvela.github.io/praxo-core/languages/groovy/), [Clojure](https://axisvela.github.io/praxo-core/languages/clojure/) |
-| .NET | [C# Core](https://axisvela.github.io/praxo-core/languages/csharp/), [Visual Basic sample](docs/languages/visual-basic.md), [F# sample](docs/languages/fsharp.md) |
+| .NET | [C# Core](https://axisvela.github.io/praxo-core/languages/csharp/), [Visual Basic sample](docs/languages/visual-basic/index.md), [F# sample](docs/languages/fsharp/index.md) |
 | C / OpenCL | [C Core](https://axisvela.github.io/praxo-core/languages/c/), [OpenCL sample](https://axisvela.github.io/praxo-core/languages/opencl/) |
 | OCaml | [OCaml Core](https://axisvela.github.io/praxo-core/languages/ocaml/) |
 | MATLAB / Octave | [MATLAB/Octave Core](https://axisvela.github.io/praxo-core/languages/matlab/) |

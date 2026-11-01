@@ -9,7 +9,7 @@ From the repository root, use the .NET Core to run:
 dotnet run --project language/csharp/samples/VbSample
 ```
 
-See the [C# / .NET Core](csharp.md) for runtime requirements, supported features,
+See the [C# / .NET Core](../csharp/) for runtime requirements, supported features,
 contract version, and limitations, and the
 [VB sample source](https://github.com/axisvela/praxo-core/tree/main/language/csharp/samples/VbSample)
 for usage. No separate Visual Basic package or release is implied.

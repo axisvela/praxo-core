@@ -130,48 +130,48 @@ nav:
       - Compatibility Lab: languages/compatibility-lab.md
       - Behavior Lab: languages/behavior-lab.md
       - Behavior Lab Matrix: languages/behavior-lab-matrix.md
-      - Go: languages/go.md
-      - Python: languages/python.md
-      - TypeScript: languages/typescript.md
-      - JavaScript: languages/javascript.md
-      - Java: languages/java.md
-      - Kotlin: languages/kotlin.md
-      - Scala: languages/scala.md
-      - Groovy: languages/groovy.md
-      - Clojure: languages/clojure.md
-      - Rust: languages/rust.md
-      - C: languages/c.md
-      - C++: languages/cpp.md
-      - OpenCL: languages/opencl.md
-      - C# / .NET: languages/csharp.md
-      - Visual Basic: languages/visual-basic.md
-      - F#: languages/fsharp.md
-      - PHP: languages/php.md
-      - Ruby: languages/ruby.md
-      - Perl: languages/perl.md
-      - Lua: languages/lua.md
-      - Dart: languages/dart.md
-      - Swift: languages/swift.md
-      - Julia: languages/julia.md
-      - R: languages/r.md
-      - D: languages/d.md
-      - Zig: languages/zig.md
-      - COBOL: languages/cobol.md
-      - Fortran: languages/fortran.md
-      - Haskell: languages/haskell.md
-      - MATLAB / Octave: languages/matlab.md
-      - Delphi / Free Pascal: languages/delphi.md
-      - OCaml: languages/ocaml.md
-      - Objective-C: languages/objective-c.md
-      - Elixir: languages/elixir.md
-      - Erlang: languages/erlang.md
-      - Nim: languages/nim.md
-      - V: languages/v.md
-      - Lisp: languages/lisp.md
-      - Tcl: languages/tcl.md
-      - Prolog: languages/prolog.md
-      - Shell: languages/shell.md
-      - PowerShell: languages/powershell.md
+      - Go: languages/go/index.md
+      - Python: languages/python/index.md
+      - TypeScript: languages/typescript/index.md
+      - JavaScript: languages/javascript/index.md
+      - Java: languages/java/index.md
+      - Kotlin: languages/kotlin/index.md
+      - Scala: languages/scala/index.md
+      - Groovy: languages/groovy/index.md
+      - Clojure: languages/clojure/index.md
+      - Rust: languages/rust/index.md
+      - C: languages/c/index.md
+      - C++: languages/cpp/index.md
+      - OpenCL: languages/opencl/index.md
+      - C# / .NET: languages/csharp/index.md
+      - Visual Basic: languages/visual-basic/index.md
+      - F#: languages/fsharp/index.md
+      - PHP: languages/php/index.md
+      - Ruby: languages/ruby/index.md
+      - Perl: languages/perl/index.md
+      - Lua: languages/lua/index.md
+      - Dart: languages/dart/index.md
+      - Swift: languages/swift/index.md
+      - Julia: languages/julia/index.md
+      - R: languages/r/index.md
+      - D: languages/d/index.md
+      - Zig: languages/zig/index.md
+      - COBOL: languages/cobol/index.md
+      - Fortran: languages/fortran/index.md
+      - Haskell: languages/haskell/index.md
+      - MATLAB / Octave: languages/matlab/index.md
+      - Delphi / Free Pascal: languages/delphi/index.md
+      - OCaml: languages/ocaml/index.md
+      - Objective-C: languages/objective-c/index.md
+      - Elixir: languages/elixir/index.md
+      - Erlang: languages/erlang/index.md
+      - Nim: languages/nim/index.md
+      - V: languages/v/index.md
+      - Lisp: languages/lisp/index.md
+      - Tcl: languages/tcl/index.md
+      - Prolog: languages/prolog/index.md
+      - Shell: languages/shell/index.md
+      - PowerShell: languages/powershell/index.md
   - Integrations:
       - Adapter Directory: integrations/index.md
       - Ecosystem: integrations/ecosystem.md

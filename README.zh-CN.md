@@ -55,11 +55,11 @@ Go 是参考实现，语言 SDK 共享 [`spec/`](spec/README.md) 中的规范契
 
 | 运行时 | 使用入口 |
 | --- | --- |
-| Go | [安装与快速开始](docs/languages/go.md) |
+| Go | [安装与快速开始](docs/languages/go/index.md) |
 | Python | [Python SDK](https://axisvela.github.io/praxo-core/zh-CN/languages/python/) |
 | TypeScript / JavaScript | [TypeScript SDK](https://axisvela.github.io/praxo-core/zh-CN/languages/typescript/)、[JavaScript 示例](https://axisvela.github.io/praxo-core/zh-CN/languages/javascript/) |
 | Java / Kotlin / Scala | [Java SDK](https://axisvela.github.io/praxo-core/zh-CN/languages/java/)、[Kotlin](https://axisvela.github.io/praxo-core/zh-CN/languages/kotlin/)、[Scala](https://axisvela.github.io/praxo-core/zh-CN/languages/scala/) |
-| .NET | [C# SDK](https://axisvela.github.io/praxo-core/zh-CN/languages/csharp/)、[Visual Basic 示例](docs/languages/visual-basic.md) |
+| .NET | [C# SDK](https://axisvela.github.io/praxo-core/zh-CN/languages/csharp/)、[Visual Basic 示例](docs/languages/visual-basic/index.md) |
 | 其他语言 | [完整语言实现目录](docs/zh-CN/languages/index.md) |
 
 源码发布、包管理器发布、一致性测试和生产验证是不同状态。请按各语言页面安装，

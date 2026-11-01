@@ -40,7 +40,7 @@ class DocumentationTests(unittest.TestCase):
         self.assertIn("[web](https://example.com/)", result)
 
     def test_sdk_sources_exist(self):
-        pages = list((ROOT / "docs/languages").glob("*.md"))
+        pages = list((ROOT / "docs/languages").glob("*/index.md"))
         for page in pages:
             text = page.read_text(encoding="utf-8")
             if not text.startswith("---\n"):
@@ -57,8 +57,11 @@ class DocumentationTests(unittest.TestCase):
             self.assertTrue((ROOT / "docs" / new).exists(), new)
 
     def test_moved_language_redirects_cover_all_pages(self):
-        pages = {path.name for path in (ROOT / "docs/languages").glob("*.md")}
-        self.assertTrue({page + ".md" for page in docs_hooks.MOVED_LANGUAGE_PAGES}.issubset(pages))
+        for page in docs_hooks.MOVED_LANGUAGE_PAGES:
+            if page in ("index", "support"):
+                self.assertTrue((ROOT / "docs/languages" / (page + ".md")).is_file())
+            else:
+                self.assertTrue((ROOT / "docs/languages" / page / "index.md").is_file())
         for prefix in ("", "zh-CN/"):
             self.assertFalse((ROOT / "docs" / prefix / "sdks").exists())
 
@@ -122,9 +125,9 @@ class DocumentationTests(unittest.TestCase):
 | MATLAB | Core | released | `matlab/v9.8.7` | partial | runtime unverified |
 | Future | Bridge | planned | none | planned | consumer required |
 """
-        self.assertIn("[Python](python.md) | Framework (Core) | released | `python/v9.8.7` | complete | fixture scope", docs_hooks.language_matrix(source))
+        self.assertIn("[Python](python/index.md) | Framework (Core) | released | `python/v9.8.7` | complete | fixture scope", docs_hooks.language_matrix(source))
         chinese = docs_hooks.language_matrix(source, chinese=True)
-        self.assertIn("[MATLAB](matlab.md) | Framework (Core) | 源码已发布 | `matlab/v9.8.7` | 部分完成", chinese)
+        self.assertIn("[MATLAB](matlab/index.md) | Framework (Core) | 源码已发布 | `matlab/v9.8.7` | 部分完成", chinese)
         self.assertIn("Future | Bridge | 计划中 | — | 计划中 | consumer required", chinese)
         for invalid in (source.replace("| planned | none", "| unknown | none"),
                         source + source.splitlines()[3] + "\n",
