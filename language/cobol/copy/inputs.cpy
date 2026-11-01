@@ -10,6 +10,7 @@
           05 px-before-tool-program pic x(64).
           05 px-after-run-program pic x(64).
           05 px-after-run-program-2 pic x(64).
+          05 px-cancel-program pic x(64).
           05 px-allowed-tool-count binary-long.
           05 px-allowed-tools occurs 8 times pic x(64).
        01 px-session.

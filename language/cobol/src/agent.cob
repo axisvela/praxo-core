@@ -64,11 +64,18 @@ procedure division using px-options px-session px-prompt
         perform after-run-hooks
         goback
     end-if
+    perform check-cancelled
+    if px-result-error not = spaces
+        perform after-run-hooks
+        goback
+    end-if
     initialize px-event
     move "run.started" to px-event-kind
     perform emit-event
     perform varying step-number from 1 by 1
         until step-number > step-limit or px-result-error not = spaces
+        perform check-cancelled
+        if px-result-error not = spaces exit perform end-if
         initialize px-action
         move "model.generate" to px-action-kind
         perform authorize-action
@@ -82,6 +89,8 @@ procedure division using px-options px-session px-prompt
             move px-status to px-result-error
             exit perform
         end-if
+        perform check-cancelled
+        if px-result-error not = spaces exit perform end-if
         move step-number to px-result-steps
         if px-answer-length < 0 or > 2048
             or px-call-count < 0 or > 8
@@ -139,7 +148,11 @@ procedure division using px-options px-session px-prompt
             until call-number > px-call-count
                 or px-result-error not = spaces
             move px-calls(call-number) to px-call
+            perform check-cancelled
+            if px-result-error not = spaces exit perform end-if
             perform invoke-tool
+            perform check-cancelled
+            if px-result-error not = spaces exit perform end-if
         end-perform
     end-perform
     if px-result-error = spaces
@@ -225,6 +238,18 @@ before-tool-hooks.
         on exception move "MIDDLEWARE_ERROR" to px-status
     end-call
     if px-status not = spaces move px-status to px-result-error end-if.
+
+check-cancelled.
+    if px-cancel-program = spaces exit paragraph end-if
+    initialize px-action
+    move "run.check" to px-action-kind
+    move spaces to px-status
+    call px-cancel-program using px-action px-user-data px-status
+        on exception move "AGENT_CANCELLED" to px-status
+    end-call
+    if px-status not = spaces
+        move "AGENT_CANCELLED" to px-result-error
+    end-if.
 
 check-tool-allowed.
     move 1 to tool-allowed-flag

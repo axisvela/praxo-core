@@ -34,7 +34,7 @@ def program_api(path):
 
 
 def snapshot(root):
-    output = ["COBOL API inventory 0.2.0"]
+    output = ["COBOL API inventory 0.3.0"]
     for path in sorted((root / "copy").glob("*.cpy")):
         output += ["", f"copybook {path.stem}"]
         output += copybook_members(path)
@@ -51,7 +51,7 @@ def main():
     mode.add_argument("--update", action="store_true")
     args = parser.parse_args()
     root = Path(__file__).resolve().parent
-    path = root / "api" / "0.2.0.txt"
+    path = root / "api" / "0.3.0.txt"
     current = snapshot(root)
     if args.update:
         path.parent.mkdir(exist_ok=True)

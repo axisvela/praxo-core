@@ -456,9 +456,10 @@ def scenarios() -> tuple[Scenario, ...]:
                 "php": (php,),
                 "r": (r,),
                 "c": (c,),
+                "cobol": (cobol,),
                 "rust": (rust_test("model_cancellation_runs_after_run_and_emits_failed"),),
             },
-            {"go": "scenario", "python": "scenario", "typescript": "scenario", "java": "group", "csharp": "suite", "php": "suite", "r": "suite", "c": "suite", "rust": "scenario"},
+            {"go": "scenario", "python": "scenario", "typescript": "scenario", "java": "group", "csharp": "suite", "php": "suite", "r": "suite", "c": "suite", "cobol": "suite", "rust": "scenario"},
         ),
         Scenario(
             "tool-cancel-cleanup",
@@ -479,9 +480,10 @@ def scenarios() -> tuple[Scenario, ...]:
                 "php": (php,),
                 "r": (r,),
                 "c": (c,),
+                "cobol": (cobol,),
                 "rust": (rust_test("tool_cancellation_stops_later_effects_and_runs_after_run"),),
             },
-            {"go": "scenario", "python": "scenario", "typescript": "scenario", "java": "group", "csharp": "suite", "php": "suite", "r": "suite", "c": "suite", "rust": "scenario"},
+            {"go": "scenario", "python": "scenario", "typescript": "scenario", "java": "group", "csharp": "suite", "php": "suite", "r": "suite", "c": "suite", "cobol": "suite", "rust": "scenario"},
         ),
         Scenario(
             "schema-number-unicode",

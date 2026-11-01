@@ -59,7 +59,7 @@ class ToolingTests(unittest.TestCase):
             self.assertNotEqual(original, api_snapshot.snapshot(root))
 
     def test_current_api_declares_middleware_hooks(self):
-        current = (ROOT / "api" / "0.2.0.txt").read_text(encoding="utf-8")
+        current = (ROOT / "api" / "0.3.0.txt").read_text(encoding="utf-8")
         self.assertIn("px-before-run-program", current)
         self.assertIn("px-before-tool-program", current)
         self.assertIn("px-after-run-program", current)

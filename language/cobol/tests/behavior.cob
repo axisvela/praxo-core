@@ -21,8 +21,10 @@ procedure division.
     perform startup-cleanup-case
     perform after-run-continue-case
     perform cleanup-failclosed-case
+    perform model-cancellation-case
+    perform tool-cancellation-case
     if failures = 0
-        display "PASS: 8 native COBOL behavior cases"
+        display "PASS: 10 native COBOL behavior cases"
         move 0 to return-code
     else
         display "FAIL: " failures " behavior assertions"
@@ -148,6 +150,37 @@ cleanup-failclosed-case.
         or bh-event-types(2) not = "run.failed"
         perform fail-case
     end-if.
+model-cancellation-case.
+    perform reset-case
+    move "model cancellation" to test-name
+    move 10 to bh-mode
+    move "behavior-after-run" to px-after-run-program
+    perform run-agent
+    if px-result-error not = "AGENT_CANCELLED"
+        or bh-model-count not = 1
+        or bh-tool-count not = 0
+        or bh-after-run-count not = 1
+        or bh-event-count not = 2
+        or bh-event-types(1) not = "run.started"
+        or bh-event-types(2) not = "run.failed"
+        perform fail-case
+    end-if.
+tool-cancellation-case.
+    perform reset-case
+    move "tool cancellation" to test-name
+    move 11 to bh-mode
+    move "behavior-after-run" to px-after-run-program
+    perform run-agent
+    if px-result-error not = "AGENT_CANCELLED"
+        or bh-model-count not = 1
+        or bh-tool-count not = 1
+        or bh-after-run-count not = 1
+        or bh-event-count not = 3
+        or bh-event-types(1) not = "run.started"
+        or bh-event-types(2) not = "tool.call"
+        or bh-event-types(3) not = "run.failed"
+        perform fail-case
+    end-if.
 reset-case.
     initialize px-options px-session px-prompt px-result
     move low-values to px-user-data
@@ -155,6 +188,7 @@ reset-case.
     move "behavior-tool" to px-tool-program
     move "behavior-policy" to px-policy-program
     move "behavior-events" to px-event-program
+    move "behavior-cancel" to px-cancel-program
     move 8 to px-max-steps
     move "go" to px-prompt-text
     move 2 to px-prompt-length.
@@ -187,7 +221,11 @@ procedure division using px-session px-response px-user-data px-status.
         move "MODEL_SHOULD_NOT_RUN" to px-status
         goback
     end-if
-    if bh-mode >= 1 and bh-mode <= 5 and bh-model-count = 1
+    if bh-mode = 10
+        move 1 to bh-cancel
+    end-if
+    if (bh-mode >= 1 and bh-mode <= 5 or bh-mode = 11)
+        and bh-model-count = 1
         move spaces to px-answer
         move 0 to px-answer-length
         move 1 to px-call-count
@@ -225,6 +263,9 @@ procedure division using px-call px-tool-result px-user-data px-status.
     move px-tool-input-length to bh-last-input-length
     move px-tool-input to px-tool-output
     move px-tool-input-length to px-tool-output-length
+    if bh-mode = 11
+        move 1 to bh-cancel
+    end-if
     goback.
 end program behavior-tool.
 
@@ -347,3 +388,16 @@ procedure division using px-call px-user-data px-status.
     end-if
     goback.
 end program behavior-before-tool.
+
+identification division.
+program-id. behavior-cancel recursive.
+data division.
+linkage section.
+copy "api.cpy".
+copy "behavior-state.cpy".
+procedure division using px-action px-user-data px-status.
+    if bh-cancel = 1
+        move "AGENT_CANCELLED" to px-status
+    end-if
+    goback.
+end program behavior-cancel.

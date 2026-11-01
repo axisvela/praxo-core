@@ -9,6 +9,7 @@
           05 bh-tool-policy-count binary-long.
           05 bh-event-count binary-long.
           05 bh-order-count binary-long.
+          05 bh-cancel binary-long.
           05 bh-last-input-length binary-long.
           05 bh-last-name pic x(64).
           05 bh-last-input pic x(256).
