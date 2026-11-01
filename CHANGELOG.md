@@ -44,9 +44,9 @@
   cancellation, streaming callbacks, an SSE parser, and bounded parallel tools.
   Unix uses pthread workers; Windows keeps the sequential path. `0.4.0` added
   the cancellation, streaming, and SSE work.
-- PHP `0.2.0` source adds streaming runs, cancellation, an SSE parser, final
-  authorization, lifecycle cleanup, and truncation rejection. Parallel tool
-  execution remains unsupported.
+- PHP `0.3.0` source adds streaming runs, cancellation, an SSE parser, final
+  authorization, lifecycle cleanup, and caller-provided cooperative parallel
+  tool dispatch, reaching 19/19 behavior scenarios.
 - R `0.4.0` source adds bounded parallel tools using `mclapply` on Unix and a
   PSOCK cluster on Windows. R `0.3.0` added policy and middleware hooks,
   final tool allowlist and

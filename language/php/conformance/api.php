@@ -44,7 +44,7 @@ function apiSnapshot(): string
 
 function checkApi(): int
 {
-    $path = repoRoot() . '/language/php/api/0.2.0.txt';
+    $path = repoRoot() . '/language/php/api/0.3.0.txt';
     if (!is_file($path)) {
         fwrite(STDERR, "missing API snapshot: {$path}\n");
         return 2;
@@ -55,7 +55,7 @@ function checkApi(): int
         echo "api snapshot ok\n";
         return 0;
     }
-    fwrite(STDERR, "api snapshot mismatch; run: php language/php/conformance/run.php --api-snapshot > language/php/api/0.2.0.txt\n");
+    fwrite(STDERR, "api snapshot mismatch; run: php language/php/conformance/run.php --api-snapshot > language/php/api/0.3.0.txt\n");
     return 1;
 }
 

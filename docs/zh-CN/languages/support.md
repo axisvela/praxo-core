@@ -37,7 +37,7 @@ Bridge、Sample 描述运行时的接入方式，不证明其语言缺乏 Framew
 | Extended | C、PHP、Fortran、COBOL、Ruby、Elixir、Erlang、C++、Lua | 契约型或聚焦型实现；在有明确消费者和维护者的前提下逐场景推进行为覆盖 |
 | Optional | 其他已声明实现 | 不在当前行为实验计划内；契约一致性不变，行为工作需有明确消费者和维护者 |
 
-2026-11-01 的源码集覆盖十六个已接入语言：agent-capable 的 Go、Python、TypeScript、Java、Rust、R、C#，以及 extended 的 C、PHP、Fortran、COBOL、Ruby、Elixir、Erlang、C++、Lua。所有 agent-capable 语言和 C 均通过十九个场景；PHP 通过十八个，并行工具因无便携线程模型而不支持。其余扩展语言使用原生套件覆盖，没有场景测试的单元格保持 `unsupported`。逐单元格结果见[行为实验矩阵](behavior-lab-matrix.md)。
+2026-11-01 的源码集覆盖十六个已接入语言：agent-capable 的 Go、Python、TypeScript、Java、Rust、R、C#，以及 extended 的 C、PHP、Fortran、COBOL、Ruby、Elixir、Erlang、C++、Lua。所有 agent-capable 语言和 C 均通过十九个场景；PHP 也通过 `batchToolInvoker` 中调用方提供的 Fiber 达到十九个，Core 本身不创建线程。其余扩展语言使用原生套件覆盖，没有场景测试的单元格保持 `unsupported`。逐单元格结果见[行为实验矩阵](behavior-lab-matrix.md)。
 
 `85a9d7b` 上的 clean-SHA CI 运行为十六语言集报告了 205 passed、99 unsupported、无失败。矩阵由该报告生成。
 
@@ -70,9 +70,10 @@ Bridge、Sample 描述运行时的接入方式，不证明其语言缺乏 Framew
   `com.axisvela:praxo-core:0.3.0`，Maven groupId 为 `com.axisvela`，Java
   包名为 `com.axisvela.praxo`。较早的 `java/v0.2.3` 标签仍保留
   `io.axisvela.praxo`。
-- PHP 源码标签 `php/v0.2.0` 包含流式运行、取消、SSE 校验、最终授权和生命周期清理。
-  Packagist 包仍为 `axisvela/praxo-core==0.1.0`，来自独立发布仓库
-  `axisvela/praxo-core-php`。并行工具执行仍不支持。
+- PHP 源码标签 `php/v0.3.0` 包含流式运行、取消、SSE 校验、最终授权、生命周期清理，
+  以及通过 `batchToolInvoker` 提供的调用方协作式并行工具调度。Packagist 包仍为
+  `axisvela/praxo-core==0.1.0`，来自独立发布仓库 `axisvela/praxo-core-php`；
+  Core 本身不创建线程。
 - Ruby 源码标签 `ruby/v0.3.0` 增加 middleware、最终工具 allowlist、重新授权、
   生命周期清理、取消、流式回调、原生 SSE parser、有限并行工具和按 run 隔离的调用上限。
   RubyGems 包仍为 `praxo-core==0.1.0`；干净项目已安装该 gem 并运行最小 agent。

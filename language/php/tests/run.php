@@ -59,6 +59,29 @@ final class ToolModel implements Model
     }
 }
 
+final class ParallelModel implements Model
+{
+    private int $step = 0;
+    /** @var list<string> */
+    public array $order = [];
+
+    public function generate(Request $request): Response
+    {
+        if ($this->step++ === 0) {
+            return new Response(Message::assistant('', [
+                new ToolCall('c1', 'a', []),
+                new ToolCall('c2', 'b', []),
+            ]));
+        }
+        foreach ($request->messages as $message) {
+            if ($message->role === Roles::TOOL && $message->toolId !== null) {
+                $this->order[] = $message->toolId;
+            }
+        }
+        return new Response(Message::assistant('done'));
+    }
+}
+
 final class RecordingPolicy implements PolicyHook
 {
     /** @var list<Action> */
@@ -621,6 +644,46 @@ $response = \Praxo\Core\parseSseStream(
     },
 );
 check($response->message->content === 'hi', 'sse completion');
+
+$parallelModel = new ParallelModel();
+$parallelRegistry = new ToolRegistry();
+$parallelRegistry->register(new FuncTool('a', 'a', static fn (array $arguments): string => 'a'));
+$parallelRegistry->register(new FuncTool('b', 'b', static fn (array $arguments): string => 'b'));
+$parallelStarted = 0;
+$parallelRelease = false;
+$parallelOptions = new AgentOptions($parallelModel);
+$parallelOptions->tools = $parallelRegistry;
+$parallelOptions->maxParallelTools = 2;
+$parallelOptions->batchToolInvoker = static function (array $prepared, int $maxParallel) use (
+    &$parallelStarted,
+    &$parallelRelease,
+): array {
+    check($maxParallel === 2, 'parallel limit');
+    $fibers = [];
+    foreach ($prepared as $entry) {
+        $fibers[] = new \Fiber(static function () use ($entry, &$parallelStarted, &$parallelRelease): string {
+            $parallelStarted++;
+            \Fiber::suspend();
+            while (!$parallelRelease) {
+                \Fiber::suspend();
+            }
+            return $entry['tool']->invoke($entry['call']->arguments);
+        });
+    }
+    foreach ($fibers as $fiber) {
+        $fiber->start();
+    }
+    check($parallelStarted === 2, 'parallel started');
+    $parallelRelease = true;
+    $values = [];
+    foreach ($fibers as $fiber) {
+        $values[] = $fiber->resume();
+    }
+    return $values;
+};
+$parallelResult = (new Agent($parallelOptions))->run(new Session('s1'), 'go');
+check($parallelResult->output === 'done', 'parallel result');
+check($parallelModel->order === ['c1', 'c2'], 'parallel order');
 
 echo "PHP core tests passed ({$passed})\n";
 

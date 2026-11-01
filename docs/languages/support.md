@@ -49,10 +49,10 @@ Behavior Lab entirely.
 The 2026-11-01 source set covers sixteen wired languages: agent-capable Go,
 Python, TypeScript, Java, Rust, R, and C# plus the extended C, PHP, Fortran,
 COBOL, Ruby, Elixir, Erlang, C++, and Lua implementations. All agent-capable
-languages and C pass all nineteen scenarios. PHP passes eighteen; parallel tools
-are unsupported because PHP has no portable thread model. The remaining extended
-rows use native-suite coverage and stay `unsupported` where no scenario test
-exists. See the [Behavior Lab matrix](behavior-lab-matrix.md) for every cell.
+languages and C pass all nineteen scenarios. PHP also reaches nineteen through
+caller-provided Fibers in `batchToolInvoker`; the Core itself does not create
+threads. The remaining extended rows use native-suite coverage and stay
+`unsupported` where no scenario test exists. See the [Behavior Lab matrix](behavior-lab-matrix.md) for every cell.
 
 The clean-SHA CI run at `85a9d7b` reported 205 passed, 99 unsupported, and no
 failures for the sixteen-language set. The matrix is generated from that
@@ -99,10 +99,11 @@ a merged implementation PR as a support commitment.
   tag `java/v0.3.0`, with Maven groupId `com.axisvela` and Java packages under
   `com.axisvela.praxo`. The earlier `java/v0.2.3` tag retains
   `io.axisvela.praxo`.
-- PHP source tag `php/v0.2.0` includes streaming runs, cancellation, SSE
-  validation, final authorization, and lifecycle cleanup. The Packagist package
-  remains `axisvela/praxo-core==0.1.0` from the split publication repository
-  `axisvela/praxo-core-php`. Parallel tool execution remains unsupported.
+- PHP source tag `php/v0.3.0` includes streaming runs, cancellation, SSE
+  validation, final authorization, lifecycle cleanup, and caller-provided
+  cooperative parallel tool dispatch through `batchToolInvoker`. The Packagist
+  package remains `axisvela/praxo-core==0.1.0` from the split publication
+  repository `axisvela/praxo-core-php`; the Core does not create threads.
 - Ruby source tag `ruby/v0.3.0` adds middleware hooks, final-tool allowlist
   checks, reauthorization, lifecycle cleanup, cancellation, stream callbacks, a
   native SSE parser, bounded parallel tools, and run-scoped call limits. The

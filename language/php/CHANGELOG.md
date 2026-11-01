@@ -1,5 +1,23 @@
 # PHP Core Release Notes
 
+## 0.3.0 - 2026-11-01
+
+Source version `0.3.0`; tag creation is a release step. The Packagist package
+remains `axisvela/praxo-core@0.1.0` until publication.
+
+### Added
+
+- Caller-provided `batchToolInvoker` and `maxParallelTools` for bounded
+  cooperative parallel tool dispatch.
+- API snapshot `api/0.3.0.txt`.
+
+### Compatibility
+
+- New `AgentOptions` fields are additive.
+- The Core does not create threads; the batch invoker owns concurrency and the
+  native test uses PHP Fibers.
+- The Core contract remains `SPEC_VERSION` `0.2.0`.
+
 ## 0.2.0 - 2026-11-01
 
 Source release tag `php/v0.2.0`. The Packagist package remains

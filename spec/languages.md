@@ -40,10 +40,11 @@ targeted for cross-language agent-behavior parity in the Behavior Lab.
 | Extended | PHP, C, Fortran, COBOL, Ruby, Elixir, Erlang, C++, Lua | Contract or focused implementation where behavior parity is advanced scenario by scenario. An unsupported cell is intentional until a named consumer and maintainer exist. |
 | Optional | Other declared implementations | Outside the current Behavior Lab program. Contract conformance is unchanged; behavior work starts only with a named consumer and maintainer. |
 
-R and C are wired into the Behavior Lab. C# and PHP have native-suite coverage
-for selected scenarios, not full scenario-level coverage. R covers the selected
-rows its native suite asserts; C covers the call-limit, checkpoint, and capacity
-rows. Other implementations, including Swift, Julia, Haskell, MATLAB/Octave,
+R and C are wired into the Behavior Lab. PHP covers all nineteen scenarios
+through its native suite, using caller-provided Fibers for parallel tools. C#
+has native-suite coverage for selected scenarios. R covers the selected rows its
+native suite asserts; C covers the call-limit, checkpoint, and capacity rows.
+Other implementations, including Swift, Julia, Haskell, MATLAB/Octave,
 Perl, Delphi/Free Pascal, OCaml, Objective-C, Nim, V, D, Zig, and the
 Bridge/Sample entries, are in the optional tier.
 
@@ -81,7 +82,7 @@ for real providers, platforms, and production behavior is reported separately.
 | Visual Basic | Sample (.NET) | released | `csharp/v0.1.1` | sample | VB.NET consumer sample in `language/csharp/samples` |
 | PowerShell | Bridge | released | `powershell/v0.1.0` | complete | Wraps the bridge CLI |
 | Shell | Bridge | released | `shell/v0.1.0` | complete | Wraps the bridge CLI |
-| PHP | Core | released | `php/v0.2.0` | complete | 11 vectors, API snapshot, streaming/cancellation/SSE; source `0.2.0`, Packagist `axisvela/praxo-core==0.1.0`; parallel tools unsupported |
+| PHP | Core | released | `php/v0.3.0` | complete | 11 vectors, API snapshot, streaming/cancellation/SSE, and caller-provided cooperative parallel tools; source `0.3.0`, Packagist `axisvela/praxo-core==0.1.0` |
 | Swift | Core | released | `swift/v0.2.0` | complete | 11 vectors, XCTest, API snapshot |
 | Julia | Core | released | `julia/v0.2.0` | complete | 11 vectors, JSON.jl, API snapshot |
 | R | Core | released | `r/v0.4.0` | complete | 11 vectors, base-R JSON, policy/middleware, lifecycle cleanup, cancellation, streaming, SSE parser, bounded parallel tools, API snapshot |
@@ -136,7 +137,7 @@ for real providers, platforms, and production behavior is reported separately.
 | Rust | `rust-conformance` | cargo test, vectors, compiler-derived API snapshot/parity, gate regressions |
 | C | `c-conformance` | CMake build, 11 vectors, API snapshot, public Core API tests, inventory negative controls, installed-library consumer |
 | C# / VB.NET | `csharp-conformance` | build, vectors, API snapshot, core tests, VB sample |
-| PHP | `php-conformance` | vectors, API snapshot, core tests |
+| PHP | `php-conformance` | vectors, API snapshot, native tests |
 | Ruby | `ruby-conformance` | 11 vectors, API snapshot, native tests |
 | Lua | `lua-conformance` | 11 vectors, API snapshot, native tests |
 | Dart | `dart-conformance` | 11 vectors, API snapshot, tests |

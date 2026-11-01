@@ -130,6 +130,8 @@ final class AgentOptions
     public int $maxSteps = 8;
     public int $maxTokens = 0;
     public mixed $cancellation = null;
+    public int $maxParallelTools = 1;
+    public mixed $batchToolInvoker = null;
 
     public function __construct(public Model $model)
     {
@@ -252,9 +254,48 @@ final class Agent
                     $this->emit('run.completed', $session->id, $runId);
                     return $result;
                 }
-                foreach ($response->message->toolCalls as $toolCall) {
-                    $this->throwIfCancelled();
-                    $messages[] = $this->invokeTool($toolCall, $runId, $session->id);
+                $toolCalls = $response->message->toolCalls;
+                if ($this->options->batchToolInvoker !== null) {
+                    $prepared = [];
+                    foreach ($toolCalls as $toolCall) {
+                        $this->throwIfCancelled();
+                        $prepared[] = $this->prepareTool($toolCall, $runId, $session->id);
+                    }
+                    $invocable = [];
+                    $invocableIndexes = [];
+                    foreach ($prepared as $index => $entry) {
+                        if (!$entry['skip']) {
+                            $invocable[] = $entry;
+                            $invocableIndexes[] = $index;
+                        }
+                    }
+                    $values = ($this->options->batchToolInvoker)(
+                        $invocable,
+                        $this->options->maxParallelTools,
+                    );
+                    $byIndex = [];
+                    foreach ($invocable as $position => $entry) {
+                        $byIndex[$invocableIndexes[$position]] = $values[$position] ?? null;
+                    }
+                    foreach ($prepared as $index => $entry) {
+                        if ($entry['skip']) {
+                            $messages[] = $this->completePreparedTool(
+                                $entry,
+                                $entry['value'],
+                                $entry['error'],
+                            );
+                        } else {
+                            $messages[] = $this->completePreparedTool(
+                                $entry,
+                                $byIndex[$index],
+                            );
+                        }
+                    }
+                } else {
+                    foreach ($toolCalls as $toolCall) {
+                        $this->throwIfCancelled();
+                        $messages[] = $this->invokeTool($toolCall, $runId, $session->id);
+                    }
                 }
             }
             throw PraxoException::maxSteps();
@@ -313,6 +354,12 @@ final class Agent
 
     private function invokeTool(ToolCall $call, string $runId, string $sessionId): Message
     {
+        return $this->executePreparedTool($this->prepareTool($call, $runId, $sessionId));
+    }
+
+    /** @return array<string, mixed> */
+    private function prepareTool(ToolCall $call, string $runId, string $sessionId): array
+    {
         $this->throwIfCancelled();
         if (!$this->toolAllowed($call->name)) {
             throw new PraxoException('AGENT_TOOL_NOT_ALLOWED', "agent: tool {$call->name} is not allowed");
@@ -340,31 +387,62 @@ final class Agent
             ));
         }
         if ($middlewareCall->skip) {
-            $value = $middlewareCall->result;
-            $error = $middlewareCall->error;
-        } else {
-            $this->throwIfCancelled();
-            $tools = $this->options->tools
-                ?? throw PraxoException::toolNotFound("tool {$finalCall->name} is not registered");
-            $tool = $tools->get($finalCall->name);
-            $this->emit('tool.call', $sessionId, $runId, [
-                'name' => $finalCall->name,
-                'arguments' => $finalCall->arguments,
-            ]);
-            try {
-                $value = $tool->invoke($finalCall->arguments);
-                $error = null;
-            } catch (PraxoException $exception) {
-                $value = null;
-                $error = $exception;
-            }
+            return [
+                'middleware' => $middlewareCall,
+                'call' => $finalCall,
+                'skip' => true,
+                'value' => $middlewareCall->result,
+                'error' => $middlewareCall->error,
+            ];
         }
+        $this->throwIfCancelled();
+        $tools = $this->options->tools
+            ?? throw PraxoException::toolNotFound("tool {$finalCall->name} is not registered");
+        $tool = $tools->get($finalCall->name);
+        $this->emit('tool.call', $sessionId, $runId, [
+            'name' => $finalCall->name,
+            'arguments' => $finalCall->arguments,
+        ]);
+        return [
+            'middleware' => $middlewareCall,
+            'call' => $finalCall,
+            'skip' => false,
+            'tool' => $tool,
+        ];
+    }
+
+    /** @param array<string, mixed> $prepared */
+    private function executePreparedTool(array $prepared): Message
+    {
+        if ($prepared['skip']) {
+            return $this->completePreparedTool(
+                $prepared,
+                $prepared['value'],
+                $prepared['error'],
+            );
+        }
+        try {
+            $value = $prepared['tool']->invoke($prepared['call']->arguments);
+            $error = null;
+        } catch (PraxoException $exception) {
+            $value = null;
+            $error = $exception;
+        }
+        return $this->completePreparedTool($prepared, $value, $error);
+    }
+
+    /** @param array<string, mixed> $prepared */
+    private function completePreparedTool(
+        array $prepared,
+        mixed $value,
+        ?PraxoException $error = null,
+    ): Message {
         $result = new ToolResult($value, $error);
-        $this->afterTool($middlewareCall, $result);
+        $this->afterTool($prepared['middleware'], $result);
         if ($result->error !== null) {
             throw $result->error;
         }
-        return Message::tool(Json::encode($result->value), $call->id);
+        return Message::tool(Json::encode($result->value), $prepared['call']->id);
     }
 
     private function throwIfCancelled(): void
