@@ -10,4 +10,6 @@ This table covers all languages in the [normative support matrix](https://github
 
 The notes report declared scope and evidence, not a promise of full Go feature parity. C now exposes a public Core API for memory, events, checkpoints, policy, context, middleware, and the agent loop in addition to wire JSON primitives. Its agent loop has no cancellation path, and call-limit state must not be shared across concurrent runs. For exact CI jobs and tier gates, see the [canonical matrix](https://github.com/axisvela/praxo-core/blob/main/spec/languages.md) and [implementation support policy](support.md).
 
+Behavior coverage is a separate tier from contract tier: agent-capable, extended, or optional. See the [support policy](support.md#behavior-capability-tiers) for the language lists and current Behavior Lab status.
+
 <!-- language-support-matrix -->

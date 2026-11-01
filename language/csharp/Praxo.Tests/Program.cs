@@ -27,6 +27,9 @@ internal static class Program
         TestFinalName();
         TestUnchangedSingleAuthorization();
         TestInitialDenial();
+        TestStartupCleanup();
+        TestAfterRunContinues();
+        TestCleanupFailClosed();
         Console.WriteLine($"C# core tests passed ({_passed})");
         return 0;
     }
@@ -399,6 +402,118 @@ internal static class Program
             "initial denial prevents middleware and effect");
     }
 
+    private static void TestStartupCleanup()
+    {
+        var calls = new List<string>();
+        var sink = new RecordingSink();
+        var first = new LifecycleMiddleware
+        {
+            Before = () => calls.Add("first.before"),
+            After = (_, _) => calls.Add("first.after"),
+        };
+        var second = new LifecycleMiddleware
+        {
+            Before = () =>
+            {
+                calls.Add("second.before");
+                throw new PraxoException("STARTUP_FAILED", "startup failed");
+            },
+            After = (_, _) => calls.Add("second.after"),
+        };
+        var third = new LifecycleMiddleware
+        {
+            Before = () => calls.Add("third.before"),
+            After = (_, _) => calls.Add("third.after"),
+        };
+        var options = new AgentOptions(new StaticTestModel()) { Events = sink };
+        options.Middleware.Add(first);
+        options.Middleware.Add(second);
+        options.Middleware.Add(third);
+        var failure = "";
+        try
+        {
+            new Agent(options).Run(new Session("s1"), "go");
+        }
+        catch (PraxoException ex) when (ex.Code == "STARTUP_FAILED")
+        {
+            failure = ex.Message;
+        }
+        Check(failure == "startup failed", "startup failure preserved");
+        Check(calls.SequenceEqual(new[]
+        {
+            "first.before", "second.before", "first.after", "second.after",
+        }), "startup cleanup order");
+        Check(sink.Events.Count == 0, "startup emits no run events");
+    }
+
+    private static void TestAfterRunContinues()
+    {
+        var calls = new List<string>();
+        var first = new LifecycleMiddleware
+        {
+            After = (_, _) =>
+            {
+                calls.Add("first.after");
+                throw new PraxoException("CLEANUP_FAILED", "cleanup failed");
+            },
+        };
+        var second = new LifecycleMiddleware
+        {
+            After = (_, _) => calls.Add("second.after"),
+        };
+        var options = new AgentOptions(new FailingTestModel("run failed"));
+        options.Middleware.Add(first);
+        options.Middleware.Add(second);
+        var failure = "";
+        try
+        {
+            new Agent(options).Run(new Session("s1"), "go");
+        }
+        catch (PraxoException ex) when (ex.Code == "RUN_FAILED")
+        {
+            failure = ex.Message;
+        }
+        Check(failure == "run failed", "run error preserved");
+        Check(calls.SequenceEqual(new[] { "first.after", "second.after" }),
+            "after-run continues after a failure");
+    }
+
+    private static void TestCleanupFailClosed()
+    {
+        var calls = new List<string>();
+        var sink = new RecordingSink();
+        var first = new LifecycleMiddleware
+        {
+            After = (_, _) =>
+            {
+                calls.Add("first.after");
+                throw new PraxoException("CLEANUP_FAILED", "cleanup failed");
+            },
+        };
+        var second = new LifecycleMiddleware
+        {
+            After = (_, _) => calls.Add("second.after"),
+        };
+        var options = new AgentOptions(new StaticTestModel()) { Events = sink };
+        options.Middleware.Add(first);
+        options.Middleware.Add(second);
+        var failure = "";
+        try
+        {
+            new Agent(options).Run(new Session("s1"), "go");
+        }
+        catch (PraxoException ex) when (ex.Code == "CLEANUP_FAILED")
+        {
+            failure = ex.Message;
+        }
+        Check(failure == "cleanup failed", "cleanup error fails closed");
+        Check(calls.SequenceEqual(new[] { "first.after", "second.after" }),
+            "cleanup continues after a failure");
+        Check(sink.Events.Select(item => item.Type)
+            .SequenceEqual(new[] { "run.started", "run.failed" }),
+            "cleanup failure emits failed");
+    }
+
     private static void Check(bool condition, string message)
     {
         if (!condition)
@@ -406,6 +521,52 @@ internal static class Program
             throw new InvalidOperationException(message);
         }
         _passed++;
+    }
+
+    private sealed class LifecycleMiddleware : IMiddleware
+    {
+        public System.Action? Before { get; init; }
+
+        public System.Action<RunResult?, PraxoException?>? After { get; init; }
+
+        public void BeforeRun(RunState state)
+        {
+            Before?.Invoke();
+        }
+
+        public void AfterRun(RunResult? result, PraxoException? error)
+        {
+            After?.Invoke(result, error);
+        }
+    }
+
+    private sealed class RecordingSink : IEventSink
+    {
+        public List<Event> Events { get; } = new();
+
+        public void Emit(Event @event)
+        {
+            Events.Add(@event);
+        }
+    }
+
+    private sealed class StaticTestModel : IModel
+    {
+        public Response Generate(Request request)
+            => new() { Message = Message.Assistant("done") };
+    }
+
+    private sealed class FailingTestModel : IModel
+    {
+        private readonly string _message;
+
+        public FailingTestModel(string message)
+        {
+            _message = message;
+        }
+
+        public Response Generate(Request request)
+            => throw new PraxoException("RUN_FAILED", _message);
     }
 
     private sealed class ScriptedToolModel : IModel

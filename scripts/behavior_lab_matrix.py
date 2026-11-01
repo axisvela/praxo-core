@@ -25,7 +25,7 @@ LANGUAGES = [
 LABELS = {
     "en": {
         "title": "# Behavior Lab Matrix",
-        "status": "**Status:** generated evidence matrix, 2026-10-31. The lab is not a stable public API.",
+        "status": "**Status:** generated evidence matrix, 2026-11-01. The lab is not a stable public API.",
         "intro": (
             "This page expands the summary in [Behavior Lab](behavior-lab.md) into a "
             "scenario-by-language matrix and per-language report sections. The source "
@@ -46,6 +46,15 @@ LABELS = {
         "sha": "Revision",
         "dirty": "Working tree dirty",
         "job": "CI job",
+        "tiers": "## Capability tiers",
+        "tiers_text": (
+            "This matrix covers the fourteen languages currently wired into the lab. R is "
+            "agent-capable and C is extended, but neither is wired yet, so neither has a "
+            "column here. C# is agent-capable but its ten covered cells use native-suite "
+            "coverage. Other declared implementations are optional and outside the current "
+            "behavior program. Contract tier is separate; see the [support policy](support.md) "
+            "for the tier definitions."
+        ),
         "legend": "## Matrix legend",
         "cell": "Cell",
         "meaning": "Meaning",
@@ -72,7 +81,7 @@ LABELS = {
     },
     "zh": {
         "title": "# 行为实验矩阵",
-        "status": "**状态：** 自动生成的证据矩阵，2026-10-31。该实验不是稳定的公开 API。",
+        "status": "**状态：** 自动生成的证据矩阵，2026-11-01。该实验不是稳定的公开 API。",
         "intro": (
             "本页把[行为实验](behavior-lab.md)的汇总展开为场景×语言矩阵和逐语言报告。"
             "数据源是 Behavior Lab JSON 报告；每条命令的 stdout/stderr 保留在报告 artifact 中。"
@@ -91,6 +100,13 @@ LABELS = {
         "sha": "Revision",
         "dirty": "工作区未提交",
         "job": "CI 任务",
+        "tiers": "## 能力层级",
+        "tiers_text": (
+            "本矩阵覆盖当前接入实验的十四个语言。R 属于 agent-capable，C 属于 extended，"
+            "但两者尚未接入，因此没有对应列。C# 属于 agent-capable，但其十个覆盖单元格"
+            "使用原生套件覆盖。其他已声明实现属于 optional，不在当前行为计划内。契约层级"
+            "与行为层级相互独立；定义见[支持政策](support.md)。"
+        ),
         "legend": "## 矩阵图例",
         "cell": "单元格",
         "meaning": "含义",
@@ -167,6 +183,10 @@ def render(report: dict, lang: str, report_name: str, evidence_url: str = "") ->
         f"| {labels['sha']} | `{report.get('repository', {}).get('sha', '')}` |",
         f"| {labels['dirty']} | {report.get('repository', {}).get('dirty', '')} |",
         *( [f"| {labels['job']} | [GitHub Actions]({evidence_url}) |"] if evidence_url else [] ),
+        "",
+        labels["tiers"],
+        "",
+        labels["tiers_text"],
         "",
         labels["legend"],
         "",

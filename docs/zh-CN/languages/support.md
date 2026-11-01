@@ -27,6 +27,22 @@ Framework 行为。消费者和维护门槛决定何时启动工作，不改变�
 Bridge、Sample 描述运行时的接入方式，不证明其语言缺乏 Framework 实现能力；
 共享运行时的语言可以复用宿主 Framework，而不是重复编写 Agent 循环。
 
+## 行为能力层级
+
+契约层级与行为能力层级回答不同问题。一个实现可以是契约层级的 `Core`，但其 agent 行为仍为部分覆盖，或者完全不在行为实验范围内。
+
+| 行为层级 | 语言 | 当前目标 |
+| --- | --- | --- |
+| Agent-capable | Go、Python、TypeScript、Java、Rust、R、C# | 声明范围内包含原生 agent 循环；纳入十九个行为实验场景的目标集合 |
+| Extended | PHP、C、Fortran、COBOL、Ruby、Elixir、Erlang、C++、Lua | 契约型或聚焦型实现；在有明确消费者和维护者的前提下逐场景推进行为覆盖 |
+| Optional | 其他已声明实现 | 不在当前行为实验计划内；契约一致性不变，行为工作需有明确消费者和维护者 |
+
+2026-11-01 的报告覆盖十四个已接入语言：agent-capable 的 Go、Python、TypeScript、Java、Rust、C#，以及八个已接入的 extended 语言。R 已有原生 agent 循环，但尚未接入实验；C 属于 extended，但尚未接入。在 agent-capable 层级内，Go/Python/TypeScript/Java 通过全部十九个场景，Rust 通过六个，C# 有十个场景的原生套件覆盖。扩展语言使用原生套件覆盖，没有场景测试的单元格保持 `unsupported`。逐单元格结果见[行为实验矩阵](behavior-lab-matrix.md)。
+
+在上述 clean 报告之后，PHP 和 C# 增加了 startup-cleanup、after-run-continue 和 cleanup-failclosed 覆盖。本地 dirty-tree 验证显示两者均为 13/19；下一次 clean-SHA CI 运行会更新矩阵。
+
+`unsupported` 是明确记录的缺口，既不是失败，也不是通过。不要从契约成熟度 `complete` 推断完整行为对齐。
+
 ## 支持等级
 
 成熟度记录声明范围的完成情况；支持等级记录谁负责响应问题和安全修复，两者独立。

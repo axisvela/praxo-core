@@ -180,7 +180,13 @@ final class Agent
         $messages[] = Message::text(Roles::USER, $prompt);
         $usage = new Usage();
 
-        $this->beforeRun($runId, $prompt);
+        $entered = [];
+        try {
+            $this->beforeRun($runId, $prompt, $entered);
+        } catch (\Throwable $startupError) {
+            $this->afterRun($entered, null, self::asPraxoException($startupError));
+            throw $startupError;
+        }
         $this->emit('run.started', $session->id, $runId);
         $afterRunInvoked = false;
         try {
@@ -216,7 +222,10 @@ final class Agent
                         usage: $usage,
                     );
                     $afterRunInvoked = true;
-                    $this->afterRun($result, null);
+                    $cleanupError = $this->afterRun($entered, $result, null);
+                    if ($cleanupError !== null) {
+                        throw $cleanupError;
+                    }
                     $this->emit('run.completed', $session->id, $runId);
                     return $result;
                 }
@@ -225,9 +234,9 @@ final class Agent
                 }
             }
             throw PraxoException::maxSteps();
-        } catch (PraxoException $error) {
+        } catch (\Throwable $error) {
             if (!$afterRunInvoked) {
-                $this->afterRun(null, $error);
+                $this->afterRun($entered, null, self::asPraxoException($error));
             }
             $this->emit('run.failed', $session->id, $runId, ['error' => $error->getMessage()]);
             throw $error;
@@ -346,12 +355,21 @@ final class Agent
         }
     }
 
-    private function beforeRun(string $runId, string $prompt): void
+    /** @param list<BaseMiddleware> $entered */
+    private function beforeRun(string $runId, string $prompt, array &$entered): void
     {
         $state = new RunState($runId, $prompt);
         foreach ($this->middleware as $middleware) {
+            $entered[] = $middleware;
             $middleware->beforeRun($state);
         }
+    }
+
+    private static function asPraxoException(\Throwable $error): PraxoException
+    {
+        return $error instanceof PraxoException
+            ? $error
+            : new PraxoException('AGENT_MIDDLEWARE', $error->getMessage());
     }
 
     private function beforeModel(ModelCall $call): void
@@ -388,11 +406,26 @@ final class Agent
         }
     }
 
-    private function afterRun(?RunResult $result, ?PraxoException $error): void
-    {
-        foreach ($this->middleware as $middleware) {
-            $middleware->afterRun($result, $error);
+    /**
+     * @param list<BaseMiddleware> $entered
+     */
+    private function afterRun(
+        array $entered,
+        ?RunResult $result,
+        ?PraxoException $error,
+    ): ?\Throwable {
+        $firstError = null;
+        foreach ($entered as $middleware) {
+            try {
+                $middleware->afterRun($result, $error);
+            } catch (\Throwable $caught) {
+                $firstError ??= $caught;
+                if ($error === null) {
+                    $error = self::asPraxoException($caught);
+                }
+            }
         }
+        return $firstError;
     }
 
     private function emit(string $type, string $sessionId, string $runId, ?array $data = null): void

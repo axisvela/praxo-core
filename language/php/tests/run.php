@@ -12,6 +12,8 @@ use Praxo\Core\AgentOptions;
 use Praxo\Core\BaseMiddleware;
 use Praxo\Core\CallLimitMiddleware;
 use Praxo\Core\Decision;
+use Praxo\Core\Event;
+use Praxo\Core\EventSink;
 use Praxo\Core\PolicyHook;
 use Praxo\Core\CheckpointAllowlist;
 use Praxo\Core\ContextBudget;
@@ -33,6 +35,8 @@ use Praxo\Core\PraxoException;
 use Praxo\Core\Request;
 use Praxo\Core\Response;
 use Praxo\Core\Roles;
+use Praxo\Core\RunResult;
+use Praxo\Core\RunState;
 use Praxo\Core\Session;
 use Praxo\Core\StaticModel;
 use Praxo\Core\ToolCall;
@@ -80,6 +84,45 @@ final class MutatingMiddleware extends BaseMiddleware
         if ($this->mutate !== null) {
             ($this->mutate)($call);
         }
+    }
+}
+
+final class LifecycleMiddleware extends BaseMiddleware
+{
+    public mixed $before = null;
+    public mixed $after = null;
+
+    public function beforeRun(RunState $state): void
+    {
+        if ($this->before !== null) {
+            ($this->before)($state);
+        }
+    }
+
+    public function afterRun(?RunResult $result, ?PraxoException $error): void
+    {
+        if ($this->after !== null) {
+            ($this->after)($result, $error);
+        }
+    }
+}
+
+final class RecordingSink implements EventSink
+{
+    /** @var list<Event> */
+    public array $events = [];
+
+    public function emit(Event $event): void
+    {
+        $this->events[] = $event;
+    }
+}
+
+final class FailingModel implements Model
+{
+    public function generate(Request $request): Response
+    {
+        throw new PraxoException('RUN_FAILED', 'run failed');
     }
 }
 $passed = 0;
@@ -348,6 +391,88 @@ try {
         'initial denial prevents middleware and effect',
     );
 }
+
+$calls = [];
+$sink = new RecordingSink();
+$first = new LifecycleMiddleware();
+$first->before = static function (RunState $state) use (&$calls): void {
+    $calls[] = 'first.before';
+};
+$first->after = static function (?RunResult $result, ?PraxoException $error) use (&$calls): void {
+    $calls[] = 'first.after';
+};
+$second = new LifecycleMiddleware();
+$second->before = static function (RunState $state) use (&$calls): void {
+    $calls[] = 'second.before';
+    throw new PraxoException('STARTUP_FAILED', 'startup failed');
+};
+$second->after = static function (?RunResult $result, ?PraxoException $error) use (&$calls): void {
+    $calls[] = 'second.after';
+};
+$third = new LifecycleMiddleware();
+$third->before = static function (RunState $state) use (&$calls): void {
+    $calls[] = 'third.before';
+};
+$third->after = static function (?RunResult $result, ?PraxoException $error) use (&$calls): void {
+    $calls[] = 'third.after';
+};
+$options = new AgentOptions(new StaticModel('done'));
+$options->events = $sink;
+$options->middleware = [$first, $second, $third];
+try {
+    (new Agent($options))->run(new Session('s1'), 'go');
+    check(false, 'startup failure');
+} catch (PraxoException $error) {
+    check($error->praxoCode === 'STARTUP_FAILED' && $error->getMessage() === 'startup failed', 'startup failure preserved');
+}
+check($calls === ['first.before', 'second.before', 'first.after', 'second.after'], 'startup cleanup order');
+check($sink->events === [], 'startup emits no run events');
+
+$calls = [];
+$first = new LifecycleMiddleware();
+$first->after = static function (?RunResult $result, ?PraxoException $error) use (&$calls): void {
+    $calls[] = 'first.after';
+    throw new PraxoException('CLEANUP_FAILED', 'cleanup failed');
+};
+$second = new LifecycleMiddleware();
+$second->after = static function (?RunResult $result, ?PraxoException $error) use (&$calls): void {
+    $calls[] = 'second.after';
+};
+$options = new AgentOptions(new FailingModel());
+$options->middleware = [$first, $second];
+try {
+    (new Agent($options))->run(new Session('s1'), 'go');
+    check(false, 'run failure');
+} catch (PraxoException $error) {
+    check($error->praxoCode === 'RUN_FAILED' && $error->getMessage() === 'run failed', 'run error preserved');
+}
+check($calls === ['first.after', 'second.after'], 'after-run continues after failure');
+
+$calls = [];
+$sink = new RecordingSink();
+$first = new LifecycleMiddleware();
+$first->after = static function (?RunResult $result, ?PraxoException $error) use (&$calls): void {
+    $calls[] = 'first.after';
+    throw new PraxoException('CLEANUP_FAILED', 'cleanup failed');
+};
+$second = new LifecycleMiddleware();
+$second->after = static function (?RunResult $result, ?PraxoException $error) use (&$calls): void {
+    $calls[] = 'second.after';
+};
+$options = new AgentOptions(new StaticModel('done'));
+$options->events = $sink;
+$options->middleware = [$first, $second];
+try {
+    (new Agent($options))->run(new Session('s1'), 'go');
+    check(false, 'cleanup failure');
+} catch (PraxoException $error) {
+    check($error->praxoCode === 'CLEANUP_FAILED' && $error->getMessage() === 'cleanup failed', 'cleanup error fails closed');
+}
+check($calls === ['first.after', 'second.after'], 'cleanup continues after failure');
+check(
+    array_map(static fn(Event $event): string => $event->type, $sink->events) === ['run.started', 'run.failed'],
+    'cleanup failure emits failed',
+);
 
 echo "PHP core tests passed ({$passed})\n";
 

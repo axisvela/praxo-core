@@ -156,9 +156,10 @@ updates. The framework never imports product governance.
 
 ## Language Boundary and Shared Contract
 
-Go remains the reference implementation. The contract that Python, TypeScript,
-and Java consume is defined in `spec/` and enforced by a shared conformance
-suite:
+Go remains the reference implementation. The contract is defined in `spec/` and
+enforced by a shared conformance suite. Go, Python, TypeScript, and Java have
+full nineteen-scenario behavior coverage; Rust, R, and C# are also
+agent-capable Core implementations:
 
 ```text
 spec/                    normative contract and vectors
@@ -170,6 +171,9 @@ spec/                    normative contract and vectors
         +-- Python Core
         +-- TypeScript Core
         +-- Java Core
+        +-- Rust Core
+        +-- R Core
+        +-- C# Core
 ```
 
 The contract has four layers:
@@ -181,11 +185,17 @@ The contract has four layers:
 | API surface | one-to-one, idiomatic names | parity linter |
 | Conformance | one suite | each Core implementation's CI job |
 
-Source APIs are mapped, not copied. Go interfaces become Python protocols,
-TypeScript interfaces, and Java interfaces; `context.Context` becomes the
-language cancellation primitive; sentinel errors become stable exception
-classes. Concrete adapters, helpers, and package internals are not part of the
-contract.
+Source APIs are mapped, not copied. Go interfaces become language-native
+interfaces and protocols; `context.Context` becomes the language cancellation
+primitive; sentinel errors become stable exception classes. Concrete adapters,
+helpers, and package internals are not part of the contract.
+
+Behavior coverage is tiered separately from the contract. Agent-capable
+implementations (Go, Python, TypeScript, Java, Rust, R, C#) target all nineteen
+Behavior Lab scenarios. Extended implementations (PHP, C, Fortran, COBOL, Ruby,
+Elixir, Erlang, C++, Lua) advance scenario by scenario with a named consumer and
+maintainer. Other declared implementations are optional. Missing scenario
+coverage is recorded as `unsupported`, not as parity.
 
 A wire rename, event change, stream-kind change, or plugin envelope change is
 breaking for every Core implementation, even if only one Core implementation ships it. See

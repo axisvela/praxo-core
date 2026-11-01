@@ -104,7 +104,16 @@ public sealed class Agent
         messages.Add(Message.Text(Roles.User, prompt));
         var usage = new Usage();
 
-        BeforeRun(runId, prompt);
+        var entered = new List<IMiddleware>();
+        try
+        {
+            BeforeRun(runId, prompt, entered);
+        }
+        catch (Exception startupError)
+        {
+            AfterRun(entered, null, AsPraxoException(startupError));
+            throw;
+        }
         Emit("run.started", session.Id, runId, null);
         var afterRunInvoked = false;
         try
@@ -153,7 +162,11 @@ public sealed class Agent
                         Usage = usage,
                     };
                     afterRunInvoked = true;
-                    AfterRun(result, null);
+                    var cleanupError = AfterRun(entered, result, null);
+                    if (cleanupError != null)
+                    {
+                        throw cleanupError;
+                    }
                     Emit("run.completed", session.Id, runId, null);
                     return result;
                 }
@@ -164,11 +177,11 @@ public sealed class Agent
             }
             throw PraxoException.MaxSteps();
         }
-        catch (PraxoException error)
+        catch (Exception error)
         {
             if (!afterRunInvoked)
             {
-                AfterRun(null, error);
+                AfterRun(entered, null, AsPraxoException(error));
             }
             Emit("run.failed", session.Id, runId, new JsonObject
             {
@@ -318,14 +331,19 @@ public sealed class Agent
         }
     }
 
-    private void BeforeRun(string runId, string prompt)
+    private void BeforeRun(string runId, string prompt, List<IMiddleware> entered)
     {
         var state = new RunState { RunId = runId, Prompt = prompt };
         foreach (var middleware in _middleware)
         {
+            entered.Add(middleware);
             middleware.BeforeRun(state);
         }
     }
+
+    private static PraxoException AsPraxoException(Exception error)
+        => error as PraxoException
+            ?? new PraxoException("AGENT_MIDDLEWARE", error.Message);
 
     private void BeforeModel(ModelCall call)
     {
@@ -367,12 +385,28 @@ public sealed class Agent
         }
     }
 
-    private void AfterRun(RunResult? result, PraxoException? error)
+    private Exception? AfterRun(
+        List<IMiddleware> entered,
+        RunResult? result,
+        PraxoException? error)
     {
-        foreach (var middleware in _middleware)
+        Exception? firstError = null;
+        foreach (var middleware in entered)
         {
-            middleware.AfterRun(result, error);
+            try
+            {
+                middleware.AfterRun(result, error);
+            }
+            catch (Exception caught)
+            {
+                firstError ??= caught;
+                if (error == null)
+                {
+                    error = AsPraxoException(caught);
+                }
+            }
         }
+        return firstError;
     }
 
     private void Emit(string kind, string sessionId, string runId, JsonObject? data)

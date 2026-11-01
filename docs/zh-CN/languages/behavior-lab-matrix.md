@@ -1,6 +1,6 @@
 # 行为实验矩阵
 
-**状态：** 自动生成的证据矩阵，2026-10-31。该实验不是稳定的公开 API。
+**状态：** 自动生成的证据矩阵，2026-11-01。该实验不是稳定的公开 API。
 
 本页把[行为实验](behavior-lab.md)的汇总展开为场景×语言矩阵和逐语言报告。数据源是 Behavior Lab JSON 报告；每条命令的 stdout/stderr 保留在报告 artifact 中。
 
@@ -19,6 +19,12 @@
 | Revision | `2384e3589a0d8d3d86da5ba863ea0db74980b804` |
 | 工作区未提交 | False |
 | CI 任务 | [GitHub Actions](https://github.com/axisvela/praxo-core/actions/runs/41257537691/job/124703790344) |
+
+## 能力层级
+
+本矩阵覆盖当前接入实验的十四个语言。R 属于 agent-capable，C 属于 extended，但两者尚未接入，因此没有对应列。C# 属于 agent-capable，但其十个覆盖单元格使用原生套件覆盖。其他已声明实现属于 optional，不在当前行为计划内。契约层级与行为层级相互独立；定义见[支持政策](support.md)。
+
+PHP 和 C# 的生命周期场景已在源码中实现。本地 dirty-tree 运行显示两者均为 13/19，尚待 clean-SHA CI。下表仍为最近一次 clean-SHA 报告（137 passed / 129 unsupported）。
 
 ## 矩阵图例
 

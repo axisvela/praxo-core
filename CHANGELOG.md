@@ -11,6 +11,12 @@
 - TypeScript and Java now apply the same final-name/argument authorization and
   final-tool resolution, with regression self-tests for mutation, denial,
   unchanged calls, and allowlist enforcement.
+- PHP and C# now apply the same final-name/argument authorization and final-tool
+  resolution, with regression tests for mutation, denial, unchanged calls, and
+  allowlist enforcement.
+- PHP and C# now clean up middleware entered before a startup failure, keep
+  running later after-run callbacks after one fails, preserve the original run
+  error, and fail closed when cleanup itself fails after success.
 - Python, TypeScript, and Java now clean up middleware entered before a startup
   failure, keep running later after-run callbacks after one fails, preserve the
   original run error, and fail closed when cleanup itself fails after success.
@@ -48,9 +54,14 @@
   Rust, Fortran, and COBOL, records toolchains and command results, and writes
   JSON and Markdown reports. It is contract evidence only, not provider,
   production, or security verification.
-- A cross-language behavior lab runs nineteen agent scenarios across the four
-  core languages, with selected Rust scenario tests and Fortran/COBOL native-suite
-  coverage. It reports explicit unsupported cells and suite-level limits.
+- A cross-language behavior lab runs nineteen agent scenarios across
+  agent-capable and extended implementations, reports explicit unsupported cells
+  and suite-level limits, and separates behavior tiers from contract tiers.
+  Agent-capable is Go, Python, TypeScript, Java, Rust, R, and C#; extended is
+  PHP, C, Fortran, COBOL, Ruby, Elixir, Erlang, C++, and Lua; other
+  implementations are optional. The current fourteen-language run covers Go,
+  Python, TypeScript, Java, Rust, Fortran, COBOL, Ruby, Elixir, Erlang, C++,
+  PHP, C#, and Lua; R and C are tiered but not yet wired.
 - Added a "When Not to Use PRAXO-CORE" guide covering non-goals, alternative
   starting points, product-owned capabilities, and migration/exit costs.
 - Added an evaluation-only workspace runtime profile that composes state, local,

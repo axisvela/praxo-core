@@ -1,11 +1,12 @@
 # Behavior Lab
 
-**Status:** evidence tooling, 2026-10-30. The lab is not a stable public API.
+**Status:** evidence tooling, 2026-11-01. The lab is not a stable public API.
 
-The behavior lab runs named agent scenarios in Go, Python, TypeScript, and Java
-and writes one comparison report. Rust, Fortran, COBOL, Ruby, Elixir, Erlang,
-C++, PHP, C#, and Lua are extended languages with narrower scenario or
-native-suite coverage. It answers a
+The behavior lab runs named agent scenarios across agent-capable and extended
+implementations and writes one comparison report. The agent-capable tier is Go,
+Python, TypeScript, Java, Rust, R, and C#; the extended tier is PHP, C, Fortran,
+COBOL, Ruby, Elixir, Erlang, C++, and Lua. Other declared implementations are
+optional and outside the current behavior program. It answers a
 narrower question than the [compatibility lab](compatibility-lab.md): do the
 implementations make the same authorization, lifecycle, cancellation,
 validation, call-limit, parallel-tool execution, run isolation, PII,
@@ -16,7 +17,26 @@ It does not prove complete feature parity, provider behavior, live-service
 integration, production readiness, or security. A passing report compares the
 listed scenarios only.
 
+## Capability Tiers
+
+Behavior tier is separate from contract tier. See the
+[support policy](support.md) for the definition.
+
+| Tier | Languages | Current status |
+| --- | --- | --- |
+| Agent-capable | Go, Python, TypeScript, Java, Rust, R, C# | Go/Python/TypeScript/Java 19/19; Rust 6/19; C# 10/19 clean CI, 13/19 local pending; R not yet wired |
+| Extended | PHP, C, Fortran, COBOL, Ruby, Elixir, Erlang, C++, Lua | 4-10/19 clean for wired languages; PHP 13/19 local pending; C not yet wired |
+| Optional | Other declared implementations | Outside the current behavior program |
+
+R has a native agent loop but is not yet represented in the lab or matrix. C is
+extended but is not yet represented. C# is agent-capable, but its ten covered
+cells use native-suite coverage rather than scenario-isolated assertions.
+
 ## Scope
+
+The table below shows scenario-isolated evidence for the four original core
+implementations. Agent-capable Rust and C#, plus the wired extended languages,
+are reported in the [matrix](behavior-lab-matrix.md). R and C are not yet wired.
 
 | Scenario | Behavior checked | Go | Python | TypeScript | Java |
 | --- | --- | --- | --- | --- | --- |
@@ -80,7 +100,8 @@ python scripts/behavior_lab.py --strict --timeout 300
 python scripts/behavior_lab.py --strict --timeout 600 --languages go,python,typescript,java,rust,fortran,cobol,ruby,elixir,erlang,cpp,php,csharp,lua
 ```
 
-The fourteen-language run also needs a Rust toolchain plus `gfortran`, `gnucobol`,
+The fourteen-language run does not include R or C. It also needs a Rust
+toolchain plus `gfortran`, `gnucobol`,
 `g++`, CMake, and Ninja; Ruby; Elixir 1.20.4 on Erlang/OTP 29; PHP 8.4; the
 .NET 8 SDK; and Lua 5.4. Fortran builds its pinned RE2 bridge. The native
 Fortran/COBOL/Erlang/C++/PHP/C#/Lua suite commands, Ruby test runner, and Elixir
@@ -89,7 +110,8 @@ Fortran/COBOL/Erlang/C++/PHP/C#/Lua suite commands, Ruby test runner, and Elixir
 `PATH` before invoking `ctest`.
 
 - `--strict` fails on `failed`, `skipped`, `not_run`, and unsupported cells in
-  the four core languages. Extended-language holes remain `unsupported`.
+  the four scenario-wired core languages. Holes in other tiers remain
+  `unsupported`.
 - `--languages go,python` limits the run.
 - `--timeout 300` sets a per-command timeout.
 - `--output-dir build/behavior-lab` changes the report location.
@@ -108,13 +130,19 @@ overwritten; `latest.json` is only a convenience pointer.
 
 ## Current Evidence
 
-The four-language local nineteen-scenario run on 2026-10-31 passed all 76
-cells. The clean-SHA Linux CI run on commit `2384e35` passed the
+The Go/Python/TypeScript/Java local nineteen-scenario run on 2026-10-31 passed
+all 76 cells. The clean-SHA Linux CI run on commit `2384e35` passed the
 fourteen-language set with 137 passed, 129 explicitly unsupported, and no
 failures; use that [behavior job](https://github.com/axisvela/praxo-core/actions/runs/41257537691/job/124703790344)
-and its artifact when citing the report as evidence. The
-[Behavior Lab Matrix](behavior-lab-matrix.md) lists every cell and each
-language's covered and unsupported scenarios.
+and its artifact when citing the report as evidence. R is not part of that
+fourteen-language run. The [Behavior Lab Matrix](behavior-lab-matrix.md) lists
+every cell and each language's covered and unsupported scenarios.
+
+PHP and C# now implement the startup-cleanup, after-run-continue, and
+cleanup-failclosed scenarios. A local dirty-tree validation run on 2026-11-01
+reported 143 passed, 123 unsupported, and no failures across the fourteen wired
+languages. That is pre-merge validation, not a clean-SHA record; the matrix and
+CI link above remain the last clean-SHA report until CI reruns.
 
 ## Limits
 
@@ -123,7 +151,8 @@ language's covered and unsupported scenarios.
   filters; some Java self-tests cover more than one scenario.
 - Rust has scenario-level tests for selected rows. Fortran, COBOL, Ruby,
   Elixir, Erlang, C++, PHP, C#, and Lua use native-suite coverage, not
-  scenario-isolated assertions.
+  scenario-isolated assertions. C# is agent-capable but currently suite-level;
+  R is agent-capable and C is extended, but neither is wired into the lab.
 - The parallel scenario uses deterministic barriers; it is not a throughput or
   stress test. SSE tests use local fixtures, not a provider.
 - No provider, model, network, sandbox, HITL, checkpoint persistence, or

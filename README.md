@@ -84,6 +84,12 @@ verification are different states. Follow each language's installation
 instructions and [support policy](docs/languages/support.md); do not infer full Go
 feature parity or registry availability from a source tag.
 
+Behavior coverage is tiered separately from contract tier. Agent-capable
+implementations are Go, Python, TypeScript, Java, Rust, R, and C#; extended
+implementations are PHP, C, Fortran, COBOL, Ruby, Elixir, Erlang, C++, and Lua;
+other declared implementations are optional. See the
+[behavior lab](docs/languages/behavior-lab.md) for current coverage.
+
 ## Examples
 
 | Goal | Example |

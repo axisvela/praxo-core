@@ -9,7 +9,8 @@ and the [canonical scope matrix](https://github.com/axisvela/praxo-core/blob/mai
 
 See the [compatibility lab](compatibility-lab.md) for reproducible conformance
 evidence across selected implementations, and the [behavior lab](behavior-lab.md)
-for cross-language agent behavior scenarios.
+for cross-language agent behavior scenarios. Behavior coverage uses separate
+agent-capable, extended, and optional tiers; see the [support policy](support.md).
 
 Framework is the default target for independently implemented, native-capable
 languages. Current Wire stages do not yet provide the full Framework; final

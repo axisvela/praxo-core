@@ -1,6 +1,6 @@
 # Behavior Lab Matrix
 
-**Status:** generated evidence matrix, 2026-10-31. The lab is not a stable public API.
+**Status:** generated evidence matrix, 2026-11-01. The lab is not a stable public API.
 
 This page expands the summary in [Behavior Lab](behavior-lab.md) into a scenario-by-language matrix and per-language report sections. The source is a Behavior Lab JSON report; the raw per-command stdout/stderr remains in the report artifact.
 
@@ -19,6 +19,19 @@ This page expands the summary in [Behavior Lab](behavior-lab.md) into a scenario
 | Revision | `2384e3589a0d8d3d86da5ba863ea0db74980b804` |
 | Working tree dirty | False |
 | CI job | [GitHub Actions](https://github.com/axisvela/praxo-core/actions/runs/41257537691/job/124703790344) |
+
+## Capability tiers
+
+This matrix covers the fourteen languages currently wired into the lab. R is
+agent-capable and C is extended, but neither is wired yet, so neither has a
+column here. C# is agent-capable but its ten covered cells use native-suite
+coverage. Other declared implementations are optional and outside the current
+behavior program. Contract tier is separate; see the
+[support policy](support.md) for the tier definitions.
+
+PHP and C# lifecycle scenarios are implemented in source. A local dirty-tree
+run reports 13/19 for each, pending clean-SHA CI. The table below remains the
+last clean-SHA report (137 passed / 129 unsupported).
 
 ## Matrix legend
 

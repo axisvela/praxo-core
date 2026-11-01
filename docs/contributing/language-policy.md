@@ -43,6 +43,23 @@ implementation sequencing, not whether Framework is the final target. Shared vec
 do not replace tests for cancellation, concurrency, path containment, or other
 security-sensitive behavior.
 
+## Behavior Coverage Tiers
+
+Contract conformance and agent-behavior coverage are separate. The behavior
+tiers are:
+
+| Tier | Languages | Rule |
+| --- | --- | --- |
+| Agent-capable | Go, Python, TypeScript, Java, Rust, R, C# | Target all nineteen Behavior Lab scenarios. Missing cells must be explicit `unsupported` with a reason until covered. |
+| Extended | PHP, C, Fortran, COBOL, Ruby, Elixir, Erlang, C++, Lua | Advance selected scenarios only with a named consumer and maintainer. Do not add a scenario or language solely to increase counts. |
+| Optional | Other declared implementations | No behavior work by default; promotion requires a named consumer, maintainer, and scenario evidence. |
+
+R is agent-capable but not yet wired into the lab. C# is agent-capable but
+currently suite-level for selected scenarios. C is extended but not yet wired.
+A new scenario must be added to every agent-capable implementation or carry an
+explicit unsupported reason in the matrix. Suite-level coverage is not
+scenario-level evidence.
+
 ## Public Documentation
 
 Every delivered implementation needs a language entry page, a source README,

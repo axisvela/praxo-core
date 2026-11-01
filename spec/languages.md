@@ -28,6 +28,25 @@ imply every Go feature is available.
 | Bridge | Process/stdio/HTTP client over a core runtime | Bridge contract tests |
 | Sample | Usage sample for another implementation | Compiles against that package |
 
+## Behavior Capability Tiers
+
+Contract tier and behavior tier are separate. Contract tier records the declared
+scope and conformance gate. Behavior tier records which implementations are
+targeted for cross-language agent-behavior parity in the Behavior Lab.
+
+| Behavior tier | Languages | Scope |
+| --- | --- | --- |
+| Agent-capable | Go, Python, TypeScript, Java, Rust, R, C# | Native agent loop is in declared scope and the language is selected for the nineteen Behavior Lab scenarios. Current coverage varies by language and is recorded in the Behavior Lab matrix. |
+| Extended | PHP, C, Fortran, COBOL, Ruby, Elixir, Erlang, C++, Lua | Contract or focused implementation where behavior parity is advanced scenario by scenario. An unsupported cell is intentional until a named consumer and maintainer exist. |
+| Optional | Other declared implementations | Outside the current Behavior Lab program. Contract conformance is unchanged; behavior work starts only with a named consumer and maintainer. |
+
+R has a native agent loop but is not yet wired into the Behavior Lab. C# is
+agent-capable but currently has native-suite coverage for selected scenarios,
+not full scenario-level coverage. C is extended but is not yet wired into the
+lab. Other implementations, including Swift, Julia, Haskell, MATLAB/Octave,
+Perl, Delphi/Free Pascal, OCaml, Objective-C, Nim, V, D, Zig, and the
+Bridge/Sample entries, are in the optional tier.
+
 ## Maturity
 
 Maturity is independent of the version tag. It records completion of the
@@ -146,7 +165,7 @@ for real providers, platforms, and production behavior is reported separately.
 | MATLAB / Octave | `matlab-conformance` | Octave: 11 vectors, native tests, source API/parity; source release tagged `matlab/v0.2.1`; MATLAB runtime unverified |
 | Further languages | none yet | planned; gate depends on declared tier |
 
-## Required Gates per Tier
+## Required Gates per Contract Tier
 
 ### Core
 
@@ -172,6 +191,30 @@ for real providers, platforms, and production behavior is reported separately.
 
 - Compiles against the host package.
 - Documented as a sample, not a contract implementation.
+
+## Required Gates per Behavior Tier
+
+### Agent-capable
+
+- Runs the shared Behavior Lab scenarios or records an explicit unsupported
+  reason for each missing cell.
+- Scenario tests preserve authorization, lifecycle, cancellation, and ordering
+  semantics; suite-only coverage does not count as scenario-level evidence.
+- C# and R must complete scenario wiring before their agent-capable claim is
+  treated as full behavior parity.
+
+### Extended
+
+- Advances selected scenarios only with a named consumer and maintainer.
+- Does not add a language or scenario solely to increase cell counts.
+- Unsupported cells stay explicit in the report and matrix.
+
+### Optional
+
+- No Behavior Lab scenario work is planned by default.
+- Contract conformance and the declared contract tier remain unchanged.
+- Promotion to extended or agent-capable requires a named consumer, a
+  maintainer, and recorded scenario evidence.
 
 ## Toolchain Policy
 

@@ -18,6 +18,16 @@ Preserve mixed wire casing such as `image_url`, `runId`, and `plugin_id`.
 See the [event reference](../reference/events.md), shared wire artifacts, and
 per-language parity inventories. Do not normalize wire names for local style.
 
+## Behavior Coverage
+
+Contract layers are not a claim that every Core implements every agent scenario.
+Behavior coverage has three tiers: agent-capable (Go, Python, TypeScript, Java,
+Rust, R, C#) targets all nineteen Behavior Lab scenarios; extended (PHP, C,
+Fortran, COBOL, Ruby, Elixir, Erlang, C++, Lua) advances with a named consumer
+and maintainer; optional covers other implementations. Contract conformance
+does not imply behavior parity, and suite-level tests do not imply scenario-level
+evidence.
+
 ## Language Layout
 
 Do not copy the Go `pkg/` tree into every language. Use the layout that is

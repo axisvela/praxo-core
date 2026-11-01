@@ -8,6 +8,8 @@
 
 **成熟度说明：**“参考实现”指 Go 参考实现；“完整”表示声明阶段与范围内的门禁全部通过；“部分完成”表示发布仍存在已记录的范围缺口，或所需的运行时/CI 验证尚未完成；“示例”表示复用其他实现的示例；“计划中”表示尚无源码标签；“需消费者”表示需要明确消费者或兼容运行时。成熟度与版本标签相互独立，不代表生产就绪或与 Go 全部功能一致。
 
-备注是当前声明范围与证据，不代表与 Go 全部功能一致。C 历史上归类为 Core，但当前公开 API 仍为 wire 级别。具体 CI 任务和阶段门禁见[规范矩阵](https://github.com/axisvela/praxo-core/blob/main/spec/languages.md)和[语言实现支持政策](support.md)。备注保留规范矩阵中的英文，避免翻译副本与事实漂移。
+备注是当前声明范围与证据，不代表与 Go 全部功能一致。C 在 wire 级 JSON 原语之外还提供公开 Core API，覆盖 memory、events、checkpoint、policy、context、middleware 和 agent 循环；其 agent 循环没有取消路径，调用上限状态不能跨并发 run 共享。具体 CI 任务和阶段门禁见[规范矩阵](https://github.com/axisvela/praxo-core/blob/main/spec/languages.md)和[语言实现支持政策](support.md)。备注保留规范矩阵中的英文，避免翻译副本与事实漂移。
+
+行为覆盖与契约阶段是不同层级，分为 agent-capable、extended 和 optional。语言列表与当前行为实验状态见[支持政策](support.md)。
 
 <!-- language-support-matrix -->

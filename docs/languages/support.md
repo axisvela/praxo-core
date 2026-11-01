@@ -34,6 +34,35 @@ Bridge and Sample describe how users access a runtime, not proof that their
 languages are incapable of Framework support. Shared-runtime languages can
 reuse the host Framework rather than duplicate its agent loop.
 
+## Behavior Capability Tiers
+
+Contract tier and behavior tier answer different questions. A language can be
+contract `Core` while its agent behavior is still partial, or remain outside the
+Behavior Lab entirely.
+
+| Behavior tier | Languages | Current target |
+| --- | --- | --- |
+| Agent-capable | Go, Python, TypeScript, Java, Rust, R, C# | Native agent loop in declared scope; selected for the nineteen Behavior Lab scenarios |
+| Extended | PHP, C, Fortran, COBOL, Ruby, Elixir, Erlang, C++, Lua | Contract or focused implementation; behavior coverage advances scenario by scenario with a named consumer and maintainer |
+| Optional | Other declared implementations | Outside the current Behavior Lab program; contract conformance is unchanged and behavior work requires a named consumer and maintainer |
+
+The 2026-11-01 report covers fourteen wired languages: agent-capable Go, Python,
+TypeScript, Java, Rust, and C# plus eight wired extended languages. R has a
+native agent loop but is not yet wired into the lab. C is extended but is not
+yet wired. Within the agent-capable tier, Go/Python/TypeScript/Java pass all
+nineteen scenarios, Rust passes six, and C# has native-suite coverage for ten.
+Extended rows use native-suite coverage and stay `unsupported` where no scenario
+test exists. See the [Behavior Lab matrix](behavior-lab-matrix.md) for every
+cell.
+
+After the cited clean report, PHP and C# gained startup-cleanup,
+after-run-continue, and cleanup-failclosed coverage. Local dirty-tree
+validation reports 13/19 for each; the next clean-SHA CI run will update the
+matrix.
+
+An unsupported cell is a recorded gap, not a failure and not a pass. Do not
+infer full behavior parity from `complete` contract maturity.
+
 ## Support Levels
 
 Maturity records completion of the declared scope. Support level records who is

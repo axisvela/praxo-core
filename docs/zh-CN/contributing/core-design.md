@@ -14,6 +14,14 @@ Go 是参考实现，[`spec/`](https://github.com/axisvela/praxo-core/tree/main/
 保留 `image_url`、`runId`、`plugin_id` 等混合命名，不能为了本地风格统一改名。
 相关定义见[事件参考](../reference/events.md)、wire 工件和各语言 parity 清单。
 
+## 行为覆盖
+
+契约层次不表示每个 Core 都实现全部 agent 场景。行为覆盖分为三个层级：
+agent-capable（Go、Python、TypeScript、Java、Rust、R、C#）以全部十九个行为实验
+场景为目标；extended（PHP、C、Fortran、COBOL、Ruby、Elixir、Erlang、C++、Lua）
+在有明确消费者和维护者时推进；其他实现属于 optional。契约一致不代表行为对齐，
+套件级测试也不等于场景级证据。
+
 ## 语言目录结构
 
 不要把 Go 的 `pkg/` 目录树复制到每种语言。应使用符合该语言和包管理器习惯的结构，同时保持契约边界清晰。

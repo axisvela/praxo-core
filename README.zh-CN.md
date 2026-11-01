@@ -65,6 +65,10 @@ Go 是参考实现，语言 SDK 共享 [`spec/`](spec/README.md) 中的规范契
 源码发布、包管理器发布、一致性测试和生产验证是不同状态。请按各语言页面安装，
 并阅读[支持政策](docs/zh-CN/languages/support.md)，不能从源码标签推断完整功能一致或包仓库可用。
 
+行为覆盖与契约阶段分开跟踪：agent-capable 为 Go、Python、TypeScript、Java、Rust、R、C#；
+extended 为 PHP、C、Fortran、COBOL、Ruby、Elixir、Erlang、C++、Lua；其他已声明实现属于
+optional。当前覆盖见[行为实验](docs/zh-CN/languages/behavior-lab.md)。
+
 ## 可运行示例
 
 | 目标 | 示例 |
