@@ -3,14 +3,16 @@
 - Tier: core
 - SPEC_VERSION: 0.2.0
 
-Released source tag `erlang/v0.2.0` ships a native core loop on Erlang/OTP 29.
-The Core passes all eleven vector groups, native tests, and the public API
-snapshot. The agent integrates opt-in PII redaction, structured output, call
-limits, and tool selection; fallback models are supported. `partial` marks a
-surface that covers the vector behavior and common path but not every optional Go
-hook or provider adapter. Built-in provider configuration, streaming, and plugin
-hosts are not provided. A synchronous function can serve as a consumer-supplied
-model and participate in fallback.
+Released source tag `erlang/v0.3.0` ships a native core loop on Erlang/OTP 29
+with middleware/lifecycle authorization, cancellation, stream callbacks, a
+native SSE parser, bounded parallel tools, and run-scoped call limits. The Core
+passes all eleven vector groups, native tests, and the public API snapshot. The
+agent integrates opt-in PII redaction, structured output, call limits, and tool
+selection; fallback models are supported. `partial` marks a surface that covers
+the vector behavior and common path but not every optional Go hook or provider
+adapter. Built-in provider configuration and plugin hosts are not provided. A
+synchronous function can serve as a consumer-supplied model and participate in
+fallback.
 
 | Go symbol | Erlang symbol | Status | Phase |
 | --- | --- | --- | --- |
@@ -32,7 +34,7 @@ model and participate in fallback.
 | `agent.Agent` | `praxo_agent.run_agent/3` | parity | P1 |
 | `agent.Options` | `praxo_agent.new_agent_options/1` | parity | P1 |
 | `agent.New` | `praxo_agent.new_agent_options/1` | parity | P1 |
-| `agent/stream.StreamPart` | `praxo_models.stream_kinds/0` | partial | P1 |
+| `agent/stream.StreamPart` | `praxo_models.stream_part/5` | parity | P2 |
 | `toolcall.ParseToolCall` | `praxo_toolcall.parse_tool_call/1` | parity | P1 |
 | `toolcall.StripToolCallMarkup` | `praxo_toolcall.strip_tool_call_markup/1` | parity | P1 |
 | `toolcall.ParseInputJSON` | `praxo_toolcall.parse_input_json/1` | parity | P1 |
@@ -43,3 +45,9 @@ model and participate in fallback.
 | `agent/middleware.PIIMiddleware` | `praxo_middleware.pii_redact/1` | parity | P1 |
 | `agent/middleware.StructuredOutput` | `praxo_middleware.structured_output/3` | parity | P1 |
 | `agent/middleware.ToolSelectionMiddleware` | `praxo_middleware.tool_selection/1` | parity | P1 |
+
+Cancellation uses the `cancellation` agent option and `praxo_agent.run_agent/3`;
+stream callbacks use `on_stream` with `praxo_models.stream_part/5`. Parallel
+tools use spawned processes inside `praxo_agent`; tool functions remain
+responsible for their own process safety. `praxo_sse.parse/1` rejects truncated
+and malformed half-packet streams with `MODEL_STREAM`.

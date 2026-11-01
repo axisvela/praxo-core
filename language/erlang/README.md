@@ -1,15 +1,15 @@
 # PRAXO-CORE Erlang Core
 
 PRAXO-CORE is an embeddable, MIT-licensed agent framework. This package is its
-native Erlang Core with source tag `erlang/v0.2.0`. It passes all eleven shared
+native Erlang Core with source tag `erlang/v0.3.0`. It passes all eleven shared
 vector groups on Erlang/OTP 29 and includes the native agent loop, memory store,
 checkpoint allowlist, lexical path policy, context compaction, event sinks,
 middleware helpers, and tool selection. It does not call Go or another Core.
 
 - Implementation type: Core.
-- Package version: `0.2.0`; supported `SPEC_VERSION`: `0.2.0`.
+- Package version: `0.3.0`; supported `SPEC_VERSION`: `0.2.0`.
 - Hex package name: `praxo_core_erlang`; OTP application name: `praxo_core`.
-- The latest Hex package is `praxo_core_erlang@0.1.1`; `0.2.0` is a source release.
+- The latest Hex package is `praxo_core_erlang@0.1.1`; `0.3.0` is a source release.
 - Toolchain: Erlang/OTP 29 or newer. JSON uses the OTP `json` module.
 
 ## Install
@@ -52,7 +52,7 @@ Options = praxo_agent:new_agent_options(Model),
 io:format("~s~n", [maps:get(output, Result)]).
 ```
 
-Public declarations are inventoried in [`api/0.2.0.txt`](api/0.2.0.txt).
+Public declarations are inventoried in [`api/0.3.0.txt`](api/0.3.0.txt).
 This is a source declaration check, not a binary ABI promise. Regenerate it with
 `python api-snapshot.py`.
 
@@ -60,8 +60,12 @@ This is a source declaration check, not a binary ABI promise. Regenerate it with
 
 - The verified target is Erlang/OTP 29. Older releases without the `json`
   module are not supported.
-- No provider adapter, streaming runtime, plugin host, or persistent session
-  store is provided. The loop is synchronous and executes tools serially.
+- No provider adapter, HTTP streaming runtime, plugin host, or persistent
+  session store is provided. The loop is synchronous; tool batches can execute
+  in spawned processes when `max_parallel_tools` is greater than one.
+- Optional `cancellation`, `on_stream`, and `max_parallel_tools` agent options
+  add cooperative cancellation, stream parts, and bounded parallel tool
+  execution. `praxo_sse:parse/1` rejects truncated and half-packet streams.
 - PII redaction, structured output, per-run call limits, and tool selection are
   opt-in and integrated into the agent loop.
 - Path checks are lexical and do not resolve symlinks or reparse points; they

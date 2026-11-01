@@ -88,6 +88,9 @@ new_agent_options(Model) ->
         policy => undefined,
         middleware => [],
         allowed_tools => [],
+        cancellation => undefined,
+        on_stream => undefined,
+        max_parallel_tools => 1,
         entered => []
     }.
 
@@ -112,9 +115,14 @@ run_agent(Options0, Session, Prompt) ->
             {error, to_code(Reason), Options1};
         {ok, Options1} ->
             Options2 = emit(Options1, <<"run.started">>),
-            case compact(Options2, Messages) of
-                {ok, Compacted} ->
-                    loop(Options2, Compacted, RunId, 1, MaxSteps, praxo_models:usage(), Limit);
+            case emit_stream(Options2, RunId, <<"values">>, 0, Prompt) of
+                ok ->
+                    case compact(Options2, Messages) of
+                        {ok, Compacted} ->
+                            loop(Options2, Compacted, RunId, 1, MaxSteps, praxo_models:usage(), Limit);
+                        {error, Code} ->
+                            fail(Options2, RunId, Code)
+                    end;
                 {error, Code} ->
                     fail(Options2, RunId, Code)
             end
@@ -179,26 +187,34 @@ compact(Options, Messages) ->
             end
     end.
 
-loop(Options, _Messages, RunId, Step, MaxSteps, _Total, _Limit) when Step > MaxSteps ->
-    fail(Options, RunId, <<"AGENT_MAX_STEPS">>);
 loop(Options, Messages, RunId, Step, MaxSteps, Total, Limit) ->
-    Specs0 = tool_specs(maps:get(tools, Options)),
-    Specs =
-        case maps:get(tool_selection, Options) of
-            undefined -> Specs0;
-            Selection -> praxo_middleware:select_tools(Selection, Specs0)
-        end,
-    RequestMessages =
-        case maps:get(pii, Options) of
-            true -> [redact_message(Message) || Message <- Messages];
-            false -> Messages
-        end,
-    Request = praxo_models:request(RequestMessages, Specs),
-    case check_model_limit(Limit) of
-        {error, Code, _} ->
+    case check_cancelled(Options) of
+        {error, Code} ->
             fail(Options, RunId, Code);
-        {ok, NextLimit} ->
-            run_model(Options, Messages, Request, RunId, Step, MaxSteps, Total, NextLimit)
+        ok ->
+            case Step > MaxSteps of
+                true ->
+                    fail(Options, RunId, <<"AGENT_MAX_STEPS">>);
+                false ->
+                    Specs0 = tool_specs(maps:get(tools, Options)),
+                    Specs =
+                        case maps:get(tool_selection, Options) of
+                            undefined -> Specs0;
+                            Selection -> praxo_middleware:select_tools(Selection, Specs0)
+                        end,
+                    RequestMessages =
+                        case maps:get(pii, Options) of
+                            true -> [redact_message(Message) || Message <- Messages];
+                            false -> Messages
+                        end,
+                    Request = praxo_models:request(RequestMessages, Specs),
+                    case check_model_limit(Limit) of
+                        {error, Code, _} ->
+                            fail(Options, RunId, Code);
+                        {ok, NextLimit} ->
+                            run_model(Options, Messages, Request, RunId, Step, MaxSteps, Total, NextLimit)
+                    end
+            end
     end.
 
 run_model(Options, Messages, Request, RunId, Step, MaxSteps, Total, Limit) ->
@@ -207,32 +223,37 @@ run_model(Options, Messages, Request, RunId, Step, MaxSteps, Total, Limit) ->
             fail(Options#{model => Model}, RunId, Code);
         {ok, Response, Model} ->
             Options1 = Options#{model => Model},
-            Total1 = praxo_models:add_usage(Total, maps:get(usage, Response)),
-            MaxTokens = maps:get(max_tokens, Options1),
-            Tokens = maps:get(input_tokens, Total1) + maps:get(output_tokens, Total1),
-            case MaxTokens > 0 andalso Tokens > MaxTokens of
-                true ->
-                    fail(Options1, RunId, <<"AGENT_MAX_TOKENS">>);
-                false ->
-                    Message = maps:get(message, Response),
-                    Messages1 = Messages ++ [Message],
-                    case maps:get(tool_calls, Message) of
-                        [] ->
-                            finish(Options1, Message, RunId, Step, Total1);
-                        Calls ->
-                            case invoke_tools(Options1, Calls, Messages1, RunId, Limit) of
-                                {ok, Options2, Messages2, Limit2} ->
-                                    loop(
-                                        Options2,
-                                        Messages2,
-                                        RunId,
-                                        Step + 1,
-                                        MaxSteps,
-                                        Total1,
-                                        Limit2
-                                    );
-                                {error, Code, Options2} ->
-                                    {error, Code, Options2}
+            case check_cancelled(Options1) of
+                {error, Code} ->
+                    fail(Options1, RunId, Code);
+                ok ->
+                    Total1 = praxo_models:add_usage(Total, maps:get(usage, Response)),
+                    MaxTokens = maps:get(max_tokens, Options1),
+                    Tokens = maps:get(input_tokens, Total1) + maps:get(output_tokens, Total1),
+                    case MaxTokens > 0 andalso Tokens > MaxTokens of
+                        true ->
+                            fail(Options1, RunId, <<"AGENT_MAX_TOKENS">>);
+                        false ->
+                            Message = maps:get(message, Response),
+                            Messages1 = Messages ++ [Message],
+                            case maps:get(tool_calls, Message) of
+                                [] ->
+                                    finish(Options1, Message, RunId, Step, Total1);
+                                Calls ->
+                                    case invoke_tools(Options1, Calls, Messages1, RunId, Limit) of
+                                        {ok, Options2, Messages2, Limit2} ->
+                                            loop(
+                                                Options2,
+                                                Messages2,
+                                                RunId,
+                                                Step + 1,
+                                                MaxSteps,
+                                                Total1,
+                                                Limit2
+                                            );
+                                        {error, Code, Options2} ->
+                                            {error, Code, Options2}
+                                    end
                             end
                     end
             end
@@ -247,15 +268,20 @@ finish(Options, Message, RunId, Step, Total) ->
         end,
     case Validated of
         {ok, ValidOutput} ->
-            Result = praxo_models:run_result(RunId, ValidOutput, Step, Total),
-            case after_run(Options, Result, undefined) of
-                undefined ->
-                    Options1 = emit(Options, <<"run.completed">>, RunId),
-                    {ok, Result, Options1};
-                Reason ->
-                    Options1 = emit(Options, <<"run.failed">>, RunId,
-                        #{<<"error">> => to_code(Reason)}),
-                    {error, to_code(Reason), Options1}
+            case emit_stream(Options, RunId, <<"messages">>, Step, ValidOutput) of
+                {error, Code} ->
+                    fail(Options, RunId, Code);
+                ok ->
+                    Result = praxo_models:run_result(RunId, ValidOutput, Step, Total),
+                    case after_run(Options, Result, undefined) of
+                        undefined ->
+                            Options1 = emit(Options, <<"run.completed">>, RunId),
+                            {ok, Result, Options1};
+                        Reason ->
+                            Options1 = emit(Options, <<"run.failed">>, RunId,
+                                #{<<"error">> => to_code(Reason)}),
+                            {error, to_code(Reason), Options1}
+                    end
             end;
         {error, Code} when is_binary(Code) ->
             fail(Options, RunId, Code);
@@ -269,20 +295,76 @@ finish(Options, Message, RunId, Step, Total) ->
             {error, Error, Options1}
     end.
 
-invoke_tools(Options, [], Messages, _RunId, Limit) ->
+invoke_tools(Options, Calls, Messages, RunId, Limit) ->
+    Parallel =
+        case maps:get(max_parallel_tools, Options, 1) of
+            N when is_integer(N), N > 0 -> N;
+            _ -> 1
+        end,
+    process_tool_batches(Options, Calls, Messages, RunId, Limit, Parallel).
+
+process_tool_batches(Options, [], Messages, _RunId, Limit, _Parallel) ->
     {ok, Options, Messages, Limit};
-invoke_tools(Options, [Call | Rest], Messages, RunId, Limit) ->
+process_tool_batches(Options, Calls, Messages, RunId, Limit, Parallel) ->
+    case check_cancelled(Options) of
+        {error, Code} ->
+            tool_fail(Options, RunId, Code);
+        ok ->
+            Count = min(Parallel, length(Calls)),
+            {Batch, Rest} = lists:split(Count, Calls),
+            case prepare_batch(Options, Batch, RunId, Limit) of
+                {ok, Prepared, Options1, Limit1} ->
+                    case execute_batch(Options1, Prepared, Messages, Parallel) of
+                        {ok, Options2, Messages1} ->
+                            case check_cancelled(Options2) of
+                                {error, Code} -> tool_fail(Options2, RunId, Code);
+                                ok ->
+                                    process_tool_batches(
+                                        Options2,
+                                        Rest,
+                                        Messages1,
+                                        RunId,
+                                        Limit1,
+                                        Parallel
+                                    )
+                            end;
+                        Error ->
+                            Error
+                    end;
+                Error ->
+                    Error
+            end
+    end.
+
+prepare_batch(Options, Calls, RunId, Limit) ->
+    prepare_batch(Options, Calls, RunId, Limit, []).
+
+prepare_batch(Options, [], _RunId, Limit, Acc) ->
+    {ok, lists:reverse(Acc), Options, Limit};
+prepare_batch(Options, [Call | Rest], RunId, Limit, Acc) ->
+    case prepare_tool(Options, Call, RunId, Limit) of
+        {ok, Options1, Item, Limit1} ->
+            prepare_batch(Options1, Rest, RunId, Limit1, [Item | Acc]);
+        Error ->
+            Error
+    end.
+
+prepare_tool(Options, Call, RunId, Limit) ->
     OriginalName = maps:get(name, Call),
     OriginalArguments = maps:get(arguments, Call),
     case allowed(Options, OriginalName) of
         false ->
-            fail(Options, RunId, <<"AGENT_TOOL_NOT_ALLOWED">>);
+            tool_fail(Options, RunId, <<"AGENT_TOOL_NOT_ALLOWED">>);
         true ->
-            Action = praxo_models:action(<<"tool.invoke">>, maps:get(session_id, Options),
-                OriginalName, OriginalArguments),
+            Action = praxo_models:action(
+                <<"tool.invoke">>,
+                maps:get(session_id, Options),
+                OriginalName,
+                OriginalArguments
+            ),
             case authorize(Options, Action) of
                 {error, Code} ->
-                    fail(Options, RunId, Code);
+                    tool_fail(Options, RunId, Code);
                 ok ->
                     Active = lists:foldl(
                         fun(Middleware, Current) ->
@@ -298,28 +380,40 @@ invoke_tools(Options, [Call | Rest], Messages, RunId, Limit) ->
                     Arguments = maps:get(arguments, Active),
                     case allowed(Options, Name) of
                         false ->
-                            fail(Options, RunId, <<"AGENT_TOOL_NOT_ALLOWED">>);
+                            tool_fail(Options, RunId, <<"AGENT_TOOL_NOT_ALLOWED">>);
                         true ->
-                            Changed = (Name =/= OriginalName) orelse (Arguments =/= OriginalArguments),
-                            FinalAction = praxo_models:action(<<"tool.invoke">>,
-                                maps:get(session_id, Options), Name, Arguments),
+                            Changed = (Name =/= OriginalName) orelse
+                                (Arguments =/= OriginalArguments),
+                            FinalAction = praxo_models:action(
+                                <<"tool.invoke">>,
+                                maps:get(session_id, Options),
+                                Name,
+                                Arguments
+                            ),
                             case Changed of
                                 true ->
                                     case authorize(Options, FinalAction) of
-                                        {error, Code} -> fail(Options, RunId, Code);
-                                        ok -> run_prepared(Options, Active, Rest, Messages, RunId, Limit)
+                                        {error, Code} ->
+                                            tool_fail(Options, RunId, Code);
+                                        ok ->
+                                            prepare_selected_tool(
+                                                Options, Active, RunId, Limit
+                                            )
                                     end;
                                 false ->
-                                    run_prepared(Options, Active, Rest, Messages, RunId, Limit)
+                                    prepare_selected_tool(Options, Active, RunId, Limit)
                             end
                     end
             end
     end.
 
-run_prepared(Options, Call, Rest, Messages, RunId, Limit) ->
+prepare_selected_tool(Options, Call, RunId, Limit) ->
     Name = maps:get(name, Call),
     Tools = maps:get(tools, Options),
-    Index = praxo_util:index_of(fun(Tool) -> maps:get(name, Tool) == Name end, Tools),
+    Index = praxo_util:index_of(
+        fun(Tool) -> maps:get(name, Tool) == Name end,
+        Tools
+    ),
     Selection =
         case maps:get(tool_selection, Options) of
             undefined -> ok;
@@ -327,7 +421,7 @@ run_prepared(Options, Call, Rest, Messages, RunId, Limit) ->
         end,
     case Selection of
         {error, Code} ->
-            fail(Options, RunId, Code);
+            tool_fail(Options, RunId, Code);
         ok ->
             case Index of
                 undefined ->
@@ -341,7 +435,7 @@ run_prepared(Options, Call, Rest, Messages, RunId, Limit) ->
                 _ ->
                     case check_tool_limit(Limit) of
                         {error, Code, _} ->
-                            fail(Options, RunId, Code);
+                            tool_fail(Options, RunId, Code);
                         {ok, Limit1} ->
                             Tool = lists:nth(Index + 1, Tools),
                             Options1 = emit(
@@ -353,26 +447,87 @@ run_prepared(Options, Call, Rest, Messages, RunId, Limit) ->
                                     <<"arguments">> => maps:get(arguments, Call)
                                 }
                             ),
-                            {Tool1, Value0} = call(Tool, maps:get(arguments, Call)),
-                            UpdatedTools =
-                                lists:sublist(Tools, Index) ++
-                                    [Tool1] ++ lists:nthtail(Index + 1, Tools),
-                            Options2 = Options1#{tools => UpdatedTools},
-                            Value =
-                                case maps:get(pii, Options2) of
-                                    true -> praxo_middleware:redact_value(Value0);
-                                    false -> Value0
-                                end,
-                            Messages1 = Messages ++ [
-                                praxo_models:message_tool(
-                                    praxo_json:encode(Value),
-                                    maps:get(id, Call)
-                                )
-                            ],
-                            invoke_tools(Options2, Rest, Messages1, RunId, Limit1)
+                            {ok, Options1, {Index, Tool, Call}, Limit1}
                     end
             end
     end.
+
+execute_batch(Options, Prepared, Messages, 1) ->
+    lists:foldl(
+        fun({Index, Tool, Call}, {ok, OptionsAcc, MessagesAcc}) ->
+            {Tool1, Value0} = call(Tool, maps:get(arguments, Call)),
+            UpdatedTools = replace_at(maps:get(tools, OptionsAcc), Index, Tool1),
+            OptionsAcc1 = OptionsAcc#{tools => UpdatedTools},
+            Value =
+                case maps:get(pii, OptionsAcc1) of
+                    true -> praxo_middleware:redact_value(Value0);
+                    false -> Value0
+                end,
+            MessagesAcc1 = MessagesAcc ++ [
+                praxo_models:message_tool(
+                    praxo_json:encode(Value),
+                    maps:get(id, Call)
+                )
+            ],
+            {ok, OptionsAcc1, MessagesAcc1}
+        end,
+        {ok, Options, Messages},
+        Prepared
+    );
+execute_batch(Options, Prepared, Messages, _Parallel) ->
+    Parent = self(),
+    Refs = [
+        begin
+            Ref = make_ref(),
+            {Pid, Mon} = spawn_monitor(fun() ->
+                Parent ! {Ref, call(Tool, maps:get(arguments, Call))}
+            end),
+            {Ref, Pid, Mon, Call, Index}
+        end
+     || {Index, Tool, Call} <- Prepared
+    ],
+    lists:foldl(
+        fun({Ref, _Pid, Mon, Call, Index}, {ok, OptionsAcc, MessagesAcc}) ->
+            receive
+                {Ref, {Tool1, Value0}} ->
+                    receive
+                        {'DOWN', Mon, process, _, _} -> ok
+                    after
+                        0 -> ok
+                    end,
+                    UpdatedTools = replace_at(
+                        maps:get(tools, OptionsAcc), Index, Tool1
+                    ),
+                    OptionsAcc1 = OptionsAcc#{tools => UpdatedTools},
+                    Value =
+                        case maps:get(pii, OptionsAcc1) of
+                            true -> praxo_middleware:redact_value(Value0);
+                            false -> Value0
+                        end,
+                    MessagesAcc1 = MessagesAcc ++ [
+                        praxo_models:message_tool(
+                            praxo_json:encode(Value),
+                            maps:get(id, Call)
+                        )
+                    ],
+                    {ok, OptionsAcc1, MessagesAcc1};
+                {'DOWN', Mon, process, _, Reason} ->
+                    {error, to_code(Reason), OptionsAcc}
+            after
+                30000 ->
+                    {error, <<"TOOL_TIMEOUT">>, OptionsAcc}
+            end
+        end,
+        {ok, Options, Messages},
+        Refs
+    ).
+
+replace_at(List, Index, Value) ->
+    lists:sublist(List, Index) ++ [Value] ++ lists:nthtail(Index + 1, List).
+
+tool_fail(Options, RunId, Code) ->
+    {error, ErrorCode, Options1} = fail(Options, RunId, Code),
+    {error, ErrorCode, Options1}.
 
 check_model_limit(undefined) -> {ok, undefined};
 check_model_limit(Limit) -> praxo_middleware:model_call(Limit).
@@ -417,6 +572,46 @@ emit(Options, Kind, RunId, Data) ->
         Sink ->
             Event = praxo_models:event(Kind, maps:get(session_id, Options), RunId, Data),
             Options#{events => praxo_sink:emit(Sink, Event)}
+    end.
+
+check_cancelled(Options) ->
+    case maps:get(cancellation, Options, undefined) of
+        undefined ->
+            ok;
+        Cancellation when is_function(Cancellation, 0) ->
+            case Cancellation() of
+                true -> {error, <<"AGENT_CANCELLED">>};
+                _ -> ok
+            end;
+        Cancellation when is_function(Cancellation, 1) ->
+            case Cancellation(Options) of
+                true -> {error, <<"AGENT_CANCELLED">>};
+                _ -> ok
+            end;
+        true ->
+            {error, <<"AGENT_CANCELLED">>};
+        _ ->
+            ok
+    end.
+
+emit_stream(Options, RunId, Kind, Step, Data) ->
+    case maps:get(on_stream, Options, undefined) of
+        undefined ->
+            ok;
+        Fun ->
+            Part = praxo_models:stream_part(
+                RunId,
+                maps:get(session_id, Options),
+                Kind,
+                Step,
+                Data
+            ),
+            try
+                Fun(Part),
+                ok
+            catch
+                _:_ -> {error, <<"STREAM_ERROR">>}
+            end
     end.
 
 fail(Options, RunId, Code) ->

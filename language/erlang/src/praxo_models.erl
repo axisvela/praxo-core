@@ -35,10 +35,12 @@
     event/2,
     event/3,
     event/4,
+    stream_part/4,
+    stream_part/5,
     message_wire/1
 ]).
 
-sdk_version() -> <<"0.2.0">>.
+sdk_version() -> <<"0.3.0">>.
 
 spec_version() -> <<"0.2.0">>.
 
@@ -108,6 +110,18 @@ session(Id) -> session(Id, []).
 
 session(Id, Messages) ->
     #{id => praxo_util:to_bin(Id), messages => Messages}.
+
+stream_part(RunId, SessionId, Kind, Step) ->
+    stream_part(RunId, SessionId, Kind, Step, null).
+
+stream_part(RunId, SessionId, Kind, Step, Data) ->
+    #{
+        run_id => praxo_util:to_bin(RunId),
+        session_id => praxo_util:to_bin(SessionId),
+        kind => praxo_util:to_bin(Kind),
+        step => Step,
+        data => Data
+    }.
 
 run_result(RunId, Output, Steps, Usage) ->
     #{

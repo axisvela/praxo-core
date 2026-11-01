@@ -28,8 +28,200 @@ run() ->
     test_agent_capacity(),
     test_agent_authorization(),
     test_agent_lifecycle(),
+    test_agent_cancellation(),
+    test_agent_stream(),
+    test_agent_parallel(),
+    test_sse(),
     io:format("erlang tests passed~n").
 
+
+test_agent_cancellation() ->
+    put(cancel, false),
+    Model = fun(_Request) ->
+        put(cancel, true),
+        {ok, praxo_models:response(praxo_models:message_assistant(<<"done">>)),
+            praxo_agent:failing_model()}
+    end,
+    Options = (praxo_agent:new_agent_options(Model))#{
+        cancellation => fun() -> get(cancel) end,
+        events => praxo_sink:new()
+    },
+    {error, <<"AGENT_CANCELLED">>, Returned} = praxo_agent:run_agent(
+        Options,
+        praxo_models:session(<<"s1">>),
+        <<"go">>
+    ),
+    check(
+        praxo_sink:kinds(maps:get(events, Returned)) ==
+            [<<"run.started">>, <<"run.failed">>],
+        <<"erlang model cancellation events">>
+    ),
+    erase(cancel),
+    put(tool_cancel, false),
+    Tool = praxo_agent:new_tool(<<"wait">>, <<"wait">>, fun(_) ->
+        put(tool_cancel, true),
+        <<"ok">>
+    end),
+    ToolModel = fun(Request) ->
+        case length(maps:get(messages, Request)) of
+            1 ->
+                {ok, praxo_models:response(praxo_models:message_assistant(<<>>, [
+                    praxo_models:tool_call(<<"c1">>, <<"wait">>, #{})
+                ])), praxo_agent:failing_model()};
+            _ ->
+                {ok, praxo_models:response(praxo_models:message_assistant(<<"done">>)),
+                    praxo_agent:failing_model()}
+        end
+    end,
+    ToolOptions = (praxo_agent:new_agent_options(ToolModel))#{
+        tools => [Tool],
+        cancellation => fun() -> get(tool_cancel) end,
+        events => praxo_sink:new()
+    },
+    {error, <<"AGENT_CANCELLED">>, ToolReturned} = praxo_agent:run_agent(
+        ToolOptions,
+        praxo_models:session(<<"s1">>),
+        <<"go">>
+    ),
+    check(
+        praxo_sink:kinds(maps:get(events, ToolReturned)) ==
+            [<<"run.started">>, <<"tool.call">>, <<"run.failed">>],
+        <<"erlang tool cancellation events">>
+    ),
+    erase(tool_cancel).
+
+test_agent_stream() ->
+    put(streams, []),
+    Options = (praxo_agent:new_agent_options(praxo_agent:static_model(<<"done">>)))#{
+        on_stream => fun(Part) ->
+            Kind = maps:get(kind, Part),
+            put(streams, get(streams) ++ [Kind]),
+            case Kind of
+                <<"messages">> -> throw(stream_failed);
+                _ -> ok
+            end
+        end,
+        events => praxo_sink:new()
+    },
+    {error, <<"STREAM_ERROR">>, Returned} = praxo_agent:run_agent(
+        Options,
+        praxo_models:session(<<"s1">>),
+        <<"go">>
+    ),
+    check(get(streams) == [<<"values">>, <<"messages">>], <<"erlang stream parts">>),
+    check(
+        praxo_sink:kinds(maps:get(events, Returned)) ==
+            [<<"run.started">>, <<"run.failed">>],
+        <<"erlang stream failure events">>
+    ),
+    erase(streams).
+
+test_agent_parallel() ->
+    Parent = self(),
+    Release = atomics:new(1, []),
+    Tool = fun(Name) ->
+        praxo_agent:new_tool(Name, Name, fun(_) ->
+            Parent ! {started, Name},
+            wait_release(Release),
+            Name
+        end)
+    end,
+    Model = fun Loop(Request) ->
+        case length(maps:get(messages, Request)) of
+            1 ->
+                Calls = [
+                    praxo_models:tool_call(<<"c1">>, <<"a">>, #{}),
+                    praxo_models:tool_call(<<"c2">>, <<"b">>, #{})
+                ],
+                {ok, praxo_models:response(
+                    praxo_models:message_assistant(<<>>, Calls)
+                ), Loop};
+            _ ->
+                Ids = [
+                    maps:get(tool_id, Message)
+                 || Message <- maps:get(messages, Request),
+                    maps:get(role, Message) == <<"tool">>
+                ],
+                Parent ! {order, Ids},
+                {ok, praxo_models:response(praxo_models:message_assistant(<<"done">>)),
+                    Loop}
+        end
+    end,
+    Options = (praxo_agent:new_agent_options(Model))#{
+        tools => [Tool(<<"a">>), Tool(<<"b">>)],
+        max_parallel_tools => 2
+    },
+    _Pid = spawn(fun() ->
+        Result =
+            try
+                praxo_agent:run_agent(
+                    Options,
+                    praxo_models:session(<<"s1">>),
+                    <<"go">>
+                )
+            catch
+                Class:Reason:Stack -> {crashed, Class, Reason, Stack}
+            end,
+        Parent ! {agent_result, Result}
+    end),
+    Started = [receive_started(), receive_started()],
+    check(
+        lists:sort(Started) == [{started, <<"a">>}, {started, <<"b">>}],
+        <<"erlang parallel starts">>
+    ),
+    atomics:put(Release, 1, 1),
+    receive
+        {agent_result, {ok, Result, _}} ->
+            check(maps:get(output, Result) == <<"done">>, <<"erlang parallel result">>);
+        {agent_result, Other} ->
+            erlang:error({parallel_agent_failed, Other})
+    after
+        5000 -> erlang:error(parallel_result_timeout)
+    end,
+    receive
+        {order, Ids} ->
+            check(Ids == [<<"c1">>, <<"c2">>], <<"erlang parallel order">>)
+    after
+        5000 -> erlang:error(parallel_order_timeout)
+    end.
+
+receive_started() ->
+    receive
+        {started, Name} -> {started, Name}
+    after
+        2000 -> erlang:error(parallel_start_timeout)
+    end.
+
+wait_release(Ref) -> wait_release(Ref, 300).
+
+wait_release(_Ref, 0) -> erlang:error(parallel_release_timeout);
+wait_release(Ref, Attempts) ->
+    case atomics:get(Ref, 1) of
+        1 -> ok;
+        _ ->
+            timer:sleep(10),
+            wait_release(Ref, Attempts - 1)
+    end.
+
+test_sse() ->
+    check(
+        praxo_sse:parse(
+            <<"data: {\"choices\":[{\"delta\":{\"content\":\"hi\"}}]}\n\n"
+              "data: [DONE]\n\n">>
+        ) == {ok, <<"hi">>},
+        <<"erlang sse complete">>
+    ),
+    check(
+        praxo_sse:parse(
+            <<"data: {\"choices\":[{\"delta\":{\"content\":\"hi\"}}]}\n\n">>
+        ) == {error, <<"MODEL_STREAM">>},
+        <<"erlang sse truncated">>
+    ),
+    check(
+        praxo_sse:parse(<<"data: {\"choices\"\n\n">>) ==
+            {error, <<"MODEL_STREAM">>},
+        <<"erlang sse half packet">>
+    ).
 
 tool_model() ->
     praxo_agent:scripted_model([
