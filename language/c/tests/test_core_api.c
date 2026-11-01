@@ -123,6 +123,10 @@ typedef struct {
     const char *rename_to;
     int event_count;
     const char *events[8];
+    int cancelled;
+    int cancel_on_model;
+    int cancel_on_tool;
+    const char *stream_error;
 } AgentHookContext;
 
 static const char *hook_before_run(void *ctx) {
@@ -180,6 +184,9 @@ static PxValue *hook_model(PxArena *arena, PxValue *messages, PxValue *tools,
     (void)messages;
     (void)tools;
     AgentHookContext *state = ctx;
+    if (state->cancel_on_model) {
+        state->cancelled = 1;
+    }
     if (state->model_step++ == 0) {
         return px_parse(arena,
             "{\"toolCalls\":[{\"id\":\"c1\",\"name\":\"echo\","
@@ -193,9 +200,50 @@ static PxValue *hook_tool(PxArena *arena, const char *name,
     (void)arena;
     AgentHookContext *state = ctx;
     state->tool_calls++;
+    if (state->cancel_on_tool) {
+        state->cancelled = 1;
+    }
     state->last_tool_name = name;
     state->last_tool_text = px_get_str(arguments, "text");
     return arguments;
+}
+
+
+static PxValue *two_tool_model(PxArena *arena, PxValue *messages,
+        PxValue *tools, void *ctx) {
+    (void)messages;
+    (void)tools;
+    AgentHookContext *state = ctx;
+    if (state->model_step++ == 0) {
+        return px_parse(arena,
+            "{\"toolCalls\":["
+            "{\"id\":\"c1\",\"name\":\"cancel\",\"arguments\":{}},"
+            "{\"id\":\"c2\",\"name\":\"effect\",\"arguments\":{}}]}");
+    }
+    return px_parse(arena, "{\"content\":\"done\"}");
+}
+
+static const char *hook_on_delta(const char *delta, void *ctx) {
+    (void)delta;
+    (void)ctx;
+    return "CALLBACK";
+}
+
+static PxValue *hook_stream_model(PxArena *arena, PxValue *messages,
+        PxValue *tools, const char *(*on_delta)(const char *, void *),
+        void *ctx, const char **error) {
+    (void)messages;
+    (void)tools;
+    const char *caught = on_delta("x", ctx);
+    if (caught != NULL) {
+        *error = caught;
+        return NULL;
+    }
+    return px_parse(arena, "{\"content\":\"done\"}");
+}
+
+static int hook_cancelled(void *ctx) {
+    return ((AgentHookContext *)ctx)->cancelled;
 }
 
 static PxValue *fail_model(PxArena *arena, PxValue *messages, PxValue *tools,
@@ -595,6 +643,72 @@ int main(void) {
     assert(cleanup.event_count == 2);
     assert(strcmp(cleanup.events[0], "run.started") == 0);
     assert(strcmp(cleanup.events[1], "run.failed") == 0);
+
+
+    AgentHookContext cancel_model = {0};
+    cancel_model.cancel_on_model = 1;
+    PxAgentMiddleware cancel_model_middleware = {hook_before_run, hook_after_run,
+        hook_before_tool, &cancel_model};
+    PxAgentOptions cancel_model_options = {
+        .generate = hook_model,
+        .invoke = hook_tool,
+        .emit = hook_emit,
+        .ctx = &cancel_model,
+        .cancelled = hook_cancelled,
+        .middleware = &cancel_model_middleware,
+        .middleware_count = 1,
+    };
+    assert(strcmp(px_agent_run(&arena, &cancel_model_options, NULL, "go",
+        &hook_result), "AGENT_CANCELLED") == 0);
+    assert(cancel_model.after_run_calls == 1);
+
+    AgentHookContext cancel_tool = {0};
+    cancel_tool.cancel_on_tool = 1;
+    PxAgentMiddleware cancel_tool_middleware = {hook_before_run, hook_after_run,
+        hook_before_tool, &cancel_tool};
+    PxAgentOptions cancel_tool_options = {
+        .generate = two_tool_model,
+        .invoke = hook_tool,
+        .ctx = &cancel_tool,
+        .cancelled = hook_cancelled,
+        .middleware = &cancel_tool_middleware,
+        .middleware_count = 1,
+    };
+    assert(strcmp(px_agent_run(&arena, &cancel_tool_options, NULL, "go",
+        &hook_result), "AGENT_CANCELLED") == 0);
+    assert(cancel_tool.tool_calls == 1);
+    assert(cancel_tool.after_run_calls == 1);
+
+    AgentHookContext stream_ctx = {0};
+    PxAgentMiddleware stream_middleware = {hook_before_run, hook_after_run,
+        hook_before_tool, &stream_ctx};
+    PxAgentOptions stream_options = {
+        .generate = static_model,
+        .invoke = hook_tool,
+        .emit = hook_emit,
+        .ctx = &stream_ctx,
+        .generate_stream = hook_stream_model,
+        .on_delta = hook_on_delta,
+        .middleware = &stream_middleware,
+        .middleware_count = 1,
+    };
+    assert(strcmp(px_agent_run(&arena, &stream_options, NULL, "go",
+        &hook_result), "CALLBACK") == 0);
+    assert(stream_ctx.after_run_calls == 1);
+    assert(stream_ctx.event_count == 2);
+    assert(strcmp(stream_ctx.events[1], "run.failed") == 0);
+
+    PxValue *sse = NULL;
+    assert(strcmp(px_parse_sse_stream(&arena,
+        "data: {\"choices\":[{\"delta\":{\"content\":\"hi\"}}]}\n\n", &sse),
+        "MODEL_STREAM") == 0);
+    assert(strcmp(px_parse_sse_stream(&arena,
+        "data: {\"choices\":[{\"delta\":{\"content\":\"hi\"}}]}\n\n"
+        "data: {\"choices\"", &sse), "MODEL_STREAM") == 0);
+    assert(px_parse_sse_stream(&arena,
+        "data: {\"choices\":[{\"delta\":{\"content\":\"hi\"}}]}\n\n"
+        "data: [DONE]\n\n", &sse) == NULL);
+    assert(strcmp(px_get_str(sse, "content"), "hi") == 0);
 
     px_arena_free(&arena);
     printf("C Core API tests passed\n");

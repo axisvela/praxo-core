@@ -6,7 +6,7 @@
 
 #include "praxo.h"
 
-#define PRAXO_CORE_VERSION "0.3.0"
+#define PRAXO_CORE_VERSION "0.4.0"
 
 typedef struct {
     const char *session;
@@ -160,7 +160,15 @@ typedef struct {
     size_t middleware_count;
     const char *const *allowed_tools;
     size_t allowed_tools_count;
+    int (*cancelled)(void *ctx);
+    PxValue *(*generate_stream)(PxArena *arena, PxValue *messages,
+        PxValue *tools, const char *(*on_delta)(const char *delta, void *ctx),
+        void *ctx, const char **error);
+    const char *(*on_delta)(const char *delta, void *ctx);
 } PxAgentOptions;
+
+const char *px_parse_sse_stream(PxArena *arena, const char *text,
+    PxValue **response);
 
 typedef struct {
     const char *output;

@@ -42,7 +42,7 @@ class ApiSnapshotTests(unittest.TestCase):
 
     def test_current_baseline_matches_headers(self):
         version, content = self.snapshot()
-        self.assertEqual(version, "0.3.0")
+        self.assertEqual(version, "0.4.0")
         self.assertEqual(content, (ROOT / "api" / f"{version}.txt").read_text(encoding="utf-8"))
         self.assertIn("## include/praxo.h", content)
         self.assertIn("## include/praxo_core.h", content)
@@ -112,11 +112,11 @@ class ApiSnapshotTests(unittest.TestCase):
         self.assertEqual(original, self.snapshot())
 
     def test_version_mismatches_fail(self):
-        self.spec.write_text("0.3.0\n", encoding="utf-8")
+        self.spec.write_text("0.4.0\n", encoding="utf-8")
         with self.assertRaisesRegex(ValueError, "SPEC_VERSION"):
             self.snapshot()
         self.spec.write_text("0.2.0\n", encoding="utf-8")
-        self.change("praxo_core.h", 'PRAXO_CORE_VERSION "0.3.0"', 'PRAXO_CORE_VERSION "0.4.0"')
+        self.change("praxo_core.h", 'PRAXO_CORE_VERSION "0.4.0"', 'PRAXO_CORE_VERSION "0.5.0"')
         with self.assertRaisesRegex(ValueError, "CORE_VERSION"):
             self.snapshot()
 
@@ -124,7 +124,7 @@ class ApiSnapshotTests(unittest.TestCase):
         self.assertEqual(self.run_main("--check"), 1)
         self.assertFalse((self.root / "api").exists())
         self.assertEqual(self.run_main(), 0)
-        target = self.root / "api" / "0.3.0.txt"
+        target = self.root / "api" / "0.4.0.txt"
         original = target.read_bytes()
         stat = target.stat()
         self.assertEqual(self.run_main("--check"), 0)
@@ -137,12 +137,12 @@ class ApiSnapshotTests(unittest.TestCase):
 
     def test_new_version_preserves_historical_baseline(self):
         self.assertEqual(self.run_main(), 0)
-        target = self.root / "api" / "0.3.0.txt"
+        target = self.root / "api" / "0.4.0.txt"
         original = target.read_bytes()
         for header in ("praxo.h", "praxo_core.h"):
-            self.change(header, '"0.3.0"', '"0.4.0"')
+            self.change(header, '"0.4.0"', '"0.5.0"')
         self.assertEqual(self.run_main(), 0)
-        self.assertTrue((self.root / "api" / "0.4.0.txt").exists())
+        self.assertTrue((self.root / "api" / "0.5.0.txt").exists())
         self.assertEqual(target.read_bytes(), original)
 
     def test_invalid_headers_fail_without_writing(self):

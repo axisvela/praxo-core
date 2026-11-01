@@ -441,6 +441,63 @@ static const char *agent_fail_run(const PxAgentOptions *options, size_t entered,
     return code;
 }
 
+static const char *agent_cancel_code(const PxAgentOptions *options) {
+    return options->cancelled != NULL && options->cancelled(options->ctx)
+        ? "AGENT_CANCELLED" : NULL;
+}
+
+const char *px_parse_sse_stream(PxArena *arena, const char *text,
+        PxValue **response) {
+    char *copy = px_arena_strdup(arena, text == NULL ? "" : text);
+    char *content = px_arena_alloc(arena, strlen(text == NULL ? "" : text) + 1);
+    size_t used = 0;
+    const char *finish_reason = NULL;
+    int done = 0;
+    for (char *line = strtok(copy, "\n"); line != NULL; line = strtok(NULL, "\n")) {
+        size_t length = strlen(line);
+        if (length > 0 && line[length - 1] == '\r') {
+            line[length - 1] = '\0';
+        }
+        if (strncmp(line, "data:", 5) != 0) {
+            continue;
+        }
+        char *data = line + 5;
+        while (*data == ' ') {
+            data++;
+        }
+        if (strcmp(data, "[DONE]") == 0) {
+            done = 1;
+            break;
+        }
+        PxValue *chunk = px_parse(arena, data);
+        if (chunk == NULL || chunk->type != PX_OBJ) {
+            return "MODEL_STREAM";
+        }
+        PxValue *choices = px_obj_get(chunk, "choices");
+        if (choices != NULL && choices->type == PX_ARR && choices->as.array.len > 0) {
+            PxValue *choice = choices->as.array.items[0];
+            const char *reason = px_get_str(choice, "finish_reason");
+            if (reason != NULL) {
+                finish_reason = reason;
+            }
+            const char *delta = px_get_str(px_obj_get(choice, "delta"), "content");
+            if (delta != NULL && delta[0] != '\0') {
+                size_t delta_length = strlen(delta);
+                memcpy(content + used, delta, delta_length);
+                used += delta_length;
+            }
+        }
+    }
+    if (!done && finish_reason == NULL) {
+        return "MODEL_STREAM";
+    }
+    content[used] = '\0';
+    PxValue *out = px_obj(arena);
+    px_obj_set(arena, out, "content", px_str(arena, content));
+    *response = out;
+    return NULL;
+}
+
 const char *px_agent_run(PxArena *arena, const PxAgentOptions *options,
         PxValue *session_messages, const char *prompt, PxAgentResult *result) {
     result->output = "";
@@ -463,6 +520,11 @@ const char *px_agent_run(PxArena *arena, const PxAgentOptions *options,
             return error;
         }
     }
+    const char *cancelled = agent_cancel_code(options);
+    if (cancelled != NULL) {
+        (void)agent_after_run(options, entered, cancelled);
+        return cancelled;
+    }
     PxValue *messages = px_arr(arena);
     if (session_messages != NULL && session_messages->type == PX_ARR) {
         for (size_t index = 0; index < session_messages->as.array.len; index++) {
@@ -478,9 +540,27 @@ const char *px_agent_run(PxArena *arena, const PxAgentOptions *options,
         options->emit("run.started", options->ctx);
     }
     for (int step = 1; step <= limit; step++) {
-        PxValue *response = options->generate(arena, messages, NULL, options->ctx);
+        cancelled = agent_cancel_code(options);
+        if (cancelled != NULL) {
+            return agent_fail_run(options, entered, cancelled);
+        }
+        PxValue *response;
+        if (options->generate_stream != NULL && options->on_delta != NULL) {
+            const char *stream_error = NULL;
+            response = options->generate_stream(arena, messages, NULL,
+                options->on_delta, options->ctx, &stream_error);
+            if (stream_error != NULL) {
+                return agent_fail_run(options, entered, stream_error);
+            }
+        } else {
+            response = options->generate(arena, messages, NULL, options->ctx);
+        }
         if (response == NULL || response->type != PX_OBJ) {
             return agent_fail_run(options, entered, "MODEL_ERROR");
+        }
+        cancelled = agent_cancel_code(options);
+        if (cancelled != NULL) {
+            return agent_fail_run(options, entered, cancelled);
         }
         const char *content = px_get_str(response, "content");
         if (content == NULL) {
@@ -519,6 +599,10 @@ const char *px_agent_run(PxArena *arena, const PxAgentOptions *options,
             return NULL;
         }
         for (size_t index = 0; index < calls->as.array.len; index++) {
+            cancelled = agent_cancel_code(options);
+            if (cancelled != NULL) {
+                return agent_fail_run(options, entered, cancelled);
+            }
             PxValue *call = calls->as.array.items[index];
             if (call == NULL || call->type != PX_OBJ) {
                 return agent_fail_run(options, entered, "MODEL_ERROR");
@@ -562,6 +646,10 @@ const char *px_agent_run(PxArena *arena, const PxAgentOptions *options,
                 if (denied != NULL) {
                     return agent_fail_run(options, entered, denied);
                 }
+            }
+            cancelled = agent_cancel_code(options);
+            if (cancelled != NULL) {
+                return agent_fail_run(options, entered, cancelled);
             }
             if (options->emit != NULL) {
                 options->emit("tool.call", options->ctx);

@@ -1,6 +1,6 @@
 # PRAXO-CORE C Core
 
-C11 implementation of the PRAXO-CORE Core contract with source tag `c/v0.2.0`.
+C11 implementation of the PRAXO-CORE Core contract with source tag `c/v0.4.0`.
 The normative contract is [`spec/`](../../spec/README.md); Go remains the
 reference implementation.
 
@@ -59,7 +59,7 @@ python -m unittest discover -s tests -p test_api_snapshot.py -v
 
 The checker syntax-checks the public headers, then uses C11 preprocessing and
 source locations to retain only declarations and macros from `include/*.h`.
-`api/0.2.0.txt` records the unchanged public headers for Core version 0.2.0,
+`api/0.4.0.txt` records the public headers for Core version 0.4.0,
 including header names, include dependencies, Core/spec version macros, complete
 function signatures, callback typedefs, struct/union fields, enums, and constants.
 All header-defined macros, including include guards, are retained rather than

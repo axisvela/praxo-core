@@ -1,5 +1,25 @@
 # C Core Release Notes
 
+## 0.4.0 - 2026-11-01
+
+Source release tag `c/v0.4.0`.
+
+### Added
+
+- Cooperative cancellation through `PxAgentOptions.cancelled`.
+- Streaming model hook through `generate_stream` and `on_delta`.
+- `px_parse_sse_stream` for OpenAI-compatible SSE streams.
+- Behavior coverage for model/tool cancellation, stream callback failures,
+  truncated streams, and half packets.
+- API snapshot `api/0.4.0.txt`.
+
+### Compatibility
+
+- Existing `PxAgentOptions` positional initializers remain valid; new fields are
+  appended and default to zero.
+- Parallel tools remain unsupported.
+- The Core contract remains `SPEC_VERSION` `0.2.0`.
+
 ## 0.3.0 - 2026-11-01
 
 Source release tag `c/v0.3.0`.
