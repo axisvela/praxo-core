@@ -1,7 +1,7 @@
 {application, praxo_core,
  [{description, "Embeddable MIT-licensed agent framework for Erlang"},
   {pkg_name, "praxo_core_erlang"},
-  {vsn, "0.1.1"},
+  {vsn, "0.2.0"},
   {registered, []},
   {applications, [kernel, stdlib]},
   {env, []},

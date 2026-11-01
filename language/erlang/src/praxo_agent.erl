@@ -84,31 +84,90 @@ new_agent_options(Model) ->
         context => undefined,
         max_steps => 8,
         max_tokens => 0,
-        session_id => <<"s1">>
+        session_id => <<"s1">>,
+        policy => undefined,
+        middleware => [],
+        allowed_tools => [],
+        entered => []
     }.
 
 run_agent(Options0, Session, Prompt) ->
-    Options1 = emit(Options0, <<"run.started">>),
     RunId = unique_run_id(),
     Messages0 = maps:get(messages, Session) ++ [praxo_models:message(<<"user">>, Prompt)],
     Messages =
-        case maps:get(system_prompt, Options1) of
+        case maps:get(system_prompt, Options0) of
             <<>> -> Messages0;
             SystemPrompt -> [praxo_models:message(<<"system">>, SystemPrompt) | Messages0]
         end,
-    MaxSteps0 = maps:get(max_steps, Options1),
+    MaxSteps0 = maps:get(max_steps, Options0),
     MaxSteps = case MaxSteps0 > 0 of true -> MaxSteps0; false -> 8 end,
     Limit =
-        case maps:get(call_limit, Options1) of
+        case maps:get(call_limit, Options0) of
             undefined -> undefined;
             Value -> Value#{models => 0, tools => 0}
         end,
-    case compact(Options1, Messages) of
-        {ok, Compacted} ->
-            loop(Options1, Compacted, RunId, 1, MaxSteps, praxo_models:usage(), Limit);
-        {error, Code} ->
-            fail(Options1, RunId, Code)
+    case before_run(Options0#{entered => []}, RunId, Prompt) of
+        {error, Reason, Options1} ->
+            _ = after_run(Options1, undefined, Reason),
+            {error, to_code(Reason), Options1};
+        {ok, Options1} ->
+            Options2 = emit(Options1, <<"run.started">>),
+            case compact(Options2, Messages) of
+                {ok, Compacted} ->
+                    loop(Options2, Compacted, RunId, 1, MaxSteps, praxo_models:usage(), Limit);
+                {error, Code} ->
+                    fail(Options2, RunId, Code)
+            end
     end.
+
+before_run(Options, _RunId, _Prompt, []) -> {ok, Options};
+before_run(Options, RunId, Prompt, [Middleware | Rest]) ->
+    Options1 = Options#{entered => maps:get(entered, Options) ++ [Middleware]},
+    case maps:get(before_run, Middleware, undefined) of
+        undefined ->
+            before_run(Options1, RunId, Prompt, Rest);
+        Fun ->
+            try
+                Fun(#{run_id => RunId, prompt => Prompt}),
+                before_run(Options1, RunId, Prompt, Rest)
+            catch
+                _:Reason -> {error, Reason, Options1}
+            end
+    end.
+
+before_run(Options, RunId, Prompt) ->
+    before_run(Options, RunId, Prompt, maps:get(middleware, Options)).
+
+after_run(Options, Result, Error) ->
+    lists:foldl(
+        fun(Middleware, First) ->
+            case maps:get(after_run, Middleware, undefined) of
+                undefined -> First;
+                Fun ->
+                    try Fun(Result, Error), First
+                    catch _:Caught -> case First of undefined -> Caught; _ -> First end
+                    end
+            end
+        end,
+        undefined,
+        maps:get(entered, Options, [])
+    ).
+
+allowed(Options, Name) ->
+    case maps:get(allowed_tools, Options, []) of
+        [] -> true;
+        Names -> lists:member(Name, Names)
+    end.
+
+authorize(Options, _Action) when map_get(policy, Options) == undefined -> ok;
+authorize(Options, Action) ->
+    case (maps:get(policy, Options))(Action) of
+        #{allowed := true} -> ok;
+        _ -> {error, <<"AGENT_POLICY_DENIED">>}
+    end.
+
+to_code(Reason) when is_binary(Reason) -> Reason;
+to_code(Reason) -> praxo_util:to_bin(io_lib:format("~p", [Reason])).
 
 compact(Options, Messages) ->
     case maps:get(context, Options, undefined) of
@@ -188,8 +247,16 @@ finish(Options, Message, RunId, Step, Total) ->
         end,
     case Validated of
         {ok, ValidOutput} ->
-            Options1 = emit(Options, <<"run.completed">>, RunId),
-            {ok, praxo_models:run_result(RunId, ValidOutput, Step, Total), Options1};
+            Result = praxo_models:run_result(RunId, ValidOutput, Step, Total),
+            case after_run(Options, Result, undefined) of
+                undefined ->
+                    Options1 = emit(Options, <<"run.completed">>, RunId),
+                    {ok, Result, Options1};
+                Reason ->
+                    Options1 = emit(Options, <<"run.failed">>, RunId,
+                        #{<<"error">> => to_code(Reason)}),
+                    {error, to_code(Reason), Options1}
+            end;
         {error, Code} when is_binary(Code) ->
             fail(Options, RunId, Code);
         {error, Error} ->
@@ -205,6 +272,51 @@ finish(Options, Message, RunId, Step, Total) ->
 invoke_tools(Options, [], Messages, _RunId, Limit) ->
     {ok, Options, Messages, Limit};
 invoke_tools(Options, [Call | Rest], Messages, RunId, Limit) ->
+    OriginalName = maps:get(name, Call),
+    OriginalArguments = maps:get(arguments, Call),
+    case allowed(Options, OriginalName) of
+        false ->
+            fail(Options, RunId, <<"AGENT_TOOL_NOT_ALLOWED">>);
+        true ->
+            Action = praxo_models:action(<<"tool.invoke">>, maps:get(session_id, Options),
+                OriginalName, OriginalArguments),
+            case authorize(Options, Action) of
+                {error, Code} ->
+                    fail(Options, RunId, Code);
+                ok ->
+                    Active = lists:foldl(
+                        fun(Middleware, Current) ->
+                            case maps:get(before_tool, Middleware, undefined) of
+                                undefined -> Current;
+                                Fun -> Fun(Current)
+                            end
+                        end,
+                        Call,
+                        maps:get(middleware, Options)
+                    ),
+                    Name = maps:get(name, Active),
+                    Arguments = maps:get(arguments, Active),
+                    case allowed(Options, Name) of
+                        false ->
+                            fail(Options, RunId, <<"AGENT_TOOL_NOT_ALLOWED">>);
+                        true ->
+                            Changed = (Name =/= OriginalName) orelse (Arguments =/= OriginalArguments),
+                            FinalAction = praxo_models:action(<<"tool.invoke">>,
+                                maps:get(session_id, Options), Name, Arguments),
+                            case Changed of
+                                true ->
+                                    case authorize(Options, FinalAction) of
+                                        {error, Code} -> fail(Options, RunId, Code);
+                                        ok -> run_prepared(Options, Active, Rest, Messages, RunId, Limit)
+                                    end;
+                                false ->
+                                    run_prepared(Options, Active, Rest, Messages, RunId, Limit)
+                            end
+                    end
+            end
+    end.
+
+run_prepared(Options, Call, Rest, Messages, RunId, Limit) ->
     Name = maps:get(name, Call),
     Tools = maps:get(tools, Options),
     Index = praxo_util:index_of(fun(Tool) -> maps:get(name, Tool) == Name end, Tools),
@@ -308,6 +420,7 @@ emit(Options, Kind, RunId, Data) ->
     end.
 
 fail(Options, RunId, Code) ->
+    _ = after_run(Options, undefined, Code),
     Options1 = emit(Options, <<"run.failed">>, RunId, #{<<"error">> => Code}),
     {error, Code, Options1}.
 

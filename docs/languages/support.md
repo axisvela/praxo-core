@@ -171,12 +171,10 @@ a merged implementation PR as a support commitment.
   snapshots. Package-registry publication, production readiness, and complete
   Go parity are not claimed; optional Go hooks and provider adapters are not
   included.
-- Erlang has source tag `erlang/v0.1.1` and publishes
-  `praxo_core_erlang==0.1.1` on Hex; the OTP application name remains
-  `praxo_core`. A clean rebar3 project fetched and compiled the package and
-  loaded `praxo_agent`. Provider adapters, streaming, and production readiness
-  are not claimed; opt-in middleware is integrated, while optional Go hooks are
-  not included.
+- Erlang source tag `erlang/v0.2.0` adds policy hooks, middleware, final-tool
+  allowlist checks, reauthorization, and lifecycle cleanup. The Hex package
+  remains `praxo_core_erlang==0.1.1`; provider adapters, streaming, and
+  production readiness are not claimed.
 - Lisp has source tag `lisp/v0.1.0` for the SBCL bridge over the bridge CLI. It
   does not provide a native Lisp loop; forwarding, UTF-8, error, and exit-code
   checks pass locally and in Linux CI. Consumer details and package-registry

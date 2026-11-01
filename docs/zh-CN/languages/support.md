@@ -111,10 +111,9 @@ Bridge、Sample 描述运行时的接入方式，不证明其语言缺乏 Framew
   快照/parity。原生 `ocamlopt` 编译、提供商适配器和包管理器发布均未声明。
 - Elixir 源码标签 `elixir/v0.2.0` 增加 policy、middleware、最终工具 allowlist、
   重新授权和生命周期清理。Hex 包仍为 `praxo_core==0.1.1`；HexDocs 尚未发布。
-- Erlang 已有源码标签 `erlang/v0.1.1`，并在 Hex 发布
-  `praxo_core_erlang==0.1.1`；OTP application 名仍为 `praxo_core`。干净
-  rebar3 项目已获取、编译该包并加载 `praxo_agent`。提供商适配器、流式路径和
-  生产就绪均未声明；可选中间件已集成，但未包含全部可选 Go 钩子。
+- Erlang 源码标签 `erlang/v0.2.0` 增加 policy、middleware、最终工具 allowlist、
+  重新授权和生命周期清理。Hex 包仍为 `praxo_core_erlang==0.1.1`；提供商适配器、
+  流式路径和生产就绪均未声明。
 - Lisp 已有 SBCL 桥接的源码标签 `lisp/v0.1.0`，不提供原生 Lisp 循环；转发、UTF-8、
   错误和退出码检查已在本地和 Linux CI 通过。消费者细节与包管理器发布仍待完成。
 - Tcl 已有桥接包装器的源码标签 `tcl/v0.1.0`，不提供原生 Tcl 循环；本地转发、UTF-8、

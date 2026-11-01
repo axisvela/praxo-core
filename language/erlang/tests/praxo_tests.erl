@@ -26,7 +26,141 @@ run() ->
     test_agent_limits(),
     test_run_state_isolation(),
     test_agent_capacity(),
+    test_agent_authorization(),
+    test_agent_lifecycle(),
     io:format("erlang tests passed~n").
+
+
+tool_model() ->
+    praxo_agent:scripted_model([
+        praxo_models:response(
+            praxo_models:message_assistant(<<>>, [
+                praxo_models:tool_call(<<"c1">>, <<"echo">>, #{<<"text">> => <<"hi">>})
+            ]),
+            praxo_models:usage(0, 0)
+        ),
+        praxo_models:response(
+            praxo_models:message_assistant(<<"done">>),
+            praxo_models:usage(0, 0)
+        )
+    ]).
+
+test_agent_authorization() ->
+    Parent = self(),
+    put(actions, []),
+    Options0 = praxo_agent:new_agent_options(tool_model()),
+    Options = Options0#{
+        tools => [praxo_agent:new_tool(<<"echo">>, <<"Echo">>,
+            fun(Arguments) -> Parent ! {tool, Arguments}, Arguments end)],
+        policy => fun(Action) -> put(actions, get(actions) ++ [Action]), #{allowed => true} end,
+        middleware => [#{before_tool => fun(Call) ->
+            Call#{arguments => #{<<"text">> => <<"mutated">>}}
+        end}]
+    },
+    {ok, Result, _} = praxo_agent:run_agent(Options, praxo_models:session(<<"s1">>), <<"go">>),
+    check(maps:get(output, Result) == <<"done">>, <<"erlang final arguments output">>),
+    Actions = [Action || Action <- get(actions), maps:get(kind, Action) == <<"tool.invoke">>],
+    check(length(Actions) == 2, <<"erlang final arguments reauthorized">>),
+    receive {tool, Arguments} -> check(maps:get(<<"text">>, Arguments) == <<"mutated">>,
+        <<"erlang final arguments effect">>)
+    after 1000 -> erlang:error(<<"erlang final arguments effect missing">>) end,
+
+    Options1 = praxo_agent:new_agent_options(tool_model()),
+    Options2 = Options1#{
+        tools => [
+            praxo_agent:new_tool(<<"echo">>, <<"Echo">>),
+            praxo_agent:new_tool(<<"other">>, <<"Other">>,
+                fun(Arguments) -> Parent ! {other, Arguments}, Arguments end)
+        ],
+        allowed_tools => [<<"echo">>, <<"other">>],
+        middleware => [#{before_tool => fun(Call) -> Call#{name => <<"other">>} end}]
+    },
+    {ok, _, _} = praxo_agent:run_agent(Options2, praxo_models:session(<<"s1">>), <<"go">>),
+    receive {other, _} -> ok
+    after 1000 -> erlang:error(<<"erlang final name effect missing">>) end,
+
+    Options3 = praxo_agent:new_agent_options(tool_model()),
+    Options4 = Options3#{
+        tools => [praxo_agent:new_tool(<<"echo">>, <<"Echo">>)],
+        allowed_tools => [<<"echo">>],
+        middleware => [#{before_tool => fun(Call) -> Call#{name => <<"other">>} end}]
+    },
+    {error, <<"AGENT_TOOL_NOT_ALLOWED">>, _} =
+        praxo_agent:run_agent(Options4, praxo_models:session(<<"s1">>), <<"go">>),
+
+    put(actions, []),
+    Options5 = praxo_agent:new_agent_options(tool_model()),
+    Options6 = Options5#{
+        tools => [praxo_agent:new_tool(<<"echo">>, <<"Echo">>)],
+        policy => fun(Action) -> put(actions, get(actions) ++ [Action]), #{allowed => true} end,
+        middleware => [#{}]
+    },
+    {ok, _, _} = praxo_agent:run_agent(Options6, praxo_models:session(<<"s1">>), <<"go">>),
+    Unchanged = [Action || Action <- get(actions), maps:get(kind, Action) == <<"tool.invoke">>],
+    check(length(Unchanged) == 1, <<"erlang unchanged single authorization">>),
+
+    Parent2 = self(),
+    Options7 = praxo_agent:new_agent_options(tool_model()),
+    Options8 = Options7#{
+        tools => [praxo_agent:new_tool(<<"echo">>, <<"Echo">>)],
+        policy => fun(Action) ->
+            case maps:get(kind, Action) of
+                <<"tool.invoke">> -> #{allowed => false};
+                _ -> #{allowed => true}
+            end
+        end,
+        middleware => [#{before_tool => fun(Call) -> Parent2 ! middleware, Call end}]
+    },
+    {error, <<"AGENT_POLICY_DENIED">>, _} =
+        praxo_agent:run_agent(Options8, praxo_models:session(<<"s1">>), <<"go">>),
+    receive middleware -> erlang:error(<<"erlang initial denial ran middleware">>)
+    after 100 -> ok end.
+
+test_agent_lifecycle() ->
+    Parent = self(),
+    Options0 = praxo_agent:new_agent_options(praxo_agent:static_model(<<"done">>)),
+    Options = Options0#{
+        middleware => [
+            #{before_run => fun(_) -> Parent ! first_before end,
+              after_run => fun(_, _) -> Parent ! first_after end},
+            #{before_run => fun(_) -> erlang:error(<<"STARTUP_FAILED">>) end,
+              after_run => fun(_, _) -> Parent ! second_after end}
+        ]
+    },
+    {error, <<"STARTUP_FAILED">>, _} =
+        praxo_agent:run_agent(Options, praxo_models:session(<<"s1">>), <<"go">>),
+    check(receive_messages() == [first_before, first_after, second_after],
+        <<"erlang startup cleanup">>),
+
+    Parent2 = self(),
+    Options1 = praxo_agent:new_agent_options(praxo_agent:failing_model()),
+    Options2 = Options1#{
+        middleware => [
+            #{after_run => fun(_, _) -> Parent2 ! first_after, erlang:error(<<"CLEANUP_FAILED">>) end},
+            #{after_run => fun(_, _) -> Parent2 ! second_after end}
+        ]
+    },
+    {error, <<"MODEL_ERROR">>, _} =
+        praxo_agent:run_agent(Options2, praxo_models:session(<<"s1">>), <<"go">>),
+    check(receive_messages() == [first_after, second_after], <<"erlang after-run continues">>),
+
+    Parent3 = self(),
+    Options3 = praxo_agent:new_agent_options(praxo_agent:static_model(<<"done">>)),
+    Options4 = Options3#{
+        middleware => [
+            #{after_run => fun(_, _) -> Parent3 ! first_after, erlang:error(<<"CLEANUP_FAILED">>) end},
+            #{after_run => fun(_, _) -> Parent3 ! second_after end}
+        ]
+    },
+    {error, <<"CLEANUP_FAILED">>, _} =
+        praxo_agent:run_agent(Options4, praxo_models:session(<<"s1">>), <<"go">>),
+    check(receive_messages() == [first_after, second_after], <<"erlang cleanup continues">>).
+
+receive_messages() -> receive_messages([]).
+receive_messages(Acc) ->
+    receive Message -> receive_messages(Acc ++ [Message])
+    after 100 -> Acc end.
+
 
 check(true, _Message) -> ok;
 check(false, Message) -> erlang:error(Message).

@@ -17,6 +17,9 @@
 - PHP and C# now clean up middleware entered before a startup failure, keep
   running later after-run callbacks after one fails, preserve the original run
   error, and fail closed when cleanup itself fails after success.
+- Erlang `0.2.0` source adds policy hooks, middleware, final-tool allowlist
+  checks, reauthorization, and lifecycle cleanup. Cancellation, streaming, SSE,
+  parallel tools, and run-state isolation remain unsupported.
 - Elixir `0.2.0` source adds policy hooks, middleware, final-tool allowlist
   checks, reauthorization, and lifecycle cleanup. Cancellation, streaming, SSE,
   parallel tools, and run-state isolation remain unsupported.
