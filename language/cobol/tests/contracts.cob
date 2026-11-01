@@ -196,6 +196,26 @@ schema-cases.
     move 1 to assertion-ok
     if px-sch-error = spaces move 0 to assertion-ok end-if
     move "schema unsupported pattern" to assertion-label
+    perform assert-ok
+    move '{"type":"integer"}' to px-sch-schema
+    compute px-sch-schema-length = function length(
+        function trim(px-sch-schema trailing))
+    move "1.5" to px-sch-data
+    move 3 to px-sch-data-length
+    call "praxo-jsonschema" using px-schema-request px-schema-result
+    move 1 to assertion-ok
+    if px-sch-error-count not = 1 move 0 to assertion-ok end-if
+    move "schema integer fraction" to assertion-label
+    perform assert-ok
+    move '{"type":"string","minLength":2}' to px-sch-schema
+    compute px-sch-schema-length = function length(
+        function trim(px-sch-schema trailing))
+    move x"22c3a922" to px-sch-data
+    move 4 to px-sch-data-length
+    call "praxo-jsonschema" using px-schema-request px-schema-result
+    move 1 to assertion-ok
+    if px-sch-error-count not = 1 move 0 to assertion-ok end-if
+    move "schema unicode code points" to assertion-label
     perform assert-ok.
 policy-cases.
     initialize px-policy-request px-policy-result
@@ -328,6 +348,45 @@ middleware-cases.
         move 0 to assertion-ok
     end-if
     move "middleware deep json pii" to assertion-label
+    perform assert-ok
+    initialize px-middleware-request px-middleware-result
+    move "call-limit" to px-mw-op
+    move "iso-a" to px-mw-run
+    move 1 to px-mw-model-limit
+    move 0 to px-mw-tool-limit
+    move "model" to px-mw-kind
+    call "praxo-middleware" using px-middleware-request px-middleware-result
+    move 1 to assertion-ok
+    if px-mw-ok not = 1 or px-mw-error not = spaces
+        move 0 to assertion-ok
+    end-if
+    move "middleware call limit first" to assertion-label
+    perform assert-ok
+    initialize px-middleware-result
+    call "praxo-middleware" using px-middleware-request px-middleware-result
+    move 1 to assertion-ok
+    if px-mw-error not = "AGENT_MODEL_CALL_LIMIT"
+        move 0 to assertion-ok
+    end-if
+    move "middleware call limit second" to assertion-label
+    perform assert-ok
+    move "iso-b" to px-mw-run
+    initialize px-middleware-result
+    call "praxo-middleware" using px-middleware-request px-middleware-result
+    move 1 to assertion-ok
+    if px-mw-ok not = 1 or px-mw-error not = spaces
+        move 0 to assertion-ok
+    end-if
+    move "middleware call limit isolated run" to assertion-label
+    perform assert-ok
+    move "iso-a" to px-mw-run
+    initialize px-middleware-result
+    call "praxo-middleware" using px-middleware-request px-middleware-result
+    move 1 to assertion-ok
+    if px-mw-error not = "AGENT_MODEL_CALL_LIMIT"
+        move 0 to assertion-ok
+    end-if
+    move "middleware call limit isolation preserved" to assertion-label
     perform assert-ok.
 registry-cases.
     initialize px-registry-request px-registry-result
