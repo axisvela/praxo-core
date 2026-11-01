@@ -7,6 +7,7 @@ System.Text.Json.Nodes.JsonObject Arguments { get; set; }
 ### Praxo.Core.Agent
 Agent(Praxo.Core.AgentOptions options)
 Praxo.Core.RunResult Run(Praxo.Core.Session session, System.String prompt)
+Praxo.Core.RunResult RunStream(Praxo.Core.Session session, System.String prompt, System.Action`1[System.String] onDelta)
 ### Praxo.Core.AgentOptions
 AgentOptions(Praxo.Core.IModel model)
 Praxo.Core.ContextBudget Context { get; set; }
@@ -24,12 +25,14 @@ System.Collections.Generic.List`1[Praxo.Core.IMiddleware] Middleware { get; set;
 System.Collections.Generic.List`1[Praxo.Core.ModelMiddleware] ModelMiddleware { get; set; }
 System.Collections.Generic.List`1[System.String] AllowedTools { get; set; }
 System.Collections.Generic.List`1[System.String] MemoryFiles { get; set; }
+System.Int32 MaxParallelTools { get; set; }
 System.Int32 MaxSteps { get; set; }
 System.Int32 ModelCallLimit { get; set; }
 System.Int32 ToolCallLimit { get; set; }
 System.Int64 MaxTokens { get; set; }
 System.String SystemPrompt { get; set; }
 System.String ToolChoice { get; set; }
+System.Threading.CancellationToken CancellationToken { get; set; }
 ### Praxo.Core.CallLimitMiddleware
 CallLimitMiddleware(System.Int32 modelLimit, System.Int32 toolLimit)
 System.String Name { get; }

@@ -1,3 +1,5 @@
+using System.Net;
+using System.Text;
 using System.Text.Json.Nodes;
 using Praxo.Core;
 
@@ -30,6 +32,13 @@ internal static class Program
         TestStartupCleanup();
         TestAfterRunContinues();
         TestCleanupFailClosed();
+        TestOpenAiStreamCompletion();
+        TestOpenAiStreamTruncated();
+        TestOpenAiStreamHalfPacket();
+        TestParallelTools();
+        TestModelCancellation();
+        TestToolCancellation();
+        TestStreamCallbackFailure();
         Console.WriteLine($"C# core tests passed ({_passed})");
         return 0;
     }
@@ -514,6 +523,214 @@ internal static class Program
             "cleanup failure emits failed");
     }
 
+    private static void TestOpenAiStreamCompletion()
+    {
+        var body = "data: {\"choices\":[{\"delta\":{\"content\":\"hi\"}}]}\n\n" +
+            "data: [DONE]\n\n";
+        var deltas = new List<string>();
+        var response = StreamModel(body).GenerateStream(
+            new Request
+            {
+                Messages = new List<Message> { Message.Text(Roles.User, "hi") },
+            },
+            deltas.Add);
+        Check(response.Message.Content == "hi", "stream content");
+        Check(deltas.SequenceEqual(new[] { "hi" }), "stream deltas");
+    }
+
+    private static void TestOpenAiStreamTruncated()
+    {
+        var body = "data: {\"choices\":[{\"delta\":{\"content\":\"hi\"}}]}\n\n";
+        var rejected = false;
+        try
+        {
+            StreamModel(body).GenerateStream(
+                new Request
+                {
+                    Messages = new List<Message> { Message.Text(Roles.User, "hi") },
+                },
+                _ => { });
+        }
+        catch (PraxoException ex) when (ex.Code == "MODEL_STREAM")
+        {
+            rejected = true;
+        }
+        Check(rejected, "truncated stream rejected");
+    }
+
+    private static void TestOpenAiStreamHalfPacket()
+    {
+        var body = "data: {\"choices\":[{\"delta\":{\"content\":\"hi\"}}]}\n\n" +
+            "data: {\"choices\"";
+        var rejected = false;
+        try
+        {
+            StreamModel(body).GenerateStream(
+                new Request
+                {
+                    Messages = new List<Message> { Message.Text(Roles.User, "hi") },
+                },
+                _ => { });
+        }
+        catch (PraxoException ex) when (ex.Code == "MODEL_STREAM")
+        {
+            rejected = true;
+        }
+        Check(rejected, "half-packet stream rejected");
+    }
+
+    private static void TestParallelTools()
+    {
+        var started = new CountdownEvent(2);
+        var registry = new ToolRegistry();
+        registry.Register(new FuncTool("a", "A", args =>
+        {
+            started.Signal();
+            if (!started.Wait(TimeSpan.FromSeconds(2)))
+            {
+                throw new InvalidOperationException("tools did not start concurrently");
+            }
+            Thread.Sleep(100);
+            return new JsonObject { ["name"] = "a" };
+        }));
+        registry.Register(new FuncTool("b", "B", args =>
+        {
+            started.Signal();
+            if (!started.Wait(TimeSpan.FromSeconds(2)))
+            {
+                throw new InvalidOperationException("tools did not start concurrently");
+            }
+            return new JsonObject { ["name"] = "b" };
+        }));
+        var model = new ParallelToolModel();
+        var options = new AgentOptions(model)
+        {
+            Tools = registry,
+            MaxParallelTools = 2,
+        };
+        var result = new Agent(options).Run(new Session("s1"), "go");
+        Check(result.Output == "done", "parallel run completed");
+        var names = model.SecondRequestMessages?
+            .Where(message => message.Role == Roles.Tool)
+            .Select(message => Json.Parse(message.Content ?? "{}")?["name"]?.GetValue<string>())
+            .ToList();
+        Check(names != null && names.SequenceEqual(new[] { "a", "b" }),
+            "parallel results keep order");
+    }
+
+    private static void TestModelCancellation()
+    {
+        var cts = new CancellationTokenSource();
+        var calls = new List<string>();
+        var sink = new RecordingSink();
+        var middleware = new LifecycleMiddleware
+        {
+            After = (_, _) => calls.Add("after"),
+        };
+        var options = new AgentOptions(new CancellingModel(cts))
+        {
+            CancellationToken = cts.Token,
+            Events = sink,
+        };
+        options.Middleware.Add(middleware);
+        var cancelled = false;
+        try
+        {
+            new Agent(options).Run(new Session("s1"), "go");
+        }
+        catch (OperationCanceledException)
+        {
+            cancelled = true;
+        }
+        Check(cancelled, "model cancellation propagated");
+        Check(calls.SequenceEqual(new[] { "after" }), "model cancellation runs after-run");
+        Check(sink.Events.Select(item => item.Type)
+            .SequenceEqual(new[] { "run.started", "run.failed" }),
+            "model cancellation emits failed");
+    }
+
+    private static void TestToolCancellation()
+    {
+        var cts = new CancellationTokenSource();
+        var effectCalls = 0;
+        var calls = new List<string>();
+        var registry = new ToolRegistry();
+        registry.Register(new FuncTool("cancel", "Cancel", args =>
+        {
+            cts.Cancel();
+            return new JsonObject();
+        }));
+        registry.Register(new FuncTool("effect", "Effect", args =>
+        {
+            effectCalls++;
+            return new JsonObject();
+        }));
+        var middleware = new LifecycleMiddleware
+        {
+            After = (_, _) => calls.Add("after"),
+        };
+        var options = new AgentOptions(new CancellationToolModel())
+        {
+            Tools = registry,
+            MaxParallelTools = 1,
+            CancellationToken = cts.Token,
+        };
+        options.Middleware.Add(middleware);
+        var cancelled = false;
+        try
+        {
+            new Agent(options).Run(new Session("s1"), "go");
+        }
+        catch (OperationCanceledException)
+        {
+            cancelled = true;
+        }
+        Check(cancelled, "tool cancellation propagated");
+        Check(effectCalls == 0, "tool cancellation stops later effects");
+        Check(calls.SequenceEqual(new[] { "after" }), "tool cancellation runs after-run");
+    }
+
+    private static void TestStreamCallbackFailure()
+    {
+        var calls = new List<string>();
+        var sink = new RecordingSink();
+        var middleware = new LifecycleMiddleware
+        {
+            After = (_, _) => calls.Add("after"),
+        };
+        var options = new AgentOptions(new StreamCallbackModel())
+        {
+            Events = sink,
+        };
+        options.Middleware.Add(middleware);
+        var failed = false;
+        try
+        {
+            new Agent(options).RunStream(
+                new Session("s1"),
+                "go",
+                _ => throw new PraxoException("CALLBACK", "callback failed"));
+        }
+        catch (PraxoException ex) when (ex.Code == "CALLBACK")
+        {
+            failed = true;
+        }
+        Check(failed, "stream callback failure propagated");
+        Check(calls.SequenceEqual(new[] { "after" }), "stream failure runs after-run");
+        Check(sink.Events.Select(item => item.Type)
+            .SequenceEqual(new[] { "run.started", "run.failed" }),
+            "stream failure emits failed");
+    }
+
+    private static OpenAiCompatibleModel StreamModel(string body)
+        => new(
+            new HttpClient(new StubHandler(body)),
+            new OpenAiCompatibleOptions
+            {
+                BaseUrl = "http://localhost/v1",
+                Model = "test",
+            });
+
     private static void Check(bool condition, string message)
     {
         if (!condition)
@@ -521,6 +738,32 @@ internal static class Program
             throw new InvalidOperationException(message);
         }
         _passed++;
+    }
+
+    private sealed class StubHandler : HttpMessageHandler
+    {
+        private readonly string _body;
+
+        public StubHandler(string body)
+        {
+            _body = body;
+        }
+
+        protected override HttpResponseMessage Send(
+            HttpRequestMessage request,
+            CancellationToken cancellationToken)
+            => new(HttpStatusCode.OK)
+            {
+                Content = new StringContent(
+                    _body,
+                    Encoding.UTF8,
+                    "text/event-stream"),
+            };
+
+        protected override Task<HttpResponseMessage> SendAsync(
+            HttpRequestMessage request,
+            CancellationToken cancellationToken)
+            => Task.FromResult(Send(request, cancellationToken));
     }
 
     private sealed class LifecycleMiddleware : IMiddleware
@@ -567,6 +810,99 @@ internal static class Program
 
         public Response Generate(Request request)
             => throw new PraxoException("RUN_FAILED", _message);
+    }
+
+    private sealed class CancellingModel : IModel
+    {
+        private readonly CancellationTokenSource _cts;
+
+        public CancellingModel(CancellationTokenSource cts)
+        {
+            _cts = cts;
+        }
+
+        public Response Generate(Request request)
+        {
+            _cts.Cancel();
+            return new Response { Message = Message.Assistant("done") };
+        }
+    }
+
+    private sealed class CancellationToolModel : IModel
+    {
+        private int _step;
+
+        public Response Generate(Request request)
+        {
+            if (_step++ == 0)
+            {
+                return new Response
+                {
+                    Message = Message.Assistant("", new[]
+                    {
+                        new ToolCall
+                        {
+                            Id = "c1",
+                            Name = "cancel",
+                            Arguments = new JsonObject(),
+                        },
+                        new ToolCall
+                        {
+                            Id = "c2",
+                            Name = "effect",
+                            Arguments = new JsonObject(),
+                        },
+                    }),
+                };
+            }
+            return new Response { Message = Message.Assistant("done") };
+        }
+    }
+
+    private sealed class StreamCallbackModel : IModel, IStreamingModel
+    {
+        public Response Generate(Request request)
+            => new() { Message = Message.Assistant("done") };
+
+        public Response GenerateStream(Request request, Action<string> onDelta)
+        {
+            onDelta("x");
+            return new Response { Message = Message.Assistant("done") };
+        }
+    }
+
+    private sealed class ParallelToolModel : IModel
+    {
+        private int _step;
+
+        public IReadOnlyList<Message>? SecondRequestMessages { get; private set; }
+
+        public Response Generate(Request request)
+        {
+            if (_step++ == 0)
+            {
+                return new Response
+                {
+                    Message = Message.Assistant("", new[]
+                    {
+                        new ToolCall
+                        {
+                            Id = "a1",
+                            Name = "a",
+                            Arguments = new JsonObject(),
+                        },
+                        new ToolCall
+                        {
+                            Id = "b1",
+                            Name = "b",
+                            Arguments = new JsonObject(),
+                        },
+                    }),
+                };
+            }
+            SecondRequestMessages = request.Messages;
+            return new Response { Message = Message.Assistant("done") };
+        }
     }
 
     private sealed class ScriptedToolModel : IModel

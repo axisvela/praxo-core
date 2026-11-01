@@ -56,6 +56,8 @@ public sealed class OpenAiCompatibleModel : IModel, IStreamingModel
         using var stream = response.Content.ReadAsStream();
         using var reader = new StreamReader(stream);
         var content = new StringBuilder();
+        string? finishReason = null;
+        var done = false;
         while (reader.ReadLine() is { } line)
         {
             if (!line.StartsWith("data: ", StringComparison.Ordinal))
@@ -65,17 +67,40 @@ public sealed class OpenAiCompatibleModel : IModel, IStreamingModel
             var data = line[6..].Trim();
             if (data == "[DONE]")
             {
+                done = true;
                 break;
             }
-            var chunk = Json.Parse(data);
-            var delta = Json.GetString(Json.Get(Json.Get(chunk, "choices")?[0], "delta"), "content");
+            JsonNode? chunk;
+            try
+            {
+                chunk = Json.Parse(data);
+            }
+            catch (Exception)
+            {
+                throw new PraxoException(
+                    "MODEL_STREAM",
+                    "openai-compatible: invalid stream chunk");
+            }
+            var choice = Json.Get(chunk, "choices")?[0];
+            finishReason = Json.GetString(choice, "finish_reason") ?? finishReason;
+            var delta = Json.GetString(Json.Get(choice, "delta"), "content");
             if (!string.IsNullOrEmpty(delta))
             {
                 content.Append(delta);
                 onDelta(delta);
             }
         }
-        return new Response { Message = Message.Assistant(content.ToString()) };
+        if (!done && finishReason == null)
+        {
+            throw new PraxoException(
+                "MODEL_STREAM",
+                "openai-compatible: stream ended before completion");
+        }
+        return new Response
+        {
+            Message = Message.Assistant(content.ToString()),
+            FinishReason = finishReason,
+        };
     }
 
     private string Endpoint()

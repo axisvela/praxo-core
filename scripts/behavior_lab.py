@@ -378,8 +378,9 @@ def scenarios() -> tuple[Scenario, ...]:
                     typescript_test("^cancellation runs after-run and emits failed$"),
                 ),
                 "java": (lifecycle,),
+                "csharp": (csharp,),
             },
-            {"go": "scenario", "python": "scenario", "typescript": "scenario", "java": "group"},
+            {"go": "scenario", "python": "scenario", "typescript": "scenario", "java": "group", "csharp": "suite"},
         ),
         Scenario(
             "tool-cancel-cleanup",
@@ -396,8 +397,9 @@ def scenarios() -> tuple[Scenario, ...]:
                     typescript_test("tool cancellation runs after-run"),
                 ),
                 "java": (lifecycle,),
+                "csharp": (csharp,),
             },
-            {"go": "scenario", "python": "scenario", "typescript": "scenario", "java": "group"},
+            {"go": "scenario", "python": "scenario", "typescript": "scenario", "java": "group", "csharp": "suite"},
         ),
         Scenario(
             "schema-number-unicode",
@@ -680,8 +682,9 @@ def scenarios() -> tuple[Scenario, ...]:
                     ),
                 ),
                 "java": (concurrency,),
+                "csharp": (csharp,),
             },
-            {"go": "scenario", "python": "scenario", "typescript": "scenario", "java": "group"},
+            {"go": "scenario", "python": "scenario", "typescript": "scenario", "java": "group", "csharp": "suite"},
         ),
         Scenario(
             "run-state-isolation",
@@ -744,8 +747,9 @@ def scenarios() -> tuple[Scenario, ...]:
                     ),
                 ),
                 "java": (stream,),
+                "csharp": (csharp,),
             },
-            {"go": "scenario", "python": "scenario", "typescript": "scenario", "java": "scenario"},
+            {"go": "scenario", "python": "scenario", "typescript": "scenario", "java": "scenario", "csharp": "suite"},
         ),
         Scenario(
             "sse-truncated",
@@ -770,8 +774,9 @@ def scenarios() -> tuple[Scenario, ...]:
                     ),
                 ),
                 "java": (adapter,),
+                "csharp": (csharp,),
             },
-            {"go": "scenario", "python": "scenario", "typescript": "scenario", "java": "group"},
+            {"go": "scenario", "python": "scenario", "typescript": "scenario", "java": "group", "csharp": "suite"},
         ),
         Scenario(
             "sse-half-packet",
@@ -796,8 +801,9 @@ def scenarios() -> tuple[Scenario, ...]:
                     ),
                 ),
                 "java": (adapter,),
+                "csharp": (csharp,),
             },
-            {"go": "scenario", "python": "scenario", "typescript": "scenario", "java": "group"},
+            {"go": "scenario", "python": "scenario", "typescript": "scenario", "java": "group", "csharp": "suite"},
         ),
     )
 

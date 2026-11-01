@@ -23,8 +23,10 @@ dotnet add package Praxo.Core --version 0.1.2
 The Core implements all eleven vector groups: toolcall, jsonschema, plugin,
 checkpoint, event, memory, policy, stream, context, middleware, and agent loop.
 It also includes a synchronous `OpenAiCompatibleModel` and a streaming variant.
-The public API is idiomatic C#; wire shapes keep the Go casing (`image_url`,
-`runId`, `plugin_id`).
+The agent loop supports `RunStream`, cooperative cancellation through
+`AgentOptions.CancellationToken`, and bounded parallel tool execution through
+`AgentOptions.MaxParallelTools`. The public API is idiomatic C#; wire shapes
+keep the Go casing (`image_url`, `runId`, `plugin_id`).
 
 ## Build and test
 

@@ -45,6 +45,10 @@ public sealed class AgentOptions
 
     public int MaxSteps { get; set; } = 8;
 
+    public int MaxParallelTools { get; set; }
+
+    public CancellationToken CancellationToken { get; set; }
+
     public long MaxTokens { get; set; }
 
     public AgentOptions(IModel model)
@@ -93,7 +97,20 @@ public sealed class Agent
     }
 
     public RunResult Run(Session session, string prompt)
+        => RunInternal(session, prompt, null);
+
+    public RunResult RunStream(
+        Session session,
+        string prompt,
+        Action<string> onDelta)
+        => RunInternal(session, prompt, onDelta);
+
+    private RunResult RunInternal(
+        Session session,
+        string prompt,
+        Action<string>? onDelta)
     {
+        ThrowIfCancelled();
         var maxSteps = _options.MaxSteps > 0 ? _options.MaxSteps : 8;
         var runId = $"run-{DateTimeOffset.UtcNow.ToUnixTimeMilliseconds()}";
         var messages = session.Messages.Select(Clone).ToList();
@@ -120,6 +137,7 @@ public sealed class Agent
         {
             for (var step = 1; step <= maxSteps; step++)
             {
+                ThrowIfCancelled();
                 Authorize(new Action
                 {
                     Kind = "model.generate",
@@ -140,10 +158,24 @@ public sealed class Agent
                     Request = request,
                 };
                 BeforeModel(call);
-                var response = call.Skip
-                    ? call.Response ?? throw new PraxoException(
-                        "AGENT_MIDDLEWARE", "agent: model middleware skipped without a response")
-                    : Generate(call.Request);
+                Response response;
+                if (call.Skip)
+                {
+                    response = call.Response ?? throw new PraxoException(
+                        "AGENT_MIDDLEWARE", "agent: model middleware skipped without a response");
+                }
+                else if (onDelta != null)
+                {
+                    var streaming = _options.Model as IStreamingModel
+                        ?? throw new PraxoException(
+                            "AGENT_STREAM", "agent: model does not support streaming");
+                    response = streaming.GenerateStream(call.Request, onDelta);
+                }
+                else
+                {
+                    response = Generate(call.Request);
+                }
+                ThrowIfCancelled();
                 AfterModel(call, response);
                 usage = usage.Plus(response.Usage);
                 if (_options.MaxTokens > 0
@@ -170,10 +202,8 @@ public sealed class Agent
                     Emit("run.completed", session.Id, runId, null);
                     return result;
                 }
-                foreach (var toolCall in response.Message.ToolCalls)
-                {
-                    messages.Add(InvokeTool(toolCall, runId, session.Id));
-                }
+                messages.AddRange(InvokeTools(
+                    response.Message.ToolCalls, runId, session.Id));
             }
             throw PraxoException.MaxSteps();
         }
@@ -238,8 +268,55 @@ public sealed class Agent
         return handler(request);
     }
 
+    private List<Message> InvokeTools(
+        IReadOnlyList<ToolCall> calls,
+        string runId,
+        string sessionId)
+    {
+        if (_options.MaxParallelTools <= 1 || calls.Count <= 1)
+        {
+            return calls
+                .Select(call => InvokeTool(call, runId, sessionId))
+                .ToList();
+        }
+        var prepared = calls
+            .Select(call => PrepareTool(call, runId, sessionId))
+            .ToList();
+        var results = new ToolResult[prepared.Count];
+        using var permits = new SemaphoreSlim(
+            Math.Min(_options.MaxParallelTools, prepared.Count));
+        var tasks = prepared
+            .Select((item, index) => Task.Run(() =>
+            {
+                permits.Wait();
+                try
+                {
+                    results[index] = ExecutePrepared(item);
+                }
+                finally
+                {
+                    permits.Release();
+                }
+            }))
+            .ToArray();
+        Task.WaitAll(tasks);
+        var messages = new List<Message>();
+        for (var index = 0; index < prepared.Count; index++)
+        {
+            messages.Add(FinishTool(prepared[index], results[index]));
+        }
+        return messages;
+    }
+
     private Message InvokeTool(ToolCall call, string runId, string sessionId)
     {
+        var prepared = PrepareTool(call, runId, sessionId);
+        return FinishTool(prepared, ExecutePrepared(prepared));
+    }
+
+    private PreparedTool PrepareTool(ToolCall call, string runId, string sessionId)
+    {
+        ThrowIfCancelled();
         if (!ToolAllowed(call.Name))
         {
             throw new PraxoException(
@@ -279,41 +356,77 @@ public sealed class Agent
                 Arguments = (JsonObject)finalCall.Arguments.DeepClone(),
             });
         }
-        JsonNode? value;
-        PraxoException? error;
         if (middlewareCall.Skip)
         {
-            value = middlewareCall.Result;
-            error = middlewareCall.Error;
+            return new PreparedTool
+            {
+                MiddlewareCall = middlewareCall,
+                Active = finalCall,
+                Skip = true,
+                Value = middlewareCall.Result,
+                Error = middlewareCall.Error,
+            };
         }
-        else
+        var tools = _options.Tools
+            ?? throw PraxoException.ToolNotFound($"tool {finalCall.Name} is not registered");
+        var tool = tools.Get(finalCall.Name);
+        Emit("tool.call", sessionId, runId, new JsonObject
         {
-            var tools = _options.Tools
-                ?? throw PraxoException.ToolNotFound($"tool {finalCall.Name} is not registered");
-            var tool = tools.Get(finalCall.Name);
-            Emit("tool.call", sessionId, runId, new JsonObject
+            ["name"] = finalCall.Name,
+            ["arguments"] = finalCall.Arguments.DeepClone(),
+        });
+        return new PreparedTool
+        {
+            MiddlewareCall = middlewareCall,
+            Active = finalCall,
+            Tool = tool,
+        };
+    }
+
+    private ToolResult ExecutePrepared(PreparedTool prepared)
+    {
+        if (prepared.Skip)
+        {
+            return new ToolResult
             {
-                ["name"] = finalCall.Name,
-                ["arguments"] = finalCall.Arguments.DeepClone(),
-            });
-            try
-            {
-                value = tool.Invoke(finalCall.Arguments);
-                error = null;
-            }
-            catch (PraxoException ex)
-            {
-                value = null;
-                error = ex;
-            }
+                Value = prepared.Value,
+                Error = prepared.Error,
+            };
         }
-        var result = new ToolResult { Value = value, Error = error };
-        AfterTool(middlewareCall, result);
+        ThrowIfCancelled();
+        try
+        {
+            return new ToolResult
+            {
+                Value = prepared.Tool!.Invoke(prepared.Active.Arguments),
+            };
+        }
+        catch (OperationCanceledException)
+        {
+            throw;
+        }
+        catch (Exception caught)
+        {
+            return new ToolResult { Error = AsPraxoException(caught) };
+        }
+    }
+
+    private Message FinishTool(PreparedTool prepared, ToolResult result)
+    {
+        AfterTool(prepared.MiddlewareCall, result);
         if (result.Error != null)
         {
             throw result.Error;
         }
-        return Message.Tool(Json.Stringify(result.Value), call.Id);
+        return Message.Tool(Json.Stringify(result.Value), prepared.Active.Id);
+    }
+
+    private void ThrowIfCancelled()
+    {
+        if (_options.CancellationToken.IsCancellationRequested)
+        {
+            throw new OperationCanceledException(_options.CancellationToken);
+        }
     }
 
     private void Authorize(Action action)
@@ -413,6 +526,21 @@ public sealed class Agent
     {
         _options.Events?.Emit(new Event(kind, sessionId).WithRun(runId)
             .WithData(data ?? new JsonObject()));
+    }
+
+    private sealed class PreparedTool
+    {
+        public MiddlewareToolCall MiddlewareCall { get; init; } = new();
+
+        public ToolCall Active { get; init; } = new();
+
+        public ITool? Tool { get; init; }
+
+        public bool Skip { get; init; }
+
+        public JsonNode? Value { get; init; }
+
+        public PraxoException? Error { get; init; }
     }
 
     private static Message Clone(Message message)
