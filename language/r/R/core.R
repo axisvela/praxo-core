@@ -323,7 +323,10 @@ scripted_model <- function(steps) {
 }
 
 agent_run <- function(model, prompt, tools = list(), events = NULL, max_steps = 8L,
-                      max_tokens = 0L, session_id = "s1") {
+                      max_tokens = 0L, session_id = "s1", policy = NULL,
+                      middleware = list(), allowed_tools = character(),
+                      cancellation = NULL, streaming_model = NULL,
+                      on_delta = NULL) {
   run_id <- paste0("run-", format(Sys.time(), "%s"))
   if (max_steps <= 0L) max_steps <- 8L
   messages <- list(message(roles$user, prompt))
@@ -331,21 +334,99 @@ agent_run <- function(model, prompt, tools = list(), events = NULL, max_steps = 
   emit <- function(type, data = NULL) {
     if (!is.null(events)) sink_emit(events, list(type = type, sessionId = session_id, runId = run_id, data = data))
   }
+  check_cancel <- function() {
+    if (!is.null(cancellation) && isTRUE(cancellation())) {
+      praxo_error("AGENT_CANCELLED", "agent: cancelled")
+    }
+    invisible(NULL)
+  }
+  authorize <- function(action) {
+    if (is.null(policy)) return(invisible(NULL))
+    decision <- policy(action)
+    if (!isTRUE(decision$allowed)) {
+      praxo_error("AGENT_POLICY_DENIED",
+                  paste0("agent: ", action$kind, " denied: ", decision$reason %||% ""))
+    }
+    invisible(NULL)
+  }
+  tool_allowed <- function(name) {
+    length(allowed_tools) == 0L || name %in% allowed_tools
+  }
+  entered <- integer()
+  before_run <- function(state) {
+    for (index in seq_along(middleware)) {
+      entered <<- c(entered, index)
+      hook <- middleware[[index]]$before_run
+      if (!is.null(hook)) hook(state)
+    }
+  }
+  after_run <- function(result, error) {
+    first_error <- NULL
+    for (index in entered) {
+      hook <- middleware[[index]]$after_run
+      if (is.null(hook)) next
+      tryCatch(hook(result, error), error = function(caught) {
+        if (is.null(first_error)) first_error <<- caught
+      })
+    }
+    first_error
+  }
+  check_cancel()
+  state <- list(runId = run_id, prompt = prompt)
+  startup_error <- tryCatch({ before_run(state); NULL }, error = function(error) error)
+  if (!is.null(startup_error)) {
+    after_run(NULL, startup_error)
+    stop(startup_error)
+  }
   emit("run.started")
+  after_run_invoked <- FALSE
   tryCatch({
     for (step in seq_len(max_steps)) {
+      check_cancel()
       specs <- lapply(tools, function(tool) tool_spec(tool$name, tool$description %||% ""))
-      result <- model(request(messages, specs))
+      request_value <- request(messages, specs)
+      result <- if (!is.null(on_delta) && !is.null(streaming_model)) {
+        streaming_model(request_value, on_delta)
+      } else {
+        model(request_value)
+      }
+      check_cancel()
       total <- usage_plus(total, result$usage)
       if (max_tokens > 0L && total$inputTokens + total$outputTokens > max_tokens) {
         praxo_error("AGENT_MAX_TOKENS", "token budget exceeded")
       }
       messages[[length(messages) + 1L]] <- result$message
       if (length(result$message$toolCalls) == 0L) {
+        outcome <- run_result(run_id, result$message$content %||% "", step, total)
+        after_run_invoked <- TRUE
+        cleanup_error <- after_run(outcome, NULL)
+        if (!is.null(cleanup_error)) stop(cleanup_error)
         emit("run.completed")
-        return(run_result(run_id, result$message$content %||% "", step, total))
+        return(outcome)
       }
       for (call in result$message$toolCalls) {
+        check_cancel()
+        original_name <- call$name
+        original_arguments <- call$arguments
+        if (!tool_allowed(original_name)) {
+          praxo_error("AGENT_TOOL_NOT_ALLOWED",
+                      paste0("agent: tool ", original_name, " is not allowed"))
+        }
+        authorize(list(kind = "tool.invoke", sessionId = session_id,
+                       toolName = original_name, arguments = original_arguments))
+        for (item in middleware) {
+          hook <- item$before_tool
+          if (!is.null(hook)) call <- hook(call)
+        }
+        if (!tool_allowed(call$name)) {
+          praxo_error("AGENT_TOOL_NOT_ALLOWED",
+                      paste0("agent: tool ", call$name, " is not allowed"))
+        }
+        if (!identical(call$name, original_name) ||
+            !identical(call$arguments, original_arguments)) {
+          authorize(list(kind = "tool.invoke", sessionId = session_id,
+                         toolName = call$name, arguments = call$arguments))
+        }
         tool <- NULL
         for (candidate in tools) if (identical(candidate$name, call$name)) tool <- candidate
         if (is.null(tool)) praxo_error("TOOL_NOT_FOUND", "tool not found")
@@ -356,7 +437,40 @@ agent_run <- function(model, prompt, tools = list(), events = NULL, max_steps = 
     }
     praxo_error("AGENT_MAX_STEPS", "maximum steps exceeded")
   }, error = function(error) {
+    if (!after_run_invoked) after_run(NULL, error)
     emit("run.failed", list(error = conditionMessage(error)))
     stop(error)
   })
+}
+
+parse_sse_stream <- function(text, on_delta = function(delta) invisible(NULL)) {
+  content <- character()
+  finish_reason <- NULL
+  done <- FALSE
+  lines <- strsplit(text, "\n", fixed = TRUE)[[1L]]
+  for (line in lines) {
+    if (!startsWith(line, "data:")) next
+    data <- trimws(sub("^data:", "", line))
+    if (identical(data, "[DONE]")) {
+      done <- TRUE
+      break
+    }
+    chunk <- tryCatch(json_parse(data), error = function(error) NULL)
+    if (is.null(chunk)) {
+      praxo_error("MODEL_STREAM", "openai-compatible: invalid stream chunk")
+    }
+    choices <- json_array(chunk, "choices")
+    choice <- if (length(choices) > 0L) choices[[1L]] else list()
+    reason <- json_string(choice, "finish_reason", NULL)
+    if (!is.null(reason)) finish_reason <- reason
+    delta <- json_string(json_get(choice, "delta", list()), "content", NULL)
+    if (!is.null(delta) && nzchar(delta)) {
+      content <- c(content, delta)
+      on_delta(delta)
+    }
+  }
+  if (!done && is.null(finish_reason)) {
+    praxo_error("MODEL_STREAM", "openai-compatible: stream ended before completion")
+  }
+  response(message(roles$assistant, paste0(content, collapse = "")))
 }

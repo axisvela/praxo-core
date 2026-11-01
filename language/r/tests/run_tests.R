@@ -74,4 +74,322 @@ capacity <- context_budget(2L, 0L)
 compacted <- compact_context(capacity, list(message(roles$system, strrep("x", 1000L))))
 stopifnot(identical(compacted[[2L]], FALSE))
 
+
+tool_response <- function(name, arguments) {
+  response(message(roles$assistant, "", tool_calls = list(tool_call("c1", name, arguments))))
+}
+
+done_response <- response(message(roles$assistant, "done"))
+
+record_policy <- function(deny_tool = FALSE) {
+  actions <- list()
+  list(
+    actions = function() actions,
+    hook = function(action) {
+      actions[[length(actions) + 1L]] <<- action
+      if (deny_tool && identical(action$kind, "tool.invoke")) {
+        return(list(allowed = FALSE, reason = "blocked"))
+      }
+      list(allowed = TRUE, reason = "ok")
+    }
+  )
+}
+
+make_echo_tools <- function(invoked) {
+  list(list(
+    name = "echo",
+    description = "Echo",
+    invoke = function(arguments) {
+      invoked$items <- c(invoked$items, list(arguments))
+      arguments
+    }
+  ))
+}
+
+arguments_test <- function() {
+  invoked <- new.env(parent = emptyenv())
+  invoked$items <- list()
+  step <- 0L
+  model <- function(request) {
+    step <<- step + 1L
+    if (step == 1L) tool_response("echo", list(text = "hi")) else done_response
+  }
+  policy <- record_policy()
+  middleware <- list(list(before_tool = function(call) {
+    call$arguments <- list(text = "mutated")
+    call
+  }))
+  result <- agent_run(model, "go", tools = make_echo_tools(invoked),
+                      policy = policy$hook, middleware = middleware)
+  stopifnot(identical(result$output, "done"))
+  stopifnot(identical(invoked$items[[1L]]$text, "mutated"))
+  actions <- Filter(function(action) identical(action$kind, "tool.invoke"), policy$actions())
+  stopifnot(length(actions) == 2L)
+  stopifnot(identical(actions[[1L]]$arguments$text, "hi"))
+  stopifnot(identical(actions[[2L]]$arguments$text, "mutated"))
+}
+
+final_name_test <- function() {
+  echo_invoked <- new.env(parent = emptyenv())
+  echo_invoked$items <- list()
+  other_invoked <- new.env(parent = emptyenv())
+  other_invoked$items <- list()
+  step <- 0L
+  model <- function(request) {
+    step <<- step + 1L
+    if (step == 1L) tool_response("echo", list(text = "hi")) else done_response
+  }
+  tools <- c(
+    make_echo_tools(echo_invoked),
+    list(list(name = "other", description = "Other", invoke = function(arguments) {
+      other_invoked$items <- c(other_invoked$items, list(arguments))
+      arguments
+    }))
+  )
+  policy <- record_policy()
+  middleware <- list(list(before_tool = function(call) {
+    call$name <- "other"
+    call
+  }))
+  agent_run(model, "go", tools = tools, policy = policy$hook, middleware = middleware)
+  stopifnot(length(echo_invoked$items) == 0L)
+  stopifnot(length(other_invoked$items) == 1L)
+  names <- vapply(
+    Filter(function(action) identical(action$kind, "tool.invoke"), policy$actions()),
+    function(action) action$toolName,
+    character(1)
+  )
+  stopifnot(identical(names, c("echo", "other")))
+
+  denied_invoked <- new.env(parent = emptyenv())
+  denied_invoked$items <- list()
+  step <- 0L
+  denied_model <- function(request) {
+    step <<- step + 1L
+    if (step == 1L) tool_response("echo", list()) else done_response
+  }
+  denied <- tryCatch({
+    agent_run(denied_model, "go", tools = make_echo_tools(denied_invoked),
+              allowed_tools = "echo",
+              middleware = list(list(before_tool = function(call) {
+                call$name <- "other"
+                call
+              })))
+    NULL
+  }, error = function(error) error)
+  stopifnot(identical(denied$code, "AGENT_TOOL_NOT_ALLOWED"))
+  stopifnot(length(denied_invoked$items) == 0L)
+}
+
+unchanged_test <- function() {
+  invoked <- new.env(parent = emptyenv())
+  invoked$items <- list()
+  step <- 0L
+  model <- function(request) {
+    step <<- step + 1L
+    if (step == 1L) tool_response("echo", list(text = "hi")) else done_response
+  }
+  policy <- record_policy()
+  agent_run(model, "go", tools = make_echo_tools(invoked), policy = policy$hook,
+            middleware = list(list(before_tool = function(call) call)))
+  actions <- Filter(function(action) identical(action$kind, "tool.invoke"), policy$actions())
+  stopifnot(length(actions) == 1L)
+}
+
+initial_denial_test <- function() {
+  invoked <- new.env(parent = emptyenv())
+  invoked$items <- list()
+  before_tool_calls <- 0L
+  step <- 0L
+  model <- function(request) {
+    step <<- step + 1L
+    if (step == 1L) tool_response("echo", list()) else done_response
+  }
+  policy <- record_policy(deny_tool = TRUE)
+  error <- tryCatch({
+    agent_run(model, "go", tools = make_echo_tools(invoked), policy = policy$hook,
+              middleware = list(list(before_tool = function(call) {
+                before_tool_calls <<- before_tool_calls + 1L
+                call
+              })))
+    NULL
+  }, error = function(error) error)
+  stopifnot(identical(error$code, "AGENT_POLICY_DENIED"))
+  stopifnot(before_tool_calls == 0L, length(invoked$items) == 0L)
+}
+
+lifecycle_startup_test <- function() {
+  calls <- character()
+  events <- character()
+  sink <- list(emit = function(event) events <<- c(events, event$type))
+  middleware <- list(
+    list(
+      before_run = function(state) calls <<- c(calls, "first.before"),
+      after_run = function(result, error) calls <<- c(calls, "first.after")
+    ),
+    list(
+      before_run = function(state) {
+        calls <<- c(calls, "second.before")
+        stop("startup failed")
+      },
+      after_run = function(result, error) calls <<- c(calls, "second.after")
+    ),
+    list(
+      before_run = function(state) calls <<- c(calls, "third.before"),
+      after_run = function(result, error) calls <<- c(calls, "third.after")
+    )
+  )
+  error <- tryCatch({
+    agent_run(function(request) done_response, "go", events = sink, middleware = middleware)
+    NULL
+  }, error = function(error) error)
+  stopifnot(grepl("startup failed", conditionMessage(error), fixed = TRUE))
+  stopifnot(identical(calls, c("first.before", "second.before", "first.after", "second.after")))
+  stopifnot(length(events) == 0L)
+}
+
+lifecycle_continue_test <- function() {
+  calls <- character()
+  middleware <- list(
+    list(after_run = function(result, error) {
+      calls <<- c(calls, "first.after")
+      stop("cleanup failed")
+    }),
+    list(after_run = function(result, error) calls <<- c(calls, "second.after"))
+  )
+  failing_model <- function(request) stop("run failed")
+  error <- tryCatch({
+    agent_run(failing_model, "go", middleware = middleware)
+    NULL
+  }, error = function(error) error)
+  stopifnot(grepl("run failed", conditionMessage(error), fixed = TRUE))
+  stopifnot(identical(calls, c("first.after", "second.after")))
+}
+
+lifecycle_failclosed_test <- function() {
+  calls <- character()
+  events <- character()
+  sink <- list(emit = function(event) events <<- c(events, event$type))
+  middleware <- list(
+    list(after_run = function(result, error) {
+      calls <<- c(calls, "first.after")
+      stop("cleanup failed")
+    }),
+    list(after_run = function(result, error) calls <<- c(calls, "second.after"))
+  )
+  error <- tryCatch({
+    agent_run(function(request) done_response, "go", events = sink, middleware = middleware)
+    NULL
+  }, error = function(error) error)
+  stopifnot(grepl("cleanup failed", conditionMessage(error), fixed = TRUE))
+  stopifnot(identical(calls, c("first.after", "second.after")))
+  stopifnot(identical(events, c("run.started", "run.failed")))
+}
+
+arguments_test()
+final_name_test()
+unchanged_test()
+initial_denial_test()
+lifecycle_startup_test()
+lifecycle_continue_test()
+lifecycle_failclosed_test()
+
+
+model_cancel_test <- function() {
+  cancelled <- FALSE
+  calls <- character()
+  events <- character()
+  sink <- list(emit = function(event) events <<- c(events, event$type))
+  model <- function(request) {
+    cancelled <<- TRUE
+    done_response
+  }
+  error <- tryCatch({
+    agent_run(model, "go", events = sink, cancellation = function() cancelled,
+              middleware = list(list(after_run = function(result, error) {
+                calls <<- c(calls, "after")
+              })))
+    NULL
+  }, error = function(error) error)
+  stopifnot(identical(error$code, "AGENT_CANCELLED"))
+  stopifnot(identical(calls, "after"))
+  stopifnot(identical(events, c("run.started", "run.failed")))
+}
+
+tool_cancel_test <- function() {
+  cancelled <- FALSE
+  effects <- 0L
+  calls <- character()
+  tools <- list(
+    list(name = "cancel", description = "Cancel", invoke = function(arguments) {
+      cancelled <<- TRUE
+      NULL
+    }),
+    list(name = "effect", description = "Effect", invoke = function(arguments) {
+      effects <<- effects + 1L
+      NULL
+    })
+  )
+  step <- 0L
+  model <- function(request) {
+    step <<- step + 1L
+    if (step == 1L) {
+      response(message(roles$assistant, "", tool_calls = list(
+        tool_call("c1", "cancel", list()),
+        tool_call("c2", "effect", list())
+      )))
+    } else {
+      done_response
+    }
+  }
+  error <- tryCatch({
+    agent_run(model, "go", tools = tools, cancellation = function() cancelled,
+              middleware = list(list(after_run = function(result, error) {
+                calls <<- c(calls, "after")
+              })))
+    NULL
+  }, error = function(error) error)
+  stopifnot(identical(error$code, "AGENT_CANCELLED"))
+  stopifnot(effects == 0L, identical(calls, "after"))
+}
+
+stream_callback_test <- function() {
+  calls <- character()
+  events <- character()
+  sink <- list(emit = function(event) events <<- c(events, event$type))
+  streaming_model <- function(request, on_delta) {
+    on_delta("x")
+    done_response
+  }
+  error <- tryCatch({
+    agent_run(function(request) done_response, "go", events = sink,
+              streaming_model = streaming_model,
+              on_delta = function(delta) stop("callback failed"),
+              middleware = list(list(after_run = function(result, error) {
+                calls <<- c(calls, "after")
+              })))
+    NULL
+  }, error = function(error) error)
+  stopifnot(grepl("callback failed", conditionMessage(error), fixed = TRUE))
+  stopifnot(identical(calls, "after"))
+  stopifnot(identical(events, c("run.started", "run.failed")))
+}
+
+sse_parser_test <- function() {
+  truncated <- 'data: {"choices":[{"delta":{"content":"hi"}}]}\n\n'
+  error <- tryCatch(parse_sse_stream(truncated), error = function(error) error)
+  stopifnot(identical(error$code, "MODEL_STREAM"))
+  half <- 'data: {"choices":[{"delta":{"content":"hi"}}]}\n\ndata: {"choices"'
+  error <- tryCatch(parse_sse_stream(half), error = function(error) error)
+  stopifnot(identical(error$code, "MODEL_STREAM"))
+  complete <- 'data: {"choices":[{"delta":{"content":"hi"}}]}\n\ndata: [DONE]\n\n'
+  response <- parse_sse_stream(complete)
+  stopifnot(identical(response$message$content, "hi"))
+}
+
+model_cancel_test()
+tool_cancel_test()
+stream_callback_test()
+sse_parser_test()
+
 cat("R core tests passed\n")

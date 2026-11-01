@@ -84,7 +84,7 @@ for real providers, platforms, and production behavior is reported separately.
 | PHP | Core | released | `php/v0.1.0` | complete | 11 vectors, API snapshot, dependency-free; Packagist `axisvela/praxo-core==0.1.0` |
 | Swift | Core | released | `swift/v0.2.0` | complete | 11 vectors, XCTest, API snapshot |
 | Julia | Core | released | `julia/v0.2.0` | complete | 11 vectors, JSON.jl, API snapshot |
-| R | Core | released | `r/v0.2.0` | complete | 11 vectors, base-R JSON, API snapshot |
+| R | Core | released | `r/v0.3.0` | complete | 11 vectors, base-R JSON, policy/middleware, lifecycle cleanup, cancellation, streaming, SSE parser, API snapshot; parallel tools unsupported |
 | Haskell | Core | released | `haskell/v0.2.0` | complete | 11 vectors, native tests, API snapshot/parity; GHC 9.12.2; runtime and middleware helpers |
 | Fortran | Core | released | `fortran/v0.3.0` | complete | 11 vectors, native tests, API snapshot; upstream RE2/Unicode patterns via native C++ library; JSON/schema limits remain documented |
 | Lisp | Bridge | released | `lisp/v0.1.0` | complete | SBCL bridge over the bridge CLI; forwarding, UTF-8, errors, and exit codes verified locally and in Linux CI; consumer details pending |

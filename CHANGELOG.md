@@ -17,6 +17,9 @@
 - PHP and C# now clean up middleware entered before a startup failure, keep
   running later after-run callbacks after one fails, preserve the original run
   error, and fail closed when cleanup itself fails after success.
+- R `0.3.0` source adds policy and middleware hooks, final tool allowlist and
+  reauthorization, lifecycle cleanup, cancellation, streaming callbacks, and an
+  SSE parser. Parallel tool execution remains unsupported.
 - Rust `0.2.0` source exposes `run_stream`, cooperative cancellation through
   `CancellationToken`, and an OpenAI-compatible SSE parser that rejects
   truncated or half streams. The crates.io package remains at `0.1.4` until

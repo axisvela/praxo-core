@@ -86,6 +86,7 @@ Bridge、Sample 描述运行时的接入方式，不证明其语言缺乏 Framew
   `praxo_core==0.1.1` 到 pub.dev。干净项目已安装该包、导入
   `package:praxo_core/praxo_core.dart` 并运行最小 agent。
 - Rust 源码标签 `rust/v0.2.0` 包含全部 11 个向量组、原生测试、`tool.Gateway`、`jsonschema.Schema`、流式回调、取消、有限并行工具和 API 快照。crates.io 包仍为 `praxo-core==0.1.4`；干净临时项目安装该包后报告 `SDK_VERSION` `0.1.4` 和 `SPEC_VERSION` `0.2.0`。不包含 HTTP OpenAI adapter、VFS 或 plugin hosts。
+- R 源码标签 `r/v0.3.0` 包含 policy、middleware、生命周期清理、取消、流式回调和 SSE parser，并提供 API 快照。并行工具执行仍不支持；不声明包管理器发布。
 - Fortran 源码标签 `fortran/v0.3.0` 包含全部 11 个向量组、原生测试、API 快照
   以及集成的 PII/中间件。它不是包管理器发布；异步流不在声明范围，受限 JSON Schema 子集
   仍为部分完成。
