@@ -70,8 +70,9 @@ Bridge、Sample 描述运行时的接入方式，不证明其语言缺乏 Framew
   `com.axisvela:praxo-core:0.3.0`，Maven groupId 为 `com.axisvela`，Java
   包名为 `com.axisvela.praxo`。较早的 `java/v0.2.3` 标签仍保留
   `io.axisvela.praxo`。
-- PHP 已从独立发布仓库 `axisvela/praxo-core-php` 在 Packagist 发布
-  `axisvela/praxo-core==0.1.0`；主仓库保留源码标签 `php/v0.1.0`。
+- PHP 源码标签 `php/v0.2.0` 包含流式运行、取消、SSE 校验、最终授权和生命周期清理。
+  Packagist 包仍为 `axisvela/praxo-core==0.1.0`，来自独立发布仓库
+  `axisvela/praxo-core-php`。并行工具执行仍不支持。
 - Ruby 已从源码标签 `ruby/v0.1.0` 在 RubyGems 发布 `praxo-core==0.1.0`。
   干净项目已安装该 gem 并运行最小 agent。
 - Lua 已从源码标签 `lua/v0.1.0` 在 LuaRocks 发布 `praxo-core==0.1.0-1`。

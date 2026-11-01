@@ -6,8 +6,8 @@ hooks, typed events, memory, checkpoints, context budgets, middleware, JSON
 Schema validation, and plugin manifest parsing.
 
 - `SPEC_VERSION`: `0.2.0`
-- Core version: `0.1.0`
-- Packagist: `axisvela/praxo-core@0.1.0`
+- Core version: `0.2.0`
+- The latest Packagist package is `axisvela/praxo-core@0.1.0`; `0.2.0` is a source release
 - License: MIT
 - Dependencies: none beyond the PHP standard library
 
@@ -22,7 +22,7 @@ composer require axisvela/praxo-core
 The Core implements all eleven vector groups: toolcall, jsonschema, plugin,
 checkpoint, event, memory, policy, stream, context, middleware, and agent loop.
 It includes a public API snapshot and dependency-free tests. Provider adapters
-are not included in `0.1.0`.
+are not included in `0.2.0`.
 
 ## Build and test
 
@@ -73,8 +73,9 @@ $agent = new Agent($options);
 - `src/` library (PSR-4 `Praxo\Core\`).
 - `conformance/run.php` vector runner, API snapshot, and check mode.
 - `tests/run.php` dependency-free core tests.
-- `api/0.1.0.txt` checked-in public API snapshot.
+- `api/0.2.0.txt` checked-in public API snapshot.
 
 ## Release
 
-Tag shape: `php/v0.1.0`. The tag targets `SPEC_VERSION` `0.2.0`.
+Tag shape: `php/v0.2.0`. The tag targets `SPEC_VERSION` `0.2.0`. See
+[CHANGELOG.md](CHANGELOG.md) for per-release changes and compatibility notes.

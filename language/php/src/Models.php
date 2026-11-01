@@ -267,3 +267,42 @@ final class StreamKinds
 {
     public const ALL = ['values', 'updates', 'messages', 'tasks', 'debug', 'checkpoint'];
 }
+
+function parseSseStream(string $text, callable $onDelta): Response
+{
+    $content = '';
+    $finishReason = null;
+    $done = false;
+    foreach (preg_split("/\r?\n/", $text) ?: [] as $line) {
+        if (!str_starts_with($line, 'data:')) {
+            continue;
+        }
+        $data = trim(substr($line, 5));
+        if ($data === '[DONE]') {
+            $done = true;
+            break;
+        }
+        try {
+            $chunk = Json::decode($data);
+        } catch (\Throwable) {
+            throw new PraxoException('MODEL_STREAM', 'openai-compatible: invalid stream chunk');
+        }
+        $choiceRoot = Json::array($chunk, 'choices')[0] ?? null;
+        $reason = Json::string($choiceRoot, 'finish_reason');
+        if ($reason !== null) {
+            $finishReason = $reason;
+        }
+        $delta = Json::string(Json::get($choiceRoot, 'delta'), 'content');
+        if ($delta !== null && $delta !== '') {
+            $content .= $delta;
+            $onDelta($delta);
+        }
+    }
+    if (!$done && $finishReason === null) {
+        throw new PraxoException(
+            'MODEL_STREAM',
+            'openai-compatible: stream ended before completion',
+        );
+    }
+    return new Response(Message::assistant($content));
+}

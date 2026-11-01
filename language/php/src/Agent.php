@@ -129,6 +129,7 @@ final class AgentOptions
     public ?array $responseFormat = null;
     public int $maxSteps = 8;
     public int $maxTokens = 0;
+    public mixed $cancellation = null;
 
     public function __construct(public Model $model)
     {
@@ -171,6 +172,21 @@ final class Agent
 
     public function run(Session $session, string $prompt): RunResult
     {
+        return $this->runInternal($session, $prompt, null);
+    }
+
+    public function runStream(Session $session, string $prompt, callable $onDelta): RunResult
+    {
+        return $this->runInternal($session, $prompt, $onDelta);
+    }
+
+    private function runInternal(
+        Session $session,
+        string $prompt,
+        mixed $onDelta,
+    ): RunResult
+    {
+        $this->throwIfCancelled();
         $maxSteps = $this->options->maxSteps > 0 ? $this->options->maxSteps : 8;
         $runId = 'run-' . (int) floor(microtime(true) * 1000);
         $messages = array_map(self::cloneMessage(...), $session->messages);
@@ -191,6 +207,7 @@ final class Agent
         $afterRunInvoked = false;
         try {
             for ($step = 1; $step <= $maxSteps; $step++) {
+                $this->throwIfCancelled();
                 $this->authorize(new Action('model.generate', $session->id));
                 $messages = $this->compact($messages);
                 $request = new Request(
@@ -204,9 +221,15 @@ final class Agent
                 if ($call->skip) {
                     $response = $call->response
                         ?? throw new PraxoException('AGENT_MIDDLEWARE', 'agent: model middleware skipped without a response');
+                } elseif ($onDelta !== null) {
+                    if (!$this->options->model instanceof StreamingModel) {
+                        throw new PraxoException('AGENT_STREAM', 'agent: model does not support streaming');
+                    }
+                    $response = $this->options->model->generateStream($call->request, $onDelta);
                 } else {
                     $response = $this->generate($call->request);
                 }
+                $this->throwIfCancelled();
                 $this->afterModel($call, $response);
                 $usage = $usage->plus($response->usage);
                 if ($this->options->maxTokens > 0
@@ -230,6 +253,7 @@ final class Agent
                     return $result;
                 }
                 foreach ($response->message->toolCalls as $toolCall) {
+                    $this->throwIfCancelled();
                     $messages[] = $this->invokeTool($toolCall, $runId, $session->id);
                 }
             }
@@ -289,6 +313,7 @@ final class Agent
 
     private function invokeTool(ToolCall $call, string $runId, string $sessionId): Message
     {
+        $this->throwIfCancelled();
         if (!$this->toolAllowed($call->name)) {
             throw new PraxoException('AGENT_TOOL_NOT_ALLOWED', "agent: tool {$call->name} is not allowed");
         }
@@ -318,6 +343,7 @@ final class Agent
             $value = $middlewareCall->result;
             $error = $middlewareCall->error;
         } else {
+            $this->throwIfCancelled();
             $tools = $this->options->tools
                 ?? throw PraxoException::toolNotFound("tool {$finalCall->name} is not registered");
             $tool = $tools->get($finalCall->name);
@@ -339,6 +365,13 @@ final class Agent
             throw $result->error;
         }
         return Message::tool(Json::encode($result->value), $call->id);
+    }
+
+    private function throwIfCancelled(): void
+    {
+        if ($this->options->cancellation !== null && ($this->options->cancellation)()) {
+            throw new PraxoException('AGENT_CANCELLED', 'agent: cancelled');
+        }
     }
 
     private function authorize(Action $action): void

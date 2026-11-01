@@ -81,7 +81,7 @@ for real providers, platforms, and production behavior is reported separately.
 | Visual Basic | Sample (.NET) | released | `csharp/v0.1.1` | sample | VB.NET consumer sample in `language/csharp/samples` |
 | PowerShell | Bridge | released | `powershell/v0.1.0` | complete | Wraps the bridge CLI |
 | Shell | Bridge | released | `shell/v0.1.0` | complete | Wraps the bridge CLI |
-| PHP | Core | released | `php/v0.1.0` | complete | 11 vectors, API snapshot, dependency-free; Packagist `axisvela/praxo-core==0.1.0` |
+| PHP | Core | released | `php/v0.2.0` | complete | 11 vectors, API snapshot, streaming/cancellation/SSE; source `0.2.0`, Packagist `axisvela/praxo-core==0.1.0`; parallel tools unsupported |
 | Swift | Core | released | `swift/v0.2.0` | complete | 11 vectors, XCTest, API snapshot |
 | Julia | Core | released | `julia/v0.2.0` | complete | 11 vectors, JSON.jl, API snapshot |
 | R | Core | released | `r/v0.3.0` | complete | 11 vectors, base-R JSON, policy/middleware, lifecycle cleanup, cancellation, streaming, SSE parser, API snapshot; parallel tools unsupported |

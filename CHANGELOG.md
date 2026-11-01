@@ -17,6 +17,9 @@
 - PHP and C# now clean up middleware entered before a startup failure, keep
   running later after-run callbacks after one fails, preserve the original run
   error, and fail closed when cleanup itself fails after success.
+- PHP `0.2.0` source adds streaming runs, cancellation, an SSE parser, final
+  authorization, lifecycle cleanup, and truncation rejection. Parallel tool
+  execution remains unsupported.
 - R `0.3.0` source adds policy and middleware hooks, final tool allowlist and
   reauthorization, lifecycle cleanup, cancellation, streaming callbacks, and an
   SSE parser. Parallel tool execution remains unsupported.

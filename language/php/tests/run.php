@@ -39,6 +39,7 @@ use Praxo\Core\RunResult;
 use Praxo\Core\RunState;
 use Praxo\Core\Session;
 use Praxo\Core\StaticModel;
+use Praxo\Core\StreamingModel;
 use Praxo\Core\ToolCall;
 use Praxo\Core\ToolCallParser;
 use Praxo\Core\ToolRegistry;
@@ -123,6 +124,49 @@ final class FailingModel implements Model
     public function generate(Request $request): Response
     {
         throw new PraxoException('RUN_FAILED', 'run failed');
+    }
+}
+
+final class CancellingModel implements Model
+{
+    public function __construct(private mixed $cancel)
+    {
+    }
+
+    public function generate(Request $request): Response
+    {
+        ($this->cancel)();
+        return new Response(Message::assistant('done'));
+    }
+}
+
+final class CancellationToolModel implements Model
+{
+    private int $step = 0;
+
+    public function generate(Request $request): Response
+    {
+        if ($this->step++ === 0) {
+            return new Response(Message::assistant('', [
+                new ToolCall('c1', 'cancel', []),
+                new ToolCall('c2', 'effect', []),
+            ]));
+        }
+        return new Response(Message::assistant('done'));
+    }
+}
+
+final class StreamFailureModel implements Model, StreamingModel
+{
+    public function generate(Request $request): Response
+    {
+        return new Response(Message::assistant('done'));
+    }
+
+    public function generateStream(Request $request, callable $onDelta): Response
+    {
+        $onDelta('x');
+        return new Response(Message::assistant('done'));
     }
 }
 $passed = 0;
@@ -473,6 +517,110 @@ check(
     array_map(static fn(Event $event): string => $event->type, $sink->events) === ['run.started', 'run.failed'],
     'cleanup failure emits failed',
 );
+
+$cancelled = false;
+$cancellation = static function () use (&$cancelled): bool {
+    return $cancelled;
+};
+$calls = [];
+$sink = new RecordingSink();
+$lifecycle = new LifecycleMiddleware();
+$lifecycle->after = static function (?RunResult $result, ?PraxoException $error) use (&$calls): void {
+    $calls[] = 'after';
+};
+$options = new AgentOptions(new CancellingModel(static function () use (&$cancelled): void {
+    $cancelled = true;
+}));
+$options->cancellation = $cancellation;
+$options->events = $sink;
+$options->middleware[] = $lifecycle;
+try {
+    (new Agent($options))->run(new Session('s1'), 'go');
+    check(false, 'model cancellation');
+} catch (PraxoException $error) {
+    check($error->praxoCode === 'AGENT_CANCELLED', 'model cancellation code');
+}
+check($calls === ['after'], 'model cancellation runs after-run');
+check(
+    array_map(static fn(Event $event): string => $event->type, $sink->events) === ['run.started', 'run.failed'],
+    'model cancellation emits failed',
+);
+
+$cancelled = false;
+$effectCalls = 0;
+$calls = [];
+$registry = new ToolRegistry();
+$registry->register(new FuncTool('cancel', 'Cancel', static function () use (&$cancelled): array {
+    $cancelled = true;
+    return [];
+}));
+$registry->register(new FuncTool('effect', 'Effect', static function () use (&$effectCalls): array {
+    $effectCalls++;
+    return [];
+}));
+$lifecycle = new LifecycleMiddleware();
+$lifecycle->after = static function (?RunResult $result, ?PraxoException $error) use (&$calls): void {
+    $calls[] = 'after';
+};
+$options = new AgentOptions(new CancellationToolModel());
+$options->tools = $registry;
+$options->cancellation = $cancellation;
+$options->middleware[] = $lifecycle;
+try {
+    (new Agent($options))->run(new Session('s1'), 'go');
+    check(false, 'tool cancellation');
+} catch (PraxoException $error) {
+    check($error->praxoCode === 'AGENT_CANCELLED', 'tool cancellation code');
+}
+check($effectCalls === 0, 'tool cancellation stops later effects');
+check($calls === ['after'], 'tool cancellation runs after-run');
+
+$calls = [];
+$sink = new RecordingSink();
+$lifecycle = new LifecycleMiddleware();
+$lifecycle->after = static function (?RunResult $result, ?PraxoException $error) use (&$calls): void {
+    $calls[] = 'after';
+};
+$options = new AgentOptions(new StreamFailureModel());
+$options->events = $sink;
+$options->middleware[] = $lifecycle;
+try {
+    (new Agent($options))->runStream(new Session('s1'), 'go', static function (string $delta): void {
+        throw new PraxoException('CALLBACK', 'callback failed');
+    });
+    check(false, 'stream callback failure');
+} catch (PraxoException $error) {
+    check($error->praxoCode === 'CALLBACK', 'stream callback code');
+}
+check($calls === ['after'], 'stream failure runs after-run');
+check(
+    array_map(static fn(Event $event): string => $event->type, $sink->events) === ['run.started', 'run.failed'],
+    'stream failure emits failed',
+);
+
+try {
+    \Praxo\Core\parseSseStream("data: {\"choices\":[{\"delta\":{\"content\":\"hi\"}}]}\n\n", static function (string $delta): void {
+    });
+    check(false, 'sse truncation');
+} catch (PraxoException $error) {
+    check($error->praxoCode === 'MODEL_STREAM', 'sse truncation code');
+}
+try {
+    \Praxo\Core\parseSseStream(
+        "data: {\"choices\":[{\"delta\":{\"content\":\"hi\"}}]}\n\ndata: {\"choices\"",
+        static function (string $delta): void {
+        },
+    );
+    check(false, 'sse half packet');
+} catch (PraxoException $error) {
+    check($error->praxoCode === 'MODEL_STREAM', 'sse half packet code');
+}
+$response = \Praxo\Core\parseSseStream(
+    "data: {\"choices\":[{\"delta\":{\"content\":\"hi\"}}]}\n\ndata: [DONE]\n\n",
+    static function (string $delta): void {
+    },
+);
+check($response->message->content === 'hi', 'sse completion');
 
 echo "PHP core tests passed ({$passed})\n";
 

@@ -99,9 +99,10 @@ a merged implementation PR as a support commitment.
   tag `java/v0.3.0`, with Maven groupId `com.axisvela` and Java packages under
   `com.axisvela.praxo`. The earlier `java/v0.2.3` tag retains
   `io.axisvela.praxo`.
-- PHP publishes `axisvela/praxo-core==0.1.0` on Packagist from the split
-  publication repository `axisvela/praxo-core-php`; source tag `php/v0.1.0`
-  remains in this repository.
+- PHP source tag `php/v0.2.0` includes streaming runs, cancellation, SSE
+  validation, final authorization, and lifecycle cleanup. The Packagist package
+  remains `axisvela/praxo-core==0.1.0` from the split publication repository
+  `axisvela/praxo-core-php`. Parallel tool execution remains unsupported.
 - Ruby publishes `praxo-core==0.1.0` on RubyGems from source tag
   `ruby/v0.1.0`. A clean project installed the gem and ran a minimal agent.
 - Lua publishes `praxo-core==0.1.0-1` on LuaRocks from source tag `lua/v0.1.0`.
