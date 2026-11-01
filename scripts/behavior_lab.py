@@ -31,6 +31,8 @@ EXTENDED_LANGUAGES = (
     "php",
     "csharp",
     "lua",
+    "r",
+    "c",
 )
 LANGUAGES = (*CORE_LANGUAGES, *EXTENDED_LANGUAGES)
 DEFAULT_LANGUAGES = CORE_LANGUAGES
@@ -49,6 +51,8 @@ LANGUAGE_NAMES = {
     "php": "PHP",
     "csharp": "C#",
     "lua": "Lua",
+    "r": "R",
+    "c": "C",
 }
 
 
@@ -164,6 +168,22 @@ def lua_suite() -> Command:
     )
 
 
+def r_suite() -> Command:
+    return Command(
+        "Rscript language/r/tests/run_tests.R",
+        ("Rscript", "language/r/tests/run_tests.R"),
+        ROOT,
+    )
+
+
+def c_suite() -> Command:
+    return Command(
+        "ctest --test-dir language/c/build --output-on-failure",
+        ("ctest", "--test-dir", "language/c/build", "--output-on-failure"),
+        ROOT,
+    )
+
+
 def scenarios() -> tuple[Scenario, ...]:
     auth = java_test("AgentAuthorizationSelfTest")
     lifecycle = java_test("AgentLifecycleSelfTest")
@@ -187,6 +207,8 @@ def scenarios() -> tuple[Scenario, ...]:
     php = php_suite()
     csharp = csharp_suite()
     lua = lua_suite()
+    r = r_suite()
+    c = c_suite()
     return (
         Scenario(
             "final-arguments",
@@ -415,6 +437,7 @@ def scenarios() -> tuple[Scenario, ...]:
                 "ruby": (ruby,),
                 "elixir": (elixir,),
                 "erlang": (erlang,),
+                "r": (r,),
             },
             {
                 "go": "scenario",
@@ -429,6 +452,7 @@ def scenarios() -> tuple[Scenario, ...]:
                 "ruby": "suite",
                 "elixir": "suite",
                 "erlang": "suite",
+                "r": "suite",
             },
         ),
         Scenario(
@@ -467,6 +491,8 @@ def scenarios() -> tuple[Scenario, ...]:
                 "php": (php,),
                 "csharp": (csharp,),
                 "lua": (lua,),
+                "r": (r,),
+                "c": (c,),
             },
             {
                 "go": "scenario",
@@ -483,6 +509,8 @@ def scenarios() -> tuple[Scenario, ...]:
                 "php": "suite",
                 "csharp": "suite",
                 "lua": "suite",
+                "r": "suite",
+                "c": "suite",
             },
         ),
         Scenario(
@@ -515,6 +543,7 @@ def scenarios() -> tuple[Scenario, ...]:
                 "csharp": (csharp,),
                 "lua": (lua,),
                 "ruby": (ruby,),
+                "r": (r,),
             },
             {
                 "go": "scenario",
@@ -531,6 +560,7 @@ def scenarios() -> tuple[Scenario, ...]:
                 "csharp": "suite",
                 "lua": "suite",
                 "ruby": "suite",
+                "r": "suite",
             },
         ),
         Scenario(
@@ -560,6 +590,8 @@ def scenarios() -> tuple[Scenario, ...]:
                 "php": (php,),
                 "csharp": (csharp,),
                 "lua": (lua,),
+                "r": (r,),
+                "c": (c,),
             },
             {
                 "go": "scenario",
@@ -576,6 +608,8 @@ def scenarios() -> tuple[Scenario, ...]:
                 "php": "suite",
                 "csharp": "suite",
                 "lua": "suite",
+                "r": "suite",
+                "c": "suite",
             },
         ),
         Scenario(
@@ -606,6 +640,8 @@ def scenarios() -> tuple[Scenario, ...]:
                 "ruby": (ruby,),
                 "elixir": (elixir,),
                 "erlang": (erlang,),
+                "r": (r,),
+                "c": (c,),
             },
             {
                 "go": "scenario",
@@ -622,6 +658,8 @@ def scenarios() -> tuple[Scenario, ...]:
                 "ruby": "suite",
                 "elixir": "suite",
                 "erlang": "suite",
+                "r": "suite",
+                "c": "suite",
             },
         ),
         Scenario(
@@ -673,6 +711,7 @@ def scenarios() -> tuple[Scenario, ...]:
                 "php": (php,),
                 "elixir": (elixir,),
                 "erlang": (erlang,),
+                "r": (r,),
             },
             {
                 "go": "scenario",
@@ -684,6 +723,7 @@ def scenarios() -> tuple[Scenario, ...]:
                 "php": "suite",
                 "elixir": "suite",
                 "erlang": "suite",
+                "r": "suite",
             },
         ),
         Scenario(

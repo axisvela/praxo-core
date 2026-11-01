@@ -2,7 +2,7 @@
 
 **状态：** 证据工具，2026-11-01。该实验不是稳定的公开 API。
 
-行为实验在 agent-capable 与 extended 实现中运行具名 agent 场景，并生成一份对比报告。agent-capable 层级为 Go、Python、TypeScript、Java、Rust、R、C#；extended 层级为 PHP、C、Fortran、COBOL、Ruby、Elixir、Erlang、C++、Lua。其他已声明实现属于 optional，不在当前行为计划内。它回答的问题比[兼容性实验](compatibility-lab.md)更窄：当通过各实现自己的测试套件执行时，它们是否对授权、生命周期、取消、输入校验、调用上限、并行工具执行、run 状态隔离、PII、checkpoint、容量和流失败做出相同决策？
+行为实验在十六个已接入实现中运行具名 agent 场景，并生成一份对比报告。agent-capable 层级为 Go、Python、TypeScript、Java、Rust、R、C#；extended 层级为 C、PHP、Fortran、COBOL、Ruby、Elixir、Erlang、C++、Lua。其他已声明实现属于 optional，不在当前行为计划内。它回答的问题比[兼容性实验](compatibility-lab.md)更窄：当通过各实现自己的测试套件执行时，它们是否对授权、生命周期、取消、输入校验、调用上限、并行工具执行、run 状态隔离、PII、checkpoint、容量和流失败做出相同决策？
 
 它不证明完整功能对齐、provider 行为、真实服务集成、生产就绪或安全性。报告通过只比较所列场景。
 
@@ -12,15 +12,15 @@
 
 | 层级 | 语言 | 当前状态 |
 | --- | --- | --- |
-| Agent-capable | Go、Python、TypeScript、Java、Rust、R、C# | Go/Python/TypeScript/Java 19/19；Rust 6/19；C# clean CI 为 10/19，本地待确认 13/19；R 尚未接入 |
-| Extended | PHP、C、Fortran、COBOL、Ruby、Elixir、Erlang、C++、Lua | 已接入语言 clean CI 为 4-10/19；PHP 本地待确认 13/19；C 尚未接入 |
+| Agent-capable | Go、Python、TypeScript、Java、Rust、R、C# | Go/Python/TypeScript/Java 19/19；Rust 6/19；R 6/19；C# 13/19，均为套件级 |
+| Extended | C、PHP、Fortran、COBOL、Ruby、Elixir、Erlang、C++、Lua | C 3/19；PHP 13/19；其他已接入语言 4-6/19；部分行使用原生套件覆盖 |
 | Optional | 其他已声明实现 | 不在当前行为计划内 |
 
-R 已有原生 agent 循环，但尚未出现在实验或矩阵中。C 属于 extended，但尚未出现在实验或矩阵中。C# 属于 agent-capable，但当前十个覆盖单元格使用原生套件覆盖，不是场景隔离断言。
+R 和 C 现已接入。C# 与 PHP 包含三个生命周期场景；R 和 C 对原生套件实际断言的场景提供覆盖。
 
 ## 范围
 
-下表展示四个原始核心实现的场景级证据。agent-capable 的 Rust、C#，以及已接入的 extended 语言，见[矩阵](behavior-lab-matrix.md)。R 与 C 尚未接入。
+下表展示四个原始核心实现的场景级证据。agent-capable 的 Rust、R、C#，以及已接入的 extended 语言，见[矩阵](behavior-lab-matrix.md)。
 
 | 场景 | 检查的行为 | Go | Python | TypeScript | Java |
 | --- | --- | --- | --- | --- | --- |
@@ -73,10 +73,15 @@ cd language/java; mvn -q -DskipTests test-compile; cd ../..
 cmake -S language/cpp -B language/cpp/build
 cmake --build language/cpp/build
 python scripts/behavior_lab.py --strict --timeout 300
-python scripts/behavior_lab.py --strict --timeout 600 --languages go,python,typescript,java,rust,fortran,cobol,ruby,elixir,erlang,cpp,php,csharp,lua
+python scripts/behavior_lab.py --strict --timeout 600 --languages go,python,typescript,java,rust,fortran,cobol,ruby,elixir,erlang,cpp,php,csharp,lua,r,c
 ```
 
-十四语言运行不包含 R 或 C，还需要 Rust 工具链，以及 `gfortran`、`gnucobol`、`g++`、CMake、Ninja、Ruby、Elixir 1.20.4/Erlang OTP 29、PHP 8.4、.NET 8 SDK 和 Lua 5.4；Fortran 会构建 pinned RE2 bridge。Fortran/COBOL/Erlang/C++/PHP/C#/Lua 原生套件、Ruby 测试运行器和 Elixir `mix run` 套件在一次报告内缓存，各执行一次。`scripts/cpp_behavior_suite.py` 会在调用 `ctest` 前把 C++ 编译器运行时目录加入 `PATH`。
+十六语言运行需要 Rust 工具链，以及 `gfortran`、`gnucobol`、`g++`、C/C++ 构建目录、CMake、Ninja、Ruby、Elixir 1.20.4/Erlang OTP 29、PHP 8.4、.NET 8 SDK、R 和 Lua 5.4；Fortran 会构建 pinned RE2 bridge。Fortran/COBOL/Erlang/C++/PHP/C#/Lua/R 原生套件、C `ctest` 套件、Ruby 测试运行器和 Elixir `mix run` 套件在一次报告内缓存，各执行一次。`scripts/cpp_behavior_suite.py` 会在调用 `ctest` 前把 C++ 编译器运行时目录加入 `PATH`。运行前先构建 C 套件：
+
+```bash
+cmake -S language/c -B language/c/build
+cmake --build language/c/build
+```
 
 - `--strict`：对四个已接入场景的核心语言，只要出现 `failed`、`skipped`、`not_run` 或 `unsupported` 单元格就失败；其他层级的缺口保留为 `unsupported`。
 - `--languages go,python`：只运行指定语言。
@@ -93,15 +98,15 @@ python scripts/behavior_lab.py --strict --timeout 600 --languages go,python,type
 
 ## 当前证据
 
-2026-10-31 的 Go/Python/TypeScript/Java 十九场景本地运行通过了全部 76 个单元格。commit `2384e35` 上的 clean-SHA Linux CI 运行通过十四语言集合：137 passed、129 个显式 unsupported、无失败；引用行为报告作为证据时，应使用该 [behavior job](https://github.com/axisvela/praxo-core/actions/runs/41257537691/job/124703790344) 及其 artifact。R 不在该十四语言运行中。[行为实验矩阵](behavior-lab-matrix.md) 列出每个单元格以及各语言的已覆盖和未覆盖场景。
+2026-10-31 的 Go/Python/TypeScript/Java 十九场景本地运行通过了全部 76 个单元格。commit `2384e35` 上的 clean-SHA Linux CI 运行覆盖十四语言：137 passed、129 个显式 unsupported、无失败；引用 clean 报告时应使用该 [behavior job](https://github.com/axisvela/praxo-core/actions/runs/41257537691/job/124703790344) 及其 artifact。R 和 C 不在该十四语言运行中。[行为实验矩阵](behavior-lab-matrix.md) 列出每个单元格以及各语言的已覆盖和未覆盖场景。
 
-PHP 和 C# 现已实现 startup-cleanup、after-run-continue 和 cleanup-failclosed 场景。2026-11-01 的本地 dirty-tree 验证运行在十四个已接入语言上得到 143 passed、123 unsupported、无失败。这是合并前验证，不是 clean-SHA 记录；在 CI 重跑之前，矩阵和上面的 CI 链接仍代表最近一次 clean-SHA 报告。
+当前十六语言源码集于 2026-11-01 在本地 dirty-tree 验证：152 passed、152 个显式 unsupported、无失败。该结果属于合并前验证，不是 clean-SHA 记录；官方矩阵应由下一次 clean CI 报告重新生成。
 
 ## 限制
 
 - 只覆盖十九个选定场景，不覆盖完整 agent 或契约对齐。
 - Go 和 Python 使用场景级测试；TypeScript 使用 `node --test` 名称过滤；部分 Java self-test 覆盖多个场景。
-- Rust 对部分场景有场景级测试；Fortran、COBOL、Ruby、Elixir、Erlang、C++、PHP、C#、Lua 使用原生套件覆盖，不是场景隔离断言。C# 属于 agent-capable，但当前为套件级；R 属于 agent-capable，C 属于 extended，但两者均尚未接入实验。
+- Rust 对部分场景有场景级测试；Fortran、COBOL、Ruby、Elixir、Erlang、C++、PHP、C#、Lua、R、C 使用原生套件覆盖，不是场景隔离断言。C# 与 PHP 已包含生命周期场景；R 和 C 只覆盖其原生套件实际断言的场景行。
 - 并行场景使用确定性 barrier，不是吞吐或压力测试。SSE 测试使用本地 fixture，不调用 provider。
 - 不覆盖 provider、模型、网络、sandbox、HITL、持久 checkpoint 或效果恢复场景。
 - 报告通过不等于安全审查或生产认证。

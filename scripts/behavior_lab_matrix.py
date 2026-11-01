@@ -11,6 +11,9 @@ LANGUAGES = [
     ("typescript", "TypeScript", "TS"),
     ("java", "Java", "Java"),
     ("rust", "Rust", "Rust"),
+    ("r", "R", "R"),
+    ("csharp", "C#", "C#"),
+    ("c", "C", "C"),
     ("fortran", "Fortran", "Ftn"),
     ("cobol", "COBOL", "COB"),
     ("ruby", "Ruby", "Ruby"),
@@ -18,7 +21,6 @@ LANGUAGES = [
     ("erlang", "Erlang", "Erl"),
     ("cpp", "C++", "C++"),
     ("php", "PHP", "PHP"),
-    ("csharp", "C#", "C#"),
     ("lua", "Lua", "Lua"),
 ]
 
@@ -47,14 +49,17 @@ LABELS = {
         "dirty": "Working tree dirty",
         "job": "CI job",
         "tiers": "## Capability tiers",
-        "tiers_text": (
-            "This matrix covers the fourteen languages currently wired into the lab. R is "
-            "agent-capable and C is extended, but neither is wired yet, so neither has a "
-            "column here. C# is agent-capable but its ten covered cells use native-suite "
-            "coverage. Other declared implementations are optional and outside the current "
-            "behavior program. Contract tier is separate; see the [support policy](support.md) "
-            "for the tier definitions."
+        "tiers_intro": (
+            "The matrix now covers sixteen wired languages. Contract tier is separate "
+            "from behavior tier; see the [support policy](support.md)."
         ),
+        "tiers_table": [
+            "| Tier | Languages | Current status |",
+            "| --- | --- | --- |",
+            "| Agent-capable | Go, Python, TypeScript, Java, Rust, R, C# | Targets all nineteen scenarios; current coverage varies by language |",
+            "| Extended | C, PHP, Fortran, COBOL, Ruby, Elixir, Erlang, C++, Lua | Advances scenario by scenario with a named consumer and maintainer |",
+            "| Optional | Other declared implementations | Outside the current behavior program |",
+        ],
         "legend": "## Matrix legend",
         "cell": "Cell",
         "meaning": "Meaning",
@@ -101,12 +106,17 @@ LABELS = {
         "dirty": "工作区未提交",
         "job": "CI 任务",
         "tiers": "## 能力层级",
-        "tiers_text": (
-            "本矩阵覆盖当前接入实验的十四个语言。R 属于 agent-capable，C 属于 extended，"
-            "但两者尚未接入，因此没有对应列。C# 属于 agent-capable，但其十个覆盖单元格"
-            "使用原生套件覆盖。其他已声明实现属于 optional，不在当前行为计划内。契约层级"
-            "与行为层级相互独立；定义见[支持政策](support.md)。"
+        "tiers_intro": (
+            "本矩阵现在覆盖十六个已接入语言。契约层级与行为层级相互独立；"
+            "定义见[支持政策](support.md)。"
         ),
+        "tiers_table": [
+            "| 层级 | 语言 | 当前状态 |",
+            "| --- | --- | --- |",
+            "| Agent-capable | Go、Python、TypeScript、Java、Rust、R、C# | 以全部十九个场景为目标；当前覆盖因语言而异 |",
+            "| Extended | C、PHP、Fortran、COBOL、Ruby、Elixir、Erlang、C++、Lua | 在有明确消费者和维护者时逐场景推进 |",
+            "| Optional | 其他已声明实现 | 不在当前行为计划内 |",
+        ],
         "legend": "## 矩阵图例",
         "cell": "单元格",
         "meaning": "含义",
@@ -186,7 +196,9 @@ def render(report: dict, lang: str, report_name: str, evidence_url: str = "") ->
         "",
         labels["tiers"],
         "",
-        labels["tiers_text"],
+        labels["tiers_intro"],
+        "",
+        *labels["tiers_table"],
         "",
         labels["legend"],
         "",

@@ -25,17 +25,18 @@ Behavior coverage is tracked separately from contract tier:
 | Tier | Languages | Current target |
 | --- | --- | --- |
 | Agent-capable | Go, Python, TypeScript, Java, Rust, R, C# | All nineteen Behavior Lab scenarios; missing cells stay explicit |
-| Extended | PHP, C, Fortran, COBOL, Ruby, Elixir, Erlang, C++, Lua | Scenario-by-scenario only with a named consumer and maintainer |
+| Extended | C, PHP, Fortran, COBOL, Ruby, Elixir, Erlang, C++, Lua | Scenario-by-scenario only with a named consumer and maintainer |
 | Optional | Other declared implementations | Outside the behavior program; contract conformance unchanged |
 
-The current report covers fourteen wired languages with 137 passed, 129
-unsupported, and no failures. R is agent-capable but not yet wired. C# is
-agent-capable but currently has suite-level coverage for ten scenarios. C is
-extended but not yet wired. Do not treat an unsupported cell as a failure or a
-pass, and do not add languages or scenarios solely to raise the count.
+The current sixteen-language source set was locally validated with 152 passed,
+152 unsupported, and no failures. The last clean-SHA report covers fourteen
+languages with 137 passed and 129 unsupported. R and C are now wired; C# and PHP
+include the three lifecycle scenarios. Do not treat an unsupported cell as a
+failure or a pass, and do not add languages or scenarios solely to raise the
+count.
 
-PHP and C# lifecycle scenarios are now implemented and locally validated;
-the next clean-SHA CI run will update the 137/129 report.
+The next clean-SHA CI run will replace the 137/129 clean report with the
+sixteen-language report.
 
 See the [governed execution design](../reference/governed-execution.md) for proposed
 boundaries and the [test evidence standard](../contributing/test-evidence.md) for

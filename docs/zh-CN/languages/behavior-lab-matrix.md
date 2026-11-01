@@ -8,23 +8,28 @@
 
 | 指标 | 值 |
 | --- | ---: |
-| 语言数 | 14 |
+| 语言数 | 16 |
 | 场景数 | 19 |
-| 单元格数 | 266 |
-| 通过 | 137 |
-| 不支持 | 129 |
+| 单元格数 | 304 |
+| 通过 | 152 |
+| 不支持 | 152 |
 | 失败 | 0 |
 | 源报告 | `report.json` |
-| Run ID | `20261101T004140Z-f1263f63` |
-| Revision | `2384e3589a0d8d3d86da5ba863ea0db74980b804` |
-| 工作区未提交 | False |
-| CI 任务 | [GitHub Actions](https://github.com/axisvela/praxo-core/actions/runs/41257537691/job/124703790344) |
+| Run ID | `20261101T023247Z-b2b06feb` |
+| Revision | `94295e2ee7ad40b2df4b15a948c5717aa2742384` |
+| 工作区未提交 | True |
 
 ## 能力层级
 
-本矩阵覆盖当前接入实验的十四个语言。R 属于 agent-capable，C 属于 extended，但两者尚未接入，因此没有对应列。C# 属于 agent-capable，但其十个覆盖单元格使用原生套件覆盖。其他已声明实现属于 optional，不在当前行为计划内。契约层级与行为层级相互独立；定义见[支持政策](support.md)。
+本矩阵现在覆盖十六个已接入语言。契约层级与行为层级相互独立；定义见[支持政策](support.md)。
 
-PHP 和 C# 的生命周期场景已在源码中实现。本地 dirty-tree 运行显示两者均为 13/19，尚待 clean-SHA CI。下表仍为最近一次 clean-SHA 报告（137 passed / 129 unsupported）。
+| 层级 | 语言 | 当前状态 |
+| --- | --- | --- |
+| Agent-capable | Go、Python、TypeScript、Java、Rust、R、C# | 以全部十九个场景为目标；当前覆盖因语言而异 |
+| Extended | C、PHP、Fortran、COBOL、Ruby、Elixir、Erlang、C++、Lua | 在有明确消费者和维护者时逐场景推进 |
+| Optional | 其他已声明实现 | 不在当前行为计划内 |
+
+该报告是 `94295e2` 上的本地 dirty-tree 验证。下一次 clean-SHA CI 运行会用官方十六语言矩阵替换它。
 
 ## 矩阵图例
 
@@ -37,27 +42,27 @@ PHP 和 C# 的生命周期场景已在源码中实现。本地 dirty-tree 运行
 
 ## 场景矩阵
 
-| 场景 | Go | Py | TS | Java | Rust | Ftn | COB | Ruby | Ex | Erl | C++ | PHP | C# | Lua |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| `final-arguments` | S | S | S | G | - | - | - | - | - | - | - | N | N | - |
-| `final-name` | S | S | S | G | - | - | - | - | - | - | - | N | N | - |
-| `unchanged-single-auth` | S | S | S | G | - | - | - | - | - | - | - | N | N | - |
-| `initial-denial` | S | S | S | G | - | - | - | - | - | - | - | N | N | - |
-| `startup-cleanup` | S | S | S | G | - | - | - | - | - | - | - | - | - | - |
-| `after-run-continue` | S | S | S | G | - | - | - | - | - | - | - | - | - | - |
-| `cleanup-failclosed` | S | S | S | G | - | - | - | - | - | - | - | - | - | - |
-| `model-cancel-cleanup` | S | S | S | G | - | - | - | - | - | - | - | - | - | - |
-| `tool-cancel-cleanup` | S | S | S | G | - | - | - | - | - | - | - | - | - | - |
-| `schema-number-unicode` | S | S | S | S | S | - | - | N | N | N | N | N | N | N |
-| `call-limit` | S | S | S | G | S | N | N | N | N | N | N | N | N | N |
-| `pii-tool-history` | S | S | S | S | S | N | N | N | N | N | N | N | N | N |
-| `checkpoint-content` | S | S | S | S | S | N | N | N | N | N | N | N | N | N |
-| `capacity-failclosed` | S | S | S | G | S | N | N | N | N | N | N | N | N | N |
-| `parallel-tools` | S | S | S | G | - | - | - | - | - | - | - | - | - | - |
-| `run-state-isolation` | S | S | S | G | S | - | - | - | N | N | - | N | N | - |
-| `stream-callback-error` | S | S | S | S | - | - | - | - | - | - | - | - | - | - |
-| `sse-truncated` | S | S | S | G | - | - | - | - | - | - | - | - | - | - |
-| `sse-half-packet` | S | S | S | G | - | - | - | - | - | - | - | - | - | - |
+| 场景 | Go | Py | TS | Java | Rust | R | C# | C | Ftn | COB | Ruby | Ex | Erl | C++ | PHP | Lua |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| `final-arguments` | S | S | S | G | - | - | N | - | - | - | - | - | - | - | N | - |
+| `final-name` | S | S | S | G | - | - | N | - | - | - | - | - | - | - | N | - |
+| `unchanged-single-auth` | S | S | S | G | - | - | N | - | - | - | - | - | - | - | N | - |
+| `initial-denial` | S | S | S | G | - | - | N | - | - | - | - | - | - | - | N | - |
+| `startup-cleanup` | S | S | S | G | - | - | N | - | - | - | - | - | - | - | N | - |
+| `after-run-continue` | S | S | S | G | - | - | N | - | - | - | - | - | - | - | N | - |
+| `cleanup-failclosed` | S | S | S | G | - | - | N | - | - | - | - | - | - | - | N | - |
+| `model-cancel-cleanup` | S | S | S | G | - | - | - | - | - | - | - | - | - | - | - | - |
+| `tool-cancel-cleanup` | S | S | S | G | - | - | - | - | - | - | - | - | - | - | - | - |
+| `schema-number-unicode` | S | S | S | S | S | N | N | - | - | - | N | N | N | N | N | N |
+| `call-limit` | S | S | S | G | S | N | N | N | N | N | N | N | N | N | N | N |
+| `pii-tool-history` | S | S | S | S | S | N | N | - | N | N | N | N | N | N | N | N |
+| `checkpoint-content` | S | S | S | S | S | N | N | N | N | N | N | N | N | N | N | N |
+| `capacity-failclosed` | S | S | S | G | S | N | N | N | N | N | N | N | N | N | N | N |
+| `parallel-tools` | S | S | S | G | - | - | - | - | - | - | - | - | - | - | - | - |
+| `run-state-isolation` | S | S | S | G | S | N | N | - | - | - | - | N | N | - | N | - |
+| `stream-callback-error` | S | S | S | S | - | - | - | - | - | - | - | - | - | - | - | - |
+| `sse-truncated` | S | S | S | G | - | - | - | - | - | - | - | - | - | - | - | - |
+| `sse-half-packet` | S | S | S | G | - | - | - | - | - | - | - | - | - | - | - | - |
 
 ## 逐语言报告
 
@@ -197,6 +202,48 @@ cargo test --test sdk context_budget_fails_closed
 cargo test --test sdk call_limit_state_is_isolated_by_run
 ```
 
+### R
+
+- 覆盖类型: 套件级
+- 通过: 6/19
+- 不支持: 13
+- 已覆盖场景: `schema-number-unicode`, `call-limit`, `pii-tool-history`, `checkpoint-content`, `capacity-failclosed`, `run-state-isolation`
+- 未覆盖场景: `final-arguments`, `final-name`, `unchanged-single-auth`, `initial-denial`, `startup-cleanup`, `after-run-continue`, `cleanup-failclosed`, `model-cancel-cleanup`, `tool-cancel-cleanup`, `parallel-tools`, `stream-callback-error`, `sse-truncated`, `sse-half-packet`
+
+命令:
+
+```text
+Rscript language/r/tests/run_tests.R
+```
+
+### C#
+
+- 覆盖类型: 套件级
+- 通过: 13/19
+- 不支持: 6
+- 已覆盖场景: `final-arguments`, `final-name`, `unchanged-single-auth`, `initial-denial`, `startup-cleanup`, `after-run-continue`, `cleanup-failclosed`, `schema-number-unicode`, `call-limit`, `pii-tool-history`, `checkpoint-content`, `capacity-failclosed`, `run-state-isolation`
+- 未覆盖场景: `model-cancel-cleanup`, `tool-cancel-cleanup`, `parallel-tools`, `stream-callback-error`, `sse-truncated`, `sse-half-packet`
+
+命令:
+
+```text
+dotnet run --project language/csharp/Praxo.Tests
+```
+
+### C
+
+- 覆盖类型: 套件级
+- 通过: 3/19
+- 不支持: 16
+- 已覆盖场景: `call-limit`, `checkpoint-content`, `capacity-failclosed`
+- 未覆盖场景: `final-arguments`, `final-name`, `unchanged-single-auth`, `initial-denial`, `startup-cleanup`, `after-run-continue`, `cleanup-failclosed`, `model-cancel-cleanup`, `tool-cancel-cleanup`, `schema-number-unicode`, `pii-tool-history`, `parallel-tools`, `run-state-isolation`, `stream-callback-error`, `sse-truncated`, `sse-half-packet`
+
+命令:
+
+```text
+ctest --test-dir language/c/build --output-on-failure
+```
+
 ### Fortran
 
 - 覆盖类型: 套件级
@@ -284,29 +331,15 @@ python scripts/cpp_behavior_suite.py
 ### PHP
 
 - 覆盖类型: 套件级
-- 通过: 10/19
-- 不支持: 9
-- 已覆盖场景: `final-arguments`, `final-name`, `unchanged-single-auth`, `initial-denial`, `schema-number-unicode`, `call-limit`, `pii-tool-history`, `checkpoint-content`, `capacity-failclosed`, `run-state-isolation`
-- 未覆盖场景: `startup-cleanup`, `after-run-continue`, `cleanup-failclosed`, `model-cancel-cleanup`, `tool-cancel-cleanup`, `parallel-tools`, `stream-callback-error`, `sse-truncated`, `sse-half-packet`
+- 通过: 13/19
+- 不支持: 6
+- 已覆盖场景: `final-arguments`, `final-name`, `unchanged-single-auth`, `initial-denial`, `startup-cleanup`, `after-run-continue`, `cleanup-failclosed`, `schema-number-unicode`, `call-limit`, `pii-tool-history`, `checkpoint-content`, `capacity-failclosed`, `run-state-isolation`
+- 未覆盖场景: `model-cancel-cleanup`, `tool-cancel-cleanup`, `parallel-tools`, `stream-callback-error`, `sse-truncated`, `sse-half-packet`
 
 命令:
 
 ```text
 php language/php/tests/run.php
-```
-
-### C#
-
-- 覆盖类型: 套件级
-- 通过: 10/19
-- 不支持: 9
-- 已覆盖场景: `final-arguments`, `final-name`, `unchanged-single-auth`, `initial-denial`, `schema-number-unicode`, `call-limit`, `pii-tool-history`, `checkpoint-content`, `capacity-failclosed`, `run-state-isolation`
-- 未覆盖场景: `startup-cleanup`, `after-run-continue`, `cleanup-failclosed`, `model-cancel-cleanup`, `tool-cancel-cleanup`, `parallel-tools`, `stream-callback-error`, `sse-truncated`, `sse-half-packet`
-
-命令:
-
-```text
-dotnet run --project language/csharp/Praxo.Tests
 ```
 
 ### Lua

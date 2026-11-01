@@ -40,10 +40,10 @@ targeted for cross-language agent-behavior parity in the Behavior Lab.
 | Extended | PHP, C, Fortran, COBOL, Ruby, Elixir, Erlang, C++, Lua | Contract or focused implementation where behavior parity is advanced scenario by scenario. An unsupported cell is intentional until a named consumer and maintainer exist. |
 | Optional | Other declared implementations | Outside the current Behavior Lab program. Contract conformance is unchanged; behavior work starts only with a named consumer and maintainer. |
 
-R has a native agent loop but is not yet wired into the Behavior Lab. C# is
-agent-capable but currently has native-suite coverage for selected scenarios,
-not full scenario-level coverage. C is extended but is not yet wired into the
-lab. Other implementations, including Swift, Julia, Haskell, MATLAB/Octave,
+R and C are wired into the Behavior Lab. C# and PHP have native-suite coverage
+for selected scenarios, not full scenario-level coverage. R covers the selected
+rows its native suite asserts; C covers the call-limit, checkpoint, and capacity
+rows. Other implementations, including Swift, Julia, Haskell, MATLAB/Octave,
 Perl, Delphi/Free Pascal, OCaml, Objective-C, Nim, V, D, Zig, and the
 Bridge/Sample entries, are in the optional tier.
 

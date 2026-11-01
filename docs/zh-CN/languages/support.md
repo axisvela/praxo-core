@@ -34,12 +34,12 @@ Bridge、Sample 描述运行时的接入方式，不证明其语言缺乏 Framew
 | 行为层级 | 语言 | 当前目标 |
 | --- | --- | --- |
 | Agent-capable | Go、Python、TypeScript、Java、Rust、R、C# | 声明范围内包含原生 agent 循环；纳入十九个行为实验场景的目标集合 |
-| Extended | PHP、C、Fortran、COBOL、Ruby、Elixir、Erlang、C++、Lua | 契约型或聚焦型实现；在有明确消费者和维护者的前提下逐场景推进行为覆盖 |
+| Extended | C、PHP、Fortran、COBOL、Ruby、Elixir、Erlang、C++、Lua | 契约型或聚焦型实现；在有明确消费者和维护者的前提下逐场景推进行为覆盖 |
 | Optional | 其他已声明实现 | 不在当前行为实验计划内；契约一致性不变，行为工作需有明确消费者和维护者 |
 
-2026-11-01 的报告覆盖十四个已接入语言：agent-capable 的 Go、Python、TypeScript、Java、Rust、C#，以及八个已接入的 extended 语言。R 已有原生 agent 循环，但尚未接入实验；C 属于 extended，但尚未接入。在 agent-capable 层级内，Go/Python/TypeScript/Java 通过全部十九个场景，Rust 通过六个，C# 有十个场景的原生套件覆盖。扩展语言使用原生套件覆盖，没有场景测试的单元格保持 `unsupported`。逐单元格结果见[行为实验矩阵](behavior-lab-matrix.md)。
+2026-11-01 的源码集覆盖十六个已接入语言：agent-capable 的 Go、Python、TypeScript、Java、Rust、R、C#，以及 extended 的 C、PHP、Fortran、COBOL、Ruby、Elixir、Erlang、C++、Lua。在 agent-capable 层级内，Go/Python/TypeScript/Java 通过全部十九个场景，Rust 和 R 通过六个，C# 有十三个场景的原生套件覆盖。扩展语言使用原生套件覆盖，没有场景测试的单元格保持 `unsupported`。逐单元格结果见[行为实验矩阵](behavior-lab-matrix.md)。
 
-在上述 clean 报告之后，PHP 和 C# 增加了 startup-cleanup、after-run-continue 和 cleanup-failclosed 覆盖。本地 dirty-tree 验证显示两者均为 13/19；下一次 clean-SHA CI 运行会更新矩阵。
+十六语言集的本地 dirty-tree 验证结果为 152 passed、152 unsupported、无失败。下一次 clean-SHA CI 运行会用该十六语言报告替换当前十四语言 clean 矩阵。
 
 `unsupported` 是明确记录的缺口，既不是失败，也不是通过。不要从契约成熟度 `complete` 推断完整行为对齐。
 

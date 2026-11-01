@@ -51,12 +51,12 @@ tiers are:
 | Tier | Languages | Rule |
 | --- | --- | --- |
 | Agent-capable | Go, Python, TypeScript, Java, Rust, R, C# | Target all nineteen Behavior Lab scenarios. Missing cells must be explicit `unsupported` with a reason until covered. |
-| Extended | PHP, C, Fortran, COBOL, Ruby, Elixir, Erlang, C++, Lua | Advance selected scenarios only with a named consumer and maintainer. Do not add a scenario or language solely to increase counts. |
+| Extended | C, PHP, Fortran, COBOL, Ruby, Elixir, Erlang, C++, Lua | Advance selected scenarios only with a named consumer and maintainer. Do not add a scenario or language solely to increase counts. |
 | Optional | Other declared implementations | No behavior work by default; promotion requires a named consumer, maintainer, and scenario evidence. |
 
-R is agent-capable but not yet wired into the lab. C# is agent-capable but
-currently suite-level for selected scenarios. C is extended but not yet wired.
-A new scenario must be added to every agent-capable implementation or carry an
+R and C are wired into the lab. C# and PHP are suite-level for selected
+scenarios, and R/C cover only the rows their native suites assert. A new
+scenario must be added to every agent-capable implementation or carry an
 explicit unsupported reason in the matrix. Suite-level coverage is not
 scenario-level evidence.
 

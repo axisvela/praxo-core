@@ -8,30 +8,29 @@ This page expands the summary in [Behavior Lab](behavior-lab.md) into a scenario
 
 | Metric | Value |
 | --- | ---: |
-| Languages | 14 |
+| Languages | 16 |
 | Scenarios | 19 |
-| Cells | 266 |
-| Passed | 137 |
-| Unsupported | 129 |
+| Cells | 304 |
+| Passed | 152 |
+| Unsupported | 152 |
 | Failed | 0 |
 | Source report | `report.json` |
-| Run ID | `20261101T004140Z-f1263f63` |
-| Revision | `2384e3589a0d8d3d86da5ba863ea0db74980b804` |
-| Working tree dirty | False |
-| CI job | [GitHub Actions](https://github.com/axisvela/praxo-core/actions/runs/41257537691/job/124703790344) |
+| Run ID | `20261101T023247Z-b2b06feb` |
+| Revision | `94295e2ee7ad40b2df4b15a948c5717aa2742384` |
+| Working tree dirty | True |
 
 ## Capability tiers
 
-This matrix covers the fourteen languages currently wired into the lab. R is
-agent-capable and C is extended, but neither is wired yet, so neither has a
-column here. C# is agent-capable but its ten covered cells use native-suite
-coverage. Other declared implementations are optional and outside the current
-behavior program. Contract tier is separate; see the
-[support policy](support.md) for the tier definitions.
+The matrix now covers sixteen wired languages. Contract tier is separate from behavior tier; see the [support policy](support.md).
 
-PHP and C# lifecycle scenarios are implemented in source. A local dirty-tree
-run reports 13/19 for each, pending clean-SHA CI. The table below remains the
-last clean-SHA report (137 passed / 129 unsupported).
+| Tier | Languages | Current status |
+| --- | --- | --- |
+| Agent-capable | Go, Python, TypeScript, Java, Rust, R, C# | Targets all nineteen scenarios; current coverage varies by language |
+| Extended | C, PHP, Fortran, COBOL, Ruby, Elixir, Erlang, C++, Lua | Advances scenario by scenario with a named consumer and maintainer |
+| Optional | Other declared implementations | Outside the current behavior program |
+
+This report is a local dirty-tree validation at `94295e2`. The next clean-SHA
+CI run will replace it with the official sixteen-language matrix.
 
 ## Matrix legend
 
@@ -44,27 +43,27 @@ last clean-SHA report (137 passed / 129 unsupported).
 
 ## Scenario matrix
 
-| Scenario | Go | Py | TS | Java | Rust | Ftn | COB | Ruby | Ex | Erl | C++ | PHP | C# | Lua |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| `final-arguments` | S | S | S | G | - | - | - | - | - | - | - | N | N | - |
-| `final-name` | S | S | S | G | - | - | - | - | - | - | - | N | N | - |
-| `unchanged-single-auth` | S | S | S | G | - | - | - | - | - | - | - | N | N | - |
-| `initial-denial` | S | S | S | G | - | - | - | - | - | - | - | N | N | - |
-| `startup-cleanup` | S | S | S | G | - | - | - | - | - | - | - | - | - | - |
-| `after-run-continue` | S | S | S | G | - | - | - | - | - | - | - | - | - | - |
-| `cleanup-failclosed` | S | S | S | G | - | - | - | - | - | - | - | - | - | - |
-| `model-cancel-cleanup` | S | S | S | G | - | - | - | - | - | - | - | - | - | - |
-| `tool-cancel-cleanup` | S | S | S | G | - | - | - | - | - | - | - | - | - | - |
-| `schema-number-unicode` | S | S | S | S | S | - | - | N | N | N | N | N | N | N |
-| `call-limit` | S | S | S | G | S | N | N | N | N | N | N | N | N | N |
-| `pii-tool-history` | S | S | S | S | S | N | N | N | N | N | N | N | N | N |
-| `checkpoint-content` | S | S | S | S | S | N | N | N | N | N | N | N | N | N |
-| `capacity-failclosed` | S | S | S | G | S | N | N | N | N | N | N | N | N | N |
-| `parallel-tools` | S | S | S | G | - | - | - | - | - | - | - | - | - | - |
-| `run-state-isolation` | S | S | S | G | S | - | - | - | N | N | - | N | N | - |
-| `stream-callback-error` | S | S | S | S | - | - | - | - | - | - | - | - | - | - |
-| `sse-truncated` | S | S | S | G | - | - | - | - | - | - | - | - | - | - |
-| `sse-half-packet` | S | S | S | G | - | - | - | - | - | - | - | - | - | - |
+| Scenario | Go | Py | TS | Java | Rust | R | C# | C | Ftn | COB | Ruby | Ex | Erl | C++ | PHP | Lua |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| `final-arguments` | S | S | S | G | - | - | N | - | - | - | - | - | - | - | N | - |
+| `final-name` | S | S | S | G | - | - | N | - | - | - | - | - | - | - | N | - |
+| `unchanged-single-auth` | S | S | S | G | - | - | N | - | - | - | - | - | - | - | N | - |
+| `initial-denial` | S | S | S | G | - | - | N | - | - | - | - | - | - | - | N | - |
+| `startup-cleanup` | S | S | S | G | - | - | N | - | - | - | - | - | - | - | N | - |
+| `after-run-continue` | S | S | S | G | - | - | N | - | - | - | - | - | - | - | N | - |
+| `cleanup-failclosed` | S | S | S | G | - | - | N | - | - | - | - | - | - | - | N | - |
+| `model-cancel-cleanup` | S | S | S | G | - | - | - | - | - | - | - | - | - | - | - | - |
+| `tool-cancel-cleanup` | S | S | S | G | - | - | - | - | - | - | - | - | - | - | - | - |
+| `schema-number-unicode` | S | S | S | S | S | N | N | - | - | - | N | N | N | N | N | N |
+| `call-limit` | S | S | S | G | S | N | N | N | N | N | N | N | N | N | N | N |
+| `pii-tool-history` | S | S | S | S | S | N | N | - | N | N | N | N | N | N | N | N |
+| `checkpoint-content` | S | S | S | S | S | N | N | N | N | N | N | N | N | N | N | N |
+| `capacity-failclosed` | S | S | S | G | S | N | N | N | N | N | N | N | N | N | N | N |
+| `parallel-tools` | S | S | S | G | - | - | - | - | - | - | - | - | - | - | - | - |
+| `run-state-isolation` | S | S | S | G | S | N | N | - | - | - | - | N | N | - | N | - |
+| `stream-callback-error` | S | S | S | S | - | - | - | - | - | - | - | - | - | - | - | - |
+| `sse-truncated` | S | S | S | G | - | - | - | - | - | - | - | - | - | - | - | - |
+| `sse-half-packet` | S | S | S | G | - | - | - | - | - | - | - | - | - | - | - | - |
 
 ## Per-language reports
 
@@ -204,6 +203,48 @@ cargo test --test sdk context_budget_fails_closed
 cargo test --test sdk call_limit_state_is_isolated_by_run
 ```
 
+### R
+
+- Coverage: suite
+- Passed: 6/19
+- Unsupported: 13
+- Covered scenarios: `schema-number-unicode`, `call-limit`, `pii-tool-history`, `checkpoint-content`, `capacity-failclosed`, `run-state-isolation`
+- Unsupported scenarios: `final-arguments`, `final-name`, `unchanged-single-auth`, `initial-denial`, `startup-cleanup`, `after-run-continue`, `cleanup-failclosed`, `model-cancel-cleanup`, `tool-cancel-cleanup`, `parallel-tools`, `stream-callback-error`, `sse-truncated`, `sse-half-packet`
+
+Commands:
+
+```text
+Rscript language/r/tests/run_tests.R
+```
+
+### C#
+
+- Coverage: suite
+- Passed: 13/19
+- Unsupported: 6
+- Covered scenarios: `final-arguments`, `final-name`, `unchanged-single-auth`, `initial-denial`, `startup-cleanup`, `after-run-continue`, `cleanup-failclosed`, `schema-number-unicode`, `call-limit`, `pii-tool-history`, `checkpoint-content`, `capacity-failclosed`, `run-state-isolation`
+- Unsupported scenarios: `model-cancel-cleanup`, `tool-cancel-cleanup`, `parallel-tools`, `stream-callback-error`, `sse-truncated`, `sse-half-packet`
+
+Commands:
+
+```text
+dotnet run --project language/csharp/Praxo.Tests
+```
+
+### C
+
+- Coverage: suite
+- Passed: 3/19
+- Unsupported: 16
+- Covered scenarios: `call-limit`, `checkpoint-content`, `capacity-failclosed`
+- Unsupported scenarios: `final-arguments`, `final-name`, `unchanged-single-auth`, `initial-denial`, `startup-cleanup`, `after-run-continue`, `cleanup-failclosed`, `model-cancel-cleanup`, `tool-cancel-cleanup`, `schema-number-unicode`, `pii-tool-history`, `parallel-tools`, `run-state-isolation`, `stream-callback-error`, `sse-truncated`, `sse-half-packet`
+
+Commands:
+
+```text
+ctest --test-dir language/c/build --output-on-failure
+```
+
 ### Fortran
 
 - Coverage: suite
@@ -291,29 +332,15 @@ python scripts/cpp_behavior_suite.py
 ### PHP
 
 - Coverage: suite
-- Passed: 10/19
-- Unsupported: 9
-- Covered scenarios: `final-arguments`, `final-name`, `unchanged-single-auth`, `initial-denial`, `schema-number-unicode`, `call-limit`, `pii-tool-history`, `checkpoint-content`, `capacity-failclosed`, `run-state-isolation`
-- Unsupported scenarios: `startup-cleanup`, `after-run-continue`, `cleanup-failclosed`, `model-cancel-cleanup`, `tool-cancel-cleanup`, `parallel-tools`, `stream-callback-error`, `sse-truncated`, `sse-half-packet`
+- Passed: 13/19
+- Unsupported: 6
+- Covered scenarios: `final-arguments`, `final-name`, `unchanged-single-auth`, `initial-denial`, `startup-cleanup`, `after-run-continue`, `cleanup-failclosed`, `schema-number-unicode`, `call-limit`, `pii-tool-history`, `checkpoint-content`, `capacity-failclosed`, `run-state-isolation`
+- Unsupported scenarios: `model-cancel-cleanup`, `tool-cancel-cleanup`, `parallel-tools`, `stream-callback-error`, `sse-truncated`, `sse-half-packet`
 
 Commands:
 
 ```text
 php language/php/tests/run.php
-```
-
-### C#
-
-- Coverage: suite
-- Passed: 10/19
-- Unsupported: 9
-- Covered scenarios: `final-arguments`, `final-name`, `unchanged-single-auth`, `initial-denial`, `schema-number-unicode`, `call-limit`, `pii-tool-history`, `checkpoint-content`, `capacity-failclosed`, `run-state-isolation`
-- Unsupported scenarios: `startup-cleanup`, `after-run-continue`, `cleanup-failclosed`, `model-cancel-cleanup`, `tool-cancel-cleanup`, `parallel-tools`, `stream-callback-error`, `sse-truncated`, `sse-half-packet`
-
-Commands:
-
-```text
-dotnet run --project language/csharp/Praxo.Tests
 ```
 
 ### Lua

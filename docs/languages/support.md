@@ -43,22 +43,20 @@ Behavior Lab entirely.
 | Behavior tier | Languages | Current target |
 | --- | --- | --- |
 | Agent-capable | Go, Python, TypeScript, Java, Rust, R, C# | Native agent loop in declared scope; selected for the nineteen Behavior Lab scenarios |
-| Extended | PHP, C, Fortran, COBOL, Ruby, Elixir, Erlang, C++, Lua | Contract or focused implementation; behavior coverage advances scenario by scenario with a named consumer and maintainer |
+| Extended | C, PHP, Fortran, COBOL, Ruby, Elixir, Erlang, C++, Lua | Contract or focused implementation; behavior coverage advances scenario by scenario with a named consumer and maintainer |
 | Optional | Other declared implementations | Outside the current Behavior Lab program; contract conformance is unchanged and behavior work requires a named consumer and maintainer |
 
-The 2026-11-01 report covers fourteen wired languages: agent-capable Go, Python,
-TypeScript, Java, Rust, and C# plus eight wired extended languages. R has a
-native agent loop but is not yet wired into the lab. C is extended but is not
-yet wired. Within the agent-capable tier, Go/Python/TypeScript/Java pass all
-nineteen scenarios, Rust passes six, and C# has native-suite coverage for ten.
-Extended rows use native-suite coverage and stay `unsupported` where no scenario
-test exists. See the [Behavior Lab matrix](behavior-lab-matrix.md) for every
-cell.
+The 2026-11-01 source set covers sixteen wired languages: agent-capable Go,
+Python, TypeScript, Java, Rust, R, and C# plus the extended C, PHP, Fortran,
+COBOL, Ruby, Elixir, Erlang, C++, and Lua implementations. Within the
+agent-capable tier, Go/Python/TypeScript/Java pass all nineteen scenarios, Rust
+and R pass six, and C# has native-suite coverage for thirteen. Extended rows use
+native-suite coverage and stay `unsupported` where no scenario test exists. See
+the [Behavior Lab matrix](behavior-lab-matrix.md) for every cell.
 
-After the cited clean report, PHP and C# gained startup-cleanup,
-after-run-continue, and cleanup-failclosed coverage. Local dirty-tree
-validation reports 13/19 for each; the next clean-SHA CI run will update the
-matrix.
+A local dirty-tree validation of the sixteen-language set reported 152 passed,
+152 unsupported, and no failures. The next clean-SHA CI run will replace the
+current clean fourteen-language matrix with that sixteen-language report.
 
 An unsupported cell is a recorded gap, not a failure and not a pass. Do not
 infer full behavior parity from `complete` contract maturity.

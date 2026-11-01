@@ -42,10 +42,10 @@ JavaScript 复用 TypeScript，Kotlin、Scala、Groovy 和 Clojure 复用 Java�
 | 层级 | 语言 | 规则 |
 | --- | --- | --- |
 | Agent-capable | Go、Python、TypeScript、Java、Rust、R、C# | 以全部十九个行为实验场景为目标；未覆盖的单元格必须明确标为 `unsupported` 并给出原因 |
-| Extended | PHP、C、Fortran、COBOL、Ruby、Elixir、Erlang、C++、Lua | 只在有明确消费者和维护者时逐场景推进；不得仅为增加数量而新增场景或语言 |
+| Extended | C、PHP、Fortran、COBOL、Ruby、Elixir、Erlang、C++、Lua | 只在有明确消费者和维护者时逐场景推进；不得仅为增加数量而新增场景或语言 |
 | Optional | 其他已声明实现 | 默认不开展行为工作；晋级需要明确消费者、维护者和场景证据 |
 
-R 属于 agent-capable，但尚未接入实验。C# 属于 agent-capable，但目前部分场景只有套件级覆盖。C 属于 extended，但尚未接入。新增场景必须加入每个 agent-capable 实现，或在矩阵中保留明确的 unsupported 原因。套件级覆盖不等于场景级证据。
+R 和 C 已接入实验。C# 与 PHP 对部分场景只有套件级覆盖，R/C 只覆盖其原生套件实际断言的场景行。新增场景必须加入每个 agent-capable 实现，或在矩阵中保留明确的 unsupported 原因。套件级覆盖不等于场景级证据。
 
 ## 文档与许可
 

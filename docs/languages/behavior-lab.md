@@ -2,9 +2,9 @@
 
 **Status:** evidence tooling, 2026-11-01. The lab is not a stable public API.
 
-The behavior lab runs named agent scenarios across agent-capable and extended
+The behavior lab runs named agent scenarios across sixteen wired
 implementations and writes one comparison report. The agent-capable tier is Go,
-Python, TypeScript, Java, Rust, R, and C#; the extended tier is PHP, C, Fortran,
+Python, TypeScript, Java, Rust, R, and C#; the extended tier is C, PHP, Fortran,
 COBOL, Ruby, Elixir, Erlang, C++, and Lua. Other declared implementations are
 optional and outside the current behavior program. It answers a
 narrower question than the [compatibility lab](compatibility-lab.md): do the
@@ -24,19 +24,19 @@ Behavior tier is separate from contract tier. See the
 
 | Tier | Languages | Current status |
 | --- | --- | --- |
-| Agent-capable | Go, Python, TypeScript, Java, Rust, R, C# | Go/Python/TypeScript/Java 19/19; Rust 6/19; C# 10/19 clean CI, 13/19 local pending; R not yet wired |
-| Extended | PHP, C, Fortran, COBOL, Ruby, Elixir, Erlang, C++, Lua | 4-10/19 clean for wired languages; PHP 13/19 local pending; C not yet wired |
+| Agent-capable | Go, Python, TypeScript, Java, Rust, R, C# | Go/Python/TypeScript/Java 19/19; Rust 6/19; R 6/19; C# 13/19, all suite-level |
+| Extended | C, PHP, Fortran, COBOL, Ruby, Elixir, Erlang, C++, Lua | C 3/19; PHP 13/19; other wired languages 4-6/19; native-suite coverage for selected rows |
 | Optional | Other declared implementations | Outside the current behavior program |
 
-R has a native agent loop but is not yet represented in the lab or matrix. C is
-extended but is not yet represented. C# is agent-capable, but its ten covered
-cells use native-suite coverage rather than scenario-isolated assertions.
+R and C are now wired. C# and PHP include the three lifecycle scenarios, and R
+and C contribute native-suite coverage for the data and state scenarios their
+suites assert.
 
 ## Scope
 
 The table below shows scenario-isolated evidence for the four original core
-implementations. Agent-capable Rust and C#, plus the wired extended languages,
-are reported in the [matrix](behavior-lab-matrix.md). R and C are not yet wired.
+implementations. Agent-capable Rust, R, and C#, plus the wired extended
+languages, are reported in the [matrix](behavior-lab-matrix.md).
 
 | Scenario | Behavior checked | Go | Python | TypeScript | Java |
 | --- | --- | --- | --- | --- | --- |
@@ -97,17 +97,22 @@ cd language/java; mvn -q -DskipTests test-compile; cd ../..
 cmake -S language/cpp -B language/cpp/build
 cmake --build language/cpp/build
 python scripts/behavior_lab.py --strict --timeout 300
-python scripts/behavior_lab.py --strict --timeout 600 --languages go,python,typescript,java,rust,fortran,cobol,ruby,elixir,erlang,cpp,php,csharp,lua
+python scripts/behavior_lab.py --strict --timeout 600 --languages go,python,typescript,java,rust,fortran,cobol,ruby,elixir,erlang,cpp,php,csharp,lua,r,c
 ```
 
-The fourteen-language run does not include R or C. It also needs a Rust
-toolchain plus `gfortran`, `gnucobol`,
-`g++`, CMake, and Ninja; Ruby; Elixir 1.20.4 on Erlang/OTP 29; PHP 8.4; the
-.NET 8 SDK; and Lua 5.4. Fortran builds its pinned RE2 bridge. The native
-Fortran/COBOL/Erlang/C++/PHP/C#/Lua suite commands, Ruby test runner, and Elixir
-`mix run` suite are cached within one report, so each runs once.
+The sixteen-language run needs a Rust toolchain plus `gfortran`, `gnucobol`,
+`g++`, C and C++ build directories, CMake, and Ninja; Ruby; Elixir 1.20.4 on
+Erlang/OTP 29; PHP 8.4; the .NET 8 SDK; R; and Lua 5.4. Fortran builds its
+pinned RE2 bridge. The native Fortran/COBOL/Erlang/C++/PHP/C#/Lua/R suite
+commands, the C `ctest` suite, the Ruby test runner, and the Elixir `mix run`
+suite are cached within one report, so each runs once.
 `scripts/cpp_behavior_suite.py` adds the C++ compiler runtime directory to
-`PATH` before invoking `ctest`.
+`PATH` before invoking `ctest`. Build the C suite before running the lab:
+
+```bash
+cmake -S language/c -B language/c/build
+cmake --build language/c/build
+```
 
 - `--strict` fails on `failed`, `skipped`, `not_run`, and unsupported cells in
   the four scenario-wired core languages. Holes in other tiers remain
@@ -131,18 +136,17 @@ overwritten; `latest.json` is only a convenience pointer.
 ## Current Evidence
 
 The Go/Python/TypeScript/Java local nineteen-scenario run on 2026-10-31 passed
-all 76 cells. The clean-SHA Linux CI run on commit `2384e35` passed the
-fourteen-language set with 137 passed, 129 explicitly unsupported, and no
+all 76 cells. The last clean-SHA Linux CI run on commit `2384e35` covers
+fourteen languages with 137 passed, 129 explicitly unsupported, and no
 failures; use that [behavior job](https://github.com/axisvela/praxo-core/actions/runs/41257537691/job/124703790344)
-and its artifact when citing the report as evidence. R is not part of that
+and its artifact when citing a clean report. R and C are not part of that
 fourteen-language run. The [Behavior Lab Matrix](behavior-lab-matrix.md) lists
 every cell and each language's covered and unsupported scenarios.
 
-PHP and C# now implement the startup-cleanup, after-run-continue, and
-cleanup-failclosed scenarios. A local dirty-tree validation run on 2026-11-01
-reported 143 passed, 123 unsupported, and no failures across the fourteen wired
-languages. That is pre-merge validation, not a clean-SHA record; the matrix and
-CI link above remain the last clean-SHA report until CI reruns.
+The current sixteen-language source set was validated locally on 2026-11-01
+with 152 passed, 152 explicitly unsupported, and no failures. That run used a
+dirty working tree and is pre-merge validation, not a clean-SHA record. The
+official matrix should be regenerated from the next clean CI report.
 
 ## Limits
 
@@ -150,9 +154,9 @@ CI link above remain the last clean-SHA report until CI reruns.
 - Go and Python use scenario-level tests; TypeScript uses `node --test` name
   filters; some Java self-tests cover more than one scenario.
 - Rust has scenario-level tests for selected rows. Fortran, COBOL, Ruby,
-  Elixir, Erlang, C++, PHP, C#, and Lua use native-suite coverage, not
-  scenario-isolated assertions. C# is agent-capable but currently suite-level;
-  R is agent-capable and C is extended, but neither is wired into the lab.
+  Elixir, Erlang, C++, PHP, C#, Lua, R, and C use native-suite coverage, not
+  scenario-isolated assertions. C# and PHP now include lifecycle scenarios;
+  R and C cover only the rows their native suites assert.
 - The parallel scenario uses deterministic barriers; it is not a throughput or
   stress test. SSE tests use local fixtures, not a provider.
 - No provider, model, network, sandbox, HITL, checkpoint persistence, or

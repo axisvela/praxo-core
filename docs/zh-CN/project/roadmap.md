@@ -24,12 +24,12 @@
 | 层级 | 语言 | 当前目标 |
 | --- | --- | --- |
 | Agent-capable | Go、Python、TypeScript、Java、Rust、R、C# | 全部十九个行为实验场景；缺口保持显式 |
-| Extended | PHP、C、Fortran、COBOL、Ruby、Elixir、Erlang、C++、Lua | 仅在有明确消费者和维护者时逐场景推进 |
+| Extended | C、PHP、Fortran、COBOL、Ruby、Elixir、Erlang、C++、Lua | 仅在有明确消费者和维护者时逐场景推进 |
 | Optional | 其他已声明实现 | 不在行为计划内；契约一致性不变 |
 
-当前报告覆盖十四个已接入语言：137 passed、129 个显式 unsupported、无失败。R 属于 agent-capable，但尚未接入。C# 属于 agent-capable，但目前十个场景只有套件级覆盖。C 属于 extended，但尚未接入。不要把 unsupported 当作失败或通过，也不要仅为提高数量而增加语言或场景。
+当前十六语言源码集已在本地验证：152 passed、152 个显式 unsupported、无失败。最近一次 clean-SHA 报告覆盖十四个语言：137 passed、129 unsupported。R 和 C 现已接入；C# 与 PHP 包含三个生命周期场景。不要把 unsupported 当作失败或通过，也不要仅为提高数量而增加语言或场景。
 
-PHP 和 C# 的生命周期场景已实现并在本地验证；下一次 clean-SHA CI 运行会更新 137/129 报告。
+下一次 clean-SHA CI 运行会用十六语言报告替换 137/129 clean 报告。
 
 边界设计见[受治理执行设计](../reference/governed-execution.md)。环境、配置、过程、数据、
 结果和发现的记录要求见[测试证据规范](../contributing/test-evidence.md)。
