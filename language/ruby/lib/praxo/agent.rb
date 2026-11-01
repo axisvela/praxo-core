@@ -54,7 +54,8 @@ module Praxo
     class AgentOptions
       attr_accessor :model, :tools, :events, :policy, :system_prompt, :context,
                     :max_steps, :max_tokens, :tool_choice, :middleware,
-                    :allowed_tools
+                    :allowed_tools, :cancellation, :on_stream,
+                    :max_parallel_tools
 
       def initialize(model)
         @model = model
@@ -68,6 +69,9 @@ module Praxo
         @tool_choice = nil
         @middleware = []
         @allowed_tools = []
+        @cancellation = nil
+        @on_stream = nil
+        @max_parallel_tools = 1
       end
     end
 
@@ -94,9 +98,14 @@ module Praxo
           raise
         end
         emit(options, 'run.started', session.id, run_id)
+        emit_stream(options, Models.stream_part(
+          run_id: run_id, session_id: session.id, kind: 'values',
+          step: 0, data: prompt.to_s
+        ))
         after_run_invoked = false
         begin
           (1..max_steps).each do |step|
+            check_cancelled(options)
             authorize(options, Models.action(kind: 'model.generate', session_id: session.id))
             if options.context
               compacted, ok = options.context.compact(messages)
@@ -109,6 +118,7 @@ module Praxo
               tool_choice: options.tool_choice
             )
             response = options.model.generate(request)
+            check_cancelled(options)
             usage = usage.plus(response.usage || Models.usage)
             total = usage.input_tokens.to_i + usage.output_tokens.to_i
             if options.max_tokens.to_i.positive? && total > options.max_tokens
@@ -122,15 +132,17 @@ module Praxo
                 run_id: run_id, output: message.content.to_s, steps: step,
                 usage: usage
               )
+              emit_stream(options, Models.stream_part(
+                run_id: run_id, session_id: session.id, kind: 'messages',
+                step: step, data: message.content.to_s
+              ))
               after_run_invoked = true
               cleanup_error = after_run(options, entered, result, nil)
               raise cleanup_error if cleanup_error
               emit(options, 'run.completed', session.id, run_id)
               return result
             end
-            calls.each do |call|
-              messages << invoke_tool(options, call, run_id, session.id)
-            end
+            messages.concat(invoke_tools(options, calls, run_id, session.id))
           end
           Praxo.error('AGENT_MAX_STEPS', 'maximum steps')
         rescue StandardError => e
@@ -142,7 +154,45 @@ module Praxo
 
       private
 
+      def invoke_tools(options, calls, run_id, session_id)
+        limit = [options.max_parallel_tools.to_i, 1].max
+        results = []
+        calls.each_slice(limit) do |batch|
+          check_cancelled(options)
+          prepared = batch.map do |call|
+            prepare_tool(options, call, run_id, session_id)
+          end
+          if limit <= 1
+            prepared.each do |tool, call|
+              results << execute_tool(tool, call)
+              check_cancelled(options)
+            end
+          else
+            outcomes = prepared.map do |tool, call|
+              Thread.new do
+                begin
+                  [:ok, execute_tool(tool, call)]
+                rescue StandardError => caught
+                  [:error, caught]
+                end
+              end
+            end.map(&:value)
+            outcomes.each do |status, payload|
+              raise payload if status == :error
+              results << payload
+            end
+            check_cancelled(options)
+          end
+        end
+        results
+      end
+
       def invoke_tool(options, call, run_id, session_id)
+        tool, prepared = prepare_tool(options, call, run_id, session_id)
+        execute_tool(tool, prepared)
+      end
+
+      def prepare_tool(options, call, run_id, session_id)
         original_name = call.name
         original_arguments = call.arguments
         unless allowed?(options, original_name)
@@ -169,8 +219,29 @@ module Praxo
         tool = options.tools.get(call.name)
         emit(options, 'tool.call', session_id, run_id,
              { 'name' => call.name, 'arguments' => call.arguments || {} })
+        [tool, call]
+      end
+
+      def execute_tool(tool, call)
         value = tool.invoke(call.arguments || {})
         Models.message_tool(Json.stringify(value), call.id.to_s)
+      end
+
+      def check_cancelled(options)
+        return unless options.cancellation
+        cancelled = if options.cancellation.respond_to?(:cancelled?)
+                      options.cancellation.cancelled?
+                    elsif options.cancellation.respond_to?(:call)
+                      options.cancellation.call
+                    else
+                      options.cancellation
+                    end
+        Praxo.error('AGENT_CANCELLED', 'run cancelled') if cancelled
+      end
+
+      def emit_stream(options, part)
+        return unless options.on_stream
+        options.on_stream.call(part)
       end
 
       def allowed?(options, name)

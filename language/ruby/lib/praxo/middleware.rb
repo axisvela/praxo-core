@@ -58,20 +58,25 @@ module Praxo
       def initialize(model_limit:, tool_limit:)
         @model_limit = model_limit
         @tool_limit = tool_limit
-        @models = 0
-        @tools = 0
+        @runs = Hash.new { |hash, key| hash[key] = { models: 0, tools: 0 } }
       end
 
-      def before_model
-        @models += 1
-        if @model_limit.positive? && @models > @model_limit
+      def before_run(state)
+        @runs[state[:run_id]] = { models: 0, tools: 0 }
+      end
+
+      def before_model(run_id = :default)
+        counts = @runs[run_id]
+        counts[:models] += 1
+        if @model_limit.positive? && counts[:models] > @model_limit
           Praxo.error('AGENT_MODEL_CALL_LIMIT', 'model call limit')
         end
       end
 
-      def before_tool
-        @tools += 1
-        if @tool_limit.positive? && @tools > @tool_limit
+      def before_tool(run_id = :default)
+        counts = @runs[run_id]
+        counts[:tools] += 1
+        if @tool_limit.positive? && counts[:tools] > @tool_limit
           Praxo.error('AGENT_TOOL_CALL_LIMIT', 'tool call limit')
         end
       end

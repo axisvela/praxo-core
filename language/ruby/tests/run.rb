@@ -2,6 +2,7 @@
 
 require 'tmpdir'
 require 'fileutils'
+require 'timeout'
 require_relative '../lib/praxo'
 
 J = Praxo::Json
@@ -348,5 +349,182 @@ end
 check(caught && cleanup_calls == %w[first.after second.after],
       'ruby cleanup fail closed')
 check(cleanup_sink.types == %w[run.started run.failed], 'ruby cleanup emits failed')
+
+sse_complete = Praxo::SSE.parse(
+  "data: {\"choices\":[{\"delta\":{\"content\":\"hi\"}}]}\n\n" \
+  "data: [DONE]\n\n"
+)
+check(sse_complete == 'hi', 'sse complete')
+caught = false
+begin
+  Praxo::SSE.parse("data: {\"choices\":[{\"delta\":{\"content\":\"hi\"}}]}\n\n")
+rescue Praxo::Error => e
+  caught = e.code == 'MODEL_STREAM'
+end
+check(caught, 'sse truncated')
+caught = false
+begin
+  Praxo::SSE.parse("data: {\"choices\"\n\n")
+rescue Praxo::Error => e
+  caught = e.code == 'MODEL_STREAM'
+end
+check(caught, 'sse half packet')
+
+isolation = Praxo::Middleware::CallLimit.new(model_limit: 1, tool_limit: 0)
+isolation.before_model('a')
+caught = false
+begin
+  isolation.before_model('a')
+rescue StandardError => e
+  caught = e.code == 'AGENT_MODEL_CALL_LIMIT'
+end
+check(caught, 'call limit run a')
+isolation.before_model('b')
+check(true, 'call limit isolated run')
+
+cancel_flag = { value: false }
+cancel_model = Object.new
+cancel_model.define_singleton_method(:generate) do |_request|
+  cancel_flag[:value] = true
+  M.response(message: M.message_assistant('done'))
+end
+cancel_after = []
+cancel_middleware = TestMiddleware.new
+cancel_middleware.after_run_hook = lambda { |_result, error|
+  cancel_after << Praxo.error_code(error)
+}
+cancel_options = Praxo::Agent::AgentOptions.new(cancel_model)
+cancel_options.cancellation = -> { cancel_flag[:value] }
+cancel_options.middleware = [cancel_middleware]
+cancel_sink = TestSink.new
+cancel_options.events = cancel_sink
+caught = false
+begin
+  Praxo::Agent.run_agent(cancel_options, M.session(id: 's1'), 'go')
+rescue Praxo::Error => e
+  caught = e.code == 'AGENT_CANCELLED'
+end
+check(caught && cancel_after == ['AGENT_CANCELLED'], 'ruby model cancellation cleanup')
+check(cancel_sink.types == %w[run.started run.failed], 'ruby model cancellation events')
+
+tool_cancel_flag = { value: false }
+tool_cancel_tool = Praxo::Agent::FuncTool.new('wait', 'wait', lambda { |_args|
+  tool_cancel_flag[:value] = true
+  'ok'
+})
+tool_cancel_tools = Praxo::Agent::ToolRegistry.new
+tool_cancel_tools.register(tool_cancel_tool)
+tool_cancel_model = Object.new
+tool_cancel_model.define_singleton_method(:generate) do |request|
+  if request.messages.any? { |item| item.role == M::TOOL }
+    M.response(message: M.message_assistant('done'))
+  else
+    M.response(message: M.message(
+      role: M::ASSISTANT,
+      content: '',
+      tool_calls: [M.tool_call(id: 'c1', name: 'wait', arguments: {})]
+    ))
+  end
+end
+tool_cancel_after = []
+tool_cancel_middleware = TestMiddleware.new
+tool_cancel_middleware.after_run_hook = lambda { |_result, error|
+  tool_cancel_after << Praxo.error_code(error)
+}
+tool_cancel_options = Praxo::Agent::AgentOptions.new(tool_cancel_model)
+tool_cancel_options.tools = tool_cancel_tools
+tool_cancel_options.cancellation = -> { tool_cancel_flag[:value] }
+tool_cancel_options.middleware = [tool_cancel_middleware]
+tool_cancel_sink = TestSink.new
+tool_cancel_options.events = tool_cancel_sink
+caught = false
+begin
+  Praxo::Agent.run_agent(tool_cancel_options, M.session(id: 's1'), 'go')
+rescue Praxo::Error => e
+  caught = e.code == 'AGENT_CANCELLED'
+end
+check(caught && tool_cancel_after == ['AGENT_CANCELLED'], 'ruby tool cancellation cleanup')
+check(tool_cancel_sink.types == %w[run.started tool.call run.failed],
+      'ruby tool cancellation events')
+
+stream_parts = []
+stream_after = []
+stream_middleware = TestMiddleware.new
+stream_middleware.after_run_hook = lambda { |_result, _error|
+  stream_after << true
+}
+stream_options = Praxo::Agent::AgentOptions.new(TestModel.new([{ 'content' => 'done' }]))
+stream_options.on_stream = lambda { |part|
+  stream_parts << part.kind
+  raise 'stream failed' if part.kind == 'messages'
+}
+stream_options.middleware = [stream_middleware]
+stream_sink = TestSink.new
+stream_options.events = stream_sink
+caught = false
+begin
+  Praxo::Agent.run_agent(stream_options, M.session(id: 's1'), 'go')
+rescue StandardError => e
+  caught = e.message.include?('stream failed')
+end
+check(caught && stream_parts == %w[values messages], 'ruby stream failure aborts run')
+check(stream_sink.types == %w[run.started run.failed], 'ruby stream failure events')
+check(stream_after.length == 1, 'ruby stream failure cleanup')
+
+started = Queue.new
+release = Queue.new
+parallel_a = Praxo::Agent::FuncTool.new('a', 'a', lambda { |_args|
+  started << 'a'
+  release.pop
+  'a'
+})
+parallel_b = Praxo::Agent::FuncTool.new('b', 'b', lambda { |_args|
+  started << 'b'
+  release.pop
+  'b'
+})
+parallel_registry = Praxo::Agent::ToolRegistry.new
+parallel_registry.register(parallel_a)
+parallel_registry.register(parallel_b)
+parallel_requests = []
+parallel_model = Object.new
+parallel_model.define_singleton_method(:generate) do |request|
+  parallel_requests << request
+  if request.messages.any? { |item| item.role == M::TOOL }
+    M.response(message: M.message_assistant('done'))
+  else
+    M.response(message: M.message(
+      role: M::ASSISTANT,
+      content: '',
+      tool_calls: [
+        M.tool_call(id: 'c1', name: 'a', arguments: {}),
+        M.tool_call(id: 'c2', name: 'b', arguments: {})
+      ]
+    ))
+  end
+end
+parallel_options = Praxo::Agent::AgentOptions.new(parallel_model)
+parallel_options.tools = parallel_registry
+parallel_options.max_parallel_tools = 2
+parallel_run = Thread.new do
+  Praxo::Agent.run_agent(parallel_options, M.session(id: 's1'), 'go')
+end
+begin
+  Timeout.timeout(3) do
+    first = started.pop
+    second = started.pop
+    check([first, second].sort == %w[a b], 'parallel tools start together')
+  end
+rescue Timeout::Error
+  parallel_run.kill
+  raise 'parallel tools did not start together'
+ensure
+  release << true
+  release << true
+end
+parallel_result = parallel_run.value
+check(parallel_result.output == 'done', 'parallel tools result')
+tool_messages = parallel_requests.last.messages.select { |item| item.role == M::TOOL }
+check(tool_messages.map(&:tool_id) == %w[c1 c2], 'parallel tools preserve result order')
 
 puts 'ruby core tests passed'

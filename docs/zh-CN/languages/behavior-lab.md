@@ -13,10 +13,10 @@
 | 层级 | 语言 | 当前状态 |
 | --- | --- | --- |
 | Agent-capable | Go、Python、TypeScript、Java、Rust、R、C# | 每个 agent-capable 实现均为 19/19 |
-| Extended | C、PHP、Fortran、COBOL、Ruby、Elixir、Erlang、C++、Lua | C 19/19；PHP 18/19（并行工具不支持）；COBOL 19/19; Elixir/Erlang 13/19; C++/Lua/Ruby 12/19; Fortran 11/19 |
+| Extended | C、PHP、Fortran、COBOL、Ruby、Elixir、Erlang、C++、Lua | C/COBOL/Ruby 19/19；PHP 18/19（并行工具不支持）；Elixir/Erlang 13/19；C++/Lua 12/19；Fortran 11/19 |
 | Optional | 其他已声明实现 | 不在当前行为计划内 |
 
-R 和 C 现已接入。C# 与 PHP 包含三个生命周期场景；R 和 C 对原生套件实际断言的场景提供覆盖。COBOL 0.3.0 通过原生套件覆盖全部十九个场景；其中 parallel-tools 将并发执行委托给调用方提供的批处理调度器，原生测试验证批处理上限和结果顺序，而不是 OS 线程。
+R 和 C 现已接入。C# 与 PHP 包含三个生命周期场景；R 和 C 对原生套件实际断言的场景提供覆盖。COBOL 0.3.0 通过原生套件覆盖全部十九个场景；其中 parallel-tools 将并发执行委托给调用方提供的批处理调度器，原生测试验证批处理上限和结果顺序，而不是 OS 线程。Ruby 0.3.0 也通过原生套件达到 19/19，覆盖取消、流式回调、SSE 截断/半包、有限并行工具和按 run 隔离的调用上限。
 
 ## 范围
 
@@ -55,12 +55,12 @@ R 和 C 现已接入。C# 与 PHP 包含三个生命周期场景；R 和 C 对�
 | `pii-tool-history` | scenario | native suite | native suite | native suite | native suite | native suite | native suite | native suite | native suite | native suite |
 | `checkpoint-content` | scenario | native suite | native suite | native suite | native suite | native suite | native suite | native suite | native suite | native suite |
 | `capacity-failclosed` | scenario | native suite | native suite | native suite | native suite | native suite | native suite | native suite | native suite | native suite |
-| `run-state-isolation` | scenario | unsupported | native suite | unsupported | native suite | native suite | unsupported | native suite | native suite | unsupported |
+| `run-state-isolation` | scenario | unsupported | native suite | native suite | native suite | native suite | unsupported | native suite | native suite | unsupported |
 
-`native suite` 表示该实现的完整原生测试可执行文件通过；它不是场景隔离断言，因此不能仅凭该单元格定位具体场景失败。其余 Rust/Fortran/Ruby/Elixir/Erlang/C++/PHP/C#/Lua 场景仍为 `unsupported`；报告会显式列出，而不是删除这些语言。
+`native suite` 表示该实现的完整原生测试可执行文件通过；它不是场景隔离断言，因此不能仅凭该单元格定位具体场景失败。其余 Rust/Fortran/Elixir/Erlang/C++/PHP/C#/Lua 场景仍为 `unsupported`；报告会显式列出，而不是删除这些语言。
 
 C# 和 PHP 还对 `final-arguments`、`final-name`、`unchanged-single-auth` 和
-`initial-denial` 提供原生套件覆盖。COBOL 对全部十九个场景提供原生套件覆盖，包括取消、流式回调失败、SSE 截断/半包和批处理工具调度。完整的单元格矩阵和逐语言报告见
+`initial-denial` 提供原生套件覆盖。COBOL 和 Ruby 对全部十九个场景提供原生套件覆盖，包括取消、流式回调失败、SSE 截断/半包、并行工具和 run-state isolation。完整的单元格矩阵和逐语言报告见
 [行为实验矩阵](behavior-lab-matrix.md)。
 
 ## 运行
@@ -104,7 +104,7 @@ cmake --build language/c/build
 
 - 只覆盖十九个选定场景，不覆盖完整 agent 或契约对齐。
 - Go 和 Python 使用场景级测试；TypeScript 使用 `node --test` 名称过滤；部分 Java self-test 覆盖多个场景。
-- 所有 agent-capable 语言和 C 均为 19/19；COBOL 也通过原生套件达到 19/19，其中 parallel-tools 将并发执行委托给调用方提供的批处理调度器，原生测试验证批处理上限和结果顺序，而不是 OS 线程。PHP 为 18/19，并行工具因无便携线程模型而不支持。Fortran、Ruby、Elixir、Erlang、C++、Lua 对部分行使用原生套件覆盖，不是场景隔离断言。
+- 所有 agent-capable 语言和 C 均为 19/19；COBOL 也通过原生套件达到 19/19，其中 parallel-tools 将并发执行委托给调用方提供的批处理调度器，原生测试验证批处理上限和结果顺序，而不是 OS 线程。Ruby 也通过原生线程和原生套件达到 19/19。PHP 为 18/19，并行工具因无便携线程模型而不支持。Fortran、Elixir、Erlang、C++、Lua 对部分行使用原生套件覆盖，不是场景隔离断言。
 - 并行场景使用确定性 barrier，不是吞吐或压力测试。SSE 测试使用本地 fixture，不调用 provider。
 - 不覆盖 provider、模型、网络、sandbox、HITL、持久 checkpoint 或效果恢复场景。
 - 报告通过不等于安全审查或生产认证。

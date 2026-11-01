@@ -1,5 +1,24 @@
 # Ruby Core Release Notes
 
+## 0.3.0 - 2026-11-01
+
+Source version `0.3.0`; tag creation is a release step.
+
+### Added
+
+- Cancellation option with model/tool cancellation cleanup.
+- Stream parts and `on_stream` callbacks; stream errors abort the run.
+- Native `Praxo::SSE` parser rejecting truncated and half-packet streams.
+- Bounded parallel tool execution through `max_parallel_tools`.
+- Run-scoped `Middleware::CallLimit` counters.
+- API snapshot `api/0.3.0.txt`.
+
+### Compatibility
+
+- New options are optional and default to disabled or one parallel tool.
+- The RubyGems package remains `praxo-core@0.1.0` until publication.
+- The Core contract remains `SPEC_VERSION` `0.2.0`.
+
 ## 0.2.0 - 2026-11-01
 
 Source release tag `ruby/v0.2.0`. The RubyGems package remains

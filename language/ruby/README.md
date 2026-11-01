@@ -9,11 +9,11 @@ The normative contract is [`spec/`](../../spec/README.md); Go remains the
 reference implementation.
 
 - `SPEC_VERSION`: `0.2.0`
-- Core version: `0.2.0`
+- Core version: `0.3.0`
 - Tier: core
 - License: MIT
 - Dependencies: Ruby standard library only
-- The latest RubyGems package is `praxo-core@0.1.0`; `0.2.0` is a source release
+- The latest RubyGems package is `praxo-core@0.1.0`; `0.3.0` is a source release
 
 ## Install
 
@@ -61,6 +61,24 @@ options.tools = registry
 options.max_steps = 8
 ```
 
+## Agent options
+
+`AgentOptions` supports cancellation, stream callbacks, bounded parallel tool
+execution, and run-scoped call limits:
+
+- `cancellation` accepts a proc or an object responding to `cancelled?`. The
+  runner checks it before model work and before and after each tool.
+- `on_stream` receives `Models::StreamPart` values for `values` and `messages`.
+  A callback error aborts the run and runs after-run cleanup.
+- `max_parallel_tools` starts tool invocations in threads within each batch while
+  preserving result order. Tool implementations remain responsible for their own
+  thread safety.
+- `Middleware::CallLimit` keeps counters per run ID, so independent runs do not
+  share limits.
+
+`Praxo::SSE.parse` parses OpenAI-compatible server-sent-event text and raises
+`MODEL_STREAM` for truncated streams or malformed half packets.
+
 ## Layout
 
 - `lib/praxo/` package source.
@@ -70,5 +88,5 @@ options.max_steps = 8
 
 ## Release
 
-Tag shape: `ruby/v0.2.0`. The tag targets `SPEC_VERSION` `0.2.0`. See
+Tag shape: `ruby/v0.3.0`. The tag targets `SPEC_VERSION` `0.2.0`. See
 [CHANGELOG.md](CHANGELOG.md) for per-release changes and compatibility notes.

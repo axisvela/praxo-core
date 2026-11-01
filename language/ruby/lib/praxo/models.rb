@@ -29,6 +29,7 @@ module Praxo
     Action = Struct.new(:kind, :session_id, :tool_name, :arguments, keyword_init: true)
     Decision = Struct.new(:allowed, :reason, keyword_init: true)
     Event = Struct.new(:type, :session_id, :run_id, :data, keyword_init: true)
+    StreamPart = Struct.new(:run_id, :session_id, :kind, :step, :data, keyword_init: true)
 
     module_function
 
@@ -119,6 +120,16 @@ module Praxo
 
     def event(type:, session_id:, run_id: nil, data: nil)
       Event.new(type: type, session_id: session_id, run_id: run_id, data: data)
+    end
+
+    def stream_part(run_id:, session_id:, kind:, step: 0, data: nil)
+      StreamPart.new(
+        run_id: run_id,
+        session_id: session_id,
+        kind: kind,
+        step: step,
+        data: data
+      )
     end
 
     def action(kind:, session_id:, tool_name: nil, arguments: nil)
