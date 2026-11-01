@@ -331,6 +331,7 @@ contains
     tools = registry()
     gate = deny_policy()
     invocations = 0
+    other_invocations = 0
     echo%spec = tool_spec('echo', 'Echo arguments')
     echo%calls => invocations
     echo%fail = .false.
