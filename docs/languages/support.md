@@ -124,6 +124,7 @@ a merged implementation PR as a support commitment.
   reported `SDK_VERSION` `0.1.4` and `SPEC_VERSION` `0.2.0`. The HTTP OpenAI
   adapter, VFS, and plugin hosts are not included.
 - R has source tag `r/v0.3.0` with policy, middleware, lifecycle cleanup, cancellation, streaming callbacks, an SSE parser, and an API snapshot. Parallel tool execution remains unsupported, and no package-registry release is claimed.
+- C source tag `c/v0.3.0` adds policy authorization, ordered middleware, lifecycle cleanup, final-tool allowlist checks, and reauthorization of middleware changes. Cancellation, streaming callbacks, SSE validation, and parallel tools remain partial.
 - Fortran has source tag `fortran/v0.3.0` with all eleven vector groups, native
   tests, an API snapshot, and integrated PII/middleware. It is not a
   package-registry release; asynchronous streaming is outside the declared

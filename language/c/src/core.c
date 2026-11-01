@@ -394,6 +394,53 @@ static PxValue *agent_fail(const PxAgentOptions *options, const char *code) {
     return (PxValue *)code;
 }
 
+static const char *agent_after_run(const PxAgentOptions *options, size_t entered,
+        const char *error) {
+    const char *first = NULL;
+    size_t count = entered < options->middleware_count
+        ? entered : options->middleware_count;
+    for (size_t index = 0; index < count; index++) {
+        const PxAgentMiddleware *middleware = &options->middleware[index];
+        if (middleware->after_run == NULL) {
+            continue;
+        }
+        const char *caught = middleware->after_run(error, middleware->ctx);
+        if (caught != NULL && first == NULL) {
+            first = caught;
+        }
+    }
+    return first;
+}
+
+static int agent_tool_allowed(const PxAgentOptions *options, const char *name) {
+    if (options->allowed_tools_count == 0) {
+        return 1;
+    }
+    for (size_t index = 0; index < options->allowed_tools_count; index++) {
+        if (strcmp(options->allowed_tools[index], name) == 0) {
+            return 1;
+        }
+    }
+    return 0;
+}
+
+static const char *agent_authorize(const PxAgentOptions *options,
+        const char *kind, const char *session_id, const char *tool_name,
+        PxValue *arguments) {
+    if (options->authorize == NULL) {
+        return NULL;
+    }
+    return options->authorize(kind, session_id, tool_name, arguments,
+        options->ctx);
+}
+
+static const char *agent_fail_run(const PxAgentOptions *options, size_t entered,
+        const char *code) {
+    (void)agent_after_run(options, entered, code);
+    agent_fail(options, code);
+    return code;
+}
+
 const char *px_agent_run(PxArena *arena, const PxAgentOptions *options,
         PxValue *session_messages, const char *prompt, PxAgentResult *result) {
     result->output = "";
@@ -402,6 +449,19 @@ const char *px_agent_run(PxArena *arena, const PxAgentOptions *options,
     result->output_tokens = 0;
     if (options == NULL || options->generate == NULL) {
         return "AGENT_INVALID_OPTIONS";
+    }
+    size_t entered = 0;
+    for (size_t index = 0; index < options->middleware_count; index++) {
+        const PxAgentMiddleware *middleware = &options->middleware[index];
+        entered++;
+        if (middleware->before_run == NULL) {
+            continue;
+        }
+        const char *error = middleware->before_run(middleware->ctx);
+        if (error != NULL) {
+            (void)agent_after_run(options, entered, error);
+            return error;
+        }
     }
     PxValue *messages = px_arr(arena);
     if (session_messages != NULL && session_messages->type == PX_ARR) {
@@ -420,8 +480,7 @@ const char *px_agent_run(PxArena *arena, const PxAgentOptions *options,
     for (int step = 1; step <= limit; step++) {
         PxValue *response = options->generate(arena, messages, NULL, options->ctx);
         if (response == NULL || response->type != PX_OBJ) {
-            agent_fail(options, "MODEL_ERROR");
-            return "MODEL_ERROR";
+            return agent_fail_run(options, entered, "MODEL_ERROR");
         }
         const char *content = px_get_str(response, "content");
         if (content == NULL) {
@@ -430,15 +489,13 @@ const char *px_agent_run(PxArena *arena, const PxAgentOptions *options,
         double input = px_get_num(response, "inputTokens", 0);
         double output = px_get_num(response, "outputTokens", 0);
         if (input < 0 || output < 0) {
-            agent_fail(options, "AGENT_INVALID_USAGE");
-            return "AGENT_INVALID_USAGE";
+            return agent_fail_run(options, entered, "AGENT_INVALID_USAGE");
         }
         result->input_tokens += (long)input;
         result->output_tokens += (long)output;
         if (options->max_tokens > 0
                 && result->input_tokens + result->output_tokens > options->max_tokens) {
-            agent_fail(options, "AGENT_MAX_TOKENS");
-            return "AGENT_MAX_TOKENS";
+            return agent_fail_run(options, entered, "AGENT_MAX_TOKENS");
         }
         PxValue *assistant = px_obj(arena);
         px_obj_set(arena, assistant, "role", px_str(arena, "assistant"));
@@ -450,6 +507,11 @@ const char *px_agent_run(PxArena *arena, const PxAgentOptions *options,
         px_arr_push(arena, messages, assistant);
         result->steps = step;
         if (calls == NULL || calls->type != PX_ARR || calls->as.array.len == 0) {
+            const char *cleanup = agent_after_run(options, entered, NULL);
+            if (cleanup != NULL) {
+                agent_fail(options, cleanup);
+                return cleanup;
+            }
             result->output = content;
             if (options->emit != NULL) {
                 options->emit("run.completed", options->ctx);
@@ -459,21 +521,54 @@ const char *px_agent_run(PxArena *arena, const PxAgentOptions *options,
         for (size_t index = 0; index < calls->as.array.len; index++) {
             PxValue *call = calls->as.array.items[index];
             if (call == NULL || call->type != PX_OBJ) {
-                agent_fail(options, "MODEL_ERROR");
-                return "MODEL_ERROR";
+                return agent_fail_run(options, entered, "MODEL_ERROR");
             }
-            const char *name = px_get_str(call, "name");
+            const char *original_name = px_get_str(call, "name");
             const char *id = px_get_str(call, "id");
-            PxValue *arguments = px_obj_get(call, "arguments");
-            if (name == NULL || id == NULL || arguments == NULL) {
-                agent_fail(options, "MODEL_ERROR");
-                return "MODEL_ERROR";
+            PxValue *original_arguments = px_obj_get(call, "arguments");
+            if (original_name == NULL || id == NULL || original_arguments == NULL) {
+                return agent_fail_run(options, entered, "MODEL_ERROR");
+            }
+            if (!agent_tool_allowed(options, original_name)) {
+                return agent_fail_run(options, entered, "AGENT_TOOL_NOT_ALLOWED");
+            }
+            const char *denied = agent_authorize(options, "tool.invoke", "",
+                original_name, original_arguments);
+            if (denied != NULL) {
+                return agent_fail_run(options, entered, denied);
+            }
+            char *original_json = px_stringify(arena, original_arguments);
+            const char *active_name = original_name;
+            PxValue *active_arguments = original_arguments;
+            for (size_t hook = 0; hook < options->middleware_count; hook++) {
+                const PxAgentMiddleware *middleware = &options->middleware[hook];
+                if (middleware->before_tool == NULL) {
+                    continue;
+                }
+                PxValue *next = middleware->before_tool(arena, &active_name,
+                    active_arguments, middleware->ctx);
+                if (next != NULL) {
+                    active_arguments = next;
+                }
+            }
+            if (!agent_tool_allowed(options, active_name)) {
+                return agent_fail_run(options, entered, "AGENT_TOOL_NOT_ALLOWED");
+            }
+            char *active_json = px_stringify(arena, active_arguments);
+            if (strcmp(active_name, original_name) != 0
+                    || strcmp(active_json, original_json) != 0) {
+                denied = agent_authorize(options, "tool.invoke", "",
+                    active_name, active_arguments);
+                if (denied != NULL) {
+                    return agent_fail_run(options, entered, denied);
+                }
             }
             if (options->emit != NULL) {
                 options->emit("tool.call", options->ctx);
             }
-            PxValue *value = options->invoke == NULL ? arguments
-                : options->invoke(arena, name, arguments, options->ctx);
+            PxValue *value = options->invoke == NULL ? active_arguments
+                : options->invoke(arena, active_name, active_arguments,
+                    options->ctx);
             PxValue *message = px_obj(arena);
             px_obj_set(arena, message, "role", px_str(arena, "tool"));
             px_obj_set(arena, message, "toolId", px_str(arena, id));
@@ -482,6 +577,5 @@ const char *px_agent_run(PxArena *arena, const PxAgentOptions *options,
             px_arr_push(arena, messages, message);
         }
     }
-    agent_fail(options, "AGENT_MAX_STEPS");
-    return "AGENT_MAX_STEPS";
+    return agent_fail_run(options, entered, "AGENT_MAX_STEPS");
 }

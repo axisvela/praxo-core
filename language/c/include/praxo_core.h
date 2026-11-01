@@ -6,7 +6,7 @@
 
 #include "praxo.h"
 
-#define PRAXO_CORE_VERSION "0.2.0"
+#define PRAXO_CORE_VERSION "0.3.0"
 
 typedef struct {
     const char *session;
@@ -138,6 +138,14 @@ const char *px_check_tool_selected(const char **selection,
     size_t selection_count, const char *name);
 
 typedef struct {
+    const char *(*before_run)(void *ctx);
+    const char *(*after_run)(const char *error, void *ctx);
+    PxValue *(*before_tool)(PxArena *arena, const char **name,
+        PxValue *arguments, void *ctx);
+    void *ctx;
+} PxAgentMiddleware;
+
+typedef struct {
     PxValue *(*generate)(PxArena *arena, PxValue *messages, PxValue *tools,
         void *ctx);
     PxValue *(*invoke)(PxArena *arena, const char *name, PxValue *arguments,
@@ -146,6 +154,12 @@ typedef struct {
     void *ctx;
     int max_steps;
     long max_tokens;
+    const char *(*authorize)(const char *kind, const char *session_id,
+        const char *tool_name, PxValue *arguments, void *ctx);
+    const PxAgentMiddleware *middleware;
+    size_t middleware_count;
+    const char *const *allowed_tools;
+    size_t allowed_tools_count;
 } PxAgentOptions;
 
 typedef struct {

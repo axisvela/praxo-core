@@ -105,6 +105,108 @@ static void boundary_emit(const char *kind, void *ctx) {
     }
 }
 
+
+typedef struct {
+    int model_step;
+    int policy_calls;
+    int policy_tool_calls;
+    int deny_tool;
+    int tool_calls;
+    const char *last_tool_name;
+    const char *last_tool_text;
+    int before_run_calls;
+    int after_run_calls;
+    int before_tool_calls;
+    int fail_before_run;
+    int fail_after_run;
+    int mutate_arguments;
+    const char *rename_to;
+    int event_count;
+    const char *events[8];
+} AgentHookContext;
+
+static const char *hook_before_run(void *ctx) {
+    AgentHookContext *state = ctx;
+    state->before_run_calls++;
+    return state->fail_before_run ? "STARTUP_FAILED" : NULL;
+}
+
+static const char *hook_after_run(const char *error, void *ctx) {
+    (void)error;
+    AgentHookContext *state = ctx;
+    state->after_run_calls++;
+    return state->fail_after_run ? "CLEANUP_FAILED" : NULL;
+}
+
+static PxValue *hook_before_tool(PxArena *arena, const char **name,
+        PxValue *arguments, void *ctx) {
+    AgentHookContext *state = ctx;
+    state->before_tool_calls++;
+    if (state->rename_to != NULL) {
+        *name = state->rename_to;
+    }
+    if (state->mutate_arguments) {
+        return px_parse(arena, "{\"text\":\"mutated\"}");
+    }
+    return arguments;
+}
+
+static const char *hook_policy(const char *kind, const char *session_id,
+        const char *tool_name, PxValue *arguments, void *ctx) {
+    (void)session_id;
+    (void)tool_name;
+    (void)arguments;
+    AgentHookContext *state = ctx;
+    state->policy_calls++;
+    if (strcmp(kind, "tool.invoke") == 0) {
+        state->policy_tool_calls++;
+        if (state->deny_tool) {
+            return "AGENT_POLICY_DENIED";
+        }
+    }
+    return NULL;
+}
+
+static void hook_emit(const char *kind, void *ctx) {
+    AgentHookContext *state = ctx;
+    if (state->event_count < 8) {
+        state->events[state->event_count] = kind;
+    }
+    state->event_count++;
+}
+
+static PxValue *hook_model(PxArena *arena, PxValue *messages, PxValue *tools,
+        void *ctx) {
+    (void)messages;
+    (void)tools;
+    AgentHookContext *state = ctx;
+    if (state->model_step++ == 0) {
+        return px_parse(arena,
+            "{\"toolCalls\":[{\"id\":\"c1\",\"name\":\"echo\","
+            "\"arguments\":{\"text\":\"hi\"}}]}");
+    }
+    return px_parse(arena, "{\"content\":\"done\"}");
+}
+
+static PxValue *hook_tool(PxArena *arena, const char *name,
+        PxValue *arguments, void *ctx) {
+    (void)arena;
+    AgentHookContext *state = ctx;
+    state->tool_calls++;
+    state->last_tool_name = name;
+    state->last_tool_text = px_get_str(arguments, "text");
+    return arguments;
+}
+
+static PxValue *fail_model(PxArena *arena, PxValue *messages, PxValue *tools,
+        void *ctx) {
+    (void)arena;
+    (void)messages;
+    (void)tools;
+    (void)ctx;
+    return NULL;
+}
+
 int main(void) {
     PxArena arena;
     px_arena_init(&arena);
@@ -359,6 +461,140 @@ int main(void) {
     px_call_limit_init(&other_calls, 2, 1);
     assert(px_call_limit_model(&other_calls) == NULL);
     assert(px_call_limit_tool(&other_calls) == NULL);
+
+
+    AgentHookContext hook = {0};
+    hook.mutate_arguments = 1;
+    PxAgentMiddleware middleware = {hook_before_run, hook_after_run,
+        hook_before_tool, &hook};
+    PxAgentOptions hook_options = {
+        .generate = hook_model,
+        .invoke = hook_tool,
+        .emit = hook_emit,
+        .ctx = &hook,
+        .max_steps = 8,
+        .authorize = hook_policy,
+        .middleware = &middleware,
+        .middleware_count = 1,
+    };
+    PxAgentResult hook_result;
+    assert(px_agent_run(&arena, &hook_options, NULL, "go", &hook_result) == NULL);
+    assert(hook.tool_calls == 1);
+    assert(strcmp(hook.last_tool_text, "mutated") == 0);
+    assert(hook.policy_tool_calls == 2);
+
+    AgentHookContext rename = {0};
+    rename.rename_to = "other";
+    PxAgentMiddleware rename_middleware = {hook_before_run, hook_after_run,
+        hook_before_tool, &rename};
+    PxAgentOptions rename_options = {
+        .generate = hook_model,
+        .invoke = hook_tool,
+        .ctx = &rename,
+        .authorize = hook_policy,
+        .middleware = &rename_middleware,
+        .middleware_count = 1,
+    };
+    assert(px_agent_run(&arena, &rename_options, NULL, "go", &hook_result) == NULL);
+    assert(strcmp(rename.last_tool_name, "other") == 0);
+    assert(rename.policy_tool_calls == 2);
+
+    AgentHookContext denied = {0};
+    denied.rename_to = "other";
+    const char *allowed_echo[] = {"echo"};
+    PxAgentMiddleware denied_middleware = {hook_before_run, hook_after_run,
+        hook_before_tool, &denied};
+    PxAgentOptions denied_options = {
+        .generate = hook_model,
+        .invoke = hook_tool,
+        .ctx = &denied,
+        .authorize = hook_policy,
+        .middleware = &denied_middleware,
+        .middleware_count = 1,
+        .allowed_tools = allowed_echo,
+        .allowed_tools_count = 1,
+    };
+    assert(strcmp(px_agent_run(&arena, &denied_options, NULL, "go", &hook_result),
+        "AGENT_TOOL_NOT_ALLOWED") == 0);
+    assert(denied.tool_calls == 0);
+    assert(denied.before_tool_calls == 1);
+
+    AgentHookContext initial = {0};
+    initial.deny_tool = 1;
+    PxAgentMiddleware initial_middleware = {hook_before_run, hook_after_run,
+        hook_before_tool, &initial};
+    PxAgentOptions initial_options = {
+        .generate = hook_model,
+        .invoke = hook_tool,
+        .ctx = &initial,
+        .authorize = hook_policy,
+        .middleware = &initial_middleware,
+        .middleware_count = 1,
+    };
+    assert(strcmp(px_agent_run(&arena, &initial_options, NULL, "go", &hook_result),
+        "AGENT_POLICY_DENIED") == 0);
+    assert(initial.tool_calls == 0);
+    assert(initial.before_tool_calls == 0);
+
+    AgentHookContext startup = {0};
+    startup.fail_before_run = 1;
+    PxAgentMiddleware startup_middleware = {hook_before_run, hook_after_run,
+        hook_before_tool, &startup};
+    PxAgentOptions startup_options = {
+        .generate = hook_model,
+        .invoke = hook_tool,
+        .emit = hook_emit,
+        .ctx = &startup,
+        .middleware = &startup_middleware,
+        .middleware_count = 1,
+    };
+    assert(strcmp(px_agent_run(&arena, &startup_options, NULL, "go", &hook_result),
+        "STARTUP_FAILED") == 0);
+    assert(startup.after_run_calls == 1);
+    assert(startup.event_count == 0);
+
+    AgentHookContext continuing = {0};
+    continuing.fail_after_run = 1;
+    AgentHookContext later = {0};
+    PxAgentMiddleware continuing_middleware[] = {
+        {hook_before_run, hook_after_run, hook_before_tool, &continuing},
+        {hook_before_run, hook_after_run, hook_before_tool, &later},
+    };
+    PxAgentOptions continuing_options = {
+        .generate = fail_model,
+        .invoke = hook_tool,
+        .emit = hook_emit,
+        .ctx = &continuing,
+        .middleware = continuing_middleware,
+        .middleware_count = 2,
+    };
+    assert(strcmp(px_agent_run(&arena, &continuing_options, NULL, "go", &hook_result),
+        "MODEL_ERROR") == 0);
+    assert(continuing.after_run_calls == 1);
+    assert(later.after_run_calls == 1);
+
+    AgentHookContext cleanup = {0};
+    cleanup.fail_after_run = 1;
+    AgentHookContext cleanup_later = {0};
+    PxAgentMiddleware cleanup_middleware[] = {
+        {hook_before_run, hook_after_run, hook_before_tool, &cleanup},
+        {hook_before_run, hook_after_run, hook_before_tool, &cleanup_later},
+    };
+    PxAgentOptions cleanup_options = {
+        .generate = static_model,
+        .invoke = hook_tool,
+        .emit = hook_emit,
+        .ctx = &cleanup,
+        .middleware = cleanup_middleware,
+        .middleware_count = 2,
+    };
+    assert(strcmp(px_agent_run(&arena, &cleanup_options, NULL, "go", &hook_result),
+        "CLEANUP_FAILED") == 0);
+    assert(cleanup.after_run_calls == 1);
+    assert(cleanup_later.after_run_calls == 1);
+    assert(cleanup.event_count == 2);
+    assert(strcmp(cleanup.events[0], "run.started") == 0);
+    assert(strcmp(cleanup.events[1], "run.failed") == 0);
 
     px_arena_free(&arena);
     printf("C Core API tests passed\n");
