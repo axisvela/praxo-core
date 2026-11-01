@@ -127,11 +127,11 @@ a merged implementation PR as a support commitment.
   cancellation, streaming callbacks, an SSE parser, bounded parallel tools, and
   an API snapshot. Unix uses `mclapply`; Windows uses a PSOCK cluster. No
   package-registry release is claimed.
-- C source tag `c/v0.4.0` adds policy authorization, ordered middleware,
+- C source tag `c/v0.5.0` adds policy authorization, ordered middleware,
   lifecycle cleanup, final-tool allowlist checks, reauthorization of middleware
-  changes, cancellation, streaming callbacks, and an SSE parser. Parallel tools
-  remain unsupported because PxArena is not thread-safe; per-thread arenas and
-  result serialization are not implemented.
+  changes, cancellation, streaming callbacks, an SSE parser, and bounded
+  parallel tools. Unix uses pthread workers with per-thread arenas; Windows
+  keeps the sequential path.
 - Fortran has source tag `fortran/v0.3.0` with all eleven vector groups, native
   tests, an API snapshot, and integrated PII/middleware. It is not a
   package-registry release; asynchronous streaming is outside the declared

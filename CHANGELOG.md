@@ -17,10 +17,11 @@
 - PHP and C# now clean up middleware entered before a startup failure, keep
   running later after-run callbacks after one fails, preserve the original run
   error, and fail closed when cleanup itself fails after success.
-- C `0.4.0` source adds policy authorization, ordered middleware, lifecycle
+- C `0.5.0` source adds policy authorization, ordered middleware, lifecycle
   cleanup, final-tool allowlist checks, reauthorization of middleware changes,
-  cancellation, streaming callbacks, and an SSE parser. Parallel tools remain
-  partial.
+  cancellation, streaming callbacks, an SSE parser, and bounded parallel tools.
+  Unix uses pthread workers; Windows keeps the sequential path. `0.4.0` added
+  the cancellation, streaming, and SSE work.
 - PHP `0.2.0` source adds streaming runs, cancellation, an SSE parser, final
   authorization, lifecycle cleanup, and truncation rejection. Parallel tool
   execution remains unsupported.

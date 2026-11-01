@@ -5,6 +5,25 @@
 #include <stdlib.h>
 #include <string.h>
 
+#if !defined(_WIN32)
+#include <pthread.h>
+#endif
+
+typedef struct {
+    const char *name;
+    const char *id;
+    char *arguments_json;
+    char *result_json;
+    int owns_result;
+} CAgentJob;
+
+#if !defined(_WIN32)
+typedef struct {
+    const PxAgentOptions *options;
+    CAgentJob *job;
+} CWorker;
+#endif
+
 struct PxSink {
     PxArena *arena;
     int mode;
@@ -498,6 +517,27 @@ const char *px_parse_sse_stream(PxArena *arena, const char *text,
     return NULL;
 }
 
+#if !defined(_WIN32)
+static void *agent_worker(void *raw) {
+    CWorker *worker = raw;
+    PxArena arena;
+    px_arena_init(&arena);
+    PxValue *arguments = px_parse(&arena, worker->job->arguments_json);
+    PxValue *value = worker->options->invoke == NULL ? arguments
+        : worker->options->invoke(&arena, worker->job->name, arguments,
+            worker->options->ctx);
+    const char *json = value == NULL ? "null" : px_stringify(&arena, value);
+    size_t length = strlen(json);
+    worker->job->result_json = malloc(length + 1);
+    if (worker->job->result_json != NULL) {
+        memcpy(worker->job->result_json, json, length + 1);
+        worker->job->owns_result = 1;
+    }
+    px_arena_free(&arena);
+    return NULL;
+}
+#endif
+
 const char *px_agent_run(PxArena *arena, const PxAgentOptions *options,
         PxValue *session_messages, const char *prompt, PxAgentResult *result) {
     result->output = "";
@@ -598,27 +638,37 @@ const char *px_agent_run(PxArena *arena, const PxAgentOptions *options,
             }
             return NULL;
         }
-        for (size_t index = 0; index < calls->as.array.len; index++) {
+        size_t job_count = calls->as.array.len;
+        CAgentJob *jobs = calloc(job_count, sizeof(CAgentJob));
+        if (jobs == NULL) {
+            return agent_fail_run(options, entered, "AGENT_INTERNAL");
+        }
+        for (size_t index = 0; index < job_count; index++) {
             cancelled = agent_cancel_code(options);
             if (cancelled != NULL) {
+                free(jobs);
                 return agent_fail_run(options, entered, cancelled);
             }
             PxValue *call = calls->as.array.items[index];
             if (call == NULL || call->type != PX_OBJ) {
+                free(jobs);
                 return agent_fail_run(options, entered, "MODEL_ERROR");
             }
             const char *original_name = px_get_str(call, "name");
             const char *id = px_get_str(call, "id");
             PxValue *original_arguments = px_obj_get(call, "arguments");
             if (original_name == NULL || id == NULL || original_arguments == NULL) {
+                free(jobs);
                 return agent_fail_run(options, entered, "MODEL_ERROR");
             }
             if (!agent_tool_allowed(options, original_name)) {
+                free(jobs);
                 return agent_fail_run(options, entered, "AGENT_TOOL_NOT_ALLOWED");
             }
             const char *denied = agent_authorize(options, "tool.invoke", "",
                 original_name, original_arguments);
             if (denied != NULL) {
+                free(jobs);
                 return agent_fail_run(options, entered, denied);
             }
             char *original_json = px_stringify(arena, original_arguments);
@@ -636,6 +686,7 @@ const char *px_agent_run(PxArena *arena, const PxAgentOptions *options,
                 }
             }
             if (!agent_tool_allowed(options, active_name)) {
+                free(jobs);
                 return agent_fail_run(options, entered, "AGENT_TOOL_NOT_ALLOWED");
             }
             char *active_json = px_stringify(arena, active_arguments);
@@ -644,26 +695,92 @@ const char *px_agent_run(PxArena *arena, const PxAgentOptions *options,
                 denied = agent_authorize(options, "tool.invoke", "",
                     active_name, active_arguments);
                 if (denied != NULL) {
+                    free(jobs);
                     return agent_fail_run(options, entered, denied);
                 }
             }
             cancelled = agent_cancel_code(options);
             if (cancelled != NULL) {
+                free(jobs);
                 return agent_fail_run(options, entered, cancelled);
             }
             if (options->emit != NULL) {
                 options->emit("tool.call", options->ctx);
             }
-            PxValue *value = options->invoke == NULL ? active_arguments
-                : options->invoke(arena, active_name, active_arguments,
-                    options->ctx);
+            jobs[index].name = active_name;
+            jobs[index].id = id;
+            jobs[index].arguments_json = active_json;
+        }
+        int workers = options->max_parallel_tools > 0
+            ? options->max_parallel_tools : 1;
+#if !defined(_WIN32)
+        if (workers > 1 && job_count > 1) {
+            for (size_t offset = 0; offset < job_count; offset += (size_t)workers) {
+                size_t batch = job_count - offset < (size_t)workers
+                    ? job_count - offset : (size_t)workers;
+                pthread_t *threads = calloc(batch, sizeof(pthread_t));
+                CWorker *contexts = calloc(batch, sizeof(CWorker));
+                if (threads == NULL || contexts == NULL) {
+                    free(threads);
+                    free(contexts);
+                    free(jobs);
+                    return agent_fail_run(options, entered, "AGENT_INTERNAL");
+                }
+                for (size_t item = 0; item < batch; item++) {
+                    contexts[item].options = options;
+                    contexts[item].job = &jobs[offset + item];
+                    if (pthread_create(&threads[item], NULL, agent_worker,
+                            &contexts[item]) != 0) {
+                        agent_worker(&contexts[item]);
+                        threads[item] = 0;
+                    }
+                }
+                for (size_t item = 0; item < batch; item++) {
+                    if (threads[item] != 0) {
+                        pthread_join(threads[item], NULL);
+                    }
+                }
+                free(threads);
+                free(contexts);
+            }
+        } else
+#endif
+        {
+            for (size_t index = 0; index < job_count; index++) {
+                cancelled = agent_cancel_code(options);
+                if (cancelled != NULL) {
+                    for (size_t clear = 0; clear < job_count; clear++) {
+                        if (jobs[clear].owns_result) {
+                            free(jobs[clear].result_json);
+                        }
+                    }
+                    free(jobs);
+                    return agent_fail_run(options, entered, cancelled);
+                }
+                if (options->invoke == NULL) {
+                    jobs[index].result_json = jobs[index].arguments_json;
+                } else {
+                    PxValue *arguments = px_parse(arena, jobs[index].arguments_json);
+                    PxValue *value = options->invoke(arena, jobs[index].name,
+                        arguments, options->ctx);
+                    jobs[index].result_json = px_arena_strdup(arena,
+                        value == NULL ? "null" : px_stringify(arena, value));
+                }
+            }
+        }
+        for (size_t index = 0; index < job_count; index++) {
             PxValue *message = px_obj(arena);
             px_obj_set(arena, message, "role", px_str(arena, "tool"));
-            px_obj_set(arena, message, "toolId", px_str(arena, id));
+            px_obj_set(arena, message, "toolId", px_str(arena, jobs[index].id));
             px_obj_set(arena, message, "content",
-                px_str(arena, value == NULL ? "null" : px_stringify(arena, value)));
+                px_str(arena, jobs[index].result_json == NULL
+                    ? "null" : jobs[index].result_json));
             px_arr_push(arena, messages, message);
+            if (jobs[index].owns_result) {
+                free(jobs[index].result_json);
+            }
         }
+        free(jobs);
     }
     return agent_fail_run(options, entered, "AGENT_MAX_STEPS");
 }

@@ -117,7 +117,8 @@ partial-parity surfaces until a versioned API change is designed.
 ## Release Notes
 
 See [CHANGELOG.md](CHANGELOG.md) for per-release changes and compatibility
-notes.
+notes, and [PARALLEL.md](PARALLEL.md) for the parallel-tool design and platform
+limits.
 
 ## License
 

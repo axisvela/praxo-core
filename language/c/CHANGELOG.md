@@ -1,5 +1,25 @@
 # C Core Release Notes
 
+## 0.5.0 - 2026-11-01
+
+Source release tag `c/v0.5.0`.
+
+### Added
+
+- `PxAgentOptions.max_parallel_tools` with bounded parallel tool execution.
+- Unix uses pthread workers with per-thread arenas and a JSON result boundary.
+- Windows keeps the sequential path.
+- API snapshot `api/0.5.0.txt`.
+- Parallel design and limits documented in [PARALLEL.md](PARALLEL.md).
+
+### Compatibility
+
+- Existing `PxAgentOptions` positional initializers remain valid; the field is
+  appended and defaults to zero.
+- Parallel execution requires thread-safe tool callbacks. Cancellation does not
+  preempt an already-running batch.
+- The Core contract remains `SPEC_VERSION` `0.2.0`.
+
 ## 0.4.0 - 2026-11-01
 
 Source release tag `c/v0.4.0`.

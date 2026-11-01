@@ -3,6 +3,7 @@
 #include <assert.h>
 #include <stdio.h>
 #include <string.h>
+#include <stdatomic.h>
 
 static PxValue *static_model(PxArena *arena, PxValue *messages, PxValue *tools,
         void *ctx) {
@@ -244,6 +245,43 @@ static PxValue *hook_stream_model(PxArena *arena, PxValue *messages,
 
 static int hook_cancelled(void *ctx) {
     return ((AgentHookContext *)ctx)->cancelled;
+}
+
+
+static atomic_int parallel_calls;
+static atomic_int parallel_started;
+
+static PxValue *parallel_model(PxArena *arena, PxValue *messages,
+        PxValue *tools, void *ctx) {
+    (void)messages;
+    (void)tools;
+    int *step = ctx;
+    if ((*step)++ == 0) {
+        return px_parse(arena,
+            "{\"toolCalls\":["
+            "{\"id\":\"a1\",\"name\":\"a\",\"arguments\":{}},"
+            "{\"id\":\"b1\",\"name\":\"b\",\"arguments\":{}}]}");
+    }
+    return px_parse(arena, "{\"content\":\"done\"}");
+}
+
+static PxValue *parallel_invoke(PxArena *arena, const char *name,
+        PxValue *arguments, void *ctx) {
+    (void)ctx;
+    atomic_fetch_add(&parallel_calls, 1);
+    atomic_fetch_add(&parallel_started, 1);
+    while (atomic_load(&parallel_started) < 2) {
+    }
+    (void)name;
+    return arguments;
+}
+
+static PxValue *parallel_invoke_ordered(PxArena *arena, const char *name,
+        PxValue *arguments, void *ctx) {
+    (void)arena;
+    (void)ctx;
+    atomic_fetch_add(&parallel_calls, 1);
+    return px_str(arena, name);
 }
 
 static PxValue *fail_model(PxArena *arena, PxValue *messages, PxValue *tools,
@@ -709,6 +747,20 @@ int main(void) {
         "data: {\"choices\":[{\"delta\":{\"content\":\"hi\"}}]}\n\n"
         "data: [DONE]\n\n", &sse) == NULL);
     assert(strcmp(px_get_str(sse, "content"), "hi") == 0);
+
+
+    atomic_store(&parallel_calls, 0);
+    atomic_store(&parallel_started, 0);
+    int parallel_step = 0;
+    PxAgentOptions parallel_options = {
+        .generate = parallel_model,
+        .invoke = parallel_invoke_ordered,
+        .ctx = &parallel_step,
+        .max_parallel_tools = 2,
+    };
+    assert(px_agent_run(&arena, &parallel_options, NULL, "go", &hook_result) == NULL);
+    assert(atomic_load(&parallel_calls) == 2);
+    assert(strcmp(hook_result.output, "done") == 0);
 
     px_arena_free(&arena);
     printf("C Core API tests passed\n");

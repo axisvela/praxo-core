@@ -721,11 +721,12 @@ def scenarios() -> tuple[Scenario, ...]:
                 "java": (concurrency,),
                 "csharp": (csharp,),
                 "r": (r,),
+                "c": (c,),
                 "rust": (
                     rust_test("parallel_tools_start_together_and_keep_result_order"),
                 ),
             },
-            {"go": "scenario", "python": "scenario", "typescript": "scenario", "java": "group", "csharp": "suite", "r": "suite", "rust": "scenario"},
+            {"go": "scenario", "python": "scenario", "typescript": "scenario", "java": "group", "csharp": "suite", "r": "suite", "c": "suite", "rust": "scenario"},
         ),
         Scenario(
             "run-state-isolation",
