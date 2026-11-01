@@ -17,7 +17,7 @@ Source release tag `c/v0.4.0`.
 
 - Existing `PxAgentOptions` positional initializers remain valid; new fields are
   appended and default to zero.
-- Parallel tools remain unsupported.
+- Parallel tools remain unsupported: PxArena is not thread-safe, and per-thread arenas plus result serialization are not implemented.
 - The Core contract remains `SPEC_VERSION` `0.2.0`.
 
 ## 0.3.0 - 2026-11-01

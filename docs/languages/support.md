@@ -130,7 +130,8 @@ a merged implementation PR as a support commitment.
 - C source tag `c/v0.4.0` adds policy authorization, ordered middleware,
   lifecycle cleanup, final-tool allowlist checks, reauthorization of middleware
   changes, cancellation, streaming callbacks, and an SSE parser. Parallel tools
-  remain partial.
+  remain unsupported because PxArena is not thread-safe; per-thread arenas and
+  result serialization are not implemented.
 - Fortran has source tag `fortran/v0.3.0` with all eleven vector groups, native
   tests, an API snapshot, and integrated PII/middleware. It is not a
   package-registry release; asynchronous streaming is outside the declared

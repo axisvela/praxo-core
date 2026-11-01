@@ -24,7 +24,7 @@ Source release tag `php/v0.2.0`. The Packagist package remains
 ### Compatibility
 
 - New options and methods are backward compatible for callers.
-- Parallel tool execution remains unsupported.
+- Parallel tool execution remains unsupported: PHP has no standard threads, and pcntl/parallel extensions are not portable across CLI, FPM, and Windows.
 - The Core contract remains `SPEC_VERSION` `0.2.0`.
 
 ## Earlier Releases
