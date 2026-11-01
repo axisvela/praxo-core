@@ -11,14 +11,13 @@
 | 语言数 | 16 |
 | 场景数 | 19 |
 | 单元格数 | 304 |
-| 通过 | 205 |
-| 不支持 | 99 |
+| 通过 | 256 |
+| 不支持 | 48 |
 | 失败 | 0 |
 | 源报告 | `report.json` |
-| Run ID | `20261101T063441Z-cb38f4a4` |
-| Revision | `85a9d7b7663b341c3bd431c868fd049502e06c15` |
+| Run ID | `20261101T092606Z-f464b53e` |
+| Revision | `ba241cce8bbfcd3996fe5206078b7e9d0085a80d` |
 | 工作区未提交 | False |
-| CI 任务 | [GitHub Actions](https://github.com/axisvela/praxo-core/actions/runs/41281280345/job/124773548368) |
 
 ## 能力层级
 
@@ -43,22 +42,22 @@
 
 | 场景 | Go | Py | TS | Java | Rust | R | C# | C | Ftn | COB | Ruby | Ex | Erl | C++ | PHP | Lua |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| `final-arguments` | S | S | S | G | S | N | N | N | - | - | - | - | - | - | N | - |
-| `final-name` | S | S | S | G | S | N | N | N | - | - | - | - | - | - | N | - |
-| `unchanged-single-auth` | S | S | S | G | S | N | N | N | - | - | - | - | - | - | N | - |
-| `initial-denial` | S | S | S | G | S | N | N | N | - | - | - | - | - | - | N | - |
-| `startup-cleanup` | S | S | S | G | S | N | N | N | - | - | - | - | - | - | N | - |
-| `after-run-continue` | S | S | S | G | S | N | N | N | - | - | - | - | - | - | N | - |
-| `cleanup-failclosed` | S | S | S | G | S | N | N | N | - | - | - | - | - | - | N | - |
+| `final-arguments` | S | S | S | G | S | N | N | N | N | N | N | N | N | N | N | N |
+| `final-name` | S | S | S | G | S | N | N | N | N | N | N | N | N | N | N | N |
+| `unchanged-single-auth` | S | S | S | G | S | N | N | N | N | N | N | N | N | N | N | N |
+| `initial-denial` | S | S | S | G | S | N | N | N | N | N | N | N | N | N | N | N |
+| `startup-cleanup` | S | S | S | G | S | N | N | N | N | N | N | N | N | N | N | N |
+| `after-run-continue` | S | S | S | G | S | N | N | N | N | N | N | N | N | N | N | N |
+| `cleanup-failclosed` | S | S | S | G | S | N | N | N | N | N | N | N | N | N | N | N |
 | `model-cancel-cleanup` | S | S | S | G | S | N | N | N | - | - | - | - | - | - | N | - |
 | `tool-cancel-cleanup` | S | S | S | G | S | N | N | N | - | - | - | - | - | - | N | - |
-| `schema-number-unicode` | S | S | S | S | S | N | N | N | - | - | N | N | N | N | N | N |
+| `schema-number-unicode` | S | S | S | S | S | N | N | N | - | N | N | N | N | N | N | N |
 | `call-limit` | S | S | S | G | S | N | N | N | N | N | N | N | N | N | N | N |
 | `pii-tool-history` | S | S | S | S | S | N | N | N | N | N | N | N | N | N | N | N |
 | `checkpoint-content` | S | S | S | S | S | N | N | N | N | N | N | N | N | N | N | N |
 | `capacity-failclosed` | S | S | S | G | S | N | N | N | N | N | N | N | N | N | N | N |
 | `parallel-tools` | S | S | S | G | S | N | N | N | - | - | - | - | - | - | - | - |
-| `run-state-isolation` | S | S | S | G | S | N | N | N | - | - | - | N | N | - | N | - |
+| `run-state-isolation` | S | S | S | G | S | N | N | N | - | N | - | N | N | - | N | - |
 | `stream-callback-error` | S | S | S | S | S | N | N | N | - | - | - | - | - | - | N | - |
 | `sse-truncated` | S | S | S | G | S | N | N | N | - | - | - | - | - | - | N | - |
 | `sse-half-packet` | S | S | S | G | S | N | N | N | - | - | - | - | - | - | N | - |
@@ -258,10 +257,10 @@ ctest --test-dir language/c/build --output-on-failure
 ### Fortran
 
 - 覆盖类型: 套件级
-- 通过: 4/19
-- 不支持: 15
-- 已覆盖场景: `call-limit`, `pii-tool-history`, `checkpoint-content`, `capacity-failclosed`
-- 未覆盖场景: `final-arguments`, `final-name`, `unchanged-single-auth`, `initial-denial`, `startup-cleanup`, `after-run-continue`, `cleanup-failclosed`, `model-cancel-cleanup`, `tool-cancel-cleanup`, `schema-number-unicode`, `parallel-tools`, `run-state-isolation`, `stream-callback-error`, `sse-truncated`, `sse-half-packet`
+- 通过: 11/19
+- 不支持: 8
+- 已覆盖场景: `final-arguments`, `final-name`, `unchanged-single-auth`, `initial-denial`, `startup-cleanup`, `after-run-continue`, `cleanup-failclosed`, `call-limit`, `pii-tool-history`, `checkpoint-content`, `capacity-failclosed`
+- 未覆盖场景: `model-cancel-cleanup`, `tool-cancel-cleanup`, `schema-number-unicode`, `parallel-tools`, `run-state-isolation`, `stream-callback-error`, `sse-truncated`, `sse-half-packet`
 
 命令:
 
@@ -272,10 +271,10 @@ python language/fortran/run-tests.py
 ### COBOL
 
 - 覆盖类型: 套件级
-- 通过: 4/19
-- 不支持: 15
-- 已覆盖场景: `call-limit`, `pii-tool-history`, `checkpoint-content`, `capacity-failclosed`
-- 未覆盖场景: `final-arguments`, `final-name`, `unchanged-single-auth`, `initial-denial`, `startup-cleanup`, `after-run-continue`, `cleanup-failclosed`, `model-cancel-cleanup`, `tool-cancel-cleanup`, `schema-number-unicode`, `parallel-tools`, `run-state-isolation`, `stream-callback-error`, `sse-truncated`, `sse-half-packet`
+- 通过: 13/19
+- 不支持: 6
+- 已覆盖场景: `final-arguments`, `final-name`, `unchanged-single-auth`, `initial-denial`, `startup-cleanup`, `after-run-continue`, `cleanup-failclosed`, `schema-number-unicode`, `call-limit`, `pii-tool-history`, `checkpoint-content`, `capacity-failclosed`, `run-state-isolation`
+- 未覆盖场景: `model-cancel-cleanup`, `tool-cancel-cleanup`, `parallel-tools`, `stream-callback-error`, `sse-truncated`, `sse-half-packet`
 
 命令:
 
@@ -286,10 +285,10 @@ python language/cobol/run-tests.py
 ### Ruby
 
 - 覆盖类型: 套件级
-- 通过: 5/19
-- 不支持: 14
-- 已覆盖场景: `schema-number-unicode`, `call-limit`, `pii-tool-history`, `checkpoint-content`, `capacity-failclosed`
-- 未覆盖场景: `final-arguments`, `final-name`, `unchanged-single-auth`, `initial-denial`, `startup-cleanup`, `after-run-continue`, `cleanup-failclosed`, `model-cancel-cleanup`, `tool-cancel-cleanup`, `parallel-tools`, `run-state-isolation`, `stream-callback-error`, `sse-truncated`, `sse-half-packet`
+- 通过: 12/19
+- 不支持: 7
+- 已覆盖场景: `final-arguments`, `final-name`, `unchanged-single-auth`, `initial-denial`, `startup-cleanup`, `after-run-continue`, `cleanup-failclosed`, `schema-number-unicode`, `call-limit`, `pii-tool-history`, `checkpoint-content`, `capacity-failclosed`
+- 未覆盖场景: `model-cancel-cleanup`, `tool-cancel-cleanup`, `parallel-tools`, `run-state-isolation`, `stream-callback-error`, `sse-truncated`, `sse-half-packet`
 
 命令:
 
@@ -300,10 +299,10 @@ ruby language/ruby/tests/run.rb
 ### Elixir
 
 - 覆盖类型: 套件级
-- 通过: 6/19
-- 不支持: 13
-- 已覆盖场景: `schema-number-unicode`, `call-limit`, `pii-tool-history`, `checkpoint-content`, `capacity-failclosed`, `run-state-isolation`
-- 未覆盖场景: `final-arguments`, `final-name`, `unchanged-single-auth`, `initial-denial`, `startup-cleanup`, `after-run-continue`, `cleanup-failclosed`, `model-cancel-cleanup`, `tool-cancel-cleanup`, `parallel-tools`, `stream-callback-error`, `sse-truncated`, `sse-half-packet`
+- 通过: 13/19
+- 不支持: 6
+- 已覆盖场景: `final-arguments`, `final-name`, `unchanged-single-auth`, `initial-denial`, `startup-cleanup`, `after-run-continue`, `cleanup-failclosed`, `schema-number-unicode`, `call-limit`, `pii-tool-history`, `checkpoint-content`, `capacity-failclosed`, `run-state-isolation`
+- 未覆盖场景: `model-cancel-cleanup`, `tool-cancel-cleanup`, `parallel-tools`, `stream-callback-error`, `sse-truncated`, `sse-half-packet`
 
 命令:
 
@@ -314,10 +313,10 @@ mix run tests/run_tests.exs
 ### Erlang
 
 - 覆盖类型: 套件级
-- 通过: 6/19
-- 不支持: 13
-- 已覆盖场景: `schema-number-unicode`, `call-limit`, `pii-tool-history`, `checkpoint-content`, `capacity-failclosed`, `run-state-isolation`
-- 未覆盖场景: `final-arguments`, `final-name`, `unchanged-single-auth`, `initial-denial`, `startup-cleanup`, `after-run-continue`, `cleanup-failclosed`, `model-cancel-cleanup`, `tool-cancel-cleanup`, `parallel-tools`, `stream-callback-error`, `sse-truncated`, `sse-half-packet`
+- 通过: 13/19
+- 不支持: 6
+- 已覆盖场景: `final-arguments`, `final-name`, `unchanged-single-auth`, `initial-denial`, `startup-cleanup`, `after-run-continue`, `cleanup-failclosed`, `schema-number-unicode`, `call-limit`, `pii-tool-history`, `checkpoint-content`, `capacity-failclosed`, `run-state-isolation`
+- 未覆盖场景: `model-cancel-cleanup`, `tool-cancel-cleanup`, `parallel-tools`, `stream-callback-error`, `sse-truncated`, `sse-half-packet`
 
 命令:
 
@@ -328,10 +327,10 @@ python language/erlang/run-tests.py
 ### C++
 
 - 覆盖类型: 套件级
-- 通过: 5/19
-- 不支持: 14
-- 已覆盖场景: `schema-number-unicode`, `call-limit`, `pii-tool-history`, `checkpoint-content`, `capacity-failclosed`
-- 未覆盖场景: `final-arguments`, `final-name`, `unchanged-single-auth`, `initial-denial`, `startup-cleanup`, `after-run-continue`, `cleanup-failclosed`, `model-cancel-cleanup`, `tool-cancel-cleanup`, `parallel-tools`, `run-state-isolation`, `stream-callback-error`, `sse-truncated`, `sse-half-packet`
+- 通过: 12/19
+- 不支持: 7
+- 已覆盖场景: `final-arguments`, `final-name`, `unchanged-single-auth`, `initial-denial`, `startup-cleanup`, `after-run-continue`, `cleanup-failclosed`, `schema-number-unicode`, `call-limit`, `pii-tool-history`, `checkpoint-content`, `capacity-failclosed`
+- 未覆盖场景: `model-cancel-cleanup`, `tool-cancel-cleanup`, `parallel-tools`, `run-state-isolation`, `stream-callback-error`, `sse-truncated`, `sse-half-packet`
 
 命令:
 
@@ -356,10 +355,10 @@ php language/php/tests/run.php
 ### Lua
 
 - 覆盖类型: 套件级
-- 通过: 5/19
-- 不支持: 14
-- 已覆盖场景: `schema-number-unicode`, `call-limit`, `pii-tool-history`, `checkpoint-content`, `capacity-failclosed`
-- 未覆盖场景: `final-arguments`, `final-name`, `unchanged-single-auth`, `initial-denial`, `startup-cleanup`, `after-run-continue`, `cleanup-failclosed`, `model-cancel-cleanup`, `tool-cancel-cleanup`, `parallel-tools`, `run-state-isolation`, `stream-callback-error`, `sse-truncated`, `sse-half-packet`
+- 通过: 12/19
+- 不支持: 7
+- 已覆盖场景: `final-arguments`, `final-name`, `unchanged-single-auth`, `initial-denial`, `startup-cleanup`, `after-run-continue`, `cleanup-failclosed`, `schema-number-unicode`, `call-limit`, `pii-tool-history`, `checkpoint-content`, `capacity-failclosed`
+- 未覆盖场景: `model-cancel-cleanup`, `tool-cancel-cleanup`, `parallel-tools`, `run-state-isolation`, `stream-callback-error`, `sse-truncated`, `sse-half-packet`
 
 命令:
 

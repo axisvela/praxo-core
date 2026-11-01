@@ -13,7 +13,7 @@
 | 层级 | 语言 | 当前状态 |
 | --- | --- | --- |
 | Agent-capable | Go、Python、TypeScript、Java、Rust、R、C# | 每个 agent-capable 实现均为 19/19 |
-| Extended | C、PHP、Fortran、COBOL、Ruby、Elixir、Erlang、C++、Lua | C 19/19；PHP 18/19（并行工具不支持）；其他已接入语言 4-6/19 |
+| Extended | C、PHP、Fortran、COBOL、Ruby、Elixir、Erlang、C++、Lua | C 19/19；PHP 18/19（并行工具不支持）；COBOL/Elixir/Erlang 13/19; C++/Lua/Ruby 12/19; Fortran 11/19 |
 | Optional | 其他已声明实现 | 不在当前行为计划内 |
 
 R 和 C 现已接入。C# 与 PHP 包含三个生命周期场景；R 和 C 对原生套件实际断言的场景提供覆盖。
@@ -50,17 +50,17 @@ R 和 C 现已接入。C# 与 PHP 包含三个生命周期场景；R 和 C 对�
 
 | 场景 | Rust | Fortran | COBOL | Ruby | Elixir | Erlang | C++ | PHP | C# | Lua |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| `schema-number-unicode` | scenario | unsupported | unsupported | native suite | native suite | native suite | native suite | native suite | native suite | native suite |
+| `schema-number-unicode` | scenario | unsupported | native suite | native suite | native suite | native suite | native suite | native suite | native suite | native suite |
 | `call-limit` | scenario | native suite | native suite | native suite | native suite | native suite | native suite | native suite | native suite | native suite |
 | `pii-tool-history` | scenario | native suite | native suite | native suite | native suite | native suite | native suite | native suite | native suite | native suite |
 | `checkpoint-content` | scenario | native suite | native suite | native suite | native suite | native suite | native suite | native suite | native suite | native suite |
 | `capacity-failclosed` | scenario | native suite | native suite | native suite | native suite | native suite | native suite | native suite | native suite | native suite |
-| `run-state-isolation` | scenario | unsupported | unsupported | unsupported | native suite | native suite | unsupported | native suite | native suite | unsupported |
+| `run-state-isolation` | scenario | unsupported | native suite | unsupported | native suite | native suite | unsupported | native suite | native suite | unsupported |
 
 `native suite` 表示该实现的完整原生测试可执行文件通过；它不是场景隔离断言，因此不能仅凭该单元格定位具体场景失败。其余 Rust/Fortran/COBOL/Ruby/Elixir/Erlang/C++/PHP/C#/Lua 场景仍为 `unsupported`；报告会显式列出，而不是删除这些语言。
 
 C# 和 PHP 还对 `final-arguments`、`final-name`、`unchanged-single-auth` 和
-`initial-denial` 提供原生套件覆盖。完整的单元格矩阵和逐语言报告见
+`initial-denial` 提供原生套件覆盖。COBOL 对 `final-arguments`、`final-name`、`unchanged-single-auth`、`initial-denial` 以及三个生命周期清理场景提供原生套件覆盖。完整的单元格矩阵和逐语言报告见
 [行为实验矩阵](behavior-lab-matrix.md)。
 
 ## 运行
@@ -98,7 +98,7 @@ cmake --build language/c/build
 
 ## 当前证据
 
-2026-10-31 的 Go/Python/TypeScript/Java 十九场景本地运行通过了全部 76 个单元格。commit `85a9d7b` 上的 clean-SHA Linux CI 运行通过十六语言集合：205 passed、99 个显式 unsupported、无失败；引用报告时应使用该 [behavior job](https://github.com/axisvela/praxo-core/actions/runs/41281280345/job/124773548368) 及其 artifact。所有 agent-capable 语言和 C 均为 19/19；PHP 为 18/19，因为并行工具不可移植。[行为实验矩阵](behavior-lab-matrix.md) 列出每个单元格以及各语言的已覆盖和未覆盖场景。
+2026-10-31 的 Go/Python/TypeScript/Java 十九场景本地运行通过了全部 76 个单元格。commit `ba241cc` 上的 clean-SHA Linux CI 运行通过十六语言集合：256 passed、48 个显式 unsupported、无失败；引用报告时应使用该 [behavior job](https://github.com/axisvela/praxo-core/actions/runs/41293016775/job/124808008979) 及其 artifact。所有 agent-capable 语言和 C 均为 19/19；PHP 为 18/19，因为并行工具不可移植。[行为实验矩阵](behavior-lab-matrix.md) 列出每个单元格以及各语言的已覆盖和未覆盖场景。
 
 ## 限制
 

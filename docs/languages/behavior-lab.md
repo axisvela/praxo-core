@@ -25,7 +25,7 @@ Behavior tier is separate from contract tier. See the
 | Tier | Languages | Current status |
 | --- | --- | --- |
 | Agent-capable | Go, Python, TypeScript, Java, Rust, R, C# | 19/19 for every agent-capable implementation |
-| Extended | C, PHP, Fortran, COBOL, Ruby, Elixir, Erlang, C++, Lua | C 19/19; PHP 18/19 (parallel unsupported); other wired languages 4-6/19 |
+| Extended | C, PHP, Fortran, COBOL, Ruby, Elixir, Erlang, C++, Lua | C 19/19; PHP 18/19 (parallel unsupported); COBOL, Elixir, and Erlang 13/19; C++, Lua, and Ruby 12/19; Fortran 11/19 |
 | Optional | Other declared implementations | Outside the current behavior program |
 
 R and C are now wired. C# and PHP include the three lifecycle scenarios, and R
@@ -69,12 +69,12 @@ instead of treating group coverage as scenario-level evidence.
 
 | Scenario | Rust | Fortran | COBOL | Ruby | Elixir | Erlang | C++ | PHP | C# | Lua |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| `schema-number-unicode` | scenario | unsupported | unsupported | native suite | native suite | native suite | native suite | native suite | native suite | native suite |
+| `schema-number-unicode` | scenario | unsupported | native suite | native suite | native suite | native suite | native suite | native suite | native suite | native suite |
 | `call-limit` | scenario | native suite | native suite | native suite | native suite | native suite | native suite | native suite | native suite | native suite |
 | `pii-tool-history` | scenario | native suite | native suite | native suite | native suite | native suite | native suite | native suite | native suite | native suite |
 | `checkpoint-content` | scenario | native suite | native suite | native suite | native suite | native suite | native suite | native suite | native suite | native suite |
 | `capacity-failclosed` | scenario | native suite | native suite | native suite | native suite | native suite | native suite | native suite | native suite | native suite |
-| `run-state-isolation` | scenario | unsupported | unsupported | unsupported | native suite | native suite | unsupported | native suite | native suite | unsupported |
+| `run-state-isolation` | scenario | unsupported | native suite | unsupported | native suite | native suite | unsupported | native suite | native suite | unsupported |
 
 `native suite` means the implementation's full native test executable passed.
 It is not isolated to the named scenario, so a failure cannot be attributed from
@@ -83,8 +83,10 @@ and Lua scenarios remain `unsupported`. The report shows those cells explicitly
 instead of dropping the languages.
 
 C# and PHP also have native-suite coverage for `final-arguments`, `final-name`,
-`unchanged-single-auth`, and `initial-denial`. The full cell-by-cell matrix and
-per-language reports are in the [Behavior Lab Matrix](behavior-lab-matrix.md).
+`unchanged-single-auth`, and `initial-denial`. COBOL has native-suite coverage
+for those four authorization scenarios and the three lifecycle cleanup
+scenarios. The full cell-by-cell matrix and per-language reports are in the
+[Behavior Lab Matrix](behavior-lab-matrix.md).
 
 ## Run
 
@@ -136,11 +138,12 @@ overwritten; `latest.json` is only a convenience pointer.
 ## Current Evidence
 
 The Go/Python/TypeScript/Java local nineteen-scenario run on 2026-10-31 passed
-all 76 cells. The clean-SHA Linux CI run on commit `85a9d7b` passed the
-sixteen-language set with 205 passed, 99 explicitly unsupported, and no
-failures; use that [behavior job](https://github.com/axisvela/praxo-core/actions/runs/41281280345/job/124773548368)
+all 76 cells. The clean-SHA Linux CI run on commit `ba241cc` passed the
+sixteen-language set with 256 passed, 48 explicitly unsupported, and no
+failures; use that [behavior job](https://github.com/axisvela/praxo-core/actions/runs/41293016775/job/124808008979)
 and its artifact when citing the report. All agent-capable languages and C are
-at 19/19; PHP is 18/19 because parallel tools are not portable. The
+at 19/19; PHP is 18/19 because parallel tools are not portable. COBOL `0.2.0`
+adds middleware and lifecycle suite coverage, raising it to 13/19. The
 [Behavior Lab Matrix](behavior-lab-matrix.md) lists every cell and each
 language's covered and unsupported scenarios.
 
