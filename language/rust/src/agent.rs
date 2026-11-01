@@ -1,4 +1,5 @@
-use std::sync::Arc;
+use std::sync::atomic::{AtomicUsize, Ordering};
+use std::sync::{Arc, Mutex};
 
 use serde_json::{Map, Value};
 
@@ -15,7 +16,7 @@ use crate::model::{
     ROLE_USER,
 };
 use crate::policy::{Action, Hook};
-use crate::tool::Registry;
+use crate::tool::{Registry, Tool};
 
 pub struct Session {
     pub id: String,
@@ -66,6 +67,7 @@ pub struct AgentOptions {
     pub tool_choice: Option<String>,
     pub response_format: Option<ResponseFormat>,
     pub max_steps: usize,
+    pub max_parallel_tools: usize,
     pub max_tokens: i64,
 }
 
@@ -94,6 +96,7 @@ impl AgentOptions {
             tool_choice: None,
             response_format: None,
             max_steps: 8,
+            max_parallel_tools: 0,
             max_tokens: 0,
         }
     }
@@ -229,9 +232,11 @@ impl Agent {
                     self.emit("run.completed", &session.id, &run_id, None)?;
                     return Ok(result);
                 }
-                for tool_call in response.message.tool_calls {
-                    messages.push(self.invoke_tool(&tool_call, &run_id, &session.id)?);
-                }
+                messages.extend(self.invoke_tools(
+                    &response.message.tool_calls,
+                    &run_id,
+                    &session.id,
+                )?);
             }
             Err(PraxoError::max_steps())
         })();
@@ -298,12 +303,69 @@ impl Agent {
         handler(request)
     }
 
+    fn invoke_tools(
+        &self,
+        calls: &[ToolCall],
+        run_id: &str,
+        session_id: &str,
+    ) -> Result<Vec<Message>> {
+        if self.options.max_parallel_tools <= 1 || calls.len() <= 1 {
+            let mut out = Vec::new();
+            for call in calls {
+                out.push(self.invoke_tool(call, run_id, session_id)?);
+            }
+            return Ok(out);
+        }
+        let mut prepared = Vec::new();
+        for call in calls {
+            prepared.push(self.prepare_tool(call, run_id, session_id)?);
+        }
+        let workers = self.options.max_parallel_tools.min(prepared.len());
+        let next = AtomicUsize::new(0);
+        let results: Mutex<Vec<Option<ToolResult>>> =
+            Mutex::new((0..prepared.len()).map(|_| None).collect());
+        std::thread::scope(|scope| {
+            for _ in 0..workers {
+                scope.spawn(|| loop {
+                    let index = next.fetch_add(1, Ordering::SeqCst);
+                    if index >= prepared.len() {
+                        break;
+                    }
+                    let result = self.execute_prepared(&prepared[index]);
+                    results.lock().expect("tool results")[index] = Some(result);
+                });
+            }
+        });
+        let mut out = Vec::new();
+        for (index, item) in prepared.iter().enumerate() {
+            let result = results
+                .lock()
+                .expect("tool results")
+                .get_mut(index)
+                .and_then(Option::take)
+                .expect("tool result");
+            out.push(self.finish_tool(item, result)?);
+        }
+        Ok(out)
+    }
+
     fn invoke_tool(
         &self,
         call: &ToolCall,
         run_id: &str,
         session_id: &str,
     ) -> Result<Message> {
+        let prepared = self.prepare_tool(call, run_id, session_id)?;
+        let result = self.execute_prepared(&prepared);
+        self.finish_tool(&prepared, result)
+    }
+
+    fn prepare_tool(
+        &self,
+        call: &ToolCall,
+        run_id: &str,
+        session_id: &str,
+    ) -> Result<PreparedTool> {
         let original_name = call.name.clone();
         let original_arguments = call.arguments.clone();
         if !self.tool_allowed(&original_name) {
@@ -342,27 +404,55 @@ impl Agent {
                 arguments: Some(active.arguments.clone()),
             })?;
         }
-        let (value, error) = if middleware_call.skip {
-            (
-                middleware_call.result.take().unwrap_or(Value::Null),
-                middleware_call.error.take(),
-            )
-        } else {
-            let tools = self.options.tools.as_ref().ok_or_else(|| {
-                PraxoError::tool_not_found(format!("tool {} is not registered", active.name))
-            })?;
-            let tool = tools.get(&active.name)?;
-            let mut data = Map::new();
-            data.insert("name".to_string(), Value::String(active.name.clone()));
-            data.insert("arguments".to_string(), Value::Object(active.arguments.clone()));
-            self.emit("tool.call", session_id, run_id, Some(data))?;
-            match tool.invoke(&active.arguments) {
-                Ok(value) => (value, None),
-                Err(error) => (Value::Null, Some(error)),
-            }
-        };
-        let mut result = ToolResult { value, error };
-        self.after_tool(&middleware_call, &mut result)?;
+        if middleware_call.skip {
+            let value = middleware_call.result.take().unwrap_or(Value::Null);
+            let error = middleware_call.error.take();
+            return Ok(PreparedTool {
+                middleware_call,
+                active,
+                tool: None,
+                skip: true,
+                value,
+                error,
+            });
+        }
+        let tools = self.options.tools.as_ref().ok_or_else(|| {
+            PraxoError::tool_not_found(format!("tool {} is not registered", active.name))
+        })?;
+        let tool = tools.get(&active.name)?;
+        let mut data = Map::new();
+        data.insert("name".to_string(), Value::String(active.name.clone()));
+        data.insert("arguments".to_string(), Value::Object(active.arguments.clone()));
+        self.emit("tool.call", session_id, run_id, Some(data))?;
+        Ok(PreparedTool {
+            middleware_call,
+            active,
+            tool: Some(tool),
+            skip: false,
+            value: Value::Null,
+            error: None,
+        })
+    }
+
+    fn execute_prepared(&self, prepared: &PreparedTool) -> ToolResult {
+        if prepared.skip {
+            return ToolResult {
+                value: prepared.value.clone(),
+                error: prepared.error.clone(),
+            };
+        }
+        let tool = prepared.tool.as_ref().expect("prepared tool");
+        match tool.invoke(&prepared.active.arguments) {
+            Ok(value) => ToolResult { value, error: None },
+            Err(error) => ToolResult {
+                value: Value::Null,
+                error: Some(error),
+            },
+        }
+    }
+
+    fn finish_tool(&self, prepared: &PreparedTool, mut result: ToolResult) -> Result<Message> {
+        self.after_tool(&prepared.middleware_call, &mut result)?;
         if let Some(error) = result.error {
             return Err(error);
         }
@@ -373,7 +463,8 @@ impl Agent {
             if self.options.offload_threshold_bytes > 0
                 && raw.len() > self.options.offload_threshold_bytes
             {
-                let reference = offloader.offload(&active.name, &active.id, raw)?;
+                let reference =
+                    offloader.offload(&prepared.active.name, &prepared.active.id, raw)?;
                 if reference.is_empty() {
                     return Err(PraxoError::new(
                         "AGENT_OFFLOAD",
@@ -383,7 +474,7 @@ impl Agent {
                 content = reference;
             }
         }
-        Ok(Message::tool(content, active.id))
+        Ok(Message::tool(content, prepared.active.id.clone()))
     }
 
     fn before_run(
@@ -495,3 +586,12 @@ impl Agent {
 }
 
 
+
+struct PreparedTool {
+    middleware_call: MiddlewareToolCall,
+    active: ToolCall,
+    tool: Option<Arc<dyn Tool>>,
+    skip: bool,
+    value: Value,
+    error: Option<PraxoError>,
+}

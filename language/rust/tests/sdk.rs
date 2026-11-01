@@ -1,4 +1,5 @@
 use std::sync::atomic::{AtomicUsize, Ordering};
+use std::time::{Duration, Instant};
 use std::sync::{Arc, Mutex};
 
 use praxo_core::agent::{Agent, AgentOptions, RunResult, Session};
@@ -821,4 +822,99 @@ fn cleanup_error_after_success_fails_closed() {
         sink.types.lock().expect("sink").as_slice(),
         &["run.started".to_string(), "run.failed".to_string()]
     );
+}
+
+
+struct ParallelToolModel {
+    step: Mutex<usize>,
+    second_messages: Mutex<Vec<Message>>,
+}
+
+impl ParallelToolModel {
+    fn new() -> Self {
+        Self {
+            step: Mutex::new(0),
+            second_messages: Mutex::new(Vec::new()),
+        }
+    }
+}
+
+impl Model for ParallelToolModel {
+    fn generate(&self, request: &Request) -> praxo_core::errors::Result<Response> {
+        let mut step = self.step.lock().expect("step");
+        if *step == 0 {
+            *step = 1;
+            return Ok(Response {
+                message: Message::assistant(
+                    "",
+                    vec![
+                        ToolCall {
+                            id: "a1".to_string(),
+                            name: "a".to_string(),
+                            arguments: Map::new(),
+                        },
+                        ToolCall {
+                            id: "b1".to_string(),
+                            name: "b".to_string(),
+                            arguments: Map::new(),
+                        },
+                    ],
+                ),
+                usage: Usage::default(),
+                finish_reason: None,
+            });
+        }
+        *self.second_messages.lock().expect("messages") = request.messages.clone();
+        Ok(done_response())
+    }
+}
+
+fn wait_for_both(started: &AtomicUsize) {
+    started.fetch_add(1, Ordering::SeqCst);
+    let deadline = Instant::now() + Duration::from_secs(2);
+    while started.load(Ordering::SeqCst) < 2 {
+        if Instant::now() > deadline {
+            panic!("tools did not start concurrently");
+        }
+        std::thread::sleep(Duration::from_millis(10));
+    }
+}
+
+#[test]
+fn parallel_tools_start_together_and_keep_result_order() {
+    let started = Arc::new(AtomicUsize::new(0));
+    let mut registry = Registry::new();
+    let a_started = started.clone();
+    registry.register(Arc::new(FuncTool::new("a", "A", move |_| {
+        wait_for_both(&a_started);
+        std::thread::sleep(Duration::from_millis(100));
+        Ok(json!({"name": "a"}))
+    })));
+    let b_started = started.clone();
+    registry.register(Arc::new(FuncTool::new("b", "B", move |_| {
+        wait_for_both(&b_started);
+        Ok(json!({"name": "b"}))
+    })));
+    let model = Arc::new(ParallelToolModel::new());
+    let mut options = AgentOptions::new(model.clone());
+    options.tools = Some(Arc::new(registry));
+    options.max_parallel_tools = 2;
+    let result = Agent::new(options)
+        .expect("agent")
+        .run(&Session::new("s1"), "go")
+        .expect("run");
+    assert_eq!(result.output, "done");
+    let names: Vec<String> = model
+        .second_messages
+        .lock()
+        .expect("messages")
+        .iter()
+        .filter(|message| message.role == "tool")
+        .map(|message| {
+            let value: Value =
+                serde_json::from_str(message.content.as_deref().unwrap_or("{}")).expect("json");
+            value["name"].as_str().unwrap_or_default().to_string()
+        })
+        .collect();
+    assert_eq!(names, vec!["a".to_string(), "b".to_string()]);
 }

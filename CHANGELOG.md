@@ -17,6 +17,7 @@
 - PHP and C# now clean up middleware entered before a startup failure, keep
   running later after-run callbacks after one fails, preserve the original run
   error, and fail closed when cleanup itself fails after success.
+- Rust now honors max_parallel_tools with bounded concurrency while preserving authorization, result, and after-tool ordering.
 - Rust now cleans up entered middleware on a startup failure, keeps running later after-run callbacks after one fails, preserves the original run error, and fails closed when cleanup fails after success.
 - Rust now rechecks the final tool name against the allowlist, reauthorizes
   middleware-mutated arguments or names, and executes the final registered tool.
