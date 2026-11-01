@@ -420,7 +420,7 @@ invoke-tool-batch.
         if px-result-error not = spaces exit perform end-if
         perform prepare-batch-call
         if px-result-error not = spaces exit perform end-if
-        move px-call-id to px-tb-call-id(call-number)
+        move px-tool-id to px-tb-call-id(call-number)
         move px-tool-name to px-tb-call-name(call-number)
         move px-tool-input to px-tb-call-input(call-number)
         move px-tool-input-length
