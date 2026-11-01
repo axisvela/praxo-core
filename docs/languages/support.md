@@ -140,13 +140,13 @@ a merged implementation PR as a support commitment.
   changes, cancellation, streaming callbacks, an SSE parser, and bounded
   parallel tools. Unix uses pthread workers with per-thread arenas; Windows
   keeps the sequential path.
-- Fortran has source tag `fortran/v0.3.0` with all eleven vector groups, native
-  tests, an API snapshot, and integrated PII/middleware. It is not a
-  package-registry release; asynchronous streaming is outside the declared
-  surface, and the bounded JSON Schema subset remains partial.
-  Version `0.3.0` replaces the ASCII matcher with RE2/Unicode and requires a
-  native C++ library. The historical `0.2.2` tag retains the old matcher without
-  that RE2/C++ requirement.
+- Fortran source tag `fortran/v0.4.0` includes all eleven vector groups, native
+  tests, an API snapshot, PII/middleware, and policy-backed middleware/lifecycle
+  authorization. It is not a package-registry release; asynchronous streaming is
+  outside the declared surface, and the bounded JSON Schema subset remains
+  partial. Version `0.3.0` replaced the ASCII matcher with RE2/Unicode and
+  requires a native C++ library; the historical `0.2.2` tag retains the old
+  matcher without that RE2/C++ requirement.
 - COBOL has source tag `cobol/v0.1.2` with all eleven vector groups, native and
   contract tests, caller-owned scoped registries, and an API snapshot. It is not a
   package-registry release; most remaining Go surfaces are partial and the

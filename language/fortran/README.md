@@ -1,7 +1,7 @@
 # Fortran Core
 
-A native Fortran 2008 agent implementation with source tag `fortran/v0.3.0`.
-Version `0.3.0` replaces the
+A native Fortran 2008 agent implementation with source tag `fortran/v0.4.0`.
+Version `0.4.0` replaces the
 bounded ASCII matcher with upstream RE2 through a small C ABI library. The
 agent loop, JSON, policy, and middleware remain Fortran, not a bridge to another
 agent runtime. All 63 normative vectors across eleven groups and native
@@ -38,7 +38,7 @@ runtime at execution time. Windows requires `<prefix>/bin` on the DLL search
 path; Unix consumers need a loader path or rpath for `<prefix>/lib`.
 Redistributed bridge binaries must include the installed upstream licenses;
 see [native dependencies](native/DEPENDENCIES.md). These new native deployment
-requirements are the reason for the pre-1.0 minor change to `0.3.0`.
+requirements are the reason for the pre-1.0 minor change to `0.4.0`.
 
 Python is only a build/test dependency. `conformance.py` translates the declared
 JSON fixtures into Fortran test inputs and assertions; every behavior under test
@@ -155,7 +155,7 @@ hooks not listed in the parity inventory are not implemented.
 
 ## Remaining Gates
 
-`api/0.3.0.txt` inventories exported declarations, type layouts, bound
+`api/0.4.0.txt` inventories exported declarations, type layouts, bound
 method signatures, and callback interfaces. `api-snapshot.py --check` runs as
 part of the test driver; intentional changes require review and regeneration
 with `--update`. It is a source declaration check, not a binary ABI guarantee.
@@ -167,6 +167,8 @@ The RE2/Unicode suite also runs against the installed bridge. The parity
 inventory still records JSON Schema as partial because JSON/numeric limits
 and schema coverage are separate from regex support; asynchronous agent
 streaming remains outside the declared Core surface.
+
+See [CHANGELOG.md](CHANGELOG.md) for per-release changes and compatibility notes.
 
 The Core sources are original MIT-licensed code under the repository license.
 GNU Fortran and its runtime are separately licensed toolchain dependencies; no

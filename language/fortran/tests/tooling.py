@@ -72,10 +72,13 @@ end module
         self.assertIn('"${re2_SOURCE_DIR}/LICENSE"', content)
         self.assertIn('"${abseil_SOURCE_DIR}/LICENSE"', content)
 
-    def test_deployment_version_keeps_old_api_declarations(self):
-        previous = (ROOT / "api" / "0.2.2.txt").read_text(encoding="utf-8").splitlines()[1:]
-        current = (ROOT / "api" / "0.3.0.txt").read_text(encoding="utf-8").splitlines()[1:]
-        self.assertEqual(previous, current)
+    def test_current_api_declares_middleware_hooks(self):
+        current = (ROOT / "api" / "0.4.0.txt").read_text(encoding="utf-8")
+        self.assertIn("subroutine agent_before_run_hook", current)
+        self.assertIn("subroutine agent_after_run_hook", current)
+        self.assertIn("subroutine agent_before_tool_hook", current)
+        self.assertIn("type(middleware_hook)", current)
+        self.assertIn("module praxo_policy", current)
 
 
 if __name__ == "__main__":

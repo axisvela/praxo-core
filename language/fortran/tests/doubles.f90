@@ -25,9 +25,20 @@ module test_doubles
   type, extends(policy) :: deny_policy
     character(:), allocatable :: denied_kind
     integer :: calls = 0
+    integer :: tool_calls = 0
   contains
     procedure :: check => check_denial
   end type
+  integer :: hook_before_tool_calls = 0
+  integer :: hook_after_run_calls = 0
+  integer :: hook_before_run_calls = 0
+  logical :: hook_mutate_arguments = .false.
+  logical :: hook_rename_tool = .false.
+  logical :: hook_fail_before_run = .false.
+  logical :: hook_fail_after_run = .false.
+  character(:), allocatable :: hook_renamed_tool
+  character(:), allocatable :: hook_last_name
+  character(:), allocatable :: hook_last_arguments
 contains
   subroutine repair_fixture(previous, errors, attempt, repaired, error)
     character(*), intent(in) :: previous
@@ -81,6 +92,68 @@ contains
     type(action), intent(in) :: item
     type(decision) :: result
     self%calls = self%calls + 1
+    if (string_value(item%kind) == 'tool.invoke') self%tool_calls = self%tool_calls + 1
     result%allowed = string_value(item%kind) /= string_value(self%denied_kind)
   end function
+  subroutine reset_hooks()
+    hook_before_tool_calls = 0
+    hook_after_run_calls = 0
+    hook_before_run_calls = 0
+    hook_mutate_arguments = .false.
+    hook_rename_tool = .false.
+    hook_fail_before_run = .false.
+    hook_fail_after_run = .false.
+    hook_renamed_tool = ''
+    hook_last_name = ''
+    hook_last_arguments = ''
+  end subroutine
+
+  subroutine hook_before_run_record(ctx, run_id, prompt, error)
+    class(*), pointer, intent(in) :: ctx
+    character(*), intent(in) :: run_id, prompt
+    type(sdk_error), intent(inout) :: error
+    hook_before_run_calls = hook_before_run_calls + 1
+    if (len(run_id) < 0) error%code = prompt
+  end subroutine
+
+  subroutine hook_before_run_fail(ctx, run_id, prompt, error)
+    class(*), pointer, intent(in) :: ctx
+    character(*), intent(in) :: run_id, prompt
+    type(sdk_error), intent(inout) :: error
+    hook_before_run_calls = hook_before_run_calls + 1
+    if (len(prompt) < 0) error%code = run_id
+    if (hook_fail_before_run) error%code = 'STARTUP_FAILED'
+  end subroutine
+
+  subroutine hook_after_run_record(ctx, result, error, hook_error)
+    class(*), pointer, intent(in) :: ctx
+    type(run_result), intent(in) :: result
+    type(sdk_error), intent(in) :: error
+    type(sdk_error), intent(inout) :: hook_error
+    hook_after_run_calls = hook_after_run_calls + 1
+    if (result%steps < 0) hook_error%code = string_value(error%code)
+  end subroutine
+
+  subroutine hook_after_run_fail(ctx, result, error, hook_error)
+    class(*), pointer, intent(in) :: ctx
+    type(run_result), intent(in) :: result
+    type(sdk_error), intent(in) :: error
+    type(sdk_error), intent(inout) :: hook_error
+    hook_after_run_calls = hook_after_run_calls + 1
+    if (result%steps < 0) hook_error%code = string_value(error%code)
+    if (hook_fail_after_run) hook_error%code = 'CLEANUP_FAILED'
+  end subroutine
+
+  subroutine hook_before_tool(ctx, name, arguments, error)
+    class(*), pointer, intent(in) :: ctx
+    character(:), allocatable, intent(inout) :: name, arguments
+    type(sdk_error), intent(inout) :: error
+    hook_before_tool_calls = hook_before_tool_calls + 1
+    hook_last_name = name
+    hook_last_arguments = arguments
+    if (len(name) < 0) error%code = arguments
+    if (hook_rename_tool) name = hook_renamed_tool
+    if (hook_mutate_arguments) arguments = '{"text":"mutated"}'
+  end subroutine
+
 end module

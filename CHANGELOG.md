@@ -17,6 +17,9 @@
 - PHP and C# now clean up middleware entered before a startup failure, keep
   running later after-run callbacks after one fails, preserve the original run
   error, and fail closed when cleanup itself fails after success.
+- Fortran `0.4.0` source adds middleware/lifecycle hooks, final-tool allowlist
+  checks, and reauthorization of middleware changes. Cancellation, streaming,
+  SSE, parallel tools, and run-state isolation remain unsupported.
 - Erlang `0.2.0` source adds policy hooks, middleware, final-tool allowlist
   checks, reauthorization, and lifecycle cleanup. Cancellation, streaming, SSE,
   parallel tools, and run-state isolation remain unsupported.

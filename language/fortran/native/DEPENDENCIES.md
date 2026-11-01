@@ -32,5 +32,5 @@ Invalid UTF-8 is rejected by the Fortran entry point. Invalid regex syntax is
 an error, not a successful non-match. Resource exhaustion is an error, not a pass.
 
 The new compiler, native library, and C++ runtime requirements are a pre-1.0
-deployment change, so the source/API baseline advances to `0.3.0`. The historical
+deployment change, so the source/API baseline advances to `0.4.0`. The historical
 `fortran/v0.2.2` source tag retains the dependency-free bounded ASCII matcher.

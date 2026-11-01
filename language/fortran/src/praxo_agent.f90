@@ -9,6 +9,37 @@ module praxo_agent
   private
   public :: agent_options, run_agent
 
+  abstract interface
+    subroutine agent_before_run_hook(ctx, run_id, prompt, error)
+      import :: sdk_error
+      class(*), pointer, intent(in) :: ctx
+      character(*), intent(in) :: run_id, prompt
+      type(sdk_error), intent(inout) :: error
+    end subroutine
+
+    subroutine agent_after_run_hook(ctx, result, error, hook_error)
+      import :: sdk_error, run_result
+      class(*), pointer, intent(in) :: ctx
+      type(run_result), intent(in) :: result
+      type(sdk_error), intent(in) :: error
+      type(sdk_error), intent(inout) :: hook_error
+    end subroutine
+
+    subroutine agent_before_tool_hook(ctx, name, arguments, error)
+      import :: sdk_error
+      class(*), pointer, intent(in) :: ctx
+      character(:), allocatable, intent(inout) :: name, arguments
+      type(sdk_error), intent(inout) :: error
+    end subroutine
+  end interface
+
+  type :: middleware_hook
+    procedure(agent_before_run_hook), pointer, nopass :: before_run => null()
+    procedure(agent_after_run_hook), pointer, nopass :: after_run => null()
+    procedure(agent_before_tool_hook), pointer, nopass :: before_tool => null()
+    class(*), pointer :: ctx => null()
+  end type
+
   type :: agent_options
     class(model), pointer :: provider => null()
     type(registry), pointer :: tools => null()
@@ -22,6 +53,8 @@ module praxo_agent
     type(tool_selection), pointer :: selection => null()
     logical :: redact_emails = .false.
     logical :: redact_pii = .false.
+    type(middleware_hook), allocatable :: middleware(:)
+    character(:), allocatable :: allowed_tools(:)
   end type
 contains
   subroutine run_agent(options, state, prompt, run_id, result, error)
@@ -38,8 +71,10 @@ contains
     type(sdk_error) :: redaction_error
     character(:), allocatable :: output
     character(:), allocatable :: redacted
-    integer :: steps, i, j, step_limit, call_count
-    logical :: context_ok
+    integer :: steps, i, j, step_limit, call_count, entered, hook_index
+    logical :: context_ok, first_failure
+    type(sdk_error) :: first_error, hook_error
+    character(:), allocatable :: original_name, original_arguments, active_name, active_arguments
 
     result%run_id = run_id
     result%output = ''
@@ -50,6 +85,19 @@ contains
     if (.not. allocated(state%id)) then
       error%code = 'INVALID_REQUEST'
       return
+    end if
+    entered = 0
+    if (allocated(options%middleware)) then
+      do i = 1, size(options%middleware)
+        entered = entered + 1
+        if (associated(options%middleware(i)%before_run)) then
+          call options%middleware(i)%before_run(options%middleware(i)%ctx, run_id, prompt, error)
+          if (error%failed()) then
+            call run_after(entered, result, error)
+            return
+          end if
+        end if
+      end do
     end if
     allocate(req%messages(0), req%tools(0))
     if (len(string_value(options%system_prompt)) > 0) then
@@ -135,7 +183,12 @@ contains
       call append_message(req%messages, res%message)
       if (call_count == 0) then
         result%output = string_value(res%message%content)
-        call emit('run.completed')
+        call run_after(entered, result, error)
+        if (error%failed()) then
+          call emit('run.failed')
+        else
+          call emit('run.completed')
+        end if
         return
       end if
       do i = 1, call_count
@@ -148,7 +201,32 @@ contains
           call options%selection%check(call%name, error)
           if (error%failed()) exit
         end if
+        if (.not. allowed(call%name)) then
+          error%code = 'AGENT_TOOL_NOT_ALLOWED'
+          exit
+        end if
         if (.not. authorize('tool.invoke', call%name, string_value(call%arguments))) exit
+        original_name = call%name
+        original_arguments = call%arguments
+        if (allocated(options%middleware)) then
+          do j = 1, size(options%middleware)
+            if (.not. associated(options%middleware(j)%before_tool)) cycle
+            active_name = call%name
+            active_arguments = call%arguments
+            call options%middleware(j)%before_tool(options%middleware(j)%ctx, active_name, active_arguments, error)
+            if (error%failed()) exit
+            call%name = active_name
+            call%arguments = active_arguments
+          end do
+        end if
+        if (error%failed()) exit
+        if (.not. allowed(call%name)) then
+          error%code = 'AGENT_TOOL_NOT_ALLOWED'
+          exit
+        end if
+        if (call%name /= original_name .or. call%arguments /= original_arguments) then
+          if (.not. authorize('tool.invoke', call%name, string_value(call%arguments))) exit
+        end if
         if (.not. associated(options%tools)) then
           error%code = 'TOOL_NOT_FOUND'
           exit
@@ -175,8 +253,34 @@ contains
       if (error%failed()) exit
     end do
     if (.not. error%failed()) error%code = 'AGENT_MAX_STEPS'
+    call run_after(entered, result, error)
     call emit('run.failed')
   contains
+    logical function allowed(name)
+      character(*), intent(in) :: name
+      allowed = .true.
+      if (.not. allocated(options%allowed_tools)) return
+      allowed = any(options%allowed_tools == name)
+    end function
+
+    subroutine run_after(count, current, current_error)
+      integer, intent(in) :: count
+      type(run_result), intent(in) :: current
+      type(sdk_error), intent(in) :: current_error
+      first_error%code = ''
+      first_failure = .false.
+      do hook_index = 1, count
+        if (.not. associated(options%middleware(hook_index)%after_run)) cycle
+        hook_error = current_error
+        call options%middleware(hook_index)%after_run(options%middleware(hook_index)%ctx, current, current_error, hook_error)
+        if (hook_error%failed() .and. .not. first_failure) then
+          first_error = hook_error
+          first_failure = .true.
+        end if
+      end do
+      if (first_failure .and. .not. current_error%failed()) error = first_error
+    end subroutine
+
     logical function authorize(kind, name, arguments)
       character(*), intent(in) :: kind, name, arguments
       type(decision) :: verdict
@@ -184,7 +288,7 @@ contains
       if (.not. associated(options%gate)) return
       verdict = options%gate%check(action(kind, state%id, name, arguments))
       authorize = verdict%allowed
-      if (.not. authorize) error%code = 'POLICY_ERROR'
+      if (.not. authorize) error%code = 'AGENT_POLICY_DENIED'
     end function
 
     subroutine emit(kind, name, arguments)

@@ -9,7 +9,7 @@ program core_tests
   use test_doubles
   implicit none
   type(scripted_model), target :: provider
-  type(echo_tool) :: echo
+  type(echo_tool) :: echo, other
   type(registry), target :: tools
   type(recording_sink), target :: sink, second
   type(deny_policy), target :: gate
@@ -27,7 +27,7 @@ program core_tests
   type(message), allocatable :: messages(:), compacted(:)
   logical :: ok
   character(:), allocatable :: output
-  integer, target :: invocations
+  integer, target :: invocations, other_invocations
   integer :: failures = 0, checks = 0, i
 
   call reset()
@@ -81,7 +81,7 @@ program core_tests
   gate%denied_kind = 'model.generate'
   options%gate => gate
   call run()
-  call check_error('POLICY_ERROR', 'model policy denial')
+  call check_error('AGENT_POLICY_DENIED', 'model policy denial')
   call check(provider%calls == 0, 'model denial occurs before generation')
 
   call reset()
@@ -89,8 +89,90 @@ program core_tests
   gate%denied_kind = 'tool.invoke'
   options%gate => gate
   call run()
-  call check_error('POLICY_ERROR', 'tool policy denial')
+  call check_error('AGENT_POLICY_DENIED', 'tool policy denial')
   call check(invocations == 0 .and. size(sink%items) == 2, 'tool denial before invocation and event')
+
+
+  call reset()
+  call tool_script()
+  hook_mutate_arguments = .true.
+  allocate(options%middleware(1))
+  options%middleware(1)%before_tool => hook_before_tool
+  call run()
+  call check(.not. error%failed() .and. result%output == 'done', 'middleware final arguments result')
+  call check(hook_before_tool_calls == 1, 'middleware final arguments called')
+  call check(provider%last_request%messages(3)%content == '{"text":"mutated"}', &
+    'middleware final arguments effect')
+
+  call reset()
+  call tool_script()
+  other%spec = tool_spec('other', 'Other')
+  other%calls => other_invocations
+  other%fail = .false.
+  call tools%register(other, error)
+  allocate(character(8) :: options%allowed_tools(2))
+  options%allowed_tools(1) = 'echo'
+  options%allowed_tools(2) = 'other'
+  hook_rename_tool = .true.
+  hook_renamed_tool = 'other'
+  allocate(options%middleware(1))
+  options%middleware(1)%before_tool => hook_before_tool
+  call run()
+  call check(.not. error%failed() .and. other_invocations == 1 .and. invocations == 0, &
+    'middleware final name uses final tool')
+
+  call reset()
+  call tool_script()
+  gate%denied_kind = 'none'
+  options%gate => gate
+  allocate(options%middleware(1))
+  options%middleware(1)%before_tool => hook_before_tool
+  call run()
+  call check(.not. error%failed() .and. gate%tool_calls == 1, &
+    'middleware unchanged single authorization')
+
+  call reset()
+  call tool_script()
+  gate%denied_kind = 'tool.invoke'
+  options%gate => gate
+  allocate(options%middleware(1))
+  options%middleware(1)%before_tool => hook_before_tool
+  call run()
+  call check_error('AGENT_POLICY_DENIED', 'middleware initial denial')
+  call check(hook_before_tool_calls == 0 .and. invocations == 0, &
+    'middleware initial denial precedes middleware and effect')
+
+  call reset()
+  hook_fail_before_run = .true.
+  allocate(options%middleware(2))
+  options%middleware(1)%before_run => hook_before_run_record
+  options%middleware(1)%after_run => hook_after_run_record
+  options%middleware(2)%before_run => hook_before_run_fail
+  options%middleware(2)%after_run => hook_after_run_record
+  call run()
+  call check(string_value(error%code) == 'STARTUP_FAILED', 'middleware startup failure')
+  call check(hook_before_run_calls == 2 .and. hook_after_run_calls == 2, &
+    'middleware startup cleanup')
+  call check(.not. allocated(sink%items), 'middleware startup emits no run events')
+
+  call reset()
+  provider%fail_at = 1
+  hook_fail_after_run = .true.
+  allocate(options%middleware(2))
+  options%middleware(1)%after_run => hook_after_run_fail
+  options%middleware(2)%after_run => hook_after_run_record
+  call run()
+  call check_error('TEST_MODEL_FAILURE', 'middleware after-run preserves run error')
+  call check(hook_after_run_calls == 2, 'middleware after-run continues')
+
+  call reset()
+  hook_fail_after_run = .true.
+  allocate(options%middleware(2))
+  options%middleware(1)%after_run => hook_after_run_fail
+  options%middleware(2)%after_run => hook_after_run_record
+  call run()
+  call check_error('CLEANUP_FAILED', 'middleware cleanup fail closed')
+  call check(hook_after_run_calls == 2, 'middleware cleanup continues')
 
   call reset()
   provider%fail_at = 1
@@ -241,6 +323,7 @@ program core_tests
   print '(a,i0,a)', 'PASS: ', checks, ' native Fortran assertions'
 contains
   subroutine reset()
+    call reset_hooks()
     provider = scripted_model()
     allocate(provider%script(1))
     provider%script(1)%message = text_message('assistant', 'hello')
