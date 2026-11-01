@@ -10,6 +10,11 @@
           05 bh-event-count binary-long.
           05 bh-order-count binary-long.
           05 bh-cancel binary-long.
+          05 bh-stream-count binary-long.
+          05 bh-batch-count binary-long.
+          05 bh-batch-max binary-long.
+          05 bh-batch-tool-count binary-long.
+          05 bh-batch-last-name pic x(64).
           05 bh-last-input-length binary-long.
           05 bh-last-name pic x(64).
           05 bh-last-input pic x(256).

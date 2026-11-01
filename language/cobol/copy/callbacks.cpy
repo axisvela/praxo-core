@@ -25,4 +25,11 @@
        01 px-event.
           05 px-event-kind pic x(32).
           05 px-event-tool pic x(64).
+       01 px-stream-part.
+          05 px-stream-run-id pic x(128).
+          05 px-stream-session-id pic x(128).
+          05 px-stream-kind pic x(16).
+          05 px-stream-step binary-long.
+          05 px-stream-data pic x(2048).
+          05 px-stream-data-length binary-long.
        01 px-status pic x(64).

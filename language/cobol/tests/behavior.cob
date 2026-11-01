@@ -23,8 +23,10 @@ procedure division.
     perform cleanup-failclosed-case
     perform model-cancellation-case
     perform tool-cancellation-case
+    perform stream-callback-case
+    perform parallel-batch-case
     if failures = 0
-        display "PASS: 10 native COBOL behavior cases"
+        display "PASS: 12 native COBOL behavior cases"
         move 0 to return-code
     else
         display "FAIL: " failures " behavior assertions"
@@ -181,6 +183,42 @@ tool-cancellation-case.
         or bh-event-types(3) not = "run.failed"
         perform fail-case
     end-if.
+stream-callback-case.
+    perform reset-case
+    move "stream callback" to test-name
+    move 12 to bh-mode
+    move "behavior-stream" to px-stream-program
+    move "behavior-after-run" to px-after-run-program
+    perform run-agent
+    if px-result-error not = "STREAM_FAILED"
+        or bh-stream-count not = 2
+        or bh-after-run-count not = 1
+        or bh-event-count not = 2
+        or bh-event-types(1) not = "run.started"
+        or bh-event-types(2) not = "run.failed"
+        perform fail-case
+    end-if.
+parallel-batch-case.
+    perform reset-case
+    move "parallel batch" to test-name
+    move 13 to bh-mode
+    move "behavior-batch" to px-tool-batch-program
+    move 2 to px-max-parallel-tools
+    perform run-agent
+    if px-result-error not = spaces
+        or px-result-output not = "done"
+        or bh-batch-count not = 1
+        or bh-batch-max not = 2
+        or bh-batch-tool-count not = 2
+        or bh-tool-count not = 0
+        or bh-batch-last-name not = "other"
+        or bh-event-count not = 4
+        or bh-event-types(1) not = "run.started"
+        or bh-event-types(2) not = "tool.call"
+        or bh-event-types(3) not = "tool.call"
+        or bh-event-types(4) not = "run.completed"
+        perform fail-case
+    end-if.
 reset-case.
     initialize px-options px-session px-prompt px-result
     move low-values to px-user-data
@@ -223,6 +261,20 @@ procedure division using px-session px-response px-user-data px-status.
     end-if
     if bh-mode = 10
         move 1 to bh-cancel
+    end-if
+    if bh-mode = 13 and bh-model-count = 1
+        move spaces to px-answer
+        move 0 to px-answer-length
+        move 2 to px-call-count
+        move "c1" to px-call-id(1)
+        move "echo" to px-call-name(1)
+        move '{"n":1}' to px-call-input(1)
+        move 7 to px-call-input-length(1)
+        move "c2" to px-call-id(2)
+        move "other" to px-call-name(2)
+        move '{"n":2}' to px-call-input(2)
+        move 7 to px-call-input-length(2)
+        goback
     end-if
     if (bh-mode >= 1 and bh-mode <= 5 or bh-mode = 11)
         and bh-model-count = 1
@@ -401,3 +453,46 @@ procedure division using px-action px-user-data px-status.
     end-if
     goback.
 end program behavior-cancel.
+
+identification division.
+program-id. behavior-stream recursive.
+data division.
+linkage section.
+copy "api.cpy".
+copy "behavior-state.cpy".
+procedure division using px-stream-part px-user-data px-status.
+    add 1 to bh-stream-count
+    if bh-mode = 12 and px-stream-kind = "messages"
+        move "STREAM_FAILED" to px-status
+    end-if
+    goback.
+end program behavior-stream.
+
+identification division.
+program-id. behavior-batch recursive.
+data division.
+local-storage section.
+01 batch-index binary-long.
+linkage section.
+copy "api.cpy".
+copy "behavior-state.cpy".
+copy "tool-batch.cpy".
+procedure division using px-tool-batch-request px-tool-batch-result
+    px-user-data px-status.
+    add 1 to bh-batch-count
+    move px-tb-max-parallel to bh-batch-max
+    move px-tb-count to px-tb-result-count
+    perform varying batch-index from 1 by 1
+        until batch-index > px-tb-count
+        move px-tb-call-id(batch-index)
+            to px-tb-result-id(batch-index)
+        move px-tb-call-input(batch-index)
+            to px-tb-result-output(batch-index)
+        move px-tb-call-input-length(batch-index)
+            to px-tb-result-output-length(batch-index)
+        move px-tb-call-name(batch-index)
+            to bh-batch-last-name
+        add 1 to bh-batch-tool-count
+    end-perform
+    goback.
+end program behavior-batch.

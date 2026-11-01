@@ -30,6 +30,13 @@ copybook callbacks
   01 px-event.
   05 px-event-kindpic x(32).
   05 px-event-toolpic x(64).
+  01 px-stream-part.
+  05 px-stream-run-idpic x(128).
+  05 px-stream-session-idpic x(128).
+  05 px-stream-kindpic x(16).
+  05 px-stream-stepbinary-long.
+  05 px-stream-datapic x(2048).
+  05 px-stream-data-lengthbinary-long.
   01 px-statuspic x(64).
 
 copybook checkpoint
@@ -103,6 +110,9 @@ copybook inputs
   05 px-after-run-programpic x(64).
   05 px-after-run-program-2pic x(64).
   05 px-cancel-programpic x(64).
+  05 px-stream-programpic x(64).
+  05 px-tool-batch-programpic x(64).
+  05 px-max-parallel-toolsbinary-long.
   05 px-allowed-tool-countbinary-long.
   05 px-allowed-toolsoccurs 8 times pic x(64).
   01 px-session.
@@ -319,10 +329,39 @@ copybook slice
   05 px-slice-output-lengthbinary-long.
   05 px-slice-errorpic x(64).
 
+copybook sse
+  01 px-sse-request.
+  05 px-sse-textpic x(32768).
+  05 px-sse-lengthbinary-long.
+  01 px-sse-result.
+  05 px-sse-donepic 9.
+  05 px-sse-event-countbinary-long.
+  05 px-sse-contentpic x(32768).
+  05 px-sse-content-lengthbinary-long.
+  05 px-sse-errorpic x(64).
+
 copybook stream
   01 px-stream-result.
   05 px-stream-countbinary-long.
   05 px-stream-kindoccurs 6 times pic x(16).
+
+copybook tool-batch
+  01 px-tool-batch-request.
+  05 px-tb-countbinary-long.
+  05 px-tb-max-parallelbinary-long.
+  05 px-tb-callsoccurs 8 times.
+  10 px-tb-call-idpic x(64).
+  10 px-tb-call-namepic x(64).
+  10 px-tb-call-inputpic x(2048).
+  10 px-tb-call-input-lengthbinary-long.
+  01 px-tool-batch-result.
+  05 px-tb-result-countbinary-long.
+  05 px-tb-resultsoccurs 8 times.
+  10 px-tb-result-idpic x(64).
+  10 px-tb-result-outputpic x(2048).
+  10 px-tb-result-output-lengthbinary-long.
+  10 px-tb-result-errorpic x(64).
+  01 px-tool-batch-statuspic x(64).
 
 copybook toolcall
   01 px-toolcall-request.
@@ -425,6 +464,10 @@ program praxo-jsonschema
 module slice
 program praxo-json-slice
   using px-slice-request px-slice-result
+
+module sse
+program praxo-sse
+  using px-sse-request px-sse-result
 
 module stream
 program praxo-stream

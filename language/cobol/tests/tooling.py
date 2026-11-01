@@ -63,7 +63,14 @@ class ToolingTests(unittest.TestCase):
         self.assertIn("px-before-run-program", current)
         self.assertIn("px-before-tool-program", current)
         self.assertIn("px-after-run-program", current)
+        self.assertIn("px-cancel-program", current)
+        self.assertIn("px-stream-program", current)
+        self.assertIn("px-tool-batch-program", current)
+        self.assertIn("px-max-parallel-tools", current)
         self.assertIn("px-allowed-tools", current)
+        self.assertIn("copybook sse", current)
+        self.assertIn("program praxo-sse", current)
+        self.assertIn("copybook tool-batch", current)
 
     def test_source_size_guardrail(self):
         for path in (ROOT / "src").glob("*.cob"):
