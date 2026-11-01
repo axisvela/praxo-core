@@ -11,14 +11,14 @@
 | 语言数 | 14 |
 | 场景数 | 19 |
 | 单元格数 | 266 |
-| 通过 | 133 |
-| 不支持 | 133 |
+| 通过 | 137 |
+| 不支持 | 129 |
 | 失败 | 0 |
 | 源报告 | `report.json` |
-| Run ID | `20261031T144033Z-10a94682` |
-| Revision | `0b19d134689f77a644ef9c422fb83d6cbf88148a` |
+| Run ID | `20261101T004140Z-f1263f63` |
+| Revision | `2384e3589a0d8d3d86da5ba863ea0db74980b804` |
 | 工作区未提交 | False |
-| CI 任务 | [GitHub Actions](https://github.com/axisvela/praxo-core/actions/runs/41211052980/job/124565939167) |
+| CI 任务 | [GitHub Actions](https://github.com/axisvela/praxo-core/actions/runs/41257537691/job/124703790344) |
 
 ## 矩阵图例
 
@@ -33,10 +33,10 @@
 
 | 场景 | Go | Py | TS | Java | Rust | Ftn | COB | Ruby | Ex | Erl | C++ | PHP | C# | Lua |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| `final-arguments` | S | S | S | G | - | - | - | - | - | - | - | - | N | - |
-| `final-name` | S | S | S | G | - | - | - | - | - | - | - | - | N | - |
-| `unchanged-single-auth` | S | S | S | G | - | - | - | - | - | - | - | - | N | - |
-| `initial-denial` | S | S | S | G | - | - | - | - | - | - | - | - | N | - |
+| `final-arguments` | S | S | S | G | - | - | - | - | - | - | - | N | N | - |
+| `final-name` | S | S | S | G | - | - | - | - | - | - | - | N | N | - |
+| `unchanged-single-auth` | S | S | S | G | - | - | - | - | - | - | - | N | N | - |
+| `initial-denial` | S | S | S | G | - | - | - | - | - | - | - | N | N | - |
 | `startup-cleanup` | S | S | S | G | - | - | - | - | - | - | - | - | - | - |
 | `after-run-continue` | S | S | S | G | - | - | - | - | - | - | - | - | - | - |
 | `cleanup-failclosed` | S | S | S | G | - | - | - | - | - | - | - | - | - | - |
@@ -278,10 +278,10 @@ python scripts/cpp_behavior_suite.py
 ### PHP
 
 - 覆盖类型: 套件级
-- 通过: 6/19
-- 不支持: 13
-- 已覆盖场景: `schema-number-unicode`, `call-limit`, `pii-tool-history`, `checkpoint-content`, `capacity-failclosed`, `run-state-isolation`
-- 未覆盖场景: `final-arguments`, `final-name`, `unchanged-single-auth`, `initial-denial`, `startup-cleanup`, `after-run-continue`, `cleanup-failclosed`, `model-cancel-cleanup`, `tool-cancel-cleanup`, `parallel-tools`, `stream-callback-error`, `sse-truncated`, `sse-half-packet`
+- 通过: 10/19
+- 不支持: 9
+- 已覆盖场景: `final-arguments`, `final-name`, `unchanged-single-auth`, `initial-denial`, `schema-number-unicode`, `call-limit`, `pii-tool-history`, `checkpoint-content`, `capacity-failclosed`, `run-state-isolation`
+- 未覆盖场景: `startup-cleanup`, `after-run-continue`, `cleanup-failclosed`, `model-cancel-cleanup`, `tool-cancel-cleanup`, `parallel-tools`, `stream-callback-error`, `sse-truncated`, `sse-half-packet`
 
 命令:
 
