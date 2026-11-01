@@ -283,22 +283,41 @@ final class Agent
         if (!$this->toolAllowed($call->name)) {
             throw new PraxoException('AGENT_TOOL_NOT_ALLOWED', "agent: tool {$call->name} is not allowed");
         }
-        $this->authorize(new Action('tool.invoke', $sessionId, $call->name, $call->arguments));
-        $tools = $this->options->tools
-            ?? throw PraxoException::toolNotFound("tool {$call->name} is not registered");
-        $tool = $tools->get($call->name);
+        $originalName = $call->name;
+        $originalArguments = $call->arguments;
+        $this->authorize(new Action('tool.invoke', $sessionId, $originalName, $originalArguments));
         $middlewareCall = new MiddlewareToolCall($runId, $sessionId, $call);
         $this->beforeTool($middlewareCall);
+        $finalCall = $middlewareCall->call;
+        if (!$this->toolAllowed($finalCall->name)) {
+            throw new PraxoException(
+                'AGENT_TOOL_NOT_ALLOWED',
+                "agent: tool {$finalCall->name} is not allowed",
+            );
+        }
+        $changed = $finalCall->name !== $originalName
+            || Json::encode($finalCall->arguments) !== Json::encode($originalArguments);
+        if ($changed) {
+            $this->authorize(new Action(
+                'tool.invoke',
+                $sessionId,
+                $finalCall->name,
+                $finalCall->arguments,
+            ));
+        }
         if ($middlewareCall->skip) {
             $value = $middlewareCall->result;
             $error = $middlewareCall->error;
         } else {
+            $tools = $this->options->tools
+                ?? throw PraxoException::toolNotFound("tool {$finalCall->name} is not registered");
+            $tool = $tools->get($finalCall->name);
             $this->emit('tool.call', $sessionId, $runId, [
-                'name' => $call->name,
-                'arguments' => $call->arguments,
+                'name' => $finalCall->name,
+                'arguments' => $finalCall->arguments,
             ]);
             try {
-                $value = $tool->invoke($call->arguments);
+                $value = $tool->invoke($finalCall->arguments);
                 $error = null;
             } catch (PraxoException $exception) {
                 $value = null;

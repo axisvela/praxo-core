@@ -6,9 +6,13 @@ namespace Praxo\Tests;
 
 require __DIR__ . '/../src/autoload.php';
 
+use Praxo\Core\Action;
 use Praxo\Core\Agent;
 use Praxo\Core\AgentOptions;
+use Praxo\Core\BaseMiddleware;
 use Praxo\Core\CallLimitMiddleware;
+use Praxo\Core\Decision;
+use Praxo\Core\PolicyHook;
 use Praxo\Core\CheckpointAllowlist;
 use Praxo\Core\ContextBudget;
 use Praxo\Core\ContextEstimator;
@@ -47,6 +51,35 @@ final class ToolModel implements Model
             ]));
         }
         return new Response(Message::assistant('done'));
+    }
+}
+
+final class RecordingPolicy implements PolicyHook
+{
+    /** @var list<Action> */
+    public array $actions = [];
+    public mixed $handler = null;
+
+    public function authorize(Action $action): Decision
+    {
+        $this->actions[] = $action;
+        return $this->handler === null
+            ? Decision::allow('ok')
+            : ($this->handler)($action);
+    }
+}
+
+final class MutatingMiddleware extends BaseMiddleware
+{
+    public mixed $mutate = null;
+    public int $beforeToolCalls = 0;
+
+    public function beforeTool(MiddlewareToolCall $call): void
+    {
+        $this->beforeToolCalls++;
+        if ($this->mutate !== null) {
+            ($this->mutate)($call);
+        }
     }
 }
 $passed = 0;
@@ -194,6 +227,127 @@ $agentOptions->maxSteps = 8;
 $agent = new Agent($agentOptions);
 $result = $agent->run(new Session('s1'), 'use the tool');
 check($result->output === 'done' && $result->steps === 2 && $calls === 1, 'agent tool loop');
+
+$invoked = [];
+$registry = new ToolRegistry();
+$registry->register(new FuncTool('echo', 'Echo', static function (array $arguments) use (&$invoked): array {
+    $invoked[] = $arguments;
+    return $arguments;
+}));
+$policy = new RecordingPolicy();
+$middleware = new MutatingMiddleware();
+$middleware->mutate = static function (MiddlewareToolCall $call): void {
+    $call->call->arguments = ['text' => 'mutated'];
+};
+$options = new AgentOptions(new ToolModel());
+$options->tools = $registry;
+$options->policy = $policy;
+$options->middleware[] = $middleware;
+$result = (new Agent($options))->run(new Session('s1'), 'go');
+$toolActions = array_values(array_filter(
+    $policy->actions,
+    static fn(Action $action): bool => $action->kind === 'tool.invoke',
+));
+check($result->output === 'done' && count($invoked) === 1, 'final arguments effect');
+check(count($toolActions) === 2, 'final arguments reauthorized');
+check($toolActions[0]->arguments['text'] === 'hi', 'original arguments authorized');
+check($toolActions[1]->arguments['text'] === 'mutated', 'final arguments authorized');
+check($invoked[0]['text'] === 'mutated', 'final arguments invoked');
+
+$echoCalls = 0;
+$otherCalls = 0;
+$registry = new ToolRegistry();
+$registry->register(new FuncTool('echo', 'Echo', static function (array $arguments) use (&$echoCalls): array {
+    $echoCalls++;
+    return $arguments;
+}));
+$registry->register(new FuncTool('other', 'Other', static function (array $arguments) use (&$otherCalls): array {
+    $otherCalls++;
+    return $arguments;
+}));
+$policy = new RecordingPolicy();
+$middleware = new MutatingMiddleware();
+$middleware->mutate = static function (MiddlewareToolCall $call): void {
+    $call->call->name = 'other';
+};
+$options = new AgentOptions(new ToolModel());
+$options->tools = $registry;
+$options->policy = $policy;
+$options->middleware[] = $middleware;
+(new Agent($options))->run(new Session('s1'), 'go');
+$toolActions = array_values(array_filter(
+    $policy->actions,
+    static fn(Action $action): bool => $action->kind === 'tool.invoke',
+));
+check($echoCalls === 0 && $otherCalls === 1, 'final name uses final tool');
+check(
+    count($toolActions) === 2
+    && $toolActions[0]->toolName === 'echo'
+    && $toolActions[1]->toolName === 'other',
+    'final name authorized',
+);
+
+$deniedCalls = 0;
+$deniedRegistry = new ToolRegistry();
+$deniedRegistry->register(new FuncTool('echo', 'Echo', static fn(array $arguments): array => $arguments));
+$deniedRegistry->register(new FuncTool('other', 'Other', static function (array $arguments) use (&$deniedCalls): array {
+    $deniedCalls++;
+    return $arguments;
+}));
+$deniedMiddleware = new MutatingMiddleware();
+$deniedMiddleware->mutate = static function (MiddlewareToolCall $call): void {
+    $call->call->name = 'other';
+};
+$deniedOptions = new AgentOptions(new ToolModel());
+$deniedOptions->tools = $deniedRegistry;
+$deniedOptions->allowedTools = ['echo'];
+$deniedOptions->middleware[] = $deniedMiddleware;
+try {
+    (new Agent($deniedOptions))->run(new Session('s1'), 'go');
+    check(false, 'final name allowlist');
+} catch (PraxoException $error) {
+    check($error->praxoCode === 'AGENT_TOOL_NOT_ALLOWED' && $deniedCalls === 0, 'final name allowlist code');
+}
+
+$policy = new RecordingPolicy();
+$middleware = new MutatingMiddleware();
+$options = new AgentOptions(new ToolModel());
+$options->tools = $registry;
+$options->policy = $policy;
+$options->middleware[] = $middleware;
+(new Agent($options))->run(new Session('s1'), 'go');
+$toolActions = array_values(array_filter(
+    $policy->actions,
+    static fn(Action $action): bool => $action->kind === 'tool.invoke',
+));
+check(count($toolActions) === 1, 'unchanged call authorized once');
+
+$toolCalls = 0;
+$registry = new ToolRegistry();
+$registry->register(new FuncTool('echo', 'Echo', static function (array $arguments) use (&$toolCalls): array {
+    $toolCalls++;
+    return $arguments;
+}));
+$policy = new RecordingPolicy();
+$policy->handler = static fn(Action $action): Decision => $action->kind === 'tool.invoke'
+    ? Decision::deny('blocked')
+    : Decision::allow('ok');
+$middleware = new MutatingMiddleware();
+$options = new AgentOptions(new ToolModel());
+$options->tools = $registry;
+$options->policy = $policy;
+$options->middleware[] = $middleware;
+try {
+    (new Agent($options))->run(new Session('s1'), 'go');
+    check(false, 'initial denial');
+} catch (PraxoException $error) {
+    check(
+        $error->praxoCode === 'AGENT_POLICY_DENIED'
+        && $middleware->beforeToolCalls === 0
+        && $toolCalls === 0,
+        'initial denial prevents middleware and effect',
+    );
+}
 
 echo "PHP core tests passed ({$passed})\n";
 

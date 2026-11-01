@@ -62,7 +62,7 @@ this cell alone. Other Rust, Fortran, COBOL, Ruby, Elixir, Erlang, C++, PHP, C#,
 and Lua scenarios remain `unsupported`. The report shows those cells explicitly
 instead of dropping the languages.
 
-C# also has native-suite coverage for `final-arguments`, `final-name`,
+C# and PHP also have native-suite coverage for `final-arguments`, `final-name`,
 `unchanged-single-auth`, and `initial-denial`. The full cell-by-cell matrix and
 per-language reports are in the [Behavior Lab Matrix](behavior-lab-matrix.md).
 

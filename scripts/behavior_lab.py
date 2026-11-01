@@ -204,8 +204,9 @@ def scenarios() -> tuple[Scenario, ...]:
                 ),
                 "java": (auth,),
                 "csharp": (csharp,),
+                "php": (php,),
             },
-            {"go": "scenario", "python": "scenario", "typescript": "scenario", "java": "group", "csharp": "suite"},
+            {"go": "scenario", "python": "scenario", "typescript": "scenario", "java": "group", "csharp": "suite", "php": "suite"},
         ),
         Scenario(
             "final-name",
@@ -231,8 +232,9 @@ def scenarios() -> tuple[Scenario, ...]:
                 ),
                 "java": (auth,),
                 "csharp": (csharp,),
+                "php": (php,),
             },
-            {"go": "scenario", "python": "scenario", "typescript": "scenario", "java": "group", "csharp": "suite"},
+            {"go": "scenario", "python": "scenario", "typescript": "scenario", "java": "group", "csharp": "suite", "php": "suite"},
         ),
         Scenario(
             "unchanged-single-auth",
@@ -250,8 +252,9 @@ def scenarios() -> tuple[Scenario, ...]:
                 ),
                 "java": (auth,),
                 "csharp": (csharp,),
+                "php": (php,),
             },
-            {"go": "scenario", "python": "scenario", "typescript": "scenario", "java": "group", "csharp": "suite"},
+            {"go": "scenario", "python": "scenario", "typescript": "scenario", "java": "group", "csharp": "suite", "php": "suite"},
         ),
         Scenario(
             "initial-denial",
@@ -269,8 +272,9 @@ def scenarios() -> tuple[Scenario, ...]:
                 ),
                 "java": (auth,),
                 "csharp": (csharp,),
+                "php": (php,),
             },
-            {"go": "scenario", "python": "scenario", "typescript": "scenario", "java": "group", "csharp": "suite"},
+            {"go": "scenario", "python": "scenario", "typescript": "scenario", "java": "group", "csharp": "suite", "php": "suite"},
         ),
         Scenario(
             "startup-cleanup",
