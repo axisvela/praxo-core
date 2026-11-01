@@ -151,9 +151,9 @@ failures; use that [behavior job](https://github.com/axisvela/praxo-core/actions
 and its artifact when citing the report. All agent-capable languages and C are
 at 19/19; PHP is 18/19 because parallel tools are not portable. COBOL `0.3.0`
 reaches 19/19 through native-suite coverage, with parallel tools delegated to a
-caller-provided batch dispatcher. The
-[Behavior Lab Matrix](behavior-lab-matrix.md) lists every cell and each
-language's covered and unsupported scenarios.
+caller-provided batch dispatcher. Ruby and C++ `0.3.0` also reach 19/19 in the
+source; the [Behavior Lab Matrix](behavior-lab-matrix.md) reflects the
+`7a7b796` report and will be refreshed from the next clean CI report.
 
 ## Limits
 

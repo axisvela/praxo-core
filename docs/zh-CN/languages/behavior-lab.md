@@ -98,7 +98,7 @@ cmake --build language/c/build
 
 ## 当前证据
 
-2026-10-31 的 Go/Python/TypeScript/Java 十九场景本地运行通过了全部 76 个单元格。commit `7a7b796` 上的 clean-SHA Linux CI 运行通过十六语言集合：262 passed、42 个显式 unsupported、无失败；引用报告时应使用该 [behavior job](https://github.com/axisvela/praxo-core/actions/runs/41296991587/job/124819809721) 及其 artifact。所有 agent-capable 语言和 C 均为 19/19；PHP 为 18/19，因为并行工具不可移植。COBOL 0.3.0 通过原生套件覆盖达到 19/19，其中 parallel-tools 将并发执行委托给调用方提供的批处理调度器。[行为实验矩阵](behavior-lab-matrix.md) 列出每个单元格以及各语言的已覆盖和未覆盖场景。
+2026-10-31 的 Go/Python/TypeScript/Java 十九场景本地运行通过了全部 76 个单元格。commit `7a7b796` 上的 clean-SHA Linux CI 运行通过十六语言集合：262 passed、42 个显式 unsupported、无失败；引用报告时应使用该 [behavior job](https://github.com/axisvela/praxo-core/actions/runs/41296991587/job/124819809721) 及其 artifact。所有 agent-capable 语言和 C 均为 19/19；PHP 为 18/19，因为并行工具不可移植。COBOL 0.3.0 通过原生套件覆盖达到 19/19，其中 parallel-tools 将并发执行委托给调用方提供的批处理调度器。Ruby 和 C++ 0.3.0 也在源码中达到 19/19；行为实验矩阵反映 7a7b796 报告，将在下一次干净 CI 报告后刷新。[行为实验矩阵](behavior-lab-matrix.md) 列出每个单元格以及各语言的已覆盖和未覆盖场景。
 
 ## 限制
 
