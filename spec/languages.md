@@ -77,7 +77,7 @@ for real providers, platforms, and production behavior is reported separately.
 | Java | Core | released | `java/v0.3.0` | complete | 11 vectors, OpenAI adapter, API snapshot; Maven Central `com.axisvela:praxo-core==0.3.0` |
 | Rust | Core | released | `rust/v0.2.0` | complete | 11 vectors, native tests, `tool.Gateway`, `jsonschema.Schema`, streaming/cancellation/parallel tools, compiler-derived API/parity gate; source `0.2.0`, crates.io `praxo-core==0.1.4` |
 | C | Core | released | `c/v0.2.0` | complete | 11 vectors, native tests; public Core API plus wire JSON primitives; agent cancellation and call-limit concurrency are partial |
-| C# | Core (.NET) | released | `csharp/v0.1.2` | complete | 11 vectors, API snapshot, OpenAI adapter; NuGet `Praxo.Core==0.1.2` |
+| C# | Core (.NET) | released | `csharp/v0.2.0` | complete | 11 vectors, API snapshot, OpenAI adapter, streaming/cancellation/parallel tools; source `0.2.0`, NuGet `Praxo.Core==0.1.2` |
 | Visual Basic | Sample (.NET) | released | `csharp/v0.1.1` | sample | VB.NET consumer sample in `language/csharp/samples` |
 | PowerShell | Bridge | released | `powershell/v0.1.0` | complete | Wraps the bridge CLI |
 | Shell | Bridge | released | `shell/v0.1.0` | complete | Wraps the bridge CLI |

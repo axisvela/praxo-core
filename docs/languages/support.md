@@ -106,9 +106,10 @@ a merged implementation PR as a support commitment.
   `ruby/v0.1.0`. A clean project installed the gem and ran a minimal agent.
 - Lua publishes `praxo-core==0.1.0-1` on LuaRocks from source tag `lua/v0.1.0`.
   A local rock build and module load passed; registry install smoke is pending.
-- C# publishes `Praxo.Core==0.1.2` on NuGet from source tag `csharp/v0.1.2`
-  through GitHub Actions Trusted Publishing. CI built, tested, packed, and
-  pushed the package; a local .NET consumer install is not yet recorded.
+- C# source tag `csharp/v0.2.0` includes streaming runs, cancellation, bounded
+  parallel tools, and SSE validation. The NuGet package remains
+  `Praxo.Core==0.1.2` from source tag `csharp/v0.1.2`; a local .NET consumer
+  install is not yet recorded.
 - D publishes `praxo-core==0.1.0` on DUB/code.dlang.org from the split
   repository `axisvela/praxo-core-d` (tag `v0.1.0`); source tag `d/v0.1.0`
   remains in this repository. `dub fetch praxo-core` succeeded.

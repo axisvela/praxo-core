@@ -7,10 +7,10 @@ Schema validation, and plugin manifest parsing. It runs in-process and does not
 require a hosted service.
 
 - `SPEC_VERSION`: `0.2.0`
-- Core version: `0.1.2`
+- Core version: `0.2.0`
 - License: MIT
 - Dependencies: none beyond the .NET base class library
-- Published on NuGet as `Praxo.Core@0.1.2`
+- The latest NuGet package is `Praxo.Core@0.1.2`; `0.2.0` is a source release
 
 ## Install
 
@@ -75,4 +75,5 @@ var agent = new Agent(new AgentOptions(model)
 
 ## Release
 
-Tag shape: `csharp/v0.1.2`. The tag targets `SPEC_VERSION` `0.2.0`.
+Tag shape: `csharp/v0.2.0`. The tag targets `SPEC_VERSION` `0.2.0`. See
+[CHANGELOG.md](CHANGELOG.md) for per-release changes and compatibility notes.

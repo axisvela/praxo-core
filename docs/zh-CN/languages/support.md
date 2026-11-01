@@ -76,8 +76,8 @@ Bridge、Sample 描述运行时的接入方式，不证明其语言缺乏 Framew
   干净项目已安装该 gem 并运行最小 agent。
 - Lua 已从源码标签 `lua/v0.1.0` 在 LuaRocks 发布 `praxo-core==0.1.0-1`。
   本地 rock 构建和模块加载通过；registry 安装 smoke 待完成。
-- C# 已从源码标签 `csharp/v0.1.2` 通过 GitHub Actions Trusted Publishing 在
-  NuGet 发布 `Praxo.Core==0.1.2`。CI 完成构建、测试、打包和推送；本地 .NET
+- C# 源码标签 `csharp/v0.2.0` 包含流式运行、取消、有限并行工具和 SSE 校验。
+  NuGet 包仍为 `Praxo.Core==0.1.2`（源码标签 `csharp/v0.1.2`）；本地 .NET
   消费者安装尚未记录。
 - D 已从独立发布仓库 `axisvela/praxo-core-d`（tag `v0.1.0`）在
   DUB/code.dlang.org 发布 `praxo-core==0.1.0`；主仓库保留源码标签
