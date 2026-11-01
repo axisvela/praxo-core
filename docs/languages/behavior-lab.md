@@ -136,17 +136,12 @@ overwritten; `latest.json` is only a convenience pointer.
 ## Current Evidence
 
 The Go/Python/TypeScript/Java local nineteen-scenario run on 2026-10-31 passed
-all 76 cells. The last clean-SHA Linux CI run on commit `2384e35` covers
-fourteen languages with 137 passed, 129 explicitly unsupported, and no
-failures; use that [behavior job](https://github.com/axisvela/praxo-core/actions/runs/41257537691/job/124703790344)
-and its artifact when citing a clean report. R and C are not part of that
-fourteen-language run. The [Behavior Lab Matrix](behavior-lab-matrix.md) lists
-every cell and each language's covered and unsupported scenarios.
-
-The current sixteen-language source set was validated locally on 2026-11-01
-with 152 passed, 152 explicitly unsupported, and no failures. That run used a
-dirty working tree and is pre-merge validation, not a clean-SHA record. The
-official matrix should be regenerated from the next clean CI report.
+all 76 cells. The clean-SHA Linux CI run on commit `33ea6cb` passed the
+sixteen-language set with 152 passed, 152 explicitly unsupported, and no
+failures; use that [behavior job](https://github.com/axisvela/praxo-core/actions/runs/41266751248/job/124731030053)
+and its artifact when citing the report. R and C are included. The
+[Behavior Lab Matrix](behavior-lab-matrix.md) lists every cell and each
+language's covered and unsupported scenarios.
 
 ## Limits
 

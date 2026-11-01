@@ -60,9 +60,8 @@
   Agent-capable is Go, Python, TypeScript, Java, Rust, R, and C#; extended is
   C, PHP, Fortran, COBOL, Ruby, Elixir, Erlang, C++, and Lua; other
   implementations are optional. The lab now wires sixteen languages, with R and
-  C contributing selected native-suite rows. A local dirty-tree run reported 152
-  passed, 152 unsupported, and no failures; clean CI records the official
-  matrix.
+  C contributing selected native-suite rows. Clean CI at `33ea6cb` reported 152
+  passed, 152 unsupported, and no failures.
 - Added a "When Not to Use PRAXO-CORE" guide covering non-goals, alternative
   starting points, product-owned capabilities, and migration/exit costs.
 - Added an evaluation-only workspace runtime profile that composes state, local,

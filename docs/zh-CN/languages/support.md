@@ -39,7 +39,7 @@ Bridge、Sample 描述运行时的接入方式，不证明其语言缺乏 Framew
 
 2026-11-01 的源码集覆盖十六个已接入语言：agent-capable 的 Go、Python、TypeScript、Java、Rust、R、C#，以及 extended 的 C、PHP、Fortran、COBOL、Ruby、Elixir、Erlang、C++、Lua。在 agent-capable 层级内，Go/Python/TypeScript/Java 通过全部十九个场景，Rust 和 R 通过六个，C# 有十三个场景的原生套件覆盖。扩展语言使用原生套件覆盖，没有场景测试的单元格保持 `unsupported`。逐单元格结果见[行为实验矩阵](behavior-lab-matrix.md)。
 
-十六语言集的本地 dirty-tree 验证结果为 152 passed、152 unsupported、无失败。下一次 clean-SHA CI 运行会用该十六语言报告替换当前十四语言 clean 矩阵。
+`33ea6cb` 上的 clean-SHA CI 运行为十六语言集报告了 152 passed、152 unsupported、无失败。矩阵由该报告生成。
 
 `unsupported` 是明确记录的缺口，既不是失败，也不是通过。不要从契约成熟度 `complete` 推断完整行为对齐。
 

@@ -98,9 +98,7 @@ cmake --build language/c/build
 
 ## 当前证据
 
-2026-10-31 的 Go/Python/TypeScript/Java 十九场景本地运行通过了全部 76 个单元格。commit `2384e35` 上的 clean-SHA Linux CI 运行覆盖十四语言：137 passed、129 个显式 unsupported、无失败；引用 clean 报告时应使用该 [behavior job](https://github.com/axisvela/praxo-core/actions/runs/41257537691/job/124703790344) 及其 artifact。R 和 C 不在该十四语言运行中。[行为实验矩阵](behavior-lab-matrix.md) 列出每个单元格以及各语言的已覆盖和未覆盖场景。
-
-当前十六语言源码集于 2026-11-01 在本地 dirty-tree 验证：152 passed、152 个显式 unsupported、无失败。该结果属于合并前验证，不是 clean-SHA 记录；官方矩阵应由下一次 clean CI 报告重新生成。
+2026-10-31 的 Go/Python/TypeScript/Java 十九场景本地运行通过了全部 76 个单元格。commit `33ea6cb` 上的 clean-SHA Linux CI 运行通过十六语言集合：152 passed、152 个显式 unsupported、无失败；引用报告时应使用该 [behavior job](https://github.com/axisvela/praxo-core/actions/runs/41266751248/job/124731030053) 及其 artifact。R 和 C 已包含在内。[行为实验矩阵](behavior-lab-matrix.md) 列出每个单元格以及各语言的已覆盖和未覆盖场景。
 
 ## 限制
 

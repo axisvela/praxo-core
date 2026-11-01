@@ -15,9 +15,10 @@ This page expands the summary in [Behavior Lab](behavior-lab.md) into a scenario
 | Unsupported | 152 |
 | Failed | 0 |
 | Source report | `report.json` |
-| Run ID | `20261101T023247Z-b2b06feb` |
-| Revision | `94295e2ee7ad40b2df4b15a948c5717aa2742384` |
-| Working tree dirty | True |
+| Run ID | `20261101T025123Z-bf269877` |
+| Revision | `33ea6cbdd40f645406683a432d3db3024f89faba` |
+| Working tree dirty | False |
+| CI job | [GitHub Actions](https://github.com/axisvela/praxo-core/actions/runs/41266751248/job/124731030053) |
 
 ## Capability tiers
 
@@ -28,9 +29,6 @@ The matrix now covers sixteen wired languages. Contract tier is separate from be
 | Agent-capable | Go, Python, TypeScript, Java, Rust, R, C# | Targets all nineteen scenarios; current coverage varies by language |
 | Extended | C, PHP, Fortran, COBOL, Ruby, Elixir, Erlang, C++, Lua | Advances scenario by scenario with a named consumer and maintainer |
 | Optional | Other declared implementations | Outside the current behavior program |
-
-This report is a local dirty-tree validation at `94295e2`. The next clean-SHA
-CI run will replace it with the official sixteen-language matrix.
 
 ## Matrix legend
 

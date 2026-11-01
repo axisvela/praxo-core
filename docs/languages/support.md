@@ -54,9 +54,9 @@ and R pass six, and C# has native-suite coverage for thirteen. Extended rows use
 native-suite coverage and stay `unsupported` where no scenario test exists. See
 the [Behavior Lab matrix](behavior-lab-matrix.md) for every cell.
 
-A local dirty-tree validation of the sixteen-language set reported 152 passed,
-152 unsupported, and no failures. The next clean-SHA CI run will replace the
-current clean fourteen-language matrix with that sixteen-language report.
+The clean-SHA CI run at `33ea6cb` reported 152 passed, 152 unsupported, and no
+failures for the sixteen-language set. The matrix is generated from that
+report.
 
 An unsupported cell is a recorded gap, not a failure and not a pass. Do not
 infer full behavior parity from `complete` contract maturity.

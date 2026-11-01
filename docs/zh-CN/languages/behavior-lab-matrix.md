@@ -15,9 +15,10 @@
 | 不支持 | 152 |
 | 失败 | 0 |
 | 源报告 | `report.json` |
-| Run ID | `20261101T023247Z-b2b06feb` |
-| Revision | `94295e2ee7ad40b2df4b15a948c5717aa2742384` |
-| 工作区未提交 | True |
+| Run ID | `20261101T025123Z-bf269877` |
+| Revision | `33ea6cbdd40f645406683a432d3db3024f89faba` |
+| 工作区未提交 | False |
+| CI 任务 | [GitHub Actions](https://github.com/axisvela/praxo-core/actions/runs/41266751248/job/124731030053) |
 
 ## 能力层级
 
@@ -28,8 +29,6 @@
 | Agent-capable | Go、Python、TypeScript、Java、Rust、R、C# | 以全部十九个场景为目标；当前覆盖因语言而异 |
 | Extended | C、PHP、Fortran、COBOL、Ruby、Elixir、Erlang、C++、Lua | 在有明确消费者和维护者时逐场景推进 |
 | Optional | 其他已声明实现 | 不在当前行为计划内 |
-
-该报告是 `94295e2` 上的本地 dirty-tree 验证。下一次 clean-SHA CI 运行会用官方十六语言矩阵替换它。
 
 ## 矩阵图例
 
