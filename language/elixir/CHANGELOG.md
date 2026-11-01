@@ -1,5 +1,23 @@
 # Elixir Core Release Notes
 
+## 0.3.0 - 2026-11-01
+
+Source version `0.3.0`; tag creation is a release step.
+
+### Added
+
+- Cancellation option with model/tool cancellation cleanup.
+- Stream parts and `on_stream` callbacks; stream errors fail closed.
+- Native `Praxo.SSE.parse/1` parser rejecting truncated and half-packet streams.
+- Bounded parallel tool execution through `max_parallel_tools`.
+- API snapshot `api/0.3.0.txt`.
+
+### Compatibility
+
+- New `AgentOptions` fields are additive.
+- The Hex package remains `praxo_core@0.1.1` until publication.
+- The Core contract remains `SPEC_VERSION` `0.2.0`.
+
 ## 0.2.0 - 2026-11-01
 
 Source release tag `elixir/v0.2.0`. The Hex package remains `praxo_core@0.1.1`

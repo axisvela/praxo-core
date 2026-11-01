@@ -1,7 +1,7 @@
 # PRAXO-CORE for Elixir
 
 PRAXO-CORE is an embeddable, MIT-licensed agent framework. This package is its
-native Elixir Core with source tag `elixir/v0.2.0`. It passes all eleven shared
+native Elixir Core with source tag `elixir/v0.3.0`. It passes all eleven shared
 vector groups with `Elixir 1.20.4` on `Erlang/OTP 29` and includes the native
 agent loop, context compaction, memory store, path policy, checkpoint allowlist,
 tool-call parsing, and opt-in tool selection, PII redaction, structured output
@@ -13,7 +13,7 @@ language runtime. Erlang shares the BEAM runtime and does not add a second
 agent loop. Provider adapters and plugin hosts remain outside the declared Core
 scope.
 
-The latest Hex package is `praxo_core@0.1.1`; `0.2.0` is a source release and
+The latest Hex package is `praxo_core@0.1.1`; `0.3.0` is a source release and
 HexDocs are not published.
 
 ## Install
@@ -57,7 +57,7 @@ schema = Praxo.Json.parse!(~s({"type":"string","pattern":"^a+$"}))
 assert Praxo.JsonSchema.validate(schema, "aaa") == []
 ```
 
-Public declarations are inventoried in [`api/0.2.0.txt`](api/0.2.0.txt).
+Public declarations are inventoried in [`api/0.3.0.txt`](api/0.3.0.txt).
 
 An agent model can be a function accepting a `Praxo.Request` and returning
 `{:ok, %Praxo.Response{}}` or `{:error, code}`, where `code` is a string:
@@ -89,6 +89,19 @@ empty selection advertises none and rejects every tool call with
 `AGENT_TOOL_NOT_SELECTED`. A selected but unregistered name still fails with
 `TOOL_NOT_FOUND`. This is an agent-loop restriction, not a sandbox for direct
 calls to `Praxo.Agent.call/2`.
+
+Cancellation, stream callbacks, and bounded parallel tools are also opt-in:
+
+- `cancellation` is a zero-arity function (or boolean) checked before model
+  work and before and after each tool. Cancellation fails with
+  `AGENT_CANCELLED` after after-run cleanup.
+- `on_stream` receives `Praxo.StreamPart` values for `values` and `messages`.
+  A callback error fails the run with `STREAM_ERROR`.
+- `max_parallel_tools` runs tool invocations with `Task.async` and preserves
+  result order. Tool functions run in task processes and must manage their own
+  shared state.
+- `Praxo.SSE.parse/1` rejects truncated or malformed half-packet streams with
+  `MODEL_STREAM`.
 
 The following options are independently opt-in and leave default behavior unchanged:
 

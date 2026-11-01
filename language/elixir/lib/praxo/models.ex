@@ -58,6 +58,10 @@ defmodule Praxo.Event do
   defstruct kind: "", session_id: "", run_id: nil, data: :null
 end
 
+defmodule Praxo.StreamPart do
+  defstruct run_id: "", session_id: "", kind: "", step: 0, data: :null
+end
+
 defmodule Praxo.Models do
   alias Praxo.{ContentBlock, Event, Message, MemoryRecord, PathGrant, Request, Response, RunResult, Session, ToolCall, ToolSpec, Usage}
 
@@ -126,6 +130,16 @@ defmodule Praxo.Models do
 
   def event(kind, session_id, run_id \\ nil, data \\ :null) do
     %Event{kind: kind, session_id: session_id, run_id: run_id, data: data}
+  end
+
+  def stream_part(run_id, session_id, kind, step, data \\ :null) do
+    %Praxo.StreamPart{
+      run_id: run_id,
+      session_id: session_id,
+      kind: kind,
+      step: step,
+      data: data
+    }
   end
 
   def message_wire(%Message{} = value) do

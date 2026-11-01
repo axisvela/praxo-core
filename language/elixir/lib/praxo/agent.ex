@@ -22,6 +22,9 @@ defmodule Praxo.AgentOptions do
             policy: nil,
             middleware: [],
             allowed_tools: [],
+            cancellation: nil,
+            on_stream: nil,
+            max_parallel_tools: 1,
             entered: []
 end
 
@@ -109,23 +112,31 @@ defmodule Praxo.Agent do
 
       {:ok, options} ->
         options = emit(options, "run.started")
-        case compact(options, messages) do
-          {:ok, messages} ->
-            case loop(options, messages, run_id, 1, max_steps, %Usage{}, limit) do
-              {:ok, result, options} ->
-                case after_run(options, result, nil) do
-                  nil ->
-                    options = emit(options, "run.completed", run_id)
-                    {:ok, result, options}
 
-                  error ->
-                    options = emit(options, "run.failed", run_id, %{"error" => Exception.message(error)})
-                    {:error, Exception.message(error), options}
+        case emit_stream(options, run_id, "values", 0, prompt) do
+          :ok ->
+            case compact(options, messages) do
+              {:ok, messages} ->
+                case loop(options, messages, run_id, 1, max_steps, %Usage{}, limit) do
+                  {:ok, result, options} ->
+                    case after_run(options, result, nil) do
+                      nil ->
+                        options = emit(options, "run.completed", run_id)
+                        {:ok, result, options}
+
+                      error ->
+                        options = emit(options, "run.failed", run_id, %{"error" => Exception.message(error)})
+                        {:error, Exception.message(error), options}
+                    end
+
+                  other ->
+                    other
                 end
 
-              other ->
-                other
+              {:error, code} ->
+                fail(options, run_id, code)
             end
+
           {:error, code} ->
             fail(options, run_id, code)
         end
@@ -169,129 +180,214 @@ defmodule Praxo.Agent do
   end
 
   defp loop(options, messages, run_id, step, max_steps, total, limit) do
-    if step > max_steps do
-      fail(options, run_id, "AGENT_MAX_STEPS")
-    else
-      specs = tool_specs(options.tools)
-      specs = if options.tool_selection == nil, do: specs, else: Middleware.select_tools(options.tool_selection, specs)
-      request_messages = if options.pii, do: Enum.map(messages, &redact_message/1), else: messages
-      request = Models.request(request_messages, specs)
+    case check_cancelled(options) do
+      {:error, code} ->
+        fail(options, run_id, code)
 
-      case check_model_limit(limit) do
-        {:error, code, _limit} -> fail(options, run_id, code)
-        {:ok, limit} -> run_model(options, messages, request, run_id, step, max_steps, total, limit)
-      end
+      :ok ->
+        if step > max_steps do
+          fail(options, run_id, "AGENT_MAX_STEPS")
+        else
+          specs = tool_specs(options.tools)
+          specs = if options.tool_selection == nil, do: specs, else: Middleware.select_tools(options.tool_selection, specs)
+          request_messages = if options.pii, do: Enum.map(messages, &redact_message/1), else: messages
+          request = Models.request(request_messages, specs)
+
+          case check_model_limit(limit) do
+            {:error, code, _limit} -> fail(options, run_id, code)
+            {:ok, limit} -> run_model(options, messages, request, run_id, step, max_steps, total, limit)
+          end
+        end
     end
   end
 
   defp run_model(options, messages, request, run_id, step, max_steps, total, limit) do
-      case generate(options.model, request) do
-        {:error, code, model} ->
-          fail(%{options | model: model}, run_id, code)
+    case generate(options.model, request) do
+      {:error, code, model} ->
+        fail(%{options | model: model}, run_id, code)
 
-        {:ok, response, model} ->
-          options = %{options | model: model}
-          total = Models.add_usage(total, response.usage)
+      {:ok, response, model} ->
+        options = %{options | model: model}
 
-          if options.max_tokens > 0 and total.input_tokens + total.output_tokens > options.max_tokens do
-            fail(options, run_id, "AGENT_MAX_TOKENS")
-          else
-            messages = messages ++ [response.message]
+        case check_cancelled(options) do
+          {:error, code} ->
+            fail(options, run_id, code)
 
-            if response.message.tool_calls == [] do
-              output = response.message.content
-              validated = if options.structured_output == nil, do: {:ok, output}, else: Middleware.apply_structured(options.structured_output, output)
-              case validated do
-                {:ok, output} ->
-                  {:ok, Models.run_result(run_id, output, step, total), options}
-                {:error, code} when is_binary(code) -> fail(options, run_id, code)
-                {:error, error} ->
-                  options = emit(options, "run.failed", run_id, %{"error" => "AGENT_STRUCTURED_OUTPUT"})
-                  {:error, error, options}
-              end
+          :ok ->
+            total = Models.add_usage(total, response.usage)
+
+            if options.max_tokens > 0 and total.input_tokens + total.output_tokens > options.max_tokens do
+              fail(options, run_id, "AGENT_MAX_TOKENS")
             else
-              case invoke_tools(options, response.message.tool_calls, messages, run_id, limit) do
-                {:ok, options, messages, limit} ->
-                  loop(options, messages, run_id, step + 1, max_steps, total, limit)
+              messages = messages ++ [response.message]
 
-                {:error, code, options} ->
-                  {:error, code, options}
+              if response.message.tool_calls == [] do
+                output = response.message.content
+                validated = if options.structured_output == nil, do: {:ok, output}, else: Middleware.apply_structured(options.structured_output, output)
+
+                case validated do
+                  {:ok, output} ->
+                    case emit_stream(options, run_id, "messages", step, output) do
+                      :ok -> {:ok, Models.run_result(run_id, output, step, total), options}
+                      {:error, code} -> fail(options, run_id, code)
+                    end
+
+                  {:error, code} when is_binary(code) ->
+                    fail(options, run_id, code)
+
+                  {:error, error} ->
+                    options = emit(options, "run.failed", run_id, %{"error" => "AGENT_STRUCTURED_OUTPUT"})
+                    {:error, error, options}
+                end
+              else
+                case invoke_tools(options, response.message.tool_calls, messages, run_id, limit) do
+                  {:ok, options, messages, limit} ->
+                    loop(options, messages, run_id, step + 1, max_steps, total, limit)
+
+                  {:error, code, options} ->
+                    {:error, code, options}
+                end
               end
             end
-          end
-      end
+        end
+    end
   end
 
   defp invoke_tools(options, calls, messages, run_id, limit) do
-    Enum.reduce_while(calls, {:ok, options, messages, limit}, fn tool_call, {:ok, options, messages, limit} ->
-      original_name = tool_call.name
-      original_arguments = tool_call.arguments
+    parallel = if options.max_parallel_tools > 0, do: options.max_parallel_tools, else: 1
+    process_tool_batches(options, calls, messages, run_id, limit, parallel)
+  end
 
-      cond do
-        not allowed?(options, original_name) ->
-          {:error, code, options} = fail(options, run_id, "AGENT_TOOL_NOT_ALLOWED")
+  defp process_tool_batches(options, [], messages, _run_id, limit, _parallel) do
+    {:ok, options, messages, limit}
+  end
+
+  defp process_tool_batches(options, calls, messages, run_id, limit, parallel) do
+    case check_cancelled(options) do
+      {:error, code} ->
+        tool_fail(options, run_id, code)
+
+      :ok ->
+        {batch, rest} = Enum.split(calls, parallel)
+
+        case prepare_batch(options, batch, run_id, limit) do
+          {:ok, prepared, options, limit} ->
+            case execute_batch(options, prepared, messages, parallel) do
+              {:ok, options, messages} ->
+                case check_cancelled(options) do
+                  {:error, code} -> tool_fail(options, run_id, code)
+                  :ok -> process_tool_batches(options, rest, messages, run_id, limit, parallel)
+                end
+
+              error ->
+                error
+            end
+
+          error ->
+            error
+        end
+    end
+  end
+
+  defp prepare_batch(options, calls, run_id, limit) do
+    Enum.reduce_while(calls, {:ok, [], options, limit}, fn call, {:ok, prepared, options, limit} ->
+      case prepare_tool(options, call, run_id, limit) do
+        {:ok, options, item, limit} ->
+          {:cont, {:ok, prepared ++ [item], options, limit}}
+
+        {:error, code, options} ->
           {:halt, {:error, code, options}}
-
-        authorize(options, Models.action("tool.invoke", options.session_id, original_name, original_arguments)) != :ok ->
-          {:error, code, options} = fail(options, run_id, "AGENT_POLICY_DENIED")
-          {:halt, {:error, code, options}}
-
-        true ->
-          active =
-            Enum.reduce(options.middleware, tool_call, fn middleware, call ->
-              if middleware[:before_tool], do: middleware.before_tool.(call), else: call
-            end)
-
-          cond do
-            not allowed?(options, active.name) ->
-              {:error, code, options} = fail(options, run_id, "AGENT_TOOL_NOT_ALLOWED")
-              {:halt, {:error, code, options}}
-
-            active.name != original_name or active.arguments != original_arguments ->
-              if authorize(options, Models.action("tool.invoke", options.session_id, active.name, active.arguments)) != :ok do
-                {:error, code, options} = fail(options, run_id, "AGENT_POLICY_DENIED")
-                {:halt, {:error, code, options}}
-              else
-                run_selected_tool(options, active, messages, run_id, limit)
-              end
-
-            true ->
-              run_selected_tool(options, active, messages, run_id, limit)
-          end
       end
     end)
   end
 
-  defp run_selected_tool(options, call, messages, run_id, limit) do
+  defp prepare_tool(options, call, run_id, limit) do
+    original_name = call.name
+    original_arguments = call.arguments
+
+    cond do
+      not allowed?(options, original_name) ->
+        tool_fail(options, run_id, "AGENT_TOOL_NOT_ALLOWED")
+
+      authorize(options, Models.action("tool.invoke", options.session_id, original_name, original_arguments)) != :ok ->
+        tool_fail(options, run_id, "AGENT_POLICY_DENIED")
+
+      true ->
+        active =
+          Enum.reduce(options.middleware, call, fn middleware, current ->
+            if middleware[:before_tool], do: middleware.before_tool.(current), else: current
+          end)
+
+        cond do
+          not allowed?(options, active.name) ->
+            tool_fail(options, run_id, "AGENT_TOOL_NOT_ALLOWED")
+
+          active.name != original_name or active.arguments != original_arguments ->
+            if authorize(options, Models.action("tool.invoke", options.session_id, active.name, active.arguments)) != :ok do
+              tool_fail(options, run_id, "AGENT_POLICY_DENIED")
+            else
+              prepare_selected_tool(options, active, run_id, limit)
+            end
+
+          true ->
+            prepare_selected_tool(options, active, run_id, limit)
+        end
+    end
+  end
+
+  defp prepare_selected_tool(options, call, run_id, limit) do
     index = Enum.find_index(options.tools, fn tool -> tool.name == call.name end)
     selection = if options.tool_selection == nil, do: :ok, else: Middleware.check_tool_selected(options.tool_selection, call.name)
 
     cond do
       selection != :ok ->
         {:error, code} = selection
-        {:error, code, options} = fail(options, run_id, code)
-        {:halt, {:error, code, options}}
+        tool_fail(options, run_id, code)
 
       index == nil ->
-        {:error, code, options} = fail(options, run_id, "TOOL_NOT_FOUND")
-        {:halt, {:error, code, options}}
+        tool_fail(options, run_id, "TOOL_NOT_FOUND")
 
       true ->
         case check_tool_limit(limit) do
           {:error, code, _limit} ->
-            {:error, code, options} = fail(options, run_id, code)
-            {:halt, {:error, code, options}}
+            tool_fail(options, run_id, code)
 
           {:ok, limit} ->
             tool = Enum.at(options.tools, index)
             options = emit(options, "tool.call", run_id, %{"name" => call.name, "arguments" => call.arguments})
-            {tool, value} = call(tool, call.arguments)
-            options = %{options | tools: List.replace_at(options.tools, index, tool)}
-            value = if options.pii, do: Middleware.redact_value(value), else: value
-            messages = messages ++ [Models.message_tool(Json.encode(value), call.id)]
-            {:cont, {:ok, options, messages, limit}}
+            {:ok, options, {index, tool, call}, limit}
         end
     end
+  end
+
+  defp execute_batch(options, prepared, messages, 1) do
+    Enum.reduce(prepared, {:ok, options, messages}, fn {index, tool, tool_call}, {:ok, options, messages} ->
+      {updated, value} = call(tool, tool_call.arguments)
+      options = %{options | tools: List.replace_at(options.tools, index, updated)}
+      value = if options.pii, do: Middleware.redact_value(value), else: value
+      messages = messages ++ [Models.message_tool(Json.encode(value), tool_call.id)]
+      {:ok, options, messages}
+    end)
+  end
+
+  defp execute_batch(options, prepared, messages, _parallel) do
+    tasks =
+      Enum.map(prepared, fn {index, tool, tool_call} ->
+        {index, tool_call, Task.async(fn -> call(tool, tool_call.arguments) end)}
+      end)
+
+    Enum.reduce(tasks, {:ok, options, messages}, fn {index, tool_call, task}, {:ok, options, messages} ->
+      {updated, value} = Task.await(task, 30_000)
+      options = %{options | tools: List.replace_at(options.tools, index, updated)}
+      value = if options.pii, do: Middleware.redact_value(value), else: value
+      messages = messages ++ [Models.message_tool(Json.encode(value), tool_call.id)]
+      {:ok, options, messages}
+    end)
+  end
+
+  defp tool_fail(options, run_id, code) do
+    {:error, error_code, options} = fail(options, run_id, code)
+    {:error, error_code, options}
   end
 
   defp allowed?(options, name) do
@@ -332,6 +428,30 @@ defmodule Praxo.Agent do
       event = Models.event(kind, options.session_id, run_id, data)
       sink = Sink.emit(options.events, event)
       %{options | events: sink}
+    end
+  end
+
+  defp check_cancelled(%AgentOptions{cancellation: nil}), do: :ok
+  defp check_cancelled(options) do
+    cancelled =
+      cond do
+        is_function(options.cancellation, 0) -> options.cancellation.()
+        is_function(options.cancellation, 1) -> options.cancellation.(options)
+        true -> options.cancellation
+      end
+
+    if cancelled, do: {:error, "AGENT_CANCELLED"}, else: :ok
+  end
+
+  defp emit_stream(%AgentOptions{on_stream: nil}, _run_id, _kind, _step, _data), do: :ok
+  defp emit_stream(options, run_id, kind, step, data) do
+    part = Models.stream_part(run_id, options.session_id, kind, step, data)
+
+    try do
+      options.on_stream.(part)
+      :ok
+    rescue
+      _error -> {:error, "STREAM_ERROR"}
     end
   end
 

@@ -27,9 +27,9 @@
 - Erlang `0.2.0` source adds policy hooks, middleware, final-tool allowlist
   checks, reauthorization, and lifecycle cleanup. Cancellation, streaming, SSE,
   parallel tools, and run-state isolation remain unsupported.
-- Elixir `0.2.0` source adds policy hooks, middleware, final-tool allowlist
-  checks, reauthorization, and lifecycle cleanup. Cancellation, streaming, SSE,
-  parallel tools, and run-state isolation remain unsupported.
+- Elixir `0.3.0` source adds policy/middleware/lifecycle authorization,
+  cancellation, stream callbacks, a native SSE parser, bounded parallel tools,
+  and run-scoped call limits, reaching 19/19 behavior scenarios.
 - Lua `0.2.0` source adds middleware hooks, final-tool allowlist checks,
   reauthorization of middleware changes, and lifecycle cleanup. Cancellation,
   streaming, SSE, parallel tools, and run-state isolation remain unsupported.

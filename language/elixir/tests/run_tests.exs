@@ -36,6 +36,10 @@ defmodule Praxo.Tests do
     test_agent_capacity()
     test_agent_authorization()
     test_agent_lifecycle()
+    test_agent_cancellation()
+    test_agent_stream()
+    test_agent_parallel()
+    test_sse()
     IO.puts("elixir tests passed")
   end
 
@@ -539,6 +543,158 @@ defmodule Praxo.Tests do
     check(match?({:error, "cleanup failed", _}, Agent.run_agent(options, Models.session("s1"), "go")),
       "elixir cleanup fail closed")
     check(receive_messages() == [:first_after, :second_after], "elixir cleanup continues")
+  end
+
+  defp test_agent_cancellation do
+    ref = :atomics.new(1, [])
+    model = fn _request ->
+      :atomics.put(ref, 1, 1)
+      {:ok, Models.response(Models.message_assistant("done"))}
+    end
+
+    options = %{
+      Agent.new_agent_options(model) |
+        cancellation: fn -> :atomics.get(ref, 1) == 1 end,
+        events: Sink.new()
+    }
+
+    {:error, "AGENT_CANCELLED", options} =
+      Agent.run_agent(options, Models.session("s1"), "go")
+
+    check(options.events.kinds == ["run.started", "run.failed"], "elixir model cancellation events")
+
+    tool_ref = :atomics.new(1, [])
+    tool = Agent.new_tool("wait", "wait", fn _args ->
+      :atomics.put(tool_ref, 1, 1)
+      "ok"
+    end)
+
+    tool_model = fn request ->
+      if length(request.messages) == 1 do
+        {:ok, Models.response(Models.message_assistant("", [Models.tool_call("c1", "wait", %{})]))}
+      else
+        {:ok, Models.response(Models.message_assistant("done"))}
+      end
+    end
+
+    tool_options = %{
+      Agent.new_agent_options(tool_model) |
+        tools: [tool],
+        cancellation: fn -> :atomics.get(tool_ref, 1) == 1 end,
+        events: Sink.new()
+    }
+
+    {:error, "AGENT_CANCELLED", tool_options} =
+      Agent.run_agent(tool_options, Models.session("s1"), "go")
+
+    check(tool_options.events.kinds == ["run.started", "tool.call", "run.failed"], "elixir tool cancellation events")
+  end
+
+  defp test_agent_stream do
+    parent = self()
+
+    options = %{
+      Agent.new_agent_options(Agent.static_model("done")) |
+        on_stream: fn part ->
+          send(parent, {:stream, part.kind})
+          if part.kind == "messages", do: raise("stream failed")
+        end,
+        events: Sink.new()
+    }
+
+    {:error, "STREAM_ERROR", options} =
+      Agent.run_agent(options, Models.session("s1"), "go")
+
+    check(stream_messages() == ["values", "messages"], "elixir stream parts")
+    check(options.events.kinds == ["run.started", "run.failed"], "elixir stream failure events")
+  end
+
+  defp test_agent_parallel do
+    parent = self()
+    release_ref = :atomics.new(1, [])
+
+    tool = fn name ->
+      Agent.new_tool(name, name, fn _args ->
+        send(parent, {:started, String.to_atom(name)})
+        wait_for_release(release_ref)
+        name
+      end)
+    end
+
+    model = fn request ->
+      if length(request.messages) == 1 do
+        calls = [
+          Models.tool_call("c1", "a", %{}),
+          Models.tool_call("c2", "b", %{})
+        ]
+
+        {:ok, Models.response(Models.message_assistant("", calls))}
+      else
+        ids =
+          request.messages
+          |> Enum.filter(&(&1.role == "tool"))
+          |> Enum.map(& &1.tool_id)
+
+        send(parent, {:order, ids})
+        {:ok, Models.response(Models.message_assistant("done"))}
+      end
+    end
+
+    options = %{
+      Agent.new_agent_options(model) |
+        tools: [tool.("a"), tool.("b")],
+        max_parallel_tools: 2
+    }
+
+    run = Task.async(fn -> Agent.run_agent(options, Models.session("s1"), "go") end)
+
+    started = [receive_message(2000), receive_message(2000)]
+    check(Enum.sort(started) == [{:started, :a}, {:started, :b}], "elixir parallel starts")
+    :atomics.put(release_ref, 1, 1)
+
+    {:ok, result, _options} = Task.await(run, 5000)
+    check(result.output == "done", "elixir parallel result")
+    check(receive_message(2000) == {:order, ["c1", "c2"]}, "elixir parallel order")
+  end
+
+  defp test_sse do
+    check(Praxo.SSE.parse(
+      "data: {\"choices\":[{\"delta\":{\"content\":\"hi\"}}]}\n\n" <>
+        "data: [DONE]\n\n"
+    ) == {:ok, "hi"}, "elixir sse complete")
+
+    check(Praxo.SSE.parse(
+      "data: {\"choices\":[{\"delta\":{\"content\":\"hi\"}}]}\n\n"
+    ) == {:error, "MODEL_STREAM"}, "elixir sse truncated")
+
+    check(Praxo.SSE.parse("data: {\"choices\"\n\n") == {:error, "MODEL_STREAM"},
+      "elixir sse half packet")
+  end
+
+  defp wait_for_release(ref, attempts \\ 200) do
+    cond do
+      :atomics.get(ref, 1) == 1 -> :ok
+      attempts <= 0 -> raise "parallel release timeout"
+      true ->
+        Process.sleep(10)
+        wait_for_release(ref, attempts - 1)
+    end
+  end
+
+  defp receive_message(timeout) do
+    receive do
+      message -> message
+    after
+      timeout -> raise "message timeout"
+    end
+  end
+
+  defp stream_messages(acc \\ []) do
+    receive do
+      {:stream, kind} -> stream_messages(acc ++ [kind])
+    after
+      0 -> acc
+    end
   end
 
   defp receive_messages(acc \\ []) do
