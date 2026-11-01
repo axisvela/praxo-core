@@ -25,7 +25,7 @@ Behavior tier is separate from contract tier. See the
 | Tier | Languages | Current status |
 | --- | --- | --- |
 | Agent-capable | Go, Python, TypeScript, Java, Rust, R, C# | 19/19 for every agent-capable implementation |
-| Extended | C, PHP, Fortran, COBOL, Ruby, Elixir, Erlang, C++, Lua | C, COBOL, Ruby, C++, Elixir, Erlang, Lua, and PHP 19/19; Fortran 11/19 |
+| Extended | C, PHP, Fortran, COBOL, Ruby, Elixir, Erlang, C++, Lua | All nineteen scenarios for C, PHP, Fortran, COBOL, Ruby, Elixir, Erlang, C++, and Lua |
 | Optional | Other declared implementations | Outside the current behavior program |
 
 R and C are now wired. C# and PHP include the three lifecycle scenarios, and R
@@ -42,7 +42,9 @@ stream callbacks, and a native SSE parser. Erlang `0.3.0` reaches 19/19 with
 spawned-process parallel tools and the same lifecycle coverage. Lua `0.3.0`
 reaches 19/19 with caller-provided `batch_invoke` cooperative tools, cancellation,
 stream callbacks, and a native SSE parser. PHP `0.3.0` reaches 19/19 with
-caller-provided `batchToolInvoker` Fibers for parallel tools.
+caller-provided `batchToolInvoker` Fibers for parallel tools. Fortran `0.5.0`
+reaches 19/19 with cancellation, stream callbacks, a native SSE parser, and a
+caller-provided parallel batch callback.
 
 ## Scope
 
@@ -90,15 +92,15 @@ instead of treating group coverage as scenario-level evidence.
 
 `native suite` means the implementation's full native test executable passed.
 It is not isolated to the named scenario, so a failure cannot be attributed from
-this cell alone. Other Rust, Fortran, and C# scenarios remain `unsupported`. The
-report shows those cells explicitly instead of dropping the languages.
+this cell alone. All sixteen wired languages now cover all nineteen scenarios in
+the source; optional implementations remain outside this program.
 
-C# also has native-suite coverage for `final-arguments`, `final-name`,
-`unchanged-single-auth`, and `initial-denial`. COBOL, Ruby, C++, Elixir, Erlang,
-Lua, and PHP have native-suite coverage for all nineteen scenarios, including
-cancellation, stream callback failure, SSE truncation and half packets, parallel
-tools, and run-state isolation. The full cell-by-cell matrix and per-language
-reports are in the [Behavior Lab Matrix](behavior-lab-matrix.md).
+C# has native-suite coverage for `final-arguments`, `final-name`,
+`unchanged-single-auth`, and `initial-denial`. The extended languages have
+native-suite coverage for all nineteen scenarios, including cancellation, stream
+callback failure, SSE truncation and half packets, parallel tools, and run-state
+isolation. The full cell-by-cell matrix and per-language reports are in the
+[Behavior Lab Matrix](behavior-lab-matrix.md).
 
 ## Run
 
@@ -153,10 +155,10 @@ The Go/Python/TypeScript/Java local nineteen-scenario run on 2026-10-31 passed
 all 76 cells. The clean-SHA Linux CI run on commit `7a7b796` passed the
 sixteen-language set with 262 passed, 42 explicitly unsupported, and no
 failures; use that [behavior job](https://github.com/axisvela/praxo-core/actions/runs/41296991587/job/124819809721)
-and its artifact when citing the report. All agent-capable languages and C are
-at 19/19. COBOL `0.3.0` reaches 19/19 through native-suite coverage, with
-parallel tools delegated to a caller-provided batch dispatcher. Ruby, C++,
-Elixir, Erlang, Lua, and PHP `0.3.0` also reach 19/19 in the source; the
+and its artifact when citing the report. All sixteen wired languages reach
+19/19 in the source. COBOL `0.3.0` reaches 19/19 through native-suite coverage,
+with parallel tools delegated to a caller-provided batch dispatcher. Ruby, C++,
+Elixir, Erlang, Lua, and PHP `0.3.0` and Fortran `0.5.0` also reach 19/19; the
 [Behavior Lab Matrix](behavior-lab-matrix.md) reflects the `7a7b796` report and
 will be refreshed from the next clean CI report.
 
@@ -165,7 +167,7 @@ will be refreshed from the next clean CI report.
 - Nineteen selected scenarios, not full agent or contract parity.
 - Go and Python use scenario-level tests; TypeScript uses `node --test` name
   filters; some Java self-tests cover more than one scenario.
-- All agent-capable languages and C pass all nineteen scenarios. COBOL also
+- All sixteen wired languages pass all nineteen scenarios in the source. COBOL
   reaches 19/19 through its native suite; its parallel-tools case delegates
   concurrency to a caller-provided batch dispatcher, so the native test verifies
   the batch limit and ordered results rather than OS threads. Ruby also reaches
@@ -175,7 +177,8 @@ will be refreshed from the next clean CI report.
   Erlang reaches 19/19 through spawned-process parallel tools and its native
   suite. Lua reaches 19/19 through caller-provided cooperative batch tools and
   its native suite. PHP reaches 19/19 through Fibers in `batchToolInvoker` and
-  its native suite. Fortran uses native-suite coverage for selected rows, not
+  its native suite. Fortran reaches 19/19 through a caller-provided parallel
+  batch callback and its native suite. This is suite coverage, not
   scenario-isolated assertions.
 - The parallel scenario uses deterministic barriers; it is not a throughput or
   stress test. SSE tests use local fixtures, not a provider.

@@ -40,10 +40,9 @@ targeted for cross-language agent-behavior parity in the Behavior Lab.
 | Extended | PHP, C, Fortran, COBOL, Ruby, Elixir, Erlang, C++, Lua | Contract or focused implementation where behavior parity is advanced scenario by scenario. An unsupported cell is intentional until a named consumer and maintainer exist. |
 | Optional | Other declared implementations | Outside the current Behavior Lab program. Contract conformance is unchanged; behavior work starts only with a named consumer and maintainer. |
 
-R and C are wired into the Behavior Lab. PHP covers all nineteen scenarios
-through its native suite, using caller-provided Fibers for parallel tools. C#
-has native-suite coverage for selected scenarios. R covers the selected rows its
-native suite asserts; C covers the call-limit, checkpoint, and capacity rows.
+All sixteen wired languages cover all nineteen scenarios in the source. Extended
+implementations use native-suite coverage; parallel tools for COBOL, Lua, PHP,
+and Fortran delegate concurrency to caller-provided batch callbacks.
 Other implementations, including Swift, Julia, Haskell, MATLAB/Octave,
 Perl, Delphi/Free Pascal, OCaml, Objective-C, Nim, V, D, Zig, and the
 Bridge/Sample entries, are in the optional tier.
@@ -87,7 +86,7 @@ for real providers, platforms, and production behavior is reported separately.
 | Julia | Core | released | `julia/v0.2.0` | complete | 11 vectors, JSON.jl, API snapshot |
 | R | Core | released | `r/v0.4.0` | complete | 11 vectors, base-R JSON, policy/middleware, lifecycle cleanup, cancellation, streaming, SSE parser, bounded parallel tools, API snapshot |
 | Haskell | Core | released | `haskell/v0.2.0` | complete | 11 vectors, native tests, API snapshot/parity; GHC 9.12.2; runtime and middleware helpers |
-| Fortran | Core | released | `fortran/v0.3.0` | complete | 11 vectors, native tests, API snapshot; upstream RE2/Unicode patterns via native C++ library; JSON/schema limits remain documented |
+| Fortran | Core | released | `fortran/v0.5.0` | complete | 11 vectors, native tests, API snapshot; upstream RE2/Unicode patterns, cancellation, streaming, SSE, and caller-provided batch tools; JSON/schema limits remain documented |
 | Lisp | Bridge | released | `lisp/v0.1.0` | complete | SBCL bridge over the bridge CLI; forwarding, UTF-8, errors, and exit codes verified locally and in Linux CI; consumer details pending |
 | JavaScript | Sample (TypeScript) | released | none | sample | Uses the TypeScript package; no separate core |
 | C++ | Core | released | `cpp/v0.3.0` | complete | 11 vectors, core tests, API snapshot, middleware/lifecycle authorization, cancellation, streaming, SSE, parallel tools, and run-scoped call limits |

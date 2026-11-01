@@ -27,7 +27,7 @@
 | Extended | C、PHP、Fortran、COBOL、Ruby、Elixir、Erlang、C++、Lua | 仅在有明确消费者和维护者时逐场景推进 |
 | Optional | 其他已声明实现 | 不在行为计划内；契约一致性不变 |
 
-clean 十六语言报告为 205 passed、99 个显式 unsupported、无失败。所有 agent-capable 语言和 C 均通过十九个场景；PHP 也通过调用方提供的 Fiber 达到十九个，Core 本身不创建线程。不要把 unsupported 当作失败或通过，也不要仅为提高数量而增加语言或场景。
+clean 十六语言报告为 205 passed、99 个显式 unsupported、无失败。全部十六个已接入语言在源码中均覆盖十九个场景；部分并行工具单元格把并发委托给调用方提供的批处理回调，Core 本身不创建线程。不要把 unsupported 当作失败或通过，也不要仅为提高数量而增加语言或场景。
 
 边界设计见[受治理执行设计](../reference/governed-execution.md)。环境、配置、过程、数据、
 结果和发现的记录要求见[测试证据规范](../contributing/test-evidence.md)。

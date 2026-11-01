@@ -7,7 +7,7 @@ tooling, not by a compiled Core consumer.
 ## Prerequisites
 
 - Python 3.10 or later, available as `python`.
-- Version `0.4.0` also needs a C++17 compiler, CMake 3.22+, Ninja, Git,
+- Version `0.5.0` also needs a C++17 compiler, CMake 3.22+, Ninja, Git,
   and access to the pinned upstream RE2/Abseil sources on the first build.
 - GNU Fortran (`gfortran`), installed and managed by the developer. The
   compiler and its runtime are separate toolchain dependencies, not vendored by
@@ -88,7 +88,7 @@ An earlier `python language/fortran/run-tests.py` run passed the API snapshot,
 5 tooling tests, 69 native assertions, 59 JSON assertions, 62 contract
 assertions, and 62 conformance vectors across 11 groups. These results are
 historical evidence, not a claim that the checks were rerun for this document.
-The source release tag is `fortran/v0.4.0`. This does not establish a
+The source release tag is `fortran/v0.5.0`. This does not establish a
 package-registry release or remove the documented partial surfaces. See
 `language/fortran/README.md` and
 `spec/parity/fortran.md` for scope and remaining gates.

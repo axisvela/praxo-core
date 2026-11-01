@@ -3,13 +3,14 @@
 - Tier: core
 - SPEC_VERSION: 0.2.0
 
-Native Core source tag `fortran/v0.3.0`. All 63 vectors in eleven
+Native Core source tag `fortran/v0.5.0`. All 63 vectors in eleven
 groups, native regression tests, and the API declaration snapshot pass locally;
 the remote `fortran-conformance` job runs the same suite. `partial` marks a
 surface that covers the vector behavior and common path but not every optional Go
 hook, provider integration, or full wire/model surface. See
 `language/fortran/README.md` for bounded JSON, pattern, path-policy, and stream
-limitations.
+limitations. Version `0.5.0` adds cancellation, stream callbacks, a native SSE
+parser, and caller-provided batch tool dispatch.
 
 Since `0.3.0`, the Fortran pattern entry point
 uses pinned upstream RE2 with UTF-8 and builtin Unicode tables through an
@@ -43,6 +44,9 @@ the Schema row remains partial. Native C++ build/runtime requirements are new.
 | `checkpoint.Allowlist` | `praxo_checkpoint.checkpoint_allowlist` | parity | P1 |
 | `policy.PathChecker` | `praxo_policy.path_checker`, `path_grant` | parity | P1 |
 | `agent/stream.StreamPart` | `praxo_stream.stream_part`, `stream_kinds` | parity | P1 |
+| `agent.StatusCancelled` | `agent_options%cancelled` | partial | P2 |
+| `agent.Options.OnStream` | `agent_options%on_stream` | partial | P2 |
+| `agent.Options.MaxParallelTools` | `agent_options%parallel`, `max_parallel_tools` | partial | P2 |
 | `toolcall.ParseToolCall` | `praxo_toolcall.parse_tool_call`, `parsed_tool_call` | parity | P1 |
 | `toolcall.ParseInputJSON` | `praxo_toolcall.parse_input_json` | parity | P1 |
 | `toolcall.StripToolCallMarkup` | `praxo_toolcall.strip_markup` | parity | P1 |
@@ -50,7 +54,7 @@ the Schema row remains partial. Native C++ build/runtime requirements are new.
 | `tool/jsonschema.ValidationError` | `praxo_schema.validation_error` | parity | P1 |
 | `tool/jsonschema.FromJSON` | `praxo_schema.schema_from_json` | parity | P1 |
 | `plugin.ParseManifest` | `praxo_plugin.parse_manifest`, `plugin_manifest` | parity | P1 |
-| `agent/middleware.CallLimitMiddleware` | `praxo_middleware.call_limit`, agent options hook | parity | P1 |
+| `agent/middleware.CallLimitMiddleware` | `praxo_middleware.call_limit`, agent options hook (run-scoped) | parity | P1 |
 | `agent/middleware.ToolSelectionMiddleware` | `praxo_middleware.tool_selection`, agent options hook | parity | P1 |
 | `agent/middleware.FallbackModel` | `praxo_middleware.fallback_model` | parity | P1 |
 | `agent/middleware.StructuredOutput` | `praxo_middleware.structured_output`, `structured_model` | parity | P1 |
@@ -61,5 +65,7 @@ Core-local utilities do not add new normative contract symbols:
 decimal equality, and numeric access. `praxo_unicode` provides UTF-8 validation,
 JSON quoting/decoding, and Unicode length. `praxo_pattern.match_pattern` uses
 upstream RE2 within documented byte and memory budgets in current source.
-`praxo_types.sdk_error`, `string_item`,
+`praxo_sse.parse_sse_stream` parses OpenAI-compatible SSE text and rejects
+truncated or half-packet streams with `MODEL_STREAM`. `praxo_types.sdk_error`,
+`string_item`,
 `string_value`, and `same_string` support these native APIs.

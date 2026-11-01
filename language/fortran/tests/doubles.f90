@@ -2,10 +2,15 @@ module test_doubles
   use praxo_types
   use praxo_interfaces
   use praxo_schema, only: validation_error
+  use praxo_stream, only: stream_part
   implicit none
   character(:), allocatable :: repair_content
   character(:), allocatable :: repair_previous
   integer :: repair_error_count = 0, repair_attempt = 0
+  logical :: hook_cancelled = .false.
+  integer :: hook_stream_count = 0
+  logical :: hook_fail_stream = .false.
+  integer :: parallel_calls = 0, parallel_max = 0
 
   type, extends(model) :: scripted_model
     type(response), allocatable :: script(:)
@@ -20,6 +25,16 @@ module test_doubles
     logical :: fail = .false.
   contains
     procedure :: invoke => invoke_echo
+  end type
+
+  type, extends(model) :: cancel_model
+  contains
+    procedure :: generate => generate_cancel
+  end type
+
+  type, extends(tool) :: cancel_tool
+  contains
+    procedure :: invoke => invoke_cancel
   end type
 
   type, extends(policy) :: deny_policy
@@ -106,6 +121,66 @@ contains
     hook_renamed_tool = ''
     hook_last_name = ''
     hook_last_arguments = ''
+    hook_cancelled = .false.
+    hook_stream_count = 0
+    hook_fail_stream = .false.
+    parallel_calls = 0
+    parallel_max = 0
+  end subroutine
+
+  subroutine generate_cancel(self, req, res, error)
+    class(cancel_model), intent(inout) :: self
+    type(request), intent(in) :: req
+    type(response), intent(out) :: res
+    type(sdk_error), intent(out) :: error
+    if (.false.) res%message%content = string_value(req%messages(1)%content)
+    hook_cancelled = .true.
+    res%message = text_message('assistant', 'done')
+    error%code = ''
+  end subroutine
+
+  subroutine invoke_cancel(self, arguments, output, error)
+    class(cancel_tool), intent(inout) :: self
+    character(*), intent(in) :: arguments
+    character(:), allocatable, intent(out) :: output
+    type(sdk_error), intent(out) :: error
+    if (.false.) output = arguments
+    hook_cancelled = .true.
+    output = 'ok'
+    error%code = ''
+  end subroutine
+
+  logical function hook_cancel(ctx)
+    class(*), pointer, intent(in) :: ctx
+    hook_cancel = hook_cancelled
+  end function
+
+  subroutine hook_stream(ctx, part, error)
+    class(*), pointer, intent(in) :: ctx
+    type(stream_part), intent(in) :: part
+    type(sdk_error), intent(inout) :: error
+    hook_stream_count = hook_stream_count + 1
+    if (hook_fail_stream .and. string_value(part%kind) == 'messages') then
+      error%code = 'STREAM_FAILED'
+    end if
+  end subroutine
+
+  subroutine parallel_hook(ctx, calls, max_parallel, results, error)
+    class(*), pointer, intent(in) :: ctx
+    type(tool_call), intent(in) :: calls(:)
+    integer, intent(in) :: max_parallel
+    type(tool_batch_result), allocatable, intent(out) :: results(:)
+    type(sdk_error), intent(inout) :: error
+    integer :: i
+    parallel_calls = size(calls)
+    parallel_max = max_parallel
+    allocate(results(size(calls)))
+    do i = 1, size(calls)
+      results(i)%id = calls(i)%id
+      results(i)%output = calls(i)%arguments
+      results(i)%error = ''
+    end do
+    error%code = ''
   end subroutine
 
   subroutine hook_before_run_record(ctx, run_id, prompt, error)

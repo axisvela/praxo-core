@@ -1,7 +1,8 @@
 # Fortran Core
 
-A native Fortran 2008 agent implementation with source tag `fortran/v0.4.0`.
-Version `0.4.0` replaces the
+A native Fortran 2008 agent implementation with source tag `fortran/v0.5.0`.
+Version `0.5.0` adds cancellation, stream callbacks, a native SSE parser, and
+caller-provided batch tool dispatch. Version `0.4.0` replaced the
 bounded ASCII matcher with upstream RE2 through a small C ABI library. The
 agent loop, JSON, policy, and middleware remain Fortran, not a bridge to another
 agent runtime. All 63 normative vectors across eleven groups and native
@@ -38,7 +39,8 @@ runtime at execution time. Windows requires `<prefix>/bin` on the DLL search
 path; Unix consumers need a loader path or rpath for `<prefix>/lib`.
 Redistributed bridge binaries must include the installed upstream licenses;
 see [native dependencies](native/DEPENDENCIES.md). These new native deployment
-requirements are the reason for the pre-1.0 minor change to `0.4.0`.
+requirements are the reason for the pre-1.0 minor change to `0.4.0`; `0.5.0`
+is an additive agent-lifecycle release.
 
 Python is only a build/test dependency. `conformance.py` translates the declared
 JSON fixtures into Fortran test inputs and assertions; every behavior under test
@@ -155,11 +157,12 @@ hooks not listed in the parity inventory are not implemented.
 
 ## Remaining Gates
 
-`api/0.4.0.txt` inventories exported declarations, type layouts, bound
+`api/0.5.0.txt` inventories exported declarations, type layouts, bound
 method signatures, and callback interfaces. `api-snapshot.py --check` runs as
 part of the test driver; intentional changes require review and regeneration
 with `--update`. It is a source declaration check, not a binary ABI guarantee.
-The Fortran declarations are unchanged from `0.2.2`; historical snapshots are retained.
+Historical snapshots through `0.4.0` are retained. `0.5.0` adds the
+cancellation, stream, SSE, and parallel-dispatch declarations.
 
 The `fortran-conformance` CI job runs native tests, all eleven groups, tooling
 tests, and the snapshot check. Passing fixtures covers the declared Core scope.

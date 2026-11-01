@@ -4,7 +4,7 @@ module praxo_types
   private
   public :: sdk_error, usage, tool_call, message, tool_spec, request, response
   public :: session, event, action, decision, run_result, text_message, string_value
-  public :: string_item, same_string
+  public :: string_item, same_string, tool_batch_result
 
   type :: string_item
     character(:), allocatable :: value
@@ -65,6 +65,10 @@ module praxo_types
     character(:), allocatable :: run_id, output
     integer :: steps = 0
     type(usage) :: usage
+  end type
+
+  type :: tool_batch_result
+    character(:), allocatable :: id, output, error
   end type
 contains
   logical function same_string(a, b) result(equal)

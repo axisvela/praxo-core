@@ -462,9 +462,10 @@ def scenarios() -> tuple[Scenario, ...]:
                 "elixir": (elixir,),
                 "erlang": (erlang,),
                 "lua": (lua,),
+                "fortran": (fortran,),
                 "rust": (rust_test("model_cancellation_runs_after_run_and_emits_failed"),),
             },
-            {"go": "scenario", "python": "scenario", "typescript": "scenario", "java": "group", "csharp": "suite", "php": "suite", "r": "suite", "c": "suite", "cpp": "suite", "ruby": "suite", "cobol": "suite", "elixir": "suite", "erlang": "suite", "lua": "suite", "rust": "scenario"},
+            {"go": "scenario", "python": "scenario", "typescript": "scenario", "java": "group", "csharp": "suite", "php": "suite", "r": "suite", "c": "suite", "cpp": "suite", "ruby": "suite", "cobol": "suite", "elixir": "suite", "erlang": "suite", "lua": "suite", "fortran": "suite", "rust": "scenario"},
         ),
         Scenario(
             "tool-cancel-cleanup",
@@ -491,9 +492,10 @@ def scenarios() -> tuple[Scenario, ...]:
                 "elixir": (elixir,),
                 "erlang": (erlang,),
                 "lua": (lua,),
+                "fortran": (fortran,),
                 "rust": (rust_test("tool_cancellation_stops_later_effects_and_runs_after_run"),),
             },
-            {"go": "scenario", "python": "scenario", "typescript": "scenario", "java": "group", "csharp": "suite", "php": "suite", "r": "suite", "c": "suite", "cpp": "suite", "ruby": "suite", "cobol": "suite", "elixir": "suite", "erlang": "suite", "lua": "suite", "rust": "scenario"},
+            {"go": "scenario", "python": "scenario", "typescript": "scenario", "java": "group", "csharp": "suite", "php": "suite", "r": "suite", "c": "suite", "cpp": "suite", "ruby": "suite", "cobol": "suite", "elixir": "suite", "erlang": "suite", "lua": "suite", "fortran": "suite", "rust": "scenario"},
         ),
         Scenario(
             "schema-number-unicode",
@@ -521,6 +523,7 @@ def scenarios() -> tuple[Scenario, ...]:
                     ),
                 ),
                 "java": (schema,),
+                "fortran": (fortran,),
                 "rust": (
                     rust_test(
                         "schema_counts_unicode_and_rejects_fractional_integers"
@@ -543,6 +546,7 @@ def scenarios() -> tuple[Scenario, ...]:
                 "typescript": "scenario",
                 "java": "scenario",
                 "rust": "scenario",
+                "fortran": "suite",
                 "cpp": "suite",
                 "php": "suite",
                 "csharp": "suite",
@@ -792,11 +796,12 @@ def scenarios() -> tuple[Scenario, ...]:
                 "erlang": (erlang,),
                 "lua": (lua,),
                 "php": (php,),
+                "fortran": (fortran,),
                 "rust": (
                     rust_test("parallel_tools_start_together_and_keep_result_order"),
                 ),
             },
-            {"go": "scenario", "python": "scenario", "typescript": "scenario", "java": "group", "csharp": "suite", "r": "suite", "c": "suite", "cpp": "suite", "ruby": "suite", "cobol": "suite", "elixir": "suite", "erlang": "suite", "lua": "suite", "php": "suite", "rust": "scenario"},
+            {"go": "scenario", "python": "scenario", "typescript": "scenario", "java": "group", "csharp": "suite", "r": "suite", "c": "suite", "cpp": "suite", "ruby": "suite", "cobol": "suite", "elixir": "suite", "erlang": "suite", "lua": "suite", "php": "suite", "fortran": "suite", "rust": "scenario"},
         ),
         Scenario(
             "run-state-isolation",
@@ -821,6 +826,7 @@ def scenarios() -> tuple[Scenario, ...]:
                     ),
                 ),
                 "java": (guardrail,),
+                "fortran": (fortran,),
                 "rust": (rust_test("call_limit_state_is_isolated_by_run"),),
                 "csharp": (csharp,),
                 "php": (php,),
@@ -839,6 +845,7 @@ def scenarios() -> tuple[Scenario, ...]:
                 "typescript": "scenario",
                 "java": "group",
                 "rust": "scenario",
+                "fortran": "suite",
                 "csharp": "suite",
                 "php": "suite",
                 "elixir": "suite",
@@ -879,9 +886,10 @@ def scenarios() -> tuple[Scenario, ...]:
                 "elixir": (elixir,),
                 "erlang": (erlang,),
                 "lua": (lua,),
+                "fortran": (fortran,),
                 "rust": (rust_test("stream_callback_failure_aborts_run"),),
             },
-            {"go": "scenario", "python": "scenario", "typescript": "scenario", "java": "scenario", "csharp": "suite", "php": "suite", "r": "suite", "c": "suite", "cpp": "suite", "ruby": "suite", "cobol": "suite", "elixir": "suite", "erlang": "suite", "lua": "suite", "rust": "scenario"},
+            {"go": "scenario", "python": "scenario", "typescript": "scenario", "java": "scenario", "csharp": "suite", "php": "suite", "r": "suite", "c": "suite", "cpp": "suite", "ruby": "suite", "cobol": "suite", "elixir": "suite", "erlang": "suite", "lua": "suite", "fortran": "suite", "rust": "scenario"},
         ),
         Scenario(
             "sse-truncated",
@@ -916,9 +924,10 @@ def scenarios() -> tuple[Scenario, ...]:
                 "elixir": (elixir,),
                 "erlang": (erlang,),
                 "lua": (lua,),
+                "fortran": (fortran,),
                 "rust": (rust_test("sse_stream_rejects_truncation_and_half_packets"),),
             },
-            {"go": "scenario", "python": "scenario", "typescript": "scenario", "java": "group", "csharp": "suite", "php": "suite", "r": "suite", "c": "suite", "cpp": "suite", "ruby": "suite", "cobol": "suite", "elixir": "suite", "erlang": "suite", "lua": "suite", "rust": "scenario"},
+            {"go": "scenario", "python": "scenario", "typescript": "scenario", "java": "group", "csharp": "suite", "php": "suite", "r": "suite", "c": "suite", "cpp": "suite", "ruby": "suite", "cobol": "suite", "elixir": "suite", "erlang": "suite", "lua": "suite", "fortran": "suite", "rust": "scenario"},
         ),
         Scenario(
             "sse-half-packet",
@@ -953,9 +962,10 @@ def scenarios() -> tuple[Scenario, ...]:
                 "elixir": (elixir,),
                 "erlang": (erlang,),
                 "lua": (lua,),
+                "fortran": (fortran,),
                 "rust": (rust_test("sse_stream_rejects_truncation_and_half_packets"),),
             },
-            {"go": "scenario", "python": "scenario", "typescript": "scenario", "java": "group", "csharp": "suite", "php": "suite", "r": "suite", "c": "suite", "cpp": "suite", "ruby": "suite", "cobol": "suite", "elixir": "suite", "erlang": "suite", "lua": "suite", "rust": "scenario"},
+            {"go": "scenario", "python": "scenario", "typescript": "scenario", "java": "group", "csharp": "suite", "php": "suite", "r": "suite", "c": "suite", "cpp": "suite", "ruby": "suite", "cobol": "suite", "elixir": "suite", "erlang": "suite", "lua": "suite", "fortran": "suite", "rust": "scenario"},
         ),
     )
 

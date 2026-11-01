@@ -6,9 +6,13 @@ program core_tests
   use praxo_runtime
   use praxo_context
   use praxo_stream
+  use praxo_sse, only: parse_sse_stream
+  use praxo_middleware, only: call_limit
   use test_doubles
   implicit none
   type(scripted_model), target :: provider
+  type(cancel_model), target :: cancel_provider
+  type(cancel_tool) :: canceler
   type(echo_tool) :: echo, other
   type(registry), target :: tools
   type(recording_sink), target :: sink, second
@@ -22,6 +26,8 @@ program core_tests
   type(memory_store) :: store
   type(memory_record), allocatable :: records(:)
   type(tool_spec), allocatable :: specs(:)
+  type(sdk_error) :: sse_error
+  character(:), allocatable :: sse_content
   type(event) :: item
   type(context_budget) :: budget
   type(message), allocatable :: messages(:), compacted(:)
@@ -318,6 +324,72 @@ program core_tests
     call check(part%kind == 'values' .and. part%step == 3, 'stream part kind and step')
     call check(part%data == '{"value":1}' .and. part%at == '2026-10-30T00:00:00Z', 'stream part data and time')
   end block
+
+  call reset()
+  hook_cancelled = .false.
+  options%provider => cancel_provider
+  options%cancelled => hook_cancel
+  call run()
+  call check(string_value(error%code) == 'AGENT_CANCELLED', 'model cancellation')
+  call check(size(sink%items) == 2 .and. sink%items(2)%kind == 'run.failed', &
+    'model cancellation events')
+
+  call reset()
+  call tool_script()
+  provider%script(1)%message%tool_calls(1)%name = 'cancel'
+  canceler%spec = tool_spec('cancel', 'Cancel')
+  call tools%register(canceler, error)
+  hook_cancelled = .false.
+  options%cancelled => hook_cancel
+  call run()
+  call check(string_value(error%code) == 'AGENT_CANCELLED', 'tool cancellation')
+  call check(size(sink%items) == 3 .and. sink%items(2)%kind == 'tool.call' .and. &
+    sink%items(3)%kind == 'run.failed', 'tool cancellation events')
+
+  call reset()
+  hook_fail_stream = .true.
+  options%on_stream => hook_stream
+  call run()
+  call check(string_value(error%code) == 'STREAM_ERROR', 'stream failure')
+  call check(hook_stream_count == 2, 'stream parts')
+  call check(size(sink%items) == 2 .and. sink%items(2)%kind == 'run.failed', &
+    'stream failure events')
+
+  call reset()
+  deallocate(provider%script)
+  allocate(provider%script(2))
+  provider%script(1)%message = text_message('assistant', '')
+  provider%script(1)%message%tool_calls = [ &
+    tool_call('c1', 'echo', '{"x":1}'), &
+    tool_call('c2', 'echo', '{"x":2}')]
+  provider%script(2)%message = text_message('assistant', 'done')
+  options%parallel => parallel_hook
+  options%max_parallel_tools = 2
+  call run()
+  call check(.not. error%failed() .and. result%output == 'done', 'parallel result')
+  call check(parallel_calls == 2 .and. parallel_max == 2, 'parallel batch metadata')
+  call check(provider%last_request%messages(size(provider%last_request%messages))%tool_call_id == 'c2', &
+    'parallel order last')
+
+  block
+    type(call_limit) :: isolated
+    type(sdk_error) :: limit_error
+    isolated%model_limit = 1
+    call isolated%check('a', 'model', limit_error)
+    call isolated%check('b', 'model', limit_error)
+    call check(.not. limit_error%failed(), 'call limit isolated run')
+    call isolated%check('a', 'model', limit_error)
+    call check(string_value(limit_error%code) == 'AGENT_MODEL_CALL_LIMIT', 'call limit run a')
+  end block
+
+  call parse_sse_stream('data: {"choices":[{"delta":{"content":"hi"}}]}' // achar(10) // &
+    achar(10) // 'data: [DONE]' // achar(10) // achar(10), sse_content, sse_error)
+  call check(.not. sse_error%failed() .and. sse_content == 'hi', 'sse complete')
+  call parse_sse_stream('data: {"choices":[{"delta":{"content":"hi"}}]}' // achar(10) // &
+    achar(10), sse_content, sse_error)
+  call check(string_value(sse_error%code) == 'MODEL_STREAM', 'sse truncated')
+  call parse_sse_stream('data: {"choices"' // achar(10) // achar(10), sse_content, sse_error)
+  call check(string_value(sse_error%code) == 'MODEL_STREAM', 'sse half packet')
 
   if (failures > 0) error stop 1
   print '(a,i0,a)', 'PASS: ', checks, ' native Fortran assertions'

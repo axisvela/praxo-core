@@ -37,7 +37,7 @@ Bridge、Sample 描述运行时的接入方式，不证明其语言缺乏 Framew
 | Extended | C、PHP、Fortran、COBOL、Ruby、Elixir、Erlang、C++、Lua | 契约型或聚焦型实现；在有明确消费者和维护者的前提下逐场景推进行为覆盖 |
 | Optional | 其他已声明实现 | 不在当前行为实验计划内；契约一致性不变，行为工作需有明确消费者和维护者 |
 
-2026-11-01 的源码集覆盖十六个已接入语言：agent-capable 的 Go、Python、TypeScript、Java、Rust、R、C#，以及 extended 的 C、PHP、Fortran、COBOL、Ruby、Elixir、Erlang、C++、Lua。所有 agent-capable 语言和 C 均通过十九个场景；PHP 也通过 `batchToolInvoker` 中调用方提供的 Fiber 达到十九个，Core 本身不创建线程。其余扩展语言使用原生套件覆盖，没有场景测试的单元格保持 `unsupported`。逐单元格结果见[行为实验矩阵](behavior-lab-matrix.md)。
+2026-11-01 的源码集覆盖十六个已接入语言：agent-capable 的 Go、Python、TypeScript、Java、Rust、R、C#，以及 extended 的 C、PHP、Fortran、COBOL、Ruby、Elixir、Erlang、C++、Lua。全部十六个已接入语言均覆盖十九个场景。COBOL、Lua、PHP 和 Fortran 的并行工具委托给调用方提供的批处理回调；这些情况下 Core 本身不创建线程。逐单元格结果见[行为实验矩阵](behavior-lab-matrix.md)。
 
 `85a9d7b` 上的 clean-SHA CI 运行为十六语言集报告了 205 passed、99 unsupported、无失败。矩阵由该报告生成。
 
@@ -97,11 +97,11 @@ Bridge、Sample 描述运行时的接入方式，不证明其语言缺乏 Framew
 - C 源码标签 `c/v0.5.0` 增加 policy 授权、有序 middleware、生命周期清理、
   最终工具 allowlist 检查、中途修改后的重新授权、取消、流式回调、SSE parser
   和有限并行工具。Unix 使用 pthread 与逐线程 arena；Windows 保持顺序执行。
-- Fortran 源码标签 `fortran/v0.4.0` 包含全部 11 个向量组、原生测试、API 快照、
-  PII/中间件，以及 policy 驱动的 middleware/生命周期授权。它不是包管理器发布；
-  异步流不在声明范围，受限 JSON Schema 子集仍为部分完成。`0.3.0` 使用
-  RE2/Unicode 取代 ASCII matcher，新增原生 C++ 库依赖；历史 `0.2.2` 标签仍保留
-  无此原生依赖的实现。
+- Fortran 源码标签 `fortran/v0.5.0` 包含全部 11 个向量组、原生测试、API 快照、
+  PII/中间件、policy 驱动的 middleware/生命周期授权、取消、流式回调、原生 SSE
+  parser 和调用方提供的批处理工具调度。它不是包管理器发布；异步 provider 流不在
+  声明范围，受限 JSON Schema 子集仍为部分完成。`0.3.0` 使用 RE2/Unicode 取代
+  ASCII matcher，新增原生 C++ 库依赖；历史 `0.2.2` 标签仍保留无此原生依赖的实现。
 - COBOL 已有源码标签 `cobol/v0.3.0`，包含全部 11 个向量组、原生与契约测试、调用方持有状态的 scoped registry 和 API 快照。它新增 middleware、生命周期、取消、流式、SSE 和调用方提供的批处理工具调度，行为覆盖达到 19/19；并行工具委托给批处理调度器，而不是原生线程。它不是包管理器发布；其余 Go 面大多为 partial，registry 无并发和 custom spec provider。
 - Haskell 已有源码标签 `haskell/v0.2.0`，包含全部 11 个向量组、原生测试、API
   快照/parity 以及运行时/中间件辅助函数。未声明 Hackage 发布或生产就绪。

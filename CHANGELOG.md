@@ -17,9 +17,9 @@
 - PHP and C# now clean up middleware entered before a startup failure, keep
   running later after-run callbacks after one fails, preserve the original run
   error, and fail closed when cleanup itself fails after success.
-- Fortran `0.4.0` source adds middleware/lifecycle hooks, final-tool allowlist
-  checks, and reauthorization of middleware changes. Cancellation, streaming,
-  SSE, parallel tools, and run-state isolation remain unsupported.
+- Fortran `0.5.0` source adds middleware/lifecycle hooks, final-tool allowlist
+  checks, reauthorization, cancellation, stream callbacks, a native SSE parser,
+  and caller-provided batch tool dispatch, reaching 19/19 behavior scenarios.
 - COBOL `0.3.0` source adds middleware/lifecycle hooks, final-tool allowlist
   checks, reauthorization, cancellation, stream callback parts, a native SSE
   parser, and caller-provided batch tool dispatch, reaching 19/19 behavior
