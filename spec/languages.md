@@ -121,7 +121,7 @@ for real providers, platforms, and production behavior is reported separately.
 | Zig | Core | released | `zig/v0.2.0` | complete | 11 vectors, API snapshot; `zig/v0.1.0` remains wire |
 | Lua | Core | released | `lua/v0.2.0` | complete | 11 vectors, core tests, API snapshot, middleware/lifecycle authorization; source `0.2.0-1`, LuaRocks `praxo-core==0.1.0-1` |
 | Scratch | Bridge / extension | planned | none | planned | Extension bridge; implementation requested |
-| COBOL | Core | released | `cobol/v0.1.2` | complete | 11 vectors, native/contract tests, API snapshot; caller-owned scoped registries, native agent consumer fixtures, and a `0.2.0` working-tree behavior suite for middleware/lifecycle authorization |
+| COBOL | Core | released | `cobol/v0.3.0` | complete | 11 vectors, native/contract tests, API snapshot; caller-owned scoped registries, native agent consumer fixtures, and middleware/lifecycle/cancellation/streaming/SSE/batch-dispatch behavior coverage |
 | Prolog | Bridge | released | `prolog/v0.1.1` | complete | SWI-Prolog wrapper over the bridge CLI; forwarding, UTF-8, errors, and exit codes tested |
 | ABAP | Bridge | planned | none | planned | Bridge over the maintained runtime |
 
@@ -150,7 +150,7 @@ for real providers, platforms, and production behavior is reported separately.
 | R | `r-conformance` | R tests, 11 vectors, API snapshot |
 | Shell / PowerShell | `bridge` | bridge tests, both wrappers |
 | Fortran | `fortran-conformance` | native tests, 11 vector groups, API snapshot, installed RE2 bridge and Unicode tests; source release tagged `fortran/v0.3.0` |
-| COBOL | `cobol-conformance` | 11 vectors, API snapshot, native/behavior/tooling tests |
+| COBOL | `cobol-conformance` | 11 vectors, API snapshot, native/behavior/SSE/tooling tests |
 | Haskell | `haskell-conformance` | 11 vectors, native tests, source API/parity, Cabal build; source release tagged `haskell/v0.2.0` |
 | Delphi / Free Pascal | `delphi-conformance` | 11 vectors, native tests, source API/parity; source release tagged `delphi/v0.2.1`; commercial Delphi unverified |
 | OCaml | `ocaml-conformance` | 11 vectors, native tests, source API/parity; local OCaml 4.14.2 bytecode and Linux CI verified; source release tagged `ocaml/v0.2.0`; `ocamlopt` unverified |

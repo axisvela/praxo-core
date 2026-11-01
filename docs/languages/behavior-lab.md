@@ -25,12 +25,15 @@ Behavior tier is separate from contract tier. See the
 | Tier | Languages | Current status |
 | --- | --- | --- |
 | Agent-capable | Go, Python, TypeScript, Java, Rust, R, C# | 19/19 for every agent-capable implementation |
-| Extended | C, PHP, Fortran, COBOL, Ruby, Elixir, Erlang, C++, Lua | C 19/19; PHP 18/19 (parallel unsupported); COBOL, Elixir, and Erlang 13/19; C++, Lua, and Ruby 12/19; Fortran 11/19 |
+| Extended | C, PHP, Fortran, COBOL, Ruby, Elixir, Erlang, C++, Lua | C and COBOL 19/19; PHP 18/19 (parallel unsupported); Elixir and Erlang 13/19; C++, Lua, and Ruby 12/19; Fortran 11/19 |
 | Optional | Other declared implementations | Outside the current behavior program |
 
 R and C are now wired. C# and PHP include the three lifecycle scenarios, and R
 and C contribute native-suite coverage for the data and state scenarios their
-suites assert.
+suites assert. COBOL `0.3.0` covers all nineteen scenarios through its native
+suite; its parallel-tools case delegates concurrent execution to a
+caller-provided batch dispatcher, and the native test verifies the batch limit
+and ordered results rather than OS threads.
 
 ## Scope
 
@@ -78,14 +81,15 @@ instead of treating group coverage as scenario-level evidence.
 
 `native suite` means the implementation's full native test executable passed.
 It is not isolated to the named scenario, so a failure cannot be attributed from
-this cell alone. Other Rust, Fortran, COBOL, Ruby, Elixir, Erlang, C++, PHP, C#,
-and Lua scenarios remain `unsupported`. The report shows those cells explicitly
+this cell alone. Other Rust, Fortran, Ruby, Elixir, Erlang, C++, PHP, C#, and
+Lua scenarios remain `unsupported`. The report shows those cells explicitly
 instead of dropping the languages.
 
 C# and PHP also have native-suite coverage for `final-arguments`, `final-name`,
 `unchanged-single-auth`, and `initial-denial`. COBOL has native-suite coverage
-for those four authorization scenarios and the three lifecycle cleanup
-scenarios. The full cell-by-cell matrix and per-language reports are in the
+for all nineteen scenarios, including cancellation, stream callback failure,
+SSE truncation and half packets, and batch tool dispatch. The full
+cell-by-cell matrix and per-language reports are in the
 [Behavior Lab Matrix](behavior-lab-matrix.md).
 
 ## Run
@@ -138,12 +142,13 @@ overwritten; `latest.json` is only a convenience pointer.
 ## Current Evidence
 
 The Go/Python/TypeScript/Java local nineteen-scenario run on 2026-10-31 passed
-all 76 cells. The clean-SHA Linux CI run on commit `ba241cc` passed the
-sixteen-language set with 256 passed, 48 explicitly unsupported, and no
-failures; use that [behavior job](https://github.com/axisvela/praxo-core/actions/runs/41293016775/job/124808008979)
+all 76 cells. The clean-SHA Linux CI run on commit `7a7b796` passed the
+sixteen-language set with 262 passed, 42 explicitly unsupported, and no
+failures; use that [behavior job](https://github.com/axisvela/praxo-core/actions/runs/41296991587/job/124819809721)
 and its artifact when citing the report. All agent-capable languages and C are
-at 19/19; PHP is 18/19 because parallel tools are not portable. COBOL `0.2.0`
-adds middleware and lifecycle suite coverage, raising it to 13/19. The
+at 19/19; PHP is 18/19 because parallel tools are not portable. COBOL `0.3.0`
+reaches 19/19 through native-suite coverage, with parallel tools delegated to a
+caller-provided batch dispatcher. The
 [Behavior Lab Matrix](behavior-lab-matrix.md) lists every cell and each
 language's covered and unsupported scenarios.
 
@@ -152,10 +157,13 @@ language's covered and unsupported scenarios.
 - Nineteen selected scenarios, not full agent or contract parity.
 - Go and Python use scenario-level tests; TypeScript uses `node --test` name
   filters; some Java self-tests cover more than one scenario.
-- All agent-capable languages and C pass all nineteen scenarios. PHP passes
+- All agent-capable languages and C pass all nineteen scenarios. COBOL also
+  reaches 19/19 through its native suite; its parallel-tools case delegates
+  concurrency to a caller-provided batch dispatcher, so the native test verifies
+  the batch limit and ordered results rather than OS threads. PHP passes
   eighteen; parallel tools are unsupported because PHP has no portable thread
-  model. Fortran, COBOL, Ruby, Elixir, Erlang, C++, and Lua use native-suite
-  coverage, not scenario-isolated assertions.
+  model. Fortran, Ruby, Elixir, Erlang, C++, and Lua use native-suite coverage
+  for selected rows, not scenario-isolated assertions.
 - The parallel scenario uses deterministic barriers; it is not a throughput or
   stress test. SSE tests use local fixtures, not a provider.
 - No provider, model, network, sandbox, HITL, checkpoint persistence, or

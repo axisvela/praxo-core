@@ -3,9 +3,9 @@
 A native GnuCOBOL implementation, not a bridge to another Core. All 63 normative
 vectors across the eleven groups pass, together with native agent, JSON,
 contract-boundary, behavior, tooling, and API declaration checks. The
-`cobol-conformance` remote job checks the declared scope. `cobol/v0.1.2` is the
-latest published source tag; the working tree advances to `0.2.0` with
-middleware and lifecycle authorization.
+`cobol-conformance` remote job checks the declared scope. `cobol/v0.3.0` is the
+source tag; version `0.3.0` adds middleware, lifecycle, cancellation, streaming,
+SSE, and batch tool dispatch.
 
 ## Build and Test
 
@@ -38,6 +38,7 @@ required by a compiled Core consumer.
 | `praxo-pattern-check` | Bounded ASCII pattern matcher |
 | `praxo-plugin` | Strict manifest parsing and validation |
 | `praxo-policy` | Lexical path grants |
+| `praxo-sse` | Server-sent-event stream parser with truncation and half-packet rejection |
 | `praxo-registry` | In-memory tool registry with register/get/list/clear |
 | `praxo-registry-scoped` | Same operations with caller-owned registry state (since 0.1.2) |
 | `praxo-stream` | Stream-kind constants |
@@ -83,6 +84,36 @@ the status parameter. Blank program names skip the hook, and an empty allowlist
 permits every tool. These are synchronous callback programs, not concurrent
 middleware.
 
+## Cancellation
+
+Set `px-cancel-program` to a callback that returns a nonblank status when the
+run should stop. The agent checks it before model work and before and after each
+tool call. A cancellation stops later effects, sets `AGENT_CANCELLED`, runs
+after-run cleanup, and emits `run.failed`. Model responses already produced are
+not used after cancellation.
+
+## Streaming and SSE
+
+Set `px-stream-program` to receive `px-stream-part` records. The agent emits a
+`values` part before the step loop and a `messages` part before completing a
+final answer. A nonblank stream callback status aborts the run, runs after-run
+cleanup, and emits `run.failed` instead of `run.completed`.
+
+`praxo-sse` parses OpenAI-compatible server-sent-event text. It requires a
+`data: [DONE]` marker or a non-null `finish_reason`; otherwise it returns the
+local `MODEL_STREAM` status. Malformed data packets, including half packets,
+also return `MODEL_STREAM` rather than being ignored.
+
+## Batch Tool Dispatch
+
+Set `px-tool-batch-program` and `px-max-parallel-tools` to dispatch one model
+response's tool calls through a caller-provided batch program using
+`tool-batch.cpy`. The agent authorizes and emits `tool.call` for each final
+call, passes the configured parallelism, and accepts results only in the same
+call-id order. The batch program is responsible for any concurrent execution;
+the native COBOL test verifies the limit and ordered results, not OS threads.
+Leave the batch program blank to use the single `px-tool-program` path.
+
 ## Scoped Registry Consumption
 
 Version `0.1.2` adds `praxo-registry-scoped` and `registry-state.cpy`. Initialize
@@ -125,9 +156,11 @@ This is deterministic native integration evidence, not production validation.
 
 The agent API is wire-shaped but not a full Go model surface: it carries text
 messages, one tool-call list per response, and callback events. It does not
-carry full assistant tool-call history, stream parts, event session/run IDs, or
-provider adapters. The event and stream programs exercise the contract behavior
-but are not asynchronous runtimes.
+carry full assistant tool-call history, provider adapters, or asynchronous
+streams. Stream parts are synchronous callback notifications, and the SSE
+parser consumes text; there is no HTTP/provider client. Cancellation is
+cooperative through `px-cancel-program`, not thread interruption. Batch tool
+concurrency is caller-provided; the agent does not create OS threads.
 
 JSON inputs are limited to 32768 bytes, 512 nodes, and 64 nested containers.
 Strings preserve trailing spaces and embedded NUL bytes. Invalid UTF-8, lone
@@ -162,17 +195,17 @@ semantics.
 
 ## Gates
 
-`api/0.2.0.txt` inventories public copybook records, module program IDs,
+`api/0.3.0.txt` inventories public copybook records, module program IDs,
 and linkage parameters. `api-snapshot.py --check` runs in the test driver;
 regenerate intentionally with `--update`. Tooling tests check fixture
-determinism, assertion polarity, snapshot sensitivity, and the middleware hook
-declarations. The `cobol-conformance` CI job runs all of these plus the native
-agent, behavior, JSON, and contract programs.
+determinism, assertion polarity, snapshot sensitivity, and the middleware,
+cancellation, streaming, SSE, and batch-dispatch declarations. The
+`cobol-conformance` CI job runs all of these plus the native agent, behavior,
+SSE, JSON, and contract programs.
 
-`cobol/v0.1.2` remains the latest published source tag; the working tree
-declares `0.2.0` for the middleware and lifecycle surface. `api/0.1.1.txt` and
-`api/0.1.2.txt` remain immutable previous declaration snapshots; `api/0.2.0.txt`
-adds the hook programs, allowlist, and lifecycle behavior. Tag creation and
-release review remain release-operator steps. `spec/parity/cobol.md` records
-partial surfaces. The Core sources are MIT-licensed; GnuCOBOL and its runtime
-are separately licensed external toolchain dependencies.
+`cobol/v0.3.0` is the source tag. `api/0.1.1.txt`, `api/0.1.2.txt`, and
+`api/0.2.0.txt` remain immutable previous declaration snapshots;
+`api/0.3.0.txt` adds the cancellation, stream, SSE, and batch records.
+`spec/parity/cobol.md` records partial surfaces. The Core sources are
+MIT-licensed; GnuCOBOL and its runtime are separately licensed external
+toolchain dependencies.

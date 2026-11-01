@@ -11,12 +11,12 @@ This page expands the summary in [Behavior Lab](behavior-lab.md) into a scenario
 | Languages | 16 |
 | Scenarios | 19 |
 | Cells | 304 |
-| Passed | 256 |
-| Unsupported | 48 |
+| Passed | 262 |
+| Unsupported | 42 |
 | Failed | 0 |
 | Source report | `report.json` |
-| Run ID | `20261101T092606Z-f464b53e` |
-| Revision | `ba241cce8bbfcd3996fe5206078b7e9d0085a80d` |
+| Run ID | `20261101T102219Z-2f4a5be4` |
+| Revision | `7a7b79620211eb4053d7676f913394c2b8939364` |
 | Working tree dirty | False |
 
 ## Capability tiers
@@ -49,18 +49,18 @@ The matrix now covers sixteen wired languages. Contract tier is separate from be
 | `startup-cleanup` | S | S | S | G | S | N | N | N | N | N | N | N | N | N | N | N |
 | `after-run-continue` | S | S | S | G | S | N | N | N | N | N | N | N | N | N | N | N |
 | `cleanup-failclosed` | S | S | S | G | S | N | N | N | N | N | N | N | N | N | N | N |
-| `model-cancel-cleanup` | S | S | S | G | S | N | N | N | - | - | - | - | - | - | N | - |
-| `tool-cancel-cleanup` | S | S | S | G | S | N | N | N | - | - | - | - | - | - | N | - |
+| `model-cancel-cleanup` | S | S | S | G | S | N | N | N | - | N | - | - | - | - | N | - |
+| `tool-cancel-cleanup` | S | S | S | G | S | N | N | N | - | N | - | - | - | - | N | - |
 | `schema-number-unicode` | S | S | S | S | S | N | N | N | - | N | N | N | N | N | N | N |
 | `call-limit` | S | S | S | G | S | N | N | N | N | N | N | N | N | N | N | N |
 | `pii-tool-history` | S | S | S | S | S | N | N | N | N | N | N | N | N | N | N | N |
 | `checkpoint-content` | S | S | S | S | S | N | N | N | N | N | N | N | N | N | N | N |
 | `capacity-failclosed` | S | S | S | G | S | N | N | N | N | N | N | N | N | N | N | N |
-| `parallel-tools` | S | S | S | G | S | N | N | N | - | - | - | - | - | - | - | - |
+| `parallel-tools` | S | S | S | G | S | N | N | N | - | N | - | - | - | - | - | - |
 | `run-state-isolation` | S | S | S | G | S | N | N | N | - | N | - | N | N | - | N | - |
-| `stream-callback-error` | S | S | S | S | S | N | N | N | - | - | - | - | - | - | N | - |
-| `sse-truncated` | S | S | S | G | S | N | N | N | - | - | - | - | - | - | N | - |
-| `sse-half-packet` | S | S | S | G | S | N | N | N | - | - | - | - | - | - | N | - |
+| `stream-callback-error` | S | S | S | S | S | N | N | N | - | N | - | - | - | - | N | - |
+| `sse-truncated` | S | S | S | G | S | N | N | N | - | N | - | - | - | - | N | - |
+| `sse-half-packet` | S | S | S | G | S | N | N | N | - | N | - | - | - | - | N | - |
 
 ## Per-language reports
 
@@ -271,10 +271,10 @@ python language/fortran/run-tests.py
 ### COBOL
 
 - Coverage: suite
-- Passed: 13/19
-- Unsupported: 6
-- Covered scenarios: `final-arguments`, `final-name`, `unchanged-single-auth`, `initial-denial`, `startup-cleanup`, `after-run-continue`, `cleanup-failclosed`, `schema-number-unicode`, `call-limit`, `pii-tool-history`, `checkpoint-content`, `capacity-failclosed`, `run-state-isolation`
-- Unsupported scenarios: `model-cancel-cleanup`, `tool-cancel-cleanup`, `parallel-tools`, `stream-callback-error`, `sse-truncated`, `sse-half-packet`
+- Passed: 19/19
+- Unsupported: 0
+- Covered scenarios: `final-arguments`, `final-name`, `unchanged-single-auth`, `initial-denial`, `startup-cleanup`, `after-run-continue`, `cleanup-failclosed`, `model-cancel-cleanup`, `tool-cancel-cleanup`, `schema-number-unicode`, `call-limit`, `pii-tool-history`, `checkpoint-content`, `capacity-failclosed`, `parallel-tools`, `run-state-isolation`, `stream-callback-error`, `sse-truncated`, `sse-half-packet`
+- Unsupported scenarios: none
 
 Commands:
 

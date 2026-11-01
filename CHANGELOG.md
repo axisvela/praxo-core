@@ -20,10 +20,10 @@
 - Fortran `0.4.0` source adds middleware/lifecycle hooks, final-tool allowlist
   checks, and reauthorization of middleware changes. Cancellation, streaming,
   SSE, parallel tools, and run-state isolation remain unsupported.
-- COBOL `0.2.0` source adds middleware/lifecycle hooks, final-tool allowlist
-  checks, reauthorization of middleware changes, and a native behavior suite.
-  Cancellation, streaming, SSE, parallel tools, and run-state isolation remain
-  unsupported.
+- COBOL `0.3.0` source adds middleware/lifecycle hooks, final-tool allowlist
+  checks, reauthorization, cancellation, stream callback parts, a native SSE
+  parser, and caller-provided batch tool dispatch, reaching 19/19 behavior
+  scenarios. Parallel tools are delegated to the batch dispatcher.
 - Erlang `0.2.0` source adds policy hooks, middleware, final-tool allowlist
   checks, reauthorization, and lifecycle cleanup. Cancellation, streaming, SSE,
   parallel tools, and run-state isolation remain unsupported.

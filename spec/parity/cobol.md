@@ -6,9 +6,9 @@
 Released native Core. All 63 vectors in eleven groups, native agent tests,
 JSON tests, contract boundary tests, tooling tests, and the API declaration
 snapshot pass locally. The remote `cobol-conformance` job checks these;
-`cobol/v0.1.2` is the released tag, and the working tree adds the `0.2.0`
-middleware and lifecycle surface. `partial` does not claim every optional Go
-hook, provider adapter, or full model surface. See `language/cobol/README.md` for bounded JSON, pattern,
+`cobol/v0.3.0` is the released tag; it adds the middleware, lifecycle,
+cancellation, streaming, SSE, and batch-dispatch surface. `partial` does not
+claim every optional Go hook, provider adapter, or full model surface. See `language/cobol/README.md` for bounded JSON, pattern,
 path-policy, plugin, and middleware behavior.
 
 | Go symbol | COBOL symbol | Status | Phase |
@@ -32,6 +32,9 @@ path-policy, plugin, and middleware behavior.
 | `agent.Agent` | `praxo-run` | partial | P1 |
 | `agent.Options` | `px-options` | partial | P1 |
 | `agent.Options.AllowedTools` | `px-allowed-tool-count`, `px-allowed-tools` | partial | P2 |
+| `agent.StatusCancelled` | `px-cancel-program`, `AGENT_CANCELLED` | partial | P2 |
+| `agent.Options.OnStream` | `px-stream-program`, `px-stream-part` | partial | P2 |
+| `agent.Options.MaxParallelTools` | `px-tool-batch-program`, `px-max-parallel-tools`, `tool-batch.cpy` | partial | P2 |
 | `agent.Middleware` | `px-before-run-program*`, `px-before-tool-program`, `px-after-run-program*` | partial | P2 |
 | `agent.Result` | `px-result` | partial | P1 |
 | `agent.Session` | `px-session` | partial | P1 |
@@ -58,10 +61,16 @@ with two independent registries, missing tools, and policy denial. Capacity,
 concurrency, and custom spec-provider limitations remain; this row stays partial.
 `tests/behavior.cob` exercises the `0.2.0` before-run, after-run, and before-tool
 hooks, the final-tool allowlist, reauthorization of changed names or arguments,
-and lifecycle cleanup through `praxo-run`.
+and lifecycle cleanup through `praxo-run`. The `0.3.0` additions cover
+cancellation, stream callback failure, and caller-provided batch tool dispatch;
+`tests/sse.cob` exercises the native SSE parser. Parallel-tool concurrency is
+delegated to the batch dispatcher, so the native test verifies the limit and
+ordered results rather than OS threads.
 
 Other Core-local utilities:
-`praxo-json-parse`, `praxo-json-generate`, `praxo-json-string`,
+`praxo-sse` parses server-sent-event text and rejects truncated or half-packet
+streams; it has no direct Go contract symbol. `praxo-json-parse`,
+`praxo-json-generate`, `praxo-json-string`,
 `praxo-json-quote`, `praxo-json-slice`, and `praxo-utf8`. They use the bounded
 records in `language/cobol/copy/json.cpy`; see `language/cobol/README.md` for capacities and local
 statuses. `praxo-agent-vector` and its callback programs live under

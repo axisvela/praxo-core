@@ -11,12 +11,12 @@
 | 语言数 | 16 |
 | 场景数 | 19 |
 | 单元格数 | 304 |
-| 通过 | 256 |
-| 不支持 | 48 |
+| 通过 | 262 |
+| 不支持 | 42 |
 | 失败 | 0 |
 | 源报告 | `report.json` |
-| Run ID | `20261101T092606Z-f464b53e` |
-| Revision | `ba241cce8bbfcd3996fe5206078b7e9d0085a80d` |
+| Run ID | `20261101T102219Z-2f4a5be4` |
+| Revision | `7a7b79620211eb4053d7676f913394c2b8939364` |
 | 工作区未提交 | False |
 
 ## 能力层级
@@ -49,18 +49,18 @@
 | `startup-cleanup` | S | S | S | G | S | N | N | N | N | N | N | N | N | N | N | N |
 | `after-run-continue` | S | S | S | G | S | N | N | N | N | N | N | N | N | N | N | N |
 | `cleanup-failclosed` | S | S | S | G | S | N | N | N | N | N | N | N | N | N | N | N |
-| `model-cancel-cleanup` | S | S | S | G | S | N | N | N | - | - | - | - | - | - | N | - |
-| `tool-cancel-cleanup` | S | S | S | G | S | N | N | N | - | - | - | - | - | - | N | - |
+| `model-cancel-cleanup` | S | S | S | G | S | N | N | N | - | N | - | - | - | - | N | - |
+| `tool-cancel-cleanup` | S | S | S | G | S | N | N | N | - | N | - | - | - | - | N | - |
 | `schema-number-unicode` | S | S | S | S | S | N | N | N | - | N | N | N | N | N | N | N |
 | `call-limit` | S | S | S | G | S | N | N | N | N | N | N | N | N | N | N | N |
 | `pii-tool-history` | S | S | S | S | S | N | N | N | N | N | N | N | N | N | N | N |
 | `checkpoint-content` | S | S | S | S | S | N | N | N | N | N | N | N | N | N | N | N |
 | `capacity-failclosed` | S | S | S | G | S | N | N | N | N | N | N | N | N | N | N | N |
-| `parallel-tools` | S | S | S | G | S | N | N | N | - | - | - | - | - | - | - | - |
+| `parallel-tools` | S | S | S | G | S | N | N | N | - | N | - | - | - | - | - | - |
 | `run-state-isolation` | S | S | S | G | S | N | N | N | - | N | - | N | N | - | N | - |
-| `stream-callback-error` | S | S | S | S | S | N | N | N | - | - | - | - | - | - | N | - |
-| `sse-truncated` | S | S | S | G | S | N | N | N | - | - | - | - | - | - | N | - |
-| `sse-half-packet` | S | S | S | G | S | N | N | N | - | - | - | - | - | - | N | - |
+| `stream-callback-error` | S | S | S | S | S | N | N | N | - | N | - | - | - | - | N | - |
+| `sse-truncated` | S | S | S | G | S | N | N | N | - | N | - | - | - | - | N | - |
+| `sse-half-packet` | S | S | S | G | S | N | N | N | - | N | - | - | - | - | N | - |
 
 ## 逐语言报告
 
@@ -271,10 +271,10 @@ python language/fortran/run-tests.py
 ### COBOL
 
 - 覆盖类型: 套件级
-- 通过: 13/19
-- 不支持: 6
-- 已覆盖场景: `final-arguments`, `final-name`, `unchanged-single-auth`, `initial-denial`, `startup-cleanup`, `after-run-continue`, `cleanup-failclosed`, `schema-number-unicode`, `call-limit`, `pii-tool-history`, `checkpoint-content`, `capacity-failclosed`, `run-state-isolation`
-- 未覆盖场景: `model-cancel-cleanup`, `tool-cancel-cleanup`, `parallel-tools`, `stream-callback-error`, `sse-truncated`, `sse-half-packet`
+- 通过: 19/19
+- 不支持: 0
+- 已覆盖场景: `final-arguments`, `final-name`, `unchanged-single-auth`, `initial-denial`, `startup-cleanup`, `after-run-continue`, `cleanup-failclosed`, `model-cancel-cleanup`, `tool-cancel-cleanup`, `schema-number-unicode`, `call-limit`, `pii-tool-history`, `checkpoint-content`, `capacity-failclosed`, `parallel-tools`, `run-state-isolation`, `stream-callback-error`, `sse-truncated`, `sse-half-packet`
+- 未覆盖场景: 无
 
 命令:
 

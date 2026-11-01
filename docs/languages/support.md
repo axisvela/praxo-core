@@ -147,12 +147,13 @@ a merged implementation PR as a support commitment.
   partial. Version `0.3.0` replaced the ASCII matcher with RE2/Unicode and
   requires a native C++ library; the historical `0.2.2` tag retains the old
   matcher without that RE2/C++ requirement.
-- COBOL has source tag `cobol/v0.1.2` with all eleven vector groups, native and
-  contract tests, caller-owned scoped registries, and an API snapshot. The
-  working tree adds `0.2.0` middleware/lifecycle hooks, final-tool allowlist
-  checks, reauthorization of middleware changes, and native behavior cases. It
-  is not a package-registry release; most remaining Go surfaces are partial and
-  the registry has no concurrency or custom spec provider.
+- COBOL has source tag `cobol/v0.3.0` with all eleven vector groups, native and
+  contract tests, caller-owned scoped registries, and an API snapshot. It adds
+  middleware, lifecycle, cancellation, streaming, SSE, and caller-provided
+  batch tool dispatch, reaching 19/19 behavior scenarios. Parallel tools are
+  delegated to the batch dispatcher rather than native threads. It is not a
+  package-registry release; most remaining Go surfaces are partial and the
+  registry has no concurrency or custom spec provider.
 - Haskell has source tag `haskell/v0.2.0` with all eleven vector groups, native
   tests, API snapshot/parity, and runtime/middleware helpers. Hackage publication
   and production readiness are not claimed.
