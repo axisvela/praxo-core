@@ -152,4 +152,151 @@ local result = agent.run_agent(options, models.session({ id = "s1" }), "go")
 check(result.output == "done" and result.steps == 2 and invocations == 1, "agent loop")
 check(json.equals(sink.types, { "run.started", "tool.call", "run.completed" }), "agent events")
 
+
+local function tool_model()
+  local next_step = 1
+  return {
+    generate = function(_request)
+      local steps = {
+        { content = "", toolCalls = { { id = "c1", name = "echo", arguments = { text = "hi" } } } },
+        { content = "done" },
+      }
+      local step = steps[next_step]
+      next_step = next_step + 1
+      local calls = {}
+      for _, item in ipairs(step.toolCalls or {}) do
+        calls[#calls + 1] = models.tool_call(item)
+      end
+      return models.response({ message = models.message_assistant(step.content, calls) })
+    end,
+  }
+end
+
+local final_arguments_invoked = {}
+local final_arguments_registry = agent.tool_registry()
+agent.register_tool(final_arguments_registry, agent.func_tool("echo", "Echo", function(arguments)
+  final_arguments_invoked[#final_arguments_invoked + 1] = arguments
+  return arguments
+end))
+local final_arguments_actions = {}
+local final_arguments_options = agent.agent_options(tool_model())
+final_arguments_options.tools = final_arguments_registry
+final_arguments_options.policy = function(action)
+  final_arguments_actions[#final_arguments_actions + 1] = action
+  return { allowed = true, reason = "ok" }
+end
+final_arguments_options.middleware = {
+  { before_tool = function(call)
+      call.arguments = { text = "mutated" }
+      return call
+    end },
+}
+agent.run_agent(final_arguments_options, models.session({ id = "s1" }), "go")
+check(final_arguments_invoked[1].text == "mutated", "lua final arguments effect")
+local final_arguments_count = 0
+for _, action in ipairs(final_arguments_actions) do
+  if action.kind == "tool.invoke" then final_arguments_count = final_arguments_count + 1 end
+end
+check(final_arguments_count == 2, "lua final arguments reauthorized")
+
+local final_name_invoked = {}
+local final_name_registry = agent.tool_registry()
+agent.register_tool(final_name_registry, agent.func_tool("other", "Other", function(arguments)
+  final_name_invoked[#final_name_invoked + 1] = arguments
+  return arguments
+end))
+local final_name_options = agent.agent_options(tool_model())
+final_name_options.tools = final_name_registry
+final_name_options.allowed_tools = { "echo", "other" }
+final_name_options.middleware = {
+  { before_tool = function(call)
+      call.name = "other"
+      return call
+    end },
+}
+agent.run_agent(final_name_options, models.session({ id = "s1" }), "go")
+check(#final_name_invoked == 1, "lua final name uses final tool")
+
+local denied_name_options = agent.agent_options(tool_model())
+denied_name_options.tools = final_name_registry
+denied_name_options.allowed_tools = { "echo" }
+denied_name_options.middleware = {
+  { before_tool = function(call)
+      call.name = "other"
+      return call
+    end },
+}
+local ok_name, err_name = pcall(agent.run_agent, denied_name_options, models.session({ id = "s1" }), "go")
+check(not ok_name and errors.code(err_name) == "AGENT_TOOL_NOT_ALLOWED", "lua final name allowlist")
+
+local unchanged_actions = {}
+local unchanged_options = agent.agent_options(tool_model())
+unchanged_options.tools = final_arguments_registry
+unchanged_options.policy = function(action)
+  unchanged_actions[#unchanged_actions + 1] = action
+  return { allowed = true, reason = "ok" }
+end
+unchanged_options.middleware = { {} }
+agent.run_agent(unchanged_options, models.session({ id = "s1" }), "go")
+local unchanged_count = 0
+for _, action in ipairs(unchanged_actions) do
+  if action.kind == "tool.invoke" then unchanged_count = unchanged_count + 1 end
+end
+check(unchanged_count == 1, "lua unchanged single authorization")
+
+local initial_calls = 0
+local initial_options = agent.agent_options(tool_model())
+initial_options.tools = final_arguments_registry
+initial_options.policy = function(action)
+  return { allowed = action.kind ~= "tool.invoke", reason = "blocked" }
+end
+initial_options.middleware = {
+  { before_tool = function(call)
+      initial_calls = initial_calls + 1
+      return call
+    end },
+}
+local ok_initial, err_initial = pcall(agent.run_agent, initial_options, models.session({ id = "s1" }), "go")
+check(not ok_initial and errors.code(err_initial) == "AGENT_POLICY_DENIED" and initial_calls == 0,
+      "lua initial denial prevents middleware")
+
+local startup_calls = {}
+local startup_options = agent.agent_options(agent.static_model("done"))
+startup_options.middleware = {
+  { before_run = function(_state) startup_calls[#startup_calls + 1] = "first.before" end,
+    after_run = function(_result, _error) startup_calls[#startup_calls + 1] = "first.after" end },
+  { before_run = function(_state) errors.raise("STARTUP_FAILED", "startup failed") end,
+    after_run = function(_result, _error) startup_calls[#startup_calls + 1] = "second.after" end },
+}
+local ok_startup, err_startup = pcall(agent.run_agent, startup_options, models.session({ id = "s1" }), "go")
+check(not ok_startup and errors.code(err_startup) == "STARTUP_FAILED", "lua startup failure")
+check(json.equals(startup_calls, { "first.before", "first.after", "second.after" }), "lua startup cleanup")
+
+local continue_calls = {}
+local continue_model = { generate = function(_request) errors.raise("RUN_FAILED", "run failed") end }
+local continue_options = agent.agent_options(continue_model)
+continue_options.middleware = {
+  { after_run = function(_result, _error)
+      continue_calls[#continue_calls + 1] = "first.after"
+      errors.raise("CLEANUP_FAILED", "cleanup failed")
+    end },
+  { after_run = function(_result, _error) continue_calls[#continue_calls + 1] = "second.after" end },
+}
+local ok_continue, err_continue = pcall(agent.run_agent, continue_options, models.session({ id = "s1" }), "go")
+check(not ok_continue and errors.code(err_continue) == "RUN_FAILED", "lua after-run preserves run error")
+check(json.equals(continue_calls, { "first.after", "second.after" }), "lua after-run continues")
+
+local cleanup_calls = {}
+local cleanup_options = agent.agent_options(agent.static_model("done"))
+cleanup_options.middleware = {
+  { after_run = function(_result, _error)
+      cleanup_calls[#cleanup_calls + 1] = "first.after"
+      errors.raise("CLEANUP_FAILED", "cleanup failed")
+    end },
+  { after_run = function(_result, _error) cleanup_calls[#cleanup_calls + 1] = "second.after" end },
+}
+local ok_cleanup, err_cleanup = pcall(agent.run_agent, cleanup_options, models.session({ id = "s1" }), "go")
+check(not ok_cleanup and errors.code(err_cleanup) == "CLEANUP_FAILED", "lua cleanup fail closed")
+check(json.equals(cleanup_calls, { "first.after", "second.after" }), "lua cleanup continues")
+
 print("lua core tests passed")

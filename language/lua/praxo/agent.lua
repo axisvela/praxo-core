@@ -53,6 +53,8 @@ function M.agent_options(model)
     max_steps = 8,
     max_tokens = 0,
     tool_choice = nil,
+    middleware = {},
+    allowed_tools = {},
   }
 end
 
@@ -67,15 +69,40 @@ local function authorize(options, action)
   if not options.policy then return end
   local decision = options.policy(action)
   if not (decision and decision.allowed) then
-    errors.raise("POLICY_ERROR", "policy denied the action")
+    errors.raise("AGENT_POLICY_DENIED", "policy denied the action")
   end
 end
 
+local function allowed(options, name)
+  if #(options.allowed_tools or {}) == 0 then return true end
+  for _, item in ipairs(options.allowed_tools) do
+    if item == name then return true end
+  end
+  return false
+end
+
 local function invoke_tool(options, call, run_id, session_id)
+  local original_name = call.name
+  local original_arguments = call.arguments
+  if not allowed(options, original_name) then
+    errors.raise("AGENT_TOOL_NOT_ALLOWED", "tool " .. original_name .. " is not allowed")
+  end
   authorize(options, models.action({
     kind = "tool.invoke", session_id = session_id,
-    tool_name = call.name, arguments = call.arguments,
+    tool_name = original_name, arguments = original_arguments,
   }))
+  for _, middleware in ipairs(options.middleware or {}) do
+    if middleware.before_tool then call = middleware.before_tool(call) or call end
+  end
+  if not allowed(options, call.name) then
+    errors.raise("AGENT_TOOL_NOT_ALLOWED", "tool " .. call.name .. " is not allowed")
+  end
+  if call.name ~= original_name or call.arguments ~= original_arguments then
+    authorize(options, models.action({
+      kind = "tool.invoke", session_id = session_id,
+      tool_name = call.name, arguments = call.arguments,
+    }))
+  end
   if not options.tools then
     errors.raise("TOOL_NOT_FOUND", "tool is not registered")
   end
@@ -85,6 +112,24 @@ local function invoke_tool(options, call, run_id, session_id)
   })
   local value = tool.invoke(call.arguments or {})
   return models.message_tool(json.encode(value), call.id or "")
+end
+
+local function before_run(options, entered, run_id, prompt)
+  for _, middleware in ipairs(options.middleware or {}) do
+    entered[#entered + 1] = middleware
+    if middleware.before_run then middleware.before_run({ run_id = run_id, prompt = prompt }) end
+  end
+end
+
+local function after_run(options, entered, result, err)
+  local first = nil
+  for _, middleware in ipairs(entered) do
+    if middleware.after_run then
+      local ok, caught = pcall(middleware.after_run, result, err)
+      if not ok and first == nil then first = caught end
+    end
+  end
+  return first
 end
 
 function M.run_agent(options, session, prompt)
@@ -97,7 +142,14 @@ function M.run_agent(options, session, prompt)
   end
   messages[#messages + 1] = models.message_text(models.USER, prompt or "")
   local usage = models.usage()
+  local entered = {}
+  local startup_ok, startup_error = pcall(before_run, options, entered, run_id, prompt)
+  if not startup_ok then
+    after_run(options, entered, nil, startup_error)
+    error(startup_error)
+  end
   emit(options, "run.started", session.id, run_id)
+  local after_run_invoked = false
   local ok, result = pcall(function()
     for step = 1, max_steps do
       authorize(options, models.action({ kind = "model.generate", session_id = session.id }))
@@ -121,10 +173,14 @@ function M.run_agent(options, session, prompt)
       messages[#messages + 1] = message
       local calls = message.tool_calls or {}
       if #calls == 0 then
-        emit(options, "run.completed", session.id, run_id)
-        return models.run_result({
+        local outcome = models.run_result({
           run_id = run_id, output = message.content or "", steps = step, usage = usage,
         })
+        after_run_invoked = true
+        local cleanup_error = after_run(options, entered, outcome, nil)
+        if cleanup_error ~= nil then error(cleanup_error) end
+        emit(options, "run.completed", session.id, run_id)
+        return outcome
       end
       for _, call in ipairs(calls) do
         messages[#messages + 1] = invoke_tool(options, call, run_id, session.id)
@@ -133,6 +189,7 @@ function M.run_agent(options, session, prompt)
     errors.raise("AGENT_MAX_STEPS", "maximum steps")
   end)
   if not ok then
+    if not after_run_invoked then after_run(options, entered, nil, result) end
     local message = type(result) == "table" and (result.message or tostring(result)) or tostring(result)
     emit(options, "run.failed", session.id, run_id, { error = message })
     error(result)

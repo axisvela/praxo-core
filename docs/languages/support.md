@@ -111,7 +111,9 @@ a merged implementation PR as a support commitment.
   checks, reauthorization of middleware changes, and lifecycle cleanup.
   Cancellation, streaming, SSE, parallel tools, and run-state isolation remain
   unsupported.
-- Lua publishes `praxo-core==0.1.0-1` on LuaRocks from source tag `lua/v0.1.0`.
+- Lua source tag `lua/v0.2.0` adds middleware hooks, final-tool allowlist
+  checks, reauthorization of middleware changes, and lifecycle cleanup. The
+  LuaRocks package remains `praxo-core==0.1.0-1`.
   A local rock build and module load passed; registry install smoke is pending.
 - C# source tag `csharp/v0.2.0` includes streaming runs, cancellation, bounded
   parallel tools, and SSE validation. The NuGet package remains
