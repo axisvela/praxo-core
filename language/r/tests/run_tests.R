@@ -392,4 +392,48 @@ tool_cancel_test()
 stream_callback_test()
 sse_parser_test()
 
+
+parallel_tools_test <- function() {
+  step <- 0L
+  second_messages <- new.env(parent = emptyenv())
+  second_messages$value <- list()
+  model <- function(request) {
+    if (step == 0L) {
+      step <<- 1L
+      return(response(message(roles$assistant, "", tool_calls = list(
+        tool_call("a1", "a", list()),
+        tool_call("b1", "b", list())
+      ))))
+    }
+    second_messages$value <- request$messages
+    done_response
+  }
+  tools <- list(
+    list(name = "a", description = "A", invoke = function(arguments) {
+      Sys.sleep(0.2)
+      list(name = "a")
+    }),
+    list(name = "b", description = "B", invoke = function(arguments) {
+      Sys.sleep(0.2)
+      list(name = "b")
+    })
+  )
+  started <- Sys.time()
+  result <- agent_run(model, "go", tools = tools, max_parallel_tools = 2L)
+  elapsed <- as.numeric(difftime(Sys.time(), started, units = "secs"))
+  stopifnot(identical(result$output, "done"))
+  if (.Platform$OS.type != "windows") {
+    stopifnot(elapsed < 0.35)
+  }
+  tool_messages <- Filter(function(item) identical(item$role, roles$tool),
+                          second_messages$value)
+  names <- vapply(tool_messages, function(item) {
+    value <- json_parse(item$content)
+    value$name
+  }, character(1))
+  stopifnot(identical(names, c("a", "b")))
+}
+
+parallel_tools_test()
+
 cat("R core tests passed\n")

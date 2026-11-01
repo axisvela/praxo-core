@@ -24,7 +24,9 @@
 - PHP `0.2.0` source adds streaming runs, cancellation, an SSE parser, final
   authorization, lifecycle cleanup, and truncation rejection. Parallel tool
   execution remains unsupported.
-- R `0.3.0` source adds policy and middleware hooks, final tool allowlist and
+- R `0.4.0` source adds bounded parallel tools using `mclapply` on Unix and a
+  PSOCK cluster on Windows. R `0.3.0` added policy and middleware hooks,
+  final tool allowlist and
   reauthorization, lifecycle cleanup, cancellation, streaming callbacks, and an
   SSE parser. Parallel tool execution remains unsupported.
 - Rust `0.2.0` source exposes `run_stream`, cooperative cancellation through

@@ -123,7 +123,10 @@ a merged implementation PR as a support commitment.
   `praxo-core==0.1.4`; a clean temporary project installed that package and
   reported `SDK_VERSION` `0.1.4` and `SPEC_VERSION` `0.2.0`. The HTTP OpenAI
   adapter, VFS, and plugin hosts are not included.
-- R has source tag `r/v0.3.0` with policy, middleware, lifecycle cleanup, cancellation, streaming callbacks, an SSE parser, and an API snapshot. Parallel tool execution remains unsupported, and no package-registry release is claimed.
+- R source tag `r/v0.4.0` includes policy, middleware, lifecycle cleanup,
+  cancellation, streaming callbacks, an SSE parser, bounded parallel tools, and
+  an API snapshot. Unix uses `mclapply`; Windows uses a PSOCK cluster. No
+  package-registry release is claimed.
 - C source tag `c/v0.4.0` adds policy authorization, ordered middleware,
   lifecycle cleanup, final-tool allowlist checks, reauthorization of middleware
   changes, cancellation, streaming callbacks, and an SSE parser. Parallel tools

@@ -3,14 +3,14 @@
 R implementation of the PRAXO-CORE contract.
 
 - `SPEC_VERSION`: `0.2.0`
-- Core version: `0.3.0`
+- Core version: `0.4.0`
 - Tier: core
 - License: MIT
 - Dependencies: none (base R JSON parser/serializer)
 
 ## Scope
 
-`0.3.0` implements all eleven conformance vector groups: tool-call parsing, JSON
+`0.4.0` implements all eleven conformance vector groups: tool-call parsing, JSON
 Schema, plugin manifests, memory, events, stream kinds, checkpoint envelopes,
 path policy, context budgets, middleware, and the agent loop. Provider adapters
 remain follow-up work.
@@ -34,5 +34,5 @@ Local toolchain used by the repository maintainers lives at `D:\dev\R`.
 
 ## Release
 
-Tag shape: `r/v0.3.0`. The tag targets `SPEC_VERSION` `0.2.0`. See
+Tag shape: `r/v0.4.0`. The tag targets `SPEC_VERSION` `0.2.0`. See
 [CHANGELOG.md](CHANGELOG.md) for per-release changes and compatibility notes.

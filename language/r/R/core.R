@@ -326,7 +326,7 @@ agent_run <- function(model, prompt, tools = list(), events = NULL, max_steps = 
                       max_tokens = 0L, session_id = "s1", policy = NULL,
                       middleware = list(), allowed_tools = character(),
                       cancellation = NULL, streaming_model = NULL,
-                      on_delta = NULL) {
+                      on_delta = NULL, max_parallel_tools = 0L) {
   run_id <- paste0("run-", format(Sys.time(), "%s"))
   if (max_steps <= 0L) max_steps <- 8L
   messages <- list(message(roles$user, prompt))
@@ -404,6 +404,7 @@ agent_run <- function(model, prompt, tools = list(), events = NULL, max_steps = 
         emit("run.completed")
         return(outcome)
       }
+      prepared <- list()
       for (call in result$message$toolCalls) {
         check_cancel()
         original_name <- call$name
@@ -431,8 +432,37 @@ agent_run <- function(model, prompt, tools = list(), events = NULL, max_steps = 
         for (candidate in tools) if (identical(candidate$name, call$name)) tool <- candidate
         if (is.null(tool)) praxo_error("TOOL_NOT_FOUND", "tool not found")
         emit("tool.call", list(name = call$name, arguments = call$arguments))
-        value <- tool$invoke(call$arguments)
-        messages[[length(messages) + 1L]] <- message(roles$tool, json_encode(value), tool_id = call$id)
+        prepared[[length(prepared) + 1L]] <- list(tool = tool, call = call)
+      }
+      execute <- function(item) {
+        if (!is.null(cancellation) && isTRUE(cancellation())) {
+          return(list(error = tryCatch(
+            praxo_error("AGENT_CANCELLED", "agent: cancelled"),
+            error = function(error) error
+          )))
+        }
+        tryCatch(
+          list(value = item$tool$invoke(item$call$arguments)),
+          error = function(error) list(error = error)
+        )
+      }
+      workers <- min(max_parallel_tools, length(prepared))
+      values <- if (workers > 1L) {
+        if (.Platform$OS.type == "windows") {
+          cluster <- parallel::makeCluster(workers)
+          on.exit(parallel::stopCluster(cluster), add = TRUE)
+          parallel::parLapply(cluster, prepared, execute)
+        } else {
+          parallel::mclapply(prepared, execute, mc.cores = workers)
+        }
+      } else {
+        lapply(prepared, execute)
+      }
+      for (index in seq_along(prepared)) {
+        outcome <- values[[index]]
+        if (!is.null(outcome$error)) stop(outcome$error)
+        messages[[length(messages) + 1L]] <- message(
+          roles$tool, json_encode(outcome$value), tool_id = prepared[[index]]$call$id)
       }
     }
     praxo_error("AGENT_MAX_STEPS", "maximum steps exceeded")

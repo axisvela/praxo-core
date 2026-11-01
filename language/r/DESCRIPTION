@@ -1,7 +1,7 @@
 Package: praxocore
 Type: Package
 Title: PRAXO-CORE Contract
-Version: 0.3.0
+Version: 0.4.0
 Authors@R: person("AxisVela", role = c("aut", "cre"), email = "releases@axisvela.com")
 Description: R implementation of the PRAXO-CORE contract: tool calls, JSON
     Schema subset, plugin manifests, memory, events, checkpoint envelopes,

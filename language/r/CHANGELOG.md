@@ -1,5 +1,23 @@
 # R Core Release Notes
 
+## 0.4.0 - 2026-11-01
+
+Source release tag `r/v0.4.0`.
+
+### Added
+
+- `max_parallel_tools` for bounded parallel tool execution.
+- Unix uses `parallel::mclapply`; Windows uses a PSOCK cluster.
+- Parallel results preserve original tool order.
+- API snapshot `api/0.4.0.txt`.
+
+### Compatibility
+
+- New argument is optional and does not change existing calls.
+- Windows parallel execution requires a working PSOCK cluster; timing
+  characteristics differ from Unix.
+- The Core contract remains `SPEC_VERSION` `0.2.0`.
+
 ## 0.3.0 - 2026-11-01
 
 Source release tag `r/v0.3.0`.
