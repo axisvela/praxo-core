@@ -53,7 +53,8 @@ module Praxo
 
     class AgentOptions
       attr_accessor :model, :tools, :events, :policy, :system_prompt, :context,
-                    :max_steps, :max_tokens, :tool_choice
+                    :max_steps, :max_tokens, :tool_choice, :middleware,
+                    :allowed_tools
 
       def initialize(model)
         @model = model
@@ -65,6 +66,8 @@ module Praxo
         @max_steps = 8
         @max_tokens = 0
         @tool_choice = nil
+        @middleware = []
+        @allowed_tools = []
       end
     end
 
@@ -83,7 +86,15 @@ module Praxo
         end
         messages << Models.message_text(Models::USER, prompt.to_s)
         usage = Models.usage
+        entered = []
+        begin
+          before_run(options, entered, run_id, prompt)
+        rescue StandardError => e
+          after_run(options, entered, nil, e)
+          raise
+        end
         emit(options, 'run.started', session.id, run_id)
+        after_run_invoked = false
         begin
           (1..max_steps).each do |step|
             authorize(options, Models.action(kind: 'model.generate', session_id: session.id))
@@ -107,11 +118,15 @@ module Praxo
             messages << message
             calls = message.tool_calls || []
             if calls.empty?
-              emit(options, 'run.completed', session.id, run_id)
-              return Models.run_result(
+              result = Models.run_result(
                 run_id: run_id, output: message.content.to_s, steps: step,
                 usage: usage
               )
+              after_run_invoked = true
+              cleanup_error = after_run(options, entered, result, nil)
+              raise cleanup_error if cleanup_error
+              emit(options, 'run.completed', session.id, run_id)
+              return result
             end
             calls.each do |call|
               messages << invoke_tool(options, call, run_id, session.id)
@@ -119,6 +134,7 @@ module Praxo
           end
           Praxo.error('AGENT_MAX_STEPS', 'maximum steps')
         rescue StandardError => e
+          after_run(options, entered, nil, e) unless after_run_invoked
           emit(options, 'run.failed', session.id, run_id, { 'error' => e.message })
           raise
         end
@@ -127,10 +143,28 @@ module Praxo
       private
 
       def invoke_tool(options, call, run_id, session_id)
+        original_name = call.name
+        original_arguments = call.arguments
+        unless allowed?(options, original_name)
+          Praxo.error('AGENT_TOOL_NOT_ALLOWED', "tool #{original_name} is not allowed")
+        end
         authorize(options, Models.action(
           kind: 'tool.invoke', session_id: session_id,
-          tool_name: call.name, arguments: call.arguments
+          tool_name: original_name, arguments: original_arguments
         ))
+        options.middleware.each do |middleware|
+          next unless middleware.respond_to?(:before_tool)
+          call = middleware.before_tool(call) || call
+        end
+        unless allowed?(options, call.name)
+          Praxo.error('AGENT_TOOL_NOT_ALLOWED', "tool #{call.name} is not allowed")
+        end
+        if call.name != original_name || call.arguments != original_arguments
+          authorize(options, Models.action(
+            kind: 'tool.invoke', session_id: session_id,
+            tool_name: call.name, arguments: call.arguments
+          ))
+        end
         Praxo.error('TOOL_NOT_FOUND', 'tool is not registered') unless options.tools
         tool = options.tools.get(call.name)
         emit(options, 'tool.call', session_id, run_id,
@@ -139,10 +173,35 @@ module Praxo
         Models.message_tool(Json.stringify(value), call.id.to_s)
       end
 
+      def allowed?(options, name)
+        options.allowed_tools.empty? || options.allowed_tools.include?(name)
+      end
+
+      def before_run(options, entered, run_id, prompt)
+        state = { run_id: run_id, prompt: prompt }
+        options.middleware.each do |middleware|
+          entered << middleware
+          middleware.before_run(state) if middleware.respond_to?(:before_run)
+        end
+      end
+
+      def after_run(options, entered, result, error)
+        first_error = nil
+        entered.each do |middleware|
+          next unless middleware.respond_to?(:after_run)
+          begin
+            middleware.after_run(result, error)
+          rescue StandardError => caught
+            first_error ||= caught
+          end
+        end
+        first_error
+      end
+
       def authorize(options, action)
         return unless options.policy
         decision = options.policy.call(action)
-        Praxo.error('POLICY_ERROR', 'policy denied the action') unless decision&.allowed
+        Praxo.error('AGENT_POLICY_DENIED', 'policy denied the action') unless decision&.allowed
       end
 
       def emit(options, type, session_id, run_id, data = nil)

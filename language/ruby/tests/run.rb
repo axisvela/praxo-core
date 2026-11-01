@@ -169,4 +169,184 @@ rescue StandardError
 end
 check(caught, 'capacity fail closed')
 
+
+class TestMiddleware
+  attr_accessor :before_run_hook, :after_run_hook, :before_tool_hook
+
+  def before_run(state)
+    @before_run_hook&.call(state)
+  end
+
+  def after_run(result, error)
+    @after_run_hook&.call(result, error)
+  end
+
+  def before_tool(call)
+    @before_tool_hook ? @before_tool_hook.call(call) : call
+  end
+end
+
+def tool_model
+  TestModel.new([
+    { 'content' => '', 'toolCalls' => [{ 'id' => 'c1', 'name' => 'echo',
+                                          'arguments' => { 'text' => 'hi' } }] },
+    { 'content' => 'done' }
+  ])
+end
+
+arguments_invoked = []
+arguments_registry = Praxo::Agent::ToolRegistry.new
+arguments_registry.register(Praxo::Agent::FuncTool.new('echo', 'Echo', lambda { |arguments|
+  arguments_invoked << arguments
+  arguments
+}))
+arguments_policy = []
+arguments_middleware = TestMiddleware.new
+arguments_middleware.before_tool_hook = lambda { |call|
+  call.arguments = { 'text' => 'mutated' }
+  call
+}
+arguments_options = Praxo::Agent::AgentOptions.new(tool_model)
+arguments_options.tools = arguments_registry
+arguments_options.policy = lambda { |action|
+  arguments_policy << action
+  M.decision(allowed: true)
+}
+arguments_options.middleware << arguments_middleware
+arguments_result = Praxo::Agent.run_agent(arguments_options, M.session(id: 's1'), 'go')
+check(arguments_result.output == 'done' && arguments_invoked.first['text'] == 'mutated',
+      'ruby final arguments effect')
+check(arguments_policy.count { |action| action.kind == 'tool.invoke' } == 2,
+      'ruby final arguments reauthorized')
+
+rename_invoked = []
+rename_registry = Praxo::Agent::ToolRegistry.new
+rename_registry.register(Praxo::Agent::FuncTool.new('echo', 'Echo', lambda { |arguments|
+  arguments
+}))
+rename_registry.register(Praxo::Agent::FuncTool.new('other', 'Other', lambda { |arguments|
+  rename_invoked << arguments
+  arguments
+}))
+rename_middleware = TestMiddleware.new
+rename_middleware.before_tool_hook = lambda { |call|
+  call.name = 'other'
+  call
+}
+rename_options = Praxo::Agent::AgentOptions.new(tool_model)
+rename_options.tools = rename_registry
+rename_options.middleware << rename_middleware
+Praxo::Agent.run_agent(rename_options, M.session(id: 's1'), 'go')
+check(rename_invoked.length == 1, 'ruby final name uses final tool')
+
+denied_options = Praxo::Agent::AgentOptions.new(tool_model)
+denied_options.tools = rename_registry
+denied_options.allowed_tools = ['echo']
+denied_options.middleware << rename_middleware
+caught = false
+begin
+  Praxo::Agent.run_agent(denied_options, M.session(id: 's1'), 'go')
+rescue StandardError
+  caught = true
+end
+check(caught, 'ruby final name allowlist')
+
+unchanged_policy = []
+unchanged_options = Praxo::Agent::AgentOptions.new(tool_model)
+unchanged_options.tools = arguments_registry
+unchanged_options.policy = lambda { |action|
+  unchanged_policy << action
+  M.decision(allowed: true)
+}
+unchanged_options.middleware << TestMiddleware.new
+Praxo::Agent.run_agent(unchanged_options, M.session(id: 's1'), 'go')
+check(unchanged_policy.count { |action| action.kind == 'tool.invoke' } == 1,
+      'ruby unchanged single authorization')
+
+initial_calls = 0
+initial_options = Praxo::Agent::AgentOptions.new(tool_model)
+initial_options.tools = arguments_registry
+initial_options.policy = lambda { |action|
+  action.kind == 'tool.invoke' ? M.decision(allowed: false) : M.decision(allowed: true)
+}
+initial_middleware = TestMiddleware.new
+initial_middleware.before_tool_hook = lambda { |call|
+  initial_calls += 1
+  call
+}
+initial_options.middleware << initial_middleware
+caught = false
+begin
+  Praxo::Agent.run_agent(initial_options, M.session(id: 's1'), 'go')
+rescue StandardError
+  caught = true
+end
+check(caught && initial_calls.zero?, 'ruby initial denial prevents middleware')
+
+startup_calls = []
+startup_first = TestMiddleware.new
+startup_first.before_run_hook = ->(_state) { startup_calls << 'first.before' }
+startup_first.after_run_hook = ->(_result, _error) { startup_calls << 'first.after' }
+startup_second = TestMiddleware.new
+startup_second.before_run_hook = ->(_state) { raise 'startup failed' }
+startup_second.after_run_hook = ->(_result, _error) { startup_calls << 'second.after' }
+startup_options = Praxo::Agent::AgentOptions.new(TestModel.new([{ 'content' => 'done' }]))
+startup_options.middleware = [startup_first, startup_second]
+startup_sink = TestSink.new
+startup_options.events = startup_sink
+caught = false
+begin
+  Praxo::Agent.run_agent(startup_options, M.session(id: 's1'), 'go')
+rescue StandardError
+  caught = true
+end
+check(caught && startup_calls == %w[first.before first.after second.after],
+      'ruby startup cleanup')
+check(startup_sink.types.empty?, 'ruby startup emits no events')
+
+continue_calls = []
+continue_first = TestMiddleware.new
+continue_first.after_run_hook = lambda { |_result, _error|
+  continue_calls << 'first.after'
+  raise 'cleanup failed'
+}
+continue_second = TestMiddleware.new
+continue_second.after_run_hook = ->(_result, _error) { continue_calls << 'second.after' }
+continue_options = Praxo::Agent::AgentOptions.new(Praxo::Agent::FuncTool.new('unused', 'unused', nil))
+continue_options.middleware = [continue_first, continue_second]
+continue_options.model = Object.new
+continue_options.model.define_singleton_method(:generate) do |_request|
+  raise 'run failed'
+end
+caught = false
+begin
+  Praxo::Agent.run_agent(continue_options, M.session(id: 's1'), 'go')
+rescue StandardError => e
+  caught = e.message.include?('run failed')
+end
+check(caught && continue_calls == %w[first.after second.after],
+      'ruby after-run continues')
+
+cleanup_calls = []
+cleanup_first = TestMiddleware.new
+cleanup_first.after_run_hook = lambda { |_result, _error|
+  cleanup_calls << 'first.after'
+  raise 'cleanup failed'
+}
+cleanup_second = TestMiddleware.new
+cleanup_second.after_run_hook = ->(_result, _error) { cleanup_calls << 'second.after' }
+cleanup_options = Praxo::Agent::AgentOptions.new(TestModel.new([{ 'content' => 'done' }]))
+cleanup_options.middleware = [cleanup_first, cleanup_second]
+cleanup_sink = TestSink.new
+cleanup_options.events = cleanup_sink
+caught = false
+begin
+  Praxo::Agent.run_agent(cleanup_options, M.session(id: 's1'), 'go')
+rescue StandardError => e
+  caught = e.message.include?('cleanup failed')
+end
+check(caught && cleanup_calls == %w[first.after second.after],
+      'ruby cleanup fail closed')
+check(cleanup_sink.types == %w[run.started run.failed], 'ruby cleanup emits failed')
+
 puts 'ruby core tests passed'

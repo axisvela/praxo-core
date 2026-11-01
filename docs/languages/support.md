@@ -103,8 +103,10 @@ a merged implementation PR as a support commitment.
   validation, final authorization, and lifecycle cleanup. The Packagist package
   remains `axisvela/praxo-core==0.1.0` from the split publication repository
   `axisvela/praxo-core-php`. Parallel tool execution remains unsupported.
-- Ruby publishes `praxo-core==0.1.0` on RubyGems from source tag
-  `ruby/v0.1.0`. A clean project installed the gem and ran a minimal agent.
+- Ruby source tag `ruby/v0.2.0` adds middleware hooks, final-tool allowlist
+  checks, reauthorization of middleware changes, and lifecycle cleanup. The
+  RubyGems package remains `praxo-core==0.1.0`; a clean project installed it and
+  ran a minimal agent.
 - Lua publishes `praxo-core==0.1.0-1` on LuaRocks from source tag `lua/v0.1.0`.
   A local rock build and module load passed; registry install smoke is pending.
 - C# source tag `csharp/v0.2.0` includes streaming runs, cancellation, bounded

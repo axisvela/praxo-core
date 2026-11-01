@@ -91,7 +91,7 @@ for real providers, platforms, and production behavior is reported separately.
 | JavaScript | Sample (TypeScript) | released | none | sample | Uses the TypeScript package; no separate core |
 | C++ | Core | released | `cpp/v0.1.0` | complete | 11 vectors, core tests, API snapshot |
 | Dart | Core | released | `dart/v0.1.1` | complete | 11 vectors, core tests, API snapshot; pub.dev `praxo_core==0.1.1` |
-| Ruby | Core | released | `ruby/v0.1.0` | complete | 11 vectors, core tests, API snapshot; RubyGems `praxo-core==0.1.0` |
+| Ruby | Core | released | `ruby/v0.2.0` | complete | 11 vectors, core tests, API snapshot, middleware/lifecycle authorization; source `0.2.0`, RubyGems `praxo-core==0.1.0` |
 | Kotlin | Sample (JVM) | released | none | sample | Uses the Java Core |
 | Scala | Sample (JVM) | released | none | sample | Uses the Java Core |
 | MATLAB | Core | released | `matlab/v0.2.1` | complete | 11 vectors, native tests, API snapshot/parity; Octave 11.3.0; MATLAB runtime unverified |

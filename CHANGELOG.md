@@ -17,6 +17,9 @@
 - PHP and C# now clean up middleware entered before a startup failure, keep
   running later after-run callbacks after one fails, preserve the original run
   error, and fail closed when cleanup itself fails after success.
+- Ruby `0.2.0` source adds middleware hooks, final-tool allowlist checks,
+  reauthorization of middleware changes, and lifecycle cleanup. Cancellation,
+  streaming, SSE, parallel tools, and run-state isolation remain unsupported.
 - C `0.5.0` source adds policy authorization, ordered middleware, lifecycle
   cleanup, final-tool allowlist checks, reauthorization of middleware changes,
   cancellation, streaming callbacks, an SSE parser, and bounded parallel tools.

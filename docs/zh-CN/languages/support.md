@@ -73,8 +73,9 @@ Bridge、Sample 描述运行时的接入方式，不证明其语言缺乏 Framew
 - PHP 源码标签 `php/v0.2.0` 包含流式运行、取消、SSE 校验、最终授权和生命周期清理。
   Packagist 包仍为 `axisvela/praxo-core==0.1.0`，来自独立发布仓库
   `axisvela/praxo-core-php`。并行工具执行仍不支持。
-- Ruby 已从源码标签 `ruby/v0.1.0` 在 RubyGems 发布 `praxo-core==0.1.0`。
-  干净项目已安装该 gem 并运行最小 agent。
+- Ruby 源码标签 `ruby/v0.2.0` 增加 middleware、最终工具 allowlist、重新授权和
+  生命周期清理。RubyGems 包仍为 `praxo-core==0.1.0`；干净项目已安装该 gem 并运行
+  最小 agent。
 - Lua 已从源码标签 `lua/v0.1.0` 在 LuaRocks 发布 `praxo-core==0.1.0-1`。
   本地 rock 构建和模块加载通过；registry 安装 smoke 待完成。
 - C# 源码标签 `csharp/v0.2.0` 包含流式运行、取消、有限并行工具和 SSE 校验。
