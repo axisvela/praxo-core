@@ -4,7 +4,7 @@ C++20 implementation of the PRAXO-CORE agent contract. The normative contract
 is [`spec/`](../../spec/README.md); Go remains the reference implementation.
 
 - `SPEC_VERSION`: `0.2.0`
-- Core version: `0.1.0`
+- Core version: `0.2.0`
 - Tier: core
 - License: MIT
 - Dependencies: C++20 standard library only
@@ -71,4 +71,5 @@ options.tools = registry;
 
 ## Release
 
-Tag shape: `cpp/v0.1.0`. The tag targets `SPEC_VERSION` `0.2.0`.
+Tag shape: `cpp/v0.2.0`. The tag targets `SPEC_VERSION` `0.2.0`. See
+[CHANGELOG.md](CHANGELOG.md) for per-release changes and compatibility notes.

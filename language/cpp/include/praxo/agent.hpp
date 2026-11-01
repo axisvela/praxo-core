@@ -1,5 +1,6 @@
 #pragma once
 
+#include <exception>
 #include <functional>
 #include <map>
 #include <memory>
@@ -61,6 +62,12 @@ private:
     std::string content_;
 };
 
+struct Middleware {
+    std::function<void(const std::string& run_id, const std::string& prompt)> before_run;
+    std::function<void(const RunResult* result, const std::string* error)> after_run;
+    std::function<ToolCall(ToolCall call)> before_tool;
+};
+
 class AgentOptions {
 public:
     explicit AgentOptions(std::shared_ptr<Model> model) : model(std::move(model)) {}
@@ -73,6 +80,8 @@ public:
     std::optional<ContextBudget> context;
     int max_steps = 8;
     int max_tokens = 0;
+    std::vector<Middleware> middleware;
+    std::vector<std::string> allowed_tools;
 };
 
 class Agent {
@@ -84,6 +93,11 @@ private:
     Message invoke_tool(const ToolCall& call, const std::string& run_id,
                         const std::string& session_id);
     void authorize(const Action& action) const;
+    bool allowed(const std::string& name) const;
+    void before_run(const std::string& run_id, const std::string& prompt,
+                    std::vector<size_t>& entered);
+    std::exception_ptr after_run(const std::vector<size_t>& entered,
+                                 const RunResult* result, const std::string* error);
     void emit(const std::string& type, const std::string& session_id,
               const std::string& run_id, const Json& data = Json(nullptr)) const;
 

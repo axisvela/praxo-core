@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <cassert>
 #include <chrono>
 #include <filesystem>
@@ -46,6 +47,15 @@ private:
 void check(bool condition, const std::string& message) {
     if (!condition) throw std::runtime_error(message);
 }
+
+
+class FailingModel : public Model {
+public:
+    Response generate(const Request& request) override {
+        (void)request;
+        throw PraxoError("RUN_FAILED", "run failed");
+    }
+};
 
 }  // namespace
 
@@ -185,6 +195,183 @@ int main() {
         options.tools = registry;
         auto result = run_agent(options, Session{"s1", {}}, "go");
         check(result.output == "done" && result.steps == 2 && invocations == 1, "agent loop");
+
+
+        std::vector<Json> final_arguments_invoked;
+        auto final_arguments_registry = std::make_shared<ToolRegistry>();
+        final_arguments_registry->register_tool(std::make_shared<FuncTool>(
+            "echo", "Echo", [&](const Json& arguments) {
+                final_arguments_invoked.push_back(arguments);
+                return arguments;
+            }));
+        std::vector<Action> final_arguments_actions;
+        AgentOptions final_arguments_options(std::make_shared<TestModel>(Json::parse(
+            R"([{"content":"","toolCalls":[{"id":"c1","name":"echo","arguments":{"text":"hi"}}]},)"
+            R"({"content":"done"}])")));
+        final_arguments_options.tools = final_arguments_registry;
+        final_arguments_options.policy = [&](const Action& action) {
+            final_arguments_actions.push_back(action);
+            return Decision{true, "ok"};
+        };
+        Middleware mutate_arguments;
+        mutate_arguments.before_tool = [](ToolCall call) {
+            call.arguments = Json::parse(R"({"text":"mutated"})");
+            return call;
+        };
+        final_arguments_options.middleware.push_back(mutate_arguments);
+        (void)run_agent(std::move(final_arguments_options), Session{"s1", {}}, "go");
+        check(final_arguments_invoked.size() == 1 &&
+              final_arguments_invoked[0].at("text").as_string() == "mutated",
+              "cpp final arguments effect");
+        check(std::count_if(final_arguments_actions.begin(), final_arguments_actions.end(),
+              [](const Action& action) { return action.kind == "tool.invoke"; }) == 2,
+              "cpp final arguments reauthorized");
+
+        std::vector<Json> final_name_invoked;
+        auto final_name_registry = std::make_shared<ToolRegistry>();
+        final_name_registry->register_tool(std::make_shared<FuncTool>(
+            "other", "Other", [&](const Json& arguments) {
+                final_name_invoked.push_back(arguments);
+                return arguments;
+            }));
+        AgentOptions final_name_options(std::make_shared<TestModel>(Json::parse(
+            R"([{"content":"","toolCalls":[{"id":"c1","name":"echo","arguments":{}}]},)"
+            R"({"content":"done"}])")));
+        final_name_options.tools = final_name_registry;
+        final_name_options.allowed_tools = {"echo", "other"};
+        Middleware mutate_name;
+        mutate_name.before_tool = [](ToolCall call) {
+            call.name = "other";
+            return call;
+        };
+        final_name_options.middleware.push_back(mutate_name);
+        (void)run_agent(std::move(final_name_options), Session{"s1", {}}, "go");
+        check(final_name_invoked.size() == 1, "cpp final name uses final tool");
+
+        AgentOptions denied_name_options(std::make_shared<TestModel>(Json::parse(
+            R"([{"content":"","toolCalls":[{"id":"c1","name":"echo","arguments":{}}]},)"
+            R"({"content":"done"}])")));
+        denied_name_options.tools = final_name_registry;
+        denied_name_options.allowed_tools = {"echo"};
+        Middleware denied_name;
+        denied_name.before_tool = [](ToolCall call) {
+            call.name = "other";
+            return call;
+        };
+        denied_name_options.middleware.push_back(denied_name);
+        caught = false;
+        try {
+            (void)run_agent(std::move(denied_name_options), Session{"s1", {}}, "go");
+        } catch (const PraxoError& error) {
+            caught = error.code() == "AGENT_TOOL_NOT_ALLOWED";
+        }
+        check(caught, "cpp final name allowlist");
+
+        std::vector<Action> unchanged_actions;
+        AgentOptions unchanged_options(std::make_shared<TestModel>(Json::parse(
+            R"([{"content":"","toolCalls":[{"id":"c1","name":"echo","arguments":{"text":"hi"}}]},)"
+            R"({"content":"done"}])")));
+        unchanged_options.tools = final_arguments_registry;
+        unchanged_options.policy = [&](const Action& action) {
+            unchanged_actions.push_back(action);
+            return Decision{true, "ok"};
+        };
+        unchanged_options.middleware.push_back(Middleware{});
+        (void)run_agent(std::move(unchanged_options), Session{"s1", {}}, "go");
+        check(std::count_if(unchanged_actions.begin(), unchanged_actions.end(),
+              [](const Action& action) { return action.kind == "tool.invoke"; }) == 1,
+              "cpp unchanged single authorization");
+
+        int initial_middleware_calls = 0;
+        AgentOptions initial_options(std::make_shared<TestModel>(Json::parse(
+            R"([{"content":"","toolCalls":[{"id":"c1","name":"echo","arguments":{}}]},)"
+            R"({"content":"done"}])")));
+        initial_options.tools = final_arguments_registry;
+        initial_options.policy = [](const Action& action) {
+            return Decision{action.kind != "tool.invoke", "blocked"};
+        };
+        Middleware initial_middleware;
+        initial_middleware.before_tool = [&](ToolCall call) {
+            ++initial_middleware_calls;
+            return call;
+        };
+        initial_options.middleware.push_back(initial_middleware);
+        caught = false;
+        try {
+            (void)run_agent(std::move(initial_options), Session{"s1", {}}, "go");
+        } catch (const PraxoError& error) {
+            caught = error.code() == "AGENT_POLICY_DENIED";
+        }
+        check(caught && initial_middleware_calls == 0,
+              "cpp initial denial prevents middleware");
+
+        std::vector<std::string> startup_calls;
+        AgentOptions startup_options(std::make_shared<StaticModel>("done"));
+        Middleware startup_first;
+        startup_first.before_run = [&](const std::string&, const std::string&) {
+            startup_calls.push_back("first.before");
+        };
+        startup_first.after_run = [&](const RunResult*, const std::string*) {
+            startup_calls.push_back("first.after");
+        };
+        Middleware startup_second;
+        startup_second.before_run = [](const std::string&, const std::string&) {
+            throw PraxoError("STARTUP_FAILED", "startup failed");
+        };
+        startup_second.after_run = [&](const RunResult*, const std::string*) {
+            startup_calls.push_back("second.after");
+        };
+        startup_options.middleware = {startup_first, startup_second};
+        caught = false;
+        try {
+            (void)run_agent(std::move(startup_options), Session{"s1", {}}, "go");
+        } catch (const PraxoError& error) {
+            caught = error.code() == "STARTUP_FAILED";
+        }
+        check(caught && startup_calls == std::vector<std::string>{
+            "first.before", "first.after", "second.after"}, "cpp startup cleanup");
+
+        std::vector<std::string> continue_calls;
+        AgentOptions continue_options(std::make_shared<FailingModel>());
+        Middleware continue_first;
+        continue_first.after_run = [&](const RunResult*, const std::string*) {
+            continue_calls.push_back("first.after");
+            throw PraxoError("CLEANUP_FAILED", "cleanup failed");
+        };
+        Middleware continue_second;
+        continue_second.after_run = [&](const RunResult*, const std::string*) {
+            continue_calls.push_back("second.after");
+        };
+        continue_options.middleware = {continue_first, continue_second};
+        caught = false;
+        try {
+            (void)run_agent(std::move(continue_options), Session{"s1", {}}, "go");
+        } catch (const PraxoError& error) {
+            caught = error.code() == "RUN_FAILED";
+        }
+        check(caught && continue_calls == std::vector<std::string>{
+            "first.after", "second.after"}, "cpp after-run continues");
+
+        std::vector<std::string> cleanup_calls;
+        AgentOptions cleanup_options(std::make_shared<StaticModel>("done"));
+        Middleware cleanup_first;
+        cleanup_first.after_run = [&](const RunResult*, const std::string*) {
+            cleanup_calls.push_back("first.after");
+            throw PraxoError("CLEANUP_FAILED", "cleanup failed");
+        };
+        Middleware cleanup_second;
+        cleanup_second.after_run = [&](const RunResult*, const std::string*) {
+            cleanup_calls.push_back("second.after");
+        };
+        cleanup_options.middleware = {cleanup_first, cleanup_second};
+        caught = false;
+        try {
+            (void)run_agent(std::move(cleanup_options), Session{"s1", {}}, "go");
+        } catch (const PraxoError& error) {
+            caught = error.code() == "CLEANUP_FAILED";
+        }
+        check(caught && cleanup_calls == std::vector<std::string>{
+            "first.after", "second.after"}, "cpp cleanup fail closed");
 
         std::cout << "cpp core tests passed\n";
         return 0;

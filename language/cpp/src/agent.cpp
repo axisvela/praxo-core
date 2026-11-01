@@ -39,29 +39,85 @@ Response StaticModel::generate(const Request& request) {
 
 Message Agent::invoke_tool(const ToolCall& call, const std::string& run_id,
                            const std::string& session_id) {
+    const std::string original_name = call.name;
+    const Json original_arguments = call.arguments;
+    if (!allowed(original_name)) {
+        throw PraxoError("AGENT_TOOL_NOT_ALLOWED",
+                         "agent: tool " + original_name + " is not allowed");
+    }
     Action action;
     action.kind = "tool.invoke";
     action.session_id = session_id;
-    action.tool_name = call.name;
-    action.arguments = call.arguments;
+    action.tool_name = original_name;
+    action.arguments = original_arguments;
     authorize(action);
+    ToolCall active = call;
+    for (const auto& middleware : options_.middleware) {
+        if (middleware.before_tool) active = middleware.before_tool(active);
+    }
+    if (!allowed(active.name)) {
+        throw PraxoError("AGENT_TOOL_NOT_ALLOWED",
+                         "agent: tool " + active.name + " is not allowed");
+    }
+    if (active.name != original_name || active.arguments != original_arguments) {
+        Action final_action;
+        final_action.kind = "tool.invoke";
+        final_action.session_id = session_id;
+        final_action.tool_name = active.name;
+        final_action.arguments = active.arguments;
+        authorize(final_action);
+    }
     if (!options_.tools) {
         throw PraxoError("TOOL_NOT_FOUND", "tool is not registered");
     }
-    auto tool = options_.tools->get(call.name);
+    auto tool = options_.tools->get(active.name);
     Json data = Json::object();
-    data["name"] = call.name;
-    data["arguments"] = call.arguments;
+    data["name"] = active.name;
+    data["arguments"] = active.arguments;
     emit("tool.call", session_id, run_id, data);
-    Json result = tool->invoke(call.arguments);
-    return tool_message(result.dump(), call.id);
+    Json result = tool->invoke(active.arguments);
+    return tool_message(result.dump(), active.id);
+}
+
+bool Agent::allowed(const std::string& name) const {
+    if (options_.allowed_tools.empty()) return true;
+    for (const auto& item : options_.allowed_tools) {
+        if (item == name) return true;
+    }
+    return false;
+}
+
+void Agent::before_run(const std::string& run_id, const std::string& prompt,
+                       std::vector<size_t>& entered) {
+    for (size_t index = 0; index < options_.middleware.size(); ++index) {
+        entered.push_back(index);
+        const auto& middleware = options_.middleware[index];
+        if (middleware.before_run) middleware.before_run(run_id, prompt);
+    }
+}
+
+std::exception_ptr Agent::after_run(const std::vector<size_t>& entered,
+                                    const RunResult* result,
+                                    const std::string* error) {
+    std::exception_ptr first;
+    for (size_t index : entered) {
+        if (index >= options_.middleware.size()) continue;
+        const auto& middleware = options_.middleware[index];
+        if (!middleware.after_run) continue;
+        try {
+            middleware.after_run(result, error);
+        } catch (...) {
+            if (!first) first = std::current_exception();
+        }
+    }
+    return first;
 }
 
 void Agent::authorize(const Action& action) const {
     if (!options_.policy) return;
     Decision decision = options_.policy(action);
     if (!decision.allowed) {
-        throw PraxoError("POLICY_ERROR", "policy denied the action");
+        throw PraxoError("AGENT_POLICY_DENIED", "policy denied the action");
     }
 }
 
@@ -87,7 +143,16 @@ RunResult Agent::run(const Session& session, const std::string& prompt) {
     }
     messages.push_back(text_message(USER, prompt));
     Usage usage;
+    std::vector<size_t> entered;
+    try {
+        before_run(run_id, prompt, entered);
+    } catch (const std::exception& error) {
+        const std::string message = error.what();
+        (void)after_run(entered, nullptr, &message);
+        throw;
+    }
     emit("run.started", session.id, run_id);
+    bool after_run_invoked = false;
     try {
         for (int step = 1; step <= max_steps; ++step) {
             Action action;
@@ -110,8 +175,13 @@ RunResult Agent::run(const Session& session, const std::string& prompt) {
             }
             messages.push_back(response.message);
             if (response.message.tool_calls.empty()) {
+                RunResult result{run_id, response.message.content.value_or(""), step, usage};
+                after_run_invoked = true;
+                if (auto cleanup = after_run(entered, &result, nullptr)) {
+                    std::rethrow_exception(cleanup);
+                }
                 emit("run.completed", session.id, run_id);
-                return {run_id, response.message.content.value_or(""), step, usage};
+                return result;
             }
             for (const auto& call : response.message.tool_calls) {
                 messages.push_back(invoke_tool(call, run_id, session.id));
@@ -119,6 +189,10 @@ RunResult Agent::run(const Session& session, const std::string& prompt) {
         }
         throw PraxoError("AGENT_MAX_STEPS", "maximum steps");
     } catch (const std::exception& error) {
+        if (!after_run_invoked) {
+            const std::string message = error.what();
+            (void)after_run(entered, nullptr, &message);
+        }
         Json data = Json::object();
         data["error"] = error.what();
         emit("run.failed", session.id, run_id, data);

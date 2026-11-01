@@ -76,6 +76,8 @@ Bridge、Sample 描述运行时的接入方式，不证明其语言缺乏 Framew
 - Ruby 源码标签 `ruby/v0.2.0` 增加 middleware、最终工具 allowlist、重新授权和
   生命周期清理。RubyGems 包仍为 `praxo-core==0.1.0`；干净项目已安装该 gem 并运行
   最小 agent。
+- C++ 源码标签 `cpp/v0.2.0` 增加 middleware、最终工具 allowlist、重新授权和
+  生命周期清理。取消、流式、SSE、并行工具和 run-state isolation 仍不支持。
 - Lua 已从源码标签 `lua/v0.1.0` 在 LuaRocks 发布 `praxo-core==0.1.0-1`。
   本地 rock 构建和模块加载通过；registry 安装 smoke 待完成。
 - C# 源码标签 `csharp/v0.2.0` 包含流式运行、取消、有限并行工具和 SSE 校验。
