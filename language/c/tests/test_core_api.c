@@ -175,6 +175,18 @@ int main(void) {
     char *redacted = px_pii_redact(&arena, "email a@b.com");
     assert(strcmp(redacted, "email [REDACTED:email]") == 0);
 
+    PxValue *pii_history = px_parse(&arena,
+        "{\"messages\":[{\"toolCalls\":[{\"arguments\":"
+        "{\"email\":\"a@b.com\",\"nested\":{\"email\":\"c@d.com\"}}}]}]}");
+    PxValue *redacted_history = px_redact_value(&arena, pii_history);
+    PxValue *history_messages = px_obj_get(redacted_history, "messages");
+    PxValue *history_first = history_messages->as.array.items[0];
+    PxValue *history_calls = px_obj_get(history_first, "toolCalls");
+    PxValue *history_arguments = px_obj_get(history_calls->as.array.items[0], "arguments");
+    assert(strcmp(px_get_str(history_arguments, "email"), "[REDACTED:email]") == 0);
+    assert(strcmp(px_get_str(px_obj_get(history_arguments, "nested"), "email"),
+        "[REDACTED:email]") == 0);
+
     PxValue *schema = px_parse(&arena, "{\"type\":\"object\",\"required\":[\"name\"]}");
     PxStructuredOutput structured = {schema, 1, repair, NULL};
     assert(strcmp(px_apply_structured(&arena, &structured, "bad"), "{\"name\":\"fixed\"}") == 0);
@@ -187,6 +199,14 @@ int main(void) {
     assert(strcmp(px_call_limit_model(&limit), "AGENT_MODEL_CALL_LIMIT") == 0);
     assert(px_call_limit_tool(&limit) == NULL);
     assert(strcmp(px_call_limit_tool(&limit), "AGENT_TOOL_CALL_LIMIT") == 0);
+
+    PxCallLimit first_run;
+    PxCallLimit second_run;
+    px_call_limit_init(&first_run, 1, 0);
+    px_call_limit_init(&second_run, 1, 0);
+    assert(px_call_limit_model(&first_run) == NULL);
+    assert(px_call_limit_model(&second_run) == NULL);
+    assert(strcmp(px_call_limit_model(&first_run), "AGENT_MODEL_CALL_LIMIT") == 0);
 
     const char *selection[] = {"echo"};
     const char *tools[] = {"echo", "other"};

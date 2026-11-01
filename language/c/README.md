@@ -114,6 +114,11 @@ cancellation. `PxCallLimit` is mutable per-run state without synchronization;
 do not share one instance across concurrent runs. Both limits are explicit
 partial-parity surfaces until a versioned API change is designed.
 
+## Release Notes
+
+See [CHANGELOG.md](CHANGELOG.md) for per-release changes and compatibility
+notes.
+
 ## License
 
 MIT. See [LICENSE](LICENSE).

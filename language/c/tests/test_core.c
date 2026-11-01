@@ -30,6 +30,18 @@ int main(void) {
     px_schema_validate(&arena, schema, data, "$", errors);
     assert(errors->as.array.len == 0);
 
+    PxValue *integer = px_parse(&arena, "{\"type\":\"integer\"}");
+    PxValue *integer_errors = px_arr(&arena);
+    px_schema_validate(&arena, integer, px_parse(&arena, "2.5"), "$", integer_errors);
+    assert(integer_errors->as.array.len == 1);
+    PxValue *unicode_schema = px_parse(&arena, "{\"type\":\"string\",\"minLength\":2,\"maxLength\":2}");
+    PxValue *unicode_errors = px_arr(&arena);
+    px_schema_validate(&arena, unicode_schema, px_str(&arena, "你好"), "$", unicode_errors);
+    assert(unicode_errors->as.array.len == 0);
+    PxValue *short_errors = px_arr(&arena);
+    px_schema_validate(&arena, unicode_schema, px_str(&arena, "你"), "$", short_errors);
+    assert(short_errors->as.array.len == 1);
+
     PxValue *manifest = px_parse(
         &arena,
         "{\"schemaVersion\":1,\"id\":\"com.example.echo\","

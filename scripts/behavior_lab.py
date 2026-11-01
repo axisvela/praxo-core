@@ -464,6 +464,7 @@ def scenarios() -> tuple[Scenario, ...]:
                 "elixir": (elixir,),
                 "erlang": (erlang,),
                 "r": (r,),
+                "c": (c,),
             },
             {
                 "go": "scenario",
@@ -479,6 +480,7 @@ def scenarios() -> tuple[Scenario, ...]:
                 "elixir": "suite",
                 "erlang": "suite",
                 "r": "suite",
+                "c": "suite",
             },
         ),
         Scenario(
@@ -570,6 +572,7 @@ def scenarios() -> tuple[Scenario, ...]:
                 "lua": (lua,),
                 "ruby": (ruby,),
                 "r": (r,),
+                "c": (c,),
             },
             {
                 "go": "scenario",
@@ -587,6 +590,7 @@ def scenarios() -> tuple[Scenario, ...]:
                 "lua": "suite",
                 "ruby": "suite",
                 "r": "suite",
+                "c": "suite",
             },
         ),
         Scenario(
@@ -742,6 +746,7 @@ def scenarios() -> tuple[Scenario, ...]:
                 "elixir": (elixir,),
                 "erlang": (erlang,),
                 "r": (r,),
+                "c": (c,),
             },
             {
                 "go": "scenario",
@@ -754,6 +759,7 @@ def scenarios() -> tuple[Scenario, ...]:
                 "elixir": "suite",
                 "erlang": "suite",
                 "r": "suite",
+                "c": "suite",
             },
         ),
         Scenario(
