@@ -163,9 +163,9 @@ a merged implementation PR as a support commitment.
 - OCaml has source tag `ocaml/v0.2.0` with all eleven vector groups, native
   tests, and API snapshot/parity. Native `ocamlopt` compilation, provider
   adapters, and package registries are not claimed.
-- Elixir has source tag `elixir/v0.1.1` and publishes `praxo_core==0.1.1` on
-  Hex. A clean Mix project installed it, loaded `Praxo.Agent`, and reported
-  version `0.1.1`. This is a package-only release; HexDocs are not published.
+- Elixir source tag `elixir/v0.2.0` adds policy hooks, middleware, final-tool
+  allowlist checks, reauthorization, and lifecycle cleanup. The Hex package
+  remains `praxo_core==0.1.1`; HexDocs are not published.
 - Nim, V, and Objective-C have source tags `nim/v0.1.1`, `v/v0.1.1`, and
   `objc/v0.1.1`. They include all eleven vector groups, native tests, and API
   snapshots. Package-registry publication, production readiness, and complete

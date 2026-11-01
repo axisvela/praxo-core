@@ -1,7 +1,7 @@
 # PRAXO-CORE for Elixir
 
 PRAXO-CORE is an embeddable, MIT-licensed agent framework. This package is its
-native Elixir Core with source tag `elixir/v0.1.1`. It passes all eleven shared
+native Elixir Core with source tag `elixir/v0.2.0`. It passes all eleven shared
 vector groups with `Elixir 1.20.4` on `Erlang/OTP 29` and includes the native
 agent loop, context compaction, memory store, path policy, checkpoint allowlist,
 tool-call parsing, and opt-in tool selection, PII redaction, structured output
@@ -13,7 +13,7 @@ language runtime. Erlang shares the BEAM runtime and does not add a second
 agent loop. Provider adapters and plugin hosts remain outside the declared Core
 scope.
 
-Published on Hex as `praxo_core@0.1.1`; this is a package-only release and
+The latest Hex package is `praxo_core@0.1.1`; `0.2.0` is a source release and
 HexDocs are not published.
 
 ## Install
@@ -57,7 +57,7 @@ schema = Praxo.Json.parse!(~s({"type":"string","pattern":"^a+$"}))
 assert Praxo.JsonSchema.validate(schema, "aaa") == []
 ```
 
-Public declarations are inventoried in [`api/0.1.1.txt`](api/0.1.1.txt).
+Public declarations are inventoried in [`api/0.2.0.txt`](api/0.2.0.txt).
 
 An agent model can be a function accepting a `Praxo.Request` and returning
 `{:ok, %Praxo.Response{}}` or `{:error, code}`, where `code` is a string:
@@ -150,6 +150,8 @@ limits do not restrict direct calls or external work performed by callbacks.
 
 The source is MIT; see [LICENSE](LICENSE). Erlang, Elixir, and other toolchain
 components are separate projects, not vendored code.
+
+See [CHANGELOG.md](CHANGELOG.md) for per-release changes and compatibility notes.
 
 See [language policy](../../docs/contributing/language-policy.md),
 [parity inventory](../../spec/parity/elixir.md), and

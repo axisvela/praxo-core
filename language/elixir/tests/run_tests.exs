@@ -34,6 +34,8 @@ defmodule Praxo.Tests do
     test_agent_structured()
     test_agent_limits()
     test_agent_capacity()
+    test_agent_authorization()
+    test_agent_lifecycle()
     IO.puts("elixir tests passed")
   end
 
@@ -407,6 +409,144 @@ defmodule Praxo.Tests do
     failed = %{Agent.new_agent_options(Agent.failing_model()) | call_limit: Middleware.call_limit(1, 0)}
     {:error, "MODEL_ERROR", failed} = Agent.run_agent(failed, Models.session("s1"), "x")
     {:error, "MODEL_ERROR", _} = Agent.run_agent(failed, Models.session("s1"), "x")
+  end
+
+
+  defp tool_model do
+    Agent.scripted_model([
+      Models.response(Models.message_assistant("", [Models.tool_call("c1", "echo", %{"text" => "hi"})]), Models.usage(0, 0)),
+      Models.response(Models.message_assistant("done"), Models.usage(0, 0))
+    ])
+  end
+
+  defp test_agent_authorization do
+    parent = self()
+    Process.put(:actions, [])
+
+    options =
+      %{Agent.new_agent_options(tool_model()) |
+        tools: [Agent.new_tool("echo", "Echo", fn args -> send(parent, {:tool, args}); args end)],
+        policy: fn action ->
+          Process.put(:actions, Process.get(:actions) ++ [action])
+          Models.decision(true)
+        end,
+        middleware: [%{before_tool: fn call -> %{call | arguments: %{"text" => "mutated"}} end}]}
+
+    {:ok, result, _} = Agent.run_agent(options, Models.session("s1"), "go")
+    check(result.output == "done", "elixir final arguments output")
+    actions = Process.get(:actions) |> Enum.filter(&(&1.kind == "tool.invoke"))
+    check(length(actions) == 2, "elixir final arguments reauthorized")
+    check(Enum.at(actions, 0).arguments["text"] == "hi", "elixir original arguments")
+    check(Enum.at(actions, 1).arguments["text"] == "mutated", "elixir final arguments")
+    receive do
+      {:tool, arguments} -> check(arguments["text"] == "mutated", "elixir final arguments effect")
+    after
+      1000 -> raise "elixir final arguments effect missing"
+    end
+
+    options =
+      %{Agent.new_agent_options(tool_model()) |
+        tools: [
+          Agent.new_tool("echo", "Echo"),
+          Agent.new_tool("other", "Other", fn args -> send(parent, {:other, args}); args end)
+        ],
+        allowed_tools: ["echo", "other"],
+        middleware: [%{before_tool: fn call -> %{call | name: "other"} end}]}
+
+    {:ok, _, _} = Agent.run_agent(options, Models.session("s1"), "go")
+    receive do
+      {:other, _} -> :ok
+    after
+      1000 -> raise "elixir final name effect missing"
+    end
+
+    options =
+      %{Agent.new_agent_options(tool_model()) |
+        tools: [Agent.new_tool("echo", "Echo")],
+        allowed_tools: ["echo"],
+        middleware: [%{before_tool: fn call -> %{call | name: "other"} end}]}
+
+    check(match?({:error, "AGENT_TOOL_NOT_ALLOWED", _}, Agent.run_agent(options, Models.session("s1"), "go")),
+      "elixir final name allowlist")
+
+    Process.put(:actions, [])
+    options =
+      %{Agent.new_agent_options(tool_model()) |
+        tools: [Agent.new_tool("echo", "Echo")],
+        policy: fn action ->
+          Process.put(:actions, Process.get(:actions) ++ [action])
+          Models.decision(true)
+        end,
+        middleware: [%{}]}
+
+    {:ok, _, _} = Agent.run_agent(options, Models.session("s1"), "go")
+    actions = Process.get(:actions) |> Enum.filter(&(&1.kind == "tool.invoke"))
+    check(length(actions) == 1, "elixir unchanged single authorization")
+
+    parent = self()
+    options =
+      %{Agent.new_agent_options(tool_model()) |
+        tools: [Agent.new_tool("echo", "Echo")],
+        policy: fn action ->
+          if action.kind == "tool.invoke", do: Models.decision(false), else: Models.decision(true)
+        end,
+        middleware: [%{before_tool: fn call -> send(parent, :middleware); call end}]}
+
+    check(match?({:error, "AGENT_POLICY_DENIED", _}, Agent.run_agent(options, Models.session("s1"), "go")),
+      "elixir initial denial")
+    receive do
+      :middleware -> raise "elixir initial denial ran middleware"
+    after
+      100 -> :ok
+    end
+  end
+
+  defp test_agent_lifecycle do
+    parent = self()
+    options =
+      %{Agent.new_agent_options(Agent.static_model("done")) |
+        middleware: [
+          %{before_run: fn _ -> send(parent, :first_before) end,
+            after_run: fn _, _ -> send(parent, :first_after) end},
+          %{before_run: fn _ -> raise "startup failed" end,
+            after_run: fn _, _ -> send(parent, :second_after) end}
+        ]}
+
+    check(match?({:error, message, _} when is_binary(message), Agent.run_agent(options, Models.session("s1"), "go")),
+      "elixir startup failure")
+    check(receive_messages() == [:first_before, :first_after, :second_after], "elixir startup cleanup")
+
+    parent = self()
+    options =
+      %{Agent.new_agent_options(Agent.failing_model()) |
+        middleware: [
+          %{after_run: fn _, _ -> send(parent, :first_after); raise "cleanup failed" end},
+          %{after_run: fn _, _ -> send(parent, :second_after) end}
+        ]}
+
+    check(match?({:error, "MODEL_ERROR", _}, Agent.run_agent(options, Models.session("s1"), "go")),
+      "elixir after-run preserves run error")
+    check(receive_messages() == [:first_after, :second_after], "elixir after-run continues")
+
+    parent = self()
+    options =
+      %{Agent.new_agent_options(Agent.static_model("done")) |
+        middleware: [
+          %{after_run: fn _, _ -> send(parent, :first_after); raise "cleanup failed" end},
+          %{after_run: fn _, _ -> send(parent, :second_after) end}
+        ]}
+
+    check(match?({:error, "cleanup failed", _}, Agent.run_agent(options, Models.session("s1"), "go")),
+      "elixir cleanup fail closed")
+    check(receive_messages() == [:first_after, :second_after], "elixir cleanup continues")
+  end
+
+  defp receive_messages(acc \\ []) do
+    receive do
+      message -> receive_messages(acc ++ [message])
+    after
+      100 -> acc
+    end
   end
 
   defp test_agent_capacity do

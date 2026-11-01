@@ -18,7 +18,11 @@ defmodule Praxo.AgentOptions do
             context: nil,
             max_steps: 8,
             max_tokens: 0,
-            session_id: "s1"
+            session_id: "s1",
+            policy: nil,
+            middleware: [],
+            allowed_tools: [],
+            entered: []
 end
 
 defmodule Praxo.Agent do
@@ -85,7 +89,6 @@ defmodule Praxo.Agent do
   end
 
   def run_agent(%AgentOptions{} = options, session, prompt) do
-    options = emit(options, "run.started")
     run_id = "run-#{System.system_time(:nanosecond)}-#{System.unique_integer([:positive, :monotonic])}"
     messages = session.messages ++ [Models.message("user", prompt)]
 
@@ -99,10 +102,61 @@ defmodule Praxo.Agent do
     max_steps = if options.max_steps > 0, do: options.max_steps, else: 8
     limit = if options.call_limit == nil, do: nil, else: %{options.call_limit | models: 0, tools: 0}
 
-    case compact(options, messages) do
-      {:ok, messages} -> loop(options, messages, run_id, 1, max_steps, %Usage{}, limit)
-      {:error, code} -> fail(options, run_id, code)
+    case before_run(options, run_id, prompt) do
+      {:error, error, options} ->
+        _ = after_run(options, nil, Exception.message(error))
+        {:error, Exception.message(error), options}
+
+      {:ok, options} ->
+        options = emit(options, "run.started")
+        case compact(options, messages) do
+          {:ok, messages} ->
+            case loop(options, messages, run_id, 1, max_steps, %Usage{}, limit) do
+              {:ok, result, options} ->
+                case after_run(options, result, nil) do
+                  nil ->
+                    options = emit(options, "run.completed", run_id)
+                    {:ok, result, options}
+
+                  error ->
+                    options = emit(options, "run.failed", run_id, %{"error" => Exception.message(error)})
+                    {:error, Exception.message(error), options}
+                end
+
+              other ->
+                other
+            end
+          {:error, code} ->
+            fail(options, run_id, code)
+        end
     end
+  end
+
+  defp before_run(options, run_id, prompt) do
+    Enum.reduce_while(options.middleware, {:ok, %{options | entered: []}}, fn middleware, {:ok, acc} ->
+      acc = %{acc | entered: acc.entered ++ [middleware]}
+      try do
+        if middleware[:before_run], do: middleware.before_run.(%{run_id: run_id, prompt: prompt})
+        {:cont, {:ok, acc}}
+      rescue
+        error -> {:halt, {:error, error, acc}}
+      end
+    end)
+  end
+
+  defp after_run(options, result, error) do
+    Enum.reduce(options.entered, nil, fn middleware, first ->
+      if middleware[:after_run] do
+        try do
+          middleware.after_run.(result, error)
+          first
+        rescue
+          caught -> first || caught
+        end
+      else
+        first
+      end
+    end)
   end
 
   defp compact(%AgentOptions{context: nil}, messages), do: {:ok, messages}
@@ -149,7 +203,6 @@ defmodule Praxo.Agent do
               validated = if options.structured_output == nil, do: {:ok, output}, else: Middleware.apply_structured(options.structured_output, output)
               case validated do
                 {:ok, output} ->
-                  options = emit(options, "run.completed", run_id)
                   {:ok, Models.run_result(run_id, output, step, total), options}
                 {:error, code} when is_binary(code) -> fail(options, run_id, code)
                 {:error, error} ->
@@ -171,36 +224,86 @@ defmodule Praxo.Agent do
 
   defp invoke_tools(options, calls, messages, run_id, limit) do
     Enum.reduce_while(calls, {:ok, options, messages, limit}, fn tool_call, {:ok, options, messages, limit} ->
-      index = Enum.find_index(options.tools, fn tool -> tool.name == tool_call.name end)
-
-      selection = if options.tool_selection == nil, do: :ok, else: Middleware.check_tool_selected(options.tool_selection, tool_call.name)
+      original_name = tool_call.name
+      original_arguments = tool_call.arguments
 
       cond do
-        selection != :ok ->
-          {:error, code} = selection
-          {:error, code, options} = fail(options, run_id, code)
+        not allowed?(options, original_name) ->
+          {:error, code, options} = fail(options, run_id, "AGENT_TOOL_NOT_ALLOWED")
           {:halt, {:error, code, options}}
 
-        index == nil ->
-          options = emit(options, "run.failed", run_id, %{"error" => "tool not found"})
-          {:halt, {:error, "TOOL_NOT_FOUND", options}}
+        authorize(options, Models.action("tool.invoke", options.session_id, original_name, original_arguments)) != :ok ->
+          {:error, code, options} = fail(options, run_id, "AGENT_POLICY_DENIED")
+          {:halt, {:error, code, options}}
 
         true ->
-          case check_tool_limit(limit) do
-            {:error, code, _limit} ->
-              {:error, code, options} = fail(options, run_id, code)
+          active =
+            Enum.reduce(options.middleware, tool_call, fn middleware, call ->
+              if middleware[:before_tool], do: middleware.before_tool.(call), else: call
+            end)
+
+          cond do
+            not allowed?(options, active.name) ->
+              {:error, code, options} = fail(options, run_id, "AGENT_TOOL_NOT_ALLOWED")
               {:halt, {:error, code, options}}
-            {:ok, limit} ->
-              tool = Enum.at(options.tools, index)
-              options = emit(options, "tool.call", run_id, %{"name" => tool_call.name, "arguments" => tool_call.arguments})
-              {tool, value} = call(tool, tool_call.arguments)
-              options = %{options | tools: List.replace_at(options.tools, index, tool)}
-              value = if options.pii, do: Middleware.redact_value(value), else: value
-              messages = messages ++ [Models.message_tool(Json.encode(value), tool_call.id)]
-              {:cont, {:ok, options, messages, limit}}
+
+            active.name != original_name or active.arguments != original_arguments ->
+              if authorize(options, Models.action("tool.invoke", options.session_id, active.name, active.arguments)) != :ok do
+                {:error, code, options} = fail(options, run_id, "AGENT_POLICY_DENIED")
+                {:halt, {:error, code, options}}
+              else
+                run_selected_tool(options, active, messages, run_id, limit)
+              end
+
+            true ->
+              run_selected_tool(options, active, messages, run_id, limit)
           end
       end
     end)
+  end
+
+  defp run_selected_tool(options, call, messages, run_id, limit) do
+    index = Enum.find_index(options.tools, fn tool -> tool.name == call.name end)
+    selection = if options.tool_selection == nil, do: :ok, else: Middleware.check_tool_selected(options.tool_selection, call.name)
+
+    cond do
+      selection != :ok ->
+        {:error, code} = selection
+        {:error, code, options} = fail(options, run_id, code)
+        {:halt, {:error, code, options}}
+
+      index == nil ->
+        {:error, code, options} = fail(options, run_id, "TOOL_NOT_FOUND")
+        {:halt, {:error, code, options}}
+
+      true ->
+        case check_tool_limit(limit) do
+          {:error, code, _limit} ->
+            {:error, code, options} = fail(options, run_id, code)
+            {:halt, {:error, code, options}}
+
+          {:ok, limit} ->
+            tool = Enum.at(options.tools, index)
+            options = emit(options, "tool.call", run_id, %{"name" => call.name, "arguments" => call.arguments})
+            {tool, value} = call(tool, call.arguments)
+            options = %{options | tools: List.replace_at(options.tools, index, tool)}
+            value = if options.pii, do: Middleware.redact_value(value), else: value
+            messages = messages ++ [Models.message_tool(Json.encode(value), call.id)]
+            {:cont, {:ok, options, messages, limit}}
+        end
+    end
+  end
+
+  defp allowed?(options, name) do
+    options.allowed_tools == [] or name in options.allowed_tools
+  end
+
+  defp authorize(%AgentOptions{policy: nil}, _action), do: :ok
+  defp authorize(options, action) do
+    case options.policy.(action) do
+      %{allowed: true} -> :ok
+      _ -> :error
+    end
   end
 
   defp check_model_limit(nil), do: {:ok, nil}
@@ -233,6 +336,7 @@ defmodule Praxo.Agent do
   end
 
   defp fail(options, run_id, code) do
+    _ = after_run(options, nil, code)
     options = emit(options, "run.failed", run_id, %{"error" => code})
     {:error, code, options}
   end
