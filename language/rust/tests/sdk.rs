@@ -1,3 +1,4 @@
+use std::sync::atomic::{AtomicUsize, Ordering};
 use std::sync::{Arc, Mutex};
 
 use praxo_core::agent::{Agent, AgentOptions, Session};
@@ -11,7 +12,7 @@ use praxo_core::middleware::{
 };
 use praxo_core::model::{Message, Model, Request, Response, ToolCall, Usage};
 use praxo_core::plugin::parse_manifest;
-use praxo_core::policy::{PathChecker, PathGrant};
+use praxo_core::policy::{Action, Decision, Hook, PathChecker, PathGrant};
 use praxo_core::tool::{gateway_tools, FuncTool, Gateway, GatewayInfo, Registry};
 use serde_json::{json, Map, Value};
 
@@ -375,4 +376,240 @@ fn schema_counts_unicode_and_rejects_fractional_integers() {
         .expect("string");
     assert!(text.validate(&json!("你好")).is_empty());
     assert_eq!(text.validate(&json!("你")).len(), 1);
+}
+
+
+struct RecordingPolicy {
+    actions: Mutex<Vec<Action>>,
+    deny_tool: bool,
+}
+
+impl RecordingPolicy {
+    fn new(deny_tool: bool) -> Self {
+        Self {
+            actions: Mutex::new(Vec::new()),
+            deny_tool,
+        }
+    }
+
+    fn actions(&self) -> Vec<Action> {
+        self.actions.lock().expect("actions").clone()
+    }
+}
+
+impl Hook for RecordingPolicy {
+    fn authorize(&self, action: &Action) -> praxo_core::errors::Result<Decision> {
+        self.actions.lock().expect("actions").push(action.clone());
+        if self.deny_tool && action.kind == "tool.invoke" {
+            return Ok(Decision::deny("blocked"));
+        }
+        Ok(Decision::allow("ok"))
+    }
+}
+
+struct MutatingMiddleware {
+    name: Option<String>,
+    arguments: Option<Map<String, Value>>,
+    before_tool_calls: AtomicUsize,
+}
+
+impl MutatingMiddleware {
+    fn new(name: Option<&str>, arguments: Option<Map<String, Value>>) -> Self {
+        Self {
+            name: name.map(str::to_string),
+            arguments,
+            before_tool_calls: AtomicUsize::new(0),
+        }
+    }
+}
+
+impl Middleware for MutatingMiddleware {
+    fn before_tool(&self, call: &mut MiddlewareToolCall) -> praxo_core::errors::Result<()> {
+        self.before_tool_calls.fetch_add(1, Ordering::SeqCst);
+        if let Some(name) = &self.name {
+            call.call.name = name.clone();
+        }
+        if let Some(arguments) = &self.arguments {
+            call.call.arguments = arguments.clone();
+        }
+        Ok(())
+    }
+}
+
+fn tool_call_response(name: &str, arguments: Map<String, Value>) -> Response {
+    Response {
+        message: Message::assistant(
+            "",
+            vec![ToolCall {
+                id: "c1".to_string(),
+                name: name.to_string(),
+                arguments,
+            }],
+        ),
+        usage: Usage::default(),
+        finish_reason: None,
+    }
+}
+
+fn done_response() -> Response {
+    Response {
+        message: Message::assistant("done", Vec::new()),
+        usage: Usage::default(),
+        finish_reason: None,
+    }
+}
+
+fn echo_registry(invoked: Arc<Mutex<Vec<Map<String, Value>>>>) -> Registry {
+    let mut registry = Registry::new();
+    let calls = invoked.clone();
+    registry.register(Arc::new(FuncTool::new("echo", "Echo", move |args| {
+        calls.lock().expect("calls").push(args.clone());
+        Ok(Value::Object(args.clone()))
+    })));
+    registry
+}
+
+#[test]
+fn final_arguments_are_reauthorized_and_executed() {
+    let invoked = Arc::new(Mutex::new(Vec::new()));
+    let model = Arc::new(ScriptedModel::new(vec![
+        tool_call_response("echo", Map::from_iter([("text".to_string(), json!("hi"))])),
+        done_response(),
+    ]));
+    let policy = Arc::new(RecordingPolicy::new(false));
+    let middleware = MutatingMiddleware::new(
+        None,
+        Some(Map::from_iter([("text".to_string(), json!("mutated"))])),
+    );
+    let mut options = AgentOptions::new(model);
+    options.tools = Some(Arc::new(echo_registry(invoked.clone())));
+    options.policy = Some(policy.clone());
+    options.middleware.push(Box::new(middleware));
+    let result = Agent::new(options)
+        .expect("agent")
+        .run(&Session::new("s1"), "go")
+        .expect("run");
+    assert_eq!(result.output, "done");
+    assert_eq!(
+        invoked.lock().expect("calls").as_slice(),
+        &[Map::from_iter([("text".to_string(), json!("mutated"))])]
+    );
+    let tool_actions: Vec<Action> = policy
+        .actions()
+        .into_iter()
+        .filter(|action| action.kind == "tool.invoke")
+        .collect();
+    assert_eq!(tool_actions.len(), 2);
+    assert_eq!(tool_actions[0].arguments.as_ref().unwrap()["text"], json!("hi"));
+    assert_eq!(
+        tool_actions[1].arguments.as_ref().unwrap()["text"],
+        json!("mutated")
+    );
+}
+
+#[test]
+fn final_name_uses_final_tool_and_checks_allowlist() {
+    let echo_invoked = Arc::new(Mutex::new(Vec::new()));
+    let other_invoked = Arc::new(Mutex::new(Vec::new()));
+    let mut registry = echo_registry(echo_invoked.clone());
+    let other_calls = other_invoked.clone();
+    registry.register(Arc::new(FuncTool::new("other", "Other", move |args| {
+        other_calls.lock().expect("calls").push(args.clone());
+        Ok(Value::Object(args.clone()))
+    })));
+    let model = Arc::new(ScriptedModel::new(vec![
+        tool_call_response("echo", Map::from_iter([("text".to_string(), json!("hi"))])),
+        done_response(),
+    ]));
+    let policy = Arc::new(RecordingPolicy::new(false));
+    let mut options = AgentOptions::new(model);
+    options.tools = Some(Arc::new(registry));
+    options.policy = Some(policy.clone());
+    options
+        .middleware
+        .push(Box::new(MutatingMiddleware::new(Some("other"), None)));
+    Agent::new(options)
+        .expect("agent")
+        .run(&Session::new("s1"), "go")
+        .expect("run");
+    assert!(echo_invoked.lock().expect("echo").is_empty());
+    assert_eq!(other_invoked.lock().expect("other").len(), 1);
+    let names: Vec<String> = policy
+        .actions()
+        .into_iter()
+        .filter(|action| action.kind == "tool.invoke")
+        .map(|action| action.tool_name.unwrap_or_default())
+        .collect();
+    assert_eq!(names, vec!["echo".to_string(), "other".to_string()]);
+
+    let denied_model = Arc::new(ScriptedModel::new(vec![
+        tool_call_response("echo", Map::new()),
+        done_response(),
+    ]));
+    let mut denied = AgentOptions::new(denied_model);
+    denied.tools = Some(Arc::new(echo_registry(Arc::new(Mutex::new(Vec::new())))));
+    denied.allowed_tools = vec!["echo".to_string()];
+    denied
+        .middleware
+        .push(Box::new(MutatingMiddleware::new(Some("other"), None)));
+    let error = Agent::new(denied)
+        .expect("agent")
+        .run(&Session::new("s1"), "go")
+        .expect_err("denied");
+    assert_eq!(error.code, "AGENT_TOOL_NOT_ALLOWED");
+}
+
+#[test]
+fn unchanged_tool_is_authorized_once() {
+    let model = Arc::new(ScriptedModel::new(vec![
+        tool_call_response("echo", Map::from_iter([("text".to_string(), json!("hi"))])),
+        done_response(),
+    ]));
+    let policy = Arc::new(RecordingPolicy::new(false));
+    let mut options = AgentOptions::new(model);
+    options.tools = Some(Arc::new(echo_registry(Arc::new(Mutex::new(Vec::new())))));
+    options.policy = Some(policy.clone());
+    options
+        .middleware
+        .push(Box::new(MutatingMiddleware::new(None, None)));
+    Agent::new(options)
+        .expect("agent")
+        .run(&Session::new("s1"), "go")
+        .expect("run");
+    let count = policy
+        .actions()
+        .into_iter()
+        .filter(|action| action.kind == "tool.invoke")
+        .count();
+    assert_eq!(count, 1);
+}
+
+#[test]
+fn initial_denial_precedes_middleware_and_effect() {
+    let invoked = Arc::new(Mutex::new(Vec::new()));
+    let model = Arc::new(ScriptedModel::new(vec![
+        tool_call_response("echo", Map::new()),
+        done_response(),
+    ]));
+    let policy = Arc::new(RecordingPolicy::new(true));
+    let middleware = Arc::new(MutatingMiddleware::new(Some("other"), None));
+    let mut options = AgentOptions::new(model);
+    options.tools = Some(Arc::new(echo_registry(invoked.clone())));
+    options.policy = Some(policy);
+    options.middleware.push(Box::new(SharedMiddleware(middleware.clone())));
+    let error = Agent::new(options)
+        .expect("agent")
+        .run(&Session::new("s1"), "go")
+        .expect_err("denied");
+    assert_eq!(error.code, "AGENT_POLICY_DENIED");
+    assert_eq!(middleware.before_tool_calls.load(Ordering::SeqCst), 0);
+    assert!(invoked.lock().expect("calls").is_empty());
+}
+
+struct SharedMiddleware(Arc<MutatingMiddleware>);
+
+impl Middleware for SharedMiddleware {
+    fn before_tool(&self, call: &mut MiddlewareToolCall) -> praxo_core::errors::Result<()> {
+        self.0.before_tool(call)
+    }
 }

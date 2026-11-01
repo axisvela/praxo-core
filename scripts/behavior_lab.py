@@ -227,8 +227,11 @@ def scenarios() -> tuple[Scenario, ...]:
                 "java": (auth,),
                 "csharp": (csharp,),
                 "php": (php,),
+                "rust": (
+                    rust_test("final_arguments_are_reauthorized_and_executed"),
+                ),
             },
-            {"go": "scenario", "python": "scenario", "typescript": "scenario", "java": "group", "csharp": "suite", "php": "suite"},
+            {"go": "scenario", "python": "scenario", "typescript": "scenario", "java": "group", "csharp": "suite", "php": "suite", "rust": "scenario"},
         ),
         Scenario(
             "final-name",
@@ -255,8 +258,11 @@ def scenarios() -> tuple[Scenario, ...]:
                 "java": (auth,),
                 "csharp": (csharp,),
                 "php": (php,),
+                "rust": (
+                    rust_test("final_name_uses_final_tool_and_checks_allowlist"),
+                ),
             },
-            {"go": "scenario", "python": "scenario", "typescript": "scenario", "java": "group", "csharp": "suite", "php": "suite"},
+            {"go": "scenario", "python": "scenario", "typescript": "scenario", "java": "group", "csharp": "suite", "php": "suite", "rust": "scenario"},
         ),
         Scenario(
             "unchanged-single-auth",
@@ -275,8 +281,9 @@ def scenarios() -> tuple[Scenario, ...]:
                 "java": (auth,),
                 "csharp": (csharp,),
                 "php": (php,),
+                "rust": (rust_test("unchanged_tool_is_authorized_once"),),
             },
-            {"go": "scenario", "python": "scenario", "typescript": "scenario", "java": "group", "csharp": "suite", "php": "suite"},
+            {"go": "scenario", "python": "scenario", "typescript": "scenario", "java": "group", "csharp": "suite", "php": "suite", "rust": "scenario"},
         ),
         Scenario(
             "initial-denial",
@@ -295,8 +302,9 @@ def scenarios() -> tuple[Scenario, ...]:
                 "java": (auth,),
                 "csharp": (csharp,),
                 "php": (php,),
+                "rust": (rust_test("initial_denial_precedes_middleware_and_effect"),),
             },
-            {"go": "scenario", "python": "scenario", "typescript": "scenario", "java": "group", "csharp": "suite", "php": "suite"},
+            {"go": "scenario", "python": "scenario", "typescript": "scenario", "java": "group", "csharp": "suite", "php": "suite", "rust": "scenario"},
         ),
         Scenario(
             "startup-cleanup",

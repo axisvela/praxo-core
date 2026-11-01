@@ -17,6 +17,8 @@
 - PHP and C# now clean up middleware entered before a startup failure, keep
   running later after-run callbacks after one fails, preserve the original run
   error, and fail closed when cleanup itself fails after success.
+- Rust now rechecks the final tool name against the allowlist, reauthorizes
+  middleware-mutated arguments or names, and executes the final registered tool.
 - C# now exposes `RunStream`, honors `AgentOptions.CancellationToken` during
   model and tool work, rejects truncated or half SSE streams, and executes tools
   in parallel up to `MaxParallelTools` while preserving result and after-tool

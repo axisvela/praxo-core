@@ -294,22 +294,20 @@ impl Agent {
         run_id: &str,
         session_id: &str,
     ) -> Result<Message> {
-        if !self.tool_allowed(&call.name) {
+        let original_name = call.name.clone();
+        let original_arguments = call.arguments.clone();
+        if !self.tool_allowed(&original_name) {
             return Err(PraxoError::new(
                 "AGENT_TOOL_NOT_ALLOWED",
-                format!("agent: tool {} is not allowed", call.name),
+                format!("agent: tool {original_name} is not allowed"),
             ));
         }
         self.authorize(&Action {
             kind: "tool.invoke".to_string(),
             session_id: session_id.to_string(),
-            tool_name: Some(call.name.clone()),
-            arguments: Some(call.arguments.clone()),
+            tool_name: Some(original_name.clone()),
+            arguments: Some(original_arguments.clone()),
         })?;
-        let tools = self.options.tools.as_ref().ok_or_else(|| {
-            PraxoError::tool_not_found(format!("tool {} is not registered", call.name))
-        })?;
-        let tool = tools.get(&call.name)?;
         let mut middleware_call = MiddlewareToolCall {
             run_id: run_id.to_string(),
             session_id: session_id.to_string(),
@@ -320,12 +318,30 @@ impl Agent {
         };
         self.before_tool(&mut middleware_call)?;
         let active = middleware_call.call.clone();
+        if !self.tool_allowed(&active.name) {
+            return Err(PraxoError::new(
+                "AGENT_TOOL_NOT_ALLOWED",
+                format!("agent: tool {} is not allowed", active.name),
+            ));
+        }
+        if active.name != original_name || active.arguments != original_arguments {
+            self.authorize(&Action {
+                kind: "tool.invoke".to_string(),
+                session_id: session_id.to_string(),
+                tool_name: Some(active.name.clone()),
+                arguments: Some(active.arguments.clone()),
+            })?;
+        }
         let (value, error) = if middleware_call.skip {
             (
                 middleware_call.result.take().unwrap_or(Value::Null),
                 middleware_call.error.take(),
             )
         } else {
+            let tools = self.options.tools.as_ref().ok_or_else(|| {
+                PraxoError::tool_not_found(format!("tool {} is not registered", active.name))
+            })?;
+            let tool = tools.get(&active.name)?;
             let mut data = Map::new();
             data.insert("name".to_string(), Value::String(active.name.clone()));
             data.insert("arguments".to_string(), Value::Object(active.arguments.clone()));
