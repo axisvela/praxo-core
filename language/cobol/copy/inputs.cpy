@@ -5,6 +5,13 @@
           05 px-event-program pic x(64).
           05 px-max-steps binary-long.
           05 px-max-tokens pic s9(15) comp-3.
+          05 px-before-run-program pic x(64).
+          05 px-before-run-program-2 pic x(64).
+          05 px-before-tool-program pic x(64).
+          05 px-after-run-program pic x(64).
+          05 px-after-run-program-2 pic x(64).
+          05 px-allowed-tool-count binary-long.
+          05 px-allowed-tools occurs 8 times pic x(64).
        01 px-session.
           copy "history.cpy".
        01 px-prompt.

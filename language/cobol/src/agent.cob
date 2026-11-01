@@ -10,11 +10,19 @@ copy "callbacks.cpy".
 01 work-session.
    copy "history.cpy".
 01 step-limit binary-long.
+01 entered-count binary-long.
+01 allowed-index binary-long.
 01 step-number binary-long.
 01 call-number binary-long.
 01 message-number binary-long.
 01 token-total pic 9(17) comp-3.
 01 event-status pic x(64).
+01 cleanup-status pic x(64).
+01 first-cleanup-error pic x(64).
+01 original-tool-name pic x(64).
+01 original-tool-input pic x(2048).
+01 original-tool-input-length binary-long.
+01 tool-allowed-flag pic 9.
 linkage section.
 copy "inputs.cpy".
 procedure division using px-options px-session px-prompt
@@ -26,6 +34,10 @@ procedure division using px-options px-session px-prompt
         goback
     end-if
     if px-prompt-length < 0 or > 2048
+        move "INVALID_REQUEST" to px-result-error
+        goback
+    end-if
+    if px-allowed-tool-count < 0 or > 8
         move "INVALID_REQUEST" to px-result-error
         goback
     end-if
@@ -46,6 +58,12 @@ procedure division using px-options px-session px-prompt
     move px-prompt-text to px-content of work-session(message-number)
     move px-prompt-length
         to px-content-length of work-session(message-number)
+    move 0 to entered-count
+    perform before-run-hooks
+    if px-result-error not = spaces
+        perform after-run-hooks
+        goback
+    end-if
     initialize px-event
     move "run.started" to px-event-kind
     perform emit-event
@@ -96,8 +114,13 @@ procedure division using px-options px-session px-prompt
         if px-call-count = 0
             move px-answer to px-result-output
             move px-answer-length to px-result-length
+            perform after-run-hooks
             initialize px-event
-            move "run.completed" to px-event-kind
+            if px-result-error = spaces
+                move "run.completed" to px-event-kind
+            else
+                move "run.failed" to px-event-kind
+            end-if
             perform emit-event
             goback
         end-if
@@ -122,10 +145,98 @@ procedure division using px-options px-session px-prompt
     if px-result-error = spaces
         move "AGENT_MAX_STEPS" to px-result-error
     end-if
+    perform after-run-hooks
     initialize px-event
     move "run.failed" to px-event-kind
     perform emit-event
     goback.
+
+before-run-hooks.
+    if px-before-run-program = spaces
+        and px-after-run-program = spaces
+        exit paragraph
+    end-if
+    add 1 to entered-count
+    if px-before-run-program not = spaces
+        perform call-before-run-1
+        if px-result-error not = spaces exit paragraph end-if
+    end-if
+    if px-before-run-program-2 = spaces
+        and px-after-run-program-2 = spaces
+        exit paragraph
+    end-if
+    add 1 to entered-count
+    if px-before-run-program-2 not = spaces
+        perform call-before-run-2
+    end-if.
+
+call-before-run-1.
+    initialize px-action
+    move "run.before" to px-action-kind
+    move spaces to px-status
+    call px-before-run-program using px-action px-user-data px-status
+        on exception move "MIDDLEWARE_ERROR" to px-status
+    end-call
+    if px-status not = spaces move px-status to px-result-error end-if.
+
+call-before-run-2.
+    initialize px-action
+    move "run.before" to px-action-kind
+    move spaces to px-status
+    call px-before-run-program-2 using px-action px-user-data px-status
+        on exception move "MIDDLEWARE_ERROR" to px-status
+    end-call
+    if px-status not = spaces move px-status to px-result-error end-if.
+
+after-run-hooks.
+    move spaces to first-cleanup-error
+    if entered-count >= 1 and px-after-run-program not = spaces
+        perform call-after-run-1
+    end-if
+    if entered-count >= 2 and px-after-run-program-2 not = spaces
+        perform call-after-run-2
+    end-if
+    if px-result-error = spaces and first-cleanup-error not = spaces
+        move first-cleanup-error to px-result-error
+    end-if.
+
+call-after-run-1.
+    move spaces to cleanup-status
+    call px-after-run-program using px-result px-user-data cleanup-status
+        on exception move "MIDDLEWARE_ERROR" to cleanup-status
+    end-call
+    if cleanup-status not = spaces and first-cleanup-error = spaces
+        move cleanup-status to first-cleanup-error
+    end-if.
+
+call-after-run-2.
+    move spaces to cleanup-status
+    call px-after-run-program-2 using px-result px-user-data cleanup-status
+        on exception move "MIDDLEWARE_ERROR" to cleanup-status
+    end-call
+    if cleanup-status not = spaces and first-cleanup-error = spaces
+        move cleanup-status to first-cleanup-error
+    end-if.
+
+before-tool-hooks.
+    if px-before-tool-program = spaces exit paragraph end-if
+    move spaces to px-status
+    call px-before-tool-program using px-call px-user-data px-status
+        on exception move "MIDDLEWARE_ERROR" to px-status
+    end-call
+    if px-status not = spaces move px-status to px-result-error end-if.
+
+check-tool-allowed.
+    move 1 to tool-allowed-flag
+    if px-allowed-tool-count <= 0 exit paragraph end-if
+    move 0 to tool-allowed-flag
+    perform varying allowed-index from 1 by 1
+        until allowed-index > px-allowed-tool-count
+        if px-allowed-tools(allowed-index) = px-tool-name
+            move 1 to tool-allowed-flag
+            exit perform
+        end-if
+    end-perform.
 
 authorize-action.
     if px-policy-program = spaces exit paragraph end-if
@@ -138,6 +249,11 @@ authorize-action.
     end-if.
 
 invoke-tool.
+    perform check-tool-allowed
+    if tool-allowed-flag = 0
+        move "AGENT_TOOL_NOT_ALLOWED" to px-result-error
+        exit paragraph
+    end-if
     initialize px-action
     move "tool.invoke" to px-action-kind
     move px-tool-name to px-action-tool
@@ -145,6 +261,32 @@ invoke-tool.
     move px-tool-input-length to px-action-input-length
     perform authorize-action
     if px-result-error not = spaces exit paragraph end-if
+    move px-tool-name to original-tool-name
+    move px-tool-input to original-tool-input
+    move px-tool-input-length to original-tool-input-length
+    perform before-tool-hooks
+    if px-result-error not = spaces exit paragraph end-if
+    if px-tool-name = spaces
+        or px-tool-input-length < 0 or > 2048
+        move "INVALID_REQUEST" to px-result-error
+        exit paragraph
+    end-if
+    perform check-tool-allowed
+    if tool-allowed-flag = 0
+        move "AGENT_TOOL_NOT_ALLOWED" to px-result-error
+        exit paragraph
+    end-if
+    if px-tool-name not = original-tool-name
+        or px-tool-input not = original-tool-input
+        or px-tool-input-length not = original-tool-input-length
+        initialize px-action
+        move "tool.invoke" to px-action-kind
+        move px-tool-name to px-action-tool
+        move px-tool-input to px-action-input
+        move px-tool-input-length to px-action-input-length
+        perform authorize-action
+        if px-result-error not = spaces exit paragraph end-if
+    end-if
     if px-tool-program = spaces
         move "TOOL_NOT_FOUND" to px-result-error
         exit paragraph

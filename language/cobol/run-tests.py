@@ -78,6 +78,7 @@ def main():
         "registry-tests": ["tests/registry.cob", "src/registry.cob"],
         "registry-agent-tests": ["tests/registry-agent.cob", "src/agent.cob", "src/registry.cob"],
         "core-tests": ["tests/run.cob", "src/agent.cob"],
+        "behavior-tests": ["tests/behavior.cob", "src/agent.cob"],
         "json-tests": ["tests/json.cob", "src/json-parse.cob",
                        "src/json-string.cob", "src/json-quote.cob", "src/utf8.cob",
                        "src/json-generate.cob"],

@@ -2,8 +2,10 @@
 
 A native GnuCOBOL implementation, not a bridge to another Core. All 63 normative
 vectors across the eleven groups pass, together with native agent, JSON,
-contract-boundary, tooling, and API declaration checks. The
-`cobol-conformance` remote job checks the declared scope; `cobol/v0.1.2` is the Core source tag.
+contract-boundary, behavior, tooling, and API declaration checks. The
+`cobol-conformance` remote job checks the declared scope. `cobol/v0.1.2` is the
+latest published source tag; the working tree advances to `0.2.0` with
+middleware and lifecycle authorization.
 
 ## Build and Test
 
@@ -55,6 +57,31 @@ status means success; model/tool statuses propagate; a nonblank policy status
 denies the action. The input session is not mutated, and each run uses local
 history. Zero or negative `px-max-steps` selects eight steps; a nonpositive
 token budget is unlimited.
+
+## Agent Middleware Hooks
+
+Version `0.2.0` adds optional callback programs to `px-options`:
+
+| Field | Callback record | Purpose |
+| --- | --- | --- |
+| `px-before-run-program` | `px-action`, `px-user-data`, `px-status` | First before-run hook |
+| `px-before-run-program-2` | `px-action`, `px-user-data`, `px-status` | Second before-run hook |
+| `px-before-tool-program` | `px-call`, `px-user-data`, `px-status` | Rewrite the tool name or input |
+| `px-after-run-program` | `px-result`, `px-user-data`, `px-status` | First after-run hook |
+| `px-after-run-program-2` | `px-result`, `px-user-data`, `px-status` | Second after-run hook |
+| `px-allowed-tool-count`, `px-allowed-tools` | none | Final tool-name allowlist |
+
+Before-run hooks are entered in order before `run.started`. A startup failure
+runs after-run cleanup for every entered slot and returns without a run event.
+`px-before-tool-program` may rewrite `px-tool-name` and `px-tool-input`; the
+final name is checked against `px-allowed-tools`, and changed names or
+arguments are reauthorized before the tool call. After-run hooks run in entry
+order. A cleanup failure does not hide the original run error, and a cleanup
+failure after success fails the run closed. After-run hooks receive the current
+result record and should treat it as read-only; report cleanup failure through
+the status parameter. Blank program names skip the hook, and an empty allowlist
+permits every tool. These are synchronous callback programs, not concurrent
+middleware.
 
 ## Scoped Registry Consumption
 
@@ -135,15 +162,17 @@ semantics.
 
 ## Gates
 
-`api/0.1.2.txt` inventories public copybook records, module program IDs,
+`api/0.2.0.txt` inventories public copybook records, module program IDs,
 and linkage parameters. `api-snapshot.py --check` runs in the test driver;
 regenerate intentionally with `--update`. Tooling tests check fixture
-determinism, assertion polarity, and snapshot sensitivity. The
-`cobol-conformance` CI job runs all of these plus the two original native test
-programs.
+determinism, assertion polarity, snapshot sensitivity, and the middleware hook
+declarations. The `cobol-conformance` CI job runs all of these plus the native
+agent, behavior, JSON, and contract programs.
 
-`cobol/v0.1.2` is the source tag. `api/0.1.1.txt` remains the immutable
-previous declaration snapshot; `api/0.1.2.txt` adds the scoped registry surface.
-Later changes require a new version/tag decision
-and release review. `spec/parity/cobol.md` records partial surfaces. The Core sources are MIT-licensed; GnuCOBOL and its runtime are
-separately licensed external toolchain dependencies.
+`cobol/v0.1.2` remains the latest published source tag; the working tree
+declares `0.2.0` for the middleware and lifecycle surface. `api/0.1.1.txt` and
+`api/0.1.2.txt` remain immutable previous declaration snapshots; `api/0.2.0.txt`
+adds the hook programs, allowlist, and lifecycle behavior. Tag creation and
+release review remain release-operator steps. `spec/parity/cobol.md` records
+partial surfaces. The Core sources are MIT-licensed; GnuCOBOL and its runtime
+are separately licensed external toolchain dependencies.

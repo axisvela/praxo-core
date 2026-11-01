@@ -5,9 +5,10 @@
 
 Released native Core. All 63 vectors in eleven groups, native agent tests,
 JSON tests, contract boundary tests, tooling tests, and the API declaration
-snapshot pass locally. The remote `cobol-conformance` job checks these; `cobol/v0.1.2`
-is the released tag. `partial` does not claim every optional Go hook, provider
-adapter, or full model surface. See `language/cobol/README.md` for bounded JSON, pattern,
+snapshot pass locally. The remote `cobol-conformance` job checks these;
+`cobol/v0.1.2` is the released tag, and the working tree adds the `0.2.0`
+middleware and lifecycle surface. `partial` does not claim every optional Go
+hook, provider adapter, or full model surface. See `language/cobol/README.md` for bounded JSON, pattern,
 path-policy, plugin, and middleware behavior.
 
 | Go symbol | COBOL symbol | Status | Phase |
@@ -30,6 +31,8 @@ path-policy, plugin, and middleware behavior.
 | `checkpoint.Allowlist` | `praxo-checkpoint` | partial | P1 |
 | `agent.Agent` | `praxo-run` | partial | P1 |
 | `agent.Options` | `px-options` | partial | P1 |
+| `agent.Options.AllowedTools` | `px-allowed-tool-count`, `px-allowed-tools` | partial | P2 |
+| `agent.Middleware` | `px-before-run-program*`, `px-before-tool-program`, `px-after-run-program*` | partial | P2 |
 | `agent.Result` | `px-result` | partial | P1 |
 | `agent.Session` | `px-session` | partial | P1 |
 | `agent/context.ContextBudget` | `praxo-context` | partial | P1 |
@@ -53,6 +56,9 @@ original two-parameter entry point retains its shared process-local state.
 `tests/registry-agent.cob` exercises discovery and dispatch through `praxo-run`
 with two independent registries, missing tools, and policy denial. Capacity,
 concurrency, and custom spec-provider limitations remain; this row stays partial.
+`tests/behavior.cob` exercises the `0.2.0` before-run, after-run, and before-tool
+hooks, the final-tool allowlist, reauthorization of changed names or arguments,
+and lifecycle cleanup through `praxo-run`.
 
 Other Core-local utilities:
 `praxo-json-parse`, `praxo-json-generate`, `praxo-json-string`,
