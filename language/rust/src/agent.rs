@@ -162,7 +162,11 @@ impl Agent {
         messages.push(Message::text(ROLE_USER, prompt));
         let mut usage = Usage::default();
 
-        self.before_run(&run_id, prompt)?;
+        let mut entered = Vec::new();
+        if let Err(error) = self.before_run(&run_id, prompt, &mut entered) {
+            let _ = self.after_run_entered(&entered, None, Some(&error));
+            return Err(error);
+        }
         self.emit("run.started", &session.id, &run_id, None)?;
         let mut after_run_invoked = false;
         let outcome = (|| -> Result<RunResult> {
@@ -215,7 +219,13 @@ impl Agent {
                         usage,
                     };
                     after_run_invoked = true;
-                    self.after_run(Some(&mut result), None)?;
+                    if let Some(error) = self.after_run_entered(
+                        &entered,
+                        Some(&mut result),
+                        None,
+                    ) {
+                        return Err(error);
+                    }
                     self.emit("run.completed", &session.id, &run_id, None)?;
                     return Ok(result);
                 }
@@ -230,7 +240,7 @@ impl Agent {
             Ok(result) => Ok(result),
             Err(error) => {
                 if !after_run_invoked {
-                    let _ = self.after_run(None, Some(&error));
+                    let _ = self.after_run_entered(&entered, None, Some(&error));
                 }
                 let mut data = Map::new();
                 data.insert("error".to_string(), Value::String(error.message.clone()));
@@ -376,12 +386,18 @@ impl Agent {
         Ok(Message::tool(content, active.id))
     }
 
-    fn before_run(&self, run_id: &str, prompt: &str) -> Result<()> {
+    fn before_run(
+        &self,
+        run_id: &str,
+        prompt: &str,
+        entered: &mut Vec<usize>,
+    ) -> Result<()> {
         let state = RunState {
             run_id: run_id.to_string(),
             prompt: prompt.to_string(),
         };
-        for middleware in &self.middleware {
+        for (index, middleware) in self.middleware.iter().enumerate() {
+            entered.push(index);
             middleware.before_run(&state)?;
         }
         Ok(())
@@ -421,15 +437,26 @@ impl Agent {
         Ok(())
     }
 
-    fn after_run(
+    fn after_run_entered(
         &self,
+        entered: &[usize],
         mut result: Option<&mut RunResult>,
         error: Option<&PraxoError>,
-    ) -> Result<()> {
-        for middleware in &self.middleware {
-            middleware.after_run(result.as_deref_mut(), error)?;
+    ) -> Option<PraxoError> {
+        let mut first_error = None;
+        for index in entered {
+            let Some(middleware) = self.middleware.get(*index) else {
+                continue;
+            };
+            if let Err(caught) =
+                middleware.after_run(result.as_deref_mut(), error)
+            {
+                if first_error.is_none() {
+                    first_error = Some(caught);
+                }
+            }
         }
-        Ok(())
+        first_error
     }
 
     fn authorize(&self, action: &Action) -> Result<()> {

@@ -323,8 +323,9 @@ def scenarios() -> tuple[Scenario, ...]:
                 "java": (lifecycle,),
                 "csharp": (csharp,),
                 "php": (php,),
+                "rust": (rust_test("startup_failure_cleans_entered_without_events"),),
             },
-            {"go": "scenario", "python": "scenario", "typescript": "scenario", "java": "group", "csharp": "suite", "php": "suite"},
+            {"go": "scenario", "python": "scenario", "typescript": "scenario", "java": "group", "csharp": "suite", "php": "suite", "rust": "scenario"},
         ),
         Scenario(
             "after-run-continue",
@@ -343,8 +344,9 @@ def scenarios() -> tuple[Scenario, ...]:
                 "java": (lifecycle,),
                 "csharp": (csharp,),
                 "php": (php,),
+                "rust": (rust_test("after_run_continues_and_preserves_run_error"),),
             },
-            {"go": "scenario", "python": "scenario", "typescript": "scenario", "java": "group", "csharp": "suite", "php": "suite"},
+            {"go": "scenario", "python": "scenario", "typescript": "scenario", "java": "group", "csharp": "suite", "php": "suite", "rust": "scenario"},
         ),
         Scenario(
             "cleanup-failclosed",
@@ -368,8 +370,9 @@ def scenarios() -> tuple[Scenario, ...]:
                 "java": (lifecycle,),
                 "csharp": (csharp,),
                 "php": (php,),
+                "rust": (rust_test("cleanup_error_after_success_fails_closed"),),
             },
-            {"go": "scenario", "python": "scenario", "typescript": "scenario", "java": "group", "csharp": "suite", "php": "suite"},
+            {"go": "scenario", "python": "scenario", "typescript": "scenario", "java": "group", "csharp": "suite", "php": "suite", "rust": "scenario"},
         ),
         Scenario(
             "model-cancel-cleanup",

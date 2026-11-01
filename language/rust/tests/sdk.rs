@@ -1,7 +1,7 @@
 use std::sync::atomic::{AtomicUsize, Ordering};
 use std::sync::{Arc, Mutex};
 
-use praxo_core::agent::{Agent, AgentOptions, Session};
+use praxo_core::agent::{Agent, AgentOptions, RunResult, Session};
 use praxo_core::checkpoint::Allowlist;
 use praxo_core::context::{estimate_tokens, ContextBudget};
 use praxo_core::event::{Event, Sink};
@@ -612,4 +612,213 @@ impl Middleware for SharedMiddleware {
     fn before_tool(&self, call: &mut MiddlewareToolCall) -> praxo_core::errors::Result<()> {
         self.0.before_tool(call)
     }
+}
+
+
+type BeforeHook = Box<dyn Fn(&RunState) -> praxo_core::errors::Result<()> + Send + Sync>;
+type AfterHook = Box<
+    dyn Fn(
+            Option<&mut RunResult>,
+            Option<&praxo_core::errors::PraxoError>,
+        ) -> praxo_core::errors::Result<()>
+        + Send
+        + Sync,
+>;
+
+struct LifecycleMiddleware {
+    before: Option<BeforeHook>,
+    after: Option<AfterHook>,
+}
+
+impl LifecycleMiddleware {
+    fn new(before: Option<BeforeHook>, after: Option<AfterHook>) -> Self {
+        Self { before, after }
+    }
+}
+
+impl Middleware for LifecycleMiddleware {
+    fn before_run(&self, state: &RunState) -> praxo_core::errors::Result<()> {
+        if let Some(hook) = &self.before {
+            hook(state)?;
+        }
+        Ok(())
+    }
+
+    fn after_run(
+        &self,
+        result: Option<&mut RunResult>,
+        error: Option<&praxo_core::errors::PraxoError>,
+    ) -> praxo_core::errors::Result<()> {
+        if let Some(hook) = &self.after {
+            hook(result, error)?;
+        }
+        Ok(())
+    }
+}
+
+#[test]
+fn startup_failure_cleans_entered_without_events() {
+    let calls = Arc::new(Mutex::new(Vec::new()));
+    let sink = Arc::new(RecordingSink {
+        types: Mutex::new(Vec::new()),
+    });
+    let first_calls = calls.clone();
+    let first = LifecycleMiddleware::new(
+        Some(Box::new(move |_| {
+            first_calls.lock().expect("calls").push("first.before".to_string());
+            Ok(())
+        })),
+        Some(Box::new({
+            let calls = calls.clone();
+            move |_, _| {
+                calls.lock().expect("calls").push("first.after".to_string());
+                Ok(())
+            }
+        })),
+    );
+    let second_calls = calls.clone();
+    let second = LifecycleMiddleware::new(
+        Some(Box::new(move |_| {
+            second_calls
+                .lock()
+                .expect("calls")
+                .push("second.before".to_string());
+            Err(praxo_core::errors::PraxoError::new(
+                "STARTUP_FAILED",
+                "startup failed",
+            ))
+        })),
+        Some(Box::new({
+            let calls = calls.clone();
+            move |_, _| {
+                calls.lock().expect("calls").push("second.after".to_string());
+                Ok(())
+            }
+        })),
+    );
+    let third_calls = calls.clone();
+    let third = LifecycleMiddleware::new(
+        Some(Box::new(move |_| {
+            third_calls.lock().expect("calls").push("third.before".to_string());
+            Ok(())
+        })),
+        Some(Box::new({
+            let calls = calls.clone();
+            move |_, _| {
+                calls.lock().expect("calls").push("third.after".to_string());
+                Ok(())
+            }
+        })),
+    );
+    let model = Arc::new(ScriptedModel::new(vec![done_response()]));
+    let mut options = AgentOptions::new(model);
+    options.events = Some(sink.clone());
+    options.middleware.push(Box::new(first));
+    options.middleware.push(Box::new(second));
+    options.middleware.push(Box::new(third));
+    let error = Agent::new(options)
+        .expect("agent")
+        .run(&Session::new("s1"), "go")
+        .expect_err("startup failure");
+    assert_eq!(error.code, "STARTUP_FAILED");
+    assert_eq!(
+        calls.lock().expect("calls").as_slice(),
+        &[
+            "first.before".to_string(),
+            "second.before".to_string(),
+            "first.after".to_string(),
+            "second.after".to_string(),
+        ]
+    );
+    assert!(sink.types.lock().expect("sink").is_empty());
+}
+
+#[test]
+fn after_run_continues_and_preserves_run_error() {
+    let calls = Arc::new(Mutex::new(Vec::new()));
+    let first = LifecycleMiddleware::new(
+        None,
+        Some(Box::new({
+            let calls = calls.clone();
+            move |_, _| {
+                calls.lock().expect("calls").push("first.after".to_string());
+                Err(praxo_core::errors::PraxoError::new(
+                    "CLEANUP_FAILED",
+                    "cleanup failed",
+                ))
+            }
+        })),
+    );
+    let second = LifecycleMiddleware::new(
+        None,
+        Some(Box::new({
+            let calls = calls.clone();
+            move |_, _| {
+                calls.lock().expect("calls").push("second.after".to_string());
+                Ok(())
+            }
+        })),
+    );
+    let model = Arc::new(ScriptedModel::new(vec![]));
+    let mut options = AgentOptions::new(model);
+    options.middleware.push(Box::new(first));
+    options.middleware.push(Box::new(second));
+    let error = Agent::new(options)
+        .expect("agent")
+        .run(&Session::new("s1"), "go")
+        .expect_err("run failure");
+    assert_eq!(error.code, "SCRIPT");
+    assert_eq!(
+        calls.lock().expect("calls").as_slice(),
+        &["first.after".to_string(), "second.after".to_string()]
+    );
+}
+
+#[test]
+fn cleanup_error_after_success_fails_closed() {
+    let calls = Arc::new(Mutex::new(Vec::new()));
+    let sink = Arc::new(RecordingSink {
+        types: Mutex::new(Vec::new()),
+    });
+    let first = LifecycleMiddleware::new(
+        None,
+        Some(Box::new({
+            let calls = calls.clone();
+            move |_, _| {
+                calls.lock().expect("calls").push("first.after".to_string());
+                Err(praxo_core::errors::PraxoError::new(
+                    "CLEANUP_FAILED",
+                    "cleanup failed",
+                ))
+            }
+        })),
+    );
+    let second = LifecycleMiddleware::new(
+        None,
+        Some(Box::new({
+            let calls = calls.clone();
+            move |_, _| {
+                calls.lock().expect("calls").push("second.after".to_string());
+                Ok(())
+            }
+        })),
+    );
+    let model = Arc::new(ScriptedModel::new(vec![done_response()]));
+    let mut options = AgentOptions::new(model);
+    options.events = Some(sink.clone());
+    options.middleware.push(Box::new(first));
+    options.middleware.push(Box::new(second));
+    let error = Agent::new(options)
+        .expect("agent")
+        .run(&Session::new("s1"), "go")
+        .expect_err("cleanup failure");
+    assert_eq!(error.code, "CLEANUP_FAILED");
+    assert_eq!(
+        calls.lock().expect("calls").as_slice(),
+        &["first.after".to_string(), "second.after".to_string()]
+    );
+    assert_eq!(
+        sink.types.lock().expect("sink").as_slice(),
+        &["run.started".to_string(), "run.failed".to_string()]
+    );
 }
