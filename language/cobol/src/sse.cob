@@ -7,7 +7,6 @@ repository. function all intrinsic.
 data division.
 local-storage section.
 copy "json.cpy".
-copy "sse.cpy".
 01 line-start binary-long.
 01 line-end binary-long.
 01 line-length binary-long.
@@ -17,7 +16,7 @@ copy "sse.cpy".
 01 node-index binary-long.
 01 value-index binary-long.
 01 content-start binary-long.
-01 content-length binary-long.
+01 append-length binary-long.
 linkage section.
 copy "sse.cpy".
 procedure division using px-sse-request px-sse-result.
@@ -113,13 +112,13 @@ extract-content.
             if value-index <= px-json-count
                 and px-json-kind(value-index) = "S"
                 move px-json-value-length(value-index)
-                    to content-length
+                    to append-length
                 compute content-start = px-sse-content-length + 1
-                if content-length > 0
-                    and content-start + content-length - 1 <= 32768
-                    move px-json-value(value-index)(1:content-length)
-                        to px-sse-content(content-start:content-length)
-                    add content-length to px-sse-content-length
+                if append-length > 0
+                    and content-start + append-length - 1 <= 32768
+                    move px-json-value(value-index)(1:append-length)
+                        to px-sse-content(content-start:append-length)
+                    add append-length to px-sse-content-length
                 end-if
             end-if
         end-if
