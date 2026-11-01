@@ -8,6 +8,7 @@ local middleware = require("praxo.middleware")
 local models = require("praxo.models")
 local plugin = require("praxo.plugin")
 local runtime = require("praxo.runtime")
+local sse = require("praxo.sse")
 local toolcall = require("praxo.toolcall")
 
 local function check(condition, message)
@@ -298,5 +299,135 @@ cleanup_options.middleware = {
 local ok_cleanup, err_cleanup = pcall(agent.run_agent, cleanup_options, models.session({ id = "s1" }), "go")
 check(not ok_cleanup and errors.code(err_cleanup) == "CLEANUP_FAILED", "lua cleanup fail closed")
 check(json.equals(cleanup_calls, { "first.after", "second.after" }), "lua cleanup continues")
+
+local sse_complete = sse.parse('data: {"choices":[{"delta":{"content":"hi"}}]}\n\ndata: [DONE]\n\n')
+check(sse_complete == "hi", "lua sse complete")
+local sse_truncated, sse_truncated_code = sse.parse('data: {"choices":[{"delta":{"content":"hi"}}]}\n\n')
+check(sse_truncated == nil and sse_truncated_code == "MODEL_STREAM", "lua sse truncated")
+local sse_half, sse_half_code = sse.parse('data: {"choices"\n\n')
+check(sse_half == nil and sse_half_code == "MODEL_STREAM", "lua sse half packet")
+
+local first_limit = middleware.call_limit(1, 0)
+local second_limit = middleware.call_limit(1, 0)
+middleware.call_limit_model(first_limit)
+middleware.call_limit_model(second_limit)
+check(not pcall(middleware.call_limit_model, first_limit), "lua call limit run a")
+check(second_limit.models == 1, "lua call limit isolated run")
+
+local cancel_flag = false
+local cancel_model = {
+  generate = function(_request)
+    cancel_flag = true
+    return models.response({ message = models.message_assistant("done") })
+  end,
+}
+local cancel_options = agent.agent_options(cancel_model)
+cancel_options.cancellation = function() return cancel_flag end
+local cancel_sink = { types = {} }
+cancel_sink.emit = function(event) cancel_sink.types[#cancel_sink.types + 1] = event.type end
+cancel_options.events = cancel_sink
+local cancel_ok, cancel_error = pcall(agent.run_agent, cancel_options, models.session({ id = "s1" }), "go")
+check(not cancel_ok and errors.code(cancel_error) == "AGENT_CANCELLED", "lua model cancellation")
+check(json.equals(cancel_sink.types, { "run.started", "run.failed" }),
+      "lua model cancellation events")
+
+local tool_cancel_flag = false
+local tool_cancel_registry = agent.tool_registry()
+agent.register_tool(tool_cancel_registry, agent.func_tool("wait", "wait", function(_arguments)
+  tool_cancel_flag = true
+  return "ok"
+end))
+local tool_cancel_model = {
+  generate = function(request)
+    if #request.messages == 1 then
+      return models.response({ message = models.message_assistant("", {
+        models.tool_call({ id = "c1", name = "wait", arguments = {} }),
+      }) })
+    end
+    return models.response({ message = models.message_assistant("done") })
+  end,
+}
+local tool_cancel_options = agent.agent_options(tool_cancel_model)
+tool_cancel_options.tools = tool_cancel_registry
+tool_cancel_options.cancellation = function() return tool_cancel_flag end
+local tool_cancel_sink = { types = {} }
+tool_cancel_sink.emit = function(event) tool_cancel_sink.types[#tool_cancel_sink.types + 1] = event.type end
+tool_cancel_options.events = tool_cancel_sink
+local tool_cancel_ok, tool_cancel_error = pcall(
+  agent.run_agent, tool_cancel_options, models.session({ id = "s1" }), "go"
+)
+check(not tool_cancel_ok and errors.code(tool_cancel_error) == "AGENT_CANCELLED",
+      "lua tool cancellation")
+check(json.equals(tool_cancel_sink.types, { "run.started", "tool.call", "run.failed" }),
+      "lua tool cancellation events")
+
+local stream_parts = {}
+local stream_options = agent.agent_options(agent.static_model("done"))
+stream_options.on_stream = function(part)
+  stream_parts[#stream_parts + 1] = part.kind
+  if part.kind == "messages" then error("stream failed") end
+end
+local stream_sink = { types = {} }
+stream_sink.emit = function(event) stream_sink.types[#stream_sink.types + 1] = event.type end
+stream_options.events = stream_sink
+local stream_ok, stream_error = pcall(agent.run_agent, stream_options, models.session({ id = "s1" }), "go")
+check(not stream_ok and errors.code(stream_error) == "STREAM_ERROR", "lua stream failure")
+check(json.equals(stream_parts, { "values", "messages" }), "lua stream parts")
+check(json.equals(stream_sink.types, { "run.started", "run.failed" }),
+      "lua stream failure events")
+
+local parallel_started = 0
+local parallel_release = false
+local parallel_registry = agent.tool_registry()
+for _, name in ipairs({ "a", "b" }) do
+  agent.register_tool(parallel_registry, agent.func_tool(name, name, function(_arguments)
+    return name
+  end))
+end
+local parallel_order = {}
+local parallel_model = {
+  generate = function(request)
+    if #request.messages == 1 then
+      return models.response({ message = models.message_assistant("", {
+        models.tool_call({ id = "c1", name = "a", arguments = {} }),
+        models.tool_call({ id = "c2", name = "b", arguments = {} }),
+      }) })
+    end
+    for _, message in ipairs(request.messages) do
+      if message.role == models.TOOL then
+        parallel_order[#parallel_order + 1] = message.tool_id
+      end
+    end
+    return models.response({ message = models.message_assistant("done") })
+  end,
+}
+local parallel_options = agent.agent_options(parallel_model)
+parallel_options.tools = parallel_registry
+parallel_options.max_parallel_tools = 2
+parallel_options.batch_invoke = function(prepared, max_parallel)
+  check(max_parallel == 2, "lua parallel limit")
+  local coroutines = {}
+  for index, entry in ipairs(prepared) do
+    coroutines[index] = coroutine.create(function()
+      parallel_started = parallel_started + 1
+      coroutine.yield()
+      while not parallel_release do coroutine.yield() end
+      return entry.tool.invoke(entry.call.arguments)
+    end)
+  end
+  for _, co in ipairs(coroutines) do assert(coroutine.resume(co)) end
+  check(parallel_started == 2, "lua parallel started")
+  parallel_release = true
+  local results = {}
+  for index, co in ipairs(coroutines) do
+    local ok, value = coroutine.resume(co)
+    check(ok, "lua parallel resume")
+    results[index] = value
+  end
+  return results
+end
+local parallel_result = agent.run_agent(parallel_options, models.session({ id = "s1" }), "go")
+check(parallel_result.output == "done", "lua parallel result")
+check(json.equals(parallel_order, { "c1", "c2" }), "lua parallel order")
 
 print("lua core tests passed")

@@ -25,6 +25,17 @@ function M.tool_call(args)
   }
 end
 
+function M.stream_part(args)
+  args = args or {}
+  return {
+    run_id = args.run_id or "",
+    session_id = args.session_id or "",
+    kind = args.kind or "",
+    step = args.step or 0,
+    data = args.data,
+  }
+end
+
 function M.message(args)
   args = args or {}
   return {

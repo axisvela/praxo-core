@@ -55,6 +55,10 @@ function M.agent_options(model)
     tool_choice = nil,
     middleware = {},
     allowed_tools = {},
+    cancellation = nil,
+    on_stream = nil,
+    max_parallel_tools = 1,
+    batch_invoke = nil,
   }
 end
 
@@ -81,7 +85,83 @@ local function allowed(options, name)
   return false
 end
 
-local function invoke_tool(options, call, run_id, session_id)
+local invoke_tool
+
+local function check_cancelled(options)
+  if not options.cancellation then return end
+  local cancelled = options.cancellation
+  if type(cancelled) == "function" then cancelled = cancelled() end
+  if cancelled then
+    errors.raise("AGENT_CANCELLED", "run cancelled")
+  end
+end
+
+local function emit_stream(options, run_id, session_id, kind, step, data)
+  if not options.on_stream then return end
+  local ok = pcall(options.on_stream, models.stream_part({
+    run_id = run_id, session_id = session_id, kind = kind, step = step, data = data,
+  }))
+  if not ok then
+    errors.raise("STREAM_ERROR", "stream callback failed")
+  end
+end
+
+local function prepare_batch(options, calls, run_id, session_id)
+  local prepared = {}
+  for _, call in ipairs(calls) do
+    local original_name = call.name
+    local original_arguments = call.arguments
+    if not allowed(options, original_name) then
+      errors.raise("AGENT_TOOL_NOT_ALLOWED", "tool " .. original_name .. " is not allowed")
+    end
+    authorize(options, models.action({
+      kind = "tool.invoke", session_id = session_id,
+      tool_name = original_name, arguments = original_arguments,
+    }))
+    for _, middleware in ipairs(options.middleware or {}) do
+      if middleware.before_tool then call = middleware.before_tool(call) or call end
+    end
+    if not allowed(options, call.name) then
+      errors.raise("AGENT_TOOL_NOT_ALLOWED", "tool " .. call.name .. " is not allowed")
+    end
+    if call.name ~= original_name or call.arguments ~= original_arguments then
+      authorize(options, models.action({
+        kind = "tool.invoke", session_id = session_id,
+        tool_name = call.name, arguments = call.arguments,
+      }))
+    end
+    if not options.tools then errors.raise("TOOL_NOT_FOUND", "tool is not registered") end
+    local tool = M.get_tool(options.tools, call.name)
+    emit(options, "tool.call", session_id, run_id, {
+      name = call.name, arguments = call.arguments or {},
+    })
+    prepared[#prepared + 1] = { tool = tool, call = call }
+  end
+  return prepared
+end
+
+local function invoke_tools(options, calls, run_id, session_id)
+  if options.batch_invoke then
+    local prepared = prepare_batch(options, calls, run_id, session_id)
+    local results = options.batch_invoke(prepared, options.max_parallel_tools or 1)
+    local messages_out = {}
+    for index, entry in ipairs(prepared) do
+      messages_out[#messages_out + 1] = models.message_tool(
+        json.encode(results[index]), entry.call.id or ""
+      )
+    end
+    return messages_out
+  end
+  local messages_out = {}
+  for _, call in ipairs(calls) do
+    check_cancelled(options)
+    messages_out[#messages_out + 1] = invoke_tool(options, call, run_id, session_id)
+    check_cancelled(options)
+  end
+  return messages_out
+end
+
+invoke_tool = function(options, call, run_id, session_id)
   local original_name = call.name
   local original_arguments = call.arguments
   if not allowed(options, original_name) then
@@ -149,9 +229,11 @@ function M.run_agent(options, session, prompt)
     error(startup_error)
   end
   emit(options, "run.started", session.id, run_id)
+  emit_stream(options, run_id, session.id, "values", 0, prompt)
   local after_run_invoked = false
   local ok, result = pcall(function()
     for step = 1, max_steps do
+      check_cancelled(options)
       authorize(options, models.action({ kind = "model.generate", session_id = session.id }))
       if options.context then
         local compacted, context_ok = runtime.compact_context(options.context, messages)
@@ -164,6 +246,7 @@ function M.run_agent(options, session, prompt)
         tool_choice = options.tool_choice,
       })
       local response = options.model.generate(request)
+      check_cancelled(options)
       usage = models.usage_plus(usage, response.usage or models.usage())
       local total = (usage.input_tokens or 0) + (usage.output_tokens or 0)
       if (options.max_tokens or 0) > 0 and total > options.max_tokens then
@@ -173,6 +256,7 @@ function M.run_agent(options, session, prompt)
       messages[#messages + 1] = message
       local calls = message.tool_calls or {}
       if #calls == 0 then
+        emit_stream(options, run_id, session.id, "messages", step, message.content or "")
         local outcome = models.run_result({
           run_id = run_id, output = message.content or "", steps = step, usage = usage,
         })
@@ -182,8 +266,9 @@ function M.run_agent(options, session, prompt)
         emit(options, "run.completed", session.id, run_id)
         return outcome
       end
-      for _, call in ipairs(calls) do
-        messages[#messages + 1] = invoke_tool(options, call, run_id, session.id)
+      local tool_messages = invoke_tools(options, calls, run_id, session.id)
+      for _, tool_message in ipairs(tool_messages) do
+        messages[#messages + 1] = tool_message
       end
     end
     errors.raise("AGENT_MAX_STEPS", "maximum steps")

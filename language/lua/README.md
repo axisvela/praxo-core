@@ -9,7 +9,7 @@ The normative contract is [`spec/`](../../spec/README.md); Go remains the
 reference implementation.
 
 - `SPEC_VERSION`: `0.2.0`
-- Core version: `0.2.0`
+- Core version: `0.3.0`
 - Tier: core
 - License: MIT
 - Dependencies: Lua standard library only
@@ -27,6 +27,11 @@ luarocks install praxo-core
 The Core implements all eleven vector groups: toolcall, JSON Schema, plugin,
 memory, event, stream, checkpoint, policy, context, middleware, and the agent
 loop. It includes a public API snapshot and a dependency-free test runner.
+
+Optional agent options add cancellation, stream callbacks, and caller-provided
+batch tool dispatch. `batch_invoke` receives the prepared calls and the maximum
+parallelism and returns results in order; the Core itself does not create
+threads. `praxo.sse.parse` rejects truncated and half-packet streams.
 
 ## Build and test
 

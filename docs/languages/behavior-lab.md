@@ -25,7 +25,7 @@ Behavior tier is separate from contract tier. See the
 | Tier | Languages | Current status |
 | --- | --- | --- |
 | Agent-capable | Go, Python, TypeScript, Java, Rust, R, C# | 19/19 for every agent-capable implementation |
-| Extended | C, PHP, Fortran, COBOL, Ruby, Elixir, Erlang, C++, Lua | C, COBOL, Ruby, C++, Elixir, and Erlang 19/19; PHP 18/19 (parallel unsupported); Lua 12/19; Fortran 11/19 |
+| Extended | C, PHP, Fortran, COBOL, Ruby, Elixir, Erlang, C++, Lua | C, COBOL, Ruby, C++, Elixir, Erlang, and Lua 19/19; PHP 18/19 (parallel unsupported); Fortran 11/19 |
 | Optional | Other declared implementations | Outside the current behavior program |
 
 R and C are now wired. C# and PHP include the three lifecycle scenarios, and R
@@ -39,7 +39,9 @@ half packets, bounded parallel tools, and run-scoped call limits. C++ `0.3.0`
 also reaches 19/19 with `std::async` parallel tools and native SSE parsing.
 Elixir `0.3.0` reaches 19/19 with `Task.async` parallel tools, cancellation,
 stream callbacks, and a native SSE parser. Erlang `0.3.0` reaches 19/19 with
-spawned-process parallel tools and the same lifecycle coverage.
+spawned-process parallel tools and the same lifecycle coverage. Lua `0.3.0`
+reaches 19/19 with caller-provided `batch_invoke` cooperative tools, cancellation,
+stream callbacks, and a native SSE parser.
 
 ## Scope
 
@@ -87,13 +89,12 @@ instead of treating group coverage as scenario-level evidence.
 
 `native suite` means the implementation's full native test executable passed.
 It is not isolated to the named scenario, so a failure cannot be attributed from
-this cell alone. Other Rust, Fortran, PHP, C#, and Lua scenarios remain
-`unsupported`. The report shows those cells explicitly instead of dropping the
-languages.
+this cell alone. Other Rust, Fortran, PHP, and C# scenarios remain `unsupported`.
+The report shows those cells explicitly instead of dropping the languages.
 
 C# and PHP also have native-suite coverage for `final-arguments`, `final-name`,
-`unchanged-single-auth`, and `initial-denial`. COBOL, Ruby, C++, Elixir, and
-Erlang have native-suite coverage for all nineteen scenarios, including
+`unchanged-single-auth`, and `initial-denial`. COBOL, Ruby, C++, Elixir, Erlang,
+and Lua have native-suite coverage for all nineteen scenarios, including
 cancellation, stream callback failure, SSE truncation and half packets, parallel
 tools, and run-state isolation. The full cell-by-cell matrix and per-language
 reports are in the [Behavior Lab Matrix](behavior-lab-matrix.md).
@@ -154,8 +155,8 @@ failures; use that [behavior job](https://github.com/axisvela/praxo-core/actions
 and its artifact when citing the report. All agent-capable languages and C are
 at 19/19; PHP is 18/19 because parallel tools are not portable. COBOL `0.3.0`
 reaches 19/19 through native-suite coverage, with parallel tools delegated to a
-caller-provided batch dispatcher. Ruby, C++, Elixir, and Erlang `0.3.0` also
-reach 19/19 in the source; the [Behavior Lab Matrix](behavior-lab-matrix.md)
+caller-provided batch dispatcher. Ruby, C++, Elixir, Erlang, and Lua `0.3.0`
+also reach 19/19 in the source; the [Behavior Lab Matrix](behavior-lab-matrix.md)
 reflects the `7a7b796` report and will be refreshed from the next clean CI
 report.
 
@@ -173,7 +174,8 @@ report.
   C++ reaches 19/19 through `std::async` parallel tools and its native suite.
   Elixir reaches 19/19 through `Task.async` parallel tools and its native suite.
   Erlang reaches 19/19 through spawned-process parallel tools and its native
-  suite. Fortran and Lua use native-suite coverage for selected rows, not
+  suite. Lua reaches 19/19 through caller-provided cooperative batch tools and
+  its native suite. Fortran uses native-suite coverage for selected rows, not
   scenario-isolated assertions.
 - The parallel scenario uses deterministic barriers; it is not a throughput or
   stress test. SSE tests use local fixtures, not a provider.
