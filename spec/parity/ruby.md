@@ -44,6 +44,11 @@ adapter.
 | `agent/middleware.PIIMiddleware` | `Praxo::Middleware::PiiRedactor` | parity | P1 |
 | `agent/middleware.StructuredOutput` | `Praxo::Middleware::StructuredOutput` | parity | P1 |
 | `agent/middleware.ToolSelectionMiddleware` | `Praxo::Middleware::ToolSelection` | parity | P1 |
+| `agent/hitl.Interrupt` | `Praxo::Models::Interrupt` | parity | P2 |
+| `agent/hitl.InterruptAction` | `Praxo::Agent::INTERRUPT_APPROVE` and peers | parity | P2 |
+| `agent/hitl.InterruptDecision` | `Praxo::Models::InterruptDecision` | parity | P2 |
+| `agent/hitl.InterruptHandler` | `AgentOptions#on_interrupt_decision` | parity | P2 |
+| `agent.Options.OnInterrupt` | `AgentOptions#on_interrupt` | parity | P2 |
 
 Core-local utility with no direct Go contract symbol: `Praxo::SSE.parse` parses
 OpenAI-compatible server-sent-event text and raises `MODEL_STREAM` for truncated

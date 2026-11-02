@@ -51,11 +51,23 @@ module Praxo
       end
     end
 
+    INTERRUPT_APPROVE = 'approve'
+    INTERRUPT_EDIT = 'edit'
+    INTERRUPT_REJECT = 'reject'
+    INTERRUPT_RESPOND = 'respond'
+
+    RespondTool = Struct.new(:value) do
+      def invoke(_arguments)
+        value
+      end
+    end
+
     class AgentOptions
       attr_accessor :model, :tools, :events, :policy, :system_prompt, :context,
                     :max_steps, :max_tokens, :tool_choice, :middleware,
                     :allowed_tools, :cancellation, :on_stream,
-                    :max_parallel_tools
+                    :max_parallel_tools, :interrupt_on, :on_interrupt_decision,
+                    :on_interrupt
 
       def initialize(model)
         @model = model
@@ -72,6 +84,9 @@ module Praxo
         @cancellation = nil
         @on_stream = nil
         @max_parallel_tools = 1
+        @interrupt_on = []
+        @on_interrupt_decision = nil
+        @on_interrupt = nil
       end
     end
 
@@ -209,6 +224,9 @@ module Praxo
         unless allowed?(options, call.name)
           Praxo.error('AGENT_TOOL_NOT_ALLOWED', "tool #{call.name} is not allowed")
         end
+        interrupt = apply_interrupt(options, call, run_id, session_id)
+        call = interrupt[:call]
+        return [RespondTool.new(interrupt[:value]), call] if interrupt[:skip]
         if call.name != original_name || call.arguments != original_arguments
           authorize(options, Models.action(
             kind: 'tool.invoke', session_id: session_id,
@@ -220,6 +238,48 @@ module Praxo
         emit(options, 'tool.call', session_id, run_id,
              { 'name' => call.name, 'arguments' => call.arguments || {} })
         [tool, call]
+      end
+
+      def apply_interrupt(options, call, run_id, session_id)
+        return { call: call, skip: false } unless options.interrupt_on.include?(call.name)
+        if options.on_interrupt_decision.nil? && options.on_interrupt.nil?
+          Praxo.error('AGENT_INTERRUPT_UNHANDLED',
+                      'agent: approval handler not configured')
+        end
+        emit(options, 'tool.interrupt', session_id, run_id,
+             { 'name' => call.name, 'arguments' => call.arguments || {} })
+        interrupt = Models.interrupt(
+          run_id: run_id, session_id: session_id, call: call
+        )
+        if options.on_interrupt_decision
+          decision = options.on_interrupt_decision.call(interrupt)
+          case decision.action
+          when INTERRUPT_APPROVE
+            return { call: call, skip: false }
+          when INTERRUPT_EDIT
+            if decision.arguments.nil?
+              Praxo.error('AGENT_INTERRUPT_DECISION_INVALID',
+                          'agent: edit requires arguments')
+            end
+            call.arguments = decision.arguments
+            return { call: call, skip: false }
+          when INTERRUPT_REJECT
+            Praxo.error('AGENT_APPROVAL_DENIED',
+                        "agent: tool call denied by approval: #{call.name}: " \
+                        "#{decision.reason}")
+          when INTERRUPT_RESPOND
+            return { call: call, skip: true,
+                     value: decision.response || '' }
+          else
+            Praxo.error('AGENT_INTERRUPT_DECISION_INVALID',
+                        "agent: invalid interrupt decision: #{decision.action}")
+          end
+        end
+        unless options.on_interrupt.call(interrupt)
+          Praxo.error('AGENT_APPROVAL_DENIED',
+                      "agent: tool call denied by approval: #{call.name}")
+        end
+        { call: call, skip: false }
       end
 
       def execute_tool(tool, call)

@@ -112,6 +112,14 @@ def rust_test(name: str) -> Command:
     )
 
 
+def rust_hitl_test() -> Command:
+    return Command(
+        "cargo test --test hitl",
+        ("cargo", "test", "--test", "hitl"),
+        ROOT / "language" / "rust",
+    )
+
+
 def native_suite(language: str) -> Command:
     return Command(
         "python language/" + language + "/run-tests.py",
@@ -966,6 +974,44 @@ def scenarios() -> tuple[Scenario, ...]:
                 "rust": (rust_test("sse_stream_rejects_truncation_and_half_packets"),),
             },
             {"go": "scenario", "python": "scenario", "typescript": "scenario", "java": "group", "csharp": "suite", "php": "suite", "r": "suite", "c": "suite", "cpp": "suite", "ruby": "suite", "cobol": "suite", "elixir": "suite", "erlang": "suite", "lua": "suite", "fortran": "suite", "rust": "scenario"},
+        ),
+        Scenario(
+            "hitl-decision",
+            "Interrupted calls apply approve, edit, reject, and respond decisions",
+            {
+                "go": (
+                    go_test(
+                        "^(TestInterruptEditReplacesArguments|"
+                        "TestInterruptRejectFailsRun|"
+                        "TestInterruptRespondSkipsTool|"
+                        "TestInterruptApproveRunsTool|"
+                        "TestInterruptInvalidDecision)$"
+                    ),
+                ),
+                "python": (python_test("tests.test_hitl"),),
+                "typescript": (
+                    typescript_test(
+                        "approve|edit|reject|respond|invalid|unhandled|"
+                        "boolean|emits",
+                        "tests/hitl.test.js",
+                    ),
+                ),
+                "java": (java_test("AgentHitlSelfTest"),),
+                "rust": (rust_hitl_test(),),
+                "r": (r_suite(),),
+                "csharp": (csharp_suite(),),
+                "ruby": (ruby_suite(),),
+            },
+            {
+                "go": "scenario",
+                "python": "scenario",
+                "typescript": "scenario",
+                "java": "group",
+                "rust": "scenario",
+                "r": "suite",
+                "csharp": "suite",
+                "ruby": "suite",
+            },
         ),
     )
 

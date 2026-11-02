@@ -29,6 +29,10 @@ module Praxo
     Action = Struct.new(:kind, :session_id, :tool_name, :arguments, keyword_init: true)
     Decision = Struct.new(:allowed, :reason, keyword_init: true)
     Event = Struct.new(:type, :session_id, :run_id, :data, keyword_init: true)
+    Interrupt = Struct.new(:run_id, :session_id, :call, keyword_init: true)
+    InterruptDecision = Struct.new(
+      :action, :arguments, :response, :reason, keyword_init: true
+    )
     StreamPart = Struct.new(:run_id, :session_id, :kind, :step, :data, keyword_init: true)
 
     module_function
@@ -39,6 +43,23 @@ module Praxo
         text: args[:text],
         image_url: args[:image_url],
         data: args[:data]
+      )
+    end
+
+    def interrupt(**args)
+      Interrupt.new(
+        run_id: args[:run_id] || '',
+        session_id: args[:session_id] || '',
+        call: args[:call]
+      )
+    end
+
+    def interrupt_decision(**args)
+      InterruptDecision.new(
+        action: args[:action] || '',
+        arguments: args[:arguments],
+        response: args[:response] || '',
+        reason: args[:reason] || ''
       )
     end
 

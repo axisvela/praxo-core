@@ -22,6 +22,7 @@ def after_run
 def allowed?
 def allows?
 def apply
+def apply_interrupt
 def array
 def as_int
 def as_object
@@ -54,6 +55,8 @@ def get
 def has?
 def initialize
 def int
+def interrupt
+def interrupt_decision
 def invoke
 def invoke_tool
 def invoke_tools

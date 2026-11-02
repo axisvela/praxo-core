@@ -25,7 +25,8 @@ gem install praxo-core
 
 The Core implements all eleven vector groups: toolcall, JSON Schema, plugin,
 memory, event, stream, checkpoint, policy, context, middleware, and the agent
-loop. It includes a public API snapshot and a dependency-free test runner.
+loop. It also implements human-in-the-loop interrupt decisions, and includes a
+public API snapshot and a dependency-free test runner.
 
 ## Build and test
 

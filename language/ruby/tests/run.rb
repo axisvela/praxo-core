@@ -527,4 +527,94 @@ check(parallel_result.output == 'done', 'parallel tools result')
 tool_messages = parallel_requests.last.messages.select { |item| item.role == M::TOOL }
 check(tool_messages.map(&:tool_id) == %w[c1 c2], 'parallel tools preserve result order')
 
+hitl_invocations = 0
+hitl_registry = Praxo::Agent::ToolRegistry.new
+hitl_registry.register(Praxo::Agent::FuncTool.new('echo', 'Echo', lambda { |arguments|
+  hitl_invocations += 1
+  arguments
+}))
+hitl_model = TestModel.new([
+  { 'content' => '', 'toolCalls' => [{ 'id' => 'c1', 'name' => 'echo',
+                                       'arguments' => { 'value' => 'original' } }] },
+  { 'content' => 'done' }
+])
+hitl_options = Praxo::Agent::AgentOptions.new(hitl_model)
+hitl_options.tools = hitl_registry
+hitl_options.interrupt_on = ['echo']
+hitl_options.on_interrupt_decision = lambda { |_interrupt|
+  M.interrupt_decision(action: Praxo::Agent::INTERRUPT_APPROVE)
+}
+hitl_result = Praxo::Agent.run_agent(hitl_options, M.session(id: 's1'), 'go')
+check(hitl_result.output == 'done' && hitl_invocations == 1,
+      'ruby hitl approve')
+
+hitl_invocations = 0
+hitl_actions = []
+hitl_options = Praxo::Agent::AgentOptions.new(TestModel.new([
+  { 'content' => '', 'toolCalls' => [{ 'id' => 'c1', 'name' => 'echo',
+                                       'arguments' => { 'value' => 'original' } }] },
+  { 'content' => 'done' }
+]))
+hitl_options.tools = hitl_registry
+hitl_options.interrupt_on = ['echo']
+hitl_options.policy = lambda { |action|
+  hitl_actions << action if action.kind == 'tool.invoke'
+  M::Decision.new(allowed: true, reason: '')
+}
+hitl_options.on_interrupt_decision = lambda { |_interrupt|
+  M.interrupt_decision(action: Praxo::Agent::INTERRUPT_EDIT,
+                       arguments: { 'value' => 'edited' })
+}
+Praxo::Agent.run_agent(hitl_options, M.session(id: 's1'), 'go')
+check(hitl_invocations == 1 && hitl_actions.length == 2,
+      'ruby hitl edit reauthorizes')
+
+hitl_invocations = 0
+hitl_options = Praxo::Agent::AgentOptions.new(TestModel.new([
+  { 'content' => '', 'toolCalls' => [{ 'id' => 'c1', 'name' => 'echo',
+                                       'arguments' => { 'value' => 'original' } }] }
+]))
+hitl_options.tools = hitl_registry
+hitl_options.interrupt_on = ['echo']
+hitl_options.on_interrupt_decision = lambda { |_interrupt|
+  M.interrupt_decision(action: Praxo::Agent::INTERRUPT_REJECT, reason: 'no')
+}
+hitl_error = nil
+begin
+  Praxo::Agent.run_agent(hitl_options, M.session(id: 's1'), 'go')
+rescue Praxo::Error => caught
+  hitl_error = caught
+end
+check(hitl_error&.code == 'AGENT_APPROVAL_DENIED' && hitl_invocations.zero?,
+      'ruby hitl reject')
+
+hitl_options = Praxo::Agent::AgentOptions.new(TestModel.new([
+  { 'content' => '', 'toolCalls' => [{ 'id' => 'c1', 'name' => 'echo',
+                                       'arguments' => { 'value' => 'original' } }] }
+]))
+hitl_options.tools = hitl_registry
+hitl_options.interrupt_on = ['echo']
+hitl_error = nil
+begin
+  Praxo::Agent.run_agent(hitl_options, M.session(id: 's1'), 'go')
+rescue Praxo::Error => caught
+  hitl_error = caught
+end
+check(hitl_error&.code == 'AGENT_INTERRUPT_UNHANDLED', 'ruby hitl unhandled')
+
+hitl_sink = TestSink.new
+hitl_options = Praxo::Agent::AgentOptions.new(TestModel.new([
+  { 'content' => '', 'toolCalls' => [{ 'id' => 'c1', 'name' => 'echo',
+                                       'arguments' => { 'value' => 'original' } }] },
+  { 'content' => 'done' }
+]))
+hitl_options.tools = hitl_registry
+hitl_options.events = hitl_sink
+hitl_options.interrupt_on = ['echo']
+hitl_options.on_interrupt_decision = lambda { |_interrupt|
+  M.interrupt_decision(action: Praxo::Agent::INTERRUPT_APPROVE)
+}
+Praxo::Agent.run_agent(hitl_options, M.session(id: 's1'), 'go')
+check(hitl_sink.types.count('tool.interrupt') == 1, 'ruby hitl event')
+
 puts 'ruby core tests passed'
