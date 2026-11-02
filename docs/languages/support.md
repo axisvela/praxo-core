@@ -46,7 +46,7 @@ Behavior Lab entirely.
 | Extended | C, PHP, Fortran, COBOL, Ruby, Elixir, Erlang, C++, Lua | Contract or focused implementation; behavior coverage advances scenario by scenario with a named consumer and maintainer |
 | Optional | Other declared implementations | Outside the current Behavior Lab program; contract conformance is unchanged and behavior work requires a named consumer and maintainer |
 
-The 2026-11-01 source set covers sixteen wired languages: agent-capable Go,
+The 2026-11-02 source set covers sixteen wired languages: agent-capable Go,
 Python, TypeScript, Java, Rust, R, and C# plus the extended C, PHP, Fortran,
 COBOL, Ruby, Elixir, Erlang, C++, and Lua implementations. All sixteen wired
 languages cover all twenty scenarios. Parallel tools for COBOL, Lua, PHP, and
@@ -54,9 +54,9 @@ Fortran are delegated to caller-provided batch callbacks; the Core itself does
 not create threads in those cases. See the
 [Behavior Lab matrix](behavior-lab-matrix.md) for every cell.
 
-The clean-tree local run at `4ffd83b` reported 320 passed, 0 unsupported, and
-no failures for the sixteen-language set. The matrix is generated from that
-report; CI re-pinning for this revision is still required.
+The clean-tree CI run at `b6218e5` reported 320 passed, 0 unsupported, and no
+failures for the sixteen-language set. The matrix is generated from that report
+and links the same behavior job.
 
 An unsupported cell is a recorded gap, not a failure and not a pass. Do not
 infer full behavior parity from `complete` contract maturity.
@@ -91,6 +91,31 @@ a merged implementation PR as a support commitment.
 - Each Core implementation declares its supported `SPEC_VERSION`.
 - A source release tag does not establish package-registry availability.
 - Use the installation or source-build instructions on the language page.
+
+### Source, registry, and consumer smoke
+
+These are separate claims. A source tag records a repository release; a registry
+version records what a package manager can fetch; a consumer smoke records an
+install and run outside the repository. Do not cite one as evidence for another.
+
+| Language | Source tag | Registry version | Consumer install smoke |
+| --- | --- | --- | --- |
+| Python | `python/v0.3.0` | PyPI `praxo-core==0.3.0` published | Recorded only for `0.2.4`; not rerun for `0.3.0` |
+| TypeScript | `typescript/v0.2.0` | npm `@axisvela/praxo-core@0.2.0` staged | Recorded only for `0.1.5`; not rerun for `0.2.0` |
+| Java | `java/v0.4.0` | Maven Central `com.axisvela:praxo-core:0.3.0`; `0.4.0` not published | Not recorded |
+| Rust | `rust/v0.3.0` | crates.io `praxo-core==0.1.4` | Recorded for `0.1.4` only |
+| C# | `csharp/v0.3.0` | NuGet `Praxo.Core==0.3.0` published | Not recorded |
+| Elixir | `elixir/v0.4.0` | Hex `praxo_core==0.3.0`; `0.2.0` also published | Not rerun for `0.3.0`; historical `0.1.1` smoke |
+| Erlang | `erlang/v0.4.0` | Hex `praxo_core_erlang==0.3.1`; `0.2.0` also published | Not rerun for `0.3.1`; historical `0.1.1` smoke |
+| Ruby | `ruby/v0.4.0` | RubyGems `praxo-core==0.3.0`; `0.2.0` also published | Recorded only for `0.1.0` |
+| Lua | `lua/v0.4.0` | LuaRocks `praxo-core==0.3.0-1`; `0.2.0-1` also published | Local rock build and module load passed; registry install smoke pending |
+| PHP | `php/v0.4.0` | Packagist split tags `v0.3.0`; `v0.2.0` also published | No Composer install smoke recorded |
+| Dart | `dart/v0.1.1` | pub.dev `praxo_core==0.1.1` | Recorded for `0.1.1` |
+
+Do not install a source-tag-only language from a registry, and do not assume a
+registry package contains the source tag's latest behavior. The language page is
+the installation source of truth.
+
 - Python publishes `praxo-core==0.3.0` on PyPI from source tag
   `python/v0.3.0`. TypeScript stages `@axisvela/praxo-core@0.2.0` on npm from
   source tag `typescript/v0.2.0`; the package has npm provenance and an
@@ -102,15 +127,14 @@ a merged implementation PR as a support commitment.
 - PHP source tag `php/v0.4.0` adds HITL interrupt decisions to streaming runs,
   cancellation, SSE validation, final authorization, lifecycle cleanup, and
   caller-provided cooperative parallel tool dispatch through `batchToolInvoker`.
-  The Packagist
-  package remains `axisvela/praxo-core==0.1.0` from the split publication
-  repository `axisvela/praxo-core-php`; the Core does not create threads.
+  The Packagist package is published from the split repository
+  `axisvela/praxo-core-php` at split tags `v0.3.0` and `v0.2.0`; the Core does
+  not create threads. A Composer install smoke is not yet recorded.
 - Ruby source tag `ruby/v0.4.0` adds HITL interrupt decisions to middleware
   hooks, final-tool allowlist checks, reauthorization, lifecycle cleanup,
   cancellation, stream callbacks, a native SSE parser, bounded parallel tools,
-  and run-scoped call limits. The
-  RubyGems package remains `praxo-core==0.1.0`; a clean project installed it and
-  ran a minimal agent.
+  and run-scoped call limits. RubyGems publishes `praxo-core==0.3.0` and
+  `0.2.0`; the recorded clean-project smoke covers only `0.1.0`.
 - C++ source tag `cpp/v0.4.0` adds HITL interrupt decisions to middleware hooks,
   final-tool allowlist checks, reauthorization, lifecycle cleanup, cancellation,
   stream callbacks, a native SSE parser, bounded parallel tools, and run-scoped
@@ -118,9 +142,8 @@ a merged implementation PR as a support commitment.
 - Lua source tag `lua/v0.4.0` adds HITL interrupt decisions to middleware hooks,
   final-tool allowlist checks, reauthorization, lifecycle cleanup, cancellation,
   stream callbacks, a native SSE parser, and caller-provided batch tool dispatch.
-  The LuaRocks
-  package remains `praxo-core==0.1.0-1`. A local rock build and module load
-  passed; registry install smoke is pending.
+  LuaRocks publishes `praxo-core==0.3.0-1` and `0.2.0-1`. A local rock build
+  and module load passed; registry install smoke is pending.
 - C# source tag `csharp/v0.3.0` adds HITL interrupt decisions to streaming
   runs, cancellation, bounded parallel tools, and SSE validation. The tag
   workflow published `Praxo.Core==0.3.0` on NuGet; a local .NET consumer

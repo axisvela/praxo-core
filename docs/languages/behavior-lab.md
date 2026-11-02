@@ -152,14 +152,15 @@ overwritten; `latest.json` is only a convenience pointer.
 
 ## Current Evidence
 
-The clean-tree local run at `4ffd83b` on 2026-11-02 passed the sixteen-language
-set with 320 passed, 0 explicitly unsupported, and no failures: every wired
-language reaches 20/20. The [Behavior Lab Matrix](behavior-lab-matrix.md)
-reflects that report. CI re-pinning is still required before citing a CI job
-for this revision. COBOL reaches 20/20 through native-suite coverage, with
-parallel tools delegated to a caller-provided batch dispatcher. Ruby, C++,
-Elixir, Erlang, Lua, PHP, Fortran, C, and the agent-capable SDKs also reach
-20/20; all sixteen now include the HITL decision scenario.
+The clean-tree CI run at `b6218e5` on 2026-11-02 (run
+`20261102T074406Z-700663b3`) passed the sixteen-language set with 320 passed, 0
+explicitly unsupported, and no failures: every wired language reaches 20/20.
+The [Behavior Lab Matrix](behavior-lab-matrix.md) reflects that report and links
+the [behavior job](https://github.com/axisvela/praxo-core/actions/runs/41407891314/job/125153985339).
+COBOL reaches 20/20 through native-suite coverage, with parallel tools delegated
+to a caller-provided batch dispatcher. Ruby, C++, Elixir, Erlang, Lua, PHP,
+Fortran, C, and the agent-capable SDKs also reach 20/20; all sixteen now include
+the HITL decision scenario.
 
 ## Limits
 

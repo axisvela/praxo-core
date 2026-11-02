@@ -41,7 +41,7 @@ JavaScript 复用 TypeScript，Kotlin、Scala、Groovy 和 Clojure 复用 Java�
 
 | 层级 | 语言 | 规则 |
 | --- | --- | --- |
-| Agent-capable | Go、Python、TypeScript、Java、Rust、R、C# | 以全部十九个行为实验场景为目标；未覆盖的单元格必须明确标为 `unsupported` 并给出原因 |
+| Agent-capable | Go、Python、TypeScript、Java、Rust、R、C# | 以全部二十个行为实验场景为目标；未覆盖的单元格必须明确标为 `unsupported` 并给出原因 |
 | Extended | C、PHP、Fortran、COBOL、Ruby、Elixir、Erlang、C++、Lua | 只在有明确消费者和维护者时逐场景推进；不得仅为增加数量而新增场景或语言 |
 | Optional | 其他已声明实现 | 默认不开展行为工作；晋级需要明确消费者、维护者和场景证据 |
 

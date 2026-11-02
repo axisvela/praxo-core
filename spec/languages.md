@@ -36,11 +36,11 @@ targeted for cross-language agent-behavior parity in the Behavior Lab.
 
 | Behavior tier | Languages | Scope |
 | --- | --- | --- |
-| Agent-capable | Go, Python, TypeScript, Java, Rust, R, C# | Native agent loop is in declared scope and the language is selected for the nineteen Behavior Lab scenarios. Current coverage varies by language and is recorded in the Behavior Lab matrix. |
+| Agent-capable | Go, Python, TypeScript, Java, Rust, R, C# | Native agent loop is in declared scope and the language is selected for the twenty Behavior Lab scenarios. Current coverage varies by language and is recorded in the Behavior Lab matrix. |
 | Extended | PHP, C, Fortran, COBOL, Ruby, Elixir, Erlang, C++, Lua | Contract or focused implementation where behavior parity is advanced scenario by scenario. An unsupported cell is intentional until a named consumer and maintainer exist. |
 | Optional | Other declared implementations | Outside the current Behavior Lab program. Contract conformance is unchanged; behavior work starts only with a named consumer and maintainer. |
 
-All sixteen wired languages cover all nineteen scenarios in the source. Extended
+All sixteen wired languages cover all twenty scenarios in the source. Extended
 implementations use native-suite coverage; parallel tools for COBOL, Lua, PHP,
 and Fortran delegate concurrency to caller-provided batch callbacks.
 Other implementations, including Swift, Julia, Haskell, MATLAB/Octave,

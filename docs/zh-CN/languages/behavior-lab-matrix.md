@@ -15,9 +15,10 @@
 | 不支持 | 0 |
 | 失败 | 0 |
 | 源报告 | `report.json` |
-| Run ID | `20261102T055003Z-32f30752` |
-| Revision | `4ffd83b208913363f2f07ac627a35154321bd515` |
+| Run ID | `20261102T074406Z-700663b3` |
+| Revision | `b6218e5c0ee7e9469452257540e2168d6495916f` |
 | 工作区未提交 | False |
+| CI 任务 | [GitHub Actions](https://github.com/axisvela/praxo-core/actions/runs/41407891314/job/125153985339) |
 
 ## 能力层级
 

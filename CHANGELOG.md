@@ -2,6 +2,10 @@
 
 ## [Unreleased]
 
+Historical entries that record `19/19` describe the source version named in that
+entry. The current Behavior Lab has twenty scenarios; the HITL wave moved every
+wired language to 20/20.
+
 ### Published
 
 - Published RubyGems `praxo-core` 0.2.0 and 0.3.0, LuaRocks `praxo-core`

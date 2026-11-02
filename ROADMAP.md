@@ -15,3 +15,4 @@ and compatibility commitments. It is not a delivery schedule.
 - [Verification evidence index](docs/project/verification-evidence.md)
 - [Test evidence standard and record template](docs/contributing/test-evidence.md)
 - [Compatibility policy](docs/project/compatibility-policy.md)
+- [Ecosystem boundaries](docs/project/roadmap.md#ecosystem-boundaries)

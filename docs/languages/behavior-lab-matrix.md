@@ -15,9 +15,10 @@ This page expands the summary in [Behavior Lab](behavior-lab.md) into a scenario
 | Unsupported | 0 |
 | Failed | 0 |
 | Source report | `report.json` |
-| Run ID | `20261102T055003Z-32f30752` |
-| Revision | `4ffd83b208913363f2f07ac627a35154321bd515` |
+| Run ID | `20261102T074406Z-700663b3` |
+| Revision | `b6218e5c0ee7e9469452257540e2168d6495916f` |
 | Working tree dirty | False |
+| CI job | [GitHub Actions](https://github.com/axisvela/praxo-core/actions/runs/41407891314/job/125153985339) |
 
 ## Capability tiers
 

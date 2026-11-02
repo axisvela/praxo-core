@@ -33,13 +33,13 @@ Bridge、Sample 描述运行时的接入方式，不证明其语言缺乏 Framew
 
 | 行为层级 | 语言 | 当前目标 |
 | --- | --- | --- |
-| Agent-capable | Go、Python、TypeScript、Java、Rust、R、C# | 声明范围内包含原生 agent 循环；纳入十九个行为实验场景的目标集合 |
+| Agent-capable | Go、Python、TypeScript、Java、Rust、R、C# | 声明范围内包含原生 agent 循环；纳入二十个行为实验场景的目标集合 |
 | Extended | C、PHP、Fortran、COBOL、Ruby、Elixir、Erlang、C++、Lua | 契约型或聚焦型实现；在有明确消费者和维护者的前提下逐场景推进行为覆盖 |
 | Optional | 其他已声明实现 | 不在当前行为实验计划内；契约一致性不变，行为工作需有明确消费者和维护者 |
 
-2026-11-01 的源码集覆盖十六个已接入语言：agent-capable 的 Go、Python、TypeScript、Java、Rust、R、C#，以及 extended 的 C、PHP、Fortran、COBOL、Ruby、Elixir、Erlang、C++、Lua。全部十六个已接入语言均覆盖十九个场景。COBOL、Lua、PHP 和 Fortran 的并行工具委托给调用方提供的批处理回调；这些情况下 Core 本身不创建线程。逐单元格结果见[行为实验矩阵](behavior-lab-matrix.md)。
+2026-11-02 的源码集覆盖十六个已接入语言：agent-capable 的 Go、Python、TypeScript、Java、Rust、R、C#，以及 extended 的 C、PHP、Fortran、COBOL、Ruby、Elixir、Erlang、C++、Lua。全部十六个已接入语言均覆盖二十个场景。COBOL、Lua、PHP 和 Fortran 的并行工具委托给调用方提供的批处理回调；这些情况下 Core 本身不创建线程。逐单元格结果见[行为实验矩阵](behavior-lab-matrix.md)。
 
-`4ffd83b` 上的 clean-SHA CI 运行为十六语言集报告了 320 passed、0 unsupported、无失败。矩阵由该报告生成。
+`b6218e5` 上的 clean-tree CI 运行为十六语言集报告了 320 passed、0 unsupported、无失败。矩阵由该报告生成并链接同一 behavior job。
 
 `unsupported` 是明确记录的缺口，既不是失败，也不是通过。不要从契约成熟度 `complete` 推断完整行为对齐。
 
@@ -63,6 +63,29 @@ Bridge、Sample 描述运行时的接入方式，不证明其语言缺乏 Framew
 - 核心、Core、适配器与契约独立版本化，每个 Core 声明其 `SPEC_VERSION`。
 - 版本标签与成熟度相互独立：源码标签记录发布，成熟度记录声明范围的完成情况与验证状态。
 - 源码标签不等于已发布到包管理器，应按语言页面中的安装或源码构建步骤操作。
+
+### 源码标签、注册表与消费者 smoke
+
+三者是独立的声明：源码标签记录仓库发布，注册表版本记录包管理器可获取的版本，
+消费者 smoke 记录仓库之外的安装与运行。不能用一个为另一个作证。
+
+| 语言 | 源码标签 | 注册表版本 | 消费者安装 smoke |
+| --- | --- | --- | --- |
+| Python | `python/v0.3.0` | PyPI `praxo-core==0.3.0` 已发布 | 仅记录 `0.2.4`；`0.3.0` 未重跑 |
+| TypeScript | `typescript/v0.2.0` | npm `@axisvela/praxo-core@0.2.0` 暂存 | 仅记录 `0.1.5`；`0.2.0` 未重跑 |
+| Java | `java/v0.4.0` | Maven Central `com.axisvela:praxo-core:0.3.0`；`0.4.0` 未发布 | 未记录 |
+| Rust | `rust/v0.3.0` | crates.io `praxo-core==0.1.4` | 仅记录 `0.1.4` |
+| C# | `csharp/v0.3.0` | NuGet `Praxo.Core==0.3.0` 已发布 | 未记录 |
+| Elixir | `elixir/v0.4.0` | Hex `praxo_core==0.3.0`；`0.2.0` 也已发布 | `0.3.0` 未重跑；历史 `0.1.1` smoke |
+| Erlang | `erlang/v0.4.0` | Hex `praxo_core_erlang==0.3.1`；`0.2.0` 也已发布 | `0.3.1` 未重跑；历史 `0.1.1` smoke |
+| Ruby | `ruby/v0.4.0` | RubyGems `praxo-core==0.3.0`；`0.2.0` 也已发布 | 仅记录 `0.1.0` |
+| Lua | `lua/v0.4.0` | LuaRocks `praxo-core==0.3.0-1`；`0.2.0-1` 也已发布 | 本地 rock 构建/加载通过；registry 安装 smoke 待完成 |
+| PHP | `php/v0.4.0` | Packagist split 标签 `v0.3.0`；`v0.2.0` 也已发布 | 未记录 Composer 安装 smoke |
+| Dart | `dart/v0.1.1` | pub.dev `praxo_core==0.1.1` | 已记录 `0.1.1` |
+
+不要从注册表安装只有源码标签的语言，也不要假设注册表包包含源码标签的最新行为。
+语言页面是安装信息的唯一来源。
+
 - Python 从源码标签 `python/v0.3.0` 发布 `praxo-core==0.3.0` 到 PyPI；TypeScript 从源码标签
   `typescript/v0.2.0` 在 npm 暂存 `@axisvela/praxo-core@0.2.0`，带有 npm
   provenance，并采用 agent framework 优先的 README 和元数据。
@@ -72,21 +95,20 @@ Bridge、Sample 描述运行时的接入方式，不证明其语言缺乏 Framew
   `io.axisvela.praxo`。
 - PHP 源码标签 `php/v0.4.0` 在流式运行、取消、SSE 校验、最终授权、生命周期清理，
   以及通过 `batchToolInvoker` 提供的调用方协作式并行工具调度之上增加人工审批
-  中断决策。Packagist 包仍为
-  `axisvela/praxo-core==0.1.0`，来自独立发布仓库 `axisvela/praxo-core-php`；
-  Core 本身不创建线程。
+  中断决策。Packagist 包由独立发布仓库 `axisvela/praxo-core-php` 的 split
+  标签 `v0.3.0` 和 `v0.2.0` 发布；Core 本身不创建线程。Composer 安装
+  smoke 尚未记录。
 - Ruby 源码标签 `ruby/v0.4.0` 在 middleware、最终工具 allowlist、重新授权、
   生命周期清理、取消、流式回调、原生 SSE parser、有限并行工具和按 run 隔离的
-  调用上限之上增加人工审批中断决策。
-  RubyGems 包仍为 `praxo-core==0.1.0`；干净项目已安装该 gem 并运行最小 agent。
+  调用上限之上增加人工审批中断决策。RubyGems 已发布 `praxo-core==0.3.0`
+  和 `0.2.0`；已记录的干净项目 smoke 仅覆盖 `0.1.0`。
 - C++ 源码标签 `cpp/v0.4.0` 在 middleware、最终工具 allowlist、重新授权、
   生命周期清理、取消、流式回调、原生 SSE parser、有限并行工具和按 run 隔离的
   调用上限之上增加人工审批中断决策。
 - Lua 源码标签 `lua/v0.4.0` 在 middleware、最终工具 allowlist、重新授权、
   生命周期清理、取消、流式回调、原生 SSE parser 和调用方提供的批处理工具调度
-  之上增加人工审批中断决策。
-  LuaRocks 包仍为 `praxo-core==0.1.0-1`。本地 rock 构建和模块加载通过；
-  registry 安装 smoke 待完成。
+  之上增加人工审批中断决策。LuaRocks 已发布 `praxo-core==0.3.0-1` 和
+  `0.2.0-1`。本地 rock 构建和模块加载通过；registry 安装 smoke 待完成。
 - C# 源码标签 `csharp/v0.3.0` 在流式运行、取消、有限并行工具和 SSE 校验之上增加人工审批中断决策。
   tag 工作流已发布 NuGet 包 `Praxo.Core==0.3.0`；本地 .NET 消费者安装尚未记录。
 - D 已从独立发布仓库 `axisvela/praxo-core-d`（tag `v0.1.0`）在

@@ -23,17 +23,19 @@
 | --- | --- | --- | --- |
 | Go Core | Tests、vet、build、API snapshot、race、fuzz 和 module-security CI；当前 main 与发布工作流检查；已发布 `v2.5.2` 从干净外部模块无 `replace` 安装 | 契约/单元 + CI + 本地集成 | JSON Schema 和 plugin manifest fuzz 曾在 10s deadline 失败、rerun 通过；慢输入风险仍在调查；消费验证仅覆盖一个平台和最小 agent |
 | 跨语言一致性 | Python、TypeScript、Java、Rust、Fortran、COBOL compatibility lab 运行确定性向量、API 快照/签名和 parity；已记录 Linux CI 与本地运行 | 契约/单元 + CI | 仅六种语言；COBOL 已在本地 GnuCOBOL 和 Linux CI 验证；不含 provider、HITL、checkpoint、sandbox 或生产证据；每次运行一个平台和工具链；非作者复现待办 |
-| Python 已发布包 | 从 PyPI 在干净 venv 安装 `praxo-core==0.2.4`；包报告版本 `0.2.4`，最小 agent 返回最终答案 | 本地安装 smoke | 仅一个平台；同机干净 venv，不是独立或非作者消费验证；不含 provider 或生产证据 |
-| TypeScript 已发布包 | 从 npm 在干净临时项目安装 `@axisvela/praxo-core@0.1.5`；包报告版本 `0.1.5`，导出 `Agent` 和 `Registry`，并报告 `SPEC_VERSION` `0.2.0` | 本地安装 smoke | 仅一个平台；同机临时项目，不是独立或非作者消费验证；仅导入 smoke，不含 provider 或生产证据 |
-| Rust 已发布 crate | 从 crates.io 在干净临时项目安装 `praxo-core==0.1.4`；程序报告 `SDK_VERSION` `0.1.4` 和 `SPEC_VERSION` `0.2.0` | 本地安装 smoke | 仅一个平台；同机临时项目，不是独立或非作者消费验证；仅版本和导入 smoke，不含 provider 或生产证据 |
+| Python 已发布包 | PyPI 已从源码标签 `python/v0.3.0` 发布 `praxo-core==0.3.0`；已记录的干净 venv 安装和最小 agent smoke 覆盖 `0.2.4`，不是 `0.3.0` | Registry 发布 + 历史本地安装 smoke | 未对 `0.3.0` 重跑 registry 安装 smoke；仅一个平台；同机干净 venv，不是独立或非作者消费验证；不含 provider 或生产证据 |
+| TypeScript 已发布包 | npm 已从源码标签 `typescript/v0.2.0` 暂存 `@axisvela/praxo-core@0.2.0`；已记录的干净临时项目安装 smoke 覆盖 `0.1.5` | Registry 暂存 + 历史本地安装 smoke | `0.2.0` 是暂存而非已验证的公开安装；smoke 未重跑；仅一个平台；不是独立消费者；不含 provider 或生产证据 |
+| Rust 已发布 crate | crates.io `praxo-core==0.1.4` 已在干净临时项目安装并报告 `SDK_VERSION` `0.1.4`；源码标签 `rust/v0.3.0` 比 crate 更新 | Registry 安装 smoke + 源码发布 | registry smoke 覆盖 `0.1.4`，不是 `0.3.0`；仅一个平台；不是独立消费者；不含 provider 或生产证据 |
 | Dart 已发布包 | 从 pub.dev 在干净项目安装 `praxo_core==0.1.1`；程序导入 `package:praxo_core/praxo_core.dart`，并由最小 agent 返回 `hello` | 本地安装 smoke | 仅一个平台；同机项目，不是独立或非作者消费验证；仅最小 agent，不含 provider 或生产证据 |
-| Ruby 已发布 gem | 从 RubyGems 在干净临时目录安装 `praxo-core==0.1.0`；程序 `require 'praxo'` 并由最小 agent 返回 `hello` | 本地安装 smoke | 仅一个平台；同机临时目录，不是独立或非作者消费验证；仅最小 agent，不含 provider 或生产证据 |
-| C# 已发布包 | `Praxo.Core==0.1.2` 由 GitHub Actions Trusted Publishing 完成构建、测试、打包并推送到 NuGet | CI + registry | 本地无 .NET SDK，未执行消费者安装 smoke；一个包版本；不含 provider 或生产证据 |
-| Elixir 已发布包 | Hex 已发布 `praxo_core` `0.3.0` 和回填的 `0.2.0`；`mix hex.info` 可查到两者。历史 `0.1.1` 曾在干净 Mix 项目安装 | Registry 元数据 + 历史本地安装 smoke | `0.3.0`/`0.2.0` 未重新执行消费者安装 smoke；HexDocs 未发布；仅一个平台；非独立或非作者消费验证；不含 provider 或生产证据 |
-| Erlang 已发布包 | Hex 已发布 `praxo_core_erlang` `0.3.1` 和回填的 `0.2.0`；`mix hex.info` 可查到两者。历史 `0.1.1` 曾由干净 rebar3 项目获取 | Registry 元数据 + 历史本地安装 smoke | `0.3.1`/`0.2.0` 未重新执行消费者安装 smoke；仅一个平台；非独立或非作者消费验证；不含 provider 或生产证据 |
+| Ruby 已发布 gem | RubyGems 已发布 `praxo-core==0.3.0` 和 `0.2.0`；已记录的干净临时目录 smoke 覆盖 `0.1.0` | Registry 发布 + 历史本地安装 smoke | 未对 `0.3.0` 重跑 registry 安装 smoke；仅一个平台；不是独立消费者；不含 provider 或生产证据 |
+| Lua 已发布 rock | LuaRocks 已发布 `praxo-core==0.3.0-1` 和 `0.2.0-1`；本地 rock 构建和模块加载通过 | Registry 发布 + 本地构建 smoke | registry 安装 smoke 待完成；仅一个平台；不是独立消费者；不含 provider 或生产证据 |
+| PHP 已发布包 | Packagist split 标签 `v0.3.0` 和 `v0.2.0` 已从 `axisvela/praxo-core-php` 发布 | Registry 发布 | 未记录 Composer 安装 smoke；仅一个平台；不是独立消费者；不含 provider 或生产证据 |
+| C# 已发布包 | `Praxo.Core==0.3.0` 由 GitHub Actions Trusted Publishing 从源码标签 `csharp/v0.3.0` 完成构建、测试、打包并推送到 NuGet | CI + registry | 本地无 .NET SDK，未执行消费者安装 smoke；一个包版本；不含 provider 或生产证据 |
+| Elixir 已发布包 | Hex 已发布 `praxo_core==0.3.0` 和回填的 `0.2.0`；源码标签 `elixir/v0.4.0` 更新。历史 `0.1.1` 曾在干净 Mix 项目安装 | Registry 元数据 + 历史本地安装 smoke | `0.3.0`/`0.2.0` 未重新执行消费者安装 smoke；HexDocs 未发布；仅一个平台；非独立消费者；不含 provider 或生产证据 |
+| Erlang 已发布包 | Hex 已发布 `praxo_core_erlang==0.3.1` 和回填的 `0.2.0`；源码标签 `erlang/v0.4.0` 更新。历史 `0.1.1` 曾由干净 rebar3 项目获取 | Registry 元数据 + 历史本地安装 smoke | `0.3.1`/`0.2.0` 未重新执行消费者安装 smoke；仅一个平台；非独立消费者；不含 provider 或生产证据 |
 | D 已发布包 | 从 DUB/code.dlang.org 使用 `dub fetch praxo-core` 获取 `praxo-core==0.1.0` | Registry 元数据 + 获取 | 未执行编译或独立消费者 smoke；一个包版本；不含 provider 或生产证据 |
-| Java 已发布包 | `com.axisvela:praxo-core:0.3.0` 已发布到 Maven Central，包含 sources、javadoc 和 GPG 签名 | 本地发布 + Central 校验 | 本地 Maven 经代理部署；未执行独立消费者安装 smoke；不含 provider 或生产证据 |
-| 跨语言 agent 行为 | 全部十六个已接入语言在源码中通过十九个授权、生命周期、取消、输入校验、调用上限、并行工具、run 隔离、PII、checkpoint、容量、SSE 截断和流失败场景。agent-capable 语言使用场景级或 self-test 覆盖，扩展语言使用原生套件覆盖；COBOL、Lua、PHP 和 Fortran 的并行工具委托给调用方提供的批处理回调。其他实现属于 optional。已记录 Linux CI 与本地报告 | 场景测试 + CI | 十六个已接入语言在源码中均达到 20/20；部分扩展行为是套件级覆盖，失败不能定位到具体场景；4ffd83b 的 clean-SHA CI 报告早于最终扩展覆盖；不是吞吐/压力测试，也不是完整功能对齐、provider、HITL、sandbox 或生产证据 |
+| Java 已发布包 | Maven Central 已发布 `com.axisvela:praxo-core:0.3.0`，包含 sources、javadoc 和 GPG 签名；源码标签 `java/v0.4.0` 尚未发布 | 本地发布 + Central 校验 | 未执行消费者安装 smoke；`0.4.0` registry 发布待完成；一个平台；不含 provider 或生产证据 |
+| 跨语言 agent 行为 | 全部十六个已接入语言在源码中通过二十个授权、生命周期、取消、输入校验、调用上限、并行工具、run 隔离、PII、checkpoint、容量、SSE 截断、流失败和 HITL 决策场景。agent-capable 语言使用场景级或 self-test 覆盖，扩展语言使用原生套件覆盖；COBOL、Lua、PHP 和 Fortran 的并行工具委托给调用方提供的批处理回调。其他实现属于 optional。`b6218e5` 的 clean-tree CI 报告记录 320 passed、0 unsupported、无失败 | 场景测试 + CI | 十六个已接入语言在源码中均达到 20/20；部分扩展行为是套件级覆盖，失败不能定位到具体场景；`4ffd83b` 的本地报告是历史证据，不是当前证据；不是吞吐/压力测试，也不是完整功能对齐、provider、sandbox 或生产证据 |
 | 受治理工作区 | Policy 必需配置、最终参数授权、单次审批、审批后修改、排队撤销、依赖失败关闭 | 契约/单元 | 示例级契约；不是 Core Profile、可信身份服务或持久审批存储 |
 | 上下文信任 | Memory、Skill、工具结果和摘要来源分离；批准 Skill 摘要绑定；文本恢复；拒绝晚期 System 注入 | 契约/单元 | 显式示例路径；不是通用 Prompt Injection 过滤器、来源认证或持久 lineage 证明 |
 | 隔离能力 | Windows path/process/WASM 控制；Linux path/symlink 的 verbose CI job；本地 VFS 在 policy 检查后使用 `os.Root` 执行实际操作 | 契约/单元 + CI | Windows symlink 因权限 SKIP；policy 决策仍是 check-then-use，Linux cgroup v2、WASM fuel 和独立复核仍开放 |
@@ -47,16 +49,18 @@
 ## 公开证据链接
 
 - [兼容性实验](../languages/compatibility-lab.md) 与 [CI compatibility job](https://github.com/axisvela/praxo-core/actions/runs/41000572198/job/123883752839)
-- [行为实验](../languages/behavior-lab.md) 与 [CI behavior job](https://github.com/axisvela/praxo-core/actions/runs/41257537691/job/124703790344)
-- [PyPI 上的 praxo-core 0.2.4](https://pypi.org/project/praxo-core/0.2.4/)
-- [npm 上的 @axisvela/praxo-core 0.1.5](https://www.npmjs.com/package/@axisvela/praxo-core/v/0.1.5)
+- [行为实验](../languages/behavior-lab.md) 与 [当前 CI behavior job](https://github.com/axisvela/praxo-core/actions/runs/41407891314/job/125153985339)
+Registry 链接指向当前已发布版本；上表的消费者 smoke 行指明实际安装的版本。
+
+- [PyPI 上的 praxo-core 0.3.0](https://pypi.org/project/praxo-core/0.3.0/)
+- [npm 上的 @axisvela/praxo-core 0.1.5](https://www.npmjs.com/package/@axisvela/praxo-core/v/0.1.5)（`0.2.0` 为暂存，尚未作为公开安装声明）
 - [crates.io 上的 praxo-core 0.1.4](https://crates.io/crates/praxo-core/0.1.4)
 - [pub.dev 上的 praxo_core 0.1.1](https://pub.dev/packages/praxo_core)
-- [RubyGems 上的 praxo-core 0.1.0](https://rubygems.org/gems/praxo-core/versions/0.1.0)
-- [LuaRocks 上的 praxo-core 0.1.0-1](https://luarocks.org/modules/hanhhuiwen/praxo-core)
-- [NuGet 上的 Praxo.Core 0.1.2](https://www.nuget.org/packages/Praxo.Core/0.1.2)
-- [Hex 上的 praxo_core 0.1.1](https://hex.pm/packages/praxo_core/0.1.1)
-- [Hex 上的 praxo_core_erlang 0.1.1](https://hex.pm/packages/praxo_core_erlang/0.1.1)
+- [RubyGems 上的 praxo-core 0.3.0](https://rubygems.org/gems/praxo-core/versions/0.3.0)
+- [LuaRocks 上的 praxo-core 0.3.0-1](https://luarocks.org/modules/hanhhuiwen/praxo-core)
+- [NuGet 上的 Praxo.Core 0.3.0](https://www.nuget.org/packages/Praxo.Core/0.3.0)
+- [Hex 上的 praxo_core 0.3.0](https://hex.pm/packages/praxo_core/0.3.0)
+- [Hex 上的 praxo_core_erlang 0.3.1](https://hex.pm/packages/praxo_core_erlang/0.3.1)
 - [DUB 上的 praxo-core 0.1.0](https://code.dlang.org/packages/praxo-core)
 - [Maven Central 上的 com.axisvela:praxo-core 0.3.0](https://repo1.maven.org/maven2/com/axisvela/praxo-core/0.3.0/)
 - [受治理工作区示例](https://github.com/axisvela/praxo-core/tree/main/examples/governed-workspace)

@@ -144,7 +144,7 @@ Agent 循环仅依赖其所需的接口。插件宿主、HTTP 客户端、调度
 ## 语言边界与共享契约
 
 Go 保留为参考实现。契约定义在 `spec/` 中，并由共享一致性套件强制执行。
-Go、Python、TypeScript、Java 具备完整的十九场景行为覆盖；Rust、R、C# 也是
+Go、Python、TypeScript、Java 具备完整的二十场景行为覆盖；Rust、R、C# 也是
 agent-capable Core 实现：
 
 ```text
@@ -176,7 +176,7 @@ spec/                    规范契约与向量
 实现不属于契约。
 
 行为覆盖与契约分层独立。Agent-capable 实现（Go、Python、TypeScript、Java、Rust、
-R、C#）以全部十九个行为实验场景为目标；extended 实现（PHP、C、Fortran、COBOL、
+R、C#）以全部二十个行为实验场景为目标；extended 实现（PHP、C、Fortran、COBOL、
 Ruby、Elixir、Erlang、C++、Lua）在有明确消费者和维护者时逐场景推进；其他已声明
 实现属于 optional。缺失的场景覆盖记录为 `unsupported`，不视为已对齐。
 

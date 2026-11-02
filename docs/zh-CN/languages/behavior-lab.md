@@ -16,7 +16,7 @@
 | Extended | C、PHP、Fortran、COBOL、Ruby、Elixir、Erlang、C++、Lua | C/COBOL/Ruby/C++/Elixir/Erlang/Lua/PHP/Fortran 20/20 |
 | Optional | 其他已声明实现 | 不在当前行为计划内 |
 
-R 和 C 现已接入。C# 与 PHP 包含三个生命周期场景；R 和 C 对原生套件实际断言的场景提供覆盖。COBOL 0.3.0 通过原生套件覆盖全部十九个场景；其中 parallel-tools 将并发执行委托给调用方提供的批处理调度器，原生测试验证批处理上限和结果顺序，而不是 OS 线程。Ruby 0.3.0 也通过原生套件达到 20/20，覆盖取消、流式回调、SSE 截断/半包、有限并行工具和按 run 隔离的调用上限。C++ 0.3.0 也通过 std::async 并行工具和原生 SSE parser 达到 20/20。Elixir 0.3.0 通过 Task.async 并行工具、取消、流式回调和原生 SSE parser 达到 20/20。Erlang 0.3.0 通过 spawned-process 并行工具和相同生命周期覆盖达到 20/20。Lua 0.3.0 通过调用方提供的 batch_invoke 协作工具、取消、流式回调和原生 SSE parser 达到 20/20。PHP 0.3.0 通过 batchToolInvoker 中的 Fiber 并行工具达到 20/20。Fortran 0.5.0 通过取消、流式回调、原生 SSE parser 和调用方提供的并行批处理回调达到 20/20。
+R 和 C 现已接入。C# 与 PHP 包含三个生命周期场景；R 和 C 对原生套件实际断言的场景提供覆盖。COBOL 0.3.0 通过原生套件覆盖全部二十个场景；其中 parallel-tools 将并发执行委托给调用方提供的批处理调度器，原生测试验证批处理上限和结果顺序，而不是 OS 线程。Ruby 0.3.0 也通过原生套件达到 20/20，覆盖取消、流式回调、SSE 截断/半包、有限并行工具和按 run 隔离的调用上限。C++ 0.3.0 也通过 std::async 并行工具和原生 SSE parser 达到 20/20。Elixir 0.3.0 通过 Task.async 并行工具、取消、流式回调和原生 SSE parser 达到 20/20。Erlang 0.3.0 通过 spawned-process 并行工具和相同生命周期覆盖达到 20/20。Lua 0.3.0 通过调用方提供的 batch_invoke 协作工具、取消、流式回调和原生 SSE parser 达到 20/20。PHP 0.3.0 通过 batchToolInvoker 中的 Fiber 并行工具达到 20/20。Fortran 0.5.0 通过取消、流式回调、原生 SSE parser 和调用方提供的并行批处理回调达到 20/20。
 
 ## 范围
 
@@ -58,10 +58,10 @@ R 和 C 现已接入。C# 与 PHP 包含三个生命周期场景；R 和 C 对�
 | `capacity-failclosed` | scenario | native suite | native suite | native suite | native suite | native suite | native suite | native suite | native suite | native suite |
 | `run-state-isolation` | scenario | unsupported | native suite | native suite | native suite | native suite | native suite | native suite | native suite | unsupported |
 
-`native suite` 表示该实现的完整原生测试可执行文件通过；它不是场景隔离断言，因此不能仅凭该单元格定位具体场景失败。所有已接入语言均覆盖十九个场景；报告仍会显式列出每个单元格。
+`native suite` 表示该实现的完整原生测试可执行文件通过；它不是场景隔离断言，因此不能仅凭该单元格定位具体场景失败。所有已接入语言均覆盖二十个场景；报告仍会显式列出每个单元格。
 
 C# 和 PHP 还对 `final-arguments`、`final-name`、`unchanged-single-auth` 和
-`initial-denial` 提供原生套件覆盖。C、PHP、Fortran、COBOL、Ruby、Elixir、Erlang、C++ 和 Lua 对全部十九个场景提供原生套件覆盖，包括取消、流式回调失败、SSE 截断/半包、并行工具和 run-state isolation。完整的单元格矩阵和逐语言报告见
+`initial-denial` 提供原生套件覆盖。C、PHP、Fortran、COBOL、Ruby、Elixir、Erlang、C++ 和 Lua 对全部二十个场景提供原生套件覆盖，包括取消、流式回调失败、SSE 截断/半包、并行工具和 run-state isolation。完整的单元格矩阵和逐语言报告见
 [行为实验矩阵](behavior-lab-matrix.md)。
 
 ## 运行
@@ -99,13 +99,13 @@ cmake --build language/c/build
 
 ## 当前证据
 
-2026-10-31 的 Go/Python/TypeScript/Java 十九场景本地运行通过了全部 76 个单元格。commit `4ffd83b` 上的 clean-SHA Linux CI 运行通过十六语言集合：320 passed、42 个显式 unsupported、无失败；引用报告时应使用该 [behavior job](https://github.com/axisvela/praxo-core/actions/runs/41296991587/job/124819809721) 及其 artifact。全部十六个已接入语言在源码中均达到 20/20。COBOL 0.3.0 通过原生套件覆盖达到 20/20，其中 parallel-tools 将并发执行委托给调用方提供的批处理调度器。Ruby、C++、Elixir、Erlang、Lua 和 PHP 0.3.0 以及 Fortran 0.5.0 也在源码中达到 20/20；行为实验矩阵反映 4ffd83b 报告，将在下一次干净 CI 报告后刷新。[行为实验矩阵](behavior-lab-matrix.md) 列出每个单元格以及各语言的已覆盖和未覆盖场景。
+2026-11-02 的 commit `b6218e5` clean-tree Linux CI 运行（run `20261102T074406Z-700663b3`）通过十六语言集合：320 passed、0 个显式 unsupported、无失败；[behavior job](https://github.com/axisvela/praxo-core/actions/runs/41407891314/job/125153985339) 及其 artifact 是当前证据。[行为实验矩阵](behavior-lab-matrix.md) 反映该报告并链接同一 job。全部十六个已接入语言在源码中均达到 20/20。COBOL 通过原生套件覆盖达到 20/20，其中 parallel-tools 将并发执行委托给调用方提供的批处理调度器。Ruby、C++、Elixir、Erlang、Lua、PHP、Fortran、C 以及 agent-capable SDK 也达到 20/20；全部十六个实现都包含 HITL decision 场景。
 
 ## 限制
 
-- 只覆盖十九个选定场景，不覆盖完整 agent 或契约对齐。
+- 只覆盖二十个选定场景，不覆盖完整 agent 或契约对齐。
 - Go 和 Python 使用场景级测试；TypeScript 使用 `node --test` 名称过滤；部分 Java self-test 覆盖多个场景。
 - 所有 agent-capable 语言和 C 均为 20/20；COBOL 也通过原生套件达到 20/20，其中 parallel-tools 将并发执行委托给调用方提供的批处理调度器，原生测试验证批处理上限和结果顺序，而不是 OS 线程。Ruby 通过原生线程和原生套件达到 20/20；C++ 通过 std::async 并行工具和原生套件达到 20/20；Elixir 通过 Task.async 并行工具和原生套件达到 20/20；Erlang 通过 spawned-process 并行工具和原生套件达到 20/20；Lua 通过调用方提供的协作批处理工具和原生套件达到 20/20；PHP 通过 batchToolInvoker 中的 Fiber 和原生套件达到 20/20；Fortran 通过调用方提供的并行批处理回调达到 20/20。以上均为套件级覆盖，不是场景隔离断言。
 - 并行场景使用确定性 barrier，不是吞吐或压力测试。SSE 测试使用本地 fixture，不调用 provider。
-- 不覆盖 provider、模型、网络、sandbox、HITL、持久 checkpoint 或效果恢复场景。
+- 不覆盖 provider、模型、网络、sandbox、持久 checkpoint 或效果恢复场景。
 - 报告通过不等于安全审查或生产认证。

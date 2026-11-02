@@ -158,7 +158,7 @@ updates. The framework never imports product governance.
 
 Go remains the reference implementation. The contract is defined in `spec/` and
 enforced by a shared conformance suite. Go, Python, TypeScript, and Java have
-full nineteen-scenario behavior coverage; Rust, R, and C# are also
+full twenty-scenario behavior coverage; Rust, R, and C# are also
 agent-capable Core implementations:
 
 ```text
@@ -191,7 +191,7 @@ primitive; sentinel errors become stable exception classes. Concrete adapters,
 helpers, and package internals are not part of the contract.
 
 Behavior coverage is tiered separately from the contract. Agent-capable
-implementations (Go, Python, TypeScript, Java, Rust, R, C#) target all nineteen
+implementations (Go, Python, TypeScript, Java, Rust, R, C#) target all twenty
 Behavior Lab scenarios. Extended implementations (PHP, C, Fortran, COBOL, Ruby,
 Elixir, Erlang, C++, Lua) advance scenario by scenario with a named consumer and
 maintainer. Other declared implementations are optional. Missing scenario

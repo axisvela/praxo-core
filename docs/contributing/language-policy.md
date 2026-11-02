@@ -50,7 +50,7 @@ tiers are:
 
 | Tier | Languages | Rule |
 | --- | --- | --- |
-| Agent-capable | Go, Python, TypeScript, Java, Rust, R, C# | Target all nineteen Behavior Lab scenarios. Missing cells must be explicit `unsupported` with a reason until covered. |
+| Agent-capable | Go, Python, TypeScript, Java, Rust, R, C# | Target all twenty Behavior Lab scenarios. Missing cells must be explicit `unsupported` with a reason until covered. |
 | Extended | C, PHP, Fortran, COBOL, Ruby, Elixir, Erlang, C++, Lua | Advance selected scenarios only with a named consumer and maintainer. Do not add a scenario or language solely to increase counts. |
 | Optional | Other declared implementations | No behavior work by default; promotion requires a named consumer, maintainer, and scenario evidence. |
 
