@@ -1,5 +1,20 @@
 # C Core Release Notes
 
+## 0.6.0 - Unreleased
+
+### Added
+
+- Human-in-the-loop interrupt decisions through
+  `PxAgentOptions.interrupt_on`, `interrupt_on_count`, and `on_interrupt`.
+- `PxInterruptDecision` supports approve/edit/reject/respond decisions.
+  Interrupted calls emit `tool.interrupt`; edited arguments are reauthorized.
+- API snapshot `api/0.6.0.txt`.
+
+### Compatibility
+
+- Existing `PxAgentOptions` positional initializers remain valid; new fields are
+  appended and default to zero or NULL.
+
 ## 0.5.0 - 2026-11-01
 
 Source release tag `c/v0.5.0`.

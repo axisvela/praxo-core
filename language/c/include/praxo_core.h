@@ -6,7 +6,7 @@
 
 #include "praxo.h"
 
-#define PRAXO_CORE_VERSION "0.5.0"
+#define PRAXO_CORE_VERSION "0.6.0"
 
 typedef struct {
     const char *session;
@@ -146,6 +146,16 @@ typedef struct {
 } PxAgentMiddleware;
 
 typedef struct {
+    const char *action;
+    PxValue *arguments;
+    const char *response;
+    const char *reason;
+} PxInterruptDecision;
+
+typedef const PxInterruptDecision *(*PxInterruptHandler)(const char *name,
+    PxValue *arguments, void *ctx);
+
+typedef struct {
     PxValue *(*generate)(PxArena *arena, PxValue *messages, PxValue *tools,
         void *ctx);
     PxValue *(*invoke)(PxArena *arena, const char *name, PxValue *arguments,
@@ -166,6 +176,9 @@ typedef struct {
         void *ctx, const char **error);
     const char *(*on_delta)(const char *delta, void *ctx);
     int max_parallel_tools;
+    const char *const *interrupt_on;
+    size_t interrupt_on_count;
+    PxInterruptHandler on_interrupt;
 } PxAgentOptions;
 
 const char *px_parse_sse_stream(PxArena *arena, const char *text,

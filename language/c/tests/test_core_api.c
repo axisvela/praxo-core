@@ -180,6 +180,32 @@ static void hook_emit(const char *kind, void *ctx) {
     state->event_count++;
 }
 
+static const PxInterruptDecision *hitl_decision_value;
+
+static const PxInterruptDecision *hitl_decision(const char *name,
+        PxValue *arguments, void *ctx) {
+    (void)name;
+    (void)arguments;
+    (void)ctx;
+    return hitl_decision_value;
+}
+
+static PxValue *hitl_respond_model(PxArena *arena, PxValue *messages,
+        PxValue *tools, void *ctx) {
+    (void)tools;
+    AgentHookContext *state = ctx;
+    if (state->model_step++ == 0) {
+        return px_parse(arena,
+            "{\"toolCalls\":[{\"id\":\"c1\",\"name\":\"echo\","
+            "\"arguments\":{\"text\":\"hi\"}}]}");
+    }
+    PxValue *last = messages->as.array.items[messages->as.array.len - 1];
+    PxValue *response = px_obj(arena);
+    px_obj_set(arena, response, "content", px_str(arena,
+        px_get_str(last, "content")));
+    return response;
+}
+
 static PxValue *hook_model(PxArena *arena, PxValue *messages, PxValue *tools,
         void *ctx) {
     (void)messages;
@@ -761,6 +787,65 @@ int main(void) {
     assert(px_agent_run(&arena, &parallel_options, NULL, "go", &hook_result) == NULL);
     assert(atomic_load(&parallel_calls) == 2);
     assert(strcmp(hook_result.output, "done") == 0);
+
+    AgentHookContext hitl = {0};
+    const char *interrupt_tools[] = {"echo"};
+    PxInterruptDecision approve_decision = {"approve", NULL, NULL, NULL};
+    hitl_decision_value = &approve_decision;
+    PxAgentOptions hitl_options = {
+        .generate = hook_model,
+        .invoke = hook_tool,
+        .emit = hook_emit,
+        .ctx = &hitl,
+        .interrupt_on = interrupt_tools,
+        .interrupt_on_count = 1,
+        .on_interrupt = hitl_decision,
+    };
+    PxAgentResult hitl_result;
+    assert(px_agent_run(&arena, &hitl_options, NULL, "go", &hitl_result) == NULL);
+    assert(hitl.tool_calls == 1);
+    assert(strcmp(hitl.events[1], "tool.interrupt") == 0);
+
+    AgentHookContext edit = {0};
+    PxInterruptDecision edit_decision = {
+        "edit", px_parse(&arena, "{\"text\":\"edited\"}"), NULL, NULL};
+    hitl_decision_value = &edit_decision;
+    PxAgentOptions edit_options = hitl_options;
+    edit_options.ctx = &edit;
+    edit_options.authorize = hook_policy;
+    PxAgentResult edit_result;
+    assert(px_agent_run(&arena, &edit_options, NULL, "go", &edit_result) == NULL);
+    assert(edit.tool_calls == 1);
+    assert(edit.policy_tool_calls == 2);
+    assert(strcmp(edit.last_tool_text, "edited") == 0);
+
+    AgentHookContext reject = {0};
+    PxInterruptDecision reject_decision = {"reject", NULL, NULL, "no"};
+    hitl_decision_value = &reject_decision;
+    PxAgentOptions reject_options = hitl_options;
+    reject_options.ctx = &reject;
+    assert(strcmp(px_agent_run(&arena, &reject_options, NULL, "go", &hitl_result),
+        "AGENT_APPROVAL_DENIED") == 0);
+    assert(reject.tool_calls == 0);
+
+    AgentHookContext unhandled = {0};
+    PxAgentOptions unhandled_options = hitl_options;
+    unhandled_options.ctx = &unhandled;
+    unhandled_options.on_interrupt = NULL;
+    assert(strcmp(px_agent_run(&arena, &unhandled_options, NULL, "go", &hitl_result),
+        "AGENT_INTERRUPT_UNHANDLED") == 0);
+    assert(unhandled.tool_calls == 0);
+
+    AgentHookContext respond = {0};
+    PxInterruptDecision respond_decision = {
+        "respond", NULL, "human answer", NULL};
+    hitl_decision_value = &respond_decision;
+    PxAgentOptions respond_options = hitl_options;
+    respond_options.generate = hitl_respond_model;
+    respond_options.ctx = &respond;
+    assert(px_agent_run(&arena, &respond_options, NULL, "go", &hitl_result) == NULL);
+    assert(respond.tool_calls == 0);
+    assert(strcmp(hitl_result.output, "\"human answer\"") == 0);
 
     px_arena_free(&arena);
     printf("C Core API tests passed\n");

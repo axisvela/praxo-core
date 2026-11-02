@@ -49,3 +49,7 @@ coverage does not imply parity for these unrepresented capabilities.
 | `agent/middleware.PIIMiddleware` | `px_pii_redact` | parity | P1 |
 | `agent/middleware.StructuredOutput` | `px_apply_structured` | parity | P1 |
 | `agent/middleware.ToolSelectionMiddleware` | `px_select_tools` | parity | P1 |
+| `agent/hitl.Interrupt` | `PxInterruptDecision` | parity | P2 |
+| `agent/hitl.InterruptDecision` | `PxInterruptDecision` | parity | P2 |
+| `agent/hitl.InterruptHandler` | `PxInterruptHandler` | parity | P2 |
+| `agent.Options.OnInterrupt` | `PxAgentOptions.on_interrupt` | parity | P2 |

@@ -15,6 +15,7 @@ typedef struct {
     char *arguments_json;
     char *result_json;
     int owns_result;
+    int skip;
 } CAgentJob;
 
 #if !defined(_WIN32)
@@ -453,6 +454,55 @@ static const char *agent_authorize(const PxAgentOptions *options,
         options->ctx);
 }
 
+static const char *agent_interrupt(PxArena *arena,
+        const PxAgentOptions *options, const char *name,
+        PxValue **arguments, int *skip, char **value_json) {
+    *skip = 0;
+    *value_json = NULL;
+    int wanted = 0;
+    for (size_t index = 0; index < options->interrupt_on_count; index++) {
+        if (options->interrupt_on[index] != NULL
+                && strcmp(options->interrupt_on[index], name) == 0) {
+            wanted = 1;
+            break;
+        }
+    }
+    if (!wanted) {
+        return NULL;
+    }
+    if (options->on_interrupt == NULL) {
+        return "AGENT_INTERRUPT_UNHANDLED";
+    }
+    if (options->emit != NULL) {
+        options->emit("tool.interrupt", options->ctx);
+    }
+    const PxInterruptDecision *decision = options->on_interrupt(name, *arguments,
+        options->ctx);
+    if (decision == NULL || decision->action == NULL) {
+        return "AGENT_INTERRUPT_DECISION_INVALID";
+    }
+    if (strcmp(decision->action, "approve") == 0) {
+        return NULL;
+    }
+    if (strcmp(decision->action, "edit") == 0) {
+        if (decision->arguments == NULL) {
+            return "AGENT_INTERRUPT_DECISION_INVALID";
+        }
+        *arguments = decision->arguments;
+        return NULL;
+    }
+    if (strcmp(decision->action, "reject") == 0) {
+        return "AGENT_APPROVAL_DENIED";
+    }
+    if (strcmp(decision->action, "respond") == 0) {
+        *skip = 1;
+        *value_json = px_stringify(arena,
+            px_str(arena, decision->response == NULL ? "" : decision->response));
+        return NULL;
+    }
+    return "AGENT_INTERRUPT_DECISION_INVALID";
+}
+
 static const char *agent_fail_run(const PxAgentOptions *options, size_t entered,
         const char *code) {
     (void)agent_after_run(options, entered, code);
@@ -520,6 +570,9 @@ const char *px_parse_sse_stream(PxArena *arena, const char *text,
 #if !defined(_WIN32)
 static void *agent_worker(void *raw) {
     CWorker *worker = raw;
+    if (worker->job->skip) {
+        return NULL;
+    }
     PxArena arena;
     px_arena_init(&arena);
     PxValue *arguments = px_parse(&arena, worker->job->arguments_json);
@@ -689,7 +742,24 @@ const char *px_agent_run(PxArena *arena, const PxAgentOptions *options,
                 free(jobs);
                 return agent_fail_run(options, entered, "AGENT_TOOL_NOT_ALLOWED");
             }
+            int skip = 0;
+            char *skip_json = NULL;
+            const char *interrupt_error = agent_interrupt(arena, options,
+                active_name, &active_arguments, &skip, &skip_json);
+            if (interrupt_error != NULL) {
+                free(jobs);
+                return agent_fail_run(options, entered, interrupt_error);
+            }
             char *active_json = px_stringify(arena, active_arguments);
+            if (skip) {
+                jobs[index].name = active_name;
+                jobs[index].id = id;
+                jobs[index].arguments_json = active_json;
+                jobs[index].result_json = skip_json;
+                jobs[index].owns_result = 0;
+                jobs[index].skip = 1;
+                continue;
+            }
             if (strcmp(active_name, original_name) != 0
                     || strcmp(active_json, original_json) != 0) {
                 denied = agent_authorize(options, "tool.invoke", "",
@@ -710,6 +780,7 @@ const char *px_agent_run(PxArena *arena, const PxAgentOptions *options,
             jobs[index].name = active_name;
             jobs[index].id = id;
             jobs[index].arguments_json = active_json;
+            jobs[index].skip = 0;
         }
         int workers = options->max_parallel_tools > 0
             ? options->max_parallel_tools : 1;
@@ -756,6 +827,9 @@ const char *px_agent_run(PxArena *arena, const PxAgentOptions *options,
                     }
                     free(jobs);
                     return agent_fail_run(options, entered, cancelled);
+                }
+                if (jobs[index].skip) {
+                    continue;
                 }
                 if (options->invoke == NULL) {
                     jobs[index].result_json = jobs[index].arguments_json;
