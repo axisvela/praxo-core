@@ -1,6 +1,6 @@
 # Behavior Lab Matrix
 
-**Status:** generated evidence matrix, 2026-11-01. The lab is not a stable public API.
+**Status:** generated evidence matrix, 2026-11-02. The lab is not a stable public API.
 
 This page expands the summary in [Behavior Lab](behavior-lab.md) into a scenario-by-language matrix and per-language report sections. The source is a Behavior Lab JSON report; the raw per-command stdout/stderr remains in the report artifact.
 
@@ -9,14 +9,14 @@ This page expands the summary in [Behavior Lab](behavior-lab.md) into a scenario
 | Metric | Value |
 | --- | ---: |
 | Languages | 16 |
-| Scenarios | 19 |
-| Cells | 304 |
-| Passed | 262 |
-| Unsupported | 42 |
+| Scenarios | 20 |
+| Cells | 320 |
+| Passed | 320 |
+| Unsupported | 0 |
 | Failed | 0 |
 | Source report | `report.json` |
-| Run ID | `20261101T102219Z-2f4a5be4` |
-| Revision | `7a7b79620211eb4053d7676f913394c2b8939364` |
+| Run ID | `20261102T055003Z-32f30752` |
+| Revision | `4ffd83b208913363f2f07ac627a35154321bd515` |
 | Working tree dirty | False |
 
 ## Capability tiers
@@ -25,7 +25,7 @@ The matrix now covers sixteen wired languages. Contract tier is separate from be
 
 | Tier | Languages | Current status |
 | --- | --- | --- |
-| Agent-capable | Go, Python, TypeScript, Java, Rust, R, CSharp | Targets all nineteen scenarios; current coverage varies by language |
+| Agent-capable | Go, Python, TypeScript, Java, Rust, R, CSharp | Targets all twenty scenarios; current coverage varies by language |
 | Extended | C, PHP, Fortran, COBOL, Ruby, Elixir, Erlang, C++, Lua | Advances scenario by scenario with a named consumer and maintainer |
 | Optional | Other declared implementations | Outside the current behavior program |
 
@@ -49,27 +49,28 @@ The matrix now covers sixteen wired languages. Contract tier is separate from be
 | `startup-cleanup` | S | S | S | G | S | N | N | N | N | N | N | N | N | N | N | N |
 | `after-run-continue` | S | S | S | G | S | N | N | N | N | N | N | N | N | N | N | N |
 | `cleanup-failclosed` | S | S | S | G | S | N | N | N | N | N | N | N | N | N | N | N |
-| `model-cancel-cleanup` | S | S | S | G | S | N | N | N | - | N | - | - | - | - | N | - |
-| `tool-cancel-cleanup` | S | S | S | G | S | N | N | N | - | N | - | - | - | - | N | - |
-| `schema-number-unicode` | S | S | S | S | S | N | N | N | - | N | N | N | N | N | N | N |
+| `model-cancel-cleanup` | S | S | S | G | S | N | N | N | N | N | N | N | N | N | N | N |
+| `tool-cancel-cleanup` | S | S | S | G | S | N | N | N | N | N | N | N | N | N | N | N |
+| `schema-number-unicode` | S | S | S | S | S | N | N | N | N | N | N | N | N | N | N | N |
 | `call-limit` | S | S | S | G | S | N | N | N | N | N | N | N | N | N | N | N |
 | `pii-tool-history` | S | S | S | S | S | N | N | N | N | N | N | N | N | N | N | N |
 | `checkpoint-content` | S | S | S | S | S | N | N | N | N | N | N | N | N | N | N | N |
 | `capacity-failclosed` | S | S | S | G | S | N | N | N | N | N | N | N | N | N | N | N |
-| `parallel-tools` | S | S | S | G | S | N | N | N | - | N | - | - | - | - | - | - |
-| `run-state-isolation` | S | S | S | G | S | N | N | N | - | N | - | N | N | - | N | - |
-| `stream-callback-error` | S | S | S | S | S | N | N | N | - | N | - | - | - | - | N | - |
-| `sse-truncated` | S | S | S | G | S | N | N | N | - | N | - | - | - | - | N | - |
-| `sse-half-packet` | S | S | S | G | S | N | N | N | - | N | - | - | - | - | N | - |
+| `parallel-tools` | S | S | S | G | S | N | N | N | N | N | N | N | N | N | N | N |
+| `run-state-isolation` | S | S | S | G | S | N | N | N | N | N | N | N | N | N | N | N |
+| `stream-callback-error` | S | S | S | S | S | N | N | N | N | N | N | N | N | N | N | N |
+| `sse-truncated` | S | S | S | G | S | N | N | N | N | N | N | N | N | N | N | N |
+| `sse-half-packet` | S | S | S | G | S | N | N | N | N | N | N | N | N | N | N | N |
+| `hitl-decision` | S | S | S | G | S | N | N | N | N | N | N | N | N | N | N | N |
 
 ## Per-language reports
 
 ### Go
 
 - Coverage: scenario
-- Passed: 19/19
+- Passed: 20/20
 - Unsupported: 0
-- Covered scenarios: `final-arguments`, `final-name`, `unchanged-single-auth`, `initial-denial`, `startup-cleanup`, `after-run-continue`, `cleanup-failclosed`, `model-cancel-cleanup`, `tool-cancel-cleanup`, `schema-number-unicode`, `call-limit`, `pii-tool-history`, `checkpoint-content`, `capacity-failclosed`, `parallel-tools`, `run-state-isolation`, `stream-callback-error`, `sse-truncated`, `sse-half-packet`
+- Covered scenarios: `final-arguments`, `final-name`, `unchanged-single-auth`, `initial-denial`, `startup-cleanup`, `after-run-continue`, `cleanup-failclosed`, `model-cancel-cleanup`, `tool-cancel-cleanup`, `schema-number-unicode`, `call-limit`, `pii-tool-history`, `checkpoint-content`, `capacity-failclosed`, `parallel-tools`, `run-state-isolation`, `stream-callback-error`, `sse-truncated`, `sse-half-packet`, `hitl-decision`
 - Unsupported scenarios: none
 
 Commands:
@@ -93,14 +94,15 @@ go test ./pkg/agent/middleware ^TestCallLimitMiddlewareSeparatesRuns$
 go test ./pkg/agent ^TestAgentStreamErrorAbortsRun$
 go test ./adapters/openaicompat ^TestAdapterGenerateStreamRejectsTruncatedStream$
 go test ./adapters/openaicompat ^TestAdapterGenerateStreamRejectsHalfPacket$
+go test ./pkg/agent ^(TestInterruptEditReplacesArguments|TestInterruptRejectFailsRun|TestInterruptRespondSkipsTool|TestInterruptApproveRunsTool|TestInterruptInvalidDecision)$
 ```
 
 ### Python
 
 - Coverage: scenario
-- Passed: 19/19
+- Passed: 20/20
 - Unsupported: 0
-- Covered scenarios: `final-arguments`, `final-name`, `unchanged-single-auth`, `initial-denial`, `startup-cleanup`, `after-run-continue`, `cleanup-failclosed`, `model-cancel-cleanup`, `tool-cancel-cleanup`, `schema-number-unicode`, `call-limit`, `pii-tool-history`, `checkpoint-content`, `capacity-failclosed`, `parallel-tools`, `run-state-isolation`, `stream-callback-error`, `sse-truncated`, `sse-half-packet`
+- Covered scenarios: `final-arguments`, `final-name`, `unchanged-single-auth`, `initial-denial`, `startup-cleanup`, `after-run-continue`, `cleanup-failclosed`, `model-cancel-cleanup`, `tool-cancel-cleanup`, `schema-number-unicode`, `call-limit`, `pii-tool-history`, `checkpoint-content`, `capacity-failclosed`, `parallel-tools`, `run-state-isolation`, `stream-callback-error`, `sse-truncated`, `sse-half-packet`, `hitl-decision`
 - Unsupported scenarios: none
 
 Commands:
@@ -125,14 +127,15 @@ python tests.test_middleware.MiddlewareTest.test_call_limit_state_is_isolated_by
 python tests.test_openaicompat.StreamingAgentTest.test_stream_callback_failure_aborts_run
 python tests.test_openaicompat.OpenAICompatTest.test_generate_stream_rejects_truncated_stream
 python tests.test_openaicompat.OpenAICompatTest.test_generate_stream_rejects_half_packet
+python tests.test_hitl
 ```
 
 ### TypeScript
 
 - Coverage: scenario
-- Passed: 19/19
+- Passed: 20/20
 - Unsupported: 0
-- Covered scenarios: `final-arguments`, `final-name`, `unchanged-single-auth`, `initial-denial`, `startup-cleanup`, `after-run-continue`, `cleanup-failclosed`, `model-cancel-cleanup`, `tool-cancel-cleanup`, `schema-number-unicode`, `call-limit`, `pii-tool-history`, `checkpoint-content`, `capacity-failclosed`, `parallel-tools`, `run-state-isolation`, `stream-callback-error`, `sse-truncated`, `sse-half-packet`
+- Covered scenarios: `final-arguments`, `final-name`, `unchanged-single-auth`, `initial-denial`, `startup-cleanup`, `after-run-continue`, `cleanup-failclosed`, `model-cancel-cleanup`, `tool-cancel-cleanup`, `schema-number-unicode`, `call-limit`, `pii-tool-history`, `checkpoint-content`, `capacity-failclosed`, `parallel-tools`, `run-state-isolation`, `stream-callback-error`, `sse-truncated`, `sse-half-packet`, `hitl-decision`
 - Unsupported scenarios: none
 
 Commands:
@@ -157,14 +160,15 @@ node --test tests/behavior.test.js call limit state is isolated by run
 node --test tests/behavior.test.js stream callback failure aborts run
 node --test tests/openaicompat.test.js OpenAI-compatible stream rejects truncation
 node --test tests/openaicompat.test.js OpenAI-compatible stream rejects half packet
+node --test tests/hitl.test.js approve|edit|reject|respond|invalid|unhandled|boolean|emits
 ```
 
 ### Java
 
 - Coverage: group, scenario
-- Passed: 19/19
+- Passed: 20/20
 - Unsupported: 0
-- Covered scenarios: `final-arguments`, `final-name`, `unchanged-single-auth`, `initial-denial`, `startup-cleanup`, `after-run-continue`, `cleanup-failclosed`, `model-cancel-cleanup`, `tool-cancel-cleanup`, `schema-number-unicode`, `call-limit`, `pii-tool-history`, `checkpoint-content`, `capacity-failclosed`, `parallel-tools`, `run-state-isolation`, `stream-callback-error`, `sse-truncated`, `sse-half-packet`
+- Covered scenarios: `final-arguments`, `final-name`, `unchanged-single-auth`, `initial-denial`, `startup-cleanup`, `after-run-continue`, `cleanup-failclosed`, `model-cancel-cleanup`, `tool-cancel-cleanup`, `schema-number-unicode`, `call-limit`, `pii-tool-history`, `checkpoint-content`, `capacity-failclosed`, `parallel-tools`, `run-state-isolation`, `stream-callback-error`, `sse-truncated`, `sse-half-packet`, `hitl-decision`
 - Unsupported scenarios: none
 
 Commands:
@@ -179,14 +183,15 @@ java com.axisvela.praxo.checkpoint.CheckpointSelfTest
 java com.axisvela.praxo.agent.AgentConcurrencySelfTest
 java com.axisvela.praxo.agent.AgentStreamSelfTest
 java --add-modules jdk.httpserver com.axisvela.praxo.adapters.OpenAICompatibleSelfTest
+java com.axisvela.praxo.agent.AgentHitlSelfTest
 ```
 
 ### Rust
 
 - Coverage: scenario
-- Passed: 19/19
+- Passed: 20/20
 - Unsupported: 0
-- Covered scenarios: `final-arguments`, `final-name`, `unchanged-single-auth`, `initial-denial`, `startup-cleanup`, `after-run-continue`, `cleanup-failclosed`, `model-cancel-cleanup`, `tool-cancel-cleanup`, `schema-number-unicode`, `call-limit`, `pii-tool-history`, `checkpoint-content`, `capacity-failclosed`, `parallel-tools`, `run-state-isolation`, `stream-callback-error`, `sse-truncated`, `sse-half-packet`
+- Covered scenarios: `final-arguments`, `final-name`, `unchanged-single-auth`, `initial-denial`, `startup-cleanup`, `after-run-continue`, `cleanup-failclosed`, `model-cancel-cleanup`, `tool-cancel-cleanup`, `schema-number-unicode`, `call-limit`, `pii-tool-history`, `checkpoint-content`, `capacity-failclosed`, `parallel-tools`, `run-state-isolation`, `stream-callback-error`, `sse-truncated`, `sse-half-packet`, `hitl-decision`
 - Unsupported scenarios: none
 
 Commands:
@@ -210,14 +215,15 @@ cargo test --test sdk parallel_tools_start_together_and_keep_result_order
 cargo test --test sdk call_limit_state_is_isolated_by_run
 cargo test --test sdk stream_callback_failure_aborts_run
 cargo test --test sdk sse_stream_rejects_truncation_and_half_packets
+cargo test --test hitl
 ```
 
 ### R
 
 - Coverage: suite
-- Passed: 19/19
+- Passed: 20/20
 - Unsupported: 0
-- Covered scenarios: `final-arguments`, `final-name`, `unchanged-single-auth`, `initial-denial`, `startup-cleanup`, `after-run-continue`, `cleanup-failclosed`, `model-cancel-cleanup`, `tool-cancel-cleanup`, `schema-number-unicode`, `call-limit`, `pii-tool-history`, `checkpoint-content`, `capacity-failclosed`, `parallel-tools`, `run-state-isolation`, `stream-callback-error`, `sse-truncated`, `sse-half-packet`
+- Covered scenarios: `final-arguments`, `final-name`, `unchanged-single-auth`, `initial-denial`, `startup-cleanup`, `after-run-continue`, `cleanup-failclosed`, `model-cancel-cleanup`, `tool-cancel-cleanup`, `schema-number-unicode`, `call-limit`, `pii-tool-history`, `checkpoint-content`, `capacity-failclosed`, `parallel-tools`, `run-state-isolation`, `stream-callback-error`, `sse-truncated`, `sse-half-packet`, `hitl-decision`
 - Unsupported scenarios: none
 
 Commands:
@@ -229,9 +235,9 @@ Rscript language/r/tests/run_tests.R
 ### CSharp
 
 - Coverage: suite
-- Passed: 19/19
+- Passed: 20/20
 - Unsupported: 0
-- Covered scenarios: `final-arguments`, `final-name`, `unchanged-single-auth`, `initial-denial`, `startup-cleanup`, `after-run-continue`, `cleanup-failclosed`, `model-cancel-cleanup`, `tool-cancel-cleanup`, `schema-number-unicode`, `call-limit`, `pii-tool-history`, `checkpoint-content`, `capacity-failclosed`, `parallel-tools`, `run-state-isolation`, `stream-callback-error`, `sse-truncated`, `sse-half-packet`
+- Covered scenarios: `final-arguments`, `final-name`, `unchanged-single-auth`, `initial-denial`, `startup-cleanup`, `after-run-continue`, `cleanup-failclosed`, `model-cancel-cleanup`, `tool-cancel-cleanup`, `schema-number-unicode`, `call-limit`, `pii-tool-history`, `checkpoint-content`, `capacity-failclosed`, `parallel-tools`, `run-state-isolation`, `stream-callback-error`, `sse-truncated`, `sse-half-packet`, `hitl-decision`
 - Unsupported scenarios: none
 
 Commands:
@@ -243,9 +249,9 @@ dotnet run --project language/csharp/Praxo.Tests
 ### C
 
 - Coverage: suite
-- Passed: 19/19
+- Passed: 20/20
 - Unsupported: 0
-- Covered scenarios: `final-arguments`, `final-name`, `unchanged-single-auth`, `initial-denial`, `startup-cleanup`, `after-run-continue`, `cleanup-failclosed`, `model-cancel-cleanup`, `tool-cancel-cleanup`, `schema-number-unicode`, `call-limit`, `pii-tool-history`, `checkpoint-content`, `capacity-failclosed`, `parallel-tools`, `run-state-isolation`, `stream-callback-error`, `sse-truncated`, `sse-half-packet`
+- Covered scenarios: `final-arguments`, `final-name`, `unchanged-single-auth`, `initial-denial`, `startup-cleanup`, `after-run-continue`, `cleanup-failclosed`, `model-cancel-cleanup`, `tool-cancel-cleanup`, `schema-number-unicode`, `call-limit`, `pii-tool-history`, `checkpoint-content`, `capacity-failclosed`, `parallel-tools`, `run-state-isolation`, `stream-callback-error`, `sse-truncated`, `sse-half-packet`, `hitl-decision`
 - Unsupported scenarios: none
 
 Commands:
@@ -257,10 +263,10 @@ ctest --test-dir language/c/build --output-on-failure
 ### Fortran
 
 - Coverage: suite
-- Passed: 11/19
-- Unsupported: 8
-- Covered scenarios: `final-arguments`, `final-name`, `unchanged-single-auth`, `initial-denial`, `startup-cleanup`, `after-run-continue`, `cleanup-failclosed`, `call-limit`, `pii-tool-history`, `checkpoint-content`, `capacity-failclosed`
-- Unsupported scenarios: `model-cancel-cleanup`, `tool-cancel-cleanup`, `schema-number-unicode`, `parallel-tools`, `run-state-isolation`, `stream-callback-error`, `sse-truncated`, `sse-half-packet`
+- Passed: 20/20
+- Unsupported: 0
+- Covered scenarios: `final-arguments`, `final-name`, `unchanged-single-auth`, `initial-denial`, `startup-cleanup`, `after-run-continue`, `cleanup-failclosed`, `model-cancel-cleanup`, `tool-cancel-cleanup`, `schema-number-unicode`, `call-limit`, `pii-tool-history`, `checkpoint-content`, `capacity-failclosed`, `parallel-tools`, `run-state-isolation`, `stream-callback-error`, `sse-truncated`, `sse-half-packet`, `hitl-decision`
+- Unsupported scenarios: none
 
 Commands:
 
@@ -271,9 +277,9 @@ python language/fortran/run-tests.py
 ### COBOL
 
 - Coverage: suite
-- Passed: 19/19
+- Passed: 20/20
 - Unsupported: 0
-- Covered scenarios: `final-arguments`, `final-name`, `unchanged-single-auth`, `initial-denial`, `startup-cleanup`, `after-run-continue`, `cleanup-failclosed`, `model-cancel-cleanup`, `tool-cancel-cleanup`, `schema-number-unicode`, `call-limit`, `pii-tool-history`, `checkpoint-content`, `capacity-failclosed`, `parallel-tools`, `run-state-isolation`, `stream-callback-error`, `sse-truncated`, `sse-half-packet`
+- Covered scenarios: `final-arguments`, `final-name`, `unchanged-single-auth`, `initial-denial`, `startup-cleanup`, `after-run-continue`, `cleanup-failclosed`, `model-cancel-cleanup`, `tool-cancel-cleanup`, `schema-number-unicode`, `call-limit`, `pii-tool-history`, `checkpoint-content`, `capacity-failclosed`, `parallel-tools`, `run-state-isolation`, `stream-callback-error`, `sse-truncated`, `sse-half-packet`, `hitl-decision`
 - Unsupported scenarios: none
 
 Commands:
@@ -285,10 +291,10 @@ python language/cobol/run-tests.py
 ### Ruby
 
 - Coverage: suite
-- Passed: 12/19
-- Unsupported: 7
-- Covered scenarios: `final-arguments`, `final-name`, `unchanged-single-auth`, `initial-denial`, `startup-cleanup`, `after-run-continue`, `cleanup-failclosed`, `schema-number-unicode`, `call-limit`, `pii-tool-history`, `checkpoint-content`, `capacity-failclosed`
-- Unsupported scenarios: `model-cancel-cleanup`, `tool-cancel-cleanup`, `parallel-tools`, `run-state-isolation`, `stream-callback-error`, `sse-truncated`, `sse-half-packet`
+- Passed: 20/20
+- Unsupported: 0
+- Covered scenarios: `final-arguments`, `final-name`, `unchanged-single-auth`, `initial-denial`, `startup-cleanup`, `after-run-continue`, `cleanup-failclosed`, `model-cancel-cleanup`, `tool-cancel-cleanup`, `schema-number-unicode`, `call-limit`, `pii-tool-history`, `checkpoint-content`, `capacity-failclosed`, `parallel-tools`, `run-state-isolation`, `stream-callback-error`, `sse-truncated`, `sse-half-packet`, `hitl-decision`
+- Unsupported scenarios: none
 
 Commands:
 
@@ -299,10 +305,10 @@ ruby language/ruby/tests/run.rb
 ### Elixir
 
 - Coverage: suite
-- Passed: 13/19
-- Unsupported: 6
-- Covered scenarios: `final-arguments`, `final-name`, `unchanged-single-auth`, `initial-denial`, `startup-cleanup`, `after-run-continue`, `cleanup-failclosed`, `schema-number-unicode`, `call-limit`, `pii-tool-history`, `checkpoint-content`, `capacity-failclosed`, `run-state-isolation`
-- Unsupported scenarios: `model-cancel-cleanup`, `tool-cancel-cleanup`, `parallel-tools`, `stream-callback-error`, `sse-truncated`, `sse-half-packet`
+- Passed: 20/20
+- Unsupported: 0
+- Covered scenarios: `final-arguments`, `final-name`, `unchanged-single-auth`, `initial-denial`, `startup-cleanup`, `after-run-continue`, `cleanup-failclosed`, `model-cancel-cleanup`, `tool-cancel-cleanup`, `schema-number-unicode`, `call-limit`, `pii-tool-history`, `checkpoint-content`, `capacity-failclosed`, `parallel-tools`, `run-state-isolation`, `stream-callback-error`, `sse-truncated`, `sse-half-packet`, `hitl-decision`
+- Unsupported scenarios: none
 
 Commands:
 
@@ -313,10 +319,10 @@ mix run tests/run_tests.exs
 ### Erlang
 
 - Coverage: suite
-- Passed: 13/19
-- Unsupported: 6
-- Covered scenarios: `final-arguments`, `final-name`, `unchanged-single-auth`, `initial-denial`, `startup-cleanup`, `after-run-continue`, `cleanup-failclosed`, `schema-number-unicode`, `call-limit`, `pii-tool-history`, `checkpoint-content`, `capacity-failclosed`, `run-state-isolation`
-- Unsupported scenarios: `model-cancel-cleanup`, `tool-cancel-cleanup`, `parallel-tools`, `stream-callback-error`, `sse-truncated`, `sse-half-packet`
+- Passed: 20/20
+- Unsupported: 0
+- Covered scenarios: `final-arguments`, `final-name`, `unchanged-single-auth`, `initial-denial`, `startup-cleanup`, `after-run-continue`, `cleanup-failclosed`, `model-cancel-cleanup`, `tool-cancel-cleanup`, `schema-number-unicode`, `call-limit`, `pii-tool-history`, `checkpoint-content`, `capacity-failclosed`, `parallel-tools`, `run-state-isolation`, `stream-callback-error`, `sse-truncated`, `sse-half-packet`, `hitl-decision`
+- Unsupported scenarios: none
 
 Commands:
 
@@ -327,10 +333,10 @@ python language/erlang/run-tests.py
 ### C++
 
 - Coverage: suite
-- Passed: 12/19
-- Unsupported: 7
-- Covered scenarios: `final-arguments`, `final-name`, `unchanged-single-auth`, `initial-denial`, `startup-cleanup`, `after-run-continue`, `cleanup-failclosed`, `schema-number-unicode`, `call-limit`, `pii-tool-history`, `checkpoint-content`, `capacity-failclosed`
-- Unsupported scenarios: `model-cancel-cleanup`, `tool-cancel-cleanup`, `parallel-tools`, `run-state-isolation`, `stream-callback-error`, `sse-truncated`, `sse-half-packet`
+- Passed: 20/20
+- Unsupported: 0
+- Covered scenarios: `final-arguments`, `final-name`, `unchanged-single-auth`, `initial-denial`, `startup-cleanup`, `after-run-continue`, `cleanup-failclosed`, `model-cancel-cleanup`, `tool-cancel-cleanup`, `schema-number-unicode`, `call-limit`, `pii-tool-history`, `checkpoint-content`, `capacity-failclosed`, `parallel-tools`, `run-state-isolation`, `stream-callback-error`, `sse-truncated`, `sse-half-packet`, `hitl-decision`
+- Unsupported scenarios: none
 
 Commands:
 
@@ -341,10 +347,10 @@ python scripts/cpp_behavior_suite.py
 ### PHP
 
 - Coverage: suite
-- Passed: 18/19
-- Unsupported: 1
-- Covered scenarios: `final-arguments`, `final-name`, `unchanged-single-auth`, `initial-denial`, `startup-cleanup`, `after-run-continue`, `cleanup-failclosed`, `model-cancel-cleanup`, `tool-cancel-cleanup`, `schema-number-unicode`, `call-limit`, `pii-tool-history`, `checkpoint-content`, `capacity-failclosed`, `run-state-isolation`, `stream-callback-error`, `sse-truncated`, `sse-half-packet`
-- Unsupported scenarios: `parallel-tools`
+- Passed: 20/20
+- Unsupported: 0
+- Covered scenarios: `final-arguments`, `final-name`, `unchanged-single-auth`, `initial-denial`, `startup-cleanup`, `after-run-continue`, `cleanup-failclosed`, `model-cancel-cleanup`, `tool-cancel-cleanup`, `schema-number-unicode`, `call-limit`, `pii-tool-history`, `checkpoint-content`, `capacity-failclosed`, `parallel-tools`, `run-state-isolation`, `stream-callback-error`, `sse-truncated`, `sse-half-packet`, `hitl-decision`
+- Unsupported scenarios: none
 
 Commands:
 
@@ -355,10 +361,10 @@ php language/php/tests/run.php
 ### Lua
 
 - Coverage: suite
-- Passed: 12/19
-- Unsupported: 7
-- Covered scenarios: `final-arguments`, `final-name`, `unchanged-single-auth`, `initial-denial`, `startup-cleanup`, `after-run-continue`, `cleanup-failclosed`, `schema-number-unicode`, `call-limit`, `pii-tool-history`, `checkpoint-content`, `capacity-failclosed`
-- Unsupported scenarios: `model-cancel-cleanup`, `tool-cancel-cleanup`, `parallel-tools`, `run-state-isolation`, `stream-callback-error`, `sse-truncated`, `sse-half-packet`
+- Passed: 20/20
+- Unsupported: 0
+- Covered scenarios: `final-arguments`, `final-name`, `unchanged-single-auth`, `initial-denial`, `startup-cleanup`, `after-run-continue`, `cleanup-failclosed`, `model-cancel-cleanup`, `tool-cancel-cleanup`, `schema-number-unicode`, `call-limit`, `pii-tool-history`, `checkpoint-content`, `capacity-failclosed`, `parallel-tools`, `run-state-isolation`, `stream-callback-error`, `sse-truncated`, `sse-half-packet`, `hitl-decision`
+- Unsupported scenarios: none
 
 Commands:
 

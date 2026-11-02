@@ -16,7 +16,7 @@ The following are acceptance targets, not statements that the work is complete.
 | Effect recovery | Version-pinned integration tests distinguish execution intent, business commit, evidence persistence, and uncertain outcomes; retries do not blindly repeat effects |
 | Containment | Filesystem race, process-tree escape, and WASM resource-exhaustion tests state platform limits and residual risks |
 | Provider and observability evidence | Runnable event/OpenTelemetry examples and live workspace-provider verification support only their tested claims; workspace contract promotion requires two-provider review |
-| Language support | Contract conformance, feature coverage, and operational evidence are reported separately; agent-capable implementations target nineteen behavior scenarios, extended implementations advance selectively with a named consumer and maintainer; unsupported cells remain explicit |
+| Language support | Contract conformance, feature coverage, and operational evidence are reported separately; agent-capable implementations target twenty behavior scenarios, extended implementations advance selectively with a named consumer and maintainer; unsupported cells remain explicit |
 
 ## Behavior Capability Tiers
 
@@ -24,12 +24,12 @@ Behavior coverage is tracked separately from contract tier:
 
 | Tier | Languages | Current target |
 | --- | --- | --- |
-| Agent-capable | Go, Python, TypeScript, Java, Rust, R, C# | All nineteen Behavior Lab scenarios; missing cells stay explicit |
+| Agent-capable | Go, Python, TypeScript, Java, Rust, R, C# | All twenty Behavior Lab scenarios; missing cells stay explicit |
 | Extended | C, PHP, Fortran, COBOL, Ruby, Elixir, Erlang, C++, Lua | Scenario-by-scenario only with a named consumer and maintainer |
 | Optional | Other declared implementations | Outside the behavior program; contract conformance unchanged |
 
-The clean sixteen-language report has 262 passed, 42 unsupported, and no
-failures. All sixteen wired languages now cover nineteen scenarios in the
+The clean sixteen-language report has 320 passed, 0 unsupported, and no
+failures. All sixteen wired languages now cover twenty scenarios in the
 source; some parallel-tool cells delegate concurrency to caller-provided batch
 callbacks without Core-created threads. Do not treat an unsupported cell as a
 failure or a pass, and do not add languages or scenarios solely to raise the

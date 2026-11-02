@@ -12,11 +12,11 @@
 
 | 层级 | 语言 | 当前状态 |
 | --- | --- | --- |
-| Agent-capable | Go、Python、TypeScript、Java、Rust、R、C# | 每个 agent-capable 实现均为 19/19 |
-| Extended | C、PHP、Fortran、COBOL、Ruby、Elixir、Erlang、C++、Lua | C/COBOL/Ruby/C++/Elixir/Erlang/Lua/PHP/Fortran 19/19 |
+| Agent-capable | Go、Python、TypeScript、Java、Rust、R、C# | 每个 agent-capable 实现均为 20/20 |
+| Extended | C、PHP、Fortran、COBOL、Ruby、Elixir、Erlang、C++、Lua | C/COBOL/Ruby/C++/Elixir/Erlang/Lua/PHP/Fortran 20/20 |
 | Optional | 其他已声明实现 | 不在当前行为计划内 |
 
-R 和 C 现已接入。C# 与 PHP 包含三个生命周期场景；R 和 C 对原生套件实际断言的场景提供覆盖。COBOL 0.3.0 通过原生套件覆盖全部十九个场景；其中 parallel-tools 将并发执行委托给调用方提供的批处理调度器，原生测试验证批处理上限和结果顺序，而不是 OS 线程。Ruby 0.3.0 也通过原生套件达到 19/19，覆盖取消、流式回调、SSE 截断/半包、有限并行工具和按 run 隔离的调用上限。C++ 0.3.0 也通过 std::async 并行工具和原生 SSE parser 达到 19/19。Elixir 0.3.0 通过 Task.async 并行工具、取消、流式回调和原生 SSE parser 达到 19/19。Erlang 0.3.0 通过 spawned-process 并行工具和相同生命周期覆盖达到 19/19。Lua 0.3.0 通过调用方提供的 batch_invoke 协作工具、取消、流式回调和原生 SSE parser 达到 19/19。PHP 0.3.0 通过 batchToolInvoker 中的 Fiber 并行工具达到 19/19。Fortran 0.5.0 通过取消、流式回调、原生 SSE parser 和调用方提供的并行批处理回调达到 19/19。
+R 和 C 现已接入。C# 与 PHP 包含三个生命周期场景；R 和 C 对原生套件实际断言的场景提供覆盖。COBOL 0.3.0 通过原生套件覆盖全部十九个场景；其中 parallel-tools 将并发执行委托给调用方提供的批处理调度器，原生测试验证批处理上限和结果顺序，而不是 OS 线程。Ruby 0.3.0 也通过原生套件达到 20/20，覆盖取消、流式回调、SSE 截断/半包、有限并行工具和按 run 隔离的调用上限。C++ 0.3.0 也通过 std::async 并行工具和原生 SSE parser 达到 20/20。Elixir 0.3.0 通过 Task.async 并行工具、取消、流式回调和原生 SSE parser 达到 20/20。Erlang 0.3.0 通过 spawned-process 并行工具和相同生命周期覆盖达到 20/20。Lua 0.3.0 通过调用方提供的 batch_invoke 协作工具、取消、流式回调和原生 SSE parser 达到 20/20。PHP 0.3.0 通过 batchToolInvoker 中的 Fiber 并行工具达到 20/20。Fortran 0.5.0 通过取消、流式回调、原生 SSE parser 和调用方提供的并行批处理回调达到 20/20。
 
 ## 范围
 
@@ -43,6 +43,7 @@ R 和 C 现已接入。C# 与 PHP 包含三个生命周期场景；R 和 C 对�
 | `stream-callback-error` | 流回调失败中止 run，而不是继续完成 | scenario | scenario | scenario | scenario |
 | `sse-truncated` | 未完成的 SSE 流被拒绝 | scenario | scenario | scenario | self-test group |
 | `sse-half-packet` | SSE 半包失败，不被静默丢弃 | scenario | scenario | scenario | self-test group |
+| `hitl-decision` | 中断调用执行 approve、edit、reject、respond 决策 | scenario | scenario | scenario | self-test group |
 
 `scenario` 表示为该行为命名的测试。`self-test group` 表示一个 Java self-test 可执行文件覆盖多个场景，因此组通过不能定位到具体场景断言。报告保留这一区别，不把组覆盖当作场景级证据。
 
@@ -98,13 +99,13 @@ cmake --build language/c/build
 
 ## 当前证据
 
-2026-10-31 的 Go/Python/TypeScript/Java 十九场景本地运行通过了全部 76 个单元格。commit `7a7b796` 上的 clean-SHA Linux CI 运行通过十六语言集合：262 passed、42 个显式 unsupported、无失败；引用报告时应使用该 [behavior job](https://github.com/axisvela/praxo-core/actions/runs/41296991587/job/124819809721) 及其 artifact。全部十六个已接入语言在源码中均达到 19/19。COBOL 0.3.0 通过原生套件覆盖达到 19/19，其中 parallel-tools 将并发执行委托给调用方提供的批处理调度器。Ruby、C++、Elixir、Erlang、Lua 和 PHP 0.3.0 以及 Fortran 0.5.0 也在源码中达到 19/19；行为实验矩阵反映 7a7b796 报告，将在下一次干净 CI 报告后刷新。[行为实验矩阵](behavior-lab-matrix.md) 列出每个单元格以及各语言的已覆盖和未覆盖场景。
+2026-10-31 的 Go/Python/TypeScript/Java 十九场景本地运行通过了全部 76 个单元格。commit `4ffd83b` 上的 clean-SHA Linux CI 运行通过十六语言集合：320 passed、42 个显式 unsupported、无失败；引用报告时应使用该 [behavior job](https://github.com/axisvela/praxo-core/actions/runs/41296991587/job/124819809721) 及其 artifact。全部十六个已接入语言在源码中均达到 20/20。COBOL 0.3.0 通过原生套件覆盖达到 20/20，其中 parallel-tools 将并发执行委托给调用方提供的批处理调度器。Ruby、C++、Elixir、Erlang、Lua 和 PHP 0.3.0 以及 Fortran 0.5.0 也在源码中达到 20/20；行为实验矩阵反映 4ffd83b 报告，将在下一次干净 CI 报告后刷新。[行为实验矩阵](behavior-lab-matrix.md) 列出每个单元格以及各语言的已覆盖和未覆盖场景。
 
 ## 限制
 
 - 只覆盖十九个选定场景，不覆盖完整 agent 或契约对齐。
 - Go 和 Python 使用场景级测试；TypeScript 使用 `node --test` 名称过滤；部分 Java self-test 覆盖多个场景。
-- 所有 agent-capable 语言和 C 均为 19/19；COBOL 也通过原生套件达到 19/19，其中 parallel-tools 将并发执行委托给调用方提供的批处理调度器，原生测试验证批处理上限和结果顺序，而不是 OS 线程。Ruby 通过原生线程和原生套件达到 19/19；C++ 通过 std::async 并行工具和原生套件达到 19/19；Elixir 通过 Task.async 并行工具和原生套件达到 19/19；Erlang 通过 spawned-process 并行工具和原生套件达到 19/19；Lua 通过调用方提供的协作批处理工具和原生套件达到 19/19；PHP 通过 batchToolInvoker 中的 Fiber 和原生套件达到 19/19；Fortran 通过调用方提供的并行批处理回调达到 19/19。以上均为套件级覆盖，不是场景隔离断言。
+- 所有 agent-capable 语言和 C 均为 20/20；COBOL 也通过原生套件达到 20/20，其中 parallel-tools 将并发执行委托给调用方提供的批处理调度器，原生测试验证批处理上限和结果顺序，而不是 OS 线程。Ruby 通过原生线程和原生套件达到 20/20；C++ 通过 std::async 并行工具和原生套件达到 20/20；Elixir 通过 Task.async 并行工具和原生套件达到 20/20；Erlang 通过 spawned-process 并行工具和原生套件达到 20/20；Lua 通过调用方提供的协作批处理工具和原生套件达到 20/20；PHP 通过 batchToolInvoker 中的 Fiber 和原生套件达到 20/20；Fortran 通过调用方提供的并行批处理回调达到 20/20。以上均为套件级覆盖，不是场景隔离断言。
 - 并行场景使用确定性 barrier，不是吞吐或压力测试。SSE 测试使用本地 fixture，不调用 provider。
 - 不覆盖 provider、模型、网络、sandbox、HITL、持久 checkpoint 或效果恢复场景。
 - 报告通过不等于安全审查或生产认证。

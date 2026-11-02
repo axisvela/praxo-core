@@ -27,7 +27,7 @@ LANGUAGES = [
 LABELS = {
     "en": {
         "title": "# Behavior Lab Matrix",
-        "status": "**Status:** generated evidence matrix, 2026-11-01. The lab is not a stable public API.",
+        "status": "**Status:** generated evidence matrix, 2026-11-02. The lab is not a stable public API.",
         "intro": (
             "This page expands the summary in [Behavior Lab](behavior-lab.md) into a "
             "scenario-by-language matrix and per-language report sections. The source "
@@ -56,7 +56,7 @@ LABELS = {
         "tiers_table": [
             "| Tier | Languages | Current status |",
             "| --- | --- | --- |",
-            "| Agent-capable | Go, Python, TypeScript, Java, Rust, R, CSharp | Targets all nineteen scenarios; current coverage varies by language |",
+            "| Agent-capable | Go, Python, TypeScript, Java, Rust, R, CSharp | Targets all twenty scenarios; current coverage varies by language |",
             "| Extended | C, PHP, Fortran, COBOL, Ruby, Elixir, Erlang, C++, Lua | Advances scenario by scenario with a named consumer and maintainer |",
             "| Optional | Other declared implementations | Outside the current behavior program |",
         ],
@@ -86,7 +86,7 @@ LABELS = {
     },
     "zh": {
         "title": "# 行为实验矩阵",
-        "status": "**状态：** 自动生成的证据矩阵，2026-11-01。该实验不是稳定的公开 API。",
+        "status": "**状态：** 自动生成的证据矩阵，2026-11-02。该实验不是稳定的公开 API。",
         "intro": (
             "本页把[行为实验](behavior-lab.md)的汇总展开为场景×语言矩阵和逐语言报告。"
             "数据源是 Behavior Lab JSON 报告；每条命令的 stdout/stderr 保留在报告 artifact 中。"
@@ -113,7 +113,7 @@ LABELS = {
         "tiers_table": [
             "| 层级 | 语言 | 当前状态 |",
             "| --- | --- | --- |",
-            "| Agent-capable | Go、Python、TypeScript、Java、Rust、R、CSharp | 以全部十九个场景为目标；当前覆盖因语言而异 |",
+            "| Agent-capable | Go、Python、TypeScript、Java、Rust、R、CSharp | 以全部二十个场景为目标；当前覆盖因语言而异 |",
             "| Extended | C、PHP、Fortran、COBOL、Ruby、Elixir、Erlang、C++、Lua | 在有明确消费者和维护者时逐场景推进 |",
             "| Optional | 其他已声明实现 | 不在当前行为计划内 |",
         ],

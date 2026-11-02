@@ -1,6 +1,6 @@
 # Behavior Lab
 
-**Status:** evidence tooling, 2026-11-01. The lab is not a stable public API.
+**Status:** evidence tooling, 2026-11-02. The lab is not a stable public API.
 
 The behavior lab runs named agent scenarios across sixteen wired
 implementations and writes one comparison report. The agent-capable tier is Go,
@@ -24,26 +24,26 @@ Behavior tier is separate from contract tier. See the
 
 | Tier | Languages | Current status |
 | --- | --- | --- |
-| Agent-capable | Go, Python, TypeScript, Java, Rust, R, C# | 19/19 for every agent-capable implementation |
-| Extended | C, PHP, Fortran, COBOL, Ruby, Elixir, Erlang, C++, Lua | All nineteen scenarios for C, PHP, Fortran, COBOL, Ruby, Elixir, Erlang, C++, and Lua |
+| Agent-capable | Go, Python, TypeScript, Java, Rust, R, C# | 20/20 for every agent-capable implementation |
+| Extended | C, PHP, Fortran, COBOL, Ruby, Elixir, Erlang, C++, Lua | All twenty scenarios for C, PHP, Fortran, COBOL, Ruby, Elixir, Erlang, C++, and Lua |
 | Optional | Other declared implementations | Outside the current behavior program |
 
 R and C are now wired. C# and PHP include the three lifecycle scenarios, and R
 and C contribute native-suite coverage for the data and state scenarios their
-suites assert. COBOL `0.3.0` covers all nineteen scenarios through its native
+suites assert. COBOL `0.3.0` covers all twenty scenarios through its native
 suite; its parallel-tools case delegates concurrent execution to a
 caller-provided batch dispatcher, and the native test verifies the batch limit
-and ordered results rather than OS threads. Ruby `0.3.0` also reaches 19/19 with
+and ordered results rather than OS threads. Ruby `0.3.0` also reaches 20/20 with
 native-suite coverage for cancellation, stream callbacks, SSE truncation and
 half packets, bounded parallel tools, and run-scoped call limits. C++ `0.3.0`
-also reaches 19/19 with `std::async` parallel tools and native SSE parsing.
-Elixir `0.3.0` reaches 19/19 with `Task.async` parallel tools, cancellation,
-stream callbacks, and a native SSE parser. Erlang `0.3.0` reaches 19/19 with
+also reaches 20/20 with `std::async` parallel tools and native SSE parsing.
+Elixir `0.3.0` reaches 20/20 with `Task.async` parallel tools, cancellation,
+stream callbacks, and a native SSE parser. Erlang `0.3.0` reaches 20/20 with
 spawned-process parallel tools and the same lifecycle coverage. Lua `0.3.0`
-reaches 19/19 with caller-provided `batch_invoke` cooperative tools, cancellation,
-stream callbacks, and a native SSE parser. PHP `0.3.0` reaches 19/19 with
+reaches 20/20 with caller-provided `batch_invoke` cooperative tools, cancellation,
+stream callbacks, and a native SSE parser. PHP `0.3.0` reaches 20/20 with
 caller-provided `batchToolInvoker` Fibers for parallel tools. Fortran `0.5.0`
-reaches 19/19 with cancellation, stream callbacks, a native SSE parser, and a
+reaches 20/20 with cancellation, stream callbacks, a native SSE parser, and a
 caller-provided parallel batch callback.
 
 ## Scope
@@ -73,6 +73,7 @@ languages, are reported in the [matrix](behavior-lab-matrix.md).
 | `stream-callback-error` | Stream callback failure aborts instead of completing the run | scenario | scenario | scenario | scenario |
 | `sse-truncated` | SSE streams without completion are rejected | scenario | scenario | scenario | self-test group |
 | `sse-half-packet` | SSE half-packets fail instead of being silently dropped | scenario | scenario | scenario | self-test group |
+| `hitl-decision` | Interrupted calls apply approve, edit, reject, and respond decisions | scenario | scenario | scenario | self-test group |
 
 `scenario` means a test named for that behavior. `self-test group` means one
 Java self-test executable covers several scenarios, so a passing group does not
@@ -92,12 +93,12 @@ instead of treating group coverage as scenario-level evidence.
 
 `native suite` means the implementation's full native test executable passed.
 It is not isolated to the named scenario, so a failure cannot be attributed from
-this cell alone. All sixteen wired languages now cover all nineteen scenarios in
+this cell alone. All sixteen wired languages now cover all twenty scenarios in
 the source; optional implementations remain outside this program.
 
 C# has native-suite coverage for `final-arguments`, `final-name`,
 `unchanged-single-auth`, and `initial-denial`. The extended languages have
-native-suite coverage for all nineteen scenarios, including cancellation, stream
+native-suite coverage for all twenty scenarios, including cancellation, stream
 callback failure, SSE truncation and half packets, parallel tools, and run-state
 isolation. The full cell-by-cell matrix and per-language reports are in the
 [Behavior Lab Matrix](behavior-lab-matrix.md).
@@ -151,33 +152,31 @@ overwritten; `latest.json` is only a convenience pointer.
 
 ## Current Evidence
 
-The Go/Python/TypeScript/Java local nineteen-scenario run on 2026-10-31 passed
-all 76 cells. The clean-SHA Linux CI run on commit `7a7b796` passed the
-sixteen-language set with 262 passed, 42 explicitly unsupported, and no
-failures; use that [behavior job](https://github.com/axisvela/praxo-core/actions/runs/41296991587/job/124819809721)
-and its artifact when citing the report. All sixteen wired languages reach
-19/19 in the source. COBOL `0.3.0` reaches 19/19 through native-suite coverage,
-with parallel tools delegated to a caller-provided batch dispatcher. Ruby, C++,
-Elixir, Erlang, Lua, and PHP `0.3.0` and Fortran `0.5.0` also reach 19/19; the
-[Behavior Lab Matrix](behavior-lab-matrix.md) reflects the `7a7b796` report and
-will be refreshed from the next clean CI report.
+The clean-tree local run at `4ffd83b` on 2026-11-02 passed the sixteen-language
+set with 320 passed, 0 explicitly unsupported, and no failures: every wired
+language reaches 20/20. The [Behavior Lab Matrix](behavior-lab-matrix.md)
+reflects that report. CI re-pinning is still required before citing a CI job
+for this revision. COBOL reaches 20/20 through native-suite coverage, with
+parallel tools delegated to a caller-provided batch dispatcher. Ruby, C++,
+Elixir, Erlang, Lua, PHP, Fortran, C, and the agent-capable SDKs also reach
+20/20; all sixteen now include the HITL decision scenario.
 
 ## Limits
 
-- Nineteen selected scenarios, not full agent or contract parity.
+- Twenty selected scenarios, not full agent or contract parity.
 - Go and Python use scenario-level tests; TypeScript uses `node --test` name
   filters; some Java self-tests cover more than one scenario.
-- All sixteen wired languages pass all nineteen scenarios in the source. COBOL
-  reaches 19/19 through its native suite; its parallel-tools case delegates
+- All sixteen wired languages pass all twenty scenarios in the source. COBOL
+  reaches 20/20 through its native suite; its parallel-tools case delegates
   concurrency to a caller-provided batch dispatcher, so the native test verifies
   the batch limit and ordered results rather than OS threads. Ruby also reaches
-  19/19 through native threads and its native suite.
-  C++ reaches 19/19 through `std::async` parallel tools and its native suite.
-  Elixir reaches 19/19 through `Task.async` parallel tools and its native suite.
-  Erlang reaches 19/19 through spawned-process parallel tools and its native
-  suite. Lua reaches 19/19 through caller-provided cooperative batch tools and
-  its native suite. PHP reaches 19/19 through Fibers in `batchToolInvoker` and
-  its native suite. Fortran reaches 19/19 through a caller-provided parallel
+  20/20 through native threads and its native suite.
+  C++ reaches 20/20 through `std::async` parallel tools and its native suite.
+  Elixir reaches 20/20 through `Task.async` parallel tools and its native suite.
+  Erlang reaches 20/20 through spawned-process parallel tools and its native
+  suite. Lua reaches 20/20 through caller-provided cooperative batch tools and
+  its native suite. PHP reaches 20/20 through Fibers in `batchToolInvoker` and
+  its native suite. Fortran reaches 20/20 through a caller-provided parallel
   batch callback and its native suite. This is suite coverage, not
   scenario-isolated assertions.
 - The parallel scenario uses deterministic barriers; it is not a throughput or

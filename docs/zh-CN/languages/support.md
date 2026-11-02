@@ -39,7 +39,7 @@ Bridge、Sample 描述运行时的接入方式，不证明其语言缺乏 Framew
 
 2026-11-01 的源码集覆盖十六个已接入语言：agent-capable 的 Go、Python、TypeScript、Java、Rust、R、C#，以及 extended 的 C、PHP、Fortran、COBOL、Ruby、Elixir、Erlang、C++、Lua。全部十六个已接入语言均覆盖十九个场景。COBOL、Lua、PHP 和 Fortran 的并行工具委托给调用方提供的批处理回调；这些情况下 Core 本身不创建线程。逐单元格结果见[行为实验矩阵](behavior-lab-matrix.md)。
 
-`7a7b796` 上的 clean-SHA CI 运行为十六语言集报告了 262 passed、42 unsupported、无失败。矩阵由该报告生成。
+`4ffd83b` 上的 clean-SHA CI 运行为十六语言集报告了 320 passed、0 unsupported、无失败。矩阵由该报告生成。
 
 `unsupported` 是明确记录的缺口，既不是失败，也不是通过。不要从契约成熟度 `complete` 推断完整行为对齐。
 
@@ -102,7 +102,7 @@ Bridge、Sample 描述运行时的接入方式，不证明其语言缺乏 Framew
   parser 和调用方提供的批处理工具调度。它不是包管理器发布；异步 provider 流不在
   声明范围，受限 JSON Schema 子集仍为部分完成。`0.3.0` 使用 RE2/Unicode 取代
   ASCII matcher，新增原生 C++ 库依赖；历史 `0.2.2` 标签仍保留无此原生依赖的实现。
-- COBOL 已有源码标签 `cobol/v0.3.0`，包含全部 11 个向量组、原生与契约测试、调用方持有状态的 scoped registry 和 API 快照。它新增 middleware、生命周期、取消、流式、SSE 和调用方提供的批处理工具调度，行为覆盖达到 19/19；并行工具委托给批处理调度器，而不是原生线程。它不是包管理器发布；其余 Go 面大多为 partial，registry 无并发和 custom spec provider。
+- COBOL 已有源码标签 `cobol/v0.3.0`，包含全部 11 个向量组、原生与契约测试、调用方持有状态的 scoped registry 和 API 快照。它新增 middleware、生命周期、取消、流式、SSE 和调用方提供的批处理工具调度，行为覆盖达到 20/20；并行工具委托给批处理调度器，而不是原生线程。它不是包管理器发布；其余 Go 面大多为 partial，registry 无并发和 custom spec provider。
 - Haskell 已有源码标签 `haskell/v0.2.0`，包含全部 11 个向量组、原生测试、API
   快照/parity 以及运行时/中间件辅助函数。未声明 Hackage 发布或生产就绪。
 - Delphi/Free Pascal 已有源码标签 `delphi/v0.2.1`，在 Free Pascal 3.2.2 下通过

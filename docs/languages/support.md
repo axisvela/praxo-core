@@ -42,21 +42,21 @@ Behavior Lab entirely.
 
 | Behavior tier | Languages | Current target |
 | --- | --- | --- |
-| Agent-capable | Go, Python, TypeScript, Java, Rust, R, C# | Native agent loop in declared scope; selected for the nineteen Behavior Lab scenarios |
+| Agent-capable | Go, Python, TypeScript, Java, Rust, R, C# | Native agent loop in declared scope; selected for the twenty Behavior Lab scenarios |
 | Extended | C, PHP, Fortran, COBOL, Ruby, Elixir, Erlang, C++, Lua | Contract or focused implementation; behavior coverage advances scenario by scenario with a named consumer and maintainer |
 | Optional | Other declared implementations | Outside the current Behavior Lab program; contract conformance is unchanged and behavior work requires a named consumer and maintainer |
 
 The 2026-11-01 source set covers sixteen wired languages: agent-capable Go,
 Python, TypeScript, Java, Rust, R, and C# plus the extended C, PHP, Fortran,
 COBOL, Ruby, Elixir, Erlang, C++, and Lua implementations. All sixteen wired
-languages cover all nineteen scenarios. Parallel tools for COBOL, Lua, PHP, and
+languages cover all twenty scenarios. Parallel tools for COBOL, Lua, PHP, and
 Fortran are delegated to caller-provided batch callbacks; the Core itself does
 not create threads in those cases. See the
 [Behavior Lab matrix](behavior-lab-matrix.md) for every cell.
 
-The clean-SHA CI run at `7a7b796` reported 262 passed, 42 unsupported, and no
-failures for the sixteen-language set. The matrix is generated from that
-report.
+The clean-tree local run at `4ffd83b` reported 320 passed, 0 unsupported, and
+no failures for the sixteen-language set. The matrix is generated from that
+report; CI re-pinning for this revision is still required.
 
 An unsupported cell is a recorded gap, not a failure and not a pass. Do not
 infer full behavior parity from `complete` contract maturity.
@@ -155,7 +155,7 @@ a merged implementation PR as a support commitment.
 - COBOL has source tag `cobol/v0.3.0` with all eleven vector groups, native and
   contract tests, caller-owned scoped registries, and an API snapshot. It adds
   middleware, lifecycle, cancellation, streaming, SSE, and caller-provided
-  batch tool dispatch, reaching 19/19 behavior scenarios. Parallel tools are
+  batch tool dispatch, reaching 20/20 behavior scenarios. Parallel tools are
   delegated to the batch dispatcher rather than native threads. It is not a
   package-registry release; most remaining Go surfaces are partial and the
   registry has no concurrency or custom spec provider.
