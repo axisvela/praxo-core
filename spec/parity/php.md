@@ -28,3 +28,8 @@ path, but not every optional Go hook or provider adapter.
 | `agent.PIIRedactor` | `PiiRedactor` | parity | P1 |
 | `agent.PIIRule` | `PiiRule` | parity | P1 |
 | `agent.FallbackModel` | `ModelFallback::fallback` | parity | P1 |
+| `agent/hitl.Interrupt` | `Interrupt` | parity | P2 |
+| `agent/hitl.InterruptAction` | `InterruptAction` | parity | P2 |
+| `agent/hitl.InterruptDecision` | `InterruptDecision` | parity | P2 |
+| `agent/hitl.InterruptHandler` | `AgentOptions::$onInterruptDecision` | parity | P2 |
+| `agent.Options.OnInterrupt` | `AgentOptions::$onInterrupt` | parity | P2 |

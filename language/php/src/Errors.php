@@ -48,6 +48,21 @@ final class PraxoException extends \RuntimeException
         return new self('AGENT_TOOL_NOT_SELECTED', 'agent: tool is not selected');
     }
 
+    public static function approvalDenied(string $message): self
+    {
+        return new self('AGENT_APPROVAL_DENIED', $message);
+    }
+
+    public static function interruptUnhandled(): self
+    {
+        return new self('AGENT_INTERRUPT_UNHANDLED', 'agent: approval handler not configured');
+    }
+
+    public static function interruptDecisionInvalid(string $message): self
+    {
+        return new self('AGENT_INTERRUPT_DECISION_INVALID', $message);
+    }
+
     public static function toolNotFound(string $message): self
     {
         return new self('TOOL_NOT_FOUND', $message);

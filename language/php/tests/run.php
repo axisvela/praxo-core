@@ -20,6 +20,9 @@ use Praxo\Core\ContextBudget;
 use Praxo\Core\ContextEstimator;
 use Praxo\Core\FuncTool;
 use Praxo\Core\InMemoryMemoryStore;
+use Praxo\Core\Interrupt;
+use Praxo\Core\InterruptAction;
+use Praxo\Core\InterruptDecision;
 use Praxo\Core\Json;
 use Praxo\Core\JsonSchema;
 use Praxo\Core\MemoryRecord;
@@ -684,6 +687,83 @@ $parallelOptions->batchToolInvoker = static function (array $prepared, int $maxP
 $parallelResult = (new Agent($parallelOptions))->run(new Session('s1'), 'go');
 check($parallelResult->output === 'done', 'parallel result');
 check($parallelModel->order === ['c1', 'c2'], 'parallel order');
+
+$hitlCalls = 0;
+$hitlRegistry = new ToolRegistry();
+$hitlRegistry->register(new FuncTool('echo', 'Echo', function (array $arguments) use (&$hitlCalls) {
+    $hitlCalls++;
+    return $arguments;
+}));
+$hitlOptions = new AgentOptions(new ToolModel());
+$hitlOptions->tools = $hitlRegistry;
+$hitlOptions->interruptOn = ['echo'];
+$hitlOptions->onInterruptDecision = fn (Interrupt $interrupt) => new InterruptDecision(InterruptAction::APPROVE);
+$hitlResult = (new Agent($hitlOptions))->run(new Session('s1'), 'go');
+check($hitlResult->output === 'done' && $hitlCalls === 1, 'hitl approve');
+
+$hitlCalls = 0;
+$hitlPolicy = new RecordingPolicy();
+$hitlOptions = new AgentOptions(new ToolModel());
+$hitlOptions->tools = $hitlRegistry;
+$hitlOptions->policy = $hitlPolicy;
+$hitlOptions->interruptOn = ['echo'];
+$hitlOptions->onInterruptDecision = fn (Interrupt $interrupt) => new InterruptDecision(
+    InterruptAction::EDIT,
+    ['value' => 'edited'],
+);
+(new Agent($hitlOptions))->run(new Session('s1'), 'go');
+$toolActions = array_values(array_filter(
+    $hitlPolicy->actions,
+    fn (Action $action) => $action->kind === 'tool.invoke',
+));
+check($hitlCalls === 1 && count($toolActions) === 2, 'hitl edit reauthorizes');
+
+$hitlCalls = 0;
+$hitlOptions = new AgentOptions(new ToolModel());
+$hitlOptions->tools = $hitlRegistry;
+$hitlOptions->interruptOn = ['echo'];
+$hitlOptions->onInterruptDecision = fn (Interrupt $interrupt) => new InterruptDecision(
+    InterruptAction::REJECT,
+    null,
+    '',
+    'no',
+);
+$hitlDenied = false;
+try {
+    (new Agent($hitlOptions))->run(new Session('s1'), 'go');
+} catch (PraxoException $error) {
+    $hitlDenied = $error->praxoCode === 'AGENT_APPROVAL_DENIED';
+}
+check($hitlDenied && $hitlCalls === 0, 'hitl reject');
+
+$hitlOptions = new AgentOptions(new ToolModel());
+$hitlOptions->tools = $hitlRegistry;
+$hitlOptions->interruptOn = ['echo'];
+$hitlUnhandled = false;
+try {
+    (new Agent($hitlOptions))->run(new Session('s1'), 'go');
+} catch (PraxoException $error) {
+    $hitlUnhandled = $error->praxoCode === 'AGENT_INTERRUPT_UNHANDLED';
+}
+check($hitlUnhandled, 'hitl unhandled');
+
+$hitlEvents = new class implements EventSink {
+    /** @var list<Event> */
+    public array $events = [];
+
+    public function emit(Event $event): void
+    {
+        $this->events[] = $event;
+    }
+};
+$hitlOptions = new AgentOptions(new ToolModel());
+$hitlOptions->tools = $hitlRegistry;
+$hitlOptions->events = $hitlEvents;
+$hitlOptions->interruptOn = ['echo'];
+$hitlOptions->onInterruptDecision = fn (Interrupt $interrupt) => new InterruptDecision(InterruptAction::APPROVE);
+(new Agent($hitlOptions))->run(new Session('s1'), 'go');
+$hitlInterrupts = array_filter($hitlEvents->events, fn (Event $event) => $event->type === 'tool.interrupt');
+check(count($hitlInterrupts) === 1, 'hitl event');
 
 echo "PHP core tests passed ({$passed})\n";
 

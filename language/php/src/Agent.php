@@ -132,6 +132,10 @@ final class AgentOptions
     public mixed $cancellation = null;
     public int $maxParallelTools = 1;
     public mixed $batchToolInvoker = null;
+    /** @var list<string> */
+    public array $interruptOn = [];
+    public mixed $onInterruptDecision = null;
+    public mixed $onInterrupt = null;
 
     public function __construct(public Model $model)
     {
@@ -376,6 +380,26 @@ final class Agent
                 "agent: tool {$finalCall->name} is not allowed",
             );
         }
+        if ($middlewareCall->skip) {
+            return [
+                'middleware' => $middlewareCall,
+                'call' => $finalCall,
+                'skip' => true,
+                'value' => $middlewareCall->result,
+                'error' => $middlewareCall->error,
+            ];
+        }
+        $interrupt = $this->applyInterrupt($middlewareCall, $runId, $sessionId);
+        $finalCall = $middlewareCall->call;
+        if ($interrupt['skip']) {
+            return [
+                'middleware' => $middlewareCall,
+                'call' => $finalCall,
+                'skip' => true,
+                'value' => $interrupt['value'],
+                'error' => null,
+            ];
+        }
         $changed = $finalCall->name !== $originalName
             || Json::encode($finalCall->arguments) !== Json::encode($originalArguments);
         if ($changed) {
@@ -385,15 +409,6 @@ final class Agent
                 $finalCall->name,
                 $finalCall->arguments,
             ));
-        }
-        if ($middlewareCall->skip) {
-            return [
-                'middleware' => $middlewareCall,
-                'call' => $finalCall,
-                'skip' => true,
-                'value' => $middlewareCall->result,
-                'error' => $middlewareCall->error,
-            ];
         }
         $this->throwIfCancelled();
         $tools = $this->options->tools
@@ -409,6 +424,62 @@ final class Agent
             'skip' => false,
             'tool' => $tool,
         ];
+    }
+
+    /** @return array<string, mixed> */
+    private function applyInterrupt(
+        MiddlewareToolCall $middlewareCall,
+        string $runId,
+        string $sessionId,
+    ): array {
+        $call = $middlewareCall->call;
+        if (!in_array($call->name, $this->options->interruptOn, true)) {
+            return ['skip' => false];
+        }
+        if ($this->options->onInterruptDecision === null && $this->options->onInterrupt === null) {
+            throw PraxoException::interruptUnhandled();
+        }
+        $this->emit('tool.interrupt', $sessionId, $runId, [
+            'name' => $call->name,
+            'arguments' => $call->arguments,
+        ]);
+        $interrupt = new Interrupt($runId, $sessionId, $call);
+        if ($this->options->onInterruptDecision !== null) {
+            $decision = ($this->options->onInterruptDecision)($interrupt);
+            if (!$decision instanceof InterruptDecision) {
+                throw PraxoException::interruptDecisionInvalid('agent: invalid interrupt decision');
+            }
+            switch ($decision->action) {
+                case InterruptAction::APPROVE:
+                    return ['skip' => false];
+                case InterruptAction::EDIT:
+                    if ($decision->arguments === null) {
+                        throw PraxoException::interruptDecisionInvalid('agent: edit requires arguments');
+                    }
+                    $middlewareCall->call = new ToolCall(
+                        $call->id,
+                        $call->name,
+                        $decision->arguments,
+                    );
+                    return ['skip' => false];
+                case InterruptAction::REJECT:
+                    throw PraxoException::approvalDenied(
+                        "agent: tool call denied by approval: {$call->name}: {$decision->reason}",
+                    );
+                case InterruptAction::RESPOND:
+                    return ['skip' => true, 'value' => $decision->response];
+                default:
+                    throw PraxoException::interruptDecisionInvalid(
+                        "agent: invalid interrupt decision: {$decision->action}",
+                    );
+            }
+        }
+        if (!($this->options->onInterrupt)($interrupt)) {
+            throw PraxoException::approvalDenied(
+                "agent: tool call denied by approval: {$call->name}",
+            );
+        }
+        return ['skip' => false];
     }
 
     /** @param array<string, mixed> $prepared */

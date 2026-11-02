@@ -20,9 +20,9 @@ composer require axisvela/praxo-core
 ## Scope
 
 The Core implements all eleven vector groups: toolcall, jsonschema, plugin,
-checkpoint, event, memory, policy, stream, context, middleware, and agent loop.
-It includes a public API snapshot and dependency-free tests. Provider adapters
-are not included in `0.3.0`.
+checkpoint, event, memory, policy, stream, context, middleware, agent loop, and
+human-in-the-loop interrupt decisions. It includes a public API snapshot and
+dependency-free tests. Provider adapters are not included in `0.3.0`.
 
 `maxParallelTools` and `batchToolInvoker` add caller-provided cooperative
 parallel tool dispatch. The Core prepares and authorizes each call, then the

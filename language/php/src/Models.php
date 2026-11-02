@@ -38,6 +38,35 @@ final class ContentBlock
     }
 }
 
+final class Interrupt
+{
+    public function __construct(
+        public string $runId = '',
+        public string $sessionId = '',
+        public ToolCall $call = new ToolCall(),
+    ) {
+    }
+}
+
+final class InterruptAction
+{
+    public const APPROVE = 'approve';
+    public const EDIT = 'edit';
+    public const REJECT = 'reject';
+    public const RESPOND = 'respond';
+}
+
+final class InterruptDecision
+{
+    public function __construct(
+        public string $action = '',
+        public ?array $arguments = null,
+        public string $response = '',
+        public string $reason = '',
+    ) {
+    }
+}
+
 final class ToolCall
 {
     public function __construct(

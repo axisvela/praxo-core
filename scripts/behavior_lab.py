@@ -1001,6 +1001,7 @@ def scenarios() -> tuple[Scenario, ...]:
                 "r": (r_suite(),),
                 "csharp": (csharp_suite(),),
                 "ruby": (ruby_suite(),),
+                "php": (php_suite(),),
             },
             {
                 "go": "scenario",
@@ -1011,6 +1012,7 @@ def scenarios() -> tuple[Scenario, ...]:
                 "r": "suite",
                 "csharp": "suite",
                 "ruby": "suite",
+                "php": "suite",
             },
         ),
     )
