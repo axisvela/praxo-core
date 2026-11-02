@@ -97,11 +97,12 @@ a merged implementation PR as a support commitment.
 These are separate claims. A source tag records a repository release; a registry
 version records what a package manager can fetch; a consumer smoke records an
 install and run outside the repository. Do not cite one as evidence for another.
+Registry values below were checked against the public registries on 2026-11-02.
 
 | Language | Source tag | Registry version | Consumer install smoke |
 | --- | --- | --- | --- |
 | Python | `python/v0.3.0` | PyPI `praxo-core==0.3.0` published | Recorded only for `0.2.4`; not rerun for `0.3.0` |
-| TypeScript | `typescript/v0.2.0` | npm `@axisvela/praxo-core@0.2.0` staged | Recorded only for `0.1.5`; not rerun for `0.2.0` |
+| TypeScript | `typescript/v0.2.0` | npm `@axisvela/praxo-core@0.2.0` published; latest | Recorded only for `0.1.5`; not rerun for `0.2.0` |
 | Java | `java/v0.4.0` | Maven Central `com.axisvela:praxo-core:0.3.0`; `0.4.0` not published | Not recorded |
 | Rust | `rust/v0.3.0` | crates.io `praxo-core==0.1.4` | Recorded for `0.1.4` only |
 | C# | `csharp/v0.3.0` | NuGet `Praxo.Core==0.3.0` published | Not recorded |
@@ -109,15 +110,34 @@ install and run outside the repository. Do not cite one as evidence for another.
 | Erlang | `erlang/v0.4.0` | Hex `praxo_core_erlang==0.3.1`; `0.2.0` also published | Not rerun for `0.3.1`; historical `0.1.1` smoke |
 | Ruby | `ruby/v0.4.0` | RubyGems `praxo-core==0.3.0`; `0.2.0` also published | Recorded only for `0.1.0` |
 | Lua | `lua/v0.4.0` | LuaRocks `praxo-core==0.3.0-1`; `0.2.0-1` also published | Local rock build and module load passed; registry install smoke pending |
-| PHP | `php/v0.4.0` | Packagist split tags `v0.3.0`; `v0.2.0` also published | No Composer install smoke recorded |
+| PHP | `php/v0.4.0` | Packagist `axisvela/praxo-core==0.3.0`; `v0.2.0` and `v0.1.0` also published | No Composer install smoke recorded |
 | Dart | `dart/v0.1.1` | pub.dev `praxo_core==0.1.1` | Recorded for `0.1.1` |
+
+### Registry freshness against code
+
+Code manifests are the version source of truth. A registry is current only when
+its latest version matches the manifest at the release tag.
+
+| Language | Code/manifest version | Registry latest | Status |
+| --- | --- | --- | --- |
+| Python | `0.3.0` | PyPI `0.3.0` | current |
+| TypeScript | `0.2.0` | npm `0.2.0` | current |
+| Java | `0.4.0` | Maven Central `0.3.0` | registry behind |
+| Rust | `0.3.0` | crates.io `0.1.4` | registry behind |
+| C# | `0.3.0` | NuGet `0.3.0` | current |
+| Elixir | `0.4.0` | Hex `0.3.0` | registry behind |
+| Erlang | `0.4.0` | Hex `0.3.1` | registry behind |
+| Ruby | `0.4.0` | RubyGems `0.3.0` | registry behind |
+| PHP | `0.4.0` | Packagist `0.3.0` | registry behind |
+| Lua | rockspec `0.3.0-1`; source tag `0.4.0` | LuaRocks `0.3.0-1` | registry matches rockspec; `0.4.0` not packaged |
+| Dart | `0.1.1` | pub.dev `0.1.1` | current |
 
 Do not install a source-tag-only language from a registry, and do not assume a
 registry package contains the source tag's latest behavior. The language page is
 the installation source of truth.
 
 - Python publishes `praxo-core==0.3.0` on PyPI from source tag
-  `python/v0.3.0`. TypeScript stages `@axisvela/praxo-core@0.2.0` on npm from
+  `python/v0.3.0`. TypeScript publishes `@axisvela/praxo-core@0.2.0` on npm from
   source tag `typescript/v0.2.0`; the package has npm provenance and an
   agent-framework-first README and metadata.
 - Java source tag `java/v0.4.0` adds HITL interrupt decisions with Maven groupId
@@ -127,9 +147,9 @@ the installation source of truth.
 - PHP source tag `php/v0.4.0` adds HITL interrupt decisions to streaming runs,
   cancellation, SSE validation, final authorization, lifecycle cleanup, and
   caller-provided cooperative parallel tool dispatch through `batchToolInvoker`.
-  The Packagist package is published from the split repository
-  `axisvela/praxo-core-php` at split tags `v0.3.0` and `v0.2.0`; the Core does
-  not create threads. A Composer install smoke is not yet recorded.
+  Packagist publishes `axisvela/praxo-core==0.3.0` from the split repository
+  `axisvela/praxo-core-php`; `v0.2.0` and `v0.1.0` remain available. The Core
+  does not create threads. A Composer install smoke is not yet recorded.
 - Ruby source tag `ruby/v0.4.0` adds HITL interrupt decisions to middleware
   hooks, final-tool allowlist checks, reauthorization, lifecycle cleanup,
   cancellation, stream callbacks, a native SSE parser, bounded parallel tools,

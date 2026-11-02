@@ -67,12 +67,13 @@ Bridge、Sample 描述运行时的接入方式，不证明其语言缺乏 Framew
 ### 源码标签、注册表与消费者 smoke
 
 三者是独立的声明：源码标签记录仓库发布，注册表版本记录包管理器可获取的版本，
-消费者 smoke 记录仓库之外的安装与运行。不能用一个为另一个作证。
+消费者 smoke 记录仓库之外的安装与运行。不能用一个为另一个作证。下表注册表版本
+已于 2026-11-02 对公开 registry 核对。
 
 | 语言 | 源码标签 | 注册表版本 | 消费者安装 smoke |
 | --- | --- | --- | --- |
 | Python | `python/v0.3.0` | PyPI `praxo-core==0.3.0` 已发布 | 仅记录 `0.2.4`；`0.3.0` 未重跑 |
-| TypeScript | `typescript/v0.2.0` | npm `@axisvela/praxo-core@0.2.0` 暂存 | 仅记录 `0.1.5`；`0.2.0` 未重跑 |
+| TypeScript | `typescript/v0.2.0` | npm `@axisvela/praxo-core@0.2.0` 已发布，并为 latest | 仅记录 `0.1.5`；`0.2.0` 未重跑 |
 | Java | `java/v0.4.0` | Maven Central `com.axisvela:praxo-core:0.3.0`；`0.4.0` 未发布 | 未记录 |
 | Rust | `rust/v0.3.0` | crates.io `praxo-core==0.1.4` | 仅记录 `0.1.4` |
 | C# | `csharp/v0.3.0` | NuGet `Praxo.Core==0.3.0` 已发布 | 未记录 |
@@ -80,14 +81,33 @@ Bridge、Sample 描述运行时的接入方式，不证明其语言缺乏 Framew
 | Erlang | `erlang/v0.4.0` | Hex `praxo_core_erlang==0.3.1`；`0.2.0` 也已发布 | `0.3.1` 未重跑；历史 `0.1.1` smoke |
 | Ruby | `ruby/v0.4.0` | RubyGems `praxo-core==0.3.0`；`0.2.0` 也已发布 | 仅记录 `0.1.0` |
 | Lua | `lua/v0.4.0` | LuaRocks `praxo-core==0.3.0-1`；`0.2.0-1` 也已发布 | 本地 rock 构建/加载通过；registry 安装 smoke 待完成 |
-| PHP | `php/v0.4.0` | Packagist split 标签 `v0.3.0`；`v0.2.0` 也已发布 | 未记录 Composer 安装 smoke |
+| PHP | `php/v0.4.0` | Packagist `axisvela/praxo-core==0.3.0`；`v0.2.0` 和 `v0.1.0` 也可用 | 未记录 Composer 安装 smoke |
 | Dart | `dart/v0.1.1` | pub.dev `praxo_core==0.1.1` | 已记录 `0.1.1` |
+
+### 注册表相对代码的新旧状态
+
+代码 manifest 是版本真源。只有当注册表 latest 与发布标签处的 manifest 一致时，
+注册表才算最新。
+
+| 语言 | 代码/manifest 版本 | 注册表 latest | 状态 |
+| --- | --- | --- | --- |
+| Python | `0.3.0` | PyPI `0.3.0` | 已最新 |
+| TypeScript | `0.2.0` | npm `0.2.0` | 已最新 |
+| Java | `0.4.0` | Maven Central `0.3.0` | 注册表落后 |
+| Rust | `0.3.0` | crates.io `0.1.4` | 注册表落后 |
+| C# | `0.3.0` | NuGet `0.3.0` | 已最新 |
+| Elixir | `0.4.0` | Hex `0.3.0` | 注册表落后 |
+| Erlang | `0.4.0` | Hex `0.3.1` | 注册表落后 |
+| Ruby | `0.4.0` | RubyGems `0.3.0` | 注册表落后 |
+| PHP | `0.4.0` | Packagist `0.3.0` | 注册表落后 |
+| Lua | rockspec `0.3.0-1`；源码标签 `0.4.0` | LuaRocks `0.3.0-1` | 注册表与 rockspec 一致；`0.4.0` 未打包 |
+| Dart | `0.1.1` | pub.dev `0.1.1` | 已最新 |
 
 不要从注册表安装只有源码标签的语言，也不要假设注册表包包含源码标签的最新行为。
 语言页面是安装信息的唯一来源。
 
 - Python 从源码标签 `python/v0.3.0` 发布 `praxo-core==0.3.0` 到 PyPI；TypeScript 从源码标签
-  `typescript/v0.2.0` 在 npm 暂存 `@axisvela/praxo-core@0.2.0`，带有 npm
+  `typescript/v0.2.0` 发布 `@axisvela/praxo-core@0.2.0` 到 npm，带有 npm
   provenance，并采用 agent framework 优先的 README 和元数据。
 - Java 源码标签 `java/v0.4.0` 增加人工审批中断决策，Maven groupId 为 `com.axisvela`，
   包名为 `com.axisvela.praxo`；Maven Central 在发布前仍为
@@ -95,9 +115,9 @@ Bridge、Sample 描述运行时的接入方式，不证明其语言缺乏 Framew
   `io.axisvela.praxo`。
 - PHP 源码标签 `php/v0.4.0` 在流式运行、取消、SSE 校验、最终授权、生命周期清理，
   以及通过 `batchToolInvoker` 提供的调用方协作式并行工具调度之上增加人工审批
-  中断决策。Packagist 包由独立发布仓库 `axisvela/praxo-core-php` 的 split
-  标签 `v0.3.0` 和 `v0.2.0` 发布；Core 本身不创建线程。Composer 安装
-  smoke 尚未记录。
+  中断决策。Packagist 发布 `axisvela/praxo-core==0.3.0`，来自独立发布仓库
+  `axisvela/praxo-core-php`；`v0.2.0` 和 `v0.1.0` 仍可用。Core 本身不创建线程。
+  Composer 安装 smoke 尚未记录。
 - Ruby 源码标签 `ruby/v0.4.0` 在 middleware、最终工具 allowlist、重新授权、
   生命周期清理、取消、流式回调、原生 SSE parser、有限并行工具和按 run 隔离的
   调用上限之上增加人工审批中断决策。RubyGems 已发布 `praxo-core==0.3.0`
