@@ -59,6 +59,9 @@ function M.agent_options(model)
     on_stream = nil,
     max_parallel_tools = 1,
     batch_invoke = nil,
+    interrupt_on = {},
+    on_interrupt_decision = nil,
+    on_interrupt = nil,
   }
 end
 
@@ -86,6 +89,48 @@ local function allowed(options, name)
 end
 
 local invoke_tool
+
+local function apply_interrupt(options, call, run_id, session_id)
+  local wanted = false
+  for _, name in ipairs(options.interrupt_on or {}) do
+    if name == call.name then wanted = true end
+  end
+  if not wanted then return { call = call, skip = false } end
+  if not options.on_interrupt_decision and not options.on_interrupt then
+    errors.raise("AGENT_INTERRUPT_UNHANDLED", "agent: approval handler not configured")
+  end
+  emit(options, "tool.interrupt", session_id, run_id, {
+    name = call.name, arguments = call.arguments or {},
+  })
+  local interrupt = models.interrupt({
+    run_id = run_id, session_id = session_id, call = call,
+  })
+  if options.on_interrupt_decision then
+    local decision = options.on_interrupt_decision(interrupt) or {}
+    local action = decision.action or ""
+    if action == models.INTERRUPT_APPROVE then
+      return { call = call, skip = false }
+    elseif action == models.INTERRUPT_EDIT then
+      if decision.arguments == nil then
+        errors.raise("AGENT_INTERRUPT_DECISION_INVALID", "agent: edit requires arguments")
+      end
+      call.arguments = decision.arguments
+      return { call = call, skip = false }
+    elseif action == models.INTERRUPT_REJECT then
+      errors.raise("AGENT_APPROVAL_DENIED",
+        "agent: tool call denied by approval: " .. call.name .. ": " .. (decision.reason or ""))
+    elseif action == models.INTERRUPT_RESPOND then
+      return { call = call, skip = true, value = decision.response or "" }
+    end
+    errors.raise("AGENT_INTERRUPT_DECISION_INVALID",
+      "agent: invalid interrupt decision: " .. action)
+  end
+  if not options.on_interrupt(interrupt) then
+    errors.raise("AGENT_APPROVAL_DENIED",
+      "agent: tool call denied by approval: " .. call.name)
+  end
+  return { call = call, skip = false }
+end
 
 local function check_cancelled(options)
   if not options.cancellation then return end
@@ -124,18 +169,26 @@ local function prepare_batch(options, calls, run_id, session_id)
     if not allowed(options, call.name) then
       errors.raise("AGENT_TOOL_NOT_ALLOWED", "tool " .. call.name .. " is not allowed")
     end
-    if call.name ~= original_name or call.arguments ~= original_arguments then
-      authorize(options, models.action({
-        kind = "tool.invoke", session_id = session_id,
-        tool_name = call.name, arguments = call.arguments,
-      }))
+    local interrupt = apply_interrupt(options, call, run_id, session_id)
+    call = interrupt.call
+    if interrupt.skip then
+      prepared[#prepared + 1] = {
+        call = call, skip = true, value = interrupt.value,
+      }
+    else
+      if call.name ~= original_name or call.arguments ~= original_arguments then
+        authorize(options, models.action({
+          kind = "tool.invoke", session_id = session_id,
+          tool_name = call.name, arguments = call.arguments,
+        }))
+      end
+      if not options.tools then errors.raise("TOOL_NOT_FOUND", "tool is not registered") end
+      local tool = M.get_tool(options.tools, call.name)
+      emit(options, "tool.call", session_id, run_id, {
+        name = call.name, arguments = call.arguments or {},
+      })
+      prepared[#prepared + 1] = { tool = tool, call = call }
     end
-    if not options.tools then errors.raise("TOOL_NOT_FOUND", "tool is not registered") end
-    local tool = M.get_tool(options.tools, call.name)
-    emit(options, "tool.call", session_id, run_id, {
-      name = call.name, arguments = call.arguments or {},
-    })
-    prepared[#prepared + 1] = { tool = tool, call = call }
   end
   return prepared
 end
@@ -143,11 +196,23 @@ end
 local function invoke_tools(options, calls, run_id, session_id)
   if options.batch_invoke then
     local prepared = prepare_batch(options, calls, run_id, session_id)
-    local results = options.batch_invoke(prepared, options.max_parallel_tools or 1)
+    local active = {}
+    for _, entry in ipairs(prepared) do
+      if not entry.skip then active[#active + 1] = entry end
+    end
+    local results = options.batch_invoke(active, options.max_parallel_tools or 1)
     local messages_out = {}
-    for index, entry in ipairs(prepared) do
+    local result_index = 1
+    for _, entry in ipairs(prepared) do
+      local value
+      if entry.skip then
+        value = entry.value
+      else
+        value = results[result_index]
+        result_index = result_index + 1
+      end
       messages_out[#messages_out + 1] = models.message_tool(
-        json.encode(results[index]), entry.call.id or ""
+        json.encode(value), entry.call.id or ""
       )
     end
     return messages_out
@@ -176,6 +241,11 @@ invoke_tool = function(options, call, run_id, session_id)
   end
   if not allowed(options, call.name) then
     errors.raise("AGENT_TOOL_NOT_ALLOWED", "tool " .. call.name .. " is not allowed")
+  end
+  local interrupt = apply_interrupt(options, call, run_id, session_id)
+  call = interrupt.call
+  if interrupt.skip then
+    return models.message_tool(json.encode(interrupt.value), call.id or "")
   end
   if call.name ~= original_name or call.arguments ~= original_arguments then
     authorize(options, models.action({

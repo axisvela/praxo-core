@@ -2,6 +2,10 @@
 # SPEC_VERSION 0.2.0
 
 ASSISTANT
+INTERRUPT_APPROVE
+INTERRUPT_EDIT
+INTERRUPT_REJECT
+INTERRUPT_RESPOND
 STREAM_KINDS
 SYSTEM
 TOOL
@@ -35,6 +39,8 @@ get
 get_tool
 has
 int
+interrupt
+interrupt_decision
 is_array
 is_null
 memory_put

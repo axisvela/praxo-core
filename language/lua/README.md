@@ -3,7 +3,8 @@
 PRAXO-CORE is an embeddable, MIT-licensed agent framework. This rock is its
 native Lua Core: an agent loop with tool registration and dispatch, policy
 hooks, typed events, memory, checkpoints, context budgets, middleware, JSON
-Schema validation, and plugin manifest parsing.
+Schema validation, plugin manifest parsing, and human-in-the-loop interrupt
+decisions.
 
 The normative contract is [`spec/`](../../spec/README.md); Go remains the
 reference implementation.

@@ -1,5 +1,14 @@
 # Lua Core Release Notes
 
+## Unreleased
+
+### Added
+
+- Human-in-the-loop interrupt decisions through `interrupt_on`,
+  `on_interrupt_decision`, and `on_interrupt`.
+- `models.interrupt`, `models.interrupt_decision`, and `INTERRUPT_*` actions.
+  Interrupted calls emit `tool.interrupt` and edited arguments are reauthorized.
+
 ## 0.3.0 - 2026-11-01
 
 Source version `0.3.0`; tag creation is a release step.

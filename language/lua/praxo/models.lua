@@ -16,6 +16,30 @@ function M.content_block(args)
   }
 end
 
+M.INTERRUPT_APPROVE = "approve"
+M.INTERRUPT_EDIT = "edit"
+M.INTERRUPT_REJECT = "reject"
+M.INTERRUPT_RESPOND = "respond"
+
+function M.interrupt(args)
+  args = args or {}
+  return {
+    run_id = args.run_id or "",
+    session_id = args.session_id or "",
+    call = args.call,
+  }
+end
+
+function M.interrupt_decision(args)
+  args = args or {}
+  return {
+    action = args.action or "",
+    arguments = args.arguments,
+    response = args.response or "",
+    reason = args.reason or "",
+  }
+end
+
 function M.tool_call(args)
   args = args or {}
   return {

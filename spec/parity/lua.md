@@ -39,3 +39,8 @@ adapter.
 | `agent/middleware.PIIMiddleware` | `middleware.redact` | parity | P1 |
 | `agent/middleware.StructuredOutput` | `middleware.structured_output` | parity | P1 |
 | `agent/middleware.ToolSelectionMiddleware` | `middleware.tool_selection` | parity | P1 |
+| `agent/hitl.Interrupt` | `models.interrupt` | parity | P2 |
+| `agent/hitl.InterruptAction` | `models.INTERRUPT_APPROVE` and peers | parity | P2 |
+| `agent/hitl.InterruptDecision` | `models.interrupt_decision` | parity | P2 |
+| `agent/hitl.InterruptHandler` | `agent_options.on_interrupt_decision` | parity | P2 |
+| `agent.Options.OnInterrupt` | `agent_options.on_interrupt` | parity | P2 |

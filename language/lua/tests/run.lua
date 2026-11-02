@@ -430,4 +430,74 @@ local parallel_result = agent.run_agent(parallel_options, models.session({ id = 
 check(parallel_result.output == "done", "lua parallel result")
 check(json.equals(parallel_order, { "c1", "c2" }), "lua parallel order")
 
+local hitl_calls = 0
+local hitl_registry = agent.tool_registry()
+agent.register_tool(hitl_registry, agent.func_tool("echo", "Echo", function(arguments)
+  hitl_calls = hitl_calls + 1
+  return arguments
+end))
+local function hitl_model()
+  local step = 0
+  return {
+    generate = function(_request)
+      if step == 0 then
+        step = 1
+        return models.response({
+          message = models.message_assistant("", {
+            models.tool_call({ id = "c1", name = "echo", arguments = { value = "original" } }),
+          }),
+        })
+      end
+      return models.response({ message = models.message_assistant("done") })
+    end,
+  }
+end
+local hitl_options = agent.agent_options(hitl_model())
+hitl_options.tools = hitl_registry
+hitl_options.interrupt_on = { "echo" }
+hitl_options.on_interrupt_decision = function(_interrupt)
+  return models.interrupt_decision({ action = models.INTERRUPT_APPROVE })
+end
+local hitl_result = agent.run_agent(hitl_options, models.session({ id = "s1" }), "go")
+check(hitl_result.output == "done" and hitl_calls == 1, "lua hitl approve")
+
+hitl_calls = 0
+local hitl_actions = {}
+hitl_options = agent.agent_options(hitl_model())
+hitl_options.tools = hitl_registry
+hitl_options.interrupt_on = { "echo" }
+hitl_options.policy = function(action)
+  if action.kind == "tool.invoke" then hitl_actions[#hitl_actions + 1] = action end
+  return models.decision({ allowed = true })
+end
+hitl_options.on_interrupt_decision = function(_interrupt)
+  return models.interrupt_decision({
+    action = models.INTERRUPT_EDIT, arguments = { value = "edited" },
+  })
+end
+agent.run_agent(hitl_options, models.session({ id = "s1" }), "go")
+check(hitl_calls == 1 and #hitl_actions == 2, "lua hitl edit reauthorizes")
+
+hitl_calls = 0
+hitl_options = agent.agent_options(hitl_model())
+hitl_options.tools = hitl_registry
+hitl_options.interrupt_on = { "echo" }
+hitl_options.on_interrupt_decision = function(_interrupt)
+  return models.interrupt_decision({ action = models.INTERRUPT_REJECT, reason = "no" })
+end
+local hitl_ok, hitl_error = pcall(function()
+  agent.run_agent(hitl_options, models.session({ id = "s1" }), "go")
+end)
+check(not hitl_ok and errors.code(hitl_error) == "AGENT_APPROVAL_DENIED" and hitl_calls == 0,
+      "lua hitl reject")
+
+hitl_options = agent.agent_options(hitl_model())
+hitl_options.tools = hitl_registry
+hitl_options.interrupt_on = { "echo" }
+hitl_ok, hitl_error = pcall(function()
+  agent.run_agent(hitl_options, models.session({ id = "s1" }), "go")
+end)
+check(not hitl_ok and errors.code(hitl_error) == "AGENT_INTERRUPT_UNHANDLED",
+      "lua hitl unhandled")
+
 print("lua core tests passed")
