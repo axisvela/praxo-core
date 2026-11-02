@@ -1,15 +1,15 @@
 # PRAXO-CORE Erlang Core
 
 PRAXO-CORE is an embeddable, MIT-licensed agent framework. This package is its
-native Erlang Core with source tag `erlang/v0.3.0`. It passes all eleven shared
+native Erlang Core with source tag `erlang/v0.3.1`. It passes all eleven shared
 vector groups on Erlang/OTP 29 and includes the native agent loop, memory store,
 checkpoint allowlist, lexical path policy, context compaction, event sinks,
 middleware helpers, and tool selection. It does not call Go or another Core.
 
 - Implementation type: Core.
-- Package version: `0.3.0`; supported `SPEC_VERSION`: `0.2.0`.
+- Package version: `0.3.1`; supported `SPEC_VERSION`: `0.2.0`.
 - Hex package name: `praxo_core_erlang`; OTP application name: `praxo_core`.
-- The latest Hex package is `praxo_core_erlang@0.1.1`; `0.3.0` is a source release.
+- The latest Hex package is `praxo_core_erlang@0.1.1`; `0.3.1` is a source release.
 - Toolchain: Erlang/OTP 29 or newer. JSON uses the OTP `json` module.
 
 ## Install
@@ -52,7 +52,7 @@ Options = praxo_agent:new_agent_options(Model),
 io:format("~s~n", [maps:get(output, Result)]).
 ```
 
-Public declarations are inventoried in [`api/0.3.0.txt`](api/0.3.0.txt).
+Public declarations are inventoried in [`api/0.3.1.txt`](api/0.3.1.txt).
 This is a source declaration check, not a binary ABI promise. Regenerate it with
 `python api-snapshot.py`.
 

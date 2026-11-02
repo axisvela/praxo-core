@@ -24,9 +24,10 @@
   checks, reauthorization, cancellation, stream callback parts, a native SSE
   parser, and caller-provided batch tool dispatch, reaching 19/19 behavior
   scenarios. Parallel tools are delegated to the batch dispatcher.
-- Erlang `0.3.0` source adds policy/middleware/lifecycle authorization,
+- Erlang `0.3.1` source adds policy/middleware/lifecycle authorization,
   cancellation, stream callbacks, a native SSE parser, bounded parallel tools,
-  and run-scoped call limits, reaching 19/19 behavior scenarios.
+  and run-scoped call limits, reaching 19/19 behavior scenarios. `0.3.1` also
+  aligns the package metadata with the source version.
 - Elixir `0.3.0` source adds policy/middleware/lifecycle authorization,
   cancellation, stream callbacks, a native SSE parser, bounded parallel tools,
   and run-scoped call limits, reaching 19/19 behavior scenarios.

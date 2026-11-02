@@ -1,5 +1,19 @@
 # Erlang Core Release Notes
 
+## 0.3.1 - 2026-11-01
+
+Source version `0.3.1`; tag creation is a release step.
+
+### Fixed
+
+- Align `src/praxo_core.app.src` `vsn`, `VERSION`, and `sdk_version()` with the
+  published source version.
+
+### Compatibility
+
+- No runtime behavior change from `0.3.0`.
+- The Core contract remains `SPEC_VERSION` `0.2.0`.
+
 ## 0.3.0 - 2026-11-01
 
 Source version `0.3.0`; tag creation is a release step.
