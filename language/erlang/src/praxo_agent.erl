@@ -91,6 +91,9 @@ new_agent_options(Model) ->
         cancellation => undefined,
         on_stream => undefined,
         max_parallel_tools => 1,
+        interrupt_on => [],
+        on_interrupt_decision => undefined,
+        on_interrupt => undefined,
         entered => []
     }.
 
@@ -377,32 +380,114 @@ prepare_tool(Options, Call, RunId, Limit) ->
                         maps:get(middleware, Options)
                     ),
                     Name = maps:get(name, Active),
-                    Arguments = maps:get(arguments, Active),
                     case allowed(Options, Name) of
                         false ->
                             tool_fail(Options, RunId, <<"AGENT_TOOL_NOT_ALLOWED">>);
                         true ->
-                            Changed = (Name =/= OriginalName) orelse
-                                (Arguments =/= OriginalArguments),
-                            FinalAction = praxo_models:action(
-                                <<"tool.invoke">>,
-                                maps:get(session_id, Options),
-                                Name,
-                                Arguments
-                            ),
-                            case Changed of
-                                true ->
-                                    case authorize(Options, FinalAction) of
-                                        {error, Code} ->
-                                            tool_fail(Options, RunId, Code);
-                                        ok ->
+                            case apply_interrupt(Options, Active, RunId) of
+                                {error, Options1, Code} ->
+                                    tool_fail(Options1, RunId, Code);
+                                {skip, Options1, Call1, Value} ->
+                                    {ok, Options1,
+                                     {-1, interrupt_tool(Value), Call1}, Limit};
+                                {ok, Options1, Active1} ->
+                                    Name1 = maps:get(name, Active1),
+                                    Arguments1 = maps:get(arguments, Active1),
+                                    Changed = (Name1 =/= OriginalName) orelse
+                                        (Arguments1 =/= OriginalArguments),
+                                    FinalAction = praxo_models:action(
+                                        <<"tool.invoke">>,
+                                        maps:get(session_id, Options1),
+                                        Name1,
+                                        Arguments1
+                                    ),
+                                    case Changed of
+                                        true ->
+                                            case authorize(Options1, FinalAction) of
+                                                {error, Code} ->
+                                                    tool_fail(Options1, RunId, Code);
+                                                ok ->
+                                                    prepare_selected_tool(
+                                                        Options1, Active1, RunId, Limit
+                                                    )
+                                            end;
+                                        false ->
                                             prepare_selected_tool(
-                                                Options, Active, RunId, Limit
+                                                Options1, Active1, RunId, Limit
                                             )
-                                    end;
-                                false ->
-                                    prepare_selected_tool(Options, Active, RunId, Limit)
+                                    end
                             end
+                    end
+            end
+    end.
+
+interrupt_tool(Value) ->
+    #{
+        name => <<"interrupt.response">>,
+        description => <<"interrupt response">>,
+        calls => 0,
+        invoke => fun(_Arguments) -> Value end
+    }.
+
+apply_interrupt(Options, Call, RunId) ->
+    Name = maps:get(name, Call),
+    case lists:member(Name, maps:get(interrupt_on, Options)) of
+        false ->
+            {ok, Options, Call};
+        true ->
+            case {maps:get(on_interrupt_decision, Options),
+                  maps:get(on_interrupt, Options)} of
+                {undefined, undefined} ->
+                    {error, Options, <<"AGENT_INTERRUPT_UNHANDLED">>};
+                {DecisionFun, _} when DecisionFun =/= undefined ->
+                    Options1 = emit(
+                        Options,
+                        <<"tool.interrupt">>,
+                        RunId,
+                        #{<<"name">> => Name,
+                          <<"arguments">> => maps:get(arguments, Call)}
+                    ),
+                    Decision = DecisionFun(#{
+                        run_id => RunId,
+                        session_id => maps:get(session_id, Options1),
+                        call => Call
+                    }),
+                    case maps:get(action, Decision, <<>>) of
+                        <<"approve">> ->
+                            {ok, Options1, Call};
+                        <<"edit">> ->
+                            case maps:get(arguments, Decision, undefined) of
+                                undefined ->
+                                    {error, Options1,
+                                     <<"AGENT_INTERRUPT_DECISION_INVALID">>};
+                                Arguments ->
+                                    {ok, Options1, Call#{arguments => Arguments}}
+                            end;
+                        <<"reject">> ->
+                            {error, Options1, <<"AGENT_APPROVAL_DENIED">>};
+                        <<"respond">> ->
+                            {skip, Options1, Call,
+                             maps:get(response, Decision, <<>>)};
+                        _ ->
+                            {error, Options1,
+                             <<"AGENT_INTERRUPT_DECISION_INVALID">>}
+                    end;
+                {undefined, ApprovalFun} ->
+                    Options1 = emit(
+                        Options,
+                        <<"tool.interrupt">>,
+                        RunId,
+                        #{<<"name">> => Name,
+                          <<"arguments">> => maps:get(arguments, Call)}
+                    ),
+                    Approved = ApprovalFun(#{
+                        run_id => RunId,
+                        session_id => maps:get(session_id, Options1),
+                        call => Call
+                    }),
+                    case Approved of
+                        true -> {ok, Options1, Call};
+                        _ -> {error, Options1, <<"AGENT_APPROVAL_DENIED">>}
                     end
             end
     end.
@@ -456,7 +541,11 @@ execute_batch(Options, Prepared, Messages, 1) ->
     lists:foldl(
         fun({Index, Tool, Call}, {ok, OptionsAcc, MessagesAcc}) ->
             {Tool1, Value0} = call(Tool, maps:get(arguments, Call)),
-            UpdatedTools = replace_at(maps:get(tools, OptionsAcc), Index, Tool1),
+            UpdatedTools =
+                case Index of
+                    -1 -> maps:get(tools, OptionsAcc);
+                    _ -> replace_at(maps:get(tools, OptionsAcc), Index, Tool1)
+                end,
             OptionsAcc1 = OptionsAcc#{tools => UpdatedTools},
             Value =
                 case maps:get(pii, OptionsAcc1) of
@@ -495,9 +584,13 @@ execute_batch(Options, Prepared, Messages, _Parallel) ->
                     after
                         0 -> ok
                     end,
-                    UpdatedTools = replace_at(
-                        maps:get(tools, OptionsAcc), Index, Tool1
-                    ),
+                    UpdatedTools =
+                        case Index of
+                            -1 -> maps:get(tools, OptionsAcc);
+                            _ -> replace_at(
+                                maps:get(tools, OptionsAcc), Index, Tool1
+                            )
+                        end,
                     OptionsAcc1 = OptionsAcc#{tools => UpdatedTools},
                     Value =
                         case maps:get(pii, OptionsAcc1) of

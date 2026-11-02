@@ -1,5 +1,14 @@
 # Erlang Core Release Notes
 
+## Unreleased
+
+### Added
+
+- Human-in-the-loop interrupt decisions through `interrupt_on`,
+  `on_interrupt_decision`, and `on_interrupt`.
+- Approve/edit/reject/respond decisions with `tool.interrupt` events and
+  reauthorization of edited arguments.
+
 ## 0.3.1 - 2026-11-01
 
 Source version `0.3.1`; tag creation is a release step.

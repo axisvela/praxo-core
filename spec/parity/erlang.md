@@ -45,6 +45,10 @@ fallback.
 | `agent/middleware.PIIMiddleware` | `praxo_middleware.pii_redact/1` | parity | P1 |
 | `agent/middleware.StructuredOutput` | `praxo_middleware.structured_output/3` | parity | P1 |
 | `agent/middleware.ToolSelectionMiddleware` | `praxo_middleware.tool_selection/1` | parity | P1 |
+| `agent/hitl.Interrupt` | `praxo_agent.run_agent/3` | parity | P2 |
+| `agent/hitl.InterruptDecision` | `praxo_agent.run_agent/3` | parity | P2 |
+| `agent/hitl.InterruptHandler` | `praxo_agent.run_agent/3` | parity | P2 |
+| `agent.Options.OnInterrupt` | `praxo_agent.new_agent_options/1` | parity | P2 |
 
 Cancellation uses the `cancellation` agent option and `praxo_agent.run_agent/3`;
 stream callbacks use `on_stream` with `praxo_models.stream_part/5`. Parallel

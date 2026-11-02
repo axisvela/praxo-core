@@ -31,6 +31,7 @@ run() ->
     test_agent_cancellation(),
     test_agent_stream(),
     test_agent_parallel(),
+    test_agent_hitl(),
     test_sse(),
     io:format("erlang tests passed~n").
 
@@ -236,6 +237,138 @@ tool_model() ->
             praxo_models:usage(0, 0)
         )
     ]).
+
+test_agent_hitl() ->
+    Model = praxo_agent:scripted_model([
+        praxo_models:response(
+            praxo_models:message_assistant(<<>>, [
+                praxo_models:tool_call(<<"c1">>, <<"echo">>,
+                                       #{<<"value">> => <<"original">>})
+            ]),
+            praxo_models:usage(0, 0)
+        ),
+        praxo_models:response(
+            praxo_models:message_assistant(<<"done">>),
+            praxo_models:usage(0, 0)
+        )
+    ]),
+    Tool = praxo_agent:new_tool(<<"echo">>, <<"Echo">>),
+    Options0 = praxo_agent:new_agent_options(Model),
+    Options = Options0#{
+        tools => [Tool],
+        interrupt_on => [<<"echo">>],
+        on_interrupt_decision => fun(_Interrupt) ->
+            #{action => <<"approve">>}
+        end
+    },
+    {ok, Result, Returned} = praxo_agent:run_agent(
+        Options, praxo_models:session(<<"s1">>), <<"go">>
+    ),
+    check(maps:get(output, Result) == <<"done">>, <<"hitl approve output">>),
+    check(maps:get(calls, hd(maps:get(tools, Returned))) == 1,
+          <<"hitl approve calls">>),
+
+    Parent = self(),
+    Model2 = praxo_agent:scripted_model([
+        praxo_models:response(
+            praxo_models:message_assistant(<<>>, [
+                praxo_models:tool_call(<<"c1">>, <<"echo">>,
+                                       #{<<"value">> => <<"original">>})
+            ]),
+            praxo_models:usage(0, 0)
+        ),
+        praxo_models:response(
+            praxo_models:message_assistant(<<"done">>),
+            praxo_models:usage(0, 0)
+        )
+    ]),
+    Options2 = (praxo_agent:new_agent_options(Model2))#{
+        tools => [Tool],
+        policy => fun(Action) ->
+            case maps:get(kind, Action) of
+                <<"tool.invoke">> -> Parent ! hitl_auth;
+                _ -> ok
+            end,
+            #{allowed => true, reason => <<>>}
+        end,
+        interrupt_on => [<<"echo">>],
+        on_interrupt_decision => fun(_Interrupt) ->
+            #{action => <<"edit">>,
+              arguments => #{<<"value">> => <<"edited">>}}
+        end
+    },
+    {ok, _, _} = praxo_agent:run_agent(
+        Options2, praxo_models:session(<<"s1">>), <<"go">>
+    ),
+    receive hitl_auth -> ok after 0 -> error(missing_hitl_auth) end,
+    receive hitl_auth -> ok after 0 -> error(missing_hitl_reauth) end,
+
+    Model3 = praxo_agent:scripted_model([
+        praxo_models:response(
+            praxo_models:message_assistant(<<>>, [
+                praxo_models:tool_call(<<"c1">>, <<"echo">>,
+                                       #{<<"value">> => <<"original">>})
+            ]),
+            praxo_models:usage(0, 0)
+        )
+    ]),
+    Options3 = (praxo_agent:new_agent_options(Model3))#{
+        tools => [Tool],
+        interrupt_on => [<<"echo">>],
+        on_interrupt_decision => fun(_Interrupt) ->
+            #{action => <<"reject">>}
+        end
+    },
+    {error, <<"AGENT_APPROVAL_DENIED">>, _} = praxo_agent:run_agent(
+        Options3, praxo_models:session(<<"s1">>), <<"go">>
+    ),
+
+    Model4 = praxo_agent:scripted_model([
+        praxo_models:response(
+            praxo_models:message_assistant(<<>>, [
+                praxo_models:tool_call(<<"c1">>, <<"echo">>,
+                                       #{<<"value">> => <<"original">>})
+            ]),
+            praxo_models:usage(0, 0)
+        )
+    ]),
+    Options4 = (praxo_agent:new_agent_options(Model4))#{
+        tools => [Tool],
+        interrupt_on => [<<"echo">>]
+    },
+    {error, <<"AGENT_INTERRUPT_UNHANDLED">>, _} = praxo_agent:run_agent(
+        Options4, praxo_models:session(<<"s1">>), <<"go">>
+    ),
+
+    Model5 = praxo_agent:scripted_model([
+        praxo_models:response(
+            praxo_models:message_assistant(<<>>, [
+                praxo_models:tool_call(<<"c1">>, <<"echo">>,
+                                       #{<<"value">> => <<"original">>})
+            ]),
+            praxo_models:usage(0, 0)
+        ),
+        praxo_models:response(
+            praxo_models:message_assistant(<<"done">>),
+            praxo_models:usage(0, 0)
+        )
+    ]),
+    Options5 = (praxo_agent:new_agent_options(Model5))#{
+        tools => [Tool],
+        events => praxo_sink:new(),
+        interrupt_on => [<<"echo">>],
+        on_interrupt_decision => fun(_Interrupt) ->
+            #{action => <<"approve">>}
+        end
+    },
+    {ok, _, Returned5} = praxo_agent:run_agent(
+        Options5, praxo_models:session(<<"s1">>), <<"go">>
+    ),
+    check(
+        length([K || K <- praxo_sink:kinds(maps:get(events, Returned5)),
+                     K == <<"tool.interrupt">>]) == 1,
+        <<"hitl event">>
+    ).
 
 test_agent_authorization() ->
     Parent = self(),
