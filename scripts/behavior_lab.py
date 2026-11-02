@@ -1007,6 +1007,7 @@ def scenarios() -> tuple[Scenario, ...]:
                 "elixir": (elixir_suite(),),
                 "erlang": (native_suite("erlang"),),
                 "c": (c_suite(),),
+                "fortran": (native_suite("fortran"),),
             },
             {
                 "go": "scenario",
@@ -1023,6 +1024,7 @@ def scenarios() -> tuple[Scenario, ...]:
                 "elixir": "suite",
                 "erlang": "suite",
                 "c": "suite",
+                "fortran": "suite",
             },
         ),
     )

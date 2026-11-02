@@ -59,6 +59,10 @@ the Schema row remains partial. Native C++ build/runtime requirements are new.
 | `agent/middleware.FallbackModel` | `praxo_middleware.fallback_model` | parity | P1 |
 | `agent/middleware.StructuredOutput` | `praxo_middleware.structured_output`, `structured_model` | parity | P1 |
 | `agent/middleware.PIIMiddleware` | `praxo_middleware.redact_pii`, `redact_json_pii`, agent options hook | parity | P1 |
+| `agent/hitl.Interrupt` | `agent_options` interrupt fields | parity | P2 |
+| `agent/hitl.InterruptDecision` | `agent_interrupt_hook` decision outputs | parity | P2 |
+| `agent/hitl.InterruptHandler` | `on_interrupt` procedure pointer | parity | P2 |
+| `agent.Options.OnInterrupt` | `agent_options.on_interrupt` | parity | P2 |
 
 Core-local utilities do not add new normative contract symbols:
 `praxo_json` provides native JSON documents, node traversal, encoding, exact

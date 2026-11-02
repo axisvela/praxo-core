@@ -44,6 +44,15 @@ module praxo_agent
       type(sdk_error), intent(inout) :: error
     end subroutine
 
+    subroutine agent_interrupt_hook(ctx, name, arguments, decision_action, &
+        new_arguments, response, error)
+      import :: sdk_error
+      class(*), pointer, intent(in) :: ctx
+      character(*), intent(in) :: name, arguments
+      character(:), allocatable, intent(out) :: decision_action, new_arguments, response
+      type(sdk_error), intent(inout) :: error
+    end subroutine
+
     subroutine agent_parallel_hook(ctx, calls, max_parallel, results, error)
       import :: sdk_error, tool_call, tool_batch_result
       class(*), pointer, intent(in) :: ctx
@@ -83,6 +92,9 @@ module praxo_agent
     procedure(agent_parallel_hook), pointer, nopass :: parallel => null()
     class(*), pointer :: parallel_ctx => null()
     integer :: max_parallel_tools = 1
+    character(:), allocatable :: interrupt_on(:)
+    procedure(agent_interrupt_hook), pointer, nopass :: on_interrupt => null()
+    class(*), pointer :: interrupt_ctx => null()
   end type
 contains
   subroutine run_agent(options, state, prompt, run_id, result, error)
@@ -100,8 +112,9 @@ contains
     character(:), allocatable :: output
     character(:), allocatable :: redacted
     integer :: steps, i, j, step_limit, call_count, entered, hook_index
-    logical :: context_ok, first_failure
+    logical :: context_ok, first_failure, skip_call, use_parallel
     type(sdk_error) :: first_error, hook_error
+    character(:), allocatable :: interrupt_response
     type(tool_call), allocatable :: prepared_calls(:)
     type(tool_batch_result), allocatable :: batch_results(:)
     character(:), allocatable :: original_name, original_arguments, active_name, active_arguments
@@ -115,6 +128,12 @@ contains
     if (.not. allocated(state%id)) then
       error%code = 'INVALID_REQUEST'
       return
+    end if
+    use_parallel = associated(options%parallel)
+    if (use_parallel) then
+      if (allocated(options%interrupt_on)) then
+        use_parallel = size(options%interrupt_on) == 0
+      end if
     end if
     entered = 0
     if (allocated(options%middleware)) then
@@ -237,11 +256,11 @@ contains
         end if
         return
       end if
-      if (associated(options%parallel)) then
+      if (use_parallel) then
         allocate(prepared_calls(call_count))
         do i = 1, call_count
           prepared_calls(i) = res%message%tool_calls(i)
-          call prepare_call(prepared_calls(i))
+          call prepare_call(prepared_calls(i), skip_call, interrupt_response)
           if (error%failed()) exit
         end do
         if (.not. error%failed()) then
@@ -270,8 +289,13 @@ contains
           call = res%message%tool_calls(i)
           call check_cancelled()
           if (error%failed()) exit
-          call prepare_call(call)
+          call prepare_call(call, skip_call, interrupt_response)
           if (error%failed()) exit
+          if (skip_call) then
+            call append_message(req%messages, text_message( &
+              'tool', interrupt_response, string_value(call%id)))
+            cycle
+          end if
           call options%tools%invoke(call%name, string_value(call%arguments), output, error)
           if (error%failed()) exit
           if (.not. allocated(output)) output = ''
@@ -359,8 +383,13 @@ contains
       if (hook_error%failed()) error%code = 'STREAM_ERROR'
     end subroutine
 
-    subroutine prepare_call(item)
+    subroutine prepare_call(item, skip, response)
       type(tool_call), intent(inout) :: item
+      logical, intent(out) :: skip
+      character(:), allocatable, intent(out) :: response
+      character(:), allocatable :: decision_action, new_arguments
+      skip = .false.
+      response = ''
       if (len_trim(string_value(item%name)) == 0) then
         error%code = 'INVALID_REQUEST'
         return
@@ -391,6 +420,36 @@ contains
       if (.not. allowed(item%name)) then
         error%code = 'AGENT_TOOL_NOT_ALLOWED'
         return
+      end if
+      if (allocated(options%interrupt_on)) then
+        if (any(options%interrupt_on == item%name)) then
+          if (.not. associated(options%on_interrupt)) then
+            error%code = 'AGENT_INTERRUPT_UNHANDLED'
+            return
+          end if
+          call emit('tool.interrupt', item%name, string_value(item%arguments))
+          call options%on_interrupt(options%interrupt_ctx, item%name, &
+            string_value(item%arguments), decision_action, new_arguments, response, error)
+          if (error%failed()) return
+          select case (trim(decision_action))
+            case ('approve')
+            case ('edit')
+              if (.not. allocated(new_arguments)) then
+                error%code = 'AGENT_INTERRUPT_DECISION_INVALID'
+                return
+              end if
+              item%arguments = new_arguments
+            case ('reject')
+              error%code = 'AGENT_APPROVAL_DENIED'
+              return
+            case ('respond')
+              skip = .true.
+              return
+            case default
+              error%code = 'AGENT_INTERRUPT_DECISION_INVALID'
+              return
+          end select
+        end if
       end if
       if (item%name /= original_name .or. item%arguments /= original_arguments) then
         if (.not. authorize('tool.invoke', item%name, string_value(item%arguments))) return

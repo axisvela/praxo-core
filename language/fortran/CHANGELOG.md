@@ -1,5 +1,14 @@
 # Fortran Core Release Notes
 
+## Unreleased
+
+### Added
+
+- Human-in-the-loop interrupt decisions through `agent_options` interrupt
+  fields and an `on_interrupt` procedure pointer.
+- Approve/edit/reject/respond decisions with `tool.interrupt` events and
+  reauthorization of edited arguments. HITL runs use the sequential tool path.
+
 ## 0.5.0 - 2026-11-01
 
 Source version `0.5.0`; tag creation is a release step.

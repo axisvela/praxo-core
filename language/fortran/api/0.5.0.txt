@@ -31,6 +31,13 @@ class(*), pointer, intent(in) :: ctx
 type(stream_part), intent(in) :: part
 type(sdk_error), intent(inout) :: error
 end subroutine
+subroutine agent_interrupt_hook(ctx, name, arguments, decision_action, new_arguments, response, error)
+import :: sdk_error
+class(*), pointer, intent(in) :: ctx
+character(*), intent(in) :: name, arguments
+character(:), allocatable, intent(out) :: decision_action, new_arguments, response
+type(sdk_error), intent(inout) :: error
+end subroutine
 subroutine agent_parallel_hook(ctx, calls, max_parallel, results, error)
 import :: sdk_error, tool_call, tool_batch_result
 class(*), pointer, intent(in) :: ctx
@@ -62,6 +69,9 @@ class(*), pointer :: stream_ctx => null()
 procedure(agent_parallel_hook), pointer, nopass :: parallel => null()
 class(*), pointer :: parallel_ctx => null()
 integer :: max_parallel_tools = 1
+character(:), allocatable :: interrupt_on(:)
+procedure(agent_interrupt_hook), pointer, nopass :: on_interrupt => null()
+class(*), pointer :: interrupt_ctx => null()
 end type
 subroutine run_agent(options, state, prompt, run_id, result, error)
 type(agent_options), intent(in) :: options

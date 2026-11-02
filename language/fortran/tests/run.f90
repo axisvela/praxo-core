@@ -35,6 +35,7 @@ program core_tests
   character(:), allocatable :: output
   integer, target :: invocations, other_invocations
   integer :: failures = 0, checks = 0, i
+  character(:), allocatable :: hitl_action, hitl_arguments, hitl_response
 
   call reset()
   call run()
@@ -391,9 +392,66 @@ program core_tests
   call parse_sse_stream('data: {"choices"' // achar(10) // achar(10), sse_content, sse_error)
   call check(string_value(sse_error%code) == 'MODEL_STREAM', 'sse half packet')
 
+  call reset()
+  call tool_script()
+  options%interrupt_on = [character(len=4) :: 'echo']
+  options%on_interrupt => hitl_hook
+  hitl_action = 'approve'
+  hitl_arguments = ''
+  hitl_response = ''
+  call run()
+  call check(.not. error%failed() .and. result%output == 'done', 'hitl approve')
+  call check(invocations == 1, 'hitl approve effect')
+  call check(any([(sink%items(i)%kind == 'tool.interrupt', &
+    i = 1, size(sink%items))]), 'hitl event')
+
+  call reset()
+  call tool_script()
+  options%interrupt_on = [character(len=4) :: 'echo']
+  options%on_interrupt => hitl_hook
+  options%gate => gate
+  hitl_action = 'edit'
+  hitl_arguments = '{"text":"edited"}'
+  call run()
+  call check(.not. error%failed() .and. invocations == 1, 'hitl edit effect')
+  call check(gate%tool_calls == 2, 'hitl edit reauthorizes')
+
+  call reset()
+  call tool_script()
+  options%interrupt_on = [character(len=4) :: 'echo']
+  options%on_interrupt => hitl_hook
+  hitl_action = 'reject'
+  call run()
+  call check_error('AGENT_APPROVAL_DENIED', 'hitl reject')
+  call check(invocations == 0, 'hitl reject effect')
+
+  call reset()
+  call tool_script()
+  options%interrupt_on = [character(len=4) :: 'echo']
+  options%on_interrupt => null()
+  call run()
+  call check_error('AGENT_INTERRUPT_UNHANDLED', 'hitl unhandled')
+
   if (failures > 0) error stop 1
   print '(a,i0,a)', 'PASS: ', checks, ' native Fortran assertions'
 contains
+  subroutine hitl_hook(ctx, name, arguments, decision_action, new_arguments, &
+      response, hook_error)
+    class(*), pointer, intent(in) :: ctx
+    character(*), intent(in) :: name, arguments
+    character(:), allocatable, intent(out) :: decision_action, new_arguments, response
+    type(sdk_error), intent(inout) :: hook_error
+    if (.false.) then
+      if (associated(ctx)) print '(a)', name//arguments
+    end if
+    decision_action = hitl_action
+    response = hitl_response
+    if (allocated(hitl_arguments)) then
+      new_arguments = hitl_arguments
+    end if
+    hook_error%code = ''
+  end subroutine
+
   subroutine reset()
     call reset_hooks()
     provider = scripted_model()
