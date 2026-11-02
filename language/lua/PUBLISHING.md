@@ -3,7 +3,7 @@
 ## Status
 
 `praxo-core` `0.3.0-1` was published to LuaRocks from source tag
-`lua/v0.3.0`:
+`lua/v0.3.0`. The missing `0.2.0-1` release was backfilled from `lua/v0.2.0`:
 
 <https://luarocks.org/modules/hanhhuiwen/praxo-core>
 

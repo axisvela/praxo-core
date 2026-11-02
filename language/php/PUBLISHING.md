@@ -3,8 +3,9 @@
 ## Status
 
 The PHP package is `axisvela/praxo-core` on Packagist. Its publication source is
-the split repository `axisvela/praxo-core-php`. For `0.3.0`, the split
-repository was updated from the main repository and tag `v0.3.0` was pushed.
+the split repository `axisvela/praxo-core-php`. Tags `v0.3.0` and the backfilled
+`v0.2.0` were pushed from the corresponding main-repository tags
+(`php/v0.3.0`, `php/v0.2.0`).
 
 Packagist does not receive a manual upload from this repository; it reads the
 split repository's Composer metadata and tags. Verify the Packagist package page

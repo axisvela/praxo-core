@@ -3,6 +3,8 @@
 ## Status
 
 `praxo-core` `0.3.0` was published to RubyGems from source tag `ruby/v0.3.0`.
+The missing `0.2.0` release was backfilled from `ruby/v0.2.0`; RubyGems now
+reports `0.3.0`, `0.2.0`, and `0.1.0`.
 
 ## Build
 
