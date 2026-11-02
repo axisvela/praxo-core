@@ -63,27 +63,31 @@ Bridge、Sample 描述运行时的接入方式，不证明其语言缺乏 Framew
 - 核心、Core、适配器与契约独立版本化，每个 Core 声明其 `SPEC_VERSION`。
 - 版本标签与成熟度相互独立：源码标签记录发布，成熟度记录声明范围的完成情况与验证状态。
 - 源码标签不等于已发布到包管理器，应按语言页面中的安装或源码构建步骤操作。
-- Python 已发布 `praxo-core==0.2.4` 到 PyPI；TypeScript 已从源码标签
-  `typescript/v0.1.5` 发布 `@axisvela/praxo-core@0.1.5` 到 npm，带有 npm
+- Python 从源码标签 `python/v0.3.0` 发布 `praxo-core==0.3.0` 到 PyPI；TypeScript 从源码标签
+  `typescript/v0.2.0` 在 npm 暂存 `@axisvela/praxo-core@0.2.0`，带有 npm
   provenance，并采用 agent framework 优先的 README 和元数据。
-- Java 已从源码标签 `java/v0.3.0` 在 Maven Central 发布
-  `com.axisvela:praxo-core:0.3.0`，Maven groupId 为 `com.axisvela`，Java
-  包名为 `com.axisvela.praxo`。较早的 `java/v0.2.3` 标签仍保留
+- Java 源码标签 `java/v0.4.0` 增加人工审批中断决策，Maven groupId 为 `com.axisvela`，
+  包名为 `com.axisvela.praxo`；Maven Central 在发布前仍为
+  `com.axisvela:praxo-core:0.3.0`。较早的 `java/v0.2.3` 标签仍保留
   `io.axisvela.praxo`。
-- PHP 源码标签 `php/v0.3.0` 包含流式运行、取消、SSE 校验、最终授权、生命周期清理，
-  以及通过 `batchToolInvoker` 提供的调用方协作式并行工具调度。Packagist 包仍为
+- PHP 源码标签 `php/v0.4.0` 在流式运行、取消、SSE 校验、最终授权、生命周期清理，
+  以及通过 `batchToolInvoker` 提供的调用方协作式并行工具调度之上增加人工审批
+  中断决策。Packagist 包仍为
   `axisvela/praxo-core==0.1.0`，来自独立发布仓库 `axisvela/praxo-core-php`；
   Core 本身不创建线程。
-- Ruby 源码标签 `ruby/v0.3.0` 增加 middleware、最终工具 allowlist、重新授权、
-  生命周期清理、取消、流式回调、原生 SSE parser、有限并行工具和按 run 隔离的调用上限。
+- Ruby 源码标签 `ruby/v0.4.0` 在 middleware、最终工具 allowlist、重新授权、
+  生命周期清理、取消、流式回调、原生 SSE parser、有限并行工具和按 run 隔离的
+  调用上限之上增加人工审批中断决策。
   RubyGems 包仍为 `praxo-core==0.1.0`；干净项目已安装该 gem 并运行最小 agent。
-- C++ 源码标签 `cpp/v0.3.0` 增加 middleware、最终工具 allowlist、重新授权、
-  生命周期清理、取消、流式回调、原生 SSE parser、有限并行工具和按 run 隔离的调用上限。取消、流式、SSE、并行工具和 run-state isolation 仍不支持。
-- Lua 源码标签 `lua/v0.3.0` 增加 middleware、最终工具 allowlist、重新授权、
-  生命周期清理、取消、流式回调、原生 SSE parser 和调用方提供的批处理工具调度。
+- C++ 源码标签 `cpp/v0.4.0` 在 middleware、最终工具 allowlist、重新授权、
+  生命周期清理、取消、流式回调、原生 SSE parser、有限并行工具和按 run 隔离的
+  调用上限之上增加人工审批中断决策。
+- Lua 源码标签 `lua/v0.4.0` 在 middleware、最终工具 allowlist、重新授权、
+  生命周期清理、取消、流式回调、原生 SSE parser 和调用方提供的批处理工具调度
+  之上增加人工审批中断决策。
   LuaRocks 包仍为 `praxo-core==0.1.0-1`。本地 rock 构建和模块加载通过；
   registry 安装 smoke 待完成。
-- C# 源码标签 `csharp/v0.2.0` 包含流式运行、取消、有限并行工具和 SSE 校验。
+- C# 源码标签 `csharp/v0.3.0` 在流式运行、取消、有限并行工具和 SSE 校验之上增加人工审批中断决策。
   NuGet 包仍为 `Praxo.Core==0.1.2`（源码标签 `csharp/v0.1.2`）；本地 .NET
   消费者安装尚未记录。
 - D 已从独立发布仓库 `axisvela/praxo-core-d`（tag `v0.1.0`）在
@@ -92,18 +96,19 @@ Bridge、Sample 描述运行时的接入方式，不证明其语言缺乏 Framew
 - Dart 已有源码标签 `dart/v0.1.1`，并在 publisher `axisvela.com` 下发布
   `praxo_core==0.1.1` 到 pub.dev。干净项目已安装该包、导入
   `package:praxo_core/praxo_core.dart` 并运行最小 agent。
-- Rust 源码标签 `rust/v0.2.0` 包含全部 11 个向量组、原生测试、`tool.Gateway`、`jsonschema.Schema`、流式回调、取消、有限并行工具和 API 快照。crates.io 包仍为 `praxo-core==0.1.4`；干净临时项目安装该包后报告 `SDK_VERSION` `0.1.4` 和 `SPEC_VERSION` `0.2.0`。不包含 HTTP OpenAI adapter、VFS 或 plugin hosts。
-- R 源码标签 `r/v0.4.0` 包含 policy、middleware、生命周期清理、取消、流式回调、SSE parser、有限并行工具和 API 快照。Unix 使用 `mclapply`，Windows 使用 PSOCK cluster；不声明包管理器发布。
+- Rust 源码标签 `rust/v0.3.0` 在全部 11 个向量组、原生测试、`tool.Gateway`、`jsonschema.Schema`、流式回调、取消、有限并行工具和 API 快照之上增加人工审批中断决策。crates.io 包仍为 `praxo-core==0.1.4`；干净临时项目安装该包后报告 `SDK_VERSION` `0.1.4` 和 `SPEC_VERSION` `0.2.0`。不包含 HTTP OpenAI adapter、VFS 或 plugin hosts。
+- R 源码标签 `r/v0.5.0` 在 policy、middleware、生命周期清理、取消、流式回调、SSE parser、有限并行工具和 API 快照之上增加人工审批中断决策。Unix 使用 `mclapply`，Windows 使用 PSOCK cluster；不声明包管理器发布。
 - C 源码标签 `c/v0.6.0` 在 policy 授权、有序 middleware、生命周期清理、
   最终工具 allowlist 检查、中途修改后的重新授权、取消、流式回调、SSE parser
   和有限并行工具之上增加人工审批中断决策。Unix 使用 pthread 与逐线程 arena；
   Windows 保持顺序执行。
-- Fortran 源码标签 `fortran/v0.5.0` 包含全部 11 个向量组、原生测试、API 快照、
+- Fortran 源码标签 `fortran/v0.6.0` 在全部 11 个向量组、原生测试、API 快照、
   PII/中间件、policy 驱动的 middleware/生命周期授权、取消、流式回调、原生 SSE
-  parser 和调用方提供的批处理工具调度。它不是包管理器发布；异步 provider 流不在
+  parser 和调用方提供的批处理工具调度之上增加人工审批中断决策；HITL 运行使用
+  顺序工具路径。它不是包管理器发布；异步 provider 流不在
   声明范围，受限 JSON Schema 子集仍为部分完成。`0.3.0` 使用 RE2/Unicode 取代
   ASCII matcher，新增原生 C++ 库依赖；历史 `0.2.2` 标签仍保留无此原生依赖的实现。
-- COBOL 已有源码标签 `cobol/v0.3.0`，包含全部 11 个向量组、原生与契约测试、调用方持有状态的 scoped registry 和 API 快照。它新增 middleware、生命周期、取消、流式、SSE 和调用方提供的批处理工具调度，行为覆盖达到 20/20；并行工具委托给批处理调度器，而不是原生线程。它不是包管理器发布；其余 Go 面大多为 partial，registry 无并发和 custom spec provider。
+- COBOL 已有源码标签 `cobol/v0.4.0`，包含全部 11 个向量组、人工审批中断决策、原生与契约测试、调用方持有状态的 scoped registry 和 API 快照。它新增 middleware、生命周期、取消、流式、SSE 和调用方提供的批处理工具调度，行为覆盖达到 20/20；并行工具委托给批处理调度器，而不是原生线程。它不是包管理器发布；其余 Go 面大多为 partial，registry 无并发和 custom spec provider。
 - Haskell 已有源码标签 `haskell/v0.2.0`，包含全部 11 个向量组、原生测试、API
   快照/parity 以及运行时/中间件辅助函数。未声明 Hackage 发布或生产就绪。
 - Delphi/Free Pascal 已有源码标签 `delphi/v0.2.1`，在 Free Pascal 3.2.2 下通过
@@ -113,12 +118,14 @@ Bridge、Sample 描述运行时的接入方式，不证明其语言缺乏 Framew
   原生测试和 API 快照/parity。MATLAB 运行时、提供商适配器和包管理器发布均未声明。
 - OCaml 已有源码标签 `ocaml/v0.2.0`，包含全部 11 个向量组、原生测试和 API
   快照/parity。原生 `ocamlopt` 编译、提供商适配器和包管理器发布均未声明。
-- Elixir 源码标签 `elixir/v0.3.0` 增加 policy、middleware、最终工具 allowlist、
-  重新授权、生命周期清理、取消、流式回调、原生 SSE parser、有限并行工具和按 run 隔离的调用上限。
-  Hex 包仍为 `praxo_core==0.3.0`；HexDocs 尚未发布。
-- Erlang 源码标签 `erlang/v0.3.0` 增加 policy、middleware、最终工具 allowlist、
+- Elixir 源码标签 `elixir/v0.4.0` 在 policy、middleware、最终工具 allowlist、
   重新授权、生命周期清理、取消、流式回调、原生 SSE parser、有限并行工具和按 run
-  隔离的调用上限。Hex 包仍为 `praxo_core_erlang==0.3.1`；提供商适配器、HTTP
+  隔离的调用上限之上增加人工审批中断决策。Hex 包仍为 `praxo_core==0.3.0`；
+  HexDocs 尚未发布。
+- Erlang 源码标签 `erlang/v0.4.0` 在 policy、middleware、最终工具 allowlist、
+  重新授权、生命周期清理、取消、流式回调、原生 SSE parser、有限并行工具和按 run
+  隔离的调用上限之上增加人工审批中断决策。Hex 包仍为
+  `praxo_core_erlang==0.3.1`；提供商适配器、HTTP
   流式路径和生产就绪均未声明。
 - Lisp 已有 SBCL 桥接的源码标签 `lisp/v0.1.0`，不提供原生 Lisp 循环；转发、UTF-8、
   错误和退出码检查已在本地和 Linux CI 通过。消费者细节与包管理器发布仍待完成。

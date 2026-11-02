@@ -1,6 +1,8 @@
 # C++ Core Release Notes
 
-## Unreleased
+## 0.4.0 - 2026-11-02
+
+Source release tag `cpp/v0.4.0`.
 
 ### Added
 
@@ -9,6 +11,7 @@
 - `Interrupt`, `InterruptAction`, and `InterruptDecision` with approve/edit/
   reject/respond actions. Interrupted calls emit `tool.interrupt` and edited
   arguments are reauthorized.
+- API snapshot `api/0.4.0.txt`.
 
 ## 0.3.0 - 2026-11-01
 

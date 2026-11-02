@@ -1,6 +1,8 @@
 # Rust Core Release Notes
 
-## Unreleased
+## 0.3.0 - 2026-11-02
+
+Source release tag `rust/v0.3.0`. The crates.io package remains `0.1.4`.
 
 ### Added
 
@@ -9,6 +11,7 @@
 - `AgentOptions::interrupt_on`, `on_interrupt_decision`, and `on_interrupt`.
   Interrupted calls emit `tool.interrupt`, edited arguments are reauthorized,
   and reject/respond follow the Core contract.
+- API snapshot `api/0.3.0.txt`.
 
 ## 0.2.0 - 2026-11-01
 

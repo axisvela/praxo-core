@@ -16,8 +16,8 @@ included. A streaming SSE parser is
 included; an HTTP OpenAI-compatible client, VFS, and plugin hosts are not yet
 implemented.
 
-Package version: `0.2.0`. The latest crates.io package is `praxo-core@0.1.4`;
-`0.2.0` is a source release. Supported contract: `SPEC_VERSION` `0.2.0`
+Package version: `0.3.0`. The latest crates.io package is `praxo-core@0.1.4`;
+`0.3.0` is a source release. Supported contract: `SPEC_VERSION` `0.2.0`
 (`praxo_core::SPEC_VERSION`).
 
 ## Install
@@ -98,7 +98,7 @@ and direct trait implementations, and checks implemented symbols against
 are excluded. Auto traits, blanket implementations, and expanded alias internals
 are excluded to avoid compiler/platform-specific noise.
 
-The baseline is [`api/0.2.0.txt`](api/0.2.0.txt). Regenerate it with
+The baseline is [`api/0.3.0.txt`](api/0.3.0.txt). Regenerate it with
 `python api-snapshot.py` only after reviewing an intentional API change.
 This is not a binary ABI or automated semver-compatibility guarantee. Serde/wire
 attributes still require specification review and conformance tests; they are

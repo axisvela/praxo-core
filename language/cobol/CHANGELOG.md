@@ -1,6 +1,8 @@
 # COBOL Core Release Notes
 
-## Unreleased
+## 0.4.0 - 2026-11-02
+
+Source release tag `cobol/v0.4.0`. This is not a package-registry release.
 
 ### Added
 
@@ -8,6 +10,7 @@
   `px-interrupt-count`, and `px-interrupt-tools`.
 - A `px-interrupt` callback record supports approve/edit/reject/respond.
   Interrupted calls emit `tool.interrupt`; edited arguments are reauthorized.
+- API snapshot `api/0.4.0.txt`.
 
 ## 0.3.0 - 2026-11-01
 

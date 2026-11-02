@@ -1,6 +1,8 @@
 # Fortran Core Release Notes
 
-## Unreleased
+## 0.6.0 - 2026-11-02
+
+Source release tag `fortran/v0.6.0`. This is not a package-registry release.
 
 ### Added
 
@@ -8,6 +10,7 @@
   fields and an `on_interrupt` procedure pointer.
 - Approve/edit/reject/respond decisions with `tool.interrupt` events and
   reauthorization of edited arguments. HITL runs use the sequential tool path.
+- API snapshot `api/0.6.0.txt`.
 
 ## 0.5.0 - 2026-11-01
 

@@ -1,6 +1,9 @@
 # Erlang Core Release Notes
 
-## Unreleased
+## 0.4.0 - 2026-11-02
+
+Source release tag `erlang/v0.4.0`. The Hex package remains
+`praxo_core_erlang@0.3.1`.
 
 ### Added
 
@@ -8,6 +11,7 @@
   `on_interrupt_decision`, and `on_interrupt`.
 - Approve/edit/reject/respond decisions with `tool.interrupt` events and
   reauthorization of edited arguments.
+- API snapshot `api/0.4.0.txt`.
 
 ## 0.3.1 - 2026-11-01
 

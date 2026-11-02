@@ -91,36 +91,39 @@ a merged implementation PR as a support commitment.
 - Each Core implementation declares its supported `SPEC_VERSION`.
 - A source release tag does not establish package-registry availability.
 - Use the installation or source-build instructions on the language page.
-- Python publishes `praxo-core==0.2.4` on PyPI. TypeScript publishes
-  `@axisvela/praxo-core@0.1.5` on npm from source tag `typescript/v0.1.5`;
-  the package has npm provenance and an agent-framework-first README and
-  metadata.
-- Java publishes `com.axisvela:praxo-core:0.3.0` on Maven Central from source
-  tag `java/v0.3.0`, with Maven groupId `com.axisvela` and Java packages under
-  `com.axisvela.praxo`. The earlier `java/v0.2.3` tag retains
-  `io.axisvela.praxo`.
-- PHP source tag `php/v0.3.0` includes streaming runs, cancellation, SSE
-  validation, final authorization, lifecycle cleanup, and caller-provided
-  cooperative parallel tool dispatch through `batchToolInvoker`. The Packagist
+- Python publishes `praxo-core==0.3.0` on PyPI from source tag
+  `python/v0.3.0`. TypeScript stages `@axisvela/praxo-core@0.2.0` on npm from
+  source tag `typescript/v0.2.0`; the package has npm provenance and an
+  agent-framework-first README and metadata.
+- Java source tag `java/v0.4.0` adds HITL interrupt decisions with Maven groupId
+  `com.axisvela` and Java packages under `com.axisvela.praxo`. Maven Central
+  remains `com.axisvela:praxo-core:0.3.0` until `0.4.0` is published. The
+  earlier `java/v0.2.3` tag retains `io.axisvela.praxo`.
+- PHP source tag `php/v0.4.0` adds HITL interrupt decisions to streaming runs,
+  cancellation, SSE validation, final authorization, lifecycle cleanup, and
+  caller-provided cooperative parallel tool dispatch through `batchToolInvoker`.
+  The Packagist
   package remains `axisvela/praxo-core==0.1.0` from the split publication
   repository `axisvela/praxo-core-php`; the Core does not create threads.
-- Ruby source tag `ruby/v0.3.0` adds middleware hooks, final-tool allowlist
-  checks, reauthorization, lifecycle cleanup, cancellation, stream callbacks, a
-  native SSE parser, bounded parallel tools, and run-scoped call limits. The
+- Ruby source tag `ruby/v0.4.0` adds HITL interrupt decisions to middleware
+  hooks, final-tool allowlist checks, reauthorization, lifecycle cleanup,
+  cancellation, stream callbacks, a native SSE parser, bounded parallel tools,
+  and run-scoped call limits. The
   RubyGems package remains `praxo-core==0.1.0`; a clean project installed it and
   ran a minimal agent.
-- C++ source tag `cpp/v0.3.0` adds middleware hooks, final-tool allowlist
-  checks, reauthorization, lifecycle cleanup, cancellation, stream callbacks, a
-  native SSE parser, bounded parallel tools, and run-scoped call limits.
-  Cancellation, streaming, SSE, parallel tools, and run-state isolation remain
-  unsupported.
-- Lua source tag `lua/v0.3.0` adds middleware hooks, final-tool allowlist
-  checks, reauthorization, lifecycle cleanup, cancellation, stream callbacks, a
-  native SSE parser, and caller-provided batch tool dispatch. The LuaRocks
+- C++ source tag `cpp/v0.4.0` adds HITL interrupt decisions to middleware hooks,
+  final-tool allowlist checks, reauthorization, lifecycle cleanup, cancellation,
+  stream callbacks, a native SSE parser, bounded parallel tools, and run-scoped
+  call limits.
+- Lua source tag `lua/v0.4.0` adds HITL interrupt decisions to middleware hooks,
+  final-tool allowlist checks, reauthorization, lifecycle cleanup, cancellation,
+  stream callbacks, a native SSE parser, and caller-provided batch tool dispatch.
+  The LuaRocks
   package remains `praxo-core==0.1.0-1`. A local rock build and module load
   passed; registry install smoke is pending.
-- C# source tag `csharp/v0.2.0` includes streaming runs, cancellation, bounded
-  parallel tools, and SSE validation. The NuGet package remains
+- C# source tag `csharp/v0.3.0` adds HITL interrupt decisions to streaming
+  runs, cancellation, bounded parallel tools, and SSE validation. The NuGet
+  package remains
   `Praxo.Core==0.1.2` from source tag `csharp/v0.1.2`; a local .NET consumer
   install is not yet recorded.
 - D publishes `praxo-core==0.1.0` on DUB/code.dlang.org from the split
@@ -129,33 +132,36 @@ a merged implementation PR as a support commitment.
 - Dart has source tag `dart/v0.1.1` and publishes `praxo_core==0.1.1` on
   pub.dev under publisher `axisvela.com`. A clean project installed the package,
   imported `package:praxo_core/praxo_core.dart`, and ran a minimal agent.
-- Rust source tag `rust/v0.2.0` includes all eleven vector groups, native tests,
-  `tool.Gateway`, `jsonschema.Schema`, streaming callbacks, cancellation,
-  bounded parallel tools, and an API snapshot. The crates.io package remains
+- Rust source tag `rust/v0.3.0` adds HITL interrupt decisions to all eleven
+  vector groups, native tests, `tool.Gateway`, `jsonschema.Schema`, streaming
+  callbacks, cancellation, bounded parallel tools, and an API snapshot. The
+  crates.io package remains
   `praxo-core==0.1.4`; a clean temporary project installed that package and
   reported `SDK_VERSION` `0.1.4` and `SPEC_VERSION` `0.2.0`. The HTTP OpenAI
   adapter, VFS, and plugin hosts are not included.
-- R source tag `r/v0.4.0` includes policy, middleware, lifecycle cleanup,
-  cancellation, streaming callbacks, an SSE parser, bounded parallel tools, and
-  an API snapshot. Unix uses `mclapply`; Windows uses a PSOCK cluster. No
+- R source tag `r/v0.5.0` adds HITL interrupt decisions to policy, middleware,
+  lifecycle cleanup, cancellation, streaming callbacks, an SSE parser, bounded
+  parallel tools, and an API snapshot. Unix uses `mclapply`; Windows uses a PSOCK cluster. No
   package-registry release is claimed.
 - C source tag `c/v0.6.0` adds human-in-the-loop interrupt decisions on top of
   policy authorization, ordered middleware, lifecycle cleanup, final-tool
   allowlist checks, middleware reauthorization, cancellation, streaming
   callbacks, an SSE parser, and bounded parallel tools. Unix uses pthread
   workers with per-thread arenas; Windows keeps the sequential path.
-- Fortran source tag `fortran/v0.5.0` includes all eleven vector groups, native
-  tests, an API snapshot, PII/middleware, policy-backed middleware/lifecycle
-  authorization, cancellation, stream callbacks, a native SSE parser, and
-  caller-provided batch tool dispatch. It is not a package-registry release;
+- Fortran source tag `fortran/v0.6.0` adds HITL interrupt decisions to all
+  eleven vector groups, native tests, an API snapshot, PII/middleware,
+  policy-backed middleware/lifecycle authorization, cancellation, stream
+  callbacks, a native SSE parser, and caller-provided batch tool dispatch. HITL
+  runs use the sequential tool path. It is not a package-registry release;
   asynchronous provider streaming is outside the declared surface, and the
   bounded JSON Schema subset remains partial. Version `0.3.0` replaced the ASCII matcher with RE2/Unicode and
   requires a native C++ library; the historical `0.2.2` tag retains the old
   matcher without that RE2/C++ requirement.
-- COBOL has source tag `cobol/v0.3.0` with all eleven vector groups, native and
-  contract tests, caller-owned scoped registries, and an API snapshot. It adds
-  middleware, lifecycle, cancellation, streaming, SSE, and caller-provided
-  batch tool dispatch, reaching 20/20 behavior scenarios. Parallel tools are
+- COBOL has source tag `cobol/v0.4.0` with all eleven vector groups, HITL
+  interrupt decisions, native and contract tests, caller-owned scoped
+  registries, and an API snapshot. It adds middleware, lifecycle, cancellation,
+  streaming, SSE, and caller-provided batch tool dispatch, reaching 20/20
+  behavior scenarios. Parallel tools are
   delegated to the batch dispatcher rather than native threads. It is not a
   package-registry release; most remaining Go surfaces are partial and the
   registry has no concurrency or custom spec provider.
@@ -171,20 +177,22 @@ a merged implementation PR as a support commitment.
 - OCaml has source tag `ocaml/v0.2.0` with all eleven vector groups, native
   tests, and API snapshot/parity. Native `ocamlopt` compilation, provider
   adapters, and package registries are not claimed.
-- Elixir source tag `elixir/v0.3.0` adds policy hooks, middleware, final-tool
-  allowlist checks, reauthorization, lifecycle cleanup, cancellation, stream
-  callbacks, a native SSE parser, bounded parallel tools, and run-scoped call
-  limits. The Hex package is `praxo_core==0.3.0`; `0.2.0` is also published.
+- Elixir source tag `elixir/v0.4.0` adds HITL interrupt decisions to policy
+  hooks, middleware, final-tool allowlist checks, reauthorization, lifecycle
+  cleanup, cancellation, stream callbacks, a native SSE parser, bounded parallel
+  tools, and run-scoped call limits. The Hex package remains
+  `praxo_core==0.3.0`; `0.2.0` is also published.
   HexDocs are not published.
 - Nim, V, and Objective-C have source tags `nim/v0.1.1`, `v/v0.1.1`, and
   `objc/v0.1.1`. They include all eleven vector groups, native tests, and API
   snapshots. Package-registry publication, production readiness, and complete
   Go parity are not claimed; optional Go hooks and provider adapters are not
   included.
-- Erlang source tag `erlang/v0.3.0` adds policy hooks, middleware, final-tool
-  allowlist checks, reauthorization, lifecycle cleanup, cancellation, stream
-  callbacks, a native SSE parser, bounded parallel tools, and run-scoped call
-  limits. The Hex package is `praxo_core_erlang==0.3.1`; `0.2.0` is also
+- Erlang source tag `erlang/v0.4.0` adds HITL interrupt decisions to policy
+  hooks, middleware, final-tool allowlist checks, reauthorization, lifecycle
+  cleanup, cancellation, stream callbacks, a native SSE parser, bounded parallel
+  tools, and run-scoped call limits. The Hex package remains
+  `praxo_core_erlang==0.3.1`; `0.2.0` is also
   published. Provider adapters, HTTP streaming, and production readiness are not
   claimed.
 - Lisp has source tag `lisp/v0.1.0` for the SBCL bridge over the bridge CLI. It

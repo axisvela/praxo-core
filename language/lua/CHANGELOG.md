@@ -1,6 +1,8 @@
 # Lua Core Release Notes
 
-## Unreleased
+## 0.4.0 - 2026-11-02
+
+Source release tag `lua/v0.4.0`. The LuaRocks package remains `0.1.0-1`.
 
 ### Added
 
@@ -8,6 +10,7 @@
   `on_interrupt_decision`, and `on_interrupt`.
 - `models.interrupt`, `models.interrupt_decision`, and `INTERRUPT_*` actions.
   Interrupted calls emit `tool.interrupt` and edited arguments are reauthorized.
+- API snapshot `api/0.4.0.txt` and rockspec `0.4.0-1`.
 
 ## 0.3.0 - 2026-11-01
 

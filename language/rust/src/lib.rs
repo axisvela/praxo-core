@@ -16,5 +16,5 @@ pub mod stream;
 pub mod tool;
 pub mod toolcall;
 
-pub const SDK_VERSION: &str = "0.2.0";
+pub const SDK_VERSION: &str = "0.3.0";
 pub const SPEC_VERSION: &str = "0.2.0";

@@ -1,7 +1,7 @@
 # PRAXO-CORE for Elixir
 
 PRAXO-CORE is an embeddable, MIT-licensed agent framework. This package is its
-native Elixir Core with source tag `elixir/v0.3.0`. It passes all eleven shared
+native Elixir Core with source tag `elixir/v0.4.0`. It passes all eleven shared
 vector groups with `Elixir 1.20.4` on `Erlang/OTP 29` and includes the native
 agent loop, context compaction, memory store, path policy, checkpoint allowlist,
 tool-call parsing, and opt-in tool selection, PII redaction, structured output
@@ -57,7 +57,7 @@ schema = Praxo.Json.parse!(~s({"type":"string","pattern":"^a+$"}))
 assert Praxo.JsonSchema.validate(schema, "aaa") == []
 ```
 
-Public declarations are inventoried in [`api/0.3.0.txt`](api/0.3.0.txt).
+Public declarations are inventoried in [`api/0.4.0.txt`](api/0.4.0.txt).
 
 An agent model can be a function accepting a `Praxo.Request` and returning
 `{:ok, %Praxo.Response{}}` or `{:error, code}`, where `code` is a string:

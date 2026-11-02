@@ -1,6 +1,8 @@
 # R Core Release Notes
 
-## Unreleased
+## 0.5.0 - 2026-11-02
+
+Source release tag `r/v0.5.0`.
 
 ### Added
 
@@ -8,6 +10,7 @@
 - `agent_run` accepts `interrupt_on`, `on_interrupt_decision`, and
   `on_interrupt`. Interrupted calls emit `tool.interrupt`, edited arguments are
   reauthorized, and reject/respond follow the Core contract.
+- API snapshot `api/0.5.0.txt`.
 
 ## 0.4.0 - 2026-11-01
 

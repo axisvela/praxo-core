@@ -9,11 +9,11 @@ The normative contract is [`spec/`](../../spec/README.md); Go remains the
 reference implementation.
 
 - `SPEC_VERSION`: `0.2.0`
-- Core version: `0.3.0`
+- Core version: `0.4.0`
 - Tier: core
 - License: MIT
 - Dependencies: Ruby standard library only
-- The latest RubyGems package is `praxo-core@0.1.0`; `0.3.0` is a source release
+- The latest RubyGems package is `praxo-core@0.1.0`; `0.4.0` is a source release
 
 ## Install
 
@@ -89,5 +89,5 @@ execution, and run-scoped call limits:
 
 ## Release
 
-Tag shape: `ruby/v0.3.0`. The tag targets `SPEC_VERSION` `0.2.0`. See
+Tag shape: `ruby/v0.4.0`. The tag targets `SPEC_VERSION` `0.2.0`. See
 [CHANGELOG.md](CHANGELOG.md) for per-release changes and compatibility notes.

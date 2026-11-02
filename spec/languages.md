@@ -72,26 +72,26 @@ for real providers, platforms, and production behavior is reported separately.
 | Language | Tier | Status | Tag | Maturity | Notes |
 | --- | --- | --- | --- | --- | --- |
 | Go | Core (reference) | released | `v2.5.2` | reference | Reference implementation |
-| Python | Core | released | `python/v0.2.4` | complete | 11 vectors, OpenAI adapter, PyPI `praxo-core==0.2.4` |
-| TypeScript | Core | released | `typescript/v0.1.5` | complete | 11 vectors, OpenAI adapter; npm `@axisvela/praxo-core@0.1.5` with provenance |
-| Java | Core | released | `java/v0.3.0` | complete | 11 vectors, OpenAI adapter, API snapshot; Maven Central `com.axisvela:praxo-core==0.3.0` |
-| Rust | Core | released | `rust/v0.2.0` | complete | 11 vectors, native tests, `tool.Gateway`, `jsonschema.Schema`, streaming/cancellation/parallel tools, compiler-derived API/parity gate; source `0.2.0`, crates.io `praxo-core==0.1.4` |
+| Python | Core | released | `python/v0.3.0` | complete | 11 vectors, HITL interrupts, OpenAI adapter, PyPI `praxo-core==0.3.0` |
+| TypeScript | Core | released | `typescript/v0.2.0` | complete | 11 vectors, HITL interrupts, OpenAI adapter; npm `@axisvela/praxo-core@0.2.0` staged with provenance |
+| Java | Core | released | `java/v0.4.0` | complete | 11 vectors, HITL interrupts, OpenAI adapter, API snapshot; Maven Central remains `com.axisvela:praxo-core==0.3.0` until publication |
+| Rust | Core | released | `rust/v0.3.0` | complete | 11 vectors, HITL interrupts, native tests, `tool.Gateway`, `jsonschema.Schema`, streaming/cancellation/parallel tools, compiler-derived API/parity gate; source `0.3.0`, crates.io `praxo-core==0.1.4` |
 | C | Core | released | `c/v0.6.0` | complete | 11 vectors, native tests; public Core API plus wire JSON primitives; policy/middleware/lifecycle, HITL interrupt decisions, cancellation, streaming, SSE, bounded parallel tools (pthread on Unix; sequential on Windows) |
-| C# | Core (.NET) | released | `csharp/v0.2.0` | complete | 11 vectors, API snapshot, OpenAI adapter, streaming/cancellation/parallel tools; source `0.2.0`, NuGet `Praxo.Core==0.1.2` |
+| C# | Core (.NET) | released | `csharp/v0.3.0` | complete | 11 vectors, HITL interrupts, API snapshot, OpenAI adapter, streaming/cancellation/parallel tools; source `0.3.0`, NuGet `Praxo.Core==0.1.2` until tag publication |
 | Visual Basic | Sample (.NET) | released | `csharp/v0.1.1` | sample | VB.NET consumer sample in `language/csharp/samples` |
 | PowerShell | Bridge | released | `powershell/v0.1.0` | complete | Wraps the bridge CLI |
 | Shell | Bridge | released | `shell/v0.1.0` | complete | Wraps the bridge CLI |
-| PHP | Core | released | `php/v0.3.0` | complete | 11 vectors, API snapshot, streaming/cancellation/SSE, and caller-provided cooperative parallel tools; source `0.3.0`, Packagist `axisvela/praxo-core==0.1.0` |
+| PHP | Core | released | `php/v0.4.0` | complete | 11 vectors, HITL interrupts, API snapshot, streaming/cancellation/SSE, and caller-provided cooperative parallel tools; source `0.4.0`, Packagist `axisvela/praxo-core==0.1.0` |
 | Swift | Core | released | `swift/v0.2.0` | complete | 11 vectors, XCTest, API snapshot |
 | Julia | Core | released | `julia/v0.2.0` | complete | 11 vectors, JSON.jl, API snapshot |
-| R | Core | released | `r/v0.4.0` | complete | 11 vectors, base-R JSON, policy/middleware, lifecycle cleanup, cancellation, streaming, SSE parser, bounded parallel tools, API snapshot |
+| R | Core | released | `r/v0.5.0` | complete | 11 vectors, base-R JSON, policy/middleware, HITL interrupts, lifecycle cleanup, cancellation, streaming, SSE parser, bounded parallel tools, API snapshot |
 | Haskell | Core | released | `haskell/v0.2.0` | complete | 11 vectors, native tests, API snapshot/parity; GHC 9.12.2; runtime and middleware helpers |
-| Fortran | Core | released | `fortran/v0.5.0` | complete | 11 vectors, native tests, API snapshot; upstream RE2/Unicode patterns, cancellation, streaming, SSE, and caller-provided batch tools; JSON/schema limits remain documented |
+| Fortran | Core | released | `fortran/v0.6.0` | complete | 11 vectors, HITL interrupts, native tests, API snapshot; upstream RE2/Unicode patterns, cancellation, streaming, SSE, and caller-provided batch tools; JSON/schema limits remain documented |
 | Lisp | Bridge | released | `lisp/v0.1.0` | complete | SBCL bridge over the bridge CLI; forwarding, UTF-8, errors, and exit codes verified locally and in Linux CI; consumer details pending |
 | JavaScript | Sample (TypeScript) | released | none | sample | Uses the TypeScript package; no separate core |
-| C++ | Core | released | `cpp/v0.3.0` | complete | 11 vectors, core tests, API snapshot, middleware/lifecycle authorization, cancellation, streaming, SSE, parallel tools, and run-scoped call limits |
+| C++ | Core | released | `cpp/v0.4.0` | complete | 11 vectors, HITL interrupts, core tests, API snapshot, middleware/lifecycle authorization, cancellation, streaming, SSE, parallel tools, and run-scoped call limits |
 | Dart | Core | released | `dart/v0.1.1` | complete | 11 vectors, core tests, API snapshot; pub.dev `praxo_core==0.1.1` |
-| Ruby | Core | released | `ruby/v0.3.0` | complete | 11 vectors, core tests, API snapshot, middleware/lifecycle authorization, cancellation, streaming, SSE, parallel tools, and run-scoped call limits; source `0.3.0`, RubyGems `praxo-core==0.1.0` |
+| Ruby | Core | released | `ruby/v0.4.0` | complete | 11 vectors, HITL interrupts, core tests, API snapshot, middleware/lifecycle authorization, cancellation, streaming, SSE, parallel tools, and run-scoped call limits; source `0.4.0`, RubyGems `praxo-core==0.1.0` |
 | Kotlin | Sample (JVM) | released | none | sample | Uses the Java Core |
 | Scala | Sample (JVM) | released | none | sample | Uses the Java Core |
 | MATLAB | Core | released | `matlab/v0.2.1` | complete | 11 vectors, native tests, API snapshot/parity; Octave 11.3.0; MATLAB runtime unverified |
@@ -99,12 +99,12 @@ for real providers, platforms, and production behavior is reported separately.
 | Delphi | Core | released | `delphi/v0.2.1` | complete | 11 vectors, native tests, API snapshot/parity; Free Pascal 3.2.2; commercial Delphi unverified |
 | OCaml / Caml | Core | released | `ocaml/v0.2.0` | complete | 11 vectors, native tests, API snapshot/parity; OCaml 4.14.2 bytecode; opt-in middleware integrated |
 | Objective-C | Core | released | `objc/v0.1.1` | complete | 11 vectors, native tests, API snapshot/parity; opt-in middleware integrated; Windows GNUstep and macOS CI |
-| Elixir | Core | released | `elixir/v0.3.0` | complete | 11 vectors, native tests, API snapshot/parity, policy/middleware/lifecycle, cancellation, streaming, SSE, parallel tools, and run-scoped call limits; source `0.3.0`, Hex `praxo_core==0.3.0` |
+| Elixir | Core | released | `elixir/v0.4.0` | complete | 11 vectors, HITL interrupts, native tests, API snapshot/parity, policy/middleware/lifecycle, cancellation, streaming, SSE, parallel tools, and run-scoped call limits; source `0.4.0`, Hex `praxo_core==0.3.0` |
 | Nim | Core | released | `nim/v0.1.1` | complete | 11 vectors, native tests, API snapshot/parity; opt-in middleware integrated |
 | V | Core | released | `v/v0.1.1` | complete | 11 vectors, native tests, API snapshot/parity; opt-in middleware integrated |
 | D | Core | released | `d/v0.1.0` | complete | 11 vectors, API snapshot; DUB/code.dlang.org `praxo-core==0.1.0` |
 | VBScript | Bridge | planned | none | planned | Bridge over .NET or the bridge CLI |
-| Erlang | Core | released | `erlang/v0.3.1` | complete | 11 vectors, native tests, API snapshot/parity, policy/middleware/lifecycle, cancellation, streaming, SSE, parallel tools, and run-scoped call limits; OTP 29; source `0.3.1`, Hex `praxo_core_erlang==0.3.1` |
+| Erlang | Core | released | `erlang/v0.4.0` | complete | 11 vectors, HITL interrupts, native tests, API snapshot/parity, policy/middleware/lifecycle, cancellation, streaming, SSE, parallel tools, and run-scoped call limits; OTP 29; source `0.4.0`, Hex `praxo_core_erlang==0.3.1` |
 | Ada | Core | planned | none | planned | Native loop target; GNAT toolchain; consumer and maintainer required |
 | Mojo | Core | planned | none | planned | Native loop target; toolchain and CI maturity gate |
 | F# | Sample (.NET) | released | `csharp/v0.1.1` | sample | F# consumer sample in `examples/fsharp`; uses the C# Core |
@@ -119,9 +119,9 @@ for real providers, platforms, and production behavior is reported separately.
 | Q | Bridge | planned | none | planned | Requires a licensed kdb+/q runtime and a named consumer |
 | Assembly | Bridge / extension | consumer-gated | none | gated | No portable language or ABI; target-specific binding requires a named consumer |
 | Zig | Core | released | `zig/v0.2.0` | complete | 11 vectors, API snapshot; `zig/v0.1.0` remains wire |
-| Lua | Core | released | `lua/v0.3.0` | complete | 11 vectors, core tests, API snapshot, middleware/lifecycle authorization, cancellation, streaming, SSE, and batch tool dispatch; source `0.3.0-1`, LuaRocks `praxo-core==0.1.0-1` |
+| Lua | Core | released | `lua/v0.4.0` | complete | 11 vectors, HITL interrupts, core tests, API snapshot, middleware/lifecycle authorization, cancellation, streaming, SSE, and batch tool dispatch; source `0.4.0`, LuaRocks `praxo-core==0.1.0-1` |
 | Scratch | Bridge / extension | planned | none | planned | Extension bridge; implementation requested |
-| COBOL | Core | released | `cobol/v0.3.0` | complete | 11 vectors, native/contract tests, API snapshot; caller-owned scoped registries, native agent consumer fixtures, and middleware/lifecycle/cancellation/streaming/SSE/batch-dispatch behavior coverage |
+| COBOL | Core | released | `cobol/v0.4.0` | complete | 11 vectors, HITL interrupts, native/contract tests, API snapshot; caller-owned scoped registries, native agent consumer fixtures, and middleware/lifecycle/cancellation/streaming/SSE/batch-dispatch behavior coverage |
 | Prolog | Bridge | released | `prolog/v0.1.1` | complete | SWI-Prolog wrapper over the bridge CLI; forwarding, UTF-8, errors, and exit codes tested |
 | ABAP | Bridge | planned | none | planned | Bridge over the maintained runtime |
 
@@ -149,7 +149,7 @@ for real providers, platforms, and production behavior is reported separately.
 | Julia | `julia-conformance` | Julia tests, 11 vectors, API snapshot |
 | R | `r-conformance` | R tests, 11 vectors, API snapshot |
 | Shell / PowerShell | `bridge` | bridge tests, both wrappers |
-| Fortran | `fortran-conformance` | native tests, 11 vector groups, API snapshot, installed RE2 bridge and Unicode tests; source release tagged `fortran/v0.3.0` |
+| Fortran | `fortran-conformance` | native tests, 11 vector groups, API snapshot, installed RE2 bridge and Unicode tests; source release tagged `fortran/v0.6.0` |
 | COBOL | `cobol-conformance` | 11 vectors, API snapshot, native/behavior/SSE/tooling tests |
 | Haskell | `haskell-conformance` | 11 vectors, native tests, source API/parity, Cabal build; source release tagged `haskell/v0.2.0` |
 | Delphi / Free Pascal | `delphi-conformance` | 11 vectors, native tests, source API/parity; source release tagged `delphi/v0.2.1`; commercial Delphi unverified |
