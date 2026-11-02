@@ -77,7 +77,7 @@ for real providers, platforms, and production behavior is reported separately.
 | Java | Core | released | `java/v0.4.0` | complete | 11 vectors, HITL interrupts, OpenAI adapter, API snapshot; Maven Central remains `com.axisvela:praxo-core==0.3.0` until publication |
 | Rust | Core | released | `rust/v0.3.0` | complete | 11 vectors, HITL interrupts, native tests, `tool.Gateway`, `jsonschema.Schema`, streaming/cancellation/parallel tools, compiler-derived API/parity gate; source `0.3.0`, crates.io `praxo-core==0.1.4` |
 | C | Core | released | `c/v0.6.0` | complete | 11 vectors, native tests; public Core API plus wire JSON primitives; policy/middleware/lifecycle, HITL interrupt decisions, cancellation, streaming, SSE, bounded parallel tools (pthread on Unix; sequential on Windows) |
-| C# | Core (.NET) | released | `csharp/v0.3.0` | complete | 11 vectors, HITL interrupts, API snapshot, OpenAI adapter, streaming/cancellation/parallel tools; source `0.3.0`, NuGet `Praxo.Core==0.1.2` until tag publication |
+| C# | Core (.NET) | released | `csharp/v0.3.0` | complete | 11 vectors, HITL interrupts, API snapshot, OpenAI adapter, streaming/cancellation/parallel tools; source `0.3.0`, NuGet `Praxo.Core==0.3.0` |
 | Visual Basic | Sample (.NET) | released | `csharp/v0.1.1` | sample | VB.NET consumer sample in `language/csharp/samples` |
 | PowerShell | Bridge | released | `powershell/v0.1.0` | complete | Wraps the bridge CLI |
 | Shell | Bridge | released | `shell/v0.1.0` | complete | Wraps the bridge CLI |

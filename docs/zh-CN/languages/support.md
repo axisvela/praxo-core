@@ -88,8 +88,7 @@ Bridge、Sample 描述运行时的接入方式，不证明其语言缺乏 Framew
   LuaRocks 包仍为 `praxo-core==0.1.0-1`。本地 rock 构建和模块加载通过；
   registry 安装 smoke 待完成。
 - C# 源码标签 `csharp/v0.3.0` 在流式运行、取消、有限并行工具和 SSE 校验之上增加人工审批中断决策。
-  NuGet 包仍为 `Praxo.Core==0.1.2`（源码标签 `csharp/v0.1.2`）；本地 .NET
-  消费者安装尚未记录。
+  tag 工作流已发布 NuGet 包 `Praxo.Core==0.3.0`；本地 .NET 消费者安装尚未记录。
 - D 已从独立发布仓库 `axisvela/praxo-core-d`（tag `v0.1.0`）在
   DUB/code.dlang.org 发布 `praxo-core==0.1.0`；主仓库保留源码标签
   `d/v0.1.0`。`dub fetch praxo-core` 已通过。

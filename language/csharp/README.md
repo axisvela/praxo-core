@@ -10,12 +10,12 @@ require a hosted service.
 - Core version: `0.3.0`
 - License: MIT
 - Dependencies: none beyond the .NET base class library
-- The latest NuGet package is `Praxo.Core@0.1.2`; `0.3.0` is a source release
+- The NuGet package is `Praxo.Core@0.3.0`.
 
 ## Install
 
 ```bash
-dotnet add package Praxo.Core --version 0.1.2
+dotnet add package Praxo.Core --version 0.3.0
 ```
 
 ## Scope

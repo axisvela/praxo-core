@@ -122,9 +122,8 @@ a merged implementation PR as a support commitment.
   package remains `praxo-core==0.1.0-1`. A local rock build and module load
   passed; registry install smoke is pending.
 - C# source tag `csharp/v0.3.0` adds HITL interrupt decisions to streaming
-  runs, cancellation, bounded parallel tools, and SSE validation. The NuGet
-  package remains
-  `Praxo.Core==0.1.2` from source tag `csharp/v0.1.2`; a local .NET consumer
+  runs, cancellation, bounded parallel tools, and SSE validation. The tag
+  workflow published `Praxo.Core==0.3.0` on NuGet; a local .NET consumer
   install is not yet recorded.
 - D publishes `praxo-core==0.1.0` on DUB/code.dlang.org from the split
   repository `axisvela/praxo-core-d` (tag `v0.1.0`); source tag `d/v0.1.0`

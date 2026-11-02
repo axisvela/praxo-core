@@ -2,8 +2,8 @@
 
 ## 0.3.0 - 2026-11-02
 
-Source release tag `csharp/v0.3.0`. The tag workflow publishes the NuGet package;
-NuGet remains `Praxo.Core@0.1.2` until that publication completes.
+Source release tag `csharp/v0.3.0`. The tag workflow published
+`Praxo.Core@0.3.0` on NuGet.
 
 ### Added
 

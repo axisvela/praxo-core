@@ -7,6 +7,16 @@
 - Published RubyGems `praxo-core` 0.2.0 and 0.3.0, LuaRocks `praxo-core`
   0.2.0-1 and 0.3.0-1, Packagist split tags `v0.2.0`/`v0.3.0`, Hex
   `praxo_core` 0.2.0/0.3.0, and Hex `praxo_core_erlang` 0.2.0/0.3.1.
+- Published PyPI `praxo-core==0.3.0`, staged npm
+  `@axisvela/praxo-core@0.2.0`, and published NuGet `Praxo.Core==0.3.0` from
+  the HITL source release wave.
+
+### Source Releases
+
+- Released source tags `python/v0.3.0`, `typescript/v0.2.0`, `java/v0.4.0`,
+  `rust/v0.3.0`, `r/v0.5.0`, `csharp/v0.3.0`, `ruby/v0.4.0`, `php/v0.4.0`,
+  `lua/v0.4.0`, `cpp/v0.4.0`, `elixir/v0.4.0`, `erlang/v0.4.0`,
+  `fortran/v0.6.0`, and `cobol/v0.4.0`.
 
 ### Fixed
 
