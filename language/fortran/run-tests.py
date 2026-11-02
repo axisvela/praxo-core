@@ -53,8 +53,8 @@ def main():
         origin = "@loader_path" if sys.platform == "darwin" else "$ORIGIN"
         link.append(f"-Wl,-rpath,{origin}/re2-install/lib")
     sources = [root / "src" / f"praxo_{name}.f90"
-               for name in ("types", "unicode", "json", "interfaces", "context", "pattern", "schema", "middleware",
-                            "agent", "runtime", "checkpoint", "toolcall", "policy", "stream", "sse", "plugin")]
+               for name in ("types", "unicode", "interfaces", "json", "pattern", "schema", "context", "stream",
+                            "middleware", "agent", "runtime", "checkpoint", "toolcall", "policy", "sse", "plugin")]
     sources.append(root / "tests" / "doubles.f90")
     fixtures = build / "fixtures.f90"
     generate(root, fixtures)
