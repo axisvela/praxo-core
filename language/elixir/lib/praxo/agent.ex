@@ -6,6 +6,14 @@ defmodule Praxo.Model do
   defstruct mode: :scripted, script: [], index: 0, content: "", primary: nil, fallback: nil
 end
 
+defmodule Praxo.Interrupt do
+  defstruct run_id: "", session_id: "", call: nil
+end
+
+defmodule Praxo.InterruptDecision do
+  defstruct action: "approve", arguments: nil, response: "", reason: ""
+end
+
 defmodule Praxo.AgentOptions do
   defstruct model: nil,
             tools: [],
@@ -25,6 +33,9 @@ defmodule Praxo.AgentOptions do
             cancellation: nil,
             on_stream: nil,
             max_parallel_tools: 1,
+            interrupt_on: [],
+            on_interrupt_decision: nil,
+            on_interrupt: nil,
             entered: []
 end
 
@@ -318,20 +329,86 @@ defmodule Praxo.Agent do
             if middleware[:before_tool], do: middleware.before_tool.(current), else: current
           end)
 
-        cond do
-          not allowed?(options, active.name) ->
-            tool_fail(options, run_id, "AGENT_TOOL_NOT_ALLOWED")
+        case apply_interrupt(options, active, run_id) do
+          {:error, options, code} ->
+            tool_fail(options, run_id, code)
 
-          active.name != original_name or active.arguments != original_arguments ->
-            if authorize(options, Models.action("tool.invoke", options.session_id, active.name, active.arguments)) != :ok do
-              tool_fail(options, run_id, "AGENT_POLICY_DENIED")
-            else
-              prepare_selected_tool(options, active, run_id, limit)
+          {:skip, options, call, value} ->
+            {:ok, options, {nil, interrupt_tool(value), call}, limit}
+
+          {:continue, options, active} ->
+            cond do
+              not allowed?(options, active.name) ->
+                tool_fail(options, run_id, "AGENT_TOOL_NOT_ALLOWED")
+
+              active.name != original_name or active.arguments != original_arguments ->
+                if authorize(options, Models.action("tool.invoke", options.session_id, active.name, active.arguments)) != :ok do
+                  tool_fail(options, run_id, "AGENT_POLICY_DENIED")
+                else
+                  prepare_selected_tool(options, active, run_id, limit)
+                end
+
+              true ->
+                prepare_selected_tool(options, active, run_id, limit)
+            end
+        end
+    end
+  end
+
+  defp interrupt_tool(value) do
+    %Tool{
+      name: "interrupt.response",
+      description: "interrupt response",
+      invoke: fn _arguments -> value end
+    }
+  end
+
+  defp apply_interrupt(options, call, run_id) do
+    if call.name not in options.interrupt_on do
+      {:continue, options, call}
+    else
+      if options.on_interrupt_decision == nil and options.on_interrupt == nil do
+        {:error, options, "AGENT_INTERRUPT_UNHANDLED"}
+      else
+        options = emit(options, "tool.interrupt", run_id,
+                       %{"name" => call.name, "arguments" => call.arguments})
+        interrupt = %Praxo.Interrupt{
+          run_id: run_id,
+          session_id: options.session_id,
+          call: call
+        }
+        cond do
+          options.on_interrupt_decision != nil ->
+            decision = options.on_interrupt_decision.(interrupt)
+            case decision.action do
+              "approve" ->
+                {:continue, options, call}
+
+              "edit" ->
+                if decision.arguments == nil do
+                  {:error, options, "AGENT_INTERRUPT_DECISION_INVALID"}
+                else
+                  {:continue, options, %{call | arguments: decision.arguments}}
+                end
+
+              "reject" ->
+                {:error, options, "AGENT_APPROVAL_DENIED"}
+
+              "respond" ->
+                {:skip, options, call, decision.response}
+
+              _ ->
+                {:error, options, "AGENT_INTERRUPT_DECISION_INVALID"}
             end
 
           true ->
-            prepare_selected_tool(options, active, run_id, limit)
+            if options.on_interrupt.(interrupt) do
+              {:continue, options, call}
+            else
+              {:error, options, "AGENT_APPROVAL_DENIED"}
+            end
         end
+      end
     end
   end
 
@@ -363,7 +440,12 @@ defmodule Praxo.Agent do
   defp execute_batch(options, prepared, messages, 1) do
     Enum.reduce(prepared, {:ok, options, messages}, fn {index, tool, tool_call}, {:ok, options, messages} ->
       {updated, value} = call(tool, tool_call.arguments)
-      options = %{options | tools: List.replace_at(options.tools, index, updated)}
+      options =
+        if index == nil do
+          options
+        else
+          %{options | tools: List.replace_at(options.tools, index, updated)}
+        end
       value = if options.pii, do: Middleware.redact_value(value), else: value
       messages = messages ++ [Models.message_tool(Json.encode(value), tool_call.id)]
       {:ok, options, messages}
@@ -378,7 +460,12 @@ defmodule Praxo.Agent do
 
     Enum.reduce(tasks, {:ok, options, messages}, fn {index, tool_call, task}, {:ok, options, messages} ->
       {updated, value} = Task.await(task, 30_000)
-      options = %{options | tools: List.replace_at(options.tools, index, updated)}
+      options =
+        if index == nil do
+          options
+        else
+          %{options | tools: List.replace_at(options.tools, index, updated)}
+        end
       value = if options.pii, do: Middleware.redact_value(value), else: value
       messages = messages ++ [Models.message_tool(Json.encode(value), tool_call.id)]
       {:ok, options, messages}

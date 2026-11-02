@@ -25,6 +25,8 @@ Praxo.Decision
 Praxo.Error
 Praxo.Error.message
 Praxo.Event
+Praxo.Interrupt
+Praxo.InterruptDecision
 Praxo.Json
 Praxo.Json.as_array
 Praxo.Json.as_object

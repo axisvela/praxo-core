@@ -1004,6 +1004,7 @@ def scenarios() -> tuple[Scenario, ...]:
                 "php": (php_suite(),),
                 "lua": (lua_suite(),),
                 "cpp": (cpp_suite(),),
+                "elixir": (elixir_suite(),),
             },
             {
                 "go": "scenario",
@@ -1017,6 +1018,7 @@ def scenarios() -> tuple[Scenario, ...]:
                 "php": "suite",
                 "lua": "suite",
                 "cpp": "suite",
+                "elixir": "suite",
             },
         ),
     )

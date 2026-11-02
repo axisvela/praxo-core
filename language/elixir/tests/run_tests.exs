@@ -39,6 +39,7 @@ defmodule Praxo.Tests do
     test_agent_cancellation()
     test_agent_stream()
     test_agent_parallel()
+    test_agent_hitl()
     test_sse()
     IO.puts("elixir tests passed")
   end
@@ -703,6 +704,77 @@ defmodule Praxo.Tests do
     after
       100 -> acc
     end
+  end
+
+  defp test_agent_hitl do
+    model = Agent.scripted_model([
+      Models.response(Models.message_assistant("", [
+        Models.tool_call("c1", "echo", %{"value" => "original"})
+      ])),
+      Models.response(Models.message_assistant("done"))
+    ])
+    options = %{Agent.new_agent_options(model) |
+      tools: [Agent.new_tool("echo", "Echo", fn arguments -> arguments end)],
+      interrupt_on: ["echo"],
+      on_interrupt_decision: fn _interrupt -> %Praxo.InterruptDecision{action: "approve"} end}
+    {:ok, result, options} = Agent.run_agent(options, Models.session("s1"), "go")
+    check(result.output == "done" and hd(options.tools).calls == 1, "hitl approve")
+
+    model = Agent.scripted_model([
+      Models.response(Models.message_assistant("", [
+        Models.tool_call("c1", "echo", %{"value" => "original"})
+      ])),
+      Models.response(Models.message_assistant("done"))
+    ])
+    parent = self()
+    options = %{Agent.new_agent_options(model) |
+      tools: [Agent.new_tool("echo", "Echo", fn arguments -> arguments end)],
+      policy: fn action ->
+        if action.kind == "tool.invoke", do: send(parent, {:hitl_auth, action})
+        Models.decision(true)
+      end,
+      interrupt_on: ["echo"],
+      on_interrupt_decision: fn _interrupt ->
+        %Praxo.InterruptDecision{action: "edit", arguments: %{"value" => "edited"}}
+      end}
+    {:ok, _, _} = Agent.run_agent(options, Models.session("s1"), "go")
+    receive do {:hitl_auth, _} -> :ok after 0 -> raise "missing hitl authorization" end
+    receive do {:hitl_auth, _} -> :ok after 0 -> raise "missing hitl reauthorization" end
+
+    model = Agent.scripted_model([
+      Models.response(Models.message_assistant("", [
+        Models.tool_call("c1", "echo", %{"value" => "original"})
+      ]))
+    ])
+    options = %{Agent.new_agent_options(model) |
+      tools: [Agent.new_tool("echo", "Echo", fn arguments -> arguments end)],
+      interrupt_on: ["echo"],
+      on_interrupt_decision: fn _interrupt -> %Praxo.InterruptDecision{action: "reject"} end}
+    {:error, "AGENT_APPROVAL_DENIED", _} = Agent.run_agent(options, Models.session("s1"), "go")
+
+    model = Agent.scripted_model([
+      Models.response(Models.message_assistant("", [
+        Models.tool_call("c1", "echo", %{"value" => "original"})
+      ]))
+    ])
+    options = %{Agent.new_agent_options(model) |
+      tools: [Agent.new_tool("echo", "Echo", fn arguments -> arguments end)],
+      interrupt_on: ["echo"]}
+    {:error, "AGENT_INTERRUPT_UNHANDLED", _} = Agent.run_agent(options, Models.session("s1"), "go")
+
+    model = Agent.scripted_model([
+      Models.response(Models.message_assistant("", [
+        Models.tool_call("c1", "echo", %{"value" => "original"})
+      ])),
+      Models.response(Models.message_assistant("done"))
+    ])
+    options = %{Agent.new_agent_options(model) |
+      tools: [Agent.new_tool("echo", "Echo", fn arguments -> arguments end)],
+      events: Sink.new(),
+      interrupt_on: ["echo"],
+      on_interrupt_decision: fn _interrupt -> %Praxo.InterruptDecision{action: "approve"} end}
+    {:ok, _, options} = Agent.run_agent(options, Models.session("s1"), "go")
+    check(Enum.count(options.events.kinds, &(&1 == "tool.interrupt")) == 1, "hitl event")
   end
 
   defp test_agent_capacity do

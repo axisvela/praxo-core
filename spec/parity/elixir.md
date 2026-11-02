@@ -54,6 +54,10 @@ middleware commit. Toolchain and check instructions are recorded in
 | `agent/middleware.PIIMiddleware` | `Praxo.Middleware.pii_redact` | parity | P1 |
 | `agent/middleware.StructuredOutput` | `Praxo.StructuredOutput` | parity | P1 |
 | `agent/middleware.ToolSelectionMiddleware` | `Praxo.Middleware.tool_selection` | parity | P1 |
+| `agent/hitl.Interrupt` | `Praxo.Interrupt` | parity | P2 |
+| `agent/hitl.InterruptDecision` | `Praxo.InterruptDecision` | parity | P2 |
+| `agent/hitl.InterruptHandler` | `AgentOptions.on_interrupt_decision` | parity | P2 |
+| `agent.Options.OnInterrupt` | `AgentOptions.on_interrupt` | parity | P2 |
 
 Core-local utility with no direct Go contract symbol: `Praxo.SSE.parse` parses
 OpenAI-compatible server-sent-event text and returns `MODEL_STREAM` for

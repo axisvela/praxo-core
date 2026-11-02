@@ -1,5 +1,15 @@
 # Elixir Core Release Notes
 
+## Unreleased
+
+### Added
+
+- Human-in-the-loop interrupt decisions through `AgentOptions.interrupt_on`,
+  `on_interrupt_decision`, and `on_interrupt`.
+- `Praxo.Interrupt` and `Praxo.InterruptDecision` with approve/edit/reject/
+  respond actions. Interrupted calls emit `tool.interrupt` and edited arguments
+  are reauthorized.
+
 ## 0.3.0 - 2026-11-01
 
 Source version `0.3.0`; tag creation is a release step.

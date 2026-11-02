@@ -5,8 +5,8 @@ native Elixir Core with source tag `elixir/v0.3.0`. It passes all eleven shared
 vector groups with `Elixir 1.20.4` on `Erlang/OTP 29` and includes the native
 agent loop, context compaction, memory store, path policy, checkpoint allowlist,
 tool-call parsing, and opt-in tool selection, PII redaction, structured output
-validation, and call limits. Vector coverage does not establish full Core parity
-or production readiness.
+validation, call limits, and human-in-the-loop interrupt decisions. Vector
+coverage does not establish full Core parity or production readiness.
 
 The Core uses the OTP 27+ `:json` module and does not call Go or another
 language runtime. Erlang shares the BEAM runtime and does not add a second
