@@ -115,6 +115,9 @@ copybook inputs
   05 px-max-parallel-toolsbinary-long.
   05 px-allowed-tool-countbinary-long.
   05 px-allowed-toolsoccurs 8 times pic x(64).
+  05 px-interrupt-programpic x(64).
+  05 px-interrupt-countbinary-long.
+  05 px-interrupt-toolsoccurs 8 times pic x(64).
   01 px-session.
   01 px-prompt.
   05 px-prompt-textpic x(2048).
@@ -127,6 +130,16 @@ copybook inputs
   05 px-result-output-tokenspic s9(15) comp-3.
   05 px-result-errorpic x(64).
   01 px-user-datapic x(4096).
+
+copybook interrupt-hooks
+
+copybook interrupt
+  01 px-interrupt.
+  05 px-interrupt-actionpic x(16).
+  05 px-interrupt-inputpic x(2048).
+  05 px-interrupt-input-lengthbinary-long.
+  05 px-interrupt-responsepic x(2048).
+  05 px-interrupt-response-lengthbinary-long.
 
 copybook json
   01 px-json-input.

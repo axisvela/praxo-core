@@ -5,7 +5,8 @@ vectors across the eleven groups pass, together with native agent, JSON,
 contract-boundary, behavior, tooling, and API declaration checks. The
 `cobol-conformance` remote job checks the declared scope. `cobol/v0.3.0` is the
 source tag; version `0.3.0` adds middleware, lifecycle, cancellation, streaming,
-SSE, and batch tool dispatch.
+SSE, and batch tool dispatch, and current source adds human-in-the-loop
+interrupt decisions.
 
 ## Build and Test
 

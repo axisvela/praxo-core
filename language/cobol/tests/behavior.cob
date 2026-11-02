@@ -25,8 +25,9 @@ procedure division.
     perform tool-cancellation-case
     perform stream-callback-case
     perform parallel-batch-case
+    perform hitl-case
     if failures = 0
-        display "PASS: 12 native COBOL behavior cases"
+        display "PASS: 13 native COBOL behavior cases"
         move 0 to return-code
     else
         display "FAIL: " failures " behavior assertions"
@@ -198,6 +199,23 @@ stream-callback-case.
         or bh-event-types(2) not = "run.failed"
         perform fail-case
     end-if.
+hitl-case.
+    perform reset-case
+    move "hitl edit" to test-name
+    move 14 to bh-mode
+    move "behavior-interrupt" to px-interrupt-program
+    move 1 to px-interrupt-count
+    move "echo" to px-interrupt-tools(1)
+    perform run-agent
+    if px-result-error not = spaces
+        or px-result-output not = "done"
+        or bh-tool-count not = 1
+        or bh-tool-policy-count not = 2
+        or bh-last-input-length not = 18
+        or bh-last-input(1:18) not = '{"value":"edited"}'
+        perform fail-case
+    end-if.
+
 parallel-batch-case.
     perform reset-case
     move "parallel batch" to test-name
@@ -276,14 +294,14 @@ procedure division using px-session px-response px-user-data px-status.
         move 7 to px-call-input-length(2)
         goback
     end-if
-    if (bh-mode >= 1 and bh-mode <= 5 or bh-mode = 11)
+    if (bh-mode >= 1 and bh-mode <= 5 or bh-mode = 11 or bh-mode = 14)
         and bh-model-count = 1
         move spaces to px-answer
         move 0 to px-answer-length
         move 1 to px-call-count
         move "c1" to px-call-id(1)
         move "echo" to px-call-name(1)
-        if bh-mode = 1
+        if bh-mode = 1 or bh-mode = 14
             move '{"value":"original"}' to px-call-input(1)
             move 20 to px-call-input-length(1)
         else
@@ -496,3 +514,17 @@ procedure division using px-tool-batch-request px-tool-batch-result
     end-perform
     goback.
 end program behavior-batch.
+
+identification division.
+program-id. behavior-interrupt recursive.
+data division.
+linkage section.
+copy "api.cpy".
+copy "behavior-state.cpy".
+copy "interrupt.cpy".
+procedure division using px-call px-interrupt px-user-data px-status.
+    move "edit" to px-interrupt-action
+    move '{"value":"edited"}' to px-interrupt-input
+    move 18 to px-interrupt-input-length
+    goback.
+end program behavior-interrupt.

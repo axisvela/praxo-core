@@ -52,6 +52,10 @@ path-policy, plugin, and middleware behavior.
 | `agent/middleware.StructuredOutput` | `praxo-middleware` structured operation | partial | P1 |
 | `agent/middleware.PIIMiddleware` | `praxo-middleware` pii and pii-json operations | partial | P1 |
 | `tool.Registry` | `praxo-registry`, `praxo-registry-scoped` | partial | P1 |
+| `agent/hitl.Interrupt` | `praxo-run` interrupt options | parity | P2 |
+| `agent/hitl.InterruptDecision` | `px-interrupt` callback record | parity | P2 |
+| `agent/hitl.InterruptHandler` | `px-interrupt-program` | parity | P2 |
+| `agent.Options.OnInterrupt` | `px-interrupt-program`, `px-interrupt-count` | parity | P2 |
 
 Core-local utilities with no new normative contract symbols:
 `registry-state.cpy` adds caller-owned registry storage in `0.1.2`. The

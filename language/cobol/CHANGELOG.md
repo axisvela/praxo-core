@@ -1,5 +1,14 @@
 # COBOL Core Release Notes
 
+## Unreleased
+
+### Added
+
+- Human-in-the-loop interrupt decisions through `px-interrupt-program`,
+  `px-interrupt-count`, and `px-interrupt-tools`.
+- A `px-interrupt` callback record supports approve/edit/reject/respond.
+  Interrupted calls emit `tool.interrupt`; edited arguments are reauthorized.
+
 ## 0.3.0 - 2026-11-01
 
 Source version `0.3.0`; tag creation is a release step.

@@ -16,6 +16,9 @@
           05 px-max-parallel-tools binary-long.
           05 px-allowed-tool-count binary-long.
           05 px-allowed-tools occurs 8 times pic x(64).
+          05 px-interrupt-program pic x(64).
+          05 px-interrupt-count binary-long.
+          05 px-interrupt-tools occurs 8 times pic x(64).
        01 px-session.
           copy "history.cpy".
        01 px-prompt.

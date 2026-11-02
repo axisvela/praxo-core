@@ -7,6 +7,7 @@ repository. function all intrinsic.
 data division.
 local-storage section.
 copy "callbacks.cpy".
+copy "interrupt.cpy".
 copy "tool-batch.cpy".
 01 work-session.
    copy "history.cpy".
@@ -25,6 +26,7 @@ copy "tool-batch.cpy".
 01 original-tool-input pic x(2048).
 01 original-tool-input-length binary-long.
 01 tool-allowed-flag pic 9.
+01 skip-tool-flag pic 9.
 linkage section.
 copy "inputs.cpy".
 procedure division using px-options px-session px-prompt
@@ -166,6 +168,7 @@ procedure division using px-options px-session px-prompt
         move px-answer-length
             to px-content-length of work-session(message-number)
         if px-tool-batch-program not = spaces
+            and px-interrupt-count <= 0
             perform invoke-tool-batch
         else
             perform varying call-number from 1 by 1
@@ -264,6 +267,8 @@ before-tool-hooks.
     end-call
     if px-status not = spaces move px-status to px-result-error end-if.
 
+       copy "interrupt-hooks.cpy".
+
 check-cancelled.
     if px-cancel-program = spaces exit paragraph end-if
     initialize px-action
@@ -326,17 +331,15 @@ invoke-tool.
         move "AGENT_TOOL_NOT_ALLOWED" to px-result-error
         exit paragraph
     end-if
-    if px-tool-name not = original-tool-name
-        or px-tool-input not = original-tool-input
-        or px-tool-input-length not = original-tool-input-length
-        initialize px-action
-        move "tool.invoke" to px-action-kind
-        move px-tool-name to px-action-tool
-        move px-tool-input to px-action-input
-        move px-tool-input-length to px-action-input-length
-        perform authorize-action
-        if px-result-error not = spaces exit paragraph end-if
+    perform interrupt-hooks
+    if px-result-error not = spaces exit paragraph end-if
+    if skip-tool-flag = 1
+        move 0 to skip-tool-flag
+        perform append-skip-result
+        exit paragraph
     end-if
+    perform reauthorize-tool
+    if px-result-error not = spaces exit paragraph end-if
     if px-tool-program = spaces
         move "TOOL_NOT_FOUND" to px-result-error
         exit paragraph
