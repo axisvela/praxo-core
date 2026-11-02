@@ -52,6 +52,9 @@ maxTokens?: number | undefined
 maxParallelTools?: number | undefined
 onDelta?: ((delta: string) => void) | undefined
 signal?: AbortSignal | undefined
+interruptOn?: string[] | undefined
+onInterruptDecision?: InterruptHandler | undefined
+onInterrupt?: InterruptApproval | undefined
 
 ## Allowlist
 class Allowlist
@@ -59,6 +62,15 @@ constructor(): Allowlist
 register(name: string, factory: Factory): void
 marshal(name: string, value: unknown): string
 unmarshal(data: string | Buffer): unknown
+
+## ApprovalDeniedError
+class ApprovalDeniedError
+constructor(message?: string): ApprovalDeniedError
+code: string
+name: string
+message: string
+stack?: string | undefined
+cause?: unknown
 
 ## CacheHint
 interface CacheHint
@@ -243,6 +255,58 @@ invoke(args: Record<string, unknown>): Promise<unknown>
 ## Hook
 interface Hook
 authorize(action: Action): Promise<Decision> | Decision
+
+## Interrupt
+interface Interrupt
+runId: string
+sessionId: string
+call: ToolCall
+
+## INTERRUPT_APPROVE
+const INTERRUPT_APPROVE: InterruptAction
+
+## INTERRUPT_EDIT
+const INTERRUPT_EDIT: InterruptAction
+
+## INTERRUPT_REJECT
+const INTERRUPT_REJECT: InterruptAction
+
+## INTERRUPT_RESPOND
+const INTERRUPT_RESPOND: InterruptAction
+
+## InterruptAction
+type InterruptAction = InterruptAction
+
+## InterruptApproval
+type InterruptApproval = InterruptApproval
+
+## InterruptDecision
+interface InterruptDecision
+action: string
+arguments?: Record<string, unknown> | undefined
+response?: string | undefined
+reason?: string | undefined
+
+## InterruptDecisionInvalidError
+class InterruptDecisionInvalidError
+constructor(message?: string): InterruptDecisionInvalidError
+code: string
+name: string
+message: string
+stack?: string | undefined
+cause?: unknown
+
+## InterruptHandler
+type InterruptHandler = InterruptHandler
+
+## InterruptUnhandledError
+class InterruptUnhandledError
+constructor(message?: string): InterruptUnhandledError
+code: string
+name: string
+message: string
+stack?: string | undefined
+cause?: unknown
 
 ## KINDS
 const KINDS: Set<string>

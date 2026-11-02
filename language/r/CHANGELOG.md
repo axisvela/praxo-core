@@ -1,5 +1,14 @@
 # R Core Release Notes
 
+## Unreleased
+
+### Added
+
+- `interrupt`, `interrupt_decision`, and `interrupt_*` action helpers.
+- `agent_run` accepts `interrupt_on`, `on_interrupt_decision`, and
+  `on_interrupt`. Interrupted calls emit `tool.interrupt`, edited arguments are
+  reauthorized, and reject/respond follow the Core contract.
+
 ## 0.4.0 - 2026-11-01
 
 Source release tag `r/v0.4.0`.

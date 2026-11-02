@@ -51,6 +51,12 @@ public sealed class AgentOptions
 
     public long MaxTokens { get; set; }
 
+    public List<string> InterruptOn { get; set; } = new();
+
+    public IInterruptHandler? OnInterruptDecision { get; set; }
+
+    public IInterruptApproval? OnInterrupt { get; set; }
+
     public AgentOptions(IModel model)
     {
         Model = model;
@@ -344,6 +350,29 @@ public sealed class Agent
             throw new PraxoException(
                 "AGENT_TOOL_NOT_ALLOWED", $"agent: tool {finalCall.Name} is not allowed");
         }
+        if (middlewareCall.Skip)
+        {
+            return new PreparedTool
+            {
+                MiddlewareCall = middlewareCall,
+                Active = finalCall,
+                Skip = true,
+                Value = middlewareCall.Result,
+                Error = middlewareCall.Error,
+            };
+        }
+        var interrupt = ApplyInterrupt(middlewareCall, runId, sessionId);
+        finalCall = middlewareCall.Call;
+        if (interrupt.Skip)
+        {
+            return new PreparedTool
+            {
+                MiddlewareCall = middlewareCall,
+                Active = finalCall,
+                Skip = true,
+                Value = interrupt.Value,
+            };
+        }
         var changed = finalCall.Name != originalName
             || Json.Stringify(finalCall.Arguments) != Json.Stringify(originalArguments);
         if (changed)
@@ -355,17 +384,6 @@ public sealed class Agent
                 ToolName = finalCall.Name,
                 Arguments = (JsonObject)finalCall.Arguments.DeepClone(),
             });
-        }
-        if (middlewareCall.Skip)
-        {
-            return new PreparedTool
-            {
-                MiddlewareCall = middlewareCall,
-                Active = finalCall,
-                Skip = true,
-                Value = middlewareCall.Result,
-                Error = middlewareCall.Error,
-            };
         }
         var tools = _options.Tools
             ?? throw PraxoException.ToolNotFound($"tool {finalCall.Name} is not registered");
@@ -381,6 +399,72 @@ public sealed class Agent
             Active = finalCall,
             Tool = tool,
         };
+    }
+
+    private readonly record struct InterruptOutcome(bool Skip, JsonNode? Value);
+
+    private InterruptOutcome ApplyInterrupt(
+        MiddlewareToolCall middlewareCall, string runId, string sessionId)
+    {
+        var call = middlewareCall.Call;
+        if (!_options.InterruptOn.Contains(call.Name))
+        {
+            return default;
+        }
+        if (_options.OnInterruptDecision == null && _options.OnInterrupt == null)
+        {
+            throw PraxoException.InterruptUnhandled();
+        }
+        Emit("tool.interrupt", sessionId, runId, new JsonObject
+        {
+            ["name"] = call.Name,
+            ["arguments"] = call.Arguments.DeepClone(),
+        });
+        var interrupt = new Interrupt
+        {
+            RunId = runId,
+            SessionId = sessionId,
+            Call = call,
+        };
+        if (_options.OnInterruptDecision != null)
+        {
+            var decision = _options.OnInterruptDecision.Decide(interrupt)
+                ?? throw PraxoException.InterruptDecisionInvalid(
+                    "agent: invalid interrupt decision");
+            switch (decision.Action)
+            {
+                case InterruptAction.Approve:
+                    return default;
+                case InterruptAction.Edit:
+                    if (decision.Arguments == null)
+                    {
+                        throw PraxoException.InterruptDecisionInvalid(
+                            "agent: edit requires arguments");
+                    }
+                    middlewareCall.Call = new ToolCall
+                    {
+                        Id = call.Id,
+                        Name = call.Name,
+                        Arguments = (JsonObject)decision.Arguments.DeepClone(),
+                    };
+                    return default;
+                case InterruptAction.Reject:
+                    throw PraxoException.ApprovalDenied(
+                        $"agent: tool call denied by approval: {call.Name}: {decision.Reason}");
+                case InterruptAction.Respond:
+                    return new InterruptOutcome(
+                        true, JsonValue.Create(decision.Response));
+                default:
+                    throw PraxoException.InterruptDecisionInvalid(
+                        $"agent: invalid interrupt decision: {decision.Action}");
+            }
+        }
+        if (!_options.OnInterrupt!.Approve(interrupt))
+        {
+            throw PraxoException.ApprovalDenied(
+                $"agent: tool call denied by approval: {call.Name}");
+        }
+        return default;
     }
 
     private ToolResult ExecutePrepared(PreparedTool prepared)

@@ -25,7 +25,7 @@ The matrix now covers sixteen wired languages. Contract tier is separate from be
 
 | Tier | Languages | Current status |
 | --- | --- | --- |
-| Agent-capable | Go, Python, TypeScript, Java, Rust, R, C# | Targets all nineteen scenarios; current coverage varies by language |
+| Agent-capable | Go, Python, TypeScript, Java, Rust, R, CSharp | Targets all nineteen scenarios; current coverage varies by language |
 | Extended | C, PHP, Fortran, COBOL, Ruby, Elixir, Erlang, C++, Lua | Advances scenario by scenario with a named consumer and maintainer |
 | Optional | Other declared implementations | Outside the current behavior program |
 
@@ -40,7 +40,7 @@ The matrix now covers sixteen wired languages. Contract tier is separate from be
 
 ## Scenario matrix
 
-| Scenario | Go | Py | TS | Java | Rust | R | C# | C | Ftn | COB | Ruby | Ex | Erl | C++ | PHP | Lua |
+| Scenario | Go | Py | TS | Java | Rust | R | CSharp | C | Ftn | COB | Ruby | Ex | Erl | C++ | PHP | Lua |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | `final-arguments` | S | S | S | G | S | N | N | N | N | N | N | N | N | N | N | N |
 | `final-name` | S | S | S | G | S | N | N | N | N | N | N | N | N | N | N | N |
@@ -226,7 +226,7 @@ Commands:
 Rscript language/r/tests/run_tests.R
 ```
 
-### C#
+### CSharp
 
 - Coverage: suite
 - Passed: 19/19

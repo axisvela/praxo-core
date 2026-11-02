@@ -50,7 +50,7 @@ console.log(result.output, result.steps, result.usage);
 | Area | Included |
 | --- | --- |
 | Agent loop | Tool calls, multi-step runs, parallel tools, structured output |
-| Governance | Policy hooks, tool selection, PII middleware, call limits |
+| Governance | Policy hooks, tool selection, PII middleware, call limits, HITL interrupts |
 | Runtime | Context budgets, checkpoints, events, streaming, cancellation |
 | Integration | OpenAI-compatible adapter; bring your own model and tools |
 
@@ -100,6 +100,7 @@ the published file set and installed import path, not npm registry availability.
 | `src/context.ts` | budgets, summarization, offload, `AGENTS.md` |
 | `src/middleware/` | call limits, fallback, PII, structured output, tool selection |
 | `src/agent.ts` | `Agent`, `AgentOptions`, `Session`, `Result` |
+| `src/hitl.ts` | `Interrupt`, `InterruptDecision`, approve/edit/reject/respond handlers |
 | `src/toolcall.ts` | tool-call parsing and markup stripping |
 | `src/jsonschema.ts` | documented JSON Schema subset |
 | `src/plugin.ts` | Manifest v1 parsing and validation |

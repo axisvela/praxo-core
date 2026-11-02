@@ -13,6 +13,8 @@ AgentOptions(Praxo.Core.IModel model)
 Praxo.Core.ContextBudget Context { get; set; }
 Praxo.Core.IContextCompactor Compactor { get; set; }
 Praxo.Core.IEventSink Events { get; set; }
+Praxo.Core.IInterruptApproval OnInterrupt { get; set; }
+Praxo.Core.IInterruptHandler OnInterruptDecision { get; set; }
 Praxo.Core.IModel FallbackModel { get; set; }
 Praxo.Core.IModel Model { get; }
 Praxo.Core.IPolicyHook Policy { get; set; }
@@ -24,6 +26,7 @@ Praxo.Core.ToolRegistry Tools { get; set; }
 System.Collections.Generic.List`1[Praxo.Core.IMiddleware] Middleware { get; set; }
 System.Collections.Generic.List`1[Praxo.Core.ModelMiddleware] ModelMiddleware { get; set; }
 System.Collections.Generic.List`1[System.String] AllowedTools { get; set; }
+System.Collections.Generic.List`1[System.String] InterruptOn { get; set; }
 System.Collections.Generic.List`1[System.String] MemoryFiles { get; set; }
 System.Int32 MaxParallelTools { get; set; }
 System.Int32 MaxSteps { get; set; }
@@ -90,6 +93,10 @@ System.Text.Json.Nodes.JsonNode Invoke(System.Text.Json.Nodes.JsonObject argumen
 System.Collections.Generic.List`1[Praxo.Core.Message] Compact(System.Collections.Generic.IReadOnlyList`1[Praxo.Core.Message] messages, Praxo.Core.ContextBudget budget)
 ### Praxo.Core.IEventSink
 System.Void Emit(Praxo.Core.Event event)
+### Praxo.Core.IInterruptApproval
+System.Boolean Approve(Praxo.Core.Interrupt interrupt)
+### Praxo.Core.IInterruptHandler
+Praxo.Core.InterruptDecision Decide(Praxo.Core.Interrupt interrupt)
 ### Praxo.Core.IMemoryStore
 System.Collections.Generic.IReadOnlyList`1[Praxo.Core.MemoryRecord] Search(System.String sessionId, System.String query, System.Int32 limit)
 System.Void Put(System.String sessionId, Praxo.Core.MemoryRecord record)
@@ -117,6 +124,22 @@ System.Collections.Generic.List`1[System.String] Select(System.String query, Sys
 InMemoryMemoryStore()
 System.Collections.Generic.IReadOnlyList`1[Praxo.Core.MemoryRecord] Search(System.String sessionId, System.String query, System.Int32 limit)
 System.Void Put(System.String sessionId, Praxo.Core.MemoryRecord record)
+### Praxo.Core.Interrupt
+Interrupt()
+Praxo.Core.ToolCall Call { get; set; }
+System.String RunId { get; set; }
+System.String SessionId { get; set; }
+### Praxo.Core.InterruptAction
+System.String Approve
+System.String Edit
+System.String Reject
+System.String Respond
+### Praxo.Core.InterruptDecision
+InterruptDecision()
+System.String Action { get; set; }
+System.String Reason { get; set; }
+System.String Response { get; set; }
+System.Text.Json.Nodes.JsonObject Arguments { get; set; }
 ### Praxo.Core.Json
 System.Boolean DeepEquals(System.Text.Json.Nodes.JsonNode left, System.Text.Json.Nodes.JsonNode right)
 System.Boolean GetBool(System.Text.Json.Nodes.JsonNode node, System.String name, System.Boolean fallback)
@@ -251,8 +274,11 @@ System.Text.Json.Nodes.JsonObject Limits { get; set; }
 System.Text.Json.Nodes.JsonObject Permissions { get; set; }
 System.Text.Json.Nodes.JsonObject Signature { get; set; }
 ### Praxo.Core.PraxoException
+Praxo.Core.PraxoException ApprovalDenied(System.String message)
 Praxo.Core.PraxoException Checkpoint(System.String message)
 Praxo.Core.PraxoException ContextBudget()
+Praxo.Core.PraxoException InterruptDecisionInvalid(System.String message)
+Praxo.Core.PraxoException InterruptUnhandled()
 Praxo.Core.PraxoException MaxSteps()
 Praxo.Core.PraxoException MaxTokens()
 Praxo.Core.PraxoException ModelCallLimit()

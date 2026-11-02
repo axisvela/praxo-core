@@ -18,6 +18,12 @@ event
 extract_json
 fallback_model
 filter_sink
+interrupt
+interrupt_approve
+interrupt_decision
+interrupt_edit
+interrupt_reject
+interrupt_respond
 is_json_null
 json_array
 json_bool

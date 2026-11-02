@@ -29,6 +29,7 @@ internal static class Program
         TestFinalName();
         TestUnchangedSingleAuthorization();
         TestInitialDenial();
+        TestHitl();
         TestStartupCleanup();
         TestAfterRunContinues();
         TestCleanupFailClosed();
@@ -409,6 +410,100 @@ internal static class Program
         }
         Check(denied && middleware.BeforeToolCalls == 0 && toolCalls == 0,
             "initial denial prevents middleware and effect");
+    }
+
+    private static void TestHitl()
+    {
+        var calls = 0;
+        var registry = new ToolRegistry();
+        registry.Register(new FuncTool("echo", "Echo", args =>
+        {
+            calls++;
+            return args.DeepClone();
+        }));
+        var options = new AgentOptions(new ScriptedToolModel())
+        {
+            Tools = registry,
+            OnInterruptDecision = new HitlHandler(_ => new InterruptDecision
+            {
+                Action = InterruptAction.Approve,
+            }),
+        };
+        options.InterruptOn.Add("echo");
+        var result = new Agent(options).Run(new Session("s1"), "go");
+        Check(result.Output == "done" && calls == 1,
+            "hitl approve runs the tool");
+
+        calls = 0;
+        var policy = new RecordingPolicy();
+        var editOptions = new AgentOptions(new ScriptedToolModel())
+        {
+            Tools = registry,
+            Policy = policy,
+            OnInterruptDecision = new HitlHandler(_ => new InterruptDecision
+            {
+                Action = InterruptAction.Edit,
+                Arguments = new JsonObject { ["value"] = "edited" },
+            }),
+        };
+        editOptions.InterruptOn.Add("echo");
+        new Agent(editOptions).Run(new Session("s1"), "go");
+        var toolActions = policy.Actions.Where(action => action.Kind == "tool.invoke").ToList();
+        Check(calls == 1 && toolActions.Count == 2,
+            "hitl edit reauthorizes final arguments");
+
+        calls = 0;
+        var rejected = false;
+        var rejectOptions = new AgentOptions(new ScriptedToolModel())
+        {
+            Tools = registry,
+            OnInterruptDecision = new HitlHandler(_ => new InterruptDecision
+            {
+                Action = InterruptAction.Reject,
+                Reason = "not allowed",
+            }),
+        };
+        rejectOptions.InterruptOn.Add("echo");
+        try
+        {
+            new Agent(rejectOptions).Run(new Session("s1"), "go");
+        }
+        catch (PraxoException ex) when (ex.Code == "AGENT_APPROVAL_DENIED")
+        {
+            rejected = true;
+        }
+        Check(rejected && calls == 0, "hitl reject prevents effects");
+
+        var unhandled = false;
+        var unhandledOptions = new AgentOptions(new ScriptedToolModel())
+        {
+            Tools = registry,
+        };
+        unhandledOptions.InterruptOn.Add("echo");
+        try
+        {
+            new Agent(unhandledOptions).Run(new Session("s1"), "go");
+        }
+        catch (PraxoException ex) when (ex.Code == "AGENT_INTERRUPT_UNHANDLED")
+        {
+            unhandled = true;
+        }
+        Check(unhandled && calls == 0, "hitl requires a handler");
+
+        var sink = new RecordingSink();
+        var eventOptions = new AgentOptions(new ScriptedToolModel())
+        {
+            Tools = registry,
+            Events = sink,
+            OnInterruptDecision = new HitlHandler(_ => new InterruptDecision
+            {
+                Action = InterruptAction.Approve,
+            }),
+        };
+        eventOptions.InterruptOn.Add("echo");
+        new Agent(eventOptions).Run(new Session("s1"), "go");
+        Check(sink.Events.Count(item => item.Type == "tool.interrupt") == 1,
+            "hitl emits tool.interrupt");
     }
 
     private static void TestStartupCleanup()
@@ -923,6 +1018,19 @@ internal static class Program
             }
             return new Response { Message = Message.Assistant("done") };
         }
+    }
+
+    private sealed class HitlHandler : IInterruptHandler
+    {
+        private readonly Func<Interrupt, InterruptDecision> _handler;
+
+        public HitlHandler(Func<Interrupt, InterruptDecision> handler)
+        {
+            _handler = handler;
+        }
+
+        public InterruptDecision Decide(Interrupt interrupt)
+            => _handler(interrupt);
     }
 
     private sealed class RecordingPolicy : IPolicyHook

@@ -64,7 +64,7 @@ asyncio.run(main())
 | Area | Included |
 | --- | --- |
 | Agent loop | Tool calls, multi-step runs, parallel tools, structured output |
-| Governance | Policy hooks, tool selection, PII middleware, call limits |
+| Governance | Policy hooks, tool selection, PII middleware, call limits, HITL interrupts |
 | Runtime | Context budgets, checkpoints, events, streaming, cancellation |
 | Integration | OpenAI-compatible adapter; bring your own model and tools |
 
@@ -91,6 +91,7 @@ published on PyPI. VFS and plugin hosts are not yet implemented.
 | `praxo.memory` | `Store`, `Record`, `MemoryStore`, `ContextAssembler` |
 | `praxo.checkpoint` | `Checkpoint`, `Allowlist` |
 | `praxo.agent` | `Agent`, `AgentOptions`, `Session`, `Result` |
+| `praxo.hitl` | `Interrupt`, `InterruptDecision`, approve/edit/reject/respond handlers |
 | `praxo.context` | `ContextBudget`, `ModelSummarizer`, `Offloader`, `load_agents_md` |
 | `praxo.middleware` | call limits, fallback, PII, structured output, tool selection |
 | `praxo.toolcall` | `parse_tool_call`, `strip_tool_call_markup` |

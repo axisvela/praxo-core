@@ -3,9 +3,12 @@
 
 PraxoException
 PraxoException.aborted
+PraxoException.approvalDenied
 PraxoException.checkpoint
 PraxoException.code
 PraxoException.contextBudget
+PraxoException.interruptDecisionInvalid
+PraxoException.interruptUnhandled
 PraxoException.maxSteps
 PraxoException.maxTokens
 PraxoException.modelCallLimit
@@ -41,6 +44,7 @@ agent.AgentOptions.compactor
 agent.AgentOptions.context
 agent.AgentOptions.events
 agent.AgentOptions.fallbackModel
+agent.AgentOptions.interruptOn
 agent.AgentOptions.maxParallelTools
 agent.AgentOptions.maxSteps
 agent.AgentOptions.maxTokens
@@ -52,6 +56,8 @@ agent.AgentOptions.modelMiddleware
 agent.AgentOptions.offloadThresholdBytes
 agent.AgentOptions.offloader
 agent.AgentOptions.onDelta
+agent.AgentOptions.onInterrupt
+agent.AgentOptions.onInterruptDecision
 agent.AgentOptions.piiRedactor
 agent.AgentOptions.policy
 agent.AgentOptions.responseFormat
@@ -118,6 +124,24 @@ event.Sink
 event.Sink.emit
 event.Sink.filter
 event.Sink.multi
+hitl.Interrupt
+hitl.Interrupt.call
+hitl.Interrupt.runId
+hitl.Interrupt.sessionId
+hitl.InterruptAction
+hitl.InterruptAction.APPROVE
+hitl.InterruptAction.EDIT
+hitl.InterruptAction.REJECT
+hitl.InterruptAction.RESPOND
+hitl.InterruptApproval
+hitl.InterruptApproval.approve
+hitl.InterruptDecision
+hitl.InterruptDecision.action
+hitl.InterruptDecision.arguments
+hitl.InterruptDecision.reason
+hitl.InterruptDecision.response
+hitl.InterruptHandler
+hitl.InterruptHandler.decide
 jsonschema.JsonSchema
 jsonschema.JsonSchema.validate
 jsonschema.ValidationError

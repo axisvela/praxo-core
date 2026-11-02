@@ -6,6 +6,7 @@ use serde_json::{Map, Value};
 use crate::context::{load_agents_md, ContextBudget, ContextCompactor, Offloader};
 use crate::errors::{PraxoError, Result};
 use crate::event::{now_iso, Event, Sink};
+use crate::hitl::{Interrupt, InterruptAction, InterruptApproval, InterruptHandler};
 use crate::middleware::{
     fallback_model, merge_middleware, CallLimitMiddleware, Middleware, MiddlewareToolCall,
     ModelCall, ModelHandler, ModelMiddleware, PiiMiddleware, PiiRedactor, RunState,
@@ -90,6 +91,9 @@ pub struct AgentOptions {
     pub cancellation: Option<CancellationToken>,
     pub streaming_model: Option<Arc<dyn StreamingModel>>,
     pub max_tokens: i64,
+    pub interrupt_on: Vec<String>,
+    pub on_interrupt_decision: Option<InterruptHandler>,
+    pub on_interrupt: Option<InterruptApproval>,
 }
 
 impl AgentOptions {
@@ -121,6 +125,9 @@ impl AgentOptions {
             cancellation: None,
             streaming_model: None,
             max_tokens: 0,
+            interrupt_on: Vec::new(),
+            on_interrupt_decision: None,
+            on_interrupt: None,
         }
     }
 }
@@ -446,20 +453,12 @@ impl Agent {
             error: None,
         };
         self.before_tool(&mut middleware_call)?;
-        let active = middleware_call.call.clone();
+        let mut active = middleware_call.call.clone();
         if !self.tool_allowed(&active.name) {
             return Err(PraxoError::new(
                 "AGENT_TOOL_NOT_ALLOWED",
                 format!("agent: tool {} is not allowed", active.name),
             ));
-        }
-        if active.name != original_name || active.arguments != original_arguments {
-            self.authorize(&Action {
-                kind: "tool.invoke".to_string(),
-                session_id: session_id.to_string(),
-                tool_name: Some(active.name.clone()),
-                arguments: Some(active.arguments.clone()),
-            })?;
         }
         if middleware_call.skip {
             let value = middleware_call.result.take().unwrap_or(Value::Null);
@@ -472,6 +471,26 @@ impl Agent {
                 value,
                 error,
             });
+        }
+        if let Some(value) = self.apply_interrupt(&mut active, run_id, session_id)? {
+            middleware_call.call = active.clone();
+            return Ok(PreparedTool {
+                middleware_call,
+                active,
+                tool: None,
+                skip: true,
+                value,
+                error: None,
+            });
+        }
+        middleware_call.call = active.clone();
+        if active.name != original_name || active.arguments != original_arguments {
+            self.authorize(&Action {
+                kind: "tool.invoke".to_string(),
+                session_id: session_id.to_string(),
+                tool_name: Some(active.name.clone()),
+                arguments: Some(active.arguments.clone()),
+            })?;
         }
         let tools = self.options.tools.as_ref().ok_or_else(|| {
             PraxoError::tool_not_found(format!("tool {} is not registered", active.name))
@@ -489,6 +508,63 @@ impl Agent {
             value: Value::Null,
             error: None,
         })
+    }
+
+    fn apply_interrupt(
+        &self,
+        call: &mut ToolCall,
+        run_id: &str,
+        session_id: &str,
+    ) -> Result<Option<Value>> {
+        if !self.options.interrupt_on.iter().any(|name| name == &call.name) {
+            return Ok(None);
+        }
+        if self.options.on_interrupt_decision.is_none() && self.options.on_interrupt.is_none()
+        {
+            return Err(PraxoError::interrupt_unhandled());
+        }
+        let mut data = Map::new();
+        data.insert("name".to_string(), Value::String(call.name.clone()));
+        data.insert("arguments".to_string(), Value::Object(call.arguments.clone()));
+        self.emit("tool.interrupt", session_id, run_id, Some(data))?;
+        let interrupt = Interrupt {
+            run_id: run_id.to_string(),
+            session_id: session_id.to_string(),
+            call: call.clone(),
+        };
+        if let Some(handler) = &self.options.on_interrupt_decision {
+            let decision = handler(&interrupt)?;
+            match decision.action {
+                InterruptAction::Approve => Ok(None),
+                InterruptAction::Edit => {
+                    let arguments = decision.arguments.ok_or_else(|| {
+                        PraxoError::interrupt_decision_invalid(
+                            "agent: edit requires arguments",
+                        )
+                    })?;
+                    call.arguments = arguments;
+                    Ok(None)
+                }
+                InterruptAction::Reject => Err(PraxoError::approval_denied(format!(
+                    "agent: tool call denied by approval: {}: {}",
+                    call.name, decision.reason
+                ))),
+                InterruptAction::Respond => Ok(Some(Value::String(decision.response))),
+            }
+        } else {
+            let approval = self
+                .options
+                .on_interrupt
+                .as_ref()
+                .expect("approval handler checked");
+            if !approval(&interrupt)? {
+                return Err(PraxoError::approval_denied(format!(
+                    "agent: tool call denied by approval: {}",
+                    call.name
+                )));
+            }
+            Ok(None)
+        }
     }
 
     fn execute_prepared(&self, prepared: &PreparedTool) -> ToolResult {

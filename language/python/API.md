@@ -88,6 +88,14 @@ Python surface. The checked-in snapshot is `api/<version>.txt`.
 | `AgentOptions` | Model, tools, events, policy, context, middleware, limits |
 | `Session`, `Result` | Run scope and outcome |
 
+## `praxo.hitl`
+
+| Symbol | Purpose |
+| --- | --- |
+| `Interrupt`, `InterruptDecision` | Tool call awaiting approval and the human decision |
+| `INTERRUPT_APPROVE`, `INTERRUPT_EDIT`, `INTERRUPT_REJECT`, `INTERRUPT_RESPOND` | Supported decision actions |
+| `InterruptHandler`, `InterruptApproval` | Decision and boolean approval callbacks |
+
 ## `praxo.toolcall`
 
 | Symbol | Purpose |

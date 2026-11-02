@@ -38,3 +38,8 @@ behavior and common path but not every optional Go hook or provider adapter.
 | `agent/middleware.PIIMiddleware` | `pii_redact` | parity | P1 |
 | `agent/middleware.StructuredOutput` | `structured_output` | parity | P1 |
 | `agent/middleware.ToolSelectionMiddleware` | `tool_selection` | parity | P1 |
+| `agent/hitl.Interrupt` | `interrupt` | parity | P2 |
+| `agent/hitl.InterruptAction` | `interrupt_approve`, `interrupt_edit`, `interrupt_reject`, `interrupt_respond` | parity | P2 |
+| `agent/hitl.InterruptDecision` | `interrupt_decision` | parity | P2 |
+| `agent/hitl.InterruptHandler` | `on_interrupt_decision` | parity | P2 |
+| `agent.Options.OnInterrupt` | `on_interrupt` | parity | P2 |

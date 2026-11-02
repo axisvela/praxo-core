@@ -15,13 +15,26 @@ from .context import (
     load_agents_md,
 )
 from .errors import (
+    ApprovalDeniedError,
     ContextBudgetError,
+    InterruptDecisionInvalidError,
+    InterruptUnhandledError,
     MaxStepsError,
     MaxTokensError,
     PolicyDeniedError,
     ToolNotFoundError,
 )
 from .event import Event, Sink
+from .hitl import (
+    INTERRUPT_APPROVE,
+    INTERRUPT_EDIT,
+    INTERRUPT_REJECT,
+    INTERRUPT_RESPOND,
+    Interrupt,
+    InterruptApproval,
+    InterruptDecision,
+    InterruptHandler,
+)
 from .middleware import (
     Middleware,
     ModelCall,
@@ -107,6 +120,9 @@ class AgentOptions:
     max_tokens: int = 0
     max_parallel_tools: int = 1
     on_delta: Callable[[str], Any] | None = None
+    interrupt_on: set[str] = field(default_factory=set)
+    on_interrupt_decision: InterruptHandler | None = None
+    on_interrupt: InterruptApproval | None = None
 
 
 class Agent:
@@ -336,6 +352,16 @@ class Agent:
                 result=tool_call.result,
                 error=tool_call.error,
             )
+        skip, result = await self._apply_interrupt(
+            active, run_id, session_id
+        )
+        if skip:
+            return _PreparedTool(
+                middleware_call=tool_call,
+                call=active,
+                skip=True,
+                result=result,
+            )
         if not self._tool_allowed(active.name):
             raise ValueError(f"agent: tool {active.name} is not allowed")
         if (
@@ -367,6 +393,64 @@ class Agent:
             call=active,
             tool=tool,
         )
+
+    async def _apply_interrupt(
+        self, call: Any, run_id: str, session_id: str
+    ) -> tuple[bool, Any]:
+        if call.name not in self.options.interrupt_on:
+            return False, None
+        if (
+            self.options.on_interrupt_decision is None
+            and self.options.on_interrupt is None
+        ):
+            raise InterruptUnhandledError(
+                f"agent: approval handler not configured: {call.name}"
+            )
+        await self._emit(
+            Event(
+                "tool.interrupt",
+                session_id,
+                run_id,
+                {
+                    "name": call.name,
+                    "arguments": copy.deepcopy(call.arguments),
+                },
+            )
+        )
+        interrupt = Interrupt(run_id, session_id, call)
+        if self.options.on_interrupt_decision is not None:
+            decision = await maybe_await(
+                self.options.on_interrupt_decision(interrupt)
+            )
+            if not isinstance(decision, InterruptDecision):
+                raise InterruptDecisionInvalidError(
+                    "agent: invalid interrupt decision"
+                )
+            if decision.action == INTERRUPT_APPROVE:
+                return False, None
+            if decision.action == INTERRUPT_EDIT:
+                if decision.arguments is None:
+                    raise InterruptDecisionInvalidError(
+                        "agent: edit requires arguments"
+                    )
+                call.arguments = copy.deepcopy(decision.arguments)
+                return False, None
+            if decision.action == INTERRUPT_REJECT:
+                raise ApprovalDeniedError(
+                    f"agent: tool call denied by approval: {call.name}: "
+                    f"{decision.reason}"
+                )
+            if decision.action == INTERRUPT_RESPOND:
+                return True, decision.response
+            raise InterruptDecisionInvalidError(
+                f"agent: invalid interrupt decision: {decision.action!r}"
+            )
+        approved = await maybe_await(self.options.on_interrupt(interrupt))
+        if not approved:
+            raise ApprovalDeniedError(
+                f"agent: tool call denied by approval: {call.name}"
+            )
+        return False, None
 
     async def _execute_tool(self, prepared: _PreparedTool) -> ToolResult:
         if prepared.skip:

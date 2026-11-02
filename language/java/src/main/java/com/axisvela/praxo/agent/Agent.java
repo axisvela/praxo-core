@@ -4,6 +4,9 @@ import com.axisvela.praxo.PraxoException;
 import com.axisvela.praxo.context.ContextBudget;
 import com.axisvela.praxo.context.Contexts;
 import com.axisvela.praxo.event.Event;
+import com.axisvela.praxo.hitl.Interrupt;
+import com.axisvela.praxo.hitl.InterruptAction;
+import com.axisvela.praxo.hitl.InterruptDecision;
 import com.axisvela.praxo.middleware.CallLimitMiddleware;
 import com.axisvela.praxo.middleware.FallbackModel;
 import com.axisvela.praxo.middleware.Middleware;
@@ -61,6 +64,9 @@ public final class Agent {
             this.value = value;
             this.error = error;
         }
+    }
+
+    private record InterruptOutcome(boolean skip, Object value) {
     }
 
     private final AgentOptions options;
@@ -356,6 +362,12 @@ public final class Agent {
             throw new IllegalArgumentException(
                     "agent: tool " + active.name() + " is not allowed");
         }
+        InterruptOutcome interrupt = applyInterrupt(toolCall, runId, sessionId);
+        active = toolCall.call;
+        if (interrupt.skip()) {
+            return new PreparedTool(
+                    toolCall, active, null, true, interrupt.value(), null);
+        }
         if (!active.name().equals(originalName)
                 || !active.arguments().equals(originalArguments)) {
             authorize(new Action("tool.invoke", sessionId, active.name(),
@@ -368,6 +380,58 @@ public final class Agent {
         emit(new Event("tool.call", sessionId, runId, data, null));
         return new PreparedTool(
                 toolCall, active, tool, false, null, null);
+    }
+
+    private InterruptOutcome applyInterrupt(
+            MiddlewareToolCall toolCall, String runId, String sessionId)
+            throws Exception {
+        ToolCall call = toolCall.call;
+        if (!options.interruptOn.contains(call.name())) {
+            return new InterruptOutcome(false, null);
+        }
+        if (options.onInterruptDecision == null && options.onInterrupt == null) {
+            throw PraxoException.interruptUnhandled();
+        }
+        Map<String, Object> data = new LinkedHashMap<>();
+        data.put("name", call.name());
+        data.put("arguments", copyArguments(call.arguments()));
+        emit(new Event("tool.interrupt", sessionId, runId, data, null));
+        Interrupt interrupt = new Interrupt(runId, sessionId, call);
+        if (options.onInterruptDecision != null) {
+            InterruptDecision decision = options.onInterruptDecision.decide(interrupt);
+            if (decision == null) {
+                throw PraxoException.interruptDecisionInvalid(
+                        "agent: invalid interrupt decision");
+            }
+            switch (decision.action == null ? "" : decision.action) {
+                case InterruptAction.APPROVE:
+                    return new InterruptOutcome(false, null);
+                case InterruptAction.EDIT:
+                    if (decision.arguments == null) {
+                        throw PraxoException.interruptDecisionInvalid(
+                                "agent: edit requires arguments");
+                    }
+                    toolCall.call = new ToolCall(
+                            call.id(), call.name(),
+                            copyArguments(decision.arguments));
+                    return new InterruptOutcome(false, null);
+                case InterruptAction.REJECT:
+                    throw PraxoException.approvalDenied(
+                            "agent: tool call denied by approval: "
+                                    + call.name() + ": " + decision.reason);
+                case InterruptAction.RESPOND:
+                    return new InterruptOutcome(true, decision.response);
+                default:
+                    throw PraxoException.interruptDecisionInvalid(
+                            "agent: invalid interrupt decision: "
+                                    + decision.action);
+            }
+        }
+        if (!options.onInterrupt.approve(interrupt)) {
+            throw PraxoException.approvalDenied(
+                    "agent: tool call denied by approval: " + call.name());
+        }
+        return new InterruptOutcome(false, null);
     }
 
     private ToolResult executePrepared(PreparedTool prepared) {

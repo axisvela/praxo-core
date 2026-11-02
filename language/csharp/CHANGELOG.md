@@ -1,5 +1,15 @@
 # C# Core Release Notes
 
+## Unreleased
+
+### Added
+
+- `Interrupt`, `InterruptAction`, `InterruptDecision`, `IInterruptHandler`, and
+  `IInterruptApproval`.
+- `AgentOptions.InterruptOn`, `OnInterruptDecision`, and `OnInterrupt`.
+  Interrupted calls emit `tool.interrupt`, edited arguments are reauthorized,
+  and reject/respond follow the Core contract.
+
 ## 0.2.0 - 2026-11-01
 
 Source release tag `csharp/v0.2.0`. The NuGet package remains `Praxo.Core@0.1.2`

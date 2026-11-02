@@ -10,6 +10,16 @@ from .context import (
     load_agents_md,
 )
 from .event import Event, FilterSink, MultiSink, Sink
+from .hitl import (
+    INTERRUPT_APPROVE,
+    INTERRUPT_EDIT,
+    INTERRUPT_REJECT,
+    INTERRUPT_RESPOND,
+    Interrupt,
+    InterruptApproval,
+    InterruptDecision,
+    InterruptHandler,
+)
 from .middleware import (
     Middleware,
     ModelCall,
@@ -65,6 +75,14 @@ __all__ = [
     "GatewayInfo",
     "GatewayTool",
     "Hook",
+    "INTERRUPT_APPROVE",
+    "INTERRUPT_EDIT",
+    "INTERRUPT_REJECT",
+    "INTERRUPT_RESPOND",
+    "Interrupt",
+    "InterruptApproval",
+    "InterruptDecision",
+    "InterruptHandler",
     "Message",
     "Middleware",
     "Model",

@@ -12,8 +12,8 @@ R implementation of the PRAXO-CORE contract.
 
 `0.4.0` implements all eleven conformance vector groups: tool-call parsing, JSON
 Schema, plugin manifests, memory, events, stream kinds, checkpoint envelopes,
-path policy, context budgets, middleware, and the agent loop. Provider adapters
-remain follow-up work.
+path policy, context budgets, middleware, the agent loop, and human-in-the-loop
+interrupt decisions. Provider adapters remain follow-up work.
 
 ## Build and test
 

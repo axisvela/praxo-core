@@ -43,6 +43,27 @@ export class ToolCallLimitError extends PraxoError {
   }
 }
 
+export class ApprovalDeniedError extends PraxoError {
+  constructor(message = "agent: tool call denied by approval") {
+    super(message, "AGENT_APPROVAL_DENIED");
+    this.name = "ApprovalDeniedError";
+  }
+}
+
+export class InterruptUnhandledError extends PraxoError {
+  constructor(message = "agent: approval handler not configured") {
+    super(message, "AGENT_INTERRUPT_UNHANDLED");
+    this.name = "InterruptUnhandledError";
+  }
+}
+
+export class InterruptDecisionInvalidError extends PraxoError {
+  constructor(message = "agent: invalid interrupt decision") {
+    super(message, "AGENT_INTERRUPT_DECISION_INVALID");
+    this.name = "InterruptDecisionInvalidError";
+  }
+}
+
 export class ToolNotSelectedError extends PraxoError {
   constructor(message = "agent: tool not selected") {
     super(message, "AGENT_TOOL_NOT_SELECTED");

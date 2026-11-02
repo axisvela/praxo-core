@@ -28,7 +28,7 @@ Behavior coverage is tracked separately from contract tier:
 | Extended | C, PHP, Fortran, COBOL, Ruby, Elixir, Erlang, C++, Lua | Scenario-by-scenario only with a named consumer and maintainer |
 | Optional | Other declared implementations | Outside the behavior program; contract conformance unchanged |
 
-The clean sixteen-language report has 205 passed, 99 unsupported, and no
+The clean sixteen-language report has 262 passed, 42 unsupported, and no
 failures. All sixteen wired languages now cover nineteen scenarios in the
 source; some parallel-tool cells delegate concurrency to caller-provided batch
 callbacks without Core-created threads. Do not treat an unsupported cell as a

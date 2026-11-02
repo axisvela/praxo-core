@@ -75,6 +75,7 @@ System.out.println(result.output + " " + result.steps);
 | `com.axisvela.praxo.context` | budgets, summarization, offload, AGENTS.md |
 | `com.axisvela.praxo.middleware` | call limits, fallback, PII, structured output, tool selection |
 | `com.axisvela.praxo.agent` | Agent, AgentOptions, Session, Result |
+| `com.axisvela.praxo.hitl` | Interrupt, InterruptDecision, approve/edit/reject/respond handlers |
 | `com.axisvela.praxo.toolcall` | tool-call parsing and markup stripping |
 | `com.axisvela.praxo.jsonschema` | documented JSON Schema subset |
 | `com.axisvela.praxo.plugin` | Manifest v1 parsing and validation |

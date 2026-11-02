@@ -9,13 +9,26 @@ import {
 } from "./context";
 import {
   AbortError,
+  ApprovalDeniedError,
   ContextBudgetError,
+  InterruptDecisionInvalidError,
+  InterruptUnhandledError,
   MaxStepsError,
   MaxTokensError,
   PolicyDeniedError,
   ToolNotFoundError,
 } from "./errors";
 import { Event, Sink } from "./event";
+import {
+  INTERRUPT_APPROVE,
+  INTERRUPT_EDIT,
+  INTERRUPT_REJECT,
+  INTERRUPT_RESPOND,
+  Interrupt,
+  InterruptApproval,
+  InterruptDecision,
+  InterruptHandler,
+} from "./hitl";
 import {
   Middleware,
   MiddlewareToolCall,
@@ -93,6 +106,9 @@ export interface AgentOptions {
   maxParallelTools?: number;
   onDelta?: (delta: string) => void;
   signal?: AbortSignal;
+  interruptOn?: string[];
+  onInterruptDecision?: InterruptHandler;
+  onInterrupt?: InterruptApproval;
 }
 
 interface PreparedTool {
@@ -108,8 +124,10 @@ export class Agent {
   private readonly systemPrompt: string;
   private readonly middleware: Middleware[];
   private readonly modelMiddleware: ModelMiddleware[];
+  private readonly interruptOn: Set<string>;
 
   constructor(readonly options: AgentOptions) {
+    this.interruptOn = new Set(options.interruptOn ?? []);
     const memory = loadAgentsMd(options.memoryFiles ?? []);
     this.systemPrompt = memory
       ? `${options.systemPrompt ?? ""}\n\n${memory}`.trim()
@@ -410,6 +428,15 @@ export class Agent {
     if (!this.toolAllowed(active.name)) {
       throw new Error(`agent: tool ${active.name} is not allowed`);
     }
+    const interrupted = await this.applyInterrupt(active, runId, sessionId);
+    if (interrupted) {
+      return {
+        toolCall,
+        active,
+        skip: true,
+        value: interrupted.result,
+      };
+    }
     if (
       active.name !== originalName ||
       !isDeepStrictEqual(active.arguments, originalArguments)
@@ -432,6 +459,68 @@ export class Agent {
       },
     });
     return { toolCall, active, tool, skip: false };
+  }
+
+  private async applyInterrupt(
+    call: ToolCall,
+    runId: string,
+    sessionId: string
+  ): Promise<{ result: unknown } | undefined> {
+    if (!this.interruptOn.has(call.name)) return undefined;
+    if (
+      !this.options.onInterruptDecision &&
+      !this.options.onInterrupt
+    ) {
+      throw new InterruptUnhandledError(
+        `agent: approval handler not configured: ${call.name}`
+      );
+    }
+    await this.emit({
+      type: "tool.interrupt",
+      sessionId,
+      runId,
+      data: {
+        name: call.name,
+        arguments: structuredClone(call.arguments),
+      },
+    });
+    const interrupt: Interrupt = { runId, sessionId, call };
+    if (this.options.onInterruptDecision) {
+      const decision = await maybeAwait(
+        this.options.onInterruptDecision(interrupt)
+      );
+      const action = decision?.action;
+      if (action === INTERRUPT_APPROVE) return undefined;
+      if (action === INTERRUPT_EDIT) {
+        if (decision.arguments === undefined) {
+          throw new InterruptDecisionInvalidError(
+            "agent: edit requires arguments"
+          );
+        }
+        call.arguments = structuredClone(decision.arguments);
+        return undefined;
+      }
+      if (action === INTERRUPT_REJECT) {
+        throw new ApprovalDeniedError(
+          `agent: tool call denied by approval: ${call.name}: ` +
+            `${decision.reason ?? ""}`
+        );
+      }
+      if (action === INTERRUPT_RESPOND) {
+        return { result: decision.response ?? "" };
+      }
+      throw new InterruptDecisionInvalidError(
+        `agent: invalid interrupt decision: ${String(action)}`
+      );
+    }
+    const approval = this.options.onInterrupt!;
+    const approved = await maybeAwait(approval(interrupt));
+    if (!approved) {
+      throw new ApprovalDeniedError(
+        `agent: tool call denied by approval: ${call.name}`
+      );
+    }
+    return undefined;
   }
 
   private async executePrepared(

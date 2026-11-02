@@ -25,7 +25,7 @@
 
 | 层级 | 语言 | 当前状态 |
 | --- | --- | --- |
-| Agent-capable | Go、Python、TypeScript、Java、Rust、R、C# | 以全部十九个场景为目标；当前覆盖因语言而异 |
+| Agent-capable | Go、Python、TypeScript、Java、Rust、R、CSharp | 以全部十九个场景为目标；当前覆盖因语言而异 |
 | Extended | C、PHP、Fortran、COBOL、Ruby、Elixir、Erlang、C++、Lua | 在有明确消费者和维护者时逐场景推进 |
 | Optional | 其他已声明实现 | 不在当前行为计划内 |
 
@@ -40,7 +40,7 @@
 
 ## 场景矩阵
 
-| 场景 | Go | Py | TS | Java | Rust | R | C# | C | Ftn | COB | Ruby | Ex | Erl | C++ | PHP | Lua |
+| 场景 | Go | Py | TS | Java | Rust | R | CSharp | C | Ftn | COB | Ruby | Ex | Erl | C++ | PHP | Lua |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | `final-arguments` | S | S | S | G | S | N | N | N | N | N | N | N | N | N | N | N |
 | `final-name` | S | S | S | G | S | N | N | N | N | N | N | N | N | N | N | N |
@@ -226,7 +226,7 @@ cargo test --test sdk sse_stream_rejects_truncation_and_half_packets
 Rscript language/r/tests/run_tests.R
 ```
 
-### C#
+### CSharp
 
 - 覆盖类型: 套件级
 - 通过: 19/19

@@ -6,6 +6,7 @@ Action
 Agent
 AgentOptions
 Allowlist
+ApprovalDeniedError
 CALL_ERROR_CODES
 COMPACT_MARKER_PREFIX
 CacheHint
@@ -38,6 +39,17 @@ Gateway
 GatewayInfo
 GatewayTool
 Hook
+INTERRUPT_APPROVE
+INTERRUPT_EDIT
+INTERRUPT_REJECT
+INTERRUPT_RESPOND
+Interrupt
+InterruptAction
+InterruptApproval
+InterruptDecision
+InterruptDecisionInvalidError
+InterruptHandler
+InterruptUnhandledError
 KINDS
 MAX_AGENTS_MD_BYTES
 Manifest

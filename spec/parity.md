@@ -52,7 +52,7 @@ release; the matrix notes and the declared scope decide what the release claims.
 | `pkg/agent/stream` | typed stream projections | parity | parity | parity | P1 |
 | `pkg/agent/context` | budget, compact, offload, AGENTS.md | parity | parity | partial | P1 |
 | `pkg/agent/middleware` | call limits, fallback, PII, structured output, tool selection, todos | partial | partial | partial | P1 |
-| `pkg/agent/hitl` | interrupt decisions | planned | planned | planned | P2 |
+| `pkg/agent/hitl` | interrupt decisions | parity | parity | parity | P2 |
 | `pkg/agent/evaluation` | rubric evaluation | planned | planned | planned | P2 |
 | `pkg/agent/delegation` | subagent manager | planned | planned | planned | P2 |
 | `pkg/event` | event envelope and sinks | partial | partial | partial | P1 |

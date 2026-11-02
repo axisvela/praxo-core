@@ -1,5 +1,15 @@
 # Rust Core Release Notes
 
+## Unreleased
+
+### Added
+
+- `hitl` module with `Interrupt`, `InterruptAction`, `InterruptDecision`,
+  `InterruptHandler`, and `InterruptApproval`.
+- `AgentOptions::interrupt_on`, `on_interrupt_decision`, and `on_interrupt`.
+  Interrupted calls emit `tool.interrupt`, edited arguments are reauthorized,
+  and reject/respond follow the Core contract.
+
 ## 0.2.0 - 2026-11-01
 
 Source release tag `rust/v0.2.0`. The crates.io package remains `0.1.4` until a

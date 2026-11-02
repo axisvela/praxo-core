@@ -39,7 +39,7 @@ Bridge、Sample 描述运行时的接入方式，不证明其语言缺乏 Framew
 
 2026-11-01 的源码集覆盖十六个已接入语言：agent-capable 的 Go、Python、TypeScript、Java、Rust、R、C#，以及 extended 的 C、PHP、Fortran、COBOL、Ruby、Elixir、Erlang、C++、Lua。全部十六个已接入语言均覆盖十九个场景。COBOL、Lua、PHP 和 Fortran 的并行工具委托给调用方提供的批处理回调；这些情况下 Core 本身不创建线程。逐单元格结果见[行为实验矩阵](behavior-lab-matrix.md)。
 
-`85a9d7b` 上的 clean-SHA CI 运行为十六语言集报告了 205 passed、99 unsupported、无失败。矩阵由该报告生成。
+`7a7b796` 上的 clean-SHA CI 运行为十六语言集报告了 262 passed、42 unsupported、无失败。矩阵由该报告生成。
 
 `unsupported` 是明确记录的缺口，既不是失败，也不是通过。不要从契约成熟度 `complete` 推断完整行为对齐。
 
@@ -128,8 +128,8 @@ Bridge、Sample 描述运行时的接入方式，不证明其语言缺乏 Framew
 
 ## 功能边界
 
-Python、TypeScript、Java、C# 包含流式路径与 OpenAI 兼容适配器，不能据此推断
-其他语言也具备这些能力。`complete` 表示声明范围内的契约一致性；parity 清单仍可包含
+Python、TypeScript、Java、Rust、R、C# 包含人工审批中断决策；Python、TypeScript、
+Java、C# 还包含流式路径与 OpenAI 兼容适配器，不能据此推断其他语言也具备这些能力。`complete` 表示声明范围内的契约一致性；parity 清单仍可包含
 该范围之外的功能 `partial`/`planned` 行。共享向量通过不等于 Go 全功能一致、真实提供商验证、
 生产就绪或包仓库发布完成。
 

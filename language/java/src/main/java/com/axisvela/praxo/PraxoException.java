@@ -36,6 +36,20 @@ public class PraxoException extends RuntimeException {
         return new PraxoException("AGENT_TOOL_NOT_SELECTED", "agent: tool not selected");
     }
 
+    public static PraxoException approvalDenied(String message) {
+        return new PraxoException("AGENT_APPROVAL_DENIED", message);
+    }
+
+    public static PraxoException interruptUnhandled() {
+        return new PraxoException(
+                "AGENT_INTERRUPT_UNHANDLED",
+                "agent: approval handler not configured");
+    }
+
+    public static PraxoException interruptDecisionInvalid(String message) {
+        return new PraxoException("AGENT_INTERRUPT_DECISION_INVALID", message);
+    }
+
     public static PraxoException structuredOutput(String message) {
         return new PraxoException("AGENT_STRUCTURED_OUTPUT", message);
     }

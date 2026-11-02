@@ -30,6 +30,15 @@ public sealed class PraxoException : Exception
     public static PraxoException ToolNotSelected()
         => new("AGENT_TOOL_NOT_SELECTED", "agent: tool is not selected");
 
+    public static PraxoException ApprovalDenied(string message)
+        => new("AGENT_APPROVAL_DENIED", message);
+
+    public static PraxoException InterruptUnhandled()
+        => new("AGENT_INTERRUPT_UNHANDLED", "agent: approval handler not configured");
+
+    public static PraxoException InterruptDecisionInvalid(string message)
+        => new("AGENT_INTERRUPT_DECISION_INVALID", message);
+
     public static PraxoException ToolNotFound(string message)
         => new("TOOL_NOT_FOUND", message);
 

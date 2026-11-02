@@ -99,6 +99,13 @@
 
 ### Added
 
+- Python, TypeScript, Java, Rust, R, and C# now implement human-in-the-loop
+  interrupt decisions for the six non-Go agent-capable SDKs. Each SDK exposes
+  `Interrupt`, `InterruptDecision`, approve/edit/reject/respond actions, a
+  decision handler, and a boolean approval handler. Interrupted calls emit
+  `tool.interrupt`, edited arguments are reauthorized before effects, rejection
+  fails closed with `AGENT_APPROVAL_DENIED`, and missing handlers fail with
+  `AGENT_INTERRUPT_UNHANDLED`.
 - Fortran `0.3.0` source uses pinned upstream RE2 and Abseil through
   an original MIT C ABI library for full default RE2 syntax and UTF-8 Unicode
   patterns. Native tests cover groups, alternation, repetition, Unicode

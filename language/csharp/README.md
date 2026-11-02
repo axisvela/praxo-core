@@ -24,8 +24,10 @@ The Core implements all eleven vector groups: toolcall, jsonschema, plugin,
 checkpoint, event, memory, policy, stream, context, middleware, and agent loop.
 It also includes a synchronous `OpenAiCompatibleModel` and a streaming variant.
 The agent loop supports `RunStream`, cooperative cancellation through
-`AgentOptions.CancellationToken`, and bounded parallel tool execution through
-`AgentOptions.MaxParallelTools`. The public API is idiomatic C#; wire shapes
+`AgentOptions.CancellationToken`, bounded parallel tool execution through
+`AgentOptions.MaxParallelTools`, and human-in-the-loop interrupt decisions
+through `AgentOptions.InterruptOn` and `OnInterruptDecision`. The public API is
+idiomatic C#; wire shapes
 keep the Go casing (`image_url`, `runId`, `plugin_id`).
 
 ## Build and test

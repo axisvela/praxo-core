@@ -54,7 +54,7 @@ Fortran are delegated to caller-provided batch callbacks; the Core itself does
 not create threads in those cases. See the
 [Behavior Lab matrix](behavior-lab-matrix.md) for every cell.
 
-The clean-SHA CI run at `85a9d7b` reported 205 passed, 99 unsupported, and no
+The clean-SHA CI run at `7a7b796` reported 262 passed, 42 unsupported, and no
 failures for the sixteen-language set. The matrix is generated from that
 report.
 
@@ -202,8 +202,10 @@ a merged implementation PR as a support commitment.
 
 ## Feature Boundaries
 
-Python, TypeScript, Java, and C# include streaming and an OpenAI-compatible
-adapter. This does not imply those features exist in every other implementation.
+Python, TypeScript, Java, Rust, R, and C# include human-in-the-loop interrupt
+decisions. Python, TypeScript, Java, and C# also include streaming and an
+OpenAI-compatible adapter. This does not imply those features exist in every
+other implementation.
 `complete` records declared-scope conformance; the parity inventory may still
 contain `partial` or `planned` rows for features outside that scope. Passing
 shared vectors does not prove complete feature parity with Go, live

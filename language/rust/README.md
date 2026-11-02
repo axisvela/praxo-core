@@ -11,7 +11,8 @@ reference implementation.
 
 **Status:** core. The package passes all eleven conformance vector groups.
 Context budgets, middleware, streaming callbacks, cancellation, bounded parallel
-tools, and the synchronous agent loop are included. A streaming SSE parser is
+tools, human-in-the-loop interrupt decisions, and the synchronous agent loop are
+included. A streaming SSE parser is
 included; an HTTP OpenAI-compatible client, VFS, and plugin hosts are not yet
 implemented.
 

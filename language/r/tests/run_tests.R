@@ -434,6 +434,70 @@ parallel_tools_test <- function() {
   stopifnot(identical(names, c("a", "b")))
 }
 
+hitl_approve_test <- function() {
+  calls <- 0L
+  step <- 0L
+  model <- function(request) {
+    if (step == 0L) {
+      step <<- 1L
+      return(response(message(roles$assistant, "", tool_calls = list(
+        tool_call("c1", "echo", list(value = "original"))
+      ))))
+    }
+    response(message(roles$assistant, "done"))
+  }
+  tools <- list(list(name = "echo", description = "Echo", invoke = function(arguments) {
+    calls <<- calls + 1L
+    arguments
+  }))
+  result <- agent_run(model, "go", tools = tools, interrupt_on = "echo",
+                      on_interrupt_decision = function(interrupt) {
+                        interrupt_decision(interrupt_approve)
+                      })
+  stopifnot(identical(result$output, "done"), calls == 1L)
+
+  step <- 0L
+  calls <- 0L
+  expect_code(agent_run(model, "go", tools = tools, interrupt_on = "echo",
+                        on_interrupt_decision = function(interrupt) {
+                          interrupt_decision(interrupt_reject, reason = "no")
+                        }), "AGENT_APPROVAL_DENIED")
+  stopifnot(calls == 0L)
+
+  step <- 0L
+  calls <- 0L
+  expect_code(agent_run(model, "go", tools = tools, interrupt_on = "echo"),
+              "AGENT_INTERRUPT_UNHANDLED")
+  stopifnot(calls == 0L)
+
+  step <- 0L
+  calls <- 0L
+  actions <- list()
+  policy <- function(action) {
+    if (identical(action$kind, "tool.invoke")) {
+      actions[[length(actions) + 1L]] <<- action
+    }
+    list(allowed = TRUE, reason = "")
+  }
+  agent_run(model, "go", tools = tools, policy = policy, interrupt_on = "echo",
+            on_interrupt_decision = function(interrupt) {
+              interrupt_decision(interrupt_edit, list(value = "edited"))
+            })
+  stopifnot(calls == 1L, length(actions) == 2L)
+  stopifnot(identical(actions[[2L]]$arguments$value, "edited"))
+
+  step <- 0L
+  types <- character()
+  events <- list(emit = function(event) types <<- c(types, event$type))
+  agent_run(model, "go", tools = tools, events = events, interrupt_on = "echo",
+            on_interrupt_decision = function(interrupt) {
+              interrupt_decision(interrupt_approve)
+            })
+  stopifnot(sum(types == "tool.interrupt") == 1L)
+}
+
+hitl_approve_test()
+
 parallel_tools_test()
 
 cat("R core tests passed\n")

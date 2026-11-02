@@ -45,3 +45,8 @@
 | `agent/middleware.PIIMiddleware` | `middleware::PiiMiddleware` | parity | P1 |
 | `agent/middleware.StructuredOutput` | `middleware::StructuredOutput` | parity | P1 |
 | `agent/middleware.ToolSelectionMiddleware` | `middleware::ToolSelectionMiddleware` | parity | P1 |
+| `agent/hitl.Interrupt` | `hitl::Interrupt` | parity | P2 |
+| `agent/hitl.InterruptAction` | `hitl::InterruptAction` | parity | P2 |
+| `agent/hitl.InterruptDecision` | `hitl::InterruptDecision` | parity | P2 |
+| `agent/hitl.InterruptHandler` | `hitl::InterruptHandler` | parity | P2 |
+| `agent.Options.OnInterrupt` | `hitl::InterruptApproval` | parity | P2 |

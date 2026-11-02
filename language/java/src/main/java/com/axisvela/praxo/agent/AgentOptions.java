@@ -4,6 +4,8 @@ import com.axisvela.praxo.context.ContextBudget;
 import com.axisvela.praxo.context.ContextCompactor;
 import com.axisvela.praxo.context.Offloader;
 import com.axisvela.praxo.event.Sink;
+import com.axisvela.praxo.hitl.InterruptApproval;
+import com.axisvela.praxo.hitl.InterruptHandler;
 import com.axisvela.praxo.middleware.Middleware;
 import com.axisvela.praxo.middleware.PiiRedactor;
 import com.axisvela.praxo.middleware.StructuredOutput;
@@ -44,6 +46,9 @@ public final class AgentOptions {
     public int maxParallelTools = 1;
     public Consumer<String> onDelta;
     public CancellationToken cancellation;
+    public List<String> interruptOn = new ArrayList<>();
+    public InterruptHandler onInterruptDecision;
+    public InterruptApproval onInterrupt;
 
     public AgentOptions(Model model) {
         this.model = model;

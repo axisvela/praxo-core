@@ -4,6 +4,7 @@ pub mod conformance;
 pub mod context;
 pub mod errors;
 pub mod event;
+pub mod hitl;
 pub mod jsonschema;
 pub mod memory;
 pub mod middleware;

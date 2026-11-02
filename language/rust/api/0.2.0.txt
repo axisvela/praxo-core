@@ -94,6 +94,14 @@ pub const STREAM_UPDATES: &str = "updates";
 ## constant praxo_core::stream::STREAM_VALUES
 pub const STREAM_VALUES: &str = "values";
 
+## enum praxo_core::hitl::InterruptAction
+pub enum InterruptAction { Approve, Edit, Reject, Respond, }
+impl Clone for InterruptAction
+impl Copy for InterruptAction
+impl Debug for InterruptAction
+impl Eq for InterruptAction
+impl PartialEq for InterruptAction
+
 ## fn praxo_core::conformance::run_all
 pub fn run_all() -> Vec<String>
 
@@ -165,6 +173,8 @@ pub fn strip_markup(content: &str) -> String
 
 ## module praxo_core::event
 
+## module praxo_core::hitl
+
 ## module praxo_core::jsonschema
 
 ## module praxo_core::memory
@@ -193,7 +203,7 @@ method pub fn run(&self, session: &Session, prompt: &str) -> Result<RunResult>
 method pub fn run_stream( &self, session: &Session, prompt: &str, on_delta: &mut dyn FnMut(&str) -> Result<()>, ) -> Result<RunResult>
 
 ## struct praxo_core::agent::AgentOptions
-pub struct AgentOptions { pub model: Arc<dyn Model>, pub tools: Option<Arc<Registry>>, pub events: Option<Arc<dyn Sink>>, pub policy: Option<Arc<dyn Hook>>, pub system_prompt: String, pub memory_files: Vec<String>, pub context: Option<ContextBudget>, pub compactor: Option<Arc<dyn ContextCompactor>>, pub offloader: Option<Arc<dyn Offloader>>, pub offload_threshold_bytes: usize, pub middleware: Vec<Box<dyn Middleware>>, pub model_middleware: Vec<ModelMiddleware>, pub structured_output: Option<StructuredOutput>, pub allowed_tools: Vec<String>, pub tool_selector: Option<Arc<dyn ToolSelector>>, pub pii_redactor: Option<PiiRedactor>, pub model_call_limit: usize, pub tool_call_limit: usize, pub fallback_model: Option<Arc<dyn Model>>, pub tool_choice: Option<String>, pub response_format: Option<ResponseFormat>, pub max_steps: usize, pub max_parallel_tools: usize, pub cancellation: Option<CancellationToken>, pub streaming_model: Option<Arc<dyn StreamingModel>>, pub max_tokens: i64, }
+pub struct AgentOptions { pub model: Arc<dyn Model>, pub tools: Option<Arc<Registry>>, pub events: Option<Arc<dyn Sink>>, pub policy: Option<Arc<dyn Hook>>, pub system_prompt: String, pub memory_files: Vec<String>, pub context: Option<ContextBudget>, pub compactor: Option<Arc<dyn ContextCompactor>>, pub offloader: Option<Arc<dyn Offloader>>, pub offload_threshold_bytes: usize, pub middleware: Vec<Box<dyn Middleware>>, pub model_middleware: Vec<ModelMiddleware>, pub structured_output: Option<StructuredOutput>, pub allowed_tools: Vec<String>, pub tool_selector: Option<Arc<dyn ToolSelector>>, pub pii_redactor: Option<PiiRedactor>, pub model_call_limit: usize, pub tool_call_limit: usize, pub fallback_model: Option<Arc<dyn Model>>, pub tool_choice: Option<String>, pub response_format: Option<ResponseFormat>, pub max_steps: usize, pub max_parallel_tools: usize, pub cancellation: Option<CancellationToken>, pub streaming_model: Option<Arc<dyn StreamingModel>>, pub max_tokens: i64, pub interrupt_on: Vec<String>, pub on_interrupt_decision: Option<InterruptHandler>, pub on_interrupt: Option<InterruptApproval>, }
 impl AgentOptions
 method pub fn new(model: Arc<dyn Model>) -> Self
 
@@ -255,8 +265,11 @@ impl Display for PraxoError
 impl Error for PraxoError
 impl PraxoError
 method pub fn aborted() -> Self
+method pub fn approval_denied(message: impl Into<String>) -> Self
 method pub fn checkpoint(message: impl Into<String>) -> Self
 method pub fn context_budget() -> Self
+method pub fn interrupt_decision_invalid(message: impl Into<String>) -> Self
+method pub fn interrupt_unhandled() -> Self
 method pub fn max_steps() -> Self
 method pub fn max_tokens() -> Self
 method pub fn model_call_limit() -> Self
@@ -291,6 +304,18 @@ pub struct MultiSink { /* private fields */ }
 impl MultiSink
 impl Sink for MultiSink
 method pub fn new(sinks: Vec<Arc<dyn Sink>>) -> Self
+
+## struct praxo_core::hitl::Interrupt
+pub struct Interrupt { pub run_id: String, pub session_id: String, pub call: ToolCall, }
+impl Clone for Interrupt
+impl Debug for Interrupt
+
+## struct praxo_core::hitl::InterruptDecision
+pub struct InterruptDecision { pub action: InterruptAction, pub arguments: Option<Map<String, Value>>, pub response: String, pub reason: String, }
+impl Clone for InterruptDecision
+impl Debug for InterruptDecision
+impl InterruptDecision
+method pub fn approve() -> Self
 
 ## struct praxo_core::jsonschema::Schema
 pub struct Schema { /* private fields */ }
@@ -575,6 +600,12 @@ pub trait Tool: Send + Sync { fn name(&self) -> &str; fn description(&self) -> &
 
 ## type praxo_core::errors::Result
 pub type Result<T> = Result<T, PraxoError>;
+
+## type praxo_core::hitl::InterruptApproval
+pub type InterruptApproval = Arc<dyn Fn(&Interrupt) -> Result<bool> + Send + Sync>;
+
+## type praxo_core::hitl::InterruptHandler
+pub type InterruptHandler = Arc<dyn Fn(&Interrupt) -> Result<InterruptDecision> + Send + Sync>;
 
 ## type praxo_core::middleware::ModelHandler
 pub type ModelHandler = Box<dyn Fn(&Request) -> Result<Response> + Send + Sync>;

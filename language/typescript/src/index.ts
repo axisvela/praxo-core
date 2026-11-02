@@ -7,6 +7,7 @@ export * from "./checkpoint";
 export * from "./context";
 export * from "./errors";
 export * from "./event";
+export * from "./hitl";
 export * from "./jsonschema";
 export * from "./memory";
 export * from "./middleware";

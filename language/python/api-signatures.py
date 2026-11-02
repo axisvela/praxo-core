@@ -21,6 +21,7 @@ MODULES = [
     "praxo.context",
     "praxo.errors",
     "praxo.event",
+    "praxo.hitl",
     "praxo.jsonschema",
     "praxo.memory",
     "praxo.middleware",

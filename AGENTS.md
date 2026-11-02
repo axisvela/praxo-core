@@ -72,7 +72,7 @@ cd language/typescript; npm ci
 cd language/typescript; npm run build
 cd language/typescript; npm run api:check
 cd language/typescript; npm run conformance
-cd language/typescript; node --test tests/sdk.test.js tests/behavior.test.js tests/openaicompat.test.js tests/api-signatures.test.js
+cd language/typescript; node --test tests/sdk.test.js tests/behavior.test.js tests/hitl.test.js tests/openaicompat.test.js tests/api-signatures.test.js
 cd language/java; mvn -q -DskipTests test-compile
 cd language/java; mvn -q -DskipTests package
 cd language/java; java -cp target/classes com.axisvela.praxo.conformance.ApiSnapshot --check
@@ -82,6 +82,7 @@ cd language/java; java -cp target/classes:target/test-classes com.axisvela.praxo
 cd language/java; java -cp target/classes:target/test-classes com.axisvela.praxo.agent.AgentAuthorizationSelfTest
 cd language/java; java -cp target/classes:target/test-classes com.axisvela.praxo.agent.AgentLifecycleSelfTest
 cd language/java; java -cp target/classes:target/test-classes com.axisvela.praxo.agent.AgentGuardrailSelfTest
+cd language/java; java -cp target/classes:target/test-classes com.axisvela.praxo.agent.AgentHitlSelfTest
 cd language/java; java -cp target/classes:target/test-classes com.axisvela.praxo.agent.AgentStreamSelfTest
 cd language/java; java -cp target/classes:target/test-classes com.axisvela.praxo.jsonschema.JsonSchemaSelfTest
 cd language/java; java -cp target/classes:target/test-classes com.axisvela.praxo.checkpoint.CheckpointSelfTest

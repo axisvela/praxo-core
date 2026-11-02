@@ -50,6 +50,19 @@ memory_record <- function(id = "", frame = "", content = "", created_at = NULL) 
 
 event <- function(type, session_id) list(type = type, sessionId = session_id)
 
+interrupt_approve <- "approve"
+interrupt_edit <- "edit"
+interrupt_reject <- "reject"
+interrupt_respond <- "respond"
+
+interrupt <- function(run_id, session_id, call) {
+  list(runId = run_id, sessionId = session_id, call = call)
+}
+
+interrupt_decision <- function(action, arguments = NULL, response = "", reason = "") {
+  list(action = action, arguments = arguments, response = response, reason = reason)
+}
+
 sink_emit <- function(sink, event) sink$emit(event)
 
 multi_sink <- function(sinks) {
@@ -326,7 +339,9 @@ agent_run <- function(model, prompt, tools = list(), events = NULL, max_steps = 
                       max_tokens = 0L, session_id = "s1", policy = NULL,
                       middleware = list(), allowed_tools = character(),
                       cancellation = NULL, streaming_model = NULL,
-                      on_delta = NULL, max_parallel_tools = 0L) {
+                      on_delta = NULL, max_parallel_tools = 0L,
+                      interrupt_on = character(), on_interrupt_decision = NULL,
+                      on_interrupt = NULL) {
   run_id <- paste0("run-", format(Sys.time(), "%s"))
   if (max_steps <= 0L) max_steps <- 8L
   messages <- list(message(roles$user, prompt))
@@ -351,6 +366,48 @@ agent_run <- function(model, prompt, tools = list(), events = NULL, max_steps = 
   }
   tool_allowed <- function(name) {
     length(allowed_tools) == 0L || name %in% allowed_tools
+  }
+  apply_interrupt <- function(call) {
+    if (!(call$name %in% interrupt_on)) {
+      return(list(call = call, skip = FALSE))
+    }
+    if (is.null(on_interrupt_decision) && is.null(on_interrupt)) {
+      praxo_error("AGENT_INTERRUPT_UNHANDLED",
+                  "agent: approval handler not configured")
+    }
+    emit("tool.interrupt", list(name = call$name, arguments = call$arguments))
+    request <- interrupt(run_id, session_id, call)
+    if (!is.null(on_interrupt_decision)) {
+      decision <- on_interrupt_decision(request)
+      action <- decision$action %||% ""
+      if (action == interrupt_approve) {
+        return(list(call = call, skip = FALSE))
+      }
+      if (action == interrupt_edit) {
+        if (is.null(decision$arguments)) {
+          praxo_error("AGENT_INTERRUPT_DECISION_INVALID",
+                      "agent: edit requires arguments")
+        }
+        call$arguments <- decision$arguments
+        return(list(call = call, skip = FALSE))
+      }
+      if (action == interrupt_reject) {
+        praxo_error("AGENT_APPROVAL_DENIED",
+                    paste0("agent: tool call denied by approval: ", call$name,
+                           ": ", decision$reason %||% ""))
+      }
+      if (action == interrupt_respond) {
+        return(list(call = call, skip = TRUE,
+                    value = decision$response %||% ""))
+      }
+      praxo_error("AGENT_INTERRUPT_DECISION_INVALID",
+                  paste0("agent: invalid interrupt decision: ", action))
+    }
+    if (!isTRUE(on_interrupt(request))) {
+      praxo_error("AGENT_APPROVAL_DENIED",
+                  paste0("agent: tool call denied by approval: ", call$name))
+    }
+    list(call = call, skip = FALSE)
   }
   entered <- integer()
   before_run <- function(state) {
@@ -423,6 +480,13 @@ agent_run <- function(model, prompt, tools = list(), events = NULL, max_steps = 
           praxo_error("AGENT_TOOL_NOT_ALLOWED",
                       paste0("agent: tool ", call$name, " is not allowed"))
         }
+        interrupted <- apply_interrupt(call)
+        call <- interrupted$call
+        if (isTRUE(interrupted$skip)) {
+          prepared[[length(prepared) + 1L]] <- list(call = call, skip = TRUE,
+                                                    value = interrupted$value)
+          next
+        }
         if (!identical(call$name, original_name) ||
             !identical(call$arguments, original_arguments)) {
           authorize(list(kind = "tool.invoke", sessionId = session_id,
@@ -435,6 +499,9 @@ agent_run <- function(model, prompt, tools = list(), events = NULL, max_steps = 
         prepared[[length(prepared) + 1L]] <- list(tool = tool, call = call)
       }
       execute <- function(item) {
+        if (isTRUE(item$skip)) {
+          return(list(value = item$value))
+        }
         if (!is.null(cancellation) && isTRUE(cancellation())) {
           return(list(error = tryCatch(
             praxo_error("AGENT_CANCELLED", "agent: cancelled"),

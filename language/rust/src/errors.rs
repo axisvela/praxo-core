@@ -42,6 +42,21 @@ impl PraxoError {
         Self::new("AGENT_TOOL_NOT_SELECTED", "agent: tool not selected")
     }
 
+    pub fn approval_denied(message: impl Into<String>) -> Self {
+        Self::new("AGENT_APPROVAL_DENIED", message)
+    }
+
+    pub fn interrupt_unhandled() -> Self {
+        Self::new(
+            "AGENT_INTERRUPT_UNHANDLED",
+            "agent: approval handler not configured",
+        )
+    }
+
+    pub fn interrupt_decision_invalid(message: impl Into<String>) -> Self {
+        Self::new("AGENT_INTERRUPT_DECISION_INVALID", message)
+    }
+
     pub fn structured_output(message: impl Into<String>) -> Self {
         Self::new("AGENT_STRUCTURED_OUTPUT", message)
     }

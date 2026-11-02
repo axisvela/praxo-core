@@ -12,7 +12,7 @@ LANGUAGES = [
     ("java", "Java", "Java"),
     ("rust", "Rust", "Rust"),
     ("r", "R", "R"),
-    ("csharp", "C#", "C#"),
+    ("csharp", "CSharp", "CSharp"),
     ("c", "C", "C"),
     ("fortran", "Fortran", "Ftn"),
     ("cobol", "COBOL", "COB"),
@@ -56,7 +56,7 @@ LABELS = {
         "tiers_table": [
             "| Tier | Languages | Current status |",
             "| --- | --- | --- |",
-            "| Agent-capable | Go, Python, TypeScript, Java, Rust, R, C# | Targets all nineteen scenarios; current coverage varies by language |",
+            "| Agent-capable | Go, Python, TypeScript, Java, Rust, R, CSharp | Targets all nineteen scenarios; current coverage varies by language |",
             "| Extended | C, PHP, Fortran, COBOL, Ruby, Elixir, Erlang, C++, Lua | Advances scenario by scenario with a named consumer and maintainer |",
             "| Optional | Other declared implementations | Outside the current behavior program |",
         ],
@@ -113,7 +113,7 @@ LABELS = {
         "tiers_table": [
             "| 层级 | 语言 | 当前状态 |",
             "| --- | --- | --- |",
-            "| Agent-capable | Go、Python、TypeScript、Java、Rust、R、C# | 以全部十九个场景为目标；当前覆盖因语言而异 |",
+            "| Agent-capable | Go、Python、TypeScript、Java、Rust、R、CSharp | 以全部十九个场景为目标；当前覆盖因语言而异 |",
             "| Extended | C、PHP、Fortran、COBOL、Ruby、Elixir、Erlang、C++、Lua | 在有明确消费者和维护者时逐场景推进 |",
             "| Optional | 其他已声明实现 | 不在当前行为计划内 |",
         ],

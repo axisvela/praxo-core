@@ -18,7 +18,7 @@ method run(session: 'Session', prompt: 'str') -> 'Result'
 
 ## AgentOptions
 class AgentOptions
-constructor(model: 'Model', tools: 'Registry | None' = None, events: 'Sink | None' = None, policy: 'Hook | None' = None, system_prompt: 'str' = '', memory_files: 'list[str]' = <factory>, context: 'ContextBudget | None' = None, compactor: 'ContextCompactor | None' = None, offloader: 'Offloader | None' = None, offload_threshold_bytes: 'int' = 0, middleware: 'list[Middleware]' = <factory>, model_middleware: 'list[ModelMiddleware]' = <factory>, structured_output: 'StructuredOutput | None' = None, allowed_tools: 'list[str]' = <factory>, tool_selector: 'ToolSelector | None' = None, pii_redactor: 'PIIRedactor | None' = None, model_call_limit: 'int' = 0, tool_call_limit: 'int' = 0, fallback_model: 'Model | None' = None, tool_choice: 'str | None' = None, response_format: 'ResponseFormat | None' = None, max_steps: 'int' = 8, max_tokens: 'int' = 0, max_parallel_tools: 'int' = 1, on_delta: 'Callable[[str], Any] | None' = None) -> None
+constructor(model: 'Model', tools: 'Registry | None' = None, events: 'Sink | None' = None, policy: 'Hook | None' = None, system_prompt: 'str' = '', memory_files: 'list[str]' = <factory>, context: 'ContextBudget | None' = None, compactor: 'ContextCompactor | None' = None, offloader: 'Offloader | None' = None, offload_threshold_bytes: 'int' = 0, middleware: 'list[Middleware]' = <factory>, model_middleware: 'list[ModelMiddleware]' = <factory>, structured_output: 'StructuredOutput | None' = None, allowed_tools: 'list[str]' = <factory>, tool_selector: 'ToolSelector | None' = None, pii_redactor: 'PIIRedactor | None' = None, model_call_limit: 'int' = 0, tool_call_limit: 'int' = 0, fallback_model: 'Model | None' = None, tool_choice: 'str | None' = None, response_format: 'ResponseFormat | None' = None, max_steps: 'int' = 8, max_tokens: 'int' = 0, max_parallel_tools: 'int' = 1, on_delta: 'Callable[[str], Any] | None' = None, interrupt_on: 'set[str]' = <factory>, on_interrupt_decision: 'InterruptHandler | None' = None, on_interrupt: 'InterruptApproval | None' = None) -> None
 field model: Model
 field tools: Registry | None = None
 field events: Sink | None = None
@@ -44,6 +44,9 @@ field max_steps: int = 8
 field max_tokens: int = 0
 field max_parallel_tools: int = 1
 field on_delta: Callable[[str], Any] | None = None
+field interrupt_on: set[str] = <factory>
+field on_interrupt_decision: InterruptHandler | None = None
+field on_interrupt: InterruptApproval | None = None
 
 ## Allowlist
 class Allowlist
@@ -171,6 +174,35 @@ class Hook
 bases: Protocol
 constructor(*args, **kwargs)
 method authorize(action: 'Action') -> 'Decision'
+
+## INTERRUPT_APPROVE
+constant INTERRUPT_APPROVE: str = 'approve'
+
+## INTERRUPT_EDIT
+constant INTERRUPT_EDIT: str = 'edit'
+
+## INTERRUPT_REJECT
+constant INTERRUPT_REJECT: str = 'reject'
+
+## INTERRUPT_RESPOND
+constant INTERRUPT_RESPOND: str = 'respond'
+
+## Interrupt
+class Interrupt
+constructor(run_id: 'str', session_id: 'str', call: 'ToolCall') -> None
+field run_id: str
+field session_id: str
+field call: ToolCall
+
+
+## InterruptDecision
+class InterruptDecision
+constructor(action: 'str', arguments: 'dict[str, Any] | None' = None, response: 'str' = '', reason: 'str' = '') -> None
+field action: str
+field arguments: dict[str, Any] | None = None
+field response: str = ''
+field reason: str = ''
+
 
 ## Message
 class Message
@@ -441,7 +473,7 @@ method run(session: 'Session', prompt: 'str') -> 'Result'
 
 ## AgentOptions
 class AgentOptions
-constructor(model: 'Model', tools: 'Registry | None' = None, events: 'Sink | None' = None, policy: 'Hook | None' = None, system_prompt: 'str' = '', memory_files: 'list[str]' = <factory>, context: 'ContextBudget | None' = None, compactor: 'ContextCompactor | None' = None, offloader: 'Offloader | None' = None, offload_threshold_bytes: 'int' = 0, middleware: 'list[Middleware]' = <factory>, model_middleware: 'list[ModelMiddleware]' = <factory>, structured_output: 'StructuredOutput | None' = None, allowed_tools: 'list[str]' = <factory>, tool_selector: 'ToolSelector | None' = None, pii_redactor: 'PIIRedactor | None' = None, model_call_limit: 'int' = 0, tool_call_limit: 'int' = 0, fallback_model: 'Model | None' = None, tool_choice: 'str | None' = None, response_format: 'ResponseFormat | None' = None, max_steps: 'int' = 8, max_tokens: 'int' = 0, max_parallel_tools: 'int' = 1, on_delta: 'Callable[[str], Any] | None' = None) -> None
+constructor(model: 'Model', tools: 'Registry | None' = None, events: 'Sink | None' = None, policy: 'Hook | None' = None, system_prompt: 'str' = '', memory_files: 'list[str]' = <factory>, context: 'ContextBudget | None' = None, compactor: 'ContextCompactor | None' = None, offloader: 'Offloader | None' = None, offload_threshold_bytes: 'int' = 0, middleware: 'list[Middleware]' = <factory>, model_middleware: 'list[ModelMiddleware]' = <factory>, structured_output: 'StructuredOutput | None' = None, allowed_tools: 'list[str]' = <factory>, tool_selector: 'ToolSelector | None' = None, pii_redactor: 'PIIRedactor | None' = None, model_call_limit: 'int' = 0, tool_call_limit: 'int' = 0, fallback_model: 'Model | None' = None, tool_choice: 'str | None' = None, response_format: 'ResponseFormat | None' = None, max_steps: 'int' = 8, max_tokens: 'int' = 0, max_parallel_tools: 'int' = 1, on_delta: 'Callable[[str], Any] | None' = None, interrupt_on: 'set[str]' = <factory>, on_interrupt_decision: 'InterruptHandler | None' = None, on_interrupt: 'InterruptApproval | None' = None) -> None
 field model: Model
 field tools: Registry | None = None
 field events: Sink | None = None
@@ -467,6 +499,21 @@ field max_steps: int = 8
 field max_tokens: int = 0
 field max_parallel_tools: int = 1
 field on_delta: Callable[[str], Any] | None = None
+field interrupt_on: set[str] = <factory>
+field on_interrupt_decision: InterruptHandler | None = None
+field on_interrupt: InterruptApproval | None = None
+
+## INTERRUPT_APPROVE
+constant INTERRUPT_APPROVE: str = 'approve'
+
+## INTERRUPT_EDIT
+constant INTERRUPT_EDIT: str = 'edit'
+
+## INTERRUPT_REJECT
+constant INTERRUPT_REJECT: str = 'reject'
+
+## INTERRUPT_RESPOND
+constant INTERRUPT_RESPOND: str = 'respond'
 
 ## ROLE_SYSTEM
 constant ROLE_SYSTEM: str = 'system'
@@ -795,6 +842,36 @@ class Sink
 bases: Protocol
 constructor(*args, **kwargs)
 method emit(event: 'Event') -> 'None'
+
+# module praxo.hitl
+## INTERRUPT_APPROVE
+constant INTERRUPT_APPROVE: str = 'approve'
+
+## INTERRUPT_EDIT
+constant INTERRUPT_EDIT: str = 'edit'
+
+## INTERRUPT_REJECT
+constant INTERRUPT_REJECT: str = 'reject'
+
+## INTERRUPT_RESPOND
+constant INTERRUPT_RESPOND: str = 'respond'
+
+## Interrupt
+class Interrupt
+constructor(run_id: 'str', session_id: 'str', call: 'ToolCall') -> None
+field run_id: str
+field session_id: str
+field call: ToolCall
+
+
+## InterruptDecision
+class InterruptDecision
+constructor(action: 'str', arguments: 'dict[str, Any] | None' = None, response: 'str' = '', reason: 'str' = '') -> None
+field action: str
+field arguments: dict[str, Any] | None = None
+field response: str = ''
+field reason: str = ''
+
 
 # module praxo.jsonschema
 ## Schema
