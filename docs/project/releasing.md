@@ -95,6 +95,15 @@ because staged approval was unavailable; that release has no provenance claim.
 npm trusted publishers require an existing package, so configure the trusted
 publisher before the next release. Do not use a long-lived automation token for
 routine publication.
+Rust publication uses crates.io Trusted Publishing through
+`.github/workflows/rust-release.yml`. A `rust/vX.Y.Z` tag must match the
+`Cargo.toml` package version. The build job runs tests, conformance, and the API
+snapshot, then a `cargo publish --dry-run`; the publish job obtains a temporary
+token with `rust-lang/crates-io-auth-action` and skips a version that is already
+published. Configure the crates.io trusted publisher with workflow filename
+`rust-release.yml` and environment `crates-io` before the first tag. Manual
+dispatch defaults to `build-only`.
+
 Manual dispatch defaults to build-only. A source tag or successful build does not establish
 that PyPI publication occurred.
 

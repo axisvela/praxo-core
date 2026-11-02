@@ -76,5 +76,13 @@ provenance。npm trusted publisher 要求包已存在，因此应在下一次发
 trusted publisher。不要为日常发布使用长期自动化 token。手动触发默认只
 build-only。
 
+Rust 使用 crates.io Trusted Publishing，工作流为
+`.github/workflows/rust-release.yml`。`rust/vX.Y.Z` 标签必须与 `Cargo.toml`
+的包版本一致。构建 job 运行测试、conformance 和 API snapshot，然后执行
+`cargo publish --dry-run`；发布 job 使用 `rust-lang/crates-io-auth-action`
+获取短期 token，并跳过已发布的版本。首次创建标签前，必须在 crates.io 配置
+trusted publisher，workflow 文件名填 `rust-release.yml`，environment 填
+`crates-io`。手动触发默认只构建 `build-only`。
+
 升级前查看[版本总览](../releases/index.md)、[兼容性](compatibility.md)和
 [Core 支持政策](../languages/support.md)。产品版本与框架版本独立。

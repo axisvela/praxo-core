@@ -1,0 +1,87 @@
+name: rust-release
+
+on:
+  push:
+    tags:
+      - "rust/v*"
+  workflow_dispatch:
+    inputs:
+      target:
+        description: Publish target
+        required: true
+        default: build-only
+        type: choice
+        options:
+          - build-only
+          - publish
+
+permissions:
+  contents: read
+
+concurrency:
+  group: rust-release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: language/rust
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Verify package metadata and tag
+        shell: bash
+        run: |
+          name="$(python -c 'import pathlib, tomllib; print(tomllib.loads(pathlib.Path("Cargo.toml").read_text(encoding="utf-8"))["package"]["name"])')"
+          version="$(python -c 'import pathlib, tomllib; print(tomllib.loads(pathlib.Path("Cargo.toml").read_text(encoding="utf-8"))["package"]["version"])')"
+          test "${name}" = "praxo-core"
+          if [ "${GITHUB_REF_TYPE}" = "tag" ]; then
+            test "rust/v${version}" = "${GITHUB_REF_NAME}"
+          fi
+      - run: cargo test --locked
+      - run: cargo run --locked --quiet --bin conformance
+      - run: python api-snapshot.py --check
+      - name: Package dry run
+        run: cargo publish --locked --dry-run
+
+  publish:
+    needs: build
+    if: github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && inputs.target == 'publish')
+    runs-on: ubuntu-latest
+    environment:
+      name: crates-io
+      url: https://crates.io/crates/praxo-core
+    permissions:
+      contents: read
+      id-token: write
+    defaults:
+      run:
+        working-directory: language/rust
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - name: Check published version
+        id: registry
+        shell: bash
+        run: |
+          version="$(python -c 'import pathlib, tomllib; print(tomllib.loads(pathlib.Path("Cargo.toml").read_text(encoding="utf-8"))["package"]["version"])')"
+          if curl -fsSL "https://crates.io/api/v1/crates/praxo-core/${version}" >/dev/null; then
+            echo "already_published=true" >> "$GITHUB_OUTPUT"
+            echo "praxo-core@${version} is already published; skipping publish"
+          else
+            echo "already_published=false" >> "$GITHUB_OUTPUT"
+          fi
+      - name: Authenticate with crates.io
+        if: steps.registry.outputs.already_published != 'true'
+        id: auth
+        uses: rust-lang/crates-io-auth-action@v1
+      - name: Publish
+        if: steps.registry.outputs.already_published != 'true'
+        env:
+          CARGO_REGISTRY_TOKEN: ${{ steps.auth.outputs.token }}
+        run: cargo publish --locked
