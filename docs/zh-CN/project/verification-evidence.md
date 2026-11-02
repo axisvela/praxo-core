@@ -29,8 +29,8 @@
 | Dart 已发布包 | 从 pub.dev 在干净项目安装 `praxo_core==0.1.1`；程序导入 `package:praxo_core/praxo_core.dart`，并由最小 agent 返回 `hello` | 本地安装 smoke | 仅一个平台；同机项目，不是独立或非作者消费验证；仅最小 agent，不含 provider 或生产证据 |
 | Ruby 已发布 gem | 从 RubyGems 在干净临时目录安装 `praxo-core==0.1.0`；程序 `require 'praxo'` 并由最小 agent 返回 `hello` | 本地安装 smoke | 仅一个平台；同机临时目录，不是独立或非作者消费验证；仅最小 agent，不含 provider 或生产证据 |
 | C# 已发布包 | `Praxo.Core==0.1.2` 由 GitHub Actions Trusted Publishing 完成构建、测试、打包并推送到 NuGet | CI + registry | 本地无 .NET SDK，未执行消费者安装 smoke；一个包版本；不含 provider 或生产证据 |
-| Elixir 已发布包 | 从 Hex 在干净 Mix 项目安装 `praxo_core==0.1.1`；项目报告版本 `0.1.1` 并加载 `Praxo.Agent` | 本地安装 smoke | 仅一个平台；同机项目，不是独立或非作者消费验证；仅包发布，HexDocs 未发布；不含 provider 或生产证据 |
-| Erlang 已发布包 | 干净 rebar3 项目获取并编译 `praxo_core_erlang==0.1.1`，并从该包加载 `praxo_agent` | 本地安装 smoke | 仅一个平台；同机项目，不是独立或非作者消费验证；不含 provider 或生产证据 |
+| Elixir 已发布包 | Hex 已发布 `praxo_core` `0.3.0` 和回填的 `0.2.0`；`mix hex.info` 可查到两者。历史 `0.1.1` 曾在干净 Mix 项目安装 | Registry 元数据 + 历史本地安装 smoke | `0.3.0`/`0.2.0` 未重新执行消费者安装 smoke；HexDocs 未发布；仅一个平台；非独立或非作者消费验证；不含 provider 或生产证据 |
+| Erlang 已发布包 | Hex 已发布 `praxo_core_erlang` `0.3.1` 和回填的 `0.2.0`；`mix hex.info` 可查到两者。历史 `0.1.1` 曾由干净 rebar3 项目获取 | Registry 元数据 + 历史本地安装 smoke | `0.3.1`/`0.2.0` 未重新执行消费者安装 smoke；仅一个平台；非独立或非作者消费验证；不含 provider 或生产证据 |
 | D 已发布包 | 从 DUB/code.dlang.org 使用 `dub fetch praxo-core` 获取 `praxo-core==0.1.0` | Registry 元数据 + 获取 | 未执行编译或独立消费者 smoke；一个包版本；不含 provider 或生产证据 |
 | Java 已发布包 | `com.axisvela:praxo-core:0.3.0` 已发布到 Maven Central，包含 sources、javadoc 和 GPG 签名 | 本地发布 + Central 校验 | 本地 Maven 经代理部署；未执行独立消费者安装 smoke；不含 provider 或生产证据 |
 | 跨语言 agent 行为 | 全部十六个已接入语言在源码中通过十九个授权、生命周期、取消、输入校验、调用上限、并行工具、run 隔离、PII、checkpoint、容量、SSE 截断和流失败场景。agent-capable 语言使用场景级或 self-test 覆盖，扩展语言使用原生套件覆盖；COBOL、Lua、PHP 和 Fortran 的并行工具委托给调用方提供的批处理回调。其他实现属于 optional。已记录 Linux CI 与本地报告 | 场景测试 + CI | 十六个已接入语言在源码中均达到 19/19；部分扩展行为是套件级覆盖，失败不能定位到具体场景；7a7b796 的 clean-SHA CI 报告早于最终扩展覆盖；不是吞吐/压力测试，也不是完整功能对齐、provider、HITL、sandbox 或生产证据 |

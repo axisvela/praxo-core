@@ -3,12 +3,8 @@
 ## Status
 
 The Hex package is `praxo_core_erlang`. `0.3.1` is the fix-forward release and
-is published on Hex. The missing `0.2.0` package is built in the detached
-worktree:
-
-```text
-build/release/erlang-0.2.0/language/erlang/_build/default/lib/praxo_core/hex/praxo_core_erlang-0.2.0.tar
-```
+`0.2.0` was backfilled from `erlang/v0.2.0`. Hex now reports `0.3.1`, `0.2.0`,
+and `0.1.1`.
 
 `erlang/v0.3.0` remains a historical tag with stale `app.src` metadata (`0.2.0`);
 do not publish a package from that tag. Use `0.3.1` for the 0.3 line.

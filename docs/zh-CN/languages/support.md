@@ -114,10 +114,10 @@ Bridge、Sample 描述运行时的接入方式，不证明其语言缺乏 Framew
   快照/parity。原生 `ocamlopt` 编译、提供商适配器和包管理器发布均未声明。
 - Elixir 源码标签 `elixir/v0.3.0` 增加 policy、middleware、最终工具 allowlist、
   重新授权、生命周期清理、取消、流式回调、原生 SSE parser、有限并行工具和按 run 隔离的调用上限。
-  Hex 包仍为 `praxo_core==0.1.1`；HexDocs 尚未发布。
+  Hex 包仍为 `praxo_core==0.3.0`；HexDocs 尚未发布。
 - Erlang 源码标签 `erlang/v0.3.0` 增加 policy、middleware、最终工具 allowlist、
   重新授权、生命周期清理、取消、流式回调、原生 SSE parser、有限并行工具和按 run
-  隔离的调用上限。Hex 包仍为 `praxo_core_erlang==0.1.1`；提供商适配器、HTTP
+  隔离的调用上限。Hex 包仍为 `praxo_core_erlang==0.3.1`；提供商适配器、HTTP
   流式路径和生产就绪均未声明。
 - Lisp 已有 SBCL 桥接的源码标签 `lisp/v0.1.0`，不提供原生 Lisp 循环；转发、UTF-8、
   错误和退出码检查已在本地和 Linux CI 通过。消费者细节与包管理器发布仍待完成。

@@ -10,9 +10,8 @@ build/release/elixir-0.2.0/language/elixir/praxo_core-0.2.0.tar
 build/release/elixir-0.3.0/language/elixir/praxo_core-0.3.0.tar
 ```
 
-Hex now requires a 2FA OTP at publish time. The Mix task prompts interactively,
-so the packages must be published from a terminal (or with a supported OTP
-mechanism). Hex reports only `0.1.1` for `praxo_core` until these are uploaded.
+Both packages were published with an interactive 2FA OTP. Hex now reports
+`0.3.0`, `0.2.0`, and `0.1.1` for `praxo_core`:
 
 ## Build
 

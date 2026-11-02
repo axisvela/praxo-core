@@ -2,6 +2,12 @@
 
 ## [Unreleased]
 
+### Published
+
+- Published RubyGems `praxo-core` 0.2.0 and 0.3.0, LuaRocks `praxo-core`
+  0.2.0-1 and 0.3.0-1, Packagist split tags `v0.2.0`/`v0.3.0`, Hex
+  `praxo_core` 0.2.0/0.3.0, and Hex `praxo_core_erlang` 0.2.0/0.3.1.
+
 ### Fixed
 
 - Python now snapshots the original tool name/arguments, authorizes middleware

@@ -174,8 +174,8 @@ a merged implementation PR as a support commitment.
 - Elixir source tag `elixir/v0.3.0` adds policy hooks, middleware, final-tool
   allowlist checks, reauthorization, lifecycle cleanup, cancellation, stream
   callbacks, a native SSE parser, bounded parallel tools, and run-scoped call
-  limits. The Hex package remains `praxo_core==0.1.1`; HexDocs are not
-  published.
+  limits. The Hex package is `praxo_core==0.3.0`; `0.2.0` is also published.
+  HexDocs are not published.
 - Nim, V, and Objective-C have source tags `nim/v0.1.1`, `v/v0.1.1`, and
   `objc/v0.1.1`. They include all eleven vector groups, native tests, and API
   snapshots. Package-registry publication, production readiness, and complete
@@ -184,8 +184,9 @@ a merged implementation PR as a support commitment.
 - Erlang source tag `erlang/v0.3.0` adds policy hooks, middleware, final-tool
   allowlist checks, reauthorization, lifecycle cleanup, cancellation, stream
   callbacks, a native SSE parser, bounded parallel tools, and run-scoped call
-  limits. The Hex package remains `praxo_core_erlang==0.1.1`; provider adapters,
-  HTTP streaming, and production readiness are not claimed.
+  limits. The Hex package is `praxo_core_erlang==0.3.1`; `0.2.0` is also
+  published. Provider adapters, HTTP streaming, and production readiness are not
+  claimed.
 - Lisp has source tag `lisp/v0.1.0` for the SBCL bridge over the bridge CLI. It
   does not provide a native Lisp loop; forwarding, UTF-8, error, and exit-code
   checks pass locally and in Linux CI. Consumer details and package-registry
