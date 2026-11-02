@@ -50,3 +50,8 @@ streams or malformed half packets. Parallel tool execution uses `std::async`
 inside `Agent`; tool implementations remain responsible for their own thread
 safety.
 | `agent/middleware.ToolSelectionMiddleware` | `ToolSelection` | parity | P1 |
+| `agent/hitl.Interrupt` | `Interrupt` | parity | P2 |
+| `agent/hitl.InterruptAction` | `InterruptAction` | parity | P2 |
+| `agent/hitl.InterruptDecision` | `InterruptDecision` | parity | P2 |
+| `agent/hitl.InterruptHandler` | `AgentOptions::on_interrupt_decision` | parity | P2 |
+| `agent.Options.OnInterrupt` | `AgentOptions::on_interrupt` | parity | P2 |

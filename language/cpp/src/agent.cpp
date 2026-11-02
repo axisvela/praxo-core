@@ -8,6 +8,24 @@
 
 namespace praxo {
 
+namespace {
+
+class ValueTool : public Tool {
+public:
+    explicit ValueTool(Json value) : value_(std::move(value)) {}
+    std::string name() const override { return "interrupt.response"; }
+    std::string description() const override { return "interrupt response"; }
+    Json invoke(const Json& arguments) override {
+        (void)arguments;
+        return value_;
+    }
+
+private:
+    Json value_;
+};
+
+}  // namespace
+
 void ToolRegistry::register_tool(std::shared_ptr<Tool> tool) {
     tools_[tool->name()] = std::move(tool);
 }
@@ -101,6 +119,9 @@ std::pair<std::shared_ptr<Tool>, ToolCall> Agent::prepare_tool(
         throw PraxoError("AGENT_TOOL_NOT_ALLOWED",
                          "agent: tool " + active.name + " is not allowed");
     }
+    if (auto value = apply_interrupt(active, run_id, session_id)) {
+        return {std::make_shared<ValueTool>(*value), active};
+    }
     if (active.name != original_name || active.arguments != original_arguments) {
         Action final_action;
         final_action.kind = "tool.invoke";
@@ -118,6 +139,49 @@ std::pair<std::shared_ptr<Tool>, ToolCall> Agent::prepare_tool(
     data["arguments"] = active.arguments;
     emit("tool.call", session_id, run_id, data);
     return {tool, active};
+}
+
+std::optional<Json> Agent::apply_interrupt(ToolCall& call,
+                                           const std::string& run_id,
+                                           const std::string& session_id) {
+    if (std::find(options_.interrupt_on.begin(), options_.interrupt_on.end(),
+                  call.name) == options_.interrupt_on.end()) {
+        return std::nullopt;
+    }
+    if (!options_.on_interrupt_decision && !options_.on_interrupt) {
+        throw PraxoError("AGENT_INTERRUPT_UNHANDLED",
+                         "agent: approval handler not configured");
+    }
+    Json data = Json::object();
+    data["name"] = call.name;
+    data["arguments"] = call.arguments;
+    emit("tool.interrupt", session_id, run_id, data);
+    Interrupt interrupt{run_id, session_id, call};
+    if (options_.on_interrupt_decision) {
+        InterruptDecision decision = options_.on_interrupt_decision(interrupt);
+        switch (decision.action) {
+            case InterruptAction::Approve:
+                return std::nullopt;
+            case InterruptAction::Edit:
+                if (decision.arguments.is_null()) {
+                    throw PraxoError("AGENT_INTERRUPT_DECISION_INVALID",
+                                     "agent: edit requires arguments");
+                }
+                call.arguments = decision.arguments;
+                return std::nullopt;
+            case InterruptAction::Reject:
+                throw PraxoError("AGENT_APPROVAL_DENIED",
+                                 "agent: tool call denied by approval: " +
+                                     call.name + ": " + decision.reason);
+            case InterruptAction::Respond:
+                return decision.response;
+        }
+    }
+    if (!options_.on_interrupt(interrupt)) {
+        throw PraxoError("AGENT_APPROVAL_DENIED",
+                         "agent: tool call denied by approval: " + call.name);
+    }
+    return std::nullopt;
 }
 
 Message Agent::execute_tool(const std::shared_ptr<Tool>& tool,

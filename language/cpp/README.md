@@ -12,8 +12,9 @@ is [`spec/`](../../spec/README.md); Go remains the reference implementation.
 ## Scope
 
 The Core implements all eleven vector groups: toolcall, JSON Schema, plugin,
-memory, event, stream, checkpoint, policy, context, middleware, and the agent
-loop. It includes a public API snapshot and a dependency-free test runner.
+memory, event, stream, checkpoint, policy, context, middleware, the agent loop,
+and human-in-the-loop interrupt decisions. It includes a public API snapshot and
+a dependency-free test runner.
 
 ## Build and test
 

@@ -49,6 +49,35 @@ private:
     std::size_t next_ = 0;
 };
 
+class RespondModel : public Model {
+public:
+    Response generate(const Request& request) override {
+        if (step_++ == 0) {
+            ToolCall call;
+            call.id = "c1";
+            call.name = "echo";
+            call.arguments = Json::parse(R"({"value":"original"})");
+            Response response;
+            response.message = assistant_message("");
+            response.message.tool_calls.push_back(call);
+            return response;
+        }
+        std::string content = "final";
+        for (auto it = request.messages.rbegin(); it != request.messages.rend(); ++it) {
+            if (it->role == TOOL && it->content) {
+                content = *it->content;
+                break;
+            }
+        }
+        Response response;
+        response.message = assistant_message(content);
+        return response;
+    }
+
+private:
+    int step_ = 0;
+};
+
 void check(bool condition, const std::string& message) {
     if (!condition) throw std::runtime_error(message);
 }
@@ -586,6 +615,107 @@ int main() {
         check(parallel_result.output == "done", "cpp parallel tools result");
         check(parallel_model->order == std::vector<std::string>{"c1", "c2"},
               "cpp parallel tools preserve order");
+
+        int hitl_invocations = 0;
+        auto hitl_registry = std::make_shared<ToolRegistry>();
+        hitl_registry->register_tool(std::make_shared<FuncTool>(
+            "echo", "Echo", [&](const Json& arguments) {
+                ++hitl_invocations;
+                return arguments;
+            }));
+        auto hitl_model = [] {
+            return std::make_shared<TestModel>(Json::parse(
+                R"([{"content":"","toolCalls":[{"id":"c1","name":"echo","arguments":{"value":"original"}}]},)"
+                R"({"content":"done"}])"));
+        };
+        AgentOptions approve_options(hitl_model());
+        approve_options.tools = hitl_registry;
+        approve_options.interrupt_on = {"echo"};
+        approve_options.on_interrupt_decision = [](const Interrupt&) {
+            InterruptDecision decision;
+            decision.action = InterruptAction::Approve;
+            return decision;
+        };
+        auto approve_result = run_agent(approve_options, Session{"s1", {}}, "go");
+        check(approve_result.output == "done" && hitl_invocations == 1,
+              "cpp hitl approve");
+
+        hitl_invocations = 0;
+        std::vector<Action> hitl_actions;
+        AgentOptions edit_options(hitl_model());
+        edit_options.tools = hitl_registry;
+        edit_options.interrupt_on = {"echo"};
+        edit_options.policy = [&](const Action& action) {
+            hitl_actions.push_back(action);
+            return Decision{true, "ok"};
+        };
+        edit_options.on_interrupt_decision = [](const Interrupt&) {
+            InterruptDecision decision;
+            decision.action = InterruptAction::Edit;
+            decision.arguments = Json::parse(R"({"value":"edited"})");
+            return decision;
+        };
+        (void)run_agent(std::move(edit_options), Session{"s1", {}}, "go");
+        check(hitl_invocations == 1 &&
+              std::count_if(hitl_actions.begin(), hitl_actions.end(),
+                  [](const Action& action) { return action.kind == "tool.invoke"; }) == 2,
+              "cpp hitl edit reauthorizes");
+
+        hitl_invocations = 0;
+        AgentOptions reject_options(hitl_model());
+        reject_options.tools = hitl_registry;
+        reject_options.interrupt_on = {"echo"};
+        reject_options.on_interrupt_decision = [](const Interrupt&) {
+            InterruptDecision decision;
+            decision.action = InterruptAction::Reject;
+            decision.reason = "no";
+            return decision;
+        };
+        bool rejected = false;
+        try {
+            (void)run_agent(std::move(reject_options), Session{"s1", {}}, "go");
+        } catch (const PraxoError& error) {
+            rejected = error.code() == "AGENT_APPROVAL_DENIED";
+        }
+        check(rejected && hitl_invocations == 0, "cpp hitl reject");
+
+        AgentOptions unhandled_options(hitl_model());
+        unhandled_options.tools = hitl_registry;
+        unhandled_options.interrupt_on = {"echo"};
+        bool unhandled = false;
+        try {
+            (void)run_agent(std::move(unhandled_options), Session{"s1", {}}, "go");
+        } catch (const PraxoError& error) {
+            unhandled = error.code() == "AGENT_INTERRUPT_UNHANDLED";
+        }
+        check(unhandled && hitl_invocations == 0, "cpp hitl unhandled");
+
+        AgentOptions respond_options(std::make_shared<RespondModel>());
+        respond_options.tools = hitl_registry;
+        respond_options.interrupt_on = {"echo"};
+        respond_options.on_interrupt_decision = [](const Interrupt&) {
+            InterruptDecision decision;
+            decision.action = InterruptAction::Respond;
+            decision.response = "human answer";
+            return decision;
+        };
+        auto respond_result = run_agent(std::move(respond_options), Session{"s1", {}}, "go");
+        check(respond_result.output == "\"human answer\"", "cpp hitl respond");
+
+        auto hitl_sink = std::make_shared<RecordingSink>();
+        AgentOptions event_options(hitl_model());
+        event_options.tools = hitl_registry;
+        event_options.events = hitl_sink.get();
+        event_options.interrupt_on = {"echo"};
+        event_options.on_interrupt_decision = [](const Interrupt&) {
+            InterruptDecision decision;
+            decision.action = InterruptAction::Approve;
+            return decision;
+        };
+        (void)run_agent(std::move(event_options), Session{"s1", {}}, "go");
+        check(std::count(hitl_sink->types.begin(), hitl_sink->types.end(),
+                         "tool.interrupt") == 1,
+              "cpp hitl event");
 
         std::cout << "cpp core tests passed\n";
         return 0;

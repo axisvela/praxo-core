@@ -69,6 +69,21 @@ struct Middleware {
     std::function<ToolCall(ToolCall call)> before_tool;
 };
 
+enum class InterruptAction { Approve, Edit, Reject, Respond };
+
+struct Interrupt {
+    std::string run_id;
+    std::string session_id;
+    ToolCall call;
+};
+
+struct InterruptDecision {
+    InterruptAction action = InterruptAction::Approve;
+    Json arguments = Json(nullptr);
+    std::string response;
+    std::string reason;
+};
+
 class AgentOptions {
 public:
     explicit AgentOptions(std::shared_ptr<Model> model) : model(std::move(model)) {}
@@ -86,6 +101,9 @@ public:
     std::function<bool()> cancellation;
     std::function<void(const StreamPart&)> on_stream;
     int max_parallel_tools = 1;
+    std::vector<std::string> interrupt_on;
+    std::function<InterruptDecision(const Interrupt&)> on_interrupt_decision;
+    std::function<bool(const Interrupt&)> on_interrupt;
 };
 
 class Agent {
@@ -102,6 +120,9 @@ private:
     std::pair<std::shared_ptr<Tool>, ToolCall> prepare_tool(
         const ToolCall& call, const std::string& run_id,
         const std::string& session_id);
+    std::optional<Json> apply_interrupt(ToolCall& call,
+                                        const std::string& run_id,
+                                        const std::string& session_id);
     Message execute_tool(const std::shared_ptr<Tool>& tool,
                          const ToolCall& call);
     void check_cancelled() const;
