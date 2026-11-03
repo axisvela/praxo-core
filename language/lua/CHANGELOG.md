@@ -2,7 +2,8 @@
 
 ## 0.4.0 - 2026-11-02
 
-Source release tag `lua/v0.4.0`. The LuaRocks package remains `0.1.0-1`.
+Source release tag `lua/v0.4.0`. Rock revision `0.4.0-1` is built by the
+`lua-release` workflow; LuaRocks publication is pending the release upload.
 
 ### Added
 
@@ -11,6 +12,8 @@ Source release tag `lua/v0.4.0`. The LuaRocks package remains `0.1.0-1`.
 - `models.interrupt`, `models.interrupt_decision`, and `INTERRUPT_*` actions.
   Interrupted calls emit `tool.interrupt` and edited arguments are reauthorized.
 - API snapshot `api/0.4.0.txt` and rockspec `0.4.0-1`.
+- `lua-release` workflow with source-rock build, clean-tree install smoke, and
+  LuaRocks publication.
 
 ## 0.3.0 - 2026-11-01
 

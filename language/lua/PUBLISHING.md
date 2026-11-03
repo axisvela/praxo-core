@@ -2,74 +2,62 @@
 
 ## Status
 
-`praxo-core` `0.3.0-1` was published to LuaRocks from source tag
-`lua/v0.3.0`. The missing `0.2.0-1` release was backfilled from `lua/v0.2.0`:
+Source tag `lua/v0.4.0` maps to rock revision `0.4.0-1`. The release workflow is
+`.github/workflows/lua-release.yml`. LuaRocks currently publishes `0.3.0-1` and
+`0.2.0-1`; `0.4.0-1` requires the repository secret `LUAROCKS_API_KEY` and an
+explicit publish run.
 
 <https://luarocks.org/modules/hanhhuiwen/praxo-core>
 
-## Build
+## Rockspec
 
-The rockspec is `language/lua/praxo-core-0.3.0-1.rockspec`. Its `source.url`
+The rockspec is `language/lua/praxo-core-0.4.0-1.rockspec`. Its `source.url`
 points at the main repository tag and its `build.modules` paths start with
-`language/lua/`.
+`language/lua/`. The source rock is built from that tag, so the source and
+rockspec versions stay aligned.
 
-Local gates:
+## Local gates
 
 ```bash
-luarocks make language/lua/praxo-core-0.3.0-1.rockspec
-lua language/lua/tests/run.lua
 lua language/lua/conformance/run.lua
 python language/lua/api-snapshot.py --check
+lua language/lua/tests/run.lua
+luarocks --lua-version 5.4 --tree build/lua-tree make --deps-mode=none language/lua/praxo-core-0.4.0-1.rockspec
+LUA_PATH="build/lua-tree/share/lua/5.4/?.lua;build/lua-tree/share/lua/5.4/?/init.lua;;" lua language/lua/tests/installed_smoke.lua
 ```
 
-## Publish
+The workflow uses the same sequence on Linux. Windows LuaRocks can hang while
+setting executable permissions on the install tree; use the Linux workflow or a
+Linux environment for final rock verification.
 
-Normal command:
+## Workflow
 
-```bash
-cd language/lua
-luarocks upload praxo-core-0.3.0-1.rockspec
-```
+The `build` job:
 
-Windows workaround used for `0.3.0-1`: `luarocks upload` failed while packing
-with `Failed creating temporary directory: Failed setting permission exec for
-all`. Build the source rock locally and upload it with `--skip-pack`:
+1. Verifies `language/lua/VERSION`, the rockspec version/tag, and the push tag.
+2. Runs conformance, the API snapshot, and native tests.
+3. Packs the source rock, installs it into a clean tree, and runs
+   `tests/installed_smoke.lua`.
+4. Uploads the `.src.rock` artifact.
 
-```python
-import zipfile
-from pathlib import Path
-root = Path(".")
-out = root / "build" / "praxo-core-0.3.0-1.src.rock"
-with zipfile.ZipFile(out, "w", zipfile.ZIP_DEFLATED) as z:
-    z.write(root / "language/lua/praxo-core-0.3.0-1.rockspec",
-            "praxo-core-0.3.0-1.rockspec")
-    for path in sorted((root / "language/lua").rglob("*")):
-        if path.is_file():
-            z.write(path, "praxo-core-0.3.0/" + path.as_posix())
-    z.write(root / "LICENSE", "praxo-core-0.3.0/LICENSE")
-```
+The `publish` job runs on a `lua/v*` tag push or an explicit manual `publish`
+target. It skips an already published revision, otherwise uploads with
+`--skip-pack` using a temporary LuaRocks API key. Manual dispatch defaults to
+`build-only`.
 
-```powershell
-cd language/lua
-luarocks upload --skip-pack praxo-core-0.3.0-1.rockspec `
-  ..\..\build\praxo-core-0.3.0-1.src.rock
-```
+## Credentials
 
-## Credentials and configuration
-
-- LuaRocks API key: `upload.api_key` in
-  `C:\Users\hanhw1\AppData\Roaming\luarocks\config-5.4.lua` and
-  `C:\Users\hanhw1\.luarocks\config-5.4.lua`.
-- Do not print or commit the key. `luarocks upload` reads it from config.
-- Network: the environment uses an HTTPS proxy with TLS interception. Export
-  the trusted `mitmproxy` root to `$HOME\.config\certs\mitmproxy-ca.pem` and set
-  `SSL_CERT_FILE` and `CURL_CA_BUNDLE` before uploading. Keep the CA outside the
-  repository and temporary directories.
+- Configure the GitHub environment `luarocks` and the repository secret
+  `LUAROCKS_API_KEY`.
+- Do not print, commit, or store the key in a rockspec or documentation file.
+- Keep local LuaRocks configuration and TLS interception certificates outside
+  the repository.
 
 ## Verify
 
 ```bash
 luarocks search praxo-core
+luarocks install praxo-core
 ```
 
-The published module page is the primary evidence.
+The published module page and a clean-tree install are the release evidence.

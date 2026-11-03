@@ -1,0 +1,108 @@
+name: lua-release
+
+on:
+  push:
+    tags:
+      - "lua/v*"
+  workflow_dispatch:
+    inputs:
+      target:
+        description: Publish target
+        required: true
+        default: build-only
+        type: choice
+        options:
+          - build-only
+          - publish
+
+permissions:
+  contents: read
+
+concurrency:
+  group: lua-release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Lua and LuaRocks
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y lua5.4 luarocks
+      - name: Verify version, rockspec, and tag
+        shell: bash
+        run: |
+          version="$(cat language/lua/VERSION)"
+          rockspec="language/lua/praxo-core-${version}-1.rockspec"
+          test -f "${rockspec}"
+          grep -q "version = \"${version}-1\"" "${rockspec}"
+          grep -q "tag = \"lua/v${version}\"" "${rockspec}"
+          if [ "${GITHUB_REF_TYPE}" = "tag" ]; then
+            test "lua/v${version}" = "${GITHUB_REF_NAME}"
+          fi
+      - name: Run release gates
+        run: |
+          lua5.4 language/lua/conformance/run.lua
+          python3 language/lua/api-snapshot.py --check
+          lua5.4 language/lua/tests/run.lua
+      - name: Pack and install the source rock
+        shell: bash
+        run: |
+          version="$(cat language/lua/VERSION)"
+          cd language/lua
+          luarocks --lua-version 5.4 pack "praxo-core-${version}-1.rockspec"
+          tree="$RUNNER_TEMP/praxo-lua-tree"
+          luarocks --lua-version 5.4 --tree "$tree" install --deps-mode=none "praxo-core-${version}-1.src.rock"
+          cd "$RUNNER_TEMP"
+          LUA_PATH="$tree/share/lua/5.4/?.lua;$tree/share/lua/5.4/?/init.lua;;" \
+            lua5.4 "$GITHUB_WORKSPACE/language/lua/tests/installed_smoke.lua"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: lua-rock
+          path: language/lua/praxo-core-*.src.rock
+          if-no-files-found: error
+
+  publish:
+    needs: build
+    if: github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && inputs.target == 'publish')
+    runs-on: ubuntu-latest
+    environment:
+      name: luarocks
+      url: https://luarocks.org/modules/hanhhuiwen/praxo-core
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Lua and LuaRocks
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y lua5.4 luarocks
+      - uses: actions/download-artifact@v4
+        with:
+          name: lua-rock
+          path: dist
+      - name: Check published version
+        id: registry
+        shell: bash
+        run: |
+          version="$(cat language/lua/VERSION)"
+          if luarocks search --porcelain praxo-core 2>/dev/null |
+            grep -Eq "^praxo-core[[:space:]]+${version}-1([[:space:]]|$)"; then
+            echo "already_published=true" >> "$GITHUB_OUTPUT"
+            echo "praxo-core@${version}-1 is already published; skipping upload"
+          else
+            echo "already_published=false" >> "$GITHUB_OUTPUT"
+          fi
+      - name: Publish to LuaRocks
+        if: steps.registry.outputs.already_published != 'true'
+        env:
+          LUAROCKS_API_KEY: ${{ secrets.LUAROCKS_API_KEY }}
+        shell: bash
+        run: |
+          version="$(cat language/lua/VERSION)"
+          test -n "${LUAROCKS_API_KEY}"
+          luarocks upload --temp-key "${LUAROCKS_API_KEY}" --skip-pack \
+            "language/lua/praxo-core-${version}-1.rockspec" \
+            "dist/praxo-core-${version}-1.src.rock"

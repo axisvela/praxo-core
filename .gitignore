@@ -1,4 +1,5 @@
 *.exe
+*.src.rock
 *.test
 *.out
 bin/

@@ -111,8 +111,16 @@ filename `ruby-release.yml` and environment `release`; the workflow runs
 conformance, the API snapshot, the native tests, builds the gem, and pushes it
 with a short-lived RubyGems token. Manual dispatch defaults to `build-only`.
 
-Manual dispatch defaults to build-only. A source tag or successful build does not establish
-that PyPI publication occurred.
+Lua publication uses `.github/workflows/lua-release.yml`. A `lua/vX.Y.Z` tag
+must match `language/lua/VERSION` and the `praxo-core-X.Y.Z-1.rockspec`. The
+build job runs conformance, the API snapshot, and native tests, then packs the
+source rock, installs it into a clean tree, and runs the installed smoke before
+uploading the artifact. Configure environment `luarocks` and repository secret
+`LUAROCKS_API_KEY`; the publish job skips an already published revision.
+Manual dispatch defaults to `build-only`.
+
+A source tag or successful build does not establish that PyPI publication
+occurred.
 
 ## Consumer Guidance
 

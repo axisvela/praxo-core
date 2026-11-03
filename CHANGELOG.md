@@ -6,6 +6,12 @@ Historical entries that record `19/19` describe the source version named in that
 entry. The current Behavior Lab has twenty scenarios; the HITL wave moved every
 wired language to 20/20.
 
+### Added
+
+- Lua now ships a `0.4.0-1` rockspec and a `lua-release` workflow that runs
+  conformance, the API snapshot, and native tests, builds and installs the
+  source rock, and supports LuaRocks publication with a repository API key.
+
 ### Published
 
 - Published RubyGems `praxo-core` 0.2.0/0.3.0/0.4.0, LuaRocks `praxo-core`

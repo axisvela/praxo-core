@@ -565,10 +565,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - run: sudo apt-get update && sudo apt-get install -y lua5.4
+      - run: sudo apt-get update && sudo apt-get install -y lua5.4 luarocks
       - run: lua5.4 language/lua/conformance/run.lua
       - run: python3 language/lua/api-snapshot.py --check
       - run: lua5.4 language/lua/tests/run.lua
+      - name: Verify installed rock
+        shell: bash
+        run: |
+          version="$(cat language/lua/VERSION)"
+          tree="$RUNNER_TEMP/praxo-lua-tree"
+          luarocks --lua-version 5.4 --tree "$tree" make --deps-mode=none "language/lua/praxo-core-${version}-1.rockspec"
+          LUA_PATH="$tree/share/lua/5.4/?.lua;$tree/share/lua/5.4/?/init.lua;;" \
+            lua5.4 language/lua/tests/installed_smoke.lua
 
   ruby-conformance:
     runs-on: ubuntu-latest

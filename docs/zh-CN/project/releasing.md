@@ -91,5 +91,12 @@ Ruby 使用 RubyGems Trusted Publishing，工作流为
 snapshot、原生测试、构建 gem，并使用短期 RubyGems token 推送。手动触发默认只
 构建 `build-only`。
 
+Lua 使用 `.github/workflows/lua-release.yml`。`lua/vX.Y.Z` 标签必须与
+`language/lua/VERSION` 和 `praxo-core-X.Y.Z-1.rockspec` 一致。构建 job 运行
+conformance、API snapshot 和原生测试，然后打包 source rock、在干净目录安装并运行
+安装后 smoke，再上传工件。发布前配置 environment `luarocks` 和仓库 secret
+`LUAROCKS_API_KEY`；发布 job 会跳过已发布的修订。手动触发默认只构建
+`build-only`。
+
 升级前查看[版本总览](../releases/index.md)、[兼容性](compatibility.md)和
 [Core 支持政策](../languages/support.md)。产品版本与框架版本独立。
