@@ -1,0 +1,98 @@
+name: ruby-release
+
+on:
+  push:
+    tags:
+      - "ruby/v*"
+  workflow_dispatch:
+    inputs:
+      target:
+        description: Publish target
+        required: true
+        default: build-only
+        type: choice
+        options:
+          - build-only
+          - publish
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ruby-release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: language/ruby
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.4"
+          bundler-cache: false
+      - name: Verify version and tag
+        shell: bash
+        run: |
+          version="$(cat VERSION)"
+          test -n "${version}"
+          if [ "${GITHUB_REF_TYPE}" = "tag" ]; then
+            test "ruby/v${version}" = "${GITHUB_REF_NAME}"
+          fi
+      - name: Run release gates
+        run: |
+          ruby conformance/run.rb
+          ruby api-snapshot.rb --check
+          ruby tests/run.rb
+      - name: Build gem
+        shell: bash
+        run: |
+          rm -f praxo-core-*.gem
+          gem build praxo-core.gemspec
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ruby-gem
+          path: language/ruby/praxo-core-*.gem
+          if-no-files-found: error
+
+  publish:
+    needs: build
+    if: github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && inputs.target == 'publish')
+    runs-on: ubuntu-latest
+    environment:
+      name: release
+      url: https://rubygems.org/gems/praxo-core
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.4"
+          bundler-cache: false
+      - uses: actions/download-artifact@v4
+        with:
+          name: ruby-gem
+          path: dist
+      - name: Check published version
+        id: registry
+        shell: bash
+        run: |
+          version="$(cat language/ruby/VERSION)"
+          if curl -fsSL https://rubygems.org/api/v1/versions/praxo-core.json |
+            grep -q "\"number\":\"${version}\""; then
+            echo "already_published=true" >> "$GITHUB_OUTPUT"
+            echo "praxo-core@${version} is already published; skipping push"
+          else
+            echo "already_published=false" >> "$GITHUB_OUTPUT"
+          fi
+      - name: Configure RubyGems credentials
+        if: steps.registry.outputs.already_published != 'true'
+        uses: rubygems/configure-rubygems-credentials@v2.1.0
+      - name: Publish gem
+        if: steps.registry.outputs.already_published != 'true'
+        run: gem push dist/praxo-core-*.gem

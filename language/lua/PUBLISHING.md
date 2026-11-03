@@ -62,9 +62,9 @@ luarocks upload --skip-pack praxo-core-0.3.0-1.rockspec `
   `C:\Users\hanhw1\.luarocks\config-5.4.lua`.
 - Do not print or commit the key. `luarocks upload` reads it from config.
 - Network: the environment uses an HTTPS proxy with TLS interception. Export
-  the trusted `mitmproxy` root from the Windows certificate store and set
-  `SSL_CERT_FILE` and `CURL_CA_BUNDLE` before uploading. The CA file is a local
-  build artifact.
+  the trusted `mitmproxy` root to `$HOME\.config\certs\mitmproxy-ca.pem` and set
+  `SSL_CERT_FILE` and `CURL_CA_BUNDLE` before uploading. Keep the CA outside the
+  repository and temporary directories.
 
 ## Verify
 

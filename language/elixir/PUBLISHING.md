@@ -2,16 +2,9 @@
 
 ## Status
 
-Source tags `elixir/v0.2.0` and `elixir/v0.3.0` are valid. Their Hex packages
-were built in detached worktrees:
-
-```text
-build/release/elixir-0.2.0/language/elixir/praxo_core-0.2.0.tar
-build/release/elixir-0.3.0/language/elixir/praxo_core-0.3.0.tar
-```
-
-Both packages were published with an interactive 2FA OTP. Hex now reports
-`0.3.0`, `0.2.0`, and `0.1.1` for `praxo_core`:
+`praxo_core==0.4.0` is published from source tag `elixir/v0.4.0` with an
+interactive 2FA OTP. Hex reports `0.4.0`, `0.3.0`, `0.2.0`, and `0.1.1` for
+`praxo_core`. HexDocs are not published.
 
 ## Build
 
@@ -49,9 +42,22 @@ repository.
   `mix hex.user auth` or set `HEX_API_KEY`.
 - HexDocs are published by `mix hex.publish` when `docs` is enabled.
 - Network: the environment uses an HTTPS proxy with TLS interception. If Hex
-  reports a certificate error, export the trusted `mitmproxy` root from the
-  Windows certificate store and point the tool at it; do not disable TLS
-  verification.
+  reports a certificate error, export the trusted `mitmproxy` root to
+  `$HOME\.config\certs\mitmproxy-ca.pem` and set `HEX_CACERTS_PATH` in the same
+  shell; do not disable TLS verification.
+
+```powershell
+$certDir = Join-Path $HOME '.config\certs'
+New-Item -ItemType Directory -Force $certDir | Out-Null
+$cert = Get-ChildItem Cert:\LocalMachine\Root |
+  Where-Object { $_.Subject -match 'mitmproxy' } | Select-Object -First 1
+$pem = "-----BEGIN CERTIFICATE-----`n" +
+  [Convert]::ToBase64String($cert.RawData, 'InsertLineBreaks') +
+  "`n-----END CERTIFICATE-----`n"
+$env:HEX_CACERTS_PATH = Join-Path $certDir 'mitmproxy-ca.pem'
+[IO.File]::WriteAllText($env:HEX_CACERTS_PATH, $pem, [Text.Encoding]::ASCII)
+mix hex.config | Select-String cacerts
+```
 
 ## Verify
 

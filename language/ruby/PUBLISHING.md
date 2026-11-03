@@ -38,19 +38,22 @@ gem push language/ruby/praxo-core-0.3.0.gem
 - The key is stored under `:rubygems_api_key`. Do not print or commit it.
 - Network: this Windows environment uses an HTTPS proxy that terminates TLS.
   Export the trusted `mitmproxy` root from the Windows certificate store to
-  `build/mitmproxy-ca.pem` and set `SSL_CERT_FILE` for the push. The CA file is
-  a local build artifact and is not committed.
+  `$HOME\.config\certs\mitmproxy-ca.pem` and set `SSL_CERT_FILE` for the push.
+  Keep the CA outside the repository and temporary directories.
 
 Example for the proxy-CA environment:
 
 ```powershell
+$certDir = Join-Path $HOME '.config\certs'
+New-Item -ItemType Directory -Force $certDir | Out-Null
 $cert = Get-ChildItem Cert:\LocalMachine\Root |
   Where-Object { $_.Subject -match 'mitmproxy' } | Select-Object -First 1
 $pem = "-----BEGIN CERTIFICATE-----`n" +
   [Convert]::ToBase64String($cert.RawData, 'InsertLineBreaks') +
   "`n-----END CERTIFICATE-----`n"
-[IO.File]::WriteAllText("$PWD\build\mitmproxy-ca.pem", $pem)
-$env:SSL_CERT_FILE = "$PWD\build\mitmproxy-ca.pem"
+$ca = Join-Path $certDir 'mitmproxy-ca.pem'
+[IO.File]::WriteAllText($ca, $pem, [Text.Encoding]::ASCII)
+$env:SSL_CERT_FILE = $ca
 gem push language/ruby/praxo-core-0.3.0.gem
 ```
 
