@@ -2,7 +2,8 @@
 
 ## 0.3.0 - 2026-11-02
 
-Source release tag `rust/v0.3.0`. The crates.io package remains `0.1.4`.
+Source release tag `rust/v0.3.0`. The crates.io package `praxo-core==0.3.0` is
+published from that tag through Trusted Publishing.
 
 ### Added
 

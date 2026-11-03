@@ -13,13 +13,13 @@ language runtime. Erlang shares the BEAM runtime and does not add a second
 agent loop. Provider adapters and plugin hosts remain outside the declared Core
 scope.
 
-The Hex package is `praxo_core@0.3.0`; `0.2.0` is also published as a backfill.
+The Hex package is `praxo_core@0.4.0`; `0.3.0` and `0.2.0` remain available.
 HexDocs are not published.
 
 ## Install
 
 ```elixir
-{:praxo_core, "~> 0.3.0"}
+{:praxo_core, "~> 0.4.0"}
 ```
 
 ## Build And Test

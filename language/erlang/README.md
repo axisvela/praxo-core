@@ -10,13 +10,13 @@ It does not call Go or another Core.
 - Implementation type: Core.
 - Package version: `0.4.0`; supported `SPEC_VERSION`: `0.2.0`.
 - Hex package name: `praxo_core_erlang`; OTP application name: `praxo_core`.
-- The Hex package is `praxo_core_erlang@0.3.1`; `0.2.0` is also published as a backfill.
+- The Hex package is `praxo_core_erlang@0.4.0`; `0.3.1` and `0.2.0` remain available.
 - Toolchain: Erlang/OTP 29 or newer. JSON uses the OTP `json` module.
 
 ## Install
 
 ```erlang
-{deps, [{praxo_core_erlang, "0.3.1"}]}.
+{deps, [{praxo_core_erlang, "0.4.0"}]}.
 ```
 
 - Local gate: eleven vector groups, native regression tests, API snapshot, and

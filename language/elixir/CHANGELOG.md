@@ -2,7 +2,8 @@
 
 ## 0.4.0 - 2026-11-02
 
-Source release tag `elixir/v0.4.0`. The Hex package remains `praxo_core@0.3.0`.
+Source release tag `elixir/v0.4.0`. The Hex package `praxo_core==0.4.0` is
+published from that tag via interactive 2FA OTP.
 
 ### Added
 

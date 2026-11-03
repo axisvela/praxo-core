@@ -104,10 +104,10 @@ Registry values below were checked against the public registries on 2026-11-02.
 | Python | `python/v0.3.0` | PyPI `praxo-core==0.3.0` published | Recorded only for `0.2.4`; not rerun for `0.3.0` |
 | TypeScript | `typescript/v0.2.0` | npm `@axisvela/praxo-core@0.2.0` published; latest | Recorded only for `0.1.5`; not rerun for `0.2.0` |
 | Java | `java/v0.4.0` | Maven Central `com.axisvela:praxo-core:0.3.0`; `0.4.0` not published | Not recorded |
-| Rust | `rust/v0.3.0` | crates.io `praxo-core==0.1.4` | Recorded for `0.1.4` only |
+| Rust | `rust/v0.3.0` | crates.io `praxo-core==0.3.0` published; `0.1.4` historical | Recorded for `0.1.4` only; not rerun for `0.3.0` |
 | C# | `csharp/v0.3.0` | NuGet `Praxo.Core==0.3.0` published | Not recorded |
-| Elixir | `elixir/v0.4.0` | Hex `praxo_core==0.3.0`; `0.2.0` also published | Not rerun for `0.3.0`; historical `0.1.1` smoke |
-| Erlang | `erlang/v0.4.0` | Hex `praxo_core_erlang==0.3.1`; `0.2.0` also published | Not rerun for `0.3.1`; historical `0.1.1` smoke |
+| Elixir | `elixir/v0.4.0` | Hex `praxo_core==0.4.0` published; `0.3.0`, `0.2.0` historical | Not rerun for `0.4.0`; historical `0.1.1` smoke |
+| Erlang | `erlang/v0.4.0` | Hex `praxo_core_erlang==0.4.0` published; `0.3.1`, `0.2.0` historical | Not rerun for `0.4.0`; historical `0.1.1` smoke |
 | Ruby | `ruby/v0.4.0` | RubyGems `praxo-core==0.3.0`; `0.2.0` also published | Recorded only for `0.1.0` |
 | Lua | `lua/v0.4.0` | LuaRocks `praxo-core==0.3.0-1`; `0.2.0-1` also published | Local rock build and module load passed; registry install smoke pending |
 | PHP | `php/v0.4.0` | Packagist `axisvela/praxo-core==0.3.0`; `v0.2.0` and `v0.1.0` also published | No Composer install smoke recorded |
@@ -123,10 +123,10 @@ its latest version matches the manifest at the release tag.
 | Python | `0.3.0` | PyPI `0.3.0` | current |
 | TypeScript | `0.2.0` | npm `0.2.0` | current |
 | Java | `0.4.0` | Maven Central `0.3.0` | registry behind |
-| Rust | `0.3.0` | crates.io `0.1.4` | registry behind |
+| Rust | `0.3.0` | crates.io `0.3.0` | current |
 | C# | `0.3.0` | NuGet `0.3.0` | current |
-| Elixir | `0.4.0` | Hex `0.3.0` | registry behind |
-| Erlang | `0.4.0` | Hex `0.3.1` | registry behind |
+| Elixir | `0.4.0` | Hex `0.4.0` | current |
+| Erlang | `0.4.0` | Hex `0.4.0` | current |
 | Ruby | `0.4.0` | RubyGems `0.3.0` | registry behind |
 | PHP | `0.4.0` | Packagist `0.3.0` | registry behind |
 | Lua | rockspec `0.3.0-1`; source tag `0.4.0` | LuaRocks `0.3.0-1` | registry matches rockspec; `0.4.0` not packaged |
@@ -176,11 +176,11 @@ the installation source of truth.
   imported `package:praxo_core/praxo_core.dart`, and ran a minimal agent.
 - Rust source tag `rust/v0.3.0` adds HITL interrupt decisions to all eleven
   vector groups, native tests, `tool.Gateway`, `jsonschema.Schema`, streaming
-  callbacks, cancellation, bounded parallel tools, and an API snapshot. The
-  crates.io package remains
-  `praxo-core==0.1.4`; a clean temporary project installed that package and
-  reported `SDK_VERSION` `0.1.4` and `SPEC_VERSION` `0.2.0`. The HTTP OpenAI
-  adapter, VFS, and plugin hosts are not included.
+  callbacks, cancellation, bounded parallel tools, and an API snapshot.
+  crates.io publishes `praxo-core==0.3.0`; the recorded clean temporary-project
+  install smoke covers `0.1.4` and reported `SDK_VERSION` `0.1.4` and
+  `SPEC_VERSION` `0.2.0`. The HTTP OpenAI adapter, VFS, and plugin hosts are not
+  included.
 - R source tag `r/v0.5.0` adds HITL interrupt decisions to policy, middleware,
   lifecycle cleanup, cancellation, streaming callbacks, an SSE parser, bounded
   parallel tools, and an API snapshot. Unix uses `mclapply`; Windows uses a PSOCK cluster. No
@@ -222,8 +222,8 @@ the installation source of truth.
 - Elixir source tag `elixir/v0.4.0` adds HITL interrupt decisions to policy
   hooks, middleware, final-tool allowlist checks, reauthorization, lifecycle
   cleanup, cancellation, stream callbacks, a native SSE parser, bounded parallel
-  tools, and run-scoped call limits. The Hex package remains
-  `praxo_core==0.3.0`; `0.2.0` is also published.
+  tools, and run-scoped call limits. Hex publishes `praxo_core==0.4.0`;
+  `0.3.0` and `0.2.0` remain available.
   HexDocs are not published.
 - Nim, V, and Objective-C have source tags `nim/v0.1.1`, `v/v0.1.1`, and
   `objc/v0.1.1`. They include all eleven vector groups, native tests, and API
@@ -233,9 +233,8 @@ the installation source of truth.
 - Erlang source tag `erlang/v0.4.0` adds HITL interrupt decisions to policy
   hooks, middleware, final-tool allowlist checks, reauthorization, lifecycle
   cleanup, cancellation, stream callbacks, a native SSE parser, bounded parallel
-  tools, and run-scoped call limits. The Hex package remains
-  `praxo_core_erlang==0.3.1`; `0.2.0` is also
-  published. Provider adapters, HTTP streaming, and production readiness are not
+  tools, and run-scoped call limits. Hex publishes
+  `praxo_core_erlang==0.4.0`; `0.3.1` and `0.2.0` remain available. Provider adapters, HTTP streaming, and production readiness are not
   claimed.
 - Lisp has source tag `lisp/v0.1.0` for the SBCL bridge over the bridge CLI. It
   does not provide a native Lisp loop; forwarding, UTF-8, error, and exit-code

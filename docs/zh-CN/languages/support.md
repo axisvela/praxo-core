@@ -75,10 +75,10 @@ Bridge、Sample 描述运行时的接入方式，不证明其语言缺乏 Framew
 | Python | `python/v0.3.0` | PyPI `praxo-core==0.3.0` 已发布 | 仅记录 `0.2.4`；`0.3.0` 未重跑 |
 | TypeScript | `typescript/v0.2.0` | npm `@axisvela/praxo-core@0.2.0` 已发布，并为 latest | 仅记录 `0.1.5`；`0.2.0` 未重跑 |
 | Java | `java/v0.4.0` | Maven Central `com.axisvela:praxo-core:0.3.0`；`0.4.0` 未发布 | 未记录 |
-| Rust | `rust/v0.3.0` | crates.io `praxo-core==0.1.4` | 仅记录 `0.1.4` |
+| Rust | `rust/v0.3.0` | crates.io `praxo-core==0.3.0` 已发布；`0.1.4` 为历史版本 | 仅记录 `0.1.4`；`0.3.0` 未重跑 |
 | C# | `csharp/v0.3.0` | NuGet `Praxo.Core==0.3.0` 已发布 | 未记录 |
-| Elixir | `elixir/v0.4.0` | Hex `praxo_core==0.3.0`；`0.2.0` 也已发布 | `0.3.0` 未重跑；历史 `0.1.1` smoke |
-| Erlang | `erlang/v0.4.0` | Hex `praxo_core_erlang==0.3.1`；`0.2.0` 也已发布 | `0.3.1` 未重跑；历史 `0.1.1` smoke |
+| Elixir | `elixir/v0.4.0` | Hex `praxo_core==0.4.0` 已发布；`0.3.0`、`0.2.0` 为历史版本 | `0.4.0` 未重跑；历史 `0.1.1` smoke |
+| Erlang | `erlang/v0.4.0` | Hex `praxo_core_erlang==0.4.0` 已发布；`0.3.1`、`0.2.0` 为历史版本 | `0.4.0` 未重跑；历史 `0.1.1` smoke |
 | Ruby | `ruby/v0.4.0` | RubyGems `praxo-core==0.3.0`；`0.2.0` 也已发布 | 仅记录 `0.1.0` |
 | Lua | `lua/v0.4.0` | LuaRocks `praxo-core==0.3.0-1`；`0.2.0-1` 也已发布 | 本地 rock 构建/加载通过；registry 安装 smoke 待完成 |
 | PHP | `php/v0.4.0` | Packagist `axisvela/praxo-core==0.3.0`；`v0.2.0` 和 `v0.1.0` 也可用 | 未记录 Composer 安装 smoke |
@@ -94,10 +94,10 @@ Bridge、Sample 描述运行时的接入方式，不证明其语言缺乏 Framew
 | Python | `0.3.0` | PyPI `0.3.0` | 已最新 |
 | TypeScript | `0.2.0` | npm `0.2.0` | 已最新 |
 | Java | `0.4.0` | Maven Central `0.3.0` | 注册表落后 |
-| Rust | `0.3.0` | crates.io `0.1.4` | 注册表落后 |
+| Rust | `0.3.0` | crates.io `0.3.0` | 已最新 |
 | C# | `0.3.0` | NuGet `0.3.0` | 已最新 |
-| Elixir | `0.4.0` | Hex `0.3.0` | 注册表落后 |
-| Erlang | `0.4.0` | Hex `0.3.1` | 注册表落后 |
+| Elixir | `0.4.0` | Hex `0.4.0` | 已最新 |
+| Erlang | `0.4.0` | Hex `0.4.0` | 已最新 |
 | Ruby | `0.4.0` | RubyGems `0.3.0` | 注册表落后 |
 | PHP | `0.4.0` | Packagist `0.3.0` | 注册表落后 |
 | Lua | rockspec `0.3.0-1`；源码标签 `0.4.0` | LuaRocks `0.3.0-1` | 注册表与 rockspec 一致；`0.4.0` 未打包 |
@@ -137,7 +137,7 @@ Bridge、Sample 描述运行时的接入方式，不证明其语言缺乏 Framew
 - Dart 已有源码标签 `dart/v0.1.1`，并在 publisher `axisvela.com` 下发布
   `praxo_core==0.1.1` 到 pub.dev。干净项目已安装该包、导入
   `package:praxo_core/praxo_core.dart` 并运行最小 agent。
-- Rust 源码标签 `rust/v0.3.0` 在全部 11 个向量组、原生测试、`tool.Gateway`、`jsonschema.Schema`、流式回调、取消、有限并行工具和 API 快照之上增加人工审批中断决策。crates.io 包仍为 `praxo-core==0.1.4`；干净临时项目安装该包后报告 `SDK_VERSION` `0.1.4` 和 `SPEC_VERSION` `0.2.0`。不包含 HTTP OpenAI adapter、VFS 或 plugin hosts。
+- Rust 源码标签 `rust/v0.3.0` 在全部 11 个向量组、原生测试、`tool.Gateway`、`jsonschema.Schema`、流式回调、取消、有限并行工具和 API 快照之上增加人工审批中断决策。crates.io 已发布 `praxo-core==0.3.0`；已记录的干净临时项目安装 smoke 覆盖 `0.1.4`，报告 `SDK_VERSION` `0.1.4` 和 `SPEC_VERSION` `0.2.0`。不包含 HTTP OpenAI adapter、VFS 或 plugin hosts。
 - R 源码标签 `r/v0.5.0` 在 policy、middleware、生命周期清理、取消、流式回调、SSE parser、有限并行工具和 API 快照之上增加人工审批中断决策。Unix 使用 `mclapply`，Windows 使用 PSOCK cluster；不声明包管理器发布。
 - C 源码标签 `c/v0.6.0` 在 policy 授权、有序 middleware、生命周期清理、
   最终工具 allowlist 检查、中途修改后的重新授权、取消、流式回调、SSE parser
@@ -161,12 +161,12 @@ Bridge、Sample 描述运行时的接入方式，不证明其语言缺乏 Framew
   快照/parity。原生 `ocamlopt` 编译、提供商适配器和包管理器发布均未声明。
 - Elixir 源码标签 `elixir/v0.4.0` 在 policy、middleware、最终工具 allowlist、
   重新授权、生命周期清理、取消、流式回调、原生 SSE parser、有限并行工具和按 run
-  隔离的调用上限之上增加人工审批中断决策。Hex 包仍为 `praxo_core==0.3.0`；
-  HexDocs 尚未发布。
+  隔离的调用上限之上增加人工审批中断决策。Hex 已发布 `praxo_core==0.4.0`；
+  `0.3.0` 和 `0.2.0` 仍可用。HexDocs 尚未发布。
 - Erlang 源码标签 `erlang/v0.4.0` 在 policy、middleware、最终工具 allowlist、
   重新授权、生命周期清理、取消、流式回调、原生 SSE parser、有限并行工具和按 run
-  隔离的调用上限之上增加人工审批中断决策。Hex 包仍为
-  `praxo_core_erlang==0.3.1`；提供商适配器、HTTP
+  隔离的调用上限之上增加人工审批中断决策。Hex 已发布
+  `praxo_core_erlang==0.4.0`；`0.3.1` 和 `0.2.0` 仍可用。提供商适配器、HTTP
   流式路径和生产就绪均未声明。
 - Lisp 已有 SBCL 桥接的源码标签 `lisp/v0.1.0`，不提供原生 Lisp 循环；转发、UTF-8、
   错误和退出码检查已在本地和 Linux CI 通过。消费者细节与包管理器发布仍待完成。
