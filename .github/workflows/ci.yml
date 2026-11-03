@@ -565,7 +565,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - run: sudo apt-get update && sudo apt-get install -y lua5.4 liblua5.4-dev luarocks
+      - run: sudo apt-get update && sudo apt-get install -y lua5.4 liblua5.4-dev lua-dkjson luarocks
       - run: lua5.4 language/lua/conformance/run.lua
       - run: python3 language/lua/api-snapshot.py --check
       - run: lua5.4 language/lua/tests/run.lua

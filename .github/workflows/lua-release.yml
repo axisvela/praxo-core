@@ -30,7 +30,7 @@ jobs:
       - name: Install Lua and LuaRocks
         run: |
           sudo apt-get update
-          sudo apt-get install -y lua5.4 liblua5.4-dev luarocks
+          sudo apt-get install -y lua5.4 liblua5.4-dev lua-dkjson luarocks
       - name: Verify version, rockspec, and tag
         shell: bash
         run: |
@@ -78,7 +78,7 @@ jobs:
       - name: Install Lua and LuaRocks
         run: |
           sudo apt-get update
-          sudo apt-get install -y lua5.4 liblua5.4-dev luarocks
+          sudo apt-get install -y lua5.4 liblua5.4-dev lua-dkjson luarocks
       - uses: actions/download-artifact@v4
         with:
           name: lua-rock
