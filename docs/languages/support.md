@@ -108,9 +108,9 @@ Registry values below were checked against the public registries on 2026-11-02.
 | C# | `csharp/v0.3.0` | NuGet `Praxo.Core==0.3.0` published | Not recorded |
 | Elixir | `elixir/v0.4.0` | Hex `praxo_core==0.4.0` published; `0.3.0`, `0.2.0` historical | Not rerun for `0.4.0`; historical `0.1.1` smoke |
 | Erlang | `erlang/v0.4.0` | Hex `praxo_core_erlang==0.4.0` published; `0.3.1`, `0.2.0` historical | Not rerun for `0.4.0`; historical `0.1.1` smoke |
-| Ruby | `ruby/v0.4.0` | RubyGems `praxo-core==0.3.0`; `0.2.0` also published | Recorded only for `0.1.0` |
+| Ruby | `ruby/v0.4.0` | RubyGems `praxo-core==0.4.0` published; `0.3.0`, `0.2.0` historical | Recorded only for `0.1.0`; not rerun for `0.4.0` |
 | Lua | `lua/v0.4.0` | LuaRocks `praxo-core==0.3.0-1`; `0.2.0-1` also published | Local rock build and module load passed; registry install smoke pending |
-| PHP | `php/v0.4.0` | Packagist `axisvela/praxo-core==0.3.0`; `v0.2.0` and `v0.1.0` also published | No Composer install smoke recorded |
+| PHP | `php/v0.4.0` | Packagist `axisvela/praxo-core==0.4.0` published; `v0.3.0`, `v0.2.0` historical | No Composer install smoke recorded |
 | Dart | `dart/v0.1.1` | pub.dev `praxo_core==0.1.1` | Recorded for `0.1.1` |
 
 ### Registry freshness against code
@@ -127,8 +127,8 @@ its latest version matches the manifest at the release tag.
 | C# | `0.3.0` | NuGet `0.3.0` | current |
 | Elixir | `0.4.0` | Hex `0.4.0` | current |
 | Erlang | `0.4.0` | Hex `0.4.0` | current |
-| Ruby | `0.4.0` | RubyGems `0.3.0` | registry behind |
-| PHP | `0.4.0` | Packagist `0.3.0` | registry behind |
+| Ruby | `0.4.0` | RubyGems `0.4.0` | current |
+| PHP | `0.4.0` | Packagist `0.4.0` | current |
 | Lua | rockspec `0.3.0-1`; source tag `0.4.0` | LuaRocks `0.3.0-1` | registry matches rockspec; `0.4.0` not packaged |
 | Dart | `0.1.1` | pub.dev `0.1.1` | current |
 
@@ -147,14 +147,15 @@ the installation source of truth.
 - PHP source tag `php/v0.4.0` adds HITL interrupt decisions to streaming runs,
   cancellation, SSE validation, final authorization, lifecycle cleanup, and
   caller-provided cooperative parallel tool dispatch through `batchToolInvoker`.
-  Packagist publishes `axisvela/praxo-core==0.3.0` from the split repository
-  `axisvela/praxo-core-php`; `v0.2.0` and `v0.1.0` remain available. The Core
+  Packagist publishes `axisvela/praxo-core==0.4.0` from the split repository
+  `axisvela/praxo-core-php`; `v0.3.0` and `v0.2.0` remain available. The Core
   does not create threads. A Composer install smoke is not yet recorded.
 - Ruby source tag `ruby/v0.4.0` adds HITL interrupt decisions to middleware
   hooks, final-tool allowlist checks, reauthorization, lifecycle cleanup,
   cancellation, stream callbacks, a native SSE parser, bounded parallel tools,
-  and run-scoped call limits. RubyGems publishes `praxo-core==0.3.0` and
-  `0.2.0`; the recorded clean-project smoke covers only `0.1.0`.
+  and run-scoped call limits. RubyGems publishes `praxo-core==0.4.0`;
+  `0.3.0` and `0.2.0` remain available. The recorded clean-project smoke covers
+  only `0.1.0`.
 - C++ source tag `cpp/v0.4.0` adds HITL interrupt decisions to middleware hooks,
   final-tool allowlist checks, reauthorization, lifecycle cleanup, cancellation,
   stream callbacks, a native SSE parser, bounded parallel tools, and run-scoped

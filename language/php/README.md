@@ -7,7 +7,7 @@ Schema validation, and plugin manifest parsing.
 
 - `SPEC_VERSION`: `0.2.0`
 - Core version: `0.4.0`
-- The latest Packagist package is `axisvela/praxo-core@0.1.0`; `0.4.0` is a source release
+- The latest Packagist package is `axisvela/praxo-core@0.4.0`
 - License: MIT
 - Dependencies: none beyond the PHP standard library
 

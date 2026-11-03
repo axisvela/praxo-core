@@ -27,9 +27,9 @@
 | TypeScript 已发布包 | npm 已从源码标签 `typescript/v0.2.0` 发布 `@axisvela/praxo-core@0.2.0`，并为 latest；已记录的干净临时项目安装 smoke 覆盖 `0.1.5` | Registry 发布 + 历史本地安装 smoke | `0.2.0` 的安装 smoke 未重跑；仅一个平台；不是独立消费者；不含 provider 或生产证据 |
 | Rust 已发布 crate | crates.io 已从源码标签 `rust/v0.3.0` 发布 `praxo-core==0.3.0`；已记录的干净临时项目安装 smoke 覆盖 `0.1.4` | Registry 发布 + 历史本地安装 smoke | registry smoke 覆盖 `0.1.4`，不是 `0.3.0`；仅一个平台；不是独立消费者；不含 provider 或生产证据 |
 | Dart 已发布包 | 从 pub.dev 在干净项目安装 `praxo_core==0.1.1`；程序导入 `package:praxo_core/praxo_core.dart`，并由最小 agent 返回 `hello` | 本地安装 smoke | 仅一个平台；同机项目，不是独立或非作者消费验证；仅最小 agent，不含 provider 或生产证据 |
-| Ruby 已发布 gem | RubyGems 已发布 `praxo-core==0.3.0` 和 `0.2.0`；已记录的干净临时目录 smoke 覆盖 `0.1.0` | Registry 发布 + 历史本地安装 smoke | 未对 `0.3.0` 重跑 registry 安装 smoke；仅一个平台；不是独立消费者；不含 provider 或生产证据 |
+| Ruby 已发布 gem | RubyGems 已从源码标签 `ruby/v0.4.0` 发布 `praxo-core==0.4.0`；`0.3.0` 和 `0.2.0` 仍可用。已记录的干净临时目录 smoke 覆盖 `0.1.0` | Registry 发布 + 历史本地安装 smoke | 未对 `0.4.0` 重跑 registry 安装 smoke；仅一个平台；不是独立消费者；不含 provider 或生产证据 |
 | Lua 已发布 rock | LuaRocks 已发布 `praxo-core==0.3.0-1` 和 `0.2.0-1`；本地 rock 构建和模块加载通过 | Registry 发布 + 本地构建 smoke | registry 安装 smoke 待完成；仅一个平台；不是独立消费者；不含 provider 或生产证据 |
-| PHP 已发布包 | Packagist 发布 `axisvela/praxo-core==0.3.0`，来自 `axisvela/praxo-core-php`；`v0.2.0` 和 `v0.1.0` 仍可用，源码标签 `php/v0.4.0` 更新 | Registry 发布 | 未记录 Composer 安装 smoke；仅一个平台；不是独立消费者；不含 provider 或生产证据 |
+| PHP 已发布包 | Packagist 从 split 标签 `v0.4.0` 发布 `axisvela/praxo-core==0.4.0`；`v0.3.0` 和 `v0.2.0` 仍可用 | Registry 发布 | 未记录 Composer 安装 smoke；仅一个平台；不是独立消费者；不含 provider 或生产证据 |
 | C# 已发布包 | `Praxo.Core==0.3.0` 由 GitHub Actions Trusted Publishing 从源码标签 `csharp/v0.3.0` 完成构建、测试、打包并推送到 NuGet | CI + registry | 本地无 .NET SDK，未执行消费者安装 smoke；一个包版本；不含 provider 或生产证据 |
 | Elixir 已发布包 | Hex 已从源码标签 `elixir/v0.4.0` 发布 `praxo_core==0.4.0`；`0.3.0` 和 `0.2.0` 仍可用。历史 `0.1.1` 曾在干净 Mix 项目安装 | Registry 发布 + 历史本地安装 smoke | `0.4.0` 未重新执行消费者安装 smoke；HexDocs 未发布；仅一个平台；非独立消费者；不含 provider 或生产证据 |
 | Erlang 已发布包 | Hex 已从源码标签 `erlang/v0.4.0` 发布 `praxo_core_erlang==0.4.0`；`0.3.1` 和 `0.2.0` 仍可用。历史 `0.1.1` 曾由干净 rebar3 项目获取 | Registry 发布 + 历史本地安装 smoke | `0.4.0` 未重新执行消费者安装 smoke；仅一个平台；非独立消费者；不含 provider 或生产证据 |
@@ -56,10 +56,10 @@ Registry 链接指向当前已发布版本；上表的消费者 smoke 行指明�
 - [npm 上的 @axisvela/praxo-core 0.2.0](https://www.npmjs.com/package/@axisvela/praxo-core/v/0.2.0)
 - [crates.io 上的 praxo-core 0.3.0](https://crates.io/crates/praxo-core/0.3.0)
 - [pub.dev 上的 praxo_core 0.1.1](https://pub.dev/packages/praxo_core)
-- [RubyGems 上的 praxo-core 0.3.0](https://rubygems.org/gems/praxo-core/versions/0.3.0)
+- [RubyGems 上的 praxo-core 0.4.0](https://rubygems.org/gems/praxo-core/versions/0.4.0)
 - [LuaRocks 上的 praxo-core 0.3.0-1](https://luarocks.org/modules/hanhhuiwen/praxo-core)
 - [NuGet 上的 Praxo.Core 0.3.0](https://www.nuget.org/packages/Praxo.Core/0.3.0)
-- [Packagist 上的 axisvela/praxo-core 0.3.0](https://packagist.org/packages/axisvela/praxo-core)
+- [Packagist 上的 axisvela/praxo-core 0.4.0](https://packagist.org/packages/axisvela/praxo-core)
 - [Hex 上的 praxo_core 0.4.0](https://hex.pm/packages/praxo_core/0.4.0)
 - [Hex 上的 praxo_core_erlang 0.4.0](https://hex.pm/packages/praxo_core_erlang/0.4.0)
 - [DUB 上的 praxo-core 0.1.0](https://code.dlang.org/packages/praxo-core)

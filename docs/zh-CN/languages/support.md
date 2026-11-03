@@ -79,9 +79,9 @@ Bridge、Sample 描述运行时的接入方式，不证明其语言缺乏 Framew
 | C# | `csharp/v0.3.0` | NuGet `Praxo.Core==0.3.0` 已发布 | 未记录 |
 | Elixir | `elixir/v0.4.0` | Hex `praxo_core==0.4.0` 已发布；`0.3.0`、`0.2.0` 为历史版本 | `0.4.0` 未重跑；历史 `0.1.1` smoke |
 | Erlang | `erlang/v0.4.0` | Hex `praxo_core_erlang==0.4.0` 已发布；`0.3.1`、`0.2.0` 为历史版本 | `0.4.0` 未重跑；历史 `0.1.1` smoke |
-| Ruby | `ruby/v0.4.0` | RubyGems `praxo-core==0.3.0`；`0.2.0` 也已发布 | 仅记录 `0.1.0` |
+| Ruby | `ruby/v0.4.0` | RubyGems `praxo-core==0.4.0` 已发布；`0.3.0`、`0.2.0` 为历史版本 | 仅记录 `0.1.0`；`0.4.0` 未重跑 |
 | Lua | `lua/v0.4.0` | LuaRocks `praxo-core==0.3.0-1`；`0.2.0-1` 也已发布 | 本地 rock 构建/加载通过；registry 安装 smoke 待完成 |
-| PHP | `php/v0.4.0` | Packagist `axisvela/praxo-core==0.3.0`；`v0.2.0` 和 `v0.1.0` 也可用 | 未记录 Composer 安装 smoke |
+| PHP | `php/v0.4.0` | Packagist `axisvela/praxo-core==0.4.0` 已发布；`v0.3.0`、`v0.2.0` 为历史版本 | 未记录 Composer 安装 smoke |
 | Dart | `dart/v0.1.1` | pub.dev `praxo_core==0.1.1` | 已记录 `0.1.1` |
 
 ### 注册表相对代码的新旧状态
@@ -98,8 +98,8 @@ Bridge、Sample 描述运行时的接入方式，不证明其语言缺乏 Framew
 | C# | `0.3.0` | NuGet `0.3.0` | 已最新 |
 | Elixir | `0.4.0` | Hex `0.4.0` | 已最新 |
 | Erlang | `0.4.0` | Hex `0.4.0` | 已最新 |
-| Ruby | `0.4.0` | RubyGems `0.3.0` | 注册表落后 |
-| PHP | `0.4.0` | Packagist `0.3.0` | 注册表落后 |
+| Ruby | `0.4.0` | RubyGems `0.4.0` | 已最新 |
+| PHP | `0.4.0` | Packagist `0.4.0` | 已最新 |
 | Lua | rockspec `0.3.0-1`；源码标签 `0.4.0` | LuaRocks `0.3.0-1` | 注册表与 rockspec 一致；`0.4.0` 未打包 |
 | Dart | `0.1.1` | pub.dev `0.1.1` | 已最新 |
 
@@ -115,13 +115,13 @@ Bridge、Sample 描述运行时的接入方式，不证明其语言缺乏 Framew
   `io.axisvela.praxo`。
 - PHP 源码标签 `php/v0.4.0` 在流式运行、取消、SSE 校验、最终授权、生命周期清理，
   以及通过 `batchToolInvoker` 提供的调用方协作式并行工具调度之上增加人工审批
-  中断决策。Packagist 发布 `axisvela/praxo-core==0.3.0`，来自独立发布仓库
-  `axisvela/praxo-core-php`；`v0.2.0` 和 `v0.1.0` 仍可用。Core 本身不创建线程。
-  Composer 安装 smoke 尚未记录。
+  中断决策。Packagist 发布 `axisvela/praxo-core==0.4.0`，来自独立发布仓库
+  `axisvela/praxo-core-php` 的 `v0.4.0` 标签；`v0.3.0` 和 `v0.2.0` 仍可用。
+  Core 本身不创建线程。Composer 安装 smoke 尚未记录。
 - Ruby 源码标签 `ruby/v0.4.0` 在 middleware、最终工具 allowlist、重新授权、
   生命周期清理、取消、流式回调、原生 SSE parser、有限并行工具和按 run 隔离的
-  调用上限之上增加人工审批中断决策。RubyGems 已发布 `praxo-core==0.3.0`
-  和 `0.2.0`；已记录的干净项目 smoke 仅覆盖 `0.1.0`。
+  调用上限之上增加人工审批中断决策。RubyGems 已发布 `praxo-core==0.4.0`；
+  `0.3.0` 和 `0.2.0` 仍可用。已记录的干净项目 smoke 仅覆盖 `0.1.0`。
 - C++ 源码标签 `cpp/v0.4.0` 在 middleware、最终工具 allowlist、重新授权、
   生命周期清理、取消、流式回调、原生 SSE parser、有限并行工具和按 run 隔离的
   调用上限之上增加人工审批中断决策。

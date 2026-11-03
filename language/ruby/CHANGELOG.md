@@ -2,7 +2,8 @@
 
 ## 0.4.0 - 2026-11-02
 
-Source release tag `ruby/v0.4.0`. The RubyGems package remains `0.1.0`.
+Source release tag `ruby/v0.4.0`. The RubyGems package `praxo-core==0.4.0` is
+published from that tag through GitHub OIDC Trusted Publishing.
 
 ### Added
 

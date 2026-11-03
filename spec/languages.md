@@ -81,7 +81,7 @@ for real providers, platforms, and production behavior is reported separately.
 | Visual Basic | Sample (.NET) | released | `csharp/v0.1.1` | sample | VB.NET consumer sample in `language/csharp/samples` |
 | PowerShell | Bridge | released | `powershell/v0.1.0` | complete | Wraps the bridge CLI |
 | Shell | Bridge | released | `shell/v0.1.0` | complete | Wraps the bridge CLI |
-| PHP | Core | released | `php/v0.4.0` | complete | 11 vectors, HITL interrupts, API snapshot, streaming/cancellation/SSE, and caller-provided cooperative parallel tools; source `0.4.0`, Packagist `axisvela/praxo-core==0.1.0` |
+| PHP | Core | released | `php/v0.4.0` | complete | 11 vectors, HITL interrupts, API snapshot, streaming/cancellation/SSE, and caller-provided cooperative parallel tools; source `0.4.0`, Packagist `axisvela/praxo-core==0.4.0` |
 | Swift | Core | released | `swift/v0.2.0` | complete | 11 vectors, XCTest, API snapshot |
 | Julia | Core | released | `julia/v0.2.0` | complete | 11 vectors, JSON.jl, API snapshot |
 | R | Core | released | `r/v0.5.0` | complete | 11 vectors, base-R JSON, policy/middleware, HITL interrupts, lifecycle cleanup, cancellation, streaming, SSE parser, bounded parallel tools, API snapshot |
@@ -91,7 +91,7 @@ for real providers, platforms, and production behavior is reported separately.
 | JavaScript | Sample (TypeScript) | released | none | sample | Uses the TypeScript package; no separate core |
 | C++ | Core | released | `cpp/v0.4.0` | complete | 11 vectors, HITL interrupts, core tests, API snapshot, middleware/lifecycle authorization, cancellation, streaming, SSE, parallel tools, and run-scoped call limits |
 | Dart | Core | released | `dart/v0.1.1` | complete | 11 vectors, core tests, API snapshot; pub.dev `praxo_core==0.1.1` |
-| Ruby | Core | released | `ruby/v0.4.0` | complete | 11 vectors, HITL interrupts, core tests, API snapshot, middleware/lifecycle authorization, cancellation, streaming, SSE, parallel tools, and run-scoped call limits; source `0.4.0`, RubyGems `praxo-core==0.1.0` |
+| Ruby | Core | released | `ruby/v0.4.0` | complete | 11 vectors, HITL interrupts, core tests, API snapshot, middleware/lifecycle authorization, cancellation, streaming, SSE, parallel tools, and run-scoped call limits; source `0.4.0`, RubyGems `praxo-core==0.4.0` |
 | Kotlin | Sample (JVM) | released | none | sample | Uses the Java Core |
 | Scala | Sample (JVM) | released | none | sample | Uses the Java Core |
 | MATLAB | Core | released | `matlab/v0.2.1` | complete | 11 vectors, native tests, API snapshot/parity; Octave 11.3.0; MATLAB runtime unverified |

@@ -32,9 +32,9 @@ evidence.
 | TypeScript published package | npm `@axisvela/praxo-core@0.2.0` is published from source tag `typescript/v0.2.0` and is the latest version; the recorded clean temporary-project install smoke covers `0.1.5` | Registry publication + historical local install smoke | `0.2.0` install smoke was not rerun; one platform; not an independent consumer; no provider or production evidence |
 | Rust published crate | crates.io `praxo-core==0.3.0` is published from source tag `rust/v0.3.0`; the recorded clean temporary-project install smoke covers `0.1.4` | Registry publication + historical local install smoke | The registry smoke covers `0.1.4`, not `0.3.0`; one platform; not an independent consumer; no provider or production evidence |
 | Dart published package | `praxo_core==0.1.1` installed from pub.dev into a clean project; the program imported `package:praxo_core/praxo_core.dart` and returned `hello` from a minimal agent | Local install smoke | One platform; same-machine project, not an independent or non-author consumer; minimal agent only, no provider or production evidence |
-| Ruby published gem | RubyGems `praxo-core==0.3.0` and `0.2.0` are published; the recorded clean temporary-directory smoke covers `0.1.0` | Registry publication + historical local install smoke | Registry `0.3.0` smoke was not rerun; one platform; not an independent consumer; no provider or production evidence |
+| Ruby published gem | RubyGems `praxo-core==0.4.0` is published from source tag `ruby/v0.4.0`; `0.3.0` and `0.2.0` remain available. The recorded clean temporary-directory smoke covers `0.1.0` | Registry publication + historical local install smoke | Registry `0.4.0` smoke was not rerun; one platform; not an independent consumer; no provider or production evidence |
 | Lua published rock | LuaRocks `praxo-core==0.3.0-1` and `0.2.0-1` are published; a local rock build and module load passed | Registry publication + local build smoke | Registry install smoke is pending; one platform; not an independent consumer; no provider or production evidence |
-| PHP published package | Packagist publishes `axisvela/praxo-core==0.3.0` from `axisvela/praxo-core-php`; `v0.2.0` and `v0.1.0` remain available, and the `php/v0.4.0` source tag is newer | Registry publication | No Composer install smoke is recorded; one platform; not an independent consumer; no provider or production evidence |
+| PHP published package | Packagist publishes `axisvela/praxo-core==0.4.0` from split tag `v0.4.0`; `v0.3.0` and `v0.2.0` remain available | Registry publication | No Composer install smoke is recorded; one platform; not an independent consumer; no provider or production evidence |
 | C# published package | `Praxo.Core==0.3.0` was built, tested, packed, and pushed to NuGet by GitHub Actions Trusted Publishing from source tag `csharp/v0.3.0` | CI + registry | No local .NET SDK or consumer install smoke; one package version; no provider or production evidence |
 | Elixir published package | Hex `praxo_core==0.4.0` is published from source tag `elixir/v0.4.0`; `0.3.0` and `0.2.0` remain available. The historical `0.1.1` row was installed from Hex into a clean Mix project | Registry publication + historical local install smoke | Consumer install smoke was not rerun for `0.4.0`; HexDocs are not published; one platform; no independent consumer; no provider or production evidence |
 | Erlang published package | Hex `praxo_core_erlang==0.4.0` is published from source tag `erlang/v0.4.0`; `0.3.1` and `0.2.0` remain available. The historical `0.1.1` row was fetched by a clean rebar3 project | Registry publication + historical local install smoke | Consumer install smoke was not rerun for `0.4.0`; one platform; no independent consumer; no provider or production evidence |
@@ -62,10 +62,10 @@ name the version that was actually installed.
 - [@axisvela/praxo-core 0.2.0 on npm](https://www.npmjs.com/package/@axisvela/praxo-core/v/0.2.0)
 - [praxo-core 0.3.0 on crates.io](https://crates.io/crates/praxo-core/0.3.0)
 - [praxo_core 0.1.1 on pub.dev](https://pub.dev/packages/praxo_core)
-- [praxo-core 0.3.0 on RubyGems](https://rubygems.org/gems/praxo-core/versions/0.3.0)
+- [praxo-core 0.4.0 on RubyGems](https://rubygems.org/gems/praxo-core/versions/0.4.0)
 - [praxo-core 0.3.0-1 on LuaRocks](https://luarocks.org/modules/hanhhuiwen/praxo-core)
 - [Praxo.Core 0.3.0 on NuGet](https://www.nuget.org/packages/Praxo.Core/0.3.0)
-- [axisvela/praxo-core 0.3.0 on Packagist](https://packagist.org/packages/axisvela/praxo-core)
+- [axisvela/praxo-core 0.4.0 on Packagist](https://packagist.org/packages/axisvela/praxo-core)
 - [praxo_core 0.4.0 on Hex](https://hex.pm/packages/praxo_core/0.4.0)
 - [praxo_core_erlang 0.4.0 on Hex](https://hex.pm/packages/praxo_core_erlang/0.4.0)
 - [praxo-core 0.1.0 on DUB](https://code.dlang.org/packages/praxo-core)

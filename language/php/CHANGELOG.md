@@ -2,7 +2,8 @@
 
 ## 0.4.0 - 2026-11-02
 
-Source release tag `php/v0.4.0`. The Packagist package remains `0.1.0`.
+Source release tag `php/v0.4.0`. Packagist publishes
+`axisvela/praxo-core==0.4.0` from split tag `v0.4.0`.
 
 ### Added
 

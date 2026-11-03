@@ -13,7 +13,7 @@ reference implementation.
 - Tier: core
 - License: MIT
 - Dependencies: Ruby standard library only
-- The latest RubyGems package is `praxo-core@0.1.0`; `0.4.0` is a source release
+- The latest RubyGems package is `praxo-core@0.4.0`
 
 ## Install
 
