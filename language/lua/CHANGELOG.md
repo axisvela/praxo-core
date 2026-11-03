@@ -2,8 +2,8 @@
 
 ## 0.4.0 - 2026-11-02
 
-Source release tag `lua/v0.4.0`. Rock revision `0.4.0-1` is built by the
-`lua-release` workflow; LuaRocks publication is pending the release upload.
+Source release tag `lua/v0.4.0`. LuaRocks publishes rock revision `0.4.0-1`
+through the `lua-release` workflow.
 
 ### Added
 

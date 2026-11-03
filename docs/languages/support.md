@@ -103,13 +103,13 @@ Registry values below were checked against the public registries on 2026-11-02.
 | --- | --- | --- | --- |
 | Python | `python/v0.3.0` | PyPI `praxo-core==0.3.0` published | Recorded only for `0.2.4`; not rerun for `0.3.0` |
 | TypeScript | `typescript/v0.2.0` | npm `@axisvela/praxo-core@0.2.0` published; latest | Recorded only for `0.1.5`; not rerun for `0.2.0` |
-| Java | `java/v0.4.0` | Maven Central `com.axisvela:praxo-core:0.3.0`; `0.4.0` not published | Not recorded |
+| Java | `java/v0.4.0` | Maven Central `com.axisvela:praxo-core:0.4.0` published | Not recorded |
 | Rust | `rust/v0.3.0` | crates.io `praxo-core==0.3.0` published; `0.1.4` historical | Recorded for `0.1.4` only; not rerun for `0.3.0` |
 | C# | `csharp/v0.3.0` | NuGet `Praxo.Core==0.3.0` published | Not recorded |
 | Elixir | `elixir/v0.4.0` | Hex `praxo_core==0.4.0` published; `0.3.0`, `0.2.0` historical | Not rerun for `0.4.0`; historical `0.1.1` smoke |
 | Erlang | `erlang/v0.4.0` | Hex `praxo_core_erlang==0.4.0` published; `0.3.1`, `0.2.0` historical | Not rerun for `0.4.0`; historical `0.1.1` smoke |
 | Ruby | `ruby/v0.4.0` | RubyGems `praxo-core==0.4.0` published; `0.3.0`, `0.2.0` historical | Recorded only for `0.1.0`; not rerun for `0.4.0` |
-| Lua | `lua/v0.4.0` | LuaRocks `praxo-core==0.3.0-1`; `0.2.0-1` also published | `lua-release` builds and installs the source rock; `0.4.0-1` registry install smoke pending publication |
+| Lua | `lua/v0.4.0` | LuaRocks `praxo-core==0.4.0-1`; `0.3.0-1`, `0.2.0-1` also published | `lua-release` builds and installs the source rock; registry install smoke pending |
 | PHP | `php/v0.4.0` | Packagist `axisvela/praxo-core==0.4.0` published; `v0.3.0`, `v0.2.0` historical | No Composer install smoke recorded |
 | Dart | `dart/v0.1.1` | pub.dev `praxo_core==0.1.1` | Recorded for `0.1.1` |
 
@@ -122,14 +122,14 @@ its latest version matches the manifest at the release tag.
 | --- | --- | --- | --- |
 | Python | `0.3.0` | PyPI `0.3.0` | current |
 | TypeScript | `0.2.0` | npm `0.2.0` | current |
-| Java | `0.4.0` | Maven Central `0.3.0` | registry behind |
+| Java | `0.4.0` | Maven Central `0.4.0` | current |
 | Rust | `0.3.0` | crates.io `0.3.0` | current |
 | C# | `0.3.0` | NuGet `0.3.0` | current |
 | Elixir | `0.4.0` | Hex `0.4.0` | current |
 | Erlang | `0.4.0` | Hex `0.4.0` | current |
 | Ruby | `0.4.0` | RubyGems `0.4.0` | current |
 | PHP | `0.4.0` | Packagist `0.4.0` | current |
-| Lua | rockspec `0.4.0-1`; source tag `0.4.0` | LuaRocks `0.3.0-1` | release workflow added; registry behind until `0.4.0-1` upload |
+| Lua | rockspec `0.4.0-1`; source tag `0.4.0` | LuaRocks `0.4.0-1` | current |
 | Dart | `0.1.1` | pub.dev `0.1.1` | current |
 
 Do not install a source-tag-only language from a registry, and do not assume a
@@ -142,8 +142,8 @@ the installation source of truth.
   agent-framework-first README and metadata.
 - Java source tag `java/v0.4.0` adds HITL interrupt decisions with Maven groupId
   `com.axisvela` and Java packages under `com.axisvela.praxo`. Maven Central
-  remains `com.axisvela:praxo-core:0.3.0` until `0.4.0` is published. The
-  earlier `java/v0.2.3` tag retains `io.axisvela.praxo`.
+  publishes `com.axisvela:praxo-core:0.4.0`. The earlier `java/v0.2.3` tag
+  retains `io.axisvela.praxo`.
 - PHP source tag `php/v0.4.0` adds HITL interrupt decisions to streaming runs,
   cancellation, SSE validation, final authorization, lifecycle cleanup, and
   caller-provided cooperative parallel tool dispatch through `batchToolInvoker`.
@@ -163,10 +163,10 @@ the installation source of truth.
 - Lua source tag `lua/v0.4.0` adds HITL interrupt decisions to middleware hooks,
   final-tool allowlist checks, reauthorization, lifecycle cleanup, cancellation,
   stream callbacks, a native SSE parser, and caller-provided batch tool dispatch.
-  Rock revision `0.4.0-1` is built by `.github/workflows/lua-release.yml`;
-  LuaRocks currently publishes `praxo-core==0.3.0-1` and `0.2.0-1`. The workflow
-  installs the generated source rock in a clean tree and runs the installed
-  smoke; `0.4.0-1` registry install smoke is pending publication.
+  Rock revision `0.4.0-1` is built and published by
+  `.github/workflows/lua-release.yml`; LuaRocks also retains `0.3.0-1` and
+  `0.2.0-1`. The workflow installs the generated source rock in a clean tree and
+  runs the installed smoke; registry install smoke is not yet recorded.
 - C# source tag `csharp/v0.3.0` adds HITL interrupt decisions to streaming
   runs, cancellation, bounded parallel tools, and SSE validation. The tag
   workflow published `Praxo.Core==0.3.0` on NuGet; a local .NET consumer

@@ -74,13 +74,13 @@ Bridge、Sample 描述运行时的接入方式，不证明其语言缺乏 Framew
 | --- | --- | --- | --- |
 | Python | `python/v0.3.0` | PyPI `praxo-core==0.3.0` 已发布 | 仅记录 `0.2.4`；`0.3.0` 未重跑 |
 | TypeScript | `typescript/v0.2.0` | npm `@axisvela/praxo-core@0.2.0` 已发布，并为 latest | 仅记录 `0.1.5`；`0.2.0` 未重跑 |
-| Java | `java/v0.4.0` | Maven Central `com.axisvela:praxo-core:0.3.0`；`0.4.0` 未发布 | 未记录 |
+| Java | `java/v0.4.0` | Maven Central `com.axisvela:praxo-core:0.4.0` 已发布 | 未记录 |
 | Rust | `rust/v0.3.0` | crates.io `praxo-core==0.3.0` 已发布；`0.1.4` 为历史版本 | 仅记录 `0.1.4`；`0.3.0` 未重跑 |
 | C# | `csharp/v0.3.0` | NuGet `Praxo.Core==0.3.0` 已发布 | 未记录 |
 | Elixir | `elixir/v0.4.0` | Hex `praxo_core==0.4.0` 已发布；`0.3.0`、`0.2.0` 为历史版本 | `0.4.0` 未重跑；历史 `0.1.1` smoke |
 | Erlang | `erlang/v0.4.0` | Hex `praxo_core_erlang==0.4.0` 已发布；`0.3.1`、`0.2.0` 为历史版本 | `0.4.0` 未重跑；历史 `0.1.1` smoke |
 | Ruby | `ruby/v0.4.0` | RubyGems `praxo-core==0.4.0` 已发布；`0.3.0`、`0.2.0` 为历史版本 | 仅记录 `0.1.0`；`0.4.0` 未重跑 |
-| Lua | `lua/v0.4.0` | LuaRocks `praxo-core==0.3.0-1`；`0.2.0-1` 也已发布 | `lua-release` 构建并安装 source rock；`0.4.0-1` registry 安装 smoke 待发布后完成 |
+| Lua | `lua/v0.4.0` | LuaRocks `praxo-core==0.4.0-1`；`0.3.0-1`、`0.2.0-1` 也已发布 | `lua-release` 构建并安装 source rock；registry 安装 smoke 待完成 |
 | PHP | `php/v0.4.0` | Packagist `axisvela/praxo-core==0.4.0` 已发布；`v0.3.0`、`v0.2.0` 为历史版本 | 未记录 Composer 安装 smoke |
 | Dart | `dart/v0.1.1` | pub.dev `praxo_core==0.1.1` | 已记录 `0.1.1` |
 
@@ -93,14 +93,14 @@ Bridge、Sample 描述运行时的接入方式，不证明其语言缺乏 Framew
 | --- | --- | --- | --- |
 | Python | `0.3.0` | PyPI `0.3.0` | 已最新 |
 | TypeScript | `0.2.0` | npm `0.2.0` | 已最新 |
-| Java | `0.4.0` | Maven Central `0.3.0` | 注册表落后 |
+| Java | `0.4.0` | Maven Central `0.4.0` | 已最新 |
 | Rust | `0.3.0` | crates.io `0.3.0` | 已最新 |
 | C# | `0.3.0` | NuGet `0.3.0` | 已最新 |
 | Elixir | `0.4.0` | Hex `0.4.0` | 已最新 |
 | Erlang | `0.4.0` | Hex `0.4.0` | 已最新 |
 | Ruby | `0.4.0` | RubyGems `0.4.0` | 已最新 |
 | PHP | `0.4.0` | Packagist `0.4.0` | 已最新 |
-| Lua | rockspec `0.4.0-1`；源码标签 `0.4.0` | LuaRocks `0.3.0-1` | 已增加发布工作流；`0.4.0-1` 上传前注册表仍落后 |
+| Lua | rockspec `0.4.0-1`；源码标签 `0.4.0` | LuaRocks `0.4.0-1` | 已最新 |
 | Dart | `0.1.1` | pub.dev `0.1.1` | 已最新 |
 
 不要从注册表安装只有源码标签的语言，也不要假设注册表包包含源码标签的最新行为。
@@ -110,8 +110,8 @@ Bridge、Sample 描述运行时的接入方式，不证明其语言缺乏 Framew
   `typescript/v0.2.0` 发布 `@axisvela/praxo-core@0.2.0` 到 npm，带有 npm
   provenance，并采用 agent framework 优先的 README 和元数据。
 - Java 源码标签 `java/v0.4.0` 增加人工审批中断决策，Maven groupId 为 `com.axisvela`，
-  包名为 `com.axisvela.praxo`；Maven Central 在发布前仍为
-  `com.axisvela:praxo-core:0.3.0`。较早的 `java/v0.2.3` 标签仍保留
+  包名为 `com.axisvela.praxo`；Maven Central 已发布
+  `com.axisvela:praxo-core:0.4.0`。较早的 `java/v0.2.3` 标签仍保留
   `io.axisvela.praxo`。
 - PHP 源码标签 `php/v0.4.0` 在流式运行、取消、SSE 校验、最终授权、生命周期清理，
   以及通过 `batchToolInvoker` 提供的调用方协作式并行工具调度之上增加人工审批
@@ -128,9 +128,9 @@ Bridge、Sample 描述运行时的接入方式，不证明其语言缺乏 Framew
 - Lua 源码标签 `lua/v0.4.0` 在 middleware、最终工具 allowlist、重新授权、
   生命周期清理、取消、流式回调、原生 SSE parser 和调用方提供的批处理工具调度
   之上增加人工审批中断决策。rock 修订 `0.4.0-1` 由
-  `.github/workflows/lua-release.yml` 构建；LuaRocks 当前发布
-  `praxo-core==0.3.0-1` 和 `0.2.0-1`。工作流会在干净目录安装生成的 source
-  rock 并运行安装后 smoke；`0.4.0-1` registry 安装 smoke 待发布后完成。
+  `.github/workflows/lua-release.yml` 构建并发布；LuaRocks 同时保留
+  `0.3.0-1` 和 `0.2.0-1`。工作流会在干净目录安装生成的 source rock 并运行
+  安装后 smoke；registry 安装 smoke 尚未记录。
 - C# 源码标签 `csharp/v0.3.0` 在流式运行、取消、有限并行工具和 SSE 校验之上增加人工审批中断决策。
   tag 工作流已发布 NuGet 包 `Praxo.Core==0.3.0`；本地 .NET 消费者安装尚未记录。
 - D 已从独立发布仓库 `axisvela/praxo-core-d`（tag `v0.1.0`）在

@@ -28,13 +28,13 @@
 | Rust 已发布 crate | crates.io 已从源码标签 `rust/v0.3.0` 发布 `praxo-core==0.3.0`；已记录的干净临时项目安装 smoke 覆盖 `0.1.4` | Registry 发布 + 历史本地安装 smoke | registry smoke 覆盖 `0.1.4`，不是 `0.3.0`；仅一个平台；不是独立消费者；不含 provider 或生产证据 |
 | Dart 已发布包 | 从 pub.dev 在干净项目安装 `praxo_core==0.1.1`；程序导入 `package:praxo_core/praxo_core.dart`，并由最小 agent 返回 `hello` | 本地安装 smoke | 仅一个平台；同机项目，不是独立或非作者消费验证；仅最小 agent，不含 provider 或生产证据 |
 | Ruby 已发布 gem | RubyGems 已从源码标签 `ruby/v0.4.0` 发布 `praxo-core==0.4.0`；`0.3.0` 和 `0.2.0` 仍可用。已记录的干净临时目录 smoke 覆盖 `0.1.0` | Registry 发布 + 历史本地安装 smoke | 未对 `0.4.0` 重跑 registry 安装 smoke；仅一个平台；不是独立消费者；不含 provider 或生产证据 |
-| Lua 已发布 rock | LuaRocks 已发布 `praxo-core==0.3.0-1` 和 `0.2.0-1`。rock 修订 `0.4.0-1` 和 `.github/workflows/lua-release.yml` 增加 source rock 构建、干净目录安装 smoke 与发布门禁 | Registry 发布 + 本地构建 smoke | `0.4.0-1` registry 安装 smoke 待发布后完成；仅一个平台；不是独立消费者；不含 provider 或生产证据 |
+| Lua 已发布 rock | LuaRocks 已通过 `.github/workflows/lua-release.yml` 发布 `praxo-core==0.4.0-1`；工作流构建 source rock、在干净目录安装并运行安装后 smoke；`0.3.0-1` 和 `0.2.0-1` 仍可用 | Registry 发布 + CI 安装 smoke | 尚未记录使用已发布 rock 的 registry 安装 smoke；仅一个平台；不是独立消费者；不含 provider 或生产证据 |
 | PHP 已发布包 | Packagist 从 split 标签 `v0.4.0` 发布 `axisvela/praxo-core==0.4.0`；`v0.3.0` 和 `v0.2.0` 仍可用 | Registry 发布 | 未记录 Composer 安装 smoke；仅一个平台；不是独立消费者；不含 provider 或生产证据 |
 | C# 已发布包 | `Praxo.Core==0.3.0` 由 GitHub Actions Trusted Publishing 从源码标签 `csharp/v0.3.0` 完成构建、测试、打包并推送到 NuGet | CI + registry | 本地无 .NET SDK，未执行消费者安装 smoke；一个包版本；不含 provider 或生产证据 |
 | Elixir 已发布包 | Hex 已从源码标签 `elixir/v0.4.0` 发布 `praxo_core==0.4.0`；`0.3.0` 和 `0.2.0` 仍可用。历史 `0.1.1` 曾在干净 Mix 项目安装 | Registry 发布 + 历史本地安装 smoke | `0.4.0` 未重新执行消费者安装 smoke；HexDocs 未发布；仅一个平台；非独立消费者；不含 provider 或生产证据 |
 | Erlang 已发布包 | Hex 已从源码标签 `erlang/v0.4.0` 发布 `praxo_core_erlang==0.4.0`；`0.3.1` 和 `0.2.0` 仍可用。历史 `0.1.1` 曾由干净 rebar3 项目获取 | Registry 发布 + 历史本地安装 smoke | `0.4.0` 未重新执行消费者安装 smoke；仅一个平台；非独立消费者；不含 provider 或生产证据 |
 | D 已发布包 | 从 DUB/code.dlang.org 使用 `dub fetch praxo-core` 获取 `praxo-core==0.1.0` | Registry 元数据 + 获取 | 未执行编译或独立消费者 smoke；一个包版本；不含 provider 或生产证据 |
-| Java 已发布包 | Maven Central 已发布 `com.axisvela:praxo-core:0.3.0`，包含 sources、javadoc 和 GPG 签名；源码标签 `java/v0.4.0` 尚未发布 | 本地发布 + Central 校验 | 未执行消费者安装 smoke；`0.4.0` registry 发布待完成；一个平台；不含 provider 或生产证据 |
+| Java 已发布包 | Maven Central 已发布 `com.axisvela:praxo-core:0.4.0`，包含 sources、javadoc 和 GPG 签名 | 本地发布 + Central 校验 | 未执行消费者安装 smoke；一个平台；不含 provider 或生产证据 |
 | 跨语言 agent 行为 | 全部十六个已接入语言在源码中通过二十个授权、生命周期、取消、输入校验、调用上限、并行工具、run 隔离、PII、checkpoint、容量、SSE 截断、流失败和 HITL 决策场景。agent-capable 语言使用场景级或 self-test 覆盖，扩展语言使用原生套件覆盖；COBOL、Lua、PHP 和 Fortran 的并行工具委托给调用方提供的批处理回调。其他实现属于 optional。`b6218e5` 的 clean-tree CI 报告记录 320 passed、0 unsupported、无失败 | 场景测试 + CI | 十六个已接入语言在源码中均达到 20/20；部分扩展行为是套件级覆盖，失败不能定位到具体场景；`4ffd83b` 的本地报告是历史证据，不是当前证据；不是吞吐/压力测试，也不是完整功能对齐、provider、sandbox 或生产证据 |
 | 受治理工作区 | Policy 必需配置、最终参数授权、单次审批、审批后修改、排队撤销、依赖失败关闭 | 契约/单元 | 示例级契约；不是 Core Profile、可信身份服务或持久审批存储 |
 | 上下文信任 | Memory、Skill、工具结果和摘要来源分离；批准 Skill 摘要绑定；文本恢复；拒绝晚期 System 注入 | 契约/单元 | 显式示例路径；不是通用 Prompt Injection 过滤器、来源认证或持久 lineage 证明 |
@@ -57,13 +57,13 @@ Registry 链接指向当前已发布版本；上表的消费者 smoke 行指明�
 - [crates.io 上的 praxo-core 0.3.0](https://crates.io/crates/praxo-core/0.3.0)
 - [pub.dev 上的 praxo_core 0.1.1](https://pub.dev/packages/praxo_core)
 - [RubyGems 上的 praxo-core 0.4.0](https://rubygems.org/gems/praxo-core/versions/0.4.0)
-- [LuaRocks 上的 praxo-core 0.3.0-1](https://luarocks.org/modules/hanhhuiwen/praxo-core)
+- [LuaRocks 上的 praxo-core 0.4.0-1](https://luarocks.org/modules/hanhhuiwen/praxo-core)
 - [NuGet 上的 Praxo.Core 0.3.0](https://www.nuget.org/packages/Praxo.Core/0.3.0)
 - [Packagist 上的 axisvela/praxo-core 0.4.0](https://packagist.org/packages/axisvela/praxo-core)
 - [Hex 上的 praxo_core 0.4.0](https://hex.pm/packages/praxo_core/0.4.0)
 - [Hex 上的 praxo_core_erlang 0.4.0](https://hex.pm/packages/praxo_core_erlang/0.4.0)
 - [DUB 上的 praxo-core 0.1.0](https://code.dlang.org/packages/praxo-core)
-- [Maven Central 上的 com.axisvela:praxo-core 0.3.0](https://repo1.maven.org/maven2/com/axisvela/praxo-core/0.3.0/)
+- [Maven Central 上的 com.axisvela:praxo-core 0.4.0](https://repo1.maven.org/maven2/com/axisvela/praxo-core/0.4.0/)
 - [受治理工作区示例](https://github.com/axisvela/praxo-core/tree/main/examples/governed-workspace)
 - [受治理执行设计](../reference/governed-execution.md)
 - [OpenTelemetry 可运行示例](https://github.com/axisvela/praxo-core/tree/main/adapters/otel/example)

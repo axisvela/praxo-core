@@ -14,8 +14,8 @@ reference implementation.
 - Tier: core
 - License: MIT
 - Dependencies: Lua standard library only
-- LuaRocks page: `praxo-core@0.3.0-1`; revision `0.4.0-1` is built and published
-  by `.github/workflows/lua-release.yml` after the release secret is configured
+- LuaRocks page: `praxo-core@0.4.0-1`; releases are built and published by
+  `.github/workflows/lua-release.yml`
 
 ## Install
 
