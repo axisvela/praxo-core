@@ -35,5 +35,5 @@ Local toolchain used by the repository maintainers lives at `D:\dev\julia`.
 
 ## Release
 
-Tag shape: `julia/v0.2.0`. The tag targets `SPEC_VERSION` `0.2.0`. General
-Registry registration uses JuliaRegistrator; see [PUBLISHING.md](PUBLISHING.md).
+Tag shape: `julia/v0.2.0`. The tag targets `SPEC_VERSION` `0.2.0`. The mirror `axisvela/praxo-core-julia` registers the package through
+JuliaRegistrator; see [PUBLISHING.md](PUBLISHING.md).

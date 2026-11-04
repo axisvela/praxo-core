@@ -83,7 +83,7 @@ for real providers, platforms, and production behavior is reported separately.
 | Shell | Bridge | released | `shell/v0.1.0` | complete | Wraps the bridge CLI |
 | PHP | Core | released | `php/v0.4.0` | complete | 11 vectors, HITL interrupts, API snapshot, streaming/cancellation/SSE, and caller-provided cooperative parallel tools; source `0.4.0`, Packagist `axisvela/praxo-core==0.4.0` |
 | Swift | Core | released | `swift/v0.2.0` | complete | 11 vectors, XCTest, API snapshot; split SPM repo `axisvela/praxo-core-swift` tag `0.2.0`; SPI PR #16032 open |
-| Julia | Core | released | `julia/v0.2.0` | complete | 11 vectors, JSON.jl, API snapshot |
+| Julia | Core | released | `julia/v0.2.0` | complete | 11 vectors, JSON.jl, API snapshot; mirror `axisvela/praxo-core-julia` tag `0.2.0`; General Registry registration pending |
 | R | Core | released | `r/v0.5.0` | complete | 11 vectors, base-R JSON, policy/middleware, HITL interrupts, lifecycle cleanup, cancellation, streaming, SSE parser, bounded parallel tools, API snapshot |
 | Haskell | Core | released | `haskell/v0.2.0` | complete | 11 vectors, native tests, API snapshot/parity; GHC 9.12.2; runtime and middleware helpers |
 | Fortran | Core | released | `fortran/v0.6.0` | complete | 11 vectors, HITL interrupts, native tests, API snapshot; upstream RE2/Unicode patterns, cancellation, streaming, SSE, and caller-provided batch tools; JSON/schema limits remain documented |

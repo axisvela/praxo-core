@@ -112,6 +112,7 @@ Registry values below were checked against the public registries on 2026-11-02.
 | Lua | `lua/v0.4.0` | LuaRocks `praxo-core==0.4.0-1`; `0.3.0-1`, `0.2.0-1` also published | `lua-release` builds and installs the source rock; registry install smoke pending |
 | PHP | `php/v0.4.0` | Packagist `axisvela/praxo-core==0.4.0` published; `v0.3.0`, `v0.2.0` historical | No Composer install smoke recorded |
 | Dart | `dart/v0.1.1` | pub.dev `praxo_core==0.1.1` | Recorded for `0.1.1` |
+| Julia | `julia/v0.2.0` | General Registry registration pending via mirror `0.2.0` | Not recorded |
 | Perl | `perl/v0.1.1` | CPAN `Praxo-Core` 0.1.1 uploaded; indexing pending | Not recorded |
 | PowerShell | `powershell/v0.2.0` | PowerShell Gallery `praxo-core-ps==0.2.0` published | Not recorded |
 
@@ -133,6 +134,7 @@ its latest version matches the manifest at the release tag.
 | PHP | `0.4.0` | Packagist `0.4.0` | current |
 | Lua | rockspec `0.4.0-1`; source tag `0.4.0` | LuaRocks `0.4.0-1` | current |
 | Dart | `0.1.1` | pub.dev `0.1.1` | current |
+| Julia | `0.2.0` | General Registry pending | pending |
 | Perl | `0.1.1` | CPAN indexing pending | pending |
 | PowerShell | `0.2.0` | PowerShell Gallery `0.2.0` | current |
 
