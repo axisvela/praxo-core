@@ -166,8 +166,8 @@ Bridge、Sample 描述运行时的接入方式，不证明其语言缺乏 Framew
 - Elixir 源码标签 `elixir/v0.4.0` 在 policy、middleware、最终工具 allowlist、
   重新授权、生命周期清理、取消、流式回调、原生 SSE parser、有限并行工具和按 run
   隔离的调用上限之上增加人工审批中断决策。Hex 已发布 `praxo_core==0.4.0`；
-  `0.3.0` 和 `0.2.0` 仍可用。HexDocs 发布由
-  `.github/workflows/elixir-release.yml` 准备；首次文档上传需要 `HEX_API_KEY`。
+  `0.3.0` 和 `0.2.0` 仍可用。HexDocs 已发布：
+  <https://praxo-core.hexdocs.pm/0.4.0/>。
 - Erlang 源码标签 `erlang/v0.4.0` 在 policy、middleware、最终工具 allowlist、
   重新授权、生命周期清理、取消、流式回调、原生 SSE parser、有限并行工具和按 run
   隔离的调用上限之上增加人工审批中断决策。Hex 已发布

@@ -213,9 +213,9 @@ the installation source of truth.
   registry has no concurrency or custom spec provider.
 - Haskell has source tag `haskell/v0.2.0` with all eleven vector groups, native
   tests, API snapshot/parity, and runtime/middleware helpers. Hackage
-  publication is prepared by `.github/workflows/haskell-release.yml`; the first
-  upload requires a Hackage account and `HACKAGE_TOKEN`. Production readiness is
-  not claimed.
+  publication is prepared by `.github/workflows/haskell-release.yml`; a valid
+  `HACKAGE_TOKEN` still requires the account to be in the Hackage Uploaders
+  group. Production readiness is not claimed.
 - Delphi/Free Pascal has source tag `delphi/v0.2.1` with all eleven vector groups,
   native tests, and API snapshot/parity under Free Pascal 3.2.2. The commercial
   Delphi compiler, other targets, and package registries are not claimed.
@@ -229,17 +229,17 @@ the installation source of truth.
   hooks, middleware, final-tool allowlist checks, reauthorization, lifecycle
   cleanup, cancellation, stream callbacks, a native SSE parser, bounded parallel
   tools, and run-scoped call limits. Hex publishes `praxo_core==0.4.0`;
-  `0.3.0` and `0.2.0` remain available. HexDocs publication is prepared by
-  `.github/workflows/elixir-release.yml`; the first docs upload requires
-  `HEX_API_KEY`.
+  `0.3.0` and `0.2.0` remain available. HexDocs are published at
+  <https://praxo-core.hexdocs.pm/0.4.0/>.
 - Nim, V, and Objective-C have source tags `nim/v0.1.1`, `v/v0.1.1`, and
   `objc/v0.1.1`. They include all eleven vector groups, native tests, and API
   snapshots. Nim is listed in `nim-lang/packages` with
   `"subdir": "language/nim"`; a registry install smoke is not yet recorded. V
   and Objective-C have `v.mod` and CocoaPods metadata respectively, but their
-  registry split-repository steps are still pending. Production readiness and
-  complete Go parity are not claimed; optional Go hooks and provider adapters
-  are not included.
+  registry split-repository steps are still pending. Swift publishes SPM tag
+  `0.2.0` from the split repository `axisvela/praxo-core-swift`; Swift Package
+  Index listing is pending. Production readiness and complete Go parity are not
+  claimed; optional Go hooks and provider adapters are not included.
 - Erlang source tag `erlang/v0.4.0` adds HITL interrupt decisions to policy
   hooks, middleware, final-tool allowlist checks, reauthorization, lifecycle
   cleanup, cancellation, stream callbacks, a native SSE parser, bounded parallel

@@ -3,7 +3,8 @@
 ## Status
 
 Source tag `perl/v0.1.0` maps to CPAN distribution `Praxo-Core` version
-`0.1.0`. The release workflow is `.github/workflows/perl-release.yml`.
+`0.1.0`. PAUSE accepted the upload; MetaCPAN indexing is pending. The release
+workflow is `.github/workflows/perl-release.yml`.
 
 ## Build
 

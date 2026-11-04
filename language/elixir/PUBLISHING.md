@@ -4,7 +4,8 @@
 
 `praxo_core==0.4.0` is published from source tag `elixir/v0.4.0` with an
 interactive 2FA OTP. Hex reports `0.4.0`, `0.3.0`, `0.2.0`, and `0.1.1` for
-`praxo_core`. HexDocs publication is handled by
+`praxo_core`. HexDocs are published at
+<https://praxo-core.hexdocs.pm/0.4.0/> by
 `.github/workflows/elixir-release.yml`.
 
 ## Build
