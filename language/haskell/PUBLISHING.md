@@ -28,8 +28,8 @@ skips an already published version, otherwise uploads to Hackage.
 
 - Create a Hackage account that can maintain `praxo-core`.
 - The account must be in Hackage's Uploaders group. A valid API token alone
-  still returns `403` if the account is not an authorized uploader; contact
-  `hackage-trustees@haskell.org` to request access.
+  still returns `403` if the account is not an authorized uploader; contact the
+  Hackage trustees through the upload page to request access.
 - Configure the GitHub environment `hackage` and repository secret
   `HACKAGE_TOKEN`.
 - Do not store the token in the repository.
