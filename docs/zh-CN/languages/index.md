@@ -6,6 +6,8 @@
 
 [查看全部语言与当前状态](matrix.md){ .md-button }
 
+包名、版本、发布地址和待发布状态见[注册表发布状态](registry-status.md)。
+
 每个条目使用独立的 docs/languages/<language>/ 目录，用于 Core 页面以及后续示例、适配器说明和发布页面。
 
 选定实现的可复现一致性证据见[兼容性实验](compatibility-lab.md)，跨语言 agent 行为场景见[行为实验](behavior-lab.md)。行为覆盖分为 agent-capable、extended 和 optional 三个层级，见[支持政策](support.md)。

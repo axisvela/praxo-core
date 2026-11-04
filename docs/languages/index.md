@@ -7,6 +7,9 @@ and the [canonical scope matrix](https://github.com/axisvela/praxo-core/blob/mai
 
 [View all languages and their current status](matrix.md){ .md-button }
 
+See [registry publication status](registry-status.md) for package names, versions,
+addresses, and pending releases.
+
 Each entry has its own docs/languages/<language>/ directory for the Core page and future examples, adapter notes, and release pages.
 
 See the [compatibility lab](compatibility-lab.md) for reproducible conformance

@@ -60,6 +60,7 @@ plugins:
             Implementation Directory: 实现目录
             Language Matrix: 语言总表
             Support Policy: 支持政策
+            Registry Status: 注册表发布状态
             Compatibility Lab: 兼容性实验
             Behavior Lab: 行为实验
             Behavior Lab Matrix: 行为实验矩阵
@@ -127,6 +128,7 @@ nav:
       - Implementation Directory: languages/index.md
       - Language Matrix: languages/matrix.md
       - Support Policy: languages/support.md
+      - Registry Status: languages/registry-status.md
       - Compatibility Lab: languages/compatibility-lab.md
       - Behavior Lab: languages/behavior-lab.md
       - Behavior Lab Matrix: languages/behavior-lab-matrix.md
