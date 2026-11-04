@@ -8,12 +8,11 @@ $version = (Get-Content (Join-Path $PSScriptRoot 'VERSION') -Raw).Trim()
 $spec = (Get-Content (Join-Path $PSScriptRoot '../../spec/SPEC_VERSION') -Raw).Trim()
 $functions = [string[]]$manifest.FunctionsToExport
 [Array]::Sort($functions, [System.StringComparer]::Ordinal)
-$content = @(
+$content = (@(
     "# PRAXO-CORE PowerShell API $version",
     "# SPEC_VERSION $spec",
-    '',
-    $functions
-) -join "`n"
+    ''
+) + $functions) -join "`n"
 $content += "`n"
 $target = Join-Path $PSScriptRoot "api/$version.txt"
 
