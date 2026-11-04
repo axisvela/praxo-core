@@ -9,7 +9,7 @@ The normative contract is [`spec/`](../../spec/README.md); Go remains the
 reference implementation.
 
 - `SPEC_VERSION`: `0.2.0`
-- Core version: `0.1.0`
+- Core version: `0.1.1`
 - Tier: core
 - License: MIT
 - Dependencies: Perl core modules only (`JSON::PP`, `File::Spec`, `Cwd`)
@@ -69,6 +69,6 @@ $options->{max_steps} = 8;
 
 ## Release
 
-Tag shape: `perl/v0.1.0`. The tag targets `SPEC_VERSION` `0.2.0`. CPAN
+Tag shape: `perl/v0.1.1`. The tag targets `SPEC_VERSION` `0.2.0`. CPAN
 publication uses `.github/workflows/perl-release.yml`; see
 [PUBLISHING.md](PUBLISHING.md).

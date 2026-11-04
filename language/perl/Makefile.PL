@@ -3,9 +3,9 @@ use warnings;
 use ExtUtils::MakeMaker;
 
 WriteMakefile(
-    NAME             => 'Praxo::Agent',
+    NAME             => 'Praxo::Core',
     DISTNAME         => 'Praxo-Core',
-    VERSION          => '0.1.0',
+    VERSION          => '0.1.1',
     ABSTRACT         => 'Embeddable MIT-licensed agent framework for Perl',
     AUTHOR           => 'AxisVela <releases@axisvela.com>',
     LICENSE          => 'mit',
@@ -16,6 +16,12 @@ WriteMakefile(
         'Cwd'       => 0,
     },
     META_MERGE => {
+        provides => {
+            'Praxo::Core' => {
+                file    => 'lib/Praxo/Core.pm',
+                version => '0.1.1',
+            },
+        },
         resources => {
             homepage   => 'https://axisvela.github.io/praxo-core/',
             repository => 'https://github.com/axisvela/praxo-core',

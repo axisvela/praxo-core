@@ -2,9 +2,10 @@
 
 ## Status
 
-Source tag `perl/v0.1.0` maps to CPAN distribution `Praxo-Core` version
-`0.1.0`. PAUSE accepted the upload; MetaCPAN indexing is pending. The release
-workflow is `.github/workflows/perl-release.yml`.
+Source tag `perl/v0.1.1` maps to CPAN distribution `Praxo-Core` version
+`0.1.1`. The distribution provides the root package `Praxo::Core` and the
+`Praxo::Agent` modules. The release workflow is
+`.github/workflows/perl-release.yml`.
 
 ## Build
 
@@ -35,8 +36,8 @@ published version, otherwise uploads with `cpan-upload`.
 ## Verify
 
 ```bash
-cpanm Praxo::Agent
-perl -MPraxo::Agent -e 'print "ok\n"'
+cpanm Praxo::Core
+perl -MPraxo::Core -e 'print Praxo::Core::version(), "\n"'
 ```
 
 The MetaCPAN release page and a clean install are the publication evidence.

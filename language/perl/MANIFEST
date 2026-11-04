@@ -5,11 +5,13 @@ LICENSE
 README.md
 PUBLISHING.md
 api/0.1.0.txt
+api/0.1.1.txt
 api-snapshot.pl
 conformance/run.pl
 tests/run.pl
 t/load.t
 lib/Praxo/Agent.pm
+lib/Praxo/Core.pm
 lib/Praxo/Errors.pm
 lib/Praxo/Json.pm
 lib/Praxo/JsonSchema.pm

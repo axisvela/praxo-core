@@ -31,6 +31,8 @@ wired language to 20/20.
   `lua/v0.4.0`, `cpp/v0.4.0`, `elixir/v0.4.0`, `erlang/v0.4.0`,
   `fortran/v0.6.0`, and `cobol/v0.4.0`.
 - Released `v/v0.1.2` to align the VPM package name with `praxo-core`.
+- Released `perl/v0.1.1` with the `Praxo::Core` root package required for CPAN
+  distribution indexing.
 
 ### Fixed
 
