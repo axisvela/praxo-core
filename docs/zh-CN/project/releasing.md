@@ -121,8 +121,9 @@ Nim 通过 `nim-lang/packages` 的 PR 列表发布，使用
 `"subdir": "language/nim"`；Nimble 从 Git 标签推导版本。PowerShell Core
 发布构建 C# Core、打包 `Praxo.Core.dll`、运行包装与 API snapshot 检查，并通过
 `.github/workflows/powershell-release.yml` 发布 `praxo-core-ps`；配置 environment
-`powershell-gallery` 和 secret `PSGALLERY_API_KEY`。旧桥接包为
-`praxo-core-ps-br`。Objective-C 使用
+`powershell-gallery` 和 secret `PSGALLERY_API_KEY`。桥接包
+`praxo-core-ps-br` 由 `.github/workflows/powershell-bridge-release.yml` 构建，
+并在包内附带 Linux、Windows 和 macOS 的 `cmd/praxo-bridge` 二进制。Objective-C 使用
 `.github/workflows/cocoapods-release.yml`，配置 environment `cocoapods` 和
 secret `COCOAPODS_TRUNK_TOKEN`。Swift、V 和桥接包需要按各自 `PUBLISHING.md`
 中的拆分仓库或包格式步骤发布。

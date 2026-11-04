@@ -40,3 +40,4 @@ language/delphi/*.o
 *.cmo
 *.cmx
 *.cma
+bindings/powershell/praxo-core-ps-br/bin/

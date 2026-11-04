@@ -146,8 +146,9 @@ Nim publication uses the `nim-lang/packages` pull-request list with
 Core publication builds the C# Core, bundles `Praxo.Core.dll`, runs wrapper and
 API snapshot checks, and publishes `praxo-core-ps` through
 `.github/workflows/powershell-release.yml` with environment
-`powershell-gallery` and secret `PSGALLERY_API_KEY`. The legacy bridge package
-is `praxo-core-ps-br`. Objective-C publication
+`powershell-gallery` and secret `PSGALLERY_API_KEY`. The bridge package
+`praxo-core-ps-br` is built by `.github/workflows/powershell-bridge-release.yml`
+with bundled `cmd/praxo-bridge` binaries for Linux, Windows, and macOS. Objective-C publication
 uses `.github/workflows/cocoapods-release.yml` with environment `cocoapods` and
 secret `COCOAPODS_TRUNK_TOKEN`. Swift, V, and bridge packages require the
 split-repository or package-format steps recorded in each implementation's

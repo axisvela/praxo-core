@@ -149,6 +149,7 @@ for real providers, platforms, and production behavior is reported separately.
 | Julia | `julia-conformance` | Julia tests, 11 vectors, API snapshot |
 | R | `r-conformance` | R tests, 11 vectors, API snapshot |
 | PowerShell Core | `powershell-core` | C# Core build, 11 vectors, C# behavior tests, PowerShell API snapshot, wrapper smoke tests |
+| PowerShell Bridge | `powershell-bridge-release` | bridge tests, bundled Linux/Windows/macOS binaries, PowerShell Gallery publication |
 | Shell / PowerShell Bridge | `bridge` | bridge tests, both wrappers |
 | Fortran | `fortran-conformance` | native tests, 11 vector groups, API snapshot, installed RE2 bridge and Unicode tests; source release tagged `fortran/v0.6.0` |
 | COBOL | `cobol-conformance` | 11 vectors, API snapshot, native/behavior/SSE/tooling tests |

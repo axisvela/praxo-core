@@ -4,13 +4,15 @@ Bridge package `praxo-core-ps-br`, a thin wrapper over `praxo-bridge` following
 `spec/bridge.md`.
 
 ```powershell
-Import-Module ./bindings/powershell/praxo-core-ps-br/praxo-core-ps-br.psm1
+Install-Module praxo-core-ps-br -Scope CurrentUser
 '{"content":"{\"name\":\"echo\",\"input\":{}}"}'
     | Invoke-PraxoBridge -Arguments @('toolcall', 'parse')
     | ConvertFrom-Json
 ```
 
-Set `PRAXO_BRIDGE_BIN` to use a prebuilt binary. Otherwise the module runs
+The module ships `cmd/praxo-bridge` binaries for Linux, Windows, and macOS
+under `bin/<rid>/`. Set `PRAXO_BRIDGE_BIN` to override the bundled binary.
+From a source checkout without a bundled binary, the module falls back to
 `go run ./cmd/praxo-bridge`.
 
 The module preserves stdout JSON and throws when the bridge exits non-zero.
