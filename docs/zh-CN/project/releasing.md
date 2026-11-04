@@ -87,7 +87,7 @@ trusted publisher，workflow 文件名填 `rust-release.yml`，environment 填
 Ruby 使用 RubyGems Trusted Publishing，工作流为
 `.github/workflows/ruby-release.yml`。`ruby/vX.Y.Z` 标签必须与
 `language/ruby/VERSION` 一致。Pending trusted publisher 的 workflow 文件名填
-`ruby-release.yml`，environment 填 `release`；工作流会运行 conformance、API
+`ruby-release.yml`，environment 填 `rubygems`；工作流会运行 conformance、API
 snapshot、原生测试、构建 gem，并使用短期 RubyGems token 推送。手动触发默认只
 构建 `build-only`。
 

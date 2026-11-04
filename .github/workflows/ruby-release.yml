@@ -63,7 +63,7 @@ jobs:
     if: github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && inputs.target == 'publish')
     runs-on: ubuntu-latest
     environment:
-      name: release
+      name: rubygems
       url: https://rubygems.org/gems/praxo-core
     permissions:
       contents: read

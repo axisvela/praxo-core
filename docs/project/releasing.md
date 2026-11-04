@@ -107,7 +107,7 @@ dispatch defaults to `build-only`.
 Ruby publication uses RubyGems Trusted Publishing through
 `.github/workflows/ruby-release.yml`. A `ruby/vX.Y.Z` tag must match
 `language/ruby/VERSION`. Configure the pending trusted publisher with workflow
-filename `ruby-release.yml` and environment `release`; the workflow runs
+filename `ruby-release.yml` and environment `rubygems`; the workflow runs
 conformance, the API snapshot, the native tests, builds the gem, and pushes it
 with a short-lived RubyGems token. Manual dispatch defaults to `build-only`.
 
