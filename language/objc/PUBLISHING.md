@@ -22,8 +22,9 @@ The podspec uses the main repository tag and includes `Praxo*.{h,m}` from
 pod spec lint language/objc/PraxoCore.podspec
 ```
 
-Configure the GitHub environment `cocoapods` and repository secret
-`COCOAPODS_TRUNK_TOKEN` for CI publication. Do not commit the token.
+CI publication uses `.github/workflows/cocoapods-release.yml`. Configure the
+GitHub environment `cocoapods` and repository secret
+`COCOAPODS_TRUNK_TOKEN`. Do not commit the token.
 
 ## Swift Package Manager
 

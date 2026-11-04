@@ -118,8 +118,12 @@ R 使用 `.github/workflows/r-release.yml` 执行 `R CMD build` 和 `R CMD check
 r-universe 从 GitHub 仓库的 `language/r` 子目录构建；CRAN 提交仍需单独人工审核。
 
 Nim 通过 `nim-lang/packages` 的 PR 列表发布，使用
-`"subdir": "language/nim"`；Nimble 从 Git 标签推导版本。Swift、V、Objective-C、
-PowerShell 和桥接包需要按各自 `PUBLISHING.md` 中的拆分仓库或包格式步骤发布。
+`"subdir": "language/nim"`；Nimble 从 Git 标签推导版本。PowerShell 使用
+`.github/workflows/powershell-release.yml`，配置 environment `powershell-gallery`
+和 secret `PSGALLERY_API_KEY`。Objective-C 使用
+`.github/workflows/cocoapods-release.yml`，配置 environment `cocoapods` 和
+secret `COCOAPODS_TRUNK_TOKEN`。Swift、V 和桥接包需要按各自 `PUBLISHING.md`
+中的拆分仓库或包格式步骤发布。
 
 升级前查看[版本总览](../releases/index.md)、[兼容性](compatibility.md)和
 [Core 支持政策](../languages/support.md)。产品版本与框架版本独立。

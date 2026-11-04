@@ -1,0 +1,85 @@
+name: powershell-release
+
+on:
+  push:
+    tags:
+      - "powershell/v*"
+  workflow_dispatch:
+    inputs:
+      target:
+        description: Publish target
+        required: true
+        default: build-only
+        type: choice
+        options:
+          - build-only
+          - publish
+
+permissions:
+  contents: read
+
+concurrency:
+  group: powershell-release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: "1.26.10"
+      - name: Verify manifest version and tag
+        shell: pwsh
+        run: |
+          $manifest = Import-PowerShellDataFile ./bindings/powershell/PraxoBridge.psd1
+          $version = $manifest.ModuleVersion
+          if ($env:GITHUB_REF_TYPE -eq "tag") {
+            if ("powershell/v$version" -ne $env:GITHUB_REF_NAME) {
+              throw "manifest version does not match tag"
+            }
+          }
+      - name: Validate module
+        shell: pwsh
+        run: |
+          Import-Module ./bindings/powershell/PraxoBridge.psm1 -Force
+          Invoke-PraxoBridge -Arguments @('version')
+      - uses: actions/upload-artifact@v4
+        with:
+          name: powershell-module
+          path: bindings/powershell
+          if-no-files-found: error
+
+  publish:
+    needs: build
+    if: github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && inputs.target == 'publish')
+    runs-on: ubuntu-latest
+    environment:
+      name: powershell-gallery
+      url: https://www.powershellgallery.com/packages/PraxoBridge
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check published version
+        id: registry
+        shell: pwsh
+        run: |
+          $manifest = Import-PowerShellDataFile ./bindings/powershell/PraxoBridge.psd1
+          $version = $manifest.ModuleVersion
+          $published = Find-Module -Name PraxoBridge -Repository PSGallery -ErrorAction SilentlyContinue
+          if ($published -and $published.Version.ToString() -eq $version) {
+            "already_published=true" >> $env:GITHUB_OUTPUT
+            "PraxoBridge@$version is already published; skipping publish"
+          } else {
+            "already_published=false" >> $env:GITHUB_OUTPUT
+          }
+      - name: Publish to PowerShell Gallery
+        if: steps.registry.outputs.already_published != 'true'
+        shell: pwsh
+        env:
+          PSGALLERY_API_KEY: ${{ secrets.PSGALLERY_API_KEY }}
+        run: |
+          if (-not $env:PSGALLERY_API_KEY) { throw "PSGALLERY_API_KEY is not configured" }
+          Publish-Module -Path ./bindings/powershell -Repository PSGallery -NuGetApiKey $env:PSGALLERY_API_KEY

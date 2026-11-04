@@ -142,9 +142,13 @@ r-universe builds from the GitHub repository and `language/r` subdirectory; CRAN
 submission is a separate manual review after the same checks pass.
 
 Nim publication uses the `nim-lang/packages` pull-request list with
-`"subdir": "language/nim"`; Nimble derives versions from Git tags. Swift, V,
-Objective-C, PowerShell, and bridge packages require the split-repository or
-package-format steps recorded in each implementation's `PUBLISHING.md`.
+`"subdir": "language/nim"`; Nimble derives versions from Git tags. PowerShell
+publication uses `.github/workflows/powershell-release.yml` with environment
+`powershell-gallery` and secret `PSGALLERY_API_KEY`. Objective-C publication
+uses `.github/workflows/cocoapods-release.yml` with environment `cocoapods` and
+secret `COCOAPODS_TRUNK_TOKEN`. Swift, V, and bridge packages require the
+split-repository or package-format steps recorded in each implementation's
+`PUBLISHING.md`.
 
 A source tag or successful build does not establish that PyPI publication
 occurred.

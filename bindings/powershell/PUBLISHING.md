@@ -12,7 +12,8 @@ PowerShell Gallery uses a Microsoft account and an API key:
 1. Register or sign in at <https://www.powershellgallery.com/>.
 2. Create an API key for the `PraxoBridge` package.
 3. Configure the GitHub environment `powershell-gallery` and repository secret
-   `PSGALLERY_API_KEY`.
+   `PSGALLERY_API_KEY`; CI publication uses
+   `.github/workflows/powershell-release.yml`.
 4. Publish:
 
 ```powershell

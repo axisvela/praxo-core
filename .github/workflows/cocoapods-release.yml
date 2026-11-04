@@ -1,0 +1,82 @@
+name: cocoapods-release
+
+on:
+  push:
+    tags:
+      - "objc/v*"
+  workflow_dispatch:
+    inputs:
+      target:
+        description: Publish target
+        required: true
+        default: build-only
+        type: choice
+        options:
+          - build-only
+          - publish
+
+permissions:
+  contents: read
+
+concurrency:
+  group: cocoapods-release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.4"
+          bundler-cache: false
+      - name: Install CocoaPods
+        run: gem install cocoapods --no-document
+      - name: Verify podspec version and tag
+        shell: bash
+        run: |
+          version="$(ruby -e 'spec = Gem::Specification.load("language/objc/PraxoCore.podspec"); print spec.version')"
+          test -n "${version}"
+          if [ "${GITHUB_REF_TYPE}" = "tag" ]; then
+            test "objc/v${version}" = "${GITHUB_REF_NAME}"
+          fi
+      - name: Lint podspec
+        run: pod spec lint language/objc/PraxoCore.podspec --allow-warnings
+
+  publish:
+    needs: build
+    if: github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && inputs.target == 'publish')
+    runs-on: macos-latest
+    environment:
+      name: cocoapods
+      url: https://cocoapods.org/pods/PraxoCore
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.4"
+          bundler-cache: false
+      - name: Install CocoaPods
+        run: gem install cocoapods --no-document
+      - name: Check published version
+        id: registry
+        shell: bash
+        run: |
+          version="$(ruby -e 'spec = Gem::Specification.load("language/objc/PraxoCore.podspec"); print spec.version')"
+          if pod trunk info PraxoCore 2>/dev/null | grep -Fq "${version}"; then
+            echo "already_published=true" >> "$GITHUB_OUTPUT"
+            echo "PraxoCore@${version} is already published; skipping push"
+          else
+            echo "already_published=false" >> "$GITHUB_OUTPUT"
+          fi
+      - name: Publish to CocoaPods Trunk
+        if: steps.registry.outputs.already_published != 'true'
+        env:
+          COCOAPODS_TRUNK_TOKEN: ${{ secrets.COCOAPODS_TRUNK_TOKEN }}
+        shell: bash
+        run: |
+          test -n "${COCOAPODS_TRUNK_TOKEN}"
+          pod trunk push language/objc/PraxoCore.podspec --allow-warnings
