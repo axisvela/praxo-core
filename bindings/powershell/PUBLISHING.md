@@ -2,8 +2,10 @@
 
 ## Status
 
-Source tag `powershell/v0.1.0` maps to PowerShell Gallery package
-`praxo-core-ps-br` version `0.1.0`. The bridge package is not yet published.
+Source tag `powershell/v0.1.0` and bridge tag `powershell-br/v0.1.0` map to
+PowerShell Gallery package `praxo-core-ps-br` version `0.1.0`. The bridge
+package is published with bundled `cmd/praxo-bridge` binaries for Linux,
+Windows, and macOS.
 
 ## Bundled binaries
 
