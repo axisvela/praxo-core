@@ -143,8 +143,11 @@ submission is a separate manual review after the same checks pass.
 
 Nim publication uses the `nim-lang/packages` pull-request list with
 `"subdir": "language/nim"`; Nimble derives versions from Git tags. PowerShell
-publication uses `.github/workflows/powershell-release.yml` with environment
-`powershell-gallery` and secret `PSGALLERY_API_KEY`. Objective-C publication
+Core publication builds the C# Core, bundles `Praxo.Core.dll`, runs wrapper and
+API snapshot checks, and publishes `praxo-core-ps` through
+`.github/workflows/powershell-release.yml` with environment
+`powershell-gallery` and secret `PSGALLERY_API_KEY`. The legacy bridge package
+is `praxo-core-ps-br`. Objective-C publication
 uses `.github/workflows/cocoapods-release.yml` with environment `cocoapods` and
 secret `COCOAPODS_TRUNK_TOKEN`. Swift, V, and bridge packages require the
 split-repository or package-format steps recorded in each implementation's

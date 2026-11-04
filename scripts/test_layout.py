@@ -7,7 +7,7 @@ import yaml
 
 
 ROOT = Path(__file__).resolve().parents[1]
-LANGUAGES = "python typescript java rust c cpp csharp php ruby perl lua dart swift julia r d zig cobol fortran haskell matlab delphi ocaml objc elixir erlang nim v".split()
+LANGUAGES = "python typescript java rust c cpp csharp php ruby perl lua dart swift julia r d zig cobol fortran haskell matlab delphi ocaml objc elixir erlang nim v powershell".split()
 BINDINGS = ["shell", "powershell", "lisp", "tcl", "prolog"]
 SAMPLES = ["javascript", "kotlin", "scala", "groovy", "clojure", "fsharp", "opencl"]
 

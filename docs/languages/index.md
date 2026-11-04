@@ -66,7 +66,7 @@ wire-only scope requires documented technical limitations. See the
 | Visual Basic | [Sample using .NET](visual-basic/index.md) |
 | F# | [Sample using .NET](fsharp/index.md) |
 | Shell | [Runtime bridge](shell/index.md) |
-| PowerShell | [Runtime bridge](powershell/index.md) |
+| PowerShell | [PowerShell Core](powershell/index.md) |
 | Lisp | [SBCL runtime bridge](lisp/index.md) |
 | Tcl | [Runtime bridge](tcl/index.md) |
 | Prolog | [SWI-Prolog runtime bridge](prolog/index.md) |

@@ -7,6 +7,7 @@
 | --- | --- |
 | `pkg/`、`internal/`、`cmd/` | Go 参考实现与桥接 CLI |
 | `language/<language>/` | 独立语言实现、测试、构建产物和语言级 `CHANGELOG.md` |
+| `language/powershell/` | 基于 C# Core 的 PowerShell Core 包装 |
 | `bindings/shell/`、`bindings/powershell/` | 运行时桥接 |
 | `examples/javascript/`、`examples/kotlin/`、`examples/scala/`、`examples/groovy/`、`examples/clojure/`、`examples/fsharp/`、`examples/opencl/` | 复用 TypeScript、Java、.NET 或 C 的示例 |
 | `adapters/` | 可选集成 |

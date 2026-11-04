@@ -8,7 +8,8 @@ unchanged. This is a source-tree migration, not a new framework release.
 | --- | --- |
 | `pkg/`, `internal/`, `cmd/` | Go reference implementation and bridge CLI |
 | `language/<language>/` | Independent language implementations, tests, build output, per-language `CHANGELOG.md` |
-| `bindings/shell/`, `bindings/powershell/` | Wrappers over the bridge runtime |
+| `language/powershell/` | PowerShell Core wrapper over the C# Core |
+| `bindings/shell/`, `bindings/powershell/` | Bridge wrappers over the bridge runtime |
 | `examples/javascript/`, `examples/kotlin/`, `examples/scala/`, `examples/groovy/`, `examples/clojure/`, `examples/fsharp/`, `examples/opencl/` | Samples consuming TypeScript, Java, .NET, or C |
 | `adapters/` | Optional integrations |
 | `spec/` | Normative contract, shared vectors, and parity inventories |

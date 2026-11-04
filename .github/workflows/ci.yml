@@ -641,7 +641,20 @@ jobs:
       - run: go test ./internal/bridge ./cmd/praxo-bridge
       - run: go run ./cmd/praxo-bridge version
       - run: bash bindings/shell/praxo-bridge.sh version
-      - run: pwsh -NoProfile -Command "Import-Module ./bindings/powershell/PraxoBridge.psm1; Invoke-PraxoBridge -Arguments @('version')"
+      - run: pwsh -NoProfile -Command "Import-Module ./bindings/powershell/praxo-core-ps-br/praxo-core-ps-br.psm1; Invoke-PraxoBridge -Arguments @('version')"
+
+  powershell-core:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "8.0.x"
+      - run: dotnet build language/csharp/Praxo.Core/Praxo.Core.csproj -c Release
+      - run: dotnet run --project language/csharp/Praxo.Conformance -c Release
+      - run: dotnet run --project language/csharp/Praxo.Tests -c Release
+      - run: pwsh -NoProfile -File language/powershell/tests/run.ps1
+      - run: pwsh -NoProfile -File language/powershell/api-snapshot.ps1 -Check
 
   rust-conformance:
     runs-on: ubuntu-latest

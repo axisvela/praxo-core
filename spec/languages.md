@@ -79,7 +79,7 @@ for real providers, platforms, and production behavior is reported separately.
 | C | Core | released | `c/v0.6.0` | complete | 11 vectors, native tests; public Core API plus wire JSON primitives; policy/middleware/lifecycle, HITL interrupt decisions, cancellation, streaming, SSE, bounded parallel tools (pthread on Unix; sequential on Windows) |
 | C# | Core (.NET) | released | `csharp/v0.3.0` | complete | 11 vectors, HITL interrupts, API snapshot, OpenAI adapter, streaming/cancellation/parallel tools; source `0.3.0`, NuGet `Praxo.Core==0.3.0` |
 | Visual Basic | Sample (.NET) | released | `csharp/v0.1.1` | sample | VB.NET consumer sample in `language/csharp/samples` |
-| PowerShell | Bridge | released | `powershell/v0.1.0` | complete | Wraps the bridge CLI |
+| PowerShell | Core (.NET) | released | `powershell/v0.2.0` | complete | C# shared-runtime Core wrapper; package `praxo-core-ps`; 11 vectors via C# Core; PowerShell API snapshot/parity; agent loop delegated to C# Core |
 | Shell | Bridge | released | `shell/v0.1.0` | complete | Wraps the bridge CLI |
 | PHP | Core | released | `php/v0.4.0` | complete | 11 vectors, HITL interrupts, API snapshot, streaming/cancellation/SSE, and caller-provided cooperative parallel tools; source `0.4.0`, Packagist `axisvela/praxo-core==0.4.0` |
 | Swift | Core | released | `swift/v0.2.0` | complete | 11 vectors, XCTest, API snapshot; split SPM repo `axisvela/praxo-core-swift` tag `0.2.0`; SPI PR #16032 open |
@@ -148,7 +148,8 @@ for real providers, platforms, and production behavior is reported separately.
 | Swift | `swift-conformance` | swift test, 11 vectors, API snapshot |
 | Julia | `julia-conformance` | Julia tests, 11 vectors, API snapshot |
 | R | `r-conformance` | R tests, 11 vectors, API snapshot |
-| Shell / PowerShell | `bridge` | bridge tests, both wrappers |
+| PowerShell Core | `powershell-core` | C# Core build, 11 vectors, C# behavior tests, PowerShell API snapshot, wrapper smoke tests |
+| Shell / PowerShell Bridge | `bridge` | bridge tests, both wrappers |
 | Fortran | `fortran-conformance` | native tests, 11 vector groups, API snapshot, installed RE2 bridge and Unicode tests; source release tagged `fortran/v0.6.0` |
 | COBOL | `cobol-conformance` | 11 vectors, API snapshot, native/behavior/SSE/tooling tests |
 | Haskell | `haskell-conformance` | 11 vectors, native tests, source API/parity, Cabal build; source release tagged `haskell/v0.2.0` |

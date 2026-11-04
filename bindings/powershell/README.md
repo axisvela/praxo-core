@@ -1,9 +1,10 @@
 # PowerShell Bridge
 
-Thin module over `praxo-bridge` following `spec/bridge.md`.
+Bridge package `praxo-core-ps-br`, a thin wrapper over `praxo-bridge` following
+`spec/bridge.md`.
 
 ```powershell
-Import-Module ./bindings/powershell/PraxoBridge.psm1
+Import-Module ./bindings/powershell/praxo-core-ps-br/praxo-core-ps-br.psm1
 '{"content":"{\"name\":\"echo\",\"input\":{}}"}'
     | Invoke-PraxoBridge -Arguments @('toolcall', 'parse')
     | ConvertFrom-Json

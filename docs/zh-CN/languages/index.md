@@ -61,7 +61,7 @@
 | Visual Basic | [复用 .NET](visual-basic/index.md) |
 | F# | [复用 .NET](fsharp/index.md) |
 | Shell | [运行时桥接](shell/index.md) |
-| PowerShell | [运行时桥接](powershell/index.md) |
+| PowerShell | [PowerShell Core](powershell/index.md) |
 | Lisp | [SBCL 运行时桥接](lisp/index.md) |
 | Tcl | [运行时桥接](tcl/index.md) |
 | Prolog | [SWI-Prolog 运行时桥接](prolog/index.md) |

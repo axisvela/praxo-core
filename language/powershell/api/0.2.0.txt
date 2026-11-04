@@ -1,0 +1,36 @@
+# PRAXO-CORE PowerShell API 0.2.0
+# SPEC_VERSION 0.2.0
+
+Add-PraxoMemoryRecord
+ConvertFrom-PraxoCheckpoint
+ConvertFrom-PraxoJson
+ConvertTo-PraxoCheckpoint
+ConvertTo-PraxoJson
+Find-PraxoMemory
+Get-PraxoCoreInfo
+Get-PraxoPluginManifest
+Get-PraxoStreamKinds
+Get-PraxoTokenEstimate
+Get-PraxoToolCall
+Invoke-PraxoAgent
+Invoke-PraxoAgentStream
+Invoke-PraxoContextCompact
+Invoke-PraxoPiiRedaction
+New-PraxoAgent
+New-PraxoAgentOptions
+New-PraxoCheckpointAllowlist
+New-PraxoContextBudget
+New-PraxoFuncTool
+New-PraxoMemoryRecord
+New-PraxoMemoryStore
+New-PraxoPathChecker
+New-PraxoPathGrant
+New-PraxoPiiRedactor
+New-PraxoSession
+New-PraxoStaticModel
+New-PraxoToolRegistry
+Register-PraxoCheckpointType
+Register-PraxoTool
+Remove-PraxoToolCallMarkup
+Test-PraxoJsonSchema
+Test-PraxoPath

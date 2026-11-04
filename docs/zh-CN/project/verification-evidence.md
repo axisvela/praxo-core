@@ -31,6 +31,7 @@
 | Lua 已发布 rock | LuaRocks 已通过 `.github/workflows/lua-release.yml` 发布 `praxo-core==0.4.0-1`；工作流构建 source rock、在干净目录安装并运行安装后 smoke；`0.3.0-1` 和 `0.2.0-1` 仍可用 | Registry 发布 + CI 安装 smoke | 尚未记录使用已发布 rock 的 registry 安装 smoke；仅一个平台；不是独立消费者；不含 provider 或生产证据 |
 | PHP 已发布包 | Packagist 从 split 标签 `v0.4.0` 发布 `axisvela/praxo-core==0.4.0`；`v0.3.0` 和 `v0.2.0` 仍可用 | Registry 发布 | 未记录 Composer 安装 smoke；仅一个平台；不是独立消费者；不含 provider 或生产证据 |
 | C# 已发布包 | `Praxo.Core==0.3.0` 由 GitHub Actions Trusted Publishing 从源码标签 `csharp/v0.3.0` 完成构建、测试、打包并推送到 NuGet | CI + registry | 本地无 .NET SDK，未执行消费者安装 smoke；一个包版本；不含 provider 或生产证据 |
+| PowerShell Core | PowerShell 7.4/.NET 8 模块包装 C# Core；CI 构建 C# Core，运行 C# conformance/behavior 套件、包装 smoke 和 PowerShell API snapshot | Contract/unit + CI | 共享 C# 运行时，不是独立 agent loop；行为证据继承自 C# Core；尚无 PowerShell Gallery 或 provider 证据 |
 | Elixir 已发布包 | Hex 已从源码标签 `elixir/v0.4.0` 发布 `praxo_core==0.4.0`；`0.3.0` 和 `0.2.0` 仍可用。历史 `0.1.1` 曾在干净 Mix 项目安装 | Registry 发布 + 历史本地安装 smoke | `0.4.0` 未重新执行消费者安装 smoke；HexDocs 未发布；仅一个平台；非独立消费者；不含 provider 或生产证据 |
 | Erlang 已发布包 | Hex 已从源码标签 `erlang/v0.4.0` 发布 `praxo_core_erlang==0.4.0`；`0.3.1` 和 `0.2.0` 仍可用。历史 `0.1.1` 曾由干净 rebar3 项目获取 | Registry 发布 + 历史本地安装 smoke | `0.4.0` 未重新执行消费者安装 smoke；仅一个平台；非独立消费者；不含 provider 或生产证据 |
 | D 已发布包 | 从 DUB/code.dlang.org 使用 `dub fetch praxo-core` 获取 `praxo-core==0.1.0` | Registry 元数据 + 获取 | 未执行编译或独立消费者 smoke；一个包版本；不含 provider 或生产证据 |

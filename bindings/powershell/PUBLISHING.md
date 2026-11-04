@@ -2,25 +2,20 @@
 
 ## Status
 
-Source tag `powershell/v0.1.0` maps to module `PraxoBridge` version `0.1.0`.
-The module is not yet published to the PowerShell Gallery.
+Source tag `powershell/v0.1.0` maps to PowerShell Gallery package
+`praxo-core-ps-br` version `0.1.0`. The bridge package is not yet published.
 
 ## PowerShell Gallery
 
-PowerShell Gallery uses a Microsoft account and an API key:
-
 1. Register or sign in at <https://www.powershellgallery.com/>.
-2. Create an API key for the `PraxoBridge` package.
-3. Configure the GitHub environment `powershell-gallery` and repository secret
-   `PSGALLERY_API_KEY`; CI publication uses
-   `.github/workflows/powershell-release.yml`.
+2. Create an API key for `praxo-core-ps-br`.
+3. Configure GitHub environment `powershell-gallery` and secret
+   `PSGALLERY_API_KEY`.
 4. Publish:
 
 ```powershell
-Publish-Module -Path bindings/powershell -Repository PSGallery -NuGetApiKey $env:PSGALLERY_API_KEY
+Publish-Module -Path bindings/powershell/praxo-core-ps-br -Repository PSGallery -NuGetApiKey $env:PSGALLERY_API_KEY
 ```
 
-The manifest is `PraxoBridge.psd1`; keep `ModuleVersion` aligned with the
-`powershell/vX.Y.Z` tag.
-
+Keep the manifest `ModuleVersion` aligned with the `powershell/vX.Y.Z` tag.
 Do not commit the API key.

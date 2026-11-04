@@ -27,28 +27,31 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-go@v5
+      - uses: actions/setup-dotnet@v4
         with:
-          go-version: "1.26.10"
+          dotnet-version: "8.0.x"
       - name: Verify manifest version and tag
         shell: pwsh
         run: |
-          $manifest = Import-PowerShellDataFile ./bindings/powershell/PraxoBridge.psd1
+          $manifest = Import-PowerShellDataFile ./language/powershell/praxo-core-ps/praxo-core-ps.psd1
           $version = $manifest.ModuleVersion
           if ($env:GITHUB_REF_TYPE -eq "tag") {
             if ("powershell/v$version" -ne $env:GITHUB_REF_NAME) {
               throw "manifest version does not match tag"
             }
           }
-      - name: Validate module
-        shell: pwsh
-        run: |
-          Import-Module ./bindings/powershell/PraxoBridge.psm1 -Force
-          Invoke-PraxoBridge -Arguments @('version')
+      - name: Build C# Core
+        run: dotnet build language/csharp/Praxo.Core/Praxo.Core.csproj -c Release
+      - name: Bundle C# Core assembly
+        run: Copy-Item language/csharp/Praxo.Core/bin/Release/net8.0/Praxo.Core.dll language/powershell/praxo-core-ps/
+      - name: Run wrapper tests
+        run: pwsh -NoProfile -File language/powershell/tests/run.ps1
+      - name: Check API snapshot
+        run: pwsh -NoProfile -File language/powershell/api-snapshot.ps1 -Check
       - uses: actions/upload-artifact@v4
         with:
-          name: powershell-module
-          path: bindings/powershell
+          name: powershell-core-module
+          path: language/powershell/praxo-core-ps
           if-no-files-found: error
 
   publish:
@@ -57,21 +60,24 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: powershell-gallery
-      url: https://www.powershellgallery.com/packages/PraxoBridge
+      url: https://www.powershellgallery.com/packages/praxo-core-ps
     permissions:
       contents: read
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: powershell-core-module
+          path: module/praxo-core-ps
       - name: Check published version
         id: registry
         shell: pwsh
         run: |
-          $manifest = Import-PowerShellDataFile ./bindings/powershell/PraxoBridge.psd1
+          $manifest = Import-PowerShellDataFile ./module/praxo-core-ps/praxo-core-ps.psd1
           $version = $manifest.ModuleVersion
-          $published = Find-Module -Name PraxoBridge -Repository PSGallery -ErrorAction SilentlyContinue
+          $published = Find-Module -Name praxo-core-ps -Repository PSGallery -ErrorAction SilentlyContinue
           if ($published -and $published.Version.ToString() -eq $version) {
             "already_published=true" >> $env:GITHUB_OUTPUT
-            "PraxoBridge@$version is already published; skipping publish"
+            "praxo-core-ps@$version is already published; skipping publish"
           } else {
             "already_published=false" >> $env:GITHUB_OUTPUT
           }
@@ -82,4 +88,4 @@ jobs:
           PSGALLERY_API_KEY: ${{ secrets.PSGALLERY_API_KEY }}
         run: |
           if (-not $env:PSGALLERY_API_KEY) { throw "PSGALLERY_API_KEY is not configured" }
-          Publish-Module -Path ./bindings/powershell -Repository PSGallery -NuGetApiKey $env:PSGALLERY_API_KEY
+          Publish-Module -Path ./module/praxo-core-ps -Repository PSGallery -NuGetApiKey $env:PSGALLERY_API_KEY
