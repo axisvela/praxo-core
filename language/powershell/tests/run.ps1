@@ -39,7 +39,7 @@ Register-PraxoCheckpointType -Allowlist $allowlist -TypeName 'spec.payload'
 $payload = ConvertFrom-PraxoJson '{"value":"x"}'
 $encoded = ConvertTo-PraxoCheckpoint -Allowlist $allowlist -TypeName 'spec.payload' -Value $payload
 $decoded = ConvertFrom-PraxoCheckpoint -Allowlist $allowlist -Data $encoded
-Assert-True ($decoded['value'].ToString() -eq 'x') 'checkpoint roundtrip'
+Assert-True ($decoded.AsObject()['value'].ToString() -eq 'x') 'checkpoint roundtrip'
 
 $root = Join-Path ([System.IO.Path]::GetTempPath()) 'praxo-powershell-policy'
 $grant = New-PraxoPathGrant -Root $root -Access 'readwrite'
