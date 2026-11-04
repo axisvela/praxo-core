@@ -2,12 +2,11 @@ param([switch]$Check)
 
 $ErrorActionPreference = 'Stop'
 $modulePath = Join-Path $PSScriptRoot 'praxo-core-ps/praxo-core-ps.psd1'
-Import-Module $modulePath -Force
+$manifest = Import-PowerShellDataFile $modulePath
 
 $version = (Get-Content (Join-Path $PSScriptRoot 'VERSION') -Raw).Trim()
 $spec = (Get-Content (Join-Path $PSScriptRoot '../../spec/SPEC_VERSION') -Raw).Trim()
-$functions = [string[]](Get-Command -Module praxo-core-ps -CommandType Function |
-    Select-Object -ExpandProperty Name)
+$functions = [string[]]$manifest.FunctionsToExport
 [Array]::Sort($functions, [System.StringComparer]::Ordinal)
 $content = @(
     "# PRAXO-CORE PowerShell API $version",
