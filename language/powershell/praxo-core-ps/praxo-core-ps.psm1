@@ -122,7 +122,7 @@ function Register-PraxoTool {
 function ConvertFrom-PraxoJson {
     param([Parameter(Mandatory = $true)][string]$Text)
     Import-PraxoCoreAssembly
-    [Praxo.Core.Json]::Parse($Text)
+    Write-Output -NoEnumerate ([Praxo.Core.Json]::Parse($Text))
 }
 
 function ConvertTo-PraxoJson {

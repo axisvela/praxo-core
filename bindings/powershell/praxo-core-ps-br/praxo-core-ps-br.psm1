@@ -8,7 +8,7 @@ function Invoke-PraxoBridge {
     )
 
     process {
-        $root = Split-Path -Parent (Split-Path -Parent $PSScriptRoot)
+        $root = Split-Path -Parent (Split-Path -Parent (Split-Path -Parent $PSScriptRoot))
         if ($env:PRAXO_BRIDGE_BIN) {
             $executable = $env:PRAXO_BRIDGE_BIN
             $commandArgs = $Arguments

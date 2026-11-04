@@ -15,9 +15,9 @@ Core assembly; PowerShell exposes typed constructors and command wrappers.
 | `plugin.ParseManifest` | `Get-PraxoPluginManifest` | parity | P1 |
 | `memory.Store` | `New-PraxoMemoryStore`, `Add-PraxoMemoryRecord`, `Find-PraxoMemory` | parity | P1 |
 | `event.Event` | C# `Praxo.Core.Event` | parity | P1 |
-| `agent/stream.Part` | `Get-PraxoStreamKinds` | partial | P1 |
+| `agent/stream.StreamPart` | `Get-PraxoStreamKinds` | partial | P1 |
 | `checkpoint.Allowlist` | `New-PraxoCheckpointAllowlist`, `ConvertTo-PraxoCheckpoint`, `ConvertFrom-PraxoCheckpoint` | parity | P1 |
 | `policy.PathChecker` | `New-PraxoPathChecker`, `Test-PraxoPath` | parity | P1 |
-| `agent/context.Budget` | `New-PraxoContextBudget`, `Invoke-PraxoContextCompact` | parity | P1 |
-| `agent/middleware.Pii` | `New-PraxoPiiRedactor`, `Invoke-PraxoPiiRedaction` | parity | P1 |
+| `agent/context.ContextBudget` | `New-PraxoContextBudget`, `Invoke-PraxoContextCompact` | parity | P1 |
+| `agent/middleware.PIIMiddleware` | `New-PraxoPiiRedactor`, `Invoke-PraxoPiiRedaction` | parity | P1 |
 | `agent.Agent` | `New-PraxoAgent`, `Invoke-PraxoAgent`, `Invoke-PraxoAgentStream` | parity | P1 |
