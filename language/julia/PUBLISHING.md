@@ -3,8 +3,9 @@
 ## Status
 
 Source tag `julia/v0.2.0` maps to Julia package `PraxoCore` version `0.2.0`.
-The package is mirrored at `axisvela/praxo-core-julia` tag `0.2.0` and is not
-yet in the General Registry.
+The package is mirrored at `axisvela/praxo-core-julia` tag `0.2.0`. The General
+Registry registration PR is open:
+<https://github.com/JuliaRegistries/General/pull/174826>.
 
 ## Build and validate
 
