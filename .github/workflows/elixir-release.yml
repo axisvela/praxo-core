@@ -60,7 +60,8 @@ jobs:
         run: |
           mix deps.get
           mix hex.build
-          mix docs
+          MIX_ENV=docs mix deps.get
+          MIX_ENV=docs mix docs
       - uses: actions/upload-artifact@v4
         with:
           name: elixir-hex
@@ -113,5 +114,5 @@ jobs:
           HEX_API_KEY: ${{ secrets.HEX_API_KEY }}
         run: |
           test -n "${HEX_API_KEY}"
-          mix deps.get
-          mix hex.publish docs --yes
+          MIX_ENV=docs mix deps.get
+          MIX_ENV=docs mix hex.publish docs --yes
