@@ -36,7 +36,7 @@ jobs:
       - name: Verify podspec version and tag
         shell: bash
         run: |
-          version="$(ruby -e 'spec = Gem::Specification.load("language/objc/PraxoCore.podspec"); print spec.version')"
+          version="$(awk -F'\"' '/s.version/ {print $2; exit}' language/objc/PraxoCore.podspec)"
           test -n "${version}"
           if [ "${GITHUB_REF_TYPE}" = "tag" ]; then
             test "objc/v${version}" = "${GITHUB_REF_NAME}"
@@ -65,7 +65,7 @@ jobs:
         id: registry
         shell: bash
         run: |
-          version="$(ruby -e 'spec = Gem::Specification.load("language/objc/PraxoCore.podspec"); print spec.version')"
+          version="$(awk -F'\"' '/s.version/ {print $2; exit}' language/objc/PraxoCore.podspec)"
           if pod trunk info PraxoCore 2>/dev/null | grep -Fq "${version}"; then
             echo "already_published=true" >> "$GITHUB_OUTPUT"
             echo "PraxoCore@${version} is already published; skipping push"
