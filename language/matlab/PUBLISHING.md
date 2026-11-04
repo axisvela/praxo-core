@@ -15,7 +15,8 @@ package_toolbox
 ```
 
 This creates `praxo-core-0.2.1.mltbx` containing `+praxo`, `README.md`,
-`LICENSE`, and `run_tests.m`.
+`LICENSE`, `run_tests.m`, and `toolbox-image.png`. The image is
+`language/matlab/toolbox-image.png`; use it as the File Exchange thumbnail.
 
 MATLAB package names must be identifiers matching `[A-Za-z][A-Za-z0-9_]*`.
 Use `praxo_core` as the package name; keep `PRAXO-CORE` only as the display

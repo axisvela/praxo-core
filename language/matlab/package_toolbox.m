@@ -23,7 +23,9 @@ opts.AuthorName = 'AxisVela';
 opts.AuthorEmail = 'releases@axisvela.com';
 opts.AuthorCompany = 'AxisVela';
 opts.ToolboxMatlabPath = '.';
-opts.ToolboxFiles = {'+praxo', 'README.md', 'LICENSE', 'run_tests.m'};
+opts.ToolboxImageFile = 'toolbox-image.png';
+opts.ToolboxFiles = {'+praxo', 'README.md', 'LICENSE', 'run_tests.m', ...
+    'toolbox-image.png'};
 opts.OutputFile = outputFile;
 matlab.addons.toolbox.packageToolbox(opts);
 end
