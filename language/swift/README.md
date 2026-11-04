@@ -14,6 +14,12 @@ Schema, plugin manifests, memory, events, stream kinds, checkpoint envelopes,
 path policy, context budgets, middleware, and the agent loop. Provider adapters
 remain follow-up work.
 
+## Install
+
+```swift
+.package(url: "https://github.com/axisvela/praxo-core-swift.git", from: "0.2.0")
+```
+
 ## Build and test
 
 ```bash

@@ -138,9 +138,9 @@ def ruby_suite() -> Command:
 
 def elixir_suite() -> Command:
     return Command(
-        "mix run tests/run_tests.exs",
-        ("mix", "run", "tests/run_tests.exs"),
-        ROOT / "language" / "elixir",
+        "python scripts/elixir_behavior_suite.py",
+        (sys.executable, "scripts/elixir_behavior_suite.py"),
+        ROOT,
     )
 
 

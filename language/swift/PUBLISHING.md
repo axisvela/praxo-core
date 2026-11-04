@@ -3,7 +3,8 @@
 ## Status
 
 Source tag `swift/v0.2.0` maps to library `PraxoCore` version `0.2.0`. The
-Swift package is not listed in the Swift Package Index.
+SPM mirror `axisvela/praxo-core-swift` publishes plain tag `0.2.0`. The package
+is not yet listed in the Swift Package Index.
 
 ## Important packaging constraint
 
@@ -14,8 +15,7 @@ be consumed directly as an SPM dependency.
 
 ## Split repository
 
-Publish a mirror to a dedicated Swift repository, for example
-`axisvela/praxo-core-swift`, containing:
+The mirror is `axisvela/praxo-core-swift` and contains:
 
 - `Package.swift`
 - `Sources/`
