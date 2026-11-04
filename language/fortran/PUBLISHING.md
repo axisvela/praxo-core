@@ -4,9 +4,14 @@
 
 Source tag `fortran/v0.6.0`. The package is not in the fpm registry.
 
+The upstream fpm registry is a playground and is currently unavailable: the
+frontend returns `503 DEPLOYMENT_PAUSED` and the backend returns `500`.
+Registration and publication are blocked until the upstream owners restore it.
+Keep Fortran source-tag-only in the meantime.
+
 ## fpm registry
 
-The fpm registry requires an account, namespace, and token:
+When the registry is available, it requires an account, namespace, and token:
 
 1. Create an account and namespace at the fpm registry.
 2. Generate a token for the namespace.
