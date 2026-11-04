@@ -99,6 +99,11 @@ result := praxo.run_agent(options, praxo.session('s1', []praxo.Message{}), 'Hi')
 The source is MIT; see [LICENSE](LICENSE). V and its bundled toolchain are
 separate projects, not vendored code.
 
+## Distribution
+
+The VPM mirror is `axisvela/praxo-core-v` with plain tag `0.1.1`. VPM
+submission is pending; see [PUBLISHING.md](PUBLISHING.md).
+
 See [language policy](../../docs/contributing/language-policy.md),
 [parity inventory](../../spec/parity/v.md), and
 [implementation support](../../docs/languages/support.md).

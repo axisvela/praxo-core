@@ -236,8 +236,9 @@ the installation source of truth.
   snapshots. Nim is listed in `nim-lang/packages` with
   `"subdir": "language/nim"`; a registry install smoke is not yet recorded. V
   and Objective-C have `v.mod` and CocoaPods metadata respectively, but their
-  registry split-repository steps are still pending. Swift publishes SPM tag
-  `0.2.0` from the split repository `axisvela/praxo-core-swift`; Swift Package
+  registry split-repository steps are still pending. V publishes plain tag
+  `0.1.1` from `axisvela/praxo-core-v`; VPM submission is pending. Swift
+  publishes SPM tag `0.2.0` from `axisvela/praxo-core-swift`; Swift Package
   Index PR #16032 is open. Production readiness and complete Go parity are not
   claimed; optional Go hooks and provider adapters are not included.
 - Erlang source tag `erlang/v0.4.0` adds HITL interrupt decisions to policy

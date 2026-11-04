@@ -2,14 +2,15 @@
 
 ## Status
 
-Source tag `v/v0.1.1` maps to package version `0.1.1`. VPM authentication uses
-GitHub; no separate VPM account is required.
+Source tag `v/v0.1.1` maps to package version `0.1.1`. The split VPM mirror
+`axisvela/praxo-core-v` publishes plain tag `0.1.1`. VPM authentication uses
+GitHub; no separate VPM account is required. VPM submission is pending.
 
 ## Packaging constraint
 
 VPM expects `v.mod` at the repository root and plain semantic-version tags.
-This monorepo keeps the module under `language/v`, so publish a split mirror,
-for example `axisvela/praxo-core-v`, with:
+This monorepo keeps the module under `language/v`, so the package is published
+from the split mirror `axisvela/praxo-core-v` with:
 
 - `v.mod`
 - `praxo/`
