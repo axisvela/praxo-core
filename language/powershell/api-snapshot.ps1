@@ -21,7 +21,8 @@ if ($Check) {
     if (-not (Test-Path $target)) {
         throw "missing snapshot: $target"
     }
-    if ((Get-Content $target -Raw) -ne $content) {
+    $expected = (Get-Content $target) -join "`n"
+    if ($expected -ne $content.TrimEnd("`n")) {
         throw "snapshot is stale: $target"
     }
     Write-Output "snapshot is current: $target"
