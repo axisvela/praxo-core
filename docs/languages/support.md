@@ -238,7 +238,7 @@ the installation source of truth.
   and Objective-C have `v.mod` and CocoaPods metadata respectively, but their
   registry split-repository steps are still pending. Swift publishes SPM tag
   `0.2.0` from the split repository `axisvela/praxo-core-swift`; Swift Package
-  Index listing is pending. Production readiness and complete Go parity are not
+  Index PR #16032 is open. Production readiness and complete Go parity are not
   claimed; optional Go hooks and provider adapters are not included.
 - Erlang source tag `erlang/v0.4.0` adds HITL interrupt decisions to policy
   hooks, middleware, final-tool allowlist checks, reauthorization, lifecycle

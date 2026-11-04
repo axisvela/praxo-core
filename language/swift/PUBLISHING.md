@@ -3,8 +3,9 @@
 ## Status
 
 Source tag `swift/v0.2.0` maps to library `PraxoCore` version `0.2.0`. The
-SPM mirror `axisvela/praxo-core-swift` publishes plain tag `0.2.0`. The package
-is not yet listed in the Swift Package Index.
+SPM mirror `axisvela/praxo-core-swift` publishes plain tag `0.2.0`. Swift
+Package Index listing PR:
+<https://github.com/SwiftPackageIndex/PackageList/pull/16032>.
 
 ## Important packaging constraint
 
