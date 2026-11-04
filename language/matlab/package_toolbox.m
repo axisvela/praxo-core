@@ -11,6 +11,12 @@ try
     opts.PackageName = 'praxo_core';
 catch
 end
+try
+    opts.Tags = ["agent", "agent-framework", "llm", "ai", ...
+        "tool-calling", "openai-compatible", "memory", "policy", ...
+        "middleware", "checkpoint", "sandbox", "mit"];
+catch
+end
 opts.ToolboxVersion = version;
 opts.Summary = 'Embeddable MIT-licensed agent framework for MATLAB and Octave';
 opts.AuthorName = 'AxisVela';

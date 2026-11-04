@@ -29,6 +29,9 @@ name. `package_toolbox.m` sets both accordingly.
    - Summary: `Embeddable MIT-licensed agent framework for MATLAB`
    - Category: choose the closest AI/agent or MATLAB programming category
    - License: MIT
+   - Tags: `agent`, `agent-framework`, `llm`, `ai`, `tool-calling`,
+     `openai-compatible`, `memory`, `policy`, `middleware`, `checkpoint`,
+     `sandbox`, `mit`
    - Files: upload the `.mltbx` or a ZIP of this directory
 3. Add the GitHub URL: https://github.com/axisvela/praxo-core
 4. Submit for MathWorks review.
