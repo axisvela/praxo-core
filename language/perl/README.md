@@ -20,6 +20,9 @@ The Core implements all eleven vector groups: toolcall, JSON Schema, plugin,
 memory, event, stream, checkpoint, policy, context, middleware, and the agent
 loop. It includes a public API snapshot and a dependency-free test runner.
 
+The distribution root package is `Praxo::Core`; `Praxo::Agent` and the other
+modules remain available.
+
 ## Build and test
 
 ```bash

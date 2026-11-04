@@ -83,6 +83,7 @@ Bridge、Sample 描述运行时的接入方式，不证明其语言缺乏 Framew
 | Lua | `lua/v0.4.0` | LuaRocks `praxo-core==0.4.0-1`；`0.3.0-1`、`0.2.0-1` 也已发布 | `lua-release` 构建并安装 source rock；registry 安装 smoke 待完成 |
 | PHP | `php/v0.4.0` | Packagist `axisvela/praxo-core==0.4.0` 已发布；`v0.3.0`、`v0.2.0` 为历史版本 | 未记录 Composer 安装 smoke |
 | Dart | `dart/v0.1.1` | pub.dev `praxo_core==0.1.1` | 已记录 `0.1.1` |
+| Perl | `perl/v0.1.1` | CPAN `Praxo-Core` 0.1.1 已上传；索引待完成 | 未记录 |
 | PowerShell | `powershell/v0.2.0` | PowerShell Gallery `praxo-core-ps==0.2.0` 已发布 | 未记录 |
 
 ### 注册表相对代码的新旧状态
@@ -103,6 +104,7 @@ Bridge、Sample 描述运行时的接入方式，不证明其语言缺乏 Framew
 | PHP | `0.4.0` | Packagist `0.4.0` | 已最新 |
 | Lua | rockspec `0.4.0-1`；源码标签 `0.4.0` | LuaRocks `0.4.0-1` | 已最新 |
 | Dart | `0.1.1` | pub.dev `0.1.1` | 已最新 |
+| Perl | `0.1.1` | CPAN 索引待完成 | 待完成 |
 | PowerShell | `0.2.0` | PowerShell Gallery `0.2.0` | 已最新 |
 
 不要从注册表安装只有源码标签的语言，也不要假设注册表包包含源码标签的最新行为。
