@@ -1,6 +1,6 @@
 # PRAXO-CORE for V
 
-V is a native Core implementation with source tag `v/v0.1.1`. It passes all
+V is a native Core implementation with source tag `v/v0.1.2`. It passes all
 eleven shared vector groups with `V 0.5.2` and includes the native
 agent loop, context compaction, memory store, path policy, checkpoint
 allowlist, and tool-call parsing. Tool selection, PII redaction, structured
@@ -43,7 +43,7 @@ schema := praxo.parse_json('{"type":"string","pattern":"^a+$"}') or { panic(err)
 assert praxo.validate_schema(schema, praxo.parse_json('"aaa"') or { panic(err) }).len == 0
 ```
 
-Public declarations are inventoried in [`api/0.1.1.txt`](api/0.1.1.txt).
+Public declarations are inventoried in [`api/0.1.2.txt`](api/0.1.2.txt).
 
 Supply a model callback to receive each request and return a response or an
 error. The callback can inspect the conversation and tool results on each step;
@@ -101,8 +101,9 @@ separate projects, not vendored code.
 
 ## Distribution
 
-The VPM mirror is `axisvela/praxo-core-v` with plain tag `0.1.1`. VPM
-submission is pending; see [PUBLISHING.md](PUBLISHING.md).
+The VPM mirror is `axisvela/praxo-core-v` with package name `praxo-core` and
+plain tag `0.1.2`. Imports still use `import praxo`. VPM submission is pending;
+see [PUBLISHING.md](PUBLISHING.md).
 
 See [language policy](../../docs/contributing/language-policy.md),
 [parity inventory](../../spec/parity/v.md), and

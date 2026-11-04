@@ -2,9 +2,10 @@
 
 ## Status
 
-Source tag `v/v0.1.1` maps to package version `0.1.1`. The split VPM mirror
-`axisvela/praxo-core-v` publishes plain tag `0.1.1`. VPM authentication uses
-GitHub; no separate VPM account is required. VPM submission is pending.
+Source tag `v/v0.1.2` maps to package version `0.1.2`. The split VPM mirror
+`axisvela/praxo-core-v` publishes package name `praxo-core` and plain tag
+`0.1.2`; imports remain `import praxo`. VPM authentication uses GitHub; no
+separate VPM account is required. VPM submission is pending.
 
 ## Packaging constraint
 
@@ -17,7 +18,7 @@ from the split mirror `axisvela/praxo-core-v` with:
 - `LICENSE`
 - `README.md`
 
-Tag the mirror with plain versions such as `0.1.1`.
+Tag the mirror with plain versions such as `0.1.2`.
 
 ## Release
 
@@ -33,5 +34,5 @@ Tag the mirror with plain versions such as `0.1.1`.
 3. Tag and push the split mirror.
 4. Register the package through VPM using GitHub authentication and verify:
    ```bash
-   v install praxo
+   v install praxo-core
    ```

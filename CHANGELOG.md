@@ -29,6 +29,7 @@ wired language to 20/20.
   `rust/v0.3.0`, `r/v0.5.0`, `csharp/v0.3.0`, `ruby/v0.4.0`, `php/v0.4.0`,
   `lua/v0.4.0`, `cpp/v0.4.0`, `elixir/v0.4.0`, `erlang/v0.4.0`,
   `fortran/v0.6.0`, and `cobol/v0.4.0`.
+- Released `v/v0.1.2` to align the VPM package name with `praxo-core`.
 
 ### Fixed
 

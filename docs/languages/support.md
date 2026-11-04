@@ -231,13 +231,14 @@ the installation source of truth.
   tools, and run-scoped call limits. Hex publishes `praxo_core==0.4.0`;
   `0.3.0` and `0.2.0` remain available. HexDocs are published at
   <https://praxo-core.hexdocs.pm/0.4.0/>.
-- Nim, V, and Objective-C have source tags `nim/v0.1.1`, `v/v0.1.1`, and
+- Nim, V, and Objective-C have source tags `nim/v0.1.1`, `v/v0.1.2`, and
   `objc/v0.1.1`. They include all eleven vector groups, native tests, and API
   snapshots. Nim is listed in `nim-lang/packages` with
   `"subdir": "language/nim"`; a registry install smoke is not yet recorded. V
   and Objective-C have `v.mod` and CocoaPods metadata respectively, but their
-  registry split-repository steps are still pending. V publishes plain tag
-  `0.1.1` from `axisvela/praxo-core-v`; VPM submission is pending. Swift
+  registry split-repository steps are still pending. V publishes package
+  `praxo-core` tag `0.1.2` from `axisvela/praxo-core-v`; VPM submission is
+  pending. Swift
   publishes SPM tag `0.2.0` from `axisvela/praxo-core-swift`; Swift Package
   Index PR #16032 is open. Production readiness and complete Go parity are not
   claimed; optional Go hooks and provider adapters are not included.
