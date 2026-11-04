@@ -3,8 +3,9 @@
 ## Status
 
 Source tag `powershell/v0.2.0` maps to PowerShell Gallery package
-`praxo-core-ps` version `0.2.0`. The module is a shared-runtime wrapper over the
-C# Core and is not yet published.
+`praxo-core-ps` version `0.2.0`. The module is published to the PowerShell
+Gallery and is a shared-runtime wrapper over the C# Core. The legacy bridge
+package `praxo-core-ps-br` is not published.
 
 ## Build
 

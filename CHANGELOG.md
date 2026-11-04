@@ -20,8 +20,9 @@ wired language to 20/20.
   0.2.0/0.3.1/0.4.0.
 - Published PyPI `praxo-core==0.3.0`, Maven Central
   `com.axisvela:praxo-core:0.4.0`, npm `@axisvela/praxo-core@0.2.0`, NuGet
-  `Praxo.Core==0.3.0`, and crates.io `praxo-core==0.3.0` from the HITL source
-  release wave. The crates.io release used GitHub OIDC Trusted Publishing.
+  `Praxo.Core==0.3.0`, crates.io `praxo-core==0.3.0`, and PowerShell Gallery
+  `praxo-core-ps==0.2.0` from the HITL source release wave. The crates.io
+  release used GitHub OIDC Trusted Publishing.
 
 ### Source Releases
 
