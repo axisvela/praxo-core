@@ -140,7 +140,7 @@ Bridge、Sample 描述运行时的接入方式，不证明其语言缺乏 Framew
   `praxo_core==0.1.1` 到 pub.dev。干净项目已安装该包、导入
   `package:praxo_core/praxo_core.dart` 并运行最小 agent。
 - Rust 源码标签 `rust/v0.3.0` 在全部 11 个向量组、原生测试、`tool.Gateway`、`jsonschema.Schema`、流式回调、取消、有限并行工具和 API 快照之上增加人工审批中断决策。crates.io 已发布 `praxo-core==0.3.0`；已记录的干净临时项目安装 smoke 覆盖 `0.1.4`，报告 `SDK_VERSION` `0.1.4` 和 `SPEC_VERSION` `0.2.0`。不包含 HTTP OpenAI adapter、VFS 或 plugin hosts。
-- R 源码标签 `r/v0.5.0` 在 policy、middleware、生命周期清理、取消、流式回调、SSE parser、有限并行工具和 API 快照之上增加人工审批中断决策。Unix 使用 `mclapply`，Windows 使用 PSOCK cluster；不声明包管理器发布。
+- R 源码标签 `r/v0.5.0` 在 policy、middleware、生命周期清理、取消、流式回调、SSE parser、有限并行工具和 API 快照之上增加人工审批中断决策。Unix 使用 `mclapply`，Windows 使用 PSOCK cluster。r-universe 从 `language/r` 发布 `praxocore==0.5.0`；CRAN 发布尚未声明，发布工作流执行 `R CMD build` 和 `R CMD check`。
 - C 源码标签 `c/v0.6.0` 在 policy 授权、有序 middleware、生命周期清理、
   最终工具 allowlist 检查、中途修改后的重新授权、取消、流式回调、SSE parser
   和有限并行工具之上增加人工审批中断决策。Unix 使用 pthread 与逐线程 arena；
@@ -153,7 +153,9 @@ Bridge、Sample 描述运行时的接入方式，不证明其语言缺乏 Framew
   ASCII matcher，新增原生 C++ 库依赖；历史 `0.2.2` 标签仍保留无此原生依赖的实现。
 - COBOL 已有源码标签 `cobol/v0.4.0`，包含全部 11 个向量组、人工审批中断决策、原生与契约测试、调用方持有状态的 scoped registry 和 API 快照。它新增 middleware、生命周期、取消、流式、SSE 和调用方提供的批处理工具调度，行为覆盖达到 20/20；并行工具委托给批处理调度器，而不是原生线程。它不是包管理器发布；其余 Go 面大多为 partial，registry 无并发和 custom spec provider。
 - Haskell 已有源码标签 `haskell/v0.2.0`，包含全部 11 个向量组、原生测试、API
-  快照/parity 以及运行时/中间件辅助函数。未声明 Hackage 发布或生产就绪。
+  快照/parity 以及运行时/中间件辅助函数。Hackage 发布由
+  `.github/workflows/haskell-release.yml` 准备；首次上传需要 Hackage 账号和
+  `HACKAGE_TOKEN`，生产就绪尚未声明。
 - Delphi/Free Pascal 已有源码标签 `delphi/v0.2.1`，在 Free Pascal 3.2.2 下通过
   全部 11 个向量组、原生测试和 API 快照/parity。商业 Delphi 编译器、其他目标
   平台和包管理器发布均未声明。
@@ -164,7 +166,8 @@ Bridge、Sample 描述运行时的接入方式，不证明其语言缺乏 Framew
 - Elixir 源码标签 `elixir/v0.4.0` 在 policy、middleware、最终工具 allowlist、
   重新授权、生命周期清理、取消、流式回调、原生 SSE parser、有限并行工具和按 run
   隔离的调用上限之上增加人工审批中断决策。Hex 已发布 `praxo_core==0.4.0`；
-  `0.3.0` 和 `0.2.0` 仍可用。HexDocs 尚未发布。
+  `0.3.0` 和 `0.2.0` 仍可用。HexDocs 发布由
+  `.github/workflows/elixir-release.yml` 准备；首次文档上传需要 `HEX_API_KEY`。
 - Erlang 源码标签 `erlang/v0.4.0` 在 policy、middleware、最终工具 allowlist、
   重新授权、生命周期清理、取消、流式回调、原生 SSE parser、有限并行工具和按 run
   隔离的调用上限之上增加人工审批中断决策。Hex 已发布

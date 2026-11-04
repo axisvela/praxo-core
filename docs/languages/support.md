@@ -186,8 +186,9 @@ the installation source of truth.
   included.
 - R source tag `r/v0.5.0` adds HITL interrupt decisions to policy, middleware,
   lifecycle cleanup, cancellation, streaming callbacks, an SSE parser, bounded
-  parallel tools, and an API snapshot. Unix uses `mclapply`; Windows uses a PSOCK cluster. No
-  package-registry release is claimed.
+  parallel tools, and an API snapshot. Unix uses `mclapply`; Windows uses a PSOCK cluster.
+  r-universe publishes `praxocore==0.5.0` from `language/r`; CRAN publication
+  is not claimed. The release workflow runs `R CMD build` and `R CMD check`.
 - C source tag `c/v0.6.0` adds human-in-the-loop interrupt decisions on top of
   policy authorization, ordered middleware, lifecycle cleanup, final-tool
   allowlist checks, middleware reauthorization, cancellation, streaming
@@ -211,8 +212,10 @@ the installation source of truth.
   package-registry release; most remaining Go surfaces are partial and the
   registry has no concurrency or custom spec provider.
 - Haskell has source tag `haskell/v0.2.0` with all eleven vector groups, native
-  tests, API snapshot/parity, and runtime/middleware helpers. Hackage publication
-  and production readiness are not claimed.
+  tests, API snapshot/parity, and runtime/middleware helpers. Hackage
+  publication is prepared by `.github/workflows/haskell-release.yml`; the first
+  upload requires a Hackage account and `HACKAGE_TOKEN`. Production readiness is
+  not claimed.
 - Delphi/Free Pascal has source tag `delphi/v0.2.1` with all eleven vector groups,
   native tests, and API snapshot/parity under Free Pascal 3.2.2. The commercial
   Delphi compiler, other targets, and package registries are not claimed.
@@ -226,13 +229,17 @@ the installation source of truth.
   hooks, middleware, final-tool allowlist checks, reauthorization, lifecycle
   cleanup, cancellation, stream callbacks, a native SSE parser, bounded parallel
   tools, and run-scoped call limits. Hex publishes `praxo_core==0.4.0`;
-  `0.3.0` and `0.2.0` remain available.
-  HexDocs are not published.
+  `0.3.0` and `0.2.0` remain available. HexDocs publication is prepared by
+  `.github/workflows/elixir-release.yml`; the first docs upload requires
+  `HEX_API_KEY`.
 - Nim, V, and Objective-C have source tags `nim/v0.1.1`, `v/v0.1.1`, and
   `objc/v0.1.1`. They include all eleven vector groups, native tests, and API
-  snapshots. Package-registry publication, production readiness, and complete
-  Go parity are not claimed; optional Go hooks and provider adapters are not
-  included.
+  snapshots. Nim is listed in `nim-lang/packages` with
+  `"subdir": "language/nim"`; a registry install smoke is not yet recorded. V
+  and Objective-C have `v.mod` and CocoaPods metadata respectively, but their
+  registry split-repository steps are still pending. Production readiness and
+  complete Go parity are not claimed; optional Go hooks and provider adapters
+  are not included.
 - Erlang source tag `erlang/v0.4.0` adds HITL interrupt decisions to policy
   hooks, middleware, final-tool allowlist checks, reauthorization, lifecycle
   cleanup, cancellation, stream callbacks, a native SSE parser, bounded parallel

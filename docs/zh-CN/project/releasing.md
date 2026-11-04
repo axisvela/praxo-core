@@ -98,5 +98,28 @@ conformance、API snapshot 和原生测试，然后打包 source rock、在干�
 `LUAROCKS_API_KEY`；发布 job 会跳过已发布的修订。手动触发默认只构建
 `build-only`。
 
+Perl 使用 `.github/workflows/perl-release.yml`。`perl/vX.Y.Z` 标签必须与
+`language/perl/VERSION` 和 `Makefile.PL` 一致。构建 job 运行门禁、构建并测试发行包，
+然后上传 CPAN tarball；发布前配置 environment `cpan` 和 secret `PAUSE_USER`、
+`PAUSE_PASSWORD`。
+
+Haskell 使用 `.github/workflows/haskell-release.yml`。`haskell/vX.Y.Z` 标签必须与
+`language/haskell/praxo-core.cabal` 一致；构建 job 运行原生测试和 `cabal sdist`。
+发布前配置 environment `hackage` 和 secret `HACKAGE_TOKEN`。
+
+Elixir 使用 `.github/workflows/elixir-release.yml` 发布 Hex 包和 HexDocs。
+`elixir/vX.Y.Z` 标签必须与 `language/elixir/VERSION` 一致；发布前配置 environment
+`hex` 和 secret `HEX_API_KEY`。
+
+Julia 使用 `.github/workflows/julia-release.yml` 校验标签并运行测试，然后通过
+JuliaRegistrator 向 General Registry 提交 PR；不需要仓库 secret。
+
+R 使用 `.github/workflows/r-release.yml` 执行 `R CMD build` 和 `R CMD check`。
+r-universe 从 GitHub 仓库的 `language/r` 子目录构建；CRAN 提交仍需单独人工审核。
+
+Nim 通过 `nim-lang/packages` 的 PR 列表发布，使用
+`"subdir": "language/nim"`；Nimble 从 Git 标签推导版本。Swift、V、Objective-C、
+PowerShell 和桥接包需要按各自 `PUBLISHING.md` 中的拆分仓库或包格式步骤发布。
+
 升级前查看[版本总览](../releases/index.md)、[兼容性](compatibility.md)和
 [Core 支持政策](../languages/support.md)。产品版本与框架版本独立。

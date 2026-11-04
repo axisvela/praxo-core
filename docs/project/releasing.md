@@ -119,6 +119,33 @@ uploading the artifact. Configure environment `luarocks` and repository secret
 `LUAROCKS_API_KEY`; the publish job skips an already published revision.
 Manual dispatch defaults to `build-only`.
 
+Perl publication uses `.github/workflows/perl-release.yml`. A `perl/vX.Y.Z` tag
+must match `language/perl/VERSION` and `Makefile.PL`. The build job runs the
+gates, builds and tests the distribution, and uploads the CPAN tarball.
+Configure environment `cpan` and secrets `PAUSE_USER` and `PAUSE_PASSWORD`.
+
+Haskell publication uses `.github/workflows/haskell-release.yml`. A
+`haskell/vX.Y.Z` tag must match `language/haskell/praxo-core.cabal`; the build
+job runs the native tests and `cabal sdist`. Configure environment `hackage` and
+secret `HACKAGE_TOKEN`.
+
+Elixir publication uses `.github/workflows/elixir-release.yml` for both the Hex
+package and HexDocs. A `elixir/vX.Y.Z` tag must match `language/elixir/VERSION`;
+configure environment `hex` and secret `HEX_API_KEY`.
+
+Julia registration uses `.github/workflows/julia-release.yml` for tag
+validation and tests, then JuliaRegistrator for the General Registry pull
+request. No repository secret is required.
+
+R uses `.github/workflows/r-release.yml` for `R CMD build` and `R CMD check`.
+r-universe builds from the GitHub repository and `language/r` subdirectory; CRAN
+submission is a separate manual review after the same checks pass.
+
+Nim publication uses the `nim-lang/packages` pull-request list with
+`"subdir": "language/nim"`; Nimble derives versions from Git tags. Swift, V,
+Objective-C, PowerShell, and bridge packages require the split-repository or
+package-format steps recorded in each implementation's `PUBLISHING.md`.
+
 A source tag or successful build does not establish that PyPI publication
 occurred.
 
