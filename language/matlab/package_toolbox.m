@@ -7,6 +7,10 @@ end
 opts = matlab.addons.toolbox.ToolboxOptions(root, ...
     'af9bcb16-1195-4766-a227-1bfcc127a524');
 opts.ToolboxName = 'PRAXO-CORE';
+try
+    opts.PackageName = 'praxo_core';
+catch
+end
 opts.ToolboxVersion = version;
 opts.Summary = 'Embeddable MIT-licensed agent framework for MATLAB and Octave';
 opts.AuthorName = 'AxisVela';

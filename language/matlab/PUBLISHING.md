@@ -17,6 +17,10 @@ package_toolbox
 This creates `praxo-core-0.2.1.mltbx` containing `+praxo`, `README.md`,
 `LICENSE`, and `run_tests.m`.
 
+MATLAB package names must be identifiers matching `[A-Za-z][A-Za-z0-9_]*`.
+Use `praxo_core` as the package name; keep `PRAXO-CORE` only as the display
+name. `package_toolbox.m` sets both accordingly.
+
 ## MATLAB File Exchange
 
 1. Sign in at https://www.mathworks.com/matlabcentral/fileexchange/submit
