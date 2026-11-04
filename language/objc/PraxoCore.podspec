@@ -13,8 +13,8 @@ context, middleware, checkpoints, JSON Schema, plugin manifests, and an agent lo
     :git => "https://github.com/axisvela/praxo-core.git",
     :tag => "objc/v#{s.version}"
   }
-  s.source_files     = "Praxo*.{h,m}"
-  s.public_header_files = "Praxo*.h"
+  s.source_files     = "language/objc/Praxo*.{h,m}"
+  s.public_header_files = "language/objc/Praxo*.h"
   s.requires_arc     = true
   s.frameworks       = "Foundation"
   s.ios.deployment_target = "13.0"
