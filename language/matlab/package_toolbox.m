@@ -18,6 +18,8 @@ try
 catch
 end
 opts.ToolboxVersion = version;
+opts.MinimumMatlabRelease = 'R2020a';
+opts.MaximumMatlabRelease = '';
 opts.Summary = 'Embeddable MIT-licensed agent framework for MATLAB and Octave';
 opts.AuthorName = 'AxisVela';
 opts.AuthorEmail = 'releases@axisvela.com';

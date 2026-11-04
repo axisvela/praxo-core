@@ -94,7 +94,7 @@ for real providers, platforms, and production behavior is reported separately.
 | Ruby | Core | released | `ruby/v0.4.0` | complete | 11 vectors, HITL interrupts, core tests, API snapshot, middleware/lifecycle authorization, cancellation, streaming, SSE, parallel tools, and run-scoped call limits; source `0.4.0`, RubyGems `praxo-core==0.4.0` |
 | Kotlin | Sample (JVM) | released | none | sample | Uses the Java Core |
 | Scala | Sample (JVM) | released | none | sample | Uses the Java Core |
-| MATLAB | Core | released | `matlab/v0.2.1` | complete | 11 vectors, native tests, API snapshot/parity; Octave 11.3.0; MATLAB runtime unverified |
+| MATLAB | Core | released | `matlab/v0.2.1` | complete | 11 vectors, native tests, API snapshot/parity; Octave 11.3.0; MATLAB File Exchange `185166`; MATLAB runtime unverified |
 | Perl | Core | released | `perl/v0.1.1` | complete | 11 vectors, 27 tests, API snapshot; distribution root package `Praxo::Core` |
 | Delphi | Core | released | `delphi/v0.2.1` | complete | 11 vectors, native tests, API snapshot/parity; Free Pascal 3.2.2; commercial Delphi unverified |
 | OCaml / Caml | Core | released | `ocaml/v0.2.0` | complete | 11 vectors, native tests, API snapshot/parity; OCaml 4.14.2 bytecode; opt-in middleware integrated |

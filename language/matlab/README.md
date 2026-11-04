@@ -1,6 +1,7 @@
 # PRAXO-CORE for MATLAB and Octave
 
-Native Core implementation with source tag `matlab/v0.2.1`. It passes all eleven
+Native Core implementation with source tag `matlab/v0.2.1`. It is published on
+[MATLAB File Exchange](https://www.mathworks.com/matlabcentral/fileexchange/185166-praxo-core). It passes all eleven
 vector groups under GNU Octave 11.3.0 and includes the native agent loop, memory
 store, checkpoint allowlist, lexical path policy, context compaction, event
 sinks, middleware helpers, and tool selection. It does not delegate its behavior

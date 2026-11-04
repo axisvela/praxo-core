@@ -1,7 +1,8 @@
 # Publishing the MATLAB/Octave Core
 
-Source tag `matlab/v0.2.1`. The package is not published to Octave Packages or
-the MATLAB File Exchange.
+Source tag `matlab/v0.2.1`. The package is published on MATLAB File Exchange:
+<https://www.mathworks.com/matlabcentral/fileexchange/185166-praxo-core>. It is
+not published to Octave Packages.
 
 Octave verification is not MATLAB verification. Run `run_tests.m` in MATLAB
 before submitting to File Exchange.
@@ -36,6 +37,16 @@ name. `package_toolbox.m` sets both accordingly.
    - Files: upload the `.mltbx` or a ZIP of this directory
 3. Add the GitHub URL: https://github.com/axisvela/praxo-core
 4. Submit for MathWorks review.
+
+Published entry: <https://www.mathworks.com/matlabcentral/fileexchange/185166-praxo-core>
+
+Citation:
+
+```text
+AxisVela (2026). PRAXO-CORE (Version 0.2.1) [Computer software].
+MATLAB Central File Exchange.
+https://www.mathworks.com/matlabcentral/fileexchange/185166-praxo-core
+```
 
 MATLAB R2026b requires `UseLicenseBSD` for `.mltbx` files uploaded to File
 Exchange. This project is MIT-licensed, so if that requirement blocks the
