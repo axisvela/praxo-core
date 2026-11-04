@@ -43,7 +43,7 @@ jobs:
       - name: Build C# Core
         run: dotnet build language/csharp/Praxo.Core/Praxo.Core.csproj -c Release
       - name: Bundle C# Core assembly
-        run: Copy-Item language/csharp/Praxo.Core/bin/Release/net8.0/Praxo.Core.dll language/powershell/praxo-core-ps/
+        run: cp language/csharp/Praxo.Core/bin/Release/net8.0/Praxo.Core.dll language/powershell/praxo-core-ps/
       - name: Run wrapper tests
         run: pwsh -NoProfile -File language/powershell/tests/run.ps1
       - name: Check API snapshot
