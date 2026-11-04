@@ -256,7 +256,7 @@ function ConvertFrom-PraxoCheckpoint {
         [Parameter(Mandatory = $true)]$Allowlist,
         [Parameter(Mandatory = $true)][string]$Data
     )
-    $Allowlist.Unmarshal($Data)
+    Write-Output -NoEnumerate ($Allowlist.Unmarshal($Data))
 }
 
 function New-PraxoContextBudget {
