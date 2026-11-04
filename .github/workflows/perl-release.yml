@@ -1,0 +1,103 @@
+name: perl-release
+
+on:
+  push:
+    tags:
+      - "perl/v*"
+  workflow_dispatch:
+    inputs:
+      target:
+        description: Publish target
+        required: true
+        default: build-only
+        type: choice
+        options:
+          - build-only
+          - publish
+
+permissions:
+  contents: read
+
+concurrency:
+  group: perl-release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: language/perl
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shogo82148/actions-setup-perl@v1
+        with:
+          perl-version: "5.38"
+      - name: Verify version and tag
+        shell: bash
+        run: |
+          version="$(cat VERSION)"
+          grep -Eq "VERSION[[:space:]]*=>[[:space:]]*'${version}'" Makefile.PL
+          if [ "${GITHUB_REF_TYPE}" = "tag" ]; then
+            test "perl/v${version}" = "${GITHUB_REF_NAME}"
+          fi
+      - name: Run release gates
+        run: |
+          perl conformance/run.pl
+          perl api-snapshot.pl --check
+          perl tests/run.pl
+      - name: Build distribution
+        run: |
+          perl Makefile.PL
+          make
+          make test
+          make dist
+      - uses: actions/upload-artifact@v4
+        with:
+          name: perl-dist
+          path: language/perl/Praxo-Core-*.tar.gz
+          if-no-files-found: error
+
+  publish:
+    needs: build
+    if: github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && inputs.target == 'publish')
+    runs-on: ubuntu-latest
+    environment:
+      name: cpan
+      url: https://metacpan.org/dist/Praxo-Core
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shogo82148/actions-setup-perl@v1
+        with:
+          perl-version: "5.38"
+      - uses: actions/download-artifact@v4
+        with:
+          name: perl-dist
+          path: dist
+      - name: Install CPAN uploader
+        run: cpanm --notest CPAN::Uploader
+      - name: Check published version
+        id: registry
+        shell: bash
+        run: |
+          version="$(cat language/perl/VERSION)"
+          if curl -fsSL "https://fastapi.metacpan.org/v1/release/Praxo-Core-${version}" >/dev/null; then
+            echo "already_published=true" >> "$GITHUB_OUTPUT"
+            echo "Praxo-Core@${version} is already published; skipping upload"
+          else
+            echo "already_published=false" >> "$GITHUB_OUTPUT"
+          fi
+      - name: Publish to CPAN
+        if: steps.registry.outputs.already_published != 'true'
+        env:
+          PAUSE_USER: ${{ secrets.PAUSE_USER }}
+          PAUSE_PASSWORD: ${{ secrets.PAUSE_PASSWORD }}
+        shell: bash
+        run: |
+          version="$(cat language/perl/VERSION)"
+          test -n "${PAUSE_USER}"
+          test -n "${PAUSE_PASSWORD}"
+          cpan-upload -u "${PAUSE_USER}" -p "${PAUSE_PASSWORD}" \
+            "dist/Praxo-Core-${version}.tar.gz"

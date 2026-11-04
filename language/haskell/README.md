@@ -10,8 +10,9 @@ middleware, JSON Schema validation, plugin manifest parsing, and runtime helpers
 - Package version: `0.2.0`; supported `SPEC_VERSION`: `0.2.0`.
 - Local gate: all eleven shared vector groups, native regression tests, and
   source API/parity checks.
-- Linux and Windows CI run the full suite. Hackage publication and production
-  readiness are not implied by the source tag.
+- Linux and Windows CI run the full suite. Hackage publication uses
+  `.github/workflows/haskell-release.yml`; production readiness is not implied
+  by the source tag.
 
 ## Build and Test
 

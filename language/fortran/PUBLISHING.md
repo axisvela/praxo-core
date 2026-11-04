@@ -2,46 +2,36 @@
 
 ## Status
 
-Fortran has no central package-registry publication. The release is a source
-tag, `fortran/v0.5.0`, plus the GitHub release/source archive.
+Source tag `fortran/v0.6.0`. The package is not in the fpm registry.
+
+## fpm registry
+
+The fpm registry requires an account, namespace, and token:
+
+1. Create an account and namespace at the fpm registry.
+2. Generate a token for the namespace.
+3. Run `fpm publish --token <token>`.
+4. Store the token as `FPM_REGISTRY_TOKEN` for CI.
+
+Add an `fpm.toml` manifest with package name `praxo-core`, version `0.6.0`,
+license `MIT`, and the Core source layout. The Core also needs the RE2 C++
+bridge; confirm that fpm can build it or document it as an external prerequisite
+before publishing.
 
 ## Build and test
 
 Prerequisites: GNU Fortran, a C++17 compiler, CMake 3.22+, Ninja, Git, and
-Python 3.10+. The first build obtains the pinned RE2/Abseil sources.
+Python 3.10+.
 
 ```bash
 python language/fortran/run-tests.py
 python language/fortran/api-snapshot.py --check
 ```
-
-The driver builds the native RE2 bridge, runs 104 agent assertions, 59 JSON
-assertions, 84 contract assertions, 63 vectors, and the RE2/Unicode assertions.
 
 ## Release
 
 1. Update `language/fortran/CHANGELOG.md`, `README.md`, `SETUP.md`, and the API
    snapshot target.
 2. Run the gates above.
-3. Create the source tag:
-
-```bash
-git tag -a fortran/v0.5.0 -m "praxo-core Fortran v0.5.0"
-git push origin fortran/v0.5.0
-```
-
-## Credentials and configuration
-
-- No registry token or package-registry account is used.
-- The RE2 bridge is a native build dependency, not a vendored artifact.
-- GitHub release publication uses the repository release workflow.
-
-## Verify
-
-```bash
-python language/fortran/run-tests.py
-python language/fortran/api-snapshot.py --check
-```
-
-Consumers use the source tag/archive and the build instructions in
-`language/fortran/SETUP.md`.
+3. Tag and push `fortran/v0.6.0`.
+4. Publish the fpm package and verify `fpm install praxo-core`.

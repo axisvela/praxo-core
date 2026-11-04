@@ -1,0 +1,35 @@
+name: julia-release
+
+on:
+  push:
+    tags:
+      - "julia/v*"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: julia-release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: julia-actions/setup-julia@v2
+        with:
+          version: "1"
+      - name: Verify version and tag
+        shell: bash
+        run: |
+          version="$(awk -F'\"' '/^version =/{print $2; exit}' language/julia/Project.toml)"
+          test -n "${version}"
+          if [ "${GITHUB_REF_TYPE}" = "tag" ]; then
+            test "julia/v${version}" = "${GITHUB_REF_NAME}"
+          fi
+      - run: julia --project=language/julia -e 'using Pkg; Pkg.instantiate()'
+      - run: julia --project=language/julia language/julia/conformance/run.jl
+      - run: julia --project=language/julia language/julia/api-snapshot.jl --check
+      - run: julia --project=language/julia language/julia/test/runtests.jl

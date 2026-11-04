@@ -69,4 +69,6 @@ $options->{max_steps} = 8;
 
 ## Release
 
-Tag shape: `perl/v0.1.0`. The tag targets `SPEC_VERSION` `0.2.0`.
+Tag shape: `perl/v0.1.0`. The tag targets `SPEC_VERSION` `0.2.0`. CPAN
+publication uses `.github/workflows/perl-release.yml`; see
+[PUBLISHING.md](PUBLISHING.md).

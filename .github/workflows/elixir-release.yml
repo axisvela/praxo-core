@@ -1,0 +1,117 @@
+name: elixir-release
+
+on:
+  push:
+    tags:
+      - "elixir/v*"
+  workflow_dispatch:
+    inputs:
+      target:
+        description: Publish target
+        required: true
+        default: build-only
+        type: choice
+        options:
+          - build-only
+          - publish
+
+permissions:
+  contents: read
+
+concurrency:
+  group: elixir-release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: language/elixir
+    steps:
+      - uses: actions/checkout@v4
+      - uses: erlef/setup-beam@v1
+        with:
+          otp-version: "29"
+          elixir-version: "1.20.4"
+          install-hex: true
+          install-rebar: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Verify version and tag
+        shell: bash
+        run: |
+          version="$(cat VERSION)"
+          grep -q "version: \"${version}\"" mix.exs
+          if [ "${GITHUB_REF_TYPE}" = "tag" ]; then
+            test "elixir/v${version}" = "${GITHUB_REF_NAME}"
+          fi
+      - name: Run release gates
+        shell: bash
+        run: |
+          python api-snapshot.py --check
+          mkdir -p build/ebin
+          elixirc -o build/ebin lib/praxo/*.ex
+          elixir -pa build/ebin tests/run_tests.exs
+          cd ../..
+          elixir -pa language/elixir/build/ebin language/elixir/conformance/run.exs
+      - name: Build package and docs
+        run: |
+          mix deps.get
+          mix hex.build
+          mix docs
+      - uses: actions/upload-artifact@v4
+        with:
+          name: elixir-hex
+          path: |
+            language/elixir/praxo_core-*.tar
+            language/elixir/doc
+          if-no-files-found: error
+
+  publish:
+    needs: build
+    if: github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && inputs.target == 'publish')
+    runs-on: ubuntu-latest
+    environment:
+      name: hex
+      url: https://hex.pm/packages/praxo_core
+    permissions:
+      contents: read
+    defaults:
+      run:
+        working-directory: language/elixir
+    steps:
+      - uses: actions/checkout@v4
+      - uses: erlef/setup-beam@v1
+        with:
+          otp-version: "29"
+          elixir-version: "1.20.4"
+          install-hex: true
+          install-rebar: false
+      - name: Check published package
+        id: registry
+        shell: bash
+        run: |
+          version="$(cat VERSION)"
+          if curl -fsSL "https://hex.pm/api/packages/praxo_core/releases/${version}" >/dev/null; then
+            echo "already_published=true" >> "$GITHUB_OUTPUT"
+            echo "praxo_core@${version} is already published; skipping package upload"
+          else
+            echo "already_published=false" >> "$GITHUB_OUTPUT"
+          fi
+      - name: Publish package
+        if: steps.registry.outputs.already_published != 'true'
+        env:
+          HEX_API_KEY: ${{ secrets.HEX_API_KEY }}
+        run: |
+          test -n "${HEX_API_KEY}"
+          mix deps.get
+          mix hex.publish --yes
+      - name: Publish HexDocs
+        env:
+          HEX_API_KEY: ${{ secrets.HEX_API_KEY }}
+        run: |
+          test -n "${HEX_API_KEY}"
+          mix deps.get
+          mix hex.publish docs --yes

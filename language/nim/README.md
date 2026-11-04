@@ -97,6 +97,7 @@ Public declarations are inventoried in [`api/0.1.1.txt`](api/0.1.1.txt).
 The source is MIT; see [LICENSE](LICENSE). Nim, MinGW, and other toolchain
 components are separate projects, not vendored code.
 
-See [language policy](../../docs/contributing/language-policy.md),
+See [PUBLISHING.md](PUBLISHING.md) for the Nimble release flow, and
+[language policy](../../docs/contributing/language-policy.md),
 [parity inventory](../../spec/parity/nim.md), and
 [implementation support](../../docs/languages/support.md).

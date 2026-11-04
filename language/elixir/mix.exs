@@ -9,7 +9,8 @@ defmodule Praxo.MixProject do
       start_permanent: Mix.env() == :prod,
       description: "Embeddable MIT-licensed agent framework for Elixir",
       package: package(),
-      deps: []
+      docs: docs(),
+      deps: deps()
     ]
   end
 
@@ -21,7 +22,28 @@ defmodule Praxo.MixProject do
     [
       licenses: ["MIT"],
       links: %{"GitHub" => "https://github.com/axisvela/praxo-core"},
-      files: ~w(lib api README.md LICENSE mix.exs)
+      files: ~w(lib api README.md CHANGELOG.md PUBLISHING.md LICENSE mix.exs)
+    ]
+  end
+
+  defp docs do
+    [
+      main: "readme",
+      extras: [
+        "README.md",
+        "CHANGELOG.md",
+        "PUBLISHING.md",
+        "SETUP.md",
+        "LICENSE",
+        "api/0.4.0.txt"
+      ],
+      skip_undefined_reference_warnings_on: ["README.md"]
+    ]
+  end
+
+  defp deps do
+    [
+      {:ex_doc, "~> 0.34", only: :dev, runtime: false}
     ]
   end
 end

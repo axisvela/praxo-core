@@ -1,12 +1,16 @@
-args <- commandArgs(trailingOnly = FALSE)
-script_arg <- args[grep("^--file=", args)]
-script <- sub("^--file=", "", script_arg[1])
-root <- normalizePath(file.path(dirname(script), "..", "..", ".."))
-source(file.path(root, "language", "r", "R", "json.R"))
-source(file.path(root, "language", "r", "R", "toolcall.R"))
-source(file.path(root, "language", "r", "R", "jsonschema.R"))
-source(file.path(root, "language", "r", "R", "plugin.R"))
-source(file.path(root, "language", "r", "R", "core.R"))
+if (requireNamespace("praxocore", quietly = TRUE)) {
+  library(praxocore)
+} else {
+  args <- commandArgs(trailingOnly = FALSE)
+  script_arg <- args[grep("^--file=", args)]
+  script <- sub("^--file=", "", script_arg[1])
+  root <- normalizePath(file.path(dirname(script), "..", "..", ".."))
+  source(file.path(root, "language", "r", "R", "json.R"))
+  source(file.path(root, "language", "r", "R", "toolcall.R"))
+  source(file.path(root, "language", "r", "R", "jsonschema.R"))
+  source(file.path(root, "language", "r", "R", "plugin.R"))
+  source(file.path(root, "language", "r", "R", "core.R"))
+}
 
 expect_code <- function(expr, code) {
   error <- tryCatch({ force(expr); NULL }, error = function(e) e)

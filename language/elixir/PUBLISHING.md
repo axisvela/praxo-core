@@ -4,7 +4,8 @@
 
 `praxo_core==0.4.0` is published from source tag `elixir/v0.4.0` with an
 interactive 2FA OTP. Hex reports `0.4.0`, `0.3.0`, `0.2.0`, and `0.1.1` for
-`praxo_core`. HexDocs are not published.
+`praxo_core`. HexDocs publication is handled by
+`.github/workflows/elixir-release.yml`.
 
 ## Build
 
@@ -24,12 +25,18 @@ python language/elixir/api-snapshot.py --check
 
 ## Publish
 
-Authenticate once, then publish:
+The `elixir-release` workflow runs the package and docs gates. A `publish`
+target or `elixir/v*` tag uploads the package and HexDocs when the registry does
+not already have the release. Configure the GitHub environment `hex` and
+repository secret `HEX_API_KEY`.
+
+For a local publish, authenticate once and run:
 
 ```bash
 cd language/elixir
 mix hex.user auth
 mix hex.publish
+mix hex.publish docs
 ```
 
 Or set `HEX_API_KEY` for the command environment. Do not put the key in the

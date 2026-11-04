@@ -33,4 +33,6 @@ CI runs all three on macOS. The package has no external dependencies.
 
 ## Release
 
-Tag shape: `swift/v0.2.0`. The tag targets `SPEC_VERSION` `0.2.0`.
+Tag shape: `swift/v0.2.0`. The tag targets `SPEC_VERSION` `0.2.0`. SPM and
+Swift Package Index consumption require a split repository with root
+`Package.swift` and plain semver tags; see [PUBLISHING.md](PUBLISHING.md).

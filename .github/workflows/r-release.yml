@@ -1,0 +1,45 @@
+name: r-release
+
+on:
+  push:
+    tags:
+      - "r/v*"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: r-release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: "release"
+      - name: Verify version and tag
+        shell: bash
+        run: |
+          version="$(awk '/^Version:/{print $2; exit}' language/r/DESCRIPTION)"
+          test -n "${version}"
+          if [ "${GITHUB_REF_TYPE}" = "tag" ]; then
+            test "r/v${version}" = "${GITHUB_REF_NAME}"
+          fi
+      - name: Run release gates
+        run: |
+          Rscript language/r/conformance/run.R
+          Rscript language/r/api-snapshot.R --check
+          Rscript language/r/tests/run_tests.R
+      - name: Build and check package
+        run: |
+          R CMD build language/r
+          R CMD check --no-manual --no-build-vignettes praxocore_*.tar.gz
+      - uses: actions/upload-artifact@v4
+        with:
+          name: r-source
+          path: praxocore_*.tar.gz
+          if-no-files-found: error

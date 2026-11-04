@@ -1,0 +1,99 @@
+name: haskell-release
+
+on:
+  push:
+    tags:
+      - "haskell/v*"
+  workflow_dispatch:
+    inputs:
+      target:
+        description: Publish target
+        required: true
+        default: build-only
+        type: choice
+        options:
+          - build-only
+          - publish
+
+permissions:
+  contents: read
+
+concurrency:
+  group: haskell-release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: haskell-actions/setup@v2
+        with:
+          ghc-version: "9.12.2"
+          cabal-version: "3.14.2.0"
+      - name: Verify version and tag
+        shell: bash
+        run: |
+          version="$(awk '/^version:/{print $2; exit}' language/haskell/praxo-core.cabal)"
+          test -n "${version}"
+          if [ "${GITHUB_REF_TYPE}" = "tag" ]; then
+            test "haskell/v${version}" = "${GITHUB_REF_NAME}"
+          fi
+      - name: Run release gates
+        run: |
+          python language/haskell/run-tests.py
+          python language/haskell/api-snapshot.py --check
+          cd language/haskell
+          cabal build --offline all
+          cabal test --offline
+          cabal sdist
+      - uses: actions/upload-artifact@v4
+        with:
+          name: haskell-sdist
+          path: language/haskell/dist-newstyle/sdist/praxo-core-*.tar.gz
+          if-no-files-found: error
+
+  publish:
+    needs: build
+    if: github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && inputs.target == 'publish')
+    runs-on: ubuntu-latest
+    environment:
+      name: hackage
+      url: https://hackage.haskell.org/package/praxo-core
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: haskell-sdist
+          path: dist
+      - uses: haskell-actions/setup@v2
+        with:
+          ghc-version: "9.12.2"
+          cabal-version: "3.14.2.0"
+      - name: Check published version
+        id: registry
+        shell: bash
+        run: |
+          version="$(awk '/^version:/{print $2; exit}' language/haskell/praxo-core.cabal)"
+          if curl -fsSL "https://hackage.haskell.org/package/praxo-core-${version}" >/dev/null; then
+            echo "already_published=true" >> "$GITHUB_OUTPUT"
+            echo "praxo-core@${version} is already published; skipping upload"
+          else
+            echo "already_published=false" >> "$GITHUB_OUTPUT"
+          fi
+      - name: Publish to Hackage
+        if: steps.registry.outputs.already_published != 'true'
+        env:
+          HACKAGE_TOKEN: ${{ secrets.HACKAGE_TOKEN }}
+        shell: bash
+        run: |
+          version="$(awk '/^version:/{print $2; exit}' language/haskell/praxo-core.cabal)"
+          test -n "${HACKAGE_TOKEN}"
+          cd language/haskell
+          cabal upload --publish --token "${HACKAGE_TOKEN}" \
+            "../../dist/praxo-core-${version}.tar.gz"
