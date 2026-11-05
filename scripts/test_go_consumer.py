@@ -16,13 +16,13 @@ class GoConsumerTests(unittest.TestCase):
         env = dict(os.environ, GOWORK="off")
         version = (ROOT / "VERSION").read_text(encoding="utf-8").strip()
         with tempfile.TemporaryDirectory(prefix="praxo-consumer-") as directory:
-            for filename in ("main.go", "main_test.go", "governed_test.go"):
+            for filename in ("main.go", "main_test.go", "governed_test.go", "identity_test.go"):
                 shutil.copy2(ROOT / "examples/consumer-go" / filename, directory)
             commands = [
                 ["mod", "init", "example.com/praxo-starter"],
                 ["get", "github.com/axisvela/praxo-core/v2@v" + version],
                 ["mod", "tidy"],
-                ["test", "-mod=readonly", "./..."],
+                ["test", "-mod=readonly", "-v", "./..."],
                 ["vet", "-mod=readonly", "./..."],
                 ["build", "-mod=readonly", "./..."],
                 ["run", "-mod=readonly", "."],
@@ -34,6 +34,9 @@ class GoConsumerTests(unittest.TestCase):
                         capture_output=True, text=True, timeout=180,
                     )
                     self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+                    if args[0] == "test":
+                        self.assertIn("TestGovernedReauthorizesFinalArguments", result.stdout)
+                        self.assertIn("TestIdentityAllowsVerifiedOperator", result.stdout)
                     if args[0] == "run":
                         self.assertEqual(
                             result.stdout,

@@ -48,6 +48,18 @@ nil-policy embeddable behavior; the guard is in the starter. They do not prove
 authentic identity, durable approvals, effect reconciliation, or a general
 security profile.
 
+## Identity and Policy Recipe
+
+```sh
+go test -mod=readonly -run Identity -v ./...
+```
+
+`identity_test.go` shows how an application supplies a verified principal and
+rejects missing, expired, tenant-mismatched, or insufficient roles. A model's
+role claim is ignored. This is an application pattern, not an identity provider
+or policy decision service. See the
+[identity and policy guide](../../docs/guides/identity-policy.md).
+
 Installation requires registry access or a populated module cache. Execution
 does not require an API key, model server, or AxisVela products. To start outside
 this checkout, follow the [consumer quickstart](../../docs/getting-started/consumer-go.md),
