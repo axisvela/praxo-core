@@ -37,9 +37,16 @@ adapters when consumers and maintainers justify the work, not to increase counts
 The [independent Go consumer](../getting-started/consumer-go.md),
 [Python consumer](../getting-started/consumer-python.md),
 [TypeScript consumer](../getting-started/consumer-typescript.md), and
-[Java consumer](../getting-started/consumer-java.md) provide current-package
-starter paths and allow/deny checks. Their existence does not mean
-the four-language stage or the adoption experiments are complete.
+[Java consumer](../getting-started/consumer-java.md) implement the four pilot
+current-package starter paths. Their published-package installation, build, and
+deterministic allow/deny checks pass in CI, and [Start Here](../getting-started/index.md)
+provides task-oriented selection guidance.
+
+Stage 1's consumer-path acceptance is therefore met for the four pilot
+languages. This is integration evidence, not adoption evidence: the adoption
+experiments have not run, the stage-0 baseline and contract clarifications
+remain open, and stages 2-4 are unchanged. The pilot language set does not
+reduce support commitments for Rust, C#, R, or other implementations.
 
 ### Consumer and Contract Baseline
 

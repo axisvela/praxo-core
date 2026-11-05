@@ -30,8 +30,13 @@
 [Go 独立消费者](../getting-started/consumer-go.md)、
 [Python 独立消费者](../getting-started/consumer-python.md)、
 [TypeScript 独立消费者](../getting-started/consumer-typescript.md)与
-[Java 独立消费者](../getting-started/consumer-java.md)提供当前发布包的
-Starter 与允许/拒绝检查。提供这些路径不代表四语言阶段或采用实验已经完成。
+[Java 独立消费者](../getting-started/consumer-java.md)已实现四个试点语言的当前发布包
+Starter。发布包安装、构建与确定性允许/拒绝检查已在 CI 通过，
+[阅读导览](../getting-started/index.md)提供任务型选型指引。
+
+因此，阶段 1 的消费者路径验收已对四个试点语言达成。这是集成证据，不是采用证据：
+采用实验尚未运行，阶段 0 的基线与契约澄清仍未完成，阶段 2-4 状态不变。试点语言集合
+不降低 Rust、C#、R 或其他实现的支持承诺。
 
 ### 消费者与契约基线
 
