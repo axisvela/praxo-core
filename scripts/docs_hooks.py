@@ -120,6 +120,11 @@ def sdk_readme(markdown, source):
 
 
 def on_page_markdown(markdown, page, config, files):
+    for filename in ("main.go", "main_test.go"):
+        marker = "<!-- go-consumer-source: " + filename + " -->"
+        if marker in markdown:
+            source = (ROOT / "examples/consumer-go" / filename).read_text(encoding="utf-8")
+            markdown = markdown.replace(marker, "```go\n" + source.rstrip() + "\n```")
     if "<!-- language-support-matrix -->" in markdown:
         source = (ROOT / "spec/languages.md").read_text(encoding="utf-8")
         markdown = markdown.replace("<!-- language-support-matrix -->", language_matrix(source, page.file.src_uri.startswith("zh-CN/")))

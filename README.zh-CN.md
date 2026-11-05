@@ -23,7 +23,10 @@
 go get github.com/axisvela/praxo-core/v2@v2.5.2
 ```
 
-从源码仓库运行 Ollama 示例：
+先通过[Go 独立消费者](docs/zh-CN/getting-started/consumer-go.md)在自己的应用安装发布包，
+运行确定性的允许/拒绝测试，无需检出源码、API Key 或模型服务。
+
+然后从源码仓库运行 Ollama 端点示例：
 
 ```bash
 export PRAXO_BASE_URL=http://localhost:11434/v1

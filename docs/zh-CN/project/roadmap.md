@@ -27,6 +27,9 @@
 首批四种 Starter 语言是采用试点范围，不降低 Rust、C#、R 或其他已声明实现的支持承诺。
 有消费者和维护者依据时再扩展 Starter 与适配器，不以增加数量为目标。
 
+[Go 独立消费者](../getting-started/consumer-go.md)提供当前发布包的 Starter 与允许/拒绝检查。
+提供该路径不代表四语言阶段或采用实验已经完成。
+
 ### 消费者与契约基线
 
 仓库已有 published-consumer CI 和禁止本地模块替换的测试。本次规划核对时，Go 消费者

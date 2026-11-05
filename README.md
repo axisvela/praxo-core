@@ -25,7 +25,11 @@ model providers and integrations. AxisVela products are not required.
 go get github.com/axisvela/praxo-core/v2@v2.5.2
 ```
 
-Run the quickstart from a checkout using Ollama:
+First verify the [independent Go consumer](docs/getting-started/consumer-go.md):
+create your own application with the published package and run deterministic
+allow/deny tests. No source checkout, API key, or model service is required.
+
+Then run the endpoint quickstart from a checkout using Ollama:
 
 ```bash
 export PRAXO_BASE_URL=http://localhost:11434/v1

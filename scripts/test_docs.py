@@ -2,6 +2,7 @@ from html.parser import HTMLParser
 from pathlib import Path
 import re
 import unittest
+from types import SimpleNamespace
 from urllib.parse import unquote, urljoin, urlsplit
 
 import yaml
@@ -31,6 +32,35 @@ class Links(HTMLParser):
 
 
 class DocumentationTests(unittest.TestCase):
+    def test_consumer_version_matches_recommended_release(self):
+        version = (ROOT / "VERSION").read_text(encoding="utf-8").strip()
+        module = (ROOT / "examples/consumer-go/go.mod").read_text(encoding="utf-8")
+        self.assertIn("require github.com/axisvela/praxo-core/v2 v" + version + "\n", module)
+        for prefix in ("", "zh-CN/"):
+            guide = (ROOT / "docs" / prefix / "getting-started/consumer-go.md").read_text(encoding="utf-8")
+            self.assertIn("go get github.com/axisvela/praxo-core/v2@v" + version, guide)
+
+    def test_consumer_source_uses_tested_files(self):
+        page = SimpleNamespace(meta={})
+        for filename in ("main.go", "main_test.go"):
+            marker = "<!-- go-consumer-source: " + filename + " -->"
+            source = (ROOT / "examples/consumer-go" / filename).read_text(encoding="utf-8")
+            rendered = docs_hooks.on_page_markdown(marker, page, None, None)
+            self.assertEqual(rendered, "```go\n" + source.rstrip() + "\n```")
+            for prefix in ("", "zh-CN/"):
+                text = (ROOT / "docs" / prefix / "getting-started/consumer-go.md").read_text(encoding="utf-8")
+                self.assertIn(marker, text)
+
+    def test_built_consumer_source(self):
+        for prefix in ("", "zh-CN/"):
+            html = (ROOT / "site" / prefix / "getting-started/consumer-go/index.html").read_text(encoding="utf-8")
+            parser = Links()
+            parser.feed(html)
+            text = "".join(parser.text)
+            self.assertIn("func runScenario(", text)
+            self.assertIn("func TestDeniedToolHasNoEffect(", text)
+            self.assertNotIn("go-consumer-source:", html)
+
     def test_sdk_readme_links(self):
         text = "[API](API.md) [spec](../../spec/README.md#wire) [anchor](#usage) [web](https://example.com/)"
         result = docs_hooks.sdk_readme(text, "language/python/README.md")

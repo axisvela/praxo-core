@@ -193,10 +193,14 @@ python language/cobol/run-tests.py
 These commands are implementation gates for the listed SDKs; consult
 `spec/languages.md` for release and maturity status.
 
-- Framework versions start at `0.x`.
+- The Go reference uses the `v2.x.y` module line. Independent implementations
+  version separately; some remain `0.x`.
 - Version tags and `VERSION` files use plain `X.Y.Z`; do not add `-rc`,
   `-beta`, `-alpha`, or other pre-release suffixes.
 - PRAXOVELA product versions are independent.
-- Breaking changes require a minor bump before `1.0.0`.
+- Breaking Go v2 changes require a new major version and module path. For `0.x`
+  implementations, breaking changes require a minor bump and migration note.
+- Follow `docs/project/compatibility-policy.md` and the normative `spec/` rules;
+  optional profiles do not bypass shared wire compatibility review.
 - Publish a compatibility note when a consumer (PRAXOVELA or an external
   product) upgrades.

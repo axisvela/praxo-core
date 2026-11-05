@@ -19,6 +19,10 @@ turnkey chat UI. If you need one of those, or a durable graph runtime, see
 
 ## 2. Build a 30-Minute Prototype
 
+First run the [independent Go consumer](consumer-go.md) to verify the published
+package and allow/deny behavior without a model service. The endpoint prototype
+below is the next step, not a complete standalone application.
+
 Use Go `1.26.10`, the tested CI and release toolchain. The root `go.mod`
 declares `1.25.0`, but that declaration is not a guarantee that all optional
 modules or security fixes are supported on that toolchain.

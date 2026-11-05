@@ -1,7 +1,13 @@
 # Quickstart
 
-This quickstart runs a governed agent against an OpenAI-compatible endpoint.
-No provider SDK is required.
+Start with the [independent Go consumer](consumer-go.md) to install a published
+package in your own application and verify allow/deny behavior without a source
+checkout, API key, or model service.
+
+The endpoint example below runs an agent against an OpenAI-compatible service.
+It requires a PRAXO-CORE source checkout; run its commands from the repository
+root. No provider SDK is required. Its permissive policy is not a production
+authorization configuration.
 
 ## Prerequisites
 

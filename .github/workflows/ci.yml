@@ -9,6 +9,32 @@ permissions:
   contents: read
 
 jobs:
+  current-go-consumer:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    env:
+      GOWORK: "off"
+    defaults:
+      run:
+        working-directory: examples/consumer-go
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: "1.26.10"
+          cache-dependency-path: examples/consumer-go/go.sum
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: go test -mod=readonly ./...
+      - run: go vet -mod=readonly ./...
+      - run: go build -mod=readonly ./...
+      - run: go run -mod=readonly .
+      - run: python scripts/test_go_consumer.py
+        working-directory: .
+
   published-consumer:
     runs-on: ubuntu-latest
     env:
