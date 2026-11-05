@@ -2,6 +2,9 @@ package main
 
 import (
 	"context"
+	"crypto/hmac"
+	"crypto/sha256"
+	"encoding/hex"
 	"encoding/json"
 	"os"
 	"path/filepath"
@@ -31,13 +34,33 @@ type remoteOperation struct {
 	Evidence string
 }
 
+type effectVerifier struct {
+	secret []byte
+}
+
+func newEffectVerifier(secret string) *effectVerifier {
+	return &effectVerifier{secret: []byte(secret)}
+}
+
+func (v *effectVerifier) sign(operationID, evidence string) string {
+	mac := hmac.New(sha256.New, v.secret)
+	mac.Write([]byte(operationID + "\n" + evidence))
+	return hex.EncodeToString(mac.Sum(nil))
+}
+
+func (v *effectVerifier) valid(operationID, evidence, receipt string) bool {
+	expected := v.sign(operationID, evidence)
+	return hmac.Equal([]byte(expected), []byte(receipt))
+}
+
 type remoteOperations struct {
-	mu      sync.Mutex
-	byKey   map[string]*remoteOperation
-	byID    map[string]*remoteOperation
-	effects int
-	next    int
-	path    string
+	mu       sync.Mutex
+	byKey    map[string]*remoteOperation
+	byID     map[string]*remoteOperation
+	effects  int
+	next     int
+	path     string
+	verifier *effectVerifier
 }
 
 type persistedOperations struct {
@@ -51,10 +74,15 @@ func newRemoteOperations() *remoteOperations {
 }
 
 func newRemoteOperationsAt(path string) *remoteOperations {
+	return newRemoteOperationsWithVerifier(path, newEffectVerifier("fixture-effect-secret"))
+}
+
+func newRemoteOperationsWithVerifier(path string, verifier *effectVerifier) *remoteOperations {
 	r := &remoteOperations{
-		byKey: map[string]*remoteOperation{},
-		byID:  map[string]*remoteOperation{},
-		path:  path,
+		byKey:   map[string]*remoteOperation{},
+		byID:    map[string]*remoteOperation{},
+		path:    path,
+		verifier: verifier,
 	}
 	if path == "" {
 		return r
@@ -158,11 +186,11 @@ func (r *remoteOperations) complete(id string) (remoteOperation, bool) {
 	return *op, true
 }
 
-func (r *remoteOperations) verifyEffect(id, evidence string) (remoteOperation, bool) {
+func (r *remoteOperations) verifyEffect(id, evidence, receipt string) (remoteOperation, bool) {
 	r.mu.Lock()
 	defer r.mu.Unlock()
 	op, ok := r.byID[id]
-	if !ok || op.State != remoteCompleted || evidence == "" {
+	if !ok || op.State != remoteCompleted || evidence == "" || !r.verifier.valid(id, evidence, receipt) {
 		return remoteOperation{}, false
 	}
 	op.State = remoteEffectVerified
@@ -296,21 +324,26 @@ func TestLongRunningSurvivesRestart(t *testing.T) {
 
 func TestLongRunningCompletionIsNotEffectVerification(t *testing.T) {
 	path := filepath.Join(t.TempDir(), "operations.json")
-	service := newRemoteOperationsAt(path)
+	verifier := newEffectVerifier("test-secret")
+	service := newRemoteOperationsWithVerifier(path, verifier)
 	op, _ := service.submit("key-1")
 	completed, ok := service.complete(op.ID)
 	if !ok || completed.State != remoteCompleted || completed.Evidence != "" {
 		t.Fatalf("completed=%#v ok=%v", completed, ok)
 	}
-	if _, ok := service.verifyEffect(op.ID, ""); ok {
+	if _, ok := service.verifyEffect(op.ID, "", ""); ok {
 		t.Fatal("effect verification without evidence was accepted")
 	}
-	restarted := newRemoteOperationsAt(path)
+	restarted := newRemoteOperationsWithVerifier(path, verifier)
 	status, ok := restarted.status(op.ID)
 	if !ok || status.State != remoteCompleted {
 		t.Fatalf("completion was not durable: %#v ok=%v", status, ok)
 	}
-	verified, ok := restarted.verifyEffect(op.ID, "room=kitchen;sensor=door")
+	evidence := "room=kitchen;sensor=door"
+	if _, ok := restarted.verifyEffect(op.ID, evidence, "forged"); ok {
+		t.Fatal("forged effect receipt was accepted")
+	}
+	verified, ok := restarted.verifyEffect(op.ID, evidence, verifier.sign(op.ID, evidence))
 	if !ok || verified.State != remoteEffectVerified || verified.Evidence == "" {
 		t.Fatalf("verified=%#v ok=%v", verified, ok)
 	}

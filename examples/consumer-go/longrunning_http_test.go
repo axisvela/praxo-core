@@ -78,12 +78,13 @@ func longRunningHandler(service *remoteOperations) http.Handler {
 		case "verify-effect":
 			var request struct {
 				Evidence string `json:"evidence"`
+				Receipt  string `json:"receipt"`
 			}
 			if err := json.NewDecoder(r.Body).Decode(&request); err != nil {
 				http.Error(w, "invalid request", http.StatusBadRequest)
 				return
 			}
-			op, ok = service.verifyEffect(id, request.Evidence)
+			op, ok = service.verifyEffect(id, request.Evidence, request.Receipt)
 		default:
 			http.Error(w, "unknown action", http.StatusNotFound)
 			return
@@ -236,7 +237,8 @@ func TestLongRunningHTTPRequiresBearerToken(t *testing.T) {
 
 func TestLongRunningHTTPCancelAndEffectEvidence(t *testing.T) {
 	path := filepath.Join(t.TempDir(), "operations.json")
-	service := newRemoteOperationsAt(path)
+	verifier := newEffectVerifier("http-secret")
+	service := newRemoteOperationsWithVerifier(path, verifier)
 	server := httptest.NewServer(longRunningHandler(service))
 	defer server.Close()
 	client := server.Client()
@@ -272,11 +274,16 @@ func TestLongRunningHTTPCancelAndEffectEvidence(t *testing.T) {
 	if status != http.StatusOK || !strings.Contains(string(body), "completed") {
 		t.Fatalf("complete status=%d body=%s", status, body)
 	}
+	evidence := "room=kitchen;sensor=door"
 	status, _ = postJSON(t, client, server.URL+"/operations/"+submitted.ID+"/verify-effect", map[string]any{"evidence": ""}, false)
 	if status != http.StatusConflict {
 		t.Fatalf("empty evidence status=%d", status)
 	}
-	status, body = postJSON(t, client, server.URL+"/operations/"+submitted.ID+"/verify-effect", map[string]any{"evidence": "room=kitchen;sensor=door"}, false)
+	status, _ = postJSON(t, client, server.URL+"/operations/"+submitted.ID+"/verify-effect", map[string]any{"evidence": evidence, "receipt": "forged"}, false)
+	if status != http.StatusConflict {
+		t.Fatalf("forged receipt status=%d", status)
+	}
+	status, body = postJSON(t, client, server.URL+"/operations/"+submitted.ID+"/verify-effect", map[string]any{"evidence": evidence, "receipt": verifier.sign(submitted.ID, evidence)}, false)
 	if status != http.StatusOK || !strings.Contains(string(body), "effect_verified") {
 		t.Fatalf("verify status=%d body=%s", status, body)
 	}

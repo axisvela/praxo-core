@@ -69,9 +69,10 @@ go test -mod=readonly -run LongRunning -v ./...
 `longrunning_test.go` and `longrunning_http_test.go` show idempotent submission,
 HTTP response loss, file-backed restart recovery, the difference between cancel
 request and confirmation, why Run cancellation does not stop a remote operation,
-and why completion is not effect verification. The loopback HTTP service is a
-fixture, not an authenticated deployment, crash-consistent database, lock,
-durable worker, or exactly-once effect ledger. See the
+why completion is not effect verification, and why a forged effect receipt is
+rejected. The loopback HTTP service and HMAC verifier are fixtures, not an
+authenticated deployment, independent verifier service, crash-consistent
+database, lock, durable worker, or exactly-once effect ledger. See the
 [long-running operations guide](../../docs/guides/long-running-operations.md).
 
 Installation requires registry access or a populated module cache. Execution

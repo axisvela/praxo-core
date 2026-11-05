@@ -46,6 +46,7 @@ GOWORK=off go test -mod=readonly -run LongRunning -v ./...
 | Run 取消 | 本地 Run 停止；远端仍为 `accepted`；不误报远端已取消 |
 | 文件持久化重启 | operation、幂等键、取消请求与确认在新服务实例中保留 |
 | 效果验证 | `completed` 不等于 `effect_verified`；验证需要证据并持久化 |
+| 效果收据 | 证据必须携带 verifier 签发的收据；伪造收据被拒绝，状态保持 `completed` |
 | HTTP 响应丢失 | 提交已成功但响应丢失；同幂等键重试返回现有操作 |
 | HTTP 重启 | 新 loopback 服务加载文件并回答状态/恢复查询 |
 | Bearer/TLS 边界 | 缺少或错误 token 在产生效果前被拒绝；使用测试 TLS 证书 |
@@ -63,6 +64,7 @@ Fixture 可持久化到 JSON 文件，并通过 loopback HTTP 暴露，从而在
   定义并发与留存语义。
 - 状态查询必须访问权威执行系统，不能只查缓存的 Checkpoint。
 - 取消请求不是取消确认；执行权威必须报告最终状态。
+- HMAC verifier 是进程内 fixture。真实部署需要独立验证权威、密钥管理、轮换与撤销。
 - 效果验证、lease/fencing、对账与留存属于执行系统或持久工作流产品。
 - 本配方不提供 exactly-once。
 

@@ -152,6 +152,9 @@ class DocumentationTests(unittest.TestCase):
         self.assertIn("TestLongRunningHTTPResponseLossAndRestart", http_source)
         self.assertIn("TestLongRunningHTTPRequiresBearerToken", http_source)
         self.assertIn("TestLongRunningHTTPCancelAndEffectEvidence", http_source)
+        self.assertIn("receipt", http_source)
+        page = (ROOT / "docs/guides/long-running-operations.md").read_text(encoding="utf-8")
+        self.assertIn("verifier-issued receipt", page)
         for prefix, phrase in (("", "Run canceled"), ("zh-CN/", "Run 取消")):
             page = (ROOT / "docs" / prefix / "guides/long-running-operations.md").read_text(encoding="utf-8")
             self.assertIn(phrase, page)

@@ -54,6 +54,7 @@ GOWORK=off go test -mod=readonly -run LongRunning -v ./...
 | Run cancellation | local Run stops; remote state remains `accepted`; no false remote-cancel claim |
 | File-backed restart | operation, idempotency key, cancel request, and confirmation survive a new service instance |
 | Effect verification | `completed` is not `effect_verified`; verification requires evidence and is persisted |
+| Effect receipt | evidence must carry a verifier-issued receipt; forged receipts are rejected and leave the state at `completed` |
 | HTTP response loss | commit succeeds but the response is lost; retry with the same key returns the existing operation |
 | HTTP restart | a new loopback service loads the file and answers status/recovery queries |
 | Bearer/TLS boundary | missing or wrong bearer token is rejected before any effect; a test TLS certificate is used |
@@ -79,6 +80,8 @@ implementation, or production effect ledger.
   checkpoint.
 - A cancel request is not a cancel confirmation; the execution authority must
   report the final state.
+- The HMAC verifier is an in-process fixture. A real deployment needs an
+  independent verification authority, key management, rotation, and revocation.
 - Effect verification, leases/fencing, reconciliation, and retention belong to
   the execution system or a durable workflow product.
 - This recipe does not provide exactly-once execution.
