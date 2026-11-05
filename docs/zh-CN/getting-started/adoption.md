@@ -19,6 +19,8 @@
 先运行[Go 独立消费者](consumer-go.md)，无需模型服务即可验证发布包与允许/拒绝行为。
 以下端点原型是后续步骤，不是完整独立应用。
 
+Python 应用可从[Python 独立消费者](consumer-python.md)开始。
+
 1. 添加模块：
 
    ```bash

@@ -27,6 +27,10 @@ pip install ./language/python
 
 ## Quickstart
 
+For a complete application with explicit tool scope, policy denial tests, and
+virtual-environment package checks, use the
+[independent Python consumer](../../docs/getting-started/consumer-python.md).
+
 ```python
 import asyncio
 

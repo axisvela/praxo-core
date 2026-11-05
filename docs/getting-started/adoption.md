@@ -23,6 +23,8 @@ First run the [independent Go consumer](consumer-go.md) to verify the published
 package and allow/deny behavior without a model service. The endpoint prototype
 below is the next step, not a complete standalone application.
 
+Python applications can start with the [independent Python consumer](consumer-python.md).
+
 Use Go `1.26.10`, the tested CI and release toolchain. The root `go.mod`
 declares `1.25.0`, but that declaration is not a guarantee that all optional
 modules or security fixes are supported on that toolchain.

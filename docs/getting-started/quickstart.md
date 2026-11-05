@@ -4,6 +4,9 @@ Start with the [independent Go consumer](consumer-go.md) to install a published
 package in your own application and verify allow/deny behavior without a source
 checkout, API key, or model service.
 
+For Python, use the [independent Python consumer](consumer-python.md) with the
+published PyPI package and isolated-environment acceptance tests.
+
 The endpoint example below runs an agent against an OpenAI-compatible service.
 It requires a PRAXO-CORE source checkout; run its commands from the repository
 root. No provider SDK is required. Its permissive policy is not a production

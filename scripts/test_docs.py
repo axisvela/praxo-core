@@ -1,6 +1,7 @@
 from html.parser import HTMLParser
 from pathlib import Path
 import re
+import tomllib
 import unittest
 from types import SimpleNamespace
 from urllib.parse import unquote, urljoin, urlsplit
@@ -32,6 +33,31 @@ class Links(HTMLParser):
 
 
 class DocumentationTests(unittest.TestCase):
+    def test_python_consumer_version_and_sources(self):
+        metadata = tomllib.loads((ROOT / "language/python/pyproject.toml").read_text(encoding="utf-8"))
+        version = metadata["project"]["version"]
+        requirement = "praxo-core==" + version
+        self.assertEqual((ROOT / "examples/consumer-python/requirements.txt").read_text().strip(), requirement)
+        page = SimpleNamespace(meta={})
+        for filename in ("starter.py", "test_starter.py"):
+            marker = "<!-- python-consumer-source: " + filename + " -->"
+            source = (ROOT / "examples/consumer-python" / filename).read_text(encoding="utf-8")
+            self.assertEqual(docs_hooks.on_page_markdown(marker, page, None, None), "```python\n" + source.rstrip() + "\n```")
+            for prefix in ("", "zh-CN/"):
+                guide = (ROOT / "docs" / prefix / "getting-started/consumer-python.md").read_text(encoding="utf-8")
+                self.assertIn(marker, guide)
+                self.assertIn(requirement, guide)
+
+    def test_built_python_consumer_source(self):
+        for prefix in ("", "zh-CN/"):
+            html = (ROOT / "site" / prefix / "getting-started/consumer-python/index.html").read_text(encoding="utf-8")
+            parser = Links()
+            parser.feed(html)
+            text = "".join(parser.text)
+            self.assertIn("def build_agent(", text)
+            self.assertIn("def test_denied_tool_has_no_effect(", text)
+            self.assertNotIn("python-consumer-source:", html)
+
     def test_consumer_version_matches_recommended_release(self):
         version = (ROOT / "VERSION").read_text(encoding="utf-8").strip()
         module = (ROOT / "examples/consumer-go/go.mod").read_text(encoding="utf-8")
