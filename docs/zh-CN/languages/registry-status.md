@@ -35,7 +35,7 @@
 | --- | --- | --- | --- | --- |
 | Julia | Julia General Registry | `0.2.0` | https://github.com/JuliaRegistries/General/pull/174826 | 注册 PR 待合并 |
 | Perl | CPAN | `0.1.1` | https://metacpan.org/dist/Praxo-Core | 已上传；MetaCPAN 索引待完成 |
-| OCaml | opam | `0.2.0` | https://github.com/ocaml/opam-repository/pull/31106 | 注册 PR 待合并；包 CI 已通过 |
+| OCaml | opam | `0.3.0` | https://github.com/ocaml/opam-repository/pull/31106 | 注册 PR 待合并；0.3.0 CI 待重跑 |
 | V | VPM | `0.1.2` | https://github.com/axisvela/praxo-core-v | mirror 已发布；VPM 未索引 |
 
 ## 仅源码或未发布到注册表
@@ -46,7 +46,7 @@
 | C++ | `cpp/v0.4.0` | 未发布注册表 |
 | Fortran | `fortran/v0.6.0` | fpm registry 上游暂停 |
 | COBOL | `cobol/v0.4.0` | 无主流注册表 |
-| Haskell | `haskell/v0.2.0` | sdist 已发布；candidate upload 待完成；token 上传受 Uploaders 组限制 |
+| Haskell | `haskell/v0.2.0` | sdist 已发布；API 和手工上传均需 Hackage trustees 将账号加入 Uploaders |
 | Objective-C | `objc/v0.1.1` | CocoaPods 发布待完成 |
 | Delphi / Free Pascal | `delphi/v0.2.1` | OPM 资产已发布；维护者提交待完成 |
 | Zig | `zig/v0.2.0` | 无中央注册表 |

@@ -97,7 +97,7 @@ for real providers, platforms, and production behavior is reported separately.
 | MATLAB | Core | released | `matlab/v0.2.1` | complete | 11 vectors, native tests, API snapshot/parity; Octave 11.3.0; MATLAB File Exchange `185166`; MATLAB runtime unverified |
 | Perl | Core | released | `perl/v0.1.1` | complete | 11 vectors, 27 tests, API snapshot; distribution root package `Praxo::Core` |
 | Delphi | Core | released | `delphi/v0.2.1` | complete | 11 vectors, native tests, API snapshot/parity; Free Pascal 3.2.2; commercial Delphi unverified |
-| OCaml / Caml | Core | released | `ocaml/v0.2.0` | complete | 11 vectors, native tests, API snapshot/parity; OCaml 4.14.2 bytecode; opt-in middleware integrated |
+| OCaml / Caml | Core | released | `ocaml/v0.3.0` | complete | 11 vectors, native tests, API snapshot/parity; OCaml 4.14.2 bytecode; module `Praxo_core`; opt-in middleware integrated |
 | Objective-C | Core | released | `objc/v0.1.1` | complete | 11 vectors, native tests, API snapshot/parity; opt-in middleware integrated; Windows GNUstep and macOS CI |
 | Elixir | Core | released | `elixir/v0.4.0` | complete | 11 vectors, HITL interrupts, native tests, API snapshot/parity, policy/middleware/lifecycle, cancellation, streaming, SSE, parallel tools, and run-scoped call limits; source `0.4.0`, Hex `praxo_core==0.4.0` |
 | Nim | Core | released | `nim/v0.1.1` | complete | 11 vectors, native tests, API snapshot/parity; opt-in middleware integrated |
@@ -155,7 +155,7 @@ for real providers, platforms, and production behavior is reported separately.
 | COBOL | `cobol-conformance` | 11 vectors, API snapshot, native/behavior/SSE/tooling tests |
 | Haskell | `haskell-conformance` | 11 vectors, native tests, source API/parity, Cabal build; source release tagged `haskell/v0.2.0` |
 | Delphi / Free Pascal | `delphi-conformance` | 11 vectors, native tests, source API/parity; source release tagged `delphi/v0.2.1`; commercial Delphi unverified |
-| OCaml | `ocaml-conformance` | 11 vectors, native tests, source API/parity; local OCaml 4.14.2 bytecode and Linux CI verified; source release tagged `ocaml/v0.2.0`; `ocamlopt` unverified |
+| OCaml | `ocaml-conformance` | 11 vectors, native tests, source API/parity; local OCaml 4.14.2 bytecode and Linux CI verified; source release tagged `ocaml/v0.3.0`; `ocamlopt` unverified |
 | Objective-C | `objc-conformance` | 11 vectors, native tests, source API/parity; local clang + GNUstep verified; macOS CI verified |
 | Elixir | `elixir-conformance` | 11 vectors, API snapshot, native tests; OTP 29 + Elixir 1.20.4 |
 | Erlang | `erlang-conformance` | 11 vectors, native tests, API snapshot/parity, OTP 29 |

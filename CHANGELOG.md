@@ -15,8 +15,8 @@ wired language to 20/20.
   produce `PRAXO-CORE.zip` and its OPM submission JSON. The assets are published
   on the `delphi/v0.2.1` GitHub release for OPM's manual maintainer-review path.
 - The Haskell `praxo-core-0.2.0` source distribution is published on the
-  `haskell/v0.2.0` GitHub release and is ready for the Hackage
-  candidate-upload page when API upload remains blocked by Uploaders access.
+  `haskell/v0.2.0` GitHub release. Both API and manual uploads still require
+  Hackage trustees to add the account to the Uploaders group.
 
 ### Published
 
@@ -42,6 +42,9 @@ wired language to 20/20.
   distribution indexing.
 - Released `ruby/v0.4.1` with Ruby-specific source metadata pointing at
   `axisvela/praxo-core-ruby` for Ruby Toolbox and gem consumers.
+- Released `ocaml/v0.3.0` with the Core module renamed from `Praxo` to
+  `Praxo_core`; the opam package remains `praxo-core`. OCaml module identifiers
+  cannot contain `-`, so `Praxo-Core` is the package name, not a module name.
 - Added the `axisvela/praxo-core-nim` mirror with a root
   `praxo_core.nimble`, `src/`, LICENSE, and tag `v0.1.1`; nim-lang/packages
   PR #3600 points `praxo_core` at the mirror so nimpkgs can crawl it.

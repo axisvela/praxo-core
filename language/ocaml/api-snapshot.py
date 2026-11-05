@@ -9,15 +9,15 @@ REPO = ROOT.parents[1]
 
 
 def interface():
-    text = (ROOT / "praxo.mli").read_text(encoding="utf-8")
+    text = (ROOT / "praxo_core.mli").read_text(encoding="utf-8")
     return text
 
 
 def snapshot():
     spec = (REPO / "spec/SPEC_VERSION").read_text(encoding="utf-8").strip()
     text = interface()
-    sdk = re.search(r'let sdk_version = "([^"]+)"', (ROOT / "praxo.ml").read_text(encoding="utf-8"))
-    declared_spec = re.search(r'let spec_version = "([^"]+)"', (ROOT / "praxo.ml").read_text(encoding="utf-8"))
+    sdk = re.search(r'let sdk_version = "([^"]+)"', (ROOT / "praxo_core.ml").read_text(encoding="utf-8"))
+    declared_spec = re.search(r'let spec_version = "([^"]+)"', (ROOT / "praxo_core.ml").read_text(encoding="utf-8"))
     if not sdk or not declared_spec or declared_spec[1] != spec:
         raise ValueError("OCaml SDK or contract version does not match specification")
     version_file = (ROOT / "VERSION").read_text(encoding="utf-8").strip()
@@ -38,7 +38,7 @@ def parity_errors():
     mli = interface()
     spec = (REPO / "spec/SPEC_VERSION").read_text(encoding="utf-8").strip()
     errors = []
-    sdk = re.search(r'let sdk_version = "([^"]+)"', (ROOT / "praxo.ml").read_text(encoding="utf-8"))[1]
+    sdk = re.search(r'let sdk_version = "([^"]+)"', (ROOT / "praxo_core.ml").read_text(encoding="utf-8"))[1]
     if "- Tier: core" not in text.splitlines():
         errors.append("OCaml parity tier is not core")
     if "- SPEC_VERSION: " + spec not in text.splitlines():
@@ -64,7 +64,7 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--check", action="store_true")
     args = parser.parse_args()
-    sdk = re.search(r'let sdk_version = "([^"]+)"', (ROOT / "praxo.ml").read_text(encoding="utf-8"))[1]
+    sdk = re.search(r'let sdk_version = "([^"]+)"', (ROOT / "praxo_core.ml").read_text(encoding="utf-8"))[1]
     target = ROOT / "api" / f"{sdk}.txt"
     content = snapshot()
     errors = parity_errors()

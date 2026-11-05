@@ -3,7 +3,7 @@
 - Tier: core
 - SPEC_VERSION: 0.2.0
 
-Released source tag `ocaml/v0.2.0` ships a native Core implementation. It passes
+Released source tag `ocaml/v0.3.0` ships a native Core implementation. It passes
 all eleven vector groups, its tests, and its public API snapshot. The agent
 integrates opt-in PII redaction, structured output, call limits, and tool
 selection; fallback models are supported. `partial` marks a surface that covers
@@ -13,32 +13,32 @@ by the declared gate.
 
 | Go symbol | OCaml symbol | Status | Phase |
 | --- | --- | --- | --- |
-| `model.Message` | `Praxo.core_message` | parity | P1 |
-| `model.Request` | `Praxo.request` | parity | P1 |
-| `model.Response` | `Praxo.response` | parity | P1 |
-| `model.Usage` | `Praxo.usage` | parity | P1 |
-| `tool.Tool` | `Praxo.tool` | parity | P1 |
-| `tool.Registry` | `Praxo.agent_options` | partial | P1 |
-| `event.Event` | `Praxo.core_event` | parity | P1 |
-| `event.Sink` | `Praxo.sink` | parity | P1 |
-| `policy.Decision` | `Praxo.decision` | parity | P1 |
-| `policy.PathChecker` | `Praxo.path_checker` | parity | P1 |
-| `memory.Store` | `Praxo.memory_store` | parity | P1 |
-| `memory.Record` | `Praxo.memory_record` | parity | P1 |
-| `checkpoint.Allowlist` | `Praxo.checkpoint_allowlist` | parity | P1 |
-| `agent/context.ContextBudget` | `Praxo.context_budget` | parity | P1 |
-| `agent/context.EstimateTokens` | `Praxo.estimate_tokens` | parity | P1 |
-| `agent.Agent` | `Praxo.run_agent` | parity | P1 |
-| `agent.Options` | `Praxo.agent_options` | parity | P1 |
-| `agent.New` | `Praxo.agent_options` | parity | P1 |
-| `agent/stream.StreamPart` | `Praxo.stream_kinds` | partial | P1 |
-| `toolcall.ParseToolCall` | `Praxo.parse_tool_call` | parity | P1 |
-| `toolcall.StripToolCallMarkup` | `Praxo.strip_tool_call_markup` | parity | P1 |
-| `toolcall.ParseInputJSON` | `Praxo.parse_input_json` | parity | P1 |
-| `tool/jsonschema.Schema` | `Praxo.validate_schema` | partial | P1 |
-| `plugin.ParseManifest` | `Praxo.validate_manifest` | parity | P1 |
-| `agent/middleware.CallLimitMiddleware` | `Praxo.call_limit` | parity | P1 |
-| `agent/middleware.FallbackModel` | `Praxo.fallback_model` | parity | P1 |
-| `agent/middleware.PIIMiddleware` | `Praxo.pii_redact` | parity | P1 |
-| `agent/middleware.StructuredOutput` | `Praxo.structured_output` | parity | P1 |
-| `agent/middleware.ToolSelectionMiddleware` | `Praxo.tool_selection` | parity | P1 |
+| `model.Message` | `Praxo_core.core_message` | parity | P1 |
+| `model.Request` | `Praxo_core.request` | parity | P1 |
+| `model.Response` | `Praxo_core.response` | parity | P1 |
+| `model.Usage` | `Praxo_core.usage` | parity | P1 |
+| `tool.Tool` | `Praxo_core.tool` | parity | P1 |
+| `tool.Registry` | `Praxo_core.agent_options` | partial | P1 |
+| `event.Event` | `Praxo_core.core_event` | parity | P1 |
+| `event.Sink` | `Praxo_core.sink` | parity | P1 |
+| `policy.Decision` | `Praxo_core.decision` | parity | P1 |
+| `policy.PathChecker` | `Praxo_core.path_checker` | parity | P1 |
+| `memory.Store` | `Praxo_core.memory_store` | parity | P1 |
+| `memory.Record` | `Praxo_core.memory_record` | parity | P1 |
+| `checkpoint.Allowlist` | `Praxo_core.checkpoint_allowlist` | parity | P1 |
+| `agent/context.ContextBudget` | `Praxo_core.context_budget` | parity | P1 |
+| `agent/context.EstimateTokens` | `Praxo_core.estimate_tokens` | parity | P1 |
+| `agent.Agent` | `Praxo_core.run_agent` | parity | P1 |
+| `agent.Options` | `Praxo_core.agent_options` | parity | P1 |
+| `agent.New` | `Praxo_core.agent_options` | parity | P1 |
+| `agent/stream.StreamPart` | `Praxo_core.stream_kinds` | partial | P1 |
+| `toolcall.ParseToolCall` | `Praxo_core.parse_tool_call` | parity | P1 |
+| `toolcall.StripToolCallMarkup` | `Praxo_core.strip_tool_call_markup` | parity | P1 |
+| `toolcall.ParseInputJSON` | `Praxo_core.parse_input_json` | parity | P1 |
+| `tool/jsonschema.Schema` | `Praxo_core.validate_schema` | partial | P1 |
+| `plugin.ParseManifest` | `Praxo_core.validate_manifest` | parity | P1 |
+| `agent/middleware.CallLimitMiddleware` | `Praxo_core.call_limit` | parity | P1 |
+| `agent/middleware.FallbackModel` | `Praxo_core.fallback_model` | parity | P1 |
+| `agent/middleware.PIIMiddleware` | `Praxo_core.pii_redact` | parity | P1 |
+| `agent/middleware.StructuredOutput` | `Praxo_core.structured_output` | parity | P1 |
+| `agent/middleware.ToolSelectionMiddleware` | `Praxo_core.tool_selection` | parity | P1 |

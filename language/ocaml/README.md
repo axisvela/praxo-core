@@ -1,7 +1,7 @@
 # PRAXO-CORE for OCaml
 
 PRAXO-CORE is an embeddable, MIT-licensed agent framework. This package is its
-native OCaml Core with source tag `ocaml/v0.2.0`. It passes all eleven vector
+native OCaml Core with source tag `ocaml/v0.3.0`. It passes all eleven vector
 groups on OCaml 4.14.2 bytecode and includes the native agent loop, memory store,
 checkpoint allowlist, lexical path policy, context compaction, event sinks,
 middleware helpers, and tool selection. It does not call Go or another language
@@ -16,7 +16,7 @@ production-ready.
 
 Local validation uses OCaml 4.14.2 in bytecode mode, and the Linux CI job runs
 the same full suite. The split repository `axisvela/praxo-core-ocaml` prepares
-opam package `praxo-core` 0.2.0; opam-repository PR #31106 is pending. Native
+opam package `praxo-core` 0.3.0; opam-repository PR #31106 is pending. Native
 `ocamlopt` compilation, commercial support, production readiness, and a delivery
 date are not claimed.
 
@@ -43,24 +43,24 @@ See [SETUP.md](SETUP.md) for the tested toolchain configuration and commands.
 To build manually from `language/ocaml/`:
 
 ```bash
-ocamlc -c praxo.mli
-ocamlc -c praxo.ml
+ocamlc -c praxo_core.mli
+ocamlc -c praxo_core.ml
 ocamlc -c praxo_tests.ml
-ocamlc -o build/praxo_tests praxo.cmo praxo_tests.cmo
+ocamlc -o build/praxo_tests praxo_core.cmo praxo_tests.cmo
 ocamlrun build/praxo_tests ../../spec
 ```
 
 ## API
 
 ```ocaml
-let node = Praxo.parse_json "{\"name\":\"echo\",\"input\":{\"text\":\"hi\"}}"
-let raw = Praxo.encode_json node
-let _call = Praxo.parse_tool_call raw
-let _paths = Praxo.validate_schema (Praxo.parse_json "{\"type\":\"string\"}") node
-let _manifest = Praxo.validate_manifest "{}"
+let node = Praxo_core.parse_json "{\"name\":\"echo\",\"input\":{\"text\":\"hi\"}}"
+let raw = Praxo_core.encode_json node
+let _call = Praxo_core.parse_tool_call raw
+let _paths = Praxo_core.validate_schema (Praxo_core.parse_json "{\"type\":\"string\"}") node
+let _manifest = Praxo_core.validate_manifest "{}"
 ```
 
-Public declarations are inventoried in [`api/0.2.0.txt`](api/0.2.0.txt).
+Public declarations are inventoried in [`api/0.3.0.txt`](api/0.3.0.txt).
 `validate_manifest` returns `Some manifest` only for a valid declaration.
 
 ## Current Limits

@@ -117,8 +117,8 @@ Registry values below were checked against the public registries on 2026-11-05.
 | Perl | `perl/v0.1.1` | CPAN `Praxo-Core` 0.1.1 uploaded; indexing pending | Not recorded |
 | PowerShell | `powershell/v0.2.0` | PowerShell Gallery `praxo-core-ps==0.2.0` published | Not recorded |
 | Nim | `nim/v0.1.1` | nim-lang/packages PR #3600 open; nimpkgs re-crawl pending | Not recorded |
-| OCaml | `ocaml/v0.2.0` | opam-repository PR #31106 open; package CI passed | Not recorded |
-| Haskell | `haskell/v0.2.0` | sdist published; candidate upload pending; token upload blocked by Uploaders group | Not recorded |
+| OCaml | `ocaml/v0.3.0` | opam-repository PR #31106 open; 0.3.0 CI rerun pending | Not recorded |
+| Haskell | `haskell/v0.2.0` | sdist published; API and manual uploads blocked until Hackage trustees add the account to Uploaders | Not recorded |
 | Delphi / Free Pascal | `delphi/v0.2.1` | OPM assets published; maintainer submission pending | Not recorded |
 
 ### Registry freshness against code
@@ -226,10 +226,10 @@ the installation source of truth.
 - Haskell has source tag `haskell/v0.2.0` with all eleven vector groups, native
   tests, API snapshot/parity, and runtime/middleware helpers. Hackage
   publication is prepared by `.github/workflows/haskell-release.yml`; the 0.2.0
-  sdist is published on the `haskell/v0.2.0` GitHub release and is ready for
-  the web candidate-upload flow. A valid `HACKAGE_TOKEN` still requires the
-  account to be in the Hackage Uploaders group. Production readiness is not
-  claimed.
+  sdist is published on the `haskell/v0.2.0` GitHub release. Both API and
+  manual candidate uploads return an unauthorized-uploader error until the
+  Hackage trustees add the account to the Uploaders group. Production
+  readiness is not claimed.
 - Delphi/Free Pascal has source tag `delphi/v0.2.1` with all eleven vector groups,
   native tests, and API snapshot/parity under Free Pascal 3.2.2. OPM assets
   are published on the `delphi/v0.2.1` GitHub release; maintainer submission
@@ -238,9 +238,9 @@ the installation source of truth.
 - MATLAB/Octave has source tag `matlab/v0.2.1` with all eleven vector groups,
   native tests, and API snapshot/parity under Octave. The MATLAB runtime,
   provider adapters, and package registries are not claimed.
-- OCaml has source tag `ocaml/v0.2.0` with all eleven vector groups, native
+- OCaml has source tag `ocaml/v0.3.0` with all eleven vector groups, native
   tests, and API snapshot/parity. The split package repository
-  `axisvela/praxo-core-ocaml` publishes opam package `praxo-core` 0.2.0;
+  `axisvela/praxo-core-ocaml` publishes opam package `praxo-core` 0.3.0 with module `Praxo_core`;
   opam-repository PR #31106 is open. Native `ocamlopt` compilation and
   provider adapters are not claimed.
 - Elixir source tag `elixir/v0.4.0` adds HITL interrupt decisions to policy
