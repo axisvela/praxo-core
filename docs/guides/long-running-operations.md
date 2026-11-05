@@ -57,6 +57,7 @@ GOWORK=off go test -mod=readonly -run LongRunning -v ./...
 | Effect receipt | evidence must carry a verifier-issued receipt; forged receipts are rejected and leave the state at `completed` |
 | HTTP response loss | commit succeeds but the response is lost; retry with the same key returns the existing operation |
 | HTTP restart | a new loopback service loads the file and answers status/recovery queries |
+| Cross-process restart | a separate test process serves HTTP; it is killed and restarted with the same file, and the main process recovers the existing operation |
 | Bearer/TLS boundary | missing or wrong bearer token is rejected before any effect; a test TLS certificate is used |
 
 The fixture can persist to a JSON file and expose it over a loopback HTTP service
@@ -71,8 +72,8 @@ implementation, or production effect ledger.
 - The HTTP service is a loopback test fixture. Its bearer token is static and
   its TLS certificate is a test certificate; it has no identity provider, token
   rotation, tenant binding, rate limiting, or production deployment guarantee.
-- Restart is simulated with a new service instance in the same process, not a
-  real process or machine failure.
+- Restart includes a killed child process with the same file, but the test does
+  not inject partial writes, power loss, or filesystem corruption.
 - In-process or single-file deduplication is not a production exactly-once
   mechanism. A real service must persist the idempotency key and result with
   defined concurrency and retention semantics.

@@ -49,6 +49,7 @@ GOWORK=off go test -mod=readonly -run LongRunning -v ./...
 | 效果收据 | 证据必须携带 verifier 签发的收据；伪造收据被拒绝，状态保持 `completed` |
 | HTTP 响应丢失 | 提交已成功但响应丢失；同幂等键重试返回现有操作 |
 | HTTP 重启 | 新 loopback 服务加载文件并回答状态/恢复查询 |
+| 跨进程重启 | 独立测试进程提供 HTTP；杀掉后用同一文件重启，主进程恢复现有操作 |
 | Bearer/TLS 边界 | 缺少或错误 token 在产生效果前被拒绝；使用测试 TLS 证书 |
 
 Fixture 可持久化到 JSON 文件，并通过 loopback HTTP 暴露，从而在真实传输边界上测试响应
@@ -59,7 +60,7 @@ Fixture 可持久化到 JSON 文件，并通过 loopback HTTP 暴露，从而在
 - 文件 fixture 直接写单个 JSON 文件，不提供崩溃一致的数据库、多进程锁或留存策略。
 - HTTP 服务是 loopback 测试 fixture。Bearer token 是静态值，TLS 是测试证书；没有身份
   提供商、token 轮换、租户绑定、限流或生产部署保证。
-- 重启通过同一进程内新服务实例模拟，不是真实进程或机器故障。
+- 重启包含杀掉子进程并用同一文件重启，但测试不注入部分写入、断电或文件系统损坏。
 - 进程内或单文件去重不是生产 exactly-once 机制。真实服务必须持久化幂等键与结果，并
   定义并发与留存语义。
 - 状态查询必须访问权威执行系统，不能只查缓存的 Checkpoint。

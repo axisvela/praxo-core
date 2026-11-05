@@ -153,8 +153,11 @@ class DocumentationTests(unittest.TestCase):
         self.assertIn("TestLongRunningHTTPRequiresBearerToken", http_source)
         self.assertIn("TestLongRunningHTTPCancelAndEffectEvidence", http_source)
         self.assertIn("receipt", http_source)
+        process_source = (ROOT / "examples/consumer-go/longrunning_process_test.go").read_text(encoding="utf-8")
+        self.assertIn("TestLongRunningCrossProcessRestart", process_source)
         page = (ROOT / "docs/guides/long-running-operations.md").read_text(encoding="utf-8")
         self.assertIn("verifier-issued receipt", page)
+        self.assertIn("Cross-process restart", page)
         for prefix, phrase in (("", "Run canceled"), ("zh-CN/", "Run 取消")):
             page = (ROOT / "docs" / prefix / "guides/long-running-operations.md").read_text(encoding="utf-8")
             self.assertIn(phrase, page)
