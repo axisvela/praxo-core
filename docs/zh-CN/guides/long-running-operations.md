@@ -50,6 +50,7 @@ GOWORK=off go test -mod=readonly -run LongRunning -v ./...
 | HTTP 响应丢失 | 提交已成功但响应丢失；同幂等键重试返回现有操作 |
 | HTTP 重启 | 新 loopback 服务加载文件并回答状态/恢复查询 |
 | 跨进程重启 | 独立测试进程提供 HTTP；杀掉后用同一文件重启，主进程恢复现有操作 |
+| 残留临时文件 | 忽略残留 `.tmp`；最后提交状态与幂等键保持完整 |
 | Bearer/TLS 边界 | 缺少或错误 token 在产生效果前被拒绝；使用测试 TLS 证书 |
 
 Fixture 可持久化到 JSON 文件，并通过 loopback HTTP 暴露，从而在真实传输边界上测试响应
@@ -57,7 +58,8 @@ Fixture 可持久化到 JSON 文件，并通过 loopback HTTP 暴露，从而在
 
 ## 限制
 
-- 文件 fixture 直接写单个 JSON 文件，不提供崩溃一致的数据库、多进程锁或留存策略。
+- 文件存储先写临时文件、同步，再 rename 覆盖主文件。这不是完整崩溃一致性证明：没有
+  同步目录，测试也不注入断电、文件系统损坏或多进程并发写入。
 - HTTP 服务是 loopback 测试 fixture。Bearer token 是静态值，TLS 是测试证书；没有身份
   提供商、token 轮换、租户绑定、限流或生产部署保证。
 - 重启包含杀掉子进程并用同一文件重启，但测试不注入部分写入、断电或文件系统损坏。

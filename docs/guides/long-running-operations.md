@@ -58,6 +58,7 @@ GOWORK=off go test -mod=readonly -run LongRunning -v ./...
 | HTTP response loss | commit succeeds but the response is lost; retry with the same key returns the existing operation |
 | HTTP restart | a new loopback service loads the file and answers status/recovery queries |
 | Cross-process restart | a separate test process serves HTTP; it is killed and restarted with the same file, and the main process recovers the existing operation |
+| Partial temp file | a leftover `.tmp` file is ignored; the last committed state and idempotency key remain intact |
 | Bearer/TLS boundary | missing or wrong bearer token is rejected before any effect; a test TLS certificate is used |
 
 The fixture can persist to a JSON file and expose it over a loopback HTTP service
@@ -67,8 +68,10 @@ implementation, or production effect ledger.
 
 ## Limits
 
-- The file-backed fixture writes one JSON file directly. It does not provide a
-  crash-consistent database, multi-process locking, or retention policy.
+- The file store writes a temporary file, syncs it, and renames it over the main
+  file. This is not a full crash-consistency proof: the directory is not synced,
+  and the test does not inject power loss, filesystem corruption, or concurrent
+  multi-process writers.
 - The HTTP service is a loopback test fixture. Its bearer token is static and
   its TLS certificate is a test certificate; it has no identity provider, token
   rotation, tenant binding, rate limiting, or production deployment guarantee.

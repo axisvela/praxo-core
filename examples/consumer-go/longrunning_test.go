@@ -120,7 +120,23 @@ func (r *remoteOperations) save() {
 	if err != nil {
 		panic(err)
 	}
-	if err := os.WriteFile(r.path, data, 0o600); err != nil {
+	temporary := r.path + ".tmp"
+	file, err := os.OpenFile(temporary, os.O_CREATE|os.O_WRONLY|os.O_TRUNC, 0o600)
+	if err != nil {
+		panic(err)
+	}
+	if _, err := file.Write(data); err != nil {
+		_ = file.Close()
+		panic(err)
+	}
+	if err := file.Sync(); err != nil {
+		_ = file.Close()
+		panic(err)
+	}
+	if err := file.Close(); err != nil {
+		panic(err)
+	}
+	if err := os.Rename(temporary, r.path); err != nil {
 		panic(err)
 	}
 }
@@ -319,6 +335,27 @@ func TestLongRunningSurvivesRestart(t *testing.T) {
 	status, ok = final.status(op.ID)
 	if !ok || status.State != remoteCanceled {
 		t.Fatalf("cancel confirmation was not durable: %#v ok=%v", status, ok)
+	}
+}
+
+func TestLongRunningPartialWriteDoesNotCorruptState(t *testing.T) {
+	path := filepath.Join(t.TempDir(), "operations.json")
+	service := newRemoteOperationsAt(path)
+	op, _ := service.submit("key-1")
+	if _, err := os.Stat(path + ".tmp"); !os.IsNotExist(err) {
+		t.Fatalf("temporary file was left behind: %v", err)
+	}
+	if err := os.WriteFile(path+".tmp", []byte("{partial"), 0o600); err != nil {
+		t.Fatal(err)
+	}
+	restarted := newRemoteOperationsAt(path)
+	status, ok := restarted.status(op.ID)
+	if !ok || status.State != remoteAccepted {
+		t.Fatalf("committed state was corrupted: %#v ok=%v", status, ok)
+	}
+	recovered, created := restarted.submit("key-1")
+	if created || recovered.ID != op.ID || restarted.effectCount() != 1 {
+		t.Fatalf("recovered=%#v created=%v effects=%d", recovered, created, restarted.effectCount())
 	}
 }
 
