@@ -25,6 +25,12 @@ the target. A denied call raises `PraxoException` with code
 verify the SDK version and that `Version` was loaded from the published
 `praxo-core-0.4.0.jar` in the local Maven repository.
 
+`GovernedAcceptanceTest` adds five negative checks: missing mandatory policy,
+empty tool scope, middleware final-argument change, approval-edit
+reauthorization, and policy-service failure. Every rejected path must leave the
+counter at zero. The guard is application-level; Core keeps its ordinary
+nil-policy behavior and this is not a general security profile.
+
 Installation needs Maven Central access or a populated local repository.
 Execution needs no API key, model service, or AxisVela product. This does not
 prove live-model quality, authentic identity, isolation, or durable effects.

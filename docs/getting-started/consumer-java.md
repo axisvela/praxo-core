@@ -62,6 +62,28 @@ name; Policy also checks the target argument. A denied call raises
 in-memory counter. An empty allowlist is not deny-all in the current API. Keep
 these tests when replacing the fixture with a real model adapter.
 
+## Governed Acceptance
+
+`GovernedAcceptanceTest` adds five negative checks:
+
+```sh
+mvn -B -Dtest=GovernedAcceptanceTest test
+```
+
+| Check | Required outcome |
+| --- | --- |
+| Missing mandatory policy | application guard rejects before a run; zero tool effects |
+| Empty tool scope | application guard rejects; zero tool effects |
+| Middleware changes final arguments | final operation is reauthorized; denial prevents the effect |
+| Approval edit changes arguments | edited operation is reauthorized; denial prevents the effect |
+| Policy service error | run fails closed; zero tool effects |
+
+Use the
+[tested source](https://github.com/axisvela/praxo-core/blob/main/examples/consumer-java/src/test/java/starter/GovernedAcceptanceTest.java).
+The guard is application-level: Core keeps its ordinary nil-policy behavior.
+These checks do not prove authentic identity, durable approvals, effect
+reconciliation, or a general security profile.
+
 These checks establish only the stated artifact and fixture behavior, not live
 model quality, authentic identity, isolation, durable effects, or production
 safety. Continue with the [Java implementation guide](../languages/java/index.md)

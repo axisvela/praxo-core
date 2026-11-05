@@ -20,13 +20,15 @@ def maven_command():
 
 class JavaConsumerTests(unittest.TestCase):
     def test_fresh_application_uses_maven_central_artifact(self):
-        with tempfile.TemporaryDirectory(prefix="praxo-java-consumer-") as directory:
+        build = ROOT / "build"
+        build.mkdir(exist_ok=True)
+        with tempfile.TemporaryDirectory(prefix="praxo-java-consumer-", dir=build) as directory:
             app = Path(directory)
             shutil.copy2(ROOT / "examples/consumer-java/pom.xml", app)
             shutil.copytree(ROOT / "examples/consumer-java/src", app / "src")
             maven = maven_command()
             commands = [
-                [*maven, "-B", "-q", "test"],
+                [*maven, "-B", "test"],
                 [*maven, "-B", "-q", "exec:java"],
             ]
             for command in commands:
@@ -40,6 +42,8 @@ class JavaConsumerTests(unittest.TestCase):
                         result.returncode, 0,
                         str(command) + "\n" + (result.stdout or "") + (result.stderr or ""),
                     )
+                    if command[-1] == "test":
+                        self.assertIn("GovernedAcceptanceTest", result.stdout or "")
                     if command[-1] == "exec:java":
                         lines = [line for line in result.stdout.splitlines() if line.strip()]
                         self.assertEqual(lines[-2:], [
