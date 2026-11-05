@@ -36,6 +36,19 @@ access or a cached wheel; execution needs no credentials or model service.
 This does not prove live-model quality, authentic identity, isolation, or
 durable effects.
 
+## Governed Acceptance
+
+```sh
+.venv/bin/python -I -m unittest discover -s . -p "test_governed.py" -v
+```
+
+`test_governed.py` adds five negative checks against the published package:
+missing mandatory policy, empty tool scope, middleware final-argument change,
+approval-edit reauthorization, and policy-service failure. Every rejected path
+must leave the tool's in-memory counter at zero. The guard is application-level;
+Core keeps its ordinary nil-policy behavior and this is not a general security
+profile.
+
 For a new application outside this repository, use the
 [consumer guide](../../docs/getting-started/consumer-python.md). From the repository
 root, `python scripts/test_python_consumer.py -v` reproduces the flow in a fresh

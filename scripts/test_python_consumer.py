@@ -20,7 +20,7 @@ class PythonConsumerTests(unittest.TestCase):
         env["PIP_CONFIG_FILE"] = os.devnull
         with tempfile.TemporaryDirectory(prefix="praxo-python-consumer-") as directory:
             app = Path(directory)
-            for filename in ("starter.py", "test_starter.py", "requirements.txt"):
+            for filename in ("starter.py", "test_starter.py", "test_governed.py", "requirements.txt"):
                 shutil.copy2(ROOT / "examples/consumer-python" / filename, app)
             environment = app / ".venv"
             venv.create(environment, with_pip=True)
@@ -38,6 +38,10 @@ class PythonConsumerTests(unittest.TestCase):
                     capture_output=True, text=True, timeout=180,
                 )
                 self.assertEqual(result.returncode, 0, str(args) + "\n" + result.stdout + result.stderr)
+                if args[:2] == ["-m", "unittest"]:
+                    output = result.stdout + result.stderr
+                    self.assertIn("test_final_arguments_are_reauthorized", output)
+                    self.assertIn("test_approval_edit_is_reauthorized", output)
                 if args == ["starter.py"]:
                     self.assertEqual(result.stdout, "allow: recorded; effects=1\ndeny: policy rejected; effects=0\n")
 

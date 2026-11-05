@@ -52,11 +52,11 @@ classification are documented in [Contract and Evidence Status](contract-status.
 and the Tool, Model, and Checkpoint wire descriptions are implemented. The
 adoption-task baseline and cross-product authority verification remain open.
 
-Stage 2 has started with Go consumer-runnable governed negative tests covering
-missing policy/scope, final-argument reauthorization, approval-edit
-reauthorization, and policy-service failure. Stage 2 is not complete: the same
-consumer-runnable acceptance for other languages, integration recipes, concise
-coding-agent instructions, optional skills, and registry metadata remain open.
+Stage 2 has started with Go and Python consumer-runnable governed negative tests
+covering missing policy/scope, final-argument reauthorization, approval-edit
+reauthorization, and policy-service failure. Stage 2 is not complete: TypeScript
+and Java acceptance, integration recipes, concise coding-agent instructions,
+optional skills, and registry metadata remain open.
 
 ### Consumer and Contract Baseline
 

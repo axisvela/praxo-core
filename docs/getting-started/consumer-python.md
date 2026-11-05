@@ -79,6 +79,28 @@ name; Policy also checks the target argument. Empty scope does not mean deny-all
 in the current API. A denied private target must never reach the in-memory effect
 counter. Keep these tests when replacing the fake model with a real adapter.
 
+## Governed Acceptance
+
+`test_governed.py` adds five negative checks:
+
+```sh
+.venv/bin/python -I -m unittest discover -s . -p "test_governed.py" -v
+```
+
+| Check | Required outcome |
+| --- | --- |
+| Missing mandatory policy | application guard rejects before a run; zero tool effects |
+| Empty tool scope | application guard rejects; zero tool effects |
+| Middleware changes final arguments | final operation is reauthorized; denial prevents the effect |
+| Approval edit changes arguments | edited operation is reauthorized; denial prevents the effect |
+| Policy service error | run fails closed; zero tool effects |
+
+Use the
+[tested source](https://github.com/axisvela/praxo-core/blob/main/examples/consumer-python/test_governed.py).
+The guard is application-level: Core keeps its ordinary nil-policy behavior.
+These checks do not prove authentic identity, durable approvals, effect
+reconciliation, or a general security profile.
+
 These checks establish only the stated package and fixture behavior, not live
 model quality, production security, or durable execution guarantees. Continue
 with the [Python API and implementation guide](../languages/python/index.md) and

@@ -72,5 +72,25 @@ deny: policy rejected; effects=0
 参数。当前 API 的空范围不表示 deny-all。被拒绝的 private 目标不得到达内存效果计数器。
 替换为真实模型适配器后仍需保留这些测试。
 
+## 治理验收
+
+`test_governed.py` 增加五项负向检查：
+
+```sh
+.venv/bin/python -I -m unittest discover -s . -p "test_governed.py" -v
+```
+
+| 检查 | 必须结果 |
+| --- | --- |
+| 缺少必需 Policy | 应用守卫在运行前拒绝；工具零副作用 |
+| 工具范围为空 | 应用守卫拒绝；工具零副作用 |
+| Middleware 改变最终参数 | 最终操作重新授权；拒绝阻止副作用 |
+| 审批编辑改变参数 | 编辑后的操作重新授权；拒绝阻止副作用 |
+| Policy 服务错误 | 运行 fail closed；工具零副作用 |
+
+使用[受测源码](https://github.com/axisvela/praxo-core/blob/main/examples/consumer-python/test_governed.py)。
+守卫属于应用层：Core 保留普通 nil-policy 行为。这些检查不证明真实身份、持久审批、
+效果对账或通用安全 Profile。
+
 这些检查仅证明指定发布包与 fixture 行为，不证明真实模型质量、生产安全或持久执行保证。
 后续参考[Python API 与实现指南](../languages/python/index.md)及[安全模型](../security/index.md)。
