@@ -1,0 +1,64 @@
+# For Coding Agents
+
+This page is a compact integration contract for coding agents that need to add a
+governed agent loop to an application. It is not a hidden installation channel
+and does not name a preferred tool. Use the published package for the target
+language and run the verification commands.
+
+## Package Map
+
+| Language | Package | Current recommended version | Starter |
+| --- | --- | --- | --- |
+| Go | `github.com/axisvela/praxo-core/v2` | `2.5.2` | [Go consumer](consumer-go.md) |
+| Python | `praxo-core` | `0.3.0` | [Python consumer](consumer-python.md) |
+| TypeScript | `@axisvela/praxo-core` | `0.2.0` | [TypeScript consumer](consumer-typescript.md) |
+| Java | `com.axisvela:praxo-core` | `0.4.0` | [Java consumer](consumer-java.md) |
+
+The machine-readable map is
+[`agent-integration.json`](agent-integration.json). Re-check the registry before
+installing; a source tag does not prove package availability.
+
+## Integration Contract
+
+1. **Install from the registry.** Do not use a source checkout, local
+   replacement, `file:`/`link:` dependency, `system` scope, or `PYTHONPATH`
+   substitution for the acceptance path.
+2. **Verify without credentials first.** Use a deterministic model and an
+   in-memory tool. No API key or model service should be required to prove
+   installation and authorization behavior.
+3. **Use explicit scope.** Configure an allowlist and policy. In the current
+   Core API an empty tool scope is unrestricted, not deny-all.
+4. **Authorize the final operation.** Middleware and approval edits that change
+   the tool name or arguments must be reauthorized.
+5. **Fail closed.** A failure of required policy or identity infrastructure must
+   not permit execution.
+6. **Test allow and deny.** A denied call must not produce a tool effect.
+7. **Delete no acceptance tests.** When replacing a fixture with a real model or
+   identity service, keep the denial, final-argument, and approval-edit checks.
+
+## Verify
+
+Run the language-specific commands from the starter directory. The four starters
+also include five governed negative checks; see each guide for exact commands.
+
+| Language | Verification |
+| --- | --- |
+| Go | `GOWORK=off go test -mod=readonly ./...` |
+| Python | In a dedicated virtual environment: `python -I -m unittest discover -s . -v` |
+| TypeScript | `npm test` |
+| Java | `mvn -B test` |
+
+## Do Not Infer
+
+Core fixtures and consumer tests do not prove live-model quality, authentic
+identity, durable approvals, effect commit, exactly-once execution, sandbox
+isolation, physical safety, or real-time control. A checkpoint is a recovery
+hint, not a transaction.
+
+## Agent Skills
+
+A skill committed to this repository is not automatically installed in Codex,
+Claude Code, Copilot, or another coding tool. Do not assume that a `SKILL.md`
+exists or that the tool will discover it. Install or mount skills through the
+tool's own supported mechanism; the documents and starters above are the
+canonical source of truth.

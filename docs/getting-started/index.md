@@ -10,6 +10,7 @@
 
 | Need | Start with | Important boundary |
 | --- | --- | --- |
+| Have a coding agent integrate Core | [For Coding Agents](coding-agents.md), [package map](agent-integration.json) | Concise contract and version-checked package map; not a hidden install channel or automatic skill |
 | Add a model/tool loop to a Go, Python, TypeScript, or Java application | [Go](consumer-go.md), [Python](consumer-python.md), [TypeScript](consumer-typescript.md), or [Java](consumer-java.md) consumer starter | Uses a published package, deterministic model, explicit tool scope, and a denial test; your application owns identity, persistence, and isolation |
 | Authorize tools and prove denial has no effects | The same consumer starters | A policy hook is an enforcement point, not an identity service or process sandbox |
 | Add human approval, checkpoints, or recovery | [Recipes](../guides/recipes.md), [adoption guide](adoption.md), [governed execution design](../reference/governed-execution.md) | Persistent approvals, leases, and effect reconciliation are integration responsibilities; the design is proposed, not a profile guarantee |

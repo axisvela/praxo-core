@@ -1,0 +1,68 @@
+{
+  "specVersion": "0.2.0",
+  "status": "Public package map for coding agents. Re-check the registry before installing; entries describe the current recommended published packages.",
+  "languages": [
+    {
+      "language": "Go",
+      "package": "github.com/axisvela/praxo-core/v2",
+      "version": "2.5.2",
+      "requirements": "Go 1.26.10 tested; the module declares 1.25.0",
+      "install": "go get github.com/axisvela/praxo-core/v2@v2.5.2",
+      "starter": "examples/consumer-go",
+      "guide": "docs/getting-started/consumer-go.md",
+      "verify": "GOWORK=off go test -mod=readonly ./...",
+      "governed": "GOWORK=off go test -mod=readonly -run Governed -v ./..."
+    },
+    {
+      "language": "Python",
+      "package": "praxo-core",
+      "version": "0.3.0",
+      "requirements": "Python 3.11 or newer",
+      "install": "pip install praxo-core==0.3.0",
+      "starter": "examples/consumer-python",
+      "guide": "docs/getting-started/consumer-python.md",
+      "verify": "python -I -m unittest discover -s . -v",
+      "governed": "python -I -m unittest discover -s . -p \"test_governed.py\" -v"
+    },
+    {
+      "language": "TypeScript",
+      "package": "@axisvela/praxo-core",
+      "version": "0.2.0",
+      "requirements": "Node.js 20 or newer",
+      "install": "npm install --save-exact @axisvela/praxo-core@0.2.0",
+      "starter": "examples/consumer-typescript",
+      "guide": "docs/getting-started/consumer-typescript.md",
+      "verify": "npm test",
+      "governed": "node --test governed.test.js"
+    },
+    {
+      "language": "Java",
+      "package": "com.axisvela:praxo-core",
+      "version": "0.4.0",
+      "requirements": "Java 21 or newer; Maven 3.9 or newer",
+      "install": "Maven dependency com.axisvela:praxo-core:0.4.0",
+      "starter": "examples/consumer-java",
+      "guide": "docs/getting-started/consumer-java.md",
+      "verify": "mvn -B test",
+      "governed": "mvn -B -Dtest=GovernedAcceptanceTest test"
+    }
+  ],
+  "integrationContract": [
+    "Install a published package from the registry. Do not use a source checkout, local replacement, system scope, or file/link dependency for acceptance.",
+    "Start with a deterministic model and an in-memory tool so installation and authorization can be verified without credentials or a model service.",
+    "Configure explicit tool scope and policy. In the current Core API an empty tool scope is unrestricted, not deny-all.",
+    "Authorize the final tool name and arguments. Middleware or approval edits that change them must be reauthorized.",
+    "A failure of a required policy or identity service must fail closed, not permit execution.",
+    "Keep allow and deny tests. A denied call must produce no tool effect.",
+    "Do not claim identity authenticity, durable approvals, effect commit, exactly-once, sandbox isolation, or physical safety from Core fixtures.",
+    "A checkpoint is a recovery hint, not a transaction or proof that an external effect committed."
+  ],
+  "doesNotProve": [
+    "Live model quality or provider behavior",
+    "Authentic caller or agent identity",
+    "Durable approval storage or revocation",
+    "Cross-process effect reconciliation or exactly-once execution",
+    "Process, network, or hardware isolation",
+    "Robot mission safety or real-time control"
+  ]
+}

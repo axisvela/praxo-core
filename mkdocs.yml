@@ -53,6 +53,7 @@ plugins:
             Python Consumer: Python 独立消费者
             TypeScript Consumer: TypeScript 独立消费者
             Java Consumer: Java 独立消费者
+            Coding Agents: 面向编程 Agent
             Adoption: 采用指南
             When Not to Use: 何时不应选择
             Guides: 使用指南
@@ -126,6 +127,7 @@ nav:
       - Python Consumer: getting-started/consumer-python.md
       - TypeScript Consumer: getting-started/consumer-typescript.md
       - Java Consumer: getting-started/consumer-java.md
+      - Coding Agents: getting-started/coding-agents.md
       - Adoption: getting-started/adoption.md
       - When Not to Use: getting-started/when-not-to-use.md
   - Guides:

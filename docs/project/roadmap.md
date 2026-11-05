@@ -55,8 +55,10 @@ adoption-task baseline and cross-product authority verification remain open.
 Stage 2 has started with Go, Python, TypeScript, and Java consumer-runnable
 governed negative tests covering missing policy/scope, final-argument
 reauthorization, approval-edit reauthorization, and policy-service failure.
-Stage 2 is not complete: integration recipes, concise coding-agent instructions,
-optional skills, and registry metadata remain open.
+A concise [coding-agent integration contract](../getting-started/coding-agents.md)
+and a version-checked [package map](../getting-started/agent-integration.json)
+are now available. Stage 2 is not complete: integration recipes, optional
+installable skills, and registry metadata remain open.
 
 ### Consumer and Contract Baseline
 

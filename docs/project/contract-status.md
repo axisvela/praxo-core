@@ -32,6 +32,7 @@ or the support levels in the [language matrix](../languages/matrix.md).
 | Go, Python, TypeScript, and Java consumer starters | Implemented; verified at their cited revisions | Published-package installation, build, and deterministic allow/deny checks; integration evidence, not adoption evidence |
 | Go, Python, TypeScript, and Java governed negative acceptance | Implemented; verified at their cited revisions | Five application-level checks in each: missing policy/scope, final-argument and approval-edit reauthorization, policy-service failure; not a general profile |
 | Governed Execution Profile | Proposed | The design defines acceptance criteria; no general Core profile is implemented |
+| Coding-agent integration map | Implemented; versions checked by documentation tests | Package map, integration contract, and verification commands; not an install channel, automatic skill, or adoption evidence |
 | Coding-agent adoption experiments | Not run | No discovery, selection, first-pass, repair-cost, or retention data |
 | Embodied Integration Profile | Not started | Requires a named consumer, middleware choice, and simulation scenario |
 | Language conformance, feature coverage, and operational evidence | See `spec/parity.md`, the language matrix, and Behavior Lab | Separate dimensions; a released source tag does not supply operational evidence |

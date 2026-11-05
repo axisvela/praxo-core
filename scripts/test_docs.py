@@ -67,6 +67,31 @@ class DocumentationTests(unittest.TestCase):
             self.assertIn(heading, page)
             self.assertIn("GovernedAcceptanceTest", page)
 
+    def test_agent_integration_map(self):
+        data = json.loads((ROOT / "docs/getting-started/agent-integration.json").read_text(encoding="utf-8"))
+        spec_version = (ROOT / "spec/SPEC_VERSION").read_text(encoding="utf-8").strip()
+        self.assertEqual(data["specVersion"], spec_version)
+        entries = {entry["language"]: entry for entry in data["languages"]}
+        self.assertEqual(set(entries), {"Go", "Python", "TypeScript", "Java"})
+        go_version = (ROOT / "VERSION").read_text(encoding="utf-8").strip()
+        python_version = tomllib.loads((ROOT / "language/python/pyproject.toml").read_text(encoding="utf-8"))["project"]["version"]
+        ts_version = json.loads((ROOT / "language/typescript/package.json").read_text(encoding="utf-8"))["version"]
+        java_version = ElementTree.parse(ROOT / "language/java/pom.xml").getroot().find(
+            "m:version", {"m": "http://maven.apache.org/POM/4.0.0"}).text
+        self.assertEqual(entries["Go"]["version"], go_version)
+        self.assertEqual(entries["Python"]["version"], python_version)
+        self.assertEqual(entries["TypeScript"]["version"], ts_version)
+        self.assertEqual(entries["Java"]["version"], java_version)
+        for entry in entries.values():
+            self.assertTrue((ROOT / entry["starter"]).is_dir(), entry["starter"])
+            self.assertTrue((ROOT / entry["guide"]).is_file(), entry["guide"])
+        for prefix in ("", "zh-CN/"):
+            page = (ROOT / "docs" / prefix / "getting-started/coding-agents.md").read_text(encoding="utf-8")
+            self.assertIn("agent-integration.json", page)
+            self.assertIn(entries["Go"]["version"], page)
+        self.assertIn("getting-started/coding-agents.md", (ROOT / "mkdocs.yml").read_text(encoding="utf-8"))
+        self.assertTrue((ROOT / "site/getting-started/agent-integration.json").is_file())
+
     def test_contract_status_vocabulary_and_links(self):
         expectations = {
             "": ("Implemented", "Proposed", "Experimental", "Not run", "Not started"),

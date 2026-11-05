@@ -10,6 +10,7 @@
 
 | 需求 | 起点 | 重要边界 |
 | --- | --- | --- |
+| 让编程 Agent 接入 Core | [面向编程 Agent](coding-agents.md)、[包映射](agent-integration.json) | 精简契约与版本校验的包映射；不是隐蔽安装渠道或自动 Skill |
 | 为 Go、Python、TypeScript 或 Java 应用加入模型/工具循环 | [Go](consumer-go.md)、[Python](consumer-python.md)、[TypeScript](consumer-typescript.md) 或 [Java](consumer-java.md) 独立消费者 | 使用发布包、确定性模型、显式工具范围与拒绝测试；身份、持久化和隔离由应用负责 |
 | 授权工具并证明拒绝无副作用 | 同上消费者 Starter | Policy Hook 是执行控制点，不是身份服务或进程沙箱 |
 | 人工审批、Checkpoint 或恢复 | [接入示例](../guides/recipes.md)、[采用指南](adoption.md)、[受治理执行设计](../reference/governed-execution.md) | 持久审批、lease 与效果对账属于集成职责；设计仍是提案，不是 Profile 保证 |
