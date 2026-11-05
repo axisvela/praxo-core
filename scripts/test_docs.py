@@ -145,7 +145,9 @@ class DocumentationTests(unittest.TestCase):
 
     def test_long_running_recipe(self):
         source = (ROOT / "examples/consumer-go/longrunning_test.go").read_text(encoding="utf-8")
-        self.assertGreaterEqual(source.count("func TestLongRunning"), 4)
+        self.assertGreaterEqual(source.count("func TestLongRunning"), 6)
+        self.assertIn("TestLongRunningSurvivesRestart", source)
+        self.assertIn("TestLongRunningCompletionIsNotEffectVerification", source)
         for prefix, phrase in (("", "Run canceled"), ("zh-CN/", "Run 取消")):
             page = (ROOT / "docs" / prefix / "guides/long-running-operations.md").read_text(encoding="utf-8")
             self.assertIn(phrase, page)

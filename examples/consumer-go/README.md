@@ -66,10 +66,11 @@ or policy decision service. See the
 go test -mod=readonly -run LongRunning -v ./...
 ```
 
-`longrunning_test.go` shows idempotent submission, recovery by authoritative
-state, the difference between cancel request and confirmation, and why Run
-cancellation does not stop a remote operation. The service is an in-memory
-fixture, not a durable worker or exactly-once effect ledger. See the
+`longrunning_test.go` shows idempotent submission, file-backed restart recovery,
+the difference between cancel request and confirmation, why Run cancellation
+does not stop a remote operation, and why completion is not effect verification.
+The service is a fixture, not a crash-consistent database, lock, durable worker,
+or exactly-once effect ledger. See the
 [long-running operations guide](../../docs/guides/long-running-operations.md).
 
 Installation requires registry access or a populated module cache. Execution

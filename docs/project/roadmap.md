@@ -67,9 +67,11 @@ new releases.
 
 Stage 3 has started with a Go consumer-runnable
 [long-running operation recipe](../guides/long-running-operations.md) covering
-idempotent submit, authoritative recovery, cancel request versus confirmation,
-and Run cancellation. It uses an in-memory fixture. Stage 3 is not complete: a
-real execution service, durable recovery, and effect verification remain open.
+idempotent submit, restart recovery, cancel request versus confirmation, Run
+cancellation, and completion versus effect verification. It uses a file-backed
+fixture, not a production database or lock. Stage 3 is not complete: a real
+execution service, crash-consistent recovery, and independent effect evidence
+remain open.
 
 ### Consumer and Contract Baseline
 

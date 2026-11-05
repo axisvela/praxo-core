@@ -2,6 +2,9 @@ package main
 
 import (
 	"context"
+	"encoding/json"
+	"os"
+	"path/filepath"
 	"sync"
 	"testing"
 	"time"
@@ -17,12 +20,15 @@ const (
 	remoteAccepted        remoteState = "accepted"
 	remoteCancelRequested remoteState = "cancel_requested"
 	remoteCanceled        remoteState = "canceled"
+	remoteCompleted       remoteState = "completed"
+	remoteEffectVerified  remoteState = "effect_verified"
 )
 
 type remoteOperation struct {
-	ID    string
-	Key   string
-	State remoteState
+	ID       string
+	Key      string
+	State    remoteState
+	Evidence string
 }
 
 type remoteOperations struct {
@@ -31,12 +37,63 @@ type remoteOperations struct {
 	byID    map[string]*remoteOperation
 	effects int
 	next    int
+	path    string
+}
+
+type persistedOperations struct {
+	Operations []remoteOperation
+	Effects    int
+	Next       int
 }
 
 func newRemoteOperations() *remoteOperations {
-	return &remoteOperations{
+	return newRemoteOperationsAt("")
+}
+
+func newRemoteOperationsAt(path string) *remoteOperations {
+	r := &remoteOperations{
 		byKey: map[string]*remoteOperation{},
 		byID:  map[string]*remoteOperation{},
+		path:  path,
+	}
+	if path == "" {
+		return r
+	}
+	data, err := os.ReadFile(path)
+	if err != nil {
+		if os.IsNotExist(err) {
+			return r
+		}
+		panic(err)
+	}
+	var persisted persistedOperations
+	if err := json.Unmarshal(data, &persisted); err != nil {
+		panic(err)
+	}
+	r.effects = persisted.Effects
+	r.next = persisted.Next
+	for _, item := range persisted.Operations {
+		op := item
+		r.byKey[op.Key] = &op
+		r.byID[op.ID] = &op
+	}
+	return r
+}
+
+func (r *remoteOperations) save() {
+	if r.path == "" {
+		return
+	}
+	state := persistedOperations{Effects: r.effects, Next: r.next}
+	for _, op := range r.byID {
+		state.Operations = append(state.Operations, *op)
+	}
+	data, err := json.Marshal(state)
+	if err != nil {
+		panic(err)
+	}
+	if err := os.WriteFile(r.path, data, 0o600); err != nil {
+		panic(err)
 	}
 }
 
@@ -51,6 +108,7 @@ func (r *remoteOperations) submit(key string) (remoteOperation, bool) {
 	r.byKey[key] = op
 	r.byID[op.ID] = op
 	r.effects++
+	r.save()
 	return *op, true
 }
 
@@ -72,6 +130,7 @@ func (r *remoteOperations) requestCancel(id string) (remoteOperation, bool) {
 		return remoteOperation{}, false
 	}
 	op.State = remoteCancelRequested
+	r.save()
 	return *op, true
 }
 
@@ -83,6 +142,32 @@ func (r *remoteOperations) confirmCancel(id string) (remoteOperation, bool) {
 		return remoteOperation{}, false
 	}
 	op.State = remoteCanceled
+	r.save()
+	return *op, true
+}
+
+func (r *remoteOperations) complete(id string) (remoteOperation, bool) {
+	r.mu.Lock()
+	defer r.mu.Unlock()
+	op, ok := r.byID[id]
+	if !ok || op.State != remoteAccepted {
+		return remoteOperation{}, false
+	}
+	op.State = remoteCompleted
+	r.save()
+	return *op, true
+}
+
+func (r *remoteOperations) verifyEffect(id, evidence string) (remoteOperation, bool) {
+	r.mu.Lock()
+	defer r.mu.Unlock()
+	op, ok := r.byID[id]
+	if !ok || op.State != remoteCompleted || evidence == "" {
+		return remoteOperation{}, false
+	}
+	op.State = remoteEffectVerified
+	op.Evidence = evidence
+	r.save()
 	return *op, true
 }
 
@@ -170,6 +255,69 @@ func TestLongRunningCancelRequestIsNotConfirmation(t *testing.T) {
 	}
 	if _, ok := service.confirmCancel(op.ID); ok {
 		t.Fatal("already canceled operation was confirmed twice")
+	}
+}
+
+func TestLongRunningSurvivesRestart(t *testing.T) {
+	path := filepath.Join(t.TempDir(), "operations.json")
+	service := newRemoteOperationsAt(path)
+	op, created := service.submit("key-1")
+	if !created {
+		t.Fatal("first submit was not created")
+	}
+	restarted := newRemoteOperationsAt(path)
+	status, ok := restarted.status(op.ID)
+	if !ok || status.State != remoteAccepted {
+		t.Fatalf("status after restart=%#v ok=%v", status, ok)
+	}
+	recovered, created := restarted.submit("key-1")
+	if created || recovered.ID != op.ID || restarted.effectCount() != 1 {
+		t.Fatalf("recovered=%#v created=%v effects=%d", recovered, created, restarted.effectCount())
+	}
+	requested, ok := restarted.requestCancel(op.ID)
+	if !ok || requested.State != remoteCancelRequested {
+		t.Fatalf("requested=%#v ok=%v", requested, ok)
+	}
+	restartedAgain := newRemoteOperationsAt(path)
+	status, ok = restartedAgain.status(op.ID)
+	if !ok || status.State != remoteCancelRequested {
+		t.Fatalf("cancel request was not durable: %#v ok=%v", status, ok)
+	}
+	confirmed, ok := restartedAgain.confirmCancel(op.ID)
+	if !ok || confirmed.State != remoteCanceled {
+		t.Fatalf("confirmed=%#v ok=%v", confirmed, ok)
+	}
+	final := newRemoteOperationsAt(path)
+	status, ok = final.status(op.ID)
+	if !ok || status.State != remoteCanceled {
+		t.Fatalf("cancel confirmation was not durable: %#v ok=%v", status, ok)
+	}
+}
+
+func TestLongRunningCompletionIsNotEffectVerification(t *testing.T) {
+	path := filepath.Join(t.TempDir(), "operations.json")
+	service := newRemoteOperationsAt(path)
+	op, _ := service.submit("key-1")
+	completed, ok := service.complete(op.ID)
+	if !ok || completed.State != remoteCompleted || completed.Evidence != "" {
+		t.Fatalf("completed=%#v ok=%v", completed, ok)
+	}
+	if _, ok := service.verifyEffect(op.ID, ""); ok {
+		t.Fatal("effect verification without evidence was accepted")
+	}
+	restarted := newRemoteOperationsAt(path)
+	status, ok := restarted.status(op.ID)
+	if !ok || status.State != remoteCompleted {
+		t.Fatalf("completion was not durable: %#v ok=%v", status, ok)
+	}
+	verified, ok := restarted.verifyEffect(op.ID, "room=kitchen;sensor=door")
+	if !ok || verified.State != remoteEffectVerified || verified.Evidence == "" {
+		t.Fatalf("verified=%#v ok=%v", verified, ok)
+	}
+	final := newRemoteOperationsAt(path)
+	status, ok = final.status(op.ID)
+	if !ok || status.State != remoteEffectVerified || status.Evidence == "" {
+		t.Fatalf("effect evidence was not durable: %#v ok=%v", status, ok)
 	}
 }
 

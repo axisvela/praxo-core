@@ -52,14 +52,22 @@ GOWORK=off go test -mod=readonly -run LongRunning -v ./...
 | Cancel request | state is `cancel_requested`, not `canceled` |
 | Cancel confirmation | authority moves the operation to `canceled` once |
 | Run cancellation | local Run stops; remote state remains `accepted`; no false remote-cancel claim |
+| File-backed restart | operation, idempotency key, cancel request, and confirmation survive a new service instance |
+| Effect verification | `completed` is not `effect_verified`; verification requires evidence and is persisted |
 
-The fixture keeps state in memory. It demonstrates the contract shape, not a
-durable worker, lease/fencing implementation, or production effect ledger.
+The fixture can persist to a JSON file so restart recovery can be tested. It
+still demonstrates the contract shape, not a durable worker, lease/fencing
+implementation, or production effect ledger.
 
 ## Limits
 
-- In-process deduplication does not survive a process crash. A real service must
-  persist the idempotency key and result.
+- The file-backed fixture writes one JSON file directly. It does not provide a
+  crash-consistent database, multi-process locking, or retention policy.
+- Restart is simulated with a new service instance in the same process, not a
+  real process or machine failure.
+- In-process or single-file deduplication is not a production exactly-once
+  mechanism. A real service must persist the idempotency key and result with
+  defined concurrency and retention semantics.
 - A status query must go to the authoritative execution system, not a cached
   checkpoint.
 - A cancel request is not a cancel confirmation; the execution authority must

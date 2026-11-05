@@ -44,13 +44,18 @@ GOWORK=off go test -mod=readonly -run LongRunning -v ./...
 | 取消请求 | 状态为 `cancel_requested`，不是 `canceled` |
 | 取消确认 | 执行权威仅一次将操作转为 `canceled` |
 | Run 取消 | 本地 Run 停止；远端仍为 `accepted`；不误报远端已取消 |
+| 文件持久化重启 | operation、幂等键、取消请求与确认在新服务实例中保留 |
+| 效果验证 | `completed` 不等于 `effect_verified`；验证需要证据并持久化 |
 
-Fixture 将状态保存在内存中。它展示契约形状，不是持久 worker、lease/fencing 实现或生产
-效果账本。
+Fixture 可持久化到 JSON 文件以测试重启恢复。它仍只展示契约形状，不是持久 worker、
+lease/fencing 实现或生产效果账本。
 
 ## 限制
 
-- 进程内去重不能跨进程崩溃保存。真实服务必须持久化幂等键与结果。
+- 文件 fixture 直接写单个 JSON 文件，不提供崩溃一致的数据库、多进程锁或留存策略。
+- 重启通过同一进程内新服务实例模拟，不是真实进程或机器故障。
+- 进程内或单文件去重不是生产 exactly-once 机制。真实服务必须持久化幂等键与结果，并
+  定义并发与留存语义。
 - 状态查询必须访问权威执行系统，不能只查缓存的 Checkpoint。
 - 取消请求不是取消确认；执行权威必须报告最终状态。
 - 效果验证、lease/fencing、对账与留存属于执行系统或持久工作流产品。

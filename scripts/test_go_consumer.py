@@ -38,6 +38,7 @@ class GoConsumerTests(unittest.TestCase):
                         self.assertIn("TestGovernedReauthorizesFinalArguments", result.stdout)
                         self.assertIn("TestIdentityAllowsVerifiedOperator", result.stdout)
                         self.assertIn("TestLongRunningRunCancellationLeavesRemoteState", result.stdout)
+                        self.assertIn("TestLongRunningSurvivesRestart", result.stdout)
                     if args[0] == "run":
                         self.assertEqual(
                             result.stdout,
