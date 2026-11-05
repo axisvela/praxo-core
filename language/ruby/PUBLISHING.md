@@ -2,9 +2,9 @@
 
 ## Status
 
-`praxo-core` `0.4.1` is the current source release. The Ruby-specific source
-repository is `axisvela/praxo-core-ruby`. RubyGems currently reports `0.4.0`,
-`0.3.0`, `0.2.0`, and `0.1.0` until `0.4.1` is published.
+`praxo-core` `0.4.1` is published from source tag `ruby/v0.4.1`. The
+Ruby-specific source repository is `axisvela/praxo-core-ruby`. RubyGems reports
+`0.4.1`, `0.4.0`, `0.3.0`, `0.2.0`, and `0.1.0`.
 
 ## Build
 

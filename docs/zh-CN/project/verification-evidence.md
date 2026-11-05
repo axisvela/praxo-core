@@ -27,7 +27,7 @@
 | TypeScript 已发布包 | npm 已从源码标签 `typescript/v0.2.0` 发布 `@axisvela/praxo-core@0.2.0`，并为 latest；已记录的干净临时项目安装 smoke 覆盖 `0.1.5` | Registry 发布 + 历史本地安装 smoke | `0.2.0` 的安装 smoke 未重跑；仅一个平台；不是独立消费者；不含 provider 或生产证据 |
 | Rust 已发布 crate | crates.io 已从源码标签 `rust/v0.3.0` 发布 `praxo-core==0.3.0`；已记录的干净临时项目安装 smoke 覆盖 `0.1.4` | Registry 发布 + 历史本地安装 smoke | registry smoke 覆盖 `0.1.4`，不是 `0.3.0`；仅一个平台；不是独立消费者；不含 provider 或生产证据 |
 | Dart 已发布包 | 从 pub.dev 在干净项目安装 `praxo_core==0.1.1`；程序导入 `package:praxo_core/praxo_core.dart`，并由最小 agent 返回 `hello` | 本地安装 smoke | 仅一个平台；同机项目，不是独立或非作者消费验证；仅最小 agent，不含 provider 或生产证据 |
-| Ruby 已发布 gem | RubyGems 已从源码标签 `ruby/v0.4.0` 发布 `praxo-core==0.4.0`；`0.3.0` 和 `0.2.0` 仍可用。已记录的干净临时目录 smoke 覆盖 `0.1.0` | Registry 发布 + 历史本地安装 smoke | 未对 `0.4.0` 重跑 registry 安装 smoke；仅一个平台；不是独立消费者；不含 provider 或生产证据 |
+| Ruby 已发布 gem | RubyGems 已从源码标签 `ruby/v0.4.1` 发布 `praxo-core==0.4.1`；gem 源码仓库为 `axisvela/praxo-core-ruby`。`0.4.0`、`0.3.0` 和 `0.2.0` 仍可用。已记录的干净临时目录 smoke 覆盖 `0.1.0` | Registry 发布 + 历史本地安装 smoke | 未对 `0.4.1` 重跑 registry 安装 smoke；仅一个平台；不是独立消费者；不含 provider 或生产证据 |
 | Lua 已发布 rock | LuaRocks 已通过 `.github/workflows/lua-release.yml` 发布 `praxo-core==0.4.0-1`；工作流构建 source rock、在干净目录安装并运行安装后 smoke；`0.3.0-1` 和 `0.2.0-1` 仍可用 | Registry 发布 + CI 安装 smoke | 尚未记录使用已发布 rock 的 registry 安装 smoke；仅一个平台；不是独立消费者；不含 provider 或生产证据 |
 | PHP 已发布包 | Packagist 从 split 标签 `v0.4.0` 发布 `axisvela/praxo-core==0.4.0`；`v0.3.0` 和 `v0.2.0` 仍可用 | Registry 发布 | 未记录 Composer 安装 smoke；仅一个平台；不是独立消费者；不含 provider 或生产证据 |
 | C# 已发布包 | `Praxo.Core==0.3.0` 由 GitHub Actions Trusted Publishing 从源码标签 `csharp/v0.3.0` 完成构建、测试、打包并推送到 NuGet | CI + registry | 本地无 .NET SDK，未执行消费者安装 smoke；一个包版本；不含 provider 或生产证据 |

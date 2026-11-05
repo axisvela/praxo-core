@@ -108,7 +108,7 @@ Registry values below were checked against the public registries on 2026-11-02.
 | C# | `csharp/v0.3.0` | NuGet `Praxo.Core==0.3.0` published | Not recorded |
 | Elixir | `elixir/v0.4.0` | Hex `praxo_core==0.4.0` published; `0.3.0`, `0.2.0` historical | Not rerun for `0.4.0`; historical `0.1.1` smoke |
 | Erlang | `erlang/v0.4.0` | Hex `praxo_core_erlang==0.4.0` published; `0.3.1`, `0.2.0` historical | Not rerun for `0.4.0`; historical `0.1.1` smoke |
-| Ruby | `ruby/v0.4.0` | RubyGems `praxo-core==0.4.0` published; `0.3.0`, `0.2.0` historical | Recorded only for `0.1.0`; not rerun for `0.4.0` |
+| Ruby | `ruby/v0.4.1` | RubyGems `praxo-core==0.4.1` published; `0.4.0`, `0.3.0`, `0.2.0` historical | Recorded only for `0.1.0`; not rerun for `0.4.1` |
 | Lua | `lua/v0.4.0` | LuaRocks `praxo-core==0.4.0-1`; `0.3.0-1`, `0.2.0-1` also published | `lua-release` builds and installs the source rock; registry install smoke pending |
 | PHP | `php/v0.4.0` | Packagist `axisvela/praxo-core==0.4.0` published; `v0.3.0`, `v0.2.0` historical | No Composer install smoke recorded |
 | Dart | `dart/v0.1.1` | pub.dev `praxo_core==0.1.1` | Recorded for `0.1.1` |
@@ -131,7 +131,7 @@ its latest version matches the manifest at the release tag.
 | C# | `0.3.0` | NuGet `0.3.0` | current |
 | Elixir | `0.4.0` | Hex `0.4.0` | current |
 | Erlang | `0.4.0` | Hex `0.4.0` | current |
-| Ruby | `0.4.0` | RubyGems `0.4.0` | current |
+| Ruby | `0.4.1` | RubyGems `0.4.1` | current |
 | PHP | `0.4.0` | Packagist `0.4.0` | current |
 | Lua | rockspec `0.4.0-1`; source tag `0.4.0` | LuaRocks `0.4.0-1` | current |
 | Dart | `0.1.1` | pub.dev `0.1.1` | current |

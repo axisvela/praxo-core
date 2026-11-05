@@ -79,7 +79,7 @@ Bridge、Sample 描述运行时的接入方式，不证明其语言缺乏 Framew
 | C# | `csharp/v0.3.0` | NuGet `Praxo.Core==0.3.0` 已发布 | 未记录 |
 | Elixir | `elixir/v0.4.0` | Hex `praxo_core==0.4.0` 已发布；`0.3.0`、`0.2.0` 为历史版本 | `0.4.0` 未重跑；历史 `0.1.1` smoke |
 | Erlang | `erlang/v0.4.0` | Hex `praxo_core_erlang==0.4.0` 已发布；`0.3.1`、`0.2.0` 为历史版本 | `0.4.0` 未重跑；历史 `0.1.1` smoke |
-| Ruby | `ruby/v0.4.0` | RubyGems `praxo-core==0.4.0` 已发布；`0.3.0`、`0.2.0` 为历史版本 | 仅记录 `0.1.0`；`0.4.0` 未重跑 |
+| Ruby | `ruby/v0.4.1` | RubyGems `praxo-core==0.4.1` 已发布；`0.4.0`、`0.3.0`、`0.2.0` 为历史版本 | 仅记录 `0.1.0`；`0.4.1` 未重跑 |
 | Lua | `lua/v0.4.0` | LuaRocks `praxo-core==0.4.0-1`；`0.3.0-1`、`0.2.0-1` 也已发布 | `lua-release` 构建并安装 source rock；registry 安装 smoke 待完成 |
 | PHP | `php/v0.4.0` | Packagist `axisvela/praxo-core==0.4.0` 已发布；`v0.3.0`、`v0.2.0` 为历史版本 | 未记录 Composer 安装 smoke |
 | Dart | `dart/v0.1.1` | pub.dev `praxo_core==0.1.1` | 已记录 `0.1.1` |
@@ -102,7 +102,7 @@ Bridge、Sample 描述运行时的接入方式，不证明其语言缺乏 Framew
 | C# | `0.3.0` | NuGet `0.3.0` | 已最新 |
 | Elixir | `0.4.0` | Hex `0.4.0` | 已最新 |
 | Erlang | `0.4.0` | Hex `0.4.0` | 已最新 |
-| Ruby | `0.4.0` | RubyGems `0.4.0` | 已最新 |
+| Ruby | `0.4.1` | RubyGems `0.4.1` | 已最新 |
 | PHP | `0.4.0` | Packagist `0.4.0` | 已最新 |
 | Lua | rockspec `0.4.0-1`；源码标签 `0.4.0` | LuaRocks `0.4.0-1` | 已最新 |
 | Dart | `0.1.1` | pub.dev `0.1.1` | 已最新 |

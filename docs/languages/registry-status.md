@@ -19,7 +19,7 @@ production readiness.
 | C# | NuGet | `0.3.0` | https://www.nuget.org/packages/Praxo.Core/0.3.0 | published |
 | Elixir | Hex / HexDocs | `0.4.0` | https://hex.pm/packages/praxo_core/0.4.0 · https://praxo-core.hexdocs.pm/0.4.0/ | published |
 | Erlang | Hex | `0.4.0` | https://hex.pm/packages/praxo_core_erlang/0.4.0 | published |
-| Ruby | RubyGems | `0.4.0` | https://rubygems.org/gems/praxo-core/versions/0.4.0 | published |
+| Ruby | RubyGems | `0.4.1` | https://rubygems.org/gems/praxo-core/versions/0.4.1 | published; Ruby source repo is `axisvela/praxo-core-ruby` |
 | Lua | LuaRocks | `0.4.0-1` | https://luarocks.org/modules/hanhhuiwen/praxo-core | published |
 | PHP | Packagist | `0.4.0` | https://packagist.org/packages/axisvela/praxo-core | published |
 | Dart | pub.dev | `0.1.1` | https://pub.dev/packages/praxo_core/versions/0.1.1 | published |

@@ -14,7 +14,7 @@ reference implementation.
 - License: MIT
 - Dependencies: Ruby standard library only
 - Ruby source repository: https://github.com/axisvela/praxo-core-ruby
-- The latest RubyGems package is `praxo-core@0.4.0`
+- The latest RubyGems package is `praxo-core@0.4.1`
 
 ## Install
 
