@@ -41,6 +41,10 @@ Starter。发布包安装、构建与确定性允许/拒绝检查已在 CI 通�
 阶段 0 部分完成：状态词汇、共享 Wire 变更分类以及 Tool、Model、Checkpoint Wire 描述
 已记录在[契约与证据状态](contract-status.md)。采用任务基线与跨产品权威核验仍未完成。
 
+阶段 2 已从 Go 消费者可运行的治理负向测试开始，覆盖缺少 Policy/范围、最终参数重授权、
+审批编辑重授权与 Policy 服务失败。阶段 2 未完成：其他语言的同类验收、集成配方、精简
+编程 Agent 指引、可选 Skill 与 Registry 元数据仍未完成。
+
 ### 消费者与契约基线
 
 仓库已有 published-consumer CI 和禁止本地模块替换的测试。本次规划核对时，Go 消费者

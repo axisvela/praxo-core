@@ -35,6 +35,14 @@ class Links(HTMLParser):
 
 
 class DocumentationTests(unittest.TestCase):
+    def test_go_governed_acceptance_docs(self):
+        source = (ROOT / "examples/consumer-go/governed_test.go").read_text(encoding="utf-8")
+        self.assertGreaterEqual(source.count("func TestGoverned"), 5)
+        for prefix, heading in (("", "Governed Acceptance"), ("zh-CN/", "治理验收")):
+            page = (ROOT / "docs" / prefix / "getting-started/consumer-go.md").read_text(encoding="utf-8")
+            self.assertIn(heading, page)
+            self.assertIn("go test -mod=readonly -run Governed", page)
+
     def test_contract_status_vocabulary_and_links(self):
         expectations = {
             "": ("Implemented", "Proposed", "Experimental", "Not run", "Not started"),

@@ -65,6 +65,26 @@ Fake Model 不依赖策略结果，始终请求工具。显式 `AllowedTools` �
 额外限制目标参数。private 目标被拒绝后，不得增加效果计数。当前 API 的空 allowlist
 不代表 deny-all。
 
+## 治理验收
+
+发布包测试还包含五项负向检查：
+
+```sh
+go test -mod=readonly -run Governed -v ./...
+```
+
+| 检查 | 必须结果 |
+| --- | --- |
+| 缺少必需 Policy | 应用守卫在运行前拒绝；工具零副作用 |
+| 工具范围为空 | 应用守卫拒绝；工具零副作用 |
+| Middleware 改变最终参数 | 最终操作重新授权；拒绝阻止副作用 |
+| 审批编辑改变参数 | 编辑后的操作重新授权；拒绝阻止副作用 |
+| Policy 服务错误 | 运行 fail closed；工具零副作用 |
+
+测试位于[受测源码](https://github.com/axisvela/praxo-core/blob/main/examples/consumer-go/governed_test.go)。
+守卫属于应用层：Core 保留普通 nil-policy 嵌入模式。这些检查不证明真实身份、持久审批、
+效果对账或通用安全 Profile。
+
 这些检查只证明该发布包 fixture，不证明真实模型质量、身份真实性、进程隔离、持久效果
 或生产安全。连接真实模型请继续阅读[端点快速开始](quickstart.md)与[采用指南](adoption.md)，
 替换 Fake Model 后仍需保留拒绝测试。

@@ -27,6 +27,27 @@ policy permit only the public target. The rejected private target never reaches
 the tool's in-memory effect counter. This is an integration fixture, not a real
 model, identity service, persistent effect ledger, or sandbox.
 
+## Governed Acceptance
+
+```sh
+go test -mod=readonly -run Governed -v ./...
+```
+
+`governed_test.go` adds five negative checks against the published package:
+
+| Check | Required outcome |
+| --- | --- |
+| Missing mandatory policy | application guard rejects before a run; zero tool effects |
+| Empty tool scope | application guard rejects; zero tool effects |
+| Middleware changes final arguments | final operation is reauthorized; denial prevents the effect |
+| Approval edit changes arguments | edited operation is reauthorized; denial prevents the effect |
+| Policy service error | run fails closed; zero tool effects |
+
+These are application-level acceptance checks. Core keeps its ordinary
+nil-policy embeddable behavior; the guard is in the starter. They do not prove
+authentic identity, durable approvals, effect reconciliation, or a general
+security profile.
+
 Installation requires registry access or a populated module cache. Execution
 does not require an API key, model server, or AxisVela products. To start outside
 this checkout, follow the [consumer quickstart](../../docs/getting-started/consumer-go.md),

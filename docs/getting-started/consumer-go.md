@@ -71,6 +71,28 @@ The fake model requests the tool regardless of policy. The explicit
 target argument. A rejected private target must never increment the effect
 counter. An empty allowlist is not a deny-all configuration in the current API.
 
+## Governed Acceptance
+
+The published-package tests also include five negative checks:
+
+```sh
+go test -mod=readonly -run Governed -v ./...
+```
+
+| Check | Required outcome |
+| --- | --- |
+| Missing mandatory policy | application guard rejects before a run; zero tool effects |
+| Empty tool scope | application guard rejects; zero tool effects |
+| Middleware changes final arguments | final operation is reauthorized; denial prevents the effect |
+| Approval edit changes arguments | edited operation is reauthorized; denial prevents the effect |
+| Policy service error | run fails closed; zero tool effects |
+
+The tests are in the
+[tested source](https://github.com/axisvela/praxo-core/blob/main/examples/consumer-go/governed_test.go).
+The guard is application-level: Core keeps its ordinary nil-policy embeddable
+behavior. These checks do not prove authentic identity, durable approvals,
+effect reconciliation, or a general security profile.
+
 These checks prove this published-package fixture only, not live-model quality,
 identity authenticity, process isolation, durable effects, or production safety.
 To connect a real model, continue with the [endpoint quickstart](quickstart.md#run-with-ollama)
