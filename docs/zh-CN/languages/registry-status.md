@@ -34,6 +34,7 @@
 | 语言 | 注册表 | 版本 | 地址 | 状态 |
 | --- | --- | --- | --- | --- |
 | Julia | Julia General Registry | `0.2.0` | https://github.com/JuliaRegistries/General/pull/174826 | 注册 PR 待合并 |
+| Octave | Octave Packages | `0.2.1` | https://github.com/gnu-octave/packages/pull/875 | 注册 PR 待合并 |
 | Perl | CPAN | `0.1.1` | https://metacpan.org/dist/Praxo-Core | 已上传；MetaCPAN 索引待完成 |
 | OCaml | opam | `0.3.0` | https://github.com/ocaml/opam-repository/pull/31106 | 注册 PR 待合并；包 CI 已通过；opam-ci 待完成 |
 | V | VPM | `0.1.2` | https://github.com/axisvela/praxo-core-v | mirror 已发布；VPM 未索引 |

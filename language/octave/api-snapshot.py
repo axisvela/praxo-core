@@ -1,0 +1,81 @@
+import argparse
+from pathlib import Path
+import re
+import sys
+
+
+ROOT = Path(__file__).resolve().parent
+REPO = ROOT.parents[1]
+
+
+def version():
+    sdk = (ROOT / "VERSION").read_text(encoding="utf-8").strip()
+    spec = (REPO / "spec/SPEC_VERSION").read_text(encoding="utf-8").strip()
+    declared_sdk = re.search(r"value = '([^']+)'", (ROOT / "+praxo/sdk_version.m").read_text(encoding="utf-8"))[1]
+    declared_spec = re.search(r"value = '([^']+)'", (ROOT / "+praxo/spec_version.m").read_text(encoding="utf-8"))[1]
+    if declared_sdk != sdk:
+        raise ValueError("Octave SDK version does not match VERSION")
+    if declared_spec != spec:
+        raise ValueError("Octave contract version does not match spec/SPEC_VERSION")
+    return sdk, spec
+
+
+def snapshot():
+    sdk, spec = version()
+    lines = ["# PRAXO-CORE Octave Core API " + sdk, "# SPEC_VERSION " + spec, ""]
+    for path in sorted((ROOT / "+praxo").glob("*.m")):
+        text = path.read_text(encoding="utf-8")
+        match = re.match(r"function\s+([^\n]+)", text)
+        if not match or not re.search(r"\b" + re.escape(path.stem) + r"\s*\(", match[1]):
+            raise ValueError("invalid public function declaration: " + str(path))
+        lines.append("praxo." + match[1].strip())
+    return "\n".join(lines) + "\n"
+
+
+def parity_errors():
+    text = (REPO / "spec/parity/octave.md").read_text(encoding="utf-8")
+    sdk, spec = version()
+    errors = []
+    if "- Tier: core" not in text.splitlines():
+        errors.append("Octave parity tier is not core")
+    if "- SPEC_VERSION: " + spec not in text.splitlines():
+        errors.append("contract version mismatch")
+    if "`octave/v" + sdk + "`" not in text:
+        errors.append("parity release tag does not match VERSION")
+    rows = 0
+    for line in text.splitlines():
+        if not line.startswith("| `"):
+            continue
+        cells = line.split("|")
+        symbol = cells[2].strip(" `")
+        if not symbol.startswith("praxo.") or not (ROOT / "+praxo" / (symbol[6:] + ".m")).is_file():
+            errors.append("missing parity function: " + symbol)
+        rows += 1
+    if rows == 0:
+        errors.append("empty parity inventory")
+    return errors
+
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--check", action="store_true")
+    args = parser.parse_args()
+    sdk, _ = version()
+    target = ROOT / "api" / f"{sdk}.txt"
+    content = snapshot()
+    errors = parity_errors()
+    if errors:
+        raise ValueError("\n".join(errors))
+    if args.check:
+        if not target.is_file() or target.read_text(encoding="utf-8") != content:
+            print("Octave API snapshot is missing or stale", file=sys.stderr)
+            return 1
+        print("Octave API snapshot and parity are current")
+    else:
+        target.parent.mkdir(exist_ok=True)
+        target.write_text(content, encoding="utf-8", newline="\n")
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

@@ -161,7 +161,8 @@ nav:
       - COBOL: languages/cobol/index.md
       - Fortran: languages/fortran/index.md
       - Haskell: languages/haskell/index.md
-      - MATLAB / Octave: languages/matlab/index.md
+      - MATLAB: languages/matlab/index.md
+      - Octave: languages/octave/index.md
       - Delphi / Free Pascal: languages/delphi/index.md
       - OCaml: languages/ocaml/index.md
       - Objective-C: languages/objective-c/index.md

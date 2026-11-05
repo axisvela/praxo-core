@@ -114,6 +114,7 @@ Registry values below were checked against the public registries on 2026-11-05.
 | Dart | `dart/v0.1.1` | pub.dev `praxo_core==0.1.1` | Recorded for `0.1.1` |
 | Julia | `julia/v0.2.0` | General Registry PR #174826 open via mirror `0.2.0` | Not recorded |
 | MATLAB | `matlab/v0.2.1` | MATLAB File Exchange `185166` published | Not recorded |
+| Octave | `octave/v0.2.1` | Octave Packages PR #875 open; package archive published | Not recorded |
 | Perl | `perl/v0.1.1` | CPAN `Praxo-Core` 0.1.1 uploaded; indexing pending | Not recorded |
 | PowerShell | `powershell/v0.2.0` | PowerShell Gallery `praxo-core-ps==0.2.0` published | Not recorded |
 | Nim | `nim/v0.1.1` | nim-lang/packages PR #3600 open; nimpkgs re-crawl pending | Not recorded |
@@ -141,6 +142,7 @@ its latest version matches the manifest at the release tag.
 | Dart | `0.1.1` | pub.dev `0.1.1` | current |
 | Julia | `0.2.0` | General Registry PR #174826 open | pending |
 | MATLAB | `0.2.1` | File Exchange `185166` | current |
+| Octave | `0.2.1` | Octave Packages PR #875 open | pending |
 | Perl | `0.1.1` | CPAN indexing pending | pending |
 | PowerShell | `0.2.0` | PowerShell Gallery `0.2.0` | current |
 
@@ -235,9 +237,13 @@ the installation source of truth.
   are published on the `delphi/v0.2.1` GitHub release; maintainer submission
   is pending. The commercial Delphi compiler and other targets are not
   claimed.
-- MATLAB/Octave has source tag `matlab/v0.2.1` with all eleven vector groups,
-  native tests, and API snapshot/parity under Octave. The MATLAB runtime,
-  provider adapters, and package registries are not claimed.
+- MATLAB has source tag `matlab/v0.2.1` with all eleven vector groups, native
+  tests, and API snapshot/parity. MATLAB File Exchange `185166` is published;
+  the MATLAB runtime and provider adapters are not claimed.
+- Octave has source tag `octave/v0.2.1` with all eleven vector groups, native
+  tests, and API snapshot/parity under GNU Octave 11.3.0. The package archive is
+  published on the `octave/v0.2.1` GitHub release and Octave Packages PR #875
+  is open.
 - OCaml has source tag `ocaml/v0.3.0` with all eleven vector groups, native
   tests, and API snapshot/parity. The split package repository
   `axisvela/praxo-core-ocaml` publishes opam package `praxo-core` 0.3.0 with module `Praxo_core`;

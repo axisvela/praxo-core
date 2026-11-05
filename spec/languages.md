@@ -94,7 +94,8 @@ for real providers, platforms, and production behavior is reported separately.
 | Ruby | Core | released | `ruby/v0.4.1` | complete | 11 vectors, HITL interrupts, core tests, API snapshot, middleware/lifecycle authorization, cancellation, streaming, SSE, parallel tools, and run-scoped call limits; source `0.4.1`, Ruby source repo `axisvela/praxo-core-ruby`, RubyGems `praxo-core==0.4.1` |
 | Kotlin | Sample (JVM) | released | none | sample | Uses the Java Core |
 | Scala | Sample (JVM) | released | none | sample | Uses the Java Core |
-| MATLAB | Core | released | `matlab/v0.2.1` | complete | 11 vectors, native tests, API snapshot/parity; Octave 11.3.0; MATLAB File Exchange `185166`; MATLAB runtime unverified |
+| MATLAB | Core | released | `matlab/v0.2.1` | complete | 11 vectors, native tests, API snapshot/parity; MATLAB File Exchange `185166`; MATLAB runtime unverified |
+| Octave | Core | released | `octave/v0.2.1` | complete | 11 vectors, native tests, API snapshot/parity under GNU Octave 11.3.0; Octave Packages PR #875 open |
 | Perl | Core | released | `perl/v0.1.1` | complete | 11 vectors, 27 tests, API snapshot; distribution root package `Praxo::Core` |
 | Delphi | Core | released | `delphi/v0.2.1` | complete | 11 vectors, native tests, API snapshot/parity; Free Pascal 3.2.2; commercial Delphi unverified |
 | OCaml / Caml | Core | released | `ocaml/v0.3.0` | complete | 11 vectors, native tests, API snapshot/parity; OCaml 4.14.2 bytecode; module `Praxo_core`; opt-in middleware integrated |
@@ -164,7 +165,8 @@ for real providers, platforms, and production behavior is reported separately.
 | Lisp | `lisp-bridge` | forwarding, UTF-8 JSON, errors, exit codes; local SBCL 2.6.9 and Linux CI verified; source release tagged `lisp/v0.1.0` |
 | Tcl | `tcl-bridge` | forwarding, UTF-8 JSON, errors, exit codes; local Tcl 8.6; source release tagged `tcl/v0.1.0` |
 | Prolog | `prolog-bridge` | forwarding, UTF-8 JSON, errors, exit codes; SWI-Prolog; source release tagged `prolog/v0.1.1` |
-| MATLAB / Octave | `matlab-conformance` | Octave: 11 vectors, native tests, source API/parity; source release tagged `matlab/v0.2.1`; MATLAB runtime unverified |
+| MATLAB | `matlab-conformance` | 11 vectors, native tests, source API/parity; source release tagged `matlab/v0.2.1`; MATLAB runtime unverified |
+| Octave | `octave-conformance`, `octave-package` | 11 vectors, native tests, source API/parity; source release tagged `octave/v0.2.1`; Octave package archive install smoke |
 | Further languages | none yet | planned; gate depends on declared tier |
 
 ## Required Gates per Contract Tier

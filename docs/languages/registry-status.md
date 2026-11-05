@@ -36,6 +36,7 @@ production readiness.
 | Language | Registry | Version | Address | Status |
 | --- | --- | --- | --- | --- |
 | Julia | Julia General Registry | `0.2.0` | https://github.com/JuliaRegistries/General/pull/174826 | registration PR open |
+| Octave | Octave Packages | `0.2.1` | https://github.com/gnu-octave/packages/pull/875 | registration PR open |
 | Perl | CPAN | `0.1.1` | https://metacpan.org/dist/Praxo-Core | uploaded; MetaCPAN indexing pending |
 | OCaml | opam | `0.3.0` | https://github.com/ocaml/opam-repository/pull/31106 | registration PR open; package CI passed; opam-ci pending |
 | V | VPM | `0.1.2` | https://github.com/axisvela/praxo-core-v | mirror published; VPM not indexed |

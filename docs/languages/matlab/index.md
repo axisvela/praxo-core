@@ -1,4 +1,4 @@
 ---
-title: MATLAB / Octave Core
+title: MATLAB Core
 sdk_readme: language/matlab/README.md
 ---

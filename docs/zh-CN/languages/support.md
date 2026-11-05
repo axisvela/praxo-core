@@ -85,6 +85,7 @@ Bridge、Sample 描述运行时的接入方式，不证明其语言缺乏 Framew
 | Dart | `dart/v0.1.1` | pub.dev `praxo_core==0.1.1` | 已记录 `0.1.1` |
 | Julia | `julia/v0.2.0` | General Registry PR #174826 已创建；mirror `0.2.0` | 未记录 |
 | MATLAB | `matlab/v0.2.1` | MATLAB File Exchange `185166` 已发布 | 未记录 |
+| Octave | `octave/v0.2.1` | Octave Packages PR #875 待合并；包归档已发布 | 未记录 |
 | Perl | `perl/v0.1.1` | CPAN `Praxo-Core` 0.1.1 已上传；索引待完成 | 未记录 |
 | PowerShell | `powershell/v0.2.0` | PowerShell Gallery `praxo-core-ps==0.2.0` 已发布 | 未记录 |
 | Nim | `nim/v0.1.1` | nim-lang/packages PR #3600 待合并；nimpkgs 待重新抓取 | 未记录 |
@@ -112,6 +113,7 @@ Bridge、Sample 描述运行时的接入方式，不证明其语言缺乏 Framew
 | Dart | `0.1.1` | pub.dev `0.1.1` | 已最新 |
 | Julia | `0.2.0` | General Registry PR #174826 待合并 | 待完成 |
 | MATLAB | `0.2.1` | File Exchange `185166` | 已最新 |
+| Octave | `0.2.1` | Octave Packages PR #875 待合并 | 待完成 |
 | Perl | `0.1.1` | CPAN 索引待完成 | 待完成 |
 | PowerShell | `0.2.0` | PowerShell Gallery `0.2.0` | 已最新 |
 
@@ -170,8 +172,11 @@ Bridge、Sample 描述运行时的接入方式，不证明其语言缺乏 Framew
 - Delphi/Free Pascal 已有源码标签 `delphi/v0.2.1`，在 Free Pascal 3.2.2 下通过
   全部 11 个向量组、原生测试和 API 快照/parity。OPM 资产已发布到 `delphi/v0.2.1` GitHub release，
   维护者提交待完成。商业 Delphi 编译器和其他目标平台未声明。
-- MATLAB/Octave 已有源码标签 `matlab/v0.2.1`，在 Octave 下通过全部 11 个向量组、
-  原生测试和 API 快照/parity。MATLAB 运行时、提供商适配器和包管理器发布均未声明。
+- MATLAB 已有源码标签 `matlab/v0.2.1`，包含全部 11 个向量组、原生测试和 API 快照/parity。
+  MATLAB File Exchange `185166` 已发布；MATLAB 运行时和提供商适配器未声明。
+- Octave 已有源码标签 `octave/v0.2.1`，在 GNU Octave 11.3.0 下通过全部 11 个向量组、
+  原生测试和 API 快照/parity。包归档已发布到 `octave/v0.2.1` GitHub release，
+  Octave Packages PR #875 待合并。
 - OCaml 已有源码标签 `ocaml/v0.3.0`，包含全部 11 个向量组、原生测试和 API
   快照/parity。split 包仓库 `axisvela/praxo-core-ocaml` 发布 opam 包
   `praxo-core` 0.3.0（模块 `Praxo_core`）；opam-repository PR #31106 待合并。原生 `ocamlopt` 编译和

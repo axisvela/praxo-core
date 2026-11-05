@@ -14,6 +14,10 @@ wired language to 20/20.
 - Delphi/Free Pascal now ships `praxo_core.lpk` and `build_opm.py`, which
   produce `PRAXO-CORE.zip` and its OPM submission JSON. The assets are published
   on the `delphi/v0.2.1` GitHub release for OPM's manual maintainer-review path.
+- Octave now has an independent `language/octave` Core with source tag
+  `octave/v0.2.1`, `DESCRIPTION`, and `build_octave_package.py`. Its
+  `inst/+praxo` archive is published on the `octave/v0.2.1` release and
+  submitted to Octave Packages as PR #875.
 - The Haskell `praxo-core-0.2.0` source distribution is published on the
   `haskell/v0.2.0` GitHub release. Both API and manual uploads still require
   Hackage trustees to add the account to the Uploaders group.

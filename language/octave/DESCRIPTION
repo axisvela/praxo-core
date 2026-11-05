@@ -1,0 +1,13 @@
+name: praxo-core
+version: 0.2.1
+date: 2026-11-05
+author: AxisVela
+maintainer: AxisVela <releases@axisvela.com>
+title: PRAXO-CORE agent framework Core for GNU Octave
+description: Native Octave Core for the PRAXO-CORE agent framework. It provides
+ tools, policy hooks, events, memory, checkpoints, context compaction,
+ middleware, JSON Schema validation, plugin manifest parsing, and a native
+ agent loop without a Go or other language runtime.
+categories: package
+license: MIT
+depends: octave (>= 7.0.0)

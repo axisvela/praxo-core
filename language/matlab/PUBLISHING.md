@@ -52,8 +52,7 @@ MATLAB R2026b requires `UseLicenseBSD` for `.mltbx` files uploaded to File
 Exchange. This project is MIT-licensed, so if that requirement blocks the
 submission, upload a ZIP of the package instead of the `.mltbx`.
 
-## Octave Packages
+## Octave
 
-For Octave Packages, add package metadata and package the `+praxo` directory,
-then open a pull request to <https://github.com/gnu-octave/packages>. No separate
-account is required.
+The independent Octave Core and its package publication flow live in
+[language/octave/PUBLISHING.md](../octave/PUBLISHING.md).

@@ -154,6 +154,27 @@ jobs:
       - run: sudo apt-get update && sudo apt-get install -y octave
       - run: python language/matlab/run-tests.py --octave octave-cli
 
+  octave-conformance:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: sudo apt-get update && sudo apt-get install -y octave
+      - run: python language/octave/run-tests.py --octave octave-cli
+
+  octave-package:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: sudo apt-get update && sudo apt-get install -y octave
+      - run: python language/octave/build_octave_package.py
+      - run: octave-cli --quiet --eval "pkg install '$PWD/language/octave/build/octave/praxo-core-0.2.1.tar.gz'; pkg load praxo-core; assert(strcmp(praxo.sdk_version(), '0.2.1'));"
+
   delphi-conformance:
     runs-on: ubuntu-latest
     steps:

@@ -97,6 +97,9 @@ python language/haskell/run-tests.py
 python language/haskell/api-snapshot.py --check
 python language/matlab/run-tests.py
 python language/matlab/api-snapshot.py --check
+python language/octave/run-tests.py --octave octave-cli
+python language/octave/api-snapshot.py --check
+python language/octave/build_octave_package.py
 cd language/delphi; fpc -Mobjfpc -Scghi -O2 -Fu. -FEbuild praxo.pas
 cd language/delphi; python run-tests.py
 python language/delphi/api-snapshot.py --check

@@ -52,7 +52,8 @@ wire-only scope requires documented technical limitations. See the
 | V | [V Core](v/index.md) |
 | Objective-C | [Objective-C Core](objective-c/index.md) |
 | OCaml / Caml | [OCaml Core](ocaml/index.md) |
-| MATLAB / Octave | [MATLAB/Octave Core](matlab/index.md) |
+| MATLAB | [MATLAB Core](matlab/index.md) |
+| Octave | [Octave Core](octave/index.md) |
 | Haskell | [Haskell Core](haskell/index.md) |
 | Delphi / Free Pascal | [Delphi / Free Pascal Core](delphi/index.md) |
 

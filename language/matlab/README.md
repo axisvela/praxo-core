@@ -1,15 +1,18 @@
-# PRAXO-CORE for MATLAB and Octave
+# PRAXO-CORE for MATLAB
 
-Native Core implementation with source tag `matlab/v0.2.1`. It is published on
-[MATLAB File Exchange](https://www.mathworks.com/matlabcentral/fileexchange/185166-praxo-core). It passes all eleven
-vector groups under GNU Octave 11.3.0 and includes the native agent loop, memory
-store, checkpoint allowlist, lexical path policy, context compaction, event
-sinks, middleware helpers, and tool selection. It does not delegate its behavior
-to Go or another language Core.
+Native MATLAB Core implementation with source tag `matlab/v0.2.1`. It is
+published on
+[MATLAB File Exchange](https://www.mathworks.com/matlabcentral/fileexchange/185166-praxo-core).
+The shared implementation passes all eleven vector groups under GNU Octave
+11.3.0 and includes the native agent loop, memory store, checkpoint allowlist,
+lexical path policy, context compaction, event sinks, middleware helpers, and
+tool selection. It does not delegate its behavior to Go or another language
+Core.
 
-Local validation uses GNU Octave 11.3.0; MATLAB compatibility is a target, not
-yet independently verified. The source tag does not imply package-registry
-publication, production readiness, or a delivery date.
+The independent Octave Core lives in `language/octave` with source tag
+`octave/v0.2.1`. Local validation uses GNU Octave 11.3.0; MATLAB compatibility
+is a target, not yet independently verified. The source tag does not imply
+production readiness or a delivery date.
 
 ## Run the Checks
 
