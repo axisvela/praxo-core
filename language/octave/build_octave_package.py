@@ -29,6 +29,7 @@ def main() -> None:
 
     shutil.copy2(DESCRIPTION, stage / "DESCRIPTION")
     shutil.copy2(ROOT / "LICENSE", stage / "LICENSE")
+    shutil.copy2(ROOT / "COPYING", stage / "COPYING")
     shutil.copy2(ROOT / "OCTAVE-README.md", stage / "README.md")
     shutil.copytree(CORE / "+praxo", stage / "inst" / "+praxo")
 
