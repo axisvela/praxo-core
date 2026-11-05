@@ -40,6 +40,7 @@ class GoConsumerTests(unittest.TestCase):
                         self.assertIn("TestLongRunningRunCancellationLeavesRemoteState", result.stdout)
                         self.assertIn("TestLongRunningSurvivesRestart", result.stdout)
                         self.assertIn("TestLongRunningHTTPResponseLossAndRestart", result.stdout)
+                        self.assertIn("TestLongRunningHTTPRequiresBearerToken", result.stdout)
                     if args[0] == "run":
                         self.assertEqual(
                             result.stdout,

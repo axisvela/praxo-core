@@ -150,6 +150,7 @@ class DocumentationTests(unittest.TestCase):
         self.assertIn("TestLongRunningCompletionIsNotEffectVerification", source)
         http_source = (ROOT / "examples/consumer-go/longrunning_http_test.go").read_text(encoding="utf-8")
         self.assertIn("TestLongRunningHTTPResponseLossAndRestart", http_source)
+        self.assertIn("TestLongRunningHTTPRequiresBearerToken", http_source)
         self.assertIn("TestLongRunningHTTPCancelAndEffectEvidence", http_source)
         for prefix, phrase in (("", "Run canceled"), ("zh-CN/", "Run 取消")):
             page = (ROOT / "docs" / prefix / "guides/long-running-operations.md").read_text(encoding="utf-8")

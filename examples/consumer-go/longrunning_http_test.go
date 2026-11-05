@@ -12,6 +12,17 @@ import (
 	"time"
 )
 
+func requireBearer(next http.Handler, token string) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if r.Header.Get("Authorization") != "Bearer "+token {
+			w.Header().Set("WWW-Authenticate", `Bearer realm="operations"`)
+			http.Error(w, "unauthorized", http.StatusUnauthorized)
+			return
+		}
+		next.ServeHTTP(w, r)
+	})
+}
+
 func longRunningHandler(service *remoteOperations) http.Handler {
 	mux := http.NewServeMux()
 	mux.HandleFunc("/operations", func(w http.ResponseWriter, r *http.Request) {
@@ -94,6 +105,11 @@ func writeJSON(w http.ResponseWriter, status int, value any) {
 
 func postJSON(t *testing.T, client *http.Client, url string, value any, failAfterCommit bool) (int, []byte) {
 	t.Helper()
+	return postJSONToken(t, client, url, "", value, failAfterCommit)
+}
+
+func postJSONToken(t *testing.T, client *http.Client, url, token string, value any, failAfterCommit bool) (int, []byte) {
+	t.Helper()
 	body, err := json.Marshal(value)
 	if err != nil {
 		t.Fatal(err)
@@ -103,6 +119,9 @@ func postJSON(t *testing.T, client *http.Client, url string, value any, failAfte
 		t.Fatal(err)
 	}
 	request.Header.Set("Content-Type", "application/json")
+	if token != "" {
+		request.Header.Set("Authorization", "Bearer "+token)
+	}
 	if failAfterCommit {
 		request.Header.Set("X-Fail-After-Commit", "1")
 	}
@@ -184,6 +203,34 @@ func TestLongRunningHTTPResponseLossAndRestart(t *testing.T) {
 	}
 	if submitted.Created || restarted.effectCount() != 1 {
 		t.Fatalf("submitted=%#v effects=%d", submitted, restarted.effectCount())
+	}
+}
+
+func TestLongRunningHTTPRequiresBearerToken(t *testing.T) {
+	path := filepath.Join(t.TempDir(), "operations.json")
+	service := newRemoteOperationsAt(path)
+	server := httptest.NewTLSServer(requireBearer(longRunningHandler(service), "secret"))
+	defer server.Close()
+	client := server.Client()
+	client.Timeout = 5 * time.Second
+
+	status, _ := postJSON(t, client, server.URL+"/operations", map[string]any{"key": "key-1"}, false)
+	if status != http.StatusUnauthorized {
+		t.Fatalf("unauthenticated status=%d", status)
+	}
+	if service.effectCount() != 0 {
+		t.Fatalf("unauthenticated request produced effects=%d", service.effectCount())
+	}
+	status, _ = postJSONToken(t, client, server.URL+"/operations", "wrong", map[string]any{"key": "key-1"}, false)
+	if status != http.StatusUnauthorized || service.effectCount() != 0 {
+		t.Fatalf("wrong token status=%d effects=%d", status, service.effectCount())
+	}
+	status, body := postJSONToken(t, client, server.URL+"/operations", "secret", map[string]any{"key": "key-1"}, false)
+	if status != http.StatusOK {
+		t.Fatalf("authenticated status=%d body=%s", status, body)
+	}
+	if service.effectCount() != 1 {
+		t.Fatalf("effects=%d", service.effectCount())
 	}
 }
 

@@ -56,6 +56,7 @@ GOWORK=off go test -mod=readonly -run LongRunning -v ./...
 | Effect verification | `completed` is not `effect_verified`; verification requires evidence and is persisted |
 | HTTP response loss | commit succeeds but the response is lost; retry with the same key returns the existing operation |
 | HTTP restart | a new loopback service loads the file and answers status/recovery queries |
+| Bearer/TLS boundary | missing or wrong bearer token is rejected before any effect; a test TLS certificate is used |
 
 The fixture can persist to a JSON file and expose it over a loopback HTTP service
 so response loss and restart can be tested through a real transport boundary. It
@@ -66,8 +67,9 @@ implementation, or production effect ledger.
 
 - The file-backed fixture writes one JSON file directly. It does not provide a
   crash-consistent database, multi-process locking, or retention policy.
-- The HTTP service is a loopback test fixture. It has no authentication, TLS,
-  authorization, rate limiting, or production deployment guarantees.
+- The HTTP service is a loopback test fixture. Its bearer token is static and
+  its TLS certificate is a test certificate; it has no identity provider, token
+  rotation, tenant binding, rate limiting, or production deployment guarantee.
 - Restart is simulated with a new service instance in the same process, not a
   real process or machine failure.
 - In-process or single-file deduplication is not a production exactly-once
