@@ -46,13 +46,16 @@ GOWORK=off go test -mod=readonly -run LongRunning -v ./...
 | Run 取消 | 本地 Run 停止；远端仍为 `accepted`；不误报远端已取消 |
 | 文件持久化重启 | operation、幂等键、取消请求与确认在新服务实例中保留 |
 | 效果验证 | `completed` 不等于 `effect_verified`；验证需要证据并持久化 |
+| HTTP 响应丢失 | 提交已成功但响应丢失；同幂等键重试返回现有操作 |
+| HTTP 重启 | 新 loopback 服务加载文件并回答状态/恢复查询 |
 
-Fixture 可持久化到 JSON 文件以测试重启恢复。它仍只展示契约形状，不是持久 worker、
-lease/fencing 实现或生产效果账本。
+Fixture 可持久化到 JSON 文件，并通过 loopback HTTP 暴露，从而在真实传输边界上测试响应
+丢失与重启。它仍只展示契约形状，不是持久 worker、lease/fencing 实现或生产效果账本。
 
 ## 限制
 
 - 文件 fixture 直接写单个 JSON 文件，不提供崩溃一致的数据库、多进程锁或留存策略。
+- HTTP 服务是 loopback 测试 fixture，没有认证、TLS、授权、限流或生产部署保证。
 - 重启通过同一进程内新服务实例模拟，不是真实进程或机器故障。
 - 进程内或单文件去重不是生产 exactly-once 机制。真实服务必须持久化幂等键与结果，并
   定义并发与留存语义。

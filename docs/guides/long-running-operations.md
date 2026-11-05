@@ -54,8 +54,11 @@ GOWORK=off go test -mod=readonly -run LongRunning -v ./...
 | Run cancellation | local Run stops; remote state remains `accepted`; no false remote-cancel claim |
 | File-backed restart | operation, idempotency key, cancel request, and confirmation survive a new service instance |
 | Effect verification | `completed` is not `effect_verified`; verification requires evidence and is persisted |
+| HTTP response loss | commit succeeds but the response is lost; retry with the same key returns the existing operation |
+| HTTP restart | a new loopback service loads the file and answers status/recovery queries |
 
-The fixture can persist to a JSON file so restart recovery can be tested. It
+The fixture can persist to a JSON file and expose it over a loopback HTTP service
+so response loss and restart can be tested through a real transport boundary. It
 still demonstrates the contract shape, not a durable worker, lease/fencing
 implementation, or production effect ledger.
 
@@ -63,6 +66,8 @@ implementation, or production effect ledger.
 
 - The file-backed fixture writes one JSON file directly. It does not provide a
   crash-consistent database, multi-process locking, or retention policy.
+- The HTTP service is a loopback test fixture. It has no authentication, TLS,
+  authorization, rate limiting, or production deployment guarantees.
 - Restart is simulated with a new service instance in the same process, not a
   real process or machine failure.
 - In-process or single-file deduplication is not a production exactly-once
