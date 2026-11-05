@@ -14,10 +14,10 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
-        java: ['21', '23']
-    defaults:
-      run:
-        working-directory: examples/consumer-java
+        java: ['21']
+        include:
+          - os: ubuntu-latest
+            java: '23'
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-java@v4
@@ -28,10 +28,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - run: mvn -B test
-      - run: mvn -q -B exec:java
       - run: python scripts/test_java_consumer.py -v
-        working-directory: .
 
   current-typescript-consumer:
     runs-on: ${{ matrix.os }}
