@@ -143,6 +143,15 @@ Core implementations. Go remains the reference implementation.
 - A Core implementation may not implement a contract feature that the Go reference lacks.
 - A `pkg/...` change that alters documented wire behavior must update `spec/`
   in the same change.
+- The additive optional-field rule for Go structs does not by itself authorize a
+  new field in shared `spec/wire/`. Follow the normative rules in
+  [`spec/README.md`](https://github.com/axisvela/praxo-core/blob/main/spec/README.md).
+  A shared-wire addition is breaking when a shipped consumer rejects unknown
+  fields, existing vectors fail, or behavior changes. Optional profiles do not
+  bypass this review.
+- Status words such as implemented, proposed, experimental, and verified are
+  defined in [Contract and Evidence Status](contract-status.md); they do not
+  replace the coverage labels in `spec/parity.md`.
 
 ## Release Gates
 

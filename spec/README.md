@@ -43,13 +43,25 @@ Planned additions:
 1. Wire names are frozen as they exist today. Do not normalize casing. `image_url`
    stays snake_case; `tenantId`, `workspaceId`, `runId`, and `sessionId` stay
    camelCase.
-2. A wire change (field, event, stream kind, plugin envelope, error code) is
-   breaking for every Core implementation.
+2. Wire names in released artifacts are frozen. Renaming or removing a field,
+   changing its casing, type, or meaning, making an optional field required, or
+   tightening validation is breaking for every Core implementation. Adding a
+   field to a shared artifact in `spec/wire/` requires coordination and is
+   breaking unless every shipped consumer is known to ignore unknown fields and
+   still passes the existing vectors. The additive optional-field allowance for
+   Go structs in the compatibility policy does not by itself authorize a shared
+   wire addition.
 3. A behavioral change requires a vector update and a minor release of the Core implementation.
 4. A Core implementation may not implement a contract capability that the Go reference lacks.
 5. Source APIs map one-to-one but use idiomatic names. They are not required to
    be name-identical.
 6. Cross-Core dependencies and FFI are out of scope.
+
+## Status Labels
+
+Use the status words in the [contract and evidence status](https://github.com/axisvela/praxo-core/blob/main/docs/project/contract-status.md)
+page. A design marked proposed does not change this specification. An
+experimental profile may reference these contracts but cannot relax them.
 
 ## Versioning
 

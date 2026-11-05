@@ -119,6 +119,12 @@ literal，否则视为破坏性变更。
 - 源码 API 一对一映射，名称符合语言习惯；一致性记录在 `spec/parity.md`。
 - 任何 Core 不得实现 Go 参考实现尚不具备的契约能力。
 - 改变文档化 wire 行为的 `pkg/...` 变更必须在同一次变更中更新 `spec/`。
+- Go 结构体的可选字段加法规则不能单独授权在共享 `spec/wire/` 中新增字段。
+  遵循 [`spec/README.md`](https://github.com/axisvela/praxo-core/blob/main/spec/README.md)
+  的规范规则。若已有消费者拒绝未知字段、现有向量失败或行为变化，共享 Wire 加法属于
+  破坏性变更。可选 Profile 不能绕过该审查。
+- implemented、proposed、experimental、verified 等状态词见
+  [契约与证据状态](contract-status.md)，不替代 `spec/parity.md` 的覆盖标签。
 
 ## 发布门禁
 

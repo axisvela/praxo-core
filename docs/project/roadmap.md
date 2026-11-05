@@ -44,9 +44,13 @@ provides task-oriented selection guidance.
 
 Stage 1's consumer-path acceptance is therefore met for the four pilot
 languages. This is integration evidence, not adoption evidence: the adoption
-experiments have not run, the stage-0 baseline and contract clarifications
-remain open, and stages 2-4 are unchanged. The pilot language set does not
-reduce support commitments for Rust, C#, R, or other implementations.
+experiments have not run, and stages 2-4 are unchanged. The pilot language set
+does not reduce support commitments for Rust, C#, R, or other implementations.
+
+Stage 0 is partially complete. The status vocabulary and shared-wire change
+classification are documented in [Contract and Evidence Status](contract-status.md).
+The adoption-task baseline and the planned Tool, Model, and Checkpoint wire
+descriptions remain open.
 
 ### Consumer and Contract Baseline
 
@@ -57,10 +61,12 @@ historical baseline; it does not establish the current recommended package path.
 Maintain distinct historical-compatibility, current-package, and release-candidate
 checks rather than treating one as evidence for all three.
 
-Use the existing normative `spec/`, not a competing specification tree. Complete
-the planned Tool, Model, and Checkpoint wire descriptions and clarify source,
-wire, and behavioral compatibility rules before changing affected contracts.
-Optional profiles cannot bypass shared wire, parity, or conformance review.
+Use the existing normative `spec/`, not a competing specification tree. The
+planned Tool, Model, and Checkpoint wire descriptions remain planned; completing
+them is still open. Source, wire, and behavioral compatibility rules are now
+distinguished: the Go additive-field allowance does not automatically authorize
+a shared-wire addition. Optional profiles cannot bypass shared wire, parity, or
+conformance review.
 
 Implement integration requirements through existing seams first. Promote a
 public API only after a named consumer demonstrates a reusable gap, negative

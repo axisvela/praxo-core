@@ -84,6 +84,7 @@ plugins:
             Project: 项目信息
             Compatibility: 兼容性
             Compatibility Policy: 兼容政策
+            Contract Status: 契约状态
             API Stability: API 稳定性
             v2 Migration: v2 迁移
             Comparison: 框架对比
@@ -199,6 +200,7 @@ nav:
   - Project:
       - Compatibility: project/compatibility.md
       - Compatibility Policy: project/compatibility-policy.md
+      - Contract Status: project/contract-status.md
       - API Stability: project/api-stability.md
       - v2 Migration: project/migration-v2.md
       - Comparison: project/comparison.md

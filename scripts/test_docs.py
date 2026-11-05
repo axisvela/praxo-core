@@ -35,6 +35,35 @@ class Links(HTMLParser):
 
 
 class DocumentationTests(unittest.TestCase):
+    def test_contract_status_vocabulary_and_links(self):
+        expectations = {
+            "": ("Implemented", "Proposed", "Experimental", "Not run", "Not started"),
+            "zh-CN/": ("已实现", "提案", "实验", "未运行", "未开始"),
+        }
+        for prefix, terms in expectations.items():
+            page = (ROOT / "docs" / prefix / "project/contract-status.md").read_text(encoding="utf-8")
+            for term in terms:
+                self.assertIn(term, page)
+            roadmap = (ROOT / "docs" / prefix / "project/roadmap.md").read_text(encoding="utf-8")
+            self.assertIn("contract-status.md", roadmap)
+        spec = (ROOT / "spec/README.md").read_text(encoding="utf-8")
+        self.assertIn("does not by itself authorize a shared\n   wire addition", spec)
+        policy = (ROOT / "docs/project/compatibility-policy.md").read_text(encoding="utf-8")
+        self.assertIn("does not by itself authorize a\n  new field in shared `spec/wire/`", policy)
+        chinese = (ROOT / "docs/zh-CN/project/compatibility-policy.md").read_text(encoding="utf-8")
+        self.assertIn("不能单独授权", chinese)
+        navigation = (ROOT / "mkdocs.yml").read_text(encoding="utf-8")
+        self.assertIn("project/contract-status.md", navigation)
+
+    def test_built_contract_status(self):
+        for prefix in ("", "zh-CN/"):
+            html = (ROOT / "site" / prefix / "project/contract-status/index.html").read_text(encoding="utf-8")
+            parser = Links()
+            parser.feed(html)
+            text = "".join(parser.text)
+            self.assertIn("Verified", text if not prefix else text)
+            self.assertIn("Not run", text)
+
     def test_java_consumer_version_and_sources(self):
         namespace = {"m": "http://maven.apache.org/POM/4.0.0"}
         source = ElementTree.parse(ROOT / "language/java/pom.xml").getroot()
