@@ -52,9 +52,10 @@ Skill 安装/发现未验证、更多集成配方未完成、已发布 Registry 
 
 阶段 3 已从 Go 消费者可运行的[长时操作配方](../guides/long-running-operations.md)
 开始，覆盖幂等提交、HTTP 响应丢失、子进程重启恢复、取消请求/确认、Run 取消、完成/
-效果验证区分、verifier 收据与部分写入恢复。它使用带静态 Bearer token 和测试 TLS 的
-文件/loopback HTTP fixture，不是有身份感知的部署服务、数据库或锁；阶段 3 未完成：
-已部署执行服务、断电/故障注入与独立验证服务仍未完成。
+效果验证区分、verifier 收据、部分写入恢复与 fencing token。它使用带静态 Bearer token
+和测试 TLS 的文件/loopback HTTP fixture，不是有身份感知的部署服务、数据库或持久 lease
+store；阶段 3 未完成：已部署执行服务、断电/故障注入、持久 lease/fencing 与独立验证服务
+仍未完成。
 
 ### 消费者与契约基线
 

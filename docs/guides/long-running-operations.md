@@ -59,6 +59,7 @@ GOWORK=off go test -mod=readonly -run LongRunning -v ./...
 | HTTP restart | a new loopback service loads the file and answers status/recovery queries |
 | Cross-process restart | a separate test process serves HTTP; it is killed and restarted with the same file, and the main process recovers the existing operation |
 | Partial temp file | a leftover `.tmp` file is ignored; the last committed state and idempotency key remain intact |
+| Fencing token | a worker holding an old epoch cannot complete; the new owner increments the epoch and completes once |
 | Bearer/TLS boundary | missing or wrong bearer token is rejected before any effect; a test TLS certificate is used |
 
 The fixture can persist to a JSON file and expose it over a loopback HTTP service
@@ -86,8 +87,10 @@ implementation, or production effect ledger.
   report the final state.
 - The HMAC verifier is an in-process fixture. A real deployment needs an
   independent verification authority, key management, rotation, and revocation.
-- Effect verification, leases/fencing, reconciliation, and retention belong to
-  the execution system or a durable workflow product.
+- The fencing fixture is in memory. It has no durable lease store, expiry,
+  revocation, clock guarantees, or coordination service.
+- Effect verification, production leases/fencing, reconciliation, and retention
+  belong to the execution system or a durable workflow product.
 - This recipe does not provide exactly-once execution.
 
 See [governed execution design](../reference/governed-execution.md), the

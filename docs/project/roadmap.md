@@ -69,11 +69,11 @@ Stage 3 has started with a Go consumer-runnable
 [long-running operation recipe](../guides/long-running-operations.md) covering
 idempotent submit, HTTP response loss, child-process restart recovery, cancel
 request versus confirmation, Run cancellation, completion versus effect
-verification, verifier receipts, and partial-write recovery. It uses a
-file-backed loopback HTTP fixture with a static bearer token and test TLS, not a
-deployed identity-aware service, database, or lock. Stage 3 is not complete: a
-deployed execution service, power-loss/fault injection, and an independent
-verifier service remain open.
+verification, verifier receipts, partial-write recovery, and fencing tokens. It
+uses a file-backed loopback HTTP fixture with a static bearer token and test TLS,
+not a deployed identity-aware service, database, or durable lease store. Stage 3
+is not complete: a deployed execution service, power-loss/fault injection,
+durable leases/fencing, and an independent verifier service remain open.
 
 ### Consumer and Contract Baseline
 

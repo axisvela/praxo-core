@@ -16,7 +16,7 @@ class GoConsumerTests(unittest.TestCase):
         env = dict(os.environ, GOWORK="off")
         version = (ROOT / "VERSION").read_text(encoding="utf-8").strip()
         with tempfile.TemporaryDirectory(prefix="praxo-consumer-") as directory:
-            for filename in ("main.go", "main_test.go", "governed_test.go", "identity_test.go", "longrunning_test.go", "longrunning_http_test.go", "longrunning_process_test.go"):
+            for filename in ("main.go", "main_test.go", "governed_test.go", "identity_test.go", "longrunning_test.go", "longrunning_http_test.go", "longrunning_process_test.go", "longrunning_fence_test.go"):
                 shutil.copy2(ROOT / "examples/consumer-go" / filename, directory)
             commands = [
                 ["mod", "init", "example.com/praxo-starter"],
@@ -43,6 +43,7 @@ class GoConsumerTests(unittest.TestCase):
                         self.assertIn("TestLongRunningHTTPRequiresBearerToken", result.stdout)
                         self.assertIn("TestLongRunningCrossProcessRestart", result.stdout)
                         self.assertIn("TestLongRunningPartialWriteDoesNotCorruptState", result.stdout)
+                        self.assertIn("TestLongRunningFencingRejectsStaleWorker", result.stdout)
                     if args[0] == "run":
                         self.assertEqual(
                             result.stdout,
