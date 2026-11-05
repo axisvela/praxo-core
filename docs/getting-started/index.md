@@ -1,10 +1,19 @@
 # Start Here
 
 1. Read the [overview](overview.md) to understand the framework boundary.
-2. Choose [Go or a language Core](../languages/index.md).
+2. Choose a [consumer starter](consumer-go.md) for your language.
 3. Run the [quickstart](quickstart.md).
 4. Review the [adoption guide](adoption.md) before embedding it in a product.
 5. If you are still deciding, read [When Not to Use PRAXO-CORE](when-not-to-use.md).
+
+## Choose by Task
+
+| Need | Start with | Important boundary |
+| --- | --- | --- |
+| Add a model/tool loop to a Go, Python, TypeScript, or Java application | [Go](consumer-go.md), [Python](consumer-python.md), [TypeScript](consumer-typescript.md), or [Java](consumer-java.md) consumer starter | Uses a published package, deterministic model, explicit tool scope, and a denial test; your application owns identity, persistence, and isolation |
+| Authorize tools and prove denial has no effects | The same consumer starters | A policy hook is an enforcement point, not an identity service or process sandbox |
+| Add human approval, checkpoints, or recovery | [Recipes](../guides/recipes.md), [adoption guide](adoption.md), [governed execution design](../reference/governed-execution.md) | Persistent approvals, leases, and effect reconciliation are integration responsibilities; the design is proposed, not a profile guarantee |
+| Use durable graph workflows, exactly-once effects, or a managed sandbox | [When Not to Use PRAXO-CORE](when-not-to-use.md) first | Core supplies seams, not those products or guarantees |
 
 ## Continue by Task
 

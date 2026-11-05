@@ -1,10 +1,19 @@
 # 阅读导览
 
 1. 阅读[概览](overview.md)，理解框架的职责与边界。
-2. 选择 [Go 或语言 Core](../languages/index.md)。
+2. 按语言选择[独立消费者](consumer-go.md)。
 3. 运行[快速开始](quickstart.md)。
 4. 嵌入产品之前检查[采用指南](adoption.md)。
 5. 如果仍在评估是否适合，请阅读[何时不应选择 PRAXO-CORE](when-not-to-use.md)。
+
+## 按任务选择
+
+| 需求 | 起点 | 重要边界 |
+| --- | --- | --- |
+| 为 Go、Python、TypeScript 或 Java 应用加入模型/工具循环 | [Go](consumer-go.md)、[Python](consumer-python.md)、[TypeScript](consumer-typescript.md) 或 [Java](consumer-java.md) 独立消费者 | 使用发布包、确定性模型、显式工具范围与拒绝测试；身份、持久化和隔离由应用负责 |
+| 授权工具并证明拒绝无副作用 | 同上消费者 Starter | Policy Hook 是执行控制点，不是身份服务或进程沙箱 |
+| 人工审批、Checkpoint 或恢复 | [接入示例](../guides/recipes.md)、[采用指南](adoption.md)、[受治理执行设计](../reference/governed-execution.md) | 持久审批、lease 与效果对账属于集成职责；设计仍是提案，不是 Profile 保证 |
+| 持久图工作流、exactly-once 或托管沙箱 | 先读[何时不应选择 PRAXO-CORE](when-not-to-use.md) | Core 提供接口，不提供这些产品或保证 |
 
 ## 按任务继续
 
