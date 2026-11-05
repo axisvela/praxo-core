@@ -97,7 +97,7 @@ a merged implementation PR as a support commitment.
 These are separate claims. A source tag records a repository release; a registry
 version records what a package manager can fetch; a consumer smoke records an
 install and run outside the repository. Do not cite one as evidence for another.
-Registry values below were checked against the public registries on 2026-11-02.
+Registry values below were checked against the public registries on 2026-11-05.
 
 | Language | Source tag | Registry version | Consumer install smoke |
 | --- | --- | --- | --- |
@@ -116,6 +116,10 @@ Registry values below were checked against the public registries on 2026-11-02.
 | MATLAB | `matlab/v0.2.1` | MATLAB File Exchange `185166` published | Not recorded |
 | Perl | `perl/v0.1.1` | CPAN `Praxo-Core` 0.1.1 uploaded; indexing pending | Not recorded |
 | PowerShell | `powershell/v0.2.0` | PowerShell Gallery `praxo-core-ps==0.2.0` published | Not recorded |
+| Nim | `nim/v0.1.1` | nim-lang/packages PR #3600 open; nimpkgs re-crawl pending | Not recorded |
+| OCaml | `ocaml/v0.2.0` | opam-repository PR #31106 open; package CI passed | Not recorded |
+| Haskell | `haskell/v0.2.0` | sdist published; candidate upload pending; token upload blocked by Uploaders group | Not recorded |
+| Delphi / Free Pascal | `delphi/v0.2.1` | OPM assets published; maintainer submission pending | Not recorded |
 
 ### Registry freshness against code
 
@@ -221,18 +225,24 @@ the installation source of truth.
   registry has no concurrency or custom spec provider.
 - Haskell has source tag `haskell/v0.2.0` with all eleven vector groups, native
   tests, API snapshot/parity, and runtime/middleware helpers. Hackage
-  publication is prepared by `.github/workflows/haskell-release.yml`; a valid
-  `HACKAGE_TOKEN` still requires the account to be in the Hackage Uploaders
-  group. Production readiness is not claimed.
+  publication is prepared by `.github/workflows/haskell-release.yml`; the 0.2.0
+  sdist is published on the `haskell/v0.2.0` GitHub release and is ready for
+  the web candidate-upload flow. A valid `HACKAGE_TOKEN` still requires the
+  account to be in the Hackage Uploaders group. Production readiness is not
+  claimed.
 - Delphi/Free Pascal has source tag `delphi/v0.2.1` with all eleven vector groups,
-  native tests, and API snapshot/parity under Free Pascal 3.2.2. The commercial
-  Delphi compiler, other targets, and package registries are not claimed.
+  native tests, and API snapshot/parity under Free Pascal 3.2.2. OPM assets
+  are published on the `delphi/v0.2.1` GitHub release; maintainer submission
+  is pending. The commercial Delphi compiler and other targets are not
+  claimed.
 - MATLAB/Octave has source tag `matlab/v0.2.1` with all eleven vector groups,
   native tests, and API snapshot/parity under Octave. The MATLAB runtime,
   provider adapters, and package registries are not claimed.
 - OCaml has source tag `ocaml/v0.2.0` with all eleven vector groups, native
-  tests, and API snapshot/parity. Native `ocamlopt` compilation, provider
-  adapters, and package registries are not claimed.
+  tests, and API snapshot/parity. The split package repository
+  `axisvela/praxo-core-ocaml` publishes opam package `praxo-core` 0.2.0;
+  opam-repository PR #31106 is open. Native `ocamlopt` compilation and
+  provider adapters are not claimed.
 - Elixir source tag `elixir/v0.4.0` adds HITL interrupt decisions to policy
   hooks, middleware, final-tool allowlist checks, reauthorization, lifecycle
   cleanup, cancellation, stream callbacks, a native SSE parser, bounded parallel
@@ -241,8 +251,11 @@ the installation source of truth.
   <https://praxo-core.hexdocs.pm/0.4.0/>.
 - Nim, V, and Objective-C have source tags `nim/v0.1.1`, `v/v0.1.2`, and
   `objc/v0.1.1`. They include all eleven vector groups, native tests, and API
-  snapshots. Nim is listed in `nim-lang/packages` with
-  `"subdir": "language/nim"`; a registry install smoke is not yet recorded. V
+  snapshots. Nim publishes the Nimble package `praxo_core` from
+  `axisvela/praxo-core-nim` with root `praxo_core.nimble` version `0.1.1`;
+  nim-lang/packages PR #3600 is pending and nimpkgs still marks the old
+  monorepo entry broken until its next crawl. A registry install smoke is not
+  yet recorded. V
   and Objective-C have `v.mod` and CocoaPods metadata respectively, but their
   registry split-repository steps are still pending. V publishes package
   `praxo-core` tag `0.1.2` from `axisvela/praxo-core-v`; VPM submission is

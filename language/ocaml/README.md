@@ -15,9 +15,16 @@ re-raised; notification failure does not replace it. Do not treat the loop as
 production-ready.
 
 Local validation uses OCaml 4.14.2 in bytecode mode, and the Linux CI job runs
-the same full suite. Native `ocamlopt` compilation, package-registry
-publication, commercial support, production readiness, and a delivery date are
-not claimed. The source tag does not imply package-registry publication.
+the same full suite. The split repository `axisvela/praxo-core-ocaml` prepares
+opam package `praxo-core` 0.2.0; opam-repository PR #31106 is pending. Native
+`ocamlopt` compilation, commercial support, production readiness, and a delivery
+date are not claimed.
+
+## Install
+
+```bash
+opam install praxo-core
+```
 
 ## Build and Test
 

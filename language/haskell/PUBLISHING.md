@@ -5,6 +5,15 @@
 Source tag `haskell/v0.2.0` maps to Hackage package `praxo-core` version
 `0.2.0`. The release workflow is `.github/workflows/haskell-release.yml`.
 
+The prepared source distribution is
+`language/haskell/build/cabal/praxo-core-0.2.0.tar.gz` and is also attached to
+<https://github.com/axisvela/praxo-core/releases/tag/haskell/v0.2.0>
+(sha256 `da23f15d2e4a1e5aec08d85b9e1f96083ce83cc3e9d64b0a5fe19b8dd5693022`).
+Use it with the Hackage candidate-upload page at
+<https://hackage.haskell.org/packages/candidates/upload> when API upload is
+blocked. Candidate upload still needs a Hackage account; publication may need a
+maintainer or trustee approval.
+
 ## Build
 
 From `language/haskell/`:

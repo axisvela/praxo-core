@@ -11,6 +11,12 @@ wired language to 20/20.
 - Lua now ships a `0.4.0-1` rockspec and a `lua-release` workflow that runs
   conformance, the API snapshot, and native tests, builds and installs the
   source rock, and supports LuaRocks publication with a repository API key.
+- Delphi/Free Pascal now ships `praxo_core.lpk` and `build_opm.py`, which
+  produce `PRAXO-CORE.zip` and its OPM submission JSON. The assets are published
+  on the `delphi/v0.2.1` GitHub release for OPM's manual maintainer-review path.
+- The Haskell `praxo-core-0.2.0` source distribution is published on the
+  `haskell/v0.2.0` GitHub release and is ready for the Hackage
+  candidate-upload page when API upload remains blocked by Uploaders access.
 
 ### Published
 
@@ -36,6 +42,12 @@ wired language to 20/20.
   distribution indexing.
 - Released `ruby/v0.4.1` with Ruby-specific source metadata pointing at
   `axisvela/praxo-core-ruby` for Ruby Toolbox and gem consumers.
+- Added the `axisvela/praxo-core-nim` mirror with a root
+  `praxo_core.nimble`, `src/`, LICENSE, and tag `v0.1.1`; nim-lang/packages
+  PR #3600 points `praxo_core` at the mirror so nimpkgs can crawl it.
+- Added the `axisvela/praxo-core-ocaml` mirror with dune/opam packaging, tag
+  `0.2.0`, and GitHub release tarball; opam-repository PR #31106 registers
+  package `praxo-core` 0.2.0.
 
 ### Fixed
 

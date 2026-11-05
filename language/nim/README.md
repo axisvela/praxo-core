@@ -10,6 +10,15 @@ coverage does not establish full Core parity or production readiness.
 The Core does not call Go or another language runtime. It has no provider
 adapter or plugin host; those remain outside the declared Core scope.
 
+## Install
+
+The Nimble package is mirrored from `axisvela/praxo-core-nim`, which keeps the
+root `praxo_core.nimble` and `src/` tree required by Nimble and nimpkgs:
+
+```bash
+nimble install praxo_core
+```
+
 ## Build And Test
 
 From the repository root with Nim and a C compiler on `PATH`:

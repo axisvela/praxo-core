@@ -6,9 +6,10 @@ policy, context, and middleware helpers. It does not call Go or another language
 Core; there is no model provider, process bridge, or plugin host.
 
 Local validation uses Free Pascal 3.2.2 on Windows i386. It does not establish
-commercial Delphi compiler compatibility, Linux/macOS support, package-registry
-publication, production readiness, or a delivery date. The CI recipe targets
-Free Pascal on Ubuntu.
+commercial Delphi compiler compatibility, Linux/macOS support, production
+readiness, or a delivery date. The OPM descriptor and submission archive are
+prepared; OPM submission is pending. The CI recipe targets Free Pascal on
+Ubuntu.
 
 ## Build and Test
 
@@ -24,6 +25,10 @@ launches the native build and validates source API/parity metadata. The test
 programs and implementation run under Free Pascal. The runner covers all eleven
 shared vector groups and verifies the contract version before running them.
 See [SETUP.md](SETUP.md) for prerequisites and individual test commands.
+
+The OPM descriptor is `praxo_core.lpk`. Build the submission archive and OPM
+metadata with `python language/delphi/build_opm.py`; the outputs are written to
+`language/delphi/build/opm/`.
 
 To build manually from `language/delphi/`:
 

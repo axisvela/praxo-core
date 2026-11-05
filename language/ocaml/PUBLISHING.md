@@ -1,13 +1,15 @@
 # Publishing the OCaml Core
 
-Source tag `ocaml/v0.2.0`. The package is not in opam.
+Source tag `ocaml/v0.2.0` maps to opam package `praxo-core` version `0.2.0`
+from the split repository <https://github.com/axisvela/praxo-core-ocaml>.
+The repository root has `dune-project`, `praxo-core.opam`, and `src/`; the
+public library is `praxo-core` and the module remains `Praxo`.
+opam-repository PR #31106 is open; the package CI jobs passed.
 
-Add an opam package and a build description. The Core is currently built with
-`ocamlc` directly, so provide either a `dune-project`/`dune` build or an opam
-`build` field that compiles `praxo.mli` and `praxo.ml`. A split mirror or an
-opam package pointing at `language/ocaml` avoids publishing the monorepo root.
-
-Run `python language/ocaml/run-tests.py --compiler ocamlc` and the API snapshot,
-then submit an `opam-publish` pull request to
-<https://github.com/ocaml/opam-repository>. No separate account is required.
-`ocamlopt` support remains unverified.
+The release tarball is a GitHub release asset named
+`praxo-core-ocaml-0.2.0.tar.gz`; its sha256 is in the opam file. To release a
+new version, update the main Core and the split repository, run
+`python language/ocaml/run-tests.py --compiler ocamlc` and the API snapshot,
+tag both repositories, upload a fresh source tarball, update the checksum, and
+open an opam-repository pull request. No separate account is required beyond
+GitHub. `ocamlopt` support remains unverified.

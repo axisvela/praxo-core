@@ -29,7 +29,7 @@ production readiness.
 | PowerShell Core | PowerShell Gallery | `0.2.0` | https://www.powershellgallery.com/packages/praxo-core-ps/0.2.0 | published |
 | PowerShell Bridge | PowerShell Gallery | `0.1.0` | https://www.powershellgallery.com/packages/praxo-core-ps-br/0.1.0 | published |
 | R | r-universe | `0.5.0` | https://axisvela.r-universe.dev/praxocore | r-universe only; CRAN not published |
-| Nim | nim-lang/packages (Nimble) | `0.1.1` | https://github.com/nim-lang/packages | listed; install smoke pending |
+| Nim | nim-lang/packages (Nimble) | `0.1.1` | https://github.com/axisvela/praxo-core-nim | split repo published; nim-lang/packages PR #3600 pending; nimpkgs re-crawl pending |
 
 ## Uploaded or awaiting indexing
 
@@ -37,6 +37,7 @@ production readiness.
 | --- | --- | --- | --- | --- |
 | Julia | Julia General Registry | `0.2.0` | https://github.com/JuliaRegistries/General/pull/174826 | registration PR open |
 | Perl | CPAN | `0.1.1` | https://metacpan.org/dist/Praxo-Core | uploaded; MetaCPAN indexing pending |
+| OCaml | opam | `0.2.0` | https://github.com/ocaml/opam-repository/pull/31106 | registration PR open; package CI passed |
 | V | VPM | `0.1.2` | https://github.com/axisvela/praxo-core-v | mirror published; VPM not indexed |
 
 ## Source-only or not published to a registry
@@ -47,10 +48,9 @@ production readiness.
 | C++ | `cpp/v0.4.0` | no registry publication |
 | Fortran | `fortran/v0.6.0` | fpm registry upstream paused |
 | COBOL | `cobol/v0.4.0` | no mainstream registry |
-| Haskell | `haskell/v0.2.0` | Hackage upload blocked by Uploaders group |
-| OCaml | `ocaml/v0.2.0` | opam packaging pending |
+| Haskell | `haskell/v0.2.0` | sdist published; candidate upload pending; token upload blocked by Uploaders group |
 | Objective-C | `objc/v0.1.1` | CocoaPods publish pending |
-| Delphi / Free Pascal | `delphi/v0.2.1` | OPM packaging pending |
+| Delphi / Free Pascal | `delphi/v0.2.1` | OPM assets published; maintainer submission pending |
 | Zig | `zig/v0.2.0` | no central registry |
 | Tcl / Lisp / Prolog | `tcl/v0.1.0`, `lisp/v0.1.0`, `prolog/v0.1.1` | bridge packages; registry publication pending |
 

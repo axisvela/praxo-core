@@ -68,7 +68,7 @@ Bridge、Sample 描述运行时的接入方式，不证明其语言缺乏 Framew
 
 三者是独立的声明：源码标签记录仓库发布，注册表版本记录包管理器可获取的版本，
 消费者 smoke 记录仓库之外的安装与运行。不能用一个为另一个作证。下表注册表版本
-已于 2026-11-02 对公开 registry 核对。
+已于 2026-11-05 对公开 registry 核对。
 
 | 语言 | 源码标签 | 注册表版本 | 消费者安装 smoke |
 | --- | --- | --- | --- |
@@ -87,6 +87,10 @@ Bridge、Sample 描述运行时的接入方式，不证明其语言缺乏 Framew
 | MATLAB | `matlab/v0.2.1` | MATLAB File Exchange `185166` 已发布 | 未记录 |
 | Perl | `perl/v0.1.1` | CPAN `Praxo-Core` 0.1.1 已上传；索引待完成 | 未记录 |
 | PowerShell | `powershell/v0.2.0` | PowerShell Gallery `praxo-core-ps==0.2.0` 已发布 | 未记录 |
+| Nim | `nim/v0.1.1` | nim-lang/packages PR #3600 待合并；nimpkgs 待重新抓取 | 未记录 |
+| OCaml | `ocaml/v0.2.0` | opam-repository PR #31106 待合并；包 CI 已通过 | 未记录 |
+| Haskell | `haskell/v0.2.0` | sdist 已发布；candidate upload 待完成；token 上传受 Uploaders 组限制 | 未记录 |
+| Delphi / Free Pascal | `delphi/v0.2.1` | OPM 资产已发布；维护者提交待完成 | 未记录 |
 
 ### 注册表相对代码的新旧状态
 
@@ -162,15 +166,17 @@ Bridge、Sample 描述运行时的接入方式，不证明其语言缺乏 Framew
 - COBOL 已有源码标签 `cobol/v0.4.0`，包含全部 11 个向量组、人工审批中断决策、原生与契约测试、调用方持有状态的 scoped registry 和 API 快照。它新增 middleware、生命周期、取消、流式、SSE 和调用方提供的批处理工具调度，行为覆盖达到 20/20；并行工具委托给批处理调度器，而不是原生线程。它不是包管理器发布；其余 Go 面大多为 partial，registry 无并发和 custom spec provider。
 - Haskell 已有源码标签 `haskell/v0.2.0`，包含全部 11 个向量组、原生测试、API
   快照/parity 以及运行时/中间件辅助函数。Hackage 发布由
-  `.github/workflows/haskell-release.yml` 准备；首次上传需要 Hackage 账号和
-  `HACKAGE_TOKEN`，生产就绪尚未声明。
+  `.github/workflows/haskell-release.yml` 准备；0.2.0 sdist 已发布到 `haskell/v0.2.0` GitHub release，可用于网页
+  candidate upload。首次上传仍需要 Hackage 账号和 `HACKAGE_TOKEN`，生产就绪尚未声明。
 - Delphi/Free Pascal 已有源码标签 `delphi/v0.2.1`，在 Free Pascal 3.2.2 下通过
-  全部 11 个向量组、原生测试和 API 快照/parity。商业 Delphi 编译器、其他目标
-  平台和包管理器发布均未声明。
+  全部 11 个向量组、原生测试和 API 快照/parity。OPM 资产已发布到 `delphi/v0.2.1` GitHub release，
+  维护者提交待完成。商业 Delphi 编译器和其他目标平台未声明。
 - MATLAB/Octave 已有源码标签 `matlab/v0.2.1`，在 Octave 下通过全部 11 个向量组、
   原生测试和 API 快照/parity。MATLAB 运行时、提供商适配器和包管理器发布均未声明。
 - OCaml 已有源码标签 `ocaml/v0.2.0`，包含全部 11 个向量组、原生测试和 API
-  快照/parity。原生 `ocamlopt` 编译、提供商适配器和包管理器发布均未声明。
+  快照/parity。split 包仓库 `axisvela/praxo-core-ocaml` 发布 opam 包
+  `praxo-core` 0.2.0；opam-repository PR #31106 待合并。原生 `ocamlopt` 编译和
+  提供商适配器未声明。
 - Elixir 源码标签 `elixir/v0.4.0` 在 policy、middleware、最终工具 allowlist、
   重新授权、生命周期清理、取消、流式回调、原生 SSE parser、有限并行工具和按 run
   隔离的调用上限之上增加人工审批中断决策。Hex 已发布 `praxo_core==0.4.0`；
