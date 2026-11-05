@@ -32,7 +32,7 @@ or the support levels in the [language matrix](../languages/matrix.md).
 | Go, Python, TypeScript, and Java consumer starters | Implemented; verified at their cited revisions | Published-package installation, build, and deterministic allow/deny checks; integration evidence, not adoption evidence |
 | Go, Python, TypeScript, and Java governed negative acceptance | Implemented; verified at their cited revisions | Five application-level checks in each: missing policy/scope, final-argument and approval-edit reauthorization, policy-service failure; not a general profile |
 | Go identity/policy recipe | Implemented; verified at its cited revision | Verified principal supplied by the application; missing, expired, tenant-mismatch, and model-role cases deny; not an identity provider or PDP |
-| Go long-running operation recipe | Implemented; verified at its cited revision | File-backed (temp+sync+rename), loopback-HTTP, child-process restart, separate verifier process, and file-backed fencing fixture for idempotent submit, response loss, partial-write recovery, cancel request versus confirmation, Run cancellation, completion versus effect verification, verifier receipts, durable fencing, and static bearer/TLS rejection; no production key management, lease expiry/revocation, power-loss proof, identity provider, lock, or exactly-once |
+| Go long-running operation recipe | Implemented; verified at its cited revision | L4 recipe evidence: file-backed (temp+sync+rename), loopback-HTTP, child-process restart, separate verifier process, and file-backed fencing fixture for idempotent submit, response loss, partial-write recovery, cancel request versus confirmation, Run cancellation, completion versus effect verification, verifier receipts, durable fencing, and static bearer/TLS rejection; only the Run-cancellation assertion touches a Core seam. No production key management, lease expiry/revocation, power-loss proof, identity provider, lock, or exactly-once |
 | Governed Execution Profile | Proposed | The design defines acceptance criteria; no general Core profile is implemented |
 | Coding-agent integration map | Implemented; versions checked by documentation tests | Package map, integration contract, and verification commands; not an install channel, automatic skill, or adoption evidence |
 | Coding-agent skill template | Experimental; repository template only | Tool-neutral `SKILL.md`; installation and discovery are not verified, and no auto-install, MCP, or runtime-skill behavior is claimed |
@@ -51,10 +51,15 @@ the evidence covers:
 3. a real local service or provider integration;
 4. a hardware, simulation, or production observation.
 
-Do not use one level to imply another. An explicitly required framework in a
-coding-agent experiment is directed-integration evidence, not free-selection
-evidence. Correctly excluding an unsuitable framework is a successful selection
-decision, not an adoption failure.
+Do not use one level to imply another. See the
+[test and evidence taxonomy](test-taxonomy.md) for L1-L6 and the mapping of the
+consumer and long-running tests. In particular, the long-running suite is L4
+application-recipe evidence; it is not a Core capability claim.
+
+An explicitly required framework in a coding-agent experiment is
+directed-integration evidence, not free-selection evidence. Correctly excluding
+an unsuitable framework is a successful selection decision, not an adoption
+failure.
 
 For shared-wire change classification, see the normative rules in
 [`spec/README.md`](https://github.com/axisvela/praxo-core/blob/main/spec/README.md)

@@ -4,6 +4,12 @@ This module installs published Core `2.5.2`, without local replacements or
 optional adapters. It is the current-package starter, separate from the
 historical `2.5.0` compatibility baseline in `tests/consumer`.
 
+The files mix two evidence levels: L3 published-package consumer checks and L4
+application recipes. The long-running, identity, and parts of the governed suite
+validate the reference application pattern, not Core-owned capabilities. See the
+[test and evidence taxonomy](../../docs/project/test-taxonomy.md) for the file
+map and the criteria for promoting a recipe into Core.
+
 Use Go 1.26.10, the CI/release toolchain. With this directory as the working
 directory, set `GOWORK=off` (`$env:GOWORK = "off"` in PowerShell), then run:
 

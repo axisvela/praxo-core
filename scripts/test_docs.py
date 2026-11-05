@@ -170,6 +170,20 @@ class DocumentationTests(unittest.TestCase):
         self.assertIn("guides/long-running-operations.md", (ROOT / "mkdocs.yml").read_text(encoding="utf-8"))
         self.assertTrue((ROOT / "site/guides/long-running-operations/index.html").is_file())
 
+    def test_test_taxonomy_and_consumer_map(self):
+        for prefix, terms in (
+            ("", ("L1 Core contract", "L4 Application recipe", "Do not internalize")),
+            ("zh-CN/", ("L1 Core", "L4 应用配方", "不要仅因配方测试通过就内化")),
+        ):
+            page = (ROOT / "docs" / prefix / "project/test-taxonomy.md").read_text(encoding="utf-8")
+            for term in terms:
+                self.assertIn(term, page)
+            self.assertIn("test-taxonomy.md", (ROOT / "docs" / prefix / "project/contract-status.md").read_text(encoding="utf-8"))
+        self.assertIn("consumer-go", (ROOT / "docs/project/test-taxonomy.md").read_text(encoding="utf-8"))
+        self.assertIn("test-taxonomy.md", (ROOT / "examples/consumer-go/README.md").read_text(encoding="utf-8"))
+        self.assertIn("project/test-taxonomy.md", (ROOT / "mkdocs.yml").read_text(encoding="utf-8"))
+        self.assertTrue((ROOT / "site/project/test-taxonomy/index.html").is_file())
+
     def test_contract_status_vocabulary_and_links(self):
         expectations = {
             "": ("Implemented", "Proposed", "Experimental", "Not run", "Not started"),

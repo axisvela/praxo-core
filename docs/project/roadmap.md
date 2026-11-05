@@ -73,8 +73,11 @@ verification, verifier receipts, partial-write recovery, fencing tokens, and a
 separate verifier process and durable fencing. It uses file-backed loopback HTTP
 fixtures with a static bearer token and test TLS, not a deployed identity-aware
 service, production key management, database, or expiry/revocation-aware lease
-store. Stage 3 is not complete: a deployed execution service, power-loss/fault
-injection, and production leases/fencing remain open.
+store. This is L4 application-recipe evidence, not a Core capability claim; Core
+cancellation and reauthorization are covered by `pkg/agent` tests and vectors.
+Stage 3 is not complete: a deployed execution service, power-loss/fault
+injection, and production leases/fencing remain open. See the
+[test and evidence taxonomy](test-taxonomy.md).
 
 ### Consumer and Contract Baseline
 
