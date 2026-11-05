@@ -48,6 +48,10 @@ Core fixture 与消费者测试不证明真实模型质量、真实身份、持�
 
 ## Agent Skill
 
-提交到本仓库的 Skill 不会自动安装到 Codex、Claude Code、Copilot 或其他编程工具。
-不要假设存在 `SKILL.md` 或工具会自动发现它。请通过各工具支持的方式安装或挂载 Skill；
-以上文档与 Starter 才是规范来源。
+工具中立的模板位于
+[`agent-skills/praxo-integration`](https://github.com/axisvela/praxo-core/tree/main/agent-skills/praxo-integration)。
+它是可选项，不会自动安装或被 Codex、Claude Code、Copilot 等工具发现。请通过各工具
+支持的方式安装或挂载；工具不支持 Skill 时，直接使用本页与 Starter。
+
+提交到本仓库的 Skill 不是安装渠道。不要假设用户项目中存在 `SKILL.md` 或工具会自动
+发现它。以上文档与 Starter 才是规范来源。

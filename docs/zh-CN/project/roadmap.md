@@ -44,10 +44,11 @@ Starter。发布包安装、构建与确定性允许/拒绝检查已在 CI 通�
 阶段 2 已从 Go、Python、TypeScript 与 Java 消费者可运行的治理负向测试开始，覆盖缺少
 Policy/范围、最终参数重授权、审批编辑重授权与 Policy 服务失败。现已提供精简的
 [编程 Agent 集成契约](../getting-started/coding-agents.md)、版本校验的
-[包映射](../getting-started/agent-integration.json)与可运行的
-[身份/策略配方](../guides/identity-policy.md)。源 Registry 元数据已改进，四个试点页面
-已审计；已发布页面只随新版本更新。阶段 2 未完成：更多集成配方、可选可安装 Skill 与
-已发布 Registry 页面的验证仍未完成。
+[包映射](../getting-started/agent-integration.json)、可运行的
+[身份/策略配方](../guides/identity-policy.md)与工具中立的
+[Skill 模板](https://github.com/axisvela/praxo-core/tree/main/agent-skills/praxo-integration)。
+源 Registry 元数据已改进，四个试点页面已审计；已发布页面只随新版本更新。阶段 2 未完成：
+Skill 安装/发现未验证、更多集成配方未完成、已发布 Registry 页面需新版本后才能验证。
 
 ### 消费者与契约基线
 

@@ -34,6 +34,7 @@ or the support levels in the [language matrix](../languages/matrix.md).
 | Go identity/policy recipe | Implemented; verified at its cited revision | Verified principal supplied by the application; missing, expired, tenant-mismatch, and model-role cases deny; not an identity provider or PDP |
 | Governed Execution Profile | Proposed | The design defines acceptance criteria; no general Core profile is implemented |
 | Coding-agent integration map | Implemented; versions checked by documentation tests | Package map, integration contract, and verification commands; not an install channel, automatic skill, or adoption evidence |
+| Coding-agent skill template | Experimental; repository template only | Tool-neutral `SKILL.md`; installation and discovery are not verified, and no auto-install, MCP, or runtime-skill behavior is claimed |
 | Registry page metadata | Source metadata updated; published pages not yet updated | PyPI, npm, Maven, and Go pages audited 2026-11-05; pages update only with a new release; other registries are release-checked |
 | Coding-agent adoption experiments | Not run | No discovery, selection, first-pass, repair-cost, or retention data |
 | Embodied Integration Profile | Not started | Requires a named consumer, middleware choice, and simulation scenario |

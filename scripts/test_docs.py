@@ -129,6 +129,20 @@ class DocumentationTests(unittest.TestCase):
         self.assertIn("guides/identity-policy.md", (ROOT / "mkdocs.yml").read_text(encoding="utf-8"))
         self.assertTrue((ROOT / "site/guides/identity-policy/index.html").is_file())
 
+    def test_agent_skill_template(self):
+        skill = (ROOT / "agent-skills/praxo-integration/SKILL.md").read_text(encoding="utf-8")
+        self.assertTrue(skill.startswith("---\nname: praxo-integration\ndescription:"))
+        self.assertIn("docs/getting-started/agent-integration.json", skill)
+        self.assertIn("exactly-once", skill)
+        readme = (ROOT / "agent-skills/praxo-integration/README.md").read_text(encoding="utf-8")
+        self.assertIn("not an automatically installed", readme)
+        self.assertIn("does not guarantee", readme)
+        for prefix in ("", "zh-CN/"):
+            page = (ROOT / "docs" / prefix / "getting-started/coding-agents.md").read_text(encoding="utf-8")
+            self.assertIn("agent-skills/praxo-integration", page)
+        self.assertIn("skill template", (ROOT / "docs/project/contract-status.md").read_text(encoding="utf-8"))
+        self.assertIn("Skill 模板", (ROOT / "docs/zh-CN/project/contract-status.md").read_text(encoding="utf-8"))
+
     def test_contract_status_vocabulary_and_links(self):
         expectations = {
             "": ("Implemented", "Proposed", "Experimental", "Not run", "Not started"),

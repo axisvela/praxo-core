@@ -56,12 +56,14 @@ Stage 2 has started with Go, Python, TypeScript, and Java consumer-runnable
 governed negative tests covering missing policy/scope, final-argument
 reauthorization, approval-edit reauthorization, and policy-service failure.
 A concise [coding-agent integration contract](../getting-started/coding-agents.md),
-a version-checked [package map](../getting-started/agent-integration.json), and a
-runnable [identity/policy recipe](../guides/identity-policy.md) are now available.
-Source registry metadata was improved and the four pilot registry pages were
-audited; the published pages update only with new releases. Stage 2 is not
-complete: additional integration recipes, optional installable skills, and
-published registry-page verification remain open.
+a version-checked [package map](../getting-started/agent-integration.json), a
+runnable [identity/policy recipe](../guides/identity-policy.md), and a
+tool-neutral [skill template](https://github.com/axisvela/praxo-core/tree/main/agent-skills/praxo-integration)
+are now available. Source registry metadata was improved and the four pilot
+registry pages were audited; the published pages update only with new releases.
+Stage 2 is not complete: skill installation/discovery is unverified, additional
+integration recipes are open, and published registry-page verification requires
+new releases.
 
 ### Consumer and Contract Baseline
 

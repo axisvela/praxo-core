@@ -59,8 +59,13 @@ hint, not a transaction.
 
 ## Agent Skills
 
-A skill committed to this repository is not automatically installed in Codex,
-Claude Code, Copilot, or another coding tool. Do not assume that a `SKILL.md`
-exists or that the tool will discover it. Install or mount skills through the
-tool's own supported mechanism; the documents and starters above are the
-canonical source of truth.
+A tool-neutral template is available at
+[`agent-skills/praxo-integration`](https://github.com/axisvela/praxo-core/tree/main/agent-skills/praxo-integration).
+It is optional and is not automatically installed or discovered by Codex, Claude
+Code, Copilot, or another coding tool. Install or mount it through the tool's own
+supported mechanism; if the tool does not support skills, use this page and the
+starters directly.
+
+A skill committed to this repository is not an installation channel. Do not
+assume that a `SKILL.md` exists in the user's project or that the tool will
+discover it. The documents and starters above are the canonical source of truth.
