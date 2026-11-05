@@ -9,6 +9,33 @@ permissions:
   contents: read
 
 jobs:
+  current-typescript-consumer:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        node: ['20', '22']
+    env:
+      GOWORK: "off"
+    defaults:
+      run:
+        working-directory: examples/consumer-typescript
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+          cache: npm
+          cache-dependency-path: examples/consumer-typescript/package-lock.json
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: npm ci --no-audit --no-fund
+      - run: npm test
+      - run: node starter.js
+      - run: python scripts/test_typescript_consumer.py -v
+        working-directory: .
+
   current-python-consumer:
     runs-on: ${{ matrix.os }}
     strategy:

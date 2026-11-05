@@ -34,9 +34,10 @@ The initial four starter languages are an adoption pilot, not a downgrade of
 Rust, C#, R, or other declared implementation support. Extend starters and
 adapters when consumers and maintainers justify the work, not to increase counts.
 
-The [independent Go consumer](../getting-started/consumer-go.md) and
-[Python consumer](../getting-started/consumer-python.md) provide current-package
-starter paths and allow/deny checks. Their existence does not mean
+The [independent Go consumer](../getting-started/consumer-go.md),
+[Python consumer](../getting-started/consumer-python.md), and
+[TypeScript consumer](../getting-started/consumer-typescript.md) provide
+current-package starter paths and allow/deny checks. Their existence does not mean
 the four-language stage or the adoption experiments are complete.
 
 ### Consumer and Contract Baseline

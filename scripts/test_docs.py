@@ -1,4 +1,5 @@
 from html.parser import HTMLParser
+import json
 from pathlib import Path
 import re
 import tomllib
@@ -33,6 +34,34 @@ class Links(HTMLParser):
 
 
 class DocumentationTests(unittest.TestCase):
+    def test_typescript_consumer_version_and_sources(self):
+        metadata = json.loads((ROOT / "language/typescript/package.json").read_text(encoding="utf-8"))
+        version = metadata["version"]
+        package = json.loads((ROOT / "examples/consumer-typescript/package.json").read_text(encoding="utf-8"))
+        lockfile = json.loads((ROOT / "examples/consumer-typescript/package-lock.json").read_text(encoding="utf-8"))
+        self.assertEqual(package["dependencies"]["@axisvela/praxo-core"], version)
+        self.assertEqual(lockfile["packages"][""]["dependencies"]["@axisvela/praxo-core"], version)
+        self.assertEqual(lockfile["packages"]["node_modules/@axisvela/praxo-core"]["version"], version)
+        page = SimpleNamespace(meta={})
+        for filename in ("starter.js", "test_starter.test.js"):
+            marker = "<!-- typescript-consumer-source: " + filename + " -->"
+            source = (ROOT / "examples/consumer-typescript" / filename).read_text(encoding="utf-8")
+            self.assertEqual(docs_hooks.on_page_markdown(marker, page, None, None), "```javascript\n" + source.rstrip() + "\n```")
+            for prefix in ("", "zh-CN/"):
+                guide = (ROOT / "docs" / prefix / "getting-started/consumer-typescript.md").read_text(encoding="utf-8")
+                self.assertIn(marker, guide)
+                self.assertIn("@axisvela/praxo-core@" + version, guide)
+
+    def test_built_typescript_consumer_source(self):
+        for prefix in ("", "zh-CN/"):
+            html = (ROOT / "site" / prefix / "getting-started/consumer-typescript/index.html").read_text(encoding="utf-8")
+            parser = Links()
+            parser.feed(html)
+            text = "".join(parser.text)
+            self.assertIn("function buildAgent(", text)
+            self.assertIn('test("denied tool has no effect"', text)
+            self.assertNotIn("typescript-consumer-source:", html)
+
     def test_python_consumer_version_and_sources(self):
         metadata = tomllib.loads((ROOT / "language/python/pyproject.toml").read_text(encoding="utf-8"))
         version = metadata["project"]["version"]

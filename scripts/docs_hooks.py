@@ -123,6 +123,7 @@ def on_page_markdown(markdown, page, config, files):
     for language, filenames, syntax in (
         ("go", ("main.go", "main_test.go"), "go"),
         ("python", ("starter.py", "test_starter.py"), "python"),
+        ("typescript", ("starter.js", "test_starter.test.js"), "javascript"),
     ):
         for filename in filenames:
             marker = "<!-- " + language + "-consumer-source: " + filename + " -->"

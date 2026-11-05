@@ -51,6 +51,7 @@ plugins:
             Quickstart: 快速开始
             Go Consumer: Go 独立消费者
             Python Consumer: Python 独立消费者
+            TypeScript Consumer: TypeScript 独立消费者
             Adoption: 采用指南
             When Not to Use: 何时不应选择
             Guides: 使用指南
@@ -121,6 +122,7 @@ nav:
       - Quickstart: getting-started/quickstart.md
       - Go Consumer: getting-started/consumer-go.md
       - Python Consumer: getting-started/consumer-python.md
+      - TypeScript Consumer: getting-started/consumer-typescript.md
       - Adoption: getting-started/adoption.md
       - When Not to Use: getting-started/when-not-to-use.md
   - Guides:

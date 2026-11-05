@@ -20,6 +20,7 @@
 以下端点原型是后续步骤，不是完整独立应用。
 
 Python 应用可从[Python 独立消费者](consumer-python.md)开始。
+TypeScript 应用可从 [TypeScript 独立消费者](consumer-typescript.md)开始。
 
 1. 添加模块：
 

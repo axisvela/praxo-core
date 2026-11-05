@@ -7,6 +7,9 @@ checkout, API key, or model service.
 For Python, use the [independent Python consumer](consumer-python.md) with the
 published PyPI package and isolated-environment acceptance tests.
 
+For TypeScript, use the [independent TypeScript consumer](consumer-typescript.md)
+with the published npm package, a pinned lockfile, and Node.js 20 or newer.
+
 The endpoint example below runs an agent against an OpenAI-compatible service.
 It requires a PRAXO-CORE source checkout; run its commands from the repository
 root. No provider SDK is required. Its permissive policy is not a production

@@ -1,0 +1,17 @@
+{
+  "name": "praxo-starter",
+  "version": "0.0.0",
+  "private": true,
+  "type": "commonjs",
+  "description": "Independent consumer of the published PRAXO-CORE TypeScript package.",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "start": "node starter.js",
+    "test": "node --test test_starter.test.js"
+  },
+  "dependencies": {
+    "@axisvela/praxo-core": "0.2.0"
+  }
+}

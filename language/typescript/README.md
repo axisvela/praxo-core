@@ -21,6 +21,10 @@ npm install @axisvela/praxo-core@0.2.0
 
 ## Quickstart
 
+For a complete application with explicit tool scope, policy denial tests, and
+published-package provenance checks, use the
+[independent TypeScript consumer](../../docs/getting-started/consumer-typescript.md).
+
 ```ts
 import {
   Agent,
