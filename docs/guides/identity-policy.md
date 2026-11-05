@@ -23,9 +23,9 @@ or an exactly-once effect mechanism.
 
 ## Tested Example
 
-The runnable example is
-[identity_test.go](https://github.com/axisvela/praxo-core/blob/main/examples/consumer-go/identity_test.go)
-in the published-package Go consumer. From that directory:
+The runnable example is the separate L4 recipe module
+[`examples/recipes/identity-go`](https://github.com/axisvela/praxo-core/tree/main/examples/recipes/identity-go).
+From that directory:
 
 ```sh
 GOWORK=off go test -mod=readonly -run Identity -v ./...

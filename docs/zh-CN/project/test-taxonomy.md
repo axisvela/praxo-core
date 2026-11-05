@@ -22,7 +22,11 @@
 | --- | --- | --- | --- |
 | `main_test.go` | L3，并通过公开 API 触及 L1 行为 | 工具循环、Policy 允许/拒绝、发布包导入 | 确定性 fixture 与输出 |
 | `governed_test.go` | L3/L4 | 最终参数重授权、审批编辑重授权、Policy 错误传播 | 缺少 Policy/范围守卫属于应用检查；Core 保留 nil-policy 嵌入 |
-| `identity_test.go` | L4 | Policy Hook 接收工具参数与 context | principal、角色、租户、过期均是应用逻辑；模型角色声明被该逻辑忽略 |
+
+身份配方已移到
+[`examples/recipes/identity-go`](https://github.com/axisvela/praxo-core/tree/main/examples/recipes/identity-go)。
+它通过可信 context 提供已验证 principal；principal、角色、租户、过期均是应用逻辑，
+不是 Core 身份服务。
 
 长时操作套件已移到
 [`examples/recipes/long-running-go`](https://github.com/axisvela/praxo-core/tree/main/examples/recipes/long-running-go)，

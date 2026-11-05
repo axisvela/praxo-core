@@ -1,4 +1,4 @@
-package main
+package identityrecipe
 
 import (
 	"context"
@@ -10,6 +10,17 @@ import (
 	"github.com/axisvela/praxo-core/v2/pkg/policy"
 	"github.com/axisvela/praxo-core/v2/pkg/tool"
 )
+
+type identityRecordTool struct {
+	calls int
+}
+
+func (*identityRecordTool) Name() string        { return "record" }
+func (*identityRecordTool) Description() string { return "Record a target in an in-memory counter." }
+func (t *identityRecordTool) Invoke(context.Context, map[string]any) (any, error) {
+	t.calls++
+	return "recorded", nil
+}
 
 type principal struct {
 	ID       string
@@ -78,7 +89,7 @@ func identityPolicy() policy.Hook {
 }
 
 func runIdentity(ctx context.Context, target, tenant string) (int, error) {
-	impl := &recordTool{}
+	impl := &identityRecordTool{}
 	tools := tool.NewRegistry()
 	tools.Register(impl)
 	ag, err := agent.New(agent.Options{

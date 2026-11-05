@@ -56,14 +56,9 @@ security profile.
 
 ## Identity and Policy Recipe
 
-```sh
-go test -mod=readonly -run Identity -v ./...
-```
-
-`identity_test.go` shows how an application supplies a verified principal and
-rejects missing, expired, tenant-mismatched, or insufficient roles. A model's
-role claim is ignored. This is an application pattern, not an identity provider
-or policy decision service. See the
+The verified-identity pattern is a separate L4 application recipe at
+[`examples/recipes/identity-go`](../recipes/identity-go/README.md). It is not part
+of this starter and is not a Core capability claim. See the
 [identity and policy guide](../../docs/guides/identity-policy.md).
 
 ## Long-Running Operations

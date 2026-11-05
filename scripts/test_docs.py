@@ -120,12 +120,12 @@ class DocumentationTests(unittest.TestCase):
         self.assertTrue((ROOT / "site/languages/registry-pages/index.html").is_file())
 
     def test_identity_policy_recipe(self):
-        source = (ROOT / "examples/consumer-go/identity_test.go").read_text(encoding="utf-8")
+        source = (ROOT / "examples/recipes/identity-go/identity_test.go").read_text(encoding="utf-8")
         self.assertGreaterEqual(source.count("func TestIdentity"), 5)
         for prefix, phrase in (("", "verified principal"), ("zh-CN/", "已验证 principal")):
             page = (ROOT / "docs" / prefix / "guides/identity-policy.md").read_text(encoding="utf-8")
             self.assertIn(phrase, page)
-            self.assertIn("identity_test.go", page)
+            self.assertIn("recipes/identity-go", page)
         self.assertIn("guides/identity-policy.md", (ROOT / "mkdocs.yml").read_text(encoding="utf-8"))
         self.assertTrue((ROOT / "site/guides/identity-policy/index.html").is_file())
 

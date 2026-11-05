@@ -24,7 +24,12 @@ not extend it.
 | --- | --- | --- | --- |
 | `main_test.go` | L3, with L1 behavior through public API | Tool loop, policy allow/deny, published-package import | Deterministic fixture and output |
 | `governed_test.go` | L3/L4 | Final tool arguments reauthorized, approval edit reauthorized, policy error propagation | Missing-policy and empty-scope guards are application checks; Core keeps nil-policy embedding |
-| `identity_test.go` | L4 | Policy hook receives tool arguments and context | Principal, role, tenant, and expiry decisions are application logic; the model role claim is ignored by that logic |
+
+The identity recipe has moved to
+[`examples/recipes/identity-go`](https://github.com/axisvela/praxo-core/tree/main/examples/recipes/identity-go).
+It supplies a verified principal through a trusted context; the principal,
+role, tenant, and expiry decisions are application logic, not a Core identity
+service.
 
 The long-running suite has moved to
 [`examples/recipes/long-running-go`](https://github.com/axisvela/praxo-core/tree/main/examples/recipes/long-running-go)

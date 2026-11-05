@@ -17,8 +17,8 @@
 
 ## 受测示例
 
-可运行示例位于发布包 Go 消费者的
-[identity_test.go](https://github.com/axisvela/praxo-core/blob/main/examples/consumer-go/identity_test.go)。
+可运行示例是独立的 L4 配方模块
+[`examples/recipes/identity-go`](https://github.com/axisvela/praxo-core/tree/main/examples/recipes/identity-go)。
 在该目录运行：
 
 ```sh
