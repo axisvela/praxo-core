@@ -34,6 +34,10 @@ type remoteOperation struct {
 	Evidence string
 }
 
+type effectAuthority interface {
+	valid(operationID, evidence, receipt string) bool
+}
+
 type effectVerifier struct {
 	secret []byte
 }
@@ -60,7 +64,7 @@ type remoteOperations struct {
 	effects  int
 	next     int
 	path     string
-	verifier *effectVerifier
+	verifier effectAuthority
 }
 
 type persistedOperations struct {
@@ -77,7 +81,7 @@ func newRemoteOperationsAt(path string) *remoteOperations {
 	return newRemoteOperationsWithVerifier(path, newEffectVerifier("fixture-effect-secret"))
 }
 
-func newRemoteOperationsWithVerifier(path string, verifier *effectVerifier) *remoteOperations {
+func newRemoteOperationsWithVerifier(path string, verifier effectAuthority) *remoteOperations {
 	r := &remoteOperations{
 		byKey:   map[string]*remoteOperation{},
 		byID:    map[string]*remoteOperation{},

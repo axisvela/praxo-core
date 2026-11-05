@@ -60,6 +60,7 @@ GOWORK=off go test -mod=readonly -run LongRunning -v ./...
 | Cross-process restart | a separate test process serves HTTP; it is killed and restarted with the same file, and the main process recovers the existing operation |
 | Partial temp file | a leftover `.tmp` file is ignored; the last committed state and idempotency key remain intact |
 | Fencing token | a worker holding an old epoch cannot complete; the new owner increments the epoch and completes once |
+| Independent verifier process | the execution service calls a separate verifier process and does not hold the signing secret; forged receipts are rejected |
 | Bearer/TLS boundary | missing or wrong bearer token is rejected before any effect; a test TLS certificate is used |
 
 The fixture can persist to a JSON file and expose it over a loopback HTTP service
@@ -85,8 +86,9 @@ implementation, or production effect ledger.
   checkpoint.
 - A cancel request is not a cancel confirmation; the execution authority must
   report the final state.
-- The HMAC verifier is an in-process fixture. A real deployment needs an
-  independent verification authority, key management, rotation, and revocation.
+- The verifier is a separate loopback process fixture, but it uses a static
+  secret and token. A real deployment needs key management, rotation,
+  revocation, and an independently operated verification authority.
 - The fencing fixture is in memory. It has no durable lease store, expiry,
   revocation, clock guarantees, or coordination service.
 - Effect verification, production leases/fencing, reconciliation, and retention

@@ -52,6 +52,7 @@ GOWORK=off go test -mod=readonly -run LongRunning -v ./...
 | 跨进程重启 | 独立测试进程提供 HTTP；杀掉后用同一文件重启，主进程恢复现有操作 |
 | 残留临时文件 | 忽略残留 `.tmp`；最后提交状态与幂等键保持完整 |
 | Fencing token | 持有旧 epoch 的 worker 不能完成；新 owner 递增 epoch 并只完成一次 |
+| 独立 verifier 进程 | 执行服务调用独立 verifier 进程且不持有签名密钥；伪造收据被拒绝 |
 | Bearer/TLS 边界 | 缺少或错误 token 在产生效果前被拒绝；使用测试 TLS 证书 |
 
 Fixture 可持久化到 JSON 文件，并通过 loopback HTTP 暴露，从而在真实传输边界上测试响应
@@ -68,7 +69,8 @@ Fixture 可持久化到 JSON 文件，并通过 loopback HTTP 暴露，从而在
   定义并发与留存语义。
 - 状态查询必须访问权威执行系统，不能只查缓存的 Checkpoint。
 - 取消请求不是取消确认；执行权威必须报告最终状态。
-- HMAC verifier 是进程内 fixture。真实部署需要独立验证权威、密钥管理、轮换与撤销。
+- Verifier 是独立 loopback 进程 fixture，但使用静态密钥与 token。真实部署需要密钥管理、
+  轮换、撤销与独立运营的验证权威。
 - Fencing fixture 位于内存中，没有持久 lease store、过期、撤销、时钟保证或协调服务。
 - 效果验证、生产 lease/fencing、对账与留存属于执行系统或持久工作流产品。
 - 本配方不提供 exactly-once。

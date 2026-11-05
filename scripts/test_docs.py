@@ -158,6 +158,7 @@ class DocumentationTests(unittest.TestCase):
         self.assertIn("TestLongRunningPartialWriteDoesNotCorruptState", source)
         fence_source = (ROOT / "examples/consumer-go/longrunning_fence_test.go").read_text(encoding="utf-8")
         self.assertIn("TestLongRunningFencingRejectsStaleWorker", fence_source)
+        self.assertIn("TestLongRunningIndependentVerifier", process_source)
         page = (ROOT / "docs/guides/long-running-operations.md").read_text(encoding="utf-8")
         self.assertIn("verifier-issued receipt", page)
         self.assertIn("Cross-process restart", page)
