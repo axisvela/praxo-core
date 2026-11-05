@@ -34,6 +34,8 @@ wired language to 20/20.
 - Released `v/v0.1.2` to align the VPM package name with `praxo-core`.
 - Released `perl/v0.1.1` with the `Praxo::Core` root package required for CPAN
   distribution indexing.
+- Released `ruby/v0.4.1` with Ruby-specific source metadata pointing at
+  `axisvela/praxo-core-ruby` for Ruby Toolbox and gem consumers.
 
 ### Fixed
 

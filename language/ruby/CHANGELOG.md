@@ -1,5 +1,12 @@
 # Ruby Core Release Notes
 
+## 0.4.1 - 2026-11-04
+
+Source release tag `ruby/v0.4.1`. This is a Ruby distribution metadata release:
+the gem source repository is now `axisvela/praxo-core-ruby`, so Ruby Toolbox and
+other consumers see the Ruby-specific README instead of the monorepo Go README.
+No runtime behavior changed from `0.4.0`.
+
 ## 0.4.0 - 2026-11-02
 
 Source release tag `ruby/v0.4.0`. The RubyGems package `praxo-core==0.4.0` is
