@@ -1,0 +1,69 @@
+{
+  "specVersion": "0.2.0",
+  "kind": "tools",
+  "source": "pkg/model.ToolSpec, pkg/tool.GatewayInfo, pkg/toolcall.ToolCall",
+  "toolSpec": {
+    "wire": true,
+    "source": "pkg/model.ToolSpec",
+    "fields": [
+      { "name": "name", "type": "string", "required": true },
+      { "name": "description", "type": "string", "required": true },
+      { "name": "parameters", "type": "object", "required": false, "omitempty": true, "notes": "JSON Schema subset described by jsonschema.json" },
+      { "name": "risk", "type": "string", "required": false, "omitempty": true }
+    ],
+    "notes": [
+      "The model-visible tool specification. It does not grant authorization.",
+      "risk is advisory product metadata; it is not an authorization decision.",
+      "Go Registry.Specs sorts specifications by name. Ordering is not a semantic contract."
+    ]
+  },
+  "gatewayInfo": {
+    "wire": false,
+    "source": "pkg/tool.GatewayInfo",
+    "fields": [
+      { "name": "name", "type": "string", "required": true },
+      { "name": "description", "type": "string", "required": true },
+      { "name": "risk", "type": "string", "required": true }
+    ],
+    "notes": [
+      "Go gateway seam metadata for product-owned external tools.",
+      "NewGatewayTools sorts listings by name; ListTools ordering is not a wire guarantee."
+    ]
+  },
+  "parsedToolCall": {
+    "wire": false,
+    "source": "pkg/toolcall.ToolCall",
+    "fields": [
+      { "name": "call_id", "type": "string", "required": true },
+      { "name": "name", "type": "string", "required": true },
+      { "name": "operation", "type": "string", "required": true },
+      { "name": "resource", "type": "string", "required": true },
+      { "name": "risk", "type": "string", "required": true },
+      { "name": "reason", "type": "string", "required": true },
+      { "name": "idempotency_key", "type": "string", "required": false, "omitempty": true },
+      { "name": "input", "type": "object", "required": true }
+    ],
+    "notes": [
+      "This is the Go parser's JSON projection, not a frozen cross-language wire shape.",
+      "Cross-language source names differ; conformance vectors compare the parsed name and input, not this projection.",
+      "call_id is assigned by the parser.",
+      "operation, resource, risk, reason, and idempotency_key are pass-through product metadata. The parser does not interpret or validate them."
+    ]
+  },
+  "toolResult": {
+    "wire": true,
+    "representation": "model.message",
+    "notes": [
+      "A tool result is a model message with role=tool, toolId set to the originating tool-call id, and result content in content or contentBlocks.",
+      "There is no separate tool-result envelope.",
+      "Tool execution errors, approval state, and committed business effects are runtime or integration state, not this wire shape."
+    ]
+  },
+  "allowedTools": {
+    "wire": false,
+    "notes": [
+      "allowedTools is runtime configuration, not a wire field.",
+      "In the current Go reference, an empty allowedTools list means unrestricted tool scope, not deny-all."
+    ]
+  }
+}

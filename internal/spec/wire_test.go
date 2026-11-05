@@ -71,6 +71,108 @@ func TestWireReferences(t *testing.T) {
 	}
 }
 
+func TestWireDescriptions(t *testing.T) {
+	root := repoRoot(t)
+	version := strings.TrimSpace(string(readFile(t, filepath.Join(root, vectorDir, "SPEC_VERSION"))))
+
+	load := func(name string) map[string]any {
+		var doc map[string]any
+		readJSONFile(t, filepath.Join(root, vectorDir, "wire", name), &doc)
+		if doc["specVersion"] != version {
+			t.Errorf("%s specVersion %v, want %s", name, doc["specVersion"], version)
+		}
+		return doc
+	}
+
+	tools := load("tools.json")
+	if tools["kind"] != "tools" {
+		t.Errorf("tools.json kind %v", tools["kind"])
+	}
+	requireWireFields(t, "tools.json", tools, "toolSpec", "name", "description", "parameters", "risk")
+	requireWireFields(t, "tools.json", tools, "gatewayInfo", "name", "description", "risk")
+	requireWireFields(t, "tools.json", tools, "parsedToolCall", "call_id", "name", "operation", "resource", "risk", "reason", "idempotency_key", "input")
+	if !wireFlag(t, "tools.json", tools, "toolSpec") {
+		t.Error("toolSpec must be wire")
+	}
+	for _, section := range []string{"gatewayInfo", "parsedToolCall"} {
+		if wireFlag(t, "tools.json", tools, section) {
+			t.Errorf("%s must not be frozen cross-language wire", section)
+		}
+	}
+
+	model := load("model.json")
+	if model["kind"] != "model" {
+		t.Errorf("model.json kind %v", model["kind"])
+	}
+	requireWireFields(t, "model.json", model, "contentBlock", "type", "text", "image_url", "data")
+	requireWireFields(t, "model.json", model, "toolCall", "id", "name", "arguments")
+	requireWireFields(t, "model.json", model, "message", "role", "content", "contentBlocks", "toolCalls", "toolId")
+	requireWireFields(t, "model.json", model, "request", "model", "messages", "tools", "toolChoice", "responseFormat", "cacheHint", "temperature")
+	requireWireFields(t, "model.json", model, "usage", "inputTokens", "outputTokens", "cachedTokens")
+	if wireFlag(t, "model.json", model, "streamEvent") {
+		t.Error("streamEvent must not be frozen cross-language wire")
+	}
+
+	checkpoint := load("checkpoint.json")
+	if checkpoint["kind"] != "checkpoint" {
+		t.Errorf("checkpoint.json kind %v", checkpoint["kind"])
+	}
+	requireWireFields(t, "checkpoint.json", checkpoint, "allowlistEnvelope", "type", "data")
+	projection := requireWireFields(t, "checkpoint.json", checkpoint, "projection", "id", "session_id", "run_id", "created_at", "effect_cursor")
+	if projection["sessionId"] {
+		t.Error("checkpoint projection must keep snake_case session_id")
+	}
+	if !wireFlag(t, "checkpoint.json", checkpoint, "allowlistEnvelope") {
+		t.Error("checkpoint allowlistEnvelope must be wire")
+	}
+	if wireFlag(t, "checkpoint.json", checkpoint, "projection") {
+		t.Error("checkpoint projection must not be frozen cross-language wire")
+	}
+}
+
+func requireWireFields(t *testing.T, file string, doc map[string]any, section string, want ...string) map[string]bool {
+	t.Helper()
+	value, ok := doc[section].(map[string]any)
+	if !ok {
+		t.Fatalf("%s: missing object %s", file, section)
+	}
+	fields, ok := value["fields"].([]any)
+	if !ok {
+		t.Fatalf("%s: missing fields for %s", file, section)
+	}
+	names := map[string]bool{}
+	for _, field := range fields {
+		entry, ok := field.(map[string]any)
+		if !ok {
+			t.Fatalf("%s: invalid field in %s", file, section)
+		}
+		name, ok := entry["name"].(string)
+		if !ok {
+			t.Fatalf("%s: unnamed field in %s", file, section)
+		}
+		names[name] = true
+	}
+	for _, name := range want {
+		if !names[name] {
+			t.Errorf("%s: %s missing field %s", file, section, name)
+		}
+	}
+	return names
+}
+
+func wireFlag(t *testing.T, file string, doc map[string]any, section string) bool {
+	t.Helper()
+	value, ok := doc[section].(map[string]any)
+	if !ok {
+		t.Fatalf("%s: missing object %s", file, section)
+	}
+	flag, ok := value["wire"].(bool)
+	if !ok {
+		t.Fatalf("%s: %s missing wire boolean", file, section)
+	}
+	return flag
+}
+
 func checkWireRefs(t *testing.T, id string, m map[string]any, events, kinds, codes map[string]bool) {
 	t.Helper()
 	for key, value := range m {

@@ -48,9 +48,9 @@ experiments have not run, and stages 2-4 are unchanged. The pilot language set
 does not reduce support commitments for Rust, C#, R, or other implementations.
 
 Stage 0 is partially complete. The status vocabulary and shared-wire change
-classification are documented in [Contract and Evidence Status](contract-status.md).
-The adoption-task baseline and the planned Tool, Model, and Checkpoint wire
-descriptions remain open.
+classification are documented in [Contract and Evidence Status](contract-status.md),
+and the Tool, Model, and Checkpoint wire descriptions are implemented. The
+adoption-task baseline and cross-product authority verification remain open.
 
 ### Consumer and Contract Baseline
 
@@ -62,11 +62,12 @@ Maintain distinct historical-compatibility, current-package, and release-candida
 checks rather than treating one as evidence for all three.
 
 Use the existing normative `spec/`, not a competing specification tree. The
-planned Tool, Model, and Checkpoint wire descriptions remain planned; completing
-them is still open. Source, wire, and behavioral compatibility rules are now
-distinguished: the Go additive-field allowance does not automatically authorize
-a shared-wire addition. Optional profiles cannot bypass shared wire, parity, or
-conformance review.
+Tool, Model, and Checkpoint wire descriptions now exist; entries marked
+`"wire": false` document Go/source projections and are not frozen cross-language
+contracts. Source, wire, and behavioral compatibility rules are distinguished:
+the Go additive-field allowance does not automatically authorize a shared-wire
+addition. Optional profiles cannot bypass shared wire, parity, or conformance
+review.
 
 Implement integration requirements through existing seams first. Promote a
 public API only after a named consumer demonstrates a reusable gap, negative

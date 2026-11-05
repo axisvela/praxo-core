@@ -38,9 +38,8 @@ Starter。发布包安装、构建与确定性允许/拒绝检查已在 CI 通�
 采用实验尚未运行，阶段 2-4 状态不变。试点语言集合不降低 Rust、C#、R 或其他实现的
 支持承诺。
 
-阶段 0 部分完成：状态词汇与共享 Wire 变更分类已记录在
-[契约与证据状态](contract-status.md)。采用任务基线以及计划中的 Tool、Model、Checkpoint
-Wire 描述仍未完成。
+阶段 0 部分完成：状态词汇、共享 Wire 变更分类以及 Tool、Model、Checkpoint Wire 描述
+已记录在[契约与证据状态](contract-status.md)。采用任务基线与跨产品权威核验仍未完成。
 
 ### 消费者与契约基线
 
@@ -48,9 +47,10 @@ Wire 描述仍未完成。
 测试固定 Core `2.5.0`，推荐安装版本为 `2.5.2`。前者可以作为历史基线，但不能证明
 当前推荐包路径已通过。应分别维护历史兼容性、当前推荐包和待发布候选检查，不能互相替代。
 
-继续使用现有规范性 `spec/`，不另建竞争规范。计划中的 Tool、Model、Checkpoint
-Wire 描述仍未完成。源码、Wire 与行为兼容规则现已区分：Go 的可选字段加法不能自动
-授权共享 Wire 新增字段。可选 Profile 不能绕过共享 Wire、parity 和 conformance 审查。
+继续使用现有规范性 `spec/`，不另建竞争规范。Tool、Model、Checkpoint Wire 描述现已存在；
+标记为 `"wire": false` 的条目描述 Go/源码投影，不是冻结的跨语言契约。源码、Wire 与行为
+兼容规则已区分：Go 的可选字段加法不能自动授权共享 Wire 新增字段。可选 Profile 不能绕过
+共享 Wire、parity 和 conformance 审查。
 
 集成要求先通过现有接口实现。只有明确消费者证明了可复用缺口、负向测试覆盖该缺口，且
 完成兼容性和语言影响评审后，才提升为公共 API。

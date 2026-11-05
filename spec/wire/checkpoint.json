@@ -1,0 +1,92 @@
+{
+  "specVersion": "0.2.0",
+  "kind": "checkpoint",
+  "source": "pkg/checkpoint",
+  "allowlistEnvelope": {
+    "wire": true,
+    "source": "pkg/checkpoint.Envelope",
+    "fields": [
+      { "name": "type", "type": "string", "required": true },
+      { "name": "data", "type": "any", "required": true }
+    ],
+    "notes": [
+      "Only registered payload types may deserialize.",
+      "An unknown type returns CHECKPOINT_TYPE_NOT_ALLOWED.",
+      "The checkpoint vectors cover round-trip and unregistered-type behavior."
+    ]
+  },
+  "projection": {
+    "wire": false,
+    "source": "pkg/checkpoint.Checkpoint",
+    "fields": [
+      { "name": "id", "type": "string", "required": true },
+      { "name": "session_id", "type": "string", "required": true },
+      { "name": "run_id", "type": "string", "required": true },
+      { "name": "version", "type": "integer", "required": true },
+      { "name": "title", "type": "string", "required": false, "omitempty": true },
+      { "name": "model_id", "type": "string", "required": false, "omitempty": true },
+      { "name": "status", "type": "string", "required": true },
+      { "name": "tenant_id", "type": "string", "required": false, "omitempty": true },
+      { "name": "workspace_id", "type": "string", "required": false, "omitempty": true },
+      { "name": "parent_session_id", "type": "string", "required": false, "omitempty": true },
+      { "name": "parent_run_id", "type": "string", "required": false, "omitempty": true },
+      { "name": "agent_id", "type": "string", "required": false, "omitempty": true },
+      { "name": "messages", "type": "array", "items": "message", "required": false, "omitempty": true },
+      { "name": "runs", "type": "array", "items": "runSnapshot", "required": false, "omitempty": true },
+      { "name": "effect_cursor", "type": "effectCursor", "required": false, "omitempty": true },
+      { "name": "created_at", "type": "string", "format": "date-time", "required": true }
+    ],
+    "notes": [
+      "This is the Go persistence projection, not a frozen cross-vendor schema.",
+      "Persisted checkpoint data is an integration format to review and migrate; a checkpoint is not a transaction.",
+      "Snake_case names are exact for the Go struct."
+    ]
+  },
+  "message": {
+    "wire": false,
+    "source": "pkg/checkpoint.Message",
+    "fields": [
+      { "name": "role", "type": "string", "required": true },
+      { "name": "content", "type": "string", "required": true },
+      { "name": "content_blocks", "type": "any", "required": false, "omitempty": true }
+    ],
+    "notes": ["content_blocks is carried verbatim and deliberately does not depend on the model contract."]
+  },
+  "runSnapshot": {
+    "wire": false,
+    "source": "pkg/checkpoint.RunSnapshot",
+    "fields": [
+      { "name": "id", "type": "string", "required": true },
+      { "name": "session_id", "type": "string", "required": true },
+      { "name": "status", "type": "string", "required": true },
+      { "name": "created_at", "type": "string", "format": "date-time", "required": true }
+    ]
+  },
+  "effectCursor": {
+    "wire": false,
+    "source": "pkg/checkpoint.EffectCursor",
+    "fields": [
+      { "name": "run_id", "type": "string", "required": true },
+      { "name": "last_effect_id", "type": "string", "required": true },
+      { "name": "last_created_at", "type": "integer", "required": true }
+    ],
+    "notes": [
+      "The Core does not interpret last_created_at; the checkpoint example uses Unix nanoseconds.",
+      "A cursor is a recovery hint, not proof that an external effect committed."
+    ]
+  },
+  "recoveryReport": {
+    "wire": false,
+    "source": "pkg/checkpoint.RecoveryReport",
+    "fields": [
+      { "name": "checkpoint_id", "type": "string", "required": true },
+      { "name": "session_id", "type": "string", "required": true },
+      { "name": "run_id", "type": "string", "required": true },
+      { "name": "restored", "type": "boolean", "required": true },
+      { "name": "message_count", "type": "integer", "required": true },
+      { "name": "cursor_verified", "type": "boolean", "required": true },
+      { "name": "cursor", "type": "effectCursor", "required": false, "omitempty": true },
+      { "name": "reason", "type": "string", "required": false, "omitempty": true }
+    ]
+  }
+}

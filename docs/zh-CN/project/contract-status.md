@@ -25,7 +25,7 @@
 | 领域 | 状态 | 范围与限制 |
 | --- | --- | --- |
 | Go 参考 API 与共享 Wire 产物（事件、错误、JSON Schema 子集、插件） | 已实现；按发布 revision 验证 | `spec/` 中的规范文件与向量；不证明真实 provider 或产品部署 |
-| Tool、Model、Checkpoint Wire 描述 | 计划中 | `spec/README.md` 仍列为计划项；不得作为稳定契约引用 |
+| Tool、Model、Checkpoint Wire 描述 | 已实现；`SPEC_VERSION` 0.2.0 的描述性文件 | 共享 Tool/Model 形状与 Checkpoint allowlist envelope 属于 Wire；Go checkpoint 与解析后 tool-call 投影标记为 `"wire": false`，不是冻结的跨语言契约 |
 | Go、Python、TypeScript、Java 独立消费者 | 已实现；在各自标注 revision 验证 | 发布包安装、构建与确定性允许/拒绝检查；属于集成证据，不是采用证据 |
 | 受治理执行 Profile | 提案 | 设计定义了验收标准；尚未实现通用 Core Profile |
 | 编程 Agent 采用实验 | 未运行 | 没有发现、选型、首次通过、修复成本或留存数据 |

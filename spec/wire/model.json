@@ -1,0 +1,101 @@
+{
+  "specVersion": "0.2.0",
+  "kind": "model",
+  "source": "pkg/model",
+  "roles": ["system", "user", "assistant", "tool"],
+  "toolChoiceValues": ["auto", "none", "required"],
+  "contentBlock": {
+    "wire": true,
+    "fields": [
+      { "name": "type", "type": "string", "required": true },
+      { "name": "text", "type": "string", "required": false, "omitempty": true },
+      { "name": "image_url", "type": "string", "required": false, "omitempty": true },
+      { "name": "data", "type": "string", "required": false, "omitempty": true }
+    ],
+    "notes": ["image_url keeps snake_case; do not normalize it to imageUrl."]
+  },
+  "toolCall": {
+    "wire": true,
+    "fields": [
+      { "name": "id", "type": "string", "required": true },
+      { "name": "name", "type": "string", "required": true },
+      { "name": "arguments", "type": "object", "required": true }
+    ]
+  },
+  "message": {
+    "wire": true,
+    "fields": [
+      { "name": "role", "type": "string", "required": true, "enum": ["system", "user", "assistant", "tool"] },
+      { "name": "content", "type": "string", "required": false, "omitempty": true },
+      { "name": "contentBlocks", "type": "array", "items": "contentBlock", "required": false, "omitempty": true },
+      { "name": "toolCalls", "type": "array", "items": "toolCall", "required": false, "omitempty": true },
+      { "name": "toolId", "type": "string", "required": false, "omitempty": true }
+    ],
+    "notes": [
+      "contentBlocks and toolCalls disappear when empty.",
+      "A tool result is a message with role=tool and toolId set to the originating tool-call id."
+    ]
+  },
+  "toolSpec": {
+    "wire": true,
+    "reference": "tools.json#toolSpec"
+  },
+  "responseFormat": {
+    "wire": true,
+    "fields": [
+      { "name": "name", "type": "string", "required": false, "omitempty": true },
+      { "name": "schema", "type": "object", "required": false, "omitempty": true }
+    ]
+  },
+  "cacheHint": {
+    "wire": true,
+    "fields": [
+      { "name": "stablePrefix", "type": "integer", "required": false, "omitempty": true },
+      { "name": "ttl", "type": "string", "required": false, "omitempty": true }
+    ]
+  },
+  "request": {
+    "wire": true,
+    "fields": [
+      { "name": "model", "type": "string", "required": false, "omitempty": true },
+      { "name": "messages", "type": "array", "items": "message", "required": true },
+      { "name": "tools", "type": "array", "items": "toolSpec", "required": false, "omitempty": true },
+      { "name": "toolChoice", "type": "string", "required": false, "omitempty": true, "enum": ["auto", "none", "required"] },
+      { "name": "responseFormat", "type": "responseFormat", "required": false, "omitempty": true },
+      { "name": "cacheHint", "type": "cacheHint", "required": false, "omitempty": true },
+      { "name": "temperature", "type": "number", "required": false, "omitempty": true }
+    ],
+    "notes": [
+      "The agent does not populate model. Adapters derive provider or contract configuration from adapter state, run context, or messages.",
+      "temperature is omitted when zero."
+    ]
+  },
+  "usage": {
+    "wire": true,
+    "fields": [
+      { "name": "inputTokens", "type": "integer", "required": true },
+      { "name": "outputTokens", "type": "integer", "required": true },
+      { "name": "cachedTokens", "type": "integer", "required": false, "omitempty": true }
+    ]
+  },
+  "response": {
+    "wire": true,
+    "fields": [
+      { "name": "message", "type": "message", "required": true },
+      { "name": "usage", "type": "usage", "required": true },
+      { "name": "finishReason", "type": "string", "required": false, "omitempty": true }
+    ]
+  },
+  "streamEvent": {
+    "wire": false,
+    "source": "pkg/model.StreamEvent",
+    "fields": [
+      { "name": "delta", "type": "string", "required": true },
+      { "name": "done", "type": "boolean", "required": true }
+    ],
+    "notes": [
+      "Process-local streaming callback and provider-channel shape.",
+      "No JSON stream-event projection is frozen across languages."
+    ]
+  }
+}

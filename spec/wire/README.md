@@ -9,11 +9,13 @@ normative. Do not "fix" casing or reorder fields to look idiomatic.
 | `errors.json` | Exported sentinels, stable codes, Core exception names, plugin call error codes |
 | `jsonschema.json` | Supported and ignored JSON Schema keywords |
 | `plugin.json` | Manifest v1, kinds, states, event kinds, protocol |
+| `tools.json` | Tool specs, gateway metadata, parsed tool-call projection, tool-result representation |
+| `model.json` | Messages, content blocks, tool calls, request/response, usage |
+| `checkpoint.json` | Allowlist envelope and the Go checkpoint projection |
 
-Planned:
-
-- `tools.json` for tool specs, gateway listings, and tool results
-- `model.json` for messages, content blocks, tool calls, and usage
+Entries marked `"wire": false` document a Go or source-level shape. They are not
+frozen cross-language wire contracts. The checkpoint projection is a persistence
+format to review and migrate, not a cross-vendor transaction schema.
 
 ## Rules
 

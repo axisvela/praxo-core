@@ -28,7 +28,7 @@ or the support levels in the [language matrix](../languages/matrix.md).
 | Area | Status | Scope and limits |
 | --- | --- | --- |
 | Go reference API and shared wire artifacts (events, errors, JSON Schema subset, plugin) | Implemented; verified per release revision | Normative files and vectors in `spec/`; does not prove live providers or product deployments |
-| Tool, Model, and Checkpoint wire descriptions | Planned | Listed as planned in `spec/README.md`; do not cite them as stable contracts |
+| Tool, Model, and Checkpoint wire descriptions | Implemented; descriptive at `SPEC_VERSION` 0.2.0 | Shared tool/model shapes and the checkpoint allowlist envelope are wire; Go checkpoint and parsed-tool-call projections are documented as `"wire": false` and are not frozen cross-language contracts |
 | Go, Python, TypeScript, and Java consumer starters | Implemented; verified at their cited revisions | Published-package installation, build, and deterministic allow/deny checks; integration evidence, not adoption evidence |
 | Governed Execution Profile | Proposed | The design defines acceptance criteria; no general Core profile is implemented |
 | Coding-agent adoption experiments | Not run | No discovery, selection, first-pass, repair-cost, or retention data |

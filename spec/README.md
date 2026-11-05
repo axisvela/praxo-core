@@ -24,7 +24,9 @@ spec/
 
 Implemented:
 
-- `wire/` event, error, JSON Schema, and plugin contracts
+- `wire/` event, error, JSON Schema, plugin, tool, model, and checkpoint
+  contracts. Entries marked `"wire": false` document Go/source projections and
+  are not frozen cross-language wire.
 - `vectors/` groups for agent loop, toolcall, JSON Schema, plugin, memory,
   event, stream, checkpoint, policy, context, and middleware
 - Go runner and parity linter in `internal/spec`, run by CI job
@@ -32,11 +34,9 @@ Implemented:
 - Python runner and parity check in `language/python/praxo/conformance.py`, run by CI job
   `python-conformance`
 
-Planned additions:
-
-- `wire/tools.json` for the tool spec and gateway shapes
-- `wire/model.json` for messages, tool calls, and usage
-- `wire/checkpoint.json` for the snake_case checkpoint envelope
+No additional wire files are currently planned. The checkpoint projection
+records a persistence format to review and migrate; it is not a cross-vendor
+transaction schema.
 
 ## Normative Rules
 
