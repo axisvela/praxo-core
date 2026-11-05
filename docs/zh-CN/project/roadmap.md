@@ -28,8 +28,9 @@
 有消费者和维护者依据时再扩展 Starter 与适配器，不以增加数量为目标。
 
 [Go 独立消费者](../getting-started/consumer-go.md)、
-[Python 独立消费者](../getting-started/consumer-python.md)与
-[TypeScript 独立消费者](../getting-started/consumer-typescript.md)提供当前发布包的
+[Python 独立消费者](../getting-started/consumer-python.md)、
+[TypeScript 独立消费者](../getting-started/consumer-typescript.md)与
+[Java 独立消费者](../getting-started/consumer-java.md)提供当前发布包的
 Starter 与允许/拒绝检查。提供这些路径不代表四语言阶段或采用实验已经完成。
 
 ### 消费者与契约基线

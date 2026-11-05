@@ -12,8 +12,9 @@ Package version: `0.4.0` (source tag `java/v0.4.0`; the earlier
 `java/v0.2.3` tag retains `io.axisvela.praxo`). Supported contract:
 `SPEC_VERSION` `0.2.0` (`com.axisvela.praxo.Version.SPEC_VERSION`).
 
-Maven Central remains `com.axisvela:praxo-core:0.3.0` until `0.4.0` is
-published.
+Maven Central publishes `com.axisvela:praxo-core:0.4.0`, the current source
+release. Check Central metadata rather than inferring availability from this
+README when upgrading.
 
 ## Install
 
@@ -21,7 +22,7 @@ published.
 <dependency>
   <groupId>com.axisvela</groupId>
   <artifactId>praxo-core</artifactId>
-  <version>0.3.0</version>
+  <version>0.4.0</version>
 </dependency>
 ```
 
@@ -43,6 +44,11 @@ java -cp target/classes:target/test-classes com.axisvela.praxo.agent.AgentConcur
 ```
 
 ## Usage
+
+For a complete application with explicit tool scope, policy denial tests, and
+published-artifact provenance checks, use the
+[independent Java consumer](../../docs/getting-started/consumer-java.md).
+
 
 ```java
 import com.axisvela.praxo.agent.Agent;

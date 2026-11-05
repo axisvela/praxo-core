@@ -4,6 +4,7 @@ from pathlib import Path
 import re
 import tomllib
 import unittest
+import xml.etree.ElementTree as ElementTree
 from types import SimpleNamespace
 from urllib.parse import unquote, urljoin, urlsplit
 
@@ -34,6 +35,39 @@ class Links(HTMLParser):
 
 
 class DocumentationTests(unittest.TestCase):
+    def test_java_consumer_version_and_sources(self):
+        namespace = {"m": "http://maven.apache.org/POM/4.0.0"}
+        source = ElementTree.parse(ROOT / "language/java/pom.xml").getroot()
+        version = source.find("m:version", namespace).text
+        consumer = ElementTree.parse(ROOT / "examples/consumer-java/pom.xml").getroot()
+        dependencies = [
+            dependency for dependency in consumer.findall(".//m:dependency", namespace)
+            if dependency.findtext("m:groupId", namespaces=namespace) == "com.axisvela"
+            and dependency.findtext("m:artifactId", namespaces=namespace) == "praxo-core"
+        ]
+        self.assertEqual(len(dependencies), 1)
+        self.assertEqual(dependencies[0].findtext("m:version", namespaces=namespace), version)
+        page = SimpleNamespace(meta={})
+        for filename in ("App.java", "AppTest.java"):
+            marker = "<!-- java-consumer-source: " + filename + " -->"
+            source_text = (ROOT / "examples/consumer-java/src" / ("main" if filename == "App.java" else "test")
+                           / "java/starter" / filename).read_text(encoding="utf-8")
+            self.assertEqual(docs_hooks.on_page_markdown(marker, page, None, None), "```java\n" + source_text.rstrip() + "\n```")
+            for prefix in ("", "zh-CN/"):
+                guide = (ROOT / "docs" / prefix / "getting-started/consumer-java.md").read_text(encoding="utf-8")
+                self.assertIn(marker, guide)
+                self.assertIn("<version>" + version + "</version>", guide)
+
+    def test_built_java_consumer_source(self):
+        for prefix in ("", "zh-CN/"):
+            html = (ROOT / "site" / prefix / "getting-started/consumer-java/index.html").read_text(encoding="utf-8")
+            parser = Links()
+            parser.feed(html)
+            text = "".join(parser.text)
+            self.assertIn("static Built buildAgent(", text)
+            self.assertIn("void deniedToolHasNoEffect(", text)
+            self.assertNotIn("java-consumer-source:", html)
+
     def test_typescript_consumer_version_and_sources(self):
         metadata = json.loads((ROOT / "language/typescript/package.json").read_text(encoding="utf-8"))
         version = metadata["version"]

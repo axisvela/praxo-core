@@ -6,6 +6,8 @@
 Python 使用[独立消费者指南](consumer-python.md)，通过 PyPI 发布包与隔离环境完成验收。
 TypeScript 使用[独立消费者指南](consumer-typescript.md)，通过 npm 发布包、固定锁文件与
 Node.js 20 或更新版本完成验收。
+Java 使用[独立消费者指南](consumer-java.md)，通过 Maven Central 发布产物与 Java 21
+或更新版本完成验收。
 
 以下端点示例连接 OpenAI 兼容服务，需要检出 PRAXO-CORE 源码，并从仓库根目录运行命令。
 无需提供商 SDK。示例的宽松策略不是生产授权配置。

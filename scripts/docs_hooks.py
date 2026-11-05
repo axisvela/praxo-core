@@ -120,15 +120,23 @@ def sdk_readme(markdown, source):
 
 
 def on_page_markdown(markdown, page, config, files):
-    for language, filenames, syntax in (
-        ("go", ("main.go", "main_test.go"), "go"),
-        ("python", ("starter.py", "test_starter.py"), "python"),
-        ("typescript", ("starter.js", "test_starter.test.js"), "javascript"),
-    ):
-        for filename in filenames:
+    sources = {
+        "go": ("go", {"main.go": "main.go", "main_test.go": "main_test.go"}),
+        "python": ("python", {"starter.py": "starter.py", "test_starter.py": "test_starter.py"}),
+        "typescript": ("javascript", {
+            "starter.js": "starter.js",
+            "test_starter.test.js": "test_starter.test.js",
+        }),
+        "java": ("java", {
+            "App.java": "src/main/java/starter/App.java",
+            "AppTest.java": "src/test/java/starter/AppTest.java",
+        }),
+    }
+    for language, (syntax, filenames) in sources.items():
+        for filename, relative in filenames.items():
             marker = "<!-- " + language + "-consumer-source: " + filename + " -->"
             if marker in markdown:
-                source = (ROOT / "examples" / ("consumer-" + language) / filename).read_text(encoding="utf-8")
+                source = (ROOT / "examples" / ("consumer-" + language) / relative).read_text(encoding="utf-8")
                 markdown = markdown.replace(marker, "```" + syntax + "\n" + source.rstrip() + "\n```")
     if "<!-- language-support-matrix -->" in markdown:
         source = (ROOT / "spec/languages.md").read_text(encoding="utf-8")

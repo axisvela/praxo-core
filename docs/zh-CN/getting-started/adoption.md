@@ -21,6 +21,7 @@
 
 Python 应用可从[Python 独立消费者](consumer-python.md)开始。
 TypeScript 应用可从 [TypeScript 独立消费者](consumer-typescript.md)开始。
+Java 应用可从 [Java 独立消费者](consumer-java.md)开始。
 
 1. 添加模块：
 

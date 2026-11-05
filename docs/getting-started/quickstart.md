@@ -10,6 +10,9 @@ published PyPI package and isolated-environment acceptance tests.
 For TypeScript, use the [independent TypeScript consumer](consumer-typescript.md)
 with the published npm package, a pinned lockfile, and Node.js 20 or newer.
 
+For Java, use the [independent Java consumer](consumer-java.md) with the
+published Maven Central artifact and Java 21 or newer.
+
 The endpoint example below runs an agent against an OpenAI-compatible service.
 It requires a PRAXO-CORE source checkout; run its commands from the repository
 root. No provider SDK is required. Its permissive policy is not a production
