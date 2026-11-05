@@ -45,6 +45,7 @@ class GoConsumerTests(unittest.TestCase):
                         self.assertIn("TestLongRunningPartialWriteDoesNotCorruptState", result.stdout)
                         self.assertIn("TestLongRunningFencingRejectsStaleWorker", result.stdout)
                         self.assertIn("TestLongRunningIndependentVerifier", result.stdout)
+                        self.assertIn("TestLongRunningDurableFencingAfterRestart", result.stdout)
                     if args[0] == "run":
                         self.assertEqual(
                             result.stdout,

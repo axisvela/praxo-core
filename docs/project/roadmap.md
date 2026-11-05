@@ -70,11 +70,11 @@ Stage 3 has started with a Go consumer-runnable
 idempotent submit, HTTP response loss, child-process restart recovery, cancel
 request versus confirmation, Run cancellation, completion versus effect
 verification, verifier receipts, partial-write recovery, fencing tokens, and a
-separate verifier process. It uses a file-backed loopback HTTP fixture with a
-static bearer token and test TLS, not a deployed identity-aware service,
-production key management, database, or durable lease store. Stage 3 is not
-complete: a deployed execution service, power-loss/fault injection, and durable
-leases/fencing remain open.
+separate verifier process and durable fencing. It uses file-backed loopback HTTP
+fixtures with a static bearer token and test TLS, not a deployed identity-aware
+service, production key management, database, or expiry/revocation-aware lease
+store. Stage 3 is not complete: a deployed execution service, power-loss/fault
+injection, and production leases/fencing remain open.
 
 ### Consumer and Contract Baseline
 
