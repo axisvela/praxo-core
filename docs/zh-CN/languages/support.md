@@ -88,7 +88,7 @@ Bridge、Sample 描述运行时的接入方式，不证明其语言缺乏 Framew
 | Perl | `perl/v0.1.1` | CPAN `Praxo-Core` 0.1.1 已上传；索引待完成 | 未记录 |
 | PowerShell | `powershell/v0.2.0` | PowerShell Gallery `praxo-core-ps==0.2.0` 已发布 | 未记录 |
 | Nim | `nim/v0.1.1` | nim-lang/packages PR #3600 待合并；nimpkgs 待重新抓取 | 未记录 |
-| OCaml | `ocaml/v0.3.0` | opam-repository PR #31106 待合并；0.3.0 CI 待重跑 | 未记录 |
+| OCaml | `ocaml/v0.3.0` | opam-repository PR #31106 待合并；包 CI 已通过；opam-ci 待完成 | 未记录 |
 | Haskell | `haskell/v0.2.0` | sdist 已发布；API 和手工上传均需 Hackage trustees 将账号加入 Uploaders | 未记录 |
 | Delphi / Free Pascal | `delphi/v0.2.1` | OPM 资产已发布；维护者提交待完成 | 未记录 |
 

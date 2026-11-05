@@ -4,7 +4,8 @@ Source tag `ocaml/v0.3.0` maps to opam package `praxo-core` version `0.3.0`
 from the split repository <https://github.com/axisvela/praxo-core-ocaml>.
 The repository root has `dune-project`, `praxo-core.opam`, and `src/`; the
 public library is `praxo-core` and the module is `Praxo_core`.
-opam-repository PR #31106 tracks the 0.3.0 package.
+opam-repository PR #31106 tracks the 0.3.0 package; package CI passed and
+opam-ci is pending.
 
 The release tarball is a GitHub release asset named
 `praxo-core-ocaml-0.3.0.tar.gz`; its sha256 is in the opam file. To release a

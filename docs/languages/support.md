@@ -117,7 +117,7 @@ Registry values below were checked against the public registries on 2026-11-05.
 | Perl | `perl/v0.1.1` | CPAN `Praxo-Core` 0.1.1 uploaded; indexing pending | Not recorded |
 | PowerShell | `powershell/v0.2.0` | PowerShell Gallery `praxo-core-ps==0.2.0` published | Not recorded |
 | Nim | `nim/v0.1.1` | nim-lang/packages PR #3600 open; nimpkgs re-crawl pending | Not recorded |
-| OCaml | `ocaml/v0.3.0` | opam-repository PR #31106 open; 0.3.0 CI rerun pending | Not recorded |
+| OCaml | `ocaml/v0.3.0` | opam-repository PR #31106 open; package CI passed; opam-ci pending | Not recorded |
 | Haskell | `haskell/v0.2.0` | sdist published; API and manual uploads blocked until Hackage trustees add the account to Uploaders | Not recorded |
 | Delphi / Free Pascal | `delphi/v0.2.1` | OPM assets published; maintainer submission pending | Not recorded |
 
