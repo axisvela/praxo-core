@@ -43,6 +43,18 @@ Core-level equivalents are tested separately: see `pkg/agent` tests for policy
 denial, final-argument authorization, allowed tools, and cancellation, and
 `spec/vectors` for shared behavior.
 
+### Recipe to Core Evidence Map
+
+| Recipe assertion | Existing L1 evidence |
+| --- | --- |
+| Final arguments and approval edits reauthorized; policy error fail closed | `TestFinalToolArgumentsAuthorized` in `pkg/agent/tool_authorization_test.go` |
+| Final tool name and allowlist | `TestFinalToolNameChecksAllowlist`, `TestFinalToolNameReauthorized`, `TestAllowedToolsBlocksInvocation` |
+| Tool cancellation stops later tools | `TestRunStopsStartingToolsAfterCancellation` in `pkg/agent/tool_cancel_test.go` |
+| Cancellation during completion/cleanup | `completion_cancel_test.go` |
+
+The recipes therefore consume existing Core evidence rather than establishing a
+new Core capability. No Core API or test was added for the long-running recipe.
+
 ## Should Recipe Behavior Move Into Core?
 
 Do not internalize a recipe simply because its tests pass. Core should absorb a

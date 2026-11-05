@@ -37,6 +37,18 @@ Run 取消断言触及 Core 接缝。
 Core 层的对应行为在 `pkg/agent` 测试（策略拒绝、最终参数授权、允许工具、取消）和
 `spec/vectors` 中单独验证。
 
+### 配方到 Core 证据映射
+
+| 配方断言 | 已有 L1 证据 |
+| --- | --- |
+| 最终参数与审批编辑重授权；Policy 错误 fail closed | `pkg/agent/tool_authorization_test.go` 的 `TestFinalToolArgumentsAuthorized` |
+| 最终工具名与 allowlist | `TestFinalToolNameChecksAllowlist`、`TestFinalToolNameReauthorized`、`TestAllowedToolsBlocksInvocation` |
+| 工具取消阻止后续工具 | `pkg/agent/tool_cancel_test.go` 的 `TestRunStopsStartingToolsAfterCancellation` |
+| 完成/清理期间取消 | `completion_cancel_test.go` |
+
+因此配方消费的是已有 Core 证据，而不是建立新 Core 能力。没有为长时操作配方新增 Core
+API 或测试。
+
 ## 是否应把配方能力内化进 Core？
 
 不要仅因配方测试通过就内化。只有全部满足才考虑：
