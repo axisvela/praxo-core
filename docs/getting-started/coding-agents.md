@@ -16,7 +16,9 @@ language and run the verification commands.
 
 The machine-readable map is
 [`agent-integration.json`](agent-integration.json). Re-check the registry before
-installing; a source tag does not prove package availability.
+installing; a source tag does not prove package availability. Registry pages are
+release snapshots and may lag source documentation; see
+[Registry Pages and Package Introductions](../languages/registry-pages.md).
 
 ## Integration Contract
 

@@ -7,6 +7,11 @@ tags, package-registry versions, conformance, and production verification are
 separate claims. A registry version does not imply full Go feature parity or
 production readiness.
 
+Registry pages are release snapshots. Their descriptions, keywords, and READMEs
+may lag the source repository and the documentation site. See
+[Registry Pages and Package Introductions](registry-pages.md) for the page
+checklist and the current pilot-page audit.
+
 ## Published and current
 
 | Language | Registry | Version | Address | Status |

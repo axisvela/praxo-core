@@ -57,8 +57,10 @@ governed negative tests covering missing policy/scope, final-argument
 reauthorization, approval-edit reauthorization, and policy-service failure.
 A concise [coding-agent integration contract](../getting-started/coding-agents.md)
 and a version-checked [package map](../getting-started/agent-integration.json)
-are now available. Stage 2 is not complete: integration recipes, optional
-installable skills, and registry metadata remain open.
+are now available. Source registry metadata was improved and the four pilot
+registry pages were audited; the published pages update only with new releases.
+Stage 2 is not complete: integration recipes, optional installable skills, and
+published registry-page verification remain open.
 
 ### Consumer and Contract Baseline
 

@@ -30,6 +30,7 @@
 | Go、Python、TypeScript 与 Java 治理负向验收 | 已实现；在各自标注 revision 验证 | 各五项应用层检查：缺少 Policy/范围、最终参数与审批编辑重授权、Policy 服务失败；不是通用 Profile |
 | 受治理执行 Profile | 提案 | 设计定义了验收标准；尚未实现通用 Core Profile |
 | 编程 Agent 集成映射 | 已实现；版本由文档测试校验 | 包映射、集成契约与验证命令；不是安装渠道、自动 Skill 或采用证据 |
+| Registry 页面元数据 | 源元数据已更新；已发布页面尚未更新 | 2026-11-05 审计 PyPI、npm、Maven、Go 页面；页面只随新版本更新；其他 Registry 发布时检查 |
 | 编程 Agent 采用实验 | 未运行 | 没有发现、选型、首次通过、修复成本或留存数据 |
 | 具身集成 Profile | 未开始 | 需要明确消费者、中间件选择和仿真场景 |
 | 语言一致性、功能覆盖与运行证据 | 参见 `spec/parity.md`、语言总表与 Behavior Lab | 分开的维度；源码标签不提供运行证据 |

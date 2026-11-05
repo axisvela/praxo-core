@@ -85,12 +85,39 @@ class DocumentationTests(unittest.TestCase):
         for entry in entries.values():
             self.assertTrue((ROOT / entry["starter"]).is_dir(), entry["starter"])
             self.assertTrue((ROOT / entry["guide"]).is_file(), entry["guide"])
+            self.assertTrue(entry["registry"], entry["language"])
+            self.assertTrue(entry["registryPage"].startswith("https://"), entry["language"])
         for prefix in ("", "zh-CN/"):
             page = (ROOT / "docs" / prefix / "getting-started/coding-agents.md").read_text(encoding="utf-8")
             self.assertIn("agent-integration.json", page)
             self.assertIn(entries["Go"]["version"], page)
         self.assertIn("getting-started/coding-agents.md", (ROOT / "mkdocs.yml").read_text(encoding="utf-8"))
         self.assertTrue((ROOT / "site/getting-started/agent-integration.json").is_file())
+
+    def test_registry_page_metadata(self):
+        python_meta = tomllib.loads((ROOT / "language/python/pyproject.toml").read_text(encoding="utf-8"))
+        self.assertIn("human-in-the-loop", python_meta["project"]["description"])
+        self.assertIn("tool-authorization", python_meta["project"]["keywords"])
+        ts_meta = json.loads((ROOT / "language/typescript/package.json").read_text(encoding="utf-8"))
+        self.assertIn("human-in-the-loop", ts_meta["description"])
+        self.assertIn("tool-authorization", ts_meta["keywords"])
+        java_meta = ElementTree.parse(ROOT / "language/java/pom.xml").getroot()
+        java_description = java_meta.findtext("m:description", namespaces={"m": "http://maven.apache.org/POM/4.0.0"})
+        self.assertIn("human-in-the-loop", java_description)
+        self.assertIn("checkpoints", java_description)
+        for readme in (
+            "language/python/README.md",
+            "language/typescript/README.md",
+            "language/java/README.md",
+        ):
+            self.assertIn("consumer", (ROOT / readme).read_text(encoding="utf-8").lower())
+        for prefix, snapshot_word in (("", "snapshot"), ("zh-CN/", "快照")):
+            page = (ROOT / "docs" / prefix / "languages/registry-pages.md").read_text(encoding="utf-8")
+            self.assertIn(snapshot_word, page)
+            status = (ROOT / "docs" / prefix / "languages/registry-status.md").read_text(encoding="utf-8")
+            self.assertIn("registry-pages.md", status)
+        self.assertIn("languages/registry-pages.md", (ROOT / "mkdocs.yml").read_text(encoding="utf-8"))
+        self.assertTrue((ROOT / "site/languages/registry-pages/index.html").is_file())
 
     def test_contract_status_vocabulary_and_links(self):
         expectations = {

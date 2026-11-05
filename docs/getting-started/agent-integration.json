@@ -1,10 +1,12 @@
 {
   "specVersion": "0.2.0",
-  "status": "Public package map for coding agents. Re-check the registry before installing; entries describe the current recommended published packages.",
+  "status": "Public package map for coding agents. Re-check the registry before installing; registry pages are release snapshots and may lag source documentation.",
   "languages": [
     {
       "language": "Go",
       "package": "github.com/axisvela/praxo-core/v2",
+      "registry": "Go module proxy / pkg.go.dev",
+      "registryPage": "https://pkg.go.dev/github.com/axisvela/praxo-core/v2",
       "version": "2.5.2",
       "requirements": "Go 1.26.10 tested; the module declares 1.25.0",
       "install": "go get github.com/axisvela/praxo-core/v2@v2.5.2",
@@ -16,6 +18,8 @@
     {
       "language": "Python",
       "package": "praxo-core",
+      "registry": "PyPI",
+      "registryPage": "https://pypi.org/project/praxo-core/",
       "version": "0.3.0",
       "requirements": "Python 3.11 or newer",
       "install": "pip install praxo-core==0.3.0",
@@ -27,6 +31,8 @@
     {
       "language": "TypeScript",
       "package": "@axisvela/praxo-core",
+      "registry": "npm",
+      "registryPage": "https://www.npmjs.com/package/@axisvela/praxo-core",
       "version": "0.2.0",
       "requirements": "Node.js 20 or newer",
       "install": "npm install --save-exact @axisvela/praxo-core@0.2.0",
@@ -38,6 +44,8 @@
     {
       "language": "Java",
       "package": "com.axisvela:praxo-core",
+      "registry": "Maven Central",
+      "registryPage": "https://central.sonatype.com/artifact/com.axisvela/praxo-core",
       "version": "0.4.0",
       "requirements": "Java 21 or newer; Maven 3.9 or newer",
       "install": "Maven dependency com.axisvela:praxo-core:0.4.0",

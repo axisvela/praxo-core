@@ -13,7 +13,8 @@
 | Java | `com.axisvela:praxo-core` | `0.4.0` | [Java 消费者](consumer-java.md) |
 
 机器可读映射见 [`agent-integration.json`](agent-integration.json)。安装前请重新核对
-Registry；源码标签不能证明包仓库可用。
+Registry；源码标签不能证明包仓库可用。Registry 页面是发布快照，可能落后于源码文档；
+参见 [Registry 页面与包介绍](../languages/registry-pages.md)。
 
 ## 集成契约
 

@@ -10,7 +10,7 @@
   <packaging>jar</packaging>
 
   <name>PRAXO-CORE Java SDK</name>
-  <description>Embeddable MIT-licensed agent framework for Java: tools, policy, events, memory, middleware, and an agent loop</description>
+  <description>Embeddable MIT-licensed Java agent runtime with policy, human-in-the-loop approvals, checkpoints, tools, events, memory, and an agent loop</description>
   <url>https://axisvela.github.io/praxo-core/</url>
 
   <licenses>

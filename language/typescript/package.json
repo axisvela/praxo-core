@@ -1,7 +1,7 @@
 {
   "name": "@axisvela/praxo-core",
   "version": "0.2.0",
-  "description": "Dependency-free TypeScript agent framework: tools, policy, memory, middleware, checkpoints, streaming.",
+  "description": "Embeddable TypeScript agent runtime with policy, human-in-the-loop approvals, checkpoints, and tool calling.",
   "homepage": "https://axisvela.github.io/praxo-core/languages/typescript/",
   "bugs": {
     "url": "https://github.com/axisvela/praxo-core/issues"
@@ -9,10 +9,15 @@
   "license": "MIT",
   "keywords": [
     "agents",
+    "agent-runtime",
     "agent-framework",
     "llm",
     "tool-calling",
-    "ai"
+    "tool-authorization",
+    "policy-enforcement",
+    "human-in-the-loop",
+    "checkpoint",
+    "embeddable"
   ],
   "repository": {
     "type": "git",
