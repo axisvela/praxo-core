@@ -7,6 +7,7 @@ import sys
 
 
 ROOT = Path(__file__).resolve().parent
+CORE = ROOT.parent / "matlab-octave-core"
 
 
 def main():
@@ -18,7 +19,7 @@ def main():
         parser.error("Octave CLI not found; set OCTAVE or pass --octave")
     subprocess.run([sys.executable, str(ROOT / "api-snapshot.py"), "--check"], check=True)
     subprocess.run([executable, "--quiet", "--no-history", "--no-init-file", "--no-site-file",
-                    "--eval", "addpath(pwd); run_tests"], cwd=ROOT, check=True, timeout=120)
+                    "--eval", "run_tests"], cwd=CORE, check=True, timeout=120)
 
 
 if __name__ == "__main__":

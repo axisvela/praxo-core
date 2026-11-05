@@ -13,8 +13,8 @@ python language/octave/build_octave_package.py
 ```
 
 This writes `language/octave/build/octave/praxo-core-0.2.1.tar.gz` with a root
-`DESCRIPTION`, `inst/+praxo`, `LICENSE`, and README. The archive is published
-at:
+`DESCRIPTION`, `inst/+praxo`, `LICENSE`, and README. The `+praxo` sources come
+from the shared `language/matlab-octave-core` tree. The archive is published at:
 
 <https://github.com/axisvela/praxo-core/releases/download/octave/v0.2.1/praxo-core-0.2.1.tar.gz>
 

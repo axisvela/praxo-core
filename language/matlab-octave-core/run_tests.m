@@ -1,6 +1,6 @@
 function run_tests()
 root = fileparts(fileparts(fileparts(mfilename('fullpath'))));
-implementation = fullfile(root, 'language', 'matlab');
+implementation = fullfile(root, 'language', 'matlab-octave-core');
 addpath(implementation);
 addpath(fullfile(implementation, 'tests'));
 spec = strtrim(fileread(fullfile(root, 'spec', 'SPEC_VERSION')));
@@ -26,7 +26,7 @@ test_policy();
 test_context();
 test_middleware();
 test_agent();
-disp('All declared Octave Core vector groups passed');
+disp('All declared MATLAB/Octave Core vector groups passed');
 end
 
 function value = field_value(node, key)

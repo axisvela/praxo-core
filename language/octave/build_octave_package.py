@@ -8,6 +8,7 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parent
+CORE = ROOT.parent / "matlab-octave-core"
 BUILD = ROOT / "build" / "octave"
 VERSION = (ROOT / "VERSION").read_text(encoding="utf-8").strip()
 DESCRIPTION = ROOT / "DESCRIPTION"
@@ -29,7 +30,7 @@ def main() -> None:
     shutil.copy2(DESCRIPTION, stage / "DESCRIPTION")
     shutil.copy2(ROOT / "LICENSE", stage / "LICENSE")
     shutil.copy2(ROOT / "OCTAVE-README.md", stage / "README.md")
-    shutil.copytree(ROOT / "+praxo", stage / "inst" / "+praxo")
+    shutil.copytree(CORE / "+praxo", stage / "inst" / "+praxo")
 
     if ARCHIVE.exists():
         ARCHIVE.unlink()

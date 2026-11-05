@@ -5,14 +5,15 @@ import sys
 
 
 ROOT = Path(__file__).resolve().parent
+CORE = ROOT.parent / "matlab-octave-core"
 REPO = ROOT.parents[1]
 
 
 def version():
     sdk = (ROOT / "VERSION").read_text(encoding="utf-8").strip()
     spec = (REPO / "spec/SPEC_VERSION").read_text(encoding="utf-8").strip()
-    declared_sdk = re.search(r"value = '([^']+)'", (ROOT / "+praxo/sdk_version.m").read_text(encoding="utf-8"))[1]
-    declared_spec = re.search(r"value = '([^']+)'", (ROOT / "+praxo/spec_version.m").read_text(encoding="utf-8"))[1]
+    declared_sdk = re.search(r"value = '([^']+)'", (CORE / "+praxo/sdk_version.m").read_text(encoding="utf-8"))[1]
+    declared_spec = re.search(r"value = '([^']+)'", (CORE / "+praxo/spec_version.m").read_text(encoding="utf-8"))[1]
     if declared_sdk != sdk:
         raise ValueError("MATLAB/Octave SDK version does not match VERSION")
     if declared_spec != spec:
@@ -23,7 +24,7 @@ def version():
 def snapshot():
     sdk, spec = version()
     lines = ["# PRAXO-CORE MATLAB/Octave Core API " + sdk, "# SPEC_VERSION " + spec, ""]
-    for path in sorted((ROOT / "+praxo").glob("*.m")):
+    for path in sorted((CORE / "+praxo").glob("*.m")):
         text = path.read_text(encoding="utf-8")
         match = re.match(r"function\s+([^\n]+)", text)
         if not match or not re.search(r"\b" + re.escape(path.stem) + r"\s*\(", match[1]):
@@ -48,7 +49,7 @@ def parity_errors():
             continue
         cells = line.split("|")
         symbol = cells[2].strip(" `")
-        if not symbol.startswith("praxo.") or not (ROOT / "+praxo" / (symbol[6:] + ".m")).is_file():
+        if not symbol.startswith("praxo.") or not (CORE / "+praxo" / (symbol[6:] + ".m")).is_file():
             errors.append("missing parity function: " + symbol)
         rows += 1
     if rows == 0:

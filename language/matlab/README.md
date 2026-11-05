@@ -9,10 +9,11 @@ lexical path policy, context compaction, event sinks, middleware helpers, and
 tool selection. It does not delegate its behavior to Go or another language
 Core.
 
-The independent Octave Core lives in `language/octave` with source tag
-`octave/v0.2.1`. Local validation uses GNU Octave 11.3.0; MATLAB compatibility
-is a target, not yet independently verified. The source tag does not imply
-production readiness or a delivery date.
+MATLAB and Octave share the implementation in
+`language/matlab-octave-core/+praxo`. The Octave package root and source tag
+live in `language/octave` (`octave/v0.2.1`). Local validation uses GNU Octave
+11.3.0; MATLAB compatibility is a target, not yet independently verified. The
+source tag does not imply production readiness or a delivery date.
 
 ## Run the Checks
 

@@ -238,10 +238,12 @@ the installation source of truth.
   is pending. The commercial Delphi compiler and other targets are not
   claimed.
 - MATLAB has source tag `matlab/v0.2.1` with all eleven vector groups, native
-  tests, and API snapshot/parity. MATLAB File Exchange `185166` is published;
-  the MATLAB runtime and provider adapters are not claimed.
+  tests, and API snapshot/parity. MATLAB and Octave share
+  `language/matlab-octave-core/+praxo`. MATLAB File Exchange `185166` is
+  published; the MATLAB runtime and provider adapters are not claimed.
 - Octave has source tag `octave/v0.2.1` with all eleven vector groups, native
-  tests, and API snapshot/parity under GNU Octave 11.3.0. The package archive is
+  tests, and API snapshot/parity under GNU Octave 11.3.0. It shares
+  `language/matlab-octave-core/+praxo` with MATLAB. The package archive is
   published on the `octave/v0.2.1` GitHub release and Octave Packages PR #875
   is open.
 - OCaml has source tag `ocaml/v0.3.0` with all eleven vector groups, native
