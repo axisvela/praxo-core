@@ -1,0 +1,60 @@
+# 长时操作
+
+本配方展示应用如何通过 Core Tool 暴露远端长时操作，同时不混淆 Agent Run 与远端操作。
+
+Core 负责本地 Run、工具调用、Policy 与 Checkpoint 投影。远端执行系统负责 operation ID、
+accepted/running 状态、取消确认与最终效果证据。两者通过稳定引用关联，不共享同一状态机。
+
+## 必须区分的状态
+
+| 概念 | 含义 |
+| --- | --- |
+| Run 取消 | 本地 Agent 循环停止；远端操作不一定停止 |
+| 取消请求 | 已向执行权威发送请求；取消尚未确认 |
+| 取消确认 | 执行权威报告操作已停止 |
+| Accepted | 执行权威接受了操作 |
+| Completed | 执行权威报告操作结束 |
+| Effect Verified | 环境或业务证据确认预期效果 |
+
+不要把这些合并成一个布尔值。Run 报错不证明远端操作失败，完成事件也不证明业务效果已提交。
+
+## 模式
+
+1. 使用稳定的业务幂等键。新的 Run ID 或模型 tool-call ID 不一定适用。
+2. 通过 Tool 提交，并持久化返回的 operation reference。
+3. 响应丢失或重启时，先按幂等键/operation ID 查询执行权威，再决定是否重新提交。
+4. 单独发送取消请求，并记录执行权威的确认结果。
+5. 最终效果证据保留在执行系统或效果账本。
+6. 不得从 Checkpoint 或进程内去重表声明 exactly-once。
+
+## 受测示例
+
+可运行示例位于发布包 Go 消费者的
+[longrunning_test.go](https://github.com/axisvela/praxo-core/blob/main/examples/consumer-go/longrunning_test.go)。
+在该目录运行：
+
+```sh
+GOWORK=off go test -mod=readonly -run LongRunning -v ./...
+```
+
+| 检查 | 预期结果 |
+| --- | --- |
+| 相同幂等键重复提交 | 同一 operation ID；一次效果 |
+| 响应丢失后恢复 | 用相同键查询/提交得到现有操作；不重复 |
+| 取消请求 | 状态为 `cancel_requested`，不是 `canceled` |
+| 取消确认 | 执行权威仅一次将操作转为 `canceled` |
+| Run 取消 | 本地 Run 停止；远端仍为 `accepted`；不误报远端已取消 |
+
+Fixture 将状态保存在内存中。它展示契约形状，不是持久 worker、lease/fencing 实现或生产
+效果账本。
+
+## 限制
+
+- 进程内去重不能跨进程崩溃保存。真实服务必须持久化幂等键与结果。
+- 状态查询必须访问权威执行系统，不能只查缓存的 Checkpoint。
+- 取消请求不是取消确认；执行权威必须报告最终状态。
+- 效果验证、lease/fencing、对账与留存属于执行系统或持久工作流产品。
+- 本配方不提供 exactly-once。
+
+参见[受治理执行设计](../reference/governed-execution.md)、[安全模型](../security/index.md)
+与[何时不应选择 Core](../getting-started/when-not-to-use.md)。

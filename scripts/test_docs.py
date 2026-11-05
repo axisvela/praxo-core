@@ -143,6 +143,16 @@ class DocumentationTests(unittest.TestCase):
         self.assertIn("skill template", (ROOT / "docs/project/contract-status.md").read_text(encoding="utf-8"))
         self.assertIn("Skill 模板", (ROOT / "docs/zh-CN/project/contract-status.md").read_text(encoding="utf-8"))
 
+    def test_long_running_recipe(self):
+        source = (ROOT / "examples/consumer-go/longrunning_test.go").read_text(encoding="utf-8")
+        self.assertGreaterEqual(source.count("func TestLongRunning"), 4)
+        for prefix, phrase in (("", "Run canceled"), ("zh-CN/", "Run 取消")):
+            page = (ROOT / "docs" / prefix / "guides/long-running-operations.md").read_text(encoding="utf-8")
+            self.assertIn(phrase, page)
+            self.assertIn("longrunning_test.go", page)
+        self.assertIn("guides/long-running-operations.md", (ROOT / "mkdocs.yml").read_text(encoding="utf-8"))
+        self.assertTrue((ROOT / "site/guides/long-running-operations/index.html").is_file())
+
     def test_contract_status_vocabulary_and_links(self):
         expectations = {
             "": ("Implemented", "Proposed", "Experimental", "Not run", "Not started"),

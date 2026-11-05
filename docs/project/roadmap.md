@@ -65,6 +65,12 @@ Stage 2 is not complete: skill installation/discovery is unverified, additional
 integration recipes are open, and published registry-page verification requires
 new releases.
 
+Stage 3 has started with a Go consumer-runnable
+[long-running operation recipe](../guides/long-running-operations.md) covering
+idempotent submit, authoritative recovery, cancel request versus confirmation,
+and Run cancellation. It uses an in-memory fixture. Stage 3 is not complete: a
+real execution service, durable recovery, and effect verification remain open.
+
 ### Consumer and Contract Baseline
 
 The repository already has a published-consumer CI job and tests that reject

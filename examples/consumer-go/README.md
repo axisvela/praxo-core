@@ -60,6 +60,18 @@ role claim is ignored. This is an application pattern, not an identity provider
 or policy decision service. See the
 [identity and policy guide](../../docs/guides/identity-policy.md).
 
+## Long-Running Operations
+
+```sh
+go test -mod=readonly -run LongRunning -v ./...
+```
+
+`longrunning_test.go` shows idempotent submission, recovery by authoritative
+state, the difference between cancel request and confirmation, and why Run
+cancellation does not stop a remote operation. The service is an in-memory
+fixture, not a durable worker or exactly-once effect ledger. See the
+[long-running operations guide](../../docs/guides/long-running-operations.md).
+
 Installation requires registry access or a populated module cache. Execution
 does not require an API key, model server, or AxisVela products. To start outside
 this checkout, follow the [consumer quickstart](../../docs/getting-started/consumer-go.md),

@@ -16,7 +16,7 @@ class GoConsumerTests(unittest.TestCase):
         env = dict(os.environ, GOWORK="off")
         version = (ROOT / "VERSION").read_text(encoding="utf-8").strip()
         with tempfile.TemporaryDirectory(prefix="praxo-consumer-") as directory:
-            for filename in ("main.go", "main_test.go", "governed_test.go", "identity_test.go"):
+            for filename in ("main.go", "main_test.go", "governed_test.go", "identity_test.go", "longrunning_test.go"):
                 shutil.copy2(ROOT / "examples/consumer-go" / filename, directory)
             commands = [
                 ["mod", "init", "example.com/praxo-starter"],
@@ -37,6 +37,7 @@ class GoConsumerTests(unittest.TestCase):
                     if args[0] == "test":
                         self.assertIn("TestGovernedReauthorizesFinalArguments", result.stdout)
                         self.assertIn("TestIdentityAllowsVerifiedOperator", result.stdout)
+                        self.assertIn("TestLongRunningRunCancellationLeavesRemoteState", result.stdout)
                     if args[0] == "run":
                         self.assertEqual(
                             result.stdout,

@@ -60,6 +60,7 @@ plugins:
             Integration: 集成
             Recipes: 接入示例
             Identity and Policy: 身份与策略
+            Long-Running Operations: 长时操作
             Multi-Agent: 多 Agent 模式
             Plugins: 插件编写
             Language Implementations: 语言实现
@@ -136,6 +137,7 @@ nav:
       - Integration: guides/integration.md
       - Recipes: guides/recipes.md
       - Identity and Policy: guides/identity-policy.md
+      - Long-Running Operations: guides/long-running-operations.md
       - Multi-Agent: guides/multi-agent.md
       - Plugins: guides/plugins.md
   - Language Implementations:

@@ -29,6 +29,7 @@
 | Go、Python、TypeScript、Java 独立消费者 | 已实现；在各自标注 revision 验证 | 发布包安装、构建与确定性允许/拒绝检查；属于集成证据，不是采用证据 |
 | Go、Python、TypeScript 与 Java 治理负向验收 | 已实现；在各自标注 revision 验证 | 各五项应用层检查：缺少 Policy/范围、最终参数与审批编辑重授权、Policy 服务失败；不是通用 Profile |
 | Go 身份/策略配方 | 已实现；在标注 revision 验证 | 应用提供已验证 principal；缺失、过期、租户不匹配与模型伪造角色均拒绝；不是身份提供商或 PDP |
+| Go 长时操作配方 | 已实现；在标注 revision 验证 | 内存 fixture 覆盖幂等提交、权威恢复、取消请求/确认与 Run 取消；不是持久存储或 exactly-once |
 | 受治理执行 Profile | 提案 | 设计定义了验收标准；尚未实现通用 Core Profile |
 | 编程 Agent 集成映射 | 已实现；版本由文档测试校验 | 包映射、集成契约与验证命令；不是安装渠道、自动 Skill 或采用证据 |
 | 编程 Agent Skill 模板 | 实验；仅仓库模板 | 工具中立的 `SKILL.md`；安装与发现未验证，不声明自动安装、MCP 或运行时 Skill 行为 |
