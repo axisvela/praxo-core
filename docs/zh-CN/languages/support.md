@@ -175,8 +175,8 @@ Bridge、Sample 描述运行时的接入方式，不证明其语言缺乏 Framew
 - MATLAB 已有源码标签 `matlab/v0.2.1`，包含全部 11 个向量组、原生测试和 API 快照/parity。
   MATLAB File Exchange `185166` 已发布；MATLAB 运行时和提供商适配器未声明。
 - Octave 已有源码标签 `octave/v0.2.1`，在 GNU Octave 11.3.0 下通过全部 11 个向量组、
-  原生测试和 API 快照/parity。包归档已发布到 `octave/v0.2.1` GitHub release，
-  Octave Packages PR #875 待合并。
+  原生测试和 API 快照/parity。它与 MATLAB 共享 `language/matlab-octave-core/+praxo`。
+  包归档已发布到 `octave/v0.2.1` GitHub release，Octave Packages PR #875 待合并。
 - OCaml 已有源码标签 `ocaml/v0.3.0`，包含全部 11 个向量组、原生测试和 API
   快照/parity。split 包仓库 `axisvela/praxo-core-ocaml` 发布 opam 包
   `praxo-core` 0.3.0（模块 `Praxo_core`）；opam-repository PR #31106 待合并。原生 `ocamlopt` 编译和
