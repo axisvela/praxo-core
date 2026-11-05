@@ -68,20 +68,9 @@ or policy decision service. See the
 
 ## Long-Running Operations
 
-```sh
-go test -mod=readonly -run LongRunning -v ./...
-```
-
-`longrunning_test.go`, `longrunning_http_test.go`, and
-`longrunning_process_test.go` show idempotent submission, HTTP response loss,
-file-backed restart recovery including partial temp writes, child-process
-restart, a separate verifier process, durable fencing tokens, the difference
-between cancel request and confirmation, why Run cancellation does not stop a
-remote operation, why completion is not effect verification, and why a forged
-effect receipt is rejected. The loopback HTTP service, verifier process, and
-fencing store are fixtures, not an authenticated deployment, production key
-management, expiry/revocation-aware lease store, power-loss-proof database, lock,
-durable worker, or exactly-once effect ledger. See the
+The long-running operation pattern is a separate L4 application recipe at
+[`examples/recipes/long-running-go`](../recipes/long-running-go/README.md). It is
+not part of this starter and is not a Core capability claim. See the
 [long-running operations guide](../../docs/guides/long-running-operations.md).
 
 Installation requires registry access or a populated module cache. Execution

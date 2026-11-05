@@ -23,13 +23,12 @@
 | `main_test.go` | L3，并通过公开 API 触及 L1 行为 | 工具循环、Policy 允许/拒绝、发布包导入 | 确定性 fixture 与输出 |
 | `governed_test.go` | L3/L4 | 最终参数重授权、审批编辑重授权、Policy 错误传播 | 缺少 Policy/范围守卫属于应用检查；Core 保留 nil-policy 嵌入 |
 | `identity_test.go` | L4 | Policy Hook 接收工具参数与 context | principal、角色、租户、过期均是应用逻辑；模型角色声明被该逻辑忽略 |
-| `longrunning_test.go` | L4 | `TestLongRunningRunCancellationLeavesRemoteState` 触及 Run 取消 | 内存 operation、文件持久化、效果验证、幂等与 fencing fixture |
-| `longrunning_http_test.go` | L4 | 除公开 Tool/context 管线外无 | HTTP 服务、认证、响应丢失、重启、verifier 调用 |
-| `longrunning_process_test.go` | L4 | 除公开 Tool/context 管线外无 | 子进程、独立 verifier、跨进程恢复 |
-| `longrunning_fence_test.go` | L4 | 无 | Lease epoch、owner、fencing、持久化 |
 
-长时操作套件是有价值的参考集成，也明确了应用必须自己承担什么；它不是 Core 提供持久操作、
-HTTP 认证、效果验证、lease 或 fencing 的证据。
+长时操作套件已移到
+[`examples/recipes/long-running-go`](https://github.com/axisvela/praxo-core/tree/main/examples/recipes/long-running-go)，
+避免 starter 混合 L3 包检查与 L4 配方。它是有价值的参考集成，也明确了应用必须自己承担
+什么；它不是 Core 提供持久操作、HTTP 认证、效果验证、lease 或 fencing 的证据。只有其
+Run 取消断言触及 Core 接缝。
 
 Core 层的对应行为在 `pkg/agent` 测试（策略拒绝、最终参数授权、允许工具、取消）和
 `spec/vectors` 中单独验证。

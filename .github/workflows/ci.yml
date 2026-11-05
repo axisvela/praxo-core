@@ -95,6 +95,8 @@ jobs:
       - run: go run -mod=readonly .
       - run: python scripts/test_go_consumer.py
         working-directory: .
+      - run: python scripts/test_go_longrunning.py -v
+        working-directory: .
 
   published-consumer:
     runs-on: ubuntu-latest

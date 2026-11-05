@@ -25,14 +25,14 @@ not extend it.
 | `main_test.go` | L3, with L1 behavior through public API | Tool loop, policy allow/deny, published-package import | Deterministic fixture and output |
 | `governed_test.go` | L3/L4 | Final tool arguments reauthorized, approval edit reauthorized, policy error propagation | Missing-policy and empty-scope guards are application checks; Core keeps nil-policy embedding |
 | `identity_test.go` | L4 | Policy hook receives tool arguments and context | Principal, role, tenant, and expiry decisions are application logic; the model role claim is ignored by that logic |
-| `longrunning_test.go` | L4 | `TestLongRunningRunCancellationLeavesRemoteState` exercises Run cancellation | In-memory operations, file persistence, effect verification, idempotency, fencing fixtures |
-| `longrunning_http_test.go` | L4 | None beyond the public tool/context plumbing | HTTP service, auth, response loss, restart, verifier calls |
-| `longrunning_process_test.go` | L4 | None beyond the public tool/context plumbing | Child process, independent verifier, cross-process recovery |
-| `longrunning_fence_test.go` | L4 | None | Lease epoch, owner, fencing, persistence |
 
-The long-running suite is valuable as a reference integration and as a statement
-of what the application must own. It is not evidence that Core provides durable
-operations, HTTP authentication, effect verification, leases, or fencing.
+The long-running suite has moved to
+[`examples/recipes/long-running-go`](https://github.com/axisvela/praxo-core/tree/main/examples/recipes/long-running-go)
+so the starter does not mix L3 package checks with L4 recipes. The recipe is
+valuable as a reference integration and as a statement of what the application
+must own. It is not evidence that Core provides durable operations, HTTP
+authentication, effect verification, leases, or fencing. Only its Run-cancellation
+assertion touches a Core seam.
 
 Core-level equivalents are tested separately: see `pkg/agent` tests for policy
 denial, final-argument authorization, allowed tools, and cancellation, and
