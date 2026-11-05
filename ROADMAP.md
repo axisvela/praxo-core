@@ -5,6 +5,13 @@ Current core release: `2.5.2`.
 The [public technical roadmap](docs/project/roadmap.md) describes current focus
 and compatibility commitments. It is not a delivery schedule.
 
+The next-stage direction is correct adoption and verified integration: establish
+package and evidence baselines, close the independent-consumer path, validate
+governed integration, then gate long-running and embodied pilots on named
+consumers. These are acceptance stages, not implemented-feature claims.
+
+- [Next-stage direction and acceptance gates](docs/project/roadmap.md#next-stage-direction)
+- [Adoption evaluation tracks](docs/project/roadmap.md#adoption-evidence)
 - [Release history](docs/releases/index.md)
 - [Complete changelog](CHANGELOG.md)
 - [SDK support and distribution](docs/languages/support.md)

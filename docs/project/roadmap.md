@@ -5,6 +5,106 @@ it covers the contracts and verified behavior Core owns, and names evidence that
 belongs to products or integrations. It is not a delivery schedule or a promise
 that every Core implementation supports every feature.
 
+## Next-stage Direction
+
+**Planning update: 2026-11-05.** The next stage prioritizes correct adoption and
+verified integration over implementation counts: a consumer or coding agent
+should be able to identify a suitable task, install published packages, verify
+governed behavior, and retain the dependency through upgrades.
+
+Keep the positioning **governed, embeddable agent execution kernel**. Embodied
+applications are an optional integration direction, not a redefinition of Core
+as a robotics platform or a claim to provide a complete planner or safety system.
+AxisVela products remain optional; independent consumers use the same contracts.
+
+The following stages are acceptance gates, not dates, release assignments, or
+implemented profiles. Existing security fixes and support commitments continue
+throughout; the stages do not postpone maintenance or require every activity to
+run sequentially.
+
+| Stage | Deliverable | Acceptance gate |
+| --- | --- | --- |
+| 0. Establish the baseline | Map recommended package versions to consumer checks and evidence; distinguish implemented, proposed, experimental, and verified scope; establish adoption-task baselines | Historical compatibility, current recommended packages, and release candidates have separate evidence; contract/versioning ambiguities are resolved before affected contract changes |
+| 1. Close the consumer path | Independent Go, Python, TypeScript, and Java starters using published packages, deterministic models, explicit tool scope, and allow/deny tests; task-oriented selection guidance | No source checkout, local replacement, unpublished dependency, API key, or external model service is required to run the starter; installation may require registry access; denial produces no tool effect |
+| 2. Verify governed integration | Consumer-runnable acceptance tests, integration recipes, concise coding-agent instructions, optional installable skills, and accurate registry descriptions | Missing mandatory controls and required security-service failures reject execution; final operations and approval edits are checked; uncertain outcomes are not blindly retried |
+| 3. Validate long-running operations | One consumer-backed integration for submission, status queries, feedback, cancellation, idempotency, and reconnect/recovery | Run cancellation is not reported as remote execution stopping; recovery consults the authoritative operation state before repeating effects |
+| 4. Pilot embodied integration | One named consumer, one middleware, and one end-to-end simulation with an experimental embodied integration profile | Acceptance, completion, and effect verification remain distinct; observation freshness, disconnects, duplicate submissions, and safety-dependency failures are tested; simulation is not hardware or production evidence |
+
+The initial four starter languages are an adoption pilot, not a downgrade of
+Rust, C#, R, or other declared implementation support. Extend starters and
+adapters when consumers and maintainers justify the work, not to increase counts.
+
+### Consumer and Contract Baseline
+
+The repository already has a published-consumer CI job and tests that reject
+local module replacements. At this planning update, the Go consumer test pins
+Core `2.5.0`, while the recommended installation is `2.5.2`. That may be a useful
+historical baseline; it does not establish the current recommended package path.
+Maintain distinct historical-compatibility, current-package, and release-candidate
+checks rather than treating one as evidence for all three.
+
+Use the existing normative `spec/`, not a competing specification tree. Complete
+the planned Tool, Model, and Checkpoint wire descriptions and clarify source,
+wire, and behavioral compatibility rules before changing affected contracts.
+Optional profiles cannot bypass shared wire, parity, or conformance review.
+
+Implement integration requirements through existing seams first. Promote a
+public API only after a named consumer demonstrates a reusable gap, negative
+tests cover it, and compatibility and language impact have been reviewed. The
+[governed execution design](../reference/governed-execution.md) remains a proposed
+acceptance design, not an implemented general profile.
+
+### Adoption Evidence
+
+Establish the baseline before changing discovery and integration materials.
+Keep these evaluation tracks separate:
+
+| Track | Question |
+| --- | --- |
+| Free selection | Without naming PRAXO-CORE, does the coding tool discover it and correctly select or exclude it for the task? |
+| Directed integration | When PRAXO-CORE is required, can the tool install, build, test, and satisfy the stated governance requirements? |
+| Upgrade and maintenance | Does the generated integration continue to work after a dependency update or application change? |
+
+Record discovery, appropriate selection, installation, build, governed-test
+success, repair cost, and observable dependency retention separately. Define
+first-generated-attempt success separately from eventual autonomous-session
+success. Report sample sizes and repeated trials, tool/model versions, prompts,
+package versions, search and execution permissions, budgets, and actual results.
+Keep unseen tasks alongside regression tasks. Compare no-skill and installed-skill
+conditions separately; an explicitly required dependency is not free-selection
+evidence. Correctly excluding an unsuitable framework is a successful decision.
+
+Registry downloads are supporting signals, not proof of adoption. Retention uses
+only public or consented observations; unavailable data remains unknown. Set
+improvement targets after the baseline, not arbitrary adoption percentages.
+
+### Profiles and Non-goals
+
+Core contracts define local execution semantics. Integration profiles add
+deployment requirements, external state mappings, and acceptance criteria;
+adapters and products supply the actual external behavior. A profile document
+does not itself provide identity authenticity, durable effects, or safety.
+
+Coding-agent skills help development tools integrate the framework. Runtime
+skills loaded by an executing agent have separate provenance and trust concerns.
+A skill in this repository is not automatically installed in coding tools.
+Machine-readable documentation indexes may assist discovery, but do not guarantee
+tool support, search ranking, or adoption. A remote MCP service is not a
+prerequisite for SDK adoption.
+
+Long-running software and physical operations should first be tested through
+existing tool/adapter seams; a new generic asynchronous-action API is not assumed.
+An embodied pilot must keep local Run, coordination Task, durable Process, and
+robot Mission authority separate. Remote cancellation needs confirmation from its
+execution authority; checkpoints do not prove physical effects or exactly-once
+execution. Real-time control, emergency stops, safety interlocks, and hardware
+drivers remain outside Core.
+
+Do not commit to parallel ROS 2, Dora, and Zenoh implementations, a micro-runtime,
+or language-specific production roles before consumer evidence exists. Detailed
+cross-product ownership decisions and execution plans belong in the internal
+planning repositories, not this public framework roadmap.
+
 ## Current Focus
 
 Prioritize verifiable behavior over additional language, provider, or tool counts.
