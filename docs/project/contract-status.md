@@ -30,7 +30,7 @@ or the support levels in the [language matrix](../languages/matrix.md).
 | Go reference API and shared wire artifacts (events, errors, JSON Schema subset, plugin) | Implemented; verified per release revision | Normative files and vectors in `spec/`; does not prove live providers or product deployments |
 | Tool, Model, and Checkpoint wire descriptions | Implemented; descriptive at `SPEC_VERSION` 0.2.0 | Shared tool/model shapes and the checkpoint allowlist envelope are wire; Go checkpoint and parsed-tool-call projections are documented as `"wire": false` and are not frozen cross-language contracts |
 | Go, Python, TypeScript, and Java consumer starters | Implemented; verified at their cited revisions | Published-package installation, build, and deterministic allow/deny checks; integration evidence, not adoption evidence |
-| Go and Python governed negative acceptance | Implemented; verified at their cited revisions | Five application-level checks in each: missing policy/scope, final-argument and approval-edit reauthorization, policy-service failure; not a general profile |
+| Go, Python, and TypeScript governed negative acceptance | Implemented; verified at their cited revisions | Five application-level checks in each: missing policy/scope, final-argument and approval-edit reauthorization, policy-service failure; not a general profile |
 | Governed Execution Profile | Proposed | The design defines acceptance criteria; no general Core profile is implemented |
 | Coding-agent adoption experiments | Not run | No discovery, selection, first-pass, repair-cost, or retention data |
 | Embodied Integration Profile | Not started | Requires a named consumer, middleware choice, and simulation scenario |

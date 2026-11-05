@@ -27,7 +27,7 @@ class TypeScriptConsumerTests(unittest.TestCase):
         env["npm_config_update_notifier"] = "false"
         with tempfile.TemporaryDirectory(prefix="praxo-typescript-consumer-") as directory:
             app = Path(directory)
-            for filename in ("package.json", "package-lock.json", "starter.js", "test_starter.test.js"):
+            for filename in ("package.json", "package-lock.json", "starter.js", "test_starter.test.js", "governed.test.js"):
                 shutil.copy2(ROOT / "examples/consumer-typescript" / filename, app)
             npm = npm_command()
             commands = [
@@ -44,6 +44,10 @@ class TypeScriptConsumerTests(unittest.TestCase):
                         errors="replace", timeout=180,
                     )
                     self.assertEqual(result.returncode, 0, str(command) + "\n" + (result.stdout or "") + (result.stderr or ""))
+                    if command[-2:] == ["test", "--silent"]:
+                        output = (result.stdout or "") + (result.stderr or "")
+                        self.assertIn("final arguments are reauthorized", output)
+                        self.assertIn("approval edit is reauthorized", output)
                     if command[-1] == "starter.js":
                         self.assertIn(
                             "allow: recorded; effects=1\ndeny: policy rejected; effects=0\n",

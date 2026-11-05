@@ -51,6 +51,14 @@ class DocumentationTests(unittest.TestCase):
             self.assertIn(heading, page)
             self.assertIn("test_governed.py", page)
 
+    def test_typescript_governed_acceptance_docs(self):
+        source = (ROOT / "examples/consumer-typescript/governed.test.js").read_text(encoding="utf-8")
+        self.assertGreaterEqual(source.count('test("'), 5)
+        for prefix, heading in (("", "Governed Acceptance"), ("zh-CN/", "治理验收")):
+            page = (ROOT / "docs" / prefix / "getting-started/consumer-typescript.md").read_text(encoding="utf-8")
+            self.assertIn(heading, page)
+            self.assertIn("governed.test.js", page)
+
     def test_contract_status_vocabulary_and_links(self):
         expectations = {
             "": ("Implemented", "Proposed", "Experimental", "Not run", "Not started"),

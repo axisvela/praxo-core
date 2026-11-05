@@ -25,6 +25,12 @@ Policy restrict the target. A rejected call throws `PolicyDeniedError` and must
 not increment the in-memory counter. Tests also verify that the package resolves
 inside the application and that the dependency is the pinned registry version.
 
+`governed.test.js` adds five negative checks: missing mandatory policy, empty
+tool scope, middleware final-argument change, approval-edit reauthorization, and
+policy-service failure. Every rejected path must leave the counter at zero. The
+guard is application-level; Core keeps its ordinary nil-policy behavior and this
+is not a general security profile.
+
 Installation needs npm registry access or a populated cache. Execution needs no
 API key, model service, or AxisVela product. This does not prove live-model
 quality, authentic identity, isolation, or durable effects.

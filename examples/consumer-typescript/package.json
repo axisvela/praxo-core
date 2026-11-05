@@ -9,7 +9,7 @@
   },
   "scripts": {
     "start": "node starter.js",
-    "test": "node --test test_starter.test.js"
+    "test": "node --test test_starter.test.js governed.test.js"
   },
   "dependencies": {
     "@axisvela/praxo-core": "0.2.0"
