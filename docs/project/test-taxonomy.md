@@ -76,6 +76,12 @@ that is not the same as adding a Core API by default.
 
 ## Citing Tests
 
+The proposed [Execution Correctness Suite](execution-correctness.md) uses EC-D,
+EC-I and EC-O as verification tracks, not new L1/L2/L3 meanings. Classify each
+actual test by this page's L1-L6 categories and by its EC track separately.
+A deterministic fake of a database or robot is not real integration or device
+evidence, and a passing integration never implies operational acceptance.
+
 Say the level, revision, command, and result. For example:
 
 - "L1: `pkg/agent` test at SHA ..."

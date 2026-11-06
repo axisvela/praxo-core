@@ -63,6 +63,11 @@ CI 与发布使用 Go 1.26.10。示例展示工具调用、流式文本、事件
 证据层次见[测试分类](docs/zh-CN/project/test-taxonomy.md)，发布包验证见
 [消费者 Starter](docs/zh-CN/getting-started/coding-agents.md)。
 
+一个 Kernel 支持三个[集成层次](docs/zh-CN/reference/execution-profiles.md)：
+**Standard Embedding**（现有行为）、**Governed Execution Profile**（验收提案，已有部分证据）、
+**Embodied Integration Profile**（设计提案，消费者试点未开始）。它们不是独立包或运行时开关。
+必需治理由可信产品入口和实际效果边界执行，不能靠 Profile 名称产生。
+
 它不是托管 Agent 服务、向量数据库、模型提供商或开箱即用的聊天产品。采用前请阅读
 [采用指南](docs/zh-CN/getting-started/adoption.md)、[安全模型](docs/zh-CN/security/index.md)
 和[框架对比](docs/zh-CN/project/comparison.md)。

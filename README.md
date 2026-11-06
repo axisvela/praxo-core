@@ -76,6 +76,13 @@ other languages have separately declared capabilities and evidence.
 See the [test taxonomy](docs/project/test-taxonomy.md) for evidence levels and
 the [consumer starters](docs/getting-started/coding-agents.md) for package-level checks.
 
+One Kernel supports three [integration levels](docs/reference/execution-profiles.md):
+**Standard Embedding** (existing behavior), **Governed Execution Profile**
+(proposed acceptance design with partial evidence), and **Embodied Integration
+Profile** (proposed design; consumer pilot not started). They are not separate
+packages or runtime switches. Required governance is enforced by trusted product
+entry points and actual effect boundaries, not by a profile name.
+
 It is a framework, not a hosted agent service, vector database, model provider,
 or turnkey chat UI. Review the [adoption guide](docs/getting-started/adoption.md),
 [security model](docs/security/index.md), and

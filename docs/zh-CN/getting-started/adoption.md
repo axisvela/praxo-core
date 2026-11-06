@@ -16,6 +16,11 @@
 
 ## 2. 构建 30 分钟原型
 
+显式选择[集成层次](../reference/execution-profiles.md)：Standard Embedding 是当前能力；
+Governed Execution Profile 提出额外验收要求，包括模型/工具访问前的产品强制入口；
+Embodied Integration Profile 为未来消费者试点增加远程动作与观测要求。以下原型不实现或认证
+任一 Profile，仅添加 Policy 并不足以满足治理要求。
+
 先运行[Go 独立消费者](consumer-go.md)，无需模型服务即可验证发布包与允许/拒绝行为。
 以下端点原型是后续步骤，不是完整独立应用。
 

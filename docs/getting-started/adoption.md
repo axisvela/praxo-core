@@ -19,6 +19,13 @@ turnkey chat UI. If you need one of those, or a durable graph runtime, see
 
 ## 2. Build a 30-Minute Prototype
 
+Choose the [integration level](../reference/execution-profiles.md) explicitly:
+Standard Embedding is available today; Governed Execution Profile defines
+additional proposed acceptance requirements, including a mandatory product entry
+before model/tool access; Embodied Integration Profile adds remote-action and
+observation requirements for a future consumer pilot. The prototype below does
+not implement or certify either profile. Adding Policy alone is insufficient.
+
 First run the [independent Go consumer](consumer-go.md) to verify the published
 package and allow/deny behavior without a model service. The endpoint prototype
 below is the next step, not a complete standalone application.

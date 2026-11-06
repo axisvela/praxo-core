@@ -132,6 +132,16 @@ improvement targets after the baseline, not arbitrary adoption percentages.
 
 ### Profiles and Non-goals
 
+Use one Kernel with three [integration levels](../reference/execution-profiles.md):
+Standard Embedding names existing configurable embedding behavior; Governed
+Execution Profile is a proposed acceptance contract with partial fixture
+evidence; Embodied Integration Profile now has a
+[proposed design](../reference/embodied-integration.md), but no consumer pilot
+has started. Do not create three kernels, runtime switches or release lines.
+Governed assembly and the actual Effect PEP enforce the required controls;
+ordinary `agent.New` defaults remain compatible. The embodied design adds
+obligations to governed integration and cannot weaken them.
+
 Core contracts define local execution semantics. Integration profiles add
 deployment requirements, external state mappings, and acceptance criteria;
 adapters and products supply the actual external behavior. A profile document
@@ -179,6 +189,26 @@ workflow services; Core supplies interfaces, testable fakes, and negative tests.
 See [Ecosystem Boundaries](#ecosystem-boundaries).
 
 ## Behavior Capability Tiers
+
+### Execution Correctness Priority
+
+Establish the [Execution Correctness Suite](execution-correctness.md) alongside,
+not in place of, Behavior Lab. Its proposed EC-01 through EC-14 inventory targets
+partial parallel commits, response loss, non-idempotent retry, approval mutation,
+revocation, context trust/budgets, cancellation, checkpoint lag, evidence failure,
+actual isolation, conflicting resource updates, accepted-versus-completed robot
+actions and repeated recovery.
+
+Prioritize mapping existing Core assertions and missing deterministic failures
+before adding language/scenario counts. Then add consumer-backed database,
+gateway, effect-ledger and real-sandbox integrations, followed by deployment
+fault/load validation. The tracks are EC-D (Deterministic), EC-I (Integration)
+and EC-O (Operational), not replacements for the existing L1-L6 taxonomy. No
+track passes another by implication. The inventory is proposed/not-run as a
+suite; it does not claim a runner, fourteen passes, or new effect semantics.
+
+These failures provide acceptance targets for governed/embodied designs without
+making ordinary Standard Embedding a mandatory enterprise security profile.
 
 Behavior coverage is tracked separately from contract tier:
 

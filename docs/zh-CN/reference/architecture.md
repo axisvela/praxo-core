@@ -21,6 +21,11 @@ Agent 循环仅依赖其所需的接口。插件宿主、HTTP 客户端、调度
 
 ## Agent 循环
 
+内核将[Standard Embedding 与执行 Profile](execution-profiles.md)和实现分层区分。
+治理与具身要求属于集成验收设计，不是替代 Agent 循环。产品装配需在模型/工具访问前强制校验必需
+控制，实际 Effect PEP 负责业务提交与远程撤销约束。现有 `agent.Profile`、模型和 workspace
+profile 均不能证明满足这些要求。
+
 1. 启动运行，应用运行中间件，并发出 `run.started`。
 2. 从系统提示词、召回的记忆、技能、会话消息和用户提示词构建提示词。
 3. 每一步：

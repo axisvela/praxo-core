@@ -80,7 +80,9 @@ plugins:
             Primitives: 基础能力
             Events: 事件
             Workspace and Session: 工作区与会话
+            Execution Profiles: 嵌入与执行 Profile
             Governed Execution: 受治理执行
+            Embodied Integration: 具身集成
             Security: 安全
             Security Model: 安全模型
             Containment: 路径隔离
@@ -90,6 +92,7 @@ plugins:
             Compatibility Policy: 兼容政策
             Contract Status: 契约状态
             Test and Evidence Taxonomy: 测试与证据分层
+            Execution Correctness: 执行正确性验收
             API Stability: API 稳定性
             v2 Migration: v2 迁移
             Comparison: 框架对比
@@ -201,7 +204,9 @@ nav:
       - Primitives: reference/primitives.md
       - Events: reference/events.md
       - Workspace and Session: reference/workspace-session.md
+      - Execution Profiles: reference/execution-profiles.md
       - Governed Execution: reference/governed-execution.md
+      - Embodied Integration: reference/embodied-integration.md
   - Security:
       - Security Model: security/index.md
       - Containment: security/containment.md
@@ -211,6 +216,7 @@ nav:
       - Compatibility Policy: project/compatibility-policy.md
       - Contract Status: project/contract-status.md
       - Test and Evidence Taxonomy: project/test-taxonomy.md
+      - Execution Correctness: project/execution-correctness.md
       - API Stability: project/api-stability.md
       - v2 Migration: project/migration-v2.md
       - Comparison: project/comparison.md

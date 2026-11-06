@@ -65,6 +65,10 @@ API 或测试。
 
 ## 引用测试
 
+[Execution Correctness Suite 提案](execution-correctness.md)使用 EC-D、EC-I、EC-O 验证轨道，
+不重新定义 L1/L2/L3。每项实际测试分别标注本文 L1-L6 证据分类和 EC 轨道；数据库/机器人确定性
+fake 不是实际集成或设备证据，集成通过不自动满足运行验证。
+
 写明层级、revision、命令与结果，例如：
 
 - “L1：SHA ... 的 `pkg/agent` 测试”

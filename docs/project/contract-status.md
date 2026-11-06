@@ -27,18 +27,20 @@ or the support levels in the [language matrix](../languages/matrix.md).
 
 | Area | Status | Scope and limits |
 | --- | --- | --- |
+| Standard Embedding | Implemented; verified per cited API/package revision | Existing configurable embedding model; nil Policy and empty/unrestricted tool scope remain permitted; not a security certification |
+| Execution Correctness Suite | Proposed inventory; suite not run | EC-01 through EC-14; separate EC-D/EC-I/EC-O tracks; existing tests are reuse candidates, not a complete suite pass |
 | Go reference API and shared wire artifacts (events, errors, JSON Schema subset, plugin) | Implemented; verified per release revision | Normative files and vectors in `spec/`; does not prove live providers or product deployments |
 | Tool, Model, and Checkpoint wire descriptions | Implemented; descriptive at `SPEC_VERSION` 0.2.0 | Shared tool/model shapes and the checkpoint allowlist envelope are wire; Go checkpoint and parsed-tool-call projections are documented as `"wire": false` and are not frozen cross-language contracts |
 | Go, Python, TypeScript, and Java consumer starters | Implemented; verified at their cited revisions | Published-package installation, build, and deterministic allow/deny checks; integration evidence, not adoption evidence |
 | Go, Python, TypeScript, and Java governed negative acceptance | Implemented; verified at their cited revisions | Five application-level checks in each: missing policy/scope, final-argument and approval-edit reauthorization, policy-service failure; not a general profile |
 | Go identity/policy recipe | Implemented; verified at its cited revision | Verified principal supplied by the application; missing, expired, tenant-mismatch, and model-role cases deny; not an identity provider or PDP |
 | Go long-running operation recipe | Implemented; verified at its cited revision | L4 recipe evidence: file-backed (temp+sync+rename), loopback-HTTP, child-process restart, separate verifier process, and file-backed fencing fixture for idempotent submit, response loss, partial-write recovery, cancel request versus confirmation, Run cancellation, completion versus effect verification, verifier receipts, durable fencing, and static bearer/TLS rejection; only the Run-cancellation assertion touches a Core seam. No production key management, lease expiry/revocation, power-loss proof, identity provider, lock, or exactly-once |
-| Governed Execution Profile | Proposed | The design defines acceptance criteria; no general Core profile is implemented |
+| Governed Execution Profile | Proposed; partial integration evidence | Mandatory product entry, explicit scope, approval binding and Governed Effect Boundary are acceptance requirements; no general Core profile or bypass-proof product entry is claimed |
 | Coding-agent integration map | Implemented; versions checked by documentation tests | Package map, integration contract, and verification commands; not an install channel, automatic skill, or adoption evidence |
 | Coding-agent skill template | Experimental; repository template only | Tool-neutral `SKILL.md`; installation and discovery are not verified, and no auto-install, MCP, or runtime-skill behavior is claimed |
 | Registry page metadata | Source metadata updated; published pages not yet updated | PyPI, npm, Maven, and Go pages audited 2026-11-05; pages update only with a new release; other registries are release-checked |
 | Coding-agent adoption experiments | Not run | No discovery, selection, first-pass, repair-cost, or retention data |
-| Embodied Integration Profile | Not started | Requires a named consumer, middleware choice, and simulation scenario |
+| Embodied Integration Profile | Proposed design; consumer pilot not started | Adds to governed requirements: remote action, fresh observations, cancel confirmation, effect verification and safety-dependency failure tests; requires a named consumer, middleware and simulation |
 | Language conformance, feature coverage, and operational evidence | See `spec/parity.md`, the language matrix, and Behavior Lab | Separate dimensions; a released source tag does not supply operational evidence |
 
 ## Citing Evidence

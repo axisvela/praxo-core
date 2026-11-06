@@ -96,6 +96,12 @@ Registry 下载量只作辅助信号，不等于真实采用。留存仅使用�
 
 ### Profile 与非目标
 
+使用一个 Kernel 和三个[集成层次](../reference/execution-profiles.md)：Standard Embedding
+命名现有可配置嵌入行为；Governed Execution Profile 是验收提案，已有部分 fixture 证据；
+Embodied Integration Profile 现有[设计提案](../reference/embodied-integration.md)，但消费者
+试点尚未开始。不建立三种 Kernel、运行时开关或版本线。治理装配和实际 Effect PEP 强制执行要求，
+普通 `agent.New` 默认值保持兼容。具身设计增加治理义务，不得弱化它们。
+
 Core Contract 定义局部执行语义；集成 Profile 增加部署要求、外部状态映射和验收条件；
 Adapter 与产品提供实际外部行为。Profile 文档本身不产生身份真实性、持久效果或安全保证。
 
@@ -131,6 +137,19 @@ RHEOVELA 分别拥有注册表、身份、策略、网络和持久工作流服�
 可测试 fake 和负向测试。归属边界见下文“生态边界”。
 
 ## 行为能力层级
+
+### 执行正确性优先项
+
+在 Behavior Lab 之外建立[Execution Correctness Suite](execution-correctness.md)，不替代它。
+EC-01 至 EC-14 提案覆盖并行部分提交、响应丢失、非幂等重试、审批修改、撤销、上下文信任/预算、
+取消、Checkpoint 落后、证据失败、真实隔离、资源并发冲突、机器人接受/完成区分及重复恢复。
+
+先映射已有 Core 断言并补确定性失败缺口，不先增加语言/场景数量；再增加明确消费者的数据库、网关、
+Effect Ledger、真实 Sandbox 集成，随后做部署故障与负载验证。轨道使用 EC-D（Deterministic）、
+EC-I（Integration）、EC-O（Operational），不替代现有 L1-L6 分类；一轨通过不自动证明另一轨。
+清单作为套件是 proposed/not-run，不声明 runner、十四项已通过或新增效果语义。
+
+这些失败边界是治理/具身设计的验收目标，不把普通 Standard Embedding 变成必需企业安全 Profile。
 
 行为覆盖与契约层级分开跟踪：
 

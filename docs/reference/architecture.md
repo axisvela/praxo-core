@@ -22,6 +22,13 @@ external integrator.
 
 ## Agent Loop
 
+The kernel keeps [Standard Embedding and execution profiles](execution-profiles.md)
+separate from implementation layers. Governed and embodied requirements are
+integration acceptance designs, not alternate agent loops. Product assembly must
+enforce mandatory controls before model/tool access; actual Effect PEPs own
+business commit and remote revocation constraints. Existing `agent.Profile`,
+model provider profiles and workspace profiles do not attest to these requirements.
+
 1. Start a run, apply run middleware, and emit `run.started`.
 2. Build the prompt from the system prompt, recalled memory, skills, session
    messages, and the user prompt.
