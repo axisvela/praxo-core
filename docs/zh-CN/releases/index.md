@@ -4,6 +4,10 @@
 [兼容政策](../project/compatibility-policy.md)。Core 和适配器独立版本化，分别见
 [Core 支持政策](../languages/support.md)和[适配器目录](../integrations/index.md)。
 
+GitHub **Latest Release** 仅代表 Go 参考 Core（`vX.Y.Z`）。语言与适配器发布不得替换该入口。
+各注册表版本见[语言发布索引](../languages/registry-status.md)，源码标签和声明能力见
+[语言实现目录](../languages/index.md)。发布时间先后不表示共享版本线。
+
 | 核心版本 | 发布说明 |
 | --- | --- |
 | 2.5.2 | [Rooted VFS 与受治理参考证据](2.5.2.md) |

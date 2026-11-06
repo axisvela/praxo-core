@@ -47,6 +47,22 @@ CI 与发布使用 Go 1.26.10。示例展示工具调用、流式文本、事件
 - **提供商无关：** 模型、记忆、工具、检索、沙箱接口可自行适配。
 - **MIT 边界：** 可选集成与框架核心分离。
 
+### 实现、证据与消费者责任
+
+**Governed, Embeddable Agent Execution Kernel** 描述嵌入边界，不代表开箱即用的企业安全体系。
+下表针对 Go 参考实现；其他语言分别声明能力与证据。
+
+| 领域 | Core 实现什么 | 测试验证什么 | 消费者必须提供什么 |
+| --- | --- | --- | --- |
+| Governed | Policy 钩子、工具授权与 HITL 集成 | 配置后的允许、拒绝与审批路径 | 身份认证、策略配置与强制执行；Agent 可以不配置 Policy |
+| Sandbox Support | 执行契约与适配器 | 契约行为与选定适配器边界 | 真实隔离运行时和部署加固；接口不等于操作系统隔离 |
+| Recoverable | Session/Checkpoint 契约与恢复集成 | 序列化与限定范围的恢复夹具 | 持久存储、效果验证和幂等；Checkpoint 不保证外部事务或 exactly-once |
+| Multilingual | 共享规范与独立语言实现 | 各语言声明的向量和行为覆盖 | 按语言限制选型，不假设完整 Go 功能对齐 |
+| Multi-Agent | 局部 Subagent 委派 | 声明测试范围内的委派行为 | 按需提供分布式协调与持久编排 |
+
+证据层次见[测试分类](docs/zh-CN/project/test-taxonomy.md)，发布包验证见
+[消费者 Starter](docs/zh-CN/getting-started/coding-agents.md)。
+
 它不是托管 Agent 服务、向量数据库、模型提供商或开箱即用的聊天产品。采用前请阅读
 [采用指南](docs/zh-CN/getting-started/adoption.md)、[安全模型](docs/zh-CN/security/index.md)
 和[框架对比](docs/zh-CN/project/comparison.md)。
@@ -99,6 +115,9 @@ Go 导入路径保持不变，语言源码已归入 `language/`、`bindings/` �
 使用方请查看[源码迁移说明](docs/zh-CN/project/repository-layout.md)。
 
 ## 框架与生态
+
+GitHub Latest Release 仅代表 Go 参考 Core（`vX.Y.Z`）。语言与适配器独立版本化，
+通过[语言发布索引](docs/zh-CN/languages/registry-status.md)发现，不占用 Latest 入口。
 
 PRAXO-CORE 是独立的 MIT 框架。
 

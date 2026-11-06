@@ -47,6 +47,17 @@ complete archive inventory.
 
 ## Tag Names
 
+GitHub Latest Release is reserved for stable Go Reference Core `vX.Y.Z`
+releases. The root workflow explicitly uses `gh release create --latest`.
+Language, specification and adapter GitHub releases must explicitly use
+`--latest=false` (REST `make_latest: "false"`); do not rely on `legacy` ordering.
+Registry-only workflows do not create GitHub releases and need no Latest flag.
+The manual `language-source-release.yml` workflow publishes notes for an existing
+language tag with `--verify-tag --latest=false`; it does not run package gates or
+publish to registries. Only dispatch it after the language's release evidence is
+complete. Discover independent versions through the
+[Language Release Index](../languages/registry-status.md).
+
 | Artifact | Tag |
 | --- | --- |
 | Go core | `vX.Y.Z` |

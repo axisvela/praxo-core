@@ -5,6 +5,12 @@ you are adopting and follow the [compatibility policy](../project/compatibility-
 Core and adapter versions are independent; see [Core support](../languages/support.md)
 and the [adapter directory](../integrations/index.md).
 
+GitHub **Latest Release** is reserved for the Go Reference Core (`vX.Y.Z`).
+Language and adapter releases must not replace that entry. Use the
+[Language Release Index](../languages/registry-status.md) for registry versions
+and the [implementation directory](../languages/index.md) for source tags and
+declared capability scope. Publication order does not imply a shared version.
+
 | Core version | Release notes |
 | --- | --- |
 | 2.5.2 | [Rooted VFS and governed reference evidence](2.5.2.md) |

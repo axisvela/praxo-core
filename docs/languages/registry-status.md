@@ -14,6 +14,10 @@ checklist and the current pilot-page audit.
 
 ## Published and current
 
+This is the **Language Release Index** for registry versions. For independent
+source tags and capability declarations, use the [implementation directory](index.md).
+GitHub Latest represents the Go Reference Core only, not the last language package published.
+
 | Language | Registry | Version | Address | Status |
 | --- | --- | --- | --- | --- |
 | Go | Go module proxy / pkg.go.dev | `v2.5.2` | https://pkg.go.dev/github.com/axisvela/praxo-core/v2 | published |

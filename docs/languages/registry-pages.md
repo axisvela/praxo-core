@@ -76,3 +76,33 @@ time instead of inferring page quality from source files alone.
   command, license, and version, then update
   [Registry Publication Status](registry-status.md) with the checked date.
 - Keep registry-specific procedures in the internal release runbooks.
+
+## Published Artifact Acceptance
+
+A source README update is not completion. At the next official release, verify
+the actual package and rendered page for each affected registry:
+
+| Evidence | Acceptance |
+| --- | --- |
+| Identity | Exact package/version, immutable source tag and artifact digest agree |
+| Packaged introduction | Inspect the downloaded wheel/sdist, npm tarball, Maven POM/sources or tagged Go module, not main |
+| Rendered page | Verify positioning, consumer starter links, limitations, installation and runtime requirements at the versioned public URL |
+| Consumer installation | Install that version in a clean consumer and execute its documented deterministic smoke/allow-deny checks |
+| Boundaries | Explain what Core implements, what tests verify, and what the consumer must supply; policy is configurable, sandbox interfaces are not isolation, checkpoints are not external transactions |
+
+Record the checked version, URL, date, artifact hash and observed result before
+marking the page current in [Registry Publication Status](registry-status.md).
+If rendering/indexing is delayed, mark it pending rather than inferring success
+from a publish job. A registry that does not render README content (for example
+Maven Central) must still have accurate metadata and canonical documentation links.
+
+## MATLAB Compatibility Metadata
+
+Checked 2026-11-06: [File Exchange](https://www.mathworks.com/matlabcentral/fileexchange/185166-praxo-core)
+shows version `0.2.1`, "Compatible with any release" and Windows/macOS/Linux
+labels; its installation menu also says R2026b or later. These labels are not
+independent MATLAB test evidence. The implementation is tested under GNU Octave
+11.3.0; MATLAB execution and installed-artifact validation remain unverified.
+The submission owner must narrow editable compatibility metadata or add the
+prominent [runtime limitation](matlab/index.md) to the Overview.
+This source change does not edit the live submission.

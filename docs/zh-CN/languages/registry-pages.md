@@ -65,3 +65,27 @@ crates.io、NuGet、RubyGems、Packagist、Hex、pub.dev 等 Registry 页面，�
 - 发布后验证渲染的 description、keywords、README、安装命令、许可证与版本，然后更新
   [Registry 发布状态](registry-status.md)的检查日期。
 - Registry 专用流程保留在内部发布 runbook。
+
+## 实际发布包验收
+
+源码 README 修改不等于完成。下一次正式发布时，必须验证真实工件与页面：
+
+| 证据 | 验收要求 |
+| --- | --- |
+| 身份 | 精确包名、版本、不可变源码 tag 与工件摘要一致 |
+| 包内介绍 | 检查下载的 wheel/sdist、npm tarball、Maven POM/sources 或 Go tag，不检查 main 替代品 |
+| 页面展示 | 在对应版本的公开 URL 核对定位、消费者 Starter、限制、安装方式和运行时要求 |
+| 消费者安装 | 在干净消费者中安装该版本，执行文档中的确定性 smoke/允许拒绝检查 |
+| 责任边界 | 说明 Core 实现、测试证据和消费者责任；Policy 需配置，沙箱接口不等于隔离，Checkpoint 不等于外部事务 |
+
+将版本、URL、核对日期、工件哈希与观察结果记录后，才能在
+[注册表发布状态](registry-status.md)标为页面已更新。索引或渲染延迟应标记待核实，不能从
+发布 job 推断成功。不渲染 README 的注册表（例如 Maven Central）也需准确元数据与规范文档链接。
+
+## MATLAB 兼容性元数据
+
+2026-11-06 核对：[File Exchange](https://www.mathworks.com/matlabcentral/fileexchange/185166-praxo-core)
+的 `0.2.1` 显示“Compatible with any release”和 Windows/macOS/Linux，安装菜单又显示
+R2026b 或更新版本。这些标签不是独立 MATLAB 验证证据。当前执行证据仅来自 GNU Octave
+11.3.0，MATLAB 运行及实际安装包验证仍未完成。提交所有者需收窄可编辑兼容性字段，或在
+Overview 顶部添加醒目限制。修改源码不会自动修改线上提交。

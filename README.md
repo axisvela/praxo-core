@@ -59,6 +59,23 @@ demonstrates tools, streamed text, events, and policy. See the
 - **Provider-neutral embedding:** model, memory, tool, retrieval, and sandbox interfaces.
 - **MIT boundary:** optional integrations stay separate from the core framework.
 
+### Implements, Verifies, Requires
+
+**Governed, Embeddable Agent Execution Kernel** describes an embedding boundary,
+not a turnkey enterprise security system. The table describes the Go reference;
+other languages have separately declared capabilities and evidence.
+
+| Area | What Core Implements | What Tests Verify | What the Consumer Must Supply |
+| --- | --- | --- | --- |
+| Governed | Policy hooks, tool authorization and HITL integration | Configured allow/deny and approval paths | Authentication, policy configuration and enforcement; an Agent can run without Policy |
+| Sandbox support | Execution contracts and adapters | Contract behavior and selected adapter boundaries | A real isolated runtime and deployment hardening; an interface is not OS isolation |
+| Recoverable | Session/checkpoint contracts and recovery integration | Serialization and scoped recovery fixtures | Durable stores, effect verification and idempotency; checkpoints are not external transactions or exactly-once guarantees |
+| Multilingual | Shared specification and independent implementations | Each language's declared vectors and behavior coverage | Selection against that language's limitations; not assumed Go feature parity |
+| Multi-agent | Local subagent delegation | Delegation behavior in the declared suites | Distributed coordination and durable orchestration if needed |
+
+See the [test taxonomy](docs/project/test-taxonomy.md) for evidence levels and
+the [consumer starters](docs/getting-started/coding-agents.md) for package-level checks.
+
 It is a framework, not a hosted agent service, vector database, model provider,
 or turnkey chat UI. Review the [adoption guide](docs/getting-started/adoption.md),
 [security model](docs/security/index.md), and
@@ -137,11 +154,15 @@ implementations are versioned independently.
 
 - [Latest release notes](docs/releases/2.5.2.md)
 - [Release history](docs/releases/index.md)
+- [Language Release Index](docs/languages/registry-status.md)
 - [Compatibility policy](docs/project/compatibility-policy.md)
 - [v2 migration](docs/project/migration-v2.md)
 - [Public roadmap](ROADMAP.md)
 - [Contributing](CONTRIBUTING.md)
 - [Security reporting](SECURITY.md)
+
+GitHub Latest Release represents only the Go Reference Core (`vX.Y.Z`). Language
+and adapter releases use independent tags and registry versions, not Latest.
 
 ## License
 

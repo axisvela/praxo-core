@@ -1,0 +1,32 @@
+name: language-source-release
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Existing language/vX.Y.Z source tag; does not publish to a registry"
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  publish:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    env:
+      GH_TOKEN: ${{ github.token }}
+      GH_REPO: ${{ github.repository }}
+      SOURCE_TAG: ${{ inputs.tag }}
+    steps:
+      - name: Validate existing language source tag
+        shell: bash
+        run: |
+          [[ "$SOURCE_TAG" =~ ^[a-z][a-z0-9-]*/v[0-9]+\.[0-9]+\.[0-9]+$ ]]
+          [[ "$SOURCE_TAG" != spec/* ]]
+          gh api "repos/$GH_REPO/git/ref/tags/$SOURCE_TAG" > /dev/null
+      - name: Publish source notes without changing Core Latest
+        run: gh release create "$SOURCE_TAG" --verify-tag --generate-notes --latest=false

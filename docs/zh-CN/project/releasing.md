@@ -30,6 +30,14 @@
 
 ## 工件证据
 
+GitHub Latest Release 仅代表稳定的 Go 参考 Core `vX.Y.Z`。根工作流显式使用
+`gh release create --latest`；语言、规范和适配器 GitHub Release 必须显式设置
+`--latest=false`（REST `make_latest: "false"`），不依赖 `legacy` 排序。
+只发布注册表、不创建 GitHub Release 的工作流无需该选项。
+手动 `language-source-release.yml` 仅为已有语言标签发布源码说明，使用
+`--verify-tag --latest=false`，不执行包门禁或注册表发布；必须在语言发布证据完成后触发。
+独立版本通过[语言发布索引](../languages/registry-status.md)发现。
+
 `release-manifest.json` 记录发布版本、标签、完整提交 SHA、规范版本、报告的 Go
 工具链、SBOM 范围，以及每个附件的大小与 SHA-256。`SHA256SUMS` 覆盖源码包、
 `sbom.json` 和清单。当前 SBOM 范围仅为根 Go 模块依赖，不是所有独立适配器、

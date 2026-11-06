@@ -4,8 +4,10 @@ Source tag `matlab/v0.2.1`. The package is published on MATLAB File Exchange:
 <https://www.mathworks.com/matlabcentral/fileexchange/185166-praxo-core>. It is
 not published to Octave Packages.
 
-Octave verification is not MATLAB verification. Run `run_tests.m` in MATLAB
-before submitting to File Exchange.
+Octave verification is not MATLAB verification. The currently published
+compatibility metadata is not an independently verified MATLAB support matrix.
+Do not repeat "Compatible with any release" or all-platform support claims.
+The public limitation is in [README.md](README.md).
 
 ## Build a MATLAB package
 
@@ -15,8 +17,14 @@ In MATLAB, from this directory:
 package_toolbox
 ```
 
+The packager first runs the shared `language/matlab-octave-core/run_tests.m`
+suite in the actual MATLAB process. It sets minimum and maximum release to that
+MATLAB release and enables only the host platform, not MATLAB Online or all OSes.
+This is source execution evidence, not an installed-artifact test. The packager
+has not yet been independently executed in MATLAB.
+
 This creates `praxo-core-0.2.1.mltbx` containing `+praxo`, `README.md`,
-`LICENSE`, `run_tests.m`, and `toolbox-image.png`. The image is
+`LICENSE`, and `toolbox-image.png`. The image is
 `language/matlab/toolbox-image.png`; use it as the File Exchange thumbnail.
 
 MATLAB package names must be identifiers matching `[A-Za-z][A-Za-z0-9_]*`.
@@ -24,6 +32,10 @@ Use `praxo_core` as the package name; keep `PRAXO-CORE` only as the display
 name. `package_toolbox.m` sets both accordingly.
 
 ## MATLAB File Exchange
+
+The live submission's release/platform labels remain unverified; source changes
+do not edit that page. Compatibility must not be broadened from an Octave pass
+or packaging alone. See the [registry page evidence requirements](../../docs/languages/registry-pages.md).
 
 1. Sign in at https://www.mathworks.com/matlabcentral/fileexchange/submit
 2. Create a submission with:

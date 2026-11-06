@@ -1,5 +1,10 @@
 # PRAXO-CORE for MATLAB
 
+> **MATLAB runtime compatibility is unverified.** Current execution evidence is
+> GNU Octave 11.3.0 only. No MATLAB release or Windows/macOS/Linux MATLAB support
+> matrix has been independently validated. File Exchange compatibility labels
+> are not test evidence; do not use them as a production support promise.
+
 Native MATLAB Core implementation with source tag `matlab/v0.2.1`. It is
 published on
 [MATLAB File Exchange](https://www.mathworks.com/matlabcentral/fileexchange/185166-praxo-core).

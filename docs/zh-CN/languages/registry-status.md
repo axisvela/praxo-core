@@ -10,6 +10,9 @@
 
 ## 已发布且当前
 
+本页也是注册表版本的**语言发布索引**。独立源码 tag 与声明能力见[语言实现目录](index.md)。
+GitHub Latest 仅代表 Go 参考 Core，不代表最近发布的语言包。
+
 | 语言 | 注册表 | 版本 | 地址 | 状态 |
 | --- | --- | --- | --- | --- |
 | Go | Go module proxy / pkg.go.dev | `v2.5.2` | https://pkg.go.dev/github.com/axisvela/praxo-core/v2 | 已发布 |
