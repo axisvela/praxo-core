@@ -64,6 +64,13 @@ not new Core types, event names, error codes or a shared wire state machine.
 
 ## Existing Evidence Candidates
 
+The [audited inventory](https://github.com/axisvela/praxo-core/blob/main/scripts/execution_correctness_inventory.json)
+maps all fourteen IDs to local assertion candidates or explicit external/gap
+dispositions. Its initial `core-mechanics-baseline` scope selects only local
+parts of EC-03/04/06/08/10. The inventory is not a runner or execution report;
+all full-scenario acceptance fields remain not-run. Structure tests check that
+mapped test functions exist, not that their execution satisfies an EC scenario.
+
 These are reuse candidates, not a complete EC pass matrix. Review the exact
 assertions, revision, environment and negative case before assigning an EC result.
 

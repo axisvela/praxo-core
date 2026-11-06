@@ -53,6 +53,11 @@ PRAXOVELA 效果台账与 RHEOVELA 工作流测试可承担产品侧 EC-I，不�
 
 ## 可复用证据候选
 
+[已审计清单](https://github.com/axisvela/praxo-core/blob/main/scripts/execution_correctness_inventory.json)
+将十四个 ID 分配到局部断言候选或明确的外部/缺口处置。首批 `core-mechanics-baseline` 只选
+EC-03/04/06/08/10 的局部机制，不是 runner 或运行报告；完整场景验收字段仍为 not-run。
+结构测试只检查映射的函数存在，不证明执行满足 EC 场景。
+
 以下只是候选，不是完整 EC 通过矩阵。分配结果前需审查断言、revision、环境与负向场景。
 
 | 候选 | 潜在覆盖 | 尚未证明 |

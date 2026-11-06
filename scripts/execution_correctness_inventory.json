@@ -1,0 +1,171 @@
+{
+  "status": "audited inventory; not an execution report",
+  "designCommit": "c8acd3147665e3113c4c3ea9dd462c815b1a2e74",
+  "tracks": ["EC-D", "EC-I", "EC-O"],
+  "initialScope": {
+    "name": "core-mechanics-baseline",
+    "track": "EC-D",
+    "scenarioIds": ["EC-03", "EC-04", "EC-06", "EC-08", "EC-10"],
+    "claim": "Local assertions only; not full EC scenario or profile acceptance."
+  },
+  "scenarios": [
+    {
+      "id": "EC-01",
+      "acceptance": "not-run",
+      "disposition": "core-gap-and-external",
+      "localTests": [],
+      "gap": "runTools collects all local outcomes, but Agent result delivery returns at the first error; no audited mixed-success assertion accounts for every attempted effect."
+    },
+    {
+      "id": "EC-02",
+      "acceptance": "not-run",
+      "disposition": "external-authority",
+      "localTests": [],
+      "gap": "The long-running recipe models response loss and deduplication; deployed business commit/status authority remains consumer-owned."
+    },
+    {
+      "id": "EC-03",
+      "acceptance": "not-run",
+      "disposition": "partial-core-evidence",
+      "localTests": [
+        {
+          "package": "./pkg/tool",
+          "file": "pkg/tool/retry_test.go",
+          "test": "TestRetryMiddlewareHonorsShouldRetry",
+          "assertion": "A false retry predicate returns the error after exactly one invocation."
+        }
+      ],
+      "gap": "No automatic non-idempotency protection is supplied. Zero-attempt/default and cancellation regression coverage need expansion; protected retries require target guarantees."
+    },
+    {
+      "id": "EC-04",
+      "acceptance": "not-run",
+      "disposition": "partial-core-evidence",
+      "localTests": [
+        {
+          "package": "./pkg/agent",
+          "file": "pkg/agent/tool_authorization_test.go",
+          "test": "TestFinalToolArgumentsAuthorized",
+          "assertion": "Changed final arguments are reauthorized and denial/error prevents invocation for serial and parallel settings."
+        },
+        {
+          "package": "./pkg/agent",
+          "file": "pkg/agent/tool_authorization_test.go",
+          "test": "TestFinalAuthorizationChecksWholeBatchBeforeExecution",
+          "assertion": "A later preparation callback cannot mutate an earlier call into a denied operation and still execute the batch."
+        },
+        {
+          "package": "./pkg/agent",
+          "file": "pkg/agent/tool_authorization_test.go",
+          "test": "TestFinalNestedArgumentsReauthorized",
+          "assertion": "Nested argument mutation is denied before the recorded tool receives arguments."
+        }
+      ],
+      "gap": "Durable approval binding, identity, expiry, one-time consumption and target-side constraints are not established by Core reauthorization."
+    },
+    {
+      "id": "EC-05",
+      "acceptance": "not-run",
+      "disposition": "core-gap-and-external",
+      "localTests": [],
+      "gap": "Unchanged prepared arguments do not trigger another policy call merely because time or revocation changed. Workspace invocation guards are application evidence, not a Core or remote commit guarantee."
+    },
+    {
+      "id": "EC-06",
+      "acceptance": "not-run",
+      "disposition": "partial-core-evidence",
+      "localTests": [
+        {
+          "package": "./pkg/agent/context",
+          "file": "pkg/agent/context/compact_test.go",
+          "test": "TestCompactFailsWhenSystemCannotFit",
+          "assertion": "An oversized sole System message cannot be compacted into a successful impossible budget."
+        },
+        {
+          "package": "./pkg/agent",
+          "file": "pkg/agent/context_integration_test.go",
+          "test": "TestAgentContextBudgetFailsClosed",
+          "assertion": "Agent returns ErrContextBudget for an oversized System prompt."
+        }
+      ],
+      "gap": "Mandatory instruction classification is not general: the existing compactor can drop later System messages; preservation of all trusted sources needs consumer-specific review."
+    },
+    {
+      "id": "EC-07",
+      "acceptance": "not-run",
+      "disposition": "core-gap-and-external",
+      "localTests": [],
+      "gap": "Ordinary Recall/Skills inject System messages. Governed workspace source wrapping is opt-in application behavior, not default Core source authentication or trust preservation."
+    },
+    {
+      "id": "EC-08",
+      "acceptance": "not-run",
+      "disposition": "partial-core-evidence",
+      "localTests": [
+        {
+          "package": "./pkg/agent",
+          "file": "pkg/agent/tool_cancel_test.go",
+          "test": "TestRunStopsStartingToolsAfterCancellation",
+          "assertion": "Cancellation returns context.Canceled and prevents the queued counting tool from starting in sequential and parallel-slot cases."
+        }
+      ],
+      "gap": "A local cancellation does not acknowledge remote stop; recipe and deployed cancellation evidence must remain separate."
+    },
+    {
+      "id": "EC-09",
+      "acceptance": "not-run",
+      "disposition": "external-authority",
+      "localTests": [],
+      "gap": "Business commit and checkpoint persistence are not a Core transaction; recipe restart/dedup fixtures do not inject a real product commit-checkpoint failure."
+    },
+    {
+      "id": "EC-10",
+      "acceptance": "not-run",
+      "disposition": "partial-core-evidence",
+      "localTests": [
+        {
+          "package": "./pkg/agent",
+          "file": "pkg/agent/completion_test.go",
+          "test": "TestRunCompletionCallbackFailureHasSingleTerminalEvent",
+          "assertion": "Completion callback failures preserve the error and emit at most the expected single terminal event, including a failing completed sink."
+        }
+      ],
+      "gap": "Emit success does not prove durability. run.failed emission is best effort; pre-invocation sink failure and secondary evidence failure need dedicated assertions and a consumer acknowledgement policy."
+    },
+    {
+      "id": "EC-11",
+      "acceptance": "not-run",
+      "disposition": "external-authority",
+      "localTests": [],
+      "gap": "sandbox.Sandbox is a contract without an isolation-level attestation. Provider/platform containment evidence requires separately audited real-runtime tests."
+    },
+    {
+      "id": "EC-12",
+      "acceptance": "not-run",
+      "disposition": "external-authority",
+      "localTests": [],
+      "gap": "The recipe's fencing epochs model ownership, not a concurrent multi-agent resource service or production lease authority."
+    },
+    {
+      "id": "EC-13",
+      "acceptance": "not-run",
+      "disposition": "blocked-consumer",
+      "localTests": [],
+      "gap": "No named embodied consumer, middleware or simulation is established; software accepted/completed fixtures are not physical effect evidence."
+    },
+    {
+      "id": "EC-14",
+      "acceptance": "not-run",
+      "disposition": "partial-core-evidence",
+      "localTests": [
+        {
+          "package": "./pkg/agent",
+          "file": "pkg/agent/resume_test.go",
+          "test": "TestRunResumesFromSessionMessages",
+          "assertion": "Supplied session history precedes the next prompt; no external effect or repeated-recovery guarantee is asserted."
+        }
+      ],
+      "gap": "Repeated recovery with stable business operation identity and durable deduplication remains consumer-owned; the local history assertion is excluded from the initial mechanics scope."
+    }
+  ]
+}
