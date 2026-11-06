@@ -28,7 +28,7 @@ or the support levels in the [language matrix](../languages/matrix.md).
 | Area | Status | Scope and limits |
 | --- | --- | --- |
 | Standard Embedding | Implemented; verified per cited API/package revision | Existing configurable embedding model; nil Policy and empty/unrestricted tool scope remain permitted; not a security certification |
-| Execution Correctness Suite | Proposed inventory; EC-D mechanics scope runner implemented; full suite not run | EC-01 through EC-14; separate EC-D/EC-I/EC-O tracks; the implemented runner covers only EC-03/04/06/08/10 local mechanics, not a complete suite or Profile pass |
+| Execution Correctness Suite | Proposed inventory; EC-D mechanics scope runner implemented; full suite not run | EC-01 through EC-14; separate EC-D/EC-I/EC-O tracks; the implemented runner covers only EC-01/03/04/06/08/10 local mechanics, not a complete suite or Profile pass |
 | Go reference API and shared wire artifacts (events, errors, JSON Schema subset, plugin) | Implemented; verified per release revision | Normative files and vectors in `spec/`; does not prove live providers or product deployments |
 | Tool, Model, and Checkpoint wire descriptions | Implemented; descriptive at `SPEC_VERSION` 0.2.0 | Shared tool/model shapes and the checkpoint allowlist envelope are wire; Go checkpoint and parsed-tool-call projections are documented as `"wire": false` and are not frozen cross-language contracts |
 | Go, Python, TypeScript, and Java consumer starters | Implemented; verified at their cited revisions | Published-package installation, build, and deterministic allow/deny checks; integration evidence, not adoption evidence |

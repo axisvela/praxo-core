@@ -5,16 +5,23 @@
   "initialScope": {
     "name": "core-mechanics-baseline",
     "track": "EC-D",
-    "scenarioIds": ["EC-03", "EC-04", "EC-06", "EC-08", "EC-10"],
+    "scenarioIds": ["EC-01", "EC-03", "EC-04", "EC-06", "EC-08", "EC-10"],
     "claim": "Local assertions only; not full EC scenario or profile acceptance."
   },
   "scenarios": [
     {
       "id": "EC-01",
       "acceptance": "not-run",
-      "disposition": "core-gap-and-external",
-      "localTests": [],
-      "gap": "runTools collects all local outcomes, but Agent result delivery returns at the first error; no audited mixed-success assertion accounts for every attempted effect."
+      "disposition": "partial-core-evidence",
+      "localTests": [
+        {
+          "package": "./pkg/agent",
+          "file": "pkg/agent/parallel_outcome_test.go",
+          "test": "TestParallelToolFailureStillReportsEveryOutcome",
+          "assertion": "After a parallel tool failure, every attempted tool outcome reaches task-end and OnToolResult; the first tool error is returned."
+        }
+      ],
+      "gap": "Core now reports every local outcome, but external effect confirmation, unknown outcomes, and business reconciliation remain consumer/EC-I responsibilities."
     },
     {
       "id": "EC-02",

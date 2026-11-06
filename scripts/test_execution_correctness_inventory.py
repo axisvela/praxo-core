@@ -59,7 +59,7 @@ class ExecutionCorrectnessInventoryTests(unittest.TestCase):
         scope = self.inventory['initialScope']
         self.assertEqual(scope['name'], 'core-mechanics-baseline')
         self.assertEqual(scope['track'], 'EC-D')
-        self.assertEqual(scope['scenarioIds'], ['EC-03', 'EC-04', 'EC-06', 'EC-08', 'EC-10'])
+        self.assertEqual(scope['scenarioIds'], ['EC-01', 'EC-03', 'EC-04', 'EC-06', 'EC-08', 'EC-10'])
         self.assertIn('not full EC scenario or profile acceptance', scope['claim'])
         cases = {case['id']: case for case in self.inventory['scenarios']}
         for identifier in scope['scenarioIds']:

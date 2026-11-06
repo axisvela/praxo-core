@@ -6,6 +6,14 @@ Historical entries that record `19/19` describe the source version named in that
 entry. The current Behavior Lab has twenty scenarios; the HITL wave moved every
 wired language to 20/20.
 
+### Fixed
+
+- Go `pkg/agent` now continues task-end and `OnToolResult` notifications for
+  every executed tool after a tool batch reports its first tool error, then
+  returns that first error. This changes observable callback/stream ordering
+  after a tool error; consumers must verify handlers tolerate later successful
+  outcomes. Checkpoint state still does not prove external effect commit.
+
 ### Added
 
 - Lua now ships a `0.4.0-1` rockspec and a `lua-release` workflow that runs

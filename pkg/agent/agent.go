@@ -432,11 +432,15 @@ func (a *Agent) RunWithContext(ctx context.Context, session Session, prompt stri
 			}
 		}
 
+		var firstErr error
 		outcomes := runTools(ctx, prepared, a.MaxParallelTools)
 		for i, outcome := range outcomes {
 			call := prepared[i].call
 			result := &ToolResult{Value: outcome.value, Err: outcome.err}
 			if err := a.afterTool(ctx, &ToolCall{RunID: runID, SessionID: session.ID, Call: &call}, result); err != nil {
+				if firstErr != nil {
+					return nil, firstErr
+				}
 				return nil, err
 			}
 			taskData := map[string]any{"status": "end", "name": call.Name, "result": result.Value}
@@ -446,15 +450,27 @@ func (a *Agent) RunWithContext(ctx context.Context, session Session, prompt stri
 			if err := a.stream(StreamPart{
 				RunID: runID, SessionID: session.ID, Kind: StreamTasks, Step: step, Data: taskData,
 			}); err != nil {
+				if firstErr != nil {
+					return nil, firstErr
+				}
 				return nil, err
 			}
 			if a.Hooks.OnToolResult != nil {
 				if err := a.Hooks.OnToolResult(ctx, runID, call, result.Value, result.Err); err != nil {
+					if firstErr != nil {
+						return nil, firstErr
+					}
 					return nil, err
 				}
 			}
 			if result.Err != nil {
-				return nil, result.Err
+				if firstErr == nil {
+					firstErr = result.Err
+				}
+				continue
+			}
+			if firstErr != nil {
+				continue
 			}
 			raw, err := json.Marshal(result.Value)
 			if err != nil {
@@ -483,6 +499,9 @@ func (a *Agent) RunWithContext(ctx context.Context, session Session, prompt stri
 			}); err != nil {
 				return nil, err
 			}
+		}
+		if firstErr != nil {
+			return nil, firstErr
 		}
 	}
 

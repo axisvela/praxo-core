@@ -68,7 +68,8 @@ not new Core types, event names, error codes or a shared wire state machine.
 The [audited inventory](https://github.com/axisvela/praxo-core/blob/main/scripts/execution_correctness_inventory.json)
 maps all fourteen IDs to local assertion candidates or explicit external/gap
 dispositions. Its initial `core-mechanics-baseline` scope selects only local
-parts of EC-03/04/06/08/10. The inventory is not a runner or execution report;
+parts of EC-01/03/04/06/08/10. EC-01 covers local outcome notification only;
+external effect confirmation remains external. The inventory is not a runner or execution report;
 all full-scenario acceptance fields remain not-run. Structure tests check that
 mapped test functions exist, not that their execution satisfies an EC scenario.
 
@@ -129,9 +130,9 @@ Each run is written under `build/execution-correctness/<run-id>/` with
 `report.json`, `report.md`, raw events, and logs. `latest.json` is a convenience
 pointer; previous run directories are not overwritten. The report status is
 `scope-passed`, `scope-failed`, or `invalid`, never a claim that the whole EC
-suite or a Profile passed. The initial scope covers only EC-03/04/06/08/10 local
-mechanics; EC-01, EC-02, EC-05, EC-07, EC-09, EC-11 through EC-14, EC-I, EC-O,
-and all Profile acceptance remain not-run or external.
+suite or a Profile passed. The initial scope covers only EC-01/03/04/06/08/10 local
+mechanics; EC-01 is notification-only, and EC-02, EC-05, EC-07, EC-09, EC-11
+through EC-14, EC-I, EC-O, and all Profile acceptance remain not-run or external.
 
 ## Roadmap Sequence
 
