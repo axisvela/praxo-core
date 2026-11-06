@@ -108,7 +108,7 @@
       "acceptance": "not-run",
       "disposition": "core-gap-and-external",
       "localTests": [],
-      "gap": "Unchanged prepared arguments do not trigger another policy call merely because time or revocation changed. Workspace invocation guards are application evidence, not a Core or remote commit guarantee."
+      "gap": "Core reauthorizes only changed final arguments; unchanged arguments skip another policy call even if time or revocation changed. The governed-workspace BeforeTool/invocation guard tests are L4 application evidence; no product mandatory entry, real Effect PEP, or remote stop confirmation."
     },
     {
       "id": "EC-06",
@@ -135,7 +135,7 @@
       "acceptance": "not-run",
       "disposition": "core-gap-and-external",
       "localTests": [],
-      "gap": "Ordinary Recall/Skills inject System messages. Governed workspace source wrapping is opt-in application behavior, not default Core source authentication or trust preservation."
+      "gap": "Ordinary Recall/Skills inject System messages, and the deterministic compactor can drop later System messages. Governed-workspace source wrapping, skill digests and lineage tests are opt-in L4 behavior; default Core does not authenticate sources or preserve durable lineage."
     },
     {
       "id": "EC-08",

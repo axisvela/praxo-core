@@ -81,6 +81,7 @@ assertions, revision, environment and negative case before assigning an EC resul
 | `pkg/agent/tool_authorization_test.go` | EC-04 local final-operation checks | Durable approval consumption/expiry and actual target enforcement |
 | `pkg/agent/tool_cancel_test.go`, `completion_cancel_test.go` | EC-08 local cancellation | Remote stop confirmation |
 | `pkg/agent/context/` and context integration tests | EC-06/07 local context rules | Authentic source lineage or general prompt-injection prevention |
+| `examples/governed-workspace` | EC-04/05/07 application-level approval, invocation recheck and source wrapping | Opt-in L4 pattern; not Core default, product mandatory entry, real PEP, or source authenticator |
 | `examples/recipes/long-running-go` | EC-02/08/09/12/14 application fixtures | Deployed execution service, production leases, partitions and power-loss proof |
 | Sandbox/host tests and declared platform limits | EC-11 contract and selected containment checks | Whole-deployment isolation or certification |
 

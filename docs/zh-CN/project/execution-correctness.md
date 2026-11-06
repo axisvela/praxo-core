@@ -66,6 +66,7 @@ EC-01/03/04/06/08/10 的局部机制；EC-01 仅覆盖本地结果通知，外�
 | `pkg/agent/tool_authorization_test.go` | EC-04 最终操作局部检查 | 持久审批消费/过期与实际目标执行 |
 | `pkg/agent/tool_cancel_test.go`、`completion_cancel_test.go` | EC-08 局部取消 | 远程停止确认 |
 | `pkg/agent/context/` 与上下文集成测试 | EC-06/07 局部规则 | 真实来源链或通用 Prompt Injection 防护 |
+| `examples/governed-workspace` | EC-04/05/07 应用级审批、调用复核与来源包装 | 可选 L4 模式；不是 Core 默认、产品强制入口、真实 PEP 或来源认证器 |
 | `examples/recipes/long-running-go` | EC-02/08/09/12/14 应用 fixture | 已部署服务、生产 lease、网络分区和断电证明 |
 | Sandbox/host 测试及平台限制 | EC-11 契约和选定隔离检查 | 整体部署隔离或认证 |
 
