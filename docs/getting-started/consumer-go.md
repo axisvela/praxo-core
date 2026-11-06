@@ -73,6 +73,23 @@ counter. An empty allowlist is not a deny-all configuration in the current API.
 
 ## Governed Acceptance
 
+### Published-Package Upgrades
+
+From a source checkout, `python scripts/test_go_upgrade.py -v` creates one fresh
+consumer, installs the historical version pinned by `tests/consumer/go.mod`,
+then upgrades that same application to the Go version in the package map.
+It rejects module replacements, checks both exact dependency versions, and
+requires unchanged application source. The historical phase checks basic
+allow/deny behavior; the upgraded phase runs all five governed negative checks,
+build, vet and the expected program output. It does not claim those stronger
+checks passed on the historical security baseline.
+
+CI runs this check on Linux, Windows and macOS. A run proves only its named
+published-version pair and fixture, not an unpublished release candidate,
+arbitrary version upgrades, user adoption or production retention.
+
+### Negative Checks
+
 The published-package tests also include five negative checks:
 
 ```sh

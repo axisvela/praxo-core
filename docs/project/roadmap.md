@@ -81,12 +81,16 @@ injection, and production leases/fencing remain open. See the
 
 ### Consumer and Contract Baseline
 
-The repository already has a published-consumer CI job and tests that reject
-local module replacements. At this planning update, the Go consumer test pins
-Core `2.5.0`, while the recommended installation is `2.5.2`. That may be a useful
-historical baseline; it does not establish the current recommended package path.
-Maintain distinct historical-compatibility, current-package, and release-candidate
-checks rather than treating one as evidence for all three.
+The historical `tests/consumer` fixture pins Core `2.5.0`; the independent Go
+starter tests recommended `2.5.2`. Both reject module replacements. A separate
+`scripts/test_go_upgrade.py` check now installs the historical package, upgrades
+the same consumer to the recommended package-map version, verifies unchanged
+application source and runs the governed negative tests after upgrade. CI runs
+it on Linux, Windows and macOS; results are scoped to each executed version pair
+and platform, not inferred from the presence of a job.
+Historical compatibility, current-package installation, published-package
+upgrade, and release-candidate checks remain separate evidence. This upgrade
+fixture does not validate unpublished candidates or establish adoption/retention.
 
 Use the existing normative `spec/`, not a competing specification tree. The
 Tool, Model, and Checkpoint wire descriptions now exist; entries marked
