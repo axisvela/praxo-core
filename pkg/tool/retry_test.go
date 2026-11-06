@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"testing"
+	"time"
 )
 
 type flakyTool struct {
@@ -41,6 +42,46 @@ func TestRetryMiddlewareHonorsShouldRetry(t *testing.T) {
 	}))
 	if _, err := wrapped.Invoke(context.Background(), nil); err == nil {
 		t.Fatal("expected error")
+	}
+	if inner.attempts != 1 {
+		t.Fatalf("attempts = %d, want 1", inner.attempts)
+	}
+}
+
+func TestRetryMiddlewareZeroValueDoesNotRetry(t *testing.T) {
+	inner := &flakyTool{failures: 1}
+	wrapped := Wrap(inner, Retry(RetryPolicy{}))
+	if _, err := wrapped.Invoke(context.Background(), nil); err == nil {
+		t.Fatal("expected error")
+	}
+	if inner.attempts != 1 {
+		t.Fatalf("attempts = %d, want 1", inner.attempts)
+	}
+}
+
+type cancelRetryTool struct {
+	cancel   context.CancelFunc
+	attempts int
+}
+
+func (c *cancelRetryTool) Name() string        { return "cancel-retry" }
+func (c *cancelRetryTool) Description() string { return "cancels during retry" }
+func (c *cancelRetryTool) Invoke(context.Context, map[string]any) (any, error) {
+	c.attempts++
+	c.cancel()
+	return nil, errors.New("retryable")
+}
+
+func TestRetryMiddlewareStopsOnContextCancellation(t *testing.T) {
+	ctx, cancel := context.WithCancel(context.Background())
+	inner := &cancelRetryTool{cancel: cancel}
+	wrapped := Wrap(inner, Retry(RetryPolicy{
+		Attempts:    3,
+		BaseDelay:   time.Hour,
+		ShouldRetry: func(error) bool { return true },
+	}))
+	if _, err := wrapped.Invoke(ctx, nil); !errors.Is(err, context.Canceled) {
+		t.Fatalf("err = %v, want context.Canceled", err)
 	}
 	if inner.attempts != 1 {
 		t.Fatalf("attempts = %d, want 1", inner.attempts)

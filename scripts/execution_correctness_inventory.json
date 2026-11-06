@@ -33,6 +33,18 @@
           "file": "pkg/tool/retry_test.go",
           "test": "TestRetryMiddlewareHonorsShouldRetry",
           "assertion": "A false retry predicate returns the error after exactly one invocation."
+        },
+        {
+          "package": "./pkg/tool",
+          "file": "pkg/tool/retry_test.go",
+          "test": "TestRetryMiddlewareZeroValueDoesNotRetry",
+          "assertion": "The zero-value retry policy performs one attempt and returns the failure."
+        },
+        {
+          "package": "./pkg/tool",
+          "file": "pkg/tool/retry_test.go",
+          "test": "TestRetryMiddlewareStopsOnContextCancellation",
+          "assertion": "A canceled context during retry delay returns context.Canceled without a second attempt."
         }
       ],
       "gap": "No automatic non-idempotency protection is supplied. Zero-attempt/default and cancellation regression coverage need expansion; protected retries require target guarantees."
@@ -151,6 +163,18 @@
           "test": "TestRunCompletionCallbackFailureHasSingleTerminalEvent",
           "assertion": "Completion callback failures preserve the error and emit at most the expected single terminal event, including a failing completed sink.",
           "requiredSubtests": ["hook", "checkpoint", "memory", "memory-put", "completed"]
+        },
+        {
+          "package": "./pkg/agent",
+          "file": "pkg/agent/event_sink_test.go",
+          "test": "TestEventSinkFailureBeforeToolPreventsInvocation",
+          "assertion": "A tool.call sink failure prevents the tool from being invoked."
+        },
+        {
+          "package": "./pkg/agent",
+          "file": "pkg/agent/event_sink_test.go",
+          "test": "TestFailedEventSinkFailureDoesNotMaskOriginalError",
+          "assertion": "A failing run.failed sink does not replace the original model error."
         }
       ],
       "gap": "Emit success does not prove durability. run.failed emission is best effort; pre-invocation sink failure and secondary evidence failure need dedicated assertions and a consumer acknowledgement policy."
