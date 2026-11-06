@@ -46,19 +46,40 @@
           "package": "./pkg/agent",
           "file": "pkg/agent/tool_authorization_test.go",
           "test": "TestFinalToolArgumentsAuthorized",
-          "assertion": "Changed final arguments are reauthorized and denial/error prevents invocation for serial and parallel settings."
+          "assertion": "Changed final arguments are reauthorized and denial/error prevents invocation for serial and parallel settings.",
+          "requiredSubtests": [
+            "unchanged/allow/1",
+            "middleware/deny/1",
+            "middleware/error/1",
+            "unchanged/allow/2",
+            "middleware/deny/2",
+            "middleware/error/2"
+          ]
         },
         {
           "package": "./pkg/agent",
           "file": "pkg/agent/tool_authorization_test.go",
           "test": "TestFinalAuthorizationChecksWholeBatchBeforeExecution",
-          "assertion": "A later preparation callback cannot mutate an earlier call into a denied operation and still execute the batch."
+          "assertion": "A later preparation callback cannot mutate an earlier call into a denied operation and still execute the batch.",
+          "requiredSubtests": ["1", "2"]
         },
         {
           "package": "./pkg/agent",
           "file": "pkg/agent/tool_authorization_test.go",
           "test": "TestFinalNestedArgumentsReauthorized",
           "assertion": "Nested argument mutation is denied before the recorded tool receives arguments."
+        },
+        {
+          "package": "./pkg/agent",
+          "file": "pkg/agent/tool_authorization_test.go",
+          "test": "TestFinalToolNameChecksAllowlist",
+          "assertion": "A middleware rewrite to a tool outside the allowlist is rejected before invocation."
+        },
+        {
+          "package": "./pkg/agent",
+          "file": "pkg/agent/tool_authorization_test.go",
+          "test": "TestFinalToolNameReauthorized",
+          "assertion": "A middleware rewrite to a policy-denied tool name is reauthorized and never invoked."
         }
       ],
       "gap": "Durable approval binding, identity, expiry, one-time consumption and target-side constraints are not established by Core reauthorization."
@@ -106,7 +127,8 @@
           "package": "./pkg/agent",
           "file": "pkg/agent/tool_cancel_test.go",
           "test": "TestRunStopsStartingToolsAfterCancellation",
-          "assertion": "Cancellation returns context.Canceled and prevents the queued counting tool from starting in sequential and parallel-slot cases."
+          "assertion": "Cancellation returns context.Canceled and prevents the queued counting tool from starting in sequential and parallel-slot cases.",
+          "requiredSubtests": ["sequential", "parallel-slot"]
         }
       ],
       "gap": "A local cancellation does not acknowledge remote stop; recipe and deployed cancellation evidence must remain separate."
@@ -127,7 +149,8 @@
           "package": "./pkg/agent",
           "file": "pkg/agent/completion_test.go",
           "test": "TestRunCompletionCallbackFailureHasSingleTerminalEvent",
-          "assertion": "Completion callback failures preserve the error and emit at most the expected single terminal event, including a failing completed sink."
+          "assertion": "Completion callback failures preserve the error and emit at most the expected single terminal event, including a failing completed sink.",
+          "requiredSubtests": ["hook", "checkpoint", "memory", "memory-put", "completed"]
         }
       ],
       "gap": "Emit success does not prove durability. run.failed emission is best effort; pre-invocation sink failure and secondary evidence failure need dedicated assertions and a consumer acknowledgement policy."

@@ -1,9 +1,10 @@
 # Execution Correctness Suite
 
-**Status: proposed acceptance inventory, 2026-11-06.** This page defines the
-Execution Correctness Suite (EC), not an implemented runner or a passing report.
-All EC acceptance mappings below are planned/not-run as a suite. Existing tests
-may be reused after assertion review; this page does not recertify them.
+**Status: proposed acceptance inventory with an implemented local EC-D scope
+runner, 2026-11-06.** This page defines the Execution Correctness Suite (EC).
+The runner covers only the declared local mechanics scope; the full EC inventory
+is planned/not-run. Existing tests may be reused after assertion review; this
+page does not recertify them.
 
 ## Purpose
 
@@ -104,6 +105,33 @@ and initial failure. Missing required tracks or fault assertions leave acceptanc
 unsatisfied; do not count absent integration/operational evidence as a pass.
 Optional exclusions need a reason and must narrow the claim. Do not turn a
 documentation inventory check into an execution result.
+
+## EC-D Scope Runner
+
+The local mechanics runner is implemented in
+[`scripts/execution_correctness.py`](https://github.com/axisvela/praxo-core/blob/main/scripts/execution_correctness.py).
+It reads the audited inventory and the `core-mechanics-baseline` scope, then runs
+only the named parent tests with `go test -json -count=1` and `GOWORK=off`.
+
+```bash
+python scripts/execution_correctness.py --strict
+```
+
+Strict mode is the default; `--advisory` writes a report but returns success for
+a scope failure. `--go` selects the toolchain, `--timeout` sets the Go timeout,
+and `--output` changes the report root. A required parent or subtest must have an
+exact terminal `pass`. Missing, skipped, failed, blocked, timed-out, conflicting,
+or malformed results are not a pass. The runner records the inventory hash,
+design revision, command, exit code, raw JSON events, stdout/stderr, and the
+selected outcomes.
+
+Each run is written under `build/execution-correctness/<run-id>/` with
+`report.json`, `report.md`, raw events, and logs. `latest.json` is a convenience
+pointer; previous run directories are not overwritten. The report status is
+`scope-passed`, `scope-failed`, or `invalid`, never a claim that the whole EC
+suite or a Profile passed. The initial scope covers only EC-03/04/06/08/10 local
+mechanics; EC-01, EC-02, EC-05, EC-07, EC-09, EC-11 through EC-14, EC-I, EC-O,
+and all Profile acceptance remain not-run or external.
 
 ## Roadmap Sequence
 

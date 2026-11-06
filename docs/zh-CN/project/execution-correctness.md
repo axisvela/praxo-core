@@ -1,8 +1,8 @@
 # Execution Correctness Suite
 
-**状态：2026-11-06 验收清单提案。** 本文定义 Execution Correctness Suite（EC），不是已实现
-runner 或通过报告。以下 EC 验收映射作为套件均为计划/not-run；已有测试须复核断言后复用，
-不能由本文重新认证。
+**状态：2026-11-06，验收清单提案，并已实现本地 EC-D scope runner。** 本文定义
+Execution Correctness Suite（EC）；runner 只覆盖声明的局部机制范围，完整 EC 清单仍为
+计划/not-run。已有测试须复核断言后复用，不能由本文重新认证。
 
 ## 目标
 
@@ -83,6 +83,28 @@ revision、准确包/依赖版本与 SHA、故障点、初始状态、逻辑操�
 分别统计 passed、failed、skipped、blocked、not-run，保留每次尝试及最初失败。缺少必需轨道或
 故障断言时验收不满足，不能把缺失集成/运行证据记为通过。可选排除必须有理由并收窄声明。
 文档清单检查不能变成执行结果。
+
+## EC-D Scope Runner
+
+本地机制 runner 位于
+[`scripts/execution_correctness.py`](https://github.com/axisvela/praxo-core/blob/main/scripts/execution_correctness.py)，
+读取审计清单和 `core-mechanics-baseline` scope，仅按名称运行父测试，使用
+`go test -json -count=1` 与 `GOWORK=off`。
+
+```bash
+python scripts/execution_correctness.py --strict
+```
+
+默认严格；`--advisory` 仍写报告但 scope 失败返回成功。`--go` 选择工具链，`--timeout`
+设置 Go 超时，`--output` 改报告根目录。每项父测试/子测试必须有精确终态 `pass`；缺失、
+skip、fail、blocked、超时、冲突或损坏 JSON 均不算通过。报告记录 inventory 哈希、设计
+revision、命令、退出码、原始 JSON 事件、stdout/stderr 与选中结果。
+
+每次运行写入 `build/execution-correctness/<run-id>/`，含 `report.json`、`report.md`、原始
+事件和日志；`latest.json` 只是便利指针，旧目录不覆盖。状态为 `scope-passed`、
+`scope-failed` 或 `invalid`，不表示完整 EC 或 Profile 通过。首批仅覆盖 EC-03/04/06/08/10
+的局部机制；EC-01、EC-02、EC-05、EC-07、EC-09、EC-11 至 EC-14、EC-I、EC-O 及所有
+Profile 验收仍未运行或属外部。
 
 ## Roadmap 顺序
 

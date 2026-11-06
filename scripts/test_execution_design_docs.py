@@ -66,7 +66,10 @@ class ExecutionDesignDocumentationTests(unittest.TestCase):
             self.assertIn('execution-correctness.md', roadmap)
             self.assertIn('execution-profiles.md', roadmap)
         english = (DOCS / 'project/execution-correctness.md').read_text(encoding='utf-8')
-        self.assertIn('not an implemented runner or a passing report', english)
+        self.assertIn('EC-D Scope Runner', english)
+        self.assertIn('execution_correctness.py', english)
+        self.assertIn('scope-passed', english)
+        self.assertIn('full EC inventory', english)
         self.assertIn('not a claim that a non-idempotency guard has been implemented', english)
 
     def test_design_pages_are_navigable_with_translations(self):

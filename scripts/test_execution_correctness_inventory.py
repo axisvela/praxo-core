@@ -44,10 +44,16 @@ class ExecutionCorrectnessInventoryTests(unittest.TestCase):
                     self.assertEqual(test['package'], './' + file.parent.as_posix())
                     source = (ROOT / file).read_text(encoding='utf-8')
                     self.assertRegex(source, r'(?m)^func ' + re.escape(test['test']) + r'\(t \*testing\.T\)')
+                    self.assertTrue(test['assertion'])
+                    subtests = test.get('requiredSubtests', [])
+                    self.assertIsInstance(subtests, list)
+                    for subtest in subtests:
+                        self.assertIsInstance(subtest, str)
+                        self.assertTrue(subtest)
+                        self.assertFalse(subtest.startswith('/') or subtest.endswith('/'))
                     identity = (test['package'], test['test'])
                     self.assertNotIn(identity, seen)
                     seen.add(identity)
-                    self.assertTrue(test['assertion'])
 
     def test_initial_scope_requires_only_named_partial_mechanics(self):
         scope = self.inventory['initialScope']

@@ -25,7 +25,7 @@
 | 领域 | 状态 | 范围与限制 |
 | --- | --- | --- |
 | Standard Embedding | 已实现；按标注 API/包 revision 验证 | 现有可配置嵌入方式；允许 nil Policy 与空/不限工具范围；不是安全认证 |
-| Execution Correctness Suite | 清单提案；套件未运行 | EC-01 至 EC-14，EC-D/EC-I/EC-O 分轨；已有测试为复用候选，不是完整套件通过 |
+| Execution Correctness Suite | 清单提案；已实现 EC-D 局部机制 runner；完整套件未运行 | EC-01 至 EC-14，EC-D/EC-I/EC-O 分轨；runner 仅覆盖 EC-03/04/06/08/10 的局部机制，不是完整套件或 Profile 通过 |
 | Go 参考 API 与共享 Wire 产物（事件、错误、JSON Schema 子集、插件） | 已实现；按发布 revision 验证 | `spec/` 中的规范文件与向量；不证明真实 provider 或产品部署 |
 | Tool、Model、Checkpoint Wire 描述 | 已实现；`SPEC_VERSION` 0.2.0 的描述性文件 | 共享 Tool/Model 形状与 Checkpoint allowlist envelope 属于 Wire；Go checkpoint 与解析后 tool-call 投影标记为 `"wire": false`，不是冻结的跨语言契约 |
 | Go、Python、TypeScript、Java 独立消费者 | 已实现；在各自标注 revision 验证 | 发布包安装、构建与确定性允许/拒绝检查；属于集成证据，不是采用证据 |
