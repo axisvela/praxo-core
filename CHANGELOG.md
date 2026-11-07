@@ -38,6 +38,9 @@ wired language to 20/20.
 - A Go context budget recipe demonstrates deterministic compaction, System
   message preservation, fail-closed oversized prompts, summary compaction, and
   summary-model fallback.
+- A Go checkpoint store recipe implements `checkpoint.Store` with atomic file
+  replacement, reopen recovery, partial-temp-file tolerance, tenant-scoped
+  loads, and delete.
 - A Python published-package upgrade fixture installs PyPI `0.2.4`, runs the
   unchanged consumer and governed compatibility checks, upgrades to `0.3.0`, and
   reruns the full starter/governed suite. A TypeScript fixture covers npm

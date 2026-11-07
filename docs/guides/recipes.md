@@ -242,6 +242,31 @@ aborting the run. See the
 The recipe does not provide a general prompt-injection filter or proof of source
 authenticity.
 
+## Durable Checkpoint Store
+
+`pkg/checkpoint` defines the store contract; the application owns durable
+storage. A file-backed teaching store can write a temporary file, `Sync`, and
+`Rename` so a partial write is not exposed:
+
+```go
+store, err := OpenFileStore(checkpointDir)
+if err != nil {
+    return err
+}
+if err := store.Save(ctx, &checkpoint.Checkpoint{
+    ID: checkpointID, SessionID: sessionID, RunID: runID, Status: "completed",
+}); err != nil {
+    return err
+}
+```
+
+The recipe also ignores leftover `.tmp` files, reloads after reopening, and
+supports tenant-scoped loads. See the
+[checkpoint store recipe](https://github.com/axisvela/praxo-core/tree/main/examples/recipes/checkpoint-store-go).
+A checkpoint is a recovery hint, not a transaction or proof that an external
+effect committed; concurrent-write control, retention, encryption, and tenant
+authority remain application responsibilities.
+
 ## NOETIVELA
 
 NOETIVELA is the AxisVela inference fabric. Wrap its governed chat API in a
