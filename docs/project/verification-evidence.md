@@ -6,6 +6,9 @@ every implementation and deployment inherits the same result. Raw run records
 and full environment logs remain in restricted internal storage; this page
 records the claim level, result, and remaining limits.
 
+For the EC-01 through EC-14 mapping across Core and its product consumers, see
+the [Execution Correctness Evidence Index](execution-correctness-evidence.md).
+
 See the [test evidence standard](../contributing/test-evidence.md) for the
 required environment, configuration, procedure, data, result, and findings
 record.

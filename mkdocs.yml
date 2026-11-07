@@ -217,6 +217,7 @@ nav:
       - Contract Status: project/contract-status.md
       - Test and Evidence Taxonomy: project/test-taxonomy.md
       - Execution Correctness: project/execution-correctness.md
+      - Execution Correctness Evidence: project/execution-correctness-evidence.md
       - API Stability: project/api-stability.md
       - v2 Migration: project/migration-v2.md
       - Comparison: project/comparison.md

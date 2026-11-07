@@ -151,3 +151,6 @@ through EC-14, EC-I, EC-O, and all Profile acceptance remain not-run or external
 Stages 1-4 above are proposed work, not completed milestones. Any shared security
 or effect contract change still requires compatibility, normative spec, vectors,
 parity and SDK impact review. This design adds no Profile API or default behavior.
+
+See the [cross-repository EC evidence index](execution-correctness-evidence.md)
+for the current Core and product checks, including their remaining limits.
