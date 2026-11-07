@@ -55,7 +55,8 @@ PRAXOVELA 效果台账与 RHEOVELA 工作流测试可承担产品侧 EC-I，不�
 
 [已审计清单](https://github.com/axisvela/praxo-core/blob/main/scripts/execution_correctness_inventory.json)
 将十四个 ID 分配到局部断言候选或明确的外部/缺口处置。首批 `core-mechanics-baseline` 只选
-EC-01/03/04/06/08/10 的局部机制；EC-01 仅覆盖本地结果通知，外部效果确认仍属外部。
+EC-01/03/04/06/08/10/14 的局部机制；EC-01 仅覆盖本地结果通知，EC-14 仅覆盖
+从给定历史恢复的顺序，外部效果确认与持久去重仍属外部。
 它不是 runner 或运行报告；完整场景验收字段仍为 not-run。结构测试只检查映射的函数存在，
 不证明执行满足 EC 场景。
 
@@ -104,9 +105,9 @@ revision、命令、退出码、原始 JSON 事件、stdout/stderr 与选中结�
 
 每次运行写入 `build/execution-correctness/<run-id>/`，含 `report.json`、`report.md`、原始
 事件和日志；`latest.json` 只是便利指针，旧目录不覆盖。状态为 `scope-passed`、
-`scope-failed` 或 `invalid`，不表示完整 EC 或 Profile 通过。首批仅覆盖 EC-01/03/04/06/08/10
-的局部机制；EC-01 仅为通知，EC-02、EC-05、EC-07、EC-09、EC-11 至 EC-14、EC-I、EC-O 及所有
-Profile 验收仍未运行或属外部。
+`scope-failed` 或 `invalid`，不表示完整 EC 或 Profile 通过。首批仅覆盖
+EC-01/03/04/06/08/10/14 的局部机制；EC-01 仅为通知、EC-14 仅断言恢复顺序，EC-02、EC-05、
+EC-07、EC-09、EC-11 至 EC-13、EC-I、EC-O 及所有 Profile 验收仍未运行或属外部。
 
 ## Roadmap 顺序
 

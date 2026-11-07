@@ -5,7 +5,7 @@
   "initialScope": {
     "name": "core-mechanics-baseline",
     "track": "EC-D",
-    "scenarioIds": ["EC-01", "EC-03", "EC-04", "EC-06", "EC-08", "EC-10"],
+    "scenarioIds": ["EC-01", "EC-03", "EC-04", "EC-06", "EC-08", "EC-10", "EC-14"],
     "claim": "Local assertions only; not full EC scenario or profile acceptance."
   },
   "scenarios": [
@@ -219,7 +219,7 @@
           "assertion": "Supplied session history precedes the next prompt; no external effect or repeated-recovery guarantee is asserted."
         }
       ],
-      "gap": "Repeated recovery with stable business operation identity and durable deduplication remains consumer-owned; the local history assertion is excluded from the initial mechanics scope."
+      "gap": "Repeated recovery with stable business operation identity and durable deduplication remains consumer-owned; the local mechanics scope asserts only resume ordering from supplied history."
     }
   ]
 }

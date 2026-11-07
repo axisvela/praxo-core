@@ -115,6 +115,7 @@ class ExecutionCorrectnessRunnerTests(unittest.TestCase):
         self.assertIn("TestFinalToolArgumentsAuthorized/middleware/deny/1", names)
         self.assertIn("TestRunStopsStartingToolsAfterCancellation/sequential", names)
         self.assertIn("TestRunCompletionCallbackFailureHasSingleTerminalEvent/completed", names)
+        self.assertIn("TestRunResumesFromSessionMessages", names)
 
     def test_missing_go_is_rejected(self):
         with patch.object(ec.shutil, "which", return_value=None):

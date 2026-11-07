@@ -14,9 +14,9 @@ planning storage.
 
 | Item | Result |
 | --- | --- |
-| EC-D local scope | `26/26` selected selectors, `scope-passed` (`scripts/execution_correctness.py --strict`) |
-| EC-D report | `build/execution-correctness/20261107T033612Z-c55ffc70/` (local, reproducible; not committed) |
-| Core revision | `37c71f3` working tree used for this snapshot |
+| EC-D local scope | `27/27` selected selectors, `scope-passed` (`scripts/execution_correctness.py --strict`) |
+| EC-D report | `build/execution-correctness/20261107T035737Z-9efbaea7/` (local, reproducible; not committed) |
+| Core revision | `9b7eac9` working tree used for this snapshot (dirty; includes the EC-14 scope addition) |
 | Full EC-01..EC-14 acceptance | **Not run**; this index is a scope/evidence map, not acceptance |
 | EC-I / EC-O | Partial local checks only; no deployed authority or independent AEP |
 
@@ -40,7 +40,7 @@ are not part of the EC-D scope count.
 | EC-11 | Containment tests in `docs/project/verification-evidence.md` | None claiming real isolation | Path/process/WASM/local controls are contract/unit tested | **No real sandbox isolation**; external container/VM evidence required |
 | EC-12 | No Core distributed-lock claim | EE Postgres nodes 6/6 (lease/fencing/concurrent acquire); RHEOVELA `ha_locks`/`stage_leases`/outbox 38/38; RHEOVELA 128-job + 1h soak | Real Postgres lease/fencing, outbox claim and long local concurrency | Multi-process deployed authority, tenant isolation and production load remain external |
 | EC-13 | No Core physical-effect semantics | None | — | **Blocked**; no named embodied consumer, middleware or simulation |
-| EC-14 | `pkg/agent/resume_test.go::TestRunResumesFromSessionMessages` | RHEOVELA Postgres store 38/38, HTTP effect, checkpoint 4/4; PRAXOVELA checkpoint/effect tests | Local resume plus durable product store/checkpoint contracts | Durable logical identity, business dedup and authoritative recovery remain consumer-owned |
+| EC-14 | `pkg/agent/resume_test.go::TestRunResumesFromSessionMessages` (in the EC-D mechanics scope) | RHEOVELA Postgres store 38/38, HTTP effect, checkpoint 4/4; PRAXOVELA checkpoint/effect tests | Local resume ordering plus durable product store/checkpoint contracts | Durable logical identity, business dedup and authoritative recovery remain consumer-owned |
 | EC-O | No Core claim | None | — | **Blocked**; no deployed environment, fault budget, permissions or independent AEP |
 
 ## Product evidence locations
