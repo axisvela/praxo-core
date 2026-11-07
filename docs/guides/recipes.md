@@ -144,6 +144,25 @@ cd adapters/otel
 GOWORK=off go run ./example
 ```
 
+## Adapter Conformance Checks
+
+Use `pkg/conformance` to validate custom model, streaming model, tool, and
+retriever adapters without provider credentials.
+
+```go
+if err := conformance.CheckModel(ctx, adapter, conformance.ModelCase{
+    Request:             model.Request{Messages: []model.Message{{Role: model.RoleUser, Content: "hi"}}},
+    WantContentContains: "hello",
+}); err != nil {
+    return err
+}
+```
+
+`CheckStreamingModel` checks stream deltas; `CheckTool` checks name, spec, and
+invocation; `CheckRetriever` checks results and result limits. See the
+[adapter conformance recipe](https://github.com/axisvela/praxo-core/tree/main/examples/recipes/conformance-go).
+These are contract checks, not live-provider evidence.
+
 ## NOETIVELA
 
 NOETIVELA is the AxisVela inference fabric. Wrap its governed chat API in a
