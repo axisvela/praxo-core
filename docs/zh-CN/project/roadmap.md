@@ -65,8 +65,9 @@ Skill 安装/发现未验证、更多集成配方未完成、已发布 Registry 
 Linux、Windows、macOS 执行；结果只覆盖实际运行的版本对与平台，不能从 job 存在推断通过。
 独立的 `scripts/test_python_upgrade.py` 先安装 Python `0.2.4`，运行不变的消费者 fixture
 与治理兼容检查，再升级到 `0.3.0` 并重跑完整 starter/治理套件；CI 在 Python 消费者矩阵中
-执行。历史兼容性、当前包安装、发布包升级和待发布候选检查仍是独立证据。这些升级 fixture
-不验证未发布候选版本，也不证明真实用户采用或留存。
+执行。TypeScript 的同类检查（`scripts/test_typescript_upgrade.py`）覆盖 npm `0.1.5` ->
+`0.2.0`，同样要求源码不变。历史兼容性、当前包安装、发布包升级和待发布候选检查仍是独立
+证据。这些升级 fixture 不验证未发布候选版本，也不证明真实用户采用或留存。
 
 继续使用现有规范性 `spec/`，不另建竞争规范。Tool、Model、Checkpoint Wire 描述现已存在；
 标记为 `"wire": false` 的条目描述 Go/源码投影，不是冻结的跨语言契约。源码、Wire 与行为

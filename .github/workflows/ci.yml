@@ -56,6 +56,8 @@ jobs:
       - run: node starter.js
       - run: python scripts/test_typescript_consumer.py -v
         working-directory: .
+      - run: python scripts/test_typescript_upgrade.py -v
+        working-directory: .
 
   current-python-consumer:
     runs-on: ${{ matrix.os }}

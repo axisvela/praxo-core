@@ -30,8 +30,9 @@ wired language to 20/20.
   are integration materials, not adoption or production-security evidence.
 - A Python published-package upgrade fixture installs PyPI `0.2.4`, runs the
   unchanged consumer and governed compatibility checks, upgrades to `0.3.0`, and
-  reruns the full starter/governed suite. This is one version pair, not a
-  general upgrade guarantee.
+  reruns the full starter/governed suite. A TypeScript fixture covers npm
+  `0.1.5` -> `0.2.0` with the same unchanged-source checks. Each is one version
+  pair, not a general upgrade guarantee.
 - Tool, model, and checkpoint wire descriptions and a shared-wire change
   classification, without widening the Go API.
 - A public verification evidence index and a cross-repository

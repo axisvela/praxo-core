@@ -7,6 +7,8 @@ const pkg = require("@axisvela/praxo-core/package.json");
 
 const { buildAgent, run } = require("./starter");
 
+const expectedVersion = process.env.PRAXO_EXPECTED_VERSION || "0.2.0";
+
 test("allowed tool executes once", async () => {
   const { agent, tool } = buildAgent("public");
   const result = await agent.run(
@@ -36,7 +38,7 @@ test("starter output is deterministic", async () => {
 });
 
 test("dependency comes from the published package", () => {
-  assert.equal(pkg.version, "0.2.0");
+  assert.equal(pkg.version, expectedVersion);
   assert.equal(praxo.SDK_VERSION, pkg.version);
   const resolved = require.resolve("@axisvela/praxo-core");
   const root = path.resolve(__dirname);
@@ -45,6 +47,6 @@ test("dependency comes from the published package", () => {
     `dependency resolved outside the application: ${resolved}`
   );
   const dependency = require("./package.json").dependencies["@axisvela/praxo-core"];
-  assert.equal(dependency, "0.2.0");
+  assert.equal(dependency, expectedVersion);
   assert.ok(!/^(file:|link:|git|https?:)/.test(dependency));
 });
