@@ -345,6 +345,32 @@ sent to a second provider. See the
 Provider credentials, timeouts, retry budgets, and SLA evidence remain
 application or gateway responsibilities.
 
+## Plugin Lifecycle
+
+`pkg/plugin.Lifecycle` is the guarded per-instance state machine. Only ACTIVE
+accepts invocations; every other state is fail-closed.
+
+```go
+lifecycle := plugin.NewLifecycle()
+for _, next := range []plugin.State{
+    plugin.StateValidated, plugin.StateLoaded, plugin.StateActive,
+} {
+    if err := lifecycle.Transit(next); err != nil {
+        return err
+    }
+}
+if err := lifecycle.Acquire(); err != nil {
+    return err
+}
+defer lifecycle.Release()
+```
+
+Drain waits for in-flight calls with a bounded context, Revoke moves
+ACTIVE to UNLOADED, and Quarantine is terminal. See the
+[plugin lifecycle recipe](https://github.com/axisvela/praxo-core/tree/main/examples/recipes/plugin-lifecycle-go)
+and [plugin trust](../security/plugin-trust.md). The recipe is a contract
+exercise, not process/WASM isolation or manifest trust evidence.
+
 ## NOETIVELA
 
 NOETIVELA is the AxisVela inference fabric. Wrap its governed chat API in a

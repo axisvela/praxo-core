@@ -49,6 +49,9 @@ wired language to 20/20.
   deny-by-default empty grants.
 - A Go provider fallback recipe demonstrates predicate-gated primary/secondary
   model selection and cancellation without fallback.
+- A Go plugin lifecycle recipe demonstrates ACTIVE-only admission, guarded
+  transitions, in-flight drain with timeout/cancel distinction, revoke to
+  UNLOADED, and terminal quarantine.
 - A Python published-package upgrade fixture installs PyPI `0.2.4`, runs the
   unchanged consumer and governed compatibility checks, upgrades to `0.3.0`, and
   reruns the full starter/governed suite. A TypeScript fixture covers npm
