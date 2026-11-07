@@ -44,6 +44,9 @@ wired language to 20/20.
 - A Go structured-output recipe validates model output and tool arguments with
   the JSON Schema subset, rejects invalid arguments before tool effects, and
   carries the schema in `ResponseFormat`.
+- A Go VFS containment recipe demonstrates rooted `localfs`, traversal/NUL/
+  root-delete rejection, symlink escape rejection, read-only grants, and
+  deny-by-default empty grants.
 - A Python published-package upgrade fixture installs PyPI `0.2.4`, runs the
   unchanged consumer and governed compatibility checks, upgrades to `0.3.0`, and
   reruns the full starter/governed suite. A TypeScript fixture covers npm

@@ -290,6 +290,28 @@ Schema library when those are required. See the
 [structured output recipe](https://github.com/axisvela/praxo-core/tree/main/examples/recipes/structured-output-go).
 The recipe does not prove that a provider honors `ResponseFormat`.
 
+## VFS and Path Containment
+
+`pkg/vfs/localfs` confines virtual paths to a root and uses `os.Root` for actual
+file operations after `policy.PathChecker` authorization. `policy.PathChecker`
+is deny-by-default and resolves symlinks before comparing paths.
+
+```go
+backend, err := localfs.New(workspaceRoot)
+if err != nil {
+    return err
+}
+if err := backend.Write(ctx, "notes/a.txt", data); err != nil {
+    return err
+}
+```
+
+Traversal, NUL-byte paths, root deletion, and symlinks that escape the root are
+rejected. A read-only grant denies writes. See the
+[VFS containment recipe](https://github.com/axisvela/praxo-core/tree/main/examples/recipes/vfs-containment-go).
+These are local host controls, not container/VM isolation or deployment-level
+containment; independent review and OS/network isolation remain external.
+
 ## NOETIVELA
 
 NOETIVELA is the AxisVela inference fabric. Wrap its governed chat API in a
