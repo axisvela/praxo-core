@@ -44,6 +44,7 @@
 | Go VFS containment 配方 | 已实现；在标注 revision 验证 | 演示 rooted `localfs`、traversal/NUL/根删除拒绝、宿主支持 symlink 时的逃逸拒绝、只读路径授权与空授权 deny-by-default；属于本地宿主控制，不是容器/VM 隔离 |
 | Go provider fallback 配方 | 已实现；在标注 revision 验证 | 演示主模型选择、带谓词的回退、双失败行为、取消时不回退、空主模型回退；不是 provider SLA 或故障转移服务 |
 | Go plugin lifecycle 配方 | 已实现；在标注 revision 验证 | 演示仅 ACTIVE 接受 Acquire、受保护状态转换、带超时/取消区分的 in-flight drain、Revoke 到 UNLOADED、终态 Quarantine；不是进程/WASM 隔离或 manifest 信任证据 |
+| Go multi-agent 配方 | 已实现；在标注 revision 验证 | 演示 launch/完成/失败/取消、运行中更新门禁、按父 session 列出、仅清理终态任务、Wait 取消；属于本地任务协调，不是持久远程 worker |
 | Governed Execution Profile | 提案；已有部分集成证据 | 产品强制入口、显式范围、审批绑定与 Governed Effect Boundary 是验收要求；不声明通用 Core Profile 或产品入口已不可绕过 |
 | 编程 Agent 集成映射 | 已实现；版本由文档测试校验 | 包映射、集成契约与验证命令；不是安装渠道、自动 Skill 或采用证据 |
 | 编程 Agent 发现辅助 | 已实现；`llms.txt` 存在且链接由测试校验 | 机器可读仓库入口；不保证工具发现、搜索排序、安装或采用 |

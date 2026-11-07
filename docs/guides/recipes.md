@@ -371,6 +371,29 @@ ACTIVE to UNLOADED, and Quarantine is terminal. See the
 and [plugin trust](../security/plugin-trust.md). The recipe is a contract
 exercise, not process/WASM isolation or manifest trust evidence.
 
+## Delegated Subagents
+
+`pkg/agent/delegation.SubagentManager` launches asynchronous child tasks over a
+`SubagentRunner`, tracks queued/running/terminal state, and supports optional
+mid-flight steering.
+
+```go
+manager := delegation.NewSubagentManager(runner)
+task, err := manager.Launch(ctx, delegation.SubagentRequest{
+    ParentSessionID: "parent", AgentID: "researcher", Prompt: "inspect the issue",
+})
+if err != nil {
+    return err
+}
+finished, err := manager.Wait(ctx, task.ID)
+```
+
+Only running tasks accept updates; cancellation is terminal; `List` filters by
+parent session; `Prune` removes terminal tasks only. See the
+[multi-agent recipe](https://github.com/axisvela/praxo-core/tree/main/examples/recipes/multi-agent-go)
+and the [multi-agent guide](multi-agent.md). The manager is local task
+coordination, not a durable remote worker or cross-process recovery service.
+
 ## NOETIVELA
 
 NOETIVELA is the AxisVela inference fabric. Wrap its governed chat API in a
