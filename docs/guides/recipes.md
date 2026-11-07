@@ -312,6 +312,39 @@ rejected. A read-only grant denies writes. See the
 These are local host controls, not container/VM isolation or deployment-level
 containment; independent review and OS/network isolation remain external.
 
+## Provider Fallback
+
+A fallback model wrapper can try a secondary provider when the primary fails,
+without hiding caller cancellation.
+
+```go
+type FallbackModel struct {
+    Primary        model.Model
+    Secondary      model.Model
+    ShouldFallback func(error) bool
+}
+
+func (m FallbackModel) Generate(ctx context.Context, req model.Request) (model.Response, error) {
+    response, err := m.Primary.Generate(ctx, req)
+    if err == nil {
+        return response, nil
+    }
+    if ctxErr := ctx.Err(); ctxErr != nil {
+        return model.Response{}, ctxErr
+    }
+    if m.ShouldFallback != nil && !m.ShouldFallback(err) {
+        return model.Response{}, err
+    }
+    return m.Secondary.Generate(ctx, req)
+}
+```
+
+Use an explicit `ShouldFallback` predicate so a non-retryable request is not
+sent to a second provider. See the
+[provider fallback recipe](https://github.com/axisvela/praxo-core/tree/main/examples/recipes/provider-fallback-go).
+Provider credentials, timeouts, retry budgets, and SLA evidence remain
+application or gateway responsibilities.
+
 ## NOETIVELA
 
 NOETIVELA is the AxisVela inference fabric. Wrap its governed chat API in a

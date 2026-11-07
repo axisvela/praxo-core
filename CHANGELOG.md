@@ -47,6 +47,8 @@ wired language to 20/20.
 - A Go VFS containment recipe demonstrates rooted `localfs`, traversal/NUL/
   root-delete rejection, symlink escape rejection, read-only grants, and
   deny-by-default empty grants.
+- A Go provider fallback recipe demonstrates predicate-gated primary/secondary
+  model selection and cancellation without fallback.
 - A Python published-package upgrade fixture installs PyPI `0.2.4`, runs the
   unchanged consumer and governed compatibility checks, upgrades to `0.3.0`, and
   reruns the full starter/governed suite. A TypeScript fixture covers npm

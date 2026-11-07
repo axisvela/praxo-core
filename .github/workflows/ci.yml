@@ -119,6 +119,8 @@ jobs:
         working-directory: .
       - run: python scripts/test_go_vfs_containment_recipe.py -v
         working-directory: .
+      - run: python scripts/test_go_provider_fallback_recipe.py -v
+        working-directory: .
 
   published-consumer:
     runs-on: ubuntu-latest
