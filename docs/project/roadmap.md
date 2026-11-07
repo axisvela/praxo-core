@@ -88,9 +88,13 @@ the same consumer to the recommended package-map version, verifies unchanged
 application source and runs the governed negative tests after upgrade. CI runs
 it on Linux, Windows and macOS; results are scoped to each executed version pair
 and platform, not inferred from the presence of a job.
-Historical compatibility, current-package installation, published-package
-upgrade, and release-candidate checks remain separate evidence. This upgrade
-fixture does not validate unpublished candidates or establish adoption/retention.
+A separate `scripts/test_python_upgrade.py` check installs Python `0.2.4`, runs
+the unchanged consumer fixture and governed compatibility checks, upgrades to
+`0.3.0`, and reruns the full starter/governed suite; CI runs it in the Python
+consumer matrix. Historical compatibility, current-package installation,
+published-package upgrade, and release-candidate checks remain separate
+evidence. These upgrade fixtures do not validate unpublished candidates or
+establish adoption/retention.
 
 Use the existing normative `spec/`, not a competing specification tree. The
 Tool, Model, and Checkpoint wire descriptions now exist; entries marked

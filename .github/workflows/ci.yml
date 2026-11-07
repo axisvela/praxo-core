@@ -69,6 +69,7 @@ jobs:
         with:
           python-version: ${{ matrix.python }}
       - run: python scripts/test_python_consumer.py -v
+      - run: python scripts/test_python_upgrade.py -v
 
   current-go-consumer:
     runs-on: ${{ matrix.os }}
