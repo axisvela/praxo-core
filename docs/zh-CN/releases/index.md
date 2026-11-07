@@ -1,6 +1,6 @@
 # 版本总览
 
-当前框架核心版本为 `2.5.2`。升级前请查看对应发布说明与
+当前框架核心版本为 `2.6.0`。升级前请查看对应发布说明与
 [兼容政策](../project/compatibility-policy.md)。Core 和适配器独立版本化，分别见
 [Core 支持政策](../languages/support.md)和[适配器目录](../integrations/index.md)。
 
@@ -10,6 +10,7 @@ GitHub **Latest Release** 仅代表 Go 参考 Core（`vX.Y.Z`）。语言与适�
 
 | 核心版本 | 发布说明 |
 | --- | --- |
+| 2.6.0 | [经过验证的消费者路径与执行正确性证据](2.6.0.md) |
 | 2.5.2 | [Rooted VFS 与受治理参考证据](2.5.2.md) |
 | 2.5.1 | [安全与行为修正](2.5.1.md) |
 | 2.5.0 | [conformance 包与 VFS 加固](2.5.0.md) |

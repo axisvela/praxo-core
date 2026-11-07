@@ -7,7 +7,7 @@
 
 | 语言 | 包 | 当前推荐版本 | Starter |
 | --- | --- | --- | --- |
-| Go | `github.com/axisvela/praxo-core/v2` | `2.5.2` | [Go 消费者](consumer-go.md) |
+| Go | `github.com/axisvela/praxo-core/v2` | `2.6.0` | [Go 消费者](consumer-go.md) |
 | Python | `praxo-core` | `0.3.0` | [Python 消费者](consumer-python.md) |
 | TypeScript | `@axisvela/praxo-core` | `0.2.0` | [TypeScript 消费者](consumer-typescript.md) |
 | Java | `com.axisvela:praxo-core` | `0.4.0` | [Java 消费者](consumer-java.md) |

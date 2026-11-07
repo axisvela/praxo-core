@@ -5,7 +5,7 @@ Run it with `GOWORK=off`; it deliberately has no local `replace` directives.
 
 This is the historical Core `2.5.0` and adapter compatibility baseline, not a
 check of the current recommended Core package. The separate
-[Go consumer starter](../../examples/consumer-go/README.md) pins Core `2.5.2`
+[Go consumer starter](../../examples/consumer-go/README.md) pins Core `2.6.0`
 and verifies its allow/deny integration path in the `current-go-consumer` CI job.
 
 ```sh

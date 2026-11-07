@@ -20,7 +20,7 @@
 ## 从 Go 开始
 
 ```bash
-go get github.com/axisvela/praxo-core/v2@v2.5.2
+go get github.com/axisvela/praxo-core/v2@v2.6.0
 ```
 
 通过[快速开始](getting-started/quickstart.md)连接 Ollama 或 OpenAI 兼容端点。
@@ -38,7 +38,7 @@ go get github.com/axisvela/praxo-core/v2@v2.5.2
 
 ## 当前版本
 
-核心 `2.5.2` 是安全与行为修正补丁，覆盖 rooted local VFS、受治理示例、上下文信任、OTel 示例和验证证据。查看[最新发布说明](releases/2.5.2.md)或[版本总览](releases/index.md)。
+核心 `2.6.0` 是次版本发布，增加经过验证的消费者路径、治理验收检查、执行正确性证据与 EC-D runner、集成配方，以及 Go 工具结果通知变更。查看[最新发布说明](releases/2.6.0.md)或[版本总览](releases/index.md)。
 
 PRAXO-CORE 是框架，不是托管服务或开箱即用的聊天产品。
 [AxisVela 生态集成](integrations/ecosystem.md)是可选项。

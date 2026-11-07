@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+## [2.6.0] - 2026-11-07
+
 Historical entries that record `19/19` describe the source version named in that
 entry. The current Behavior Lab has twenty scenarios; the HITL wave moved every
 wired language to 20/20.
@@ -16,9 +18,22 @@ wired language to 20/20.
 
 ### Added
 
-- Cross-repository execution-correctness evidence index covering EC-01 through
-  EC-14, the EC-D `27/27` baseline result (including the EC-14 local resume
-  ordering assertion), a separate `5/5` EC-11 local containment scope
+- Independent Go, Python, TypeScript, and Java consumer starters install
+  published packages, run deterministic models, declare explicit tool scope, and
+  verify allow/deny behavior without a source checkout, local replacement, API
+  key, or external model service.
+- Governed negative acceptance checks cover missing policy/scope, final-argument
+  and approval-edit reauthorization, and policy-service failure in those four
+  consumer languages.
+- Go identity/policy and long-running operation recipes, a coding-agent
+  integration contract and package map, and a tool-neutral skill template. These
+  are integration materials, not adoption or production-security evidence.
+- Tool, model, and checkpoint wire descriptions and a shared-wire change
+  classification, without widening the Go API.
+- A public verification evidence index and a cross-repository
+  execution-correctness evidence index covering EC-01 through EC-14, the EC-D
+  `27/27` baseline result (including the EC-14 local resume ordering assertion),
+  a separate `5/5` EC-11 local containment scope
   (`--scope core-containment-baseline`), product-owned effect/outbox/checkpoint
   checks, and the remaining external/blocked evidence.
 - Lua now ships a `0.4.0-1` rockspec and a `lua-release` workflow that runs

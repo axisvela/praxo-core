@@ -39,6 +39,10 @@
 - `2.5.2` is a security patch; exported `pkg/...` declarations are identical to
   `2.5.1`. Local VFS operations use rooted handles and reject absolute symlinks;
   use relative symlinks inside a workspace.
+- `2.6.0` is a minor release; exported `pkg/...` declarations are identical to
+  `2.5.2`. Go `pkg/agent` now reports every executed tool outcome before
+  returning the first batch error; handlers must tolerate later successful
+  notifications after a tool error.
 
 - Framework versions start at `0.x`.
 - PRAXOVELA product versions are independent.

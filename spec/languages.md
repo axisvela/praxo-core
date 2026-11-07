@@ -71,7 +71,7 @@ for real providers, platforms, and production behavior is reported separately.
 
 | Language | Tier | Status | Tag | Maturity | Notes |
 | --- | --- | --- | --- | --- | --- |
-| Go | Core (reference) | released | `v2.5.2` | reference | Reference implementation |
+| Go | Core (reference) | released | `v2.6.0` | reference | Reference implementation |
 | Python | Core | released | `python/v0.3.0` | complete | 11 vectors, HITL interrupts, OpenAI adapter, PyPI `praxo-core==0.3.0` |
 | TypeScript | Core | released | `typescript/v0.2.0` | complete | 11 vectors, HITL interrupts, OpenAI adapter; npm `@axisvela/praxo-core@0.2.0` staged with provenance |
 | Java | Core | released | `java/v0.4.0` | complete | 11 vectors, HITL interrupts, OpenAI adapter, API snapshot; Maven Central `com.axisvela:praxo-core:0.4.0` |

@@ -31,7 +31,7 @@ Java 应用可从 [Java 独立消费者](consumer-java.md)开始。
 1. 添加模块：
 
    ```bash
-   go get github.com/axisvela/praxo-core/v2@v2.5.2
+   go get github.com/axisvela/praxo-core/v2@v2.6.0
    ```
 
 2. 使用 OpenAI 兼容适配器连接 Ollama 或托管端点：

@@ -1,6 +1,6 @@
 # Go 独立消费者
 
-在自己的新应用中使用已发布的 Core `2.5.2`，不需要检出 PRAXO-CORE 源码。
+在自己的新应用中使用已发布的 Core `2.6.0`，不需要检出 PRAXO-CORE 源码。
 Starter 使用确定性模型和内存工具，无需凭据、模型服务或 AxisVela 产品，便能验证安装与授权行为。
 
 ## 是否适用？
@@ -25,7 +25,7 @@ PowerShell 使用 `$env:GOWORK = "off"`，POSIX Shell 使用 `export GOWORK=off`
 
 ```sh
 go mod init example.com/praxo-starter
-go get github.com/axisvela/praxo-core/v2@v2.5.2
+go get github.com/axisvela/praxo-core/v2@v2.6.0
 ```
 
 ## 应用源码

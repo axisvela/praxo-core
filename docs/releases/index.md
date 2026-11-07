@@ -1,6 +1,6 @@
 # Release Overview
 
-Core `2.5.2` is the current framework release. Review the notes for the version
+Core `2.6.0` is the current framework release. Review the notes for the version
 you are adopting and follow the [compatibility policy](../project/compatibility-policy.md).
 Core and adapter versions are independent; see [Core support](../languages/support.md)
 and the [adapter directory](../integrations/index.md).
@@ -13,6 +13,7 @@ declared capability scope. Publication order does not imply a shared version.
 
 | Core version | Release notes |
 | --- | --- |
+| 2.6.0 | [Verified consumer path and execution correctness evidence](2.6.0.md) |
 | 2.5.2 | [Rooted VFS and governed reference evidence](2.5.2.md) |
 | 2.5.1 | [Security and behavior corrections](2.5.1.md) |
 | 2.5.0 | [Conformance package and VFS hardening](2.5.0.md) |
