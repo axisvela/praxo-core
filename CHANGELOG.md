@@ -35,6 +35,9 @@ wired language to 20/20.
 - A Go event sink recipe demonstrates filtering, fan-out, publisher adaptation,
   pre-tool sink failure blocking, and terminal sink failure not masking the
   original error.
+- A Go context budget recipe demonstrates deterministic compaction, System
+  message preservation, fail-closed oversized prompts, summary compaction, and
+  summary-model fallback.
 - A Python published-package upgrade fixture installs PyPI `0.2.4`, runs the
   unchanged consumer and governed compatibility checks, upgrades to `0.3.0`, and
   reruns the full starter/governed suite. A TypeScript fixture covers npm

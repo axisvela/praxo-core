@@ -221,6 +221,27 @@ the [event sink recipe](https://github.com/axisvela/praxo-core/tree/main/example
 The recipe does not prove durable acknowledgement, storage, or production
 telemetry.
 
+## Context Budgets and Compaction
+
+`pkg/agent/context` provides a deterministic budget pass and an optional model
+summarizer. The first System message is preserved; if it cannot fit, compaction
+fails instead of silently dropping mandatory instructions.
+
+```go
+budget := agentcontext.ContextBudget{MaxTokens: 12000, KeepRecent: 6}
+compacted, ok := budget.Compact(messages)
+if !ok {
+    return agentcontext.ErrContextBudget
+}
+```
+
+`ModelSummarizer` replaces older messages with a summary before the deterministic
+pass; a summary-model failure falls back to deterministic compaction instead of
+aborting the run. See the
+[context budget recipe](https://github.com/axisvela/praxo-core/tree/main/examples/recipes/context-budget-go).
+The recipe does not provide a general prompt-injection filter or proof of source
+authenticity.
+
 ## NOETIVELA
 
 NOETIVELA is the AxisVela inference fabric. Wrap its governed chat API in a
