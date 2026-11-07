@@ -29,6 +29,7 @@ jobs:
         with:
           python-version: '3.12'
       - run: python scripts/test_java_consumer.py -v
+      - run: python scripts/test_java_upgrade.py -v
 
   current-typescript-consumer:
     runs-on: ${{ matrix.os }}

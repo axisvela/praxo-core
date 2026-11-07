@@ -31,6 +31,7 @@
 | Go、Python、TypeScript、Java 独立消费者 | 已实现；在各自标注 revision 验证 | 发布包安装、构建与确定性允许/拒绝检查；属于集成证据，不是采用证据 |
 | Python 发布包升级 | 已实现；由 CI 验证 | 安装 PyPI `0.2.4`，将不变消费者升级到 `0.3.0`，并重跑治理兼容检查；仅一个版本对，不是通用升级保证 |
 | TypeScript 发布包升级 | 已实现；由 CI 验证 | 安装 npm `0.1.5`，将不变消费者升级到 `0.2.0`，并重跑 starter/治理检查；仅一个版本对，不是通用升级保证 |
+| Java 发布包升级 | 已实现；由 CI 验证 | 解析 Maven Central `0.3.0`，将不变消费者升级到 `0.4.0`，并重跑 starter/治理检查；仅一个版本对，不是通用升级保证 |
 | Go、Python、TypeScript 与 Java 治理负向验收 | 已实现；在各自标注 revision 验证 | 各五项应用层检查：缺少 Policy/范围、最终参数与审批编辑重授权、Policy 服务失败；不是通用 Profile |
 | Go 身份/策略配方 | 已实现；在标注 revision 验证 | 应用提供已验证 principal；缺失、过期、租户不匹配与模型伪造角色均拒绝；不是身份提供商或 PDP |
 | Go 长时操作配方 | 已实现；在标注 revision 验证 | L4 配方证据：文件（temp+sync+rename）、loopback HTTP、子进程重启、独立 verifier 进程与文件 fencing fixture 覆盖幂等提交、响应丢失、部分写入恢复、取消请求/确认、Run 取消、完成/效果验证区分、verifier 收据、持久 fencing 与静态 Bearer/TLS 拒绝；只有 Run 取消断言触及 Core 接缝。无生产密钥管理、lease 过期/撤销、断电证明、身份提供商、锁或 exactly-once |

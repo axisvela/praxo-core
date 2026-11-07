@@ -92,8 +92,10 @@ A separate `scripts/test_python_upgrade.py` check installs Python `0.2.4`, runs
 the unchanged consumer fixture and governed compatibility checks, upgrades to
 `0.3.0`, and reruns the full starter/governed suite; CI runs it in the Python
 consumer matrix. A TypeScript equivalent (`scripts/test_typescript_upgrade.py`)
-covers npm `0.1.5` -> `0.2.0` with the same unchanged-source checks. Historical
-compatibility, current-package installation,
+covers npm `0.1.5` -> `0.2.0`, and a Java equivalent
+(`scripts/test_java_upgrade.py`) covers Maven Central `0.3.0` -> `0.4.0`, with
+the same unchanged-source checks. Historical compatibility, current-package
+installation,
 published-package upgrade, and release-candidate checks remain separate
 evidence. These upgrade fixtures do not validate unpublished candidates or
 establish adoption/retention.
