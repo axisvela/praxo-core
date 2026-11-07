@@ -60,7 +60,7 @@ are not part of the EC-D scope count.
 | Repository | Current tag / state | Tag needed? |
 | --- | --- | --- |
 | `praxo-core` | `v2.6.0` release prepared; EC-01 behavior fix, EC-D runner/scopes and this evidence page are included | No separate tag for these changes; run the normal Core release gate and publish the prepared minor release. |
-| RHEOVELA | `v1.61.0`; commit `d477e35` adds lost-outcome classification and executes declared manual compensations | **Yes, a RHEOVELA release** is needed to consume this behavior change; follow RHEOVELA's own release process. |
+| RHEOVELA | `v1.62.0` plus commit `d477e35`, which adds lost-outcome classification and executes declared manual compensations | **Yes, a RHEOVELA release** is needed to consume this behavior change; follow RHEOVELA's own release process. |
 | PRAXOVELA | `v3.4.0`; **post-tag** runtime drain, dispatcher lifecycle and replay guard are code changes | **Yes, new PRAXOVELA release** (recommended minor) plus coordinated `PRAXOVELA-open` tag. |
 | PRAXOVELA-open | `v3.4.0` | Must match the next PRAXOVELA core release tag. |
 | PRAXOVELA-EE | Independent tags | No code change in this work; no tag required. |
