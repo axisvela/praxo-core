@@ -68,10 +68,12 @@ not new Core types, event names, error codes or a shared wire state machine.
 The [audited inventory](https://github.com/axisvela/praxo-core/blob/main/scripts/execution_correctness_inventory.json)
 maps all fourteen IDs to local assertion candidates or explicit external/gap
 dispositions. Its initial `core-mechanics-baseline` scope selects only local
-parts of EC-01/03/04/06/08/10/14. EC-01 covers local outcome notification only,
-EC-14 covers only resume ordering from supplied history, and external effect
-confirmation remains external. The inventory is not a runner or execution report;
-all full-scenario acceptance fields remain not-run. Structure tests check that
+parts of EC-01/03/04/06/08/10/14. A second `core-containment-baseline` scope
+selects local path, VFS, and WASM limit controls for EC-11, without asserting
+sandbox isolation. EC-01 covers local outcome notification only, EC-14 covers
+only resume ordering from supplied history, and external effect confirmation
+remains external. The inventory is not a runner or execution report; all
+full-scenario acceptance fields remain not-run. Structure tests check that
 mapped test functions exist, not that their execution satisfies an EC scenario.
 
 These are reuse candidates, not a complete EC pass matrix. Review the exact
@@ -113,11 +115,14 @@ documentation inventory check into an execution result.
 
 The local mechanics runner is implemented in
 [`scripts/execution_correctness.py`](https://github.com/axisvela/praxo-core/blob/main/scripts/execution_correctness.py).
-It reads the audited inventory and the `core-mechanics-baseline` scope, then runs
-only the named parent tests with `go test -json -count=1` and `GOWORK=off`.
+It reads the audited inventory and the `core-mechanics-baseline` scope by
+default, then runs only the named parent tests with `go test -json -count=1` and
+`GOWORK=off`. `--scope core-containment-baseline` selects the separate local
+containment controls.
 
 ```bash
 python scripts/execution_correctness.py --strict
+python scripts/execution_correctness.py --strict --scope core-containment-baseline
 ```
 
 Strict mode is the default; `--advisory` writes a report but returns success for
@@ -132,10 +137,11 @@ Each run is written under `build/execution-correctness/<run-id>/` with
 `report.json`, `report.md`, raw events, and logs. `latest.json` is a convenience
 pointer; previous run directories are not overwritten. The report status is
 `scope-passed`, `scope-failed`, or `invalid`, never a claim that the whole EC
-suite or a Profile passed. The initial scope covers only EC-01/03/04/06/08/10/14
+suite or a Profile passed. The default scope covers only EC-01/03/04/06/08/10/14
 local mechanics; EC-01 is notification-only and EC-14 asserts only resume
-ordering, while EC-02, EC-05, EC-07, EC-09, EC-11 through EC-13, EC-I, EC-O, and
-all Profile acceptance remain not-run or external.
+ordering. The containment scope covers only local path, VFS, and WASM limit
+controls for EC-11; real sandbox isolation, EC-02, EC-05, EC-07, EC-09, EC-12,
+EC-13, EC-I, EC-O, and all Profile acceptance remain not-run or external.
 
 ## Roadmap Sequence
 

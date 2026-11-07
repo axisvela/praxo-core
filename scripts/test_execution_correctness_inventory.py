@@ -67,6 +67,23 @@ class ExecutionCorrectnessInventoryTests(unittest.TestCase):
             self.assertTrue(cases[identifier]['localTests'])
             self.assertEqual(cases[identifier]['disposition'], 'partial-core-evidence')
 
+    def test_additional_scopes_are_named_and_bounded(self):
+        initial = self.inventory['initialScope']
+        scopes = self.inventory['additionalScopes']
+        self.assertIsInstance(scopes, list)
+        self.assertTrue(scopes)
+        names = [initial['name']] + [scope['name'] for scope in scopes]
+        self.assertEqual(len(names), len(set(names)))
+        cases = {case['id']: case for case in self.inventory['scenarios']}
+        for scope in scopes:
+            self.assertEqual(scope['track'], 'EC-D')
+            self.assertTrue(scope['claim'])
+            self.assertTrue(scope['scenarioIds'])
+            for identifier in scope['scenarioIds']:
+                self.assertTrue(cases[identifier]['localTests'])
+                self.assertIn(cases[identifier]['disposition'],
+                              {'partial-core-evidence'})
+
 
 if __name__ == '__main__':
     unittest.main()

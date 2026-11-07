@@ -117,6 +117,35 @@ class ExecutionCorrectnessRunnerTests(unittest.TestCase):
         self.assertIn("TestRunCompletionCallbackFailureHasSingleTerminalEvent/completed", names)
         self.assertIn("TestRunResumesFromSessionMessages", names)
 
+    def test_containment_scope_selects_local_contract_tests(self):
+        inventory = ec.load_inventory(ec.DEFAULT_INVENTORY)
+        selectors, scope = ec.select_scope(inventory, "core-containment-baseline")
+        names = {item.selector for item in selectors}
+        self.assertEqual(scope["name"], "core-containment-baseline")
+        self.assertEqual(scope["scenarioIds"], ["EC-11"])
+        self.assertIn("TestPathCheckerDeniesTraversal", names)
+        self.assertIn("TestLocalBackendRejectsEscape", names)
+        self.assertIn("TestMemoryGrowthBeyondLimitFailsClosed", names)
+        self.assertIn("not sandbox isolation", scope["claim"])
+
+    def test_unknown_scope_is_rejected(self):
+        inventory = ec.load_inventory(ec.DEFAULT_INVENTORY)
+        with self.assertRaises(ec.RunnerError):
+            ec.select_scope(inventory, "missing-scope")
+
+    def test_scope_scenario_without_local_tests_is_rejected(self):
+        inventory = {
+            "initialScope": {
+                "name": "fixture",
+                "track": "EC-D",
+                "scenarioIds": ["EC-99"],
+                "claim": "fixture",
+            },
+            "scenarios": [{"id": "EC-99", "localTests": []}],
+        }
+        with self.assertRaises(ec.RunnerError):
+            ec.select_scope(inventory, None)
+
     def test_missing_go_is_rejected(self):
         with patch.object(ec.shutil, "which", return_value=None):
             with self.assertRaises(ec.RunnerError):

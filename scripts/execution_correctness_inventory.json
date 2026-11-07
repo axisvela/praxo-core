@@ -8,6 +8,14 @@
     "scenarioIds": ["EC-01", "EC-03", "EC-04", "EC-06", "EC-08", "EC-10", "EC-14"],
     "claim": "Local assertions only; not full EC scenario or profile acceptance."
   },
+  "additionalScopes": [
+    {
+      "name": "core-containment-baseline",
+      "track": "EC-D",
+      "scenarioIds": ["EC-11"],
+      "claim": "Local path, VFS, and WASM containment controls only; not sandbox isolation, provider evidence, or a verified isolation level."
+    }
+  ],
   "scenarios": [
     {
       "id": "EC-01",
@@ -189,9 +197,40 @@
     {
       "id": "EC-11",
       "acceptance": "not-run",
-      "disposition": "external-authority",
-      "localTests": [],
-      "gap": "sandbox.Sandbox is a contract without an isolation-level attestation. Provider/platform containment evidence requires separately audited real-runtime tests."
+      "disposition": "partial-core-evidence",
+      "localTests": [
+        {
+          "package": "./pkg/policy",
+          "file": "pkg/policy/path_test.go",
+          "test": "TestPathCheckerDeniesTraversal",
+          "assertion": "A traversal path outside the granted root is denied."
+        },
+        {
+          "package": "./pkg/policy",
+          "file": "pkg/policy/path_test.go",
+          "test": "TestPathCheckerDeniesSiblingPrefix",
+          "assertion": "A sibling path sharing the root prefix is not treated as inside the root."
+        },
+        {
+          "package": "./pkg/vfs/localfs",
+          "file": "pkg/vfs/localfs/localfs_test.go",
+          "test": "TestLocalBackendRejectsEscape",
+          "assertion": "The local VFS backend rejects a traversal path."
+        },
+        {
+          "package": "./pkg/vfs/localfs",
+          "file": "pkg/vfs/localfs/localfs_test.go",
+          "test": "TestLocalBackendRejectsNULByte",
+          "assertion": "The local VFS backend rejects a NUL byte in a path."
+        },
+        {
+          "package": "./pkg/plugin/host/wasm",
+          "file": "pkg/plugin/host/wasm/host_test.go",
+          "test": "TestMemoryGrowthBeyondLimitFailsClosed",
+          "assertion": "A WASM guest that grows beyond MaxMemoryPages fails closed."
+        }
+      ],
+      "gap": "Only local path, VFS, and WASM limit controls are asserted. sandbox.Sandbox is a contract without an isolation-level attestation; provider/platform isolation and actual container/VM prohibitions require separately audited real-runtime tests."
     },
     {
       "id": "EC-12",

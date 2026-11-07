@@ -77,15 +77,42 @@ def load_inventory(path: Path) -> dict[str, object]:
     return data
 
 
+def available_scopes(inventory: dict[str, object]) -> list[dict[str, object]]:
+    scopes: list[dict[str, object]] = []
+    initial = inventory.get("initialScope")
+    if initial is not None:
+        if not isinstance(initial, dict):
+            raise RunnerError("initialScope must be an object")
+        scopes.append(initial)
+    additional = inventory.get("additionalScopes", [])
+    if not isinstance(additional, list):
+        raise RunnerError("additionalScopes must be a list")
+    for item in additional:
+        if not isinstance(item, dict):
+            raise RunnerError("additionalScopes entries must be objects")
+        scopes.append(item)
+    if not scopes:
+        raise RunnerError("inventory has no scopes")
+    names = [scope.get("name") for scope in scopes]
+    if any(not isinstance(name, str) or not name for name in names):
+        raise RunnerError("every scope needs a non-empty name")
+    if len(set(names)) != len(names):
+        raise RunnerError("scope names must be unique")
+    return scopes
+
+
 def select_scope(inventory: dict[str, object], scope_name: str | None) -> tuple[list[Selector], dict[str, object]]:
-    scope = inventory.get("initialScope")
-    if not isinstance(scope, dict):
-        raise RunnerError("inventory has no initialScope")
-    if scope_name and scope.get("name") != scope_name:
-        raise RunnerError(f"unknown initial scope: {scope_name}")
+    scopes = available_scopes(inventory)
+    if scope_name:
+        matches = [scope for scope in scopes if scope.get("name") == scope_name]
+        if not matches:
+            raise RunnerError(f"unknown scope: {scope_name}")
+        scope = matches[0]
+    else:
+        scope = scopes[0]
     scenario_ids = scope.get("scenarioIds")
     if not isinstance(scenario_ids, list) or not scenario_ids:
-        raise RunnerError("initialScope.scenarioIds must be a non-empty list")
+        raise RunnerError("scope.scenarioIds must be a non-empty list")
     scenarios = {item.get("id"): item for item in inventory["scenarios"] if isinstance(item, dict)}
     missing = [identifier for identifier in scenario_ids if identifier not in scenarios]
     if missing:
@@ -117,6 +144,10 @@ def select_scope(inventory: dict[str, object], scope_name: str | None) -> tuple[
                 selectors.append(Selector(identifier, package, test_name, selector, assertion))
     if not selectors:
         raise RunnerError("scope selected no required assertions")
+    selected_ids = {selector.scenario for selector in selectors}
+    without_tests = [identifier for identifier in scenario_ids if identifier not in selected_ids]
+    if without_tests:
+        raise RunnerError(f"scope scenarios have no local tests: {', '.join(without_tests)}")
     seen: set[str] = set()
     for selector in selectors:
         if selector.selector in seen:
@@ -411,7 +442,7 @@ def exit_code(status: str, strict: bool = True) -> int:
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="Run a declared Execution Correctness scope")
     parser.add_argument("--inventory", type=Path, default=DEFAULT_INVENTORY)
-    parser.add_argument("--scope", default=None, help="initialScope name; defaults to inventory initialScope")
+    parser.add_argument("--scope", default=None, help="scope name; defaults to the first inventory scope")
     parser.add_argument("--output", type=Path, default=DEFAULT_OUTPUT)
     parser.add_argument("--timeout", type=int, default=300, help="Go test timeout in seconds")
     parser.add_argument("--go", default="go")

@@ -17,9 +17,10 @@ wired language to 20/20.
 ### Added
 
 - Cross-repository execution-correctness evidence index covering EC-01 through
-  EC-14, the EC-D `27/27` scoped result (now including the EC-14 local resume
-  ordering assertion), product-owned effect/outbox/checkpoint checks, and the
-  remaining external/blocked evidence.
+  EC-14, the EC-D `27/27` baseline result (including the EC-14 local resume
+  ordering assertion), a separate `5/5` EC-11 local containment scope
+  (`--scope core-containment-baseline`), product-owned effect/outbox/checkpoint
+  checks, and the remaining external/blocked evidence.
 - Lua now ships a `0.4.0-1` rockspec and a `lua-release` workflow that runs
   conformance, the API snapshot, and native tests, builds and installs the
   source rock, and supports LuaRocks publication with a repository API key.

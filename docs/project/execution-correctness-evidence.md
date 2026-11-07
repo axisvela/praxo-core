@@ -15,8 +15,9 @@ planning storage.
 | Item | Result |
 | --- | --- |
 | EC-D local scope | `27/27` selected selectors, `scope-passed` (`scripts/execution_correctness.py --strict`) |
-| EC-D report | `build/execution-correctness/20261107T035737Z-9efbaea7/` (local, reproducible; not committed) |
-| Core revision | `9b7eac9` working tree used for this snapshot (dirty; includes the EC-14 scope addition) |
+| EC-D containment scope | `5/5` selected selectors, `scope-passed` (`--scope core-containment-baseline`) |
+| EC-D reports | `build/execution-correctness/20261107T040516Z-7ac6dab2/` and `build/execution-correctness/20261107T040527Z-422acdc6/` (local, reproducible; not committed) |
+| Core revision | `5c25990` working tree used for this snapshot (dirty; includes the EC-11 containment scope addition) |
 | Full EC-01..EC-14 acceptance | **Not run**; this index is a scope/evidence map, not acceptance |
 | EC-I / EC-O | Partial local checks only; no deployed authority or independent AEP |
 
@@ -37,7 +38,7 @@ are not part of the EC-D scope count.
 | EC-08 | `pkg/agent` cancellation test (`TestRunStopsStartingToolsAfterCancellation`) | PRAXOVELA cancellation/run tests | Local cancellation prevents later local tool starts | Remote task status/stop confirmation remains external |
 | EC-09 | No Core checkpoint-as-transaction claim | RHEOVELA checkpoint/effect tests: 4/4 checkpoint paths; Postgres store | Checkpoint rebuild, stale checkpoint, intent preservation and effect-before-checkpoint retention | Business commit/checkpoint failure recovery remains consumer-owned |
 | EC-10 | `pkg/agent` event-sink tests (pre-invocation fail, terminal failure not masked) | PRAXOVELA/RHEOVELA effect and audit tests | Callback/sink failures are surfaced without false success | Durable acknowledgement, pre-execution gate and post-commit evidence require product policy |
-| EC-11 | Containment tests in `docs/project/verification-evidence.md` | None claiming real isolation | Path/process/WASM/local controls are contract/unit tested | **No real sandbox isolation**; external container/VM evidence required |
+| EC-11 | Path/VFS/WASM limit controls in the `core-containment-baseline` scope; containment tests in `docs/project/verification-evidence.md` | None claiming real isolation | Local path, VFS, and WASM limit controls are contract/unit tested | **No real sandbox isolation**; external container/VM evidence required |
 | EC-12 | No Core distributed-lock claim | EE Postgres nodes 6/6 (lease/fencing/concurrent acquire); RHEOVELA `ha_locks`/`stage_leases`/outbox 38/38; RHEOVELA 128-job + 1h soak | Real Postgres lease/fencing, outbox claim and long local concurrency | Multi-process deployed authority, tenant isolation and production load remain external |
 | EC-13 | No Core physical-effect semantics | None | — | **Blocked**; no named embodied consumer, middleware or simulation |
 | EC-14 | `pkg/agent/resume_test.go::TestRunResumesFromSessionMessages` (in the EC-D mechanics scope) | RHEOVELA Postgres store 38/38, HTTP effect, checkpoint 4/4; PRAXOVELA checkpoint/effect tests | Local resume ordering plus durable product store/checkpoint contracts | Durable logical identity, business dedup and authoritative recovery remain consumer-owned |
