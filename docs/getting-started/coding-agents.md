@@ -20,6 +20,11 @@ installing; a source tag does not prove package availability. Registry pages are
 release snapshots and may lag source documentation; see
 [Registry Pages and Package Introductions](../languages/registry-pages.md).
 
+A repository-root [`llms.txt`](https://github.com/axisvela/praxo-core/blob/main/llms.txt)
+provides a machine-readable entry point for tools that support it. It is an
+optional discovery aid, not an install channel or a guarantee that a tool will
+discover, rank, or load this repository.
+
 ## Integration Contract
 
 1. **Install from the registry.** Do not use a source checkout, local

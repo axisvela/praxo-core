@@ -8,6 +8,7 @@ does not imply installation or automatic discovery.
   governed acceptance checks.
 
 The canonical instructions are in
-[For Coding Agents](../docs/getting-started/coding-agents.md). Runtime skills
-loaded by an executing agent are a separate concept with separate provenance and
-trust requirements.
+[For Coding Agents](../docs/getting-started/coding-agents.md). The repository
+root also ships an [`llms.txt`](../llms.txt) discovery aid; it does not install
+or auto-discover this skill. Runtime skills loaded by an executing agent are a
+separate concept with separate provenance and trust requirements.

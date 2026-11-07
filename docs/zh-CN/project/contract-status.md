@@ -34,6 +34,7 @@
 | Go 长时操作配方 | 已实现；在标注 revision 验证 | L4 配方证据：文件（temp+sync+rename）、loopback HTTP、子进程重启、独立 verifier 进程与文件 fencing fixture 覆盖幂等提交、响应丢失、部分写入恢复、取消请求/确认、Run 取消、完成/效果验证区分、verifier 收据、持久 fencing 与静态 Bearer/TLS 拒绝；只有 Run 取消断言触及 Core 接缝。无生产密钥管理、lease 过期/撤销、断电证明、身份提供商、锁或 exactly-once |
 | Governed Execution Profile | 提案；已有部分集成证据 | 产品强制入口、显式范围、审批绑定与 Governed Effect Boundary 是验收要求；不声明通用 Core Profile 或产品入口已不可绕过 |
 | 编程 Agent 集成映射 | 已实现；版本由文档测试校验 | 包映射、集成契约与验证命令；不是安装渠道、自动 Skill 或采用证据 |
+| 编程 Agent 发现辅助 | 已实现；`llms.txt` 存在且链接由测试校验 | 机器可读仓库入口；不保证工具发现、搜索排序、安装或采用 |
 | 编程 Agent Skill 模板 | 实验；仅仓库模板 | 工具中立的 `SKILL.md`；安装与发现未验证，不声明自动安装、MCP 或运行时 Skill 行为 |
 | Registry 页面元数据 | 源元数据已更新；已发布页面尚未更新 | 2026-11-05 审计 PyPI、npm、Maven、Go 页面；页面只随新版本更新；其他 Registry 发布时检查 |
 | 编程 Agent 采用实验 | 未运行 | 没有发现、选型、首次通过、修复成本或留存数据 |

@@ -1,0 +1,42 @@
+# PRAXO-CORE
+
+> Governed, embeddable agent execution kernel. MIT-licensed Go reference plus
+> independent language implementations. This file is a machine-readable entry
+> point for coding tools; it does not guarantee discovery, installation, or
+> adoption.
+
+## Start
+
+- [README](https://github.com/axisvela/praxo-core/blob/main/README.md): positioning, install, and repository map.
+- [Quickstart](https://github.com/axisvela/praxo-core/blob/main/docs/getting-started/quickstart.md): run a first agent from a checkout.
+- [Start Here](https://github.com/axisvela/praxo-core/blob/main/docs/getting-started/index.md): task-oriented selection guidance.
+- [When Not To Use](https://github.com/axisvela/praxo-core/blob/main/docs/getting-started/when-not-to-use.md): explicit non-goals before selecting Core.
+
+## Coding Agents
+
+- [Coding-agent integration contract](https://github.com/axisvela/praxo-core/blob/main/docs/getting-started/coding-agents.md): package map, explicit tool scope, final-argument authorization, denial tests, and verification commands.
+- [Machine-readable package map](https://github.com/axisvela/praxo-core/blob/main/docs/getting-started/agent-integration.json): current recommended versions and starter paths.
+- [Skill template](https://github.com/axisvela/praxo-core/blob/main/agent-skills/praxo-integration/SKILL.md): optional tool-neutral workflow; installation and discovery are not guaranteed.
+
+## Consumers
+
+- [Go consumer](https://github.com/axisvela/praxo-core/blob/main/docs/getting-started/consumer-go.md)
+- [Python consumer](https://github.com/axisvela/praxo-core/blob/main/docs/getting-started/consumer-python.md)
+- [TypeScript consumer](https://github.com/axisvela/praxo-core/blob/main/docs/getting-started/consumer-typescript.md)
+- [Java consumer](https://github.com/axisvela/praxo-core/blob/main/docs/getting-started/consumer-java.md)
+- [Integration recipes](https://github.com/axisvela/praxo-core/blob/main/docs/guides/recipes.md): models, MCP, adapters, observability, and governance patterns.
+
+## Boundaries and Evidence
+
+- [Public roadmap](https://github.com/axisvela/praxo-core/blob/main/docs/project/roadmap.md): acceptance stages and compatibility commitments.
+- [Execution profiles](https://github.com/axisvela/praxo-core/blob/main/docs/reference/execution-profiles.md): Standard Embedding, Governed Execution, and Embodied Integration boundaries.
+- [Execution Correctness Suite](https://github.com/axisvela/praxo-core/blob/main/docs/project/execution-correctness.md): EC-01 through EC-14 and EC-D/EC-I/EC-O tracks.
+- [Verification evidence](https://github.com/axisvela/praxo-core/blob/main/docs/project/verification-evidence.md): claim levels, current results, and limits.
+- [Changelog](https://github.com/axisvela/praxo-core/blob/main/CHANGELOG.md): release history and compatibility notes.
+
+## Do Not Infer
+
+Core fixtures and consumer tests do not prove live-model quality, authentic
+identity, durable approvals, external effect commit, exactly-once execution,
+sandbox isolation, physical safety, or real-time control. A checkpoint is a
+recovery hint, not a transaction.

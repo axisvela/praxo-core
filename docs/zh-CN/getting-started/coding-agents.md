@@ -16,6 +16,10 @@
 Registry；源码标签不能证明包仓库可用。Registry 页面是发布快照，可能落后于源码文档；
 参见 [Registry 页面与包介绍](../languages/registry-pages.md)。
 
+仓库根目录的 [`llms.txt`](https://github.com/axisvela/praxo-core/blob/main/llms.txt)
+为支持它的工具提供机器可读入口。它只是可选的发现辅助，不是安装渠道，也不保证工具会发现、
+排序或加载本仓库。
+
 ## 集成契约
 
 1. **从 Registry 安装。** 验收路径不得使用源码检出、本地替换、`file:`/`link:` 依赖、
