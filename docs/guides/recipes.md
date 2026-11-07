@@ -163,6 +163,41 @@ invocation; `CheckRetriever` checks results and result limits. See the
 [adapter conformance recipe](https://github.com/axisvela/praxo-core/tree/main/examples/recipes/conformance-go).
 These are contract checks, not live-provider evidence.
 
+## Retry Safety and Unknown Outcomes
+
+`pkg/tool.Retry` retries failed invocations according to a policy. The zero
+value performs one attempt; configure `Attempts`, `BaseDelay`, `MaxDelay`, and
+`ShouldRetry` deliberately.
+
+```go
+wrapped := tool.Wrap(charge, tool.Retry(tool.RetryPolicy{
+    Attempts:    3,
+    ShouldRetry: func(err error) bool { return errors.Is(err, errTransient) },
+}))
+```
+
+A retry is safe only when the failure is known to be harmless or the target
+provides idempotency/status resolution. For a non-idempotent effect, query the
+authoritative status before retrying:
+
+```go
+value, err := charge.Invoke(ctx, args)
+if err != nil {
+    applied, statusErr := charge.Status(ctx, args)
+    if statusErr != nil {
+        return nil, statusErr
+    }
+    if applied {
+        return "charged", nil
+    }
+    return charge.Invoke(ctx, args)
+}
+```
+
+See the [retry safety recipe](https://github.com/axisvela/praxo-core/tree/main/examples/recipes/retry-go).
+The recipe demonstrates the duplicate-effect hazard and the status-aware
+alternative; it does not provide a Core effect ledger or exactly-once guarantee.
+
 ## NOETIVELA
 
 NOETIVELA is the AxisVela inference fabric. Wrap its governed chat API in a

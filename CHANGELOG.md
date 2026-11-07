@@ -30,6 +30,8 @@ wired language to 20/20.
   are integration materials, not adoption or production-security evidence.
 - A Go adapter conformance recipe uses `pkg/conformance` to validate fake model,
   streaming model, tool, and retriever contracts, including mismatch failures.
+- A Go retry safety recipe demonstrates retry predicates, cancellation, the
+  non-idempotent duplicate-effect hazard, and a status-aware application wrapper.
 - A Python published-package upgrade fixture installs PyPI `0.2.4`, runs the
   unchanged consumer and governed compatibility checks, upgrades to `0.3.0`, and
   reruns the full starter/governed suite. A TypeScript fixture covers npm
