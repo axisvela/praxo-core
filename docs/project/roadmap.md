@@ -61,9 +61,13 @@ runnable [identity/policy recipe](../guides/identity-policy.md), and a
 tool-neutral [skill template](https://github.com/axisvela/praxo-core/tree/main/agent-skills/praxo-integration)
 are now available. Source registry metadata was improved and the four pilot
 registry pages were audited; the published pages update only with new releases.
-Stage 2 is not complete: skill installation/discovery is unverified, additional
-integration recipes are open, and published registry-page verification requires
-new releases.
+Stage 2 is not complete: skill installation/discovery is unverified, and
+published registry-page verification requires new releases. An offline recipe
+set now covers adapter conformance, retry safety, event sinks, context budgets,
+checkpoint storage, structured output, VFS containment, provider fallback,
+plugin lifecycle, multi-agent delegation, streaming, and the workspace session
+contract. These are recipe evidence, not live provider, isolation, or production
+evidence.
 
 Stage 3 has started with a Go consumer-runnable
 [long-running operation recipe](../guides/long-running-operations.md) covering

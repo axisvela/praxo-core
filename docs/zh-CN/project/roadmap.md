@@ -48,7 +48,10 @@ Policy/范围、最终参数重授权、审批编辑重授权与 Policy 服务�
 [身份/策略配方](../guides/identity-policy.md)与工具中立的
 [Skill 模板](https://github.com/axisvela/praxo-core/tree/main/agent-skills/praxo-integration)。
 源 Registry 元数据已改进，四个试点页面已审计；已发布页面只随新版本更新。阶段 2 未完成：
-Skill 安装/发现未验证、更多集成配方未完成、已发布 Registry 页面需新版本后才能验证。
+Skill 安装/发现未验证，已发布 Registry 页面需新版本后才能验证。现有离线配方覆盖适配器
+一致性、重试安全、事件 sink、上下文预算、checkpoint 存储、结构化输出、VFS containment、
+provider fallback、plugin lifecycle、multi-agent、streaming 与 workspace session 契约。
+这些是配方证据，不是 live provider、隔离或生产证据。
 
 阶段 3 已从 Go 消费者可运行的[长时操作配方](../guides/long-running-operations.md)
 开始，覆盖幂等提交、HTTP 响应丢失、子进程重启恢复、取消请求/确认、Run 取消、完成/
