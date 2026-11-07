@@ -29,7 +29,7 @@ are not part of the EC-D scope count.
 | EC | Core / EC-D evidence | Product / EC-I evidence | What the evidence proves | Status / remaining |
 | --- | --- | --- | --- | --- |
 | EC-01 | `pkg/agent/parallel_outcome_test.go::TestParallelToolFailureStillReportsEveryOutcome`; EC-01 fix `65793fd` | PRAXOVELA tool/effect ledger tests | Every attempted tool outcome is reported after a batch error; first error is returned | Local notification only; external effect confirmation/unknown classification remains consumer-owned |
-| EC-02 | No Core effect-authority claim | RHEOVELA: Postgres effect store, HTTP list/reconcile, 8-way reconcile, compensation effect, A/B/C boundary; PRAXOVELA: durable `effect_jobs` outbox + replay; demo C9 | Local Postgres effect state, duplicate suppression, reconcile and outbox replay | **Partial**; no real external provider post-commit/status query |
+| EC-02 | No Core effect-authority claim | RHEOVELA: Postgres effect store, HTTP list/reconcile, 8-way reconcile, compensation effect, A/B/C boundary; RHEOVELA `d477e35`: outbox records lost responses as `unknown` and the manual compensation path executes declared capabilities; PRAXOVELA: durable `effect_jobs` outbox + replay; demo C9 | Local Postgres effect state, duplicate suppression, reconcile and outbox replay; a local lost-response HTTP fixture leaves an unknown effect, reconciles it, and does not re-invoke the provider | **Partial**; no real external provider post-commit/status query; PRAXOVELA tool errors still classify as `failed`, so its unknown-outcome path remains open |
 | EC-03 | `pkg/tool/retry_test.go` (`TestRetryMiddlewareHonorsShouldRetry`, `TestRetryMiddlewareZeroValueDoesNotRetry`, `TestRetryMiddlewareStopsOnContextCancellation`) | RHEOVELA/PRAXOVELA idempotency tests | Retry count/predicate/cancellation behavior; local idempotency | No non-idempotent target protection or provider-side idempotency proof |
 | EC-04 | `pkg/agent/tool_authorization_test.go` final-argument/name reauthorization tests | PRAXOVELA governed startup, tool scope and CopilotKit gates | Final arguments/names are reauthorized; product entry rejects unsafe defaults | Persistent approval binding, expiry, consumption and replay remain product/EC-I |
 | EC-05 | Core boundary audit; no default behavior change | PRAXOVELA P0 entry policy/boundary wiring | Core exposes the seam; product fail-closed entry is tested | Actual PEP commit/revocation and confirmed stop remain external |
@@ -60,7 +60,7 @@ are not part of the EC-D scope count.
 | Repository | Current tag / state | Tag needed? |
 | --- | --- | --- |
 | `praxo-core` | `v2.6.0` release prepared; EC-01 behavior fix, EC-D runner/scopes and this evidence page are included | No separate tag for these changes; run the normal Core release gate and publish the prepared minor release. |
-| RHEOVELA | `v1.61.0`; later changes are tests/soak scripts only | No new tag required for those test-only changes. |
+| RHEOVELA | `v1.61.0`; commit `d477e35` adds lost-outcome classification and executes declared manual compensations | **Yes, a RHEOVELA release** is needed to consume this behavior change; follow RHEOVELA's own release process. |
 | PRAXOVELA | `v3.4.0`; **post-tag** runtime drain, dispatcher lifecycle and replay guard are code changes | **Yes, new PRAXOVELA release** (recommended minor) plus coordinated `PRAXOVELA-open` tag. |
 | PRAXOVELA-open | `v3.4.0` | Must match the next PRAXOVELA core release tag. |
 | PRAXOVELA-EE | Independent tags | No code change in this work; no tag required. |
