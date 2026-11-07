@@ -418,6 +418,33 @@ deltas. See the
 Provider-specific tool-call delta aggregation and production telemetry remain
 adapter or gateway responsibilities.
 
+## Workspace Session Contract (Evaluation)
+
+The `adapters/workspace` module evaluates a provider-neutral session contract
+without promoting it to `pkg/`. A session combines `sandbox.Sandbox`,
+`vfs.Backend`, file transfer, and lifecycle methods; `Pauser` and `Snapshotter`
+are optional capabilities discovered by type assertion.
+
+```go
+provider := fake.NewProvider()
+if err := conformance.CheckProvider(ctx, provider, conformance.Case{
+    Command:            []string{"echo", "ok"},
+    WantStdoutContains: "echo ok",
+    Path:               "nested/file.txt",
+    Content:            []byte("conformance"),
+}); err != nil {
+    return err
+}
+```
+
+The shared conformance suite checks create, file transfer, VFS operations,
+command execution, attach, optional pause/resume, close, and attach-after-close
+rejection. See the
+[workspace session example](https://github.com/axisvela/praxo-core/tree/main/adapters/workspace/example)
+and the [workspace/session evaluation](../reference/workspace-session.md). The
+fake provider is not an isolation boundary, no live provider is used, and the
+contract is not a Core API commitment.
+
 ## NOETIVELA
 
 NOETIVELA is the AxisVela inference fabric. Wrap its governed chat API in a

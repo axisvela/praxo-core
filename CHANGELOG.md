@@ -57,6 +57,9 @@ wired language to 20/20.
   terminal-only pruning.
 - A Go streaming recipe demonstrates ordered deltas, complete final output,
   stream errors, cancellation, and typed run-stream projections.
+- A workspace session example runs the shared contract conformance suite against
+  the fake provider, including optional Pauser capabilities and close/attach
+  error mapping.
 - A Python published-package upgrade fixture installs PyPI `0.2.4`, runs the
   unchanged consumer and governed compatibility checks, upgrades to `0.3.0`, and
   reruns the full starter/governed suite. A TypeScript fixture covers npm
