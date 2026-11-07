@@ -198,6 +198,29 @@ See the [retry safety recipe](https://github.com/axisvela/praxo-core/tree/main/e
 The recipe demonstrates the duplicate-effect hazard and the status-aware
 alternative; it does not provide a Core effect ledger or exactly-once guarantee.
 
+## Event Sinks and Evidence Failures
+
+`pkg/event` supports filtering, fan-out, and publisher adaptation. A failed sink
+is not silently treated as durable evidence.
+
+```go
+sink := event.MultiSink{
+    requiredAuditSink,
+    event.FilterSink{
+        Sink:      event.PublisherSink{Publisher: publisher},
+        Predicate: func(e event.Event) bool { return e.Type == "run.completed" },
+    },
+}
+```
+
+`MultiSink` stops on the first failure, so order required sinks first.
+`FilterSink` limits which events reach the wrapped sink; `PublisherSink` adapts
+an application publisher. A sink failure before a tool call prevents the
+invocation; a `run.failed` sink failure does not mask the original error. See
+the [event sink recipe](https://github.com/axisvela/praxo-core/tree/main/examples/recipes/event-sinks-go).
+The recipe does not prove durable acknowledgement, storage, or production
+telemetry.
+
 ## NOETIVELA
 
 NOETIVELA is the AxisVela inference fabric. Wrap its governed chat API in a
