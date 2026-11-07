@@ -61,7 +61,7 @@ are not part of the EC-D scope count.
 | --- | --- | --- |
 | `praxo-core` | `v2.6.0` release prepared; EC-01 behavior fix, EC-D runner/scopes and this evidence page are included | No separate tag for these changes; run the normal Core release gate and publish the prepared minor release. |
 | RHEOVELA | `v1.62.1` tag `e49f0e3`; adds lost-outcome classification and executes declared manual compensations | Tag pushed; release assets depend on the RHEOVELA release workflow. |
-| PRAXOVELA | `v3.4.1` tag `bfcc5b0`; `PRAXOVELA-open` `v3.4.1` tag `4ccecb8`; includes `9998c75` unknown tool-outcome classification | Tags pushed; GitHub Release assets depend on the PRAXOVELA release workflow. |
+| PRAXOVELA | `v3.4.1` tag `bfcc5b0`; `PRAXOVELA-open` `v3.4.1` tag `4ccecb8`; includes `9998c75` unknown tool-outcome classification | GitHub Releases published for core and open with `axond` Windows/Linux binaries, NSIS/MSI installers, SBOM, release manifest, and `SHA256SUMS`. |
 | PRAXOVELA-open | `v3.4.0` | Must match the next PRAXOVELA core release tag. |
 | PRAXOVELA-EE | Independent tags | No code change in this work; no tag required. |
 | `enterprise-autonomy` | `v1.1.13`; public docs/evidence only | No new tag required unless the repository's docs-release policy says otherwise. |
