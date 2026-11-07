@@ -115,6 +115,8 @@ jobs:
         working-directory: .
       - run: python scripts/test_go_checkpoint_store_recipe.py -v
         working-directory: .
+      - run: python scripts/test_go_structured_output_recipe.py -v
+        working-directory: .
 
   published-consumer:
     runs-on: ubuntu-latest

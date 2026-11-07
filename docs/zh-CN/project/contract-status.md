@@ -40,6 +40,7 @@
 | Go 事件 sink 配方 | 已实现；在标注 revision 验证 | 演示 `MultiSink`、`FilterSink`、`PublisherSink`、工具调用前 sink 失败阻断，以及终态 sink 失败不掩盖原始错误；不证明持久确认或生产遥测 |
 | Go 上下文预算配方 | 已实现；在标注 revision 验证 | 演示确定性压缩、System 消息保留、超大 System 失败关闭、summary 压缩与摘要模型失败回退；不是通用 prompt-injection 过滤器或来源认证 |
 | Go checkpoint 存储配方 | 已实现；在标注 revision 验证 | 实现 `checkpoint.Store` 的 temp-file + sync + rename、重开恢复、部分临时文件容忍、租户范围加载与删除；教学存储，不是并发数据库或 exactly-once 证明 |
+| Go 结构化输出配方 | 已实现；在标注 revision 验证 | 使用 `pkg/tool/jsonschema` 子集校验结构化输出与工具参数，在工具效果前拒绝非法值，并把 schema 放入 `ResponseFormat`；不保证 provider 支持结构化输出或完整 JSON Schema |
 | Governed Execution Profile | 提案；已有部分集成证据 | 产品强制入口、显式范围、审批绑定与 Governed Effect Boundary 是验收要求；不声明通用 Core Profile 或产品入口已不可绕过 |
 | 编程 Agent 集成映射 | 已实现；版本由文档测试校验 | 包映射、集成契约与验证命令；不是安装渠道、自动 Skill 或采用证据 |
 | 编程 Agent 发现辅助 | 已实现；`llms.txt` 存在且链接由测试校验 | 机器可读仓库入口；不保证工具发现、搜索排序、安装或采用 |

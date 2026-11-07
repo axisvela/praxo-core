@@ -267,6 +267,29 @@ A checkpoint is a recovery hint, not a transaction or proof that an external
 effect committed; concurrent-write control, retention, encryption, and tenant
 authority remain application responsibilities.
 
+## Structured Output and Tool Schema
+
+`pkg/tool/jsonschema` validates a deliberately small JSON Schema subset for
+model output and tool arguments. Keep application-side validation even when a
+provider supports `ResponseFormat`.
+
+```go
+schema, err := jsonschema.FromJSON(schemaJSON)
+if err != nil {
+    return err
+}
+if errors := schema.Validate(value); len(errors) != 0 {
+    return fmt.Errorf("invalid structured output: %+v", errors)
+}
+```
+
+The same schema can be carried in `model.ResponseFormat` and used to reject
+tool arguments before invoking the tool. Unsupported keywords such as `$ref`,
+composition, `additionalProperties`, and `format` are ignored; use a full JSON
+Schema library when those are required. See the
+[structured output recipe](https://github.com/axisvela/praxo-core/tree/main/examples/recipes/structured-output-go).
+The recipe does not prove that a provider honors `ResponseFormat`.
+
 ## NOETIVELA
 
 NOETIVELA is the AxisVela inference fabric. Wrap its governed chat API in a
