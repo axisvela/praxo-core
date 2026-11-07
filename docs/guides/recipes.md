@@ -394,6 +394,30 @@ parent session; `Prune` removes terminal tasks only. See the
 and the [multi-agent guide](multi-agent.md). The manager is local task
 coordination, not a durable remote worker or cross-process recovery service.
 
+## Streaming
+
+When `OnDelta` is configured and the model implements `model.StreamingModel`,
+the agent calls `GenerateStream` and forwards text fragments as they arrive. The
+final response still carries the complete content and any tool calls.
+
+```go
+ag, err := agent.New(agent.Options{
+    Model:    streamingModel,
+    MaxSteps: 4,
+    OnDelta:  func(delta string) { fmt.Fprint(w, delta) },
+    OnStream: func(part agent.StreamPart) error {
+        // typed projections: values, updates, messages, tasks, debug, checkpoint
+        return nil
+    },
+})
+```
+
+A streaming error is returned from the run, and cancellation stops further
+deltas. See the
+[streaming recipe](https://github.com/axisvela/praxo-core/tree/main/examples/recipes/streaming-go).
+Provider-specific tool-call delta aggregation and production telemetry remain
+adapter or gateway responsibilities.
+
 ## NOETIVELA
 
 NOETIVELA is the AxisVela inference fabric. Wrap its governed chat API in a

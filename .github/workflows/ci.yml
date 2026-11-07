@@ -125,6 +125,8 @@ jobs:
         working-directory: .
       - run: python scripts/test_go_multi_agent_recipe.py -v
         working-directory: .
+      - run: python scripts/test_go_streaming_recipe.py -v
+        working-directory: .
 
   published-consumer:
     runs-on: ubuntu-latest
