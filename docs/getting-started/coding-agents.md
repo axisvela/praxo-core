@@ -11,7 +11,7 @@ language and run the verification commands.
 | --- | --- | --- | --- |
 | Go | `github.com/axisvela/praxo-core/v2` | `2.6.0` | [Go consumer](consumer-go.md) |
 | Python | `praxo-core` | `0.3.2` | [Python consumer](consumer-python.md) |
-| TypeScript | `@axisvela/praxo-core` | `0.2.1` | [TypeScript consumer](consumer-typescript.md) |
+| TypeScript | `@axisvela/praxo-core` | `0.2.2` | [TypeScript consumer](consumer-typescript.md) |
 | Java | `com.axisvela:praxo-core` | `0.4.1` | [Java consumer](consumer-java.md) |
 
 The machine-readable map is

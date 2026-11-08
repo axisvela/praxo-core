@@ -13,7 +13,7 @@ BLOCK_END = "## "
 LANGUAGES = [
     {"dir": ".", "name": "Go", "package": "github.com/axisvela/praxo-core/v2", "registry": "Go module proxy / pkg.go.dev", "version": "v2.6.0", "tag": "v2.6.0", "install": "go get github.com/axisvela/praxo-core/v2@v2.6.0", "url": "https://pkg.go.dev/github.com/axisvela/praxo-core/v2", "status": "published", "tier": "Core (reference)", "docs": "https://axisvela.github.io/praxo-core/"},
     {"dir": "language/python", "name": "Python", "package": "praxo-core", "registry": "PyPI", "version": "0.3.2", "tag": "python/v0.3.2", "install": "pip install praxo-core==0.3.2", "url": "https://pypi.org/project/praxo-core/0.3.2/", "status": "published", "tier": "Core", "docs": "https://axisvela.github.io/praxo-core/languages/python/"},
-    {"dir": "language/typescript", "name": "TypeScript", "package": "@axisvela/praxo-core", "registry": "npm", "version": "0.2.1", "tag": "typescript/v0.2.1", "install": "npm install @axisvela/praxo-core@0.2.1", "url": "https://www.npmjs.com/package/@axisvela/praxo-core/v/0.2.1", "status": "published", "tier": "Core", "docs": "https://axisvela.github.io/praxo-core/languages/typescript/"},
+    {"dir": "language/typescript", "name": "TypeScript", "package": "@axisvela/praxo-core", "registry": "npm", "version": "0.2.2", "tag": "typescript/v0.2.2", "install": "npm install @axisvela/praxo-core@0.2.2", "url": "https://www.npmjs.com/package/@axisvela/praxo-core/v/0.2.2", "status": "published", "tier": "Core", "docs": "https://axisvela.github.io/praxo-core/languages/typescript/"},
     {"dir": "language/java", "name": "Java", "package": "com.axisvela:praxo-core", "registry": "Maven Central", "version": "0.4.1", "tag": "java/v0.4.1", "install": "Maven: com.axisvela:praxo-core:0.4.1", "url": "https://repo1.maven.org/maven2/com/axisvela/praxo-core/0.4.1/", "status": "published", "tier": "Core", "docs": "https://axisvela.github.io/praxo-core/languages/java/"},
     {"dir": "language/rust", "name": "Rust", "package": "praxo-core", "registry": "crates.io", "version": "0.3.0", "tag": "rust/v0.3.0", "install": "cargo add praxo-core@0.3.0", "url": "https://crates.io/crates/praxo-core/0.3.0", "status": "published", "tier": "Core", "docs": "https://axisvela.github.io/praxo-core/languages/rust/"},
     {"dir": "language/csharp", "name": "C#", "package": "Praxo.Core", "registry": "NuGet", "version": "0.3.0", "tag": "csharp/v0.3.0", "install": "dotnet add package Praxo.Core --version 0.3.0", "url": "https://www.nuget.org/packages/Praxo.Core/0.3.0", "status": "published", "tier": "Core", "docs": "https://axisvela.github.io/praxo-core/languages/csharp/"},
@@ -50,15 +50,6 @@ for entry in LANGUAGES:
     entry.setdefault("source_version", entry["version"])
     entry.setdefault("published_version", entry["version"])
     entry.setdefault("source_install", entry["install"])
-
-for entry in LANGUAGES:
-    if entry["name"] == "TypeScript":
-        entry.update(
-            source_version="0.2.2",
-            source_install="npm install @axisvela/praxo-core@0.2.2",
-            tag="typescript/v0.2.2",
-            status="release prepared; npm staging requires maintainer approval",
-        )
 
 MANIFEST = ROOT / "language" / "registry-metadata.json"
 

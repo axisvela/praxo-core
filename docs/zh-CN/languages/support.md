@@ -73,7 +73,7 @@ Bridge、Sample 描述运行时的接入方式，不证明其语言缺乏 Framew
 | 语言 | 源码标签 | 注册表版本 | 消费者安装 smoke |
 | --- | --- | --- | --- |
 | Python | `python/v0.3.2` | PyPI `praxo-core==0.3.2` 已发布 | 发布工作流构建并 smoke 测试 wheel/sdist；发布后消费者检查已在本地通过 |
-| TypeScript | `typescript/v0.2.2` | npm `@axisvela/praxo-core@0.2.1` 已发布；`0.2.2` staged 待批准 | `0.2.1` 发布后消费者检查已在本地通过；`0.2.2` 等待维护者批准 |
+| TypeScript | `typescript/v0.2.2` | npm `@axisvela/praxo-core@0.2.2` 已发布，并为 latest | 发布工作流构建并消费 tarball；`0.2.1` 发布后消费者检查已在本地通过 |
 | Java | `java/v0.4.1` | Maven Central `com.axisvela:praxo-core:0.4.1` 已发布 | Central 已校验并发布；发布后消费者检查已在本地通过 |
 | Rust | `rust/v0.3.0` | crates.io `praxo-core==0.3.0` 已发布；`0.1.4` 为历史版本 | 仅记录 `0.1.4`；`0.3.0` 未重跑 |
 | C# | `csharp/v0.3.0` | NuGet `Praxo.Core==0.3.0` 已发布 | 未记录 |
@@ -101,7 +101,7 @@ Bridge、Sample 描述运行时的接入方式，不证明其语言缺乏 Framew
 | 语言 | 代码/manifest 版本 | 注册表 latest | 状态 |
 | --- | --- | --- | --- |
 | Python | `0.3.2` | PyPI `0.3.2` | 已最新 |
-| TypeScript | `0.2.2` | npm `0.2.1` 已发布；`0.2.2` staged | 待批准 |
+| TypeScript | `0.2.2` | npm `0.2.2` | 已最新 |
 | Java | `0.4.1` | Maven Central `0.4.1` | 已最新 |
 | Rust | `0.3.0` | crates.io `0.3.0` | 已最新 |
 | C# | `0.3.0` | NuGet `0.3.0` | 已最新 |
@@ -121,7 +121,7 @@ Bridge、Sample 描述运行时的接入方式，不证明其语言缺乏 Framew
 语言页面是安装信息的唯一来源。
 
 - Python 从源码标签 `python/v0.3.2` 发布 `praxo-core==0.3.2` 到 PyPI；TypeScript 从源码标签
-  `typescript/v0.2.2` 发布 `@axisvela/praxo-core@0.2.1` 到 npm，带有 npm
+  `typescript/v0.2.2` 发布 `@axisvela/praxo-core@0.2.2` 到 npm，带有 npm
   provenance，并采用 agent framework 优先的 README 和元数据。
 - Java 源码标签 `java/v0.4.1` 增加人工审批中断决策，Maven groupId 为 `com.axisvela`，
   包名为 `com.axisvela.praxo`；Maven Central 已发布

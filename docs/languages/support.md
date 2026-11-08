@@ -102,7 +102,7 @@ Registry values below were checked against the public registries on 2026-11-05.
 | Language | Source tag | Registry version | Consumer install smoke |
 | --- | --- | --- | --- |
 | Python | `python/v0.3.2` | PyPI `praxo-core==0.3.2` published | Release workflow built and smoke-tested wheel/sdist; post-publication consumer check passed locally |
-| TypeScript | `typescript/v0.2.2` | npm `@axisvela/praxo-core@0.2.1` published; `0.2.2` staged for approval | `0.2.1` post-publication consumer check passed locally; `0.2.2` awaits maintainer approval |
+| TypeScript | `typescript/v0.2.2` | npm `@axisvela/praxo-core@0.2.2` published; latest | Release workflow built and consumed the tarball; post-publication consumer check for `0.2.1` passed locally |
 | Java | `java/v0.4.1` | Maven Central `com.axisvela:praxo-core:0.4.1` published | Central validated and published; post-publication consumer check passed locally |
 | Rust | `rust/v0.3.0` | crates.io `praxo-core==0.3.0` published; `0.1.4` historical | Recorded for `0.1.4` only; not rerun for `0.3.0` |
 | C# | `csharp/v0.3.0` | NuGet `Praxo.Core==0.3.0` published | Not recorded |
@@ -130,7 +130,7 @@ its latest version matches the manifest at the release tag.
 | Language | Code/manifest version | Registry latest | Status |
 | --- | --- | --- | --- |
 | Python | `0.3.2` | PyPI `0.3.2` | current |
-| TypeScript | `0.2.2` | npm `0.2.1` published; `0.2.2` staged | pending approval |
+| TypeScript | `0.2.2` | npm `0.2.2` | current |
 | Java | `0.4.1` | Maven Central `0.4.1` | current |
 | Rust | `0.3.0` | crates.io `0.3.0` | current |
 | C# | `0.3.0` | NuGet `0.3.0` | current |
@@ -151,10 +151,9 @@ registry package contains the source tag's latest behavior. The language page is
 the installation source of truth.
 
 - Python publishes `praxo-core==0.3.2` on PyPI from source tag
-  `python/v0.3.2`. TypeScript publishes `@axisvela/praxo-core@0.2.1` on npm from
-  source tag `typescript/v0.2.1`; `0.2.2` is staged and awaiting maintainer
-  approval. The package has npm provenance and an agent-framework-first README
-  and metadata.
+  `python/v0.3.2`. TypeScript publishes `@axisvela/praxo-core@0.2.2` on npm from
+  source tag `typescript/v0.2.2`; the package has npm provenance and an
+  agent-framework-first README and metadata.
 - Java source tag `java/v0.4.1` adds HITL interrupt decisions with Maven groupId
   `com.axisvela` and Java packages under `com.axisvela.praxo`. Maven Central
   publishes `com.axisvela:praxo-core:0.4.1`. The earlier `java/v0.2.3` tag

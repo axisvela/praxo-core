@@ -1,6 +1,6 @@
 # TypeScript 独立消费者
 
-在自己的 Node.js 应用中使用已发布的 `@axisvela/praxo-core@0.2.1`，要求 Node.js 20
+在自己的 Node.js 应用中使用已发布的 `@axisvela/praxo-core@0.2.2`，要求 Node.js 20
 或更新版本。无需检出 PRAXO-CORE 源码、API Key、模型服务或 AxisVela 产品。
 安装需要 npm Registry 访问或已有缓存。
 
@@ -15,7 +15,7 @@
 在新的应用目录中创建精确依赖的 `package.json`，再由锁文件安装：
 
 ```sh
-npm install --save-exact @axisvela/praxo-core@0.2.1
+npm install --save-exact @axisvela/praxo-core@0.2.2
 ```
 
 提交生成的 `package-lock.json`，重复验收使用 `npm ci`。不要使用 `file:`、`link:`、

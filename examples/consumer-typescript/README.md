@@ -1,6 +1,6 @@
 # Independent TypeScript Consumer
 
-This starter installs the published `@axisvela/praxo-core@0.2.1` package from
+This starter installs the published `@axisvela/praxo-core@0.2.2` package from
 npm in a separate application. It does not import the repository's TypeScript
 source. Node.js 20 or newer is required; the framework has no runtime
 dependencies.

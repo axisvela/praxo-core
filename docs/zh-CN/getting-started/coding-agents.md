@@ -9,7 +9,7 @@
 | --- | --- | --- | --- |
 | Go | `github.com/axisvela/praxo-core/v2` | `2.6.0` | [Go 消费者](consumer-go.md) |
 | Python | `praxo-core` | `0.3.2` | [Python 消费者](consumer-python.md) |
-| TypeScript | `@axisvela/praxo-core` | `0.2.1` | [TypeScript 消费者](consumer-typescript.md) |
+| TypeScript | `@axisvela/praxo-core` | `0.2.2` | [TypeScript 消费者](consumer-typescript.md) |
 | Java | `com.axisvela:praxo-core` | `0.4.1` | [Java 消费者](consumer-java.md) |
 
 机器可读映射见 [`agent-integration.json`](agent-integration.json)。安装前请重新核对
@@ -42,7 +42,7 @@ Registry；源码标签不能证明包仓库可用。Registry 页面是发布快
 | --- | --- |
 | Go | `GOWORK=off go test -mod=readonly ./...` |
 | Python | 在独立虚拟环境中：`python -I -m unittest discover -s . -v` |
-| TypeScript | `npm test` |
+| TypeScript | `@axisvela/praxo-core` | `0.2.2` | [TypeScript 消费者](consumer-typescript.md) |
 | Java | `mvn -B test` |
 
 ## 不应推断

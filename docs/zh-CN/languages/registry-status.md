@@ -1,6 +1,6 @@
 # 注册表发布状态
 
-最后核对：2026-11-08（Python 0.3.2、Java 0.4.1 已发布；TypeScript 0.2.1 已发布、0.2.2 已 staged 待批准；
+最后核对：2026-11-08（Python 0.3.2、TypeScript 0.2.2、Java 0.4.1 已发布；
 Go module proxy 与 crates.io 于 2026-11-07 重新核对；其他行来自 2026-11-04/05 审计）。
 
 本页汇总各语言实现当前发布到哪里。源码标签、包注册表版本、一致性测试和生产验证是
@@ -22,7 +22,7 @@ GitHub Latest 仅代表 Go 参考 Core，不代表最近发布的语言包。
 | --- | --- | --- | --- | --- |
 | Go | Go module proxy / pkg.go.dev | `v2.6.0` | https://pkg.go.dev/github.com/axisvela/praxo-core/v2 | 已发布 |
 | Python | PyPI | `0.3.2` | https://pypi.org/project/praxo-core/0.3.2/ | 已发布 |
-| TypeScript | npm | `0.2.1` | https://www.npmjs.com/package/@axisvela/praxo-core/v/0.2.1 | 已发布；`0.2.2` staged 待批准 |
+| TypeScript | npm | `0.2.2` | https://www.npmjs.com/package/@axisvela/praxo-core/v/0.2.2 | 已发布；latest |
 | Java | Maven Central | `0.4.1` | https://repo1.maven.org/maven2/com/axisvela/praxo-core/0.4.1/ | 已发布 |
 | Rust | crates.io | `0.3.0` | https://crates.io/crates/praxo-core/0.3.0 | 已发布 |
 | C# | NuGet | `0.3.0` | https://www.nuget.org/packages/Praxo.Core/0.3.0 | 已发布 |
