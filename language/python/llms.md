@@ -7,10 +7,10 @@
 ## Package
 
 - package: `praxo-core`
-- registry: [PyPI](https://pypi.org/project/praxo-core/0.3.0/)
+- registry: [PyPI](https://pypi.org/project/praxo-core/0.3.1/)
 - source_version: `0.3.1`
-- published_version: `0.3.0`
-- install_published: `pip install praxo-core==0.3.0`
+- published_version: `0.3.1`
+- install_published: `pip install praxo-core==0.3.1`
 - install_source: `pip install praxo-core==0.3.1`
 - source_tag: `python/v0.3.1`
 - tier: Core

@@ -101,9 +101,9 @@ Registry values below were checked against the public registries on 2026-11-05.
 
 | Language | Source tag | Registry version | Consumer install smoke |
 | --- | --- | --- | --- |
-| Python | `python/v0.3.0` | PyPI `praxo-core==0.3.0` published | Recorded only for `0.2.4`; not rerun for `0.3.0` |
-| TypeScript | `typescript/v0.2.0` | npm `@axisvela/praxo-core@0.2.0` published; latest | Recorded only for `0.1.5`; not rerun for `0.2.0` |
-| Java | `java/v0.4.0` | Maven Central `com.axisvela:praxo-core:0.4.0` published | Not recorded |
+| Python | `python/v0.3.1` | PyPI `praxo-core==0.3.1` published | Release workflow built and smoke-tested wheel/sdist; post-publication consumer check passed locally |
+| TypeScript | `typescript/v0.2.1` | npm `@axisvela/praxo-core@0.2.1` published; latest | Release workflow built and consumed the tarball; post-publication consumer check passed locally |
+| Java | `java/v0.4.1` | Maven Central `com.axisvela:praxo-core:0.4.1` published | Central validated and published; post-publication consumer check passed locally |
 | Rust | `rust/v0.3.0` | crates.io `praxo-core==0.3.0` published; `0.1.4` historical | Recorded for `0.1.4` only; not rerun for `0.3.0` |
 | C# | `csharp/v0.3.0` | NuGet `Praxo.Core==0.3.0` published | Not recorded |
 | Elixir | `elixir/v0.4.0` | Hex `praxo_core==0.4.0` published; `0.3.0`, `0.2.0` historical | Not rerun for `0.4.0`; historical `0.1.1` smoke |
@@ -129,9 +129,9 @@ its latest version matches the manifest at the release tag.
 
 | Language | Code/manifest version | Registry latest | Status |
 | --- | --- | --- | --- |
-| Python | `0.3.0` | PyPI `0.3.0` | current |
-| TypeScript | `0.2.0` | npm `0.2.0` | current |
-| Java | `0.4.0` | Maven Central `0.4.0` | current |
+| Python | `0.3.1` | PyPI `0.3.1` | current |
+| TypeScript | `0.2.1` | npm `0.2.1` | current |
+| Java | `0.4.1` | Maven Central `0.4.1` | current |
 | Rust | `0.3.0` | crates.io `0.3.0` | current |
 | C# | `0.3.0` | NuGet `0.3.0` | current |
 | Elixir | `0.4.0` | Hex `0.4.0` | current |
@@ -150,13 +150,13 @@ Do not install a source-tag-only language from a registry, and do not assume a
 registry package contains the source tag's latest behavior. The language page is
 the installation source of truth.
 
-- Python publishes `praxo-core==0.3.0` on PyPI from source tag
-  `python/v0.3.0`. TypeScript publishes `@axisvela/praxo-core@0.2.0` on npm from
-  source tag `typescript/v0.2.0`; the package has npm provenance and an
+- Python publishes `praxo-core==0.3.1` on PyPI from source tag
+  `python/v0.3.1`. TypeScript publishes `@axisvela/praxo-core@0.2.1` on npm from
+  source tag `typescript/v0.2.1`; the package has npm provenance and an
   agent-framework-first README and metadata.
-- Java source tag `java/v0.4.0` adds HITL interrupt decisions with Maven groupId
+- Java source tag `java/v0.4.1` adds HITL interrupt decisions with Maven groupId
   `com.axisvela` and Java packages under `com.axisvela.praxo`. Maven Central
-  publishes `com.axisvela:praxo-core:0.4.0`. The earlier `java/v0.2.3` tag
+  publishes `com.axisvela:praxo-core:0.4.1`. The earlier `java/v0.2.3` tag
   retains `io.axisvela.praxo`.
 - PHP source tag `php/v0.4.0` adds HITL interrupt decisions to streaming runs,
   cancellation, SSE validation, final authorization, lifecycle cleanup, and

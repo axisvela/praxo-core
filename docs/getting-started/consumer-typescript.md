@@ -1,6 +1,6 @@
 # Independent TypeScript Consumer
 
-Use the published `@axisvela/praxo-core@0.2.0` package in your own Node.js
+Use the published `@axisvela/praxo-core@0.2.1` package in your own Node.js
 application. Node.js 20 or newer is required. No PRAXO-CORE source checkout, API
 key, model service, or AxisVela product is needed. Installation needs npm
 registry access or a populated cache.
@@ -18,7 +18,7 @@ In a new application directory, create `package.json` with an exact dependency,
 then install from the lockfile:
 
 ```sh
-npm install --save-exact @axisvela/praxo-core@0.2.0
+npm install --save-exact @axisvela/praxo-core@0.2.1
 ```
 
 Commit the generated `package-lock.json`, and use `npm ci` in repeatable checks.

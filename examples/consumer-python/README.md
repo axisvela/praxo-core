@@ -1,6 +1,6 @@
 # Independent Python Consumer
 
-This starter installs `praxo-core==0.3.0` from PyPI in a dedicated virtual
+This starter installs `praxo-core==0.3.1` from PyPI in a dedicated virtual
 environment. It does not import the repository's Python implementation.
 Use Python 3.11 or newer. No runtime dependency other than PRAXO-CORE is needed.
 

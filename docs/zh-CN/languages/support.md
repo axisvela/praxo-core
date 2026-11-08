@@ -72,10 +72,10 @@ Bridge、Sample 描述运行时的接入方式，不证明其语言缺乏 Framew
 
 | 语言 | 源码标签 | 注册表版本 | 消费者安装 smoke |
 | --- | --- | --- | --- |
-| Python | `python/v0.3.0` | PyPI `praxo-core==0.3.0` 已发布 | 仅记录 `0.2.4`；`0.3.0` 未重跑 |
-| TypeScript | `typescript/v0.2.0` | npm `@axisvela/praxo-core@0.2.0` 已发布，并为 latest | 仅记录 `0.1.5`；`0.2.0` 未重跑 |
-| Java | `java/v0.4.0` | Maven Central `com.axisvela:praxo-core:0.4.0` 已发布 | 未记录 |
-| Rust | `rust/v0.3.0` | crates.io `praxo-core==0.3.0` 已发布；`0.1.4` 为历史版本 | 仅记录 `0.1.4`；`0.3.0` 未重跑 |
+| Python | `python/v0.3.1` | PyPI `praxo-core==0.3.1` 已发布 | 发布工作流构建并 smoke 测试 wheel/sdist；发布后消费者检查已在本地通过 |
+| TypeScript | `typescript/v0.2.1` | npm `@axisvela/praxo-core@0.2.1` 已发布，并为 latest | 发布工作流构建并消费 tarball；发布后消费者检查已在本地通过 |
+| Java | `java/v0.4.1` | Maven Central `com.axisvela:praxo-core:0.4.1` 已发布 | Central 已校验并发布；发布后消费者检查已在本地通过 |
+| Rust | `rust/v0.3.0` | crates.io `praxo-core==0.3.1` 已发布；`0.1.4` 为历史版本 | 仅记录 `0.1.4`；`0.3.0` 未重跑 |
 | C# | `csharp/v0.3.0` | NuGet `Praxo.Core==0.3.0` 已发布 | 未记录 |
 | Elixir | `elixir/v0.4.0` | Hex `praxo_core==0.4.0` 已发布；`0.3.0`、`0.2.0` 为历史版本 | `0.4.0` 未重跑；历史 `0.1.1` smoke |
 | Erlang | `erlang/v0.4.0` | Hex `praxo_core_erlang==0.4.0` 已发布；`0.3.1`、`0.2.0` 为历史版本 | `0.4.0` 未重跑；历史 `0.1.1` smoke |
@@ -100,9 +100,9 @@ Bridge、Sample 描述运行时的接入方式，不证明其语言缺乏 Framew
 
 | 语言 | 代码/manifest 版本 | 注册表 latest | 状态 |
 | --- | --- | --- | --- |
-| Python | `0.3.0` | PyPI `0.3.0` | 已最新 |
-| TypeScript | `0.2.0` | npm `0.2.0` | 已最新 |
-| Java | `0.4.0` | Maven Central `0.4.0` | 已最新 |
+| Python | `0.3.1` | PyPI `0.3.1` | 已最新 |
+| TypeScript | `0.2.1` | npm `0.2.1` | 已最新 |
+| Java | `0.4.1` | Maven Central `0.4.1` | 已最新 |
 | Rust | `0.3.0` | crates.io `0.3.0` | 已最新 |
 | C# | `0.3.0` | NuGet `0.3.0` | 已最新 |
 | Elixir | `0.4.0` | Hex `0.4.0` | 已最新 |
@@ -120,12 +120,12 @@ Bridge、Sample 描述运行时的接入方式，不证明其语言缺乏 Framew
 不要从注册表安装只有源码标签的语言，也不要假设注册表包包含源码标签的最新行为。
 语言页面是安装信息的唯一来源。
 
-- Python 从源码标签 `python/v0.3.0` 发布 `praxo-core==0.3.0` 到 PyPI；TypeScript 从源码标签
-  `typescript/v0.2.0` 发布 `@axisvela/praxo-core@0.2.0` 到 npm，带有 npm
+- Python 从源码标签 `python/v0.3.1` 发布 `praxo-core==0.3.1` 到 PyPI；TypeScript 从源码标签
+  `typescript/v0.2.1` 发布 `@axisvela/praxo-core@0.2.1` 到 npm，带有 npm
   provenance，并采用 agent framework 优先的 README 和元数据。
-- Java 源码标签 `java/v0.4.0` 增加人工审批中断决策，Maven groupId 为 `com.axisvela`，
+- Java 源码标签 `java/v0.4.1` 增加人工审批中断决策，Maven groupId 为 `com.axisvela`，
   包名为 `com.axisvela.praxo`；Maven Central 已发布
-  `com.axisvela:praxo-core:0.4.0`。较早的 `java/v0.2.3` 标签仍保留
+  `com.axisvela:praxo-core:0.4.1`。较早的 `java/v0.2.3` 标签仍保留
   `io.axisvela.praxo`。
 - PHP 源码标签 `php/v0.4.0` 在流式运行、取消、SSE 校验、最终授权、生命周期清理，
   以及通过 `batchToolInvoker` 提供的调用方协作式并行工具调度之上增加人工审批
@@ -153,7 +153,7 @@ Bridge、Sample 描述运行时的接入方式，不证明其语言缺乏 Framew
 - Dart 已有源码标签 `dart/v0.1.1`，并在 publisher `axisvela.com` 下发布
   `praxo_core==0.1.1` 到 pub.dev。干净项目已安装该包、导入
   `package:praxo_core/praxo_core.dart` 并运行最小 agent。
-- Rust 源码标签 `rust/v0.3.0` 在全部 11 个向量组、原生测试、`tool.Gateway`、`jsonschema.Schema`、流式回调、取消、有限并行工具和 API 快照之上增加人工审批中断决策。crates.io 已发布 `praxo-core==0.3.0`；已记录的干净临时项目安装 smoke 覆盖 `0.1.4`，报告 `SDK_VERSION` `0.1.4` 和 `SPEC_VERSION` `0.2.0`。不包含 HTTP OpenAI adapter、VFS 或 plugin hosts。
+- Rust 源码标签 `rust/v0.3.0` 在全部 11 个向量组、原生测试、`tool.Gateway`、`jsonschema.Schema`、流式回调、取消、有限并行工具和 API 快照之上增加人工审批中断决策。crates.io 已发布 `praxo-core==0.3.1`；已记录的干净临时项目安装 smoke 覆盖 `0.1.4`，报告 `SDK_VERSION` `0.1.4` 和 `SPEC_VERSION` `0.2.0`。不包含 HTTP OpenAI adapter、VFS 或 plugin hosts。
 - R 源码标签 `r/v0.5.0` 在 policy、middleware、生命周期清理、取消、流式回调、SSE parser、有限并行工具和 API 快照之上增加人工审批中断决策。Unix 使用 `mclapply`，Windows 使用 PSOCK cluster。r-universe 从 `language/r` 发布 `praxocore==0.5.0`；CRAN 发布尚未声明，发布工作流执行 `R CMD build` 和 `R CMD check`。
 - C 源码标签 `c/v0.6.0` 在 policy 授权、有序 middleware、生命周期清理、
   最终工具 allowlist 检查、中途修改后的重新授权、取消、流式回调、SSE parser

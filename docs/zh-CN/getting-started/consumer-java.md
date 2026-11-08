@@ -1,6 +1,6 @@
 # Java 独立消费者
 
-在自己的应用中使用 Maven Central 已发布的 `com.axisvela:praxo-core:0.4.0`，
+在自己的应用中使用 Maven Central 已发布的 `com.axisvela:praxo-core:0.4.1`，
 要求 Java 21 或更新版本、Maven 3.9 或更新版本。无需检出 PRAXO-CORE 源码、API Key、
 模型服务或 AxisVela 产品。安装需要 Maven Central 访问或已有本地仓库缓存。
 
@@ -18,12 +18,12 @@
 <dependency>
   <groupId>com.axisvela</groupId>
   <artifactId>praxo-core</artifactId>
-  <version>0.4.0</version>
+  <version>0.4.1</version>
 </dependency>
 ```
 
 不要使用 `system` scope、本地 JAR 路径或框架源码替代构建。测试会验证 SDK 版本，
-并确认 `Version` 来自已发布的 `praxo-core-0.4.0.jar`。
+并确认 `Version` 来自已发布的 `praxo-core-0.4.1.jar`。
 
 ## 应用源码
 

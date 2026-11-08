@@ -1,7 +1,7 @@
 # PRAXO-CORE TypeScript Registry Introduction
 
-**Status:** release prepared; registry publication pending. Source version `0.2.1`, source
-tag `typescript/v0.2.1`. Published registry version: `0.2.0`. Registry
+**Status:** published. Source version `0.2.1`, source
+tag `typescript/v0.2.1`. Published registry version: `0.2.1`. Registry
 pages are release snapshots; verify the published version before relying on a
 feature.
 
@@ -14,10 +14,10 @@ PRAXO-CORE is a dependency-free TypeScript framework for building tool-using AI 
 | Field | Value |
 | --- | --- |
 | Package | `@axisvela/praxo-core` |
-| Registry | [npm](https://www.npmjs.com/package/@axisvela/praxo-core/v/0.2.0) |
+| Registry | [npm](https://www.npmjs.com/package/@axisvela/praxo-core/v/0.2.1) |
 | Source version | `0.2.1` |
-| Published registry version | `0.2.0` |
-| Install (published) | `npm install @axisvela/praxo-core@0.2.0` |
+| Published registry version | `0.2.1` |
+| Install (published) | `npm install @axisvela/praxo-core@0.2.1` |
 | Install (source/release prepared) | `npm install @axisvela/praxo-core@0.2.1` |
 | Source tag | `typescript/v0.2.1` |
 | Tier | Core |

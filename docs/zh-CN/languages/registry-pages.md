@@ -42,16 +42,16 @@ crates.io、NuGet、RubyGems、Packagist、Hex、pub.dev 等 Registry 页面，�
 
 ## 当前试点页面审计
 
-2026-11-05 检查四个试点包；Go proxy 于 2026-11-07 重新核对。
+2026-11-08 检查四个试点包；Go proxy 于 2026-11-07 重新核对。
 
 | 语言 | 页面 | 已发布版本 | 当前页面状态 | 下一步 |
 | --- | --- | --- | --- | --- |
 | Go | [pkg.go.dev](https://pkg.go.dev/github.com/axisvela/praxo-core/v2) | `v2.6.0` | Proxy 最新为 `v2.6.0`；新 tag 已包含消费者 Starter 与当前选型指引。未重新审计渲染页面内容 | 核对渲染后的 `v2.6.0` 页面并将该行标记为最新 |
-| Python | [PyPI](https://pypi.org/project/praxo-core/) | `0.3.0` | Summary 与 keywords 较通用；已发布 README 早于消费者/治理内容 | 源元数据已更新；需发布新版本更新页面 |
-| TypeScript | [npm](https://www.npmjs.com/package/@axisvela/praxo-core) | `0.2.0` | Description 与 keywords 较通用；已发布 README 早于消费者/治理内容 | 源元数据已更新；需发布新版本更新页面 |
-| Java | [Maven Central](https://central.sonatype.com/artifact/com.axisvela/praxo-core) | `0.4.0` | POM description 较通用；Central 不渲染源码 README | 源 POM 已更新；需部署新版本更新页面 |
+| Python | [PyPI](https://pypi.org/project/praxo-core/) | `0.3.1` | `0.3.1` 已发布；尚未重新审计渲染页面内容 | 核对 `0.3.1` 页面并标记为当前 |
+| TypeScript | [npm](https://www.npmjs.com/package/@axisvela/praxo-core) | `0.2.1` | `0.2.1` 已发布且为 latest；尚未重新审计渲染页面内容 | 核对 `0.2.1` 页面并标记为当前 |
+| Java | [Maven Central](https://central.sonatype.com/artifact/com.axisvela/praxo-core) | `0.4.1` | `0.4.1` 已发布；Central 不渲染源码 README | 核对 `0.4.1` POM/sources 页面并标记为当前 |
 
-本仓库的源元数据更新**不会**改变已发布的 `0.3.0`、`0.2.0` 和 `0.4.0` 语言页面。
+本仓库的源元数据更新**不会**改变已发布的 `0.3.1`、`0.2.1` 与 `0.4.1` 语言页面。
 Go 页面随 `v2.6.0` tag 更新。在 Registry 显示新版本与新文本前，不得声称页面已更新。
 
 其他 Registry 见[Registry 发布状态](registry-status.md)。本次未逐一重新审计；发布时

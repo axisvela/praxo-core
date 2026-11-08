@@ -10,9 +10,9 @@ language and run the verification commands.
 | Language | Package | Current recommended version | Starter |
 | --- | --- | --- | --- |
 | Go | `github.com/axisvela/praxo-core/v2` | `2.6.0` | [Go consumer](consumer-go.md) |
-| Python | `praxo-core` | `0.3.0` | [Python consumer](consumer-python.md) |
-| TypeScript | `@axisvela/praxo-core` | `0.2.0` | [TypeScript consumer](consumer-typescript.md) |
-| Java | `com.axisvela:praxo-core` | `0.4.0` | [Java consumer](consumer-java.md) |
+| Python | `praxo-core` | `0.3.1` | [Python consumer](consumer-python.md) |
+| TypeScript | `@axisvela/praxo-core` | `0.2.1` | [TypeScript consumer](consumer-typescript.md) |
+| Java | `com.axisvela:praxo-core` | `0.4.1` | [Java consumer](consumer-java.md) |
 
 The machine-readable map is
 [`agent-integration.json`](agent-integration.json). Re-check the registry before

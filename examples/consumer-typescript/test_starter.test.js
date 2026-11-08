@@ -7,7 +7,7 @@ const pkg = require("@axisvela/praxo-core/package.json");
 
 const { buildAgent, run } = require("./starter");
 
-const expectedVersion = process.env.PRAXO_EXPECTED_VERSION || "0.2.0";
+const expectedVersion = process.env.PRAXO_EXPECTED_VERSION || "0.2.1";
 
 test("allowed tool executes once", async () => {
   const { agent, tool } = buildAgent("public");

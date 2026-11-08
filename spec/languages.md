@@ -72,9 +72,9 @@ for real providers, platforms, and production behavior is reported separately.
 | Language | Tier | Status | Tag | Maturity | Notes |
 | --- | --- | --- | --- | --- | --- |
 | Go | Core (reference) | released | `v2.6.0` | reference | Reference implementation |
-| Python | Core | released | `python/v0.3.0` | complete | 11 vectors, HITL interrupts, OpenAI adapter, PyPI `praxo-core==0.3.0` |
-| TypeScript | Core | released | `typescript/v0.2.0` | complete | 11 vectors, HITL interrupts, OpenAI adapter; npm `@axisvela/praxo-core@0.2.0` staged with provenance |
-| Java | Core | released | `java/v0.4.0` | complete | 11 vectors, HITL interrupts, OpenAI adapter, API snapshot; Maven Central `com.axisvela:praxo-core:0.4.0` |
+| Python | Core | released | `python/v0.3.1` | complete | 11 vectors, HITL interrupts, OpenAI adapter, PyPI `praxo-core==0.3.1` |
+| TypeScript | Core | released | `typescript/v0.2.1` | complete | 11 vectors, HITL interrupts, OpenAI adapter; npm `@axisvela/praxo-core@0.2.1` published with provenance |
+| Java | Core | released | `java/v0.4.1` | complete | 11 vectors, HITL interrupts, OpenAI adapter, API snapshot; Maven Central `com.axisvela:praxo-core:0.4.1` |
 | Rust | Core | released | `rust/v0.3.0` | complete | 11 vectors, HITL interrupts, native tests, `tool.Gateway`, `jsonschema.Schema`, streaming/cancellation/parallel tools, compiler-derived API/parity gate; source `0.3.0`, crates.io `praxo-core==0.3.0`; recorded install smoke covers `0.1.4` |
 | C | Core | released | `c/v0.6.0` | complete | 11 vectors, native tests; public Core API plus wire JSON primitives; policy/middleware/lifecycle, HITL interrupt decisions, cancellation, streaming, SSE, bounded parallel tools (pthread on Unix; sequential on Windows) |
 | C# | Core (.NET) | released | `csharp/v0.3.0` | complete | 11 vectors, HITL interrupts, API snapshot, OpenAI adapter, streaming/cancellation/parallel tools; source `0.3.0`, NuGet `Praxo.Core==0.3.0` |

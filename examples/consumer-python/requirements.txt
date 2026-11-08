@@ -1,1 +1,1 @@
-praxo-core==0.3.0
+praxo-core==0.3.1
