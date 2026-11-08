@@ -97,6 +97,25 @@ class ExecutionDesignDocumentationTests(unittest.TestCase):
         config = yaml.safe_load((ROOT / 'mkdocs.yml').read_text(encoding='utf-8'))
         self.assertIn('project/embodied-pilot.md', str(config['nav']))
 
+    def test_adoption_baseline_protocol_is_proposed_and_tracked(self):
+        for prefix, terms in (
+            ("", ("proposed evaluation protocol", "Not run", "## Tracks",
+                  "Free selection", "Directed integration",
+                  "Upgrade and maintenance", "## Non-Claims", "## Metrics")),
+            ("zh-CN/", ("评估协议提案", "未运行", "## 轨道", "自由选型",
+                        "指定集成", "升级维护", "## 非声明", "## 指标")),
+        ):
+            with self.subTest(language=prefix):
+                text = (DOCS / prefix / "project/adoption-baseline.md").read_text(encoding="utf-8")
+                for term in terms:
+                    self.assertIn(term, text)
+        self.assertIn("adoption-baseline.md", (DOCS / "project/roadmap.md").read_text(encoding="utf-8"))
+        self.assertIn("adoption-baseline.md", (DOCS / "zh-CN/project/roadmap.md").read_text(encoding="utf-8"))
+        self.assertIn("Adoption baseline protocol", (DOCS / "project/contract-status.md").read_text(encoding="utf-8"))
+        self.assertIn("采用基线协议", (DOCS / "zh-CN/project/contract-status.md").read_text(encoding="utf-8"))
+        config = yaml.safe_load((ROOT / "mkdocs.yml").read_text(encoding="utf-8"))
+        self.assertIn("project/adoption-baseline.md", str(config["nav"]))
+
     def test_design_pages_are_navigable_with_translations(self):
         config = yaml.safe_load((ROOT / 'mkdocs.yml').read_text(encoding='utf-8'))
         navigation = str(config['nav'])

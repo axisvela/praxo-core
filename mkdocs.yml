@@ -218,6 +218,7 @@ nav:
       - Test and Evidence Taxonomy: project/test-taxonomy.md
       - Execution Correctness: project/execution-correctness.md
       - Execution Correctness Evidence: project/execution-correctness-evidence.md
+      - Adoption Baseline: project/adoption-baseline.md
       - Embodied Pilot Plan: project/embodied-pilot.md
       - API Stability: project/api-stability.md
       - v2 Migration: project/migration-v2.md

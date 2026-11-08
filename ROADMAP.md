@@ -12,6 +12,7 @@ consumers. These are acceptance stages, not implemented-feature claims.
 
 - [Next-stage direction and acceptance gates](docs/project/roadmap.md#next-stage-direction)
 - [Adoption evaluation tracks](docs/project/roadmap.md#adoption-evidence)
+- [Coding-agent adoption baseline protocol](docs/project/adoption-baseline.md)
 - [Release history](docs/releases/index.md)
 - [Complete changelog](CHANGELOG.md)
 - [SDK support and distribution](docs/languages/support.md)

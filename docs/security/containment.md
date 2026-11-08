@@ -18,6 +18,7 @@ the threat model and trust boundaries.
 | Plugin lifecycle | Only active plugins admit calls; terminal states are irreversible |
 | Process host | Platform supervisors apply process-tree and resource limits |
 | WASM host | Linear-memory bounds and timeout/cancellation termination are tested |
+| WASM CPU bound | Start/invoke deadlines and context cancellation terminate a CPU-bound guest; per-instruction fuel metering is not provided by the pinned wazero API |
 | HTTP | TLS verification is on by default and response bodies are bounded |
 | Tool authorization | Final tool names and arguments are reauthorized before execution |
 
@@ -26,6 +27,12 @@ the threat model and trust boundaries.
 Containment is layered and product-owned. Callers must still provide OS-level
 isolation, trusted base URLs, signature and SBOM verification, approval binding,
 and idempotency where their threat model requires it.
+
+The pinned `wazero` API does not expose per-instruction fuel metering. Do not
+claim fuel-based CPU bounding for the WASM host. Its tested CPU bound is the
+configured start/invoke deadline plus context cancellation, which terminates an
+uncooperative guest; adding fuel accounting would require a reviewed dependency
+change and new tests.
 
 Since `2.5.2`, the local VFS authorizes virtual paths with
 `policy.PathChecker`, then performs reads, writes, stats, listings, deletes,
