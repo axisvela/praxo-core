@@ -1,6 +1,6 @@
 # 契约与证据状态
 
-**状态：** 公开规划参考，2026-11-05。本页定义路线图使用的状态词，并记录主要契约领域的
+**状态：** 公开规划参考，2026-11-08。本页定义路线图使用的状态词，并记录主要契约领域的
 当前状态。它不是发布排期，也不扩大任何 API 或 Profile。
 
 ## 状态词
@@ -46,14 +46,16 @@
 | Go plugin lifecycle 配方 | 已实现；在标注 revision 验证 | 演示仅 ACTIVE 接受 Acquire、受保护状态转换、带超时/取消区分的 in-flight drain、Revoke 到 UNLOADED、终态 Quarantine；不是进程/WASM 隔离或 manifest 信任证据 |
 | Go multi-agent 配方 | 已实现；在标注 revision 验证 | 演示 launch/完成/失败/取消、运行中更新门禁、按父 session 列出、仅清理终态任务、Wait 取消；属于本地任务协调，不是持久远程 worker |
 | Go streaming 配方 | 已实现；在标注 revision 验证 | 演示有序 `OnDelta` 片段、完整最终响应、流错误传播、取消与 typed `OnStream` 投影；不保证 live provider 或工具增量聚合 |
-| Workspace session 契约示例 | 评估中；使用 fake provider 离线验证 | 运行共享的 create/attach/upload/download/VFS/命令/close/可选 Pauser 一致性检查；不属于 `pkg/`，无 live provider，无隔离证据 |
-| Governed Execution Profile | 提案；已有部分集成证据 | 产品强制入口、显式范围、审批绑定与 Governed Effect Boundary 是验收要求；不声明通用 Core Profile 或产品入口已不可绕过 |
+| Workspace session 契约示例 | 评估中；使用 fake provider 离线验证 | 运行共享的 create/attach/upload/download/VFS/命令/close/可选 Pauser 一致性检查，并校验 `state`/`local`/`sandbox` 运行时 profile 的信任、隔离、能力与工具选择规则；不属于 `pkg/`，无 live provider，无隔离证据 |
+| Governed Execution Profile | 提案；已有部分集成证据 | G1-G8 验收清单与消费者统一装配设计；结构化配置和依赖校验，不是已实现总开关或 Core 新 API；实际约束分层执行，配置成功不等于行为验收 |
 | 编程 Agent 集成映射 | 已实现；版本由文档测试校验 | 包映射、集成契约与验证命令；不是安装渠道、自动 Skill 或采用证据 |
 | 编程 Agent 发现辅助 | 已实现；`llms.txt` 存在且链接由测试校验 | 机器可读仓库入口；不保证工具发现、搜索排序、安装或采用 |
 | 编程 Agent Skill 模板 | 实验；仅仓库模板 | 工具中立的 `SKILL.md`；安装与发现未验证，不声明自动安装、MCP 或运行时 Skill 行为 |
 | Registry 页面元数据 | 源元数据已更新；已发布页面尚未更新 | 2026-11-05 审计 PyPI、npm、Maven、Go 页面；页面只随新版本更新；其他 Registry 发布时检查 |
 | 编程 Agent 采用实验 | 未运行 | 没有发现、选型、首次通过、修复成本或留存数据 |
-| Embodied Integration Profile | 设计提案；消费者试点未开始 | 在治理要求上增加远程动作、观测新鲜度、取消确认、效果验证与安全依赖故障测试；需明确消费者、中间件和仿真 |
+| Embodied Integration Profile | 设计提案；消费者试点未开始 | 治理之上增加远程动作、绑定/新鲜观测、取消确认和效果验证；分开实验证据、Mission 权威、运行世界状态、独立保障与本地安全；复用已发布契约，必需能力不可用时阻塞验收 |
+| 具身试点计划 | 提案；2026-11-08 修订 | 复用治理装配，以 G1-G8 加 E1-E8 和允许端到端路径验收；拟交付消费者示例、实验适配器与消费者局部协议，不新增共享 API/Wire；未选定消费者、中间件、仿真、执行权威、观测源、验证者或安全负责人，没有运行记录 |
+| AKROVELA / DIDACTOVELA 集成 | 提案；未运行 | 可选现场执行与学习生命周期边界；两产品均为未发布 0.1.0 运维骨架，不是 Core 适配器、领域协议或已验证集成 |
 | 语言一致性、功能覆盖与运行证据 | 参见 `spec/parity.md`、语言总表与 Behavior Lab | 分开的维度；源码标签不提供运行证据 |
 
 ## 引用证据

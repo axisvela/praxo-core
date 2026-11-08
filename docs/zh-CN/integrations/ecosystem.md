@@ -84,8 +84,19 @@ PRAXO-CORE 是 AxisVela Agent 共享的框架层。它暴露中立的契约，�
 | ONTOVELA | [ontovela-open](https://github.com/axisvela/ontovela-open) | 数字孪生与世界模型；工具或检索 |
 | ORCHADYN | [orchadyn-open](https://github.com/axisvela/orchadyn-open) | 能力规划；工具或产品编排 |
 | COORDIVELA | [coordivela-open](https://github.com/axisvela/coordivela-open) | 开发协调；事件、工具或产品集成 |
-| KINETOVELA | [kinetovela-open](https://github.com/axisvela/kinetovela-open) | 机器人集群执行；工具、沙箱或产品集成 |
-| PEIRAVELA | [peiravela-open](https://github.com/axisvela/peiravela-open) | 实验控制；工具或产品集成 |
+| KINETOVELA | [kinetovela-open](https://github.com/axisvela/kinetovela-open) | Robot/Fleet 运行生命周期、Mission 分配与物理效果证据；公开契约工具/产品集成，不是 Core 沙箱 |
+| PEIRAVELA | [peiravela-open](https://github.com/axisvela/peiravela-open) | 实验世界、场景、扰动和原始 SimulationEvidence；公开 SUT adapter SPI，不拥有 Mission 或最终保障权威 |
+| AKROVELA | [akrovela-open](https://github.com/axisvela/akrovela-open) | 目标为受治理现场执行：局部操作、尝试与回执；可选未来适配器，不是第二个 Agent 循环 |
+| DIDACTOVELA | [didactovela-open](https://github.com/axisvela/didactovela-open) | 目标为数据/标注/训练与候选产物生命周期；不是框架记忆、生产推理或授权策略 |
+
+AKROVELA 与 DIDACTOVELA 是未发布 `0.1.0` 初始化骨架，仅有运维接口和源码版本客户端。
+尚无 Core 适配器、领域执行、数据集/训练路径或机器人集成；已有网关、推理与 spool 不会自动迁移。
+接入前先审查已发布领域契约；可选职责边界不改变 Core API/Wire 或默认行为。
+
+具身集成中，PEIRAVELA 实验证据、KINETOVELA Mission/效果记录、ONTOVELA 运行世界状态、
+TEKMOVELA 独立保障分别保留。KINETOVELA 本地安全边界独立于控制面。这些是可选集成角色，
+不是 Core 必需依赖或已验证互操作声明。只使用已发布契约；`peiravela-open/sdk/go` 的 Apache-2.0
+SUT SPI 不是 AGPL 运行时，本身也不提供 Mission 状态或取消确认。
 
 ## 核心接缝如何工作
 

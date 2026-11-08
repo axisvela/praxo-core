@@ -1,6 +1,7 @@
 # Registry Publication Status
 
-Last checked: 2026-11-04.
+Last checked: 2026-11-07 (Go module proxy and crates.io re-checked; other rows
+from the 2026-11-04/05 audit).
 
 This page summarizes where each language implementation is published. Source
 tags, package-registry versions, conformance, and production verification are
@@ -20,7 +21,7 @@ GitHub Latest represents the Go Reference Core only, not the last language packa
 
 | Language | Registry | Version | Address | Status |
 | --- | --- | --- | --- | --- |
-| Go | Go module proxy / pkg.go.dev | `v2.5.2` | https://pkg.go.dev/github.com/axisvela/praxo-core/v2 | published |
+| Go | Go module proxy / pkg.go.dev | `v2.6.0` | https://pkg.go.dev/github.com/axisvela/praxo-core/v2 | published |
 | Python | PyPI | `0.3.0` | https://pypi.org/project/praxo-core/0.3.0/ | published |
 | TypeScript | npm | `0.2.0` | https://www.npmjs.com/package/@axisvela/praxo-core/v/0.2.0 | published |
 | Java | Maven Central | `0.4.0` | https://repo1.maven.org/maven2/com/axisvela/praxo-core/0.4.0/ | published |

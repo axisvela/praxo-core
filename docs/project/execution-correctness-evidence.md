@@ -40,7 +40,7 @@ are not part of the EC-D scope count.
 | EC-10 | `pkg/agent` event-sink tests (pre-invocation fail, terminal failure not masked) | PRAXOVELA/RHEOVELA effect and audit tests | Callback/sink failures are surfaced without false success | Durable acknowledgement, pre-execution gate and post-commit evidence require product policy |
 | EC-11 | Path/VFS/WASM limit controls in the `core-containment-baseline` scope; containment tests in `docs/project/verification-evidence.md` | None claiming real isolation | Local path, VFS, and WASM limit controls are contract/unit tested | **No real sandbox isolation**; external container/VM evidence required |
 | EC-12 | No Core distributed-lock claim | EE Postgres nodes 6/6 (lease/fencing/concurrent acquire); RHEOVELA `ha_locks`/`stage_leases`/outbox 38/38; RHEOVELA 128-job + 1h soak | Real Postgres lease/fencing, outbox claim and long local concurrency | Multi-process deployed authority, tenant isolation and production load remain external |
-| EC-13 | No Core physical-effect semantics | None | — | **Blocked**; no named embodied consumer, middleware or simulation |
+| EC-13 | No Core physical-effect semantics | None | — | **Blocked**; no named embodied consumer, middleware or simulation. The [embodied pilot plan](embodied-pilot.md) requires governed G1-G8 plus E1-E8, an allowed end-to-end path and consumer-local protocol evidence, but records no run |
 | EC-14 | `pkg/agent/resume_test.go::TestRunResumesFromSessionMessages` (in the EC-D mechanics scope) | RHEOVELA Postgres store 38/38, HTTP effect, checkpoint 4/4; PRAXOVELA checkpoint/effect tests | Local resume ordering plus durable product store/checkpoint contracts | Durable logical identity, business dedup and authoritative recovery remain consumer-owned |
 | EC-O | No Core claim | None | — | **Blocked**; no deployed environment, fault budget, permissions or independent AEP |
 
@@ -59,7 +59,7 @@ are not part of the EC-D scope count.
 
 | Repository | Current tag / state | Tag needed? |
 | --- | --- | --- |
-| `praxo-core` | `v2.6.0` release prepared; EC-01 behavior fix, EC-D runner/scopes and this evidence page are included | No separate tag for these changes; run the normal Core release gate and publish the prepared minor release. |
+| `praxo-core` | `v2.6.0` released 2026-11-07; includes the EC-01 behavior fix, EC-D runner/scopes and this evidence page | No separate tag for these changes; the normal Core release gate applies to later changes. |
 | RHEOVELA | `v1.63.0` tag `59f66ed`; includes lost-outcome classification, declared manual compensations, PostgreSQL `ON CONFLICT` idempotency, and the PostgreSQL lost-response test | GitHub Release published with source and release assets. |
 | PRAXOVELA | `v3.4.1` tag `bfcc5b0`; `PRAXOVELA-open` `v3.4.1` tag `4ccecb8`; includes `9998c75` unknown tool-outcome classification | GitHub Releases published for core and open with `axond` Windows/Linux binaries, NSIS/MSI installers, SBOM, release manifest, and `SHA256SUMS`. |
 | PRAXOVELA-open | `v3.4.0` | Must match the next PRAXOVELA core release tag. |

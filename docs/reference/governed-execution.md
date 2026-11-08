@@ -1,6 +1,6 @@
 # Governed Execution Profile
 
-**Status:** proposed acceptance design, updated 2026-11-06. This is not an implemented
+**Status:** proposed acceptance design, updated 2026-11-08. This is not an implemented
 profile, new API, wire contract, or production-readiness claim. Current behavior
 is described by the API, [event semantics](events.md), and release notes.
 
@@ -53,6 +53,62 @@ contract. Consumers must enforce them at tool exposure and invocation. In
 particular, mapping None to today's empty AllowedTools would grant unrestricted
 scope, not deny-all; explicit All still requires policy for each protected call.
 
+## Unified Assembly Design
+
+There is no general Governed switch today. Policy, scope, HITL and events are
+configured separately, and consumers supply the external enforcement. The target
+is one trusted assembly entry with structured configuration and dependency
+validation, not a boolean that implies external guarantees. Validate this first
+in a named consumer using existing seams; no new `pkg/...` API is proposed here.
+
+The entry validates before model requests or tool exposure, then returns only a
+controlled run entry. It must not hand untrusted callers mutable security options
+or unguarded tool handles. Missing controls, unsupported mandatory capabilities
+and conflicting configuration reject construction; no fallback to `agent.New`.
+This protects trusted assembly against mistakes, not malicious same-process code.
+
+The following is an illustrative consumer configuration, not a supported file
+format, Core option, or shared wire schema:
+
+```yaml
+execution:
+  level: governed
+scope:
+  mode: allowlist
+  tools: [robot.submit, robot.status, robot.cancel]
+security:
+  identity: required
+  policy: required
+  approval: required-for-sensitive-actions
+effects:
+  recovery: authoritative-query
+  retry: guarded
+evidence:
+  before-effect: required
+  after-effect-failure: reconcile
+```
+
+Scope must explicitly distinguish `all`, `none` and `allowlist`; None must be
+enforced at both exposure and invocation, not translated into empty AllowedTools.
+Trusted code binds verifier, policy, approval, effect and evidence dependencies;
+credentials and authority cannot come from model-controlled configuration. A
+selected level chooses obligations; it does not create the missing services.
+
+| Layer | Enforcement responsibility |
+| --- | --- |
+| Assembly | Required dependencies, explicit scope, compatible configuration, no permissive fallback |
+| Core | Configured authorization, final-operation reauthorization, local lifecycle and cancellation |
+| Tool / Effect PEP | Approval consumption, final binding, resource constraints and current authority |
+| Execution authority | Deduplication, authoritative status, cancellation confirmation and fencing |
+| Deployment | Isolation and, where applicable, controlled stop and safety systems |
+
+Assembly validation is not behavioral acceptance. Record requirement ID,
+enforcing component, configuration result, exact behavioral test/artifact and
+remaining gaps separately. A configured client does not prove response-loss
+recovery. Startup checks do not replace per-operation expiry, revocation and
+resource-version checks. Configuration changes require revalidation before use;
+queued work must still satisfy its execution-time constraints.
+
 ## Governed Deployment
 
 | Requirement | Rejection or verification condition |
@@ -63,6 +119,30 @@ scope, not deny-all; explicit All still requires policy for each protected call.
 | Final operation binding | Authorization and any approval evidence cover the final tool name and arguments; edits cannot reuse unrelated approval |
 | Dependency failure | Required identity, policy, and pre-execution evidence failures cannot silently permit execution |
 | Sensitive effects | Enforce credentials, resource limits, and approval requirements at the tool/service boundary, not through prompts alone |
+
+### Acceptance Checklist
+
+G1-G8 are stable documentation references, not Core symbols or wire codes. A full
+governed integration must evidence every requirement; conditional mechanisms such
+as approvals need an explicit applicability rule. Skipped, blocked, failed or
+not-run mandatory checks leave acceptance unsatisfied. Justified exclusions may
+support a narrower experiment, not a full-profile claim.
+
+| ID | Obligation and minimum acceptance |
+| --- | --- |
+| G1 | Trusted mandatory assembly rejects missing controls before model access, discovery/exposure or execution; test alternate entries, fallback and post-validation mutation |
+| G2 | Explicit All/None/allowlist scope holds at exposure and invocation; None permits no tools and edits cannot expand scope |
+| G3 | Trusted identity, actor/agent, attenuated delegation, tenant and resource binding; reject missing, expired, replayed or mismatched authority under the declared protocol |
+| G4 | Final-operation and approval binding, validity, consumption and revocation; test edits, queue delay, concurrent single-use consumption and crash recovery |
+| G5 | Required dependency and pre-effect evidence failures reject new dependent operations; enforce credentials, resource constraints and required isolation at the actual boundary |
+| G6 | Context trust survives assembly, summary, compaction, offload and restore; hostile data cannot gain instruction authority or execution permission |
+| G7 | Stable logical operation identity, guarded retries, authoritative recovery, resource concurrency/fencing and truthful cancellation; test lost responses, stale checkpoints and owners |
+| G8 | Correlated, redacted evidence with defined acknowledgement; separate pre-effect gates, post-commit repair and effect outcome; retain failed attempts |
+
+For every applicable G requirement include an allowed path as well as negative
+and fault tests. An implementation rejecting all work cannot pass by exhibiting
+only zero unauthorized effects. Each test defines initial state, injection point,
+bounded wait, expected/observed effects and authoritative outcome assertions.
 
 Authorization of unchanged arguments does not establish perpetual authorization.
 An integration must define expiry, revocation, queue-delay, and resource-version
@@ -132,6 +212,15 @@ consumption, revocation propagation or target-side commit enforcement. The actua
 Effect PEP owns these checks; local Run cancellation is not proof of stopping an
 operation already accepted by a remote service.
 
+The consumer must identify the concurrency arbitration point binding approval
+use to a logical operation. Two workers cannot spend a single-use approval on two
+operations. Define recovery for a crash after reservation/consumption but before
+invocation, and after target acceptance but before local recording. Retrying the
+same operation must not accidentally consume a second approval or create a second
+effect. Test those windows, concurrent consumption, revocation and resource-version
+changes before final release. This requires a documented target-side protocol,
+not a new Core distributed transaction.
+
 ### Recovery Semantics
 
 `tool.call` denotes intent, not proof of execution or commit. Stream projections,
@@ -148,6 +237,13 @@ and bind it to request content. A newly generated run or model tool-call ID is
 not automatically suitable. Define key retention, payload mismatch rejection,
 concurrent retry handling, and the authoritative status-query mechanism.
 
+A status query alone does not authorize retry. A `not found` from a lagging
+replica, expired idempotency record, or request still in flight is not a proven
+no-effect result. Retry requires authoritative no-effect evidence under the
+declared protocol, or target-enforced deduplication within a valid retention
+window. Otherwise keep unknown and reconcile or escalate. Test delayed original
+submission, stale queries, expired keys and concurrent retries.
+
 | Fault | Required evidence |
 | --- | --- |
 | Policy or approval rejects | No business effect occurred |
@@ -161,6 +257,11 @@ Do not claim generic exactly-once execution. Audit delivery and business commit
 need an explicit consistency mechanism; an extra completion event cannot supply
 one. Preserve the original failure while reporting evidence-delivery failures
 through a defined diagnostic path; avoid recursive failure-event emission.
+
+Evidence repair is append-only: preserve the original failure and record the
+repair time, authoritative source, operation correlation and responsible actor.
+Never fabricate an original observation time or overwrite a failed attempt with
+a later success. Repair is not blind re-execution.
 
 ## Evidence and Promotion
 

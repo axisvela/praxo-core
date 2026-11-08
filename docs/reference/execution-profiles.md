@@ -1,6 +1,6 @@
 # Embedding and Execution Profiles
 
-**Design status: 2026-11-06.** One Agent Execution Kernel, one Core version line,
+**Design status: 2026-11-08.** One Agent Execution Kernel, one Core version line,
 and three integration levels. These are not three kernels, distributions,
 constructor flags, or new public APIs. This design changes no default behavior,
 wire schema, or language support promise.
@@ -59,6 +59,15 @@ their stated assertions. They do not establish general profile implementation,
 authentic production identity, persistent approvals, or complete deployment
 security. No `Profile: Governed` switch or certification is provided.
 
+The proposed improvement is a unified consumer-owned assembly entry with
+structured configuration and dependency checks, not a boolean security promise.
+It selects G1-G8 obligations, rejects incomplete assembly before exposure or
+execution and never falls back to Standard Embedding. Core, Effect PEP, remote
+authority and deployment still enforce their own boundaries. Configuration
+validation and tested integration acceptance are separate evidence. See the
+[unified assembly design](governed-execution.md#unified-assembly-design); it is
+not an implemented reusable package or new Core constructor.
+
 ## Embodied Integration Profile
 
 This proposed domain integration adds obligations to the governed acceptance
@@ -67,6 +76,12 @@ contract; it does not replace or weaken them. The
 feedback, observation freshness, cancellation confirmation and effect verification.
 It requires a named consumer, one middleware and a simulation scenario before
 being described as an experimental implementation.
+
+The [pilot plan](../project/embodied-pilot.md) proposes a consumer example, one
+experimental middleware adapter and a consumer-local operation/observation
+protocol using existing seams. It reuses governed assembly and requires G1-G8
+plus E1-E8. New integration protocol work does not automatically become Core API
+or shared wire; promotion follows consumer evidence and compatibility review.
 
 A tool can call a robot service today without satisfying this proposed profile.
 Neither that call nor a simulation pass establishes hardware safety, real-time
