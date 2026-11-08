@@ -20,6 +20,13 @@ Package version: `0.3.0`. The crates.io package `praxo-core@0.3.0` is published
 from source tag `rust/v0.3.0`. Supported contract: `SPEC_VERSION` `0.2.0`
 (`praxo_core::SPEC_VERSION`).
 
+## Registry and Coding-Agent Entry
+
+- Registry introduction: [REGISTRY.md](REGISTRY.md)
+- Machine-readable entry: [llms.txt](llms.txt) and [llms.md](llms.md)
+- Coding-agent contract: [docs/getting-started/coding-agents.md](../../docs/getting-started/coding-agents.md)
+- Registry: [crates.io](https://crates.io/crates/praxo-core/0.3.0)
+
 ## Install
 
 ```bash

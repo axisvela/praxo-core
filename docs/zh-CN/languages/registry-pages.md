@@ -20,6 +20,10 @@ crates.io、NuGet、RubyGems、Packagist、Hex、pub.dev 等 Registry 页面，�
 具体地址与当前版本见[Registry 发布状态](registry-status.md)。该页记录发布状态，不承诺
 每个页面介绍都是最新的。
 
+每个语言源码目录还提供面向 Registry 的 `REGISTRY.md`、`llms.txt` 与 `llms.md`；
+总索引见[语言 Registry 与编程 Agent 入口](https://github.com/axisvela/praxo-core/blob/main/language/REGISTRY-INDEX.md)。
+这些是源码入口，不证明 Registry 页面已刷新。
+
 ## 页面检查清单
 
 - 精确包名、版本、安装命令与运行时版本。

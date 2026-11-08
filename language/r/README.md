@@ -8,6 +8,13 @@ R implementation of the PRAXO-CORE contract.
 - License: MIT
 - Dependencies: none (base R JSON parser/serializer)
 
+## Registry and Coding-Agent Entry
+
+- Registry introduction: [REGISTRY.md](REGISTRY.md)
+- Machine-readable entry: [llms.txt](llms.txt) and [llms.md](llms.md)
+- Coding-agent contract: [docs/getting-started/coding-agents.md](../../docs/getting-started/coding-agents.md)
+- Registry: [r-universe](https://axisvela.r-universe.dev/praxocore)
+
 ## Scope
 
 `0.5.0` implements all eleven conformance vector groups: tool-call parsing, JSON

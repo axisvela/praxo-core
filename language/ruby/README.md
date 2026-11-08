@@ -16,6 +16,13 @@ reference implementation.
 - Ruby source repository: https://github.com/axisvela/praxo-core-ruby
 - The latest RubyGems package is `praxo-core@0.4.1`
 
+## Registry and Coding-Agent Entry
+
+- Registry introduction: [REGISTRY.md](REGISTRY.md)
+- Machine-readable entry: [llms.txt](llms.txt) and [llms.md](llms.md)
+- Coding-agent contract: [docs/getting-started/coding-agents.md](../../docs/getting-started/coding-agents.md)
+- Registry: [RubyGems](https://rubygems.org/gems/praxo-core/versions/0.4.1)
+
 ## Install
 
 ```bash

@@ -9,6 +9,13 @@ is [`spec/`](../../spec/README.md); Go remains the reference implementation.
 - License: MIT
 - Dependencies: C++20 standard library only
 
+## Registry and Coding-Agent Entry
+
+- Registry introduction: [REGISTRY.md](REGISTRY.md)
+- Machine-readable entry: [llms.txt](llms.txt) and [llms.md](llms.md)
+- Coding-agent contract: [docs/getting-started/coding-agents.md](../../docs/getting-started/coding-agents.md)
+- Registry: Source / CMake
+
 ## Scope
 
 The Core implements all eleven vector groups: toolcall, JSON Schema, plugin,

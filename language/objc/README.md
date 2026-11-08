@@ -14,6 +14,13 @@ Local validation uses clang 21.1.8 with GNUstep Base 1.31.1 and lld on Windows.
 A macOS CI job runs the Apple Foundation build. Local Apple Foundation, release
 review, package publication, and a delivery date are not claimed.
 
+## Registry and Coding-Agent Entry
+
+- Registry introduction: [REGISTRY.md](REGISTRY.md)
+- Machine-readable entry: [llms.txt](llms.txt) and [llms.md](llms.md)
+- Coding-agent contract: [docs/getting-started/coding-agents.md](../../docs/getting-started/coding-agents.md)
+- Registry: Source
+
 ## Build And Test
 
 From the repository root with Python 3.10 or newer:

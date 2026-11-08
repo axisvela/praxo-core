@@ -11,6 +11,7 @@ documentation = "https://docs.rs/praxo-core"
 readme = "README.md"
 keywords = ["agents", "llm", "framework", "tool-calling", "ai"]
 categories = ["development-tools", "api-bindings"]
+include = ["src/**", "Cargo.toml", "README.md", "REGISTRY.md", "llms.txt", "llms.md", "LICENSE"]
 
 [dependencies]
 serde = { version = "1", features = ["derive"] }

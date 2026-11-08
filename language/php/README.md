@@ -11,6 +11,13 @@ Schema validation, and plugin manifest parsing.
 - License: MIT
 - Dependencies: none beyond the PHP standard library
 
+## Registry and Coding-Agent Entry
+
+- Registry introduction: [REGISTRY.md](REGISTRY.md)
+- Machine-readable entry: [llms.txt](llms.txt) and [llms.md](llms.md)
+- Coding-agent contract: [docs/getting-started/coding-agents.md](../../docs/getting-started/coding-agents.md)
+- Registry: [Packagist](https://packagist.org/packages/axisvela/praxo-core)
+
 ## Install
 
 ```bash

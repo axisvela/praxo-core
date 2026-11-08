@@ -26,6 +26,16 @@
 - [Java consumer](https://github.com/axisvela/praxo-core/blob/main/docs/getting-started/consumer-java.md)
 - [Integration recipes](https://github.com/axisvela/praxo-core/blob/main/docs/guides/recipes.md): models, MCP, adapters, observability, and governance patterns.
 
+## Language Registry Entries
+
+- [Language registry index](https://github.com/axisvela/praxo-core/blob/main/language/REGISTRY-INDEX.md): per-language `REGISTRY.md`, `llms.txt`, and `llms.md`.
+- [Registry page guidance](https://github.com/axisvela/praxo-core/blob/main/docs/languages/registry-pages.md): how registry pages, READMEs, and package files differ.
+- [Python entry](https://github.com/axisvela/praxo-core/blob/main/language/python/llms.txt)
+- [TypeScript entry](https://github.com/axisvela/praxo-core/blob/main/language/typescript/llms.txt)
+- [Java entry](https://github.com/axisvela/praxo-core/blob/main/language/java/llms.txt)
+- [Rust entry](https://github.com/axisvela/praxo-core/blob/main/language/rust/llms.txt)
+- [C# entry](https://github.com/axisvela/praxo-core/blob/main/language/csharp/llms.txt)
+
 ## Boundaries and Evidence
 
 - [Public roadmap](https://github.com/axisvela/praxo-core/blob/main/docs/project/roadmap.md): acceptance stages and compatibility commitments.

@@ -6,6 +6,8 @@ Go remains the reference implementation at the repository root.
 Start with the [Core directory](../docs/languages/index.md) for language-specific
 installation, build instructions, and limitations, or the
 [language matrix](../spec/languages.md) for declared scope and source tags.
+Each language directory also has a [registry introduction and coding-agent
+entry](REGISTRY-INDEX.md): `REGISTRY.md`, `llms.txt`, and `llms.md`.
 
 Bridge wrappers live in [`bindings/`](../bindings/README.md). JavaScript,
 Kotlin, and Scala are [samples](../examples), not independent implementations.

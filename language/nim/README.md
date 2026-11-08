@@ -10,6 +10,13 @@ coverage does not establish full Core parity or production readiness.
 The Core does not call Go or another language runtime. It has no provider
 adapter or plugin host; those remain outside the declared Core scope.
 
+## Registry and Coding-Agent Entry
+
+- Registry introduction: [REGISTRY.md](REGISTRY.md)
+- Machine-readable entry: [llms.txt](llms.txt) and [llms.md](llms.md)
+- Coding-agent contract: [docs/getting-started/coding-agents.md](../../docs/getting-started/coding-agents.md)
+- Registry: [Nimble/nim-lang packages](https://github.com/axisvela/praxo-core-nim)
+
 ## Install
 
 The Nimble package is mirrored from `axisvela/praxo-core-nim`, which keeps the

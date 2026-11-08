@@ -12,6 +12,13 @@ require a hosted service.
 - Dependencies: none beyond the .NET base class library
 - The NuGet package is `Praxo.Core@0.3.0`.
 
+## Registry and Coding-Agent Entry
+
+- Registry introduction: [REGISTRY.md](REGISTRY.md)
+- Machine-readable entry: [llms.txt](llms.txt) and [llms.md](llms.md)
+- Coding-agent contract: [docs/getting-started/coding-agents.md](../../docs/getting-started/coding-agents.md)
+- Registry: [NuGet](https://www.nuget.org/packages/Praxo.Core/0.3.0)
+
 ## Install
 
 ```bash

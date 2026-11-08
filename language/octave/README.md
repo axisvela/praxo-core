@@ -11,6 +11,13 @@ delegate behavior to Go or another language Core.
 MATLAB is a separate Core target in `language/matlab`; Octave package
 publication does not claim MATLAB runtime verification.
 
+## Registry and Coding-Agent Entry
+
+- Registry introduction: [REGISTRY.md](REGISTRY.md)
+- Machine-readable entry: [llms.txt](llms.txt) and [llms.md](llms.md)
+- Coding-agent contract: [docs/getting-started/coding-agents.md](../../docs/getting-started/coding-agents.md)
+- Registry: [Octave Packages](https://github.com/axisvela/praxo-core/releases/download/octave/v0.2.1/praxo-core-0.2.1.tar.gz)
+
 ## Install
 
 ```octave

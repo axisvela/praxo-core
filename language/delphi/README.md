@@ -11,6 +11,13 @@ readiness, or a delivery date. The OPM descriptor and submission archive are
 prepared; OPM submission is pending. The CI recipe targets Free Pascal on
 Ubuntu.
 
+## Registry and Coding-Agent Entry
+
+- Registry introduction: [REGISTRY.md](REGISTRY.md)
+- Machine-readable entry: [llms.txt](llms.txt) and [llms.md](llms.md)
+- Coding-agent contract: [docs/getting-started/coding-agents.md](../../docs/getting-started/coding-agents.md)
+- Registry: [OPM / GitHub release](https://github.com/axisvela/praxo-core/releases/tag/delphi%2Fv0.2.1)
+
 ## Build and Test
 
 With Free Pascal and Python 3.10 or newer, from the repository root:

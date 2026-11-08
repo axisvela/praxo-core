@@ -8,6 +8,13 @@ agent loop, JSON, policy, middleware, and human-in-the-loop interrupt decisions
 remain Fortran, not a bridge to another agent runtime. All 63 normative vectors
 across eleven groups and native regressions pass locally. Source tags do not imply package-registry publication.
 
+## Registry and Coding-Agent Entry
+
+- Registry introduction: [REGISTRY.md](REGISTRY.md)
+- Machine-readable entry: [llms.txt](llms.txt) and [llms.md](llms.md)
+- Coding-agent contract: [docs/getting-started/coding-agents.md](../../docs/getting-started/coding-agents.md)
+- Registry: Source / CMake
+
 ## Build and Test
 
 Use GNU Fortran, a C++17 compiler, CMake 3.22+, Ninja, Git, and Python 3.10+:

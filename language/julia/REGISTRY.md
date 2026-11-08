@@ -1,0 +1,39 @@
+# PRAXO-CORE Julia Registry Introduction
+
+**Status:** pending registry merge. Source version `0.2.0`, source tag
+`julia/v0.2.0`. Registry pages are release snapshots; verify the published
+version before relying on a feature.
+
+## Positioning
+
+Julia implementation of the PRAXO-CORE contract.
+
+## Package
+
+| Field | Value |
+| --- | --- |
+| Package | `PraxoCore` |
+| Registry | [Julia General (pending)](https://github.com/axisvela/praxo-core-julia) |
+| Version | `0.2.0` |
+| Install | `Pkg.add("PraxoCore")` |
+| Source tag | `julia/v0.2.0` |
+| Tier | Core |
+| Contract | `SPEC_VERSION` `0.2.0` |
+| Documentation | https://axisvela.github.io/praxo-core/languages/julia/ |
+
+## Coding-agent entry
+
+- [llms.txt](llms.txt): compact machine-readable entry for this language.
+- [llms.md](llms.md): Markdown version of the same entry.
+- [Coding-agent contract](../../docs/getting-started/coding-agents.md): explicit
+  scope, final-argument authorization, denial tests, and verification commands.
+
+## Boundaries
+
+- PRAXO-CORE is an embeddable, MIT-licensed execution kernel, not a hosted
+  model, workflow engine, identity provider, or safety controller.
+- Do not infer exactly-once execution, complete sandbox isolation, production
+  security certification, live-provider behavior, or physical safety from this
+  package.
+- Check the registry page and source tag for the exact version; source READMEs
+  and canonical documentation may be newer than a published registry page.

@@ -9,6 +9,13 @@ PRAXO-CORE framework. Requires PowerShell 7.4+ on .NET 8.
 - Tier: core
 - License: MIT
 
+## Registry and Coding-Agent Entry
+
+- Registry introduction: [REGISTRY.md](REGISTRY.md)
+- Machine-readable entry: [llms.txt](llms.txt) and [llms.md](llms.md)
+- Coding-agent contract: [docs/getting-started/coding-agents.md](../../docs/getting-started/coding-agents.md)
+- Registry: [PowerShell Gallery](https://www.powershellgallery.com/packages/praxo-core-ps/0.2.0)
+
 ## Install
 
 ```powershell

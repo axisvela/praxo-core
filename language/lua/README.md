@@ -17,6 +17,13 @@ reference implementation.
 - LuaRocks page: `praxo-core@0.4.0-1`; releases are built and published by
   `.github/workflows/lua-release.yml`
 
+## Registry and Coding-Agent Entry
+
+- Registry introduction: [REGISTRY.md](REGISTRY.md)
+- Machine-readable entry: [llms.txt](llms.txt) and [llms.md](llms.md)
+- Coding-agent contract: [docs/getting-started/coding-agents.md](../../docs/getting-started/coding-agents.md)
+- Registry: [LuaRocks](https://luarocks.org/modules/hanhhuiwen/praxo-core)
+
 ## Install
 
 ```bash

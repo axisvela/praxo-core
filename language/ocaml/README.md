@@ -20,6 +20,13 @@ opam package `praxo-core` 0.3.0; opam-repository PR #31106 is pending. Native
 `ocamlopt` compilation, commercial support, production readiness, and a delivery
 date are not claimed.
 
+## Registry and Coding-Agent Entry
+
+- Registry introduction: [REGISTRY.md](REGISTRY.md)
+- Machine-readable entry: [llms.txt](llms.txt) and [llms.md](llms.md)
+- Coding-agent contract: [docs/getting-started/coding-agents.md](../../docs/getting-started/coding-agents.md)
+- Registry: [opam (pending)](https://github.com/axisvela/praxo-core-ocaml)
+
 ## Install
 
 ```bash

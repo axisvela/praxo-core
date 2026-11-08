@@ -10,6 +10,13 @@ implementation.
 - License: MIT
 - Dependencies: Zig standard library only
 
+## Registry and Coding-Agent Entry
+
+- Registry introduction: [REGISTRY.md](REGISTRY.md)
+- Machine-readable entry: [llms.txt](llms.txt) and [llms.md](llms.md)
+- Coding-agent contract: [docs/getting-started/coding-agents.md](../../docs/getting-started/coding-agents.md)
+- Registry: Source
+
 ## Scope
 
 `0.2.0` implements all eleven vector groups: toolcall, JSON Schema, plugin,
