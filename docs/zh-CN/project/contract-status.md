@@ -51,7 +51,7 @@
 | 编程 Agent 集成映射 | 已实现；版本由文档测试校验 | 包映射、集成契约与验证命令；不是安装渠道、自动 Skill 或采用证据 |
 | 编程 Agent 发现辅助 | 已实现；`llms.txt` 存在且链接由测试校验 | 机器可读仓库入口；不保证工具发现、搜索排序、安装或采用 |
 | 编程 Agent Skill 模板 | 实验；仅仓库模板 | 工具中立的 `SKILL.md`；安装与发现未验证，不声明自动安装、MCP 或运行时 Skill 行为 |
-| Registry 页面元数据 | 源元数据已更新；已发布页面尚未更新 | 2026-11-05 审计 PyPI、npm、Maven、Go 页面；页面只随新版本更新；其他 Registry 发布时检查 |
+| Registry 页面元数据 | 新语言版本已发布；尚未重新审计渲染页面 | PyPI `0.3.1`、npm `0.2.1` 与 Maven Central `0.4.1` 已于 2026-11-08 从各自源码标签发布；Go 仍为 `v2.6.0`。发布时核对渲染页面和其他 Registry；源元数据不代表页面已更新 |
 | 每语言 Registry 与编程 Agent 入口 | 已实现；生成并由链接测试校验 | 每个 `language/<language>/` 目录都有 `REGISTRY.md`、`llms.txt` 与 `llms.md`，并提供中央索引和 README 链接。npm、Python sdist、Cargo、NuGet、RubyGems、Hex、CPAN 与 Hackage 的允许清单已包含这些文件；Maven Central 仍以 POM 元数据为主。这是源码证据，不证明 Registry 页面已刷新 |
 | 编程 Agent 采用实验 | 未运行；协议已提案 | [采用基线协议](adoption-baseline.md)定义轨道、任务、指标与证据；没有发现、选型、首次通过、修复成本或留存数据 |
 | Embodied Integration Profile | 设计提案；AKROVELA 已选定；适配器/运行未开始 | 治理之上增加远程动作、绑定/新鲜观测、取消确认和效果验证；分开实验证据、Mission 权威、运行世界状态、独立保障与本地安全；AKROVELA 像 PRAXOVELA 一样嵌入 Core；复用已发布契约，必需能力不可用时阻塞验收 |
