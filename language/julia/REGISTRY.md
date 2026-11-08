@@ -1,8 +1,9 @@
 # PRAXO-CORE Julia Registry Introduction
 
-**Status:** pending registry merge. Source version `0.2.0`, source tag
-`julia/v0.2.0`. Registry pages are release snapshots; verify the published
-version before relying on a feature.
+**Status:** pending registry merge. Source version `0.2.0`, source
+tag `julia/v0.2.0`. Published registry version: `0.2.0`. Registry
+pages are release snapshots; verify the published version before relying on a
+feature.
 
 ## Positioning
 
@@ -14,8 +15,10 @@ Julia implementation of the PRAXO-CORE contract.
 | --- | --- |
 | Package | `PraxoCore` |
 | Registry | [Julia General (pending)](https://github.com/axisvela/praxo-core-julia) |
-| Version | `0.2.0` |
-| Install | `Pkg.add("PraxoCore")` |
+| Source version | `0.2.0` |
+| Published registry version | `0.2.0` |
+| Install (published) | `Pkg.add("PraxoCore")` |
+| Install (source/release prepared) | `Pkg.add("PraxoCore")` |
 | Source tag | `julia/v0.2.0` |
 | Tier | Core |
 | Contract | `SPEC_VERSION` `0.2.0` |

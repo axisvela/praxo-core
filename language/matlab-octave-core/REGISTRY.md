@@ -1,8 +1,9 @@
 # PRAXO-CORE MATLAB/Octave shared core Registry Introduction
 
-**Status:** shared implementation; use MATLAB or Octave package. Source version `0.2.1`, source tag
-`matlab/v0.2.1 and octave/v0.2.1`. Registry pages are release snapshots; verify the published
-version before relying on a feature.
+**Status:** shared implementation; use MATLAB or Octave package. Source version `0.2.1`, source
+tag `matlab/v0.2.1 and octave/v0.2.1`. Published registry version: not published. Registry
+pages are release snapshots; verify the published version before relying on a
+feature.
 
 ## Positioning
 
@@ -14,8 +15,10 @@ Shared implementation used by the MATLAB and Octave packages. It is not a standa
 | --- | --- |
 | Package | `shared implementation` |
 | Registry | shared source |
-| Version | `0.2.1` |
-| Install | `Not a standalone package` |
+| Source version | `0.2.1` |
+| Published registry version | not published |
+| Install (published) | not published |
+| Install (source/release prepared) | `Not a standalone package` |
 | Source tag | `matlab/v0.2.1 and octave/v0.2.1` |
 | Tier | Shared |
 | Contract | `SPEC_VERSION` `0.2.0` |

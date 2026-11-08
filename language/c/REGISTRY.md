@@ -1,8 +1,9 @@
 # PRAXO-CORE C Registry Introduction
 
-**Status:** source-only. Source version `0.6.0`, source tag
-`c/v0.6.0`. Registry pages are release snapshots; verify the published
-version before relying on a feature.
+**Status:** source-only. Source version `0.6.0`, source
+tag `c/v0.6.0`. Published registry version: not published. Registry
+pages are release snapshots; verify the published version before relying on a
+feature.
 
 ## Positioning
 
@@ -14,8 +15,10 @@ C11 implementation of the PRAXO-CORE Core contract with source version `0.6.0`. 
 | --- | --- |
 | Package | `praxo-core-c` |
 | Registry | Source / CMake |
-| Version | `0.6.0` |
-| Install | `CMake source build (see README)` |
+| Source version | `0.6.0` |
+| Published registry version | not published |
+| Install (published) | not published |
+| Install (source/release prepared) | `CMake source build (see README)` |
 | Source tag | `c/v0.6.0` |
 | Tier | Core |
 | Contract | `SPEC_VERSION` `0.2.0` |

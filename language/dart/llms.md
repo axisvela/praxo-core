@@ -8,9 +8,11 @@
 
 - package: `praxo_core`
 - registry: [pub.dev](https://pub.dev/packages/praxo_core/versions/0.1.1)
-- version: `0.1.1`
-- install: `dart pub add praxo_core`
-- source tag: `dart/v0.1.1`
+- source_version: `0.1.1`
+- published_version: `0.1.1`
+- install_published: `dart pub add praxo_core`
+- install_source: `dart pub add praxo_core`
+- source_tag: `dart/v0.1.1`
 - tier: Core
 - contract: `SPEC_VERSION` `0.2.0`
 - documentation: https://axisvela.github.io/praxo-core/languages/dart/

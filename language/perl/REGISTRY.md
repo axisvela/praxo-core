@@ -1,8 +1,9 @@
 # PRAXO-CORE Perl Registry Introduction
 
-**Status:** source-only; no CPAN publication recorded. Source version `0.1.1`, source tag
-`perl/v0.1.1`. Registry pages are release snapshots; verify the published
-version before relying on a feature.
+**Status:** source-only; no CPAN publication recorded. Source version `0.1.1`, source
+tag `perl/v0.1.1`. Published registry version: not published. Registry
+pages are release snapshots; verify the published version before relying on a
+feature.
 
 ## Positioning
 
@@ -14,8 +15,10 @@ PRAXO-CORE is an embeddable, MIT-licensed agent framework. This distribution is 
 | --- | --- |
 | Package | `Praxo::Core` |
 | Registry | CPAN/source distribution |
-| Version | `0.1.1` |
-| Install | `cpanm Praxo::Core` |
+| Source version | `0.1.1` |
+| Published registry version | not published |
+| Install (published) | not published |
+| Install (source/release prepared) | `cpanm Praxo::Core` |
 | Source tag | `perl/v0.1.1` |
 | Tier | Core |
 | Contract | `SPEC_VERSION` `0.2.0` |

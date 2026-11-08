@@ -8,9 +8,11 @@
 
 - package: `@axisvela/praxo-core`
 - registry: [npm](https://www.npmjs.com/package/@axisvela/praxo-core/v/0.2.0)
-- version: `0.2.0`
-- install: `npm install @axisvela/praxo-core@0.2.0`
-- source tag: `typescript/v0.2.0`
+- source_version: `0.2.1`
+- published_version: `0.2.0`
+- install_published: `npm install @axisvela/praxo-core@0.2.0`
+- install_source: `npm install @axisvela/praxo-core@0.2.1`
+- source_tag: `typescript/v0.2.1`
 - tier: Core
 - contract: `SPEC_VERSION` `0.2.0`
 - documentation: https://axisvela.github.io/praxo-core/languages/typescript/

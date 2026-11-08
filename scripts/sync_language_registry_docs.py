@@ -46,6 +46,63 @@ LANGUAGES = [
 ]
 
 
+for entry in LANGUAGES:
+    entry.setdefault("source_version", entry["version"])
+    entry.setdefault("published_version", entry["version"])
+    entry.setdefault("source_install", entry["install"])
+
+for entry in LANGUAGES:
+    if entry["name"] == "Python":
+        entry.update(
+            source_version="0.3.1",
+            source_install="pip install praxo-core==0.3.1",
+            tag="python/v0.3.1",
+            status="release prepared; registry publication pending",
+        )
+    elif entry["name"] == "TypeScript":
+        entry.update(
+            source_version="0.2.1",
+            source_install="npm install @axisvela/praxo-core@0.2.1",
+            tag="typescript/v0.2.1",
+            status="release prepared; registry publication pending",
+        )
+    elif entry["name"] == "Java":
+        entry.update(
+            source_version="0.4.1",
+            source_install="Maven: com.axisvela:praxo-core:0.4.1",
+            tag="java/v0.4.1",
+            status="release prepared; registry publication pending",
+        )
+
+MANIFEST = ROOT / "language" / "registry-metadata.json"
+
+
+def published_available(entry: dict) -> bool:
+    return not (
+        "source-only" in entry["status"]
+        or "shared implementation" in entry["status"]
+    )
+
+
+def published_version_label(entry: dict) -> str:
+    return f"`{entry['published_version']}`" if published_available(entry) else "not published"
+
+
+def published_install_label(entry: dict) -> str:
+    return f"`{entry['install']}`" if published_available(entry) else "not published"
+
+
+def manifest_data() -> dict[str, dict[str, str]]:
+    fields = (
+        "dir", "package", "registry", "source_version", "published_version",
+        "install", "source_install", "tag", "status", "docs", "url", "tier",
+    )
+    return {
+        entry["name"]: {field: entry[field] for field in fields}
+        for entry in LANGUAGES
+    }
+
+
 def load_spec_versions() -> dict[str, str]:
     values: dict[str, str] = {}
     for line in SPEC.read_text(encoding="utf-8").splitlines():
@@ -133,11 +190,14 @@ def insert_block(readme: Path, entry: dict) -> None:
 def render_registry(entry: dict, directory: Path) -> str:
     summary = first_paragraph(directory / "README.md")
     registry = f"[{entry['registry']}]({entry['url']})" if entry["url"] else entry["registry"]
+    published_version = published_version_label(entry)
+    published_install = published_install_label(entry)
     return f"""# PRAXO-CORE {entry['name']} Registry Introduction
 
-**Status:** {entry['status']}. Source version `{entry['version']}`, source tag
-`{entry['tag']}`. Registry pages are release snapshots; verify the published
-version before relying on a feature.
+**Status:** {entry['status']}. Source version `{entry['source_version']}`, source
+tag `{entry['tag']}`. Published registry version: {published_version}. Registry
+pages are release snapshots; verify the published version before relying on a
+feature.
 
 ## Positioning
 
@@ -149,8 +209,10 @@ version before relying on a feature.
 | --- | --- |
 | Package | `{entry['package']}` |
 | Registry | {registry} |
-| Version | `{entry['version']}` |
-| Install | `{entry['install']}` |
+| Source version | `{entry['source_version']}` |
+| Published registry version | {published_version} |
+| Install (published) | {published_install} |
+| Install (source/release prepared) | `{entry['source_install']}` |
 | Source tag | `{entry['tag']}` |
 | Tier | {entry['tier']} |
 | Contract | `SPEC_VERSION` `0.2.0` |
@@ -179,6 +241,8 @@ def render_llms(entry: dict, directory: Path, markdown: bool) -> str:
     registry = f"[{entry['registry']}]({entry['url']})" if entry["url"] else entry["registry"]
     coding = rel_link(ROOT / "docs/getting-started/coding-agents.md", directory)
     heading = "#"
+    published_version = published_version_label(entry)
+    published_install = published_install_label(entry)
     body = f"""{heading} PRAXO-CORE {entry['name']}
 
 > Embeddable, governed agent execution kernel. This file is the language-specific
@@ -189,9 +253,11 @@ def render_llms(entry: dict, directory: Path, markdown: bool) -> str:
 
 - package: `{entry['package']}`
 - registry: {registry}
-- version: `{entry['version']}`
-- install: `{entry['install']}`
-- source tag: `{entry['tag']}`
+- source_version: `{entry['source_version']}`
+- published_version: {published_version}
+- install_published: {published_install}
+- install_source: `{entry['source_install']}`
+- source_tag: `{entry['tag']}`
 - tier: {entry['tier']}
 - contract: `SPEC_VERSION` `0.2.0`
 - documentation: {entry['docs']}
@@ -242,6 +308,14 @@ def main() -> int:
                 missing.append(f"{readme.relative_to(ROOT)}: missing registry block")
         else:
             write_entry(entry)
+    if args.check:
+        if not MANIFEST.is_file():
+            missing.append(str(MANIFEST.relative_to(ROOT)))
+    else:
+        MANIFEST.write_text(
+            json.dumps(manifest_data(), indent=2, sort_keys=True) + "\n",
+            encoding="utf-8",
+        )
     if missing:
         print("\n".join(missing))
         return 1

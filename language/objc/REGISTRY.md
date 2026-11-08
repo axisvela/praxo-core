@@ -1,8 +1,9 @@
 # PRAXO-CORE Objective-C Registry Introduction
 
-**Status:** source-only. Source version `0.1.1`, source tag
-`objc/v0.1.1`. Registry pages are release snapshots; verify the published
-version before relying on a feature.
+**Status:** source-only. Source version `0.1.1`, source
+tag `objc/v0.1.1`. Published registry version: not published. Registry
+pages are release snapshots; verify the published version before relying on a
+feature.
 
 ## Positioning
 
@@ -14,8 +15,10 @@ Objective-C is a native Core implementation with source tag `objc/v0.1.1`. It pa
 | --- | --- |
 | Package | `praxo-core-objc` |
 | Registry | Source |
-| Version | `0.1.1` |
-| Install | `See README/SETUP.md` |
+| Source version | `0.1.1` |
+| Published registry version | not published |
+| Install (published) | not published |
+| Install (source/release prepared) | `See README/SETUP.md` |
 | Source tag | `objc/v0.1.1` |
 | Tier | Core |
 | Contract | `SPEC_VERSION` `0.2.0` |

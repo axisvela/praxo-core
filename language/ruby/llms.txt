@@ -8,9 +8,11 @@
 
 - package: `praxo-core`
 - registry: [RubyGems](https://rubygems.org/gems/praxo-core/versions/0.4.1)
-- version: `0.4.1`
-- install: `gem install praxo-core`
-- source tag: `ruby/v0.4.1`
+- source_version: `0.4.1`
+- published_version: `0.4.1`
+- install_published: `gem install praxo-core`
+- install_source: `gem install praxo-core`
+- source_tag: `ruby/v0.4.1`
 - tier: Core
 - contract: `SPEC_VERSION` `0.2.0`
 - documentation: https://axisvela.github.io/praxo-core/languages/ruby/

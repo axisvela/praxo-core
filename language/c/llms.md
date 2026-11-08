@@ -8,9 +8,11 @@
 
 - package: `praxo-core-c`
 - registry: Source / CMake
-- version: `0.6.0`
-- install: `CMake source build (see README)`
-- source tag: `c/v0.6.0`
+- source_version: `0.6.0`
+- published_version: not published
+- install_published: not published
+- install_source: `CMake source build (see README)`
+- source_tag: `c/v0.6.0`
 - tier: Core
 - contract: `SPEC_VERSION` `0.2.0`
 - documentation: https://axisvela.github.io/praxo-core/languages/c/

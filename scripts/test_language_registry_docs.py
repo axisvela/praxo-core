@@ -53,14 +53,27 @@ class LanguageRegistryDocsTests(unittest.TestCase):
                 self.assertIn("## Package", registry_text)
                 self.assertIn("## Boundaries", registry_text)
                 self.assertIn(entry["package"], registry_text)
-                self.assertIn(entry["version"], registry_text)
-                self.assertIn(entry["install"], registry_text)
+                self.assertIn(entry["source_version"], registry_text)
+                if SYNC.published_available(entry):
+                    self.assertIn(entry["published_version"], registry_text)
+                    self.assertIn(entry["install"], registry_text)
+                self.assertIn(entry["source_install"], registry_text)
                 self.assertIn(SYNC.BLOCK_START, readme.read_text(encoding="utf-8"))
                 self.assertTrue(llms_md.read_text(encoding="utf-8").startswith("# PRAXO-CORE"))
                 if entry["dir"] != ".":
                     self.assertTrue(
                         llms_txt.read_text(encoding="utf-8").startswith("# PRAXO-CORE")
                     )
+
+    def test_machine_readable_manifest_matches_entries(self):
+        manifest = json.loads((ROOT / "language/registry-metadata.json").read_text(encoding="utf-8"))
+        for entry in SYNC.LANGUAGES:
+            with self.subTest(language=entry["name"]):
+                data = manifest[entry["name"]]
+                self.assertEqual(data["source_version"], entry["source_version"])
+                self.assertEqual(data["published_version"], entry["published_version"])
+                self.assertEqual(data["install"], entry["install"])
+                self.assertEqual(data["source_install"], entry["source_install"])
 
     def test_root_llms_points_to_language_entries(self):
         text = (ROOT / "llms.txt").read_text(encoding="utf-8")
