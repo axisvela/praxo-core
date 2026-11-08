@@ -53,6 +53,9 @@ class ExecutionDesignDocumentationTests(unittest.TestCase):
         english = (DOCS / 'reference/embodied-integration.md').read_text(encoding='utf-8')
         self.assertIn('consumer pilot not started', english)
         self.assertIn('Simulation is not hardware or production evidence', english)
+        self.assertIn('AKROVELA embeds', english)
+        self.assertIn('PRAXOVELA', english)
+        self.assertIn('product-neutral', english)
 
     def test_ec_inventory_preserves_taxonomy_and_planned_status(self):
         for prefix in ('', 'zh-CN/'):
@@ -82,6 +85,8 @@ class ExecutionDesignDocumentationTests(unittest.TestCase):
             self.assertIn('governed-execution.md', text)
             self.assertIn('not a schedule', text)
             self.assertIn('Simulation is not hardware evidence', text)
+            self.assertIn('AKROVELA is the selected', text)
+            self.assertIn('product component', text)
         with self.subTest(language='zh-CN/'):
             text = (DOCS / 'zh-CN/project/embodied-pilot.md').read_text(encoding='utf-8')
             self.assertEqual(re.findall(r'^\| (E[1-8]) \|', text, re.MULTILINE),
@@ -89,6 +94,8 @@ class ExecutionDesignDocumentationTests(unittest.TestCase):
             self.assertIn('试点计划提案', text)
             self.assertIn('embodied-integration.md', text)
             self.assertIn('governed-execution.md', text)
+            self.assertIn('AKROVELA 已选定为消费者', text)
+            self.assertIn('产品组件', text)
         roadmap = (DOCS / 'project/roadmap.md').read_text(encoding='utf-8')
         self.assertIn('embodied-pilot.md', roadmap)
         self.assertIn('embodied-pilot.md', (DOCS / 'zh-CN/project/roadmap.md').read_text(encoding='utf-8'))
@@ -171,6 +178,9 @@ class ExecutionDesignDocumentationTests(unittest.TestCase):
                 for term in ('PEIRAVELA', 'KINETOVELA', 'ONTOVELA', 'TEKMOVELA',
                              'SimulationEvidence', 'peiravela-open/sdk/go', 'Apache-2.0'):
                     self.assertIn(term, ecosystem)
+                self.assertIn('PRAXOVELA', ecosystem)
+                self.assertIn('AKROVELA', ecosystem)
+                self.assertIn('PRAXO-CORE', ecosystem)
                 profile = (DOCS / prefix / 'reference/embodied-integration.md').read_text(encoding='utf-8')
                 for term in ('integrations/ecosystem.md', 'SafetyEnvelope', 'AGPL', 'epoch'):
                     self.assertIn(term, profile)
@@ -184,6 +194,34 @@ class ExecutionDesignDocumentationTests(unittest.TestCase):
                      '独立保障', '发布并审查', '跨 attempt/租户/epoch', '显式缺失'):
             self.assertIn(term, chinese)
 
+    def test_clock_and_observation_boundaries_are_bilingual(self):
+        for prefix in ('', 'zh-CN/'):
+            with self.subTest(language=prefix):
+                text = (DOCS / prefix / 'reference/embodied-integration.md').read_text(encoding='utf-8')
+                self.assertIn('release_time - observed_at + U <= max_age', text)
+                self.assertIn('epoch', text)
+                self.assertIn('attempt', text)
+                governed = (DOCS / prefix / 'reference/governed-execution.md').read_text(encoding='utf-8')
+                self.assertIn('digest', governed)
+        english = (DOCS / 'reference/embodied-integration.md').read_text(encoding='utf-8')
+        self.assertIn('Synthetic fixtures test validation rules', english)
+        self.assertIn('not final independent assurance', english)
+
+    def test_product_embedding_positioning_is_bilingual(self):
+        for prefix, embed_term in (('', 'embed'), ('zh-CN/', '嵌入')):
+            with self.subTest(language=prefix):
+                overview = (DOCS / prefix / 'getting-started/overview.md').read_text(encoding='utf-8')
+                self.assertIn('PRAXOVELA', overview)
+                self.assertIn('AKROVELA', overview)
+                self.assertIn(embed_term, overview)
+                compatibility = (DOCS / prefix / 'project/compatibility.md').read_text(encoding='utf-8')
+                self.assertIn('AKROVELA', compatibility)
+                self.assertIn('AGPL', compatibility)
+                ecosystem = (DOCS / prefix / 'integrations/ecosystem.md').read_text(encoding='utf-8')
+                self.assertIn('PRAXOVELA', ecosystem)
+                self.assertIn('AKROVELA', ecosystem)
+        self.assertIn('different positioning', (DOCS / 'getting-started/overview.md').read_text(encoding='utf-8'))
+
     def test_edge_learning_targets_remain_optional_and_unimplemented(self):
         for prefix in ('', 'zh-CN/'):
             for relative in ('integrations/ecosystem.md', 'project/roadmap.md',
@@ -195,9 +233,16 @@ class ExecutionDesignDocumentationTests(unittest.TestCase):
                     self.assertIn('DIDACTOVELA', text)
                     self.assertIn('0.1.0', text)
         english = (DOCS / 'reference/embodied-integration.md').read_text(encoding='utf-8')
-        self.assertIn('not usable embodied integrations', english)
+        self.assertIn('AKROVELA is the selected pilot consumer', english)
         pilot = (DOCS / 'project/embodied-pilot.md').read_text(encoding='utf-8')
-        self.assertIn('not prerequisites for every pilot', pilot)
+        self.assertIn('DIDACTOVELA', pilot)
+        roadmap = (DOCS / 'project/roadmap.md').read_text(encoding='utf-8')
+        self.assertIn('AKROVELA is the selected consumer', roadmap)
+        self.assertIn('PRAXOVELA', roadmap)
+        status = (DOCS / 'project/contract-status.md').read_text(encoding='utf-8')
+        self.assertIn('AKROVELA is selected to embed PRAXO-CORE', status)
+        profiles = (DOCS / 'reference/execution-profiles.md').read_text(encoding='utf-8')
+        self.assertIn('AKROVELA is the named consumer', profiles)
 
 
 if __name__ == '__main__':

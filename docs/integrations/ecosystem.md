@@ -93,15 +93,17 @@ through tools, events, policy inputs, or product-runtime adapters. Browse the
 | COORDIVELA | [coordivela-open](https://github.com/axisvela/coordivela-open) | Development coordination; events, tools, or product integration |
 | KINETOVELA | [kinetovela-open](https://github.com/axisvela/kinetovela-open) | Robot/Fleet operational lifecycle, Mission assignment and physical-effect evidence; public-contract tool/product integration, not a Core sandbox |
 | PEIRAVELA | [peiravela-open](https://github.com/axisvela/peiravela-open) | Experiment worlds, scenarios, perturbations and raw SimulationEvidence; public SUT adapter SPI, not Mission or final assurance authority |
-| AKROVELA | [akrovela-open](https://github.com/axisvela/akrovela-open) | Intended governed site execution: local operations, attempts and receipts; optional future adapter, not another Agent loop |
+| AKROVELA | [akrovela-open](https://github.com/axisvela/akrovela-open) | Intended governed site execution: local operations, attempts and receipts; embeds PRAXO-CORE through a product-owned adapter like PRAXOVELA, not another Agent loop |
 | DIDACTOVELA | [didactovela-open](https://github.com/axisvela/didactovela-open) | Intended data/label/training and candidate-artifact lifecycle; not framework memory, production inference or authorization policy |
 
-AKROVELA and DIDACTOVELA are unreleased `0.1.0` bootstraps with operational
-endpoints and source version clients only. No Core adapter, domain execution,
-dataset/training path or robot integration is implemented. Existing gateways,
-inference and spools are not automatically migrated. Use reviewed published
-domain contracts before connecting either product; no Core API/wire or default
-behavior changes follow from these optional ownership boundaries.
+AKROVELA and DIDACTOVELA are unreleased `0.1.0` products. AKROVELA is the selected
+pilot consumer and embeds PRAXO-CORE through a product-owned adapter, just as
+PRAXOVELA embeds Core as part of its own runtime; the products retain different
+positioning and state. The adapter, domain execution, dataset/training path and
+robot integration are not implemented. Existing gateways, inference and spools
+are not automatically migrated. Use reviewed published domain contracts before
+connecting either product; no Core API/wire or default behavior changes follow
+from these ownership boundaries.
 
 For embodied integrations, keep PEIRAVELA experiment evidence, KINETOVELA Mission
 and effect records, ONTOVELA operational world state and TEKMOVELA independent

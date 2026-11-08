@@ -54,6 +54,7 @@
 | Consumer | Expected integration |
 | --- | --- |
 | PRAXOVELA | embeds framework primitives; remains AGPL |
+| AKROVELA | embeds framework primitives through a product-owned adapter; remains AGPL |
 | external products | direct interface implementations |
 
 ## API Stability

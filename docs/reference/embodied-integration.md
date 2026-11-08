@@ -1,16 +1,20 @@
 # Embodied Integration Profile
 
-**Status: proposed design, 2026-11-08; consumer pilot not started.** No embodied
-runtime, middleware adapter, new Core API or safety guarantee is introduced.
-This page specializes the [execution levels](execution-profiles.md) and
+**Status: proposed design, updated 2026-11-08; AKROVELA is the selected pilot
+consumer; consumer pilot not started.** No embodied runtime, middleware adapter,
+new Core API or safety guarantee is introduced. Like PRAXOVELA, AKROVELA embeds
+PRAXO-CORE as a component of its own product; Core remains product-neutral. This
+page specializes the [execution levels](execution-profiles.md) and
 [Governed Execution Profile](governed-execution.md), not the normative wire spec.
 
 ## Prerequisites
 
 A pilot needs one named consumer, one middleware, one bounded simulation task,
-an execution authority, an observation source and a verification rule. None is
-selected by this design. Do not build parallel ROS 2, Dora and Zenoh adapters
-without consumer evidence. AxisVela products are not required.
+an execution authority, an observation source and a verification rule. AKROVELA
+is the selected consumer; its product-owned adapter, simulator mapping, execution
+authority details, observation source and verifier remain unimplemented or open.
+Do not build parallel ROS 2, Dora and Zenoh adapters without consumer evidence.
+AxisVela products remain optional for independent consumers.
 
 The consumer must identify the components enforcing the governed requirements.
 An embodied integration cannot skip authorization or weaken failure handling by
@@ -18,12 +22,15 @@ selecting an "experimental" label. Development fixtures are not safety controls.
 
 ## Delivery and Contract Scope
 
-Optional ecosystem candidates now include AKROVELA for site operations/attempts/
-receipts and DIDACTOVELA for admitted data/learning candidates. Both are unreleased
-`0.1.0` operational bootstraps, not usable embodied integrations. Their creation
-does not select a pilot consumer, replace retained execution paths or close any
-governed/embodied gate. KINETOVELA Mission and PEIRAVELA experiment identities
-remain distinct from node attempts and learning lineage.
+AKROVELA is the selected pilot consumer and owns the product-side PRAXO-CORE
+embedding adapter. Like PRAXOVELA, AKROVELA embeds PRAXO-CORE as a component of
+its own product; the products retain different positioning and state. Core stays
+a product-neutral MIT kernel and does not acquire AKROVELA operation, product,
+Mission or safety state. AKROVELA and DIDACTOVELA remain unreleased `0.1.0`
+products; the adapter and pilot evidence are not implemented. Selection does not
+replace retained execution paths or close any governed/embodied gate.
+KINETOVELA Mission and PEIRAVELA experiment identities remain distinct from node
+attempts and learning lineage.
 
 The proposed pilot delivers a consumer example, an experimental adapter for one
 middleware, a consumer-local integration protocol, deterministic tests, simulation
@@ -109,6 +116,22 @@ verifier must use an observation path beyond the execution service's success
 flag; record its process, data-source and trust-domain independence and shared
 failure modes. A separate process alone does not establish independent truth.
 
+Keep authority validity time, bounded observation time, simulator epoch/ticks and
+local monotonic time distinct. Do not subtract timestamps from unrelated clocks.
+With a declared combined clock-error bound `U`, require worst-case age
+`release_time - observed_at + U <= max_age`, reject future timestamps beyond `U`,
+and fail the dependent gate if the bound is unknown. Repeat reads do not refresh
+observation time; source restart needs trusted epoch rebinding, not acceptance of
+a larger integer. Simulator pause/rewind needs explicit invalidation rules.
+
+Separate pre-action resource/environment evidence from post-attempt effect
+observations; do not invent an attempt identity before the authority assigns it.
+A simulator must produce observable state independently of a requested goal or
+executor success flag. Synthetic fixtures test validation rules, not achieved
+effects. Local scoped verification is not final independent assurance or another
+owner's Mission effect admission. A product embedding adapter is not itself a
+robot middleware, simulator or second Agent loop.
+
 Keep cancellation request accepted, stop confirmed, cancellation rejected and
 cancel outcome unknown separate. Rejection does not establish operation outcome;
 a confirmed stop does not erase earlier effects. Resolve cancellation/completion
@@ -129,8 +152,8 @@ unsatisfied; partial experiments must narrow their claims.
 
 The [embodied pilot plan](../project/embodied-pilot.md) turns E1-E8 into
 deterministic, simulation, and optional hardware gates with required evidence and
-stop conditions. It selects no consumer and records no run; it is not an
-implementation claim.
+stop conditions. AKROVELA is the selected consumer, but no adapter, simulation
+mapping or run is recorded; it is not an implementation claim.
 
 The [long-running operation recipe](../guides/long-running-operations.md) supplies
 software-fixture examples of response loss, status recovery, cancellation and

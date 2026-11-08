@@ -1,8 +1,8 @@
 # PRAXO-CORE 概览
 
-PRAXO-CORE 是 PRAXOVELA 背后的 MIT 许可 Agent 框架。它的存在是为了让
-AxisVela 产品和外部集成方能够构建受治理的 Agent，而无需重新实现 Agent
-循环、提供商抽象、工具契约、记忆边界、事件边界或调度器契约。
+PRAXO-CORE 是 PRAXOVELA 及 AKROVELA 等其他嵌入它的 AxisVela 产品背后的 MIT
+许可 Agent 框架。它的存在是为了让产品和外部集成方能够构建受治理的 Agent，
+而无需重新实现 Agent 循环、提供商抽象、工具契约、记忆边界、事件边界或调度器契约。
 
 ## 它是什么
 
@@ -30,11 +30,13 @@ AxisVela 产品和外部集成方能够构建受治理的 Agent，而无需重�
 praxo-core (MIT)
   |
   +-- PRAXOVELA (AGPL 产品)
+  +-- AKROVELA (AGPL 产品)
   +-- 外部集成方
 ```
 
-PRAXOVELA 仍是 AGPL 产品。MIT 框架是独立作品，因此可以在不产生 AGPL
-义务的情况下嵌入。
+PRAXOVELA 与 AKROVELA 仍是定位不同的独立 AGPL 产品。两者都将 MIT 框架作为
+自身产品组件嵌入；框架是独立作品，因此可以在不产生 AGPL 义务的情况下嵌入。
+Core 不获取它们的产品状态或领域权威。
 
 ## 多语言 Core
 

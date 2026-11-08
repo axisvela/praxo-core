@@ -12,7 +12,7 @@ release line is created.
 | --- | --- | --- |
 | Standard Embedding | Existing embedding behavior | Embed the loop and configure the controls your application needs |
 | Governed Execution Profile | Proposed acceptance design; partial integration evidence | Require explicit authorization, operation binding and failure handling |
-| Embodied Integration Profile | Proposed design; consumer pilot not started | Add remote-action and observation requirements for a named embodied consumer |
+| Embodied Integration Profile | Proposed design; AKROVELA selected; adapter/run not started | Add remote-action and observation requirements for the selected embodied consumer |
 
 The Go reference is the behavioral starting point. Other language implementations
 must declare their own supported controls and evidence; the same level name does
@@ -74,8 +74,9 @@ This proposed domain integration adds obligations to the governed acceptance
 contract; it does not replace or weaken them. The
 [Embodied Integration Profile](embodied-integration.md) defines remote submission,
 feedback, observation freshness, cancellation confirmation and effect verification.
-It requires a named consumer, one middleware and a simulation scenario before
-being described as an experimental implementation.
+AKROVELA is the named consumer and, like PRAXOVELA, embeds PRAXO-CORE as a
+product component. One middleware implementation and a simulation scenario are
+still required before being described as an experimental implementation.
 
 The [pilot plan](../project/embodied-pilot.md) proposes a consumer example, one
 experimental middleware adapter and a consumer-local operation/observation

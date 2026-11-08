@@ -30,10 +30,13 @@ run sequentially.
 | 3. Validate long-running operations | One consumer-backed integration for submission, status queries, feedback, cancellation, idempotency, and reconnect/recovery | Run cancellation is not reported as remote execution stopping; recovery consults the authoritative operation state before repeating effects |
 | 4. Pilot embodied integration | One named consumer, one middleware, and one end-to-end simulation with an experimental embodied integration profile; the [embodied pilot plan](embodied-pilot.md) defines the entry criteria, E1-E8 gates, evidence fields, and stop conditions | Acceptance, completion, and effect verification remain distinct; observation freshness, disconnects, duplicate submissions, and safety-dependency failures are tested; simulation is not hardware or production evidence |
 
-Stage 4 has a drafted [embodied pilot plan](embodied-pilot.md) (2026-11-07), but
-the pilot has not started: no consumer, middleware, simulation, execution
-authority, observation source, verifier, or safety owner is selected. The plan is
-an acceptance gate, not evidence that any E1-E8 requirement has been exercised.
+Stage 4 has an [embodied pilot plan](embodied-pilot.md) (updated 2026-11-08).
+AKROVELA is the selected consumer and embeds PRAXO-CORE as a product component,
+like PRAXOVELA; its consumer, maintainer and safety-owner selection is recorded,
+but the product-owned adapter is not implemented. The middleware implementation,
+simulation, execution-authority mapping, observation source and verifier remain
+open or unimplemented. The plan
+is an acceptance gate, not evidence that any E1-E8 requirement has been exercised.
 
 The revised design proposes one consumer-owned governed assembly entry with
 structured configuration, G1-G8 validation and no permissive fallback, while
@@ -172,8 +175,9 @@ Standard Embedding names existing configurable embedding behavior; Governed
 Execution Profile is a proposed acceptance contract with partial fixture
 evidence; Embodied Integration Profile now has a
 [proposed design](../reference/embodied-integration.md) and a
-[drafted pilot plan](embodied-pilot.md), but no consumer pilot has started. Do
-not create three kernels, runtime switches or release lines.
+[drafted pilot plan](embodied-pilot.md); AKROVELA is the selected consumer, but no
+adapter or run has started. Do not create three kernels, runtime switches or
+release lines.
 Governed assembly and the actual Effect PEP enforce the required controls;
 ordinary `agent.New` defaults remain compatible. The embodied design adds
 obligations to governed integration and cannot weaken them.
@@ -286,9 +290,11 @@ The design does not by itself change default behavior or the public API.
 
 ## Ecosystem Boundaries
 
-PRAXO-CORE is a reusable execution kernel, not the product platform. The
-PRAXOVELA family composes it through the same public contracts available to any
-consumer. This page states ownership boundaries, not a product roadmap.
+PRAXO-CORE is a reusable execution kernel, not the product platform. PRAXOVELA
+and AKROVELA each embed it as a component of their own products through the same
+public contracts available to any consumer; they retain different product
+positioning and state. This page states ownership boundaries, not a product
+roadmap.
 
 | Capability | Owner | Core responsibility |
 | --- | --- | --- |
@@ -299,7 +305,7 @@ consumer. This page states ownership boundaries, not a product roadmap.
 | Policy decisions, execution grants, approvals, revocation, obligations, security evidence | AEGIVELA | Define authorizer, grant, and policy-enforcement points; do not operate a PDP or durable approval store |
 | North-south network boundary and reverse ingress | LIMENORA | Remain deployable behind a gateway; do not add a network control plane |
 | Capability governance, runtime profiles, memory, and event transport | MODUREGIS, SYNDOVELA, Mnemovela/GNOSIVELA, Harmovela | Provide optional adapter contracts only when a named consumer and negative tests exist |
-| Site-local operation, attempt and receipt lifecycle | AKROVELA (bootstrap target) | Keep node execution outside the framework; any future hosting reuses the existing Agent loop |
+| Site-local operation, attempt and receipt lifecycle | AKROVELA (bootstrap target) | AKROVELA embeds PRAXO-CORE through a product-owned adapter, like PRAXOVELA; node operations, state and safety stay outside Core |
 | Data/label/training lineage and candidate artifacts | DIDACTOVELA (bootstrap target) | Keep learning lifecycle outside Core; candidates do not activate production models or grant permissions |
 
 Both new products are unreleased `0.1.0` operational bootstraps, not verified
