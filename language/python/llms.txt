@@ -9,8 +9,8 @@
 - package: `praxo-core`
 - registry: [PyPI](https://pypi.org/project/praxo-core/0.3.2/)
 - source_version: `0.3.2`
-- published_version: `0.3.1`
-- install_published: `pip install praxo-core==0.3.1`
+- published_version: `0.3.2`
+- install_published: `pip install praxo-core==0.3.2`
 - install_source: `pip install praxo-core==0.3.2`
 - source_tag: `python/v0.3.2`
 - tier: Core

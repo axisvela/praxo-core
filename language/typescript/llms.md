@@ -7,7 +7,7 @@
 ## Package
 
 - package: `@axisvela/praxo-core`
-- registry: [npm](https://www.npmjs.com/package/@axisvela/praxo-core/v/0.2.2)
+- registry: [npm](https://www.npmjs.com/package/@axisvela/praxo-core/v/0.2.1)
 - source_version: `0.2.2`
 - published_version: `0.2.1`
 - install_published: `npm install @axisvela/praxo-core@0.2.1`

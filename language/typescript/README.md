@@ -18,7 +18,7 @@ orchestration platform:
 - Registry introduction: [REGISTRY.md](https://github.com/axisvela/praxo-core/blob/main/language/typescript/REGISTRY.md)
 - Machine-readable entry: [llms.txt](https://github.com/axisvela/praxo-core/blob/main/language/typescript/llms.txt) and [llms.md](https://github.com/axisvela/praxo-core/blob/main/language/typescript/llms.md)
 - Coding-agent contract: [docs/getting-started/coding-agents.md](https://github.com/axisvela/praxo-core/blob/main/docs/getting-started/coding-agents.md)
-- Registry: [npm](https://www.npmjs.com/package/@axisvela/praxo-core/v/0.2.2)
+- Registry: [npm](https://www.npmjs.com/package/@axisvela/praxo-core/v/0.2.1)
 
 ## Install
 
