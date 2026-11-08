@@ -2,32 +2,8 @@
 
 ## [Unreleased]
 
-## [2.6.0] - 2026-11-07
-
-Historical entries that record `19/19` describe the source version named in that
-entry. The current Behavior Lab has twenty scenarios; the HITL wave moved every
-wired language to 20/20.
-
-### Fixed
-
-- Go `pkg/agent` now continues task-end and `OnToolResult` notifications for
-  every executed tool after a tool batch reports its first tool error, then
-  returns that first error. This changes observable callback/stream ordering
-  after a tool error; consumers must verify handlers tolerate later successful
-  outcomes. Checkpoint state still does not prove external effect commit.
-
 ### Added
 
-- Independent Go, Python, TypeScript, and Java consumer starters install
-  published packages, run deterministic models, declare explicit tool scope, and
-  verify allow/deny behavior without a source checkout, local replacement, API
-  key, or external model service.
-- Governed negative acceptance checks cover missing policy/scope, final-argument
-  and approval-edit reauthorization, and policy-service failure in those four
-  consumer languages.
-- Go identity/policy and long-running operation recipes, a coding-agent
-  integration contract and package map, and a tool-neutral skill template. These
-  are integration materials, not adoption or production-security evidence.
 - A Go adapter conformance recipe uses `pkg/conformance` to validate fake model,
   streaming model, tool, and retriever contracts, including mismatch failures.
 - A Go retry safety recipe demonstrates retry predicates, cancellation, the
@@ -66,6 +42,33 @@ wired language to 20/20.
   `0.1.5` -> `0.2.0`, and a Java fixture covers Maven Central `0.3.0` ->
   `0.4.0`, with the same unchanged-source checks. Each is one version pair, not
   a general upgrade guarantee.
+
+## [2.6.0] - 2026-11-07
+
+Historical entries that record `19/19` describe the source version named in that
+entry. The current Behavior Lab has twenty scenarios; the HITL wave moved every
+wired language to 20/20.
+
+### Fixed
+
+- Go `pkg/agent` now continues task-end and `OnToolResult` notifications for
+  every executed tool after a tool batch reports its first tool error, then
+  returns that first error. This changes observable callback/stream ordering
+  after a tool error; consumers must verify handlers tolerate later successful
+  outcomes. Checkpoint state still does not prove external effect commit.
+
+### Added
+
+- Independent Go, Python, TypeScript, and Java consumer starters install
+  published packages, run deterministic models, declare explicit tool scope, and
+  verify allow/deny behavior without a source checkout, local replacement, API
+  key, or external model service.
+- Governed negative acceptance checks cover missing policy/scope, final-argument
+  and approval-edit reauthorization, and policy-service failure in those four
+  consumer languages.
+- Go identity/policy and long-running operation recipes, a coding-agent
+  integration contract and package map, and a tool-neutral skill template. These
+  are integration materials, not adoption or production-security evidence.
 - Tool, model, and checkpoint wire descriptions and a shared-wire change
   classification, without widening the Go API.
 - A public verification evidence index and a cross-repository
