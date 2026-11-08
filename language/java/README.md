@@ -8,13 +8,12 @@ Context budgets, middleware, streaming, virtual-thread execution, cancellation,
 the OpenAI-compatible adapter, HITL interrupt decisions, and the agent loop are
 included. VFS and plugin hosts are not yet implemented.
 
-Package version: `0.4.0` (source tag `java/v0.4.0`; the earlier
+Package version: `0.4.1` (source tag `java/v0.4.1`; the earlier
 `java/v0.2.3` tag retains `io.axisvela.praxo`). Supported contract:
 `SPEC_VERSION` `0.2.0` (`com.axisvela.praxo.Version.SPEC_VERSION`).
 
-Maven Central publishes `com.axisvela:praxo-core:0.4.0`, the current source
-release. Check Central metadata rather than inferring availability from this
-README when upgrading.
+Maven Central publishes the release matching the source tag. Check Central
+metadata rather than inferring availability from this README when upgrading.
 
 ## Install
 
@@ -22,7 +21,7 @@ README when upgrading.
 <dependency>
   <groupId>com.axisvela</groupId>
   <artifactId>praxo-core</artifactId>
-  <version>0.4.0</version>
+  <version>0.4.1</version>
 </dependency>
 ```
 
