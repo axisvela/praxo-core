@@ -37,6 +37,47 @@
 - 包含 PRAXO-CORE 不适用的任务。正确排除是成功的选型决策，不是集成失败。
 - 不能只以“安装成功”判分，必须验证声明的治理行为。
 
+## 任务清单
+
+运行任何试验之前，先用 JSON 预先登记任务集。清单记录固定的工具、模型、环境、权限、
+预算，以及每个任务的轨道、类型、适用性、提示词、包版本和验收检查。
+
+```json
+{
+  "schemaVersion": 1,
+  "protocol": "docs/project/adoption-baseline.md",
+  "tool": {"name": "example-tool", "version": "1.0.0"},
+  "model": {"name": "example-model", "version": "2026-11-01"},
+  "environment": {
+    "os": "linux",
+    "toolchain": "go1.25.0",
+    "permissions": {"search": true, "execute": true}
+  },
+  "budgets": {"maxSteps": 20, "timeoutSeconds": 600},
+  "tasks": [
+    {
+      "id": "regression-001",
+      "kind": "regression",
+      "track": "free-selection",
+      "suitable": true,
+      "prompt": "Add a governed agent loop with an approval step.",
+      "packageVersion": "2.6.0",
+      "acceptance": ["the loop runs", "approval is required"]
+    }
+  ]
+}
+```
+
+运行前校验清单：
+
+```bash
+python scripts/adoption_baseline.py manifest.json
+```
+
+校验只检查结构，不执行编程工具，也不产生采用证据。自由选型提示词不得出现
+PRAXO-CORE；指定集成提示词必须出现。升级任务还必须提供 `baselineVersion` 和
+`targetVersion`。真实清单和原始记录保存在受限内部存储，只发布限定摘要。
+
 ## 条件
 
 - **未安装 Skill** 与 **已安装 Skill** 分开比较。
@@ -64,7 +105,7 @@
 
 ## 过程
 
-1. 预先登记任务集、轨道、条件、固定版本、权限、预算和成功标准。
+1. 预先登记任务集、轨道、条件、固定版本、权限、预算和成功标准，并校验任务清单。
 2. 准备干净环境，使用发布包，不检出源码、不做本地替换。
 3. 运行基线条件，记录原始对话、命令、输出、失败以及跳过或阻塞项。
 4. 在相同任务和环境下运行处理条件。

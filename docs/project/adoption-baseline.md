@@ -48,6 +48,50 @@ Use both regression tasks and unseen tasks.
 - Do not score a task only by "installed successfully"; require the stated
   governed behavior.
 
+## Task Manifest
+
+Pre-register the task set as JSON before running any trial. The manifest records
+the pinned tool, model, environment, permissions, budgets, and every task's
+track, kind, suitability, prompt, package version, and acceptance checks.
+
+```json
+{
+  "schemaVersion": 1,
+  "protocol": "docs/project/adoption-baseline.md",
+  "tool": {"name": "example-tool", "version": "1.0.0"},
+  "model": {"name": "example-model", "version": "2026-11-01"},
+  "environment": {
+    "os": "linux",
+    "toolchain": "go1.25.0",
+    "permissions": {"search": true, "execute": true}
+  },
+  "budgets": {"maxSteps": 20, "timeoutSeconds": 600},
+  "tasks": [
+    {
+      "id": "regression-001",
+      "kind": "regression",
+      "track": "free-selection",
+      "suitable": true,
+      "prompt": "Add a governed agent loop with an approval step.",
+      "packageVersion": "2.6.0",
+      "acceptance": ["the loop runs", "approval is required"]
+    }
+  ]
+}
+```
+
+Validate the manifest before running:
+
+```bash
+python scripts/adoption_baseline.py manifest.json
+```
+
+Validation is structural and does not execute a coding tool or produce adoption
+evidence. Free-selection prompts must not name PRAXO-CORE; directed-integration
+prompts must name it. Upgrade tasks also require `baselineVersion` and
+`targetVersion`. Keep real manifests and raw transcripts in restricted internal
+storage; publish only the scoped summary.
+
 ## Conditions
 
 - Compare **no skill** and **installed skill** separately.
@@ -80,7 +124,7 @@ not erase the first failure.
 ## Procedure
 
 1. Pre-register the task set, track, condition, pinned versions, permissions,
-   budgets, and success criteria.
+   budgets, and success criteria as a validated task manifest.
 2. Prepare a clean environment with published packages and no source checkout or
    local replacement.
 3. Run the baseline condition and record the raw transcript, commands, outputs,
