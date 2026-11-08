@@ -73,15 +73,20 @@ class DocumentationTests(unittest.TestCase):
         self.assertEqual(data["specVersion"], spec_version)
         entries = {entry["language"]: entry for entry in data["languages"]}
         self.assertEqual(set(entries), {"Go", "Python", "TypeScript", "Java"})
+        registry = json.loads((ROOT / "language/registry-metadata.json").read_text(encoding="utf-8"))
         go_version = (ROOT / "VERSION").read_text(encoding="utf-8").strip()
         python_version = tomllib.loads((ROOT / "language/python/pyproject.toml").read_text(encoding="utf-8"))["project"]["version"]
         ts_version = json.loads((ROOT / "language/typescript/package.json").read_text(encoding="utf-8"))["version"]
         java_version = ElementTree.parse(ROOT / "language/java/pom.xml").getroot().find(
             "m:version", {"m": "http://maven.apache.org/POM/4.0.0"}).text
-        self.assertEqual(entries["Go"]["version"], go_version)
-        self.assertEqual(entries["Python"]["version"], python_version)
-        self.assertEqual(entries["TypeScript"]["version"], ts_version)
-        self.assertEqual(entries["Java"]["version"], java_version)
+        self.assertEqual(registry["Go"]["source_version"].lstrip("v"), go_version)
+        self.assertEqual(registry["Python"]["source_version"], python_version)
+        self.assertEqual(registry["TypeScript"]["source_version"], ts_version)
+        self.assertEqual(registry["Java"]["source_version"], java_version)
+        self.assertEqual(entries["Go"]["version"], registry["Go"]["published_version"].lstrip("v"))
+        self.assertEqual(entries["Python"]["version"], registry["Python"]["published_version"])
+        self.assertEqual(entries["TypeScript"]["version"], registry["TypeScript"]["published_version"])
+        self.assertEqual(entries["Java"]["version"], registry["Java"]["published_version"])
         for entry in entries.values():
             self.assertTrue((ROOT / entry["starter"]).is_dir(), entry["starter"])
             self.assertTrue((ROOT / entry["guide"]).is_file(), entry["guide"])
@@ -218,7 +223,10 @@ class DocumentationTests(unittest.TestCase):
     def test_java_consumer_version_and_sources(self):
         namespace = {"m": "http://maven.apache.org/POM/4.0.0"}
         source = ElementTree.parse(ROOT / "language/java/pom.xml").getroot()
-        version = source.find("m:version", namespace).text
+        source_version = source.find("m:version", namespace).text
+        registry = json.loads((ROOT / "language/registry-metadata.json").read_text(encoding="utf-8"))
+        self.assertEqual(registry["Java"]["source_version"], source_version)
+        version = registry["Java"]["published_version"]
         consumer = ElementTree.parse(ROOT / "examples/consumer-java/pom.xml").getroot()
         dependencies = [
             dependency for dependency in consumer.findall(".//m:dependency", namespace)
@@ -250,7 +258,9 @@ class DocumentationTests(unittest.TestCase):
 
     def test_typescript_consumer_version_and_sources(self):
         metadata = json.loads((ROOT / "language/typescript/package.json").read_text(encoding="utf-8"))
-        version = metadata["version"]
+        registry = json.loads((ROOT / "language/registry-metadata.json").read_text(encoding="utf-8"))
+        self.assertEqual(registry["TypeScript"]["source_version"], metadata["version"])
+        version = registry["TypeScript"]["published_version"]
         package = json.loads((ROOT / "examples/consumer-typescript/package.json").read_text(encoding="utf-8"))
         lockfile = json.loads((ROOT / "examples/consumer-typescript/package-lock.json").read_text(encoding="utf-8"))
         self.assertEqual(package["dependencies"]["@axisvela/praxo-core"], version)
@@ -278,7 +288,9 @@ class DocumentationTests(unittest.TestCase):
 
     def test_python_consumer_version_and_sources(self):
         metadata = tomllib.loads((ROOT / "language/python/pyproject.toml").read_text(encoding="utf-8"))
-        version = metadata["project"]["version"]
+        registry = json.loads((ROOT / "language/registry-metadata.json").read_text(encoding="utf-8"))
+        self.assertEqual(registry["Python"]["source_version"], metadata["project"]["version"])
+        version = registry["Python"]["published_version"]
         requirement = "praxo-core==" + version
         self.assertEqual((ROOT / "examples/consumer-python/requirements.txt").read_text().strip(), requirement)
         page = SimpleNamespace(meta={})

@@ -1,8 +1,9 @@
 # PRAXO-CORE Rust Registry Introduction
 
-**Status:** published. Source version `0.3.0`, source tag
-`rust/v0.3.0`. Registry pages are release snapshots; verify the published
-version before relying on a feature.
+**Status:** published. Source version `0.3.0`, source
+tag `rust/v0.3.0`. Published registry version: `0.3.0`. Registry
+pages are release snapshots; verify the published version before relying on a
+feature.
 
 ## Positioning
 
@@ -14,8 +15,10 @@ PRAXO-CORE is an embeddable, MIT-licensed agent framework. This crate is its nat
 | --- | --- |
 | Package | `praxo-core` |
 | Registry | [crates.io](https://crates.io/crates/praxo-core/0.3.0) |
-| Version | `0.3.0` |
-| Install | `cargo add praxo-core@0.3.0` |
+| Source version | `0.3.0` |
+| Published registry version | `0.3.0` |
+| Install (published) | `cargo add praxo-core@0.3.0` |
+| Install (source/release prepared) | `cargo add praxo-core@0.3.0` |
 | Source tag | `rust/v0.3.0` |
 | Tier | Core |
 | Contract | `SPEC_VERSION` `0.2.0` |

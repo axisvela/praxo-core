@@ -8,9 +8,11 @@
 
 - package: `praxo-core-swift`
 - registry: [Swift Package Index](https://swiftpackageindex.com/axisvela/praxo-core-swift)
-- version: `0.2.0`
-- install: `.package(url: "https://github.com/axisvela/praxo-core-swift.git", from: "0.2.0")`
-- source tag: `swift/v0.2.0`
+- source_version: `0.2.0`
+- published_version: `0.2.0`
+- install_published: `.package(url: "https://github.com/axisvela/praxo-core-swift.git", from: "0.2.0")`
+- install_source: `.package(url: "https://github.com/axisvela/praxo-core-swift.git", from: "0.2.0")`
+- source_tag: `swift/v0.2.0`
 - tier: Core
 - contract: `SPEC_VERSION` `0.2.0`
 - documentation: https://axisvela.github.io/praxo-core/languages/swift/

@@ -1,8 +1,9 @@
 # PRAXO-CORE Zig Registry Introduction
 
-**Status:** source-only. Source version `0.2.0`, source tag
-`zig/v0.2.0`. Registry pages are release snapshots; verify the published
-version before relying on a feature.
+**Status:** source-only. Source version `0.2.0`, source
+tag `zig/v0.2.0`. Published registry version: not published. Registry
+pages are release snapshots; verify the published version before relying on a
+feature.
 
 ## Positioning
 
@@ -14,8 +15,10 @@ Zig 0.17 implementation of the PRAXO-CORE agent contract. The normative contract
 | --- | --- |
 | Package | `praxo-core-zig` |
 | Registry | Source |
-| Version | `0.2.0` |
-| Install | `Source build (see README)` |
+| Source version | `0.2.0` |
+| Published registry version | not published |
+| Install (published) | not published |
+| Install (source/release prepared) | `Source build (see README)` |
 | Source tag | `zig/v0.2.0` |
 | Tier | Core |
 | Contract | `SPEC_VERSION` `0.2.0` |

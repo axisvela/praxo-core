@@ -1,8 +1,9 @@
 # PRAXO-CORE OCaml Registry Introduction
 
-**Status:** pending registry merge. Source version `0.3.0`, source tag
-`ocaml/v0.3.0`. Registry pages are release snapshots; verify the published
-version before relying on a feature.
+**Status:** pending registry merge. Source version `0.3.0`, source
+tag `ocaml/v0.3.0`. Published registry version: `0.3.0`. Registry
+pages are release snapshots; verify the published version before relying on a
+feature.
 
 ## Positioning
 
@@ -14,8 +15,10 @@ PRAXO-CORE is an embeddable, MIT-licensed agent framework. This package is its n
 | --- | --- |
 | Package | `praxo-core` |
 | Registry | [opam (pending)](https://github.com/axisvela/praxo-core-ocaml) |
-| Version | `0.3.0` |
-| Install | `opam install praxo-core` |
+| Source version | `0.3.0` |
+| Published registry version | `0.3.0` |
+| Install (published) | `opam install praxo-core` |
+| Install (source/release prepared) | `opam install praxo-core` |
 | Source tag | `ocaml/v0.3.0` |
 | Tier | Core |
 | Contract | `SPEC_VERSION` `0.2.0` |

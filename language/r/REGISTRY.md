@@ -1,8 +1,9 @@
 # PRAXO-CORE R Registry Introduction
 
-**Status:** r-universe only; CRAN not published. Source version `0.5.0`, source tag
-`r/v0.5.0`. Registry pages are release snapshots; verify the published
-version before relying on a feature.
+**Status:** r-universe only; CRAN not published. Source version `0.5.0`, source
+tag `r/v0.5.0`. Published registry version: `0.5.0`. Registry
+pages are release snapshots; verify the published version before relying on a
+feature.
 
 ## Positioning
 
@@ -14,8 +15,10 @@ R implementation of the PRAXO-CORE contract.
 | --- | --- |
 | Package | `praxocore` |
 | Registry | [r-universe](https://axisvela.r-universe.dev/praxocore) |
-| Version | `0.5.0` |
-| Install | `install.packages("praxocore", repos = "https://axisvela.r-universe.dev")` |
+| Source version | `0.5.0` |
+| Published registry version | `0.5.0` |
+| Install (published) | `install.packages("praxocore", repos = "https://axisvela.r-universe.dev")` |
+| Install (source/release prepared) | `install.packages("praxocore", repos = "https://axisvela.r-universe.dev")` |
 | Source tag | `r/v0.5.0` |
 | Tier | Core |
 | Contract | `SPEC_VERSION` `0.2.0` |

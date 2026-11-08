@@ -24,6 +24,9 @@ crates.io、NuGet、RubyGems、Packagist、Hex、pub.dev 等 Registry 页面，�
 总索引见[语言 Registry 与编程 Agent 入口](https://github.com/axisvela/praxo-core/blob/main/language/REGISTRY-INDEX.md)。
 这些是源码入口，不证明 Registry 页面已刷新。
 
+生成入口区分 `source_version` 与 `published_version`。源码发布可以在 Registry 页面更新前准备；
+在新 tag 发布前，消费者应安装已发布版本。准备好的源码 tag 不是 Registry 可用性的证据。
+
 ## 页面检查清单
 
 - 精确包名、版本、安装命令与运行时版本。

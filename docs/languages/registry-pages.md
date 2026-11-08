@@ -80,6 +80,11 @@ them through their existing process; Maven Central continues to render POM
 metadata rather than the README. A source file or source tag is not proof that a
 registry page has been updated.
 
+The generated entries distinguish `source_version` from `published_version`. A
+source release can be prepared before its registry page updates; consumers must
+install the published version until the new tag is published, and a prepared
+source tag is not registry availability evidence.
+
 ## For Coding Agents
 
 1. Read the registry page for the exact package, version, and install command.

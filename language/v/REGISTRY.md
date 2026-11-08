@@ -1,8 +1,9 @@
 # PRAXO-CORE V Registry Introduction
 
-**Status:** split repository; VPM submission pending. Source version `0.1.2`, source tag
-`v/v0.1.2`. Registry pages are release snapshots; verify the published
-version before relying on a feature.
+**Status:** split repository; VPM submission pending. Source version `0.1.2`, source
+tag `v/v0.1.2`. Published registry version: `0.1.2`. Registry
+pages are release snapshots; verify the published version before relying on a
+feature.
 
 ## Positioning
 
@@ -14,8 +15,10 @@ V is a native Core implementation with source tag `v/v0.1.2`. It passes all elev
 | --- | --- |
 | Package | `praxo-core` |
 | Registry | [VPM (pending)](https://github.com/axisvela/praxo-core-v) |
-| Version | `0.1.2` |
-| Install | `v install praxo-core` |
+| Source version | `0.1.2` |
+| Published registry version | `0.1.2` |
+| Install (published) | `v install praxo-core` |
+| Install (source/release prepared) | `v install praxo-core` |
 | Source tag | `v/v0.1.2` |
 | Tier | Core |
 | Contract | `SPEC_VERSION` `0.2.0` |

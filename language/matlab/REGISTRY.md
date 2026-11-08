@@ -1,8 +1,9 @@
 # PRAXO-CORE MATLAB Registry Introduction
 
-**Status:** published; MATLAB runtime compatibility unverified. Source version `0.2.1`, source tag
-`matlab/v0.2.1`. Registry pages are release snapshots; verify the published
-version before relying on a feature.
+**Status:** published; MATLAB runtime compatibility unverified. Source version `0.2.1`, source
+tag `matlab/v0.2.1`. Published registry version: `0.2.1`. Registry
+pages are release snapshots; verify the published version before relying on a
+feature.
 
 ## Positioning
 
@@ -14,8 +15,10 @@ version before relying on a feature.
 | --- | --- |
 | Package | `PRAXO-CORE` |
 | Registry | [MATLAB File Exchange](https://www.mathworks.com/matlabcentral/fileexchange/185166-praxo-core) |
-| Version | `0.2.1` |
-| Install | `File Exchange entry 185166` |
+| Source version | `0.2.1` |
+| Published registry version | `0.2.1` |
+| Install (published) | `File Exchange entry 185166` |
+| Install (source/release prepared) | `File Exchange entry 185166` |
 | Source tag | `matlab/v0.2.1` |
 | Tier | Core |
 | Contract | `SPEC_VERSION` `0.2.0` |

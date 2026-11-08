@@ -8,9 +8,11 @@
 
 - package: `PraxoCore`
 - registry: [Julia General (pending)](https://github.com/axisvela/praxo-core-julia)
-- version: `0.2.0`
-- install: `Pkg.add("PraxoCore")`
-- source tag: `julia/v0.2.0`
+- source_version: `0.2.0`
+- published_version: `0.2.0`
+- install_published: `Pkg.add("PraxoCore")`
+- install_source: `Pkg.add("PraxoCore")`
+- source_tag: `julia/v0.2.0`
 - tier: Core
 - contract: `SPEC_VERSION` `0.2.0`
 - documentation: https://axisvela.github.io/praxo-core/languages/julia/

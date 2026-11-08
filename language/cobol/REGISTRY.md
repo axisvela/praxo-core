@@ -1,8 +1,9 @@
 # PRAXO-CORE COBOL Registry Introduction
 
-**Status:** source-only. Source version `0.4.0`, source tag
-`cobol/v0.4.0`. Registry pages are release snapshots; verify the published
-version before relying on a feature.
+**Status:** source-only. Source version `0.4.0`, source
+tag `cobol/v0.4.0`. Published registry version: not published. Registry
+pages are release snapshots; verify the published version before relying on a
+feature.
 
 ## Positioning
 
@@ -14,8 +15,10 @@ A native GnuCOBOL implementation, not a bridge to another Core. All 63 normative
 | --- | --- |
 | Package | `praxo-core-cobol` |
 | Registry | Source |
-| Version | `0.4.0` |
-| Install | `Source build (see README)` |
+| Source version | `0.4.0` |
+| Published registry version | not published |
+| Install (published) | not published |
+| Install (source/release prepared) | `Source build (see README)` |
 | Source tag | `cobol/v0.4.0` |
 | Tier | Core |
 | Contract | `SPEC_VERSION` `0.2.0` |

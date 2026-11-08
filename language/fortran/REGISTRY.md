@@ -1,8 +1,9 @@
 # PRAXO-CORE Fortran Registry Introduction
 
-**Status:** source-only. Source version `0.6.0`, source tag
-`fortran/v0.6.0`. Registry pages are release snapshots; verify the published
-version before relying on a feature.
+**Status:** source-only. Source version `0.6.0`, source
+tag `fortran/v0.6.0`. Published registry version: not published. Registry
+pages are release snapshots; verify the published version before relying on a
+feature.
 
 ## Positioning
 
@@ -14,8 +15,10 @@ A native Fortran 2008 agent implementation with source tag `fortran/v0.6.0`. Ver
 | --- | --- |
 | Package | `praxo-core-fortran` |
 | Registry | Source / CMake |
-| Version | `0.6.0` |
-| Install | `Source build (see README)` |
+| Source version | `0.6.0` |
+| Published registry version | not published |
+| Install (published) | not published |
+| Install (source/release prepared) | `Source build (see README)` |
 | Source tag | `fortran/v0.6.0` |
 | Tier | Core |
 | Contract | `SPEC_VERSION` `0.2.0` |
