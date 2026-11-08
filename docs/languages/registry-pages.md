@@ -69,7 +69,7 @@ Every `language/<language>/` directory now ships:
 - `llms.md`: Markdown version of the same entry.
 - A `README.md` link block so a rendered registry page exposes the entries.
 
-The central index is [language/REGISTRY-INDEX.md](../../language/REGISTRY-INDEX.md).
+The central index is [language/REGISTRY-INDEX.md](https://github.com/axisvela/praxo-core/blob/main/language/REGISTRY-INDEX.md).
 The generated files are checked by `scripts/sync_language_registry_docs.py --check`
 and `scripts/test_language_registry_docs.py`.
 

@@ -10,7 +10,7 @@
 清单与当前试点页面审计见[Registry 页面与包介绍](registry-pages.md)。
 
 每个语言源码目录还提供 `REGISTRY.md`、`llms.txt` 与 `llms.md`；总索引见
-[语言 Registry 与编程 Agent 入口](../../../language/REGISTRY-INDEX.md)。这些是源码入口，
+[语言 Registry 与编程 Agent 入口](https://github.com/axisvela/praxo-core/blob/main/language/REGISTRY-INDEX.md)。这些是源码入口，
 不是 Registry 页面已刷新的证据。
 
 ## 已发布且当前

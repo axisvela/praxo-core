@@ -15,7 +15,7 @@ checklist and the current pilot-page audit.
 
 Each language source directory also has a registry-facing `REGISTRY.md`,
 `llms.txt`, and `llms.md`; the central list is
-[language/REGISTRY-INDEX.md](../../language/REGISTRY-INDEX.md). These are source
+[language/REGISTRY-INDEX.md](https://github.com/axisvela/praxo-core/blob/main/language/REGISTRY-INDEX.md). These are source
 entries, not evidence that a registry page has been refreshed.
 
 ## Published and current
