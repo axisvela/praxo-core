@@ -23,7 +23,7 @@ orchestration platform:
 ## Install
 
 ```bash
-npm install @axisvela/praxo-core@0.2.0
+npm install @axisvela/praxo-core@0.2.1
 ```
 
 ## Quickstart
@@ -75,8 +75,8 @@ console.log(result.output, result.steps, result.usage);
 
 The normative contract is [`spec/`](../../spec/README.md); Go remains the
 reference implementation. This package supports `SPEC_VERSION` `0.2.0` and
-passes the TypeScript conformance and parity checks. Source version `0.2.0` is
-published from tag `typescript/v0.2.0`; the tag workflow stages the npm package
+passes the TypeScript conformance and parity checks. Source version `0.2.1` is
+released from tag `typescript/v0.2.1`; the tag workflow stages the npm package
 with provenance. VFS and plugin hosts are not yet implemented.
 
 ## Requirements
