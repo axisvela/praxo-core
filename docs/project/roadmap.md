@@ -83,8 +83,11 @@ runnable [identity/policy recipe](../guides/identity-policy.md), and a
 tool-neutral [skill template](https://github.com/axisvela/praxo-core/tree/main/agent-skills/praxo-integration)
 are now available. Source registry metadata was improved and the four pilot
 registry pages were audited; the published pages update only with new releases.
-Stage 2 is not complete: skill installation/discovery is unverified, and
-published registry-page verification requires new releases. An offline recipe
+Stage 2 is not complete: Claude Code `2.1.196` records local skills-directory
+installation and discovery (structural evidence only; issue #15), while task
+execution in that tool and installation/discovery in other tools remain
+unverified. Published registry-page verification requires new releases. An
+offline recipe
 set now covers adapter conformance, retry safety, event sinks, context budgets,
 checkpoint storage, structured output, VFS containment, provider fallback,
 plugin lifecycle, multi-agent delegation, streaming, and the workspace session

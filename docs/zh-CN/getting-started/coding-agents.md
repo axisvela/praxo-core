@@ -59,3 +59,8 @@ Core fixture 与消费者测试不证明真实模型质量、真实身份、持�
 
 提交到本仓库的 Skill 不是安装渠道。不要假设用户项目中存在 `SKILL.md` 或工具会自动
 发现它。以上文档与 Starter 才是规范来源。
+
+2026-11-08 已在本地验证 Claude Code `2.1.196` 可通过 skills 目录插件发现该模板：
+使用 `claude plugin init praxo-integration --with skills`，用本模板替换脚手架 Skill，
+然后运行 `claude plugin list` 与 `claude plugin details praxo-integration@skills-dir`。
+这是特定工具的结构性结果，不是自动安装渠道，也不是任务执行证据；其他工具仍未验证。

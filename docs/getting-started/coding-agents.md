@@ -74,3 +74,11 @@ starters directly.
 A skill committed to this repository is not an installation channel. Do not
 assume that a `SKILL.md` exists in the user's project or that the tool will
 discover it. The documents and starters above are the canonical source of truth.
+
+Claude Code `2.1.196` was verified locally on 2026-11-08 to discover this
+template through its skills-directory plugin flow: run
+`claude plugin init praxo-integration --with skills`, replace the scaffolded
+skill with this template, then use `claude plugin list` and
+`claude plugin details praxo-integration@skills-dir`. This is a tool-specific
+structural result, not an automatic install channel or task-execution evidence.
+Other tools remain unverified.
