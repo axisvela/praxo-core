@@ -18,12 +18,12 @@ orchestration platform:
 - Registry introduction: [REGISTRY.md](https://github.com/axisvela/praxo-core/blob/main/language/typescript/REGISTRY.md)
 - Machine-readable entry: [llms.txt](https://github.com/axisvela/praxo-core/blob/main/language/typescript/llms.txt) and [llms.md](https://github.com/axisvela/praxo-core/blob/main/language/typescript/llms.md)
 - Coding-agent contract: [docs/getting-started/coding-agents.md](https://github.com/axisvela/praxo-core/blob/main/docs/getting-started/coding-agents.md)
-- Registry: [npm](https://www.npmjs.com/package/@axisvela/praxo-core/v/0.2.1)
+- Registry: [npm](https://www.npmjs.com/package/@axisvela/praxo-core/v/0.2.2)
 
 ## Install
 
 ```bash
-npm install @axisvela/praxo-core@0.2.1
+npm install @axisvela/praxo-core@0.2.2
 ```
 
 ## Quickstart
@@ -68,15 +68,15 @@ console.log(result.output, result.steps, result.usage);
 ## Documentation and examples
 
 - [Documentation](https://axisvela.github.io/praxo-core/languages/typescript/)
-- [中文文档](https://axisvela.github.io/praxo-core/zh-CN/languages/typescript/)
+- [涓枃鏂囨。](https://axisvela.github.io/praxo-core/zh-CN/languages/typescript/)
 - [Examples](https://github.com/axisvela/praxo-core/tree/main/examples)
 
 ## Contract and status
 
 The normative contract is [`spec/`](../../spec/README.md); Go remains the
 reference implementation. This package supports `SPEC_VERSION` `0.2.0` and
-passes the TypeScript conformance and parity checks. Source version `0.2.1` is
-released from tag `typescript/v0.2.1`; the tag workflow stages the npm package
+passes the TypeScript conformance and parity checks. Source version `0.2.2` is
+released from tag `typescript/v0.2.2`; the tag workflow stages the npm package
 with provenance. VFS and plugin hosts are not yet implemented.
 
 ## Requirements
