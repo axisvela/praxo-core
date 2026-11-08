@@ -59,6 +59,27 @@ Other registries are listed in [Registry Publication Status](registry-status.md)
 They were not all re-audited in this update; use the same checklist at release
 time instead of inferring page quality from source files alone.
 
+## Per-Language Registry and Coding-Agent Entries
+
+Every `language/<language>/` directory now ships:
+
+- `REGISTRY.md`: registry-facing introduction with package, version, install,
+  registry page, documentation, and explicit boundaries.
+- `llms.txt`: compact machine-readable entry for that language.
+- `llms.md`: Markdown version of the same entry.
+- A `README.md` link block so a rendered registry page exposes the entries.
+
+The central index is [language/REGISTRY-INDEX.md](../../language/REGISTRY-INDEX.md).
+The generated files are checked by `scripts/sync_language_registry_docs.py --check`
+and `scripts/test_language_registry_docs.py`.
+
+Package inclusion is registry-specific. Explicit allowlists now include the
+files for npm, Python sdist, Cargo, NuGet, RubyGems, Hex, CPAN, and Hackage.
+Registries that package the repository tree or use release workflows include
+them through their existing process; Maven Central continues to render POM
+metadata rather than the README. A source file or source tag is not proof that a
+registry page has been updated.
+
 ## For Coding Agents
 
 1. Read the registry page for the exact package, version, and install command.

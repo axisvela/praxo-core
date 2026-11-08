@@ -8,6 +8,13 @@ source tag; version `0.4.0` adds middleware, lifecycle, cancellation, streaming,
 SSE, and batch tool dispatch, and current source adds human-in-the-loop
 interrupt decisions.
 
+## Registry and Coding-Agent Entry
+
+- Registry introduction: [REGISTRY.md](REGISTRY.md)
+- Machine-readable entry: [llms.txt](llms.txt) and [llms.md](llms.md)
+- Coding-agent contract: [docs/getting-started/coding-agents.md](../../docs/getting-started/coding-agents.md)
+- Registry: Source
+
 ## Build and Test
 
 Use GnuCOBOL 2.0 or later and Python 3.10 or later:

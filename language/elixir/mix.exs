@@ -22,7 +22,7 @@ defmodule Praxo.MixProject do
     [
       licenses: ["MIT"],
       links: %{"GitHub" => "https://github.com/axisvela/praxo-core"},
-      files: ~w(lib api README.md CHANGELOG.md PUBLISHING.md LICENSE mix.exs)
+      files: ~w(lib api README.md REGISTRY.md llms.txt llms.md CHANGELOG.md PUBLISHING.md LICENSE mix.exs)
     ]
   end
 

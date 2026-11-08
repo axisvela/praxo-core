@@ -33,6 +33,9 @@
   "files": [
     "dist",
     "README.md",
+    "REGISTRY.md",
+    "llms.txt",
+    "llms.md",
     "LICENSE"
   ],
   "scripts": {

@@ -15,6 +15,13 @@ reference implementation.
 - Dependencies: D standard library only
 - Published on DUB/code.dlang.org as `praxo-core@0.1.0`
 
+## Registry and Coding-Agent Entry
+
+- Registry introduction: [REGISTRY.md](REGISTRY.md)
+- Machine-readable entry: [llms.txt](llms.txt) and [llms.md](llms.md)
+- Coding-agent contract: [docs/getting-started/coding-agents.md](../../docs/getting-started/coding-agents.md)
+- Registry: [DUB](https://code.dlang.org/packages/praxo-core)
+
 ## Install
 
 ```bash

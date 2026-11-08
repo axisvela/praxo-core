@@ -16,6 +16,13 @@ reference implementation.
 - Dependencies: Dart standard library only
 - Published on pub.dev as `praxo_core@0.1.1`
 
+## Registry and Coding-Agent Entry
+
+- Registry introduction: [REGISTRY.md](REGISTRY.md)
+- Machine-readable entry: [llms.txt](llms.txt) and [llms.md](llms.md)
+- Coding-agent contract: [docs/getting-started/coding-agents.md](../../docs/getting-started/coding-agents.md)
+- Registry: [pub.dev](https://pub.dev/packages/praxo_core/versions/0.1.1)
+
 ## Install
 
 ```bash

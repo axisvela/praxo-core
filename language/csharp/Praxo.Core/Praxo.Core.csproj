@@ -20,5 +20,8 @@
   </PropertyGroup>
   <ItemGroup>
     <None Include="../README.md" Pack="true" PackagePath="\" />
+    <None Include="../REGISTRY.md" Pack="true" PackagePath="\" />
+    <None Include="../llms.txt" Pack="true" PackagePath="\" />
+    <None Include="../llms.md" Pack="true" PackagePath="\" />
   </ItemGroup>
 </Project>

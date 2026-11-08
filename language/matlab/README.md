@@ -20,6 +20,13 @@ live in `language/octave` (`octave/v0.2.1`). Local validation uses GNU Octave
 11.3.0; MATLAB compatibility is a target, not yet independently verified. The
 source tag does not imply production readiness or a delivery date.
 
+## Registry and Coding-Agent Entry
+
+- Registry introduction: [REGISTRY.md](REGISTRY.md)
+- Machine-readable entry: [llms.txt](llms.txt) and [llms.md](llms.md)
+- Coding-agent contract: [docs/getting-started/coding-agents.md](../../docs/getting-started/coding-agents.md)
+- Registry: [MATLAB File Exchange](https://www.mathworks.com/matlabcentral/fileexchange/185166-praxo-core)
+
 ## Run the Checks
 
 With Python 3.10+ and an Octave CLI available, from the repository root:

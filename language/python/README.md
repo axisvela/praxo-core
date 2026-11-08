@@ -13,6 +13,13 @@ orchestration platform:
 - Streaming, cancellation, and an OpenAI-compatible adapter.
 - No runtime dependencies; Python 3.11 or newer.
 
+## Registry and Coding-Agent Entry
+
+- Registry introduction: [REGISTRY.md](REGISTRY.md)
+- Machine-readable entry: [llms.txt](llms.txt) and [llms.md](llms.md)
+- Coding-agent contract: [docs/getting-started/coding-agents.md](../../docs/getting-started/coding-agents.md)
+- Registry: [PyPI](https://pypi.org/project/praxo-core/0.3.0/)
+
 ## Install
 
 ```bash

@@ -52,6 +52,7 @@
 | 编程 Agent 发现辅助 | 已实现；`llms.txt` 存在且链接由测试校验 | 机器可读仓库入口；不保证工具发现、搜索排序、安装或采用 |
 | 编程 Agent Skill 模板 | 实验；仅仓库模板 | 工具中立的 `SKILL.md`；安装与发现未验证，不声明自动安装、MCP 或运行时 Skill 行为 |
 | Registry 页面元数据 | 源元数据已更新；已发布页面尚未更新 | 2026-11-05 审计 PyPI、npm、Maven、Go 页面；页面只随新版本更新；其他 Registry 发布时检查 |
+| 每语言 Registry 与编程 Agent 入口 | 已实现；生成并由链接测试校验 | 每个 `language/<language>/` 目录都有 `REGISTRY.md`、`llms.txt` 与 `llms.md`，并提供中央索引和 README 链接。npm、Python sdist、Cargo、NuGet、RubyGems、Hex、CPAN 与 Hackage 的允许清单已包含这些文件；Maven Central 仍以 POM 元数据为主。这是源码证据，不证明 Registry 页面已刷新 |
 | 编程 Agent 采用实验 | 未运行；协议已提案 | [采用基线协议](adoption-baseline.md)定义轨道、任务、指标与证据；没有发现、选型、首次通过、修复成本或留存数据 |
 | Embodied Integration Profile | 设计提案；AKROVELA 已选定；适配器/运行未开始 | 治理之上增加远程动作、绑定/新鲜观测、取消确认和效果验证；分开实验证据、Mission 权威、运行世界状态、独立保障与本地安全；AKROVELA 像 PRAXOVELA 一样嵌入 Core；复用已发布契约，必需能力不可用时阻塞验收 |
 | 具身试点计划 | 提案；2026-11-08 修订 | 复用治理装配，以 G1-G8 加 E1-E8 和允许端到端路径验收；拟交付消费者示例、实验适配器与消费者局部协议，不新增共享 API/Wire；AKROVELA 已选定为消费者并明确维护者和安全负责人；产品适配器、中间件实现、仿真、权威映射、观测源和验证者仍待定；没有运行记录 |

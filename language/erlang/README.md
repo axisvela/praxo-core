@@ -13,6 +13,13 @@ It does not call Go or another Core.
 - The Hex package is `praxo_core_erlang@0.4.0`; `0.3.1` and `0.2.0` remain available.
 - Toolchain: Erlang/OTP 29 or newer. JSON uses the OTP `json` module.
 
+## Registry and Coding-Agent Entry
+
+- Registry introduction: [REGISTRY.md](REGISTRY.md)
+- Machine-readable entry: [llms.txt](llms.txt) and [llms.md](llms.md)
+- Coding-agent contract: [docs/getting-started/coding-agents.md](../../docs/getting-started/coding-agents.md)
+- Registry: [Hex](https://hex.pm/packages/praxo_core_erlang/0.4.0)
+
 ## Install
 
 ```erlang

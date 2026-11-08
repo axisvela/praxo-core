@@ -13,6 +13,11 @@ may lag the source repository and the documentation site. See
 [Registry Pages and Package Introductions](registry-pages.md) for the page
 checklist and the current pilot-page audit.
 
+Each language source directory also has a registry-facing `REGISTRY.md`,
+`llms.txt`, and `llms.md`; the central list is
+[language/REGISTRY-INDEX.md](../../language/REGISTRY-INDEX.md). These are source
+entries, not evidence that a registry page has been refreshed.
+
 ## Published and current
 
 This is the **Language Release Index** for registry versions. For independent

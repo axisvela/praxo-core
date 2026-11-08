@@ -16,6 +16,13 @@ Maven Central publishes `com.axisvela:praxo-core:0.4.0`, the current source
 release. Check Central metadata rather than inferring availability from this
 README when upgrading.
 
+## Registry and Coding-Agent Entry
+
+- Registry introduction: [REGISTRY.md](REGISTRY.md)
+- Machine-readable entry: [llms.txt](llms.txt) and [llms.md](llms.md)
+- Coding-agent contract: [docs/getting-started/coding-agents.md](../../docs/getting-started/coding-agents.md)
+- Registry: [Maven Central](https://repo1.maven.org/maven2/com/axisvela/praxo-core/0.4.0/)
+
 ## Install
 
 ```xml

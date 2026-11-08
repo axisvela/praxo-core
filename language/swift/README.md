@@ -7,6 +7,13 @@ Swift implementation of the PRAXO-CORE contract.
 - Tier: core
 - License: MIT
 
+## Registry and Coding-Agent Entry
+
+- Registry introduction: [REGISTRY.md](REGISTRY.md)
+- Machine-readable entry: [llms.txt](llms.txt) and [llms.md](llms.md)
+- Coding-agent contract: [docs/getting-started/coding-agents.md](../../docs/getting-started/coding-agents.md)
+- Registry: [Swift Package Index](https://swiftpackageindex.com/axisvela/praxo-core-swift)
+
 ## Scope
 
 `0.2.0` implements all eleven conformance vector groups: tool-call parsing, JSON

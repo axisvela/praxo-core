@@ -16,6 +16,13 @@ scope.
 The Hex package is `praxo_core@0.4.0`; `0.3.0` and `0.2.0` remain available.
 HexDocs: <https://praxo-core.hexdocs.pm/0.4.0/>.
 
+## Registry and Coding-Agent Entry
+
+- Registry introduction: [REGISTRY.md](REGISTRY.md)
+- Machine-readable entry: [llms.txt](llms.txt) and [llms.md](llms.md)
+- Coding-agent contract: [docs/getting-started/coding-agents.md](../../docs/getting-started/coding-agents.md)
+- Registry: [Hex](https://hex.pm/packages/praxo_core/0.4.0)
+
 ## Install
 
 ```elixir

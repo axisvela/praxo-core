@@ -13,7 +13,8 @@ license: MIT
 license-file: LICENSE
 author: AxisVela
 build-type: Simple
-extra-source-files: README.md, SETUP.md, api/0.2.0.txt, run-tests.py, api-snapshot.py
+extra-source-files: README.md, REGISTRY.md, llms.txt, llms.md, SETUP.md,
+                    api/0.2.0.txt, run-tests.py, api-snapshot.py
 
 source-repository head
   type: git

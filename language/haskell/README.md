@@ -14,6 +14,13 @@ middleware, JSON Schema validation, plugin manifest parsing, and runtime helpers
   `.github/workflows/haskell-release.yml`; production readiness is not implied
   by the source tag.
 
+## Registry and Coding-Agent Entry
+
+- Registry introduction: [REGISTRY.md](REGISTRY.md)
+- Machine-readable entry: [llms.txt](llms.txt) and [llms.md](llms.md)
+- Coding-agent contract: [docs/getting-started/coding-agents.md](../../docs/getting-started/coding-agents.md)
+- Registry: [Hackage (pending)](https://github.com/axisvela/praxo-core/releases/tag/haskell%2Fv0.2.0)
+
 ## Build and Test
 
 Use GHC 9.0 or newer and Python 3.10 or newer. CI targets GHC 9.12.2 on Linux

@@ -16,6 +16,7 @@ Gem::Specification.new do |spec|
     "documentation_uri" => "https://axisvela.github.io/praxo-core/languages/ruby/"
   }
 
-  spec.files = Dir["lib/**/*.rb", "api/**/*.txt", "LICENSE", "README.md"]
+  spec.files = Dir["lib/**/*.rb", "api/**/*.txt", "LICENSE", "README.md",
+                   "REGISTRY.md", "llms.txt", "llms.md"]
   spec.require_paths = ["lib"]
 end

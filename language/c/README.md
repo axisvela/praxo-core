@@ -8,6 +8,13 @@ reference implementation.
 provides the wire-level JSON primitives, and `include/praxo_core.h` adds public
 memory, event, checkpoint, policy, context, middleware, and agent APIs.
 
+## Registry and Coding-Agent Entry
+
+- Registry introduction: [REGISTRY.md](REGISTRY.md)
+- Machine-readable entry: [llms.txt](llms.txt) and [llms.md](llms.md)
+- Coding-agent contract: [docs/getting-started/coding-agents.md](../../docs/getting-started/coding-agents.md)
+- Registry: Source / CMake
+
 ## Build and test
 
 With GCC or Clang:

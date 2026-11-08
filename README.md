@@ -19,6 +19,13 @@ model providers and integrations. AxisVela products are not required.
 [Language Implementations](docs/languages/index.md) |
 [Examples](examples)
 
+## Registry and Coding-Agent Entry
+
+- Registry introduction: [REGISTRY.md](REGISTRY.md)
+- Machine-readable entry: [llms.txt](llms.txt) and [llms.md](llms.md)
+- Coding-agent contract: [docs/getting-started/coding-agents.md](docs/getting-started/coding-agents.md)
+- Registry: [Go module proxy / pkg.go.dev](https://pkg.go.dev/github.com/axisvela/praxo-core/v2)
+
 ## Start With Go
 
 ```bash
