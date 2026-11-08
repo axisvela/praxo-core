@@ -54,9 +54,9 @@
 | Registry 页面元数据 | 新语言版本已发布并核对渲染页面 | PyPI `0.3.2`、npm `0.2.2` 与 Maven Central `0.4.1` 已发布并核对页面；Go 仍为 `v2.6.0`。其他 Registry 仍在发布时检查 |
 | 每语言 Registry 与编程 Agent 入口 | 已实现；生成并由链接测试校验 | 每个 `language/<language>/` 目录都有 `REGISTRY.md`、`llms.txt` 与 `llms.md`，并提供中央索引和 README 链接。npm、Python sdist、Cargo、NuGet、RubyGems、Hex、CPAN 与 Hackage 的允许清单已包含这些文件；Maven Central 仍以 POM 元数据为主。这是源码证据，不证明 Registry 页面已刷新 |
 | 编程 Agent 采用实验 | 未运行；协议已提案 | [采用基线协议](adoption-baseline.md)定义轨道、任务、指标与证据；没有发现、选型、首次通过、修复成本或留存数据 |
-| Embodied Integration Profile | 设计提案；AKROVELA 已选定；适配器/运行未开始 | 治理之上增加远程动作、绑定/新鲜观测、取消确认和效果验证；分开实验证据、Mission 权威、运行世界状态、独立保障与本地安全；AKROVELA 像 PRAXOVELA 一样嵌入 Core；复用已发布契约，必需能力不可用时阻塞验收 |
-| 具身试点计划 | 提案；2026-11-08 修订 | 复用治理装配，以 G1-G8 加 E1-E8 和允许端到端路径验收；拟交付消费者示例、实验适配器与消费者局部协议，不新增共享 API/Wire；AKROVELA 已选定为消费者并明确维护者和安全负责人；产品适配器、中间件实现、仿真、权威映射、观测源和验证者仍待定；没有运行记录 |
-| AKROVELA / DIDACTOVELA 集成 | 提案；未运行 | AKROVELA 已选定像 PRAXOVELA 一样通过产品侧适配器嵌入 PRAXO-CORE；DIDACTOVELA 仍为可选学习边界。两者均为未发布 0.1.0 产品；尚无适配器、领域协议或已验证集成 |
+| Embodied Integration Profile | 设计提案；AKROVELA 确定性 P1 切片已实现；E1-E8 未运行 | 治理之上增加远程动作、绑定/新鲜观测、取消确认和效果验证；分开实验证据、Mission 权威、运行世界状态、独立保障与本地安全；AKROVELA 像 PRAXOVELA 一样嵌入 Core；产品侧适配器与确定性 P1 切片已存在于 AKROVELA 仓库，仿真、独立观测/验证者、ROS/硬件效果与 E1-E8 试点证据仍待定 |
+| 具身试点计划 | 提案；2026-11-08 修订；AKROVELA 已有确定性 P1 切片 | 复用治理装配，以 G1-G8 加 E1-E8 和允许端到端路径验收。AKROVELA 已选定为消费者并明确维护者和安全负责人；产品适配器、精确操作工具、治理运行时装配、PostgreSQL 日志与公开 v1 操作/回执契约已存在于 AKROVELA 仓库。仿真、独立观测源/验证者、ROS 2 执行、硬件效果与 E1-E8 试点证据仍待定；没有试点运行记录 |
+| AKROVELA / DIDACTOVELA 集成 | AKROVELA P1 确定性切片已实现；DIDACTOVELA 提案 | AKROVELA 像 PRAXOVELA 一样通过产品侧适配器嵌入 PRAXO-CORE；现已有精确操作工具、治理运行时装配、PostgreSQL Run/对账日志，以及公开 v1 操作/回执与卫星命令契约，并作为确定性切片在本地验证。DIDACTOVELA 仍为可选学习边界。两者均为未发布 0.1.0 产品；尚无 ROS/硬件/live 效果、独立验证者或 E1-E8 试点证据 |
 | 语言一致性、功能覆盖与运行证据 | 参见 `spec/parity.md`、语言总表与 Behavior Lab | 分开的维度；源码标签不提供运行证据 |
 
 ## 引用证据

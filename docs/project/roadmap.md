@@ -32,11 +32,14 @@ run sequentially.
 
 Stage 4 has an [embodied pilot plan](embodied-pilot.md) (updated 2026-11-08).
 AKROVELA is the selected consumer and embeds PRAXO-CORE as a product component,
-like PRAXOVELA; its consumer, maintainer and safety-owner selection is recorded,
-but the product-owned adapter is not implemented. The middleware implementation,
-simulation, execution-authority mapping, observation source and verifier remain
-open or unimplemented. The plan
-is an acceptance gate, not evidence that any E1-E8 requirement has been exercised.
+like PRAXOVELA; its consumer, maintainer and safety-owner selection is recorded.
+The [AKROVELA repository](https://github.com/axisvela/akrovela) now contains a product-owned adapter and a locally
+verified deterministic P1 slice: exact-operation tools, governed runtime
+assembly, and a PostgreSQL Run/reconciliation journal, plus public v1
+operation/receipt and satellite command contracts. The simulation task,
+independent observation source and verifier, ROS 2 execution, hardware effect,
+and E1-E8 pilot evidence remain open or unimplemented. The plan is an acceptance
+gate, not evidence that any E1-E8 requirement has been exercised.
 
 The revised design proposes one consumer-owned governed assembly entry with
 structured configuration, G1-G8 validation and no permissive fallback, while
@@ -180,9 +183,10 @@ Standard Embedding names existing configurable embedding behavior; Governed
 Execution Profile is a proposed acceptance contract with partial fixture
 evidence; Embodied Integration Profile now has a
 [proposed design](../reference/embodied-integration.md) and a
-[drafted pilot plan](embodied-pilot.md); AKROVELA is the selected consumer, but no
-adapter or run has started. Do not create three kernels, runtime switches or
-release lines.
+[drafted pilot plan](embodied-pilot.md); AKROVELA is the selected consumer and
+its product-owned adapter and deterministic P1 slice exist in the AKROVELA
+repository, but no E1-E8 pilot run or simulation evidence has been accepted. Do
+not create three kernels, runtime switches or release lines.
 Governed assembly and the actual Effect PEP enforce the required controls;
 ordinary `agent.New` defaults remain compatible. The embodied design adds
 obligations to governed integration and cannot weaken them.

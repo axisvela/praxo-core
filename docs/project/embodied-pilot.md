@@ -1,11 +1,15 @@
 # Embodied Pilot Plan
 
 **Status:** proposed pilot plan, updated 2026-11-08. AKROVELA is the selected
-consumer; its maintainer and safety-owner selection is recorded. The product-owned
-Core adapter, middleware implementation, simulation task, execution authority,
-observation source and verifier remain open or unimplemented. This page is an
-acceptance plan, not a schedule, staffing plan, or implementation claim. Detailed
-execution plans remain in internal planning storage.
+consumer; its maintainer and safety-owner selection is recorded. The AKROVELA
+repository now contains a product-owned Core adapter and a locally verified
+deterministic P1 slice: exact-operation tools, governed runtime assembly, and a
+PostgreSQL Run/reconciliation journal, plus a public v1 operation/receipt
+contract. The simulation task, independent observation source and verifier, ROS 2
+execution, hardware effect, and E1-E8 pilot evidence remain open or
+unimplemented. This page is an acceptance plan, not a schedule, staffing plan, or
+a claim of pilot acceptance. Detailed execution plans remain in internal planning
+storage.
 
 This plan turns the [Embodied Integration Profile](../reference/embodied-integration.md)
 requirements E1-E8 into bounded, recordable evidence. It does not create a new

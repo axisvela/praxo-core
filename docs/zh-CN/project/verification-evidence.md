@@ -47,6 +47,7 @@
 | Agent IAM 契约 | Direct 与 gateway 形状的 Agent IAM 示例对契约 fake；凭证时间窗、key、签名和主体字段检查 | 契约/单元 | NOMIVELA/EIDOVELA/AEGIVELA 响应为 fake；demo 没有 proof 重放缓存或请求体绑定 gateway assertion |
 | 编程 Agent Skill 发现 | Claude Code `2.1.196` 在临时 skills 目录插件中安装 `agent-skills/praxo-integration`；`plugin list` 显示已加载，`plugin details` 列出 Skill 组件（2026-11-08，`bdd36d7`；issue #15） | 本地结构检查 | 仅该工具和平台；该 CLI 未执行模型任务或发布包集成；不是采用证据 |
 | 编程 Agent Skill 任务 | opencode `1.18.18` 从项目本地 `.opencode/skills/praxo-integration/SKILL.md` 发现 `agent-skills/praxo-integration`，并使用已发布 PyPI `praxo-core==0.3.2`、显式工具范围与 allow/deny 测试完成确定性 Python 任务（3/3 通过；模型 `deepseek/deepseek-flash`；Python 3.14.6；2026-11-08，`7004a08`） | 本地结构检查 + 本地任务执行 | 仅一个工具、一个任务、一个平台；首次通过且无需修复；未覆盖治理负向矩阵、live 模型、真实身份、持久审批、效果提交、exactly-once 或隔离；不是采用证据 |
+| AKROVELA 嵌入 PRAXO-CORE | AKROVELA 通过产品侧适配器嵌入已发布 PRAXO-CORE `v2.6.0`：精确操作工具、强制 Policy、受限预算、脱敏遥测与 PostgreSQL Run/对账日志；使用测试模型和本地 PostgreSQL 的确定性切片已在 AKROVELA 仓库（`b5e5da9`，2026-11-08）记录为本地验证 | 本地集成（产品仓） | 没有生产模型 provider、Agent HTTP 端点、观测、独立验证者、ROS 2 执行、硬件效果、live KINETOVELA 集成或 E1-E8 试点运行；产品侧证据，不是 Core 验收 |
 | 集成恢复 | 真实本地 Symbivela、Ontovela、Rheovela、Orchadyn、Praxovela、LIMENORA 和 integration-domain；8 步、5 产品、4 gates、13 证据、11/11 报告检查；preserve/verify 拒绝和 silent-rerun 拒绝 | 本地集成 | 可丢弃本地数据库和固定 ID；没有生产、网络分区、并发负载、独立复现或部署验证 |
 | 产品效果账本 | RHEOVELA effect/durable/crash 和 PRAXOVELA tenant-scoped effect-ledger 测试，含内存/SQLite 生命周期与对账 | 契约/单元（产品仓） | 进程内 SQLite/temp 文件；不是 live PostgreSQL 集群或跨服务事务 |
 
@@ -78,7 +79,7 @@ Registry 链接指向当前已发布版本；上表的消费者 smoke 行指明�
 - [集成恢复 demo](https://github.com/axisvela/enterprise-autonomy/tree/main/examples/integration-recovery-local)
 - [工作区适配器目录](https://github.com/axisvela/praxo-core/tree/main/adapters/workspace)
 - [隔离能力评估](../security/containment.md)
-- [RHEOVELA](https://github.com/axisvela/rheovela) 与 [PRAXOVELA](https://github.com/axisvela/praxovela) 仓库
+- [RHEOVELA](https://github.com/axisvela/rheovela)、[PRAXOVELA](https://github.com/axisvela/praxovela) 与 [AKROVELA](https://github.com/axisvela/akrovela) 仓库
 
 ## 未声明
 

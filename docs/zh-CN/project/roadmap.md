@@ -25,9 +25,11 @@
 | 4. 具身集成试点 | 一个明确消费者、一种中间件、一个端到端仿真及实验性具身集成 Profile；[具身试点计划](embodied-pilot.md)定义准入条件、E1-E8 门禁、证据字段与停止条件 | 分开记录接受、完成与效果验证；测试观测新鲜度、断连、重复提交和安全依赖失效；仿真不作为硬件或生产证据 |
 
 阶段 4 已有[具身试点计划](embodied-pilot.md)（2026-11-08 更新）。AKROVELA 已选定为消费者，
-并像 PRAXOVELA 一样将 PRAXO-CORE 作为产品组件嵌入；消费者、维护者和安全负责人选择已记录，
-但产品侧适配器尚未实现。中间件实现、仿真、执行权威映射、观测源和验证者仍未实现或待定。该计划是验收
-门禁，不是任何 E1-E8 要求已被验证的证据。
+并像 PRAXOVELA 一样将 PRAXO-CORE 作为产品组件嵌入；消费者、维护者和安全负责人选择已记录。
+[AKROVELA 仓库](https://github.com/axisvela/akrovela)现已有产品侧适配器和本地验证的确定性 P1 切片：精确操作工具、治理运行时装配、
+PostgreSQL Run/对账日志，以及公开的 v1 操作/回执与卫星命令契约。仿真任务、独立观测源和验证者、
+ROS 2 执行、硬件效果与 E1-E8 试点证据仍未实现或待定。该计划是验收门禁，不是任何 E1-E8
+要求已被验证的证据。
 
 修订设计提出消费者拥有的统一治理装配入口、结构化配置、G1-G8 校验与禁止宽松回退；
 Core、Effect PEP、执行权威和部署仍分别执行约束，目前没有已实现的通用总开关。
@@ -126,7 +128,8 @@ Registry 下载量只作辅助信号，不等于真实采用。留存仅使用�
 使用一个 Kernel 和三个[集成层次](../reference/execution-profiles.md)：Standard Embedding
 命名现有可配置嵌入行为；Governed Execution Profile 是验收提案，已有部分 fixture 证据；
 Embodied Integration Profile 现有[设计提案](../reference/embodied-integration.md)和
-[试点计划草案](embodied-pilot.md)；AKROVELA 已选定为消费者，但适配器和运行尚未开始。不建立
+[试点计划草案](embodied-pilot.md)；AKROVELA 已选定为消费者，其产品侧适配器与确定性 P1 切片
+已存在于 AKROVELA 仓库，但尚无 E1-E8 试点运行或仿真证据通过验收。不建立
 三种 Kernel、运行时开关或版本线。治理装配和实际 Effect PEP 强制执行要求，
 普通 `agent.New` 默认值保持兼容。具身设计增加治理义务，不得弱化它们。
 

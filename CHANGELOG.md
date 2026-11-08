@@ -49,6 +49,9 @@
   discovery and an opencode `1.18.18` deterministic published-package allow/deny
   task. Claude task execution, Codex, Copilot, and the governed negative matrix
   remain unverified.
+- Embodied pilot documentation now records AKROVELA's product-owned adapter and
+  deterministic P1 slice while keeping E1-E8, simulation, independent
+  verification, and hardware evidence explicitly open.
 
 ## [2.6.0] - 2026-11-07
 

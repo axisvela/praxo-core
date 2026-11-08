@@ -58,6 +58,7 @@ evidence.
 | Agent IAM contracts | Direct and gateway-shaped Agent IAM examples against contract fakes; credential time-window, key, signature, and subject checks | Contract/unit | NOMIVELA/EIDOVELA/AEGIVELA responses are fakes; the demo has no proof replay cache or body-bound gateway assertion |
 | Coding-agent skill discovery | Claude Code `2.1.196` installed `agent-skills/praxo-integration` as a temporary skills-directory plugin; `plugin list` reported it loaded and `plugin details` listed the skill component (2026-11-08, `bdd36d7`; issue #15) | Local structural check | One tool and platform; that CLI did not run a model task or published-package integration; not adoption evidence |
 | Coding-agent skill task | opencode `1.18.18` discovered `agent-skills/praxo-integration` from a project-local `.opencode/skills/praxo-integration/SKILL.md`, then completed a deterministic Python task using published PyPI `praxo-core==0.3.2` with explicit tool scope and allow/deny tests (3/3 passed; model `deepseek/deepseek-flash`; Python 3.14.6; 2026-11-08, `7004a08`) | Local structural check + local task execution | One tool, one task, one platform; first-pass success without repair; no governed negative matrix, live model, authentic identity, durable approvals, effect commit, exactly-once, or isolation evidence; not adoption evidence |
+| AKROVELA embedded PRAXO-CORE | AKROVELA embeds published PRAXO-CORE `v2.6.0` through a product-owned adapter: exact-operation tools, mandatory policy, bounded budgets, redacted telemetry, and a PostgreSQL Run/reconciliation journal; a deterministic slice with a test model and local PostgreSQL is recorded as locally verified in the AKROVELA repository (`b5e5da9`, 2026-11-08) | Local integration (product repository) | No production model provider, Agent HTTP endpoint, observations, independent verifier, ROS 2 execution, hardware effect, live KINETOVELA integration, or E1-E8 pilot run; product-owned evidence, not Core acceptance |
 | Integration recovery | Real local Symbivela, Ontovela, Rheovela, Orchadyn, Praxovela, LIMENORA, and integration-domain services; 8 steps, 5 products, 4 gates, 13 evidence artifacts, 11/11 report checks; preserve/verify denials and silent-rerun rejection | Local integration | Disposable local databases and fixed IDs; no production, network partition, concurrent load, independent reproduction, or deployment verification |
 | Product effect ledgers | RHEOVELA effect/durable/crash tests and PRAXOVELA tenant-scoped effect-ledger tests, including in-memory/SQLite lifecycle and reconciliation | Contract/unit (product repositories) | In-process SQLite/temp files; not a live PostgreSQL cluster or a cross-service transaction |
 
@@ -91,7 +92,7 @@ name the version that was actually installed.
 - [Integration recovery demo](https://github.com/axisvela/enterprise-autonomy/tree/main/examples/integration-recovery-local)
 - [Workspace adapter directory](https://github.com/axisvela/praxo-core/tree/main/adapters/workspace)
 - [Containment assessment](../security/containment.md)
-- [RHEOVELA](https://github.com/axisvela/rheovela) and [PRAXOVELA](https://github.com/axisvela/praxovela) repositories
+- [RHEOVELA](https://github.com/axisvela/rheovela), [PRAXOVELA](https://github.com/axisvela/praxovela), and [AKROVELA](https://github.com/axisvela/akrovela) repositories
 
 ## Not Claimed
 
