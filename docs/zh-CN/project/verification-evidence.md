@@ -45,7 +45,8 @@
 | OpenTelemetry | 可运行内存示例生成 `run.started`、`tool.call`、`run.completed`；allowlist 排除工具参数/结果 | 示例 + 单元 | 未验证 collector、OTLP 后端、采样、保留或生产遥测 |
 | A2A 互操作 | Google ADK 消费已发布 Core `v2.5.1` A2A，无本地 Core replace；成功、拒绝、失败、超时、认证、TLS、跨源和并发 fixture | 本地集成 | Loopback 确定性 fixture，不是部署 peer 或生产负载 |
 | Agent IAM 契约 | Direct 与 gateway 形状的 Agent IAM 示例对契约 fake；凭证时间窗、key、签名和主体字段检查 | 契约/单元 | NOMIVELA/EIDOVELA/AEGIVELA 响应为 fake；demo 没有 proof 重放缓存或请求体绑定 gateway assertion |
-| 编程 Agent Skill 发现 | Claude Code `2.1.196` 在临时 skills 目录插件中安装 `agent-skills/praxo-integration`；`plugin list` 显示已加载，`plugin details` 列出 Skill 组件（2026-11-08，`bdd36d7`；issue #15） | 本地结构检查 | 仅一个工具和平台；未执行模型任务、发布包集成或其他工具验证；不是采用证据 |
+| 编程 Agent Skill 发现 | Claude Code `2.1.196` 在临时 skills 目录插件中安装 `agent-skills/praxo-integration`；`plugin list` 显示已加载，`plugin details` 列出 Skill 组件（2026-11-08，`bdd36d7`；issue #15） | 本地结构检查 | 仅该工具和平台；该 CLI 未执行模型任务或发布包集成；不是采用证据 |
+| 编程 Agent Skill 任务 | opencode `1.18.18` 从项目本地 `.opencode/skills/praxo-integration/SKILL.md` 发现 `agent-skills/praxo-integration`，并使用已发布 PyPI `praxo-core==0.3.2`、显式工具范围与 allow/deny 测试完成确定性 Python 任务（3/3 通过；模型 `deepseek/deepseek-flash`；Python 3.14.6；2026-11-08，`7004a08`） | 本地结构检查 + 本地任务执行 | 仅一个工具、一个任务、一个平台；首次通过且无需修复；未覆盖治理负向矩阵、live 模型、真实身份、持久审批、效果提交、exactly-once 或隔离；不是采用证据 |
 | 集成恢复 | 真实本地 Symbivela、Ontovela、Rheovela、Orchadyn、Praxovela、LIMENORA 和 integration-domain；8 步、5 产品、4 gates、13 证据、11/11 报告检查；preserve/verify 拒绝和 silent-rerun 拒绝 | 本地集成 | 可丢弃本地数据库和固定 ID；没有生产、网络分区、并发负载、独立复现或部署验证 |
 | 产品效果账本 | RHEOVELA effect/durable/crash 和 PRAXOVELA tenant-scoped effect-ledger 测试，含内存/SQLite 生命周期与对账 | 契约/单元（产品仓） | 进程内 SQLite/temp 文件；不是 live PostgreSQL 集群或跨服务事务 |
 

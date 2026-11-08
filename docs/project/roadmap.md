@@ -88,9 +88,11 @@ are now available. Source registry metadata was improved and the four pilot
 registry pages were audited; PyPI `0.3.2`, npm `0.2.2`, Maven Central `0.4.1`,
 and Go `v2.6.0` now have published pages with recorded verification.
 Stage 2 is not complete: Claude Code `2.1.196` records local skills-directory
-installation and discovery (structural evidence only; issue #15), while task
-execution in that tool and installation/discovery in other tools remain
-unverified. An offline recipe
+installation and discovery (structural evidence only; task execution was not run
+because the CLI was not authenticated), and opencode `1.18.18` records
+project-local discovery plus a deterministic published-package allow/deny task
+(3/3 tests; `7004a08`; issue #15). Codex and Copilot remain unverified, and the
+opencode task did not cover the governed negative matrix. An offline recipe
 set now covers adapter conformance, retry safety, event sinks, context budgets,
 checkpoint storage, structured output, VFS containment, provider fallback,
 plugin lifecycle, multi-agent delegation, streaming, and the workspace session

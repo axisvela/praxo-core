@@ -63,4 +63,11 @@ Core fixture 与消费者测试不证明真实模型质量、真实身份、持�
 2026-11-08 已在本地验证 Claude Code `2.1.196` 可通过 skills 目录插件发现该模板：
 使用 `claude plugin init praxo-integration --with skills`，用本模板替换脚手架 Skill，
 然后运行 `claude plugin list` 与 `claude plugin details praxo-integration@skills-dir`。
-这是特定工具的结构性结果，不是自动安装渠道，也不是任务执行证据；其他工具仍未验证。
+这是特定工具的结构性结果，不是自动安装渠道，也不是任务执行证据；该 CLI 未登录，
+未执行任务。
+
+2026-11-08 已在本地验证 opencode `1.18.18` 可从项目本地
+`.opencode/skills/praxo-integration/SKILL.md` 发现该模板，并使用已发布 PyPI
+`praxo-core==0.3.2`、显式工具范围与 allow/deny 测试完成确定性 Python 任务（3/3 通过）。
+这是单个工具、单个任务和单个平台的结果；未覆盖治理负向矩阵或 live 模型。
+Codex 与 Copilot 仍未验证。

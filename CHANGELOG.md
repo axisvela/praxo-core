@@ -43,6 +43,13 @@
   `0.4.0`, with the same unchanged-source checks. Each is one version pair, not
   a general upgrade guarantee.
 
+### Changed
+
+- Coding-agent skill evidence now covers Claude Code `2.1.196` structural
+  discovery and an opencode `1.18.18` deterministic published-package allow/deny
+  task. Claude task execution, Codex, Copilot, and the governed negative matrix
+  remain unverified.
+
 ## [2.6.0] - 2026-11-07
 
 Historical entries that record `19/19` describe the source version named in that

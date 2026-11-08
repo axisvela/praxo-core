@@ -81,4 +81,11 @@ template through its skills-directory plugin flow: run
 skill with this template, then use `claude plugin list` and
 `claude plugin details praxo-integration@skills-dir`. This is a tool-specific
 structural result, not an automatic install channel or task-execution evidence.
-Other tools remain unverified.
+Task execution was not run because the CLI was not authenticated.
+
+opencode `1.18.18` was verified locally on 2026-11-08 to discover this template
+from a project-local `.opencode/skills/praxo-integration/SKILL.md` and to complete
+a deterministic Python task using published PyPI `praxo-core==0.3.2`, explicit
+tool scope, and allow/deny tests (3/3 passed). This is one tool, one task, and one
+platform; it does not cover the governed negative matrix or live models. Codex
+and Copilot remain unverified.

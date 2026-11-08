@@ -50,7 +50,7 @@
 | Governed Execution Profile | 提案；已有部分集成证据 | G1-G8 验收清单与消费者统一装配设计；结构化配置和依赖校验，不是已实现总开关或 Core 新 API；实际约束分层执行，配置成功不等于行为验收 |
 | 编程 Agent 集成映射 | 已实现；版本由文档测试校验 | 包映射、集成契约与验证命令；不是安装渠道、自动 Skill 或采用证据 |
 | 编程 Agent 发现辅助 | 已实现；`llms.txt` 存在且链接由测试校验 | 机器可读仓库入口；不保证工具发现、搜索排序、安装或采用 |
-| 编程 Agent Skill 模板 | 实验；仅仓库模板；已有一项结构发现结果 | 工具中立的 `SKILL.md`。Claude Code `2.1.196` 于 2026-11-08（`bdd36d7`）在临时 home 中安装并列出 Skill 组件；这是结构发现，不是任务执行。其他工具、自动安装、MCP 与运行时 Skill 行为仍未验证 |
+| 编程 Agent Skill 模板 | 实验；两项有范围的工具结果 | 工具中立的 `SKILL.md`。Claude Code `2.1.196` 于 2026-11-08（`bdd36d7`）在临时 home 中安装并列出 Skill 组件；该 CLI 未登录，因此未执行任务。opencode `1.18.18` 发现了项目本地副本，并用已发布 PyPI `praxo-core==0.3.2`、显式工具范围和 allow/deny 测试完成确定性 Python 任务（3/3 通过；模型 `deepseek/deepseek-flash`；2026-11-08，`7004a08`）。Codex、Copilot、自动安装、MCP 与运行时 Skill 行为仍未验证 |
 | Registry 页面元数据 | 新语言版本已发布并核对渲染页面 | PyPI `0.3.2`、npm `0.2.2` 与 Maven Central `0.4.1` 已发布并核对页面；Go 仍为 `v2.6.0`。其他 Registry 仍在发布时检查 |
 | 每语言 Registry 与编程 Agent 入口 | 已实现；生成并由链接测试校验 | 每个 `language/<language>/` 目录都有 `REGISTRY.md`、`llms.txt` 与 `llms.md`，并提供中央索引和 README 链接。npm、Python sdist、Cargo、NuGet、RubyGems、Hex、CPAN 与 Hackage 的允许清单已包含这些文件；Maven Central 仍以 POM 元数据为主。这是源码证据，不证明 Registry 页面已刷新 |
 | 编程 Agent 采用实验 | 未运行；协议已提案 | [采用基线协议](adoption-baseline.md)定义轨道、任务、指标与证据；没有发现、选型、首次通过、修复成本或留存数据 |
