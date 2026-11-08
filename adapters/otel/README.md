@@ -26,6 +26,9 @@ Each event becomes a `praxo.<event.type>` span with attributes:
 - `praxo.run.id`
 - `praxo.event.at`
 
+Empty session/run identifiers and a zero timestamp are omitted. The timestamp
+is formatted in UTC.
+
 `Event.Data` is excluded by default. To export selected fields, configure the
 sink before sharing it with an agent:
 
@@ -35,7 +38,8 @@ sink.AllowedDataKeys = []string{"tool"}
 ```
 
 Only present, explicitly allowed keys become `praxo.event.data.<key>`
-attributes. This allowlist does not redact selected values: do not select
+attributes; selected values are formatted as text. This allowlist does not
+redact selected values: do not select
 arguments, results, credentials, or other sensitive content without a separate
 redaction policy. Session/run identifiers and event types are still exported;
 use opaque identifiers and restrict access to your telemetry backend.

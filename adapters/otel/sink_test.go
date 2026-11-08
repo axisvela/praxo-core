@@ -63,6 +63,77 @@ func TestSinkRecordsSpan(t *testing.T) {
 	}
 }
 
+func TestNewWithNilProviderRequiresTracer(t *testing.T) {
+	sink := New(nil)
+	if err := sink.Emit(context.Background(), event.Event{Type: "run.started"}); !errors.Is(err, ErrTracerRequired) {
+		t.Fatalf("got %v, want %v", err, ErrTracerRequired)
+	}
+}
+
+func TestSinkOmitsZeroValueAttributes(t *testing.T) {
+	recorder := tracetest.NewSpanRecorder()
+	provider := sdktrace.NewTracerProvider(sdktrace.WithSpanProcessor(recorder))
+	t.Cleanup(func() { _ = provider.Shutdown(context.Background()) })
+	if err := New(provider).Emit(context.Background(), event.Event{Type: "run.started"}); err != nil {
+		t.Fatal(err)
+	}
+	attributes := spanAttributes(recorder.Ended()[0])
+	if attributes["praxo.event.type"] != "run.started" {
+		t.Fatalf("attributes = %v", attributes)
+	}
+	for _, key := range []string{"praxo.session.id", "praxo.run.id", "praxo.event.at"} {
+		if _, ok := attributes[key]; ok {
+			t.Fatalf("unexpected attribute %s: %v", key, attributes)
+		}
+	}
+}
+
+func TestSinkFormatsAllowedNonStringData(t *testing.T) {
+	recorder := tracetest.NewSpanRecorder()
+	provider := sdktrace.NewTracerProvider(sdktrace.WithSpanProcessor(recorder))
+	t.Cleanup(func() { _ = provider.Shutdown(context.Background()) })
+	sink := New(provider)
+	sink.AllowedDataKeys = []string{"count", "ok"}
+	if err := sink.Emit(context.Background(), event.Event{
+		Type: "tool.call",
+		Data: map[string]any{"count": 42, "ok": true, "skipped": "secret"},
+	}); err != nil {
+		t.Fatal(err)
+	}
+	attributes := spanAttributes(recorder.Ended()[0])
+	if attributes["praxo.event.data.count"] != "42" {
+		t.Fatalf("attributes = %v", attributes)
+	}
+	if attributes["praxo.event.data.ok"] != "true" {
+		t.Fatalf("attributes = %v", attributes)
+	}
+	if _, ok := attributes["praxo.event.data.skipped"]; ok {
+		t.Fatalf("unexpected allowlisted data: %v", attributes)
+	}
+}
+
+func TestSinkFormatsTimestampInUTC(t *testing.T) {
+	recorder := tracetest.NewSpanRecorder()
+	provider := sdktrace.NewTracerProvider(sdktrace.WithSpanProcessor(recorder))
+	t.Cleanup(func() { _ = provider.Shutdown(context.Background()) })
+	at := time.Date(2026, 10, 22, 14, 0, 0, 123, time.FixedZone("UTC+2", 2*60*60))
+	if err := New(provider).Emit(context.Background(), event.Event{Type: "run.started", At: at}); err != nil {
+		t.Fatal(err)
+	}
+	attributes := spanAttributes(recorder.Ended()[0])
+	if got := attributes["praxo.event.at"]; got != at.UTC().Format(time.RFC3339Nano) {
+		t.Fatalf("praxo.event.at = %q, want %q", got, at.UTC().Format(time.RFC3339Nano))
+	}
+}
+
+func spanAttributes(span sdktrace.ReadOnlySpan) map[string]string {
+	attributes := make(map[string]string, len(span.Attributes()))
+	for _, item := range span.Attributes() {
+		attributes[string(item.Key)] = item.Value.AsString()
+	}
+	return attributes
+}
+
 type sensitiveValue struct {
 	formatted *bool
 }
