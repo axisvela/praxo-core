@@ -1,10 +1,11 @@
 # Embodied Pilot Plan
 
-**Status:** proposed pilot plan, updated 2026-11-08. No named consumer, middleware,
-simulation task, execution authority, observation source, verifier, or safety
-owner is selected. This page is an acceptance plan, not a schedule, staffing
-plan, or implementation claim. Detailed execution plans remain in internal
-planning storage.
+**Status:** proposed pilot plan, updated 2026-11-08. AKROVELA is the selected
+consumer; its maintainer and safety-owner selection is recorded. The product-owned
+Core adapter, middleware implementation, simulation task, execution authority,
+observation source and verifier remain open or unimplemented. This page is an
+acceptance plan, not a schedule, staffing plan, or implementation claim. Detailed
+execution plans remain in internal planning storage.
 
 This plan turns the [Embodied Integration Profile](../reference/embodied-integration.md)
 requirements E1-E8 into bounded, recordable evidence. It does not create a new
@@ -51,12 +52,15 @@ look stronger than it is.
 
 ## Proposed Delivery
 
-AKROVELA site execution and DIDACTOVELA capture/learning are optional candidate
-boundaries, not prerequisites for every pilot. Both are unreleased `0.1.0`
-operational bootstraps with no domain integration. A future node path needs its
-own published operation/receipt contracts and failure tests; a learning handoff
-needs explicit data admission and candidate/evaluation boundaries. Do not count
-their initialization as P1/P2 evidence or silently migrate an existing consumer.
+AKROVELA is the selected consumer and embeds PRAXO-CORE as a product component,
+like PRAXOVELA; its adapter belongs in the AKROVELA repository. DIDACTOVELA
+capture/learning remains an optional boundary, not a prerequisite for every
+pilot. Both are unreleased `0.1.0` products. The AKROVELA node path needs published
+operation/receipt and observation contracts with failure tests; a learning
+handoff needs explicit data admission and candidate/evaluation boundaries. Do not
+count their initialization as P1/P2 evidence or silently migrate an existing
+consumer. Core supplies public APIs and generic constraints, not AKROVELA product
+state or domain authority.
 
 Deliver a named consumer example, one experimental middleware adapter, a
 consumer-local operation/observation protocol, deterministic and simulation tests,

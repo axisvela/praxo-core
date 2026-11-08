@@ -221,6 +221,13 @@ effect. Test those windows, concurrent consumption, revocation and resource-vers
 changes before final release. This requires a documented target-side protocol,
 not a new Core distributed transaction.
 
+Review the exact approval/digest coverage of effective resource constraints,
+observation prerequisites and retry/retention policy, not only the nominal tool
+arguments. A well-formed reference or digest is not an authenticated grant or
+enforced limit. Keep tool calls bounded and responsive to Run cancellation;
+later product reconciliation needs a separate authorized lifecycle, not hidden
+background retries or an uncancellable call holding the Run open.
+
 ### Recovery Semantics
 
 `tool.call` denotes intent, not proof of execution or commit. Stream projections,

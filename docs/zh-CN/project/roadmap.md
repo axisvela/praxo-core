@@ -24,9 +24,10 @@
 | 3. 验证长时操作 | 有明确消费者的单个集成，覆盖提交、查询、反馈、取消、幂等和断连恢复 | Run 取消不被误报为远端执行已停止；恢复先查询权威操作状态，再决定是否重复产生效果 |
 | 4. 具身集成试点 | 一个明确消费者、一种中间件、一个端到端仿真及实验性具身集成 Profile；[具身试点计划](embodied-pilot.md)定义准入条件、E1-E8 门禁、证据字段与停止条件 | 分开记录接受、完成与效果验证；测试观测新鲜度、断连、重复提交和安全依赖失效；仿真不作为硬件或生产证据 |
 
-阶段 4 已有[具身试点计划](embodied-pilot.md)草案（2026-11-07），但试点尚未开始：
-未选定消费者、中间件、仿真、执行权威、观测源、验证者或安全负责人。该计划是验收门禁，
-不是任何 E1-E8 要求已被验证的证据。
+阶段 4 已有[具身试点计划](embodied-pilot.md)（2026-11-08 更新）。AKROVELA 已选定为消费者，
+并像 PRAXOVELA 一样将 PRAXO-CORE 作为产品组件嵌入；消费者、维护者和安全负责人选择已记录，
+但产品侧适配器尚未实现。中间件实现、仿真、执行权威映射、观测源和验证者仍未实现或待定。该计划是验收
+门禁，不是任何 E1-E8 要求已被验证的证据。
 
 修订设计提出消费者拥有的统一治理装配入口、结构化配置、G1-G8 校验与禁止宽松回退；
 Core、Effect PEP、执行权威和部署仍分别执行约束，目前没有已实现的通用总开关。
@@ -121,7 +122,8 @@ Registry 下载量只作辅助信号，不等于真实采用。留存仅使用�
 使用一个 Kernel 和三个[集成层次](../reference/execution-profiles.md)：Standard Embedding
 命名现有可配置嵌入行为；Governed Execution Profile 是验收提案，已有部分 fixture 证据；
 Embodied Integration Profile 现有[设计提案](../reference/embodied-integration.md)和
-[试点计划草案](embodied-pilot.md)，但消费者试点尚未开始。不建立三种 Kernel、运行时开关或版本线。治理装配和实际 Effect PEP 强制执行要求，
+[试点计划草案](embodied-pilot.md)；AKROVELA 已选定为消费者，但适配器和运行尚未开始。不建立
+三种 Kernel、运行时开关或版本线。治理装配和实际 Effect PEP 强制执行要求，
 普通 `agent.New` 默认值保持兼容。具身设计增加治理义务，不得弱化它们。
 
 Core Contract 定义局部执行语义；集成 Profile 增加部署要求、外部状态映射和验收条件；
@@ -199,8 +201,9 @@ Core 测试验证框架行为；跨仓库测试仅验证实际执行的集成与
 
 ## 生态边界
 
-PRAXO-CORE 是可复用的执行内核，不是产品平台。PRAXOVELA 系列通过与其他消费者相同的
-公开契约组合它。本节说明归属边界，不是产品路线图。
+PRAXO-CORE 是可复用的执行内核，不是产品平台。PRAXOVELA 与 AKROVELA 都通过与其他消费者
+相同的公开契约，将 Core 作为自身产品组件嵌入；两者产品定位和状态不同。本节说明归属边界，
+不是产品路线图。
 
 | 能力 | 归属 | Core 职责 |
 | --- | --- | --- |
@@ -211,7 +214,7 @@ PRAXO-CORE 是可复用的执行内核，不是产品平台。PRAXOVELA 系列�
 | 策略决策、执行授权、审批、撤销、obligations、安全证据 | AEGIVELA | 定义 authorizer、grant 和策略执行点；不运营 PDP 或持久审批存储 |
 | 南北向网络边界与反向入口 | LIMENORA | 可部署在网关之后；不增加网络控制平面 |
 | 能力治理、运行时 profile、记忆、事件传输 | MODUREGIS、SYNDOVELA、Mnemovela/GNOSIVELA、Harmovela | 仅在存在明确消费者和负向测试时提供可选 adapter 契约 |
-| 现场局部操作、尝试与回执生命周期 | AKROVELA（初始化目标） | 节点执行不进入框架；未来承载复用现有 Agent 循环 |
+| 现场局部操作、尝试与回执生命周期 | AKROVELA（初始化目标） | AKROVELA 像 PRAXOVELA 一样通过产品侧适配器嵌入 PRAXO-CORE；节点操作、状态和安全不进入 Core |
 | 数据/标注/训练来源与候选产物 | DIDACTOVELA（初始化目标） | 学习生命周期不进入 Core；候选产物不自动激活生产模型或授予权限 |
 
 两个新产品均为未发布 `0.1.0` 运维骨架，不是已验证集成。KINETOVELA 保留 Mission/效果权威，

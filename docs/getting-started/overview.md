@@ -1,9 +1,10 @@
 # PRAXO-CORE Overview
 
-PRAXO-CORE is the MIT-licensed agent framework behind PRAXOVELA. It exists so
-that AxisVela products and external integrators can build governed agents
-without rebuilding the agent loop, provider abstraction, tool contracts, memory
-boundary, event boundary, or scheduler contract.
+PRAXO-CORE is the MIT-licensed agent framework behind PRAXOVELA and other
+AxisVela products that embed it, including AKROVELA. It exists so that products
+and external integrators can build governed agents without rebuilding the agent
+loop, provider abstraction, tool contracts, memory boundary, event boundary, or
+scheduler contract.
 
 ## What It Is
 
@@ -31,11 +32,14 @@ boundary, event boundary, or scheduler contract.
 praxo-core (MIT)
   |
   +-- PRAXOVELA (AGPL product)
+  +-- AKROVELA (AGPL product)
   +-- external integrators
 ```
 
-PRAXOVELA remains an AGPL product. The MIT framework is a separate work so it
-can be embedded without AGPL obligations.
+PRAXOVELA and AKROVELA remain separate AGPL products with different positioning.
+Both embed the MIT framework as a component of their own products; the framework
+is a separate work so it can be embedded without AGPL obligations. Core does not
+acquire their product state or domain authority.
 
 ## Multilingual Core implementations
 
