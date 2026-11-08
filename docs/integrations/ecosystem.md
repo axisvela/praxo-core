@@ -91,8 +91,25 @@ through tools, events, policy inputs, or product-runtime adapters. Browse the
 | ONTOVELA | [ontovela-open](https://github.com/axisvela/ontovela-open) | Digital twins and world models; tools or retrieval |
 | ORCHADYN | [orchadyn-open](https://github.com/axisvela/orchadyn-open) | Capability planning; tools or product orchestration |
 | COORDIVELA | [coordivela-open](https://github.com/axisvela/coordivela-open) | Development coordination; events, tools, or product integration |
-| KINETOVELA | [kinetovela-open](https://github.com/axisvela/kinetovela-open) | Robot fleet execution; tools, sandbox, or product integration |
-| PEIRAVELA | [peiravela-open](https://github.com/axisvela/peiravela-open) | Experiment control; tools or product integration |
+| KINETOVELA | [kinetovela-open](https://github.com/axisvela/kinetovela-open) | Robot/Fleet operational lifecycle, Mission assignment and physical-effect evidence; public-contract tool/product integration, not a Core sandbox |
+| PEIRAVELA | [peiravela-open](https://github.com/axisvela/peiravela-open) | Experiment worlds, scenarios, perturbations and raw SimulationEvidence; public SUT adapter SPI, not Mission or final assurance authority |
+| AKROVELA | [akrovela-open](https://github.com/axisvela/akrovela-open) | Intended governed site execution: local operations, attempts and receipts; optional future adapter, not another Agent loop |
+| DIDACTOVELA | [didactovela-open](https://github.com/axisvela/didactovela-open) | Intended data/label/training and candidate-artifact lifecycle; not framework memory, production inference or authorization policy |
+
+AKROVELA and DIDACTOVELA are unreleased `0.1.0` bootstraps with operational
+endpoints and source version clients only. No Core adapter, domain execution,
+dataset/training path or robot integration is implemented. Existing gateways,
+inference and spools are not automatically migrated. Use reviewed published
+domain contracts before connecting either product; no Core API/wire or default
+behavior changes follow from these optional ownership boundaries.
+
+For embodied integrations, keep PEIRAVELA experiment evidence, KINETOVELA Mission
+and effect records, ONTOVELA operational world state and TEKMOVELA independent
+assurance separate. KINETOVELA's local safety boundary remains independent of its
+control plane. These are optional integration roles, not mandatory Core
+dependencies or a verified interoperability claim. Use published contracts only;
+the Apache-2.0 PEIRAVELA SUT SPI in `peiravela-open/sdk/go` is not its AGPL runtime
+and does not itself provide Mission status or cancellation confirmation.
 
 ## How the Core Seams Work
 

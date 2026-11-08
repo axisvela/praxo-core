@@ -1,6 +1,6 @@
 # Contract and Evidence Status
 
-**Status:** public planning reference, 2026-11-05. This page defines the status
+**Status:** public planning reference, 2026-11-08. This page defines the status
 words used in the roadmap and records the current state of major contract areas.
 It is not a release schedule and does not expand any API or profile.
 
@@ -49,14 +49,16 @@ or the support levels in the [language matrix](../languages/matrix.md).
 | Go plugin lifecycle recipe | Implemented; verified at its cited revision | Demonstrates ACTIVE-only Acquire, guarded transitions, in-flight drain with timeout/cancel distinction, revoke to UNLOADED, and terminal quarantine; not process/WASM isolation or manifest trust |
 | Go multi-agent recipe | Implemented; verified at its cited revision | Demonstrates launch/completion/failure/cancel, mid-flight update gating, parent-session listing, terminal-only prune, and wait cancellation; local task coordination, not durable remote workers |
 | Go streaming recipe | Implemented; verified at its cited revision | Demonstrates ordered `OnDelta` fragments, complete final response, stream error propagation, cancellation, and typed `OnStream` projections; no live provider or tool-delta aggregation guarantee |
-| Workspace session contract example | Evaluation; verified offline with the fake provider | Runs the shared create/attach/upload/download/VFS/command/close/optional Pauser conformance checks; not part of `pkg/`, no live provider, no isolation evidence |
-| Governed Execution Profile | Proposed; partial integration evidence | Mandatory product entry, explicit scope, approval binding and Governed Effect Boundary are acceptance requirements; no general Core profile or bypass-proof product entry is claimed |
+| Workspace session contract example | Evaluation; verified offline with the fake provider | Runs the shared create/attach/upload/download/VFS/command/close/optional Pauser conformance checks and validates `state`/`local`/`sandbox` runtime profiles, including trust, isolation, capability, and tool-selection rules; not part of `pkg/`, no live provider, no isolation evidence |
+| Governed Execution Profile | Proposed; partial integration evidence | G1-G8 acceptance checklist and unified consumer-owned assembly design; structured configuration and dependency validation, not an implemented total switch or new Core API; actual enforcement remains layered and configuration success is not behavioral acceptance |
 | Coding-agent integration map | Implemented; versions checked by documentation tests | Package map, integration contract, and verification commands; not an install channel, automatic skill, or adoption evidence |
 | Coding-agent discovery aid | Implemented; `llms.txt` exists and its links are tested | Machine-readable repository entry point; does not guarantee tool discovery, search ranking, installation, or adoption |
 | Coding-agent skill template | Experimental; repository template only | Tool-neutral `SKILL.md`; installation and discovery are not verified, and no auto-install, MCP, or runtime-skill behavior is claimed |
 | Registry page metadata | Source metadata updated; published pages not yet updated | PyPI, npm, Maven, and Go pages audited 2026-11-05; pages update only with a new release; other registries are release-checked |
 | Coding-agent adoption experiments | Not run | No discovery, selection, first-pass, repair-cost, or retention data |
-| Embodied Integration Profile | Proposed design; consumer pilot not started | Adds to governed requirements: remote action, fresh observations, cancel confirmation, effect verification and safety-dependency failure tests; requires a named consumer, middleware and simulation |
+| Embodied Integration Profile | Proposed design; consumer pilot not started | Adds remote action, bound/fresh observations, cancel confirmation and effect verification to governance; separates experiment evidence, Mission authority, operational world state, independent assurance and local safety. Reuse published contracts; unavailable required capabilities block acceptance |
+| Embodied pilot plan | Proposed; revised 2026-11-08 | Reuses governed assembly; G1-G8 plus E1-E8 and an allowed end-to-end path gate acceptance. Proposed consumer example, experimental adapter and consumer-local protocol, not a shared API/wire addition. No consumer, middleware, simulation, authority, observation source, verifier or safety owner is selected; no pilot run exists |
+| AKROVELA / DIDACTOVELA integration | Proposed; not run | Optional site-execution and learning-lifecycle boundaries; both products are unreleased 0.1.0 operational bootstraps, not Core adapters, domain protocols or verified integrations |
 | Language conformance, feature coverage, and operational evidence | See `spec/parity.md`, the language matrix, and Behavior Lab | Separate dimensions; a released source tag does not supply operational evidence |
 
 ## Citing Evidence

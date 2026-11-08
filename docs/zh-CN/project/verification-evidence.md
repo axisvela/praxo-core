@@ -21,7 +21,7 @@
 
 | 领域 | 已验证 | 级别 | 限制 |
 | --- | --- | --- | --- |
-| Go Core | Tests、vet、build、API snapshot、race、fuzz 和 module-security CI；当前 main 与发布工作流检查；已发布 `v2.5.2` 从干净外部模块无 `replace` 安装 | 契约/单元 + CI + 本地集成 | JSON Schema 和 plugin manifest fuzz 曾在 10s deadline 失败、rerun 通过；慢输入风险仍在调查；消费验证仅覆盖一个平台和最小 agent |
+| Go Core | Tests、vet、build、API snapshot、race、fuzz 和 module-security CI；当前 main 与发布工作流检查；`v2.6.0` 可从公共 module proxy 在干净外部模块解析；已记录的干净外部模块安装与最小 agent smoke 覆盖 `v2.5.2` | 契约/单元 + CI + 本地集成 | JSON Schema 和 plugin manifest fuzz 曾在 10s deadline 失败、rerun 通过；慢输入风险仍在调查；未对 `v2.6.0` 重跑完整安装 smoke；已记录安装仅覆盖一个平台和最小 agent |
 | 跨语言一致性 | Python、TypeScript、Java、Rust、Fortran、COBOL compatibility lab 运行确定性向量、API 快照/签名和 parity；已记录 Linux CI 与本地运行 | 契约/单元 + CI | 仅六种语言；COBOL 已在本地 GnuCOBOL 和 Linux CI 验证；不含 provider、HITL、checkpoint、sandbox 或生产证据；每次运行一个平台和工具链；非作者复现待办 |
 | Python 已发布包 | PyPI 已从源码标签 `python/v0.3.0` 发布 `praxo-core==0.3.0`；已记录的干净 venv 安装和最小 agent smoke 覆盖 `0.2.4`，不是 `0.3.0` | Registry 发布 + 历史本地安装 smoke | 未对 `0.3.0` 重跑 registry 安装 smoke；仅一个平台；同机干净 venv，不是独立或非作者消费验证；不含 provider 或生产证据 |
 | TypeScript 已发布包 | npm 已从源码标签 `typescript/v0.2.0` 发布 `@axisvela/praxo-core@0.2.0`，并为 latest；已记录的干净临时项目安装 smoke 覆盖 `0.1.5` | Registry 发布 + 历史本地安装 smoke | `0.2.0` 的安装 smoke 未重跑；仅一个平台；不是独立消费者；不含 provider 或生产证据 |

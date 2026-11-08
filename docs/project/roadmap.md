@@ -7,7 +7,7 @@ that every Core implementation supports every feature.
 
 ## Next-stage Direction
 
-**Planning update: 2026-11-05.** The next stage prioritizes correct adoption and
+**Planning update: 2026-11-08.** The next stage prioritizes correct adoption and
 verified integration over implementation counts: a consumer or coding agent
 should be able to identify a suitable task, install published packages, verify
 governed behavior, and retain the dependency through upgrades.
@@ -28,7 +28,27 @@ run sequentially.
 | 1. Close the consumer path | Independent Go, Python, TypeScript, and Java starters using published packages, deterministic models, explicit tool scope, and allow/deny tests; task-oriented selection guidance | No source checkout, local replacement, unpublished dependency, API key, or external model service is required to run the starter; installation may require registry access; denial produces no tool effect |
 | 2. Verify governed integration | Consumer-runnable acceptance tests, integration recipes, concise coding-agent instructions, optional installable skills, and accurate registry descriptions | Missing mandatory controls and required security-service failures reject execution; final operations and approval edits are checked; uncertain outcomes are not blindly retried |
 | 3. Validate long-running operations | One consumer-backed integration for submission, status queries, feedback, cancellation, idempotency, and reconnect/recovery | Run cancellation is not reported as remote execution stopping; recovery consults the authoritative operation state before repeating effects |
-| 4. Pilot embodied integration | One named consumer, one middleware, and one end-to-end simulation with an experimental embodied integration profile | Acceptance, completion, and effect verification remain distinct; observation freshness, disconnects, duplicate submissions, and safety-dependency failures are tested; simulation is not hardware or production evidence |
+| 4. Pilot embodied integration | One named consumer, one middleware, and one end-to-end simulation with an experimental embodied integration profile; the [embodied pilot plan](embodied-pilot.md) defines the entry criteria, E1-E8 gates, evidence fields, and stop conditions | Acceptance, completion, and effect verification remain distinct; observation freshness, disconnects, duplicate submissions, and safety-dependency failures are tested; simulation is not hardware or production evidence |
+
+Stage 4 has a drafted [embodied pilot plan](embodied-pilot.md) (2026-11-07), but
+the pilot has not started: no consumer, middleware, simulation, execution
+authority, observation source, verifier, or safety owner is selected. The plan is
+an acceptance gate, not evidence that any E1-E8 requirement has been exercised.
+
+The revised design proposes one consumer-owned governed assembly entry with
+structured configuration, G1-G8 validation and no permissive fallback, while
+enforcement remains at Core, Effect PEP, execution authority and deployment.
+There is no implemented general switch. The embodied pilot reuses that assembly
+and adds E1-E8; it delivers an experimental adapter and consumer-local protocol,
+not a precommitted Core API or shared wire change. Configuration checks and
+behavioral acceptance, including an allowed end-to-end path, remain separate.
+
+The pilot must reuse available versioned public contracts before defining new
+integration shapes. Keep experiment/raw evidence, Mission/effect authority,
+operational world state, independent assurance and robot-local safety separate.
+Missing public capabilities block the affected acceptance gate; simulated facts
+must not be promoted into real operational state. Product-specific sequencing
+remains in internal planning storage.
 
 The initial four starter languages are an adoption pilot, not a downgrade of
 Rust, C#, R, or other declared implementation support. Extend starters and
@@ -148,8 +168,9 @@ Use one Kernel with three [integration levels](../reference/execution-profiles.m
 Standard Embedding names existing configurable embedding behavior; Governed
 Execution Profile is a proposed acceptance contract with partial fixture
 evidence; Embodied Integration Profile now has a
-[proposed design](../reference/embodied-integration.md), but no consumer pilot
-has started. Do not create three kernels, runtime switches or release lines.
+[proposed design](../reference/embodied-integration.md) and a
+[drafted pilot plan](embodied-pilot.md), but no consumer pilot has started. Do
+not create three kernels, runtime switches or release lines.
 Governed assembly and the actual Effect PEP enforce the required controls;
 ordinary `agent.New` defaults remain compatible. The embodied design adds
 obligations to governed integration and cannot weaken them.
@@ -272,6 +293,13 @@ consumer. This page states ownership boundaries, not a product roadmap.
 | Policy decisions, execution grants, approvals, revocation, obligations, security evidence | AEGIVELA | Define authorizer, grant, and policy-enforcement points; do not operate a PDP or durable approval store |
 | North-south network boundary and reverse ingress | LIMENORA | Remain deployable behind a gateway; do not add a network control plane |
 | Capability governance, runtime profiles, memory, and event transport | MODUREGIS, SYNDOVELA, Mnemovela/GNOSIVELA, Harmovela | Provide optional adapter contracts only when a named consumer and negative tests exist |
+| Site-local operation, attempt and receipt lifecycle | AKROVELA (bootstrap target) | Keep node execution outside the framework; any future hosting reuses the existing Agent loop |
+| Data/label/training lineage and candidate artifacts | DIDACTOVELA (bootstrap target) | Keep learning lifecycle outside Core; candidates do not activate production models or grant permissions |
+
+Both new products are unreleased `0.1.0` operational bootstraps, not verified
+integrations. KINETOVELA retains Mission/effect authority, RHEOVELA Process
+authority, SYNDOVELA composition and NOETIVELA production inference. Existing
+implementation evidence does not transfer with a target ownership decision.
 
 Identity issuance, policy decision services, effect ledgers, durable workflow
 engines, and network gateways remain integration responsibilities. A Core test

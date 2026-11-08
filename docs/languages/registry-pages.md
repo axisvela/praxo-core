@@ -40,18 +40,20 @@ state, not a promise that every page introduction is current.
 
 ## Current Pilot Page Audit
 
-Checked 2026-11-05 for the four pilot packages.
+Checked 2026-11-05 for the four pilot packages; the Go proxy was re-checked
+2026-11-07.
 
 | Language | Page | Published version | Current page state | Next action |
 | --- | --- | --- | --- | --- |
-| Go | [pkg.go.dev](https://pkg.go.dev/github.com/axisvela/praxo-core/v2) | `v2.5.2` | Proxy latest is `v2.5.2`; pkg.go.dev renders the tagged source README | Publish a new tag to show the consumer starters and current selection guidance |
+| Go | [pkg.go.dev](https://pkg.go.dev/github.com/axisvela/praxo-core/v2) | `v2.6.0` | Proxy latest is `v2.6.0`; the new tag carries the consumer starters and current selection guidance. Rendered-page content was not re-audited | Verify the rendered `v2.6.0` page and mark the row current |
 | Python | [PyPI](https://pypi.org/project/praxo-core/) | `0.3.0` | Summary and keywords are generic; published README predates the consumer/governance additions | Source metadata updated; publish a new release to update the page |
 | TypeScript | [npm](https://www.npmjs.com/package/@axisvela/praxo-core) | `0.2.0` | Description and keywords are generic; published README predates the consumer/governance additions | Source metadata updated; publish a new release to update the page |
 | Java | [Maven Central](https://central.sonatype.com/artifact/com.axisvela/praxo-core) | `0.4.0` | POM description is generic; Central does not render the source README | Source POM updated; deploy a new release to update the page |
 
 The source metadata updates in this repository do not change the already
-published `0.3.0`, `0.2.0`, `0.4.0`, or `v2.5.2` pages. Do not claim that a
-published page is updated until its registry shows the new version and text.
+published `0.3.0`, `0.2.0`, and `0.4.0` language pages. The Go page follows the
+`v2.6.0` tag. Do not claim that a published page is updated until its registry
+shows the new version and text.
 
 Other registries are listed in [Registry Publication Status](registry-status.md).
 They were not all re-audited in this update; use the same checklist at release
