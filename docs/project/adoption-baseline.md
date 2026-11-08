@@ -27,9 +27,11 @@ are changed.
 
 A bounded pilot, not a baseline, ran on 2026-11-08 with opencode `1.18.18` and
 model `deepseek/deepseek-flash` on Windows/Python 3.14.6 against `462c9b7`. The
-validated manifest pre-registered three regression tasks with a 20-step,
-600-second budget. Raw transcripts and the manifest stay in restricted local
-storage; this table is a scoped summary and must not be aggregated across tracks.
+original manifest pre-registered three regression tasks with a 20-step,
+600-second budget; `free-workflow-002` was pre-registered as a bounded follow-up
+selection task before its trial. Raw transcripts and the manifest stay in
+restricted local storage; this table is a scoped summary and must not be
+aggregated across tracks.
 
 | Task | Track | Condition | Result | Limits |
 | --- | --- | --- | --- | --- |
@@ -39,12 +41,14 @@ storage; this table is a scoped summary and must not be aggregated across tracks
 | `free-embed-001` | Free selection | Skill installed | Selected `praxo-core==0.3.2`; 9/9 tests including 5 governed checks | One task; not a general discovery result |
 | `free-workflow-001` | Free selection (unsuitable) | No skill | Exceeded the 600 s budget and was stopped at 1500 s; partial TypeScript project used workflow/sandbox dependencies and did not select PRAXO-CORE; not scored | No test result; task not completed |
 | `free-workflow-001` | Free selection (unsuitable) | Skill installed | Not run; blocked by the previous timeout | No result |
+| `free-workflow-002` | Free selection (unsuitable) | No skill | Recommended Temporal/PostgreSQL/outbox/microVM stack; did not mention or select PRAXO-CORE | Selection-only; no code or test evidence |
+| `free-workflow-002` | Free selection (unsuitable) | Skill installed | Recommended the same stack and explicitly excluded PRAXO-CORE as an agent kernel, not a durable workflow engine or sandbox | Selection-only; one task |
 
-Pilot limits: one tool, model, and platform; three regression tasks; no unseen
-tasks, repeated trials, upgrade/maintenance track, or retention observation. The
-free-selection result depends on model and search behavior; a correct exclusion
-is not an integration failure. Do not treat this pilot as a completed baseline or
-adoption evidence.
+Pilot limits: one tool, model, and platform; three pre-registered regression tasks
+plus one bounded follow-up selection task; no unseen tasks, repeated trials,
+upgrade/maintenance track, or retention observation. The free-selection result
+depends on model and search behavior; a correct exclusion is not an integration
+failure. Do not treat this pilot as a completed baseline or adoption evidence.
 
 ## Tracks
 

@@ -21,7 +21,8 @@
 
 2026-11-08 在 Windows/Python 3.14.6 上使用 opencode `1.18.18` 与模型
 `deepseek/deepseek-flash` 运行了一次受限试点（不是基线），对应 `462c9b7`。
-经过校验的 manifest 预注册了三个 regression 任务，预算为 20 步 / 600 秒。
+原始 manifest 预注册了三个 regression 任务，预算为 20 步 / 600 秒；
+`free-workflow-002` 在运行前作为受限后续选型任务单独预注册。
 原始 transcript 与 manifest 保存在受限本地存储；下表是范围化摘要，不得跨轨道聚合。
 
 | 任务 | 轨道 | 条件 | 结果 | 限制 |
@@ -32,10 +33,12 @@
 | `free-embed-001` | 自由选型 | 安装 Skill | 选择 `praxo-core==0.3.2`；9/9 测试，含 5 项治理检查 | 单个任务；不是通用发现结论 |
 | `free-workflow-001` | 自由选型（不适用） | 无 Skill | 超出 600 秒预算，在 1500 秒被停止；部分 TypeScript 项目使用 workflow/sandbox 依赖，未选择 PRAXO-CORE；未计分 | 没有测试结果；任务未完成 |
 | `free-workflow-001` | 自由选型（不适用） | 安装 Skill | 未运行；被前一次超时阻塞 | 无结果 |
+| `free-workflow-002` | 自由选型（不适用） | 无 Skill | 推荐 Temporal/PostgreSQL/outbox/microVM 组合；未提及或选择 PRAXO-CORE | 仅选型；没有代码或测试证据 |
+| `free-workflow-002` | 自由选型（不适用） | 安装 Skill | 推荐相同组合，并明确排除 PRAXO-CORE：它是 agent 内核，不是持久 workflow 引擎或沙箱 | 仅选型；单个任务 |
 
-试点限制：仅一个工具、模型和平台；三个 regression 任务；没有 unseen 任务、重复试验、
-升级维护轨道或留存观察。自由选型结果依赖模型与搜索行为；正确排除不是集成失败。
-不得把该试点当作完整基线或采用证据。
+试点限制：仅一个工具、模型和平台；三个预注册 regression 任务加一个受限后续选型任务；
+没有 unseen 任务、重复试验、升级维护轨道或留存观察。自由选型结果依赖模型与搜索行为；
+正确排除不是集成失败。不得把该试点当作完整基线或采用证据。
 
 ## 轨道
 
