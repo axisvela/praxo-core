@@ -127,7 +127,12 @@ python scripts/execution_correctness.py --strict --scope core-containment-baseli
 
 Strict mode is the default; `--advisory` writes a report but returns success for
 a scope failure. `--go` selects the toolchain, `--timeout` sets the Go timeout,
-and `--output` changes the report root. A required parent or subtest must have an
+and `--output` changes the report root.
+
+Boundary tests are separate from acceptance selectors. The inventory may record
+`boundaryTests` that exercise a known limit, such as unchanged final arguments
+not being reauthorized (EC-05) or the first System message winning regardless of
+source (EC-07). They are not part of any EC-D scope and never count as a pass. A required parent or subtest must have an
 exact terminal `pass`. Missing, skipped, failed, blocked, timed-out, conflicting,
 or malformed results are not a pass. The runner records the inventory hash,
 design revision, command, exit code, raw JSON events, stdout/stderr, and the

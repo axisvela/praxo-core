@@ -55,6 +55,35 @@ class ExecutionCorrectnessInventoryTests(unittest.TestCase):
                     self.assertNotIn(identity, seen)
                     seen.add(identity)
 
+    def test_boundary_tests_are_separate_from_acceptance(self):
+        seen = set()
+        boundary_ids = set()
+        for case in self.inventory['scenarios']:
+            boundary = case.get('boundaryTests', [])
+            if not boundary:
+                continue
+            boundary_ids.add(case['id'])
+            self.assertEqual(case['localTests'], [], case['id'])
+            self.assertNotEqual(case['disposition'], 'partial-core-evidence', case['id'])
+            for test in boundary:
+                with self.subTest(case=case['id'], test=test['test']):
+                    file = Path(test['file'])
+                    self.assertFalse(file.is_absolute())
+                    self.assertNotIn('..', file.parts)
+                    self.assertTrue(test['file'].startswith('pkg/'))
+                    self.assertTrue(test['file'].endswith('_test.go'))
+                    self.assertEqual(test['package'], './' + file.parent.as_posix())
+                    source = (ROOT / file).read_text(encoding='utf-8')
+                    self.assertRegex(source, r'(?m)^func ' + re.escape(test['test']) + r'\(t \*testing\.T\)')
+                    self.assertTrue(test['assertion'])
+                    identity = (test['package'], test['test'])
+                    self.assertNotIn(identity, seen)
+                    seen.add(identity)
+        self.assertTrue(seen)
+        scopes = [self.inventory['initialScope'], *self.inventory['additionalScopes']]
+        for scope in scopes:
+            self.assertFalse(boundary_ids & set(scope['scenarioIds']), scope['name'])
+
     def test_initial_scope_requires_only_named_partial_mechanics(self):
         scope = self.inventory['initialScope']
         self.assertEqual(scope['name'], 'core-mechanics-baseline')

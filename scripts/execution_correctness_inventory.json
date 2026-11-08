@@ -116,6 +116,14 @@
       "acceptance": "not-run",
       "disposition": "core-gap-and-external",
       "localTests": [],
+      "boundaryTests": [
+        {
+          "package": "./pkg/agent",
+          "file": "pkg/agent/ec_boundary_test.go",
+          "test": "TestEC05UnchangedFinalArgumentsSkipSecondAuthorization",
+          "assertion": "Unchanged final arguments are authorized once; a second policy call that would deny a revoked operation is not made. This records the Core boundary, not a commit-time revocation guarantee."
+        }
+      ],
       "gap": "Core reauthorizes only changed final arguments; unchanged arguments skip another policy call even if time or revocation changed. The governed-workspace BeforeTool/invocation guard tests are L4 application evidence; no product mandatory entry, real Effect PEP, or remote stop confirmation."
     },
     {
@@ -143,6 +151,20 @@
       "acceptance": "not-run",
       "disposition": "core-gap-and-external",
       "localTests": [],
+      "boundaryTests": [
+        {
+          "package": "./pkg/agent/context",
+          "file": "pkg/agent/context/ec_boundary_test.go",
+          "test": "TestEC07CompactionKeepsFirstSystemRegardlessOfSource",
+          "assertion": "Compaction keeps the first System message and drops later ones regardless of source, so Core does not authenticate which instruction is trusted."
+        },
+        {
+          "package": "./pkg/agent/context",
+          "file": "pkg/agent/context/ec_boundary_test.go",
+          "test": "TestEC07ToolResultNotPromotedToSystem",
+          "assertion": "A tool result containing instruction-like text remains a Tool message after compaction; it is not promoted to System."
+        }
+      ],
       "gap": "Ordinary Recall/Skills inject System messages, and the deterministic compactor can drop later System messages. Governed-workspace source wrapping, skill digests and lineage tests are opt-in L4 behavior; default Core does not authenticate sources or preserve durable lineage."
     },
     {

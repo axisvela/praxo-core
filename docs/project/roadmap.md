@@ -233,9 +233,12 @@ actual isolation, conflicting resource updates, accepted-versus-completed robot
 actions and repeated recovery.
 
 Prioritize mapping existing Core assertions and missing deterministic failures
-before adding language/scenario counts. Then add consumer-backed database,
-gateway, effect-ledger and real-sandbox integrations, followed by deployment
-fault/load validation. The tracks are EC-D (Deterministic), EC-I (Integration)
+before adding language/scenario counts. EC-05 and EC-07 now have boundary tests
+that record known local limits: unchanged final arguments are not reauthorized,
+and the first System message wins regardless of source. These are boundary
+evidence, not acceptance passes, and they do not change the external authority
+boundaries. Then add consumer-backed database, gateway, effect-ledger and
+real-sandbox integrations, followed by deployment fault/load validation. The tracks are EC-D (Deterministic), EC-I (Integration)
 and EC-O (Operational), not replacements for the existing L1-L6 taxonomy. No
 track passes another by implication. The inventory is proposed/not-run as a
 suite; it does not claim a runner, fourteen passes, or new effect semantics.

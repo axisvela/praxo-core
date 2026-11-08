@@ -16,10 +16,11 @@ planning storage.
 | --- | --- |
 | EC-D local scope | `27/27` selected selectors, `scope-passed` (`scripts/execution_correctness.py --strict`) |
 | EC-D containment scope | `5/5` selected selectors, `scope-passed` (`--scope core-containment-baseline`) |
-| EC-D reports | `build/execution-correctness/20261107T040516Z-7ac6dab2/` and `build/execution-correctness/20261107T040527Z-422acdc6/` (local, reproducible; not committed) |
-| Core revision | `5c25990` working tree used for this snapshot (dirty; includes the EC-11 containment scope addition) |
+| EC-D reports | `build/execution-correctness/20261108T060739Z-46018b60/` (mechanics) and `build/execution-correctness/20261108T060739Z-4942cb69/` (containment) (local, reproducible; not committed) |
+| Core revision | `384ac48` clean working tree used for this snapshot |
 | Full EC-01..EC-14 acceptance | **Not run**; this index is a scope/evidence map, not acceptance |
 | EC-I / EC-O | Partial local checks only; no deployed authority or independent AEP |
+| Boundary tests | Recorded separately in the inventory; not acceptance selectors and not counted in EC-D scope passes |
 
 ## Complete EC map
 
@@ -32,9 +33,9 @@ are not part of the EC-D scope count.
 | EC-02 | No Core effect-authority claim | RHEOVELA: Postgres effect store, HTTP list/reconcile, 8-way reconcile, compensation effect, A/B/C boundary; RHEOVELA `d477e35` and `4121001`: outbox records lost responses as `unknown`, the manual compensation path executes declared capabilities, and PostgreSQL effect begin is idempotent via `ON CONFLICT`; PRAXOVELA: durable `effect_jobs` outbox + replay, and `9998c75` records unknown tool outcomes and blocks blind retry; demo C9 | Real local PostgreSQL and SQLite lost-response fixtures leave an unknown effect, reconcile it, and do not re-invoke the provider; PRAXOVELA's outbox integration covers the same unknown/no-retry path | **Partial**; no real external provider post-commit/status query |
 | EC-03 | `pkg/tool/retry_test.go` (`TestRetryMiddlewareHonorsShouldRetry`, `TestRetryMiddlewareZeroValueDoesNotRetry`, `TestRetryMiddlewareStopsOnContextCancellation`) | RHEOVELA/PRAXOVELA idempotency tests | Retry count/predicate/cancellation behavior; local idempotency | No non-idempotent target protection or provider-side idempotency proof |
 | EC-04 | `pkg/agent/tool_authorization_test.go` final-argument/name reauthorization tests | PRAXOVELA governed startup, tool scope and CopilotKit gates | Final arguments/names are reauthorized; product entry rejects unsafe defaults | Persistent approval binding, expiry, consumption and replay remain product/EC-I |
-| EC-05 | Core boundary audit; no default behavior change | PRAXOVELA P0 entry policy/boundary wiring | Core exposes the seam; product fail-closed entry is tested | Actual PEP commit/revocation and confirmed stop remain external |
+| EC-05 | `pkg/agent/ec_boundary_test.go::TestEC05UnchangedFinalArgumentsSkipSecondAuthorization` records the boundary: unchanged final arguments are not reauthorized | PRAXOVELA P0 entry policy/boundary wiring | The Core seam does not re-call Policy for unchanged final arguments; commit-time revocation is not a Core guarantee | Actual PEP commit/revocation and confirmed stop remain external |
 | EC-06 | `pkg/agent` context-budget/compaction tests | PRAXOVELA adapter/config tests | Required context/budget failures are fail-closed | Consumer admission rules and source data remain external |
-| EC-07 | Core boundary audit of system/Recall/Skills injection | PRAXOVELA context/trust tests | Core preserves trust boundaries in local paths | Source authentication and real permission enforcement remain external |
+| EC-07 | `pkg/agent/context/ec_boundary_test.go::TestEC07CompactionKeepsFirstSystemRegardlessOfSource` and `TestEC07ToolResultNotPromotedToSystem` record local boundaries | PRAXOVELA context/trust tests | The first System message wins regardless of source and tool output stays a Tool message; Core does not authenticate sources | Source authentication and real permission enforcement remain external |
 | EC-08 | `pkg/agent` cancellation test (`TestRunStopsStartingToolsAfterCancellation`) | PRAXOVELA cancellation/run tests | Local cancellation prevents later local tool starts | Remote task status/stop confirmation remains external |
 | EC-09 | No Core checkpoint-as-transaction claim | RHEOVELA checkpoint/effect tests: 4/4 checkpoint paths; Postgres store | Checkpoint rebuild, stale checkpoint, intent preservation and effect-before-checkpoint retention | Business commit/checkpoint failure recovery remains consumer-owned |
 | EC-10 | `pkg/agent` event-sink tests (pre-invocation fail, terminal failure not masked) | PRAXOVELA/RHEOVELA effect and audit tests | Callback/sink failures are surfaced without false success | Durable acknowledgement, pre-execution gate and post-commit evidence require product policy |
