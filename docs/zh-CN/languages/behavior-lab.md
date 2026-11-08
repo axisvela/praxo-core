@@ -99,7 +99,7 @@ cmake --build language/c/build
 
 ## 当前证据
 
-2026-11-02 的 commit `b6218e5` clean-tree Linux CI 运行（run `20261102T074406Z-700663b3`）通过十六语言集合：320 passed、0 个显式 unsupported、无失败；[behavior job](https://github.com/axisvela/praxo-core/actions/runs/41407891314/job/125153985339) 及其 artifact 是当前证据。[行为实验矩阵](behavior-lab-matrix.md) 反映该报告并链接同一 job。全部十六个已接入语言在源码中均达到 20/20。COBOL 通过原生套件覆盖达到 20/20，其中 parallel-tools 将并发执行委托给调用方提供的批处理调度器。Ruby、C++、Elixir、Erlang、Lua、PHP、Fortran、C 以及 agent-capable SDK 也达到 20/20；全部十六个实现都包含 HITL decision 场景。
+2026-11-02 的 commit `b6218e5` clean-tree Linux CI 运行（run `20261102T074406Z-700663b3`）通过十六语言集合：320 passed、0 个显式 unsupported、无失败；[behavior job](https://github.com/axisvela/praxo-core/actions/runs/41407891314/job/125153985339) 及其 artifact 是 commit `b6218e5` 的历史证据；当前 revision 需重新运行。[行为实验矩阵](behavior-lab-matrix.md) 反映该报告并链接同一 job。全部十六个已接入语言在源码中均达到 20/20。COBOL 通过原生套件覆盖达到 20/20，其中 parallel-tools 将并发执行委托给调用方提供的批处理调度器。Ruby、C++、Elixir、Erlang、Lua、PHP、Fortran、C 以及 agent-capable SDK 也达到 20/20；全部十六个实现都包含 HITL decision 场景。
 
 ## 限制
 

@@ -50,8 +50,10 @@
 
 ## 公开证据链接
 
-- [兼容性实验](../languages/compatibility-lab.md) 与 [CI compatibility job](https://github.com/axisvela/praxo-core/actions/runs/41000572198/job/123883752839)
-- [行为实验](../languages/behavior-lab.md) 与 [当前 CI behavior job](https://github.com/axisvela/praxo-core/actions/runs/41407891314/job/125153985339)
+- [兼容性实验](../languages/compatibility-lab.md) 与 [已记录的 CI compatibility job](https://github.com/axisvela/praxo-core/actions/runs/41000572198/job/123883752839)
+- [行为实验](../languages/behavior-lab.md) 与 [commit `b6218e5` 的 CI behavior job](https://github.com/axisvela/praxo-core/actions/runs/41407891314/job/125153985339)
+
+CI 链接指向已记录的运行；它们只证明该 run 所指的 revision，不证明当前 `main` 已通过。
 Registry 链接指向当前已发布版本；上表的消费者 smoke 行指明实际安装的版本。
 
 - [PyPI 上的 praxo-core 0.3.0](https://pypi.org/project/praxo-core/0.3.0/)

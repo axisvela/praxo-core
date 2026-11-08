@@ -31,6 +31,18 @@ time; they do not lock later reruns or replace compatibility, artifact-installat
 signature, and release-scope review. A green workflow is not by itself a reason
 to create a new version tag.
 
+Before creating a tag, run the local metadata check:
+
+```bash
+python scripts/check_release_metadata.py
+```
+
+It checks that `VERSION`, `api/<version>.txt`, both release-note pages, the
+changelog, both release indexes, the Go module major, and the coding-agent
+package map agree. It also rejects a Behavior Lab matrix without a full revision
+and any CI job label that presents a recorded run as current. This check is
+structural; it does not replace the same-commit CI requirement.
+
 Manual dispatch runs only the read-only prerequisite for the selected commit.
 The publication job additionally requires a `v*` tag push and is skipped on
 manual runs, allowing live gate validation without creating a tag or release.

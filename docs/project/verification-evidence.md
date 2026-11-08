@@ -61,8 +61,11 @@ evidence.
 
 ## Public Evidence Links
 
-- [Compatibility lab](../languages/compatibility-lab.md) and the [CI compatibility job](https://github.com/axisvela/praxo-core/actions/runs/41000572198/job/123883752839)
-- [Behavior lab](../languages/behavior-lab.md) and the [current CI behavior job](https://github.com/axisvela/praxo-core/actions/runs/41407891314/job/125153985339)
+- [Compatibility lab](../languages/compatibility-lab.md) and the [recorded CI compatibility job](https://github.com/axisvela/praxo-core/actions/runs/41000572198/job/123883752839)
+- [Behavior lab](../languages/behavior-lab.md) and the [CI behavior job at `b6218e5`](https://github.com/axisvela/praxo-core/actions/runs/41407891314/job/125153985339)
+
+CI links above point to recorded runs. They are evidence for the revision named
+by the run, not proof that the current `main` passes.
 Registry links name the current published version; the consumer-smoke rows above
 name the version that was actually installed.
 
