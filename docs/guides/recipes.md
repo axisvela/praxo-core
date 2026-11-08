@@ -439,8 +439,12 @@ if err := conformance.CheckProvider(ctx, provider, conformance.Case{
 
 The shared conformance suite checks create, file transfer, VFS operations,
 command execution, attach, optional pause/resume, close, and attach-after-close
-rejection. See the
-[workspace session example](https://github.com/axisvela/praxo-core/tree/main/adapters/workspace/example)
+rejection. The evaluation `profile` package also validates `state`, `local`, and
+`sandbox` runtime profiles before returning tools: state profiles never expose
+execution, local execution must be explicit, and sandbox upload/download/pause
+capabilities require a matching session. See the
+[workspace session example](https://github.com/axisvela/praxo-core/tree/main/adapters/workspace/example),
+the [runtime profile implementation](https://github.com/axisvela/praxo-core/tree/main/adapters/workspace/profile),
 and the [workspace/session evaluation](../reference/workspace-session.md). The
 fake provider is not an isolation boundary, no live provider is used, and the
 contract is not a Core API commitment.

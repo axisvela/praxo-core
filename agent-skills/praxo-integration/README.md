@@ -15,6 +15,14 @@ automatically discovered skill.
   and the machine-readable map is
   [`agent-integration.json`](../../docs/getting-started/agent-integration.json).
 
+## Verified Discovery Example
+
+Claude Code `2.1.196` was locally verified on 2026-11-08 to list this template as
+a skill component after installation through its skills-directory plugin flow.
+This is structural discovery evidence only: it does not show that a task loads
+the skill, installs a published package, or passes allow/deny checks. Other tools
+remain unverified.
+
 If a tool cannot install a skill, use the coding-agent page and consumer
 starters directly. The skill is an optional convenience layer.
 
