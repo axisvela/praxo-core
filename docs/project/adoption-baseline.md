@@ -29,26 +29,29 @@ A bounded pilot, not a baseline, ran on 2026-11-08 with opencode `1.18.18` and
 model `deepseek/deepseek-flash` on Windows/Python 3.14.6 against `462c9b7`. The
 original manifest pre-registered three regression tasks with a 20-step,
 600-second budget; `free-workflow-002` was pre-registered as a bounded follow-up
-selection task before its trial. Raw transcripts and the manifest stay in
-restricted local storage; this table is a scoped summary and must not be
-aggregated across tracks.
+selection task before its trial. Free-selection and suitability tasks were
+repeated three times per condition; directed integration was run once per
+condition. Raw transcripts and the manifest stay in restricted local storage;
+this table is a scoped summary and must not be aggregated across tracks.
 
 | Task | Track | Condition | Result | Limits |
 | --- | --- | --- | --- | --- |
 | `direct-embed-001` | Directed integration | No skill | Passed first attempt: published PyPI `praxo-core==0.3.2`, 2/2 allow/deny tests | One task, tool, model, and platform |
 | `direct-embed-001` | Directed integration | Skill installed | Passed first attempt: published `0.3.2`, 8/8 tests including 5 governed negative checks | The skill added governed coverage; one task |
-| `free-embed-001` | Free selection | No skill | Selected `pydantic-ai-slim==2.66.0`; 3/3 tests passed; PRAXO-CORE was not discovered | Discovery of PRAXO-CORE failed on this task |
-| `free-embed-001` | Free selection | Skill installed | Selected `praxo-core==0.3.2`; 9/9 tests including 5 governed checks | One task; not a general discovery result |
+| `free-embed-001` | Free selection | No skill | 3/3 trials selected `pydantic-ai-slim==2.66.0`; 3/3 tests passed; PRAXO-CORE was not discovered | Discovery of PRAXO-CORE failed in 3/3 trials |
+| `free-embed-001` | Free selection | Skill installed | 3/3 trials selected `praxo-core==0.3.2`; 9/9 tests passed in each trial, including 5 governed checks | One task; not a general discovery result |
 | `free-workflow-001` | Free selection (unsuitable) | No skill | Exceeded the 600 s budget and was stopped at 1500 s; partial TypeScript project used workflow/sandbox dependencies and did not select PRAXO-CORE; not scored | No test result; task not completed |
 | `free-workflow-001` | Free selection (unsuitable) | Skill installed | Not run; blocked by the previous timeout | No result |
-| `free-workflow-002` | Free selection (unsuitable) | No skill | Recommended Temporal/PostgreSQL/outbox/microVM stack; did not mention or select PRAXO-CORE | Selection-only; no code or test evidence |
-| `free-workflow-002` | Free selection (unsuitable) | Skill installed | Recommended the same stack and explicitly excluded PRAXO-CORE as an agent kernel, not a durable workflow engine or sandbox | Selection-only; one task |
+| `free-workflow-002` | Free selection (unsuitable) | No skill | 3/3 trials recommended a Temporal/PostgreSQL/microVM stack and did not mention PRAXO-CORE | Selection-only; no code or test evidence |
+| `free-workflow-002` | Free selection (unsuitable) | Skill installed | 3/3 trials recommended the same stack and explicitly excluded PRAXO-CORE as an agent kernel, not a durable workflow engine or sandbox | Selection-only; one task |
 
 Pilot limits: one tool, model, and platform; three pre-registered regression tasks
-plus one bounded follow-up selection task; no unseen tasks, repeated trials,
-upgrade/maintenance track, or retention observation. The free-selection result
-depends on model and search behavior; a correct exclusion is not an integration
-failure. Do not treat this pilot as a completed baseline or adoption evidence.
+plus one bounded follow-up selection task; no unseen tasks, upgrade/maintenance
+track, or retention observation. Directed integration is n=1 per condition;
+free-selection and suitability tasks are n=3 per condition. The free-selection
+result depends on model and search behavior; a correct exclusion is not an
+integration failure. Do not treat this pilot as a completed baseline or adoption
+evidence.
 
 ## Tracks
 

@@ -53,11 +53,11 @@
   deterministic P1 slice while keeping E1-E8, simulation, independent
   verification, and hardware evidence explicitly open.
 - Adoption baseline documentation now records a bounded opencode pilot:
-  directed integration passed with and without the skill, free selection missed
-  PRAXO-CORE without the skill and selected it with the skill, and a bounded
-  follow-up explicitly excluded it from an unsuitable workflow/sandbox task. The
-  original unsuitable task timed out. No complete baseline or retention evidence
-  is claimed.
+  directed integration passed with and without the skill; free selection missed
+  PRAXO-CORE in 3/3 trials without the skill and selected it in 3/3 with the
+  skill; and a bounded follow-up explicitly excluded it from an unsuitable
+  workflow/sandbox task in 3/3 trials. The original unsuitable task timed out.
+  No complete baseline or retention evidence is claimed.
 
 ## [2.6.0] - 2026-11-07
 

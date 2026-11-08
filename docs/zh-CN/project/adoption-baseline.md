@@ -23,22 +23,24 @@
 `deepseek/deepseek-flash` 运行了一次受限试点（不是基线），对应 `462c9b7`。
 原始 manifest 预注册了三个 regression 任务，预算为 20 步 / 600 秒；
 `free-workflow-002` 在运行前作为受限后续选型任务单独预注册。
+自由选型与适用性任务每种条件重复三次；指定集成每种条件运行一次。
 原始 transcript 与 manifest 保存在受限本地存储；下表是范围化摘要，不得跨轨道聚合。
 
 | 任务 | 轨道 | 条件 | 结果 | 限制 |
 | --- | --- | --- | --- | --- |
 | `direct-embed-001` | 指定集成 | 无 Skill | 首次通过：已发布 PyPI `praxo-core==0.3.2`，2/2 allow/deny 测试 | 单个任务、工具、模型和平台 |
 | `direct-embed-001` | 指定集成 | 安装 Skill | 首次通过：已发布 `0.3.2`，8/8 测试，含 5 项治理负向检查 | Skill 增加了治理覆盖；单个任务 |
-| `free-embed-001` | 自由选型 | 无 Skill | 选择 `pydantic-ai-slim==2.66.0`；3/3 测试通过；未发现 PRAXO-CORE | 该任务中 PRAXO-CORE 发现失败 |
-| `free-embed-001` | 自由选型 | 安装 Skill | 选择 `praxo-core==0.3.2`；9/9 测试，含 5 项治理检查 | 单个任务；不是通用发现结论 |
+| `free-embed-001` | 自由选型 | 无 Skill | 3/3 次选择 `pydantic-ai-slim==2.66.0`；3/3 测试通过；未发现 PRAXO-CORE | 3/3 次均未发现 PRAXO-CORE |
+| `free-embed-001` | 自由选型 | 安装 Skill | 3/3 次选择 `praxo-core==0.3.2`；每次 9/9 测试通过，含 5 项治理检查 | 单个任务；不是通用发现结论 |
 | `free-workflow-001` | 自由选型（不适用） | 无 Skill | 超出 600 秒预算，在 1500 秒被停止；部分 TypeScript 项目使用 workflow/sandbox 依赖，未选择 PRAXO-CORE；未计分 | 没有测试结果；任务未完成 |
 | `free-workflow-001` | 自由选型（不适用） | 安装 Skill | 未运行；被前一次超时阻塞 | 无结果 |
-| `free-workflow-002` | 自由选型（不适用） | 无 Skill | 推荐 Temporal/PostgreSQL/outbox/microVM 组合；未提及或选择 PRAXO-CORE | 仅选型；没有代码或测试证据 |
-| `free-workflow-002` | 自由选型（不适用） | 安装 Skill | 推荐相同组合，并明确排除 PRAXO-CORE：它是 agent 内核，不是持久 workflow 引擎或沙箱 | 仅选型；单个任务 |
+| `free-workflow-002` | 自由选型（不适用） | 无 Skill | 3/3 次推荐 Temporal/PostgreSQL/microVM 组合；未提及 PRAXO-CORE | 仅选型；没有代码或测试证据 |
+| `free-workflow-002` | 自由选型（不适用） | 安装 Skill | 3/3 次推荐相同组合，并明确排除 PRAXO-CORE：它是 agent 内核，不是持久 workflow 引擎或沙箱 | 仅选型；单个任务 |
 
 试点限制：仅一个工具、模型和平台；三个预注册 regression 任务加一个受限后续选型任务；
-没有 unseen 任务、重复试验、升级维护轨道或留存观察。自由选型结果依赖模型与搜索行为；
-正确排除不是集成失败。不得把该试点当作完整基线或采用证据。
+没有 unseen 任务、升级维护轨道或留存观察。指定集成每种条件 n=1；自由选型与适用性任务
+每种条件 n=3。自由选型结果依赖模型与搜索行为；正确排除不是集成失败。不得把该试点当作
+完整基线或采用证据。
 
 ## 轨道
 
