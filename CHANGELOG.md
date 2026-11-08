@@ -52,6 +52,10 @@
 - Embodied pilot documentation now records AKROVELA's product-owned adapter and
   deterministic P1 slice while keeping E1-E8, simulation, independent
   verification, and hardware evidence explicitly open.
+- Adoption baseline documentation now records a bounded opencode pilot:
+  directed integration passed with and without the skill, free selection missed
+  PRAXO-CORE without the skill and selected it with the skill, and the unsuitable
+  workflow task timed out. No complete baseline or retention evidence is claimed.
 
 ## [2.6.0] - 2026-11-07
 

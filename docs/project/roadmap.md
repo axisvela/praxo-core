@@ -69,16 +69,17 @@ deterministic allow/deny checks pass in CI, and [Start Here](../getting-started/
 provides task-oriented selection guidance.
 
 Stage 1's consumer-path acceptance is therefore met for the four pilot
-languages. This is integration evidence, not adoption evidence: the adoption
-experiments have not run, and stages 2-4 are unchanged. The pilot language set
-does not reduce support commitments for Rust, C#, R, or other implementations.
+languages. This is integration evidence, not adoption evidence: only a bounded
+adoption pilot has run, no completed baseline exists, and stages 2-4 are
+unchanged. The pilot language set does not reduce support commitments for Rust,
+C#, R, or other implementations.
 
 Stage 0 is partially complete. The status vocabulary and shared-wire change
 classification are documented in [Contract and Evidence Status](contract-status.md),
 and the Tool, Model, and Checkpoint wire descriptions are implemented. A
-[proposed adoption baseline protocol](adoption-baseline.md) exists, but it has
-not been run. The adoption-task baseline data and cross-product authority
-verification remain open.
+[proposed adoption baseline protocol](adoption-baseline.md) exists, and a bounded
+opencode pilot ran on 2026-11-08; the complete baseline has not run. The
+adoption-task baseline data and cross-product authority verification remain open.
 
 Stage 2 has started with Go, Python, TypeScript, and Java consumer-runnable
 governed negative tests covering missing policy/scope, final-argument
@@ -154,8 +155,9 @@ acceptance design, not an implemented general profile.
 ### Adoption Evidence
 
 Establish the baseline before changing discovery and integration materials.
-Use the [adoption baseline protocol](adoption-baseline.md), which is proposed and
-not yet run, and keep these evaluation tracks separate:
+Use the [adoption baseline protocol](adoption-baseline.md), which remains proposed
+for a complete baseline and now records a bounded pilot, and keep these
+evaluation tracks separate:
 
 | Track | Question |
 | --- | --- |

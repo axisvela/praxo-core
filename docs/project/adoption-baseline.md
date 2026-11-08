@@ -1,8 +1,8 @@
 # Coding-Agent Adoption Baseline Protocol
 
-**Status:** proposed evaluation protocol, 2026-11-08. **Not run.** No discovery,
-selection, installation, repair-cost, or retention results exist yet. This page
-defines how to produce them; it is not adoption evidence.
+**Status:** proposed evaluation protocol, 2026-11-08. The complete baseline is
+**Not run.** A bounded pilot ran on 2026-11-08; its scoped results are below.
+No upgrade or retention results exist, and the pilot is not adoption evidence.
 
 ## Purpose
 
@@ -22,6 +22,29 @@ are changed.
 - Results are scoped to the exact tool, model, prompt, package version,
   environment, permissions, and budget.
 - No live provider, production deployment, or independent assurance is implied.
+
+## Pilot Results (2026-11-08)
+
+A bounded pilot, not a baseline, ran on 2026-11-08 with opencode `1.18.18` and
+model `deepseek/deepseek-flash` on Windows/Python 3.14.6 against `462c9b7`. The
+validated manifest pre-registered three regression tasks with a 20-step,
+600-second budget. Raw transcripts and the manifest stay in restricted local
+storage; this table is a scoped summary and must not be aggregated across tracks.
+
+| Task | Track | Condition | Result | Limits |
+| --- | --- | --- | --- | --- |
+| `direct-embed-001` | Directed integration | No skill | Passed first attempt: published PyPI `praxo-core==0.3.2`, 2/2 allow/deny tests | One task, tool, model, and platform |
+| `direct-embed-001` | Directed integration | Skill installed | Passed first attempt: published `0.3.2`, 8/8 tests including 5 governed negative checks | The skill added governed coverage; one task |
+| `free-embed-001` | Free selection | No skill | Selected `pydantic-ai-slim==2.66.0`; 3/3 tests passed; PRAXO-CORE was not discovered | Discovery of PRAXO-CORE failed on this task |
+| `free-embed-001` | Free selection | Skill installed | Selected `praxo-core==0.3.2`; 9/9 tests including 5 governed checks | One task; not a general discovery result |
+| `free-workflow-001` | Free selection (unsuitable) | No skill | Exceeded the 600 s budget and was stopped at 1500 s; partial TypeScript project used workflow/sandbox dependencies and did not select PRAXO-CORE; not scored | No test result; task not completed |
+| `free-workflow-001` | Free selection (unsuitable) | Skill installed | Not run; blocked by the previous timeout | No result |
+
+Pilot limits: one tool, model, and platform; three regression tasks; no unseen
+tasks, repeated trials, upgrade/maintenance track, or retention observation. The
+free-selection result depends on model and search behavior; a correct exclusion
+is not an integration failure. Do not treat this pilot as a completed baseline or
+adoption evidence.
 
 ## Tracks
 
