@@ -130,12 +130,15 @@ def entry_paths(entry: dict) -> tuple[Path, Path, Path, Path]:
 
 
 def block(entry: dict, directory: Path) -> str:
-    coding = rel_link(ROOT / "docs/getting-started/coding-agents.md", directory)
+    base = "https://github.com/axisvela/praxo-core/blob/main"
+    relative = Path(entry["dir"]).as_posix()
+    prefix = base if relative == "." else f"{base}/{relative}"
+    coding = f"{base}/docs/getting-started/coding-agents.md"
     registry = f"[{entry['registry']}]({entry['url']})" if entry["url"] else entry["registry"]
     return (
         f"{BLOCK_START}\n\n"
-        f"- Registry introduction: [REGISTRY.md](REGISTRY.md)\n"
-        f"- Machine-readable entry: [llms.txt](llms.txt) and [llms.md](llms.md)\n"
+        f"- Registry introduction: [REGISTRY.md]({prefix}/REGISTRY.md)\n"
+        f"- Machine-readable entry: [llms.txt]({prefix}/llms.txt) and [llms.md]({prefix}/llms.md)\n"
         f"- Coding-agent contract: [docs/getting-started/coding-agents.md]({coding})\n"
         f"- Registry: {registry}\n"
     )
@@ -154,6 +157,12 @@ def insert_block(readme: Path, entry: dict) -> None:
         return
     text = readme.read_text(encoding="utf-8")
     if BLOCK_START in text:
+        pattern = re.compile(
+            r"## Registry and Coding-Agent Entry\n.*?(?=\n## |\Z)",
+            re.DOTALL,
+        )
+        text = pattern.sub(block(entry, directory).rstrip() + "\n", text, count=1)
+        readme.write_text(text, encoding="utf-8")
         return
     marker = "\n## "
     index = text.find(marker)

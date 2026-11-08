@@ -58,7 +58,18 @@ class LanguageRegistryDocsTests(unittest.TestCase):
                     self.assertIn(entry["published_version"], registry_text)
                     self.assertIn(entry["install"], registry_text)
                 self.assertIn(entry["source_install"], registry_text)
-                self.assertIn(SYNC.BLOCK_START, readme.read_text(encoding="utf-8"))
+                readme_text = readme.read_text(encoding="utf-8")
+                self.assertIn(SYNC.BLOCK_START, readme_text)
+                block = readme_text.split(SYNC.BLOCK_START, 1)[1].split("\n## ", 1)[0]
+                base = "https://github.com/axisvela/praxo-core/blob/main"
+                prefix = base if entry["dir"] == "." else f"{base}/{Path(entry['dir']).as_posix()}"
+                for name in ("REGISTRY.md", "llms.txt", "llms.md"):
+                    self.assertIn(f"]({prefix}/{name})", block)
+                self.assertIn(
+                    "](https://github.com/axisvela/praxo-core/blob/main/docs/getting-started/coding-agents.md)",
+                    block,
+                )
+                self.assertNotIn("](REGISTRY.md)", block)
                 self.assertTrue(llms_md.read_text(encoding="utf-8").startswith("# PRAXO-CORE"))
                 if entry["dir"] != ".":
                     self.assertTrue(

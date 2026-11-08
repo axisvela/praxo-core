@@ -46,9 +46,9 @@ Checked 2026-11-08 for the four pilot packages; the Go proxy was re-checked
 | Language | Page | Published version | Current page state | Next action |
 | --- | --- | --- | --- | --- |
 | Go | [pkg.go.dev](https://pkg.go.dev/github.com/axisvela/praxo-core/v2) | `v2.6.0` | Proxy latest is `v2.6.0`; the new tag carries the consumer starters and current selection guidance. Rendered-page content was not re-audited | Verify the rendered `v2.6.0` page and mark the row current |
-| Python | [PyPI](https://pypi.org/project/praxo-core/) | `0.3.1` | `0.3.1` is published; rendered-page content was not re-audited | Verify the rendered `0.3.1` page and mark the row current |
-| TypeScript | [npm](https://www.npmjs.com/package/@axisvela/praxo-core) | `0.2.1` | `0.2.1` is published and is latest; rendered-page content was not re-audited | Verify the rendered `0.2.1` page and mark the row current |
-| Java | [Maven Central](https://central.sonatype.com/artifact/com.axisvela/praxo-core) | `0.4.1` | `0.4.1` is published; Central does not render the source README | Verify the rendered `0.4.1` POM/sources page and mark the row current |
+| Python | [PyPI](https://pypi.org/project/praxo-core/) | `0.3.1` | Rendered `0.3.1` description includes the registry/coding-agent block and `llms` links; verified 2026-11-08 | No further action |
+| TypeScript | [npm](https://www.npmjs.com/package/@axisvela/praxo-core) | `0.2.1` | Rendered `0.2.1` README includes the registry/coding-agent block and `llms` links; latest; verified 2026-11-08 | No further action |
+| Java | [Maven Central](https://central.sonatype.com/artifact/com.axisvela/praxo-core) | `0.4.1` | POM is `0.4.1` with sources/javadoc returning 200; Central does not render the README; verified 2026-11-08 | No further action |
 
 The source metadata updates in this repository do not change the already
 published `0.3.1`, `0.2.1`, and `0.4.1` language pages. The Go page follows the

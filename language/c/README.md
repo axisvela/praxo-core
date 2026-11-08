@@ -10,9 +10,9 @@ memory, event, checkpoint, policy, context, middleware, and agent APIs.
 
 ## Registry and Coding-Agent Entry
 
-- Registry introduction: [REGISTRY.md](REGISTRY.md)
-- Machine-readable entry: [llms.txt](llms.txt) and [llms.md](llms.md)
-- Coding-agent contract: [docs/getting-started/coding-agents.md](../../docs/getting-started/coding-agents.md)
+- Registry introduction: [REGISTRY.md](https://github.com/axisvela/praxo-core/blob/main/language/c/REGISTRY.md)
+- Machine-readable entry: [llms.txt](https://github.com/axisvela/praxo-core/blob/main/language/c/llms.txt) and [llms.md](https://github.com/axisvela/praxo-core/blob/main/language/c/llms.md)
+- Coding-agent contract: [docs/getting-started/coding-agents.md](https://github.com/axisvela/praxo-core/blob/main/docs/getting-started/coding-agents.md)
 - Registry: Source / CMake
 
 ## Build and test

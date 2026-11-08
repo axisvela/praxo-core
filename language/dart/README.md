@@ -18,9 +18,9 @@ reference implementation.
 
 ## Registry and Coding-Agent Entry
 
-- Registry introduction: [REGISTRY.md](REGISTRY.md)
-- Machine-readable entry: [llms.txt](llms.txt) and [llms.md](llms.md)
-- Coding-agent contract: [docs/getting-started/coding-agents.md](../../docs/getting-started/coding-agents.md)
+- Registry introduction: [REGISTRY.md](https://github.com/axisvela/praxo-core/blob/main/language/dart/REGISTRY.md)
+- Machine-readable entry: [llms.txt](https://github.com/axisvela/praxo-core/blob/main/language/dart/llms.txt) and [llms.md](https://github.com/axisvela/praxo-core/blob/main/language/dart/llms.md)
+- Coding-agent contract: [docs/getting-started/coding-agents.md](https://github.com/axisvela/praxo-core/blob/main/docs/getting-started/coding-agents.md)
 - Registry: [pub.dev](https://pub.dev/packages/praxo_core/versions/0.1.1)
 
 ## Install
