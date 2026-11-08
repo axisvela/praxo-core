@@ -1,5 +1,19 @@
 # Python Core Release Notes
 
+## 0.3.1 - 2026-11-08
+
+Source tag `python/v0.3.1`. The PyPI package is published by the tag workflow.
+
+### Changed
+
+- Package metadata and README now describe the published consumer starter,
+  governed negative checks, and coding-agent integration guidance.
+
+### Compatibility
+
+- No runtime or public API changes.
+- The Core contract remains `SPEC_VERSION` `0.2.0`.
+
 ## 0.3.0 - 2026-11-02
 
 Source tag `python/v0.3.0`. The PyPI package is published by the tag workflow.

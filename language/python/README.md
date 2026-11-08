@@ -16,7 +16,7 @@ orchestration platform:
 ## Install
 
 ```bash
-pip install praxo-core==0.3.0
+pip install praxo-core==0.3.1
 ```
 
 For a source checkout:
@@ -76,8 +76,8 @@ asyncio.run(main())
 
 The normative contract is [`spec/`](../../spec/README.md); Go remains the
 reference implementation. This package supports `SPEC_VERSION` `0.2.0` and
-passes all eleven conformance vector groups. Source version `0.3.0` is published
-from tag `python/v0.3.0`; the PyPI package is published by that tag. VFS and
+passes all eleven conformance vector groups. Source version `0.3.1` is released
+from tag `python/v0.3.1`; the PyPI package is published by that tag. VFS and
 plugin hosts are not yet implemented.
 
 ## Requirements
