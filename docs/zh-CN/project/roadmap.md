@@ -80,9 +80,10 @@ provider fallback、plugin lifecycle、multi-agent、streaming 与 workspace ses
 效果验证区分、verifier 收据、部分写入恢复、fencing token、持久 fencing 与独立 verifier
 进程。文件存储现会注入 rename 边界前后的确定性故障，并要求损坏的已提交状态失败关闭。
 它使用带静态 Bearer token 和测试 TLS 的文件/loopback HTTP fixture，不是有身份感知的
-部署服务、生产密钥管理、数据库或支持过期/撤销的 lease store；阶段 3 未完成：已部署
-执行服务、OS 级断电证明与生产 lease 服务/协调仍未完成；fixture 现已在本地模拟 lease
-过期、续期与撤销，边界测试也记录了并发写入者的丢更新。
+部署服务、生产密钥管理、数据库或支持过期/撤销的 lease store；阶段 3 未完成：生产部署、
+OS 级断电证明与生产 lease 服务/协调仍未完成；fixture 现已在本地模拟 lease 过期、续期与
+撤销，边界测试记录了并发写入者的丢更新，独立服务二进制也已提供 health/readiness 与
+优雅退出。
 
 ### 消费者与契约基线
 

@@ -115,10 +115,11 @@ static bearer token and test TLS, not a deployed identity-aware service, product
 key management, database, or expiry/revocation-aware lease store. This is L4
 application-recipe evidence, not a Core capability claim; Core cancellation and
 reauthorization are covered by `pkg/agent` tests and vectors. Stage 3 is not
-complete: a deployed execution service, OS-level power-loss proof, and production
-lease services/coordination remain open; the fixture now models lease expiry,
-renewal, and revocation locally, and a boundary test records lost updates from
-concurrent writers. See the [test and evidence taxonomy](test-taxonomy.md).
+complete: a production deployment, OS-level power-loss proof, and production lease
+services/coordination remain open; the fixture now models lease expiry, renewal,
+and revocation locally, a boundary test records lost updates from concurrent
+writers, and a standalone service binary provides health/readiness and graceful
+shutdown. See the [test and evidence taxonomy](test-taxonomy.md).
 
 ### Consumer and Contract Baseline
 

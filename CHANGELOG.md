@@ -8,8 +8,11 @@
   the rename boundary, rejects valid uncommitted temp state, and fails closed on
   corrupt committed state. Its fencing fixture now models lease expiry, renewal,
   and revocation, including persistence across restart. A boundary test records
-  lost updates from concurrent writers. OS-level power loss, production lease
-  coordination, and a multi-process writer lock remain out of scope.
+  lost updates from concurrent writers. The example now builds a standalone
+  service binary with health/readiness endpoints, bearer auth, optional TLS, and
+  graceful shutdown; an integration test starts it on a real TCP port. OS-level
+  power loss, production lease coordination, and a multi-process writer lock
+  remain out of scope.
 - A Go adapter conformance recipe uses `pkg/conformance` to validate fake model,
   streaming model, tool, and retriever contracts, including mismatch failures.
 - A Go retry safety recipe demonstrates retry predicates, cancellation, the

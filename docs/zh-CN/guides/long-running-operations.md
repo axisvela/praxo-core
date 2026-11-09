@@ -68,6 +68,19 @@ GOWORK=off go test -mod=readonly -run LongRunning -v ./...
 Fixture 可持久化到 JSON 文件，并通过 loopback HTTP 暴露，从而在真实传输边界上测试响应
 丢失与重启。它仍只展示契约形状，不是持久 worker、lease/fencing 实现或生产效果账本。
 
+## 独立服务
+
+示例模块也可构建独立服务：
+
+```sh
+GOWORK=off go build -mod=readonly -o longrunning-service ./cmd/longrunning-service
+./longrunning-service -addr 127.0.0.1:8080 -state ./operations.json -token "$PRAXO_TOKEN"
+```
+
+它暴露 `/healthz`、`/readyz` 和操作端点，支持 `-tls-cert`/`-tls-key`，并在收到中断时
+优雅退出。`cmd` 集成测试会构建二进制、在真实 TCP 端口启动，并检查 health、readiness、
+提交与状态查询。它仍是本地 fixture：没有生产身份、密钥轮换、数据库或部署自动化。
+
 ## 限制
 
 - 文件存储先写临时文件、同步，再 rename 覆盖主文件。确定性测试会注入 rename 边界前后的

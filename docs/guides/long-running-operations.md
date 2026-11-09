@@ -78,6 +78,21 @@ so response loss and restart can be tested through a real transport boundary. It
 still demonstrates the contract shape, not a durable worker, lease/fencing
 implementation, or production effect ledger.
 
+## Standalone Service
+
+The example module also builds a standalone service:
+
+```sh
+GOWORK=off go build -mod=readonly -o longrunning-service ./cmd/longrunning-service
+./longrunning-service -addr 127.0.0.1:8080 -state ./operations.json -token "$PRAXO_TOKEN"
+```
+
+It exposes `/healthz`, `/readyz`, and the operation endpoints, supports
+`-tls-cert`/`-tls-key`, and shuts down on interrupt. The `cmd` integration test
+builds the binary, starts it on a real TCP port, and checks health, readiness,
+submit, and status. This is still a local fixture: it has no production identity,
+key rotation, database, or deployment automation.
+
 ## Limits
 
 - The file store writes a temporary file, syncs it, and renames it over the main
