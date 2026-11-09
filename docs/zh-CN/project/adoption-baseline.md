@@ -23,7 +23,7 @@
 `deepseek/deepseek-flash` 运行了一次受限试点（不是基线），对应 `462c9b7`。
 原始 manifest 预注册了三个 regression 任务，预算为 20 步 / 600 秒；
 `free-workflow-002` 在运行前作为受限后续选型任务单独预注册；
-`unseen-embed-001` 作为 held-out 任务预注册，首次超时，重试完成。
+`unseen-embed-001` 作为 held-out 任务预注册，首次超时，后续三次试验完成。
 另外运行了一次受限升级试点。自由选型与适用性任务每种条件重复三次；指定集成与升级
 每种条件运行一次。原始 transcript 与 manifest 保存在受限本地存储；下表是范围化摘要，
 不得跨轨道聚合。
@@ -38,17 +38,17 @@
 | `free-workflow-001` | 自由选型（不适用） | 安装 Skill | 未运行；被前一次超时阻塞 | 无结果 |
 | `free-workflow-002` | 自由选型（不适用） | 无 Skill | 3/3 次推荐 Temporal/PostgreSQL/microVM 组合；未提及 PRAXO-CORE | 仅选型；没有代码或测试证据 |
 | `free-workflow-002` | 自由选型（不适用） | 安装 Skill | 3/3 次推荐相同组合，并明确排除 PRAXO-CORE：它是 agent 内核，不是持久 workflow 引擎或沙箱 | 仅选型；单个任务 |
-| `unseen-embed-001` | 自由选型（held-out） | 无 Skill | 选择已发布 PyPI `praxo-core==0.3.2`；6/6 测试通过；发现了 PRAXO-CORE | n=1；与 3/3 regression 未发现结果不一致 |
-| `unseen-embed-001` | 自由选型（held-out） | 安装 Skill | 选择 `praxo-core==0.3.2`；10/10 测试，含 5 项治理检查；使用项目外共享临时 venv | n=1；外部 venv 降低可复现性 |
+| `unseen-embed-001` | 自由选型（held-out） | 无 Skill | 3/3 次完成试验选择已发布 PyPI `praxo-core==0.3.2`；测试分别 6/6、4/4、5/5 通过 | n=3；无 Skill 时的发现结果与 regression 未发现结果不一致 |
+| `unseen-embed-001` | 自由选型（held-out） | 安装 Skill | 3/3 次选择 `praxo-core==0.3.2`；测试分别 10/10、9/9、以及一次修复后 7/7（首次 6/7） | n=3；一次试验需要修复；一次使用项目外共享临时 venv |
 | `upgrade-python-001` | 升级维护 | 无 Skill | 将 venv 从 0.2.4 升级到 0.3.2；8/8 测试通过；源码文件未改变 | 没有依赖 manifest，因此升级未记录到项目源码 |
 | `upgrade-python-001` | 升级维护 | 安装 Skill | 相同结果：venv 中为 0.3.2，8/8 测试，源码未改变 | 同样的 manifest 限制；n=1 |
 | `upgrade-python-002` | 升级维护 | 无 Skill | 将 `requirements.txt` 更新为 `praxo-core==0.3.2`，安装 0.3.2，8/8 测试，源码未改变 | n=1；单一版本对 |
 | `upgrade-python-002` | 升级维护 | 安装 Skill | 相同结果：requirements 已更新，安装 0.3.2，8/8 测试，源码未改变 | n=1；单一版本对 |
 
 试点限制：仅一个工具、模型和平台；三个预注册 regression 任务加一个受限后续选型任务
-和一个 held-out 任务。held-out 任务重试后完成（每种条件 n=1）；两种条件都选择了
-PRAXO-CORE，因此无 Skill 时的发现结果与 regression 试验不一致。unseen 证据存在但不足以
-泛化。升级维护轨道对“仅 venv 升级”和“requirements.txt 升级”各运行 n=1；两者都升级到
+和一个 held-out 任务。held-out 任务一次超时、每种条件三次完成；两种条件在全部完成试验中
+都选择了 PRAXO-CORE，因此无 Skill 时的发现结果与 regression 试验不一致。有 Skill 时，
+一次 held-out 试验需要一次修复（6/7 后 7/7）。unseen 证据存在，但依赖任务且不足以泛化。升级维护轨道对“仅 venv 升级”和“requirements.txt 升级”各运行 n=1；两者都升级到
 0.3.2，应用/测试源码不变，8/8 测试通过。后续变更后的留存仍未观察。指定集成每种条件
 n=1；自由选型与适用性 regression 任务每种条件 n=3。自由选型结果依赖模型与搜索行为；
 正确排除不是集成失败。不得把该试点当作完整基线或采用证据。

@@ -61,8 +61,10 @@
   PRAXO-CORE in 3/3 trials without the skill and selected it in 3/3 with the
   skill; and a bounded follow-up explicitly excluded it from an unsuitable
   workflow/sandbox task in 3/3 trials. The original unsuitable task timed out;
-  the held-out task completed on retry and both conditions selected PRAXO-CORE
-  (n=1). A bounded upgrade pilot installed 0.3.2 with unchanged source and 8/8
+  the held-out task had one timeout and then three completed trials per condition;
+  both conditions selected PRAXO-CORE in all completed trials, and one
+  skill-assisted trial needed one repair. A bounded upgrade pilot installed 0.3.2
+  with unchanged source and 8/8
   tests; a follow-up updated `requirements.txt` to 0.3.2 with unchanged source
   and 8/8 tests. No complete baseline or retention evidence is claimed.
 
