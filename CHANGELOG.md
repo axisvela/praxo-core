@@ -7,9 +7,9 @@
 - The Go long-running recipe now injects deterministic failures before and after
   the rename boundary, rejects valid uncommitted temp state, and fails closed on
   corrupt committed state. Its fencing fixture now models lease expiry, renewal,
-  and revocation, including persistence across restart. OS-level power loss,
-  production lease coordination, and concurrent multi-process writers remain out
-  of scope.
+  and revocation, including persistence across restart. A boundary test records
+  lost updates from concurrent writers. OS-level power loss, production lease
+  coordination, and a multi-process writer lock remain out of scope.
 - A Go adapter conformance recipe uses `pkg/conformance` to validate fake model,
   streaming model, tool, and retriever contracts, including mismatch failures.
 - A Go retry safety recipe demonstrates retry predicates, cancellation, the

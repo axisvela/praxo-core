@@ -117,8 +117,8 @@ application-recipe evidence, not a Core capability claim; Core cancellation and
 reauthorization are covered by `pkg/agent` tests and vectors. Stage 3 is not
 complete: a deployed execution service, OS-level power-loss proof, and production
 lease services/coordination remain open; the fixture now models lease expiry,
-renewal, and revocation locally. See the
-[test and evidence taxonomy](test-taxonomy.md).
+renewal, and revocation locally, and a boundary test records lost updates from
+concurrent writers. See the [test and evidence taxonomy](test-taxonomy.md).
 
 ### Consumer and Contract Baseline
 

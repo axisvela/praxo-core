@@ -82,7 +82,7 @@ provider fallback、plugin lifecycle、multi-agent、streaming 与 workspace ses
 它使用带静态 Bearer token 和测试 TLS 的文件/loopback HTTP fixture，不是有身份感知的
 部署服务、生产密钥管理、数据库或支持过期/撤销的 lease store；阶段 3 未完成：已部署
 执行服务、OS 级断电证明与生产 lease 服务/协调仍未完成；fixture 现已在本地模拟 lease
-过期、续期与撤销。
+过期、续期与撤销，边界测试也记录了并发写入者的丢更新。
 
 ### 消费者与契约基线
 

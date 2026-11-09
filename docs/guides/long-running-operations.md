@@ -65,6 +65,7 @@ GOWORK=off go test -mod=readonly -run LongRunning -v ./...
 | Lease renewal | renewal before expiry extends the lease and preserves completion |
 | Lease revocation | revocation blocks the old owner; a new owner can reacquire |
 | Lease restart | expiry and revocation survive a restart |
+| Concurrent writers | two independent file writers can overwrite each other; the boundary test records the lost update and is not a pass |
 | Independent verifier process | the execution service calls a separate verifier process and does not hold the signing secret; forged receipts are rejected |
 | Bearer/TLS boundary | missing or wrong bearer token is rejected before any effect; a test TLS certificate is used |
 | Fault before rename | a simulated crash before the rename boundary leaves the last committed state; the temp file is ignored |
@@ -104,7 +105,9 @@ implementation, or production effect ledger.
   revocation, and an independently operated verification authority.
 - The fencing fixture now models lease expiry, renewal, and revocation in a JSON
   file. It still has no coordination service, trusted clock guarantees,
-  production lease storage, or concurrent-writer lock.
+  production lease storage, or concurrent-writer lock. A boundary test records
+  that two independent writers can lose an update; use a real lease or
+  coordination service for concurrent processes.
 - Effect verification, production leases/fencing, reconciliation, and retention
   belong to the execution system or a durable workflow product.
 - This recipe does not provide exactly-once execution.
