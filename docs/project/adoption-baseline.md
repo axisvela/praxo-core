@@ -50,19 +50,21 @@ a scoped summary and must not be aggregated across tracks.
 | `unseen-embed-001` | Free selection (held-out) | Skill installed | Selected `praxo-core==0.3.2`; 10/10 tests including 5 governed checks; used a shared temporary venv outside the project | n=1; the external venv reduces reproducibility |
 | `upgrade-python-001` | Upgrade and maintenance | No skill | Upgraded the venv from 0.2.4 to 0.3.2; 8/8 tests passed; source files unchanged | No dependency manifest existed, so the upgrade was not recorded in project source |
 | `upgrade-python-001` | Upgrade and maintenance | Skill installed | Same result: 0.3.2 in the venv, 8/8 tests, source unchanged | Same manifest limitation; n=1 |
+| `upgrade-python-002` | Upgrade and maintenance | No skill | Updated `requirements.txt` to `praxo-core==0.3.2`, installed 0.3.2, 8/8 tests, source unchanged | n=1; one version pair |
+| `upgrade-python-002` | Upgrade and maintenance | Skill installed | Same result: requirements updated, 0.3.2 installed, 8/8 tests, source unchanged | n=1; one version pair |
 
 Pilot limits: one tool, model, and platform; three pre-registered regression tasks
 plus one bounded follow-up selection task and one held-out task. The held-out task
 completed on retry (n=1 per condition); both conditions selected PRAXO-CORE, so
 discovery without the skill was inconsistent with the regression trials. Unseen
 evidence is present but insufficient to generalize. The upgrade/maintenance track
-is n=1 per condition; both conditions upgraded the venv and kept application/test
-source unchanged, but no dependency manifest existed, so the manifest-update and
-retention paths remain unexercised. Directed integration is n=1 per condition;
-free-selection and suitability regression tasks are n=3 per condition. The
-free-selection result depends on model and search behavior; a correct exclusion is
-not an integration failure. Do not treat this pilot as a completed baseline or
-adoption evidence.
+has n=1 per condition for a venv-only upgrade and n=1 per condition for a
+`requirements.txt` upgrade; both moved to 0.3.2 with unchanged application/test
+source and 8/8 tests. Retention after a later change remains unobserved. Directed
+integration is n=1 per condition; free-selection and suitability regression tasks
+are n=3 per condition. The free-selection result depends on model and search
+behavior; a correct exclusion is not an integration failure. Do not treat this
+pilot as a completed baseline or adoption evidence.
 
 ## Tracks
 
