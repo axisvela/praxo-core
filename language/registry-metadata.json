@@ -313,13 +313,13 @@
     "install": "cpanm Praxo::Core",
     "package": "Praxo::Core",
     "published_version": "0.1.1",
-    "registry": "CPAN/source distribution",
+    "registry": "CPAN (MetaCPAN index)",
     "source_install": "cpanm Praxo::Core",
     "source_version": "0.1.1",
-    "status": "source-only; no CPAN publication recorded",
+    "status": "indexed on MetaCPAN (0.1.1); install smoke not recorded",
     "tag": "perl/v0.1.1",
     "tier": "Core",
-    "url": ""
+    "url": "https://metacpan.org/dist/Praxo-Core"
   },
   "PowerShell": {
     "dir": "language/powershell",

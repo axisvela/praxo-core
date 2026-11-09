@@ -19,7 +19,7 @@ reference implementation.
 - Registry introduction: [REGISTRY.md](https://github.com/axisvela/praxo-core/blob/main/language/perl/REGISTRY.md)
 - Machine-readable entry: [llms.txt](https://github.com/axisvela/praxo-core/blob/main/language/perl/llms.txt) and [llms.md](https://github.com/axisvela/praxo-core/blob/main/language/perl/llms.md)
 - Coding-agent contract: [docs/getting-started/coding-agents.md](https://github.com/axisvela/praxo-core/blob/main/docs/getting-started/coding-agents.md)
-- Registry: CPAN/source distribution
+- Registry: [CPAN (MetaCPAN index)](https://metacpan.org/dist/Praxo-Core)
 
 ## Scope
 
