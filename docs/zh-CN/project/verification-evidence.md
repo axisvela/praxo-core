@@ -22,6 +22,7 @@
 | 领域 | 已验证 | 级别 | 限制 |
 | --- | --- | --- | --- |
 | Go Core | Tests、vet、build、API snapshot、race、fuzz 和 module-security CI；当前 main 与发布工作流检查；`v2.6.0` 可从公共 module proxy 在干净外部模块解析；已记录的干净外部模块安装与最小 agent smoke 覆盖 `v2.5.2` | 契约/单元 + CI + 本地集成 | JSON Schema 和 plugin manifest fuzz 曾在 10s deadline 失败、rerun 通过；慢输入风险仍在调查；未对 `v2.6.0` 重跑完整安装 smoke；已记录安装仅覆盖一个平台和最小 agent |
+| Go 长时操作配方 | 文件存储覆盖幂等提交、响应丢失、子进程重启、独立 verifier、带 lease 过期/续期/撤销的 fencing、rename 前后确定性故障注入、损坏状态失败关闭，以及并发写入者边界测试 | 契约/单元 + 本地集成 | L4 应用配方；单写入者；没有已部署服务、OS 级断电、生产 lease 协调、可信时钟、多进程锁或 exactly-once |
 | 跨语言一致性 | Python、TypeScript、Java、Rust、Fortran、COBOL compatibility lab 运行确定性向量、API 快照/签名和 parity；已记录 Linux CI 与本地运行 | 契约/单元 + CI | 仅六种语言；COBOL 已在本地 GnuCOBOL 和 Linux CI 验证；不含 provider、HITL、checkpoint、sandbox 或生产证据；每次运行一个平台和工具链；非作者复现待办 |
 | Python 已发布包 | PyPI 已从源码标签 `python/v0.3.2` 发布 `praxo-core==0.3.2`。发布工作流在发布前构建并 smoke 测试 wheel/sdist；发布后消费者脚本在干净 venv 中安装 `0.3.2` 并通过 starter/治理检查。历史本地 smoke 覆盖 `0.2.4` | Registry 发布 + 发布工作流产物 smoke + 发布后消费者检查 | 一个平台/工具链；同机干净 venv，不是独立或非作者消费者；不含 provider 或生产证据 |
 | TypeScript 已发布包 | npm 已从源码标签 `typescript/v0.2.2` 发布 `@axisvela/praxo-core@0.2.2`，并为 latest。发布工作流构建并消费 tarball；`0.2.2` README 包含绝对 registry/编程 Agent 链接；发布后消费者脚本在干净临时项目中安装 `0.2.2` 并通过 starter/治理检查。历史 smoke 覆盖 `0.1.5` | Registry 发布 + 发布工作流 tarball smoke + 发布后消费者检查 | 一个平台/工具链；不是独立消费者；不含 provider 或生产证据 |
