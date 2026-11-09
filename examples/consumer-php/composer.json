@@ -1,0 +1,11 @@
+{
+  "name": "example/praxo-php-starter",
+  "description": "Independent consumer of the published PRAXO-CORE PHP package",
+  "type": "project",
+  "require": {
+    "axisvela/praxo-core": "0.4.0"
+  },
+  "scripts": {
+    "test": "php test_starter.php"
+  }
+}
