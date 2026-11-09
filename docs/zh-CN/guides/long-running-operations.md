@@ -53,6 +53,10 @@ GOWORK=off go test -mod=readonly -run LongRunning -v ./...
 | 残留临时文件 | 忽略残留 `.tmp`；最后提交状态与幂等键保持完整 |
 | Fencing token | 持有旧 epoch 的 worker 不能完成；新 owner 递增 epoch 并只完成一次 |
 | 持久化 fencing | owner、epoch 与完成状态跨重启保留；旧 epoch 仍被拒绝 |
+| lease 过期 | 过期的 lease 不能完成；新 owner 获得下一个 epoch |
+| lease 续期 | 过期前续期会延长 lease 并保留完成能力 |
+| lease 撤销 | 撤销阻止旧 owner；新 owner 可以重新获取 |
+| lease 重启 | 过期与撤销状态跨重启保留 |
 | 独立 verifier 进程 | 执行服务调用独立 verifier 进程且不持有签名密钥；伪造收据被拒绝 |
 | Bearer/TLS 边界 | 缺少或错误 token 在产生效果前被拒绝；使用测试 TLS 证书 |
 | rename 前故障 | 模拟 rename 边界前崩溃，保留最后提交状态；临时文件被忽略 |
@@ -79,7 +83,8 @@ Fixture 可持久化到 JSON 文件，并通过 loopback HTTP 暴露，从而在
 - 取消请求不是取消确认；执行权威必须报告最终状态。
 - Verifier 是独立 loopback 进程 fixture，但使用静态密钥与 token。真实部署需要密钥管理、
   轮换、撤销与独立运营的验证权威。
-- Fencing fixture 可持久化到 JSON 文件，但没有过期、撤销、时钟保证、协调服务或并发写锁。
+- Fencing fixture 现可在 JSON 文件中模拟 lease 过期、续期与撤销；它仍没有协调服务、
+  可信时钟保证、生产 lease 存储或并发写锁。
 - 效果验证、生产 lease/fencing、对账与留存属于执行系统或持久工作流产品。
 - 本配方不提供 exactly-once。
 

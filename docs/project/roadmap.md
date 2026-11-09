@@ -116,7 +116,9 @@ key management, database, or expiry/revocation-aware lease store. This is L4
 application-recipe evidence, not a Core capability claim; Core cancellation and
 reauthorization are covered by `pkg/agent` tests and vectors. Stage 3 is not
 complete: a deployed execution service, OS-level power-loss proof, and production
-leases/fencing remain open. See the [test and evidence taxonomy](test-taxonomy.md).
+lease services/coordination remain open; the fixture now models lease expiry,
+renewal, and revocation locally. See the
+[test and evidence taxonomy](test-taxonomy.md).
 
 ### Consumer and Contract Baseline
 

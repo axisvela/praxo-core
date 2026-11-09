@@ -61,6 +61,10 @@ GOWORK=off go test -mod=readonly -run LongRunning -v ./...
 | Partial temp file | a leftover `.tmp` file is ignored; the last committed state and idempotency key remain intact |
 | Fencing token | a worker holding an old epoch cannot complete; the new owner increments the epoch and completes once |
 | Durable fencing | owner, epoch, and completion survive restart; stale epochs are still rejected |
+| Lease expiry | an expired lease cannot complete; a new owner acquires the next epoch |
+| Lease renewal | renewal before expiry extends the lease and preserves completion |
+| Lease revocation | revocation blocks the old owner; a new owner can reacquire |
+| Lease restart | expiry and revocation survive a restart |
 | Independent verifier process | the execution service calls a separate verifier process and does not hold the signing secret; forged receipts are rejected |
 | Bearer/TLS boundary | missing or wrong bearer token is rejected before any effect; a test TLS certificate is used |
 | Fault before rename | a simulated crash before the rename boundary leaves the last committed state; the temp file is ignored |
@@ -98,8 +102,9 @@ implementation, or production effect ledger.
 - The verifier is a separate loopback process fixture, but it uses a static
   secret and token. A real deployment needs key management, rotation,
   revocation, and an independently operated verification authority.
-- The fencing fixture can persist to a JSON file, but it has no expiry,
-  revocation, clock guarantees, coordination service, or concurrent-writer lock.
+- The fencing fixture now models lease expiry, renewal, and revocation in a JSON
+  file. It still has no coordination service, trusted clock guarantees,
+  production lease storage, or concurrent-writer lock.
 - Effect verification, production leases/fencing, reconciliation, and retention
   belong to the execution system or a durable workflow product.
 - This recipe does not provide exactly-once execution.
