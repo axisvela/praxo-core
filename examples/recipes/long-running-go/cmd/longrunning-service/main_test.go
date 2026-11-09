@@ -10,6 +10,7 @@ import (
 	"os/exec"
 	"path/filepath"
 	"runtime"
+	"strconv"
 	"strings"
 	"sync"
 	"testing"
@@ -156,6 +157,120 @@ func TestStandaloneService(t *testing.T) {
 			t.Fatalf("%s status=%d", path, response.StatusCode)
 		}
 	}
+
+	id := postOperation(t, addr, "key-1")
+	if code := statusCode(t, addr, id); code != http.StatusOK {
+		t.Fatalf("status query status=%d", code)
+	}
+}
+
+func TestStandaloneServiceLoadFault(t *testing.T) {
+	raw := os.Getenv("PRAXO_LOAD_SUBMISSIONS")
+	if raw == "" {
+		t.Skip("PRAXO_LOAD_SUBMISSIONS is not set")
+	}
+	count, err := strconv.Atoi(raw)
+	if err != nil || count < 2 {
+		t.Fatalf("invalid PRAXO_LOAD_SUBMISSIONS=%q", raw)
+	}
+	binary := buildService(t)
+	state := filepath.Join(t.TempDir(), "operations.json")
+	command, addr := startService(t, binary, state, "secret", "")
+	stopped := make(chan struct{})
+	stopOnce := sync.Once{}
+	kill := func() {
+		stopOnce.Do(func() {
+			stopService(command)
+			close(stopped)
+		})
+	}
+
+	acknowledged := make(chan string, count)
+	failures := make(chan error, count)
+	firstAck := make(chan struct{}, 1)
+	var wait sync.WaitGroup
+	for index := 0; index < count; index++ {
+		wait.Add(1)
+		go func(key string) {
+			defer wait.Done()
+			id, err := postOperationResult(addr, key)
+			if err != nil {
+				failures <- err
+				return
+			}
+			acknowledged <- id
+			select {
+			case firstAck <- struct{}{}:
+			default:
+			}
+		}(fmt.Sprintf("key-%d", index))
+	}
+	go func() {
+		<-firstAck
+		time.Sleep(50 * time.Millisecond)
+		kill()
+	}()
+
+	wait.Wait()
+	kill()
+	close(acknowledged)
+	close(failures)
+	acked := map[string]bool{}
+	for id := range acknowledged {
+		acked[id] = true
+	}
+	if len(acked) == 0 {
+		t.Fatal("no submissions were acknowledged before the fault")
+	}
+
+	command, addr = startService(t, binary, state, "secret", "")
+	defer stopService(command)
+	for id := range acked {
+		if code := statusCode(t, addr, id); code != http.StatusOK {
+			t.Fatalf("acknowledged operation %s was lost after the fault", id)
+		}
+	}
+}
+
+func postOperationResult(addr, key string) (string, error) {
+	request, err := http.NewRequest(http.MethodPost, "http://"+addr+"/operations", strings.NewReader(`{"key":"`+key+`"}`))
+	if err != nil {
+		return "", err
+	}
+	request.Header.Set("Authorization", "Bearer secret")
+	request.Header.Set("Content-Type", "application/json")
+	response, err := (&http.Client{Timeout: 10 * time.Second}).Do(request)
+	if err != nil {
+		return "", err
+	}
+	defer response.Body.Close()
+	if response.StatusCode != http.StatusOK {
+		return "", fmt.Errorf("submit %s status=%d", key, response.StatusCode)
+	}
+	var submitted struct {
+		ID string `json:"id"`
+	}
+	if err := json.NewDecoder(response.Body).Decode(&submitted); err != nil {
+		return "", err
+	}
+	if submitted.ID == "" {
+		return "", fmt.Errorf("submit %s returned no id", key)
+	}
+	return submitted.ID, nil
+}
+
+func TestStandaloneServicePostgresLease(t *testing.T) {
+	dsn := os.Getenv("PRAXO_POSTGRES_DSN")
+	if dsn == "" {
+		t.Skip("PRAXO_POSTGRES_DSN is not set")
+	}
+	if testing.Short() {
+		t.Skip("standalone service test builds and runs a child process")
+	}
+	binary := buildService(t)
+	state := filepath.Join(t.TempDir(), "operations.json")
+	command, addr := startService(t, binary, state, "secret", "", "-lock-backend", "postgres", "-lock-dsn", dsn, "-lock-resource", "operations-service-test")
+	defer stopService(command)
 
 	id := postOperation(t, addr, "key-1")
 	if code := statusCode(t, addr, id); code != http.StatusOK {
