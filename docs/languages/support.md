@@ -137,7 +137,7 @@ its latest version matches the manifest at the release tag.
 | Elixir | `0.4.0` | Hex `0.4.0` | current |
 | Erlang | `0.4.0` | Hex `0.4.0` | current |
 | Ruby | `0.4.1` | RubyGems `0.4.1` | current |
-| PHP | `0.4.1` | Packagist `0.4.0` | source prepared; registry pending |
+| PHP | `0.4.1` | Packagist `0.4.0` | source released; registry pending |
 | Lua | rockspec `0.4.0-1`; source tag `0.4.0` | LuaRocks `0.4.0-1` | current |
 | Dart | `0.1.1` | pub.dev `0.1.1` | current |
 | Julia | `0.2.0` | General Registry PR #174826 open | pending |

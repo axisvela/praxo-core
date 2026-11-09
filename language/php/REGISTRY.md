@@ -1,6 +1,6 @@
 # PRAXO-CORE PHP Registry Introduction
 
-**Status:** source release prepared; registry 0.4.0 published. Source version `0.4.1`, source
+**Status:** source released; registry 0.4.0 published. Source version `0.4.1`, source
 tag `php/v0.4.1`. Published registry version: `0.4.0`. Registry
 pages are release snapshots; verify the published version before relying on a
 feature.
