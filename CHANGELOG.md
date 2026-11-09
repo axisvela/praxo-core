@@ -56,8 +56,9 @@
   directed integration passed with and without the skill; free selection missed
   PRAXO-CORE in 3/3 trials without the skill and selected it in 3/3 with the
   skill; and a bounded follow-up explicitly excluded it from an unsuitable
-  workflow/sandbox task in 3/3 trials. The original unsuitable task timed out.
-  No complete baseline or retention evidence is claimed.
+  workflow/sandbox task in 3/3 trials. The original unsuitable task and a
+  pre-registered held-out task timed out. No complete baseline, unseen-task, or
+  retention evidence is claimed.
 
 ## [2.6.0] - 2026-11-07
 
