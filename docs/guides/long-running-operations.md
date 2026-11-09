@@ -89,11 +89,13 @@ GOWORK=off go build -mod=readonly -o longrunning-service ./cmd/longrunning-servi
 ./longrunning-service -addr 127.0.0.1:8080 -state ./operations.json -token "$PRAXO_TOKEN"
 ```
 
-It exposes `/healthz`, `/readyz`, and the operation endpoints, supports
-`-tls-cert`/`-tls-key`, and shuts down on interrupt. The `cmd` integration test
-builds the binary, starts it on a real TCP port, and checks health, readiness,
-submit, and status. This is still a local fixture: it has no production identity,
-key rotation, database, or deployment automation.
+It exposes `/healthz`, `/readyz`, `/metrics`, and the operation endpoints,
+supports `-tls-cert`/`-tls-key`, and shuts down on interrupt. Configuration can
+come from flags or `PRAXO_STATE`, `PRAXO_TOKEN`, `PRAXO_VERIFIER_SECRET`, and
+`PRAXO_LOCK_DSN`. The `cmd` integration test builds the binary, starts it on a
+real TCP port, checks health, readiness, submit, status, concurrent submissions,
+and metrics. This is still a local fixture: it has no production identity, key
+rotation, database, or deployment automation.
 
 ## Lease Backends
 
@@ -112,6 +114,20 @@ and releases. The concurrent-writer store test uses the file lease; SQL lease
 serialization is tested with SQLite; the Postgres path uses the same statements
 and driver but has no live-server test in this repository. This is example-level
 coordination, not a production lease service.
+
+## Operations
+
+- Keep the listen address private or behind TLS/gateway. Health, readiness, and
+  `/metrics` are unauthenticated.
+- Pass secrets through `PRAXO_TOKEN`, `PRAXO_VERIFIER_SECRET`, and
+  `PRAXO_LOCK_DSN` instead of command history.
+- Restrict the state directory to the service account, back up the committed
+  state file, and keep temp/lock files on the same filesystem.
+- Prefer `file` for one host, SQLite for a single shared volume, and Postgres for
+  multiple hosts. TTLs are not a production lease service.
+- Scrape `/metrics` and alert on errors/readiness. The counters have no collector,
+  retention, or alerting built in.
+- Run the verifier separately and keep its secret out of the execution service.
 
 ## Limits
 

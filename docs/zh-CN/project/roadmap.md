@@ -84,7 +84,7 @@ provider fallback、plugin lifecycle、multi-agent、streaming 与 workspace ses
 OS 级断电证明与生产 lease 服务/协调仍未完成；fixture 现已在本地模拟 lease 过期、续期与
 撤销，边界测试记录了并发写入者的丢更新，独立服务二进制也已提供 health/readiness 与
 优雅退出，可配置 file/SQLite/Postgres lease 后端串行化变更（SQLite 已验证；Postgres 需
-live server），进程级崩溃测试覆盖提交边界。
+live server），进程级崩溃测试覆盖提交边界，服务还暴露基础 metrics 并支持环境变量配置。
 
 ### 消费者与契约基线
 

@@ -13,8 +13,11 @@
   graceful shutdown; an integration test starts it on a real TCP port and crashes
   it before and after the rename boundary to check restart recovery. Mutations
   can use a file, SQLite, or Postgres lease, with reload-modify-save under the
-  lease; SQLite is tested locally and Postgres needs a live server. OS-level
-  power loss and production lease coordination remain out of scope.
+  lease; SQLite is tested locally and Postgres needs a live server. The service
+  also exposes basic request/error/operation metrics, accepts state/token/
+  verifier/lock configuration from environment variables, and has a concurrent
+  submission load test. OS-level power loss, metrics collection/retention, and
+  production lease coordination remain out of scope.
 - A Go adapter conformance recipe uses `pkg/conformance` to validate fake model,
   streaming model, tool, and retriever contracts, including mismatch failures.
 - A Go retry safety recipe demonstrates retry predicates, cancellation, the

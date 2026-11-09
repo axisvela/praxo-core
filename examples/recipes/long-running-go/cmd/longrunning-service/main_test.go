@@ -3,12 +3,15 @@ package main
 import (
 	"bufio"
 	"encoding/json"
+	"fmt"
+	"io"
 	"net/http"
 	"os"
 	"os/exec"
 	"path/filepath"
 	"runtime"
 	"strings"
+	"sync"
 	"testing"
 	"time"
 )
@@ -157,6 +160,75 @@ func TestStandaloneService(t *testing.T) {
 	id := postOperation(t, addr, "key-1")
 	if code := statusCode(t, addr, id); code != http.StatusOK {
 		t.Fatalf("status query status=%d", code)
+	}
+}
+
+func TestStandaloneServiceConcurrentSubmits(t *testing.T) {
+	if testing.Short() {
+		t.Skip("standalone service test builds and runs a child process")
+	}
+	binary := buildService(t)
+	state := filepath.Join(t.TempDir(), "operations.json")
+	command, addr := startService(t, binary, state, "secret", "")
+	defer stopService(command)
+
+	const count = 20
+	var wait sync.WaitGroup
+	failures := make(chan error, count)
+	for index := 0; index < count; index++ {
+		wait.Add(1)
+		go func(key string) {
+			defer wait.Done()
+			request, err := http.NewRequest(http.MethodPost, "http://"+addr+"/operations", strings.NewReader(`{"key":"`+key+`"}`))
+			if err != nil {
+				failures <- err
+				return
+			}
+			request.Header.Set("Authorization", "Bearer secret")
+			request.Header.Set("Content-Type", "application/json")
+			response, err := (&http.Client{Timeout: 10 * time.Second}).Do(request)
+			if err != nil {
+				failures <- err
+				return
+			}
+			defer response.Body.Close()
+			if response.StatusCode != http.StatusOK {
+				failures <- fmt.Errorf("submit %s status=%d", key, response.StatusCode)
+			}
+		}(fmt.Sprintf("key-%d", index))
+	}
+	wait.Wait()
+	close(failures)
+	for err := range failures {
+		t.Fatal(err)
+	}
+
+	data, err := os.ReadFile(state)
+	if err != nil {
+		t.Fatal(err)
+	}
+	var persisted struct {
+		Effects    int
+		Operations []struct{ ID string }
+	}
+	if err := json.Unmarshal(data, &persisted); err != nil {
+		t.Fatal(err)
+	}
+	if persisted.Effects != count || len(persisted.Operations) != count {
+		t.Fatalf("effects=%d operations=%d, want %d", persisted.Effects, len(persisted.Operations), count)
+	}
+
+	response, err := (&http.Client{Timeout: 5 * time.Second}).Get("http://" + addr + "/metrics")
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer response.Body.Close()
+	body, err := io.ReadAll(response.Body)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if !strings.Contains(string(body), fmt.Sprintf("praxo_longrunning_operations_total %d", count)) {
+		t.Fatalf("metrics did not report %d operations:\n%s", count, body)
 	}
 }
 
