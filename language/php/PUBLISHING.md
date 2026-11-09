@@ -33,8 +33,10 @@ cp -R language/php/src/Adapters build/praxo-core-php/src/
 cp language/php/api/0.4.1.txt build/praxo-core-php/api/
 ```
 
-Update the split repository `README.md` version and API snapshot reference,
-then:
+Update the split repository `README.md` version and API snapshot reference.
+Ensure its `composer.json` declares `"files": ["src/autoload.php"]` under
+`autoload` and does not hardcode `version`; Packagist derives the version from
+the split tag. Then:
 
 ```bash
 cd build/praxo-core-php
