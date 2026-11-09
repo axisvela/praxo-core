@@ -58,13 +58,14 @@ func (v *effectVerifier) valid(operationID, evidence, receipt string) bool {
 }
 
 type remoteOperations struct {
-	mu       sync.Mutex
-	byKey    map[string]*remoteOperation
-	byID     map[string]*remoteOperation
-	effects  int
-	next     int
-	path     string
-	verifier effectAuthority
+	mu         sync.Mutex
+	byKey      map[string]*remoteOperation
+	byID       map[string]*remoteOperation
+	effects    int
+	next       int
+	path       string
+	verifier   effectAuthority
+	commitHook func(stage string) error
 }
 
 type persistedOperations struct {
@@ -83,9 +84,9 @@ func newRemoteOperationsAt(path string) *remoteOperations {
 
 func newRemoteOperationsWithVerifier(path string, verifier effectAuthority) *remoteOperations {
 	r := &remoteOperations{
-		byKey:   map[string]*remoteOperation{},
-		byID:    map[string]*remoteOperation{},
-		path:    path,
+		byKey:    map[string]*remoteOperation{},
+		byID:     map[string]*remoteOperation{},
+		path:     path,
 		verifier: verifier,
 	}
 	if path == "" {
@@ -140,8 +141,18 @@ func (r *remoteOperations) save() {
 	if err := file.Close(); err != nil {
 		panic(err)
 	}
+	if r.commitHook != nil {
+		if err := r.commitHook("before-rename"); err != nil {
+			panic(err)
+		}
+	}
 	if err := os.Rename(temporary, r.path); err != nil {
 		panic(err)
+	}
+	if r.commitHook != nil {
+		if err := r.commitHook("after-rename"); err != nil {
+			panic(err)
+		}
 	}
 }
 

@@ -4,6 +4,10 @@
 
 ### Added
 
+- The Go long-running recipe now injects deterministic failures before and after
+  the rename boundary, rejects valid uncommitted temp state, and fails closed on
+  corrupt committed state. OS-level power loss and concurrent multi-process
+  writers remain out of scope.
 - A Go adapter conformance recipe uses `pkg/conformance` to validate fake model,
   streaming model, tool, and retriever contracts, including mismatch failures.
 - A Go retry safety recipe demonstrates retry predicates, cancellation, the

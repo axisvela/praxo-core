@@ -78,9 +78,10 @@ provider fallback、plugin lifecycle、multi-agent、streaming 与 workspace ses
 阶段 3 已从 Go 消费者可运行的[长时操作配方](../guides/long-running-operations.md)
 开始，覆盖幂等提交、HTTP 响应丢失、子进程重启恢复、取消请求/确认、Run 取消、完成/
 效果验证区分、verifier 收据、部分写入恢复、fencing token、持久 fencing 与独立 verifier
-进程。它使用带静态 Bearer token 和测试 TLS 的文件/loopback HTTP fixture，不是有身份
-感知的部署服务、生产密钥管理、数据库或支持过期/撤销的 lease store；阶段 3 未完成：
-已部署执行服务、断电/故障注入与生产 lease/fencing 仍未完成。
+进程。文件存储现会注入 rename 边界前后的确定性故障，并要求损坏的已提交状态失败关闭。
+它使用带静态 Bearer token 和测试 TLS 的文件/loopback HTTP fixture，不是有身份感知的
+部署服务、生产密钥管理、数据库或支持过期/撤销的 lease store；阶段 3 未完成：已部署
+执行服务、OS 级断电证明与生产 lease/fencing 仍未完成。
 
 ### 消费者与契约基线
 

@@ -17,8 +17,9 @@ GOWORK=off go test -mod=readonly -run LongRunning -v ./...
 ```
 
 The suite includes a file-backed store, a loopback HTTP service, a child-process
-restart, a separate verifier process, and fencing. They are fixtures, not
-production services. See the
+restart, a separate verifier process, fencing, and deterministic fault injection
+before and after the rename boundary, including fail-closed corrupt state. They
+are fixtures, not production services. See the
 [long-running operations guide](../../../docs/guides/long-running-operations.md).
 
 From the repository root, `python scripts/test_go_longrunning.py -v` repeats the

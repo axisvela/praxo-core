@@ -63,6 +63,10 @@ GOWORK=off go test -mod=readonly -run LongRunning -v ./...
 | Durable fencing | owner, epoch, and completion survive restart; stale epochs are still rejected |
 | Independent verifier process | the execution service calls a separate verifier process and does not hold the signing secret; forged receipts are rejected |
 | Bearer/TLS boundary | missing or wrong bearer token is rejected before any effect; a test TLS certificate is used |
+| Fault before rename | a simulated crash before the rename boundary leaves the last committed state; the temp file is ignored |
+| Fault after rename | a simulated crash after the rename boundary preserves the newly committed state |
+| Valid uncommitted temp | a valid but uncommitted temp file does not override the committed file |
+| Corrupt committed file | startup fails closed instead of silently starting empty |
 
 The fixture can persist to a JSON file and expose it over a loopback HTTP service
 so response loss and restart can be tested through a real transport boundary. It
@@ -72,14 +76,18 @@ implementation, or production effect ledger.
 ## Limits
 
 - The file store writes a temporary file, syncs it, and renames it over the main
-  file. This is not a full crash-consistency proof: the directory is not synced,
-  and the test does not inject power loss, filesystem corruption, or concurrent
-  multi-process writers.
+  file. Deterministic tests inject failure before and after the rename boundary,
+  verify that a valid uncommitted temp file cannot override committed state, and
+  require corrupt committed state to fail closed. This is not a full
+  crash-consistency proof: the directory is not synced, OS-level power loss and
+  committed-file corruption recovery are not exercised, and concurrent
+  multi-process writers remain unsupported.
 - The HTTP service is a loopback test fixture. Its bearer token is static and
   its TLS certificate is a test certificate; it has no identity provider, token
   rotation, tenant binding, rate limiting, or production deployment guarantee.
-- Restart includes a killed child process with the same file, but the test does
-  not inject partial writes, power loss, or filesystem corruption.
+- Restart includes a killed child process with the same file. Fault injection
+  covers the rename boundary; OS-level power loss and committed-file corruption
+  recovery remain untested.
 - In-process or single-file deduplication is not a production exactly-once
   mechanism. A real service must persist the idempotency key and result with
   defined concurrency and retention semantics.
