@@ -11,6 +11,10 @@ on:
       - "scripts/docs_hooks.py"
       - "scripts/test_docs.py"
       - "scripts/test_layout.py"
+      - "scripts/check_registry_state.py"
+      - "scripts/test_registry_state.py"
+      - "language/registry-metadata.json"
+      - "docs/languages/registry-status.md"
       - "**/README*.md"
       - "VERSION"
       - "CHANGELOG*.md"
@@ -50,6 +54,7 @@ jobs:
       - uses: actions/configure-pages@v5
       - run: pip install -r requirements-docs.txt
       - run: mkdocs build --strict
+      - run: python scripts/check_registry_state.py
       - run: python -m unittest discover -s scripts -p "test_*.py" -v
       - uses: actions/upload-pages-artifact@v3
         with:
