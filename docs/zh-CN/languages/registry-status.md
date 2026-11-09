@@ -1,6 +1,6 @@
 # 注册表发布状态
 
-最后核对：2026-11-09（Go `v2.7.0` 已发布，渲染页面待重新审计；
+最后核对：2026-11-09（Go `v2.7.0` 已发布并重新审计渲染页面；
 Python 0.3.2、TypeScript 0.2.2、Java 0.4.1 已发布；
 Go module proxy 与 crates.io 于 2026-11-07 重新核对；其他行来自 2026-11-04/05 审计）。
 
@@ -21,7 +21,7 @@ GitHub Latest 仅代表 Go 参考 Core，不代表最近发布的语言包。
 
 | 语言 | 注册表 | 版本 | 地址 | 状态 |
 | --- | --- | --- | --- | --- |
-| Go | Go module proxy / pkg.go.dev | `v2.7.0` | https://pkg.go.dev/github.com/axisvela/praxo-core/v2 | 已发布；页面待重新审计 |
+| Go | Go module proxy / pkg.go.dev | `v2.7.0` | https://pkg.go.dev/github.com/axisvela/praxo-core/v2 | 已发布；页面已于 2026-11-09 审计 |
 | Python | PyPI | `0.3.2` | https://pypi.org/project/praxo-core/0.3.2/ | 已发布 |
 | TypeScript | npm | `0.2.2` | https://www.npmjs.com/package/@axisvela/praxo-core/v/0.2.2 | 已发布；latest |
 | Java | Maven Central | `0.4.1` | https://repo1.maven.org/maven2/com/axisvela/praxo-core/0.4.1/ | 已发布 |

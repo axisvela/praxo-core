@@ -40,20 +40,19 @@ state, not a promise that every page introduction is current.
 
 ## Current Pilot Page Audit
 
-Checked 2026-11-08 for the four pilot packages; Go `v2.7.0` was released on
-2026-11-09 and its rendered page re-audit is pending.
+Checked 2026-11-09 for the four pilot packages.
 
 | Language | Page | Published version | Current page state | Next action |
 | --- | --- | --- | --- | --- |
-| Go | [pkg.go.dev](https://pkg.go.dev/github.com/axisvela/praxo-core/v2) | `v2.7.0` | `v2.7.0` was released 2026-11-09; the rendered page was not re-audited after the tag and prior verification covers `v2.6.0` | Verify the rendered `v2.7.0` page and mark the row current |
+| Go | [pkg.go.dev](https://pkg.go.dev/github.com/axisvela/praxo-core/v2) | `v2.7.0` | Rendered `v2.7.0` README shows the `@v2.7.0` install command, MIT license, canonical documentation and consumer links; the module proxy `@latest` reports `v2.7.0`; verified 2026-11-09 | No further action |
 | Python | [PyPI](https://pypi.org/project/praxo-core/) | `0.3.2` | Rendered `0.3.2` description includes absolute registry/coding-agent links; verified 2026-11-08 | No further action |
 | TypeScript | [npm](https://www.npmjs.com/package/@axisvela/praxo-core) | `0.2.2` | Rendered `0.2.2` README includes absolute registry/coding-agent links; latest; verified 2026-11-08 | No further action |
 | Java | [Maven Central](https://central.sonatype.com/artifact/com.axisvela/praxo-core) | `0.4.1` | POM is `0.4.1` with sources/javadoc returning 200; Central does not render the README; verified 2026-11-08 | No further action |
 
 The source metadata updates in this repository do not change the already
 published `0.3.2`, `0.2.2`, and `0.4.1` language pages. The Go page follows the
-`v2.7.0` tag. Do not claim that a published page is updated until its registry
-shows the new version and text.
+`v2.7.0` tag and was re-audited on 2026-11-09. Do not claim that another published
+page is updated until its registry shows the new version and text.
 
 Other registries are listed in [Registry Publication Status](registry-status.md).
 They were not all re-audited in this update; use the same checklist at release
