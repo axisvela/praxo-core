@@ -31,7 +31,9 @@ checks concurrent submissions and metrics, and crashes it before and after the
 rename boundary to check restart recovery. A separate
 `cmd/longrunning-verifier` serves `/verify` with its own token and signing secret.
 Token/secret files are re-read on each request, so replacing the file rotates
-credentials without restart; issuance remains external.
+credentials without restart; issuance remains external. `monitoring/` contains
+an example Prometheus scrape config, 15-day retention argument, and alert rules;
+they are config-validated but no live collector is included.
 For a larger load/fault run, set `PRAXO_LOAD_SUBMISSIONS=100` and run
 `TestStandaloneServiceLoadFault`; `python scripts/test_longrunning_service.py`
 runs the module suite, load/fault test, and published-package recipe. See the

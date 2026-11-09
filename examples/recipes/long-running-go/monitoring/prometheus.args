@@ -1,0 +1,2 @@
+--config.file=prometheus.yml
+--storage.tsdb.retention.time=15d

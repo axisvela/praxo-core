@@ -320,6 +320,35 @@ func postOperationToken(addr, key, token string) int {
 	return response.StatusCode
 }
 
+func TestStandaloneServiceMetricsNames(t *testing.T) {
+	if testing.Short() {
+		t.Skip("standalone service test builds and runs a child process")
+	}
+	binary := buildService(t)
+	state := filepath.Join(t.TempDir(), "operations.json")
+	command, addr := startService(t, binary, state, "secret", "")
+	defer stopService(command)
+
+	response, err := (&http.Client{Timeout: 5 * time.Second}).Get("http://" + addr + "/metrics")
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer response.Body.Close()
+	body, err := io.ReadAll(response.Body)
+	if err != nil {
+		t.Fatal(err)
+	}
+	for _, name := range []string{
+		"praxo_longrunning_http_requests_total",
+		"praxo_longrunning_http_errors_total",
+		"praxo_longrunning_operations_total",
+	} {
+		if !strings.Contains(string(body), name) {
+			t.Fatalf("metrics missing %s:\n%s", name, body)
+		}
+	}
+}
+
 func TestStandaloneServiceConcurrentSubmits(t *testing.T) {
 	if testing.Short() {
 		t.Skip("standalone service test builds and runs a child process")

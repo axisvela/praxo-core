@@ -1,0 +1,24 @@
+groups:
+  - name: praxo-longrunning
+    rules:
+      - alert: PraxoLongRunningErrors
+        expr: increase(praxo_longrunning_http_errors_total[5m]) > 0
+        for: 1m
+        labels:
+          severity: warning
+        annotations:
+          summary: PRAXO long-running service is returning errors
+      - alert: PraxoLongRunningDown
+        expr: up{job="praxo-longrunning"} == 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: PRAXO long-running service is down
+      - alert: PraxoLongRunningNoOperations
+        expr: increase(praxo_longrunning_operations_total[15m]) == 0
+        for: 15m
+        labels:
+          severity: info
+        annotations:
+          summary: PRAXO long-running service has no operations

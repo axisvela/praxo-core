@@ -86,8 +86,9 @@ OS 级断电证明与生产 lease 服务/协调仍未完成；fixture 现已在�
 优雅退出，可配置 file/SQLite/Postgres lease 后端串行化变更（SQLite 已验证；Postgres
 gated 测试需 `PRAXO_POSTGRES_DSN`，本环境未验证），进程级崩溃测试覆盖提交边界，服务还
 暴露基础 metrics 并支持环境变量配置，token/secret 文件可在无重启时轮换凭据（签发仍属
-外部），独立 verifier 二进制使用自己的 token 与密钥提供收据校验，另有 gated 100 提交
-负载/故障测试与干净检出复现脚本。
+外部），示例 Prometheus scrape/留存/告警配置经配置校验，独立 verifier 二进制使用自己的
+token 与密钥提供收据校验，另有 gated 100 提交负载/故障测试与干净检出复现脚本。live
+collector/告警仍未验证。
 
 ### 消费者与契约基线
 

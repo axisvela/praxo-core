@@ -116,6 +116,14 @@ SQL 表存储 `name`、`owner` 与 epoch 毫秒的 `expires_at`。变更会获�
 测试。当前 Windows 环境的本地 Postgres 以 `0xC0000142` 退出，因此这里仍未验证 Postgres。
 这是示例级协调，不是生产 lease 服务。
 
+## 监控
+
+`/metrics` 暴露 `praxo_longrunning_http_requests_total`、
+`praxo_longrunning_http_errors_total` 与 `praxo_longrunning_operations_total`。
+`monitoring/prometheus.yml`、`monitoring/alerts.yml` 与 `monitoring/prometheus.args`
+（15 天留存）提供示例 scrape 与告警规则。`python scripts/test_longrunning_monitoring.py`
+校验配置与指标名。仓库不包含 live collector、留存存储或通知渠道。
+
 ## 运维
 
 - 监听地址保持私有或置于 TLS/网关之后；health、readiness 与 `/metrics` 不鉴权。
@@ -124,7 +132,8 @@ SQL 表存储 `name`、`owner` 与 epoch 毫秒的 `expires_at`。变更会获�
 - 替换 token/secret 文件即可无重启轮换凭据；签发、撤销通知与重叠策略仍属外部。
 - 状态目录仅限服务账号访问，备份已提交状态文件，临时/锁文件与状态文件位于同一文件系统。
 - 单机优先 file，单共享卷用 SQLite，多主机用 Postgres；TTL 不是生产 lease 服务。
-- 抓取 `/metrics` 并对错误/readiness 告警；计数器不含 collector、留存或告警。
+- 抓取 `/metrics` 并对错误/readiness 告警；使用 `monitoring/` 示例配置设置 scrape 间隔、
+  留存与告警规则；计数器本身不含 collector、留存或告警。
 - 独立运行 `cmd/longrunning-verifier`，使用自己的 `PRAXO_VERIFIER_SECRET` 与
   `PRAXO_VERIFIER_TOKEN`，执行服务不持有其密钥。
 

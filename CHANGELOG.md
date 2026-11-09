@@ -18,11 +18,12 @@
   verifier/lock configuration from environment variables, re-reads token/secret
   files so credentials rotate without restart, has a concurrent submission load
   test, ships a separate verifier binary with its own token and signing secret,
-  and adds a gated 100-submission load/fault test plus a fresh-checkout
-  reproduction script. Postgres lease tests are gated by
+  adds example Prometheus scrape/retention/alert configs with a config-only
+  validation test, and adds a gated 100-submission load/fault test plus a
+  fresh-checkout reproduction script. Postgres lease tests are gated by
   `PRAXO_POSTGRES_DSN` and remain unverified in this environment. OS-level power
-  loss, metrics collection/retention, and production lease coordination remain
-  out of scope.
+  loss, live metrics collection/alerting, and production lease coordination
+  remain out of scope.
 - A Go adapter conformance recipe uses `pkg/conformance` to validate fake model,
   streaming model, tool, and retriever contracts, including mismatch failures.
 - A Go retry safety recipe demonstrates retry predicates, cancellation, the

@@ -135,6 +135,15 @@ not completed in the current Windows environment because the local server exited
 with `0xC0000142`, so Postgres remains unverified here. This is example-level
 coordination, not a production lease service.
 
+## Monitoring
+
+`/metrics` exposes `praxo_longrunning_http_requests_total`,
+`praxo_longrunning_http_errors_total`, and `praxo_longrunning_operations_total`.
+Example Prometheus scrape and alert rules are in `monitoring/prometheus.yml`,
+`monitoring/alerts.yml`, and `monitoring/prometheus.args` (15-day retention).
+`python scripts/test_longrunning_monitoring.py` validates the configs and metric
+names. No live collector, retention store, or notification channel is included.
+
 ## Operations
 
 - Keep the listen address private or behind TLS/gateway. Health, readiness, and
@@ -147,8 +156,9 @@ coordination, not a production lease service.
   state file, and keep temp/lock files on the same filesystem.
 - Prefer `file` for one host, SQLite for a single shared volume, and Postgres for
   multiple hosts. TTLs are not a production lease service.
-- Scrape `/metrics` and alert on errors/readiness. The counters have no collector,
-  retention, or alerting built in.
+- Scrape `/metrics` and alert on errors/readiness. Use the example
+  `monitoring/` config for scrape interval, retention, and alert rules; the
+  counters themselves have no collector, retention, or alerting built in.
 - Run `cmd/longrunning-verifier` separately with its own `PRAXO_VERIFIER_SECRET`
   and `PRAXO_VERIFIER_TOKEN`, and keep the secret out of the execution service.
 
