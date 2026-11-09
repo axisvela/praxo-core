@@ -13,10 +13,13 @@ on:
       - "scripts/test_layout.py"
       - "scripts/check_registry_state.py"
       - "scripts/test_registry_state.py"
+      - "scripts/check_registry_pages.py"
+      - "scripts/test_registry_pages.py"
       - "scripts/check_consumer_pins.py"
       - "scripts/test_consumer_pins.py"
       - "language/registry-metadata.json"
       - "docs/languages/registry-status.md"
+      - "docs/languages/registry-pages.md"
       - "docs/getting-started/agent-integration.json"
       - "examples/consumer-go/**"
       - "examples/consumer-python/**"
@@ -62,6 +65,7 @@ jobs:
       - run: pip install -r requirements-docs.txt
       - run: mkdocs build --strict
       - run: python scripts/check_registry_state.py
+      - run: python scripts/check_registry_pages.py
       - run: python scripts/check_consumer_pins.py
       - run: python -m unittest discover -s scripts -p "test_*.py" -v
       - uses: actions/upload-pages-artifact@v3
