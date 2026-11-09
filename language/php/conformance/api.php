@@ -42,9 +42,24 @@ function apiSnapshot(): string
     return implode("\n", $lines) . "\n";
 }
 
+function packageVersion(): string
+{
+    $manifest = json_decode(
+        (string) file_get_contents(dirname(__DIR__) . '/composer.json'),
+        true,
+        flags: JSON_THROW_ON_ERROR,
+    );
+    $version = is_array($manifest) ? ($manifest['version'] ?? null) : null;
+    if (!is_string($version) || $version === '') {
+        throw new \RuntimeException('composer.json: missing version');
+    }
+    return $version;
+}
+
 function checkApi(): int
 {
-    $path = repoRoot() . '/language/php/api/0.3.0.txt';
+    $version = packageVersion();
+    $path = repoRoot() . '/language/php/api/' . $version . '.txt';
     if (!is_file($path)) {
         fwrite(STDERR, "missing API snapshot: {$path}\n");
         return 2;
@@ -55,7 +70,7 @@ function checkApi(): int
         echo "api snapshot ok\n";
         return 0;
     }
-    fwrite(STDERR, "api snapshot mismatch; run: php language/php/conformance/run.php --api-snapshot > language/php/api/0.3.0.txt\n");
+    fwrite(STDERR, "api snapshot mismatch; run: php language/php/conformance/run.php --api-snapshot > language/php/api/{$version}.txt\n");
     return 1;
 }
 

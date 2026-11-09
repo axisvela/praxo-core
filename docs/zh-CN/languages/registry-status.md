@@ -41,6 +41,9 @@ GitHub Latest 仅代表 Go 参考 Core，不代表最近发布的语言包。
 | R | r-universe | `0.5.0` | https://axisvela.r-universe.dev/praxocore | 仅 r-universe；未发布 CRAN |
 | Nim | nim-lang/packages（Nimble） | `0.1.1` | https://github.com/axisvela/praxo-core-nim | split repo 已发布；nim-lang/packages PR #3600 已于 2026-11-05 合并；安装 smoke 未记录；nimpkgs 待重新抓取 |
 
+PHP 源码 `php/v0.4.1` 已准备，包含 Composer `autoload.files` 与 `api/0.4.1.txt`；
+在 split `v0.4.1` tag 发布前，Packagist 仍为 `0.4.0`。
+
 ## 已上传或等待索引
 
 | 语言 | 注册表 | 版本 | 地址 | 状态 |

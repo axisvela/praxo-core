@@ -48,6 +48,10 @@ GitHub Latest represents the Go Reference Core only, not the last language packa
 | R | r-universe | `0.5.0` | https://axisvela.r-universe.dev/praxocore | r-universe only; CRAN not published |
 | Nim | nim-lang/packages (Nimble) | `0.1.1` | https://github.com/axisvela/praxo-core-nim | split repo published; nim-lang/packages PR #3600 merged 2026-11-05; install smoke not recorded; nimpkgs re-crawl pending |
 
+PHP source `php/v0.4.1` is prepared with Composer `autoload.files` and
+`api/0.4.1.txt`; Packagist remains `0.4.0` until the split `v0.4.1` tag is
+published.
+
 ## Uploaded or awaiting indexing
 
 | Language | Registry | Version | Address | Status |

@@ -16,10 +16,13 @@
 
 ### Fixed
 
-- The PHP package manifest now declares `src/autoload.php` through
-  `autoload.files`, so Composer consumers load the SDK classes. Published `0.4.0`
-  does not contain this metadata; the consumer starter and guide document the
-  bridge until the next PHP package release.
+- PHP source `0.4.1` is prepared with a Composer `autoload.files` entry for
+  `src/autoload.php`, so Composer consumers load the SDK classes. Published
+  `0.4.0` does not contain this metadata; the consumer starter and guide
+  document the bridge until the split `v0.4.1` tag is published. The source
+  release also carries the additive `Praxo\Core\Adapters\OpenAICompatible`
+  adapter and `api/0.4.1.txt`, and the conformance API check now derives the
+  snapshot version from `composer.json` instead of a hardcoded `0.3.0` path.
 
 ## [2.7.0] - 2026-11-09
 

@@ -1,12 +1,29 @@
 # PHP Core Release Notes
 
-## Unreleased
+## 0.4.1 - 2026-11-09
+
+Source release tag `php/v0.4.1`; Packagist publication from split tag `v0.4.1`
+is pending. The latest published package remains
+`axisvela/praxo-core==0.4.0`.
+
+### Added
+
+- Optional `Praxo\Core\Adapters\OpenAICompatible` adapter. It is not required
+  by the Core and is not included in the `0.4.0` package.
 
 ### Fixed
 
 - `composer.json` now declares `src/autoload.php` through `autoload.files`, so a
   Composer consumer loads the SDK classes. Published `0.4.0` does not contain
-  this metadata; the next PHP package release will.
+  this metadata; consumers on `0.4.0` must require the package autoload file
+  after `vendor/autoload.php` until `0.4.1` is published.
+- The conformance API check reads the snapshot version from `composer.json`
+  instead of a hardcoded `0.3.0` path.
+
+### Compatibility
+
+- The new adapter is additive. Existing `0.4.0` classes and methods are
+  unchanged; `api/0.4.1.txt` adds only the adapter surface.
 
 ## 0.4.0 - 2026-11-02
 

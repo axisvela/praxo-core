@@ -29,7 +29,7 @@
 | Go 参考 API 与共享 Wire 产物（事件、错误、JSON Schema 子集、插件） | 已实现；按发布 revision 验证 | `spec/` 中的规范文件与向量；不证明真实 provider 或产品部署 |
 | Tool、Model、Checkpoint Wire 描述 | 已实现；`SPEC_VERSION` 0.2.0 的描述性文件 | 共享 Tool/Model 形状与 Checkpoint allowlist envelope 属于 Wire；Go checkpoint 与解析后 tool-call 投影标记为 `"wire": false`，不是冻结的跨语言契约 |
 | Go、Python、TypeScript、Java 独立消费者 | 已实现；在各自标注 revision 验证 | 发布包安装、构建与确定性允许/拒绝检查；属于集成证据，不是采用证据 |
-| Ruby、PHP、Elixir、Lua 独立消费者 | 已实现；四个源码模式本地检查通过；配置代理 CA 后 RubyGems、Hex、LuaRocks 安装均本地通过；已发布 PHP `0.4.0` 的 Composer 安装在使用文档中的包 autoload 桥接后通过 | 发布包安装、构建与确定性允许/拒绝检查；扩展语言 Starter，不属于四语言治理试点 |
+| Ruby、PHP、Elixir、Lua 独立消费者 | 已实现；四个源码模式本地检查通过；配置代理 CA 后 RubyGems、Hex、LuaRocks 安装均本地通过；已发布 PHP `0.4.0` 的 Composer 安装在使用文档中的包 autoload 桥接后通过。PHP 源码 `0.4.1` 已准备，包含 `autoload.files` 与 `api/0.4.1.txt`；Packagist 发布待完成 | 发布包安装、构建与确定性允许/拒绝检查；扩展语言 Starter，不属于四语言治理试点 |
 | Python 发布包升级 | 已实现；由 CI 验证 | 安装 PyPI `0.2.4`，将不变消费者升级到 `0.3.0`，并重跑治理兼容检查；仅一个版本对，不是通用升级保证 |
 | TypeScript 发布包升级 | 已实现；由 CI 验证 | 安装 npm `0.1.5`，将不变消费者升级到 `0.2.0`，并重跑 starter/治理检查；仅一个版本对，不是通用升级保证 |
 | Java 发布包升级 | 已实现；由 CI 验证 | 解析 Maven Central `0.3.0`，将不变消费者升级到 `0.4.0`，并重跑 starter/治理检查；仅一个版本对，不是通用升级保证 |

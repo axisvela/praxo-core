@@ -5,6 +5,8 @@
 The PHP package is `axisvela/praxo-core` on Packagist. Its publication source is
 the split repository `axisvela/praxo-core-php`. Tag `v0.4.0` was pushed from
 main-repository tag `php/v0.4.0`; `v0.3.0` and `v0.2.0` remain available.
+Source `0.4.1` and `api/0.4.1.txt` are prepared; split tag `v0.4.1` and
+Packagist publication are pending.
 
 Packagist does not receive a manual upload from this repository; it reads the
 split repository's Composer metadata and tags. Verify the Packagist package page
@@ -15,7 +17,7 @@ after the push/webhook delay.
 ```bash
 php language/php/conformance/run.php
 php language/php/tests/run.php
-php language/php/conformance/run.php --api-snapshot > language/php/api/0.4.0.txt
+php language/php/conformance/run.php --api-snapshot > language/php/api/0.4.1.txt
 php language/php/conformance/run.php --check-api
 ```
 
@@ -27,7 +29,8 @@ tests and conformance checks directly.
 ```bash
 gh repo clone axisvela/praxo-core-php build/praxo-core-php
 cp language/php/src/*.php build/praxo-core-php/src/
-cp language/php/api/0.4.0.txt build/praxo-core-php/api/
+cp -R language/php/src/Adapters build/praxo-core-php/src/
+cp language/php/api/0.4.1.txt build/praxo-core-php/api/
 ```
 
 Update the split repository `README.md` version and API snapshot reference,
@@ -36,10 +39,10 @@ then:
 ```bash
 cd build/praxo-core-php
 git add -A
-git commit -m "release(php): 0.4.0"
-git tag -a v0.4.0 -m "praxo-core PHP 0.4.0"
+git commit -m "release(php): 0.4.1"
+git tag -a v0.4.1 -m "praxo-core PHP 0.4.1"
 git push origin main
-git push origin v0.4.0
+git push origin v0.4.1
 ```
 
 The split repository uses `vX.Y.Z` tags; the main repository uses
