@@ -6,7 +6,8 @@
 interactive 2FA OTP. Hex reports `0.4.0`, `0.3.0`, `0.2.0`, and `0.1.1` for
 `praxo_core`. HexDocs are published at
 <https://praxo-core.hexdocs.pm/0.4.0/> by
-`.github/workflows/elixir-release.yml`.
+`.github/workflows/elixir-release.yml`. Source `0.4.1` and `api/0.4.1.txt` are
+prepared; Hex publication is pending.
 
 ## Build
 

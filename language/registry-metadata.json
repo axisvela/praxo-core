@@ -105,11 +105,11 @@
     "published_version": "0.4.0",
     "registry": "Hex",
     "source_install": "{:praxo_core, \"~> 0.4.0\"}",
-    "source_version": "0.4.0",
-    "status": "published",
-    "tag": "elixir/v0.4.0",
+    "source_version": "0.4.1",
+    "status": "source release prepared; registry 0.4.0 published",
+    "tag": "elixir/v0.4.1",
     "tier": "Core",
-    "url": "https://hex.pm/packages/praxo_core/0.4.0"
+    "url": "https://hex.pm/packages/praxo_core"
   },
   "Erlang": {
     "dir": "language/erlang",
@@ -217,9 +217,9 @@
     "published_version": "0.4.0-1",
     "registry": "LuaRocks",
     "source_install": "luarocks install praxo-core",
-    "source_version": "0.4.0-1",
-    "status": "published",
-    "tag": "lua/v0.4.0",
+    "source_version": "0.4.1-1",
+    "status": "source release prepared; registry 0.4.0-1 published",
+    "tag": "lua/v0.4.1",
     "tier": "Core",
     "url": "https://luarocks.org/modules/hanhhuiwen/praxo-core"
   },

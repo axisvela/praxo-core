@@ -13,6 +13,8 @@
   starters. RubyGems, Hex, and LuaRocks installs were verified locally after
   configuring the proxy CA; the Composer install of published `0.4.0` passed with
   the documented package-autoload bridge.
+- Elixir and Lua source `0.4.1` prepare API snapshots and the optional
+  OpenAI-compatible adapters; Hex and LuaRocks publication remain pending.
 
 ### Fixed
 
@@ -24,6 +26,9 @@
   `Praxo\Core\Adapters\OpenAICompatible` adapter and `api/0.4.1.txt`, and the
   conformance API check now derives the snapshot version from `composer.json`
   instead of a hardcoded `0.3.0` path.
+- The Ruby consumer CI job installs the pinned gem explicitly, and the Lua
+  consumer CI job installs into a temporary LuaRocks tree instead of assuming a
+  writable system tree.
 
 ## [2.7.0] - 2026-11-09
 

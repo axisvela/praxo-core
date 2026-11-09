@@ -106,10 +106,10 @@ Registry values below were checked against the public registries on 2026-11-05.
 | Java | `java/v0.4.1` | Maven Central `com.axisvela:praxo-core:0.4.1` published | Central validated and published; post-publication consumer check passed locally |
 | Rust | `rust/v0.3.0` | crates.io `praxo-core==0.3.0` published; `0.1.4` historical | Recorded for `0.1.4` only; not rerun for `0.3.0` |
 | C# | `csharp/v0.3.0` | NuGet `Praxo.Core==0.3.0` published | Not recorded |
-| Elixir | `elixir/v0.4.0` | Hex `praxo_core==0.4.0` published; `0.3.0`, `0.2.0` historical | Extended starter added; Hex `0.4.0` resolved in a clean Mix project and allow/deny passed locally |
+| Elixir | `elixir/v0.4.1` | Hex `praxo_core==0.4.0` published; source `0.4.1` prepared with the optional OpenAI-compatible adapter; `0.3.0`, `0.2.0` historical | Extended starter added; Hex `0.4.0` resolved in a clean Mix project and allow/deny passed locally; `0.4.1` publication pending |
 | Erlang | `erlang/v0.4.0` | Hex `praxo_core_erlang==0.4.0` published; `0.3.1`, `0.2.0` historical | Not rerun for `0.4.0`; historical `0.1.1` smoke |
 | Ruby | `ruby/v0.4.1` | RubyGems `praxo-core==0.4.1` published; `0.4.0`, `0.3.0`, `0.2.0` historical | Extended starter added; RubyGems `0.4.1` installed into a clean gem home and allow/deny passed locally |
-| Lua | `lua/v0.4.0` | LuaRocks `praxo-core==0.4.0-1`; `0.3.0-1`, `0.2.0-1` also published | Extended starter added; LuaRocks `0.4.0-1` installed into a clean tree and allow/deny passed locally |
+| Lua | `lua/v0.4.1` | LuaRocks `praxo-core==0.4.0-1`; source `0.4.1` and rockspec `0.4.1-1` prepared with the optional OpenAI-compatible adapter; `0.3.0-1`, `0.2.0-1` also published | Extended starter added; LuaRocks `0.4.0-1` installed into a clean tree and allow/deny passed locally; `0.4.1-1` publication pending |
 | PHP | `php/v0.4.1` | Packagist `axisvela/praxo-core==0.4.0` published; `v0.4.1` source prepared, publication pending; `v0.3.0`, `v0.2.0` historical | Extended starter added; Composer install of published `0.4.0` passed locally with the package-autoload bridge; source `0.4.1` declares `autoload.files` |
 | Dart | `dart/v0.1.1` | pub.dev `praxo_core==0.1.1` | Recorded for `0.1.1` |
 | Julia | `julia/v0.2.0` | General Registry PR #174826 open via mirror `0.2.0` | Not recorded |
@@ -134,11 +134,11 @@ its latest version matches the manifest at the release tag.
 | Java | `0.4.1` | Maven Central `0.4.1` | current |
 | Rust | `0.3.0` | crates.io `0.3.0` | current |
 | C# | `0.3.0` | NuGet `0.3.0` | current |
-| Elixir | `0.4.0` | Hex `0.4.0` | current |
+| Elixir | `0.4.1` | Hex `0.4.0` | source prepared; registry pending |
 | Erlang | `0.4.0` | Hex `0.4.0` | current |
 | Ruby | `0.4.1` | RubyGems `0.4.1` | current |
 | PHP | `0.4.1` | Packagist `0.4.0` | source released; registry pending |
-| Lua | rockspec `0.4.0-1`; source tag `0.4.0` | LuaRocks `0.4.0-1` | current |
+| Lua | rockspec `0.4.1-1`; source tag `0.4.1` | LuaRocks `0.4.0-1` | source prepared; registry pending |
 | Dart | `0.1.1` | pub.dev `0.1.1` | current |
 | Julia | `0.2.0` | General Registry PR #174826 open | pending |
 | MATLAB | `0.2.1` | File Exchange `185166` | current |

@@ -1,5 +1,15 @@
 # Lua Core Release Notes
 
+## 0.4.1 - 2026-11-09
+
+Source release tag `lua/v0.4.1`; LuaRocks publication is pending. The latest
+published rock remains `praxo-core==0.4.0-1`.
+
+### Added
+
+- Optional `praxo.openai_compatible` adapter, included by the new rockspec.
+- API snapshot `api/0.4.1.txt` and rockspec `0.4.1-1`.
+
 ## 0.4.0 - 2026-11-02
 
 Source release tag `lua/v0.4.0`. LuaRocks publishes rock revision `0.4.0-1`

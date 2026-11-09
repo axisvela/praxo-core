@@ -10,12 +10,13 @@ The normative contract is [`spec/`](../../spec/README.md); Go remains the
 reference implementation.
 
 - `SPEC_VERSION`: `0.2.0`
-- Core version: `0.4.0`
+- Core version: `0.4.1`
 - Tier: core
 - License: MIT
 - Dependencies: Lua standard library only
-- LuaRocks page: `praxo-core@0.4.0-1`; releases are built and published by
-  `.github/workflows/lua-release.yml`
+- LuaRocks page: `praxo-core@0.4.0-1` published; source `0.4.1-1` is prepared
+  with the optional OpenAI-compatible adapter. Releases are built and published
+  by `.github/workflows/lua-release.yml`
 
 ## Registry and Coding-Agent Entry
 
@@ -82,5 +83,5 @@ options.max_steps = 8
 
 ## Release
 
-Tag shape: `lua/v0.4.0`. The tag targets `SPEC_VERSION` `0.2.0`. See
+Tag shape: `lua/v0.4.1`. The tag targets `SPEC_VERSION` `0.2.0`. See
 [CHANGELOG.md](CHANGELOG.md) for per-release changes and compatibility notes.

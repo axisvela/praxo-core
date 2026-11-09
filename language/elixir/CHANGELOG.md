@@ -1,5 +1,16 @@
 # Elixir Core Release Notes
 
+## 0.4.1 - 2026-11-09
+
+Source release tag `elixir/v0.4.1`; Hex publication is pending. The latest
+published Hex package remains `praxo_core==0.4.0`.
+
+### Added
+
+- Optional `Praxo.OpenAICompatible` adapter. It is additive and not required by
+  the Core.
+- API snapshot `api/0.4.1.txt`.
+
 ## 0.4.0 - 2026-11-02
 
 Source release tag `elixir/v0.4.0`. The Hex package `praxo_core==0.4.0` is

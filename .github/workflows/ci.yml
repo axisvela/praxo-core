@@ -138,7 +138,7 @@ jobs:
       - uses: ruby/setup-ruby@v1
         with:
           ruby-version: "3.4"
-          bundler-cache: true
+      - run: bundle install
       - run: bundle exec ruby test_starter.rb
 
   current-php-consumer:
@@ -177,16 +177,17 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: sudo apt-get update && sudo apt-get install -y lua5.4 luarocks
-      - run: luarocks --lua-version 5.4 install praxo-core 0.4.0-1
-      - name: Run against the installed rock
+      - name: Install the rock and run outside the repository
         shell: bash
         run: |
+          tree="$RUNNER_TEMP/praxo-luarocks"
+          luarocks --lua-version 5.4 --tree "$tree" install praxo-core 0.4.0-1
           consumer="$RUNNER_TEMP/praxo-lua-consumer"
           mkdir -p "$consumer"
           cp starter.lua test_starter.lua "$consumer"
           cd "$consumer"
-          eval "$(luarocks --lua-version 5.4 path)"
-          lua5.4 test_starter.lua
+          LUA_PATH="$tree/share/lua/5.4/?.lua;$tree/share/lua/5.4/?/init.lua;;" \
+            lua5.4 test_starter.lua
 
   published-consumer:
     runs-on: ubuntu-latest

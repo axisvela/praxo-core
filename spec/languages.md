@@ -100,7 +100,7 @@ for real providers, platforms, and production behavior is reported separately.
 | Delphi | Core | released | `delphi/v0.2.1` | complete | 11 vectors, native tests, API snapshot/parity; Free Pascal 3.2.2; commercial Delphi unverified |
 | OCaml / Caml | Core | released | `ocaml/v0.3.0` | complete | 11 vectors, native tests, API snapshot/parity; OCaml 4.14.2 bytecode; module `Praxo_core`; opt-in middleware integrated |
 | Objective-C | Core | released | `objc/v0.1.1` | complete | 11 vectors, native tests, API snapshot/parity; opt-in middleware integrated; Windows GNUstep and macOS CI |
-| Elixir | Core | released | `elixir/v0.4.0` | complete | 11 vectors, HITL interrupts, native tests, API snapshot/parity, policy/middleware/lifecycle, cancellation, streaming, SSE, parallel tools, and run-scoped call limits; source `0.4.0`, Hex `praxo_core==0.4.0` |
+| Elixir | Core | released | `elixir/v0.4.1` | complete | 11 vectors, HITL interrupts, native tests, API snapshot/parity, policy/middleware/lifecycle, cancellation, streaming, SSE, parallel tools, and run-scoped call limits; source `0.4.1` prepared with the optional OpenAI-compatible adapter; Hex `praxo_core==0.4.0` remains the published version |
 | Nim | Core | released | `nim/v0.1.1` | complete | 11 vectors, native tests, API snapshot/parity; opt-in middleware integrated |
 | V | Core | released | `v/v0.1.2` | complete | 11 vectors, native tests, API snapshot/parity; opt-in middleware integrated; split VPM repo `axisvela/praxo-core-v` package `praxo-core` tag `0.1.2`; VPM submission pending |
 | D | Core | released | `d/v0.1.0` | complete | 11 vectors, API snapshot; DUB/code.dlang.org `praxo-core==0.1.0` |
@@ -120,7 +120,7 @@ for real providers, platforms, and production behavior is reported separately.
 | Q | Bridge | planned | none | planned | Requires a licensed kdb+/q runtime and a named consumer |
 | Assembly | Bridge / extension | consumer-gated | none | gated | No portable language or ABI; target-specific binding requires a named consumer |
 | Zig | Core | released | `zig/v0.2.0` | complete | 11 vectors, API snapshot; `zig/v0.1.0` remains wire |
-| Lua | Core | released | `lua/v0.4.0` | complete | 11 vectors, HITL interrupts, core tests, API snapshot, middleware/lifecycle authorization, cancellation, streaming, SSE, and batch tool dispatch; source `0.4.0`, rockspec `0.4.0-1`, LuaRocks `praxo-core==0.4.0-1`; release workflow |
+| Lua | Core | released | `lua/v0.4.1` | complete | 11 vectors, HITL interrupts, core tests, API snapshot, middleware/lifecycle authorization, cancellation, streaming, SSE, and batch tool dispatch; source `0.4.1` prepared with rockspec `0.4.1-1` and the optional OpenAI-compatible adapter; LuaRocks `praxo-core==0.4.0-1` remains the published version; release workflow |
 | Scratch | Bridge / extension | planned | none | planned | Extension bridge; implementation requested |
 | COBOL | Core | released | `cobol/v0.4.0` | complete | 11 vectors, HITL interrupts, native/contract tests, API snapshot; caller-owned scoped registries, native agent consumer fixtures, and middleware/lifecycle/cancellation/streaming/SSE/batch-dispatch behavior coverage |
 | Prolog | Bridge | released | `prolog/v0.1.1` | complete | SWI-Prolog wrapper over the bridge CLI; forwarding, UTF-8, errors, and exit codes tested |
