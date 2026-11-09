@@ -36,6 +36,14 @@ this framework.
   a single file.
 - Do not add code comments unless asked.
 
+## Git Identity
+
+- Use tagger and author identity `hanhuiwen <hanhuiwen@axisvela.com>` for release
+  tags and commits when the user has not specified another identity. Apply it per
+  command, for example
+  `git -c user.name=hanhuiwen -c user.email=hanhuiwen@axisvela.com tag -a vX.Y.Z -m "PRAXO-CORE X.Y.Z"`;
+  do not change the global git configuration.
+
 ## Language Implementations
 
 - `spec/` is the normative contract for the Python, TypeScript, Java, and
