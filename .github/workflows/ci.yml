@@ -176,7 +176,7 @@ jobs:
         working-directory: examples/consumer-lua
     steps:
       - uses: actions/checkout@v4
-      - run: sudo apt-get update && sudo apt-get install -y lua5.4 luarocks
+      - run: sudo apt-get update && sudo apt-get install -y lua5.4 liblua5.4-dev luarocks
       - name: Install the rock and run outside the repository
         shell: bash
         run: |
