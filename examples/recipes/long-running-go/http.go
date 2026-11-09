@@ -3,11 +3,20 @@ package longrunning
 import (
 	"encoding/json"
 	"net/http"
+	"os"
 	"strings"
 )
 
 func NewHandler(statePath, token, verifierSecret string) http.Handler {
 	service := newRemoteOperationsWithVerifier(statePath, newEffectVerifier(verifierSecret))
+	if stage := os.Getenv("PRAXO_CRASH_AT"); stage != "" {
+		service.commitHook = func(current string) error {
+			if current == stage {
+				os.Exit(42)
+			}
+			return nil
+		}
+	}
 	return requireBearer(longRunningHandler(service), token)
 }
 

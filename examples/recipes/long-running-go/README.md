@@ -24,7 +24,8 @@ services.
 
 A standalone service binary is available at `cmd/longrunning-service` with
 health/readiness endpoints, bearer auth, optional TLS, and graceful shutdown. The
-command integration test builds and starts the binary on a real TCP port. See the
+command integration test builds and starts the binary on a real TCP port, and
+crashes it before and after the rename boundary to check restart recovery. See the
 [long-running operations guide](../../../docs/guides/long-running-operations.md).
 
 From the repository root, `python scripts/test_go_longrunning.py -v` repeats the

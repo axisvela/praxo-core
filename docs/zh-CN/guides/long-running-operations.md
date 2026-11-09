@@ -64,6 +64,8 @@ GOWORK=off go test -mod=readonly -run LongRunning -v ./...
 | rename 后故障 | 模拟 rename 边界后崩溃，保留新提交状态 |
 | 有效但未提交的临时文件 | 有效的未提交临时文件不会覆盖已提交文件 |
 | 已提交文件损坏 | 启动失败关闭，而不是静默从空状态启动 |
+| rename 前进程崩溃 | 独立服务在提交边界退出；重启保留最后提交状态 |
+| rename 后进程崩溃 | 独立服务在提交后退出；重启保留新操作 |
 
 Fixture 可持久化到 JSON 文件，并通过 loopback HTTP 暴露，从而在真实传输边界上测试响应
 丢失与重启。它仍只展示契约形状，不是持久 worker、lease/fencing 实现或生产效果账本。
@@ -89,8 +91,8 @@ GOWORK=off go build -mod=readonly -o longrunning-service ./cmd/longrunning-servi
   多进程并发写入仍不支持。
 - HTTP 服务是 loopback 测试 fixture。Bearer token 是静态值，TLS 是测试证书；没有身份
   提供商、token 轮换、租户绑定、限流或生产部署保证。
-- 重启包含杀掉子进程并用同一文件重启。故障注入覆盖 rename 边界；OS 级断电和已提交文件
-  损坏恢复仍未演练。
+- 重启包含杀掉子进程并用同一文件重启。进程级崩溃测试会让独立服务在 rename 边界前后退出；
+  OS 级断电和已提交文件损坏恢复仍未演练。
 - 进程内或单文件去重不是生产 exactly-once 机制。真实服务必须持久化幂等键与结果，并
   定义并发与留存语义。
 - 状态查询必须访问权威执行系统，不能只查缓存的 Checkpoint。

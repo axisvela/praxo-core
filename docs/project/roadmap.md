@@ -118,8 +118,9 @@ reauthorization are covered by `pkg/agent` tests and vectors. Stage 3 is not
 complete: a production deployment, OS-level power-loss proof, and production lease
 services/coordination remain open; the fixture now models lease expiry, renewal,
 and revocation locally, a boundary test records lost updates from concurrent
-writers, and a standalone service binary provides health/readiness and graceful
-shutdown. See the [test and evidence taxonomy](test-taxonomy.md).
+writers, a standalone service binary provides health/readiness and graceful
+shutdown, and process-level crash tests cover the commit boundary. See the
+[test and evidence taxonomy](test-taxonomy.md).
 
 ### Consumer and Contract Baseline
 

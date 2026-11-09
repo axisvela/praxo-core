@@ -10,7 +10,8 @@
   and revocation, including persistence across restart. A boundary test records
   lost updates from concurrent writers. The example now builds a standalone
   service binary with health/readiness endpoints, bearer auth, optional TLS, and
-  graceful shutdown; an integration test starts it on a real TCP port. OS-level
+  graceful shutdown; an integration test starts it on a real TCP port and crashes
+  it before and after the rename boundary to check restart recovery. OS-level
   power loss, production lease coordination, and a multi-process writer lock
   remain out of scope.
 - A Go adapter conformance recipe uses `pkg/conformance` to validate fake model,

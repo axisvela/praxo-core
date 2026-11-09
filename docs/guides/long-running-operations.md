@@ -72,6 +72,8 @@ GOWORK=off go test -mod=readonly -run LongRunning -v ./...
 | Fault after rename | a simulated crash after the rename boundary preserves the newly committed state |
 | Valid uncommitted temp | a valid but uncommitted temp file does not override the committed file |
 | Corrupt committed file | startup fails closed instead of silently starting empty |
+| Process crash before rename | the standalone service exits at the commit boundary; restart keeps the last committed state |
+| Process crash after rename | the standalone service exits after commit; restart keeps the new operation |
 
 The fixture can persist to a JSON file and expose it over a loopback HTTP service
 so response loss and restart can be tested through a real transport boundary. It
@@ -105,9 +107,9 @@ key rotation, database, or deployment automation.
 - The HTTP service is a loopback test fixture. Its bearer token is static and
   its TLS certificate is a test certificate; it has no identity provider, token
   rotation, tenant binding, rate limiting, or production deployment guarantee.
-- Restart includes a killed child process with the same file. Fault injection
-  covers the rename boundary; OS-level power loss and committed-file corruption
-  recovery remain untested.
+- Restart includes a killed child process with the same file. Process-level crash
+  tests exit the standalone service before and after the rename boundary;
+  OS-level power loss and committed-file corruption recovery remain untested.
 - In-process or single-file deduplication is not a production exactly-once
   mechanism. A real service must persist the idempotency key and result with
   defined concurrency and retention semantics.
