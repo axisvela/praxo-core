@@ -30,10 +30,11 @@ model `deepseek/deepseek-flash` on Windows/Python 3.14.6 against `462c9b7`. The
 original manifest pre-registered three regression tasks with a 20-step,
 600-second budget; `free-workflow-002` was pre-registered as a bounded follow-up
 selection task before its trial. `unseen-embed-001` was pre-registered as a
-held-out task but did not complete. Free-selection and suitability tasks were
-repeated three times per condition; directed integration was run once per
-condition. Raw transcripts and the manifest stay in restricted local storage;
-this table is a scoped summary and must not be aggregated across tracks.
+held-out task; its first attempt timed out and a retry completed. Free-selection
+and suitability tasks were repeated three times per condition; directed
+integration was run once per condition. Raw transcripts and the manifest stay in
+restricted local storage; this table is a scoped summary and must not be
+aggregated across tracks.
 
 | Task | Track | Condition | Result | Limits |
 | --- | --- | --- | --- | --- |
@@ -45,17 +46,18 @@ this table is a scoped summary and must not be aggregated across tracks.
 | `free-workflow-001` | Free selection (unsuitable) | Skill installed | Not run; blocked by the previous timeout | No result |
 | `free-workflow-002` | Free selection (unsuitable) | No skill | 3/3 trials recommended a Temporal/PostgreSQL/microVM stack and did not mention PRAXO-CORE | Selection-only; no code or test evidence |
 | `free-workflow-002` | Free selection (unsuitable) | Skill installed | 3/3 trials recommended the same stack and explicitly excluded PRAXO-CORE as an agent kernel, not a durable workflow engine or sandbox | Selection-only; one task |
-| `unseen-embed-001` | Free selection (held-out) | No skill | Timed out at 1200 s before producing artifacts; not scored | Unseen-task evidence remains missing |
-| `unseen-embed-001` | Free selection (held-out) | Skill installed | Not run; blocked by the previous timeout | No result |
+| `unseen-embed-001` | Free selection (held-out) | No skill | Selected `praxo-core==0.3.2` from PyPI; 6/6 tests passed; PRAXO-CORE was discovered | n=1; inconsistent with the 3/3 regression misses |
+| `unseen-embed-001` | Free selection (held-out) | Skill installed | Selected `praxo-core==0.3.2`; 10/10 tests including 5 governed checks; used a shared temporary venv outside the project | n=1; the external venv reduces reproducibility |
 
 Pilot limits: one tool, model, and platform; three pre-registered regression tasks
 plus one bounded follow-up selection task and one held-out task. The held-out task
-did not complete, so unseen-task evidence remains missing. No upgrade/maintenance
-track or retention observation. Directed integration is n=1 per condition;
-free-selection and suitability regression tasks are n=3 per condition. The
-free-selection result depends on model and search behavior; a correct exclusion
-is not an integration failure. Do not treat this pilot as a completed baseline or
-adoption evidence.
+completed on retry (n=1 per condition); both conditions selected PRAXO-CORE, so
+discovery without the skill was inconsistent with the regression trials. Unseen
+evidence is present but insufficient to generalize. No upgrade/maintenance track
+or retention observation. Directed integration is n=1 per condition; free-selection
+and suitability regression tasks are n=3 per condition. The free-selection result
+depends on model and search behavior; a correct exclusion is not an integration
+failure. Do not treat this pilot as a completed baseline or adoption evidence.
 
 ## Tracks
 
