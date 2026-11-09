@@ -41,3 +41,15 @@ runs the module suite, load/fault test, and published-package recipe. See the
 
 From the repository root, `python scripts/test_go_longrunning.py -v` repeats the
 flow in a fresh temporary application using the published package.
+
+## Durable Execution Start and Unknown Recovery
+
+The [execution recovery supplement](recovery.md) adds a separate application-owned
+journal for durable start intent, immutable request identity and no blind replay.
+It includes before/after-rename failures and real child-process exit tests. It is
+a teaching adaptation of authorized AKROVELA patterns, not Core-owned operation
+state or proof of AKROVELA offline-admission acceptance.
+
+Run `go test -mod=readonly -run LongRunningExecution -count=1 -v .` here.
+The complete module suite above includes these tests; root Core tests do not
+include this nested module. No new Core API or product integration is required.

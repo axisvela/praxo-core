@@ -13,6 +13,20 @@ PRAXO-CORE 采用 MIT 许可。参见
 - 保留版权声明和第三方声明。
 - 贡献需要 CLA 或等效的重新许可授权。
 
+## AKROVELA Recipe 的限定复用
+
+2026-11-09 获得明确授权：将选定的 AxisVela 自有 AKROVELA 恢复机制去产品化，
+以 MIT 纳入应用 recipe。授权不覆盖仅限 AGPL 的第三方代码，也不改变 AKROVELA
+自身的许可证。内部授权记录保留批准依据和评审范围。
+
+来源为 `axisvela/akrovela` 提交
+`bc8ef5fd0ae34a81debf9d83a494a467adc46f36` 的
+`backend/internal/satellite/agent.go`、`journal.go` 和 `agent_test.go`。
+目标为 `examples/recipes/long-running-go/` 中的 `execution.go`、
+`execution_test.go`、`execution_process_test.go` 及恢复说明。
+只保留通用的持久化启动意图、不确定结果和重试安全机制；不导入产品包，
+不新增 Core 公共 API，也不转移产品权威。
+
 ## 为什么采用 MIT
 
 该框架旨在被以下对象嵌入：

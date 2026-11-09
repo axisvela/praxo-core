@@ -38,6 +38,8 @@ class GoLongRunningRecipeTests(unittest.TestCase):
                         self.assertIn("TestLongRunningCrossProcessRestart", result.stdout)
                         self.assertIn("TestLongRunningIndependentVerifier", result.stdout)
                         self.assertIn("TestLongRunningDurableFencingAfterRestart", result.stdout)
+                        self.assertIn("--- PASS: TestLongRunningExecutionIdempotent", result.stdout)
+                        self.assertIn("--- PASS: TestLongRunningExecutionProcessCrash", result.stdout)
 
 
 if __name__ == "__main__":

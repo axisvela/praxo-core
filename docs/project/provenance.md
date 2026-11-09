@@ -15,6 +15,21 @@ PRAXO-CORE is MIT-licensed. See the
 - Preserve copyright notices and third-party notices.
 - Contributions require a CLA or equivalent relicensing grant.
 
+## Scoped AKROVELA Recipe Reuse
+
+On 2026-11-09 the project owner authorized selected AxisVela-owned AKROVELA
+recovery patterns to be adapted under MIT into application recipes. This grant
+does not cover third-party AGPL-only code and does not change AKROVELA's license.
+The internal authorization record retains the approval reference and review scope.
+
+Source: `axisvela/akrovela` commit
+`bc8ef5fd0ae34a81debf9d83a494a467adc46f36`,
+`backend/internal/satellite/agent.go`, `journal.go` and `agent_test.go`.
+Destination: `examples/recipes/long-running-go/execution.go`,
+`execution_test.go`, `execution_process_test.go` and recovery documentation.
+The adaptations retain only generic durable-start, uncertainty and retry-safety
+behavior; no product package is imported and no Core public API is added.
+
 ## Why MIT
 
 The framework is intended for embedding by:
