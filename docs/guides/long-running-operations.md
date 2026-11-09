@@ -80,6 +80,18 @@ so response loss and restart can be tested through a real transport boundary. It
 still demonstrates the contract shape, not a durable worker, lease/fencing
 implementation, or production effect ledger.
 
+A larger load/fault reproduction is available:
+
+```sh
+PRAXO_LOAD_SUBMISSIONS=100 go test -run TestStandaloneServiceLoadFault -v ./cmd/longrunning-service
+python scripts/test_longrunning_service.py
+```
+
+The first command submits 100 concurrent operations, kills the service after the
+first acknowledgement, restarts it, and verifies every acknowledged operation.
+The second runs module tests, the load/fault test, and the published-package
+recipe from a fresh checkout.
+
 ## Standalone Service
 
 The example module also builds a standalone service:
@@ -114,7 +126,9 @@ The SQL table stores `name`, `owner`, and `expires_at` in epoch milliseconds. A
 mutation acquires the lease, reloads the state file, applies the change, commits,
 and releases. The concurrent-writer store test uses the file lease; SQL lease
 serialization is tested with SQLite; the Postgres path uses the same statements
-and driver but has no live-server test in this repository. This is example-level
+and driver but needs `PRAXO_POSTGRES_DSN` for its gated tests. Live Postgres was
+not completed in the current Windows environment because the local server exited
+with `0xC0000142`, so Postgres remains unverified here. This is example-level
 coordination, not a production lease service.
 
 ## Operations

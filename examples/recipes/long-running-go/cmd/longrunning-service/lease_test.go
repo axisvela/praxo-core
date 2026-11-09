@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"database/sql"
+	"os"
 	"path/filepath"
 	"testing"
 	"time"
@@ -52,6 +53,37 @@ func TestSQLLeaseExpires(t *testing.T) {
 		t.Fatal(err)
 	}
 	releaseB()
+}
+
+func TestSQLLeasePostgres(t *testing.T) {
+	dsn := os.Getenv("PRAXO_POSTGRES_DSN")
+	if dsn == "" {
+		t.Skip("PRAXO_POSTGRES_DSN is not set")
+	}
+	db, err := sql.Open("pgx", dsn)
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer db.Close()
+	lease, err := longrunning.NewSQLLease(context.Background(), db, "pgx", "operations-postgres-test", time.Second)
+	if err != nil {
+		t.Fatal(err)
+	}
+	release, err := lease.Acquire(context.Background(), "a")
+	if err != nil {
+		t.Fatal(err)
+	}
+	ctx, cancel := context.WithTimeout(context.Background(), 100*time.Millisecond)
+	defer cancel()
+	if _, err := lease.Acquire(ctx, "b"); err == nil {
+		t.Fatal("second Postgres lease acquisition succeeded")
+	}
+	release()
+	release, err = lease.Acquire(context.Background(), "b")
+	if err != nil {
+		t.Fatal(err)
+	}
+	release()
 }
 
 func openSQLite(t *testing.T, name string) *sql.DB {

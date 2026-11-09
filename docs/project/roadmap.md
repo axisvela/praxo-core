@@ -122,8 +122,10 @@ writers, a standalone service binary provides health/readiness and graceful
 shutdown, configurable file/SQLite/Postgres lease backends serialize mutations
 (SQLite verified; Postgres needs a live server), process-level crash tests cover
 the commit boundary, the service exposes basic metrics plus environment-based
-configuration, and a separate verifier binary serves receipt checks with its own
-token and secret. See the [test and evidence taxonomy](test-taxonomy.md).
+configuration, a separate verifier binary serves receipt checks with its own
+token and secret, and a gated 100-submission load/fault test plus reproduction
+script exercise acknowledged-operation recovery. Live Postgres remains
+unverified here. See the [test and evidence taxonomy](test-taxonomy.md).
 
 ### Consumer and Contract Baseline
 

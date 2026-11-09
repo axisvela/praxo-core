@@ -70,6 +70,16 @@ GOWORK=off go test -mod=readonly -run LongRunning -v ./...
 Fixture 可持久化到 JSON 文件，并通过 loopback HTTP 暴露，从而在真实传输边界上测试响应
 丢失与重启。它仍只展示契约形状，不是持久 worker、lease/fencing 实现或生产效果账本。
 
+更大规模负载/故障复现：
+
+```sh
+PRAXO_LOAD_SUBMISSIONS=100 go test -run TestStandaloneServiceLoadFault -v ./cmd/longrunning-service
+python scripts/test_longrunning_service.py
+```
+
+第一条命令并发提交 100 个操作，在首次确认后杀掉服务，重启并验证所有已确认操作仍存在。
+第二条从干净检出运行模块测试、负载/故障测试与已发布包配方。
+
 ## 独立服务
 
 示例模块也可构建独立服务：
@@ -99,8 +109,9 @@ health/readiness。它仍是本地 fixture：没有生产身份、密钥轮换�
 
 SQL 表存储 `name`、`owner` 与 epoch 毫秒的 `expires_at`。变更会获取 lease、重新加载状态
 文件、应用变更、提交并释放。并发写入存储测试使用 file lease；SQL lease 串行化已用 SQLite
-测试；Postgres 路径使用相同语句与驱动，但本仓库没有 live server 测试。这是示例级协调，
-不是生产 lease 服务。
+测试；Postgres 路径使用相同语句与驱动，但需要 `PRAXO_POSTGRES_DSN` 才能运行其 gated
+测试。当前 Windows 环境的本地 Postgres 以 `0xC0000142` 退出，因此这里仍未验证 Postgres。
+这是示例级协调，不是生产 lease 服务。
 
 ## 运维
 
