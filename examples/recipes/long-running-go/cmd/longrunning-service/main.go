@@ -29,7 +29,9 @@ func main() {
 	addr := flag.String("addr", "127.0.0.1:0", "listen address")
 	state := flag.String("state", os.Getenv("PRAXO_STATE"), "state file path")
 	token := flag.String("token", os.Getenv("PRAXO_TOKEN"), "bearer token")
+	tokenFile := flag.String("token-file", os.Getenv("PRAXO_TOKEN_FILE"), "bearer token file; re-read on each request")
 	verifierSecret := flag.String("verifier-secret", verifierDefault, "effect verifier secret")
+	verifierSecretFile := flag.String("verifier-secret-file", os.Getenv("PRAXO_VERIFIER_SECRET_FILE"), "verifier secret file; re-read on each verification")
 	tlsCert := flag.String("tls-cert", "", "TLS certificate path")
 	tlsKey := flag.String("tls-key", "", "TLS key path")
 	lockBackend := flag.String("lock-backend", "file", "lease backend: file, sqlite, postgres, or none")
@@ -39,9 +41,27 @@ func main() {
 	lockTTL := flag.Duration("lock-ttl", 30*time.Second, "lease TTL")
 	flag.Parse()
 
-	if *state == "" || *token == "" {
-		fmt.Fprintln(os.Stderr, "missing -state or -token")
+	if *state == "" || (*token == "" && *tokenFile == "") {
+		fmt.Fprintln(os.Stderr, "missing -state or -token/-token-file")
 		os.Exit(2)
+	}
+	var tokenSource longrunning.SecretSource = longrunning.StaticSecret(*token)
+	if *tokenFile != "" {
+		secret, err := longrunning.NewFileSecret(*tokenFile)
+		if err != nil {
+			fmt.Fprintln(os.Stderr, err)
+			os.Exit(1)
+		}
+		tokenSource = secret
+	}
+	var verifierSource longrunning.SecretSource = longrunning.StaticSecret(*verifierSecret)
+	if *verifierSecretFile != "" {
+		secret, err := longrunning.NewFileSecret(*verifierSecretFile)
+		if err != nil {
+			fmt.Fprintln(os.Stderr, err)
+			os.Exit(1)
+		}
+		verifierSource = secret
 	}
 	if (*tlsCert == "") != (*tlsKey == "") {
 		fmt.Fprintln(os.Stderr, "-tls-cert and -tls-key must be provided together")
@@ -103,7 +123,7 @@ func main() {
 		}
 		fmt.Fprintln(w, "ready")
 	})
-	mux.Handle("/", longrunning.NewHandlerWithLease(*state, *token, *verifierSecret, lease, owner))
+	mux.Handle("/", longrunning.NewHandlerWithSecrets(*state, tokenSource, verifierSource, lease, owner))
 
 	var requests, errorsCount, operations atomic.Int64
 	mux.HandleFunc("/metrics", func(w http.ResponseWriter, _ *http.Request) {

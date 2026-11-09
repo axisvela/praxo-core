@@ -104,9 +104,13 @@ GOWORK=off go build -mod=readonly -o longrunning-service ./cmd/longrunning-servi
 It exposes `/healthz`, `/readyz`, `/metrics`, and the operation endpoints,
 supports `-tls-cert`/`-tls-key`, and shuts down on interrupt. Configuration can
 come from flags or `PRAXO_STATE`, `PRAXO_TOKEN`, `PRAXO_VERIFIER_SECRET`, and
-`PRAXO_LOCK_DSN`. The `cmd` integration test builds the binary, starts it on a
+`PRAXO_LOCK_DSN`. Token and verifier secrets can also use `-token-file` and
+`-verifier-secret-file` (the verifier uses `-token-file`/`-secret-file`); file
+values are re-read on each request, so replacing the file rotates credentials
+without a restart. Credential issuance remains an external identity-provider
+responsibility. The `cmd` integration test builds the binary, starts it on a
 real TCP port, checks health, readiness, submit, status, concurrent submissions,
-and metrics. A separate `cmd/longrunning-verifier` serves `/verify` with its own
+token rotation, and metrics. A separate `cmd/longrunning-verifier` serves `/verify` with its own
 bearer token and signing secret, plus health/readiness endpoints. This is still a
 local fixture: it has no production identity, key rotation, database, or
 deployment automation.
@@ -136,7 +140,9 @@ coordination, not a production lease service.
 - Keep the listen address private or behind TLS/gateway. Health, readiness, and
   `/metrics` are unauthenticated.
 - Pass secrets through `PRAXO_TOKEN`, `PRAXO_VERIFIER_SECRET`, and
-  `PRAXO_LOCK_DSN` instead of command history.
+  `PRAXO_LOCK_DSN` instead of command history, or use token/secret files.
+- Replace token/secret files to rotate credentials without restart. Issuance,
+  revocation notification, and overlap policy remain external.
 - Restrict the state directory to the service account, back up the committed
   state file, and keep temp/lock files on the same filesystem.
 - Prefer `file` for one host, SQLite for a single shared volume, and Postgres for

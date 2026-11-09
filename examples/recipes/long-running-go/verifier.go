@@ -6,10 +6,18 @@ import (
 )
 
 func NewVerifierHandler(secret, token string) http.Handler {
-	verifier := newEffectVerifier(secret)
+	return NewVerifierHandlerWithSecrets(StaticSecret(secret), StaticSecret(token))
+}
+
+func NewVerifierHandlerWithSecrets(secret, token SecretSource) http.Handler {
 	handler := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		if r.Method != http.MethodPost || r.URL.Path != "/verify" {
 			http.Error(w, "not found", http.StatusNotFound)
+			return
+		}
+		value, err := secret.Value()
+		if err != nil {
+			http.Error(w, "verifier unavailable", http.StatusInternalServerError)
 			return
 		}
 		var request struct {
@@ -22,8 +30,8 @@ func NewVerifierHandler(secret, token string) http.Handler {
 			return
 		}
 		writeJSON(w, http.StatusOK, map[string]any{
-			"valid": verifier.valid(request.OperationID, request.Evidence, request.Receipt),
+			"valid": newEffectVerifier(value).valid(request.OperationID, request.Evidence, request.Receipt),
 		})
 	})
-	return requireBearer(handler, token)
+	return requireBearerSource(handler, token)
 }

@@ -91,10 +91,13 @@ GOWORK=off go build -mod=readonly -o longrunning-service ./cmd/longrunning-servi
 
 它暴露 `/healthz`、`/readyz`、`/metrics` 和操作端点，支持 `-tls-cert`/`-tls-key`，
 并在收到中断时优雅退出。配置可来自参数或 `PRAXO_STATE`、`PRAXO_TOKEN`、
-`PRAXO_VERIFIER_SECRET`、`PRAXO_LOCK_DSN`。`cmd` 集成测试会构建二进制、在真实 TCP
-端口启动，并检查 health、readiness、提交、状态、并发提交与 metrics。另有
-`cmd/longrunning-verifier` 使用自己的 bearer token 与签名密钥提供 `/verify` 及
-health/readiness。它仍是本地 fixture：没有生产身份、密钥轮换、数据库或部署自动化。
+`PRAXO_VERIFIER_SECRET`、`PRAXO_LOCK_DSN`。token 与 verifier 密钥也可通过
+`-token-file`、`-verifier-secret-file`（verifier 使用 `-token-file`/`-secret-file`）；
+文件值在每个请求重新读取，因此替换文件即可轮换凭据而无需重启。凭据签发仍属外部身份
+提供商。`cmd` 集成测试会构建二进制、在真实 TCP 端口启动，并检查 health、readiness、
+提交、状态、并发提交、token 轮换与 metrics。另有 `cmd/longrunning-verifier` 使用自己的
+bearer token 与签名密钥提供 `/verify` 及 health/readiness。它仍是本地 fixture：没有生产
+身份、密钥签发、数据库或部署自动化。
 
 ## Lease 后端
 
@@ -116,7 +119,9 @@ SQL 表存储 `name`、`owner` 与 epoch 毫秒的 `expires_at`。变更会获�
 ## 运维
 
 - 监听地址保持私有或置于 TLS/网关之后；health、readiness 与 `/metrics` 不鉴权。
-- 通过 `PRAXO_TOKEN`、`PRAXO_VERIFIER_SECRET`、`PRAXO_LOCK_DSN` 传密钥，避免进入命令历史。
+- 通过 `PRAXO_TOKEN`、`PRAXO_VERIFIER_SECRET`、`PRAXO_LOCK_DSN` 传密钥，避免进入命令历史，
+  或使用 token/secret 文件。
+- 替换 token/secret 文件即可无重启轮换凭据；签发、撤销通知与重叠策略仍属外部。
 - 状态目录仅限服务账号访问，备份已提交状态文件，临时/锁文件与状态文件位于同一文件系统。
 - 单机优先 file，单共享卷用 SQLite，多主机用 Postgres；TTL 不是生产 lease 服务。
 - 抓取 `/metrics` 并对错误/readiness 告警；计数器不含 collector、留存或告警。

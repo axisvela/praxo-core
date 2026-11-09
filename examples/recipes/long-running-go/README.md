@@ -30,6 +30,8 @@ The command integration test builds and starts the binary on a real TCP port,
 checks concurrent submissions and metrics, and crashes it before and after the
 rename boundary to check restart recovery. A separate
 `cmd/longrunning-verifier` serves `/verify` with its own token and signing secret.
+Token/secret files are re-read on each request, so replacing the file rotates
+credentials without restart; issuance remains external.
 For a larger load/fault run, set `PRAXO_LOAD_SUBMISSIONS=100` and run
 `TestStandaloneServiceLoadFault`; `python scripts/test_longrunning_service.py`
 runs the module suite, load/fault test, and published-package recipe. See the

@@ -15,10 +15,11 @@
   can use a file, SQLite, or Postgres lease, with reload-modify-save under the
   lease; SQLite is tested locally and Postgres needs a live server. The service
   also exposes basic request/error/operation metrics, accepts state/token/
-  verifier/lock configuration from environment variables, has a concurrent
-  submission load test, ships a separate verifier binary with its own token and
-  signing secret, and adds a gated 100-submission load/fault test plus a
-  fresh-checkout reproduction script. Postgres lease tests are gated by
+  verifier/lock configuration from environment variables, re-reads token/secret
+  files so credentials rotate without restart, has a concurrent submission load
+  test, ships a separate verifier binary with its own token and signing secret,
+  and adds a gated 100-submission load/fault test plus a fresh-checkout
+  reproduction script. Postgres lease tests are gated by
   `PRAXO_POSTGRES_DSN` and remain unverified in this environment. OS-level power
   loss, metrics collection/retention, and production lease coordination remain
   out of scope.

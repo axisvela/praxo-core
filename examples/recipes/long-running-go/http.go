@@ -12,7 +12,11 @@ func NewHandler(statePath, token, verifierSecret string) http.Handler {
 }
 
 func NewHandlerWithLease(statePath, token, verifierSecret string, lease Lease, owner string) http.Handler {
-	service := newRemoteOperationsWithLease(statePath, newEffectVerifier(verifierSecret), lease, owner)
+	return NewHandlerWithSecrets(statePath, StaticSecret(token), StaticSecret(verifierSecret), lease, owner)
+}
+
+func NewHandlerWithSecrets(statePath string, token, verifierSecret SecretSource, lease Lease, owner string) http.Handler {
+	service := newRemoteOperationsWithLease(statePath, secretVerifier{source: verifierSecret}, lease, owner)
 	if stage := os.Getenv("PRAXO_CRASH_AT"); stage != "" {
 		service.commitHook = func(current string) error {
 			if current == stage {
@@ -21,12 +25,33 @@ func NewHandlerWithLease(statePath, token, verifierSecret string, lease Lease, o
 			return nil
 		}
 	}
-	return requireBearer(longRunningHandler(service), token)
+	return requireBearerSource(longRunningHandler(service), token)
+}
+
+type secretVerifier struct {
+	source SecretSource
+}
+
+func (v secretVerifier) valid(operationID, evidence, receipt string) bool {
+	secret, err := v.source.Value()
+	if err != nil {
+		return false
+	}
+	return newEffectVerifier(secret).valid(operationID, evidence, receipt)
 }
 
 func requireBearer(next http.Handler, token string) http.Handler {
+	return requireBearerSource(next, StaticSecret(token))
+}
+
+func requireBearerSource(next http.Handler, token SecretSource) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		if r.Header.Get("Authorization") != "Bearer "+token {
+		value, err := token.Value()
+		if err != nil {
+			http.Error(w, "authentication unavailable", http.StatusInternalServerError)
+			return
+		}
+		if r.Header.Get("Authorization") != "Bearer "+value {
 			w.Header().Set("WWW-Authenticate", `Bearer realm="operations"`)
 			http.Error(w, "unauthorized", http.StatusUnauthorized)
 			return

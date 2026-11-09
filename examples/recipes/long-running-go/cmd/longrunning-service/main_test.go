@@ -278,6 +278,48 @@ func TestStandaloneServicePostgresLease(t *testing.T) {
 	}
 }
 
+func TestStandaloneServiceTokenRotation(t *testing.T) {
+	if testing.Short() {
+		t.Skip("standalone service test builds and runs a child process")
+	}
+	binary := buildService(t)
+	state := filepath.Join(t.TempDir(), "operations.json")
+	tokenFile := filepath.Join(t.TempDir(), "token")
+	if err := os.WriteFile(tokenFile, []byte("secret\n"), 0o600); err != nil {
+		t.Fatal(err)
+	}
+	command, addr := startService(t, binary, state, "ignored", "", "-token-file", tokenFile)
+	defer stopService(command)
+
+	if code := postOperationToken(addr, "key-1", "secret"); code != http.StatusOK {
+		t.Fatalf("original token status=%d", code)
+	}
+	if err := os.WriteFile(tokenFile, []byte("rotated\n"), 0o600); err != nil {
+		t.Fatal(err)
+	}
+	if code := postOperationToken(addr, "key-2", "secret"); code != http.StatusUnauthorized {
+		t.Fatalf("rotated-out token status=%d", code)
+	}
+	if code := postOperationToken(addr, "key-3", "rotated"); code != http.StatusOK {
+		t.Fatalf("rotated-in token status=%d", code)
+	}
+}
+
+func postOperationToken(addr, key, token string) int {
+	request, err := http.NewRequest(http.MethodPost, "http://"+addr+"/operations", strings.NewReader(`{"key":"`+key+`"}`))
+	if err != nil {
+		return 0
+	}
+	request.Header.Set("Authorization", "Bearer "+token)
+	request.Header.Set("Content-Type", "application/json")
+	response, err := (&http.Client{Timeout: 5 * time.Second}).Do(request)
+	if err != nil {
+		return 0
+	}
+	defer response.Body.Close()
+	return response.StatusCode
+}
+
 func TestStandaloneServiceConcurrentSubmits(t *testing.T) {
 	if testing.Short() {
 		t.Skip("standalone service test builds and runs a child process")
