@@ -27,9 +27,11 @@ func buildService(t *testing.T) string {
 	return binary
 }
 
-func startService(t *testing.T, binary, state, token, crashAt string) (*exec.Cmd, string) {
+func startService(t *testing.T, binary, state, token, crashAt string, extra ...string) (*exec.Cmd, string) {
 	t.Helper()
-	command := exec.Command(binary, "-addr", "127.0.0.1:0", "-state", state, "-token", token)
+	args := []string{"-addr", "127.0.0.1:0", "-state", state, "-token", token, "-lock-ttl", "1s"}
+	args = append(args, extra...)
+	command := exec.Command(binary, args...)
 	command.Env = append(os.Environ(), "PRAXO_CRASH_AT="+crashAt)
 	command.WaitDelay = 5 * time.Second
 	stdout, err := command.StdoutPipe()
@@ -44,7 +46,8 @@ func startService(t *testing.T, binary, state, token, crashAt string) (*exec.Cmd
 	for scanner.Scan() {
 		line := scanner.Text()
 		if strings.HasPrefix(line, "LISTEN=") {
-			return command, strings.TrimPrefix(line, "LISTEN=")
+			addr := strings.TrimPrefix(line, "LISTEN=")
+			return command, addr
 		}
 	}
 	_ = command.Process.Kill()
@@ -150,6 +153,22 @@ func TestStandaloneService(t *testing.T) {
 			t.Fatalf("%s status=%d", path, response.StatusCode)
 		}
 	}
+
+	id := postOperation(t, addr, "key-1")
+	if code := statusCode(t, addr, id); code != http.StatusOK {
+		t.Fatalf("status query status=%d", code)
+	}
+}
+
+func TestStandaloneServiceSQLiteLease(t *testing.T) {
+	if testing.Short() {
+		t.Skip("standalone service test builds and runs a child process")
+	}
+	binary := buildService(t)
+	state := filepath.Join(t.TempDir(), "operations.json")
+	dsn := "file:" + filepath.Join(t.TempDir(), "lease.db") + "?_pragma=busy_timeout(5000)"
+	command, addr := startService(t, binary, state, "secret", "", "-lock-backend", "sqlite", "-lock-dsn", dsn)
+	defer stopService(command)
 
 	id := postOperation(t, addr, "key-1")
 	if code := statusCode(t, addr, id); code != http.StatusOK {

@@ -8,7 +8,11 @@ import (
 )
 
 func NewHandler(statePath, token, verifierSecret string) http.Handler {
-	service := newRemoteOperationsWithVerifier(statePath, newEffectVerifier(verifierSecret))
+	return NewHandlerWithLease(statePath, token, verifierSecret, nil, "")
+}
+
+func NewHandlerWithLease(statePath, token, verifierSecret string, lease Lease, owner string) http.Handler {
+	service := newRemoteOperationsWithLease(statePath, newEffectVerifier(verifierSecret), lease, owner)
 	if stage := os.Getenv("PRAXO_CRASH_AT"); stage != "" {
 		service.commitHook = func(current string) error {
 			if current == stage {

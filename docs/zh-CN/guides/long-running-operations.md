@@ -83,12 +83,29 @@ GOWORK=off go build -mod=readonly -o longrunning-service ./cmd/longrunning-servi
 优雅退出。`cmd` 集成测试会构建二进制、在真实 TCP 端口启动，并检查 health、readiness、
 提交与状态查询。它仍是本地 fixture：没有生产身份、密钥轮换、数据库或部署自动化。
 
+## Lease 后端
+
+变更通过可配置 lease 串行化：
+
+| 后端 | 参数 | 说明 |
+| --- | --- | --- |
+| 文件 | `-lock-backend file`（默认） | `-lock-path`、`-lock-ttl`；过期锁会被清理 |
+| SQLite | `-lock-backend sqlite -lock-dsn <dsn>` | 创建 `praxo_leases` 表 |
+| Postgres | `-lock-backend postgres -lock-dsn <dsn>` | 创建 `praxo_leases` 表 |
+| 无 | `-lock-backend none` | 仅单写入者；边界测试记录丢更新 |
+
+SQL 表存储 `name`、`owner` 与 epoch 毫秒的 `expires_at`。变更会获取 lease、重新加载状态
+文件、应用变更、提交并释放。并发写入存储测试使用 file lease；SQL lease 串行化已用 SQLite
+测试；Postgres 路径使用相同语句与驱动，但本仓库没有 live server 测试。这是示例级协调，
+不是生产 lease 服务。
+
 ## 限制
 
 - 文件存储先写临时文件、同步，再 rename 覆盖主文件。确定性测试会注入 rename 边界前后的
   故障，验证有效的未提交临时文件不能覆盖已提交状态，并要求损坏的已提交状态失败关闭。
-  这不是完整崩溃一致性证明：没有同步目录，未演练 OS 级断电和已提交文件损坏恢复，
-  多进程并发写入仍不支持。
+  这不是完整崩溃一致性证明：没有同步目录，未演练 OS 级断电和已提交文件损坏恢复。
+  未配置 lease 时，多进程并发写入可能丢更新；独立服务支持 file/SQLite/Postgres lease，
+  但生产 lease 协调、可信时钟和数据库运维仍属部署责任。
 - HTTP 服务是 loopback 测试 fixture。Bearer token 是静态值，TLS 是测试证书；没有身份
   提供商、token 轮换、租户绑定、限流或生产部署保证。
 - 重启包含杀掉子进程并用同一文件重启。进程级崩溃测试会让独立服务在 rename 边界前后退出；

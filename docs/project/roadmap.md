@@ -119,8 +119,9 @@ complete: a production deployment, OS-level power-loss proof, and production lea
 services/coordination remain open; the fixture now models lease expiry, renewal,
 and revocation locally, a boundary test records lost updates from concurrent
 writers, a standalone service binary provides health/readiness and graceful
-shutdown, and process-level crash tests cover the commit boundary. See the
-[test and evidence taxonomy](test-taxonomy.md).
+shutdown, configurable file/SQLite/Postgres lease backends serialize mutations
+(SQLite verified; Postgres needs a live server), and process-level crash tests
+cover the commit boundary. See the [test and evidence taxonomy](test-taxonomy.md).
 
 ### Consumer and Contract Baseline
 

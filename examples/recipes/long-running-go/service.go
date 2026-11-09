@@ -1,6 +1,7 @@
 package longrunning
 
 import (
+	"context"
 	"crypto/hmac"
 	"crypto/sha256"
 	"encoding/hex"
@@ -58,6 +59,8 @@ type remoteOperations struct {
 	path       string
 	verifier   effectAuthority
 	commitHook func(stage string) error
+	lease      Lease
+	owner      string
 }
 
 type persistedOperations struct {
@@ -75,19 +78,32 @@ func newRemoteOperationsAt(path string) *remoteOperations {
 }
 
 func newRemoteOperationsWithVerifier(path string, verifier effectAuthority) *remoteOperations {
+	return newRemoteOperationsWithLease(path, verifier, nil, "")
+}
+
+func newRemoteOperationsWithLease(path string, verifier effectAuthority, lease Lease, owner string) *remoteOperations {
 	r := &remoteOperations{
-		byKey:    map[string]*remoteOperation{},
-		byID:     map[string]*remoteOperation{},
 		path:     path,
 		verifier: verifier,
+		lease:    lease,
+		owner:    owner,
 	}
-	if path == "" {
-		return r
+	r.reload()
+	return r
+}
+
+func (r *remoteOperations) reload() {
+	r.byKey = map[string]*remoteOperation{}
+	r.byID = map[string]*remoteOperation{}
+	r.effects = 0
+	r.next = 0
+	if r.path == "" {
+		return
 	}
-	data, err := os.ReadFile(path)
+	data, err := os.ReadFile(r.path)
 	if err != nil {
 		if os.IsNotExist(err) {
-			return r
+			return
 		}
 		panic(err)
 	}
@@ -102,7 +118,21 @@ func newRemoteOperationsWithVerifier(path string, verifier effectAuthority) *rem
 		r.byKey[op.Key] = &op
 		r.byID[op.ID] = &op
 	}
-	return r
+}
+
+func (r *remoteOperations) mutate(fn func()) {
+	r.mu.Lock()
+	defer r.mu.Unlock()
+	if r.lease != nil {
+		release, err := r.lease.Acquire(context.Background(), r.owner)
+		if err != nil {
+			panic(err)
+		}
+		defer release()
+		r.reload()
+	}
+	fn()
+	r.save()
 }
 
 func (r *remoteOperations) save() {
@@ -149,23 +179,30 @@ func (r *remoteOperations) save() {
 }
 
 func (r *remoteOperations) submit(key string) (remoteOperation, bool) {
-	r.mu.Lock()
-	defer r.mu.Unlock()
-	if existing, ok := r.byKey[key]; ok {
-		return *existing, false
-	}
-	r.next++
-	op := &remoteOperation{ID: "op-" + key, Key: key, State: remoteAccepted}
-	r.byKey[key] = op
-	r.byID[op.ID] = op
-	r.effects++
-	r.save()
-	return *op, true
+	var op remoteOperation
+	created := false
+	r.mutate(func() {
+		if existing, ok := r.byKey[key]; ok {
+			op = *existing
+			return
+		}
+		r.next++
+		entry := &remoteOperation{ID: "op-" + key, Key: key, State: remoteAccepted}
+		r.byKey[key] = entry
+		r.byID[entry.ID] = entry
+		r.effects++
+		op = *entry
+		created = true
+	})
+	return op, created
 }
 
 func (r *remoteOperations) status(id string) (remoteOperation, bool) {
 	r.mu.Lock()
 	defer r.mu.Unlock()
+	if r.path != "" {
+		r.reload()
+	}
 	op, ok := r.byID[id]
 	if !ok {
 		return remoteOperation{}, false
@@ -174,56 +211,71 @@ func (r *remoteOperations) status(id string) (remoteOperation, bool) {
 }
 
 func (r *remoteOperations) requestCancel(id string) (remoteOperation, bool) {
-	r.mu.Lock()
-	defer r.mu.Unlock()
-	op, ok := r.byID[id]
-	if !ok || op.State != remoteAccepted {
-		return remoteOperation{}, false
-	}
-	op.State = remoteCancelRequested
-	r.save()
-	return *op, true
+	var op remoteOperation
+	ok := false
+	r.mutate(func() {
+		entry, found := r.byID[id]
+		if !found || entry.State != remoteAccepted {
+			return
+		}
+		entry.State = remoteCancelRequested
+		op = *entry
+		ok = true
+	})
+	return op, ok
 }
 
 func (r *remoteOperations) confirmCancel(id string) (remoteOperation, bool) {
-	r.mu.Lock()
-	defer r.mu.Unlock()
-	op, ok := r.byID[id]
-	if !ok || op.State != remoteCancelRequested {
-		return remoteOperation{}, false
-	}
-	op.State = remoteCanceled
-	r.save()
-	return *op, true
+	var op remoteOperation
+	ok := false
+	r.mutate(func() {
+		entry, found := r.byID[id]
+		if !found || entry.State != remoteCancelRequested {
+			return
+		}
+		entry.State = remoteCanceled
+		op = *entry
+		ok = true
+	})
+	return op, ok
 }
 
 func (r *remoteOperations) complete(id string) (remoteOperation, bool) {
-	r.mu.Lock()
-	defer r.mu.Unlock()
-	op, ok := r.byID[id]
-	if !ok || op.State != remoteAccepted {
-		return remoteOperation{}, false
-	}
-	op.State = remoteCompleted
-	r.save()
-	return *op, true
+	var op remoteOperation
+	ok := false
+	r.mutate(func() {
+		entry, found := r.byID[id]
+		if !found || entry.State != remoteAccepted {
+			return
+		}
+		entry.State = remoteCompleted
+		op = *entry
+		ok = true
+	})
+	return op, ok
 }
 
 func (r *remoteOperations) verifyEffect(id, evidence, receipt string) (remoteOperation, bool) {
-	r.mu.Lock()
-	defer r.mu.Unlock()
-	op, ok := r.byID[id]
-	if !ok || op.State != remoteCompleted || evidence == "" || !r.verifier.valid(id, evidence, receipt) {
-		return remoteOperation{}, false
-	}
-	op.State = remoteEffectVerified
-	op.Evidence = evidence
-	r.save()
-	return *op, true
+	var op remoteOperation
+	ok := false
+	r.mutate(func() {
+		entry, found := r.byID[id]
+		if !found || entry.State != remoteCompleted || evidence == "" || !r.verifier.valid(id, evidence, receipt) {
+			return
+		}
+		entry.State = remoteEffectVerified
+		entry.Evidence = evidence
+		op = *entry
+		ok = true
+	})
+	return op, ok
 }
 
 func (r *remoteOperations) effectCount() int {
 	r.mu.Lock()
 	defer r.mu.Unlock()
+	if r.path != "" {
+		r.reload()
+	}
 	return r.effects
 }

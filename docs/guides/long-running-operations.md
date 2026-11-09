@@ -95,6 +95,24 @@ builds the binary, starts it on a real TCP port, and checks health, readiness,
 submit, and status. This is still a local fixture: it has no production identity,
 key rotation, database, or deployment automation.
 
+## Lease Backends
+
+Mutations are serialized through a configurable lease:
+
+| Backend | Flags | Notes |
+| --- | --- | --- |
+| File | `-lock-backend file` (default) | `-lock-path`, `-lock-ttl`; stale locks expire |
+| SQLite | `-lock-backend sqlite -lock-dsn <dsn>` | creates a `praxo_leases` table |
+| Postgres | `-lock-backend postgres -lock-dsn <dsn>` | creates a `praxo_leases` table |
+| None | `-lock-backend none` | single writer only; the boundary test records lost updates |
+
+The SQL table stores `name`, `owner`, and `expires_at` in epoch milliseconds. A
+mutation acquires the lease, reloads the state file, applies the change, commits,
+and releases. The concurrent-writer store test uses the file lease; SQL lease
+serialization is tested with SQLite; the Postgres path uses the same statements
+and driver but has no live-server test in this repository. This is example-level
+coordination, not a production lease service.
+
 ## Limits
 
 - The file store writes a temporary file, syncs it, and renames it over the main
@@ -121,10 +139,10 @@ key rotation, database, or deployment automation.
   secret and token. A real deployment needs key management, rotation,
   revocation, and an independently operated verification authority.
 - The fencing fixture now models lease expiry, renewal, and revocation in a JSON
-  file. It still has no coordination service, trusted clock guarantees,
-  production lease storage, or concurrent-writer lock. A boundary test records
-  that two independent writers can lose an update; use a real lease or
-  coordination service for concurrent processes.
+  file. The standalone service can serialize mutations with a file, SQLite, or
+  Postgres lease; without a lease, a boundary test records that two independent
+  writers can lose an update. Production lease coordination, trusted clocks, and
+  database operations remain deployment responsibilities.
 - Effect verification, production leases/fencing, reconciliation, and retention
   belong to the execution system or a durable workflow product.
 - This recipe does not provide exactly-once execution.
