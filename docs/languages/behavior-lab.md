@@ -80,6 +80,17 @@ Java self-test executable covers several scenarios, so a passing group does not
 identify which scenario assertion failed. The report records that distinction
 instead of treating group coverage as scenario-level evidence.
 
+### Go Reference Notification Completeness
+
+`v2.7.0` changes the Go reference so that after one tool in a batch fails, the
+task-end stream and `OnToolResult` still fire for every executed tool while the
+first error remains the batch result. This is not one of the twenty scenarios
+above and is not claimed for other implementations. Python, TypeScript, Java, and
+the extended languages do not expose the same `OnToolResult` and task-end stream
+surface; their parallel result-finishing path returns the first error and
+cross-language notification completeness remains unverified. See EC-01 in the
+[Execution Correctness Suite](../project/execution-correctness.md).
+
 ## Extended Coverage
 
 | Scenario | Rust | Fortran | COBOL | Ruby | Elixir | Erlang | C++ | PHP | C# | Lua |

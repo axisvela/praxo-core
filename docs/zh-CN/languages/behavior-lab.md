@@ -47,6 +47,14 @@ R 和 C 现已接入。C# 与 PHP 包含三个生命周期场景；R 和 C 对�
 
 `scenario` 表示为该行为命名的测试。`self-test group` 表示一个 Java self-test 可执行文件覆盖多个场景，因此组通过不能定位到具体场景断言。报告保留这一区别，不把组覆盖当作场景级证据。
 
+### Go 参考通知完整性
+
+`v2.7.0` 调整 Go 参考实现：批次中一个工具失败后，仍为每个已执行工具发送 task-end 流与
+`OnToolResult`，同时批次仍返回首个错误。这不在上述二十个场景内，也不对其他实现作声明。
+Python、TypeScript、Java 与扩展语言没有相同的 `OnToolResult` 和 task-end 流表面；其并行
+结果收尾路径返回首个错误，跨语言通知完整性仍未验证。参见
+[Execution Correctness Suite](../project/execution-correctness.md) 的 EC-01。
+
 ## 扩展覆盖
 
 | 场景 | Rust | Fortran | COBOL | Ruby | Elixir | Erlang | C++ | PHP | C# | Lua |

@@ -48,7 +48,7 @@ not new Core types, event names, error codes or a shared wire state machine.
 
 | ID | Failure scenario | Required acceptance | Ownership and tracks |
 | --- | --- | --- | --- |
-| EC-01 | One parallel tool fails after other calls commit | Account for every attempted call as confirmed or explicitly unknown; a batch error must not imply no effects | Core callback/result propagation EC-D; external outcome ledger and verification EC-I/O |
+| EC-01 | One parallel tool fails after other calls commit | Account for every attempted call as confirmed or explicitly unknown; a batch error must not imply no effects | Core callback/result propagation EC-D; external outcome ledger and verification EC-I/O. Notification completeness after the first batch error is currently Go-reference-only; other implementations remain unverified |
 | EC-02 | Tool commits but its response is lost | Resolve the authoritative state before a retry could create an unconfirmed duplicate | Consumer/tool authority EC-I/O; deterministic protocol fixture is only a model |
 | EC-03 | Tool retry targets a non-idempotent operation | Prevent unguarded automatic retry; require a proven no-effect outcome or target-enforced idempotency/status resolution | Core retry-policy mechanics EC-D; guarded retry configuration and Effect PEP EC-I/O |
 | EC-04 | Parameters change after approval | Original approval cannot authorize changed final operation; bind final arguments and approval validity/use | Core final authorization EC-D; durable approval and Effect PEP EC-I/O |

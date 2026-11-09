@@ -29,7 +29,7 @@
           "assertion": "After a parallel tool failure, every attempted tool outcome reaches task-end and OnToolResult; the first tool error is returned."
         }
       ],
-      "gap": "Core now reports every local outcome, but external effect confirmation, unknown outcomes, and business reconciliation remain consumer/EC-I responsibilities."
+      "gap": "Core now reports every local outcome in the Go reference; cross-language notification completeness after the first batch error is unverified, and external effect confirmation, unknown outcomes, and business reconciliation remain consumer/EC-I responsibilities."
     },
     {
       "id": "EC-02",
