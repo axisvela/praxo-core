@@ -72,7 +72,10 @@ class DocumentationTests(unittest.TestCase):
         spec_version = (ROOT / "spec/SPEC_VERSION").read_text(encoding="utf-8").strip()
         self.assertEqual(data["specVersion"], spec_version)
         entries = {entry["language"]: entry for entry in data["languages"]}
-        self.assertEqual(set(entries), {"Go", "Python", "TypeScript", "Java"})
+        self.assertEqual(
+            set(entries),
+            {"Go", "Python", "TypeScript", "Java", "Ruby", "PHP", "Elixir", "Lua"},
+        )
         registry = json.loads((ROOT / "language/registry-metadata.json").read_text(encoding="utf-8"))
         go_version = (ROOT / "VERSION").read_text(encoding="utf-8").strip()
         python_version = tomllib.loads((ROOT / "language/python/pyproject.toml").read_text(encoding="utf-8"))["project"]["version"]
@@ -87,6 +90,8 @@ class DocumentationTests(unittest.TestCase):
         self.assertEqual(entries["Python"]["version"], registry["Python"]["published_version"])
         self.assertEqual(entries["TypeScript"]["version"], registry["TypeScript"]["published_version"])
         self.assertEqual(entries["Java"]["version"], registry["Java"]["published_version"])
+        for language in ("Ruby", "PHP", "Elixir", "Lua"):
+            self.assertEqual(entries[language]["version"], registry[language]["published_version"])
         for entry in entries.values():
             self.assertTrue((ROOT / entry["starter"]).is_dir(), entry["starter"])
             self.assertTrue((ROOT / entry["guide"]).is_file(), entry["guide"])

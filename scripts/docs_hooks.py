@@ -131,6 +131,22 @@ def on_page_markdown(markdown, page, config, files):
             "App.java": "src/main/java/starter/App.java",
             "AppTest.java": "src/test/java/starter/AppTest.java",
         }),
+        "ruby": ("ruby", {
+            "starter.rb": "starter.rb",
+            "test_starter.rb": "test_starter.rb",
+        }),
+        "php": ("php", {
+            "starter.php": "starter.php",
+            "test_starter.php": "test_starter.php",
+        }),
+        "elixir": ("elixir", {
+            "starter.exs": "starter.exs",
+            "test_starter.exs": "test_starter.exs",
+        }),
+        "lua": ("lua", {
+            "starter.lua": "starter.lua",
+            "test_starter.lua": "test_starter.lua",
+        }),
     }
     for language, (syntax, filenames) in sources.items():
         for filename, relative in filenames.items():

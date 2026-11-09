@@ -128,6 +128,66 @@ jobs:
       - run: python scripts/test_go_streaming_recipe.py -v
         working-directory: .
 
+  current-ruby-consumer:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: examples/consumer-ruby
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.4"
+          bundler-cache: true
+      - run: bundle exec ruby test_starter.rb
+
+  current-php-consumer:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: examples/consumer-php
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.4"
+          tools: composer
+      - run: composer install --no-interaction --prefer-dist
+      - run: composer test
+
+  current-elixir-consumer:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: examples/consumer-elixir
+    steps:
+      - uses: actions/checkout@v4
+      - uses: erlef/setup-beam@v1
+        with:
+          otp-version: "29"
+          elixir-version: "1.20.4"
+      - run: mix deps.get
+      - run: mix run test_starter.exs
+
+  current-lua-consumer:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: examples/consumer-lua
+    steps:
+      - uses: actions/checkout@v4
+      - run: sudo apt-get update && sudo apt-get install -y lua5.4 luarocks
+      - run: luarocks --lua-version 5.4 install praxo-core 0.4.0-1
+      - name: Run against the installed rock
+        shell: bash
+        run: |
+          consumer="$RUNNER_TEMP/praxo-lua-consumer"
+          mkdir -p "$consumer"
+          cp starter.lua test_starter.lua "$consumer"
+          cd "$consumer"
+          eval "$(luarocks --lua-version 5.4 path)"
+          lua5.4 test_starter.lua
+
   published-consumer:
     runs-on: ubuntu-latest
     env:

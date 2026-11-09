@@ -12,6 +12,7 @@
 | --- | --- | --- |
 | 让编程 Agent 接入 Core | [面向编程 Agent](coding-agents.md)、[包映射](agent-integration.json) | 精简契约与版本校验的包映射；不是隐蔽安装渠道或自动 Skill |
 | 为 Go、Python、TypeScript 或 Java 应用加入模型/工具循环 | [Go](consumer-go.md)、[Python](consumer-python.md)、[TypeScript](consumer-typescript.md) 或 [Java](consumer-java.md) 独立消费者 | 使用发布包、确定性模型、显式工具范围与拒绝测试；身份、持久化和隔离由应用负责 |
+| 为 Ruby、PHP、Elixir 或 Lua 应用加入 allow/deny 模型/工具循环 | [Ruby](consumer-ruby.md)、[PHP](consumer-php.md)、[Elixir](consumer-elixir.md) 或 [Lua](consumer-lua.md) 独立消费者 | 扩展语言 Starter 使用发布包并验证确定性 allow/deny；治理负向矩阵仍只覆盖四个试点语言 |
 | 授权工具并证明拒绝无副作用 | 同上消费者 Starter | Policy Hook 是执行控制点，不是身份服务或进程沙箱 |
 | 绑定已验证身份与策略 | [身份与策略配方](../guides/identity-policy.md) | 应用负责认证并提供可信 principal；模型提供的角色被忽略 |
 | 增加远端长时操作 | [长时操作配方](../guides/long-running-operations.md) | Run 状态、取消请求/确认与远端效果证据保持分离 |

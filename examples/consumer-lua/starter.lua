@@ -1,4 +1,8 @@
+local script_dir = (arg and arg[0] and arg[0]:match("^(.*)[/\\][^/\\]*$")) or "."
+
 package.path = table.concat({
+  script_dir .. "/../../language/lua/?.lua",
+  script_dir .. "/../../language/lua/?/init.lua",
   "language/lua/?.lua",
   "language/lua/?/init.lua",
   "./?.lua",

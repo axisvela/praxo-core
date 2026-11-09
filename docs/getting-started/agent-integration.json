@@ -53,6 +53,62 @@
       "guide": "docs/getting-started/consumer-java.md",
       "verify": "mvn -B test",
       "governed": "mvn -B -Dtest=GovernedAcceptanceTest test"
+    },
+    {
+      "language": "Ruby",
+      "package": "praxo-core",
+      "registry": "RubyGems",
+      "registryPage": "https://rubygems.org/gems/praxo-core/versions/0.4.1",
+      "version": "0.4.1",
+      "requirements": "Ruby 3.1 or newer",
+      "install": "gem install praxo-core -v 0.4.1",
+      "starter": "examples/consumer-ruby",
+      "guide": "docs/getting-started/consumer-ruby.md",
+      "verify": "bundle exec ruby test_starter.rb",
+      "governed": null,
+      "scope": "Extended-language allow/deny starter; governed negative matrix is not included."
+    },
+    {
+      "language": "PHP",
+      "package": "axisvela/praxo-core",
+      "registry": "Packagist",
+      "registryPage": "https://packagist.org/packages/axisvela/praxo-core",
+      "version": "0.4.0",
+      "requirements": "PHP 8.2 or newer; Composer 2",
+      "install": "composer require axisvela/praxo-core:0.4.0",
+      "starter": "examples/consumer-php",
+      "guide": "docs/getting-started/consumer-php.md",
+      "verify": "composer test",
+      "governed": null,
+      "scope": "Extended-language allow/deny starter; governed negative matrix is not included."
+    },
+    {
+      "language": "Elixir",
+      "package": "praxo_core",
+      "registry": "Hex",
+      "registryPage": "https://hex.pm/packages/praxo_core/0.4.0",
+      "version": "0.4.0",
+      "requirements": "Elixir 1.14 or newer",
+      "install": "mix deps.get with {:praxo_core, \"~> 0.4.0\"}",
+      "starter": "examples/consumer-elixir",
+      "guide": "docs/getting-started/consumer-elixir.md",
+      "verify": "mix run test_starter.exs",
+      "governed": null,
+      "scope": "Extended-language allow/deny starter; governed negative matrix is not included."
+    },
+    {
+      "language": "Lua",
+      "package": "praxo-core",
+      "registry": "LuaRocks",
+      "registryPage": "https://luarocks.org/modules/hanhhuiwen/praxo-core",
+      "version": "0.4.0-1",
+      "requirements": "Lua 5.4; LuaRocks 3",
+      "install": "luarocks install praxo-core 0.4.0-1",
+      "starter": "examples/consumer-lua",
+      "guide": "docs/getting-started/consumer-lua.md",
+      "verify": "lua test_starter.lua",
+      "governed": null,
+      "scope": "Extended-language allow/deny starter; governed negative matrix is not included."
     }
   ],
   "integrationContract": [

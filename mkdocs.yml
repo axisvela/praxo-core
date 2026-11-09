@@ -134,6 +134,10 @@ nav:
       - Python Consumer: getting-started/consumer-python.md
       - TypeScript Consumer: getting-started/consumer-typescript.md
       - Java Consumer: getting-started/consumer-java.md
+      - Ruby Consumer: getting-started/consumer-ruby.md
+      - PHP Consumer: getting-started/consumer-php.md
+      - Elixir Consumer: getting-started/consumer-elixir.md
+      - Lua Consumer: getting-started/consumer-lua.md
       - Coding Agents: getting-started/coding-agents.md
       - Adoption: getting-started/adoption.md
       - When Not to Use: getting-started/when-not-to-use.md

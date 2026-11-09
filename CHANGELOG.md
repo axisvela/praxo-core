@@ -2,6 +2,17 @@
 
 ## [Unreleased]
 
+### Added
+
+- Extended consumer starters for Ruby (`praxo-core` 0.4.1), PHP
+  (`axisvela/praxo-core` 0.4.0), Elixir (`praxo_core` 0.4.0), and Lua
+  (`praxo-core` 0.4.0-1). Each starter uses a deterministic model, explicit tool
+  scope, and an allow/deny test; these are extended-language starters and do not
+  add the four-language governed negative matrix.
+- Consumer guides, package-map entries, and CI jobs for the four extended
+  starters. The Lua starter also runs against an installed LuaRocks package from
+  outside the repository.
+
 ## [2.7.0] - 2026-11-09
 
 ### Added

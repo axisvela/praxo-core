@@ -16,6 +16,9 @@ import xml.etree.ElementTree as ET
 
 GO_MOD = re.compile(r"require\s+github\.com/axisvela/praxo-core/v2\s+v(\d+\.\d+\.\d+)")
 PY_REQ = re.compile(r"^praxo-core==(\d+\.\d+\.\d+)\s*$", re.MULTILINE)
+RUBY_GEM = re.compile(r"gem\s+['\"]praxo-core['\"]\s*,\s*['\"]([^'\"]+)['\"]")
+ELIXIR_DEP = re.compile(r"\{:praxo_core,\s*\"~>\s*([0-9.]+)\"")
+LUA_README = re.compile(r"LuaRocks\s+`praxo-core`\s+`([^`]+)`")
 POM_NS = {"m": "http://maven.apache.org/POM/4.0.0"}
 
 
@@ -72,6 +75,34 @@ def validate(root: Path) -> list[str]:
             break
     if java_version != expected.get("Java"):
         errors.append(f"consumer-java: {java_version!r} != map {expected.get('Java')!r}")
+
+    gemfile = (root / "examples/consumer-ruby/Gemfile").read_text(encoding="utf-8")
+    match = RUBY_GEM.search(gemfile)
+    if match is None:
+        errors.append("consumer-ruby/Gemfile: missing praxo-core pin")
+    elif match.group(1) != expected.get("Ruby"):
+        errors.append(f"consumer-ruby: {match.group(1)!r} != map {expected.get('Ruby')!r}")
+
+    composer = json.loads(
+        (root / "examples/consumer-php/composer.json").read_text(encoding="utf-8")
+    )
+    php_version = composer.get("require", {}).get("axisvela/praxo-core")
+    if php_version != expected.get("PHP"):
+        errors.append(f"consumer-php: {php_version!r} != map {expected.get('PHP')!r}")
+
+    mix = (root / "examples/consumer-elixir/mix.exs").read_text(encoding="utf-8")
+    match = ELIXIR_DEP.search(mix)
+    if match is None:
+        errors.append("consumer-elixir/mix.exs: missing praxo_core dependency")
+    elif match.group(1) != expected.get("Elixir"):
+        errors.append(f"consumer-elixir: {match.group(1)!r} != map {expected.get('Elixir')!r}")
+
+    lua_readme = (root / "examples/consumer-lua/README.md").read_text(encoding="utf-8")
+    match = LUA_README.search(lua_readme)
+    if match is None:
+        errors.append("consumer-lua/README.md: missing praxo-core version")
+    elif match.group(1) != expected.get("Lua"):
+        errors.append(f"consumer-lua: {match.group(1)!r} != map {expected.get('Lua')!r}")
 
     return errors
 

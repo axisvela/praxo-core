@@ -7,7 +7,17 @@ import check_consumer_pins as check
 
 
 class ConsumerPinTests(unittest.TestCase):
-    def build(self, go="2.7.0", python="0.3.2", typescript="0.2.2", java="0.4.1"):
+    def build(
+        self,
+        go="2.7.0",
+        python="0.3.2",
+        typescript="0.2.2",
+        java="0.4.1",
+        ruby="0.4.1",
+        php="0.4.0",
+        elixir="0.4.0",
+        lua="0.4.0-1",
+    ):
         self.directory = tempfile.TemporaryDirectory()
         root = Path(self.directory.name)
         for path in (
@@ -16,6 +26,10 @@ class ConsumerPinTests(unittest.TestCase):
             root / "examples/consumer-python",
             root / "examples/consumer-typescript",
             root / "examples/consumer-java",
+            root / "examples/consumer-ruby",
+            root / "examples/consumer-php",
+            root / "examples/consumer-elixir",
+            root / "examples/consumer-lua",
         ):
             path.mkdir(parents=True)
         (root / "VERSION").write_text("2.7.0\n", encoding="utf-8")
@@ -27,6 +41,10 @@ class ConsumerPinTests(unittest.TestCase):
                         {"language": "Python", "version": python},
                         {"language": "TypeScript", "version": typescript},
                         {"language": "Java", "version": java},
+                        {"language": "Ruby", "version": ruby},
+                        {"language": "PHP", "version": php},
+                        {"language": "Elixir", "version": elixir},
+                        {"language": "Lua", "version": lua},
                     ]
                 }
             ),
@@ -52,7 +70,23 @@ class ConsumerPinTests(unittest.TestCase):
       <version>0.4.1</version>
     </dependency>
   </dependencies>
-</project>""",
+ </project>""",
+            encoding="utf-8",
+        )
+        (root / "examples/consumer-ruby/Gemfile").write_text(
+            "source 'https://rubygems.org'\n\ngem 'praxo-core', '0.4.1'\n",
+            encoding="utf-8",
+        )
+        (root / "examples/consumer-php/composer.json").write_text(
+            json.dumps({"require": {"axisvela/praxo-core": "0.4.0"}}),
+            encoding="utf-8",
+        )
+        (root / "examples/consumer-elixir/mix.exs").write_text(
+            "defp deps do\n  [{:praxo_core, \"~> 0.4.0\"}]\nend\n",
+            encoding="utf-8",
+        )
+        (root / "examples/consumer-lua/README.md").write_text(
+            "Uses the published LuaRocks `praxo-core` `0.4.0-1` package.\n",
             encoding="utf-8",
         )
         self.root = root
@@ -81,6 +115,18 @@ class ConsumerPinTests(unittest.TestCase):
             encoding="utf-8",
         )
         self.assertTrue(any("consumer-go" in error for error in self.errors()))
+
+    def test_ruby_mismatch_is_rejected(self):
+        self.build()
+        path = self.root / "examples/consumer-ruby/Gemfile"
+        path.write_text("gem 'praxo-core', '0.4.0'\n", encoding="utf-8")
+        self.assertTrue(any("consumer-ruby" in error for error in self.errors()))
+
+    def test_lua_mismatch_is_rejected(self):
+        self.build()
+        path = self.root / "examples/consumer-lua/README.md"
+        path.write_text("Uses `praxo-core` `0.3.0-1`.\n", encoding="utf-8")
+        self.assertTrue(any("consumer-lua" in error for error in self.errors()))
 
 
 if __name__ == "__main__":
