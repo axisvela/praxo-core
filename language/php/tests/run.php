@@ -765,5 +765,61 @@ $hitlOptions->onInterruptDecision = fn (Interrupt $interrupt) => new InterruptDe
 $hitlInterrupts = array_filter($hitlEvents->events, fn (Event $event) => $event->type === 'tool.interrupt');
 check(count($hitlInterrupts) === 1, 'hitl event');
 
+
+$adapterPayload = null;
+$adapter = new \Praxo\Core\Adapters\OpenAICompatible(
+    'http://example.test/v1',
+    'test-model',
+    null,
+    function (string $path, array $payload) use (&$adapterPayload): array {
+        check($path === '/chat/completions', 'adapter path');
+        check($payload['model'] === 'test-model', 'adapter model');
+        check($payload['messages'][0]['role'] === Roles::USER, 'adapter role');
+        check($payload['tools'][0]['function']['name'] === 'echo', 'adapter tool');
+        $adapterPayload = $payload;
+        return [
+            'choices' => [[
+                'message' => [
+                    'content' => 'hello',
+                    'tool_calls' => [[
+                        'id' => 'c1',
+                        'function' => ['name' => 'echo', 'arguments' => '{"text":"hi"}'],
+                    ]],
+                ],
+                'finish_reason' => 'tool_calls',
+            ]],
+            'usage' => ['prompt_tokens' => 3, 'completion_tokens' => 2],
+        ];
+    }
+);
+$adapterRequest = new Request(
+    [Message::text(Roles::USER, 'hi')],
+    [new \Praxo\Core\ToolSpec('echo', 'echo', ['type' => 'object'])]
+);
+$adapterResponse = $adapter->generate($adapterRequest);
+check($adapterResponse->message->content === 'hello', 'adapter content');
+check($adapterResponse->message->toolCalls[0]->name === 'echo', 'adapter tool name');
+check($adapterResponse->message->toolCalls[0]->arguments['text'] === 'hi', 'adapter args');
+check($adapterResponse->usage->inputTokens === 3 && $adapterResponse->usage->outputTokens === 2, 'adapter usage');
+check($adapterResponse->finishReason === 'tool_calls', 'adapter finish');
+
+$captured = null;
+$toolAdapter = new \Praxo\Core\Adapters\OpenAICompatible(
+    'http://example.test/v1',
+    'test-model',
+    null,
+    function (string $_path, array $payload) use (&$captured): array {
+        $captured = $payload;
+        return ['choices' => [['message' => ['content' => 'ok']]]];
+    }
+);
+$toolAdapter->generate(new Request([
+    Message::assistant('', [new \Praxo\Core\ToolCall('c1', 'echo', ['text' => 'hi'])]),
+    Message::tool('result', 'c1'),
+]));
+check($captured['messages'][0]['tool_calls'][0]['id'] === 'c1', 'adapter assistant tool call');
+check($captured['messages'][0]['tool_calls'][0]['function']['arguments'] === '{"text":"hi"}', 'adapter tool args');
+check($captured['messages'][1]['tool_call_id'] === 'c1', 'adapter tool id');
+
 echo "PHP core tests passed ({$passed})\n";
 

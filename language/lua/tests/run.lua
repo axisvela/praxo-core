@@ -10,6 +10,7 @@ local plugin = require("praxo.plugin")
 local runtime = require("praxo.runtime")
 local sse = require("praxo.sse")
 local toolcall = require("praxo.toolcall")
+local openai_compat = require("praxo.openai_compatible")
 
 local function check(condition, message)
   if not condition then error(message) end
@@ -499,5 +500,40 @@ hitl_ok, hitl_error = pcall(function()
 end)
 check(not hitl_ok and errors.code(hitl_error) == "AGENT_INTERRUPT_UNHANDLED",
       "lua hitl unhandled")
+
+
+local captured = nil
+local adapter = openai_compat.new({
+  base_url = "http://example.test/v1",
+  model = "test-model",
+  transport = function(payload)
+    captured = payload
+    return {
+      choices = { {
+        message = {
+          content = "hello",
+          tool_calls = { {
+            id = "c1",
+            ["function"] = { name = "echo", arguments = '{"text":"hi"}' },
+          } },
+        },
+        finish_reason = "tool_calls",
+      } },
+      usage = { prompt_tokens = 3, completion_tokens = 2 },
+    }
+  end,
+})
+local adapter_request = models.request({
+  messages = { models.message_text(models.USER, "hi") },
+  tools = { models.tool_spec({ name = "echo", description = "echo" }) },
+})
+local adapter_response = adapter.generate(adapter_request)
+check(adapter_response.message.content == "hello", "adapter content")
+check(adapter_response.message.tool_calls[1].name == "echo", "adapter tool")
+check(adapter_response.message.tool_calls[1].arguments.text == "hi", "adapter args")
+check(adapter_response.usage.input_tokens == 3 and adapter_response.usage.output_tokens == 2, "adapter usage")
+check(captured.model == "test-model", "adapter model")
+check(captured.messages[1].role == "user", "adapter role")
+check(captured.tools[1]["function"].name == "echo", "adapter tool spec")
 
 print("lua core tests passed")

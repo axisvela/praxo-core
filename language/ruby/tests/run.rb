@@ -617,4 +617,58 @@ hitl_options.on_interrupt_decision = lambda { |_interrupt|
 Praxo::Agent.run_agent(hitl_options, M.session(id: 's1'), 'go')
 check(hitl_sink.types.count('tool.interrupt') == 1, 'ruby hitl event')
 
+
+adapter_payload = nil
+adapter = Praxo::Adapters::OpenAICompatible.new(
+  base_url: 'http://example.test/v1',
+  model: 'test-model',
+  transport: lambda do |path, payload|
+    check(path == '/chat/completions', 'adapter path')
+    check(payload[:model] == 'test-model', 'adapter model')
+    check(payload[:messages].last[:role] == 'user', 'adapter message role')
+    check(payload[:tools].first[:function][:name] == 'echo', 'adapter tool')
+    adapter_payload = payload
+    {
+      'choices' => [{
+        'message' => {
+          'content' => 'hello',
+          'tool_calls' => [{
+            'id' => 'c1',
+            'function' => { 'name' => 'echo', 'arguments' => '{"text":"hi"}' }
+          }]
+        },
+        'finish_reason' => 'tool_calls'
+      }],
+      'usage' => { 'prompt_tokens' => 3, 'completion_tokens' => 2 }
+    }
+  end
+)
+adapter_request = M.request(
+  messages: [M.message_text(M::USER, 'hi')],
+  tools: [M.tool_spec(name: 'echo', description: 'echo', parameters: { 'type' => 'object' })]
+)
+adapter_response = adapter.generate(adapter_request)
+check(adapter_response.message.content == 'hello', 'adapter content')
+check(adapter_response.message.tool_calls.first.name == 'echo', 'adapter tool name')
+check(adapter_response.message.tool_calls.first.arguments['text'] == 'hi', 'adapter args')
+check(adapter_response.usage.input_tokens == 3 && adapter_response.usage.output_tokens == 2, 'adapter usage')
+check(adapter_response.finish_reason == 'tool_calls', 'adapter finish')
+
+captured = nil
+adapter_tool = Praxo::Adapters::OpenAICompatible.new(
+  base_url: 'http://example.test/v1',
+  model: 'test-model',
+  transport: lambda do |_path, payload|
+    captured = payload
+    { 'choices' => [{ 'message' => { 'content' => 'ok' } }] }
+  end
+)
+adapter_tool.generate(M.request(messages: [
+  M.message_assistant('', [M.tool_call(id: 'c1', name: 'echo', arguments: { 'text' => 'hi' })]),
+  M.message_tool('result', 'c1')
+]))
+check(captured[:messages][0][:tool_calls][0][:id] == 'c1', 'adapter assistant tool call')
+check(captured[:messages][0][:tool_calls][0][:function][:arguments] == '{"text":"hi"}', 'adapter tool arguments')
+check(captured[:messages][1][:tool_call_id] == 'c1', 'adapter tool id')
+
 puts 'ruby core tests passed'

@@ -15,7 +15,7 @@ defmodule Praxo.MixProject do
   end
 
   def application do
-    [extra_applications: []]
+    [extra_applications: [:inets, :ssl]]
   end
 
   defp package do

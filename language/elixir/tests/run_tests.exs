@@ -41,6 +41,7 @@ defmodule Praxo.Tests do
     test_agent_parallel()
     test_agent_hitl()
     test_sse()
+    test_openai_adapter()
     IO.puts("elixir tests passed")
   end
 
@@ -785,6 +786,57 @@ defmodule Praxo.Tests do
     {:error, "AGENT_CONTEXT_BUDGET", returned} = Agent.run_agent(options, Models.session("s1"), "go")
     check(returned.events.kinds == ["run.started", "run.failed"], "capacity fail-closed events")
   end
+  defp test_openai_adapter do
+    adapter =
+      Praxo.OpenAICompatible.new(
+        base_url: "http://example.test/v1",
+        model: "test-model",
+        transport: fn payload ->
+          send(self(), {:adapter_payload, payload})
+
+          {:ok,
+           %{
+             "choices" => [
+               %{
+                 "message" => %{
+                   "content" => "hello",
+                   "tool_calls" => [
+                     %{
+                       "id" => "c1",
+                       "function" => %{"name" => "echo", "arguments" => "{\"text\":\"hi\"}"}
+                     }
+                   ]
+                 },
+                 "finish_reason" => "tool_calls"
+               }
+             ],
+             "usage" => %{"prompt_tokens" => 3, "completion_tokens" => 2}
+           }}
+        end
+      )
+
+    request =
+      Models.request(
+        [%Praxo.Message{role: "user", content: "hi"}],
+        [Models.tool_spec("echo", "echo")]
+      )
+
+    {:ok, response} = adapter.(request)
+    check(response.message.content == "hello", "adapter content")
+    [call] = response.message.tool_calls
+    check(call.name == "echo" and call.arguments["text"] == "hi", "adapter tool call")
+    check(response.usage.input_tokens == 3 and response.usage.output_tokens == 2, "adapter usage")
+
+    receive do
+      {:adapter_payload, payload} ->
+        check(payload["model"] == "test-model", "adapter model")
+        check(hd(payload["messages"])["role"] == "user", "adapter role")
+        check(hd(payload["tools"])["function"]["name"] == "echo", "adapter tool")
+    after
+      1000 -> raise "adapter payload not captured"
+    end
+  end
+
 end
 
 Praxo.Tests.run()
