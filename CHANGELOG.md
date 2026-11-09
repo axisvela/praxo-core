@@ -15,8 +15,9 @@
   can use a file, SQLite, or Postgres lease, with reload-modify-save under the
   lease; SQLite is tested locally and Postgres needs a live server. The service
   also exposes basic request/error/operation metrics, accepts state/token/
-  verifier/lock configuration from environment variables, and has a concurrent
-  submission load test. OS-level power loss, metrics collection/retention, and
+  verifier/lock configuration from environment variables, has a concurrent
+  submission load test, and ships a separate verifier binary with its own token
+  and signing secret. OS-level power loss, metrics collection/retention, and
   production lease coordination remain out of scope.
 - A Go adapter conformance recipe uses `pkg/conformance` to validate fake model,
   streaming model, tool, and retriever contracts, including mismatch failures.

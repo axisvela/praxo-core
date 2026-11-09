@@ -94,8 +94,10 @@ supports `-tls-cert`/`-tls-key`, and shuts down on interrupt. Configuration can
 come from flags or `PRAXO_STATE`, `PRAXO_TOKEN`, `PRAXO_VERIFIER_SECRET`, and
 `PRAXO_LOCK_DSN`. The `cmd` integration test builds the binary, starts it on a
 real TCP port, checks health, readiness, submit, status, concurrent submissions,
-and metrics. This is still a local fixture: it has no production identity, key
-rotation, database, or deployment automation.
+and metrics. A separate `cmd/longrunning-verifier` serves `/verify` with its own
+bearer token and signing secret, plus health/readiness endpoints. This is still a
+local fixture: it has no production identity, key rotation, database, or
+deployment automation.
 
 ## Lease Backends
 
@@ -127,7 +129,8 @@ coordination, not a production lease service.
   multiple hosts. TTLs are not a production lease service.
 - Scrape `/metrics` and alert on errors/readiness. The counters have no collector,
   retention, or alerting built in.
-- Run the verifier separately and keep its secret out of the execution service.
+- Run `cmd/longrunning-verifier` separately with its own `PRAXO_VERIFIER_SECRET`
+  and `PRAXO_VERIFIER_TOKEN`, and keep the secret out of the execution service.
 
 ## Limits
 

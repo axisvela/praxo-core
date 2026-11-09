@@ -82,8 +82,9 @@ GOWORK=off go build -mod=readonly -o longrunning-service ./cmd/longrunning-servi
 它暴露 `/healthz`、`/readyz`、`/metrics` 和操作端点，支持 `-tls-cert`/`-tls-key`，
 并在收到中断时优雅退出。配置可来自参数或 `PRAXO_STATE`、`PRAXO_TOKEN`、
 `PRAXO_VERIFIER_SECRET`、`PRAXO_LOCK_DSN`。`cmd` 集成测试会构建二进制、在真实 TCP
-端口启动，并检查 health、readiness、提交、状态、并发提交与 metrics。它仍是本地 fixture：
-没有生产身份、密钥轮换、数据库或部署自动化。
+端口启动，并检查 health、readiness、提交、状态、并发提交与 metrics。另有
+`cmd/longrunning-verifier` 使用自己的 bearer token 与签名密钥提供 `/verify` 及
+health/readiness。它仍是本地 fixture：没有生产身份、密钥轮换、数据库或部署自动化。
 
 ## Lease 后端
 
@@ -108,7 +109,8 @@ SQL 表存储 `name`、`owner` 与 epoch 毫秒的 `expires_at`。变更会获�
 - 状态目录仅限服务账号访问，备份已提交状态文件，临时/锁文件与状态文件位于同一文件系统。
 - 单机优先 file，单共享卷用 SQLite，多主机用 Postgres；TTL 不是生产 lease 服务。
 - 抓取 `/metrics` 并对错误/readiness 告警；计数器不含 collector、留存或告警。
-- 独立运行 verifier，执行服务不持有其密钥。
+- 独立运行 `cmd/longrunning-verifier`，使用自己的 `PRAXO_VERIFIER_SECRET` 与
+  `PRAXO_VERIFIER_TOKEN`，执行服务不持有其密钥。
 
 ## 限制
 

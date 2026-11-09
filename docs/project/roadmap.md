@@ -121,8 +121,9 @@ and revocation locally, a boundary test records lost updates from concurrent
 writers, a standalone service binary provides health/readiness and graceful
 shutdown, configurable file/SQLite/Postgres lease backends serialize mutations
 (SQLite verified; Postgres needs a live server), process-level crash tests cover
-the commit boundary, and the service exposes basic metrics plus environment-based
-configuration. See the [test and evidence taxonomy](test-taxonomy.md).
+the commit boundary, the service exposes basic metrics plus environment-based
+configuration, and a separate verifier binary serves receipt checks with its own
+token and secret. See the [test and evidence taxonomy](test-taxonomy.md).
 
 ### Consumer and Contract Baseline
 

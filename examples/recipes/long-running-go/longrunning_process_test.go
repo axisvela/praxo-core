@@ -79,26 +79,7 @@ func runLongRunningVerifierServer() {
 		os.Exit(1)
 	}
 	fmt.Printf("LISTEN=%s\n", listener.Addr().String())
-	verifier := newEffectVerifier(secret)
-	handler := requireBearer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		if r.Method != http.MethodPost || r.URL.Path != "/verify" {
-			http.Error(w, "not found", http.StatusNotFound)
-			return
-		}
-		var request struct {
-			OperationID string `json:"operation_id"`
-			Evidence    string `json:"evidence"`
-			Receipt     string `json:"receipt"`
-		}
-		if err := json.NewDecoder(r.Body).Decode(&request); err != nil {
-			http.Error(w, "invalid request", http.StatusBadRequest)
-			return
-		}
-		writeJSON(w, http.StatusOK, map[string]any{
-			"valid": verifier.valid(request.OperationID, request.Evidence, request.Receipt),
-		})
-	}), token)
-	server := &http.Server{Handler: handler}
+	server := &http.Server{Handler: NewVerifierHandler(secret, token)}
 	if err := server.Serve(listener); err != nil && err != http.ErrServerClosed {
 		fmt.Fprintln(os.Stderr, err)
 		os.Exit(1)
@@ -120,8 +101,8 @@ func runLongRunningServer() {
 			os.Exit(1)
 		}
 		authority = &remoteEffectAuthority{
-			url: strings.TrimRight(verifierURL, "/") + "/verify",
-			token: verifierToken,
+			url:    strings.TrimRight(verifierURL, "/") + "/verify",
+			token:  verifierToken,
 			client: &http.Client{Timeout: 5 * time.Second},
 		}
 	}

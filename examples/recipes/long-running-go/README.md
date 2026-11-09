@@ -28,7 +28,8 @@ shutdown, environment-variable configuration, and a configurable file, SQLite, o
 Postgres lease. SQLite is tested locally; the Postgres path needs a live server.
 The command integration test builds and starts the binary on a real TCP port,
 checks concurrent submissions and metrics, and crashes it before and after the
-rename boundary to check restart recovery. See the
+rename boundary to check restart recovery. A separate
+`cmd/longrunning-verifier` serves `/verify` with its own token and signing secret. See the
 [long-running operations guide](../../../docs/guides/long-running-operations.md).
 
 From the repository root, `python scripts/test_go_longrunning.py -v` repeats the
