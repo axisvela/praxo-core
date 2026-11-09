@@ -88,6 +88,8 @@ Registry 链接指向当前已发布版本；上表的消费者 smoke 行指明�
 - 独立安全评审、渗透测试或合规认证。
 - 通用 exactly-once 或跨服务事务。
 - 外部工作区提供商的 live 验证。
+- Live Postgres 验证：2026-11-09 在 Windows 上使用 PostgreSQL 18.1 的本地尝试未完成
+  （服务以 `0xC0000142` 退出）；gated Postgres 测试需要 `PRAXO_POSTGRES_DSN` 和健康服务。
 - 测试主机无法创建 symlink 时的 Windows symlink 隔离。
 - 不同 commit、tag、二进制或依赖解析下的测试结果。
 - 从源码标签推断包仓库可用性。

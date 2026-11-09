@@ -101,6 +101,9 @@ name the version that was actually installed.
 - Independent security review, penetration testing, or compliance certification.
 - Generic exactly-once execution or a cross-service transaction.
 - Live verification of external workspace providers.
+- Live Postgres verification: a local attempt on 2026-11-09 with PostgreSQL 18.1
+  on Windows did not complete (server exited with `0xC0000142`); the gated
+  Postgres tests require `PRAXO_POSTGRES_DSN` and a healthy server.
 - Windows symlink containment when the test host cannot create symlinks.
 - Test results for a different commit, tag, binary, or dependency resolution.
 - Package-registry availability inferred from a source tag.
