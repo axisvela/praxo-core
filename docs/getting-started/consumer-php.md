@@ -30,6 +30,12 @@ Declare the exact dependency in `composer.json`:
 Then run `composer install`. Do not use a `path` repository, a local archive, or
 an `autoload.php` include from a source checkout for acceptance.
 
+Published `0.4.0` does not declare its bundled `src/autoload.php` in Composer
+metadata. The starter loads that package file when `Praxo\Core\Model` is not
+already available. Until the next PHP package release, a plain Composer
+application on `0.4.0` must also require
+`vendor/axisvela/praxo-core/src/autoload.php` after `vendor/autoload.php`.
+
 ## Application Source
 
 Use the following as `starter.php`, rendered from the

@@ -10,7 +10,10 @@
   "autoload": {
     "psr-4": {
       "Praxo\\Core\\": "src/"
-    }
+    },
+    "files": [
+      "src/autoload.php"
+    ]
   },
   "scripts": {
     "conformance": "php conformance/run.php",

@@ -1,4 +1,5 @@
 from pathlib import Path
+import json
 import re
 import subprocess
 import unittest
@@ -75,6 +76,10 @@ class LayoutTests(unittest.TestCase):
             cells = [cell.strip() for cell in line.split("|")]
             if len(cells) >= 7 and cells[3] in ("planned", "consumer-gated"):
                 self.assertEqual(cells[4], "none", cells[1])
+
+    def test_php_composer_autoload_includes_package_file(self):
+        manifest = json.loads((ROOT / "language/php/composer.json").read_text(encoding="utf-8"))
+        self.assertIn("src/autoload.php", manifest.get("autoload", {}).get("files", []))
 
     def test_bridge_parity_scope(self):
         version = (ROOT / "spec/SPEC_VERSION").read_text().strip()

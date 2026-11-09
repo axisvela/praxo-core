@@ -1,5 +1,13 @@
 # PHP Core Release Notes
 
+## Unreleased
+
+### Fixed
+
+- `composer.json` now declares `src/autoload.php` through `autoload.files`, so a
+  Composer consumer loads the SDK classes. Published `0.4.0` does not contain
+  this metadata; the next PHP package release will.
+
 ## 0.4.0 - 2026-11-02
 
 Source release tag `php/v0.4.0`. Packagist publishes

@@ -5,6 +5,10 @@ declare(strict_types=1);
 $autoload = __DIR__ . '/vendor/autoload.php';
 if (is_file($autoload)) {
     require $autoload;
+    $packageAutoload = __DIR__ . '/vendor/axisvela/praxo-core/src/autoload.php';
+    if (!interface_exists('Praxo\\Core\\Model') && is_file($packageAutoload)) {
+        require $packageAutoload;
+    }
 } else {
     require __DIR__ . '/../../language/php/src/autoload.php';
 }

@@ -10,8 +10,16 @@
   scope, and an allow/deny test; these are extended-language starters and do not
   add the four-language governed negative matrix.
 - Consumer guides, package-map entries, and CI jobs for the four extended
-  starters. The Lua starter also runs against an installed LuaRocks package from
-  outside the repository.
+  starters. RubyGems, Hex, and LuaRocks installs were verified locally after
+  configuring the proxy CA; the Composer install of published `0.4.0` passed with
+  the documented package-autoload bridge.
+
+### Fixed
+
+- The PHP package manifest now declares `src/autoload.php` through
+  `autoload.files`, so Composer consumers load the SDK classes. Published `0.4.0`
+  does not contain this metadata; the consumer starter and guide document the
+  bridge until the next PHP package release.
 
 ## [2.7.0] - 2026-11-09
 

@@ -77,11 +77,11 @@ Bridge、Sample 描述运行时的接入方式，不证明其语言缺乏 Framew
 | Java | `java/v0.4.1` | Maven Central `com.axisvela:praxo-core:0.4.1` 已发布 | Central 已校验并发布；发布后消费者检查已在本地通过 |
 | Rust | `rust/v0.3.0` | crates.io `praxo-core==0.3.0` 已发布；`0.1.4` 为历史版本 | 仅记录 `0.1.4`；`0.3.0` 未重跑 |
 | C# | `csharp/v0.3.0` | NuGet `Praxo.Core==0.3.0` 已发布 | 未记录 |
-| Elixir | `elixir/v0.4.0` | Hex `praxo_core==0.4.0` 已发布；`0.3.0`、`0.2.0` 为历史版本 | 已增加扩展 Starter；源码模式本地通过；Hex 安装路径已配置 CI，未记录本地运行 |
+| Elixir | `elixir/v0.4.0` | Hex `praxo_core==0.4.0` 已发布；`0.3.0`、`0.2.0` 为历史版本 | 已增加扩展 Starter；Hex `0.4.0` 在干净 Mix 项目中解析，allow/deny 本地通过 |
 | Erlang | `erlang/v0.4.0` | Hex `praxo_core_erlang==0.4.0` 已发布；`0.3.1`、`0.2.0` 为历史版本 | `0.4.0` 未重跑；历史 `0.1.1` smoke |
-| Ruby | `ruby/v0.4.1` | RubyGems `praxo-core==0.4.1` 已发布；`0.4.0`、`0.3.0`、`0.2.0` 为历史版本 | 已增加扩展 Starter；源码模式本地通过；RubyGems 安装路径已配置 CI，未记录本地运行 |
+| Ruby | `ruby/v0.4.1` | RubyGems `praxo-core==0.4.1` 已发布；`0.4.0`、`0.3.0`、`0.2.0` 为历史版本 | 已增加扩展 Starter；RubyGems `0.4.1` 已安装到干净 gem home，allow/deny 本地通过 |
 | Lua | `lua/v0.4.0` | LuaRocks `praxo-core==0.4.0-1`；`0.3.0-1`、`0.2.0-1` 也已发布 | 已增加扩展 Starter；LuaRocks `0.4.0-1` 已安装到干净 tree，allow/deny 本地通过 |
-| PHP | `php/v0.4.0` | Packagist `axisvela/praxo-core==0.4.0` 已发布；`v0.3.0`、`v0.2.0` 为历史版本 | 已增加扩展 Starter；源码模式本地通过；Composer 安装路径已配置 CI，未记录本地运行 |
+| PHP | `php/v0.4.0` | Packagist `axisvela/praxo-core==0.4.0` 已发布；`v0.3.0`、`v0.2.0` 为历史版本 | 已增加扩展 Starter；Composer 安装 `0.4.0` 后使用包 autoload 桥接，本地通过；源码已为下个版本声明 `autoload.files` |
 | Dart | `dart/v0.1.1` | pub.dev `praxo_core==0.1.1` | 已记录 `0.1.1` |
 | Julia | `julia/v0.2.0` | General Registry PR #174826 已创建；mirror `0.2.0` | 未记录 |
 | MATLAB | `matlab/v0.2.1` | MATLAB File Exchange `185166` 已发布 | 未记录 |
