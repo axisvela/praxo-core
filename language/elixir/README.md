@@ -1,7 +1,8 @@
 # PRAXO-CORE for Elixir
 
 PRAXO-CORE is an embeddable, MIT-licensed agent framework. This package is its
-native Elixir Core with source tag `elixir/v0.4.1`. It passes all eleven shared
+native Elixir Core. Source version `0.4.1` is prepared; the latest source tag is
+`elixir/v0.4.0`. It passes all eleven shared
 vector groups with `Elixir 1.20.4` on `Erlang/OTP 29` and includes the native
 agent loop, context compaction, memory store, path policy, checkpoint allowlist,
 tool-call parsing, and opt-in tool selection, PII redaction, structured output

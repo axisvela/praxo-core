@@ -50,9 +50,9 @@ GitHub Latest represents the Go Reference Core only, not the last language packa
 
 PHP source `php/v0.4.1` and split tag `v0.4.1` are published with Composer
 `autoload.files` and `api/0.4.1.txt`; Packagist remains `0.4.0` until it indexes
-the new tag. Elixir source `elixir/v0.4.1` and Lua source `lua/v0.4.1` with
-rockspec `0.4.1-1` are prepared with the optional OpenAI-compatible adapters;
-Hex remains `0.4.0` and LuaRocks remains `0.4.0-1` until publication.
+the new tag. Elixir source `0.4.1` and Lua source `0.4.1` with rockspec
+`0.4.1-1` are prepared with the optional OpenAI-compatible adapters; Hex remains
+`0.4.0` and LuaRocks remains `0.4.0-1` until tag creation and publication.
 
 ## Uploaded or awaiting indexing
 

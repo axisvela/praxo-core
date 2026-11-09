@@ -107,7 +107,7 @@
     "source_install": "{:praxo_core, \"~> 0.4.0\"}",
     "source_version": "0.4.1",
     "status": "source release prepared; registry 0.4.0 published",
-    "tag": "elixir/v0.4.1",
+    "tag": "elixir/v0.4.0",
     "tier": "Core",
     "url": "https://hex.pm/packages/praxo_core"
   },
@@ -219,7 +219,7 @@
     "source_install": "luarocks install praxo-core",
     "source_version": "0.4.1-1",
     "status": "source release prepared; registry 0.4.0-1 published",
-    "tag": "lua/v0.4.1",
+    "tag": "lua/v0.4.0",
     "tier": "Core",
     "url": "https://luarocks.org/modules/hanhhuiwen/praxo-core"
   },

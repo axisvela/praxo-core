@@ -43,8 +43,9 @@ GitHub Latest 仅代表 Go 参考 Core，不代表最近发布的语言包。
 
 PHP 源码 `php/v0.4.1` 与 split `v0.4.1` tag 已发布，包含 Composer `autoload.files`
 与 `api/0.4.1.txt`；在 Packagist 索引新 tag 前，仍为 `0.4.0`。Elixir 源码
-`elixir/v0.4.1` 与 Lua 源码 `lua/v0.4.1`（rockspec `0.4.1-1`）已准备，包含可选
-OpenAI-compatible adapter；在发布前 Hex 仍为 `0.4.0`、LuaRocks 仍为 `0.4.0-1`。
+`0.4.1` 与 Lua 源码 `0.4.1`（rockspec `0.4.1-1`）已准备，包含可选
+OpenAI-compatible adapter；在创建 tag 并发布前，Hex 仍为 `0.4.0`、LuaRocks 仍为
+`0.4.0-1`。
 
 ## 已上传或等待索引
 
