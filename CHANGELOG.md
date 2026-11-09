@@ -62,7 +62,9 @@
   skill; and a bounded follow-up explicitly excluded it from an unsuitable
   workflow/sandbox task in 3/3 trials. The original unsuitable task timed out;
   the held-out task completed on retry and both conditions selected PRAXO-CORE
-  (n=1). No complete baseline or retention evidence is claimed.
+  (n=1). A bounded upgrade pilot installed 0.3.2 with unchanged source and 8/8
+  tests, but no dependency manifest existed. No complete baseline or retention
+  evidence is claimed.
 
 ## [2.6.0] - 2026-11-07
 

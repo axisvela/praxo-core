@@ -30,11 +30,11 @@ model `deepseek/deepseek-flash` on Windows/Python 3.14.6 against `462c9b7`. The
 original manifest pre-registered three regression tasks with a 20-step,
 600-second budget; `free-workflow-002` was pre-registered as a bounded follow-up
 selection task before its trial. `unseen-embed-001` was pre-registered as a
-held-out task; its first attempt timed out and a retry completed. Free-selection
-and suitability tasks were repeated three times per condition; directed
-integration was run once per condition. Raw transcripts and the manifest stay in
-restricted local storage; this table is a scoped summary and must not be
-aggregated across tracks.
+held-out task; its first attempt timed out and a retry completed. A bounded
+upgrade pilot also ran. Free-selection and suitability tasks were repeated three
+times per condition; directed integration and upgrade were run once per condition.
+Raw transcripts and the manifest stay in restricted local storage; this table is
+a scoped summary and must not be aggregated across tracks.
 
 | Task | Track | Condition | Result | Limits |
 | --- | --- | --- | --- | --- |
@@ -48,16 +48,21 @@ aggregated across tracks.
 | `free-workflow-002` | Free selection (unsuitable) | Skill installed | 3/3 trials recommended the same stack and explicitly excluded PRAXO-CORE as an agent kernel, not a durable workflow engine or sandbox | Selection-only; one task |
 | `unseen-embed-001` | Free selection (held-out) | No skill | Selected `praxo-core==0.3.2` from PyPI; 6/6 tests passed; PRAXO-CORE was discovered | n=1; inconsistent with the 3/3 regression misses |
 | `unseen-embed-001` | Free selection (held-out) | Skill installed | Selected `praxo-core==0.3.2`; 10/10 tests including 5 governed checks; used a shared temporary venv outside the project | n=1; the external venv reduces reproducibility |
+| `upgrade-python-001` | Upgrade and maintenance | No skill | Upgraded the venv from 0.2.4 to 0.3.2; 8/8 tests passed; source files unchanged | No dependency manifest existed, so the upgrade was not recorded in project source |
+| `upgrade-python-001` | Upgrade and maintenance | Skill installed | Same result: 0.3.2 in the venv, 8/8 tests, source unchanged | Same manifest limitation; n=1 |
 
 Pilot limits: one tool, model, and platform; three pre-registered regression tasks
 plus one bounded follow-up selection task and one held-out task. The held-out task
 completed on retry (n=1 per condition); both conditions selected PRAXO-CORE, so
 discovery without the skill was inconsistent with the regression trials. Unseen
-evidence is present but insufficient to generalize. No upgrade/maintenance track
-or retention observation. Directed integration is n=1 per condition; free-selection
-and suitability regression tasks are n=3 per condition. The free-selection result
-depends on model and search behavior; a correct exclusion is not an integration
-failure. Do not treat this pilot as a completed baseline or adoption evidence.
+evidence is present but insufficient to generalize. The upgrade/maintenance track
+is n=1 per condition; both conditions upgraded the venv and kept application/test
+source unchanged, but no dependency manifest existed, so the manifest-update and
+retention paths remain unexercised. Directed integration is n=1 per condition;
+free-selection and suitability regression tasks are n=3 per condition. The
+free-selection result depends on model and search behavior; a correct exclusion is
+not an integration failure. Do not treat this pilot as a completed baseline or
+adoption evidence.
 
 ## Tracks
 
