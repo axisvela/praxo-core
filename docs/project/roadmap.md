@@ -1,13 +1,13 @@
 # Public Roadmap
 
-Current core release: `2.6.0`. This is an **execution-kernel contract roadmap**:
+Current core release: `2.7.0`. This is an **execution-kernel contract roadmap**:
 it covers the contracts and verified behavior Core owns, and names evidence that
 belongs to products or integrations. It is not a delivery schedule or a promise
 that every Core implementation supports every feature.
 
 ## Next-stage Direction
 
-**Planning update: 2026-11-08.** The next stage prioritizes correct adoption and
+**Planning update: 2026-11-09.** The next stage prioritizes correct adoption and
 verified integration over implementation counts: a consumer or coding agent
 should be able to identify a suitable task, install published packages, verify
 governed behavior, and retain the dependency through upgrades.
@@ -133,7 +133,7 @@ collector/alerting remain unverified here. See the
 ### Consumer and Contract Baseline
 
 The historical `tests/consumer` fixture pins Core `2.5.0`; the independent Go
-starter tests recommended `2.6.0`. Both reject module replacements. A separate
+starter tests recommended `2.7.0`. Both reject module replacements. A separate
 `scripts/test_go_upgrade.py` check now installs the historical package, upgrades
 the same consumer to the recommended package-map version, verifies unchanged
 application source and runs the governed negative tests after upgrade. CI runs

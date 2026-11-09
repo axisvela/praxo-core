@@ -22,7 +22,7 @@ and integrations; AxisVela products are not required.
 ## Start With Go
 
 ```bash
-go get github.com/axisvela/praxo-core/v2@v2.6.0
+go get github.com/axisvela/praxo-core/v2@v2.7.0
 ```
 
 Follow the [quickstart](getting-started/quickstart.md) to run an agent against
@@ -41,10 +41,10 @@ Ollama or an OpenAI-compatible endpoint. For other languages, start with the
 
 ## Current Release
 
-Core `2.6.0` is a minor release adding the verified consumer path, governed
-acceptance checks, execution-correctness evidence and the EC-D runner,
-integration recipes, and the Go tool-outcome notification change.
-See the [release notes](releases/2.6.0.md) for changes and limitations, or the
+Core `2.7.0` is a minor release adding long-running operation service, verifier,
+lease, metrics, and credential-rotation recipes, published-package upgrade
+checks, and additional integration and adoption evidence.
+See the [release notes](releases/2.7.0.md) for changes and limitations, or the
 [release overview](releases/index.md) for older versions.
 
 PRAXO-CORE is a framework, not a hosted service or a turnkey chat UI.

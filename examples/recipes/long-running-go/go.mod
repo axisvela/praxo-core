@@ -3,7 +3,7 @@ module example.com/praxo-longrunning
 go 1.25.0
 
 require (
-	github.com/axisvela/praxo-core/v2 v2.6.0
+	github.com/axisvela/praxo-core/v2 v2.7.0
 	github.com/jackc/pgx/v5 v5.12.0
 	modernc.org/sqlite v1.52.0
 )

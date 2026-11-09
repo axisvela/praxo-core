@@ -43,6 +43,10 @@
   `2.5.2`. Go `pkg/agent` now reports every executed tool outcome before
   returning the first batch error; handlers must tolerate later successful
   notifications after a tool error.
+- `2.7.0` is a minor release; exported `pkg/...` declarations are identical to
+  `2.6.0`. It adds runnable long-running operation and integration recipes,
+  published-package upgrade checks, and evidence updates, with no `pkg/...` API
+  change.
 
 - Framework versions start at `0.x`.
 - PRAXOVELA product versions are independent.

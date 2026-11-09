@@ -1,5 +1,7 @@
 # 验证证据
 
+**状态：** 公开证据摘要，2026-11-09。
+
 本页汇总 PRAXO-CORE 当前可以支持的验证声明。它是公开摘要，不是生产认证、渗透测试，也不表示
 每个语言实现和部署都会继承相同结果。完整运行记录和环境日志保存在受限内部存储；本页只记录
 证据级别、结果和剩余限制。
@@ -21,7 +23,7 @@
 
 | 领域 | 已验证 | 级别 | 限制 |
 | --- | --- | --- | --- |
-| Go Core | Tests、vet、build、API snapshot、race、fuzz 和 module-security CI；当前 main 与发布工作流检查；`v2.6.0` 可从公共 module proxy 在干净外部模块解析；已记录的干净外部模块安装与最小 agent smoke 覆盖 `v2.5.2` | 契约/单元 + CI + 本地集成 | JSON Schema 和 plugin manifest fuzz 曾在 10s deadline 失败、rerun 通过；慢输入风险仍在调查；未对 `v2.6.0` 重跑完整安装 smoke；已记录安装仅覆盖一个平台和最小 agent |
+| Go Core | Tests、vet、build、API snapshot、race、fuzz 和 module-security CI；当前 main 与发布工作流检查；`v2.7.0` 为当前版本（2026-11-09）；`v2.6.0` 可从公共 module proxy 在干净外部模块解析；已记录的干净外部模块安装与最小 agent smoke 覆盖 `v2.5.2` | 契约/单元 + CI + 本地集成 | JSON Schema 和 plugin manifest fuzz 曾在 10s deadline 失败、rerun 通过；慢输入风险仍在调查；未对 `v2.7.0` 重跑完整安装 smoke；已记录安装仅覆盖一个平台和最小 agent |
 | Go 长时操作配方 | 文件存储覆盖幂等提交、响应丢失、子进程重启、独立 verifier、带 lease 过期/续期/撤销的 fencing、rename 前后确定性故障注入、损坏状态失败关闭、带 health/readiness、基础 metrics、示例 Prometheus scrape/留存/告警配置（仅配置校验；无 live collector）、环境变量配置、file-based token/secret 轮换（签发属外部）与优雅退出的独立服务二进制、可配置 file/SQLite/Postgres lease 后端与 reload-modify-save（SQLite 已验证；Postgres gated 测试需 `PRAXO_POSTGRES_DSN`，本环境未验证）、rename 边界前后进程级崩溃、gated 100 提交负载/故障测试与干净检出复现脚本、使用自己 token/密钥的独立 verifier 二进制，以及无 lease 时的并发写入者边界测试 | 契约/单元 + 本地集成 | L4 应用配方；没有生产部署、live collector/留存/告警、OS 级断电、生产 lease 协调、可信时钟或 exactly-once |
 | 跨语言一致性 | Python、TypeScript、Java、Rust、Fortran、COBOL compatibility lab 运行确定性向量、API 快照/签名和 parity；已记录 Linux CI 与本地运行 | 契约/单元 + CI | 仅六种语言；COBOL 已在本地 GnuCOBOL 和 Linux CI 验证；不含 provider、HITL、checkpoint、sandbox 或生产证据；每次运行一个平台和工具链；非作者复现待办 |
 | Python 已发布包 | PyPI 已从源码标签 `python/v0.3.2` 发布 `praxo-core==0.3.2`。发布工作流在发布前构建并 smoke 测试 wheel/sdist；发布后消费者脚本在干净 venv 中安装 `0.3.2` 并通过 starter/治理检查。历史本地 smoke 覆盖 `0.2.4` | Registry 发布 + 发布工作流产物 smoke + 发布后消费者检查 | 一个平台/工具链；同机干净 venv，不是独立或非作者消费者；不含 provider 或生产证据 |

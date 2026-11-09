@@ -1,5 +1,5 @@
-github.com/axisvela/praxo-core/v2 v2.6.0 h1:QQ3YzVpOntKTrxsuMv3Bjic9sIC1Mt8vHd6bhON1u0A=
-github.com/axisvela/praxo-core/v2 v2.6.0/go.mod h1:B1HB9Eu8Tk1mdWhd0954ANj6Zni0rBn+Tobj+9Kve3o=
+github.com/axisvela/praxo-core/v2 v2.7.0 h1:4GHMrrSQdQg8kp6hlVMM4kOn/hV9l4LLmshBx0DRnls=
+github.com/axisvela/praxo-core/v2 v2.7.0/go.mod h1:B1HB9Eu8Tk1mdWhd0954ANj6Zni0rBn+Tobj+9Kve3o=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=

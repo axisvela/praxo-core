@@ -60,7 +60,7 @@ are not part of the EC-D scope count.
 
 | Repository | Current tag / state | Tag needed? |
 | --- | --- | --- |
-| `praxo-core` | `v2.6.0` released 2026-11-07; includes the EC-01 behavior fix, EC-D runner/scopes and this evidence page | No separate tag for these changes; the normal Core release gate applies to later changes. |
+| `praxo-core` | `v2.7.0` released 2026-11-09; `v2.6.0` (2026-11-07) includes the EC-01 behavior fix, EC-D runner/scopes and this evidence page. `2.7.0` adds recipes and evidence updates without additional EC acceptance | No separate tag for these changes; the normal Core release gate applies to later changes. |
 | RHEOVELA | `v1.63.0` tag `59f66ed`; includes lost-outcome classification, declared manual compensations, PostgreSQL `ON CONFLICT` idempotency, and the PostgreSQL lost-response test | GitHub Release published with source and release assets. |
 | PRAXOVELA | `v3.4.1` tag `bfcc5b0`; `PRAXOVELA-open` `v3.4.1` tag `4ccecb8`; includes `9998c75` unknown tool-outcome classification | GitHub Releases published for core and open with `axond` Windows/Linux binaries, NSIS/MSI installers, SBOM, release manifest, and `SHA256SUMS`. |
 | PRAXOVELA-open | `v3.4.0` | Must match the next PRAXOVELA core release tag. |

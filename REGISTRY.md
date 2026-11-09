@@ -1,7 +1,7 @@
 # PRAXO-CORE Go Registry Introduction
 
-**Status:** published. Source version `v2.6.0`, source
-tag `v2.6.0`. Published registry version: `v2.6.0`. Registry
+**Status:** published. Source version `v2.7.0`, source
+tag `v2.7.0`. Published registry version: `v2.7.0`. Registry
 pages are release snapshots; verify the published version before relying on a
 feature.
 
@@ -15,11 +15,11 @@ feature.
 | --- | --- |
 | Package | `github.com/axisvela/praxo-core/v2` |
 | Registry | [Go module proxy / pkg.go.dev](https://pkg.go.dev/github.com/axisvela/praxo-core/v2) |
-| Source version | `v2.6.0` |
-| Published registry version | `v2.6.0` |
-| Install (published) | `go get github.com/axisvela/praxo-core/v2@v2.6.0` |
-| Install (source/release prepared) | `go get github.com/axisvela/praxo-core/v2@v2.6.0` |
-| Source tag | `v2.6.0` |
+| Source version | `v2.7.0` |
+| Published registry version | `v2.7.0` |
+| Install (published) | `go get github.com/axisvela/praxo-core/v2@v2.7.0` |
+| Install (source/release prepared) | `go get github.com/axisvela/praxo-core/v2@v2.7.0` |
+| Source tag | `v2.7.0` |
 | Tier | Core (reference) |
 | Contract | `SPEC_VERSION` `0.2.0` |
 | Documentation | https://axisvela.github.io/praxo-core/ |

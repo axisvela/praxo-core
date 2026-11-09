@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+## [2.7.0] - 2026-11-09
+
 ### Added
 
 - The Go long-running recipe now injects deterministic failures before and after

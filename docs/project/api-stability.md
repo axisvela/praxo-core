@@ -7,7 +7,8 @@
 `pkg/conformance` package. `2.5.1` is a patch release; its exported `pkg/...`
 declarations are identical to `2.5.0`. `2.5.2` is a security patch; its exported
 `pkg/...` declarations are identical to `2.5.1`. `2.6.0` is a minor release; its
-exported `pkg/...` declarations are identical to `2.5.2`. The `1.0.0` surface
+exported `pkg/...` declarations are identical to `2.5.2`. `2.7.0` is a minor
+release; its exported `pkg/...` declarations are identical to `2.6.0`. The `1.0.0` surface
 remains frozen; new declarations are additive.
 
 ## Audit Result

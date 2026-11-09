@@ -8,11 +8,11 @@
 
 - package: `github.com/axisvela/praxo-core/v2`
 - registry: [Go module proxy / pkg.go.dev](https://pkg.go.dev/github.com/axisvela/praxo-core/v2)
-- source_version: `v2.6.0`
-- published_version: `v2.6.0`
-- install_published: `go get github.com/axisvela/praxo-core/v2@v2.6.0`
-- install_source: `go get github.com/axisvela/praxo-core/v2@v2.6.0`
-- source_tag: `v2.6.0`
+- source_version: `v2.7.0`
+- published_version: `v2.7.0`
+- install_published: `go get github.com/axisvela/praxo-core/v2@v2.7.0`
+- install_source: `go get github.com/axisvela/praxo-core/v2@v2.7.0`
+- source_tag: `v2.7.0`
 - tier: Core (reference)
 - contract: `SPEC_VERSION` `0.2.0`
 - documentation: https://axisvela.github.io/praxo-core/

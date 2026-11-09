@@ -29,7 +29,7 @@ model providers and integrations. AxisVela products are not required.
 ## Start With Go
 
 ```bash
-go get github.com/axisvela/praxo-core/v2@v2.6.0
+go get github.com/axisvela/praxo-core/v2@v2.7.0
 ```
 
 First verify the [independent Go consumer](docs/getting-started/consumer-go.md):
@@ -161,12 +161,12 @@ or [optional AxisVela integrations](docs/integrations/ecosystem.md). See the
 
 ## Releases and Contributing
 
-Core `2.6.0` is a minor release adding the verified consumer path, governed
-acceptance checks, execution-correctness evidence and the EC-D runner,
-integration recipes, and the Go tool-outcome notification change. Optional
-adapters and Core implementations are versioned independently.
+Core `2.7.0` is a minor release adding long-running operation service, verifier,
+lease, metrics, and credential-rotation recipes, published-package upgrade
+checks, and additional integration and adoption evidence. Optional adapters and
+Core implementations are versioned independently.
 
-- [Latest release notes](docs/releases/2.6.0.md)
+- [Latest release notes](docs/releases/2.7.0.md)
 - [Release history](docs/releases/index.md)
 - [Language Release Index](docs/languages/registry-status.md)
 - [Compatibility policy](docs/project/compatibility-policy.md)

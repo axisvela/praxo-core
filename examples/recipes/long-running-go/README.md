@@ -3,7 +3,7 @@
 This module demonstrates the application-owned side of a remote long-running
 operation: idempotent submission, status recovery, cancel request versus
 confirmation, effect verification, fencing, and restart behavior. It consumes
-published Core `2.6.0`; it does not add a Core API.
+published Core `2.7.0`; it does not add a Core API.
 
 **Evidence level: L4 application recipe.** These tests validate the reference
 integration and its failure boundaries, not Core-owned durable operations,

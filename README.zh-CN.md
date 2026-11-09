@@ -20,7 +20,7 @@
 ## 从 Go 开始
 
 ```bash
-go get github.com/axisvela/praxo-core/v2@v2.6.0
+go get github.com/axisvela/praxo-core/v2@v2.7.0
 ```
 
 先通过[Go 独立消费者](docs/zh-CN/getting-started/consumer-go.md)在自己的应用安装发布包，
@@ -131,9 +131,9 @@ PRAXO-CORE 是独立的 MIT 框架。
 
 ## 版本与贡献
 
-核心 `2.6.0` 是次版本发布，增加经过验证的消费者路径、治理验收检查、执行正确性证据与 EC-D runner、集成配方，以及 Go 工具结果通知变更。适配器和 Core 实现独立版本化。
+核心 `2.7.0` 是次版本发布，增加长运行操作服务、验证器、租约、指标与凭据轮换配方，已发布包升级检查，以及更多集成与采用证据。适配器和 Core 实现独立版本化。
 
-- [最新发布说明](docs/zh-CN/releases/2.6.0.md)
+- [最新发布说明](docs/zh-CN/releases/2.7.0.md)
 - [版本历史](docs/zh-CN/releases/index.md)
 - [兼容政策](docs/zh-CN/project/compatibility-policy.md)
 - [v2 迁移](docs/zh-CN/project/migration-v2.md)
