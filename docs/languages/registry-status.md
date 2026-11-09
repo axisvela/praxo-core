@@ -46,7 +46,7 @@ GitHub Latest represents the Go Reference Core only, not the last language packa
 | PowerShell Core | PowerShell Gallery | `0.2.0` | https://www.powershellgallery.com/packages/praxo-core-ps/0.2.0 | published |
 | PowerShell Bridge | PowerShell Gallery | `0.1.0` | https://www.powershellgallery.com/packages/praxo-core-ps-br/0.1.0 | published |
 | R | r-universe | `0.5.0` | https://axisvela.r-universe.dev/praxocore | r-universe only; CRAN not published |
-| Nim | nim-lang/packages (Nimble) | `0.1.1` | https://github.com/axisvela/praxo-core-nim | split repo published; nim-lang/packages PR #3600 pending; nimpkgs re-crawl pending |
+| Nim | nim-lang/packages (Nimble) | `0.1.1` | https://github.com/axisvela/praxo-core-nim | split repo published; nim-lang/packages PR #3600 merged 2026-11-05; install smoke not recorded; nimpkgs re-crawl pending |
 
 ## Uploaded or awaiting indexing
 
@@ -54,7 +54,7 @@ GitHub Latest represents the Go Reference Core only, not the last language packa
 | --- | --- | --- | --- | --- |
 | Julia | Julia General Registry | `0.2.0` | https://github.com/JuliaRegistries/General/pull/174826 | registration PR open |
 | Octave | Octave Packages | `0.2.1` | https://github.com/gnu-octave/packages/pull/875 | registration PR open |
-| Perl | CPAN | `0.1.1` | https://metacpan.org/dist/Praxo-Core | uploaded; MetaCPAN indexing pending |
+| Perl | CPAN | `0.1.1` | https://metacpan.org/dist/Praxo-Core | indexed on MetaCPAN (0.1.1); install smoke not recorded |
 | OCaml | opam | `0.3.0` | https://github.com/ocaml/opam-repository/pull/31106 | registration PR open; package CI passed; opam-ci pending |
 | V | VPM | `0.1.2` | https://github.com/axisvela/praxo-core-v | mirror published; VPM not indexed |
 

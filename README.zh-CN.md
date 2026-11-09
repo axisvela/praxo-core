@@ -65,7 +65,7 @@ CI 与发布使用 Go 1.26.10。示例展示工具调用、流式文本、事件
 
 一个 Kernel 支持三个[集成层次](docs/zh-CN/reference/execution-profiles.md)：
 **Standard Embedding**（现有行为）、**Governed Execution Profile**（验收提案，已有部分证据）、
-**Embodied Integration Profile**（设计提案，消费者试点未开始）。它们不是独立包或运行时开关。
+**Embodied Integration Profile**（设计提案；AKROVELA 产品侧 P1 适配器与确定性切片已存在，E1-E8 试点未运行）。它们不是独立包或运行时开关。
 必需治理由可信产品入口和实际效果边界执行，不能靠 Profile 名称产生。
 
 它不是托管 Agent 服务、向量数据库、模型提供商或开箱即用的聊天产品。采用前请阅读

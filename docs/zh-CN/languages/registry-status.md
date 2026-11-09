@@ -39,7 +39,7 @@ GitHub Latest 仅代表 Go 参考 Core，不代表最近发布的语言包。
 | PowerShell Core | PowerShell Gallery | `0.2.0` | https://www.powershellgallery.com/packages/praxo-core-ps/0.2.0 | 已发布 |
 | PowerShell Bridge | PowerShell Gallery | `0.1.0` | https://www.powershellgallery.com/packages/praxo-core-ps-br/0.1.0 | 已发布 |
 | R | r-universe | `0.5.0` | https://axisvela.r-universe.dev/praxocore | 仅 r-universe；未发布 CRAN |
-| Nim | nim-lang/packages（Nimble） | `0.1.1` | https://github.com/axisvela/praxo-core-nim | split repo 已发布；nim-lang/packages PR #3600 待合并；nimpkgs 待重新抓取 |
+| Nim | nim-lang/packages（Nimble） | `0.1.1` | https://github.com/axisvela/praxo-core-nim | split repo 已发布；nim-lang/packages PR #3600 已于 2026-11-05 合并；安装 smoke 未记录；nimpkgs 待重新抓取 |
 
 ## 已上传或等待索引
 
@@ -47,7 +47,7 @@ GitHub Latest 仅代表 Go 参考 Core，不代表最近发布的语言包。
 | --- | --- | --- | --- | --- |
 | Julia | Julia General Registry | `0.2.0` | https://github.com/JuliaRegistries/General/pull/174826 | 注册 PR 待合并 |
 | Octave | Octave Packages | `0.2.1` | https://github.com/gnu-octave/packages/pull/875 | 注册 PR 待合并 |
-| Perl | CPAN | `0.1.1` | https://metacpan.org/dist/Praxo-Core | 已上传；MetaCPAN 索引待完成 |
+| Perl | CPAN | `0.1.1` | https://metacpan.org/dist/Praxo-Core | 已在 MetaCPAN 索引（0.1.1）；安装 smoke 未记录 |
 | OCaml | opam | `0.3.0` | https://github.com/ocaml/opam-repository/pull/31106 | 注册 PR 待合并；包 CI 已通过；opam-ci 待完成 |
 | V | VPM | `0.1.2` | https://github.com/axisvela/praxo-core-v | mirror 已发布；VPM 未索引 |
 

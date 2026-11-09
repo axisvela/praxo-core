@@ -86,7 +86,8 @@ the [consumer starters](docs/getting-started/coding-agents.md) for package-level
 One Kernel supports three [integration levels](docs/reference/execution-profiles.md):
 **Standard Embedding** (existing behavior), **Governed Execution Profile**
 (proposed acceptance design with partial evidence), and **Embodied Integration
-Profile** (proposed design; consumer pilot not started). They are not separate
+Profile** (proposed design; AKROVELA's product-owned P1 adapter and deterministic
+slice exist, while the E1-E8 pilot has not run). They are not separate
 packages or runtime switches. Required governance is enforced by trusted product
 entry points and actual effect boundaries, not by a profile name.
 
