@@ -1,5 +1,25 @@
 # Rust Core Release Notes
 
+## 0.4.0 - 2026-11-10
+
+Source release tag `rust/v0.4.0`. The crates.io package `praxo-core==0.4.0` is
+published from that tag through Trusted Publishing.
+
+### Added
+
+- `model` module for provider-neutral messages, tool specs, requests,
+  responses, and usage.
+- `adapters::openai_compat` OpenAI-compatible model client with an injectable
+  HTTP transport.
+- `adapters::harmovela` lifecycle event sink with an injectable transport.
+- `adapters::mcp` native stdio MCP client, tool adapters, and registry helper.
+- API snapshot `api/0.4.0.txt`.
+
+### Changed
+
+- Adapter implementations live under `src/adapters/`; Core remains free of
+  provider-specific runtime dependencies.
+
 ## 0.3.0 - 2026-11-02
 
 Source release tag `rust/v0.3.0`. The crates.io package `praxo-core==0.3.0` is

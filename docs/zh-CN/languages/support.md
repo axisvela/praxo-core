@@ -75,7 +75,7 @@ Bridge、Sample 描述运行时的接入方式，不证明其语言缺乏 Framew
 | Python | `python/v0.4.1` | PyPI `praxo-core==0.4.1` 已发布 | 发布工作流构建并 smoke 测试 `0.4.1`；发布后消费者检查已在本地通过 |
 | TypeScript | `typescript/v0.3.0` | npm `@axisvela/praxo-core@0.2.2` 已发布；`0.3.0` 源码已准备 | 发布工作流构建并消费 `0.2.2` tarball；`0.3.0` 发布待完成 |
 | Java | `java/v0.4.1` | Maven Central `com.axisvela:praxo-core:0.4.1` 已发布 | Central 已校验并发布；发布后消费者检查已在本地通过 |
-| Rust | `rust/v0.3.0` | crates.io `praxo-core==0.3.0` 已发布；`0.1.4` 为历史版本 | 仅记录 `0.1.4`；`0.3.0` 未重跑 |
+| Rust | `rust/v0.4.0` | crates.io `praxo-core==0.3.0` 已发布；`0.1.4` 为历史版本 | 仅记录 `0.1.4`；`0.4.0` 未重跑 |
 | C# | `csharp/v0.3.0` | NuGet `Praxo.Core==0.3.0` 已发布 | 未记录 |
 | Elixir | `elixir/v0.4.1` | Hex `praxo_core==0.4.1` 已发布，包含可选 OpenAI-compatible adapter；`0.4.0`、`0.3.0`、`0.2.0` 为历史版本 | 已增加扩展 Starter；Hex `0.4.1` 在干净 Mix 项目中解析，allow/deny 本地通过 |
 | Erlang | `erlang/v0.4.0` | Hex `praxo_core_erlang==0.4.0` 已发布；`0.3.1`、`0.2.0` 为历史版本 | `0.4.0` 未重跑；历史 `0.1.1` smoke |
@@ -103,7 +103,7 @@ Bridge、Sample 描述运行时的接入方式，不证明其语言缺乏 Framew
 | Python | `0.4.1` | PyPI `0.4.1` | 已最新 |
 | TypeScript | `0.3.0` | npm `0.2.2` | 源码已准备；registry 待发布 |
 | Java | `0.4.1` | Maven Central `0.4.1` | 已最新 |
-| Rust | `0.3.0` | crates.io `0.3.0` | 已最新 |
+| Rust | `0.4.0` | crates.io `0.3.0` | 源码已准备；registry 为上一版 |
 | C# | `0.3.0` | NuGet `0.3.0` | 已最新 |
 | Elixir | `0.4.1` | Hex `0.4.1` | 已最新 |
 | Erlang | `0.4.0` | Hex `0.4.0` | 已最新 |
@@ -153,7 +153,7 @@ Bridge、Sample 描述运行时的接入方式，不证明其语言缺乏 Framew
 - Dart 已有源码标签 `dart/v0.1.1`，并在 publisher `axisvela.com` 下发布
   `praxo_core==0.1.1` 到 pub.dev。干净项目已安装该包、导入
   `package:praxo_core/praxo_core.dart` 并运行最小 agent。
-- Rust 源码标签 `rust/v0.3.0` 在全部 11 个向量组、原生测试、`tool.Gateway`、`jsonschema.Schema`、流式回调、取消、有限并行工具和 API 快照之上增加人工审批中断决策。crates.io 已发布 `praxo-core==0.3.0`；已记录的干净临时项目安装 smoke 覆盖 `0.1.4`，报告 `SDK_VERSION` `0.1.4` 和 `SPEC_VERSION` `0.2.0`。不包含 HTTP OpenAI adapter、VFS 或 plugin hosts。
+- Rust 源码标签 `rust/v0.4.0` 新增 provider-neutral model 类型和 OpenAI-compatible、Harmovela、MCP adapter，并保留全部 11 个向量组、原生测试、`tool.Gateway`、`jsonschema.Schema`、流式回调、取消、有限并行工具、人工审批中断决策和 API 快照。crates.io 已发布 `praxo-core==0.3.0`；已记录的干净临时项目安装 smoke 覆盖 `0.1.4`，报告 `SDK_VERSION` `0.1.4` 和 `SPEC_VERSION` `0.2.0`。不包含 VFS 或 plugin hosts。
 - R 源码标签 `r/v0.5.0` 在 policy、middleware、生命周期清理、取消、流式回调、SSE parser、有限并行工具和 API 快照之上增加人工审批中断决策。Unix 使用 `mclapply`，Windows 使用 PSOCK cluster。r-universe 从 `language/r` 发布 `praxocore==0.5.0`；CRAN 发布尚未声明，发布工作流执行 `R CMD build` 和 `R CMD check`。
 - C 源码标签 `c/v0.6.0` 在 policy 授权、有序 middleware、生命周期清理、
   最终工具 allowlist 检查、中途修改后的重新授权、取消、流式回调、SSE parser
