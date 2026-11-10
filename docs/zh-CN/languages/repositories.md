@@ -7,12 +7,12 @@ PRAXO-CORE 是多语言框架。Go 是参考实现；其他语言有独立发布
 [`axisvela/praxo-core`](https://github.com/axisvela/praxo-core)。独立仓库可能是
 发布源，也可能是发现镜像；消费者实际安装的版本仍以 registry 为准。
 
-## 已启用仓库
+## 已实现语言
 
 | 语言 | 仓库 | 角色 |
 | --- | --- | --- |
-| Python | [axisvela/praxo-core-python](https://github.com/axisvela/praxo-core-python) | `language/python` 的发现镜像；包含 `spec/` 以便运行一致性测试 |
-| TypeScript | [axisvela/praxo-core-typescript](https://github.com/axisvela/praxo-core-typescript) | `language/typescript` 的发现镜像；包含 `spec/` 以便运行一致性测试 |
+| Python | [axisvela/praxo-core-python](https://github.com/axisvela/praxo-core-python) | `language/python` 的发现镜像；包含 `spec/` |
+| TypeScript | [axisvela/praxo-core-typescript](https://github.com/axisvela/praxo-core-typescript) | `language/typescript` 的发现镜像；包含 `spec/` |
 | Java | [axisvela/praxo-core-java](https://github.com/axisvela/praxo-core-java) | `language/java` 的发现镜像；包含 `spec/` |
 | Rust | [axisvela/praxo-core-rust](https://github.com/axisvela/praxo-core-rust) | `language/rust` 的发现镜像；包含 `spec/` |
 | C# / .NET | [axisvela/praxo-core-csharp](https://github.com/axisvela/praxo-core-csharp) | `language/csharp` 的发现镜像；包含 `spec/` |
@@ -27,17 +27,31 @@ PRAXO-CORE 是多语言框架。Go 是参考实现；其他语言有独立发布
 | OCaml | [axisvela/praxo-core-ocaml](https://github.com/axisvela/praxo-core-ocaml) | OCaml 独立仓库 |
 | Nim | [axisvela/praxo-core-nim](https://github.com/axisvela/praxo-core-nim) | Nim 独立仓库 |
 | D | [axisvela/praxo-core-d](https://github.com/axisvela/praxo-core-d) | DUB 发布源 |
+| Erlang | [axisvela/praxo-core-erlang](https://github.com/axisvela/praxo-core-erlang) | `language/erlang` 的发现镜像；包含 `spec/` |
+| Perl | [axisvela/praxo-core-perl](https://github.com/axisvela/praxo-core-perl) | `language/perl` 的发现镜像；包含 `spec/` |
+| Haskell | [axisvela/praxo-core-haskell](https://github.com/axisvela/praxo-core-haskell) | `language/haskell` 的发现镜像；包含 `spec/` |
+| Dart | [axisvela/praxo-core-dart](https://github.com/axisvela/praxo-core-dart) | `language/dart` 的发现镜像；包含 `spec/` |
+| Zig | [axisvela/praxo-core-zig](https://github.com/axisvela/praxo-core-zig) | `language/zig` 的发现镜像；包含 `spec/` |
+| C | [axisvela/praxo-core-c](https://github.com/axisvela/praxo-core-c) | `language/c` 的发现镜像；包含 `spec/` |
+| C++ | [axisvela/praxo-core-cpp](https://github.com/axisvela/praxo-core-cpp) | `language/cpp` 的发现镜像；包含 `spec/` |
+| Fortran | [axisvela/praxo-core-fortran](https://github.com/axisvela/praxo-core-fortran) | `language/fortran` 的发现镜像；包含 `spec/` |
+| COBOL | [axisvela/praxo-core-cobol](https://github.com/axisvela/praxo-core-cobol) | `language/cobol` 的发现镜像；包含 `spec/` |
+| PowerShell | [axisvela/praxo-core-powershell](https://github.com/axisvela/praxo-core-powershell) | `language/powershell` 的发现镜像；包含 `spec/` |
+| MATLAB | [axisvela/praxo-core-matlab](https://github.com/axisvela/praxo-core-matlab) | `language/matlab` 的发现镜像，含共享 MATLAB/Octave core |
+| GNU Octave | [axisvela/praxo-core-octave](https://github.com/axisvela/praxo-core-octave) | `language/octave` 的发现镜像，含共享 MATLAB/Octave core |
+| Delphi / Free Pascal | [axisvela/praxo-core-delphi](https://github.com/axisvela/praxo-core-delphi) | `language/delphi` 的发现镜像；包含 `spec/` |
+| Objective-C | [axisvela/praxo-core-objc](https://github.com/axisvela/praxo-core-objc) | `language/objc` 的发现镜像；包含 `spec/` |
 
-## 推进顺序
+Go 保持仓库根目录，因为其模块路径为 `github.com/axisvela/praxo-core/v2`。
+`bindings/` 下的 bridge 与 `examples/` 下的语言示例仍留在 monorepo。
 
-独立仓库按采用优先级增加，不以语言数量为目标。当前批次覆盖 agent-capable 实现：
-Python、TypeScript、Java、Rust、C#、R 与 Elixir。扩展与可选实现由维护者或命名消费者推动。
+## 为什么镜像包含 `spec/`
 
 镜像保留规范的 `language/<language>` 目录与共享 `spec/` 向量，使测试和一致性
 runner 可用；它不替代 monorepo 发布流程。不要从仓库存在推断 registry 可用性、
 一致性通过或生产就绪。
 
-## 新增语言仓库
+## 新增或更新仓库
 
 1. 规范源码继续位于 monorepo 的 `language/<language>`。
 2. 镜像该目录，并加入 `spec/`、`LICENSE` 与语言专用 README。

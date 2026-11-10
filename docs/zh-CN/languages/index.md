@@ -7,9 +7,7 @@
 [查看全部语言与当前状态](matrix.md){ .md-button }
 
 包名、版本、发布地址和待发布状态见[注册表发布状态](registry-status.md)。
-独立仓库见[各语言独立仓库](repositories.md)：目前包含 Python、TypeScript、Java、
-Rust、C#、R、Elixir、Ruby、PHP、Lua、Swift、Julia、V、OCaml、Nim 与 D；其余语言
-按采用顺序增加。
+独立仓库见[各语言独立仓库](repositories.md)，其中索引了所有已实现语言的专用仓库。
 
 每个条目使用独立的 docs/languages/<language>/ 目录，用于 Core 页面以及后续示例、适配器说明和发布页面。
 
