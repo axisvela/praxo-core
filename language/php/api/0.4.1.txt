@@ -75,17 +75,17 @@ int estimateTokens(array $messages)
 string truncateToTokens(string $value, int $tokens)
 ### Praxo\Core\Decision
 Decision(bool $allowed, string $reason)
+Praxo\Core\Decision allow(string $reason)
+Praxo\Core\Decision deny(string $reason)
 bool $allowed
-self allow(string $reason)
-self deny(string $reason)
 string $reason
 ### Praxo\Core\Event
 ?array $data
 ?string $at
 ?string $runId
 Event(string $type, string $sessionId, ?string $runId, ?array $data, ?string $at)
-self withData(array $data)
-self withRun(string $runId)
+Praxo\Core\Event withData(array $data)
+Praxo\Core\Event withRun(string $runId)
 string $sessionId
 string $type
 ### Praxo\Core\FilterSink
@@ -134,12 +134,12 @@ string $id
 ?string $content
 ?string $toolId
 Message(string $role, ?string $content, array $contentBlocks, array $toolCalls, ?string $toolId)
+Praxo\Core\Message assistant(string $content, array $toolCalls)
+Praxo\Core\Message text(string $role, string $content)
+Praxo\Core\Message tool(string $content, string $toolId)
 array $contentBlocks
 array $toolCalls
 array toArray()
-self assistant(string $content, array $toolCalls)
-self text(string $role, string $content)
-self tool(string $content, string $toolId)
 string $role
 ### Praxo\Core\MiddlewareToolCall
 ?Praxo\Core\PraxoException $error
@@ -187,8 +187,8 @@ void afterTool(Praxo\Core\MiddlewareToolCall $call, Praxo\Core\ToolResult $resul
 void beforeModel(Praxo\Core\ModelCall $call)
 ### Praxo\Core\PiiRedactor
 PiiRedactor(array $rules)
+Praxo\Core\PiiRedactor defaults()
 mixed redactValue(mixed $value)
-self defaults()
 string redact(string $text)
 ### Praxo\Core\PiiRule
 PiiRule(string $name, string $pattern, string $replacement)
@@ -214,30 +214,30 @@ string $sbom
 string $version
 ### Praxo\Core\PraxoException
 PraxoException(string $praxoCode, string $message)
-self approvalDenied(string $message)
-self checkpoint(string $message)
-self contextBudget()
-self interruptDecisionInvalid(string $message)
-self interruptUnhandled()
-self maxSteps()
-self maxTokens()
-self modelCallLimit()
-self plugin(string $message)
-self policy(string $message)
-self structuredOutput(string $message)
-self toolCallLimit()
-self toolNotFound(string $message)
-self toolNotSelected()
-self typeNotAllowed(string $message)
+Praxo\Core\PraxoException approvalDenied(string $message)
+Praxo\Core\PraxoException checkpoint(string $message)
+Praxo\Core\PraxoException contextBudget()
+Praxo\Core\PraxoException interruptDecisionInvalid(string $message)
+Praxo\Core\PraxoException interruptUnhandled()
+Praxo\Core\PraxoException maxSteps()
+Praxo\Core\PraxoException maxTokens()
+Praxo\Core\PraxoException modelCallLimit()
+Praxo\Core\PraxoException plugin(string $message)
+Praxo\Core\PraxoException policy(string $message)
+Praxo\Core\PraxoException structuredOutput(string $message)
+Praxo\Core\PraxoException toolCallLimit()
+Praxo\Core\PraxoException toolNotFound(string $message)
+Praxo\Core\PraxoException toolNotSelected()
+Praxo\Core\PraxoException typeNotAllowed(string $message)
 string $praxoCode
 ### Praxo\Core\Request
 ?array $responseFormat
 ?string $toolChoice
+Praxo\Core\Request of(array $messages)
 Request(array $messages, array $tools, ?string $toolChoice, ?array $responseFormat, float $temperature)
 array $messages
 array $tools
 float $temperature
-self of(array $messages)
 ### Praxo\Core\Response
 ?string $finishReason
 Praxo\Core\Message $message
@@ -310,11 +310,11 @@ ToolSpec(string $name, string $description, ?array $parameters, ?string $risk)
 string $description
 string $name
 ### Praxo\Core\Usage
+Praxo\Core\Usage plus(Praxo\Core\Usage $other)
 Usage(int $inputTokens, int $outputTokens, int $cachedTokens)
 int $cachedTokens
 int $inputTokens
 int $outputTokens
-self plus(Praxo\Core\Usage $other)
 ### Praxo\Core\ValidationError
 ValidationError(string $path, string $message)
 string $message

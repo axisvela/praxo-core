@@ -1220,11 +1220,11 @@ let openai_parse_response text =
         match field "message" choice with Some value -> value | None -> Object []
       in
       let calls = List.map (fun item ->
-        let function =
+        let function_value =
           match field "function" item with Some value -> value | None -> Object []
         in
         let arguments =
-          match field "arguments" function with
+          match field "arguments" function_value with
           | Some (String raw) when raw <> "" ->
               (try match parse_json raw with
                 | Object _ as value -> value
@@ -1236,7 +1236,7 @@ let openai_parse_response text =
         in
         tool_invocation_make
           (match field_string "id" item with Some value -> value | None -> "")
-          (match field_string "name" function with Some value -> value | None -> "")
+          (match field_string "name" function_value with Some value -> value | None -> "")
           arguments) (field_array "tool_calls" message)
       in
       let usage =

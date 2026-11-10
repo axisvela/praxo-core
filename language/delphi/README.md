@@ -77,7 +77,9 @@ adapter. It posts to `{baseURL}/chat/completions`, maps assistant content, tool
 calls, usage, and finish reason, and exposes an injectable
 `TPraxoOpenAITransport` for deterministic tests. Missing base URLs and non-2xx
 responses raise `EPraxoProvider` with a `PROVIDER_HTTP` code. Streaming is not
-implemented.
+implemented. The default transport uses `fphttpclient` without OpenSSL; for
+HTTPS, include `opensslsockets` in the application or inject a TLS-capable
+transport.
 
 ```pascal
 var

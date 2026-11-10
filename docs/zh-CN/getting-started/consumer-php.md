@@ -1,8 +1,9 @@
 # PHP 独立消费者
 
 在自己的应用中使用已发布的 `axisvela/praxo-core` `0.4.1`，要求已修补的 PHP 版本
-及 Composer 2。Windows 上使用 PHP `8.2.35-1`、`8.3.36-1`、`8.4.27-1` 或
-`8.5.12-1`，这些版本包含 Brotli 1.2.1 与 CVE-2026-111497 修复。无需检出 PRAXO-CORE 源码、API Key、模型服务或 AxisVela 产品。
+及 Composer 2。Windows 上使用 PHP `8.2.35-1`、`8.3.36-1`、`8.4.27-1`、
+`8.5.12-1` 或更新的已修补版本；这些版本包含 Brotli 1.2.1 与
+CVE-2026-111497 修复。无需检出 PRAXO-CORE 源码、API Key、模型服务或 AxisVela 产品。
 安装需要 Packagist 访问或已有 Composer 缓存。
 
 这是扩展语言 starter，只演示 allow/deny 路径，不在四个具备治理负向矩阵的试点语言范围内。
@@ -64,7 +65,8 @@ deny: policy rejected; effects=0
 ## 运行时安全
 
 PRAXO-CORE 不捆绑 PHP 或 Brotli。请使用已修补的 PHP 运行时。PHP Windows 构建
-`8.2.35-1`、`8.3.36-1`、`8.4.27-1` 与 `8.5.12-1` 包含 Brotli 1.2.1，修复
+`8.2.35-1`、`8.3.36-1`、`8.4.27-1`、`8.5.12-1` 或更新的已修补版本包含
+Brotli 1.2.1，修复
 Brotli 解压越界写漏洞 CVE-2026-111497。Linux 发行版与容器可能提供等效 backport，
 部署前请核对其安全公告状态。
 

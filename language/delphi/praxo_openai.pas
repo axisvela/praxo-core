@@ -40,7 +40,7 @@ type
 
 implementation
 
-uses Classes, fphttpclient, opensslsockets, praxo;
+uses Classes, fphttpclient, praxo;
 
 constructor EPraxoProvider.CreateCode(const ACode, AMessage: UTF8String;
   AStatus: Integer);

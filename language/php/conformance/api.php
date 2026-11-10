@@ -4,6 +4,14 @@ declare(strict_types=1);
 
 namespace Praxo\Conformance;
 
+function typeName(\ReflectionType|null $type, string $class): string
+{
+    if ($type === null) {
+        return '';
+    }
+    return preg_replace('/\bself\b/', $class, (string) $type) ?? (string) $type;
+}
+
 function apiSnapshot(): string
 {
     $classes = array_values(array_filter(
@@ -18,21 +26,21 @@ function apiSnapshot(): string
         $members = [];
         $constructor = $reflection->getConstructor();
         if ($constructor !== null && $constructor->isPublic()) {
-            $members[] = $reflection->getShortName() . '(' . parameters($constructor) . ')';
+            $members[] = $reflection->getShortName() . '(' . parameters($constructor, $class) . ')';
         }
         foreach ($reflection->getMethods(\ReflectionMethod::IS_PUBLIC) as $method) {
             if ($method->getDeclaringClass()->getName() !== $class || $method->isConstructor()) {
                 continue;
             }
-            $returns = $method->getReturnType();
-            $members[] = ($returns ? (string) $returns . ' ' : '') . $method->getName() . '(' . parameters($method) . ')';
+            $returns = typeName($method->getReturnType(), $class);
+            $members[] = ($returns !== '' ? $returns . ' ' : '') . $method->getName() . '(' . parameters($method, $class) . ')';
         }
         foreach ($reflection->getProperties(\ReflectionProperty::IS_PUBLIC) as $property) {
             if ($property->getDeclaringClass()->getName() !== $class) {
                 continue;
             }
-            $type = $property->getType();
-            $members[] = ($type ? (string) $type . ' ' : '') . '$' . $property->getName();
+            $type = typeName($property->getType(), $class);
+            $members[] = ($type !== '' ? $type . ' ' : '') . '$' . $property->getName();
         }
         sort($members, SORT_STRING);
         foreach ($members as $member) {
@@ -74,12 +82,12 @@ function checkApi(): int
     return 1;
 }
 
-function parameters(\ReflectionFunctionAbstract $function): string
+function parameters(\ReflectionFunctionAbstract $function, string $class): string
 {
     $parts = [];
     foreach ($function->getParameters() as $parameter) {
-        $type = $parameter->getType();
-        $parts[] = ($type ? (string) $type . ' ' : '') . '$' . $parameter->getName();
+        $type = typeName($parameter->getType(), $class);
+        $parts[] = ($type !== '' ? $type . ' ' : '') . '$' . $parameter->getName();
     }
     return implode(', ', $parts);
 }
