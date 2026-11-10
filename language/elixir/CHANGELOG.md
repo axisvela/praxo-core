@@ -1,9 +1,19 @@
 # Elixir Core Release Notes
 
+## 0.5.1 - 2026-11-10
+
+Source release tag `elixir/v0.5.1`. Hex publishes `praxo_core==0.5.1` and
+HexDocs `0.5.1` through `.github/workflows/elixir-release.yml`.
+
+### Fixed
+
+- Release workflow compiles `lib/praxo/adapters/` before running tests.
+- API snapshot `api/0.5.1.txt`.
+
 ## 0.5.0 - 2026-11-10
 
-Source release tag `elixir/v0.5.0`. Hex publishes `praxo_core==0.5.0` and
-HexDocs `0.5.0` through `.github/workflows/elixir-release.yml`.
+Source release tag `elixir/v0.5.0` failed before publication because the
+release workflow did not compile adapter modules. Superseded by `0.5.1`.
 
 ### Added
 

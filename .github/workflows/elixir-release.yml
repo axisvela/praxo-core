@@ -52,7 +52,7 @@ jobs:
         run: |
           python api-snapshot.py --check
           mkdir -p build/ebin
-          elixirc -o build/ebin lib/praxo/*.ex
+          elixirc -o build/ebin lib/praxo/*.ex lib/praxo/adapters/*.ex
           elixir -pa build/ebin tests/run_tests.exs
           cd ../..
           elixir -pa language/elixir/build/ebin language/elixir/conformance/run.exs

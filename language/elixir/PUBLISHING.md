@@ -3,8 +3,8 @@
 ## Status
 
 `praxo_core==0.4.1` is published from source tag `elixir/v0.4.1` by
-`.github/workflows/elixir-release.yml`. The `elixir/v0.5.0` tag prepares the
-`0.5.0` source release for the same workflow. Hex reports `0.4.1`, `0.4.0`,
+`.github/workflows/elixir-release.yml`. The `elixir/v0.5.1` tag prepares the
+`0.5.1` source release for the same workflow. Hex reports `0.4.1`, `0.4.0`,
 `0.3.0`, `0.2.0`, and `0.1.1` for `praxo_core`. HexDocs are published at
 <https://praxo-core.hexdocs.pm/0.4.1/>.
 
@@ -18,7 +18,7 @@ mix hex.build
 Local gates:
 
 ```bash
-elixirc -o build/ebin lib/praxo/*.ex
+elixirc -o build/ebin lib/praxo/*.ex lib/praxo/adapters/*.ex
 elixir -pa build/ebin tests/run_tests.exs
 elixir -pa build/ebin conformance/run.exs
 python language/elixir/api-snapshot.py --check

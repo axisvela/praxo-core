@@ -133,7 +133,7 @@ defmodule Praxo.Mcp do
 
     client_info = %{
       "name" => Keyword.get(options, :client_name, "praxo-core"),
-      "version" => Keyword.get(options, :client_version, "0.5.0")
+      "version" => Keyword.get(options, :client_version, "0.5.1")
     }
 
     case request(
