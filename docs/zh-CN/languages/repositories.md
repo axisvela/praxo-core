@@ -48,8 +48,9 @@ Go 保持仓库根目录，因为其模块路径为 `github.com/axisvela/praxo-c
 ## 为什么镜像包含 `spec/`
 
 镜像保留规范的 `language/<language>` 目录与共享 `spec/` 向量，使测试和一致性
-runner 可用；它不替代 monorepo 发布流程。不要从仓库存在推断 registry 可用性、
-一致性通过或生产就绪。
+runner 可用；它不替代 monorepo 发布流程。镜像会从规范源码刷新；若镜像滞后，以
+monorepo 与 registry 版本为准。不要从仓库存在推断 registry 可用性、一致性通过或
+生产就绪。
 
 ## 新增或更新仓库
 

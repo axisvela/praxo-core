@@ -53,8 +53,10 @@ samples under `examples/` remain in the monorepo.
 
 A mirror keeps the canonical `language/<language>` tree and the shared `spec/`
 vectors so its tests and conformance runner work. It does not replace the
-monorepo release workflow. Do not infer registry availability, conformance, or
-production readiness from the existence of a repository.
+monorepo release workflow. Mirrors are refreshed from the canonical source; if a
+mirror lags, use the monorepo and the registry version. Do not infer registry
+availability, conformance, or production readiness from the existence of a
+repository.
 
 ## Adding or Updating a Repository
 
