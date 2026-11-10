@@ -6,7 +6,8 @@ The PHP package is `axisvela/praxo-core` on Packagist. Its publication source is
 the split repository `axisvela/praxo-core-php`. Tag `v0.4.0` was pushed from
 main-repository tag `php/v0.4.0`; `v0.3.0` and `v0.2.0` remain available.
 Source tag `php/v0.4.1` and split tag `v0.4.1` are published; Packagist
-publication is pending.
+publication is pending. This package has no automatic update hook, so Packagist
+crawls it weekly; a maintainer can trigger a manual update from the package page.
 
 Packagist does not receive a manual upload from this repository; it reads the
 split repository's Composer metadata and tags. Verify the Packagist package page

@@ -50,7 +50,8 @@ GitHub Latest represents the Go Reference Core only, not the last language packa
 
 PHP source `php/v0.4.1` and split tag `v0.4.1` are published with Composer
 `autoload.files` and `api/0.4.1.txt`; Packagist remains `0.4.0` until it indexes
-the new tag.
+the new tag. This package has no automatic update hook, so Packagist crawls it
+weekly; a maintainer can trigger a manual update from the package page.
 
 ## Uploaded or awaiting indexing
 

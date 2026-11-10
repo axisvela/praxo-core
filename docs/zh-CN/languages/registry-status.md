@@ -42,7 +42,8 @@ GitHub Latest 仅代表 Go 参考 Core，不代表最近发布的语言包。
 | Nim | nim-lang/packages（Nimble） | `0.1.1` | https://github.com/axisvela/praxo-core-nim | split repo 已发布；nim-lang/packages PR #3600 已于 2026-11-05 合并；安装 smoke 未记录；nimpkgs 待重新抓取 |
 
 PHP 源码 `php/v0.4.1` 与 split `v0.4.1` tag 已发布，包含 Composer `autoload.files`
-与 `api/0.4.1.txt`；在 Packagist 索引新 tag 前，仍为 `0.4.0`。
+与 `api/0.4.1.txt`；在 Packagist 索引新 tag 前，仍为 `0.4.0`。该包未配置自动更新
+hook，Packagist 对已有包按周抓取；维护者可在包页面手动触发更新。
 
 ## 已上传或等待索引
 
