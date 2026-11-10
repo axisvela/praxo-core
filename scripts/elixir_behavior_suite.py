@@ -21,7 +21,7 @@ def executable(name: str) -> list[str]:
 
 def main() -> int:
     EBIN.mkdir(parents=True, exist_ok=True)
-    sources = sorted((LANGUAGE / "lib" / "praxo").glob("*.ex"))
+    sources = sorted((LANGUAGE / "lib" / "praxo").rglob("*.ex"))
     subprocess.run(
         [*executable("elixirc"), "-o", str(EBIN), *(str(path) for path in sources)],
         cwd=LANGUAGE,
