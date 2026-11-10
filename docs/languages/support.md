@@ -97,7 +97,7 @@ a merged implementation PR as a support commitment.
 These are separate claims. A source tag records a repository release; a registry
 version records what a package manager can fetch; a consumer smoke records an
 install and run outside the repository. Do not cite one as evidence for another.
-Registry values below were checked against the public registries on 2026-11-05.
+Registry values below were checked against the public registries on 2026-11-10.
 
 | Language | Source tag | Registry version | Consumer install smoke |
 | --- | --- | --- | --- |

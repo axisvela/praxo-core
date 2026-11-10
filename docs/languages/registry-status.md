@@ -1,7 +1,8 @@
 # Registry Publication Status
 
-Last checked: 2026-11-10 (Rust 0.4.0 released; Python 0.4.1, TypeScript 0.2.2,
-and Java 0.4.1 published; Go module proxy and crates.io re-checked 2026-11-10;
+Last checked: 2026-11-10 (Rust 0.4.0, C# 0.4.0, and Elixir 0.5.1 released;
+Python 0.4.1, TypeScript 0.2.2, and Java 0.4.1 published; Java 0.5.0 and
+R 0.6.1 sources prepared; Go module proxy and crates.io re-checked 2026-11-10;
 other rows from the 2026-11-04/05 audit).
 
 This page summarizes where each language implementation is published. Source
