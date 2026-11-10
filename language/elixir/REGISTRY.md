@@ -1,7 +1,7 @@
 # PRAXO-CORE Elixir Registry Introduction
 
-**Status:** source release prepared; registry 0.4.1 published. Source version `0.5.1`, source
-tag `elixir/v0.5.1`. Published registry version: `0.4.1`. Registry
+**Status:** published. Source version `0.5.1`, source
+tag `elixir/v0.5.1`. Published registry version: `0.5.1`. Registry
 pages are release snapshots; verify the published version before relying on a
 feature.
 
@@ -16,8 +16,8 @@ PRAXO-CORE is an embeddable, MIT-licensed agent framework. This package is its n
 | Package | `praxo_core` |
 | Registry | [Hex](https://hex.pm/packages/praxo_core) |
 | Source version | `0.5.1` |
-| Published registry version | `0.4.1` |
-| Install (published) | `{:praxo_core, "~> 0.4.1"}` |
+| Published registry version | `0.5.1` |
+| Install (published) | `{:praxo_core, "~> 0.5.1"}` |
 | Install (source/release prepared) | `{:praxo_core, "~> 0.5.1"}` |
 | Source tag | `elixir/v0.5.1` |
 | Tier | Core |

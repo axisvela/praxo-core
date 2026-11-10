@@ -21,7 +21,7 @@ controls, checkpoints, and event tracing. It is not a Go-only framework.
 | Ruby | `praxo-core` | [RubyGems](https://rubygems.org/gems/praxo-core/versions/0.4.1) | `0.4.1` | https://axisvela.github.io/praxo-core/languages/ruby/ |
 | PHP | `axisvela/praxo-core` | [Packagist](https://packagist.org/packages/axisvela/praxo-core) | `0.4.1` | https://axisvela.github.io/praxo-core/languages/php/ |
 | Dart | `praxo_core` | [pub.dev](https://pub.dev/packages/praxo_core/versions/0.1.1) | `0.1.1` | https://axisvela.github.io/praxo-core/languages/dart/ |
-| Elixir | `praxo_core` | [Hex](https://hex.pm/packages/praxo_core) | `0.4.1` | https://axisvela.github.io/praxo-core/languages/elixir/ |
+| Elixir | `praxo_core` | [Hex](https://hex.pm/packages/praxo_core) | `0.5.1` | https://axisvela.github.io/praxo-core/languages/elixir/ |
 | Erlang | `praxo_core_erlang` | [Hex](https://hex.pm/packages/praxo_core_erlang/0.4.0) | `0.4.0` | https://axisvela.github.io/praxo-core/languages/erlang/ |
 | Lua | `praxo-core` | [LuaRocks](https://luarocks.org/modules/hanhhuiwen/praxo-core) | `0.4.1-1` | https://axisvela.github.io/praxo-core/languages/lua/ |
 | Perl | `Praxo::Core` | [CPAN (MetaCPAN index)](https://metacpan.org/dist/Praxo-Core) | `0.1.1` | https://axisvela.github.io/praxo-core/languages/perl/ |

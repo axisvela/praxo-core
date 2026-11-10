@@ -13,9 +13,9 @@ language runtime. Erlang shares the BEAM runtime and does not add a second
 agent loop. An optional OpenAI-compatible adapter is included; other provider
 adapters and plugin hosts remain outside the declared Core scope.
 
-The latest Hex package remains `praxo_core@0.4.1`; `0.4.0`, `0.3.0`, and
-`0.2.0` remain available. The `0.5.1` source adds Harmovela and MCP adapters and
-includes `api/0.5.1.txt`. HexDocs: <https://praxo-core.hexdocs.pm/0.4.1/>.
+The latest Hex package is `praxo_core@0.5.1`; `0.4.1`, `0.4.0`, `0.3.0`, and
+`0.2.0` remain available. It adds Harmovela and MCP adapters and includes
+`api/0.5.1.txt`. HexDocs: <https://praxo-core.hexdocs.pm/0.5.1/>.
 
 ## Registry and Coding-Agent Entry
 
@@ -27,7 +27,7 @@ includes `api/0.5.1.txt`. HexDocs: <https://praxo-core.hexdocs.pm/0.4.1/>.
 ## Install
 
 ```elixir
-{:praxo_core, "~> 0.4.1"}
+{:praxo_core, "~> 0.5.1"}
 ```
 
 ## Harmovela Event Sink

@@ -9,8 +9,8 @@
 - package: `praxo_core`
 - registry: [Hex](https://hex.pm/packages/praxo_core)
 - source_version: `0.5.1`
-- published_version: `0.4.1`
-- install_published: `{:praxo_core, "~> 0.4.1"}`
+- published_version: `0.5.1`
+- install_published: `{:praxo_core, "~> 0.5.1"}`
 - install_source: `{:praxo_core, "~> 0.5.1"}`
 - source_tag: `elixir/v0.5.1`
 - tier: Core
