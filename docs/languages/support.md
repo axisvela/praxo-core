@@ -200,11 +200,13 @@ the installation source of truth.
   recorded clean temporary-project install smoke covers `0.1.4` and reported
   `SDK_VERSION` `0.1.4` and `SPEC_VERSION` `0.2.0`. VFS and plugin hosts are not
   included.
-- R source tag `r/v0.5.0` adds HITL interrupt decisions to policy, middleware,
-  lifecycle cleanup, cancellation, streaming callbacks, an SSE parser, bounded
-  parallel tools, and an API snapshot. Unix uses `mclapply`; Windows uses a PSOCK cluster.
-  r-universe publishes `praxocore==0.5.0` from `language/r`; CRAN publication
-  is not claimed. The release workflow runs `R CMD build` and `R CMD check`.
+- R source tag `r/v0.6.0` adds the OpenAI-compatible adapter, Harmovela sink,
+  and stdio MCP client to policy, middleware, lifecycle cleanup, cancellation,
+  streaming callbacks, an SSE parser, bounded parallel tools, HITL interrupt
+  decisions, and an API snapshot. Unix uses `mclapply`; Windows uses a PSOCK
+  cluster. r-universe publishes `praxocore==0.5.0` from `language/r`; the `0.6.0`
+  build is pending and CRAN publication is not claimed. The release workflow
+  runs `R CMD build` and `R CMD check`.
 - C source tag `c/v0.6.0` adds human-in-the-loop interrupt decisions on top of
   policy authorization, ordered middleware, lifecycle cleanup, final-tool
   allowlist checks, middleware reauthorization, cancellation, streaming

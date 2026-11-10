@@ -1,5 +1,20 @@
 # R Core Release Notes
 
+## 0.6.0 - 2026-11-10
+
+Source release tag `r/v0.6.0`.
+
+### Added
+
+- OpenAI-compatible model adapter with an injectable transport.
+- Harmovela HTTP event sink with an injectable transport.
+- Native stdio MCP client, tool adapters, and registry helper.
+- API snapshot `api/0.6.0.txt`.
+
+### Changed
+
+- MCP default client version is `0.6.0`.
+
 ## 0.5.0 - 2026-11-02
 
 Source release tag `r/v0.5.0`.

@@ -154,7 +154,7 @@ Bridge、Sample 描述运行时的接入方式，不证明其语言缺乏 Framew
   `praxo_core==0.1.1` 到 pub.dev。干净项目已安装该包、导入
   `package:praxo_core/praxo_core.dart` 并运行最小 agent。
 - Rust 源码标签 `rust/v0.4.0` 新增 provider-neutral model 类型和 OpenAI-compatible、Harmovela、MCP adapter，并保留全部 11 个向量组、原生测试、`tool.Gateway`、`jsonschema.Schema`、流式回调、取消、有限并行工具、人工审批中断决策和 API 快照。crates.io 已发布 `praxo-core==0.4.0`；已记录的干净临时项目安装 smoke 覆盖 `0.1.4`，报告 `SDK_VERSION` `0.1.4` 和 `SPEC_VERSION` `0.2.0`。不包含 VFS 或 plugin hosts。
-- R 源码标签 `r/v0.5.0` 在 policy、middleware、生命周期清理、取消、流式回调、SSE parser、有限并行工具和 API 快照之上增加人工审批中断决策。Unix 使用 `mclapply`，Windows 使用 PSOCK cluster。r-universe 从 `language/r` 发布 `praxocore==0.5.0`；CRAN 发布尚未声明，发布工作流执行 `R CMD build` 和 `R CMD check`。
+- R 源码标签 `r/v0.6.0` 在 policy、middleware、生命周期清理、取消、流式回调、SSE parser、有限并行工具、人工审批中断决策和 API 快照之上新增 OpenAI-compatible、Harmovela 和 stdio MCP adapter。Unix 使用 `mclapply`，Windows 使用 PSOCK cluster。r-universe 从 `language/r` 发布 `praxocore==0.5.0`；`0.6.0` 构建待完成，CRAN 发布尚未声明，发布工作流执行 `R CMD build` 和 `R CMD check`。
 - C 源码标签 `c/v0.6.0` 在 policy 授权、有序 middleware、生命周期清理、
   最终工具 allowlist 检查、中途修改后的重新授权、取消、流式回调、SSE parser
   和有限并行工具之上增加人工审批中断决策。Unix 使用 pthread 与逐线程 arena；
