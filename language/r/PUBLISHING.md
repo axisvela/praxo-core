@@ -2,7 +2,7 @@
 
 ## Status
 
-Source tag `r/v0.6.0` maps to package `praxocore` version `0.6.0`. The package
+Source tag `r/v0.6.1` maps to package `praxocore` version `0.6.1`. The package
 is indexed by r-universe at <https://axisvela.r-universe.dev/praxocore>; the
 current r-universe build remains `0.5.0` until the tag is built. CRAN
 publication is not yet claimed.
@@ -13,7 +13,7 @@ From the repository root:
 
 ```bash
 R CMD build language/r
-R CMD check --no-manual --no-build-vignettes praxocore_0.6.0.tar.gz
+R CMD check --no-manual --no-build-vignettes praxocore_0.6.1.tar.gz
 ```
 
 `R CMD check` must finish without ERROR before submission. The package tests

@@ -1,10 +1,11 @@
+args <- commandArgs(trailingOnly = FALSE)
+script_arg <- args[grep("^--file=", args)]
+script <- if (length(script_arg)) sub("^--file=", "", script_arg[1]) else ""
+test_dir <- if (nzchar(script)) dirname(normalizePath(script)) else getwd()
 if (requireNamespace("praxocore", quietly = TRUE)) {
   library(praxocore)
 } else {
-  args <- commandArgs(trailingOnly = FALSE)
-  script_arg <- args[grep("^--file=", args)]
-  script <- sub("^--file=", "", script_arg[1])
-  root <- normalizePath(file.path(dirname(script), "..", "..", ".."))
+  root <- normalizePath(file.path(test_dir, "..", "..", ".."))
   source(file.path(root, "language", "r", "R", "json.R"))
   source(file.path(root, "language", "r", "R", "toolcall.R"))
   source(file.path(root, "language", "r", "R", "jsonschema.R"))
@@ -13,15 +14,9 @@ if (requireNamespace("praxocore", quietly = TRUE)) {
   source(file.path(root, "language", "r", "R", "openaicompat.R"))
   source(file.path(root, "language", "r", "R", "harmovela.R"))
   source(file.path(root, "language", "r", "R", "mcp.R"))
-  source(file.path(root, "language", "r", "tests", "fake_mcp_server.R"))
 }
-
-args <- commandArgs(trailingOnly = FALSE)
-script_arg <- args[grep("^--file=", args)]
-script <- sub("^--file=", "", script_arg[1])
-root <- normalizePath(file.path(dirname(script), "..", "..", ".."))
 if (!exists("fake_mcp_response", mode = "function")) {
-  source(file.path(root, "language", "r", "tests", "fake_mcp_server.R"))
+  source(file.path(test_dir, "fake_mcp_server.R"))
 }
 
 expect_code <- function(expr, code) {
@@ -648,6 +643,6 @@ harmovela_test <- function() {
 
 harmovela_test()
 
-source(file.path(root, "language", "r", "tests", "mcp_tests.R"))
+source(file.path(test_dir, "mcp_tests.R"))
 
 cat("R core tests passed\n")

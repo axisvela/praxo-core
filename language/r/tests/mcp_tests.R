@@ -1,3 +1,33 @@
+args <- commandArgs(trailingOnly = FALSE)
+script_arg <- args[grep("^--file=", args)]
+script <- if (length(script_arg)) sub("^--file=", "", script_arg[1]) else ""
+test_dir <- if (nzchar(script)) dirname(normalizePath(script)) else getwd()
+if (requireNamespace("praxocore", quietly = TRUE)) {
+  library(praxocore)
+} else {
+  root <- normalizePath(file.path(test_dir, "..", "..", ".."))
+  source(file.path(root, "language", "r", "R", "json.R"))
+  source(file.path(root, "language", "r", "R", "toolcall.R"))
+  source(file.path(root, "language", "r", "R", "jsonschema.R"))
+  source(file.path(root, "language", "r", "R", "plugin.R"))
+  source(file.path(root, "language", "r", "R", "core.R"))
+  source(file.path(root, "language", "r", "R", "openaicompat.R"))
+  source(file.path(root, "language", "r", "R", "harmovela.R"))
+  source(file.path(root, "language", "r", "R", "mcp.R"))
+}
+source(file.path(test_dir, "fake_mcp_server.R"))
+
+expect_code <- function(expr, code) {
+  error <- tryCatch({ force(expr); NULL }, error = function(e) e)
+  stopifnot(inherits(error, "praxo_error"), identical(error$code, code))
+}
+
+tool_response <- function(name, arguments) {
+  response(message(roles$assistant, "", tool_calls = list(tool_call("c1", name, arguments))))
+}
+
+done_response <- response(message(roles$assistant, "done"))
+
 fake_mcp_transport <- function(mode = "default") {
   state <- new.env(parent = emptyenv())
   state$mode <- mode

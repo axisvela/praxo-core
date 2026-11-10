@@ -16,16 +16,16 @@
   "C#": {
     "dir": "language/csharp",
     "docs": "https://axisvela.github.io/praxo-core/languages/csharp/",
-    "install": "dotnet add package Praxo.Core --version 0.3.0",
+    "install": "dotnet add package Praxo.Core --version 0.4.0",
     "package": "Praxo.Core",
-    "published_version": "0.3.0",
+    "published_version": "0.4.0",
     "registry": "NuGet",
     "source_install": "dotnet add package Praxo.Core --version 0.4.0",
     "source_version": "0.4.0",
-    "status": "source release prepared; registry 0.3.0 published",
+    "status": "published",
     "tag": "csharp/v0.4.0",
     "tier": "Core",
-    "url": "https://www.nuget.org/packages/Praxo.Core/0.3.0"
+    "url": "https://www.nuget.org/packages/Praxo.Core/0.4.0"
   },
   "C++": {
     "dir": "language/cpp",
@@ -357,9 +357,9 @@
     "published_version": "0.5.0",
     "registry": "r-universe",
     "source_install": "install.packages(\"praxocore\", repos = \"https://axisvela.r-universe.dev\")",
-    "source_version": "0.6.0",
+    "source_version": "0.6.1",
     "status": "source release prepared; r-universe 0.5.0 published; CRAN not published",
-    "tag": "r/v0.6.0",
+    "tag": "r/v0.6.1",
     "tier": "Core",
     "url": "https://axisvela.r-universe.dev/praxocore"
   },

@@ -1,8 +1,19 @@
 # R Core Release Notes
 
+## 0.6.1 - 2026-11-10
+
+Source release tag `r/v0.6.1`.
+
+### Fixed
+
+- `tests/mcp_tests.R` loads the installed package or repository sources when
+  run directly by `R CMD check`.
+- API snapshot `api/0.6.1.txt`.
+
 ## 0.6.0 - 2026-11-10
 
-Source release tag `r/v0.6.0`.
+Source release tag `r/v0.6.0` failed `R CMD check` before publication.
+Superseded by `0.6.1`.
 
 ### Added
 

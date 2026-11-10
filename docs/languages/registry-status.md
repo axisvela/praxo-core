@@ -32,7 +32,7 @@ GitHub Latest represents the Go Reference Core only, not the last language packa
 | TypeScript | npm | `0.2.2` | https://www.npmjs.com/package/@axisvela/praxo-core/v/0.2.2 | published; latest |
 | Java | Maven Central | `0.4.1` | https://repo1.maven.org/maven2/com/axisvela/praxo-core/0.4.1/ | published |
 | Rust | crates.io | `0.4.0` | https://crates.io/crates/praxo-core/0.4.0 | published |
-| C# | NuGet | `0.3.0` | https://www.nuget.org/packages/Praxo.Core/0.3.0 | published |
+| C# | NuGet | `0.4.0` | https://www.nuget.org/packages/Praxo.Core/0.4.0 | published |
 | Elixir | Hex / HexDocs | `0.5.1` | https://hex.pm/packages/praxo_core/0.5.1 · https://praxo-core.hexdocs.pm/0.5.1/ | published |
 | Erlang | Hex | `0.4.0` | https://hex.pm/packages/praxo_core_erlang/0.4.0 | published |
 | Ruby | RubyGems | `0.4.1` | https://rubygems.org/gems/praxo-core/versions/0.4.1 | published; Ruby source repo is `axisvela/praxo-core-ruby` |

@@ -33,7 +33,7 @@
 | Ruby 已发布 gem | RubyGems 已从源码标签 `ruby/v0.4.1` 发布 `praxo-core==0.4.1`；gem 源码仓库为 `axisvela/praxo-core-ruby`。`0.4.0`、`0.3.0` 和 `0.2.0` 仍可用。已记录的干净临时目录 smoke 覆盖 `0.1.0` | Registry 发布 + 历史本地安装 smoke | 未对 `0.4.1` 重跑 registry 安装 smoke；仅一个平台；不是独立消费者；不含 provider 或生产证据 |
 | Lua 已发布 rock | LuaRocks 已通过 `.github/workflows/lua-release.yml` 发布 `praxo-core==0.4.1-1`；工作流构建 source rock、在干净目录安装并运行安装后 smoke。已发布 `0.4.1-1` 也已安装到干净临时 tree，并从仓库外运行消费者 Starter 通过；`0.4.0-1`、`0.3.0-1` 和 `0.2.0-1` 仍可用 | Registry 发布 + CI 安装 smoke + 本地消费者安装 | 仅一个平台；不是独立消费者；不含 provider 或生产证据 |
 | PHP 已发布包 | Packagist 从 split 标签 `v0.4.0` 发布 `axisvela/praxo-core==0.4.0`；`v0.3.0` 和 `v0.2.0` 仍可用 | Registry 发布 | 未记录 Composer 安装 smoke；仅一个平台；不是独立消费者；不含 provider 或生产证据 |
-| C# 已发布包 | `Praxo.Core==0.3.0` 由 GitHub Actions Trusted Publishing 从源码标签 `csharp/v0.3.0` 完成构建、测试、打包并推送到 NuGet | CI + registry | 本地无 .NET SDK，未执行消费者安装 smoke；一个包版本；不含 provider 或生产证据 |
+| C# 已发布包 | `Praxo.Core==0.4.0` 由 GitHub Actions Trusted Publishing 从源码标签 `csharp/v0.4.0` 完成构建、测试、打包并推送到 NuGet | CI + registry | 本地无 .NET SDK，未执行消费者安装 smoke；一个包版本；不含 provider 或生产证据 |
 | MATLAB File Exchange 包 | `PRAXO-CORE 0.2.1` 已发布到 File Exchange 条目 `185166`，包含 toolbox image 和 MIT license | Registry 发布 | 未记录 MATLAB 运行时验证和消费者安装 smoke；Octave 验证不能证明 MATLAB 行为 |
 | PowerShell Core | PowerShell Gallery 已发布 `praxo-core-ps==0.2.0`。CI 构建 C# Core，运行 C# conformance/behavior 套件、包装 smoke 和 PowerShell API snapshot | Registry + contract/unit + CI | 共享 C# 运行时，不是独立 agent loop；行为证据继承自 C# Core；尚无消费者安装 smoke 或 provider 证据 |
 | Elixir 已发布包 | Hex 已从源码标签 `elixir/v0.4.1` 发布 `praxo_core==0.4.1` 与 HexDocs `0.4.1`；`0.4.0`、`0.3.0` 和 `0.2.0` 仍可用。`0.4.1` 已在干净 Mix 项目中解析，消费者 Starter 本地通过 | Registry 发布 + 本地消费者安装 | 仅一个平台；不是独立消费者；不含 provider 或生产证据 |
@@ -70,7 +70,7 @@ Registry 链接指向当前已发布版本；上表的消费者 smoke 行指明�
 - [RubyGems 上的 praxo-core 0.4.1](https://rubygems.org/gems/praxo-core/versions/0.4.1)
 - [LuaRocks 上的 praxo-core 0.4.1-1](https://luarocks.org/modules/hanhhuiwen/praxo-core)
 - [Hex 上的 praxo_core 0.4.1](https://hex.pm/packages/praxo_core/0.4.1)
-- [NuGet 上的 Praxo.Core 0.3.0](https://www.nuget.org/packages/Praxo.Core/0.3.0)
+- [NuGet 上的 Praxo.Core 0.4.0](https://www.nuget.org/packages/Praxo.Core/0.4.0)
 - [Packagist 上的 axisvela/praxo-core 0.4.0](https://packagist.org/packages/axisvela/praxo-core)
 - [Hex 上的 praxo_core 0.4.0](https://hex.pm/packages/praxo_core/0.4.0)
 - [Hex 上的 praxo_core_erlang 0.4.0](https://hex.pm/packages/praxo_core_erlang/0.4.0)
