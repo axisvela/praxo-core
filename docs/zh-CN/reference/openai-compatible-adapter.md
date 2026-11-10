@@ -73,5 +73,5 @@ Core model request 映射为：
 ## 基线与状态
 
 当前原生适配器覆盖 Go、Python、TypeScript、Java、Rust、C#、Ruby、PHP、Elixir、
-Lua、Perl。PowerShell 继承 C# Core。其他 Core 实现见
+Lua、Perl、Nim。PowerShell 继承 C# Core。其他 Core 实现见
 [适配器状态](../languages/adapter-status.md)，按批次实现。

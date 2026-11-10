@@ -77,6 +77,6 @@ The adapter reads the first choice:
 ## Baseline Status
 
 The current native adapters cover Go, Python, TypeScript, Java, Rust, C#, Ruby,
-PHP, Elixir, Lua, and Perl. PowerShell inherits the C# Core. Other Core
+PHP, Elixir, Lua, Perl, and Nim. PowerShell inherits the C# Core. Other Core
 implementations are tracked in the [adapter status](../languages/adapter-status.md)
 page and are implemented in batches.

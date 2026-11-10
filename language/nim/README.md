@@ -7,8 +7,9 @@ memory store, path policy, checkpoint allowlist, tool-call parsing, and opt-in
 agent tool selection, PII redaction, structured output, and call limits. Vector
 coverage does not establish full Core parity or production readiness.
 
-The Core does not call Go or another language runtime. It has no provider
-adapter or plugin host; those remain outside the declared Core scope.
+The Core does not call Go or another language runtime. It includes an optional
+OpenAI-compatible model adapter; other provider adapters and plugin hosts remain
+outside the declared Core scope.
 
 ## Registry and Coding-Agent Entry
 
@@ -66,6 +67,21 @@ let result = runAgent(newAgentOptions(model), newSession("s1"), "Hi")
 The callback receives the current messages and tool specifications on each
 step. It returns a response including any tool calls and usage. Catchable
 errors propagate through the agent and can trigger `fallbackModel`.
+
+For an OpenAI-compatible endpoint, use the non-streaming adapter:
+
+```nim
+let adapter = newOpenAICompatible(
+  baseUrl = "https://api.openai.com/v1",
+  model = "gpt-4o-mini",
+  apiKey = getEnv("PRAXO_API_KEY"),
+)
+let model = openaiModel(adapter)
+let result = runAgent(newAgentOptions(model), newSession("s1"), "Hi")
+```
+
+The adapter maps tool calls, usage, and `tool_choice`. It accepts an injected
+`Transport` for deterministic tests. Streaming is not implemented.
 
 Set `options.toolSelection = some(toolSelection(@["echo"]))` (import
 `std/options`) to advertise only selected tools and reject calls to other

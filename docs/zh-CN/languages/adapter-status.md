@@ -25,6 +25,7 @@
 | Elixir | native | `Praxo.OpenAICompatible` |
 | Lua | native | `praxo.openai_compatible` |
 | Perl | native | `Praxo::Adapters::OpenAICompatible` |
+| Nim | native | `praxo/adapters/openai_compatible` |
 | PowerShell | inherited | 使用 C# Core |
 | Visual Basic / F# | inherited | C# Core 上的示例 |
 | Kotlin / Scala / Groovy / Clojure | inherited | Java Core 上的示例 |
@@ -33,7 +34,6 @@
 | R | not implemented | 第 2 批 |
 | Erlang | not implemented | 第 2 批 |
 | Julia | not implemented | 第 2 批 |
-| Nim | not implemented | 第 2 批 |
 | V | not implemented | 第 2 批 |
 | Dart | not implemented | 需要 async model 路径或同步 HTTP helper |
 | Haskell | not implemented | 需要决定 HTTP 客户端依赖 |

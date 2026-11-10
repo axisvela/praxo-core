@@ -362,4 +362,50 @@ testAgentToolSelection()
 testAgentPii()
 testAgentStructuredOutput()
 testAgentCallLimits()
+
+proc testOpenAICompatible() =
+  var capturedPath = ""
+  var captured: JsonNode
+  let adapter = newOpenAICompatible(
+    baseUrl = "http://example.test/v1",
+    model = "test-model",
+    transport = proc(path: string, payload: JsonNode): JsonNode =
+      capturedPath = path
+      captured = payload
+      return parseJsonText("""{
+        "choices": [{
+          "message": {
+            "role": "assistant",
+            "content": "",
+            "tool_calls": [{
+              "id": "call-1",
+              "type": "function",
+              "function": {"name": "echo", "arguments": "{\"text\":\"hi\"}"}
+            }]
+          },
+          "finish_reason": "tool_calls"
+        }],
+        "usage": {"prompt_tokens": 3, "completion_tokens": 2}
+      }""")
+  )
+  var request = newRequest(@[newMessage(ROLE_USER, "hello")],
+                           @[newToolSpec("echo", "Echo")])
+  request.toolChoice = "auto"
+  let response = adapter.generate(request)
+  assert capturedPath == "/chat/completions"
+  assert getString(captured, "model") == "test-model"
+  assert captured["messages"][0]["content"].getStr() == "hello"
+  assert captured["tools"][0]["function"]["name"].getStr() == "echo"
+  assert captured["tool_choice"].getStr() == "auto"
+  assert response.message.toolCalls.len == 1
+  assert response.message.toolCalls[0].name == "echo"
+  assert response.message.toolCalls[0].arguments["text"].getStr() == "hi"
+  assert response.usage.inputTokens == 3
+  assert response.usage.outputTokens == 2
+  let assistant = newMessageAssistant("", @[newToolCall("c1", "echo", %*{"text": "bye"})])
+  discard adapter.generate(newRequest(@[assistant]))
+  assert captured["messages"][0]["tool_calls"][0]["function"]["arguments"].getStr() ==
+    """{"text":"bye"}"""
+
+testOpenAICompatible()
 echo "nim tests passed"

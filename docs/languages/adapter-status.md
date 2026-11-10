@@ -27,6 +27,7 @@ Status words:
 | Elixir | native | `Praxo.OpenAICompatible` |
 | Lua | native | `praxo.openai_compatible` |
 | Perl | native | `Praxo::Adapters::OpenAICompatible` |
+| Nim | native | `praxo/adapters/openai_compatible` |
 | PowerShell | inherited | Uses the C# Core |
 | Visual Basic / F# | inherited | Samples over the C# Core |
 | Kotlin / Scala / Groovy / Clojure | inherited | Samples over the Java Core |
@@ -35,7 +36,6 @@ Status words:
 | R | not implemented | Batch 2 |
 | Erlang | not implemented | Batch 2 |
 | Julia | not implemented | Batch 2 |
-| Nim | not implemented | Batch 2 |
 | V | not implemented | Batch 2 |
 | Dart | not implemented | Needs an async model path or a synchronous HTTP helper |
 | Haskell | not implemented | Needs an HTTP client dependency decision |
