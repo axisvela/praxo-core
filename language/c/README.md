@@ -51,6 +51,30 @@ against that prefix, without repository include paths. The install does not yet
 provide pkg-config metadata, a CMake package config, shared libraries, or ABI
 guarantees.
 
+## Harmovela Event Sink
+
+```c
+PxHarmovelaSink sink = px_harmovela_sink(
+    "http://127.0.0.1:8790/aep/api", "praxo-core", "0.2",
+    my_transport, transport_context);
+const char *error = NULL;
+if (!px_harmovela_emit(&arena, &sink, &event, &error)) {
+    fprintf(stderr, "%s\n", error);
+}
+```
+
+`px_harmovela_emit` posts to `{baseURL}/events` with
+`content-type: application/json` and the documented `spec_version`, `id`,
+`type`, `source`, `created_at`, and merged `payload` envelope. `include/praxo.h`
+does not bundle an HTTP client, so callers provide a `PxHarmovelaTransport`.
+Pass a `PxHarmovelaClock` to make timestamps deterministic. A 2xx status is
+success; any other status returns false with an error containing the status and
+a bounded response body.
+
+The sink adds no authentication, retries, buffering, ordering, or
+exactly-once-delivery guarantee. Apply caller-side filtering because event data
+may contain sensitive content, and use HTTPS for remote endpoints.
+
 ## Public API Snapshot
 
 CTest registers the public-header snapshot check and its regression tests when

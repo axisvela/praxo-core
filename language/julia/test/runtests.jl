@@ -114,3 +114,85 @@ end
     @test error isa PraxoError
     @test error.code == "PROVIDER_HTTP"
 end
+
+@testset "PraxoCore Harmovela sink" begin
+    captured = Ref{Any}(nothing)
+    transport = (path, body, headers) -> begin
+        captured[] = (
+            path = path,
+            body = Json.parse_json(body),
+            headers = headers,
+        )
+        (status = 204, body = "")
+    end
+    sink = harmovela_sink(
+        "http://127.0.0.1:8790/aep/api/";
+        transport = transport,
+        clock = () -> (1700000000, 123456789),
+    )
+    event = Event(
+        "tool.call",
+        "s1",
+        "run-123",
+        Dict{String,Any}("name" => "echo"),
+        nothing,
+    )
+    emit(sink, event)
+    @test captured[].path == "/events"
+    @test captured[].headers["content-type"] == "application/json"
+    envelope = captured[].body
+    @test envelope["spec_version"] == "0.2"
+    @test envelope["id"] == "run-123-1700000000123456789"
+    @test envelope["type"] == "tool.call"
+    @test envelope["source"] == "praxo-core"
+    @test envelope["created_at"] == "2023-11-14T22:13:20.123456789Z"
+    @test envelope["payload"]["name"] == "echo"
+    @test envelope["payload"]["session_id"] == "s1"
+    @test envelope["payload"]["run_id"] == "run-123"
+
+    custom_transport = (path, body, headers) -> begin
+        captured[] = (
+            path = path,
+            body = Json.parse_json(body),
+            headers = headers,
+        )
+        (status = 200, body = "")
+    end
+    custom = harmovela_sink(
+        "http://127.0.0.1:8790/aep/api";
+        source = "custom",
+        spec_version = "0.3",
+        transport = custom_transport,
+        clock = () -> (1700000000, 0),
+    )
+    emit(custom, Event("run.started", "s2", nothing, nothing, nothing))
+    envelope = captured[].body
+    @test envelope["source"] == "custom"
+    @test envelope["spec_version"] == "0.3"
+    @test !haskey(envelope["payload"], "run_id")
+
+    missing = try
+        emit(harmovela_sink(""), Event("run.started", "s1", nothing, nothing, nothing))
+        nothing
+    catch caught
+        caught
+    end
+    @test missing isa PraxoError
+    @test missing.code == "HARMOVELA_URL"
+
+    failing = harmovela_sink(
+        "http://127.0.0.1:8790/aep/api";
+        transport = (path, body, headers) -> (status = 500, body = "boom"),
+        clock = () -> (1700000000, 0),
+    )
+    error = try
+        emit(failing, Event("run.failed", "s1", nothing, nothing, nothing))
+        nothing
+    catch caught
+        caught
+    end
+    @test error isa PraxoError
+    @test error.code == "HARMOVELA_HTTP"
+    @test occursin("500", error.message)
+    @test occursin("boom", error.message)
+end

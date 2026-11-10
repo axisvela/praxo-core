@@ -66,6 +66,31 @@ registry.register(new FuncTool("echo", "Echo arguments", (arguments) => argument
 options.tools = registry;
 ```
 
+## Harmovela Event Sink
+
+`HarmovelaSink` implements the native `EventSink` seam. It posts each event to
+`POST {baseUrl}/events` with the documented envelope. Supply `transport` to run
+without network access; it receives `(baseUrl, path, body, headers)` and returns
+a `HarmovelaResponse`. Supply `clock` to return `(seconds, nanos)` for
+deterministic ids and timestamps.
+
+```d
+import praxo.agent;
+import praxo.harmovela;
+import praxo.models;
+
+auto sink = new HarmovelaSink("http://127.0.0.1:8790/aep/api");
+auto options = new AgentOptions(new StaticModel("hello"));
+options.events = sink;
+auto result = runAgent(options, Session("demo"), "hello");
+```
+
+A 2xx status is success. Any other status throws `PraxoError` with code
+`HARMOVELA_HTTP`; a missing base URL throws `HARMOVELA_URL`. The sink adds no
+authentication, retries, buffering, ordering, or exactly-once delivery. Use
+HTTPS and caller-side filtering for sensitive event data. The default transport
+invokes `curl`; tests should inject a transport.
+
 ## Layout
 
 - `source/praxo/` package modules.

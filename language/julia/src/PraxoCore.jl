@@ -7,12 +7,14 @@ include("Plugin.jl")
 include("Errors.jl")
 include("Models.jl")
 include("Runtime.jl")
+include("adapters/Harmovela.jl")
 include("Middleware.jl")
 include("Agent.jl")
-include("OpenAICompatible.jl")
+include("adapters/OpenAICompatible.jl")
 
 using .Models
 using .Runtime
+using .Harmovela
 using .Middleware
 using .AgentRuntime
 using .OpenAICompatible
@@ -24,6 +26,7 @@ export PluginManifest, Plugin
 export ContentBlock, ToolCall, Message, ToolSpec, Usage, Request, Response, message_dict
 export Session, RunResult, MemoryRecord, PathGrant, Action, Decision, Event, Roles, StreamKinds
 export AbstractSink, MultiSink, FilterSink, MemoryStore, CheckpointAllowlist, PathChecker
+export HarmovelaSink, harmovela_sink
 export ContextBudget, AgentOptions, Agent, StaticModel, FuncTool, ToolRegistry
 export AbstractPolicy, AbstractModel, AbstractMiddleware, PiiRedactor, PraxoError
 export OpenAICompatibleModel, openai_compatible

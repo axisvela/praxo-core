@@ -90,3 +90,94 @@ let test_openai_adapter () =
   check_code "PROVIDER_RESPONSE" (fun () ->
     ignore (Praxo_core.openai_generate config invalid_transport request));
   print_endline "test_openai_adapter passed"
+
+let test_harmovela () =
+  let requests = ref [] in
+  let transport request =
+    requests := !requests @ [request];
+    { Praxo_core.http_status = 201; http_body = "" }
+  in
+  let config = Praxo_core.harmovela_config
+    "http://harmovela.test/aep/api/" transport
+    (fun () -> 1794294000000000000) in
+  let event = Praxo_core.event_make "tool.call" "s1" (Some "run-123")
+    (Praxo_core.Object [("name", Praxo_core.String "echo")]) in
+  Praxo_core.harmovela_emit config event;
+  let request = List.hd !requests in
+  check (request.Praxo_core.http_method = "POST") "harmovela method";
+  check (request.Praxo_core.http_url = "http://harmovela.test/aep/api/events")
+    "harmovela path";
+  check (List.assoc_opt "content-type" request.Praxo_core.http_headers =
+    Some "application/json") "harmovela content type";
+  let envelope = Praxo_core.parse_json request.Praxo_core.http_payload in
+  check (string_field "spec_version" envelope = "0.2") "harmovela spec";
+  check (string_field "id" envelope = "run-123-1794294000000000000") "harmovela id";
+  check (string_field "type" envelope = "tool.call") "harmovela type";
+  check (string_field "source" envelope = "praxo-core") "harmovela source";
+  check (string_field "created_at" envelope = "2026-11-10T07:00:00.000000000Z")
+    "harmovela created at";
+  let payload = match field "payload" envelope with
+    | Some value -> value
+    | None -> fail "harmovela payload" in
+  check (string_field "name" payload = "echo") "harmovela payload data";
+  check (string_field "session_id" payload = "s1") "harmovela payload session";
+  check (string_field "run_id" payload = "run-123") "harmovela payload run";
+
+  let custom_requests = ref [] in
+  let custom_transport request =
+    custom_requests := !custom_requests @ [request];
+    { Praxo_core.http_status = 204; http_body = "" }
+  in
+  let custom = { (Praxo_core.harmovela_config
+      "http://harmovela.test" custom_transport
+      (fun () -> 1794294000000000000)) with
+    Praxo_core.harmovela_source = "custom";
+    Praxo_core.harmovela_spec_version = "0.3";
+  } in
+  let merged = Praxo_core.event_make "tool.call" "s1" None
+    (Praxo_core.Object [
+      ("name", Praxo_core.String "echo");
+      ("session_id", Praxo_core.String "event-side");
+      ("run_id", Praxo_core.String "old");
+    ]) in
+  Praxo_core.harmovela_emit custom merged;
+  let custom_envelope =
+    Praxo_core.parse_json (List.hd !custom_requests).Praxo_core.http_payload in
+  check (string_field "source" custom_envelope = "custom") "harmovela custom source";
+  check (string_field "spec_version" custom_envelope = "0.3")
+    "harmovela custom spec";
+  check (Praxo_core.starts_with "s1-" (string_field "id" custom_envelope))
+    "harmovela session prefix";
+  let custom_payload = match field "payload" custom_envelope with
+    | Some value -> value
+    | None -> fail "harmovela custom payload" in
+  check (string_field "session_id" custom_payload = "s1")
+    "harmovela session override";
+  check (string_field "run_id" custom_payload = "old")
+    "harmovela data run retained";
+
+  List.iter (fun status ->
+    let accepted = Praxo_core.harmovela_config "http://harmovela.test"
+      (fun _ -> { Praxo_core.http_status = status; http_body = "" })
+      (fun () -> 1) in
+    Praxo_core.harmovela_emit accepted event) [200; 201; 204; 299];
+
+  let failing = Praxo_core.harmovela_config "http://harmovela.test"
+    (fun _ -> {
+      Praxo_core.http_status = 503;
+      http_body = String.concat "" (List.init 100 (fun _ -> "service down "));
+    })
+    (fun () -> 1) in
+  (try
+     Praxo_core.harmovela_emit failing event;
+     fail "harmovela non-2xx accepted"
+   with Praxo_core.Core_error (code, message) ->
+     check (code = "HARMOVELA_HTTP") "harmovela error code";
+     check (Praxo_core.starts_with "harmovela: HTTP 503: service down" message)
+       "harmovela error status and body";
+     check (String.length message <= 600) "harmovela error bounded");
+
+  let missing = Praxo_core.harmovela_config "" (fun _ -> fail "harmovela transport")
+    (fun () -> 1) in
+  check_code "HARMOVELA_URL" (fun () -> Praxo_core.harmovela_emit missing event);
+  print_endline "test_harmovela passed"

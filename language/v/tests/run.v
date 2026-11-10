@@ -514,6 +514,68 @@ fn test_openai_compatible() {
 	assert http_code == 'PROVIDER_HTTP'
 }
 
+fn test_harmovela() {
+	transport := fn (_base_url string, path string, body string, headers map[string]string) !praxo.HarmovelaResponse {
+		assert path == '/events'
+		assert headers['content-type'] == 'application/json'
+		envelope := praxo.parse_json(body) or { panic(err) }
+		assert praxo.get_string(envelope, 'spec_version') or { '' } == '0.2'
+		assert praxo.get_string(envelope, 'id') or { '' } == 'run-123-1700000000123456789'
+		assert praxo.get_string(envelope, 'type') or { '' } == 'tool.call'
+		assert praxo.get_string(envelope, 'source') or { '' } == 'praxo-core'
+		assert praxo.get_string(envelope, 'created_at') or { '' } == '2023-11-14T22:13:20.123456789Z'
+		payload := praxo.get_object(envelope, 'payload')
+		assert praxo.get_string(payload, 'name') or { '' } == 'echo'
+		assert praxo.get_string(payload, 'session_id') or { '' } == 's1'
+		assert praxo.get_string(payload, 'run_id') or { '' } == 'run-123'
+		return praxo.HarmovelaResponse{status: 204}
+	}
+	sink := praxo.new_harmovela_sink('http://127.0.0.1:8790/aep/api/', praxo.HarmovelaOptions{
+		transport: transport
+		clock: fn () i64 { return 1700000000123456789 }
+	})
+	event := praxo.Event{
+		kind: 'tool.call'
+		session_id: 's1'
+		run_id: 'run-123'
+		data: json2.Any({'name': json2.Any('echo')})
+	}
+	sink.emit(event) or { panic(err) }
+
+	noop := fn (_base_url string, _path string, _body string, _headers map[string]string) !praxo.HarmovelaResponse {
+		return praxo.HarmovelaResponse{status: 200}
+	}
+	wrapped := praxo.harmovela_sink('http://127.0.0.1:8790/aep/api', praxo.HarmovelaOptions{
+		transport: noop
+		clock: fn () i64 { return 1700000000000000000 }
+	})
+	wrapped.emit(praxo.Event{kind: 'run.started', session_id: 's1'})
+	assert wrapped.last_error == ''
+
+	failing := fn (_base_url string, _path string, _body string, _headers map[string]string) !praxo.HarmovelaResponse {
+		return praxo.HarmovelaResponse{status: 500, body: 'boom'}
+	}
+	fail_sink := praxo.new_harmovela_sink('http://127.0.0.1:8790/aep/api', praxo.HarmovelaOptions{
+		transport: failing
+	})
+	mut failure := ''
+	fail_sink.emit(event) or {
+		failure = err.msg()
+	}
+	assert failure.contains('HARMOVELA_HTTP')
+	assert failure.contains('500')
+	assert failure.contains('boom')
+
+	missing_sink := praxo.new_harmovela_sink('', praxo.HarmovelaOptions{
+		transport: noop
+	})
+	mut missing := ''
+	missing_sink.emit(event) or {
+		missing = praxo.error_code(err)
+	}
+	assert missing == 'HARMOVELA_URL'
+}
+
 fn main() {
 	test_json()
 	test_toolcall()
@@ -532,5 +594,6 @@ fn main() {
 	test_agent_middleware()
 	test_agent_call_limits()
 	test_openai_compatible()
+	test_harmovela()
 	println('v tests passed')
 }

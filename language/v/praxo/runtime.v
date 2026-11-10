@@ -18,11 +18,13 @@ pub fn error_code(value IError) string {
 @[heap]
 pub struct Sink {
 pub mut:
-	kinds     []string
-	mode      string
-	predicate []string
-	target    &Sink = unsafe { nil }
-	sinks     []&Sink
+	kinds      []string
+	mode       string
+	predicate  []string
+	target     &Sink = unsafe { nil }
+	sinks      []&Sink
+	handler    ?fn (Event) !void
+	last_error string
 }
 
 pub fn (mut s Sink) emit(event Event) {
@@ -38,6 +40,10 @@ pub fn (mut s Sink) emit(event Event) {
 		for mut child in s.sinks {
 			child.emit(event)
 		}
+		return
+	}
+	if handler := s.handler {
+		handler(event) or { s.last_error = err.msg() }
 		return
 	}
 	s.kinds << event.kind

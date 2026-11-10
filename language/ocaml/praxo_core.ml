@@ -1047,6 +1047,13 @@ type http_response = {
   http_body : string;
 }
 type transport = http_request -> http_response
+type harmovela_config = {
+  harmovela_base_url : string;
+  harmovela_source : string;
+  harmovela_spec_version : string;
+  harmovela_clock : unit -> int;
+  harmovela_transport : transport;
+}
 type openai_config = {
   openai_base_url : string;
   openai_model : string;
@@ -1316,6 +1323,94 @@ let emit sink event = sink event
 let multi_sink sinks = fun event -> List.iter (fun sink -> sink event) sinks
 let filter_sink sink predicate_types = fun event ->
   if predicate_types = [] || List.mem event.event_type predicate_types then sink event
+
+let harmovela_config base_url transport clock = {
+  harmovela_base_url = base_url;
+  harmovela_source = "praxo-core";
+  harmovela_spec_version = "0.2";
+  harmovela_clock = clock;
+  harmovela_transport = transport;
+}
+
+let harmovela_floor_div left right =
+  let quotient = left / right in
+  if left mod right <> 0 && ((left < 0) <> (right < 0)) then quotient - 1 else quotient
+
+let harmovela_civil days =
+  let z = days + 719468 in
+  let era = if z >= 0 then z / 146097 else (z - 146096) / 146097 in
+  let doe = z - era * 146097 in
+  let yoe = (doe - doe / 1460 + doe / 36524 - doe / 146096) / 365 in
+  let year = yoe + era * 400 in
+  let doy = doe - (365 * yoe + yoe / 4 - yoe / 100) in
+  let mp = (5 * doy + 2) / 153 in
+  let day = doy - (153 * mp + 2) / 5 + 1 in
+  let month = if mp < 10 then mp + 3 else mp - 9 in
+  ((if month <= 2 then year + 1 else year), month, day)
+
+let format_harmovela_timestamp nanos =
+  let seconds = harmovela_floor_div nanos 1_000_000_000 in
+  let fraction = nanos - seconds * 1_000_000_000 in
+  let days = harmovela_floor_div seconds 86400 in
+  let day_seconds = seconds - days * 86400 in
+  let year, month, day = harmovela_civil days in
+  let hour = day_seconds / 3600 in
+  let minute = (day_seconds mod 3600) / 60 in
+  let second = day_seconds mod 60 in
+  Printf.sprintf "%04d-%02d-%02dT%02d:%02d:%02d.%09dZ"
+    year month day hour minute second fraction
+
+let harmovela_payload event =
+  let base = match event.event_data with Object fields -> fields | _ -> [] in
+  let apply key value fields =
+    match value with
+    | None | Some "" -> fields
+    | Some text -> List.filter (fun (name, _) -> name <> key) fields @ [(key, String text)]
+  in
+  apply "session_id"
+    (if event.event_session_id = "" then None else Some event.event_session_id)
+    (apply "run_id" event.event_run_id base)
+
+let harmovela_envelope config event nanos =
+  let prefix = match event.event_run_id with
+    | Some value when value <> "" -> value
+    | _ -> if event.event_session_id = "" then "event" else event.event_session_id
+  in
+  let source = if config.harmovela_source = "" then "praxo-core" else config.harmovela_source in
+  let spec_version =
+    if config.harmovela_spec_version = "" then "0.2" else config.harmovela_spec_version in
+  Object [
+    ("spec_version", String spec_version);
+    ("id", String (Printf.sprintf "%s-%d" prefix nanos));
+    ("type", String event.event_type);
+    ("source", String source);
+    ("created_at", String (format_harmovela_timestamp nanos));
+    ("payload", Object (harmovela_payload event));
+  ]
+
+let rec harmovela_trim_slash text =
+  let length = String.length text in
+  if length > 0 && text.[length - 1] = '/'
+  then harmovela_trim_slash (String.sub text 0 (length - 1))
+  else text
+
+let harmovela_emit config event =
+  if config.harmovela_base_url = "" then
+    raise_core "HARMOVELA_URL" "harmovela: base URL is required";
+  let nanos = config.harmovela_clock () in
+  let request = {
+    http_method = "POST";
+    http_url = harmovela_trim_slash config.harmovela_base_url ^ "/events";
+    http_headers = [("content-type", "application/json")];
+    http_payload = encode_json (harmovela_envelope config event nanos);
+  } in
+  let response = config.harmovela_transport request in
+  if response.http_status < 200 || response.http_status >= 300 then
+    raise_core "HARMOVELA_HTTP"
+      (Printf.sprintf "harmovela: HTTP %d: %s" response.http_status
+        (openai_bound (String.trim response.http_body)))
+
+let harmovela_sink config event = harmovela_emit config event
 
 let memory_store () = { records = Hashtbl.create 8; sequence = 0 }
 

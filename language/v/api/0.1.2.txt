@@ -9,6 +9,9 @@ ContentBlock
 ContextBudget
 Decision
 Event
+HarmovelaOptions
+HarmovelaResponse
+HarmovelaSink
 Manifest
 MemoryRecord
 MemoryStore
@@ -63,6 +66,9 @@ get_int
 get_object
 get_or
 get_string
+harmovela_default_clock
+harmovela_default_transport
+harmovela_sink
 is_array
 is_null
 is_object
@@ -76,6 +82,7 @@ message_assistant
 message_tool
 message_wire
 multi_sink
+new_harmovela_sink
 normalize_path
 openai_compatible
 openai_compatible_model

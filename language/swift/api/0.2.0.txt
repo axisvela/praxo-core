@@ -42,6 +42,23 @@ FilterSink.init
 FuncTool.description let
 FuncTool.init
 FuncTool.name let
+HarmovelaHTTPRequest.body var
+HarmovelaHTTPRequest.headers var
+HarmovelaHTTPRequest.init
+HarmovelaHTTPRequest.method var
+HarmovelaHTTPRequest.url var
+HarmovelaHTTPResponse.body var
+HarmovelaHTTPResponse.init
+HarmovelaHTTPResponse.statusCode var
+HarmovelaSink.baseURL var
+HarmovelaSink.clock var
+HarmovelaSink.init
+HarmovelaSink.source var
+HarmovelaSink.specVersion var
+HarmovelaSink.transport var
+HarmovelaTimestamp.createdAt var
+HarmovelaTimestamp.init
+HarmovelaTimestamp.unixNanos var
 Json.parse func
 JsonError.description var
 JsonSchema.validate func
@@ -152,6 +169,7 @@ ToolSpec.init
 ToolSpec.name var
 ToolSpec.parameters var
 ToolSpec.risk var
+URLSessionHarmovelaTransport.init
 URLSessionTransport.init
 URLSessionTransport.send func
 Usage.cachedTokens var
@@ -169,6 +187,7 @@ beforeModel func
 beforeTool func
 bool func
 buildPayload func
+buildRequest func
 check func
 class Agent
 class AgentOptions
@@ -177,6 +196,7 @@ class CheckpointAllowlist
 class Event
 class FilterSink
 class FuncTool
+class HarmovelaSink
 class MemoryRecord
 class MemoryStore
 class MultiSink
@@ -186,6 +206,7 @@ class StaticModel
 class StructuredOutput
 class ToolRegistry
 class ToolSelection
+class URLSessionHarmovelaTransport
 class URLSessionTransport
 compact func
 emit func
@@ -206,10 +227,12 @@ get func
 int func
 invoke func
 marshal func
+now func
 parseInputJson func
 parseResponse func
 plus func
 protocol EventSink
+protocol HarmovelaTransport
 protocol Model
 protocol PolicyHook
 protocol ProviderTransport
@@ -219,6 +242,7 @@ redact func
 redactValue func
 reject func
 search func
+send func
 specs func
 streamKinds let
 string func
@@ -228,6 +252,9 @@ struct Action
 struct ContentBlock
 struct ContextBudget
 struct Decision
+struct HarmovelaHTTPRequest
+struct HarmovelaHTTPResponse
+struct HarmovelaTimestamp
 struct Message
 struct OpenAICompatibleConfig
 struct ParsedToolCall

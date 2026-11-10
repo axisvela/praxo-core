@@ -10,6 +10,16 @@ data RunResult = RunResult { runOutput :: String, runSteps :: Int, runInputToken
 data ToolCall = ToolCall { toolCallId :: String, toolCallName :: String, toolCallArguments :: Json } deriving (Eq, Show)
 runAgent :: AgentOptions -> [Message] -> String -> IO (Either AgentError RunResult)
 
+## Praxo.Harmovela
+data HarmovelaRequest = HarmovelaRequest
+data HarmovelaResponse = HarmovelaResponse
+data HarmovelaSink = HarmovelaSink
+newtype HarmovelaTransport = HarmovelaTransport
+buildHarmovelaRequest :: HarmovelaSink -> Event -> IO (Either AgentError HarmovelaRequest)
+emitHarmovelaEvent :: HarmovelaSink -> Event -> IO (Either AgentError ())
+formatHarmovelaTimestamp :: Integer -> String
+newHarmovelaSink :: String -> HarmovelaTransport -> IO Integer -> HarmovelaSink
+
 ## Praxo.Json
 data Json = JObject [(String, Json)] | JArray [Json] | JString String | JNumber Rational | JBool Bool | JNull deriving (Eq, Show)
 asArray :: Json -> [Json]

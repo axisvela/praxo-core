@@ -91,6 +91,30 @@ final response = await model.generateAsync(const Request(messages: [
 client and supports `https`. Pass `transport` or `asyncTransport` in tests to
 avoid network calls.
 
+## Harmovela Event Sink
+
+`HarmovelaSink` implements the native `EventSink` seam. It posts each event to
+`POST {baseUrl}/events` with the documented envelope. Supply `transport` to run
+without network access; it receives `(baseUrl, path, body, headers)` and returns
+a `HarmovelaResponse`. Supply `clock` to return `(seconds, nanos)` for
+deterministic ids and timestamps.
+
+```dart
+final sink = HarmovelaSink(
+  baseUrl: 'http://127.0.0.1:8790/aep/api',
+  source: 'praxo-core',
+  specVersion: '0.2',
+);
+final options = AgentOptions(StaticModel('hello'))..events = sink;
+final result = Agent(options).run(const Session(id: 'demo'), 'hello');
+```
+
+A 2xx status is success. Any other status throws `PraxoError` with code
+`HARMOVELA_HTTP`; a missing base URL throws `HARMOVELA_URL`. The synchronous
+default transport supports `http` only; inject a transport for `https`. The sink
+adds no authentication, retries, buffering, ordering, or exactly-once delivery.
+Use HTTPS and caller-side filtering for sensitive event data.
+
 ## Layout
 
 - `lib/` package source.

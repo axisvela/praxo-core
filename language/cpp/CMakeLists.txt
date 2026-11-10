@@ -14,6 +14,7 @@ add_library(praxo_cpp STATIC
     src/runtime.cpp
     src/sse.cpp
     src/toolcall.cpp
+    src/harmovela.cpp
 )
 target_include_directories(praxo_cpp PUBLIC include)
 
@@ -26,5 +27,9 @@ target_link_libraries(praxo-cpp-conformance PRIVATE praxo_cpp)
 add_executable(praxo-cpp-tests tests/core.cpp)
 target_link_libraries(praxo-cpp-tests PRIVATE praxo_cpp)
 
+add_executable(praxo-cpp-harmovela-tests tests/harmovela.cpp)
+target_link_libraries(praxo-cpp-harmovela-tests PRIVATE praxo_cpp)
+
 add_test(NAME praxo-cpp-conformance COMMAND praxo-cpp-conformance)
 add_test(NAME praxo-cpp-tests COMMAND praxo-cpp-tests)
+add_test(NAME praxo-cpp-harmovela-tests COMMAND praxo-cpp-harmovela-tests)

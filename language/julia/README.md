@@ -38,6 +38,26 @@ result = generate(adapter, Request([Message(Roles.USER, "hi")]))
 Provider HTTP failures raise `PraxoError` with code `PROVIDER_HTTP`; invalid
 tool-argument JSON raises `PROVIDER_JSON`. Streaming is not implemented.
 
+## Harmovela Event Sink
+
+`harmovela_sink` implements the native `AbstractSink` seam. It posts each event
+to `POST {base_url}/events` with the documented envelope. Supply `transport` to
+run without network access; it receives `(path, body, headers)` and returns a
+named tuple with `status` and `body`. Supply `clock` to return `(seconds,
+nanos)` for deterministic ids and timestamps.
+
+```julia
+sink = harmovela_sink("http://127.0.0.1:8790/aep/api";
+                      source = "praxo-core", spec_version = "0.2")
+options = AgentOptions(model)
+options.events = sink
+```
+
+A 2xx status is success. Other statuses raise `PraxoError` with code
+`HARMOVELA_HTTP`; a missing base URL raises `HARMOVELA_URL`. The sink adds no
+authentication, retries, buffering, ordering, or exactly-once delivery. Use
+HTTPS and caller-side filtering for sensitive event data.
+
 ## Build and test
 
 ```bash

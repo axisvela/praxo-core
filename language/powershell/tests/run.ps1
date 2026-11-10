@@ -68,4 +68,86 @@ $result = Invoke-PraxoAgent -Agent $agent -Session $session -Prompt 'hello'
 Assert-True ($result.Output -eq 'hello') 'agent output'
 Assert-True ($result.Steps -eq 1) 'agent steps'
 
+$script:harmovelaCalls = [System.Collections.Generic.List[object]]::new()
+$harmovelaTransport = {
+    param($request)
+    $script:harmovelaCalls.Add($request)
+    $response = [Praxo.Core.HarmovelaHttpResponse]::new()
+    $response.StatusCode = 201
+    $response.Body = ''
+    $response
+}
+$harmovelaOptions = New-PraxoHarmovelaSinkOptions -BaseUrl 'http://harmovela.test/aep/api/'
+$harmovelaSink = New-PraxoHarmovelaSink -Options $harmovelaOptions -Transport $harmovelaTransport
+$harmovelaEvent = [Praxo.Core.Event]::new('tool.call', 's1')
+$harmovelaEvent.RunId = 'run-123'
+$harmovelaEvent.At = '2026-11-10T07:00:00Z'
+$harmovelaEvent.Data = [System.Text.Json.Nodes.JsonObject]::new()
+$harmovelaEvent.Data['name'] = 'echo'
+Send-PraxoHarmovelaEvent -Sink $harmovelaSink -Event $harmovelaEvent
+Assert-True ($script:harmovelaCalls.Count -eq 1) 'harmovela single request'
+$request = $script:harmovelaCalls[0]
+Assert-True ($request.Method -eq 'POST') 'harmovela method'
+Assert-True ($request.Url -eq 'http://harmovela.test/aep/api/events') 'harmovela path'
+Assert-True ($request.Headers['content-type'] -eq 'application/json') 'harmovela content type'
+$envelope = ConvertFrom-PraxoJson $request.Body
+Assert-True ($envelope['spec_version'].ToString() -eq '0.2') 'harmovela spec'
+Assert-True ($envelope['id'].ToString() -eq 'run-123-1794294000000000000') 'harmovela id'
+Assert-True ($envelope['type'].ToString() -eq 'tool.call') 'harmovela type'
+Assert-True ($envelope['source'].ToString() -eq 'praxo-core') 'harmovela source'
+Assert-True ($envelope['created_at'].ToString() -eq '2026-11-10T07:00:00.000000000Z') 'harmovela created_at'
+Assert-True ($envelope['payload']['name'].ToString() -eq 'echo') 'harmovela payload data'
+Assert-True ($envelope['payload']['session_id'].ToString() -eq 's1') 'harmovela payload session'
+Assert-True ($envelope['payload']['run_id'].ToString() -eq 'run-123') 'harmovela payload run'
+
+$script:harmovelaCalls.Clear()
+$customOptions = New-PraxoHarmovelaSinkOptions -BaseUrl 'http://harmovela.test' -Source 'custom' -SpecVersion '0.3'
+$customSink = New-PraxoHarmovelaSink -Options $customOptions -Transport $harmovelaTransport
+$mergedEvent = [Praxo.Core.Event]::new('tool.call', 's1')
+$mergedEvent.At = '2026-11-10T07:00:00Z'
+$mergedData = [System.Text.Json.Nodes.JsonObject]::new()
+$mergedData['name'] = 'echo'
+$mergedData['session_id'] = 'event-side'
+$mergedData['run_id'] = 'old'
+$mergedEvent.Data = $mergedData
+Send-PraxoHarmovelaEvent -Sink $customSink -Event $mergedEvent
+$mergedEnvelope = ConvertFrom-PraxoJson $script:harmovelaCalls[0].Body
+Assert-True ($mergedEnvelope['source'].ToString() -eq 'custom') 'harmovela custom source'
+Assert-True ($mergedEnvelope['spec_version'].ToString() -eq '0.3') 'harmovela custom spec'
+Assert-True ($mergedEnvelope['id'].ToString().StartsWith('s1-')) 'harmovela session id'
+Assert-True ($mergedEnvelope['payload']['session_id'].ToString() -eq 's1') 'harmovela session override'
+Assert-True ($mergedEnvelope['payload']['run_id'].ToString() -eq 'old') 'harmovela data run retained'
+
+foreach ($status in @(200, 201, 204, 299)) {
+    $acceptedTransport = {
+        param($request)
+        $response = [Praxo.Core.HarmovelaHttpResponse]::new()
+        $response.StatusCode = $status
+        $response
+    }.GetNewClosure()
+    $acceptedSink = New-PraxoHarmovelaSink -Options $harmovelaOptions -Transport $acceptedTransport
+    Send-PraxoHarmovelaEvent -Sink $acceptedSink -Event $harmovelaEvent
+}
+
+$failingBody = 'service down ' * 100
+$failingTransport = {
+    param($request)
+    $response = [Praxo.Core.HarmovelaHttpResponse]::new()
+    $response.StatusCode = 503
+    $response.Body = $failingBody
+    $response
+}.GetNewClosure()
+$failingSink = New-PraxoHarmovelaSink -Options $harmovelaOptions -Transport $failingTransport
+$thrown = $false
+try {
+    Send-PraxoHarmovelaEvent -Sink $failingSink -Event $harmovelaEvent
+} catch {
+    $thrown = $true
+    $message = $_.Exception.Message
+    Assert-True ($message -match '503') 'harmovela error status'
+    Assert-True ($message -match 'service down') 'harmovela error body'
+    Assert-True ($message.Length -le 600) 'harmovela bounded error'
+}
+Assert-True $thrown 'harmovela non-2xx fails'
+
 Write-Output 'PowerShell core tests passed'

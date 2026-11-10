@@ -8,6 +8,36 @@ agent loop, JSON, policy, middleware, and human-in-the-loop interrupt decisions
 remain Fortran, not a bridge to another agent runtime. All 63 normative vectors
 across eleven groups and native regressions pass locally. Source tags do not imply package-registry publication.
 
+## Harmovela Event Sink
+
+```fortran
+use praxo_harmovela, only: harmovela_sink
+type(harmovela_sink) :: sink
+type(event) :: item
+
+sink%base_url = 'http://127.0.0.1:8790/aep/api'
+sink%source = 'praxo-core'
+sink%spec_version = '0.2'
+sink%transport => my_transport
+sink%clock => my_clock
+item = event('tool.call', 's1', 'run-1', 'echo', '{"text":"hi"}')
+call sink%emit(item)
+if (sink%failed()) print *, sink%error_message
+```
+
+`emit` posts to `{baseURL}/events` through the injected
+`harmovela_transport` with `application/json` and the documented
+`spec_version`, `id`, `type`, `source`, `created_at`, and merged `payload`
+envelope. Event `tool_name` and `arguments` are published as `name` and
+`arguments`, alongside `session_id` and `run_id` when present. Inject
+`harmovela_clock` for deterministic epochs. A 2xx status clears the sink error;
+any other status sets `error_code` to `HARMOVELA_HTTP` and `error_message` to a
+bounded message containing the status and response body.
+
+The sink adds no authentication, retries, buffering, ordering, or
+exactly-once-delivery guarantee. Apply caller-side filtering because event data
+may contain sensitive content, and use HTTPS for remote endpoints.
+
 ## Registry and Coding-Agent Entry
 
 - Registry introduction: [REGISTRY.md](https://github.com/axisvela/praxo-core/blob/main/language/fortran/REGISTRY.md)

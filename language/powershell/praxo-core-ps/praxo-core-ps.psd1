@@ -40,7 +40,10 @@
         'Invoke-PraxoContextCompact',
         'New-PraxoPiiRedactor',
         'Invoke-PraxoPiiRedaction',
-        'Get-PraxoStreamKinds'
+        'Get-PraxoStreamKinds',
+        'New-PraxoHarmovelaSinkOptions',
+        'New-PraxoHarmovelaSink',
+        'Send-PraxoHarmovelaEvent'
     )
     CmdletsToExport   = @()
     VariablesToExport = @()

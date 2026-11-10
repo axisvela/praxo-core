@@ -122,6 +122,42 @@ propagate, with a best-effort `run.failed` event. Budget and malformed response
 errors use `EPraxoAgent.Code`; these local validation codes are not wire codes.
 Nonpositive `MaxSteps` defaults to eight and nonpositive `MaxTokens` is unlimited.
 
+## Harmovela Event Sink
+
+The `praxo_harmovela` unit posts `TPraxoEvent` values to
+`POST {baseURL}/events` with the documented envelope (`spec_version`, `id`,
+`type`, `source`, `created_at`, `payload`). It exposes an injectable
+`TPraxoHarmovelaTransport` and a UTC nanosecond `TPraxoHarmovelaClock` so tests
+need no network or wall clock.
+
+```pascal
+var
+  Sink: TPraxoHarmovelaSink;
+  Event: TPraxoEvent;
+begin
+  Sink := TPraxoHarmovelaSink.Create('http://127.0.0.1:8790/aep/api');
+  try
+    Event.Kind := 'tool.call';
+    Event.SessionId := 's1';
+    Event.RunId := 'run-1';
+    Event.Data := TJSONObject.Create;
+    try
+      TJSONObject(Event.Data).Add('name', 'echo');
+      Sink.Emit(Event);
+    finally
+      Event.Data.Free;
+    end;
+  finally
+    Sink.Free;
+  end;
+end;
+```
+
+`Emit` accepts any 2xx response and raises `EPraxoHarmovela` with
+`HARMOVELA_HTTP`, the status, and a 512-character body limit otherwise. The sink
+has no authentication, retries, buffering, ordering, or exactly-once guarantee;
+filter sensitive event data caller-side and use HTTPS for remote endpoints.
+
 ## Current Limits
 
 - The verified target is Free Pascal 3.2.2 Windows i386. Other FPC targets and

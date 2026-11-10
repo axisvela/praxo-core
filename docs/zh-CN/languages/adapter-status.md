@@ -83,6 +83,23 @@ MCP 服务或远端 transport。
 | Nim | native | `newHarmovelaSink` |
 | Perl | native | `Praxo::Adapters::Harmovela` |
 | Erlang | native | `praxo_harmovela` |
+| Julia | native | `HarmovelaSink` |
+| V | native | `harmovela_sink`；本机无 V 工具链，由 CI 验证 |
+| D | native | `HarmovelaSink` |
+| Dart | native | `HarmovelaSink` |
+| Haskell | native (transport seam) | `Praxo.Harmovela`；调用方提供 transport |
+| Swift | native | `HarmovelaSink`，使用 URLSession transport |
+| OCaml | native (transport seam) | `harmovela_sink`；调用方提供 transport |
+| Delphi / Free Pascal | native | `TPraxoHarmovelaSink` |
+| Objective-C | native | `PraxoHarmovela` |
+| MATLAB | native | `praxo.harmovela_sink` |
+| GNU Octave | native | 共享 `praxo.harmovela_sink` |
+| Zig | native | `harmovela` |
+| C | native (transport seam) | `praxo_harmovela`；调用方提供 HTTP transport |
+| C++ | native (transport seam) | `HarmovelaSink`；调用方提供 HTTP transport |
+| Fortran | native (transport seam) | `harmovela`；调用方提供 HTTP transport |
+| PowerShell | inherited | 使用 C# Core |
+| COBOL | not implemented | 无 HTTP transport；无 event sink 集成 |
 | 其他实现 | not implemented | 在有命名消费者或维护者时补齐 |
 
 Harmovela 支持指按文档 envelope POST 事件的 HTTP sink。它不代表认证、投递保证、排序

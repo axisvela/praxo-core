@@ -2,8 +2,10 @@ module tests;
 
 import std.conv : to;
 import std.stdio : writeln;
+import std.string : indexOf;
 import praxo.agent;
 import praxo.errors : PraxoError;
+import praxo.harmovela;
 import praxo.jsonschema;
 import praxo.json;
 import praxo.middleware;
@@ -81,6 +83,51 @@ void main() {
     auto runResult = runAgent(options, Session("s1"), "go");
     check(runResult.output == "done" && runResult.steps == 2 && invocations == 1, "agent loop");
     check(sink.types == ["run.started", "tool.call", "run.completed"], "agent events");
+
+    string harmovelaPath = "";
+    JSONValue harmovelaBody = JSONValue.init;
+    HarmovelaTransport harmovelaTransport = delegate HarmovelaResponse(string baseUrl,
+        string path, string body, string[string] headers) {
+        harmovelaPath = path;
+        check(headers["content-type"] == "application/json", "harmovela content type");
+        harmovelaBody = parse(body);
+        return HarmovelaResponse(204, "");
+    };
+    HarmovelaClock harmovelaClock = delegate HarmovelaTimestamp() {
+        return HarmovelaTimestamp(1700000000L, 123456789);
+    };
+    auto harmovelaSink = new HarmovelaSink("http://127.0.0.1:8790/aep/api/",
+        "praxo-core", "0.2", harmovelaTransport, harmovelaClock);
+    harmovelaSink.emit(Event("tool.call", "s1", "run-123", parse(`{"name":"echo"}`)));
+    check(harmovelaPath == "/events", "harmovela path");
+    check(getString(harmovelaBody, "spec_version") == "0.2", "harmovela spec version");
+    check(getString(harmovelaBody, "id") == "run-123-1700000000123456789", "harmovela id");
+    check(getString(harmovelaBody, "type") == "tool.call", "harmovela type");
+    check(getString(harmovelaBody, "source") == "praxo-core", "harmovela source");
+    check(getString(harmovelaBody, "created_at") == "2023-11-14T22:13:20.123456789Z",
+        "harmovela created_at");
+    auto harmovelaPayload = get(harmovelaBody, "payload");
+    check(getString(harmovelaPayload, "name") == "echo", "harmovela payload name");
+    check(getString(harmovelaPayload, "session_id") == "s1", "harmovela payload session");
+    check(getString(harmovelaPayload, "run_id") == "run-123", "harmovela payload run");
+
+    HarmovelaTransport harmovelaFailure = delegate HarmovelaResponse(string baseUrl,
+        string path, string body, string[string] headers) {
+        return HarmovelaResponse(500, "boom");
+    };
+    auto harmovelaFailSink = new HarmovelaSink("http://127.0.0.1:8790/aep/api",
+        "praxo-core", "0.2", harmovelaFailure, harmovelaClock);
+    string harmovelaCode = "";
+    string harmovelaMessage = "";
+    try {
+        harmovelaFailSink.emit(Event("tool.call", "s1", "run-123", parse(`{"name":"echo"}`)));
+    } catch (PraxoError error) {
+        harmovelaCode = error.code;
+        harmovelaMessage = error.message.to!string;
+    }
+    check(harmovelaCode == "HARMOVELA_HTTP", "harmovela error code");
+    check(harmovelaMessage.indexOf("500") >= 0, "harmovela error status");
+    check(harmovelaMessage.indexOf("boom") >= 0, "harmovela error body");
 
     writeln("D core tests passed");
 }

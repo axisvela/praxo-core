@@ -10,6 +10,7 @@ AgentOptions
 Allocator
 CallLimit
 CheckpointAllowlist
+Clock
 CompactResult
 ContentBlock
 ContextBudget
@@ -20,6 +21,7 @@ EventSink
 Fallback
 FilterSink
 Handler
+HttpRequest
 Json
 MemoryRecord
 MemoryStore
@@ -41,10 +43,13 @@ RunResult
 RuntimeError
 SYSTEM
 Session
+Sink
+SinkError
 StaticModel
 StructuredOutput
 StructuredResult
 TOOL
+TimeParts
 Tool
 ToolCall
 ToolSelection
@@ -68,6 +73,7 @@ emit
 equals
 errorCode
 estimateTokens
+eventSink
 eventWire
 filter
 generate

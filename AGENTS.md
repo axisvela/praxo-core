@@ -34,6 +34,8 @@ this framework.
 - Prefer interfaces over concrete integrations.
 - Keep source files under 500 lines; split by responsibility instead of growing
   a single file.
+- Keep core and optional adapters in separate directories; Core must not import
+  adapter code. See `docs/contributing/adapter-layout.md`.
 - Do not add code comments unless asked.
 
 ## Git Identity

@@ -129,6 +129,54 @@ type(message), allocatable, intent(out) :: output(:)
 logical, intent(out) :: ok
 end interface declaration
 
+module praxo_harmovela
+public :: harmovela_clock, harmovela_response, harmovela_sink, harmovela_transport
+type :: harmovela_response
+integer :: status = 0
+character(:), allocatable :: body
+end type
+abstract interface
+subroutine harmovela_transport(method, url, content_type, body, response, error)
+import harmovela_response, sdk_error
+character(*), intent(in) :: method, url, content_type, body
+type(harmovela_response), intent(out) :: response
+type(sdk_error), intent(out) :: error
+end subroutine
+function harmovela_clock() result(epoch_nanos)
+import int64
+integer(int64) :: epoch_nanos
+end function
+end interface
+type, extends(event_sink) :: harmovela_sink
+character(:), allocatable :: base_url
+character(:), allocatable :: source
+character(:), allocatable :: spec_version
+character(:), allocatable :: error_code
+character(:), allocatable :: error_message
+procedure(harmovela_transport), pointer, nopass :: transport => null()
+procedure(harmovela_clock), pointer, nopass :: clock => null()
+contains
+procedure :: emit => emit_harmovela
+procedure :: envelope => envelope_harmovela
+procedure :: failed => failed_harmovela
+end type
+subroutine harmovela_transport(method, url, content_type, body, response, error)
+end interface declaration
+function harmovela_clock() result(epoch_nanos)
+end interface declaration
+subroutine emit_harmovela(self, item)
+class(harmovela_sink), intent(inout) :: self
+type(event), intent(in) :: item
+end interface declaration
+function envelope_harmovela(self, item) result(body)
+class(harmovela_sink), intent(in) :: self
+type(event), intent(in) :: item
+character(:), allocatable :: body, source, spec, created, identifier, prefix
+end interface declaration
+logical function failed_harmovela(self) result(failed)
+class(harmovela_sink), intent(in) :: self
+end interface declaration
+
 module praxo_interfaces
 public :: event_sink, model, policy, registry, tool
 type, abstract :: model

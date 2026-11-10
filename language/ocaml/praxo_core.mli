@@ -115,6 +115,13 @@ type http_response = {
   http_body : string;
 }
 type transport = http_request -> http_response
+type harmovela_config = {
+  harmovela_base_url : string;
+  harmovela_source : string;
+  harmovela_spec_version : string;
+  harmovela_clock : unit -> int;
+  harmovela_transport : transport;
+}
 type openai_config = {
   openai_base_url : string;
   openai_model : string;
@@ -159,6 +166,11 @@ val openai_request : openai_config -> request -> http_request
 val openai_parse_response : string -> response
 val openai_generate : openai_config -> transport -> request -> response
 val openai_model : openai_config -> transport -> model
+val harmovela_config : string -> transport -> (unit -> int) -> harmovela_config
+val format_harmovela_timestamp : int -> string
+val harmovela_envelope : harmovela_config -> core_event -> int -> json
+val harmovela_emit : harmovela_config -> core_event -> unit
+val harmovela_sink : harmovela_config -> sink
 val session_make : string -> core_message list -> session
 val run_result_make : string -> string -> int -> usage -> run_result
 val memory_record_make : string -> string -> string -> string option -> memory_record

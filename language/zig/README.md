@@ -23,6 +23,33 @@ implementation.
 memory, event, stream, checkpoint, policy, context, middleware, and the agent
 loop. `zig/v0.1.0` remains the wire subset.
 
+## Harmovela Event Sink
+
+```zig
+const harmovela = @import("harmovela.zig");
+
+var sink = harmovela.Sink.init(allocator, "http://127.0.0.1:8790/aep/api");
+sink.transport = injected_transport;
+try sink.emit(.{
+    .type = "tool.call",
+    .session_id = "s1",
+    .run_id = "run-1",
+    .data = .{ .object = payload },
+});
+```
+
+`Sink.emit` posts to `{baseUrl}/events` with `content-type: application/json`
+and the documented `spec_version`, `id`, `type`, `source`, `created_at`, and
+merged `payload` envelope. Inject a `Transport` and `Clock` to avoid network
+access in tests. A 2xx status is success; any other status returns
+`SinkError.HarmovelaHttp` and stores a bounded message in `last_error` with the
+status and response body.
+
+The sink adds no authentication, retries, buffering, ordering, or
+exactly-once-delivery guarantee. Apply caller-side filtering because event data
+may contain sensitive content, and use HTTPS for remote endpoints. The default
+transport uses `std.http`.
+
 ## Build and test
 
 ```bash
@@ -34,6 +61,7 @@ zig test src/jsonschema.zig
 zig test src/plugin.zig
 zig test src/pii_test.zig
 zig test src/openaicompat_test.zig
+zig test src/harmovela_test.zig
 python api-snapshot.py --check
 ```
 

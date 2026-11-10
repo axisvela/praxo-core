@@ -105,6 +105,31 @@ options := praxo.agent_options(praxo.callback_model(generate))
 result := praxo.run_agent(options, praxo.session('s1', []praxo.Message{}), 'Hi') or { panic(err) }
 ```
 
+## Harmovela Event Sink
+
+`harmovela_sink` returns a `&Sink` that posts each event to
+`POST {base_url}/events` with the documented envelope. `new_harmovela_sink`
+exposes the native sink with an error-returning `emit` for direct use. Supply
+`transport` to run without network access; it receives `(base_url, path, body,
+headers)` and returns a `HarmovelaResponse`. Supply `clock` to return Unix
+nanoseconds for deterministic ids and timestamps.
+
+```v
+sink := praxo.harmovela_sink('http://127.0.0.1:8790/aep/api',
+	praxo.HarmovelaOptions{source: 'praxo-core', spec_version: '0.2'})
+mut options := praxo.agent_options(model)
+options.events = sink
+result := praxo.run_agent(options, praxo.session('s1', []praxo.Message{}), 'hi') or {
+	panic(err)
+}
+```
+
+A 2xx status is success. Other statuses return `HARMOVELA_HTTP`; a missing base
+URL returns `HARMOVELA_URL`. When wrapped as a `&Sink`, the last transport error
+is stored in `last_error`. The sink adds no authentication, retries, buffering,
+ordering, or exactly-once delivery. Use HTTPS and caller-side filtering for
+sensitive event data.
+
 ## Current Limits
 
 - Verified with `V 0.5.2` and the bundled `tcc` on Windows. Other V releases,

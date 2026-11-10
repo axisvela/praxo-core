@@ -262,6 +262,73 @@ Future<void> main() async {
   ).generateAsync(const Request());
   check(asyncResponse.message.content == 'async', 'adapter async');
 
+  String? harmovelaPath;
+  Map<String, dynamic>? harmovelaEnvelope;
+  final harmovelaTransport = (String baseUrl, String path, String body,
+      Map<String, String> headers) {
+    harmovelaPath = path;
+    check(headers['content-type'] == 'application/json',
+        'harmovela content type');
+    harmovelaEnvelope = Json.parse(body) as Map<String, dynamic>;
+    return const HarmovelaResponse(204, '');
+  };
+  final harmovelaSink = HarmovelaSink(
+    baseUrl: 'http://127.0.0.1:8790/aep/api/',
+    transport: harmovelaTransport,
+    clock: () => (seconds: 1700000000, nanos: 123456789),
+  );
+  harmovelaSink.emit(const Event(
+    type: 'tool.call',
+    sessionId: 's1',
+    runId: 'run-123',
+    data: {'name': 'echo'},
+  ));
+  check(harmovelaPath == '/events', 'harmovela path');
+  final envelope = harmovelaEnvelope!;
+  check(envelope['spec_version'] == '0.2', 'harmovela spec version');
+  check(envelope['id'] == 'run-123-1700000000123456789', 'harmovela id');
+  check(envelope['type'] == 'tool.call', 'harmovela type');
+  check(envelope['source'] == 'praxo-core', 'harmovela source');
+  check(envelope['created_at'] == '2023-11-14T22:13:20.123456789Z',
+      'harmovela created_at');
+  final harmovelaPayload = envelope['payload'] as Map<String, dynamic>;
+  check(harmovelaPayload['name'] == 'echo', 'harmovela payload name');
+  check(harmovelaPayload['session_id'] == 's1', 'harmovela payload session');
+  check(harmovelaPayload['run_id'] == 'run-123', 'harmovela payload run');
+
+  final harmovelaFailure = HarmovelaSink(
+    baseUrl: 'http://127.0.0.1:8790/aep/api',
+    transport: (baseUrl, path, body, headers) =>
+        const HarmovelaResponse(500, 'boom'),
+    clock: () => (seconds: 1700000000, nanos: 0),
+  );
+  Object? harmovelaError;
+  try {
+    harmovelaFailure.emit(
+        const Event(type: 'tool.call', sessionId: 's1', runId: 'run-123'));
+  } on PraxoError catch (error) {
+    harmovelaError = error;
+  }
+  check(harmovelaError is PraxoError, 'harmovela error type');
+  final failure = harmovelaError as PraxoError;
+  check(failure.code == 'HARMOVELA_HTTP', 'harmovela error code');
+  check(failure.message.contains('500'), 'harmovela error status');
+  check(failure.message.contains('boom'), 'harmovela error body');
+
+  Object? harmovelaMissing;
+  try {
+    HarmovelaSink(
+      baseUrl: '',
+      transport: harmovelaTransport,
+      clock: () => (seconds: 1700000000, nanos: 0),
+    ).emit(const Event(type: 'tool.call', sessionId: 's1'));
+  } on PraxoError catch (error) {
+    harmovelaMissing = error;
+  }
+  check(harmovelaMissing is PraxoError, 'harmovela missing base url type');
+  check((harmovelaMissing as PraxoError).code == 'HARMOVELA_URL',
+      'harmovela missing base url');
+
   stdout.writeln('dart core tests passed');
 }
 

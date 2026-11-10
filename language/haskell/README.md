@@ -98,6 +98,28 @@ HTTP exchange for production or tests; deterministic tests use a fake transport.
 The Core `Response` type has no finish-reason field, so `finish_reason` is
 ignored.
 
+## Harmovela Event Sink
+
+`Praxo.Harmovela` posts Core events to `POST {baseURL}/events` with the
+documented envelope (`spec_version`, `id`, `type`, `source`, `created_at`,
+`payload`). Supply a transport and a UTC nanosecond clock; the package keeps its
+`base` and `containers` dependency set and does not bundle an HTTP client.
+
+```haskell
+import qualified Praxo.Harmovela as H
+
+sink :: H.HarmovelaTransport -> IO Integer -> H.HarmovelaSink
+sink transport clock = H.newHarmovelaSink
+    "http://127.0.0.1:8790/aep/api"
+    transport
+    clock
+```
+
+`emitHarmovelaEvent` accepts any 2xx response and returns `HARMOVELA_HTTP` with
+the status and a bounded body otherwise. The sink adds no authentication,
+retries, buffering, ordering, or exactly-once delivery. Event data may contain
+sensitive content, so filter caller-side; use HTTPS for remote endpoints.
+
 ## Declared Scope and Limits
 
 - JSON parsing is strict, rejects malformed escapes and lone surrogates, and

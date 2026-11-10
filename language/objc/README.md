@@ -101,6 +101,27 @@ manifest is invalid. Schema validation returns error paths. Core-local
 `PXRWireErrorDomain` and `PXRCoreErrorDomain` codes are not new shared wire
 error codes.
 
+## Harmovela Event Sink
+
+```objc
+#import "PraxoHarmovela.h"
+
+PXRHarmovelaSink sink = PXRHarmovelaSink(
+    @"http://127.0.0.1:8790/aep/api", @"praxo-core", @"0.2", nil, nil);
+options[@"events"] = sink;
+```
+
+`PXRHarmovelaSend` posts to `{baseURL}/events` with
+`content-type: application/json` and the `spec_version`, `id`, `type`,
+`source`, `created_at`, and merged `payload` envelope. Inject
+`PXRHarmovelaTransport` and `PXRHarmovelaClock` for deterministic tests. A 2xx
+status is success; any other status is a `HARMOVELA_HTTP` error with the status
+and a bounded response body.
+
+The sink adds no authentication, retries, buffering, ordering, or
+exactly-once-delivery guarantee. Apply caller-side filtering because event data
+may contain sensitive content, and use HTTPS for remote endpoints.
+
 ## Current Limits
 
 - The verified local target is Windows clang + GNUstep; the macOS CI job covers

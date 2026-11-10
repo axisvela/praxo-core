@@ -105,6 +105,28 @@ Local parity inventory: `agent.Agent.Run` maps partially to `praxo.agent_run`
 (P2); the callback API and loop cover the shared agent-loop vectors, not the
 full reference agent surface. The shared parity inventory remains unchanged.
 
+## Harmovela Event Sink
+
+```matlab
+sink = praxo.harmovela_sink('http://127.0.0.1:8790/aep/api');
+event = praxo.event('tool.call', 's1', 'run-1', ...
+    praxo.json_make_object({'name', praxo.json_make_string('echo')}));
+sink = praxo.harmovela_emit(sink, event);
+```
+
+`praxo.harmovela_emit` posts to `{baseURL}/events` with
+`content-type: application/json` and the documented `spec_version`, `id`,
+`type`, `source`, `created_at`, and merged `payload` envelope. Pass a transport
+function handle and a clock function handle to `praxo.harmovela_sink` for
+deterministic tests without network access. A 2xx status is success; any other
+status raises `praxo:harmovela` with the status and a bounded response body.
+
+The sink adds no authentication, retries, buffering, ordering, or
+exactly-once-delivery guarantee. Apply caller-side filtering because event data
+may contain sensitive content, and use HTTPS for remote endpoints. The default
+transport uses the runtime HTTP client and cannot report the exact status of a
+thrown non-2xx response.
+
 ## Current Limits
 
 - Numbers are finite double-precision values; large integers and decimal

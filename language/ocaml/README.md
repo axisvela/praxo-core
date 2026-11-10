@@ -95,6 +95,29 @@ The adapter does not bundle an HTTP client, so the package keeps its
 dependency-free build. Supply a `transport` for production or tests; native
 tests use a fake transport.
 
+## Harmovela Event Sink
+
+`harmovela_sink` posts Core events to `POST {baseURL}/events` with the documented
+envelope (`spec_version`, `id`, `type`, `source`, `created_at`, `payload`). It
+reuses the injectable `transport` type and a UTC nanosecond clock, so the package
+keeps its dependency-free build.
+
+```ocaml
+let transport request = (* perform request.http_method/http_url/http_headers/http_payload *)
+  { Praxo_core.http_status = 201; http_body = "" }
+
+let config = Praxo_core.harmovela_config
+  "http://127.0.0.1:8790/aep/api" transport
+  (fun () -> 1794294000000000000)
+
+let sink = Praxo_core.harmovela_sink config
+```
+
+`harmovela_emit` accepts any 2xx response and raises `Core_error` with
+`HARMOVELA_HTTP`, the status, and a bounded body otherwise. The sink has no
+authentication, retries, buffering, ordering, or exactly-once guarantee; filter
+sensitive event data caller-side and use HTTPS for remote endpoints.
+
 ## Current Limits
 
 - The verified target is OCaml 4.14.2 bytecode. Native `ocamlopt`, other

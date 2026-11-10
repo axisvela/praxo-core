@@ -20,6 +20,7 @@ test_schema();
 test_manifest();
 test_memory();
 test_event();
+test_harmovela();
 test_stream();
 test_checkpoint();
 test_policy();

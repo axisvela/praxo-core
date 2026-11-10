@@ -59,6 +59,25 @@ let response = try model.generate(
 `URLSessionTransport` is the production transport. Inject a `ProviderTransport`
 fake in tests to avoid network calls.
 
+## Harmovela Event Sink
+
+`HarmovelaSink` posts Core events to `POST {baseURL}/events` with the documented
+envelope (`spec_version`, `id`, `type`, `source`, `created_at`, `payload`). Its
+throwing `emit` surfaces transport and HTTP failures; the non-throwing
+`EventSink` callback can wrap it when errors are handled elsewhere.
+
+```swift
+let sink = HarmovelaSink(baseURL: "http://127.0.0.1:8790/aep/api")
+try sink.emit(Event(type: "tool.call", sessionID: "s1", runID: "run-1",
+                    data: ["name": "echo"]))
+```
+
+`HarmovelaTransport` accepts any 2xx response and rejects other statuses with
+`HARMOVELA_HTTP` plus a 512-character body limit. Inject a fake transport and a
+`HarmovelaTimestamp` clock in tests. The sink has no authentication, retries,
+buffering, ordering, or exactly-once guarantee; filter sensitive event data
+caller-side and use HTTPS for remote endpoints.
+
 ## Layout
 
 - `Sources/PraxoCore/` library.

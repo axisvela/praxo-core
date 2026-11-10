@@ -18,6 +18,7 @@ add_library(praxo_core STATIC
     src/core_context.c
     src/core_middleware.c
     src/openai.c
+    src/harmovela.c
     src/vectors_core.c
     src/vectors_agent.c
     src/conformance.c
@@ -51,16 +52,21 @@ target_link_libraries(praxo-c-adapter-tests PRIVATE praxo_core)
 add_executable(praxo-c-openai-tests tests/test_openai.c)
 target_link_libraries(praxo-c-openai-tests PRIVATE praxo_core)
 
+add_executable(praxo-c-harmovela-tests tests/test_harmovela.c)
+target_link_libraries(praxo-c-harmovela-tests PRIVATE praxo_core)
+
 if(MSVC)
     target_compile_options(praxo-c-tests PRIVATE /UNDEBUG)
     target_compile_options(praxo-c-core-tests PRIVATE /UNDEBUG)
     target_compile_options(praxo-c-adapter-tests PRIVATE /UNDEBUG)
     target_compile_options(praxo-c-openai-tests PRIVATE /UNDEBUG)
+    target_compile_options(praxo-c-harmovela-tests PRIVATE /UNDEBUG)
 else()
     target_compile_options(praxo-c-tests PRIVATE -UNDEBUG)
     target_compile_options(praxo-c-core-tests PRIVATE -UNDEBUG)
     target_compile_options(praxo-c-adapter-tests PRIVATE -UNDEBUG)
     target_compile_options(praxo-c-openai-tests PRIVATE -UNDEBUG)
+    target_compile_options(praxo-c-harmovela-tests PRIVATE -UNDEBUG)
 endif()
 
 add_test(NAME praxo-conformance COMMAND praxo-conformance)
@@ -68,6 +74,7 @@ add_test(NAME praxo-c-tests COMMAND praxo-c-tests)
 add_test(NAME praxo-c-core-tests COMMAND praxo-c-core-tests)
 add_test(NAME praxo-c-adapter-tests COMMAND praxo-c-adapter-tests)
 add_test(NAME praxo-c-openai-tests COMMAND praxo-c-openai-tests)
+add_test(NAME praxo-c-harmovela-tests COMMAND praxo-c-harmovela-tests)
 
 if(BUILD_TESTING)
     find_package(Python3 3.10 REQUIRED COMPONENTS Interpreter)

@@ -239,6 +239,7 @@ nav:
       - Repository Layout: project/repository-layout.md
   - Contributing:
       - Core Design: contributing/core-design.md
+      - Core and Adapter Layout: contributing/adapter-layout.md
       - Language Policy: contributing/language-policy.md
       - Test Evidence: contributing/test-evidence.md
   - Releases:

@@ -16,6 +16,7 @@ Decision
 Event
 FilterSink
 FuncTool
+HarmovelaSink
 Json
 JsonSchema
 MemoryRecord
@@ -65,6 +66,7 @@ emit
 estimate_tokens
 fallback_model
 generate
+harmovela_sink
 marshal
 message_dict
 openai_compatible

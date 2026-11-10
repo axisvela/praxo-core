@@ -88,7 +88,24 @@ stdio pilots; no live MCP server or remote transport is claimed.
 | Nim | native | `newHarmovelaSink` |
 | Perl | native | `Praxo::Adapters::Harmovela` |
 | Erlang | native | `praxo_harmovela` |
-| All other implementations | not implemented | Add with a named consumer or maintainer |
+| Julia | native | `HarmovelaSink` |
+| V | native | `harmovela_sink`; local V toolchain unavailable, CI gate |
+| D | native | `HarmovelaSink` |
+| Dart | native | `HarmovelaSink` |
+| Haskell | native (transport seam) | `Praxo.Harmovela`; caller supplies transport |
+| Swift | native | `HarmovelaSink` with URLSession transport |
+| OCaml | native (transport seam) | `harmovela_sink`; caller supplies transport |
+| Delphi / Free Pascal | native | `TPraxoHarmovelaSink` |
+| Objective-C | native | `PraxoHarmovela` |
+| MATLAB | native | `praxo.harmovela_sink` |
+| GNU Octave | native | Shared `praxo.harmovela_sink` |
+| Zig | native | `harmovela` |
+| C | native (transport seam) | `praxo_harmovela`; caller supplies HTTP transport |
+| C++ | native (transport seam) | `HarmovelaSink`; caller supplies HTTP transport |
+| Fortran | native (transport seam) | `harmovela`; caller supplies HTTP transport |
+| PowerShell | inherited | Uses the C# Core |
+| COBOL | not implemented | No HTTP transport; no event sink integration |
+| Other implementations | not implemented | Add with a named consumer or maintainer |
 
 Harmovela support means an HTTP event sink that posts the documented envelope.
 It does not imply authentication, delivery guarantees, ordering, or production

@@ -13,6 +13,9 @@ Event
 EventSink
 FilterSink
 FuncTool
+HarmovelaHttpRequest
+HarmovelaHttpResponse
+HarmovelaSink
 Interrupt
 InterruptAction
 InterruptDecision
@@ -63,6 +66,7 @@ description
 dump
 emit
 endpoint
+envelope
 equals
 estimate_tokens
 expect
@@ -104,12 +108,16 @@ runtime_error
 size
 skip
 snprintf
+source_value
+spec_value
 specs
 strip_markup
 truncate_to_tokens
 unmarshal
 using Array
 using Function
+using HarmovelaClock
+using HarmovelaTransport
 using ModelHandler
 using ModelMiddleware
 using Object

@@ -54,13 +54,15 @@ def main():
         link.append(f"-Wl,-rpath,{origin}/re2-install/lib")
     sources = [root / "src" / f"praxo_{name}.f90"
                for name in ("types", "unicode", "interfaces", "json", "openai", "pattern", "schema", "context", "stream",
-                            "middleware", "agent", "runtime", "checkpoint", "toolcall", "policy", "sse", "plugin")]
+                            "middleware", "agent", "runtime", "checkpoint", "toolcall", "policy", "sse", "plugin",
+                            "harmovela")]
     sources.append(root / "tests" / "doubles.f90")
     fixtures = build / "fixtures.f90"
     generate(root, fixtures)
     suites = {"core-tests": root / "tests" / "run.f90", "json-tests": root / "tests" / "json.f90",
               "contract-tests": root / "tests" / "contracts.f90", "fixture-tests": fixtures,
-              "pattern-tests": root / "tests" / "pattern.f90"}
+              "pattern-tests": root / "tests" / "pattern.f90",
+              "harmovela-tests": root / "tests" / "harmovela.f90"}
     for name, main_source in suites.items():
         executable = build / (name + (".exe" if os.name == "nt" else ""))
         subprocess.run(

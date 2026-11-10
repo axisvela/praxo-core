@@ -2,6 +2,7 @@ module Main (main) where
 
 import Control.Monad (forM_, unless)
 import Data.Either (isLeft)
+import Data.List (isInfixOf)
 import Data.Ratio ((%))
 import Data.IORef
 import qualified Praxo.Agent as A
@@ -9,6 +10,7 @@ import Praxo.Json
 import Praxo.JsonSchema
 import Praxo.Middleware
 import qualified Praxo.OpenAICompatible as O
+import qualified Praxo.Harmovela as H
 import Praxo.Pattern
 import Praxo.Plugin
 import Praxo.Runtime
@@ -21,6 +23,7 @@ main = do
     runtimeTests
     middlewareTests
     adapterTests
+    harmovelaTests
     assert "contract version" (specVersion == "0.2.0" && sdkVersion == "0.2.0")
     forM_ ["", "01", "1.", "+1", "NaN", "1e", "[1,]", "{\"a\":1,}", "{}{}", "\"\\q\"", "\"\\ud800\"", "\"\\udc00\"", "\"\\ud800\\u0041\"", "\"line\nbreak\"", "true garbage"] $ \raw ->
         assert ("invalid JSON " ++ show raw) (isLeft (parseJson raw))
@@ -243,6 +246,72 @@ adapterTests = do
     let invalid = O.Transport (\_ -> pure (Right (O.HttpResponse 200 "{\"choices\":[{\"message\":{\"tool_calls\":[{\"id\":\"c\",\"function\":{\"name\":\"x\",\"arguments\":\"{bad\"}}]}}]}")))
     invalidResult <- O.generate (config { O.openAITransport = invalid }) [A.Message "user" "hi" [] ""]
     assert "openai invalid arguments" (case invalidResult of Left err -> A.errorCode err == "PROVIDER_RESPONSE"; _ -> False)
+
+harmovelaTests :: IO ()
+harmovelaTests = do
+    captured <- newIORef ([] :: [H.HarmovelaRequest])
+    let transport = H.HarmovelaTransport (\request -> do
+            modifyIORef' captured (++ [request])
+            pure (Right (H.HarmovelaResponse 201 "")))
+        sink = H.newHarmovelaSink "http://harmovela.test/aep/api/" transport (pure 1794294000000000000)
+        event = Event "tool.call" "s1" (Just "run-123") (JObject [("name", JString "echo")])
+    result <- H.emitHarmovelaEvent sink event
+    assert "harmovela success" (result == Right ())
+    requests <- readIORef captured
+    case requests of
+        [request] -> do
+            assert "harmovela method" (H.harmovelaMethod request == "POST")
+            assert "harmovela path" (H.harmovelaURL request == "http://harmovela.test/aep/api/events")
+            assert "harmovela content type" (lookup "content-type" (H.harmovelaHeaders request) == Just "application/json")
+            let envelope = json (H.harmovelaBody request)
+            assert "harmovela spec" (field "spec_version" envelope == JString "0.2")
+            assert "harmovela id" (field "id" envelope == JString "run-123-1794294000000000000")
+            assert "harmovela type" (field "type" envelope == JString "tool.call")
+            assert "harmovela source" (field "source" envelope == JString "praxo-core")
+            assert "harmovela created at" (field "created_at" envelope == JString "2026-11-10T07:00:00.000000000Z")
+            assert "harmovela payload" (equalJson (field "payload" envelope)
+                (json "{\"name\":\"echo\",\"session_id\":\"s1\",\"run_id\":\"run-123\"}"))
+        _ -> fail "harmovela request count"
+    customCaptured <- newIORef ([] :: [H.HarmovelaRequest])
+    let customTransport = H.HarmovelaTransport (\request -> do
+            modifyIORef' customCaptured (++ [request])
+            pure (Right (H.HarmovelaResponse 204 "")))
+        custom = (H.newHarmovelaSink "http://harmovela.test" customTransport (pure 1794294000000000000))
+            { H.harmovelaSource = "custom", H.harmovelaSpecVersion = "0.3" }
+        mergedEvent = Event "tool.call" "s1" Nothing
+            (JObject [("name", JString "echo"), ("session_id", JString "event-side"), ("run_id", JString "old")])
+    customResult <- H.emitHarmovelaEvent custom mergedEvent
+    assert "harmovela custom success" (customResult == Right ())
+    customRequests <- readIORef customCaptured
+    case customRequests of
+        [request] -> do
+            let envelope = json (H.harmovelaBody request)
+            assert "harmovela custom source" (field "source" envelope == JString "custom")
+            assert "harmovela custom spec" (field "spec_version" envelope == JString "0.3")
+            assert "harmovela session id prefix" (take 3 (asString (field "id" envelope)) == "s1-")
+            assert "harmovela merged payload" (equalJson (field "payload" envelope)
+                (json "{\"name\":\"echo\",\"session_id\":\"s1\",\"run_id\":\"old\"}"))
+        _ -> fail "harmovela custom request count"
+    forM_ [200, 201, 204, 299] $ \status -> do
+        let accepted = H.newHarmovelaSink "http://harmovela.test"
+                (H.HarmovelaTransport (\_ -> pure (Right (H.HarmovelaResponse status ""))))
+                (pure 1)
+        acceptedResult <- H.emitHarmovelaEvent accepted event
+        assert ("harmovela accepted status " ++ show status) (acceptedResult == Right ())
+    let failing = H.newHarmovelaSink "http://harmovela.test"
+            (H.HarmovelaTransport (\_ -> pure (Right (H.HarmovelaResponse 503 (concat (replicate 100 "service down "))))))
+            (pure 1)
+    failed <- H.emitHarmovelaEvent failing event
+    case failed of
+        Left err -> do
+            assert "harmovela error code" (A.errorCode err == "HARMOVELA_HTTP")
+            assert "harmovela error status" ("503" `isInfixOf` A.errorMessage err)
+            assert "harmovela error body" ("service down" `isInfixOf` A.errorMessage err)
+            assert "harmovela error bounded" (length (A.errorMessage err) <= 600)
+        Right () -> fail "harmovela expected non-2xx error"
+    let missing = H.newHarmovelaSink "" (H.HarmovelaTransport (\_ -> fail "harmovela transport called for missing base URL")) (pure 1)
+    missingResult <- H.emitHarmovelaEvent missing event
+    assert "harmovela missing base url" (case missingResult of Left err -> A.errorCode err == "HARMOVELA_URL"; _ -> False)
 
 assert :: String -> Bool -> IO ()
 assert label condition = unless condition (fail label)

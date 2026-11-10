@@ -23,6 +23,34 @@ memory, event, stream, checkpoint, policy, context, middleware, the agent loop,
 and human-in-the-loop interrupt decisions. It includes a public API snapshot and
 a dependency-free test runner.
 
+## Harmovela Event Sink
+
+```cpp
+#include "praxo/harmovela.hpp"
+
+praxo::HarmovelaSink sink(
+    "http://127.0.0.1:8790/aep/api", "praxo-core", "0.2", transport, clock);
+praxo::Event event;
+event.type = "tool.call";
+event.session_id = "s1";
+event.run_id = "run-1";
+event.data = praxo::Json::object();
+event.data["name"] = "echo";
+sink.emit(event);
+```
+
+`HarmovelaSink` posts to `{baseUrl}/events` with
+`content-type: application/json` and the documented `spec_version`, `id`,
+`type`, `source`, `created_at`, and merged `payload` envelope. The C++ Core
+bundles no HTTP client, so callers provide a `HarmovelaTransport`; a
+`HarmovelaClock` makes timestamps deterministic. A 2xx status is success; any
+other status throws `HARMOVELA_HTTP` with the status and a bounded response
+body.
+
+The sink adds no authentication, retries, buffering, ordering, or
+exactly-once-delivery guarantee. Apply caller-side filtering because event data
+may contain sensitive content, and use HTTPS for remote endpoints.
+
 ## Build and test
 
 With CMake and a C++20 compiler:

@@ -1,7 +1,16 @@
 program core_tests;
 {$mode objfpc}{$H+}
 
-uses SysUtils, Classes, fpjson, praxo, praxo_core;
+uses SysUtils, Classes, fpjson, praxo, praxo_core, praxo_harmovela;
+
+type
+  TFakeHarmovelaTransport = class
+  public
+    Requests: array of TPraxoHarmovelaRequest;
+    StatusCode: Integer;
+    ResponseBody: UTF8String;
+    function Send(const Request: TPraxoHarmovelaRequest): TPraxoHarmovelaResponse;
+  end;
 
 var
   SpecRoot: UTF8String;
@@ -52,6 +61,23 @@ procedure Check(Condition: Boolean; const MessageText: UTF8String);
 begin
   if not Condition then
     raise Exception.Create(MessageText);
+end;
+
+function TFakeHarmovelaTransport.Send(const Request: TPraxoHarmovelaRequest):
+  TPraxoHarmovelaResponse;
+var
+  Count: Integer;
+begin
+  Count := Length(Requests);
+  SetLength(Requests, Count + 1);
+  Requests[Count] := Request;
+  Result.StatusCode := StatusCode;
+  Result.Body := ResponseBody;
+end;
+
+function FakeHarmovelaClock: Int64;
+begin
+  Result := 1794294000000000000;
 end;
 
 function Group(const Name: UTF8String): TJSONArray;
@@ -407,6 +433,128 @@ begin
   writeln('test_middleware passed');
 end;
 
+procedure TestHarmovela;
+var
+  Sink: TPraxoHarmovelaSink;
+  Fake: TFakeHarmovelaTransport;
+  Event: TPraxoEvent;
+  Envelope, Payload, Data: TJSONObject;
+  I: Integer;
+  Caught: Boolean;
+  Statuses: array[0..3] of Integer = (200, 201, 204, 299);
+begin
+  Fake := TFakeHarmovelaTransport.Create;
+  Fake.StatusCode := 201;
+  Sink := TPraxoHarmovelaSink.Create('http://harmovela.test/aep/api/');
+  Data := TJSONObject.Create;
+  Data.Add('name', 'echo');
+  Event.Kind := 'tool.call';
+  Event.SessionId := 's1';
+  Event.RunId := 'run-123';
+  Event.Data := Data;
+  try
+    Sink.Transport := @Fake.Send;
+    Sink.Clock := @FakeHarmovelaClock;
+    Sink.Emit(Event);
+    Check(Length(Fake.Requests) = 1, 'harmovela request count');
+    Check(Fake.Requests[0].Method = 'POST', 'harmovela method');
+    Check(Fake.Requests[0].URL = 'http://harmovela.test/aep/api/events',
+      'harmovela path');
+    Check(Fake.Requests[0].ContentType = 'application/json',
+      'harmovela content type');
+    Envelope := TJSONObject(PraxoParseJSON(Fake.Requests[0].Body));
+    try
+      Check(Str(Envelope, 'spec_version') = '0.2', 'harmovela spec');
+      Check(Str(Envelope, 'id') = 'run-123-1794294000000000000',
+        'harmovela id');
+      Check(Str(Envelope, 'type') = 'tool.call', 'harmovela type');
+      Check(Str(Envelope, 'source') = 'praxo-core', 'harmovela source');
+      Check(Str(Envelope, 'created_at') = '2026-11-10T07:00:00.000000000Z',
+        'harmovela created at');
+      Payload := TJSONObject(LastField(Envelope, 'payload'));
+      Check(Str(Payload, 'name') = 'echo', 'harmovela payload data');
+      Check(Str(Payload, 'session_id') = 's1', 'harmovela payload session');
+      Check(Str(Payload, 'run_id') = 'run-123', 'harmovela payload run');
+    finally
+      Envelope.Free;
+    end;
+
+    Event.Data.Free;
+    Event.Data := nil;
+    Data := TJSONObject.Create;
+    Data.Add('name', 'echo');
+    Data.Add('session_id', 'event-side');
+    Data.Add('run_id', 'old');
+    Event.Data := Data;
+    Event.RunId := '';
+    Sink.Source := 'custom';
+    Sink.SpecVersion := '0.3';
+    SetLength(Fake.Requests, 0);
+    Sink.Emit(Event);
+    Envelope := TJSONObject(PraxoParseJSON(Fake.Requests[0].Body));
+    try
+      Check(Str(Envelope, 'source') = 'custom', 'harmovela custom source');
+      Check(Str(Envelope, 'spec_version') = '0.3', 'harmovela custom spec');
+      Check(Copy(Str(Envelope, 'id'), 1, 3) = 's1-',
+        'harmovela session id prefix');
+      Payload := TJSONObject(LastField(Envelope, 'payload'));
+      Check(Str(Payload, 'session_id') = 's1', 'harmovela session override');
+      Check(Str(Payload, 'run_id') = 'old', 'harmovela data run retained');
+    finally
+      Envelope.Free;
+    end;
+
+    Sink.Source := 'praxo-core';
+    Sink.SpecVersion := '0.2';
+    for I := 0 to High(Statuses) do
+    begin
+      Fake.StatusCode := Statuses[I];
+      Sink.Emit(Event);
+    end;
+
+    Fake.StatusCode := 503;
+    Fake.ResponseBody := '';
+    for I := 1 to 100 do
+      Fake.ResponseBody := Fake.ResponseBody + 'service down ';
+    Caught := False;
+    try
+      Sink.Emit(Event);
+    except
+      on E: EPraxoHarmovela do
+      begin
+        Caught := True;
+        Check(E.Code = 'HARMOVELA_HTTP', 'harmovela error code');
+        Check(E.Status = 503, 'harmovela error status');
+        Check(Pos('503', E.Message) > 0, 'harmovela error status text');
+        Check(Pos('service down', E.Message) > 0, 'harmovela error body');
+        Check(Length(E.Message) <= 600, 'harmovela error bounded');
+      end;
+    end;
+    Check(Caught, 'harmovela non-2xx error');
+
+    Sink.BaseURL := '';
+    SetLength(Fake.Requests, 0);
+    Caught := False;
+    try
+      Sink.Emit(Event);
+    except
+      on E: EPraxoHarmovela do
+      begin
+        Caught := True;
+        Check(E.Code = 'HARMOVELA_URL', 'harmovela url code');
+      end;
+    end;
+    Check(Caught, 'harmovela missing base url error');
+    Check(Length(Fake.Requests) = 0,
+      'harmovela missing base url skips transport');
+  finally
+    Event.Data.Free;
+    Sink.Free;
+    Fake.Free;
+  end;
+  writeln('test_harmovela passed');
+end;
+
 begin
   if ParamCount < 1 then
   begin
@@ -421,5 +569,6 @@ begin
   TestPolicy;
   TestContext;
   TestMiddleware;
+  TestHarmovela;
   writeln('All declared Delphi Core vector groups passed');
 end.

@@ -308,6 +308,47 @@ function Get-PraxoStreamKinds {
     [Praxo.Core.StreamKinds]::All
 }
 
+function New-PraxoHarmovelaSinkOptions {
+    param(
+        [Parameter(Mandatory = $true)][string]$BaseUrl,
+        [string]$Source = 'praxo-core',
+        [string]$SpecVersion = '0.2',
+        [int]$TimeoutSeconds = 30
+    )
+    Import-PraxoCoreAssembly
+    $options = [Praxo.Core.HarmovelaSinkOptions]::new()
+    $options.BaseUrl = $BaseUrl
+    $options.Source = $Source
+    $options.SpecVersion = $SpecVersion
+    $options.Timeout = [TimeSpan]::FromSeconds($TimeoutSeconds)
+    $options
+}
+
+function New-PraxoHarmovelaSink {
+    param(
+        [Parameter(Mandatory = $true)]$Options,
+        [scriptblock]$Transport
+    )
+    Import-PraxoCoreAssembly
+    if ($Transport) {
+        $delegate = [System.Management.Automation.LanguagePrimitives]::ConvertTo(
+            $Transport,
+            [Praxo.Core.HarmovelaTransport]
+        )
+        [Praxo.Core.HarmovelaSink]::new($Options, $delegate)
+    } else {
+        [Praxo.Core.HarmovelaSink]::new($Options)
+    }
+}
+
+function Send-PraxoHarmovelaEvent {
+    param(
+        [Parameter(Mandatory = $true)]$Sink,
+        [Parameter(Mandatory = $true)]$Event
+    )
+    $Sink.Emit($Event)
+}
+
 Export-ModuleMember -Function @(
     'Get-PraxoCoreInfo',
     'New-PraxoStaticModel',
@@ -341,5 +382,8 @@ Export-ModuleMember -Function @(
     'Invoke-PraxoContextCompact',
     'New-PraxoPiiRedactor',
     'Invoke-PraxoPiiRedaction',
-    'Get-PraxoStreamKinds'
+    'Get-PraxoStreamKinds',
+    'New-PraxoHarmovelaSinkOptions',
+    'New-PraxoHarmovelaSink',
+    'Send-PraxoHarmovelaEvent'
 )
