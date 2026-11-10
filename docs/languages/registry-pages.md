@@ -45,7 +45,7 @@ Checked 2026-11-09 for the four pilot packages.
 | Language | Page | Published version | Current page state | Next action |
 | --- | --- | --- | --- | --- |
 | Go | [pkg.go.dev](https://pkg.go.dev/github.com/axisvela/praxo-core/v2) | `v2.7.0` | Rendered `v2.7.0` README shows the `@v2.7.0` install command, MIT license, canonical documentation and consumer links; the module proxy `@latest` reports `v2.7.0`; verified 2026-11-09 | No further action |
-| Python | [PyPI](https://pypi.org/project/praxo-core/) | `0.3.2` | Rendered `0.3.2` description includes absolute registry/coding-agent links; verified 2026-11-08 | No further action |
+| Python | [PyPI](https://pypi.org/project/praxo-core/) | `0.4.1` | Rendered `0.3.2` description was verified 2026-11-08; `0.4.1` is published but its rendered page is not re-audited | Re-audit the `0.4.1` page |
 | TypeScript | [npm](https://www.npmjs.com/package/@axisvela/praxo-core) | `0.2.2` | Rendered `0.2.2` README includes absolute registry/coding-agent links; latest; verified 2026-11-08 | No further action |
 | Java | [Maven Central](https://central.sonatype.com/artifact/com.axisvela/praxo-core) | `0.4.1` | POM is `0.4.1` with sources/javadoc returning 200; Central does not render the README; verified 2026-11-08 | No further action |
 

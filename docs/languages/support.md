@@ -101,7 +101,7 @@ Registry values below were checked against the public registries on 2026-11-05.
 
 | Language | Source tag | Registry version | Consumer install smoke |
 | --- | --- | --- | --- |
-| Python | `python/v0.4.1` | PyPI `praxo-core==0.3.2` published; `0.4.1` source prepared | Release workflow built and smoke-tested `0.3.2`; post-publication consumer check passed locally; `0.4.1` publication pending |
+| Python | `python/v0.4.1` | PyPI `praxo-core==0.4.1` published | Release workflow built and smoke-tested `0.4.1`; post-publication consumer check passed locally |
 | TypeScript | `typescript/v0.2.2` | npm `@axisvela/praxo-core@0.2.2` published; latest | Release workflow built and consumed the tarball; post-publication consumer check for `0.2.1` passed locally |
 | Java | `java/v0.4.1` | Maven Central `com.axisvela:praxo-core:0.4.1` published | Central validated and published; post-publication consumer check passed locally |
 | Rust | `rust/v0.3.0` | crates.io `praxo-core==0.3.0` published; `0.1.4` historical | Recorded for `0.1.4` only; not rerun for `0.3.0` |
@@ -129,7 +129,7 @@ its latest version matches the manifest at the release tag.
 
 | Language | Code/manifest version | Registry latest | Status |
 | --- | --- | --- | --- |
-| Python | `0.4.1` | PyPI `0.3.2` | source prepared; registry pending |
+| Python | `0.4.1` | PyPI `0.4.1` | current |
 | TypeScript | `0.2.2` | npm `0.2.2` | current |
 | Java | `0.4.1` | Maven Central `0.4.1` | current |
 | Rust | `0.3.0` | crates.io `0.3.0` | current |

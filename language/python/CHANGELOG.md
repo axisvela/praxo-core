@@ -2,9 +2,9 @@
 
 ## 0.4.1 - 2026-11-10
 
-Source tag `python/v0.4.1`; PyPI publication is pending. This supersedes the
-`0.4.0` source tag, whose release build failed on an outdated installed-smoke
-version assertion.
+Source tag `python/v0.4.1`. PyPI publishes `praxo-core==0.4.1` from that tag.
+This supersedes the `0.4.0` source tag, whose release build failed on an outdated
+installed-smoke version assertion.
 
 ### Fixed
 

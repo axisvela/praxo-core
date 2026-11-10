@@ -1,6 +1,6 @@
 # Independent Python Consumer
 
-Use published `praxo-core==0.3.2` in your own application with Python 3.11 or
+Use published `praxo-core==0.4.1` in your own application with Python 3.11 or
 newer. No PRAXO-CORE source checkout, API key, model service, or AxisVela product
 is required. Installation needs PyPI access or a cached wheel.
 
@@ -20,14 +20,14 @@ POSIX:
 
 ```sh
 python3 -m venv .venv
-.venv/bin/python -m pip install --index-url https://pypi.org/simple praxo-core==0.3.2
+.venv/bin/python -m pip install --index-url https://pypi.org/simple praxo-core==0.4.1
 ```
 
 PowerShell:
 
 ```powershell
 python -m venv .venv
-.venv\Scripts\python.exe -m pip install --index-url https://pypi.org/simple praxo-core==0.3.2
+.venv\Scripts\python.exe -m pip install --index-url https://pypi.org/simple praxo-core==0.4.1
 ```
 
 Do not use `pip install -e`, a repository path, or `PYTHONPATH` to substitute the
