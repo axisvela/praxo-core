@@ -16,6 +16,11 @@ version remains the authority for what consumers install.
 | --- | --- | --- |
 | Python | [axisvela/praxo-core-python](https://github.com/axisvela/praxo-core-python) | Discovery mirror of `language/python`; includes `spec/` for conformance |
 | TypeScript | [axisvela/praxo-core-typescript](https://github.com/axisvela/praxo-core-typescript) | Discovery mirror of `language/typescript`; includes `spec/` for conformance |
+| Java | [axisvela/praxo-core-java](https://github.com/axisvela/praxo-core-java) | Discovery mirror of `language/java`; includes `spec/` for conformance |
+| Rust | [axisvela/praxo-core-rust](https://github.com/axisvela/praxo-core-rust) | Discovery mirror of `language/rust`; includes `spec/` for conformance |
+| C# / .NET | [axisvela/praxo-core-csharp](https://github.com/axisvela/praxo-core-csharp) | Discovery mirror of `language/csharp`; includes `spec/` for conformance |
+| R | [axisvela/praxo-core-r](https://github.com/axisvela/praxo-core-r) | Discovery mirror of `language/r`; includes `spec/` for conformance |
+| Elixir | [axisvela/praxo-core-elixir](https://github.com/axisvela/praxo-core-elixir) | Discovery mirror of `language/elixir`; includes `spec/` for conformance |
 | Ruby | [axisvela/praxo-core-ruby](https://github.com/axisvela/praxo-core-ruby) | RubyGems publication source |
 | PHP | [axisvela/praxo-core-php](https://github.com/axisvela/praxo-core-php) | Packagist publication source |
 | Lua | [axisvela/praxo-core-lua](https://github.com/axisvela/praxo-core-lua) | Dedicated Lua repository |
@@ -29,9 +34,9 @@ version remains the authority for what consumers install.
 ## Rollout
 
 Dedicated repositories are added in adoption order, not to maximize language
-counts. The current batch covers Python and TypeScript. The next batch covers
-Java, Rust, C#, R, and Elixir. Extended and optional implementations follow when
-a maintainer or named consumer needs a dedicated repository.
+counts. The current batch covers the agent-capable implementations: Python,
+TypeScript, Java, Rust, C#, R, and Elixir. Extended and optional implementations
+follow when a maintainer or named consumer needs a dedicated repository.
 
 A mirror keeps the canonical `language/<language>` tree and the shared `spec/`
 vectors so its tests and conformance runner work. It does not replace the

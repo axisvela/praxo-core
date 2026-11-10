@@ -9,8 +9,9 @@ and the [canonical scope matrix](https://github.com/axisvela/praxo-core/blob/mai
 
 See [registry publication status](registry-status.md) for package names, versions,
 addresses, and pending releases. See [language repositories](repositories.md) for
-dedicated Python, TypeScript, Ruby, PHP, Lua, Swift, Julia, V, OCaml, Nim, and D
-repositories; more language repositories are added in adoption order.
+dedicated Python, TypeScript, Java, Rust, C#, R, Elixir, Ruby, PHP, Lua, Swift,
+Julia, V, OCaml, Nim, and D repositories; more language repositories are added in
+adoption order.
 
 Each entry has its own docs/languages/<language>/ directory for the Core page and future examples, adapter notes, and release pages.
 
