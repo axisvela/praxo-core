@@ -135,6 +135,8 @@ def block(entry: dict, directory: Path) -> str:
     prefix = base if relative == "." else f"{base}/{relative}"
     coding = f"{base}/docs/getting-started/coding-agents.md"
     registry = f"[{entry['registry']}]({entry['url']})" if entry["url"] else entry["registry"]
+    if relative == ".":
+        registry = "[Language Release Index](docs/languages/registry-status.md)"
     return (
         f"{BLOCK_START}\n\n"
         f"- Registry introduction: [REGISTRY.md]({prefix}/REGISTRY.md)\n"
@@ -268,14 +270,114 @@ def render_llms(entry: dict, directory: Path, markdown: bool) -> str:
     return body if markdown else body.replace("## ", "# ")
 
 
+def root_language_rows() -> list[tuple[str, str, str, str, str]]:
+    rows: list[tuple[str, str, str, str, str]] = []
+    for entry in LANGUAGES:
+        if "shared implementation" in entry["status"]:
+            continue
+        registry = f"[{entry['registry']}]({entry['url']})" if entry["url"] else entry["registry"]
+        rows.append(
+            (
+                entry["name"],
+                f"`{entry['package']}`",
+                registry,
+                published_version_label(entry),
+                entry["docs"],
+            )
+        )
+    return rows
+
+
+def render_root_registry() -> str:
+    rows = "\n".join("| " + " | ".join(row) + " |" for row in root_language_rows())
+    return f"""# PRAXO-CORE Registry Introduction
+
+**Status:** multi-language framework. Go is the reference implementation; each
+language implementation has its own package, documented scope, and evidence.
+
+## Positioning
+
+PRAXO-CORE is an embeddable, MIT-licensed agent framework with explicit policy
+controls, checkpoints, and event tracing. It is not a Go-only framework.
+
+## Languages
+
+| Language | Package | Registry | Published version | Documentation |
+| --- | --- | --- | --- | --- |
+{rows}
+
+Source releases, package-registry publication, conformance, and production
+verification are separate claims. Check each language's registry page and
+documentation before relying on a version or feature.
+
+## Canonical source and dedicated repositories
+
+- Canonical source: https://github.com/axisvela/praxo-core
+- Language implementations: https://github.com/axisvela/praxo-core/tree/main/language
+- Dedicated language repositories are listed in the
+  [language repository index](docs/languages/repositories.md).
+
+## Boundaries
+
+- PRAXO-CORE is an embeddable, MIT-licensed execution kernel, not a hosted
+  model, workflow engine, identity provider, or safety controller.
+- Do not infer exactly-once execution, complete sandbox isolation, production
+  security certification, live-provider behavior, or physical safety from a
+  package.
+- Registry pages are release snapshots; the canonical documentation may be newer.
+"""
+
+
+def render_root_llms() -> str:
+    lines = []
+    for name, package, registry, published, docs in root_language_rows():
+        lines.append(
+            f"- {name}: {package} — {registry} — {published} — {docs}"
+        )
+    languages = "\n".join(lines)
+    return f"""# PRAXO-CORE
+
+> Multi-language governed agent execution kernel. Go is the reference
+> implementation; Python, TypeScript, Java, Rust, C#, R, Ruby, PHP, Elixir, Lua,
+> and other implementations ship independent packages. This file is a
+> machine-readable entry point for coding tools; it does not guarantee discovery,
+> installation, or adoption.
+
+## Languages
+
+{languages}
+
+## Start
+
+- README: https://github.com/axisvela/praxo-core/blob/main/README.md
+- Quickstart: https://github.com/axisvela/praxo-core/blob/main/docs/getting-started/quickstart.md
+- Start Here: https://github.com/axisvela/praxo-core/blob/main/docs/getting-started/index.md
+- Coding-agent contract: https://github.com/axisvela/praxo-core/blob/main/docs/getting-started/coding-agents.md
+- Language repository index: https://github.com/axisvela/praxo-core/blob/main/docs/languages/repositories.md
+- When Not To Use: https://github.com/axisvela/praxo-core/blob/main/docs/getting-started/when-not-to-use.md
+
+## Boundaries
+
+- In-process framework; not a model provider, hosted service, workflow engine,
+  identity provider, or safety controller.
+- No exactly-once, sandbox-isolation, production-security, real-time, or
+  physical-safety claim.
+- Registry pages are release snapshots. Verify the published version and read the
+  canonical documentation for behavior and limits.
+"""
+
+
 def write_entry(entry: dict) -> None:
     readme, registry, llms_txt, llms_md = entry_paths(entry)
     directory = readme.parent
     directory.mkdir(parents=True, exist_ok=True)
     insert_block(readme, entry)
+    if entry["dir"] == ".":
+        registry.write_text(render_root_registry(), encoding="utf-8")
+        llms_md.write_text(render_root_llms(), encoding="utf-8")
+        return
     registry.write_text(render_registry(entry, directory), encoding="utf-8")
-    if entry["dir"] != ".":
-        llms_txt.write_text(render_llms(entry, directory, markdown=False), encoding="utf-8")
+    llms_txt.write_text(render_llms(entry, directory, markdown=False), encoding="utf-8")
     llms_md.write_text(render_llms(entry, directory, markdown=True), encoding="utf-8")
 
 
@@ -292,6 +394,11 @@ def main() -> int:
                     missing.append(str(path.relative_to(ROOT)))
             if readme.is_file() and BLOCK_START not in readme.read_text(encoding="utf-8"):
                 missing.append(f"{readme.relative_to(ROOT)}: missing registry block")
+            if entry["dir"] == ".":
+                if registry.is_file() and registry.read_text(encoding="utf-8") != render_root_registry():
+                    missing.append(f"{registry.relative_to(ROOT)}: stale multi-language registry entry")
+                if llms_md.is_file() and llms_md.read_text(encoding="utf-8") != render_root_llms():
+                    missing.append(f"{llms_md.relative_to(ROOT)}: stale multi-language llms entry")
         else:
             write_entry(entry)
     if args.check:

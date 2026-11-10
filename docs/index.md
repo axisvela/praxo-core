@@ -19,15 +19,37 @@ and integrations; AxisVela products are not required.
 - Start with Go or choose a language implementation with a documented scope and conformance gate.
 - Keep the framework MIT-licensed and optional integrations separate.
 
-## Start With Go
+## Choose Your Language
+
+PRAXO-CORE is multi-language. Go is the reference implementation; other
+implementations have independent packages and declared scope.
+
+| Language | Start |
+| --- | --- |
+| Go (reference) | [Go consumer](getting-started/consumer-go.md) |
+| Python | [Python consumer](getting-started/consumer-python.md) |
+| TypeScript | [TypeScript consumer](getting-started/consumer-typescript.md) |
+| Java | [Java consumer](getting-started/consumer-java.md) |
+| Rust | [Rust implementation](languages/rust/index.md) |
+| C# | [C# implementation](languages/csharp/index.md) |
+| R | [R implementation](languages/r/index.md) |
+| Ruby | [Ruby consumer](getting-started/consumer-ruby.md) |
+| PHP | [PHP consumer](getting-started/consumer-php.md) |
+| Elixir | [Elixir consumer](getting-started/consumer-elixir.md) |
+| Lua | [Lua consumer](getting-started/consumer-lua.md) |
+
+See the [language implementation directory](languages/index.md) and the
+[dedicated repository index](languages/repositories.md).
+
+## Go Reference Quickstart
 
 ```bash
 go get github.com/axisvela/praxo-core/v2@v2.7.0
 ```
 
 Follow the [quickstart](getting-started/quickstart.md) to run an agent against
-Ollama or an OpenAI-compatible endpoint. For other languages, start with the
-[language implementation directory](languages/index.md); source tags do not imply package-registry availability.
+Ollama or an OpenAI-compatible endpoint. For other languages, use the table
+above; source tags do not imply package-registry availability.
 
 ## Find What You Need
 

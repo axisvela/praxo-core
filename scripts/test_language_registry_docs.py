@@ -50,14 +50,21 @@ class LanguageRegistryDocsTests(unittest.TestCase):
                 else:
                     self.assertTrue(llms_txt.is_file(), llms_txt)
                 registry_text = registry.read_text(encoding="utf-8")
-                self.assertIn("## Package", registry_text)
-                self.assertIn("## Boundaries", registry_text)
-                self.assertIn(entry["package"], registry_text)
-                self.assertIn(entry["source_version"], registry_text)
-                if SYNC.published_available(entry):
+                if entry["dir"] == ".":
+                    self.assertIn("## Languages", registry_text)
+                    self.assertIn("## Boundaries", registry_text)
+                    self.assertIn(entry["package"], registry_text)
+                    self.assertIn(entry["source_version"], registry_text)
                     self.assertIn(entry["published_version"], registry_text)
-                    self.assertIn(entry["install"], registry_text)
-                self.assertIn(entry["source_install"], registry_text)
+                else:
+                    self.assertIn("## Package", registry_text)
+                    self.assertIn("## Boundaries", registry_text)
+                    self.assertIn(entry["package"], registry_text)
+                    self.assertIn(entry["source_version"], registry_text)
+                    if SYNC.published_available(entry):
+                        self.assertIn(entry["published_version"], registry_text)
+                        self.assertIn(entry["install"], registry_text)
+                    self.assertIn(entry["source_install"], registry_text)
                 readme_text = readme.read_text(encoding="utf-8")
                 self.assertIn(SYNC.BLOCK_START, readme_text)
                 block = readme_text.split(SYNC.BLOCK_START, 1)[1].split("\n## ", 1)[0]

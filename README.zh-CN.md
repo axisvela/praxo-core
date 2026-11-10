@@ -17,7 +17,31 @@
 [语言实现](docs/zh-CN/languages/index.md) |
 [示例](examples)
 
-## 从 Go 开始
+**PRAXO-CORE 是多语言框架。** Go 是参考实现；Python、TypeScript、Java、Rust、C#、R、
+Ruby、PHP、Elixir、Lua 等语言都有独立发布包。它不是 Go 专用框架。
+
+## 选择语言
+
+| 语言 | 包 | 开始 |
+| --- | --- | --- |
+| Go（参考实现） | `github.com/axisvela/praxo-core/v2` | [Go 独立消费者](docs/zh-CN/getting-started/consumer-go.md) |
+| Python | `praxo-core` | [Python 独立消费者](docs/zh-CN/getting-started/consumer-python.md) |
+| TypeScript | `@axisvela/praxo-core` | [TypeScript 独立消费者](docs/zh-CN/getting-started/consumer-typescript.md) |
+| Java | `com.axisvela:praxo-core` | [Java 独立消费者](docs/zh-CN/getting-started/consumer-java.md) |
+| Rust | `praxo-core` | [Rust 实现](docs/zh-CN/languages/rust/index.md) |
+| C# | `Praxo.Core` | [C# 实现](docs/zh-CN/languages/csharp/index.md) |
+| R | `praxocore` | [R 实现](docs/zh-CN/languages/r/index.md) |
+| Ruby | `praxo-core` | [Ruby 独立消费者](docs/zh-CN/getting-started/consumer-ruby.md) |
+| PHP | `axisvela/praxo-core` | [PHP 独立消费者](docs/zh-CN/getting-started/consumer-php.md) |
+| Elixir | `praxo_core` | [Elixir 独立消费者](docs/zh-CN/getting-started/consumer-elixir.md) |
+| Lua | `praxo-core` | [Lua 独立消费者](docs/zh-CN/getting-started/consumer-lua.md) |
+
+完整列表见[语言实现目录](docs/zh-CN/languages/index.md)与
+[独立仓库索引](docs/zh-CN/languages/repositories.md)。
+
+## Go 参考实现快速开始
+
+Go 是参考实现；其他运行时请使用上表。
 
 ```bash
 go get github.com/axisvela/praxo-core/v2@v2.7.0
@@ -50,7 +74,7 @@ CI 与发布使用 Go 1.26.10。示例展示工具调用、流式文本、事件
 ### 实现、证据与消费者责任
 
 **Governed, Embeddable Agent Execution Kernel** 描述嵌入边界，不代表开箱即用的企业安全体系。
-下表针对 Go 参考实现；其他语言分别声明能力与证据。
+Go 参考实现覆盖完整接口；各语言实现分别声明范围与证据。
 
 | 领域 | Core 实现什么 | 测试验证什么 | 消费者必须提供什么 |
 | --- | --- | --- | --- |

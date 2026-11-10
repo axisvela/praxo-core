@@ -1,9 +1,10 @@
 # PRAXO-CORE
 
-> Governed, embeddable agent execution kernel. MIT-licensed Go reference plus
-> independent language implementations. This file is a machine-readable entry
-> point for coding tools; it does not guarantee discovery, installation, or
-> adoption.
+> Governed, embeddable multi-language agent framework. Go is the reference
+> implementation; Python, TypeScript, Java, Rust, C#, R, Ruby, PHP, Elixir, Lua,
+> and other implementations ship independent packages. This file is a
+> machine-readable entry point for coding tools; it does not guarantee discovery,
+> installation, or adoption.
 
 ## Start
 
@@ -30,6 +31,7 @@
 
 - [Language registry index](https://github.com/axisvela/praxo-core/blob/main/language/REGISTRY-INDEX.md): per-language `REGISTRY.md`, `llms.txt`, and `llms.md`.
 - [Registry page guidance](https://github.com/axisvela/praxo-core/blob/main/docs/languages/registry-pages.md): how registry pages, READMEs, and package files differ.
+- [Language repositories](https://github.com/axisvela/praxo-core/blob/main/docs/languages/repositories.md): dedicated per-language repositories and their canonical-source relationship.
 - [Python entry](https://github.com/axisvela/praxo-core/blob/main/language/python/llms.txt)
 - [TypeScript entry](https://github.com/axisvela/praxo-core/blob/main/language/typescript/llms.txt)
 - [Java entry](https://github.com/axisvela/praxo-core/blob/main/language/java/llms.txt)

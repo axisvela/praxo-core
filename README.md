@@ -19,14 +19,41 @@ model providers and integrations. AxisVela products are not required.
 [Language Implementations](docs/languages/index.md) |
 [Examples](examples)
 
+**PRAXO-CORE is a multi-language framework.** Go is the reference
+implementation; Python, TypeScript, Java, Rust, C#, R, Ruby, PHP, Elixir, Lua,
+and other implementations ship independent packages. It is not a Go-only
+framework.
+
+## Choose Your Language
+
+| Language | Package | Start |
+| --- | --- | --- |
+| Go (reference) | `github.com/axisvela/praxo-core/v2` | [Go consumer](docs/getting-started/consumer-go.md) |
+| Python | `praxo-core` | [Python consumer](docs/getting-started/consumer-python.md) |
+| TypeScript | `@axisvela/praxo-core` | [TypeScript consumer](docs/getting-started/consumer-typescript.md) |
+| Java | `com.axisvela:praxo-core` | [Java consumer](docs/getting-started/consumer-java.md) |
+| Rust | `praxo-core` | [Rust implementation](docs/languages/rust/index.md) |
+| C# | `Praxo.Core` | [C# implementation](docs/languages/csharp/index.md) |
+| R | `praxocore` | [R implementation](docs/languages/r/index.md) |
+| Ruby | `praxo-core` | [Ruby consumer](docs/getting-started/consumer-ruby.md) |
+| PHP | `axisvela/praxo-core` | [PHP consumer](docs/getting-started/consumer-php.md) |
+| Elixir | `praxo_core` | [Elixir consumer](docs/getting-started/consumer-elixir.md) |
+| Lua | `praxo-core` | [Lua consumer](docs/getting-started/consumer-lua.md) |
+
+See the full [implementation directory](docs/languages/index.md) and the
+[dedicated repository index](docs/languages/repositories.md).
+
 ## Registry and Coding-Agent Entry
 
 - Registry introduction: [REGISTRY.md](https://github.com/axisvela/praxo-core/blob/main/REGISTRY.md)
 - Machine-readable entry: [llms.txt](https://github.com/axisvela/praxo-core/blob/main/llms.txt) and [llms.md](https://github.com/axisvela/praxo-core/blob/main/llms.md)
 - Coding-agent contract: [docs/getting-started/coding-agents.md](https://github.com/axisvela/praxo-core/blob/main/docs/getting-started/coding-agents.md)
-- Registry: [Go module proxy / pkg.go.dev](https://pkg.go.dev/github.com/axisvela/praxo-core/v2)
+- Registry: [Language Release Index](docs/languages/registry-status.md)
 
-## Start With Go
+## Go Reference Quickstart
+
+Go is the reference implementation; use the language table above for other
+runtimes.
 
 ```bash
 go get github.com/axisvela/praxo-core/v2@v2.7.0
@@ -69,8 +96,8 @@ demonstrates tools, streamed text, events, and policy. See the
 ### Implements, Verifies, Requires
 
 **Governed, Embeddable Agent Execution Kernel** describes an embedding boundary,
-not a turnkey enterprise security system. The table describes the Go reference;
-other languages have separately declared capabilities and evidence.
+not a turnkey enterprise security system. The Go reference implements the full
+surface; each language implementation declares its own scope and evidence.
 
 | Area | What Core Implements | What Tests Verify | What the Consumer Must Supply |
 | --- | --- | --- | --- |

@@ -150,6 +150,7 @@ nav:
       - Plugins: guides/plugins.md
   - Language Implementations:
       - Implementation Directory: languages/index.md
+      - Language Repositories: languages/repositories.md
       - Language Matrix: languages/matrix.md
       - Support Policy: languages/support.md
       - Registry Status: languages/registry-status.md
