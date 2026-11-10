@@ -76,7 +76,7 @@ Bridge、Sample 描述运行时的接入方式，不证明其语言缺乏 Framew
 | TypeScript | `typescript/v0.3.0` | npm `@axisvela/praxo-core@0.2.2` 已发布；`0.3.0` 源码已准备 | 发布工作流构建并消费 `0.2.2` tarball；`0.3.0` 发布待完成 |
 | Java | `java/v0.4.1` | Maven Central `com.axisvela:praxo-core:0.4.1` 已发布 | Central 已校验并发布；发布后消费者检查已在本地通过 |
 | Rust | `rust/v0.4.0` | crates.io `praxo-core==0.4.0` 已发布；`0.1.4` 为历史版本 | 仅记录 `0.1.4`；`0.4.0` 未重跑 |
-| C# | `csharp/v0.3.0` | NuGet `Praxo.Core==0.3.0` 已发布 | 未记录 |
+| C# | `csharp/v0.4.0` | NuGet `Praxo.Core==0.3.0` 已发布；`0.4.0` 源码已准备 | 未记录 |
 | Elixir | `elixir/v0.4.1` | Hex `praxo_core==0.4.1` 已发布，包含可选 OpenAI-compatible adapter；`0.4.0`、`0.3.0`、`0.2.0` 为历史版本 | 已增加扩展 Starter；Hex `0.4.1` 在干净 Mix 项目中解析，allow/deny 本地通过 |
 | Erlang | `erlang/v0.4.0` | Hex `praxo_core_erlang==0.4.0` 已发布；`0.3.1`、`0.2.0` 为历史版本 | `0.4.0` 未重跑；历史 `0.1.1` smoke |
 | Ruby | `ruby/v0.4.1` | RubyGems `praxo-core==0.4.1` 已发布；`0.4.0`、`0.3.0`、`0.2.0` 为历史版本 | 已增加扩展 Starter；RubyGems `0.4.1` 已安装到干净 gem home，allow/deny 本地通过 |
@@ -104,7 +104,7 @@ Bridge、Sample 描述运行时的接入方式，不证明其语言缺乏 Framew
 | TypeScript | `0.3.0` | npm `0.2.2` | 源码已准备；registry 待发布 |
 | Java | `0.4.1` | Maven Central `0.4.1` | 已最新 |
 | Rust | `0.4.0` | crates.io `0.4.0` | 已最新 |
-| C# | `0.3.0` | NuGet `0.3.0` | 已最新 |
+| C# | `0.4.0` | NuGet `0.3.0` | 源码已准备；registry 为上一版 |
 | Elixir | `0.4.1` | Hex `0.4.1` | 已最新 |
 | Erlang | `0.4.0` | Hex `0.4.0` | 已最新 |
 | Ruby | `0.4.1` | RubyGems `0.4.1` | 已最新 |
@@ -145,7 +145,7 @@ Bridge、Sample 描述运行时的接入方式，不证明其语言缺乏 Framew
   `.github/workflows/lua-release.yml` 构建并发布；LuaRocks 同时保留
   `0.3.0-1` 和 `0.2.0-1`。工作流会在干净目录安装生成的 source rock 并运行
   安装后 smoke；registry 安装 smoke 尚未记录。
-- C# 源码标签 `csharp/v0.3.0` 在流式运行、取消、有限并行工具和 SSE 校验之上增加人工审批中断决策。
+- C# 源码标签 `csharp/v0.4.0` 新增 OpenAI-compatible、Harmovela、MCP adapter，并保留流式运行、取消、有限并行工具、SSE 校验和人工审批中断决策。
   tag 工作流已发布 NuGet 包 `Praxo.Core==0.3.0`；本地 .NET 消费者安装尚未记录。
 - D 已从独立发布仓库 `axisvela/praxo-core-d`（tag `v0.1.0`）在
   DUB/code.dlang.org 发布 `praxo-core==0.1.0`；主仓库保留源码标签

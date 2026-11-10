@@ -1,5 +1,22 @@
 # C# Core Release Notes
 
+## 0.4.0 - 2026-11-10
+
+Source release tag `csharp/v0.4.0`. The tag workflow publishes
+`Praxo.Core@0.4.0` on NuGet.
+
+### Added
+
+- OpenAI-compatible model adapter with an injectable HTTP transport.
+- Harmovela lifecycle event sink with an injectable transport.
+- Native stdio MCP client, tool adapters, and registry helper.
+
+### Changed
+
+- Adapter implementations live under `Praxo.Core/Adapters/`; Core remains free
+  of provider-specific dependencies.
+- MCP default client version is `0.4.0`.
+
 ## 0.3.0 - 2026-11-02
 
 Source release tag `csharp/v0.3.0`. The tag workflow published

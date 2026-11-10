@@ -105,7 +105,7 @@ Registry values below were checked against the public registries on 2026-11-05.
 | TypeScript | `typescript/v0.3.0` | npm `@axisvela/praxo-core@0.2.2` published; `0.3.0` source prepared | Release workflow built and consumed the `0.2.2` tarball; `0.3.0` publication pending |
 | Java | `java/v0.4.1` | Maven Central `com.axisvela:praxo-core:0.4.1` published | Central validated and published; post-publication consumer check passed locally |
 | Rust | `rust/v0.4.0` | crates.io `praxo-core==0.4.0` published; `0.1.4` historical | Recorded for `0.1.4` only; not rerun for `0.4.0` |
-| C# | `csharp/v0.3.0` | NuGet `Praxo.Core==0.3.0` published | Not recorded |
+| C# | `csharp/v0.4.0` | NuGet `Praxo.Core==0.3.0` published; `0.4.0` source prepared | Not recorded |
 | Elixir | `elixir/v0.4.1` | Hex `praxo_core==0.4.1` published with the optional OpenAI-compatible adapter; `0.4.0`, `0.3.0`, `0.2.0` historical | Extended starter added; Hex `0.4.1` resolved in a clean Mix project and allow/deny passed locally |
 | Erlang | `erlang/v0.4.0` | Hex `praxo_core_erlang==0.4.0` published; `0.3.1`, `0.2.0` historical | Not rerun for `0.4.0`; historical `0.1.1` smoke |
 | Ruby | `ruby/v0.4.1` | RubyGems `praxo-core==0.4.1` published; `0.4.0`, `0.3.0`, `0.2.0` historical | Extended starter added; RubyGems `0.4.1` installed into a clean gem home and allow/deny passed locally |
@@ -133,7 +133,7 @@ its latest version matches the manifest at the release tag.
 | TypeScript | `0.3.0` | npm `0.2.2` | source prepared; registry pending |
 | Java | `0.4.1` | Maven Central `0.4.1` | current |
 | Rust | `0.4.0` | crates.io `0.4.0` | current |
-| C# | `0.3.0` | NuGet `0.3.0` | current |
+| C# | `0.4.0` | NuGet `0.3.0` | current source; registry previous |
 | Elixir | `0.4.1` | Hex `0.4.1` | current |
 | Erlang | `0.4.0` | Hex `0.4.0` | current |
 | Ruby | `0.4.1` | RubyGems `0.4.1` | current |
@@ -181,10 +181,11 @@ the installation source of truth.
   `.github/workflows/lua-release.yml`; LuaRocks also retains `0.3.0-1` and
   `0.2.0-1`. The workflow installs the generated source rock in a clean tree and
   runs the installed smoke; registry install smoke is not yet recorded.
-- C# source tag `csharp/v0.3.0` adds HITL interrupt decisions to streaming
-  runs, cancellation, bounded parallel tools, and SSE validation. The tag
-  workflow published `Praxo.Core==0.3.0` on NuGet; a local .NET consumer
-  install is not yet recorded.
+- C# source tag `csharp/v0.4.0` adds the OpenAI-compatible model adapter,
+  Harmovela sink, and stdio MCP client under `Adapters/` to streaming runs,
+  cancellation, bounded parallel tools, SSE validation, and HITL interrupt
+  decisions. NuGet publishes `Praxo.Core==0.3.0`; a local .NET consumer install
+  is not yet recorded.
 - D publishes `praxo-core==0.1.0` on DUB/code.dlang.org from the split
   repository `axisvela/praxo-core-d` (tag `v0.1.0`); source tag `d/v0.1.0`
   remains in this repository. `dub fetch praxo-core` succeeded.

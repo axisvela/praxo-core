@@ -7,10 +7,11 @@ Schema validation, and plugin manifest parsing. It runs in-process and does not
 require a hosted service.
 
 - `SPEC_VERSION`: `0.2.0`
-- Core version: `0.3.0`
+- Core version: `0.4.0`
 - License: MIT
 - Dependencies: none beyond the .NET base class library
-- The NuGet package is `Praxo.Core@0.3.0`.
+- The published NuGet package remains `Praxo.Core@0.3.0`; `0.4.0` source is
+  prepared for release.
 
 ## Registry and Coding-Agent Entry
 
@@ -138,5 +139,5 @@ child process.
 
 ## Release
 
-Tag shape: `csharp/v0.3.0`. The tag targets `SPEC_VERSION` `0.2.0`. See
+Tag shape: `csharp/v0.4.0`. The tag targets `SPEC_VERSION` `0.2.0`. See
 [CHANGELOG.md](CHANGELOG.md) for per-release changes and compatibility notes.
