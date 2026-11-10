@@ -16,6 +16,7 @@ use Praxo::Plugin ();
 use Praxo::Runtime ();
 use Praxo::Middleware ();
 use Praxo::Agent ();
+use Praxo::Adapters::OpenAICompatible ();
 
 my $call = Praxo::Toolcall::parse_toolcall('{"name":"echo","input":{"text":"hi"}}');
 ok(defined $call, 'toolcall parsed');
@@ -138,5 +139,56 @@ is($result->{output}, 'done', 'agent output');
 is($result->{steps}, 2, 'agent steps');
 is($invocations, 1, 'agent tool invocation');
 is_deeply($sink->types, [qw(run.started tool.call run.completed)], 'agent events');
+
+my $captured;
+my $adapter = Praxo::Adapters::OpenAICompatible->new(
+    base_url => 'http://example.test/v1',
+    model => 'test-model',
+    transport => sub {
+        my ($path, $payload) = @_;
+        $captured = [$path, $payload];
+        return {
+            choices => [{
+                message => {
+                    role => 'assistant',
+                    content => '',
+                    tool_calls => [{
+                        id => 'call-1',
+                        type => 'function',
+                        function => { name => 'echo', arguments => '{"text":"hi"}' },
+                    }],
+                },
+                finish_reason => 'tool_calls',
+            }],
+            usage => { prompt_tokens => 3, completion_tokens => 2 },
+        };
+    },
+);
+my $adapter_request = Praxo::Models::request(
+    messages => [Praxo::Models::message_text('user', 'hello')],
+    tools => [Praxo::Models::tool_spec(
+        name => 'echo', description => 'Echo', parameters => { type => 'object' },
+    )],
+    tool_choice => 'auto',
+);
+my $adapter_response = $adapter->generate($adapter_request);
+is($captured->[0], '/chat/completions', 'openai path');
+is($captured->[1]{model}, 'test-model', 'openai model');
+is($captured->[1]{messages}[0]{content}, 'hello', 'openai message content');
+is($captured->[1]{tools}[0]{function}{name}, 'echo', 'openai tool name');
+is($captured->[1]{tool_choice}, 'auto', 'openai tool choice');
+is($adapter_response->{message}{toolCalls}[0]{name}, 'echo', 'openai tool call parsed');
+is_deeply($adapter_response->{message}{toolCalls}[0]{arguments}, { text => 'hi' }, 'openai tool arguments');
+is($adapter_response->{usage}{inputTokens}, 3, 'openai input tokens');
+is($adapter_response->{usage}{outputTokens}, 2, 'openai output tokens');
+is($adapter_response->{finishReason}, 'tool_calls', 'openai finish reason');
+
+my $assistant = Praxo::Models::message_assistant(
+    '',
+    [Praxo::Models::tool_call(id => 'call-2', name => 'echo', arguments => { text => 'bye' })],
+);
+$adapter->generate(Praxo::Models::request(messages => [$assistant]));
+is($captured->[1]{messages}[0]{tool_calls}[0]{function}{arguments}, '{"text":"bye"}',
+    'openai assistant tool call encoded');
 
 done_testing();

@@ -9,7 +9,8 @@ and the [canonical scope matrix](https://github.com/axisvela/praxo-core/blob/mai
 
 See [registry publication status](registry-status.md) for package names, versions,
 addresses, and pending releases. See [language repositories](repositories.md) for
-the dedicated repository index across all implemented languages.
+the dedicated repository index across all implemented languages, and
+[adapter status](adapter-status.md) for Model, MCP, and Harmovela coverage.
 
 Each entry has its own docs/languages/<language>/ directory for the Core page and future examples, adapter notes, and release pages.
 

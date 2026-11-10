@@ -151,6 +151,7 @@ nav:
   - Language Implementations:
       - Implementation Directory: languages/index.md
       - Language Repositories: languages/repositories.md
+      - Adapter Status: languages/adapter-status.md
       - Language Matrix: languages/matrix.md
       - Support Policy: languages/support.md
       - Registry Status: languages/registry-status.md
@@ -209,6 +210,7 @@ nav:
       - Primitives: reference/primitives.md
       - Events: reference/events.md
       - Workspace and Session: reference/workspace-session.md
+      - OpenAI-Compatible Adapter: reference/openai-compatible-adapter.md
       - Execution Profiles: reference/execution-profiles.md
       - Governed Execution: reference/governed-execution.md
       - Embodied Integration: reference/embodied-integration.md

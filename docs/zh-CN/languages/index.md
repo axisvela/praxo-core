@@ -8,6 +8,7 @@
 
 包名、版本、发布地址和待发布状态见[注册表发布状态](registry-status.md)。
 独立仓库见[各语言独立仓库](repositories.md)，其中索引了所有已实现语言的专用仓库。
+Model、MCP 与 Harmovela 覆盖见[适配器状态](adapter-status.md)。
 
 每个条目使用独立的 docs/languages/<language>/ 目录，用于 Core 页面以及后续示例、适配器说明和发布页面。
 

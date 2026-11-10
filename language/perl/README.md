@@ -70,6 +70,23 @@ $options->{tools} = $registry;
 $options->{max_steps} = 8;
 ```
 
+## OpenAI-Compatible Model
+
+```perl
+use Praxo::Adapters::OpenAICompatible ();
+
+my $model = Praxo::Adapters::OpenAICompatible->new(
+    base_url => 'https://api.openai.com/v1',
+    model => 'gpt-4o-mini',
+    api_key => $ENV{PRAXO_API_KEY},
+);
+my $options = Praxo::Agent::AgentOptions->new($model);
+```
+
+The adapter uses non-streaming `POST /chat/completions`, maps tool calls and
+usage, and passes `tool_choice`, `response_format`, and `temperature` through.
+It uses core `HTTP::Tiny` and `JSON::PP`; no provider SDK is required.
+
 ## Layout
 
 - `lib/Praxo/` package source.

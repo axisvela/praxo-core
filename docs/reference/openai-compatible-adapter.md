@@ -1,0 +1,82 @@
+# OpenAI-Compatible Model Adapter
+
+This is the baseline mapping for a native model adapter in a Core
+implementation. It is adapter guidance, not a new shared wire contract or a
+provider-quality claim. Streaming remains optional for the baseline; an
+implementation that supports streaming must document it separately.
+
+## Endpoint
+
+`POST {baseURL}/chat/completions` with `content-type: application/json` and an
+optional `authorization: Bearer {apiKey}` header.
+
+## Request Mapping
+
+The adapter maps the Core model request to:
+
+```json
+{
+  "model": "provider-model-id",
+  "messages": [
+    {"role": "system", "content": "..."},
+    {"role": "user", "content": "..."},
+    {
+      "role": "assistant",
+      "content": "",
+      "tool_calls": [
+        {
+          "id": "call-1",
+          "type": "function",
+          "function": {"name": "echo", "arguments": "{\"text\":\"hi\"}"}
+        }
+      ]
+    },
+    {"role": "tool", "content": "{\"ok\":true}", "tool_call_id": "call-1"}
+  ],
+  "tools": [
+    {
+      "type": "function",
+      "function": {
+        "name": "echo",
+        "description": "Echo arguments",
+        "parameters": {"type": "object"}
+      }
+    }
+  ],
+  "tool_choice": "auto",
+  "response_format": {"type": "json_object"},
+  "temperature": 0
+}
+```
+
+- Omit empty optional fields.
+- A text-only content block list becomes its joined text when `content` is empty.
+- Tool arguments are JSON-encoded strings on the provider wire.
+- `tool_call_id` is present only for tool messages.
+
+## Response Mapping
+
+The adapter reads the first choice:
+
+- `message.content` becomes the assistant content.
+- `message.tool_calls[].function.arguments` is parsed from a JSON string into a
+  Core argument object. Invalid JSON is an error, not an empty argument map.
+- `message.tool_calls[].id` and `.function.name` map directly.
+- `usage.prompt_tokens` and `usage.completion_tokens` map to Core input/output
+  token usage.
+- `finish_reason` maps to the Core response finish reason.
+
+## Failures
+
+- Non-2xx responses produce a provider HTTP error containing the status and a
+  bounded response body.
+- A missing base URL is rejected before a network call.
+- Transport injection is required for deterministic tests; the production path
+  uses the language's HTTP client.
+
+## Baseline Status
+
+The current native adapters cover Go, Python, TypeScript, Java, Rust, C#, Ruby,
+PHP, Elixir, Lua, and Perl. PowerShell inherits the C# Core. Other Core
+implementations are tracked in the [adapter status](../languages/adapter-status.md)
+page and are implemented in batches.

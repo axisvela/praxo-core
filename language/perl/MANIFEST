@@ -13,6 +13,7 @@ api-snapshot.pl
 conformance/run.pl
 tests/run.pl
 t/load.t
+lib/Praxo/Adapters/OpenAICompatible.pm
 lib/Praxo/Agent.pm
 lib/Praxo/Core.pm
 lib/Praxo/Errors.pm
