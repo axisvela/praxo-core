@@ -31,8 +31,8 @@ re-export or a thin compatibility file at the old path.
 | Julia | `src/adapters/` | separated |
 | Lua | `praxo/adapters/` | planned; keep old-path wrappers |
 | Haskell | `src/Praxo/Adapters/` | planned; keep module re-exports |
-| Rust | `src/adapters/` | planned; keep root re-exports |
-| Elixir | `lib/praxo/adapters/` | planned; module names stay stable |
+| Rust | `src/adapters/` | separated; root re-exports remain |
+| Elixir | `lib/praxo/adapters/` | separated; module names stay stable |
 | Erlang | `src/adapters/` | planned; update build/app module list |
 | OCaml | separate adapter module | planned |
 | C / C++ / Fortran | `adapters/<language>/` | planned; update build includes |

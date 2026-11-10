@@ -120,7 +120,7 @@ python language/ocaml/api-snapshot.py --check
 python language/objc/api-snapshot.py --check
 python language/objc/run-tests.py
 python language/elixir/api-snapshot.py --check
-mkdir -p language/elixir/build/ebin; elixirc -o language/elixir/build/ebin language/elixir/lib/praxo/*.ex
+mkdir -p language/elixir/build/ebin; elixirc -o language/elixir/build/ebin language/elixir/lib/praxo/*.ex language/elixir/lib/praxo/adapters/*.ex
 elixir -pa language/elixir/build/ebin language/elixir/tests/run_tests.exs
 elixir -pa language/elixir/build/ebin language/elixir/conformance/run.exs
 python language/erlang/run-tests.py

@@ -399,7 +399,7 @@ jobs:
           python-version: "3.12"
       - run: python language/elixir/api-snapshot.py --check
       - run: mkdir -p language/elixir/build/ebin
-      - run: elixirc -o language/elixir/build/ebin language/elixir/lib/praxo/*.ex
+      - run: elixirc -o language/elixir/build/ebin language/elixir/lib/praxo/*.ex language/elixir/lib/praxo/adapters/*.ex
       - run: elixir -pa language/elixir/build/ebin language/elixir/tests/run_tests.exs
       - run: elixir -pa language/elixir/build/ebin language/elixir/conformance/run.exs
 

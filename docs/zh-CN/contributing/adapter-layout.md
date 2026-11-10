@@ -29,8 +29,8 @@
 | Julia | `src/adapters/` | 已分离 |
 | Lua | `praxo/adapters/` | 计划；旧路径保留 wrapper |
 | Haskell | `src/Praxo/Adapters/` | 计划；保留 module re-export |
-| Rust | `src/adapters/` | 计划；保留根级 re-export |
-| Elixir | `lib/praxo/adapters/` | 计划；module 名称不变 |
+| Rust | `src/adapters/` | 已分离；保留根级 re-export |
+| Elixir | `lib/praxo/adapters/` | 已分离；module 名称不变 |
 | Erlang | `src/adapters/` | 计划；更新构建/app module 列表 |
 | OCaml | 独立 adapter module | 计划 |
 | C / C++ / Fortran | `adapters/<language>/` | 计划；更新构建 include |

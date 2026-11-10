@@ -7,6 +7,9 @@ pub const SDK_VERSION: &str = "0.3.0";
 ## constant praxo_core::SPEC_VERSION
 pub const SPEC_VERSION: &str = "0.2.0";
 
+## constant praxo_core::adapters::mcp::DEFAULT_PROTOCOL_VERSION
+pub const DEFAULT_PROTOCOL_VERSION: &str = "2024-11-05";
+
 ## constant praxo_core::context::COMPACT_MARKER_PREFIX
 pub const COMPACT_MARKER_PREFIX: &str = "[context compacted:";
 
@@ -18,9 +21,6 @@ pub const MAX_AGENTS_MD_BYTES: usize = _; // 65_536usize
 
 ## constant praxo_core::context::SUMMARY_MARKER_PREFIX
 pub const SUMMARY_MARKER_PREFIX: &str = "[context summary:";
-
-## constant praxo_core::mcp::DEFAULT_PROTOCOL_VERSION
-pub const DEFAULT_PROTOCOL_VERSION: &str = "2024-11-05";
 
 ## constant praxo_core::memory::FRAME_CONSTRAINT
 pub const FRAME_CONSTRAINT: &str = "constraint";
@@ -105,6 +105,9 @@ impl Debug for InterruptAction
 impl Eq for InterruptAction
 impl PartialEq for InterruptAction
 
+## fn praxo_core::adapters::openai_compat::parse_stream
+pub fn parse_stream<R: BufRead>( reader: R, on_delta: &mut dyn FnMut(&str) -> Result<()>, ) -> Result<Response>
+
 ## fn praxo_core::conformance::run_all
 pub fn run_all() -> Vec<String>
 
@@ -141,9 +144,6 @@ pub fn last_user_message(messages: &[Message]) -> &str
 ## fn praxo_core::middleware::merge_middleware
 pub fn merge_middleware( items: Vec<Box<dyn Middleware>>, ) -> Vec<Box<dyn Middleware>>
 
-## fn praxo_core::openai_compat::parse_stream
-pub fn parse_stream<R: BufRead>( reader: R, on_delta: &mut dyn FnMut(&str) -> Result<()>, ) -> Result<Response>
-
 ## fn praxo_core::plugin::parse_manifest
 pub fn parse_manifest(raw: &str) -> Result<Manifest>
 
@@ -164,6 +164,14 @@ pub fn strip_markup(content: &str) -> String
 
 ## module praxo_core
 
+## module praxo_core::adapters
+
+## module praxo_core::adapters::harmovela
+
+## module praxo_core::adapters::mcp
+
+## module praxo_core::adapters::openai_compat
+
 ## module praxo_core::agent
 
 ## module praxo_core::checkpoint
@@ -176,21 +184,15 @@ pub fn strip_markup(content: &str) -> String
 
 ## module praxo_core::event
 
-## module praxo_core::harmovela
-
 ## module praxo_core::hitl
 
 ## module praxo_core::jsonschema
-
-## module praxo_core::mcp
 
 ## module praxo_core::memory
 
 ## module praxo_core::middleware
 
 ## module praxo_core::model
-
-## module praxo_core::openai_compat
 
 ## module praxo_core::plugin
 
@@ -201,6 +203,71 @@ pub fn strip_markup(content: &str) -> String
 ## module praxo_core::tool
 
 ## module praxo_core::toolcall
+
+## struct praxo_core::adapters::harmovela::HttpRequest
+pub struct HttpRequest { pub method: String, pub url: String, pub headers: Vec<(String, String)>, pub body: String, }
+impl Clone for HttpRequest
+impl Debug for HttpRequest
+
+## struct praxo_core::adapters::harmovela::HttpResponse
+pub struct HttpResponse { pub status: u16, pub body: String, }
+impl Clone for HttpResponse
+impl Debug for HttpResponse
+
+## struct praxo_core::adapters::harmovela::Sink
+pub struct Sink { pub base_url: String, pub source: String, pub spec_version: String, /* private fields */ }
+impl Sink
+impl Sink for Sink
+method pub fn emit(&self, event: &Event) -> Result<()>
+method pub fn new(base_url: impl Into<String>) -> Self
+method pub fn with_transport( base_url: impl Into<String>, transport: Arc<dyn Transport>, ) -> Self
+
+## struct praxo_core::adapters::harmovela::StdTransport
+pub struct StdTransport;
+impl Transport for StdTransport
+
+## struct praxo_core::adapters::mcp::McpClient
+pub struct McpClient { /* private fields */ }
+impl McpClient
+method pub fn call_tool( &self, name: &str, arguments: Map<String, Value>, ) -> Result<Value>
+method pub fn call_tool_with_timeout( &self, name: &str, arguments: Map<String, Value>, timeout: Option<Duration>, ) -> Result<Value>
+method pub fn close(&self)
+method pub fn connect(config: McpServerConfig) -> Result<Self>
+method pub fn connect_with_timeout( config: McpServerConfig, timeout: Duration, ) -> Result<Self>
+method pub fn is_running(&self) -> bool
+method pub fn list_tools(&self) -> Result<Vec<McpTool>>
+method pub fn list_tools_with_timeout( &self, timeout: Option<Duration>, ) -> Result<Vec<McpTool>>
+method pub fn pid(&self) -> Option<u32>
+method pub fn protocol_version(&self) -> String
+method pub fn register_tools( &self, registry: &mut Registry, ) -> Result<Vec<Arc<dyn Tool>>>
+method pub fn server_capabilities(&self) -> Map<String, Value>
+method pub fn server_info(&self) -> Map<String, Value>
+
+## struct praxo_core::adapters::mcp::McpServerConfig
+pub struct McpServerConfig { pub command: String, pub args: Vec<String>, pub env: Vec<(String, String)>, pub cwd: Option<PathBuf>, }
+impl Clone for McpServerConfig
+impl Debug for McpServerConfig
+impl McpServerConfig
+method pub fn arg(self, arg: impl Into<String>) -> Self
+method pub fn args<I, S>(self, args: I) -> Self where I: IntoIterator<Item = S>, S: Into<String>,
+method pub fn cwd(self, cwd: impl Into<PathBuf>) -> Self
+method pub fn env(self, key: impl Into<String>, value: impl Into<String>) -> Self
+method pub fn new(command: impl Into<String>) -> Self
+
+## struct praxo_core::adapters::mcp::McpTool
+pub struct McpTool { pub name: String, pub description: String, pub input_schema: Map<String, Value>, pub title: String, pub annotations: Map<String, Value>, }
+impl Clone for McpTool
+impl Debug for McpTool
+impl McpTool
+impl PartialEq for McpTool
+method pub fn spec(&self) -> ToolSpec
+
+## struct praxo_core::adapters::mcp::McpToolAdapter
+pub struct McpToolAdapter { /* private fields */ }
+impl McpToolAdapter
+impl Tool for McpToolAdapter
+method pub fn spec(&self) -> ToolSpec
+method pub fn tool(&self) -> &McpTool
 
 ## struct praxo_core::agent::Agent
 pub struct Agent { /* private fields */ }
@@ -322,28 +389,6 @@ impl MultiSink
 impl Sink for MultiSink
 method pub fn new(sinks: Vec<Arc<dyn Sink>>) -> Self
 
-## struct praxo_core::harmovela::HttpRequest
-pub struct HttpRequest { pub method: String, pub url: String, pub headers: Vec<(String, String)>, pub body: String, }
-impl Clone for HttpRequest
-impl Debug for HttpRequest
-
-## struct praxo_core::harmovela::HttpResponse
-pub struct HttpResponse { pub status: u16, pub body: String, }
-impl Clone for HttpResponse
-impl Debug for HttpResponse
-
-## struct praxo_core::harmovela::Sink
-pub struct Sink { pub base_url: String, pub source: String, pub spec_version: String, /* private fields */ }
-impl Sink
-impl Sink for Sink
-method pub fn emit(&self, event: &Event) -> Result<()>
-method pub fn new(base_url: impl Into<String>) -> Self
-method pub fn with_transport( base_url: impl Into<String>, transport: Arc<dyn Transport>, ) -> Self
-
-## struct praxo_core::harmovela::StdTransport
-pub struct StdTransport;
-impl Transport for StdTransport
-
 ## struct praxo_core::hitl::Interrupt
 pub struct Interrupt { pub run_id: String, pub session_id: String, pub call: ToolCall, }
 impl Clone for Interrupt
@@ -370,49 +415,6 @@ pub struct ValidationError { pub path: String, pub message: String, }
 impl Clone for ValidationError
 impl Debug for ValidationError
 impl PartialEq for ValidationError
-
-## struct praxo_core::mcp::McpClient
-pub struct McpClient { /* private fields */ }
-impl McpClient
-method pub fn call_tool( &self, name: &str, arguments: Map<String, Value>, ) -> Result<Value>
-method pub fn call_tool_with_timeout( &self, name: &str, arguments: Map<String, Value>, timeout: Option<Duration>, ) -> Result<Value>
-method pub fn close(&self)
-method pub fn connect(config: McpServerConfig) -> Result<Self>
-method pub fn connect_with_timeout( config: McpServerConfig, timeout: Duration, ) -> Result<Self>
-method pub fn is_running(&self) -> bool
-method pub fn list_tools(&self) -> Result<Vec<McpTool>>
-method pub fn list_tools_with_timeout( &self, timeout: Option<Duration>, ) -> Result<Vec<McpTool>>
-method pub fn pid(&self) -> Option<u32>
-method pub fn protocol_version(&self) -> String
-method pub fn register_tools( &self, registry: &mut Registry, ) -> Result<Vec<Arc<dyn Tool>>>
-method pub fn server_capabilities(&self) -> Map<String, Value>
-method pub fn server_info(&self) -> Map<String, Value>
-
-## struct praxo_core::mcp::McpServerConfig
-pub struct McpServerConfig { pub command: String, pub args: Vec<String>, pub env: Vec<(String, String)>, pub cwd: Option<PathBuf>, }
-impl Clone for McpServerConfig
-impl Debug for McpServerConfig
-impl McpServerConfig
-method pub fn arg(self, arg: impl Into<String>) -> Self
-method pub fn args<I, S>(self, args: I) -> Self where I: IntoIterator<Item = S>, S: Into<String>,
-method pub fn cwd(self, cwd: impl Into<PathBuf>) -> Self
-method pub fn env(self, key: impl Into<String>, value: impl Into<String>) -> Self
-method pub fn new(command: impl Into<String>) -> Self
-
-## struct praxo_core::mcp::McpTool
-pub struct McpTool { pub name: String, pub description: String, pub input_schema: Map<String, Value>, pub title: String, pub annotations: Map<String, Value>, }
-impl Clone for McpTool
-impl Debug for McpTool
-impl McpTool
-impl PartialEq for McpTool
-method pub fn spec(&self) -> ToolSpec
-
-## struct praxo_core::mcp::McpToolAdapter
-pub struct McpToolAdapter { /* private fields */ }
-impl McpToolAdapter
-impl Tool for McpToolAdapter
-method pub fn spec(&self) -> ToolSpec
-method pub fn tool(&self) -> &McpTool
 
 ## struct praxo_core::memory::MemoryRecord
 pub struct MemoryRecord { pub id: String, pub frame: String, pub content: String, pub metadata: Option<Map<String, Value>>, pub created_at: Option<String>, }
@@ -647,6 +649,9 @@ impl Clone for ParsedToolCall
 impl Debug for ParsedToolCall
 impl PartialEq for ParsedToolCall
 
+## trait praxo_core::adapters::harmovela::Transport
+pub trait Transport: Send + Sync { fn send(&self, request: &HttpRequest) -> Result<HttpResponse>; }
+
 ## trait praxo_core::context::ContextCompactor
 pub trait ContextCompactor: Send + Sync { fn compact( &self, messages: &[Message], budget: &ContextBudget, ) -> Result<Vec<Message>>; }
 
@@ -655,9 +660,6 @@ pub trait Offloader: Send + Sync { fn offload( &self, tool_name: &str, tool_call
 
 ## trait praxo_core::event::Sink
 pub trait Sink: Send + Sync { fn emit(&self, event: &Event) -> Result<()>; }
-
-## trait praxo_core::harmovela::Transport
-pub trait Transport: Send + Sync { fn send(&self, request: &HttpRequest) -> Result<HttpResponse>; }
 
 ## trait praxo_core::memory::Store
 pub trait Store: Send + Sync { fn put(&self, session_id: &str, record: MemoryRecord) -> Result<()>; fn search( &self, session_id: &str, query: &str, limit: usize, ) -> Result<Vec<MemoryRecord>>; }

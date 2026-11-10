@@ -17,7 +17,7 @@ def snapshot() -> str:
     version = (ROOT / "VERSION").read_text(encoding="utf-8").strip()
     spec = (REPO / "spec" / "SPEC_VERSION").read_text(encoding="utf-8").strip()
     entries: set[str] = set()
-    for path in sorted((ROOT / "lib" / "praxo").glob("*.ex")):
+    for path in sorted((ROOT / "lib" / "praxo").rglob("*.ex")):
         module = ""
         for raw in path.read_text(encoding="utf-8").splitlines():
             module_match = MODULE_RE.match(raw)
