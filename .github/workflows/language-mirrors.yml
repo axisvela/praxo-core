@@ -1,0 +1,91 @@
+name: language-mirrors
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "language/**"
+      - "spec/**"
+      - "LICENSE"
+      - "scripts/sync_language_mirrors.py"
+      - "scripts/test_sync_language_mirrors.py"
+      - ".github/workflows/language-mirrors.yml"
+  pull_request:
+    paths:
+      - "scripts/sync_language_mirrors.py"
+      - "scripts/test_sync_language_mirrors.py"
+      - ".github/workflows/language-mirrors.yml"
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "Check drift or sync mirrors"
+        required: true
+        default: check
+        type: choice
+        options:
+          - check
+          - sync
+
+permissions:
+  contents: read
+
+concurrency:
+  group: language-mirrors
+  cancel-in-progress: false
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python scripts/test_sync_language_mirrors.py
+      - run: python scripts/sync_language_mirrors.py --dry-run
+
+  check:
+    if: github.event_name == 'workflow_dispatch' && inputs.mode == 'check'
+    needs: test
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      GIT_TERMINAL_PROMPT: "0"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Check mirror drift
+        env:
+          PRAXO_MIRROR_TOKEN: ${{ secrets.PRAXO_MIRROR_TOKEN }}
+        run: python scripts/sync_language_mirrors.py --check
+
+  sync:
+    if: github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && inputs.mode == 'sync')
+    needs: test
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      GIT_TERMINAL_PROMPT: "0"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Check mirror token
+        id: token
+        env:
+          PRAXO_MIRROR_TOKEN: ${{ secrets.PRAXO_MIRROR_TOKEN }}
+        run: |
+          if [ -z "$PRAXO_MIRROR_TOKEN" ]; then
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+            echo "::warning::PRAXO_MIRROR_TOKEN is not configured; skipping mirror sync"
+          fi
+      - name: Sync mirrors
+        if: steps.token.outputs.skip != 'true'
+        env:
+          PRAXO_MIRROR_TOKEN: ${{ secrets.PRAXO_MIRROR_TOKEN }}
+          GITHUB_SHA: ${{ github.sha }}
+        run: python scripts/sync_language_mirrors.py

@@ -49,6 +49,19 @@ Go remains at the repository root because its module path is
 `github.com/axisvela/praxo-core/v2`. Bridges under `bindings/` and language
 samples under `examples/` remain in the monorepo.
 
+## Automated Refresh
+
+`.github/workflows/language-mirrors.yml` rebuilds the 21 discovery mirrors when
+`language/`, `spec/`, `LICENSE`, or the sync script changes on `main`. It needs a
+`PRAXO_MIRROR_TOKEN` secret with push access to the mirror repositories. A manual
+`workflow_dispatch` run with `mode=check` reports drift without pushing. When the
+secret is not configured, the sync job emits a warning and skips the push.
+
+The nine publication-source repositories (Ruby, PHP, Lua, Swift, Julia, V,
+OCaml, Nim, and D) are intentionally excluded because they have their own release
+layouts and workflows. They must be updated through their publication process,
+not by overwriting them with the mirror layout.
+
 ## Why Mirrors Include `spec/`
 
 A mirror keeps the canonical `language/<language>` tree and the shared `spec/`

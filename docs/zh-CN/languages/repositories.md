@@ -45,6 +45,16 @@ PRAXO-CORE 是多语言框架。Go 是参考实现；其他语言有独立发布
 Go 保持仓库根目录，因为其模块路径为 `github.com/axisvela/praxo-core/v2`。
 `bindings/` 下的 bridge 与 `examples/` 下的语言示例仍留在 monorepo。
 
+## 自动刷新
+
+`.github/workflows/language-mirrors.yml` 在 `main` 上的 `language/`、`spec/`、
+`LICENSE` 或同步脚本变更时重建 21 个发现镜像。它需要 `PRAXO_MIRROR_TOKEN` secret，
+并具备镜像仓库的推送权限。手动 `workflow_dispatch` 选择 `mode=check` 可只报告漂移、
+不推送。未配置 secret 时，同步 job 输出 warning 并跳过推送。
+
+九个发布源仓库（Ruby、PHP、Lua、Swift、Julia、V、OCaml、Nim、D）刻意排除，因为它们
+有自己的发布布局与流程；应通过其发布流程更新，不能用镜像布局覆盖。
+
 ## 为什么镜像包含 `spec/`
 
 镜像保留规范的 `language/<language>` 目录与共享 `spec/` 向量，使测试和一致性
