@@ -27,10 +27,10 @@ GitHub Latest 仅代表 Go 参考 Core，不代表最近发布的语言包。
 | Java | Maven Central | `0.4.1` | https://repo1.maven.org/maven2/com/axisvela/praxo-core/0.4.1/ | 已发布 |
 | Rust | crates.io | `0.3.0` | https://crates.io/crates/praxo-core/0.3.0 | 已发布 |
 | C# | NuGet | `0.3.0` | https://www.nuget.org/packages/Praxo.Core/0.3.0 | 已发布 |
-| Elixir | Hex / HexDocs | `0.4.0` | https://hex.pm/packages/praxo_core/0.4.0 · https://praxo-core.hexdocs.pm/0.4.0/ | 已发布 |
+| Elixir | Hex / HexDocs | `0.4.1` | https://hex.pm/packages/praxo_core/0.4.1 · https://praxo-core.hexdocs.pm/0.4.1/ | 已发布 |
 | Erlang | Hex | `0.4.0` | https://hex.pm/packages/praxo_core_erlang/0.4.0 | 已发布 |
 | Ruby | RubyGems | `0.4.1` | https://rubygems.org/gems/praxo-core/versions/0.4.1 | 已发布；Ruby 源码仓库为 `axisvela/praxo-core-ruby` |
-| Lua | LuaRocks | `0.4.0-1` | https://luarocks.org/modules/hanhhuiwen/praxo-core | 已发布 |
+| Lua | LuaRocks | `0.4.1-1` | https://luarocks.org/modules/hanhhuiwen/praxo-core | 已发布 |
 | PHP | Packagist | `0.4.0` | https://packagist.org/packages/axisvela/praxo-core | 已发布 |
 | Dart | pub.dev | `0.1.1` | https://pub.dev/packages/praxo_core/versions/0.1.1 | 已发布 |
 | D | DUB | `0.1.0` | https://code.dlang.org/packages/praxo-core | 已发布 |
@@ -42,10 +42,7 @@ GitHub Latest 仅代表 Go 参考 Core，不代表最近发布的语言包。
 | Nim | nim-lang/packages（Nimble） | `0.1.1` | https://github.com/axisvela/praxo-core-nim | split repo 已发布；nim-lang/packages PR #3600 已于 2026-11-05 合并；安装 smoke 未记录；nimpkgs 待重新抓取 |
 
 PHP 源码 `php/v0.4.1` 与 split `v0.4.1` tag 已发布，包含 Composer `autoload.files`
-与 `api/0.4.1.txt`；在 Packagist 索引新 tag 前，仍为 `0.4.0`。Elixir 源码
-`0.4.1` 与 Lua 源码 `0.4.1`（rockspec `0.4.1-1`）已准备，包含可选
-OpenAI-compatible adapter；在创建 tag 并发布前，Hex 仍为 `0.4.0`、LuaRocks 仍为
-`0.4.0-1`。
+与 `api/0.4.1.txt`；在 Packagist 索引新 tag 前，仍为 `0.4.0`。
 
 ## 已上传或等待索引
 

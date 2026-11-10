@@ -181,7 +181,7 @@ jobs:
         shell: bash
         run: |
           tree="$RUNNER_TEMP/praxo-luarocks"
-          luarocks --lua-version 5.4 --tree "$tree" install praxo-core 0.4.0-1
+          luarocks --lua-version 5.4 --tree "$tree" install praxo-core 0.4.1-1
           consumer="$RUNNER_TEMP/praxo-lua-consumer"
           mkdir -p "$consumer"
           cp starter.lua test_starter.lua "$consumer"

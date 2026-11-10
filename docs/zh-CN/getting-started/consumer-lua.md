@@ -1,6 +1,6 @@
 # Lua 独立消费者
 
-在自己的应用中使用已发布的 LuaRocks `praxo-core` `0.4.0-1`，要求 Lua 5.4。
+在自己的应用中使用已发布的 LuaRocks `praxo-core` `0.4.1-1`，要求 Lua 5.4。
 无需检出 PRAXO-CORE 源码、API Key、模型服务或 AxisVela 产品。安装需要 LuaRocks
 访问或已有 rock 缓存。
 
@@ -15,7 +15,7 @@
 ## 在新应用安装
 
 ```sh
-luarocks install praxo-core 0.4.0-1
+luarocks install praxo-core 0.4.1-1
 ```
 
 验收时不要把仓库的 `language/lua` 目录加入 `package.path`，也不要使用本地 rockspec
@@ -37,7 +37,7 @@ luarocks install praxo-core 0.4.0-1
 ## 验证
 
 ```sh
-luarocks install praxo-core 0.4.0-1
+luarocks install praxo-core 0.4.1-1
 lua test_starter.lua
 ```
 

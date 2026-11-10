@@ -2,11 +2,9 @@
 
 ## Status
 
-Source tag `lua/v0.4.0` maps to rock revision `0.4.0-1`. The release workflow is
-`.github/workflows/lua-release.yml`. LuaRocks publishes `0.4.0-1`; the earlier
-`0.3.0-1` and `0.2.0-1` revisions remain available. Source version `0.4.1` and
-rockspec `0.4.1-1` are prepared; tag `lua/v0.4.1` and LuaRocks publication are
-pending.
+Source tag `lua/v0.4.1` maps to rock revision `0.4.1-1`. The release workflow is
+`.github/workflows/lua-release.yml`. LuaRocks publishes `0.4.1-1`; the earlier
+`0.4.0-1`, `0.3.0-1`, and `0.2.0-1` revisions remain available.
 
 <https://luarocks.org/modules/hanhhuiwen/praxo-core>
 

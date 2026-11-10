@@ -1,6 +1,6 @@
 # Elixir 独立消费者
 
-在自己的应用中使用已发布的 Hex `praxo_core` `0.4.0`，要求 Elixir 1.14 或更新版本。
+在自己的应用中使用已发布的 Hex `praxo_core` `0.4.1`，要求 Elixir 1.14 或更新版本。
 无需检出 PRAXO-CORE 源码、API Key、模型服务或 AxisVela 产品。安装需要 Hex 访问或
 已有包缓存。
 
@@ -19,7 +19,7 @@
 ```elixir
 defp deps do
   [
-    {:praxo_core, "~> 0.4.0"}
+    {:praxo_core, "~> 0.4.1"}
   ]
 end
 ```

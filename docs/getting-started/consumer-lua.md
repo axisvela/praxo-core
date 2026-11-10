@@ -1,6 +1,6 @@
 # Independent Lua Consumer
 
-Use the published LuaRocks `praxo-core` `0.4.0-1` package in your own application
+Use the published LuaRocks `praxo-core` `0.4.1-1` package in your own application
 with Lua 5.4. No PRAXO-CORE source checkout, API key, model service, or AxisVela
 product is required. Installation needs LuaRocks access or a cached rock.
 
@@ -17,7 +17,7 @@ durable graph engine, or sandbox service. See [when not to use Core](when-not-to
 ## Install in a New Application
 
 ```sh
-luarocks install praxo-core 0.4.0-1
+luarocks install praxo-core 0.4.1-1
 ```
 
 Do not add the repository `language/lua` directory to `package.path`, and do not
@@ -42,7 +42,7 @@ Use the following as `test_starter.lua`, rendered from the
 ## Verify
 
 ```sh
-luarocks install praxo-core 0.4.0-1
+luarocks install praxo-core 0.4.1-1
 lua test_starter.lua
 ```
 

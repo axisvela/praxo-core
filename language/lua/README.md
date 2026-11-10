@@ -14,9 +14,9 @@ reference implementation.
 - Tier: core
 - License: MIT
 - Dependencies: Lua standard library only
-- LuaRocks page: `praxo-core@0.4.0-1` published; source `0.4.1-1` is prepared
-  with the optional OpenAI-compatible adapter. Releases are built and published
-  by `.github/workflows/lua-release.yml`
+- LuaRocks page: `praxo-core@0.4.1-1` published with the optional
+  OpenAI-compatible adapter. Releases are built and published by
+  `.github/workflows/lua-release.yml`
 
 ## Registry and Coding-Agent Entry
 

@@ -2,8 +2,8 @@
 
 ## 0.4.1 - 2026-11-09
 
-Source version `0.4.1`; tag creation and LuaRocks publication remain pending. The
-latest published rock is `praxo-core==0.4.0-1`.
+Source release tag `lua/v0.4.1`. LuaRocks publishes rock revision `0.4.1-1`
+through the `lua-release` workflow.
 
 ### Added
 

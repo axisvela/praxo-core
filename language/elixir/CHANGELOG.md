@@ -2,8 +2,8 @@
 
 ## 0.4.1 - 2026-11-09
 
-Source version `0.4.1`; tag creation and Hex publication remain pending. The
-latest published Hex package is `praxo_core==0.4.0`.
+Source release tag `elixir/v0.4.1`. Hex publishes `praxo_core==0.4.1` and
+HexDocs `0.4.1` through `.github/workflows/elixir-release.yml`.
 
 ### Added
 

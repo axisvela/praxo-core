@@ -1,10 +1,10 @@
 # Independent Lua Consumer
 
-This module uses the published LuaRocks `praxo-core` `0.4.0-1` package and
+This module uses the published LuaRocks `praxo-core` `0.4.1-1` package and
 verifies an allow/deny governed tool path without local replacements.
 
 ```bash
-luarocks install praxo-core 0.4.0-1
+luarocks install praxo-core 0.4.1-1
 lua test_starter.lua
 ```
 

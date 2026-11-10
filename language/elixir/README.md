@@ -1,8 +1,7 @@
 # PRAXO-CORE for Elixir
 
 PRAXO-CORE is an embeddable, MIT-licensed agent framework. This package is its
-native Elixir Core. Source version `0.4.1` is prepared; the latest source tag is
-`elixir/v0.4.0`. It passes all eleven shared
+native Elixir Core with source tag `elixir/v0.4.1`. It passes all eleven shared
 vector groups with `Elixir 1.20.4` on `Erlang/OTP 29` and includes the native
 agent loop, context compaction, memory store, path policy, checkpoint allowlist,
 tool-call parsing, and opt-in tool selection, PII redaction, structured output
@@ -14,10 +13,9 @@ language runtime. Erlang shares the BEAM runtime and does not add a second
 agent loop. An optional OpenAI-compatible adapter is included; other provider
 adapters and plugin hosts remain outside the declared Core scope.
 
-The latest Hex package is `praxo_core@0.4.0`; `0.3.0` and `0.2.0` remain
-available. Source `0.4.1` is prepared with the optional adapter and
-`api/0.4.1.txt`; Hex publication is pending. HexDocs:
-<https://praxo-core.hexdocs.pm/0.4.0/>.
+The latest Hex package is `praxo_core@0.4.1`; `0.4.0`, `0.3.0`, and `0.2.0`
+remain available. It includes the optional adapter and `api/0.4.1.txt`.
+HexDocs: <https://praxo-core.hexdocs.pm/0.4.1/>.
 
 ## Registry and Coding-Agent Entry
 
@@ -29,7 +27,7 @@ available. Source `0.4.1` is prepared with the optional adapter and
 ## Install
 
 ```elixir
-{:praxo_core, "~> 0.4.0"}
+{:praxo_core, "~> 0.4.1"}
 ```
 
 ## Build And Test
