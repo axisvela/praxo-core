@@ -108,7 +108,7 @@ jobs:
         run: |
           test -n "${HEX_API_KEY}"
           mix deps.get
-          mix hex.publish --yes
+          mix hex.publish package --yes
       - name: Publish HexDocs
         env:
           HEX_API_KEY: ${{ secrets.HEX_API_KEY }}
