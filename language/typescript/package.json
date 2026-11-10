@@ -1,6 +1,6 @@
 {
   "name": "@axisvela/praxo-core",
-  "version": "0.2.2",
+  "version": "0.3.0",
   "description": "Embeddable TypeScript agent runtime with policy, human-in-the-loop approvals, checkpoints, and tool calling.",
   "homepage": "https://axisvela.github.io/praxo-core/languages/typescript/",
   "bugs": {

@@ -130,8 +130,8 @@ output remains untrusted content.
 
 The normative contract is [`spec/`](../../spec/README.md); Go remains the
 reference implementation. This package supports `SPEC_VERSION` `0.2.0` and
-passes the TypeScript conformance and parity checks. Source version `0.2.2` is
-released from tag `typescript/v0.2.2`; the tag workflow stages the npm package
+passes the TypeScript conformance and parity checks. Source version `0.3.0` is
+released from tag `typescript/v0.3.0`; the published npm package remains `0.2.2`
 with provenance. VFS and plugin hosts are not yet implemented.
 
 ## Requirements
