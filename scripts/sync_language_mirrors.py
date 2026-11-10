@@ -77,6 +77,7 @@ IGNORED_DIRECTORIES = {
     ".pytest_cache",
 }
 IGNORED_SUFFIXES = (".pyc", ".pyo")
+IGNORED_FILES = {"pubspec.lock", ".DS_Store", "Thumbs.db"}
 GIT_IDENTITY = ("hanhuiwen", "hanhuiwen@axisvela.com")
 
 
@@ -153,7 +154,7 @@ def mirror_gitignore() -> str:
 def _ignore(directory: str, names: list[str]) -> set[str]:
     ignored = set()
     for name in names:
-        if name in IGNORED_DIRECTORIES:
+        if name in IGNORED_DIRECTORIES or name in IGNORED_FILES:
             ignored.add(name)
         elif name.endswith(IGNORED_SUFFIXES):
             ignored.add(name)

@@ -95,6 +95,22 @@ class MirrorSyncTests(unittest.TestCase):
             self.assertTrue((target / ".git/keep").is_file())
             self.assertTrue((target / "language/python/README.md").is_file())
 
+    def test_build_mirror_ignores_local_lockfiles(self):
+        entry = {entry["key"]: entry for entry in sync.mirror_entries()}["dart"]
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            (root / "language/dart").mkdir(parents=True)
+            (root / "language/dart/pubspec.yaml").write_text("name: praxo\n", encoding="utf-8")
+            (root / "language/dart/pubspec.lock").write_text("local lock\n", encoding="utf-8")
+            (root / "spec").mkdir()
+            (root / "spec/SPEC_VERSION").write_text("0.2.0\n", encoding="utf-8")
+            (root / "LICENSE").write_text("MIT\n", encoding="utf-8")
+
+            target = root / "mirror"
+            sync.build_mirror(entry, target, root)
+            self.assertTrue((target / "language/dart/pubspec.yaml").is_file())
+            self.assertFalse((target / "language/dart/pubspec.lock").exists())
+
     def test_build_mirror_includes_shared_matlab_octave_core(self):
         entry = {entry["key"]: entry for entry in sync.mirror_entries()}["octave"]
         with tempfile.TemporaryDirectory() as directory:
