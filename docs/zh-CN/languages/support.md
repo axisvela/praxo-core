@@ -77,7 +77,7 @@ Bridge、Sample 描述运行时的接入方式，不证明其语言缺乏 Framew
 | Java | `java/v0.4.1` | Maven Central `com.axisvela:praxo-core:0.4.1` 已发布 | Central 已校验并发布；发布后消费者检查已在本地通过 |
 | Rust | `rust/v0.4.0` | crates.io `praxo-core==0.4.0` 已发布；`0.1.4` 为历史版本 | 仅记录 `0.1.4`；`0.4.0` 未重跑 |
 | C# | `csharp/v0.4.0` | NuGet `Praxo.Core==0.3.0` 已发布；`0.4.0` 源码已准备 | 未记录 |
-| Elixir | `elixir/v0.4.1` | Hex `praxo_core==0.4.1` 已发布，包含可选 OpenAI-compatible adapter；`0.4.0`、`0.3.0`、`0.2.0` 为历史版本 | 已增加扩展 Starter；Hex `0.4.1` 在干净 Mix 项目中解析，allow/deny 本地通过 |
+| Elixir | `elixir/v0.5.0` | Hex `praxo_core==0.4.1` 已发布；`0.5.0` 源码已准备，包含 OpenAI-compatible、Harmovela、MCP adapter；`0.4.0`、`0.3.0`、`0.2.0` 为历史版本 | 已增加扩展 Starter；Hex `0.4.1` 在干净 Mix 项目中解析，allow/deny 本地通过 |
 | Erlang | `erlang/v0.4.0` | Hex `praxo_core_erlang==0.4.0` 已发布；`0.3.1`、`0.2.0` 为历史版本 | `0.4.0` 未重跑；历史 `0.1.1` smoke |
 | Ruby | `ruby/v0.4.1` | RubyGems `praxo-core==0.4.1` 已发布；`0.4.0`、`0.3.0`、`0.2.0` 为历史版本 | 已增加扩展 Starter；RubyGems `0.4.1` 已安装到干净 gem home，allow/deny 本地通过 |
 | Lua | `lua/v0.4.1` | LuaRocks `praxo-core==0.4.1-1` 已发布，包含可选 OpenAI-compatible adapter；`0.4.0-1`、`0.3.0-1`、`0.2.0-1` 也已发布 | 已增加扩展 Starter；LuaRocks `0.4.1-1` 已安装到干净 tree，allow/deny 本地通过 |
@@ -105,7 +105,7 @@ Bridge、Sample 描述运行时的接入方式，不证明其语言缺乏 Framew
 | Java | `0.4.1` | Maven Central `0.4.1` | 已最新 |
 | Rust | `0.4.0` | crates.io `0.4.0` | 已最新 |
 | C# | `0.4.0` | NuGet `0.3.0` | 源码已准备；registry 为上一版 |
-| Elixir | `0.4.1` | Hex `0.4.1` | 已最新 |
+| Elixir | `0.5.0` | Hex `0.4.1` | 源码已准备；registry 为上一版 |
 | Erlang | `0.4.0` | Hex `0.4.0` | 已最新 |
 | Ruby | `0.4.1` | RubyGems `0.4.1` | 已最新 |
 | PHP | `0.4.1` | Packagist `0.4.1` | 已最新 |
@@ -181,11 +181,11 @@ Bridge、Sample 描述运行时的接入方式，不证明其语言缺乏 Framew
   快照/parity。split 包仓库 `axisvela/praxo-core-ocaml` 发布 opam 包
   `praxo-core` 0.3.0（模块 `Praxo_core`）；opam-repository PR #31106 待合并。原生 `ocamlopt` 编译和
   提供商适配器未声明。
-- Elixir 源码标签 `elixir/v0.4.0` 在 policy、middleware、最终工具 allowlist、
-  重新授权、生命周期清理、取消、流式回调、原生 SSE parser、有限并行工具和按 run
-  隔离的调用上限之上增加人工审批中断决策。Hex 已发布 `praxo_core==0.4.0`；
-  `0.3.0` 和 `0.2.0` 仍可用。HexDocs 已发布：
-  <https://praxo-core.hexdocs.pm/0.4.0/>。
+- Elixir 源码标签 `elixir/v0.5.0` 在 policy、middleware、最终工具 allowlist、
+  重新授权、生命周期清理、取消、流式回调、原生 SSE parser、有限并行工具、
+  人工审批中断决策和 run 隔离的调用上限之上新增 Harmovela sink 和 stdio MCP
+  client。Hex 已发布 `praxo_core==0.4.1`；`0.4.0`、`0.3.0` 和 `0.2.0` 仍可用。
+  HexDocs 已发布： <https://praxo-core.hexdocs.pm/0.4.1/>。
 - Erlang 源码标签 `erlang/v0.4.0` 在 policy、middleware、最终工具 allowlist、
   重新授权、生命周期清理、取消、流式回调、原生 SSE parser、有限并行工具和按 run
   隔离的调用上限之上增加人工审批中断决策。Hex 已发布

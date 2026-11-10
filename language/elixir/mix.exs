@@ -4,7 +4,7 @@ defmodule Praxo.MixProject do
   def project do
     [
       app: :praxo_core,
-      version: "0.4.1",
+      version: "0.5.0",
       elixir: "~> 1.14",
       start_permanent: Mix.env() == :prod,
       description: "Embeddable MIT-licensed agent framework for Elixir",
@@ -35,7 +35,7 @@ defmodule Praxo.MixProject do
         "PUBLISHING.md",
         "SETUP.md",
         "LICENSE",
-        "api/0.4.1.txt"
+        "api/0.5.0.txt"
       ],
       skip_undefined_reference_warnings_on: ["README.md"]
     ]

@@ -1,7 +1,7 @@
 # PRAXO-CORE for Elixir
 
 PRAXO-CORE is an embeddable, MIT-licensed agent framework. This package is its
-native Elixir Core with source tag `elixir/v0.4.1`. It passes all eleven shared
+native Elixir Core with source tag `elixir/v0.5.0`. It passes all eleven shared
 vector groups with `Elixir 1.20.4` on `Erlang/OTP 29` and includes the native
 agent loop, context compaction, memory store, path policy, checkpoint allowlist,
 tool-call parsing, and opt-in tool selection, PII redaction, structured output
@@ -13,9 +13,9 @@ language runtime. Erlang shares the BEAM runtime and does not add a second
 agent loop. An optional OpenAI-compatible adapter is included; other provider
 adapters and plugin hosts remain outside the declared Core scope.
 
-The latest Hex package is `praxo_core@0.4.1`; `0.4.0`, `0.3.0`, and `0.2.0`
-remain available. It includes the optional adapter and `api/0.4.1.txt`.
-HexDocs: <https://praxo-core.hexdocs.pm/0.4.1/>.
+The latest Hex package remains `praxo_core@0.4.1`; `0.4.0`, `0.3.0`, and
+`0.2.0` remain available. The `0.5.0` source adds Harmovela and MCP adapters and
+includes `api/0.5.0.txt`. HexDocs: <https://praxo-core.hexdocs.pm/0.4.1/>.
 
 ## Registry and Coding-Agent Entry
 
@@ -86,7 +86,7 @@ schema = Praxo.Json.parse!(~s({"type":"string","pattern":"^a+$"}))
 assert Praxo.JsonSchema.validate(schema, "aaa") == []
 ```
 
-Public declarations are inventoried in [`api/0.4.1.txt`](api/0.4.1.txt).
+Public declarations are inventoried in [`api/0.5.0.txt`](api/0.5.0.txt).
 
 An agent model can be a function accepting a `Praxo.Request` and returning
 `{:ok, %Praxo.Response{}}` or `{:error, code}`, where `code` is a string:

@@ -1,5 +1,22 @@
 # Elixir Core Release Notes
 
+## 0.5.0 - 2026-11-10
+
+Source release tag `elixir/v0.5.0`. Hex publishes `praxo_core==0.5.0` and
+HexDocs `0.5.0` through `.github/workflows/elixir-release.yml`.
+
+### Added
+
+- Harmovela HTTP event sink with an injectable transport.
+- Native stdio MCP client, tool adapters, and registry helper.
+- API snapshot `api/0.5.0.txt`.
+
+### Changed
+
+- Adapter implementations live under `lib/praxo/adapters/`; Core remains free
+  of provider-specific runtime dependencies.
+- MCP default client version is `0.5.0`.
+
 ## 0.4.1 - 2026-11-09
 
 Source release tag `elixir/v0.4.1`. Hex publishes `praxo_core==0.4.1` and
