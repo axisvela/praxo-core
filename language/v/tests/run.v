@@ -545,7 +545,7 @@ fn test_harmovela() {
 	noop := fn (_base_url string, _path string, _body string, _headers map[string]string) !praxo.HarmovelaResponse {
 		return praxo.HarmovelaResponse{status: 200}
 	}
-	wrapped := praxo.harmovela_sink('http://127.0.0.1:8790/aep/api', praxo.HarmovelaOptions{
+	mut wrapped := praxo.harmovela_sink('http://127.0.0.1:8790/aep/api', praxo.HarmovelaOptions{
 		transport: noop
 		clock: fn () i64 { return 1700000000000000000 }
 	})

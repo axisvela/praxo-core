@@ -1,4 +1,4 @@
-# PRAXO-CORE PowerShell API 0.2.0
+﻿# PRAXO-CORE PowerShell API 0.2.0
 # SPEC_VERSION 0.2.0
 
 Add-PraxoMemoryRecord
@@ -21,6 +21,8 @@ New-PraxoAgentOptions
 New-PraxoCheckpointAllowlist
 New-PraxoContextBudget
 New-PraxoFuncTool
+New-PraxoHarmovelaSink
+New-PraxoHarmovelaSinkOptions
 New-PraxoMemoryRecord
 New-PraxoMemoryStore
 New-PraxoPathChecker
@@ -32,5 +34,6 @@ New-PraxoToolRegistry
 Register-PraxoCheckpointType
 Register-PraxoTool
 Remove-PraxoToolCallMarkup
+Send-PraxoHarmovelaEvent
 Test-PraxoJsonSchema
 Test-PraxoPath
