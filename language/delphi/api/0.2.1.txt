@@ -42,3 +42,5 @@ function PraxoCallLimitTool(var Limit: TPraxoCallLimit): UTF8String;
 function PraxoSelectTools(const Selection, Tools: TPraxoStringArray): TPraxoStringArray;
 function PraxoFallback(const PrimaryFailed: Boolean; const Primary, Fallback: UTF8String): UTF8String;
 function PraxoCheckToolSelected(const Selection: TPraxoStringArray; const Name: UTF8String): UTF8String;
+function Generate(Messages: TJSONArray; Tools: TJSONArray;
+function Generate(Messages: TJSONArray): TJSONObject; overload;

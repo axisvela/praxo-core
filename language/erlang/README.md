@@ -60,6 +60,25 @@ Options = praxo_agent:new_agent_options(Model),
 io:format("~s~n", [maps:get(output, Result)]).
 ```
 
+## OpenAI-Compatible Adapter
+
+`praxo_openai_compatible` provides a non-streaming adapter over the native model
+seam. It posts to `{base_url}/chat/completions` and maps assistant content, tool
+calls, and token usage. Inject `transport` to run without network access; it
+receives `(Path, Payload)` and returns `{ok, DecodedJson}`.
+
+```erlang
+Adapter = praxo_openai_compatible:new(
+    <<"https://api.example.com/v1">>, <<"model-id">>,
+    #{api_key => <<"token">>}),
+Request = praxo_models:request([praxo_models:message(<<"user">>, <<"hi">>)]),
+{ok, Response, _} = praxo_openai_compatible:generate(Adapter, Request),
+Model = praxo_openai_compatible:model(Adapter).
+```
+
+Provider HTTP failures return `{error, <<"PROVIDER_HTTP">>, Adapter}`; invalid
+tool-argument JSON returns `PROVIDER_JSON`. Streaming is not implemented.
+
 Public declarations are inventoried in [`api/0.4.0.txt`](api/0.4.0.txt).
 This is a source declaration check, not a binary ABI promise. Regenerate it with
 `python api-snapshot.py`.
@@ -68,9 +87,9 @@ This is a source declaration check, not a binary ABI promise. Regenerate it with
 
 - The verified target is Erlang/OTP 29. Older releases without the `json`
   module are not supported.
-- No provider adapter, HTTP streaming runtime, plugin host, or persistent
-  session store is provided. The loop is synchronous; tool batches can execute
-  in spawned processes when `max_parallel_tools` is greater than one.
+- No HTTP streaming runtime, plugin host, or persistent session store is
+  provided. The loop is synchronous; tool batches can execute in spawned
+  processes when `max_parallel_tools` is greater than one.
 - Optional `cancellation`, `on_stream`, and `max_parallel_tools` agent options
   add cooperative cancellation, stream parts, and bounded parallel tool
   execution. `praxo_sse:parse/1` rejects truncated and half-packet streams.

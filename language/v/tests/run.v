@@ -422,6 +422,98 @@ fn test_agent_call_limits() {
 	assert result2.output == 'done'
 }
 
+fn test_openai_compatible() {
+	transport := fn (_base_url string, _api_key string, path string, payload map[string]json2.Any) !map[string]json2.Any {
+		assert path == '/chat/completions'
+		assert praxo.get_string(payload, 'model') or { '' } == 'test-model'
+		assert praxo.get_string(payload, 'tool_choice') or { '' } == 'auto'
+		messages := praxo.get_array(payload, 'messages')
+		assert messages.len == 4
+		assistant := praxo.as_object(messages[2])
+		calls := praxo.get_array(assistant, 'tool_calls')
+		assert calls.len == 1
+		function_value := praxo.get_object(calls[0], 'function')
+		assert praxo.get_string(function_value, 'name') or { '' } == 'echo'
+		arguments_text := praxo.get_string(function_value, 'arguments') or { '' }
+		arguments := praxo.parse_json(arguments_text) or { panic(err) }
+		assert praxo.get_string(arguments, 'text') or { '' } == 'hi'
+		tool_message := praxo.as_object(messages[3])
+		assert praxo.get_string(tool_message, 'tool_call_id') or { '' } == 'call-1'
+		tools := praxo.get_array(payload, 'tools')
+		assert tools.len == 1
+		tool_function := praxo.get_object(praxo.as_object(tools[0]), 'function')
+		assert praxo.get_string(tool_function, 'name') or { '' } == 'echo'
+		parameters := praxo.get_object(tool_function, 'parameters')
+		assert praxo.get_string(parameters, 'type') or { '' } == 'object'
+		data := praxo.parse_json('{"choices":[{"message":{"role":"assistant","content":"hello","tool_calls":[{"id":"call-1","type":"function","function":{"name":"echo","arguments":"{\\"text\\":\\"hi\\"}"}}]},"finish_reason":"tool_calls"}],"usage":{"prompt_tokens":7,"completion_tokens":3}}') or { panic(err) }
+		return praxo.as_object(data)
+	}
+	adapter := praxo.openai_compatible_with_options('https://example.test/v1/', 'test-model', praxo.OpenAIOptions{
+		api_key: 'secret'
+		transport: transport
+	})
+	request := praxo.Request{
+		messages: [
+			praxo.message(praxo.role_system, 'sys'),
+			praxo.message(praxo.role_user, 'hi'),
+			praxo.message_assistant('', [
+				praxo.tool_call('call-1', 'echo', {'text': json2.Any('hi')}),
+			]),
+			praxo.message_tool('{"ok":true}', 'call-1'),
+		]
+		tools: [praxo.ToolSpec{name: 'echo', description: 'Echo'}]
+		tool_choice: 'auto'
+	}
+	result := adapter.generate(request) or { panic(err) }
+	assert result.message.content == 'hello'
+	assert result.message.tool_calls.len == 1
+	assert result.message.tool_calls[0].id == 'call-1'
+	assert result.message.tool_calls[0].name == 'echo'
+	text := result.message.tool_calls[0].arguments['text'] or { json2.Any('') }
+	assert praxo.as_string(text) or { '' } == 'hi'
+	assert result.usage.input_tokens == 7
+	assert result.usage.output_tokens == 3
+
+	mut model := praxo.openai_compatible_model(adapter)
+	wrapped := model.generate(request) or { panic(err) }
+	assert wrapped.message.content == 'hello'
+
+	invalid := fn (_base_url string, _api_key string, _path string, _payload map[string]json2.Any) !map[string]json2.Any {
+		data := praxo.parse_json('{"choices":[{"message":{"content":"","tool_calls":[{"id":"call-1","function":{"name":"echo","arguments":"not json"}}]}}]}') or { panic(err) }
+		return praxo.as_object(data)
+	}
+	invalid_adapter := praxo.openai_compatible_with_options('https://example.test/v1', 'm', praxo.OpenAIOptions{
+		transport: invalid
+	})
+	mut invalid_code := ''
+	invalid_adapter.generate(request) or {
+		invalid_code = praxo.error_code(err)
+		praxo.Response{}
+	}
+	assert invalid_code == 'PROVIDER_JSON'
+
+	missing := praxo.openai_compatible('', 'm')
+	mut missing_code := ''
+	missing.generate(request) or {
+		missing_code = praxo.error_code(err)
+		praxo.Response{}
+	}
+	assert missing_code == 'PROVIDER_HTTP'
+
+	http_transport := fn (_base_url string, _api_key string, _path string, _payload map[string]json2.Any) !map[string]json2.Any {
+		return praxo.praxo_error('PROVIDER_HTTP', 'provider returned HTTP 500')
+	}
+	http_adapter := praxo.openai_compatible_with_options('https://example.test/v1', 'm', praxo.OpenAIOptions{
+		transport: http_transport
+	})
+	mut http_code := ''
+	http_adapter.generate(request) or {
+		http_code = praxo.error_code(err)
+		praxo.Response{}
+	}
+	assert http_code == 'PROVIDER_HTTP'
+}
+
 fn main() {
 	test_json()
 	test_toolcall()
@@ -439,5 +531,6 @@ fn main() {
 	test_callback_model()
 	test_agent_middleware()
 	test_agent_call_limits()
+	test_openai_compatible()
 	println('v tests passed')
 }

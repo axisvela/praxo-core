@@ -43,6 +43,7 @@ def main():
     flags = ["-Mobjfpc", "-Scghi", "-O2", "-Fu."]
     subprocess.run([compiler, *flags, f"-FE{build}", "praxo.pas"], cwd=ROOT, check=True)
     subprocess.run([compiler, *flags, f"-FE{build}", "praxo_core.pas"], cwd=ROOT, check=True)
+    subprocess.run([compiler, *flags, f"-FE{build}", "praxo_openai.pas"], cwd=ROOT, check=True)
     subprocess.run([compiler, *flags, "-Futests", f"-FE{build}", "tests/praxo_tests.lpr"],
                    cwd=ROOT, check=True)
     executable = build / ("praxo_tests.exe" if os.name == "nt" else "praxo_tests")
@@ -57,6 +58,10 @@ def main():
                    cwd=ROOT, check=True)
     executable = build / ("core_tests.exe" if os.name == "nt" else "core_tests")
     subprocess.run([str(executable), str(ROOT.parents[1] / "spec")], cwd=ROOT, check=True, timeout=120)
+    subprocess.run([compiler, *flags, "-Futests", f"-FE{build}", "tests/openai_tests.lpr"],
+                   cwd=ROOT, check=True)
+    executable = build / ("openai_tests.exe" if os.name == "nt" else "openai_tests")
+    subprocess.run([str(executable)], cwd=ROOT, check=True, timeout=120)
 
 
 if __name__ == "__main__":

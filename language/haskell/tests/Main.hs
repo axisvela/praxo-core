@@ -8,6 +8,7 @@ import qualified Praxo.Agent as A
 import Praxo.Json
 import Praxo.JsonSchema
 import Praxo.Middleware
+import qualified Praxo.OpenAICompatible as O
 import Praxo.Pattern
 import Praxo.Plugin
 import Praxo.Runtime
@@ -19,6 +20,7 @@ main = do
     agentTests
     runtimeTests
     middlewareTests
+    adapterTests
     assert "contract version" (specVersion == "0.2.0" && sdkVersion == "0.2.0")
     forM_ ["", "01", "1.", "+1", "NaN", "1e", "[1,]", "{\"a\":1,}", "{}{}", "\"\\q\"", "\"\\ud800\"", "\"\\udc00\"", "\"\\ud800\\u0041\"", "\"line\nbreak\"", "true garbage"] $ \raw ->
         assert ("invalid JSON " ++ show raw) (isLeft (parseJson raw))
@@ -186,6 +188,61 @@ middlewareTests = do
     assert "tool selection" (selectTools (toolSelection ["echo"]) ["echo", "other"] == ["echo"])
     assert "tool selection reject" (checkToolSelected (toolSelection []) "echo" == Left "AGENT_TOOL_NOT_SELECTED")
     assert "fallback" (fallbackEither (Left "MODEL_ERROR" :: Either String String) (Right "ok") == Right "ok")
+
+adapterTests :: IO ()
+adapterTests = do
+    captured <- newIORef Nothing
+    let responseBody = "{\"choices\":[{\"message\":{\"content\":\"done\",\"tool_calls\":[{\"id\":\"call-1\",\"type\":\"function\",\"function\":{\"name\":\"echo\",\"arguments\":\"{\\\"text\\\":\\\"hi\\\"}\"}}]},\"finish_reason\":\"tool_calls\"}],\"usage\":{\"prompt_tokens\":3,\"completion_tokens\":2}}"
+        transport request = do
+            writeIORef captured (Just request)
+            pure (Right (O.HttpResponse 200 responseBody))
+        config = O.OpenAIConfig
+            { O.openAIBaseURL = "https://api.example.com/v1/"
+            , O.openAIModel = "test-model"
+            , O.openAIKey = Just "secret"
+            , O.openAIToolChoice = Just "auto"
+            , O.openAITools = [O.OpenAITool "echo" "Echo" (JObject [("type", JString "object")])]
+            , O.openAITransport = O.Transport transport
+            }
+        messages = [A.Message "user" "hi" [] "", A.Message "tool" "{}" [] "call-1"]
+    result <- O.generate config messages
+    case result of
+        Left err -> fail ("openai adapter: " ++ A.errorMessage err)
+        Right response -> do
+            assert "openai content" (A.responseContent response == "done")
+            assert "openai usage" (A.inputTokens response == 3 && A.outputTokens response == 2)
+            case A.responseToolCalls response of
+                [call] -> do
+                    assert "openai call id" (A.toolCallId call == "call-1")
+                    assert "openai call name" (A.toolCallName call == "echo")
+                    assert "openai call arguments" (A.toolCallArguments call == JObject [("text", JString "hi")])
+                _ -> fail "openai call"
+    request <- readIORef captured
+    case request of
+        Nothing -> fail "openai transport not called"
+        Just http -> do
+            assert "openai method" (O.httpMethod http == "POST")
+            assert "openai url" (O.httpURL http == "https://api.example.com/v1/chat/completions")
+            assert "openai auth" (lookup "Authorization" (O.httpHeaders http) == Just "Bearer secret")
+            let payload = json (O.httpBody http)
+            assert "openai model" (equalJson (field "model" payload) (JString "test-model"))
+            assert "openai tool choice" (equalJson (field "tool_choice" payload) (JString "auto"))
+            let payloadMessages = asArray (field "messages" payload)
+            assert "openai messages" (length payloadMessages == 2 && equalJson (field "tool_call_id" (payloadMessages !! 1)) (JString "call-1"))
+            let payloadTools = asArray (field "tools" payload)
+            assert "openai tools" (length payloadTools == 1 && equalJson (field "name" (field "function" (head payloadTools))) (JString "echo"))
+    let failing = O.Transport (\_ -> pure (Right (O.HttpResponse 503 "down")))
+    failed <- O.generate (config { O.openAITransport = failing }) messages
+    assert "openai provider error" (case failed of Left err -> A.errorCode err == "PROVIDER_HTTP"; _ -> False)
+    let missing = config
+            { O.openAIBaseURL = ""
+            , O.openAITransport = O.Transport (\_ -> fail "transport called for missing base URL")
+            }
+    missingResult <- O.generate missing messages
+    assert "openai missing base url" (case missingResult of Left err -> A.errorCode err == "PROVIDER_HTTP"; _ -> False)
+    let invalid = O.Transport (\_ -> pure (Right (O.HttpResponse 200 "{\"choices\":[{\"message\":{\"tool_calls\":[{\"id\":\"c\",\"function\":{\"name\":\"x\",\"arguments\":\"{bad\"}}]}}]}")))
+    invalidResult <- O.generate (config { O.openAITransport = invalid }) [A.Message "user" "hi" [] ""]
+    assert "openai invalid arguments" (case invalidResult of Left err -> A.errorCode err == "PROVIDER_RESPONSE"; _ -> False)
 
 assert :: String -> Bool -> IO ()
 assert label condition = unless condition (fail label)

@@ -7,8 +7,9 @@ allowlist, and tool-call parsing. Tool selection, PII redaction, structured
 output, and call limits are opt-in in the agent. Vector
 coverage does not establish full Core parity or production readiness.
 
-The Core does not call Go or another language runtime. It has no provider
-adapter or plugin host; those remain outside the declared Core scope.
+The Core does not call Go or another language runtime. It includes a
+non-streaming OpenAI-compatible model adapter; plugin hosts remain outside the
+declared Core scope.
 
 ## Registry and Coding-Agent Entry
 
@@ -51,6 +52,26 @@ assert praxo.validate_schema(schema, praxo.parse_json('"aaa"') or { panic(err) }
 ```
 
 Public declarations are inventoried in [`api/0.1.2.txt`](api/0.1.2.txt).
+
+## OpenAI-Compatible Adapter
+
+`openai_compatible` and `openai_compatible_with_options` build a non-streaming
+adapter over the native model seam. It posts to `{base_url}/chat/completions`
+and maps assistant content, tool calls, and token usage. Supply `transport` to
+run without network access; it receives `(base_url, api_key, path, payload)` and
+returns decoded JSON.
+
+```v
+adapter := praxo.openai_compatible_with_options('https://api.example.com/v1',
+	'model-id', praxo.OpenAIOptions{api_key: 'token'})
+result := adapter.generate(praxo.Request{
+	messages: [praxo.message(praxo.role_user, 'hi')]
+}) or { panic(err) }
+model := praxo.openai_compatible_model(adapter)
+```
+
+Provider HTTP failures return code `PROVIDER_HTTP`; invalid tool-argument JSON
+returns `PROVIDER_JSON`. Streaming is not implemented.
 
 Supply a model callback to receive each request and return a response or an
 error. The callback can inspect the conversation and tool results on each step;
@@ -100,8 +121,7 @@ result := praxo.run_agent(options, praxo.session('s1', []praxo.Message{}), 'Hi')
   as schema errors rather than silently accepted.
 - Path checks are lexical and confined by separator boundaries. They do not
   resolve symlinks or replace operating-system sandboxing.
-- Provider adapters, streaming wire encodings, and plugin hosts are not part of
-  this Core.
+- Streaming wire encodings and plugin hosts are not part of this Core.
 
 The source is MIT; see [LICENSE](LICENSE). V and its bundled toolchain are
 separate projects, not vendored code.

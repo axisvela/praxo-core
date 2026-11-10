@@ -109,6 +109,37 @@ Use `fallback_model` and `structured_model`
 as native model decorators. Structured repair callbacks receive the previous
 output, validation errors, and attempt number.
 
+## OpenAI-Compatible Adapter
+
+`praxo_openai` provides a non-streaming `openai_compatible` type that extends
+`model`. It maps role/content messages, assistant tool calls, tool results, and
+tool declarations to the OpenAI request shape, and maps `message.content`,
+`message.tool_calls` (arguments validated as a JSON object), and `usage` back to
+`response`. The Fortran `response` type has no finish-reason field, so
+`finish_reason` is read but not surfaced. Invalid tool arguments set
+`PROVIDER_JSON`; a missing base URL or transport sets `PROVIDER_HTTP` before any
+transport call.
+
+No HTTP client is bundled. `openai_transport` is an abstract interface; callers
+must supply a procedure that posts the payload and returns the response body.
+Adding a transport is a separate dependency decision: a reviewed libcurl C ABI
+binding (MIT-style license) or an `execute_command_line` wrapper around an
+external client (process-dependent, not a library dependency) would each need
+its own build, licensing, and error-mapping review. Tests inject a fake
+transport and make no network calls. Streaming is not implemented.
+
+```fortran
+use praxo_openai
+type(openai_compatible) :: adapter
+adapter%base_url = 'https://api.example/v1'
+adapter%model_name = 'provider-model'
+adapter%transport => my_transport
+options%provider => adapter
+```
+
+`my_transport(url, payload, api_key, error)` returns the response body as an
+allocatable character string and sets `error%code` on failure.
+
 ## Scope and Limits
 
 JSON documents are limited to 262144 input bytes, 4096 value nodes, and 64 nested

@@ -104,6 +104,23 @@ type tool = {
   tool_invoke : json -> json;
 }
 type model = { generate : request -> response }
+type http_request = {
+  http_method : string;
+  http_url : string;
+  http_headers : (string * string) list;
+  http_payload : string;
+}
+type http_response = {
+  http_status : int;
+  http_body : string;
+}
+type transport = http_request -> http_response
+type openai_config = {
+  openai_base_url : string;
+  openai_model : string;
+  openai_api_key : string option;
+  openai_tool_choice : string option;
+}
 type agent_options = {
   agent_model : model;
   agent_tools : tool list;
@@ -138,6 +155,10 @@ val usage_make : int -> int -> usage
 val usage_add : usage -> usage -> usage
 val request_make : core_message list -> core_tool_spec list -> request
 val response_make : core_message -> usage -> response
+val openai_request : openai_config -> request -> http_request
+val openai_parse_response : string -> response
+val openai_generate : openai_config -> transport -> request -> response
+val openai_model : openai_config -> transport -> model
 val session_make : string -> core_message list -> session
 val run_result_make : string -> string -> int -> usage -> run_result
 val memory_record_make : string -> string -> string -> string option -> memory_record

@@ -7,8 +7,9 @@ allowlist, tool selection, tool-call parsing, and opt-in PII redaction,
 structured output validation, and call limits. Vector
 coverage does not establish full Core parity or production readiness.
 
-The Core does not call Go or another language runtime. It has no provider
-adapter or plugin host; those remain outside the declared Core scope.
+The Core does not call Go or another language runtime. It includes a
+non-streaming OpenAI-compatible model adapter; a plugin host remains outside the
+declared Core scope.
 
 Local validation uses clang 21.1.8 with GNUstep Base 1.31.1 and lld on Windows.
 A macOS CI job runs the Apple Foundation build. Local Apple Foundation, release
@@ -66,7 +67,16 @@ NSDictionary *manifest = PXRParseManifest(raw, &error);
 NSMutableDictionary *options = PXRAgentOptionsCreate(PXRModelCreateStatic(@"hello"));
 NSError *runError = nil;
 NSDictionary *result = PXRAgentRun(options, PXRSessionCreate(@"s1", @[]), @"hello", &runError);
+
+PXRModelGenerate model = PXROpenAIModelCreate(
+    @"https://api.openai.com/v1", @"gpt-4o-mini", apiKey, nil);
 ```
+
+`PXROpenAIModelCreate` returns a model callback that posts to
+`{baseURL}/chat/completions`, maps assistant content, tool calls, usage, and
+finish reason, and injects `PXROpenAITransport` for deterministic tests.
+Missing base URLs and non-2xx responses produce a `PROVIDER_HTTP` error; invalid
+tool arguments produce `PROVIDER_JSON`. Streaming is not implemented.
 
 Public declarations are inventoried in [`api/0.1.1.txt`](api/0.1.1.txt).
 Agent events use the supplied session's `id` and a UUID-based run ID; the
@@ -112,8 +122,8 @@ error codes.
   aliases, or replace operating-system sandboxing.
 - Manifest checks validate declarations only. They do not verify signatures,
   establish trust, execute plugins, or enforce OS sandboxing.
-- Provider adapters, streaming wire encodings, and plugin hosts are not part of
-  this Core.
+- The OpenAI-compatible adapter is non-streaming. Streaming wire encodings and
+  plugin hosts are not part of this Core.
 
 The source is MIT; see [LICENSE](LICENSE). Clang, GNUstep, and other toolchain
 components are separate projects, not vendored code.

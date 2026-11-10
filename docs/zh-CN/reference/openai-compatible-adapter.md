@@ -72,6 +72,7 @@ Core model request 映射为：
 
 ## 基线与状态
 
-当前原生适配器覆盖 Go、Python、TypeScript、Java、Rust、C#、Ruby、PHP、Elixir、
-Lua、Perl、Nim。PowerShell 继承 C# Core。其他 Core 实现见
-[适配器状态](../languages/adapter-status.md)，按批次实现。
+除 COBOL 外，所有 Core 实现都已有原生适配器。C、C++、Fortran、Haskell 与 OCaml
+是 transport-seam 适配器：映射在树内，HTTP transport 由调用方提供。PowerShell 继承
+C# Core。COBOL 仍受阻于 HTTP transport 决策与 model callback 的工具/历史扩展。逐语言
+说明见[适配器状态](../languages/adapter-status.md)。

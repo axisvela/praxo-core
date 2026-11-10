@@ -19,8 +19,24 @@ Julia implementation of the PRAXO-CORE contract.
 
 `0.2.0` implements all eleven conformance vector groups: tool-call parsing, JSON
 Schema, plugin manifests, memory, events, stream kinds, checkpoint envelopes,
-path policy, context budgets, middleware, and the agent loop. Provider adapters
-remain follow-up work.
+path policy, context budgets, middleware, and the agent loop. A non-streaming
+OpenAI-compatible model adapter is available in `src/OpenAICompatible.jl`.
+
+## OpenAI-Compatible Adapter
+
+`OpenAICompatibleModel` implements the native `AbstractModel` seam. It posts to
+`{base_url}/chat/completions` and maps assistant content, tool calls, and token
+usage. Supply `transport` to run without network access; it receives
+`(path, payload)` and returns decoded JSON.
+
+```julia
+adapter = openai_compatible("https://api.example.com/v1", "model-id";
+                            api_key = "token")
+result = generate(adapter, Request([Message(Roles.USER, "hi")]))
+```
+
+Provider HTTP failures raise `PraxoError` with code `PROVIDER_HTTP`; invalid
+tool-argument JSON raises `PROVIDER_JSON`. Streaming is not implemented.
 
 ## Build and test
 

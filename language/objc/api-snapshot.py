@@ -11,7 +11,7 @@ REPO = ROOT.parents[1]
 def header_text():
     parts = [
         (ROOT / name).read_text(encoding="utf-8")
-        for name in ("PraxoJSON.h", "PraxoWire.h", "PraxoCore.h")
+        for name in ("PraxoJSON.h", "PraxoWire.h", "PraxoCore.h", "PraxoOpenAI.h")
     ]
     return "\n".join(parts)
 

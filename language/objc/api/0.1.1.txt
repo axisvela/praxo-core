@@ -1,13 +1,17 @@
 # PRAXO-CORE Objective-C Core API 0.1.1
 # SPEC_VERSION 0.2.0
 
+BOOL PXROpenAIGenerate(NSString *baseURL, NSString *model, NSString * _Nullable apiKey, NSDictionary<NSString *, id> *request, PXROpenAITransport _Nullable transport, NSDictionary<NSString *, id> * _Nullable * _Nullable response, NSError **error)
 NSArray<NSString *> *PXRValidateSchema(NSDictionary<NSString *, id> *schema, id data)
+NSDictionary<NSString *, id> * _Nullable PXROpenAIParseResponse(NSDictionary<NSString *, id> *data, NSError **error)
 NSDictionary<NSString *, id> * _Nullable PXRParseInputJSON(NSString *raw)
 NSDictionary<NSString *, id> * _Nullable PXRParseManifest(NSString *raw, NSError **error)
 NSDictionary<NSString *, id> * _Nullable PXRParseToolCall(NSString *content, NSError **error)
+NSDictionary<NSString *, id> *PXROpenAIRequestPayload(NSString *model, NSArray<NSDictionary<NSString *, id> *> *messages, NSArray<NSDictionary<NSString *, id> *> *tools, NSString * _Nullable toolChoice)
 NSString *PXRStripToolCallMarkup(NSString *content)
 NSString *const PXRCodeKey
 NSString *const PXRCoreErrorDomain
 NSString *const PXRSDKVersion
 NSString *const PXRSpecVersion
 NSString *const PXRWireErrorDomain
+PXRModelGenerate PXROpenAIModelCreate(NSString *baseURL, NSString *model, NSString * _Nullable apiKey, PXROpenAITransport _Nullable transport)

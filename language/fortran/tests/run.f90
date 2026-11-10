@@ -8,6 +8,7 @@ program core_tests
   use praxo_stream
   use praxo_sse, only: parse_sse_stream
   use praxo_middleware, only: call_limit
+  use praxo_openai
   use test_doubles
   implicit none
   type(scripted_model), target :: provider
@@ -36,6 +37,11 @@ program core_tests
   integer, target :: invocations, other_invocations
   integer :: failures = 0, checks = 0, i
   character(:), allocatable :: hitl_action, hitl_arguments, hitl_response
+  type(openai_compatible) :: adapter
+  type(request) :: adapter_request
+  type(response) :: adapter_response
+  character(:), allocatable :: captured_url, captured_payload, captured_key
+  character(:), allocatable :: adapter_text
 
   call reset()
   call run()
@@ -432,9 +438,73 @@ program core_tests
   call run()
   call check_error('AGENT_INTERRUPT_UNHANDLED', 'hitl unhandled')
 
+  adapter%base_url = 'https://example.test/v1/'
+  adapter%model_name = 'test-model'
+  adapter%api_key = 'secret'
+  adapter%transport => fake_transport
+  allocate(adapter_request%messages(3))
+  adapter_request%messages(1) = text_message('user', 'hello')
+  adapter_request%messages(2) = text_message('assistant', '')
+  adapter_request%messages(2)%tool_calls = [tool_call('prior', 'echo', '{"a":1}')]
+  adapter_request%messages(3) = text_message('tool', '{"ok":true}', 'prior')
+  allocate(adapter_request%tools(1))
+  adapter_request%tools(1)%name = 'echo'
+  adapter_request%tools(1)%description = 'Echo arguments'
+  adapter_text = '{"choices":[{"message":{"content":"hello","tool_calls":['// &
+    '{"id":"call-1","type":"function","function":{"name":"echo",'// &
+    '"arguments":"{\"text\":\"hi\"}"}}]},"finish_reason":"tool_calls"}],'// &
+    '"usage":{"prompt_tokens":3,"completion_tokens":2}}'
+  call adapter%generate(adapter_request, adapter_response, error)
+  call check(.not. error%failed(), 'openai generate succeeds')
+  call check(captured_url == 'https://example.test/v1/chat/completions', &
+    'openai endpoint')
+  call check(captured_key == 'secret', 'openai api key')
+  call check(index(captured_payload, '"model":"test-model"') > 0, 'openai model')
+  call check(index(captured_payload, '"role":"assistant","content":"",'// &
+    '"tool_calls":[{"id":"prior","type":"function","function":{"name":"echo",'// &
+    '"arguments":"{\"a\":1}"}}]') > 0, 'openai tool call history')
+  call check(index(captured_payload, '"role":"tool","content":"{\"ok\":true}",'// &
+    '"tool_call_id":"prior"') > 0, 'openai tool result history')
+  call check(index(captured_payload, '"name":"echo","description":'// &
+    '"Echo arguments","parameters":{"type":"object"}') > 0, 'openai tool spec')
+  call check(adapter_response%message%content == 'hello', 'openai content')
+  call check(allocated(adapter_response%message%tool_calls), &
+    'openai tool calls present')
+  call check(size(adapter_response%message%tool_calls) == 1, &
+    'openai tool call count')
+  call check(adapter_response%message%tool_calls(1)%id == 'call-1', &
+    'openai tool call id')
+  call check(adapter_response%message%tool_calls(1)%name == 'echo', &
+    'openai tool call name')
+  call check(adapter_response%message%tool_calls(1)%arguments == '{"text":"hi"}', &
+    'openai tool call arguments')
+  call check(adapter_response%usage%input_tokens == 3 .and. &
+    adapter_response%usage%output_tokens == 2, 'openai usage')
+
+  adapter%base_url = ''
+  call adapter%generate(adapter_request, adapter_response, error)
+  call check(error%code == 'PROVIDER_HTTP', 'openai missing base url')
+
+  adapter%base_url = 'https://example.test/v1'
+  adapter_text = '{"choices":[{"message":{"content":"","tool_calls":['// &
+    '{"id":"x","function":{"name":"echo","arguments":"broken"}}]}}]}'
+  call adapter%generate(adapter_request, adapter_response, error)
+  call check(error%code == 'PROVIDER_JSON', 'openai invalid tool arguments')
+
   if (failures > 0) error stop 1
   print '(a,i0,a)', 'PASS: ', checks, ' native Fortran assertions'
 contains
+  function fake_transport(url, payload, api_key, transport_error) result(body)
+    character(*), intent(in) :: url, payload, api_key
+    type(sdk_error), intent(out) :: transport_error
+    character(:), allocatable :: body
+    captured_url = url
+    captured_payload = payload
+    captured_key = api_key
+    transport_error%code = ''
+    body = adapter_text
+  end function
+
   subroutine hitl_hook(ctx, name, arguments, decision_action, new_arguments, &
       response, hook_error)
     class(*), pointer, intent(in) :: ctx

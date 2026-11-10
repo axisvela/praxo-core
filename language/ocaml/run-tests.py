@@ -27,9 +27,11 @@ def main():
     build.mkdir(exist_ok=True)
     subprocess.run([compiler, "-g", "-c", "praxo_core.mli"], cwd=ROOT, check=True)
     subprocess.run([compiler, "-g", "-c", "praxo_core.ml"], cwd=ROOT, check=True)
+    subprocess.run([compiler, "-g", "-c", "praxo_adapter_tests.ml"], cwd=ROOT, check=True)
     subprocess.run([compiler, "-g", "-c", "praxo_tests.ml"], cwd=ROOT, check=True)
     executable = build / ("praxo_tests.exe" if os.name == "nt" else "praxo_tests")
-    subprocess.run([compiler, "-g", "-o", str(executable), "praxo_core.cmo", "praxo_tests.cmo"],
+    subprocess.run([compiler, "-g", "-o", str(executable), "praxo_core.cmo",
+                    "praxo_adapter_tests.cmo", "praxo_tests.cmo"],
                    cwd=ROOT, check=True)
     subprocess.run([runtime, str(executable), str(ROOT.parents[1] / "spec")],
                    cwd=ROOT, check=True, timeout=120)

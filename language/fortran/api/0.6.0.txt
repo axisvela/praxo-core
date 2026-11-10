@@ -351,6 +351,33 @@ type(sdk_error), intent(out) :: error
 character(:), allocatable :: output
 end interface declaration
 
+module praxo_openai
+public :: openai_compatible, openai_transport
+abstract interface
+function openai_transport(url, payload, api_key, error) result(body)
+import sdk_error
+character(*), intent(in) :: url, payload, api_key
+type(sdk_error), intent(out) :: error
+character(:), allocatable :: body
+end function
+end interface
+type, extends(model) :: openai_compatible
+character(:), allocatable :: base_url
+character(:), allocatable :: model_name
+character(:), allocatable :: api_key
+procedure(openai_transport), pointer, nopass :: transport => null()
+contains
+procedure :: generate => generate_openai
+end type
+function openai_transport(url, payload, api_key, error) result(body)
+end interface declaration
+subroutine generate_openai(self, req, res, error)
+class(openai_compatible), intent(inout) :: self
+type(request), intent(in) :: req
+type(response), intent(out) :: res
+type(sdk_error), intent(out) :: error
+end interface declaration
+
 module praxo_pattern
 public :: match_pattern
 logical function match_pattern(pattern, text, error) result(matched)

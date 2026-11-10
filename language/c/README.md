@@ -121,6 +121,46 @@ cancellation. `PxCallLimit` is mutable per-run state without synchronization;
 do not share one instance across concurrent runs. Both limits are explicit
 partial-parity surfaces until a versioned API change is designed.
 
+## OpenAI-Compatible Adapter
+
+`src/openai.c` with declarations in `src/openai.h` is an in-tree,
+non-streaming transport-seam adapter. It maps role/content messages, assistant
+tool calls, tool results, and tool specs to the OpenAI request shape, and maps
+`message.content`, `message.tool_calls`, `usage`, and `finish_reason` back to
+the Core response object. Tool arguments are parsed from the provider JSON
+string and invalid JSON is rejected. It is not part of the installed public
+headers or the public API snapshot.
+
+No HTTP client is bundled. The transport callback is the only network seam, so
+production use requires a caller-provided POST implementation. Adding one is a
+separate dependency decision: a reviewed libcurl build (MIT-style license) or a
+platform socket client (Winsock/POSIX, platform-specific and not portable)
+would each need its own build, licensing, and error-mapping review. Tests use an
+injected fake transport and make no network calls. A transport failure returns
+`NULL` from `px_openai_generate` and surfaces as `MODEL_ERROR` through the agent
+callback; call `px_openai_parse_response` directly for a `PROVIDER_JSON` status.
+Streaming is not implemented.
+
+```c
+#include "openai.h"
+
+static const char *post(const char *url, const char *body, const char *api_key,
+        void *ctx, const char **error) {
+    (void)url; (void)body; (void)api_key; (void)ctx; (void)error;
+    return "{\"choices\":[{\"message\":{\"content\":\"hello\"}}]}";
+}
+
+PxOpenAICompatible adapter = {
+    .base_url = "https://api.example/v1",
+    .model = "provider-model",
+    .api_key = "",
+    .transport = post,
+    .transport_ctx = NULL,
+};
+options.generate = px_openai_generate;
+options.ctx = &adapter;
+```
+
 ## Release Notes
 
 See [CHANGELOG.md](CHANGELOG.md) for per-release changes and compatibility

@@ -16,7 +16,7 @@ def snapshot() -> str:
     version = (ROOT / "VERSION").read_text(encoding="utf-8").strip()
     spec = (REPO / "spec" / "SPEC_VERSION").read_text(encoding="utf-8").strip()
     entries: set[str] = set()
-    for path in sorted((ROOT / "lib" / "src").glob("*.dart")):
+    for path in sorted((ROOT / "lib" / "src").rglob("*.dart")):
         for raw in path.read_text(encoding="utf-8").splitlines():
             line = raw.strip()
             if not line or line.startswith("//") or line.startswith("@"):

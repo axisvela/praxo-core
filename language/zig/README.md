@@ -33,6 +33,7 @@ zig test src/toolcall.zig
 zig test src/jsonschema.zig
 zig test src/plugin.zig
 zig test src/pii_test.zig
+zig test src/openaicompat_test.zig
 python api-snapshot.py --check
 ```
 
@@ -49,8 +50,26 @@ On Windows, copy or emit the binary with an `.exe` suffix before running it.
 - `src/middleware.zig` PII, structured output, call limits, tool selection,
   and fallback.
 - `src/agent.zig` agent loop and registry.
+- `src/openaicompat.zig` non-streaming OpenAI-compatible adapter.
 - `src/conformance.zig` vector runner.
 - `api-snapshot.py` and `api/` public API snapshot.
+
+## OpenAI-Compatible Adapter
+
+`openaicompat.Adapter` posts to `{baseURL}/chat/completions`, maps assistant
+content, tool calls, usage, and finish reason, and parses tool arguments into
+JSON objects. It uses `std.http` and accepts an injected `Transport` for
+deterministic tests. Missing base URLs and non-2xx responses return
+`ProviderError.ProviderHttp`; invalid tool arguments return
+`ProviderError.ProviderJson`. `providerCode` maps errors to `PROVIDER_HTTP` and
+`PROVIDER_JSON`. Streaming is not implemented.
+
+```zig
+var adapter = openaicompat.Adapter.init(allocator, "https://api.openai.com/v1", "gpt-4o-mini");
+adapter.api_key = api_key;
+const model = adapter.asModel();
+const result = try agent.runAgent(allocator, .{ .model = model }, .{ .id = "s1" }, "Hi");
+```
 
 ## Release
 

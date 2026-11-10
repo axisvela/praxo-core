@@ -82,6 +82,38 @@ options.tools = registry;
 - `parse_sse_stream` parses OpenAI-compatible server-sent-event text and throws
   `MODEL_STREAM` for truncation or malformed half packets.
 
+## OpenAI-Compatible Adapter
+
+`praxo/openai_compat.hpp` provides a non-streaming `Model` with an injected
+transport. It maps role/content messages, assistant tool calls, tool results,
+and tool specs to the OpenAI request shape, and maps `message.content`,
+`message.tool_calls` (arguments parsed from the provider JSON string), `usage`,
+and `finish_reason` back to `praxo::Response`. Invalid tool arguments throw
+`PROVIDER_JSON`; a missing base URL throws `PROVIDER_HTTP` before any transport
+call.
+
+No HTTP client is bundled. The transport callback is the only network seam, so
+production use requires a caller-provided POST implementation. Adding one is a
+separate dependency decision: a reviewed libcurl build (MIT-style license) or a
+platform socket client (Winsock/POSIX, platform-specific) would each need its
+own build, licensing, and error-mapping review. Tests inject a fake transport
+and make no network calls. Streaming is not implemented.
+
+```cpp
+#include "praxo/openai_compat.hpp"
+
+praxo::OpenAICompatibleOptions config;
+config.base_url = "https://api.example/v1";
+config.model = "provider-model";
+
+praxo::OpenAICompatible adapter(config,
+    [](const std::string& url, const praxo::Json& payload,
+       const std::map<std::string, std::string>& headers) {
+        return post_json(url, payload.dump(), headers);
+    });
+auto response = adapter.generate(request);
+```
+
 ## Layout
 
 - `include/praxo/` public headers.

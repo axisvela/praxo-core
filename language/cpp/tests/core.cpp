@@ -15,6 +15,7 @@
 #include "praxo/jsonschema.hpp"
 #include "praxo/middleware.hpp"
 #include "praxo/models.hpp"
+#include "praxo/openai_compat.hpp"
 #include "praxo/plugin.hpp"
 #include "praxo/runtime.hpp"
 #include "praxo/sse.hpp"
@@ -716,6 +717,101 @@ int main() {
         check(std::count(hitl_sink->types.begin(), hitl_sink->types.end(),
                          "tool.interrupt") == 1,
               "cpp hitl event");
+
+        {
+            OpenAICompatibleOptions adapter_options;
+            adapter_options.base_url = "https://example.test/v1/";
+            adapter_options.model = "test-model";
+            adapter_options.api_key = "secret";
+            std::string captured_url;
+            Json captured_payload;
+            std::map<std::string, std::string> captured_headers;
+            OpenAICompatible adapter(
+                adapter_options,
+                [&](const std::string& url, const Json& payload,
+                    const std::map<std::string, std::string>& headers) {
+                    captured_url = url;
+                    captured_payload = payload;
+                    captured_headers = headers;
+                    return Json::parse(
+                        R"({"choices":[{"message":{"content":"hello","tool_calls":)"
+                        R"([{"id":"call-1","type":"function","function":)"
+                        R"({"name":"echo","arguments":"{\"text\":\"hi\"}"}}]},)"
+                        R"("finish_reason":"tool_calls"}],)"
+                        R"("usage":{"prompt_tokens":3,"completion_tokens":2}})");
+                });
+            Request adapter_request;
+            adapter_request.messages.push_back(text_message(USER, "hello"));
+            ToolCall prior;
+            prior.id = "prior";
+            prior.name = "echo";
+            prior.arguments = Json::parse(R"({"a":1})");
+            adapter_request.messages.push_back(assistant_message("", {prior}));
+            adapter_request.messages.push_back(tool_message(R"({"ok":true})", "prior"));
+            ToolSpec adapter_tool;
+            adapter_tool.name = "echo";
+            adapter_tool.description = "Echo arguments";
+            adapter_tool.parameters = Json::parse(R"({"type":"object"})");
+            adapter_request.tools.push_back(adapter_tool);
+            adapter_request.tool_choice = "auto";
+            Response adapter_response = adapter.generate(adapter_request);
+            check(captured_url == "https://example.test/v1/chat/completions",
+                  "cpp openai endpoint");
+            check(captured_headers.at("authorization") == "Bearer secret",
+                  "cpp openai authorization");
+            check(captured_payload.at("model") == Json("test-model"),
+                  "cpp openai model");
+            const auto& payload_messages = captured_payload.at("messages").as_array();
+            check(payload_messages.size() == 3, "cpp openai message count");
+            check(payload_messages[1].at("tool_calls").as_array()[0]
+                      .at("function").at("arguments").as_string() == R"({"a":1})",
+                  "cpp openai tool arguments encoded");
+            check(payload_messages[2].at("tool_call_id") == Json("prior"),
+                  "cpp openai tool result id");
+            check(captured_payload.at("tools").as_array()[0]
+                      .at("function").at("name") == Json("echo"),
+                  "cpp openai tool spec");
+            check(captured_payload.at("tool_choice") == Json("auto"),
+                  "cpp openai tool choice");
+            check(adapter_response.message.content.value_or("") == "hello",
+                  "cpp openai content");
+            check(adapter_response.message.tool_calls.size() == 1 &&
+                      adapter_response.message.tool_calls[0].id == "call-1" &&
+                      adapter_response.message.tool_calls[0].name == "echo" &&
+                      adapter_response.message.tool_calls[0].arguments ==
+                          Json::parse(R"({"text":"hi"})"),
+                  "cpp openai tool call");
+            check(adapter_response.usage.input_tokens == 3 &&
+                      adapter_response.usage.output_tokens == 2,
+                  "cpp openai usage");
+            check(adapter_response.finish_reason.value_or("") == "tool_calls",
+                  "cpp openai finish reason");
+
+            OpenAICompatibleOptions invalid_options;
+            invalid_options.model = "test-model";
+            bool missing_base = false;
+            try {
+                OpenAICompatible invalid(invalid_options,
+                    [](const std::string&, const Json&,
+                       const std::map<std::string, std::string>&) {
+                        return Json(nullptr);
+                    });
+                (void)invalid.generate(adapter_request);
+            } catch (const PraxoError& error) {
+                missing_base = error.code() == "PROVIDER_HTTP";
+            }
+            check(missing_base, "cpp openai missing base url rejected");
+
+            bool invalid_arguments = false;
+            try {
+                (void)OpenAICompatible::parse_response(Json::parse(
+                    R"({"choices":[{"message":{"content":"","tool_calls":)"
+                    R"([{"id":"x","function":{"name":"echo","arguments":"broken"}}]}}]})"));
+            } catch (const PraxoError& error) {
+                invalid_arguments = error.code() == "PROVIDER_JSON";
+            }
+            check(invalid_arguments, "cpp openai invalid tool arguments");
+        }
 
         std::cout << "cpp core tests passed\n";
         return 0;

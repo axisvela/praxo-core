@@ -15,6 +15,11 @@
   without an autoload bridge.
 - Elixir `0.4.1` and Lua `0.4.1-1` publish API snapshots and the optional
   OpenAI-compatible adapters to Hex and LuaRocks.
+- Native OpenAI-compatible model adapters for R, Erlang, Julia, V, Dart, Haskell,
+  Swift, OCaml, Delphi, Objective-C, MATLAB, Octave, Zig, C, C++, and Fortran.
+  C, C++, Fortran, Haskell, and OCaml are transport-seam adapters. COBOL remains
+  not implemented pending an HTTP transport decision and a model-callback
+  extension for tool specs and history.
 
 ### Fixed
 

@@ -24,6 +24,8 @@ Message
 Middleware
 Model
 MultiSink
+OpenAICompatible
+OpenAICompatibleOptions
 ParsedToolCall
 PathChecker
 PathGrant
@@ -52,6 +54,7 @@ before_model
 before_run
 before_tool
 bool
+build_payload
 check
 check_cancelled
 compact
@@ -59,6 +62,7 @@ contains
 description
 dump
 emit
+endpoint
 equals
 estimate_tokens
 expect
@@ -79,6 +83,7 @@ parse_literal
 parse_manifest
 parse_number
 parse_object
+parse_response
 parse_sse_stream
 parse_string
 parse_toolcall
@@ -108,6 +113,7 @@ using Function
 using ModelHandler
 using ModelMiddleware
 using Object
+using OpenAICompatibleTransport
 validate
 void
 wire

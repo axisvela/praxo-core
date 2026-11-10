@@ -1036,6 +1036,23 @@ type tool = {
   tool_invoke : json -> json;
 }
 type model = { generate : request -> response }
+type http_request = {
+  http_method : string;
+  http_url : string;
+  http_headers : (string * string) list;
+  http_payload : string;
+}
+type http_response = {
+  http_status : int;
+  http_body : string;
+}
+type transport = http_request -> http_response
+type openai_config = {
+  openai_base_url : string;
+  openai_model : string;
+  openai_api_key : string option;
+  openai_tool_choice : string option;
+}
 type agent_options = {
   agent_model : model;
   agent_tools : tool list;
@@ -1120,6 +1137,129 @@ let usage_add left right = usage_make
 
 let request_make messages tools = { request_messages = messages; request_tools = tools }
 let response_make message usage_value = { response_message = message; response_usage = usage_value }
+
+let openai_bound text =
+  if String.length text > 512 then String.sub text 0 512 else text
+
+let openai_int key value =
+  match field key value with Some (Number number) -> int_of_float number | _ -> 0
+
+let openai_message_json message =
+  let content =
+    if message.message_content = "" && message.message_blocks <> [] then
+      String.concat "" (List.filter_map (fun block ->
+        if block.block_type = "text" then block.block_text else None) message.message_blocks)
+    else message.message_content
+  in
+  let fields = ref [("role", String message.message_role); ("content", String content)] in
+  if message.message_role = "assistant" && message.message_calls <> [] then
+    fields := !fields @ [("tool_calls", Array (List.map (fun call -> Object [
+      ("id", String call.invocation_id);
+      ("type", String "function");
+      ("function", Object [
+        ("name", String call.invocation_name);
+        ("arguments", String (encode_json call.invocation_arguments));
+      ]);
+    ]) message.message_calls))];
+  (match message.message_tool_id with
+   | Some tool_id when message.message_role = "tool" ->
+       fields := !fields @ [("tool_call_id", String tool_id)]
+   | _ -> ());
+  Object !fields
+
+let openai_request config request =
+  if config.openai_base_url = "" then
+    raise_core "PROVIDER_HTTP" "provider base URL is required";
+  let base =
+    let rec trim text =
+      let length = String.length text in
+      if length > 0 && text.[length - 1] = '/' then trim (String.sub text 0 (length - 1))
+      else text
+    in
+    trim config.openai_base_url
+  in
+  let fields = ref [
+    ("model", String config.openai_model);
+    ("messages", Array (List.map openai_message_json request.request_messages));
+  ] in
+  if request.request_tools <> [] then
+    fields := !fields @ [("tools", Array (List.map (fun spec -> Object [
+      ("type", String "function");
+      ("function", Object [
+        ("name", String spec.spec_name);
+        ("description", String spec.spec_description);
+        ("parameters", Object [("type", String "object")]);
+      ]);
+    ]) request.request_tools))];
+  (match config.openai_tool_choice with
+   | Some choice -> fields := !fields @ [("tool_choice", String choice)]
+   | None -> ());
+  let headers =
+    [("Content-Type", "application/json"); ("Accept", "application/json")] @
+    (match config.openai_api_key with
+     | Some key -> [("Authorization", "Bearer " ^ key)]
+     | None -> [])
+  in
+  {
+    http_method = "POST";
+    http_url = base ^ "/chat/completions";
+    http_headers = headers;
+    http_payload = encode_json (Object !fields);
+  }
+
+let openai_parse_response text =
+  let data =
+    try parse_json text
+    with Json_error message ->
+      raise_core "PROVIDER_RESPONSE" ("provider returned invalid JSON: " ^ message)
+  in
+  match field_array "choices" data with
+  | [] -> raise_core "PROVIDER_RESPONSE" "provider response has no choices"
+  | choice :: _ ->
+      let message =
+        match field "message" choice with Some value -> value | None -> Object []
+      in
+      let calls = List.map (fun item ->
+        let function =
+          match field "function" item with Some value -> value | None -> Object []
+        in
+        let arguments =
+          match field "arguments" function with
+          | Some (String raw) when raw <> "" ->
+              (try match parse_json raw with
+                | Object _ as value -> value
+                | _ -> raise_core "PROVIDER_RESPONSE" "tool arguments must be an object"
+               with Json_error message ->
+                 raise_core "PROVIDER_RESPONSE" ("tool arguments are not valid JSON: " ^ message))
+          | Some (Object _ as value) -> value
+          | _ -> Object []
+        in
+        tool_invocation_make
+          (match field_string "id" item with Some value -> value | None -> "")
+          (match field_string "name" function with Some value -> value | None -> "")
+          arguments) (field_array "tool_calls" message)
+      in
+      let usage =
+        match field "usage" data with Some value -> value | None -> Object []
+      in
+      let content =
+        match field_string "content" message with Some value -> value | None -> ""
+      in
+      response_make (assistant_message content calls)
+        (usage_make (openai_int "prompt_tokens" usage)
+                    (openai_int "completion_tokens" usage))
+
+let openai_generate config transport request =
+  let http = openai_request config request in
+  let response = transport http in
+  if response.http_status < 200 || response.http_status >= 300 then
+    raise_core "PROVIDER_HTTP"
+      (Printf.sprintf "provider returned HTTP %d: %s" response.http_status (openai_bound response.http_body));
+  openai_parse_response response.http_body
+
+let openai_model config transport =
+  { generate = fun request -> openai_generate config transport request }
+
 let session_make session_id messages = { session_id; session_messages = messages }
 
 let run_result_make run_id output steps usage_value = {

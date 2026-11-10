@@ -95,6 +95,12 @@ praxo_models.tool_spec/2
 praxo_models.usage/0
 praxo_models.usage/2
 
+## praxo_openai_compatible
+praxo_openai_compatible.generate/2
+praxo_openai_compatible.model/1
+praxo_openai_compatible.new/2
+praxo_openai_compatible.new/3
+
 ## praxo_plugin
 praxo_plugin.parse_manifest/1
 

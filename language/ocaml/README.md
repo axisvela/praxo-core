@@ -4,8 +4,9 @@ PRAXO-CORE is an embeddable, MIT-licensed agent framework. This package is its
 native OCaml Core with source tag `ocaml/v0.3.0`. It passes all eleven vector
 groups on OCaml 4.14.2 bytecode and includes the native agent loop, memory store,
 checkpoint allowlist, lexical path policy, context compaction, event sinks,
-middleware helpers, and tool selection. It does not call Go or another language
-Core; there is no provider adapter, process bridge, or plugin host.
+middleware helpers, tool selection, and a non-streaming OpenAI-compatible model
+adapter. It does not call Go or another language Core; there is no process
+bridge or plugin host.
 
 The experimental path check is lexical and does not resolve symlinks or reparse
 points; it must not be used as an OS containment boundary. The loop does not
@@ -69,6 +70,30 @@ let _manifest = Praxo_core.validate_manifest "{}"
 
 Public declarations are inventoried in [`api/0.3.0.txt`](api/0.3.0.txt).
 `validate_manifest` returns `Some manifest` only for a valid declaration.
+
+## OpenAI-Compatible Adapter
+
+`openai_model` maps Core requests to `POST {baseUrl}/chat/completions`,
+including messages, tools, tool choice, assistant tool calls, token usage, and
+provider HTTP errors (`PROVIDER_HTTP`). Streaming is not implemented.
+
+```ocaml
+let config = {
+  Praxo_core.openai_base_url = "https://api.example.com/v1";
+  openai_model = "provider-model-id";
+  openai_api_key = Some "secret";
+  openai_tool_choice = Some "auto";
+}
+
+let transport request = (* perform request.http_method/http_url/http_headers/http_payload *)
+  { Praxo_core.http_status = 200; http_body = "..." }
+
+let model = Praxo_core.openai_model config transport
+```
+
+The adapter does not bundle an HTTP client, so the package keeps its
+dependency-free build. Supply a `transport` for production or tests; native
+tests use a fake transport.
 
 ## Current Limits
 

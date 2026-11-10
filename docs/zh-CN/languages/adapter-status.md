@@ -6,6 +6,7 @@
 状态词：
 
 - `native`：该实现有树内适配器。
+- `native (transport seam)`：树内完成请求/响应映射，但 HTTP transport 由调用方提供。
 - `inherited`：通过另一个 Core 运行时继承。
 - `bridge`：通过 bridge 运行 Go Core。
 - `not implemented`：没有适配器，不得声明支持。
@@ -26,27 +27,28 @@
 | Lua | native | `praxo.openai_compatible` |
 | Perl | native | `Praxo::Adapters::OpenAICompatible` |
 | Nim | native | `praxo/adapters/openai_compatible` |
+| R | native | `openai_compatible` adapter |
+| Erlang | native | `praxo_openai_compatible` |
+| Julia | native | `OpenAICompatibleModel` |
+| V | native | `praxo.openaicompat`；本机无 V 工具链，由 CI 验证 |
+| Dart | native | `OpenAiCompatibleModel`，同步与异步 transport |
+| Haskell | native (transport seam) | 调用方提供 `Transport`，不内置 HTTP client |
+| Swift | native | `OpenAICompatibleModel`，使用 URLSession transport |
+| OCaml | native (transport seam) | 调用方提供 `transport`，不内置 HTTP client |
+| Delphi / Free Pascal | native | `TPraxoOpenAIAdapter`，FPC HTTP transport |
+| Objective-C | native | `PXROpenAIGenerate`，可注入 transport |
+| MATLAB | native | `praxo.openai_compatible`，使用 `webwrite` |
+| GNU Octave | native | 共享 `praxo.openai_compatible` 实现 |
+| Zig | native | `openaicompat.Adapter`，使用 `std.http` |
+| C | native (transport seam) | `PxOpenAICompatible`；调用方提供 HTTP transport |
+| C++ | native (transport seam) | `OpenAICompatible`；调用方提供 HTTP transport |
+| Fortran | native (transport seam) | `openai_compatible`；调用方提供 HTTP transport |
+| COBOL | not implemented | 无 HTTP transport；model callback 缺少工具与历史 |
 | PowerShell | inherited | 使用 C# Core |
 | Visual Basic / F# | inherited | C# Core 上的示例 |
 | Kotlin / Scala / Groovy / Clojure | inherited | Java Core 上的示例 |
 | JavaScript | inherited | TypeScript Core 上的示例 |
 | Shell / Lisp / Tcl / Prolog | bridge | 通过 bridge 使用 Go Core |
-| R | not implemented | 第 2 批 |
-| Erlang | not implemented | 第 2 批 |
-| Julia | not implemented | 第 2 批 |
-| V | not implemented | 第 2 批 |
-| Dart | not implemented | 需要 async model 路径或同步 HTTP helper |
-| Haskell | not implemented | 需要决定 HTTP 客户端依赖 |
-| Swift | not implemented | 第 3 批 |
-| OCaml | not implemented | 第 3 批 |
-| Delphi / Free Pascal | not implemented | 第 3 批 |
-| Objective-C | not implemented | 第 3 批 |
-| MATLAB / Octave | not implemented | 第 3 批 |
-| Zig | not implemented | 第 3 批 |
-| C | not implemented | 需要 HTTP/JSON 依赖决策 |
-| C++ | not implemented | 需要 HTTP/JSON 依赖决策 |
-| Fortran | not implemented | 需要 HTTP/JSON 依赖决策 |
-| COBOL | not implemented | 需要 HTTP/JSON 依赖决策 |
 
 基线映射见 [OpenAI 兼容模型适配器](../reference/openai-compatible-adapter.md)。
 

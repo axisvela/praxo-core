@@ -26,6 +26,7 @@ test_policy();
 test_context();
 test_middleware();
 test_agent();
+test_openai();
 disp('All declared MATLAB/Octave Core vector groups passed');
 end
 

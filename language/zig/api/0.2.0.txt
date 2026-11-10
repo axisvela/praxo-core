@@ -3,6 +3,7 @@
 
 ASSISTANT
 Action
+Adapter
 Agent
 AgentError
 AgentOptions
@@ -32,6 +33,7 @@ PiiRedactor
 PluginError
 PluginManifest
 PolicyFn
+ProviderError
 Registry
 Request
 Response
@@ -47,12 +49,15 @@ Tool
 ToolCall
 ToolSelection
 ToolSpec
+Transport
+TransportResult
 USER
 Usage
 ValidationError
 allowed
 apply
 array
+asModel
 beforeModel
 beforeTool
 boolean
@@ -80,7 +85,10 @@ object
 parse
 parseInputJson
 parseManifest
+parseResponse
 parseToolCall
+payload
+providerCode
 put
 redact
 register
@@ -88,6 +96,7 @@ reject
 run
 runAgent
 search
+send
 sink
 specs
 stream_kinds

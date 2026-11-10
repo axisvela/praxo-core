@@ -18,8 +18,9 @@ Swift implementation of the PRAXO-CORE contract.
 
 `0.2.0` implements all eleven conformance vector groups: tool-call parsing, JSON
 Schema, plugin manifests, memory, events, stream kinds, checkpoint envelopes,
-path policy, context budgets, middleware, and the agent loop. Provider adapters
-remain follow-up work.
+path policy, context budgets, middleware, and the agent loop. It also includes a
+non-streaming OpenAI-compatible model adapter; other provider adapters remain
+follow-up work.
 
 ## Install
 
@@ -36,6 +37,27 @@ python api-snapshot.py --check
 ```
 
 CI runs all three on macOS. The package has no external dependencies.
+
+## OpenAI-Compatible Adapter
+
+`OpenAICompatibleModel` maps Core requests to `POST {baseUrl}/chat/completions`,
+including messages, tools, tool choice, assistant tool calls, token usage, and
+provider HTTP errors (`PROVIDER_HTTP`). Streaming is not implemented.
+
+```swift
+let config = OpenAICompatibleConfig(
+    baseURL: "https://api.example.com/v1",
+    model: "provider-model-id",
+    apiKey: "secret"
+)
+let model = OpenAICompatibleModel(config)
+let response = try model.generate(
+    Request(messages: [Message.text(Roles.user, "hello")])
+)
+```
+
+`URLSessionTransport` is the production transport. Inject a `ProviderTransport`
+fake in tests to avoid network calls.
 
 ## Layout
 

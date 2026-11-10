@@ -7,6 +7,8 @@ separate; an adapter is not production or provider evidence.
 Status words:
 
 - `native`: an in-tree adapter for this implementation.
+- `native (transport seam)`: request/response mapping is in-tree, but the caller
+  supplies the HTTP transport.
 - `inherited`: the implementation uses another Core runtime that provides the
   adapter.
 - `bridge`: the implementation runs the Go Core through the bridge.
@@ -28,27 +30,28 @@ Status words:
 | Lua | native | `praxo.openai_compatible` |
 | Perl | native | `Praxo::Adapters::OpenAICompatible` |
 | Nim | native | `praxo/adapters/openai_compatible` |
+| R | native | `openai_compatible` adapter |
+| Erlang | native | `praxo_openai_compatible` |
+| Julia | native | `OpenAICompatibleModel` |
+| V | native | `praxo.openaicompat`; local V toolchain unavailable, CI gate |
+| Dart | native | `OpenAiCompatibleModel` with sync and async transport paths |
+| Haskell | native (transport seam) | Caller supplies `Transport`; no bundled HTTP client |
+| Swift | native | `OpenAICompatibleModel` with URLSession transport |
+| OCaml | native (transport seam) | Caller supplies `transport`; no bundled HTTP client |
+| Delphi / Free Pascal | native | `TPraxoOpenAIAdapter` with FPC HTTP transport |
+| Objective-C | native | `PXROpenAIGenerate` with injectable transport |
+| MATLAB | native | `praxo.openai_compatible` using `webwrite` |
+| GNU Octave | native | Shared `praxo.openai_compatible` implementation |
+| Zig | native | `openaicompat.Adapter` with `std.http` |
+| C | native (transport seam) | `PxOpenAICompatible`; caller supplies HTTP transport |
+| C++ | native (transport seam) | `OpenAICompatible`; caller supplies HTTP transport |
+| Fortran | native (transport seam) | `openai_compatible`; caller supplies HTTP transport |
+| COBOL | not implemented | No HTTP transport; model callback lacks tool specs/history |
 | PowerShell | inherited | Uses the C# Core |
 | Visual Basic / F# | inherited | Samples over the C# Core |
 | Kotlin / Scala / Groovy / Clojure | inherited | Samples over the Java Core |
 | JavaScript | inherited | Sample over the TypeScript Core |
 | Shell / Lisp / Tcl / Prolog | bridge | Uses the Go Core through the bridge |
-| R | not implemented | Batch 2 |
-| Erlang | not implemented | Batch 2 |
-| Julia | not implemented | Batch 2 |
-| V | not implemented | Batch 2 |
-| Dart | not implemented | Needs an async model path or a synchronous HTTP helper |
-| Haskell | not implemented | Needs an HTTP client dependency decision |
-| Swift | not implemented | Batch 3 |
-| OCaml | not implemented | Batch 3 |
-| Delphi / Free Pascal | not implemented | Batch 3 |
-| Objective-C | not implemented | Batch 3 |
-| MATLAB / Octave | not implemented | Batch 3 |
-| Zig | not implemented | Batch 3 |
-| C | not implemented | Needs an HTTP/JSON dependency decision |
-| C++ | not implemented | Needs an HTTP/JSON dependency decision |
-| Fortran | not implemented | Needs an HTTP/JSON dependency decision |
-| COBOL | not implemented | Needs an HTTP/JSON dependency decision |
 
 The baseline mapping is documented in the
 [OpenAI-compatible model adapter](../reference/openai-compatible-adapter.md).

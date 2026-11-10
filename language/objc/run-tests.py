@@ -16,9 +16,11 @@ SOURCES = [
     "PraxoWire.m",
     "PraxoCore.m",
     "PraxoAgent.m",
+    "PraxoOpenAI.m",
     "tests/main.m",
     "tests/correlation.m",
     "tests/middleware.m",
+    "tests/openai.m",
 ]
 
 

@@ -33,6 +33,7 @@ run() ->
     test_agent_parallel(),
     test_agent_hitl(),
     test_sse(),
+    test_openai_compatible(),
     io:format("erlang tests passed~n").
 
 
@@ -222,6 +223,107 @@ test_sse() ->
         praxo_sse:parse(<<"data: {\"choices\"\n\n">>) ==
             {error, <<"MODEL_STREAM">>},
         <<"erlang sse half packet">>
+    ).
+
+test_openai_compatible() ->
+    Parent = self(),
+    {ok, Data} = praxo_json:parse(<<
+        "{\"choices\":[{\"message\":{\"role\":\"assistant\",\"content\":\"hello\","
+        "\"tool_calls\":[{\"id\":\"call-1\",\"type\":\"function\",\"function\":"
+        "{\"name\":\"echo\",\"arguments\":\"{\\\"text\\\":\\\"hi\\\"}\"}}]},"
+        "\"finish_reason\":\"tool_calls\"}],"
+        "\"usage\":{\"prompt_tokens\":7,\"completion_tokens\":3}}"
+    >>),
+    Transport = fun(Path, Payload) ->
+        Parent ! {openai_path, Path},
+        Parent ! {openai_payload, Payload},
+        {ok, Data}
+    end,
+    Adapter = praxo_openai_compatible:new(
+        <<"https://example.test/v1/">>,
+        <<"test-model">>,
+        #{api_key => <<"secret">>, transport => Transport}
+    ),
+    Request = (praxo_models:request(
+        [
+            praxo_models:message(<<"system">>, <<"sys">>),
+            praxo_models:message(<<"user">>, <<"hi">>),
+            praxo_models:message_assistant(<<>>, [
+                praxo_models:tool_call(<<"call-1">>, <<"echo">>, #{<<"text">> => <<"hi">>})
+            ]),
+            praxo_models:message_tool(<<"{\"ok\":true}">>, <<"call-1">>)
+        ],
+        [praxo_models:tool_spec(<<"echo">>, <<"Echo">>)]
+    ))#{tool_choice => <<"auto">>},
+    {ok, Response, _} = praxo_openai_compatible:generate(Adapter, Request),
+    receive
+        {openai_path, Path} ->
+            check(Path == <<"/chat/completions">>, <<"openai path">>)
+    after 1000 -> erlang:error(openai_path_timeout)
+    end,
+    receive
+        {openai_payload, Payload} ->
+            #{<<"model">> := <<"test-model">>,
+              <<"messages">> := [System, User, Assistant, Tool],
+              <<"tools">> := [ToolSpec],
+              <<"tool_choice">> := <<"auto">>} = Payload,
+            check(maps:get(<<"content">>, System) == <<"sys">>, <<"openai system">>),
+            check(maps:get(<<"content">>, User) == <<"hi">>, <<"openai user">>),
+            [Call] = maps:get(<<"tool_calls">>, Assistant),
+            #{<<"id">> := <<"call-1">>,
+              <<"type">> := <<"function">>,
+              <<"function">> := Function} = Call,
+            check(maps:get(<<"name">>, Function) == <<"echo">>, <<"openai call name">>),
+            {ok, Arguments} = praxo_json:parse(maps:get(<<"arguments">>, Function)),
+            check(
+                praxo_json:equals(Arguments, #{<<"text">> => <<"hi">>}),
+                <<"openai call arguments">>
+            ),
+            check(maps:get(<<"tool_call_id">>, Tool) == <<"call-1">>, <<"openai tool id">>),
+            #{<<"type">> := <<"function">>, <<"function">> := ToolFunction} = ToolSpec,
+            check(maps:get(<<"name">>, ToolFunction) == <<"echo">>, <<"openai tool name">>),
+            check(
+                maps:get(<<"parameters">>, ToolFunction) == #{<<"type">> => <<"object">>},
+                <<"openai tool parameters">>
+            )
+    after 1000 -> erlang:error(openai_payload_timeout)
+    end,
+    Message = maps:get(message, Response),
+    check(maps:get(content, Message) == <<"hello">>, <<"openai response content">>),
+    [ResponseCall] = maps:get(tool_calls, Message),
+    check(maps:get(id, ResponseCall) == <<"call-1">>, <<"openai response call id">>),
+    check(maps:get(name, ResponseCall) == <<"echo">>, <<"openai response call name">>),
+    check(
+        maps:get(<<"text">>, maps:get(arguments, ResponseCall)) == <<"hi">>,
+        <<"openai response arguments">>
+    ),
+    check(
+        praxo_json:equals(maps:get(usage, Response), praxo_models:usage(7, 3)),
+        <<"openai response usage">>
+    ),
+    check(maps:get(finish_reason, Response) == <<"tool_calls">>, <<"openai finish reason">>),
+    Model = praxo_openai_compatible:model(
+        praxo_openai_compatible:new(<<"https://example.test/v1">>, <<"test-model">>,
+            #{transport => fun(_, _) -> {ok, Data} end})
+    ),
+    {ok, _, _} = Model(Request),
+    {ok, Invalid} = praxo_json:parse(<<
+        "{\"choices\":[{\"message\":{\"content\":\"\",\"tool_calls\":[{\"id\":\"call-1\","
+        "\"function\":{\"name\":\"echo\",\"arguments\":\"not json\"}}]}}]}"
+    >>),
+    {error, <<"PROVIDER_JSON">>, _} = praxo_openai_compatible:generate(
+        praxo_openai_compatible:new(<<"https://example.test/v1">>, <<"m">>,
+            #{transport => fun(_, _) -> {ok, Invalid} end}),
+        Request
+    ),
+    {error, <<"PROVIDER_HTTP">>, _} = praxo_openai_compatible:generate(
+        praxo_openai_compatible:new(<<>>, <<"m">>),
+        Request
+    ),
+    {error, <<"PROVIDER_HTTP">>, _} = praxo_openai_compatible:generate(
+        praxo_openai_compatible:new(<<"https://example.test/v1">>, <<"m">>,
+            #{transport => fun(_, _) -> {error, <<"PROVIDER_HTTP">>} end}),
+        Request
     ).
 
 tool_model() ->

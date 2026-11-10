@@ -10,6 +10,7 @@ if (requireNamespace("praxocore", quietly = TRUE)) {
   source(file.path(root, "language", "r", "R", "jsonschema.R"))
   source(file.path(root, "language", "r", "R", "plugin.R"))
   source(file.path(root, "language", "r", "R", "core.R"))
+  source(file.path(root, "language", "r", "R", "openaicompat.R"))
 }
 
 expect_code <- function(expr, code) {
@@ -503,5 +504,72 @@ hitl_approve_test <- function() {
 hitl_approve_test()
 
 parallel_tools_test()
+
+openai_compatible_test <- function() {
+  captured <- new.env(parent = emptyenv())
+  transport <- function(path, payload) {
+    captured$path <- path
+    captured$payload <- payload
+    json_parse(paste0(
+      '{"choices":[{"message":{"role":"assistant","content":"hello",',
+      '"tool_calls":[{"id":"call-1","type":"function","function":',
+      '{"name":"echo","arguments":"{\\"text\\":\\"hi\\"}"}}]},',
+      '"finish_reason":"tool_calls"}],',
+      '"usage":{"prompt_tokens":7,"completion_tokens":3}}'
+    ))
+  }
+  adapter <- openai_compatible("https://example.test/v1/", "test-model",
+                               api_key = "secret", transport = transport)
+  request_value <- request(
+    messages = list(
+      message(roles$system, "sys"),
+      message(roles$user, "hi"),
+      message(roles$assistant, "",
+              tool_calls = list(tool_call("call-1", "echo", list(text = "hi")))),
+      message(roles$tool, '{"ok":true}', tool_id = "call-1")
+    ),
+    tools = list(tool_spec("echo", "Echo")),
+    tool_choice = "auto"
+  )
+  result <- openai_compatible_generate(adapter, request_value)
+  stopifnot(identical(captured$path, "/chat/completions"))
+  payload <- captured$payload
+  stopifnot(identical(payload$model, "test-model"))
+  stopifnot(identical(payload$tool_choice, "auto"))
+  stopifnot(identical(payload$messages[[3L]]$tool_calls[[1L]][["function"]]$name, "echo"))
+  stopifnot(identical(payload$messages[[3L]]$tool_calls[[1L]][["function"]]$arguments,
+                      '{"text":"hi"}'))
+  stopifnot(identical(payload$messages[[4L]]$tool_call_id, "call-1"))
+  stopifnot(identical(payload$tools[[1L]][["function"]]$name, "echo"))
+  stopifnot(identical(payload$tools[[1L]][["function"]]$parameters$type, "object"))
+  stopifnot(identical(result$message$content, "hello"))
+  stopifnot(identical(result$message$toolCalls[[1L]]$id, "call-1"))
+  stopifnot(identical(result$message$toolCalls[[1L]]$name, "echo"))
+  stopifnot(identical(result$message$toolCalls[[1L]]$arguments$text, "hi"))
+  stopifnot(identical(result$usage$inputTokens, 7L))
+  stopifnot(identical(result$usage$outputTokens, 3L))
+  stopifnot(identical(result$finishReason, "tool_calls"))
+
+  model <- openai_compatible_model(adapter)
+  stopifnot(identical(model(request_value)$message$content, "hello"))
+
+  invalid <- function(path, payload) json_parse(paste0(
+    '{"choices":[{"message":{"content":"","tool_calls":[{"id":"call-1",',
+    '"function":{"name":"echo","arguments":"not json"}}]}}]}'
+  ))
+  expect_code(
+    openai_compatible_generate(
+      openai_compatible("https://example.test/v1", "m", transport = invalid),
+      request_value
+    ),
+    "PROVIDER_JSON"
+  )
+  expect_code(
+    openai_compatible_generate(openai_compatible("", "m"), request_value),
+    "PROVIDER_HTTP"
+  )
+}
+
+openai_compatible_test()
 
 cat("R core tests passed\n")

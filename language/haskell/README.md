@@ -65,6 +65,39 @@ Public declarations are inventoried in [`api/0.1.0.txt`](api/0.1.0.txt).
 This is a source declaration check, not a binary ABI promise. Intentional API
 changes require review and regeneration with `python api-snapshot.py`.
 
+## OpenAI-Compatible Adapter
+
+`Praxo.OpenAICompatible` builds a `POST {baseUrl}/chat/completions` request with
+messages, tools, tool choice, assistant tool calls, and token usage, and maps
+provider HTTP failures to `PROVIDER_HTTP`. Streaming is not implemented.
+
+```haskell
+import qualified Praxo.Agent as A
+import Praxo.Json
+import Praxo.OpenAICompatible
+
+adapter :: Transport -> OpenAIConfig
+adapter transport = OpenAIConfig
+    { openAIBaseURL = "https://api.example.com/v1"
+    , openAIModel = "provider-model-id"
+    , openAIKey = Just "secret"
+    , openAIToolChoice = Just "auto"
+    , openAITools = []
+    , openAITransport = transport
+    }
+
+main :: IO ()
+main = do
+    result <- generate (adapter myTransport) [A.Message "user" "hello" [] ""]
+    print result
+```
+
+The adapter does not bundle an HTTP client, so the library keeps its `base` and
+`containers` dependency set. Supply a synchronous `Transport` that performs the
+HTTP exchange for production or tests; deterministic tests use a fake transport.
+The Core `Response` type has no finish-reason field, so `finish_reason` is
+ignored.
+
 ## Declared Scope and Limits
 
 - JSON parsing is strict, rejects malformed escapes and lone surrogates, and
@@ -106,9 +139,10 @@ changes require review and regeneration with `python api-snapshot.py`.
   redaction, structured-output validation, call limits, tool selection, and
   fallback helpers. The callback-based agent loop does not automatically apply
   these opt-in helpers.
-- There is no model provider, asynchronous event stream, or plugin host in this
-  Core. Generic JSON can preserve wire field names; typed codecs for other
-  contract envelopes are not claimed.
+- The OpenAI-compatible adapter requires a caller-supplied transport and does
+  not implement streaming. There is no asynchronous event stream or plugin host
+  in this Core. Generic JSON can preserve wire field names; typed codecs for
+  other contract envelopes are not claimed.
 
 See the [normative specification](../../spec/README.md),
 [parity inventory](../../spec/parity/haskell.md), and

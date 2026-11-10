@@ -62,6 +62,13 @@ ModelHandler typealias
 ModelMiddleware typealias
 MultiSink.emit func
 MultiSink.init
+OpenAICompatibleConfig.apiKey var
+OpenAICompatibleConfig.baseURL var
+OpenAICompatibleConfig.init
+OpenAICompatibleConfig.model var
+OpenAICompatibleConfig.timeout var
+OpenAICompatibleModel.config let
+OpenAICompatibleModel.init
 ParsedToolCall.callId var
 ParsedToolCall.idempotencyKey var
 ParsedToolCall.init
@@ -94,6 +101,15 @@ PluginManifest.version let
 PraxoError.code let
 PraxoError.init
 PraxoError.message let
+ProviderHTTPRequest.body var
+ProviderHTTPRequest.headers var
+ProviderHTTPRequest.init
+ProviderHTTPRequest.method var
+ProviderHTTPRequest.timeout var
+ProviderHTTPRequest.url var
+ProviderHTTPResponse.body var
+ProviderHTTPResponse.init
+ProviderHTTPResponse.statusCode var
 Request.init
 Request.messages var
 Request.responseFormat var
@@ -136,6 +152,8 @@ ToolSpec.init
 ToolSpec.name var
 ToolSpec.parameters var
 ToolSpec.risk var
+URLSessionTransport.init
+URLSessionTransport.send func
 Usage.cachedTokens var
 Usage.init
 Usage.inputTokens var
@@ -150,6 +168,7 @@ assistant func
 beforeModel func
 beforeTool func
 bool func
+buildPayload func
 check func
 class Agent
 class AgentOptions
@@ -161,11 +180,13 @@ class FuncTool
 class MemoryRecord
 class MemoryStore
 class MultiSink
+class OpenAICompatibleModel
 class PiiRedactor
 class StaticModel
 class StructuredOutput
 class ToolRegistry
 class ToolSelection
+class URLSessionTransport
 compact func
 emit func
 enum ContextEstimator
@@ -180,15 +201,18 @@ enum ToolCallParser
 equals func
 extractJSON func
 filter func
+generate func
 get func
 int func
 invoke func
 marshal func
 parseInputJson func
+parseResponse func
 plus func
 protocol EventSink
 protocol Model
 protocol PolicyHook
+protocol ProviderTransport
 protocol Tool
 protocol ToolSelector
 redact func
@@ -205,11 +229,14 @@ struct ContentBlock
 struct ContextBudget
 struct Decision
 struct Message
+struct OpenAICompatibleConfig
 struct ParsedToolCall
 struct PathChecker
 struct PathGrant
 struct PluginManifest
 struct PraxoError
+struct ProviderHTTPRequest
+struct ProviderHTTPResponse
 struct Request
 struct Response
 struct RunResult

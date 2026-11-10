@@ -40,6 +40,10 @@ type tool_selection = string list
 type structured_output = {
 type tool = {
 type model = { generate : request -> response }
+type http_request = {
+type http_response = {
+type transport = http_request -> http_response
+type openai_config = {
 type agent_options = {
 exception Core_error of string * string
 val raise_core : string -> string -> 'a
@@ -60,6 +64,10 @@ val usage_make : int -> int -> usage
 val usage_add : usage -> usage -> usage
 val request_make : core_message list -> core_tool_spec list -> request
 val response_make : core_message -> usage -> response
+val openai_request : openai_config -> request -> http_request
+val openai_parse_response : string -> response
+val openai_generate : openai_config -> transport -> request -> response
+val openai_model : openai_config -> transport -> model
 val session_make : string -> core_message list -> session
 val run_result_make : string -> string -> int -> usage -> run_result
 val memory_record_make : string -> string -> string -> string option -> memory_record

@@ -491,4 +491,5 @@ let () =
   test_agent_loop root;
   test_agent_middleware ();
   test_agent_failures ();
+  Praxo_adapter_tests.test_openai_adapter ();
   print_endline "OCaml Core tests passed"

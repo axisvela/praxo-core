@@ -112,6 +112,34 @@ cleanup, and emits `run.failed` instead of `run.completed`.
 local `MODEL_STREAM` status. Malformed data packets, including half packets,
 also return `MODEL_STREAM` rather than being ignored.
 
+## OpenAI-Compatible Adapter
+
+Not implemented. There is no dependency-free HTTP POST path in this Core: the
+native JSON utilities (`praxo-json-parse`, `praxo-json-generate`,
+`praxo-json-quote`, `praxo-json-slice`) exist, but there is no HTTP client,
+socket wrapper, or HTTP transport callback.
+
+The model callback contract also blocks a faithful request mapping. It is
+`call px-model-program using work-session px-response px-user-data px-status`,
+and `work-session` carries only role, content, and tool-call id per message. It
+does not carry the tool list or prior assistant tool calls, so the request
+side cannot emit `tools` or assistant `tool_calls` without widening the public
+callback contract. The response record can carry content, tool calls, and
+token usage, but that alone is not a complete adapter.
+
+The exact dependency decision required is:
+
+1. Choose an HTTP transport: a reviewed libcurl binding (libcurl license) and
+   an `px-http-request` callback record, or a platform socket client
+   (platform-specific and not portable). Invoking an external `curl` process is
+   not a library dependency and is not proposed here.
+2. Extend the model callback contract, or add a dedicated adapter request
+   record, to pass tool declarations and assistant tool-call history.
+
+Until both decisions are made and implemented, this language does not claim
+OpenAI-compatible adapter support. Streaming is not implemented; `praxo-sse`
+only parses text.
+
 ## Batch Tool Dispatch
 
 Set `px-tool-batch-program` and `px-max-parallel-tools` to dispatch one model

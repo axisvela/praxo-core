@@ -14,6 +14,8 @@ MemoryRecord
 MemoryStore
 Message
 Model
+OpenAICompatible
+OpenAIOptions
 PathChecker
 PathGrant
 Request
@@ -75,6 +77,9 @@ message_tool
 message_wire
 multi_sink
 normalize_path
+openai_compatible
+openai_compatible_model
+openai_compatible_with_options
 parse_input_json
 parse_json
 parse_manifest

@@ -26,7 +26,8 @@ def snapshot():
     lines = ["# PRAXO-CORE Delphi/Free Pascal Core API " + sdk[1],
              "# SPEC_VERSION " + spec, ""]
     for raw in (interface + "\n" + interface_text("praxo_agent.pas") + "\n" +
-                interface_text("praxo_core.pas")).splitlines():
+                interface_text("praxo_core.pas") + "\n" +
+                interface_text("praxo_openai.pas")).splitlines():
         line = raw.strip()
         match = re.match(r"^(function|procedure)\s+(\w+)", line, re.IGNORECASE)
         if match:

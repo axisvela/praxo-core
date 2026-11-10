@@ -41,6 +41,15 @@ memory_store
 message
 message_wire
 multi_sink
+openai_compatible
+openai_compatible_content
+openai_compatible_generate
+openai_compatible_message
+openai_compatible_model
+openai_compatible_object
+openai_compatible_parse_response
+openai_compatible_payload
+openai_compatible_post
 parse_sse_stream
 path_check
 path_checker

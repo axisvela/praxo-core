@@ -69,6 +69,28 @@ final options = AgentOptions(StaticModel('hello'))
   ..maxSteps = 8;
 ```
 
+## OpenAI-Compatible Adapter
+
+`OpenAICompatibleModel` maps Core requests to `POST {baseUrl}/chat/completions`,
+including messages, tools, tool choice, assistant tool calls, token usage, and
+provider HTTP errors (`PROVIDER_HTTP`). Streaming is not implemented.
+
+```dart
+final model = OpenAICompatibleModel(
+  baseUrl: 'https://api.example.com/v1',
+  model: 'provider-model-id',
+  apiKey: Platform.environment['API_KEY'],
+);
+final response = await model.generateAsync(const Request(messages: [
+  Message.text(roleUser, 'hello'),
+]));
+```
+
+`generate` is synchronous for the existing `Model` seam; inject a synchronous
+`transport` or use an `http` endpoint. `generateAsync` uses `dart:io`'s HTTP
+client and supports `https`. Pass `transport` or `asyncTransport` in tests to
+avoid network calls.
+
 ## Layout
 
 - `lib/` package source.

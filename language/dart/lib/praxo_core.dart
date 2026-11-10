@@ -1,3 +1,4 @@
+export 'src/adapters/openai_compatible.dart';
 export 'src/agent.dart';
 export 'src/errors.dart';
 export 'src/json.dart';

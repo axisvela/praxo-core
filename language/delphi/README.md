@@ -3,7 +3,8 @@
 Native Core implementation with source tag `delphi/v0.2.1`. It passes all eleven
 vector groups and includes the native agent loop plus memory, event, checkpoint,
 policy, context, and middleware helpers. It does not call Go or another language
-Core; there is no model provider, process bridge, or plugin host.
+Core; it has a non-streaming OpenAI-compatible model adapter but no process
+bridge or plugin host.
 
 Local validation uses Free Pascal 3.2.2 on Windows i386. It does not establish
 commercial Delphi compiler compatibility, Linux/macOS support, production
@@ -70,6 +71,41 @@ Public declarations are inventoried in [`api/0.2.1.txt`](api/0.2.1.txt).
 The JSON node type is Free Pascal's `TJSONData` (`fpjson`), so consumers already
 using `fpjson` can inspect results directly. `TPraxoCall.Input` is caller-owned.
 `PraxoValidateManifest` returns an owned `TJSONObject` on success.
+
+The separate `praxo_openai` unit provides a non-streaming OpenAI-compatible
+adapter. It posts to `{baseURL}/chat/completions`, maps assistant content, tool
+calls, usage, and finish reason, and exposes an injectable
+`TPraxoOpenAITransport` for deterministic tests. Missing base URLs and non-2xx
+responses raise `EPraxoProvider` with a `PROVIDER_HTTP` code. Streaming is not
+implemented.
+
+```pascal
+var
+  Adapter: TPraxoOpenAIAdapter;
+  Messages: TJSONArray;
+  Message, Response: TJSONObject;
+begin
+  Adapter := TPraxoOpenAIAdapter.Create('https://api.openai.com/v1', 'gpt-4o-mini');
+  Adapter.APIKey := GetEnvironmentVariable('PRAXO_API_KEY');
+  Messages := TJSONArray.Create;
+  Message := TJSONObject.Create;
+  Message.Add('role', 'user');
+  Message.Add('content', 'Hello');
+  Messages.Add(Message);
+  try
+    Response := Adapter.Generate(Messages);
+    try
+      // Response has content, toolCalls, inputTokens, and outputTokens.
+      Writeln(Response.Get('content', ''));
+    finally
+      Response.Free;
+    end;
+  finally
+    Messages.Free;
+    Adapter.Free;
+  end;
+end;
+```
 
 The separate `praxo_agent` unit provides `PraxoRunAgent` and an abstract
 `TPraxoAgentHost`. Implement `Generate`, `Invoke`, and `Emit` to connect a model,

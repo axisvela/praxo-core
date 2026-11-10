@@ -76,7 +76,9 @@ The adapter reads the first choice:
 
 ## Baseline Status
 
-The current native adapters cover Go, Python, TypeScript, Java, Rust, C#, Ruby,
-PHP, Elixir, Lua, Perl, and Nim. PowerShell inherits the C# Core. Other Core
-implementations are tracked in the [adapter status](../languages/adapter-status.md)
-page and are implemented in batches.
+Native adapters now cover every Core implementation except COBOL. C, C++,
+Fortran, Haskell, and OCaml are transport-seam adapters: the mapping is in-tree
+and the caller supplies the HTTP transport. PowerShell inherits the C# Core.
+COBOL is blocked on an HTTP transport decision and a model-callback extension for
+tool specs and history. See the [adapter status](../languages/adapter-status.md)
+page for per-language notes.

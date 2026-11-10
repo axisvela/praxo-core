@@ -9,11 +9,13 @@ include("Models.jl")
 include("Runtime.jl")
 include("Middleware.jl")
 include("Agent.jl")
+include("OpenAICompatible.jl")
 
 using .Models
 using .Runtime
 using .Middleware
 using .AgentRuntime
+using .OpenAICompatible
 using .Errors
 
 export Json, ParsedToolCall, ToolCallParser
@@ -24,6 +26,7 @@ export Session, RunResult, MemoryRecord, PathGrant, Action, Decision, Event, Rol
 export AbstractSink, MultiSink, FilterSink, MemoryStore, CheckpointAllowlist, PathChecker
 export ContextBudget, AgentOptions, Agent, StaticModel, FuncTool, ToolRegistry
 export AbstractPolicy, AbstractModel, AbstractMiddleware, PiiRedactor, PraxoError
+export OpenAICompatibleModel, openai_compatible
 run_agent(args...) = AgentRuntime.run(args...)
 export run_agent
 export put!, search, register!, marshal, unmarshal, check, allowed

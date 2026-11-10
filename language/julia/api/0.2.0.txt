@@ -23,6 +23,7 @@ MemoryStore
 Message
 ModelCall
 MultiSink
+OpenAICompatibleModel
 ParsedToolCall
 PathChecker
 PathGrant
@@ -66,6 +67,7 @@ fallback_model
 generate
 marshal
 message_dict
+openai_compatible
 put!
 redact
 redact_value

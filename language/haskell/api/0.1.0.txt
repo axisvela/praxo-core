@@ -41,6 +41,16 @@ selectTools :: ToolSelection -> [String] -> [String]
 structuredOutput :: Json -> Int -> Maybe (String -> Either String String) -> StructuredOutput
 toolSelection :: [String] -> ToolSelection
 
+## Praxo.OpenAICompatible
+data HttpRequest = HttpRequest
+data HttpResponse = HttpResponse
+data OpenAIConfig = OpenAIConfig
+data OpenAITool = OpenAITool
+newtype Transport = Transport
+buildRequest :: OpenAIConfig -> [Message] -> Either AgentError HttpRequest
+generate :: OpenAIConfig -> [Message] -> IO (Either AgentError Response)
+parseResponse :: String -> Either AgentError Response
+
 ## Praxo.Pattern
 matchPattern :: String -> String -> Either String Bool
 

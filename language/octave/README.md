@@ -72,6 +72,23 @@ This avoids host JSON decoders conflating null, empty arrays, and singleton
 arrays or rewriting object keys. JSON strings are represented as UTF-8 bytes
 in character vectors.
 
+## OpenAI-Compatible Adapter
+
+`praxo.openai_compatible(request, options)` posts to
+`{baseUrl}/chat/completions`, maps assistant content, tool calls, usage, and
+finish reason, and parses call arguments into typed JSON objects. Set
+`options.transport` to a function handle returning `status` and `body` for
+deterministic tests. The default transport uses `webwrite`. Missing base URLs
+and non-2xx responses raise `praxo:provider` with a `PROVIDER_HTTP` code;
+invalid tool arguments use `PROVIDER_JSON`. Streaming is not implemented.
+
+```matlab
+options = struct('baseUrl', 'https://api.openai.com/v1', ...
+    'model', 'gpt-4o-mini', 'apiKey', getenv('PRAXO_API_KEY'));
+model = @(request) praxo.openai_compatible(request, options);
+result = praxo.agent_run('Hi', model, {}, struct());
+```
+
 ## Agent Loop
 
 `praxo.agent_run(prompt, model, tools, options)` accepts a character-vector
