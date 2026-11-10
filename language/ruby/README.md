@@ -88,6 +88,25 @@ execution, and run-scoped call limits:
 `Praxo::SSE.parse` parses OpenAI-compatible server-sent-event text and raises
 `MODEL_STREAM` for truncated streams or malformed half packets.
 
+## Harmovela Event Sink
+
+`Praxo::Adapters::HarmovelaSink` posts each event to `{base_url}/events` with an
+`application/json` envelope. Inject `transport` and `clock` for deterministic
+tests.
+
+```ruby
+sink = Praxo::Adapters::HarmovelaSink.new(
+  base_url: 'http://127.0.0.1:8790/aep/api',
+  source: 'praxo-core'
+)
+options.events = sink
+```
+
+A 2xx response is success; any other status raises `HARMOVELA_HTTP` with the
+status and a bounded body. The sink adds no authentication, retries, buffering,
+ordering, or exactly-once delivery. Use HTTPS and filter sensitive event data
+before emitting.
+
 ## Layout
 
 - `lib/praxo/` package source.

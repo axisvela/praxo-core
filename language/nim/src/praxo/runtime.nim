@@ -14,6 +14,7 @@ type
     predicate*: seq[string]
     target*: Sink
     sinks*: seq[Sink]
+    handler*: proc(event: Event) {.closure.}
 
   MemoryStore* = ref object
     records*: Table[string, seq[MemoryRecord]]
@@ -35,6 +36,8 @@ proc emit*(sink: Sink, event: Event) =
     for child in sink.sinks:
       child.emit(event)
     return
+  if sink.handler != nil:
+    sink.handler(event)
   sink.kinds.add(event.kind)
 
 proc newSink*(): Sink =

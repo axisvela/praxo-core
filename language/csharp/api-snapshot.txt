@@ -89,6 +89,31 @@ FuncTool(System.String name, System.String description, System.Func`2[System.Tex
 System.String Description { get; }
 System.String Name { get; }
 System.Text.Json.Nodes.JsonNode Invoke(System.Text.Json.Nodes.JsonObject arguments)
+### Praxo.Core.HarmovelaHttpRequest
+HarmovelaHttpRequest()
+System.Collections.Generic.Dictionary`2[System.String,System.String] Headers { get; set; }
+System.String Body { get; set; }
+System.String Method { get; set; }
+System.String Url { get; set; }
+### Praxo.Core.HarmovelaHttpResponse
+HarmovelaHttpResponse()
+System.Int32 StatusCode { get; set; }
+System.String Body { get; set; }
+### Praxo.Core.HarmovelaSink
+HarmovelaSink(Praxo.Core.HarmovelaSinkOptions options)
+HarmovelaSink(Praxo.Core.HarmovelaSinkOptions options, Praxo.Core.HarmovelaTransport transport)
+System.Void Emit(Praxo.Core.Event event)
+### Praxo.Core.HarmovelaSinkOptions
+HarmovelaSinkOptions()
+System.String BaseUrl { get; set; }
+System.String Source { get; set; }
+System.String SpecVersion { get; set; }
+System.TimeSpan Timeout { get; set; }
+### Praxo.Core.HarmovelaTransport
+HarmovelaTransport(System.Object object, System.IntPtr method)
+Praxo.Core.HarmovelaHttpResponse EndInvoke(System.IAsyncResult result)
+Praxo.Core.HarmovelaHttpResponse Invoke(Praxo.Core.HarmovelaHttpRequest request)
+System.IAsyncResult BeginInvoke(Praxo.Core.HarmovelaHttpRequest request, System.AsyncCallback callback, System.Object object)
 ### Praxo.Core.IContextCompactor
 System.Collections.Generic.List`1[Praxo.Core.Message] Compact(System.Collections.Generic.IReadOnlyList`1[Praxo.Core.Message] messages, Praxo.Core.ContextBudget budget)
 ### Praxo.Core.IEventSink

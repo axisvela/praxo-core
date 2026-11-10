@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from typing import Any
+
 
 class PraxoError(Exception):
     code = "PRAXO_ERROR"
@@ -103,3 +105,53 @@ class PluginError(PraxoError):
 
 class ToolNotFoundError(PraxoError):
     code = "TOOL_NOT_FOUND"
+
+
+class MCPError(PraxoError):
+    code = "MCP_ERROR"
+
+
+class MCPProtocolError(MCPError):
+    code = "MCP_PROTOCOL"
+
+
+class MCPTransportError(MCPError):
+    code = "MCP_TRANSPORT"
+
+
+class MCPHandshakeError(MCPError):
+    code = "MCP_HANDSHAKE"
+
+
+class MCPPaginationError(MCPError):
+    code = "MCP_PAGINATION"
+
+
+class MCPDuplicateToolError(MCPError):
+    code = "MCP_DUPLICATE_TOOL"
+
+
+class MCPToolError(MCPError):
+    code = "MCP_TOOL_ERROR"
+
+
+class MCPRPCError(MCPError):
+    code = "MCP_RPC"
+
+    def __init__(
+        self,
+        message: str | None = None,
+        rpc_code: int | None = None,
+        data: Any = None,
+    ) -> None:
+        super().__init__(message)
+        self.rpc_code = rpc_code
+        self.data = data
+
+
+class MCPTimeoutError(MCPError):
+    code = "MCP_TIMEOUT"
+
+
+class MCPClosedError(MCPError):
+    code = "MCP_CLOSED"

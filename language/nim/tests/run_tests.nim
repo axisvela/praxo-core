@@ -1,5 +1,7 @@
 import std/json
 import std/options
+import std/strutils
+import std/times
 
 import praxo
 
@@ -407,5 +409,53 @@ proc testOpenAICompatible() =
   assert captured["messages"][0]["tool_calls"][0]["function"]["arguments"].getStr() ==
     """{"text":"bye"}"""
 
+proc testHarmovelaSink() =
+  var capturedPath = ""
+  var capturedBody = ""
+  var capturedHeaders: seq[(string, string)] = @[]
+  let sink = newHarmovelaSink(
+    baseUrl = "http://example.test/aep/api/",
+    clock = proc(): Time = initTime(1_700_000_000'i64, 123_456_789),
+    transport = proc(path: string, body: string,
+                     headers: seq[(string, string)]): HarmovelaResponse =
+      capturedPath = path
+      capturedBody = body
+      capturedHeaders = headers
+      return HarmovelaResponse(status: 200, body: ""),
+  )
+  let event = newEvent("tool.call", "s1", "run-123", %*{"name": "echo"})
+  sink.emit(event)
+  assert capturedPath == "/events"
+  assert capturedHeaders.len == 1
+  assert capturedHeaders[0][0] == "content-type"
+  assert capturedHeaders[0][1] == "application/json"
+  let envelope = parseJsonText(capturedBody)
+  assert getString(envelope, "spec_version") == "0.2"
+  assert getString(envelope, "id") == "run-123-1700000000123456789"
+  assert getString(envelope, "type") == "tool.call"
+  assert getString(envelope, "source") == "praxo-core"
+  assert getString(envelope, "created_at") == "2023-11-14T22:13:20.123456789Z"
+  let payload = getNode(envelope, "payload")
+  assert getString(payload, "name") == "echo"
+  assert getString(payload, "session_id") == "s1"
+  assert getString(payload, "run_id") == "run-123"
+
+  let failed = newHarmovelaSink(
+    baseUrl = "http://example.test/aep/api",
+    clock = proc(): Time = initTime(1_700_000_000'i64, 123_456_789),
+    transport = proc(path: string, body: string,
+                     headers: seq[(string, string)]): HarmovelaResponse =
+      return HarmovelaResponse(status: 500, body: "boom"),
+  )
+  var caught = ""
+  try:
+    failed.emit(event)
+  except PraxoError as error:
+    caught = errorCode(error)
+    assert error.msg.contains("500")
+    assert error.msg.contains("boom")
+  assert caught == "HARMOVELA_HTTP"
+
 testOpenAICompatible()
+testHarmovelaSink()
 echo "nim tests passed"

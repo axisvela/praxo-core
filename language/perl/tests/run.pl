@@ -17,6 +17,7 @@ use Praxo::Runtime ();
 use Praxo::Middleware ();
 use Praxo::Agent ();
 use Praxo::Adapters::OpenAICompatible ();
+use Praxo::Adapters::Harmovela ();
 
 my $call = Praxo::Toolcall::parse_toolcall('{"name":"echo","input":{"text":"hi"}}');
 ok(defined $call, 'toolcall parsed');
@@ -190,5 +191,55 @@ my $assistant = Praxo::Models::message_assistant(
 $adapter->generate(Praxo::Models::request(messages => [$assistant]));
 is($captured->[1]{messages}[0]{tool_calls}[0]{function}{arguments}, '{"text":"bye"}',
     'openai assistant tool call encoded');
+
+my $harmovela_captured;
+my $harmovela = Praxo::Adapters::Harmovela->new(
+    base_url => 'http://example.test/aep/api/',
+    clock => sub { return (1700000000, 123456789) },
+    transport => sub {
+        my ($path, $body, $headers) = @_;
+        $harmovela_captured = { path => $path, body => $body, headers => $headers };
+        return { status => 200, body => '' };
+    },
+);
+my $harmovela_event = Praxo::Models::event(
+    type => 'tool.call', session_id => 's1', run_id => 'run-123',
+    data => { name => 'echo' },
+);
+$harmovela->emit($harmovela_event);
+is($harmovela_captured->{path}, '/events', 'harmovela path');
+is($harmovela_captured->{headers}{'content-type'}, 'application/json',
+    'harmovela content type');
+my $harmovela_envelope = Praxo::Json::parse($harmovela_captured->{body});
+is($harmovela_envelope->{spec_version}, '0.2', 'harmovela spec version');
+is($harmovela_envelope->{id}, 'run-123-1700000000123456789', 'harmovela id');
+is($harmovela_envelope->{type}, 'tool.call', 'harmovela type');
+is($harmovela_envelope->{source}, 'praxo-core', 'harmovela source');
+is($harmovela_envelope->{created_at}, '2023-11-14T22:13:20.123456789Z',
+    'harmovela created at');
+is_deeply(
+    $harmovela_envelope->{payload},
+    { name => 'echo', session_id => 's1', run_id => 'run-123' },
+    'harmovela payload',
+);
+
+my $harmovela_failed = Praxo::Adapters::Harmovela->new(
+    base_url => 'http://example.test/aep/api',
+    clock => sub { return (1700000000, 123456789) },
+    transport => sub { return { status => 500, body => 'boom' } },
+);
+my $harmovela_error;
+eval {
+    $harmovela_failed->emit($harmovela_event);
+    1;
+} or $harmovela_error = $@;
+ok(defined $harmovela_error, 'harmovela non-2xx raises');
+is(
+    Praxo::Errors::error_code($harmovela_error),
+    'HARMOVELA_HTTP',
+    'harmovela non-2xx code',
+);
+like("$harmovela_error", qr/500/, 'harmovela non-2xx status');
+like("$harmovela_error", qr/boom/, 'harmovela non-2xx body');
 
 done_testing();

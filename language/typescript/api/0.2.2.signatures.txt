@@ -252,6 +252,34 @@ name: string
 description: string
 invoke(args: Record<string, unknown>): Promise<unknown>
 
+## HarmovelaHttpRequest
+interface HarmovelaHttpRequest
+method: "POST"
+url: string
+headers: Record<string, string>
+body: string
+
+## HarmovelaHttpResponse
+interface HarmovelaHttpResponse
+status: number
+body: string
+
+## HarmovelaSink
+class HarmovelaSink
+constructor(options: HarmovelaSinkOptions): HarmovelaSink
+emit(event: Event): Promise<void>
+
+## HarmovelaSinkOptions
+interface HarmovelaSinkOptions
+baseUrl: string
+source?: string | undefined
+specVersion?: string | undefined
+timeoutMs?: number | undefined
+transport?: HarmovelaTransport | undefined
+
+## HarmovelaTransport
+type HarmovelaTransport = HarmovelaTransport
+
 ## Hook
 interface Hook
 authorize(action: Action): Promise<Decision> | Decision
@@ -362,6 +390,115 @@ maybeAwait<T>(value: MaybePromise<T>): Promise<T>
 
 ## MaybePromise
 type MaybePromise = MaybePromise<T>
+
+## McpCancelledError
+class McpCancelledError
+constructor(message?: string): McpCancelledError
+code: string
+name: string
+message: string
+stack?: string | undefined
+cause?: unknown
+
+## McpClient
+class McpClient
+constructor(options: McpClientOptions): McpClient
+pid: number | undefined
+closed: boolean
+ready: boolean
+protocolVersion: string
+listTools(options?: McpRequestOptions): Promise<McpTool[]>
+callTool(name: string, args?: Record<string, unknown>, options?: McpRequestOptions): Promise<unknown>
+close(): Promise<void>
+
+## McpClientOptions
+interface McpClientOptions
+command?: string | undefined
+args?: string[] | undefined
+cwd?: string | undefined
+env?: NodeJS.ProcessEnv | undefined
+transport?: McpTransport | undefined
+protocolVersion?: string | undefined
+clientInfo?: { name: string; version: string; } | undefined
+timeoutMs?: number | undefined
+signal?: AbortSignal | undefined
+
+## McpError
+class McpError
+constructor(message: string, code?: string): McpError
+code: string
+name: string
+message: string
+stack?: string | undefined
+cause?: unknown
+
+## McpProtocolError
+class McpProtocolError
+constructor(message: string): McpProtocolError
+code: string
+name: string
+message: string
+stack?: string | undefined
+cause?: unknown
+
+## McpRequestOptions
+interface McpRequestOptions
+signal?: AbortSignal | undefined
+timeoutMs?: number | undefined
+
+## McpTimeoutError
+class McpTimeoutError
+constructor(message?: string): McpTimeoutError
+code: string
+name: string
+message: string
+stack?: string | undefined
+cause?: unknown
+
+## McpTool
+interface McpTool
+name: string
+description?: string | undefined
+inputSchema?: Record<string, unknown> | undefined
+
+## McpToolAdapter
+class McpToolAdapter
+constructor(client: McpClient, info: McpTool, options?: McpRequestOptions): McpToolAdapter
+name: string
+description: string
+inputSchema?: Record<string, unknown> | undefined
+spec(): ToolSpec
+invoke(args: Record<string, unknown>): Promise<unknown>
+
+## McpToolError
+class McpToolError
+constructor(message: string): McpToolError
+code: string
+name: string
+message: string
+stack?: string | undefined
+cause?: unknown
+
+## mcpTools
+function mcpTools
+mcpTools(client: McpClient, tools: McpTool[], options?: McpRequestOptions): McpToolAdapter[]
+
+## McpTransport
+interface McpTransport
+pid?: number | undefined
+send(line: string): void | Promise<void>
+onLine(handler: (line: string) => void): void
+onClose?: ((handler: (error?: Error) => void) => void) | undefined
+close(): void | Promise<void>
+
+## McpTransportError
+class McpTransportError
+constructor(message: string): McpTransportError
+code: string
+name: string
+message: string
+stack?: string | undefined
+cause?: unknown
 
 ## MemoryRecord
 interface MemoryRecord
@@ -581,6 +718,10 @@ cause?: unknown
 ## redactValue
 function redactValue
 redactValue(redactor: PIIRedactor, value: unknown): unknown
+
+## registerMcpTools
+function registerMcpTools
+registerMcpTools(registry: Registry, client: McpClient, tools: McpTool[], options?: McpRequestOptions): McpToolAdapter[]
 
 ## Registry
 class Registry

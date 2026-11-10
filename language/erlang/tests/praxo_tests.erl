@@ -34,6 +34,7 @@ run() ->
     test_agent_hitl(),
     test_sse(),
     test_openai_compatible(),
+    test_harmovela(),
     io:format("erlang tests passed~n").
 
 
@@ -324,6 +325,95 @@ test_openai_compatible() ->
         praxo_openai_compatible:new(<<"https://example.test/v1">>, <<"m">>,
             #{transport => fun(_, _) -> {error, <<"PROVIDER_HTTP">>} end}),
         Request
+    ).
+
+test_harmovela() ->
+    Parent = self(),
+    Transport = fun(Path, Body, Headers) ->
+        Parent ! {harmovela_path, Path},
+        Parent ! {harmovela_body, Body},
+        Parent ! {harmovela_headers, Headers},
+        {ok, 200, <<>>}
+    end,
+    Sink = praxo_harmovela:new(
+        <<"http://example.test/aep/api/">>,
+        #{transport => Transport, clock => fun() -> {1700000000, 123456789} end}
+    ),
+    Event = praxo_models:event(
+        <<"tool.call">>, <<"s1">>, <<"run-123">>, #{<<"name">> => <<"echo">>}
+    ),
+    ok = praxo_harmovela:emit(Sink, Event),
+    receive
+        {harmovela_path, Path} ->
+            check(Path == <<"/events">>, <<"harmovela path">>)
+    after 1000 -> erlang:error(harmovela_path_timeout)
+    end,
+    receive
+        {harmovela_headers, Headers} ->
+            check(
+                lists:member({"content-type", "application/json"}, Headers),
+                <<"harmovela content type">>
+            )
+    after 1000 -> erlang:error(harmovela_headers_timeout)
+    end,
+    receive
+        {harmovela_body, Body} ->
+            {ok, Envelope} = praxo_json:parse(Body),
+            check(
+                praxo_json:get_string(Envelope, <<"spec_version">>) == <<"0.2">>,
+                <<"harmovela spec version">>
+            ),
+            check(
+                praxo_json:get_string(Envelope, <<"id">>) ==
+                    <<"run-123-1700000000123456789">>,
+                <<"harmovela id">>
+            ),
+            check(
+                praxo_json:get_string(Envelope, <<"type">>) == <<"tool.call">>,
+                <<"harmovela type">>
+            ),
+            check(
+                praxo_json:get_string(Envelope, <<"source">>) == <<"praxo-core">>,
+                <<"harmovela source">>
+            ),
+            check(
+                praxo_json:get_string(Envelope, <<"created_at">>) ==
+                    <<"2023-11-14T22:13:20.123456789Z">>,
+                <<"harmovela created at">>
+            ),
+            check(
+                praxo_json:equals(
+                    praxo_json:get_object(Envelope, <<"payload">>),
+                    #{
+                        <<"name">> => <<"echo">>,
+                        <<"session_id">> => <<"s1">>,
+                        <<"run_id">> => <<"run-123">>
+                    }
+                ),
+                <<"harmovela payload">>
+            )
+    after 1000 -> erlang:error(harmovela_body_timeout)
+    end,
+    Failed = praxo_harmovela:new(
+        <<"http://example.test/aep/api">>,
+        #{
+            transport => fun(_, _, _) -> {ok, 500, <<"boom">>} end,
+            clock => fun() -> {1700000000, 123456789} end
+        }
+    ),
+    check(
+        praxo_harmovela:emit(Failed, Event) ==
+            {error, {http_status, 500, <<"boom">>}},
+        <<"harmovela non-2xx">>
+    ),
+    AgentSink = praxo_harmovela:new(
+        <<"http://example.test/aep/api">>,
+        #{transport => fun(_, _, _) -> {ok, 204, <<>>} end}
+    ),
+    Emitted = praxo_sink:emit(AgentSink, Event),
+    check(
+        praxo_sink:kinds(Emitted) == [<<"tool.call">>],
+        <<"harmovela sink seam">>
     ).
 
 tool_model() ->

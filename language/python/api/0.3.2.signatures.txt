@@ -431,6 +431,55 @@ function strip_tool_call_markup(content: 'str') -> 'str'
 function tool_selection_middleware(selector: 'ToolSelector | None') -> 'Middleware'
 
 # module praxo.adapters
+## HarmovelaSink
+class HarmovelaSink
+constructor(base_url: 'str', source: 'str' = 'praxo-core', spec_version: 'str' = '0.2', transport: 'Transport | None' = None, timeout: 'float' = 30.0) -> 'None'
+method emit(event: 'Event') -> 'None'
+
+## MCPClient
+class MCPClient
+constructor(config: 'MCPServerConfig | None' = None, *, transport: 'MCPTransport | None' = None, timeout: 'float' = 30.0, client_name: 'str' = 'praxo-core', client_version: 'str | None' = None, protocol_version: 'str' = '2024-11-05') -> 'None'
+property connected -> 'bool'
+method connect() -> 'MCPClient'
+method close() -> 'None'
+method list_tools(*, timeout: 'float | None' = None) -> 'list[MCPTool]'
+method call_tool(name: 'str', arguments: 'dict[str, Any] | None' = None, *, timeout: 'float | None' = None) -> 'Any'
+method register_tools(registry: 'Registry') -> 'list[Tool]'
+
+## MCPServerConfig
+class MCPServerConfig
+constructor(command: 'str', args: 'list[str]' = <factory>, env: 'dict[str, str] | None' = None, cwd: 'str | None' = None) -> None
+field command: str
+field args: list[str] = <factory>
+field env: dict[str, str] | None = None
+field cwd: str | None = None
+
+## MCPTool
+class MCPTool
+constructor(name: 'str', description: 'str' = '', input_schema: 'dict[str, Any]' = <factory>, title: 'str' = '', annotations: 'dict[str, Any]' = <factory>) -> None
+field name: str
+field description: str = ''
+field input_schema: dict[str, Any] = <factory>
+field title: str = ''
+field annotations: dict[str, Any] = <factory>
+property parameters -> 'dict[str, Any]'
+method to_spec() -> 'ToolSpec'
+
+## MCPToolAdapter
+class MCPToolAdapter
+constructor(client: 'MCPClient', tool: 'MCPTool') -> 'None'
+method invoke(args: 'dict[str, Any]') -> 'Any'
+method spec() -> 'ToolSpec'
+
+## MCPTransport
+class MCPTransport
+bases: Protocol
+constructor(*args, **kwargs)
+method start() -> 'None'
+method send(message: 'dict[str, Any]') -> 'None'
+method receive() -> 'dict[str, Any] | None'
+method close() -> 'None'
+
 ## OpenAICompatibleModel
 class OpenAICompatibleModel
 constructor(config: 'OpenAIConfig') -> 'None'
@@ -445,6 +494,14 @@ field api_key: str = ''
 field model: str = ''
 field timeout: float = 60.0
 field headers: dict[str, str] = <factory>
+
+## StdioTransport
+class StdioTransport
+constructor(config: 'MCPServerConfig', close_timeout: 'float' = 5.0) -> 'None'
+method start() -> 'None'
+method send(message: 'dict[str, Any]') -> 'None'
+method receive() -> 'dict[str, Any] | None'
+method close() -> 'None'
 
 # module praxo.adapters.openaicompat
 ## OpenAICompatibleModel
@@ -718,6 +775,66 @@ class InvalidTransitionError
 bases: PraxoError
 constructor(message: 'str | None' = None) -> 'None'
 attribute code: str = 'PLUGIN_INVALID_TRANSITION'
+
+## MCPClosedError
+class MCPClosedError
+bases: MCPError
+constructor(message: 'str | None' = None) -> 'None'
+attribute code: str = 'MCP_CLOSED'
+
+## MCPDuplicateToolError
+class MCPDuplicateToolError
+bases: MCPError
+constructor(message: 'str | None' = None) -> 'None'
+attribute code: str = 'MCP_DUPLICATE_TOOL'
+
+## MCPError
+class MCPError
+bases: PraxoError
+constructor(message: 'str | None' = None) -> 'None'
+attribute code: str = 'MCP_ERROR'
+
+## MCPHandshakeError
+class MCPHandshakeError
+bases: MCPError
+constructor(message: 'str | None' = None) -> 'None'
+attribute code: str = 'MCP_HANDSHAKE'
+
+## MCPPaginationError
+class MCPPaginationError
+bases: MCPError
+constructor(message: 'str | None' = None) -> 'None'
+attribute code: str = 'MCP_PAGINATION'
+
+## MCPProtocolError
+class MCPProtocolError
+bases: MCPError
+constructor(message: 'str | None' = None) -> 'None'
+attribute code: str = 'MCP_PROTOCOL'
+
+## MCPRPCError
+class MCPRPCError
+bases: MCPError
+constructor(message: 'str | None' = None, rpc_code: 'int | None' = None, data: 'Any' = None) -> 'None'
+attribute code: str = 'MCP_RPC'
+
+## MCPTimeoutError
+class MCPTimeoutError
+bases: MCPError
+constructor(message: 'str | None' = None) -> 'None'
+attribute code: str = 'MCP_TIMEOUT'
+
+## MCPToolError
+class MCPToolError
+bases: MCPError
+constructor(message: 'str | None' = None) -> 'None'
+attribute code: str = 'MCP_TOOL_ERROR'
+
+## MCPTransportError
+class MCPTransportError
+bases: MCPError
+constructor(message: 'str | None' = None) -> 'None'
+attribute code: str = 'MCP_TRANSPORT'
 
 ## MaxStepsError
 class MaxStepsError

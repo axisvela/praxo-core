@@ -25,6 +25,9 @@ Praxo.Decision
 Praxo.Error
 Praxo.Error.message
 Praxo.Event
+Praxo.HarmovelaSink
+Praxo.HarmovelaSink.emit
+Praxo.HarmovelaSink.new
 Praxo.Interrupt
 Praxo.InterruptDecision
 Praxo.Json

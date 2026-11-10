@@ -18,6 +18,11 @@ event
 extract_json
 fallback_model
 filter_sink
+harmovela_emit
+harmovela_post
+harmovela_prefix
+harmovela_sink
+harmovela_stamp
 interrupt
 interrupt_approve
 interrupt_decision

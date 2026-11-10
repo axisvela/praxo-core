@@ -41,6 +41,24 @@ model <- openai_compatible_model(adapter)
 Provider HTTP failures raise `praxo_error` with code `PROVIDER_HTTP`; invalid
 tool-argument JSON raises `PROVIDER_JSON`. Streaming is not implemented.
 
+## Harmovela Event Sink
+
+`R/harmovela.R` adds a native sink that posts lifecycle events to
+`{base_url}/events` as JSON envelopes with `spec_version`, `id`, `type`,
+`source`, `created_at`, and a payload that merges the event data with
+`session_id` and `run_id` when present.
+
+```r
+sink <- harmovela_sink("http://127.0.0.1:8790/aep/api")
+agent_run(model, "hi", events = sink)
+```
+
+Supply `transport` to run without network access; it receives `(path,
+envelope)` and returns `list(status, body)`. Limits: the sink adds no
+authentication, retries, buffering, acknowledgements, ordering, or exactly-once
+delivery. Filter sensitive event data at the caller, and use HTTPS for remote
+endpoints.
+
 ## Build and test
 
 ```bat

@@ -671,4 +671,50 @@ check(captured[:messages][0][:tool_calls][0][:id] == 'c1', 'adapter assistant to
 check(captured[:messages][0][:tool_calls][0][:function][:arguments] == '{"text":"hi"}', 'adapter tool arguments')
 check(captured[:messages][1][:tool_call_id] == 'c1', 'adapter tool id')
 
+harmovela_fixed = Time.at(1_700_000_000, 123_456_789, :nsec).utc
+harmovela_calls = []
+harmovela = Praxo::Adapters::HarmovelaSink.new(
+  base_url: 'http://example.test/aep/api/',
+  clock: -> { harmovela_fixed },
+  transport: lambda do |path, body, headers|
+    harmovela_calls << [path, body, headers]
+    [200, '']
+  end
+)
+harmovela_event = M.event(
+  type: 'tool.call', session_id: 's1', run_id: 'run-123', data: { 'name' => 'echo' }
+)
+check(harmovela.emit(harmovela_event).nil?, 'harmovela success')
+harmovela_path, harmovela_body, harmovela_headers = harmovela_calls.first
+check(harmovela_path == '/events', 'harmovela path')
+check(harmovela_headers['content-type'] == 'application/json', 'harmovela content type')
+harmovela_envelope = J.parse(harmovela_body)
+check(harmovela_envelope['spec_version'] == '0.2', 'harmovela spec version')
+check(harmovela_envelope['id'] == 'run-123-1700000000123456789', 'harmovela id')
+check(harmovela_envelope['type'] == 'tool.call', 'harmovela type')
+check(harmovela_envelope['source'] == 'praxo-core', 'harmovela source')
+check(harmovela_envelope['created_at'] == '2023-11-14T22:13:20.123456789Z', 'harmovela created at')
+check(
+  harmovela_envelope['payload'] ==
+    { 'name' => 'echo', 'session_id' => 's1', 'run_id' => 'run-123' },
+  'harmovela payload'
+)
+
+harmovela_failed = Praxo::Adapters::HarmovelaSink.new(
+  base_url: 'http://example.test/aep/api',
+  clock: -> { harmovela_fixed },
+  transport: ->(_path, _body, _headers) { [500, 'boom'] }
+)
+harmovela_error = nil
+begin
+  harmovela_failed.emit(harmovela_event)
+rescue Praxo::Error => caught
+  harmovela_error = caught
+end
+check(harmovela_error&.code == 'HARMOVELA_HTTP', 'harmovela non-2xx code')
+check(
+  harmovela_error&.message&.include?('500') && harmovela_error&.message&.include?('boom'),
+  'harmovela non-2xx body'
+)
+
 puts 'ruby core tests passed'

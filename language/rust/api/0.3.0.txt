@@ -173,6 +173,8 @@ pub fn strip_markup(content: &str) -> String
 
 ## module praxo_core::event
 
+## module praxo_core::harmovela
+
 ## module praxo_core::hitl
 
 ## module praxo_core::jsonschema
@@ -304,6 +306,28 @@ pub struct MultiSink { /* private fields */ }
 impl MultiSink
 impl Sink for MultiSink
 method pub fn new(sinks: Vec<Arc<dyn Sink>>) -> Self
+
+## struct praxo_core::harmovela::HttpRequest
+pub struct HttpRequest { pub method: String, pub url: String, pub headers: Vec<(String, String)>, pub body: String, }
+impl Clone for HttpRequest
+impl Debug for HttpRequest
+
+## struct praxo_core::harmovela::HttpResponse
+pub struct HttpResponse { pub status: u16, pub body: String, }
+impl Clone for HttpResponse
+impl Debug for HttpResponse
+
+## struct praxo_core::harmovela::Sink
+pub struct Sink { pub base_url: String, pub source: String, pub spec_version: String, /* private fields */ }
+impl Sink
+impl Sink for Sink
+method pub fn emit(&self, event: &Event) -> Result<()>
+method pub fn new(base_url: impl Into<String>) -> Self
+method pub fn with_transport( base_url: impl Into<String>, transport: Arc<dyn Transport>, ) -> Self
+
+## struct praxo_core::harmovela::StdTransport
+pub struct StdTransport;
+impl Transport for StdTransport
 
 ## struct praxo_core::hitl::Interrupt
 pub struct Interrupt { pub run_id: String, pub session_id: String, pub call: ToolCall, }
@@ -573,6 +597,9 @@ pub trait Offloader: Send + Sync { fn offload( &self, tool_name: &str, tool_call
 
 ## trait praxo_core::event::Sink
 pub trait Sink: Send + Sync { fn emit(&self, event: &Event) -> Result<()>; }
+
+## trait praxo_core::harmovela::Transport
+pub trait Transport: Send + Sync { fn send(&self, request: &HttpRequest) -> Result<HttpResponse>; }
 
 ## trait praxo_core::memory::Store
 pub trait Store: Send + Sync { fn put(&self, session_id: &str, record: MemoryRecord) -> Result<()>; fn search( &self, session_id: &str, query: &str, limit: usize, ) -> Result<Vec<MemoryRecord>>; }

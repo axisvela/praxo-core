@@ -84,6 +84,22 @@ $options->maxSteps = 8;
 $agent = new Agent($options);
 ```
 
+## Harmovela Event Sink
+
+`Praxo\Core\Adapters\HarmovelaSink` implements `EventSink` and posts to
+`{baseUrl}/events`.
+
+```php
+use Praxo\Core\Adapters\HarmovelaSink;
+
+$options->events = new HarmovelaSink('http://127.0.0.1:8790/aep/api');
+```
+
+The constructor also accepts `source`, `specVersion`, `transport`, `clock`, and
+`timeout`. A 2xx status is success; other statuses throw `HARMOVELA_HTTP` with a
+bounded body. The sink adds no authentication, retries, buffering, ordering, or
+exactly-once delivery. Use HTTPS and filter sensitive event data first.
+
 ## Layout
 
 - `src/` library (PSR-4 `Praxo\Core\`).

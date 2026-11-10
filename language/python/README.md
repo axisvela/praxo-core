@@ -79,6 +79,58 @@ asyncio.run(main())
 | Runtime | Context budgets, checkpoints, events, streaming, cancellation |
 | Integration | OpenAI-compatible adapter; bring your own model and tools |
 
+## Harmovela event sink
+
+`HarmovelaSink` posts lifecycle events to `{base_url}/events` as JSON envelopes
+with `spec_version`, `id`, `type`, `source`, `created_at`, and a payload that
+merges the event data with `session_id` and `run_id` when present.
+
+```python
+from praxo.adapters.harmovela import HarmovelaSink
+
+sink = HarmovelaSink("http://127.0.0.1:8790/aep/api")
+agent = Agent(AgentOptions(model=EchoModel(), events=sink))
+```
+
+Pass `transport` to run without network access; it receives
+`(method, url, headers, body)` and returns `(status, body)`. Limits: the sink
+adds no authentication, retries, buffering, acknowledgements, ordering, or
+exactly-once delivery. Filter sensitive event data at the caller, and use HTTPS
+for remote endpoints.
+
+## MCP client (stdio)
+
+`MCPClient` connects to a local MCP server over newline-delimited JSON-RPC 2.0,
+runs the `initialize` / `notifications/initialized` handshake, lists tools with
+pagination checks, and calls tools through the Core registry seam.
+
+```python
+from praxo.adapters.mcp import MCPClient, MCPServerConfig
+from praxo.tool import Registry
+
+config = MCPServerConfig(command="my-mcp-server", args=["--stdio"])
+async with MCPClient(config) as client:
+    tools = await client.list_tools()
+    result = await client.call_tool("search", {"query": "praxo"})
+
+    registry = Registry()
+    await client.register_tools(registry)
+```
+
+`list_tools()` follows `nextCursor`, preserves `inputSchema` on each `MCPTool`,
+and rejects repeated cursors and duplicate names. `call_tool()` returns
+`structuredContent` when present, otherwise a text string or an ordered list of
+text blocks; `isError` results raise `MCPToolError`. Registering tools does not
+bypass policy: the agent still authorizes each `tool.invoke` before calling the
+registered adapter. Limits: stdio only; no hosted service, authentication,
+sandboxing, schema promotion, resources, prompts, sampling, or server-initiated
+requests. Tool output is untrusted. Timeouts send `notifications/cancelled`, but
+local cancellation does not prove remote work stopped. MCP failures use `MCP_*`
+codes such as `MCP_PROTOCOL`, `MCP_TRANSPORT`, `MCP_HANDSHAKE`, `MCP_TIMEOUT`,
+`MCP_PAGINATION`, `MCP_DUPLICATE_TOOL`, `MCP_TOOL_ERROR`, `MCP_RPC`, and
+`MCP_CLOSED`; `Registry.specs()` still carries only names and descriptions, so
+read `MCPTool.input_schema` when you need the model-facing schema.
+
 ## Contract and status
 
 The normative contract is [`spec/`](../../spec/README.md); Go remains the
@@ -109,6 +161,8 @@ plugin hosts are not yet implemented.
 | `praxo.toolcall` | `parse_tool_call`, `strip_tool_call_markup` |
 | `praxo.jsonschema` | `Schema`, `ValidationError` |
 | `praxo.plugin` | Manifest v1 parsing and validation |
+| `praxo.adapters.harmovela` | Harmovela HTTP event sink |
+| `praxo.adapters.mcp` | stdio MCP client, tool listing, and registry registration |
 
 Wire codecs preserve the Go names, including `image_url`, `runId`,
 `contentBlocks`, and plugin `plugin_id`.

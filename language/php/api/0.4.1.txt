@@ -4,6 +4,9 @@
 Action(string $kind, string $sessionId, ?string $toolName, ?array $arguments)
 string $kind
 string $sessionId
+### Praxo\Core\Adapters\HarmovelaSink
+HarmovelaSink(string $baseUrl, ?string $source, ?string $specVersion, $transport, $clock, int $timeout)
+void emit(Praxo\Core\Event $event)
 ### Praxo\Core\Adapters\OpenAICompatible
 OpenAICompatible(string $baseUrl, string $model, ?string $apiKey, $transport, int $timeout)
 Praxo\Core\Response generate(Praxo\Core\Request $request)

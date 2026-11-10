@@ -44,7 +44,7 @@
     "api": "node api-snapshot.js && node api-signatures.js",
     "api:check": "node api-snapshot.js --check && node api-signatures.js --check",
     "conformance": "node dist/conformance/run.js",
-    "test": "npm run build && npm run conformance && node --test tests/sdk.test.js tests/hitl.test.js tests/openaicompat.test.js tests/api-signatures.test.js"
+    "test": "npm run build && npm run conformance && node --test tests/sdk.test.js tests/hitl.test.js tests/openaicompat.test.js tests/harmovela.test.js tests/mcp.test.js tests/api-signatures.test.js"
   },
   "engines": {
     "node": ">=20"

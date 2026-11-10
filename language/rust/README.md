@@ -87,9 +87,31 @@ println!("{} {}", result.output, result.steps);
 | `toolcall` | tool-call parsing and markup stripping |
 | `jsonschema` | `Schema`, `from_json`, `validate` over the documented subset |
 | `plugin` | Manifest v1 parsing and validation |
+| `harmovela` | Harmovela HTTP event sink and injectable transport |
 
 Wire codecs preserve the Go names, including `image_url`, `runId`, and
 `plugin_id`.
+
+## Harmovela event sink
+
+`harmovela::Sink` posts lifecycle events to `{base_url}/events` as JSON
+envelopes with `spec_version`, `id`, `type`, `source`, `created_at`, and a
+payload that merges the event data with `session_id` and `run_id` when present.
+
+```rust
+use std::sync::Arc;
+use praxo_core::harmovela::Sink;
+
+let events = Arc::new(Sink::new("http://127.0.0.1:8790/aep/api"));
+let mut options = AgentOptions::new(model);
+options.events = Some(events);
+```
+
+Use `Sink::with_transport` to inject a fake transport in tests. The default
+transport speaks plain HTTP; inject a `Transport` for HTTPS. Limits: the sink
+adds no authentication, retries, buffering, acknowledgements, ordering, or
+exactly-once delivery. Filter sensitive event data at the caller, and use HTTPS
+for remote endpoints.
 
 ## Conformance
 

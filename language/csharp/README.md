@@ -74,6 +74,30 @@ var agent = new Agent(new AgentOptions(model)
 });
 ```
 
+## Harmovela event sink
+
+`HarmovelaSink` posts lifecycle events to `{BaseUrl}/events` as JSON envelopes
+with `spec_version`, `id`, `type`, `source`, `created_at`, and a payload that
+merges the event data with `session_id` and `run_id` when present.
+
+```csharp
+using Praxo.Core;
+
+var options = new AgentOptions(model)
+{
+    Events = new HarmovelaSink(new HarmovelaSinkOptions
+    {
+        BaseUrl = "http://127.0.0.1:8790/aep/api",
+    }),
+};
+var agent = new Agent(options);
+```
+
+Pass a `HarmovelaTransport` to inject a fake for tests. Limits: the sink adds no
+authentication, retries, buffering, acknowledgements, ordering, or exactly-once
+delivery. Filter sensitive event data at the caller, and use HTTPS for remote
+endpoints.
+
 ## Layout
 
 - `Praxo.Core/` library.

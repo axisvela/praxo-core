@@ -19,6 +19,11 @@ praxo_checkpoint.new/0
 praxo_checkpoint.register/2
 praxo_checkpoint.unmarshal/2
 
+## praxo_harmovela
+praxo_harmovela.emit/2
+praxo_harmovela.new/1
+praxo_harmovela.new/2
+
 ## praxo_json
 praxo_json.encode/1
 praxo_json.equals/2

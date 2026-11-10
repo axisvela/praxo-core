@@ -46,6 +46,7 @@ mvn -q -DskipTests package
 java -cp target/classes com.axisvela.praxo.conformance.ApiSnapshot --check
 java -cp target/classes com.axisvela.praxo.conformance.Run
 java --add-modules jdk.httpserver -cp target/classes:target/test-classes com.axisvela.praxo.adapters.OpenAICompatibleSelfTest
+java -cp target/classes:target/test-classes com.axisvela.praxo.adapters.HarmovelaSinkSelfTest
 java -cp target/classes:target/test-classes com.axisvela.praxo.agent.AgentConcurrencySelfTest
 ```
 
@@ -75,6 +76,25 @@ var result = agent.run(new Session("session-1"), "hi");
 System.out.println(result.output + " " + result.steps);
 ```
 
+## Harmovela event sink
+
+`HarmovelaSink` posts lifecycle events to `{baseUrl}/events` as JSON envelopes
+with `spec_version`, `id`, `type`, `source`, `created_at`, and a payload that
+merges the event data with `session_id` and `run_id` when present.
+
+```java
+import com.axisvela.praxo.adapters.HarmovelaSink;
+
+var options = new AgentOptions(model);
+options.events = new HarmovelaSink("http://127.0.0.1:8790/aep/api");
+var agent = new Agent(options);
+```
+
+Pass a `HarmovelaSink.Transport` to inject a fake for tests. Limits: the sink
+adds no authentication, retries, buffering, acknowledgements, ordering, or
+exactly-once delivery. Filter sensitive event data at the caller, and use HTTPS
+for remote endpoints.
+
 ## Contract Surface
 
 | Package | Contract |
@@ -92,7 +112,7 @@ System.out.println(result.output + " " + result.steps);
 | `com.axisvela.praxo.toolcall` | tool-call parsing and markup stripping |
 | `com.axisvela.praxo.jsonschema` | documented JSON Schema subset |
 | `com.axisvela.praxo.plugin` | Manifest v1 parsing and validation |
-| `com.axisvela.praxo.adapters` | OpenAI-compatible non-streaming and SSE adapter |
+| `com.axisvela.praxo.adapters` | OpenAI-compatible adapter and Harmovela event sink |
 
 Wire codecs preserve the Go names, including `image_url`, `runId`, and
 `plugin_id`. The Java Core uses a dependency-free JSON utility (`util/Json.java`)

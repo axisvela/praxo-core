@@ -106,6 +106,25 @@ each run; a fallback model counts as one agent model call.
 
 Public declarations are inventoried in [`api/0.1.1.txt`](api/0.1.1.txt).
 
+## Harmovela Event Sink
+
+`newHarmovelaSink` implements the event sink seam and posts to
+`{baseUrl}/events`.
+
+```nim
+let events = newHarmovelaSink(
+  baseUrl = "http://127.0.0.1:8790/aep/api",
+  source = "praxo-core",
+)
+options.events = events
+```
+
+It accepts an injected `HarmovelaTransport` and `HarmovelaClock` for
+deterministic tests. A 2xx status is success; other statuses raise
+`HARMOVELA_HTTP` with a bounded body. The sink adds no authentication, retries,
+buffering, ordering, or exactly-once delivery. Use HTTPS and filter sensitive
+event data first.
+
 ## Current Limits
 
 - Verified with `Nim 2.2.12` and MSYS2 `gcc 15.2.0` on Windows. Other Nim

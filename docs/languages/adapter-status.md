@@ -61,21 +61,39 @@ The baseline mapping is documented in the
 | Language | Status | Notes |
 | --- | --- | --- |
 | Go | native | `adapters/mcp` |
-| All other implementations | not implemented | Native MCP clients are the next adapter track after the model baseline |
+| Python | native | `praxo.adapters.mcp.MCPClient`; stdio JSON-RPC with fake-server tests |
+| TypeScript | native | `src/adapters/mcp.ts`; stdio JSON-RPC with fake-server tests |
+| All other implementations | not implemented | Native MCP clients follow the model baseline in adoption order |
 
 MCP support means a minimal client session that can initialize, list tools with
 pagination, and call a tool. It does not imply a hosted MCP service, schema
-promotion, or production authentication.
+promotion, or production authentication. The Python and TypeScript clients are
+stdio pilots; no live MCP server or remote transport is claimed.
 
 ## Harmovela
 
 | Language | Status | Notes |
 | --- | --- | --- |
 | Go | native | `adapters/harmovela` |
-| All other implementations | not implemented | Native HTTP event sinks follow the MCP track |
+| Python | native | `praxo.adapters.harmovela.HarmovelaSink` |
+| TypeScript | native | `src/adapters/harmovela.ts` |
+| Java | native | `adapters.HarmovelaSink` |
+| Rust | native | `harmovela::Sink` |
+| C# | native | `Praxo.Core.HarmovelaSink` |
+| R | native | `harmovela_sink` |
+| Elixir | native | `Praxo.HarmovelaSink` |
+| Ruby | native | `Praxo::Adapters::HarmovelaSink` |
+| PHP | native | `Praxo\Core\Adapters\HarmovelaSink` |
+| Lua | native | `praxo.harmovela_sink` |
+| Nim | native | `newHarmovelaSink` |
+| Perl | native | `Praxo::Adapters::Harmovela` |
+| Erlang | native | `praxo_harmovela` |
+| All other implementations | not implemented | Add with a named consumer or maintainer |
 
 Harmovela support means an HTTP event sink that posts the documented envelope.
-It does not imply authentication, delivery guarantees, or production transport.
+It does not imply authentication, delivery guarantees, ordering, or production
+transport. Each implementation uses an injected transport or loopback fixture in
+tests; no live Harmovela service is claimed.
 
 ## Adding a Native Adapter
 

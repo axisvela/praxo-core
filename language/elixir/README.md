@@ -30,6 +30,27 @@ HexDocs: <https://praxo-core.hexdocs.pm/0.4.1/>.
 {:praxo_core, "~> 0.4.1"}
 ```
 
+## Harmovela Event Sink
+
+`Praxo.HarmovelaSink` posts lifecycle events to `{base_url}/events` as JSON
+envelopes with `spec_version`, `id`, `type`, `source`, `created_at`, and a
+payload that merges the event data with `session_id` and `run_id` when present.
+
+```elixir
+sink =
+  Praxo.HarmovelaSink.new(
+    base_url: "http://127.0.0.1:8790/aep/api"
+  )
+
+options = %{Praxo.Agent.new_agent_options(model) | events: sink}
+```
+
+Pass `transport` as a one-argument function that receives the request map and
+returns `{:ok, status, body}` or `{:error, reason}` to run without network
+access. Limits: the sink adds no authentication, retries, buffering,
+acknowledgements, ordering, or exactly-once delivery. Filter sensitive event
+data at the caller, and use HTTPS for remote endpoints.
+
 ## Build And Test
 
 From `language/elixir`:

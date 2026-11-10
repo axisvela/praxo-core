@@ -57,20 +57,37 @@
 | 语言 | 状态 | 说明 |
 | --- | --- | --- |
 | Go | native | `adapters/mcp` |
-| 其他实现 | not implemented | 模型基线之后的下一条适配器主线 |
+| Python | native | `praxo.adapters.mcp.MCPClient`；stdio JSON-RPC，含 fake server 测试 |
+| TypeScript | native | `src/adapters/mcp.ts`；stdio JSON-RPC，含 fake server 测试 |
+| 其他实现 | not implemented | 按采用顺序补齐原生 MCP client |
 
 MCP 支持指最小 client session：initialize、分页 tools/list 与 tools/call。它不代表
-托管 MCP 服务、schema 晋级或生产认证。
+托管 MCP 服务、schema 晋级或生产认证。Python/TypeScript 是 stdio 试点；未声明真实
+MCP 服务或远端 transport。
 
 ## Harmovela
 
 | 语言 | 状态 | 说明 |
 | --- | --- | --- |
 | Go | native | `adapters/harmovela` |
-| 其他实现 | not implemented | 在 MCP 主线之后补原生 HTTP event sink |
+| Python | native | `praxo.adapters.harmovela.HarmovelaSink` |
+| TypeScript | native | `src/adapters/harmovela.ts` |
+| Java | native | `adapters.HarmovelaSink` |
+| Rust | native | `harmovela::Sink` |
+| C# | native | `Praxo.Core.HarmovelaSink` |
+| R | native | `harmovela_sink` |
+| Elixir | native | `Praxo.HarmovelaSink` |
+| Ruby | native | `Praxo::Adapters::HarmovelaSink` |
+| PHP | native | `Praxo\Core\Adapters\HarmovelaSink` |
+| Lua | native | `praxo.harmovela_sink` |
+| Nim | native | `newHarmovelaSink` |
+| Perl | native | `Praxo::Adapters::Harmovela` |
+| Erlang | native | `praxo_harmovela` |
+| 其他实现 | not implemented | 在有命名消费者或维护者时补齐 |
 
-Harmovela 支持指按文档 envelope POST 事件的 HTTP sink。它不代表认证、投递保证或
-生产传输。
+Harmovela 支持指按文档 envelope POST 事件的 HTTP sink。它不代表认证、投递保证、排序
+或生产传输。各实现测试使用注入 transport 或 loopback fixture；未声明真实 Harmovela
+服务。
 
 ## 新增原生适配器
 

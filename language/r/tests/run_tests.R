@@ -11,6 +11,7 @@ if (requireNamespace("praxocore", quietly = TRUE)) {
   source(file.path(root, "language", "r", "R", "plugin.R"))
   source(file.path(root, "language", "r", "R", "core.R"))
   source(file.path(root, "language", "r", "R", "openaicompat.R"))
+  source(file.path(root, "language", "r", "R", "harmovela.R"))
 }
 
 expect_code <- function(expr, code) {
@@ -571,5 +572,70 @@ openai_compatible_test <- function() {
 }
 
 openai_compatible_test()
+
+harmovela_test <- function() {
+  captured <- new.env(parent = emptyenv())
+  transport <- function(path, envelope) {
+    captured$path <- path
+    captured$envelope <- envelope
+    list(status = 201L, body = "")
+  }
+  sink <- harmovela_sink("http://harmovela.test/aep/api/", transport = transport)
+  event <- list(
+    type = "tool.call",
+    sessionId = "s1",
+    runId = "run-123",
+    data = list(name = "echo")
+  )
+  sink$emit(event)
+  stopifnot(identical(captured$path, "/events"))
+  envelope <- captured$envelope
+  stopifnot(identical(envelope$spec_version, "0.2"))
+  stopifnot(grepl("^run-123-[0-9]+$", envelope$id))
+  stopifnot(identical(envelope$type, "tool.call"))
+  stopifnot(identical(envelope$source, "praxo-core"))
+  stopifnot(grepl("^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}\\.[0-9]{9}Z$",
+                  envelope$created_at))
+  stopifnot(identical(envelope$payload$name, "echo"))
+  stopifnot(identical(envelope$payload$session_id, "s1"))
+  stopifnot(identical(envelope$payload$run_id, "run-123"))
+
+  custom <- harmovela_sink("http://harmovela.test", source = "custom",
+                           spec_version = "0.3", transport = transport)
+  merged <- list(
+    type = "tool.call",
+    sessionId = "s1",
+    data = list(name = "echo", session_id = "event-side", run_id = "old")
+  )
+  custom$emit(merged)
+  envelope <- captured$envelope
+  stopifnot(identical(envelope$source, "custom"))
+  stopifnot(identical(envelope$spec_version, "0.3"))
+  stopifnot(startsWith(envelope$id, "s1-"))
+  stopifnot(identical(envelope$payload$session_id, "s1"))
+  stopifnot(identical(envelope$payload$run_id, "old"))
+
+  for (status in c(200L, 201L, 204L, 299L)) {
+    accepted <- harmovela_sink("http://harmovela.test",
+                               transport = function(path, envelope) {
+                                 list(status = status, body = "")
+                               })
+    accepted$emit(event)
+  }
+
+  failing <- harmovela_sink(
+    "http://harmovela.test",
+    transport = function(path, envelope) {
+      list(status = 503L, body = paste(rep("service down ", 100L), collapse = ""))
+    }
+  )
+  error <- tryCatch({ failing$emit(event); NULL }, error = function(error) error)
+  stopifnot(inherits(error, "praxo_error"), identical(error$code, "HARMOVELA_HTTP"))
+  stopifnot(grepl("503", conditionMessage(error), fixed = TRUE))
+  stopifnot(grepl("service down", conditionMessage(error), fixed = TRUE))
+  stopifnot(nchar(conditionMessage(error)) <= 600L)
+}
+
+harmovela_test()
 
 cat("R core tests passed\n")

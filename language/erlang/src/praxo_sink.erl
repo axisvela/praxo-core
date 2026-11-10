@@ -18,6 +18,10 @@ emit(#{mode := filter, target := Target, predicate := Predicate} = Sink, Event) 
         false -> Sink
     end;
 emit(Sink, Event) ->
+    case maps:get(handler, Sink, undefined) of
+        Handler when is_function(Handler, 1) -> _ = Handler(Event);
+        _ -> ok
+    end,
     Sink#{kinds => maps:get(kinds, Sink) ++ [maps:get(kind, Event)]}.
 
 kinds(#{mode := multi, sinks := Sinks}) ->

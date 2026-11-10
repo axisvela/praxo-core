@@ -126,3 +126,45 @@ export class ToolNotFoundError extends PraxoError {
     this.name = "ToolNotFoundError";
   }
 }
+
+export class McpError extends PraxoError {
+  constructor(message: string, code = "MCP_ERROR") {
+    super(message, code);
+    this.name = "McpError";
+  }
+}
+
+export class McpProtocolError extends PraxoError {
+  constructor(message: string) {
+    super(message, "MCP_PROTOCOL");
+    this.name = "McpProtocolError";
+  }
+}
+
+export class McpTransportError extends PraxoError {
+  constructor(message: string) {
+    super(message, "MCP_TRANSPORT");
+    this.name = "McpTransportError";
+  }
+}
+
+export class McpTimeoutError extends PraxoError {
+  constructor(message = "mcp: request timed out") {
+    super(message, "MCP_TIMEOUT");
+    this.name = "McpTimeoutError";
+  }
+}
+
+export class McpCancelledError extends PraxoError {
+  constructor(message = "mcp: request cancelled") {
+    super(message, "MCP_CANCELLED");
+    this.name = "McpCancelledError";
+  }
+}
+
+export class McpToolError extends PraxoError {
+  constructor(message: string) {
+    super(message, "MCP_TOOL_ERROR");
+    this.name = "McpToolError";
+  }
+}

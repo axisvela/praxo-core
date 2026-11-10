@@ -38,6 +38,11 @@ FuncTool
 Gateway
 GatewayInfo
 GatewayTool
+HarmovelaHttpRequest
+HarmovelaHttpResponse
+HarmovelaSink
+HarmovelaSinkOptions
+HarmovelaTransport
 Hook
 INTERRUPT_APPROVE
 INTERRUPT_EDIT
@@ -56,6 +61,18 @@ Manifest
 MaxStepsError
 MaxTokensError
 MaybePromise
+McpCancelledError
+McpClient
+McpClientOptions
+McpError
+McpProtocolError
+McpRequestOptions
+McpTimeoutError
+McpTool
+McpToolAdapter
+McpToolError
+McpTransport
+McpTransportError
 MemoryRecord
 MemoryStore
 Message
@@ -143,6 +160,7 @@ fromJson
 lastUserMessage
 loadAgentsMd
 maybeAwait
+mcpTools
 mergeMiddleware
 messageFromWire
 messageToWire
@@ -153,6 +171,7 @@ parseManifest
 parseToolCall
 piiMiddleware
 redactValue
+registerMcpTools
 stripToolCallMarkup
 toolCallFromWire
 toolCallToWire

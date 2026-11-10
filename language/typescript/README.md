@@ -65,6 +65,61 @@ console.log(result.output, result.steps, result.usage);
 | Runtime | Context budgets, checkpoints, events, streaming, cancellation |
 | Integration | OpenAI-compatible adapter; bring your own model and tools |
 
+## Harmovela event sink
+
+`HarmovelaSink` posts lifecycle events to `{baseUrl}/events` as JSON envelopes
+with `spec_version`, `id`, `type`, `source`, `created_at`, and a payload that
+merges the event data with `session_id` and `run_id` when present.
+
+```ts
+import { HarmovelaSink } from "@axisvela/praxo-core";
+
+const events = new HarmovelaSink({
+  baseUrl: "http://127.0.0.1:8790/aep/api",
+});
+
+const agent = new Agent({ model, events });
+```
+
+Supply `transport` to run without network access. Limits: the sink adds no
+authentication, retries, buffering, acknowledgements, ordering, or exactly-once
+delivery. Apply caller-side filtering before emitting sensitive event data, and
+use HTTPS for remote endpoints.
+
+## MCP client adapter
+
+`McpClient` is a native, dependency-free stdio JSON-RPC 2.0 client for MCP
+servers. It performs the `initialize` / `notifications/initialized` handshake,
+follows `tools/list` pagination, preserves `inputSchema`, and calls tools.
+
+```ts
+import { McpClient, registerMcpTools, Registry } from "@axisvela/praxo-core";
+
+const client = await McpClient.connect({
+  command: "my-mcp-server",
+  args: ["--stdio"],
+  timeoutMs: 30_000,
+});
+
+const tools = new Registry();
+registerMcpTools(tools, client, await client.listTools());
+
+const result = await client.callTool("search", { query: "praxo" });
+await client.close();
+```
+
+Pass `transport` instead of `command` to inject a custom line transport.
+`listTools` and `callTool` accept `{ signal, timeoutMs }`. On timeout or
+`AbortSignal` cancellation the client sends `notifications/cancelled`; local
+cancellation does not prove that the remote work stopped. The registry helper
+only registers tools, so the normal Agent policy and authorization seam still
+applies. MCP authentication belongs to the transport or server session.
+
+Errors extend `PraxoError` with codes `MCP_PROTOCOL`, `MCP_TRANSPORT`,
+`MCP_TIMEOUT`, `MCP_CANCELLED`, `MCP_TOOL_ERROR`, and `MCP_ERROR`. Limits: stdio
+only, no hosted service, no sandbox isolation, no schema promotion, and tool
+output remains untrusted content.
+
 ## Documentation and examples
 
 - [Documentation](https://axisvela.github.io/praxo-core/languages/typescript/)
@@ -116,6 +171,8 @@ the published file set and installed import path, not npm registry availability.
 | `src/jsonschema.ts` | documented JSON Schema subset |
 | `src/plugin.ts` | Manifest v1 parsing and validation |
 | `src/adapters/openaicompat.ts` | OpenAI-compatible non-streaming and SSE adapter |
+| `src/adapters/harmovela.ts` | Harmovela HTTP event sink |
+| `src/adapters/mcp.ts` | Native stdio MCP client and tool registration helper |
 
 Wire codecs preserve the Go names, including `image_url`, `runId`, and
 `plugin_id`. The checked-in export-name snapshot is `api/<version>.txt`; the

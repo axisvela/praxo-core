@@ -74,6 +74,22 @@ options.tools = registry
 options.max_steps = 8
 ```
 
+## Harmovela Event Sink
+
+`praxo.harmovela_sink` posts each event to `{base_url}/events`.
+
+```lua
+local harmovela = require("praxo.harmovela_sink")
+options.events = harmovela.new({
+  base_url = "http://127.0.0.1:8790/aep/api",
+})
+```
+
+A 2xx status is success; any other status raises `HARMOVELA_HTTP` with the
+status and a bounded body. Inject `transport` (and `clock`) to test without a
+network. The sink adds no authentication, retries, buffering, ordering, or
+exactly-once delivery. Use HTTPS and filter sensitive event data first.
+
 ## Layout
 
 - `praxo/` package source.

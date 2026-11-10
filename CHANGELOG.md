@@ -20,6 +20,14 @@
   C, C++, Fortran, Haskell, and OCaml are transport-seam adapters. COBOL remains
   not implemented pending an HTTP transport decision and a model-callback
   extension for tool specs and history.
+- Native Harmovela HTTP event sinks for Python, TypeScript, Java, Rust, C#, R,
+  Elixir, Ruby, PHP, Lua, Nim, Perl, and Erlang. Tests use injected transports or
+  loopback fixtures; no live service, authentication, ordering, or delivery
+  guarantee is claimed.
+- Native stdio MCP clients for Python and TypeScript with handshake, paginated
+  tool listing, repeated-cursor and duplicate-name rejection, tool calls, timeout
+  cancellation, and fake-server tests. Remote transports and live MCP services
+  remain outside the claim.
 
 ### Fixed
 

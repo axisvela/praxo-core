@@ -10,3 +10,4 @@ require_once __DIR__ . '/Runtime.php';
 require_once __DIR__ . '/Middleware.php';
 require_once __DIR__ . '/Agent.php';
 require_once __DIR__ . '/Adapters/OpenAICompatible.php';
+require_once __DIR__ . '/Adapters/HarmovelaSink.php';

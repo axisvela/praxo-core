@@ -19,6 +19,9 @@ defmodule Praxo.Sink do
     end
   end
 
+  def emit(%{__harmovela_sink__: true} = sink, event),
+    do: Praxo.HarmovelaSink.emit(sink, event)
+
   def emit(sink, event), do: %{sink | kinds: sink.kinds ++ [event.kind]}
 end
 

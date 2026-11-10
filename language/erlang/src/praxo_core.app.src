@@ -9,6 +9,7 @@
   {links, [{"GitHub", "https://github.com/axisvela/praxo-core"}]},
   {modules, [praxo_agent,
              praxo_checkpoint,
+             praxo_harmovela,
              praxo_json,
              praxo_jsonschema,
              praxo_memory,

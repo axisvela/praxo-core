@@ -11,6 +11,7 @@ local runtime = require("praxo.runtime")
 local sse = require("praxo.sse")
 local toolcall = require("praxo.toolcall")
 local openai_compat = require("praxo.openai_compatible")
+local harmovela_sink = require("praxo.harmovela_sink")
 
 local function check(condition, message)
   if not condition then error(message) end
@@ -535,5 +536,47 @@ check(adapter_response.usage.input_tokens == 3 and adapter_response.usage.output
 check(captured.model == "test-model", "adapter model")
 check(captured.messages[1].role == "user", "adapter role")
 check(captured.tools[1]["function"].name == "echo", "adapter tool spec")
+
+local harmovela_captured = nil
+local harmovela = harmovela_sink.new({
+  base_url = "http://example.test/aep/api/",
+  clock = function() return 1700000000, 123456789 end,
+  transport = function(path, body, headers)
+    harmovela_captured = { path = path, body = body, headers = headers }
+    return { status = 200, body = "" }
+  end,
+})
+local harmovela_event = models.event({
+  type = "tool.call", session_id = "s1", run_id = "run-123", data = { name = "echo" },
+})
+check(harmovela.emit(harmovela_event) == nil, "harmovela success")
+check(harmovela_captured.path == "/events", "harmovela path")
+check(harmovela_captured.headers["content-type"] == "application/json",
+      "harmovela content type")
+local harmovela_envelope = json.parse(harmovela_captured.body)
+check(harmovela_envelope.spec_version == "0.2", "harmovela spec version")
+check(harmovela_envelope.id == "run-123-1700000000123456789", "harmovela id")
+check(harmovela_envelope.type == "tool.call", "harmovela type")
+check(harmovela_envelope.source == "praxo-core", "harmovela source")
+check(harmovela_envelope.created_at == "2023-11-14T22:13:20.123456789Z",
+      "harmovela created at")
+check(json.equals(harmovela_envelope.payload, {
+  name = "echo", session_id = "s1", run_id = "run-123",
+}), "harmovela payload")
+
+local harmovela_failed = harmovela_sink.new({
+  base_url = "http://example.test/aep/api",
+  clock = function() return 1700000000, 123456789 end,
+  transport = function(_path, _body, _headers)
+    return { status = 500, body = "boom" }
+  end,
+})
+local harmovela_ok, harmovela_error = pcall(function()
+  harmovela_failed.emit(harmovela_event)
+end)
+check(not harmovela_ok and errors.code(harmovela_error) == "HARMOVELA_HTTP",
+      "harmovela non-2xx code")
+check(harmovela_error.message:find("500", 1, true) and
+      harmovela_error.message:find("boom", 1, true), "harmovela non-2xx body")
 
 print("lua core tests passed")

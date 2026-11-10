@@ -67,8 +67,15 @@ praxo.strip_tool_call_markup(content: 'str') -> 'str'
 praxo.tool_selection_middleware(selector: 'ToolSelector | None') -> 'Middleware'
 
 ## praxo.adapters
+praxo.adapters.HarmovelaSink
+praxo.adapters.MCPClient
+praxo.adapters.MCPServerConfig
+praxo.adapters.MCPTool
+praxo.adapters.MCPToolAdapter
+praxo.adapters.MCPTransport
 praxo.adapters.OpenAICompatibleModel
 praxo.adapters.OpenAIConfig
+praxo.adapters.StdioTransport
 
 ## praxo.adapters.openaicompat
 praxo.adapters.openaicompat.OpenAICompatibleModel
@@ -122,6 +129,16 @@ praxo.errors.DrainTimeoutError
 praxo.errors.InterruptDecisionInvalidError
 praxo.errors.InterruptUnhandledError
 praxo.errors.InvalidTransitionError
+praxo.errors.MCPClosedError
+praxo.errors.MCPDuplicateToolError
+praxo.errors.MCPError
+praxo.errors.MCPHandshakeError
+praxo.errors.MCPPaginationError
+praxo.errors.MCPProtocolError
+praxo.errors.MCPRPCError
+praxo.errors.MCPTimeoutError
+praxo.errors.MCPToolError
+praxo.errors.MCPTransportError
 praxo.errors.MaxStepsError
 praxo.errors.MaxTokensError
 praxo.errors.ModelCallLimitError

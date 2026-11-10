@@ -36,6 +36,7 @@ internal static class Program
         TestOpenAiStreamCompletion();
         TestOpenAiStreamTruncated();
         TestOpenAiStreamHalfPacket();
+        HarmovelaSinkTests.Run();
         TestParallelTools();
         TestModelCancellation();
         TestToolCancellation();

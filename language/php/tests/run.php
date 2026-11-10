@@ -821,5 +821,56 @@ check($captured['messages'][0]['tool_calls'][0]['id'] === 'c1', 'adapter assista
 check($captured['messages'][0]['tool_calls'][0]['function']['arguments'] === '{"text":"hi"}', 'adapter tool args');
 check($captured['messages'][1]['tool_call_id'] === 'c1', 'adapter tool id');
 
+$harmovelaCaptured = null;
+$harmovela = new \Praxo\Core\Adapters\HarmovelaSink(
+    'http://example.test/aep/api/',
+    null,
+    null,
+    function (string $path, string $body, array $headers) use (&$harmovelaCaptured): array {
+        $harmovelaCaptured = [$path, $body, $headers];
+        return ['status' => 200, 'body' => ''];
+    },
+    static fn (): array => [1700000000, 123456789],
+);
+$harmovelaEvent = new Event('tool.call', 's1', 'run-123', ['name' => 'echo']);
+$harmovela->emit($harmovelaEvent);
+check($harmovelaCaptured[0] === '/events', 'harmovela path');
+check($harmovelaCaptured[2]['content-type'] === 'application/json', 'harmovela content type');
+$harmovelaEnvelope = Json::decode($harmovelaCaptured[1]);
+check($harmovelaEnvelope['spec_version'] === '0.2', 'harmovela spec version');
+check($harmovelaEnvelope['id'] === 'run-123-1700000000123456789', 'harmovela id');
+check($harmovelaEnvelope['type'] === 'tool.call', 'harmovela type');
+check($harmovelaEnvelope['source'] === 'praxo-core', 'harmovela source');
+check($harmovelaEnvelope['created_at'] === '2023-11-14T22:13:20.123456789Z', 'harmovela created at');
+check(
+    Json::equals($harmovelaEnvelope['payload'], [
+        'name' => 'echo',
+        'session_id' => 's1',
+        'run_id' => 'run-123',
+    ]),
+    'harmovela payload',
+);
+
+$harmovelaFailed = new \Praxo\Core\Adapters\HarmovelaSink(
+    'http://example.test/aep/api',
+    null,
+    null,
+    static fn (string $_path, string $_body, array $_headers): array => ['status' => 500, 'body' => 'boom'],
+    static fn (): array => [1700000000, 123456789],
+);
+$harmovelaError = null;
+try {
+    $harmovelaFailed->emit($harmovelaEvent);
+} catch (PraxoException $error) {
+    $harmovelaError = $error;
+}
+check($harmovelaError?->praxoCode === 'HARMOVELA_HTTP', 'harmovela non-2xx code');
+check(
+    $harmovelaError !== null
+        && str_contains($harmovelaError->getMessage(), '500')
+        && str_contains($harmovelaError->getMessage(), 'boom'),
+    'harmovela non-2xx body',
+);
+
 echo "PHP core tests passed ({$passed})\n";
 

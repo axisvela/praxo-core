@@ -83,6 +83,23 @@ Public declarations are inventoried in [`api/0.4.0.txt`](api/0.4.0.txt).
 This is a source declaration check, not a binary ABI promise. Regenerate it with
 `python api-snapshot.py`.
 
+## Harmovela Event Sink
+
+`praxo_harmovela` posts each event to `{base_url}/events`.
+
+```erlang
+Sink = praxo_harmovela:new(<<"http://127.0.0.1:8790/aep/api">>),
+Event = praxo_models:event(<<"tool.call">>, <<"s1">>, <<"run-1">>, #{<<"name">> => <<"echo">>}),
+ok = praxo_harmovela:emit(Sink, Event).
+```
+
+The returned map is also a `praxo_sink` sink, so `events => Sink` works with the
+agent loop. Inject `transport` (and `clock`) in the options map to test without
+a network. A 2xx status returns `ok`; other statuses return
+`{error, {http_status, Status, BoundedBody}}` from `praxo_harmovela:emit/2`.
+The sink adds no authentication, retries, buffering, ordering, or exactly-once
+delivery. Use HTTPS and filter sensitive event data first.
+
 ## Current Limits
 
 - The verified target is Erlang/OTP 29. Older releases without the `json`

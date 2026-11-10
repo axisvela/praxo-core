@@ -42,6 +42,7 @@ defmodule Praxo.Tests do
     test_agent_hitl()
     test_sse()
     test_openai_adapter()
+    test_harmovela_sink()
     IO.puts("elixir tests passed")
   end
 
@@ -835,6 +836,110 @@ defmodule Praxo.Tests do
     after
       1000 -> raise "adapter payload not captured"
     end
+  end
+
+  defp test_harmovela_sink do
+    parent = self()
+
+    transport = fn request ->
+      send(parent, {:harmovela, request})
+      {:ok, 201, ""}
+    end
+
+    sink =
+      Praxo.HarmovelaSink.new(
+        base_url: "http://harmovela.test/aep/api/",
+        transport: transport
+      )
+
+    event = Models.event("tool.call", "s1", "run-123", %{"name" => "echo"})
+    returned = Sink.emit(sink, event)
+    check(is_struct(returned, Praxo.HarmovelaSink), "harmovela sink state")
+
+    receive do
+      {:harmovela, request} ->
+        check(request.method == "POST", "harmovela method")
+        check(request.url == "http://harmovela.test/aep/api/events", "harmovela path")
+        check(request.headers["content-type"] == "application/json", "harmovela content type")
+        envelope = Json.parse!(request.body)
+        check(envelope["spec_version"] == "0.2", "harmovela spec")
+        check(String.starts_with?(envelope["id"], "run-123-"), "harmovela id")
+        check(envelope["type"] == "tool.call", "harmovela type")
+        check(envelope["source"] == "praxo-core", "harmovela source")
+
+        check(
+          Regex.match?(~r/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{9}Z$/, envelope["created_at"]),
+          "harmovela created_at"
+        )
+
+        payload = envelope["payload"]
+        check(payload["name"] == "echo", "harmovela payload data")
+        check(payload["session_id"] == "s1", "harmovela payload session")
+        check(payload["run_id"] == "run-123", "harmovela payload run")
+    after
+      1000 -> raise "harmovela request not captured"
+    end
+
+    custom =
+      Praxo.HarmovelaSink.new(
+        base_url: "http://harmovela.test",
+        source: "custom",
+        spec_version: "0.3",
+        transport: transport
+      )
+
+    merged =
+      Models.event("tool.call", "s1", nil, %{
+        "name" => "echo",
+        "session_id" => "event-side",
+        "run_id" => "old"
+      })
+
+    Sink.emit(custom, merged)
+
+    receive do
+      {:harmovela, request} ->
+        envelope = Json.parse!(request.body)
+        check(envelope["source"] == "custom", "harmovela custom source")
+        check(envelope["spec_version"] == "0.3", "harmovela custom spec")
+        check(String.starts_with?(envelope["id"], "s1-"), "harmovela session id")
+        payload = envelope["payload"]
+        check(payload["session_id"] == "s1", "harmovela session override")
+        check(payload["run_id"] == "old", "harmovela data run retained")
+    after
+      1000 -> raise "harmovela merged request not captured"
+    end
+
+    for status <- [200, 201, 204, 299] do
+      accepted =
+        Praxo.HarmovelaSink.new(
+          base_url: "http://harmovela.test",
+          transport: fn _request -> {:ok, status, ""} end
+        )
+
+      Sink.emit(accepted, event)
+    end
+
+    failing =
+      Praxo.HarmovelaSink.new(
+        base_url: "http://harmovela.test",
+        transport: fn _request ->
+          {:ok, 503, String.duplicate("service down ", 100)}
+        end
+      )
+
+    error =
+      try do
+        Sink.emit(failing, event)
+        nil
+      rescue
+        error in Praxo.Error -> error
+      end
+
+    check(match?(%Praxo.Error{code: "HARMOVELA_HTTP"}, error), "harmovela error code")
+    check(String.contains?(error.message, "503"), "harmovela error status")
+    check(String.contains?(error.message, "service down"), "harmovela error body")
+    check(String.length(error.message) <= 600, "harmovela bounded error")
   end
 
 end
