@@ -1,7 +1,7 @@
 # PRAXO-CORE Python Registry Introduction
 
-**Status:** published. Source version `0.3.2`, source
-tag `python/v0.3.2`. Published registry version: `0.3.2`. Registry
+**Status:** source release prepared; registry 0.3.2 published. Source version `0.4.0`, source
+tag `python/v0.4.0`. Published registry version: `0.3.2`. Registry
 pages are release snapshots; verify the published version before relying on a
 feature.
 
@@ -15,11 +15,11 @@ PRAXO-CORE is a dependency-free Python framework for building tool-using AI agen
 | --- | --- |
 | Package | `praxo-core` |
 | Registry | [PyPI](https://pypi.org/project/praxo-core/0.3.2/) |
-| Source version | `0.3.2` |
+| Source version | `0.4.0` |
 | Published registry version | `0.3.2` |
 | Install (published) | `pip install praxo-core==0.3.2` |
-| Install (source/release prepared) | `pip install praxo-core==0.3.2` |
-| Source tag | `python/v0.3.2` |
+| Install (source/release prepared) | `pip install praxo-core==0.4.0` |
+| Source tag | `python/v0.4.0` |
 | Tier | Core |
 | Contract | `SPEC_VERSION` `0.2.0` |
 | Documentation | https://axisvela.github.io/praxo-core/languages/python/ |

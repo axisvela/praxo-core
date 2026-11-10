@@ -1,5 +1,20 @@
 # Python Core Release Notes
 
+## 0.4.0 - 2026-11-10
+
+Source tag `python/v0.4.0`; PyPI publication is pending. The published package
+remains `0.3.2`.
+
+### Added
+
+- Harmovela HTTP event sink in `praxo.adapters.harmovela`.
+- stdio MCP client in `praxo.adapters.mcp` with fake-server tests.
+- Adapter sources now live under `praxo/adapters/`.
+
+### Compatibility
+
+- Additive; the existing `0.3.2` public API remains available.
+
 ## 0.3.2 - 2026-11-08
 
 Source tag `python/v0.3.2`. The PyPI package is published by the tag workflow.

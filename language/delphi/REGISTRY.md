@@ -7,7 +7,7 @@ feature.
 
 ## Positioning
 
-Native Core implementation with source tag `delphi/v0.2.1`. It passes all eleven vector groups and includes the native agent loop plus memory, event, checkpoint, policy, context, and middleware helpers. It does not call Go or another language Core; there is no model provider, process bridge, or plugin host.
+Native Core implementation with source tag `delphi/v0.2.1`. It passes all eleven vector groups and includes the native agent loop plus memory, event, checkpoint, policy, context, and middleware helpers. It does not call Go or another language Core; it has a non-streaming OpenAI-compatible model adapter but no process bridge or plugin host.
 
 ## Package
 

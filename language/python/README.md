@@ -135,9 +135,9 @@ read `MCPTool.input_schema` when you need the model-facing schema.
 
 The normative contract is [`spec/`](../../spec/README.md); Go remains the
 reference implementation. This package supports `SPEC_VERSION` `0.2.0` and
-passes all eleven conformance vector groups. Source version `0.3.2` is released
-from tag `python/v0.3.2`; the PyPI package is published by that tag. VFS and
-plugin hosts are not yet implemented.
+passes all eleven conformance vector groups. Source version `0.4.0` is released
+from tag `python/v0.4.0`; the latest published PyPI package remains `0.3.2`.
+VFS and plugin hosts are not yet implemented.
 
 ## Requirements
 
