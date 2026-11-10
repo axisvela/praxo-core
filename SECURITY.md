@@ -12,6 +12,14 @@ credential storage, and plugin materialization belong to the embedding product
 | older `2.x` | upgrade to the current patch line |
 | `1.x` and `0.x` | legacy; migrate to v2 for current fixes |
 
+## PHP Runtime Advisory
+
+PRAXO-CORE does not bundle PHP or Brotli. On Windows, use PHP `8.2.35-1`,
+`8.3.36-1`, `8.4.27-1`, or `8.5.12-1`; these builds include Brotli 1.2.1 and
+fix CVE-2026-111497, an out-of-bounds write in Brotli decompression. Linux
+distributions and containers may provide equivalent backports; verify their
+advisory status before deployment.
+
 ## Reporting a Vulnerability
 
 Do not open a public issue for a vulnerability. Use the repository's private

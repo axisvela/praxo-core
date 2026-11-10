@@ -10,6 +10,8 @@ Schema validation, and plugin manifest parsing.
 - The latest Packagist package is `axisvela/praxo-core@0.4.1`
 - License: MIT
 - Dependencies: none beyond the PHP standard library
+- Runtime: use a patched PHP release. On Windows use `8.2.35-1`, `8.3.36-1`,
+  `8.4.27-1`, or `8.5.12-1` (Brotli 1.2.1, CVE-2026-111497)
 
 ## Registry and Coding-Agent Entry
 

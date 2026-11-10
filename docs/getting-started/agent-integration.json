@@ -74,7 +74,7 @@
       "registry": "Packagist",
       "registryPage": "https://packagist.org/packages/axisvela/praxo-core",
       "version": "0.4.1",
-      "requirements": "PHP 8.2 or newer; Composer 2",
+      "requirements": "PHP 8.2.35+, 8.3.36+, 8.4.27+, or 8.5.12+ on Windows (patched Brotli); Composer 2",
       "install": "composer require axisvela/praxo-core:0.4.1",
       "starter": "examples/consumer-php",
       "guide": "docs/getting-started/consumer-php.md",

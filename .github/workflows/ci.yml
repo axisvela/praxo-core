@@ -150,7 +150,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: shivammathur/setup-php@v2
         with:
-          php-version: "8.4"
+          php-version: "8.4.27"
           tools: composer
       - run: composer install --no-interaction --prefer-dist
       - run: composer test
@@ -651,11 +651,25 @@ jobs:
 
   php-conformance:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php: ['8.2.35', '8.3.36', '8.4.27', '8.5.12']
     steps:
       - uses: actions/checkout@v4
       - uses: shivammathur/setup-php@v2
         with:
-          php-version: "8.4"
+          php-version: ${{ matrix.php }}
+      - run: php language/php/conformance/run.php
+      - run: php language/php/conformance/run.php --check-api
+      - run: php language/php/tests/run.php
+
+  php-windows-conformance:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.4.27"
       - run: php language/php/conformance/run.php
       - run: php language/php/conformance/run.php --check-api
       - run: php language/php/tests/run.php
@@ -934,7 +948,7 @@ jobs:
           install-rebar: false
       - uses: shivammathur/setup-php@v2
         with:
-          php-version: "8.4"
+          php-version: "8.4.27"
       - uses: actions/setup-dotnet@v4
         with:
           dotnet-version: "8.0.x"

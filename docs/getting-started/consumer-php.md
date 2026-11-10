@@ -1,7 +1,9 @@
 # Independent PHP Consumer
 
-Use published `axisvela/praxo-core` `0.4.1` in your own application with PHP 8.2
-or newer and Composer 2. No PRAXO-CORE source checkout, API key, model service,
+Use published `axisvela/praxo-core` `0.4.1` in your own application with a
+patched PHP release and Composer 2. On Windows use PHP `8.2.35-1`, `8.3.36-1`,
+`8.4.27-1`, or `8.5.12-1`, which include Brotli 1.2.1 and the fix for
+CVE-2026-111497. No PRAXO-CORE source checkout, API key, model service,
 or AxisVela product is required. Installation needs Packagist access or a cached
 Composer archive.
 
@@ -66,6 +68,14 @@ adapter.
 
 For a source checkout without Composer, the starter falls back to
 `language/php/src/autoload.php`; that path is not independent consumer evidence.
+
+## Runtime Security
+
+PRAXO-CORE does not bundle PHP or Brotli. Use a patched PHP runtime. The PHP
+Windows builds `8.2.35-1`, `8.3.36-1`, `8.4.27-1`, and `8.5.12-1` include
+Brotli 1.2.1 and fix the out-of-bounds write in Brotli decompression tracked as
+CVE-2026-111497. Linux distributions and containers may provide equivalent
+backports; verify their advisory status before deployment.
 
 ## Scope
 
