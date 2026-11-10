@@ -342,10 +342,10 @@
     "package": "praxo-core",
     "published_version": "0.3.2",
     "registry": "PyPI",
-    "source_install": "pip install praxo-core==0.4.0",
-    "source_version": "0.4.0",
+    "source_install": "pip install praxo-core==0.4.1",
+    "source_version": "0.4.1",
     "status": "source release prepared; registry 0.3.2 published",
-    "tag": "python/v0.4.0",
+    "tag": "python/v0.4.1",
     "tier": "Core",
     "url": "https://pypi.org/project/praxo-core/0.3.2/"
   },

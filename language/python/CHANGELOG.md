@@ -1,5 +1,15 @@
 # Python Core Release Notes
 
+## 0.4.1 - 2026-11-10
+
+Source tag `python/v0.4.1`; PyPI publication is pending. This supersedes the
+`0.4.0` source tag, whose release build failed on an outdated installed-smoke
+version assertion.
+
+### Fixed
+
+- `installed_smoke.py` now checks the `0.4.1` package version.
+
 ## 0.4.0 - 2026-11-10
 
 Source tag `python/v0.4.0`; PyPI publication is pending. The published package

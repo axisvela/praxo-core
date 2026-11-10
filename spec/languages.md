@@ -1,4 +1,4 @@
-﻿# Language Support Matrix
+# Language Support Matrix
 
 **Contract:** `SPEC_VERSION` `0.2.0`
 **Policy:** [Language implementation policy](../docs/contributing/language-policy.md)
@@ -72,7 +72,7 @@ for real providers, platforms, and production behavior is reported separately.
 | Language | Tier | Status | Tag | Maturity | Notes |
 | --- | --- | --- | --- | --- | --- |
 | Go | Core (reference) | released | `v2.7.0` | reference | Reference implementation |
-| Python | Core | released | `python/v0.4.0` | complete | 11 vectors, HITL interrupts, OpenAI adapter, Harmovela sink, stdio MCP client; source `0.4.0`, PyPI `praxo-core==0.3.2` remains the published version |
+| Python | Core | released | `python/v0.4.1` | complete | 11 vectors, HITL interrupts, OpenAI adapter, Harmovela sink, stdio MCP client; source `0.4.1`, PyPI `praxo-core==0.3.2` remains the published version |
 | TypeScript | Core | released | `typescript/v0.2.2` | complete | 11 vectors, HITL interrupts, OpenAI adapter; npm `@axisvela/praxo-core@0.2.2` published with provenance |
 | Java | Core | released | `java/v0.4.1` | complete | 11 vectors, HITL interrupts, OpenAI adapter, API snapshot; Maven Central `com.axisvela:praxo-core:0.4.1` |
 | Rust | Core | released | `rust/v0.3.0` | complete | 11 vectors, HITL interrupts, native tests, `tool.Gateway`, `jsonschema.Schema`, streaming/cancellation/parallel tools, compiler-derived API/parity gate; source `0.3.0`, crates.io `praxo-core==0.3.0`; recorded install smoke covers `0.1.4` |
