@@ -1,6 +1,6 @@
 # PHP 独立消费者
 
-在自己的应用中使用已发布的 `axisvela/praxo-core` `0.4.0`，要求 PHP 8.2 或更新版本
+在自己的应用中使用已发布的 `axisvela/praxo-core` `0.4.1`，要求 PHP 8.2 或更新版本
 及 Composer 2。无需检出 PRAXO-CORE 源码、API Key、模型服务或 AxisVela 产品。
 安装需要 Packagist 访问或已有 Composer 缓存。
 
@@ -19,18 +19,13 @@
 ```json
 {
   "require": {
-    "axisvela/praxo-core": "0.4.0"
+    "axisvela/praxo-core": "0.4.1"
   }
 }
 ```
 
 然后运行 `composer install`。验收时不要使用 `path` 仓库、本地归档或源码检出中的
 `autoload.php`。
-
-已发布的 `0.4.0` 没有在 Composer 元数据中声明自带的 `src/autoload.php`。Starter 在
-`Praxo\Core\Model` 尚未加载时会引入该包内文件。在下一个 PHP 包版本发布前，普通
-Composer 应用使用 `0.4.0` 时需在 `vendor/autoload.php` 之后额外 require
-`vendor/axisvela/praxo-core/src/autoload.php`。
 
 ## 应用源码
 

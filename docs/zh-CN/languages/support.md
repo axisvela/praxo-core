@@ -81,7 +81,7 @@ Bridge、Sample 描述运行时的接入方式，不证明其语言缺乏 Framew
 | Erlang | `erlang/v0.4.0` | Hex `praxo_core_erlang==0.4.0` 已发布；`0.3.1`、`0.2.0` 为历史版本 | `0.4.0` 未重跑；历史 `0.1.1` smoke |
 | Ruby | `ruby/v0.4.1` | RubyGems `praxo-core==0.4.1` 已发布；`0.4.0`、`0.3.0`、`0.2.0` 为历史版本 | 已增加扩展 Starter；RubyGems `0.4.1` 已安装到干净 gem home，allow/deny 本地通过 |
 | Lua | `lua/v0.4.1` | LuaRocks `praxo-core==0.4.1-1` 已发布，包含可选 OpenAI-compatible adapter；`0.4.0-1`、`0.3.0-1`、`0.2.0-1` 也已发布 | 已增加扩展 Starter；LuaRocks `0.4.1-1` 已安装到干净 tree，allow/deny 本地通过 |
-| PHP | `php/v0.4.1` | Packagist `axisvela/praxo-core==0.4.0` 已发布；`v0.4.1` 源码已发布、registry 待发布；`v0.3.0`、`v0.2.0` 为历史版本 | 已增加扩展 Starter；Composer 安装已发布 `0.4.0` 后使用包 autoload 桥接，本地通过；源码 `0.4.1` 已声明 `autoload.files` |
+| PHP | `php/v0.4.1` | Packagist `axisvela/praxo-core==0.4.1` 已发布，包含 Composer `autoload.files`；`0.4.0`、`0.3.0`、`0.2.0` 为历史版本 | 已增加扩展 Starter；Composer 安装已发布 `0.4.1` 后 Starter 无桥接本地通过 |
 | Dart | `dart/v0.1.1` | pub.dev `praxo_core==0.1.1` | 已记录 `0.1.1` |
 | Julia | `julia/v0.2.0` | General Registry PR #174826 已创建；mirror `0.2.0` | 未记录 |
 | MATLAB | `matlab/v0.2.1` | MATLAB File Exchange `185166` 已发布 | 未记录 |
@@ -108,7 +108,7 @@ Bridge、Sample 描述运行时的接入方式，不证明其语言缺乏 Framew
 | Elixir | `0.4.1` | Hex `0.4.1` | 已最新 |
 | Erlang | `0.4.0` | Hex `0.4.0` | 已最新 |
 | Ruby | `0.4.1` | RubyGems `0.4.1` | 已最新 |
-| PHP | `0.4.1` | Packagist `0.4.0` | 源码已发布；registry 待发布 |
+| PHP | `0.4.1` | Packagist `0.4.1` | 已最新 |
 | Lua | rockspec `0.4.1-1`；源码标签 `0.4.1` | LuaRocks `0.4.1-1` | 已最新 |
 | Dart | `0.1.1` | pub.dev `0.1.1` | 已最新 |
 | Julia | `0.2.0` | General Registry PR #174826 待合并 | 待完成 |

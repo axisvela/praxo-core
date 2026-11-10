@@ -81,7 +81,7 @@ for real providers, platforms, and production behavior is reported separately.
 | Visual Basic | Sample (.NET) | released | `csharp/v0.1.1` | sample | VB.NET consumer sample in `language/csharp/samples` |
 | PowerShell | Core (.NET) | released | `powershell/v0.2.0` | complete | C# shared-runtime Core wrapper; PowerShell Gallery `praxo-core-ps==0.2.0`; 11 vectors via C# Core; PowerShell API snapshot/parity; agent loop delegated to C# Core |
 | Shell | Bridge | released | `shell/v0.1.0` | complete | Wraps the bridge CLI |
-| PHP | Core | released | `php/v0.4.1` | complete | 11 vectors, HITL interrupts, API snapshot, streaming/cancellation/SSE, and caller-provided cooperative parallel tools; source `0.4.1` prepared with Composer autoload metadata and the optional OpenAI-compatible adapter; Packagist `axisvela/praxo-core==0.4.0` remains the published version |
+| PHP | Core | released | `php/v0.4.1` | complete | 11 vectors, HITL interrupts, API snapshot, streaming/cancellation/SSE, and caller-provided cooperative parallel tools; source `0.4.1` with Composer autoload metadata and the optional OpenAI-compatible adapter; Packagist `axisvela/praxo-core==0.4.1` |
 | Swift | Core | released | `swift/v0.2.0` | complete | 11 vectors, XCTest, API snapshot; split SPM repo `axisvela/praxo-core-swift` tag `0.2.0`; SPI PR #16032 open |
 | Julia | Core | released | `julia/v0.2.0` | complete | 11 vectors, JSON.jl, API snapshot; mirror `axisvela/praxo-core-julia` tag `0.2.0`; General Registry PR #174826 open |
 | R | Core | released | `r/v0.5.0` | complete | 11 vectors, base-R JSON, policy/middleware, HITL interrupts, lifecycle cleanup, cancellation, streaming, SSE parser, bounded parallel tools, API snapshot |

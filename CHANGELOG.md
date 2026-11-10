@@ -11,21 +11,18 @@
   add the four-language governed negative matrix.
 - Consumer guides, package-map entries, and CI jobs for the four extended
   starters. RubyGems, Hex, and LuaRocks installs were verified locally after
-  configuring the proxy CA; the Composer install of published `0.4.0` passed with
-  the documented package-autoload bridge.
+  configuring the proxy CA; the Composer install of published `0.4.1` passed
+  without an autoload bridge.
 - Elixir `0.4.1` and Lua `0.4.1-1` publish API snapshots and the optional
   OpenAI-compatible adapters to Hex and LuaRocks.
 
 ### Fixed
 
-- PHP source `0.4.1` is released as `php/v0.4.1` with a Composer
-  `autoload.files` entry for `src/autoload.php`, so Composer consumers load the
-  SDK classes. Published `0.4.0` does not contain this metadata; the consumer
-  starter and guide document the bridge until Packagist publishes `0.4.1`. The
-  source release also carries the additive
-  `Praxo\Core\Adapters\OpenAICompatible` adapter and `api/0.4.1.txt`, and the
-  conformance API check now derives the snapshot version from `composer.json`
-  instead of a hardcoded `0.3.0` path.
+- PHP `0.4.1` is published from `php/v0.4.1` with a Composer `autoload.files`
+  entry for `src/autoload.php`, so Composer consumers load the SDK classes. The
+  release also carries the additive `Praxo\Core\Adapters\OpenAICompatible`
+  adapter and `api/0.4.1.txt`, and the conformance API check now derives the
+  snapshot version from `composer.json` instead of a hardcoded `0.3.0` path.
 - The Ruby consumer CI job installs the pinned gem explicitly, and the Lua
   consumer CI job installs into a temporary LuaRocks tree instead of assuming a
   writable system tree.

@@ -2,9 +2,8 @@
 
 ## 0.4.1 - 2026-11-09
 
-Source release tag `php/v0.4.1`; Packagist publication from split tag `v0.4.1`
-is pending. The latest published package remains
-`axisvela/praxo-core==0.4.0`.
+Source release tag `php/v0.4.1`. Packagist publishes
+`axisvela/praxo-core==0.4.1` from split tag `v0.4.1`.
 
 ### Added
 

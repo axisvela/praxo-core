@@ -1,7 +1,7 @@
 # PRAXO-CORE PHP Registry Introduction
 
-**Status:** source released; registry 0.4.0 published. Source version `0.4.1`, source
-tag `php/v0.4.1`. Published registry version: `0.4.0`. Registry
+**Status:** published. Source version `0.4.1`, source
+tag `php/v0.4.1`. Published registry version: `0.4.1`. Registry
 pages are release snapshots; verify the published version before relying on a
 feature.
 
@@ -16,7 +16,7 @@ PRAXO-CORE is an embeddable, MIT-licensed agent framework. This package is its n
 | Package | `axisvela/praxo-core` |
 | Registry | [Packagist](https://packagist.org/packages/axisvela/praxo-core) |
 | Source version | `0.4.1` |
-| Published registry version | `0.4.0` |
+| Published registry version | `0.4.1` |
 | Install (published) | `composer require axisvela/praxo-core` |
 | Install (source/release prepared) | `composer require axisvela/praxo-core` |
 | Source tag | `php/v0.4.1` |

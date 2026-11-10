@@ -3,7 +3,7 @@
   "description": "Independent consumer of the published PRAXO-CORE PHP package",
   "type": "project",
   "require": {
-    "axisvela/praxo-core": "0.4.0"
+    "axisvela/praxo-core": "0.4.1"
   },
   "scripts": {
     "test": "php test_starter.php"

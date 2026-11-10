@@ -1,6 +1,6 @@
 # Independent PHP Consumer
 
-Use published `axisvela/praxo-core` `0.4.0` in your own application with PHP 8.2
+Use published `axisvela/praxo-core` `0.4.1` in your own application with PHP 8.2
 or newer and Composer 2. No PRAXO-CORE source checkout, API key, model service,
 or AxisVela product is required. Installation needs Packagist access or a cached
 Composer archive.
@@ -22,19 +22,13 @@ Declare the exact dependency in `composer.json`:
 ```json
 {
   "require": {
-    "axisvela/praxo-core": "0.4.0"
+    "axisvela/praxo-core": "0.4.1"
   }
 }
 ```
 
 Then run `composer install`. Do not use a `path` repository, a local archive, or
 an `autoload.php` include from a source checkout for acceptance.
-
-Published `0.4.0` does not declare its bundled `src/autoload.php` in Composer
-metadata. The starter loads that package file when `Praxo\Core\Model` is not
-already available. Until the next PHP package release, a plain Composer
-application on `0.4.0` must also require
-`vendor/axisvela/praxo-core/src/autoload.php` after `vendor/autoload.php`.
 
 ## Application Source
 

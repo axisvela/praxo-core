@@ -298,11 +298,11 @@
     "docs": "https://axisvela.github.io/praxo-core/languages/php/",
     "install": "composer require axisvela/praxo-core",
     "package": "axisvela/praxo-core",
-    "published_version": "0.4.0",
+    "published_version": "0.4.1",
     "registry": "Packagist",
     "source_install": "composer require axisvela/praxo-core",
     "source_version": "0.4.1",
-    "status": "source released; registry 0.4.0 published",
+    "status": "published",
     "tag": "php/v0.4.1",
     "tier": "Core",
     "url": "https://packagist.org/packages/axisvela/praxo-core"

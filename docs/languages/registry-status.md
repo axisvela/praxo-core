@@ -38,7 +38,7 @@ GitHub Latest represents the Go Reference Core only, not the last language packa
 | Erlang | Hex | `0.4.0` | https://hex.pm/packages/praxo_core_erlang/0.4.0 | published |
 | Ruby | RubyGems | `0.4.1` | https://rubygems.org/gems/praxo-core/versions/0.4.1 | published; Ruby source repo is `axisvela/praxo-core-ruby` |
 | Lua | LuaRocks | `0.4.1-1` | https://luarocks.org/modules/hanhhuiwen/praxo-core | published |
-| PHP | Packagist | `0.4.0` | https://packagist.org/packages/axisvela/praxo-core | published |
+| PHP | Packagist | `0.4.1` | https://packagist.org/packages/axisvela/praxo-core | published |
 | Dart | pub.dev | `0.1.1` | https://pub.dev/packages/praxo_core/versions/0.1.1 | published |
 | D | DUB | `0.1.0` | https://code.dlang.org/packages/praxo-core | published |
 | Swift | Swift Package Index | `0.2.0` | https://swiftpackageindex.com/axisvela/praxo-core-swift | package list merged |
@@ -47,11 +47,6 @@ GitHub Latest represents the Go Reference Core only, not the last language packa
 | PowerShell Bridge | PowerShell Gallery | `0.1.0` | https://www.powershellgallery.com/packages/praxo-core-ps-br/0.1.0 | published |
 | R | r-universe | `0.5.0` | https://axisvela.r-universe.dev/praxocore | r-universe only; CRAN not published |
 | Nim | nim-lang/packages (Nimble) | `0.1.1` | https://github.com/axisvela/praxo-core-nim | split repo published; nim-lang/packages PR #3600 merged 2026-11-05; install smoke not recorded; nimpkgs re-crawl pending |
-
-PHP source `php/v0.4.1` and split tag `v0.4.1` are published with Composer
-`autoload.files` and `api/0.4.1.txt`; Packagist remains `0.4.0` until it indexes
-the new tag. This package has no automatic update hook, so Packagist crawls it
-weekly; a maintainer can trigger a manual update from the package page.
 
 ## Uploaded or awaiting indexing
 
