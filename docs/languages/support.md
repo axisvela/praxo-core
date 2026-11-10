@@ -104,7 +104,7 @@ Registry values below were checked against the public registries on 2026-11-05.
 | Python | `python/v0.4.1` | PyPI `praxo-core==0.4.1` published | Release workflow built and smoke-tested `0.4.1`; post-publication consumer check passed locally |
 | TypeScript | `typescript/v0.3.0` | npm `@axisvela/praxo-core@0.2.2` published; `0.3.0` source prepared | Release workflow built and consumed the `0.2.2` tarball; `0.3.0` publication pending |
 | Java | `java/v0.4.1` | Maven Central `com.axisvela:praxo-core:0.4.1` published | Central validated and published; post-publication consumer check passed locally |
-| Rust | `rust/v0.4.0` | crates.io `praxo-core==0.3.0` published; `0.4.0` source prepared; `0.1.4` historical | Recorded for `0.1.4` only; not rerun for `0.4.0` |
+| Rust | `rust/v0.4.0` | crates.io `praxo-core==0.4.0` published; `0.1.4` historical | Recorded for `0.1.4` only; not rerun for `0.4.0` |
 | C# | `csharp/v0.3.0` | NuGet `Praxo.Core==0.3.0` published | Not recorded |
 | Elixir | `elixir/v0.4.1` | Hex `praxo_core==0.4.1` published with the optional OpenAI-compatible adapter; `0.4.0`, `0.3.0`, `0.2.0` historical | Extended starter added; Hex `0.4.1` resolved in a clean Mix project and allow/deny passed locally |
 | Erlang | `erlang/v0.4.0` | Hex `praxo_core_erlang==0.4.0` published; `0.3.1`, `0.2.0` historical | Not rerun for `0.4.0`; historical `0.1.1` smoke |
@@ -132,7 +132,7 @@ its latest version matches the manifest at the release tag.
 | Python | `0.4.1` | PyPI `0.4.1` | current |
 | TypeScript | `0.3.0` | npm `0.2.2` | source prepared; registry pending |
 | Java | `0.4.1` | Maven Central `0.4.1` | current |
-| Rust | `0.4.0` | crates.io `0.3.0` | current source; registry previous |
+| Rust | `0.4.0` | crates.io `0.4.0` | current |
 | C# | `0.3.0` | NuGet `0.3.0` | current |
 | Elixir | `0.4.1` | Hex `0.4.1` | current |
 | Erlang | `0.4.0` | Hex `0.4.0` | current |
@@ -195,7 +195,7 @@ the installation source of truth.
   OpenAI-compatible, Harmovela, and MCP adapters under `adapters::` to all
   eleven vector groups, native tests, `tool.Gateway`, `jsonschema.Schema`,
   streaming callbacks, cancellation, bounded parallel tools, HITL interrupt
-  decisions, and an API snapshot. crates.io publishes `praxo-core==0.3.0`; the
+  decisions, and an API snapshot. crates.io publishes `praxo-core==0.4.0`; the
   recorded clean temporary-project install smoke covers `0.1.4` and reported
   `SDK_VERSION` `0.1.4` and `SPEC_VERSION` `0.2.0`. VFS and plugin hosts are not
   included.

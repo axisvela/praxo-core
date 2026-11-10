@@ -28,7 +28,7 @@
 | 跨语言一致性 | Python、TypeScript、Java、Rust、Fortran、COBOL compatibility lab 运行确定性向量、API 快照/签名和 parity；已记录 Linux CI 与本地运行 | 契约/单元 + CI | 仅六种语言；COBOL 已在本地 GnuCOBOL 和 Linux CI 验证；不含 provider、HITL、checkpoint、sandbox 或生产证据；每次运行一个平台和工具链；非作者复现待办 |
 | Python 已发布包 | PyPI 已从源码标签 `python/v0.4.1` 发布 `praxo-core==0.4.1`。发布工作流在发布前构建并 smoke 测试 wheel/sdist；该版本包含 Harmovela 与 MCP adapter。历史本地检查覆盖 `0.3.2` 与 `0.2.4` | Registry 发布 + 发布工作流产物 smoke + 发布后消费者检查 | 一个平台/工具链；同机干净 venv，不是独立或非作者消费者；不含 provider 或生产证据 |
 | TypeScript 已发布包 | npm 已从源码标签 `typescript/v0.2.2` 发布 `@axisvela/praxo-core@0.2.2`，并为 latest。发布工作流构建并消费 tarball；`0.2.2` README 包含绝对 registry/编程 Agent 链接；发布后消费者脚本在干净临时项目中安装 `0.2.2` 并通过 starter/治理检查。历史 smoke 覆盖 `0.1.5` | Registry 发布 + 发布工作流 tarball smoke + 发布后消费者检查 | 一个平台/工具链；不是独立消费者；不含 provider 或生产证据 |
-| Rust 已发布 crate | crates.io 已从源码标签 `rust/v0.3.0` 发布 `praxo-core==0.3.0`；已记录的干净临时项目安装 smoke 覆盖 `0.1.4` | Registry 发布 + 历史本地安装 smoke | registry smoke 覆盖 `0.1.4`，不是 `0.3.0`；仅一个平台；不是独立消费者；不含 provider 或生产证据 |
+| Rust 已发布 crate | crates.io 已从源码标签 `rust/v0.4.0` 发布 `praxo-core==0.4.0`；已记录的干净临时项目安装 smoke 覆盖 `0.1.4` | Registry 发布 + 历史本地安装 smoke | registry smoke 覆盖 `0.1.4`，不是 `0.4.0`；仅一个平台；不是独立消费者；不含 provider 或生产证据 |
 | Dart 已发布包 | 从 pub.dev 在干净项目安装 `praxo_core==0.1.1`；程序导入 `package:praxo_core/praxo_core.dart`，并由最小 agent 返回 `hello` | 本地安装 smoke | 仅一个平台；同机项目，不是独立或非作者消费验证；仅最小 agent，不含 provider 或生产证据 |
 | Ruby 已发布 gem | RubyGems 已从源码标签 `ruby/v0.4.1` 发布 `praxo-core==0.4.1`；gem 源码仓库为 `axisvela/praxo-core-ruby`。`0.4.0`、`0.3.0` 和 `0.2.0` 仍可用。已记录的干净临时目录 smoke 覆盖 `0.1.0` | Registry 发布 + 历史本地安装 smoke | 未对 `0.4.1` 重跑 registry 安装 smoke；仅一个平台；不是独立消费者；不含 provider 或生产证据 |
 | Lua 已发布 rock | LuaRocks 已通过 `.github/workflows/lua-release.yml` 发布 `praxo-core==0.4.1-1`；工作流构建 source rock、在干净目录安装并运行安装后 smoke。已发布 `0.4.1-1` 也已安装到干净临时 tree，并从仓库外运行消费者 Starter 通过；`0.4.0-1`、`0.3.0-1` 和 `0.2.0-1` 仍可用 | Registry 发布 + CI 安装 smoke + 本地消费者安装 | 仅一个平台；不是独立消费者；不含 provider 或生产证据 |
@@ -65,7 +65,7 @@ Registry 链接指向当前已发布版本；上表的消费者 smoke 行指明�
 
 - [PyPI 上的 praxo-core 0.3.2](https://pypi.org/project/praxo-core/0.3.2/)
 - [npm 上的 @axisvela/praxo-core 0.2.2](https://www.npmjs.com/package/@axisvela/praxo-core/v/0.2.2)
-- [crates.io 上的 praxo-core 0.3.0](https://crates.io/crates/praxo-core/0.3.0)
+- [crates.io 上的 praxo-core 0.4.0](https://crates.io/crates/praxo-core/0.4.0)
 - [pub.dev 上的 praxo_core 0.1.1](https://pub.dev/packages/praxo_core)
 - [RubyGems 上的 praxo-core 0.4.1](https://rubygems.org/gems/praxo-core/versions/0.4.1)
 - [LuaRocks 上的 praxo-core 0.4.1-1](https://luarocks.org/modules/hanhhuiwen/praxo-core)

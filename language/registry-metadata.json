@@ -380,16 +380,16 @@
   "Rust": {
     "dir": "language/rust",
     "docs": "https://axisvela.github.io/praxo-core/languages/rust/",
-    "install": "cargo add praxo-core@0.3.0",
+    "install": "cargo add praxo-core@0.4.0",
     "package": "praxo-core",
-    "published_version": "0.3.0",
+    "published_version": "0.4.0",
     "registry": "crates.io",
     "source_install": "cargo add praxo-core@0.4.0",
     "source_version": "0.4.0",
-    "status": "source release prepared; registry 0.3.0 published",
+    "status": "published",
     "tag": "rust/v0.4.0",
     "tier": "Core",
-    "url": "https://crates.io/crates/praxo-core/0.3.0"
+    "url": "https://crates.io/crates/praxo-core/0.4.0"
   },
   "Swift": {
     "dir": "language/swift",

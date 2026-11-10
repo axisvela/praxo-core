@@ -12,7 +12,7 @@
 - Python: `praxo-core` — [PyPI](https://pypi.org/project/praxo-core/0.4.1/) — `0.4.1` — https://axisvela.github.io/praxo-core/languages/python/
 - TypeScript: `@axisvela/praxo-core` — [npm](https://www.npmjs.com/package/@axisvela/praxo-core/v/0.2.2) — `0.2.2` — https://axisvela.github.io/praxo-core/languages/typescript/
 - Java: `com.axisvela:praxo-core` — [Maven Central](https://repo1.maven.org/maven2/com/axisvela/praxo-core/0.4.1/) — `0.4.1` — https://axisvela.github.io/praxo-core/languages/java/
-- Rust: `praxo-core` — [crates.io](https://crates.io/crates/praxo-core/0.3.0) — `0.3.0` — https://axisvela.github.io/praxo-core/languages/rust/
+- Rust: `praxo-core` — [crates.io](https://crates.io/crates/praxo-core/0.4.0) — `0.4.0` — https://axisvela.github.io/praxo-core/languages/rust/
 - C#: `Praxo.Core` — [NuGet](https://www.nuget.org/packages/Praxo.Core/0.3.0) — `0.3.0` — https://axisvela.github.io/praxo-core/languages/csharp/
 - Ruby: `praxo-core` — [RubyGems](https://rubygems.org/gems/praxo-core/versions/0.4.1) — `0.4.1` — https://axisvela.github.io/praxo-core/languages/ruby/
 - PHP: `axisvela/praxo-core` — [Packagist](https://packagist.org/packages/axisvela/praxo-core) — `0.4.1` — https://axisvela.github.io/praxo-core/languages/php/

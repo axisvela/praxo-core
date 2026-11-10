@@ -1,9 +1,8 @@
 # Registry Publication Status
 
-Last checked: 2026-11-09 (Go `v2.7.0` released and its rendered page
-re-audited; Python 0.3.2, TypeScript 0.2.2, and Java 0.4.1 published; Go module
-proxy and crates.io re-checked 2026-11-07; other rows from the 2026-11-04/05
-audit).
+Last checked: 2026-11-10 (Rust 0.4.0 released; Python 0.4.1, TypeScript 0.2.2,
+and Java 0.4.1 published; Go module proxy and crates.io re-checked 2026-11-10;
+other rows from the 2026-11-04/05 audit).
 
 This page summarizes where each language implementation is published. Source
 tags, package-registry versions, conformance, and production verification are
@@ -32,7 +31,7 @@ GitHub Latest represents the Go Reference Core only, not the last language packa
 | Python | PyPI | `0.4.1` | https://pypi.org/project/praxo-core/0.4.1/ | published |
 | TypeScript | npm | `0.2.2` | https://www.npmjs.com/package/@axisvela/praxo-core/v/0.2.2 | published; latest |
 | Java | Maven Central | `0.4.1` | https://repo1.maven.org/maven2/com/axisvela/praxo-core/0.4.1/ | published |
-| Rust | crates.io | `0.3.0` | https://crates.io/crates/praxo-core/0.3.0 | published |
+| Rust | crates.io | `0.4.0` | https://crates.io/crates/praxo-core/0.4.0 | published |
 | C# | NuGet | `0.3.0` | https://www.nuget.org/packages/Praxo.Core/0.3.0 | published |
 | Elixir | Hex / HexDocs | `0.4.1` | https://hex.pm/packages/praxo_core/0.4.1 · https://praxo-core.hexdocs.pm/0.4.1/ | published |
 | Erlang | Hex | `0.4.0` | https://hex.pm/packages/praxo_core_erlang/0.4.0 | published |
