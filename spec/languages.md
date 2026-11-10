@@ -74,7 +74,7 @@ for real providers, platforms, and production behavior is reported separately.
 | Go | Core (reference) | released | `v2.7.0` | reference | Reference implementation |
 | Python | Core | released | `python/v0.4.1` | complete | 11 vectors, HITL interrupts, OpenAI adapter, Harmovela sink, stdio MCP client; source `0.4.1`, PyPI `praxo-core==0.4.1` |
 | TypeScript | Core | released | `typescript/v0.3.0` | complete | 11 vectors, HITL interrupts, OpenAI adapter, Harmovela sink, stdio MCP client; source `0.3.0`, npm `@axisvela/praxo-core@0.2.2` remains the published version |
-| Java | Core | released | `java/v0.4.1` | complete | 11 vectors, HITL interrupts, OpenAI adapter, API snapshot; Maven Central `com.axisvela:praxo-core:0.4.1` |
+| Java | Core | released | `java/v0.5.0` | complete | 11 vectors, HITL interrupts, OpenAI adapter, Harmovela sink, stdio MCP client, API snapshot; source `0.5.0`, Maven Central `com.axisvela:praxo-core:0.4.1` |
 | Rust | Core | released | `rust/v0.4.0` | complete | 11 vectors, HITL interrupts, native tests, `tool.Gateway`, `jsonschema.Schema`, streaming/cancellation/parallel tools, compiler-derived API/parity gate; source `0.4.0`, crates.io `praxo-core==0.4.0`; recorded install smoke covers `0.1.4` |
 | C | Core | released | `c/v0.6.0` | complete | 11 vectors, native tests; public Core API plus wire JSON primitives; policy/middleware/lifecycle, HITL interrupt decisions, cancellation, streaming, SSE, bounded parallel tools (pthread on Unix; sequential on Windows) |
 | C# | Core (.NET) | released | `csharp/v0.4.0` | complete | 11 vectors, HITL interrupts, API snapshot, OpenAI adapter, Harmovela sink, stdio MCP client, streaming/cancellation/parallel tools; source `0.4.0`, NuGet `Praxo.Core==0.4.0` |

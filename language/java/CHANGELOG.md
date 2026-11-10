@@ -1,5 +1,21 @@
 # Java Core Release Notes
 
+## 0.5.0 - 2026-11-10
+
+Source tag `java/v0.5.0`. Maven Central publishes the matching artifact after
+the release workflow completes.
+
+### Added
+
+- Harmovela lifecycle event sink with an injectable transport.
+- Native stdio MCP client, tool adapters, and registry helper.
+- API snapshot `api/0.5.0.txt`.
+
+### Changed
+
+- Adapter implementations live under `com.axisvela.praxo.adapters`; Core remains
+  free of provider-specific runtime dependencies.
+
 ## 0.4.1 - 2026-11-08
 
 Source tag `java/v0.4.1`. Maven Central publishes the matching artifact after
