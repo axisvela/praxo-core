@@ -239,6 +239,8 @@ def sync(entry: dict, token: str, workdir: Path, check: bool, revision: str) -> 
         return False
     if check:
         print(f"DRIFT {entry['key']}: {len(status.splitlines())} changed path(s)")
+        for line in status.splitlines():
+            print(f"  {line}")
         return True
     message = f"sync: refresh {entry['name']} mirror from monorepo {revision}"
     run_git(["commit", "-m", message], destination, token)
