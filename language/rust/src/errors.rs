@@ -80,6 +80,46 @@ impl PraxoError {
     pub fn tool_not_found(message: impl Into<String>) -> Self {
         Self::new("TOOL_NOT_FOUND", message)
     }
+
+    pub fn mcp_protocol(message: impl Into<String>) -> Self {
+        Self::new("MCP_PROTOCOL", message)
+    }
+
+    pub fn mcp_transport(message: impl Into<String>) -> Self {
+        Self::new("MCP_TRANSPORT", message)
+    }
+
+    pub fn mcp_handshake(message: impl Into<String>) -> Self {
+        Self::new("MCP_HANDSHAKE", message)
+    }
+
+    pub fn mcp_pagination(message: impl Into<String>) -> Self {
+        Self::new("MCP_PAGINATION", message)
+    }
+
+    pub fn mcp_duplicate_tool(message: impl Into<String>) -> Self {
+        Self::new("MCP_DUPLICATE_TOOL", message)
+    }
+
+    pub fn mcp_tool_error(message: impl Into<String>) -> Self {
+        Self::new("MCP_TOOL_ERROR", message)
+    }
+
+    pub fn mcp_rpc(message: impl Into<String>) -> Self {
+        Self::new("MCP_RPC", message)
+    }
+
+    pub fn mcp_timeout(message: impl Into<String>) -> Self {
+        Self::new("MCP_TIMEOUT", message)
+    }
+
+    pub fn mcp_closed(message: impl Into<String>) -> Self {
+        Self::new("MCP_CLOSED", message)
+    }
+
+    pub fn mcp_cancelled(message: impl Into<String>) -> Self {
+        Self::new("MCP_CANCELLED", message)
+    }
 }
 
 impl fmt::Display for PraxoError {

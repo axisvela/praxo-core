@@ -53,4 +53,34 @@ public sealed class PraxoException : Exception
 
     public static PraxoException Policy(string message)
         => new("POLICY_ERROR", message);
+
+    public static PraxoException McpProtocol(string message)
+        => new("MCP_PROTOCOL", message);
+
+    public static PraxoException McpTransport(string message)
+        => new("MCP_TRANSPORT", message);
+
+    public static PraxoException McpHandshake(string message)
+        => new("MCP_HANDSHAKE", message);
+
+    public static PraxoException McpPagination(string message)
+        => new("MCP_PAGINATION", message);
+
+    public static PraxoException McpDuplicateTool(string message)
+        => new("MCP_DUPLICATE_TOOL", message);
+
+    public static PraxoException McpToolError(string message)
+        => new("MCP_TOOL_ERROR", message);
+
+    public static PraxoException McpRpc(string message)
+        => new("MCP_RPC", message);
+
+    public static PraxoException McpTimeout(string message)
+        => new("MCP_TIMEOUT", message);
+
+    public static PraxoException McpClosed(string message)
+        => new("MCP_CLOSED", message);
+
+    public static PraxoException McpCancelled(string message)
+        => new("MCP_CANCELLED", message);
 }

@@ -26,7 +26,11 @@ tool_call <- function(id = "", name = "", arguments = list()) {
   list(id = id, name = name, arguments = arguments)
 }
 
-tool_spec <- function(name, description = "") list(name = name, description = description)
+tool_spec <- function(name, description = "", parameters = NULL) {
+  value <- list(name = name, description = description)
+  if (!is.null(parameters)) value$parameters <- parameters
+  value
+}
 
 usage <- function(input = 0L, output = 0L) list(inputTokens = input, outputTokens = output)
 usage_plus <- function(left, right) usage(left$inputTokens + right$inputTokens,
@@ -440,7 +444,9 @@ agent_run <- function(model, prompt, tools = list(), events = NULL, max_steps = 
   tryCatch({
     for (step in seq_len(max_steps)) {
       check_cancel()
-      specs <- lapply(tools, function(tool) tool_spec(tool$name, tool$description %||% ""))
+      specs <- lapply(tools, function(tool) {
+        tool_spec(tool$name, tool$description %||% "", tool$parameters %||% NULL)
+      })
       request_value <- request(messages, specs)
       result <- if (!is.null(on_delta) && !is.null(streaming_model)) {
         streaming_model(request_value, on_delta)

@@ -41,6 +41,34 @@ model <- openai_compatible_model(adapter)
 Provider HTTP failures raise `praxo_error` with code `PROVIDER_HTTP`; invalid
 tool-argument JSON raises `PROVIDER_JSON`. Streaming is not implemented.
 
+## MCP Client
+
+`R/mcp.R` implements the JSON-RPC 2.0 MCP client boundary over a caller-supplied
+transport: `initialize` / `notifications/initialized`, paginated `tools/list`
+with repeated-cursor and duplicate-name rejection, `inputSchema` preservation,
+and `tools/call` structured or text content mapping. Errors use `praxo_error`
+codes `MCP_PROTOCOL`, `MCP_TRANSPORT`, `MCP_HANDSHAKE`, `MCP_PAGINATION`,
+`MCP_DUPLICATE_TOOL`, `MCP_TOOL_ERROR`, `MCP_RPC`, `MCP_TIMEOUT`, `MCP_CLOSED`,
+and `MCP_CANCELLED`.
+
+```r
+client <- mcp_client(transport, timeout = 30)
+tools <- mcp_register_tools(client)
+result <- agent_run(model, "hi", tools = tools)
+mcp_close(client)
+```
+
+`mcp_register_tools` returns ordinary Core tool lists, so `agent_run` still
+authorizes every `tool.invoke` action and applies policy and allowlists.
+
+Blocker: base R has no persistent bidirectional stdio child. `mcp_stdio_transport`
+therefore raises `MCP_TRANSPORT` instead of silently adding a dependency. Supply
+a transport backed by a package such as `processx`, or an in-memory transport for
+tests. Limits: no remote transport, authentication, or sandbox isolation; MCP
+output is untrusted content. Timeouts send `notifications/cancelled`, and a
+caller cancellation callback sends the same notification and raises
+`MCP_CANCELLED`.
+
 ## Harmovela Event Sink
 
 `R/harmovela.R` adds a native sink that posts lifecycle events to

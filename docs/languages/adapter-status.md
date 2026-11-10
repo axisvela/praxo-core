@@ -63,6 +63,11 @@ The baseline mapping is documented in the
 | Go | native | `adapters/mcp` |
 | Python | native | `praxo.adapters.mcp.MCPClient`; stdio JSON-RPC with fake-server tests |
 | TypeScript | native | `src/adapters/mcp.ts`; stdio JSON-RPC with fake-server tests |
+| Java | native | `adapters.McpClient`; stdio JSON-RPC with fake-server self-test |
+| Rust | native | `mcp::McpClient`; stdio JSON-RPC with fake-server tests |
+| C# | native | `Praxo.Core.Adapters.McpClient`; stdio JSON-RPC with fake-server tests |
+| R | native (transport seam) | `mcp_client`; base R needs caller-supplied transport for stdio |
+| Elixir | native | `Praxo.Mcp`; stdio JSON-RPC with fake-server tests |
 | All other implementations | not implemented | Native MCP clients follow the model baseline in adoption order |
 
 MCP support means a minimal client session that can initialize, list tools with

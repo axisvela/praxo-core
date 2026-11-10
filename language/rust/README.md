@@ -88,6 +88,7 @@ println!("{} {}", result.output, result.steps);
 | `jsonschema` | `Schema`, `from_json`, `validate` over the documented subset |
 | `plugin` | Manifest v1 parsing and validation |
 | `harmovela` | Harmovela HTTP event sink and injectable transport |
+| `mcp` | Native stdio MCP client, tool adapters, and registry helper |
 
 Wire codecs preserve the Go names, including `image_url`, `runId`, and
 `plugin_id`.
@@ -112,6 +113,36 @@ transport speaks plain HTTP; inject a `Transport` for HTTPS. Limits: the sink
 adds no authentication, retries, buffering, acknowledgements, ordering, or
 exactly-once delivery. Filter sensitive event data at the caller, and use HTTPS
 for remote endpoints.
+
+## MCP stdio client
+
+`mcp::McpClient` starts a child process that speaks newline-delimited JSON-RPC
+2.0 over stdio. It performs the `initialize` / `notifications/initialized`
+handshake, follows `tools/list` cursors, rejects repeated cursors and duplicate
+names, preserves `inputSchema`, and maps `tools/call` structured or text content.
+
+```rust
+use praxo_core::mcp::{McpClient, McpServerConfig};
+use praxo_core::tool::Registry;
+
+let client = McpClient::connect(
+    McpServerConfig::new("my-mcp-server").arg("--stdio"),
+).expect("connect");
+let mut registry = Registry::new();
+client.register_tools(&mut registry).expect("register tools");
+```
+
+`register_tools` uses the normal `Registry` and `Tool` seam, so policy and tool
+authorization still apply. `McpToolAdapter::spec` and `McpTool::spec` preserve
+the model-facing input schema. Failures use `MCP_PROTOCOL`, `MCP_TRANSPORT`,
+`MCP_HANDSHAKE`, `MCP_PAGINATION`, `MCP_DUPLICATE_TOOL`, `MCP_TOOL_ERROR`,
+`MCP_RPC`, `MCP_TIMEOUT`, `MCP_CLOSED`, and `MCP_CANCELLED` codes.
+
+Limits: stdio transport only; no remote transport, authentication, sandbox
+isolation, or schema promotion. Tool output is untrusted and MCP authentication
+belongs to the child process. `McpClient::close` and `Drop` terminate the child;
+in-flight timeouts send `notifications/cancelled` but do not prove remote work
+stopped. The included tests use a deterministic fake server, not a live service.
 
 ## Conformance
 

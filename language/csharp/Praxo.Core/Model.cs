@@ -21,6 +21,11 @@ public interface ITool
     JsonNode? Invoke(JsonObject arguments);
 }
 
+public interface IToolSpecProvider
+{
+    ToolSpec Spec();
+}
+
 public sealed class FuncTool : ITool
 {
     private readonly Func<JsonObject, JsonNode?> _function;
@@ -61,7 +66,9 @@ public sealed class ToolRegistry
 
     public IReadOnlyList<ToolSpec> Specs()
         => _tools.Values
-            .Select(tool => new ToolSpec { Name = tool.Name, Description = tool.Description })
+            .Select(tool => tool is IToolSpecProvider provider
+                ? provider.Spec()
+                : new ToolSpec { Name = tool.Name, Description = tool.Description })
             .OrderBy(spec => spec.Name, StringComparer.Ordinal)
             .ToList();
 

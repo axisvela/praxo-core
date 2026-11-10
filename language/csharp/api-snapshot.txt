@@ -145,6 +145,8 @@ System.String Name { get; }
 System.Text.Json.Nodes.JsonNode Invoke(System.Text.Json.Nodes.JsonObject arguments)
 ### Praxo.Core.IToolSelector
 System.Collections.Generic.List`1[System.String] Select(System.String query, System.Collections.Generic.IReadOnlyList`1[Praxo.Core.ToolSpec] tools)
+### Praxo.Core.IToolSpecProvider
+Praxo.Core.ToolSpec Spec()
 ### Praxo.Core.InMemoryMemoryStore
 InMemoryMemoryStore()
 System.Collections.Generic.IReadOnlyList`1[Praxo.Core.MemoryRecord] Search(System.String sessionId, System.String query, System.Int32 limit)
@@ -181,6 +183,52 @@ System.Text.Json.Nodes.JsonNode Parse(System.String text)
 System.Text.Json.Nodes.JsonObject Object(System.Text.Json.Nodes.JsonNode node)
 ### Praxo.Core.JsonSchema
 System.Collections.Generic.List`1[Praxo.Core.ValidationError] Validate(System.Text.Json.Nodes.JsonNode schema, System.Text.Json.Nodes.JsonNode data)
+### Praxo.Core.McpClient
+McpClient(Praxo.Core.McpServerOptions options, System.TimeSpan? timeout, System.String clientName, System.String clientVersion, System.String protocolVersion)
+McpClient(Praxo.Core.McpStdioTransport transport, System.TimeSpan? timeout, System.String clientName, System.String clientVersion, System.String protocolVersion)
+Praxo.Core.McpClient Connect(System.Threading.CancellationToken cancellationToken)
+System.Boolean Connected { get; }
+System.Collections.Generic.IReadOnlyList`1[Praxo.Core.McpToolAdapter] RegisterTools(Praxo.Core.ToolRegistry registry, System.TimeSpan? timeout, System.Threading.CancellationToken cancellationToken)
+System.Collections.Generic.IReadOnlyList`1[Praxo.Core.McpTool] ListTools(System.TimeSpan? timeout, System.Threading.CancellationToken cancellationToken)
+System.Int32? ProcessId { get; }
+System.String DefaultProtocolVersion
+System.String ProtocolVersion { get; }
+System.Text.Json.Nodes.JsonNode CallTool(System.String name, System.Text.Json.Nodes.JsonObject arguments, System.TimeSpan? timeout, System.Threading.CancellationToken cancellationToken)
+System.Text.Json.Nodes.JsonObject ServerCapabilities { get; }
+System.Text.Json.Nodes.JsonObject ServerInfo { get; }
+System.Void Close()
+System.Void Dispose()
+### Praxo.Core.McpServerOptions
+McpServerOptions()
+System.Collections.Generic.Dictionary`2[System.String,System.String] Env { get; set; }
+System.Collections.Generic.List`1[System.String] Args { get; set; }
+System.String Command { get; set; }
+System.String WorkingDirectory { get; set; }
+System.TimeSpan CloseTimeout { get; set; }
+### Praxo.Core.McpStdioTransport
+McpStdioTransport(Praxo.Core.McpServerOptions options)
+System.Boolean HasExited { get; }
+System.Int32? ProcessId { get; }
+System.Text.Json.Nodes.JsonObject Request(System.String method, System.Text.Json.Nodes.JsonObject parameters, System.TimeSpan timeout, System.Threading.CancellationToken cancellationToken)
+System.Void Close()
+System.Void Dispose()
+System.Void Notify(System.String method, System.Text.Json.Nodes.JsonObject parameters)
+System.Void Send(System.Text.Json.Nodes.JsonObject message)
+System.Void Start()
+### Praxo.Core.McpTool
+McpTool()
+System.String Description { get; set; }
+System.String Name { get; set; }
+System.String Title { get; set; }
+System.Text.Json.Nodes.JsonObject Annotations { get; set; }
+System.Text.Json.Nodes.JsonObject InputSchema { get; set; }
+### Praxo.Core.McpToolAdapter
+McpToolAdapter(Praxo.Core.McpClient client, Praxo.Core.McpTool tool, System.TimeSpan? timeout)
+Praxo.Core.ToolSpec Spec()
+System.String Description { get; }
+System.String Name { get; }
+System.Text.Json.Nodes.JsonNode Invoke(System.Text.Json.Nodes.JsonObject arguments)
+System.Text.Json.Nodes.JsonObject Parameters { get; }
 ### Praxo.Core.MemoryRecord
 MemoryRecord()
 System.String Content { get; set; }
@@ -306,6 +354,16 @@ Praxo.Core.PraxoException InterruptDecisionInvalid(System.String message)
 Praxo.Core.PraxoException InterruptUnhandled()
 Praxo.Core.PraxoException MaxSteps()
 Praxo.Core.PraxoException MaxTokens()
+Praxo.Core.PraxoException McpCancelled(System.String message)
+Praxo.Core.PraxoException McpClosed(System.String message)
+Praxo.Core.PraxoException McpDuplicateTool(System.String message)
+Praxo.Core.PraxoException McpHandshake(System.String message)
+Praxo.Core.PraxoException McpPagination(System.String message)
+Praxo.Core.PraxoException McpProtocol(System.String message)
+Praxo.Core.PraxoException McpRpc(System.String message)
+Praxo.Core.PraxoException McpTimeout(System.String message)
+Praxo.Core.PraxoException McpToolError(System.String message)
+Praxo.Core.PraxoException McpTransport(System.String message)
 Praxo.Core.PraxoException ModelCallLimit()
 Praxo.Core.PraxoException Plugin(System.String message)
 Praxo.Core.PraxoException Policy(System.String message)

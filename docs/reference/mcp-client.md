@@ -42,9 +42,12 @@ licensing.
 ## Baseline Status
 
 Native stdio clients currently cover Go (`adapters/mcp`), Python
-(`praxo.adapters.mcp`), and TypeScript (`src/adapters/mcp.ts`). The Python and
-TypeScript clients are deterministic fake-server pilots, not live-service or
-remote-transport evidence. Other implementations remain unclaimed.
+(`praxo.adapters.mcp`), TypeScript (`src/adapters/mcp.ts`), Java
+(`adapters.McpClient`), Rust (`mcp::McpClient`), C#
+(`Praxo.Core.Adapters.McpClient`), R (`mcp_client`, transport seam), and Elixir
+(`Praxo.Mcp`). These are deterministic fake-server implementations, not
+live-service or remote-transport evidence. Other implementations remain
+unclaimed.
 
 ## Security and Scope
 

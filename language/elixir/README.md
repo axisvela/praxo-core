@@ -170,6 +170,33 @@ Tool selection and existence are checked before consuming the tool budget.
 Counters reset on every run, including when returned options are reused. These
 limits do not restrict direct calls or external work performed by callbacks.
 
+## MCP Client
+
+`Praxo.Mcp` spawns a child process over newline-delimited JSON-RPC 2.0 using an
+OTP port. It performs the `initialize` / `notifications/initialized` handshake,
+follows `tools/list` cursors, rejects repeated cursors and duplicate names,
+preserves `inputSchema`, and maps `tools/call` structured or text content.
+
+```elixir
+{:ok, client} =
+  Praxo.Mcp.connect(
+    command: "my-mcp-server",
+    timeout: 30_000
+  )
+
+{:ok, options} = Praxo.Mcp.register_tools(client, options)
+:ok = Praxo.Mcp.close(client)
+```
+
+`register_tools/3` adds ordinary `Praxo.Tool` values to `AgentOptions`, so the
+agent still authorizes every `tool.invoke` action and applies policy,
+allowlists, and middleware. Errors use `Praxo.Error` codes `MCP_PROTOCOL`,
+`MCP_TRANSPORT`, `MCP_HANDSHAKE`, `MCP_PAGINATION`, `MCP_DUPLICATE_TOOL`,
+`MCP_TOOL_ERROR`, `MCP_RPC`, `MCP_TIMEOUT`, `MCP_CLOSED`, and `MCP_CANCELLED`.
+Limits: stdio transport only, no remote transport or authentication; MCP output
+is untrusted content. Timeouts and caller cancellation send
+`notifications/cancelled`, and `close/1` terminates the child process.
+
 ## Current Limits
 
 - Verified with `Elixir 1.20.4` and `Erlang/OTP 29` on Windows and in Linux CI.

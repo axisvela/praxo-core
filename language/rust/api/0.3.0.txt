@@ -19,6 +19,9 @@ pub const MAX_AGENTS_MD_BYTES: usize = _; // 65_536usize
 ## constant praxo_core::context::SUMMARY_MARKER_PREFIX
 pub const SUMMARY_MARKER_PREFIX: &str = "[context summary:";
 
+## constant praxo_core::mcp::DEFAULT_PROTOCOL_VERSION
+pub const DEFAULT_PROTOCOL_VERSION: &str = "2024-11-05";
+
 ## constant praxo_core::memory::FRAME_CONSTRAINT
 pub const FRAME_CONSTRAINT: &str = "constraint";
 
@@ -179,6 +182,8 @@ pub fn strip_markup(content: &str) -> String
 
 ## module praxo_core::jsonschema
 
+## module praxo_core::mcp
+
 ## module praxo_core::memory
 
 ## module praxo_core::middleware
@@ -274,6 +279,16 @@ method pub fn interrupt_decision_invalid(message: impl Into<String>) -> Self
 method pub fn interrupt_unhandled() -> Self
 method pub fn max_steps() -> Self
 method pub fn max_tokens() -> Self
+method pub fn mcp_cancelled(message: impl Into<String>) -> Self
+method pub fn mcp_closed(message: impl Into<String>) -> Self
+method pub fn mcp_duplicate_tool(message: impl Into<String>) -> Self
+method pub fn mcp_handshake(message: impl Into<String>) -> Self
+method pub fn mcp_pagination(message: impl Into<String>) -> Self
+method pub fn mcp_protocol(message: impl Into<String>) -> Self
+method pub fn mcp_rpc(message: impl Into<String>) -> Self
+method pub fn mcp_timeout(message: impl Into<String>) -> Self
+method pub fn mcp_tool_error(message: impl Into<String>) -> Self
+method pub fn mcp_transport(message: impl Into<String>) -> Self
 method pub fn model_call_limit() -> Self
 method pub fn new(code: &'static str, message: impl Into<String>) -> Self
 method pub fn plugin(message: impl Into<String>) -> Self
@@ -355,6 +370,49 @@ pub struct ValidationError { pub path: String, pub message: String, }
 impl Clone for ValidationError
 impl Debug for ValidationError
 impl PartialEq for ValidationError
+
+## struct praxo_core::mcp::McpClient
+pub struct McpClient { /* private fields */ }
+impl McpClient
+method pub fn call_tool( &self, name: &str, arguments: Map<String, Value>, ) -> Result<Value>
+method pub fn call_tool_with_timeout( &self, name: &str, arguments: Map<String, Value>, timeout: Option<Duration>, ) -> Result<Value>
+method pub fn close(&self)
+method pub fn connect(config: McpServerConfig) -> Result<Self>
+method pub fn connect_with_timeout( config: McpServerConfig, timeout: Duration, ) -> Result<Self>
+method pub fn is_running(&self) -> bool
+method pub fn list_tools(&self) -> Result<Vec<McpTool>>
+method pub fn list_tools_with_timeout( &self, timeout: Option<Duration>, ) -> Result<Vec<McpTool>>
+method pub fn pid(&self) -> Option<u32>
+method pub fn protocol_version(&self) -> String
+method pub fn register_tools( &self, registry: &mut Registry, ) -> Result<Vec<Arc<dyn Tool>>>
+method pub fn server_capabilities(&self) -> Map<String, Value>
+method pub fn server_info(&self) -> Map<String, Value>
+
+## struct praxo_core::mcp::McpServerConfig
+pub struct McpServerConfig { pub command: String, pub args: Vec<String>, pub env: Vec<(String, String)>, pub cwd: Option<PathBuf>, }
+impl Clone for McpServerConfig
+impl Debug for McpServerConfig
+impl McpServerConfig
+method pub fn arg(self, arg: impl Into<String>) -> Self
+method pub fn args<I, S>(self, args: I) -> Self where I: IntoIterator<Item = S>, S: Into<String>,
+method pub fn cwd(self, cwd: impl Into<PathBuf>) -> Self
+method pub fn env(self, key: impl Into<String>, value: impl Into<String>) -> Self
+method pub fn new(command: impl Into<String>) -> Self
+
+## struct praxo_core::mcp::McpTool
+pub struct McpTool { pub name: String, pub description: String, pub input_schema: Map<String, Value>, pub title: String, pub annotations: Map<String, Value>, }
+impl Clone for McpTool
+impl Debug for McpTool
+impl McpTool
+impl PartialEq for McpTool
+method pub fn spec(&self) -> ToolSpec
+
+## struct praxo_core::mcp::McpToolAdapter
+pub struct McpToolAdapter { /* private fields */ }
+impl McpToolAdapter
+impl Tool for McpToolAdapter
+method pub fn spec(&self) -> ToolSpec
+method pub fn tool(&self) -> &McpTool
 
 ## struct praxo_core::memory::MemoryRecord
 pub struct MemoryRecord { pub id: String, pub frame: String, pub content: String, pub metadata: Option<Map<String, Value>>, pub created_at: Option<String>, }

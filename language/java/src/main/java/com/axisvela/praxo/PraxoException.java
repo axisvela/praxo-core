@@ -73,4 +73,44 @@ public class PraxoException extends RuntimeException {
     public static PraxoException toolNotFound(String message) {
         return new PraxoException("TOOL_NOT_FOUND", message);
     }
+
+    public static PraxoException mcpProtocol(String message) {
+        return new PraxoException("MCP_PROTOCOL", message);
+    }
+
+    public static PraxoException mcpTransport(String message) {
+        return new PraxoException("MCP_TRANSPORT", message);
+    }
+
+    public static PraxoException mcpHandshake(String message) {
+        return new PraxoException("MCP_HANDSHAKE", message);
+    }
+
+    public static PraxoException mcpPagination(String message) {
+        return new PraxoException("MCP_PAGINATION", message);
+    }
+
+    public static PraxoException mcpDuplicateTool(String message) {
+        return new PraxoException("MCP_DUPLICATE_TOOL", message);
+    }
+
+    public static PraxoException mcpToolError(String message) {
+        return new PraxoException("MCP_TOOL_ERROR", message);
+    }
+
+    public static PraxoException mcpRpc(String message) {
+        return new PraxoException("MCP_RPC", message);
+    }
+
+    public static PraxoException mcpTimeout(String message) {
+        return new PraxoException("MCP_TIMEOUT", message);
+    }
+
+    public static PraxoException mcpClosed(String message) {
+        return new PraxoException("MCP_CLOSED", message);
+    }
+
+    public static PraxoException mcpCancelled(String message) {
+        return new PraxoException("MCP_CANCELLED", message);
+    }
 }

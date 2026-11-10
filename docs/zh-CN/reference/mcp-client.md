@@ -35,9 +35,11 @@
 
 ## 基线状态
 
-原生 stdio client 目前覆盖 Go（`adapters/mcp`）、Python（`praxo.adapters.mcp`）与
-TypeScript（`src/adapters/mcp.ts`）。Python/TypeScript 是确定性 fake-server 试点，
-不是真实服务或远端 transport 证据。其他实现未声明。
+原生 stdio client 目前覆盖 Go（`adapters/mcp`）、Python（`praxo.adapters.mcp`）、
+TypeScript（`src/adapters/mcp.ts`）、Java（`adapters.McpClient`）、Rust
+（`mcp::McpClient`）、C#（`Praxo.Core.Adapters.McpClient`）、R（`mcp_client`，
+transport seam）与 Elixir（`Praxo.Mcp`）。这些是确定性 fake-server 实现，不是真实
+服务或远端 transport 证据。其他实现未声明。
 
 ## 安全与范围
 

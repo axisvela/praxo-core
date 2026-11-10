@@ -8,6 +8,7 @@ public static class Json
     public static readonly JsonSerializerOptions Options = new()
     {
         DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull,
+        TypeInfoResolver = new System.Text.Json.Serialization.Metadata.DefaultJsonTypeInfoResolver(),
     };
 
     public static JsonNode? Parse(string text)

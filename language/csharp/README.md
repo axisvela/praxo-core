@@ -98,6 +98,36 @@ authentication, retries, buffering, acknowledgements, ordering, or exactly-once
 delivery. Filter sensitive event data at the caller, and use HTTPS for remote
 endpoints.
 
+## MCP stdio client
+
+`McpClient` spawns a child process and speaks newline-delimited JSON-RPC 2.0.
+It performs the `initialize` / `notifications/initialized` handshake, follows
+`tools/list` cursors, rejects repeated cursors and duplicate names, preserves
+`inputSchema`, and maps `tools/call` structured or text content.
+
+```csharp
+using System.Text.Json.Nodes;
+using Praxo.Core;
+
+using var client = new McpClient(new McpServerOptions
+{
+    Command = "my-mcp-server",
+});
+client.Connect();
+
+var registry = new ToolRegistry();
+client.RegisterTools(registry);
+
+var result = client.CallTool("echo", new JsonObject { ["text"] = "hi" });
+```
+
+Registering MCP tools does not bypass policy: the agent still authorizes every
+`tool.invoke` action and applies its allowlist and middleware. Limits: stdio
+transport only, no remote transport or authentication, and MCP output remains
+untrusted content. Operations are bounded by the client timeout (default 30
+seconds), timeouts send `notifications/cancelled`, and `Close` terminates the
+child process.
+
 ## Layout
 
 - `Praxo.Core/` library.

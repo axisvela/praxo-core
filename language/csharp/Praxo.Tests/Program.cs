@@ -9,8 +9,12 @@ internal static class Program
 {
     private static int _passed;
 
-    public static int Main()
+    public static int Main(string[] args)
     {
+        if (args.Contains("--fake-mcp-server"))
+        {
+            return FakeMcpServer.Run(args);
+        }
         TestToolCallJson();
         TestToolCallStrip();
         TestJsonSchema();
@@ -41,6 +45,7 @@ internal static class Program
         TestModelCancellation();
         TestToolCancellation();
         TestStreamCallbackFailure();
+        _passed += McpTests.Run();
         Console.WriteLine($"C# core tests passed ({_passed})");
         return 0;
     }

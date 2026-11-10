@@ -7,6 +7,7 @@ pub mod event;
 pub mod harmovela;
 pub mod hitl;
 pub mod jsonschema;
+pub mod mcp;
 pub mod memory;
 pub mod middleware;
 pub mod model;

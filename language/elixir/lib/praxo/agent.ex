@@ -1,5 +1,5 @@
 defmodule Praxo.Tool do
-  defstruct name: "", description: "", calls: 0, invoke: nil
+  defstruct name: "", description: "", parameters: %{}, calls: 0, invoke: nil
 end
 
 defmodule Praxo.Model do
@@ -505,7 +505,9 @@ defmodule Praxo.Agent do
   end
 
   defp tool_specs(tools) do
-    Enum.map(tools, fn tool -> %ToolSpec{name: tool.name, description: tool.description} end)
+    Enum.map(tools, fn tool ->
+      %ToolSpec{name: tool.name, description: tool.description, parameters: tool.parameters}
+    end)
   end
 
   defp emit(options, kind, run_id \\ nil, data \\ :null) do

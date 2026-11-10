@@ -47,6 +47,7 @@ java -cp target/classes com.axisvela.praxo.conformance.ApiSnapshot --check
 java -cp target/classes com.axisvela.praxo.conformance.Run
 java --add-modules jdk.httpserver -cp target/classes:target/test-classes com.axisvela.praxo.adapters.OpenAICompatibleSelfTest
 java -cp target/classes:target/test-classes com.axisvela.praxo.adapters.HarmovelaSinkSelfTest
+java -cp target/classes:target/test-classes com.axisvela.praxo.adapters.McpSelfTest
 java -cp target/classes:target/test-classes com.axisvela.praxo.agent.AgentConcurrencySelfTest
 ```
 
@@ -94,6 +95,38 @@ Pass a `HarmovelaSink.Transport` to inject a fake for tests. Limits: the sink
 adds no authentication, retries, buffering, acknowledgements, ordering, or
 exactly-once delivery. Filter sensitive event data at the caller, and use HTTPS
 for remote endpoints.
+
+## MCP stdio client
+
+`adapters.McpClient` spawns a child process that speaks newline-delimited
+JSON-RPC 2.0 over stdio. It performs the `initialize` /
+`notifications/initialized` handshake, follows `tools/list` cursors, rejects
+repeated cursors and duplicate names, preserves `inputSchema`, and maps
+`tools/call` structured or text content.
+
+```java
+import com.axisvela.praxo.adapters.McpClient;
+import com.axisvela.praxo.adapters.McpServerConfig;
+import com.axisvela.praxo.tool.Registry;
+
+var client = McpClient.connect(
+        McpServerConfig.of("my-mcp-server", "--stdio"));
+var registry = new Registry();
+client.registerTools(registry);
+client.close();
+```
+
+`registerTools` uses the normal `Registry` and `Tool` seam, so policy and tool
+authorization still apply. `McpToolAdapter.spec` and `McpTool.toSpec` preserve
+the model-facing input schema. Failures use `MCP_PROTOCOL`, `MCP_TRANSPORT`,
+`MCP_HANDSHAKE`, `MCP_PAGINATION`, `MCP_DUPLICATE_TOOL`, `MCP_TOOL_ERROR`,
+`MCP_RPC`, `MCP_TIMEOUT`, `MCP_CLOSED`, and `MCP_CANCELLED` codes.
+
+Limits: stdio transport only; no remote transport, authentication, sandbox
+isolation, or schema promotion. Tool output is untrusted and MCP authentication
+belongs to the child process. `close` terminates the child; in-flight timeouts
+send `notifications/cancelled` but do not prove remote work stopped. The
+included tests use a deterministic fake server, not a live service.
 
 ## Contract Surface
 

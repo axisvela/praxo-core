@@ -28,10 +28,11 @@
   loopback fixtures; no live service, authentication, ordering, or delivery
   guarantee is claimed. COBOL remains blocked on HTTP transport and event-sink
   integration.
-- Native stdio MCP clients for Python and TypeScript with handshake, paginated
-  tool listing, repeated-cursor and duplicate-name rejection, tool calls, timeout
-  cancellation, and fake-server tests. Remote transports and live MCP services
-  remain outside the claim.
+- Native stdio MCP clients for Python, TypeScript, Java, Rust, C#, R, and Elixir
+  with handshake, paginated tool listing, repeated-cursor and duplicate-name
+  rejection, tool calls, timeout cancellation, and fake-server tests. R uses a
+  caller-supplied transport because base R lacks persistent bidirectional stdio.
+  Remote transports and live MCP services remain outside the claim.
 
 ### Fixed
 

@@ -39,6 +39,17 @@ json_int
 json_null
 json_parse
 json_string
+mcp_call_tool
+mcp_client
+mcp_close
+mcp_default_protocol_version
+mcp_list_tools
+mcp_notify
+mcp_register_tools
+mcp_request
+mcp_stdio_transport
+mcp_text_contents
+mcp_tools
 memory_put
 memory_record
 memory_search

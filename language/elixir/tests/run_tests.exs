@@ -43,6 +43,11 @@ defmodule Praxo.Tests do
     test_sse()
     test_openai_adapter()
     test_harmovela_sink()
+    test_mcp()
+    test_mcp_pagination_errors()
+    test_mcp_calls()
+    test_mcp_timeout_and_cleanup()
+    test_mcp_cancellation()
     IO.puts("elixir tests passed")
   end
 
@@ -940,6 +945,95 @@ defmodule Praxo.Tests do
     check(String.contains?(error.message, "503"), "harmovela error status")
     check(String.contains?(error.message, "service down"), "harmovela error body")
     check(String.length(error.message) <= 600, "harmovela bounded error")
+  end
+
+  defp test_mcp do
+    {:ok, client} = Praxo.Mcp.connect(fake_mcp_options("default"))
+    check(client.connected, "mcp connected")
+    check(client.protocol_version == "2024-11-05", "mcp protocol version")
+    check(client.server_info["name"] == "fake-mcp", "mcp server info")
+    {:ok, tools} = Praxo.Mcp.list_tools(client)
+    check(Enum.map(tools, & &1.name) == ["add", "echo", "fail", "multi"], "mcp tool names")
+    echo = Enum.find(tools, &(&1.name == "echo"))
+    check(echo.description == "Echo input", "mcp tool description")
+    check(echo.input_schema["type"] == "object", "mcp input schema")
+    check(echo.input_schema["properties"]["text"]["type"] == "string", "mcp schema property")
+    check(echo.input_schema["required"] == ["text"], "mcp schema required")
+
+    {:ok, adapters} = Praxo.Mcp.tools(client)
+    check(length(adapters) == 4, "mcp adapters")
+    echo_tool = Enum.find(adapters, &(&1.name == "echo"))
+    check(echo_tool.parameters["properties"]["text"]["type"] == "string", "mcp adapter schema")
+
+    options = Praxo.Agent.new_agent_options(Praxo.Agent.static_model("ok"))
+    {:ok, registered} = Praxo.Mcp.register_tools(client, options)
+    check(length(registered.tools) == 4, "mcp register into options")
+    :ok = Praxo.Mcp.close(client)
+  end
+
+  defp test_mcp_pagination_errors do
+    {:ok, repeated} = Praxo.Mcp.connect(fake_mcp_options("repeated-cursor"))
+    check(match?({:error, %Praxo.Error{code: "MCP_PAGINATION"}}, Praxo.Mcp.list_tools(repeated)), "mcp repeated cursor")
+    :ok = Praxo.Mcp.close(repeated)
+
+    {:ok, duplicate} = Praxo.Mcp.connect(fake_mcp_options("duplicate-name"))
+    check(match?({:error, %Praxo.Error{code: "MCP_DUPLICATE_TOOL"}}, Praxo.Mcp.list_tools(duplicate)), "mcp duplicate name")
+    :ok = Praxo.Mcp.close(duplicate)
+  end
+
+  defp test_mcp_calls do
+    {:ok, client} = Praxo.Mcp.connect(fake_mcp_options("default"))
+    check(match?({:ok, "hello"}, Praxo.Mcp.call_tool(client, "echo", %{"text" => "hello"})), "mcp text content")
+    check(match?({:ok, %{"sum" => 3}}, Praxo.Mcp.call_tool(client, "add", %{"a" => 1, "b" => 2})), "mcp structured content")
+    check(match?({:ok, ["one", "two"]}, Praxo.Mcp.call_tool(client, "multi")), "mcp multiple text content")
+    check(match?({:error, %Praxo.Error{code: "MCP_TOOL_ERROR"}}, Praxo.Mcp.call_tool(client, "fail")), "mcp tool error")
+    check(match?({:error, %Praxo.Error{code: "MCP_RPC"}}, Praxo.Mcp.request(client, "missing/method", nil)), "mcp rpc error")
+    :ok = Praxo.Mcp.close(client)
+  end
+
+  defp test_mcp_timeout_and_cleanup do
+    marker = mcp_marker()
+    {:ok, client} = Praxo.Mcp.connect(fake_mcp_options("hang", marker))
+    check(match?({:error, %Praxo.Error{code: "MCP_TIMEOUT"}}, Praxo.Mcp.call_tool(client, "hang", %{}, timeout: 100)), "mcp timeout")
+    check(wait_marker(marker, "cancelled:"), "mcp cancellation notification")
+    :ok = Praxo.Mcp.close(client)
+    check(wait_marker(marker, "exit"), "mcp process cleanup")
+    File.rm(marker)
+  end
+
+  defp test_mcp_cancellation do
+    marker = mcp_marker()
+    {:ok, client} = Praxo.Mcp.connect(fake_mcp_options("hang", marker))
+    check(match?({:error, %Praxo.Error{code: "MCP_CANCELLED"}}, Praxo.Mcp.call_tool(client, "hang", %{}, cancel: fn -> true end)), "mcp cancelled")
+    check(wait_marker(marker, "cancelled:"), "mcp cancelled notification")
+    :ok = Praxo.Mcp.close(client)
+    File.rm(marker)
+  end
+
+  defp fake_mcp_options(mode, marker \\ nil) do
+    executable = System.find_executable("elixir")
+    check(executable != nil, "elixir executable")
+    args = [Path.join(__DIR__, "fake_mcp_server.exs"), "--mode", mode]
+    args = if marker == nil, do: args, else: args ++ ["--marker", marker]
+    [command: executable, args: args, timeout: 5_000]
+  end
+
+  defp mcp_marker do
+    Path.join(System.tmp_dir!(), "praxo-elixir-mcp-#{System.unique_integer([:positive])}.log")
+  end
+
+  defp wait_marker(path, text, attempts \\ 200) do
+    cond do
+      attempts <= 0 ->
+        false
+
+      File.exists?(path) and String.contains?(File.read!(path), text) ->
+        true
+
+      true ->
+        Process.sleep(20)
+        wait_marker(path, text, attempts - 1)
+    end
   end
 
 end

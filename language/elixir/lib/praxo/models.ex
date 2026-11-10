@@ -11,7 +11,7 @@ defmodule Praxo.Message do
 end
 
 defmodule Praxo.ToolSpec do
-  defstruct name: "", description: ""
+  defstruct name: "", description: "", parameters: nil
 end
 
 defmodule Praxo.Usage do
@@ -87,7 +87,9 @@ defmodule Praxo.Models do
     %Message{role: "tool", content: content, tool_id: tool_id}
   end
 
-  def tool_spec(name, description), do: %ToolSpec{name: name, description: description}
+  def tool_spec(name, description, parameters \\ nil) do
+    %ToolSpec{name: name, description: description, parameters: parameters}
+  end
 
   def usage(input_tokens \\ 0, output_tokens \\ 0) do
     %Usage{input_tokens: input_tokens, output_tokens: output_tokens}
