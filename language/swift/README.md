@@ -18,9 +18,8 @@ Swift implementation of the PRAXO-CORE contract.
 
 `0.2.0` implements all eleven conformance vector groups: tool-call parsing, JSON
 Schema, plugin manifests, memory, events, stream kinds, checkpoint envelopes,
-path policy, context budgets, middleware, and the agent loop. It also includes a
-non-streaming OpenAI-compatible model adapter; other provider adapters remain
-follow-up work.
+path policy, context budgets, middleware, and the agent loop. It also includes
+non-streaming OpenAI-compatible, Anthropic, and Gemini model adapters.
 
 ## Install
 
@@ -58,6 +57,23 @@ let response = try model.generate(
 
 `URLSessionTransport` is the production transport. Inject a `ProviderTransport`
 fake in tests to avoid network calls.
+
+## Anthropic and Gemini Adapters
+
+`AnthropicModel` posts to `{baseURL}/v1/messages` with `x-api-key` and
+`anthropic-version`. `GeminiModel` posts to
+`{baseURL}/v1beta/models/{model}:generateContent` with `x-goog-api-key`. Both
+map system messages, tools, tool calls, tool results, usage, and provider HTTP
+errors over the injected `ProviderTransport`. Streaming is not implemented.
+
+```swift
+let claude = AnthropicModel(
+    AnthropicConfig(model: "claude-sonnet-4-5", apiKey: "secret")
+)
+let gemini = GeminiModel(
+    GeminiConfig(model: "gemini-2.5-pro", apiKey: "secret")
+)
+```
 
 ## Harmovela Event Sink
 

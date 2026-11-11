@@ -1,4 +1,6 @@
+#if canImport(CoreFoundation)
 import CoreFoundation
+#endif
 import Foundation
 
 public struct PluginManifest {
@@ -211,6 +213,11 @@ public enum Plugin {
     }
 
     private static func isBoolean(_ number: NSNumber) -> Bool {
+#if canImport(CoreFoundation)
         CFGetTypeID(number as CFTypeRef) == CFBooleanGetTypeID()
+#else
+        String(cString: number.objCType) == "c"
+            && (number == NSNumber(value: true) || number == NSNumber(value: false))
+#endif
     }
 }

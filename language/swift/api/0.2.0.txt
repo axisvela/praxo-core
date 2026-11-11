@@ -17,6 +17,15 @@ AgentOptions.model var
 AgentOptions.policy var
 AgentOptions.systemPrompt var
 AgentOptions.tools var
+AnthropicConfig.apiKey var
+AnthropicConfig.baseURL var
+AnthropicConfig.init
+AnthropicConfig.maxTokens var
+AnthropicConfig.model var
+AnthropicConfig.timeout var
+AnthropicConfig.version var
+AnthropicModel.config let
+AnthropicModel.init
 CallLimit.init
 CheckpointAllowlist.init
 CheckpointAllowlist.register func
@@ -42,6 +51,14 @@ FilterSink.init
 FuncTool.description let
 FuncTool.init
 FuncTool.name let
+GeminiConfig.apiKey var
+GeminiConfig.baseURL var
+GeminiConfig.init
+GeminiConfig.maxOutputTokens var
+GeminiConfig.model var
+GeminiConfig.timeout var
+GeminiModel.config let
+GeminiModel.init
 HarmovelaHTTPRequest.body var
 HarmovelaHTTPRequest.headers var
 HarmovelaHTTPRequest.init
@@ -191,11 +208,13 @@ buildRequest func
 check func
 class Agent
 class AgentOptions
+class AnthropicModel
 class CallLimit
 class CheckpointAllowlist
 class Event
 class FilterSink
 class FuncTool
+class GeminiModel
 class HarmovelaSink
 class MemoryRecord
 class MemoryStore
@@ -249,9 +268,11 @@ string func
 stringify func
 stripMarkup func
 struct Action
+struct AnthropicConfig
 struct ContentBlock
 struct ContextBudget
 struct Decision
+struct GeminiConfig
 struct HarmovelaHTTPRequest
 struct HarmovelaHTTPResponse
 struct HarmovelaTimestamp

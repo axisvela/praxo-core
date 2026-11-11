@@ -90,6 +90,7 @@ provider presets.
 | Nim | native | `newAnthropicCompatible`; injectable transport |
 | Haskell | native (transport seam) | `Praxo.Anthropic`; caller supplies transport |
 | OCaml | native (transport seam) | `anthropic_model`; caller supplies transport |
+| Swift | native | `AnthropicModel` with injectable transport |
 | V | native (transport seam) | `anthropic_compatible`; caller supplies `ProviderTransport` |
 | Zig | native | `anthropic.Adapter`; injectable transport |
 | MATLAB | native | `praxo.anthropic_compatible`; injectable transport |
@@ -122,6 +123,7 @@ provider presets.
 | Nim | native | `newGeminiCompatible`; injectable transport |
 | Haskell | native (transport seam) | `Praxo.Gemini`; caller supplies transport |
 | OCaml | native (transport seam) | `gemini_model`; caller supplies transport |
+| Swift | native | `GeminiModel` with injectable transport |
 | V | native (transport seam) | `gemini_compatible`; caller supplies `ProviderTransport` |
 | Zig | native | `gemini.Adapter`; injectable transport |
 | MATLAB | native | `praxo.gemini_compatible`; injectable transport |
