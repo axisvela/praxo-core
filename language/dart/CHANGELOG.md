@@ -4,6 +4,8 @@
 
 - Add native Anthropic Messages and Gemini generateContent adapters with sync
   and async transports.
+- Add a stdio MCP client with pagination, tool calls, timeouts, and
+  cancellation notifications.
 
 ## 0.1.1
 

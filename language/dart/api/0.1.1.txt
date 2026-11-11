@@ -18,6 +18,8 @@ class GeminiModel
 class HarmovelaResponse
 class HarmovelaSink
 class Json
+class McpClient
+class McpTransport
 class MemoryRecord
 class MemoryStore
 class Message
@@ -36,6 +38,7 @@ class Response
 class RunResult
 class Session
 class StaticModel
+class StdioMcpTransport
 class StructuredOutput
 class Tool
 class ToolCall
@@ -69,6 +72,7 @@ function _decode
 function _decodeChunked
 function _decodeHttp
 function _endpoint
+function _ensureConnected
 function _eventId
 function _headers
 function _invokeTool
@@ -93,6 +97,7 @@ function beforeTool
 function boolean
 function buildPayload
 function check
+function close
 function decodeHttpResponse
 function emit
 function equals
@@ -104,8 +109,10 @@ function generate
 function generateAsync
 function get
 function integer
+function listTools
 function marshal
 function messageWire
+function notify
 function parse
 function parseInputJson
 function parseManifest
@@ -120,6 +127,7 @@ function reject
 function run
 function search
 function specs
+function start
 function string
 function stripMarkup
 function truncateToTokens

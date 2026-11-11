@@ -381,6 +381,28 @@ Future<void> main() async {
   ).generateAsync(const Request());
   check(geminiAsync.message.content == 'async', 'gemini async');
 
+  final fakeMcp = _FakeMcpTransport();
+  final mcp = McpClient(transport: fakeMcp);
+  await mcp.start();
+  check(mcp.protocolVersion == '2024-11-05', 'mcp protocol version');
+  check(mcp.serverInfo['name'] == 'fake', 'mcp server info');
+  final mcpTools = await mcp.listTools();
+  check(
+      mcpTools.map((tool) => tool['name']).join(',') == 'add,echo',
+      'mcp paginated tools');
+  check(await mcp.callTool('echo', {'text': 'hi'}) is Map,
+      'mcp structured tool');
+  check(await mcp.callTool('text') == 'hello', 'mcp text tool');
+  String? mcpError;
+  try {
+    await mcp.callTool('fail');
+  } on PraxoError catch (error) {
+    mcpError = error.code;
+  }
+  check(mcpError == 'MCP_TOOL_ERROR', 'mcp tool error');
+  await mcp.close();
+  check(fakeMcp.closed, 'mcp closed');
+
   String? harmovelaPath;
   Map<String, dynamic>? harmovelaEnvelope;
   final harmovelaTransport = (String baseUrl, String path, String body,
@@ -456,6 +478,66 @@ class RecordingSink implements EventSink {
 
   @override
   void emit(Event event) => types.add(event.type);
+}
+
+class _FakeMcpTransport implements McpTransport {
+  bool closed = false;
+  final List<String> notifications = [];
+
+  @override
+  Future<Map<String, dynamic>> request(
+    String method,
+    Map<String, dynamic> params,
+    Duration timeout,
+  ) async {
+    switch (method) {
+      case 'initialize':
+        return {
+          'protocolVersion': '2024-11-05',
+          'serverInfo': {'name': 'fake'},
+        };
+      case 'tools/list':
+        if (params['cursor'] != null) {
+          return {
+            'tools': [
+              {'name': 'echo'},
+            ],
+          };
+        }
+        return {
+          'tools': [
+            {'name': 'add'},
+          ],
+          'nextCursor': 'next',
+        };
+      case 'tools/call':
+        switch (params['name']) {
+          case 'echo':
+            return {
+              'structuredContent': {'ok': true},
+            };
+          case 'text':
+            return {
+              'content': [
+                {'type': 'text', 'text': 'hello'},
+              ],
+            };
+          case 'fail':
+            return {'isError': true};
+        }
+    }
+    return {};
+  }
+
+  @override
+  void notify(String method, Map<String, dynamic> params) {
+    notifications.add(method);
+  }
+
+  @override
+  Future<void> close() async {
+    closed = true;
+  }
 }
 
 class _TestModel implements Model {

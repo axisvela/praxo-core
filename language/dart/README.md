@@ -108,6 +108,13 @@ final gemini = GeminiModel(
 );
 ```
 
+## MCP Client
+
+`McpClient` implements a stdio JSON-RPC MCP session with initialize, paginated
+tool listing, tool calls, timeouts, cancellation notifications, and a
+`StdioMcpTransport` backed by `Process.start`. Tests can implement
+`McpTransport` directly.
+
 ## Harmovela Event Sink
 
 `HarmovelaSink` implements the native `EventSink` seam. It posts each event to
