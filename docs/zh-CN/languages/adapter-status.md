@@ -78,6 +78,7 @@
 | Julia | native | `AnthropicModel`；可注入 transport |
 | Nim | native | `newAnthropicCompatible`；可注入 transport |
 | Haskell | native (transport seam) | `Praxo.Anthropic`；调用方提供 transport |
+| Zig | native | `anthropic.Adapter`；可注入 transport |
 | 其他实现 | not implemented | 仅 OpenAI-compatible 端点使用 OpenAI 兼容适配器 |
 
 ## 模型（Gemini 原生）
@@ -105,6 +106,7 @@
 | Julia | native | `GeminiModel`；可注入 transport |
 | Nim | native | `newGeminiCompatible`；可注入 transport |
 | Haskell | native (transport seam) | `Praxo.Gemini`；调用方提供 transport |
+| Zig | native | `gemini.Adapter`；可注入 transport |
 | 其他实现 | not implemented | 原生 generateContent 映射按采用顺序推进 |
 
 ## MCP

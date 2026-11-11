@@ -99,6 +99,19 @@ const model = adapter.asModel();
 const result = try agent.runAgent(allocator, .{ .model = model }, .{ .id = "s1" }, "Hi");
 ```
 
+## Anthropic and Gemini Adapters
+
+`anthropic.Adapter` and `gemini.Adapter` provide native Messages and
+generateContent mappings over the same injectable `Transport` seam. They map
+tool calls, tools schemas, usage, finish reasons, and provider errors.
+
+```zig
+var claude = anthropic.Adapter.init(allocator, "https://api.anthropic.com", "claude-sonnet-4-5");
+claude.api_key = anthropic_key;
+var gemini_model = gemini.Adapter.init(allocator, "https://generativelanguage.googleapis.com", "gemini-2.5-pro");
+gemini_model.api_key = gemini_key;
+```
+
 ## Release
 
 Tag shape: `zig/v0.2.0` for core; `zig/v0.1.0` remains the wire tag.
