@@ -492,5 +492,7 @@ let () =
   test_agent_middleware ();
   test_agent_failures ();
   Praxo_adapter_tests.test_openai_adapter ();
+  Praxo_adapter_tests.test_anthropic_adapter ();
+  Praxo_adapter_tests.test_gemini_adapter ();
   Praxo_adapter_tests.test_harmovela ();
   print_endline "OCaml Core tests passed"

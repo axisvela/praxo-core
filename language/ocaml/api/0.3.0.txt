@@ -45,6 +45,8 @@ type http_response = {
 type transport = http_request -> http_response
 type harmovela_config = {
 type openai_config = {
+type anthropic_config = {
+type gemini_config = {
 type agent_options = {
 exception Core_error of string * string
 val raise_core : string -> string -> 'a
@@ -69,6 +71,14 @@ val openai_request : openai_config -> request -> http_request
 val openai_parse_response : string -> response
 val openai_generate : openai_config -> transport -> request -> response
 val openai_model : openai_config -> transport -> model
+val anthropic_request : anthropic_config -> request -> http_request
+val anthropic_parse_response : string -> response
+val anthropic_generate : anthropic_config -> transport -> request -> response
+val anthropic_model : anthropic_config -> transport -> model
+val gemini_request : gemini_config -> request -> http_request
+val gemini_parse_response : string -> response
+val gemini_generate : gemini_config -> transport -> request -> response
+val gemini_model : gemini_config -> transport -> model
 val harmovela_config : string -> transport -> (unit -> int) -> harmovela_config
 val format_harmovela_timestamp : int -> string
 val harmovela_envelope : harmovela_config -> core_event -> int -> json

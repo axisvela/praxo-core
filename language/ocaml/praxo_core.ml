@@ -1060,6 +1060,21 @@ type openai_config = {
   openai_api_key : string option;
   openai_tool_choice : string option;
 }
+type anthropic_config = {
+  anthropic_base_url : string;
+  anthropic_model : string;
+  anthropic_api_key : string;
+  anthropic_version : string;
+  anthropic_max_tokens : int;
+  anthropic_tool_choice : string option;
+}
+type gemini_config = {
+  gemini_base_url : string;
+  gemini_model : string;
+  gemini_api_key : string;
+  gemini_max_output_tokens : int;
+  gemini_tool_choice : string option;
+}
 type agent_options = {
   agent_model : model;
   agent_tools : tool list;
@@ -1266,6 +1281,238 @@ let openai_generate config transport request =
 
 let openai_model config transport =
   { generate = fun request -> openai_generate config transport request }
+
+let provider_trim text =
+  let rec trim value =
+    let length = String.length value in
+    if length > 0 && value.[length - 1] = '/' then trim (String.sub value 0 (length - 1))
+    else value
+  in
+  trim text
+
+let anthropic_message_json message =
+  let content = ref [] in
+  if message.message_content <> "" then
+    content := !content @ [Object [("type", String "text"); ("text", String message.message_content)]];
+  List.iter (fun call ->
+    content := !content @ [Object [
+      ("type", String "tool_use");
+      ("id", String call.invocation_id);
+      ("name", String call.invocation_name);
+      ("input", call.invocation_arguments);
+    ]]) message.message_calls;
+  !content
+
+let anthropic_request config request =
+  if config.anthropic_base_url = "" then
+    raise_core "PROVIDER_HTTP" "provider base URL is required";
+  if config.anthropic_api_key = "" then
+    raise_core "MODEL_CONFIG" "anthropic: API key is required";
+  if config.anthropic_model = "" then
+    raise_core "MODEL_CONFIG" "anthropic: model is required";
+  let system = ref [] in
+  let messages = ref [] in
+  let pending = ref [] in
+  let flush () =
+    if !pending <> [] then begin
+      messages := !messages @ [Object [("role", String "user"); ("content", Array !pending)]];
+      pending := []
+    end
+  in
+  List.iter (fun message ->
+    if message.message_role = "system" then
+      system := !system @ [message.message_content]
+    else if message.message_role = "tool" then
+      pending := !pending @ [Object [
+        ("type", String "tool_result");
+        ("tool_use_id", String (match message.message_tool_id with Some value -> value | None -> ""));
+        ("content", String message.message_content);
+      ]]
+    else begin
+      flush ();
+      let content = anthropic_message_json message in
+      if content <> [] then
+        messages := !messages @ [Object [("role", String message.message_role); ("content", Array content)]]
+    end) request.request_messages;
+  flush ();
+  let fields = ref [
+    ("model", String config.anthropic_model);
+    ("max_tokens", Number (float_of_int config.anthropic_max_tokens));
+    ("messages", Array !messages);
+  ] in
+  if !system <> [] then fields := !fields @ [("system", String (String.concat "\n\n" !system))];
+  if request.request_tools <> [] then begin
+    fields := !fields @ [("tools", Array (List.map (fun spec -> Object [
+      ("name", String spec.spec_name);
+      ("description", String spec.spec_description);
+      ("input_schema", Object [("type", String "object")]);
+    ]) request.request_tools))];
+    (match config.anthropic_tool_choice with
+     | Some "auto" -> fields := !fields @ [("tool_choice", Object [("type", String "auto")])]
+     | Some "required" -> fields := !fields @ [("tool_choice", Object [("type", String "any")])]
+     | Some "none" -> fields := !fields @ [("tool_choice", Object [("type", String "none")])]
+     | _ -> ())
+  end;
+  {
+    http_method = "POST";
+    http_url = provider_trim config.anthropic_base_url ^ "/v1/messages";
+    http_headers = [
+      ("Content-Type", "application/json");
+      ("Accept", "application/json");
+      ("x-api-key", config.anthropic_api_key);
+      ("anthropic-version", config.anthropic_version);
+    ];
+    http_payload = encode_json (Object !fields);
+  }
+
+let anthropic_parse_response text =
+  let data =
+    try parse_json text
+    with Json_error message ->
+      raise_core "PROVIDER_RESPONSE" ("provider returned invalid JSON: " ^ message)
+  in
+  if field "error" data <> None then raise_core "PROVIDER_HTTP" "anthropic: provider error";
+  let content = Buffer.create 64 in
+  let calls = ref [] in
+  List.iter (fun block ->
+    match field_string "type" block with
+    | Some "text" ->
+        (match field_string "text" block with
+         | Some value -> Buffer.add_string content value
+         | None -> ())
+    | Some "tool_use" ->
+        let arguments = match field "input" block with Some (Object _ as value) -> value | _ -> Object [] in
+        calls := !calls @ [tool_invocation_make
+          (match field_string "id" block with Some value -> value | None -> "")
+          (match field_string "name" block with Some value -> value | None -> "")
+          arguments]
+    | _ -> ()) (field_array "content" data);
+  let usage = match field "usage" data with Some value -> value | None -> Object [] in
+  response_make (assistant_message (Buffer.contents content) !calls)
+    (usage_make (openai_int "input_tokens" usage) (openai_int "output_tokens" usage))
+
+let anthropic_generate config transport request =
+  let http = anthropic_request config request in
+  let response = transport http in
+  if response.http_status < 200 || response.http_status >= 300 then
+    raise_core "PROVIDER_HTTP"
+      (Printf.sprintf "provider returned HTTP %d: %s" response.http_status (openai_bound response.http_body));
+  anthropic_parse_response response.http_body
+
+let anthropic_model config transport =
+  { generate = fun request -> anthropic_generate config transport request }
+
+let gemini_message_parts message =
+  let parts = ref [] in
+  if message.message_content <> "" then parts := !parts @ [Object [("text", String message.message_content)]];
+  List.iter (fun call -> parts := !parts @ [Object [("functionCall", Object [
+    ("name", String call.invocation_name);
+    ("args", call.invocation_arguments);
+  ])]]) message.message_calls;
+  !parts
+
+let gemini_request config request =
+  if config.gemini_base_url = "" then
+    raise_core "PROVIDER_HTTP" "provider base URL is required";
+  if config.gemini_api_key = "" then
+    raise_core "MODEL_CONFIG" "gemini: API key is required";
+  if config.gemini_model = "" then
+    raise_core "MODEL_CONFIG" "gemini: model is required";
+  let system = ref [] in
+  let contents = ref [] in
+  let pending = ref [] in
+  let flush () =
+    if !pending <> [] then begin
+      contents := !contents @ [Object [("role", String "user"); ("parts", Array !pending)]];
+      pending := []
+    end
+  in
+  List.iter (fun message ->
+    if message.message_role = "system" then
+      system := !system @ [Object [("text", String message.message_content)]]
+    else if message.message_role = "tool" then
+      pending := !pending @ [Object [("functionResponse", Object [
+        ("name", String (match message.message_tool_id with Some value -> value | None -> "tool"));
+        ("response", Object [("result", String message.message_content)]);
+      ])]]
+    else begin
+      flush ();
+      let parts = gemini_message_parts message in
+      if parts <> [] then
+        contents := !contents @ [Object [
+          ("role", String (if message.message_role = "assistant" then "model" else "user"));
+          ("parts", Array parts);
+        ]]
+    end) request.request_messages;
+  flush ();
+  let fields = ref [("contents", Array !contents)] in
+  if !system <> [] then fields := !fields @ [("system_instruction", Object [("parts", Array !system)])];
+  if request.request_tools <> [] then begin
+    fields := !fields @ [("tools", Array [Object [
+      ("functionDeclarations", Array (List.map (fun spec -> Object [
+        ("name", String spec.spec_name);
+        ("description", String spec.spec_description);
+        ("parameters", Object [("type", String "object")]);
+      ]) request.request_tools));
+    ]])];
+    let mode = match config.gemini_tool_choice with
+      | Some "required" -> "ANY"
+      | Some "none" -> "NONE"
+      | _ -> "AUTO"
+    in
+    fields := !fields @ [("toolConfig", Object [("functionCallingConfig", Object [("mode", String mode)])])]
+  end;
+  if config.gemini_max_output_tokens > 0 then
+    fields := !fields @ [("generationConfig", Object [
+      ("maxOutputTokens", Number (float_of_int config.gemini_max_output_tokens));
+    ])];
+  {
+    http_method = "POST";
+    http_url = provider_trim config.gemini_base_url ^ "/v1beta/models/" ^ config.gemini_model ^ ":generateContent";
+    http_headers = [
+      ("Content-Type", "application/json");
+      ("Accept", "application/json");
+      ("x-goog-api-key", config.gemini_api_key);
+    ];
+    http_payload = encode_json (Object !fields);
+  }
+
+let gemini_parse_response text =
+  let data =
+    try parse_json text
+    with Json_error message ->
+      raise_core "PROVIDER_RESPONSE" ("provider returned invalid JSON: " ^ message)
+  in
+  if field "error" data <> None then raise_core "PROVIDER_HTTP" "gemini: provider error";
+  match field_array "candidates" data with
+  | [] -> raise_core "PROVIDER_HTTP" "gemini: empty response"
+  | candidate :: _ ->
+      let content = match field "content" candidate with Some value -> value | None -> Object [] in
+      let text = Buffer.create 64 in
+      let calls = ref [] in
+      List.iter (fun part ->
+        (match field_string "text" part with Some value -> Buffer.add_string text value | None -> ());
+        match field "functionCall" part with
+        | Some call ->
+            let arguments = match field "args" call with Some (Object _ as value) -> value | _ -> Object [] in
+            calls := !calls @ [tool_invocation_make
+              (Printf.sprintf "call-%d" (List.length !calls + 1))
+              (match field_string "name" call with Some value -> value | None -> "") arguments]
+        | None -> ()) (field_array "parts" content);
+      let usage = match field "usageMetadata" data with Some value -> value | None -> Object [] in
+      response_make (assistant_message (Buffer.contents text) !calls)
+        (usage_make (openai_int "promptTokenCount" usage) (openai_int "candidatesTokenCount" usage))
+
+let gemini_generate config transport request =
+  let http = gemini_request config request in
+  let response = transport http in
+  if response.http_status < 200 || response.http_status >= 300 then
+    raise_core "PROVIDER_HTTP"
+      (Printf.sprintf "provider returned HTTP %d: %s" response.http_status (openai_bound response.http_body));
+  gemini_parse_response response.http_body
+
+let gemini_model config transport =
+  { generate = fun request -> gemini_generate config transport request }
 
 let session_make session_id messages = { session_id; session_messages = messages }
 

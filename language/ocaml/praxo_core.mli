@@ -128,6 +128,21 @@ type openai_config = {
   openai_api_key : string option;
   openai_tool_choice : string option;
 }
+type anthropic_config = {
+  anthropic_base_url : string;
+  anthropic_model : string;
+  anthropic_api_key : string;
+  anthropic_version : string;
+  anthropic_max_tokens : int;
+  anthropic_tool_choice : string option;
+}
+type gemini_config = {
+  gemini_base_url : string;
+  gemini_model : string;
+  gemini_api_key : string;
+  gemini_max_output_tokens : int;
+  gemini_tool_choice : string option;
+}
 type agent_options = {
   agent_model : model;
   agent_tools : tool list;
@@ -166,6 +181,14 @@ val openai_request : openai_config -> request -> http_request
 val openai_parse_response : string -> response
 val openai_generate : openai_config -> transport -> request -> response
 val openai_model : openai_config -> transport -> model
+val anthropic_request : anthropic_config -> request -> http_request
+val anthropic_parse_response : string -> response
+val anthropic_generate : anthropic_config -> transport -> request -> response
+val anthropic_model : anthropic_config -> transport -> model
+val gemini_request : gemini_config -> request -> http_request
+val gemini_parse_response : string -> response
+val gemini_generate : gemini_config -> transport -> request -> response
+val gemini_model : gemini_config -> transport -> model
 val harmovela_config : string -> transport -> (unit -> int) -> harmovela_config
 val format_harmovela_timestamp : int -> string
 val harmovela_envelope : harmovela_config -> core_event -> int -> json

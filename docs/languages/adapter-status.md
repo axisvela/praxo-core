@@ -89,6 +89,7 @@ provider presets.
 | Julia | native | `AnthropicModel`; injectable transport |
 | Nim | native | `newAnthropicCompatible`; injectable transport |
 | Haskell | native (transport seam) | `Praxo.Anthropic`; caller supplies transport |
+| OCaml | native (transport seam) | `anthropic_model`; caller supplies transport |
 | Zig | native | `anthropic.Adapter`; injectable transport |
 | MATLAB | native | `praxo.anthropic_compatible`; injectable transport |
 | GNU Octave | native | Shared `praxo.anthropic_compatible` |
@@ -119,6 +120,7 @@ provider presets.
 | Julia | native | `GeminiModel`; injectable transport |
 | Nim | native | `newGeminiCompatible`; injectable transport |
 | Haskell | native (transport seam) | `Praxo.Gemini`; caller supplies transport |
+| OCaml | native (transport seam) | `gemini_model`; caller supplies transport |
 | Zig | native | `gemini.Adapter`; injectable transport |
 | MATLAB | native | `praxo.gemini_compatible`; injectable transport |
 | GNU Octave | native | Shared `praxo.gemini_compatible` |

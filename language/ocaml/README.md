@@ -4,8 +4,8 @@ PRAXO-CORE is an embeddable, MIT-licensed agent framework. This package is its
 native OCaml Core with source tag `ocaml/v0.3.0`. It passes all eleven vector
 groups on OCaml 4.14.2 bytecode and includes the native agent loop, memory store,
 checkpoint allowlist, lexical path policy, context compaction, event sinks,
-middleware helpers, tool selection, and a non-streaming OpenAI-compatible model
-adapter. It does not call Go or another language Core; there is no process
+middleware helpers, tool selection, and non-streaming OpenAI-compatible,
+Anthropic, and Gemini model adapters. It does not call Go or another language Core; there is no process
 bridge or plugin host.
 
 The experimental path check is lexical and does not resolve symlinks or reparse
@@ -94,6 +94,24 @@ let model = Praxo_core.openai_model config transport
 The adapter does not bundle an HTTP client, so the package keeps its
 dependency-free build. Supply a `transport` for production or tests; native
 tests use a fake transport.
+
+## Anthropic and Gemini Adapters
+
+`anthropic_model` and `gemini_model` map Core requests to the native Messages
+and generateContent APIs over the same injected `transport` seam, including
+system messages, tools, tool choice, tool calls, usage, and `PROVIDER_HTTP`
+errors. Streaming is not implemented.
+
+```ocaml
+let claude = Praxo_core.anthropic_model {
+  Praxo_core.anthropic_base_url = "https://api.anthropic.com";
+  anthropic_model = "claude-sonnet-4-5";
+  anthropic_api_key = "ak";
+  anthropic_version = "2023-06-01";
+  anthropic_max_tokens = 1024;
+  anthropic_tool_choice = Some "auto";
+} transport
+```
 
 ## Harmovela Event Sink
 

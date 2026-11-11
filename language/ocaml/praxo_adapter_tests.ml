@@ -91,6 +91,77 @@ let test_openai_adapter () =
     ignore (Praxo_core.openai_generate config invalid_transport request));
   print_endline "test_openai_adapter passed"
 
+let test_anthropic_adapter () =
+  let captured = ref None in
+  let transport http =
+    captured := Some http;
+    {
+      Praxo_core.http_status = 200;
+      http_body = "{\"content\":[{\"type\":\"text\",\"text\":\"hello\"},{\"type\":\"tool_use\",\"id\":\"tool-1\",\"name\":\"echo\",\"input\":{\"text\":\"hi\"}}],\"stop_reason\":\"end_turn\",\"usage\":{\"input_tokens\":3,\"output_tokens\":4}}";
+    }
+  in
+  let config = {
+    Praxo_core.anthropic_base_url = "https://api.anthropic.com/";
+    anthropic_model = "claude-test";
+    anthropic_api_key = "ak";
+    anthropic_version = "2023-06-01";
+    anthropic_max_tokens = 1024;
+    anthropic_tool_choice = Some "auto";
+  } in
+  let request = Praxo_core.request_make
+    [Praxo_core.text_message "system" "be brief"; Praxo_core.text_message "user" "hi"]
+    [Praxo_core.tool_spec_make "echo" "Echo"] in
+  let response = Praxo_core.anthropic_generate config transport request in
+  check (response.Praxo_core.response_message.Praxo_core.message_content = "hello") "anthropic content";
+  check (response.Praxo_core.response_usage.Praxo_core.input_tokens = 3) "anthropic usage";
+  (match response.Praxo_core.response_message.Praxo_core.message_calls with
+   | [call] ->
+       check (call.Praxo_core.invocation_id = "tool-1") "anthropic call id";
+       check (call.Praxo_core.invocation_name = "echo") "anthropic call name";
+       check (Praxo_core.json_equal call.Praxo_core.invocation_arguments
+         (Praxo_core.Object [("text", Praxo_core.String "hi")])) "anthropic arguments"
+   | _ -> fail "anthropic call count");
+  let http = match !captured with Some value -> value | None -> fail "anthropic transport" in
+  check (http.Praxo_core.http_url = "https://api.anthropic.com/v1/messages") "anthropic url";
+  check (List.assoc_opt "x-api-key" http.Praxo_core.http_headers = Some "ak") "anthropic key";
+  let payload = Praxo_core.parse_json http.Praxo_core.http_payload in
+  check (string_field "model" payload = "claude-test") "anthropic model";
+  check (string_field "system" payload = "be brief") "anthropic system";
+  check (List.length (array_field "tools" payload) = 1) "anthropic tools";
+  print_endline "test_anthropic_adapter passed"
+
+let test_gemini_adapter () =
+  let captured = ref None in
+  let transport http =
+    captured := Some http;
+    {
+      Praxo_core.http_status = 200;
+      http_body = "{\"candidates\":[{\"content\":{\"parts\":[{\"text\":\"hello\"},{\"functionCall\":{\"name\":\"echo\",\"args\":{\"text\":\"hi\"}}}]},\"finishReason\":\"STOP\"}],\"usageMetadata\":{\"promptTokenCount\":3,\"candidatesTokenCount\":4}}";
+    }
+  in
+  let config = {
+    Praxo_core.gemini_base_url = "https://generativelanguage.googleapis.com/";
+    gemini_model = "gemini-test";
+    gemini_api_key = "gk";
+    gemini_max_output_tokens = 0;
+    gemini_tool_choice = Some "auto";
+  } in
+  let request = Praxo_core.request_make
+    [Praxo_core.text_message "system" "be brief"; Praxo_core.text_message "user" "hi"]
+    [Praxo_core.tool_spec_make "echo" "Echo"] in
+  let response = Praxo_core.gemini_generate config transport request in
+  check (response.Praxo_core.response_message.Praxo_core.message_content = "hello") "gemini content";
+  check (response.Praxo_core.response_usage.Praxo_core.input_tokens = 3) "gemini usage";
+  (match response.Praxo_core.response_message.Praxo_core.message_calls with
+   | [call] -> check (call.Praxo_core.invocation_name = "echo") "gemini call name"
+   | _ -> fail "gemini call count");
+  let http = match !captured with Some value -> value | None -> fail "gemini transport" in
+  check (Praxo_core.ends_with ":generateContent" http.Praxo_core.http_url) "gemini url";
+  check (List.assoc_opt "x-goog-api-key" http.Praxo_core.http_headers = Some "gk") "gemini key";
+  let payload = Praxo_core.parse_json http.Praxo_core.http_payload in
+  check (List.length (array_field "parts" (match field "system_instruction" payload with Some value -> value | None -> fail "gemini system")) = 1) "gemini system";
+  print_endline "test_gemini_adapter passed"
+
 let test_harmovela () =
   let requests = ref [] in
   let transport request =

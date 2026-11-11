@@ -80,6 +80,7 @@
 | Julia | native | `AnthropicModel`；可注入 transport |
 | Nim | native | `newAnthropicCompatible`；可注入 transport |
 | Haskell | native (transport seam) | `Praxo.Anthropic`；调用方提供 transport |
+| OCaml | native (transport seam) | `anthropic_model`；调用方提供 transport |
 | Zig | native | `anthropic.Adapter`；可注入 transport |
 | MATLAB | native | `praxo.anthropic_compatible`；可注入 transport |
 | GNU Octave | native | 共享 `praxo.anthropic_compatible` |
@@ -110,6 +111,7 @@
 | Julia | native | `GeminiModel`；可注入 transport |
 | Nim | native | `newGeminiCompatible`；可注入 transport |
 | Haskell | native (transport seam) | `Praxo.Gemini`；调用方提供 transport |
+| OCaml | native (transport seam) | `gemini_model`；调用方提供 transport |
 | Zig | native | `gemini.Adapter`；可注入 transport |
 | MATLAB | native | `praxo.gemini_compatible`；可注入 transport |
 | GNU Octave | native | 共享 `praxo.gemini_compatible` |
