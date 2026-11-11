@@ -40,6 +40,7 @@ internal static class Program
         TestOpenAiStreamCompletion();
         TestOpenAiStreamTruncated();
         TestOpenAiStreamHalfPacket();
+        _passed += ProviderAdapterTests.Run();
         HarmovelaSinkTests.Run();
         TestParallelTools();
         TestModelCancellation();

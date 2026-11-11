@@ -36,6 +36,18 @@ System.Int64 MaxTokens { get; set; }
 System.String SystemPrompt { get; set; }
 System.String ToolChoice { get; set; }
 System.Threading.CancellationToken CancellationToken { get; set; }
+### Praxo.Core.AnthropicModel
+AnthropicModel(System.Net.Http.HttpClient client, Praxo.Core.AnthropicOptions options)
+Praxo.Core.Response Generate(Praxo.Core.Request request)
+Praxo.Core.Response GenerateStream(Praxo.Core.Request request, System.Action`1[System.String] onDelta)
+### Praxo.Core.AnthropicOptions
+AnthropicOptions()
+System.Int32 MaxTokens { get; set; }
+System.String ApiKey { get; set; }
+System.String BaseUrl { get; set; }
+System.String Model { get; set; }
+System.String Version { get; set; }
+System.TimeSpan Timeout { get; set; }
 ### Praxo.Core.CallLimitMiddleware
 CallLimitMiddleware(System.Int32 modelLimit, System.Int32 toolLimit)
 System.String Name { get; }
@@ -89,6 +101,17 @@ FuncTool(System.String name, System.String description, System.Func`2[System.Tex
 System.String Description { get; }
 System.String Name { get; }
 System.Text.Json.Nodes.JsonNode Invoke(System.Text.Json.Nodes.JsonObject arguments)
+### Praxo.Core.GeminiModel
+GeminiModel(System.Net.Http.HttpClient client, Praxo.Core.GeminiOptions options)
+Praxo.Core.Response Generate(Praxo.Core.Request request)
+Praxo.Core.Response GenerateStream(Praxo.Core.Request request, System.Action`1[System.String] onDelta)
+### Praxo.Core.GeminiOptions
+GeminiOptions()
+System.Int32 MaxOutputTokens { get; set; }
+System.String ApiKey { get; set; }
+System.String BaseUrl { get; set; }
+System.String Model { get; set; }
+System.TimeSpan Timeout { get; set; }
 ### Praxo.Core.HarmovelaHttpRequest
 HarmovelaHttpRequest()
 System.Collections.Generic.Dictionary`2[System.String,System.String] Headers { get; set; }

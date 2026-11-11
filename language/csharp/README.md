@@ -74,6 +74,15 @@ var agent = new Agent(new AgentOptions(model)
 });
 ```
 
+## Model adapters
+
+- `OpenAiCompatibleModel` for OpenAI, DeepSeek, Kimi/Moonshot, OpenRouter,
+  Groq, and Together endpoints.
+- `AnthropicModel` for the Anthropic Messages API.
+- `GeminiModel` for the Gemini generateContent API.
+
+Each adapter accepts an injected `HttpClient` so tests can use a fake transport.
+
 ## Harmovela event sink
 
 `HarmovelaSink` posts lifecycle events to `{BaseUrl}/events` as JSON envelopes

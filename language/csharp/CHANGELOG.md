@@ -1,5 +1,11 @@
 # C# Core Release Notes
 
+## Unreleased
+
+### Added
+
+- Native Anthropic Messages and Gemini generateContent model adapters.
+
 ## 0.4.0 - 2026-11-10
 
 Source release tag `csharp/v0.4.0`. The tag workflow publishes
