@@ -36,6 +36,8 @@
 | Swift | native | `OpenAICompatibleModel`，使用 URLSession transport |
 | OCaml | native (transport seam) | 调用方提供 `transport`，不内置 HTTP client |
 | Delphi / Free Pascal | native | `TPraxoOpenAIAdapter`，FPC HTTP transport |
+| Delphi / Free Pascal | native | `TPraxoAnthropicAdapter`；FPC HTTP transport |
+| Delphi / Free Pascal | native | `TPraxoGeminiAdapter`；FPC HTTP transport |
 | Objective-C | native | `PXROpenAIGenerate`，可注入 transport |
 | MATLAB | native | `praxo.openai_compatible`，使用 `webwrite` |
 | GNU Octave | native | 共享 `praxo.openai_compatible` 实现 |

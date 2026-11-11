@@ -44,6 +44,8 @@ def main():
     subprocess.run([compiler, *flags, f"-FE{build}", "praxo.pas"], cwd=ROOT, check=True)
     subprocess.run([compiler, *flags, f"-FE{build}", "praxo_core.pas"], cwd=ROOT, check=True)
     subprocess.run([compiler, *flags, f"-FE{build}", "praxo_openai.pas"], cwd=ROOT, check=True)
+    subprocess.run([compiler, *flags, f"-FE{build}", "praxo_anthropic.pas"], cwd=ROOT, check=True)
+    subprocess.run([compiler, *flags, f"-FE{build}", "praxo_gemini.pas"], cwd=ROOT, check=True)
     subprocess.run([compiler, *flags, f"-FE{build}", "praxo_harmovela.pas"], cwd=ROOT, check=True)
     subprocess.run([compiler, *flags, "-Futests", f"-FE{build}", "tests/praxo_tests.lpr"],
                    cwd=ROOT, check=True)
@@ -62,6 +64,10 @@ def main():
     subprocess.run([compiler, *flags, "-Futests", f"-FE{build}", "tests/openai_tests.lpr"],
                    cwd=ROOT, check=True)
     executable = build / ("openai_tests.exe" if os.name == "nt" else "openai_tests")
+    subprocess.run([str(executable)], cwd=ROOT, check=True, timeout=120)
+    subprocess.run([compiler, *flags, "-Futests", f"-FE{build}", "tests/provider_tests.lpr"],
+                   cwd=ROOT, check=True)
+    executable = build / ("provider_tests.exe" if os.name == "nt" else "provider_tests")
     subprocess.run([str(executable)], cwd=ROOT, check=True, timeout=120)
 
 

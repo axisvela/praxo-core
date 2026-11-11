@@ -39,6 +39,8 @@ Status words:
 | Swift | native | `OpenAICompatibleModel` with URLSession transport |
 | OCaml | native (transport seam) | Caller supplies `transport`; no bundled HTTP client |
 | Delphi / Free Pascal | native | `TPraxoOpenAIAdapter` with FPC HTTP transport |
+| Delphi / Free Pascal | native | `TPraxoAnthropicAdapter`; FPC HTTP transport |
+| Delphi / Free Pascal | native | `TPraxoGeminiAdapter`; FPC HTTP transport |
 | Objective-C | native | `PXROpenAIGenerate` with injectable transport |
 | MATLAB | native | `praxo.openai_compatible` using `webwrite` |
 | GNU Octave | native | Shared `praxo.openai_compatible` implementation |
