@@ -5,6 +5,7 @@
 ### Added
 
 - Native Anthropic Messages and Gemini generateContent model adapters.
+- Transport-seam MCP client with pagination and tool calls.
 
 ### Changed
 

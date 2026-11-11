@@ -13,6 +13,7 @@ local toolcall = require("praxo.toolcall")
 local openai_compat = require("praxo.adapters.openai_compatible")
 local anthropic_adapter = require("praxo.adapters.anthropic")
 local gemini_adapter = require("praxo.adapters.gemini")
+local mcp_adapter = require("praxo.adapters.mcp")
 local harmovela_sink = require("praxo.adapters.harmovela_sink")
 assert(require("praxo.openai_compatible") == openai_compat)
 assert(require("praxo.harmovela_sink") == harmovela_sink)
@@ -641,5 +642,38 @@ check(gemini_response.message.content == "hello", "gemini content")
 check(gemini_response.message.tool_calls[1].name == "echo", "gemini call name")
 check(gemini_payload.system_instruction.parts[1].text == "be brief", "gemini system")
 check(gemini_payload.toolConfig.functionCallingConfig.mode == "AUTO", "gemini tool mode")
+
+local mcp = mcp_adapter.new({
+  transport = function(method, params)
+    if method == "initialize" then
+      return { protocolVersion = "2024-11-05", serverInfo = { name = "fake" } }
+    elseif method == "tools/list" then
+      if params.cursor then
+        return { tools = { { name = "echo" } } }
+      end
+      return { tools = { { name = "add" } }, nextCursor = "next" }
+    elseif method == "tools/call" then
+      if params.name == "echo" then
+        return { structuredContent = { ok = true } }
+      elseif params.name == "text" then
+        return { content = { { type = "text", text = "hello" } } }
+      elseif params.name == "fail" then
+        return { isError = true }
+      end
+    end
+    return {}
+  end,
+})
+mcp.start()
+check(mcp.protocol_version == "2024-11-05", "mcp protocol version")
+local mcp_tools = mcp.list_tools()
+check(mcp_tools[1].name == "add" and mcp_tools[2].name == "echo",
+      "mcp paginated tools")
+check(mcp.call_tool("echo").ok == true, "mcp structured tool")
+check(mcp.call_tool("text") == "hello", "mcp text tool")
+local mcp_error
+local ok = pcall(function() mcp.call_tool("fail") end)
+check(not ok, "mcp tool error")
+mcp.close()
 
 print("lua core tests passed")

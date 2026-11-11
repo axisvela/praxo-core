@@ -117,6 +117,7 @@
 | PHP | native | `Praxo\Core\Adapters\MCPClient`；stdio JSON-RPC |
 | Dart | native | `McpClient`；stdio JSON-RPC，支持同步/异步 transport seam |
 | Erlang | native | `praxo_mcp`；stdio JSON-RPC，可注入 transport |
+| Lua | native (transport seam) | `praxo.adapters.mcp`；调用方提供 transport |
 | 其他实现 | not implemented | 按采用顺序补齐原生 MCP client |
 
 MCP 支持指最小 client session：initialize、分页 tools/list 与 tools/call。它不代表

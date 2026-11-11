@@ -83,6 +83,11 @@ options.max_steps = 8
 
 Each adapter accepts an injectable `transport` function for deterministic tests.
 
+## MCP Client
+
+praxo.adapters.mcp implements MCP initialize, paginated tool listing, and
+tool calls over an injected transport callback.
+
 ## Harmovela Event Sink
 
 `praxo.adapters.harmovela_sink` posts each event to `{base_url}/events`.

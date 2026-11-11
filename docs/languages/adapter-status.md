@@ -124,6 +124,7 @@ provider presets.
 | PHP | native | `Praxo\Core\Adapters\MCPClient`; stdio JSON-RPC |
 | Dart | native | `McpClient`; stdio JSON-RPC with sync/async transport seams |
 | Erlang | native | `praxo_mcp`; stdio JSON-RPC with injectable transport |
+| Lua | native (transport seam) | `praxo.adapters.mcp`; caller supplies transport |
 | All other implementations | not implemented | Native MCP clients follow the model baseline in adoption order |
 
 MCP support means a minimal client session that can initialize, list tools with
