@@ -11,6 +11,8 @@ include("adapters/Harmovela.jl")
 include("Middleware.jl")
 include("Agent.jl")
 include("adapters/OpenAICompatible.jl")
+include("adapters/Anthropic.jl")
+include("adapters/Gemini.jl")
 
 using .Models
 using .Runtime
@@ -18,6 +20,8 @@ using .Harmovela
 using .Middleware
 using .AgentRuntime
 using .OpenAICompatible
+using .Anthropic
+using .Gemini
 using .Errors
 
 export Json, ParsedToolCall, ToolCallParser
@@ -30,6 +34,7 @@ export HarmovelaSink, harmovela_sink
 export ContextBudget, AgentOptions, Agent, StaticModel, FuncTool, ToolRegistry
 export AbstractPolicy, AbstractModel, AbstractMiddleware, PiiRedactor, PraxoError
 export OpenAICompatibleModel, openai_compatible
+export AnthropicModel, anthropic, GeminiModel, gemini
 run_agent(args...) = AgentRuntime.run(args...)
 export run_agent
 export put!, search, register!, marshal, unmarshal, check, allowed

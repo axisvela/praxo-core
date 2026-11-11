@@ -8,6 +8,7 @@ AbstractSink
 Action
 Agent
 AgentOptions
+AnthropicModel
 CallLimitMiddleware
 CheckpointAllowlist
 ContentBlock
@@ -16,6 +17,7 @@ Decision
 Event
 FilterSink
 FuncTool
+GeminiModel
 HarmovelaSink
 Json
 JsonSchema
@@ -56,6 +58,7 @@ after_model!
 after_run!
 after_tool!
 allowed
+anthropic
 apply!
 before_model!
 before_run!
@@ -65,6 +68,7 @@ compact
 emit
 estimate_tokens
 fallback_model
+gemini
 generate
 harmovela_sink
 marshal

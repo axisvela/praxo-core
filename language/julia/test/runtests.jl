@@ -115,6 +115,63 @@ end
     @test error.code == "PROVIDER_HTTP"
 end
 
+@testset "PraxoCore Anthropic adapter" begin
+    captured_path = Ref{Any}(nothing)
+    captured_payload = Ref{Any}(nothing)
+    transport = (path, payload) -> begin
+        captured_path[] = path
+        captured_payload[] = payload
+        Json.parse_json("""
+        {"content":[{"type":"text","text":"hello"},
+        {"type":"tool_use","id":"tool-1","name":"echo","input":{"text":"hi"}}],
+        "stop_reason":"end_turn",
+        "usage":{"input_tokens":3,"output_tokens":4,"cache_read_input_tokens":2}}
+        """)
+    end
+    adapter = anthropic("https://example.test/", "claude-test";
+        api_key = "ak", transport = transport)
+    request = Request([Message(Roles.SYSTEM, "be brief"), Message(Roles.USER, "hi")])
+    request.tools = [ToolSpec("echo", "Echo")]
+    request.tool_choice = "auto"
+    result = generate(adapter, request)
+    @test captured_path[] == "/v1/messages"
+    @test captured_payload[]["system"] == "be brief"
+    @test captured_payload[]["tools"][1]["input_schema"]["type"] == "object"
+    @test result.message.content == "hello"
+    @test result.message.tool_calls[1].id == "tool-1"
+    @test result.message.tool_calls[1].arguments["text"] == "hi"
+    @test result.usage.cached_tokens == 2
+    @test result.finish_reason == "end_turn"
+end
+
+@testset "PraxoCore Gemini adapter" begin
+    captured_path = Ref{Any}(nothing)
+    captured_payload = Ref{Any}(nothing)
+    transport = (path, payload) -> begin
+        captured_path[] = path
+        captured_payload[] = payload
+        Json.parse_json("""
+        {"candidates":[{"content":{"parts":[{"text":"hello"},
+        {"functionCall":{"name":"echo","args":{"text":"hi"}}}]},
+        "finishReason":"STOP"}],
+        "usageMetadata":{"promptTokenCount":3,"candidatesTokenCount":4}}
+        """)
+    end
+    adapter = gemini("https://example.test/", "gemini-test";
+        api_key = "gk", transport = transport)
+    request = Request([Message(Roles.SYSTEM, "be brief"), Message(Roles.USER, "hi")])
+    request.tools = [ToolSpec("echo", "Echo")]
+    request.tool_choice = "auto"
+    result = generate(adapter, request)
+    @test occursin(":generateContent", captured_path[])
+    @test captured_payload[]["system_instruction"]["parts"][1]["text"] == "be brief"
+    @test captured_payload[]["toolConfig"]["functionCallingConfig"]["mode"] == "AUTO"
+    @test result.message.content == "hello"
+    @test result.message.tool_calls[1].name == "echo"
+    @test result.usage.input_tokens == 3
+    @test result.finish_reason == "STOP"
+end
+
 @testset "PraxoCore Harmovela sink" begin
     captured = Ref{Any}(nothing)
     transport = (path, body, headers) -> begin

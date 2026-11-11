@@ -20,7 +20,8 @@ Julia implementation of the PRAXO-CORE contract.
 `0.2.0` implements all eleven conformance vector groups: tool-call parsing, JSON
 Schema, plugin manifests, memory, events, stream kinds, checkpoint envelopes,
 path policy, context budgets, middleware, and the agent loop. A non-streaming
-OpenAI-compatible model adapter is available in `src/OpenAICompatible.jl`.
+OpenAI-compatible, Anthropic, and Gemini model adapters are available under
+`src/adapters/`.
 
 ## OpenAI-Compatible Adapter
 
@@ -37,6 +38,17 @@ result = generate(adapter, Request([Message(Roles.USER, "hi")]))
 
 Provider HTTP failures raise `PraxoError` with code `PROVIDER_HTTP`; invalid
 tool-argument JSON raises `PROVIDER_JSON`. Streaming is not implemented.
+
+## Anthropic and Gemini Adapters
+
+`AnthropicModel` and `GeminiModel` implement the native `AbstractModel` seam for
+the Messages and generateContent APIs. Both accept `transport` receiving
+`(path, payload)` and return decoded JSON.
+
+```julia
+claude = anthropic("https://api.anthropic.com", "claude-sonnet-4-5"; api_key = "ak")
+gemini_model = gemini("https://generativelanguage.googleapis.com", "gemini-2.5-pro"; api_key = "gk")
+```
 
 ## Harmovela Event Sink
 
