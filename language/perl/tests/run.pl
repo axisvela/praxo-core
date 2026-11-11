@@ -19,6 +19,7 @@ use Praxo::Agent ();
 use Praxo::Adapters::OpenAICompatible ();
 use Praxo::Adapters::Anthropic ();
 use Praxo::Adapters::Gemini ();
+use Praxo::Adapters::MCP ();
 use Praxo::Adapters::Harmovela ();
 
 my $call = Praxo::Toolcall::parse_toolcall('{"name":"echo","input":{"text":"hi"}}');
@@ -311,5 +312,36 @@ is($gemini_captured->[1]{toolConfig}{functionCallingConfig}{mode}, 'AUTO', 'gemi
 is($gemini_response->{message}{content}, 'hello', 'gemini content');
 is($gemini_response->{message}{toolCalls}[0]{name}, 'echo', 'gemini call name');
 is($gemini_response->{usage}{inputTokens}, 3, 'gemini usage');
+
+my $mcp = Praxo::Adapters::MCP->new(
+    transport => sub {
+        my ($method, $params) = @_;
+        if ($method eq 'initialize') {
+            return { protocolVersion => '2024-11-05', serverInfo => { name => 'fake' } };
+        }
+        if ($method eq 'tools/list') {
+            return { tools => [{ name => 'echo' }] } if $params->{cursor};
+            return { tools => [{ name => 'add' }], nextCursor => 'next' };
+        }
+        if ($method eq 'tools/call') {
+            return { structuredContent => { ok => 1 } } if $params->{name} eq 'echo';
+            return { content => [{ type => 'text', text => 'hello' }] }
+                if $params->{name} eq 'text';
+            return { isError => 1 } if $params->{name} eq 'fail';
+        }
+        return {};
+    },
+);
+$mcp->start;
+is($mcp->protocol_version, '2024-11-05', 'mcp protocol version');
+is_deeply($mcp->list_tools, [{ name => 'add' }, { name => 'echo' }],
+    'mcp paginated tools');
+is_deeply($mcp->call_tool('echo'), { ok => 1 }, 'mcp structured tool');
+is($mcp->call_tool('text'), 'hello', 'mcp text tool');
+my $mcp_error;
+eval { $mcp->call_tool('fail') };
+$mcp_error = $@;
+is(Praxo::Errors::error_code($mcp_error), 'MCP_TOOL_ERROR', 'mcp tool error');
+$mcp->close;
 
 done_testing();

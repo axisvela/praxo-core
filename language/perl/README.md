@@ -106,6 +106,11 @@ my $gemini = Praxo::Adapters::Gemini->new(
 Both adapters accept a `transport` callback for deterministic tests and use
 core `HTTP::Tiny` otherwise.
 
+## MCP Client
+
+Praxo::Adapters::MCP implements MCP initialize, paginated tool listing, and
+tool calls over an injected transport callback.
+
 ## Harmovela Event Sink
 
 `Praxo::Adapters::Harmovela` posts each event to `{base_url}/events`.
