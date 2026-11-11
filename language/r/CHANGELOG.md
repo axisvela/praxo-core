@@ -1,5 +1,11 @@
 # R Core Release Notes
 
+## Unreleased
+
+### Added
+
+- Native Anthropic Messages and Gemini generateContent model adapters.
+
 ## 0.6.1 - 2026-11-10
 
 Source release tag `r/v0.6.1`.

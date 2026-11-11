@@ -67,6 +67,7 @@ provider presets.
 | Python | native | `praxo.adapters.anthropic.AnthropicModel` |
 | TypeScript | native | `src/adapters/anthropic.ts` |
 | C# | native | `Praxo.Core.AnthropicModel` |
+| R | native (transport seam) | `anthropic`; caller may supply `transport` |
 | All other implementations | not implemented | Use the OpenAI-compatible adapter only for OpenAI-compatible endpoints |
 
 ## Model (Gemini Native)
@@ -77,6 +78,7 @@ provider presets.
 | Python | native | `praxo.adapters.gemini.GeminiModel` |
 | TypeScript | native | `src/adapters/gemini.ts` |
 | C# | native | `Praxo.Core.GeminiModel` |
+| R | native (transport seam) | `gemini`; caller may supply `transport` |
 | All other implementations | not implemented | Native generateContent mapping follows adoption order |
 
 ## MCP

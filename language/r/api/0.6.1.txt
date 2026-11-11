@@ -2,6 +2,14 @@
 # SPEC_VERSION 0.2.0
 
 agent_run
+anthropic
+anthropic_generate
+anthropic_message
+anthropic_model
+anthropic_parse_response
+anthropic_payload
+anthropic_post
+anthropic_tool_choice
 call_limit
 call_limit_model
 call_limit_tool
@@ -18,6 +26,14 @@ event
 extract_json
 fallback_model
 filter_sink
+gemini
+gemini_generate
+gemini_message_parts
+gemini_model
+gemini_parse_response
+gemini_payload
+gemini_post
+gemini_tool_mode
 harmovela_emit
 harmovela_post
 harmovela_prefix

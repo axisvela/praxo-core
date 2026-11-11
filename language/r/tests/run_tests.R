@@ -12,6 +12,8 @@ if (requireNamespace("praxocore", quietly = TRUE)) {
   source(file.path(root, "language", "r", "R", "plugin.R"))
   source(file.path(root, "language", "r", "R", "core.R"))
   source(file.path(root, "language", "r", "R", "openaicompat.R"))
+  source(file.path(root, "language", "r", "R", "anthropic.R"))
+  source(file.path(root, "language", "r", "R", "gemini.R"))
   source(file.path(root, "language", "r", "R", "harmovela.R"))
   source(file.path(root, "language", "r", "R", "mcp.R"))
 }
@@ -644,5 +646,6 @@ harmovela_test <- function() {
 harmovela_test()
 
 source(file.path(test_dir, "mcp_tests.R"))
+source(file.path(test_dir, "provider_tests.R"))
 
 cat("R core tests passed\n")

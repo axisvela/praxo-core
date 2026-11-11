@@ -60,6 +60,7 @@
 | Python | native | `praxo.adapters.anthropic.AnthropicModel` |
 | TypeScript | native | `src/adapters/anthropic.ts` |
 | C# | native | `Praxo.Core.AnthropicModel` |
+| R | native (transport seam) | `anthropic`；调用方可提供 `transport` |
 | 其他实现 | not implemented | 仅 OpenAI-compatible 端点使用 OpenAI 兼容适配器 |
 
 ## 模型（Gemini 原生）
@@ -70,6 +71,7 @@
 | Python | native | `praxo.adapters.gemini.GeminiModel` |
 | TypeScript | native | `src/adapters/gemini.ts` |
 | C# | native | `Praxo.Core.GeminiModel` |
+| R | native (transport seam) | `gemini`；调用方可提供 `transport` |
 | 其他实现 | not implemented | 原生 generateContent 映射按采用顺序推进 |
 
 ## MCP

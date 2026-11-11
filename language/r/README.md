@@ -42,6 +42,17 @@ model <- openai_compatible_model(adapter)
 Provider HTTP failures raise `praxo_error` with code `PROVIDER_HTTP`; invalid
 tool-argument JSON raises `PROVIDER_JSON`. Streaming is not implemented.
 
+## Anthropic and Gemini Adapters
+
+`R/anthropic.R` maps the Anthropic Messages API, and `R/gemini.R` maps the
+Gemini generateContent API. Both accept a caller-supplied `transport` for
+deterministic tests and fall back to `curl` in normal use.
+
+```r
+claude <- anthropic(model = "claude-sonnet-4-5", api_key = Sys.getenv("ANTHROPIC_API_KEY"))
+gemini_model <- gemini(model = "gemini-2.5-pro", api_key = Sys.getenv("GEMINI_API_KEY"))
+```
+
 ## MCP Client
 
 `R/mcp.R` implements the JSON-RPC 2.0 MCP client boundary over a caller-supplied
