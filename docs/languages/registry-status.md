@@ -1,8 +1,9 @@
 # Registry Publication Status
 
 Last checked: 2026-11-10 (Rust 0.4.0, C# 0.4.0, and Elixir 0.5.1 released;
-Python 0.4.1, TypeScript 0.2.2, and Java 0.4.1 published; Java 0.5.0 and
-R 0.6.1 sources prepared; Go module proxy and crates.io re-checked 2026-11-10;
+Python 0.4.1, TypeScript 0.2.2, and Java 0.4.1 published; Java 0.5.0 source
+prepared and published to Central pending release; Go module proxy and
+crates.io re-checked 2026-11-10;
 other rows from the 2026-11-04/05 audit).
 
 This page summarizes where each language implementation is published. Source
@@ -45,7 +46,7 @@ GitHub Latest represents the Go Reference Core only, not the last language packa
 | MATLAB | MATLAB File Exchange | `0.2.1` | https://www.mathworks.com/matlabcentral/fileexchange/185166-praxo-core | published |
 | PowerShell Core | PowerShell Gallery | `0.2.0` | https://www.powershellgallery.com/packages/praxo-core-ps/0.2.0 | published |
 | PowerShell Bridge | PowerShell Gallery | `0.1.0` | https://www.powershellgallery.com/packages/praxo-core-ps-br/0.1.0 | published |
-| R | r-universe | `0.5.0` | https://axisvela.r-universe.dev/praxocore | r-universe only; CRAN not published |
+| R | r-universe | `0.6.1` | https://axisvela.r-universe.dev/praxocore | r-universe only; CRAN not published |
 | Nim | nim-lang/packages (Nimble) | `0.1.1` | https://github.com/axisvela/praxo-core-nim | split repo published; nim-lang/packages PR #3600 merged 2026-11-05; install smoke not recorded; nimpkgs re-crawl pending |
 
 ## Uploaded or awaiting indexing

@@ -1,7 +1,7 @@
 # 注册表发布状态
 
 最后核对：2026-11-10（Go `v2.7.0` 已发布并重新审计渲染页面；
-Rust 0.4.0、C# 0.4.0、Elixir 0.5.1、Python 0.4.1、TypeScript 0.2.2、Java 0.4.1 已发布；Java 0.5.0 和 R 0.6.1 源码已准备；
+Rust 0.4.0、C# 0.4.0、Elixir 0.5.1、Python 0.4.1、TypeScript 0.2.2、Java 0.4.1 已发布；Java 0.5.0 源码已准备，R 0.6.1 已发布；
 Go module proxy 与 crates.io 于 2026-11-10 重新核对；其他行来自 2026-11-04/05 审计）。
 
 本页汇总各语言实现当前发布到哪里。源码标签、包注册表版本、一致性测试和生产验证是
@@ -38,7 +38,7 @@ GitHub Latest 仅代表 Go 参考 Core，不代表最近发布的语言包。
 | MATLAB | MATLAB File Exchange | `0.2.1` | https://www.mathworks.com/matlabcentral/fileexchange/185166-praxo-core | 已发布 |
 | PowerShell Core | PowerShell Gallery | `0.2.0` | https://www.powershellgallery.com/packages/praxo-core-ps/0.2.0 | 已发布 |
 | PowerShell Bridge | PowerShell Gallery | `0.1.0` | https://www.powershellgallery.com/packages/praxo-core-ps-br/0.1.0 | 已发布 |
-| R | r-universe | `0.5.0` | https://axisvela.r-universe.dev/praxocore | 仅 r-universe；未发布 CRAN |
+| R | r-universe | `0.6.1` | https://axisvela.r-universe.dev/praxocore | 仅 r-universe；未发布 CRAN |
 | Nim | nim-lang/packages（Nimble） | `0.1.1` | https://github.com/axisvela/praxo-core-nim | split repo 已发布；nim-lang/packages PR #3600 已于 2026-11-05 合并；安装 smoke 未记录；nimpkgs 待重新抓取 |
 
 ## 已上传或等待索引

@@ -205,9 +205,9 @@ the installation source of truth.
   and stdio MCP client to policy, middleware, lifecycle cleanup, cancellation,
   streaming callbacks, an SSE parser, bounded parallel tools, HITL interrupt
   decisions, and an API snapshot. Unix uses `mclapply`; Windows uses a PSOCK
-  cluster. r-universe publishes `praxocore==0.5.0` from `language/r`; the `0.6.1`
-  build is pending and CRAN publication is not claimed. The release workflow
-  runs `R CMD build` and `R CMD check`.
+  cluster. r-universe publishes `praxocore==0.6.1` from `language/r`; CRAN
+  publication is not claimed. The release workflow runs `R CMD build` and
+  `R CMD check`.
 - C source tag `c/v0.6.0` adds human-in-the-loop interrupt decisions on top of
   policy authorization, ordered middleware, lifecycle cleanup, final-tool
   allowlist checks, middleware reauthorization, cancellation, streaming
