@@ -1,5 +1,11 @@
 # PHP Core Release Notes
 
+## Unreleased
+
+### Added
+
+- Native Anthropic Messages and Gemini generateContent model adapters.
+
 ## 0.4.1 - 2026-11-09
 
 Source release tag `php/v0.4.1`. Packagist publishes

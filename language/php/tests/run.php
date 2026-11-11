@@ -872,5 +872,62 @@ check(
     'harmovela non-2xx body',
 );
 
+$anthropicPayload = null;
+$anthropic = new \Praxo\Core\Adapters\Anthropic(
+    'claude-test',
+    'ak',
+    transport: function (string $path, array $payload) use (&$anthropicPayload): array {
+        check($path === '/v1/messages', 'anthropic path');
+        $anthropicPayload = $payload;
+        return [
+            'content' => [
+                ['type' => 'text', 'text' => 'hello'],
+                ['type' => 'tool_use', 'id' => 'tool-1', 'name' => 'echo', 'input' => ['text' => 'hi']],
+            ],
+            'stop_reason' => 'end_turn',
+            'usage' => ['input_tokens' => 3, 'output_tokens' => 4, 'cache_read_input_tokens' => 2],
+        ];
+    },
+);
+$anthropicResponse = $anthropic->generate(new Request(
+    [Message::text(Roles::SYSTEM, 'be brief'), Message::text(Roles::USER, 'hi')],
+    [new \Praxo\Core\ToolSpec('echo', 'Echo', ['type' => 'object'])],
+));
+check($anthropicResponse->message->content === 'hello', 'anthropic content');
+check($anthropicResponse->message->toolCalls[0]->id === 'tool-1', 'anthropic call id');
+check($anthropicResponse->message->toolCalls[0]->arguments['text'] === 'hi', 'anthropic args');
+check($anthropicResponse->usage->cachedTokens === 2, 'anthropic cached');
+check($anthropicPayload['system'] === 'be brief', 'anthropic system');
+check($anthropicPayload['tools'][0]['input_schema']['type'] === 'object', 'anthropic tools');
+
+$geminiPayload = null;
+$gemini = new \Praxo\Core\Adapters\Gemini(
+    'gemini-test',
+    'gk',
+    transport: function (string $path, array $payload) use (&$geminiPayload): array {
+        check(str_ends_with($path, ':generateContent'), 'gemini path');
+        $geminiPayload = $payload;
+        return [
+            'candidates' => [[
+                'content' => ['parts' => [
+                    ['text' => 'hello'],
+                    ['functionCall' => ['name' => 'echo', 'args' => ['text' => 'hi']]],
+                ]],
+                'finishReason' => 'STOP',
+            ]],
+            'usageMetadata' => ['promptTokenCount' => 3, 'candidatesTokenCount' => 4],
+        ];
+    },
+);
+$geminiResponse = $gemini->generate(new Request(
+    [Message::text(Roles::SYSTEM, 'be brief'), Message::text(Roles::USER, 'hi')],
+    [new \Praxo\Core\ToolSpec('echo', 'Echo', ['type' => 'object'])],
+));
+check($geminiResponse->message->content === 'hello', 'gemini content');
+check($geminiResponse->message->toolCalls[0]->name === 'echo', 'gemini call name');
+check($geminiResponse->usage->inputTokens === 3, 'gemini usage');
+check($geminiPayload['system_instruction']['parts'][0]['text'] === 'be brief', 'gemini system');
+check($geminiPayload['toolConfig']['functionCallingConfig']['mode'] === 'AUTO', 'gemini tool mode');
+
 echo "PHP core tests passed ({$passed})\n";
 

@@ -4,6 +4,12 @@
 Action(string $kind, string $sessionId, ?string $toolName, ?array $arguments)
 string $kind
 string $sessionId
+### Praxo\Core\Adapters\Anthropic
+Anthropic(string $model, ?string $apiKey, string $baseUrl, string $version, int $maxTokens, $transport, int $timeout)
+Praxo\Core\Response generate(Praxo\Core\Request $request)
+### Praxo\Core\Adapters\Gemini
+Gemini(string $model, ?string $apiKey, string $baseUrl, int $maxOutputTokens, $transport, int $timeout)
+Praxo\Core\Response generate(Praxo\Core\Request $request)
 ### Praxo\Core\Adapters\HarmovelaSink
 HarmovelaSink(string $baseUrl, ?string $source, ?string $specVersion, $transport, $clock, int $timeout)
 void emit(Praxo\Core\Event $event)
