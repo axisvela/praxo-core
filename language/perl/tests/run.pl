@@ -17,6 +17,8 @@ use Praxo::Runtime ();
 use Praxo::Middleware ();
 use Praxo::Agent ();
 use Praxo::Adapters::OpenAICompatible ();
+use Praxo::Adapters::Anthropic ();
+use Praxo::Adapters::Gemini ();
 use Praxo::Adapters::Harmovela ();
 
 my $call = Praxo::Toolcall::parse_toolcall('{"name":"echo","input":{"text":"hi"}}');
@@ -241,5 +243,73 @@ is(
 );
 like("$harmovela_error", qr/500/, 'harmovela non-2xx status');
 like("$harmovela_error", qr/boom/, 'harmovela non-2xx body');
+
+my $anthropic_captured;
+my $anthropic = Praxo::Adapters::Anthropic->new(
+    model => 'claude-test',
+    api_key => 'ak',
+    transport => sub {
+        my ($path, $payload) = @_;
+        $anthropic_captured = [$path, $payload];
+        return {
+            content => [
+                { type => 'text', text => 'hello' },
+                { type => 'tool_use', id => 'tool-1', name => 'echo', input => { text => 'hi' } },
+            ],
+            stop_reason => 'end_turn',
+            usage => { input_tokens => 3, output_tokens => 4, cache_read_input_tokens => 2 },
+        };
+    },
+);
+my $anthropic_response = $anthropic->generate(Praxo::Models::request(
+    messages => [
+        Praxo::Models::message_text('system', 'be brief'),
+        Praxo::Models::message_text('user', 'hi'),
+    ],
+    tools => [Praxo::Models::tool_spec(
+        name => 'echo', description => 'Echo', parameters => { type => 'object' },
+    )],
+));
+is($anthropic_captured->[0], '/v1/messages', 'anthropic path');
+is($anthropic_captured->[1]{system}, 'be brief', 'anthropic system');
+is($anthropic_captured->[1]{tools}[0]{input_schema}{type}, 'object', 'anthropic tools');
+is($anthropic_response->{message}{content}, 'hello', 'anthropic content');
+is($anthropic_response->{message}{toolCalls}[0]{id}, 'tool-1', 'anthropic call id');
+is($anthropic_response->{usage}{cachedTokens}, 2, 'anthropic cached tokens');
+
+my $gemini_captured;
+my $gemini = Praxo::Adapters::Gemini->new(
+    model => 'gemini-test',
+    api_key => 'gk',
+    transport => sub {
+        my ($path, $payload) = @_;
+        $gemini_captured = [$path, $payload];
+        return {
+            candidates => [{
+                content => { parts => [
+                    { text => 'hello' },
+                    { functionCall => { name => 'echo', args => { text => 'hi' } } },
+                ] },
+                finishReason => 'STOP',
+            }],
+            usageMetadata => { promptTokenCount => 3, candidatesTokenCount => 4 },
+        };
+    },
+);
+my $gemini_response = $gemini->generate(Praxo::Models::request(
+    messages => [
+        Praxo::Models::message_text('system', 'be brief'),
+        Praxo::Models::message_text('user', 'hi'),
+    ],
+    tools => [Praxo::Models::tool_spec(
+        name => 'echo', description => 'Echo', parameters => { type => 'object' },
+    )],
+));
+like($gemini_captured->[0], qr/:generateContent$/, 'gemini path');
+is($gemini_captured->[1]{system_instruction}{parts}[0]{text}, 'be brief', 'gemini system');
+is($gemini_captured->[1]{toolConfig}{functionCallingConfig}{mode}, 'AUTO', 'gemini tool mode');
+is($gemini_response->{message}{content}, 'hello', 'gemini content');
+is($gemini_response->{message}{toolCalls}[0]{name}, 'echo', 'gemini call name');
+is($gemini_response->{usage}{inputTokens}, 3, 'gemini usage');
 
 done_testing();

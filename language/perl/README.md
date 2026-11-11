@@ -87,6 +87,25 @@ The adapter uses non-streaming `POST /chat/completions`, maps tool calls and
 usage, and passes `tool_choice`, `response_format`, and `temperature` through.
 It uses core `HTTP::Tiny` and `JSON::PP`; no provider SDK is required.
 
+## Anthropic and Gemini Models
+
+```perl
+use Praxo::Adapters::Anthropic ();
+use Praxo::Adapters::Gemini ();
+
+my $claude = Praxo::Adapters::Anthropic->new(
+    model => 'claude-sonnet-4-5',
+    api_key => $ENV{ANTHROPIC_API_KEY},
+);
+my $gemini = Praxo::Adapters::Gemini->new(
+    model => 'gemini-2.5-pro',
+    api_key => $ENV{GEMINI_API_KEY},
+);
+```
+
+Both adapters accept a `transport` callback for deterministic tests and use
+core `HTTP::Tiny` otherwise.
+
 ## Harmovela Event Sink
 
 `Praxo::Adapters::Harmovela` posts each event to `{base_url}/events`.

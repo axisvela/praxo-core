@@ -13,6 +13,8 @@ api-snapshot.pl
 conformance/run.pl
 tests/run.pl
 t/load.t
+lib/Praxo/Adapters/Anthropic.pm
+lib/Praxo/Adapters/Gemini.pm
 lib/Praxo/Adapters/Harmovela.pm
 lib/Praxo/Adapters/OpenAICompatible.pm
 lib/Praxo/Agent.pm
