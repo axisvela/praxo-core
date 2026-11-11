@@ -41,3 +41,5 @@ language/delphi/*.o
 *.cmx
 *.cma
 bindings/powershell/praxo-core-ps-br/bin/
+language/swift/.build/
+language/swift/.swiftpm/
