@@ -46,6 +46,7 @@ Status words:
 | C | native (transport seam) | `PxOpenAICompatible`; caller supplies HTTP transport |
 | C++ | native (transport seam) | `OpenAICompatible`; caller supplies HTTP transport |
 | Fortran | native (transport seam) | `openai_compatible`; caller supplies HTTP transport |
+| D | native (transport seam) | `OpenAICompatibleModel`; caller may inject transport |
 | COBOL | not implemented | No HTTP transport; model callback lacks tool specs/history |
 | PowerShell | inherited | Uses the C# Core |
 | Visual Basic / F# | inherited | Samples over the C# Core |
@@ -77,6 +78,7 @@ provider presets.
 | Perl | native | `Praxo::Adapters::Anthropic` |
 | Dart | native | `AnthropicModel` with sync and async transport paths |
 | Erlang | native | `praxo_anthropic` |
+| D | native (transport seam) | `AnthropicModel`; caller may inject transport |
 | All other implementations | not implemented | Use the OpenAI-compatible adapter only for OpenAI-compatible endpoints |
 
 ## Model (Gemini Native)
@@ -97,6 +99,7 @@ provider presets.
 | Perl | native | `Praxo::Adapters::Gemini` |
 | Dart | native | `GeminiModel` with sync and async transport paths |
 | Erlang | native | `praxo_gemini` |
+| D | native (transport seam) | `GeminiModel`; caller may inject transport |
 | All other implementations | not implemented | Native generateContent mapping follows adoption order |
 
 ## MCP

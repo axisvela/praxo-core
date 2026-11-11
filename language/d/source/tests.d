@@ -4,8 +4,12 @@ import std.conv : to;
 import std.stdio : writeln;
 import std.string : indexOf;
 import praxo.agent;
+import praxo.anthropic;
 import praxo.errors : PraxoError;
+import praxo.gemini;
 import praxo.harmovela;
+import praxo.openai_compatible;
+import praxo.provider : ProviderTransport;
 import praxo.jsonschema;
 import praxo.json;
 import praxo.middleware;
@@ -83,6 +87,53 @@ void main() {
     auto runResult = runAgent(options, Session("s1"), "go");
     check(runResult.output == "done" && runResult.steps == 2 && invocations == 1, "agent loop");
     check(sink.types == ["run.started", "tool.call", "run.completed"], "agent events");
+
+    string providerPath = "";
+    JSONValue providerPayload = JSONValue.init;
+    ProviderTransport openaiTransport = delegate JSONValue(string path, JSONValue payload) {
+        providerPath = path;
+        providerPayload = payload;
+        return parse(`{"choices":[{"message":{"content":"hello","tool_calls":[{"id":"c1","function":{"name":"echo","arguments":"{\"text\":\"hi\"}"}}]},"finish_reason":"tool_calls"}],"usage":{"prompt_tokens":3,"completion_tokens":4}}`);
+    };
+    auto openai = new OpenAICompatibleModel(
+        "http://example.test/v1", "test-model", "k", openaiTransport);
+    Request providerRequest;
+    providerRequest.messages = [Message.text(SYSTEM, "be brief"), Message.text(USER, "hi")];
+    providerRequest.tools = [ToolSpec("echo", "Echo", parse(`{"type":"object"}`))];
+    auto openaiResponse = openai.generate(providerRequest);
+    check(providerPath == "/chat/completions", "openai path");
+    check(getString(providerPayload, "model") == "test-model", "openai model");
+    check(openaiResponse.message.content == "hello", "openai content");
+    check(openaiResponse.message.toolCalls[0].arguments.object["text"].str == "hi",
+        "openai arguments");
+
+    ProviderTransport anthropicTransport = delegate JSONValue(string path, JSONValue payload) {
+        check(path == "/v1/messages", "anthropic path");
+        providerPayload = payload;
+        return parse(`{"content":[{"type":"text","text":"hello"},{"type":"tool_use","id":"tool-1","name":"echo","input":{"text":"hi"}}],"stop_reason":"end_turn","usage":{"input_tokens":3,"output_tokens":4,"cache_read_input_tokens":2}}`);
+    };
+    auto anthropic = new AnthropicModel(
+        "claude-test", "ak", "http://example.test", "2023-06-01", 1024,
+        anthropicTransport);
+    auto anthropicResponse = anthropic.generate(providerRequest);
+    check(getString(providerPayload, "system") == "be brief", "anthropic system");
+    check(anthropicResponse.message.content == "hello", "anthropic content");
+    check(anthropicResponse.message.toolCalls[0].arguments.object["text"].str == "hi",
+        "anthropic arguments");
+
+    ProviderTransport geminiTransport = delegate JSONValue(string path, JSONValue payload) {
+        check(path.length >= 16 && path[$ - 16 .. $] == ":generateContent",
+            "gemini path");
+        providerPayload = payload;
+        return parse(`{"candidates":[{"content":{"parts":[{"text":"hello"},{"functionCall":{"name":"echo","args":{"text":"hi"}}}]},"finishReason":"STOP"}],"usageMetadata":{"promptTokenCount":3,"candidatesTokenCount":4}}`);
+    };
+    auto gemini = new GeminiModel(
+        "gemini-test", "gk", "http://example.test", 0, geminiTransport);
+    auto geminiResponse = gemini.generate(providerRequest);
+    check(get(providerPayload, "system_instruction").type == JSONType.object,
+        "gemini system");
+    check(geminiResponse.message.content == "hello", "gemini content");
+    check(geminiResponse.message.toolCalls[0].name == "echo", "gemini call name");
 
     string harmovelaPath = "";
     JSONValue harmovelaBody = JSONValue.init;

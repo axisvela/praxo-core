@@ -11,7 +11,11 @@
   "importPaths": ["source"],
   "sourceFiles": [
     "source/praxo/agent.d",
+    "source/praxo/anthropic.d",
     "source/praxo/errors.d",
+    "source/praxo/gemini.d",
+    "source/praxo/openai_compatible.d",
+    "source/praxo/provider.d",
     "source/praxo/harmovela.d",
     "source/praxo/json.d",
     "source/praxo/jsonschema.d",

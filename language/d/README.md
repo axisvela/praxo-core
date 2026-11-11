@@ -66,6 +66,15 @@ registry.register(new FuncTool("echo", "Echo arguments", (arguments) => argument
 options.tools = registry;
 ```
 
+## Model Adapters
+
+- `OpenAICompatibleModel` for OpenAI, DeepSeek, Kimi/Moonshot, and other
+  OpenAI-compatible endpoints.
+- `AnthropicModel` for the Anthropic Messages API.
+- `GeminiModel` for the Gemini generateContent API.
+
+Each adapter accepts a `ProviderTransport` delegate for deterministic tests.
+
 ## Harmovela Event Sink
 
 `HarmovelaSink` implements the native `EventSink` seam. It posts each event to

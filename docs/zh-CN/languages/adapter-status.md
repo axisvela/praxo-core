@@ -43,6 +43,7 @@
 | C | native (transport seam) | `PxOpenAICompatible`；调用方提供 HTTP transport |
 | C++ | native (transport seam) | `OpenAICompatible`；调用方提供 HTTP transport |
 | Fortran | native (transport seam) | `openai_compatible`；调用方提供 HTTP transport |
+| D | native (transport seam) | `OpenAICompatibleModel`；可注入 transport |
 | COBOL | not implemented | 无 HTTP transport；model callback 缺少工具与历史 |
 | PowerShell | inherited | 使用 C# Core |
 | Visual Basic / F# | inherited | C# Core 上的示例 |
@@ -70,6 +71,7 @@
 | Perl | native | `Praxo::Adapters::Anthropic` |
 | Dart | native | `AnthropicModel`，同步与异步 transport |
 | Erlang | native | `praxo_anthropic` |
+| D | native (transport seam) | `AnthropicModel`；可注入 transport |
 | 其他实现 | not implemented | 仅 OpenAI-compatible 端点使用 OpenAI 兼容适配器 |
 
 ## 模型（Gemini 原生）
@@ -90,6 +92,7 @@
 | Perl | native | `Praxo::Adapters::Gemini` |
 | Dart | native | `GeminiModel`，同步与异步 transport |
 | Erlang | native | `praxo_gemini` |
+| D | native (transport seam) | `GeminiModel`；可注入 transport |
 | 其他实现 | not implemented | 原生 generateContent 映射按采用顺序推进 |
 
 ## MCP
