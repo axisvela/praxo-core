@@ -170,6 +170,24 @@ options%provider => adapter
 `my_transport(url, payload, api_key, error)` returns the response body as an
 allocatable character string and sets `error%code` on failure.
 
+## Anthropic and Gemini Adapters
+
+`praxo_anthropic` and `praxo_gemini` provide transport-seam
+`anthropic_compatible` and `gemini_compatible` types for the Messages and
+generateContent APIs.
+
+```fortran
+use praxo_anthropic
+type(anthropic_compatible) :: claude
+claude%base_url = 'https://api.anthropic.com'
+claude%model_name = 'claude-sonnet-4-5'
+claude%api_key = 'ak'
+claude%transport => anthropic_http
+```
+
+Both adapters map tool calls, tool schemas, usage, and provider errors. Callers
+supply the HTTP transport.
+
 ## Scope and Limits
 
 JSON documents are limited to 262144 input bytes, 4096 value nodes, and 64 nested

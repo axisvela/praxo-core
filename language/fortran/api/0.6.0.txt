@@ -81,6 +81,35 @@ type(run_result), intent(out) :: result
 type(sdk_error), intent(out) :: error
 end interface declaration
 
+module praxo_anthropic
+public :: anthropic_compatible, anthropic_transport
+abstract interface
+function anthropic_transport(url, payload, api_key, version, error) result(body)
+import sdk_error
+character(*), intent(in) :: url, payload, api_key, version
+type(sdk_error), intent(out) :: error
+character(:), allocatable :: body
+end function
+end interface
+type, extends(model) :: anthropic_compatible
+character(:), allocatable :: base_url
+character(:), allocatable :: model_name
+character(:), allocatable :: api_key
+character(:), allocatable :: version
+integer :: max_tokens = 1024
+procedure(anthropic_transport), pointer, nopass :: transport => null()
+contains
+procedure :: generate => generate_anthropic
+end type
+function anthropic_transport(url, payload, api_key, version, error) result(body)
+end interface declaration
+subroutine generate_anthropic(self, req, res, error)
+class(anthropic_compatible), intent(inout) :: self
+type(request), intent(in) :: req
+type(response), intent(out) :: res
+type(sdk_error), intent(out) :: error
+end interface declaration
+
 module praxo_checkpoint
 public :: checkpoint_allowlist
 type :: checkpoint_allowlist
@@ -127,6 +156,34 @@ class(context_budget), intent(in) :: self
 type(message), intent(in) :: messages(:)
 type(message), allocatable, intent(out) :: output(:)
 logical, intent(out) :: ok
+end interface declaration
+
+module praxo_gemini
+public :: gemini_compatible, gemini_transport
+abstract interface
+function gemini_transport(url, payload, api_key, error) result(body)
+import sdk_error
+character(*), intent(in) :: url, payload, api_key
+type(sdk_error), intent(out) :: error
+character(:), allocatable :: body
+end function
+end interface
+type, extends(model) :: gemini_compatible
+character(:), allocatable :: base_url
+character(:), allocatable :: model_name
+character(:), allocatable :: api_key
+integer :: max_output_tokens = 0
+procedure(gemini_transport), pointer, nopass :: transport => null()
+contains
+procedure :: generate => generate_gemini
+end type
+function gemini_transport(url, payload, api_key, error) result(body)
+end interface declaration
+subroutine generate_gemini(self, req, res, error)
+class(gemini_compatible), intent(inout) :: self
+type(request), intent(in) :: req
+type(response), intent(out) :: res
+type(sdk_error), intent(out) :: error
 end interface declaration
 
 module praxo_harmovela

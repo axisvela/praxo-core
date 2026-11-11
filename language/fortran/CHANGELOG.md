@@ -1,5 +1,11 @@
 # Fortran Core Release Notes
 
+## Unreleased
+
+### Added
+
+- Transport-seam Anthropic Messages and Gemini generateContent model adapters.
+
 ## 0.6.0 - 2026-11-02
 
 Source release tag `fortran/v0.6.0`. This is not a package-registry release.
