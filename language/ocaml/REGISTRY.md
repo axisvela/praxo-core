@@ -7,7 +7,7 @@ feature.
 
 ## Positioning
 
-PRAXO-CORE is an embeddable, MIT-licensed agent framework. This package is its native OCaml Core with source tag `ocaml/v0.3.0`. It passes all eleven vector groups on OCaml 4.14.2 bytecode and includes the native agent loop, memory store, checkpoint allowlist, lexical path policy, context compaction, event sinks, middleware helpers, tool selection, and a non-streaming OpenAI-compatible model adapter. It does not call Go or another language Core; there is no process bridge or plugin host.
+PRAXO-CORE is an embeddable, MIT-licensed agent framework. This package is its native OCaml Core with source tag `ocaml/v0.3.0`. It passes all eleven vector groups on OCaml 4.14.2 bytecode and includes the native agent loop, memory store, checkpoint allowlist, lexical path policy, context compaction, event sinks, middleware helpers, tool selection, and non-streaming OpenAI-compatible, Anthropic, and Gemini model adapters. It does not call Go or another language Core; there is no process bridge or plugin host.
 
 ## Package
 
