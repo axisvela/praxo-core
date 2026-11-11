@@ -262,6 +262,125 @@ Future<void> main() async {
   ).generateAsync(const Request());
   check(asyncResponse.message.content == 'async', 'adapter async');
 
+  final anthropicRecorded = <String, dynamic>{};
+  final anthropic = AnthropicModel(
+    model: 'claude-test',
+    apiKey: 'ak',
+    transport: (path, payload) {
+      anthropicRecorded['path'] = path;
+      anthropicRecorded['payload'] = payload;
+      return {
+        'content': [
+          {'type': 'text', 'text': 'hello'},
+          {
+            'type': 'tool_use',
+            'id': 'tool-1',
+            'name': 'echo',
+            'input': {'text': 'hi'},
+          }
+        ],
+        'stop_reason': 'end_turn',
+        'usage': {
+          'input_tokens': 3,
+          'output_tokens': 4,
+          'cache_read_input_tokens': 2,
+        },
+      };
+    },
+  );
+  final providerRequest = Request(
+    messages: [
+      Message.text(roleSystem, 'be brief'),
+      Message.text(roleUser, 'hi'),
+    ],
+    tools: [
+      const ToolSpec(
+          name: 'echo', description: 'Echo', parameters: {'type': 'object'})
+    ],
+    toolChoice: 'auto',
+  );
+  final anthropicResponse = anthropic.generate(providerRequest);
+  check(anthropicRecorded['path'] == '/v1/messages', 'anthropic path');
+  final anthropicPayload =
+      anthropicRecorded['payload'] as Map<String, dynamic>;
+  check(anthropicPayload['system'] == 'be brief', 'anthropic system');
+  check((anthropicPayload['tools'] as List).isNotEmpty, 'anthropic tools');
+  check(anthropicResponse.message.content == 'hello', 'anthropic content');
+  check(anthropicResponse.message.toolCalls.single.id == 'tool-1',
+      'anthropic call id');
+  check(anthropicResponse.usage.cachedTokens == 2, 'anthropic cached');
+
+  final geminiRecorded = <String, dynamic>{};
+  final gemini = GeminiModel(
+    model: 'gemini-test',
+    apiKey: 'gk',
+    transport: (path, payload) {
+      geminiRecorded['path'] = path;
+      geminiRecorded['payload'] = payload;
+      return {
+        'candidates': [
+          {
+            'content': {
+              'parts': [
+                {'text': 'hello'},
+                {
+                  'functionCall': {
+                    'name': 'echo',
+                    'args': {'text': 'hi'},
+                  }
+                }
+              ],
+            },
+            'finishReason': 'STOP',
+          }
+        ],
+        'usageMetadata': {
+          'promptTokenCount': 3,
+          'candidatesTokenCount': 4,
+        },
+      };
+    },
+  );
+  final geminiResponse = gemini.generate(providerRequest);
+  check((geminiRecorded['path'] as String).endsWith(':generateContent'),
+      'gemini path');
+  final geminiPayload = geminiRecorded['payload'] as Map<String, dynamic>;
+  check(
+      ((geminiPayload['system_instruction'] as Map)['parts'] as List).isNotEmpty,
+      'gemini system');
+  check(geminiPayload['toolConfig'] != null, 'gemini tools');
+  check(geminiResponse.message.toolCalls.single.name == 'echo',
+      'gemini call name');
+  check(geminiResponse.usage.inputTokens == 3, 'gemini usage');
+
+  final anthropicAsync = await AnthropicModel(
+    model: 'claude-test',
+    apiKey: 'ak',
+    asyncTransport: (path, payload) async => {
+      'content': [
+        {'type': 'text', 'text': 'async'},
+      ],
+    },
+  ).generateAsync(const Request());
+  check(anthropicAsync.message.content == 'async', 'anthropic async');
+
+  final geminiAsync = await GeminiModel(
+    model: 'gemini-test',
+    apiKey: 'gk',
+    asyncTransport: (path, payload) async => {
+      'candidates': [
+        {
+          'content': {
+            'parts': [
+              {'text': 'async'},
+            ],
+          },
+        }
+      ],
+    },
+  ).generateAsync(const Request());
+  check(geminiAsync.message.content == 'async', 'gemini async');
+
   String? harmovelaPath;
   Map<String, dynamic>? harmovelaEnvelope;
   final harmovelaTransport = (String baseUrl, String path, String body,

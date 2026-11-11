@@ -91,6 +91,23 @@ final response = await model.generateAsync(const Request(messages: [
 client and supports `https`. Pass `transport` or `asyncTransport` in tests to
 avoid network calls.
 
+## Anthropic and Gemini Adapters
+
+`AnthropicModel` and `GeminiModel` map the native Messages and generateContent
+APIs. Both provide synchronous and asynchronous generation, injectable
+transports, tool-call mapping, usage, and provider error handling.
+
+```dart
+final claude = AnthropicModel(
+  model: 'claude-sonnet-4-5',
+  apiKey: Platform.environment['ANTHROPIC_API_KEY'],
+);
+final gemini = GeminiModel(
+  model: 'gemini-2.5-pro',
+  apiKey: Platform.environment['GEMINI_API_KEY'],
+);
+```
+
 ## Harmovela Event Sink
 
 `HarmovelaSink` implements the native `EventSink` seam. It posts each event to

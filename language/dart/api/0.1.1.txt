@@ -4,6 +4,7 @@
 class Action
 class Agent
 class AgentOptions
+class AnthropicModel
 class CallLimit
 class CheckpointAllowlist
 class ContentBlock
@@ -13,6 +14,7 @@ class Event
 class EventSink
 class FilterSink
 class FuncTool
+class GeminiModel
 class HarmovelaResponse
 class HarmovelaSink
 class Json
@@ -42,6 +44,8 @@ class ToolSelection
 class ToolSpec
 class Usage
 class ValidationError
+class _Contents
+class _Messages
 function Action
 function Event
 function Message
@@ -57,12 +61,19 @@ function _arguments
 function _asInt
 function _asObject
 function _asString
+function _buildContents
+function _buildMessages
 function _createdAt
+function _dechunk
+function _decode
 function _decodeChunked
 function _decodeHttp
 function _endpoint
 function _eventId
+function _headers
 function _invokeTool
+function _messageContent
+function _messageParts
 function _messagePayload
 function _normalize
 function _parseJson
@@ -72,6 +83,8 @@ function _parseXml
 function _payload
 function _postAsync
 function _postSync
+function _toolChoice
+function _toolMode
 function _within
 function allowed
 function array
@@ -86,6 +99,7 @@ function equals
 function estimateTokens
 function extractJson
 function fallbackModel
+function flush
 function generate
 function generateAsync
 function get
@@ -96,6 +110,8 @@ function parse
 function parseInputJson
 function parseManifest
 function parseResponse
+function postAsync
+function postSync
 function put
 function redact
 function redactValue
@@ -110,6 +126,10 @@ function truncateToTokens
 function unmarshal
 function validate
 function wire
+typedef AnthropicAsyncTransport
+typedef AnthropicSyncTransport
+typedef GeminiAsyncTransport
+typedef GeminiSyncTransport
 typedef HarmovelaClock
 typedef HarmovelaTransport
 typedef ModelHandler

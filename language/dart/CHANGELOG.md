@@ -1,5 +1,10 @@
 # Changelog
 
+## Unreleased
+
+- Add native Anthropic Messages and Gemini generateContent adapters with sync
+  and async transports.
+
 ## 0.1.1
 
 - Publish the package to pub.dev as `praxo_core` with publisher metadata,

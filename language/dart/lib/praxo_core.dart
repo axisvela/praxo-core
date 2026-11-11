@@ -1,3 +1,5 @@
+export 'src/adapters/anthropic.dart';
+export 'src/adapters/gemini.dart';
 export 'src/adapters/harmovela_sink.dart';
 export 'src/adapters/openai_compatible.dart';
 export 'src/agent.dart';
