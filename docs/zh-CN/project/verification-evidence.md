@@ -39,7 +39,7 @@
 | Elixir 已发布包 | Hex 已从源码标签 `elixir/v0.4.1` 发布 `praxo_core==0.4.1` 与 HexDocs `0.4.1`；`0.4.0`、`0.3.0` 和 `0.2.0` 仍可用。`0.4.1` 已在干净 Mix 项目中解析，消费者 Starter 本地通过 | Registry 发布 + 本地消费者安装 | 仅一个平台；不是独立消费者；不含 provider 或生产证据 |
 | Erlang 已发布包 | Hex 已从源码标签 `erlang/v0.4.0` 发布 `praxo_core_erlang==0.4.0`；`0.3.1` 和 `0.2.0` 仍可用。历史 `0.1.1` 曾由干净 rebar3 项目获取 | Registry 发布 + 历史本地安装 smoke | `0.4.0` 未重新执行消费者安装 smoke；仅一个平台；非独立消费者；不含 provider 或生产证据 |
 | D 已发布包 | 从 DUB/code.dlang.org 使用 `dub fetch praxo-core` 获取 `praxo-core==0.1.0` | Registry 元数据 + 获取 | 未执行编译或独立消费者 smoke；一个包版本；不含 provider 或生产证据 |
-| Java 已发布包 | Maven Central 已发布 `com.axisvela:praxo-core:0.4.1`，包含 sources、javadoc 与 GPG 签名。Central 在发布前校验 deployment；尚未记录 `0.4.1` 的干净发布后消费者安装运行 | Registry 发布 + Central 校验 | 一个 deployment；不是独立消费者；不含 provider 或生产证据 |
+| Java 已发布包 | Maven Central 已发布 `com.axisvela:praxo-core:0.5.0`，包含 sources、javadoc 和 GPG 签名。Central 在发布前校验 deployment；发布后消费者脚本曾对 `0.4.1` 通过 starter/治理检查，`0.5.0` 未重跑 | Registry 发布 + Central 校验 + 历史发布后消费者检查 | 一个 deployment/平台/工具链；不是独立消费者；不含 provider 或生产证据 |
 | 扩展消费者 Starter（Ruby/PHP/Elixir/Lua） | `examples/consumer-ruby`、`consumer-php`、`consumer-elixir`、`consumer-lua` 的确定性允许/拒绝 Starter 在源码模式本地通过。配置本地代理 CA 后，RubyGems `praxo-core==0.4.1`、Hex `praxo_core==0.5.1`、LuaRocks `praxo-core==0.4.1-1` 均从仓库外安装并运行 Starter 通过。Composer 安装了已发布 `axisvela/praxo-core==0.4.1`，Starter 无需桥接即通过；包已声明 `autoload.files` 并包含 `api/0.4.1.txt` | 契约/单元 + 本地 registry 安装 | 扩展语言 Starter；不含治理负向矩阵；一个平台；不含 provider、身份、隔离或生产证据 |
 | 跨语言 agent 行为 | 全部十六个已接入语言在源码中通过二十个授权、生命周期、取消、输入校验、调用上限、并行工具、run 隔离、PII、checkpoint、容量、SSE 截断、流失败和 HITL 决策场景。agent-capable 语言使用场景级或 self-test 覆盖，扩展语言使用原生套件覆盖；COBOL、Lua、PHP 和 Fortran 的并行工具委托给调用方提供的批处理回调。其他实现属于 optional。`b6218e5` 的 clean-tree CI 报告记录 320 passed、0 unsupported、无失败 | 场景测试 + CI | 十六个已接入语言在源码中均达到 20/20；部分扩展行为是套件级覆盖，失败不能定位到具体场景；`4ffd83b` 的本地报告是历史证据，不是当前证据；不是吞吐/压力测试，也不是完整功能对齐、provider、sandbox 或生产证据 |
 | 受治理工作区 | Policy 必需配置、最终参数授权、单次审批、审批后修改、排队撤销、依赖失败关闭 | 契约/单元 | 示例级契约；不是 Core Profile、可信身份服务或持久审批存储 |
@@ -75,7 +75,7 @@ Registry 链接指向当前已发布版本；上表的消费者 smoke 行指明�
 - [Hex 上的 praxo_core 0.4.0](https://hex.pm/packages/praxo_core/0.4.0)
 - [Hex 上的 praxo_core_erlang 0.4.0](https://hex.pm/packages/praxo_core_erlang/0.4.0)
 - [DUB 上的 praxo-core 0.1.0](https://code.dlang.org/packages/praxo-core)
-- [Maven Central 上的 com.axisvela:praxo-core 0.4.1](https://repo1.maven.org/maven2/com/axisvela/praxo-core/0.4.1/)
+- [Maven Central 上的 com.axisvela:praxo-core 0.5.0](https://repo1.maven.org/maven2/com/axisvela/praxo-core/0.5.0/)
 - [受治理工作区示例](https://github.com/axisvela/praxo-core/tree/main/examples/governed-workspace)
 - [受治理执行设计](../reference/governed-execution.md)
 - [OpenTelemetry 可运行示例](https://github.com/axisvela/praxo-core/tree/main/adapters/otel/example)

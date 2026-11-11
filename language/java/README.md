@@ -10,8 +10,8 @@ decisions, and the agent loop are included. VFS and plugin hosts are not yet
 implemented.
 
 Package version: `0.5.0` (source tag `java/v0.5.0`; the earlier
-`java/v0.2.3` tag retains `io.axisvela.praxo`). Maven Central publishes `0.4.1`
-until the `0.5.0` release completes. Supported contract:
+`java/v0.2.3` tag retains `io.axisvela.praxo`). Maven Central publishes `0.5.0`.
+Supported contract:
 `SPEC_VERSION` `0.2.0` (`com.axisvela.praxo.Version.SPEC_VERSION`).
 
 Maven Central publishes the release matching the source tag. Check Central
@@ -22,7 +22,7 @@ metadata rather than inferring availability from this README when upgrading.
 - Registry introduction: [REGISTRY.md](https://github.com/axisvela/praxo-core/blob/main/language/java/REGISTRY.md)
 - Machine-readable entry: [llms.txt](https://github.com/axisvela/praxo-core/blob/main/language/java/llms.txt) and [llms.md](https://github.com/axisvela/praxo-core/blob/main/language/java/llms.md)
 - Coding-agent contract: [docs/getting-started/coding-agents.md](https://github.com/axisvela/praxo-core/blob/main/docs/getting-started/coding-agents.md)
-- Registry: [Maven Central](https://repo1.maven.org/maven2/com/axisvela/praxo-core/0.4.1/)
+- Registry: [Maven Central](https://repo1.maven.org/maven2/com/axisvela/praxo-core/0.5.0/)
 
 ## Install
 
@@ -30,7 +30,7 @@ metadata rather than inferring availability from this README when upgrading.
 <dependency>
   <groupId>com.axisvela</groupId>
   <artifactId>praxo-core</artifactId>
-  <version>0.4.1</version>
+  <version>0.5.0</version>
 </dependency>
 ```
 
