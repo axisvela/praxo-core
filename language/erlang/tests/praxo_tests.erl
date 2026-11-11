@@ -36,6 +36,7 @@ run() ->
     test_openai_compatible(),
     test_anthropic(),
     test_gemini(),
+    test_mcp(),
     test_harmovela(),
     io:format("erlang tests passed~n").
 
@@ -425,6 +426,45 @@ test_gemini() ->
     check(maps:get(name, Call) == <<"echo">>, <<"gemini call name">>),
     check(maps:get(<<"text">>, maps:get(arguments, Call)) == <<"hi">>,
           <<"gemini arguments">>).
+
+test_mcp() ->
+    Transport = fun(Method, Params, _Timeout) ->
+        case Method of
+            <<"initialize">> ->
+                {ok, #{<<"protocolVersion">> => <<"2024-11-05">>,
+                       <<"serverInfo">> => #{<<"name">> => <<"fake">>}}};
+            <<"tools/list">> ->
+                case maps:get(<<"cursor">>, Params, undefined) of
+                    undefined ->
+                        {ok, #{<<"tools">> => [#{<<"name">> => <<"add">>}],
+                               <<"nextCursor">> => <<"next">>}};
+                    _ ->
+                        {ok, #{<<"tools">> => [#{<<"name">> => <<"echo">>}]}}
+                end;
+            <<"tools/call">> ->
+                case maps:get(<<"name">>, Params) of
+                    <<"echo">> -> {ok, #{<<"structuredContent">> => #{<<"ok">> => true}}};
+                    <<"text">> -> {ok, #{<<"content">> => [
+                        #{<<"type">> => <<"text">>, <<"text">> => <<"hello">>}]}};
+                    <<"fail">> -> {ok, #{<<"isError">> => true}};
+                    _ -> {error, <<"MCP_TIMEOUT">>}
+                end
+        end
+    end,
+    Client = praxo_mcp:new(#{transport => Transport}),
+    {ok, Started} = praxo_mcp:start(Client),
+    check(maps:get(protocol_version, Started) == <<"2024-11-05">>,
+          <<"mcp protocol version">>),
+    {ok, Tools} = praxo_mcp:list_tools(Started),
+    check([maps:get(<<"name">>, Tool) || Tool <- Tools] == [<<"add">>, <<"echo">>],
+          <<"mcp paginated tools">>),
+    {ok, Structured} = praxo_mcp:call_tool(Started, <<"echo">>, #{}),
+    check(maps:get(<<"ok">>, Structured) == true, <<"mcp structured tool">>),
+    {ok, Text} = praxo_mcp:call_tool(Started, <<"text">>, #{}),
+    check(Text == <<"hello">>, <<"mcp text tool">>),
+    {error, <<"MCP_TOOL_ERROR">>} = praxo_mcp:call_tool(Started, <<"fail">>, #{}),
+    {error, <<"MCP_TIMEOUT">>} = praxo_mcp:call_tool(Started, <<"hang">>, #{}),
+    ok.
 
 test_harmovela() ->
     Parent = self(),

@@ -93,6 +93,12 @@ Anthropic = praxo_anthropic:new(<<"claude-sonnet-4-5">>, <<"ak">>),
 Gemini = praxo_gemini:new(<<"gemini-2.5-pro">>, <<"gk">>),
 ```
 
+## MCP Client
+
+praxo_mcp implements a stdio JSON-RPC MCP session with initialize, paginated
+tool listing, tool calls, timeouts, cancellation notifications, and an
+injectable transport for deterministic tests.
+
 ## Harmovela Event Sink
 
 `praxo_harmovela` posts each event to `{base_url}/events`.

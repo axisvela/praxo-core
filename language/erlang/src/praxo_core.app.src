@@ -14,6 +14,7 @@
              praxo_harmovela,
              praxo_json,
              praxo_jsonschema,
+             praxo_mcp,
              praxo_memory,
              praxo_middleware,
              praxo_models,

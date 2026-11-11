@@ -53,6 +53,13 @@ praxo_json.parse/1
 ## praxo_jsonschema
 praxo_jsonschema.validate/2
 
+## praxo_mcp
+praxo_mcp.call_tool/3
+praxo_mcp.close/1
+praxo_mcp.list_tools/1
+praxo_mcp.new/1
+praxo_mcp.start/1
+
 ## praxo_memory
 praxo_memory.new/0
 praxo_memory.put/3

@@ -121,6 +121,7 @@ provider presets.
 | Ruby | native | `Praxo::Adapters::MCPClient`; stdio JSON-RPC with injectable IO |
 | PHP | native | `Praxo\Core\Adapters\MCPClient`; stdio JSON-RPC |
 | Dart | native | `McpClient`; stdio JSON-RPC with sync/async transport seams |
+| Erlang | native | `praxo_mcp`; stdio JSON-RPC with injectable transport |
 | All other implementations | not implemented | Native MCP clients follow the model baseline in adoption order |
 
 MCP support means a minimal client session that can initialize, list tools with
