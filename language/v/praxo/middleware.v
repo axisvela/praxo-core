@@ -310,14 +310,14 @@ pub fn call_limit(model_limit int, tool_limit int) &CallLimit {
 	return &CallLimit{model_limit: model_limit, tool_limit: tool_limit}
 }
 
-pub fn (mut limit CallLimit) model_call() !void {
+pub fn (mut limit CallLimit) model_call() ! {
 	limit.models++
 	if limit.model_limit > 0 && limit.models > limit.model_limit {
 		return praxo_error('AGENT_MODEL_CALL_LIMIT', 'model call limit')
 	}
 }
 
-pub fn (mut limit CallLimit) tool_call() !void {
+pub fn (mut limit CallLimit) tool_call() ! {
 	limit.tools++
 	if limit.tool_limit > 0 && limit.tools > limit.tool_limit {
 		return praxo_error('AGENT_TOOL_CALL_LIMIT', 'tool call limit')
@@ -347,7 +347,7 @@ pub fn select_tools(selection ToolSelection, tools []ToolSpec) []ToolSpec {
 	return output
 }
 
-pub fn check_tool_selected(selection ToolSelection, name string) !void {
+pub fn check_tool_selected(selection ToolSelection, name string) ! {
 	if name !in selection.selected {
 		return praxo_error('AGENT_TOOL_NOT_SELECTED', 'tool not selected')
 	}

@@ -65,13 +65,13 @@ pub fn new_harmovela_sink(base_url string, options HarmovelaOptions) &HarmovelaS
 pub fn harmovela_sink(base_url string, options HarmovelaOptions) &Sink {
 	adapter := new_harmovela_sink(base_url, options)
 	return &Sink{
-		handler: fn [adapter] (event Event) !void {
+		handler: fn [adapter] (event Event) ! {
 			adapter.emit(event)!
 		}
 	}
 }
 
-pub fn (sink &HarmovelaSink) emit(event Event) !void {
+pub fn (sink &HarmovelaSink) emit(event Event) ! {
 	if sink.base_url == '' {
 		return praxo_error('HARMOVELA_URL', 'harmovela: base URL is required')
 	}

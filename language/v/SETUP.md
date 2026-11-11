@@ -27,7 +27,17 @@ commands below use V's bundled tcc; other compiler configurations may differ.
    $env:Path = "$env:V_HOME;$env:Path"
    ```
 
-4. Verify the compiler:
+4. The `v_windows.zip` release archive omits `vlib\x\json2`. Download the
+   matching `0.5.2` source archive and copy that module into the extracted
+   toolchain:
+
+   ```powershell
+   curl.exe -L -o v-src.zip https://codeload.github.com/vlang/v/zip/refs/tags/0.5.2
+   Expand-Archive v-src.zip -DestinationPath v-src
+   Copy-Item v-src\v-0.5.2\vlib\x\json2 "$env:V_HOME\vlib\x\json2" -Recurse
+   ```
+
+5. Verify the compiler:
 
    ```powershell
    v version
@@ -49,6 +59,9 @@ building from source:
 gh release download 0.5.2 --repo vlang/v --pattern v_linux.zip
 echo '86caf9e70c3342d48ef19eb4f6c47b709f18c90ae86255520d5c29df6b482e23  v_linux.zip' | sha256sum --check
 unzip -q v_linux.zip
+curl -L -o v-src.zip https://codeload.github.com/vlang/v/zip/refs/tags/0.5.2
+unzip -q v-src.zip
+cp -R v-0.5.2/vlib/x/json2 v/vlib/x/json2
 export PATH="$PWD/v:$PATH"
 v version
 ```
@@ -95,8 +108,9 @@ not provided; see the README for the callback contract and other limits.
 
 ## Results
 
-Local Windows testing with V 0.5.2, bundled tcc, and `-cc tcc -gc none` passed
-the tests, conformance vectors, and API snapshot check after the tool-selection
-and middleware integrations. The `v-conformance` remote job passed for commit
+Local Windows testing with V 0.5.2, the matching `vlib/x/json2` source module,
+bundled tcc, and `-cc tcc -gc none` passed the tests, conformance vectors, and
+API snapshot check after the OpenAI, Anthropic, Gemini, and Harmovela
+integrations. The `v-conformance` remote job passed for commit
 `3ad6958`. The source release tag is `v/v0.1.0`; this does not establish
 package-registry publication or production readiness.

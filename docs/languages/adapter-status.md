@@ -33,7 +33,7 @@ Status words:
 | R | native | `openai_compatible` adapter |
 | Erlang | native | `praxo_openai_compatible` |
 | Julia | native | `OpenAICompatibleModel` |
-| V | native | `praxo.openaicompat`; local V toolchain unavailable, CI gate |
+| V | native | `praxo.openaicompat`; verified with V 0.5.2 and `x.json2` |
 | Dart | native | `OpenAiCompatibleModel` with sync and async transport paths |
 | Haskell | native (transport seam) | Caller supplies `Transport`; no bundled HTTP client |
 | Swift | native | `OpenAICompatibleModel` with URLSession transport |
@@ -90,6 +90,7 @@ provider presets.
 | Nim | native | `newAnthropicCompatible`; injectable transport |
 | Haskell | native (transport seam) | `Praxo.Anthropic`; caller supplies transport |
 | OCaml | native (transport seam) | `anthropic_model`; caller supplies transport |
+| V | native (transport seam) | `anthropic_compatible`; caller supplies `ProviderTransport` |
 | Zig | native | `anthropic.Adapter`; injectable transport |
 | MATLAB | native | `praxo.anthropic_compatible`; injectable transport |
 | GNU Octave | native | Shared `praxo.anthropic_compatible` |
@@ -121,6 +122,7 @@ provider presets.
 | Nim | native | `newGeminiCompatible`; injectable transport |
 | Haskell | native (transport seam) | `Praxo.Gemini`; caller supplies transport |
 | OCaml | native (transport seam) | `gemini_model`; caller supplies transport |
+| V | native (transport seam) | `gemini_compatible`; caller supplies `ProviderTransport` |
 | Zig | native | `gemini.Adapter`; injectable transport |
 | MATLAB | native | `praxo.gemini_compatible`; injectable transport |
 | GNU Octave | native | Shared `praxo.gemini_compatible` |
@@ -169,7 +171,7 @@ stdio pilots; no live MCP server or remote transport is claimed.
 | Perl | native | `Praxo::Adapters::Harmovela` |
 | Erlang | native | `praxo_harmovela` |
 | Julia | native | `HarmovelaSink` |
-| V | native | `harmovela_sink`; local V toolchain unavailable, CI gate |
+| V | native | `harmovela_sink`; verified with V 0.5.2 and `x.json2` |
 | D | native | `HarmovelaSink` |
 | Dart | native | `HarmovelaSink` |
 | Haskell | native (transport seam) | `Praxo.Harmovela`; caller supplies transport |

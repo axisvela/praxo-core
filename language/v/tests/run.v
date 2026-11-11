@@ -514,6 +514,127 @@ fn test_openai_compatible() {
 	assert http_code == 'PROVIDER_HTTP'
 }
 
+fn test_anthropic_compatible() {
+	transport := fn (_base_url string, path string, payload map[string]json2.Any, headers map[string]string) !map[string]json2.Any {
+		assert path == '/v1/messages'
+		assert (headers['x-api-key'] or { '' }) == 'secret'
+		assert (headers['anthropic-version'] or { '' }) == '2023-06-01'
+		assert praxo.get_string(payload, 'model') or { '' } == 'test-model'
+		assert praxo.get_string(payload, 'system') or { '' } == 'sys'
+		assert praxo.get_int(payload, 'max_tokens', 0) == 1024
+		messages := praxo.get_array(payload, 'messages')
+		assert messages.len == 3
+		assistant := praxo.as_object(messages[1])
+		assert praxo.get_string(assistant, 'role') or { '' } == 'assistant'
+		assistant_content := praxo.as_array(praxo.get(assistant, 'content') or { json2.null })
+		assert praxo.get_string(praxo.as_object(assistant_content[0]), 'type') or { '' } == 'tool_use'
+		tool_message := praxo.as_object(messages[2])
+		assert praxo.get_string(tool_message, 'role') or { '' } == 'user'
+		result_content := praxo.as_array(praxo.get(tool_message, 'content') or { json2.null })
+		assert praxo.get_string(praxo.as_object(result_content[0]), 'tool_use_id') or { '' } == 'call-1'
+		tools := praxo.get_array(payload, 'tools')
+		assert tools.len == 1
+		assert praxo.get_string(praxo.as_object(tools[0]), 'name') or { '' } == 'echo'
+		data := praxo.parse_json('{"content":[{"type":"text","text":"hello"},{"type":"tool_use","id":"tool-1","name":"echo","input":{"text":"hi"}}],"usage":{"input_tokens":5,"output_tokens":6}}') or { panic(err) }
+		return praxo.as_object(data)
+	}
+	adapter := praxo.anthropic_compatible_with_options('https://api.anthropic.com/', 'test-model', praxo.AnthropicOptions{
+		api_key: 'secret'
+		transport: transport
+	})
+	request := praxo.Request{
+		messages: [
+			praxo.message(praxo.role_system, 'sys'),
+			praxo.message(praxo.role_user, 'hi'),
+			praxo.message_assistant('', [
+				praxo.tool_call('call-1', 'echo', {'text': json2.Any('hi')}),
+			]),
+			praxo.message_tool('{"ok":true}', 'call-1'),
+		]
+		tools: [praxo.tool_spec('echo', 'Echo')]
+		tool_choice: 'auto'
+	}
+	result := adapter.generate(request) or { panic(err) }
+	assert result.message.content == 'hello'
+	assert result.message.tool_calls.len == 1
+	assert result.message.tool_calls[0].id == 'tool-1'
+	assert result.message.tool_calls[0].name == 'echo'
+	assert result.usage.input_tokens == 5
+	assert result.usage.output_tokens == 6
+
+	mut model := praxo.anthropic_compatible_model(adapter)
+	wrapped := model.generate(request) or { panic(err) }
+	assert wrapped.message.content == 'hello'
+
+	missing := praxo.anthropic_compatible('https://api.anthropic.com', 'test-model')
+	mut missing_code := ''
+	missing.generate(request) or {
+		missing_code = praxo.error_code(err)
+		praxo.Response{}
+	}
+	assert missing_code == 'MODEL_CONFIG'
+}
+
+fn test_gemini_compatible() {
+	transport := fn (_base_url string, path string, payload map[string]json2.Any, headers map[string]string) !map[string]json2.Any {
+		assert path == '/v1beta/models/test-model:generateContent'
+		assert (headers['x-goog-api-key'] or { '' }) == 'secret'
+		contents := praxo.get_array(payload, 'contents')
+		assert contents.len == 3
+		assistant := praxo.as_object(contents[1])
+		assert praxo.get_string(assistant, 'role') or { '' } == 'model'
+		parts := praxo.get_array(assistant, 'parts')
+		assert praxo.get_string(praxo.get_object(parts[0], 'functionCall'), 'name') or { '' } == 'echo'
+		tool_message := praxo.as_object(contents[2])
+		assert praxo.get_string(tool_message, 'role') or { '' } == 'user'
+		tool_parts := praxo.get_array(tool_message, 'parts')
+		assert praxo.get_string(praxo.get_object(tool_parts[0], 'functionResponse'), 'name') or { '' } == 'echo'
+		system := praxo.get_object(payload, 'system_instruction')
+		assert praxo.get_array(system, 'parts').len == 1
+		tools := praxo.get_array(payload, 'tools')
+		assert tools.len == 1
+		declarations := praxo.get_array(praxo.as_object(tools[0]), 'functionDeclarations')
+		assert declarations.len == 1
+		data := praxo.parse_json('{"candidates":[{"content":{"parts":[{"text":"hello"},{"functionCall":{"name":"echo","args":{"text":"hi"}}}]}}],"usageMetadata":{"promptTokenCount":5,"candidatesTokenCount":6}}') or { panic(err) }
+		return praxo.as_object(data)
+	}
+	adapter := praxo.gemini_compatible_with_options('https://generativelanguage.googleapis.com/', 'test-model', praxo.GeminiOptions{
+		api_key: 'secret'
+		transport: transport
+	})
+	request := praxo.Request{
+		messages: [
+			praxo.message(praxo.role_system, 'sys'),
+			praxo.message(praxo.role_user, 'hi'),
+			praxo.message_assistant('', [
+				praxo.tool_call('call-1', 'echo', {'text': json2.Any('hi')}),
+			]),
+			praxo.message_tool('{"ok":true}', 'call-1'),
+		]
+		tools: [praxo.tool_spec('echo', 'Echo')]
+		tool_choice: 'auto'
+	}
+	result := adapter.generate(request) or { panic(err) }
+	assert result.message.content == 'hello'
+	assert result.message.tool_calls.len == 1
+	assert result.message.tool_calls[0].id == 'call-1'
+	assert result.message.tool_calls[0].name == 'echo'
+	assert result.usage.input_tokens == 5
+	assert result.usage.output_tokens == 6
+
+	mut model := praxo.gemini_compatible_model(adapter)
+	wrapped := model.generate(request) or { panic(err) }
+	assert wrapped.message.content == 'hello'
+
+	missing := praxo.gemini_compatible('https://generativelanguage.googleapis.com', 'test-model')
+	mut missing_code := ''
+	missing.generate(request) or {
+		missing_code = praxo.error_code(err)
+		praxo.Response{}
+	}
+	assert missing_code == 'MODEL_CONFIG'
+}
+
 fn test_harmovela() {
 	transport := fn (_base_url string, path string, body string, headers map[string]string) !praxo.HarmovelaResponse {
 		assert path == '/events'
@@ -594,6 +715,8 @@ fn main() {
 	test_agent_middleware()
 	test_agent_call_limits()
 	test_openai_compatible()
+	test_anthropic_compatible()
+	test_gemini_compatible()
 	test_harmovela()
 	println('v tests passed')
 }

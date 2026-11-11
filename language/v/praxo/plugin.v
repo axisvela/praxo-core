@@ -47,7 +47,7 @@ const limit_keys = ['memoryMB', 'cpuMillis', 'timeoutMs', 'maxInflight']
 const health_keys = ['method', 'intervalMs']
 const signature_keys = ['algorithm', 'keyId']
 
-fn check_keys(value map[string]json2.Any, allowed []string, where string) !void {
+fn check_keys(value map[string]json2.Any, allowed []string, where string) ! {
 	for key in value.keys() {
 		if key !in allowed {
 			return error('plugin: manifest: unknown field ${key} in ${where}')

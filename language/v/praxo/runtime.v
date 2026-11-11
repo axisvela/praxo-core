@@ -23,7 +23,7 @@ pub mut:
 	predicate  []string
 	target     &Sink = unsafe { nil }
 	sinks      []&Sink
-	handler    ?fn (Event) !void
+	handler    ?fn (Event) !
 	last_error string
 }
 
@@ -115,7 +115,7 @@ pub fn checkpoint_allowlist() &CheckpointAllowlist {
 	return &CheckpointAllowlist{}
 }
 
-pub fn (mut allow CheckpointAllowlist) register(kind string) !void {
+pub fn (mut allow CheckpointAllowlist) register(kind string) ! {
 	if kind == '' {
 		return praxo_error('CHECKPOINT_ERROR', 'checkpoint: type is required')
 	}

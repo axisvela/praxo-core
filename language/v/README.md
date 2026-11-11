@@ -7,9 +7,9 @@ allowlist, and tool-call parsing. Tool selection, PII redaction, structured
 output, and call limits are opt-in in the agent. Vector
 coverage does not establish full Core parity or production readiness.
 
-The Core does not call Go or another language runtime. It includes a
-non-streaming OpenAI-compatible model adapter; plugin hosts remain outside the
-declared Core scope.
+The Core does not call Go or another language runtime. It includes non-streaming
+OpenAI-compatible, Anthropic, and Gemini model adapters; plugin hosts remain
+outside the declared Core scope.
 
 ## Registry and Coding-Agent Entry
 
@@ -72,6 +72,23 @@ model := praxo.openai_compatible_model(adapter)
 
 Provider HTTP failures return code `PROVIDER_HTTP`; invalid tool-argument JSON
 returns `PROVIDER_JSON`. Streaming is not implemented.
+
+## Anthropic and Gemini Adapters
+
+`anthropic_compatible` posts to `{base_url}/v1/messages` with `x-api-key` and
+`anthropic-version`. `gemini_compatible` posts to
+`{base_url}/v1beta/models/{model}:generateContent` with `x-goog-api-key`. Both
+map system messages, tools, tool calls, tool results, and token usage over the
+injected `ProviderTransport`; it receives `(base_url, path, payload, headers)`
+and returns decoded JSON. Streaming is not implemented.
+
+```v
+claude := praxo.anthropic_compatible_with_options('https://api.anthropic.com',
+	'claude-sonnet-4-5', praxo.AnthropicOptions{api_key: 'token'})
+gemini := praxo.gemini_compatible_with_options(
+	'https://generativelanguage.googleapis.com', 'gemini-2.5-pro',
+	praxo.GeminiOptions{api_key: 'token'})
+```
 
 Supply a model callback to receive each request and return a response or an
 error. The callback can inspect the conversation and tool results on each step;

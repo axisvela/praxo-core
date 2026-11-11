@@ -30,7 +30,7 @@
 | R | native | `openai_compatible` adapter |
 | Erlang | native | `praxo_openai_compatible` |
 | Julia | native | `OpenAICompatibleModel` |
-| V | native | `praxo.openaicompat`；本机无 V 工具链，由 CI 验证 |
+| V | native | `praxo.openaicompat`；已用 V 0.5.2 与 `x.json2` 验证 |
 | Dart | native | `OpenAiCompatibleModel`，同步与异步 transport |
 | Haskell | native (transport seam) | 调用方提供 `Transport`，不内置 HTTP client |
 | Swift | native | `OpenAICompatibleModel`，使用 URLSession transport |
@@ -81,6 +81,7 @@
 | Nim | native | `newAnthropicCompatible`；可注入 transport |
 | Haskell | native (transport seam) | `Praxo.Anthropic`；调用方提供 transport |
 | OCaml | native (transport seam) | `anthropic_model`；调用方提供 transport |
+| V | native (transport seam) | `anthropic_compatible`；调用方提供 `ProviderTransport` |
 | Zig | native | `anthropic.Adapter`；可注入 transport |
 | MATLAB | native | `praxo.anthropic_compatible`；可注入 transport |
 | GNU Octave | native | 共享 `praxo.anthropic_compatible` |
@@ -112,6 +113,7 @@
 | Nim | native | `newGeminiCompatible`；可注入 transport |
 | Haskell | native (transport seam) | `Praxo.Gemini`；调用方提供 transport |
 | OCaml | native (transport seam) | `gemini_model`；调用方提供 transport |
+| V | native (transport seam) | `gemini_compatible`；调用方提供 `ProviderTransport` |
 | Zig | native | `gemini.Adapter`；可注入 transport |
 | MATLAB | native | `praxo.gemini_compatible`；可注入 transport |
 | GNU Octave | native | 共享 `praxo.gemini_compatible` |
@@ -159,7 +161,7 @@ MCP 服务或远端 transport。
 | Perl | native | `Praxo::Adapters::Harmovela` |
 | Erlang | native | `praxo_harmovela` |
 | Julia | native | `HarmovelaSink` |
-| V | native | `harmovela_sink`；本机无 V 工具链，由 CI 验证 |
+| V | native | `harmovela_sink`；已用 V 0.5.2 与 `x.json2` 验证 |
 | D | native | `HarmovelaSink` |
 | Dart | native | `HarmovelaSink` |
 | Haskell | native (transport seam) | `Praxo.Harmovela`；调用方提供 transport |

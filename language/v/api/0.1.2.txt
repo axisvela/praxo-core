@@ -3,12 +3,16 @@
 
 Action
 AgentOptions
+AnthropicCompatible
+AnthropicOptions
 CallLimit
 CheckpointAllowlist
 ContentBlock
 ContextBudget
 Decision
 Event
+GeminiCompatible
+GeminiOptions
 HarmovelaOptions
 HarmovelaResponse
 HarmovelaSink
@@ -35,6 +39,9 @@ Usage
 ValidationError
 action
 agent_options
+anthropic_compatible
+anthropic_compatible_model
+anthropic_compatible_with_options
 as_array
 as_bool
 as_f64
@@ -59,6 +66,9 @@ failing_model
 fallback_model
 filter_sink
 func_tool
+gemini_compatible
+gemini_compatible_model
+gemini_compatible_with_options
 get
 get_array
 get_bool

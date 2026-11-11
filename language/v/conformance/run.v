@@ -18,7 +18,7 @@ const groups = [
 	'toolcall',
 ]
 
-fn check(condition bool, message string) !void {
+fn check(condition bool, message string) ! {
 	if !condition {
 		return error(message)
 	}
@@ -28,7 +28,7 @@ fn read_text(path string) string {
 	return os.read_file(path) or { panic(err) }
 }
 
-fn run_toolcall(input json2.Any, expect json2.Any) !void {
+fn run_toolcall(input json2.Any, expect json2.Any) ! {
 	operation := praxo.get_string(input, 'operation') or { '' }
 	content := praxo.get_string(input, 'content') or { '' }
 	if operation == 'strip' {
@@ -49,7 +49,7 @@ fn run_toolcall(input json2.Any, expect json2.Any) !void {
 	check(praxo.json_equals(json2.Any(value.arguments), expected), 'input mismatch')!
 }
 
-fn run_jsonschema(input json2.Any, expect json2.Any) !void {
+fn run_jsonschema(input json2.Any, expect json2.Any) ! {
 	schema := praxo.get(input, 'schema') or { json2.null }
 	data := praxo.get(input, 'data') or { json2.null }
 	errors := praxo.validate_schema(schema, data)
@@ -70,7 +70,7 @@ fn run_jsonschema(input json2.Any, expect json2.Any) !void {
 		'errorPaths: got ${paths.join(', ')}')!
 }
 
-fn run_plugin(input json2.Any, expect json2.Any) !void {
+fn run_plugin(input json2.Any, expect json2.Any) ! {
 	raw := praxo.get_string(input, 'raw') or {
 		praxo.encode_json(praxo.get(input, 'manifest') or { json2.null })
 	}
@@ -91,21 +91,21 @@ fn run_plugin(input json2.Any, expect json2.Any) !void {
 	}
 }
 
-fn run_memory(input json2.Any, expect json2.Any) !void {
+fn run_memory(input json2.Any, expect json2.Any) ! {
 	mut store := praxo.memory_store()
 	for put in praxo.get_array(input, 'puts') {
 		session_id := praxo.get_string(put, 'session') or { '' }
 		record := praxo.get(put, 'record') or { json2.null }
 		store.put(session_id, praxo.memory_record(
-			praxo.get_string(record, 'id') or { '' }
-			praxo.get_string(record, 'frame') or { '' }
-			praxo.get_string(record, 'content') or { '' }
-			praxo.get_string(record, 'createdAt') or { '' }
+			praxo.get_string(record, 'id') or { '' },
+			praxo.get_string(record, 'frame') or { '' },
+			praxo.get_string(record, 'content') or { '' },
+			praxo.get_string(record, 'createdAt') or { '' },
 		))
 	}
 	records := store.search(
-		praxo.get_string(input, 'session') or { '' }
-		praxo.get_string(input, 'query') or { '' }
+		praxo.get_string(input, 'session') or { '' },
+		praxo.get_string(input, 'query') or { '' },
 		praxo.get_int(input, 'limit', 0)
 	)
 	mut ids := json2.Any(json2.null)
@@ -125,7 +125,7 @@ fn run_memory(input json2.Any, expect json2.Any) !void {
 		'contents mismatch')!
 }
 
-fn run_event(input json2.Any, expect json2.Any) !void {
+fn run_event(input json2.Any, expect json2.Any) ! {
 	mut events := []praxo.Event{}
 	for kind in praxo.get_array(input, 'events') {
 		if item := praxo.as_string(kind) {
@@ -174,12 +174,12 @@ fn run_event(input json2.Any, expect json2.Any) !void {
 		'delivered mismatch')!
 }
 
-fn run_stream(expect json2.Any) !void {
+fn run_stream(expect json2.Any) ! {
 	check(praxo.json_equals(praxo.json_from_strings(praxo.stream_kinds),
 		praxo.get(expect, 'kinds') or { json2.null }), 'kinds mismatch')!
 }
 
-fn run_checkpoint(input json2.Any, expect json2.Any) !void {
+fn run_checkpoint(input json2.Any, expect json2.Any) ! {
 	mut allow := praxo.checkpoint_allowlist()
 	for kind in praxo.get_array(input, 'registered') {
 		if value := praxo.as_string(kind) {
@@ -216,12 +216,12 @@ fn run_checkpoint(input json2.Any, expect json2.Any) !void {
 	check(code == (praxo.get_string(expect, 'errorCode') or { '' }), 'errorCode: got ${code}')!
 }
 
-fn run_policy(input json2.Any, expect json2.Any) !void {
+fn run_policy(input json2.Any, expect json2.Any) ! {
 	mut grants := []praxo.PathGrant{}
 	for item in praxo.get_array(input, 'grants') {
 		grants << praxo.path_grant(
-			praxo.get_string(item, 'root') or { '' }
-			praxo.get_string(item, 'access') or { 'read' }
+			praxo.get_string(item, 'root') or { '' },
+			praxo.get_string(item, 'access') or { 'read' },
 		)
 	}
 	checker := praxo.path_checker(grants)!
@@ -238,12 +238,12 @@ fn run_policy(input json2.Any, expect json2.Any) !void {
 	check(decision.allowed == praxo.get_bool(expect, 'allowed', false), 'allowed mismatch')!
 }
 
-fn run_context(input json2.Any, expect json2.Any) !void {
+fn run_context(input json2.Any, expect json2.Any) ! {
 	mut messages := []praxo.Message{}
 	for item in praxo.get_array(input, 'messages') {
 		messages << praxo.message(
-			praxo.get_string(item, 'role') or { '' }
-			praxo.get_string(item, 'content') or { '' }
+			praxo.get_string(item, 'role') or { '' },
+			praxo.get_string(item, 'content') or { '' },
 		)
 	}
 	if (praxo.get_string(input, 'operation') or { '' }) == 'estimate' {
@@ -253,8 +253,8 @@ fn run_context(input json2.Any, expect json2.Any) !void {
 	}
 	budget_value := praxo.get(input, 'budget') or { json2.null }
 	budget := praxo.context_budget(
-		praxo.get_int(budget_value, 'maxTokens', 0)
-		praxo.get_int(budget_value, 'keepRecent', 0)
+		praxo.get_int(budget_value, 'maxTokens', 0),
+		praxo.get_int(budget_value, 'keepRecent', 0),
 	)
 	output, ok := praxo.compact_context(budget, messages)
 	check(ok == praxo.get_bool(expect, 'ok', false), 'ok mismatch')!
@@ -271,7 +271,7 @@ fn run_context(input json2.Any, expect json2.Any) !void {
 		'messages mismatch')!
 }
 
-fn run_middleware(input json2.Any, expect json2.Any) !void {
+fn run_middleware(input json2.Any, expect json2.Any) ! {
 	operation := praxo.get_string(input, 'operation') or { '' }
 	if operation == 'pii' {
 		got := praxo.pii_redact(praxo.get_string(input, 'text') or { '' })
@@ -297,8 +297,8 @@ fn run_middleware(input json2.Any, expect json2.Any) !void {
 		}
 	} else if operation == 'call-limit' {
 		mut limit := praxo.call_limit(
-			praxo.get_int(input, 'modelLimit', 0)
-			praxo.get_int(input, 'toolLimit', 0)
+			praxo.get_int(input, 'modelLimit', 0),
+			praxo.get_int(input, 'toolLimit', 0),
 		)
 		mut outcomes := []string{}
 		for call in praxo.get_array(input, 'calls') {
@@ -345,12 +345,12 @@ fn run_middleware(input json2.Any, expect json2.Any) !void {
 	}
 }
 
-fn run_agent_loop(input json2.Any, expect json2.Any) !void {
+fn run_agent_loop(input json2.Any, expect json2.Any) ! {
 	mut tools := []&praxo.Tool{}
 	for item in praxo.get_array(input, 'tools') {
 		tools << praxo.func_tool(
-			praxo.get_string(item, 'name') or { '' }
-			praxo.get_string(item, 'description') or { '' }
+			praxo.get_string(item, 'name') or { '' },
+			praxo.get_string(item, 'description') or { '' },
 		)
 	}
 	mut script := []praxo.Response{}
@@ -358,17 +358,17 @@ fn run_agent_loop(input json2.Any, expect json2.Any) !void {
 		mut calls := []praxo.ToolCall{}
 		for call in praxo.get_array(item, 'toolCalls') {
 			calls << praxo.tool_call(
-				praxo.get_string(call, 'id') or { '' }
-				praxo.get_string(call, 'name') or { '' }
-				praxo.as_object(praxo.get(call, 'arguments') or { json2.null })
+				praxo.get_string(call, 'id') or { '' },
+				praxo.get_string(call, 'name') or { '' },
+				praxo.as_object(praxo.get(call, 'arguments') or { json2.null }),
 			)
 		}
 		script << praxo.response(
-			praxo.message_assistant(praxo.get_string(item, 'content') or { '' }, calls)
+			praxo.message_assistant(praxo.get_string(item, 'content') or { '' }, calls),
 			praxo.usage(
-				praxo.get_int(item, 'inputTokens', 0)
-				praxo.get_int(item, 'outputTokens', 0)
-			)
+				praxo.get_int(item, 'inputTokens', 0),
+				praxo.get_int(item, 'outputTokens', 0),
+			),
 		)
 	}
 	model := praxo.scripted_model(script)
@@ -410,7 +410,7 @@ fn run_agent_loop(input json2.Any, expect json2.Any) !void {
 		'events mismatch')!
 }
 
-fn run_vector(group string, vector json2.Any) !void {
+fn run_vector(group string, vector json2.Any) ! {
 	input := praxo.get(vector, 'input') or { json2.Any(map[string]json2.Any{}) }
 	expect := praxo.get(vector, 'expect') or { json2.Any(map[string]json2.Any{}) }
 	if group == 'toolcall' {
