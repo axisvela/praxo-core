@@ -717,4 +717,61 @@ check(
   'harmovela non-2xx body'
 )
 
+anthropic_payload = nil
+anthropic = Praxo::Adapters::Anthropic.new(
+  model: 'claude-test',
+  api_key: 'ak',
+  transport: lambda do |path, payload|
+    check(path == '/v1/messages', 'anthropic path')
+    anthropic_payload = payload
+    {
+      'content' => [
+        { 'type' => 'text', 'text' => 'hello' },
+        { 'type' => 'tool_use', 'id' => 'tool-1', 'name' => 'echo', 'input' => { 'text' => 'hi' } }
+      ],
+      'stop_reason' => 'end_turn',
+      'usage' => { 'input_tokens' => 3, 'output_tokens' => 4, 'cache_read_input_tokens' => 2 }
+    }
+  end
+)
+anthropic_response = anthropic.generate(M.request(
+  messages: [M.message_text(M::SYSTEM, 'be brief'), M.message_text(M::USER, 'hi')],
+  tools: [M.tool_spec(name: 'echo', description: 'Echo', parameters: { 'type' => 'object' })]
+))
+check(anthropic_response.message.content == 'hello', 'anthropic content')
+check(anthropic_response.message.tool_calls.first.id == 'tool-1', 'anthropic call id')
+check(anthropic_response.message.tool_calls.first.arguments['text'] == 'hi', 'anthropic args')
+check(anthropic_response.usage.cached_tokens == 2, 'anthropic cached')
+check(anthropic_payload[:system] == 'be brief', 'anthropic system')
+check(anthropic_payload[:tools].first[:input_schema]['type'] == 'object', 'anthropic tools')
+
+gemini_payload = nil
+gemini = Praxo::Adapters::Gemini.new(
+  model: 'gemini-test',
+  api_key: 'gk',
+  transport: lambda do |path, payload|
+    check(path.end_with?(':generateContent'), 'gemini path')
+    gemini_payload = payload
+    {
+      'candidates' => [{
+        'content' => { 'parts' => [
+          { 'text' => 'hello' },
+          { 'functionCall' => { 'name' => 'echo', 'args' => { 'text' => 'hi' } } }
+        ] },
+        'finishReason' => 'STOP'
+      }],
+      'usageMetadata' => { 'promptTokenCount' => 3, 'candidatesTokenCount' => 4 }
+    }
+  end
+)
+gemini_response = gemini.generate(M.request(
+  messages: [M.message_text(M::SYSTEM, 'be brief'), M.message_text(M::USER, 'hi')],
+  tools: [M.tool_spec(name: 'echo', description: 'Echo', parameters: { 'type' => 'object' })]
+))
+check(gemini_response.message.content == 'hello', 'gemini content')
+check(gemini_response.message.tool_calls.first.name == 'echo', 'gemini call name')
+check(gemini_response.usage.input_tokens == 3, 'gemini usage')
+check(gemini_payload[:system_instruction][:parts].first[:text] == 'be brief', 'gemini system')
+check(gemini_payload[:toolConfig][:functionCallingConfig][:mode] == 'AUTO', 'gemini tool mode')
+
 puts 'ruby core tests passed'

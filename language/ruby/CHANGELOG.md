@@ -1,5 +1,11 @@
 # Ruby Core Release Notes
 
+## Unreleased
+
+### Added
+
+- Native Anthropic Messages and Gemini generateContent model adapters.
+
 ## 0.4.1 - 2026-11-04
 
 Source release tag `ruby/v0.4.1`. RubyGems publishes `praxo-core==0.4.1`.

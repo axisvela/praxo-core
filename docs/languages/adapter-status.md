@@ -71,6 +71,7 @@ provider presets.
 | Elixir | native | `Praxo.Anthropic` |
 | Java | native | `adapters.AnthropicModel` |
 | Rust | native (transport seam) | `adapters::anthropic`; caller supplies transport |
+| Ruby | native | `Praxo::Adapters::Anthropic`; injectable transport |
 | All other implementations | not implemented | Use the OpenAI-compatible adapter only for OpenAI-compatible endpoints |
 
 ## Model (Gemini Native)
@@ -85,6 +86,7 @@ provider presets.
 | Elixir | native | `Praxo.Gemini` |
 | Java | native | `adapters.GeminiModel` |
 | Rust | native (transport seam) | `adapters::gemini`; caller supplies transport |
+| Ruby | native | `Praxo::Adapters::Gemini`; injectable transport |
 | All other implementations | not implemented | Native generateContent mapping follows adoption order |
 
 ## MCP

@@ -88,6 +88,15 @@ execution, and run-scoped call limits:
 `Praxo::SSE.parse` parses OpenAI-compatible server-sent-event text and raises
 `MODEL_STREAM` for truncated streams or malformed half packets.
 
+## Model Adapters
+
+- `Praxo::Adapters::OpenAICompatible` for OpenAI, DeepSeek, Kimi/Moonshot, and
+  other OpenAI-compatible endpoints.
+- `Praxo::Adapters::Anthropic` for the Anthropic Messages API.
+- `Praxo::Adapters::Gemini` for the Gemini generateContent API.
+
+Each adapter accepts a `transport` lambda for deterministic tests.
+
 ## Harmovela Event Sink
 
 `Praxo::Adapters::HarmovelaSink` posts each event to `{base_url}/events` with an
