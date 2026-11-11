@@ -33,7 +33,7 @@ re-export or a thin compatibility file at the old path.
 | Haskell | `src/Praxo/Adapters/` | planned; keep module re-exports |
 | Rust | `src/adapters/` | separated; root re-exports remain |
 | Elixir | `lib/praxo/adapters/` | separated; module names stay stable |
-| Erlang | `src/adapters/` | planned; update build/app module list |
+| Erlang | `src/adapters/` | separated; module names stay stable |
 | OCaml | separate adapter module | planned |
 | C / C++ / Fortran | `adapters/<language>/` | planned; update build includes |
 | Delphi / Objective-C / MATLAB / Octave / Zig / V / D | `adapters/` | planned; update build/tests |

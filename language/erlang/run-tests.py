@@ -35,7 +35,7 @@ def main():
 
     build = ROOT / "build" / "ebin"
     build.mkdir(parents=True, exist_ok=True)
-    sources = sorted((ROOT / "src").glob("*.erl"))
+    sources = sorted((ROOT / "src").rglob("*.erl"))
     sources += sorted((ROOT / "conformance").glob("*.erl"))
     sources += sorted((ROOT / "tests").glob("*.erl"))
     subprocess.run(

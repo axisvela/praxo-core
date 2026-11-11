@@ -1,5 +1,12 @@
 # Erlang Core Release Notes
 
+## Unreleased
+
+### Changed
+
+- Adapter sources live under `src/adapters/`; public module names are
+  unchanged.
+
 ## 0.4.0 - 2026-11-02
 
 Source release tag `erlang/v0.4.0`. The Hex package

@@ -24,7 +24,8 @@ def version():
 def snapshot():
     sdk, spec = version()
     lines = ["# PRAXO-CORE Erlang Core API " + sdk, "# SPEC_VERSION " + spec, ""]
-    for path in sorted((ROOT / "src").glob("*.erl")):
+    modules = []
+    for path in (ROOT / "src").rglob("*.erl"):
         text = path.read_text(encoding="utf-8")
         module = re.search(r"-module\((\w+)\)", text)[1]
         functions = set()
@@ -33,6 +34,8 @@ def snapshot():
                 functions.add((name, int(arity)))
         if not functions:
             raise ValueError("missing exports: " + module)
+        modules.append((module, functions))
+    for module, functions in sorted(modules):
         lines.append("## " + module)
         for name, arity in sorted(functions):
             lines.append(f"{module}.{name}/{arity}")
