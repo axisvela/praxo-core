@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+### Added
+
+- Native Anthropic Messages and Gemini generateContent model adapters.
+
 ### Changed
 
 - Adapter sources live under `src/adapters/`; public module names are

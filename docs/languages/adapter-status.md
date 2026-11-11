@@ -76,6 +76,7 @@ provider presets.
 | Lua | native | `praxo.adapters.anthropic` |
 | Perl | native | `Praxo::Adapters::Anthropic` |
 | Dart | native | `AnthropicModel` with sync and async transport paths |
+| Erlang | native | `praxo_anthropic` |
 | All other implementations | not implemented | Use the OpenAI-compatible adapter only for OpenAI-compatible endpoints |
 
 ## Model (Gemini Native)
@@ -95,6 +96,7 @@ provider presets.
 | Lua | native | `praxo.adapters.gemini` |
 | Perl | native | `Praxo::Adapters::Gemini` |
 | Dart | native | `GeminiModel` with sync and async transport paths |
+| Erlang | native | `praxo_gemini` |
 | All other implementations | not implemented | Native generateContent mapping follows adoption order |
 
 ## MCP

@@ -13,11 +13,23 @@ praxo_agent.run_agent/3
 praxo_agent.scripted_model/1
 praxo_agent.static_model/1
 
+## praxo_anthropic
+praxo_anthropic.generate/2
+praxo_anthropic.model/1
+praxo_anthropic.new/2
+praxo_anthropic.new/3
+
 ## praxo_checkpoint
 praxo_checkpoint.marshal/3
 praxo_checkpoint.new/0
 praxo_checkpoint.register/2
 praxo_checkpoint.unmarshal/2
+
+## praxo_gemini
+praxo_gemini.generate/2
+praxo_gemini.model/1
+praxo_gemini.new/2
+praxo_gemini.new/3
 
 ## praxo_harmovela
 praxo_harmovela.emit/2

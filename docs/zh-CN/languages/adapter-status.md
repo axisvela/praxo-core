@@ -69,6 +69,7 @@
 | Lua | native | `praxo.adapters.anthropic` |
 | Perl | native | `Praxo::Adapters::Anthropic` |
 | Dart | native | `AnthropicModel`，同步与异步 transport |
+| Erlang | native | `praxo_anthropic` |
 | 其他实现 | not implemented | 仅 OpenAI-compatible 端点使用 OpenAI 兼容适配器 |
 
 ## 模型（Gemini 原生）
@@ -88,6 +89,7 @@
 | Lua | native | `praxo.adapters.gemini` |
 | Perl | native | `Praxo::Adapters::Gemini` |
 | Dart | native | `GeminiModel`，同步与异步 transport |
+| Erlang | native | `praxo_gemini` |
 | 其他实现 | not implemented | 原生 generateContent 映射按采用顺序推进 |
 
 ## MCP

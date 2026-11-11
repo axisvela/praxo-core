@@ -83,6 +83,16 @@ Public declarations are inventoried in [`api/0.4.0.txt`](api/0.4.0.txt).
 This is a source declaration check, not a binary ABI promise. Regenerate it with
 `python api-snapshot.py`.
 
+## Anthropic and Gemini Adapters
+
+`praxo_anthropic` and `praxo_gemini` map the native Messages and generateContent
+APIs. Both accept a caller-supplied transport for deterministic tests.
+
+```erlang
+Anthropic = praxo_anthropic:new(<<"claude-sonnet-4-5">>, <<"ak">>),
+Gemini = praxo_gemini:new(<<"gemini-2.5-pro">>, <<"gk">>),
+```
+
 ## Harmovela Event Sink
 
 `praxo_harmovela` posts each event to `{base_url}/events`.

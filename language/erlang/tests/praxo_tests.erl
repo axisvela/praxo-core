@@ -34,6 +34,8 @@ run() ->
     test_agent_hitl(),
     test_sse(),
     test_openai_compatible(),
+    test_anthropic(),
+    test_gemini(),
     test_harmovela(),
     io:format("erlang tests passed~n").
 
@@ -326,6 +328,103 @@ test_openai_compatible() ->
             #{transport => fun(_, _) -> {error, <<"PROVIDER_HTTP">>} end}),
         Request
     ).
+
+test_anthropic() ->
+    Parent = self(),
+    {ok, Data} = praxo_json:parse(<<
+        "{\"content\":[{\"type\":\"text\",\"text\":\"hello\"},"
+        "{\"type\":\"tool_use\",\"id\":\"tool-1\",\"name\":\"echo\","
+        "\"input\":{\"text\":\"hi\"}}],"
+        "\"stop_reason\":\"end_turn\","
+        "\"usage\":{\"input_tokens\":3,\"output_tokens\":4,"
+        "\"cache_read_input_tokens\":2}}"
+    >>),
+    Transport = fun(Path, Payload) ->
+        Parent ! {anthropic_path, Path},
+        Parent ! {anthropic_payload, Payload},
+        {ok, Data}
+    end,
+    Adapter = praxo_anthropic:new(
+        <<"https://example.test">>,
+        <<"claude-test">>,
+        #{api_key => <<"ak">>, transport => Transport}
+    ),
+    Request = (praxo_models:request(
+        [
+            praxo_models:message(<<"system">>, <<"be brief">>),
+            praxo_models:message(<<"user">>, <<"hi">>)
+        ],
+        [praxo_models:tool_spec(<<"echo">>, <<"Echo">>)]
+    ))#{tool_choice => <<"auto">>},
+    {ok, Response, _} = praxo_anthropic:generate(Adapter, Request),
+    receive
+        {anthropic_path, Path} -> check(Path == <<"/v1/messages">>, <<"anthropic path">>)
+    after 1000 -> erlang:error(anthropic_path_timeout)
+    end,
+    receive
+        {anthropic_payload, Payload} ->
+            check(maps:get(<<"system">>, Payload) == <<"be brief">>, <<"anthropic system">>),
+            [Tool] = maps:get(<<"tools">>, Payload),
+            check(maps:get(<<"input_schema">>, Tool) == #{<<"type">> => <<"object">>},
+                  <<"anthropic tools">>),
+            check(maps:get(<<"tool_choice">>, Payload) == #{<<"type">> => <<"auto">>},
+                  <<"anthropic tool choice">>)
+    after 1000 -> erlang:error(anthropic_payload_timeout)
+    end,
+    Message = maps:get(message, Response),
+    check(maps:get(content, Message) == <<"hello">>, <<"anthropic content">>),
+    [Call] = maps:get(tool_calls, Message),
+    check(maps:get(id, Call) == <<"tool-1">>, <<"anthropic call id">>),
+    check(maps:get(<<"text">>, maps:get(arguments, Call)) == <<"hi">>,
+          <<"anthropic arguments">>).
+
+test_gemini() ->
+    Parent = self(),
+    {ok, Data} = praxo_json:parse(<<
+        "{\"candidates\":[{\"content\":{\"parts\":["
+        "{\"text\":\"hello\"},{\"functionCall\":{\"name\":\"echo\","
+        "\"args\":{\"text\":\"hi\"}}}]},\"finishReason\":\"STOP\"}],"
+        "\"usageMetadata\":{\"promptTokenCount\":3,\"candidatesTokenCount\":4}}"
+    >>),
+    Transport = fun(Path, Payload) ->
+        Parent ! {gemini_path, Path},
+        Parent ! {gemini_payload, Payload},
+        {ok, Data}
+    end,
+    Adapter = praxo_gemini:new(
+        <<"https://example.test">>,
+        <<"gemini-test">>,
+        #{api_key => <<"gk">>, transport => Transport}
+    ),
+    Request = (praxo_models:request(
+        [
+            praxo_models:message(<<"system">>, <<"be brief">>),
+            praxo_models:message(<<"user">>, <<"hi">>)
+        ],
+        [praxo_models:tool_spec(<<"echo">>, <<"Echo">>)]
+    ))#{tool_choice => <<"auto">>},
+    {ok, Response, _} = praxo_gemini:generate(Adapter, Request),
+    receive
+        {gemini_path, Path} ->
+            check(binary:match(Path, <<":generateContent">>) =/= nomatch, <<"gemini path">>)
+    after 1000 -> erlang:error(gemini_path_timeout)
+    end,
+    receive
+        {gemini_payload, Payload} ->
+            System = maps:get(<<"system_instruction">>, Payload),
+            [Part] = maps:get(<<"parts">>, System),
+            check(maps:get(<<"text">>, Part) == <<"be brief">>, <<"gemini system">>),
+            Config = maps:get(<<"toolConfig">>, Payload),
+            Calling = maps:get(<<"functionCallingConfig">>, Config),
+            check(maps:get(<<"mode">>, Calling) == <<"AUTO">>, <<"gemini tool mode">>)
+    after 1000 -> erlang:error(gemini_payload_timeout)
+    end,
+    Message = maps:get(message, Response),
+    check(maps:get(content, Message) == <<"hello">>, <<"gemini content">>),
+    [Call] = maps:get(tool_calls, Message),
+    check(maps:get(name, Call) == <<"echo">>, <<"gemini call name">>),
+    check(maps:get(<<"text">>, maps:get(arguments, Call)) == <<"hi">>,
+          <<"gemini arguments">>).
 
 test_harmovela() ->
     Parent = self(),
