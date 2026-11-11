@@ -5,6 +5,8 @@
 ### Added
 
 - Native Anthropic Messages and Gemini generateContent model adapters.
+- Minimal stdio MCP client with pagination, tool calls, timeouts, and
+  cancellation notifications.
 
 ## 0.4.1 - 2026-11-09
 

@@ -929,5 +929,64 @@ check($geminiResponse->usage->inputTokens === 3, 'gemini usage');
 check($geminiPayload['system_instruction']['parts'][0]['text'] === 'be brief', 'gemini system');
 check($geminiPayload['toolConfig']['functionCallingConfig']['mode'] === 'AUTO', 'gemini tool mode');
 
+$mcp = new \Praxo\Core\Adapters\MCPClient(new class implements \Praxo\Core\Adapters\MCPTransport {
+    public array $notifications = [];
+
+    public function request(string $method, array $params, float $timeout): array
+    {
+        if ($method === 'initialize') {
+            return ['protocolVersion' => '2024-11-05', 'serverInfo' => ['name' => 'fake']];
+        }
+        if ($method === 'tools/list') {
+            if (isset($params['cursor'])) {
+                return ['tools' => [['name' => 'echo']]];
+            }
+            return ['tools' => [['name' => 'add']], 'nextCursor' => 'next'];
+        }
+        if ($method === 'tools/call') {
+            if (($params['name'] ?? '') === 'echo') {
+                return ['structuredContent' => ['ok' => true]];
+            }
+            if (($params['name'] ?? '') === 'text') {
+                return ['content' => [['type' => 'text', 'text' => 'hello']]];
+            }
+            if (($params['name'] ?? '') === 'fail') {
+                return ['isError' => true];
+            }
+            throw new \Praxo\Core\PraxoException('MCP_TIMEOUT', 'mcp: timed out');
+        }
+        return [];
+    }
+
+    public function notify(string $method, array $params): void
+    {
+        $this->notifications[] = [$method, $params];
+    }
+
+    public function close(): void
+    {
+    }
+});
+$mcp->start();
+check($mcp->protocolVersion() === '2024-11-05', 'mcp protocol version');
+$mcpTools = $mcp->listTools();
+check(array_column($mcpTools, 'name') === ['add', 'echo'], 'mcp paginated tools');
+check($mcp->callTool('echo', ['text' => 'hi']) === ['ok' => true], 'mcp structured tool');
+check($mcp->callTool('text') === 'hello', 'mcp text tool');
+$mcpError = null;
+try {
+    $mcp->callTool('fail');
+} catch (\Praxo\Core\PraxoException $error) {
+    $mcpError = $error;
+}
+check($mcpError?->praxoCode === 'MCP_TOOL_ERROR', 'mcp tool error');
+$mcpTimeout = null;
+try {
+    $mcp->callTool('hang');
+} catch (\Praxo\Core\PraxoException $error) {
+    $mcpTimeout = $error;
+}
+check($mcpTimeout?->praxoCode === 'MCP_TIMEOUT', 'mcp timeout');
+
 echo "PHP core tests passed ({$passed})\n";
 

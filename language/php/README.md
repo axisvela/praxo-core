@@ -92,6 +92,13 @@ $agent = new Agent($options);
 
 Each adapter accepts an injectable transport callable.
 
+## MCP Client
+
+`Praxo\Core\Adapters\MCPClient` implements a stdio JSON-RPC MCP session with
+initialize, paginated tool listing, tool calls, timeouts, and cancellation
+notifications. `StdioMCPTransport` starts a child process; tests can implement
+`MCPTransport` directly.
+
 ## Harmovela Event Sink
 
 `Praxo\Core\Adapters\HarmovelaSink` implements `EventSink` and posts to

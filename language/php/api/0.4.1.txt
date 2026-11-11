@@ -13,9 +13,23 @@ Praxo\Core\Response generate(Praxo\Core\Request $request)
 ### Praxo\Core\Adapters\HarmovelaSink
 HarmovelaSink(string $baseUrl, ?string $source, ?string $specVersion, $transport, $clock, int $timeout)
 void emit(Praxo\Core\Event $event)
+### Praxo\Core\Adapters\MCPClient
+MCPClient(Praxo\Core\Adapters\MCPTransport $transport, string $clientVersion, float $timeout)
+Praxo\Core\Adapters\MCPClient start()
+array listTools()
+array serverInfo()
+mixed callTool(string $name, array $arguments)
+string protocolVersion()
+void close()
 ### Praxo\Core\Adapters\OpenAICompatible
 OpenAICompatible(string $baseUrl, string $model, ?string $apiKey, $transport, int $timeout)
 Praxo\Core\Response generate(Praxo\Core\Request $request)
+### Praxo\Core\Adapters\StdioMCPTransport
+StdioMCPTransport(string $command, array $args, array $env)
+array request(string $method, array $params, float $timeout)
+void close()
+void notify(string $method, array $params)
+void start()
 ### Praxo\Core\Agent
 Agent(Praxo\Core\AgentOptions $options)
 Praxo\Core\RunResult run(Praxo\Core\Session $session, string $prompt)
