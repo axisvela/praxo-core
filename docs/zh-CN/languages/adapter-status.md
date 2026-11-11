@@ -79,6 +79,8 @@
 | Nim | native | `newAnthropicCompatible`；可注入 transport |
 | Haskell | native (transport seam) | `Praxo.Anthropic`；调用方提供 transport |
 | Zig | native | `anthropic.Adapter`；可注入 transport |
+| MATLAB | native | `praxo.anthropic_compatible`；可注入 transport |
+| GNU Octave | native | 共享 `praxo.anthropic_compatible` |
 | 其他实现 | not implemented | 仅 OpenAI-compatible 端点使用 OpenAI 兼容适配器 |
 
 ## 模型（Gemini 原生）
@@ -107,6 +109,8 @@
 | Nim | native | `newGeminiCompatible`；可注入 transport |
 | Haskell | native (transport seam) | `Praxo.Gemini`；调用方提供 transport |
 | Zig | native | `gemini.Adapter`；可注入 transport |
+| MATLAB | native | `praxo.gemini_compatible`；可注入 transport |
+| GNU Octave | native | 共享 `praxo.gemini_compatible` |
 | 其他实现 | not implemented | 原生 generateContent 映射按采用顺序推进 |
 
 ## MCP

@@ -86,6 +86,8 @@ provider presets.
 | Nim | native | `newAnthropicCompatible`; injectable transport |
 | Haskell | native (transport seam) | `Praxo.Anthropic`; caller supplies transport |
 | Zig | native | `anthropic.Adapter`; injectable transport |
+| MATLAB | native | `praxo.anthropic_compatible`; injectable transport |
+| GNU Octave | native | Shared `praxo.anthropic_compatible` |
 | All other implementations | not implemented | Use the OpenAI-compatible adapter only for OpenAI-compatible endpoints |
 
 ## Model (Gemini Native)
@@ -114,6 +116,8 @@ provider presets.
 | Nim | native | `newGeminiCompatible`; injectable transport |
 | Haskell | native (transport seam) | `Praxo.Gemini`; caller supplies transport |
 | Zig | native | `gemini.Adapter`; injectable transport |
+| MATLAB | native | `praxo.gemini_compatible`; injectable transport |
+| GNU Octave | native | Shared `praxo.gemini_compatible` |
 | All other implementations | not implemented | Native generateContent mapping follows adoption order |
 
 ## MCP

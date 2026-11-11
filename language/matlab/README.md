@@ -105,6 +105,13 @@ Local parity inventory: `agent.Agent.Run` maps partially to `praxo.agent_run`
 (P2); the callback API and loop cover the shared agent-loop vectors, not the
 full reference agent surface. The shared parity inventory remains unchanged.
 
+## Anthropic and Gemini Adapters
+
+praxo.anthropic_compatible(request, options) and
+praxo.gemini_compatible(request, options) map the native Messages and
+generateContent APIs. Both accept an injected 	ransport for deterministic
+tests.
+
 ## Harmovela Event Sink
 
 ```matlab

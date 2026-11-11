@@ -110,6 +110,13 @@ Budget failures use `AGENT_MAX_STEPS` or `AGENT_MAX_TOKENS`; missing tools use
 `TOOL_NOT_FOUND`, while invalid or failing model and tool callbacks use local
 `MODEL_ERROR` and `TOOL_ERROR`. Invalid configuration raises `praxo:agent`.
 
+## Anthropic and Gemini Adapters
+
+praxo.anthropic_compatible(request, options) and
+praxo.gemini_compatible(request, options) map the native Messages and
+generateContent APIs. Both accept an injected 	ransport for deterministic
+tests.
+
 ## Harmovela Event Sink
 
 ```octave
