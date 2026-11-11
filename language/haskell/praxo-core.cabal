@@ -1,6 +1,6 @@
 cabal-version: 2.4
 name: praxo-core
-version: 0.2.0
+version: 0.3.0
 synopsis: Embeddable MIT-licensed agent framework for Haskell
 description: Native agent loop with tools, policy hooks, typed events, memory,
              checkpoints, context budgets, middleware, JSON Schema validation,
@@ -14,7 +14,7 @@ license-file: LICENSE
 author: AxisVela
 build-type: Simple
 extra-source-files: README.md, REGISTRY.md, llms.txt, llms.md, SETUP.md,
-                    api/0.2.0.txt, run-tests.py, api-snapshot.py
+                    api/0.1.0.txt, api/0.2.0.txt, run-tests.py, api-snapshot.py
 
 source-repository head
   type: git

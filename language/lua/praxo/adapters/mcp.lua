@@ -67,7 +67,7 @@ function M.new(opts)
   local client = {
     config = {
       transport = opts.transport,
-      client_version = opts.client_version or "0.4.1",
+      client_version = opts.client_version or "0.5.0",
       protocol_version = opts.protocol_version or "2024-11-05",
     },
     connected = false,

@@ -8,11 +8,11 @@
 
 - package: `praxo-core`
 - registry: [VPM (pending)](https://github.com/axisvela/praxo-core-v)
-- source_version: `0.1.2`
+- source_version: `0.2.0`
 - published_version: `0.1.2`
 - install_published: `v install praxo-core`
 - install_source: `v install praxo-core`
-- source_tag: `v/v0.1.2`
+- source_tag: `v/v0.2.0`
 - tier: Core
 - contract: `SPEC_VERSION` `0.2.0`
 - documentation: https://axisvela.github.io/praxo-core/languages/v/

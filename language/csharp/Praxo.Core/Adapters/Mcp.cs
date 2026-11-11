@@ -31,7 +31,7 @@ public sealed class McpClient : IDisposable
         McpServerOptions options,
         TimeSpan? timeout = null,
         string clientName = "praxo-core",
-        string clientVersion = "0.4.0",
+        string clientVersion = "0.5.0",
         string protocolVersion = DefaultProtocolVersion)
         : this(new McpStdioTransport(options), timeout, clientName, clientVersion, protocolVersion)
     {
@@ -41,7 +41,7 @@ public sealed class McpClient : IDisposable
         McpStdioTransport transport,
         TimeSpan? timeout = null,
         string clientName = "praxo-core",
-        string clientVersion = "0.4.0",
+        string clientVersion = "0.5.0",
         string protocolVersion = DefaultProtocolVersion)
     {
         _transport = transport;

@@ -8,6 +8,6 @@ defmodule PraxoConsumer.MixProject do
   def application, do: [extra_applications: [:logger]]
 
   defp deps do
-    [{:praxo_core, "~> 0.4.1"}]
+    [{:praxo_core, "~> 0.5.1"}]
   end
 end

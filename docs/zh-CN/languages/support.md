@@ -72,26 +72,26 @@ Bridge、Sample 描述运行时的接入方式，不证明其语言缺乏 Framew
 
 | 语言 | 源码标签 | 注册表版本 | 消费者安装 smoke |
 | --- | --- | --- | --- |
-| Python | `python/v0.4.1` | PyPI `praxo-core==0.4.1` 已发布 | 发布工作流构建并 smoke 测试 `0.4.1`；发布后消费者检查已在本地通过 |
-| TypeScript | `typescript/v0.3.0` | npm `@axisvela/praxo-core@0.3.0` 已作为 `latest` 发布 | 发布工作流构建并消费 `0.3.0` tarball；发布后消费者 starter 检查本地通过 |
-| Java | `java/v0.5.0` | Maven Central `com.axisvela:praxo-core:0.5.0` 已发布，包含 Harmovela、MCP adapter | Central 已校验并发布 `0.5.0`；`0.5.0` 发布后消费者检查未重跑 |
-| Rust | `rust/v0.4.0` | crates.io `praxo-core==0.4.0` 已发布；`0.1.4` 为历史版本 | 仅记录 `0.1.4`；`0.4.0` 未重跑 |
-| C# | `csharp/v0.4.0` | NuGet `Praxo.Core==0.4.0` 已发布 | 未记录 |
-| Elixir | `elixir/v0.5.1` | Hex `praxo_core==0.5.1` 已发布，包含 OpenAI-compatible、Harmovela、MCP adapter；`0.5.0` 发布前失败；`0.4.1`、`0.4.0`、`0.3.0`、`0.2.0` 为历史版本 | 已增加扩展 Starter；Hex `0.4.1` 在干净 Mix 项目中解析，allow/deny 本地通过 |
-| Erlang | `erlang/v0.4.0` | Hex `praxo_core_erlang==0.4.0` 已发布；`0.3.1`、`0.2.0` 为历史版本 | `0.4.0` 未重跑；历史 `0.1.1` smoke |
-| Ruby | `ruby/v0.4.1` | RubyGems `praxo-core==0.4.1` 已发布；`0.4.0`、`0.3.0`、`0.2.0` 为历史版本 | 已增加扩展 Starter；RubyGems `0.4.1` 已安装到干净 gem home，allow/deny 本地通过 |
-| Lua | `lua/v0.4.1` | LuaRocks `praxo-core==0.4.1-1` 已发布，包含可选 OpenAI-compatible adapter；`0.4.0-1`、`0.3.0-1`、`0.2.0-1` 也已发布 | 已增加扩展 Starter；LuaRocks `0.4.1-1` 已安装到干净 tree，allow/deny 本地通过 |
-| PHP | `php/v0.4.1` | Packagist `axisvela/praxo-core==0.4.1` 已发布，包含 Composer `autoload.files`；`0.4.0`、`0.3.0`、`0.2.0` 为历史版本 | 已增加扩展 Starter；Composer 安装已发布 `0.4.1` 后 Starter 无桥接本地通过 |
-| Dart | `dart/v0.1.1` | pub.dev `praxo_core==0.1.1` | 已记录 `0.1.1` |
-| Julia | `julia/v0.2.0` | General Registry PR #174826 已创建；mirror `0.2.0` | 未记录 |
-| MATLAB | `matlab/v0.2.1` | MATLAB File Exchange `185166` 已发布 | 未记录 |
-| Octave | `octave/v0.2.1` | Octave Packages PR #875 待合并；包归档已发布 | 未记录 |
-| Perl | `perl/v0.1.1` | CPAN `Praxo-Core` 0.1.1 已上传；索引待完成 | 未记录 |
-| PowerShell | `powershell/v0.2.0` | PowerShell Gallery `praxo-core-ps==0.2.0` 已发布 | 未记录 |
-| Nim | `nim/v0.1.1` | nim-lang/packages PR #3600 待合并；nimpkgs 待重新抓取 | 未记录 |
-| OCaml | `ocaml/v0.3.0` | opam-repository PR #31106 待合并；包 CI 已通过；opam-ci 待完成 | 未记录 |
-| Haskell | `haskell/v0.2.0` | sdist 已发布；API 和手工上传均需 Hackage trustees 将账号加入 Uploaders | 未记录 |
-| Delphi / Free Pascal | `delphi/v0.2.1` | OPM 资产已发布；维护者提交待完成 | 未记录 |
+| Python | `python/v0.5.0` | PyPI `praxo-core==0.4.1` 已发布 | 发布工作流构建并 smoke 测试 `0.4.1`；发布后消费者检查已在本地通过 |
+| TypeScript | `typescript/v0.4.0` | npm `@axisvela/praxo-core@0.3.0` 已作为 `latest` 发布 | 发布工作流构建并消费 `0.3.0` tarball；发布后消费者 starter 检查本地通过 |
+| Java | `java/v0.6.0` | Maven Central `com.axisvela:praxo-core:0.5.0` 已发布，包含 Harmovela、MCP adapter | Central 已校验并发布 `0.5.0`；`0.5.0` 发布后消费者检查未重跑 |
+| Rust | `rust/v0.5.0` | crates.io `praxo-core==0.4.0` 已发布；`0.1.4` 为历史版本 | 仅记录 `0.1.4`；`0.4.0` 未重跑 |
+| C# | `csharp/v0.5.0` | NuGet `Praxo.Core==0.4.0` 已发布 | 未记录 |
+| Elixir | `elixir/v0.6.0` | Hex `praxo_core==0.5.1` 已发布，包含 OpenAI-compatible、Harmovela、MCP adapter；`0.5.0` 发布前失败；`0.4.1`、`0.4.0`、`0.3.0`、`0.2.0` 为历史版本 | 已增加扩展 Starter；Hex `0.4.1` 在干净 Mix 项目中解析，allow/deny 本地通过 |
+| Erlang | `erlang/v0.5.0` | Hex `praxo_core_erlang==0.4.0` 已发布；`0.3.1`、`0.2.0` 为历史版本 | `0.4.0` 未重跑；历史 `0.1.1` smoke |
+| Ruby | `ruby/v0.5.0` | RubyGems `praxo-core==0.4.1` 已发布；`0.4.0`、`0.3.0`、`0.2.0` 为历史版本 | 已增加扩展 Starter；RubyGems `0.4.1` 已安装到干净 gem home，allow/deny 本地通过 |
+| Lua | `lua/v0.5.0` | LuaRocks `praxo-core==0.4.1-1` 已发布，包含可选 OpenAI-compatible adapter；`0.4.0-1`、`0.3.0-1`、`0.2.0-1` 也已发布 | 已增加扩展 Starter；LuaRocks `0.4.1-1` 已安装到干净 tree，allow/deny 本地通过 |
+| PHP | `php/v0.5.0` | Packagist `axisvela/praxo-core==0.4.1` 已发布，包含 Composer `autoload.files`；`0.4.0`、`0.3.0`、`0.2.0` 为历史版本 | 已增加扩展 Starter；Composer 安装已发布 `0.4.1` 后 Starter 无桥接本地通过 |
+| Dart | `dart/v0.2.0` | pub.dev `praxo_core==0.1.1` | 已记录 `0.1.1` |
+| Julia | `julia/v0.3.0` | General Registry PR #174826 已创建；mirror `0.2.0` | 未记录 |
+| MATLAB | `matlab/v0.3.0` | MATLAB File Exchange `185166` 已发布 | 未记录 |
+| Octave | `octave/v0.3.0` | Octave Packages PR #875 待合并；包归档已发布 | 未记录 |
+| Perl | `perl/v0.2.0` | CPAN `Praxo-Core` 0.1.1 已上传；索引待完成 | 未记录 |
+| PowerShell | `powershell/v0.3.0` | PowerShell Gallery `praxo-core-ps==0.2.0` 已发布 | 未记录 |
+| Nim | `nim/v0.2.0` | nim-lang/packages PR #3600 待合并；nimpkgs 待重新抓取 | 未记录 |
+| OCaml | `ocaml/v0.4.0` | opam-repository PR #31106 待合并；包 CI 已通过；opam-ci 待完成 | 未记录 |
+| Haskell | `haskell/v0.3.0` | sdist 已发布；API 和手工上传均需 Hackage trustees 将账号加入 Uploaders | 未记录 |
+| Delphi / Free Pascal | `delphi/v0.3.0` | OPM 资产已发布；维护者提交待完成 | 未记录 |
 
 ### 注册表相对代码的新旧状态
 
@@ -121,9 +121,9 @@ Bridge、Sample 描述运行时的接入方式，不证明其语言缺乏 Framew
 语言页面是安装信息的唯一来源。
 
 - Python 从源码标签 `python/v0.3.2` 发布 `praxo-core==0.3.2` 到 PyPI；TypeScript 从源码标签
-  `typescript/v0.3.0` 发布 `@axisvela/praxo-core@0.3.0` 到 npm，带有 npm
+  `typescript/v0.4.0` 发布 `@axisvela/praxo-core@0.3.0` 到 npm，带有 npm
   provenance，并采用 agent framework 优先的 README 和元数据。
-- Java 源码标签 `java/v0.5.0` 新增 Harmovela sink 和 stdio MCP client，位于 `com.axisvela.praxo.adapters`；Maven groupId 为 `com.axisvela`，包名为 `com.axisvela.praxo`。Maven Central 已发布 `com.axisvela:praxo-core:0.5.0`。较早的 `java/v0.2.3` 标签仍保留 `io.axisvela.praxo`。
+- Java 源码标签 `java/v0.6.0` 新增 Harmovela sink 和 stdio MCP client，位于 `com.axisvela.praxo.adapters`；Maven groupId 为 `com.axisvela`，包名为 `com.axisvela.praxo`。Maven Central 已发布 `com.axisvela:praxo-core:0.5.0`。较早的 `java/v0.2.3` 标签仍保留 `io.axisvela.praxo`。
 - PHP 源码标签 `php/v0.4.0` 在流式运行、取消、SSE 校验、最终授权、生命周期清理，
   以及通过 `batchToolInvoker` 提供的调用方协作式并行工具调度之上增加人工审批
   中断决策。Packagist 发布 `axisvela/praxo-core==0.4.0`，来自独立发布仓库
@@ -133,7 +133,7 @@ Bridge、Sample 描述运行时的接入方式，不证明其语言缺乏 Framew
   生命周期清理、取消、流式回调、原生 SSE parser、有限并行工具和按 run 隔离的
   调用上限之上增加人工审批中断决策。RubyGems 已发布 `praxo-core==0.4.0`；
   `0.3.0` 和 `0.2.0` 仍可用。已记录的干净项目 smoke 仅覆盖 `0.1.0`。
-- C++ 源码标签 `cpp/v0.4.0` 在 middleware、最终工具 allowlist、重新授权、
+- C++ 源码标签 `cpp/v0.5.0` 在 middleware、最终工具 allowlist、重新授权、
   生命周期清理、取消、流式回调、原生 SSE parser、有限并行工具和按 run 隔离的
   调用上限之上增加人工审批中断决策。
 - Lua 源码标签 `lua/v0.4.0` 在 middleware、最终工具 allowlist、重新授权、
@@ -142,48 +142,48 @@ Bridge、Sample 描述运行时的接入方式，不证明其语言缺乏 Framew
   `.github/workflows/lua-release.yml` 构建并发布；LuaRocks 同时保留
   `0.3.0-1` 和 `0.2.0-1`。工作流会在干净目录安装生成的 source rock 并运行
   安装后 smoke；registry 安装 smoke 尚未记录。
-- C# 源码标签 `csharp/v0.4.0` 新增 OpenAI-compatible、Harmovela、MCP adapter，并保留流式运行、取消、有限并行工具、SSE 校验和人工审批中断决策。
+- C# 源码标签 `csharp/v0.5.0` 新增 OpenAI-compatible、Harmovela、MCP adapter，并保留流式运行、取消、有限并行工具、SSE 校验和人工审批中断决策。
   tag 工作流已发布 NuGet 包 `Praxo.Core==0.4.0`；本地 .NET 消费者安装尚未记录。
 - D 已从独立发布仓库 `axisvela/praxo-core-d`（tag `v0.1.0`）在
   DUB/code.dlang.org 发布 `praxo-core==0.1.0`；主仓库保留源码标签
-  `d/v0.1.0`。`dub fetch praxo-core` 已通过。
-- Dart 已有源码标签 `dart/v0.1.1`，并在 publisher `axisvela.com` 下发布
+  `d/v0.2.0`。`dub fetch praxo-core` 已通过。
+- Dart 已有源码标签 `dart/v0.2.0`，并在 publisher `axisvela.com` 下发布
   `praxo_core==0.1.1` 到 pub.dev。干净项目已安装该包、导入
   `package:praxo_core/praxo_core.dart` 并运行最小 agent。
-- Rust 源码标签 `rust/v0.4.0` 新增 provider-neutral model 类型和 OpenAI-compatible、Harmovela、MCP adapter，并保留全部 11 个向量组、原生测试、`tool.Gateway`、`jsonschema.Schema`、流式回调、取消、有限并行工具、人工审批中断决策和 API 快照。crates.io 已发布 `praxo-core==0.4.0`；已记录的干净临时项目安装 smoke 覆盖 `0.1.4`，报告 `SDK_VERSION` `0.1.4` 和 `SPEC_VERSION` `0.2.0`。不包含 VFS 或 plugin hosts。
-- R 源码标签 `r/v0.6.1` 在 policy、middleware、生命周期清理、取消、流式回调、SSE parser、有限并行工具、人工审批中断决策和 API 快照之上新增 OpenAI-compatible、Harmovela 和 stdio MCP adapter。Unix 使用 `mclapply`，Windows 使用 PSOCK cluster。r-universe 从 `language/r` 发布 `praxocore==0.6.1`；CRAN 发布尚未声明，发布工作流执行 `R CMD build` 和 `R CMD check`。
-- C 源码标签 `c/v0.6.0` 在 policy 授权、有序 middleware、生命周期清理、
+- Rust 源码标签 `rust/v0.5.0` 新增 provider-neutral model 类型和 OpenAI-compatible、Harmovela、MCP adapter，并保留全部 11 个向量组、原生测试、`tool.Gateway`、`jsonschema.Schema`、流式回调、取消、有限并行工具、人工审批中断决策和 API 快照。crates.io 已发布 `praxo-core==0.4.0`；已记录的干净临时项目安装 smoke 覆盖 `0.1.4`，报告 `SDK_VERSION` `0.1.4` 和 `SPEC_VERSION` `0.2.0`。不包含 VFS 或 plugin hosts。
+- R 源码标签 `r/v0.7.0` 在 policy、middleware、生命周期清理、取消、流式回调、SSE parser、有限并行工具、人工审批中断决策和 API 快照之上新增 OpenAI-compatible、Harmovela 和 stdio MCP adapter。Unix 使用 `mclapply`，Windows 使用 PSOCK cluster。r-universe 从 `language/r` 发布 `praxocore==0.6.1`；CRAN 发布尚未声明，发布工作流执行 `R CMD build` 和 `R CMD check`。
+- C 源码标签 `c/v0.7.0` 在 policy 授权、有序 middleware、生命周期清理、
   最终工具 allowlist 检查、中途修改后的重新授权、取消、流式回调、SSE parser
   和有限并行工具之上增加人工审批中断决策。Unix 使用 pthread 与逐线程 arena；
   Windows 保持顺序执行。
-- Fortran 源码标签 `fortran/v0.6.0` 在全部 11 个向量组、原生测试、API 快照、
+- Fortran 源码标签 `fortran/v0.7.0` 在全部 11 个向量组、原生测试、API 快照、
   PII/中间件、policy 驱动的 middleware/生命周期授权、取消、流式回调、原生 SSE
   parser 和调用方提供的批处理工具调度之上增加人工审批中断决策；HITL 运行使用
   顺序工具路径。它不是包管理器发布；异步 provider 流不在
   声明范围，受限 JSON Schema 子集仍为部分完成。`0.3.0` 使用 RE2/Unicode 取代
   ASCII matcher，新增原生 C++ 库依赖；历史 `0.2.2` 标签仍保留无此原生依赖的实现。
 - COBOL 已有源码标签 `cobol/v0.4.0`，包含全部 11 个向量组、人工审批中断决策、原生与契约测试、调用方持有状态的 scoped registry 和 API 快照。它新增 middleware、生命周期、取消、流式、SSE 和调用方提供的批处理工具调度，行为覆盖达到 20/20；并行工具委托给批处理调度器，而不是原生线程。它不是包管理器发布；其余 Go 面大多为 partial，registry 无并发和 custom spec provider。
-- Haskell 已有源码标签 `haskell/v0.2.0`，包含全部 11 个向量组、原生测试、API
+- Haskell 已有源码标签 `haskell/v0.3.0`，包含全部 11 个向量组、原生测试、API
   快照/parity 以及运行时/中间件辅助函数。Hackage 发布由
-  `.github/workflows/haskell-release.yml` 准备；0.2.0 sdist 已发布到 `haskell/v0.2.0` GitHub release；API 和手工 candidate upload 都返回未授权上传者错误，需要 Hackage trustees 将账号加入 Uploaders。生产就绪尚未声明。
-- Delphi/Free Pascal 已有源码标签 `delphi/v0.2.1`，在 Free Pascal 3.2.2 下通过
-  全部 11 个向量组、原生测试和 API 快照/parity。OPM 资产已发布到 `delphi/v0.2.1` GitHub release，
+  `.github/workflows/haskell-release.yml` 准备；0.2.0 sdist 已发布到 `haskell/v0.3.0` GitHub release；API 和手工 candidate upload 都返回未授权上传者错误，需要 Hackage trustees 将账号加入 Uploaders。生产就绪尚未声明。
+- Delphi/Free Pascal 已有源码标签 `delphi/v0.3.0`，在 Free Pascal 3.2.2 下通过
+  全部 11 个向量组、原生测试和 API 快照/parity。OPM 资产已发布到 `delphi/v0.3.0` GitHub release，
   维护者提交待完成。商业 Delphi 编译器和其他目标平台未声明。
-- MATLAB 已有源码标签 `matlab/v0.2.1`，包含全部 11 个向量组、原生测试和 API 快照/parity。
+- MATLAB 已有源码标签 `matlab/v0.3.0`，包含全部 11 个向量组、原生测试和 API 快照/parity。
   MATLAB File Exchange `185166` 已发布；MATLAB 运行时和提供商适配器未声明。
-- Octave 已有源码标签 `octave/v0.2.1`，在 GNU Octave 11.3.0 下通过全部 11 个向量组、
+- Octave 已有源码标签 `octave/v0.3.0`，在 GNU Octave 11.3.0 下通过全部 11 个向量组、
   原生测试和 API 快照/parity。它与 MATLAB 共享 `language/matlab-octave-core/+praxo`。
-  包归档已发布到 `octave/v0.2.1` GitHub release，Octave Packages PR #875 待合并。
-- OCaml 已有源码标签 `ocaml/v0.3.0`，包含全部 11 个向量组、原生测试和 API
+  包归档已发布到 `octave/v0.3.0` GitHub release，Octave Packages PR #875 待合并。
+- OCaml 已有源码标签 `ocaml/v0.4.0`，包含全部 11 个向量组、原生测试和 API
   快照/parity。split 包仓库 `axisvela/praxo-core-ocaml` 发布 opam 包
   `praxo-core` 0.3.0（模块 `Praxo_core`）；opam-repository PR #31106 待合并。原生 `ocamlopt` 编译和
   提供商适配器未声明。
-- Elixir 源码标签 `elixir/v0.5.1` 在 policy、middleware、最终工具 allowlist、
+- Elixir 源码标签 `elixir/v0.6.0` 在 policy、middleware、最终工具 allowlist、
   重新授权、生命周期清理、取消、流式回调、原生 SSE parser、有限并行工具、
   人工审批中断决策和 run 隔离的调用上限之上新增 Harmovela sink 和 stdio MCP
   client。Hex 已发布 `praxo_core==0.5.1`；`0.4.1`、`0.4.0`、`0.3.0` 和 `0.2.0` 仍可用。
   HexDocs 已发布： <https://praxo-core.hexdocs.pm/0.5.1/>。
-- Erlang 源码标签 `erlang/v0.4.0` 在 policy、middleware、最终工具 allowlist、
+- Erlang 源码标签 `erlang/v0.5.0` 在 policy、middleware、最终工具 allowlist、
   重新授权、生命周期清理、取消、流式回调、原生 SSE parser、有限并行工具和按 run
   隔离的调用上限之上增加人工审批中断决策。Hex 已发布
   `praxo_core_erlang==0.4.0`；`0.3.1` 和 `0.2.0` 仍可用。提供商适配器、HTTP

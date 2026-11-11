@@ -16,7 +16,7 @@ export type { McpTransport } from "./mcp-transport";
 const DEFAULT_PROTOCOL_VERSION = "2024-11-05";
 const DEFAULT_TIMEOUT_MS = 30000;
 const CLIENT_NAME = "praxo-core";
-const CLIENT_VERSION = "0.3.0";
+const CLIENT_VERSION = "0.4.0";
 
 export interface McpClientOptions {
   command?: string;

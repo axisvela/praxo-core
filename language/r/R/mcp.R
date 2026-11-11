@@ -22,7 +22,7 @@ mcp_notify <- function(client, method, params = NULL) {
 }
 
 mcp_client <- function(transport, timeout = 30, client_name = "praxo-core",
-                       client_version = "0.6.1",
+                       client_version = "0.7.0",
                        protocol_version = mcp_default_protocol_version,
                        cancellation = NULL) {
   if (is.null(transport) || !(is.list(transport) || is.environment(transport))) {

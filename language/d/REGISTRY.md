@@ -1,7 +1,7 @@
 # PRAXO-CORE D Registry Introduction
 
-**Status:** published. Source version `0.1.0`, source
-tag `d/v0.1.0`. Published registry version: `0.1.0`. Registry
+**Status:** published. Source version `0.2.0`, source
+tag `d/v0.2.0`. Published registry version: `0.1.0`. Registry
 pages are release snapshots; verify the published version before relying on a
 feature.
 
@@ -15,11 +15,11 @@ PRAXO-CORE is an embeddable, MIT-licensed agent framework. This package is its n
 | --- | --- |
 | Package | `praxo-core` |
 | Registry | [DUB](https://code.dlang.org/packages/praxo-core) |
-| Source version | `0.1.0` |
+| Source version | `0.2.0` |
 | Published registry version | `0.1.0` |
 | Install (published) | `dub add praxo-core` |
 | Install (source/release prepared) | `dub add praxo-core` |
-| Source tag | `d/v0.1.0` |
+| Source tag | `d/v0.2.0` |
 | Tier | Core |
 | Contract | `SPEC_VERSION` `0.2.0` |
 | Documentation | https://axisvela.github.io/praxo-core/languages/d/ |

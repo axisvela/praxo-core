@@ -21,7 +21,7 @@ exception Schema_error of string
 exception Toolcall_error of string
 
 let spec_version = "0.2.0"
-let sdk_version = "0.3.0"
+let sdk_version = "0.4.0"
 
 let stream_kinds = ["values"; "updates"; "messages"; "tasks"; "debug"; "checkpoint"]
 let max_json = 1048576

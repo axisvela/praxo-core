@@ -8,11 +8,11 @@
 
 - package: `praxo_core`
 - registry: [Hex](https://hex.pm/packages/praxo_core)
-- source_version: `0.5.1`
+- source_version: `0.6.0`
 - published_version: `0.5.1`
 - install_published: `{:praxo_core, "~> 0.5.1"}`
-- install_source: `{:praxo_core, "~> 0.5.1"}`
-- source_tag: `elixir/v0.5.1`
+- install_source: `{:praxo_core, "~> 0.6.0"}`
+- source_tag: `elixir/v0.6.0`
 - tier: Core
 - contract: `SPEC_VERSION` `0.2.0`
 - documentation: https://axisvela.github.io/praxo-core/languages/elixir/

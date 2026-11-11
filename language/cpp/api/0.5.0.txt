@@ -1,0 +1,133 @@
+# PRAXO-CORE C++ API 0.5.0
+# SPEC_VERSION 0.2.0
+
+Action
+Agent
+AgentOptions
+Anthropic
+AnthropicOptions
+CallLimit
+CheckpointAllowlist
+ContentBlock
+ContextBudget
+Decision
+Event
+EventSink
+FilterSink
+FuncTool
+Gemini
+GeminiOptions
+HarmovelaHttpRequest
+HarmovelaHttpResponse
+HarmovelaSink
+Interrupt
+InterruptAction
+InterruptDecision
+Json
+JsonParser
+MemoryRecord
+MemoryStore
+Message
+Middleware
+Model
+MultiSink
+OpenAICompatible
+OpenAICompatibleOptions
+ParsedToolCall
+PathChecker
+PathGrant
+PiiRedactor
+PluginManifest
+PraxoError
+Request
+Response
+RunResult
+Session
+StaticModel
+StreamPart
+StructuredOutput
+Tool
+ToolCall
+ToolRegistry
+ToolSelection
+ToolSpec
+Usage
+ValidationError
+allowed
+as_object
+at
+authorize
+before_model
+before_run
+before_tool
+bool
+build_payload
+check
+check_cancelled
+compact
+contains
+description
+dump
+emit
+endpoint
+envelope
+equals
+estimate_tokens
+expect
+fallback_model
+filter
+generate
+get
+if
+invoke
+is_object
+literal
+marshal
+name
+parse
+parse_array
+parse_input_json
+parse_literal
+parse_manifest
+parse_number
+parse_object
+parse_response
+parse_sse_stream
+parse_string
+parse_toolcall
+parse_unicode
+parse_value
+peek
+plus
+push_back
+put
+redact
+redact_value
+register_tool
+register_type
+reject
+run
+run_agent
+runtime_error
+size
+skip
+snprintf
+source_value
+spec_value
+specs
+strip_markup
+truncate_to_tokens
+unmarshal
+using AnthropicTransport
+using Array
+using Function
+using GeminiTransport
+using HarmovelaClock
+using HarmovelaTransport
+using ModelHandler
+using ModelMiddleware
+using Object
+using OpenAICompatibleTransport
+validate
+void
+wire

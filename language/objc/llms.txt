@@ -8,11 +8,11 @@
 
 - package: `praxo-core-objc`
 - registry: Source
-- source_version: `0.1.1`
+- source_version: `0.2.0`
 - published_version: not published
 - install_published: not published
 - install_source: `See README/SETUP.md`
-- source_tag: `objc/v0.1.1`
+- source_tag: `objc/v0.2.0`
 - tier: Core
 - contract: `SPEC_VERSION` `0.2.0`
 - documentation: https://axisvela.github.io/praxo-core/languages/objc/

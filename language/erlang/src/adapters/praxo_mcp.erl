@@ -11,7 +11,7 @@ new(Options) ->
         env => maps:get(env, Options, []),
         transport => maps:get(transport, Options, undefined),
         timeout => maps:get(timeout, Options, ?DEFAULT_TIMEOUT),
-        client_version => maps:get(client_version, Options, <<"0.4.0">>),
+        client_version => maps:get(client_version, Options, <<"0.5.0">>),
         port => undefined,
         connected => false,
         protocol_version => <<>>,

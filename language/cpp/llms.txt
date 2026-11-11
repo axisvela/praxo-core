@@ -8,11 +8,11 @@
 
 - package: `praxo-core-cpp`
 - registry: Source / CMake
-- source_version: `0.4.0`
+- source_version: `0.5.0`
 - published_version: not published
 - install_published: not published
 - install_source: `CMake source build (see README)`
-- source_tag: `cpp/v0.4.0`
+- source_tag: `cpp/v0.5.0`
 - tier: Core
 - contract: `SPEC_VERSION` `0.2.0`
 - documentation: https://axisvela.github.io/praxo-core/languages/cpp/

@@ -27,7 +27,7 @@ main = do
     adapterTests
     providerTests
     harmovelaTests
-    assert "contract version" (specVersion == "0.2.0" && sdkVersion == "0.2.0")
+    assert "contract version" (specVersion == "0.2.0" && sdkVersion == "0.3.0")
     forM_ ["", "01", "1.", "+1", "NaN", "1e", "[1,]", "{\"a\":1,}", "{}{}", "\"\\q\"", "\"\\ud800\"", "\"\\udc00\"", "\"\\ud800\\u0041\"", "\"line\nbreak\"", "true garbage"] $ \raw ->
         assert ("invalid JSON " ++ show raw) (isLeft (parseJson raw))
     assert "unicode escape" (parseJson "\"\\u00e9\\ud83d\\ude00\"" == Right (JString "\x00e9\x1f600"))

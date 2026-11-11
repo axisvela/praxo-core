@@ -1,4 +1,4 @@
-# PRAXO-CORE Haskell Wire API 0.2.0
+# PRAXO-CORE Haskell Wire API 0.3.0
 # SPEC_VERSION 0.2.0
 
 ## Praxo.Agent

@@ -8,11 +8,11 @@
 
 - package: `praxo-core`
 - registry: [LuaRocks](https://luarocks.org/modules/hanhhuiwen/praxo-core)
-- source_version: `0.4.1-1`
+- source_version: `0.5.0-1`
 - published_version: `0.4.1-1`
 - install_published: `luarocks install praxo-core`
 - install_source: `luarocks install praxo-core`
-- source_tag: `lua/v0.4.1`
+- source_tag: `lua/v0.5.0`
 - tier: Core
 - contract: `SPEC_VERSION` `0.2.0`
 - documentation: https://axisvela.github.io/praxo-core/languages/lua/

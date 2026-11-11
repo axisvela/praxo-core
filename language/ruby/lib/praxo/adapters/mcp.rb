@@ -35,7 +35,7 @@ module Praxo
         result = request('initialize', {
           protocolVersion: DEFAULT_PROTOCOL_VERSION,
           capabilities: {},
-          clientInfo: { name: 'praxo-core', version: '0.4.1' }
+          clientInfo: { name: 'praxo-core', version: '0.5.0' }
         })
         version = result.is_a?(Hash) ? result['protocolVersion'] : nil
         if version.nil? || version.empty?

@@ -8,7 +8,7 @@ llms.txt
 llms.md
 PUBLISHING.md
 api/0.1.0.txt
-api/0.1.1.txt
+api/0.2.0.txt
 api-snapshot.pl
 conformance/run.pl
 tests/run.pl

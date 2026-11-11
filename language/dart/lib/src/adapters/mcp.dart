@@ -30,7 +30,7 @@ class McpClient {
 
   McpClient({
     required this.transport,
-    this.clientVersion = '0.1.1',
+    this.clientVersion = '0.2.0',
     this.timeout = const Duration(seconds: 5),
   });
 
