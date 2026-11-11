@@ -10,6 +10,8 @@ import Praxo.Json
 import Praxo.JsonSchema
 import Praxo.Middleware
 import qualified Praxo.OpenAICompatible as O
+import qualified Praxo.Anthropic as An
+import qualified Praxo.Gemini as G
 import qualified Praxo.Harmovela as H
 import Praxo.Pattern
 import Praxo.Plugin
@@ -23,6 +25,7 @@ main = do
     runtimeTests
     middlewareTests
     adapterTests
+    providerTests
     harmovelaTests
     assert "contract version" (specVersion == "0.2.0" && sdkVersion == "0.2.0")
     forM_ ["", "01", "1.", "+1", "NaN", "1e", "[1,]", "{\"a\":1,}", "{}{}", "\"\\q\"", "\"\\ud800\"", "\"\\udc00\"", "\"\\ud800\\u0041\"", "\"line\nbreak\"", "true garbage"] $ \raw ->
@@ -246,6 +249,78 @@ adapterTests = do
     let invalid = O.Transport (\_ -> pure (Right (O.HttpResponse 200 "{\"choices\":[{\"message\":{\"tool_calls\":[{\"id\":\"c\",\"function\":{\"name\":\"x\",\"arguments\":\"{bad\"}}]}}]}")))
     invalidResult <- O.generate (config { O.openAITransport = invalid }) [A.Message "user" "hi" [] ""]
     assert "openai invalid arguments" (case invalidResult of Left err -> A.errorCode err == "PROVIDER_RESPONSE"; _ -> False)
+
+providerTests :: IO ()
+providerTests = do
+    capturedAnthropic <- newIORef Nothing
+    let anthropicTransport = O.Transport (\request -> do
+            writeIORef capturedAnthropic (Just request)
+            pure (Right (O.HttpResponse 200 "{\"content\":[{\"type\":\"text\",\"text\":\"hello\"},{\"type\":\"tool_use\",\"id\":\"tool-1\",\"name\":\"echo\",\"input\":{\"text\":\"hi\"}}],\"stop_reason\":\"end_turn\",\"usage\":{\"input_tokens\":3,\"output_tokens\":4,\"cache_read_input_tokens\":2}}")))
+        anthropicConfig = An.AnthropicConfig
+            { An.anthropicBaseURL = "https://api.anthropic.com"
+            , An.anthropicModel = "claude-test"
+            , An.anthropicKey = Just "ak"
+            , An.anthropicVersion = "2023-06-01"
+            , An.anthropicMaxTokens = 1024
+            , An.anthropicToolChoice = Just "auto"
+            , An.anthropicTools = [An.AnthropicTool "echo" "Echo" (JObject [("type", JString "object")])]
+            , An.anthropicTransport = anthropicTransport
+            }
+        messages = [A.Message "system" "be brief" [] "", A.Message "user" "hi" [] ""]
+    anthropicResult <- An.generateAnthropic anthropicConfig messages
+    case anthropicResult of
+        Left err -> fail ("anthropic adapter: " ++ A.errorMessage err)
+        Right response -> do
+            assert "anthropic content" (A.responseContent response == "hello")
+            assert "anthropic usage" (A.inputTokens response == 3 && A.outputTokens response == 4)
+            case A.responseToolCalls response of
+                [call] -> do
+                    assert "anthropic call id" (A.toolCallId call == "tool-1")
+                    assert "anthropic call name" (A.toolCallName call == "echo")
+                    assert "anthropic arguments" (A.toolCallArguments call == JObject [("text", JString "hi")])
+                _ -> fail "anthropic call"
+    request <- readIORef capturedAnthropic
+    case request of
+        Nothing -> fail "anthropic transport not called"
+        Just http -> do
+            assert "anthropic url" (O.httpURL http == "https://api.anthropic.com/v1/messages")
+            assert "anthropic key" (lookup "x-api-key" (O.httpHeaders http) == Just "ak")
+            let payload = json (O.httpBody http)
+            assert "anthropic model" (field "model" payload == JString "claude-test")
+            assert "anthropic system" (field "system" payload == JString "be brief")
+            assert "anthropic tools" (length (asArray (field "tools" payload)) == 1)
+
+    capturedGemini <- newIORef Nothing
+    let geminiTransport = O.Transport (\request -> do
+            writeIORef capturedGemini (Just request)
+            pure (Right (O.HttpResponse 200 "{\"candidates\":[{\"content\":{\"parts\":[{\"text\":\"hello\"},{\"functionCall\":{\"name\":\"echo\",\"args\":{\"text\":\"hi\"}}}]},\"finishReason\":\"STOP\"}],\"usageMetadata\":{\"promptTokenCount\":3,\"candidatesTokenCount\":4}}")))
+        geminiConfig = G.GeminiConfig
+            { G.geminiBaseURL = "https://generativelanguage.googleapis.com"
+            , G.geminiModel = "gemini-test"
+            , G.geminiKey = Just "gk"
+            , G.geminiMaxOutputTokens = 0
+            , G.geminiToolChoice = Just "auto"
+            , G.geminiTools = [G.GeminiTool "echo" "Echo" (JObject [("type", JString "object")])]
+            , G.geminiTransport = geminiTransport
+            }
+    geminiResult <- G.generateGemini geminiConfig messages
+    case geminiResult of
+        Left err -> fail ("gemini adapter: " ++ A.errorMessage err)
+        Right response -> do
+            assert "gemini content" (A.responseContent response == "hello")
+            assert "gemini usage" (A.inputTokens response == 3 && A.outputTokens response == 4)
+            case A.responseToolCalls response of
+                [call] -> assert "gemini call name" (A.toolCallName call == "echo")
+                _ -> fail "gemini call"
+    geminiRequest <- readIORef capturedGemini
+    case geminiRequest of
+        Nothing -> fail "gemini transport not called"
+        Just http -> do
+            assert "gemini url" (":generateContent" `isInfixOf` O.httpURL http)
+            assert "gemini key" (lookup "x-goog-api-key" (O.httpHeaders http) == Just "gk")
+            let payload = json (O.httpBody http)
+            assert "gemini system" (length (asArray (field "parts" (field "system_instruction" payload))) == 1)
+            assert "gemini tools" (length (asArray (field "functionDeclarations" (head (asArray (field "tools" payload))))) == 1)
 
 harmovelaTests :: IO ()
 harmovelaTests = do

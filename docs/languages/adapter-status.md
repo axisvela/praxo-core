@@ -84,6 +84,7 @@ provider presets.
 | Fortran | native (transport seam) | `anthropic_compatible`; caller supplies HTTP transport |
 | Julia | native | `AnthropicModel`; injectable transport |
 | Nim | native | `newAnthropicCompatible`; injectable transport |
+| Haskell | native (transport seam) | `Praxo.Anthropic`; caller supplies transport |
 | All other implementations | not implemented | Use the OpenAI-compatible adapter only for OpenAI-compatible endpoints |
 
 ## Model (Gemini Native)
@@ -110,6 +111,7 @@ provider presets.
 | Fortran | native (transport seam) | `gemini_compatible`; caller supplies HTTP transport |
 | Julia | native | `GeminiModel`; injectable transport |
 | Nim | native | `newGeminiCompatible`; injectable transport |
+| Haskell | native (transport seam) | `Praxo.Gemini`; caller supplies transport |
 | All other implementations | not implemented | Native generateContent mapping follows adoption order |
 
 ## MCP

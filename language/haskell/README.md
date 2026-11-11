@@ -98,6 +98,19 @@ HTTP exchange for production or tests; deterministic tests use a fake transport.
 The Core `Response` type has no finish-reason field, so `finish_reason` is
 ignored.
 
+## Anthropic and Gemini Adapters
+
+Praxo.Anthropic and Praxo.Gemini build native Messages and
+generateContent requests with the same injected Transport seam.
+
+`haskell
+import qualified Praxo.Anthropic as An
+import qualified Praxo.Gemini as G
+`
+
+They map tool calls, tool schemas, usage, and provider errors. No HTTP client is
+bundled.
+
 ## Harmovela Event Sink
 
 `Praxo.Harmovela` posts Core events to `POST {baseURL}/events` with the

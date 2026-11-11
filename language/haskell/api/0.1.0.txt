@@ -10,6 +10,20 @@ data RunResult = RunResult { runOutput :: String, runSteps :: Int, runInputToken
 data ToolCall = ToolCall { toolCallId :: String, toolCallName :: String, toolCallArguments :: Json } deriving (Eq, Show)
 runAgent :: AgentOptions -> [Message] -> String -> IO (Either AgentError RunResult)
 
+## Praxo.Anthropic
+data AnthropicConfig = AnthropicConfig
+data AnthropicTool = AnthropicTool
+buildAnthropicRequest :: AnthropicConfig -> [Message] -> Either AgentError HttpRequest
+generateAnthropic :: AnthropicConfig -> [Message] -> IO (Either AgentError Response)
+parseAnthropicResponse :: String -> Either AgentError Response
+
+## Praxo.Gemini
+data GeminiConfig = GeminiConfig
+data GeminiTool = GeminiTool
+buildGeminiRequest :: GeminiConfig -> [Message] -> Either AgentError HttpRequest
+generateGemini :: GeminiConfig -> [Message] -> IO (Either AgentError Response)
+parseGeminiResponse :: String -> Either AgentError Response
+
 ## Praxo.Harmovela
 data HarmovelaRequest = HarmovelaRequest
 data HarmovelaResponse = HarmovelaResponse
