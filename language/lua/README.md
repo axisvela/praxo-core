@@ -74,6 +74,15 @@ options.tools = registry
 options.max_steps = 8
 ```
 
+## Model Adapters
+
+- `praxo.adapters.openai_compatible` for OpenAI, DeepSeek, Kimi/Moonshot, and
+  other OpenAI-compatible endpoints.
+- `praxo.adapters.anthropic` for the Anthropic Messages API.
+- `praxo.adapters.gemini` for the Gemini generateContent API.
+
+Each adapter accepts an injectable `transport` function for deterministic tests.
+
 ## Harmovela Event Sink
 
 `praxo.adapters.harmovela_sink` posts each event to `{base_url}/events`.

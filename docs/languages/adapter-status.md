@@ -73,6 +73,7 @@ provider presets.
 | Rust | native (transport seam) | `adapters::anthropic`; caller supplies transport |
 | Ruby | native | `Praxo::Adapters::Anthropic`; injectable transport |
 | PHP | native | `Praxo\Core\Adapters\Anthropic` |
+| Lua | native | `praxo.adapters.anthropic` |
 | All other implementations | not implemented | Use the OpenAI-compatible adapter only for OpenAI-compatible endpoints |
 
 ## Model (Gemini Native)
@@ -89,6 +90,7 @@ provider presets.
 | Rust | native (transport seam) | `adapters::gemini`; caller supplies transport |
 | Ruby | native | `Praxo::Adapters::Gemini`; injectable transport |
 | PHP | native | `Praxo\Core\Adapters\Gemini` |
+| Lua | native | `praxo.adapters.gemini` |
 | All other implementations | not implemented | Native generateContent mapping follows adoption order |
 
 ## MCP

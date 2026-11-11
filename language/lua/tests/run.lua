@@ -11,6 +11,8 @@ local runtime = require("praxo.runtime")
 local sse = require("praxo.sse")
 local toolcall = require("praxo.toolcall")
 local openai_compat = require("praxo.adapters.openai_compatible")
+local anthropic_adapter = require("praxo.adapters.anthropic")
+local gemini_adapter = require("praxo.adapters.gemini")
 local harmovela_sink = require("praxo.adapters.harmovela_sink")
 assert(require("praxo.openai_compatible") == openai_compat)
 assert(require("praxo.harmovela_sink") == harmovela_sink)
@@ -580,5 +582,64 @@ check(not harmovela_ok and errors.code(harmovela_error) == "HARMOVELA_HTTP",
       "harmovela non-2xx code")
 check(harmovela_error.message:find("500", 1, true) and
       harmovela_error.message:find("boom", 1, true), "harmovela non-2xx body")
+
+local anthropic_payload = nil
+local anthropic = anthropic_adapter.new({
+  model = "claude-test",
+  api_key = "ak",
+  transport = function(payload)
+    anthropic_payload = payload
+    return {
+      content = {
+        { type = "text", text = "hello" },
+        { type = "tool_use", id = "tool-1", name = "echo", input = { text = "hi" } },
+      },
+      stop_reason = "end_turn",
+      usage = { input_tokens = 3, output_tokens = 4, cache_read_input_tokens = 2 },
+    }
+  end,
+})
+local anthropic_response = anthropic.generate(models.request({
+  messages = {
+    models.message_text(models.SYSTEM, "be brief"),
+    models.message_text(models.USER, "hi"),
+  },
+  tools = { models.tool_spec({ name = "echo", description = "Echo", parameters = { type = "object" } }) },
+}))
+check(anthropic_response.message.content == "hello", "anthropic content")
+check(anthropic_response.message.tool_calls[1].id == "tool-1", "anthropic call id")
+check(anthropic_response.message.tool_calls[1].arguments.text == "hi", "anthropic args")
+check(anthropic_payload.system == "be brief", "anthropic system")
+check(anthropic_payload.tools[1].input_schema.type == "object", "anthropic tools")
+
+local gemini_payload = nil
+local gemini = gemini_adapter.new({
+  model = "gemini-test",
+  api_key = "gk",
+  transport = function(payload)
+    gemini_payload = payload
+    return {
+      candidates = {{
+        content = { parts = {
+          { text = "hello" },
+          { functionCall = { name = "echo", args = { text = "hi" } } },
+        } },
+        finishReason = "STOP",
+      }},
+      usageMetadata = { promptTokenCount = 3, candidatesTokenCount = 4 },
+    }
+  end,
+})
+local gemini_response = gemini.generate(models.request({
+  messages = {
+    models.message_text(models.SYSTEM, "be brief"),
+    models.message_text(models.USER, "hi"),
+  },
+  tools = { models.tool_spec({ name = "echo", description = "Echo", parameters = { type = "object" } }) },
+}))
+check(gemini_response.message.content == "hello", "gemini content")
+check(gemini_response.message.tool_calls[1].name == "echo", "gemini call name")
+check(gemini_payload.system_instruction.parts[1].text == "be brief", "gemini system")
+check(gemini_payload.toolConfig.functionCallingConfig.mode == "AUTO", "gemini tool mode")
 
 print("lua core tests passed")

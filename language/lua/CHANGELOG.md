@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+### Added
+
+- Native Anthropic Messages and Gemini generateContent model adapters.
+
 ### Changed
 
 - Adapters live under `praxo/adapters/`. The old
