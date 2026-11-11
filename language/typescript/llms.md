@@ -7,10 +7,10 @@
 ## Package
 
 - package: `@axisvela/praxo-core`
-- registry: [npm](https://www.npmjs.com/package/@axisvela/praxo-core/v/0.2.2)
+- registry: [npm](https://www.npmjs.com/package/@axisvela/praxo-core/v/0.3.0)
 - source_version: `0.3.0`
-- published_version: `0.2.2`
-- install_published: `npm install @axisvela/praxo-core@0.2.2`
+- published_version: `0.3.0`
+- install_published: `npm install @axisvela/praxo-core@0.3.0`
 - install_source: `npm install @axisvela/praxo-core@0.3.0`
 - source_tag: `typescript/v0.3.0`
 - tier: Core

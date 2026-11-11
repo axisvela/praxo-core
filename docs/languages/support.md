@@ -102,7 +102,7 @@ Registry values below were checked against the public registries on 2026-11-10.
 | Language | Source tag | Registry version | Consumer install smoke |
 | --- | --- | --- | --- |
 | Python | `python/v0.4.1` | PyPI `praxo-core==0.4.1` published | Release workflow built and smoke-tested `0.4.1`; post-publication consumer check passed locally |
-| TypeScript | `typescript/v0.3.0` | npm `@axisvela/praxo-core@0.2.2` published; `0.3.0` source prepared | Release workflow built and consumed the `0.2.2` tarball; `0.3.0` publication pending |
+| TypeScript | `typescript/v0.3.0` | npm `@axisvela/praxo-core@0.3.0` published as `latest` | Release workflow built and consumed the `0.3.0` tarball; post-publication consumer starter checks passed locally |
 | Java | `java/v0.5.0` | Maven Central `com.axisvela:praxo-core:0.5.0` published with Harmovela and MCP adapters | Central validated and published `0.5.0`; `0.5.0` post-publication consumer check not rerun |
 | Rust | `rust/v0.4.0` | crates.io `praxo-core==0.4.0` published; `0.1.4` historical | Recorded for `0.1.4` only; not rerun for `0.4.0` |
 | C# | `csharp/v0.4.0` | NuGet `Praxo.Core==0.4.0` published | Not recorded |
@@ -130,7 +130,7 @@ its latest version matches the manifest at the release tag.
 | Language | Code/manifest version | Registry latest | Status |
 | --- | --- | --- | --- |
 | Python | `0.4.1` | PyPI `0.4.1` | current |
-| TypeScript | `0.3.0` | npm `0.2.2` | source prepared; registry pending |
+| TypeScript | `0.3.0` | npm `0.3.0` | current |
 | Java | `0.5.0` | Maven Central `0.5.0` | current |
 | Rust | `0.4.0` | crates.io `0.4.0` | current |
 | C# | `0.4.0` | NuGet `0.4.0` | current |
@@ -151,8 +151,8 @@ registry package contains the source tag's latest behavior. The language page is
 the installation source of truth.
 
 - Python publishes `praxo-core==0.3.2` on PyPI from source tag
-  `python/v0.3.2`. TypeScript publishes `@axisvela/praxo-core@0.2.2` on npm from
-  source tag `typescript/v0.2.2`; the package has npm provenance and an
+  `python/v0.3.2`. TypeScript publishes `@axisvela/praxo-core@0.3.0` on npm from
+  source tag `typescript/v0.3.0`; the package has npm provenance and an
   agent-framework-first README and metadata.
 - Java source tag `java/v0.5.0` adds the Harmovela sink and stdio MCP client
   under `com.axisvela.praxo.adapters` with Maven groupId `com.axisvela` and

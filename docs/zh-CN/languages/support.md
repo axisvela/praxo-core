@@ -73,7 +73,7 @@ Bridge、Sample 描述运行时的接入方式，不证明其语言缺乏 Framew
 | 语言 | 源码标签 | 注册表版本 | 消费者安装 smoke |
 | --- | --- | --- | --- |
 | Python | `python/v0.4.1` | PyPI `praxo-core==0.4.1` 已发布 | 发布工作流构建并 smoke 测试 `0.4.1`；发布后消费者检查已在本地通过 |
-| TypeScript | `typescript/v0.3.0` | npm `@axisvela/praxo-core@0.2.2` 已发布；`0.3.0` 源码已准备 | 发布工作流构建并消费 `0.2.2` tarball；`0.3.0` 发布待完成 |
+| TypeScript | `typescript/v0.3.0` | npm `@axisvela/praxo-core@0.3.0` 已作为 `latest` 发布 | 发布工作流构建并消费 `0.3.0` tarball；发布后消费者 starter 检查本地通过 |
 | Java | `java/v0.5.0` | Maven Central `com.axisvela:praxo-core:0.5.0` 已发布，包含 Harmovela、MCP adapter | Central 已校验并发布 `0.5.0`；`0.5.0` 发布后消费者检查未重跑 |
 | Rust | `rust/v0.4.0` | crates.io `praxo-core==0.4.0` 已发布；`0.1.4` 为历史版本 | 仅记录 `0.1.4`；`0.4.0` 未重跑 |
 | C# | `csharp/v0.4.0` | NuGet `Praxo.Core==0.4.0` 已发布 | 未记录 |
@@ -101,7 +101,7 @@ Bridge、Sample 描述运行时的接入方式，不证明其语言缺乏 Framew
 | 语言 | 代码/manifest 版本 | 注册表 latest | 状态 |
 | --- | --- | --- | --- |
 | Python | `0.4.1` | PyPI `0.4.1` | 已最新 |
-| TypeScript | `0.3.0` | npm `0.2.2` | 源码已准备；registry 待发布 |
+| TypeScript | `0.3.0` | npm `0.3.0` | 已最新 |
 | Java | `0.5.0` | Maven Central `0.5.0` | 已最新 |
 | Rust | `0.4.0` | crates.io `0.4.0` | 已最新 |
 | C# | `0.4.0` | NuGet `0.4.0` | 已最新 |
@@ -121,7 +121,7 @@ Bridge、Sample 描述运行时的接入方式，不证明其语言缺乏 Framew
 语言页面是安装信息的唯一来源。
 
 - Python 从源码标签 `python/v0.3.2` 发布 `praxo-core==0.3.2` 到 PyPI；TypeScript 从源码标签
-  `typescript/v0.2.2` 发布 `@axisvela/praxo-core@0.2.2` 到 npm，带有 npm
+  `typescript/v0.3.0` 发布 `@axisvela/praxo-core@0.3.0` 到 npm，带有 npm
   provenance，并采用 agent framework 优先的 README 和元数据。
 - Java 源码标签 `java/v0.5.0` 新增 Harmovela sink 和 stdio MCP client，位于 `com.axisvela.praxo.adapters`；Maven groupId 为 `com.axisvela`，包名为 `com.axisvela.praxo`。Maven Central 已发布 `com.axisvela:praxo-core:0.5.0`。较早的 `java/v0.2.3` 标签仍保留 `io.axisvela.praxo`。
 - PHP 源码标签 `php/v0.4.0` 在流式运行、取消、SSE 校验、最终授权、生命周期清理，

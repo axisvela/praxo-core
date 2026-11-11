@@ -2,8 +2,8 @@
 
 ## 0.3.0 - 2026-11-10
 
-Source tag `typescript/v0.3.0`; npm publication is pending. The published package
-remains `0.2.2`.
+Source tag `typescript/v0.3.0`. npm publishes `@axisvela/praxo-core@0.3.0` as
+`latest`.
 
 ### Added
 
@@ -13,7 +13,7 @@ remains `0.2.2`.
 
 ### Compatibility
 
-- Additive; the existing `0.2.2` public API remains available.
+- Additive; the `0.2.2` public API remains available.
 
 ## 0.2.2 - 2026-11-08
 
