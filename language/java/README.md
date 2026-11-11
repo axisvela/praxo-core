@@ -5,9 +5,9 @@ Java implementation of the PRAXO-CORE contract. The normative contract is
 
 **Status:** The package passes all eleven conformance vector groups.
 Context budgets, middleware, streaming, virtual-thread execution, cancellation,
-the OpenAI-compatible adapter, Harmovela sink, stdio MCP client, HITL interrupt
-decisions, and the agent loop are included. VFS and plugin hosts are not yet
-implemented.
+the OpenAI-compatible, Anthropic, and Gemini adapters, Harmovela sink, stdio MCP
+client, HITL interrupt decisions, and the agent loop are included. VFS and
+plugin hosts are not yet implemented.
 
 Package version: `0.5.0` (source tag `java/v0.5.0`; the earlier
 `java/v0.2.3` tag retains `io.axisvela.praxo`). Maven Central publishes `0.5.0`.

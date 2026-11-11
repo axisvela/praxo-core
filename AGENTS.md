@@ -90,6 +90,7 @@ cd language/java; mvn -q -DskipTests package
 cd language/java; java -cp target/classes com.axisvela.praxo.conformance.ApiSnapshot --check
 cd language/java; java -cp target/classes com.axisvela.praxo.conformance.Run
 cd language/java; java --add-modules jdk.httpserver -cp target/classes:target/test-classes com.axisvela.praxo.adapters.OpenAICompatibleSelfTest
+cd language/java; java --add-modules jdk.httpserver -cp target/classes:target/test-classes com.axisvela.praxo.adapters.ProviderAdaptersSelfTest
 cd language/java; java -cp target/classes:target/test-classes com.axisvela.praxo.agent.AgentConcurrencySelfTest
 cd language/java; java -cp target/classes:target/test-classes com.axisvela.praxo.agent.AgentAuthorizationSelfTest
 cd language/java; java -cp target/classes:target/test-classes com.axisvela.praxo.agent.AgentLifecycleSelfTest

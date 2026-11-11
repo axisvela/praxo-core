@@ -69,6 +69,7 @@ provider presets.
 | C# | native | `Praxo.Core.AnthropicModel` |
 | R | native (transport seam) | `anthropic`; caller may supply `transport` |
 | Elixir | native | `Praxo.Anthropic` |
+| Java | native | `adapters.AnthropicModel` |
 | All other implementations | not implemented | Use the OpenAI-compatible adapter only for OpenAI-compatible endpoints |
 
 ## Model (Gemini Native)
@@ -81,6 +82,7 @@ provider presets.
 | C# | native | `Praxo.Core.GeminiModel` |
 | R | native (transport seam) | `gemini`; caller may supply `transport` |
 | Elixir | native | `Praxo.Gemini` |
+| Java | native | `adapters.GeminiModel` |
 | All other implementations | not implemented | Native generateContent mapping follows adoption order |
 
 ## MCP

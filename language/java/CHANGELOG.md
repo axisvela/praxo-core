@@ -1,5 +1,11 @@
 # Java Core Release Notes
 
+## Unreleased
+
+### Added
+
+- Native Anthropic Messages and Gemini generateContent model adapters.
+
 ## 0.5.0 - 2026-11-10
 
 Source tag `java/v0.5.0`. Maven Central publishes the matching artifact after
