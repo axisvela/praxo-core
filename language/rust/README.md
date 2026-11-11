@@ -87,6 +87,9 @@ println!("{} {}", result.output, result.steps);
 | `toolcall` | tool-call parsing and markup stripping |
 | `jsonschema` | `Schema`, `from_json`, `validate` over the documented subset |
 | `plugin` | Manifest v1 parsing and validation |
+| `openaicompat` | OpenAI-compatible SSE stream parser |
+| `anthropic` | Anthropic Messages mapping with caller-supplied transport |
+| `gemini` | Gemini generateContent mapping with caller-supplied transport |
 | `harmovela` | Harmovela HTTP event sink and injectable transport |
 | `mcp` | Native stdio MCP client, tool adapters, and registry helper |
 

@@ -1,5 +1,12 @@
 # Rust Core Release Notes
 
+## Unreleased
+
+### Added
+
+- Anthropic Messages and Gemini generateContent adapters with caller-supplied
+  transports.
+
 ## 0.4.0 - 2026-11-10
 
 Source release tag `rust/v0.4.0`. The crates.io package `praxo-core==0.4.0` is

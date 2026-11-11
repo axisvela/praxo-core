@@ -7,6 +7,15 @@ pub const SDK_VERSION: &str = "0.4.0";
 ## constant praxo_core::SPEC_VERSION
 pub const SPEC_VERSION: &str = "0.2.0";
 
+## constant praxo_core::adapters::anthropic::DEFAULT_BASE_URL
+pub const DEFAULT_BASE_URL: &str = "https://api.anthropic.com";
+
+## constant praxo_core::adapters::anthropic::DEFAULT_VERSION
+pub const DEFAULT_VERSION: &str = "2023-06-01";
+
+## constant praxo_core::adapters::gemini::DEFAULT_BASE_URL
+pub const DEFAULT_BASE_URL: &str = "https://generativelanguage.googleapis.com";
+
 ## constant praxo_core::adapters::mcp::DEFAULT_PROTOCOL_VERSION
 pub const DEFAULT_PROTOCOL_VERSION: &str = "2024-11-05";
 
@@ -166,6 +175,10 @@ pub fn strip_markup(content: &str) -> String
 
 ## module praxo_core::adapters
 
+## module praxo_core::adapters::anthropic
+
+## module praxo_core::adapters::gemini
+
 ## module praxo_core::adapters::harmovela
 
 ## module praxo_core::adapters::mcp
@@ -203,6 +216,34 @@ pub fn strip_markup(content: &str) -> String
 ## module praxo_core::tool
 
 ## module praxo_core::toolcall
+
+## struct praxo_core::adapters::anthropic::Anthropic
+pub struct Anthropic<T: AnthropicTransport> { /* private fields */ }
+impl<T: AnthropicTransport> Anthropic<T>
+impl<T: AnthropicTransport> Model for Anthropic<T>
+method pub fn generate(&self, request: &Request) -> Result<Response>
+method pub fn new(config: AnthropicConfig, transport: T) -> Self
+method pub fn transport(&self) -> &T
+
+## struct praxo_core::adapters::anthropic::AnthropicConfig
+pub struct AnthropicConfig { pub base_url: String, pub api_key: String, pub model: String, pub version: String, pub max_tokens: i64, }
+impl Clone for AnthropicConfig
+impl Debug for AnthropicConfig
+impl Default for AnthropicConfig
+
+## struct praxo_core::adapters::gemini::Gemini
+pub struct Gemini<T: GeminiTransport> { /* private fields */ }
+impl<T: GeminiTransport> Gemini<T>
+impl<T: GeminiTransport> Model for Gemini<T>
+method pub fn generate(&self, request: &Request) -> Result<Response>
+method pub fn new(config: GeminiConfig, transport: T) -> Self
+method pub fn transport(&self) -> &T
+
+## struct praxo_core::adapters::gemini::GeminiConfig
+pub struct GeminiConfig { pub base_url: String, pub api_key: String, pub model: String, pub max_output_tokens: i64, }
+impl Clone for GeminiConfig
+impl Debug for GeminiConfig
+impl Default for GeminiConfig
 
 ## struct praxo_core::adapters::harmovela::HttpRequest
 pub struct HttpRequest { pub method: String, pub url: String, pub headers: Vec<(String, String)>, pub body: String, }
@@ -648,6 +689,12 @@ pub struct ParsedToolCall { pub call_id: String, pub name: String, pub operation
 impl Clone for ParsedToolCall
 impl Debug for ParsedToolCall
 impl PartialEq for ParsedToolCall
+
+## trait praxo_core::adapters::anthropic::AnthropicTransport
+pub trait AnthropicTransport: Send + Sync { fn send(&self, path: &str, payload: &Value) -> Result<Value>; }
+
+## trait praxo_core::adapters::gemini::GeminiTransport
+pub trait GeminiTransport: Send + Sync { fn send(&self, path: &str, payload: &Value) -> Result<Value>; }
 
 ## trait praxo_core::adapters::harmovela::Transport
 pub trait Transport: Send + Sync { fn send(&self, request: &HttpRequest) -> Result<HttpResponse>; }

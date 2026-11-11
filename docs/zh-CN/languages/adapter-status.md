@@ -63,6 +63,7 @@
 | R | native (transport seam) | `anthropic`；调用方可提供 `transport` |
 | Elixir | native | `Praxo.Anthropic` |
 | Java | native | `adapters.AnthropicModel` |
+| Rust | native (transport seam) | `adapters::anthropic`；调用方提供 transport |
 | 其他实现 | not implemented | 仅 OpenAI-compatible 端点使用 OpenAI 兼容适配器 |
 
 ## 模型（Gemini 原生）
@@ -76,6 +77,7 @@
 | R | native (transport seam) | `gemini`；调用方可提供 `transport` |
 | Elixir | native | `Praxo.Gemini` |
 | Java | native | `adapters.GeminiModel` |
+| Rust | native (transport seam) | `adapters::gemini`；调用方提供 transport |
 | 其他实现 | not implemented | 原生 generateContent 映射按采用顺序推进 |
 
 ## MCP

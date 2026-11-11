@@ -70,6 +70,7 @@ provider presets.
 | R | native (transport seam) | `anthropic`; caller may supply `transport` |
 | Elixir | native | `Praxo.Anthropic` |
 | Java | native | `adapters.AnthropicModel` |
+| Rust | native (transport seam) | `adapters::anthropic`; caller supplies transport |
 | All other implementations | not implemented | Use the OpenAI-compatible adapter only for OpenAI-compatible endpoints |
 
 ## Model (Gemini Native)
@@ -83,6 +84,7 @@ provider presets.
 | R | native (transport seam) | `gemini`; caller may supply `transport` |
 | Elixir | native | `Praxo.Gemini` |
 | Java | native | `adapters.GeminiModel` |
+| Rust | native (transport seam) | `adapters::gemini`; caller supplies transport |
 | All other implementations | not implemented | Native generateContent mapping follows adoption order |
 
 ## MCP
