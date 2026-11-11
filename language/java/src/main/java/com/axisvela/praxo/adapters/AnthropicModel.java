@@ -203,18 +203,18 @@ public final class AnthropicModel implements StreamingModel {
         if (data.get("error") != null) {
             Map<String, Object> error = Json.asObject(data.get("error"));
             throw new PraxoException(
-                    "MODEL_HTTP", "anthropic: " + Json.string(error.get("message")));
+                    "MODEL_HTTP", "anthropic: " + str(error.get("message")));
         }
         StringBuilder text = new StringBuilder();
         List<ToolCall> calls = new ArrayList<>();
         for (Object raw : Json.asArray(data.get("content"))) {
             Map<String, Object> block = Json.asObject(raw);
-            if ("text".equals(Json.string(block.get("type")))) {
-                text.append(Json.string(block.get("text")));
-            } else if ("tool_use".equals(Json.string(block.get("type")))) {
+            if ("text".equals(str(block.get("type")))) {
+                text.append(str(block.get("text")));
+            } else if ("tool_use".equals(str(block.get("type")))) {
                 calls.add(new ToolCall(
-                        Json.string(block.get("id")),
-                        Json.string(block.get("name")),
+                        str(block.get("id")),
+                        str(block.get("name")),
                         Json.asObject(block.get("input"))));
             }
         }
@@ -226,7 +226,7 @@ public final class AnthropicModel implements StreamingModel {
                         num(usage.get("input_tokens")),
                         num(usage.get("output_tokens")),
                         num(usage.get("cache_read_input_tokens"))),
-                Json.string(data.get("stop_reason")));
+                str(data.get("stop_reason")));
     }
 
     private Response parseStream(Stream<String> lines, Consumer<String> onDelta) {
@@ -248,7 +248,7 @@ public final class AnthropicModel implements StreamingModel {
                     continue;
                 }
                 Map<String, Object> event = Json.object(payload);
-                String type = Json.string(event.get("type"));
+                String type = str(event.get("type"));
                 if ("message_start".equals(type)) {
                     Map<String, Object> message =
                             Json.asObject(event.get("message"));
@@ -262,12 +262,12 @@ public final class AnthropicModel implements StreamingModel {
                     Map<String, Object> block =
                             Json.asObject(event.get("content_block"));
                     BlockState state = new BlockState();
-                    state.kind = Json.string(block.get("type"));
-                    state.id = Json.string(block.get("id"));
-                    state.name = Json.string(block.get("name"));
+                    state.kind = str(block.get("type"));
+                    state.id = str(block.get("id"));
+                    state.name = str(block.get("name"));
                     state.input = Json.asObject(block.get("input"));
                     blocks.put(index, state);
-                    String text = Json.string(block.get("text"));
+                    String text = str(block.get("text"));
                     if (!text.isEmpty()) {
                         content.append(text);
                         onDelta.accept(text);
@@ -278,22 +278,22 @@ public final class AnthropicModel implements StreamingModel {
                             index, ignored -> new BlockState());
                     Map<String, Object> delta =
                             Json.asObject(event.get("delta"));
-                    String deltaType = Json.string(delta.get("type"));
+                    String deltaType = str(delta.get("type"));
                     if ("text_delta".equals(deltaType)) {
-                        String text = Json.string(delta.get("text"));
+                        String text = str(delta.get("text"));
                         if (!text.isEmpty()) {
                             content.append(text);
                             onDelta.accept(text);
                         }
                     } else if ("input_json_delta".equals(deltaType)) {
                         block.arguments.append(
-                                Json.string(delta.get("partial_json")));
+                                str(delta.get("partial_json")));
                     }
                 } else if ("message_delta".equals(type)) {
                     Map<String, Object> delta =
                             Json.asObject(event.get("delta"));
-                    if (!Json.string(delta.get("stop_reason")).isEmpty()) {
-                        stopReason = Json.string(delta.get("stop_reason"));
+                    if (!str(delta.get("stop_reason")).isEmpty()) {
+                        stopReason = str(delta.get("stop_reason"));
                     }
                     Map<String, Object> usage =
                             Json.asObject(event.get("usage"));
@@ -341,6 +341,11 @@ public final class AnthropicModel implements StreamingModel {
 
     private static long num(Object value) {
         return value == null ? 0 : Json.integer(value);
+    }
+
+    private static String str(Object value) {
+        String text = Json.string(value);
+        return text == null ? "" : text;
     }
 
     private static void checkStatus(int status, String body) {

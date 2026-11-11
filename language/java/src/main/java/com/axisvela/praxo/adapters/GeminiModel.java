@@ -234,7 +234,7 @@ public final class GeminiModel implements StreamingModel {
                         num(usage.get("promptTokenCount")),
                         num(usage.get("candidatesTokenCount")),
                         num(usage.get("cachedContentTokenCount"))),
-                Json.string(candidate.get("finishReason")));
+                str(candidate.get("finishReason")));
     }
 
     @SuppressWarnings("unchecked")
@@ -278,7 +278,7 @@ public final class GeminiModel implements StreamingModel {
                 }
                 Map<String, Object> candidate =
                         Json.asObject(candidates.get(0));
-                String reason = Json.string(candidate.get("finishReason"));
+                String reason = str(candidate.get("finishReason"));
                 if (!reason.isEmpty()) {
                     finishReason = reason;
                 }
@@ -287,7 +287,7 @@ public final class GeminiModel implements StreamingModel {
                 for (Object rawPart : Json.asArray(
                         candidateContent.get("parts"))) {
                     Map<String, Object> part = Json.asObject(rawPart);
-                    String text = Json.string(part.get("text"));
+                    String text = str(part.get("text"));
                     if (!text.isEmpty()) {
                         content.append(text);
                         onDelta.accept(text);
@@ -297,7 +297,7 @@ public final class GeminiModel implements StreamingModel {
                                 Json.asObject(part.get("functionCall"));
                         calls.add(new ToolCall(
                                 "call-" + (calls.size() + 1),
-                                Json.string(call.get("name")),
+                                str(call.get("name")),
                                 Json.asObject(call.get("args"))));
                     }
                 }
@@ -315,13 +315,13 @@ public final class GeminiModel implements StreamingModel {
         List<ToolCall> calls = new ArrayList<>();
         for (Object raw : parts) {
             Map<String, Object> part = Json.asObject(raw);
-            text.append(Json.string(part.get("text")));
+            text.append(str(part.get("text")));
             if (part.get("functionCall") != null) {
                 Map<String, Object> call =
                         Json.asObject(part.get("functionCall"));
                 calls.add(new ToolCall(
                         "call-" + (calls.size() + 1),
-                        Json.string(call.get("name")),
+                        str(call.get("name")),
                         Json.asObject(call.get("args"))));
             }
         }
@@ -330,6 +330,11 @@ public final class GeminiModel implements StreamingModel {
 
     private static long num(Object value) {
         return value == null ? 0 : Json.integer(value);
+    }
+
+    private static String str(Object value) {
+        String text = Json.string(value);
+        return text == null ? "" : text;
     }
 
     private static void checkStatus(int status, String body) {
