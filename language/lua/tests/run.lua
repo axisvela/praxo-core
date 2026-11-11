@@ -10,8 +10,10 @@ local plugin = require("praxo.plugin")
 local runtime = require("praxo.runtime")
 local sse = require("praxo.sse")
 local toolcall = require("praxo.toolcall")
-local openai_compat = require("praxo.openai_compatible")
-local harmovela_sink = require("praxo.harmovela_sink")
+local openai_compat = require("praxo.adapters.openai_compatible")
+local harmovela_sink = require("praxo.adapters.harmovela_sink")
+assert(require("praxo.openai_compatible") == openai_compat)
+assert(require("praxo.harmovela_sink") == harmovela_sink)
 
 local function check(condition, message)
   if not condition then error(message) end

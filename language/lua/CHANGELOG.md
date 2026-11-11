@@ -1,5 +1,13 @@
 # Lua Core Release Notes
 
+## Unreleased
+
+### Changed
+
+- Adapters live under `praxo/adapters/`. The old
+  `praxo.openai_compatible` and `praxo.harmovela_sink` paths remain as
+  compatibility wrappers.
+
 ## 0.4.1 - 2026-11-09
 
 Source release tag `lua/v0.4.1`. LuaRocks publishes rock revision `0.4.1-1`

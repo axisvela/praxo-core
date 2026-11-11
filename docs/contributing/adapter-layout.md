@@ -29,7 +29,7 @@ re-export or a thin compatibility file at the old path.
 | C# | `Praxo.Core/Adapters/` | separated (same namespace) |
 | Swift | `Sources/PraxoCore/Adapters/` | separated (same module) |
 | Julia | `src/adapters/` | separated |
-| Lua | `praxo/adapters/` | planned; keep old-path wrappers |
+| Lua | `praxo/adapters/` | separated; old-path wrappers remain |
 | Haskell | `src/Praxo/Adapters/` | planned; keep module re-exports |
 | Rust | `src/adapters/` | separated; root re-exports remain |
 | Elixir | `lib/praxo/adapters/` | separated; module names stay stable |

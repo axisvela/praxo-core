@@ -17,7 +17,7 @@ def snapshot() -> str:
     version = (ROOT / "VERSION").read_text(encoding="utf-8").strip()
     spec = (REPO / "spec" / "SPEC_VERSION").read_text(encoding="utf-8").strip()
     entries: set[str] = set()
-    for path in sorted((ROOT / "praxo").glob("*.lua")):
+    for path in sorted((ROOT / "praxo").rglob("*.lua")):
         for raw in path.read_text(encoding="utf-8").splitlines():
             line = raw.strip()
             for pattern in (FUNC_RE, ASSIGN_RE):

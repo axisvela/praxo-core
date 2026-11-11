@@ -76,10 +76,11 @@ options.max_steps = 8
 
 ## Harmovela Event Sink
 
-`praxo.harmovela_sink` posts each event to `{base_url}/events`.
+`praxo.adapters.harmovela_sink` posts each event to `{base_url}/events`.
+The old `praxo.harmovela_sink` path remains as a compatibility wrapper.
 
 ```lua
-local harmovela = require("praxo.harmovela_sink")
+local harmovela = require("praxo.adapters.harmovela_sink")
 options.events = harmovela.new({
   base_url = "http://127.0.0.1:8790/aep/api",
 })
