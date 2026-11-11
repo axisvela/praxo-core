@@ -111,6 +111,7 @@
 | C# | native | `Praxo.Core.Adapters.McpClient`；stdio JSON-RPC，含 fake server 测试 |
 | R | native (transport seam) | `mcp_client`；base R 的 stdio 需要调用方提供 transport |
 | Elixir | native | `Praxo.Mcp`；stdio JSON-RPC，含 fake server 测试 |
+| Ruby | native | `Praxo::Adapters::MCPClient`；stdio JSON-RPC，可注入 IO |
 | 其他实现 | not implemented | 按采用顺序补齐原生 MCP client |
 
 MCP 支持指最小 client session：initialize、分页 tools/list 与 tools/call。它不代表

@@ -774,4 +774,75 @@ check(gemini_response.usage.input_tokens == 3, 'gemini usage')
 check(gemini_payload[:system_instruction][:parts].first[:text] == 'be brief', 'gemini system')
 check(gemini_payload[:toolConfig][:functionCallingConfig][:mode] == 'AUTO', 'gemini tool mode')
 
+client_to_server_r, client_to_server_w = IO.pipe
+server_to_client_r, server_to_client_w = IO.pipe
+mcp_thread = Thread.new do
+  while (line = client_to_server_r.gets)
+    message = JSON.parse(line)
+    next if message['method'] == 'notifications/initialized' ||
+            message['method'] == 'notifications/cancelled'
+
+    response = case message['method']
+               when 'initialize'
+                 { 'protocolVersion' => '2024-11-05', 'serverInfo' => { 'name' => 'fake' } }
+               when 'tools/list'
+                 if message.dig('params', 'cursor')
+                   { 'tools' => [{ 'name' => 'echo', 'inputSchema' => { 'type' => 'object' } }] }
+                 else
+                   {
+                     'tools' => [{ 'name' => 'add', 'inputSchema' => { 'type' => 'object' } }],
+                     'nextCursor' => 'next'
+                   }
+                 end
+               when 'tools/call'
+                 case message.dig('params', 'name')
+                 when 'echo'
+                   { 'structuredContent' => { 'ok' => true } }
+                 when 'text'
+                   { 'content' => [{ 'type' => 'text', 'text' => 'hello' }] }
+                 when 'fail'
+                   { 'isError' => true }
+                 else
+                   next
+                 end
+               end
+    server_to_client_w.puts(JSON.generate(
+      'jsonrpc' => '2.0', 'id' => message['id'], 'result' => response
+    ))
+    server_to_client_w.flush
+  end
+rescue IOError, EOFError
+  nil
+end
+
+mcp = Praxo::Adapters::MCPClient.new(
+  reader: server_to_client_r,
+  writer: client_to_server_w,
+  timeout: 0.5
+)
+mcp.start
+check(mcp.protocol_version == '2024-11-05', 'mcp protocol version')
+check(mcp.server_info['name'] == 'fake', 'mcp server info')
+tools = mcp.list_tools
+check(tools.map { |tool| tool['name'] } == %w[add echo], 'mcp paginated tools')
+check(mcp.call_tool('echo', { 'text' => 'hi' }) == { 'ok' => true }, 'mcp structured tool')
+check(mcp.call_tool('text') == 'hello', 'mcp text tool')
+mcp_error = nil
+begin
+  mcp.call_tool('fail')
+rescue Praxo::Error => caught
+  mcp_error = caught
+end
+check(mcp_error&.code == 'MCP_TOOL_ERROR', 'mcp tool error')
+timeout_error = nil
+begin
+  mcp.call_tool('hang', timeout: 0.05)
+rescue Praxo::Error => caught
+  timeout_error = caught
+end
+check(timeout_error&.code == 'MCP_TIMEOUT', 'mcp timeout')
+mcp.close
+check(mcp.instance_variable_get(:@closed), 'mcp closed')
+mcp_thread.join(2)
+
 puts 'ruby core tests passed'

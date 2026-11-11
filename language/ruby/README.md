@@ -97,6 +97,13 @@ execution, and run-scoped call limits:
 
 Each adapter accepts a `transport` lambda for deterministic tests.
 
+## MCP Client
+
+`Praxo::Adapters::MCPClient` implements a stdio JSON-RPC MCP session with
+initialize, paginated tool listing, tool calls, timeouts, and cancellation
+notifications. Pass `reader`/`writer` to inject a deterministic transport, or
+provide `command:` to start a child process with `Open3`.
+
 ## Harmovela Event Sink
 
 `Praxo::Adapters::HarmovelaSink` posts each event to `{base_url}/events` with an

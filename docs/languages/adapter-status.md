@@ -118,6 +118,7 @@ provider presets.
 | C# | native | `Praxo.Core.Adapters.McpClient`; stdio JSON-RPC with fake-server tests |
 | R | native (transport seam) | `mcp_client`; base R needs caller-supplied transport for stdio |
 | Elixir | native | `Praxo.Mcp`; stdio JSON-RPC with fake-server tests |
+| Ruby | native | `Praxo::Adapters::MCPClient`; stdio JSON-RPC with injectable IO |
 | All other implementations | not implemented | Native MCP clients follow the model baseline in adoption order |
 
 MCP support means a minimal client session that can initialize, list tools with
