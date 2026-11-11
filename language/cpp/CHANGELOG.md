@@ -1,5 +1,11 @@
 # C++ Core Release Notes
 
+## Unreleased
+
+### Added
+
+- Transport-seam Anthropic Messages and Gemini generateContent model adapters.
+
 ## 0.4.0 - 2026-11-02
 
 Source release tag `cpp/v0.4.0`.

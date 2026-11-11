@@ -30,6 +30,10 @@ target_link_libraries(praxo-cpp-tests PRIVATE praxo_cpp)
 add_executable(praxo-cpp-harmovela-tests tests/harmovela.cpp)
 target_link_libraries(praxo-cpp-harmovela-tests PRIVATE praxo_cpp)
 
+add_executable(praxo-cpp-provider-tests tests/providers.cpp)
+target_link_libraries(praxo-cpp-provider-tests PRIVATE praxo_cpp)
+
 add_test(NAME praxo-cpp-conformance COMMAND praxo-cpp-conformance)
 add_test(NAME praxo-cpp-tests COMMAND praxo-cpp-tests)
 add_test(NAME praxo-cpp-harmovela-tests COMMAND praxo-cpp-harmovela-tests)
+add_test(NAME praxo-cpp-provider-tests COMMAND praxo-cpp-provider-tests)

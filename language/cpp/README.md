@@ -142,6 +142,29 @@ praxo::OpenAICompatible adapter(config,
 auto response = adapter.generate(request);
 ```
 
+## Anthropic and Gemini Adapters
+
+`praxo/anthropic.hpp` and `praxo/gemini.hpp` provide the same transport-seam
+contract for Anthropic Messages and Gemini generateContent.
+
+```cpp
+#include "praxo/anthropic.hpp"
+#include "praxo/gemini.hpp"
+
+praxo::AnthropicOptions claude_options;
+claude_options.model = "claude-sonnet-4-5";
+claude_options.api_key = "ak";
+praxo::Anthropic claude(claude_options, transport);
+
+praxo::GeminiOptions gemini_options;
+gemini_options.model = "gemini-2.5-pro";
+gemini_options.api_key = "gk";
+praxo::Gemini gemini(gemini_options, transport);
+```
+
+Both adapters map tool calls, tools schemas, usage, finish reasons, and provider
+errors. Callers provide the HTTP transport.
+
 ## Layout
 
 - `include/praxo/` public headers.

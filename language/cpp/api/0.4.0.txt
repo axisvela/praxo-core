@@ -4,6 +4,8 @@
 Action
 Agent
 AgentOptions
+Anthropic
+AnthropicOptions
 CallLimit
 CheckpointAllowlist
 ContentBlock
@@ -13,6 +15,8 @@ Event
 EventSink
 FilterSink
 FuncTool
+Gemini
+GeminiOptions
 HarmovelaHttpRequest
 HarmovelaHttpResponse
 HarmovelaSink
@@ -114,8 +118,10 @@ specs
 strip_markup
 truncate_to_tokens
 unmarshal
+using AnthropicTransport
 using Array
 using Function
+using GeminiTransport
 using HarmovelaClock
 using HarmovelaTransport
 using ModelHandler
