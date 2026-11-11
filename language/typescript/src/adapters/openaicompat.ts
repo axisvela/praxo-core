@@ -11,12 +11,35 @@ import {
   usage,
 } from "../model";
 
+export const PROVIDER_BASE_URLS: Record<string, string> = {
+  openai: "https://api.openai.com/v1",
+  deepseek: "https://api.deepseek.com/v1",
+  kimi: "https://api.moonshot.cn/v1",
+  moonshot: "https://api.moonshot.cn/v1",
+  openrouter: "https://openrouter.ai/api/v1",
+  groq: "https://api.groq.com/openai/v1",
+  together: "https://api.together.xyz/v1",
+};
+
 export interface OpenAIConfig {
   baseUrl: string;
   apiKey?: string;
   model?: string;
   timeoutMs?: number;
   headers?: Record<string, string>;
+}
+
+export function openAICompatibleConfig(
+  provider: string,
+  model: string,
+  apiKey = "",
+  options: Omit<OpenAIConfig, "baseUrl" | "model" | "apiKey"> = {}
+): OpenAIConfig {
+  const baseUrl = PROVIDER_BASE_URLS[provider.trim().toLowerCase()];
+  if (!baseUrl) {
+    throw new Error(`unknown OpenAI-compatible provider: ${provider}`);
+  }
+  return { baseUrl, apiKey, model, ...options };
 }
 
 export class OpenAICompatibleModel implements StreamingModel {

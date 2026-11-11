@@ -10,7 +10,8 @@ orchestration platform:
 - Typed models, tools, events, and sessions.
 - Policy hooks, approvals, path checks, PII redaction, and call limits.
 - Context budgets, checkpoints, middleware, and fallback models.
-- Streaming, `AbortSignal` cancellation, and an OpenAI-compatible adapter.
+- Streaming, `AbortSignal` cancellation, and OpenAI-compatible, Anthropic, and
+  Gemini adapters.
 - No runtime dependencies; Node.js 20 or newer.
 
 ## Registry and Coding-Agent Entry
@@ -63,7 +64,7 @@ console.log(result.output, result.steps, result.usage);
 | Agent loop | Tool calls, multi-step runs, parallel tools, structured output |
 | Governance | Policy hooks, tool selection, PII middleware, call limits, HITL interrupts |
 | Runtime | Context budgets, checkpoints, events, streaming, cancellation |
-| Integration | OpenAI-compatible adapter; bring your own model and tools |
+| Integration | OpenAI-compatible (OpenAI, DeepSeek, Kimi), Anthropic, and Gemini adapters; bring your own model and tools |
 
 ## Harmovela event sink
 
@@ -170,7 +171,9 @@ the published file set and installed import path, not npm registry availability.
 | `src/toolcall.ts` | tool-call parsing and markup stripping |
 | `src/jsonschema.ts` | documented JSON Schema subset |
 | `src/plugin.ts` | Manifest v1 parsing and validation |
-| `src/adapters/openaicompat.ts` | OpenAI-compatible non-streaming and SSE adapter |
+| `src/adapters/openaicompat.ts` | OpenAI-compatible non-streaming and SSE adapter with provider presets |
+| `src/adapters/anthropic.ts` | Native Anthropic Messages adapter |
+| `src/adapters/gemini.ts` | Native Gemini generateContent adapter |
 | `src/adapters/harmovela.ts` | Harmovela HTTP event sink |
 | `src/adapters/mcp.ts` | Native stdio MCP client and tool registration helper |
 

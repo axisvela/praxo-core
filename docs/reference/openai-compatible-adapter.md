@@ -5,6 +5,23 @@ implementation. It is adapter guidance, not a new shared wire contract or a
 provider-quality claim. Streaming remains optional for the baseline; an
 implementation that supports streaming must document it separately.
 
+## Provider Presets
+
+These providers expose an OpenAI-compatible chat-completions endpoint and use
+this adapter with the listed base URL:
+
+| Provider | Base URL |
+| --- | --- |
+| OpenAI | `https://api.openai.com/v1` |
+| DeepSeek | `https://api.deepseek.com/v1` |
+| Kimi / Moonshot | `https://api.moonshot.cn/v1` |
+| OpenRouter | `https://openrouter.ai/api/v1` |
+| Groq | `https://api.groq.com/openai/v1` |
+| Together | `https://api.together.xyz/v1` |
+
+The Python and TypeScript adapters expose these values as provider presets.
+Anthropic and Gemini use native adapters instead.
+
 ## Endpoint
 
 `POST {baseURL}/chat/completions` with `content-type: application/json` and an

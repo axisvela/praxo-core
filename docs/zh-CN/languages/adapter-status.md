@@ -52,6 +52,24 @@
 
 基线映射见 [OpenAI 兼容模型适配器](../reference/openai-compatible-adapter.md)。
 
+## 模型（Anthropic 原生）
+
+| 语言 | 状态 | 说明 |
+| --- | --- | --- |
+| Go | native | `adapters/anthropic` |
+| Python | native | `praxo.adapters.anthropic.AnthropicModel` |
+| TypeScript | native | `src/adapters/anthropic.ts` |
+| 其他实现 | not implemented | 仅 OpenAI-compatible 端点使用 OpenAI 兼容适配器 |
+
+## 模型（Gemini 原生）
+
+| 语言 | 状态 | 说明 |
+| --- | --- | --- |
+| Go | native | `adapters/gemini` |
+| Python | native | `praxo.adapters.gemini.GeminiModel` |
+| TypeScript | native | `src/adapters/gemini.ts` |
+| 其他实现 | not implemented | 原生 generateContent 映射按采用顺序推进 |
+
 ## MCP
 
 | 语言 | 状态 | 说明 |

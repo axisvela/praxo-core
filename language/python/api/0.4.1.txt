@@ -67,6 +67,10 @@ praxo.strip_tool_call_markup(content: 'str') -> 'str'
 praxo.tool_selection_middleware(selector: 'ToolSelector | None') -> 'Middleware'
 
 ## praxo.adapters
+praxo.adapters.AnthropicConfig
+praxo.adapters.AnthropicModel
+praxo.adapters.GeminiConfig
+praxo.adapters.GeminiModel
 praxo.adapters.HarmovelaSink
 praxo.adapters.MCPClient
 praxo.adapters.MCPServerConfig
@@ -75,11 +79,13 @@ praxo.adapters.MCPToolAdapter
 praxo.adapters.MCPTransport
 praxo.adapters.OpenAICompatibleModel
 praxo.adapters.OpenAIConfig
+praxo.adapters.PROVIDER_BASE_URLS
 praxo.adapters.StdioTransport
 
 ## praxo.adapters.openaicompat
 praxo.adapters.openaicompat.OpenAICompatibleModel
 praxo.adapters.openaicompat.OpenAIConfig
+praxo.adapters.openaicompat.PROVIDER_BASE_URLS
 praxo.adapters.openaicompat.ROLE_ASSISTANT
 
 ## praxo.agent

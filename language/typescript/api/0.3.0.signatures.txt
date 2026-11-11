@@ -63,6 +63,31 @@ register(name: string, factory: Factory): void
 marshal(name: string, value: unknown): string
 unmarshal(data: string | Buffer): unknown
 
+## ANTHROPIC_DEFAULT_BASE_URL
+const ANTHROPIC_DEFAULT_BASE_URL: "https://api.anthropic.com"
+
+## ANTHROPIC_DEFAULT_MAX_TOKENS
+const ANTHROPIC_DEFAULT_MAX_TOKENS: 1024
+
+## ANTHROPIC_DEFAULT_VERSION
+const ANTHROPIC_DEFAULT_VERSION: "2023-06-01"
+
+## AnthropicConfig
+interface AnthropicConfig
+apiKey: string
+model: string
+baseUrl?: string | undefined
+version?: string | undefined
+maxTokens?: number | undefined
+timeoutMs?: number | undefined
+headers?: Record<string, string> | undefined
+
+## AnthropicModel
+class AnthropicModel
+constructor(config: AnthropicConfig): AnthropicModel
+generate(request: Request): Promise<ModelResponse>
+generateStream(request: Request, onDelta: (delta: string) => void): Promise<ModelResponse>
+
 ## ApprovalDeniedError
 class ApprovalDeniedError
 constructor(message?: string): ApprovalDeniedError
@@ -251,6 +276,24 @@ constructor(gateway: Gateway, info: GatewayInfo): GatewayTool
 name: string
 description: string
 invoke(args: Record<string, unknown>): Promise<unknown>
+
+## GEMINI_DEFAULT_BASE_URL
+const GEMINI_DEFAULT_BASE_URL: "https://generativelanguage.googleapis.com"
+
+## GeminiConfig
+interface GeminiConfig
+apiKey: string
+model: string
+baseUrl?: string | undefined
+maxOutputTokens?: number | undefined
+timeoutMs?: number | undefined
+headers?: Record<string, string> | undefined
+
+## GeminiModel
+class GeminiModel
+constructor(config: GeminiConfig): GeminiModel
+generate(request: Request): Promise<ModelResponse>
+generateStream(request: Request, onDelta: (delta: string) => void): Promise<ModelResponse>
 
 ## HarmovelaHttpRequest
 interface HarmovelaHttpRequest
@@ -612,6 +655,10 @@ class OffloadFunc
 constructor(fn: (toolName: string, toolCallId: string, data: Buffer) => Promise<string> | string): OffloadFunc
 offload(toolName: string, toolCallId: string, data: Buffer): Promise<string>
 
+## openAICompatibleConfig
+function openAICompatibleConfig
+openAICompatibleConfig(provider: string, model: string, apiKey?: string, options?: Omit<OpenAIConfig, "baseUrl" | "model" | "apiKey">): OpenAIConfig
+
 ## OpenAICompatibleModel
 class OpenAICompatibleModel
 constructor(config: OpenAIConfig): OpenAICompatibleModel
@@ -714,6 +761,9 @@ name: string
 message: string
 stack?: string | undefined
 cause?: unknown
+
+## PROVIDER_BASE_URLS
+const PROVIDER_BASE_URLS: Record<string, string>
 
 ## redactValue
 function redactValue

@@ -55,6 +55,27 @@ Status words:
 
 The baseline mapping is documented in the
 [OpenAI-compatible model adapter](../reference/openai-compatible-adapter.md).
+OpenAI, DeepSeek, Kimi/Moonshot, OpenRouter, Groq, and Together use this adapter
+with different base URLs; the Python and TypeScript implementations expose
+provider presets.
+
+## Model (Anthropic Native)
+
+| Language | Status | Notes |
+| --- | --- | --- |
+| Go | native | `adapters/anthropic` |
+| Python | native | `praxo.adapters.anthropic.AnthropicModel` |
+| TypeScript | native | `src/adapters/anthropic.ts` |
+| All other implementations | not implemented | Use the OpenAI-compatible adapter only for OpenAI-compatible endpoints |
+
+## Model (Gemini Native)
+
+| Language | Status | Notes |
+| --- | --- | --- |
+| Go | native | `adapters/gemini` |
+| Python | native | `praxo.adapters.gemini.GeminiModel` |
+| TypeScript | native | `src/adapters/gemini.ts` |
+| All other implementations | not implemented | Native generateContent mapping follows adoption order |
 
 ## MCP
 

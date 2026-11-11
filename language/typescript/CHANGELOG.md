@@ -1,5 +1,13 @@
 # TypeScript Core Release Notes
 
+## Unreleased
+
+### Added
+
+- Native Anthropic Messages and Gemini generateContent model adapters.
+- OpenAI-compatible provider presets for OpenAI, DeepSeek, Kimi/Moonshot,
+  OpenRouter, Groq, and Together.
+
 ## 0.3.0 - 2026-11-10
 
 Source tag `typescript/v0.3.0`. npm publishes `@axisvela/praxo-core@0.3.0` as

@@ -1,11 +1,16 @@
 # PRAXO-CORE TypeScript API 0.3.0
 # SPEC_VERSION 0.2.0
 
+ANTHROPIC_DEFAULT_BASE_URL
+ANTHROPIC_DEFAULT_MAX_TOKENS
+ANTHROPIC_DEFAULT_VERSION
 AbortError
 Action
 Agent
 AgentOptions
 Allowlist
+AnthropicConfig
+AnthropicModel
 ApprovalDeniedError
 CALL_ERROR_CODES
 COMPACT_MARKER_PREFIX
@@ -35,9 +40,12 @@ FilterSink
 Frame
 FuncHook
 FuncTool
+GEMINI_DEFAULT_BASE_URL
 Gateway
 GatewayInfo
 GatewayTool
+GeminiConfig
+GeminiModel
 HarmovelaHttpRequest
 HarmovelaHttpResponse
 HarmovelaSink
@@ -92,6 +100,7 @@ OpenAICompatibleModel
 OpenAIConfig
 PIIRedactor
 PIIRule
+PROVIDER_BASE_URLS
 ParsedToolCall
 PathAccess
 PathChecker
@@ -166,6 +175,7 @@ messageFromWire
 messageToWire
 newGatewayTools
 newPiiRule
+openAICompatibleConfig
 parseInputJson
 parseManifest
 parseToolCall

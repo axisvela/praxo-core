@@ -431,6 +431,39 @@ function strip_tool_call_markup(content: 'str') -> 'str'
 function tool_selection_middleware(selector: 'ToolSelector | None') -> 'Middleware'
 
 # module praxo.adapters
+## AnthropicConfig
+class AnthropicConfig
+constructor(api_key: 'str', model: 'str', base_url: 'str' = 'https://api.anthropic.com', version: 'str' = '2023-06-01', max_tokens: 'int' = 1024, timeout: 'float' = 60.0, headers: 'dict[str, str]' = <factory>) -> None
+field api_key: str
+field model: str
+field base_url: str = 'https://api.anthropic.com'
+field version: str = '2023-06-01'
+field max_tokens: int = 1024
+field timeout: float = 60.0
+field headers: dict[str, str] = <factory>
+
+## AnthropicModel
+class AnthropicModel
+constructor(config: 'AnthropicConfig') -> 'None'
+method generate(request: 'Request') -> 'Response'
+method generate_stream(request: 'Request', on_delta: 'Callable[[str], Any]') -> 'Response'
+
+## GeminiConfig
+class GeminiConfig
+constructor(api_key: 'str', model: 'str', base_url: 'str' = 'https://generativelanguage.googleapis.com', max_output_tokens: 'int' = 0, timeout: 'float' = 60.0, headers: 'dict[str, str]' = <factory>) -> None
+field api_key: str
+field model: str
+field base_url: str = 'https://generativelanguage.googleapis.com'
+field max_output_tokens: int = 0
+field timeout: float = 60.0
+field headers: dict[str, str] = <factory>
+
+## GeminiModel
+class GeminiModel
+constructor(config: 'GeminiConfig') -> 'None'
+method generate(request: 'Request') -> 'Response'
+method generate_stream(request: 'Request', on_delta: 'Callable[[str], Any]') -> 'Response'
+
 ## HarmovelaSink
 class HarmovelaSink
 constructor(base_url: 'str', source: 'str' = 'praxo-core', spec_version: 'str' = '0.2', transport: 'Transport | None' = None, timeout: 'float' = 30.0) -> 'None'
@@ -494,6 +527,8 @@ field api_key: str = ''
 field model: str = ''
 field timeout: float = 60.0
 field headers: dict[str, str] = <factory>
+classmethod for_provider(provider: 'str', model: 'str', api_key: 'str' = '', **kwargs: 'Any') -> 'OpenAIConfig'
+
 
 ## StdioTransport
 class StdioTransport
@@ -518,6 +553,8 @@ field api_key: str = ''
 field model: str = ''
 field timeout: float = 60.0
 field headers: dict[str, str] = <factory>
+classmethod for_provider(provider: 'str', model: 'str', api_key: 'str' = '', **kwargs: 'Any') -> 'OpenAIConfig'
+
 
 ## ROLE_ASSISTANT
 constant ROLE_ASSISTANT: str = 'assistant'

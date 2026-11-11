@@ -10,7 +10,8 @@ orchestration platform:
 - Async-first models, tools, events, and sessions.
 - Policy hooks, approvals, path checks, PII redaction, and call limits.
 - Context budgets, checkpoints, middleware, and fallback models.
-- Streaming, cancellation, and an OpenAI-compatible adapter.
+- Streaming, cancellation, and OpenAI-compatible, Anthropic, and Gemini
+  adapters.
 - No runtime dependencies; Python 3.11 or newer.
 
 ## Registry and Coding-Agent Entry
@@ -77,7 +78,7 @@ asyncio.run(main())
 | Agent loop | Tool calls, multi-step runs, parallel tools, structured output |
 | Governance | Policy hooks, tool selection, PII middleware, call limits, HITL interrupts |
 | Runtime | Context budgets, checkpoints, events, streaming, cancellation |
-| Integration | OpenAI-compatible adapter; bring your own model and tools |
+| Integration | OpenAI-compatible (OpenAI, DeepSeek, Kimi), Anthropic, and Gemini adapters; bring your own model and tools |
 
 ## Harmovela event sink
 
@@ -161,6 +162,9 @@ VFS and plugin hosts are not yet implemented.
 | `praxo.toolcall` | `parse_tool_call`, `strip_tool_call_markup` |
 | `praxo.jsonschema` | `Schema`, `ValidationError` |
 | `praxo.plugin` | Manifest v1 parsing and validation |
+| `praxo.adapters.openaicompat` | OpenAI-compatible adapter and provider presets |
+| `praxo.adapters.anthropic` | Anthropic Messages adapter |
+| `praxo.adapters.gemini` | Gemini generateContent adapter |
 | `praxo.adapters.harmovela` | Harmovela HTTP event sink |
 | `praxo.adapters.mcp` | stdio MCP client, tool listing, and registry registration |
 

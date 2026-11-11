@@ -19,6 +19,17 @@ from ..model import (
 )
 
 
+PROVIDER_BASE_URLS = {
+    "openai": "https://api.openai.com/v1",
+    "deepseek": "https://api.deepseek.com/v1",
+    "kimi": "https://api.moonshot.cn/v1",
+    "moonshot": "https://api.moonshot.cn/v1",
+    "openrouter": "https://openrouter.ai/api/v1",
+    "groq": "https://api.groq.com/openai/v1",
+    "together": "https://api.together.xyz/v1",
+}
+
+
 @dataclass
 class OpenAIConfig:
     base_url: str
@@ -26,6 +37,25 @@ class OpenAIConfig:
     model: str = ""
     timeout: float = 60.0
     headers: dict[str, str] = field(default_factory=dict)
+
+    @classmethod
+    def for_provider(
+        cls,
+        provider: str,
+        model: str,
+        api_key: str = "",
+        **kwargs: Any,
+    ) -> OpenAIConfig:
+        key = provider.strip().lower()
+        base_url = PROVIDER_BASE_URLS.get(key)
+        if base_url is None:
+            raise ValueError(f"unknown OpenAI-compatible provider: {provider}")
+        return cls(
+            base_url=base_url,
+            api_key=api_key,
+            model=model,
+            **kwargs,
+        )
 
 
 class OpenAICompatibleModel:

@@ -4,6 +4,21 @@
 契约，也不代表 provider 质量。基线不要求 streaming；支持 streaming 的实现必须单独
 声明其范围。
 
+## Provider 预设
+
+以下 provider 提供 OpenAI-compatible chat-completions 端点，使用同一适配器和对应 base URL：
+
+| Provider | Base URL |
+| --- | --- |
+| OpenAI | `https://api.openai.com/v1` |
+| DeepSeek | `https://api.deepseek.com/v1` |
+| Kimi / Moonshot | `https://api.moonshot.cn/v1` |
+| OpenRouter | `https://openrouter.ai/api/v1` |
+| Groq | `https://api.groq.com/openai/v1` |
+| Together | `https://api.together.xyz/v1` |
+
+Python 与 TypeScript 适配器提供这些预设；Anthropic 与 Gemini 使用原生适配器。
+
 ## 端点
 
 `POST {baseURL}/chat/completions`，`content-type: application/json`，可选

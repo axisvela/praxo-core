@@ -1,5 +1,13 @@
 # Python Core Release Notes
 
+## Unreleased
+
+### Added
+
+- Native Anthropic Messages and Gemini generateContent model adapters.
+- OpenAI-compatible provider presets for OpenAI, DeepSeek, Kimi/Moonshot,
+  OpenRouter, Groq, and Together.
+
 ## 0.4.1 - 2026-11-10
 
 Source tag `python/v0.4.1`. PyPI publishes `praxo-core==0.4.1` from that tag.
