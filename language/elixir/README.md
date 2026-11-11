@@ -10,8 +10,8 @@ coverage does not establish full Core parity or production readiness.
 
 The Core uses the OTP 27+ `:json` module and does not call Go or another
 language runtime. Erlang shares the BEAM runtime and does not add a second
-agent loop. An optional OpenAI-compatible adapter is included; other provider
-adapters and plugin hosts remain outside the declared Core scope.
+agent loop. OpenAI-compatible, Anthropic, Gemini, Harmovela, and MCP adapters
+are included; plugin hosts remain outside the declared Core scope.
 
 The latest Hex package is `praxo_core@0.5.1`; `0.4.1`, `0.4.0`, `0.3.0`, and
 `0.2.0` remain available. It adds Harmovela and MCP adapters and includes

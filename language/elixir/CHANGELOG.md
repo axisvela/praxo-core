@@ -1,5 +1,11 @@
 # Elixir Core Release Notes
 
+## Unreleased
+
+### Added
+
+- Native Anthropic Messages and Gemini generateContent model adapters.
+
 ## 0.5.1 - 2026-11-10
 
 Source release tag `elixir/v0.5.1`. Hex publishes `praxo_core==0.5.1` and

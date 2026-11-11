@@ -13,6 +13,9 @@ Praxo.Agent.run_agent
 Praxo.Agent.scripted_model
 Praxo.Agent.static_model
 Praxo.AgentOptions
+Praxo.Anthropic
+Praxo.Anthropic.generate
+Praxo.Anthropic.new
 Praxo.CallLimit
 Praxo.CheckpointAllowlist
 Praxo.CheckpointAllowlist.marshal
@@ -25,6 +28,9 @@ Praxo.Decision
 Praxo.Error
 Praxo.Error.message
 Praxo.Event
+Praxo.Gemini
+Praxo.Gemini.generate
+Praxo.Gemini.new
 Praxo.HarmovelaSink
 Praxo.HarmovelaSink.emit
 Praxo.HarmovelaSink.new

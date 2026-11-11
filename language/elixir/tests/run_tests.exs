@@ -42,6 +42,8 @@ defmodule Praxo.Tests do
     test_agent_hitl()
     test_sse()
     test_openai_adapter()
+    test_anthropic_adapter()
+    test_gemini_adapter()
     test_harmovela_sink()
     test_mcp()
     test_mcp_pagination_errors()
@@ -840,6 +842,108 @@ defmodule Praxo.Tests do
         check(hd(payload["tools"])["function"]["name"] == "echo", "adapter tool")
     after
       1000 -> raise "adapter payload not captured"
+    end
+  end
+
+  defp test_anthropic_adapter do
+    adapter =
+      Praxo.Anthropic.new(
+        model: "claude-test",
+        api_key: "ak",
+        transport: fn payload ->
+          send(self(), {:anthropic_payload, payload})
+
+          {:ok,
+           %{
+             "content" => [
+               %{"type" => "text", "text" => "hello"},
+               %{"type" => "tool_use", "id" => "tool-1", "name" => "echo", "input" => %{"text" => "hi"}}
+             ],
+             "stop_reason" => "end_turn",
+             "usage" => %{
+               "input_tokens" => 3,
+               "output_tokens" => 4,
+               "cache_read_input_tokens" => 2
+             }
+           }}
+        end
+      )
+
+    request =
+      Models.request(
+        [
+          %Praxo.Message{role: "system", content: "be brief"},
+          %Praxo.Message{role: "user", content: "hi"}
+        ],
+        [Models.tool_spec("echo", "Echo", %{"type" => "object"})]
+      )
+
+    {:ok, response} = adapter.(request)
+    check(response.message.content == "hello", "anthropic content")
+    [call] = response.message.tool_calls
+    check(call.name == "echo" and call.arguments["text"] == "hi", "anthropic tool call")
+    check(response.usage.input_tokens == 3 and response.usage.output_tokens == 4, "anthropic usage")
+
+    receive do
+      {:anthropic_payload, payload} ->
+        check(payload["system"] == "be brief", "anthropic system")
+        check(hd(payload["messages"])["role"] == "user", "anthropic role")
+        check(hd(payload["tools"])["input_schema"]["type"] == "object", "anthropic tools")
+    after
+      1000 -> raise "anthropic payload not captured"
+    end
+  end
+
+  defp test_gemini_adapter do
+    adapter =
+      Praxo.Gemini.new(
+        model: "gemini-test",
+        api_key: "gk",
+        transport: fn payload ->
+          send(self(), {:gemini_payload, payload})
+
+          {:ok,
+           %{
+             "candidates" => [
+               %{
+                 "content" => %{
+                   "parts" => [
+                     %{"text" => "hello"},
+                     %{"functionCall" => %{"name" => "echo", "args" => %{"text" => "hi"}}}
+                   ]
+                 },
+                 "finishReason" => "STOP"
+               }
+             ],
+             "usageMetadata" => %{
+               "promptTokenCount" => 3,
+               "candidatesTokenCount" => 4
+             }
+           }}
+        end
+      )
+
+    request =
+      Models.request(
+        [
+          %Praxo.Message{role: "system", content: "be brief"},
+          %Praxo.Message{role: "user", content: "hi"}
+        ],
+        [Models.tool_spec("echo", "Echo", %{"type" => "object"})]
+      )
+
+    {:ok, response} = adapter.(request)
+    check(response.message.content == "hello", "gemini content")
+    [call] = response.message.tool_calls
+    check(call.name == "echo" and call.arguments["text"] == "hi", "gemini tool call")
+    check(response.usage.input_tokens == 3 and response.usage.output_tokens == 4, "gemini usage")
+
+    receive do
+      {:gemini_payload, payload} ->
+        check(payload["system_instruction"]["parts"] |> hd() |> Map.get("text") == "be brief", "gemini system")
+        check(payload["toolConfig"]["functionCallingConfig"]["mode"] == "AUTO", "gemini tool mode")
+    after
+      1000 -> raise "gemini payload not captured"
     end
   end
 
