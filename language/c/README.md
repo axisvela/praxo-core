@@ -185,6 +185,34 @@ options.generate = px_openai_generate;
 options.ctx = &adapter;
 ```
 
+## Anthropic and Gemini Adapters
+
+`src/anthropic.c` and `src/gemini.c` provide the same transport-seam contract
+for the Anthropic Messages and Gemini generateContent APIs.
+
+```c
+#include "anthropic.h"
+#include "gemini.h"
+
+PxAnthropic claude = {
+    .base_url = "https://api.anthropic.com",
+    .model = "claude-sonnet-4-5",
+    .api_key = "ak",
+    .version = "2023-06-01",
+    .max_tokens = 1024,
+    .transport = post,
+};
+PxGemini gemini = {
+    .base_url = "https://generativelanguage.googleapis.com",
+    .model = "gemini-2.5-pro",
+    .api_key = "gk",
+    .transport = post,
+};
+```
+
+Both adapters map tool calls, tools schemas, usage, finish reasons, and provider
+errors. Callers supply the HTTP transport.
+
 ## Release Notes
 
 See [CHANGELOG.md](CHANGELOG.md) for per-release changes and compatibility

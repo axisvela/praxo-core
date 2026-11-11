@@ -72,6 +72,7 @@
 | Dart | native | `AnthropicModel`，同步与异步 transport |
 | Erlang | native | `praxo_anthropic` |
 | D | native (transport seam) | `AnthropicModel`；可注入 transport |
+| C | native (transport seam) | `PxAnthropic`；调用方提供 HTTP transport |
 | 其他实现 | not implemented | 仅 OpenAI-compatible 端点使用 OpenAI 兼容适配器 |
 
 ## 模型（Gemini 原生）
@@ -93,6 +94,7 @@
 | Dart | native | `GeminiModel`，同步与异步 transport |
 | Erlang | native | `praxo_gemini` |
 | D | native (transport seam) | `GeminiModel`；可注入 transport |
+| C | native (transport seam) | `PxGemini`；调用方提供 HTTP transport |
 | 其他实现 | not implemented | 原生 generateContent 映射按采用顺序推进 |
 
 ## MCP

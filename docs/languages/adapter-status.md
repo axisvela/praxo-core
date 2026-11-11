@@ -79,6 +79,7 @@ provider presets.
 | Dart | native | `AnthropicModel` with sync and async transport paths |
 | Erlang | native | `praxo_anthropic` |
 | D | native (transport seam) | `AnthropicModel`; caller may inject transport |
+| C | native (transport seam) | `PxAnthropic`; caller supplies HTTP transport |
 | All other implementations | not implemented | Use the OpenAI-compatible adapter only for OpenAI-compatible endpoints |
 
 ## Model (Gemini Native)
@@ -100,6 +101,7 @@ provider presets.
 | Dart | native | `GeminiModel` with sync and async transport paths |
 | Erlang | native | `praxo_gemini` |
 | D | native (transport seam) | `GeminiModel`; caller may inject transport |
+| C | native (transport seam) | `PxGemini`; caller supplies HTTP transport |
 | All other implementations | not implemented | Native generateContent mapping follows adoption order |
 
 ## MCP

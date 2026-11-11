@@ -1,5 +1,11 @@
 # C Core Release Notes
 
+## Unreleased
+
+### Added
+
+- Transport-seam Anthropic Messages and Gemini generateContent model adapters.
+
 ## 0.6.0 - 2026-11-02
 
 ### Added
