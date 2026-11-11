@@ -8,7 +8,7 @@ structured output validation, and call limits. Vector
 coverage does not establish full Core parity or production readiness.
 
 The Core does not call Go or another language runtime. It includes a
-non-streaming OpenAI-compatible model adapter; a plugin host remains outside the
+OpenAI-compatible, Anthropic, and Gemini model adapters; a plugin host remains outside the
 declared Core scope.
 
 Local validation uses clang 21.1.8 with GNUstep Base 1.31.1 and lld on Windows.
@@ -100,6 +100,18 @@ The parser returns `nil` when the content is not a recognized call or the
 manifest is invalid. Schema validation returns error paths. Core-local
 `PXRWireErrorDomain` and `PXRCoreErrorDomain` codes are not new shared wire
 error codes.
+
+## Anthropic and Gemini Adapters
+
+`PXRAnthropicGenerate` and `PXRGeminiGenerate` provide native Messages and
+generateContent mappings with the same `PXROpenAITransport` seam.
+
+```objc
+#import "PraxoAnthropic.h"
+#import "PraxoGemini.h"
+```
+
+Both map tool calls, tools schemas, usage, and provider errors.
 
 ## Harmovela Event Sink
 

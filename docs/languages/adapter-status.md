@@ -42,6 +42,8 @@ Status words:
 | Delphi / Free Pascal | native | `TPraxoAnthropicAdapter`; FPC HTTP transport |
 | Delphi / Free Pascal | native | `TPraxoGeminiAdapter`; FPC HTTP transport |
 | Objective-C | native | `PXROpenAIGenerate` with injectable transport |
+| Objective-C | native | `PXRAnthropicGenerate` with injectable transport |
+| Objective-C | native | `PXRGeminiGenerate` with injectable transport |
 | MATLAB | native | `praxo.openai_compatible` using `webwrite` |
 | GNU Octave | native | Shared `praxo.openai_compatible` implementation |
 | Zig | native | `openaicompat.Adapter` with `std.http` |
