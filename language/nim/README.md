@@ -8,7 +8,7 @@ agent tool selection, PII redaction, structured output, and call limits. Vector
 coverage does not establish full Core parity or production readiness.
 
 The Core does not call Go or another language runtime. It includes an optional
-OpenAI-compatible model adapter; other provider adapters and plugin hosts remain
+OpenAI-compatible, Anthropic, and Gemini model adapters; plugin hosts remain
 outside the declared Core scope.
 
 ## Registry and Coding-Agent Entry
@@ -105,6 +105,17 @@ unbounded. Limits are checked before invoking the model or tool and reset for
 each run; a fallback model counts as one agent model call.
 
 Public declarations are inventoried in [`api/0.1.1.txt`](api/0.1.1.txt).
+
+## Anthropic and Gemini Adapters
+
+`newAnthropicCompatible` and `newGeminiCompatible` provide native model adapters
+for the Messages and generateContent APIs. Both accept an injected transport for
+deterministic tests.
+
+```nim
+let claude = newAnthropicCompatible("https://api.anthropic.com", "claude-sonnet-4-5", apiKey = "ak")
+let gemini = newGeminiCompatible("https://generativelanguage.googleapis.com", "gemini-2.5-pro", apiKey = "gk")
+```
 
 ## Harmovela Event Sink
 

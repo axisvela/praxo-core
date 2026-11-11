@@ -4,6 +4,8 @@ import std/strutils
 import std/times
 
 import praxo
+import praxo/adapters/anthropic
+import praxo/adapters/gemini
 
 proc testJson() =
   let value = parseJsonText("""{"name":"echo","input":{"text":"hi"}}""")
@@ -409,6 +411,62 @@ proc testOpenAICompatible() =
   assert captured["messages"][0]["tool_calls"][0]["function"]["arguments"].getStr() ==
     """{"text":"bye"}"""
 
+proc testAnthropicCompatible() =
+  var capturedPath = ""
+  var captured: JsonNode
+  let adapter = newAnthropicCompatible(
+    baseUrl = "http://example.test",
+    model = "claude-test",
+    apiKey = "ak",
+    transport = proc(path: string, payload: JsonNode): JsonNode =
+      capturedPath = path
+      captured = payload
+      return parseJsonText("""{"content":[{"type":"text","text":"hello"},
+        {"type":"tool_use","id":"tool-1","name":"echo",
+        "input":{"text":"hi"}}],"stop_reason":"end_turn",
+        "usage":{"input_tokens":3,"output_tokens":4,
+        "cache_read_input_tokens":2}}""")
+  )
+  var request = newRequest(@[newMessage(ROLE_SYSTEM, "be brief"),
+                             newMessage(ROLE_USER, "hi")],
+                           @[newToolSpec("echo", "Echo")])
+  request.toolChoice = "auto"
+  let response = adapter.generate(request)
+  assert capturedPath == "/v1/messages"
+  assert getString(captured, "system") == "be brief"
+  assert captured["tools"][0]["input_schema"]["type"].getStr() == "object"
+  assert response.message.content == "hello"
+  assert response.message.toolCalls[0].id == "tool-1"
+  assert response.message.toolCalls[0].arguments["text"].getStr() == "hi"
+  assert response.usage.inputTokens == 3
+
+proc testGeminiCompatible() =
+  var capturedPath = ""
+  var captured: JsonNode
+  let adapter = newGeminiCompatible(
+    baseUrl = "http://example.test",
+    model = "gemini-test",
+    apiKey = "gk",
+    transport = proc(path: string, payload: JsonNode): JsonNode =
+      capturedPath = path
+      captured = payload
+      return parseJsonText("""{"candidates":[{"content":{"parts":[
+        {"text":"hello"},
+        {"functionCall":{"name":"echo","args":{"text":"hi"}}}]},
+        "finishReason":"STOP"}],"usageMetadata":{"promptTokenCount":3,
+        "candidatesTokenCount":4}}""")
+  )
+  var request = newRequest(@[newMessage(ROLE_SYSTEM, "be brief"),
+                             newMessage(ROLE_USER, "hi")],
+                           @[newToolSpec("echo", "Echo")])
+  request.toolChoice = "auto"
+  let response = adapter.generate(request)
+  assert capturedPath.contains(":generateContent")
+  assert captured["system_instruction"]["parts"][0]["text"].getStr() == "be brief"
+  assert captured["toolConfig"]["functionCallingConfig"]["mode"].getStr() == "AUTO"
+  assert response.message.content == "hello"
+  assert response.message.toolCalls[0].name == "echo"
+
 proc testHarmovelaSink() =
   var capturedPath = ""
   var capturedBody = ""
@@ -457,5 +515,7 @@ proc testHarmovelaSink() =
   assert caught == "HARMOVELA_HTTP"
 
 testOpenAICompatible()
+testAnthropicCompatible()
+testGeminiCompatible()
 testHarmovelaSink()
 echo "nim tests passed"
