@@ -17,6 +17,12 @@ version lines. A release must document its scope and compatibility impact.
 
 ## Automated Checks
 
+The `ci` workflow is layered. Push and pull-request runs execute the Go core
+gate plus jobs for changed `language/<lang>` paths; shared `spec/`, `scripts/`,
+or workflow changes force the full matrix. The complete matrix runs nightly,
+on `*/v*` tag pushes, and on manual dispatch. Skipped language jobs are
+intentional for unaffected paths.
+
 The core release workflow requires successful `ci` and `docs` push workflows
 for the tagged commit's exact SHA on `main`, before a separate job receives
 release-write permissions. Missing, unfinished, skipped, cancelled, or failed

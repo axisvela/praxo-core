@@ -3,13 +3,46 @@ name: ci
 on:
   push:
     branches: [main]
+    tags: ['*/v*']
   pull_request:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 3 * * *'
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 permissions:
   contents: read
 
 jobs:
+  changes:
+    runs-on: ubuntu-latest
+    outputs:
+      full: ${{ steps.filter.outputs.full }}
+      core: ${{ steps.filter.outputs.core }}
+      docs: ${{ steps.filter.outputs.docs }}
+      examples: ${{ steps.filter.outputs.examples }}
+      consumers: ${{ steps.filter.outputs.consumers }}
+      adapters: ${{ steps.filter.outputs.adapters }}
+      languages: ${{ steps.filter.outputs.languages }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - id: filter
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          REF_TYPE: ${{ github.ref_type }}
+          PR_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          PUSH_BEFORE: ${{ github.event.before }}
+          HEAD_SHA: ${{ github.sha }}
+        run: python scripts/ci_changes.py
+
   current-java-consumer:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || needs.changes.outputs.consumers == 'true'
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -32,6 +65,8 @@ jobs:
       - run: python scripts/test_java_upgrade.py -v
 
   current-typescript-consumer:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || needs.changes.outputs.consumers == 'true'
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -61,6 +96,8 @@ jobs:
         working-directory: .
 
   current-python-consumer:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || needs.changes.outputs.consumers == 'true'
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -75,6 +112,8 @@ jobs:
       - run: python scripts/test_python_upgrade.py -v
 
   current-go-consumer:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || needs.changes.outputs.consumers == 'true'
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -129,6 +168,8 @@ jobs:
         working-directory: .
 
   current-ruby-consumer:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || needs.changes.outputs.consumers == 'true'
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -142,6 +183,8 @@ jobs:
       - run: bundle exec ruby test_starter.rb
 
   current-php-consumer:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || needs.changes.outputs.consumers == 'true'
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -156,6 +199,8 @@ jobs:
       - run: composer test
 
   current-elixir-consumer:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || needs.changes.outputs.consumers == 'true'
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -170,6 +215,8 @@ jobs:
       - run: mix run test_starter.exs
 
   current-lua-consumer:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || needs.changes.outputs.consumers == 'true'
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -190,6 +237,8 @@ jobs:
             lua5.4 test_starter.lua
 
   published-consumer:
+    needs: changes
+    if: needs.changes.outputs.full == 'true'
     runs-on: ubuntu-latest
     env:
       GOWORK: "off"
@@ -207,6 +256,8 @@ jobs:
       - run: go build -mod=readonly ./...
 
   test:
+    needs: changes
+    if: needs.changes.outputs.core == 'true'
     strategy:
       fail-fast: false
       matrix:
@@ -236,6 +287,8 @@ jobs:
         run: ./scripts/api-snapshot.ps1 -Check
 
   containment-linux:
+    needs: changes
+    if: needs.changes.outputs.core == 'true'
     runs-on: ubuntu-latest
     env:
       GOWORK: "off"
@@ -248,6 +301,8 @@ jobs:
         run: go test -count=1 -v -timeout 10m ./pkg/policy ./pkg/vfs/localfs ./pkg/plugin/host/process ./pkg/plugin/host/wasm
 
   spec-conformance:
+    needs: changes
+    if: needs.changes.outputs.core == 'true'
     runs-on: ubuntu-latest
     env:
       GOWORK: "off"
@@ -259,6 +314,8 @@ jobs:
       - run: go test -count=1 ./internal/spec/... -v
 
   privacy:
+    needs: changes
+    if: needs.changes.outputs.core == 'true'
     runs-on: ubuntu-latest
     env:
       GOWORK: "off"
@@ -275,6 +332,8 @@ jobs:
           PRAXO_DISALLOWED_EMAIL_DOMAINS: ${{ secrets.PRAXO_DISALLOWED_EMAIL_DOMAINS }}
 
   python-conformance:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'python')
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -306,6 +365,8 @@ jobs:
           "$RUNNER_TEMP/praxo-py-sdist/bin/python" "$GITHUB_WORKSPACE/language/python/tests/installed_smoke.py"
 
   haskell-conformance:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'haskell')
     strategy:
       fail-fast: false
       matrix:
@@ -325,6 +386,8 @@ jobs:
         working-directory: language/haskell
 
   matlab-conformance:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'matlab')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -335,6 +398,8 @@ jobs:
       - run: python language/matlab/run-tests.py --octave octave-cli
 
   octave-conformance:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'octave')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -345,6 +410,8 @@ jobs:
       - run: python language/octave/run-tests.py --octave octave-cli
 
   octave-package:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'octave')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -356,6 +423,8 @@ jobs:
       - run: octave-cli --quiet --eval "pkg install '$PWD/language/octave/build/octave/praxo-core-0.2.1.tar.gz'; pkg load praxo-core; assert(strcmp(praxo.sdk_version(), '0.2.1'));"
 
   delphi-conformance:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'delphi')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -366,6 +435,8 @@ jobs:
       - run: python language/delphi/run-tests.py --compiler fpc
 
   ocaml-conformance:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'ocaml')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -376,6 +447,8 @@ jobs:
       - run: python language/ocaml/run-tests.py --compiler ocamlc
 
   objc-conformance:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'objc')
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v4
@@ -385,6 +458,8 @@ jobs:
       - run: python language/objc/run-tests.py --compiler clang
 
   elixir-conformance:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'elixir')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -404,6 +479,8 @@ jobs:
       - run: elixir -pa language/elixir/build/ebin language/elixir/conformance/run.exs
 
   erlang-conformance:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'erlang')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -419,6 +496,8 @@ jobs:
       - run: python language/erlang/api-snapshot.py --check
 
   nim-conformance:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'nim')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -436,6 +515,8 @@ jobs:
       - run: ./build/praxo-nim-tests
 
   v-conformance:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'v')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -459,6 +540,8 @@ jobs:
       - run: ./build/praxo-v-tests
 
   lisp-bridge:
+    needs: changes
+    if: needs.changes.outputs.core == 'true'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -472,6 +555,8 @@ jobs:
       - run: python bindings/lisp/test_bridge.py
 
   tcl-bridge:
+    needs: changes
+    if: needs.changes.outputs.core == 'true'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -485,6 +570,8 @@ jobs:
       - run: python bindings/tcl/test_bridge.py
 
   typescript-conformance:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'typescript')
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -513,6 +600,8 @@ jobs:
           PRAXO_CONSUMER_ROOT="$consumer" node installed-smoke.js
 
   java-conformance:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'java')
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -540,6 +629,8 @@ jobs:
       - run: java -cp target/classes:target/test-classes com.axisvela.praxo.middleware.PiiMiddlewareSelfTest
 
   kotlin-sample:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'java')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -554,6 +645,8 @@ jobs:
       - run: java -cp examples/kotlin/sample.jar:language/java/build/classes SampleKt
 
   scala-sample:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'java')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -566,6 +659,8 @@ jobs:
       - run: scala-cli run examples/scala/sample.scala --classpath language/java/build/classes --server=false --jvm 21
 
   groovy-sample:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'java')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -579,6 +674,8 @@ jobs:
       - run: groovy-4.0.24/bin/groovy -cp language/java/build/classes examples/groovy/sample.groovy
 
   clojure-sample:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'java')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -591,6 +688,8 @@ jobs:
       - run: CLASSPATH=language/java/build/classes clojure examples/clojure/sample.clj
 
   opencl-sample:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'c')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -600,6 +699,8 @@ jobs:
       - run: ./build/opencl-sample
 
   prolog-bridge:
+    needs: changes
+    if: needs.changes.outputs.core == 'true'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -613,6 +714,8 @@ jobs:
       - run: python bindings/prolog/test_bridge.py
 
   c-conformance:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'c')
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -637,6 +740,8 @@ jobs:
           "$RUNNER_TEMP/praxo-c-consumer"
 
   csharp-conformance:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'csharp')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -651,6 +756,8 @@ jobs:
       - run: dotnet run --project examples/fsharp/Praxo.FSharp.Sample.fsproj -c Release
 
   php-conformance:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'php')
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -665,6 +772,8 @@ jobs:
       - run: php language/php/tests/run.php
 
   php-windows-conformance:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'php')
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v4
@@ -676,6 +785,8 @@ jobs:
       - run: php language/php/tests/run.php
 
   swift-conformance:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'swift')
     runs-on: macos-latest
     defaults:
       run:
@@ -687,6 +798,8 @@ jobs:
       - run: python3 api-snapshot.py --check
 
   fortran-conformance:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'fortran')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -698,6 +811,8 @@ jobs:
       - run: python3 language/fortran/run-tests.py
 
   cobol-conformance:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'cobol')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -709,6 +824,8 @@ jobs:
       - run: python3 language/cobol/run-tests.py
 
   d-conformance:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'd')
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -731,6 +848,8 @@ jobs:
       - run: python3 api-snapshot.py --check
 
   zig-conformance:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'zig')
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -751,6 +870,8 @@ jobs:
       - run: python3 api-snapshot.py --check
 
   dart-conformance:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'dart')
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -765,6 +886,8 @@ jobs:
       - run: dart run test/run.dart
 
   javascript-sample:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'typescript')
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -779,6 +902,8 @@ jobs:
       - run: node ../../examples/javascript/sample.mjs
 
   lua-conformance:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'lua')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -796,6 +921,8 @@ jobs:
             lua5.4 language/lua/tests/installed_smoke.lua
 
   ruby-conformance:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'ruby')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -807,6 +934,8 @@ jobs:
       - run: ruby language/ruby/tests/run.rb
 
   cpp-conformance:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'cpp')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -816,6 +945,8 @@ jobs:
       - run: python3 language/cpp/api-snapshot.py --check
 
   perl-conformance:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'perl')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -824,6 +955,8 @@ jobs:
       - run: perl language/perl/tests/run.pl
 
   julia-conformance:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'julia')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -836,6 +969,8 @@ jobs:
       - run: julia --project=language/julia language/julia/test/runtests.jl
 
   r-conformance:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'r')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -847,6 +982,8 @@ jobs:
       - run: Rscript language/r/tests/run_tests.R
 
   bridge:
+    needs: changes
+    if: needs.changes.outputs.core == 'true'
     runs-on: ubuntu-latest
     env:
       GOWORK: "off"
@@ -861,6 +998,8 @@ jobs:
       - run: pwsh -NoProfile -Command "Import-Module ./bindings/powershell/praxo-core-ps-br/praxo-core-ps-br.psm1; Invoke-PraxoBridge -Arguments @('version')"
 
   powershell-core:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'powershell')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -874,6 +1013,8 @@ jobs:
       - run: pwsh -NoProfile -File language/powershell/api-snapshot.ps1 -Check
 
   rust-conformance:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'rust')
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -890,6 +1031,8 @@ jobs:
       - run: python -m unittest discover -s tests -p "test_*.py" -v
 
   compatibility-lab:
+    needs: changes
+    if: needs.changes.outputs.full == 'true'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -919,6 +1062,8 @@ jobs:
           if-no-files-found: warn
 
   behavior-lab:
+    needs: changes
+    if: needs.changes.outputs.full == 'true'
     runs-on: ubuntu-latest
     env:
       GOWORK: "off"
@@ -975,6 +1120,8 @@ jobs:
           if-no-files-found: warn
 
   examples:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || needs.changes.outputs.examples == 'true'
     runs-on: ubuntu-latest
     env:
       GOWORK: "off"
@@ -997,6 +1144,8 @@ jobs:
         working-directory: examples/ecosystem/mcp
 
   adapters:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || needs.changes.outputs.adapters == 'true'
     runs-on: ubuntu-latest
     env:
       GOWORK: "off"
@@ -1079,6 +1228,8 @@ jobs:
         working-directory: adapters/workspace/cubesandbox
 
   module-security:
+    needs: changes
+    if: needs.changes.outputs.full == 'true'
     strategy:
       fail-fast: false
       matrix:
@@ -1114,6 +1265,8 @@ jobs:
       - run: go run golang.org/x/vuln/cmd/govulncheck@latest ./...
 
   benchmarks:
+    needs: changes
+    if: needs.changes.outputs.full == 'true'
     runs-on: ubuntu-latest
     env:
       GOWORK: "off"
@@ -1125,6 +1278,8 @@ jobs:
       - run: go test ./benchmarks -run=^$ -bench '.*' -benchtime=10x
 
   race:
+    needs: changes
+    if: needs.changes.outputs.full == 'true'
     runs-on: ubuntu-latest
     env:
       GOWORK: "off"
@@ -1136,6 +1291,8 @@ jobs:
       - run: go test -race ./...
 
   fuzz:
+    needs: changes
+    if: needs.changes.outputs.full == 'true'
     runs-on: ubuntu-latest
     env:
       GOWORK: "off"
@@ -1150,6 +1307,8 @@ jobs:
       - run: go test ./pkg/policy -run=^$ -fuzz=FuzzPathChecker -fuzztime=5s
 
   quality:
+    needs: changes
+    if: needs.changes.outputs.full == 'true'
     runs-on: ubuntu-latest
     env:
       GOWORK: "off"
