@@ -2,7 +2,7 @@
 
 Last checked: 2026-11-12 (Python 0.5.0, TypeScript 0.4.1, Java 0.6.0, Rust
 0.5.0, C# 0.5.0, Elixir 0.6.0, Erlang 0.5.0, Ruby 0.5.0, Dart 0.2.0, Perl 0.2.0,
-Haskell 0.3.0, PowerShell 0.3.1, and R 0.7.1 published; Go `v2.7.0` remains
+Haskell 0.4.0, PowerShell 0.3.1, and R 0.7.1 published; Go `v2.7.0` remains
 current; other rows from the 2026-11-04/05 audit).
 
 This page summarizes where each language implementation is published. Source
@@ -46,7 +46,7 @@ GitHub Latest represents the Go Reference Core only, not the last language packa
 | PowerShell Core | PowerShell Gallery | `0.3.1` | https://www.powershellgallery.com/packages/praxo-core-ps/0.3.1 | published |
 | PowerShell Bridge | PowerShell Gallery | `0.1.0` | https://www.powershellgallery.com/packages/praxo-core-ps-br/0.1.0 | published |
 | Perl | CPAN | `0.2.0` | https://metacpan.org/dist/Praxo-Core | published and indexed on MetaCPAN |
-| Haskell | Hackage | `0.3.0` | https://hackage.haskell.org/package/praxo-core-0.3.0 | published |
+| Haskell | Hackage | `0.4.0` | https://hackage.haskell.org/package/praxo-core-0.4.0 | published |
 | R | r-universe | `0.7.1` | https://axisvela.r-universe.dev/praxocore | r-universe only; CRAN not published |
 | Nim | nim-lang/packages (Nimble) | `0.1.1` | https://github.com/axisvela/praxo-core-nim | split repo published; nim-lang/packages PR #3600 merged 2026-11-05; install smoke not recorded; nimpkgs re-crawl pending |
 

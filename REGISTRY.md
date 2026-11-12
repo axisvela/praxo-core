@@ -26,7 +26,7 @@ controls, checkpoints, and event tracing. It is not a Go-only framework.
 | Lua | `praxo-core` | [LuaRocks](https://luarocks.org/modules/hanhhuiwen/praxo-core) | `0.5.0-1` | https://axisvela.github.io/praxo-core/languages/lua/ |
 | Perl | `Praxo::Core` | [CPAN (MetaCPAN index)](https://metacpan.org/dist/Praxo-Core) | `0.2.0` | https://axisvela.github.io/praxo-core/languages/perl/ |
 | OCaml | `praxo-core` | [opam (pending)](https://github.com/axisvela/praxo-core-ocaml) | `0.3.0` | https://axisvela.github.io/praxo-core/languages/ocaml/ |
-| Haskell | `praxo-core` | [Hackage](https://hackage.haskell.org/package/praxo-core-0.3.0) | `0.3.0` | https://axisvela.github.io/praxo-core/languages/haskell/ |
+| Haskell | `praxo-core` | [Hackage](https://hackage.haskell.org/package/praxo-core-0.4.0) | `0.4.0` | https://axisvela.github.io/praxo-core/languages/haskell/ |
 | Julia | `PraxoCore` | [Julia General (pending)](https://github.com/axisvela/praxo-core-julia) | `0.2.0` | https://axisvela.github.io/praxo-core/languages/julia/ |
 | Swift | `praxo-core-swift` | [Swift Package Index](https://swiftpackageindex.com/axisvela/praxo-core-swift) | `0.2.0` | https://axisvela.github.io/praxo-core/languages/swift/ |
 | Nim | `praxo_core` | [Nimble/nim-lang packages](https://github.com/axisvela/praxo-core-nim) | `0.1.1` | https://axisvela.github.io/praxo-core/languages/nim/ |
