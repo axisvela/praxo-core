@@ -7,13 +7,18 @@ use serde_json::{json, Map, Value};
 use crate::errors::{PraxoError, Result};
 use crate::tool::{Registry, Tool};
 
+use super::http::HttpInner;
 use super::session::Inner;
-use super::{McpServerConfig, McpTool, McpToolAdapter, DEFAULT_PROTOCOL_VERSION};
+use super::{
+    McpBackend, McpHttpTransport, McpServerConfig, McpTool, McpToolAdapter,
+    DEFAULT_PROTOCOL_VERSION, HTTP_PROTOCOL_VERSION,
+};
 
 const DEFAULT_TIMEOUT: Duration = Duration::from_secs(30);
 
 pub struct McpClient {
-    inner: Arc<Inner>,
+    inner: Arc<dyn McpBackend>,
+    requested_protocol_version: String,
 }
 
 impl McpClient {
@@ -22,8 +27,31 @@ impl McpClient {
     }
 
     pub fn connect_with_timeout(config: McpServerConfig, timeout: Duration) -> Result<Self> {
-        let inner = Inner::spawn(config, timeout)?;
-        let client = Self { inner };
+        let inner: Arc<dyn McpBackend> = Inner::spawn(config, timeout)?;
+        Self::from_backend(inner, DEFAULT_PROTOCOL_VERSION)
+    }
+
+    pub fn connect_http(transport: Arc<dyn McpHttpTransport>) -> Result<Self> {
+        Self::connect_http_with_timeout(transport, DEFAULT_TIMEOUT)
+    }
+
+    pub fn connect_http_with_timeout(
+        transport: Arc<dyn McpHttpTransport>,
+        timeout: Duration,
+    ) -> Result<Self> {
+        let inner: Arc<dyn McpBackend> = Arc::new(HttpInner::new(
+            transport,
+            timeout,
+            HTTP_PROTOCOL_VERSION.to_string(),
+        ));
+        Self::from_backend(inner, HTTP_PROTOCOL_VERSION)
+    }
+
+    fn from_backend(inner: Arc<dyn McpBackend>, protocol_version: &str) -> Result<Self> {
+        let client = Self {
+            inner,
+            requested_protocol_version: protocol_version.to_string(),
+        };
         if let Err(error) = client.initialize() {
             client.inner.close();
             return Err(error);
@@ -140,7 +168,7 @@ impl McpClient {
 
     fn initialize(&self) -> Result<()> {
         let params = json!({
-            "protocolVersion": DEFAULT_PROTOCOL_VERSION,
+            "protocolVersion": &self.requested_protocol_version,
             "capabilities": {},
             "clientInfo": {
                 "name": "praxo-core",

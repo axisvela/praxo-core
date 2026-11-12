@@ -9,6 +9,7 @@ from .mcp import (
     MCPTransport,
     StdioTransport,
 )
+from .mcp_http import StreamableHTTPConfig, StreamableHTTPTransport
 from .openaicompat import (
     PROVIDER_BASE_URLS,
     OpenAIConfig,
@@ -30,4 +31,6 @@ __all__ = [
     "OpenAICompatibleModel",
     "PROVIDER_BASE_URLS",
     "StdioTransport",
+    "StreamableHTTPConfig",
+    "StreamableHTTPTransport",
 ]

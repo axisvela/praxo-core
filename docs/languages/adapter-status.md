@@ -134,25 +134,41 @@ provider presets.
 
 | Language | Status | Notes |
 | --- | --- | --- |
-| Go | native | `adapters/mcp` |
-| Python | native | `praxo.adapters.mcp.MCPClient`; stdio JSON-RPC with fake-server tests |
-| TypeScript | native | `src/adapters/mcp.ts`; stdio JSON-RPC with fake-server tests |
-| Java | native | `adapters.McpClient`; stdio JSON-RPC with fake-server self-test |
-| Rust | native | `mcp::McpClient`; stdio JSON-RPC with fake-server tests |
-| C# | native | `Praxo.Core.Adapters.McpClient`; stdio JSON-RPC with fake-server tests |
+| Go | native | `adapters/mcp`; stdio and Streamable HTTP 2025-03-26 |
+| Python | native | `praxo.adapters.mcp.MCPClient`; stdio, plus `mcp_http.StreamableHTTPTransport` for Streamable HTTP 2025-03-26 |
+| TypeScript | native | `src/adapters/mcp.ts`; stdio, plus `src/adapters/mcp-http.ts` for Streamable HTTP 2025-03-26 |
+| Java | native | `adapters.McpClient`; stdio, plus `McpStreamableHttpTransport` for Streamable HTTP 2025-03-26 (local runtime verification pending) |
+| Rust | native | `mcp::McpClient`; stdio, plus `McpClient::connect_http` over a caller-supplied `McpHttpTransport` seam for Streamable HTTP 2025-03-26 |
+| C# | native | `Praxo.Core.Adapters.McpClient`; stdio, plus `McpStreamableHttpTransport` for Streamable HTTP 2025-03-26 |
 | R | native (transport seam) | `mcp_client`; base R needs caller-supplied transport for stdio |
-| Elixir | native | `Praxo.Mcp`; stdio JSON-RPC with fake-server tests |
-| Ruby | native | `Praxo::Adapters::MCPClient`; stdio JSON-RPC with injectable IO |
-| PHP | native | `Praxo\Core\Adapters\MCPClient`; stdio JSON-RPC |
-| Dart | native | `McpClient`; stdio JSON-RPC with sync/async transport seams |
-| Erlang | native | `praxo_mcp`; stdio JSON-RPC with injectable transport |
+| Elixir | native | `Praxo.Mcp`; stdio, plus `Praxo.McpHttp.transport` for Streamable HTTP 2025-03-26 |
+| Ruby | native | `Praxo::Adapters::MCPClient`; stdio, plus `HttpMCPTransport` for Streamable HTTP 2025-03-26 |
+| PHP | native | `Praxo\Core\Adapters\MCPClient`; stdio, plus `HttpMCPTransport` for Streamable HTTP 2025-03-26 |
+| Dart | native | `McpClient`; stdio, plus `McpStreamableHttpTransport` for Streamable HTTP 2025-03-26 |
+| Erlang | native | `praxo_mcp`; stdio, plus `praxo_mcp_http:transport/2` for Streamable HTTP 2025-03-26 |
+| Perl | native | `Praxo::Adapters::MCP`; stdio, plus `Praxo::Adapters::MCPHTTP` for Streamable HTTP 2025-03-26 |
+| D | native | `praxo.mcp.McpClient`; stdio, plus `HttpMcpTransport` for Streamable HTTP 2025-03-26 |
+| Delphi / Free Pascal | native | `TPraxoMcpClient`; stdio and `TPraxoHttpMcpTransport` for Streamable HTTP 2025-03-26 |
+| Objective-C | native | `PXRMcpClient`; stdio and `PXRHttpMcpTransport` for Streamable HTTP 2025-03-26 |
+| Zig | native | `mcp.Client`; stdio and curl-backed `HttpTransport` for Streamable HTTP 2025-03-26 |
+| Swift | native | `McpClient`, `StdioMcpTransport`, `HttpMcpTransport`; typechecked locally, full build blocked |
 | Lua | native (transport seam) | `praxo.adapters.mcp`; caller supplies transport |
-| All other implementations | not implemented | Native MCP clients follow the model baseline in adoption order |
+| All other implementations | not implemented | MCP clients follow the model baseline in adoption order. Missing clients are not yet implemented, not a documented language limitation: a native stdio client or a caller-supplied request/response transport seam is feasible wherever the runtime can provide the transport. |
 
 MCP support means a minimal client session that can initialize, list tools with
 pagination, and call a tool. It does not imply a hosted MCP service, schema
-promotion, or production authentication. The Python and TypeScript clients are
-stdio pilots; no live MCP server or remote transport is claimed.
+promotion, or production authentication. The Go reference provides stdio and
+Streamable HTTP 2025-03-26; the other listed clients are stdio or
+transport-seam pilots and do not implement Streamable HTTP yet. No live MCP
+server or remote-service evidence is claimed.
+
+COBOL is not blocked by MCP itself: MCP is JSON-RPC, not HTTP, and the COBOL Core
+already has JSON parsing/generation. The missing piece is a transport. A portable
+implementation would add a caller-supplied MCP transport callback (like the Lua
+and R seams) and reuse the existing JSON utilities; a native stdio child process
+is not required. COBOL's separate OpenAI-compatible gap is different: it also
+needs an HTTP transport decision and a model-callback extension for tool specs
+and assistant tool-call history.
 
 ## Harmovela
 

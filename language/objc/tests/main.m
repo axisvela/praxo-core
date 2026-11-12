@@ -7,7 +7,7 @@
 static NSUInteger failures = 0;
 static NSUInteger checks = 0;
 
-void runCorrelationTests(void (*check)(BOOL, NSString *)); void runMiddlewareIntegrationTests(void (*check)(BOOL, NSString *)); void runOpenAIAdapterTests(void (*check)(BOOL, NSString *)); void runProviderAdapterTests(void (*check)(BOOL, NSString *)); void runHarmovelaTests(void (*check)(BOOL, NSString *));
+void runCorrelationTests(void (*check)(BOOL, NSString *)); void runMiddlewareIntegrationTests(void (*check)(BOOL, NSString *)); void runOpenAIAdapterTests(void (*check)(BOOL, NSString *)); void runProviderAdapterTests(void (*check)(BOOL, NSString *)); void runHarmovelaTests(void (*check)(BOOL, NSString *)); void runMcpTests(void (*check)(BOOL, NSString *));
 
 static void check(BOOL condition, NSString *message) {
     checks++;
@@ -473,6 +473,7 @@ int main(int argc, const char *argv[]) {
         runOpenAIAdapterTests(check);
         runProviderAdapterTests(check);
         runHarmovelaTests(check);
+        runMcpTests(check);
         NSArray *relativeChecker = PXRPathCheckerCreate(@[PXRPathGrantCreate(@"allowed", @"read")], nil);
         check(!PXRPathAllowed(relativeChecker, @"../allowed/secret", @"read"),
               @"relative target outside root");

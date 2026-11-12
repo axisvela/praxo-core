@@ -8,6 +8,7 @@ defmodule Praxo.Mcp do
   @default_protocol_version "2024-11-05"
 
   defstruct port: nil,
+            transport: nil,
             timeout: 30_000,
             protocol_version: "",
             server_info: %{},
@@ -18,24 +19,47 @@ defmodule Praxo.Mcp do
   def default_protocol_version, do: @default_protocol_version
 
   def connect(options \\ []) do
-    with {:ok, port} <- Praxo.Mcp.Transport.open(options) do
-      client = %__MODULE__{
-        port: port,
-        timeout: Keyword.get(options, :timeout, 30_000)
-      }
+    case Keyword.get(options, :transport) do
+      nil ->
+        with {:ok, port} <- Praxo.Mcp.Transport.open(options) do
+          client = %__MODULE__{
+            port: port,
+            timeout: Keyword.get(options, :timeout, 30_000)
+          }
 
-      case handshake(client, options) do
-        {:ok, client} ->
-          {:ok, client}
+          case handshake(client, options) do
+            {:ok, client} ->
+              {:ok, client}
 
-        {:error, error} ->
-          Praxo.Mcp.Transport.close(port)
-          {:error, error}
-      end
+            {:error, error} ->
+              Praxo.Mcp.Transport.close(port)
+              {:error, error}
+          end
+        end
+
+      transport ->
+        client = %__MODULE__{
+          transport: transport,
+          timeout: Keyword.get(options, :timeout, 30_000)
+        }
+
+        case handshake(client, options) do
+          {:ok, client} ->
+            {:ok, client}
+
+          {:error, error} ->
+            transport.close.()
+            {:error, error}
+        end
     end
   end
 
   def close(%__MODULE__{closed: true}), do: :ok
+
+  def close(%__MODULE__{transport: transport}) when not is_nil(transport) do
+    transport.close.()
+    :ok
+  end
 
   def close(%__MODULE__{port: port}) do
     Praxo.Mcp.Transport.close(port)
@@ -103,27 +127,32 @@ defmodule Praxo.Mcp do
   end
 
   def request(%__MODULE__{} = client, method, params, options) do
-    id = System.unique_integer([:positive, :monotonic])
-    message = %{"jsonrpc" => "2.0", "id" => id, "method" => method}
-
-    message =
-      if params == nil do
-        message
-      else
-        Map.put(message, "params", params)
-      end
-
-    with :ok <- send_message(client, message) do
+    if client.transport do
       timeout = Keyword.get(options, :timeout, client.timeout)
-      cancel = Keyword.get(options, :cancel)
-      receive_response(
-        client.port,
-        id,
-        method,
-        Praxo.Mcp.Transport.deadline(timeout),
-        cancel,
-        timeout
-      )
+      client.transport.request.(method, params, timeout)
+    else
+      id = System.unique_integer([:positive, :monotonic])
+      message = %{"jsonrpc" => "2.0", "id" => id, "method" => method}
+
+      message =
+        if params == nil do
+          message
+        else
+          Map.put(message, "params", params)
+        end
+
+      with :ok <- send_message(client, message) do
+        timeout = Keyword.get(options, :timeout, client.timeout)
+        cancel = Keyword.get(options, :cancel)
+        receive_response(
+          client.port,
+          id,
+          method,
+          Praxo.Mcp.Transport.deadline(timeout),
+          cancel,
+          timeout
+        )
+      end
     end
   end
 
@@ -330,16 +359,21 @@ defmodule Praxo.Mcp do
   end
 
   defp send_notification(%__MODULE__{} = client, method, params) do
-    message = %{"jsonrpc" => "2.0", "method" => method}
+    if client.transport do
+      client.transport.notify.(method, params || %{})
+      :ok
+    else
+      message = %{"jsonrpc" => "2.0", "method" => method}
 
-    message =
-      if params == nil do
-        message
-      else
-        Map.put(message, "params", params)
-      end
+      message =
+        if params == nil do
+          message
+        else
+          Map.put(message, "params", params)
+        end
 
-    send_message(client, message)
+      send_message(client, message)
+    end
   end
 
   defp send_message(%__MODULE__{port: port}, message) do

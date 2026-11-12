@@ -10,6 +10,8 @@ new(Options) ->
         args => maps:get(args, Options, []),
         env => maps:get(env, Options, []),
         transport => maps:get(transport, Options, undefined),
+        requested_protocol_version =>
+            maps:get(protocol_version, Options, ?DEFAULT_PROTOCOL),
         timeout => maps:get(timeout, Options, ?DEFAULT_TIMEOUT),
         client_version => maps:get(client_version, Options, <<"0.5.0">>),
         port => undefined,
@@ -25,7 +27,9 @@ start(Client) ->
             case ensure_port(Client) of
                 {ok, Ready} ->
                     case request(Ready, <<"initialize">>, #{
-                        <<"protocolVersion">> => ?DEFAULT_PROTOCOL,
+                        <<"protocolVersion">> =>
+                            maps:get(requested_protocol_version, Ready,
+                                ?DEFAULT_PROTOCOL),
                         <<"capabilities">> => #{},
                         <<"clientInfo">> => #{
                             <<"name">> => <<"praxo-core">>,
@@ -112,11 +116,17 @@ call_tool(Client0, Name, Arguments) ->
     end.
 
 close(Client) ->
-    case maps:get(port, Client) of
-        undefined -> ok;
-        Port ->
-            try port_close(Port) catch _:_ -> ok end,
-            ok
+    case maps:get(transport, Client) of
+        #{close := Transport} ->
+            Transport(),
+            ok;
+        _ ->
+            case maps:get(port, Client) of
+                undefined -> ok;
+                Port ->
+                    try port_close(Port) catch _:_ -> ok end,
+                    ok
+            end
     end.
 
 ensure_started(Client) ->
@@ -154,7 +164,8 @@ ensure_port(Client) ->
 request(Client, Method, Params, Timeout) ->
     case maps:get(transport, Client) of
         undefined -> request_port(Client, Method, Params, Timeout);
-        Transport -> Transport(Method, Params, Timeout)
+        #{request := Transport} -> Transport(Method, Params, Timeout);
+        Transport when is_function(Transport, 3) -> Transport(Method, Params, Timeout)
     end.
 
 request_port(Client, Method, Params, Timeout) ->
@@ -205,6 +216,15 @@ wait_response(Client, Port, Id, Deadline) ->
     end.
 
 notify(Client, Method, Params) ->
+    case maps:get(transport, Client) of
+        #{notify := Transport} ->
+            Transport(Method, Params),
+            ok;
+        _ ->
+            notify_port(Client, Method, Params)
+    end.
+
+notify_port(Client, Method, Params) ->
     case maps:get(port, Client) of
         undefined -> ok;
         Port ->

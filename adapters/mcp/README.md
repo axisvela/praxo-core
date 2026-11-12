@@ -10,10 +10,7 @@ go get github.com/axisvela/praxo-core/adapters/mcp@v0.3.0
 ```
 
 ```go
-client := mcp.NewClient(&mcp.Implementation{Name: "agent", Version: "v0.1.0"}, nil)
-session, err := client.Connect(ctx, &mcp.CommandTransport{
-    Command: exec.Command("my-mcp-server"),
-}, nil)
+session, err := mcpx.ConnectStdio(ctx, exec.Command("my-mcp-server"), nil)
 if err != nil {
     return err
 }
@@ -28,10 +25,27 @@ for _, item := range tools {
 }
 ```
 
+For a remote MCP server, use Streamable HTTP (2025-03-26). A nil client uses a
+bounded default HTTP client; pass your own for authentication, tracing, or test
+TLS trust.
+
+```go
+gateway, err := mcpx.NewStreamableHTTPGateway(ctx, "https://mcp.example.com/mcp", nil, nil)
+if err != nil {
+    return err
+}
+defer gateway.Close()
+```
+
+Remote endpoints must use HTTPS. Loopback HTTP is allowed for local tests.
+`NewStdioGateway` and `NewStreamableHTTPGateway` close their session on a
+construction error; `Gateway.Close` closes it on success.
+
 `NewTools` preserves model-facing input schemas. For generic gateway consumers,
 `NewGateway` caches the tool list at construction; call `Refresh` to reload it
 after the server changes its tools. MCP authentication belongs to the client
-session, so the token argument in `tool.Gateway.Execute` is ignored.
+session or HTTP client, so the token argument in `tool.Gateway.Execute` is
+ignored.
 
 ## Resources and Prompts
 

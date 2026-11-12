@@ -50,6 +50,7 @@ defmodule Praxo.Tests do
     test_mcp_calls()
     test_mcp_timeout_and_cleanup()
     test_mcp_cancellation()
+    test_mcp_http()
     IO.puts("elixir tests passed")
   end
 
@@ -1112,6 +1113,64 @@ defmodule Praxo.Tests do
     check(wait_marker(marker, "cancelled:"), "mcp cancelled notification")
     :ok = Praxo.Mcp.close(client)
     File.rm(marker)
+  end
+
+  defp test_mcp_http do
+    parent = self()
+
+    transport = %{
+      request: fn method, _params, _timeout ->
+        send(parent, {:http_request, method})
+
+        case method do
+          "initialize" ->
+            {:ok, %{
+              "protocolVersion" => "2025-03-26",
+              "serverInfo" => %{"name" => "fake-http"}
+            }}
+
+          "tools/list" ->
+            {:ok, %{
+              "tools" => [
+                %{"name" => "echo", "inputSchema" => %{"type" => "object"}}
+              ]
+            }}
+
+          "tools/call" ->
+            {:ok, %{"content" => [%{"type" => "text", "text" => "http-ok"}]}}
+        end
+      end,
+      notify: fn method, _params -> send(parent, {:http_notify, method}) end,
+      close: fn -> send(parent, :http_close) end
+    }
+
+    {:ok, client} =
+      Praxo.Mcp.connect(transport: transport, protocol_version: "2025-03-26")
+
+    check(client.protocol_version == "2025-03-26", "mcp http protocol version")
+
+    check(
+      receive do
+        {:http_notify, "notifications/initialized"} -> true
+      after
+        1_000 -> false
+      end,
+      "mcp http notify"
+    )
+
+    {:ok, tools} = Praxo.Mcp.list_tools(client)
+    check(Enum.map(tools, & &1.name) == ["echo"], "mcp http tools")
+    check(Praxo.Mcp.call_tool(client, "echo", %{}) == {:ok, "http-ok"}, "mcp http call")
+    :ok = Praxo.Mcp.close(client)
+
+    check(
+      receive do
+        :http_close -> true
+      after
+        1_000 -> false
+      end,
+      "mcp http close"
+    )
   end
 
   defp fake_mcp_options(mode, marker \\ nil) do

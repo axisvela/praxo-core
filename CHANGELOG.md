@@ -28,11 +28,33 @@
   loopback fixtures; no live service, authentication, ordering, or delivery
   guarantee is claimed. COBOL remains blocked on HTTP transport and event-sink
   integration.
-- Native stdio MCP clients for Python, TypeScript, Java, Rust, C#, R, and Elixir
-  with handshake, paginated tool listing, repeated-cursor and duplicate-name
-  rejection, tool calls, timeout cancellation, and fake-server tests. R uses a
-  caller-supplied transport because base R lacks persistent bidirectional stdio.
-  Remote transports and live MCP services remain outside the claim.
+- Native MCP clients for Python, TypeScript, Java, Rust, C#, Elixir, Erlang,
+  Ruby, PHP, Dart, and Perl, plus caller-supplied transport-seam clients for R
+  and Lua, with handshake, paginated tool listing, repeated-cursor and
+  duplicate-name rejection, tool calls, timeout cancellation, and fake-server or
+  transport-fixture tests. R uses a caller-supplied transport because base R
+  lacks persistent bidirectional stdio. Remote transports and live MCP services
+  remain outside the claim.
+- The Go MCP reference adapter adds `ConnectStdio`/`NewStdioGateway` and
+  `ConnectStreamableHTTP`/`NewStreamableHTTPGateway` for the 2025-03-26
+  Streamable HTTP transport, plus `Gateway.Close` and stdio/TLS fixture tests.
+  Python adds `mcp_http.StreamableHTTPTransport`, TypeScript adds
+  `mcp-http.ts`, C# adds `McpStreamableHttpTransport`, and Java adds
+  `McpStreamableHttpTransport`; each parses JSON and SSE responses and enforces
+  HTTPS for remote endpoints. Ruby, PHP, Elixir, Erlang, Dart, and Perl add
+  Streamable HTTP transports with JSON/SSE parsing. D adds `praxo.mcp` with
+  stdio and HTTP transports. Delphi / Free Pascal adds `TPraxoMcpClient` with
+  stdio and HTTP transports. Objective-C adds `PXRMcpClient` with stdio and
+  HTTP transports. Zig adds `mcp.Client` with stdio and a curl-backed HTTP
+  transport. Swift adds `McpClient`, `StdioMcpTransport`, and
+  `HttpMcpTransport`; the source typechecks under the documented Windows
+  SDK/MSVC workaround, while full build/test remains blocked by the Swift
+  toolchain and macOS CI remains authoritative. Rust adds
+  `McpClient::connect_http` over a caller-supplied `McpHttpTransport` seam. C#,
+  Rust, Ruby, PHP, and Dart have local transport-fixture tests; Elixir and Erlang
+  have transport-seam integration tests; Java compiles but its local runtime
+  verification is pending. Other language MCP clients remain stdio or
+  transport-seam only.
 
 ### Fixed
 

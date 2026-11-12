@@ -20,6 +20,7 @@ use Praxo::Adapters::OpenAICompatible ();
 use Praxo::Adapters::Anthropic ();
 use Praxo::Adapters::Gemini ();
 use Praxo::Adapters::MCP ();
+use Praxo::Adapters::MCPHTTP ();
 use Praxo::Adapters::Harmovela ();
 
 my $call = Praxo::Toolcall::parse_toolcall('{"name":"echo","input":{"text":"hi"}}');
@@ -343,5 +344,103 @@ eval { $mcp->call_tool('fail') };
 $mcp_error = $@;
 is(Praxo::Errors::error_code($mcp_error), 'MCP_TOOL_ERROR', 'mcp tool error');
 $mcp->close;
+
+{
+    package TestHTTPMCP;
+    our @ISA = ('Praxo::Adapters::MCPHTTP');
+
+    sub _post {
+        my ($self, $method, $body, $headers) = @_;
+        push @{ $self->{seen} }, { method => $method, headers => $headers };
+        return (200, {}, '') if $method eq 'DELETE';
+        my $message = JSON::PP::decode_json($body);
+        my $name = $message->{method} // '';
+        my $id = $message->{id};
+        if ($name eq 'initialize') {
+            return (200, {
+                'mcp-session-id' => 'sess-1',
+                'content-type' => 'application/json',
+            }, JSON::PP::encode_json({
+                jsonrpc => '2.0',
+                id => $id,
+                result => {
+                    protocolVersion => '2025-03-26',
+                    capabilities => {},
+                    serverInfo => { name => 'fake-http' },
+                },
+            }));
+        }
+        if ($name =~ m{^notifications/}) {
+            return (202, {}, '');
+        }
+        if ($name eq 'tools/list') {
+            return (200, { 'content-type' => 'application/json' },
+                JSON::PP::encode_json({
+                    jsonrpc => '2.0',
+                    id => $id,
+                    result => {
+                        tools => [{
+                            name => 'echo',
+                            description => 'Echo input',
+                            inputSchema => {
+                                type => 'object',
+                                properties => { text => { type => 'string' } },
+                                required => ['text'],
+                            },
+                        }],
+                    },
+                }));
+        }
+        if ($name eq 'tools/call') {
+            my $payload = JSON::PP::encode_json({
+                jsonrpc => '2.0',
+                id => $id,
+                result => { content => [{ type => 'text', text => 'sse-ok' }] },
+            });
+            return (200, { 'content-type' => 'text/event-stream' },
+                "event: message\ndata: $payload\n\n");
+        }
+        return (200, { 'content-type' => 'application/json' },
+            JSON::PP::encode_json({
+                jsonrpc => '2.0',
+                id => $id,
+                result => {},
+            }));
+    }
+}
+
+my $http = TestHTTPMCP->new(endpoint => 'http://127.0.0.1/mcp');
+my $http_client = Praxo::Adapters::MCP->new(
+    transport => $http,
+    protocol_version => '2025-03-26',
+);
+$http_client->start;
+is($http_client->protocol_version, '2025-03-26', 'http mcp protocol version');
+is_deeply(
+    [map { $_->{name} } @{ $http_client->list_tools }],
+    ['echo'],
+    'http mcp tools'
+);
+is($http_client->call_tool('echo', { text => 'hi' }), 'sse-ok', 'http mcp sse call');
+$http_client->close;
+my ($listed) = grep {
+    $_->{method} eq 'POST'
+        && ($_->{headers}{'mcp-session-id'} // '') eq 'sess-1'
+} @{ $http->{seen} };
+ok($listed, 'http mcp session header');
+my ($protocol) = grep {
+    ($_->{headers}{'mcp-protocol-version'} // '') eq '2025-03-26'
+} @{ $http->{seen} };
+ok($protocol, 'http mcp protocol header');
+ok((grep { $_->{method} eq 'DELETE' } @{ $http->{seen} }), 'http mcp delete');
+
+my $http_rejected;
+eval { Praxo::Adapters::MCPHTTP->new(endpoint => 'http://example.com/mcp') };
+$http_rejected = $@;
+is(
+    Praxo::Errors::error_code($http_rejected),
+    'MCP_TRANSPORT',
+    'http mcp https required'
+);
 
 done_testing();

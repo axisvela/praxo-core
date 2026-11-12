@@ -31,6 +31,7 @@ public final class McpClient implements AutoCloseable {
     private static final Duration DEFAULT_TIMEOUT = Duration.ofSeconds(30);
 
     private final McpServerConfig config;
+    private final McpTransport transport;
     private final Duration timeout;
     private final String clientName;
     private final String clientVersion;
@@ -65,10 +66,41 @@ public final class McpClient implements AutoCloseable {
             String clientVersion,
             String protocolVersion) {
         this.config = config;
+        this.transport = null;
         this.timeout = timeout;
         this.clientName = clientName;
         this.clientVersion = clientVersion;
         this.requestedProtocolVersion = protocolVersion;
+    }
+
+    public McpClient(
+            McpTransport transport,
+            Duration timeout,
+            String clientName,
+            String clientVersion,
+            String protocolVersion) {
+        this.config = null;
+        this.transport = transport;
+        this.timeout = timeout == null ? DEFAULT_TIMEOUT : timeout;
+        this.clientName = clientName == null || clientName.isBlank()
+                ? "praxo-core"
+                : clientName;
+        this.clientVersion = clientVersion;
+        this.requestedProtocolVersion = protocolVersion == null
+                || protocolVersion.isBlank()
+                ? DEFAULT_PROTOCOL_VERSION
+                : protocolVersion;
+    }
+
+    public static McpClient connect(McpTransport transport) throws Exception {
+        McpClient client = new McpClient(
+                transport,
+                DEFAULT_TIMEOUT,
+                "praxo-core",
+                Version.SDK_VERSION,
+                "2025-03-26");
+        client.start();
+        return client;
     }
 
     public static McpClient connect(McpServerConfig config) throws Exception {
@@ -83,11 +115,24 @@ public final class McpClient implements AutoCloseable {
     }
 
     public synchronized void start() throws Exception {
-        if (process != null) {
+        if (process != null || reader != null) {
             return;
         }
         if (closed) {
             throw PraxoException.mcpClosed("mcp: client is closed");
+        }
+        if (transport != null) {
+            transport.start();
+            reader = new Thread(this::readLoop, "praxo-mcp-reader");
+            reader.setDaemon(true);
+            reader.start();
+            try {
+                initialize();
+            } catch (Exception error) {
+                close();
+                throw error;
+            }
+            return;
         }
         if (config.command().isEmpty()) {
             throw PraxoException.mcpTransport("mcp: command is required");
@@ -118,11 +163,17 @@ public final class McpClient implements AutoCloseable {
     }
 
     public boolean isRunning() {
+        if (transport != null) {
+            return transport.isRunning();
+        }
         Process current = process;
         return current != null && current.isAlive();
     }
 
     public long pid() {
+        if (transport != null) {
+            return transport.pid();
+        }
         Process current = process;
         return current == null ? -1 : current.pid();
     }
@@ -251,6 +302,21 @@ public final class McpClient implements AutoCloseable {
         for (Long id : new ArrayList<>(pending.keySet())) {
             cancel(id, "client closed");
         }
+        if (transport != null) {
+            try {
+                transport.close();
+            } catch (RuntimeException ignored) {
+            }
+            if (reader != null && reader != Thread.currentThread()) {
+                try {
+                    reader.join(1000);
+                } catch (InterruptedException error) {
+                    Thread.currentThread().interrupt();
+                }
+            }
+            failAll(PraxoException.mcpClosed("mcp: client closed"));
+            return;
+        }
         try {
             if (writer != null) {
                 writer.close();
@@ -376,6 +442,10 @@ public final class McpClient implements AutoCloseable {
     }
 
     private void send(Map<String, Object> message) {
+        if (transport != null) {
+            transport.send(message);
+            return;
+        }
         synchronized (writeLock) {
             if (writer == null) {
                 throw PraxoException.mcpTransport(
@@ -393,6 +463,25 @@ public final class McpClient implements AutoCloseable {
     }
 
     private void readLoop() {
+        if (transport != null) {
+            try {
+                for (;;) {
+                    Map<String, Object> message = transport.receive();
+                    if (message == null || !dispatch(message)) {
+                        break;
+                    }
+                }
+            } catch (RuntimeException error) {
+                readError = error;
+            }
+            if (readError == null) {
+                failAll(PraxoException.mcpClosed("mcp: connection closed"));
+            } else {
+                failAll(PraxoException.mcpTransport(
+                        "mcp: read failed: " + readError.getMessage()));
+            }
+            return;
+        }
         try (BufferedReader input = new BufferedReader(new InputStreamReader(
                 process.getInputStream(), StandardCharsets.UTF_8))) {
             String line;
@@ -408,18 +497,8 @@ public final class McpClient implements AutoCloseable {
                             "mcp: server sent invalid JSON"));
                     return;
                 }
-                if (!"2.0".equals(message.get("jsonrpc"))) {
-                    failAll(PraxoException.mcpProtocol(
-                            "mcp: invalid JSON-RPC version"));
+                if (!dispatch(message)) {
                     return;
-                }
-                if (!(message.get("id") instanceof Number number)) {
-                    continue;
-                }
-                long id = number.longValue();
-                CompletableFuture<Map<String, Object>> future = pending.remove(id);
-                if (future != null) {
-                    future.complete(message);
                 }
             }
         } catch (IOException error) {
@@ -431,6 +510,23 @@ public final class McpClient implements AutoCloseable {
             failAll(PraxoException.mcpTransport(
                     "mcp: read failed: " + readError.getMessage()));
         }
+    }
+
+    private boolean dispatch(Map<String, Object> message) {
+        if (!"2.0".equals(message.get("jsonrpc"))) {
+            failAll(PraxoException.mcpProtocol(
+                    "mcp: invalid JSON-RPC version"));
+            return false;
+        }
+        if (!(message.get("id") instanceof Number number)) {
+            return true;
+        }
+        long id = number.longValue();
+        CompletableFuture<Map<String, Object>> future = pending.remove(id);
+        if (future != null) {
+            future.complete(message);
+        }
+        return true;
     }
 
     private void failAll(PraxoException error) {

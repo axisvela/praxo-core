@@ -13,4 +13,5 @@ require_once __DIR__ . '/Adapters/OpenAICompatible.php';
 require_once __DIR__ . '/Adapters/Anthropic.php';
 require_once __DIR__ . '/Adapters/Gemini.php';
 require_once __DIR__ . '/Adapters/MCP.php';
+require_once __DIR__ . '/Adapters/MCPHttp.php';
 require_once __DIR__ . '/Adapters/HarmovelaSink.php';

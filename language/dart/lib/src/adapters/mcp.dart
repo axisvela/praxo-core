@@ -28,10 +28,13 @@ class McpClient {
   bool _connected = false;
   bool _closed = false;
 
+  final String requestedProtocolVersion;
+
   McpClient({
     required this.transport,
     this.clientVersion = '0.2.0',
     this.timeout = const Duration(seconds: 5),
+    this.requestedProtocolVersion = defaultProtocolVersion,
   });
 
   Future<McpClient> start() async {
@@ -39,7 +42,7 @@ class McpClient {
     final result = await transport.request(
       'initialize',
       {
-        'protocolVersion': defaultProtocolVersion,
+        'protocolVersion': requestedProtocolVersion,
         'capabilities': <String, dynamic>{},
         'clientInfo': {'name': 'praxo-core', 'version': clientVersion},
       },

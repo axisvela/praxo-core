@@ -20,12 +20,14 @@ SOURCES = [
     "PraxoAnthropic.m",
     "PraxoGemini.m",
     "PraxoHarmovela.m",
+    "PraxoMCP.m",
     "tests/main.m",
     "tests/correlation.m",
     "tests/middleware.m",
     "tests/openai.m",
     "tests/provider.m",
     "tests/harmovela.m",
+    "tests/mcp.m",
 ]
 
 

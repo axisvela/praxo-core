@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import '../lib/praxo_core.dart';
@@ -402,6 +403,118 @@ Future<void> main() async {
   check(mcpError == 'MCP_TOOL_ERROR', 'mcp tool error');
   await mcp.close();
   check(fakeMcp.closed, 'mcp closed');
+
+  final httpSeen = <Map<String, dynamic>>[];
+  final httpServer = await HttpServer.bind(InternetAddress.loopbackIPv4, 0);
+  httpServer.listen((request) async {
+    if (request.method == 'DELETE') {
+      httpSeen.add({'method': 'DELETE', 'headers': <String, String>{}});
+      request.response.statusCode = 200;
+      await request.response.close();
+      return;
+    }
+    final body = await utf8.decoder.bind(request).join();
+    final message = jsonDecode(body) as Map<String, dynamic>;
+    httpSeen.add({
+      'method': message['method'],
+      'headers': {
+        'mcp-session-id': request.headers.value('mcp-session-id') ?? '',
+        'mcp-protocol-version':
+            request.headers.value('mcp-protocol-version') ?? '',
+      },
+    });
+    final id = message['id'];
+    final method = message['method'];
+    if (method == 'initialize') {
+      request.response.headers.contentType = ContentType.json;
+      request.response.headers.set('mcp-session-id', 'sess-1');
+      request.response.write(jsonEncode({
+        'jsonrpc': '2.0',
+        'id': id,
+        'result': {
+          'protocolVersion': '2025-03-26',
+          'capabilities': <String, dynamic>{},
+          'serverInfo': {'name': 'fake-http', 'version': '1'},
+        },
+      }));
+    } else if ((method as String).startsWith('notifications/')) {
+      request.response.statusCode = 202;
+    } else if (method == 'tools/list') {
+      request.response.headers.contentType = ContentType.json;
+      request.response.write(jsonEncode({
+        'jsonrpc': '2.0',
+        'id': id,
+        'result': {
+          'tools': [
+            {
+              'name': 'echo',
+              'description': 'Echo input',
+              'inputSchema': {
+                'type': 'object',
+                'properties': {
+                  'text': {'type': 'string'},
+                },
+                'required': ['text'],
+              },
+            },
+          ],
+        },
+      }));
+    } else if (method == 'tools/call') {
+      final payload = jsonEncode({
+        'jsonrpc': '2.0',
+        'id': id,
+        'result': {
+          'content': [
+            {'type': 'text', 'text': 'sse-ok'},
+          ],
+        },
+      });
+      request.response.headers.contentType =
+          ContentType('text', 'event-stream');
+      request.response.write('event: message\ndata: $payload\n\n');
+    } else {
+      request.response.headers.contentType = ContentType.json;
+      request.response.write(
+          jsonEncode({'jsonrpc': '2.0', 'id': id, 'result': <String, dynamic>{}}));
+    }
+    await request.response.close();
+  });
+
+  final httpTransport = McpStreamableHttpTransport(
+    endpoint: 'http://127.0.0.1:${httpServer.port}/mcp',
+  );
+  final httpMcp = McpClient(
+    transport: httpTransport,
+    requestedProtocolVersion: '2025-03-26',
+  );
+  await httpMcp.start();
+  check(httpMcp.protocolVersion == '2025-03-26', 'http mcp protocol version');
+  final httpTools = await httpMcp.listTools();
+  check(httpTools.map((tool) => tool['name']).join(',') == 'echo',
+      'http mcp tools');
+  check(await httpMcp.callTool('echo', {'text': 'hi'}) == 'sse-ok',
+      'http mcp sse call');
+  await httpMcp.close();
+  final listed = httpSeen.where((item) => item['method'] == 'tools/list');
+  check(
+      listed.any((item) =>
+          (item['headers'] as Map)['mcp-session-id'] == 'sess-1'),
+      'http mcp session header');
+  check(
+      httpSeen.any((item) =>
+          (item['headers'] as Map)['mcp-protocol-version'] == '2025-03-26'),
+      'http mcp protocol header');
+  check(httpSeen.any((item) => item['method'] == 'DELETE'), 'http mcp delete');
+  await httpServer.close(force: true);
+
+  String? httpRejected;
+  try {
+    McpStreamableHttpTransport(endpoint: 'http://example.com/mcp');
+  } on PraxoError catch (error) {
+    httpRejected = error.code;
+  }
+  check(httpRejected == 'MCP_TRANSPORT', 'http mcp https required');
 
   String? harmovelaPath;
   Map<String, dynamic>? harmovelaEnvelope;

@@ -464,6 +464,34 @@ test_mcp() ->
     check(Text == <<"hello">>, <<"mcp text tool">>),
     {error, <<"MCP_TOOL_ERROR">>} = praxo_mcp:call_tool(Started, <<"fail">>, #{}),
     {error, <<"MCP_TIMEOUT">>} = praxo_mcp:call_tool(Started, <<"hang">>, #{}),
+    Notified = ets:new(mcp_notified, [set, public]),
+    MapTransport = #{
+        request => fun
+            (<<"initialize">>, _Params, _Timeout) ->
+                {ok, #{<<"protocolVersion">> => <<"2025-03-26">>,
+                       <<"serverInfo">> => #{}}};
+            (_Method, _Params, _Timeout) ->
+                {ok, #{}}
+        end,
+        notify => fun(Method, _Params) ->
+            ets:insert(Notified, {Method})
+        end,
+        close => fun() ->
+            ets:insert(Notified, {closed})
+        end
+    },
+    MapClient = praxo_mcp:new(#{
+        transport => MapTransport,
+        protocol_version => <<"2025-03-26">>
+    }),
+    {ok, MapStarted} = praxo_mcp:start(MapClient),
+    check(maps:get(protocol_version, MapStarted) == <<"2025-03-26">>,
+          <<"mcp http protocol version">>),
+    check(lists:member({<<"notifications/initialized">>}, ets:tab2list(Notified)),
+          <<"mcp http notify">>),
+    ok = praxo_mcp:close(MapStarted),
+    check(lists:member({closed}, ets:tab2list(Notified)), <<"mcp http close">>),
+    ets:delete(Notified),
     ok.
 
 test_harmovela() ->

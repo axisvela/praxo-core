@@ -1,5 +1,6 @@
-module tests;
+﻿module tests;
 
+import core.time : Duration;
 import std.conv : to;
 import std.stdio : writeln;
 import std.string : indexOf;
@@ -12,6 +13,7 @@ import praxo.openai_compatible;
 import praxo.provider : ProviderTransport;
 import praxo.jsonschema;
 import praxo.json;
+import praxo.mcp;
 import praxo.middleware;
 import praxo.models;
 import praxo.plugin;
@@ -180,5 +182,63 @@ void main() {
     check(harmovelaMessage.indexOf("500") >= 0, "harmovela error status");
     check(harmovelaMessage.indexOf("boom") >= 0, "harmovela error body");
 
+    auto fakeMcp = new FakeMcpTransport();
+    auto mcp = new McpClient(fakeMcp, "2025-03-26");
+    mcp.start();
+    check(mcp.protocolVersion == "2025-03-26", "mcp http protocol version");
+    auto mcpTools = mcp.listTools();
+    check(mcpTools.length == 1 && mcpTools[0].name == "echo", "mcp http tools");
+    auto mcpResult = mcp.callTool("echo", parse(`{"text":"hi"}`));
+    check(mcpResult.str == "http-ok", "mcp http call");
+    mcp.close();
+    check(fakeMcp.closed, "mcp http close");
+    string mcpRejected = "";
+    try {
+        new HttpMcpTransport("http://example.com/mcp");
+    } catch (PraxoError error) {
+        mcpRejected = error.code;
+    }
+    check(mcpRejected == "MCP_TRANSPORT", "mcp http https required");
+
     writeln("D core tests passed");
+}
+
+class FakeMcpTransport : McpTransport {
+    bool closed;
+    string notified;
+
+    JSONValue request(string method, JSONValue params, Duration timeout) {
+        JSONValue[string] result;
+        switch (method) {
+            case "initialize":
+                result["protocolVersion"] = JSONValue("2025-03-26");
+                result["serverInfo"] = emptyObject();
+                return JSONValue(result);
+            case "tools/list":
+                JSONValue[string] tool;
+                tool["name"] = JSONValue("echo");
+                tool["description"] = JSONValue("Echo input");
+                JSONValue[string] schema;
+                schema["type"] = JSONValue("object");
+                tool["inputSchema"] = JSONValue(schema);
+                result["tools"] = JSONValue([JSONValue(tool)]);
+                return JSONValue(result);
+            case "tools/call":
+                JSONValue[string] content;
+                content["type"] = JSONValue("text");
+                content["text"] = JSONValue("http-ok");
+                result["content"] = JSONValue([JSONValue(content)]);
+                return JSONValue(result);
+            default:
+                return emptyObject();
+        }
+    }
+
+    void notify(string method, JSONValue params) {
+        notified = method;
+    }
+
+    void close() {
+        closed = true;
+    }
 }

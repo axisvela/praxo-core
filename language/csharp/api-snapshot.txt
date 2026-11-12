@@ -1,4 +1,4 @@
-### Praxo.Core.Action
+﻿### Praxo.Core.Action
 Action()
 System.String Kind { get; set; }
 System.String SessionId { get; set; }
@@ -145,6 +145,14 @@ System.Void Emit(Praxo.Core.Event event)
 System.Boolean Approve(Praxo.Core.Interrupt interrupt)
 ### Praxo.Core.IInterruptHandler
 Praxo.Core.InterruptDecision Decide(Praxo.Core.Interrupt interrupt)
+### Praxo.Core.IMcpTransport
+System.Boolean HasExited { get; }
+System.Int32? ProcessId { get; }
+System.Text.Json.Nodes.JsonObject Request(System.String method, System.Text.Json.Nodes.JsonObject parameters, System.TimeSpan timeout, System.Threading.CancellationToken cancellationToken)
+System.Void Close()
+System.Void Notify(System.String method, System.Text.Json.Nodes.JsonObject parameters)
+System.Void Send(System.Text.Json.Nodes.JsonObject message)
+System.Void Start()
 ### Praxo.Core.IMemoryStore
 System.Collections.Generic.IReadOnlyList`1[Praxo.Core.MemoryRecord] Search(System.String sessionId, System.String query, System.Int32 limit)
 System.Void Put(System.String sessionId, Praxo.Core.MemoryRecord record)
@@ -207,8 +215,8 @@ System.Text.Json.Nodes.JsonObject Object(System.Text.Json.Nodes.JsonNode node)
 ### Praxo.Core.JsonSchema
 System.Collections.Generic.List`1[Praxo.Core.ValidationError] Validate(System.Text.Json.Nodes.JsonNode schema, System.Text.Json.Nodes.JsonNode data)
 ### Praxo.Core.McpClient
+McpClient(Praxo.Core.IMcpTransport transport, System.TimeSpan? timeout, System.String clientName, System.String clientVersion, System.String protocolVersion)
 McpClient(Praxo.Core.McpServerOptions options, System.TimeSpan? timeout, System.String clientName, System.String clientVersion, System.String protocolVersion)
-McpClient(Praxo.Core.McpStdioTransport transport, System.TimeSpan? timeout, System.String clientName, System.String clientVersion, System.String protocolVersion)
 Praxo.Core.McpClient Connect(System.Threading.CancellationToken cancellationToken)
 System.Boolean Connected { get; }
 System.Collections.Generic.IReadOnlyList`1[Praxo.Core.McpToolAdapter] RegisterTools(Praxo.Core.ToolRegistry registry, System.TimeSpan? timeout, System.Threading.CancellationToken cancellationToken)
@@ -230,6 +238,22 @@ System.String WorkingDirectory { get; set; }
 System.TimeSpan CloseTimeout { get; set; }
 ### Praxo.Core.McpStdioTransport
 McpStdioTransport(Praxo.Core.McpServerOptions options)
+System.Boolean HasExited { get; }
+System.Int32? ProcessId { get; }
+System.Text.Json.Nodes.JsonObject Request(System.String method, System.Text.Json.Nodes.JsonObject parameters, System.TimeSpan timeout, System.Threading.CancellationToken cancellationToken)
+System.Void Close()
+System.Void Dispose()
+System.Void Notify(System.String method, System.Text.Json.Nodes.JsonObject parameters)
+System.Void Send(System.Text.Json.Nodes.JsonObject message)
+System.Void Start()
+### Praxo.Core.McpStreamableHttpOptions
+McpStreamableHttpOptions()
+System.Collections.Generic.Dictionary`2[System.String,System.String] Headers { get; set; }
+System.Net.Http.HttpClient HttpClient { get; set; }
+System.String Endpoint { get; set; }
+System.String ProtocolVersion { get; set; }
+### Praxo.Core.McpStreamableHttpTransport
+McpStreamableHttpTransport(Praxo.Core.McpStreamableHttpOptions options)
 System.Boolean HasExited { get; }
 System.Int32? ProcessId { get; }
 System.Text.Json.Nodes.JsonObject Request(System.String method, System.Text.Json.Nodes.JsonObject parameters, System.TimeSpan timeout, System.Threading.CancellationToken cancellationToken)

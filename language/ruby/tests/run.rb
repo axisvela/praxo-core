@@ -2,6 +2,7 @@
 
 require 'tmpdir'
 require 'fileutils'
+require 'socket'
 require 'timeout'
 require_relative '../lib/praxo'
 
@@ -844,5 +845,108 @@ check(timeout_error&.code == 'MCP_TIMEOUT', 'mcp timeout')
 mcp.close
 check(mcp.instance_variable_get(:@closed), 'mcp closed')
 mcp_thread.join(2)
+
+http_server = TCPServer.new('127.0.0.1', 0)
+http_port = http_server.addr[1]
+http_running = true
+http_requests = []
+http_thread = Thread.new do
+  while http_running
+    begin
+      client = http_server.accept
+    rescue IOError
+      break
+    end
+    request_line = client.gets
+    if request_line.nil?
+      client.close
+      next
+    end
+    http_method = request_line.split.first
+    headers = {}
+    while (line = client.gets) && line != "\r\n"
+      key, value = line.split(':', 2)
+      headers[key.downcase] = value.strip if value
+    end
+    length = headers['content-length'].to_i
+    body = length.positive? ? client.read(length) : ''
+    if http_method == 'DELETE'
+      http_requests << { method: 'DELETE', headers: headers }
+      client.write "HTTP/1.1 200 OK\r\nContent-Length: 0\r\n\r\n"
+      client.close
+      next
+    end
+    message = JSON.parse(body)
+    http_requests << { method: message['method'], headers: headers }
+    id = message['id']
+    case message['method']
+    when 'initialize'
+      payload = JSON.generate({
+        jsonrpc: '2.0', id: id,
+        result: {
+          protocolVersion: '2025-03-26',
+          capabilities: {},
+          serverInfo: { name: 'fake-http', version: '1' }
+        }
+      })
+      client.write "HTTP/1.1 200 OK\r\nContent-Type: application/json\r\n" \
+                   "Mcp-Session-Id: sess-1\r\nContent-Length: #{payload.bytesize}\r\n\r\n#{payload}"
+    when 'notifications/initialized'
+      client.write "HTTP/1.1 202 Accepted\r\nContent-Length: 0\r\n\r\n"
+    when 'tools/list'
+      payload = JSON.generate({
+        jsonrpc: '2.0', id: id,
+        result: {
+          tools: [{
+            name: 'echo', description: 'Echo input',
+            inputSchema: {
+              type: 'object', properties: { text: { type: 'string' } }, required: ['text']
+            }
+          }]
+        }
+      })
+      client.write "HTTP/1.1 200 OK\r\nContent-Type: application/json\r\n" \
+                   "Content-Length: #{payload.bytesize}\r\n\r\n#{payload}"
+    when 'tools/call'
+      payload = JSON.generate({
+        jsonrpc: '2.0', id: id,
+        result: { content: [{ type: 'text', text: 'sse-ok' }] }
+      })
+      sse = "event: message\ndata: #{payload}\n\n"
+      client.write "HTTP/1.1 200 OK\r\nContent-Type: text/event-stream\r\n" \
+                   "Content-Length: #{sse.bytesize}\r\n\r\n#{sse}"
+    else
+      payload = JSON.generate({ jsonrpc: '2.0', id: id, result: {} })
+      client.write "HTTP/1.1 200 OK\r\nContent-Type: application/json\r\n" \
+                   "Content-Length: #{payload.bytesize}\r\n\r\n#{payload}"
+    end
+    client.close
+  end
+end
+
+transport = Praxo::Adapters::HttpMCPTransport.new("http://127.0.0.1:#{http_port}/mcp")
+http_client = Praxo::Adapters::MCPClient.new(
+  transport: transport, protocol_version: '2025-03-26'
+)
+http_client.start
+check(http_client.protocol_version == '2025-03-26', 'http mcp protocol version')
+check(http_client.list_tools.map { |tool| tool['name'] } == ['echo'], 'http mcp tools')
+check(http_client.call_tool('echo', { 'text' => 'hi' }) == 'sse-ok', 'http mcp sse call')
+http_client.close
+listed = http_requests.find { |item| item[:method] == 'tools/list' }
+check(listed && listed[:headers]['mcp-session-id'] == 'sess-1', 'http mcp session header')
+check(listed && listed[:headers]['mcp-protocol-version'] == '2025-03-26', 'http mcp protocol header')
+check(http_requests.any? { |item| item[:method] == 'DELETE' }, 'http mcp delete')
+http_running = false
+http_server.close
+http_thread.join(2)
+
+http_rejected = nil
+begin
+  Praxo::Adapters::HttpMCPTransport.new('http://example.com/mcp')
+rescue Praxo::Error => error
+  http_rejected = error
+end
+check(http_rejected&.code == 'MCP_TRANSPORT', 'http mcp https required')
 
 puts 'ruby core tests passed'

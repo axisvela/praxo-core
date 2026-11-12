@@ -47,6 +47,7 @@ internal static class Program
         TestToolCancellation();
         TestStreamCallbackFailure();
         _passed += McpTests.Run();
+        _passed += McpHttpTests.Run();
         Console.WriteLine($"C# core tests passed ({_passed})");
         return 0;
     }

@@ -4,6 +4,27 @@ using System.Text.Json.Nodes;
 
 namespace Praxo.Core;
 
+public interface IMcpTransport : IDisposable
+{
+    int? ProcessId { get; }
+
+    bool HasExited { get; }
+
+    void Start();
+
+    void Send(JsonObject message);
+
+    void Notify(string method, JsonObject? parameters);
+
+    JsonObject Request(
+        string method,
+        JsonObject? parameters,
+        TimeSpan timeout,
+        CancellationToken cancellationToken);
+
+    void Close();
+}
+
 public sealed class McpServerOptions
 {
     public string Command { get; set; } = "";
@@ -17,7 +38,7 @@ public sealed class McpServerOptions
     public TimeSpan CloseTimeout { get; set; } = TimeSpan.FromSeconds(5);
 }
 
-public sealed class McpStdioTransport : IDisposable
+public sealed class McpStdioTransport : IMcpTransport
 {
     private readonly McpServerOptions _options;
     private readonly object _pendingLock = new();

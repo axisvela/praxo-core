@@ -116,6 +116,14 @@ type schemaTool struct {
 
 func (t schemaTool) Spec() model.ToolSpec { return t.spec }
 
+// Close closes the underlying MCP session.
+func (g *Gateway) Close() error {
+	if g == nil || g.session == nil {
+		return nil
+	}
+	return g.session.Close()
+}
+
 // ListTools returns a copy of the cached tool list.
 func (g *Gateway) ListTools() []tool.GatewayInfo {
 	if g == nil {

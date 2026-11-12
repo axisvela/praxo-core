@@ -76,9 +76,20 @@ HarmovelaSink.transport var
 HarmovelaTimestamp.createdAt var
 HarmovelaTimestamp.init
 HarmovelaTimestamp.unixNanos var
+HttpMcpTransport.init
 Json.parse func
 JsonError.description var
 JsonSchema.validate func
+McpClient.clientVersion let
+McpClient.defaultProtocolVersion let
+McpClient.httpProtocolVersion let
+McpClient.init
+McpClient.requestedProtocolVersion let
+McpClient.timeout let
+McpClient.transport let
+McpToolInfo.description let
+McpToolInfo.inputSchema let
+McpToolInfo.name let
 MemoryRecord.content var
 MemoryRecord.createdAt var
 MemoryRecord.frame var
@@ -168,6 +179,7 @@ Session.init
 Session.messages var
 StaticModel.generate func
 StaticModel.init
+StdioMcpTransport.init
 StructuredOutput.init
 StructuredOutput.maxRepairs let
 StructuredOutput.repairer var
@@ -205,6 +217,7 @@ beforeTool func
 bool func
 buildPayload func
 buildRequest func
+callTool func
 check func
 class Agent
 class AgentOptions
@@ -216,17 +229,22 @@ class FilterSink
 class FuncTool
 class GeminiModel
 class HarmovelaSink
+class HttpMcpTransport
+class McpClient
+class McpToolInfo
 class MemoryRecord
 class MemoryStore
 class MultiSink
 class OpenAICompatibleModel
 class PiiRedactor
 class StaticModel
+class StdioMcpTransport
 class StructuredOutput
 class ToolRegistry
 class ToolSelection
 class URLSessionHarmovelaTransport
 class URLSessionTransport
+close func
 compact func
 emit func
 enum ContextEstimator
@@ -245,13 +263,16 @@ generate func
 get func
 int func
 invoke func
+listTools func
 marshal func
+notify func
 now func
 parseInputJson func
 parseResponse func
 plus func
 protocol EventSink
 protocol HarmovelaTransport
+protocol McpTransport
 protocol Model
 protocol PolicyHook
 protocol ProviderTransport
@@ -260,9 +281,11 @@ protocol ToolSelector
 redact func
 redactValue func
 reject func
+request func
 search func
 send func
 specs func
+start func
 streamKinds let
 string func
 stringify func

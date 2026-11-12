@@ -489,6 +489,21 @@ interface McpRequestOptions
 signal?: AbortSignal | undefined
 timeoutMs?: number | undefined
 
+## McpStreamableHTTPOptions
+interface McpStreamableHTTPOptions
+endpoint: string
+headers?: Record<string, string> | undefined
+protocolVersion?: string | undefined
+fetch?: ((input: string | URL | Request, init?: RequestInit) => Promise<Response>) | undefined
+
+## McpStreamableHTTPTransport
+class McpStreamableHTTPTransport
+constructor(options: McpStreamableHTTPOptions): McpStreamableHTTPTransport
+send(line: string): Promise<void>
+onLine(handler: (line: string) => void): void
+onClose(handler: (error?: Error) => void): void
+close(): Promise<void>
+
 ## McpTimeoutError
 class McpTimeoutError
 constructor(message?: string): McpTimeoutError

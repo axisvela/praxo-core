@@ -19,6 +19,7 @@
     "source/praxo/harmovela.d",
     "source/praxo/json.d",
     "source/praxo/jsonschema.d",
+    "source/praxo/mcp.d",
     "source/praxo/middleware.d",
     "source/praxo/models.d",
     "source/praxo/plugin.d",

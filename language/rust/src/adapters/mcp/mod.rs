@@ -1,8 +1,10 @@
 mod client;
+mod http;
 mod session;
 
 use std::path::PathBuf;
 use std::sync::Arc;
+use std::time::Duration;
 
 use serde_json::{Map, Value};
 
@@ -11,10 +13,45 @@ use crate::model::ToolSpec;
 use crate::tool::Tool;
 
 pub use client::McpClient;
-
-use session::Inner;
+pub use http::{McpHttpRequest, McpHttpResponse, McpHttpTransport, HTTP_PROTOCOL_VERSION};
 
 pub const DEFAULT_PROTOCOL_VERSION: &str = "2024-11-05";
+
+pub(crate) trait McpBackend: Send + Sync {
+    fn request(
+        &self,
+        method: &str,
+        params: Option<Value>,
+        timeout: Option<Duration>,
+    ) -> Result<Map<String, Value>>;
+
+    fn notify(&self, method: &str, params: Option<Value>) -> Result<()>;
+
+    fn call_tool(
+        &self,
+        name: &str,
+        arguments: Map<String, Value>,
+        timeout: Option<Duration>,
+    ) -> Result<Value>;
+
+    fn set_protocol_version(&self, value: String);
+
+    fn protocol_version(&self) -> String;
+
+    fn set_server_info(&self, value: Map<String, Value>);
+
+    fn server_info(&self) -> Map<String, Value>;
+
+    fn set_server_capabilities(&self, value: Map<String, Value>);
+
+    fn server_capabilities(&self) -> Map<String, Value>;
+
+    fn pid(&self) -> Option<u32>;
+
+    fn is_running(&self) -> bool;
+
+    fn close(&self);
+}
 
 #[derive(Debug, Clone)]
 pub struct McpServerConfig {
@@ -80,7 +117,7 @@ impl McpTool {
 }
 
 pub struct McpToolAdapter {
-    inner: Arc<Inner>,
+    inner: Arc<dyn McpBackend>,
     tool: McpTool,
 }
 

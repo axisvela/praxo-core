@@ -1,4 +1,4 @@
-use std::collections::HashMap;
+﻿use std::collections::HashMap;
 use std::io::{BufRead, BufReader, BufWriter, Write};
 use std::process::{Child, ChildStdin, ChildStdout, Command, Stdio};
 use std::sync::atomic::{AtomicBool, AtomicU64, Ordering};
@@ -11,7 +11,7 @@ use serde_json::{json, Map, Value};
 
 use crate::errors::{PraxoError, Result};
 
-use super::McpServerConfig;
+use super::{McpBackend, McpServerConfig};
 
 const CLOSE_POLL: Duration = Duration::from_millis(50);
 const CLOSE_POLLS: usize = 100;
@@ -342,7 +342,7 @@ fn reader_loop(inner: Weak<Inner>, reader: BufReader<ChildStdout>) {
     }
 }
 
-fn request_message(id: u64, method: &str, params: Option<Value>) -> Value {
+pub(crate) fn request_message(id: u64, method: &str, params: Option<Value>) -> Value {
     let mut message = Map::new();
     message.insert("jsonrpc".to_string(), json!("2.0"));
     message.insert("id".to_string(), json!(id));
@@ -353,7 +353,7 @@ fn request_message(id: u64, method: &str, params: Option<Value>) -> Value {
     Value::Object(message)
 }
 
-fn rpc_error(method: &str, error: &Value) -> PraxoError {
+pub(crate) fn rpc_error(method: &str, error: &Value) -> PraxoError {
     let Some(object) = error.as_object() else {
         return PraxoError::mcp_protocol(format!("mcp: {method} returned an invalid error object"));
     };
@@ -366,7 +366,7 @@ fn rpc_error(method: &str, error: &Value) -> PraxoError {
     PraxoError::mcp_rpc(format!("mcp: {method} failed: {message} ({code})"))
 }
 
-fn text_contents(result: &Map<String, Value>) -> Vec<String> {
+pub(crate) fn text_contents(result: &Map<String, Value>) -> Vec<String> {
     let Some(content) = result.get("content").and_then(Value::as_array) else {
         return Vec::new();
     };
@@ -385,6 +385,66 @@ fn text_contents(result: &Map<String, Value>) -> Vec<String> {
         .collect()
 }
 
-fn text_content(result: &Map<String, Value>) -> String {
+pub(crate) fn text_content(result: &Map<String, Value>) -> String {
     text_contents(result).join("\n")
+}
+
+impl McpBackend for Inner {
+    fn request(
+        &self,
+        method: &str,
+        params: Option<Value>,
+        timeout: Option<Duration>,
+    ) -> Result<Map<String, Value>> {
+        Inner::request(self, method, params, timeout)
+    }
+
+    fn notify(&self, method: &str, params: Option<Value>) -> Result<()> {
+        Inner::notify(self, method, params)
+    }
+
+    fn call_tool(
+        &self,
+        name: &str,
+        arguments: Map<String, Value>,
+        timeout: Option<Duration>,
+    ) -> Result<Value> {
+        Inner::call_tool(self, name, arguments, timeout)
+    }
+
+    fn set_protocol_version(&self, value: String) {
+        Inner::set_protocol_version(self, value);
+    }
+
+    fn protocol_version(&self) -> String {
+        Inner::protocol_version(self)
+    }
+
+    fn set_server_info(&self, value: Map<String, Value>) {
+        Inner::set_server_info(self, value);
+    }
+
+    fn server_info(&self) -> Map<String, Value> {
+        Inner::server_info(self)
+    }
+
+    fn set_server_capabilities(&self, value: Map<String, Value>) {
+        Inner::set_server_capabilities(self, value);
+    }
+
+    fn server_capabilities(&self) -> Map<String, Value> {
+        Inner::server_capabilities(self)
+    }
+
+    fn pid(&self) -> Option<u32> {
+        Inner::pid(self)
+    }
+
+    fn is_running(&self) -> bool {
+        Inner::is_running(self)
+    }
+
+    fn close(&self) {
+        Inner::close(self);
+    }
 }

@@ -10,13 +10,16 @@ module Praxo
 
       attr_reader :protocol_version, :server_info
 
-      def initialize(command: nil, args: [], env: {}, timeout: 5, reader: nil, writer: nil)
+      def initialize(command: nil, args: [], env: {}, timeout: 5, reader: nil, writer: nil,
+                     transport: nil, protocol_version: DEFAULT_PROTOCOL_VERSION)
         @command = command
         @args = args
         @env = env
         @timeout = timeout
         @reader = reader
         @writer = writer
+        @transport = transport
+        @protocol_version = protocol_version
         @next_id = 0
         @closed = false
         @connected = false
@@ -25,7 +28,7 @@ module Praxo
       def start
         return self if @connected
 
-        if @reader.nil? || @writer.nil?
+        if @transport.nil? && (@reader.nil? || @writer.nil?)
           raise Praxo::Error.new('MCP_TRANSPORT', 'mcp: command is required') if @command.nil?
 
           @stdin, @stdout, @stderr, @wait = Open3.popen3(@env, @command, *@args)
@@ -33,7 +36,7 @@ module Praxo
           @reader = @stdout
         end
         result = request('initialize', {
-          protocolVersion: DEFAULT_PROTOCOL_VERSION,
+          protocolVersion: @protocol_version,
           capabilities: {},
           clientInfo: { name: 'praxo-core', version: '0.5.0' }
         })
@@ -92,6 +95,15 @@ module Praxo
         return if @closed
 
         @closed = true
+        if @transport
+          begin
+            @transport.close
+          rescue StandardError
+            nil
+          end
+          @connected = false
+          return
+        end
         begin
           @writer.close if @writer && !@writer.closed?
         rescue IOError
@@ -125,6 +137,8 @@ module Praxo
       def request(method, params, timeout: nil)
         raise Praxo::Error.new('MCP_CLOSED', 'mcp: client is closed') if @closed
 
+        return @transport.request(method, params, timeout: timeout || @timeout) if @transport
+
         @next_id += 1
         id = @next_id
         write({ jsonrpc: '2.0', id: id, method: method, params: params })
@@ -157,6 +171,7 @@ module Praxo
 
       def notify(method, params)
         return if @closed
+        return @transport.notify(method, params) if @transport
 
         write({ jsonrpc: '2.0', method: method, params: params })
       end

@@ -988,5 +988,95 @@ try {
 }
 check($mcpTimeout?->praxoCode === 'MCP_TIMEOUT', 'mcp timeout');
 
+$http = new class extends \Praxo\Core\Adapters\HttpMCPTransport {
+    public array $requests = [];
+
+    public function __construct()
+    {
+        parent::__construct('http://127.0.0.1/mcp');
+    }
+
+    protected function send(string $method, ?string $body, array $headers, float $timeout): array
+    {
+        $this->requests[] = ['method' => $method, 'body' => $body, 'headers' => $headers];
+        if ($method === 'DELETE') {
+            return [200, [], ''];
+        }
+        $message = json_decode($body ?? '{}', true);
+        $name = $message['method'] ?? '';
+        $id = $message['id'] ?? null;
+        if ($name === 'initialize') {
+            return [200, [
+                'mcp-session-id' => 'sess-1',
+                'content-type' => 'application/json',
+            ], json_encode([
+                'jsonrpc' => '2.0',
+                'id' => $id,
+                'result' => [
+                    'protocolVersion' => '2025-03-26',
+                    'capabilities' => [],
+                    'serverInfo' => ['name' => 'fake-http', 'version' => '1'],
+                ],
+            ])];
+        }
+        if (str_starts_with((string) $name, 'notifications/')) {
+            return [202, [], ''];
+        }
+        if ($name === 'tools/list') {
+            return [200, ['content-type' => 'application/json'], json_encode([
+                'jsonrpc' => '2.0',
+                'id' => $id,
+                'result' => ['tools' => [[
+                    'name' => 'echo',
+                    'description' => 'Echo input',
+                    'inputSchema' => [
+                        'type' => 'object',
+                        'properties' => ['text' => ['type' => 'string']],
+                        'required' => ['text'],
+                    ],
+                ]]],
+            ])];
+        }
+        if ($name === 'tools/call') {
+            $result = json_encode([
+                'jsonrpc' => '2.0',
+                'id' => $id,
+                'result' => ['content' => [['type' => 'text', 'text' => 'sse-ok']]],
+            ]);
+            return [200, ['content-type' => 'text/event-stream'], "event: message\ndata: {$result}\n\n"];
+        }
+        return [200, ['content-type' => 'application/json'], json_encode([
+            'jsonrpc' => '2.0',
+            'id' => $id,
+            'result' => [],
+        ])];
+    }
+};
+$httpClient = new \Praxo\Core\Adapters\MCPClient($http, '0.5.0', 5.0, '2025-03-26');
+$httpClient->start();
+check($httpClient->protocolVersion() === '2025-03-26', 'http mcp protocol version');
+check(array_column($httpClient->listTools(), 'name') === ['echo'], 'http mcp tools');
+check($httpClient->callTool('echo', ['text' => 'hi']) === 'sse-ok', 'http mcp sse call');
+$httpClient->close();
+$listed = null;
+foreach ($http->requests as $request) {
+    $decoded = json_decode($request['body'] ?? '{}', true);
+    if (is_array($decoded) && ($decoded['method'] ?? '') === 'tools/list') {
+        $listed = $request;
+        break;
+    }
+}
+check($listed !== null, 'http mcp tools request');
+check(($listed['headers']['MCP-Session-Id'] ?? '') === 'sess-1', 'http mcp session header');
+check(($listed['headers']['MCP-Protocol-Version'] ?? '') === '2025-03-26', 'http mcp protocol header');
+
+$httpRejected = null;
+try {
+    new \Praxo\Core\Adapters\HttpMCPTransport('http://example.com/mcp');
+} catch (\Praxo\Core\PraxoException $error) {
+    $httpRejected = $error;
+}
+check($httpRejected?->praxoCode === 'MCP_TRANSPORT', 'http mcp https required');
+
 echo "PHP core tests passed ({$passed})\n";
 
