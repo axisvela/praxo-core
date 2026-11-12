@@ -101,13 +101,6 @@ adapters.McpServerConfig.equals
 adapters.McpServerConfig.hashCode
 adapters.McpServerConfig.of
 adapters.McpServerConfig.toString
-adapters.McpStreamableHttpTransport
-adapters.McpStreamableHttpTransport.close
-adapters.McpStreamableHttpTransport.isRunning
-adapters.McpStreamableHttpTransport.pid
-adapters.McpStreamableHttpTransport.receive
-adapters.McpStreamableHttpTransport.send
-adapters.McpStreamableHttpTransport.start
 adapters.McpTool
 adapters.McpTool.annotations
 adapters.McpTool.description
@@ -124,13 +117,6 @@ adapters.McpToolAdapter.invoke
 adapters.McpToolAdapter.name
 adapters.McpToolAdapter.spec
 adapters.McpToolAdapter.tool
-adapters.McpTransport
-adapters.McpTransport.close
-adapters.McpTransport.isRunning
-adapters.McpTransport.pid
-adapters.McpTransport.receive
-adapters.McpTransport.send
-adapters.McpTransport.start
 adapters.OpenAICompatibleModel
 adapters.OpenAICompatibleModel.generate
 adapters.OpenAICompatibleModel.generateStream
