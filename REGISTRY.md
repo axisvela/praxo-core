@@ -34,7 +34,7 @@ controls, checkpoints, and event tracing. It is not a Go-only framework.
 | D | `praxo-core` | [DUB](https://code.dlang.org/packages/praxo-core) | `0.1.0` | https://axisvela.github.io/praxo-core/languages/d/ |
 | PowerShell | `praxo-core-ps` | [PowerShell Gallery](https://www.powershellgallery.com/packages/praxo-core-ps/0.3.1) | `0.3.1` | https://axisvela.github.io/praxo-core/languages/powershell/ |
 | R | `praxocore` | [r-universe](https://axisvela.r-universe.dev/praxocore) | `0.6.1` | https://axisvela.github.io/praxo-core/languages/r/ |
-| MATLAB | `PRAXO-CORE` | [MATLAB File Exchange](https://www.mathworks.com/matlabcentral/fileexchange/185166-praxo-core) | `0.2.1` | https://axisvela.github.io/praxo-core/languages/matlab/ |
+| MATLAB | `PRAXO-CORE` | [MATLAB File Exchange](https://www.mathworks.com/matlabcentral/fileexchange/185166-praxo-core) | `0.3.0` | https://axisvela.github.io/praxo-core/languages/matlab/ |
 | GNU Octave | `praxo-core` | [Octave Packages](https://github.com/axisvela/praxo-core/releases/download/octave/v0.2.1/praxo-core-0.2.1.tar.gz) | `0.2.1` | https://axisvela.github.io/praxo-core/languages/octave/ |
 | Delphi / Free Pascal | `PRAXO-CORE` | [OPM / GitHub release](https://github.com/axisvela/praxo-core/releases/tag/delphi%2Fv0.2.1) | `0.2.1` | https://axisvela.github.io/praxo-core/languages/delphi/ |
 | Objective-C | `praxo-core-objc` | Source | not published | https://axisvela.github.io/praxo-core/languages/objc/ |

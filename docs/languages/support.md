@@ -141,7 +141,7 @@ its latest version matches the manifest at the release tag.
 | Lua | rockspec `0.4.1-1`; source tag `0.4.1` | LuaRocks `0.4.1-1` | current |
 | Dart | `0.1.1` | pub.dev `0.1.1` | current |
 | Julia | `0.2.0` | General Registry PR #174826 open | pending |
-| MATLAB | `0.2.1` | File Exchange `185166` | current |
+| MATLAB | `0.3.0` | File Exchange `185166` | current |
 | Octave | `0.2.1` | Octave Packages PR #875 open | pending |
 | Perl | `0.1.1` | CPAN indexing pending | pending |
 | PowerShell | `0.2.0` | PowerShell Gallery `0.2.0` | current |

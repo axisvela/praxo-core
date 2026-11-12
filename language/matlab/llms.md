@@ -9,7 +9,7 @@
 - package: `PRAXO-CORE`
 - registry: [MATLAB File Exchange](https://www.mathworks.com/matlabcentral/fileexchange/185166-praxo-core)
 - source_version: `0.3.0`
-- published_version: `0.2.1`
+- published_version: `0.3.0`
 - install_published: `File Exchange entry 185166`
 - install_source: `File Exchange entry 185166`
 - source_tag: `matlab/v0.3.0`

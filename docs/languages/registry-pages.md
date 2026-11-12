@@ -126,7 +126,7 @@ Maven Central) must still have accurate metadata and canonical documentation lin
 ## MATLAB Compatibility Metadata
 
 Checked 2026-11-06: [File Exchange](https://www.mathworks.com/matlabcentral/fileexchange/185166-praxo-core)
-shows version `0.2.1`, "Compatible with any release" and Windows/macOS/Linux
+shows version `0.3.0`, "Compatible with any release" and Windows/macOS/Linux
 labels; its installation menu also says R2026b or later. These labels are not
 independent MATLAB test evidence. The implementation is tested under GNU Octave
 11.3.0; MATLAB execution and installed-artifact validation remain unverified.

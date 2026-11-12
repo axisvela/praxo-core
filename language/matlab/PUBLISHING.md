@@ -1,6 +1,6 @@
 # Publishing the MATLAB/Octave Core
 
-Source tag `matlab/v0.2.1`. The package is published on MATLAB File Exchange:
+Source tag `matlab/v0.3.0`. The package is published on MATLAB File Exchange:
 <https://www.mathworks.com/matlabcentral/fileexchange/185166-praxo-core>. It is
 not published to Octave Packages.
 
@@ -23,7 +23,7 @@ MATLAB release and enables only the host platform, not MATLAB Online or all OSes
 This is source execution evidence, not an installed-artifact test. The packager
 has not yet been independently executed in MATLAB.
 
-This creates `praxo-core-0.2.1.mltbx` containing `+praxo`, `README.md`,
+This creates `praxo-core-0.3.0.mltbx` containing `+praxo`, `README.md`,
 `LICENSE`, and `toolbox-image.png`. The image is
 `language/matlab/toolbox-image.png`; use it as the File Exchange thumbnail.
 
@@ -55,7 +55,7 @@ Published entry: <https://www.mathworks.com/matlabcentral/fileexchange/185166-pr
 Citation:
 
 ```text
-AxisVela (2026). PRAXO-CORE (Version 0.2.1) [Computer software].
+AxisVela (2026). PRAXO-CORE (Version 0.3.0) [Computer software].
 MATLAB Central File Exchange.
 https://www.mathworks.com/matlabcentral/fileexchange/185166-praxo-core
 ```

@@ -112,7 +112,7 @@ Bridge、Sample 描述运行时的接入方式，不证明其语言缺乏 Framew
 | Lua | rockspec `0.4.1-1`；源码标签 `0.4.1` | LuaRocks `0.4.1-1` | 已最新 |
 | Dart | `0.1.1` | pub.dev `0.1.1` | 已最新 |
 | Julia | `0.2.0` | General Registry PR #174826 待合并 | 待完成 |
-| MATLAB | `0.2.1` | File Exchange `185166` | 已最新 |
+| MATLAB | `0.3.0` | File Exchange `185166` | 已最新 |
 | Octave | `0.2.1` | Octave Packages PR #875 待合并 | 待完成 |
 | Perl | `0.1.1` | CPAN 索引待完成 | 待完成 |
 | PowerShell | `0.2.0` | PowerShell Gallery `0.2.0` | 已最新 |

@@ -93,7 +93,7 @@ Go 页面随 `v2.7.0` tag 更新，并已于 2026-11-09 重新核对。在其他
 ## MATLAB 兼容性元数据
 
 2026-11-06 核对：[File Exchange](https://www.mathworks.com/matlabcentral/fileexchange/185166-praxo-core)
-的 `0.2.1` 显示“Compatible with any release”和 Windows/macOS/Linux，安装菜单又显示
+的 `0.3.0` 显示“Compatible with any release”和 Windows/macOS/Linux，安装菜单又显示
 R2026b 或更新版本。这些标签不是独立 MATLAB 验证证据。当前执行证据仅来自 GNU Octave
 11.3.0，MATLAB 运行及实际安装包验证仍未完成。提交所有者需收窄可编辑兼容性字段，或在
 Overview 顶部添加醒目限制。修改源码不会自动修改线上提交。
