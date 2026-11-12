@@ -156,6 +156,14 @@ type agent_options = {
   agent_max_tokens : int;
   agent_session_id : string;
 }
+type mcp_transport = string -> json -> json
+type mcp_client = {
+  mcp_transport : mcp_transport;
+  mcp_client_version : string;
+  mutable mcp_protocol_version : string;
+  mutable mcp_server_info : json;
+  mutable mcp_closed : bool;
+}
 
 exception Core_error of string * string
 
@@ -238,3 +246,8 @@ val agent_options : model -> agent_options
 val tool_make : string -> string -> (json -> json) -> tool
 val find_tool : tool list -> string -> tool option
 val run_agent : agent_options -> session -> string -> run_result
+
+val mcp_client : ?client_version:string -> ?protocol_version:string -> mcp_transport -> mcp_client
+val mcp_list_tools : mcp_client -> json list
+val mcp_call_tool : mcp_client -> string -> json -> json
+val mcp_close : mcp_client -> unit

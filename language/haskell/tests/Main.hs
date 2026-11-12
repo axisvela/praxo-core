@@ -13,6 +13,7 @@ import qualified Praxo.OpenAICompatible as O
 import qualified Praxo.Anthropic as An
 import qualified Praxo.Gemini as G
 import qualified Praxo.Harmovela as H
+import qualified Praxo.Mcp as M
 import Praxo.Pattern
 import Praxo.Plugin
 import Praxo.Runtime
@@ -27,7 +28,8 @@ main = do
     adapterTests
     providerTests
     harmovelaTests
-    assert "contract version" (specVersion == "0.2.0" && sdkVersion == "0.3.0")
+    mcpTests
+    assert "contract version" (specVersion == "0.2.0" && sdkVersion == "0.4.0")
     forM_ ["", "01", "1.", "+1", "NaN", "1e", "[1,]", "{\"a\":1,}", "{}{}", "\"\\q\"", "\"\\ud800\"", "\"\\udc00\"", "\"\\ud800\\u0041\"", "\"line\nbreak\"", "true garbage"] $ \raw ->
         assert ("invalid JSON " ++ show raw) (isLeft (parseJson raw))
     assert "unicode escape" (parseJson "\"\\u00e9\\ud83d\\ude00\"" == Right (JString "\x00e9\x1f600"))
@@ -387,6 +389,69 @@ harmovelaTests = do
     let missing = H.newHarmovelaSink "" (H.HarmovelaTransport (\_ -> fail "harmovela transport called for missing base URL")) (pure 1)
     missingResult <- H.emitHarmovelaEvent missing event
     assert "harmovela missing base url" (case missingResult of Left err -> A.errorCode err == "HARMOVELA_URL"; _ -> False)
+
+mcpTests :: IO ()
+mcpTests = do
+    let transport = M.McpTransport (\method params -> case method of
+            "initialize" -> pure (Right (json "{\"protocolVersion\":\"2024-11-05\",\"serverInfo\":{\"name\":\"fake\"}}"))
+            "tools/list" -> case field "cursor" params of
+                JString "c1" -> pure (Right (json "{\"tools\":[{\"name\":\"two\"}]}"))
+                _ -> pure (Right (json "{\"tools\":[{\"name\":\"echo\",\"inputSchema\":{\"type\":\"object\"}}],\"nextCursor\":\"c1\"}"))
+            "tools/call" -> pure (Right (json "{\"content\":[{\"type\":\"text\",\"text\":\"ok\"}]}"))
+            _ -> pure (Right (JObject [])))
+    clientResult <- M.mcpClient transport "" ""
+    case clientResult of
+        Left err -> fail (A.errorMessage err)
+        Right client -> do
+            assert "mcp default client version" (M.mcpClientVersion client == "0.4.0")
+            assert "mcp negotiated protocol" (M.mcpProtocolVersion client == "2024-11-05")
+            tools <- M.mcpListTools client
+            case tools of
+                Left err -> fail (A.errorMessage err)
+                Right items -> do
+                    assert "mcp pagination count" (length items == 2)
+                    assert "mcp tool order" (map (asString . field "name") items == ["echo", "two"])
+            value <- M.mcpCallTool client "echo" (JObject [])
+            assert "mcp text call" (value == Right (JString "ok"))
+            M.mcpClose client
+            closed <- readIORef (M.mcpClosed client)
+            assert "mcp closed" closed
+    let duplicateTransport = M.McpTransport (\method _ -> case method of
+            "initialize" -> pure (Right (json "{\"protocolVersion\":\"2024-11-05\"}"))
+            "tools/list" -> pure (Right (json "{\"tools\":[{\"name\":\"echo\"},{\"name\":\"echo\"}]}"))
+            _ -> pure (Right (JObject [])))
+    duplicateResult <- M.mcpClient duplicateTransport "" ""
+    case duplicateResult of
+        Left err -> fail (A.errorMessage err)
+        Right duplicateClient -> do
+            duplicateTools <- M.mcpListTools duplicateClient
+            assert "mcp duplicate tool error" (case duplicateTools of
+                Left err -> A.errorCode err == "MCP_DUPLICATE_TOOL"
+                Right _ -> False)
+    let cursorTransport = M.McpTransport (\method _ -> case method of
+            "initialize" -> pure (Right (json "{\"protocolVersion\":\"2024-11-05\"}"))
+            "tools/list" -> pure (Right (json "{\"tools\":[],\"nextCursor\":\"c1\"}"))
+            _ -> pure (Right (JObject [])))
+    cursorResult <- M.mcpClient cursorTransport "" ""
+    case cursorResult of
+        Left err -> fail (A.errorMessage err)
+        Right cursorClient -> do
+            paginated <- M.mcpListTools cursorClient
+            assert "mcp repeated cursor error" (case paginated of
+                Left err -> A.errorCode err == "MCP_PAGINATION"
+                Right _ -> False)
+    let failingTransport = M.McpTransport (\method _ -> case method of
+            "initialize" -> pure (Right (json "{\"protocolVersion\":\"2024-11-05\"}"))
+            "tools/call" -> pure (Right (json "{\"isError\":true}"))
+            _ -> pure (Right (JObject [])))
+    failingResult <- M.mcpClient failingTransport "" ""
+    case failingResult of
+        Left err -> fail (A.errorMessage err)
+        Right failingClient -> do
+            called <- M.mcpCallTool failingClient "echo" (JObject [])
+            assert "mcp tool error" (case called of
+                Left err -> A.errorCode err == "MCP_TOOL_ERROR"
+                Right _ -> False)
 
 assert :: String -> Bool -> IO ()
 assert label condition = unless condition (fail label)

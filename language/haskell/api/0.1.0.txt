@@ -1,4 +1,4 @@
-# PRAXO-CORE Haskell Wire API 0.3.0
+# PRAXO-CORE Haskell Wire API 0.4.0
 # SPEC_VERSION 0.2.0
 
 ## Praxo.Agent
@@ -47,6 +47,14 @@ parseJson :: String -> Either String Json
 ## Praxo.JsonSchema
 data ValidationError = ValidationError { errorPath :: String, errorMessage :: String } deriving (Eq, Show)
 validateSchema :: Json -> Json -> Either String [ValidationError]
+
+## Praxo.Mcp
+data McpClient = McpClient
+newtype McpTransport = McpTransport (String -> Json -> IO (Either AgentError Json))
+mcpCallTool :: McpClient -> String -> Json -> IO (Either AgentError Json)
+mcpClient :: McpTransport -> String -> String -> IO (Either AgentError McpClient)
+mcpClose :: McpClient -> IO ()
+mcpListTools :: McpClient -> IO (Either AgentError [Json])
 
 ## Praxo.Middleware
 data CallLimit = CallLimit

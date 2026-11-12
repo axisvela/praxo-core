@@ -21,7 +21,7 @@ exception Schema_error of string
 exception Toolcall_error of string
 
 let spec_version = "0.2.0"
-let sdk_version = "0.4.0"
+let sdk_version = "0.5.0"
 
 let stream_kinds = ["values"; "updates"; "messages"; "tasks"; "debug"; "checkpoint"]
 let max_json = 1048576
@@ -2114,3 +2114,112 @@ let run_agent options session prompt =
     in
     (try emit_failed message with _ -> ());
     Printexc.raise_with_backtrace error backtrace
+
+let mcp_client ?(client_version = "0.5.0") ?(protocol_version = "2024-11-05") transport =
+  let client_version = if client_version = "" then "0.5.0" else client_version in
+  let protocol_version =
+    if protocol_version = "" then "2024-11-05" else protocol_version
+  in
+  let params = Object [
+    ("protocolVersion", String protocol_version);
+    ("capabilities", Object []);
+    ("clientInfo", Object [
+      ("name", String "praxo-core");
+      ("version", String client_version);
+    ]);
+  ] in
+  let result = transport "initialize" params in
+  (match result with
+   | Object _ -> ()
+   | _ -> raise_core "MCP_PROTOCOL" "mcp: initialize result must be an object");
+  let version = match field "protocolVersion" result with
+    | Some (String value) -> value
+    | _ -> ""
+  in
+  if version = "" then
+    raise_core "MCP_HANDSHAKE" "mcp: initialize returned no protocol version";
+  let server_info = match field "serverInfo" result with
+    | Some (Object _ as info) -> info
+    | _ -> Object []
+  in
+  { mcp_transport = transport;
+    mcp_client_version = client_version;
+    mcp_protocol_version = version;
+    mcp_server_info = server_info;
+    mcp_closed = false;
+  }
+
+let mcp_list_tools client =
+  let tools = ref [] in
+  let names = Hashtbl.create 8 in
+  let cursors = Hashtbl.create 8 in
+  let cursor = ref "" in
+  let finished = ref false in
+  while not !finished do
+    let params =
+      if !cursor = "" then Object []
+      else Object [("cursor", String !cursor)]
+    in
+    let result = client.mcp_transport "tools/list" params in
+    let items = match field "tools" result with
+      | Some (Array values) -> values
+      | _ -> raise_core "MCP_PROTOCOL" "mcp: tools/list tools must be an array"
+    in
+    List.iter (fun item ->
+      let name = match item with
+        | Object _ ->
+            (match field "name" item with Some (String name) -> name | _ -> "")
+        | _ -> ""
+      in
+      if name = "" then raise_core "MCP_PROTOCOL" "mcp: tool name is required";
+      if Hashtbl.mem names name then
+        raise_core "MCP_DUPLICATE_TOOL" ("mcp: duplicate tool " ^ name);
+      Hashtbl.replace names name ();
+      tools := item :: !tools
+    ) items;
+    let next = match field "nextCursor" result with
+      | Some (String value) -> value
+      | Some _ -> raise_core "MCP_PROTOCOL" "mcp: nextCursor must be a string"
+      | None -> ""
+    in
+    if next = "" then finished := true
+    else begin
+      if Hashtbl.mem cursors next then
+        raise_core "MCP_PAGINATION" "mcp: repeated tool pagination cursor";
+      Hashtbl.replace cursors next ();
+      cursor := next
+    end
+  done;
+  List.rev !tools
+
+let mcp_call_tool client name arguments =
+  if name = "" then raise_core "MCP_PROTOCOL" "mcp: tool name is required";
+  let result = client.mcp_transport "tools/call" (Object [
+    ("name", String name);
+    ("arguments", arguments);
+  ]) in
+  (match result with
+   | Object _ -> ()
+   | _ -> raise_core "MCP_PROTOCOL" "mcp: tools/call result must be an object");
+  (match field_bool "isError" result with
+   | Some true -> raise_core "MCP_TOOL_ERROR" ("mcp: tool " ^ name ^ " failed")
+   | _ -> ());
+  match field "structuredContent" result with
+  | Some value -> value
+  | None ->
+      let texts =
+        field_array "content" result
+        |> List.filter_map (fun item ->
+             match item with
+             | Object _ ->
+                 (match field "type" item, field "text" item with
+                  | Some (String "text"), Some (String text) -> Some text
+                  | _ -> None)
+             | _ -> None)
+      in
+      (match texts with
+       | [] -> Null
+       | [text] -> String text
+       | _ -> Array (List.map (fun text -> String text) texts))
+
+let mcp_close client = client.mcp_closed <- true

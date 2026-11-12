@@ -85,7 +85,7 @@ for real providers, platforms, and production behavior is reported separately.
 | Swift | Core | released | `swift/v0.4.0` | complete | 11 vectors, XCTest, API snapshot, stdio and Streamable HTTP MCP clients; split SPM repo `axisvela/praxo-core-swift` tag `0.2.0`; SPI PR #16032 open |
 | Julia | Core | released | `julia/v0.3.0` | complete | 11 vectors, JSON.jl, API snapshot; mirror `axisvela/praxo-core-julia` tag `0.2.0`; General Registry PR #174826 open |
 | R | Core | released | `r/v0.7.1` | complete | 11 vectors, base-R JSON, policy/middleware, HITL interrupts, lifecycle cleanup, cancellation, streaming, SSE parser, bounded parallel tools, API snapshot; OpenAI-compatible, Harmovela, and stdio MCP adapters; source `0.7.1`, r-universe `praxocore==0.6.1` |
-| Haskell | Core | released | `haskell/v0.3.0` | complete | 11 vectors, native tests, API snapshot/parity; GHC 9.12.2; runtime and middleware helpers |
+| Haskell | Core | released | `haskell/v0.4.0` | complete | 11 vectors, native tests, API snapshot/parity, MCP transport-seam client; GHC 9.12.2; runtime and middleware helpers |
 | Fortran | Core | released | `fortran/v0.7.0` | complete | 11 vectors, HITL interrupts, native tests, API snapshot; upstream RE2/Unicode patterns, cancellation, streaming, SSE, and caller-provided batch tools; JSON/schema limits remain documented |
 | Lisp | Bridge | released | `lisp/v0.1.0` | complete | SBCL bridge over the bridge CLI; forwarding, UTF-8, errors, and exit codes verified locally and in Linux CI; consumer details pending |
 | JavaScript | Sample (TypeScript) | released | none | sample | Uses the TypeScript package; no separate core |
@@ -94,11 +94,11 @@ for real providers, platforms, and production behavior is reported separately.
 | Ruby | Core | released | `ruby/v0.6.0` | complete | 11 vectors, HITL interrupts, core tests, API snapshot, middleware/lifecycle authorization, cancellation, streaming, SSE, parallel tools, and run-scoped call limits; source `0.6.0`, Ruby source repo `axisvela/praxo-core-ruby`, RubyGems `praxo-core==0.5.0` |
 | Kotlin | Sample (JVM) | released | none | sample | Uses the Java Core |
 | Scala | Sample (JVM) | released | none | sample | Uses the Java Core |
-| MATLAB | Core | released | `matlab/v0.3.0` | complete | 11 vectors, native tests, API snapshot/parity; MATLAB File Exchange `185166`; MATLAB runtime unverified |
-| Octave | Core | released | `octave/v0.3.0` | complete | 11 vectors, native tests, API snapshot/parity under GNU Octave 11.3.0; Octave Packages PR #875 open |
+| MATLAB | Core | released | `matlab/v0.4.0` | complete | 11 vectors, native tests, API snapshot/parity, MCP transport-seam client; MATLAB File Exchange `185166`; MATLAB runtime unverified |
+| Octave | Core | released | `octave/v0.4.0` | complete | 11 vectors, native tests, API snapshot/parity, MCP transport-seam client under GNU Octave 11.3.0; Octave Packages PR #875 open |
 | Perl | Core | released | `perl/v0.3.0` | complete | 11 vectors, 27 tests, API snapshot; source `0.3.0`, CPAN `Praxo-Core==0.2.0`; distribution root package `Praxo::Core` |
 | Delphi | Core | released | `delphi/v0.4.0` | complete | 11 vectors, native tests, API snapshot/parity; source `0.4.0`, OPM `0.2.1`; Free Pascal 3.2.2; commercial Delphi unverified |
-| OCaml / Caml | Core | released | `ocaml/v0.4.0` | complete | 11 vectors, native tests, API snapshot/parity; OCaml 4.14.2 bytecode; module `Praxo_core`; opt-in middleware integrated |
+| OCaml / Caml | Core | released | `ocaml/v0.5.0` | complete | 11 vectors, native tests, API snapshot/parity, MCP transport-seam client; OCaml 4.14.2 bytecode; module `Praxo_core`; opt-in middleware integrated |
 | Objective-C | Core | released | `objc/v0.3.1` | complete | 11 vectors, native tests, API snapshot/parity; source `0.3.1`, published `0.1.1`; opt-in middleware integrated; Windows GNUstep and macOS CI |
 | Elixir | Core | released | `elixir/v0.7.0` | complete | 11 vectors, HITL interrupts, native tests, API snapshot/parity, policy/middleware/lifecycle, cancellation, streaming, SSE, parallel tools, run-scoped call limits, OpenAI-compatible, Harmovela, and stdio MCP adapters; source `0.7.0`; Hex `praxo_core==0.6.0` |
 | Nim | Core | released | `nim/v0.3.0` | complete | 11 vectors, native tests, API snapshot/parity, MCP transport-seam client; opt-in middleware integrated |
@@ -154,9 +154,9 @@ for real providers, platforms, and production behavior is reported separately.
 | Shell / PowerShell Bridge | `bridge` | bridge tests, both wrappers |
 | Fortran | `fortran-conformance` | native tests, 11 vector groups, API snapshot, installed RE2 bridge and Unicode tests; source release tagged `fortran/v0.7.0` |
 | COBOL | `cobol-conformance` | 11 vectors, API snapshot, native/behavior/SSE/tooling tests |
-| Haskell | `haskell-conformance` | 11 vectors, native tests, source API/parity, Cabal build; source release tagged `haskell/v0.3.0` |
+| Haskell | `haskell-conformance` | 11 vectors, native tests, source API/parity, Cabal build; source release tagged `haskell/v0.4.0` |
 | Delphi / Free Pascal | `delphi-conformance` | 11 vectors, native tests, source API/parity; source release tagged `delphi/v0.4.0`; commercial Delphi unverified |
-| OCaml | `ocaml-conformance` | 11 vectors, native tests, source API/parity; local OCaml 4.14.2 bytecode and Linux CI verified; source release tagged `ocaml/v0.4.0`; `ocamlopt` unverified |
+| OCaml | `ocaml-conformance` | 11 vectors, native tests, source API/parity; local OCaml 4.14.2 bytecode and Linux CI verified; source release tagged `ocaml/v0.5.0`; `ocamlopt` unverified |
 | Objective-C | `objc-conformance` | 11 vectors, native tests, source API/parity; local clang + GNUstep verified; macOS CI verified |
 | Elixir | `elixir-conformance` | 11 vectors, API snapshot, native tests; OTP 29 + Elixir 1.20.4 |
 | Erlang | `erlang-conformance` | 11 vectors, native tests, API snapshot/parity, OTP 29 |
@@ -165,8 +165,8 @@ for real providers, platforms, and production behavior is reported separately.
 | Lisp | `lisp-bridge` | forwarding, UTF-8 JSON, errors, exit codes; local SBCL 2.6.9 and Linux CI verified; source release tagged `lisp/v0.1.0` |
 | Tcl | `tcl-bridge` | forwarding, UTF-8 JSON, errors, exit codes; local Tcl 8.6; source release tagged `tcl/v0.1.0` |
 | Prolog | `prolog-bridge` | forwarding, UTF-8 JSON, errors, exit codes; SWI-Prolog; source release tagged `prolog/v0.1.1` |
-| MATLAB | `matlab-conformance` | 11 vectors, native tests, source API/parity; source release tagged `matlab/v0.3.0`; MATLAB runtime unverified |
-| Octave | `octave-conformance`, `octave-package` | 11 vectors, native tests, source API/parity; source release tagged `octave/v0.3.0`; Octave package archive install smoke |
+| MATLAB | `matlab-conformance` | 11 vectors, native tests, source API/parity; source release tagged `matlab/v0.4.0`; MATLAB runtime unverified |
+| Octave | `octave-conformance`, `octave-package` | 11 vectors, native tests, source API/parity; source release tagged `octave/v0.4.0`; Octave package archive install smoke |
 | Further languages | none yet | planned; gate depends on declared tier |
 
 ## Required Gates per Contract Tier

@@ -3,7 +3,7 @@
 - Tier: core
 - SPEC_VERSION: 0.2.0
 
-Released source tag `haskell/v0.3.0` ships a native Core implementation. It
+Released source tag `haskell/v0.4.0` ships a native Core implementation. It
 passes all eleven vector groups, native regression tests, and the source API
 snapshot. `partial` marks a surface that covers the vector behavior and common
 path but not every optional Go hook or provider adapter. The agent loop supports

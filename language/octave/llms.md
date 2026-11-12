@@ -8,11 +8,11 @@
 
 - package: `praxo-core`
 - registry: [Octave Packages](https://github.com/axisvela/praxo-core/releases/download/octave/v0.2.1/praxo-core-0.2.1.tar.gz)
-- source_version: `0.3.0`
+- source_version: `0.4.0`
 - published_version: `0.2.1`
 - install_published: `pkg install -forge praxo-core`
 - install_source: `pkg install -forge praxo-core`
-- source_tag: `octave/v0.3.0`
+- source_tag: `octave/v0.4.0`
 - tier: Core
 - contract: `SPEC_VERSION` `0.2.0`
 - documentation: https://axisvela.github.io/praxo-core/languages/octave/

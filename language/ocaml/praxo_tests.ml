@@ -475,6 +475,103 @@ let test_agent_middleware () =
   check (model_code = "AGENT_MODEL_CALL_LIMIT") "model call limit";
   print_endline "test_agent_middleware passed"
 
+let test_mcp () =
+  let calls = ref [] in
+  let transport method_name params =
+    calls := (method_name, params) :: !calls;
+    match method_name with
+    | "initialize" ->
+        Praxo_core.Object [
+          ("protocolVersion", Praxo_core.String "2024-11-05");
+          ("serverInfo", Praxo_core.Object [("name", Praxo_core.String "fake")]);
+        ]
+    | "tools/list" ->
+        (match field "cursor" params with
+         | Some (Praxo_core.String "c1") ->
+             Praxo_core.Object [
+               ("tools", Praxo_core.Array [
+                 Praxo_core.Object [("name", Praxo_core.String "two")];
+               ]);
+             ]
+         | _ ->
+             Praxo_core.Object [
+               ("tools", Praxo_core.Array [
+                 Praxo_core.Object [("name", Praxo_core.String "echo")];
+               ]);
+               ("nextCursor", Praxo_core.String "c1");
+             ])
+    | "tools/call" ->
+        Praxo_core.Object [
+          ("content", Praxo_core.Array [
+            Praxo_core.Object [
+              ("type", Praxo_core.String "text");
+              ("text", Praxo_core.String "ok");
+            ];
+          ]);
+        ]
+    | _ -> Praxo_core.Object []
+  in
+  let client = Praxo_core.mcp_client transport in
+  check (client.Praxo_core.mcp_protocol_version = "2024-11-05") "mcp protocol version";
+  let tools = Praxo_core.mcp_list_tools client in
+  check (List.length tools = 2) "mcp pagination";
+  check (List.exists (fun tool ->
+    match field "name" tool with
+    | Some (Praxo_core.String "echo") -> true
+    | _ -> false) tools) "mcp tool echo";
+  let value = Praxo_core.mcp_call_tool client "echo" (Praxo_core.Object []) in
+  check (match value with Praxo_core.String "ok" -> true | _ -> false) "mcp call text";
+  Praxo_core.mcp_close client;
+  check client.Praxo_core.mcp_closed "mcp closed";
+
+  let duplicate_transport method_name _ =
+    match method_name with
+    | "initialize" -> Praxo_core.Object [("protocolVersion", Praxo_core.String "2024-11-05")]
+    | "tools/list" ->
+        Praxo_core.Object [("tools", Praxo_core.Array [
+          Praxo_core.Object [("name", Praxo_core.String "echo")];
+          Praxo_core.Object [("name", Praxo_core.String "echo")];
+        ])]
+    | _ -> Praxo_core.Object []
+  in
+  let duplicate = Praxo_core.mcp_client duplicate_transport in
+  let duplicate_code =
+    try ignore (Praxo_core.mcp_list_tools duplicate); ""
+    with Praxo_core.Core_error (code, _) -> code
+  in
+  check (duplicate_code = "MCP_DUPLICATE_TOOL") "mcp duplicate tool";
+
+  let cursor_transport method_name _ =
+    match method_name with
+    | "initialize" -> Praxo_core.Object [("protocolVersion", Praxo_core.String "2024-11-05")]
+    | "tools/list" ->
+        Praxo_core.Object [
+          ("tools", Praxo_core.Array []);
+          ("nextCursor", Praxo_core.String "c1");
+        ]
+    | _ -> Praxo_core.Object []
+  in
+  let cursor_client = Praxo_core.mcp_client cursor_transport in
+  let cursor_code =
+    try ignore (Praxo_core.mcp_list_tools cursor_client); ""
+    with Praxo_core.Core_error (code, _) -> code
+  in
+  check (cursor_code = "MCP_PAGINATION") "mcp repeated cursor";
+
+  let failing_transport method_name _ =
+    match method_name with
+    | "initialize" -> Praxo_core.Object [("protocolVersion", Praxo_core.String "2024-11-05")]
+    | "tools/call" -> Praxo_core.Object [("isError", Praxo_core.Bool true)]
+    | _ -> Praxo_core.Object []
+  in
+  let failing = Praxo_core.mcp_client failing_transport in
+  let failing_code =
+    try ignore (Praxo_core.mcp_call_tool failing "echo" (Praxo_core.Object [])); ""
+    with Praxo_core.Core_error (code, _) -> code
+  in
+  check (failing_code = "MCP_TOOL_ERROR") "mcp tool error";
+  print_endline "test_mcp passed"
+
 let () =
   let root = if Array.length Sys.argv > 1 then Sys.argv.(1) else "../../spec" in
   test_json ();
@@ -491,6 +588,7 @@ let () =
   test_agent_loop root;
   test_agent_middleware ();
   test_agent_failures ();
+  test_mcp ();
   Praxo_adapter_tests.test_openai_adapter ();
   Praxo_adapter_tests.test_anthropic_adapter ();
   Praxo_adapter_tests.test_gemini_adapter ();
