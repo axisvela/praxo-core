@@ -8,11 +8,11 @@
 
 - package: `praxo-core-cobol`
 - registry: Source
-- source_version: `0.4.0`
+- source_version: `0.5.0`
 - published_version: not published
 - install_published: not published
 - install_source: `Source build (see README)`
-- source_tag: `cobol/v0.4.0`
+- source_tag: `cobol/v0.5.0`
 - tier: Core
 - contract: `SPEC_VERSION` `0.2.0`
 - documentation: https://axisvela.github.io/praxo-core/languages/cobol/
@@ -22,7 +22,7 @@
 - OpenAI-compatible model: not implemented (No HTTP transport; model callback lacks tool specs/history)
 - Anthropic model: not implemented
 - Gemini model: not implemented
-- MCP client: not implemented
+- MCP client: native (transport seam) (`praxo-mcp`; caller supplies a transport program)
 - Harmovela sink: not implemented (No HTTP transport; no event sink integration)
 
 ## Start

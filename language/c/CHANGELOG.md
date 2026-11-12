@@ -1,5 +1,14 @@
 # C Core Release Notes
 
+## 0.8.0 - 2026-11-13
+
+Source release tag `c/v0.8.0`.
+
+### Added
+
+- Transport-seam MCP client with initialize, paginated tool listing,
+  duplicate-tool and repeated-cursor rejection, tool calls, and close.
+
 ## Unreleased
 
 ### Added

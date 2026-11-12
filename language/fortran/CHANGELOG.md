@@ -1,5 +1,14 @@
 # Fortran Core Release Notes
 
+## 0.8.0 - 2026-11-13
+
+Source release tag `fortran/v0.8.0`. This is not a package-registry release.
+
+### Added
+
+- Transport-seam MCP client with initialize, paginated tool listing,
+  duplicate-tool and repeated-cursor rejection, tool calls, and close.
+
 ## Unreleased
 
 ### Added

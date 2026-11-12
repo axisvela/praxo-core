@@ -8,11 +8,11 @@
 
 - package: `praxo-core-fortran`
 - registry: Source / CMake
-- source_version: `0.7.0`
+- source_version: `0.8.0`
 - published_version: not published
 - install_published: not published
 - install_source: `Source build (see README)`
-- source_tag: `fortran/v0.7.0`
+- source_tag: `fortran/v0.8.0`
 - tier: Core
 - contract: `SPEC_VERSION` `0.2.0`
 - documentation: https://axisvela.github.io/praxo-core/languages/fortran/
@@ -22,7 +22,7 @@
 - OpenAI-compatible model: native (transport seam) (`openai_compatible`; caller supplies HTTP transport)
 - Anthropic model: native (transport seam) (`anthropic_compatible`; caller supplies HTTP transport)
 - Gemini model: native (transport seam) (`gemini_compatible`; caller supplies HTTP transport)
-- MCP client: not implemented
+- MCP client: native (transport seam) (`mcp_client`; caller supplies transport)
 - Harmovela sink: native (transport seam) (`harmovela`; caller supplies HTTP transport)
 
 ## Start

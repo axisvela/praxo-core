@@ -21,6 +21,7 @@ add_library(praxo_core STATIC
     src/anthropic.c
     src/gemini.c
     src/harmovela.c
+    src/mcp.c
     src/vectors_core.c
     src/vectors_agent.c
     src/conformance.c
@@ -63,6 +64,9 @@ target_link_libraries(praxo-c-gemini-tests PRIVATE praxo_core)
 add_executable(praxo-c-harmovela-tests tests/test_harmovela.c)
 target_link_libraries(praxo-c-harmovela-tests PRIVATE praxo_core)
 
+add_executable(praxo-c-mcp-tests tests/test_mcp.c)
+target_link_libraries(praxo-c-mcp-tests PRIVATE praxo_core)
+
 if(MSVC)
     target_compile_options(praxo-c-tests PRIVATE /UNDEBUG)
     target_compile_options(praxo-c-core-tests PRIVATE /UNDEBUG)
@@ -71,6 +75,7 @@ if(MSVC)
     target_compile_options(praxo-c-anthropic-tests PRIVATE /UNDEBUG)
     target_compile_options(praxo-c-gemini-tests PRIVATE /UNDEBUG)
     target_compile_options(praxo-c-harmovela-tests PRIVATE /UNDEBUG)
+    target_compile_options(praxo-c-mcp-tests PRIVATE /UNDEBUG)
 else()
     target_compile_options(praxo-c-tests PRIVATE -UNDEBUG)
     target_compile_options(praxo-c-core-tests PRIVATE -UNDEBUG)
@@ -79,6 +84,7 @@ else()
     target_compile_options(praxo-c-anthropic-tests PRIVATE -UNDEBUG)
     target_compile_options(praxo-c-gemini-tests PRIVATE -UNDEBUG)
     target_compile_options(praxo-c-harmovela-tests PRIVATE -UNDEBUG)
+    target_compile_options(praxo-c-mcp-tests PRIVATE -UNDEBUG)
 endif()
 
 add_test(NAME praxo-conformance COMMAND praxo-conformance)
@@ -89,6 +95,7 @@ add_test(NAME praxo-c-openai-tests COMMAND praxo-c-openai-tests)
 add_test(NAME praxo-c-anthropic-tests COMMAND praxo-c-anthropic-tests)
 add_test(NAME praxo-c-gemini-tests COMMAND praxo-c-gemini-tests)
 add_test(NAME praxo-c-harmovela-tests COMMAND praxo-c-harmovela-tests)
+add_test(NAME praxo-c-mcp-tests COMMAND praxo-c-mcp-tests)
 
 if(BUILD_TESTING)
     find_package(Python3 3.10 REQUIRED COMPONENTS Interpreter)

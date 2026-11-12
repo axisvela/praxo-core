@@ -64,15 +64,14 @@ table. The Go reference (`adapters/mcp`) implements stdio and Streamable HTTP
 2025-03-26. Streamable HTTP clients also exist for Python, TypeScript, C#, Java,
 Rust (caller-supplied seam), Ruby, PHP, Elixir, Erlang, Dart, Perl, D,
 Delphi/Free Pascal, Objective-C, and Zig; Swift defines an HTTP transport but
-its full local build verification is blocked by the toolchain. R, Lua, Haskell,
-Julia, MATLAB, GNU Octave, Nim, OCaml, and V expose caller-supplied transport
-seams; PowerShell wraps the C# client and transports. The Java implementation
-compiles, but its local runtime verification remains pending.
+its full local build verification is blocked by the toolchain. R, Lua, C, C++,
+Fortran, COBOL, Haskell, Julia, MATLAB, GNU Octave, Nim, OCaml, and V expose
+caller-supplied transport seams; PowerShell wraps the C# client and transports.
+The Java implementation compiles, but its local runtime verification remains
+pending.
 
-C, C++, Fortran, and COBOL do not have an in-tree MCP client. C/C++/Fortran
-already provide HTTP transport seams that can carry JSON-RPC; COBOL needs a
-caller-supplied transport callback. These are unimplemented, not documented
-language limitations.
+C, C++, Fortran, and COBOL now provide caller-supplied transport seams that can
+carry JSON-RPC. They do not bundle an HTTP client or child-process transport.
 
 All listed clients use deterministic fake servers or transport fixtures. No
 live MCP service, remote transport, or production authentication evidence is

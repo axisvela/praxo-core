@@ -22,7 +22,8 @@ def logical_lines(path):
 
 
 def snapshot(root):
-    output = ["Fortran API declaration inventory 0.7.0"]
+    version = (root / "VERSION").read_text(encoding="utf-8").strip()
+    output = [f"Fortran API declaration inventory {version}"]
     for source in sorted((root / "src").glob("*.f90")):
         lines = logical_lines(source)
         module = re.fullmatch(r"module (\w+)", lines[0], re.I).group(1)
@@ -73,7 +74,8 @@ def main():
     mode.add_argument("--update", action="store_true")
     args = parser.parse_args()
     root = Path(__file__).resolve().parent
-    path = root / "api" / "0.7.0.txt"
+    version = (root / "VERSION").read_text(encoding="utf-8").strip()
+    path = root / "api" / f"{version}.txt"
     current = snapshot(root)
     if args.update:
         path.parent.mkdir(exist_ok=True)

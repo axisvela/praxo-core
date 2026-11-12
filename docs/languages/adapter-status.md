@@ -163,6 +163,10 @@ provider presets.
 | Zig | native | `mcp.Client`; stdio and curl-backed `HttpTransport` for Streamable HTTP 2025-03-26 |
 | Swift | native | `McpClient`, `StdioMcpTransport`, `HttpMcpTransport`; typechecked locally, full build blocked |
 | Lua | native (transport seam) | `praxo.adapters.mcp`; caller supplies transport |
+| C | native (transport seam) | `PxMcpClient`; caller supplies `PxMcpTransport` |
+| C++ | native (transport seam) | `McpClient`; caller supplies `McpTransport` |
+| Fortran | native (transport seam) | `mcp_client`; caller supplies transport |
+| COBOL | native (transport seam) | `praxo-mcp`; caller supplies a transport program |
 | PowerShell | native (C# shared runtime) | `Connect-PraxoMcp`, `Get-PraxoMcpTools`, `Invoke-PraxoMcpTool`; wraps the C# MCP client and stdio/Streamable HTTP transports |
 | Haskell | native (transport seam) | `Praxo.Mcp`; caller supplies `McpTransport` |
 | Julia | native (transport seam) | `mcp_client`; caller supplies transport |
@@ -183,18 +187,16 @@ promotion, or production authentication. The Go reference provides stdio and
 Streamable HTTP 2025-03-26. Streamable HTTP clients also exist for Python,
 TypeScript, C#, Java, Rust (caller-supplied seam), Ruby, PHP, Elixir, Erlang,
 Dart, Perl, D, Delphi, Objective-C, and Zig; Swift defines an HTTP transport but
-its full local build verification is blocked. R, Lua, Haskell, Julia, MATLAB,
-GNU Octave, Nim, OCaml, and V provide caller-supplied transport seams;
-PowerShell wraps the C# client and transports. No live MCP server or
-remote-service evidence is claimed.
+its full local build verification is blocked. R, Lua, C, C++, Fortran, COBOL,
+Haskell, Julia, MATLAB, GNU Octave, Nim, OCaml, and V provide caller-supplied
+transport seams; PowerShell wraps the C# client and transports. No live MCP
+server or remote-service evidence is claimed.
 
-COBOL is not blocked by MCP itself: MCP is JSON-RPC, not HTTP, and the COBOL Core
-already has JSON parsing/generation. The missing piece is a transport. A portable
-implementation would add a caller-supplied MCP transport callback (like the Lua
-and R seams) and reuse the existing JSON utilities; a native stdio child process
-is not required. COBOL's separate OpenAI-compatible gap is different: it also
-needs an HTTP transport decision and a model-callback extension for tool specs
-and assistant tool-call history.
+COBOL now uses a caller-supplied transport program and the existing native JSON
+utilities; MCP is JSON-RPC, so a native stdio child process is not required.
+COBOL's separate OpenAI-compatible gap remains a model-callback concern: the
+current model callback does not receive tool specs or assistant tool-call
+history.
 
 ## Harmovela
 

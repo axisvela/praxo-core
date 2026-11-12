@@ -3,7 +3,7 @@
 A native GnuCOBOL implementation, not a bridge to another Core. All 63 normative
 vectors across the eleven groups pass, together with native agent, JSON,
 contract-boundary, behavior, tooling, and API declaration checks. The
-`cobol-conformance` remote job checks the declared scope. `cobol/v0.4.0` is the
+`cobol-conformance` remote job checks the declared scope. `cobol/v0.5.0` is the
 source tag; version `0.4.0` adds middleware, lifecycle, cancellation, streaming,
 SSE, and batch tool dispatch, and current source adds human-in-the-loop
 interrupt decisions.
@@ -239,7 +239,7 @@ cancellation, streaming, SSE, and batch-dispatch declarations. The
 `cobol-conformance` CI job runs all of these plus the native agent, behavior,
 SSE, JSON, and contract programs.
 
-`cobol/v0.4.0` is the source tag. `api/0.1.1.txt`, `api/0.1.2.txt`, and
+`cobol/v0.5.0` is the source tag. `api/0.1.1.txt`, `api/0.1.2.txt`, and
 `api/0.2.0.txt` remain immutable previous declaration snapshots;
 `api/0.4.0.txt` adds the cancellation, stream, SSE, and batch records.
 `spec/parity/cobol.md` records partial surfaces. The Core sources are

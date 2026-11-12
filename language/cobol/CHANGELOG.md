@@ -1,5 +1,14 @@
 # COBOL Core Release Notes
 
+## 0.5.0 - 2026-11-13
+
+Source release tag `cobol/v0.5.0`. This is not a package-registry release.
+
+### Added
+
+- Transport-seam MCP client (`praxo-mcp`) with initialize, paginated tool
+  listing, duplicate-tool and repeated-cursor rejection, tool calls, and close.
+
 ## 0.4.0 - 2026-11-02
 
 Source release tag `cobol/v0.4.0`. This is not a package-registry release.

@@ -46,6 +46,7 @@ SOURCE_SUFFIXES = {
 # directory under language/ -> display name used in adapter-status.md
 LANGUAGE_DIRS = {
     "c": "C",
+    "cobol": "COBOL",
     "cpp": "C++",
     "csharp": "C#",
     "d": "D",

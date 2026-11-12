@@ -1,5 +1,14 @@
 # C++ Core Release Notes
 
+## 0.6.0 - 2026-11-13
+
+Source release tag `cpp/v0.6.0`.
+
+### Added
+
+- Transport-seam MCP client with initialize, paginated tool listing,
+  duplicate-tool and repeated-cursor rejection, tool calls, and close.
+
 ## Unreleased
 
 ### Added
