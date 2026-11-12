@@ -62,7 +62,7 @@ GitHub Latest 仅代表 Go 参考 Core，不代表最近发布的语言包。
 | C++ | `cpp/v0.5.0` | 未发布注册表 |
 | Fortran | `fortran/v0.7.0` | fpm registry 上游暂停 |
 | COBOL | `cobol/v0.4.0` | 无主流注册表 |
-| Objective-C | `objc/v0.3.1` | CocoaPods 发布待完成 |
+| Objective-C | `objc/v0.3.1` | CocoaPods 发布暂缓；需要 macOS/Xcode 与 Trunk token |
 | Zig | `zig/v0.4.0` | 无中央注册表 |
 | Tcl / Lisp / Prolog | `tcl/v0.1.0`、`lisp/v0.1.0`、`prolog/v0.1.1` | 桥接包；注册表发布待完成 |
 

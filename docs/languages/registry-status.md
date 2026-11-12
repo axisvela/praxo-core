@@ -68,7 +68,7 @@ GitHub Latest represents the Go Reference Core only, not the last language packa
 | C++ | `cpp/v0.5.0` | no registry publication |
 | Fortran | `fortran/v0.7.0` | fpm registry upstream paused |
 | COBOL | `cobol/v0.4.0` | no mainstream registry |
-| Objective-C | `objc/v0.3.1` | CocoaPods publish pending |
+| Objective-C | `objc/v0.3.1` | CocoaPods publication deferred; requires macOS/Xcode and a Trunk token |
 | Zig | `zig/v0.4.0` | no central registry |
 | Tcl / Lisp / Prolog | `tcl/v0.1.0`, `lisp/v0.1.0`, `prolog/v0.1.1` | bridge packages; registry publication pending |
 

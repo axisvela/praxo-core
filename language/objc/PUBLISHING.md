@@ -2,8 +2,9 @@
 
 ## Status
 
-Source tag `objc/v0.1.1` maps to CocoaPods pod `PraxoCore` version `0.1.1`.
-The pod is not yet published.
+Source tag `objc/v0.3.1` maps to CocoaPods pod `PraxoCore` version `0.3.1`.
+The pod is not yet published. Publication is deferred until a macOS/Xcode
+environment and a configured CocoaPods Trunk token are available.
 
 ## CocoaPods
 
