@@ -1,0 +1,83 @@
+name: erlang-release
+
+on:
+  push:
+    tags:
+      - "erlang/v*"
+  workflow_dispatch:
+    inputs:
+      target:
+        description: Publish target
+        required: true
+        default: build-only
+        type: choice
+        options:
+          - build-only
+          - publish
+
+permissions:
+  contents: read
+
+concurrency:
+  group: erlang-release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: language/erlang
+    steps:
+      - uses: actions/checkout@v4
+      - uses: erlef/setup-beam@v1
+        with:
+          otp-version: "29"
+          rebar3-version: "3.24.0"
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Verify version and tag
+        shell: bash
+        run: |
+          version="$(cat VERSION)"
+          grep -q "vsn, \"${version}\"" src/praxo_core.app.src
+          if [ "${GITHUB_REF_TYPE}" = "tag" ]; then
+            test "erlang/v${version}" = "${GITHUB_REF_NAME}"
+          fi
+      - name: Run release gates
+        shell: bash
+        run: |
+          python api-snapshot.py --check
+          cd ../..
+          python language/erlang/run-tests.py
+      - name: Build Hex package
+        run: rebar3 hex build
+      - uses: actions/upload-artifact@v4
+        with:
+          name: erlang-hex
+          path: language/erlang/_build/default/lib/praxo_core/hex/praxo_core_erlang-*.tar
+          if-no-files-found: error
+
+  publish:
+    needs: build
+    if: github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && inputs.target == 'publish')
+    runs-on: ubuntu-latest
+    environment: hex
+    permissions:
+      contents: read
+    defaults:
+      run:
+        working-directory: language/erlang
+    steps:
+      - uses: actions/checkout@v4
+      - uses: erlef/setup-beam@v1
+        with:
+          otp-version: "29"
+          rebar3-version: "3.24.0"
+      - name: Publish to Hex
+        env:
+          HEX_API_KEY: ${{ secrets.HEX_API_KEY }}
+        run: |
+          test -n "${HEX_API_KEY}"
+          rebar3 hex publish --yes
