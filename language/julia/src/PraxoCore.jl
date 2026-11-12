@@ -13,6 +13,7 @@ include("Agent.jl")
 include("adapters/OpenAICompatible.jl")
 include("adapters/Anthropic.jl")
 include("adapters/Gemini.jl")
+include("adapters/Mcp.jl")
 
 using .Models
 using .Runtime
@@ -22,6 +23,7 @@ using .AgentRuntime
 using .OpenAICompatible
 using .Anthropic
 using .Gemini
+using .Mcp
 using .Errors
 
 export Json, ParsedToolCall, ToolCallParser
@@ -35,6 +37,7 @@ export ContextBudget, AgentOptions, Agent, StaticModel, FuncTool, ToolRegistry
 export AbstractPolicy, AbstractModel, AbstractMiddleware, PiiRedactor, PraxoError
 export OpenAICompatibleModel, openai_compatible
 export AnthropicModel, anthropic, GeminiModel, gemini
+export McpClient, mcp_client, mcp_list_tools, mcp_call_tool, mcp_close!
 run_agent(args...) = AgentRuntime.run(args...)
 export run_agent
 export put!, search, register!, marshal, unmarshal, check, allowed
