@@ -87,7 +87,7 @@ Bridge、Sample 描述运行时的接入方式，不证明其语言缺乏 Framew
 | MATLAB | `matlab/v0.3.0` | MATLAB File Exchange `185166` 已发布（`0.3.0`） | 未记录 |
 | Octave | `octave/v0.3.0` | Octave Packages PR #875 待合并；包归档已发布 | 未记录 |
 | Perl | `perl/v0.3.0` | CPAN `Praxo-Core==0.2.0` 已发布并在 MetaCPAN 建立索引 | 未记录 |
-| PowerShell | `powershell/v0.4.1` | PowerShell Gallery `praxo-core-ps==0.3.1` 已发布 | 未记录 |
+| PowerShell | `powershell/v0.4.2` | PowerShell Gallery `praxo-core-ps==0.3.1` 已发布 | 未记录 |
 | Nim | `nim/v0.2.0` | split 仓库包 `0.1.1`；nim-lang/packages PR #3600 已于 2026-11-05 合并；nimpkgs 待重新抓取 | 未记录 |
 | OCaml | `ocaml/v0.4.0` | opam-repository PR #31106 待合并；包 CI 已通过；opam-ci 待完成 | 未记录 |
 | Haskell | `haskell/v0.3.0` | Hackage `praxo-core==0.3.0` 已发布 | 未记录 |

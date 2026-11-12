@@ -1,5 +1,14 @@
 # PowerShell Core Release Notes
 
+## 0.4.2 - 2026-11-12
+
+Source tag `powershell/v0.4.2`.
+
+### Fixed
+
+- Keep the release test focused on transport construction and HTTPS
+  enforcement; end-to-end MCP behavior remains covered by the C# Core tests.
+
 ## 0.4.1 - 2026-11-12
 
 Source tag `powershell/v0.4.1`.

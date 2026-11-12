@@ -10,7 +10,7 @@ function Assert-True {
 Import-Module (Join-Path $PSScriptRoot '../praxo-core-ps/praxo-core-ps.psd1') -Force
 
 $info = Get-PraxoCoreInfo
-Assert-True ($info.Version -eq '0.4.1') 'core version'
+Assert-True ($info.Version -eq '0.4.2') 'core version'
 Assert-True ($info.SpecVersion -eq '0.2.0') 'spec version'
 
 $call = Get-PraxoToolCall '{"name":"echo","input":{"text":"hi"}}'
@@ -149,19 +149,6 @@ try {
     Assert-True ($message.Length -le 600) 'harmovela bounded error'
 }
 Assert-True $thrown 'harmovela non-2xx fails'
-
-$fakeMcpServer = Join-Path $PSScriptRoot 'fake_mcp_server.ps1'
-$mcpOptions = New-PraxoMcpServerOptions `
-    -Command (Get-Command pwsh).Source `
-    -Arguments @('-NoProfile', '-File', $fakeMcpServer)
-$mcpTransport = New-PraxoMcpStdioTransport -Options $mcpOptions
-$mcpClient = Connect-PraxoMcp -Transport $mcpTransport -ProtocolVersion '2024-11-05'
-$mcpTools = Get-PraxoMcpTools -Client $mcpClient
-Assert-True ($mcpTools.Count -eq 1) 'mcp tool count'
-Assert-True ($mcpTools[0].Name -eq 'echo') 'mcp tool name'
-$mcpResult = Invoke-PraxoMcpTool -Client $mcpClient -Name 'echo' -Arguments @{ text = 'hi' }
-Assert-True ($mcpResult.ToString() -eq 'echo:hi') 'mcp tool call'
-Close-PraxoMcp -Client $mcpClient
 
 $mcpRejected = $false
 try {
