@@ -236,7 +236,7 @@ history.
 | Kotlin / Scala / Groovy / Clojure | inherited | Samples over the Java Core |
 | JavaScript | inherited | Sample over the TypeScript Core |
 | Shell / Lisp / Tcl / Prolog | bridge | Uses the Go Core through the bridge |
-| COBOL | not implemented | No HTTP transport; no event sink integration |
+| COBOL | native (transport seam) | `praxo-harmovela`; caller supplies a transport program |
 | Other implementations | not implemented | Add with a named consumer or maintainer |
 
 Harmovela support means an HTTP event sink that posts the documented envelope.

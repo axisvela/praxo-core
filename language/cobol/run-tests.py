@@ -76,6 +76,8 @@ def main():
         subprocess.run([str(executable)], cwd=root, env=env, check=True)
     suites = {
         "mcp-tests": ["tests/mcp.cob", "src/mcp.cob", *json_sources],
+        "harmovela-tests": ["tests/harmovela.cob", "src/harmovela.cob",
+                            *json_sources],
         "registry-tests": ["tests/registry.cob", "src/registry.cob"],
         "registry-agent-tests": ["tests/registry-agent.cob", "src/agent.cob", "src/registry.cob"],
         "core-tests": ["tests/run.cob", "src/agent.cob"],

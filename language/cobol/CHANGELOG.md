@@ -8,6 +8,8 @@ Source release tag `cobol/v0.5.0`. This is not a package-registry release.
 
 - Transport-seam MCP client (`praxo-mcp`) with initialize, paginated tool
   listing, duplicate-tool and repeated-cursor rejection, tool calls, and close.
+- Transport-seam Harmovela event sink (`praxo-harmovela`) with the shared
+  envelope, 2xx success handling, and bounded non-2xx errors.
 
 ## 0.4.0 - 2026-11-02
 

@@ -23,7 +23,7 @@
 - Anthropic model: not implemented
 - Gemini model: not implemented
 - MCP client: native (transport seam) (`praxo-mcp`; caller supplies a transport program)
-- Harmovela sink: not implemented (No HTTP transport; no event sink integration)
+- Harmovela sink: native (transport seam) (`praxo-harmovela`; caller supplies a transport program)
 
 ## Start
 

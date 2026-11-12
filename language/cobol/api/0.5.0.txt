@@ -88,6 +88,37 @@ copybook event
   10 px-evt-sink-typesoccurs 64 times pic x(32).
   05 px-evt-errorpic x(64).
 
+copybook harmovela-call
+  01 px-harmovela-call.
+  05 px-harmovela-methodpic x(8).
+  05 px-harmovela-urlpic x(1024).
+  05 px-harmovela-url-lengthbinary-long.
+  05 px-harmovela-content-typepic x(64).
+  05 px-harmovela-bodypic x(16384).
+  05 px-harmovela-body-lengthbinary-long.
+  05 px-harmovela-status-codebinary-long.
+  05 px-harmovela-responsepic x(1024).
+  05 px-harmovela-response-lengthbinary-long.
+
+copybook harmovela
+  01 px-harmovela-options.
+  05 px-harmovela-transport-programpic x(64).
+  05 px-harmovela-base-urlpic x(512).
+  05 px-harmovela-base-url-lengthbinary-long.
+  05 px-harmovela-sourcepic x(64).
+  05 px-harmovela-source-lengthbinary-long.
+  05 px-harmovela-specpic x(16).
+  05 px-harmovela-spec-lengthbinary-long.
+  05 px-harmovela-id-prefixpic x(128).
+  05 px-harmovela-id-prefix-lengthbinary-long.
+  05 px-harmovela-id-suffixpic x(64).
+  05 px-harmovela-id-suffix-lengthbinary-long.
+  05 px-harmovela-created-atpic x(64).
+  05 px-harmovela-created-at-lengthbinary-long.
+  01 px-harmovela-result.
+  05 px-harmovela-outputpic x(16384).
+  05 px-harmovela-output-lengthbinary-long.
+
 copybook history
   05 px-message-countbinary-long.
   05 px-messagesoccurs 64 times.
@@ -441,6 +472,10 @@ program praxo-context
 module event
 program praxo-event
   using px-event-request px-event-result
+
+module harmovela
+program praxo-harmovela
+  using px-harmovela-options px-harmovela-result px-harmovela-event px-user-data px-status
 
 module json-generate
 program praxo-json-generate
