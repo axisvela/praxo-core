@@ -42,7 +42,7 @@ public final class McpClient {
     private var closed = false
 
     public init(transport: McpTransport,
-                clientVersion: String = "0.3.0",
+                clientVersion: String = "0.4.0",
                 timeout: TimeInterval = 30,
                 protocolVersion: String = McpClient.defaultProtocolVersion) {
         self.transport = transport

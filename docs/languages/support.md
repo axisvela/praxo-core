@@ -103,7 +103,7 @@ Registry values below were checked against the public registries on 2026-11-12.
 | --- | --- | --- | --- |
 | Python | `python/v0.6.0` | PyPI `praxo-core==0.5.0` published | Release workflow built and smoke-tested `0.5.0`; post-publication consumer check recorded for `0.4.1` only |
 | TypeScript | `typescript/v0.5.0` | npm `@axisvela/praxo-core@0.4.1` published as `latest` | Release workflow built and consumed the `0.4.1` tarball; post-publication consumer starter checks recorded for `0.3.0` |
-| Java | `java/v0.6.0` | Maven Central `com.axisvela:praxo-core:0.6.0` published with Harmovela and MCP adapters | Central validated and published `0.6.0`; `0.6.0` post-publication consumer check not rerun |
+| Java | `java/v0.7.0` | Maven Central `com.axisvela:praxo-core:0.6.0` published with Harmovela and MCP adapters | Central validated and published `0.6.0`; `0.6.0` post-publication consumer check not rerun |
 | Rust | `rust/v0.6.0` | crates.io `praxo-core==0.5.0` published; `0.1.4` historical | Recorded for `0.1.4` only; not rerun for `0.5.0` |
 | C# | `csharp/v0.6.0` | NuGet `Praxo.Core==0.5.0` published | Not recorded |
 | Elixir | `elixir/v0.7.0` | Hex `praxo_core==0.6.0` published with OpenAI-compatible, Anthropic, Gemini, Harmovela, and MCP adapters; `0.5.1`, `0.4.1`, `0.4.0`, `0.3.0`, `0.2.0` historical | Extended starter added; Hex `0.4.1` resolved in a clean Mix project and allow/deny passed locally; `0.6.0` install smoke not rerun |
@@ -131,7 +131,7 @@ its latest version matches the manifest at the release tag.
 | --- | --- | --- | --- |
 | Python | `0.6.0` | PyPI `0.5.0` | source prepared; registry behind |
 | TypeScript | `0.5.0` | npm `0.4.1` | source prepared; registry behind |
-| Java | `0.6.0` | Maven Central `0.6.0` | current |
+| Java | `0.7.0` | Maven Central `0.6.0` | source prepared; registry behind |
 | Rust | `0.6.0` | crates.io `0.5.0` | source prepared; registry behind |
 | C# | `0.6.0` | NuGet `0.5.0` | source prepared; registry behind |
 | Elixir | `0.7.0` | Hex `0.6.0` | source prepared; registry behind |
@@ -149,7 +149,7 @@ its latest version matches the manifest at the release tag.
 | R | `0.7.1` | r-universe `0.7.1` | current; CRAN not published |
 | Nim | `0.2.0` | Split repository package `0.1.1` | pending |
 | OCaml | `0.4.0` | opam registry `0.3.0` | pending |
-| Swift | `0.3.0` | SPM `0.2.0` | pending |
+| Swift | `0.4.0` | SPM `0.2.0` | pending |
 | Delphi / Free Pascal | `0.4.0` | OPM `0.2.1` | pending |
 | D | `0.3.0` | DUB `0.1.0` | pending |
 
@@ -161,11 +161,11 @@ the installation source of truth.
   `python/v0.5.0`. TypeScript publishes `@axisvela/praxo-core@0.4.1` on npm from
   source tag `typescript/v0.4.1`; the package has npm provenance and an
   agent-framework-first README and metadata.
-- Java source tag `java/v0.6.0` adds the Harmovela sink and stdio MCP client
-  under `com.axisvela.praxo.adapters` with Maven groupId `com.axisvela` and
-  Java packages under `com.axisvela.praxo`. Maven Central publishes
-  `com.axisvela:praxo-core:0.6.0`. The earlier `java/v0.2.3` tag retains
-  `io.axisvela.praxo`.
+- Java source tag `java/v0.7.0` adds MCP Streamable HTTP support to the stdio
+  client and the Harmovela sink under `com.axisvela.praxo.adapters` with Maven
+  groupId `com.axisvela` and Java packages under `com.axisvela.praxo`. Maven
+  Central publishes `com.axisvela:praxo-core:0.6.0`. The earlier `java/v0.2.3`
+  tag retains `io.axisvela.praxo`.
 - PHP source tag `php/v0.4.0` adds HITL interrupt decisions to streaming runs,
   cancellation, SSE validation, final authorization, lifecycle cleanup, and
   caller-provided cooperative parallel tool dispatch through `batchToolInvoker`.

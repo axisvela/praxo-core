@@ -74,7 +74,7 @@ for real providers, platforms, and production behavior is reported separately.
 | Go | Core (reference) | released | `v2.7.0` | reference | Reference implementation |
 | Python | Core | released | `python/v0.6.0` | complete | 11 vectors, HITL interrupts, OpenAI adapter, Harmovela sink, stdio MCP client; source `0.6.0`, PyPI `praxo-core==0.5.0` |
 | TypeScript | Core | released | `typescript/v0.5.0` | complete | 11 vectors, HITL interrupts, OpenAI adapter, Harmovela sink, stdio MCP client; source `0.5.0`, npm `@axisvela/praxo-core@0.4.1` |
-| Java | Core | released | `java/v0.6.0` | complete | 11 vectors, HITL interrupts, OpenAI adapter, Harmovela sink, stdio MCP client, API snapshot; source `0.5.0`, Maven Central `com.axisvela:praxo-core:0.5.0` |
+| Java | Core | released | `java/v0.7.0` | complete | 11 vectors, HITL interrupts, OpenAI adapter, Harmovela sink, stdio and Streamable HTTP MCP clients, API snapshot; source `0.7.0`, Maven Central `com.axisvela:praxo-core:0.6.0` |
 | Rust | Core | released | `rust/v0.6.0` | complete | 11 vectors, HITL interrupts, native tests, `tool.Gateway`, `jsonschema.Schema`, streaming/cancellation/parallel tools, compiler-derived API/parity gate; source `0.6.0`, crates.io `praxo-core==0.5.0`; recorded install smoke covers `0.1.4` |
 | C | Core | released | `c/v0.7.0` | complete | 11 vectors, native tests; public Core API plus wire JSON primitives; policy/middleware/lifecycle, HITL interrupt decisions, cancellation, streaming, SSE, bounded parallel tools (pthread on Unix; sequential on Windows) |
 | C# | Core (.NET) | released | `csharp/v0.6.0` | complete | 11 vectors, HITL interrupts, API snapshot, OpenAI adapter, Harmovela sink, stdio MCP client, streaming/cancellation/parallel tools; source `0.6.0`, NuGet `Praxo.Core==0.5.0` |
@@ -82,7 +82,7 @@ for real providers, platforms, and production behavior is reported separately.
 | PowerShell | Core (.NET) | released | `powershell/v0.3.1` | complete | C# shared-runtime Core wrapper; PowerShell Gallery `praxo-core-ps==0.2.0`; 11 vectors via C# Core; PowerShell API snapshot/parity; agent loop delegated to C# Core |
 | Shell | Bridge | released | `shell/v0.1.0` | complete | Wraps the bridge CLI |
 | PHP | Core | released | `php/v0.6.0` | complete | 11 vectors, HITL interrupts, API snapshot, streaming/cancellation/SSE, and caller-provided cooperative parallel tools; source `0.6.0` with Composer autoload metadata and the optional OpenAI-compatible adapter; Packagist `axisvela/praxo-core==0.4.1` |
-| Swift | Core | released | `swift/v0.3.0` | complete | 11 vectors, XCTest, API snapshot; split SPM repo `axisvela/praxo-core-swift` tag `0.2.0`; SPI PR #16032 open |
+| Swift | Core | released | `swift/v0.4.0` | complete | 11 vectors, XCTest, API snapshot, stdio and Streamable HTTP MCP clients; split SPM repo `axisvela/praxo-core-swift` tag `0.2.0`; SPI PR #16032 open |
 | Julia | Core | released | `julia/v0.3.0` | complete | 11 vectors, JSON.jl, API snapshot; mirror `axisvela/praxo-core-julia` tag `0.2.0`; General Registry PR #174826 open |
 | R | Core | released | `r/v0.7.1` | complete | 11 vectors, base-R JSON, policy/middleware, HITL interrupts, lifecycle cleanup, cancellation, streaming, SSE parser, bounded parallel tools, API snapshot; OpenAI-compatible, Harmovela, and stdio MCP adapters; source `0.7.1`, r-universe `praxocore==0.6.1` |
 | Haskell | Core | released | `haskell/v0.3.0` | complete | 11 vectors, native tests, API snapshot/parity; GHC 9.12.2; runtime and middleware helpers |

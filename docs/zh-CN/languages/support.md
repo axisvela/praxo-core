@@ -74,7 +74,7 @@ Bridge、Sample 描述运行时的接入方式，不证明其语言缺乏 Framew
 | --- | --- | --- | --- |
 | Python | `python/v0.6.0` | PyPI `praxo-core==0.5.0` 已发布 | 发布工作流构建并 smoke 测试 `0.5.0`；发布后消费者检查仅记录 `0.4.1` |
 | TypeScript | `typescript/v0.5.0` | npm `@axisvela/praxo-core@0.4.1` 已作为 `latest` 发布 | 发布工作流构建并消费 `0.4.1` tarball；发布后消费者 starter 检查记录 `0.3.0` |
-| Java | `java/v0.6.0` | Maven Central `com.axisvela:praxo-core:0.6.0` 已发布，包含 Harmovela、MCP adapter | Central 已校验并发布 `0.6.0`；`0.6.0` 发布后消费者检查未重跑 |
+| Java | `java/v0.7.0` | Maven Central `com.axisvela:praxo-core:0.6.0` 已发布，包含 Harmovela、MCP adapter | Central 已校验并发布 `0.6.0`；`0.6.0` 发布后消费者检查未重跑 |
 | Rust | `rust/v0.6.0` | crates.io `praxo-core==0.5.0` 已发布；`0.1.4` 为历史版本 | 仅记录 `0.1.4`；`0.5.0` 未重跑 |
 | C# | `csharp/v0.6.0` | NuGet `Praxo.Core==0.5.0` 已发布 | 未记录 |
 | Elixir | `elixir/v0.7.0` | Hex `praxo_core==0.6.0` 已发布，包含 OpenAI-compatible、Anthropic、Gemini、Harmovela、MCP adapter；`0.5.1`、`0.4.1`、`0.4.0`、`0.3.0`、`0.2.0` 为历史版本 | 已增加扩展 Starter；Hex `0.4.1` 在干净 Mix 项目中解析，allow/deny 本地通过；`0.6.0` 安装 smoke 未重跑 |
@@ -120,7 +120,7 @@ Bridge、Sample 描述运行时的接入方式，不证明其语言缺乏 Framew
 | R | `0.7.1` | r-universe `0.7.1` | 已最新；未发布 CRAN |
 | Nim | `0.2.0` | split 仓库包 `0.1.1` | 待完成 |
 | OCaml | `0.4.0` | opam registry `0.3.0` | 待完成 |
-| Swift | `0.3.0` | SPM `0.2.0` | 待完成 |
+| Swift | `0.4.0` | SPM `0.2.0` | 待完成 |
 | Delphi / Free Pascal | `0.4.0` | OPM `0.2.1` | 待完成 |
 | D | `0.3.0` | DUB `0.1.0` | 待完成 |
 
@@ -130,7 +130,7 @@ Bridge、Sample 描述运行时的接入方式，不证明其语言缺乏 Framew
 - Python 从源码标签 `python/v0.5.0` 发布 `praxo-core==0.5.0` 到 PyPI；TypeScript 从源码标签
   `typescript/v0.4.1` 发布 `@axisvela/praxo-core@0.4.1` 到 npm，带有 npm
   provenance，并采用 agent framework 优先的 README 和元数据。
-- Java 源码标签 `java/v0.6.0` 新增 Harmovela sink 和 stdio MCP client，位于 `com.axisvela.praxo.adapters`；Maven groupId 为 `com.axisvela`，包名为 `com.axisvela.praxo`。Maven Central 已发布 `com.axisvela:praxo-core:0.6.0`。较早的 `java/v0.2.3` 标签仍保留 `io.axisvela.praxo`。
+- Java 源码标签 `java/v0.7.0` 为 stdio client 和 Harmovela sink 新增 MCP Streamable HTTP 支持，位于 `com.axisvela.praxo.adapters`；Maven groupId 为 `com.axisvela`，包名为 `com.axisvela.praxo`。Maven Central 已发布 `com.axisvela:praxo-core:0.6.0`。较早的 `java/v0.2.3` 标签仍保留 `io.axisvela.praxo`。
 - PHP 源码标签 `php/v0.4.0` 在流式运行、取消、SSE 校验、最终授权、生命周期清理，
   以及通过 `batchToolInvoker` 提供的调用方协作式并行工具调度之上增加人工审批
   中断决策。Packagist 发布 `axisvela/praxo-core==0.4.1`，来自独立发布仓库

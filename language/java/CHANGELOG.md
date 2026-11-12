@@ -1,9 +1,12 @@
 # Java Core Release Notes
 
-## Unreleased
+## 0.7.0 - 2026-11-12
+
+Source tag `java/v0.7.0`.
 
 ### Added
 
+- MCP Streamable HTTP (2025-03-26) transport and client support.
 - Native Anthropic Messages and Gemini generateContent model adapters.
 
 ## 0.5.0 - 2026-11-10
