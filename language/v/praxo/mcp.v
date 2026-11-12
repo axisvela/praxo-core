@@ -116,7 +116,11 @@ pub fn (client &McpClient) call_tool(name string, arguments map[string]json2.Any
 	if texts.len == 1 {
 		return json2.Any(texts[0])
 	}
-	return json2.Any(texts)
+	mut blocks := []json2.Any{}
+	for text in texts {
+		blocks << json2.Any(text)
+	}
+	return json2.Any(blocks)
 }
 
 pub fn (mut client McpClient) close() {
