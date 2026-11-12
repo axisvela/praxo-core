@@ -1,5 +1,13 @@
 # PowerShell Core Release Notes
 
+## 0.4.1 - 2026-11-12
+
+Source tag `powershell/v0.4.1`.
+
+### Fixed
+
+- Update the wrapper version assertion for the MCP-enabled release.
+
 ## 0.4.0 - 2026-11-12
 
 Source tag `powershell/v0.4.0`.

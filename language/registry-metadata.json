@@ -329,9 +329,9 @@
     "published_version": "0.3.1",
     "registry": "PowerShell Gallery",
     "source_install": "Install-Module praxo-core-ps",
-    "source_version": "0.4.0",
+    "source_version": "0.4.1",
     "status": "published; shared C# runtime",
-    "tag": "powershell/v0.4.0",
+    "tag": "powershell/v0.4.1",
     "tier": "Core (.NET)",
     "url": "https://www.powershellgallery.com/packages/praxo-core-ps/0.3.1"
   },
