@@ -25,7 +25,7 @@ from source tag `rust/v0.4.0`. Supported contract: `SPEC_VERSION` `0.2.0`
 - Registry introduction: [REGISTRY.md](https://github.com/axisvela/praxo-core/blob/main/language/rust/REGISTRY.md)
 - Machine-readable entry: [llms.txt](https://github.com/axisvela/praxo-core/blob/main/language/rust/llms.txt) and [llms.md](https://github.com/axisvela/praxo-core/blob/main/language/rust/llms.md)
 - Coding-agent contract: [docs/getting-started/coding-agents.md](https://github.com/axisvela/praxo-core/blob/main/docs/getting-started/coding-agents.md)
-- Registry: [crates.io](https://crates.io/crates/praxo-core/0.4.0)
+- Registry: [crates.io](https://crates.io/crates/praxo-core/0.5.0)
 
 ## Install
 

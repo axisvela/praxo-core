@@ -17,8 +17,8 @@
 
 `ci` workflow 采用分层执行：push 和 pull request 运行 Go 核心门禁，并只运行
 发生变更的 `language/<lang>` 对应 job；`spec/`、`scripts/` 或 workflow 等共享
-路径变更会强制运行完整矩阵。完整矩阵在 nightly、`*/v*` tag push 和手动触发时
-运行。未受影响语言 job 的跳过是预期行为。
+路径变更会强制运行完整矩阵。完整矩阵在 nightly 和手动触发时运行；语言 tag
+由各 release workflow 自行执行发布门禁。未受影响语言 job 的跳过是预期行为。
 
 核心发布工作流在授予独立发布任务写权限之前，要求标签所指提交的完整 SHA
 在 `main` 上具有成功的 `ci` 和 `docs` push 工作流。缺失、未结束、跳过、取消

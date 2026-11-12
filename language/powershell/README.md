@@ -14,7 +14,7 @@ PRAXO-CORE framework. Requires PowerShell 7.4+ on .NET 8.
 - Registry introduction: [REGISTRY.md](https://github.com/axisvela/praxo-core/blob/main/language/powershell/REGISTRY.md)
 - Machine-readable entry: [llms.txt](https://github.com/axisvela/praxo-core/blob/main/language/powershell/llms.txt) and [llms.md](https://github.com/axisvela/praxo-core/blob/main/language/powershell/llms.md)
 - Coding-agent contract: [docs/getting-started/coding-agents.md](https://github.com/axisvela/praxo-core/blob/main/docs/getting-started/coding-agents.md)
-- Registry: [PowerShell Gallery](https://www.powershellgallery.com/packages/praxo-core-ps/0.2.0)
+- Registry: [PowerShell Gallery](https://www.powershellgallery.com/packages/praxo-core-ps/0.3.1)
 
 ## Install
 

@@ -7,9 +7,9 @@
 ## Package
 
 - package: `praxo-core`
-- registry: [Hackage (pending)](https://github.com/axisvela/praxo-core/releases/tag/haskell%2Fv0.2.0)
+- registry: [Hackage](https://hackage.haskell.org/package/praxo-core-0.3.0)
 - source_version: `0.3.0`
-- published_version: `0.2.0`
+- published_version: `0.3.0`
 - install_published: `cabal install praxo-core`
 - install_source: `cabal install praxo-core`
 - source_tag: `haskell/v0.3.0`

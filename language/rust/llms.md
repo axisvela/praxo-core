@@ -7,10 +7,10 @@
 ## Package
 
 - package: `praxo-core`
-- registry: [crates.io](https://crates.io/crates/praxo-core/0.4.0)
+- registry: [crates.io](https://crates.io/crates/praxo-core/0.5.0)
 - source_version: `0.5.0`
-- published_version: `0.4.0`
-- install_published: `cargo add praxo-core@0.4.0`
+- published_version: `0.5.0`
+- install_published: `cargo add praxo-core@0.5.0`
 - install_source: `cargo add praxo-core@0.5.0`
 - source_tag: `rust/v0.5.0`
 - tier: Core

@@ -19,7 +19,7 @@ orchestration platform:
 - Registry introduction: [REGISTRY.md](https://github.com/axisvela/praxo-core/blob/main/language/python/REGISTRY.md)
 - Machine-readable entry: [llms.txt](https://github.com/axisvela/praxo-core/blob/main/language/python/llms.txt) and [llms.md](https://github.com/axisvela/praxo-core/blob/main/language/python/llms.md)
 - Coding-agent contract: [docs/getting-started/coding-agents.md](https://github.com/axisvela/praxo-core/blob/main/docs/getting-started/coding-agents.md)
-- Registry: [PyPI](https://pypi.org/project/praxo-core/0.4.1/)
+- Registry: [PyPI](https://pypi.org/project/praxo-core/0.5.0/)
 
 ## Install
 

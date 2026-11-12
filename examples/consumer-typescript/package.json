@@ -12,6 +12,6 @@
     "test": "node --test test_starter.test.js governed.test.js"
   },
   "dependencies": {
-    "@axisvela/praxo-core": "0.3.0"
+    "@axisvela/praxo-core": "0.4.1"
   }
 }

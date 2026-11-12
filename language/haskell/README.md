@@ -19,7 +19,7 @@ middleware, JSON Schema validation, plugin manifest parsing, and runtime helpers
 - Registry introduction: [REGISTRY.md](https://github.com/axisvela/praxo-core/blob/main/language/haskell/REGISTRY.md)
 - Machine-readable entry: [llms.txt](https://github.com/axisvela/praxo-core/blob/main/language/haskell/llms.txt) and [llms.md](https://github.com/axisvela/praxo-core/blob/main/language/haskell/llms.md)
 - Coding-agent contract: [docs/getting-started/coding-agents.md](https://github.com/axisvela/praxo-core/blob/main/docs/getting-started/coding-agents.md)
-- Registry: [Hackage (pending)](https://github.com/axisvela/praxo-core/releases/tag/haskell%2Fv0.2.0)
+- Registry: [Hackage](https://hackage.haskell.org/package/praxo-core-0.3.0)
 
 ## Build and Test
 
