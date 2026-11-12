@@ -74,7 +74,7 @@ Bridge、Sample 描述运行时的接入方式，不证明其语言缺乏 Framew
 | --- | --- | --- | --- |
 | Python | `python/v0.6.0` | PyPI `praxo-core==0.5.0` 已发布 | 发布工作流构建并 smoke 测试 `0.5.0`；发布后消费者检查仅记录 `0.4.1` |
 | TypeScript | `typescript/v0.5.0` | npm `@axisvela/praxo-core@0.4.1` 已作为 `latest` 发布 | 发布工作流构建并消费 `0.4.1` tarball；发布后消费者 starter 检查记录 `0.3.0` |
-| Java | `java/v0.7.0` | Maven Central `com.axisvela:praxo-core:0.6.0` 已发布，包含 Harmovela、MCP adapter | Central 已校验并发布 `0.6.0`；`0.6.0` 发布后消费者检查未重跑 |
+| Java | `java/v0.7.1` | Maven Central `com.axisvela:praxo-core:0.6.0` 已发布，包含 Harmovela、MCP adapter | Central 已校验并发布 `0.6.0`；`0.6.0` 发布后消费者检查未重跑 |
 | Rust | `rust/v0.6.0` | crates.io `praxo-core==0.5.0` 已发布；`0.1.4` 为历史版本 | 仅记录 `0.1.4`；`0.5.0` 未重跑 |
 | C# | `csharp/v0.6.0` | NuGet `Praxo.Core==0.5.0` 已发布 | 未记录 |
 | Elixir | `elixir/v0.7.0` | Hex `praxo_core==0.6.0` 已发布，包含 OpenAI-compatible、Anthropic、Gemini、Harmovela、MCP adapter；`0.5.1`、`0.4.1`、`0.4.0`、`0.3.0`、`0.2.0` 为历史版本 | 已增加扩展 Starter；Hex `0.4.1` 在干净 Mix 项目中解析，allow/deny 本地通过；`0.6.0` 安装 smoke 未重跑 |

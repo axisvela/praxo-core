@@ -1,5 +1,14 @@
 # Java Core Release Notes
 
+## 0.7.1 - 2026-11-12
+
+Source tag `java/v0.7.1`.
+
+### Fixed
+
+- Treat a missing Anthropic `content_block.input` as an empty object so
+  text-only stream blocks do not fail parsing.
+
 ## 0.7.0 - 2026-11-12
 
 Source tag `java/v0.7.0`.

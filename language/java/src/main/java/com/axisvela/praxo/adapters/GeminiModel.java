@@ -265,14 +265,19 @@ public final class GeminiModel implements StreamingModel {
                             "MODEL_HTTP", "gemini: " + Json.stringify(
                                     chunk.get("error")));
                 }
-                Map<String, Object> usage =
-                        Json.asObject(chunk.get("usageMetadata"));
+                Object rawUsage = chunk.get("usageMetadata");
+                Map<String, Object> usage = rawUsage instanceof Map<?, ?>
+                        ? Json.asObject(rawUsage)
+                        : new LinkedHashMap<>();
                 inputTokens = num(usage.get("promptTokenCount"));
                 outputTokens = num(
                         usage.get("candidatesTokenCount"));
                 cachedTokens = num(
                         usage.get("cachedContentTokenCount"));
-                List<Object> candidates = Json.asArray(chunk.get("candidates"));
+                Object rawCandidates = chunk.get("candidates");
+                List<Object> candidates = rawCandidates instanceof List<?>
+                        ? Json.asArray(rawCandidates)
+                        : List.of();
                 if (candidates.isEmpty()) {
                     continue;
                 }

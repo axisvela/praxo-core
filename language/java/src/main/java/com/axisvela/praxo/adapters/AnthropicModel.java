@@ -265,7 +265,10 @@ public final class AnthropicModel implements StreamingModel {
                     state.kind = str(block.get("type"));
                     state.id = str(block.get("id"));
                     state.name = str(block.get("name"));
-                    state.input = Json.asObject(block.get("input"));
+                    Object rawInput = block.get("input");
+                    state.input = rawInput instanceof Map<?, ?>
+                            ? Json.asObject(rawInput)
+                            : new LinkedHashMap<>();
                     blocks.put(index, state);
                     String text = str(block.get("text"));
                     if (!text.isEmpty()) {
