@@ -1,5 +1,11 @@
 ﻿#import "PraxoMCP.h"
 #import <stdio.h>
+#if defined(__APPLE__)
+#import <TargetConditionals.h>
+#endif
+#ifndef TARGET_OS_IPHONE
+#define TARGET_OS_IPHONE 0
+#endif
 
 #import "PraxoCore.h"
 #import "PraxoJSON.h"
@@ -172,6 +178,8 @@
 
 @end
 
+#if !TARGET_OS_IPHONE
+
 @implementation PXRStdioMcpTransport {
     NSString *_command;
     NSArray<NSString *> *_args;
@@ -317,6 +325,43 @@
 }
 
 @end
+
+#else
+
+@implementation PXRStdioMcpTransport
+
+- (instancetype)initWithCommand:(NSString *)command
+                           args:(NSArray<NSString *> *)args {
+    return [super init];
+}
+
+- (nullable NSDictionary<NSString *, id> *)requestMethod:(NSString *)method
+                                                   params:(NSDictionary<NSString *, id> *)params
+                                                  timeout:(NSTimeInterval)timeout
+                                                    error:(NSError **)error {
+    if (error) {
+        *error = PXRCoreError(@"MCP_TRANSPORT",
+            @"mcp: stdio transport is unavailable on this platform");
+    }
+    return nil;
+}
+
+- (BOOL)notifyMethod:(NSString *)method
+              params:(NSDictionary<NSString *, id> *)params
+               error:(NSError **)error {
+    if (error) {
+        *error = PXRCoreError(@"MCP_TRANSPORT",
+            @"mcp: stdio transport is unavailable on this platform");
+    }
+    return NO;
+}
+
+- (void)close {
+}
+
+@end
+
+#endif
 
 @implementation PXRHttpMcpTransport {
     NSString *_endpoint;

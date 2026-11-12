@@ -99,7 +99,7 @@ for real providers, platforms, and production behavior is reported separately.
 | Perl | Core | released | `perl/v0.3.0` | complete | 11 vectors, 27 tests, API snapshot; source `0.3.0`, CPAN `Praxo-Core==0.2.0`; distribution root package `Praxo::Core` |
 | Delphi | Core | released | `delphi/v0.4.0` | complete | 11 vectors, native tests, API snapshot/parity; source `0.4.0`, OPM `0.2.1`; Free Pascal 3.2.2; commercial Delphi unverified |
 | OCaml / Caml | Core | released | `ocaml/v0.4.0` | complete | 11 vectors, native tests, API snapshot/parity; OCaml 4.14.2 bytecode; module `Praxo_core`; opt-in middleware integrated |
-| Objective-C | Core | released | `objc/v0.3.0` | complete | 11 vectors, native tests, API snapshot/parity; source `0.3.0`, published `0.1.1`; opt-in middleware integrated; Windows GNUstep and macOS CI |
+| Objective-C | Core | released | `objc/v0.3.1` | complete | 11 vectors, native tests, API snapshot/parity; source `0.3.1`, published `0.1.1`; opt-in middleware integrated; Windows GNUstep and macOS CI |
 | Elixir | Core | released | `elixir/v0.7.0` | complete | 11 vectors, HITL interrupts, native tests, API snapshot/parity, policy/middleware/lifecycle, cancellation, streaming, SSE, parallel tools, run-scoped call limits, OpenAI-compatible, Harmovela, and stdio MCP adapters; source `0.7.0`; Hex `praxo_core==0.6.0` |
 | Nim | Core | released | `nim/v0.2.0` | complete | 11 vectors, native tests, API snapshot/parity; opt-in middleware integrated |
 | V | Core | released | `v/v0.2.0` | complete | 11 vectors, native tests, API snapshot/parity; opt-in middleware integrated; split VPM repo `axisvela/praxo-core-v` package `praxo-core` tag `0.1.2`; VPM submission pending |
