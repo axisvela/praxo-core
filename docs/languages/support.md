@@ -102,7 +102,7 @@ Registry values below were checked against the public registries on 2026-11-10.
 | Language | Source tag | Registry version | Consumer install smoke |
 | --- | --- | --- | --- |
 | Python | `python/v0.5.0` | PyPI `praxo-core==0.4.1` published | Release workflow built and smoke-tested `0.4.1`; post-publication consumer check passed locally |
-| TypeScript | `typescript/v0.4.0` | npm `@axisvela/praxo-core@0.3.0` published as `latest` | Release workflow built and consumed the `0.3.0` tarball; post-publication consumer starter checks passed locally |
+| TypeScript | `typescript/v0.4.1` | npm `@axisvela/praxo-core@0.3.0` published as `latest` | Release workflow built and consumed the `0.3.0` tarball; post-publication consumer starter checks passed locally |
 | Java | `java/v0.6.0` | Maven Central `com.axisvela:praxo-core:0.5.0` published with Harmovela and MCP adapters | Central validated and published `0.5.0`; `0.5.0` post-publication consumer check not rerun |
 | Rust | `rust/v0.5.0` | crates.io `praxo-core==0.4.0` published; `0.1.4` historical | Recorded for `0.1.4` only; not rerun for `0.4.0` |
 | C# | `csharp/v0.5.0` | NuGet `Praxo.Core==0.4.0` published | Not recorded |
@@ -116,7 +116,7 @@ Registry values below were checked against the public registries on 2026-11-10.
 | MATLAB | `matlab/v0.3.0` | MATLAB File Exchange `185166` published | Not recorded |
 | Octave | `octave/v0.3.0` | Octave Packages PR #875 open; package archive published | Not recorded |
 | Perl | `perl/v0.2.0` | CPAN `Praxo-Core` 0.1.1 uploaded; indexing pending | Not recorded |
-| PowerShell | `powershell/v0.3.0` | PowerShell Gallery `praxo-core-ps==0.2.0` published | Not recorded |
+| PowerShell | `powershell/v0.3.1` | PowerShell Gallery `praxo-core-ps==0.2.0` published | Not recorded |
 | Nim | `nim/v0.2.0` | nim-lang/packages PR #3600 open; nimpkgs re-crawl pending | Not recorded |
 | OCaml | `ocaml/v0.4.0` | opam-repository PR #31106 open; package CI passed; opam-ci pending | Not recorded |
 | Haskell | `haskell/v0.3.0` | sdist published; API and manual uploads blocked until Hackage trustees add the account to Uploaders | Not recorded |
@@ -152,7 +152,7 @@ the installation source of truth.
 
 - Python publishes `praxo-core==0.3.2` on PyPI from source tag
   `python/v0.3.2`. TypeScript publishes `@axisvela/praxo-core@0.3.0` on npm from
-  source tag `typescript/v0.4.0`; the package has npm provenance and an
+  source tag `typescript/v0.4.1`; the package has npm provenance and an
   agent-framework-first README and metadata.
 - Java source tag `java/v0.6.0` adds the Harmovela sink and stdio MCP client
   under `com.axisvela.praxo.adapters` with Maven groupId `com.axisvela` and
@@ -201,7 +201,7 @@ the installation source of truth.
   recorded clean temporary-project install smoke covers `0.1.4` and reported
   `SDK_VERSION` `0.1.4` and `SPEC_VERSION` `0.2.0`. VFS and plugin hosts are not
   included.
-- R source tag `r/v0.7.0` adds the OpenAI-compatible adapter, Harmovela sink,
+- R source tag `r/v0.7.1` adds the OpenAI-compatible adapter, Harmovela sink,
   and stdio MCP client to policy, middleware, lifecycle cleanup, cancellation,
   streaming callbacks, an SSE parser, bounded parallel tools, HITL interrupt
   decisions, and an API snapshot. Unix uses `mclapply`; Windows uses a PSOCK

@@ -18,7 +18,7 @@ if (requireNamespace("praxocore", quietly = TRUE)) {
   source(file.path(root, "language", "r", "R", "mcp.R"))
 }
 if (!exists("fake_mcp_response", mode = "function")) {
-  source(file.path(test_dir, "fake_mcp_server.R"))
+  source(file.path(test_dir, "helpers", "fake_mcp_server.R"))
 }
 
 expect_code <- function(expr, code) {
@@ -645,7 +645,7 @@ harmovela_test <- function() {
 
 harmovela_test()
 
-source(file.path(test_dir, "mcp_tests.R"))
-source(file.path(test_dir, "provider_tests.R"))
+source(file.path(test_dir, "helpers", "mcp_tests.R"))
+source(file.path(test_dir, "helpers", "provider_tests.R"))
 
 cat("R core tests passed\n")

@@ -10,8 +10,8 @@ function Assert-True {
 Import-Module (Join-Path $PSScriptRoot '../praxo-core-ps/praxo-core-ps.psd1') -Force
 
 $info = Get-PraxoCoreInfo
-Assert-True ($info.Version -eq '0.3.0') 'core version'
-Assert-True ($info.SpecVersion -eq '0.3.0') 'spec version'
+Assert-True ($info.Version -eq '0.3.1') 'core version'
+Assert-True ($info.SpecVersion -eq '0.2.0') 'spec version'
 
 $call = Get-PraxoToolCall '{"name":"echo","input":{"text":"hi"}}'
 Assert-True ($call.Name -eq 'echo') 'toolcall name'

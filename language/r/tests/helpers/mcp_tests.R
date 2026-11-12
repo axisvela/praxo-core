@@ -15,7 +15,7 @@ if (requireNamespace("praxocore", quietly = TRUE)) {
   source(file.path(root, "language", "r", "R", "harmovela.R"))
   source(file.path(root, "language", "r", "R", "mcp.R"))
 }
-source(file.path(test_dir, "fake_mcp_server.R"))
+source(file.path(test_dir, "helpers", "fake_mcp_server.R"))
 
 expect_code <- function(expr, code) {
   error <- tryCatch({ force(expr); NULL }, error = function(e) e)
