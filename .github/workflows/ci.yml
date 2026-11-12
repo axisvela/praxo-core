@@ -419,7 +419,9 @@ jobs:
           python-version: "3.12"
       - run: sudo apt-get update && sudo apt-get install -y octave
       - run: python language/octave/build_octave_package.py
-      - run: octave-cli --quiet --eval "pkg install '$PWD/language/octave/build/octave/praxo-core-0.2.1.tar.gz'; pkg load praxo-core; assert(strcmp(praxo.sdk_version(), '0.2.1'));"
+      - run: |
+          version="$(cat language/octave/VERSION)"
+          octave-cli --quiet --eval "pkg install '$PWD/language/octave/build/octave/praxo-core-${version}.tar.gz'; pkg load praxo-core; assert(strcmp(praxo.sdk_version(), '${version}'));"
 
   delphi-conformance:
     needs: changes
