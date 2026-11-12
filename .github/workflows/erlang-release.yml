@@ -33,7 +33,7 @@ jobs:
       - uses: erlef/setup-beam@v1
         with:
           otp-version: "29"
-          rebar3-version: "3.24.0"
+          rebar3-version: "3.28.0"
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
@@ -74,7 +74,7 @@ jobs:
       - uses: erlef/setup-beam@v1
         with:
           otp-version: "29"
-          rebar3-version: "3.24.0"
+          rebar3-version: "3.28.0"
       - name: Publish to Hex
         env:
           HEX_API_KEY: ${{ secrets.HEX_API_KEY }}
