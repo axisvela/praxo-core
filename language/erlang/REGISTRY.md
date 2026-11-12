@@ -7,7 +7,7 @@ feature.
 
 ## Positioning
 
-PRAXO-CORE is an embeddable, MIT-licensed agent framework. This package is its native Erlang Core with source tag `erlang/v0.4.0`. It passes all eleven shared vector groups on Erlang/OTP 29 and includes the native agent loop, memory store, checkpoint allowlist, lexical path policy, context compaction, event sinks, middleware helpers, tool selection, and human-in-the-loop interrupt decisions. It does not call Go or another Core.
+PRAXO-CORE is an embeddable, MIT-licensed agent framework. This package is its native Erlang Core with source tag `erlang/v0.6.0`. It passes all eleven shared vector groups on Erlang/OTP 29 and includes the native agent loop, memory store, checkpoint allowlist, lexical path policy, context compaction, event sinks, middleware helpers, tool selection, and human-in-the-loop interrupt decisions. It does not call Go or another Core.
 
 ## Package
 
@@ -23,6 +23,16 @@ PRAXO-CORE is an embeddable, MIT-licensed agent framework. This package is its n
 | Tier | Core |
 | Contract | `SPEC_VERSION` `0.2.0` |
 | Documentation | https://axisvela.github.io/praxo-core/languages/erlang/ |
+
+## Capabilities and Status
+
+| Adapter | Status | Detail |
+| --- | --- | --- |
+| OpenAI-compatible model | native | `praxo_openai_compatible` |
+| Anthropic model | native | `praxo_anthropic` |
+| Gemini model | native | `praxo_gemini` |
+| MCP client | native | `praxo_mcp`; stdio, plus `praxo_mcp_http:transport/2` for Streamable HTTP 2025-03-26 |
+| Harmovela sink | native | `praxo_harmovela` |
 
 ## Coding-agent entry
 

@@ -17,6 +17,14 @@
 - contract: `SPEC_VERSION` `0.2.0`
 - documentation: https://axisvela.github.io/praxo-core/languages/ocaml/
 
+## Capabilities and Status
+
+- OpenAI-compatible model: native (transport seam) (Caller supplies `transport`; no bundled HTTP client)
+- Anthropic model: native (transport seam) (`anthropic_model`; caller supplies transport)
+- Gemini model: native (transport seam) (`gemini_model`; caller supplies transport)
+- MCP client: native (transport seam) (`mcp_client`; caller supplies transport)
+- Harmovela sink: native (transport seam) (`harmovela_sink`; caller supplies transport)
+
 ## Start
 
 - README: `README.md`

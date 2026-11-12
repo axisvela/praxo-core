@@ -24,6 +24,16 @@ PRAXO-CORE is a dependency-free TypeScript framework for building tool-using AI 
 | Contract | `SPEC_VERSION` `0.2.0` |
 | Documentation | https://axisvela.github.io/praxo-core/languages/typescript/ |
 
+## Capabilities and Status
+
+| Adapter | Status | Detail |
+| --- | --- | --- |
+| OpenAI-compatible model | native | `src/adapters/openaicompat.ts` |
+| Anthropic model | native | `src/adapters/anthropic.ts` |
+| Gemini model | native | `src/adapters/gemini.ts` |
+| MCP client | native | `src/adapters/mcp.ts`; stdio, plus `src/adapters/mcp-http.ts` for Streamable HTTP 2025-03-26 |
+| Harmovela sink | native | `src/adapters/harmovela.ts` |
+
 ## Coding-agent entry
 
 - [llms.txt](llms.txt): compact machine-readable entry for this language.

@@ -1,10 +1,10 @@
 # PRAXO-CORE for Delphi and Free Pascal
 
-Native Core implementation with source tag `delphi/v0.2.1`. It passes all eleven
+Native Core implementation with source tag `delphi/v0.4.0`. It passes all eleven
 vector groups and includes the native agent loop plus memory, event, checkpoint,
 policy, context, and middleware helpers. It does not call Go or another language
-Core; it has a non-streaming OpenAI-compatible model adapter but no process
-bridge or plugin host.
+Core; it includes native OpenAI-compatible, Anthropic, and Gemini model adapters
+but no process bridge or plugin host.
 
 Local validation uses Free Pascal 3.2.2 on Windows i386. It does not establish
 commercial Delphi compiler compatibility, Linux/macOS support, production

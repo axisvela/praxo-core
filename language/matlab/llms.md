@@ -17,6 +17,14 @@
 - contract: `SPEC_VERSION` `0.2.0`
 - documentation: https://axisvela.github.io/praxo-core/languages/matlab/
 
+## Capabilities and Status
+
+- OpenAI-compatible model: native (`praxo.openai_compatible` using `webwrite`)
+- Anthropic model: native (`praxo.anthropic_compatible`; injectable transport)
+- Gemini model: native (`praxo.gemini_compatible`; injectable transport)
+- MCP client: native (transport seam) (`praxo.mcp_client`; caller supplies a function handle)
+- Harmovela sink: native (`praxo.harmovela_sink`)
+
 ## Start
 
 - README: `README.md`

@@ -17,6 +17,14 @@
 - contract: `SPEC_VERSION` `0.2.0`
 - documentation: https://axisvela.github.io/praxo-core/languages/erlang/
 
+## Capabilities and Status
+
+- OpenAI-compatible model: native (`praxo_openai_compatible`)
+- Anthropic model: native (`praxo_anthropic`)
+- Gemini model: native (`praxo_gemini`)
+- MCP client: native (`praxo_mcp`; stdio, plus `praxo_mcp_http:transport/2` for Streamable HTTP 2025-03-26)
+- Harmovela sink: native (`praxo_harmovela`)
+
 ## Start
 
 - README: `README.md`

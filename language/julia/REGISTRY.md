@@ -24,6 +24,16 @@ Julia implementation of the PRAXO-CORE contract.
 | Contract | `SPEC_VERSION` `0.2.0` |
 | Documentation | https://axisvela.github.io/praxo-core/languages/julia/ |
 
+## Capabilities and Status
+
+| Adapter | Status | Detail |
+| --- | --- | --- |
+| OpenAI-compatible model | native | `OpenAICompatibleModel` |
+| Anthropic model | native | `AnthropicModel`; injectable transport |
+| Gemini model | native | `GeminiModel`; injectable transport |
+| MCP client | native (transport seam) | `mcp_client`; caller supplies transport |
+| Harmovela sink | native | `HarmovelaSink` |
+
 ## Coding-agent entry
 
 - [llms.txt](llms.txt): compact machine-readable entry for this language.

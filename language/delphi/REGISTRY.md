@@ -7,7 +7,7 @@ feature.
 
 ## Positioning
 
-Native Core implementation with source tag `delphi/v0.2.1`. It passes all eleven vector groups and includes the native agent loop plus memory, event, checkpoint, policy, context, and middleware helpers. It does not call Go or another language Core; it has a non-streaming OpenAI-compatible model adapter but no process bridge or plugin host.
+Native Core implementation with source tag `delphi/v0.4.0`. It passes all eleven vector groups and includes the native agent loop plus memory, event, checkpoint, policy, context, and middleware helpers. It does not call Go or another language Core; it includes native OpenAI-compatible, Anthropic, and Gemini model adapters but no process bridge or plugin host.
 
 ## Package
 
@@ -23,6 +23,16 @@ Native Core implementation with source tag `delphi/v0.2.1`. It passes all eleven
 | Tier | Core |
 | Contract | `SPEC_VERSION` `0.2.0` |
 | Documentation | https://axisvela.github.io/praxo-core/languages/delphi/ |
+
+## Capabilities and Status
+
+| Adapter | Status | Detail |
+| --- | --- | --- |
+| OpenAI-compatible model | native | `TPraxoOpenAIAdapter` with FPC HTTP transport |
+| Anthropic model | native | `TPraxoAnthropicAdapter`; FPC HTTP transport |
+| Gemini model | native | `TPraxoGeminiAdapter`; FPC HTTP transport |
+| MCP client | native | `TPraxoMcpClient`; stdio and `TPraxoHttpMcpTransport` for Streamable HTTP 2025-03-26 |
+| Harmovela sink | native | `TPraxoHarmovelaSink` |
 
 ## Coding-agent entry
 

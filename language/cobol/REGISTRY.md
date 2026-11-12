@@ -24,6 +24,16 @@ A native GnuCOBOL implementation, not a bridge to another Core. All 63 normative
 | Contract | `SPEC_VERSION` `0.2.0` |
 | Documentation | https://axisvela.github.io/praxo-core/languages/cobol/ |
 
+## Capabilities and Status
+
+| Adapter | Status | Detail |
+| --- | --- | --- |
+| OpenAI-compatible model | not implemented | No HTTP transport; model callback lacks tool specs/history |
+| Anthropic model | not implemented |  |
+| Gemini model | not implemented |  |
+| MCP client | not implemented |  |
+| Harmovela sink | not implemented | No HTTP transport; no event sink integration |
+
 ## Coding-agent entry
 
 - [llms.txt](llms.txt): compact machine-readable entry for this language.

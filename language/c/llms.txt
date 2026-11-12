@@ -17,6 +17,14 @@
 - contract: `SPEC_VERSION` `0.2.0`
 - documentation: https://axisvela.github.io/praxo-core/languages/c/
 
+# Capabilities and Status
+
+- OpenAI-compatible model: native (transport seam) (`PxOpenAICompatible`; caller supplies HTTP transport)
+- Anthropic model: native (transport seam) (`PxAnthropic`; caller supplies HTTP transport)
+- Gemini model: native (transport seam) (`PxGemini`; caller supplies HTTP transport)
+- MCP client: not implemented
+- Harmovela sink: native (transport seam) (`praxo_harmovela`; caller supplies HTTP transport)
+
 # Start
 
 - README: `README.md`

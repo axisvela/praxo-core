@@ -24,6 +24,16 @@ Swift implementation of the PRAXO-CORE contract.
 | Contract | `SPEC_VERSION` `0.2.0` |
 | Documentation | https://axisvela.github.io/praxo-core/languages/swift/ |
 
+## Capabilities and Status
+
+| Adapter | Status | Detail |
+| --- | --- | --- |
+| OpenAI-compatible model | native | `OpenAICompatibleModel` with URLSession transport |
+| Anthropic model | native | `AnthropicModel` with injectable transport |
+| Gemini model | native | `GeminiModel` with injectable transport |
+| MCP client | native | `McpClient`, `StdioMcpTransport`, `HttpMcpTransport`; typechecked locally, full build blocked |
+| Harmovela sink | native | `HarmovelaSink` with URLSession transport |
+
 ## Coding-agent entry
 
 - [llms.txt](llms.txt): compact machine-readable entry for this language.

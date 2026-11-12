@@ -24,6 +24,16 @@ R implementation of the PRAXO-CORE contract.
 | Contract | `SPEC_VERSION` `0.2.0` |
 | Documentation | https://axisvela.github.io/praxo-core/languages/r/ |
 
+## Capabilities and Status
+
+| Adapter | Status | Detail |
+| --- | --- | --- |
+| OpenAI-compatible model | native | `openai_compatible` adapter |
+| Anthropic model | native (transport seam) | `anthropic`; caller may supply `transport` |
+| Gemini model | native (transport seam) | `gemini`; caller may supply `transport` |
+| MCP client | native (transport seam) | `mcp_client`; base R needs caller-supplied transport for stdio |
+| Harmovela sink | native | `harmovela_sink` |
+
 ## Coding-agent entry
 
 - [llms.txt](llms.txt): compact machine-readable entry for this language.

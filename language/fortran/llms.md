@@ -17,6 +17,14 @@
 - contract: `SPEC_VERSION` `0.2.0`
 - documentation: https://axisvela.github.io/praxo-core/languages/fortran/
 
+## Capabilities and Status
+
+- OpenAI-compatible model: native (transport seam) (`openai_compatible`; caller supplies HTTP transport)
+- Anthropic model: native (transport seam) (`anthropic_compatible`; caller supplies HTTP transport)
+- Gemini model: native (transport seam) (`gemini_compatible`; caller supplies HTTP transport)
+- MCP client: not implemented
+- Harmovela sink: native (transport seam) (`harmovela`; caller supplies HTTP transport)
+
 ## Start
 
 - README: `README.md`

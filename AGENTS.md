@@ -80,6 +80,8 @@ cd language/python; python api-signatures.py --check
 cd language/python; python -m unittest discover -s tests -v
 python scripts/test_sync_language_mirrors.py
 python scripts/sync_language_mirrors.py --dry-run
+python scripts/check_adapter_status.py --check
+python scripts/test_adapter_status.py
 cd language/typescript; npm ci
 cd language/typescript; npm run build
 cd language/typescript; npm run api:check

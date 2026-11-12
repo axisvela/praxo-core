@@ -7,7 +7,7 @@ feature.
 
 ## Positioning
 
-Native Octave Core for the PRAXO-CORE agent framework. This is the independent Octave package root and source tag `octave/v0.2.1`; it shares the implementation in `language/matlab-octave-core/+praxo` with the MATLAB package. It passes all eleven shared vector groups under GNU Octave 11.3.0 and includes the native agent loop, memory store, checkpoint allowlist, lexical path policy, context compaction, event sinks, middleware helpers, and tool selection. It does not delegate behavior to Go or another language Core.
+Native Octave Core for the PRAXO-CORE agent framework. This is the independent Octave package root and source tag `octave/v0.4.0`; it shares the implementation in `language/matlab-octave-core/+praxo` with the MATLAB package. It passes all eleven shared vector groups under GNU Octave 11.3.0 and includes the native agent loop, memory store, checkpoint allowlist, lexical path policy, context compaction, event sinks, middleware helpers, and tool selection. It does not delegate behavior to Go or another language Core.
 
 ## Package
 
@@ -23,6 +23,16 @@ Native Octave Core for the PRAXO-CORE agent framework. This is the independent O
 | Tier | Core |
 | Contract | `SPEC_VERSION` `0.2.0` |
 | Documentation | https://axisvela.github.io/praxo-core/languages/octave/ |
+
+## Capabilities and Status
+
+| Adapter | Status | Detail |
+| --- | --- | --- |
+| OpenAI-compatible model | native | Shared `praxo.openai_compatible` implementation |
+| Anthropic model | native | Shared `praxo.anthropic_compatible` |
+| Gemini model | native | Shared `praxo.gemini_compatible` |
+| MCP client | native (transport seam) | Shared `praxo.mcp_client` implementation |
+| Harmovela sink | native | Shared `praxo.harmovela_sink` |
 
 ## Coding-agent entry
 

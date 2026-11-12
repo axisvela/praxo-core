@@ -24,6 +24,16 @@ PRAXO-CORE is an embeddable, MIT-licensed agent framework. This gem is its nativ
 | Contract | `SPEC_VERSION` `0.2.0` |
 | Documentation | https://axisvela.github.io/praxo-core/languages/ruby/ |
 
+## Capabilities and Status
+
+| Adapter | Status | Detail |
+| --- | --- | --- |
+| OpenAI-compatible model | native | `Praxo::Adapters::OpenAICompatible` |
+| Anthropic model | native | `Praxo::Adapters::Anthropic`; injectable transport |
+| Gemini model | native | `Praxo::Adapters::Gemini`; injectable transport |
+| MCP client | native | `Praxo::Adapters::MCPClient`; stdio, plus `HttpMCPTransport` for Streamable HTTP 2025-03-26 |
+| Harmovela sink | native | `Praxo::Adapters::HarmovelaSink` |
+
 ## Coding-agent entry
 
 - [llms.txt](llms.txt): compact machine-readable entry for this language.

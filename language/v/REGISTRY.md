@@ -7,7 +7,7 @@ feature.
 
 ## Positioning
 
-V is a native Core implementation with source tag `v/v0.1.2`. It passes all eleven shared vector groups with `V 0.5.2` and includes the native agent loop, context compaction, memory store, path policy, checkpoint allowlist, and tool-call parsing. Tool selection, PII redaction, structured output, and call limits are opt-in in the agent. Vector coverage does not establish full Core parity or production readiness.
+V is a native Core implementation with source tag `v/v0.3.0`. It passes all eleven shared vector groups with `V 0.5.2` and includes the native agent loop, context compaction, memory store, path policy, checkpoint allowlist, and tool-call parsing. Tool selection, PII redaction, structured output, and call limits are opt-in in the agent. Vector coverage does not establish full Core parity or production readiness.
 
 ## Package
 
@@ -23,6 +23,16 @@ V is a native Core implementation with source tag `v/v0.1.2`. It passes all elev
 | Tier | Core |
 | Contract | `SPEC_VERSION` `0.2.0` |
 | Documentation | https://axisvela.github.io/praxo-core/languages/v/ |
+
+## Capabilities and Status
+
+| Adapter | Status | Detail |
+| --- | --- | --- |
+| OpenAI-compatible model | native | `praxo.openaicompat`; verified with V 0.5.2 and `x.json2` |
+| Anthropic model | native (transport seam) | `anthropic_compatible`; caller supplies `ProviderTransport` |
+| Gemini model | native (transport seam) | `gemini_compatible`; caller supplies `ProviderTransport` |
+| MCP client | native (transport seam) | `praxo.mcp`; caller supplies `McpTransport` |
+| Harmovela sink | native | `harmovela_sink`; verified with V 0.5.2 and `x.json2` |
 
 ## Coding-agent entry
 

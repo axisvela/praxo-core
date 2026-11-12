@@ -1,6 +1,6 @@
 # PRAXO-CORE for Objective-C
 
-Objective-C is a native Core implementation with source tag `objc/v0.1.1`. It
+Objective-C is a native Core implementation with source tag `objc/v0.3.1`. It
 passes all eleven shared vector groups and includes the native
 agent loop, context compaction, memory store, path policy, checkpoint
 allowlist, tool selection, tool-call parsing, and opt-in PII redaction,

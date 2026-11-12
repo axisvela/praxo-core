@@ -17,6 +17,14 @@
 - contract: `SPEC_VERSION` `0.2.0`
 - documentation: https://axisvela.github.io/praxo-core/languages/haskell/
 
+## Capabilities and Status
+
+- OpenAI-compatible model: native (transport seam) (Caller supplies `Transport`; no bundled HTTP client)
+- Anthropic model: native (transport seam) (`Praxo.Anthropic`; caller supplies transport)
+- Gemini model: native (transport seam) (`Praxo.Gemini`; caller supplies transport)
+- MCP client: native (transport seam) (`Praxo.Mcp`; caller supplies `McpTransport`)
+- Harmovela sink: native (transport seam) (`Praxo.Harmovela`; caller supplies transport)
+
 ## Start
 
 - README: `README.md`

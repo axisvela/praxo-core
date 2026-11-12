@@ -17,6 +17,14 @@
 - contract: `SPEC_VERSION` `0.2.0`
 - documentation: https://axisvela.github.io/praxo-core/languages/lua/
 
+# Capabilities and Status
+
+- OpenAI-compatible model: native (`praxo.openai_compatible`)
+- Anthropic model: native (`praxo.adapters.anthropic`)
+- Gemini model: native (`praxo.adapters.gemini`)
+- MCP client: native (transport seam) (`praxo.adapters.mcp`; caller supplies transport)
+- Harmovela sink: native (`praxo.harmovela_sink`)
+
 # Start
 
 - README: `README.md`

@@ -24,6 +24,16 @@ Java implementation of the PRAXO-CORE contract. The normative contract is [`spec
 | Contract | `SPEC_VERSION` `0.2.0` |
 | Documentation | https://axisvela.github.io/praxo-core/languages/java/ |
 
+## Capabilities and Status
+
+| Adapter | Status | Detail |
+| --- | --- | --- |
+| OpenAI-compatible model | native | `adapters.OpenAICompatibleModel` |
+| Anthropic model | native | `adapters.AnthropicModel` |
+| Gemini model | native | `adapters.GeminiModel` |
+| MCP client | native | `adapters.McpClient`; stdio, plus `McpStreamableHttpTransport` for Streamable HTTP 2025-03-26 (local runtime verification pending) |
+| Harmovela sink | native | `adapters.HarmovelaSink` |
+
 ## Coding-agent entry
 
 - [llms.txt](llms.txt): compact machine-readable entry for this language.

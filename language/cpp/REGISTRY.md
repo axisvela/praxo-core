@@ -24,6 +24,16 @@ C++20 implementation of the PRAXO-CORE agent contract. The normative contract is
 | Contract | `SPEC_VERSION` `0.2.0` |
 | Documentation | https://axisvela.github.io/praxo-core/languages/cpp/ |
 
+## Capabilities and Status
+
+| Adapter | Status | Detail |
+| --- | --- | --- |
+| OpenAI-compatible model | native (transport seam) | `OpenAICompatible`; caller supplies HTTP transport |
+| Anthropic model | native (transport seam) | `Anthropic`; caller supplies HTTP transport |
+| Gemini model | native (transport seam) | `Gemini`; caller supplies HTTP transport |
+| MCP client | not implemented |  |
+| Harmovela sink | native (transport seam) | `HarmovelaSink`; caller supplies HTTP transport |
+
 ## Coding-agent entry
 
 - [llms.txt](llms.txt): compact machine-readable entry for this language.

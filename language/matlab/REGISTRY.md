@@ -24,6 +24,16 @@ feature.
 | Contract | `SPEC_VERSION` `0.2.0` |
 | Documentation | https://axisvela.github.io/praxo-core/languages/matlab/ |
 
+## Capabilities and Status
+
+| Adapter | Status | Detail |
+| --- | --- | --- |
+| OpenAI-compatible model | native | `praxo.openai_compatible` using `webwrite` |
+| Anthropic model | native | `praxo.anthropic_compatible`; injectable transport |
+| Gemini model | native | `praxo.gemini_compatible`; injectable transport |
+| MCP client | native (transport seam) | `praxo.mcp_client`; caller supplies a function handle |
+| Harmovela sink | native | `praxo.harmovela_sink` |
+
 ## Coding-agent entry
 
 - [llms.txt](llms.txt): compact machine-readable entry for this language.

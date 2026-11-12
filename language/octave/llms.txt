@@ -17,6 +17,14 @@
 - contract: `SPEC_VERSION` `0.2.0`
 - documentation: https://axisvela.github.io/praxo-core/languages/octave/
 
+# Capabilities and Status
+
+- OpenAI-compatible model: native (Shared `praxo.openai_compatible` implementation)
+- Anthropic model: native (Shared `praxo.anthropic_compatible`)
+- Gemini model: native (Shared `praxo.gemini_compatible`)
+- MCP client: native (transport seam) (Shared `praxo.mcp_client` implementation)
+- Harmovela sink: native (Shared `praxo.harmovela_sink`)
+
 # Start
 
 - README: `README.md`

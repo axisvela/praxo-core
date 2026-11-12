@@ -1,7 +1,7 @@
 # PRAXO-CORE for GNU Octave
 
 Native Octave Core for the PRAXO-CORE agent framework. This is the independent
-Octave package root and source tag `octave/v0.2.1`; it shares the implementation
+Octave package root and source tag `octave/v0.4.0`; it shares the implementation
 in `language/matlab-octave-core/+praxo` with the MATLAB package. It passes all
 eleven shared vector groups under GNU Octave 11.3.0 and includes the native agent
 loop, memory store, checkpoint allowlist, lexical path policy, context

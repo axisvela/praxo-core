@@ -24,6 +24,16 @@ PRAXO-CORE is a dependency-free Python framework for building tool-using AI agen
 | Contract | `SPEC_VERSION` `0.2.0` |
 | Documentation | https://axisvela.github.io/praxo-core/languages/python/ |
 
+## Capabilities and Status
+
+| Adapter | Status | Detail |
+| --- | --- | --- |
+| OpenAI-compatible model | native | `praxo.adapters.openaicompat` |
+| Anthropic model | native | `praxo.adapters.anthropic.AnthropicModel` |
+| Gemini model | native | `praxo.adapters.gemini.GeminiModel` |
+| MCP client | native | `praxo.adapters.mcp.MCPClient`; stdio, plus `mcp_http.StreamableHTTPTransport` for Streamable HTTP 2025-03-26 |
+| Harmovela sink | native | `praxo.adapters.harmovela.HarmovelaSink` |
+
 ## Coding-agent entry
 
 - [llms.txt](llms.txt): compact machine-readable entry for this language.

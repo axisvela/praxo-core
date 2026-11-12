@@ -24,6 +24,16 @@ PRAXO-CORE is an embeddable, MIT-licensed agent framework. This rock is its nati
 | Contract | `SPEC_VERSION` `0.2.0` |
 | Documentation | https://axisvela.github.io/praxo-core/languages/lua/ |
 
+## Capabilities and Status
+
+| Adapter | Status | Detail |
+| --- | --- | --- |
+| OpenAI-compatible model | native | `praxo.openai_compatible` |
+| Anthropic model | native | `praxo.adapters.anthropic` |
+| Gemini model | native | `praxo.adapters.gemini` |
+| MCP client | native (transport seam) | `praxo.adapters.mcp`; caller supplies transport |
+| Harmovela sink | native | `praxo.harmovela_sink` |
+
 ## Coding-agent entry
 
 - [llms.txt](llms.txt): compact machine-readable entry for this language.

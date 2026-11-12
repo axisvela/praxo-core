@@ -17,6 +17,14 @@
 - contract: `SPEC_VERSION` `0.2.0`
 - documentation: https://axisvela.github.io/praxo-core/languages/ruby/
 
+## Capabilities and Status
+
+- OpenAI-compatible model: native (`Praxo::Adapters::OpenAICompatible`)
+- Anthropic model: native (`Praxo::Adapters::Anthropic`; injectable transport)
+- Gemini model: native (`Praxo::Adapters::Gemini`; injectable transport)
+- MCP client: native (`Praxo::Adapters::MCPClient`; stdio, plus `HttpMCPTransport` for Streamable HTTP 2025-03-26)
+- Harmovela sink: native (`Praxo::Adapters::HarmovelaSink`)
+
 ## Start
 
 - README: `README.md`

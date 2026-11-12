@@ -17,6 +17,14 @@
 - contract: `SPEC_VERSION` `0.2.0`
 - documentation: https://axisvela.github.io/praxo-core/languages/objc/
 
+## Capabilities and Status
+
+- OpenAI-compatible model: native (`PXROpenAIGenerate` with injectable transport)
+- Anthropic model: native (`PXRAnthropicGenerate` with injectable transport)
+- Gemini model: native (`PXRGeminiGenerate` with injectable transport)
+- MCP client: native (`PXRMcpClient`; stdio and `PXRHttpMcpTransport` for Streamable HTTP 2025-03-26)
+- Harmovela sink: native (`PraxoHarmovela`)
+
 ## Start
 
 - README: `README.md`

@@ -17,6 +17,14 @@
 - contract: `SPEC_VERSION` `0.2.0`
 - documentation: https://axisvela.github.io/praxo-core/languages/csharp/
 
+## Capabilities and Status
+
+- OpenAI-compatible model: native (`Praxo.Core.OpenAiCompatible`)
+- Anthropic model: native (`Praxo.Core.AnthropicModel`)
+- Gemini model: native (`Praxo.Core.GeminiModel`)
+- MCP client: native (`Praxo.Core.Adapters.McpClient`; stdio, plus `McpStreamableHttpTransport` for Streamable HTTP 2025-03-26)
+- Harmovela sink: native (`Praxo.Core.HarmovelaSink`)
+
 ## Start
 
 - README: `README.md`

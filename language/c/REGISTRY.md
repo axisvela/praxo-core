@@ -24,6 +24,16 @@ C11 implementation of the PRAXO-CORE Core contract with source version `0.6.0`. 
 | Contract | `SPEC_VERSION` `0.2.0` |
 | Documentation | https://axisvela.github.io/praxo-core/languages/c/ |
 
+## Capabilities and Status
+
+| Adapter | Status | Detail |
+| --- | --- | --- |
+| OpenAI-compatible model | native (transport seam) | `PxOpenAICompatible`; caller supplies HTTP transport |
+| Anthropic model | native (transport seam) | `PxAnthropic`; caller supplies HTTP transport |
+| Gemini model | native (transport seam) | `PxGemini`; caller supplies HTTP transport |
+| MCP client | not implemented |  |
+| Harmovela sink | native (transport seam) | `praxo_harmovela`; caller supplies HTTP transport |
+
 ## Coding-agent entry
 
 - [llms.txt](llms.txt): compact machine-readable entry for this language.

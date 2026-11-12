@@ -17,6 +17,14 @@
 - contract: `SPEC_VERSION` `0.2.0`
 - documentation: https://axisvela.github.io/praxo-core/languages/julia/
 
+# Capabilities and Status
+
+- OpenAI-compatible model: native (`OpenAICompatibleModel`)
+- Anthropic model: native (`AnthropicModel`; injectable transport)
+- Gemini model: native (`GeminiModel`; injectable transport)
+- MCP client: native (transport seam) (`mcp_client`; caller supplies transport)
+- Harmovela sink: native (`HarmovelaSink`)
+
 # Start
 
 - README: `README.md`

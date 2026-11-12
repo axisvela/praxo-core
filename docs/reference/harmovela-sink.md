@@ -49,9 +49,14 @@ adapter contract, not a new Core wire state machine or a delivery guarantee.
 
 ## Baseline Status
 
-Native sinks cover Go, Python, TypeScript, Java, Rust, C#, R, Elixir, Ruby, PHP,
-Lua, Nim, Perl, and Erlang. Each implementation uses an injected transport or
-loopback fixture in tests; no live Harmovela service is claimed.
+The canonical per-language list is the [adapter status](../languages/adapter-status.md#harmovela)
+table. Native sinks cover Go, Python, TypeScript, Java, Rust, C#, R, Elixir,
+Ruby, PHP, Lua, Nim, Perl, Erlang, Julia, V, D, Dart, Swift, Delphi/Free Pascal,
+Objective-C, MATLAB, GNU Octave, and Zig. Haskell, OCaml, C, C++, and Fortran
+provide caller-supplied transport seams; PowerShell inherits the C# Core.
+COBOL and other implementations do not have a sink. Each implementation uses an
+injected transport or loopback fixture in tests; no live Harmovela service is
+claimed.
 
 ## Testing
 

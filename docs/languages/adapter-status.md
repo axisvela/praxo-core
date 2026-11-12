@@ -39,11 +39,7 @@ Status words:
 | Swift | native | `OpenAICompatibleModel` with URLSession transport |
 | OCaml | native (transport seam) | Caller supplies `transport`; no bundled HTTP client |
 | Delphi / Free Pascal | native | `TPraxoOpenAIAdapter` with FPC HTTP transport |
-| Delphi / Free Pascal | native | `TPraxoAnthropicAdapter`; FPC HTTP transport |
-| Delphi / Free Pascal | native | `TPraxoGeminiAdapter`; FPC HTTP transport |
 | Objective-C | native | `PXROpenAIGenerate` with injectable transport |
-| Objective-C | native | `PXRAnthropicGenerate` with injectable transport |
-| Objective-C | native | `PXRGeminiGenerate` with injectable transport |
 | MATLAB | native | `praxo.openai_compatible` using `webwrite` |
 | GNU Octave | native | Shared `praxo.openai_compatible` implementation |
 | Zig | native | `openaicompat.Adapter` with `std.http` |
@@ -95,6 +91,13 @@ provider presets.
 | Zig | native | `anthropic.Adapter`; injectable transport |
 | MATLAB | native | `praxo.anthropic_compatible`; injectable transport |
 | GNU Octave | native | Shared `praxo.anthropic_compatible` |
+| Delphi / Free Pascal | native | `TPraxoAnthropicAdapter`; FPC HTTP transport |
+| Objective-C | native | `PXRAnthropicGenerate` with injectable transport |
+| PowerShell | inherited | Uses the C# Core |
+| Visual Basic / F# | inherited | Samples over the C# Core |
+| Kotlin / Scala / Groovy / Clojure | inherited | Samples over the Java Core |
+| JavaScript | inherited | Sample over the TypeScript Core |
+| Shell / Lisp / Tcl / Prolog | bridge | Uses the Go Core through the bridge |
 | All other implementations | not implemented | Use the OpenAI-compatible adapter only for OpenAI-compatible endpoints |
 
 ## Model (Gemini Native)
@@ -128,6 +131,13 @@ provider presets.
 | Zig | native | `gemini.Adapter`; injectable transport |
 | MATLAB | native | `praxo.gemini_compatible`; injectable transport |
 | GNU Octave | native | Shared `praxo.gemini_compatible` |
+| Delphi / Free Pascal | native | `TPraxoGeminiAdapter`; FPC HTTP transport |
+| Objective-C | native | `PXRGeminiGenerate` with injectable transport |
+| PowerShell | inherited | Uses the C# Core |
+| Visual Basic / F# | inherited | Samples over the C# Core |
+| Kotlin / Scala / Groovy / Clojure | inherited | Samples over the Java Core |
+| JavaScript | inherited | Sample over the TypeScript Core |
+| Shell / Lisp / Tcl / Prolog | bridge | Uses the Go Core through the bridge |
 | All other implementations | not implemented | Native generateContent mapping follows adoption order |
 
 ## MCP
@@ -154,14 +164,29 @@ provider presets.
 | Swift | native | `McpClient`, `StdioMcpTransport`, `HttpMcpTransport`; typechecked locally, full build blocked |
 | Lua | native (transport seam) | `praxo.adapters.mcp`; caller supplies transport |
 | PowerShell | native (C# shared runtime) | `Connect-PraxoMcp`, `Get-PraxoMcpTools`, `Invoke-PraxoMcpTool`; wraps the C# MCP client and stdio/Streamable HTTP transports |
+| Haskell | native (transport seam) | `Praxo.Mcp`; caller supplies `McpTransport` |
+| Julia | native (transport seam) | `mcp_client`; caller supplies transport |
+| MATLAB | native (transport seam) | `praxo.mcp_client`; caller supplies a function handle |
+| GNU Octave | native (transport seam) | Shared `praxo.mcp_client` implementation |
+| Nim | native (transport seam) | `praxo/adapters/mcp`; caller supplies transport |
+| OCaml | native (transport seam) | `mcp_client`; caller supplies transport |
+| V | native (transport seam) | `praxo.mcp`; caller supplies `McpTransport` |
+| Visual Basic / F# | inherited | Samples over the C# Core |
+| Kotlin / Scala / Groovy / Clojure | inherited | Samples over the Java Core |
+| JavaScript | inherited | Sample over the TypeScript Core |
+| Shell / Lisp / Tcl / Prolog | bridge | Uses the Go Core through the bridge |
 | All other implementations | not implemented | MCP clients follow the model baseline in adoption order. Missing clients are not yet implemented, not a documented language limitation: a native stdio client or a caller-supplied request/response transport seam is feasible wherever the runtime can provide the transport. |
 
 MCP support means a minimal client session that can initialize, list tools with
 pagination, and call a tool. It does not imply a hosted MCP service, schema
 promotion, or production authentication. The Go reference provides stdio and
-Streamable HTTP 2025-03-26; the other listed clients are stdio or
-transport-seam pilots and do not implement Streamable HTTP yet. No live MCP
-server or remote-service evidence is claimed.
+Streamable HTTP 2025-03-26. Streamable HTTP clients also exist for Python,
+TypeScript, C#, Java, Rust (caller-supplied seam), Ruby, PHP, Elixir, Erlang,
+Dart, Perl, D, Delphi, Objective-C, and Zig; Swift defines an HTTP transport but
+its full local build verification is blocked. R, Lua, Haskell, Julia, MATLAB,
+GNU Octave, Nim, OCaml, and V provide caller-supplied transport seams;
+PowerShell wraps the C# client and transports. No live MCP server or
+remote-service evidence is claimed.
 
 COBOL is not blocked by MCP itself: MCP is JSON-RPC, not HTTP, and the COBOL Core
 already has JSON parsing/generation. The missing piece is a transport. A portable
@@ -205,6 +230,10 @@ and assistant tool-call history.
 | C++ | native (transport seam) | `HarmovelaSink`; caller supplies HTTP transport |
 | Fortran | native (transport seam) | `harmovela`; caller supplies HTTP transport |
 | PowerShell | inherited | Uses the C# Core |
+| Visual Basic / F# | inherited | Samples over the C# Core |
+| Kotlin / Scala / Groovy / Clojure | inherited | Samples over the Java Core |
+| JavaScript | inherited | Sample over the TypeScript Core |
+| Shell / Lisp / Tcl / Prolog | bridge | Uses the Go Core through the bridge |
 | COBOL | not implemented | No HTTP transport; no event sink integration |
 | Other implementations | not implemented | Add with a named consumer or maintainer |
 

@@ -17,6 +17,14 @@
 - contract: `SPEC_VERSION` `0.2.0`
 - documentation: https://axisvela.github.io/praxo-core/languages/swift/
 
+## Capabilities and Status
+
+- OpenAI-compatible model: native (`OpenAICompatibleModel` with URLSession transport)
+- Anthropic model: native (`AnthropicModel` with injectable transport)
+- Gemini model: native (`GeminiModel` with injectable transport)
+- MCP client: native (`McpClient`, `StdioMcpTransport`, `HttpMcpTransport`; typechecked locally, full build blocked)
+- Harmovela sink: native (`HarmovelaSink` with URLSession transport)
+
 ## Start
 
 - README: `README.md`

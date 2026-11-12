@@ -59,39 +59,24 @@ licensing.
 
 ## Baseline Status
 
-The Go reference (`adapters/mcp`) implements both transports:
-`ConnectStdio`/`NewStdioGateway` over a child process, and
-`ConnectStreamableHTTP`/`NewStreamableHTTPGateway` over Streamable HTTP with a
-caller-supplied `*http.Client`. Python (`praxo.adapters.mcp_http`),
-TypeScript (`src/adapters/mcp-http.ts`), C#
-(`McpStreamableHttpTransport`), and Java (`McpStreamableHttpTransport`) also
-implement Streamable HTTP 2025-03-26. Ruby, PHP, Elixir, Erlang, Dart, and Perl
-add Streamable HTTP transports with JSON/SSE parsing and HTTPS enforcement. D
-adds `praxo.mcp.McpClient` with stdio and `HttpMcpTransport`. Delphi / Free
-Pascal adds `TPraxoMcpClient` with stdio and `TPraxoHttpMcpTransport`.
-Objective-C adds `PXRMcpClient` with stdio and `PXRHttpMcpTransport`. Zig adds
-`mcp.Client` with stdio and a curl-backed `HttpTransport`. Swift has
-`McpClient`, `StdioMcpTransport`, and `HttpMcpTransport`; the source typechecks
-under the documented Windows SDK/MSVC workaround, but a full local build/test is
-still blocked by the toolchain, so macOS CI remains the full `swift test` gate.
-Rust adds
-`McpClient::connect_http` over a caller-supplied `McpHttpTransport` seam. C#,
-Rust, Ruby, PHP, Dart, D, Delphi/Free Pascal, Objective-C, and Zig have local
-transport-fixture tests; Elixir and Erlang have integration tests for the
-transport seam but not a live HTTP fixture; the Java implementation compiles,
-but its local runtime verification is pending.
+The canonical per-language list is the [adapter status](../languages/adapter-status.md#mcp)
+table. The Go reference (`adapters/mcp`) implements stdio and Streamable HTTP
+2025-03-26. Streamable HTTP clients also exist for Python, TypeScript, C#, Java,
+Rust (caller-supplied seam), Ruby, PHP, Elixir, Erlang, Dart, Perl, D,
+Delphi/Free Pascal, Objective-C, and Zig; Swift defines an HTTP transport but
+its full local build verification is blocked by the toolchain. R, Lua, Haskell,
+Julia, MATLAB, GNU Octave, Nim, OCaml, and V expose caller-supplied transport
+seams; PowerShell wraps the C# client and transports. The Java implementation
+compiles, but its local runtime verification remains pending.
 
-Native stdio clients currently cover Python (`praxo.adapters.mcp`), TypeScript
-(`src/adapters/mcp.ts`), Java (`adapters.McpClient`), Rust (`mcp::McpClient`),
-C# (`Praxo.Core.Adapters.McpClient`), Elixir (`Praxo.Mcp`), Erlang
-(`praxo_mcp`), Ruby (`Praxo::Adapters::MCPClient`), PHP
-(`Praxo\Core\Adapters\MCPClient`), Dart (`McpClient`), and Perl
-(`Praxo::Adapters::MCP`). R (`mcp_client`) and Lua (`praxo.adapters.mcp`) use
-caller-supplied transport seams. The remaining stdio-only implementations do
-not implement Streamable HTTP yet.
+C, C++, Fortran, and COBOL do not have an in-tree MCP client. C/C++/Fortran
+already provide HTTP transport seams that can carry JSON-RPC; COBOL needs a
+caller-supplied transport callback. These are unimplemented, not documented
+language limitations.
 
-These are deterministic fake-server or transport-fixture implementations, not
-live-service or remote-transport evidence. Missing clients in other
+All listed clients use deterministic fake servers or transport fixtures. No
+live MCP service, remote transport, or production authentication evidence is
+claimed. Missing clients in other
 implementations are not yet implemented, not a documented language limitation:
 the same JSON-RPC state machine can run over a native stdio child process, a
 Streamable HTTP client, or a caller-supplied request/response transport where

@@ -7,7 +7,7 @@ feature.
 
 ## Positioning
 
-Objective-C is a native Core implementation with source tag `objc/v0.1.1`. It passes all eleven shared vector groups and includes the native agent loop, context compaction, memory store, path policy, checkpoint allowlist, tool selection, tool-call parsing, and opt-in PII redaction, structured output validation, and call limits. Vector coverage does not establish full Core parity or production readiness.
+Objective-C is a native Core implementation with source tag `objc/v0.3.1`. It passes all eleven shared vector groups and includes the native agent loop, context compaction, memory store, path policy, checkpoint allowlist, tool selection, tool-call parsing, and opt-in PII redaction, structured output validation, and call limits. Vector coverage does not establish full Core parity or production readiness.
 
 ## Package
 
@@ -23,6 +23,16 @@ Objective-C is a native Core implementation with source tag `objc/v0.1.1`. It pa
 | Tier | Core |
 | Contract | `SPEC_VERSION` `0.2.0` |
 | Documentation | https://axisvela.github.io/praxo-core/languages/objc/ |
+
+## Capabilities and Status
+
+| Adapter | Status | Detail |
+| --- | --- | --- |
+| OpenAI-compatible model | native | `PXROpenAIGenerate` with injectable transport |
+| Anthropic model | native | `PXRAnthropicGenerate` with injectable transport |
+| Gemini model | native | `PXRGeminiGenerate` with injectable transport |
+| MCP client | native | `PXRMcpClient`; stdio and `PXRHttpMcpTransport` for Streamable HTTP 2025-03-26 |
+| Harmovela sink | native | `PraxoHarmovela` |
 
 ## Coding-agent entry
 

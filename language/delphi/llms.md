@@ -17,6 +17,14 @@
 - contract: `SPEC_VERSION` `0.2.0`
 - documentation: https://axisvela.github.io/praxo-core/languages/delphi/
 
+## Capabilities and Status
+
+- OpenAI-compatible model: native (`TPraxoOpenAIAdapter` with FPC HTTP transport)
+- Anthropic model: native (`TPraxoAnthropicAdapter`; FPC HTTP transport)
+- Gemini model: native (`TPraxoGeminiAdapter`; FPC HTTP transport)
+- MCP client: native (`TPraxoMcpClient`; stdio and `TPraxoHttpMcpTransport` for Streamable HTTP 2025-03-26)
+- Harmovela sink: native (`TPraxoHarmovelaSink`)
+
 ## Start
 
 - README: `README.md`

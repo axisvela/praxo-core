@@ -24,6 +24,16 @@ PRAXO-CORE is an embeddable, MIT-licensed agent framework. This package is its n
 | Contract | `SPEC_VERSION` `0.2.0` |
 | Documentation | https://axisvela.github.io/praxo-core/languages/dart/ |
 
+## Capabilities and Status
+
+| Adapter | Status | Detail |
+| --- | --- | --- |
+| OpenAI-compatible model | native | `OpenAiCompatibleModel` with sync and async transport paths |
+| Anthropic model | native | `AnthropicModel` with sync and async transport paths |
+| Gemini model | native | `GeminiModel` with sync and async transport paths |
+| MCP client | native | `McpClient`; stdio, plus `McpStreamableHttpTransport` for Streamable HTTP 2025-03-26 |
+| Harmovela sink | native | `HarmovelaSink` |
+
 ## Coding-agent entry
 
 - [llms.txt](llms.txt): compact machine-readable entry for this language.

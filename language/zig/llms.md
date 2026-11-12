@@ -17,6 +17,14 @@
 - contract: `SPEC_VERSION` `0.2.0`
 - documentation: https://axisvela.github.io/praxo-core/languages/zig/
 
+## Capabilities and Status
+
+- OpenAI-compatible model: native (`openaicompat.Adapter` with `std.http`)
+- Anthropic model: native (`anthropic.Adapter`; injectable transport)
+- Gemini model: native (`gemini.Adapter`; injectable transport)
+- MCP client: native (`mcp.Client`; stdio and curl-backed `HttpTransport` for Streamable HTTP 2025-03-26)
+- Harmovela sink: native (`harmovela`)
+
 ## Start
 
 - README: `README.md`

@@ -7,7 +7,7 @@ feature.
 
 ## Positioning
 
-PRAXO-CORE is an embeddable, MIT-licensed agent framework. This package is its native Nim Core with source tag `nim/v0.1.1`. It passes all eleven shared vector groups with `Nim 2.2.12` and includes the native agent loop, context compaction, memory store, path policy, checkpoint allowlist, tool-call parsing, and opt-in agent tool selection, PII redaction, structured output, and call limits. Vector coverage does not establish full Core parity or production readiness.
+PRAXO-CORE is an embeddable, MIT-licensed agent framework. This package is its native Nim Core with source tag `nim/v0.3.0`. It passes all eleven shared vector groups with `Nim 2.2.12` and includes the native agent loop, context compaction, memory store, path policy, checkpoint allowlist, tool-call parsing, and opt-in agent tool selection, PII redaction, structured output, and call limits. Vector coverage does not establish full Core parity or production readiness.
 
 ## Package
 
@@ -23,6 +23,16 @@ PRAXO-CORE is an embeddable, MIT-licensed agent framework. This package is its n
 | Tier | Core |
 | Contract | `SPEC_VERSION` `0.2.0` |
 | Documentation | https://axisvela.github.io/praxo-core/languages/nim/ |
+
+## Capabilities and Status
+
+| Adapter | Status | Detail |
+| --- | --- | --- |
+| OpenAI-compatible model | native | `praxo/adapters/openai_compatible` |
+| Anthropic model | native | `newAnthropicCompatible`; injectable transport |
+| Gemini model | native | `newGeminiCompatible`; injectable transport |
+| MCP client | native (transport seam) | `praxo/adapters/mcp`; caller supplies transport |
+| Harmovela sink | native | `newHarmovelaSink` |
 
 ## Coding-agent entry
 

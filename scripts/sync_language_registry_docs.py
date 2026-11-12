@@ -52,6 +52,77 @@ for entry in LANGUAGES:
     entry.setdefault("source_install", entry["install"])
 
 MANIFEST = ROOT / "language" / "registry-metadata.json"
+ADAPTER_STATUS = ROOT / "docs" / "languages" / "adapter-status.md"
+CAPABILITY_SECTIONS = (
+    ("Model (OpenAI-Compatible)", "OpenAI-compatible model"),
+    ("Model (Anthropic Native)", "Anthropic model"),
+    ("Model (Gemini Native)", "Gemini model"),
+    ("MCP", "MCP client"),
+    ("Harmovela", "Harmovela sink"),
+)
+_CAPABILITIES: dict[str, dict[str, tuple[str, str]]] | None = None
+
+
+def adapter_capabilities() -> dict[str, dict[str, tuple[str, str]]]:
+    global _CAPABILITIES
+    if _CAPABILITIES is not None:
+        return _CAPABILITIES
+    text = ADAPTER_STATUS.read_text(encoding="utf-8")
+    result: dict[str, dict[str, tuple[str, str]]] = {}
+    for heading, label in CAPABILITY_SECTIONS:
+        match = re.search(
+            r"## " + re.escape(heading) + r"\n(.*?)(?=\n## |\Z)", text, re.DOTALL
+        )
+        if not match:
+            raise ValueError("adapter-status.md: missing section " + heading)
+        rows: dict[str, tuple[str, str]] = {}
+        for line in match.group(1).splitlines():
+            if not line.startswith("| ") or line.startswith("| Language") or line.startswith("| ---"):
+                continue
+            cells = [cell.strip() for cell in line.strip("|").split("|")]
+            language = cells[0]
+            if language.startswith("All other") or language.startswith("Other"):
+                continue
+            if language in rows:
+                raise ValueError(
+                    "adapter-status.md: duplicate " + label + " row for " + language
+                )
+            rows[language] = (cells[1], " | ".join(cells[2:]).strip())
+        result[label] = rows
+    _CAPABILITIES = result
+    return result
+
+
+def capability_rows(entry: dict) -> list[tuple[str, str, str]] | None:
+    if entry["name"] == "MATLAB/Octave shared core":
+        return None
+    capabilities = adapter_capabilities()
+    rows: list[tuple[str, str, str]] = []
+    for _, label in CAPABILITY_SECTIONS:
+        status, notes = capabilities[label].get(entry["name"], ("not implemented", ""))
+        rows.append((label, status, notes))
+    return rows
+
+
+def capabilities_registry(entry: dict) -> str:
+    rows = capability_rows(entry)
+    if rows is None:
+        return ""
+    lines = ["## Capabilities and Status", "", "| Adapter | Status | Detail |", "| --- | --- | --- |"]
+    for label, status, notes in rows:
+        lines.append(f"| {label} | {status} | {notes} |")
+    return "\n".join(lines) + "\n\n"
+
+
+def capabilities_llms(entry: dict) -> str:
+    rows = capability_rows(entry)
+    if rows is None:
+        return ""
+    lines = ["## Capabilities and Status", ""]
+    for label, status, notes in rows:
+        suffix = f" ({notes})" if notes and notes != "-" else ""
+        lines.append(f"- {label}: {status}{suffix}")
+    return "\n".join(lines) + "\n\n"
 
 
 def published_available(entry: dict) -> bool:
@@ -206,7 +277,7 @@ feature.
 | Contract | `SPEC_VERSION` `0.2.0` |
 | Documentation | {entry['docs']} |
 
-## Coding-agent entry
+{capabilities_registry(entry)}## Coding-agent entry
 
 - [llms.txt](llms.txt): compact machine-readable entry for this language.
 - [llms.md](llms.md): Markdown version of the same entry.
@@ -250,7 +321,7 @@ def render_llms(entry: dict, directory: Path, markdown: bool) -> str:
 - contract: `SPEC_VERSION` `0.2.0`
 - documentation: {entry['docs']}
 
-## Start
+{capabilities_llms(entry)}## Start
 
 - README: `README.md`
 - Registry introduction: `REGISTRY.md`
@@ -399,6 +470,14 @@ def main() -> int:
                     missing.append(f"{registry.relative_to(ROOT)}: stale multi-language registry entry")
                 if llms_md.is_file() and llms_md.read_text(encoding="utf-8") != render_root_llms():
                     missing.append(f"{llms_md.relative_to(ROOT)}: stale multi-language llms entry")
+            else:
+                directory = registry.parent
+                if registry.is_file() and registry.read_text(encoding="utf-8") != render_registry(entry, directory):
+                    missing.append(f"{registry.relative_to(ROOT)}: stale registry entry")
+                if llms_txt.is_file() and llms_txt.read_text(encoding="utf-8") != render_llms(entry, directory, markdown=False):
+                    missing.append(f"{llms_txt.relative_to(ROOT)}: stale llms.txt entry")
+                if llms_md.is_file() and llms_md.read_text(encoding="utf-8") != render_llms(entry, directory, markdown=True):
+                    missing.append(f"{llms_md.relative_to(ROOT)}: stale llms.md entry")
         else:
             write_entry(entry)
     if args.check:

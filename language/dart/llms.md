@@ -17,6 +17,14 @@
 - contract: `SPEC_VERSION` `0.2.0`
 - documentation: https://axisvela.github.io/praxo-core/languages/dart/
 
+## Capabilities and Status
+
+- OpenAI-compatible model: native (`OpenAiCompatibleModel` with sync and async transport paths)
+- Anthropic model: native (`AnthropicModel` with sync and async transport paths)
+- Gemini model: native (`GeminiModel` with sync and async transport paths)
+- MCP client: native (`McpClient`; stdio, plus `McpStreamableHttpTransport` for Streamable HTTP 2025-03-26)
+- Harmovela sink: native (`HarmovelaSink`)
+
 ## Start
 
 - README: `README.md`

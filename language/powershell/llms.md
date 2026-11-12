@@ -17,6 +17,14 @@
 - contract: `SPEC_VERSION` `0.2.0`
 - documentation: https://axisvela.github.io/praxo-core/languages/powershell/
 
+## Capabilities and Status
+
+- OpenAI-compatible model: inherited (Uses the C# Core)
+- Anthropic model: inherited (Uses the C# Core)
+- Gemini model: inherited (Uses the C# Core)
+- MCP client: native (C# shared runtime) (`Connect-PraxoMcp`, `Get-PraxoMcpTools`, `Invoke-PraxoMcpTool`; wraps the C# MCP client and stdio/Streamable HTTP transports)
+- Harmovela sink: inherited (Uses the C# Core)
+
 ## Start
 
 - README: `README.md`

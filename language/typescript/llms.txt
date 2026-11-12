@@ -17,6 +17,14 @@
 - contract: `SPEC_VERSION` `0.2.0`
 - documentation: https://axisvela.github.io/praxo-core/languages/typescript/
 
+# Capabilities and Status
+
+- OpenAI-compatible model: native (`src/adapters/openaicompat.ts`)
+- Anthropic model: native (`src/adapters/anthropic.ts`)
+- Gemini model: native (`src/adapters/gemini.ts`)
+- MCP client: native (`src/adapters/mcp.ts`; stdio, plus `src/adapters/mcp-http.ts` for Streamable HTTP 2025-03-26)
+- Harmovela sink: native (`src/adapters/harmovela.ts`)
+
 # Start
 
 - README: `README.md`

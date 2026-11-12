@@ -24,6 +24,16 @@ PRAXO-CORE is an embeddable, MIT-licensed agent framework. This package is its n
 | Contract | `SPEC_VERSION` `0.2.0` |
 | Documentation | https://axisvela.github.io/praxo-core/languages/d/ |
 
+## Capabilities and Status
+
+| Adapter | Status | Detail |
+| --- | --- | --- |
+| OpenAI-compatible model | native (transport seam) | `OpenAICompatibleModel`; caller may inject transport |
+| Anthropic model | native (transport seam) | `AnthropicModel`; caller may inject transport |
+| Gemini model | native (transport seam) | `GeminiModel`; caller may inject transport |
+| MCP client | native | `praxo.mcp.McpClient`; stdio, plus `HttpMcpTransport` for Streamable HTTP 2025-03-26 |
+| Harmovela sink | native | `HarmovelaSink` |
+
 ## Coding-agent entry
 
 - [llms.txt](llms.txt): compact machine-readable entry for this language.

@@ -24,6 +24,16 @@ Zig 0.17 implementation of the PRAXO-CORE agent contract. The normative contract
 | Contract | `SPEC_VERSION` `0.2.0` |
 | Documentation | https://axisvela.github.io/praxo-core/languages/zig/ |
 
+## Capabilities and Status
+
+| Adapter | Status | Detail |
+| --- | --- | --- |
+| OpenAI-compatible model | native | `openaicompat.Adapter` with `std.http` |
+| Anthropic model | native | `anthropic.Adapter`; injectable transport |
+| Gemini model | native | `gemini.Adapter`; injectable transport |
+| MCP client | native | `mcp.Client`; stdio and curl-backed `HttpTransport` for Streamable HTTP 2025-03-26 |
+| Harmovela sink | native | `harmovela` |
+
 ## Coding-agent entry
 
 - [llms.txt](llms.txt): compact machine-readable entry for this language.
