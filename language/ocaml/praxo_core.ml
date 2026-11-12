@@ -1088,6 +1088,14 @@ type agent_options = {
   agent_max_tokens : int;
   agent_session_id : string;
 }
+type mcp_transport = string -> json -> json
+type mcp_client = {
+  mcp_transport : mcp_transport;
+  mcp_client_version : string;
+  mutable mcp_protocol_version : string;
+  mutable mcp_server_info : json;
+  mutable mcp_closed : bool;
+}
 
 exception Core_error of string * string
 

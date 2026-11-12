@@ -3,7 +3,7 @@ import std/[json, tables]
 import ../errors
 
 type
-  McpTransport* = proc(method: string, params: JsonNode): JsonNode {.closure.}
+  McpTransport* = proc(method_name: string, params: JsonNode): JsonNode {.closure.}
 
   McpClient* = ref object
     transport*: McpTransport

@@ -36,7 +36,7 @@ pub fn mcp_client(options McpOptions) !&McpClient {
 		}
 		server_info: map[string]json2.Any{}
 	}
-	result := client.transport('initialize', {
+	result := client.transport('initialize', map[string]json2.Any{
 		'protocolVersion': json2.Any(client.protocol_version)
 		'capabilities':    json2.Any(map[string]json2.Any{})
 		'clientInfo': json2.Any(map[string]json2.Any{
@@ -92,7 +92,7 @@ pub fn (client &McpClient) list_tools() ![]map[string]json2.Any {
 }
 
 pub fn (client &McpClient) call_tool(name string, arguments map[string]json2.Any) !json2.Any {
-	result := client.transport('tools/call', {
+	result := client.transport('tools/call', map[string]json2.Any{
 		'name':      json2.Any(name)
 		'arguments': json2.Any(arguments)
 	})!
