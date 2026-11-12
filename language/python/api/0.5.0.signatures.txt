@@ -538,22 +538,6 @@ method send(message: 'dict[str, Any]') -> 'None'
 method receive() -> 'dict[str, Any] | None'
 method close() -> 'None'
 
-## StreamableHTTPConfig
-class StreamableHTTPConfig
-constructor(endpoint: 'str', headers: 'dict[str, str]' = <factory>, protocol_version: 'str' = '2025-03-26', timeout: 'float' = 30.0) -> None
-field endpoint: str
-field headers: dict[str, str] = <factory>
-field protocol_version: str = '2025-03-26'
-field timeout: float = 30.0
-
-## StreamableHTTPTransport
-class StreamableHTTPTransport
-constructor(config: 'StreamableHTTPConfig') -> 'None'
-method start() -> 'None'
-method send(message: 'dict[str, Any]') -> 'None'
-method receive() -> 'dict[str, Any] | None'
-method close() -> 'None'
-
 # module praxo.adapters.openaicompat
 ## OpenAICompatibleModel
 class OpenAICompatibleModel

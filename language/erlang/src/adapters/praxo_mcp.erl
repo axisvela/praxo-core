@@ -13,7 +13,7 @@ new(Options) ->
         requested_protocol_version =>
             maps:get(protocol_version, Options, ?DEFAULT_PROTOCOL),
         timeout => maps:get(timeout, Options, ?DEFAULT_TIMEOUT),
-        client_version => maps:get(client_version, Options, <<"0.5.0">>),
+        client_version => maps:get(client_version, Options, <<"0.6.0">>),
         port => undefined,
         connected => false,
         protocol_version => <<>>,

@@ -61,7 +61,7 @@ void runMcpTests(void (*check)(BOOL, NSString *)) {
     PXRMcpClient *client = [[PXRMcpClient alloc]
         initWithTransport:transport
           protocolVersion:@"2025-03-26"
-            clientVersion:@"0.2.0"
+            clientVersion:@"0.3.0"
                   timeout:5.0];
     NSError *error = nil;
     check([client start:&error], @"mcp start");

@@ -51,7 +51,7 @@ class McpClient {
 
     this(McpTransport transport,
          string protocolVersion = "2024-11-05",
-         string clientVersion = "0.2.0",
+         string clientVersion = "0.3.0",
          Duration timeout = 30.seconds) {
         this.transport = transport;
         this.requestedProtocolVersion = protocolVersion;

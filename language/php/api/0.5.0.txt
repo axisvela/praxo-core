@@ -13,13 +13,8 @@ Praxo\Core\Response generate(Praxo\Core\Request $request)
 ### Praxo\Core\Adapters\HarmovelaSink
 HarmovelaSink(string $baseUrl, ?string $source, ?string $specVersion, $transport, $clock, int $timeout)
 void emit(Praxo\Core\Event $event)
-### Praxo\Core\Adapters\HttpMCPTransport
-HttpMCPTransport(string $endpoint, array $headers, string $protocolVersion)
-array request(string $method, array $params, float $timeout)
-void close()
-void notify(string $method, array $params)
 ### Praxo\Core\Adapters\MCPClient
-MCPClient(Praxo\Core\Adapters\MCPTransport $transport, string $clientVersion, float $timeout, string $requestedProtocolVersion)
+MCPClient(Praxo\Core\Adapters\MCPTransport $transport, string $clientVersion, float $timeout)
 Praxo\Core\Adapters\MCPClient start()
 array listTools()
 array serverInfo()

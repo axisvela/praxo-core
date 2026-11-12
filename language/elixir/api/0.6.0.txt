@@ -70,8 +70,6 @@ Praxo.Mcp.list_tools
 Praxo.Mcp.register_tools
 Praxo.Mcp.request
 Praxo.Mcp.tools
-Praxo.McpHttp
-Praxo.McpHttp.transport
 Praxo.McpTool
 Praxo.MemoryRecord
 Praxo.MemoryStore

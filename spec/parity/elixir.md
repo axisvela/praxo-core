@@ -3,7 +3,7 @@
 - Tier: core
 - SPEC_VERSION: 0.2.0
 
-Released source tag `elixir/v0.3.0` ships the core loop with middleware/lifecycle
+Released source tag `elixir/v0.7.0` ships the core loop with middleware/lifecycle
 authorization, cancellation, stream callbacks, a native SSE parser, bounded
 parallel tools, and run-scoped call limits. The Core passes all eleven vector
 groups, its tests, and its public API snapshot. The agent integrates opt-in PII

@@ -72,26 +72,26 @@ Bridge、Sample 描述运行时的接入方式，不证明其语言缺乏 Framew
 
 | 语言 | 源码标签 | 注册表版本 | 消费者安装 smoke |
 | --- | --- | --- | --- |
-| Python | `python/v0.5.0` | PyPI `praxo-core==0.5.0` 已发布 | 发布工作流构建并 smoke 测试 `0.5.0`；发布后消费者检查仅记录 `0.4.1` |
-| TypeScript | `typescript/v0.4.1` | npm `@axisvela/praxo-core@0.4.1` 已作为 `latest` 发布 | 发布工作流构建并消费 `0.4.1` tarball；发布后消费者 starter 检查记录 `0.3.0` |
+| Python | `python/v0.6.0` | PyPI `praxo-core==0.5.0` 已发布 | 发布工作流构建并 smoke 测试 `0.5.0`；发布后消费者检查仅记录 `0.4.1` |
+| TypeScript | `typescript/v0.5.0` | npm `@axisvela/praxo-core@0.4.1` 已作为 `latest` 发布 | 发布工作流构建并消费 `0.4.1` tarball；发布后消费者 starter 检查记录 `0.3.0` |
 | Java | `java/v0.6.0` | Maven Central `com.axisvela:praxo-core:0.6.0` 已发布，包含 Harmovela、MCP adapter | Central 已校验并发布 `0.6.0`；`0.6.0` 发布后消费者检查未重跑 |
-| Rust | `rust/v0.5.0` | crates.io `praxo-core==0.5.0` 已发布；`0.1.4` 为历史版本 | 仅记录 `0.1.4`；`0.5.0` 未重跑 |
-| C# | `csharp/v0.5.0` | NuGet `Praxo.Core==0.5.0` 已发布 | 未记录 |
-| Elixir | `elixir/v0.6.0` | Hex `praxo_core==0.6.0` 已发布，包含 OpenAI-compatible、Anthropic、Gemini、Harmovela、MCP adapter；`0.5.1`、`0.4.1`、`0.4.0`、`0.3.0`、`0.2.0` 为历史版本 | 已增加扩展 Starter；Hex `0.4.1` 在干净 Mix 项目中解析，allow/deny 本地通过；`0.6.0` 安装 smoke 未重跑 |
-| Erlang | `erlang/v0.5.0` | Hex `praxo_core_erlang==0.5.0` 已发布；`0.4.0`、`0.3.1`、`0.2.0` 为历史版本 | `0.5.0` 未重跑；历史 `0.1.1` smoke |
-| Ruby | `ruby/v0.5.0` | RubyGems `praxo-core==0.5.0` 已发布；`0.4.1`、`0.4.0`、`0.3.0`、`0.2.0` 为历史版本 | 已增加扩展 Starter；RubyGems `0.4.1` 已安装到干净 gem home，allow/deny 本地通过；`0.5.0` 安装 smoke 未重跑 |
+| Rust | `rust/v0.6.0` | crates.io `praxo-core==0.5.0` 已发布；`0.1.4` 为历史版本 | 仅记录 `0.1.4`；`0.5.0` 未重跑 |
+| C# | `csharp/v0.6.0` | NuGet `Praxo.Core==0.5.0` 已发布 | 未记录 |
+| Elixir | `elixir/v0.7.0` | Hex `praxo_core==0.6.0` 已发布，包含 OpenAI-compatible、Anthropic、Gemini、Harmovela、MCP adapter；`0.5.1`、`0.4.1`、`0.4.0`、`0.3.0`、`0.2.0` 为历史版本 | 已增加扩展 Starter；Hex `0.4.1` 在干净 Mix 项目中解析，allow/deny 本地通过；`0.6.0` 安装 smoke 未重跑 |
+| Erlang | `erlang/v0.6.0` | Hex `praxo_core_erlang==0.5.0` 已发布；`0.4.0`、`0.3.1`、`0.2.0` 为历史版本 | `0.5.0` 未重跑；历史 `0.1.1` smoke |
+| Ruby | `ruby/v0.6.0` | RubyGems `praxo-core==0.5.0` 已发布；`0.4.1`、`0.4.0`、`0.3.0`、`0.2.0` 为历史版本 | 已增加扩展 Starter；RubyGems `0.4.1` 已安装到干净 gem home，allow/deny 本地通过；`0.5.0` 安装 smoke 未重跑 |
 | Lua | `lua/v0.5.0` | LuaRocks `praxo-core==0.5.0-1` 已发布，包含可选 OpenAI-compatible adapter；`0.4.1-1`、`0.4.0-1`、`0.3.0-1`、`0.2.0-1` 也已发布 | 已增加扩展 Starter；LuaRocks `0.4.1-1` 已安装到干净 tree，allow/deny 本地通过；`0.5.0-1` 安装 smoke 未重跑 |
-| PHP | `php/v0.5.0` | Packagist `axisvela/praxo-core==0.4.1` 已发布，包含 Composer `autoload.files`；`0.4.0`、`0.3.0`、`0.2.0` 为历史版本 | 已增加扩展 Starter；Composer 安装已发布 `0.4.1` 后 Starter 无桥接本地通过 |
-| Dart | `dart/v0.2.0` | pub.dev `praxo_core==0.2.0` | 已记录 `0.1.1`；`0.2.0` 安装 smoke 未记录 |
+| PHP | `php/v0.6.0` | Packagist `axisvela/praxo-core==0.4.1` 已发布，包含 Composer `autoload.files`；`0.4.0`、`0.3.0`、`0.2.0` 为历史版本 | 已增加扩展 Starter；Composer 安装已发布 `0.4.1` 后 Starter 无桥接本地通过 |
+| Dart | `dart/v0.3.0` | pub.dev `praxo_core==0.2.0` | 已记录 `0.1.1`；`0.2.0` 安装 smoke 未记录 |
 | Julia | `julia/v0.3.0` | General Registry PR #174826 已创建；mirror `0.2.0` | 未记录 |
 | MATLAB | `matlab/v0.3.0` | MATLAB File Exchange `185166` 已发布（`0.3.0`） | 未记录 |
 | Octave | `octave/v0.3.0` | Octave Packages PR #875 待合并；包归档已发布 | 未记录 |
-| Perl | `perl/v0.2.0` | CPAN `Praxo-Core==0.2.0` 已发布并在 MetaCPAN 建立索引 | 未记录 |
+| Perl | `perl/v0.3.0` | CPAN `Praxo-Core==0.2.0` 已发布并在 MetaCPAN 建立索引 | 未记录 |
 | PowerShell | `powershell/v0.3.1` | PowerShell Gallery `praxo-core-ps==0.3.1` 已发布 | 未记录 |
 | Nim | `nim/v0.2.0` | split 仓库包 `0.1.1`；nim-lang/packages PR #3600 已于 2026-11-05 合并；nimpkgs 待重新抓取 | 未记录 |
 | OCaml | `ocaml/v0.4.0` | opam-repository PR #31106 待合并；包 CI 已通过；opam-ci 待完成 | 未记录 |
 | Haskell | `haskell/v0.3.0` | Hackage `praxo-core==0.3.0` 已发布 | 未记录 |
-| Delphi / Free Pascal | `delphi/v0.3.0` | OPM 资产已发布；维护者提交待完成 | 未记录 |
+| Delphi / Free Pascal | `delphi/v0.4.0` | OPM 资产已发布；维护者提交待完成 | 未记录 |
 
 ### 注册表相对代码的新旧状态
 
@@ -100,29 +100,29 @@ Bridge、Sample 描述运行时的接入方式，不证明其语言缺乏 Framew
 
 | 语言 | 代码/manifest 版本 | 注册表 latest | 状态 |
 | --- | --- | --- | --- |
-| Python | `0.5.0` | PyPI `0.5.0` | 已最新 |
-| TypeScript | `0.4.1` | npm `0.4.1` | 已最新 |
+| Python | `0.6.0` | PyPI `0.5.0` | 源码已准备；注册表落后 |
+| TypeScript | `0.5.0` | npm `0.4.1` | 源码已准备；注册表落后 |
 | Java | `0.6.0` | Maven Central `0.6.0` | 已最新 |
-| Rust | `0.5.0` | crates.io `0.5.0` | 已最新 |
-| C# | `0.5.0` | NuGet `0.5.0` | 已最新 |
-| Elixir | `0.6.0` | Hex `0.6.0` | 已最新 |
-| Erlang | `0.5.0` | Hex `0.5.0` | 已最新 |
-| Ruby | `0.5.0` | RubyGems `0.5.0` | 已最新 |
-| PHP | `0.5.0` | Packagist `0.4.1` | 源码已准备；注册表落后 |
+| Rust | `0.6.0` | crates.io `0.5.0` | 源码已准备；注册表落后 |
+| C# | `0.6.0` | NuGet `0.5.0` | 源码已准备；注册表落后 |
+| Elixir | `0.7.0` | Hex `0.6.0` | 源码已准备；注册表落后 |
+| Erlang | `0.6.0` | Hex `0.5.0` | 源码已准备；注册表落后 |
+| Ruby | `0.6.0` | RubyGems `0.5.0` | 源码已准备；注册表落后 |
+| PHP | `0.6.0` | Packagist `0.4.1` | 源码已准备；注册表落后 |
 | Lua | rockspec `0.5.0-1`；源码标签 `0.5.0` | LuaRocks `0.5.0-1` | 已最新 |
-| Dart | `0.2.0` | pub.dev `0.2.0` | 已最新 |
+| Dart | `0.3.0` | pub.dev `0.2.0` | 源码已准备；注册表落后 |
 | Julia | `0.3.0` | General Registry PR #174826 待合并（`0.2.0`） | 待完成 |
 | MATLAB | `0.3.0` | File Exchange `185166`（`0.3.0`） | 已最新 |
 | Octave | `0.3.0` | Octave Packages PR #875 待合并（`0.2.1`） | 待完成 |
-| Perl | `0.2.0` | CPAN `0.2.0` | 已最新 |
+| Perl | `0.3.0` | CPAN `0.2.0` | 源码已准备；注册表落后 |
 | PowerShell | `0.3.1` | PowerShell Gallery `0.3.1` | 已最新 |
 | Haskell | `0.3.0` | Hackage `0.3.0` | 已最新 |
 | R | `0.7.1` | r-universe `0.7.1` | 已最新；未发布 CRAN |
 | Nim | `0.2.0` | split 仓库包 `0.1.1` | 待完成 |
 | OCaml | `0.4.0` | opam registry `0.3.0` | 待完成 |
 | Swift | `0.3.0` | SPM `0.2.0` | 待完成 |
-| Delphi / Free Pascal | `0.3.0` | OPM `0.2.1` | 待完成 |
-| D | `0.2.0` | DUB `0.1.0` | 待完成 |
+| Delphi / Free Pascal | `0.4.0` | OPM `0.2.1` | 待完成 |
+| D | `0.3.0` | DUB `0.1.0` | 待完成 |
 
 不要从注册表安装只有源码标签的语言，也不要假设注册表包包含源码标签的最新行为。
 语言页面是安装信息的唯一来源。

@@ -1052,7 +1052,7 @@ $http = new class extends \Praxo\Core\Adapters\HttpMCPTransport {
         ])];
     }
 };
-$httpClient = new \Praxo\Core\Adapters\MCPClient($http, '0.5.0', 5.0, '2025-03-26');
+$httpClient = new \Praxo\Core\Adapters\MCPClient($http, '0.6.0', 5.0, '2025-03-26');
 $httpClient->start();
 check($httpClient->protocolVersion() === '2025-03-26', 'http mcp protocol version');
 check(array_column($httpClient->listTools(), 'name') === ['echo'], 'http mcp tools');

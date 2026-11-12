@@ -3,7 +3,7 @@
 - Tier: core
 - SPEC_VERSION: 0.2.0
 
-`ruby/v0.3.0` ships the core loop with middleware/lifecycle authorization,
+`ruby/v0.6.0` ships the core loop with middleware/lifecycle authorization,
 cancellation, stream callbacks, a native SSE parser, bounded parallel tools,
 and run-scoped call limits. The Core passes all eleven vector groups, its core
 tests, and its public API snapshot. `partial` marks a surface that covers the

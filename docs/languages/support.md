@@ -101,26 +101,26 @@ Registry values below were checked against the public registries on 2026-11-12.
 
 | Language | Source tag | Registry version | Consumer install smoke |
 | --- | --- | --- | --- |
-| Python | `python/v0.5.0` | PyPI `praxo-core==0.5.0` published | Release workflow built and smoke-tested `0.5.0`; post-publication consumer check recorded for `0.4.1` only |
-| TypeScript | `typescript/v0.4.1` | npm `@axisvela/praxo-core@0.4.1` published as `latest` | Release workflow built and consumed the `0.4.1` tarball; post-publication consumer starter checks recorded for `0.3.0` |
+| Python | `python/v0.6.0` | PyPI `praxo-core==0.5.0` published | Release workflow built and smoke-tested `0.5.0`; post-publication consumer check recorded for `0.4.1` only |
+| TypeScript | `typescript/v0.5.0` | npm `@axisvela/praxo-core@0.4.1` published as `latest` | Release workflow built and consumed the `0.4.1` tarball; post-publication consumer starter checks recorded for `0.3.0` |
 | Java | `java/v0.6.0` | Maven Central `com.axisvela:praxo-core:0.6.0` published with Harmovela and MCP adapters | Central validated and published `0.6.0`; `0.6.0` post-publication consumer check not rerun |
-| Rust | `rust/v0.5.0` | crates.io `praxo-core==0.5.0` published; `0.1.4` historical | Recorded for `0.1.4` only; not rerun for `0.5.0` |
-| C# | `csharp/v0.5.0` | NuGet `Praxo.Core==0.5.0` published | Not recorded |
-| Elixir | `elixir/v0.6.0` | Hex `praxo_core==0.6.0` published with OpenAI-compatible, Anthropic, Gemini, Harmovela, and MCP adapters; `0.5.1`, `0.4.1`, `0.4.0`, `0.3.0`, `0.2.0` historical | Extended starter added; Hex `0.4.1` resolved in a clean Mix project and allow/deny passed locally; `0.6.0` install smoke not rerun |
-| Erlang | `erlang/v0.5.0` | Hex `praxo_core_erlang==0.5.0` published; `0.4.0`, `0.3.1`, `0.2.0` historical | Not rerun for `0.5.0`; historical `0.1.1` smoke |
-| Ruby | `ruby/v0.5.0` | RubyGems `praxo-core==0.5.0` published; `0.4.1`, `0.4.0`, `0.3.0`, `0.2.0` historical | Extended starter added; RubyGems `0.4.1` installed into a clean gem home and allow/deny passed locally; `0.5.0` install smoke not rerun |
+| Rust | `rust/v0.6.0` | crates.io `praxo-core==0.5.0` published; `0.1.4` historical | Recorded for `0.1.4` only; not rerun for `0.5.0` |
+| C# | `csharp/v0.6.0` | NuGet `Praxo.Core==0.5.0` published | Not recorded |
+| Elixir | `elixir/v0.7.0` | Hex `praxo_core==0.6.0` published with OpenAI-compatible, Anthropic, Gemini, Harmovela, and MCP adapters; `0.5.1`, `0.4.1`, `0.4.0`, `0.3.0`, `0.2.0` historical | Extended starter added; Hex `0.4.1` resolved in a clean Mix project and allow/deny passed locally; `0.6.0` install smoke not rerun |
+| Erlang | `erlang/v0.6.0` | Hex `praxo_core_erlang==0.5.0` published; `0.4.0`, `0.3.1`, `0.2.0` historical | Not rerun for `0.5.0`; historical `0.1.1` smoke |
+| Ruby | `ruby/v0.6.0` | RubyGems `praxo-core==0.5.0` published; `0.4.1`, `0.4.0`, `0.3.0`, `0.2.0` historical | Extended starter added; RubyGems `0.4.1` installed into a clean gem home and allow/deny passed locally; `0.5.0` install smoke not rerun |
 | Lua | `lua/v0.5.0` | LuaRocks `praxo-core==0.5.0-1` published with the optional OpenAI-compatible adapter; `0.4.1-1`, `0.4.0-1`, `0.3.0-1`, `0.2.0-1` also published | Extended starter added; LuaRocks `0.4.1-1` installed into a clean tree and allow/deny passed locally; `0.5.0-1` install smoke not rerun |
-| PHP | `php/v0.5.0` | Packagist `axisvela/praxo-core==0.4.1` published with Composer `autoload.files`; `0.4.0`, `0.3.0`, `0.2.0` historical | Extended starter added; Composer install of published `0.4.1` passed locally and the starter passed without a bridge |
-| Dart | `dart/v0.2.0` | pub.dev `praxo_core==0.2.0` | Recorded for `0.1.1`; `0.2.0` install smoke not recorded |
+| PHP | `php/v0.6.0` | Packagist `axisvela/praxo-core==0.4.1` published with Composer `autoload.files`; `0.4.0`, `0.3.0`, `0.2.0` historical | Extended starter added; Composer install of published `0.4.1` passed locally and the starter passed without a bridge |
+| Dart | `dart/v0.3.0` | pub.dev `praxo_core==0.2.0` | Recorded for `0.1.1`; `0.2.0` install smoke not recorded |
 | Julia | `julia/v0.3.0` | General Registry PR #174826 open via mirror `0.2.0` | Not recorded |
 | MATLAB | `matlab/v0.3.0` | MATLAB File Exchange `185166` published (`0.3.0`) | Not recorded |
 | Octave | `octave/v0.3.0` | Octave Packages PR #875 open; package archive published | Not recorded |
-| Perl | `perl/v0.2.0` | CPAN `Praxo-Core==0.2.0` published and indexed on MetaCPAN | Not recorded |
+| Perl | `perl/v0.3.0` | CPAN `Praxo-Core==0.2.0` published and indexed on MetaCPAN | Not recorded |
 | PowerShell | `powershell/v0.3.1` | PowerShell Gallery `praxo-core-ps==0.3.1` published | Not recorded |
 | Nim | `nim/v0.2.0` | Split repository package `0.1.1`; nim-lang/packages PR #3600 merged 2026-11-05; nimpkgs re-crawl pending | Not recorded |
 | OCaml | `ocaml/v0.4.0` | opam-repository PR #31106 open; package CI passed; opam-ci pending | Not recorded |
 | Haskell | `haskell/v0.3.0` | Hackage `praxo-core==0.3.0` published | Not recorded |
-| Delphi / Free Pascal | `delphi/v0.3.0` | OPM assets published; maintainer submission pending | Not recorded |
+| Delphi / Free Pascal | `delphi/v0.4.0` | OPM assets published; maintainer submission pending | Not recorded |
 
 ### Registry freshness against code
 
@@ -129,29 +129,29 @@ its latest version matches the manifest at the release tag.
 
 | Language | Code/manifest version | Registry latest | Status |
 | --- | --- | --- | --- |
-| Python | `0.5.0` | PyPI `0.5.0` | current |
-| TypeScript | `0.4.1` | npm `0.4.1` | current |
+| Python | `0.6.0` | PyPI `0.5.0` | source prepared; registry behind |
+| TypeScript | `0.5.0` | npm `0.4.1` | source prepared; registry behind |
 | Java | `0.6.0` | Maven Central `0.6.0` | current |
-| Rust | `0.5.0` | crates.io `0.5.0` | current |
-| C# | `0.5.0` | NuGet `0.5.0` | current |
-| Elixir | `0.6.0` | Hex `0.6.0` | current |
-| Erlang | `0.5.0` | Hex `0.5.0` | current |
-| Ruby | `0.5.0` | RubyGems `0.5.0` | current |
-| PHP | `0.5.0` | Packagist `0.4.1` | source prepared; registry behind |
+| Rust | `0.6.0` | crates.io `0.5.0` | source prepared; registry behind |
+| C# | `0.6.0` | NuGet `0.5.0` | source prepared; registry behind |
+| Elixir | `0.7.0` | Hex `0.6.0` | source prepared; registry behind |
+| Erlang | `0.6.0` | Hex `0.5.0` | source prepared; registry behind |
+| Ruby | `0.6.0` | RubyGems `0.5.0` | source prepared; registry behind |
+| PHP | `0.6.0` | Packagist `0.4.1` | source prepared; registry behind |
 | Lua | rockspec `0.5.0-1`; source tag `0.5.0` | LuaRocks `0.5.0-1` | current |
-| Dart | `0.2.0` | pub.dev `0.2.0` | current |
+| Dart | `0.3.0` | pub.dev `0.2.0` | source prepared; registry behind |
 | Julia | `0.3.0` | General Registry PR #174826 open (`0.2.0`) | pending |
 | MATLAB | `0.3.0` | File Exchange `185166` (`0.3.0`) | current |
 | Octave | `0.3.0` | Octave Packages PR #875 open (`0.2.1`) | pending |
-| Perl | `0.2.0` | CPAN `0.2.0` | current |
+| Perl | `0.3.0` | CPAN `0.2.0` | source prepared; registry behind |
 | PowerShell | `0.3.1` | PowerShell Gallery `0.3.1` | current |
 | Haskell | `0.3.0` | Hackage `0.3.0` | current |
 | R | `0.7.1` | r-universe `0.7.1` | current; CRAN not published |
 | Nim | `0.2.0` | Split repository package `0.1.1` | pending |
 | OCaml | `0.4.0` | opam registry `0.3.0` | pending |
 | Swift | `0.3.0` | SPM `0.2.0` | pending |
-| Delphi / Free Pascal | `0.3.0` | OPM `0.2.1` | pending |
-| D | `0.2.0` | DUB `0.1.0` | pending |
+| Delphi / Free Pascal | `0.4.0` | OPM `0.2.1` | pending |
+| D | `0.3.0` | DUB `0.1.0` | pending |
 
 Do not install a source-tag-only language from a registry, and do not assume a
 registry package contains the source tag's latest behavior. The language page is

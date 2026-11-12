@@ -81,8 +81,6 @@ praxo.adapters.OpenAICompatibleModel
 praxo.adapters.OpenAIConfig
 praxo.adapters.PROVIDER_BASE_URLS
 praxo.adapters.StdioTransport
-praxo.adapters.StreamableHTTPConfig
-praxo.adapters.StreamableHTTPTransport
 
 ## praxo.adapters.openaicompat
 praxo.adapters.openaicompat.OpenAICompatibleModel

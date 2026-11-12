@@ -75,8 +75,6 @@ McpClientOptions
 McpError
 McpProtocolError
 McpRequestOptions
-McpStreamableHTTPOptions
-McpStreamableHTTPTransport
 McpTimeoutError
 McpTool
 McpToolAdapter

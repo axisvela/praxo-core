@@ -1,6 +1,12 @@
 # Changelog
 
-## Unreleased
+### Added
+
+- MCP Streamable HTTP (2025-03-26) transport and client support.
+
+## 0.3.0 - 2026-11-12
+
+Source tag `dart/v0.3.0`.
 
 - Add native Anthropic Messages and Gemini generateContent adapters with sync
   and async transports.

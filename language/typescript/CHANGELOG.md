@@ -1,9 +1,12 @@
 # TypeScript Core Release Notes
 
-## Unreleased
+## 0.5.0 - 2026-11-12
+
+Source tag `typescript/v0.5.0`.
 
 ### Added
 
+- MCP Streamable HTTP (2025-03-26) transport and client support.
 - Native Anthropic Messages and Gemini generateContent model adapters.
 - OpenAI-compatible provider presets for OpenAI, DeepSeek, Kimi/Moonshot,
   OpenRouter, Groq, and Together.

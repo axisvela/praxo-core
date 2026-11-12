@@ -19,9 +19,6 @@ pub const DEFAULT_BASE_URL: &str = "https://generativelanguage.googleapis.com";
 ## constant praxo_core::adapters::mcp::DEFAULT_PROTOCOL_VERSION
 pub const DEFAULT_PROTOCOL_VERSION: &str = "2024-11-05";
 
-## constant praxo_core::adapters::mcp::HTTP_PROTOCOL_VERSION
-pub const HTTP_PROTOCOL_VERSION: &str = "2025-03-26";
-
 ## constant praxo_core::context::COMPACT_MARKER_PREFIX
 pub const COMPACT_MARKER_PREFIX: &str = "[context compacted:";
 
@@ -277,8 +274,6 @@ method pub fn call_tool( &self, name: &str, arguments: Map<String, Value>, ) -> 
 method pub fn call_tool_with_timeout( &self, name: &str, arguments: Map<String, Value>, timeout: Option<Duration>, ) -> Result<Value>
 method pub fn close(&self)
 method pub fn connect(config: McpServerConfig) -> Result<Self>
-method pub fn connect_http(transport: Arc<dyn McpHttpTransport>) -> Result<Self>
-method pub fn connect_http_with_timeout( transport: Arc<dyn McpHttpTransport>, timeout: Duration, ) -> Result<Self>
 method pub fn connect_with_timeout( config: McpServerConfig, timeout: Duration, ) -> Result<Self>
 method pub fn is_running(&self) -> bool
 method pub fn list_tools(&self) -> Result<Vec<McpTool>>
@@ -288,16 +283,6 @@ method pub fn protocol_version(&self) -> String
 method pub fn register_tools( &self, registry: &mut Registry, ) -> Result<Vec<Arc<dyn Tool>>>
 method pub fn server_capabilities(&self) -> Map<String, Value>
 method pub fn server_info(&self) -> Map<String, Value>
-
-## struct praxo_core::adapters::mcp::McpHttpRequest
-pub struct McpHttpRequest { pub message: Value, pub session_id: String, pub protocol_version: String, pub timeout: Duration, }
-impl Clone for McpHttpRequest
-impl Debug for McpHttpRequest
-
-## struct praxo_core::adapters::mcp::McpHttpResponse
-pub struct McpHttpResponse { pub status: u16, pub content_type: String, pub body: String, pub session_id: Option<String>, }
-impl Clone for McpHttpResponse
-impl Debug for McpHttpResponse
 
 ## struct praxo_core::adapters::mcp::McpServerConfig
 pub struct McpServerConfig { pub command: String, pub args: Vec<String>, pub env: Vec<(String, String)>, pub cwd: Option<PathBuf>, }
@@ -713,9 +698,6 @@ pub trait GeminiTransport: Send + Sync { fn send(&self, path: &str, payload: &Va
 
 ## trait praxo_core::adapters::harmovela::Transport
 pub trait Transport: Send + Sync { fn send(&self, request: &HttpRequest) -> Result<HttpResponse>; }
-
-## trait praxo_core::adapters::mcp::McpHttpTransport
-pub trait McpHttpTransport: Send + Sync { fn post(&self, request: McpHttpRequest) -> Result<McpHttpResponse>; fn delete(&self, _session_id: &str, _protocol_version: &str) -> Result<()> { ... } }
 
 ## trait praxo_core::context::ContextCompactor
 pub trait ContextCompactor: Send + Sync { fn compact( &self, messages: &[Message], budget: &ContextBudget, ) -> Result<Vec<Message>>; }

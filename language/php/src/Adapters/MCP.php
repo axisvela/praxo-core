@@ -26,7 +26,7 @@ final class MCPClient
 
     public function __construct(
         private readonly MCPTransport $transport,
-        private readonly string $clientVersion = '0.5.0',
+        private readonly string $clientVersion = '0.6.0',
         private readonly float $timeout = 5.0,
         private readonly string $requestedProtocolVersion = '2024-11-05',
     ) {

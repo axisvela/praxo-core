@@ -19,7 +19,6 @@ class HarmovelaResponse
 class HarmovelaSink
 class Json
 class McpClient
-class McpStreamableHttpTransport
 class McpTransport
 class MemoryRecord
 class MemoryStore
@@ -77,14 +76,12 @@ function _ensureConnected
 function _eventId
 function _headers
 function _invokeTool
-function _isLoopback
 function _messageContent
 function _messageParts
 function _messagePayload
 function _normalize
 function _parseJson
 function _parsePlain
-function _parseSse
 function _parseTag
 function _parseXml
 function _payload

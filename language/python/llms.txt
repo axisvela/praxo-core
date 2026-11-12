@@ -8,11 +8,11 @@
 
 - package: `praxo-core`
 - registry: [PyPI](https://pypi.org/project/praxo-core/0.5.0/)
-- source_version: `0.5.0`
+- source_version: `0.6.0`
 - published_version: `0.5.0`
 - install_published: `pip install praxo-core==0.5.0`
-- install_source: `pip install praxo-core==0.5.0`
-- source_tag: `python/v0.5.0`
+- install_source: `pip install praxo-core==0.6.0`
+- source_tag: `python/v0.6.0`
 - tier: Core
 - contract: `SPEC_VERSION` `0.2.0`
 - documentation: https://axisvela.github.io/praxo-core/languages/python/

@@ -60,10 +60,6 @@ praxo_mcp.list_tools/1
 praxo_mcp.new/1
 praxo_mcp.start/1
 
-## praxo_mcp_http
-praxo_mcp_http.transport/1
-praxo_mcp_http.transport/2
-
 ## praxo_memory
 praxo_memory.new/0
 praxo_memory.put/3

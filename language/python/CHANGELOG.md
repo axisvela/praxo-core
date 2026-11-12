@@ -1,9 +1,12 @@
 # Python Core Release Notes
 
-## Unreleased
+## 0.6.0 - 2026-11-12
+
+Source tag `python/v0.6.0`.
 
 ### Added
 
+- MCP Streamable HTTP (2025-03-26) transport and client support.
 - Native Anthropic Messages and Gemini generateContent model adapters.
 - OpenAI-compatible provider presets for OpenAI, DeepSeek, Kimi/Moonshot,
   OpenRouter, Groq, and Together.

@@ -29,7 +29,7 @@ internal static class McpHttpTests
                 HttpClient = http,
             });
         using var client = new McpClient(
-            transport, null, "praxo-core", "0.5.0", "2025-03-26");
+            transport, null, "praxo-core", "0.6.0", "2025-03-26");
         client.Connect();
         Check(client.ProtocolVersion == "2025-03-26", "http protocol version");
         var tools = client.ListTools();
@@ -60,7 +60,7 @@ internal static class McpHttpTests
                 }),
             null,
             "praxo-core",
-            "0.5.0",
+            "0.6.0",
             "2025-03-26");
         client.Connect();
         var result = client.CallTool("echo", new JsonObject { ["text"] = "hi" });
