@@ -150,4 +150,25 @@ try {
 }
 Assert-True $thrown 'harmovela non-2xx fails'
 
+$fakeMcpServer = Join-Path $PSScriptRoot 'fake_mcp_server.ps1'
+$mcpOptions = New-PraxoMcpServerOptions `
+    -Command (Get-Command pwsh).Source `
+    -Arguments @('-NoProfile', '-File', $fakeMcpServer)
+$mcpTransport = New-PraxoMcpStdioTransport -Options $mcpOptions
+$mcpClient = Connect-PraxoMcp -Transport $mcpTransport -ProtocolVersion '2024-11-05'
+$mcpTools = Get-PraxoMcpTools -Client $mcpClient
+Assert-True ($mcpTools.Count -eq 1) 'mcp tool count'
+Assert-True ($mcpTools[0].Name -eq 'echo') 'mcp tool name'
+$mcpResult = Invoke-PraxoMcpTool -Client $mcpClient -Name 'echo' -Arguments @{ text = 'hi' }
+Assert-True ($mcpResult.ToString() -eq 'echo:hi') 'mcp tool call'
+Close-PraxoMcp -Client $mcpClient
+
+$mcpRejected = $false
+try {
+    New-PraxoMcpHttpTransport -Endpoint 'http://example.com/mcp' | Out-Null
+} catch {
+    $mcpRejected = $true
+}
+Assert-True $mcpRejected 'mcp remote plain HTTP rejected'
+
 Write-Output 'PowerShell core tests passed'

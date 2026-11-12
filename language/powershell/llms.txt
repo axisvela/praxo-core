@@ -8,11 +8,11 @@
 
 - package: `praxo-core-ps`
 - registry: [PowerShell Gallery](https://www.powershellgallery.com/packages/praxo-core-ps/0.3.1)
-- source_version: `0.3.1`
+- source_version: `0.4.0`
 - published_version: `0.3.1`
 - install_published: `Install-Module praxo-core-ps`
 - install_source: `Install-Module praxo-core-ps`
-- source_tag: `powershell/v0.3.1`
+- source_tag: `powershell/v0.4.0`
 - tier: Core (.NET)
 - contract: `SPEC_VERSION` `0.2.0`
 - documentation: https://axisvela.github.io/praxo-core/languages/powershell/

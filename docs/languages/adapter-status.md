@@ -153,6 +153,7 @@ provider presets.
 | Zig | native | `mcp.Client`; stdio and curl-backed `HttpTransport` for Streamable HTTP 2025-03-26 |
 | Swift | native | `McpClient`, `StdioMcpTransport`, `HttpMcpTransport`; typechecked locally, full build blocked |
 | Lua | native (transport seam) | `praxo.adapters.mcp`; caller supplies transport |
+| PowerShell | native (C# shared runtime) | `Connect-PraxoMcp`, `Get-PraxoMcpTools`, `Invoke-PraxoMcpTool`; wraps the C# MCP client and stdio/Streamable HTTP transports |
 | All other implementations | not implemented | MCP clients follow the model baseline in adoption order. Missing clients are not yet implemented, not a documented language limitation: a native stdio client or a caller-supplied request/response transport seam is feasible wherever the runtime can provide the transport. |
 
 MCP support means a minimal client session that can initialize, list tools with

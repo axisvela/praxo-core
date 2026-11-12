@@ -1,6 +1,6 @@
 @{
     RootModule        = 'praxo-core-ps.psm1'
-    ModuleVersion     = '0.3.1'
+    ModuleVersion     = '0.4.0'
     GUID              = '8f04a4d6-1f3c-4f6e-9d69-7b2f11d3a902'
     Author            = 'AxisVela'
     CompanyName       = 'AxisVela'
@@ -43,7 +43,15 @@
         'Get-PraxoStreamKinds',
         'New-PraxoHarmovelaSinkOptions',
         'New-PraxoHarmovelaSink',
-        'Send-PraxoHarmovelaEvent'
+        'Send-PraxoHarmovelaEvent',
+        'New-PraxoMcpServerOptions',
+        'New-PraxoMcpStdioTransport',
+        'New-PraxoMcpHttpOptions',
+        'New-PraxoMcpHttpTransport',
+        'Connect-PraxoMcp',
+        'Get-PraxoMcpTools',
+        'Invoke-PraxoMcpTool',
+        'Close-PraxoMcp'
     )
     CmdletsToExport   = @()
     VariablesToExport = @()

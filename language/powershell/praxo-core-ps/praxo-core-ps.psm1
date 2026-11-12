@@ -349,6 +349,109 @@ function Send-PraxoHarmovelaEvent {
     $Sink.Emit($Event)
 }
 
+function New-PraxoMcpServerOptions {
+    param(
+        [Parameter(Mandatory = $true)][string]$Command,
+        [string[]]$Arguments = @(),
+        [hashtable]$Environment = @{},
+        [string]$WorkingDirectory
+    )
+    Import-PraxoCoreAssembly
+    $options = [Praxo.Core.McpServerOptions]::new()
+    $options.Command = $Command
+    foreach ($argument in $Arguments) {
+        $options.Args.Add($argument)
+    }
+    if ($Environment.Count -gt 0) {
+        $options.Env = @{}
+        foreach ($key in $Environment.Keys) {
+            $options.Env[$key] = [string]$Environment[$key]
+        }
+    }
+    if ($WorkingDirectory) {
+        $options.WorkingDirectory = $WorkingDirectory
+    }
+    $options
+}
+
+function New-PraxoMcpStdioTransport {
+    param([Parameter(Mandatory = $true)]$Options)
+    Import-PraxoCoreAssembly
+    [Praxo.Core.McpStdioTransport]::new($Options)
+}
+
+function New-PraxoMcpHttpOptions {
+    param(
+        [Parameter(Mandatory = $true)][string]$Endpoint,
+        [hashtable]$Headers = @{},
+        [string]$ProtocolVersion = '2025-03-26'
+    )
+    Import-PraxoCoreAssembly
+    $options = [Praxo.Core.McpStreamableHttpOptions]::new()
+    $options.Endpoint = $Endpoint
+    $options.ProtocolVersion = $ProtocolVersion
+    if ($Headers.Count -gt 0) {
+        $options.Headers = @{}
+        foreach ($key in $Headers.Keys) {
+            $options.Headers[$key] = [string]$Headers[$key]
+        }
+    }
+    $options
+}
+
+function New-PraxoMcpHttpTransport {
+    param(
+        [Parameter(Mandatory = $true)][string]$Endpoint,
+        [hashtable]$Headers = @{},
+        [string]$ProtocolVersion = '2025-03-26'
+    )
+    Import-PraxoCoreAssembly
+    $options = New-PraxoMcpHttpOptions -Endpoint $Endpoint -Headers $Headers `
+        -ProtocolVersion $ProtocolVersion
+    [Praxo.Core.McpStreamableHttpTransport]::new($options)
+}
+
+function Connect-PraxoMcp {
+    param(
+        [Parameter(Mandatory = $true)]$Transport,
+        [int]$TimeoutSeconds = 30,
+        [string]$ClientName = 'praxo-core',
+        [string]$ClientVersion = '0.6.0',
+        [string]$ProtocolVersion = '2024-11-05'
+    )
+    Import-PraxoCoreAssembly
+    $client = [Praxo.Core.McpClient]::new(
+        $Transport,
+        [TimeSpan]::FromSeconds($TimeoutSeconds),
+        $ClientName,
+        $ClientVersion,
+        $ProtocolVersion
+    )
+    $client.Connect()
+    $client
+}
+
+function Get-PraxoMcpTools {
+    param([Parameter(Mandatory = $true)]$Client)
+    $Client.ListTools()
+}
+
+function Invoke-PraxoMcpTool {
+    param(
+        [Parameter(Mandatory = $true)]$Client,
+        [Parameter(Mandatory = $true)][string]$Name,
+        [hashtable]$Arguments = @{}
+    )
+    $json = ConvertTo-Json -InputObject $Arguments -Compress -Depth 20
+    $object = [System.Text.Json.Nodes.JsonNode]::Parse($json).AsObject()
+    $Client.CallTool($Name, $object)
+}
+
+function Close-PraxoMcp {
+    param([Parameter(Mandatory = $true)]$Client)
+    $Client.Dispose()
+}
+
 Export-ModuleMember -Function @(
     'Get-PraxoCoreInfo',
     'New-PraxoStaticModel',
@@ -385,5 +488,13 @@ Export-ModuleMember -Function @(
     'Get-PraxoStreamKinds',
     'New-PraxoHarmovelaSinkOptions',
     'New-PraxoHarmovelaSink',
-    'Send-PraxoHarmovelaEvent'
+    'Send-PraxoHarmovelaEvent',
+    'New-PraxoMcpServerOptions',
+    'New-PraxoMcpStdioTransport',
+    'New-PraxoMcpHttpOptions',
+    'New-PraxoMcpHttpTransport',
+    'Connect-PraxoMcp',
+    'Get-PraxoMcpTools',
+    'Invoke-PraxoMcpTool',
+    'Close-PraxoMcp'
 )
