@@ -697,6 +697,51 @@ fn test_harmovela() {
 	assert missing == 'HARMOVELA_URL'
 }
 
+fn test_mcp() {
+	transport := fn (method string, params map[string]json2.Any) !map[string]json2.Any {
+		match method {
+			'initialize' {
+				return map[string]json2.Any{
+					'protocolVersion': json2.Any('2024-11-05')
+				}
+			}
+			'tools/list' {
+				return map[string]json2.Any{
+					'tools': json2.Any([
+						map[string]json2.Any{
+							'name':        json2.Any('echo')
+							'description': json2.Any('Echo input')
+							'inputSchema': json2.Any(map[string]json2.Any{
+								'type': json2.Any('object')
+							})
+						},
+					])
+				}
+			}
+			'tools/call' {
+				return map[string]json2.Any{
+					'content': json2.Any([
+						map[string]json2.Any{
+							'type': json2.Any('text')
+							'text': json2.Any('ok')
+						},
+					])
+				}
+			}
+			else {
+				return map[string]json2.Any{}
+			}
+		}
+	}
+	mut client := praxo.mcp_client(praxo.McpOptions{ transport: transport }) or { panic(err) }
+	tools := client.list_tools() or { panic(err) }
+	assert tools.len == 1
+	assert (praxo.as_string(tools[0]['name'] or { json2.Any('') }) or { '' }) == 'echo'
+	value := client.call_tool('echo', map[string]json2.Any{}) or { panic(err) }
+	assert (praxo.as_string(value) or { '' }) == 'ok'
+	client.close()
+}
+
 fn main() {
 	test_json()
 	test_toolcall()
@@ -718,5 +763,6 @@ fn main() {
 	test_anthropic_compatible()
 	test_gemini_compatible()
 	test_harmovela()
+	test_mcp()
 	println('v tests passed')
 }

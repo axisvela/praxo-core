@@ -102,7 +102,7 @@ for real providers, platforms, and production behavior is reported separately.
 | Objective-C | Core | released | `objc/v0.3.1` | complete | 11 vectors, native tests, API snapshot/parity; source `0.3.1`, published `0.1.1`; opt-in middleware integrated; Windows GNUstep and macOS CI |
 | Elixir | Core | released | `elixir/v0.7.0` | complete | 11 vectors, HITL interrupts, native tests, API snapshot/parity, policy/middleware/lifecycle, cancellation, streaming, SSE, parallel tools, run-scoped call limits, OpenAI-compatible, Harmovela, and stdio MCP adapters; source `0.7.0`; Hex `praxo_core==0.6.0` |
 | Nim | Core | released | `nim/v0.2.0` | complete | 11 vectors, native tests, API snapshot/parity; opt-in middleware integrated |
-| V | Core | released | `v/v0.2.0` | complete | 11 vectors, native tests, API snapshot/parity; opt-in middleware integrated; split VPM repo `axisvela/praxo-core-v` package `praxo-core` tag `0.1.2`; VPM submission pending |
+| V | Core | released | `v/v0.3.0` | complete | 11 vectors, native tests, API snapshot/parity, MCP transport-seam client; opt-in middleware integrated; split VPM repo `axisvela/praxo-core-v` package `praxo-core` tag `0.1.2`; VPM submission pending |
 | D | Core | released | `d/v0.3.0` | complete | 11 vectors, API snapshot; source `0.3.0`; DUB/code.dlang.org `praxo-core==0.1.0` |
 | VBScript | Bridge | planned | none | planned | Bridge over .NET or the bridge CLI |
 | Erlang | Core | released | `erlang/v0.6.0` | complete | 11 vectors, HITL interrupts, native tests, API snapshot/parity, policy/middleware/lifecycle, cancellation, streaming, SSE, parallel tools, and run-scoped call limits; OTP 29; source `0.6.0`, Hex `praxo_core_erlang==0.5.0` |
