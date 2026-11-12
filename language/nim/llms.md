@@ -8,11 +8,11 @@
 
 - package: `praxo_core`
 - registry: [Nimble/nim-lang packages](https://github.com/axisvela/praxo-core-nim)
-- source_version: `0.2.0`
+- source_version: `0.3.0`
 - published_version: `0.1.1`
 - install_published: `nimble install praxo_core`
 - install_source: `nimble install praxo_core`
-- source_tag: `nim/v0.2.0`
+- source_tag: `nim/v0.3.0`
 - tier: Core
 - contract: `SPEC_VERSION` `0.2.0`
 - documentation: https://axisvela.github.io/praxo-core/languages/nim/

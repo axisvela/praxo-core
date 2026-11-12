@@ -9,6 +9,7 @@ import ./praxo/middleware
 import ./praxo/agent
 import ./praxo/adapters/openai_compatible
 import ./praxo/adapters/harmovela_sink
+import ./praxo/adapters/mcp
 
 export errors, jsonutil, models, toolcall, jsonschema, plugin, runtime, middleware, agent
 export openai_compatible

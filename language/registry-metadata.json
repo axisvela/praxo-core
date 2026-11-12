@@ -259,9 +259,9 @@
     "published_version": "0.1.1",
     "registry": "Nimble/nim-lang packages",
     "source_install": "nimble install praxo_core",
-    "source_version": "0.2.0",
+    "source_version": "0.3.0",
     "status": "split repository; registry crawler pending",
-    "tag": "nim/v0.2.0",
+    "tag": "nim/v0.3.0",
     "tier": "Core",
     "url": "https://github.com/axisvela/praxo-core-nim"
   },
