@@ -72,16 +72,16 @@
   "Dart": {
     "dir": "language/dart",
     "docs": "https://axisvela.github.io/praxo-core/languages/dart/",
-    "install": "dart pub add praxo_core",
+    "install": "dart pub add praxo_core:^0.2.0",
     "package": "praxo_core",
-    "published_version": "0.1.1",
+    "published_version": "0.2.0",
     "registry": "pub.dev",
-    "source_install": "dart pub add praxo_core",
+    "source_install": "dart pub add praxo_core:^0.2.0",
     "source_version": "0.2.0",
     "status": "published",
     "tag": "dart/v0.2.0",
     "tier": "Core",
-    "url": "https://pub.dev/packages/praxo_core/versions/0.1.1"
+    "url": "https://pub.dev/packages/praxo_core/versions/0.2.0"
   },
   "Delphi / Free Pascal": {
     "dir": "language/delphi",
@@ -114,16 +114,16 @@
   "Erlang": {
     "dir": "language/erlang",
     "docs": "https://axisvela.github.io/praxo-core/languages/erlang/",
-    "install": "{deps, [{praxo_core_erlang, \"0.4.0\"}]}.",
+    "install": "{deps, [{praxo_core_erlang, \"0.5.0\"}]}.",
     "package": "praxo_core_erlang",
-    "published_version": "0.4.0",
+    "published_version": "0.5.0",
     "registry": "Hex",
     "source_install": "{deps, [{praxo_core_erlang, \"0.5.0\"}]}.",
     "source_version": "0.5.0",
     "status": "published",
     "tag": "erlang/v0.5.0",
     "tier": "Core",
-    "url": "https://hex.pm/packages/praxo_core_erlang/0.4.0"
+    "url": "https://hex.pm/packages/praxo_core_erlang/0.5.0"
   },
   "Fortran": {
     "dir": "language/fortran",
@@ -184,16 +184,16 @@
   "Java": {
     "dir": "language/java",
     "docs": "https://axisvela.github.io/praxo-core/languages/java/",
-    "install": "Maven: com.axisvela:praxo-core:0.5.0",
+    "install": "Maven: com.axisvela:praxo-core:0.6.0",
     "package": "com.axisvela:praxo-core",
-    "published_version": "0.5.0",
+    "published_version": "0.6.0",
     "registry": "Maven Central",
     "source_install": "Maven: com.axisvela:praxo-core:0.6.0",
     "source_version": "0.6.0",
     "status": "published",
     "tag": "java/v0.6.0",
     "tier": "Core",
-    "url": "https://repo1.maven.org/maven2/com/axisvela/praxo-core/0.5.0/"
+    "url": "https://repo1.maven.org/maven2/com/axisvela/praxo-core/0.6.0/"
   },
   "Julia": {
     "dir": "language/julia",
