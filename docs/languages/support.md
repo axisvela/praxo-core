@@ -97,29 +97,29 @@ a merged implementation PR as a support commitment.
 These are separate claims. A source tag records a repository release; a registry
 version records what a package manager can fetch; a consumer smoke records an
 install and run outside the repository. Do not cite one as evidence for another.
-Registry values below were checked against the public registries on 2026-11-10.
+Registry values below were checked against the public registries on 2026-11-12.
 
 | Language | Source tag | Registry version | Consumer install smoke |
 | --- | --- | --- | --- |
-| Python | `python/v0.5.0` | PyPI `praxo-core==0.4.1` published | Release workflow built and smoke-tested `0.4.1`; post-publication consumer check passed locally |
-| TypeScript | `typescript/v0.4.1` | npm `@axisvela/praxo-core@0.3.0` published as `latest` | Release workflow built and consumed the `0.3.0` tarball; post-publication consumer starter checks passed locally |
-| Java | `java/v0.6.0` | Maven Central `com.axisvela:praxo-core:0.5.0` published with Harmovela and MCP adapters | Central validated and published `0.5.0`; `0.5.0` post-publication consumer check not rerun |
-| Rust | `rust/v0.5.0` | crates.io `praxo-core==0.4.0` published; `0.1.4` historical | Recorded for `0.1.4` only; not rerun for `0.4.0` |
-| C# | `csharp/v0.5.0` | NuGet `Praxo.Core==0.4.0` published | Not recorded |
-| Elixir | `elixir/v0.6.0` | Hex `praxo_core==0.5.1` published with OpenAI-compatible, Harmovela, and MCP adapters; `0.5.0` failed before publication; `0.4.1`, `0.4.0`, `0.3.0`, `0.2.0` historical | Extended starter added; Hex `0.4.1` resolved in a clean Mix project and allow/deny passed locally; `0.5.1` install smoke not rerun |
-| Erlang | `erlang/v0.5.0` | Hex `praxo_core_erlang==0.4.0` published; `0.3.1`, `0.2.0` historical | Not rerun for `0.4.0`; historical `0.1.1` smoke |
-| Ruby | `ruby/v0.5.0` | RubyGems `praxo-core==0.4.1` published; `0.4.0`, `0.3.0`, `0.2.0` historical | Extended starter added; RubyGems `0.4.1` installed into a clean gem home and allow/deny passed locally |
-| Lua | `lua/v0.5.0` | LuaRocks `praxo-core==0.4.1-1` published with the optional OpenAI-compatible adapter; `0.4.0-1`, `0.3.0-1`, `0.2.0-1` also published | Extended starter added; LuaRocks `0.4.1-1` installed into a clean tree and allow/deny passed locally |
+| Python | `python/v0.5.0` | PyPI `praxo-core==0.5.0` published | Release workflow built and smoke-tested `0.5.0`; post-publication consumer check recorded for `0.4.1` only |
+| TypeScript | `typescript/v0.4.1` | npm `@axisvela/praxo-core@0.4.1` published as `latest` | Release workflow built and consumed the `0.4.1` tarball; post-publication consumer starter checks recorded for `0.3.0` |
+| Java | `java/v0.6.0` | Maven Central `com.axisvela:praxo-core:0.6.0` published with Harmovela and MCP adapters | Central validated and published `0.6.0`; `0.6.0` post-publication consumer check not rerun |
+| Rust | `rust/v0.5.0` | crates.io `praxo-core==0.5.0` published; `0.1.4` historical | Recorded for `0.1.4` only; not rerun for `0.5.0` |
+| C# | `csharp/v0.5.0` | NuGet `Praxo.Core==0.5.0` published | Not recorded |
+| Elixir | `elixir/v0.6.0` | Hex `praxo_core==0.6.0` published with OpenAI-compatible, Anthropic, Gemini, Harmovela, and MCP adapters; `0.5.1`, `0.4.1`, `0.4.0`, `0.3.0`, `0.2.0` historical | Extended starter added; Hex `0.4.1` resolved in a clean Mix project and allow/deny passed locally; `0.6.0` install smoke not rerun |
+| Erlang | `erlang/v0.5.0` | Hex `praxo_core_erlang==0.5.0` published; `0.4.0`, `0.3.1`, `0.2.0` historical | Not rerun for `0.5.0`; historical `0.1.1` smoke |
+| Ruby | `ruby/v0.5.0` | RubyGems `praxo-core==0.5.0` published; `0.4.1`, `0.4.0`, `0.3.0`, `0.2.0` historical | Extended starter added; RubyGems `0.4.1` installed into a clean gem home and allow/deny passed locally; `0.5.0` install smoke not rerun |
+| Lua | `lua/v0.5.0` | LuaRocks `praxo-core==0.5.0-1` published with the optional OpenAI-compatible adapter; `0.4.1-1`, `0.4.0-1`, `0.3.0-1`, `0.2.0-1` also published | Extended starter added; LuaRocks `0.4.1-1` installed into a clean tree and allow/deny passed locally; `0.5.0-1` install smoke not rerun |
 | PHP | `php/v0.5.0` | Packagist `axisvela/praxo-core==0.4.1` published with Composer `autoload.files`; `0.4.0`, `0.3.0`, `0.2.0` historical | Extended starter added; Composer install of published `0.4.1` passed locally and the starter passed without a bridge |
-| Dart | `dart/v0.2.0` | pub.dev `praxo_core==0.1.1` | Recorded for `0.1.1` |
+| Dart | `dart/v0.2.0` | pub.dev `praxo_core==0.2.0` | Recorded for `0.1.1`; `0.2.0` install smoke not recorded |
 | Julia | `julia/v0.3.0` | General Registry PR #174826 open via mirror `0.2.0` | Not recorded |
-| MATLAB | `matlab/v0.3.0` | MATLAB File Exchange `185166` published | Not recorded |
+| MATLAB | `matlab/v0.3.0` | MATLAB File Exchange `185166` published (`0.3.0`) | Not recorded |
 | Octave | `octave/v0.3.0` | Octave Packages PR #875 open; package archive published | Not recorded |
-| Perl | `perl/v0.2.0` | CPAN `Praxo-Core` 0.1.1 uploaded; indexing pending | Not recorded |
-| PowerShell | `powershell/v0.3.1` | PowerShell Gallery `praxo-core-ps==0.2.0` published | Not recorded |
-| Nim | `nim/v0.2.0` | nim-lang/packages PR #3600 open; nimpkgs re-crawl pending | Not recorded |
+| Perl | `perl/v0.2.0` | CPAN `Praxo-Core==0.2.0` published and indexed on MetaCPAN | Not recorded |
+| PowerShell | `powershell/v0.3.1` | PowerShell Gallery `praxo-core-ps==0.3.1` published | Not recorded |
+| Nim | `nim/v0.2.0` | Split repository package `0.1.1`; nim-lang/packages PR #3600 merged 2026-11-05; nimpkgs re-crawl pending | Not recorded |
 | OCaml | `ocaml/v0.4.0` | opam-repository PR #31106 open; package CI passed; opam-ci pending | Not recorded |
-| Haskell | `haskell/v0.3.0` | sdist published; API and manual uploads blocked until Hackage trustees add the account to Uploaders | Not recorded |
+| Haskell | `haskell/v0.3.0` | Hackage `praxo-core==0.3.0` published | Not recorded |
 | Delphi / Free Pascal | `delphi/v0.3.0` | OPM assets published; maintainer submission pending | Not recorded |
 
 ### Registry freshness against code
@@ -129,48 +129,55 @@ its latest version matches the manifest at the release tag.
 
 | Language | Code/manifest version | Registry latest | Status |
 | --- | --- | --- | --- |
-| Python | `0.4.1` | PyPI `0.4.1` | current |
-| TypeScript | `0.3.0` | npm `0.3.0` | current |
-| Java | `0.5.0` | Maven Central `0.5.0` | current |
-| Rust | `0.4.0` | crates.io `0.4.0` | current |
-| C# | `0.4.0` | NuGet `0.4.0` | current |
-| Elixir | `0.5.1` | Hex `0.5.1` | current |
-| Erlang | `0.4.0` | Hex `0.4.0` | current |
-| Ruby | `0.4.1` | RubyGems `0.4.1` | current |
-| PHP | `0.4.1` | Packagist `0.4.1` | current |
-| Lua | rockspec `0.4.1-1`; source tag `0.4.1` | LuaRocks `0.4.1-1` | current |
-| Dart | `0.1.1` | pub.dev `0.1.1` | current |
-| Julia | `0.2.0` | General Registry PR #174826 open | pending |
-| MATLAB | `0.3.0` | File Exchange `185166` | current |
-| Octave | `0.2.1` | Octave Packages PR #875 open | pending |
-| Perl | `0.1.1` | CPAN indexing pending | pending |
-| PowerShell | `0.2.0` | PowerShell Gallery `0.2.0` | current |
+| Python | `0.5.0` | PyPI `0.5.0` | current |
+| TypeScript | `0.4.1` | npm `0.4.1` | current |
+| Java | `0.6.0` | Maven Central `0.6.0` | current |
+| Rust | `0.5.0` | crates.io `0.5.0` | current |
+| C# | `0.5.0` | NuGet `0.5.0` | current |
+| Elixir | `0.6.0` | Hex `0.6.0` | current |
+| Erlang | `0.5.0` | Hex `0.5.0` | current |
+| Ruby | `0.5.0` | RubyGems `0.5.0` | current |
+| PHP | `0.5.0` | Packagist `0.4.1` | source prepared; registry behind |
+| Lua | rockspec `0.5.0-1`; source tag `0.5.0` | LuaRocks `0.5.0-1` | current |
+| Dart | `0.2.0` | pub.dev `0.2.0` | current |
+| Julia | `0.3.0` | General Registry PR #174826 open (`0.2.0`) | pending |
+| MATLAB | `0.3.0` | File Exchange `185166` (`0.3.0`) | current |
+| Octave | `0.3.0` | Octave Packages PR #875 open (`0.2.1`) | pending |
+| Perl | `0.2.0` | CPAN `0.2.0` | current |
+| PowerShell | `0.3.1` | PowerShell Gallery `0.3.1` | current |
+| Haskell | `0.3.0` | Hackage `0.3.0` | current |
+| R | `0.7.1` | r-universe `0.7.1` | current; CRAN not published |
+| Nim | `0.2.0` | Split repository package `0.1.1` | pending |
+| OCaml | `0.4.0` | opam registry `0.3.0` | pending |
+| Swift | `0.3.0` | SPM `0.2.0` | pending |
+| Delphi / Free Pascal | `0.3.0` | OPM `0.2.1` | pending |
+| D | `0.2.0` | DUB `0.1.0` | pending |
 
 Do not install a source-tag-only language from a registry, and do not assume a
 registry package contains the source tag's latest behavior. The language page is
 the installation source of truth.
 
-- Python publishes `praxo-core==0.3.2` on PyPI from source tag
-  `python/v0.3.2`. TypeScript publishes `@axisvela/praxo-core@0.3.0` on npm from
+- Python publishes `praxo-core==0.5.0` on PyPI from source tag
+  `python/v0.5.0`. TypeScript publishes `@axisvela/praxo-core@0.4.1` on npm from
   source tag `typescript/v0.4.1`; the package has npm provenance and an
   agent-framework-first README and metadata.
 - Java source tag `java/v0.6.0` adds the Harmovela sink and stdio MCP client
   under `com.axisvela.praxo.adapters` with Maven groupId `com.axisvela` and
   Java packages under `com.axisvela.praxo`. Maven Central publishes
-  `com.axisvela:praxo-core:0.5.0`. The earlier `java/v0.2.3` tag retains
+  `com.axisvela:praxo-core:0.6.0`. The earlier `java/v0.2.3` tag retains
   `io.axisvela.praxo`.
 - PHP source tag `php/v0.4.0` adds HITL interrupt decisions to streaming runs,
   cancellation, SSE validation, final authorization, lifecycle cleanup, and
   caller-provided cooperative parallel tool dispatch through `batchToolInvoker`.
-  Packagist publishes `axisvela/praxo-core==0.4.0` from the split repository
-  `axisvela/praxo-core-php`; `v0.3.0` and `v0.2.0` remain available. The Core
+  Packagist publishes `axisvela/praxo-core==0.4.1` from the split repository
+  `axisvela/praxo-core-php`; `v0.4.0`, `v0.3.0`, and `v0.2.0` remain available. The Core
   does not create threads. A Composer install smoke is not yet recorded.
 - Ruby source tag `ruby/v0.4.0` adds HITL interrupt decisions to middleware
   hooks, final-tool allowlist checks, reauthorization, lifecycle cleanup,
   cancellation, stream callbacks, a native SSE parser, bounded parallel tools,
-  and run-scoped call limits. RubyGems publishes `praxo-core==0.4.0`;
-  `0.3.0` and `0.2.0` remain available. The recorded clean-project smoke covers
-  only `0.1.0`.
+  and run-scoped call limits. RubyGems publishes `praxo-core==0.5.0`;
+  `0.4.1`, `0.4.0`, `0.3.0`, and `0.2.0` remain available. The recorded
+  clean-project smoke covers `0.4.1`.
 - C++ source tag `cpp/v0.5.0` adds HITL interrupt decisions to middleware hooks,
   final-tool allowlist checks, reauthorization, lifecycle cleanup, cancellation,
   stream callbacks, a native SSE parser, bounded parallel tools, and run-scoped
@@ -185,19 +192,19 @@ the installation source of truth.
 - C# source tag `csharp/v0.5.0` adds the OpenAI-compatible model adapter,
   Harmovela sink, and stdio MCP client under `Adapters/` to streaming runs,
   cancellation, bounded parallel tools, SSE validation, and HITL interrupt
-  decisions. NuGet publishes `Praxo.Core==0.4.0`; a local .NET consumer install
+  decisions. NuGet publishes `Praxo.Core==0.5.0`; a local .NET consumer install
   is not yet recorded.
 - D publishes `praxo-core==0.1.0` on DUB/code.dlang.org from the split
   repository `axisvela/praxo-core-d` (tag `v0.1.0`); source tag `d/v0.2.0`
   remains in this repository. `dub fetch praxo-core` succeeded.
-- Dart has source tag `dart/v0.2.0` and publishes `praxo_core==0.1.1` on
-  pub.dev under publisher `axisvela.com`. A clean project installed the package,
+- Dart has source tag `dart/v0.2.0` and publishes `praxo_core==0.2.0` on
+  pub.dev under publisher `axisvela.com`. A clean project installed `0.1.1`,
   imported `package:praxo_core/praxo_core.dart`, and ran a minimal agent.
 - Rust source tag `rust/v0.5.0` adds provider-neutral model types and the
   OpenAI-compatible, Harmovela, and MCP adapters under `adapters::` to all
   eleven vector groups, native tests, `tool.Gateway`, `jsonschema.Schema`,
   streaming callbacks, cancellation, bounded parallel tools, HITL interrupt
-  decisions, and an API snapshot. crates.io publishes `praxo-core==0.4.0`; the
+  decisions, and an API snapshot. crates.io publishes `praxo-core==0.5.0`; the
   recorded clean temporary-project install smoke covers `0.1.4` and reported
   `SDK_VERSION` `0.1.4` and `SPEC_VERSION` `0.2.0`. VFS and plugin hosts are not
   included.
@@ -205,7 +212,7 @@ the installation source of truth.
   and stdio MCP client to policy, middleware, lifecycle cleanup, cancellation,
   streaming callbacks, an SSE parser, bounded parallel tools, HITL interrupt
   decisions, and an API snapshot. Unix uses `mclapply`; Windows uses a PSOCK
-  cluster. r-universe publishes `praxocore==0.6.1` from `language/r`; CRAN
+  cluster. r-universe publishes `praxocore==0.7.1` from `language/r`; CRAN
   publication is not claimed. The release workflow runs `R CMD build` and
   `R CMD check`.
 - C source tag `c/v0.7.0` adds human-in-the-loop interrupt decisions on top of
@@ -231,12 +238,9 @@ the installation source of truth.
   package-registry release; most remaining Go surfaces are partial and the
   registry has no concurrency or custom spec provider.
 - Haskell has source tag `haskell/v0.3.0` with all eleven vector groups, native
-  tests, API snapshot/parity, and runtime/middleware helpers. Hackage
-  publication is prepared by `.github/workflows/haskell-release.yml`; the 0.2.0
-  sdist is published on the `haskell/v0.3.0` GitHub release. Both API and
-  manual candidate uploads return an unauthorized-uploader error until the
-  Hackage trustees add the account to the Uploaders group. Production
-  readiness is not claimed.
+  tests, API snapshot/parity, and runtime/middleware helpers. Hackage publishes
+  `praxo-core==0.3.0`; the release workflow is
+  `.github/workflows/haskell-release.yml`. Production readiness is not claimed.
 - Delphi/Free Pascal has source tag `delphi/v0.3.0` with all eleven vector groups,
   native tests, and API snapshot/parity under Free Pascal 3.2.2. OPM assets
   are published on the `delphi/v0.3.0` GitHub release; maintainer submission
@@ -244,8 +248,9 @@ the installation source of truth.
   claimed.
 - MATLAB has source tag `matlab/v0.3.0` with all eleven vector groups, native
   tests, and API snapshot/parity. MATLAB and Octave share
-  `language/matlab-octave-core/+praxo`. MATLAB File Exchange `185166` is
-  published; the MATLAB runtime and provider adapters are not claimed.
+  `language/matlab-octave-core/+praxo`. MATLAB File Exchange `185166` (`0.3.0`)
+  is published; MATLAB runtime compatibility and live-provider behavior are not
+  claimed.
 - Octave has source tag `octave/v0.3.0` with all eleven vector groups, native
   tests, and API snapshot/parity under GNU Octave 11.3.0. It shares
   `language/matlab-octave-core/+praxo` with MATLAB. The package archive is
@@ -255,19 +260,19 @@ the installation source of truth.
   tests, and API snapshot/parity. The split package repository
   `axisvela/praxo-core-ocaml` publishes opam package `praxo-core` 0.3.0 with module `Praxo_core`;
   opam-repository PR #31106 is open. Native `ocamlopt` compilation and
-  provider adapters are not claimed.
+  live-provider behavior are not claimed.
 - Elixir source tag `elixir/v0.6.0` adds the Harmovela sink and stdio MCP client
   under `adapters/` to policy hooks, middleware, final-tool allowlist checks,
   reauthorization, lifecycle cleanup, cancellation, stream callbacks, a native
   SSE parser, bounded parallel tools, HITL interrupt decisions, and run-scoped
-  call limits. Hex publishes `praxo_core==0.5.1`; `0.4.1`, `0.4.0`, `0.3.0`,
-  and `0.2.0` remain available. HexDocs are published at
-  <https://praxo-core.hexdocs.pm/0.5.1/>.
+  call limits. Hex publishes `praxo_core==0.6.0`; `0.5.1`, `0.4.1`, `0.4.0`,
+  `0.3.0`, and `0.2.0` remain available. HexDocs are published at
+  <https://praxo-core.hexdocs.pm/0.6.0/>.
 - Nim, V, and Objective-C have source tags `nim/v0.2.0`, `v/v0.2.0`, and
   `objc/v0.2.0`. They include all eleven vector groups, native tests, and API
   snapshots. Nim publishes the Nimble package `praxo_core` from
   `axisvela/praxo-core-nim` with root `praxo_core.nimble` version `0.1.1`;
-  nim-lang/packages PR #3600 is pending and nimpkgs still marks the old
+  nim-lang/packages PR #3600 merged on 2026-11-05 and nimpkgs still marks the old
   monorepo entry broken until its next crawl. A registry install smoke is not
   yet recorded. V
   and Objective-C have `v.mod` and CocoaPods metadata respectively, but their
@@ -281,7 +286,8 @@ the installation source of truth.
   hooks, middleware, final-tool allowlist checks, reauthorization, lifecycle
   cleanup, cancellation, stream callbacks, a native SSE parser, bounded parallel
   tools, and run-scoped call limits. Hex publishes
-  `praxo_core_erlang==0.4.0`; `0.3.1` and `0.2.0` remain available. Provider adapters, HTTP streaming, and production readiness are not
+  `praxo_core_erlang==0.5.0`; `0.4.0`, `0.3.1`, and `0.2.0` remain available.
+  Live-provider behavior, HTTP streaming, and production readiness are not
   claimed.
 - Lisp has source tag `lisp/v0.1.0` for the SBCL bridge over the bridge CLI. It
   does not provide a native Lisp loop; forwarding, UTF-8, error, and exit-code

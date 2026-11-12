@@ -65,8 +65,8 @@ Policy/范围、最终参数重授权、审批编辑重授权与 Policy 服务�
 [包映射](../getting-started/agent-integration.json)、可运行的
 [身份/策略配方](../guides/identity-policy.md)与工具中立的
 [Skill 模板](https://github.com/axisvela/praxo-core/tree/main/agent-skills/praxo-integration)。
-源 Registry 元数据已改进，四个试点页面已审计；PyPI `0.3.2`、npm `0.2.2`、Maven
-Central `0.4.1` 与 Go `v2.6.0` 的已发布页面均已有验证记录。阶段 2 未完成：
+源 Registry 元数据已改进，四个试点页面已审计；PyPI `0.5.0`、npm `0.4.1`、Maven
+Central `0.6.0` 与 Go `v2.7.0` 的已发布页面均已有验证记录。阶段 2 未完成：
 Claude Code `2.1.196` 已记录本地 skills 目录安装与发现（仅结构证据；该 CLI 未登录，
 未执行任务），opencode `1.18.18` 已记录项目本地发现以及使用已发布包的确定性
 allow/deny 任务（3/3 测试；`7004a08`；issue #15）。Codex 与 Copilot 仍未验证，

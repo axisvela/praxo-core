@@ -20,6 +20,12 @@
   C, C++, Fortran, Haskell, and OCaml are transport-seam adapters. COBOL remains
   not implemented pending an HTTP transport decision and a model-callback
   extension for tool specs and history.
+- Native Anthropic and Gemini model adapters for Python, TypeScript, Java, Rust,
+  C#, R, Elixir, Erlang, Ruby, PHP, Lua, Perl, Dart, Julia, V, D, Haskell,
+  Swift, OCaml, Delphi / Free Pascal, Objective-C, MATLAB, Octave, Zig, C, C++,
+  Fortran, and Nim. C, C++, Fortran, Haskell, and OCaml are transport-seam
+  adapters. Tests use injected transports or loopback fixtures; no live provider
+  or production authentication is claimed. COBOL remains not implemented.
 - Native Harmovela HTTP event sinks for every Core implementation except COBOL:
   Python, TypeScript, Java, Rust, C#, R, Elixir, Ruby, PHP, Lua, Nim, Perl,
   Erlang, Julia, V, D, Dart, Haskell, Swift, OCaml, Delphi, Objective-C, MATLAB,

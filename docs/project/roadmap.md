@@ -92,8 +92,8 @@ a version-checked [package map](../getting-started/agent-integration.json), a
 runnable [identity/policy recipe](../guides/identity-policy.md), and a
 tool-neutral [skill template](https://github.com/axisvela/praxo-core/tree/main/agent-skills/praxo-integration)
 are now available. Source registry metadata was improved and the four pilot
-registry pages were audited; PyPI `0.3.2`, npm `0.2.2`, Maven Central `0.4.1`,
-and Go `v2.6.0` now have published pages with recorded verification.
+registry pages were audited; PyPI `0.5.0`, npm `0.4.1`, Maven Central `0.6.0`,
+and Go `v2.7.0` now have published pages with recorded verification.
 Stage 2 is not complete: Claude Code `2.1.196` records local skills-directory
 installation and discovery (structural evidence only; task execution was not run
 because the CLI was not authenticated), and opencode `1.18.18` records
