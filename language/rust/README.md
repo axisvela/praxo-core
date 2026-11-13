@@ -49,6 +49,8 @@ cargo add praxo-core@0.6.0
   storage with allowlisted payload encoding.
 - [`examples/retry`](examples/retry): retry transient model failures with
   bounded attempts and a deterministic check.
+- [`examples/service`](examples/service): standard-library HTTP service with
+  principal, tenant, policy, and a deterministic check.
 
 ## Requirements
 

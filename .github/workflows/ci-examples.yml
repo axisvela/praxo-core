@@ -147,6 +147,7 @@ jobs:
       - run: dotnet run --project language/csharp/examples/streaming/Streaming.csproj -- --test
       - run: dotnet run --project language/csharp/examples/checkpoint/Checkpoint.csproj -- --test
       - run: dotnet run --project language/csharp/examples/retry/Retry.csproj -- --test
+      - run: dotnet run --project language/csharp/examples/service/Service.csproj -- --test
       - run: cargo run --quiet
         working-directory: language/rust/examples/provider-fallback
       - run: cargo run --quiet
@@ -161,6 +162,8 @@ jobs:
         working-directory: language/rust/examples/checkpoint
       - run: cargo run --quiet
         working-directory: language/rust/examples/retry
+      - run: cargo run --quiet -- --test
+        working-directory: language/rust/examples/service
 
   current-go-consumer:
     runs-on: ${{ matrix.os }}
