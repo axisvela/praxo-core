@@ -102,7 +102,7 @@
     "docs": "https://axisvela.github.io/praxo-core/languages/elixir/",
     "install": "{:praxo_core, \"~> 0.6.0\"}",
     "package": "praxo_core",
-    "published_version": "0.6.0",
+    "published_version": "0.8.0",
     "registry": "Hex",
     "source_install": "{:praxo_core, \"~> 0.8.0\"}",
     "source_version": "0.8.0",
@@ -116,14 +116,14 @@
     "docs": "https://axisvela.github.io/praxo-core/languages/erlang/",
     "install": "{deps, [{praxo_core_erlang, \"0.5.0\"}]}.",
     "package": "praxo_core_erlang",
-    "published_version": "0.5.0",
+    "published_version": "0.7.1",
     "registry": "Hex",
     "source_install": "{deps, [{praxo_core_erlang, \"0.7.1\"}]}.",
     "source_version": "0.7.1",
     "status": "published",
     "tag": "erlang/v0.7.1",
     "tier": "Core",
-    "url": "https://hex.pm/packages/praxo_core_erlang/0.5.0"
+    "url": "https://hex.pm/packages/praxo_core_erlang/0.7.1"
   },
   "Fortran": {
     "dir": "language/fortran",
@@ -172,14 +172,14 @@
     "docs": "https://axisvela.github.io/praxo-core/languages/haskell/",
     "install": "cabal install praxo-core",
     "package": "praxo-core",
-    "published_version": "0.4.0",
+    "published_version": "0.5.0",
     "registry": "Hackage",
     "source_install": "cabal install praxo-core",
     "source_version": "0.5.0",
     "status": "published",
     "tag": "haskell/v0.5.0",
     "tier": "Core",
-    "url": "https://hackage.haskell.org/package/praxo-core-0.4.0"
+    "url": "https://hackage.haskell.org/package/praxo-core-0.5.0"
   },
   "Java": {
     "dir": "language/java",
@@ -212,9 +212,9 @@
   "Lua": {
     "dir": "language/lua",
     "docs": "https://axisvela.github.io/praxo-core/languages/lua/",
-    "install": "luarocks install praxo-core 0.5.0-1",
+    "install": "luarocks install praxo-core 0.6.0-1",
     "package": "praxo-core",
-    "published_version": "0.5.0-1",
+    "published_version": "0.6.0-1",
     "registry": "LuaRocks",
     "source_install": "luarocks install praxo-core 0.6.0-1",
     "source_version": "0.6.0-1",
@@ -312,11 +312,11 @@
     "docs": "https://axisvela.github.io/praxo-core/languages/perl/",
     "install": "cpanm Praxo::Core",
     "package": "Praxo::Core",
-    "published_version": "0.2.0",
+    "published_version": "0.4.0",
     "registry": "CPAN (MetaCPAN index)",
     "source_install": "cpanm Praxo::Core",
     "source_version": "0.4.0",
-    "status": "published on CPAN (0.2.0); install smoke not recorded",
+    "status": "published on CPAN (0.4.0); install smoke not recorded",
     "tag": "perl/v0.4.0",
     "tier": "Core",
     "url": "https://metacpan.org/dist/Praxo-Core"
@@ -326,14 +326,14 @@
     "docs": "https://axisvela.github.io/praxo-core/languages/powershell/",
     "install": "Install-Module praxo-core-ps",
     "package": "praxo-core-ps",
-    "published_version": "0.3.1",
+    "published_version": "0.5.3",
     "registry": "PowerShell Gallery",
     "source_install": "Install-Module praxo-core-ps",
     "source_version": "0.5.3",
     "status": "published; shared C# runtime",
     "tag": "powershell/v0.5.3",
     "tier": "Core (.NET)",
-    "url": "https://www.powershellgallery.com/packages/praxo-core-ps/0.3.1"
+    "url": "https://www.powershellgallery.com/packages/praxo-core-ps/0.5.3"
   },
   "Python": {
     "dir": "language/python",
@@ -343,7 +343,7 @@
     "published_version": "0.5.0",
     "registry": "PyPI",
     "source_install": "pip install praxo-core==0.7.0",
-    "source_version": "0.7.1",
+    "source_version": "0.7.0",
     "status": "published",
     "tag": "python/v0.7.0",
     "tier": "Core",
@@ -368,14 +368,14 @@
     "docs": "https://axisvela.github.io/praxo-core/languages/ruby/",
     "install": "gem install praxo-core",
     "package": "praxo-core",
-    "published_version": "0.5.0",
+    "published_version": "0.7.0",
     "registry": "RubyGems",
     "source_install": "gem install praxo-core",
-    "source_version": "0.7.1",
+    "source_version": "0.7.0",
     "status": "published; split source repository",
     "tag": "ruby/v0.7.0",
     "tier": "Core",
-    "url": "https://rubygems.org/gems/praxo-core/versions/0.5.0"
+    "url": "https://rubygems.org/gems/praxo-core/versions/0.7.0"
   },
   "Rust": {
     "dir": "language/rust",

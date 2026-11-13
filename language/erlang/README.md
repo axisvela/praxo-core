@@ -18,7 +18,7 @@ It does not call Go or another Core.
 - Registry introduction: [REGISTRY.md](https://github.com/axisvela/praxo-core/blob/main/language/erlang/REGISTRY.md)
 - Machine-readable entry: [llms.txt](https://github.com/axisvela/praxo-core/blob/main/language/erlang/llms.txt) and [llms.md](https://github.com/axisvela/praxo-core/blob/main/language/erlang/llms.md)
 - Coding-agent contract: [docs/getting-started/coding-agents.md](https://github.com/axisvela/praxo-core/blob/main/docs/getting-started/coding-agents.md)
-- Registry: [Hex](https://hex.pm/packages/praxo_core_erlang/0.5.0)
+- Registry: [Hex](https://hex.pm/packages/praxo_core_erlang/0.7.1)
 
 ## Install
 

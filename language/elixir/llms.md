@@ -9,7 +9,7 @@
 - package: `praxo_core`
 - registry: [Hex](https://hex.pm/packages/praxo_core)
 - source_version: `0.8.0`
-- published_version: `0.6.0`
+- published_version: `0.8.0`
 - install_published: `{:praxo_core, "~> 0.6.0"}`
 - install_source: `{:praxo_core, "~> 0.8.0"}`
 - source_tag: `elixir/v0.8.0`
