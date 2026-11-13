@@ -1,13 +1,13 @@
 # PRAXO-CORE C Registry Introduction
 
-**Status:** source-only. Source version `0.8.0`, source
-tag `c/v0.8.0`. Published registry version: not published. Registry
+**Status:** source-only. Source version `0.9.0`, source
+tag `c/v0.9.0`. Published registry version: not published. Registry
 pages are release snapshots; verify the published version before relying on a
 feature.
 
 ## Positioning
 
-C11 implementation of the PRAXO-CORE Core contract with source version `0.8.0`. The normative contract is [`spec/`](../../spec/README.md); Go remains the reference implementation.
+C11 implementation of the PRAXO-CORE Core contract with source version `0.9.0`. The normative contract is [`spec/`](../../spec/README.md); Go remains the reference implementation.
 
 ## Package
 
@@ -15,11 +15,11 @@ C11 implementation of the PRAXO-CORE Core contract with source version `0.8.0`. 
 | --- | --- |
 | Package | `praxo-core-c` |
 | Registry | Source / CMake |
-| Source version | `0.8.0` |
+| Source version | `0.9.0` |
 | Published registry version | not published |
 | Install (published) | not published |
 | Install (source/release prepared) | `CMake source build (see README)` |
-| Source tag | `c/v0.8.0` |
+| Source tag | `c/v0.9.0` |
 | Tier | Core |
 | Contract | `SPEC_VERSION` `0.2.0` |
 | Documentation | https://axisvela.github.io/praxo-core/languages/c/ |
@@ -33,9 +33,9 @@ C11 implementation of the PRAXO-CORE Core contract with source version `0.8.0`. 
 | Gemini model | native (transport seam) | `PxGemini`; caller supplies HTTP transport |
 | MCP client | native (transport seam) | `PxMcpClient`; caller supplies `PxMcpTransport` |
 | Harmovela sink | native (transport seam) | `praxo_harmovela`; caller supplies HTTP transport |
-| OpenTelemetry sink | not implemented |  |
-| Subagent delegation | not implemented |  |
-| Retriever | not implemented |  |
+| OpenTelemetry sink | native (transport seam) | `PxOtelSink`; caller supplies `PxOtelTransport` |
+| Subagent delegation | native (synchronous seam) | `px_subagent_run`; no asynchronous manager |
+| Retriever | native | `PxDocument`, `PxRetriever`, `px_retrieve` |
 
 ## Coding-agent entry
 

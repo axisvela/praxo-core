@@ -1,6 +1,6 @@
 # PRAXO-CORE C Core
 
-C11 implementation of the PRAXO-CORE Core contract with source version `0.8.0`.
+C11 implementation of the PRAXO-CORE Core contract with source version `0.9.0`.
 The normative contract is [`spec/`](../../spec/README.md); Go remains the
 reference implementation.
 

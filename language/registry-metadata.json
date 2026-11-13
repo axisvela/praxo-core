@@ -7,9 +7,9 @@
     "published_version": "0.6.0",
     "registry": "Source / CMake",
     "source_install": "CMake source build (see README)",
-    "source_version": "0.8.0",
+    "source_version": "0.9.0",
     "status": "source-only",
-    "tag": "c/v0.8.0",
+    "tag": "c/v0.9.0",
     "tier": "Core",
     "url": ""
   },

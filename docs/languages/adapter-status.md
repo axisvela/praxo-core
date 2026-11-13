@@ -259,6 +259,7 @@ tests; no live Harmovela service is claimed.
 | PHP | native (transport seam) | `OtelSink`; caller supplies OTLP/HTTP transport |
 | Elixir | native (transport seam) | `Praxo.OtelSink`; caller supplies OTLP/HTTP transport |
 | Lua | native (transport seam) | `adapters.otel_sink`; caller supplies OTLP/HTTP transport |
+| C | native (transport seam) | `PxOtelSink`; caller supplies `PxOtelTransport` |
 | PowerShell | inherited | Uses the C# Core |
 | Visual Basic / F# | inherited | Samples over the C# Core |
 | Kotlin / Scala / Groovy / Clojure | inherited | Samples over the Java Core |
@@ -286,6 +287,7 @@ selected keys must be allowlisted explicitly.
 | PHP | native (synchronous seam) | `SubagentManager::run`; no asynchronous manager |
 | Elixir | native | `Praxo.SubagentManager` |
 | Lua | native (synchronous seam) | `subagent_run`; no asynchronous manager |
+| C | native (synchronous seam) | `px_subagent_run`; no asynchronous manager |
 | All other implementations | not implemented | Add with a named consumer or maintainer |
 
 Delegation means a local child-run manager with queued/running/terminal states,
@@ -307,6 +309,7 @@ workers, cross-process scheduling, or exactly-once execution.
 | PHP | native | `Document`, `Retriever`, `FuncRetriever` |
 | Elixir | native | `Praxo.Document`, `Praxo.FuncRetriever` |
 | Lua | native | `document`, `func_retriever`, `retriever_retrieve` |
+| C | native | `PxDocument`, `PxRetriever`, `px_retrieve` |
 | All other implementations | not implemented | Add with a named consumer or maintainer |
 
 Retriever support means a document/query/limit seam. It does not define an

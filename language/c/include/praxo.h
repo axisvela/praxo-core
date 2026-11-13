@@ -4,7 +4,7 @@
 #include <stdbool.h>
 #include <stddef.h>
 
-#define PRAXO_SDK_VERSION "0.8.0"
+#define PRAXO_SDK_VERSION "0.9.0"
 #define PRAXO_SPEC_VERSION "0.2.0"
 
 typedef struct PxArenaBlock PxArenaBlock;

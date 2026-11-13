@@ -1,5 +1,15 @@
 # C Core Release Notes
 
+## 0.9.0 - 2026-11-13
+
+Source release tag `c/v0.9.0`.
+
+### Added
+
+- OpenTelemetry OTLP/HTTP event sink over a caller-supplied transport.
+- Document retriever seam (`PxDocument`, `PxRetriever`, `px_retrieve`).
+- Synchronous subagent seam (`px_subagent_run`); no portable thread manager.
+
 ## 0.8.0 - 2026-11-13
 
 Source release tag `c/v0.8.0`.

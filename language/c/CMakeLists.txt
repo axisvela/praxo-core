@@ -22,6 +22,9 @@ add_library(praxo_core STATIC
     src/gemini.c
     src/harmovela.c
     src/mcp.c
+    src/otel.c
+    src/retriever.c
+    src/delegation.c
     src/vectors_core.c
     src/vectors_agent.c
     src/conformance.c
@@ -66,6 +69,12 @@ target_link_libraries(praxo-c-harmovela-tests PRIVATE praxo_core)
 
 add_executable(praxo-c-mcp-tests tests/test_mcp.c)
 target_link_libraries(praxo-c-mcp-tests PRIVATE praxo_core)
+add_executable(praxo-c-otel-tests tests/test_otel.c)
+target_link_libraries(praxo-c-otel-tests PRIVATE praxo_core)
+add_executable(praxo-c-retriever-tests tests/test_retriever.c)
+target_link_libraries(praxo-c-retriever-tests PRIVATE praxo_core)
+add_executable(praxo-c-delegation-tests tests/test_delegation.c)
+target_link_libraries(praxo-c-delegation-tests PRIVATE praxo_core)
 
 if(MSVC)
     target_compile_options(praxo-c-tests PRIVATE /UNDEBUG)
@@ -76,6 +85,9 @@ if(MSVC)
     target_compile_options(praxo-c-gemini-tests PRIVATE /UNDEBUG)
     target_compile_options(praxo-c-harmovela-tests PRIVATE /UNDEBUG)
     target_compile_options(praxo-c-mcp-tests PRIVATE /UNDEBUG)
+    target_compile_options(praxo-c-otel-tests PRIVATE /UNDEBUG)
+    target_compile_options(praxo-c-retriever-tests PRIVATE /UNDEBUG)
+    target_compile_options(praxo-c-delegation-tests PRIVATE /UNDEBUG)
 else()
     target_compile_options(praxo-c-tests PRIVATE -UNDEBUG)
     target_compile_options(praxo-c-core-tests PRIVATE -UNDEBUG)
@@ -85,6 +97,9 @@ else()
     target_compile_options(praxo-c-gemini-tests PRIVATE -UNDEBUG)
     target_compile_options(praxo-c-harmovela-tests PRIVATE -UNDEBUG)
     target_compile_options(praxo-c-mcp-tests PRIVATE -UNDEBUG)
+    target_compile_options(praxo-c-otel-tests PRIVATE -UNDEBUG)
+    target_compile_options(praxo-c-retriever-tests PRIVATE -UNDEBUG)
+    target_compile_options(praxo-c-delegation-tests PRIVATE -UNDEBUG)
 endif()
 
 add_test(NAME praxo-conformance COMMAND praxo-conformance)
@@ -96,6 +111,9 @@ add_test(NAME praxo-c-anthropic-tests COMMAND praxo-c-anthropic-tests)
 add_test(NAME praxo-c-gemini-tests COMMAND praxo-c-gemini-tests)
 add_test(NAME praxo-c-harmovela-tests COMMAND praxo-c-harmovela-tests)
 add_test(NAME praxo-c-mcp-tests COMMAND praxo-c-mcp-tests)
+add_test(NAME praxo-c-otel-tests COMMAND praxo-c-otel-tests)
+add_test(NAME praxo-c-retriever-tests COMMAND praxo-c-retriever-tests)
+add_test(NAME praxo-c-delegation-tests COMMAND praxo-c-delegation-tests)
 
 if(BUILD_TESTING)
     find_package(Python3 3.10 REQUIRED COMPONENTS Interpreter)
