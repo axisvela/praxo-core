@@ -10,6 +10,10 @@ Source release tag `cobol/v0.5.0`. This is not a package-registry release.
   listing, duplicate-tool and repeated-cursor rejection, tool calls, and close.
 - Transport-seam Harmovela event sink (`praxo-harmovela`) with the shared
   envelope, 2xx success handling, and bounded non-2xx errors.
+- Transport-seam OpenAI-compatible model adapter (`praxo-openai`) with
+  configurable base URL and model, message mapping, usage parsing, and
+  assistant tool-call parsing. The COBOL model callback still does not pass
+  tool specs or assistant tool-call history to model adapters.
 
 ## 0.4.0 - 2026-11-02
 

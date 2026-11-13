@@ -28,7 +28,7 @@ A native GnuCOBOL implementation, not a bridge to another Core. All 63 normative
 
 | Adapter | Status | Detail |
 | --- | --- | --- |
-| OpenAI-compatible model | not implemented | No HTTP transport; model callback lacks tool specs/history |
+| OpenAI-compatible model | native (transport seam) | `praxo-openai`; caller supplies a transport program; the model callback lacks tool specs/history |
 | Anthropic model | not implemented |  |
 | Gemini model | not implemented |  |
 | MCP client | native (transport seam) | `praxo-mcp`; caller supplies a transport program |

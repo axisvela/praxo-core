@@ -78,6 +78,7 @@ def main():
         "mcp-tests": ["tests/mcp.cob", "src/mcp.cob", *json_sources],
         "harmovela-tests": ["tests/harmovela.cob", "src/harmovela.cob",
                             *json_sources],
+        "openai-tests": ["tests/openai.cob", "src/openai.cob", *json_sources],
         "registry-tests": ["tests/registry.cob", "src/registry.cob"],
         "registry-agent-tests": ["tests/registry-agent.cob", "src/agent.cob", "src/registry.cob"],
         "core-tests": ["tests/run.cob", "src/agent.cob"],

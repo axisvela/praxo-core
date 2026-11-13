@@ -47,7 +47,7 @@ Status words:
 | C++ | native (transport seam) | `OpenAICompatible`; caller supplies HTTP transport |
 | Fortran | native (transport seam) | `openai_compatible`; caller supplies HTTP transport |
 | D | native (transport seam) | `OpenAICompatibleModel`; caller may inject transport |
-| COBOL | not implemented | No HTTP transport; model callback lacks tool specs/history |
+| COBOL | native (transport seam) | `praxo-openai`; caller supplies a transport program; the model callback lacks tool specs/history |
 | PowerShell | inherited | Uses the C# Core |
 | Visual Basic / F# | inherited | Samples over the C# Core |
 | Kotlin / Scala / Groovy / Clojure | inherited | Samples over the Java Core |

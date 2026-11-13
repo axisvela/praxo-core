@@ -323,6 +323,32 @@ copybook policy
   05 px-pol-allowedpic 9.
   05 px-pol-errorpic x(64).
 
+copybook provider-call
+  01 px-provider-call.
+  05 px-provider-urlpic x(1024).
+  05 px-provider-url-lengthbinary-long.
+  05 px-provider-payloadpic x(16384).
+  05 px-provider-payload-lengthbinary-long.
+  05 px-provider-api-key-sendpic x(256).
+  05 px-provider-api-key-send-lengthbinary-long.
+  05 px-provider-responsepic x(8192).
+  05 px-provider-response-lengthbinary-long.
+  05 px-provider-status-codebinary-long.
+
+copybook provider-options
+  01 px-provider-options.
+  05 px-provider-kindpic x(16).
+  05 px-provider-base-urlpic x(512).
+  05 px-provider-base-url-lengthbinary-long.
+  05 px-provider-modelpic x(128).
+  05 px-provider-model-lengthbinary-long.
+  05 px-provider-api-keypic x(256).
+  05 px-provider-api-key-lengthbinary-long.
+  05 px-provider-transport-programpic x(64).
+  05 px-provider-toolspic x(2048).
+  05 px-provider-tools-lengthbinary-long.
+  05 px-provider-max-tokensbinary-long.
+
 copybook registry-state
   01 px-registry-state.
   05 entry-countbinary-long value 0.
@@ -504,6 +530,10 @@ program praxo-memory
 module middleware
 program praxo-middleware
   using px-middleware-request px-middleware-result
+
+module openai
+program praxo-openai
+  using px-session px-response px-user-data px-status
 
 module path-normalize
 program praxo-path-normalize
