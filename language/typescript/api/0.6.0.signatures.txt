@@ -161,6 +161,11 @@ cause?: unknown
 interface ContextCompactor
 compact(messages: Message[], budget: ContextBudget): Promise<Message[]>
 
+## ControllableRunner
+interface ControllableRunner
+update(taskId: string, prompt: string): Promise<void>
+run(request: SubagentRequest): Promise<SubagentResult>
+
 ## Decision
 interface Decision
 allowed: boolean
@@ -175,6 +180,13 @@ const DEFAULT_TOOL_SELECTOR_PROMPT: string
 ## defaultPiiRules
 function defaultPiiRules
 defaultPiiRules(): PIIRule[]
+
+## Document
+interface Document
+id: string
+content: string
+metadata?: Record<string, string> | undefined
+score?: number | undefined
 
 ## Envelope
 interface Envelope
@@ -251,6 +263,11 @@ fromJson(raw: string): Schema
 class FuncHook
 constructor(fn: (action: Action) => Promise<Decision> | Decision): FuncHook
 authorize(action: Action): Promise<Decision> | Decision
+
+## FuncRetriever
+class FuncRetriever
+constructor(retrieveFn: (query: string, limit: number) => Promise<Document[]>): FuncRetriever
+retrieve(query: string, limit: number): Promise<Document[]>
 
 ## FuncTool
 class FuncTool
@@ -853,6 +870,10 @@ output: string
 steps: number
 usage: Usage
 
+## Retriever
+interface Retriever
+retrieve(query: string, limit: number): Promise<Document[]>
+
 ## ROLE_ASSISTANT
 const ROLE_ASSISTANT: "assistant"
 
@@ -994,6 +1015,61 @@ strategy?: string | undefined
 maxRepairs?: number | undefined
 validate?: ((output: string) => MaybePromise<void>) | undefined
 repair?: ((output: string, error: unknown) => MaybePromise<string>) | undefined
+
+## SubagentManager
+class SubagentManager
+constructor(runner: SubagentRunner): SubagentManager
+launch(request: SubagentRequest): Promise<SubagentTask>
+check(taskId: string): SubagentTask | undefined
+wait(taskId: string, timeoutMs?: number): Promise<SubagentTask>
+update(taskId: string, prompt: string): Promise<void>
+cancel(taskId: string): Promise<void>
+
+## SubagentMode
+type SubagentMode = SubagentMode
+
+## SubagentRequest
+interface SubagentRequest
+parentSessionId: string
+agentId: string
+prompt: string
+context?: Record<string, unknown> | undefined
+mode?: SubagentMode | undefined
+history?: unknown[] | undefined
+
+## SubagentResult
+interface SubagentResult
+taskId?: string | undefined
+agentId?: string | undefined
+output: string
+usage?: unknown
+
+## SubagentRunner
+interface SubagentRunner
+run(request: SubagentRequest): Promise<SubagentResult>
+
+## SubagentStatus
+type SubagentStatus = SubagentStatus
+
+## SubagentTask
+interface SubagentTask
+id: string
+parentSessionId: string
+agentId: string
+mode: SubagentMode
+status: SubagentStatus
+output: string
+error: string
+createdAt: string
+updatedAt: string
+
+## SubagentUpdateUnsupported
+class SubagentUpdateUnsupported
+constructor(): SubagentUpdateUnsupported
+name: string
+message: string
+stack?: string | undefined
+cause?: unknown
 
 ## SUMMARY_MARKER_PREFIX
 const SUMMARY_MARKER_PREFIX: "[context summary:"

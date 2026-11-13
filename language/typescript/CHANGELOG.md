@@ -9,6 +9,9 @@ Source tag `typescript/v0.6.0`.
 - OpenTelemetry event sink (`src/adapters/otel.ts`) over a caller-supplied
   OTLP/HTTP transport, with default event-data exclusion and an explicit
   data-key allowlist.
+- Local subagent delegation (`src/delegation.ts`) with
+  launch/check/wait/update/cancel and terminal states.
+- Retriever seam (`src/retriever.ts` `Document`, `Retriever`, `FuncRetriever`).
 
 ## 0.5.0 - 2026-11-12
 

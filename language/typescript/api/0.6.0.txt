@@ -21,9 +21,11 @@ ContextAssembler
 ContextBudget
 ContextBudgetError
 ContextCompactor
+ControllableRunner
 DEFAULT_SUMMARY_PROMPT
 DEFAULT_TOOL_SELECTOR_PROMPT
 Decision
+Document
 EVENT_KINDS
 Envelope
 Event
@@ -39,6 +41,7 @@ Factory
 FilterSink
 Frame
 FuncHook
+FuncRetriever
 FuncTool
 GEMINI_DEFAULT_BASE_URL
 Gateway
@@ -125,6 +128,7 @@ Request
 Response
 ResponseFormat
 Result
+Retriever
 RunState
 SDK_VERSION
 SPEC_VERSION
@@ -150,6 +154,14 @@ StreamingModel
 StructuredOutput
 StructuredOutputError
 StructuredOutputOptions
+SubagentManager
+SubagentMode
+SubagentRequest
+SubagentResult
+SubagentRunner
+SubagentStatus
+SubagentTask
+SubagentUpdateUnsupported
 TOOL_CHOICE_AUTO
 TOOL_CHOICE_NONE
 TOOL_CHOICE_REQUIRED

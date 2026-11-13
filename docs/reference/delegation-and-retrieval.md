@@ -16,8 +16,9 @@ A subagent manager owns local child runs:
   durable execution guarantee.
 
 The Go reference is `pkg/agent/delegation`. Python provides
-`praxo.delegation.SubagentManager` with an async runner seam. Other
-implementations do not have an in-tree delegation manager yet.
+`praxo.delegation.SubagentManager` with an async runner seam; TypeScript
+provides `src/delegation.ts` `SubagentManager`. Other implementations do not
+have an in-tree delegation manager yet.
 
 ## Retrieval
 
@@ -28,8 +29,9 @@ A retriever seam maps a query and limit to documents:
 - A function adapter is sufficient for local or caller-owned retrieval.
 
 The Go reference is `pkg/retriever`. Python provides `praxo.retriever` with
-`Document`, `Retriever`, and `FuncRetriever`. Other implementations do not have
-an in-tree retriever yet.
+`Document`, `Retriever`, and `FuncRetriever`; TypeScript provides
+`src/retriever.ts` with the same shapes. Other implementations do not have an
+in-tree retriever yet.
 
 Retrieval does not define an embedding model, vector store, ranking service, or
 search-quality claim. Memory stores and context compaction remain separate Core
