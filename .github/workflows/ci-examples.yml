@@ -140,6 +140,10 @@ jobs:
         working-directory: language/typescript/examples/retry
       - run: npm test
         working-directory: language/typescript/examples/retry
+      - run: npm ci --no-audit --no-fund
+        working-directory: language/typescript/examples/service
+      - run: npm test
+        working-directory: language/typescript/examples/service
       - run: dotnet run --project language/csharp/examples/mcp/Mcp.csproj -- --test
       - run: dotnet run --project language/csharp/examples/structured-output/StructuredOutput.csproj -- --test
       - run: dotnet run --project language/csharp/examples/provider-fallback/ProviderFallback.csproj -- --test

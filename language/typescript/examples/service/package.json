@@ -1,0 +1,17 @@
+{
+  "name": "praxo-service",
+  "version": "0.0.0",
+  "private": true,
+  "type": "commonjs",
+  "description": "Published-package PRAXO-CORE HTTP service example.",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "start": "node service.js",
+    "test": "node --test test_service.test.js"
+  },
+  "dependencies": {
+    "@axisvela/praxo-core": "0.5.0"
+  }
+}

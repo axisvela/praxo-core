@@ -17,6 +17,8 @@
   allowlisted payload encoding.
 - [`retry/`](retry/): retry transient model failures with bounded attempts and
   deterministic tests.
+- [`service/`](service/): standard-library HTTP service with principal, tenant,
+  policy, and deterministic tests.
 
 The examples install a published package. They do not require a repository
 checkout or local package replacement.
