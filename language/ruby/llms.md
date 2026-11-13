@@ -8,7 +8,7 @@
 
 - package: `praxo-core`
 - registry: [RubyGems](https://rubygems.org/gems/praxo-core/versions/0.5.0)
-- source_version: `0.7.0`
+- source_version: `0.7.1`
 - published_version: `0.5.0`
 - install_published: `gem install praxo-core`
 - install_source: `gem install praxo-core`

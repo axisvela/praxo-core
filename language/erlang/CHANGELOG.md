@@ -1,8 +1,8 @@
 # Erlang Core Release Notes
 
-## 0.6.0 - 2026-11-12
+## 0.7.1 - 2026-11-12
 
-Source tag `erlang/v0.6.0`.
+Source tag `erlang/v0.7.1`.
 
 ### Added
 

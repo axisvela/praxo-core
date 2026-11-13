@@ -8,7 +8,7 @@
 
 - package: `praxo-core`
 - registry: [PyPI](https://pypi.org/project/praxo-core/0.5.0/)
-- source_version: `0.7.0`
+- source_version: `0.7.1`
 - published_version: `0.5.0`
 - install_published: `pip install praxo-core==0.5.0`
 - install_source: `pip install praxo-core==0.7.0`

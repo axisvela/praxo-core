@@ -8,7 +8,7 @@
 
 - package: `axisvela/praxo-core`
 - registry: [Packagist](https://packagist.org/packages/axisvela/praxo-core)
-- source_version: `0.7.0`
+- source_version: `0.7.1`
 - published_version: `0.4.1`
 - install_published: `composer require axisvela/praxo-core`
 - install_source: `composer require axisvela/praxo-core`

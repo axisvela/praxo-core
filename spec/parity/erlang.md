@@ -3,7 +3,7 @@
 - Tier: core
 - SPEC_VERSION: 0.2.0
 
-Released source tag `erlang/v0.7.0` ships a native core loop on Erlang/OTP 29
+Released source tag `erlang/v0.7.1` ships a native core loop on Erlang/OTP 29
 with HITL interrupt decisions, middleware/lifecycle authorization, cancellation,
 stream callbacks, a native SSE parser, bounded parallel tools, and run-scoped
 call limits. The Core

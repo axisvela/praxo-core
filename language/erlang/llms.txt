@@ -8,11 +8,11 @@
 
 - package: `praxo_core_erlang`
 - registry: [Hex](https://hex.pm/packages/praxo_core_erlang/0.5.0)
-- source_version: `0.7.0`
+- source_version: `0.7.1`
 - published_version: `0.5.0`
 - install_published: `{deps, [{praxo_core_erlang, "0.5.0"}]}.`
-- install_source: `{deps, [{praxo_core_erlang, "0.7.0"}]}.`
-- source_tag: `erlang/v0.7.0`
+- install_source: `{deps, [{praxo_core_erlang, "0.7.1"}]}.`
+- source_tag: `erlang/v0.7.1`
 - tier: Core
 - contract: `SPEC_VERSION` `0.2.0`
 - documentation: https://axisvela.github.io/praxo-core/languages/erlang/
