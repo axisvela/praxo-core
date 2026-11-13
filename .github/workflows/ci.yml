@@ -3,7 +3,11 @@ name: ci
 on:
   push:
     branches: [main]
+    paths-ignore:
+      - "language/python/**"
   pull_request:
+    paths-ignore:
+      - "language/python/**"
   workflow_dispatch:
   schedule:
     - cron: '0 3 * * *'

@@ -1,0 +1,66 @@
+name: ci-python
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "language/python/**"
+      - ".github/workflows/ci-python.yml"
+  pull_request:
+    paths:
+      - "language/python/**"
+      - ".github/workflows/ci-python.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-python-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  python-conformance:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: language/python
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python conformance/run.py
+      - run: python api-snapshot.py --check
+      - run: python api-signatures.py --check
+      - run: python -m unittest discover -s tests -v
+      - name: Build wheel and sdist
+        run: |
+          python -m pip install --upgrade build
+          python -m build --wheel --sdist
+      - name: Run installed wheel smoke
+        run: |
+          python -m venv "$RUNNER_TEMP/praxo-py-wheel"
+          "$RUNNER_TEMP/praxo-py-wheel/bin/python" -m pip install --no-deps dist/*.whl
+          cd "$RUNNER_TEMP"
+          "$RUNNER_TEMP/praxo-py-wheel/bin/python" "$GITHUB_WORKSPACE/language/python/tests/installed_smoke.py"
+      - name: Run installed sdist smoke
+        run: |
+          python -m venv "$RUNNER_TEMP/praxo-py-sdist"
+          "$RUNNER_TEMP/praxo-py-sdist/bin/python" -m pip install --no-deps dist/*.tar.gz
+          cd "$RUNNER_TEMP"
+          "$RUNNER_TEMP/praxo-py-sdist/bin/python" "$GITHUB_WORKSPACE/language/python/tests/installed_smoke.py"
+
+  current-python-consumer:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        python: ['3.11', '3.12']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - run: python scripts/test_python_consumer.py -v
+      - run: python scripts/test_python_upgrade.py -v
