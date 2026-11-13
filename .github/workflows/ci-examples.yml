@@ -1,0 +1,147 @@
+name: ci-examples
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "examples/**"
+      - "language/python/examples/**"
+      - "language/typescript/examples/**"
+      - "language/csharp/examples/**"
+      - ".github/workflows/ci-examples.yml"
+  pull_request:
+    paths:
+      - "examples/**"
+      - "language/python/examples/**"
+      - "language/typescript/examples/**"
+      - "language/csharp/examples/**"
+      - ".github/workflows/ci-examples.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-examples-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  examples:
+    runs-on: ubuntu-latest
+    env:
+      GOWORK: "off"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: "1.26.11"
+      - run: go test ./...
+        working-directory: examples/ecosystem-sdk
+      - run: go vet ./...
+        working-directory: examples/ecosystem-sdk
+      - run: go build ./...
+        working-directory: examples/ecosystem-sdk
+      - run: go test ./...
+        working-directory: examples/ecosystem/mcp
+      - run: go vet ./...
+        working-directory: examples/ecosystem/mcp
+      - run: go build ./...
+        working-directory: examples/ecosystem/mcp
+      - run: go test ./...
+        working-directory: examples/workspace-agent
+      - run: go vet ./...
+        working-directory: examples/workspace-agent
+      - run: go test ./...
+        working-directory: examples/embedded-service
+      - run: go vet ./...
+        working-directory: examples/embedded-service
+      - run: go test ./...
+        working-directory: examples/live-model/go
+      - run: go vet ./...
+        working-directory: examples/live-model/go
+
+  example-sdks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "8.0.x"
+      - run: python -m pip install -r requirements.txt
+        working-directory: language/python/examples/mcp
+      - run: python -m unittest test_client.py -v
+        working-directory: language/python/examples/mcp
+      - run: python -m pip install -r requirements.txt
+        working-directory: language/python/examples/structured-output
+      - run: python -m unittest test_summarize.py -v
+        working-directory: language/python/examples/structured-output
+      - run: npm ci --no-audit --no-fund
+        working-directory: language/typescript/examples/mcp
+      - run: npm test
+        working-directory: language/typescript/examples/mcp
+      - run: npm ci --no-audit --no-fund
+        working-directory: language/typescript/examples/structured-output
+      - run: npm test
+        working-directory: language/typescript/examples/structured-output
+      - run: dotnet run --project language/csharp/examples/mcp/Mcp.csproj -- --test
+      - run: dotnet run --project language/csharp/examples/structured-output/StructuredOutput.csproj -- --test
+
+  current-go-consumer:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    env:
+      GOWORK: "off"
+    defaults:
+      run:
+        working-directory: examples/consumer-go
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: "1.26.11"
+          cache-dependency-path: examples/consumer-go/go.sum
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: go test -mod=readonly ./...
+      - run: go vet -mod=readonly ./...
+      - run: go build -mod=readonly ./...
+      - run: go run -mod=readonly .
+      - run: python scripts/test_go_consumer.py
+        working-directory: .
+      - run: python scripts/test_go_upgrade.py -v
+        working-directory: .
+      - run: python scripts/test_go_longrunning.py -v
+        working-directory: .
+      - run: python scripts/test_go_identity.py -v
+        working-directory: .
+      - run: python scripts/test_go_conformance_recipe.py -v
+        working-directory: .
+      - run: python scripts/test_go_retry_recipe.py -v
+        working-directory: .
+      - run: python scripts/test_go_event_sink_recipe.py -v
+        working-directory: .
+      - run: python scripts/test_go_context_budget_recipe.py -v
+        working-directory: .
+      - run: python scripts/test_go_checkpoint_store_recipe.py -v
+        working-directory: .
+      - run: python scripts/test_go_structured_output_recipe.py -v
+        working-directory: .
+      - run: python scripts/test_go_vfs_containment_recipe.py -v
+        working-directory: .
+      - run: python scripts/test_go_provider_fallback_recipe.py -v
+        working-directory: .
+      - run: python scripts/test_go_plugin_lifecycle_recipe.py -v
+        working-directory: .
+      - run: python scripts/test_go_multi_agent_recipe.py -v
+        working-directory: .
+      - run: python scripts/test_go_streaming_recipe.py -v
+        working-directory: .
