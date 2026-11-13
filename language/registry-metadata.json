@@ -427,9 +427,9 @@
     "published_version": "0.1.2",
     "registry": "VPM (pending)",
     "source_install": "v install praxo-core",
-    "source_version": "0.4.6",
+    "source_version": "0.4.7",
     "status": "split repository; VPM submission pending",
-    "tag": "v/v0.4.6",
+    "tag": "v/v0.4.7",
     "tier": "Core",
     "url": "https://github.com/axisvela/praxo-core-v"
   },

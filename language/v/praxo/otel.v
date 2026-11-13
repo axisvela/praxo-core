@@ -144,13 +144,11 @@ fn otel_payload(sink &OtelSink, event Event, stamp i64) map[string]json2.Any {
 		attributes << otel_attribute('praxo.run.id', event.run_id)
 	}
 	attributes << otel_attribute('praxo.event.at', stamp_text)
-	if is_object(event.data) {
-		data := as_object(event.data)
-		for name in sink.allowed_data_keys {
-			if name in data {
-				value := data[name] or { json2.null }
-				attributes << otel_attribute('praxo.event.data.${name}', otel_data_text(value))
-			}
+	data := as_object(event.data)
+	for name in sink.allowed_data_keys {
+		if name in data {
+			value := data[name] or { json2.null }
+			attributes << otel_attribute('praxo.event.data.${name}', otel_data_text(value))
 		}
 	}
 	mut span := map[string]json2.Any{}
