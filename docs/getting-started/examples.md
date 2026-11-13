@@ -26,6 +26,18 @@ mirror repositories.
 | Use focused recipes | [`examples/recipes`](https://github.com/axisvela/praxo-core/tree/main/examples/recipes) | Go recipes for providers, events, retries, VFS, and related seams |
 | Integrate an ecosystem component | [`examples/ecosystem`](https://github.com/axisvela/praxo-core/tree/main/examples/ecosystem) | Optional AxisVela adapter shapes |
 
+## Examples vs Recipes
+
+- [`examples/recipes`](https://github.com/axisvela/praxo-core/tree/main/examples/recipes)
+  contains Go-focused copy-paste recipes and scoped test evidence.
+- `examples/` contains runnable projects, including published-package and
+  language-specific integrations.
+
+Topics such as structured output, checkpoint stores, identity, VFS containment,
+and long-running operations appear in both forms. Use the recipe for the
+mechanism and the example for an application-shaped integration; do not copy
+both into one project.
+
 ## By Language
 
 | Language | Examples |

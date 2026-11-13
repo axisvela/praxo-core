@@ -26,4 +26,5 @@ The write is denied because `fs.write` is outside the allowlist and policy.
 No file should be created.
 
 The example uses a published module version. It does not use a module
-replacement or a repository checkout.
+replacement or a repository checkout. For focused VFS failure cases, see
+[`examples/recipes/vfs-containment-go`](../recipes/vfs-containment-go).

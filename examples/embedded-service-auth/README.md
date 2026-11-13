@@ -24,6 +24,12 @@ export PRAXO_MODEL=llama3.2
 go run . -addr :8080
 ```
 
+For the full file-store contract and its tests, see
+[`examples/recipes/checkpoint-store-go`](../recipes/checkpoint-store-go). This
+service keeps a smaller store to show the `OnRunComplete` integration.
+See also [`examples/recipes/identity-go`](../recipes/identity-go) for the
+policy-only identity pattern.
+
 The token format in this example is application-local:
 
 ```text

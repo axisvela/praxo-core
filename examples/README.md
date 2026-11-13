@@ -24,6 +24,26 @@ mirror repositories.
 - [Recipes](recipes/): focused integration recipes.
 - [Ecosystem](ecosystem/): optional ecosystem adapters.
 
+## Examples vs Recipes
+
+- [`recipes/`](recipes/): Go-focused copy-paste recipes and L1-L4 test evidence.
+  Use these for mechanics, failure boundaries, and focused tests.
+- `examples/`: runnable projects, including published-package and
+  language-specific integrations. Use these to start an application.
+
+There is intentional overlap. For example:
+
+| Topic | Recipe | Runnable example |
+| --- | --- | --- |
+| Structured output | [`recipes/structured-output-go`](recipes/structured-output-go) | Python / TypeScript / Java / C# `structured-output` |
+| Checkpoint store | [`recipes/checkpoint-store-go`](recipes/checkpoint-store-go) | [`embedded-service-auth`](embedded-service-auth) |
+| Identity and policy | [`recipes/identity-go`](recipes/identity-go) | [`embedded-service-auth`](embedded-service-auth) |
+| VFS containment | [`recipes/vfs-containment-go`](recipes/vfs-containment-go) | [`workspace-agent`](workspace-agent) |
+| Long-running operations | [`recipes/long-running-go`](recipes/long-running-go) | [`embedded-service-auth`](embedded-service-auth) |
+
+Start with the recipe for the mechanism, then use the example for an
+application-shaped integration. Do not copy both into one project.
+
 ## By Language
 
 | Language | Examples |

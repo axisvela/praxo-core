@@ -24,6 +24,15 @@
 | 使用专题配方 | [`examples/recipes`](https://github.com/axisvela/praxo-core/tree/main/examples/recipes) | Go Provider、事件、重试、VFS 等配方 |
 | 集成生态组件 | [`examples/ecosystem`](https://github.com/axisvela/praxo-core/tree/main/examples/ecosystem) | 可选 AxisVela Adapter 结构 |
 
+## 示例与配方
+
+- [`examples/recipes`](https://github.com/axisvela/praxo-core/tree/main/examples/recipes)
+  是 Go 为主的复制粘贴配方，并提供局部测试证据。
+- `examples/` 是可运行项目，包括发布包和语言专属集成。
+
+结构化输出、Checkpoint 存储、身份、VFS 隔离和长时操作等主题会同时出现在两种形式中。
+配方用于理解机制，示例用于应用形态集成；不要把两者同时复制进一个项目。
+
 ## 按语言选择
 
 | 语言 | 示例 |
