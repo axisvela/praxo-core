@@ -15,6 +15,7 @@ mirror repositories.
 
 - [Workspace agent](workspace-agent/): read-only published-package Go application.
 - [Embedded service](embedded-service/): vendor-neutral HTTP service with caller context, policy, timeouts, and graceful shutdown.
+- [Authenticated service](embedded-service-auth/): HMAC bearer token and tenant-scoped policy variant.
 - [Reference agent](reference/): workspace-oriented reference application.
 - [Governed workspace](governed-workspace/): policy and approval boundaries.
 - [Checkpoint](checkpoint/): checkpoint store usage.

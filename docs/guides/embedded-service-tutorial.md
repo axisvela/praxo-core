@@ -50,6 +50,21 @@ Run its deterministic tests with:
 .venv/bin/python -m unittest test_service.py -v
 ```
 
+## Verified Identity Variant
+
+The [authenticated service example](https://github.com/axisvela/praxo-core/tree/main/examples/embedded-service-auth)
+adds an application-verified HMAC bearer token, subject and tenant claims,
+expiration checks, and a tenant allowlist before the agent runs.
+
+```bash
+cd examples/embedded-service-auth
+go test ./...
+```
+
+This is an application-local token format, not a general JWT implementation.
+Production services should use their identity provider, key management,
+audience checks, and revocation.
+
 ## Request Flow
 
 1. The HTTP handler checks that `X-Praxo-Principal` is present.

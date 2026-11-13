@@ -48,6 +48,20 @@ curl -s http://127.0.0.1:8080/run \
 .venv/bin/python -m unittest test_service.py -v
 ```
 
+## 已验证身份变体
+
+[认证服务示例](https://github.com/axisvela/praxo-core/tree/main/examples/embedded-service-auth)
+增加应用侧 HMAC Bearer Token、subject/tenant claims、过期检查和 Agent 运行前的
+租户允许列表。
+
+```bash
+cd examples/embedded-service-auth
+go test ./...
+```
+
+这是应用局部 Token 格式，不是通用 JWT 实现。生产服务应使用自己的身份提供商、
+密钥管理、audience 校验和撤销机制。
+
 ## 请求流程
 
 1. HTTP Handler 检查 `X-Praxo-Principal` 是否存在。
