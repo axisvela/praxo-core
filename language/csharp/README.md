@@ -147,5 +147,5 @@ child process.
 
 ## Release
 
-Tag shape: `csharp/v0.7.0`. The tag targets `SPEC_VERSION` `0.2.0`. See
+Tag shape: `csharp/v0.8.0`. The tag targets `SPEC_VERSION` `0.2.0`. See
 [CHANGELOG.md](CHANGELOG.md) for per-release changes and compatibility notes.

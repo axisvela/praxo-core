@@ -1,5 +1,15 @@
 # C# Core Release Notes
 
+## 0.8.0 - 2026-11-13
+
+Source tag `csharp/v0.8.0`.
+
+### Added
+
+- Local subagent delegation (`Delegation.SubagentManager`) with
+  launch/check/wait/update/cancel and terminal states.
+- Retriever seam (`Retriever.Document`, `Retriever`, `FuncRetriever`).
+
 ## 0.7.0 - 2026-11-13
 
 Source tag `csharp/v0.7.0`.

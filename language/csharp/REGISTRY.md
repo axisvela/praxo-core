@@ -1,7 +1,7 @@
 # PRAXO-CORE C# Registry Introduction
 
-**Status:** published. Source version `0.7.0`, source
-tag `csharp/v0.7.0`. Published registry version: `0.5.0`. Registry
+**Status:** published. Source version `0.8.0`, source
+tag `csharp/v0.8.0`. Published registry version: `0.5.0`. Registry
 pages are release snapshots; verify the published version before relying on a
 feature.
 
@@ -15,11 +15,11 @@ PRAXO-CORE is an embeddable, MIT-licensed agent framework. This package is its n
 | --- | --- |
 | Package | `Praxo.Core` |
 | Registry | [NuGet](https://www.nuget.org/packages/Praxo.Core/0.5.0) |
-| Source version | `0.7.0` |
+| Source version | `0.8.0` |
 | Published registry version | `0.5.0` |
 | Install (published) | `dotnet add package Praxo.Core --version 0.5.0` |
-| Install (source/release prepared) | `dotnet add package Praxo.Core --version 0.7.0` |
-| Source tag | `csharp/v0.7.0` |
+| Install (source/release prepared) | `dotnet add package Praxo.Core --version 0.8.0` |
+| Source tag | `csharp/v0.8.0` |
 | Tier | Core |
 | Contract | `SPEC_VERSION` `0.2.0` |
 | Documentation | https://axisvela.github.io/praxo-core/languages/csharp/ |
@@ -34,8 +34,8 @@ PRAXO-CORE is an embeddable, MIT-licensed agent framework. This package is its n
 | MCP client | native | `Praxo.Core.Adapters.McpClient`; stdio, plus `McpStreamableHttpTransport` for Streamable HTTP 2025-03-26 |
 | Harmovela sink | native | `Praxo.Core.HarmovelaSink` |
 | OpenTelemetry sink | native (transport seam) | `Praxo.Core.OtelSink`; caller supplies OTLP/HTTP transport |
-| Subagent delegation | not implemented |  |
-| Retriever | not implemented |  |
+| Subagent delegation | native | `Praxo.Core.Delegation.SubagentManager` |
+| Retriever | native | `Praxo.Core.Retriever.Document` and `Retriever` |
 
 ## Coding-agent entry
 

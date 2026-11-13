@@ -276,6 +276,7 @@ selected keys must be allowlisted explicitly.
 | TypeScript | native | `src/delegation.ts` `SubagentManager` |
 | Java | native | `agent.delegation.SubagentManager` |
 | Rust | native | `delegation::SubagentManager` |
+| C# | native | `Praxo.Core.Delegation.SubagentManager` |
 | All other implementations | not implemented | Add with a named consumer or maintainer |
 
 Delegation means a local child-run manager with queued/running/terminal states,
@@ -291,6 +292,7 @@ workers, cross-process scheduling, or exactly-once execution.
 | TypeScript | native | `src/retriever.ts` `Document` and `Retriever` |
 | Java | native | `retriever.Document` and `Retriever` |
 | Rust | native | `retriever::Document` and `Retriever` |
+| C# | native | `Praxo.Core.Retriever.Document` and `Retriever` |
 | All other implementations | not implemented | Add with a named consumer or maintainer |
 
 Retriever support means a document/query/limit seam. It does not define an

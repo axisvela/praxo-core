@@ -84,6 +84,57 @@ Praxo.Core.Decision Allow(System.String reason)
 Praxo.Core.Decision Deny(System.String reason)
 System.Boolean Allowed { get; set; }
 System.String Reason { get; set; }
+### Praxo.Core.Delegation.ControllableRunner
+System.Threading.Tasks.Task UpdateAsync(System.String taskId, System.String prompt)
+### Praxo.Core.Delegation.SubagentManager
+Praxo.Core.Delegation.SubagentTask Check(System.String taskId)
+Praxo.Core.Delegation.SubagentTask Launch(Praxo.Core.Delegation.SubagentRequest request)
+SubagentManager(Praxo.Core.Delegation.SubagentRunner runner)
+System.Threading.Tasks.Task UpdateAsync(System.String taskId, System.String prompt)
+System.Threading.Tasks.Task`1[Praxo.Core.Delegation.SubagentTask] WaitAsync(System.String taskId, System.TimeSpan? timeout)
+System.Void Cancel(System.String taskId)
+### Praxo.Core.Delegation.SubagentMode
+Praxo.Core.Delegation.SubagentMode Fork
+Praxo.Core.Delegation.SubagentMode Isolated
+System.Int32 value__
+### Praxo.Core.Delegation.SubagentRequest
+Praxo.Core.Delegation.SubagentMode Mode { get; set; }
+SubagentRequest()
+System.Collections.Generic.Dictionary`2[System.String,System.Object] Context { get; set; }
+System.Collections.Generic.List`1[Praxo.Core.Message] History { get; set; }
+System.String AgentId { get; set; }
+System.String ParentSessionId { get; set; }
+System.String Prompt { get; set; }
+### Praxo.Core.Delegation.SubagentResult
+Praxo.Core.Usage Usage { get; set; }
+SubagentResult()
+System.String AgentId { get; set; }
+System.String Output { get; set; }
+System.String TaskId { get; set; }
+### Praxo.Core.Delegation.SubagentRunner
+System.Threading.Tasks.Task`1[Praxo.Core.Delegation.SubagentResult] RunAsync(Praxo.Core.Delegation.SubagentRequest request)
+### Praxo.Core.Delegation.SubagentStatus
+Praxo.Core.Delegation.SubagentStatus Canceled
+Praxo.Core.Delegation.SubagentStatus Completed
+Praxo.Core.Delegation.SubagentStatus Failed
+Praxo.Core.Delegation.SubagentStatus Queued
+Praxo.Core.Delegation.SubagentStatus Running
+System.Int32 value__
+### Praxo.Core.Delegation.SubagentTask
+Praxo.Core.Delegation.SubagentMode Mode { get; set; }
+Praxo.Core.Delegation.SubagentStatus Status { get; set; }
+SubagentTask()
+System.DateTimeOffset CreatedAt { get; set; }
+System.DateTimeOffset UpdatedAt { get; set; }
+System.String AgentId { get; set; }
+System.String Error { get; set; }
+System.String Id { get; set; }
+System.String Output { get; set; }
+System.String ParentSessionId { get; set; }
+### Praxo.Core.Delegation.SubagentValues
+System.Boolean Terminal(Praxo.Core.Delegation.SubagentStatus status)
+System.String Wire(Praxo.Core.Delegation.SubagentMode mode)
+System.String Wire(Praxo.Core.Delegation.SubagentStatus status)
 ### Praxo.Core.Event
 Event(System.String type, System.String sessionId)
 Praxo.Core.Event WithData(System.Text.Json.Nodes.JsonObject data)
@@ -463,6 +514,17 @@ System.String FinishReason { get; set; }
 ResponseFormat()
 System.String Name { get; set; }
 System.Text.Json.Nodes.JsonObject Schema { get; set; }
+### Praxo.Core.Retriever.Document
+Document()
+System.Collections.Generic.Dictionary`2[System.String,System.String] Metadata { get; set; }
+System.Double Score { get; set; }
+System.String Content { get; set; }
+System.String Id { get; set; }
+### Praxo.Core.Retriever.FuncRetriever
+FuncRetriever(System.Func`3[System.String,System.Int32,System.Threading.Tasks.Task`1[System.Collections.Generic.List`1[Praxo.Core.Retriever.Document]]] retrieve)
+System.Threading.Tasks.Task`1[System.Collections.Generic.List`1[Praxo.Core.Retriever.Document]] RetrieveAsync(System.String query, System.Int32 limit)
+### Praxo.Core.Retriever.Retriever
+System.Threading.Tasks.Task`1[System.Collections.Generic.List`1[Praxo.Core.Retriever.Document]] RetrieveAsync(System.String query, System.Int32 limit)
 ### Praxo.Core.Roles
 System.String Assistant
 System.String System

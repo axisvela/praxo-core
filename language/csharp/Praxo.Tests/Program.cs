@@ -43,6 +43,8 @@ internal static class Program
         _passed += ProviderAdapterTests.Run();
         HarmovelaSinkTests.Run();
         _passed += OtelSinkTests.Run();
+        _passed += DelegationTests.Run();
+        _passed += RetrieverTests.Run();
         TestParallelTools();
         TestModelCancellation();
         TestToolCancellation();
