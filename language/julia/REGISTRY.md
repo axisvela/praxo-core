@@ -14,7 +14,7 @@ Julia implementation of the PRAXO-CORE contract.
 | Field | Value |
 | --- | --- |
 | Package | `PraxoCore` |
-| Registry | [Julia General (pending)](https://github.com/axisvela/praxo-core-julia) |
+| Registry | [Julia General (pending)](https://github.com/axisvela/PraxoCore.jl) |
 | Source version | `0.5.0` |
 | Published registry version | `0.2.0` |
 | Install (published) | `Pkg.add("PraxoCore")` |

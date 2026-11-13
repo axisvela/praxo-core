@@ -25,7 +25,7 @@ version remains the authority for what consumers install.
 | PHP | [axisvela/praxo-core-php](https://github.com/axisvela/praxo-core-php) | Packagist publication source |
 | Lua | [axisvela/praxo-core-lua](https://github.com/axisvela/praxo-core-lua) | Dedicated Lua repository |
 | Swift | [axisvela/praxo-core-swift](https://github.com/axisvela/praxo-core-swift) | Swift Package Index source |
-| Julia | [axisvela/praxo-core-julia](https://github.com/axisvela/praxo-core-julia) | Julia General Registry mirror |
+| Julia | [axisvela/PraxoCore.jl](https://github.com/axisvela/PraxoCore.jl) | Julia General Registry mirror |
 | V | [axisvela/praxo-core-v](https://github.com/axisvela/praxo-core-v) | Split V repository |
 | OCaml | [axisvela/praxo-core-ocaml](https://github.com/axisvela/praxo-core-ocaml) | Split OCaml repository |
 | Nim | [axisvela/praxo-core-nim](https://github.com/axisvela/praxo-core-nim) | Split Nim repository |

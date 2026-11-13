@@ -207,7 +207,7 @@
     "status": "pending registry merge",
     "tag": "julia/v0.5.0",
     "tier": "Core",
-    "url": "https://github.com/axisvela/praxo-core-julia"
+    "url": "https://github.com/axisvela/PraxoCore.jl"
   },
   "Lua": {
     "dir": "language/lua",

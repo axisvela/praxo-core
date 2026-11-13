@@ -54,7 +54,7 @@ GitHub Latest represents the Go Reference Core only, not the last language packa
 
 | Language | Registry | Version | Address | Status |
 | --- | --- | --- | --- | --- |
-| Julia | Julia General Registry | `0.5.0` | https://github.com/JuliaRegistries/General/pull/176022 | registration PR open |
+| Julia | Julia General Registry | `0.5.0` | https://github.com/JuliaRegistries/General/pull/176024 | automerge approved; merge pending |
 | Octave | Octave Packages | `0.5.0` | https://github.com/gnu-octave/packages/pull/875 | registration PR updated to 0.5.0 |
 | OCaml | opam | `0.6.0` | https://github.com/ocaml/opam-repository/pull/31222 | registration PR open |
 | V | VPM | `0.1.2` | https://github.com/axisvela/praxo-core-v | mirror published; VPM not indexed |
