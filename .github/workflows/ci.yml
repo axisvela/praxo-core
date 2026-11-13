@@ -7,11 +7,13 @@ on:
       - "language/python/**"
       - "language/typescript/**"
       - "language/java/**"
+      - "language/rust/**"
   pull_request:
     paths-ignore:
       - "language/python/**"
       - "language/typescript/**"
       - "language/java/**"
+      - "language/rust/**"
   workflow_dispatch:
   schedule:
     - cron: '0 3 * * *'

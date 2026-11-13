@@ -1,0 +1,37 @@
+name: ci-rust
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "language/rust/**"
+      - ".github/workflows/ci-rust.yml"
+  pull_request:
+    paths:
+      - "language/rust/**"
+      - ".github/workflows/ci-rust.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-rust-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  rust-conformance:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: language/rust
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: cargo test
+      - run: cargo run --quiet --bin conformance
+      - run: python api-snapshot.py --check
+      - run: python -m unittest discover -s tests -p "test_*.py" -v
