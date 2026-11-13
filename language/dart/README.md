@@ -2,7 +2,7 @@
 
 PRAXO-CORE is an embeddable, MIT-licensed agent framework. This package is its
 native Dart Core: an agent loop with tool registration and dispatch, policy
-hooks, typed events, memory, checkpoints, context budgets, middleware, JSON
+hooks, typed events, memory, checkpoints, context budgets, middleware, OTel and Harmovela sinks, MCP, retriever and synchronous delegation seams, JSON
 Schema validation, and plugin manifest parsing. It runs in-process and does not
 require a hosted service.
 
@@ -10,7 +10,7 @@ The normative contract is [`spec/`](../../spec/README.md); Go remains the
 reference implementation.
 
 - `SPEC_VERSION`: `0.2.0`
-- Core version: `0.1.1`
+- Core version: `0.4.0`
 - Tier: core
 - License: MIT
 - Dependencies: Dart standard library only

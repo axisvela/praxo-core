@@ -583,6 +583,105 @@ Future<void> main() async {
   check((harmovelaMissing as PraxoError).code == 'HARMOVELA_URL',
       'harmovela missing base url');
 
+  String? otelBody;
+  final otelTransport = (String method, String url, String body,
+      Map<String, String> headers) {
+    check(method == 'POST', 'otel method');
+    check(url == 'https://otel.test/v1/traces', 'otel url');
+    check(headers['content-type'] == 'application/json', 'otel content type');
+    otelBody = body;
+    return const OtelResponse(200, '');
+  };
+  final otelSink = OtelSink(
+    endpoint: 'https://otel.test/v1/traces',
+    allowedDataKeys: const ['name'],
+    transport: otelTransport,
+    clock: () => 1794294000000000000,
+  );
+  otelSink.emit(const Event(
+    type: 'tool.call',
+    sessionId: 's1',
+    runId: 'run-123',
+    data: {'name': 'echo', 'secret': 'hidden'},
+  ));
+  final otel = Json.parse(otelBody!) as Map<String, dynamic>;
+  final resourceSpans = otel['resourceSpans'] as List;
+  final resource = resourceSpans.first as Map<String, dynamic>;
+  final scopeSpans = resource['scopeSpans'] as List;
+  final scope = scopeSpans.first as Map<String, dynamic>;
+  final span = (scope['spans'] as List).first as Map<String, dynamic>;
+  check(span['name'] == 'praxo.tool.call', 'otel span name');
+  check((span['traceId'] as String).length == 32, 'otel trace id');
+  check((span['spanId'] as String).length == 16, 'otel span id');
+  final attributeKeys = (span['attributes'] as List)
+      .map((item) => (item as Map<String, dynamic>)['key'])
+      .toSet();
+  check(attributeKeys.contains('praxo.event.data.name'), 'otel allowed data');
+  check(!attributeKeys.contains('praxo.event.data.secret'), 'otel hidden data');
+  final otelFailure = OtelSink(
+    endpoint: 'https://otel.test/v1/traces',
+    transport: (String method, String url, String body,
+            Map<String, String> headers) =>
+        const OtelResponse(503, 'unavailable'),
+  );
+  Object? otelError;
+  try {
+    otelFailure.emit(const Event(type: 'tool.call', sessionId: 's1'));
+  } on PraxoError catch (error) {
+    otelError = error;
+  }
+  check((otelError as PraxoError?)?.code == 'OTEL_HTTP', 'otel failure code');
+
+  final retriever = FuncRetriever((String query, int limit) async => [
+        Document(id: 'doc-1', content: '$query:$limit'),
+      ]);
+  final documents =
+      await retrieveDocuments(retriever.retrieve, 'hello', 3);
+  check(documents.length == 1, 'retriever count');
+  check(documents.first.content == 'hello:3', 'retriever query');
+  Object? retrieverError;
+  try {
+    await retrieveDocuments(retriever.retrieve, 'hello', -1);
+  } on PraxoError catch (error) {
+    retrieverError = error;
+  }
+  check((retrieverError as PraxoError?)?.code == 'RETRIEVER_INVALID',
+      'retriever invalid limit');
+
+  final manager = SubagentManager((SubagentRequest request) async =>
+      SubagentResult(taskId: 'task-1', agentId: request.agentId, output: 'done'));
+  final task = await manager.run(const SubagentRequest(
+    parentSessionId: 'parent',
+    agentId: 'child',
+    prompt: 'look up',
+    mode: 'fork',
+  ));
+  check(task.status == 'completed', 'delegate completed');
+  check(task.mode == 'fork', 'delegate mode');
+  check(task.output == 'done', 'delegate output');
+  final failingManager =
+      SubagentManager((SubagentRequest request) async =>
+          throw const PraxoError('BOOM', 'boom'));
+  final failed = await failingManager.run(const SubagentRequest(
+    parentSessionId: 'parent',
+    agentId: 'child',
+    prompt: 'look up',
+  ));
+  check(failed.status == 'failed', 'delegate failed status');
+  check(failed.error == 'BOOM', 'delegate failed code');
+  Object? delegateError;
+  try {
+    await manager.run(const SubagentRequest(
+      parentSessionId: '',
+      agentId: 'child',
+      prompt: 'look up',
+    ));
+  } on PraxoError catch (error) {
+    delegateError = error;
+  }
+  check((delegateError as PraxoError?)?.code == 'SUBAGENT_INVALID',
+      'delegate invalid');
+
   stdout.writeln('dart core tests passed');
 }
 

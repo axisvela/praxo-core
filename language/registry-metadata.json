@@ -76,10 +76,10 @@
     "package": "praxo_core",
     "published_version": "0.2.0",
     "registry": "pub.dev",
-    "source_install": "dart pub add praxo_core:^0.2.0",
-    "source_version": "0.3.0",
+    "source_install": "dart pub add praxo_core:^0.4.0",
+    "source_version": "0.4.0",
     "status": "published",
-    "tag": "dart/v0.3.0",
+    "tag": "dart/v0.4.0",
     "tier": "Core",
     "url": "https://pub.dev/packages/praxo_core/versions/0.2.0"
   },

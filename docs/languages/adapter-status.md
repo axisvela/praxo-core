@@ -258,6 +258,7 @@ tests; no live Harmovela service is claimed.
 | Ruby | native (transport seam) | `OtelSink`; caller supplies OTLP/HTTP transport |
 | PHP | native (transport seam) | `OtelSink`; caller supplies OTLP/HTTP transport |
 | Elixir | native (transport seam) | `Praxo.OtelSink`; caller supplies OTLP/HTTP transport |
+| Dart | native (transport seam) | `OtelSink`; caller supplies `OtelTransport` |
 | Lua | native (transport seam) | `adapters.otel_sink`; caller supplies OTLP/HTTP transport |
 | C | native (transport seam) | `PxOtelSink`; caller supplies `PxOtelTransport` |
 | C++ | native (transport seam) | `OtelSink`; caller supplies `OtelTransport` |
@@ -291,6 +292,7 @@ selected keys must be allowlisted explicitly.
 | Ruby | native | `Delegation::SubagentManager` |
 | PHP | native (synchronous seam) | `SubagentManager::run`; no asynchronous manager |
 | Elixir | native | `Praxo.SubagentManager` |
+| Dart | native (synchronous seam) | `SubagentManager.run`; no asynchronous manager |
 | Lua | native (synchronous seam) | `subagent_run`; no asynchronous manager |
 | C | native (synchronous seam) | `px_subagent_run`; no asynchronous manager |
 | C++ | native (synchronous seam) | `subagent_run`; no asynchronous manager |
@@ -318,6 +320,7 @@ workers, cross-process scheduling, or exactly-once execution.
 | Ruby | native | `Document`, `FuncRetriever` |
 | PHP | native | `Document`, `Retriever`, `FuncRetriever` |
 | Elixir | native | `Praxo.Document`, `Praxo.FuncRetriever` |
+| Dart | native | `Document`, `FuncRetriever`, `retrieveDocuments` |
 | Lua | native | `document`, `func_retriever`, `retriever_retrieve` |
 | C | native | `PxDocument`, `PxRetriever`, `px_retrieve` |
 | C++ | native | `Document`, `Retriever`, `retrieve` |
