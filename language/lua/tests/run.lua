@@ -15,6 +15,9 @@ local anthropic_adapter = require("praxo.adapters.anthropic")
 local gemini_adapter = require("praxo.adapters.gemini")
 local mcp_adapter = require("praxo.adapters.mcp")
 local harmovela_sink = require("praxo.adapters.harmovela_sink")
+local otel_sink = require("praxo.adapters.otel_sink")
+local retriever = require("praxo.retriever")
+local delegation = require("praxo.delegation")
 assert(require("praxo.openai_compatible") == openai_compat)
 assert(require("praxo.harmovela_sink") == harmovela_sink)
 
@@ -675,5 +678,64 @@ local mcp_error
 local ok = pcall(function() mcp.call_tool("fail") end)
 check(not ok, "mcp tool error")
 mcp.close()
+
+local otel_calls = {}
+local otel = otel_sink.new({
+  endpoint = "http://otel.test/v1/traces",
+  service_name = "praxo-test",
+  allowed_data_keys = { "name" },
+  clock = function() return 1794294000, 0 end,
+  transport = function(url, body, headers)
+    otel_calls[#otel_calls + 1] = { url = url, body = body, headers = headers }
+    return { status = 200, body = "" }
+  end,
+})
+otel.emit(models.event({
+  type = "tool.call",
+  session_id = "s1",
+  run_id = "run-123",
+  data = { name = "echo", secret = "hidden" },
+}))
+check(#otel_calls == 1, "otel single request")
+check(otel_calls[1].url == "http://otel.test/v1/traces", "otel url")
+check(otel_calls[1].headers["content-type"] == "application/json", "otel content type")
+local otel_payload = json.parse(otel_calls[1].body)
+local otel_span = otel_payload.resourceSpans[1].scopeSpans[1].spans[1]
+check(otel_span.name == "praxo.tool.call", "otel span name")
+check(#otel_span.traceId == 32, "otel trace id")
+check(#otel_span.spanId == 16, "otel span id")
+local otel_attributes = {}
+for _, item in ipairs(otel_span.attributes) do
+  otel_attributes[item.key] = item.value.stringValue
+end
+check(otel_attributes["praxo.event.data.name"] == "echo", "otel allowed data")
+check(otel_attributes["praxo.event.data.secret"] == nil, "otel data excluded")
+local otel_error
+local otel_ok = pcall(function()
+  otel_sink.new({
+    endpoint = "http://otel.test/v1/traces",
+    transport = function() return { status = 503, body = "down" } end,
+  }).emit(models.event({ type = "tool.call", session_id = "s1" }))
+end)
+check(not otel_ok, "otel error")
+
+local document = retriever.document("doc-1", "hello:3", { source = "test" }, 0.5)
+check(retriever.document_wire(document).score == 0.5, "retriever wire")
+local func_retriever = retriever.func_retriever(function(query, limit)
+  return { retriever.document("doc-1", query .. ":" .. limit) }
+end)
+local documents = retriever.retriever_retrieve(func_retriever, "hello", 3)
+check(#documents == 1 and documents[1].content == "hello:3", "retriever")
+
+local request = delegation.subagent_request("parent", "child", "do", { mode = "fork" })
+local task = delegation.subagent_run(function()
+  return delegation.subagent_result({ output = "done" })
+end, request)
+check(task.status == "completed" and task.output == "done", "delegation completed")
+local failed = delegation.subagent_run(function()
+  error("boom")
+end, request)
+check(failed.status == "failed" and string.find(failed.error, "boom", 1, true) ~= nil,
+      "delegation failed")
 
 print("lua core tests passed")

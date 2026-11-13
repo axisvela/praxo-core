@@ -73,7 +73,7 @@ other status is an error containing the status and a bounded body.
 The canonical per-language list is the
 [adapter status](../languages/adapter-status.md#opentelemetry) table. Go maps
 events through `adapters/otel` and a `trace.Tracer`. Python, TypeScript, Java,
-Rust, R, C#, Ruby, PHP, and Elixir provide transport-seam sinks over a
+Rust, R, C#, Ruby, PHP, Elixir, and Lua provide transport-seam sinks over a
 caller-supplied OTLP/HTTP transport. Other implementations do not have an
 in-tree OTel sink yet. All
 current implementations use deterministic fixtures or an in-memory exporter in

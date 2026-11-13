@@ -1,5 +1,17 @@
 # Lua Core Release Notes
 
+## 0.6.0 - 2026-11-13
+
+Source tag `lua/v0.6.0`. Rockspec `0.6.0-1`.
+
+### Added
+
+- OpenTelemetry event sink (`adapters.otel_sink`) over a caller-supplied
+  OTLP/HTTP transport.
+- Retriever seam (`document`, `func_retriever`, `retriever_retrieve`).
+- Synchronous delegation seam (`subagent_request`, `subagent_result`,
+  `subagent_run`); no asynchronous manager.
+
 ## Unreleased
 
 ### Added

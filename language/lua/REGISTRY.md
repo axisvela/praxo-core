@@ -1,7 +1,7 @@
 # PRAXO-CORE Lua Registry Introduction
 
-**Status:** published. Source version `0.5.0-1`, source
-tag `lua/v0.5.0`. Published registry version: `0.5.0-1`. Registry
+**Status:** published. Source version `0.6.0-1`, source
+tag `lua/v0.6.0`. Published registry version: `0.5.0-1`. Registry
 pages are release snapshots; verify the published version before relying on a
 feature.
 
@@ -15,11 +15,11 @@ PRAXO-CORE is an embeddable, MIT-licensed agent framework. This rock is its nati
 | --- | --- |
 | Package | `praxo-core` |
 | Registry | [LuaRocks](https://luarocks.org/modules/hanhhuiwen/praxo-core) |
-| Source version | `0.5.0-1` |
+| Source version | `0.6.0-1` |
 | Published registry version | `0.5.0-1` |
 | Install (published) | `luarocks install praxo-core 0.5.0-1` |
-| Install (source/release prepared) | `luarocks install praxo-core 0.5.0-1` |
-| Source tag | `lua/v0.5.0` |
+| Install (source/release prepared) | `luarocks install praxo-core 0.6.0-1` |
+| Source tag | `lua/v0.6.0` |
 | Tier | Core |
 | Contract | `SPEC_VERSION` `0.2.0` |
 | Documentation | https://axisvela.github.io/praxo-core/languages/lua/ |
@@ -33,9 +33,9 @@ PRAXO-CORE is an embeddable, MIT-licensed agent framework. This rock is its nati
 | Gemini model | native | `praxo.adapters.gemini` |
 | MCP client | native (transport seam) | `praxo.adapters.mcp`; caller supplies transport |
 | Harmovela sink | native | `praxo.harmovela_sink` |
-| OpenTelemetry sink | not implemented |  |
-| Subagent delegation | not implemented |  |
-| Retriever | not implemented |  |
+| OpenTelemetry sink | native (transport seam) | `adapters.otel_sink`; caller supplies OTLP/HTTP transport |
+| Subagent delegation | native (synchronous seam) | `subagent_run`; no asynchronous manager |
+| Retriever | native | `document`, `func_retriever`, `retriever_retrieve` |
 
 ## Coding-agent entry
 

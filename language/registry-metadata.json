@@ -216,10 +216,10 @@
     "package": "praxo-core",
     "published_version": "0.5.0-1",
     "registry": "LuaRocks",
-    "source_install": "luarocks install praxo-core 0.5.0-1",
-    "source_version": "0.5.0-1",
+    "source_install": "luarocks install praxo-core 0.6.0-1",
+    "source_version": "0.6.0-1",
     "status": "published",
-    "tag": "lua/v0.5.0",
+    "tag": "lua/v0.6.0",
     "tier": "Core",
     "url": "https://luarocks.org/modules/hanhhuiwen/praxo-core"
   },
