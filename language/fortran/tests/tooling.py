@@ -37,6 +37,7 @@ class ToolingTests(unittest.TestCase):
         with tempfile.TemporaryDirectory(dir=ROOT / "build") as directory:
             root = Path(directory)
             (root / "src").mkdir()
+            (root / "VERSION").write_text("0.1.0\n", encoding="utf-8")
             path = root / "src" / "sample.f90"
             source = """module sample
 private

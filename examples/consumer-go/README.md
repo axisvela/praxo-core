@@ -10,7 +10,7 @@ validate the reference application pattern, not Core-owned capabilities. See the
 [test and evidence taxonomy](../../docs/project/test-taxonomy.md) for the file
 map and the criteria for promoting a recipe into Core.
 
-Use Go 1.26.10, the CI/release toolchain. With this directory as the working
+Use Go 1.26.11, the CI/release toolchain. With this directory as the working
 directory, set `GOWORK=off` (`$env:GOWORK = "off"` in PowerShell), then run:
 
 ```sh

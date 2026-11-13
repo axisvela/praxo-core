@@ -35,7 +35,7 @@ TypeScript applications can start with the
 [independent TypeScript consumer](consumer-typescript.md). Java applications can
 start with the [independent Java consumer](consumer-java.md).
 
-Use Go `1.26.10`, the tested CI and release toolchain. The root `go.mod`
+Use Go `1.26.11`, the tested CI and release toolchain. The root `go.mod`
 declares `1.25.0`, but that declaration is not a guarantee that all optional
 modules or security fixes are supported on that toolchain.
 

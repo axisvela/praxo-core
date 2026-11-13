@@ -60,7 +60,7 @@ GOWORK=off go run ./examples/quickstart
 
 连接其他 OpenAI 兼容端点时，设置 `PRAXO_BASE_URL`、`PRAXO_API_KEY` 和
 `PRAXO_MODEL`。PowerShell 使用 `$env:PRAXO_BASE_URL = "..."` 等写法。
-CI 与发布使用 Go 1.26.10。示例展示工具调用、流式文本、事件与策略，前置条件见
+CI 与发布使用 Go 1.26.11。示例展示工具调用、流式文本、事件与策略，前置条件见
 [快速开始](docs/zh-CN/getting-started/quickstart.md)。
 
 ## 核心价值

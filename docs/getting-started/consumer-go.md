@@ -19,7 +19,7 @@ Review [when not to use Core](when-not-to-use.md) before choosing it.
 
 ## Create the Application
 
-Use Go `1.26.10`, the tested CI/release toolchain. Installation needs registry
+Use Go `1.26.11`, the tested CI/release toolchain. Installation needs registry
 access or a populated module cache. Set `GOWORK=off` for all commands in this
 guide so a parent workspace cannot substitute local dependencies. In PowerShell
 use `$env:GOWORK = "off"`; in a POSIX shell use `export GOWORK=off`.

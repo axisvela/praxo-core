@@ -6,7 +6,7 @@ Go is the reference implementation. Install the current core release:
 go get github.com/axisvela/praxo-core/v2@v2.7.0
 ```
 
-The module declares Go 1.25; CI and releases use Go 1.26.10. Follow the
+The module declares Go 1.25; CI and releases use Go 1.26.11. Follow the
 [quickstart](../../getting-started/quickstart.md) for a runnable example using
 Ollama or an OpenAI-compatible endpoint.
 

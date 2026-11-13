@@ -17,7 +17,7 @@ Starter 使用确定性模型和内存工具，无需凭据、模型服务或 Ax
 
 ## 创建应用
 
-使用 Go `1.26.10`，即 CI/发布验证工具链。安装需要访问 Registry 或使用已有模块缓存。
+使用 Go `1.26.11`，即 CI/发布验证工具链。安装需要访问 Registry 或使用已有模块缓存。
 全部命令应先设置 `GOWORK=off`，避免父目录工作区替换为本地依赖。
 PowerShell 使用 `$env:GOWORK = "off"`，POSIX Shell 使用 `export GOWORK=off`。
 

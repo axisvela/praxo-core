@@ -80,7 +80,7 @@ export PRAXO_MODEL=gpt-4o-mini
 GOWORK=off go run ./examples/quickstart
 ```
 
-Use Go 1.26.10, the tested CI/release toolchain. On PowerShell, set environment
+Use Go 1.26.11, the tested CI/release toolchain. On PowerShell, set environment
 variables with `$env:PRAXO_BASE_URL = "..."` and the same names. The example
 demonstrates tools, streamed text, events, and policy. See the
 [quickstart guide](docs/getting-started/quickstart.md) for prerequisites.

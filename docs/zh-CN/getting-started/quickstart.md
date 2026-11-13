@@ -14,7 +14,7 @@ Java 使用[独立消费者指南](consumer-java.md)，通过 Maven Central 发�
 
 ## 前置条件
 
-- Go 1.26.10（CI/发布验证版本，请使用完整安装的工具链）
+- Go 1.26.11（CI/发布验证版本，请使用完整安装的工具链）
 - 一个 OpenAI 兼容端点：
   - 本地 Ollama，或
   - 托管的 OpenAI 兼容 API

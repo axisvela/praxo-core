@@ -126,7 +126,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-go@v5
         with:
-          go-version: "1.26.10"
+          go-version: "1.26.11"
           cache-dependency-path: examples/consumer-go/go.sum
       - uses: actions/setup-python@v5
         with:
@@ -248,7 +248,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-go@v5
         with:
-          go-version: "1.26.10"
+          go-version: "1.26.11"
           cache-dependency-path: tests/consumer/go.sum
       - run: go test -mod=readonly ./...
       - run: go vet -mod=readonly ./...
@@ -268,7 +268,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-go@v5
         with:
-          go-version: "1.26.10"
+          go-version: "1.26.11"
       - run: go test ./...
       - run: go vet ./...
       - run: go build ./...
@@ -295,7 +295,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-go@v5
         with:
-          go-version: "1.26.10"
+          go-version: "1.26.11"
       - name: Verify platform containment controls
         run: go test -count=1 -v -timeout 10m ./pkg/policy ./pkg/vfs/localfs ./pkg/plugin/host/process ./pkg/plugin/host/wasm
 
@@ -309,7 +309,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-go@v5
         with:
-          go-version: "1.26.10"
+          go-version: "1.26.11"
       - run: go test -count=1 ./internal/spec/... -v
 
   privacy:
@@ -324,7 +324,7 @@ jobs:
           fetch-depth: 0
       - uses: actions/setup-go@v5
         with:
-          go-version: "1.26.10"
+          go-version: "1.26.11"
       - run: go test -count=1 ./internal/spec -run 'TestNoDisallowedEmails|TestNoInternalHostnames' -v
       - run: go test -count=1 ./internal/spec -run TestGitHistoryEmails -v
         env:
@@ -548,7 +548,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-go@v5
         with:
-          go-version: "1.26.10"
+          go-version: "1.26.11"
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
@@ -563,7 +563,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-go@v5
         with:
-          go-version: "1.26.10"
+          go-version: "1.26.11"
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
@@ -710,7 +710,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-go@v5
         with:
-          go-version: "1.26.10"
+          go-version: "1.26.11"
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
@@ -995,7 +995,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-go@v5
         with:
-          go-version: "1.26.10"
+          go-version: "1.26.11"
       - run: go test ./internal/bridge ./cmd/praxo-bridge
       - run: go run ./cmd/praxo-bridge version
       - run: bash bindings/shell/praxo-bridge.sh version
@@ -1075,7 +1075,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-go@v5
         with:
-          go-version: "1.26.10"
+          go-version: "1.26.11"
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
@@ -1133,7 +1133,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-go@v5
         with:
-          go-version: "1.26.10"
+          go-version: "1.26.11"
       - run: go test ./...
         working-directory: examples/ecosystem-sdk
       - run: go vet ./...
@@ -1157,7 +1157,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-go@v5
         with:
-          go-version: "1.26.10"
+          go-version: "1.26.11"
       - run: go test ./...
         working-directory: adapters/mcp
       - run: go vet ./...
@@ -1263,7 +1263,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-go@v5
         with:
-          go-version: "1.26.10"
+          go-version: "1.26.11"
           cache-dependency-path: ${{ matrix.module }}/go.sum
       - run: go test -race -mod=readonly ./...
       - run: go run golang.org/x/vuln/cmd/govulncheck@latest ./...
@@ -1278,7 +1278,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-go@v5
         with:
-          go-version: "1.26.10"
+          go-version: "1.26.11"
       - run: go test ./benchmarks -run=^$ -bench '.*' -benchtime=10x
 
   race:
@@ -1291,7 +1291,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-go@v5
         with:
-          go-version: "1.26.10"
+          go-version: "1.26.11"
       - run: go test -race ./...
 
   fuzz:
@@ -1304,7 +1304,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-go@v5
         with:
-          go-version: "1.26.10"
+          go-version: "1.26.11"
       - run: go test ./pkg/plugin -run=^$ -fuzz=FuzzParseManifest -fuzztime=10s
       - run: go test ./pkg/toolcall -run=^$ -fuzz=FuzzParseToolCall -fuzztime=10s
       - run: go test ./pkg/tool/jsonschema -run=^$ -fuzz=FuzzFromJSON -fuzztime=10s
@@ -1320,7 +1320,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-go@v5
         with:
-          go-version: "1.26.10"
+          go-version: "1.26.11"
       - run: go install honnef.co/go/tools/cmd/staticcheck@latest
       - run: staticcheck ./...
       - run: go install golang.org/x/vuln/cmd/govulncheck@latest

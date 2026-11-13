@@ -19,7 +19,7 @@ class ReleaseManifestTests(unittest.TestCase):
             "version": "2.5.0",
             "tag": "v2.5.0",
             "sha": "a" * 40,
-            "go_version": "go version go1.26.10 linux/amd64",
+            "go_version": "go version go1.26.11 linux/amd64",
             "spec_version": "0.2.0",
             "sbom_scope": "root Go module dependencies only",
         }

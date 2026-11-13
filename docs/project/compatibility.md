@@ -63,7 +63,7 @@
 
 ## API Stability
 
-CI and releases are verified with Go `1.26.10`. The root module's `go 1.25.0`
+CI and releases are verified with Go `1.26.11`. The root module's `go 1.25.0`
 directive is a language/module minimum, not the tested security baseline or the
 minimum for every independent adapter. Use the recommended toolchain for the
 quickstart, adapters, and published consumer checks.
