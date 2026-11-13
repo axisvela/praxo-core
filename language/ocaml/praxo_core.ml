@@ -21,7 +21,7 @@ exception Schema_error of string
 exception Toolcall_error of string
 
 let spec_version = "0.2.0"
-let sdk_version = "0.5.0"
+let sdk_version = "0.6.0"
 
 let stream_kinds = ["values"; "updates"; "messages"; "tasks"; "debug"; "checkpoint"]
 let max_json = 1048576
@@ -1096,6 +1096,44 @@ type mcp_client = {
   mutable mcp_server_info : json;
   mutable mcp_closed : bool;
 }
+type otel_transport = string -> string -> string -> string -> int * string
+type otel_sink = {
+  otel_endpoint : string;
+  otel_service_name : string;
+  otel_allowed_data_keys : string list;
+  otel_clock : unit -> int;
+  otel_transport : otel_transport;
+}
+type document = {
+  document_id : string;
+  document_content : string;
+  document_metadata : (string * string) list;
+  document_score : float;
+}
+type retriever = string -> int -> document list
+type subagent_request = {
+  request_parent_session_id : string;
+  request_agent_id : string;
+  request_prompt : string;
+  request_mode : string;
+}
+type subagent_result = {
+  result_task_id : string;
+  result_agent_id : string;
+  result_output : string;
+}
+type subagent_task = {
+  task_id : string;
+  task_parent_session_id : string;
+  task_agent_id : string;
+  task_mode : string;
+  task_status : string;
+  task_output : string;
+  task_error : string;
+  task_created_at : string;
+  task_updated_at : string;
+}
+type subagent_runner = subagent_request -> subagent_result
 
 exception Core_error of string * string
 
@@ -2231,3 +2269,126 @@ let mcp_call_tool client name arguments =
        | _ -> Array (List.map (fun text -> String text) texts))
 
 let mcp_close client = client.mcp_closed <- true
+
+let otel_sink_new endpoint transport clock = {
+  otel_endpoint = endpoint;
+  otel_service_name = "praxo-core";
+  otel_allowed_data_keys = [];
+  otel_clock = clock;
+  otel_transport = transport;
+}
+
+let otel_attribute key value =
+  Object [
+    ("key", String key);
+    ("value", Object [("stringValue", String value)]);
+  ]
+
+let otel_text value =
+  match value with
+  | String text -> text
+  | _ -> json_text value
+
+let otel_payload sink event nanos =
+  let stamp = string_of_int nanos in
+  let key =
+    event.event_session_id ^ "|" ^
+    (match event.event_run_id with Some run_id -> run_id | None -> "") ^ "|" ^
+    event.event_type ^ "|" ^ stamp ^ "|" ^ json_text event.event_data
+  in
+  let hex prefix =
+    Printf.sprintf "%016Lx" (Int64.of_int (Hashtbl.hash (prefix ^ key)))
+  in
+  let trace_id = hex "a" ^ hex "b" in
+  let span_id = hex "s" in
+  let attributes = ref [otel_attribute "praxo.event.type" event.event_type] in
+  if event.event_session_id <> "" then
+    attributes := !attributes @
+      [otel_attribute "praxo.session.id" event.event_session_id];
+  (match event.event_run_id with
+   | Some run_id when run_id <> "" ->
+       attributes := !attributes @ [otel_attribute "praxo.run.id" run_id]
+   | _ -> ());
+  attributes := !attributes @ [otel_attribute "praxo.event.at" stamp];
+  List.iter (fun name ->
+    match field name event.event_data with
+    | Some value ->
+        attributes := !attributes @
+          [otel_attribute ("praxo.event.data." ^ name) (otel_text value)]
+    | None -> ()) sink.otel_allowed_data_keys;
+  let span = Object [
+    ("traceId", String trace_id);
+    ("spanId", String span_id);
+    ("name", String ("praxo." ^ event.event_type));
+    ("kind", Number 1.);
+    ("startTimeUnixNano", String (string_of_int nanos));
+    ("endTimeUnixNano", String (string_of_int nanos));
+    ("attributes", Array !attributes);
+  ] in
+  Object [
+    ("resourceSpans", Array [
+      Object [
+        ("resource", Object [
+          ("attributes", Array [
+            otel_attribute "service.name" sink.otel_service_name;
+          ]);
+        ]);
+        ("scopeSpans", Array [
+          Object [
+            ("scope", Object [("name", String "praxo-core")]);
+            ("spans", Array [span]);
+          ];
+        ]);
+      ];
+    ]);
+  ]
+
+let otel_emit sink event =
+  let nanos = sink.otel_clock () in
+  let body = encode_json (otel_payload sink event nanos) in
+  let status, response_body =
+    sink.otel_transport "POST" sink.otel_endpoint "application/json" body
+  in
+  if status < 200 || status >= 300 then begin
+    let bounded =
+      if String.length response_body > 512 then String.sub response_body 0 512
+      else response_body
+    in
+    raise_core "OTEL_HTTP"
+      ("otel: HTTP " ^ string_of_int status ^ ": " ^ bounded)
+  end
+
+let retrieve_documents retriever query limit =
+  if limit < 0 then
+    raise_core "RETRIEVER_INVALID" "retriever: invalid limit";
+  retriever query limit
+
+let subagent_run runner request =
+  if request.request_parent_session_id = "" || request.request_agent_id = "" then
+    raise_core "SUBAGENT_INVALID"
+      "agent: subagent parent session and agent id are required";
+  let timestamp = string_of_int (int_of_float (Sys.time ())) in
+  let base = {
+    task_id = "subagent";
+    task_parent_session_id = request.request_parent_session_id;
+    task_agent_id = request.request_agent_id;
+    task_mode = if request.request_mode = "fork" then "fork" else "isolated";
+    task_status = "running";
+    task_output = "";
+    task_error = "";
+    task_created_at = timestamp;
+    task_updated_at = timestamp;
+  } in
+  match (try Ok (runner request) with Core_error (code, _) -> Error code) with
+  | Ok result ->
+      { base with
+        task_status = "completed";
+        task_output = result.result_output;
+        task_updated_at = timestamp;
+      }
+  | Error code ->
+      { base with
+        task_status = "failed";
+        task_error = code;
+        task_updated_at = timestamp;
+      }

@@ -3,7 +3,7 @@
 - Tier: core
 - SPEC_VERSION: 0.2.0
 
-Released source tag `ocaml/v0.5.0` ships a native Core implementation. It passes
+Released source tag `ocaml/v0.6.0` ships a native Core implementation. It passes
 all eleven vector groups, its tests, and its public API snapshot. The agent
 integrates opt-in PII redaction, structured output, call limits, and tool
 selection; fallback models are supported. `partial` marks a surface that covers

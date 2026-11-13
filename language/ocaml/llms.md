@@ -8,11 +8,11 @@
 
 - package: `praxo-core`
 - registry: [opam (pending)](https://github.com/axisvela/praxo-core-ocaml)
-- source_version: `0.5.0`
+- source_version: `0.6.0`
 - published_version: `0.3.0`
 - install_published: `opam install praxo-core`
 - install_source: `opam install praxo-core`
-- source_tag: `ocaml/v0.5.0`
+- source_tag: `ocaml/v0.6.0`
 - tier: Core
 - contract: `SPEC_VERSION` `0.2.0`
 - documentation: https://axisvela.github.io/praxo-core/languages/ocaml/
@@ -24,9 +24,9 @@
 - Gemini model: native (transport seam) (`gemini_model`; caller supplies transport)
 - MCP client: native (transport seam) (`mcp_client`; caller supplies transport)
 - Harmovela sink: native (transport seam) (`harmovela_sink`; caller supplies transport)
-- OpenTelemetry sink: not implemented
-- Subagent delegation: not implemented
-- Retriever: not implemented
+- OpenTelemetry sink: native (transport seam) (`otel_sink_new` and `otel_emit`; caller supplies OTLP/HTTP transport)
+- Subagent delegation: native (synchronous seam) (`subagent_run`; no asynchronous manager)
+- Retriever: native (`document` and `retrieve_documents`)
 
 ## Start
 

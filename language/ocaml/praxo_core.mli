@@ -164,6 +164,44 @@ type mcp_client = {
   mutable mcp_server_info : json;
   mutable mcp_closed : bool;
 }
+type otel_transport = string -> string -> string -> string -> int * string
+type otel_sink = {
+  otel_endpoint : string;
+  otel_service_name : string;
+  otel_allowed_data_keys : string list;
+  otel_clock : unit -> int;
+  otel_transport : otel_transport;
+}
+type document = {
+  document_id : string;
+  document_content : string;
+  document_metadata : (string * string) list;
+  document_score : float;
+}
+type retriever = string -> int -> document list
+type subagent_request = {
+  request_parent_session_id : string;
+  request_agent_id : string;
+  request_prompt : string;
+  request_mode : string;
+}
+type subagent_result = {
+  result_task_id : string;
+  result_agent_id : string;
+  result_output : string;
+}
+type subagent_task = {
+  task_id : string;
+  task_parent_session_id : string;
+  task_agent_id : string;
+  task_mode : string;
+  task_status : string;
+  task_output : string;
+  task_error : string;
+  task_created_at : string;
+  task_updated_at : string;
+}
+type subagent_runner = subagent_request -> subagent_result
 
 exception Core_error of string * string
 
@@ -251,3 +289,9 @@ val mcp_client : ?client_version:string -> ?protocol_version:string -> mcp_trans
 val mcp_list_tools : mcp_client -> json list
 val mcp_call_tool : mcp_client -> string -> json -> json
 val mcp_close : mcp_client -> unit
+
+val otel_sink_new : string -> otel_transport -> (unit -> int) -> otel_sink
+val otel_payload : otel_sink -> core_event -> int -> json
+val otel_emit : otel_sink -> core_event -> unit
+val retrieve_documents : retriever -> string -> int -> document list
+val subagent_run : subagent_runner -> subagent_request -> subagent_task

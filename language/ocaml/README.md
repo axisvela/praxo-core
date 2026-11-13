@@ -1,7 +1,7 @@
 # PRAXO-CORE for OCaml
 
 PRAXO-CORE is an embeddable, MIT-licensed agent framework. This package is its
-native OCaml Core with source tag `ocaml/v0.5.0`. It passes all eleven vector
+native OCaml Core with source tag `ocaml/v0.6.0`. It passes all eleven vector
 groups on OCaml 4.14.2 bytecode and includes the native agent loop, memory store,
 checkpoint allowlist, lexical path policy, context compaction, event sinks,
 middleware helpers, tool selection, and non-streaming OpenAI-compatible,
@@ -68,7 +68,7 @@ let _paths = Praxo_core.validate_schema (Praxo_core.parse_json "{\"type\":\"stri
 let _manifest = Praxo_core.validate_manifest "{}"
 ```
 
-Public declarations are inventoried in [`api/0.3.0.txt`](api/0.3.0.txt).
+Public declarations are inventoried in [`api/0.6.0.txt`](api/0.6.0.txt).
 `validate_manifest` returns `Some manifest` only for a valid declaration.
 
 ## OpenAI-Compatible Adapter
@@ -135,6 +135,27 @@ let sink = Praxo_core.harmovela_sink config
 `HARMOVELA_HTTP`, the status, and a bounded body otherwise. The sink has no
 authentication, retries, buffering, ordering, or exactly-once guarantee; filter
 sensitive event data caller-side and use HTTPS for remote endpoints.
+
+## OpenTelemetry, Retriever, and Delegation Seams
+
+`otel_sink_new` maps Core events to OTLP/HTTP spans over a caller-supplied
+`otel_transport`; event data is excluded unless its key is allowlisted with
+`otel_allowed_data_keys`. `otel_emit` raises `OTEL_HTTP` for non-2xx responses.
+
+```ocaml
+let sink = Praxo_core.otel_sink_new
+  "https://otel.example/v1/traces"
+  (fun method_name url content_type body -> (200, ""))
+  (fun () -> 1794294000000000000)
+
+Praxo_core.otel_emit sink event
+```
+
+`retrieve_documents` calls a `retriever` function with a query and limit and
+returns `document` values. `subagent_run` runs a caller-supplied
+`subagent_runner` synchronously and returns a `subagent_task` in a terminal
+state. It does not provide an asynchronous manager, durable queue, or
+cross-process worker.
 
 ## Current Limits
 

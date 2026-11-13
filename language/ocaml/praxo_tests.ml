@@ -572,6 +572,95 @@ let test_mcp () =
   check (failing_code = "MCP_TOOL_ERROR") "mcp tool error";
   print_endline "test_mcp passed"
 
+let test_seams () =
+  let captured = ref "" in
+  let transport method_name _url _content_type body =
+    if method_name <> "POST" then fail "otel method";
+    captured := body;
+    (200, "")
+  in
+  let sink = Praxo_core.otel_sink_new "https://otel.example/v1/traces"
+      transport (fun () -> 1794294000000000000) in
+  let sink = { sink with Praxo_core.otel_allowed_data_keys = ["name"] } in
+  let event = Praxo_core.event_make "tool.call" "s1" (Some "run-123")
+      (Praxo_core.Object [
+        ("name", Praxo_core.String "echo");
+        ("secret", Praxo_core.String "hidden");
+      ]) in
+  Praxo_core.otel_emit sink event;
+  let payload = Praxo_core.parse_json !captured in
+  let resource_span = List.hd (array_field "resourceSpans" payload) in
+  let scope_span = List.hd (array_field "scopeSpans" resource_span) in
+  let span = List.hd (array_field "spans" scope_span) in
+  check (string_field "name" span = "praxo.tool.call") "otel span name";
+  check (String.length (string_field "traceId" span) = 32) "otel trace id";
+  check (String.length (string_field "spanId" span) = 16) "otel span id";
+  let attributes = array_field "attributes" span in
+  let has_key key =
+    List.exists (fun attribute ->
+      match field "key" attribute with
+      | Some (Praxo_core.String name) -> name = key
+      | _ -> false) attributes
+  in
+  check (has_key "praxo.event.data.name") "otel allowed data";
+  check (not (has_key "praxo.event.data.secret")) "otel excluded data";
+
+  let failing_sink = Praxo_core.otel_sink_new "https://otel.example"
+      (fun _ _ _ _ -> (500, "boom")) (fun () -> 1) in
+  let otel_error =
+    try Praxo_core.otel_emit failing_sink event; ""
+    with Praxo_core.Core_error (code, _) -> code
+  in
+  check (otel_error = "OTEL_HTTP") "otel failure code";
+
+  let documents = Praxo_core.retrieve_documents
+      (fun query limit -> [{
+         Praxo_core.document_id = "doc-1";
+         document_content = query ^ ":" ^ string_of_int limit;
+         document_metadata = [("source", "fixture")];
+         document_score = 0.5;
+       }]) "hello" 3
+  in
+  check (List.length documents = 1) "retriever count";
+  check ((List.hd documents).Praxo_core.document_content = "hello:3")
+    "retriever query";
+
+  let request = {
+    Praxo_core.request_parent_session_id = "parent";
+    request_agent_id = "child";
+    request_prompt = "look up";
+    request_mode = "fork";
+  } in
+  let task = Praxo_core.subagent_run (fun _ -> {
+      Praxo_core.result_task_id = "task-1";
+      result_agent_id = "child";
+      result_output = "done";
+    }) request
+  in
+  check (task.Praxo_core.task_status = "completed") "delegate completed";
+  check (task.Praxo_core.task_output = "done") "delegate output";
+  check (task.Praxo_core.task_mode = "fork") "delegate mode";
+
+  let failed = Praxo_core.subagent_run
+      (fun _ -> raise (Praxo_core.Core_error ("BOOM", "boom"))) request
+  in
+  check (failed.Praxo_core.task_status = "failed") "delegate failure status";
+  check (failed.Praxo_core.task_error = "BOOM") "delegate failure code";
+
+  let invalid = { request with request_agent_id = "" } in
+  let invalid_code =
+    try
+      ignore (Praxo_core.subagent_run (fun _ -> {
+        Praxo_core.result_task_id = "";
+        result_agent_id = "";
+        result_output = "";
+      }) invalid);
+      ""
+    with Praxo_core.Core_error (code, _) -> code
+  in
+  check (invalid_code = "SUBAGENT_INVALID") "delegate invalid";
+  print_endline "test_seams passed"
+
 let () =
   let root = if Array.length Sys.argv > 1 then Sys.argv.(1) else "../../spec" in
   test_json ();
@@ -589,6 +678,7 @@ let () =
   test_agent_middleware ();
   test_agent_failures ();
   test_mcp ();
+  test_seams ();
   Praxo_adapter_tests.test_openai_adapter ();
   Praxo_adapter_tests.test_anthropic_adapter ();
   Praxo_adapter_tests.test_gemini_adapter ();
