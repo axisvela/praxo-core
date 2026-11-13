@@ -135,6 +135,8 @@ jobs:
         working-directory: language/rust/examples/event-sink
       - run: cargo run --quiet
         working-directory: language/rust/examples/streaming
+      - run: cargo run --quiet
+        working-directory: language/rust/examples/mcp
 
   current-go-consumer:
     runs-on: ${{ matrix.os }}

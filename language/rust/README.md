@@ -41,6 +41,8 @@ cargo add praxo-core@0.6.0
   `MultiSink` and `FilterSink`, with a deterministic check.
 - [`examples/streaming`](examples/streaming): delta callbacks that reconstruct
   the final output, with a deterministic check.
+- [`examples/mcp`](examples/mcp): in-process MCP transport for deterministic
+  tool discovery and tool calls.
 
 ## Requirements
 
