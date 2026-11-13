@@ -24,6 +24,30 @@ curl -s http://localhost:8080/run \
   -d '{"prompt":"What time is it? Use get_time."}'
 ```
 
+## Python 变体
+
+Python 示例使用相同的调用方上下文边界和标准库 HTTP Server：
+
+```bash
+cd language/python/examples/service
+python -m venv .venv
+.venv/bin/python -m pip install -r requirements.txt
+.venv/bin/python service.py
+```
+
+```bash
+curl -s http://127.0.0.1:8080/run \
+  -H 'Content-Type: application/json' \
+  -H 'X-Praxo-Principal: user-1' \
+  -d '{"prompt":"What time is it? Use get_time."}'
+```
+
+确定性测试：
+
+```bash
+.venv/bin/python -m unittest test_service.py -v
+```
+
 ## 请求流程
 
 1. HTTP Handler 检查 `X-Praxo-Principal` 是否存在。

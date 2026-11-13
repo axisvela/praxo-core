@@ -25,6 +25,31 @@ curl -s http://localhost:8080/run \
   -d '{"prompt":"What time is it? Use get_time."}'
 ```
 
+## Python Variant
+
+The Python example uses the same caller-context boundary with the standard
+library HTTP server:
+
+```bash
+cd language/python/examples/service
+python -m venv .venv
+.venv/bin/python -m pip install -r requirements.txt
+.venv/bin/python service.py
+```
+
+```bash
+curl -s http://127.0.0.1:8080/run \
+  -H 'Content-Type: application/json' \
+  -H 'X-Praxo-Principal: user-1' \
+  -d '{"prompt":"What time is it? Use get_time."}'
+```
+
+Run its deterministic tests with:
+
+```bash
+.venv/bin/python -m unittest test_service.py -v
+```
+
 ## Request Flow
 
 1. The HTTP handler checks that `X-Praxo-Principal` is present.
