@@ -96,7 +96,7 @@ for real providers, platforms, and production behavior is reported separately.
 | Scala | Sample (JVM) | released | none | sample | Uses the Java Core |
 | MATLAB | Core | released | `matlab/v0.4.0` | complete | 11 vectors, native tests, API snapshot/parity, MCP transport-seam client; MATLAB File Exchange `185166`; MATLAB runtime unverified |
 | Octave | Core | released | `octave/v0.4.0` | complete | 11 vectors, native tests, API snapshot/parity, MCP transport-seam client under GNU Octave 11.3.0; Octave Packages PR #875 open |
-| Perl | Core | released | `perl/v0.3.0` | complete | 11 vectors, 27 tests, API snapshot; source `0.3.0`, CPAN `Praxo-Core==0.2.0`; distribution root package `Praxo::Core` |
+| Perl | Core | released | `perl/v0.4.0` | complete | 11 vectors, API snapshot, OpenAI/Anthropic/Gemini/MCP/Harmovela, OTel, retriever, synchronous delegation; source `0.4.0`, CPAN `Praxo-Core==0.2.0`; distribution root package `Praxo::Core` |
 | Delphi | Core | released | `delphi/v0.4.0` | complete | 11 vectors, native tests, API snapshot/parity; source `0.4.0`, OPM `0.2.1`; Free Pascal 3.2.2; commercial Delphi unverified |
 | OCaml / Caml | Core | released | `ocaml/v0.6.0` | complete | 11 vectors, native tests, API snapshot/parity, MCP transport-seam client, OTel transport seam, retriever, synchronous delegation; OCaml 4.14.2 bytecode; module `Praxo_core`; opt-in middleware integrated |
 | Objective-C | Core | released | `objc/v0.3.1` | complete | 11 vectors, native tests, API snapshot/parity; source `0.3.1`, published `0.1.1`; opt-in middleware integrated; Windows GNUstep and macOS CI |
