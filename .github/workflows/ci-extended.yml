@@ -1,0 +1,177 @@
+name: ci-extended
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "language/ruby/**"
+      - "language/php/**"
+      - "language/elixir/**"
+      - "language/erlang/**"
+      - "language/lua/**"
+      - ".github/workflows/ci-extended.yml"
+  pull_request:
+    paths:
+      - "language/ruby/**"
+      - "language/php/**"
+      - "language/elixir/**"
+      - "language/erlang/**"
+      - "language/lua/**"
+      - ".github/workflows/ci-extended.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-extended-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  ruby-conformance:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.4"
+      - run: ruby language/ruby/conformance/run.rb
+      - run: ruby language/ruby/api-snapshot.rb --check
+      - run: ruby language/ruby/tests/run.rb
+
+  current-ruby-consumer:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: language/ruby/examples/consumer
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.4"
+      - run: bundle install
+      - run: bundle exec ruby test_starter.rb
+
+  php-conformance:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php: ['8.2.35', '8.3.36', '8.4.27', '8.5.12']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+      - run: php language/php/conformance/run.php
+      - run: php language/php/conformance/run.php --check-api
+      - run: php language/php/tests/run.php
+
+  php-windows-conformance:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.4.27"
+      - run: php language/php/conformance/run.php
+      - run: php language/php/conformance/run.php --check-api
+      - run: php language/php/tests/run.php
+
+  current-php-consumer:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: language/php/examples/consumer
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.4.27"
+          tools: composer
+      - run: composer install --no-interaction --prefer-dist
+      - run: composer test
+
+  elixir-conformance:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: erlef/setup-beam@v1
+        with:
+          otp-version: "29"
+          elixir-version: "1.20.4"
+          install-hex: false
+          install-rebar: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python language/elixir/api-snapshot.py --check
+      - run: mkdir -p language/elixir/build/ebin
+      - run: elixirc -o language/elixir/build/ebin language/elixir/lib/praxo/*.ex language/elixir/lib/praxo/adapters/*.ex
+      - run: elixir -pa language/elixir/build/ebin language/elixir/tests/run_tests.exs
+      - run: elixir -pa language/elixir/build/ebin language/elixir/conformance/run.exs
+
+  current-elixir-consumer:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: language/elixir/examples/consumer
+    steps:
+      - uses: actions/checkout@v4
+      - uses: erlef/setup-beam@v1
+        with:
+          otp-version: "29"
+          elixir-version: "1.20.4"
+      - run: mix deps.get
+      - run: mix run test_starter.exs
+
+  erlang-conformance:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: erlef/setup-beam@v1
+        with:
+          otp-version: "29"
+          install-hex: false
+          install-rebar: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python language/erlang/run-tests.py
+      - run: python language/erlang/api-snapshot.py --check
+
+  lua-conformance:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: sudo apt-get update && sudo apt-get install -y lua5.4 liblua5.4-dev lua-dkjson luarocks
+      - run: lua5.4 language/lua/conformance/run.lua
+      - run: python3 language/lua/api-snapshot.py --check
+      - run: lua5.4 language/lua/tests/run.lua
+      - name: Verify installed rock
+        shell: bash
+        run: |
+          version="$(cat language/lua/VERSION)"
+          tree="$RUNNER_TEMP/praxo-lua-tree"
+          luarocks --lua-version 5.4 --tree "$tree" make --deps-mode=none "language/lua/praxo-core-${version}-1.rockspec"
+          LUA_PATH="$tree/share/lua/5.4/?.lua;$tree/share/lua/5.4/?/init.lua;;" \
+            lua5.4 language/lua/tests/installed_smoke.lua
+
+  current-lua-consumer:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: language/lua/examples/consumer
+    steps:
+      - uses: actions/checkout@v4
+      - run: sudo apt-get update && sudo apt-get install -y lua5.4 liblua5.4-dev luarocks
+      - name: Install the rock and run outside the repository
+        shell: bash
+        run: |
+          tree="$RUNNER_TEMP/praxo-luarocks"
+          luarocks --lua-version 5.4 --tree "$tree" install praxo-core 0.4.1-1
+          consumer="$RUNNER_TEMP/praxo-lua-consumer"
+          mkdir -p "$consumer"
+          cp starter.lua test_starter.lua "$consumer"
+          cd "$consumer"
+          LUA_PATH="$tree/share/lua/5.4/?.lua;$tree/share/lua/5.4/?/init.lua;;" \
+            lua5.4 test_starter.lua
