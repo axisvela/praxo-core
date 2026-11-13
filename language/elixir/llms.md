@@ -8,11 +8,11 @@
 
 - package: `praxo_core`
 - registry: [Hex](https://hex.pm/packages/praxo_core)
-- source_version: `0.7.0`
+- source_version: `0.8.0`
 - published_version: `0.6.0`
 - install_published: `{:praxo_core, "~> 0.6.0"}`
-- install_source: `{:praxo_core, "~> 0.7.0"}`
-- source_tag: `elixir/v0.7.0`
+- install_source: `{:praxo_core, "~> 0.8.0"}`
+- source_tag: `elixir/v0.8.0`
 - tier: Core
 - contract: `SPEC_VERSION` `0.2.0`
 - documentation: https://axisvela.github.io/praxo-core/languages/elixir/
@@ -24,9 +24,9 @@
 - Gemini model: native (`Praxo.Gemini`)
 - MCP client: native (`Praxo.Mcp`; stdio, plus `Praxo.McpHttp.transport` for Streamable HTTP 2025-03-26)
 - Harmovela sink: native (`Praxo.HarmovelaSink`)
-- OpenTelemetry sink: not implemented
-- Subagent delegation: not implemented
-- Retriever: not implemented
+- OpenTelemetry sink: native (transport seam) (`Praxo.OtelSink`; caller supplies OTLP/HTTP transport)
+- Subagent delegation: native (`Praxo.SubagentManager`)
+- Retriever: native (`Praxo.Document`, `Praxo.FuncRetriever`)
 
 ## Start
 

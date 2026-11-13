@@ -51,6 +51,9 @@ defmodule Praxo.Tests do
     test_mcp_timeout_and_cleanup()
     test_mcp_cancellation()
     test_mcp_http()
+    test_otel()
+    test_retriever()
+    test_delegation()
     IO.puts("elixir tests passed")
   end
 
@@ -1196,6 +1199,165 @@ defmodule Praxo.Tests do
       true ->
         Process.sleep(20)
         wait_marker(path, text, attempts - 1)
+    end
+  end
+
+  defp test_otel do
+    parent = self()
+
+    transport = fn request ->
+      send(parent, {:otel, request})
+      {:ok, 200, ""}
+    end
+
+    sink =
+      Praxo.OtelSink.new(
+        endpoint: "http://otel.test/v1/traces",
+        service_name: "praxo-test",
+        transport: transport,
+        allowed_data_keys: ["name"]
+      )
+
+    event = %Praxo.Event{
+      kind: "tool.call",
+      session_id: "s1",
+      run_id: "run-123",
+      data: %{"name" => "echo", "secret" => "hidden"}
+    }
+
+    Praxo.OtelSink.emit(sink, event)
+
+    request =
+      receive do
+        {:otel, value} -> value
+      after
+        1_000 -> raise "otel request"
+      end
+
+    check(request.url == "http://otel.test/v1/traces", "otel url")
+
+    payload = Praxo.Json.parse!(request.body)
+    span =
+      payload["resourceSpans"]
+      |> hd()
+      |> Map.fetch!("scopeSpans")
+      |> hd()
+      |> Map.fetch!("spans")
+      |> hd()
+
+    check(span["name"] == "praxo.tool.call", "otel span name")
+    check(String.length(span["traceId"]) == 32, "otel trace id")
+    check(String.length(span["spanId"]) == 16, "otel span id")
+
+    attributes =
+      Map.new(span["attributes"], fn item ->
+        {item["key"], item["value"]["stringValue"]}
+      end)
+
+    check(attributes["praxo.event.data.name"] == "echo", "otel allowed data")
+    check(!Map.has_key?(attributes, "praxo.event.data.secret"), "otel data excluded")
+
+    failing =
+      Praxo.OtelSink.new(
+        endpoint: "http://otel.test/v1/traces",
+        transport: fn _request -> {:ok, 503, "down"} end
+      )
+
+    error =
+      try do
+        Praxo.OtelSink.emit(failing, event)
+        nil
+      rescue
+        value -> value
+      end
+
+    check(match?(%Praxo.Error{code: "OTEL_HTTP"}, error), "otel error")
+  end
+
+  defp test_retriever do
+    document = %Praxo.Document{id: "doc-1", content: "hello:3", score: 0.5}
+    check(Praxo.Document.wire(document)["score"] == 0.5, "retriever wire")
+    retriever = Praxo.FuncRetriever.new(fn query, limit ->
+      [%Praxo.Document{id: "doc-1", content: "#{query}:#{limit}"}]
+    end)
+
+    documents = Praxo.FuncRetriever.retrieve(retriever, "hello", 3)
+    check(length(documents) == 1 and hd(documents).content == "hello:3", "retriever")
+  end
+
+  defp test_delegation do
+    manager = Praxo.SubagentManager.new(fn _request ->
+      %Praxo.SubagentResult{output: "done"}
+    end)
+
+    request = %Praxo.SubagentRequest{
+      parent_session_id: "parent",
+      agent_id: "child",
+      prompt: "do",
+      mode: "fork"
+    }
+
+    task = Praxo.SubagentManager.launch(manager, request)
+    final = Praxo.SubagentManager.wait(manager, task.id, 2_000)
+    check(final.status == "completed" and final.output == "done", "delegation completed")
+
+    failing = Praxo.SubagentManager.new(fn _request -> raise "boom" end)
+    failed =
+      failing
+      |> then(&Praxo.SubagentManager.launch(&1, request))
+      |> then(&Praxo.SubagentManager.wait(failing, &1.id, 2_000))
+
+    check(failed.status == "failed" and String.contains?(failed.error, "boom"),
+          "delegation failed")
+
+    parent = self()
+
+    update_manager =
+      Praxo.SubagentManager.new(
+        fn _request ->
+          Process.sleep(100)
+          %Praxo.SubagentResult{output: "released"}
+        end,
+        fn task_id, prompt -> send(parent, {:update, task_id, prompt}) end
+      )
+
+    update_task = Praxo.SubagentManager.launch(update_manager, request)
+    wait_status(update_manager, update_task.id, "running")
+    Praxo.SubagentManager.update(update_manager, update_task.id, "steer")
+
+    receive do
+      {:update, task_id, "steer"} ->
+        check(task_id == update_task.id, "delegation update")
+    after
+      1_000 -> raise "delegation update"
+    end
+
+    blocking =
+      Praxo.SubagentManager.new(fn _request ->
+        Process.sleep(10_000)
+        %Praxo.SubagentResult{output: "late"}
+      end)
+
+    cancel_task = Praxo.SubagentManager.launch(blocking, request)
+    wait_status(blocking, cancel_task.id, "running")
+    Praxo.SubagentManager.cancel(blocking, cancel_task.id)
+    canceled = Praxo.SubagentManager.wait(blocking, cancel_task.id, 2_000)
+    check(canceled.status == "canceled", "delegation canceled")
+  end
+
+  defp wait_status(manager, task_id, status, attempts \\ 200) do
+    task = Praxo.SubagentManager.check(manager, task_id)
+
+    cond do
+      attempts <= 0 ->
+        raise "status did not become #{status}"
+
+      task != nil and task.status == status ->
+        true
+
+      true ->
+        Process.sleep(10)
+        wait_status(manager, task_id, status, attempts - 1)
     end
   end
 

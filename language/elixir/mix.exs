@@ -4,7 +4,7 @@ defmodule Praxo.MixProject do
   def project do
     [
       app: :praxo_core,
-      version: "0.7.0",
+      version: "0.8.0",
       elixir: "~> 1.14",
       start_permanent: Mix.env() == :prod,
       description: "Embeddable MIT-licensed agent framework for Elixir",

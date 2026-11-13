@@ -1,5 +1,17 @@
 # Elixir Core Release Notes
 
+## 0.8.0 - 2026-11-13
+
+Source tag `elixir/v0.8.0`.
+
+### Added
+
+- OpenTelemetry event sink (`Praxo.OtelSink`) over a caller-supplied OTLP/HTTP
+  transport.
+- Local subagent delegation (`Praxo.SubagentManager`) with
+  launch/check/wait/update/cancel.
+- Retriever seam (`Praxo.Document`, `Praxo.FuncRetriever`).
+
 ## 0.7.0 - 2026-11-12
 
 Source tag `elixir/v0.7.0`.
