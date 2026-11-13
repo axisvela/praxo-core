@@ -1,5 +1,15 @@
 # Fortran Core Release Notes
 
+## 0.9.0 - 2026-11-13
+
+Source release tag `fortran/v0.9.0`. This is not a package-registry release.
+
+### Added
+
+- OpenTelemetry OTLP/HTTP event sink over a caller-supplied transport.
+- Document retriever seam (`document`, `retriever`, `retrieve_documents`).
+- Synchronous subagent seam (`subagent_run`); no asynchronous manager.
+
 ## 0.8.0 - 2026-11-13
 
 Source release tag `fortran/v0.8.0`. This is not a package-registry release.

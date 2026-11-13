@@ -24,8 +24,8 @@ provides `src/delegation.ts` `SubagentManager`; Java provides
 `subagent_run` seam without an asynchronous manager; Ruby provides
 `Delegation::SubagentManager`; PHP provides a synchronous
 `SubagentManager::run` seam; Elixir provides `Praxo.SubagentManager`; Lua, C,
-and C++ provide synchronous seams. Other implementations do not have an in-tree
-delegation manager yet.
+C++, and Fortran provide synchronous seams. Other implementations do not have
+an in-tree delegation manager yet.
 
 ## Retrieval
 
@@ -44,8 +44,8 @@ provides `Praxo.Core.Retriever.Document` and `Retriever`; R provides
 `FuncRetriever`; PHP provides `Document`, `Retriever`, and `FuncRetriever`;
 Elixir provides `Praxo.Document` and `Praxo.FuncRetriever`; Lua provides
 `document` and `retriever_retrieve`; C provides `PxDocument` and `PxRetriever`;
-C++ provides `Document` and `Retriever`. Other implementations do not have an
-in-tree retriever yet.
+C++ provides `Document` and `Retriever`; Fortran provides `document` and
+`retriever`. Other implementations do not have an in-tree retriever yet.
 
 Retrieval does not define an embedding model, vector store, ranking service, or
 search-quality claim. Memory stores and context compaction remain separate Core

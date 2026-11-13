@@ -1,6 +1,6 @@
 # Fortran Core
 
-A native Fortran 2008 agent implementation with source tag `fortran/v0.8.0`.
+A native Fortran 2008 agent implementation with source tag `fortran/v0.9.0`.
 Version `0.6.0` adds cancellation, stream callbacks, a native SSE parser, and
 caller-provided batch tool dispatch. Version `0.4.0` replaced the
 bounded ASCII matcher with upstream RE2 through a small C ABI library. The

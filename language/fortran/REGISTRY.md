@@ -1,13 +1,13 @@
 # PRAXO-CORE Fortran Registry Introduction
 
-**Status:** source-only. Source version `0.8.0`, source
-tag `fortran/v0.8.0`. Published registry version: not published. Registry
+**Status:** source-only. Source version `0.9.0`, source
+tag `fortran/v0.9.0`. Published registry version: not published. Registry
 pages are release snapshots; verify the published version before relying on a
 feature.
 
 ## Positioning
 
-A native Fortran 2008 agent implementation with source tag `fortran/v0.8.0`. Version `0.6.0` adds cancellation, stream callbacks, a native SSE parser, and caller-provided batch tool dispatch. Version `0.4.0` replaced the bounded ASCII matcher with upstream RE2 through a small C ABI library. The agent loop, JSON, policy, middleware, and human-in-the-loop interrupt decisions remain Fortran, not a bridge to another agent runtime. All 63 normative vectors across eleven groups and native regressions pass locally. Source tags do not imply package-registry publication.
+A native Fortran 2008 agent implementation with source tag `fortran/v0.9.0`. Version `0.6.0` adds cancellation, stream callbacks, a native SSE parser, and caller-provided batch tool dispatch. Version `0.4.0` replaced the bounded ASCII matcher with upstream RE2 through a small C ABI library. The agent loop, JSON, policy, middleware, and human-in-the-loop interrupt decisions remain Fortran, not a bridge to another agent runtime. All 63 normative vectors across eleven groups and native regressions pass locally. Source tags do not imply package-registry publication.
 
 ## Package
 
@@ -15,11 +15,11 @@ A native Fortran 2008 agent implementation with source tag `fortran/v0.8.0`. Ver
 | --- | --- |
 | Package | `praxo-core-fortran` |
 | Registry | Source / CMake |
-| Source version | `0.8.0` |
+| Source version | `0.9.0` |
 | Published registry version | not published |
 | Install (published) | not published |
 | Install (source/release prepared) | `Source build (see README)` |
-| Source tag | `fortran/v0.8.0` |
+| Source tag | `fortran/v0.9.0` |
 | Tier | Core |
 | Contract | `SPEC_VERSION` `0.2.0` |
 | Documentation | https://axisvela.github.io/praxo-core/languages/fortran/ |
@@ -33,9 +33,9 @@ A native Fortran 2008 agent implementation with source tag `fortran/v0.8.0`. Ver
 | Gemini model | native (transport seam) | `gemini_compatible`; caller supplies HTTP transport |
 | MCP client | native (transport seam) | `mcp_client`; caller supplies transport |
 | Harmovela sink | native (transport seam) | `harmovela`; caller supplies HTTP transport |
-| OpenTelemetry sink | not implemented |  |
-| Subagent delegation | not implemented |  |
-| Retriever | not implemented |  |
+| OpenTelemetry sink | native (transport seam) | `otel_sink`; caller supplies transport |
+| Subagent delegation | native (synchronous seam) | `subagent_run`; no asynchronous manager |
+| Retriever | native | `document`, `retriever`, `retrieve_documents` |
 
 ## Coding-agent entry
 
