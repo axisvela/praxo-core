@@ -2,28 +2,27 @@
 
 Current core release: `2.7.0`.
 
-The [public technical roadmap](docs/project/roadmap.md) describes current focus
-and compatibility commitments. It is not a delivery schedule.
+The [public roadmap](docs/project/roadmap.md) organizes current work around
+developer outcomes. It is not a delivery schedule.
 
-The next-stage direction is correct adoption and verified integration: establish
-package and evidence baselines, close the independent-consumer path, validate
-governed integration, then gate long-running and embodied pilots on named
-consumers. These are acceptance stages, not implemented-feature claims.
+The next-stage direction is practical adoption: help developers choose the
+framework, run a useful agent from a published package, build a coherent
+prototype, embed it in an application, and only then apply broader hardening and
+verification. Advanced integrations remain demand-driven.
 
-- [Next-stage direction and acceptance gates](docs/project/roadmap.md#next-stage-direction)
-- [Adoption evaluation tracks](docs/project/roadmap.md#adoption-evidence)
+- [Next-stage direction](docs/project/roadmap.md#next-stage-direction)
+- [Developer adoption path](docs/project/roadmap.md#adoption-path)
+- [Current priorities](docs/project/roadmap.md#current-priorities)
+- [Adoption evidence](docs/project/roadmap.md#adoption-evidence)
 - [Coding-agent adoption baseline protocol](docs/project/adoption-baseline.md)
 - [Release history](docs/releases/index.md)
 - [Complete changelog](CHANGELOG.md)
 - [SDK support and distribution](docs/languages/support.md)
-- [Compatibility lab](docs/languages/compatibility-lab.md)
 - [When not to use PRAXO-CORE](docs/getting-started/when-not-to-use.md)
 - [Language implementation policy](docs/contributing/language-policy.md)
 - [Governed execution design](docs/reference/governed-execution.md)
 - [Standard Embedding and execution profiles](docs/reference/execution-profiles.md)
 - [Embodied integration design](docs/reference/embodied-integration.md)
-- [Verification evidence index](docs/project/verification-evidence.md)
-- [Test evidence standard and record template](docs/contributing/test-evidence.md)
-- [Execution Correctness Suite proposal](docs/project/execution-correctness.md)
+- [Verification and hardening status](docs/project/verification-evidence.md)
 - [Compatibility policy](docs/project/compatibility-policy.md)
 - [Ecosystem boundaries](docs/project/roadmap.md#ecosystem-boundaries)

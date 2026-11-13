@@ -1,6 +1,6 @@
 # Ruby 独立消费者
 
-在自己的应用中使用已发布的 `praxo-core==0.5.0`，要求 Ruby 3.1 或更新版本。
+在自己的应用中使用已发布的 `praxo-core==0.7.0`，要求 Ruby 3.1 或更新版本。
 无需检出 PRAXO-CORE 源码、API Key、模型服务或 AxisVela 产品。安装需要 RubyGems
 访问或已有 gem 缓存。
 
@@ -19,7 +19,7 @@
 ```ruby
 source 'https://rubygems.org'
 
-gem 'praxo-core', '0.5.0'
+gem 'praxo-core', '0.7.0'
 ```
 
 然后运行 `bundle install`。不要使用 `path:`、`git:`、vendored 检出或 `$LOAD_PATH`

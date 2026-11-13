@@ -1,6 +1,6 @@
 # Independent Java Consumer
 
-This starter installs the published `com.axisvela:praxo-core:0.6.0` artifact from
+This starter installs the published `com.axisvela:praxo-core:0.7.0` artifact from
 Maven Central in a separate application. It does not compile or import the
 repository's Java source. Java 21 or newer and Maven 3.9 or newer are required.
 PRAXO-CORE has no runtime dependencies.
@@ -23,7 +23,7 @@ The deterministic model requests a tool. `allowedTools` scope and Policy restric
 the target. A denied call raises `PraxoException` with code
 `AGENT_POLICY_DENIED` and must not increment the in-memory counter. Tests also
 verify the SDK version and that `Version` was loaded from the published
-`praxo-core-0.6.0.jar` in the local Maven repository.
+`praxo-core-0.7.0.jar` in the local Maven repository.
 
 `GovernedAcceptanceTest` adds five negative checks: missing mandatory policy,
 empty tool scope, middleware final-argument change, approval-edit

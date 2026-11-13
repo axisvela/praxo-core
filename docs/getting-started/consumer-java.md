@@ -1,6 +1,6 @@
 # Independent Java Consumer
 
-Use the published `com.axisvela:praxo-core:0.6.0` artifact from Maven Central in
+Use the published `com.axisvela:praxo-core:0.7.0` artifact from Maven Central in
 your own application. Java 21 or newer and Maven 3.9 or newer are required. No
 PRAXO-CORE source checkout, API key, model service, or AxisVela product is
 needed. Installation needs Maven Central access or a populated local repository.
@@ -20,13 +20,13 @@ Declare the exact dependency in `pom.xml`:
 <dependency>
   <groupId>com.axisvela</groupId>
   <artifactId>praxo-core</artifactId>
-  <version>0.6.0</version>
+  <version>0.7.0</version>
 </dependency>
 ```
 
 Do not use a `system` scope, a local JAR path, or a substitute build of the
 repository source. The tests verify the SDK version and that `Version` loaded
-from the published `praxo-core-0.6.0.jar`.
+from the published `praxo-core-0.7.0.jar`.
 
 ## Application Source
 

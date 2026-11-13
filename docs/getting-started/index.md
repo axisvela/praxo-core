@@ -1,15 +1,20 @@
 # Start Here
 
-1. Read the [overview](overview.md) to understand the framework boundary.
-2. Choose a [consumer starter](consumer-go.md) for your language.
-3. Run the [quickstart](quickstart.md).
-4. Review the [adoption guide](adoption.md) before embedding it in a product.
-5. If you are still deciding, read [When Not to Use PRAXO-CORE](when-not-to-use.md).
+1. Decide whether the framework fits with the [overview](overview.md) and
+   [When Not to Use PRAXO-CORE](when-not-to-use.md).
+2. Run the [quickstart](quickstart.md) to connect a real model endpoint.
+3. Choose a published-package [consumer starter](consumer-go.md) for your
+   language.
+4. Use the [adoption guide](adoption.md) to turn the first run into an
+   application integration.
+5. Follow the [public roadmap](../project/roadmap.md) for prototype, embedding,
+   hardening, and advanced paths.
 
 ## Choose by Task
 
 | Need | Start with | Important boundary |
 | --- | --- | --- |
+| Get a useful result quickly | [Quickstart](quickstart.md) | Connects an OpenAI-compatible endpoint; start with a low-risk tool and keep credentials in the application |
 | Have a coding agent integrate Core | [For Coding Agents](coding-agents.md), [package map](agent-integration.json) | Concise contract and version-checked package map; not a hidden install channel or automatic skill |
 | Add a model/tool loop to a Go, Python, TypeScript, or Java application | [Go](consumer-go.md), [Python](consumer-python.md), [TypeScript](consumer-typescript.md), or [Java](consumer-java.md) consumer starter | Uses a published package, deterministic model, explicit tool scope, and a denial test; your application owns identity, persistence, and isolation |
 | Add an allow/deny model/tool loop in Ruby, PHP, Elixir, or Lua | [Ruby](consumer-ruby.md), [PHP](consumer-php.md), [Elixir](consumer-elixir.md), or [Lua](consumer-lua.md) consumer starter | Extended-language starters use a published package and deterministic allow/deny; the governed negative matrix remains scoped to the four pilot languages |

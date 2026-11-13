@@ -145,7 +145,7 @@ class ExecutionDesignDocumentationTests(unittest.TestCase):
                 self.assertEqual(config['effects']['retry'], 'guarded')
                 configurations.append(config)
                 self.assertIn('2026-11-08', text)
-                for path in ('reference/execution-profiles.md', 'project/roadmap.md',
+                for path in ('reference/execution-profiles.md',
                              'project/contract-status.md', 'project/embodied-pilot.md'):
                     page = (DOCS / prefix / path).read_text(encoding='utf-8')
                     self.assertIn('G1-G8', page, path)
@@ -224,7 +224,7 @@ class ExecutionDesignDocumentationTests(unittest.TestCase):
 
     def test_edge_learning_targets_remain_optional_and_unimplemented(self):
         for prefix in ('', 'zh-CN/'):
-            for relative in ('integrations/ecosystem.md', 'project/roadmap.md',
+            for relative in ('integrations/ecosystem.md',
                              'project/contract-status.md', 'reference/embodied-integration.md',
                              'project/embodied-pilot.md'):
                 with self.subTest(language=prefix, page=relative):

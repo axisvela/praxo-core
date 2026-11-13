@@ -1,360 +1,289 @@
 # Public Roadmap
 
-Current core release: `2.7.0`. This is an **execution-kernel contract roadmap**:
-it covers the contracts and verified behavior Core owns, and names evidence that
-belongs to products or integrations. It is not a delivery schedule or a promise
-that every Core implementation supports every feature.
+Current core release: `2.7.0`.
+
+This roadmap is organized around developer outcomes: choose the framework,
+run something useful, build a real prototype, embed it in an application, and
+then harden that integration. It is not a delivery schedule, a product roadmap,
+or a promise that every language implementation supports every feature.
 
 ## Next-stage Direction
 
-**Planning update: 2026-11-09.** The next stage prioritizes correct adoption and
-verified integration over implementation counts: a consumer or coding agent
-should be able to identify a suitable task, install published packages, verify
-governed behavior, and retain the dependency through upgrades.
+**Planning update: 2026-11-13.** The immediate priority is to shorten the path
+from discovery to a useful project. New users should not need to understand the
+full specification, evidence taxonomy, cross-language matrices, or advanced
+execution profiles before they can build an agent.
 
-Keep the positioning **governed, embeddable agent execution kernel**. Embodied
-applications are an optional integration direction, not a redefinition of Core
-as a robotics platform or a claim to provide a complete planner or safety system.
-AxisVela products remain optional; independent consumers use the same contracts.
+PRAXO-CORE remains a **governed, embeddable agent execution framework**. The
+roadmap favors runnable applications and clear integration boundaries over new
+language, adapter, profile, or test counts.
 
-The following stages are acceptance gates, not dates, release assignments, or
-implemented profiles. Existing security fixes and support commitments continue
-throughout; the stages do not postpone maintenance or require every activity to
-run sequentially.
+### Planning Principles
 
-| Stage | Deliverable | Acceptance gate |
-| --- | --- | --- |
-| 0. Establish the baseline | Map recommended package versions to consumer checks and evidence; distinguish implemented, proposed, experimental, and verified scope; establish adoption-task baselines | Historical compatibility, current recommended packages, and release candidates have separate evidence; contract/versioning ambiguities are resolved before affected contract changes |
-| 1. Close the consumer path | Independent Go, Python, TypeScript, and Java starters using published packages, deterministic models, explicit tool scope, and allow/deny tests; task-oriented selection guidance | No source checkout, local replacement, unpublished dependency, API key, or external model service is required to run the starter; installation may require registry access; denial produces no tool effect |
-| 2. Verify governed integration | Consumer-runnable acceptance tests, integration recipes, concise coding-agent instructions, optional installable skills, and accurate registry descriptions | Missing mandatory controls and required security-service failures reject execution; final operations and approval edits are checked; uncertain outcomes are not blindly retried |
-| 3. Validate long-running operations | One consumer-backed integration for submission, status queries, feedback, cancellation, idempotency, and reconnect/recovery | Run cancellation is not reported as remote execution stopping; recovery consults the authoritative operation state before repeating effects |
-| 4. Pilot embodied integration | One named consumer, one middleware, and one end-to-end simulation with an experimental embodied integration profile; the [embodied pilot plan](embodied-pilot.md) defines the entry criteria, E1-E8 gates, evidence fields, and stop conditions | Acceptance, completion, and effect verification remain distinct; observation freshness, disconnects, duplicate submissions, and safety-dependency failures are tested; simulation is not hardware or production evidence |
+- Lead with a working result, then explain the underlying contracts.
+- Start from published packages and common local or hosted model endpoints.
+- Keep one minimal denial check in the first path; move broad matrices and fault
+  campaigns to the hardening stage.
+- Use examples, recipes, and optional adapters before adding public Core APIs.
+- Add a shared API only when a real consumer demonstrates a reusable gap.
+- Keep credentials, identity, durable state, isolation, and product data in the
+  embedding application.
 
-Stage 4 has an [embodied pilot plan](embodied-pilot.md) (updated 2026-11-08).
-AKROVELA is the selected consumer and embeds PRAXO-CORE as a product component,
-like PRAXOVELA; its consumer, maintainer and safety-owner selection is recorded.
-The [AKROVELA repository](https://github.com/axisvela/akrovela) now contains a product-owned adapter and a locally
-verified deterministic P1 slice: exact-operation tools, governed runtime
-assembly, and a PostgreSQL Run/reconciliation journal, plus public v1
-operation/receipt and satellite command contracts. The simulation task,
-independent observation source and verifier, ROS 2 execution, hardware effect,
-and E1-E8 pilot evidence remain open or unimplemented. The plan is an acceptance
-gate, not evidence that any E1-E8 requirement has been exercised.
+## Adoption Path
 
-The revised design proposes one consumer-owned governed assembly entry with
-structured configuration, G1-G8 validation and no permissive fallback, while
-enforcement remains at Core, Effect PEP, execution authority and deployment.
-There is no implemented general switch. The embodied pilot reuses that assembly
-and adds E1-E8; it delivers an experimental adapter and consumer-local protocol,
-not a precommitted Core API or shared wire change. Configuration checks and
-behavioral acceptance, including an allowed end-to-end path, remain separate.
+| Stage | Developer outcome | Current state | Next result |
+| --- | --- | --- | --- |
+| 0. Decide | Know whether Core fits and which language/path to use | The overview, task chooser, comparison, and non-goals exist | Make the choice path shorter and show application responsibilities clearly |
+| 1. Run | Install a published package, connect a model, register one tool, and get a useful result | Published-package deterministic starters and a source-checkout endpoint quickstart exist | Provide a published-package live-model golden path with troubleshooting |
+| 2. Prototype | Build one coherent local application with tools, streaming, structured output, MCP, workspace access, or telemetry | The building blocks and recipes exist but are spread across many examples | Publish a task-oriented example catalog and one end-to-end prototype tutorial |
+| 3. Embed | Integrate Core into an existing service with application-owned identity, policy, persistence, events, and shutdown | Individual integration recipes exist | Provide a vendor-neutral service example and a practical integration checklist |
+| 4. Harden | Make the specific integration safe to upgrade, fail, cancel, and recover | Negative, upgrade, containment, and recovery assets exist | Organize them by application risk instead of requiring everything up front |
+| 5. Extend | Adopt plugins, delegation, long-running operations, workspace providers, or embodied integrations when needed | Experimental and advanced assets exist | Advance only with a named consumer and a concrete project need |
 
-The pilot must reuse available versioned public contracts before defining new
-integration shapes. Keep experiment/raw evidence, Mission/effect authority,
-operational world state, independent assurance and robot-local safety separate.
-Missing public capabilities block the affected acceptance gate; simulated facts
-must not be promoted into real operational state. Product-specific sequencing
-remains in internal planning storage.
+The stages describe the recommended order for adoption. They are not release
+gates and do not require all languages to advance together.
 
-The initial four starter languages are an adoption pilot, not a downgrade of
-Rust, C#, R, or other declared implementation support. Ruby, PHP, Elixir, and Lua
-now also have extended-language allow/deny starters; they are outside the
-four-language pilot acceptance and do not carry the governed negative matrix.
-Extend starters and adapters when consumers and maintainers justify the work, not
-to increase counts.
+## Stage 0: Decide Whether Core Fits
 
-The [independent Go consumer](../getting-started/consumer-go.md),
-[Python consumer](../getting-started/consumer-python.md),
-[TypeScript consumer](../getting-started/consumer-typescript.md), and
-[Java consumer](../getting-started/consumer-java.md) implement the four pilot
-current-package starter paths. Their published-package installation, build, and
-deterministic allow/deny checks pass in CI, and [Start Here](../getting-started/index.md)
-provides task-oriented selection guidance.
+### Developer Outcome
 
-Stage 1's consumer-path acceptance is therefore met for the four pilot
-languages. This is integration evidence, not adoption evidence: only a bounded
-adoption pilot has run, no completed baseline exists, and stages 2-4 are
-unchanged. The pilot language set does not reduce support commitments for Rust,
-C#, R, or other implementations.
+Within a few minutes, a developer can answer:
 
-Stage 0 is partially complete. The status vocabulary and shared-wire change
-classification are documented in [Contract and Evidence Status](contract-status.md),
-and the Tool, Model, and Checkpoint wire descriptions are implemented. A
-[proposed adoption baseline protocol](adoption-baseline.md) exists, and a bounded
-opencode pilot ran on 2026-11-08; the complete baseline has not run. The
-adoption-task baseline data and cross-product authority verification remain open.
+- Is an embedded model/tool loop the right solution?
+- Which supported language and starter should I use?
+- Which responsibilities remain in my application?
 
-Stage 2 has started with Go, Python, TypeScript, and Java consumer-runnable
-governed negative tests covering missing policy/scope, final-argument
-reauthorization, approval-edit reauthorization, and policy-service failure.
-A concise [coding-agent integration contract](../getting-started/coding-agents.md),
-a version-checked [package map](../getting-started/agent-integration.json), a
-runnable [identity/policy recipe](../guides/identity-policy.md), and a
-tool-neutral [skill template](https://github.com/axisvela/praxo-core/tree/main/agent-skills/praxo-integration)
-are now available. Source registry metadata was improved and the four pilot
-registry pages were audited; PyPI `0.5.0`, npm `0.4.1`, Maven Central `0.6.0`,
-and Go `v2.7.0` now have published pages with recorded verification.
-Stage 2 is not complete: Claude Code `2.1.196` records local skills-directory
-installation and discovery (structural evidence only; task execution was not run
-because the CLI was not authenticated), and opencode `1.18.18` records
-project-local discovery plus a deterministic published-package allow/deny task
-(3/3 tests; `7004a08`; issue #15). Codex and Copilot remain unverified, and the
-opencode task did not cover the governed negative matrix. An offline recipe
-set now covers adapter conformance, retry safety, event sinks, context budgets,
-checkpoint storage, structured output, VFS containment, provider fallback,
-plugin lifecycle, multi-agent delegation, streaming, and the workspace session
-contract. These are recipe evidence, not live provider, isolation, or production
-evidence.
+### Start Now
 
-Stage 3 has started with a Go consumer-runnable
-[long-running operation recipe](../guides/long-running-operations.md) covering
-idempotent submit, HTTP response loss, child-process restart recovery, cancel
-request versus confirmation, Run cancellation, completion versus effect
-verification, verifier receipts, partial-write recovery, fencing tokens, and a
-separate verifier process and durable fencing. The file store now injects
-deterministic failures before and after the rename boundary and requires corrupt
-committed state to fail closed. It uses file-backed loopback HTTP fixtures with a
-static bearer token and test TLS, not a deployed identity-aware service, production
-key management, database, or expiry/revocation-aware lease store. This is L4
-application-recipe evidence, not a Core capability claim; Core cancellation and
-reauthorization are covered by `pkg/agent` tests and vectors. Stage 3 is not
-complete: a production deployment, OS-level power-loss proof, and production lease
-services/coordination remain open; the fixture now models lease expiry, renewal,
-and revocation locally, a boundary test records lost updates from concurrent
-writers, a standalone service binary provides health/readiness and graceful
-shutdown, configurable file/SQLite/Postgres lease backends serialize mutations
-(SQLite verified; Postgres needs a live server), process-level crash tests cover
-the commit boundary, the service exposes basic metrics plus environment-based
-configuration, token/secret files rotate credentials without restart (issuance
-stays external), example Prometheus scrape/retention/alert configs are
-config-validated, a separate verifier binary serves receipt checks with its own
-token and secret, and a gated 100-submission load/fault test plus reproduction
-script exercise acknowledged-operation recovery. Live Postgres and live
-collector/alerting remain unverified here. See the
-[test and evidence taxonomy](test-taxonomy.md).
+- [Start Here](../getting-started/index.md)
+- [Overview](../getting-started/overview.md)
+- [When Not to Use PRAXO-CORE](../getting-started/when-not-to-use.md)
+- [Language support and distribution](../languages/support.md)
+- [Framework comparison](comparison.md)
 
-### Consumer and Contract Baseline
+### Next Work
 
-The historical `tests/consumer` fixture pins Core `2.5.0`; the independent Go
-starter tests recommended `2.7.0`. Both reject module replacements. A separate
-`scripts/test_go_upgrade.py` check now installs the historical package, upgrades
-the same consumer to the recommended package-map version, verifies unchanged
-application source and runs the governed negative tests after upgrade. CI runs
-it on Linux, Windows and macOS; results are scoped to each executed version pair
-and platform, not inferred from the presence of a job.
-A separate `scripts/test_python_upgrade.py` check installs Python `0.2.4`, runs
-the unchanged consumer fixture and governed compatibility checks, upgrades to
-`0.3.0`, and reruns the full starter/governed suite; CI runs it in the Python
-consumer matrix. A TypeScript equivalent (`scripts/test_typescript_upgrade.py`)
-covers npm `0.1.5` -> `0.2.0`, and a Java equivalent
-(`scripts/test_java_upgrade.py`) covers Maven Central `0.3.0` -> `0.4.0`, with
-the same unchanged-source checks. Historical compatibility, current-package
-installation,
-published-package upgrade, and release-candidate checks remain separate
-evidence. These upgrade fixtures do not validate unpublished candidates or
-establish adoption/retention.
+- Present one concise task-to-path table across the landing and getting-started
+  pages.
+- Separate "try the framework" from "verify a package" and "harden a deployment."
+- Describe language support in terms of what a developer can build, not only
+  contract tier or test coverage.
 
-Use the existing normative `spec/`, not a competing specification tree. The
-Tool, Model, and Checkpoint wire descriptions now exist; entries marked
-`"wire": false` document Go/source projections and are not frozen cross-language
-contracts. Source, wire, and behavioral compatibility rules are distinguished:
-the Go additive-field allowance does not automatically authorize a shared-wire
-addition. Optional profiles cannot bypass shared wire, parity, or conformance
-review.
+Contract status and evidence remain available in
+[Contract and Evidence Status](contract-status.md), but are not prerequisites for
+the first project.
 
-Implement integration requirements through existing seams first. Promote a
-public API only after a named consumer demonstrates a reusable gap, negative
-tests cover it, and compatibility and language impact have been reviewed. The
-[governed execution design](../reference/governed-execution.md) remains a proposed
-acceptance design, not an implemented general profile.
+## Stage 1: Run a Useful Agent
 
-### Adoption Evidence
+### Developer Outcome
 
-Establish the baseline before changing discovery and integration materials.
-Use the [adoption baseline protocol](adoption-baseline.md), which remains proposed
-for a complete baseline and now records a bounded pilot, and keep these
-evaluation tracks separate:
+From an empty directory, install a published package, connect Ollama or an
+OpenAI-compatible endpoint, register one low-risk tool, and see a model response
+or tool result in 15-30 minutes.
 
-| Track | Question |
-| --- | --- |
-| Free selection | Without naming PRAXO-CORE, does the coding tool discover it and correctly select or exclude it for the task? |
-| Directed integration | When PRAXO-CORE is required, can the tool install, build, test, and satisfy the stated governance requirements? |
-| Upgrade and maintenance | Does the generated integration continue to work after a dependency update or application change? |
+The first path keeps only three checks:
 
-Record discovery, appropriate selection, installation, build, governed-test
-success, repair cost, and observable dependency retention separately. Define
-first-generated-attempt success separately from eventual autonomous-session
-success. Report sample sizes and repeated trials, tool/model versions, prompts,
-package versions, search and execution permissions, budgets, and actual results.
-Keep unseen tasks alongside regression tasks. Compare no-skill and installed-skill
-conditions separately; an explicitly required dependency is not free-selection
-evidence. Correctly excluding an unsuitable framework is a successful decision.
+1. the application starts;
+2. the tool can be called successfully;
+3. one denied call produces no tool effect.
 
-Registry downloads are supporting signals, not proof of adoption. Retention uses
-only public or consented observations; unavailable data remains unknown. Set
-improvement targets after the baseline, not arbitrary adoption percentages.
+It does not require the full governed negative matrix, cross-version upgrade
+suite, Behavior Lab, or compatibility report.
 
-### Profiles and Non-goals
+### Start Now
 
-Use one Kernel with three [integration levels](../reference/execution-profiles.md):
-Standard Embedding names existing configurable embedding behavior; Governed
-Execution Profile is a proposed acceptance contract with partial fixture
-evidence; Embodied Integration Profile now has a
-[proposed design](../reference/embodied-integration.md) and a
-[drafted pilot plan](embodied-pilot.md); AKROVELA is the selected consumer and
-its product-owned adapter and deterministic P1 slice exist in the AKROVELA
-repository, but no E1-E8 pilot run or simulation evidence has been accepted. Do
-not create three kernels, runtime switches or release lines.
-Governed assembly and the actual Effect PEP enforce the required controls;
-ordinary `agent.New` defaults remain compatible. The embodied design adds
-obligations to governed integration and cannot weaken them.
+- [Quickstart](../getting-started/quickstart.md)
+- Published-package starters for [Go](../getting-started/consumer-go.md),
+  [Python](../getting-started/consumer-python.md),
+  [TypeScript](../getting-started/consumer-typescript.md), and
+  [Java](../getting-started/consumer-java.md)
+- [OpenAI-compatible adapters](../reference/openai-compatible-adapter.md)
 
-Core contracts define local execution semantics. Integration profiles add
-deployment requirements, external state mappings, and acceptance criteria;
-adapters and products supply the actual external behavior. A profile document
-does not itself provide identity authenticity, durable effects, or safety.
+### Next Work
 
-Coding-agent skills help development tools integrate the framework. Runtime
-skills loaded by an executing agent have separate provenance and trust concerns.
-A skill in this repository is not automatically installed in coding tools.
-Machine-readable documentation indexes may assist discovery, but do not guarantee
-tool support, search ranking, or adoption. A remote MCP service is not a
-prerequisite for SDK adoption.
+- Add one independent golden-path project using a published package, a local
+  model, and a safe tool without a repository checkout.
+- Give Python, TypeScript, and Java a direct continuation from deterministic
+  starter to a real model endpoint.
+- Add expected output and short troubleshooting for endpoint URLs, model names,
+  credentials, timeouts, tool schemas, and PowerShell environment variables.
 
-Long-running software and physical operations should first be tested through
-existing tool/adapter seams; a new generic asynchronous-action API is not assumed.
-An embodied pilot must keep local Run, coordination Task, durable Process, and
-robot Mission authority separate. Remote cancellation needs confirmation from its
-execution authority; checkpoints do not prove physical effects or exactly-once
-execution. Real-time control, emergency stops, safety interlocks, and hardware
-drivers remain outside Core.
+## Stage 2: Build a Real Prototype
 
-Do not commit to parallel ROS 2, Dora, and Zenoh implementations, a micro-runtime,
-or language-specific production roles before consumer evidence exists. Detailed
-cross-product ownership decisions and execution plans belong in the internal
-planning repositories, not this public framework roadmap.
+### Developer Outcome
 
-## Current Focus
+Turn the first run into one useful local application, such as:
 
-Prioritize verifiable behavior over additional language, provider, or tool counts.
-Each row separates the acceptance target Core owns from evidence owned elsewhere.
-These are targets, not statements that the work is complete.
+- a structured-output processor;
+- an MCP-backed tool assistant;
+- a read-only workspace assistant;
+- a streaming agent with event or OpenTelemetry output.
 
-| Direction | Core-owned acceptance target | Evidence owned elsewhere |
-| --- | --- | --- |
-| Release and verification integrity | Documentation and release gates agree with canonical version metadata; skipped tests and stale reports cannot be presented as current passes | Release operators and CI retain raw run records |
-| Governed integration | Missing mandatory controls, denied authorization, and security dependency failures prevent execution; final tool arguments remain subject to authorization | NOMIVELA, EIDOVELA, AEGIVELA, and LIMENORA provide registry, identity, policy, and network services; Core supplies interfaces, fakes, and negative tests |
-| Context trust | Source and trust distinctions survive Core assembly, compaction, offload, and restore; hostile memory, skills, and tool results do not become trusted instructions in Core tests | PRAXOVELA and memory/retrieval products provide authentic sources and durable lineage |
-| Effect semantics and recovery | Core distinguishes intent, attempted execution, business commit, no-effect, and unknown outcome; checkpoints are not transactions; idempotency behavior is tested | RHEOVELA owns durable workflow, worker leases, fencing, and recovery; PRAXOVELA owns tenant-scoped effect ledgers; no exactly-once claim |
-| Containment | Core-owned VFS, path, plugin, process-host, and WASM controls are tested, with platform limits and residual risks stated | Deployment OS/network isolation and deployment-level independent review belong to the product or operator |
-| Provider and observability evidence | Core supplies event/OpenTelemetry mapping, allowlists, fake-provider conformance, and the workspace session contract | Live providers, collector/OTLP, sampling, and retention are integration evidence; two-provider review gates workspace contract promotion |
-| Language support | Contract conformance, behavior coverage, and support level are reported separately; agent-capable implementations target twenty scenarios; unsupported cells remain explicit | Package publication and live operational evidence follow the registry and product records |
+### Start Now
 
-Governed integration is contract work in Core. NOMIVELA, EIDOVELA, AEGIVELA,
-LIMENORA, and RHEOVELA own the registry, identity, policy, network, and durable
-workflow services; Core supplies interfaces, testable fakes, and negative tests.
-See [Ecosystem Boundaries](#ecosystem-boundaries).
+- [Recipes](../guides/recipes.md)
+- [Integration adapters](../integrations/index.md)
+- [Plugin guide](../guides/plugins.md)
+- [Multi-agent patterns](../guides/multi-agent.md)
+- Examples under `examples/`, including `reference`, `governed-workspace`,
+  `checkpoint`, `plugin`, and `recipes`
 
-## Behavior Capability Tiers
+### Next Work
 
-### Execution Correctness Priority
+- Add a task-oriented example catalog with Basic, Integration, Hardening, and
+  Advanced groups.
+- Mark each recommended example with package/source mode, credentials, local
+  command execution, external services, and maturity.
+- Publish one coherent tutorial that evolves the quickstart into a useful
+  workspace or MCP application.
+- Give adapter pages a consistent install, authentication, minimal example, and
+  limitation section.
 
-Establish the [Execution Correctness Suite](execution-correctness.md) alongside,
-not in place of, Behavior Lab. Its proposed EC-01 through EC-14 inventory targets
-partial parallel commits, response loss, non-idempotent retry, approval mutation,
-revocation, context trust/budgets, cancellation, checkpoint lag, evidence failure,
-actual isolation, conflicting resource updates, accepted-versus-completed robot
-actions and repeated recovery.
+## Stage 3: Embed Core in an Application
 
-Prioritize mapping existing Core assertions and missing deterministic failures
-before adding language/scenario counts. EC-05 and EC-07 now have boundary tests
-that record known local limits: unchanged final arguments are not reauthorized,
-and the first System message wins regardless of source. These are boundary
-evidence, not acceptance passes, and they do not change the external authority
-boundaries. Then add consumer-backed database, gateway, effect-ledger and
-real-sandbox integrations, followed by deployment fault/load validation. The tracks are EC-D (Deterministic), EC-I (Integration)
-and EC-O (Operational), not replacements for the existing L1-L6 taxonomy. No
-track passes another by implication. The inventory is proposed/not-run as a
-suite; it does not claim a runner, fourteen passes, or new effect semantics.
+### Developer Outcome
 
-These failures provide acceptance targets for governed/embodied designs without
-making ordinary Standard Embedding a mandatory enterprise security profile.
+Integrate Core into an existing service while the application owns:
 
-Behavior coverage is tracked separately from contract tier:
+- configuration and provider credentials;
+- authenticated identity and policy decisions;
+- explicit tool and resource scope;
+- checkpoint or application state persistence;
+- events, telemetry, cancellation, and graceful shutdown;
+- isolation around shell, file, or network effects.
 
-| Tier | Languages | Current target |
-| --- | --- | --- |
-| Agent-capable | Go, Python, TypeScript, Java, Rust, R, C# | All twenty Behavior Lab scenarios; missing cells stay explicit |
-| Extended | C, PHP, Fortran, COBOL, Ruby, Elixir, Erlang, C++, Lua | Scenario-by-scenario only with a named consumer and maintainer |
-| Optional | Other declared implementations | Outside the behavior program; contract conformance unchanged |
+### Start Now
 
-The clean sixteen-language report has 320 passed, 0 unsupported, and no
-failures. All sixteen wired languages now cover twenty scenarios in the
-source; some parallel-tool cells delegate concurrency to caller-provided batch
-callbacks without Core-created threads. Do not treat an unsupported cell as a
-failure or a pass, and do not add languages or scenarios solely to raise the
-count.
+- [Adoption guide](../getting-started/adoption.md)
+- [Integration guide](../guides/integration.md)
+- [Identity and policy recipe](../guides/identity-policy.md)
+- [Long-running operation recipe](../guides/long-running-operations.md)
 
-See the [governed execution design](../reference/governed-execution.md) for proposed
-boundaries and the [test evidence standard](../contributing/test-evidence.md) for
-recording environment, configuration, procedure, data, results, and findings.
+### Next Work
 
-## Verification Boundaries
+- Add a vendor-neutral service example with configuration, HTTP entry, session
+  handling, identity context, policy, checkpoint storage, events, and shutdown.
+- Split guidance into read-only, side-effecting, and high-risk/multi-tenant
+  application requirements.
+- Provide a minimal durable checkpoint path between the teaching examples and
+  the advanced long-running operation fixture.
 
-Core tests establish framework behavior. Cross-repository tests establish only
-the integrations and versions they actually execute. Historical local service
-runs are valuable evidence, but do not certify the current release, independent
-reproduction, or production readiness.
+## Stage 4: Harden and Maintain
 
-Behavior Lab and compatibility reports name the revision they tested. A later
-documentation-only commit does not extend that evidence; re-run or re-pin the
-report before citing it for a new revision.
+This is where broad tests and verification become a primary activity. They
+should strengthen an application that already exists, not block a developer
+from reaching the first useful result.
 
-New shared security or effect contracts require a named consumer and negative
-tests before API promotion. Identity issuance, policy decision services, effect
-ledgers, and durable workflow engines remain integration responsibilities.
-The design does not by itself change default behavior or the public API.
+### Developer Outcome
+
+- denied and dependency-failure paths fail closed;
+- final tool arguments are authorized after edits;
+- unknown outcomes are not blindly retried;
+- local cancellation is not confused with remote effect cancellation;
+- checkpoints are not treated as transactions;
+- framework upgrades preserve the application's required behavior.
+
+### Later-stage Work
+
+- Publish risk-tiered hardening checklists for read-only, side-effecting, and
+  high-risk applications.
+- Provide a small consumer-owned test template instead of requiring the whole
+  repository matrix.
+- Run upgrade, fault, load, provider, database, collector, sandbox, and recovery
+  checks for the integrations that actually need them.
+- Continue the [Execution Correctness](execution-correctness.md), Behavior Lab,
+  compatibility, and [verification evidence](verification-evidence.md) tracks as
+  maintenance and release-quality work.
+
+The [compatibility policy](compatibility-policy.md) and security fixes continue
+through every stage; only exhaustive validation is deferred.
+
+## Stage 5: Advanced and Experimental Integrations
+
+Advanced work follows real project demand rather than framework completeness
+scores. It includes plugins, local delegation, MCP/A2A, provider-neutral
+workspaces, long-running remote operations, and embodied integrations.
+
+Use one Kernel with the documented
+[integration levels](../reference/execution-profiles.md). Governed and embodied
+profiles remain integration designs, not separate kernels or mandatory starting
+points.
+
+AKROVELA is the selected consumer for the embodied pilot, while PRAXOVELA is a
+separate product consumer. Details and acceptance conditions remain in the
+[embodied pilot plan](embodied-pilot.md); embodied work is not on the normal SDK
+adoption path.
+
+Do not prioritize new ROS, workspace-provider, language, or generic asynchronous
+action APIs without a named consumer and a concrete gap.
+
+## Current Priorities
+
+1. Published-package live-model golden path.
+2. Task-oriented example catalog.
+3. One complete practical prototype tutorial.
+4. Vendor-neutral application integration sample.
+5. Risk-tiered production and maintenance checklist.
+
+These priorities favor fewer complete paths over more isolated features.
+
+## Adoption Evidence
+
+Adoption work answers three separate questions: can developers discover the
+framework, can they complete a directed integration, and can they maintain it
+through change? The [adoption baseline protocol](adoption-baseline.md) records
+the detailed evaluation method.
+
+Those experiments should improve documentation after practical paths exist.
+They do not block quickstarts, examples, or integrations from being published.
+Useful signals are time to first result, completion rate, repair effort, issue
+quality, upgrades completed, and continued use in real projects. Registry
+downloads alone are not adoption.
+
+## Deferred Until Adoption Paths Are Stable
+
+- Expanding Behavior Lab or compatibility matrices for count alone.
+- Re-running every historical evidence record after documentation changes.
+- Broad coding-agent skill comparisons and repeated adoption experiments.
+- Full fault, load, live-provider, and operational evidence for integrations
+  without an active consumer.
+- Additional language implementations or adapters without a maintainer and use
+  case.
+- Embodied simulation, hardware, or robotics middleware as a general SDK goal.
+
+These remain valuable later-stage activities; they are not the first developer
+experience.
 
 ## Ecosystem Boundaries
 
-PRAXO-CORE is a reusable execution kernel, not the product platform. PRAXOVELA
-and AKROVELA each embed it as a component of their own products through the same
-public contracts available to any consumer; they retain different product
-positioning and state. This page states ownership boundaries, not a product
-roadmap.
+PRAXO-CORE is the reusable MIT framework, not a product platform. PRAXOVELA,
+AKROVELA, other AxisVela products, and independent applications consume the same
+public contracts while owning their own state, identity, policy services,
+workflow, networking, deployment, and user experience.
 
-| Capability | Owner | Core responsibility |
-| --- | --- | --- |
-| Product runtime, tenant data, UX, deployment | PRAXOVELA (AXON Core) | Expose the agent, tool, policy, stream, checkpoint, and workspace APIs; keep product state out of the framework |
-| Graph/subgraph execution, durable workflow, worker leases, fencing, recovery | RHEOVELA | Provide agent-node, session, stream, and adapter contracts; do not add a graph runtime |
-| Agent registry, agent IDs, authority binding, discovery | NOMIVELA | Define the registry client boundary; do not operate a registry |
-| Agent identity, enrollment, attestation, PoP tokens, verified context | EIDOVELA | Define identity verification hooks; do not issue credentials |
-| Policy decisions, execution grants, approvals, revocation, obligations, security evidence | AEGIVELA | Define authorizer, grant, and policy-enforcement points; do not operate a PDP or durable approval store |
-| North-south network boundary and reverse ingress | LIMENORA | Remain deployable behind a gateway; do not add a network control plane |
-| Capability governance, runtime profiles, memory, and event transport | MODUREGIS, SYNDOVELA, Mnemovela/GNOSIVELA, Harmovela | Provide optional adapter contracts only when a named consumer and negative tests exist |
-| Site-local operation, attempt and receipt lifecycle | AKROVELA (bootstrap target) | AKROVELA embeds PRAXO-CORE through a product-owned adapter, like PRAXOVELA; node operations, state and safety stay outside Core |
-| Data/label/training lineage and candidate artifacts | DIDACTOVELA (bootstrap target) | Keep learning lifecycle outside Core; candidates do not activate production models or grant permissions |
-
-Both new products are unreleased `0.1.0` operational bootstraps, not verified
-integrations. KINETOVELA retains Mission/effect authority, RHEOVELA Process
-authority, SYNDOVELA composition and NOETIVELA production inference. Existing
-implementation evidence does not transfer with a target ownership decision.
-
-Identity issuance, policy decision services, effect ledgers, durable workflow
-engines, and network gateways remain integration responsibilities. A Core test
-does not certify a product deployment, and a product integration does not
-widen the Core API.
+Core provides model, tool, policy, event, checkpoint, plugin, stream, and
+workspace seams. It does not operate an identity provider, policy decision
+service, workflow engine, effect ledger, network control plane, or managed
+sandbox. See [ecosystem integration](../integrations/ecosystem.md) for optional
+AxisVela mappings.
 
 ## Compatibility Commitments
 
-Keep the public Go API small, preserve the MIT boundary, and require consumers
-and tests for new contracts. Core implementations must not widen the Go API merely to simplify
-a port. See [compatibility policy](compatibility-policy.md),
-[Core support](../languages/support.md), and [language policy](../contributing/language-policy.md).
+- Keep the public Go API small and preserve the MIT boundary.
+- Keep shared wire changes explicit in `spec/`.
+- Do not widen the Go API merely to simplify a language port or example.
+- Prefer examples and adapters until a consumer proves a reusable Core gap.
+- Preserve published URLs and provide migration guidance for breaking changes.
 
-## Delivered Work
+See [compatibility policy](compatibility-policy.md),
+[Core support](../languages/support.md), and
+[language policy](../contributing/language-policy.md).
 
-See [release history](../releases/index.md), the
-[verification evidence index](verification-evidence.md), and the
-[changelog](https://github.com/axisvela/praxo-core/blob/main/CHANGELOG.md).
-Optional adapter evaluation is not equivalent to live production verification.
+## Status and Delivered Work
+
+The roadmap explains direction. Detailed status and verification remain in:
+
+- [Contract and Evidence Status](contract-status.md)
+- [Release history](../releases/index.md)
+- [Verification evidence](verification-evidence.md)
+- [Complete changelog](https://github.com/axisvela/praxo-core/blob/main/CHANGELOG.md)

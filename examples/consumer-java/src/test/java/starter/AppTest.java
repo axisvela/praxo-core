@@ -47,10 +47,10 @@ class AppTest {
 
     @Test
     void dependencyComesFromPublishedJar() throws Exception {
-        assertEquals("0.6.0", Version.SDK_VERSION);
+        assertEquals("0.7.0", Version.SDK_VERSION);
         URL location = Version.class.getProtectionDomain().getCodeSource().getLocation();
         String filename = Path.of(location.toURI()).getFileName().toString();
-        assertEquals("praxo-core-0.6.0.jar", filename);
-        assertTrue(location.toURI().toString().contains("/com/axisvela/praxo-core/0.6.0/"));
+        assertEquals("praxo-core-0.7.0.jar", filename);
+        assertTrue(location.toURI().toString().contains("/com/axisvela/praxo-core/0.7.0/"));
     }
 }
