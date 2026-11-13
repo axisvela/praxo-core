@@ -949,4 +949,132 @@ rescue Praxo::Error => error
 end
 check(http_rejected&.code == 'MCP_TRANSPORT', 'http mcp https required')
 
+otel_calls = []
+otel_transport = lambda do |url, body, headers|
+  otel_calls << { url: url, body: body, headers: headers }
+  [200, '']
+end
+otel = Praxo::Adapters::OtelSink.new(
+  endpoint: 'http://otel.test/v1/traces',
+  service_name: 'praxo-test',
+  transport: otel_transport,
+  allowed_data_keys: ['name']
+)
+otel_event = Praxo::Models::Event.new(
+  type: 'tool.call', session_id: 's1', run_id: 'run-123',
+  data: { 'name' => 'echo', 'secret' => 'hidden' }
+)
+otel.emit(otel_event)
+check(otel_calls.length == 1, 'otel single request')
+check(otel_calls[0][:url] == 'http://otel.test/v1/traces', 'otel url')
+check(otel_calls[0][:headers]['content-type'] == 'application/json', 'otel content type')
+otel_payload = JSON.parse(otel_calls[0][:body])
+otel_span = otel_payload['resourceSpans'][0]['scopeSpans'][0]['spans'][0]
+check(otel_span['name'] == 'praxo.tool.call', 'otel span name')
+check(otel_span['traceId'].length == 32, 'otel trace id')
+check(otel_span['spanId'].length == 16, 'otel span id')
+otel_attributes = otel_span['attributes'].to_h do |item|
+  [item['key'], item['value']['stringValue']]
+end
+check(otel_attributes['praxo.event.data.name'] == 'echo', 'otel allowed data')
+check(!otel_attributes.key?('praxo.event.data.secret'), 'otel data excluded')
+otel.emit(otel_event)
+otel_second = JSON.parse(otel_calls[1][:body])
+otel_second_span = otel_second['resourceSpans'][0]['scopeSpans'][0]['spans'][0]
+check(otel_second_span['traceId'] == otel_span['traceId'], 'otel deterministic trace')
+check(otel_second_span['spanId'] == otel_span['spanId'], 'otel deterministic span')
+otel_error = nil
+begin
+  Praxo::Adapters::OtelSink.new(
+    endpoint: 'http://otel.test/v1/traces',
+    transport: ->(_url, _body, _headers) { [503, 'down'] }
+  ).emit(otel_event)
+rescue Praxo::Error => error
+  otel_error = error
+end
+check(otel_error&.code == 'OTEL_HTTP', 'otel error')
+
+document_value = Praxo::Document.new(
+  id: 'doc-1', content: 'hello:3',
+  metadata: { 'source' => 'test' }, score: 0.5
+)
+check(document_value.to_wire['score'] == 0.5, 'retriever wire')
+retriever = Praxo::FuncRetriever.new do |query, limit|
+  [Praxo::Document.new(id: 'doc-1', content: "#{query}:#{limit}")]
+end
+documents = retriever.retrieve('hello', 3)
+check(documents.length == 1 && documents[0].content == 'hello:3', 'retriever')
+
+immediate = Class.new do
+  def run(_request)
+    Praxo::Delegation::SubagentResult.new(output: 'done')
+  end
+end.new
+manager = Praxo::Delegation::SubagentManager.new(immediate)
+request = Praxo::Delegation::SubagentRequest.new(
+  parent_session_id: 'parent', agent_id: 'child',
+  prompt: 'do', mode: 'fork'
+)
+task = manager.launch(request)
+final_task = manager.wait(task.id, 2)
+check(final_task.status == 'completed' && final_task.output == 'done',
+      'delegation completed')
+
+failing = Class.new do
+  def run(_request)
+    raise 'boom'
+  end
+end.new
+failure_manager = Praxo::Delegation::SubagentManager.new(failing)
+failed_task = failure_manager.wait(
+  failure_manager.launch(request).id, 2
+)
+check(failed_task.status == 'failed' && failed_task.error.include?('boom'),
+      'delegation failed')
+
+blocking_queue = Queue.new
+blocking = Class.new do
+  def initialize(queue)
+    @queue = queue
+  end
+
+  def run(_request)
+    @queue.pop
+    Praxo::Delegation::SubagentResult.new(output: 'released')
+  end
+end.new(blocking_queue)
+cancel_manager = Praxo::Delegation::SubagentManager.new(blocking)
+cancel_task = cancel_manager.launch(request)
+sleep 0.01 until cancel_manager.check(cancel_task.id)&.status == 'running'
+cancel_manager.cancel(cancel_task.id)
+check(cancel_manager.wait(cancel_task.id, 2).status == 'canceled',
+      'delegation canceled')
+blocking_queue << true
+
+updates = []
+update_queue = Queue.new
+controllable = Class.new do
+  def initialize(queue, updates)
+    @queue = queue
+    @updates = updates
+  end
+
+  def run(_request)
+    @queue.pop
+    Praxo::Delegation::SubagentResult.new(output: 'released')
+  end
+
+  def update(task_id, prompt)
+    @updates << [task_id, prompt]
+  end
+end.new(update_queue, updates)
+update_manager = Praxo::Delegation::SubagentManager.new(controllable)
+update_task = update_manager.launch(request)
+sleep 0.01 until update_manager.check(update_task.id)&.status == 'running'
+update_manager.update(update_task.id, 'steer')
+check(updates == [[update_task.id, 'steer']], 'delegation update')
+update_queue << true
+check(update_manager.wait(update_task.id, 2).status == 'completed',
+      'delegation update completed')
+
 puts 'ruby core tests passed'

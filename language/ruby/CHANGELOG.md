@@ -1,5 +1,16 @@
 # Ruby Core Release Notes
 
+## 0.7.0 - 2026-11-13
+
+Source tag `ruby/v0.7.0`.
+
+### Added
+
+- OpenTelemetry event sink (`OtelSink`) over a caller-supplied OTLP/HTTP
+  transport.
+- Local threaded subagent delegation (`Delegation::SubagentManager`).
+- Retriever seam (`Document`, `FuncRetriever`).
+
 ## 0.6.0 - 2026-11-12
 
 Source tag `ruby/v0.6.0`.

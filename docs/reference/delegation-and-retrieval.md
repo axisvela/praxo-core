@@ -21,8 +21,9 @@ provides `src/delegation.ts` `SubagentManager`; Java provides
 `agent.delegation.SubagentManager`; Rust provides
 `delegation::SubagentManager`; C# provides
 `Praxo.Core.Delegation.SubagentManager`; R provides a synchronous
-`subagent_run` seam without an asynchronous manager. Other implementations do
-not have an in-tree delegation manager yet.
+`subagent_run` seam without an asynchronous manager; Ruby provides
+`Delegation::SubagentManager`. Other implementations do not have an in-tree
+delegation manager yet.
 
 ## Retrieval
 
@@ -37,8 +38,8 @@ The Go reference is `pkg/retriever`. Python provides `praxo.retriever` with
 `src/retriever.ts` with the same shapes; Java provides `retriever.Document` and
 `retriever.Retriever`; Rust provides `retriever::Document` and `Retriever`; C#
 provides `Praxo.Core.Retriever.Document` and `Retriever`; R provides
-`document` and `retriever_retrieve`. Other implementations do not have an
-in-tree retriever yet.
+`document` and `retriever_retrieve`; Ruby provides `Document` and
+`FuncRetriever`. Other implementations do not have an in-tree retriever yet.
 
 Retrieval does not define an embedding model, vector store, ranking service, or
 search-quality claim. Memory stores and context compaction remain separate Core

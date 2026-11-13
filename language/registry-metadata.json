@@ -371,9 +371,9 @@
     "published_version": "0.5.0",
     "registry": "RubyGems",
     "source_install": "gem install praxo-core",
-    "source_version": "0.6.0",
+    "source_version": "0.7.0",
     "status": "published; split source repository",
-    "tag": "ruby/v0.6.0",
+    "tag": "ruby/v0.7.0",
     "tier": "Core",
     "url": "https://rubygems.org/gems/praxo-core/versions/0.5.0"
   },

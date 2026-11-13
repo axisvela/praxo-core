@@ -91,7 +91,7 @@ for real providers, platforms, and production behavior is reported separately.
 | JavaScript | Sample (TypeScript) | released | none | sample | Uses the TypeScript package; no separate core |
 | C++ | Core | released | `cpp/v0.6.0` | complete | 11 vectors, HITL interrupts, core tests, API snapshot, middleware/lifecycle authorization, cancellation, streaming, SSE, MCP transport-seam client, parallel tools, and run-scoped call limits |
 | Dart | Core | released | `dart/v0.3.0` | complete | 11 vectors, core tests, API snapshot; pub.dev `praxo_core==0.2.0` |
-| Ruby | Core | released | `ruby/v0.6.0` | complete | 11 vectors, HITL interrupts, core tests, API snapshot, middleware/lifecycle authorization, cancellation, streaming, SSE, parallel tools, and run-scoped call limits; source `0.6.0`, Ruby source repo `axisvela/praxo-core-ruby`, RubyGems `praxo-core==0.5.0` |
+| Ruby | Core | released | `ruby/v0.7.0` | complete | 11 vectors, HITL interrupts, core tests, API snapshot, middleware/lifecycle authorization, cancellation, streaming, SSE, parallel tools, run-scoped call limits, OpenTelemetry sink, subagent delegation, and retriever seam; source `0.7.0`, Ruby source repo `axisvela/praxo-core-ruby`, RubyGems `praxo-core==0.5.0` |
 | Kotlin | Sample (JVM) | released | none | sample | Uses the Java Core |
 | Scala | Sample (JVM) | released | none | sample | Uses the Java Core |
 | MATLAB | Core | released | `matlab/v0.4.0` | complete | 11 vectors, native tests, API snapshot/parity, MCP transport-seam client; MATLAB File Exchange `185166`; MATLAB runtime unverified |
