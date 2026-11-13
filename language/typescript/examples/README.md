@@ -13,6 +13,8 @@
   and `FilterSink`, with deterministic tests.
 - [`streaming/`](streaming/): delta callbacks that reconstruct the final output,
   with a deterministic fake streaming model.
+- [`checkpoint/`](checkpoint/): application-owned checkpoint storage with
+  allowlisted payload encoding.
 
 The examples install a published package. They do not require a repository
 checkout or local package replacement.

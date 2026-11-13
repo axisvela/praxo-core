@@ -23,6 +23,7 @@
 | 查看 Go 参考应用 | [`examples/reference`](https://github.com/axisvela/praxo-core/tree/main/examples/reference) | Go 参考应用 |
 | 增加 Policy 与审批 | [`examples/governed-workspace`](https://github.com/axisvela/praxo-core/tree/main/examples/governed-workspace) | Go 受治理执行边界示例 |
 | 增加 Checkpoint | [`examples/checkpoint`](https://github.com/axisvela/praxo-core/tree/main/examples/checkpoint) | Go Checkpoint 存储示例 |
+| 持久化 Checkpoint | [`language/python/examples/checkpoint`](https://github.com/axisvela/praxo-core/tree/main/language/python/examples/checkpoint), [`language/typescript/examples/checkpoint`](https://github.com/axisvela/praxo-core/tree/main/language/typescript/examples/checkpoint), [`language/csharp/examples/checkpoint`](https://github.com/axisvela/praxo-core/tree/main/language/csharp/examples/checkpoint), [`language/rust/examples/checkpoint`](https://github.com/axisvela/praxo-core/tree/main/language/rust/examples/checkpoint) | 应用自有存储与 Allowlist 负载；最新记录往返和未注册类型拒绝 |
 | 增加 Plugin | [`examples/plugin`](https://github.com/axisvela/praxo-core/tree/main/examples/plugin) | Go 进程/WASM Plugin Host 示例 |
 | 委派任务 | [`examples/multiagent`](https://github.com/axisvela/praxo-core/tree/main/examples/multiagent) | Go 本地委派示例 |
 | 使用专题配方 | [`examples/recipes`](https://github.com/axisvela/praxo-core/tree/main/examples/recipes) | Go Provider、事件、重试、VFS 等配方 |

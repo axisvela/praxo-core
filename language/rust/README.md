@@ -45,6 +45,8 @@ cargo add praxo-core@0.6.0
   tool discovery and tool calls.
 - [`examples/structured-output`](examples/structured-output): JSON Schema
   validation with a deterministic valid/invalid output check.
+- [`examples/checkpoint`](examples/checkpoint): application-owned checkpoint
+  storage with allowlisted payload encoding.
 
 ## Requirements
 
