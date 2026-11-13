@@ -6,10 +6,12 @@ on:
     paths-ignore:
       - "language/python/**"
       - "language/typescript/**"
+      - "language/java/**"
   pull_request:
     paths-ignore:
       - "language/python/**"
       - "language/typescript/**"
+      - "language/java/**"
   workflow_dispatch:
   schedule:
     - cron: '0 3 * * *'

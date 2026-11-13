@@ -1,0 +1,124 @@
+name: ci-java
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "language/java/**"
+      - ".github/workflows/ci-java.yml"
+  pull_request:
+    paths:
+      - "language/java/**"
+      - ".github/workflows/ci-java.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-java-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  java-conformance:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: language/java
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+          cache: maven
+      - run: mvn -q -DskipTests test-compile
+      - run: mvn -q -DskipTests package
+      - run: java -cp target/classes com.axisvela.praxo.conformance.ApiSnapshot --check
+      - run: java -cp target/classes com.axisvela.praxo.conformance.Run
+      - run: java --add-modules jdk.httpserver -cp target/classes:target/test-classes com.axisvela.praxo.adapters.OpenAICompatibleSelfTest
+      - run: java --add-modules jdk.httpserver -cp target/classes:target/test-classes com.axisvela.praxo.adapters.ProviderAdaptersSelfTest
+      - run: java -cp target/classes:target/test-classes com.axisvela.praxo.adapters.OtelSinkSelfTest
+      - run: java -cp target/classes:target/test-classes com.axisvela.praxo.agent.delegation.DelegationSelfTest
+      - run: java -cp target/classes:target/test-classes com.axisvela.praxo.retriever.RetrieverSelfTest
+      - run: java -cp target/classes:target/test-classes com.axisvela.praxo.agent.AgentConcurrencySelfTest
+      - run: java -cp target/classes:target/test-classes com.axisvela.praxo.agent.AgentAuthorizationSelfTest
+      - run: java -cp target/classes:target/test-classes com.axisvela.praxo.agent.AgentLifecycleSelfTest
+      - run: java -cp target/classes:target/test-classes com.axisvela.praxo.agent.AgentGuardrailSelfTest
+      - run: java -cp target/classes:target/test-classes com.axisvela.praxo.agent.AgentStreamSelfTest
+      - run: java -cp target/classes:target/test-classes com.axisvela.praxo.jsonschema.JsonSchemaSelfTest
+      - run: java -cp target/classes:target/test-classes com.axisvela.praxo.checkpoint.CheckpointSelfTest
+      - run: java -cp target/classes:target/test-classes com.axisvela.praxo.middleware.PiiMiddlewareSelfTest
+
+  current-java-consumer:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        java: ['21']
+        include:
+          - os: ubuntu-latest
+            java: '23'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: ${{ matrix.java }}
+          cache: maven
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python scripts/test_java_consumer.py -v
+      - run: python scripts/test_java_upgrade.py -v
+
+  kotlin-sample:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+      - run: javac -d language/java/build/classes $(find language/java/src/main/java -name '*.java')
+      - run: curl -fL -o kotlin-compiler.zip https://github.com/JetBrains/kotlin/releases/download/v2.4.21/kotlin-compiler-2.4.21.zip
+      - run: unzip -q kotlin-compiler.zip
+      - run: kotlinc/bin/kotlinc -cp language/java/build/classes -include-runtime -d examples/kotlin/sample.jar examples/kotlin/sample.kt
+      - run: java -cp examples/kotlin/sample.jar:language/java/build/classes SampleKt
+
+  scala-sample:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+      - run: javac -d language/java/build/classes $(find language/java/src/main/java -name '*.java')
+      - uses: VirtusLab/scala-cli-setup@main
+      - run: scala-cli run examples/scala/sample.scala --classpath language/java/build/classes --server=false --jvm 21
+
+  groovy-sample:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+      - run: javac -d language/java/build/classes $(find language/java/src/main/java -name '*.java')
+      - run: curl -fL -o groovy.zip https://archive.apache.org/dist/groovy/4.0.24/distribution/apache-groovy-binary-4.0.24.zip
+      - run: unzip -q groovy.zip
+      - run: groovy-4.0.24/bin/groovy -cp language/java/build/classes examples/groovy/sample.groovy
+
+  clojure-sample:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+      - run: javac -d language/java/build/classes $(find language/java/src/main/java -name '*.java')
+      - run: sudo apt-get update && sudo apt-get install -y clojure
+      - run: CLASSPATH=language/java/build/classes clojure examples/clojure/sample.clj
