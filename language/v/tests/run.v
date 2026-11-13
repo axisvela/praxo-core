@@ -706,35 +706,29 @@ fn test_harmovela() {
 }
 
 fn test_otel_sink() {
-	mut seen := ''
-	transport := fn [mut seen] (endpoint string, body string, headers map[string]string) !praxo.OtelResponse {
+	transport := fn (endpoint string, body string, headers map[string]string) !praxo.OtelResponse {
 		assert endpoint == 'https://otel.test/v1/traces'
 		assert (headers['content-type'] or { '' }) == 'application/json'
-		if seen == '' {
-			seen = body
-			envelope := praxo.parse_json(body) or { panic(err) }
+		envelope := praxo.parse_json(body) or { panic(err) }
 			resource_spans := praxo.get_array(envelope, 'resourceSpans')
-			assert resource_spans.len == 1
-			scope_spans := praxo.get_array(praxo.as_object(resource_spans[0]), 'scopeSpans')
-			assert scope_spans.len == 1
-			spans := praxo.get_array(praxo.as_object(scope_spans[0]), 'spans')
-			assert spans.len == 1
-			span := praxo.as_object(spans[0])
-			assert praxo.get_string(span, 'name') or { '' } == 'praxo.tool.call'
-			trace_id := praxo.get_string(span, 'traceId') or { '' }
-			span_id := praxo.get_string(span, 'spanId') or { '' }
-			assert trace_id.len == 32
-			assert span_id.len == 16
-			assert praxo.get_string(span, 'startTimeUnixNano') or { '' } == '1794294000000000000'
-			mut keys := []string{}
-			for item in praxo.get_array(span, 'attributes') {
-				keys << (praxo.get_string(praxo.as_object(item), 'key') or { '' })
-			}
-			assert 'praxo.event.data.name' in keys
-			assert 'praxo.event.data.secret' !in keys
-		} else {
-			assert body == seen
+		assert resource_spans.len == 1
+		scope_spans := praxo.get_array(praxo.as_object(resource_spans[0]), 'scopeSpans')
+		assert scope_spans.len == 1
+		spans := praxo.get_array(praxo.as_object(scope_spans[0]), 'spans')
+		assert spans.len == 1
+		span := praxo.as_object(spans[0])
+		assert praxo.get_string(span, 'name') or { '' } == 'praxo.tool.call'
+		trace_id := praxo.get_string(span, 'traceId') or { '' }
+		span_id := praxo.get_string(span, 'spanId') or { '' }
+		assert trace_id.len == 32
+		assert span_id.len == 16
+		assert praxo.get_string(span, 'startTimeUnixNano') or { '' } == '1794294000000000000'
+		mut keys := []string{}
+		for item in praxo.get_array(span, 'attributes') {
+			keys << (praxo.get_string(praxo.as_object(item), 'key') or { '' })
 		}
+		assert 'praxo.event.data.name' in keys
+		assert 'praxo.event.data.secret' !in keys
 		return praxo.OtelResponse{status: 200}
 	}
 	sink := praxo.new_otel_sink('https://otel.test/v1/traces', praxo.OtelOptions{
