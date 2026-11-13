@@ -80,6 +80,10 @@ jobs:
         with:
           dotnet-version: "8.0.x"
       - uses: dtolnay/rust-toolchain@stable
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
       - run: python -m pip install -r requirements.txt
         working-directory: language/python/examples/mcp
       - run: python -m unittest test_client.py -v
@@ -161,6 +165,10 @@ jobs:
       - run: dotnet run --project language/csharp/examples/retry/Retry.csproj -- --test
       - run: dotnet run --project language/csharp/examples/service/Service.csproj -- --test
       - run: dotnet run --project language/csharp/examples/identity-policy/IdentityPolicy.csproj -- --test
+      - run: mvn -q -f language/java/examples/event-sink/pom.xml compile exec:java
+      - run: mvn -q -f language/java/examples/streaming/pom.xml compile exec:java
+      - run: mvn -q -f language/java/examples/retry/pom.xml compile exec:java
+      - run: mvn -q -f language/java/examples/identity-policy/pom.xml compile exec:java
       - run: cargo run --quiet
         working-directory: language/rust/examples/provider-fallback
       - run: cargo run --quiet

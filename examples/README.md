@@ -37,12 +37,12 @@ There is intentional overlap. For example:
 | --- | --- | --- |
 | Structured output | [`recipes/structured-output-go`](recipes/structured-output-go) | Python / TypeScript / Java / C# / Rust `structured-output` |
 | Provider fallback | [`recipes/provider-fallback-go`](recipes/provider-fallback-go) | Python / TypeScript / C# / Rust `provider-fallback` |
-| Event sinks | [`recipes/event-sinks-go`](recipes/event-sinks-go) | Python / TypeScript / C# / Rust `event-sink` |
-| Streaming | [`recipes/streaming-go`](recipes/streaming-go) | Python / TypeScript / C# / Rust `streaming` |
+| Event sinks | [`recipes/event-sinks-go`](recipes/event-sinks-go) | Python / TypeScript / C# / Rust / Java `event-sink` |
+| Streaming | [`recipes/streaming-go`](recipes/streaming-go) | Python / TypeScript / C# / Rust / Java `streaming` |
 | MCP tools | [`ecosystem/mcp`](ecosystem/mcp) | Python / TypeScript / C# / Rust `mcp` |
-| Retry | [`recipes/retry-go`](recipes/retry-go) | Python / TypeScript / C# / Rust `retry` |
+| Retry | [`recipes/retry-go`](recipes/retry-go) | Python / TypeScript / C# / Rust / Java `retry` |
 | Checkpoint store | [`recipes/checkpoint-store-go`](recipes/checkpoint-store-go) | [`checkpoint`](checkpoint), [`embedded-service-auth`](embedded-service-auth), and Python / TypeScript / C# / Rust `checkpoint` |
-| Identity and policy | [`recipes/identity-go`](recipes/identity-go) | [`embedded-service-auth`](embedded-service-auth), and Python / TypeScript / C# / Rust `identity-policy` |
+| Identity and policy | [`recipes/identity-go`](recipes/identity-go) | [`embedded-service-auth`](embedded-service-auth), and Python / TypeScript / C# / Rust / Java `identity-policy` |
 | VFS containment | [`recipes/vfs-containment-go`](recipes/vfs-containment-go) | [`workspace-agent`](workspace-agent) |
 | Long-running operations | [`recipes/long-running-go`](recipes/long-running-go) | [`embedded-service-auth`](embedded-service-auth) |
 
