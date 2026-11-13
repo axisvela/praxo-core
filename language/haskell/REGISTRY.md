@@ -1,7 +1,7 @@
 # PRAXO-CORE Haskell Registry Introduction
 
-**Status:** published. Source version `0.4.0`, source
-tag `haskell/v0.4.0`. Published registry version: `0.4.0`. Registry
+**Status:** published. Source version `0.5.0`, source
+tag `haskell/v0.5.0`. Published registry version: `0.4.0`. Registry
 pages are release snapshots; verify the published version before relying on a
 feature.
 
@@ -15,11 +15,11 @@ PRAXO-CORE is an embeddable, MIT-licensed agent framework. This package is its n
 | --- | --- |
 | Package | `praxo-core` |
 | Registry | [Hackage](https://hackage.haskell.org/package/praxo-core-0.4.0) |
-| Source version | `0.4.0` |
+| Source version | `0.5.0` |
 | Published registry version | `0.4.0` |
 | Install (published) | `cabal install praxo-core` |
 | Install (source/release prepared) | `cabal install praxo-core` |
-| Source tag | `haskell/v0.4.0` |
+| Source tag | `haskell/v0.5.0` |
 | Tier | Core |
 | Contract | `SPEC_VERSION` `0.2.0` |
 | Documentation | https://axisvela.github.io/praxo-core/languages/haskell/ |
@@ -33,9 +33,9 @@ PRAXO-CORE is an embeddable, MIT-licensed agent framework. This package is its n
 | Gemini model | native (transport seam) | `Praxo.Gemini`; caller supplies transport |
 | MCP client | native (transport seam) | `Praxo.Mcp`; caller supplies `McpTransport` |
 | Harmovela sink | native (transport seam) | `Praxo.Harmovela`; caller supplies transport |
-| OpenTelemetry sink | not implemented |  |
-| Subagent delegation | not implemented |  |
-| Retriever | not implemented |  |
+| OpenTelemetry sink | native (transport seam) | `Praxo.Otel`; caller supplies `OtelTransport` |
+| Subagent delegation | native (synchronous seam) | `Praxo.Delegation.subagentRun`; no asynchronous manager |
+| Retriever | native | `Praxo.Retriever.Document` and `Retriever` |
 
 ## Coding-agent entry
 

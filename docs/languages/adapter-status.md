@@ -262,6 +262,7 @@ tests; no live Harmovela service is claimed.
 | C | native (transport seam) | `PxOtelSink`; caller supplies `PxOtelTransport` |
 | C++ | native (transport seam) | `OtelSink`; caller supplies `OtelTransport` |
 | Fortran | native (transport seam) | `otel_sink`; caller supplies transport |
+| Haskell | native (transport seam) | `Praxo.Otel`; caller supplies `OtelTransport` |
 | PowerShell | inherited | Uses the C# Core |
 | Visual Basic / F# | inherited | Samples over the C# Core |
 | Kotlin / Scala / Groovy / Clojure | inherited | Samples over the Java Core |
@@ -292,6 +293,7 @@ selected keys must be allowlisted explicitly.
 | C | native (synchronous seam) | `px_subagent_run`; no asynchronous manager |
 | C++ | native (synchronous seam) | `subagent_run`; no asynchronous manager |
 | Fortran | native (synchronous seam) | `subagent_run`; no asynchronous manager |
+| Haskell | native (synchronous seam) | `Praxo.Delegation.subagentRun`; no asynchronous manager |
 | All other implementations | not implemented | Add with a named consumer or maintainer |
 
 Delegation means a local child-run manager with queued/running/terminal states,
@@ -316,6 +318,7 @@ workers, cross-process scheduling, or exactly-once execution.
 | C | native | `PxDocument`, `PxRetriever`, `px_retrieve` |
 | C++ | native | `Document`, `Retriever`, `retrieve` |
 | Fortran | native | `document`, `retriever`, `retrieve_documents` |
+| Haskell | native | `Praxo.Retriever.Document` and `Retriever` |
 | All other implementations | not implemented | Add with a named consumer or maintainer |
 
 Retriever support means a document/query/limit seam. It does not define an

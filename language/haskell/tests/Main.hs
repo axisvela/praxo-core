@@ -14,6 +14,9 @@ import qualified Praxo.Anthropic as An
 import qualified Praxo.Gemini as G
 import qualified Praxo.Harmovela as H
 import qualified Praxo.Mcp as M
+import qualified Praxo.Otel as Ot
+import qualified Praxo.Retriever as R
+import qualified Praxo.Delegation as D
 import Praxo.Pattern
 import Praxo.Plugin
 import Praxo.Runtime
@@ -29,7 +32,8 @@ main = do
     providerTests
     harmovelaTests
     mcpTests
-    assert "contract version" (specVersion == "0.2.0" && sdkVersion == "0.4.0")
+    seamTests
+    assert "contract version" (specVersion == "0.2.0" && sdkVersion == "0.5.0")
     forM_ ["", "01", "1.", "+1", "NaN", "1e", "[1,]", "{\"a\":1,}", "{}{}", "\"\\q\"", "\"\\ud800\"", "\"\\udc00\"", "\"\\ud800\\u0041\"", "\"line\nbreak\"", "true garbage"] $ \raw ->
         assert ("invalid JSON " ++ show raw) (isLeft (parseJson raw))
     assert "unicode escape" (parseJson "\"\\u00e9\\ud83d\\ude00\"" == Right (JString "\x00e9\x1f600"))
@@ -452,6 +456,76 @@ mcpTests = do
             assert "mcp tool error" (case called of
                 Left err -> A.errorCode err == "MCP_TOOL_ERROR"
                 Right _ -> False)
+
+seamTests :: IO ()
+seamTests = do
+    calls <- newIORef ([] :: [Ot.OtelRequest])
+    let transport = Ot.OtelTransport (\request -> do
+            modifyIORef' calls (++ [request])
+            pure (Right (Ot.OtelResponse 200 "")))
+        clock = pure 1794294000000000000
+        sink = (Ot.newOtelSink "http://otel.test/v1/traces" transport clock)
+            { Ot.otelAllowedDataKeys = ["name"] }
+        event = Event "tool.call" "s1" (Just "run-123")
+            (JObject [("name", JString "echo"), ("secret", JString "hidden")])
+    emitted <- Ot.emitOtelEvent sink event
+    assert "otel emit" (emitted == Right ())
+    requests <- readIORef calls
+    case requests of
+        [request] -> do
+            assert "otel url" (Ot.otelURL request == "http://otel.test/v1/traces")
+            let payload = either error id (parseJson (Ot.otelBody request))
+                resourceSpans = asArray (field "resourceSpans" payload)
+            case resourceSpans of
+                [resourceSpan] -> do
+                    let scopeSpan = head (asArray (field "scopeSpans" resourceSpan))
+                        spanValue = head (asArray (field "spans" scopeSpan))
+                    assert "otel span name" (asString (field "name" spanValue) == "praxo.tool.call")
+                    assert "otel trace id" (length (asString (field "traceId" spanValue)) == 32)
+                    assert "otel span id" (length (asString (field "spanId" spanValue)) == 16)
+                    let attributes = asArray (field "attributes" spanValue)
+                        attributeValue key =
+                            [ asString (field "stringValue" (field "value" item))
+                            | item <- attributes
+                            , asString (field "key" item) == key ]
+                    assert "otel allowed data" (attributeValue "praxo.event.data.name" == ["echo"])
+                    assert "otel data excluded" (null (attributeValue "praxo.event.data.secret"))
+                _ -> fail "otel resource span count"
+        _ -> fail "otel request count"
+    let failing = (Ot.newOtelSink "http://otel.test/v1/traces"
+            (Ot.OtelTransport (\_ -> pure (Right (Ot.OtelResponse 503 "down"))))
+            clock)
+    failed <- Ot.emitOtelEvent failing event
+    assert "otel error" (case failed of
+        Left err -> A.errorCode err == "OTEL_HTTP"
+        Right () -> False)
+
+    let retriever query limit = pure (Right
+            [R.Document "doc-1" (query ++ ":" ++ show limit) [] 0.5])
+    documents <- R.retrieveDocuments retriever "hello" 3
+    assert "retriever" (case documents of
+        Right [document] -> R.documentContent document == "hello:3"
+            && R.documentScore document == 0.5
+        _ -> False)
+
+    let request = D.SubagentRequest "parent" "child" "do" "fork"
+        runner _ = pure (Right (D.SubagentResult "" "" "done"))
+    completed <- D.subagentRun runner request
+    assert "delegation completed" (case completed of
+        Right task -> D.subagentStatus task == "completed"
+            && D.subagentTaskOutput task == "done"
+            && D.subagentTaskMode task == "fork"
+        Left _ -> False)
+    let failingRunner _ = pure (Left (A.AgentError "TEST" "boom"))
+    failedTask <- D.subagentRun failingRunner request
+    assert "delegation failed" (case failedTask of
+        Right task -> D.subagentStatus task == "failed"
+            && "boom" `isInfixOf` D.subagentTaskError task
+        Left _ -> False)
+    invalid <- D.subagentRun runner (D.SubagentRequest "" "child" "do" "isolated")
+    assert "delegation invalid" (case invalid of
+        Left err -> A.errorCode err == "SUBAGENT_INVALID"
+        Right _ -> False)
 
 assert :: String -> Bool -> IO ()
 assert label condition = unless condition (fail label)

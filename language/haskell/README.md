@@ -7,7 +7,7 @@ tools, policy hooks, typed events, memory, checkpoints, context budgets,
 middleware, JSON Schema validation, plugin manifest parsing, and runtime helpers.
 
 - Implementation type: Core.
-- Package version: `0.2.0`; supported `SPEC_VERSION`: `0.2.0`.
+- Package version: `0.5.0`; supported `SPEC_VERSION`: `0.2.0`.
 - Local gate: all eleven shared vector groups, native regression tests, and
   source API/parity checks.
 - Linux and Windows CI run the full suite. Hackage publication uses

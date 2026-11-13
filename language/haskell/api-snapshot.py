@@ -21,7 +21,7 @@ def snapshot():
         exports = header[2].replace("(..)", "").split(",")
         entries.append("## " + module)
         for name in sorted(export.strip() for export in exports):
-            pattern = r"^(?:(?:data|newtype) " + re.escape(name) + r"\b.*|" + re.escape(name) + r" :: .*)$"
+            pattern = r"^(?:(?:data|newtype|type) " + re.escape(name) + r"\b.*|" + re.escape(name) + r" :: .*)$"
             declaration = re.search(pattern, text, re.MULTILINE)
             if not declaration:
                 raise ValueError("missing declaration: " + module + "." + name)

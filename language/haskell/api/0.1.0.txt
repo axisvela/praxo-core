@@ -1,4 +1,4 @@
-# PRAXO-CORE Haskell Wire API 0.4.0
+# PRAXO-CORE Haskell Wire API 0.5.0
 # SPEC_VERSION 0.2.0
 
 ## Praxo.Agent
@@ -16,6 +16,13 @@ data AnthropicTool = AnthropicTool
 buildAnthropicRequest :: AnthropicConfig -> [Message] -> Either AgentError HttpRequest
 generateAnthropic :: AnthropicConfig -> [Message] -> IO (Either AgentError Response)
 parseAnthropicResponse :: String -> Either AgentError Response
+
+## Praxo.Delegation
+data SubagentRequest = SubagentRequest
+data SubagentResult = SubagentResult
+type SubagentRunner = SubagentRequest -> IO (Either AgentError SubagentResult)
+data SubagentTask = SubagentTask
+subagentRun :: SubagentRunner -> SubagentRequest -> IO (Either AgentError SubagentTask)
 
 ## Praxo.Gemini
 data GeminiConfig = GeminiConfig
@@ -83,12 +90,27 @@ buildRequest :: OpenAIConfig -> [Message] -> Either AgentError HttpRequest
 generate :: OpenAIConfig -> [Message] -> IO (Either AgentError Response)
 parseResponse :: String -> Either AgentError Response
 
+## Praxo.Otel
+data OtelRequest = OtelRequest
+data OtelResponse = OtelResponse
+data OtelSink = OtelSink
+newtype OtelTransport = OtelTransport
+buildOtelRequest :: OtelSink -> Event -> IO (Either AgentError OtelRequest)
+emitOtelEvent :: OtelSink -> Event -> IO (Either AgentError ())
+newOtelSink :: String -> OtelTransport -> IO Integer -> OtelSink
+
 ## Praxo.Pattern
 matchPattern :: String -> String -> Either String Bool
 
 ## Praxo.Plugin
 parseManifest :: String -> Either String Json
 validateManifest :: Json -> Either String ()
+
+## Praxo.Retriever
+data Document = Document
+type Retriever = String -> Int -> IO (Either AgentError [Document])
+newRetriever :: (String -> Int -> IO (Either AgentError [Document])) -> Retriever
+retrieveDocuments :: Retriever -> String -> Int -> IO (Either AgentError [Document])
 
 ## Praxo.Runtime
 data ContextBudget = ContextBudget { budgetMaxTokens :: Int, budgetKeepRecent :: Int } deriving (Eq, Show)
