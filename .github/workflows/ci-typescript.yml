@@ -1,0 +1,92 @@
+name: ci-typescript
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "language/typescript/**"
+      - ".github/workflows/ci-typescript.yml"
+  pull_request:
+    paths:
+      - "language/typescript/**"
+      - ".github/workflows/ci-typescript.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-typescript-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  typescript-conformance:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: language/typescript
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+          cache-dependency-path: language/typescript/package-lock.json
+      - run: npm ci
+      - run: npm run build
+      - run: npm run api:check
+      - run: npm run conformance
+      - run: node --test tests/sdk.test.js tests/behavior.test.js tests/openaicompat.test.js tests/providers.test.js tests/api-signatures.test.js
+      - name: Run installed package smoke
+        run: |
+          npm pack --pack-destination "$RUNNER_TEMP"
+          consumer="$RUNNER_TEMP/praxo-ts-consumer"
+          mkdir -p "$consumer"
+          cd "$consumer"
+          npm init -y >/dev/null
+          npm install --no-save --no-audit --no-fund "$RUNNER_TEMP"/axisvela-praxo-core-*.tgz
+          cp "$GITHUB_WORKSPACE/language/typescript/tests/installed-smoke.js" .
+          PRAXO_CONSUMER_ROOT="$consumer" node installed-smoke.js
+
+  current-typescript-consumer:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        node: ['20', '22']
+    env:
+      GOWORK: "off"
+    defaults:
+      run:
+        working-directory: language/typescript/examples/consumer
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+          cache: npm
+          cache-dependency-path: language/typescript/examples/consumer/package-lock.json
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: npm ci --no-audit --no-fund
+      - run: npm test
+      - run: node starter.js
+      - run: python scripts/test_typescript_consumer.py -v
+        working-directory: .
+      - run: python scripts/test_typescript_upgrade.py -v
+        working-directory: .
+
+  javascript-sample:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: language/typescript
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - run: npm ci
+      - run: npm run build
+      - run: node ../../examples/javascript/sample.mjs

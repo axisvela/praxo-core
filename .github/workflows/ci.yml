@@ -5,9 +5,11 @@ on:
     branches: [main]
     paths-ignore:
       - "language/python/**"
+      - "language/typescript/**"
   pull_request:
     paths-ignore:
       - "language/python/**"
+      - "language/typescript/**"
   workflow_dispatch:
   schedule:
     - cron: '0 3 * * *'
