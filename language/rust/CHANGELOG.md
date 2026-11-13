@@ -1,5 +1,15 @@
 # Rust Core Release Notes
 
+## 0.8.0 - 2026-11-13
+
+Source tag `rust/v0.8.0`.
+
+### Added
+
+- Local subagent delegation (`delegation::SubagentManager`) with
+  launch/check/wait/update/cancel and terminal states.
+- Retriever seam (`retriever::Document`, `Retriever`, `Func`).
+
 ## 0.7.0 - 2026-11-13
 
 Source tag `rust/v0.7.0`.
