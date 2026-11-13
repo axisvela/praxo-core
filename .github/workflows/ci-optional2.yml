@@ -1,0 +1,179 @@
+name: ci-optional2
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "language/matlab/**"
+      - "language/octave/**"
+      - "language/ocaml/**"
+      - "language/objc/**"
+      - "language/nim/**"
+      - "language/v/**"
+      - "language/d/**"
+      - "language/zig/**"
+      - "language/perl/**"
+      - ".github/workflows/ci-optional2.yml"
+  pull_request:
+    paths:
+      - "language/matlab/**"
+      - "language/octave/**"
+      - "language/ocaml/**"
+      - "language/objc/**"
+      - "language/nim/**"
+      - "language/v/**"
+      - "language/d/**"
+      - "language/zig/**"
+      - "language/perl/**"
+      - ".github/workflows/ci-optional2.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-optional2-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  matlab-conformance:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: sudo apt-get update && sudo apt-get install -y octave
+      - run: python language/matlab/run-tests.py --octave octave-cli
+
+  octave-conformance:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: sudo apt-get update && sudo apt-get install -y octave
+      - run: python language/octave/run-tests.py --octave octave-cli
+
+  octave-package:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: sudo apt-get update && sudo apt-get install -y octave
+      - run: python language/octave/build_octave_package.py
+      - run: |
+          version="$(cat language/octave/VERSION)"
+          octave-cli --quiet --eval "pkg install '$PWD/language/octave/build/octave/praxo-core-${version}.tar.gz'; pkg load praxo-core; assert(strcmp(praxo.sdk_version(), '${version}'));"
+
+  ocaml-conformance:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: sudo apt-get update && sudo apt-get install -y ocaml
+      - run: python language/ocaml/run-tests.py --compiler ocamlc
+
+  objc-conformance:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python language/objc/run-tests.py --compiler clang
+
+  nim-conformance:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: jiro4989/setup-nim-action@v2
+        with:
+          nim-version: "2.2.12"
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python language/nim/api-snapshot.py --check
+      - run: mkdir -p build
+      - run: nim c --path:language/nim/src --hints:off --out:build/praxo-nim-conformance language/nim/conformance/run.nim
+      - run: ./build/praxo-nim-conformance
+      - run: nim c --path:language/nim/src --hints:off --out:build/praxo-nim-tests language/nim/tests/run_tests.nim
+      - run: ./build/praxo-nim-tests
+
+  v-conformance:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install V 0.5.2
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release download 0.5.2 --repo vlang/v --pattern v_linux.zip --dir "$RUNNER_TEMP"
+          echo "86caf9e70c3342d48ef19eb4f6c47b709f18c90ae86255520d5c29df6b482e23  $RUNNER_TEMP/v_linux.zip" | sha256sum --check
+          unzip -q "$RUNNER_TEMP/v_linux.zip" -d "$RUNNER_TEMP"
+          echo "$RUNNER_TEMP/v" >> "$GITHUB_PATH"
+      - run: v version
+      - run: python language/v/api-snapshot.py --check
+      - run: mkdir -p build
+      - run: v -o build/praxo-v-conformance language/v/conformance/run.v
+      - run: ./build/praxo-v-conformance
+      - run: v -o build/praxo-v-tests language/v/tests/run.v
+      - run: ./build/praxo-v-tests
+
+  d-conformance:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: language/d
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install pinned DMD compiler
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release download v2.113.0 --repo dlang/dmd --pattern dmd.2.113.0.linux.tar.xz --dir "$RUNNER_TEMP/praxo-dmd"
+          echo "b342ab8bd40cc0c46407692b31d7cd69661ff01da686234f426949e881727294  $RUNNER_TEMP/praxo-dmd/dmd.2.113.0.linux.tar.xz" | sha256sum --check
+          tar -xJf "$RUNNER_TEMP/praxo-dmd/dmd.2.113.0.linux.tar.xz" -C "$RUNNER_TEMP/praxo-dmd"
+          echo "$RUNNER_TEMP/praxo-dmd/dmd2/linux/bin64" >> "$GITHUB_PATH"
+      - run: mkdir -p build
+      - run: dmd -i -Isource -O -release source/conformance.d -of=build/conformance
+      - run: ./build/conformance
+      - run: dmd -i -Isource -O -release source/tests.d -of=build/tests
+      - run: ./build/tests
+      - run: python3 api-snapshot.py --check
+
+  zig-conformance:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: language/zig
+    steps:
+      - uses: actions/checkout@v4
+      - uses: mlugg/setup-zig@v2
+        with:
+          version: "0.17.0"
+      - run: mkdir -p build
+      - run: zig build-exe src/conformance.zig -O ReleaseSafe -femit-bin=build/conformance
+      - run: ./build/conformance
+      - run: zig test src/toolcall.zig
+      - run: zig test src/jsonschema.zig
+      - run: zig test src/plugin.zig
+      - run: zig test src/pii_test.zig
+      - run: zig test src/openaicompat_test.zig
+      - run: python3 api-snapshot.py --check
+
+  perl-conformance:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: perl language/perl/conformance/run.pl
+      - run: perl language/perl/api-snapshot.pl --check
+      - run: perl language/perl/tests/run.pl

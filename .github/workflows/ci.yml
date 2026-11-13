@@ -24,6 +24,15 @@ on:
       - "language/dart/**"
       - "language/julia/**"
       - "language/r/**"
+      - "language/matlab/**"
+      - "language/octave/**"
+      - "language/ocaml/**"
+      - "language/objc/**"
+      - "language/nim/**"
+      - "language/v/**"
+      - "language/d/**"
+      - "language/zig/**"
+      - "language/perl/**"
   pull_request:
     paths-ignore:
       - "language/python/**"
@@ -46,6 +55,15 @@ on:
       - "language/dart/**"
       - "language/julia/**"
       - "language/r/**"
+      - "language/matlab/**"
+      - "language/octave/**"
+      - "language/ocaml/**"
+      - "language/objc/**"
+      - "language/nim/**"
+      - "language/v/**"
+      - "language/d/**"
+      - "language/zig/**"
+      - "language/perl/**"
   workflow_dispatch:
   schedule:
     - cron: '0 3 * * *'
