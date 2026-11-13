@@ -101,6 +101,10 @@ jobs:
         working-directory: language/typescript/examples/structured-output
       - run: npm test
         working-directory: language/typescript/examples/structured-output
+      - run: npm ci --no-audit --no-fund
+        working-directory: language/typescript/examples/provider-fallback
+      - run: npm test
+        working-directory: language/typescript/examples/provider-fallback
       - run: dotnet run --project language/csharp/examples/mcp/Mcp.csproj -- --test
       - run: dotnet run --project language/csharp/examples/structured-output/StructuredOutput.csproj -- --test
 
