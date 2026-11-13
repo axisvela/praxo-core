@@ -116,6 +116,7 @@ jobs:
           PUSH_BEFORE: ${{ github.event.before }}
           HEAD_SHA: ${{ github.sha }}
         run: python scripts/ci_changes.py
+      - run: python scripts/check_ci_workflow_coverage.py
 
   current-java-consumer:
     needs: changes
