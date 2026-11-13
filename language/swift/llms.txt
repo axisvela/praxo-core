@@ -8,11 +8,11 @@
 
 - package: `praxo-core-swift`
 - registry: [Swift Package Index](https://swiftpackageindex.com/axisvela/praxo-core-swift)
-- source_version: `0.4.0`
+- source_version: `0.5.0`
 - published_version: `0.2.0`
 - install_published: `.package(url: "https://github.com/axisvela/praxo-core-swift.git", from: "0.2.0")`
-- install_source: `.package(url: "https://github.com/axisvela/praxo-core-swift.git", from: "0.4.0")`
-- source_tag: `swift/v0.4.0`
+- install_source: `.package(url: "https://github.com/axisvela/praxo-core-swift.git", from: "0.5.0")`
+- source_tag: `swift/v0.5.0`
 - tier: Core
 - contract: `SPEC_VERSION` `0.2.0`
 - documentation: https://axisvela.github.io/praxo-core/languages/swift/
@@ -24,9 +24,9 @@
 - Gemini model: native (`GeminiModel` with injectable transport)
 - MCP client: native (`McpClient`, `StdioMcpTransport`, `HttpMcpTransport`; typechecked locally, full build blocked)
 - Harmovela sink: native (`HarmovelaSink` with URLSession transport)
-- OpenTelemetry sink: not implemented
-- Subagent delegation: not implemented
-- Retriever: not implemented
+- OpenTelemetry sink: native (transport seam) (`OtelSink`; caller supplies `OtelTransport`)
+- Subagent delegation: native (synchronous seam) (`SubagentManager.run`; no asynchronous manager)
+- Retriever: native (`Document`, `FuncRetriever`, `retrieveDocuments`)
 
 # Start
 

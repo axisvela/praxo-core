@@ -3,7 +3,7 @@
 Swift implementation of the PRAXO-CORE contract.
 
 - `SPEC_VERSION`: `0.2.0`
-- Core version: `0.2.0`
+- Core version: `0.5.0`
 - Tier: core
 - License: MIT
 
@@ -16,10 +16,12 @@ Swift implementation of the PRAXO-CORE contract.
 
 ## Scope
 
-`0.2.0` implements all eleven conformance vector groups: tool-call parsing, JSON
+`0.5.0` implements all eleven conformance vector groups: tool-call parsing, JSON
 Schema, plugin manifests, memory, events, stream kinds, checkpoint envelopes,
 path policy, context budgets, middleware, and the agent loop. It also includes
-non-streaming OpenAI-compatible, Anthropic, and Gemini model adapters.
+non-streaming OpenAI-compatible, Anthropic, and Gemini model adapters, MCP
+transport seams, Harmovela, OpenTelemetry, retriever, and synchronous delegation
+seams.
 
 ## Install
 
@@ -94,6 +96,17 @@ try sink.emit(Event(type: "tool.call", sessionID: "s1", runID: "run-1",
 buffering, ordering, or exactly-once guarantee; filter sensitive event data
 caller-side and use HTTPS for remote endpoints.
 
+## OpenTelemetry, Retriever, and Delegation Seams
+
+`OtelSink` maps Core events to OTLP/HTTP spans over an injected
+`OtelTransport`. Event data is excluded unless its key is allowlisted in
+`allowedDataKeys`; non-2xx responses raise `OTEL_HTTP`.
+
+`FuncRetriever` and `retrieveDocuments` provide a document/query/limit seam.
+`SubagentManager` runs a caller-supplied `SubagentRunner` synchronously and
+returns a terminal `SubagentTask`; it does not provide an asynchronous manager,
+durable queue, or cross-process worker.
+
 ## Layout
 
 - `Sources/PraxoCore/` library.
@@ -103,6 +116,6 @@ caller-side and use HTTPS for remote endpoints.
 
 ## Release
 
-Tag shape: `swift/v0.2.0`. The tag targets `SPEC_VERSION` `0.2.0`. SPM and
+Tag shape: `swift/v0.5.0`. The tag targets `SPEC_VERSION` `0.2.0`. SPM and
 Swift Package Index consumption require a split repository with root
 `Package.swift` and plain semver tags; see [PUBLISHING.md](PUBLISHING.md).

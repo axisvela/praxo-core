@@ -398,10 +398,10 @@
     "package": "praxo-core-swift",
     "published_version": "0.2.0",
     "registry": "Swift Package Index",
-    "source_install": ".package(url: \"https://github.com/axisvela/praxo-core-swift.git\", from: \"0.4.0\")",
-    "source_version": "0.4.0",
+    "source_install": ".package(url: \"https://github.com/axisvela/praxo-core-swift.git\", from: \"0.5.0\")",
+    "source_version": "0.5.0",
     "status": "package list merged",
-    "tag": "swift/v0.4.0",
+    "tag": "swift/v0.5.0",
     "tier": "Core",
     "url": "https://swiftpackageindex.com/axisvela/praxo-core-swift"
   },
