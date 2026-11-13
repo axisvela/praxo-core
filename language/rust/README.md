@@ -51,6 +51,8 @@ cargo add praxo-core@0.6.0
   bounded attempts and a deterministic check.
 - [`examples/service`](examples/service): standard-library HTTP service with
   principal, tenant, policy, and a deterministic check.
+- [`examples/identity-policy`](examples/identity-policy): bind a trusted
+  principal to policy and reject effects before execution.
 
 ## Requirements
 

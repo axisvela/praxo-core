@@ -19,6 +19,8 @@
   allowlisted payload encoding.
 - [`retry/`](retry/): retry transient model failures with bounded attempts and
   deterministic tests.
+- [`identity-policy/`](identity-policy/): bind a trusted principal to policy and
+  reject effects before execution.
 
 The examples install a published package. They do not require a repository
 checkout or local package replacement.

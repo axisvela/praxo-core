@@ -14,6 +14,8 @@
   allowlisted payload encoding.
 - [`retry/`](retry/): retry transient model failures with bounded attempts and
   a deterministic `--test` mode.
+- [`identity-policy/`](identity-policy/): bind a trusted principal to policy and
+  reject effects before execution.
 - [`service/`](service/): standard-library HTTP service with principal, tenant,
   policy, and a deterministic `--test` mode.
 
