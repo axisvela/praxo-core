@@ -1,5 +1,15 @@
 # R Core Release Notes
 
+## 0.8.0 - 2026-11-13
+
+Source tag `r/v0.8.0`.
+
+### Added
+
+- OpenTelemetry event sink (`otel_sink`) over a caller-supplied OTLP/HTTP
+  transport, with deterministic trace/span identifiers, default event-data
+  exclusion, and an explicit data-key allowlist.
+
 ## Unreleased
 
 ### Added

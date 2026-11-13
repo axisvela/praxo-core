@@ -1,7 +1,7 @@
 # PRAXO-CORE R Registry Introduction
 
-**Status:** r-universe 0.7.1 published; CRAN not published. Source version `0.7.1`, source
-tag `r/v0.7.1`. Published registry version: `0.7.1`. Registry
+**Status:** r-universe 0.7.1 published; CRAN not published. Source version `0.8.0`, source
+tag `r/v0.8.0`. Published registry version: `0.7.1`. Registry
 pages are release snapshots; verify the published version before relying on a
 feature.
 
@@ -15,11 +15,11 @@ R implementation of the PRAXO-CORE contract.
 | --- | --- |
 | Package | `praxocore` |
 | Registry | [r-universe](https://axisvela.r-universe.dev/praxocore) |
-| Source version | `0.7.1` |
+| Source version | `0.8.0` |
 | Published registry version | `0.7.1` |
 | Install (published) | `install.packages("praxocore", repos = "https://axisvela.r-universe.dev")` |
 | Install (source/release prepared) | `install.packages("praxocore", repos = "https://axisvela.r-universe.dev")` |
-| Source tag | `r/v0.7.1` |
+| Source tag | `r/v0.8.0` |
 | Tier | Core |
 | Contract | `SPEC_VERSION` `0.2.0` |
 | Documentation | https://axisvela.github.io/praxo-core/languages/r/ |
@@ -33,7 +33,7 @@ R implementation of the PRAXO-CORE contract.
 | Gemini model | native (transport seam) | `gemini`; caller may supply `transport` |
 | MCP client | native (transport seam) | `mcp_client`; base R needs caller-supplied transport for stdio |
 | Harmovela sink | native | `harmovela_sink` |
-| OpenTelemetry sink | not implemented |  |
+| OpenTelemetry sink | native (transport seam) | `otel_sink`; caller supplies OTLP/HTTP transport |
 
 ## Coding-agent entry
 

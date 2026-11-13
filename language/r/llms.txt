@@ -8,11 +8,11 @@
 
 - package: `praxocore`
 - registry: [r-universe](https://axisvela.r-universe.dev/praxocore)
-- source_version: `0.7.1`
+- source_version: `0.8.0`
 - published_version: `0.7.1`
 - install_published: `install.packages("praxocore", repos = "https://axisvela.r-universe.dev")`
 - install_source: `install.packages("praxocore", repos = "https://axisvela.r-universe.dev")`
-- source_tag: `r/v0.7.1`
+- source_tag: `r/v0.8.0`
 - tier: Core
 - contract: `SPEC_VERSION` `0.2.0`
 - documentation: https://axisvela.github.io/praxo-core/languages/r/
@@ -24,7 +24,7 @@
 - Gemini model: native (transport seam) (`gemini`; caller may supply `transport`)
 - MCP client: native (transport seam) (`mcp_client`; base R needs caller-supplied transport for stdio)
 - Harmovela sink: native (`harmovela_sink`)
-- OpenTelemetry sink: not implemented
+- OpenTelemetry sink: native (transport seam) (`otel_sink`; caller supplies OTLP/HTTP transport)
 
 # Start
 

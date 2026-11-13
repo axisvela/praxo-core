@@ -15,6 +15,7 @@ if (requireNamespace("praxocore", quietly = TRUE)) {
   source(file.path(root, "language", "r", "R", "anthropic.R"))
   source(file.path(root, "language", "r", "R", "gemini.R"))
   source(file.path(root, "language", "r", "R", "harmovela.R"))
+  source(file.path(root, "language", "r", "R", "otel.R"))
   source(file.path(root, "language", "r", "R", "mcp.R"))
 }
 if (!exists("fake_mcp_response", mode = "function")) {
@@ -644,6 +645,57 @@ harmovela_test <- function() {
 }
 
 harmovela_test()
+
+otel_test <- function() {
+  captured <- new.env(parent = emptyenv())
+  transport <- function(url, body) {
+    captured$url <- url
+    captured$body <- body
+    list(status = 200L, body = "")
+  }
+  sink <- otel_sink("http://otel.test/v1/traces",
+                    service_name = "praxo-test",
+                    transport = transport,
+                    allowed_data_keys = "name")
+  event <- list(
+    type = "tool.call",
+    sessionId = "s1",
+    runId = "run-123",
+    data = list(name = "echo", secret = "hidden"),
+    at = "2026-11-10T07:00:00Z"
+  )
+  sink$emit(event)
+  stopifnot(identical(captured$url, "http://otel.test/v1/traces"))
+  payload <- json_parse(captured$body)
+  span <- payload$resourceSpans[[1L]]$scopeSpans[[1L]]$spans[[1L]]
+  stopifnot(identical(span$name, "praxo.tool.call"))
+  stopifnot(nchar(span$traceId) == 32L, nchar(span$spanId) == 16L)
+  stopifnot(identical(span$startTimeUnixNano, span$endTimeUnixNano))
+  keys <- vapply(span$attributes, function(item) item$key, character(1L))
+  values <- vapply(span$attributes, function(item) item$value$stringValue,
+                   character(1L))
+  names(values) <- keys
+  stopifnot(identical(values[["praxo.event.type"]], "tool.call"))
+  stopifnot(identical(values[["praxo.session.id"]], "s1"))
+  stopifnot(identical(values[["praxo.run.id"]], "run-123"))
+  stopifnot(identical(values[["praxo.event.data.name"]], "echo"))
+  stopifnot(!("praxo.event.data.secret" %in% keys))
+
+  sink$emit(event)
+  second <- json_parse(captured$body)
+  second_span <- second$resourceSpans[[1L]]$scopeSpans[[1L]]$spans[[1L]]
+  stopifnot(identical(span$traceId, second_span$traceId))
+  stopifnot(identical(span$spanId, second_span$spanId))
+
+  failing <- otel_sink("http://otel.test/v1/traces",
+                       transport = function(url, body) {
+                         list(status = 503L, body = "down")
+                       })
+  error <- tryCatch({ failing$emit(event); NULL }, error = function(error) error)
+  stopifnot(inherits(error, "praxo_error"), identical(error$code, "OTEL_HTTP"))
+}
+
+otel_test()
 
 source(file.path(test_dir, "helpers", "mcp_tests.R"))
 source(file.path(test_dir, "helpers", "provider_tests.R"))

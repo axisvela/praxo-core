@@ -253,6 +253,7 @@ tests; no live Harmovela service is claimed.
 | TypeScript | native (transport seam) | `src/adapters/otel.ts`; caller supplies OTLP/HTTP transport |
 | Java | native (transport seam) | `adapters.OtelSink`; caller supplies OTLP/HTTP transport |
 | Rust | native (transport seam) | `adapters::otel::Sink`; caller supplies OTLP/HTTP transport |
+| R | native (transport seam) | `otel_sink`; caller supplies OTLP/HTTP transport |
 | All other implementations | not implemented | Candidate transport-seam sinks; no OpenTelemetry SDK dependency is required |
 
 OpenTelemetry support means mapping Core events to OTLP spans over a

@@ -357,9 +357,9 @@
     "published_version": "0.7.1",
     "registry": "r-universe",
     "source_install": "install.packages(\"praxocore\", repos = \"https://axisvela.r-universe.dev\")",
-    "source_version": "0.7.1",
+    "source_version": "0.8.0",
     "status": "r-universe 0.7.1 published; CRAN not published",
-    "tag": "r/v0.7.1",
+    "tag": "r/v0.8.0",
     "tier": "Core",
     "url": "https://axisvela.r-universe.dev/praxocore"
   },
