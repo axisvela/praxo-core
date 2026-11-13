@@ -1,5 +1,15 @@
 # C++ Core Release Notes
 
+## 0.7.0 - 2026-11-13
+
+Source release tag `cpp/v0.7.0`.
+
+### Added
+
+- OpenTelemetry OTLP/HTTP event sink over a caller-supplied transport.
+- Document retriever seam (`Document`, `Retriever`, `retrieve`).
+- Synchronous subagent seam (`subagent_run`); no asynchronous manager.
+
 ## 0.6.0 - 2026-11-13
 
 Source release tag `cpp/v0.6.0`.

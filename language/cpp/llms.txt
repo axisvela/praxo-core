@@ -8,11 +8,11 @@
 
 - package: `praxo-core-cpp`
 - registry: Source / CMake
-- source_version: `0.6.0`
+- source_version: `0.7.0`
 - published_version: not published
 - install_published: not published
 - install_source: `CMake source build (see README)`
-- source_tag: `cpp/v0.6.0`
+- source_tag: `cpp/v0.7.0`
 - tier: Core
 - contract: `SPEC_VERSION` `0.2.0`
 - documentation: https://axisvela.github.io/praxo-core/languages/cpp/
@@ -24,9 +24,9 @@
 - Gemini model: native (transport seam) (`Gemini`; caller supplies HTTP transport)
 - MCP client: native (transport seam) (`McpClient`; caller supplies `McpTransport`)
 - Harmovela sink: native (transport seam) (`HarmovelaSink`; caller supplies HTTP transport)
-- OpenTelemetry sink: not implemented
-- Subagent delegation: not implemented
-- Retriever: not implemented
+- OpenTelemetry sink: native (transport seam) (`OtelSink`; caller supplies `OtelTransport`)
+- Subagent delegation: native (synchronous seam) (`subagent_run`; no asynchronous manager)
+- Retriever: native (`Document`, `Retriever`, `retrieve`)
 
 # Start
 

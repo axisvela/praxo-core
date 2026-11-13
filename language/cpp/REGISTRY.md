@@ -1,7 +1,7 @@
 # PRAXO-CORE C++ Registry Introduction
 
-**Status:** source-only. Source version `0.6.0`, source
-tag `cpp/v0.6.0`. Published registry version: not published. Registry
+**Status:** source-only. Source version `0.7.0`, source
+tag `cpp/v0.7.0`. Published registry version: not published. Registry
 pages are release snapshots; verify the published version before relying on a
 feature.
 
@@ -15,11 +15,11 @@ C++20 implementation of the PRAXO-CORE agent contract. The normative contract is
 | --- | --- |
 | Package | `praxo-core-cpp` |
 | Registry | Source / CMake |
-| Source version | `0.6.0` |
+| Source version | `0.7.0` |
 | Published registry version | not published |
 | Install (published) | not published |
 | Install (source/release prepared) | `CMake source build (see README)` |
-| Source tag | `cpp/v0.6.0` |
+| Source tag | `cpp/v0.7.0` |
 | Tier | Core |
 | Contract | `SPEC_VERSION` `0.2.0` |
 | Documentation | https://axisvela.github.io/praxo-core/languages/cpp/ |
@@ -33,9 +33,9 @@ C++20 implementation of the PRAXO-CORE agent contract. The normative contract is
 | Gemini model | native (transport seam) | `Gemini`; caller supplies HTTP transport |
 | MCP client | native (transport seam) | `McpClient`; caller supplies `McpTransport` |
 | Harmovela sink | native (transport seam) | `HarmovelaSink`; caller supplies HTTP transport |
-| OpenTelemetry sink | not implemented |  |
-| Subagent delegation | not implemented |  |
-| Retriever | not implemented |  |
+| OpenTelemetry sink | native (transport seam) | `OtelSink`; caller supplies `OtelTransport` |
+| Subagent delegation | native (synchronous seam) | `subagent_run`; no asynchronous manager |
+| Retriever | native | `Document`, `Retriever`, `retrieve` |
 
 ## Coding-agent entry
 

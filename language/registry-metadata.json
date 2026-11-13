@@ -35,9 +35,9 @@
     "published_version": "0.4.0",
     "registry": "Source / CMake",
     "source_install": "CMake source build (see README)",
-    "source_version": "0.6.0",
+    "source_version": "0.7.0",
     "status": "source-only",
-    "tag": "cpp/v0.6.0",
+    "tag": "cpp/v0.7.0",
     "tier": "Core",
     "url": ""
   },
