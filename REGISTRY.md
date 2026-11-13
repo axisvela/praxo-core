@@ -20,7 +20,7 @@ controls, checkpoints, and event tracing. It is not a Go-only framework.
 | C# | `Praxo.Core` | [NuGet](https://www.nuget.org/packages/Praxo.Core/0.5.0) | `0.5.0` | https://axisvela.github.io/praxo-core/languages/csharp/ |
 | Ruby | `praxo-core` | [RubyGems](https://rubygems.org/gems/praxo-core/versions/0.7.0) | `0.7.0` | https://axisvela.github.io/praxo-core/languages/ruby/ |
 | PHP | `axisvela/praxo-core` | [Packagist](https://packagist.org/packages/axisvela/praxo-core) | `0.4.1` | https://axisvela.github.io/praxo-core/languages/php/ |
-| Dart | `praxo_core` | [pub.dev](https://pub.dev/packages/praxo_core/versions/0.2.0) | `0.2.0` | https://axisvela.github.io/praxo-core/languages/dart/ |
+| Dart | `praxo_core` | [pub.dev](https://pub.dev/packages/praxo_core/versions/0.4.0) | `0.4.0` | https://axisvela.github.io/praxo-core/languages/dart/ |
 | Elixir | `praxo_core` | [Hex](https://hex.pm/packages/praxo_core) | `0.8.0` | https://axisvela.github.io/praxo-core/languages/elixir/ |
 | Erlang | `praxo_core_erlang` | [Hex](https://hex.pm/packages/praxo_core_erlang/0.7.1) | `0.7.1` | https://axisvela.github.io/praxo-core/languages/erlang/ |
 | Lua | `praxo-core` | [LuaRocks](https://luarocks.org/modules/hanhhuiwen/praxo-core) | `0.6.0-1` | https://axisvela.github.io/praxo-core/languages/lua/ |

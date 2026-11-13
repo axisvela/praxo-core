@@ -39,9 +39,9 @@ GitHub Latest represents the Go Reference Core only, not the last language packa
 | Ruby | RubyGems | `0.7.0` | https://rubygems.org/gems/praxo-core/versions/0.7.0 | published; Ruby source repo is `axisvela/praxo-core-ruby` |
 | Lua | LuaRocks | `0.6.0-1` | https://luarocks.org/modules/hanhhuiwen/praxo-core | published |
 | PHP | Packagist | `0.4.1` | https://packagist.org/packages/axisvela/praxo-core | published; source tag `php/v0.5.0` is newer |
-| Dart | pub.dev | `0.2.0` | https://pub.dev/packages/praxo_core/versions/0.2.0 | published |
+| Dart | pub.dev | `0.4.0` | https://pub.dev/packages/praxo_core/versions/0.4.0 | published |
 | D | DUB | `0.1.0` | https://code.dlang.org/packages/praxo-core | published |
-| Swift | Swift Package Index | `0.2.0` | https://swiftpackageindex.com/axisvela/praxo-core-swift | package list merged |
+| Swift | Swift Package Index | `0.5.0` | https://swiftpackageindex.com/axisvela/praxo-core-swift | tag pushed; SPI indexing pending |
 | MATLAB | MATLAB File Exchange | `0.3.0` | https://www.mathworks.com/matlabcentral/fileexchange/185166-praxo-core | published |
 | PowerShell Core | PowerShell Gallery | `0.5.3` | https://www.powershellgallery.com/packages/praxo-core-ps/0.5.3 | published |
 | PowerShell Bridge | PowerShell Gallery | `0.1.0` | https://www.powershellgallery.com/packages/praxo-core-ps-br/0.1.0 | published |
@@ -54,9 +54,9 @@ GitHub Latest represents the Go Reference Core only, not the last language packa
 
 | Language | Registry | Version | Address | Status |
 | --- | --- | --- | --- | --- |
-| Julia | Julia General Registry | `0.2.0` | https://github.com/JuliaRegistries/General/pull/174826 | registration PR open |
-| Octave | Octave Packages | `0.2.1` | https://github.com/gnu-octave/packages/pull/875 | registration PR open |
-| OCaml | opam | `0.3.0` | https://github.com/ocaml/opam-repository/pull/31106 | registration PR open; package CI passed; opam-ci pending |
+| Julia | Julia General Registry | `0.5.0` | https://github.com/JuliaRegistries/General/pull/176022 | registration PR open |
+| Octave | Octave Packages | `0.5.0` | https://github.com/gnu-octave/packages/pull/875 | registration PR updated to 0.5.0 |
+| OCaml | opam | `0.6.0` | https://github.com/ocaml/opam-repository/pull/31222 | registration PR open |
 | V | VPM | `0.1.2` | https://github.com/axisvela/praxo-core-v | mirror published; VPM not indexed |
 | Delphi / Free Pascal | OPM / GitHub release | `0.2.1` | https://github.com/axisvela/praxo-core/releases/tag/delphi%2Fv0.2.1 | OPM assets published; maintainer submission pending |
 
