@@ -10,7 +10,7 @@
 | 任务 | 示例 | 说明 |
 | --- | --- | --- |
 | 连接真实模型 | [真实模型 Golden Path](live-model-golden-path.md) | 发布包、OpenAI-compatible 端点、一个 `get_time` 工具 |
-| 连接其他 Provider 或 MCP | [Provider 与 MCP 演练](../guides/provider-walkthrough.md)、[`language/python/examples/mcp`](https://github.com/axisvela/praxo-core/tree/main/language/python/examples/mcp)、[`language/typescript/examples/mcp`](https://github.com/axisvela/praxo-core/tree/main/language/typescript/examples/mcp)、[`language/csharp/examples/mcp`](https://github.com/axisvela/praxo-core/tree/main/language/csharp/examples/mcp) | 发布包 Adapter、本地 MCP 客户端与 Transport 边界 |
+| 连接其他 Provider 或 MCP | [Provider 与 MCP 演练](../guides/provider-walkthrough.md)、[MCP 教程](../guides/mcp-tutorial.md) | 发布包 Adapter、本地 MCP 客户端与 Transport 边界 |
 | 验证安装与拒绝路径 | [消费者 Starter](index.md) | 发布包安装与确定性 allow/deny 检查 |
 | 生成受校验 JSON | [结构化输出教程](../guides/structured-output-tutorial.md) | Python、TypeScript、Java、C# 的 `StructuredOutput` 与确定性 fake-model 测试 |
 | 构建 Workspace Agent | [Workspace Agent 教程](../guides/workspace-agent-tutorial.md) | 使用发布包的只读 Go 应用 |

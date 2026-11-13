@@ -12,7 +12,7 @@ mirror repositories.
 | Task | Example | Notes |
 | --- | --- | --- |
 | Run a real model | [Live Model Golden Path](live-model-golden-path.md) | Published package, OpenAI-compatible endpoint, one `get_time` tool |
-| Connect another provider or MCP | [Provider and MCP walkthrough](../guides/provider-walkthrough.md), [`language/python/examples/mcp`](https://github.com/axisvela/praxo-core/tree/main/language/python/examples/mcp), [`language/typescript/examples/mcp`](https://github.com/axisvela/praxo-core/tree/main/language/typescript/examples/mcp), [`language/csharp/examples/mcp`](https://github.com/axisvela/praxo-core/tree/main/language/csharp/examples/mcp) | Published-package adapters, local MCP clients, and transport boundaries |
+| Connect another provider or MCP | [Provider and MCP walkthrough](../guides/provider-walkthrough.md), [MCP tutorial](../guides/mcp-tutorial.md) | Published-package adapters, local MCP clients, and transport boundaries |
 | Verify installation and denial | [Consumer starters](index.md) | Published package plus deterministic allow/deny checks |
 | Produce validated JSON | [Structured Output tutorial](../guides/structured-output-tutorial.md) | Python, TypeScript, Java, and C# `StructuredOutput` with deterministic fake-model tests |
 | Build a workspace agent | [Workspace Agent tutorial](../guides/workspace-agent-tutorial.md) | Read-only published-package Go application |
