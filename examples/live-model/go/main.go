@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"fmt"
+	"io"
 	"log"
 	"net/http"
 	"os"
@@ -39,12 +40,12 @@ func (timeTool) Invoke(context.Context, map[string]any) (any, error) {
 }
 
 func main() {
-	if err := run(context.Background()); err != nil {
+	if err := run(context.Background(), os.Stdout); err != nil {
 		log.Fatal(err)
 	}
 }
 
-func run(ctx context.Context) error {
+func run(ctx context.Context, out io.Writer) error {
 	baseURL := envOr("PRAXO_BASE_URL", "http://localhost:11434/v1")
 	modelName := envOr("PRAXO_MODEL", "llama3.2")
 	prompt := envOr("PRAXO_PROMPT", "What time is it? Use the get_time tool and reply with the time.")
@@ -89,7 +90,7 @@ func run(ctx context.Context) error {
 	if err != nil {
 		return fmt.Errorf("live model run failed: %w\n\nCheck PRAXO_BASE_URL (%s), PRAXO_MODEL (%s), and PRAXO_API_KEY", err, baseURL, modelName)
 	}
-	fmt.Println(result.Output)
+	fmt.Fprintln(out, result.Output)
 	return nil
 }
 
