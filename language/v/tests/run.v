@@ -786,7 +786,7 @@ fn test_otel_sink() {
 	assert long_failure.contains('OTEL_HTTP')
 	assert long_failure.len < 600
 
-	wrapped := praxo.otel_sink('https://otel.test/v1/traces', praxo.OtelOptions{
+	mut wrapped := praxo.otel_sink('https://otel.test/v1/traces', praxo.OtelOptions{
 		transport: transport
 		clock: fn () i64 { return 1794294000000000000 }
 	})
