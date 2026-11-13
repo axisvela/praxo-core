@@ -1,4 +1,4 @@
-﻿### Praxo.Core.Action
+### Praxo.Core.Action
 Action()
 System.String Kind { get; set; }
 System.String SessionId { get; set; }
@@ -341,6 +341,31 @@ System.String ApiKey { get; set; }
 System.String BaseUrl { get; set; }
 System.String Model { get; set; }
 System.TimeSpan Timeout { get; set; }
+### Praxo.Core.OtelHttpRequest
+OtelHttpRequest()
+System.Collections.Generic.Dictionary`2[System.String,System.String] Headers { get; set; }
+System.String Body { get; set; }
+System.String Method { get; set; }
+System.String Url { get; set; }
+### Praxo.Core.OtelHttpResponse
+OtelHttpResponse()
+System.Int32 StatusCode { get; set; }
+System.String Body { get; set; }
+### Praxo.Core.OtelSink
+OtelSink(Praxo.Core.OtelSinkOptions options)
+OtelSink(Praxo.Core.OtelSinkOptions options, Praxo.Core.OtelTransport transport)
+System.Void Emit(Praxo.Core.Event event)
+### Praxo.Core.OtelSinkOptions
+OtelSinkOptions()
+System.Collections.Generic.List`1[System.String] AllowedDataKeys { get; set; }
+System.String Endpoint { get; set; }
+System.String ServiceName { get; set; }
+System.TimeSpan Timeout { get; set; }
+### Praxo.Core.OtelTransport
+OtelTransport(System.Object object, System.IntPtr method)
+Praxo.Core.OtelHttpResponse EndInvoke(System.IAsyncResult result)
+Praxo.Core.OtelHttpResponse Invoke(Praxo.Core.OtelHttpRequest request)
+System.IAsyncResult BeginInvoke(Praxo.Core.OtelHttpRequest request, System.AsyncCallback callback, System.Object object)
 ### Praxo.Core.ParsedToolCall
 ParsedToolCall()
 System.String CallId { get; set; }

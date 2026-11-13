@@ -254,6 +254,12 @@ tests; no live Harmovela service is claimed.
 | Java | native (transport seam) | `adapters.OtelSink`; caller supplies OTLP/HTTP transport |
 | Rust | native (transport seam) | `adapters::otel::Sink`; caller supplies OTLP/HTTP transport |
 | R | native (transport seam) | `otel_sink`; caller supplies OTLP/HTTP transport |
+| C# | native (transport seam) | `Praxo.Core.OtelSink`; caller supplies OTLP/HTTP transport |
+| PowerShell | inherited | Uses the C# Core |
+| Visual Basic / F# | inherited | Samples over the C# Core |
+| Kotlin / Scala / Groovy / Clojure | inherited | Samples over the Java Core |
+| JavaScript | inherited | Sample over the TypeScript Core |
+| Shell / Lisp / Tcl / Prolog | bridge | Uses the Go Core through the bridge |
 | All other implementations | not implemented | Candidate transport-seam sinks; no OpenTelemetry SDK dependency is required |
 
 OpenTelemetry support means mapping Core events to OTLP spans over a

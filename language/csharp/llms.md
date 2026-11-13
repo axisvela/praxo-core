@@ -8,11 +8,11 @@
 
 - package: `Praxo.Core`
 - registry: [NuGet](https://www.nuget.org/packages/Praxo.Core/0.5.0)
-- source_version: `0.6.0`
+- source_version: `0.7.0`
 - published_version: `0.5.0`
 - install_published: `dotnet add package Praxo.Core --version 0.5.0`
-- install_source: `dotnet add package Praxo.Core --version 0.6.0`
-- source_tag: `csharp/v0.6.0`
+- install_source: `dotnet add package Praxo.Core --version 0.7.0`
+- source_tag: `csharp/v0.7.0`
 - tier: Core
 - contract: `SPEC_VERSION` `0.2.0`
 - documentation: https://axisvela.github.io/praxo-core/languages/csharp/
@@ -24,7 +24,7 @@
 - Gemini model: native (`Praxo.Core.GeminiModel`)
 - MCP client: native (`Praxo.Core.Adapters.McpClient`; stdio, plus `McpStreamableHttpTransport` for Streamable HTTP 2025-03-26)
 - Harmovela sink: native (`Praxo.Core.HarmovelaSink`)
-- OpenTelemetry sink: not implemented
+- OpenTelemetry sink: native (transport seam) (`Praxo.Core.OtelSink`; caller supplies OTLP/HTTP transport)
 
 ## Start
 

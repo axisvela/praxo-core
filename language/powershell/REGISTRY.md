@@ -33,7 +33,7 @@ PowerShell Core package `praxo-core-ps`, a shared-runtime wrapper over the C# PR
 | Gemini model | inherited | Uses the C# Core |
 | MCP client | native (C# shared runtime) | `Connect-PraxoMcp`, `Get-PraxoMcpTools`, `Invoke-PraxoMcpTool`; wraps the C# MCP client and stdio/Streamable HTTP transports |
 | Harmovela sink | inherited | Uses the C# Core |
-| OpenTelemetry sink | not implemented |  |
+| OpenTelemetry sink | inherited | Uses the C# Core |
 
 ## Coding-agent entry
 
