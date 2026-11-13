@@ -29,6 +29,27 @@ language, adapter, profile, or test counts.
 - Keep credentials, identity, durable state, isolation, and product data in the
   embedding application.
 
+## Language Scope
+
+This roadmap applies to the whole PRAXO-CORE family, not only the Go reference
+implementation. Go defines the normative reference behavior, while each language
+Core ships as an independently versioned package with idiomatic APIs. The stages
+below describe the common developer journey; language-specific availability,
+installation, and feature coverage follow the
+[language implementation matrix](../languages/index.md) and
+[support policy](../languages/support.md).
+
+| Scope | Languages | Roadmap expectation |
+| --- | --- | --- |
+| Reference | Go | Defines shared behavior and leads reference examples |
+| Agent-capable Core | Python, TypeScript, Java, Rust, R, C# | Share the adoption stages and receive runnable provider, tool, and integration paths where practical |
+| Extended Core | C, PHP, Fortran, COBOL, Ruby, Elixir, Erlang, C++, Lua | Provide consumer paths as demand and maintainers justify them; advanced features may remain Go-first |
+| Other declared implementations | Other languages listed in the matrix, plus Bridge and Sample entries | Use per-language documentation and state gaps explicitly; no promise of every example or feature |
+
+The roadmap does not require every language to publish every example at the same
+time. It does require user-facing paths to say which language and package they
+target and not to present Go-only behavior as a cross-language guarantee.
+
 ## Adoption Path
 
 | Stage | Developer outcome | Current state | Next result |
@@ -58,6 +79,7 @@ Within a few minutes, a developer can answer:
 - [Start Here](../getting-started/index.md)
 - [Overview](../getting-started/overview.md)
 - [When Not to Use PRAXO-CORE](../getting-started/when-not-to-use.md)
+- [Language implementations](../languages/index.md)
 - [Language support and distribution](../languages/support.md)
 - [Framework comparison](comparison.md)
 
@@ -97,16 +119,23 @@ suite, Behavior Lab, or compatibility report.
   [Python](../getting-started/consumer-python.md),
   [TypeScript](../getting-started/consumer-typescript.md), and
   [Java](../getting-started/consumer-java.md)
-- [OpenAI-compatible adapters](../reference/openai-compatible-adapter.md)
+- Extended-language starters for [Ruby](../getting-started/consumer-ruby.md),
+  [PHP](../getting-started/consumer-php.md),
+  [Elixir](../getting-started/consumer-elixir.md), and
+  [Lua](../getting-started/consumer-lua.md)
+- [OpenAI-compatible adapters](../reference/openai-compatible-adapter.md) in the
+  languages that provide them
 
 ### Next Work
 
-- Add one independent golden-path project using a published package, a local
-  model, and a safe tool without a repository checkout.
-- Give Python, TypeScript, and Java a direct continuation from deterministic
-  starter to a real model endpoint.
+- Add independent golden-path projects using published packages, local models,
+  and safe tools without a repository checkout, starting with the four pilot
+  SDKs and extending to other maintained languages.
+- Give the main SDKs a direct continuation from deterministic starter to a real
+  model endpoint, with language-specific installation and code.
 - Add expected output and short troubleshooting for endpoint URLs, model names,
-  credentials, timeouts, tool schemas, and PowerShell environment variables.
+  credentials, timeouts, tool schemas, and platform-specific environment
+  variables.
 
 ## Stage 2: Build a Real Prototype
 
@@ -219,13 +248,17 @@ action APIs without a named consumer and a concrete gap.
 
 ## Current Priorities
 
-1. Published-package live-model golden path.
-2. Task-oriented example catalog.
-3. One complete practical prototype tutorial.
-4. Vendor-neutral application integration sample.
-5. Risk-tiered production and maintenance checklist.
+1. Published-package live-model golden paths across the main SDKs, starting with
+   Go, Python, TypeScript, and Java.
+2. A language-aware, task-oriented example catalog.
+3. One complete practical prototype tutorial per primary SDK, not only Go.
+4. Vendor-neutral application integration samples in representative languages.
+5. Risk-tiered production and maintenance checklists that state language support
+   explicitly.
 
-These priorities favor fewer complete paths over more isolated features.
+These priorities favor fewer complete paths over more isolated features. A
+single Go example is not sufficient evidence that the developer path works for
+the other language SDKs.
 
 ## Adoption Evidence
 
@@ -272,6 +305,8 @@ AxisVela mappings.
 - Keep the public Go API small and preserve the MIT boundary.
 - Keep shared wire changes explicit in `spec/`.
 - Do not widen the Go API merely to simplify a language port or example.
+- Let each language keep an idiomatic API; ports are not required to mirror Go
+  internals.
 - Prefer examples and adapters until a consumer proves a reusable Core gap.
 - Preserve published URLs and provide migration guidance for breaking changes.
 

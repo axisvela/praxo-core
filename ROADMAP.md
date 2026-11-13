@@ -10,10 +10,16 @@ framework, run a useful agent from a published package, build a coherent
 prototype, embed it in an application, and only then apply broader hardening and
 verification. Advanced integrations remain demand-driven.
 
+The roadmap covers the Go reference and the independently versioned language
+SDKs. Examples, installation paths, and feature availability must state their
+target language instead of assuming Go.
+
 - [Next-stage direction](docs/project/roadmap.md#next-stage-direction)
+- [Language scope](docs/project/roadmap.md#language-scope)
 - [Developer adoption path](docs/project/roadmap.md#adoption-path)
 - [Current priorities](docs/project/roadmap.md#current-priorities)
 - [Adoption evidence](docs/project/roadmap.md#adoption-evidence)
+- [Language implementations](docs/languages/index.md)
 - [Coding-agent adoption baseline protocol](docs/project/adoption-baseline.md)
 - [Release history](docs/releases/index.md)
 - [Complete changelog](CHANGELOG.md)

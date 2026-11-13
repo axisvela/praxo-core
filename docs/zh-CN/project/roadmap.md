@@ -22,6 +22,23 @@ PRAXO-CORE 继续定位为**可治理、可嵌入的 Agent 执行框架**。路�
 - 只有真实消费者证明可复用缺口后，才增加共享 API。
 - 凭据、身份、持久状态、隔离和产品数据始终由嵌入应用负责。
 
+## 语言范围
+
+本路线图适用于整个 PRAXO-CORE 家族，而不只针对 Go 参考实现。Go 定义规范参考行为，
+各语言 Core 以独立版本和符合本语言习惯的 API 发布。以下阶段描述共同的开发者路径；
+具体语言可用性、安装方式和功能覆盖以[语言实现矩阵](../languages/index.md)和
+[支持政策](../languages/support.md)为准。
+
+| 范围 | 语言 | 路线图要求 |
+| --- | --- | --- |
+| 参考实现 | Go | 定义共享行为并引领参考示例 |
+| Agent-capable Core | Python、TypeScript、Java、Rust、R、C# | 共享采用阶段，并在可行时提供可运行的 Provider、Tool 和集成路径 |
+| Extended Core | C、PHP、Fortran、COBOL、Ruby、Elixir、Erlang、C++、Lua | 在消费者和维护者需求充分时提供采用路径；高级能力可保持 Go 优先 |
+| 其他已声明实现 | 矩阵中的其他语言，以及 Bridge 和 Sample 条目 | 使用对应语言文档并明确差距；不承诺每个示例或功能都可用 |
+
+路线图不要求所有语言同时发布所有示例，但要求面向用户的路径明确标注目标语言和包，
+不能把仅在 Go 中成立的行为表述为跨语言保证。
+
 ## 采用路径
 
 | 阶段 | 开发者成果 | 当前状态 | 下一项成果 |
@@ -50,6 +67,7 @@ PRAXO-CORE 继续定位为**可治理、可嵌入的 Agent 执行框架**。路�
 - [阅读导览](../getting-started/index.md)
 - [概览](../getting-started/overview.md)
 - [何时不应选择 PRAXO-CORE](../getting-started/when-not-to-use.md)
+- [语言实现](../languages/index.md)
 - [语言支持与分发](../languages/support.md)
 - [框架对比](comparison.md)
 
@@ -83,14 +101,20 @@ PRAXO-CORE 继续定位为**可治理、可嵌入的 Agent 执行框架**。路�
   [Python](../getting-started/consumer-python.md)、
   [TypeScript](../getting-started/consumer-typescript.md)、
   [Java](../getting-started/consumer-java.md) 发布包 Starter
-- [OpenAI-compatible Adapter](../reference/openai-compatible-adapter.md)
+- [Ruby](../getting-started/consumer-ruby.md)、
+  [PHP](../getting-started/consumer-php.md)、
+  [Elixir](../getting-started/consumer-elixir.md)、
+  [Lua](../getting-started/consumer-lua.md) 扩展语言 Starter
+- 各语言已提供的 [OpenAI-compatible Adapter](../reference/openai-compatible-adapter.md)
 
 ### 下一步工作
 
-- 增加一个无需检出仓库、使用发布包、本地模型和安全工具的独立 golden-path 项目。
-- 为 Python、TypeScript、Java 提供从确定性 Starter 到真实模型端点的直接后续路径。
-- 增加预期输出，以及端点地址、模型名、凭据、超时、Tool Schema 和 PowerShell
-  环境变量的简短排错说明。
+- 增加无需检出仓库、使用发布包、本地模型和安全工具的独立 golden-path 项目，先覆盖
+  四个试点 SDK，再扩展到其他有维护者的语言。
+- 为主要 SDK 提供从确定性 Starter 到真实模型端点的直接后续路径，并给出对应语言的
+  安装方式和代码。
+- 增加预期输出，以及端点地址、模型名、凭据、超时、Tool Schema 和平台相关环境变量
+  的简短排错说明。
 
 ## 阶段 2：完成真实原型
 
@@ -187,13 +211,14 @@ Action API。
 
 ## 当前优先项
 
-1. 发布包真实模型 golden path。
-2. 按任务分类的示例目录。
-3. 一篇完整实用原型教程。
-4. 厂商中立的应用集成样例。
-5. 按风险分层的生产与维护清单。
+1. 覆盖主要 SDK 的发布包真实模型 golden path，先从 Go、Python、TypeScript、Java 开始。
+2. 带语言标注、按任务分类的示例目录。
+3. 每个主要 SDK 至少一篇完整实用原型教程，不只覆盖 Go。
+4. 用代表性语言提供厂商中立的应用集成样例。
+5. 明确标注语言支持范围的、按风险分层的生产与维护清单。
 
-这些优先项选择少量完整路径，而不是更多孤立功能。
+这些优先项选择少量完整路径，而不是更多孤立功能。一个 Go 示例不能证明其他语言 SDK
+的开发者路径同样可用。
 
 ## 采用证据
 
@@ -230,6 +255,7 @@ Core 提供 Model、Tool、Policy、Event、Checkpoint、Plugin、Stream 和 Wor
 - 保持 Go 公共 API 精简并维持 MIT 边界。
 - 共享 Wire 变更必须显式进入 `spec/`。
 - 不仅为简化语言移植或示例而扩大 Go API。
+- 允许各语言保持符合本语言习惯的 API；移植不要求镜像 Go 内部实现。
 - 在消费者证明可复用 Core 缺口前，优先使用示例和 Adapter。
 - 保留已发布 URL，并为破坏性变更提供迁移指南。
 
