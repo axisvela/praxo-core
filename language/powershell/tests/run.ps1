@@ -10,7 +10,7 @@ function Assert-True {
 Import-Module (Join-Path $PSScriptRoot '../praxo-core-ps/praxo-core-ps.psd1') -Force
 
 $info = Get-PraxoCoreInfo
-Assert-True ($info.Version -eq '0.5.2') 'core version'
+Assert-True ($info.Version -eq '0.5.3') 'core version'
 Assert-True ($info.SpecVersion -eq '0.2.0') 'spec version'
 
 $call = Get-PraxoToolCall '{"name":"echo","input":{"text":"hi"}}'
@@ -235,7 +235,13 @@ Assert-True ($documents[0].Content -eq 'hello:3') 'retriever content'
 Assert-True ($documents[0].Metadata['source'] -eq 'test') 'retriever metadata'
 Assert-True ($documents[0].Score -eq 0.5) 'retriever score'
 
-$subagentRunner = New-PraxoFuncSubagentRunner -Run {
+$subagentRequest = New-PraxoSubagentRequest -ParentSessionId 'parent' `
+    -AgentId 'child' -Prompt 'do work' -Mode 'fork' `
+    -Context @{ key = 'value' } `
+    -History @([Praxo.Core.Message]::Text('user', 'go'))
+Assert-True ($subagentRequest.Context['key'] -eq 'value') 'delegation context'
+Assert-True ($subagentRequest.History.Count -eq 1) 'delegation history'
+$subagentTask = Invoke-PraxoSubagent -Request $subagentRequest -Runner {
     param($request)
     $result = [Praxo.Core.Delegation.SubagentResult]::new()
     $result.TaskId = 'task-1'
@@ -243,27 +249,16 @@ $subagentRunner = New-PraxoFuncSubagentRunner -Run {
     $result.Output = 'done'
     $result
 }
-$subagentManager = New-PraxoSubagentManager -Runner $subagentRunner
-$subagentRequest = New-PraxoSubagentRequest -ParentSessionId 'parent' `
-    -AgentId 'child' -Prompt 'do work' -Mode 'fork' `
-    -Context @{ key = 'value' } `
-    -History @([Praxo.Core.Message]::Text('user', 'go'))
-Assert-True ($subagentRequest.Context['key'] -eq 'value') 'delegation context'
-Assert-True ($subagentRequest.History.Count -eq 1) 'delegation history'
-$subagentTask = Invoke-PraxoSubagent -Manager $subagentManager -Request $subagentRequest
 Assert-True ($subagentTask.Status -eq [Praxo.Core.Delegation.SubagentStatus]::Completed) 'delegation completed'
 Assert-True ($subagentTask.Output -eq 'done') 'delegation output'
 Assert-True ($subagentTask.ParentSessionId -eq 'parent') 'delegation parent'
 Assert-True ($subagentTask.AgentId -eq 'child') 'delegation agent'
 Assert-True ($subagentTask.Mode -eq [Praxo.Core.Delegation.SubagentMode]::Fork) 'delegation mode'
 
-$subagentFailingRunner = New-PraxoFuncSubagentRunner -Run {
+$subagentFailed = Invoke-PraxoSubagent -Request $subagentRequest -Runner {
     param($request)
     throw 'boom'
 }
-$subagentFailingManager = New-PraxoSubagentManager -Runner $subagentFailingRunner
-$subagentFailed = Invoke-PraxoSubagent -Manager $subagentFailingManager `
-    -Request $subagentRequest
 Assert-True ($subagentFailed.Status -eq [Praxo.Core.Delegation.SubagentStatus]::Failed) 'delegation failed'
 Assert-True ($subagentFailed.Error -match 'boom') 'delegation failure detail'
 
@@ -271,7 +266,10 @@ $invalidRequest = [Praxo.Core.Delegation.SubagentRequest]::new()
 $invalidRequest.AgentId = 'child'
 $invalidThrown = $false
 try {
-    Invoke-PraxoSubagent -Manager $subagentManager -Request $invalidRequest
+    Invoke-PraxoSubagent -Request $invalidRequest -Runner {
+        param($request)
+        'never'
+    }
 } catch {
     $invalidThrown = $true
 }

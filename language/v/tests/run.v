@@ -876,32 +876,28 @@ fn test_mcp() {
 	transport := fn (method string, params map[string]json2.Any) !map[string]json2.Any {
 		match method {
 			'initialize' {
-				return map[string]json2.Any{
-					'protocolVersion': json2.Any('2024-11-05')
-				}
+				mut result := map[string]json2.Any{}
+				result['protocolVersion'] = json2.Any('2024-11-05')
+				return result
 			}
 			'tools/list' {
-				return map[string]json2.Any{
-					'tools': json2.Any([
-						map[string]json2.Any{
-							'name':        json2.Any('echo')
-							'description': json2.Any('Echo input')
-							'inputSchema': json2.Any(map[string]json2.Any{
-								'type': json2.Any('object')
-							})
-						},
-					])
-				}
+				mut schema := map[string]json2.Any{}
+				schema['type'] = json2.Any('object')
+				mut tool := map[string]json2.Any{}
+				tool['name'] = json2.Any('echo')
+				tool['description'] = json2.Any('Echo input')
+				tool['inputSchema'] = json2.Any(schema)
+				mut tools := map[string]json2.Any{}
+				tools['tools'] = json2.Any([tool])
+				return tools
 			}
 			'tools/call' {
-				return map[string]json2.Any{
-					'content': json2.Any([
-						map[string]json2.Any{
-							'type': json2.Any('text')
-							'text': json2.Any('ok')
-						},
-					])
-				}
+				mut text := map[string]json2.Any{}
+				text['type'] = json2.Any('text')
+				text['text'] = json2.Any('ok')
+				mut result := map[string]json2.Any{}
+				result['content'] = json2.Any([text])
+				return result
 			}
 			else {
 				return map[string]json2.Any{}

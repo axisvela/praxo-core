@@ -7,7 +7,7 @@ pub type McpTransport = fn (method string, params map[string]json2.Any) !map[str
 pub struct McpOptions {
 pub:
 	transport        McpTransport
-	client_version   string = '0.4.2'
+	client_version   string = '0.4.3'
 	protocol_version string = '2024-11-05'
 }
 
@@ -27,7 +27,7 @@ pub fn mcp_client(options McpOptions) !&McpClient {
 		client_version: if options.client_version != '' {
 			options.client_version
 		} else {
-			'0.4.2'
+			'0.4.3'
 		}
 		protocol_version: if options.protocol_version != '' {
 			options.protocol_version

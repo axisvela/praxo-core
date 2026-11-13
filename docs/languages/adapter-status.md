@@ -325,7 +325,7 @@ selected keys must be allowlisted explicitly.
 | MATLAB | native (synchronous seam) | `praxo.subagent_run`; no asynchronous manager |
 | GNU Octave | native (synchronous seam) | Shared `praxo.subagent_run`; no asynchronous manager |
 | Erlang | native (synchronous seam) | `praxo_delegation:subagent_run/2`; no asynchronous manager |
-| PowerShell | inherited (wrapper) | Wraps C# `SubagentManager` |
+| PowerShell | native (synchronous wrapper) | Reuses C# request/result/task types; no asynchronous manager |
 | COBOL | native (synchronous seam) | `praxo-delegation`; synchronous runner callback; no asynchronous manager |
 | All other implementations | not implemented | Add with a named consumer or maintainer |
 

@@ -1,55 +1,3 @@
-$script:PraxoSubagentRunnerSource = @'
-using System;
-using System.Threading.Tasks;
-using Praxo.Core.Delegation;
-
-namespace Praxo.Core.PowerShell
-{
-    public sealed class FuncSubagentRunner : SubagentRunner
-    {
-        private readonly Func<SubagentRequest, Task<SubagentResult>> _run;
-
-        public FuncSubagentRunner(
-            Func<SubagentRequest, Task<SubagentResult>> run)
-        {
-            _run = run ?? throw new ArgumentNullException(nameof(run));
-        }
-
-        public Task<SubagentResult> RunAsync(SubagentRequest request)
-            => _run(request);
-    }
-}
-'@
-
-function Initialize-PraxoSubagentAdapter {
-    Import-PraxoCoreAssembly
-    if ('Praxo.Core.PowerShell.FuncSubagentRunner' -as [type]) {
-        return
-    }
-    Add-Type -TypeDefinition $script:PraxoSubagentRunnerSource `
-        -ReferencedAssemblies $script:PraxoCoreDll -IgnoreWarnings -CompilerOptions '/nowarn:1701'
-}
-
-function New-PraxoFuncSubagentRunner {
-    param([Parameter(Mandatory = $true)][scriptblock]$Run)
-    Import-PraxoCoreAssembly
-    Initialize-PraxoSubagentAdapter
-    $wrapped = {
-        param($request)
-        $result = & $Run $request
-        if ($result -is [System.Threading.Tasks.Task[Praxo.Core.Delegation.SubagentResult]]) {
-            return $result
-        }
-        $typed = [Praxo.Core.Delegation.SubagentResult]$result
-        [System.Threading.Tasks.Task[Praxo.Core.Delegation.SubagentResult]]::FromResult($typed)
-    }.GetNewClosure()
-    $delegate = [System.Management.Automation.LanguagePrimitives]::ConvertTo(
-        $wrapped,
-        [System.Func[Praxo.Core.Delegation.SubagentRequest, System.Threading.Tasks.Task[Praxo.Core.Delegation.SubagentResult]]]
-    )
-    [Praxo.Core.PowerShell.FuncSubagentRunner]::new($delegate)
-}
-
 function New-PraxoSubagentRequest {
     param(
         [Parameter(Mandatory = $true)][string]$ParentSessionId,
@@ -78,30 +26,43 @@ function New-PraxoSubagentRequest {
     $request
 }
 
-function New-PraxoSubagentManager {
-    param([Parameter(Mandatory = $true)]$Runner)
-    Import-PraxoCoreAssembly
-    [Praxo.Core.Delegation.SubagentManager]::new($Runner)
-}
-
 function Invoke-PraxoSubagent {
     param(
-        [Parameter(Mandatory = $true)]$Manager,
-        [Parameter(Mandatory = $true)]$Request,
-        [int]$TimeoutSeconds = 30
+        [Parameter(Mandatory = $true)][scriptblock]$Runner,
+        [Parameter(Mandatory = $true)]$Request
     )
-    $task = $Manager.Launch($Request)
-    if ($TimeoutSeconds -gt 0) {
-        $timeout = [TimeSpan]::FromSeconds($TimeoutSeconds)
-    } else {
-        $timeout = [System.Threading.Timeout]::InfiniteTimeSpan
+    Import-PraxoCoreAssembly
+    if ([string]::IsNullOrEmpty($Request.ParentSessionId) `
+            -or [string]::IsNullOrEmpty($Request.AgentId)) {
+        throw [System.ArgumentException]::new(
+            'agent: subagent parent session and agent id are required')
     }
-    $Manager.WaitAsync($task.Id, $timeout).GetAwaiter().GetResult()
+    $task = [Praxo.Core.Delegation.SubagentTask]::new()
+    $type = $task.GetType()
+    $now = [DateTimeOffset]::UtcNow
+    $type.GetProperty('Id').SetValue($task, 'subagent')
+    $type.GetProperty('ParentSessionId').SetValue($task, $Request.ParentSessionId)
+    $type.GetProperty('AgentId').SetValue($task, $Request.AgentId)
+    $type.GetProperty('Mode').SetValue($task, $Request.Mode)
+    $type.GetProperty('CreatedAt').SetValue($task, $now)
+    $task.Status = [Praxo.Core.Delegation.SubagentStatus]::Running
+    $task.UpdatedAt = $now
+    try {
+        $result = & $Runner $Request
+        if ($result -is [System.Threading.Tasks.Task[Praxo.Core.Delegation.SubagentResult]]) {
+            $result = $result.GetAwaiter().GetResult()
+        }
+        $task.Status = [Praxo.Core.Delegation.SubagentStatus]::Completed
+        $task.Output = [string]$result.Output
+    } catch {
+        $task.Status = [Praxo.Core.Delegation.SubagentStatus]::Failed
+        $task.Error = [string]$_.Exception.Message
+    }
+    $task.UpdatedAt = [DateTimeOffset]::UtcNow
+    $task
 }
 
 $script:PraxoAdapterExports = @($script:PraxoAdapterExports) + @(
-    'New-PraxoFuncSubagentRunner',
     'New-PraxoSubagentRequest',
-    'New-PraxoSubagentManager',
     'Invoke-PraxoSubagent'
 )
