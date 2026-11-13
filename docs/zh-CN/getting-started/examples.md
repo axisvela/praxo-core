@@ -15,7 +15,7 @@
 | 生成受校验 JSON | [结构化输出教程](../guides/structured-output-tutorial.md) | Python、TypeScript、Java、C# 的 `StructuredOutput` 与确定性 fake-model 测试 |
 | 构建 Workspace Agent | [Workspace Agent 教程](../guides/workspace-agent-tutorial.md) | 使用发布包的只读 Go 应用 |
 | 嵌入应用 | [应用嵌入清单](../guides/application-integration-checklist.md) | 只读、有副作用、高风险部署的分档清单 |
-| 通过 HTTP 运行 Core | [HTTP 嵌入服务教程](../guides/embedded-service-tutorial.md) | 含调用方上下文、Policy、超时和优雅退出的 Go 服务 |
+| 通过 HTTP 运行 Core | [HTTP 嵌入服务教程](../guides/embedded-service-tutorial.md)、[`language/python/examples/service`](https://github.com/axisvela/praxo-core/tree/main/language/python/examples/service) | 含调用方上下文、Policy 和确定性测试的 Go/Python 服务 |
 | 查看 Go 参考应用 | [`examples/reference`](https://github.com/axisvela/praxo-core/tree/main/examples/reference) | Go 参考应用 |
 | 增加 Policy 与审批 | [`examples/governed-workspace`](https://github.com/axisvela/praxo-core/tree/main/examples/governed-workspace) | Go 受治理执行边界示例 |
 | 增加 Checkpoint | [`examples/checkpoint`](https://github.com/axisvela/praxo-core/tree/main/examples/checkpoint) | Go Checkpoint 存储示例 |

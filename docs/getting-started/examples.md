@@ -17,7 +17,7 @@ mirror repositories.
 | Produce validated JSON | [Structured Output tutorial](../guides/structured-output-tutorial.md) | Python, TypeScript, Java, and C# `StructuredOutput` with deterministic fake-model tests |
 | Build a workspace agent | [Workspace Agent tutorial](../guides/workspace-agent-tutorial.md) | Read-only published-package Go application |
 | Embed in an application | [Application Integration Checklist](../guides/application-integration-checklist.md) | Risk-tiered checklist for read-only, side-effecting, and high-risk deployments |
-| Run Core behind HTTP | [Embedded HTTP service tutorial](../guides/embedded-service-tutorial.md) | Vendor-neutral Go service with caller context, policy, timeouts, and graceful shutdown |
+| Run Core behind HTTP | [Embedded HTTP service tutorial](../guides/embedded-service-tutorial.md), [`language/python/examples/service`](https://github.com/axisvela/praxo-core/tree/main/language/python/examples/service) | Go and Python services with caller context, policy, and deterministic tests |
 | Explore the Go reference | [`examples/reference`](https://github.com/axisvela/praxo-core/tree/main/examples/reference) | Go reference application |
 | Add policy and approvals | [`examples/governed-workspace`](https://github.com/axisvela/praxo-core/tree/main/examples/governed-workspace) | Go example of governed execution boundaries |
 | Add checkpoints | [`examples/checkpoint`](https://github.com/axisvela/praxo-core/tree/main/examples/checkpoint) | Go checkpoint-store example |
