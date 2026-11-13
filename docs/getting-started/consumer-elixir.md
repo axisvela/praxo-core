@@ -32,14 +32,14 @@ language source directory for acceptance.
 ## Application Source
 
 Use the following as `starter.exs`, rendered from the
-[tested source](https://github.com/axisvela/praxo-core/blob/main/examples/consumer-elixir/starter.exs).
+[tested source](https://github.com/axisvela/praxo-core/blob/main/language/elixir/examples/consumer/starter.exs).
 
 <!-- elixir-consumer-source: starter.exs -->
 
 ## Acceptance Tests
 
 Use the following as `test_starter.exs`, rendered from the
-[tested source](https://github.com/axisvela/praxo-core/blob/main/examples/consumer-elixir/test_starter.exs).
+[tested source](https://github.com/axisvela/praxo-core/blob/main/language/elixir/examples/consumer/test_starter.exs).
 
 <!-- elixir-consumer-source: test_starter.exs -->
 

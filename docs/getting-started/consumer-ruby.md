@@ -30,14 +30,14 @@ checkout, or a `$LOAD_PATH` entry that substitutes the published gem.
 ## Application Source
 
 Use the following as `starter.rb`, rendered from the
-[tested source](https://github.com/axisvela/praxo-core/blob/main/examples/consumer-ruby/starter.rb).
+[tested source](https://github.com/axisvela/praxo-core/blob/main/language/ruby/examples/consumer/starter.rb).
 
 <!-- ruby-consumer-source: starter.rb -->
 
 ## Acceptance Tests
 
 Use the following as `test_starter.rb`, rendered from the
-[tested source](https://github.com/axisvela/praxo-core/blob/main/examples/consumer-ruby/test_starter.rb).
+[tested source](https://github.com/axisvela/praxo-core/blob/main/language/ruby/examples/consumer/test_starter.rb).
 
 <!-- ruby-consumer-source: test_starter.rb -->
 

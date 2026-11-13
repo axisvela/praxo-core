@@ -152,7 +152,11 @@ def on_page_markdown(markdown, page, config, files):
         for filename, relative in filenames.items():
             marker = "<!-- " + language + "-consumer-source: " + filename + " -->"
             if marker in markdown:
-                source = (ROOT / "examples" / ("consumer-" + language) / relative).read_text(encoding="utf-8")
+                if language == "go":
+                    base = ROOT / "examples" / "consumer-go"
+                else:
+                    base = ROOT / "language" / language / "examples" / "consumer"
+                source = (base / relative).read_text(encoding="utf-8")
                 markdown = markdown.replace(marker, "```" + syntax + "\n" + source.rstrip() + "\n```")
     if "<!-- language-support-matrix -->" in markdown:
         source = (ROOT / "spec/languages.md").read_text(encoding="utf-8")

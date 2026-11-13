@@ -28,14 +28,14 @@ consumer should install the rock.
 ## Application Source
 
 Use the following as `starter.lua`, rendered from the
-[tested source](https://github.com/axisvela/praxo-core/blob/main/examples/consumer-lua/starter.lua).
+[tested source](https://github.com/axisvela/praxo-core/blob/main/language/lua/examples/consumer/starter.lua).
 
 <!-- lua-consumer-source: starter.lua -->
 
 ## Acceptance Tests
 
 Use the following as `test_starter.lua`, rendered from the
-[tested source](https://github.com/axisvela/praxo-core/blob/main/examples/consumer-lua/test_starter.lua).
+[tested source](https://github.com/axisvela/praxo-core/blob/main/language/lua/examples/consumer/test_starter.lua).
 
 <!-- lua-consumer-source: test_starter.lua -->
 

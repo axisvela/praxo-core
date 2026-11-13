@@ -21,7 +21,7 @@ class PythonConsumerTests(unittest.TestCase):
         with tempfile.TemporaryDirectory(prefix="praxo-python-consumer-") as directory:
             app = Path(directory)
             for filename in ("starter.py", "test_starter.py", "test_governed.py", "requirements.txt"):
-                shutil.copy2(ROOT / "examples/consumer-python" / filename, app)
+                shutil.copy2(ROOT / "language/python/examples/consumer" / filename, app)
             environment = app / ".venv"
             venv.create(environment, with_pip=True)
             python = environment / ("Scripts/python.exe" if sys.platform == "win32" else "bin/python")

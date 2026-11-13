@@ -41,7 +41,12 @@ A Core implementation should provide:
 - `api/` snapshots or equivalent API checks;
 - a conformance runner over `spec/vectors`;
 - language tests, including negative and security-sensitive paths;
+- an optional `examples/` directory for language-specific runnable examples;
 - an optional `adapters/` directory when the language has provider adapters.
+
+Language examples under `language/<language>/examples/` are copied into that
+language's discovery mirror. Cross-language and Go reference examples stay under
+the repository root `examples/` directory.
 
 Map contract areas to local modules and record the mapping in the parity
 inventory. Similar names are helpful, but physical `pkg/...` parity is not a

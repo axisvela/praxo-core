@@ -24,8 +24,8 @@ class JavaConsumerTests(unittest.TestCase):
         build.mkdir(exist_ok=True)
         with tempfile.TemporaryDirectory(prefix="praxo-java-consumer-", dir=build) as directory:
             app = Path(directory)
-            shutil.copy2(ROOT / "examples/consumer-java/pom.xml", app)
-            shutil.copytree(ROOT / "examples/consumer-java/src", app / "src")
+            shutil.copy2(ROOT / "language/java/examples/consumer/pom.xml", app)
+            shutil.copytree(ROOT / "language/java/examples/consumer/src", app / "src")
             maven = maven_command()
             commands = [
                 [*maven, "-B", "test"],

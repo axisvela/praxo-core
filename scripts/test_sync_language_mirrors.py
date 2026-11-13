@@ -53,7 +53,13 @@ class MirrorSyncTests(unittest.TestCase):
         self.assertIn("Canonical source:", readme)
         self.assertIn("language/python", readme)
         self.assertIn("praxo-core", readme)
+        self.assertNotIn("Examples:", readme)
         self.assertIn("build/", sync.mirror_gitignore())
+
+    def test_readme_links_examples_when_present(self):
+        entry = {entry["key"]: entry for entry in sync.mirror_entries()}["python"]
+        readme = sync.mirror_readme(entry, has_examples=True)
+        self.assertIn("language/python/examples", readme)
 
     def test_build_mirror_copies_sources_and_ignores_artifacts(self):
         entry = {entry["key"]: entry for entry in sync.mirror_entries()}["python"]

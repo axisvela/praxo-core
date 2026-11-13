@@ -43,12 +43,12 @@ class TypeScriptUpgradeTests(unittest.TestCase):
         with tempfile.TemporaryDirectory(prefix="praxo-typescript-upgrade-") as directory:
             app = Path(directory)
             source_names = ("starter.js", "test_starter.test.js", "governed.test.js")
-            source = {name: (ROOT / "examples/consumer-typescript" / name).read_bytes()
+            source = {name: (ROOT / "language/typescript/examples/consumer" / name).read_bytes()
                       for name in source_names}
             source["test_governed_compat.test.js"] = (
                 ROOT / "tests/consumer-typescript/test_governed_compat.test.js").read_bytes()
             for name in source_names:
-                shutil.copy2(ROOT / "examples/consumer-typescript" / name, app / name)
+                shutil.copy2(ROOT / "language/typescript/examples/consumer" / name, app / name)
             shutil.copy2(ROOT / "tests/consumer-typescript/test_governed_compat.test.js",
                          app / "test_governed_compat.test.js")
             shutil.copy2(ROOT / "tests/consumer-typescript/package.json", app / "package.json")

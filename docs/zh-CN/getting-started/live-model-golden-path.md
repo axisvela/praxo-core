@@ -4,8 +4,11 @@
 OpenAI-compatible 端点、一个低风险 `get_time` 工具，以及只允许 `get_time`
 的显式策略。
 
-可运行项目位于
-[`examples/live-model`](https://github.com/axisvela/praxo-core/tree/main/examples/live-model)。
+Go 项目位于
+[`examples/live-model/go`](https://github.com/axisvela/praxo-core/tree/main/examples/live-model/go)。
+语言专属项目位于 `language/<lang>/examples/live-model`，例如
+[`language/python/examples/live-model`](https://github.com/axisvela/praxo-core/tree/main/language/python/examples/live-model)。
+这些目录会进入对应语言的专用镜像仓库。
 
 ## 前置条件
 
@@ -39,9 +42,9 @@ $env:PRAXO_MODEL = "llama3.2"
 | 语言 | 包 | 命令 |
 | --- | --- | --- |
 | Go | `github.com/axisvela/praxo-core/v2@v2.7.0` | `cd examples/live-model/go; go run .` |
-| Python | PyPI `praxo-core==0.6.0` | `cd examples/live-model/python; python -m venv .venv; .venv/bin/python -m pip install -r requirements.txt; .venv/bin/python live_starter.py` |
-| TypeScript | npm `@axisvela/praxo-core@0.5.0` | `cd examples/live-model/typescript; npm install; npm start` |
-| Java | Maven `com.axisvela:praxo-core:0.7.0` | `cd examples/live-model/java; mvn -q compile exec:java` |
+| Python | PyPI `praxo-core==0.6.0` | `cd language/python/examples/live-model; python -m venv .venv; .venv/bin/python -m pip install -r requirements.txt; .venv/bin/python live_starter.py` |
+| TypeScript | npm `@axisvela/praxo-core@0.5.0` | `cd language/typescript/examples/live-model; npm install; npm start` |
+| Java | Maven `com.axisvela:praxo-core:0.7.0` | `cd language/java/examples/live-model; mvn -q compile exec:java` |
 
 每个项目都导入已发布包。Go 示例不使用 module replacement，其他示例不使用
 仓库路径依赖。

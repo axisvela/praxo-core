@@ -35,14 +35,14 @@ an `autoload.php` include from a source checkout for acceptance.
 ## Application Source
 
 Use the following as `starter.php`, rendered from the
-[tested source](https://github.com/axisvela/praxo-core/blob/main/examples/consumer-php/starter.php).
+[tested source](https://github.com/axisvela/praxo-core/blob/main/language/php/examples/consumer/starter.php).
 
 <!-- php-consumer-source: starter.php -->
 
 ## Acceptance Tests
 
 Use the following as `test_starter.php`, rendered from the
-[tested source](https://github.com/axisvela/praxo-core/blob/main/examples/consumer-php/test_starter.php).
+[tested source](https://github.com/axisvela/praxo-core/blob/main/language/php/examples/consumer/test_starter.php).
 
 <!-- php-consumer-source: test_starter.php -->
 

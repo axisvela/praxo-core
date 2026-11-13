@@ -23,13 +23,13 @@ npm install --save-exact @axisvela/praxo-core@0.5.0
 
 ## 应用源码
 
-以下为 `starter.js`，直接渲染自[受测源码](https://github.com/axisvela/praxo-core/blob/main/examples/consumer-typescript/starter.js)。
+以下为 `starter.js`，直接渲染自[受测源码](https://github.com/axisvela/praxo-core/blob/main/language/typescript/examples/consumer/starter.js)。
 
 <!-- typescript-consumer-source: starter.js -->
 
 ## 验收测试
 
-以下为 `test_starter.test.js`，直接渲染自[受测源码](https://github.com/axisvela/praxo-core/blob/main/examples/consumer-typescript/test_starter.test.js)。
+以下为 `test_starter.test.js`，直接渲染自[受测源码](https://github.com/axisvela/praxo-core/blob/main/language/typescript/examples/consumer/test_starter.test.js)。
 
 <!-- typescript-consumer-source: test_starter.test.js -->
 
@@ -68,7 +68,7 @@ node --test governed.test.js
 | 审批编辑改变参数 | 编辑后的操作重新授权；拒绝阻止副作用 |
 | Policy 服务错误 | 运行 fail closed；工具零副作用 |
 
-使用[受测源码](https://github.com/axisvela/praxo-core/blob/main/examples/consumer-typescript/governed.test.js)。
+使用[受测源码](https://github.com/axisvela/praxo-core/blob/main/language/typescript/examples/consumer/governed.test.js)。
 守卫属于应用层：Core 保留普通 nil-policy 行为。这些检查不证明真实身份、持久审批、
 效果对账或通用安全 Profile。
 

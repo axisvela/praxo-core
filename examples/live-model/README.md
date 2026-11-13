@@ -1,7 +1,8 @@
 # Live Model Golden Path
 
-This directory is a minimal published-package path for connecting PRAXO-CORE to
-a real OpenAI-compatible model. Each example:
+The Go project lives in [`go/`](go/). Other language projects live under
+`language/<lang>/examples/live-model`, so the dedicated language mirrors include
+them. Each example:
 
 - installs a published package instead of a repository checkout;
 - registers one low-risk `get_time` tool;
@@ -28,14 +29,14 @@ $env:PRAXO_MODEL = "llama3.2"
 ## Go
 
 ```bash
-cd go
+cd examples/live-model/go
 go run .
 ```
 
 ## Python
 
 ```bash
-cd python
+cd language/python/examples/live-model
 python -m venv .venv
 .venv/bin/python -m pip install -r requirements.txt
 .venv/bin/python live_starter.py
@@ -44,7 +45,7 @@ python -m venv .venv
 ## TypeScript
 
 ```bash
-cd typescript
+cd language/typescript/examples/live-model
 npm install
 npm start
 ```
@@ -52,7 +53,7 @@ npm start
 ## Java
 
 ```bash
-cd java
+cd language/java/examples/live-model
 mvn -q compile exec:java
 ```
 
@@ -63,8 +64,8 @@ that must produce no tool effect, run the corresponding consumer starter after
 the live example:
 
 - [`examples/consumer-go`](../consumer-go)
-- [`examples/consumer-python`](../consumer-python)
-- [`examples/consumer-typescript`](../consumer-typescript)
-- [`examples/consumer-java`](../consumer-java)
+- [`language/python/examples/consumer`](../../language/python/examples/consumer)
+- [`language/typescript/examples/consumer`](../../language/typescript/examples/consumer)
+- [`language/java/examples/consumer`](../../language/java/examples/consumer)
 
 These checks are intentionally separate from the live model path.

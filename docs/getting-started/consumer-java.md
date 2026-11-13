@@ -31,14 +31,14 @@ from the published `praxo-core-0.7.0.jar`.
 ## Application Source
 
 Use the following as `src/main/java/starter/App.java`, rendered directly from the
-[tested source](https://github.com/axisvela/praxo-core/blob/main/examples/consumer-java/src/main/java/starter/App.java).
+[tested source](https://github.com/axisvela/praxo-core/blob/main/language/java/examples/consumer/src/main/java/starter/App.java).
 
 <!-- java-consumer-source: App.java -->
 
 ## Acceptance Tests
 
 Use the following as `src/test/java/starter/AppTest.java`, rendered from the
-[tested source](https://github.com/axisvela/praxo-core/blob/main/examples/consumer-java/src/test/java/starter/AppTest.java).
+[tested source](https://github.com/axisvela/praxo-core/blob/main/language/java/examples/consumer/src/test/java/starter/AppTest.java).
 
 <!-- java-consumer-source: AppTest.java -->
 
@@ -79,7 +79,7 @@ mvn -B -Dtest=GovernedAcceptanceTest test
 | Policy service error | run fails closed; zero tool effects |
 
 Use the
-[tested source](https://github.com/axisvela/praxo-core/blob/main/examples/consumer-java/src/test/java/starter/GovernedAcceptanceTest.java).
+[tested source](https://github.com/axisvela/praxo-core/blob/main/language/java/examples/consumer/src/test/java/starter/GovernedAcceptanceTest.java).
 The guard is application-level: Core keeps its ordinary nil-policy behavior.
 These checks do not prove authentic identity, durable approvals, effect
 reconciliation, or a general security profile.

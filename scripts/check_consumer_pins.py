@@ -47,7 +47,7 @@ def validate(root: Path) -> list[str]:
     elif match.group(1) != version:
         errors.append(f"consumer-go/go.mod: {match.group(1)!r} != VERSION {version!r}")
 
-    py_req = (root / "examples/consumer-python/requirements.txt").read_text(encoding="utf-8")
+    py_req = (root / "language/python/examples/consumer/requirements.txt").read_text(encoding="utf-8")
     match = PY_REQ.search(py_req)
     if match is None:
         errors.append("consumer-python/requirements.txt: missing praxo-core pin")
@@ -57,7 +57,7 @@ def validate(root: Path) -> list[str]:
         )
 
     ts = json.loads(
-        (root / "examples/consumer-typescript/package.json").read_text(encoding="utf-8")
+        (root / "language/typescript/examples/consumer/package.json").read_text(encoding="utf-8")
     )
     ts_version = ts.get("dependencies", {}).get("@axisvela/praxo-core")
     if ts_version != expected.get("TypeScript"):
@@ -65,7 +65,7 @@ def validate(root: Path) -> list[str]:
             f"consumer-typescript: {ts_version!r} != map {expected.get('TypeScript')!r}"
         )
 
-    pom = ET.parse(root / "examples/consumer-java/pom.xml").getroot()
+    pom = ET.parse(root / "language/java/examples/consumer/pom.xml").getroot()
     java_version = None
     for dependency in pom.findall(".//m:dependency", POM_NS):
         artifact = dependency.find("m:artifactId", POM_NS)
@@ -76,7 +76,7 @@ def validate(root: Path) -> list[str]:
     if java_version != expected.get("Java"):
         errors.append(f"consumer-java: {java_version!r} != map {expected.get('Java')!r}")
 
-    gemfile = (root / "examples/consumer-ruby/Gemfile").read_text(encoding="utf-8")
+    gemfile = (root / "language/ruby/examples/consumer/Gemfile").read_text(encoding="utf-8")
     match = RUBY_GEM.search(gemfile)
     if match is None:
         errors.append("consumer-ruby/Gemfile: missing praxo-core pin")
@@ -84,20 +84,20 @@ def validate(root: Path) -> list[str]:
         errors.append(f"consumer-ruby: {match.group(1)!r} != map {expected.get('Ruby')!r}")
 
     composer = json.loads(
-        (root / "examples/consumer-php/composer.json").read_text(encoding="utf-8")
+        (root / "language/php/examples/consumer/composer.json").read_text(encoding="utf-8")
     )
     php_version = composer.get("require", {}).get("axisvela/praxo-core")
     if php_version != expected.get("PHP"):
         errors.append(f"consumer-php: {php_version!r} != map {expected.get('PHP')!r}")
 
-    mix = (root / "examples/consumer-elixir/mix.exs").read_text(encoding="utf-8")
+    mix = (root / "language/elixir/examples/consumer/mix.exs").read_text(encoding="utf-8")
     match = ELIXIR_DEP.search(mix)
     if match is None:
         errors.append("consumer-elixir/mix.exs: missing praxo_core dependency")
     elif match.group(1) != expected.get("Elixir"):
         errors.append(f"consumer-elixir: {match.group(1)!r} != map {expected.get('Elixir')!r}")
 
-    lua_readme = (root / "examples/consumer-lua/README.md").read_text(encoding="utf-8")
+    lua_readme = (root / "language/lua/examples/consumer/README.md").read_text(encoding="utf-8")
     match = LUA_README.search(lua_readme)
     if match is None:
         errors.append("consumer-lua/README.md: missing praxo-core version")

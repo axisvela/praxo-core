@@ -104,8 +104,14 @@ def mirror_entries(root: Path = ROOT) -> list[dict]:
     return [by_key[key] for key in MIRROR_KEYS]
 
 
-def mirror_readme(entry: dict) -> str:
+def mirror_readme(entry: dict, has_examples: bool = False) -> str:
     install = entry["install"]
+    examples = ""
+    if has_examples:
+        examples = (
+            f"- Examples: https://github.com/{ORGANIZATION}/{REPO_PREFIX}{entry['key']}"
+            f"/tree/main/language/{entry['key']}/examples\n"
+        )
     return f"""# PRAXO-CORE for {entry['name']}
 
 Dedicated repository for the {entry['name']} implementation of PRAXO-CORE: an
@@ -116,7 +122,7 @@ human-in-the-loop approval, checkpoints, events, and tool calling.
 - Registry: {entry['registry']}
 - Install: `{install}`
 - Documentation: {entry['docs']}
-- Mirror repository: https://github.com/{ORGANIZATION}/{REPO_PREFIX}{entry['key']}
+{examples}- Mirror repository: https://github.com/{ORGANIZATION}/{REPO_PREFIX}{entry['key']}
 - Canonical source: https://github.com/{ORGANIZATION}/praxo-core/tree/main/language/{entry['key']}
 - Release index: https://axisvela.github.io/praxo-core/languages/registry-status/
 
@@ -178,7 +184,10 @@ def build_mirror(entry: dict, destination: Path, root: Path = ROOT, clean: bool 
     if spec_source.is_dir():
         shutil.copytree(spec_source, destination / "spec", ignore=_ignore)
     shutil.copy2(root / "LICENSE", destination / "LICENSE")
-    (destination / "README.md").write_text(mirror_readme(entry), encoding="utf-8")
+    has_examples = (root / "language" / entry["key"] / "examples").is_dir()
+    (destination / "README.md").write_text(
+        mirror_readme(entry, has_examples=has_examples), encoding="utf-8"
+    )
     (destination / ".gitignore").write_text(mirror_gitignore(), encoding="utf-8")
 
 

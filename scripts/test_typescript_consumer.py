@@ -28,7 +28,7 @@ class TypeScriptConsumerTests(unittest.TestCase):
         with tempfile.TemporaryDirectory(prefix="praxo-typescript-consumer-") as directory:
             app = Path(directory)
             for filename in ("package.json", "package-lock.json", "starter.js", "test_starter.test.js", "governed.test.js"):
-                shutil.copy2(ROOT / "examples/consumer-typescript" / filename, app)
+                shutil.copy2(ROOT / "language/typescript/examples/consumer" / filename, app)
             npm = npm_command()
             commands = [
                 [*npm, "ci", "--no-audit", "--no-fund", "--ignore-scripts",

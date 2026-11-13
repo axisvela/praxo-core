@@ -31,13 +31,13 @@ CVE-2026-111497 修复。无需检出 PRAXO-CORE 源码、API Key、模型服务
 
 ## 应用源码
 
-以下为 `starter.php`，来自[受测源码](https://github.com/axisvela/praxo-core/blob/main/examples/consumer-php/starter.php)。
+以下为 `starter.php`，来自[受测源码](https://github.com/axisvela/praxo-core/blob/main/language/php/examples/consumer/starter.php)。
 
 <!-- php-consumer-source: starter.php -->
 
 ## 验收测试
 
-以下为 `test_starter.php`，来自[受测源码](https://github.com/axisvela/praxo-core/blob/main/examples/consumer-php/test_starter.php)。
+以下为 `test_starter.php`，来自[受测源码](https://github.com/axisvela/praxo-core/blob/main/language/php/examples/consumer/test_starter.php)。
 
 <!-- php-consumer-source: test_starter.php -->
 

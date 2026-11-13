@@ -28,14 +28,14 @@
 ## 应用源码
 
 以下为 `src/main/java/starter/App.java`，直接渲染自
-[受测源码](https://github.com/axisvela/praxo-core/blob/main/examples/consumer-java/src/main/java/starter/App.java)。
+[受测源码](https://github.com/axisvela/praxo-core/blob/main/language/java/examples/consumer/src/main/java/starter/App.java)。
 
 <!-- java-consumer-source: App.java -->
 
 ## 验收测试
 
 以下为 `src/test/java/starter/AppTest.java`，直接渲染自
-[受测源码](https://github.com/axisvela/praxo-core/blob/main/examples/consumer-java/src/test/java/starter/AppTest.java)。
+[受测源码](https://github.com/axisvela/praxo-core/blob/main/language/java/examples/consumer/src/test/java/starter/AppTest.java)。
 
 <!-- java-consumer-source: AppTest.java -->
 
@@ -73,7 +73,7 @@ mvn -B -Dtest=GovernedAcceptanceTest test
 | 审批编辑改变参数 | 编辑后的操作重新授权；拒绝阻止副作用 |
 | Policy 服务错误 | 运行 fail closed；工具零副作用 |
 
-使用[受测源码](https://github.com/axisvela/praxo-core/blob/main/examples/consumer-java/src/test/java/starter/GovernedAcceptanceTest.java)。
+使用[受测源码](https://github.com/axisvela/praxo-core/blob/main/language/java/examples/consumer/src/test/java/starter/GovernedAcceptanceTest.java)。
 守卫属于应用层：Core 保留普通 nil-policy 行为。这些检查不证明真实身份、持久审批、
 效果对账或通用安全 Profile。
 

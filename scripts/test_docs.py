@@ -44,7 +44,7 @@ class DocumentationTests(unittest.TestCase):
             self.assertIn("go test -mod=readonly -run Governed", page)
 
     def test_python_governed_acceptance_docs(self):
-        source = (ROOT / "examples/consumer-python/test_governed.py").read_text(encoding="utf-8")
+        source = (ROOT / "language/python/examples/consumer/test_governed.py").read_text(encoding="utf-8")
         self.assertGreaterEqual(source.count("async def test_"), 5)
         for prefix, heading in (("", "Governed Acceptance"), ("zh-CN/", "治理验收")):
             page = (ROOT / "docs" / prefix / "getting-started/consumer-python.md").read_text(encoding="utf-8")
@@ -52,7 +52,7 @@ class DocumentationTests(unittest.TestCase):
             self.assertIn("test_governed.py", page)
 
     def test_typescript_governed_acceptance_docs(self):
-        source = (ROOT / "examples/consumer-typescript/governed.test.js").read_text(encoding="utf-8")
+        source = (ROOT / "language/typescript/examples/consumer/governed.test.js").read_text(encoding="utf-8")
         self.assertGreaterEqual(source.count('test("'), 5)
         for prefix, heading in (("", "Governed Acceptance"), ("zh-CN/", "治理验收")):
             page = (ROOT / "docs" / prefix / "getting-started/consumer-typescript.md").read_text(encoding="utf-8")
@@ -60,7 +60,7 @@ class DocumentationTests(unittest.TestCase):
             self.assertIn("governed.test.js", page)
 
     def test_java_governed_acceptance_docs(self):
-        source = (ROOT / "examples/consumer-java/src/test/java/starter/GovernedAcceptanceTest.java").read_text(encoding="utf-8")
+        source = (ROOT / "language/java/examples/consumer/src/test/java/starter/GovernedAcceptanceTest.java").read_text(encoding="utf-8")
         self.assertGreaterEqual(source.count("@Test"), 5)
         for prefix, heading in (("", "Governed Acceptance"), ("zh-CN/", "治理验收")):
             page = (ROOT / "docs" / prefix / "getting-started/consumer-java.md").read_text(encoding="utf-8")
@@ -232,7 +232,7 @@ class DocumentationTests(unittest.TestCase):
         registry = json.loads((ROOT / "language/registry-metadata.json").read_text(encoding="utf-8"))
         self.assertEqual(registry["Java"]["source_version"], source_version)
         version = registry["Java"]["published_version"]
-        consumer = ElementTree.parse(ROOT / "examples/consumer-java/pom.xml").getroot()
+        consumer = ElementTree.parse(ROOT / "language/java/examples/consumer/pom.xml").getroot()
         dependencies = [
             dependency for dependency in consumer.findall(".//m:dependency", namespace)
             if dependency.findtext("m:groupId", namespaces=namespace) == "com.axisvela"
@@ -243,7 +243,7 @@ class DocumentationTests(unittest.TestCase):
         page = SimpleNamespace(meta={})
         for filename in ("App.java", "AppTest.java"):
             marker = "<!-- java-consumer-source: " + filename + " -->"
-            source_text = (ROOT / "examples/consumer-java/src" / ("main" if filename == "App.java" else "test")
+            source_text = (ROOT / "language/java/examples/consumer/src" / ("main" if filename == "App.java" else "test")
                            / "java/starter" / filename).read_text(encoding="utf-8")
             self.assertEqual(docs_hooks.on_page_markdown(marker, page, None, None), "```java\n" + source_text.rstrip() + "\n```")
             for prefix in ("", "zh-CN/"):
@@ -266,15 +266,15 @@ class DocumentationTests(unittest.TestCase):
         registry = json.loads((ROOT / "language/registry-metadata.json").read_text(encoding="utf-8"))
         self.assertEqual(registry["TypeScript"]["source_version"], metadata["version"])
         version = registry["TypeScript"]["published_version"]
-        package = json.loads((ROOT / "examples/consumer-typescript/package.json").read_text(encoding="utf-8"))
-        lockfile = json.loads((ROOT / "examples/consumer-typescript/package-lock.json").read_text(encoding="utf-8"))
+        package = json.loads((ROOT / "language/typescript/examples/consumer/package.json").read_text(encoding="utf-8"))
+        lockfile = json.loads((ROOT / "language/typescript/examples/consumer/package-lock.json").read_text(encoding="utf-8"))
         self.assertEqual(package["dependencies"]["@axisvela/praxo-core"], version)
         self.assertEqual(lockfile["packages"][""]["dependencies"]["@axisvela/praxo-core"], version)
         self.assertEqual(lockfile["packages"]["node_modules/@axisvela/praxo-core"]["version"], version)
         page = SimpleNamespace(meta={})
         for filename in ("starter.js", "test_starter.test.js"):
             marker = "<!-- typescript-consumer-source: " + filename + " -->"
-            source = (ROOT / "examples/consumer-typescript" / filename).read_text(encoding="utf-8")
+            source = (ROOT / "language/typescript/examples/consumer" / filename).read_text(encoding="utf-8")
             self.assertEqual(docs_hooks.on_page_markdown(marker, page, None, None), "```javascript\n" + source.rstrip() + "\n```")
             for prefix in ("", "zh-CN/"):
                 guide = (ROOT / "docs" / prefix / "getting-started/consumer-typescript.md").read_text(encoding="utf-8")
@@ -297,11 +297,11 @@ class DocumentationTests(unittest.TestCase):
         self.assertEqual(registry["Python"]["source_version"], metadata["project"]["version"])
         version = registry["Python"]["published_version"]
         requirement = "praxo-core==" + version
-        self.assertEqual((ROOT / "examples/consumer-python/requirements.txt").read_text().strip(), requirement)
+        self.assertEqual((ROOT / "language/python/examples/consumer/requirements.txt").read_text().strip(), requirement)
         page = SimpleNamespace(meta={})
         for filename in ("starter.py", "test_starter.py"):
             marker = "<!-- python-consumer-source: " + filename + " -->"
-            source = (ROOT / "examples/consumer-python" / filename).read_text(encoding="utf-8")
+            source = (ROOT / "language/python/examples/consumer" / filename).read_text(encoding="utf-8")
             self.assertEqual(docs_hooks.on_page_markdown(marker, page, None, None), "```python\n" + source.rstrip() + "\n```")
             for prefix in ("", "zh-CN/"):
                 guide = (ROOT / "docs" / prefix / "getting-started/consumer-python.md").read_text(encoding="utf-8")

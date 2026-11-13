@@ -29,14 +29,14 @@ the application.
 ## Application Source
 
 Use the following as `starter.js`, rendered directly from the
-[tested source](https://github.com/axisvela/praxo-core/blob/main/examples/consumer-typescript/starter.js).
+[tested source](https://github.com/axisvela/praxo-core/blob/main/language/typescript/examples/consumer/starter.js).
 
 <!-- typescript-consumer-source: starter.js -->
 
 ## Acceptance Tests
 
 Use the following as `test_starter.test.js`, rendered from the
-[tested source](https://github.com/axisvela/praxo-core/blob/main/examples/consumer-typescript/test_starter.test.js).
+[tested source](https://github.com/axisvela/praxo-core/blob/main/language/typescript/examples/consumer/test_starter.test.js).
 
 <!-- typescript-consumer-source: test_starter.test.js -->
 
@@ -78,7 +78,7 @@ node --test governed.test.js
 | Policy service error | run fails closed; zero tool effects |
 
 Use the
-[tested source](https://github.com/axisvela/praxo-core/blob/main/examples/consumer-typescript/governed.test.js).
+[tested source](https://github.com/axisvela/praxo-core/blob/main/language/typescript/examples/consumer/governed.test.js).
 The guard is application-level: Core keeps its ordinary nil-policy behavior.
 These checks do not prove authentic identity, durable approvals, effect
 reconciliation, or a general security profile.

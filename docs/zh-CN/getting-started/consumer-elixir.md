@@ -28,13 +28,13 @@ end
 
 ## 应用源码
 
-以下为 `starter.exs`，来自[受测源码](https://github.com/axisvela/praxo-core/blob/main/examples/consumer-elixir/starter.exs)。
+以下为 `starter.exs`，来自[受测源码](https://github.com/axisvela/praxo-core/blob/main/language/elixir/examples/consumer/starter.exs)。
 
 <!-- elixir-consumer-source: starter.exs -->
 
 ## 验收测试
 
-以下为 `test_starter.exs`，来自[受测源码](https://github.com/axisvela/praxo-core/blob/main/examples/consumer-elixir/test_starter.exs)。
+以下为 `test_starter.exs`，来自[受测源码](https://github.com/axisvela/praxo-core/blob/main/language/elixir/examples/consumer/test_starter.exs)。
 
 <!-- elixir-consumer-source: test_starter.exs -->
 

@@ -27,13 +27,13 @@ gem 'praxo-core', '0.7.0'
 
 ## 应用源码
 
-以下为 `starter.rb`，来自[受测源码](https://github.com/axisvela/praxo-core/blob/main/examples/consumer-ruby/starter.rb)。
+以下为 `starter.rb`，来自[受测源码](https://github.com/axisvela/praxo-core/blob/main/language/ruby/examples/consumer/starter.rb)。
 
 <!-- ruby-consumer-source: starter.rb -->
 
 ## 验收测试
 
-以下为 `test_starter.rb`，来自[受测源码](https://github.com/axisvela/praxo-core/blob/main/examples/consumer-ruby/test_starter.rb)。
+以下为 `test_starter.rb`，来自[受测源码](https://github.com/axisvela/praxo-core/blob/main/language/ruby/examples/consumer/test_starter.rb)。
 
 <!-- ruby-consumer-source: test_starter.rb -->
 

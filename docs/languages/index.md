@@ -12,7 +12,10 @@ addresses, and pending releases. See [language repositories](repositories.md) fo
 the dedicated repository index across all implemented languages, and
 [adapter status](adapter-status.md) for Model, MCP, and Harmovela coverage.
 
-Each entry has its own docs/languages/<language>/ directory for the Core page and future examples, adapter notes, and release pages.
+Each entry has its own docs/languages/<language>/ directory for the Core page,
+adapter notes, and release pages. Language-specific runnable examples live in
+`language/<language>/examples/` and are included in the dedicated language
+mirror repositories.
 
 See the [compatibility lab](compatibility-lab.md) for reproducible conformance
 evidence across selected implementations, and the [behavior lab](behavior-lab.md)

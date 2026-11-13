@@ -31,9 +31,9 @@ class PythonUpgradeTests(unittest.TestCase):
         with tempfile.TemporaryDirectory(prefix="praxo-python-upgrade-") as directory:
             app = Path(directory)
             files = ("starter.py", "test_starter.py", "test_governed.py")
-            source = {name: (ROOT / "examples/consumer-python" / name).read_bytes() for name in files}
+            source = {name: (ROOT / "language/python/examples/consumer" / name).read_bytes() for name in files}
             for name in files:
-                shutil.copy2(ROOT / "examples/consumer-python" / name, app / name)
+                shutil.copy2(ROOT / "language/python/examples/consumer" / name, app / name)
             shutil.copy2(ROOT / "tests/consumer-python/test_governed_compat.py", app / "test_governed_compat.py")
 
             environment = app / ".venv"

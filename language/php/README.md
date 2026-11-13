@@ -19,6 +19,7 @@ Schema validation, and plugin manifest parsing.
 - Machine-readable entry: [llms.txt](https://github.com/axisvela/praxo-core/blob/main/language/php/llms.txt) and [llms.md](https://github.com/axisvela/praxo-core/blob/main/language/php/llms.md)
 - Coding-agent contract: [docs/getting-started/coding-agents.md](https://github.com/axisvela/praxo-core/blob/main/docs/getting-started/coding-agents.md)
 - Registry: [Packagist](https://packagist.org/packages/axisvela/praxo-core)
+- Examples: [examples/](examples/)
 
 ## Install
 

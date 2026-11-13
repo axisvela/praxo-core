@@ -24,6 +24,7 @@ source version when upgrading.
 - Machine-readable entry: [llms.txt](https://github.com/axisvela/praxo-core/blob/main/language/java/llms.txt) and [llms.md](https://github.com/axisvela/praxo-core/blob/main/language/java/llms.md)
 - Coding-agent contract: [docs/getting-started/coding-agents.md](https://github.com/axisvela/praxo-core/blob/main/docs/getting-started/coding-agents.md)
 - Registry: [Maven Central](https://repo1.maven.org/maven2/com/axisvela/praxo-core/0.7.0/)
+- Examples: [examples/](examples/)
 
 ## Install
 

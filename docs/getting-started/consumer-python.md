@@ -37,7 +37,7 @@ the virtual environment, and the absence of a direct-path installation record.
 ## Application Source
 
 Use the following as `starter.py`. The documentation site renders the
-[tested application source](https://github.com/axisvela/praxo-core/blob/main/examples/consumer-python/starter.py)
+[tested application source](https://github.com/axisvela/praxo-core/blob/main/language/python/examples/consumer/starter.py)
 directly; GitHub readers can follow the source link.
 
 <!-- python-consumer-source: starter.py -->
@@ -45,7 +45,7 @@ directly; GitHub readers can follow the source link.
 ## Acceptance Tests
 
 Use the following as `test_starter.py`, rendered from the
-[tested source](https://github.com/axisvela/praxo-core/blob/main/examples/consumer-python/test_starter.py).
+[tested source](https://github.com/axisvela/praxo-core/blob/main/language/python/examples/consumer/test_starter.py).
 
 <!-- python-consumer-source: test_starter.py -->
 
@@ -96,7 +96,7 @@ counter. Keep these tests when replacing the fake model with a real adapter.
 | Policy service error | run fails closed; zero tool effects |
 
 Use the
-[tested source](https://github.com/axisvela/praxo-core/blob/main/examples/consumer-python/test_governed.py).
+[tested source](https://github.com/axisvela/praxo-core/blob/main/language/python/examples/consumer/test_governed.py).
 The guard is application-level: Core keeps its ordinary nil-policy behavior.
 These checks do not prove authentic identity, durable approvals, effect
 reconciliation, or a general security profile.

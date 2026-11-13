@@ -29,7 +29,7 @@ class JavaUpgradeTests(unittest.TestCase):
         self.assertNotEqual(baseline, current,
                             "Upgrade evidence needs two distinct published versions")
 
-        current_pom = (ROOT / "examples/consumer-java/pom.xml").read_text(encoding="utf-8")
+        current_pom = (ROOT / "language/java/examples/consumer/pom.xml").read_text(encoding="utf-8")
         marker = f"<version>{current}</version>"
         self.assertIn(marker, current_pom, "Java starter pom must declare the package-map version")
         baseline_pom = current_pom.replace(marker, f"<version>{baseline}</version>", 1)
@@ -46,7 +46,7 @@ class JavaUpgradeTests(unittest.TestCase):
             for name in baseline_sources:
                 target = app / name
                 target.parent.mkdir(parents=True, exist_ok=True)
-                shutil.copy2(ROOT / "examples/consumer-java" / name, target)
+                shutil.copy2(ROOT / "language/java/examples/consumer" / name, target)
             compat = "src/test/java/starter/GovernedCompatTest.java"
             (app / compat).parent.mkdir(parents=True, exist_ok=True)
             shutil.copy2(ROOT / "tests/consumer-java" / compat, app / compat)
@@ -75,7 +75,7 @@ class JavaUpgradeTests(unittest.TestCase):
             self.assertNotIn("Failures: 1", baseline_tests)
 
             hitl = "src/test/java/starter/GovernedAcceptanceTest.java"
-            shutil.copy2(ROOT / "examples/consumer-java" / hitl, app / hitl)
+            shutil.copy2(ROOT / "language/java/examples/consumer" / hitl, app / hitl)
             hitl_source = (app / hitl).read_bytes()
             (app / "pom.xml").write_text(current_pom, encoding="utf-8")
             upgraded_tests = run(*maven, "-B", "test")

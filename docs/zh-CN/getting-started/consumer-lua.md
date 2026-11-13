@@ -24,13 +24,13 @@ luarocks install praxo-core 0.6.0-1
 
 ## 应用源码
 
-以下为 `starter.lua`，来自[受测源码](https://github.com/axisvela/praxo-core/blob/main/examples/consumer-lua/starter.lua)。
+以下为 `starter.lua`，来自[受测源码](https://github.com/axisvela/praxo-core/blob/main/language/lua/examples/consumer/starter.lua)。
 
 <!-- lua-consumer-source: starter.lua -->
 
 ## 验收测试
 
-以下为 `test_starter.lua`，来自[受测源码](https://github.com/axisvela/praxo-core/blob/main/examples/consumer-lua/test_starter.lua)。
+以下为 `test_starter.lua`，来自[受测源码](https://github.com/axisvela/praxo-core/blob/main/language/lua/examples/consumer/test_starter.lua)。
 
 <!-- lua-consumer-source: test_starter.lua -->
 

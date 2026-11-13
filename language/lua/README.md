@@ -24,6 +24,7 @@ reference implementation.
 - Machine-readable entry: [llms.txt](https://github.com/axisvela/praxo-core/blob/main/language/lua/llms.txt) and [llms.md](https://github.com/axisvela/praxo-core/blob/main/language/lua/llms.md)
 - Coding-agent contract: [docs/getting-started/coding-agents.md](https://github.com/axisvela/praxo-core/blob/main/docs/getting-started/coding-agents.md)
 - Registry: [LuaRocks](https://luarocks.org/modules/hanhhuiwen/praxo-core)
+- Examples: [examples/](examples/)
 
 ## Install
 
