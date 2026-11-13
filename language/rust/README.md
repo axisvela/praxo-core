@@ -33,6 +33,11 @@ crates.io package are `rust/v0.6.0` and `praxo-core@0.6.0`. Supported contract:
 cargo add praxo-core@0.6.0
 ```
 
+## Runnable Examples
+
+- [`examples/provider-fallback`](examples/provider-fallback): fallback model after
+  a primary failure, with a deterministic check.
+
 ## Requirements
 
 - Rust 1.80 or newer

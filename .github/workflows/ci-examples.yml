@@ -8,6 +8,7 @@ on:
       - "language/python/examples/**"
       - "language/typescript/examples/**"
       - "language/csharp/examples/**"
+      - "language/rust/examples/**"
       - ".github/workflows/ci-examples.yml"
   pull_request:
     paths:
@@ -15,6 +16,7 @@ on:
       - "language/python/examples/**"
       - "language/typescript/examples/**"
       - "language/csharp/examples/**"
+      - "language/rust/examples/**"
       - ".github/workflows/ci-examples.yml"
   workflow_dispatch:
 
@@ -77,6 +79,7 @@ jobs:
       - uses: actions/setup-dotnet@v4
         with:
           dotnet-version: "8.0.x"
+      - uses: dtolnay/rust-toolchain@stable
       - run: python -m pip install -r requirements.txt
         working-directory: language/python/examples/mcp
       - run: python -m unittest test_client.py -v
@@ -108,6 +111,8 @@ jobs:
       - run: dotnet run --project language/csharp/examples/mcp/Mcp.csproj -- --test
       - run: dotnet run --project language/csharp/examples/structured-output/StructuredOutput.csproj -- --test
       - run: dotnet run --project language/csharp/examples/provider-fallback/ProviderFallback.csproj -- --test
+      - run: cargo run --quiet
+        working-directory: language/rust/examples/provider-fallback
 
   current-go-consumer:
     runs-on: ${{ matrix.os }}
