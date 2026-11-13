@@ -35,6 +35,9 @@ on:
       - "language/perl/**"
       - "adapters/**"
       - "examples/**"
+      - "bindings/**"
+      - "cmd/praxo-bridge/**"
+      - "internal/bridge/**"
   pull_request:
     paths-ignore:
       - "language/python/**"
@@ -68,6 +71,9 @@ on:
       - "language/perl/**"
       - "adapters/**"
       - "examples/**"
+      - "bindings/**"
+      - "cmd/praxo-bridge/**"
+      - "internal/bridge/**"
   workflow_dispatch:
   schedule:
     - cron: '0 3 * * *'
@@ -1048,22 +1054,6 @@ jobs:
       - run: Rscript language/r/conformance/run.R
       - run: Rscript language/r/api-snapshot.R --check
       - run: Rscript language/r/tests/run_tests.R
-
-  bridge:
-    needs: changes
-    if: needs.changes.outputs.core == 'true'
-    runs-on: ubuntu-latest
-    env:
-      GOWORK: "off"
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-go@v5
-        with:
-          go-version: "1.26.11"
-      - run: go test ./internal/bridge ./cmd/praxo-bridge
-      - run: go run ./cmd/praxo-bridge version
-      - run: bash bindings/shell/praxo-bridge.sh version
-      - run: pwsh -NoProfile -Command "Import-Module ./bindings/powershell/praxo-core-ps-br/praxo-core-ps-br.psm1; Invoke-PraxoBridge -Arguments @('version')"
 
   powershell-core:
     needs: changes

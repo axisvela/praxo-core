@@ -1,0 +1,47 @@
+name: ci-bridge
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "bindings/**"
+      - "cmd/praxo-bridge/**"
+      - "internal/bridge/**"
+      - "pkg/**"
+      - "spec/**"
+      - "go.mod"
+      - "go.sum"
+      - ".github/workflows/ci-bridge.yml"
+  pull_request:
+    paths:
+      - "bindings/**"
+      - "cmd/praxo-bridge/**"
+      - "internal/bridge/**"
+      - "pkg/**"
+      - "spec/**"
+      - "go.mod"
+      - "go.sum"
+      - ".github/workflows/ci-bridge.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-bridge-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  bridge:
+    runs-on: ubuntu-latest
+    env:
+      GOWORK: "off"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: "1.26.11"
+      - run: go test ./internal/bridge ./cmd/praxo-bridge
+      - run: go run ./cmd/praxo-bridge version
+      - run: bash bindings/shell/praxo-bridge.sh version
+      - run: pwsh -NoProfile -Command "Import-Module ./bindings/powershell/praxo-core-ps-br/praxo-core-ps-br.psm1; Invoke-PraxoBridge -Arguments @('version')"
