@@ -45,7 +45,7 @@ PRAXO-CORE 继续定位为**可治理、可嵌入的 Agent 执行框架**。路�
 | --- | --- | --- | --- |
 | 0. 判断 | 知道 Core 是否适合，以及该选择哪种语言和路径 | 已有概览、任务入口、对比和非目标说明 | 缩短选型路径，明确应用仍需负责什么 |
 | 1. 运行 | 安装发布包、连接模型、注册一个工具并得到有用结果 | 已有发布包确定性 Starter 和四语言真实模型示例 | 对受支持端点运行真实路径，并记录各语言排错说明 |
-| 2. 原型 | 完成一个包含工具、Streaming、结构化输出、MCP、Workspace 或 Telemetry 的连贯本地应用 | 已有示例目录、Workspace 教程、Provider/MCP 演练、结构化输出示例、本地 MCP 示例、跨语言结构化输出/MCP 教程和 Python/TypeScript/C#/Rust Provider fallback 和 event-sink 示例 | 增加其余 SDK 的 MCP/fallback 示例和更多语言原型教程 |
+| 2. 原型 | 完成一个包含工具、Streaming、结构化输出、MCP、Workspace 或 Telemetry 的连贯本地应用 | 已有示例目录、Workspace 教程、Provider/MCP 演练、结构化输出示例、本地 MCP 示例、跨语言结构化输出/MCP 教程和 Python/TypeScript/C#/Rust Provider fallback、event-sink 和 streaming 示例 | 增加其余 SDK 的 MCP/fallback 示例和更多语言原型教程 |
 | 3. 嵌入 | 将 Core 接入现有服务，由应用管理身份、策略、持久化、事件和退出 | 已有厂商中立的 Go/Python 服务、已验证身份与持久 Checkpoint 变体和分档清单 | 增加真实身份/策略服务集成和更多语言服务示例 |
 | 4. 加固 | 让具体集成可升级、可失败、可取消、可恢复 | 已有负向、升级、隔离和恢复资产 | 按应用风险组织，而不是要求新用户一开始全部执行 |
 | 5. 扩展 | 在需要时采用 Plugin、委派、长时操作、Workspace Provider 或具身集成 | 已有实验和高级资产 | 仅在有明确消费者和项目需求时推进 |

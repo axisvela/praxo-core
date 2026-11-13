@@ -39,6 +39,8 @@ cargo add praxo-core@0.6.0
   a primary failure, with a deterministic check.
 - [`examples/event-sink`](examples/event-sink): lifecycle and tool events through
   `MultiSink` and `FilterSink`, with a deterministic check.
+- [`examples/streaming`](examples/streaming): delta callbacks that reconstruct
+  the final output, with a deterministic check.
 
 ## Requirements
 

@@ -8,6 +8,8 @@
   failure, with a deterministic `--test` mode.
 - [`event-sink/`](event-sink/): lifecycle and tool events through `MultiSink`
   and `FilterSink`, with a deterministic `--test` mode.
+- [`streaming/`](streaming/): delta callbacks that reconstruct the final output,
+  with a deterministic `--test` mode.
 
 The example installs a published package. It does not require a repository
 checkout or a project reference replacement.

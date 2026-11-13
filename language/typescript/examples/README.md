@@ -11,6 +11,8 @@
   failure, with deterministic tests.
 - [`event-sink/`](event-sink/): lifecycle and tool events through `MultiSink`
   and `FilterSink`, with deterministic tests.
+- [`streaming/`](streaming/): delta callbacks that reconstruct the final output,
+  with a deterministic fake streaming model.
 
 The examples install a published package. They do not require a repository
 checkout or local package replacement.

@@ -100,6 +100,10 @@ jobs:
         working-directory: language/python/examples/event-sink
       - run: python -m unittest test_event_sink.py -v
         working-directory: language/python/examples/event-sink
+      - run: python -m pip install -r requirements.txt
+        working-directory: language/python/examples/streaming
+      - run: python -m unittest test_streaming.py -v
+        working-directory: language/python/examples/streaming
       - run: npm ci --no-audit --no-fund
         working-directory: language/typescript/examples/mcp
       - run: npm test
@@ -116,14 +120,21 @@ jobs:
         working-directory: language/typescript/examples/event-sink
       - run: npm test
         working-directory: language/typescript/examples/event-sink
+      - run: npm ci --no-audit --no-fund
+        working-directory: language/typescript/examples/streaming
+      - run: npm test
+        working-directory: language/typescript/examples/streaming
       - run: dotnet run --project language/csharp/examples/mcp/Mcp.csproj -- --test
       - run: dotnet run --project language/csharp/examples/structured-output/StructuredOutput.csproj -- --test
       - run: dotnet run --project language/csharp/examples/provider-fallback/ProviderFallback.csproj -- --test
       - run: dotnet run --project language/csharp/examples/event-sink/EventSink.csproj -- --test
+      - run: dotnet run --project language/csharp/examples/streaming/Streaming.csproj -- --test
       - run: cargo run --quiet
         working-directory: language/rust/examples/provider-fallback
       - run: cargo run --quiet
         working-directory: language/rust/examples/event-sink
+      - run: cargo run --quiet
+        working-directory: language/rust/examples/streaming
 
   current-go-consumer:
     runs-on: ${{ matrix.os }}

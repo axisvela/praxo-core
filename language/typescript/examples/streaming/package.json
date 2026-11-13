@@ -1,0 +1,16 @@
+{
+  "name": "praxo-streaming",
+  "version": "0.0.0",
+  "private": true,
+  "type": "commonjs",
+  "description": "Published-package PRAXO-CORE streaming example.",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "test": "node --test test_streaming.test.js"
+  },
+  "dependencies": {
+    "@axisvela/praxo-core": "0.5.0"
+  }
+}
