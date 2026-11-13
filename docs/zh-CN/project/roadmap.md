@@ -45,8 +45,8 @@ PRAXO-CORE 继续定位为**可治理、可嵌入的 Agent 执行框架**。路�
 | --- | --- | --- | --- |
 | 0. 判断 | 知道 Core 是否适合，以及该选择哪种语言和路径 | 已有概览、任务入口、对比和非目标说明 | 缩短选型路径，明确应用仍需负责什么 |
 | 1. 运行 | 安装发布包、连接模型、注册一个工具并得到有用结果 | 已有发布包确定性 Starter 和四语言真实模型示例 | 对受支持端点运行真实路径，并记录各语言排错说明 |
-| 2. 原型 | 完成一个包含工具、Streaming、结构化输出、MCP、Workspace 或 Telemetry 的连贯本地应用 | 已有按任务分类的示例目录和只读 Workspace 教程 | 增加各语言原型教程以及 Provider/MCP 演练 |
-| 3. 嵌入 | 将 Core 接入现有服务，由应用管理身份、策略、持久化、事件和退出 | 已有各自独立的集成配方 | 提供厂商中立的服务样例和实用集成清单 |
+| 2. 原型 | 完成一个包含工具、Streaming、结构化输出、MCP、Workspace 或 Telemetry 的连贯本地应用 | 已有示例目录、Workspace 教程、Provider/MCP 演练和结构化输出示例 | 增加更多语言原型教程和可运行 MCP 应用 |
+| 3. 嵌入 | 将 Core 接入现有服务，由应用管理身份、策略、持久化、事件和退出 | 已有厂商中立的 HTTP 服务示例和分档集成清单 | 增加身份/策略和持久 Checkpoint 服务变体 |
 | 4. 加固 | 让具体集成可升级、可失败、可取消、可恢复 | 已有负向、升级、隔离和恢复资产 | 按应用风险组织，而不是要求新用户一开始全部执行 |
 | 5. 扩展 | 在需要时采用 Plugin、委派、长时操作、Workspace Provider 或具身集成 | 已有实验和高级资产 | 仅在有明确消费者和项目需求时推进 |
 
@@ -144,7 +144,8 @@ PRAXO-CORE 继续定位为**可治理、可嵌入的 Agent 执行框架**。路�
   凭据、本机命令、外部服务和成熟度。
 - 为每个主要 SDK 增加一篇连贯原型教程，从现有
   [Workspace 教程](../guides/workspace-agent-tutorial.md)开始。
-- 增加无需检出源码的 Provider/MCP 演练。
+- 扩展 [Provider 与 MCP 演练](../guides/provider-walkthrough.md)，增加无需检出源码且
+  可运行的 MCP 服务器示例。
 - 统一 Adapter 页面的安装、认证、最小示例和限制说明。
 
 ## 阶段 3：嵌入实际应用
@@ -163,15 +164,17 @@ PRAXO-CORE 继续定位为**可治理、可嵌入的 Agent 执行框架**。路�
 ### 立即开始
 
 - [采用指南](../getting-started/adoption.md)
+- [应用嵌入清单](../guides/application-integration-checklist.md)
 - [集成指南](../guides/integration.md)
 - [身份与策略配方](../guides/identity-policy.md)
 - [长时操作配方](../guides/long-running-operations.md)
 
 ### 下一步工作
 
-- 增加厂商中立的服务示例，覆盖配置、HTTP 入口、Session、身份上下文、Policy、
-  Checkpoint、事件和退出。
-- 将要求分为只读应用、有副作用应用、高风险/多租户应用三档。
+- 扩展[嵌入服务示例](https://github.com/axisvela/praxo-core/tree/main/examples/embedded-service)，
+  增加已认证身份、租户感知 Policy 和持久 Checkpoint 存储。
+- 保持[应用嵌入清单](../guides/application-integration-checklist.md)与只读、有副作用、
+  高风险三档一致。
 - 在教学型 Checkpoint 示例和高级长时操作 Fixture 之间提供最小持久化路径。
 
 ## 阶段 4：加固与维护

@@ -61,6 +61,9 @@ plugins:
             Guides: 使用指南
             Integration: 集成
             Workspace Agent Tutorial: Workspace Agent 教程
+            Provider and MCP: Provider 与 MCP
+            Application Integration Checklist: 应用嵌入清单
+            Embedded HTTP Service: HTTP 嵌入服务
             Recipes: 接入示例
             Identity and Policy: 身份与策略
             Long-Running Operations: 长时操作
@@ -149,6 +152,9 @@ nav:
   - Guides:
       - Integration: guides/integration.md
       - Workspace Agent Tutorial: guides/workspace-agent-tutorial.md
+      - Provider and MCP: guides/provider-walkthrough.md
+      - Application Integration Checklist: guides/application-integration-checklist.md
+      - Embedded HTTP Service: guides/embedded-service-tutorial.md
       - Recipes: guides/recipes.md
       - Identity and Policy: guides/identity-policy.md
       - Long-Running Operations: guides/long-running-operations.md

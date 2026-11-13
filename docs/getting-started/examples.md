@@ -12,9 +12,12 @@ mirror repositories.
 | Task | Example | Notes |
 | --- | --- | --- |
 | Run a real model | [Live Model Golden Path](live-model-golden-path.md) | Published package, OpenAI-compatible endpoint, one `get_time` tool |
+| Connect another provider or MCP | [Provider and MCP walkthrough](../guides/provider-walkthrough.md) | Published-package adapters and transport boundaries |
 | Verify installation and denial | [Consumer starters](index.md) | Published package plus deterministic allow/deny checks |
-| Produce validated JSON | [`language/python/examples/structured-output`](https://github.com/axisvela/praxo-core/tree/main/language/python/examples/structured-output) | Python `StructuredOutput` with a deterministic fake-model test |
+| Produce validated JSON | [`language/python/examples/structured-output`](https://github.com/axisvela/praxo-core/tree/main/language/python/examples/structured-output), [`language/typescript/examples/structured-output`](https://github.com/axisvela/praxo-core/tree/main/language/typescript/examples/structured-output), [`language/java/examples/structured-output`](https://github.com/axisvela/praxo-core/tree/main/language/java/examples/structured-output), [`language/csharp/examples/structured-output`](https://github.com/axisvela/praxo-core/tree/main/language/csharp/examples/structured-output) | `StructuredOutput` with deterministic fake-model tests |
 | Build a workspace agent | [Workspace Agent tutorial](../guides/workspace-agent-tutorial.md) | Read-only published-package Go application |
+| Embed in an application | [Application Integration Checklist](../guides/application-integration-checklist.md) | Risk-tiered checklist for read-only, side-effecting, and high-risk deployments |
+| Run Core behind HTTP | [Embedded HTTP service tutorial](../guides/embedded-service-tutorial.md) | Vendor-neutral Go service with caller context, policy, timeouts, and graceful shutdown |
 | Explore the Go reference | [`examples/reference`](https://github.com/axisvela/praxo-core/tree/main/examples/reference) | Go reference application |
 | Add policy and approvals | [`examples/governed-workspace`](https://github.com/axisvela/praxo-core/tree/main/examples/governed-workspace) | Go example of governed execution boundaries |
 | Add checkpoints | [`examples/checkpoint`](https://github.com/axisvela/praxo-core/tree/main/examples/checkpoint) | Go checkpoint-store example |
@@ -31,6 +34,7 @@ mirror repositories.
 | Python | [`language/python/examples`](https://github.com/axisvela/praxo-core/tree/main/language/python/examples) |
 | TypeScript | [`language/typescript/examples`](https://github.com/axisvela/praxo-core/tree/main/language/typescript/examples) |
 | Java | [`language/java/examples`](https://github.com/axisvela/praxo-core/tree/main/language/java/examples) |
+| C# | [`language/csharp/examples`](https://github.com/axisvela/praxo-core/tree/main/language/csharp/examples) |
 | Ruby | [`language/ruby/examples`](https://github.com/axisvela/praxo-core/tree/main/language/ruby/examples) |
 | PHP | [`language/php/examples`](https://github.com/axisvela/praxo-core/tree/main/language/php/examples) |
 | Elixir | [`language/elixir/examples`](https://github.com/axisvela/praxo-core/tree/main/language/elixir/examples) |

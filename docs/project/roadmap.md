@@ -56,8 +56,8 @@ target and not to present Go-only behavior as a cross-language guarantee.
 | --- | --- | --- | --- |
 | 0. Decide | Know whether Core fits and which language/path to use | The overview, task chooser, comparison, and non-goals exist | Make the choice path shorter and show application responsibilities clearly |
 | 1. Run | Install a published package, connect a model, register one tool, and get a useful result | Published-package deterministic starters and four-language live-model examples now exist | Run the live path against supported endpoints and record language-specific troubleshooting |
-| 2. Prototype | Build one coherent local application with tools, streaming, structured output, MCP, workspace access, or telemetry | A task-oriented examples catalog and a read-only workspace tutorial exist | Add language-specific prototype tutorials and a provider/MCP walkthrough |
-| 3. Embed | Integrate Core into an existing service with application-owned identity, policy, persistence, events, and shutdown | Individual integration recipes exist | Provide a vendor-neutral service example and a practical integration checklist |
+| 2. Prototype | Build one coherent local application with tools, streaming, structured output, MCP, workspace access, or telemetry | A task-oriented catalog, workspace tutorial, provider/MCP walkthrough, and structured-output examples exist | Add more language-specific prototype tutorials and a runnable MCP application |
+| 3. Embed | Integrate Core into an existing service with application-owned identity, policy, persistence, events, and shutdown | A vendor-neutral HTTP service example and a risk-tiered integration checklist exist | Add identity/policy and durable-checkpoint service variants |
 | 4. Harden | Make the specific integration safe to upgrade, fail, cancel, and recover | Negative, upgrade, containment, and recovery assets exist | Organize them by application risk instead of requiring everything up front |
 | 5. Extend | Adopt plugins, delegation, long-running operations, workspace providers, or embodied integrations when needed | Experimental and advanced assets exist | Advance only with a named consumer and a concrete project need |
 
@@ -166,7 +166,8 @@ Turn the first run into one useful local application, such as:
   external services, and maturity.
 - Add one coherent prototype tutorial for each primary SDK, starting from the
   existing [workspace tutorial](../guides/workspace-agent-tutorial.md).
-- Add a provider/MCP walkthrough that does not require a source checkout.
+- Extend the [Provider and MCP walkthrough](../guides/provider-walkthrough.md)
+  with a runnable MCP server example that does not require a source checkout.
 - Give adapter pages a consistent install, authentication, minimal example, and
   limitation section.
 
@@ -186,16 +187,17 @@ Integrate Core into an existing service while the application owns:
 ### Start Now
 
 - [Adoption guide](../getting-started/adoption.md)
+- [Application integration checklist](../guides/application-integration-checklist.md)
 - [Integration guide](../guides/integration.md)
 - [Identity and policy recipe](../guides/identity-policy.md)
 - [Long-running operation recipe](../guides/long-running-operations.md)
 
 ### Next Work
 
-- Add a vendor-neutral service example with configuration, HTTP entry, session
-  handling, identity context, policy, checkpoint storage, events, and shutdown.
-- Split guidance into read-only, side-effecting, and high-risk/multi-tenant
-  application requirements.
+- Extend the [embedded service example](https://github.com/axisvela/praxo-core/tree/main/examples/embedded-service)
+  with verified identity, tenant-scoped policy, and durable checkpoint storage.
+- Keep the [application integration checklist](../guides/application-integration-checklist.md)
+  aligned with the read-only, side-effecting, and high-risk tiers.
 - Provide a minimal durable checkpoint path between the teaching examples and
   the advanced long-running operation fixture.
 
