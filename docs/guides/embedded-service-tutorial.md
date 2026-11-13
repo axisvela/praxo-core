@@ -54,7 +54,8 @@ Run its deterministic tests with:
 
 The [authenticated service example](https://github.com/axisvela/praxo-core/tree/main/examples/embedded-service-auth)
 adds an application-verified HMAC bearer token, subject and tenant claims,
-expiration checks, and a tenant allowlist before the agent runs.
+expiration checks, a tenant allowlist before the agent runs, and a file-backed
+checkpoint saved on run completion.
 
 ```bash
 cd examples/embedded-service-auth

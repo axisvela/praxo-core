@@ -10,13 +10,15 @@ It demonstrates:
 - expiration checks;
 - tenant allowlist enforcement before the agent runs;
 - tenant-scoped policy inside the agent;
-- deterministic `httptest` coverage.
+- a file-backed checkpoint saved on run completion;
+- deterministic `httptest` coverage, including checkpoint persistence.
 
 ## Run
 
 ```bash
 export PRAXO_SERVICE_SECRET=dev-secret
 export PRAXO_ALLOWED_TENANTS=local
+export PRAXO_CHECKPOINT_DIR=checkpoints
 export PRAXO_BASE_URL=http://localhost:11434/v1
 export PRAXO_MODEL=llama3.2
 go run . -addr :8080
@@ -37,5 +39,6 @@ identity provider, key management, revocation, and audience checks.
 go test ./...
 ```
 
-Tests cover missing token, expired token, unknown tenant, and the allowed path
-using a fake model.
+Tests cover missing token, expired token, unknown tenant, the allowed path, and
+checkpoint persistence using a fake model. The file store is a teaching
+implementation, not a concurrent database or a power-loss-proof store.

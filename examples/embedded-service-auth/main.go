@@ -17,6 +17,7 @@ import (
 
 	"github.com/axisvela/praxo-core/v2/adapters/openaicompat"
 	"github.com/axisvela/praxo-core/v2/pkg/agent"
+	"github.com/axisvela/praxo-core/v2/pkg/checkpoint"
 	"github.com/axisvela/praxo-core/v2/pkg/event"
 	"github.com/axisvela/praxo-core/v2/pkg/model"
 	"github.com/axisvela/praxo-core/v2/pkg/policy"
@@ -69,12 +70,16 @@ func main() {
 		log.Fatal("PRAXO_SERVICE_SECRET is required")
 	}
 	allowed := parseTenants(envOr("PRAXO_ALLOWED_TENANTS", "local"))
+	store, err := newFileStore(envOr("PRAXO_CHECKPOINT_DIR", "checkpoints"))
+	if err != nil {
+		log.Fatal(err)
+	}
 	agentInstance, err := newAgent(openaicompat.Adapter{
 		BaseURL: envOr("PRAXO_BASE_URL", "http://localhost:11434/v1"),
 		APIKey:  os.Getenv("PRAXO_API_KEY"),
 		Model:   envOr("PRAXO_MODEL", "llama3.2"),
 		HTTP:    &http.Client{Timeout: 120 * time.Second},
-	}, allowed)
+	}, allowed, store)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -92,7 +97,7 @@ func main() {
 	}
 }
 
-func newAgent(runtimeModel model.Model, allowed map[string]bool) (*agent.Agent, error) {
+func newAgent(runtimeModel model.Model, allowed map[string]bool, store *fileStore) (*agent.Agent, error) {
 	tools := tool.NewRegistry()
 	tools.Register(timeTool{})
 	return agent.New(agent.Options{
@@ -105,6 +110,27 @@ func newAgent(runtimeModel model.Model, allowed map[string]bool) (*agent.Agent, 
 			log.Printf("event=%s", ev.Type)
 			return nil
 		}),
+		Hooks: agent.Hooks{OnRunComplete: func(ctx context.Context, result *agent.Result) error {
+			runContext := agent.RunContextFrom(ctx)
+			sessionID, _ := runContext["session_id"].(string)
+			tenant, _ := runContext["tenant_id"].(string)
+			if store == nil || sessionID == "" {
+				return nil
+			}
+			return store.Save(ctx, &checkpoint.Checkpoint{
+				ID:          result.RunID,
+				SessionID:   sessionID,
+				RunID:       result.RunID,
+				Status:      "completed",
+				TenantID:    tenant,
+				WorkspaceID: "service",
+				Messages: []checkpoint.Message{{
+					Role:    "assistant",
+					Content: result.Output,
+				}},
+				CreatedAt: time.Now().UTC(),
+			})
+		}},
 		Policy: policy.FuncHook(func(_ context.Context, action policy.Action) (policy.Decision, error) {
 			tenant := tenantFromSession(action.SessionID)
 			if !allowed[tenant] {
@@ -150,7 +176,11 @@ func newHandler(agentInstance *agent.Agent, secret string, allowed map[string]bo
 			writeError(w, http.StatusBadRequest, "prompt is required")
 			return
 		}
-		result, err := agentInstance.Run(r.Context(), agent.Session{
+		runContext := agent.WithRunContext(r.Context(), agent.RunContext{
+			"session_id": principal.Tenant + "/" + principal.Subject,
+			"tenant_id":  principal.Tenant,
+		})
+		result, err := agentInstance.Run(runContext, agent.Session{
 			ID:          principal.Tenant + "/" + principal.Subject,
 			TenantID:    principal.Tenant,
 			WorkspaceID: "service",

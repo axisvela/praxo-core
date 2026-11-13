@@ -51,8 +51,8 @@ curl -s http://127.0.0.1:8080/run \
 ## 已验证身份变体
 
 [认证服务示例](https://github.com/axisvela/praxo-core/tree/main/examples/embedded-service-auth)
-增加应用侧 HMAC Bearer Token、subject/tenant claims、过期检查和 Agent 运行前的
-租户允许列表。
+增加应用侧 HMAC Bearer Token、subject/tenant claims、过期检查、Agent 运行前的
+租户允许列表，以及运行完成时保存的文件型 Checkpoint。
 
 ```bash
 cd examples/embedded-service-auth

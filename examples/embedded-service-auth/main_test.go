@@ -25,13 +25,17 @@ func (fakeModel) Generate(context.Context, model.Request) (model.Response, error
 	}, nil
 }
 
-func testHandler(t *testing.T) http.Handler {
+func testHandler(t *testing.T) (http.Handler, *fileStore) {
 	t.Helper()
-	agentInstance, err := newAgent(fakeModel{}, map[string]bool{"local": true})
+	store, err := newFileStore(t.TempDir())
 	if err != nil {
 		t.Fatal(err)
 	}
-	return newHandler(agentInstance, testSecret, map[string]bool{"local": true})
+	agentInstance, err := newAgent(fakeModel{}, map[string]bool{"local": true}, store)
+	if err != nil {
+		t.Fatal(err)
+	}
+	return newHandler(agentInstance, testSecret, map[string]bool{"local": true}), store
 }
 
 func newRunRequest(token string) *http.Request {
@@ -44,8 +48,9 @@ func newRunRequest(token string) *http.Request {
 }
 
 func TestRequiresBearerToken(t *testing.T) {
+	handler, _ := testHandler(t)
 	response := httptest.NewRecorder()
-	testHandler(t).ServeHTTP(response, newRunRequest(""))
+	handler.ServeHTTP(response, newRunRequest(""))
 	if response.Code != http.StatusUnauthorized {
 		t.Fatalf("expected 401, got %d", response.Code)
 	}
@@ -53,8 +58,9 @@ func TestRequiresBearerToken(t *testing.T) {
 
 func TestRejectsExpiredToken(t *testing.T) {
 	token := signToken(testSecret, "user-1", "local", time.Now().Add(-time.Minute))
+	handler, _ := testHandler(t)
 	response := httptest.NewRecorder()
-	testHandler(t).ServeHTTP(response, newRunRequest(token))
+	handler.ServeHTTP(response, newRunRequest(token))
 	if response.Code != http.StatusUnauthorized {
 		t.Fatalf("expected 401, got %d", response.Code)
 	}
@@ -62,8 +68,9 @@ func TestRejectsExpiredToken(t *testing.T) {
 
 func TestRejectsUnknownTenant(t *testing.T) {
 	token := signToken(testSecret, "user-1", "other", time.Now().Add(time.Hour))
+	handler, _ := testHandler(t)
 	response := httptest.NewRecorder()
-	testHandler(t).ServeHTTP(response, newRunRequest(token))
+	handler.ServeHTTP(response, newRunRequest(token))
 	if response.Code != http.StatusForbidden {
 		t.Fatalf("expected 403, got %d", response.Code)
 	}
@@ -71,8 +78,9 @@ func TestRejectsUnknownTenant(t *testing.T) {
 
 func TestReturnsOutputForVerifiedTenant(t *testing.T) {
 	token := signToken(testSecret, "user-1", "local", time.Now().Add(time.Hour))
+	handler, store := testHandler(t)
 	response := httptest.NewRecorder()
-	testHandler(t).ServeHTTP(response, newRunRequest(token))
+	handler.ServeHTTP(response, newRunRequest(token))
 	if response.Code != http.StatusOK {
 		t.Fatalf("expected 200, got %d: %s", response.Code, response.Body.String())
 	}
@@ -82,5 +90,12 @@ func TestReturnsOutputForVerifiedTenant(t *testing.T) {
 	}
 	if body.Output != "hello from the authenticated service" {
 		t.Fatalf("unexpected output: %q", body.Output)
+	}
+	loaded, err := store.Load(context.Background(), "local/user-1")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if loaded == nil || loaded.Status != "completed" || len(loaded.Messages) != 1 {
+		t.Fatalf("checkpoint was not persisted: %#v", loaded)
 	}
 }

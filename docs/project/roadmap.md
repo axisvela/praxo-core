@@ -57,7 +57,7 @@ target and not to present Go-only behavior as a cross-language guarantee.
 | 0. Decide | Know whether Core fits and which language/path to use | The overview, task chooser, comparison, and non-goals exist | Make the choice path shorter and show application responsibilities clearly |
 | 1. Run | Install a published package, connect a model, register one tool, and get a useful result | Published-package deterministic starters and four-language live-model examples now exist | Run the live path against supported endpoints and record language-specific troubleshooting |
 | 2. Prototype | Build one coherent local application with tools, streaming, structured output, MCP, workspace access, or telemetry | A task-oriented catalog, workspace tutorial, provider/MCP walkthrough, structured-output examples, and local MCP examples, plus cross-language structured-output and MCP tutorials, exist | Add MCP examples for the remaining SDKs and more language-specific prototype tutorials |
-| 3. Embed | Integrate Core into an existing service with application-owned identity, policy, persistence, events, and shutdown | Vendor-neutral Go/Python HTTP services, a verified-identity variant, and a risk-tiered checklist exist | Add a durable-checkpoint service variant |
+| 3. Embed | Integrate Core into an existing service with application-owned identity, policy, persistence, events, and shutdown | Vendor-neutral Go/Python HTTP services, verified-identity and durable-checkpoint variants, and a risk-tiered checklist exist | Add a live identity/policy service integration and more language service examples |
 | 4. Harden | Make the specific integration safe to upgrade, fail, cancel, and recover | Negative, upgrade, containment, and recovery assets exist | Organize them by application risk instead of requiring everything up front |
 | 5. Extend | Adopt plugins, delegation, long-running operations, workspace providers, or embodied integrations when needed | Experimental and advanced assets exist | Advance only with a named consumer and a concrete project need |
 
@@ -195,8 +195,9 @@ Integrate Core into an existing service while the application owns:
 
 ### Next Work
 
-- Extend the [authenticated service example](https://github.com/axisvela/praxo-core/tree/main/examples/embedded-service-auth)
-  with durable checkpoint storage.
+- Add a live identity/policy service integration or another language service
+  variant, building on the
+  [authenticated service example](https://github.com/axisvela/praxo-core/tree/main/examples/embedded-service-auth).
 - Keep the [application integration checklist](../guides/application-integration-checklist.md)
   aligned with the read-only, side-effecting, and high-risk tiers.
 - Provide a minimal durable checkpoint path between the teaching examples and
