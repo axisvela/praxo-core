@@ -1,12 +1,13 @@
 # 多语言 Structured Output
 
-本教程使用 `StructuredOutput` 将自由文本转换为受校验 JSON。四种发布包示例使用同一份
+本教程使用 `StructuredOutput` 将自由文本转换为受校验 JSON。五种发布包示例使用同一份
 schema：
 
 - [Python](https://github.com/axisvela/praxo-core/tree/main/language/python/examples/structured-output)
 - [TypeScript](https://github.com/axisvela/praxo-core/tree/main/language/typescript/examples/structured-output)
 - [Java](https://github.com/axisvela/praxo-core/tree/main/language/java/examples/structured-output)
 - [C#](https://github.com/axisvela/praxo-core/tree/main/language/csharp/examples/structured-output)
+- [Rust](https://github.com/axisvela/praxo-core/tree/main/language/rust/examples/structured-output)
 
 每个示例都会在返回模型输出前校验 `title`、`summary` 和 `tags`。非法输出会失败，
 不会返回畸形数据。
@@ -66,6 +67,15 @@ cd language/csharp/examples/structured-output
 dotnet run -- "Quarterly status: all checks green."
 dotnet run -- --test
 ```
+
+### Rust
+
+```bash
+cd language/rust/examples/structured-output
+cargo run
+```
+
+确定性检查会验证合法摘要，并拒绝缺少必填字段的输出。
 
 ## 真实端点
 

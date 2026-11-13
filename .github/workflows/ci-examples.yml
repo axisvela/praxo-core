@@ -137,6 +137,8 @@ jobs:
         working-directory: language/rust/examples/streaming
       - run: cargo run --quiet
         working-directory: language/rust/examples/mcp
+      - run: cargo run --quiet
+        working-directory: language/rust/examples/structured-output
 
   current-go-consumer:
     runs-on: ${{ matrix.os }}

@@ -43,6 +43,8 @@ cargo add praxo-core@0.6.0
   the final output, with a deterministic check.
 - [`examples/mcp`](examples/mcp): in-process MCP transport for deterministic
   tool discovery and tool calls.
+- [`examples/structured-output`](examples/structured-output): JSON Schema
+  validation with a deterministic valid/invalid output check.
 
 ## Requirements
 

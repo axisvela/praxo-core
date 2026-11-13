@@ -1,12 +1,13 @@
 # Structured Output by Language
 
 This tutorial turns free text into validated JSON with `StructuredOutput`. The
-same schema is implemented in four published-package examples:
+same schema is implemented in five published-package examples:
 
 - [Python](https://github.com/axisvela/praxo-core/tree/main/language/python/examples/structured-output)
 - [TypeScript](https://github.com/axisvela/praxo-core/tree/main/language/typescript/examples/structured-output)
 - [Java](https://github.com/axisvela/praxo-core/tree/main/language/java/examples/structured-output)
 - [C#](https://github.com/axisvela/praxo-core/tree/main/language/csharp/examples/structured-output)
+- [Rust](https://github.com/axisvela/praxo-core/tree/main/language/rust/examples/structured-output)
 
 Each example validates `title`, `summary`, and `tags` before returning the model
 output. Invalid output fails instead of returning malformed data.
@@ -66,6 +67,16 @@ cd language/csharp/examples/structured-output
 dotnet run -- "Quarterly status: all checks green."
 dotnet run -- --test
 ```
+
+### Rust
+
+```bash
+cd language/rust/examples/structured-output
+cargo run
+```
+
+The deterministic check validates a valid summary and rejects output that
+omits required fields.
 
 ## Live Endpoint
 
