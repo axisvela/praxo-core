@@ -1,0 +1,96 @@
+name: ci-optional
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "language/haskell/**"
+      - "language/swift/**"
+      - "language/dart/**"
+      - "language/julia/**"
+      - "language/r/**"
+      - ".github/workflows/ci-optional.yml"
+  pull_request:
+    paths:
+      - "language/haskell/**"
+      - "language/swift/**"
+      - "language/dart/**"
+      - "language/julia/**"
+      - "language/r/**"
+      - ".github/workflows/ci-optional.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-optional-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  haskell-conformance:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: haskell-actions/setup@v2
+        with:
+          ghc-version: "9.12.2"
+          cabal-version: "3.14.2.0"
+      - run: python language/haskell/run-tests.py
+      - run: cabal build --offline all
+        working-directory: language/haskell
+
+  swift-conformance:
+    runs-on: macos-latest
+    defaults:
+      run:
+        working-directory: language/swift
+    steps:
+      - uses: actions/checkout@v4
+      - run: swift test
+      - run: swift run praxo-conformance
+      - run: python3 api-snapshot.py --check
+
+  dart-conformance:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: language/dart
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dart-lang/setup-dart@v1
+        with:
+          sdk: stable
+      - run: dart run conformance/run.dart
+      - run: python3 api-snapshot.py --check
+      - run: dart run test/run.dart
+
+  julia-conformance:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: julia-actions/setup-julia@v2
+        with:
+          version: "1"
+      - run: julia --project=language/julia -e 'using Pkg; Pkg.instantiate()'
+      - run: julia --project=language/julia language/julia/conformance/run.jl
+      - run: julia --project=language/julia language/julia/api-snapshot.jl --check
+      - run: julia --project=language/julia language/julia/test/runtests.jl
+
+  r-conformance:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: "release"
+      - run: Rscript language/r/conformance/run.R
+      - run: Rscript language/r/api-snapshot.R --check
+      - run: Rscript language/r/tests/run_tests.R

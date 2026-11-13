@@ -19,6 +19,11 @@ on:
       - "language/cpp/**"
       - "language/fortran/**"
       - "language/cobol/**"
+      - "language/haskell/**"
+      - "language/swift/**"
+      - "language/dart/**"
+      - "language/julia/**"
+      - "language/r/**"
   pull_request:
     paths-ignore:
       - "language/python/**"
@@ -36,6 +41,11 @@ on:
       - "language/cpp/**"
       - "language/fortran/**"
       - "language/cobol/**"
+      - "language/haskell/**"
+      - "language/swift/**"
+      - "language/dart/**"
+      - "language/julia/**"
+      - "language/r/**"
   workflow_dispatch:
   schedule:
     - cron: '0 3 * * *'
