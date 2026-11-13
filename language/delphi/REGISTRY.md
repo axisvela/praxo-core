@@ -1,13 +1,13 @@
 # PRAXO-CORE Delphi / Free Pascal Registry Introduction
 
-**Status:** source release; OPM submission pending. Source version `0.4.0`, source
-tag `delphi/v0.4.0`. Published registry version: `0.2.1`. Registry
+**Status:** source release; OPM submission pending. Source version `0.5.0`, source
+tag `delphi/v0.5.0`. Published registry version: `0.2.1`. Registry
 pages are release snapshots; verify the published version before relying on a
 feature.
 
 ## Positioning
 
-Native Core implementation with source tag `delphi/v0.4.0`. It passes all eleven vector groups and includes the native agent loop plus memory, event, checkpoint, policy, context, and middleware helpers. It does not call Go or another language Core; it includes native OpenAI-compatible, Anthropic, and Gemini model adapters but no process bridge or plugin host.
+Native Core implementation with source tag `delphi/v0.5.0`. It passes all eleven vector groups and includes the native agent loop plus memory, event, checkpoint, policy, context, and middleware helpers. It does not call Go or another language Core; it includes native OpenAI-compatible, Anthropic, and Gemini model adapters but no process bridge or plugin host.
 
 ## Package
 
@@ -15,11 +15,11 @@ Native Core implementation with source tag `delphi/v0.4.0`. It passes all eleven
 | --- | --- |
 | Package | `PRAXO-CORE` |
 | Registry | [OPM / GitHub release](https://github.com/axisvela/praxo-core/releases/tag/delphi%2Fv0.2.1) |
-| Source version | `0.4.0` |
+| Source version | `0.5.0` |
 | Published registry version | `0.2.1` |
 | Install (published) | `OPM package or release archive` |
 | Install (source/release prepared) | `OPM package or release archive` |
-| Source tag | `delphi/v0.4.0` |
+| Source tag | `delphi/v0.5.0` |
 | Tier | Core |
 | Contract | `SPEC_VERSION` `0.2.0` |
 | Documentation | https://axisvela.github.io/praxo-core/languages/delphi/ |
@@ -33,9 +33,9 @@ Native Core implementation with source tag `delphi/v0.4.0`. It passes all eleven
 | Gemini model | native | `TPraxoGeminiAdapter`; FPC HTTP transport |
 | MCP client | native | `TPraxoMcpClient`; stdio and `TPraxoHttpMcpTransport` for Streamable HTTP 2025-03-26 |
 | Harmovela sink | native | `TPraxoHarmovelaSink` |
-| OpenTelemetry sink | not implemented |  |
-| Subagent delegation | not implemented |  |
-| Retriever | not implemented |  |
+| OpenTelemetry sink | native (transport seam) | `TPraxoOtelSink`; caller supplies `TPraxoOtelTransport` |
+| Subagent delegation | native (synchronous seam) | `TPraxoSubagentManager.Run`; no asynchronous manager |
+| Retriever | native | `TPraxoDocument`, `TPraxoRetriever`, `PraxoRetrieveDocuments` |
 
 ## Coding-agent entry
 

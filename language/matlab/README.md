@@ -5,18 +5,18 @@
 > matrix has been independently validated. File Exchange compatibility labels
 > are not test evidence; do not use them as a production support promise.
 
-Native MATLAB Core implementation with source tag `matlab/v0.3.0`. It is
+Native MATLAB Core implementation with source tag `matlab/v0.5.0`. It is
 published on
 [MATLAB File Exchange](https://www.mathworks.com/matlabcentral/fileexchange/185166-praxo-core).
 The shared implementation passes all eleven vector groups under GNU Octave
 11.3.0 and includes the native agent loop, memory store, checkpoint allowlist,
-lexical path policy, context compaction, event sinks, middleware helpers, and
-tool selection. It does not delegate its behavior to Go or another language
-Core.
+lexical path policy, context compaction, event sinks, middleware helpers, tool
+selection, an OpenTelemetry sink, a retriever seam, and synchronous subagent
+delegation. It does not delegate its behavior to Go or another language Core.
 
 MATLAB and Octave share the implementation in
 `language/matlab-octave-core/+praxo`. The Octave package root and source tag
-live in `language/octave` (`octave/v0.3.0`). Local validation uses GNU Octave
+live in `language/octave` (`octave/v0.5.0`). Local validation uses GNU Octave
 11.3.0; MATLAB compatibility is a target, not yet independently verified. The
 source tag does not imply production readiness or a delivery date.
 
@@ -133,6 +133,61 @@ exactly-once-delivery guarantee. Apply caller-side filtering because event data
 may contain sensitive content, and use HTTPS for remote endpoints. The default
 transport uses the runtime HTTP client and cannot report the exact status of a
 thrown non-2xx response.
+
+## OpenTelemetry Event Sink
+
+```matlab
+sink = praxo.otel_sink('http://127.0.0.1:4318/v1/traces', ...
+    'praxo-core', {'tool_name'});
+event = praxo.event('tool.call', 's1', 'run-1', ...
+    praxo.json_make_object({'tool_name', praxo.json_make_string('echo')}));
+sink = praxo.otel_emit(sink, event);
+```
+
+`praxo.otel_emit` posts OTLP/HTTP spans to the required endpoint with
+`content-type: application/json`. Event data is excluded unless its keys appear
+in the explicit allowlist passed to `praxo.otel_sink`. Trace and span IDs are
+deterministic 32- and 16-character hexadecimal values derived from the event and
+clock. Pass a transport function handle receiving `(method, url, headers, body)`
+and a clock function handle for deterministic tests without network access. A
+2xx status is success; any other status raises `praxo:otel` with an `OTEL_HTTP`
+code and a body bounded to 512 characters. No OpenTelemetry SDK is required.
+
+The sink adds no sampling, collector, authentication, retries, buffering,
+ordering, or delivery guarantee. Use HTTPS for remote endpoints and allowlist
+only the event data keys that may leave the process.
+
+## Retriever
+
+`praxo.document(id, content, metadata, score)` builds a document, and
+`praxo.retrieve_documents(retriever, query, limit)` invokes a retriever function
+handle with the query and limit. A negative limit raises `praxo:retriever` with
+a `RETRIEVER_INVALID` code without invoking the retriever.
+
+```matlab
+retriever = @(query, limit) {praxo.document('doc-1', query, struct(), 0.5)};
+documents = praxo.retrieve_documents(retriever, 'hello', 3);
+```
+
+The seam does not define an embedding model, vector store, ranking service, or
+search quality.
+
+## Subagent Delegation
+
+`praxo.subagent_request`, `praxo.subagent_result`, `praxo.subagent_task`, and
+`praxo.subagent_run` form a synchronous delegation seam. The runner receives the
+request and returns a result; the task status is terminal `completed` or
+`failed`. A runner error is preserved as the task error code when it starts with
+an uppercase code and a colon, otherwise the task uses `SUBAGENT_ERROR`. An empty
+parent session ID or agent ID raises `praxo:delegation` with `SUBAGENT_INVALID`.
+
+```matlab
+request = praxo.subagent_request('parent', 'child', 'look up');
+runner = @(req) praxo.subagent_result('task-1', req.agentId, 'done');
+task = praxo.subagent_run(runner, request);
+```
+
+No asynchronous manager, remote worker, or durable scheduling is provided.
 
 ## Current Limits
 

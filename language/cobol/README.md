@@ -3,10 +3,12 @@
 A native GnuCOBOL implementation, not a bridge to another Core. All 63 normative
 vectors across the eleven groups pass, together with native agent, JSON,
 contract-boundary, behavior, tooling, and API declaration checks. The
-`cobol-conformance` remote job checks the declared scope. `cobol/v0.5.0` is the
-source tag; version `0.4.0` adds middleware, lifecycle, cancellation, streaming,
-SSE, and batch tool dispatch, and current source adds human-in-the-loop
-interrupt decisions.
+`cobol-conformance` remote job checks the declared scope. `cobol/v0.6.0` is the
+source tag. Version `0.6.0` adds Anthropic and Gemini transport-seam model
+adapters, an OTLP/HTTP OpenTelemetry sink, a retriever seam, and a synchronous
+delegation seam. Earlier source adds middleware, lifecycle, cancellation,
+streaming, SSE, batch tool dispatch, MCP, Harmovela, OpenAI-compatible adapters,
+and human-in-the-loop interrupt decisions.
 
 ## Registry and Coding-Agent Entry
 
@@ -34,14 +36,21 @@ required by a compiled Core consumer.
 | Program | Purpose |
 | --- | --- |
 | `praxo-run` | Agent loop with model, tool dispatcher, policy, and event callbacks |
+| `praxo-anthropic` | Anthropic Messages adapter over a caller-supplied transport |
 | `praxo-checkpoint` | Registered payload-type JSON envelopes |
 | `praxo-context` | Token estimate and context compaction |
+| `praxo-delegation` | Synchronous subagent request/result/task seam |
 | `praxo-event` | Filter and multi-sink event delivery |
+| `praxo-gemini` | Gemini `generateContent` adapter over a caller-supplied transport |
+| `praxo-harmovela` | Harmovela event sink over a caller-supplied transport |
 | `praxo-jsonschema` | Object/array schema validation |
 | `praxo-schema-scalar` | Internal scalar schema checks |
 | `praxo-schema-visit` | Internal recursive object/array checks |
 | `praxo-memory` | In-memory session records and search |
 | `praxo-middleware` | Call limits, tool selection, fallback, structured output, email redaction |
+| `praxo-mcp` | MCP client over a caller-supplied transport |
+| `praxo-openai` | OpenAI-compatible chat-completions adapter over a caller-supplied transport |
+| `praxo-otel` | OTLP/HTTP OpenTelemetry span sink over a caller-supplied transport |
 | `praxo-path-normalize` | Lexical path normalization |
 | `praxo-pattern-check` | Bounded ASCII pattern matcher |
 | `praxo-plugin` | Strict manifest parsing and validation |
@@ -49,6 +58,7 @@ required by a compiled Core consumer.
 | `praxo-sse` | Server-sent-event stream parser with truncation and half-packet rejection |
 | `praxo-registry` | In-memory tool registry with register/get/list/clear |
 | `praxo-registry-scoped` | Same operations with caller-owned registry state (since 0.1.2) |
+| `praxo-retriever` | Document callback seam over query and limit |
 | `praxo-stream` | Stream-kind constants |
 | `praxo-toolcall` | JSON, XML-style, dotted-tag, and plain tool-call parsing |
 | `praxo-json-parse`, `praxo-json-generate`, `praxo-json-string`, `praxo-json-quote`, `praxo-json-slice`, `praxo-utf8` | Native JSON and UTF-8 utilities |
@@ -112,33 +122,85 @@ cleanup, and emits `run.failed` instead of `run.completed`.
 local `MODEL_STREAM` status. Malformed data packets, including half packets,
 also return `MODEL_STREAM` rather than being ignored.
 
-## OpenAI-Compatible Adapter
+## Model Adapters
 
-Not implemented. There is no dependency-free HTTP POST path in this Core: the
-native JSON utilities (`praxo-json-parse`, `praxo-json-generate`,
-`praxo-json-quote`, `praxo-json-slice`) exist, but there is no HTTP client,
-socket wrapper, or HTTP transport callback.
+The model adapters use caller-supplied transport programs; this Core has no
+bundled HTTP client or socket wrapper. The native JSON utilities parse and
+generate the wire payloads.
 
-The model callback contract also blocks a faithful request mapping. It is
-`call px-model-program using work-session px-response px-user-data px-status`,
-and `work-session` carries only role, content, and tool-call id per message. It
-does not carry the tool list or prior assistant tool calls, so the request
-side cannot emit `tools` or assistant `tool_calls` without widening the public
-callback contract. The response record can carry content, tool calls, and
-token usage, but that alone is not a complete adapter.
+### OpenAI-Compatible
 
-The exact dependency decision required is:
+`praxo-openai` posts an OpenAI-compatible chat-completions request to
+`{base-url}/chat/completions` through `px-provider-transport-program` using
+`provider-call.cpy` and `provider-options.cpy`. It maps text messages, an
+optional raw tools array, and max tokens; it parses text content, tool calls, and
+prompt/completion token usage. A non-2xx response returns `PROVIDER_HTTP`;
+malformed JSON returns `PROVIDER_JSON`.
 
-1. Choose an HTTP transport: a reviewed libcurl binding (libcurl license) and
-   an `px-http-request` callback record, or a platform socket client
-   (platform-specific and not portable). Invoking an external `curl` process is
-   not a library dependency and is not proposed here.
-2. Extend the model callback contract, or add a dedicated adapter request
-   record, to pass tool declarations and assistant tool-call history.
+Limitations: the model callback still carries one role/content/call-id triple per
+message and no assistant tool-call history, so the adapter receives tool
+declarations only through the dedicated options record. Streaming is not
+implemented.
 
-Until both decisions are made and implemented, this language does not claim
-OpenAI-compatible adapter support. Streaming is not implemented; `praxo-sse`
-only parses text.
+### Anthropic Messages
+
+`praxo-anthropic` posts to `{base-url}/messages` through
+`px-anthropic-transport-program` using `anthropic-options.cpy` and
+`anthropic-call.cpy`. System messages are collected into the `system` field;
+user and assistant messages map to `messages`; tools are passed through as raw
+Anthropic tool declarations; `auto`, `any`, a raw `tool_choice` object, or a
+tool name are supported. The adapter parses text and `tool_use` content blocks
+and `input_tokens`/`output_tokens` usage. `px-anthropic-version` defaults to
+`2023-06-01`.
+
+Limitations: tool declarations and assistant tool-call history are not taken
+from the Core model callback. Streaming is not implemented.
+
+### Gemini generateContent
+
+`praxo-gemini` posts to `{base-url}/models/{model}:generateContent` through
+`px-gemini-transport-program` using `gemini-options.cpy` and `gemini-call.cpy`.
+System messages become `systemInstruction`; `assistant` maps to the Gemini
+`model` role; tools are passed through as raw Gemini declarations. `auto`,
+`none`, `any`, or a raw `toolConfig` object are supported. The adapter parses
+text and `functionCall` parts plus `promptTokenCount`/`candidatesTokenCount`
+usage. Function-call identifiers are local deterministic values because Gemini
+does not return an id.
+
+Limitations: tool declarations and assistant tool-call history are not taken
+from the Core model callback. Streaming and candidate selection policies are not
+implemented.
+
+## OpenTelemetry Sink
+
+`praxo-otel` maps one Core event to an OTLP/HTTP JSON span and posts it to the
+required endpoint through `px-otel-transport-program` using `otel.cpy`,
+`otel-event.cpy`, and `otel-call.cpy`. Trace and span identifiers are
+deterministic hexadecimal strings (32 and 16 characters). Event data is excluded
+by default; `px-otel-allowed-keys` adds `praxo.event.data.<key>` string
+attributes. A 2xx status succeeds; any other status returns `OTEL_HTTP` and
+stores a response body bounded to 512 bytes. A blank endpoint returns
+`OTEL_URL`.
+
+Limitations: no OpenTelemetry SDK, sampler, collector, batching, retry, or
+delivery guarantee. Event data values are not redacted when allowlisted.
+
+## Retriever
+
+`praxo-retriever` validates a query/limit request, then calls a caller-supplied
+retriever program using `retriever.cpy`. Documents carry id, content, optional
+metadata JSON, and an optional score. A negative limit or blank callback returns
+`RETRIEVER_INVALID`; callback statuses propagate. The seam does not define an
+embedding model, vector store, ranking service, or search-quality claim.
+
+## Synchronous Delegation
+
+`praxo-delegation` runs a caller-supplied subagent program synchronously using
+`delegation.cpy`. A valid request needs a parent session id and agent id;
+otherwise it returns `SUBAGENT_INVALID`. The task starts in `running`, then
+becomes `completed` or `failed`. A runner status is preserved in the task error
+field, so callers can distinguish provider or policy failures. There is no
+asynchronous manager, queue, wait, update, or cancel operation.
 
 ## Batch Tool Dispatch
 
@@ -191,12 +253,16 @@ This is deterministic native integration evidence, not production validation.
 ## Scope and Limits
 
 The agent API is wire-shaped but not a full Go model surface: it carries text
-messages, one tool-call list per response, and callback events. It does not
-carry full assistant tool-call history, provider adapters, or asynchronous
-streams. Stream parts are synchronous callback notifications, and the SSE
-parser consumes text; there is no HTTP/provider client. Cancellation is
+messages, one tool-call list per response, and callback events. It does not carry
+full assistant tool-call history, so model adapters receive tool declarations
+through their own options records. Provider adapters are transport seams, not
+bundled HTTP clients. Stream parts are synchronous callback notifications, and
+the SSE parser consumes text; there is no HTTP/provider client. Cancellation is
 cooperative through `px-cancel-program`, not thread interruption. Batch tool
-concurrency is caller-provided; the agent does not create OS threads.
+concurrency is caller-provided; the agent does not create OS threads. The OTel,
+retriever, and delegation adapters are local seams over caller-supplied
+transports or callbacks; they add no collector, vector store, durable worker, or
+concurrency guarantee.
 
 JSON inputs are limited to 32768 bytes, 512 nodes, and 64 nested containers.
 Strings preserve trailing spaces and embedded NUL bytes. Invalid UTF-8, lone
@@ -231,17 +297,20 @@ semantics.
 
 ## Gates
 
-`api/0.4.0.txt` inventories public copybook records, module program IDs,
+`api/0.6.0.txt` inventories public copybook records, module program IDs,
 and linkage parameters. `api-snapshot.py --check` runs in the test driver;
 regenerate intentionally with `--update`. Tooling tests check fixture
 determinism, assertion polarity, snapshot sensitivity, and the middleware,
 cancellation, streaming, SSE, and batch-dispatch declarations. The
 `cobol-conformance` CI job runs all of these plus the native agent, behavior,
-SSE, JSON, and contract programs.
+SSE, JSON, contract, model-adapter, telemetry, retriever, and delegation
+programs.
 
-`cobol/v0.5.0` is the source tag. `api/0.1.1.txt`, `api/0.1.2.txt`, and
+`cobol/v0.6.0` is the source tag. `api/0.1.1.txt`, `api/0.1.2.txt`, and
 `api/0.2.0.txt` remain immutable previous declaration snapshots;
-`api/0.4.0.txt` adds the cancellation, stream, SSE, and batch records.
-`spec/parity/cobol.md` records partial surfaces. The Core sources are
+`api/0.4.0.txt` adds the cancellation, stream, SSE, and batch records;
+`api/0.5.0.txt` adds the MCP, Harmovela, and OpenAI-compatible records;
+`api/0.6.0.txt` adds the Anthropic, Gemini, OTel, retriever, and delegation
+records. `spec/parity/cobol.md` records partial surfaces. The Core sources are
 MIT-licensed; GnuCOBOL and its runtime are separately licensed external
 toolchain dependencies.

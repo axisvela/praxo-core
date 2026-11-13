@@ -3,7 +3,7 @@
 ## Status
 
 COBOL has no central package-registry publication. The release is a source tag,
-`cobol/v0.3.0`, plus the GitHub release/source archive.
+`cobol/v0.6.0`, plus the GitHub release/source archive.
 
 ## Build and test
 
@@ -25,8 +25,8 @@ behavior, SSE, JSON, contract, tooling, and API snapshot checks.
 3. Create the source tag:
 
 ```bash
-git tag -a cobol/v0.3.0 -m "praxo-core COBOL v0.3.0"
-git push origin cobol/v0.3.0
+git tag -a cobol/v0.6.0 -m "praxo-core COBOL v0.6.0"
+git push origin cobol/v0.6.0
 ```
 
 ## Credentials and configuration

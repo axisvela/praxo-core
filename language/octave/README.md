@@ -1,12 +1,13 @@
 # PRAXO-CORE for GNU Octave
 
 Native Octave Core for the PRAXO-CORE agent framework. This is the independent
-Octave package root and source tag `octave/v0.4.0`; it shares the implementation
+Octave package root and source tag `octave/v0.5.0`; it shares the implementation
 in `language/matlab-octave-core/+praxo` with the MATLAB package. It passes all
 eleven shared vector groups under GNU Octave 11.3.0 and includes the native agent
 loop, memory store, checkpoint allowlist, lexical path policy, context
-compaction, event sinks, middleware helpers, and tool selection. It does not
-delegate behavior to Go or another language Core.
+compaction, event sinks, middleware helpers, tool selection, an OpenTelemetry
+transport-seam sink, a retriever seam, and synchronous subagent delegation. It
+does not delegate behavior to Go or another language Core.
 
 MATLAB is a separate Core target in `language/matlab`; Octave package
 publication does not claim MATLAB runtime verification.
@@ -138,6 +139,52 @@ exactly-once-delivery guarantee. Apply caller-side filtering because event data
 may contain sensitive content, and use HTTPS for remote endpoints. The default
 transport uses the runtime HTTP client and cannot report the exact status of a
 thrown non-2xx response.
+
+## OpenTelemetry Sink
+
+```octave
+clock = @() struct('epochNanos', '1794294000000000000', ...
+    'createdAt', '2026-11-10T07:00:00.000000000Z');
+sink = praxo.otel_sink('http://127.0.0.1:4318/v1/traces', ...
+    'praxo-core', {'name'}, transport, clock);
+sink = praxo.otel_emit(sink, event);
+```
+
+`praxo.otel_emit` maps a Core event to one OTLP/HTTP span with deterministic
+32-character trace and 16-character span IDs. The endpoint is required. Event
+data is excluded unless a key is listed explicitly in the allowlist. A 2xx
+status is success; other statuses raise `praxo:otel` with an `OTEL_HTTP` code
+and a bounded response body. A missing endpoint raises `OTEL_URL`. The sink uses
+no OpenTelemetry SDK and adds no collector, sampler, exporter, or retry
+behavior.
+
+## Retriever
+
+```octave
+document = praxo.document('doc-1', 'hello', struct('source', 'test'), 0.5);
+retriever = praxo.func_retriever(@(query, limit) {document});
+documents = praxo.retriever_retrieve(retriever, 'hello', 3);
+```
+
+Documents are structs with `id`, `content`, `metadata`, and `score`; use
+`praxo.document_wire` for a typed JSON node. The retriever seam accepts a
+function handle receiving a query and limit. A negative or invalid limit raises
+`praxo:retriever` with `RETRIEVER_INVALID`. The seam does not define embeddings,
+vector storage, ranking quality, or a production search service.
+
+## Subagent Delegation
+
+```octave
+request = praxo.subagent_request('parent', 'child', 'look up', 'fork');
+task = praxo.subagent_run( ...
+    @(req) praxo.subagent_result('done', 'task-1', 'child'), request);
+```
+
+`praxo.subagent_run` executes a caller-supplied child runner synchronously and
+returns a task in the terminal `completed` or `failed` state. A failed task
+preserves the runner's error code. An empty parent session or agent ID raises
+`praxo:delegation` with `SUBAGENT_INVALID`. The seam provides no asynchronous
+queue, remote worker, cancellation, update, or exactly-once guarantee.
 
 ## Current Limits
 

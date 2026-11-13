@@ -8,11 +8,11 @@
 
 - package: `PRAXO-CORE`
 - registry: [OPM / GitHub release](https://github.com/axisvela/praxo-core/releases/tag/delphi%2Fv0.2.1)
-- source_version: `0.4.0`
+- source_version: `0.5.0`
 - published_version: `0.2.1`
 - install_published: `OPM package or release archive`
 - install_source: `OPM package or release archive`
-- source_tag: `delphi/v0.4.0`
+- source_tag: `delphi/v0.5.0`
 - tier: Core
 - contract: `SPEC_VERSION` `0.2.0`
 - documentation: https://axisvela.github.io/praxo-core/languages/delphi/
@@ -24,9 +24,9 @@
 - Gemini model: native (`TPraxoGeminiAdapter`; FPC HTTP transport)
 - MCP client: native (`TPraxoMcpClient`; stdio and `TPraxoHttpMcpTransport` for Streamable HTTP 2025-03-26)
 - Harmovela sink: native (`TPraxoHarmovelaSink`)
-- OpenTelemetry sink: not implemented
-- Subagent delegation: not implemented
-- Retriever: not implemented
+- OpenTelemetry sink: native (transport seam) (`TPraxoOtelSink`; caller supplies `TPraxoOtelTransport`)
+- Subagent delegation: native (synchronous seam) (`TPraxoSubagentManager.Run`; no asynchronous manager)
+- Retriever: native (`TPraxoDocument`, `TPraxoRetriever`, `PraxoRetrieveDocuments`)
 
 ## Start
 

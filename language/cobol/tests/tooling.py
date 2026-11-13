@@ -37,6 +37,7 @@ class ToolingTests(unittest.TestCase):
             root = Path(directory)
             (root / "src").mkdir()
             (root / "copy").mkdir()
+            (root / "VERSION").write_text("0.0.0\n", encoding="utf-8")
             copy = root / "copy" / "api.cpy"
             copy.write_text("       01 payload.\n          05 value pic x(8).\n",
                             encoding="utf-8")

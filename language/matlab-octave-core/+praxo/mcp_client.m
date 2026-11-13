@@ -1,6 +1,6 @@
 function client = mcp_client(transport, client_version, protocol_version)
 if nargin < 2 || isempty(client_version)
-    client_version = '0.4.0';
+    client_version = '0.5.0';
 end
 if nargin < 3 || isempty(protocol_version)
     protocol_version = '2024-11-05';

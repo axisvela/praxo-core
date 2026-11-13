@@ -8,11 +8,11 @@
 
 - package: `PraxoCore`
 - registry: [Julia General (pending)](https://github.com/axisvela/praxo-core-julia)
-- source_version: `0.3.0`
+- source_version: `0.5.0`
 - published_version: `0.2.0`
 - install_published: `Pkg.add("PraxoCore")`
-- install_source: `Pkg.add(name="PraxoCore", version="0.3.0")`
-- source_tag: `julia/v0.3.0`
+- install_source: `Pkg.add(name="PraxoCore", version="0.5.0")`
+- source_tag: `julia/v0.5.0`
 - tier: Core
 - contract: `SPEC_VERSION` `0.2.0`
 - documentation: https://axisvela.github.io/praxo-core/languages/julia/
@@ -24,9 +24,9 @@
 - Gemini model: native (`GeminiModel`; injectable transport)
 - MCP client: native (transport seam) (`mcp_client`; caller supplies transport)
 - Harmovela sink: native (`HarmovelaSink`)
-- OpenTelemetry sink: not implemented
-- Subagent delegation: not implemented
-- Retriever: not implemented
+- OpenTelemetry sink: native (transport seam) (`otel_sink`; caller supplies OTLP/HTTP transport)
+- Subagent delegation: native (synchronous seam) (`subagent_run`; no asynchronous manager)
+- Retriever: native (`Document`, `FuncRetriever`, `retrieve_documents`)
 
 # Start
 

@@ -48,6 +48,9 @@ def main():
     subprocess.run([compiler, *flags, f"-FE{build}", "praxo_gemini.pas"], cwd=ROOT, check=True)
     subprocess.run([compiler, *flags, f"-FE{build}", "praxo_harmovela.pas"], cwd=ROOT, check=True)
     subprocess.run([compiler, *flags, f"-FE{build}", "praxo_mcp.pas"], cwd=ROOT, check=True)
+    subprocess.run([compiler, *flags, f"-FE{build}", "praxo_otel.pas"], cwd=ROOT, check=True)
+    subprocess.run([compiler, *flags, f"-FE{build}", "praxo_retriever.pas"], cwd=ROOT, check=True)
+    subprocess.run([compiler, *flags, f"-FE{build}", "praxo_delegation.pas"], cwd=ROOT, check=True)
     subprocess.run([compiler, *flags, "-Futests", f"-FE{build}", "tests/praxo_tests.lpr"],
                    cwd=ROOT, check=True)
     executable = build / ("praxo_tests.exe" if os.name == "nt" else "praxo_tests")
@@ -73,6 +76,10 @@ def main():
     subprocess.run([compiler, *flags, "-Futests", f"-FE{build}", "tests/mcp_tests.lpr"],
                    cwd=ROOT, check=True)
     executable = build / ("mcp_tests.exe" if os.name == "nt" else "mcp_tests")
+    subprocess.run([str(executable)], cwd=ROOT, check=True, timeout=120)
+    subprocess.run([compiler, *flags, "-Futests", f"-FE{build}", "tests/adapter_tests.lpr"],
+                   cwd=ROOT, check=True)
+    executable = build / ("adapter_tests.exe" if os.name == "nt" else "adapter_tests")
     subprocess.run([str(executable)], cwd=ROOT, check=True, timeout=120)
 
 

@@ -1,7 +1,7 @@
 # PRAXO-CORE MATLAB Registry Introduction
 
-**Status:** published; MATLAB runtime compatibility unverified. Source version `0.4.0`, source
-tag `matlab/v0.4.0`. Published registry version: `0.3.0`. Registry
+**Status:** published; MATLAB runtime compatibility unverified. Source version `0.5.0`, source
+tag `matlab/v0.5.0`. Published registry version: `0.3.0`. Registry
 pages are release snapshots; verify the published version before relying on a
 feature.
 
@@ -15,11 +15,11 @@ feature.
 | --- | --- |
 | Package | `PRAXO-CORE` |
 | Registry | [MATLAB File Exchange](https://www.mathworks.com/matlabcentral/fileexchange/185166-praxo-core) |
-| Source version | `0.4.0` |
+| Source version | `0.5.0` |
 | Published registry version | `0.3.0` |
 | Install (published) | `File Exchange entry 185166` |
 | Install (source/release prepared) | `File Exchange entry 185166` |
-| Source tag | `matlab/v0.4.0` |
+| Source tag | `matlab/v0.5.0` |
 | Tier | Core |
 | Contract | `SPEC_VERSION` `0.2.0` |
 | Documentation | https://axisvela.github.io/praxo-core/languages/matlab/ |
@@ -33,9 +33,9 @@ feature.
 | Gemini model | native | `praxo.gemini_compatible`; injectable transport |
 | MCP client | native (transport seam) | `praxo.mcp_client`; caller supplies a function handle |
 | Harmovela sink | native | `praxo.harmovela_sink` |
-| OpenTelemetry sink | not implemented |  |
-| Subagent delegation | not implemented |  |
-| Retriever | not implemented |  |
+| OpenTelemetry sink | native (transport seam) | `praxo.otel_sink`; caller supplies OTLP/HTTP transport |
+| Subagent delegation | native (synchronous seam) | `praxo.subagent_run`; no asynchronous manager |
+| Retriever | native | `praxo.document` and `praxo.retrieve_documents` |
 
 ## Coding-agent entry
 

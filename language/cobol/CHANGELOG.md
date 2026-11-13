@@ -1,5 +1,28 @@
 # COBOL Core Release Notes
 
+## 0.6.0 - 2026-11-13
+
+Source release tag `cobol/v0.6.0`. This is not a package-registry release.
+
+### Added
+
+- Transport-seam Anthropic Messages adapter (`praxo-anthropic`) with system
+  message mapping, tool declarations, tool choice, text and tool-use parsing,
+  usage parsing, and provider HTTP/JSON errors.
+- Transport-seam Gemini `generateContent` adapter (`praxo-gemini`) with system
+  instructions, tool declarations, tool choice, text and function-call parsing,
+  usage parsing, and provider HTTP/JSON errors.
+- Transport-seam OpenTelemetry OTLP/HTTP sink (`praxo-otel`) with deterministic
+  trace and span identifiers, default event-data exclusion, explicit key
+  allowlists, and bounded non-2xx error bodies. No OpenTelemetry SDK dependency.
+- Retriever seam (`praxo-retriever`) with a document record, callback program,
+  query and limit forwarding, and `RETRIEVER_INVALID` validation.
+- Synchronous delegation seam (`praxo-delegation`) with request, result, and
+  task records, completed/failed terminal states, preserved runner error codes,
+  and `SUBAGENT_INVALID` validation.
+- Native test suites for the new adapters and seams.
+- API snapshot `api/0.6.0.txt`.
+
 ## 0.5.0 - 2026-11-13
 
 Source release tag `cobol/v0.5.0`. This is not a package-registry release.

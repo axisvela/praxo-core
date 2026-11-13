@@ -3,6 +3,14 @@ module main
 import praxo
 import x.json2
 
+fn otel_long_body() string {
+	mut body := ''
+	for _ in 0 .. 600 {
+		body += 'x'
+	}
+	return body
+}
+
 fn test_json() {
 	value := praxo.parse_json('{"name":"echo","input":{"text":"hi"}}') or { panic(err) }
 	assert praxo.get_string(value, 'name') or { '' } == 'echo'
@@ -697,6 +705,173 @@ fn test_harmovela() {
 	assert missing == 'HARMOVELA_URL'
 }
 
+fn test_otel_sink() {
+	mut seen := ''
+	transport := fn [mut seen] (endpoint string, body string, headers map[string]string) !praxo.OtelResponse {
+		assert endpoint == 'https://otel.test/v1/traces'
+		assert (headers['content-type'] or { '' }) == 'application/json'
+		if seen == '' {
+			seen = body
+			envelope := praxo.parse_json(body) or { panic(err) }
+			resource_spans := praxo.get_array(envelope, 'resourceSpans')
+			assert resource_spans.len == 1
+			scope_spans := praxo.get_array(praxo.as_object(resource_spans[0]), 'scopeSpans')
+			assert scope_spans.len == 1
+			spans := praxo.get_array(praxo.as_object(scope_spans[0]), 'spans')
+			assert spans.len == 1
+			span := praxo.as_object(spans[0])
+			assert praxo.get_string(span, 'name') or { '' } == 'praxo.tool.call'
+			trace_id := praxo.get_string(span, 'traceId') or { '' }
+			span_id := praxo.get_string(span, 'spanId') or { '' }
+			assert trace_id.len == 32
+			assert span_id.len == 16
+			assert praxo.get_string(span, 'startTimeUnixNano') or { '' } == '1794294000000000000'
+			mut keys := []string{}
+			for item in praxo.get_array(span, 'attributes') {
+				keys << (praxo.get_string(praxo.as_object(item), 'key') or { '' })
+			}
+			assert 'praxo.event.data.name' in keys
+			assert 'praxo.event.data.secret' !in keys
+		} else {
+			assert body == seen
+		}
+		return praxo.OtelResponse{status: 200}
+	}
+	sink := praxo.new_otel_sink('https://otel.test/v1/traces', praxo.OtelOptions{
+		allowed_data_keys: ['name']
+		transport: transport
+		clock: fn () i64 { return 1794294000000000000 }
+	})
+	event := praxo.Event{
+		kind: 'tool.call'
+		session_id: 's1'
+		run_id: 'run-123'
+		data: json2.Any({'name': json2.Any('echo'), 'secret': json2.Any('hidden')})
+	}
+	sink.emit(event) or { panic(err) }
+	sink.emit(event) or { panic(err) }
+
+	missing := praxo.new_otel_sink('', praxo.OtelOptions{ transport: transport })
+	mut missing_code := ''
+	missing.emit(event) or {
+		missing_code = praxo.error_code(err)
+	}
+	assert missing_code == 'OTEL_URL'
+
+	failing := fn (_endpoint string, _body string, _headers map[string]string) !praxo.OtelResponse {
+		return praxo.OtelResponse{status: 503, body: 'unavailable'}
+	}
+	fail_sink := praxo.new_otel_sink('https://otel.test/v1/traces', praxo.OtelOptions{
+		transport: failing
+	})
+	mut failure := ''
+	fail_sink.emit(event) or {
+		failure = err.msg()
+	}
+	assert failure.contains('OTEL_HTTP')
+	assert failure.contains('503')
+	assert failure.contains('unavailable')
+
+	long_body := otel_long_body()
+	long_failing := fn [long_body] (_endpoint string, _body string, _headers map[string]string) !praxo.OtelResponse {
+		return praxo.OtelResponse{status: 500, body: long_body}
+	}
+	long_sink := praxo.new_otel_sink('https://otel.test/v1/traces', praxo.OtelOptions{
+		transport: long_failing
+	})
+	mut long_failure := ''
+	long_sink.emit(event) or {
+		long_failure = err.msg()
+	}
+	assert long_failure.contains('OTEL_HTTP')
+	assert long_failure.len < 600
+
+	wrapped := praxo.otel_sink('https://otel.test/v1/traces', praxo.OtelOptions{
+		transport: transport
+		clock: fn () i64 { return 1794294000000000000 }
+	})
+	wrapped.emit(event)
+	assert wrapped.last_error == ''
+}
+
+fn test_retriever() {
+	retriever := praxo.func_retriever(fn (query string, limit int) ![]praxo.Document {
+		return [praxo.document('doc-1', '${query}:${limit}')]
+	})
+	documents := praxo.retrieve_documents(retriever.retrieve, 'hello', 3) or { panic(err) }
+	assert documents.len == 1
+	assert documents[0].id == 'doc-1'
+	assert documents[0].content == 'hello:3'
+	second := retriever.retrieve_documents('hello', 2) or { panic(err) }
+	assert second[0].content == 'hello:2'
+	mut code := ''
+	praxo.retrieve_documents(retriever.retrieve, 'hello', -1) or {
+		code = praxo.error_code(err)
+		[]praxo.Document{}
+	}
+	assert code == 'RETRIEVER_INVALID'
+}
+
+fn test_delegation() {
+	runner := fn (request praxo.SubagentRequest) !praxo.SubagentResult {
+		return praxo.subagent_result('task-1', request.agent_id, 'done')
+	}
+	mut manager := praxo.subagent_manager(runner)
+	manager.clock = fn () i64 { return 1700000000123456789 }
+	task := manager.run(praxo.subagent_request_mode('parent', 'child', 'look up', 'fork')) or {
+		panic(err)
+	}
+	assert task.status == 'completed'
+	assert task.mode == 'fork'
+	assert task.output == 'done'
+	assert task.error == ''
+	assert task.created_at == '2023-11-14T22:13:20.123456789Z'
+	direct := praxo.subagent_run(runner, praxo.subagent_request('parent', 'child', 'look up')) or {
+		panic(err)
+	}
+	assert direct.status == 'completed'
+
+	failing := fn (_request praxo.SubagentRequest) !praxo.SubagentResult {
+		return praxo.praxo_error('BOOM', 'boom')
+	}
+	failing_manager := praxo.subagent_manager(failing)
+	failed := failing_manager.run(praxo.subagent_request('parent', 'child', 'look up')) or {
+		panic(err)
+	}
+	assert failed.status == 'failed'
+	assert failed.error == 'BOOM'
+
+	generic := fn (_request praxo.SubagentRequest) !praxo.SubagentResult {
+		return error('bad')
+	}
+	generic_manager := praxo.subagent_manager(generic)
+	generic_task := generic_manager.run(praxo.subagent_request('parent', 'child', 'look up')) or {
+		panic(err)
+	}
+	assert generic_task.status == 'failed'
+	assert generic_task.error == 'SUBAGENT_ERROR'
+
+	mut code := ''
+	manager.run(praxo.SubagentRequest{ parent_session_id: '', agent_id: 'child' }) or {
+		code = praxo.error_code(err)
+		praxo.SubagentTask{}
+	}
+	assert code == 'SUBAGENT_INVALID'
+	code = ''
+	manager.run(praxo.SubagentRequest{ parent_session_id: 'parent', agent_id: '' }) or {
+		code = praxo.error_code(err)
+		praxo.SubagentTask{}
+	}
+	assert code == 'SUBAGENT_INVALID'
+	code = ''
+	missing_manager := &praxo.SubagentManager{}
+	missing_manager.run(praxo.subagent_request('parent', 'child', 'look up')) or {
+		code = praxo.error_code(err)
+		praxo.SubagentTask{}
+	}
+	assert code == 'SUBAGENT_INVALID'
+}
+
 fn test_mcp() {
 	transport := fn (method string, params map[string]json2.Any) !map[string]json2.Any {
 		match method {
@@ -763,6 +938,9 @@ fn main() {
 	test_anthropic_compatible()
 	test_gemini_compatible()
 	test_harmovela()
+	test_otel_sink()
+	test_retriever()
+	test_delegation()
 	test_mcp()
 	println('v tests passed')
 }

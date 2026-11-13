@@ -1,5 +1,19 @@
 # PowerShell Core Release Notes
 
+## 0.5.0 - 2026-11-13
+
+Source tag `powershell/v0.5.0`.
+
+### Added
+
+- OpenTelemetry wrappers over the C# sink: `New-PraxoOtelSinkOptions`,
+  `New-PraxoOtelSink`, and `Send-PraxoOtelEvent`.
+- Retriever wrappers over the C# document/retriever seam: `New-PraxoDocument`,
+  `New-PraxoFuncRetriever`, and `Invoke-PraxoRetrieve`.
+- Synchronous subagent delegation over the C# manager: `New-PraxoFuncSubagentRunner`,
+  `New-PraxoSubagentRequest`, `New-PraxoSubagentManager`, and
+  `Invoke-PraxoSubagent`.
+
 ## 0.4.2 - 2026-11-12
 
 Source tag `powershell/v0.4.2`.

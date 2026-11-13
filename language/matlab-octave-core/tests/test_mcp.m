@@ -1,6 +1,6 @@
 function test_mcp()
 client = praxo.mcp_client(@transport_ok);
-assert(strcmp(client.client_version, '0.4.0'));
+assert(strcmp(client.client_version, '0.5.0'));
 assert(strcmp(client.protocol_version, '2024-11-05'));
 tools = praxo.mcp_list_tools(client);
 assert(numel(tools) == 1);

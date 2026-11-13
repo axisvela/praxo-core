@@ -10,7 +10,7 @@ function Assert-True {
 Import-Module (Join-Path $PSScriptRoot '../praxo-core-ps/praxo-core-ps.psd1') -Force
 
 $info = Get-PraxoCoreInfo
-Assert-True ($info.Version -eq '0.4.2') 'core version'
+Assert-True ($info.Version -eq '0.5.0') 'core version'
 Assert-True ($info.SpecVersion -eq '0.2.0') 'spec version'
 
 $call = Get-PraxoToolCall '{"name":"echo","input":{"text":"hi"}}'
@@ -157,5 +157,124 @@ try {
     $mcpRejected = $true
 }
 Assert-True $mcpRejected 'mcp remote plain HTTP rejected'
+
+$script:otelCalls = [System.Collections.Generic.List[object]]::new()
+$otelTransport = {
+    param($request)
+    $script:otelCalls.Add($request)
+    $response = [Praxo.Core.OtelHttpResponse]::new()
+    $response.StatusCode = 200
+    $response.Body = ''
+    $response
+}
+$otelOptions = New-PraxoOtelSinkOptions -Endpoint 'http://otel.test/v1/traces' `
+    -ServiceName 'praxo-test' -AllowedDataKeys @('name')
+$otelSink = New-PraxoOtelSink -Options $otelOptions -Transport $otelTransport
+$otelEvent = [Praxo.Core.Event]::new('tool.call', 's1')
+$otelEvent.RunId = 'run-123'
+$otelEvent.At = '2026-11-10T07:00:00Z'
+$otelData = [System.Text.Json.Nodes.JsonObject]::new()
+$otelData['name'] = 'echo'
+$otelData['secret'] = 'hidden'
+$otelEvent.Data = $otelData
+Send-PraxoOtelEvent -Sink $otelSink -Event $otelEvent
+Assert-True ($script:otelCalls.Count -eq 1) 'otel single request'
+$otelRequest = $script:otelCalls[0]
+Assert-True ($otelRequest.Method -eq 'POST') 'otel method'
+Assert-True ($otelRequest.Url -eq 'http://otel.test/v1/traces') 'otel url'
+Assert-True ($otelRequest.Headers['content-type'] -eq 'application/json') 'otel content type'
+$otelPayload = ConvertFrom-PraxoJson $otelRequest.Body
+$otelResourceSpan = $otelPayload['resourceSpans'][0]
+$otelResourceAttributes = $otelResourceSpan['resource']['attributes']
+Assert-True ($otelResourceAttributes[0]['key'].ToString() -eq 'service.name') 'otel service key'
+Assert-True ($otelResourceAttributes[0]['value']['stringValue'].ToString() -eq 'praxo-test') 'otel service name'
+$otelSpan = $otelResourceSpan['scopeSpans'][0]['spans'][0]
+Assert-True ($otelSpan['name'].ToString() -eq 'praxo.tool.call') 'otel span name'
+Assert-True ($otelSpan['traceId'].ToString().Length -eq 32) 'otel trace id'
+Assert-True ($otelSpan['spanId'].ToString().Length -eq 16) 'otel span id'
+$otelSpanAttributes = @{}
+foreach ($attribute in $otelSpan['attributes']) {
+    $otelSpanAttributes[$attribute['key'].ToString()] =
+        $attribute['value']['stringValue'].ToString()
+}
+Assert-True ($otelSpanAttributes['praxo.event.type'] -eq 'tool.call') 'otel event type'
+Assert-True ($otelSpanAttributes['praxo.session.id'] -eq 's1') 'otel session'
+Assert-True ($otelSpanAttributes['praxo.run.id'] -eq 'run-123') 'otel run'
+Assert-True ($otelSpanAttributes['praxo.event.data.name'] -eq 'echo') 'otel allowed data'
+Assert-True (-not $otelSpanAttributes.ContainsKey('praxo.event.data.secret')) 'otel data excluded'
+
+$otelFailingSink = New-PraxoOtelSink -Options $otelOptions -Transport {
+    param($request)
+    $response = [Praxo.Core.OtelHttpResponse]::new()
+    $response.StatusCode = 503
+    $response.Body = 'down'
+    $response
+}
+$otelThrown = $false
+try {
+    Send-PraxoOtelEvent -Sink $otelFailingSink -Event $otelEvent
+} catch {
+    $otelThrown = $true
+    Assert-True ($_.Exception.Message -match '503') 'otel error status'
+}
+Assert-True $otelThrown 'otel non-2xx fails'
+
+$document = New-PraxoDocument -Id 'doc-1' -Content 'hello:3' `
+    -Metadata @{ source = 'test' } -Score 0.5
+Assert-True ($document.Id -eq 'doc-1') 'retriever document id'
+Assert-True ($document.Metadata['source'] -eq 'test') 'retriever document metadata'
+$retriever = New-PraxoFuncRetriever -Retrieve {
+    param($query, $limit)
+    @(New-PraxoDocument -Id 'doc-1' -Content "${query}:${limit}" `
+        -Metadata @{ source = 'test' } -Score 0.5)
+}
+$documents = Invoke-PraxoRetrieve -Retriever $retriever -Query 'hello' -Limit 3
+Assert-True ($documents.Count -eq 1) 'retriever count'
+Assert-True ($documents[0].Id -eq 'doc-1') 'retriever id'
+Assert-True ($documents[0].Content -eq 'hello:3') 'retriever content'
+Assert-True ($documents[0].Metadata['source'] -eq 'test') 'retriever metadata'
+Assert-True ($documents[0].Score -eq 0.5) 'retriever score'
+
+$subagentRunner = New-PraxoFuncSubagentRunner -Run {
+    param($request)
+    $result = [Praxo.Core.Delegation.SubagentResult]::new()
+    $result.TaskId = 'task-1'
+    $result.AgentId = $request.AgentId
+    $result.Output = 'done'
+    $result
+}
+$subagentManager = New-PraxoSubagentManager -Runner $subagentRunner
+$subagentRequest = New-PraxoSubagentRequest -ParentSessionId 'parent' `
+    -AgentId 'child' -Prompt 'do work' -Mode 'fork' `
+    -Context @{ key = 'value' } `
+    -History @([Praxo.Core.Message]::Text('user', 'go'))
+Assert-True ($subagentRequest.Context['key'] -eq 'value') 'delegation context'
+Assert-True ($subagentRequest.History.Count -eq 1) 'delegation history'
+$subagentTask = Invoke-PraxoSubagent -Manager $subagentManager -Request $subagentRequest
+Assert-True ($subagentTask.Status -eq [Praxo.Core.Delegation.SubagentStatus]::Completed) 'delegation completed'
+Assert-True ($subagentTask.Output -eq 'done') 'delegation output'
+Assert-True ($subagentTask.ParentSessionId -eq 'parent') 'delegation parent'
+Assert-True ($subagentTask.AgentId -eq 'child') 'delegation agent'
+Assert-True ($subagentTask.Mode -eq [Praxo.Core.Delegation.SubagentMode]::Fork) 'delegation mode'
+
+$subagentFailingRunner = New-PraxoFuncSubagentRunner -Run {
+    param($request)
+    throw 'boom'
+}
+$subagentFailingManager = New-PraxoSubagentManager -Runner $subagentFailingRunner
+$subagentFailed = Invoke-PraxoSubagent -Manager $subagentFailingManager `
+    -Request $subagentRequest
+Assert-True ($subagentFailed.Status -eq [Praxo.Core.Delegation.SubagentStatus]::Failed) 'delegation failed'
+Assert-True ($subagentFailed.Error -match 'boom') 'delegation failure detail'
+
+$invalidRequest = [Praxo.Core.Delegation.SubagentRequest]::new()
+$invalidRequest.AgentId = 'child'
+$invalidThrown = $false
+try {
+    Invoke-PraxoSubagent -Manager $subagentManager -Request $invalidRequest
+} catch {
+    $invalidThrown = $true
+}
+Assert-True $invalidThrown 'delegation rejects missing parent session'
 
 Write-Output 'PowerShell core tests passed'

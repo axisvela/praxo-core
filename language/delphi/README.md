@@ -1,6 +1,6 @@
 # PRAXO-CORE for Delphi and Free Pascal
 
-Native Core implementation with source tag `delphi/v0.4.0`. It passes all eleven
+Native Core implementation with source tag `delphi/v0.5.0`. It passes all eleven
 vector groups and includes the native agent loop plus memory, event, checkpoint,
 policy, context, and middleware helpers. It does not call Go or another language
 Core; it includes native OpenAI-compatible, Anthropic, and Gemini model adapters
@@ -46,6 +46,11 @@ fpc -Mobjfpc -Scghi -O2 -Fu. -Futests -FEbuild tests/praxo_tests.lpr
 ./build/praxo_tests ../../spec
 fpc -Mobjfpc -Scghi -O2 -Fu. -Futests -FEbuild tests/agent_tests.lpr
 ./build/agent_tests ../../spec
+fpc -Mobjfpc -Scghi -O2 -Fu. -FEbuild praxo_otel.pas
+fpc -Mobjfpc -Scghi -O2 -Fu. -FEbuild praxo_retriever.pas
+fpc -Mobjfpc -Scghi -O2 -Fu. -FEbuild praxo_delegation.pas
+fpc -Mobjfpc -Scghi -O2 -Fu. -Futests -FEbuild tests/adapter_tests.lpr
+./build/adapter_tests
 ```
 
 ## API
@@ -67,7 +72,7 @@ begin
 end;
 ```
 
-Public declarations are inventoried in [`api/0.2.1.txt`](api/0.2.1.txt).
+Public declarations are inventoried in [`api/0.5.0.txt`](api/0.5.0.txt).
 The JSON node type is Free Pascal's `TJSONData` (`fpjson`), so consumers already
 using `fpjson` can inspect results directly. `TPraxoCall.Input` is caller-owned.
 `PraxoValidateManifest` returns an owned `TJSONObject` on success.
@@ -158,6 +163,62 @@ end;
 has no authentication, retries, buffering, ordering, or exactly-once guarantee;
 filter sensitive event data caller-side and use HTTPS for remote endpoints.
 
+## OpenTelemetry Event Sink
+
+The `praxo_otel` unit maps a `TPraxoEvent` to one OTLP/HTTP JSON span. It posts
+`POST {endpoint}` with `content-type: application/json` through an injectable
+`TPraxoOtelTransport`. `TPraxoOtelSink` requires an endpoint and raises
+`EPraxoOtel` with `OTEL_URL` when it is empty. Any 2xx status succeeds; other
+statuses raise `OTEL_HTTP` with the status and a 512-character body limit. Event
+data is excluded by default; call `AllowDataKey` for each key to export. Trace
+and span identifiers are deterministic 32- and 16-character hexadecimal strings
+derived from the event. The sink has no OpenTelemetry SDK dependency.
+
+```pascal
+var
+  Sink: TPraxoOtelSink;
+  Event: TPraxoEvent;
+begin
+  Sink := TPraxoOtelSink.Create('http://127.0.0.1:4318/v1/traces');
+  try
+    Sink.AllowDataKey('name');
+    Event.Kind := 'tool.call';
+    Event.SessionId := 's1';
+    Event.RunId := 'run-1';
+    Event.Data := nil;
+    Sink.Emit(Event);
+  finally
+    Sink.Free;
+  end;
+end;
+```
+
+## Retriever
+
+The `praxo_retriever` unit provides the `TPraxoDocument` record, the
+`TPraxoRetriever` callback, and `PraxoRetrieveDocuments`. The callback receives
+a query and limit and returns documents whose `Metadata` value is caller-owned.
+A negative limit raises `EPraxoRetriever` with `RETRIEVER_INVALID`.
+
+```pascal
+function Retrieve(const Query: UTF8String; Limit: Integer): TPraxoDocuments;
+begin
+  SetLength(Result, 1);
+  Result[0] := PraxoDocument('doc-1', Query);
+end;
+
+Documents := PraxoRetrieveDocuments(@Retrieve, 'hello', 3);
+```
+
+## Subagent Delegation
+
+The `praxo_delegation` unit provides a synchronous `TPraxoSubagentManager`.
+Assign `Runner` and optionally `Clock`; `Run` validates the parent session and
+agent identifiers (`SUBAGENT_INVALID`) and returns a task in `completed` or
+`failed` state. A runner exception of type `EPraxoDelegation` preserves its
+`Code`; other exceptions map to `SUBAGENT_ERROR`. There is no asynchronous
+manager.
+
 ## Current Limits
 
 - The verified target is Free Pascal 3.2.2 Windows i386. Other FPC targets and
@@ -194,6 +255,9 @@ filter sensitive event data caller-side and use HTTPS for remote endpoints.
   tool selection; the agent loop does not automatically apply every opt-in helper.
 - Core-local exceptions are not new shared wire error codes. Passing the eleven
   vector groups does not imply full Go feature parity or production readiness.
+- `praxo_otel`, `praxo_retriever`, and `praxo_delegation` are optional seams.
+  They do not add an OpenTelemetry SDK, vector database, asynchronous worker,
+  persistence, or delivery guarantee.
 
 The source is MIT; see [LICENSE](LICENSE). Free Pascal, its RTL, `fpjson`, and
 `RegExpr` are separate toolchain components, not vendored code.

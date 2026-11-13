@@ -3,7 +3,7 @@
 - Tier: core
 - SPEC_VERSION: 0.2.0
 
-Released source tag `matlab/v0.4.0` ships a native Core implementation. It passes
+Released source tag `matlab/v0.5.0` ships a native Core implementation. It passes
 all eleven vector groups and the public API snapshot under GNU Octave 11.3.0;
 MATLAB itself is not independently verified. `partial` marks a surface that
 covers the vector behavior and common path but not every optional Go hook or

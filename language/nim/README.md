@@ -1,7 +1,7 @@
 # PRAXO-CORE for Nim
 
 PRAXO-CORE is an embeddable, MIT-licensed agent framework. This package is its
-native Nim Core with source tag `nim/v0.3.0`. It passes all eleven shared vector
+native Nim Core with source tag `nim/v0.4.0`. It passes all eleven shared vector
 groups with `Nim 2.2.12` and includes the native agent loop, context compaction,
 memory store, path policy, checkpoint allowlist, tool-call parsing, and opt-in
 agent tool selection, PII redaction, structured output, and call limits. Vector
@@ -104,7 +104,7 @@ limit calls per run. Zero or negative values leave the corresponding limit
 unbounded. Limits are checked before invoking the model or tool and reset for
 each run; a fallback model counts as one agent model call.
 
-Public declarations are inventoried in [`api/0.1.1.txt`](api/0.1.1.txt).
+Public declarations are inventoried in [`api/0.4.0.txt`](api/0.4.0.txt).
 
 ## Anthropic and Gemini Adapters
 
@@ -135,6 +135,41 @@ deterministic tests. A 2xx status is success; other statuses raise
 `HARMOVELA_HTTP` with a bounded body. The sink adds no authentication, retries,
 buffering, ordering, or exactly-once delivery. Use HTTPS and filter sensitive
 event data first.
+
+## OpenTelemetry, Retriever, and Delegation Seams
+
+`newOtelSink` maps Core events to OTLP/HTTP spans through an injected
+`OtelTransport`. Event data is excluded unless its keys are listed in
+`allowedDataKeys`. Trace and span IDs are deterministic; non-2xx responses raise
+`OTEL_HTTP` with a bounded body.
+
+```nim
+let otel = newOtelSink(
+  endpoint = "http://127.0.0.1:4318/v1/traces",
+  allowedDataKeys = @["name"],
+)
+options.events = otel
+```
+
+`retrieveDocuments` validates a negative limit with `RETRIEVER_INVALID` and
+calls a `Retriever` proc. `FuncRetriever` wraps the same proc.
+
+```nim
+let retriever = newFuncRetriever(proc(query: string, limit: int): seq[Document] =
+  @[newDocument("doc-1", query)])
+let documents = retrieveDocuments(retriever.retrieve, "query", 5)
+```
+
+`subagentRun` invokes a `SubagentRunner` synchronously and returns a terminal
+`SubagentTask` with `completed` or `failed` status. A `PraxoError` code is
+preserved in `task.error`; an empty parent session or agent ID raises
+`SUBAGENT_INVALID`.
+
+```nim
+let task = subagentRun(proc(request: SubagentRequest): SubagentResult =
+  newSubagentResult(output = "done"),
+  newSubagentRequest("parent", "child", "prompt"))
+```
 
 ## Current Limits
 

@@ -79,6 +79,7 @@ provider presets.
 | Dart | native | `AnthropicModel` with sync and async transport paths |
 | Erlang | native | `praxo_anthropic` |
 | D | native (transport seam) | `AnthropicModel`; caller may inject transport |
+| COBOL | native (transport seam) | `praxo-anthropic`; caller supplies a transport program; maps system messages, tools, tool choice, text, tool use, and usage |
 | C | native (transport seam) | `PxAnthropic`; caller supplies HTTP transport |
 | C++ | native (transport seam) | `Anthropic`; caller supplies HTTP transport |
 | Fortran | native (transport seam) | `anthropic_compatible`; caller supplies HTTP transport |
@@ -119,6 +120,7 @@ provider presets.
 | Dart | native | `GeminiModel` with sync and async transport paths |
 | Erlang | native | `praxo_gemini` |
 | D | native (transport seam) | `GeminiModel`; caller may inject transport |
+| COBOL | native (transport seam) | `praxo-gemini`; caller supplies a transport program; maps system instructions, tools, tool choice, text, function calls, and usage |
 | C | native (transport seam) | `PxGemini`; caller supplies HTTP transport |
 | C++ | native (transport seam) | `Gemini`; caller supplies HTTP transport |
 | Fortran | native (transport seam) | `gemini_compatible`; caller supplies HTTP transport |
@@ -267,6 +269,17 @@ tests; no live Harmovela service is claimed.
 | Haskell | native (transport seam) | `Praxo.Otel`; caller supplies `OtelTransport` |
 | OCaml | native (transport seam) | `otel_sink_new` and `otel_emit`; caller supplies OTLP/HTTP transport |
 | Swift | native (transport seam) | `OtelSink`; caller supplies `OtelTransport` |
+| D | native (transport seam) | `OtelSink`; caller supplies OTLP/HTTP transport |
+| Delphi / Free Pascal | native (transport seam) | `TPraxoOtelSink`; caller supplies `TPraxoOtelTransport` |
+| Objective-C | native (transport seam) | `PXROtelSink`; caller supplies `PXROtelTransport` |
+| Nim | native (transport seam) | `newOtelSink`; caller supplies OTLP/HTTP transport |
+| V | native (transport seam) | `new_otel_sink`; caller supplies `OtelTransport` |
+| Zig | native (transport seam) | `otel.Sink`; caller supplies OTLP/HTTP transport |
+| Julia | native (transport seam) | `otel_sink`; caller supplies OTLP/HTTP transport |
+| MATLAB | native (transport seam) | `praxo.otel_sink`; caller supplies OTLP/HTTP transport |
+| GNU Octave | native (transport seam) | Shared `praxo.otel_sink`; caller supplies OTLP/HTTP transport |
+| Erlang | native (transport seam) | `praxo_otel`; caller supplies transport |
+| COBOL | native (transport seam) | `praxo-otel`; caller supplies an OTLP/HTTP transport program |
 | PowerShell | inherited | Uses the C# Core |
 | Visual Basic / F# | inherited | Samples over the C# Core |
 | Kotlin / Scala / Groovy / Clojure | inherited | Samples over the Java Core |
@@ -302,6 +315,18 @@ selected keys must be allowlisted explicitly.
 | Haskell | native (synchronous seam) | `Praxo.Delegation.subagentRun`; no asynchronous manager |
 | OCaml | native (synchronous seam) | `subagent_run`; no asynchronous manager |
 | Swift | native (synchronous seam) | `SubagentManager.run`; no asynchronous manager |
+| D | native (synchronous seam) | `SubagentManager.run` in `praxo.delegation`; no asynchronous manager |
+| Delphi / Free Pascal | native (synchronous seam) | `TPraxoSubagentManager.Run`; no asynchronous manager |
+| Objective-C | native (synchronous seam) | `PXRSubagentRun`; no asynchronous manager |
+| Nim | native (synchronous seam) | `subagentRun`; no asynchronous manager |
+| V | native (synchronous seam) | `SubagentManager.run`; no asynchronous manager |
+| Zig | native (synchronous seam) | `delegation.subagentRun`; no asynchronous manager |
+| Julia | native (synchronous seam) | `subagent_run`; no asynchronous manager |
+| MATLAB | native (synchronous seam) | `praxo.subagent_run`; no asynchronous manager |
+| GNU Octave | native (synchronous seam) | Shared `praxo.subagent_run`; no asynchronous manager |
+| Erlang | native (synchronous seam) | `praxo_delegation:subagent_run/2`; no asynchronous manager |
+| PowerShell | inherited (wrapper) | Wraps C# `SubagentManager` |
+| COBOL | native (synchronous seam) | `praxo-delegation`; synchronous runner callback; no asynchronous manager |
 | All other implementations | not implemented | Add with a named consumer or maintainer |
 
 Delegation means a local child-run manager with queued/running/terminal states,
@@ -331,6 +356,18 @@ workers, cross-process scheduling, or exactly-once execution.
 | Haskell | native | `Praxo.Retriever.Document` and `Retriever` |
 | OCaml | native | `document` and `retrieve_documents` |
 | Swift | native | `Document`, `FuncRetriever`, `retrieveDocuments` |
+| D | native | `Document`, `Retriever`, `FuncRetriever`, `retrieveDocuments` |
+| Delphi / Free Pascal | native | `TPraxoDocument`, `TPraxoRetriever`, `PraxoRetrieveDocuments` |
+| Objective-C | native | `PXDocument`, `PXRetriever`, `PXRetrieveDocuments` |
+| Nim | native | `Document`, `Retriever`, `FuncRetriever`, `retrieveDocuments` |
+| V | native | `Document`, `Retriever`, `FuncRetriever`, `retrieve_documents` |
+| Zig | native | `retriever.Document`, `retriever.Retriever`, `retriever.retrieveDocuments` |
+| Julia | native | `Document`, `FuncRetriever`, `retrieve_documents` |
+| MATLAB | native | `praxo.document` and `praxo.retrieve_documents` |
+| GNU Octave | native | Shared `praxo.document` and `praxo.retrieve_documents` |
+| Erlang | native | `praxo_retriever:document`, `func_retriever`, `retrieve/3` |
+| PowerShell | inherited (wrapper) | Wraps C# `Retriever` |
+| COBOL | native | `praxo-retriever`; callback seam over query and limit |
 | All other implementations | not implemented | Add with a named consumer or maintainer |
 
 Retriever support means a document/query/limit seam. It does not define an

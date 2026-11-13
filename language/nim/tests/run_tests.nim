@@ -6,6 +6,9 @@ import std/times
 import praxo
 import praxo/adapters/anthropic
 import praxo/adapters/gemini
+import praxo/adapters/otel_sink
+import praxo/retriever
+import praxo/delegation
 
 proc testJson() =
   let value = parseJsonText("""{"name":"echo","input":{"text":"hi"}}""")
@@ -514,8 +517,135 @@ proc testHarmovelaSink() =
     assert error.msg.contains("boom")
   assert caught == "HARMOVELA_HTTP"
 
+proc testOtelSink() =
+  var capturedEndpoint = ""
+  var capturedBody = ""
+  var capturedHeaders: seq[(string, string)] = @[]
+  let sink = newOtelSink(
+    endpoint = "https://otel.test/v1/traces",
+    allowedDataKeys = @["name"],
+    clock = proc(): Time = initTime(1_794_294_000'i64, 0),
+    transport = proc(endpoint: string, body: string,
+                     headers: seq[(string, string)]): OtelResponse =
+      capturedEndpoint = endpoint
+      capturedBody = body
+      capturedHeaders = headers
+      return OtelResponse(status: 200, body: ""),
+  )
+  let event = newEvent("tool.call", "s1", "run-123",
+                       %*{"name": "echo", "secret": "hidden"})
+  sink.emit(event)
+  assert capturedEndpoint == "https://otel.test/v1/traces"
+  assert capturedHeaders.len == 1
+  assert capturedHeaders[0][0] == "content-type"
+  assert capturedHeaders[0][1] == "application/json"
+  let envelope = parseJsonText(capturedBody)
+  let resource = envelope["resourceSpans"][0]
+  let scope = resource["scopeSpans"][0]
+  let span = scope["spans"][0]
+  assert getString(span, "name") == "praxo.tool.call"
+  assert getString(span, "traceId").len == 32
+  assert getString(span, "spanId").len == 16
+  assert getString(span, "startTimeUnixNano") == "1794294000000000000"
+  var keys: seq[string] = @[]
+  for item in span["attributes"]:
+    keys.add(getString(item, "key"))
+  assert "praxo.event.data.name" in keys
+  assert "praxo.event.data.secret" notin keys
+  let firstBody = capturedBody
+  sink.emit(event)
+  assert capturedBody == firstBody
+
+  let missing = newOtelSink(endpoint = "")
+  var missingCode = ""
+  try:
+    missing.emit(event)
+  except PraxoError as error:
+    missingCode = errorCode(error)
+  assert missingCode == "OTEL_URL"
+
+  let failed = newOtelSink(
+    endpoint = "https://otel.test/v1/traces",
+    transport = proc(endpoint: string, body: string,
+                     headers: seq[(string, string)]): OtelResponse =
+      return OtelResponse(status: 503, body: "unavailable"),
+  )
+  var caught = ""
+  try:
+    failed.emit(event)
+  except PraxoError as error:
+    caught = errorCode(error)
+    assert error.msg.contains("503")
+    assert error.msg.contains("unavailable")
+  assert caught == "OTEL_HTTP"
+
+  let longFailed = newOtelSink(
+    endpoint = "https://otel.test/v1/traces",
+    transport = proc(endpoint: string, body: string,
+                     headers: seq[(string, string)]): OtelResponse =
+      return OtelResponse(status: 500, body: "x".repeat(600)),
+  )
+  var longCaught = ""
+  try:
+    longFailed.emit(event)
+  except PraxoError as error:
+    longCaught = errorCode(error)
+    assert error.msg.len < 600
+  assert longCaught == "OTEL_HTTP"
+
+proc testRetriever() =
+  let retriever = newFuncRetriever(
+    proc(query: string, limit: int): seq[Document] =
+      return @[newDocument("doc-1", query & ":" & $limit)]
+  )
+  let documents = retrieveDocuments(retriever.retrieve, "hello", 3)
+  assert documents.len == 1
+  assert documents[0].id == "doc-1"
+  assert documents[0].content == "hello:3"
+  assert retrieveDocuments(retriever, "hello", 2)[0].content == "hello:2"
+  var caught = ""
+  try:
+    discard retrieveDocuments(retriever.retrieve, "hello", -1)
+  except PraxoError as error:
+    caught = errorCode(error)
+  assert caught == "RETRIEVER_INVALID"
+
+proc testDelegation() =
+  let request = newSubagentRequest("parent", "child", "look up", "fork")
+  let clock = proc(): Time = initTime(1_700_000_000'i64, 123_456_789)
+  let runner = proc(request: SubagentRequest): SubagentResult =
+    return newSubagentResult(agentId = request.agentId, output = "done")
+  let task = subagentRun(runner, request, clock)
+  assert task.status == "completed"
+  assert task.mode == "fork"
+  assert task.output == "done"
+  assert task.error == ""
+  assert task.createdAt == "2023-11-14T22:13:20.123456789Z"
+
+  let failing = proc(request: SubagentRequest): SubagentResult =
+    raisePraxo("BOOM", "boom")
+  let failed = subagentRun(failing, request)
+  assert failed.status == "failed"
+  assert failed.error == "BOOM"
+
+  let generic = proc(request: SubagentRequest): SubagentResult =
+    raise newException(ValueError, "bad")
+  let genericTask = subagentRun(generic, request)
+  assert genericTask.status == "failed"
+  assert genericTask.error == "SUBAGENT_ERROR"
+
+  var caught = ""
+  try:
+    discard subagentRun(runner, newSubagentRequest("", "child", "look up"))
+  except PraxoError as error:
+    caught = errorCode(error)
+  assert caught == "SUBAGENT_INVALID"
+
 testOpenAICompatible()
 testAnthropicCompatible()
 testGeminiCompatible()
 testHarmovelaSink()
+testOtelSink()
+testRetriever()
+testDelegation()
 echo "nim tests passed"

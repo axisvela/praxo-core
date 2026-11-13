@@ -32,7 +32,7 @@ type
     constructor Create(Transport: TPraxoMcpTransport;
       const RequestedVersion: UTF8String = '2024-11-05';
       TimeoutMs: Integer = 30000;
-      const ClientVersion: UTF8String = '0.4.0');
+      const ClientVersion: UTF8String = '0.5.0');
     destructor Destroy; override;
     function Start: TPraxoMcpClient;
     function ListTools: TJSONArray;

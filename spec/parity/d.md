@@ -3,7 +3,7 @@
 - Tier: core
 - SPEC_VERSION: 0.2.0
 
-`d/v0.3.0` ships the core loop. The Core passes all eleven vector groups, its
+`d/v0.4.0` ships the core loop. The Core passes all eleven vector groups, its
 tests, and its public API snapshot. `partial` marks a surface that covers the
 vector behavior and common path but not every optional Go hook or provider
 adapter.

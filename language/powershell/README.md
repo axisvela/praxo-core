@@ -4,7 +4,7 @@ PowerShell Core package `praxo-core-ps`, a shared-runtime wrapper over the C#
 PRAXO-CORE framework. Requires PowerShell 7.4+ on .NET 8.
 
 - `SPEC_VERSION`: `0.2.0`
-- Core version: `0.2.0`
+- Core version: `0.5.0`
 - Package: `praxo-core-ps`
 - Tier: core
 - License: MIT
@@ -48,6 +48,14 @@ The PowerShell module exposes the C# Core agent loop, tools, policy, events,
 memory, context, middleware, checkpoints, JSON Schema, plugin manifests, and
 human-in-the-loop decisions. The implementation is shared with the C# Core; the
 PowerShell layer provides typed constructors and command wrappers.
+
+It also wraps the C# OpenTelemetry sink (`New-PraxoOtelSinkOptions`,
+`New-PraxoOtelSink`, `Send-PraxoOtelEvent`), retriever seam
+(`New-PraxoDocument`, `New-PraxoFuncRetriever`, `Invoke-PraxoRetrieve`), and
+synchronous subagent delegation (`New-PraxoFuncSubagentRunner`,
+`New-PraxoSubagentRequest`, `New-PraxoSubagentManager`, `Invoke-PraxoSubagent`).
+Event data stays excluded from OpenTelemetry spans unless listed in
+`AllowedDataKeys`.
 
 ## Testing
 

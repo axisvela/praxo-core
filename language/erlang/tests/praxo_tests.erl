@@ -38,6 +38,9 @@ run() ->
     test_gemini(),
     test_mcp(),
     test_harmovela(),
+    test_otel(),
+    test_retriever(),
+    test_delegation(),
     io:format("erlang tests passed~n").
 
 
@@ -845,6 +848,94 @@ receive_messages(Acc) ->
     receive Message -> receive_messages(Acc ++ [Message])
     after 100 -> Acc end.
 
+
+test_otel() ->
+    put(otel_capture, undefined),
+    Sink = praxo_otel:new(<<"http://otel.test/v1/traces">>, #{
+        allowed_data_keys => [<<"name">>],
+        clock => fun() -> 1700000000123456789 end,
+        transport => fun(Url, Body, Headers) ->
+            put(otel_capture, {Url, Body, Headers}),
+            {ok, 200, <<>>}
+        end
+    }),
+    Event = praxo_models:event(
+        <<"tool.call">>,
+        <<"s1">>,
+        <<"run-123">>,
+        #{<<"name">> => <<"echo">>, <<"secret">> => <<"hidden">>}
+    ),
+    ok = praxo_otel:emit(Sink, Event),
+    {Url, Body, Headers} = get(otel_capture),
+    check(Url == <<"http://otel.test/v1/traces">>, <<"otel url">>),
+    check(
+        proplists:get_value("content-type", Headers) == "application/json",
+        <<"otel content type">>
+    ),
+    {ok, Decoded} = praxo_json:parse(Body),
+    [ResourceSpan | _] = praxo_json:get(Decoded, <<"resourceSpans">>),
+    [ScopeSpan | _] = praxo_json:get(ResourceSpan, <<"scopeSpans">>),
+    [Span | _] = praxo_json:get(ScopeSpan, <<"spans">>),
+    check(
+        praxo_json:get_string(Span, <<"name">>) == <<"praxo.tool.call">>,
+        <<"otel span name">>
+    ),
+    check(
+        byte_size(praxo_json:get_string(Span, <<"traceId">>)) == 32,
+        <<"otel trace id">>
+    ),
+    check(
+        byte_size(praxo_json:get_string(Span, <<"spanId">>)) == 16,
+        <<"otel span id">>
+    ),
+    Attributes = praxo_json:get(Span, <<"attributes">>),
+    Keys = [praxo_json:get_string(Attribute, <<"key">>) || Attribute <- Attributes],
+    check(lists:member(<<"praxo.event.data.name">>, Keys), <<"otel allowed data">>),
+    check(not lists:member(<<"praxo.event.data.secret">>, Keys), <<"otel hidden data">>),
+    Failed = praxo_otel:new(<<"http://otel.test">>, #{
+        transport => fun(_, _, _) -> {ok, 503, <<"unavailable">>} end
+    }),
+    {error, {http_status, 503, _}} = praxo_otel:emit(Failed, Event).
+
+test_retriever() ->
+    Retriever = praxo_retriever:func_retriever(fun(Query, Limit) ->
+        [
+            praxo_retriever:document(
+                <<"doc-1">>,
+                <<Query/binary, ":", (integer_to_binary(Limit))/binary>>
+            )
+        ]
+    end),
+    {ok, Documents} = praxo_retriever:retrieve(Retriever, <<"hello">>, 3),
+    [Document] = Documents,
+    check(maps:get(content, Document) == <<"hello:3">>, <<"retriever query">>),
+    {error, <<"RETRIEVER_INVALID">>} =
+        praxo_retriever:retrieve(Retriever, <<"hello">>, -1).
+
+test_delegation() ->
+    Request = #{
+        parent_session_id => <<"parent">>,
+        agent_id => <<"child">>,
+        prompt => <<"look up">>,
+        mode => <<"fork">>
+    },
+    {ok, Task} = praxo_delegation:subagent_run(
+        fun(_) -> {ok, #{output => <<"done">>}} end,
+        Request
+    ),
+    check(maps:get(status, Task) == <<"completed">>, <<"delegate completed">>),
+    check(maps:get(mode, Task) == <<"fork">>, <<"delegate mode">>),
+    check(maps:get(output, Task) == <<"done">>, <<"delegate output">>),
+    {ok, Failed} = praxo_delegation:subagent_run(
+        fun(_) -> {error, <<"BOOM">>} end,
+        Request
+    ),
+    check(maps:get(status, Failed) == <<"failed">>, <<"delegate failed status">>),
+    check(maps:get(error, Failed) == <<"BOOM">>, <<"delegate failed code">>),
+    {error, <<"SUBAGENT_INVALID">>} = praxo_delegation:subagent_run(
+        fun(_) -> {ok, #{}} end,
+        #{parent_session_id => <<>>, agent_id => <<"child">>}
+    ).
 
 check(true, _Message) -> ok;
 check(false, Message) -> erlang:error(Message).

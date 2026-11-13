@@ -1,6 +1,6 @@
 # PRAXO-CORE for V
 
-V is a native Core implementation with source tag `v/v0.3.0`. It passes all
+V is a native Core implementation with source tag `v/v0.4.0`. It passes all
 eleven shared vector groups with `V 0.5.2` and includes the native
 agent loop, context compaction, memory store, path policy, checkpoint
 allowlist, and tool-call parsing. Tool selection, PII redaction, structured
@@ -8,7 +8,8 @@ output, and call limits are opt-in in the agent. Vector
 coverage does not establish full Core parity or production readiness.
 
 The Core does not call Go or another language runtime. It includes non-streaming
-OpenAI-compatible, Anthropic, and Gemini model adapters; plugin hosts remain
+OpenAI-compatible, Anthropic, and Gemini model adapters, an OpenTelemetry event
+sink, a retriever seam, and synchronous subagent delegation; plugin hosts remain
 outside the declared Core scope.
 
 ## Registry and Coding-Agent Entry
@@ -51,7 +52,7 @@ schema := praxo.parse_json('{"type":"string","pattern":"^a+$"}') or { panic(err)
 assert praxo.validate_schema(schema, praxo.parse_json('"aaa"') or { panic(err) }).len == 0
 ```
 
-Public declarations are inventoried in [`api/0.1.2.txt`](api/0.1.2.txt).
+Public declarations are inventoried in [`api/0.4.0.txt`](api/0.4.0.txt).
 
 ## OpenAI-Compatible Adapter
 
@@ -146,6 +147,68 @@ URL returns `HARMOVELA_URL`. When wrapped as a `&Sink`, the last transport error
 is stored in `last_error`. The sink adds no authentication, retries, buffering,
 ordering, or exactly-once delivery. Use HTTPS and caller-side filtering for
 sensitive event data.
+
+## OpenTelemetry Event Sink
+
+`otel_sink` returns a `&Sink` that posts each event as OTLP/HTTP JSON spans.
+`new_otel_sink` exposes the native sink with an error-returning `emit` for direct
+use. The endpoint is required; a missing endpoint returns `OTEL_URL`. Supply
+`transport` to run without network access; it receives `(endpoint, body,
+headers)` and returns an `OtelResponse`. Supply `clock` to return Unix
+nanoseconds for deterministic ids and timestamps.
+
+Event data is excluded by default. Only keys listed in `allowed_data_keys` are
+copied to span attributes. Trace and span ids are deterministic 32- and 16-
+character hexadecimal strings derived from the event and clock value.
+
+```v
+sink := praxo.otel_sink('https://otel.example.com/v1/traces',
+	praxo.OtelOptions{allowed_data_keys: ['tool_name']})
+mut options := praxo.agent_options(model)
+options.events = sink
+result := praxo.run_agent(options, praxo.session('s1', []praxo.Message{}), 'hi') or {
+	panic(err)
+}
+```
+
+A 2xx status is success. Other statuses return `OTEL_HTTP` with a response body
+bounded to 512 characters. The sink adds no OpenTelemetry SDK, sampler,
+collector, authentication, retries, buffering, or delivery guarantee.
+
+## Retriever Seam
+
+`Document`, `Retriever`, and `FuncRetriever` define a query-and-limit retrieval
+seam. `retrieve_documents` validates the limit and invokes the supplied
+function. A negative limit returns `RETRIEVER_INVALID`. The seam does not define
+an embedding model, vector store, ranking service, or search quality.
+
+```v
+retriever := praxo.func_retriever(fn (query string, limit int) ![]praxo.Document {
+	return [praxo.document('doc-1', query)]
+})
+documents := praxo.retrieve_documents(retriever.retrieve, 'hello', 3) or {
+	panic(err)
+}
+```
+
+## Synchronous Subagent Delegation
+
+`subagent_manager` wraps a `SubagentRunner` function. `SubagentManager.run`
+builds a `SubagentRequest`, invokes the runner synchronously, and returns a
+terminal `SubagentTask` in `completed` or `failed` state. Runner errors are
+preserved as the task error code; other errors become `SUBAGENT_ERROR`. An empty
+parent session id or agent id returns `SUBAGENT_INVALID`. No asynchronous
+manager, remote worker, or durable scheduling is provided.
+
+```v
+runner := fn (request praxo.SubagentRequest) !praxo.SubagentResult {
+	return praxo.subagent_result('task-1', request.agent_id, 'done')
+}
+manager := praxo.subagent_manager(runner)
+task := manager.run(praxo.subagent_request('parent', 'child', 'look up')) or {
+	panic(err)
+}
+```
 
 ## Current Limits
 

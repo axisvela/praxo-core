@@ -8,11 +8,11 @@
 
 - package: `praxo-core`
 - registry: [Octave Packages](https://github.com/axisvela/praxo-core/releases/download/octave/v0.2.1/praxo-core-0.2.1.tar.gz)
-- source_version: `0.4.0`
+- source_version: `0.5.0`
 - published_version: `0.2.1`
 - install_published: `pkg install -forge praxo-core`
 - install_source: `pkg install -forge praxo-core`
-- source_tag: `octave/v0.4.0`
+- source_tag: `octave/v0.5.0`
 - tier: Core
 - contract: `SPEC_VERSION` `0.2.0`
 - documentation: https://axisvela.github.io/praxo-core/languages/octave/
@@ -24,9 +24,9 @@
 - Gemini model: native (Shared `praxo.gemini_compatible`)
 - MCP client: native (transport seam) (Shared `praxo.mcp_client` implementation)
 - Harmovela sink: native (Shared `praxo.harmovela_sink`)
-- OpenTelemetry sink: not implemented
-- Subagent delegation: not implemented
-- Retriever: not implemented
+- OpenTelemetry sink: native (transport seam) (Shared `praxo.otel_sink`; caller supplies OTLP/HTTP transport)
+- Subagent delegation: native (synchronous seam) (Shared `praxo.subagent_run`; no asynchronous manager)
+- Retriever: native (Shared `praxo.document` and `praxo.retrieve_documents`)
 
 # Start
 

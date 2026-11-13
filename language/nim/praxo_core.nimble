@@ -1,4 +1,4 @@
-version = "0.3.0"
+version = "0.4.0"
 author = "AxisVela"
 description = "Embeddable MIT-licensed agent framework for Nim: tools, policy, events, memory, context, middleware, checkpoints, and an agent loop"
 license = "MIT"

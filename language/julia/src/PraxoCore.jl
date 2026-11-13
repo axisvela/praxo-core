@@ -6,8 +6,11 @@ include("JsonSchema.jl")
 include("Plugin.jl")
 include("Errors.jl")
 include("Models.jl")
+include("Retriever.jl")
+include("Delegation.jl")
 include("Runtime.jl")
 include("adapters/Harmovela.jl")
+include("adapters/Otel.jl")
 include("Middleware.jl")
 include("Agent.jl")
 include("adapters/OpenAICompatible.jl")
@@ -16,8 +19,11 @@ include("adapters/Gemini.jl")
 include("adapters/Mcp.jl")
 
 using .Models
+using .Retrieval
+using .Delegation
 using .Runtime
 using .Harmovela
+using .Otel
 using .Middleware
 using .AgentRuntime
 using .OpenAICompatible
@@ -33,6 +39,10 @@ export ContentBlock, ToolCall, Message, ToolSpec, Usage, Request, Response, mess
 export Session, RunResult, MemoryRecord, PathGrant, Action, Decision, Event, Roles, StreamKinds
 export AbstractSink, MultiSink, FilterSink, MemoryStore, CheckpointAllowlist, PathChecker
 export HarmovelaSink, harmovela_sink
+export OtelSink, otel_sink
+export Document, FuncRetriever, Retriever, func_retriever, retrieve_documents
+export SubagentRequest, SubagentResult, SubagentTask, SubagentRunner
+export subagent_request, subagent_result, subagent_run
 export ContextBudget, AgentOptions, Agent, StaticModel, FuncTool, ToolRegistry
 export AbstractPolicy, AbstractModel, AbstractMiddleware, PiiRedactor, PraxoError
 export OpenAICompatibleModel, openai_compatible

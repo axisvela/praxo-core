@@ -1,15 +1,16 @@
 # PRAXO-CORE for Objective-C
 
-Objective-C is a native Core implementation with source tag `objc/v0.3.1`. It
+Objective-C is a native Core implementation with source tag `objc/v0.4.0`. It
 passes all eleven shared vector groups and includes the native
 agent loop, context compaction, memory store, path policy, checkpoint
 allowlist, tool selection, tool-call parsing, and opt-in PII redaction,
 structured output validation, and call limits. Vector
 coverage does not establish full Core parity or production readiness.
 
-The Core does not call Go or another language runtime. It includes a
-OpenAI-compatible, Anthropic, and Gemini model adapters; a plugin host remains outside the
-declared Core scope.
+The Core does not call Go or another language runtime. It includes
+OpenAI-compatible, Anthropic, and Gemini model adapters, MCP and Harmovela
+transport seams, and OpenTelemetry, retriever, and synchronous delegation
+seams; a plugin host remains outside the declared Core scope.
 
 Local validation uses clang 21.1.8 with GNUstep Base 1.31.1 and lld on Windows.
 A macOS CI job runs the Apple Foundation build. Local Apple Foundation, release
@@ -78,7 +79,7 @@ finish reason, and injects `PXROpenAITransport` for deterministic tests.
 Missing base URLs and non-2xx responses produce a `PROVIDER_HTTP` error; invalid
 tool arguments produce `PROVIDER_JSON`. Streaming is not implemented.
 
-Public declarations are inventoried in [`api/0.1.1.txt`](api/0.1.1.txt).
+Public declarations are inventoried in [`api/0.4.0.txt`](api/0.4.0.txt).
 Agent events use the supplied session's `id` and a UUID-based run ID; the
 existing event sink callback is unchanged.
 Set `options[@"toolSelection"]` to a set from `PXRToolSelectionCreate` to
@@ -133,6 +134,30 @@ and a bounded response body.
 The sink adds no authentication, retries, buffering, ordering, or
 exactly-once-delivery guarantee. Apply caller-side filtering because event data
 may contain sensitive content, and use HTTPS for remote endpoints.
+
+## OpenTelemetry, Retriever, and Delegation Seams
+
+```objc
+#import "PraxoOtel.h"
+#import "PraxoRetriever.h"
+#import "PraxoDelegation.h"
+
+PXREventSink otel = PXROtelSink(
+    @"http://127.0.0.1:4318/v1/traces", @"praxo-core", @[@"name"], nil, nil);
+```
+
+`PXROtelSend` maps one Core event to one OTLP/HTTP span over an injected
+`PXROtelTransport`. Event data is excluded unless its key is allowlisted; a
+non-2xx response is an `OTEL_HTTP` error with a bounded response body. Trace and
+span identifiers are deterministic for the event and clock value.
+
+`PXDocument` and `PXRetriever` provide a document/query/limit seam through
+`PXRetrieveDocuments`; a negative limit is `RETRIEVER_INVALID`.
+
+`PXRSubagentRun` runs a caller-supplied `PXRSubagentRunner` synchronously and
+returns a terminal completed or failed `PXRSubagentTask`. A runner failure
+preserves its error code. It does not provide an asynchronous manager, durable
+queue, or cross-process worker.
 
 ## Current Limits
 

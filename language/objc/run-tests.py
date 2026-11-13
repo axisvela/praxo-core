@@ -21,6 +21,9 @@ SOURCES = [
     "PraxoGemini.m",
     "PraxoHarmovela.m",
     "PraxoMCP.m",
+    "PraxoOtel.m",
+    "PraxoRetriever.m",
+    "PraxoDelegation.m",
     "tests/main.m",
     "tests/correlation.m",
     "tests/middleware.m",
@@ -28,6 +31,9 @@ SOURCES = [
     "tests/provider.m",
     "tests/harmovela.m",
     "tests/mcp.m",
+    "tests/otel.m",
+    "tests/retriever.m",
+    "tests/delegation.m",
 ]
 
 

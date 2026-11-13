@@ -1,6 +1,6 @@
 @{
     RootModule        = 'praxo-core-ps.psm1'
-    ModuleVersion     = '0.4.2'
+    ModuleVersion     = '0.5.0'
     GUID              = '8f04a4d6-1f3c-4f6e-9d69-7b2f11d3a902'
     Author            = 'AxisVela'
     CompanyName       = 'AxisVela'
@@ -51,7 +51,17 @@
         'Connect-PraxoMcp',
         'Get-PraxoMcpTools',
         'Invoke-PraxoMcpTool',
-        'Close-PraxoMcp'
+        'Close-PraxoMcp',
+        'New-PraxoOtelSinkOptions',
+        'New-PraxoOtelSink',
+        'Send-PraxoOtelEvent',
+        'New-PraxoDocument',
+        'New-PraxoFuncRetriever',
+        'Invoke-PraxoRetrieve',
+        'New-PraxoFuncSubagentRunner',
+        'New-PraxoSubagentRequest',
+        'New-PraxoSubagentManager',
+        'Invoke-PraxoSubagent'
     )
     CmdletsToExport   = @()
     VariablesToExport = @()

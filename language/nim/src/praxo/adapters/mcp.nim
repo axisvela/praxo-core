@@ -12,13 +12,13 @@ type
     serverInfo*: JsonNode
     closed*: bool
 
-proc mcpClient*(transport: McpTransport, clientVersion = "0.3.0",
+proc mcpClient*(transport: McpTransport, clientVersion = "0.4.0",
                 protocolVersion = "2024-11-05"): McpClient =
   if transport == nil:
     raisePraxo("MCP_TRANSPORT", "mcp: transport is required")
   result = McpClient(
     transport: transport,
-    clientVersion: if clientVersion.len > 0: clientVersion else: "0.3.0",
+    clientVersion: if clientVersion.len > 0: clientVersion else: "0.4.0",
     protocolVersion: if protocolVersion.len > 0: protocolVersion else: "2024-11-05",
     serverInfo: newJObject(),
   )

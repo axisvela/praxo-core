@@ -8,11 +8,11 @@
 
 - package: `praxo-core-cobol`
 - registry: Source
-- source_version: `0.5.0`
+- source_version: `0.6.0`
 - published_version: not published
 - install_published: not published
 - install_source: `Source build (see README)`
-- source_tag: `cobol/v0.5.0`
+- source_tag: `cobol/v0.6.0`
 - tier: Core
 - contract: `SPEC_VERSION` `0.2.0`
 - documentation: https://axisvela.github.io/praxo-core/languages/cobol/
@@ -20,13 +20,13 @@
 ## Capabilities and Status
 
 - OpenAI-compatible model: native (transport seam) (`praxo-openai`; caller supplies a transport program; the model callback lacks tool specs/history)
-- Anthropic model: not implemented
-- Gemini model: not implemented
+- Anthropic model: native (transport seam) (`praxo-anthropic`; caller supplies a transport program; maps system messages, tools, tool choice, text, tool use, and usage)
+- Gemini model: native (transport seam) (`praxo-gemini`; caller supplies a transport program; maps system instructions, tools, tool choice, text, function calls, and usage)
 - MCP client: native (transport seam) (`praxo-mcp`; caller supplies a transport program)
 - Harmovela sink: native (transport seam) (`praxo-harmovela`; caller supplies a transport program)
-- OpenTelemetry sink: not implemented
-- Subagent delegation: not implemented
-- Retriever: not implemented
+- OpenTelemetry sink: native (transport seam) (`praxo-otel`; caller supplies an OTLP/HTTP transport program)
+- Subagent delegation: native (synchronous seam) (`praxo-delegation`; synchronous runner callback; no asynchronous manager)
+- Retriever: native (`praxo-retriever`; callback seam over query and limit)
 
 ## Start
 

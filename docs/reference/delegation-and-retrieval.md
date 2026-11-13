@@ -24,7 +24,7 @@ provides `src/delegation.ts` `SubagentManager`; Java provides
 `subagent_run` seam without an asynchronous manager; Ruby provides
 `Delegation::SubagentManager`; PHP provides a synchronous
 `SubagentManager::run` seam; Elixir provides `Praxo.SubagentManager`; Lua, C,
-C++, Fortran, Haskell, OCaml, Swift, Dart, and Perl provide synchronous seams. Other
+C++, Fortran, Haskell, OCaml, Swift, Dart, Perl, D, Delphi/Free Pascal, Objective-C, Nim, V, Zig, Julia, MATLAB/Octave, Erlang, and COBOL provide synchronous seams; PowerShell wraps the C# manager. Other
 implementations do not have an in-tree delegation manager yet.
 
 ## Retrieval
@@ -46,7 +46,7 @@ Elixir provides `Praxo.Document` and `Praxo.FuncRetriever`; Lua provides
 `document` and `retriever_retrieve`; C provides `PxDocument` and `PxRetriever`;
 C++ provides `Document` and `Retriever`; Fortran provides `document` and
 `retriever`; Haskell provides `Praxo.Retriever.Document` and `Retriever`; OCaml
-provides `document` and `retrieve_documents`; Swift provides `Document`, `FuncRetriever`, and `retrieveDocuments`; Dart provides `Document`, `FuncRetriever`, and `retrieveDocuments`; Perl provides `document`, `func_retriever`, and `retrieve_documents`. Other implementations do not have
+provides `document` and `retrieve_documents`; Swift provides `Document`, `FuncRetriever`, and `retrieveDocuments`; Dart provides `Document`, `FuncRetriever`, and `retrieveDocuments`; Perl provides `document`, `func_retriever`, and `retrieve_documents`; D provides `Document`, `Retriever`, `FuncRetriever`, and `retrieveDocuments`; Delphi provides `TPraxoDocument`, `TPraxoRetriever`, and `PraxoRetrieveDocuments`; Objective-C provides `PXDocument`, `PXRetriever`, and `PXRetrieveDocuments`; Nim provides `Document`, `Retriever`, `FuncRetriever`, and `retrieveDocuments`; V provides `Document`, `Retriever`, `FuncRetriever`, and `retrieve_documents`; Zig provides `retriever.Document`, `retriever.Retriever`, and `retriever.retrieveDocuments`; Julia provides `Document`, `FuncRetriever`, and `retrieve_documents`; MATLAB and GNU Octave provide shared `praxo.document` and `praxo.retrieve_documents`; Erlang provides `praxo_retriever:document`, `func_retriever`, and `retrieve/3`; COBOL provides `praxo-retriever` over a caller-supplied callback. Other implementations do not have
 an in-tree retriever yet.
 
 Retrieval does not define an embedding model, vector store, ranking service, or

@@ -107,20 +107,20 @@ Registry values below were checked against the public registries on 2026-11-12.
 | Rust | `rust/v0.6.0` | crates.io `praxo-core==0.5.0` published; `0.1.4` historical | Recorded for `0.1.4` only; not rerun for `0.5.0` |
 | C# | `csharp/v0.6.0` | NuGet `Praxo.Core==0.5.0` published | Not recorded |
 | Elixir | `elixir/v0.7.0` | Hex `praxo_core==0.6.0` published with OpenAI-compatible, Anthropic, Gemini, Harmovela, and MCP adapters; `0.5.1`, `0.4.1`, `0.4.0`, `0.3.0`, `0.2.0` historical | Extended starter added; Hex `0.4.1` resolved in a clean Mix project and allow/deny passed locally; `0.6.0` install smoke not rerun |
-| Erlang | `erlang/v0.6.0` | Hex `praxo_core_erlang==0.5.0` published; `0.4.0`, `0.3.1`, `0.2.0` historical | Not rerun for `0.5.0`; historical `0.1.1` smoke |
+| Erlang | `erlang/v0.7.0` | Hex `praxo_core_erlang==0.5.0` published; `0.4.0`, `0.3.1`, `0.2.0` historical | Not rerun for `0.5.0`; historical `0.1.1` smoke |
 | Ruby | `ruby/v0.6.0` | RubyGems `praxo-core==0.5.0` published; `0.4.1`, `0.4.0`, `0.3.0`, `0.2.0` historical | Extended starter added; RubyGems `0.4.1` installed into a clean gem home and allow/deny passed locally; `0.5.0` install smoke not rerun |
 | Lua | `lua/v0.5.0` | LuaRocks `praxo-core==0.5.0-1` published with the optional OpenAI-compatible adapter; `0.4.1-1`, `0.4.0-1`, `0.3.0-1`, `0.2.0-1` also published | Extended starter added; LuaRocks `0.4.1-1` installed into a clean tree and allow/deny passed locally; `0.5.0-1` install smoke not rerun |
 | PHP | `php/v0.6.0` | Packagist `axisvela/praxo-core==0.4.1` published with Composer `autoload.files`; `0.4.0`, `0.3.0`, `0.2.0` historical | Extended starter added; Composer install of published `0.4.1` passed locally and the starter passed without a bridge |
 | Dart | `dart/v0.3.0` | pub.dev `praxo_core==0.2.0` | Recorded for `0.1.1`; `0.2.0` install smoke not recorded |
-| Julia | `julia/v0.3.0` | General Registry PR #174826 open via mirror `0.2.0` | Not recorded |
+| Julia | `julia/v0.5.0` | General Registry PR #174826 open via mirror `0.2.0` | Not recorded |
 | MATLAB | `matlab/v0.3.0` | MATLAB File Exchange `185166` published (`0.3.0`) | Not recorded |
 | Octave | `octave/v0.3.0` | Octave Packages PR #875 open; package archive published | Not recorded |
 | Perl | `perl/v0.3.0` | CPAN `Praxo-Core==0.2.0` published and indexed on MetaCPAN | Not recorded |
-| PowerShell | `powershell/v0.4.2` | PowerShell Gallery `praxo-core-ps==0.3.1` published | Not recorded |
+| PowerShell | `powershell/v0.5.0` | PowerShell Gallery `praxo-core-ps==0.3.1` published | Not recorded |
 | Nim | `nim/v0.2.0` | Split repository package `0.1.1`; nim-lang/packages PR #3600 merged 2026-11-05; nimpkgs re-crawl pending | Not recorded |
 | OCaml | `ocaml/v0.4.0` | opam-repository PR #31106 open; package CI passed; opam-ci pending | Not recorded |
 | Haskell | `haskell/v0.3.0` | Hackage `praxo-core==0.3.0` published | Not recorded |
-| Delphi / Free Pascal | `delphi/v0.4.0` | OPM assets published; maintainer submission pending | Not recorded |
+| Delphi / Free Pascal | `delphi/v0.5.0` | OPM assets published; maintainer submission pending | Not recorded |
 
 ### Registry freshness against code
 

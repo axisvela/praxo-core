@@ -78,20 +78,20 @@ Bridge、Sample 描述运行时的接入方式，不证明其语言缺乏 Framew
 | Rust | `rust/v0.6.0` | crates.io `praxo-core==0.5.0` 已发布；`0.1.4` 为历史版本 | 仅记录 `0.1.4`；`0.5.0` 未重跑 |
 | C# | `csharp/v0.6.0` | NuGet `Praxo.Core==0.5.0` 已发布 | 未记录 |
 | Elixir | `elixir/v0.7.0` | Hex `praxo_core==0.6.0` 已发布，包含 OpenAI-compatible、Anthropic、Gemini、Harmovela、MCP adapter；`0.5.1`、`0.4.1`、`0.4.0`、`0.3.0`、`0.2.0` 为历史版本 | 已增加扩展 Starter；Hex `0.4.1` 在干净 Mix 项目中解析，allow/deny 本地通过；`0.6.0` 安装 smoke 未重跑 |
-| Erlang | `erlang/v0.6.0` | Hex `praxo_core_erlang==0.5.0` 已发布；`0.4.0`、`0.3.1`、`0.2.0` 为历史版本 | `0.5.0` 未重跑；历史 `0.1.1` smoke |
+| Erlang | `erlang/v0.7.0` | Hex `praxo_core_erlang==0.5.0` 已发布；`0.4.0`、`0.3.1`、`0.2.0` 为历史版本 | `0.5.0` 未重跑；历史 `0.1.1` smoke |
 | Ruby | `ruby/v0.6.0` | RubyGems `praxo-core==0.5.0` 已发布；`0.4.1`、`0.4.0`、`0.3.0`、`0.2.0` 为历史版本 | 已增加扩展 Starter；RubyGems `0.4.1` 已安装到干净 gem home，allow/deny 本地通过；`0.5.0` 安装 smoke 未重跑 |
 | Lua | `lua/v0.5.0` | LuaRocks `praxo-core==0.5.0-1` 已发布，包含可选 OpenAI-compatible adapter；`0.4.1-1`、`0.4.0-1`、`0.3.0-1`、`0.2.0-1` 也已发布 | 已增加扩展 Starter；LuaRocks `0.4.1-1` 已安装到干净 tree，allow/deny 本地通过；`0.5.0-1` 安装 smoke 未重跑 |
 | PHP | `php/v0.6.0` | Packagist `axisvela/praxo-core==0.4.1` 已发布，包含 Composer `autoload.files`；`0.4.0`、`0.3.0`、`0.2.0` 为历史版本 | 已增加扩展 Starter；Composer 安装已发布 `0.4.1` 后 Starter 无桥接本地通过 |
 | Dart | `dart/v0.3.0` | pub.dev `praxo_core==0.2.0` | 已记录 `0.1.1`；`0.2.0` 安装 smoke 未记录 |
-| Julia | `julia/v0.3.0` | General Registry PR #174826 已创建；mirror `0.2.0` | 未记录 |
+| Julia | `julia/v0.5.0` | General Registry PR #174826 已创建；mirror `0.2.0` | 未记录 |
 | MATLAB | `matlab/v0.3.0` | MATLAB File Exchange `185166` 已发布（`0.3.0`） | 未记录 |
 | Octave | `octave/v0.3.0` | Octave Packages PR #875 待合并；包归档已发布 | 未记录 |
 | Perl | `perl/v0.3.0` | CPAN `Praxo-Core==0.2.0` 已发布并在 MetaCPAN 建立索引 | 未记录 |
-| PowerShell | `powershell/v0.4.2` | PowerShell Gallery `praxo-core-ps==0.3.1` 已发布 | 未记录 |
+| PowerShell | `powershell/v0.5.0` | PowerShell Gallery `praxo-core-ps==0.3.1` 已发布 | 未记录 |
 | Nim | `nim/v0.2.0` | split 仓库包 `0.1.1`；nim-lang/packages PR #3600 已于 2026-11-05 合并；nimpkgs 待重新抓取 | 未记录 |
 | OCaml | `ocaml/v0.4.0` | opam-repository PR #31106 待合并；包 CI 已通过；opam-ci 待完成 | 未记录 |
 | Haskell | `haskell/v0.3.0` | Hackage `praxo-core==0.3.0` 已发布 | 未记录 |
-| Delphi / Free Pascal | `delphi/v0.4.0` | OPM 资产已发布；维护者提交待完成 | 未记录 |
+| Delphi / Free Pascal | `delphi/v0.5.0` | OPM 资产已发布；维护者提交待完成 | 未记录 |
 
 ### 注册表相对代码的新旧状态
 

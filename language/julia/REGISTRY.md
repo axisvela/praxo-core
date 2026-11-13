@@ -1,7 +1,7 @@
 # PRAXO-CORE Julia Registry Introduction
 
-**Status:** pending registry merge. Source version `0.3.0`, source
-tag `julia/v0.3.0`. Published registry version: `0.2.0`. Registry
+**Status:** pending registry merge. Source version `0.5.0`, source
+tag `julia/v0.5.0`. Published registry version: `0.2.0`. Registry
 pages are release snapshots; verify the published version before relying on a
 feature.
 
@@ -15,11 +15,11 @@ Julia implementation of the PRAXO-CORE contract.
 | --- | --- |
 | Package | `PraxoCore` |
 | Registry | [Julia General (pending)](https://github.com/axisvela/praxo-core-julia) |
-| Source version | `0.3.0` |
+| Source version | `0.5.0` |
 | Published registry version | `0.2.0` |
 | Install (published) | `Pkg.add("PraxoCore")` |
-| Install (source/release prepared) | `Pkg.add(name="PraxoCore", version="0.3.0")` |
-| Source tag | `julia/v0.3.0` |
+| Install (source/release prepared) | `Pkg.add(name="PraxoCore", version="0.5.0")` |
+| Source tag | `julia/v0.5.0` |
 | Tier | Core |
 | Contract | `SPEC_VERSION` `0.2.0` |
 | Documentation | https://axisvela.github.io/praxo-core/languages/julia/ |
@@ -33,9 +33,9 @@ Julia implementation of the PRAXO-CORE contract.
 | Gemini model | native | `GeminiModel`; injectable transport |
 | MCP client | native (transport seam) | `mcp_client`; caller supplies transport |
 | Harmovela sink | native | `HarmovelaSink` |
-| OpenTelemetry sink | not implemented |  |
-| Subagent delegation | not implemented |  |
-| Retriever | not implemented |  |
+| OpenTelemetry sink | native (transport seam) | `otel_sink`; caller supplies OTLP/HTTP transport |
+| Subagent delegation | native (synchronous seam) | `subagent_run`; no asynchronous manager |
+| Retriever | native | `Document`, `FuncRetriever`, `retrieve_documents` |
 
 ## Coding-agent entry
 

@@ -1,6 +1,6 @@
 {
   "name": "praxo-core",
-  "description": "Embeddable MIT-licensed agent framework for D: tools, policy, events, memory, context, middleware, checkpoints, and an agent loop",
+  "description": "Embeddable MIT-licensed agent framework for D: tools, policy, events, memory, context, middleware, checkpoints, provider adapters, OpenTelemetry, delegation, retrieval, and an agent loop",
   "authors": ["AxisVela"],
   "copyright": "Copyright © 2026, AxisVela",
   "license": "MIT",
@@ -12,6 +12,7 @@
   "sourceFiles": [
     "source/praxo/agent.d",
     "source/praxo/anthropic.d",
+    "source/praxo/delegation.d",
     "source/praxo/errors.d",
     "source/praxo/gemini.d",
     "source/praxo/openai_compatible.d",
@@ -22,7 +23,9 @@
     "source/praxo/mcp.d",
     "source/praxo/middleware.d",
     "source/praxo/models.d",
+    "source/praxo/otel.d",
     "source/praxo/plugin.d",
+    "source/praxo/retriever.d",
     "source/praxo/runtime.d",
     "source/praxo/toolcall.d"
   ]

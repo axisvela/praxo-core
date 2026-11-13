@@ -1,7 +1,7 @@
 # PRAXO-CORE D Registry Introduction
 
-**Status:** published. Source version `0.3.0`, source
-tag `d/v0.3.0`. Published registry version: `0.1.0`. Registry
+**Status:** published. Source version `0.4.0`, source
+tag `d/v0.4.0`. Published registry version: `0.1.0`. Registry
 pages are release snapshots; verify the published version before relying on a
 feature.
 
@@ -15,11 +15,11 @@ PRAXO-CORE is an embeddable, MIT-licensed agent framework. This package is its n
 | --- | --- |
 | Package | `praxo-core` |
 | Registry | [DUB](https://code.dlang.org/packages/praxo-core) |
-| Source version | `0.3.0` |
+| Source version | `0.4.0` |
 | Published registry version | `0.1.0` |
 | Install (published) | `dub add praxo-core` |
 | Install (source/release prepared) | `dub add praxo-core` |
-| Source tag | `d/v0.3.0` |
+| Source tag | `d/v0.4.0` |
 | Tier | Core |
 | Contract | `SPEC_VERSION` `0.2.0` |
 | Documentation | https://axisvela.github.io/praxo-core/languages/d/ |
@@ -33,9 +33,9 @@ PRAXO-CORE is an embeddable, MIT-licensed agent framework. This package is its n
 | Gemini model | native (transport seam) | `GeminiModel`; caller may inject transport |
 | MCP client | native | `praxo.mcp.McpClient`; stdio, plus `HttpMcpTransport` for Streamable HTTP 2025-03-26 |
 | Harmovela sink | native | `HarmovelaSink` |
-| OpenTelemetry sink | not implemented |  |
-| Subagent delegation | not implemented |  |
-| Retriever | not implemented |  |
+| OpenTelemetry sink | native (transport seam) | `OtelSink`; caller supplies OTLP/HTTP transport |
+| Subagent delegation | native (synchronous seam) | `SubagentManager.run` in `praxo.delegation`; no asynchronous manager |
+| Retriever | native | `Document`, `Retriever`, `FuncRetriever`, `retrieveDocuments` |
 
 ## Coding-agent entry
 

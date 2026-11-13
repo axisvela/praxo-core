@@ -6,7 +6,7 @@
 Released native Core. All 63 vectors in eleven groups, native agent tests,
 JSON tests, contract boundary tests, tooling tests, and the API declaration
 snapshot pass locally. The remote `cobol-conformance` job checks these;
-`cobol/v0.3.0` is the released tag; it adds the middleware, lifecycle,
+`cobol/v0.6.0` is the released tag; it adds the middleware, lifecycle,
 cancellation, streaming, SSE, and batch-dispatch surface. `partial` does not
 claim every optional Go hook, provider adapter, or full model surface. See `language/cobol/README.md` for bounded JSON, pattern,
 path-policy, plugin, and middleware behavior.

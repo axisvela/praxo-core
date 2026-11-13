@@ -253,3 +253,175 @@ end
     @test occursin("500", error.message)
     @test occursin("boom", error.message)
 end
+
+@testset "PraxoCore OpenTelemetry sink" begin
+    captured = Ref{Any}(nothing)
+    transport = (endpoint, body, headers) -> begin
+        captured[] = (
+            endpoint = endpoint,
+            body = Json.parse_json(body),
+            headers = headers,
+        )
+        (status = 200, body = "")
+    end
+    sink = otel_sink(
+        "https://otel.test/v1/traces";
+        service_name = "praxo-test",
+        allowed_data_keys = ["name"],
+        transport = transport,
+        clock = () -> (1700000000, 123456789),
+    )
+    event = Event(
+        "tool.call",
+        "s1",
+        "run-123",
+        Dict{String,Any}("name" => "echo", "secret" => "hidden"),
+        nothing,
+    )
+    emit(sink, event)
+    @test captured[].endpoint == "https://otel.test/v1/traces"
+    @test captured[].headers["content-type"] == "application/json"
+    resource_span = captured[].body["resourceSpans"][1]
+    resource = resource_span["resource"]
+    @test resource["attributes"][1]["value"]["stringValue"] == "praxo-test"
+    span = resource_span["scopeSpans"][1]["spans"][1]
+    @test span["name"] == "praxo.tool.call"
+    @test length(span["traceId"]) == 32
+    @test length(span["spanId"]) == 16
+    @test span["startTimeUnixNano"] == span["endTimeUnixNano"]
+    attributes = Dict(
+        item["key"] => item["value"]["stringValue"]
+        for item in span["attributes"]
+    )
+    @test attributes["praxo.event.type"] == "tool.call"
+    @test attributes["praxo.session.id"] == "s1"
+    @test attributes["praxo.run.id"] == "run-123"
+    @test attributes["praxo.event.data.name"] == "echo"
+    @test !haskey(attributes, "praxo.event.data.secret")
+    first_span = span
+    emit(sink, event)
+    second_span = captured[].body["resourceSpans"][1]["scopeSpans"][1]["spans"][1]
+    @test first_span["traceId"] == second_span["traceId"]
+    @test first_span["spanId"] == second_span["spanId"]
+
+    missing = try
+        emit(otel_sink(""), event)
+        nothing
+    catch caught
+        caught
+    end
+    @test missing isa PraxoError
+    @test missing.code == "OTEL_URL"
+
+    failing = otel_sink(
+        "https://otel.test/v1/traces";
+        transport = (endpoint, body, headers) -> (status = 503, body = "down"),
+    )
+    failure = try
+        emit(failing, event)
+        nothing
+    catch caught
+        caught
+    end
+    @test failure isa PraxoError
+    @test failure.code == "OTEL_HTTP"
+    @test occursin("503", failure.message)
+    @test occursin("down", failure.message)
+
+    long_failing = otel_sink(
+        "https://otel.test/v1/traces";
+        transport = (endpoint, body, headers) -> (status = 500, body = repeat("x", 600)),
+    )
+    long_failure = try
+        emit(long_failing, event)
+        nothing
+    catch caught
+        caught
+    end
+    @test long_failure isa PraxoError
+    @test long_failure.code == "OTEL_HTTP"
+    @test length(long_failure.message) < 600
+end
+
+@testset "PraxoCore retriever" begin
+    retriever = func_retriever(
+        (query, limit) -> [
+            Document(
+                "doc-1",
+                string(query, ":", limit),
+                Dict("source" => "test"),
+                0.5,
+            ),
+        ],
+    )
+    documents = retrieve_documents(retriever, "hello", 3)
+    @test length(documents) == 1
+    @test documents[1].id == "doc-1"
+    @test documents[1].content == "hello:3"
+    @test documents[1].metadata["source"] == "test"
+    @test documents[1].score == 0.5
+    @test retrieve_documents(retriever.retrieve, "hello", 2)[1].content == "hello:2"
+    @test retriever("hello", 1)[1].content == "hello:1"
+
+    failure = try
+        retrieve_documents(retriever, "hello", -1)
+        nothing
+    catch caught
+        caught
+    end
+    @test failure isa PraxoError
+    @test failure.code == "RETRIEVER_INVALID"
+end
+
+@testset "PraxoCore delegation" begin
+    request = subagent_request("parent", "child", "look up", "fork")
+    clock = () -> (1700000000, 123456789)
+    runner = req -> subagent_result(agent_id = req.agent_id, output = "done")
+    task = subagent_run(runner, request; clock = clock)
+    @test task.status == "completed"
+    @test task.parent_session_id == "parent"
+    @test task.agent_id == "child"
+    @test task.mode == "fork"
+    @test task.output == "done"
+    @test isempty(task.error)
+    @test task.created_at == "2023-11-14T22:13:20.123456789Z"
+    @test task.updated_at == "2023-11-14T22:13:20.123456789Z"
+
+    failing = req -> throw(PraxoError("BOOM", "boom"))
+    failed = subagent_run(failing, request; clock = clock)
+    @test failed.status == "failed"
+    @test isempty(failed.output)
+    @test failed.error == "BOOM"
+
+    generic = req -> Base.error("bad")
+    generic_task = subagent_run(generic, request; clock = clock)
+    @test generic_task.status == "failed"
+    @test generic_task.error == "SUBAGENT_ERROR"
+
+    invalid_parent = try
+        subagent_run(runner, subagent_request("", "child", "look up"))
+        nothing
+    catch caught
+        caught
+    end
+    @test invalid_parent isa PraxoError
+    @test invalid_parent.code == "SUBAGENT_INVALID"
+
+    invalid_agent = try
+        subagent_run(runner, subagent_request("parent", "", "look up"))
+        nothing
+    catch caught
+        caught
+    end
+    @test invalid_agent isa PraxoError
+    @test invalid_agent.code == "SUBAGENT_INVALID"
+
+    invalid_runner = try
+        subagent_run(nothing, request)
+        nothing
+    catch caught
+        caught
+    end
+    @test invalid_runner isa PraxoError
+    @test invalid_runner.code == "SUBAGENT_INVALID"
+end

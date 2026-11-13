@@ -8,11 +8,11 @@
 
 - package: `praxo-core-objc`
 - registry: Source
-- source_version: `0.3.1`
+- source_version: `0.4.0`
 - published_version: not published
 - install_published: not published
 - install_source: `See README/SETUP.md`
-- source_tag: `objc/v0.3.1`
+- source_tag: `objc/v0.4.0`
 - tier: Core
 - contract: `SPEC_VERSION` `0.2.0`
 - documentation: https://axisvela.github.io/praxo-core/languages/objc/
@@ -24,9 +24,9 @@
 - Gemini model: native (`PXRGeminiGenerate` with injectable transport)
 - MCP client: native (`PXRMcpClient`; stdio and `PXRHttpMcpTransport` for Streamable HTTP 2025-03-26)
 - Harmovela sink: native (`PraxoHarmovela`)
-- OpenTelemetry sink: not implemented
-- Subagent delegation: not implemented
-- Retriever: not implemented
+- OpenTelemetry sink: native (transport seam) (`PXROtelSink`; caller supplies `PXROtelTransport`)
+- Subagent delegation: native (synchronous seam) (`PXRSubagentRun`; no asynchronous manager)
+- Retriever: native (`PXDocument`, `PXRetriever`, `PXRetrieveDocuments`)
 
 ## Start
 

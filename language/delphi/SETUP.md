@@ -24,7 +24,7 @@ groups and the native tests. The compiler emitted existing managed result
 warnings. Commercial Delphi and other operating systems remain unverified;
 Linux CI runs FPC.
 
-The snapshot check compares `api/0.2.0.txt` and checks the contract version
+The snapshot check compares `api/0.5.0.txt` and checks the contract version
 and symbols in `spec/parity/delphi.md`.
 The shared Go spec checks can also be run from the repository root:
 

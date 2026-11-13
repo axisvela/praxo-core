@@ -29,8 +29,9 @@ paths = praxo.validate_schema(praxo.parse_json('{"type":"string"}'), node);
 
 The package passes all eleven shared conformance vector groups under GNU Octave
 11.3.0. It includes the native agent loop, memory, checkpoints, lexical path
-policy, context compaction, event sinks, middleware helpers, and tool
-selection.
+policy, context compaction, event sinks, middleware helpers, tool selection,
+an OpenTelemetry transport-seam sink, a retriever seam, and synchronous subagent
+delegation.
 
 ## Scope
 

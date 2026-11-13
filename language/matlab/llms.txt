@@ -8,11 +8,11 @@
 
 - package: `PRAXO-CORE`
 - registry: [MATLAB File Exchange](https://www.mathworks.com/matlabcentral/fileexchange/185166-praxo-core)
-- source_version: `0.4.0`
+- source_version: `0.5.0`
 - published_version: `0.3.0`
 - install_published: `File Exchange entry 185166`
 - install_source: `File Exchange entry 185166`
-- source_tag: `matlab/v0.4.0`
+- source_tag: `matlab/v0.5.0`
 - tier: Core
 - contract: `SPEC_VERSION` `0.2.0`
 - documentation: https://axisvela.github.io/praxo-core/languages/matlab/
@@ -24,9 +24,9 @@
 - Gemini model: native (`praxo.gemini_compatible`; injectable transport)
 - MCP client: native (transport seam) (`praxo.mcp_client`; caller supplies a function handle)
 - Harmovela sink: native (`praxo.harmovela_sink`)
-- OpenTelemetry sink: not implemented
-- Subagent delegation: not implemented
-- Retriever: not implemented
+- OpenTelemetry sink: native (transport seam) (`praxo.otel_sink`; caller supplies OTLP/HTTP transport)
+- Subagent delegation: native (synchronous seam) (`praxo.subagent_run`; no asynchronous manager)
+- Retriever: native (`praxo.document` and `praxo.retrieve_documents`)
 
 # Start
 

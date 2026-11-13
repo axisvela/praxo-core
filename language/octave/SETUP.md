@@ -16,7 +16,7 @@ path. `run-tests.py` checks the API snapshot and parity inventory, then launches
 `run_tests.m`. The tests cover all eleven vector groups and the native
 regression scripts. Linux CI runs the same suite with the distribution Octave.
 
-`api-snapshot.py --check` verifies `api/0.2.1.txt`, the contract version, and
+`api-snapshot.py --check` verifies `api/0.5.0.txt`, the contract version, and
 symbols in `spec/parity/octave.md`. Without `--check` it regenerates the local
 snapshot.
 

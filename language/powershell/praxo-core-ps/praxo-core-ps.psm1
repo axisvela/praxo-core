@@ -1,5 +1,5 @@
 $script:PraxoCoreDll = $null
-
+$script:PraxoAdapterExports = @(); foreach ($adapter in @('Otel', 'Retriever', 'Delegation')) { . (Join-Path $PSScriptRoot "adapters/$adapter.ps1") }
 function Get-PraxoCoreDllPath {
     if ($env:PRAXO_CORE_DLL) {
         return $env:PRAXO_CORE_DLL
@@ -452,7 +452,7 @@ function Close-PraxoMcp {
     $Client.Dispose()
 }
 
-Export-ModuleMember -Function @(
+Export-ModuleMember -Function (@(
     'Get-PraxoCoreInfo',
     'New-PraxoStaticModel',
     'New-PraxoSession',
@@ -497,4 +497,4 @@ Export-ModuleMember -Function @(
     'Get-PraxoMcpTools',
     'Invoke-PraxoMcpTool',
     'Close-PraxoMcp'
-)
+) + $script:PraxoAdapterExports)

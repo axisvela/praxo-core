@@ -25,7 +25,7 @@ The reported Windows run of `run-tests.py` with the executable above passed all
 eleven vector groups and the native tests. Actual MATLAB remains unverified;
 Linux Octave CI runs the same suite.
 
-`api-snapshot.py --check` verifies `api/0.2.0.txt`, the contract version,
+`api-snapshot.py --check` verifies `api/0.5.0.txt`, the contract version,
 and symbols in `spec/parity/matlab.md`. Without `--check` it regenerates the
 local snapshot. The shared Go spec checks can also be run from the repository
 root:
