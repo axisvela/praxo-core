@@ -1,0 +1,17 @@
+{
+  "name": "praxo-mcp-client",
+  "version": "0.0.0",
+  "private": true,
+  "type": "commonjs",
+  "description": "Published-package PRAXO-CORE stdio MCP client example.",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "start": "node client.js",
+    "test": "node --test test_client.test.js"
+  },
+  "dependencies": {
+    "@axisvela/praxo-core": "0.5.0"
+  }
+}

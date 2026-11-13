@@ -22,9 +22,9 @@ reference implementation.
 
 - Registry introduction: [REGISTRY.md](https://github.com/axisvela/praxo-core/blob/main/language/lua/REGISTRY.md)
 - Machine-readable entry: [llms.txt](https://github.com/axisvela/praxo-core/blob/main/language/lua/llms.txt) and [llms.md](https://github.com/axisvela/praxo-core/blob/main/language/lua/llms.md)
+- [Examples](examples/): runnable language-specific examples.
 - Coding-agent contract: [docs/getting-started/coding-agents.md](https://github.com/axisvela/praxo-core/blob/main/docs/getting-started/coding-agents.md)
 - Registry: [LuaRocks](https://luarocks.org/modules/hanhhuiwen/praxo-core)
-- Examples: [examples/](examples/)
 
 ## Install
 

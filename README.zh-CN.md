@@ -121,12 +121,21 @@ optional。当前覆盖见[行为实验](docs/zh-CN/languages/behavior-lab.md)�
 
 | 目标 | 示例 |
 | --- | --- |
+| 用发布包连接真实模型 | [真实模型](examples/live-model) |
+| 生成受校验 JSON | [Python](language/python/examples/structured-output)、[TypeScript](language/typescript/examples/structured-output)、[Java](language/java/examples/structured-output)、[C#](language/csharp/examples/structured-output) |
+| 构建只读 Workspace Agent | [Workspace agent](examples/workspace-agent) |
+| 将 Core 嵌入 HTTP 服务 | [Embedded service](examples/embedded-service) |
+| 使用本地 MCP 客户端 | [Python](language/python/examples/mcp)、[TypeScript](language/typescript/examples/mcp)、[C#](language/csharp/examples/mcp) |
 | 模型、工具与流式输出 | [Quickstart](examples/quickstart) |
 | 审批与拒绝边界 | [Governed workspace](examples/governed-workspace) |
 | 检查点恢复 | [Checkpoint](examples/checkpoint) |
 | 策略控制命令执行 | [Sandbox](examples/sandbox) |
 | 委派任务 | [Multi-agent](examples/multiagent) |
 | 使用自己的适配器嵌入 | [Integrator](examples/integrator) |
+
+按任务和语言组织的完整目录：
+[文档示例页](docs/zh-CN/getting-started/examples.md)和
+[examples/README.md](examples/README.md)。
 
 ## 仓库导览
 

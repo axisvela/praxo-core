@@ -211,11 +211,12 @@ def block(entry: dict, directory: Path) -> str:
     registry = f"[{entry['registry']}]({entry['url']})" if entry["url"] else entry["registry"]
     if relative == ".":
         registry = "[Language Release Index](docs/languages/registry-status.md)"
+    examples = examples_line(directory)
     return (
         f"{BLOCK_START}\n\n"
         f"- Registry introduction: [REGISTRY.md]({prefix}/REGISTRY.md)\n"
         f"- Machine-readable entry: [llms.txt]({prefix}/llms.txt) and [llms.md]({prefix}/llms.md)\n"
-        f"- Coding-agent contract: [docs/getting-started/coding-agents.md]({coding})\n"
+        f"{examples}- Coding-agent contract: [docs/getting-started/coding-agents.md]({coding})\n"
         f"- Registry: {registry}\n"
     )
 
@@ -249,11 +250,18 @@ def insert_block(readme: Path, entry: dict) -> None:
     readme.write_text(text, encoding="utf-8")
 
 
+def examples_line(directory: Path) -> str:
+    if (directory / "examples").is_dir():
+        return "- [Examples](examples/): runnable language-specific examples.\n"
+    return ""
+
+
 def render_registry(entry: dict, directory: Path) -> str:
     summary = first_paragraph(directory / "README.md")
     registry = f"[{entry['registry']}]({entry['url']})" if entry["url"] else entry["registry"]
     published_version = published_version_label(entry)
     published_install = published_install_label(entry)
+    examples = examples_line(directory)
     return f"""# PRAXO-CORE {entry['name']} Registry Introduction
 
 **Status:** {entry['status']}. Source version `{entry['source_version']}`, source
@@ -282,7 +290,7 @@ feature.
 
 {capabilities_registry(entry)}## Coding-agent entry
 
-- [llms.txt](llms.txt): compact machine-readable entry for this language.
+{examples}- [llms.txt](llms.txt): compact machine-readable entry for this language.
 - [llms.md](llms.md): Markdown version of the same entry.
 - [Coding-agent contract]({rel_link(ROOT / 'docs/getting-started/coding-agents.md', directory)}): explicit
   scope, final-argument authorization, denial tests, and verification commands.
@@ -305,6 +313,7 @@ def render_llms(entry: dict, directory: Path, markdown: bool) -> str:
     heading = "#"
     published_version = published_version_label(entry)
     published_install = published_install_label(entry)
+    examples = examples_line(directory)
     body = f"""{heading} PRAXO-CORE {entry['name']}
 
 > Embeddable, governed agent execution kernel. This file is the language-specific
@@ -330,7 +339,7 @@ def render_llms(entry: dict, directory: Path, markdown: bool) -> str:
 - Registry introduction: `REGISTRY.md`
 - Markdown entry: `llms.md`
 - Compact entry: `llms.txt`
-- Coding-agent contract: {coding}
+{examples}- Coding-agent contract: {coding}
 
 ## Boundaries
 
@@ -391,6 +400,13 @@ documentation before relying on a version or feature.
 - Dedicated language repositories are listed in the
   [language repository index](docs/languages/repositories.md).
 
+## Examples
+
+- Task-oriented catalog: [docs Examples](docs/getting-started/examples.md)
+- Repository catalog: [examples/README.md](examples/README.md)
+- Live model: [examples/live-model](examples/live-model/README.md)
+- Language examples: `language/<language>/examples/`
+
 ## Boundaries
 
 - PRAXO-CORE is an embeddable, MIT-licensed execution kernel, not a hosted
@@ -425,6 +441,9 @@ def render_root_llms() -> str:
 
 - README: https://github.com/axisvela/praxo-core/blob/main/README.md
 - Quickstart: https://github.com/axisvela/praxo-core/blob/main/docs/getting-started/quickstart.md
+- Examples: https://github.com/axisvela/praxo-core/blob/main/docs/getting-started/examples.md
+- Examples directory: https://github.com/axisvela/praxo-core/blob/main/examples/README.md
+- Live model: https://github.com/axisvela/praxo-core/blob/main/examples/live-model/README.md
 - Start Here: https://github.com/axisvela/praxo-core/blob/main/docs/getting-started/index.md
 - Coding-agent contract: https://github.com/axisvela/praxo-core/blob/main/docs/getting-started/coding-agents.md
 - Language repository index: https://github.com/axisvela/praxo-core/blob/main/docs/languages/repositories.md

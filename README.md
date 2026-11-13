@@ -47,6 +47,7 @@ See the full [implementation directory](docs/languages/index.md) and the
 
 - Registry introduction: [REGISTRY.md](https://github.com/axisvela/praxo-core/blob/main/REGISTRY.md)
 - Machine-readable entry: [llms.txt](https://github.com/axisvela/praxo-core/blob/main/llms.txt) and [llms.md](https://github.com/axisvela/praxo-core/blob/main/llms.md)
+- [Examples](examples/): runnable language-specific examples.
 - Coding-agent contract: [docs/getting-started/coding-agents.md](https://github.com/axisvela/praxo-core/blob/main/docs/getting-started/coding-agents.md)
 - Registry: [Language Release Index](docs/languages/registry-status.md)
 
@@ -157,12 +158,21 @@ other declared implementations are optional. See the
 
 | Goal | Example |
 | --- | --- |
+| Run a published package against a real model | [Live model](examples/live-model) |
+| Produce validated JSON | [Python](language/python/examples/structured-output), [TypeScript](language/typescript/examples/structured-output), [Java](language/java/examples/structured-output), [C#](language/csharp/examples/structured-output) |
+| Build a read-only workspace agent | [Workspace agent](examples/workspace-agent) |
+| Embed Core in an HTTP service | [Embedded service](examples/embedded-service) |
+| Use a local MCP client | [Python](language/python/examples/mcp), [TypeScript](language/typescript/examples/mcp), [C#](language/csharp/examples/mcp) |
 | Call a model with tools and streaming | [Quickstart](examples/quickstart) |
 | Observe approval and denial boundaries | [Governed workspace](examples/governed-workspace) |
 | Resume a run | [Checkpoint](examples/checkpoint) |
 | Gate command execution through policy | [Sandbox](examples/sandbox) |
 | Delegate work | [Multi-agent](examples/multiagent) |
 | Embed with your own adapters | [Integrator](examples/integrator) |
+
+Task-oriented and language-organized catalogs:
+[docs Examples](docs/getting-started/examples.md) and
+[examples/README.md](examples/README.md).
 
 ## Repository Map
 

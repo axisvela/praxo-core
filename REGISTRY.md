@@ -55,6 +55,13 @@ documentation before relying on a version or feature.
 - Dedicated language repositories are listed in the
   [language repository index](docs/languages/repositories.md).
 
+## Examples
+
+- Task-oriented catalog: [docs Examples](docs/getting-started/examples.md)
+- Repository catalog: [examples/README.md](examples/README.md)
+- Live model: [examples/live-model](examples/live-model/README.md)
+- Language examples: `language/<language>/examples/`
+
 ## Boundaries
 
 - PRAXO-CORE is an embeddable, MIT-licensed execution kernel, not a hosted
