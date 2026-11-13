@@ -14,7 +14,7 @@
 
 | Need | Start with | Important boundary |
 | --- | --- | --- |
-| Get a useful result quickly | [Quickstart](quickstart.md) | Connects an OpenAI-compatible endpoint; start with a low-risk tool and keep credentials in the application |
+| Get a useful result quickly | [Quickstart](quickstart.md), [Live Model Golden Path](live-model-golden-path.md) | Connects an OpenAI-compatible endpoint; start with a low-risk tool and keep credentials in the application |
 | Have a coding agent integrate Core | [For Coding Agents](coding-agents.md), [package map](agent-integration.json) | Concise contract and version-checked package map; not a hidden install channel or automatic skill |
 | Add a model/tool loop to a Go, Python, TypeScript, or Java application | [Go](consumer-go.md), [Python](consumer-python.md), [TypeScript](consumer-typescript.md), or [Java](consumer-java.md) consumer starter | Uses a published package, deterministic model, explicit tool scope, and a denial test; your application owns identity, persistence, and isolation |
 | Add an allow/deny model/tool loop in Ruby, PHP, Elixir, or Lua | [Ruby](consumer-ruby.md), [PHP](consumer-php.md), [Elixir](consumer-elixir.md), or [Lua](consumer-lua.md) consumer starter | Extended-language starters use a published package and deterministic allow/deny; the governed negative matrix remains scoped to the four pilot languages |

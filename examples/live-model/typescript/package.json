@@ -1,0 +1,16 @@
+{
+  "name": "praxo-live-model",
+  "version": "0.0.0",
+  "private": true,
+  "type": "commonjs",
+  "description": "Published-package PRAXO-CORE golden path with a live OpenAI-compatible model.",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "start": "node live_starter.js"
+  },
+  "dependencies": {
+    "@axisvela/praxo-core": "0.5.0"
+  }
+}

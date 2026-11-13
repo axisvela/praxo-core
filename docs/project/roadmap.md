@@ -55,7 +55,7 @@ target and not to present Go-only behavior as a cross-language guarantee.
 | Stage | Developer outcome | Current state | Next result |
 | --- | --- | --- | --- |
 | 0. Decide | Know whether Core fits and which language/path to use | The overview, task chooser, comparison, and non-goals exist | Make the choice path shorter and show application responsibilities clearly |
-| 1. Run | Install a published package, connect a model, register one tool, and get a useful result | Published-package deterministic starters and a source-checkout endpoint quickstart exist | Provide a published-package live-model golden path with troubleshooting |
+| 1. Run | Install a published package, connect a model, register one tool, and get a useful result | Published-package deterministic starters and four-language live-model examples now exist | Run the live path against supported endpoints and record language-specific troubleshooting |
 | 2. Prototype | Build one coherent local application with tools, streaming, structured output, MCP, workspace access, or telemetry | The building blocks and recipes exist but are spread across many examples | Publish a task-oriented example catalog and one end-to-end prototype tutorial |
 | 3. Embed | Integrate Core into an existing service with application-owned identity, policy, persistence, events, and shutdown | Individual integration recipes exist | Provide a vendor-neutral service example and a practical integration checklist |
 | 4. Harden | Make the specific integration safe to upgrade, fail, cancel, and recover | Negative, upgrade, containment, and recovery assets exist | Organize them by application risk instead of requiring everything up front |
@@ -115,6 +115,7 @@ suite, Behavior Lab, or compatibility report.
 ### Start Now
 
 - [Quickstart](../getting-started/quickstart.md)
+- [Live Model Golden Path](../getting-started/live-model-golden-path.md)
 - Published-package starters for [Go](../getting-started/consumer-go.md),
   [Python](../getting-started/consumer-python.md),
   [TypeScript](../getting-started/consumer-typescript.md), and
@@ -128,13 +129,13 @@ suite, Behavior Lab, or compatibility report.
 
 ### Next Work
 
-- Add independent golden-path projects using published packages, local models,
-  and safe tools without a repository checkout, starting with the four pilot
-  SDKs and extending to other maintained languages.
+- Validate the four-language live examples against Ollama and at least one
+  hosted OpenAI-compatible endpoint, then extend them to other maintained
+  languages.
 - Give the main SDKs a direct continuation from deterministic starter to a real
   model endpoint, with language-specific installation and code.
-- Add expected output and short troubleshooting for endpoint URLs, model names,
-  credentials, timeouts, tool schemas, and platform-specific environment
+- Record expected output and short troubleshooting for endpoint URLs, model
+  names, credentials, timeouts, tool schemas, and platform-specific environment
   variables.
 
 ## Stage 2: Build a Real Prototype

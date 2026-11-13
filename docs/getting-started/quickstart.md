@@ -13,6 +13,9 @@ with the published npm package, a pinned lockfile, and Node.js 20 or newer.
 For Java, use the [independent Java consumer](consumer-java.md) with the
 published Maven Central artifact and Java 21 or newer.
 
+For a published-package path with a real OpenAI-compatible model, use the
+[Live Model Golden Path](live-model-golden-path.md).
+
 The endpoint example below runs an agent against an OpenAI-compatible service.
 It requires a PRAXO-CORE source checkout; run its commands from the repository
 root. No provider SDK is required. Its permissive policy is not a production

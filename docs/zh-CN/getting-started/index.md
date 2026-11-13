@@ -10,7 +10,7 @@
 
 | 需求 | 起点 | 重要边界 |
 | --- | --- | --- |
-| 尽快获得有用结果 | [快速开始](quickstart.md) | 连接 OpenAI-compatible 端点；先使用低风险工具，凭据保留在应用中 |
+| 尽快获得有用结果 | [快速开始](quickstart.md)、[真实模型 Golden Path](live-model-golden-path.md) | 连接 OpenAI-compatible 端点；先使用低风险工具，凭据保留在应用中 |
 | 让编程 Agent 接入 Core | [面向编程 Agent](coding-agents.md)、[包映射](agent-integration.json) | 精简契约与版本校验的包映射；不是隐蔽安装渠道或自动 Skill |
 | 为 Go、Python、TypeScript 或 Java 应用加入模型/工具循环 | [Go](consumer-go.md)、[Python](consumer-python.md)、[TypeScript](consumer-typescript.md) 或 [Java](consumer-java.md) 独立消费者 | 使用发布包、确定性模型、显式工具范围与拒绝测试；身份、持久化和隔离由应用负责 |
 | 为 Ruby、PHP、Elixir 或 Lua 应用加入 allow/deny 模型/工具循环 | [Ruby](consumer-ruby.md)、[PHP](consumer-php.md)、[Elixir](consumer-elixir.md) 或 [Lua](consumer-lua.md) 独立消费者 | 扩展语言 Starter 使用发布包并验证确定性 allow/deny；治理负向矩阵仍只覆盖四个试点语言 |

@@ -9,6 +9,8 @@ Node.js 20 或更新版本完成验收。
 Java 使用[独立消费者指南](consumer-java.md)，通过 Maven Central 发布产物与 Java 21
 或更新版本完成验收。
 
+使用已发布包连接真实 OpenAI-compatible 模型时，从[真实模型 Golden Path](live-model-golden-path.md)开始。
+
 以下端点示例连接 OpenAI 兼容服务，需要检出 PRAXO-CORE 源码，并从仓库根目录运行命令。
 无需提供商 SDK。示例的宽松策略不是生产授权配置。
 
