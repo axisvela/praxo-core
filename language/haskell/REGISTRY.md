@@ -33,6 +33,7 @@ PRAXO-CORE is an embeddable, MIT-licensed agent framework. This package is its n
 | Gemini model | native (transport seam) | `Praxo.Gemini`; caller supplies transport |
 | MCP client | native (transport seam) | `Praxo.Mcp`; caller supplies `McpTransport` |
 | Harmovela sink | native (transport seam) | `Praxo.Harmovela`; caller supplies transport |
+| OpenTelemetry sink | not implemented |  |
 
 ## Coding-agent entry
 

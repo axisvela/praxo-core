@@ -33,6 +33,7 @@ V is a native Core implementation with source tag `v/v0.3.0`. It passes all elev
 | Gemini model | native (transport seam) | `gemini_compatible`; caller supplies `ProviderTransport` |
 | MCP client | native (transport seam) | `praxo.mcp`; caller supplies `McpTransport` |
 | Harmovela sink | native | `harmovela_sink`; verified with V 0.5.2 and `x.json2` |
+| OpenTelemetry sink | not implemented |  |
 
 ## Coding-agent entry
 

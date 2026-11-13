@@ -33,6 +33,7 @@ PRAXO-CORE is an embeddable, MIT-licensed agent framework. This gem is its nativ
 | Gemini model | native | `Praxo::Adapters::Gemini`; injectable transport |
 | MCP client | native | `Praxo::Adapters::MCPClient`; stdio, plus `HttpMCPTransport` for Streamable HTTP 2025-03-26 |
 | Harmovela sink | native | `Praxo::Adapters::HarmovelaSink` |
+| OpenTelemetry sink | not implemented |  |
 
 ## Coding-agent entry
 

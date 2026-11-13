@@ -24,6 +24,7 @@
 - Gemini model: native (transport seam) (`gemini_compatible`; caller supplies HTTP transport)
 - MCP client: native (transport seam) (`mcp_client`; caller supplies transport)
 - Harmovela sink: native (transport seam) (`harmovela`; caller supplies HTTP transport)
+- OpenTelemetry sink: not implemented
 
 ## Start
 

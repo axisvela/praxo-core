@@ -8,11 +8,11 @@
 
 - package: `praxo-core`
 - registry: [PyPI](https://pypi.org/project/praxo-core/0.5.0/)
-- source_version: `0.6.0`
+- source_version: `0.7.0`
 - published_version: `0.5.0`
 - install_published: `pip install praxo-core==0.5.0`
-- install_source: `pip install praxo-core==0.6.0`
-- source_tag: `python/v0.6.0`
+- install_source: `pip install praxo-core==0.7.0`
+- source_tag: `python/v0.7.0`
 - tier: Core
 - contract: `SPEC_VERSION` `0.2.0`
 - documentation: https://axisvela.github.io/praxo-core/languages/python/
@@ -24,6 +24,7 @@
 - Gemini model: native (`praxo.adapters.gemini.GeminiModel`)
 - MCP client: native (`praxo.adapters.mcp.MCPClient`; stdio, plus `mcp_http.StreamableHTTPTransport` for Streamable HTTP 2025-03-26)
 - Harmovela sink: native (`praxo.adapters.harmovela.HarmovelaSink`)
+- OpenTelemetry sink: native (transport seam) (`praxo.adapters.otel.OtelSink`; caller supplies OTLP/HTTP transport)
 
 ## Start
 

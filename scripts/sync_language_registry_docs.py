@@ -12,7 +12,7 @@ BLOCK_END = "## "
 
 LANGUAGES = [
     {"dir": ".", "name": "Go", "package": "github.com/axisvela/praxo-core/v2", "registry": "Go module proxy / pkg.go.dev", "version": "v2.7.0", "tag": "v2.7.0", "install": "go get github.com/axisvela/praxo-core/v2@v2.7.0", "url": "https://pkg.go.dev/github.com/axisvela/praxo-core/v2", "status": "published", "tier": "Core (reference)", "docs": "https://axisvela.github.io/praxo-core/"},
-    {"dir": "language/python", "name": "Python", "package": "praxo-core", "registry": "PyPI", "version": "0.5.0", "source_version": "0.6.0", "published_version": "0.5.0", "tag": "python/v0.6.0", "install": "pip install praxo-core==0.5.0", "source_install": "pip install praxo-core==0.6.0", "url": "https://pypi.org/project/praxo-core/0.5.0/", "status": "published", "tier": "Core", "docs": "https://axisvela.github.io/praxo-core/languages/python/"},
+    {"dir": "language/python", "name": "Python", "package": "praxo-core", "registry": "PyPI", "version": "0.5.0", "source_version": "0.7.0", "published_version": "0.5.0", "tag": "python/v0.7.0", "install": "pip install praxo-core==0.5.0", "source_install": "pip install praxo-core==0.7.0", "url": "https://pypi.org/project/praxo-core/0.5.0/", "status": "published", "tier": "Core", "docs": "https://axisvela.github.io/praxo-core/languages/python/"},
     {"dir": "language/typescript", "name": "TypeScript", "package": "@axisvela/praxo-core", "registry": "npm", "version": "0.4.1", "source_version": "0.5.0", "published_version": "0.4.1", "tag": "typescript/v0.5.0", "install": "npm install @axisvela/praxo-core@0.4.1", "source_install": "npm install @axisvela/praxo-core@0.5.0", "url": "https://www.npmjs.com/package/@axisvela/praxo-core/v/0.4.1", "status": "published", "tier": "Core", "docs": "https://axisvela.github.io/praxo-core/languages/typescript/"},
     {"dir": "language/java", "name": "Java", "package": "com.axisvela:praxo-core", "registry": "Maven Central", "version": "0.6.0", "source_version": "0.7.1", "published_version": "0.6.0", "tag": "java/v0.7.1", "install": "Maven: com.axisvela:praxo-core:0.6.0", "source_install": "Maven: com.axisvela:praxo-core:0.7.1", "url": "https://repo1.maven.org/maven2/com/axisvela/praxo-core/0.6.0/", "status": "published", "tier": "Core", "docs": "https://axisvela.github.io/praxo-core/languages/java/"},
     {"dir": "language/rust", "name": "Rust", "package": "praxo-core", "registry": "crates.io", "version": "0.5.0", "source_version": "0.6.0", "published_version": "0.5.0", "tag": "rust/v0.6.0", "install": "cargo add praxo-core@0.5.0", "source_install": "cargo add praxo-core@0.6.0", "url": "https://crates.io/crates/praxo-core/0.5.0", "status": "published", "tier": "Core", "docs": "https://axisvela.github.io/praxo-core/languages/rust/"},
@@ -59,6 +59,7 @@ CAPABILITY_SECTIONS = (
     ("Model (Gemini Native)", "Gemini model"),
     ("MCP", "MCP client"),
     ("Harmovela", "Harmovela sink"),
+    ("OpenTelemetry", "OpenTelemetry sink"),
 )
 _CAPABILITIES: dict[str, dict[str, tuple[str, str]]] | None = None
 

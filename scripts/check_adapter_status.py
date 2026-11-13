@@ -27,6 +27,7 @@ SECTIONS = (
     ("Model (Gemini Native)", "gemini", "Gemini model"),
     ("MCP", "mcp", "MCP client"),
     ("Harmovela", "harmovela", "Harmovela sink"),
+    ("OpenTelemetry", "otel", "OpenTelemetry sink"),
 )
 
 SKIP_PARTS = {
@@ -83,6 +84,7 @@ MARKERS = {
     "gemini": re.compile(r"gemini", re.IGNORECASE),
     "mcp": re.compile(r"Mcp|MCP|(?<![a-z])mcp(?![a-z])"),
     "harmovela": re.compile(r"harmovela", re.IGNORECASE),
+    "otel": re.compile(r"opentelemetry|otlp|(?<![a-z])otel(?![a-z])", re.IGNORECASE),
 }
 TAG = re.compile(r"`([a-z0-9-]+/v[0-9]+\.[0-9]+\.[0-9]+)`")
 CAPABILITY_LABELS = (
@@ -91,6 +93,7 @@ CAPABILITY_LABELS = (
     "Gemini model",
     "MCP client",
     "Harmovela sink",
+    "OpenTelemetry sink",
 )
 
 

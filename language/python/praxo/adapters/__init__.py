@@ -15,6 +15,7 @@ from .openaicompat import (
     OpenAIConfig,
     OpenAICompatibleModel,
 )
+from .otel import OtelSink
 
 __all__ = [
     "AnthropicConfig",
@@ -29,6 +30,7 @@ __all__ = [
     "MCPTransport",
     "OpenAIConfig",
     "OpenAICompatibleModel",
+    "OtelSink",
     "PROVIDER_BASE_URLS",
     "StdioTransport",
     "StreamableHTTPConfig",

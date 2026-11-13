@@ -33,6 +33,7 @@ Objective-C is a native Core implementation with source tag `objc/v0.3.1`. It pa
 | Gemini model | native | `PXRGeminiGenerate` with injectable transport |
 | MCP client | native | `PXRMcpClient`; stdio and `PXRHttpMcpTransport` for Streamable HTTP 2025-03-26 |
 | Harmovela sink | native | `PraxoHarmovela` |
+| OpenTelemetry sink | not implemented |  |
 
 ## Coding-agent entry
 

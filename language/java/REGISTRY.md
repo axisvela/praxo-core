@@ -33,6 +33,7 @@ Java implementation of the PRAXO-CORE contract. The normative contract is [`spec
 | Gemini model | native | `adapters.GeminiModel` |
 | MCP client | native | `adapters.McpClient`; stdio, plus `McpStreamableHttpTransport` for Streamable HTTP 2025-03-26 (local runtime verification pending) |
 | Harmovela sink | native | `adapters.HarmovelaSink` |
+| OpenTelemetry sink | not implemented |  |
 
 ## Coding-agent entry
 

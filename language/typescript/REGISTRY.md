@@ -33,6 +33,7 @@ PRAXO-CORE is a dependency-free TypeScript framework for building tool-using AI 
 | Gemini model | native | `src/adapters/gemini.ts` |
 | MCP client | native | `src/adapters/mcp.ts`; stdio, plus `src/adapters/mcp-http.ts` for Streamable HTTP 2025-03-26 |
 | Harmovela sink | native | `src/adapters/harmovela.ts` |
+| OpenTelemetry sink | not implemented |  |
 
 ## Coding-agent entry
 

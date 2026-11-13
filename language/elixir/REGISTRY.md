@@ -33,6 +33,7 @@ PRAXO-CORE is an embeddable, MIT-licensed agent framework. This package is its n
 | Gemini model | native | `Praxo.Gemini` |
 | MCP client | native | `Praxo.Mcp`; stdio, plus `Praxo.McpHttp.transport` for Streamable HTTP 2025-03-26 |
 | Harmovela sink | native | `Praxo.HarmovelaSink` |
+| OpenTelemetry sink | not implemented |  |
 
 ## Coding-agent entry
 

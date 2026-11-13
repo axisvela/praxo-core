@@ -33,6 +33,7 @@ Native Core implementation with source tag `delphi/v0.4.0`. It passes all eleven
 | Gemini model | native | `TPraxoGeminiAdapter`; FPC HTTP transport |
 | MCP client | native | `TPraxoMcpClient`; stdio and `TPraxoHttpMcpTransport` for Streamable HTTP 2025-03-26 |
 | Harmovela sink | native | `TPraxoHarmovelaSink` |
+| OpenTelemetry sink | not implemented |  |
 
 ## Coding-agent entry
 

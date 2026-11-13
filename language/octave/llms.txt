@@ -24,6 +24,7 @@
 - Gemini model: native (Shared `praxo.gemini_compatible`)
 - MCP client: native (transport seam) (Shared `praxo.mcp_client` implementation)
 - Harmovela sink: native (Shared `praxo.harmovela_sink`)
+- OpenTelemetry sink: not implemented
 
 # Start
 

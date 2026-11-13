@@ -33,6 +33,7 @@ feature.
 | Gemini model | native | `praxo.gemini_compatible`; injectable transport |
 | MCP client | native (transport seam) | `praxo.mcp_client`; caller supplies a function handle |
 | Harmovela sink | native | `praxo.harmovela_sink` |
+| OpenTelemetry sink | not implemented |  |
 
 ## Coding-agent entry
 

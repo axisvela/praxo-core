@@ -33,6 +33,7 @@ A native Fortran 2008 agent implementation with source tag `fortran/v0.8.0`. Ver
 | Gemini model | native (transport seam) | `gemini_compatible`; caller supplies HTTP transport |
 | MCP client | native (transport seam) | `mcp_client`; caller supplies transport |
 | Harmovela sink | native (transport seam) | `harmovela`; caller supplies HTTP transport |
+| OpenTelemetry sink | not implemented |  |
 
 ## Coding-agent entry
 

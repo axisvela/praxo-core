@@ -213,6 +213,7 @@ nav:
       - OpenAI-Compatible Adapter: reference/openai-compatible-adapter.md
       - MCP Client: reference/mcp-client.md
       - Harmovela Sink: reference/harmovela-sink.md
+      - OpenTelemetry Sink: reference/otel-sink.md
       - Execution Profiles: reference/execution-profiles.md
       - Governed Execution: reference/governed-execution.md
       - Embodied Integration: reference/embodied-integration.md

@@ -244,6 +244,19 @@ It does not imply authentication, delivery guarantees, ordering, or production
 transport. Each implementation uses an injected transport or loopback fixture in
 tests; no live Harmovela service is claimed.
 
+## OpenTelemetry
+
+| Language | Status | Notes |
+| --- | --- | --- |
+| Go | native | `adapters/otel` maps events to spans through a `trace.Tracer` |
+| Python | native (transport seam) | `praxo.adapters.otel.OtelSink`; caller supplies OTLP/HTTP transport |
+| All other implementations | not implemented | Candidate transport-seam sinks; no OpenTelemetry SDK dependency is required |
+
+OpenTelemetry support means mapping Core events to OTLP spans over a
+caller-supplied transport. It does not imply a collector, sampler, SDK,
+production exporter, or vendor backend. Event data is excluded by default;
+selected keys must be allowlisted explicitly.
+
 ## Adding a Native Adapter
 
 1. Follow the language's existing model, tool, or event seam; do not widen the Go

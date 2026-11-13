@@ -33,6 +33,7 @@ Julia implementation of the PRAXO-CORE contract.
 | Gemini model | native | `GeminiModel`; injectable transport |
 | MCP client | native (transport seam) | `mcp_client`; caller supplies transport |
 | Harmovela sink | native | `HarmovelaSink` |
+| OpenTelemetry sink | not implemented |  |
 
 ## Coding-agent entry
 

@@ -33,6 +33,7 @@ C11 implementation of the PRAXO-CORE Core contract with source version `0.8.0`. 
 | Gemini model | native (transport seam) | `PxGemini`; caller supplies HTTP transport |
 | MCP client | native (transport seam) | `PxMcpClient`; caller supplies `PxMcpTransport` |
 | Harmovela sink | native (transport seam) | `praxo_harmovela`; caller supplies HTTP transport |
+| OpenTelemetry sink | not implemented |  |
 
 ## Coding-agent entry
 

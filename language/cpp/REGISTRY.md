@@ -33,6 +33,7 @@ C++20 implementation of the PRAXO-CORE agent contract. The normative contract is
 | Gemini model | native (transport seam) | `Gemini`; caller supplies HTTP transport |
 | MCP client | native (transport seam) | `McpClient`; caller supplies `McpTransport` |
 | Harmovela sink | native (transport seam) | `HarmovelaSink`; caller supplies HTTP transport |
+| OpenTelemetry sink | not implemented |  |
 
 ## Coding-agent entry
 

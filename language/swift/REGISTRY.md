@@ -33,6 +33,7 @@ Swift implementation of the PRAXO-CORE contract.
 | Gemini model | native | `GeminiModel` with injectable transport |
 | MCP client | native | `McpClient`, `StdioMcpTransport`, `HttpMcpTransport`; typechecked locally, full build blocked |
 | Harmovela sink | native | `HarmovelaSink` with URLSession transport |
+| OpenTelemetry sink | not implemented |  |
 
 ## Coding-agent entry
 

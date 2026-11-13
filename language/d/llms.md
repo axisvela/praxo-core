@@ -24,6 +24,7 @@
 - Gemini model: native (transport seam) (`GeminiModel`; caller may inject transport)
 - MCP client: native (`praxo.mcp.McpClient`; stdio, plus `HttpMcpTransport` for Streamable HTTP 2025-03-26)
 - Harmovela sink: native (`HarmovelaSink`)
+- OpenTelemetry sink: not implemented
 
 ## Start
 

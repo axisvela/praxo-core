@@ -24,6 +24,7 @@
 - Gemini model: not implemented
 - MCP client: native (transport seam) (`praxo-mcp`; caller supplies a transport program)
 - Harmovela sink: native (transport seam) (`praxo-harmovela`; caller supplies a transport program)
+- OpenTelemetry sink: not implemented
 
 ## Start
 

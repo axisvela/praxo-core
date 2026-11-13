@@ -33,6 +33,7 @@ R implementation of the PRAXO-CORE contract.
 | Gemini model | native (transport seam) | `gemini`; caller may supply `transport` |
 | MCP client | native (transport seam) | `mcp_client`; base R needs caller-supplied transport for stdio |
 | Harmovela sink | native | `harmovela_sink` |
+| OpenTelemetry sink | not implemented |  |
 
 ## Coding-agent entry
 

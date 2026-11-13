@@ -24,6 +24,7 @@
 - Gemini model: native (`Praxo::Adapters::Gemini`)
 - MCP client: native (`Praxo::Adapters::MCP`; stdio, plus `Praxo::Adapters::MCPHTTP` for Streamable HTTP 2025-03-26)
 - Harmovela sink: native (`Praxo::Adapters::Harmovela`)
+- OpenTelemetry sink: not implemented
 
 ## Start
 

@@ -33,6 +33,7 @@ Native Octave Core for the PRAXO-CORE agent framework. This is the independent O
 | Gemini model | native | Shared `praxo.gemini_compatible` |
 | MCP client | native (transport seam) | Shared `praxo.mcp_client` implementation |
 | Harmovela sink | native | Shared `praxo.harmovela_sink` |
+| OpenTelemetry sink | not implemented |  |
 
 ## Coding-agent entry
 
