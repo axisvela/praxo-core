@@ -384,10 +384,10 @@
     "package": "praxo-core",
     "published_version": "0.5.0",
     "registry": "crates.io",
-    "source_install": "cargo add praxo-core@0.6.0",
-    "source_version": "0.6.0",
+    "source_install": "cargo add praxo-core@0.7.0",
+    "source_version": "0.7.0",
     "status": "published",
-    "tag": "rust/v0.6.0",
+    "tag": "rust/v0.7.0",
     "tier": "Core",
     "url": "https://crates.io/crates/praxo-core/0.5.0"
   },

@@ -1,5 +1,15 @@
 # Rust Core Release Notes
 
+## 0.7.0 - 2026-11-13
+
+Source tag `rust/v0.7.0`.
+
+### Added
+
+- OpenTelemetry event sink (`adapters::otel::Sink`) over a caller-supplied
+  OTLP/HTTP transport, with deterministic trace/span identifiers, default
+  event-data exclusion, and an explicit data-key allowlist.
+
 ## 0.6.0 - 2026-11-12
 
 Source tag `rust/v0.6.0`.

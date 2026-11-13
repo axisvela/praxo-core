@@ -17,7 +17,7 @@ included; an HTTP OpenAI-compatible client, VFS, and plugin hosts are not yet
 implemented.
 
 Package version: `0.4.0`. The crates.io package `praxo-core@0.4.0` is published
-from source tag `rust/v0.4.0`. Supported contract: `SPEC_VERSION` `0.2.0`
+from source tag `rust/v0.7.0`. Supported contract: `SPEC_VERSION` `0.2.0`
 (`praxo_core::SPEC_VERSION`).
 
 ## Registry and Coding-Agent Entry

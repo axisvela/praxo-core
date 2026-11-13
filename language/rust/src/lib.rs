@@ -16,7 +16,7 @@ pub mod stream;
 pub mod tool;
 pub mod toolcall;
 
-pub use adapters::{harmovela, mcp, openai_compat};
+pub use adapters::{harmovela, mcp, openai_compat, otel};
 
-pub const SDK_VERSION: &str = "0.6.0";
+pub const SDK_VERSION: &str = "0.7.0";
 pub const SPEC_VERSION: &str = "0.2.0";
