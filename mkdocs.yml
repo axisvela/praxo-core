@@ -112,6 +112,7 @@ plugins:
             Core Design: Core 设计
             Language Policy: 语言支持规范
             Test Evidence: 测试证据
+            CI Workflows: CI Workflows
             Releases: 版本发布
             Release Overview: 版本总览
             Latest Release: 最新版本
@@ -258,6 +259,7 @@ nav:
       - Core and Adapter Layout: contributing/adapter-layout.md
       - Language Policy: contributing/language-policy.md
       - Test Evidence: contributing/test-evidence.md
+      - CI Workflows: contributing/ci-workflows.md
   - Releases:
       - Release Overview: releases/index.md
       - Latest Release: releases/2.7.0.md
