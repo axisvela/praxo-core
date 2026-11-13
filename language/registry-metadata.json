@@ -329,9 +329,9 @@
     "published_version": "0.3.1",
     "registry": "PowerShell Gallery",
     "source_install": "Install-Module praxo-core-ps",
-    "source_version": "0.5.0",
+    "source_version": "0.5.1",
     "status": "published; shared C# runtime",
-    "tag": "powershell/v0.5.0",
+    "tag": "powershell/v0.5.1",
     "tier": "Core (.NET)",
     "url": "https://www.powershellgallery.com/packages/praxo-core-ps/0.3.1"
   },
@@ -427,9 +427,9 @@
     "published_version": "0.1.2",
     "registry": "VPM (pending)",
     "source_install": "v install praxo-core",
-    "source_version": "0.4.0",
+    "source_version": "0.4.1",
     "status": "split repository; VPM submission pending",
-    "tag": "v/v0.4.0",
+    "tag": "v/v0.4.1",
     "tier": "Core",
     "url": "https://github.com/axisvela/praxo-core-v"
   },

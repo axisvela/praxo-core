@@ -1,6 +1,6 @@
 # PRAXO-CORE for V
 
-V is a native Core implementation with source tag `v/v0.4.0`. It passes all
+V is a native Core implementation with source tag `v/v0.4.1`. It passes all
 eleven shared vector groups with `V 0.5.2` and includes the native
 agent loop, context compaction, memory store, path policy, checkpoint
 allowlist, and tool-call parsing. Tool selection, PII redaction, structured

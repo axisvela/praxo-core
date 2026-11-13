@@ -4,7 +4,7 @@ PowerShell Core package `praxo-core-ps`, a shared-runtime wrapper over the C#
 PRAXO-CORE framework. Requires PowerShell 7.4+ on .NET 8.
 
 - `SPEC_VERSION`: `0.2.0`
-- Core version: `0.5.0`
+- Core version: `0.5.1`
 - Package: `praxo-core-ps`
 - Tier: core
 - License: MIT

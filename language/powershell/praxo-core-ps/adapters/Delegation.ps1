@@ -27,7 +27,7 @@ function Initialize-PraxoSubagentAdapter {
         return
     }
     Add-Type -TypeDefinition $script:PraxoSubagentRunnerSource `
-        -ReferencedAssemblies $script:PraxoCoreDll
+        -ReferencedAssemblies $script:PraxoCoreDll -IgnoreWarnings -CompilerOptions '/nowarn:1701'
 }
 
 function New-PraxoFuncSubagentRunner {

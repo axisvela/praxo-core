@@ -7,7 +7,7 @@ pub type McpTransport = fn (method string, params map[string]json2.Any) !map[str
 pub struct McpOptions {
 pub:
 	transport        McpTransport
-	client_version   string = '0.3.0'
+	client_version   string = '0.4.1'
 	protocol_version string = '2024-11-05'
 }
 
@@ -27,7 +27,7 @@ pub fn mcp_client(options McpOptions) !&McpClient {
 		client_version: if options.client_version != '' {
 			options.client_version
 		} else {
-			'0.3.0'
+			'0.4.1'
 		}
 		protocol_version: if options.protocol_version != '' {
 			options.protocol_version
@@ -36,14 +36,14 @@ pub fn mcp_client(options McpOptions) !&McpClient {
 		}
 		server_info: map[string]json2.Any{}
 	}
-	result := client.transport('initialize', map[string]json2.Any{
-		'protocolVersion': json2.Any(client.protocol_version)
-		'capabilities':    json2.Any(map[string]json2.Any{})
-		'clientInfo': json2.Any(map[string]json2.Any{
-			'name':    json2.Any('praxo-core')
-			'version': json2.Any(client.client_version)
-		})
-	})!
+	mut client_info := map[string]json2.Any{}
+	client_info['name'] = json2.Any('praxo-core')
+	client_info['version'] = json2.Any(client.client_version)
+	mut init_params := map[string]json2.Any{}
+	init_params['protocolVersion'] = json2.Any(client.protocol_version)
+	init_params['capabilities'] = json2.Any(map[string]json2.Any{})
+	init_params['clientInfo'] = json2.Any(client_info)
+	result := client.transport('initialize', init_params)!
 	version := as_string(result['protocolVersion'] or { json2.Any('') }) or { '' }
 	if version == '' {
 		return praxo_error('MCP_HANDSHAKE', 'mcp: initialize returned no protocol version')
