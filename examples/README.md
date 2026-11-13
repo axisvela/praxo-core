@@ -14,6 +14,7 @@ mirror repositories.
 ## Build a Prototype
 
 - [Workspace agent](workspace-agent/): read-only published-package Go application.
+- [Embedded service](embedded-service/): vendor-neutral HTTP service with caller context, policy, timeouts, and graceful shutdown.
 - [Reference agent](reference/): workspace-oriented reference application.
 - [Governed workspace](governed-workspace/): policy and approval boundaries.
 - [Checkpoint](checkpoint/): checkpoint store usage.
@@ -30,6 +31,7 @@ mirror repositories.
 | Python | [language/python/examples](../language/python/examples) |
 | TypeScript | [language/typescript/examples](../language/typescript/examples) |
 | Java | [language/java/examples](../language/java/examples) |
+| C# | [language/csharp/examples](../language/csharp/examples) |
 | Ruby | [language/ruby/examples](../language/ruby/examples) |
 | PHP | [language/php/examples](../language/php/examples) |
 | Elixir | [language/elixir/examples](../language/elixir/examples) |

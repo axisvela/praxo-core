@@ -1,0 +1,17 @@
+{
+  "name": "praxo-structured-output",
+  "version": "0.0.0",
+  "private": true,
+  "type": "commonjs",
+  "description": "Published-package PRAXO-CORE structured output example.",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "start": "node summarize.js",
+    "test": "node --test test_summarize.test.js"
+  },
+  "dependencies": {
+    "@axisvela/praxo-core": "0.5.0"
+  }
+}
