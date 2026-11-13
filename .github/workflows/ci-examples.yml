@@ -107,6 +107,7 @@ jobs:
         working-directory: language/typescript/examples/provider-fallback
       - run: dotnet run --project language/csharp/examples/mcp/Mcp.csproj -- --test
       - run: dotnet run --project language/csharp/examples/structured-output/StructuredOutput.csproj -- --test
+      - run: dotnet run --project language/csharp/examples/provider-fallback/ProviderFallback.csproj -- --test
 
   current-go-consumer:
     runs-on: ${{ matrix.os }}
