@@ -151,6 +151,7 @@ Turn the first run into one useful local application, such as:
 
 ### Start Now
 
+- [Examples](../getting-started/examples.md)
 - [Recipes](../guides/recipes.md)
 - [Integration adapters](../integrations/index.md)
 - [Plugin guide](../guides/plugins.md)

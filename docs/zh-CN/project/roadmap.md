@@ -130,6 +130,7 @@ PRAXO-CORE 继续定位为**可治理、可嵌入的 Agent 执行框架**。路�
 
 ### 立即开始
 
+- [示例目录](../getting-started/examples.md)
 - [配方](../guides/recipes.md)
 - [集成 Adapter](../integrations/index.md)
 - [Plugin 指南](../guides/plugins.md)

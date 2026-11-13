@@ -25,6 +25,7 @@
 
 | 任务 | 文档 |
 | --- | --- |
+| 浏览可运行示例 | [示例目录](examples.md) |
 | 接入应用 | [集成](../guides/integration.md)、[接入示例](../guides/recipes.md) |
 | 连接提供商或协议 | [适配器目录](../integrations/index.md) |
 | 编写插件 | [插件指南](../guides/plugins.md) |

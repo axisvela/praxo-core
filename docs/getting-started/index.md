@@ -29,6 +29,7 @@
 
 | Task | Documentation |
 | --- | --- |
+| Browse runnable examples | [Examples](examples.md) |
 | Wire your application | [Integration](../guides/integration.md), [recipes](../guides/recipes.md) |
 | Add a provider or protocol | [Adapters](../integrations/index.md) |
 | Author a plugin | [Plugin guide](../guides/plugins.md) |

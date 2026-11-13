@@ -50,6 +50,7 @@ plugins:
             Overview: 概览
             Quickstart: 快速开始
             Live Model Golden Path: 真实模型 Golden Path
+            Examples: 示例目录
             Go Consumer: Go 独立消费者
             Python Consumer: Python 独立消费者
             TypeScript Consumer: TypeScript 独立消费者
@@ -132,6 +133,7 @@ nav:
       - Overview: getting-started/overview.md
       - Quickstart: getting-started/quickstart.md
       - Live Model Golden Path: getting-started/live-model-golden-path.md
+      - Examples: getting-started/examples.md
       - Go Consumer: getting-started/consumer-go.md
       - Python Consumer: getting-started/consumer-python.md
       - TypeScript Consumer: getting-started/consumer-typescript.md
