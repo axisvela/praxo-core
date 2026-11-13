@@ -56,7 +56,7 @@ target and not to present Go-only behavior as a cross-language guarantee.
 | --- | --- | --- | --- |
 | 0. Decide | Know whether Core fits and which language/path to use | The overview, task chooser, comparison, and non-goals exist | Make the choice path shorter and show application responsibilities clearly |
 | 1. Run | Install a published package, connect a model, register one tool, and get a useful result | Published-package deterministic starters and four-language live-model examples now exist | Run the live path against supported endpoints and record language-specific troubleshooting |
-| 2. Prototype | Build one coherent local application with tools, streaming, structured output, MCP, workspace access, or telemetry | The building blocks and recipes exist but are spread across many examples | Publish a task-oriented example catalog and one end-to-end prototype tutorial |
+| 2. Prototype | Build one coherent local application with tools, streaming, structured output, MCP, workspace access, or telemetry | A task-oriented examples catalog and a read-only workspace tutorial exist | Add language-specific prototype tutorials and a provider/MCP walkthrough |
 | 3. Embed | Integrate Core into an existing service with application-owned identity, policy, persistence, events, and shutdown | Individual integration recipes exist | Provide a vendor-neutral service example and a practical integration checklist |
 | 4. Harden | Make the specific integration safe to upgrade, fail, cancel, and recover | Negative, upgrade, containment, and recovery assets exist | Organize them by application risk instead of requiring everything up front |
 | 5. Extend | Adopt plugins, delegation, long-running operations, workspace providers, or embodied integrations when needed | Experimental and advanced assets exist | Advance only with a named consumer and a concrete project need |
@@ -161,12 +161,12 @@ Turn the first run into one useful local application, such as:
 
 ### Next Work
 
-- Add a task-oriented example catalog with Basic, Integration, Hardening, and
-  Advanced groups.
-- Mark each recommended example with package/source mode, credentials, local
-  command execution, external services, and maturity.
-- Publish one coherent tutorial that evolves the quickstart into a useful
-  workspace or MCP application.
+- Extend the examples catalog with Basic, Integration, Hardening, and Advanced
+  groups and mark package/source mode, credentials, local command execution,
+  external services, and maturity.
+- Add one coherent prototype tutorial for each primary SDK, starting from the
+  existing [workspace tutorial](../guides/workspace-agent-tutorial.md).
+- Add a provider/MCP walkthrough that does not require a source checkout.
 - Give adapter pages a consistent install, authentication, minimal example, and
   limitation section.
 

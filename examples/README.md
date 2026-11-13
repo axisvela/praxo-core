@@ -13,6 +13,7 @@ mirror repositories.
 
 ## Build a Prototype
 
+- [Workspace agent](workspace-agent/): read-only published-package Go application.
 - [Reference agent](reference/): workspace-oriented reference application.
 - [Governed workspace](governed-workspace/): policy and approval boundaries.
 - [Checkpoint](checkpoint/): checkpoint store usage.

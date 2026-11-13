@@ -13,7 +13,9 @@ mirror repositories.
 | --- | --- | --- |
 | Run a real model | [Live Model Golden Path](live-model-golden-path.md) | Published package, OpenAI-compatible endpoint, one `get_time` tool |
 | Verify installation and denial | [Consumer starters](index.md) | Published package plus deterministic allow/deny checks |
-| Build a workspace agent | [`examples/reference`](https://github.com/axisvela/praxo-core/tree/main/examples/reference) | Go reference application |
+| Produce validated JSON | [`language/python/examples/structured-output`](https://github.com/axisvela/praxo-core/tree/main/language/python/examples/structured-output) | Python `StructuredOutput` with a deterministic fake-model test |
+| Build a workspace agent | [Workspace Agent tutorial](../guides/workspace-agent-tutorial.md) | Read-only published-package Go application |
+| Explore the Go reference | [`examples/reference`](https://github.com/axisvela/praxo-core/tree/main/examples/reference) | Go reference application |
 | Add policy and approvals | [`examples/governed-workspace`](https://github.com/axisvela/praxo-core/tree/main/examples/governed-workspace) | Go example of governed execution boundaries |
 | Add checkpoints | [`examples/checkpoint`](https://github.com/axisvela/praxo-core/tree/main/examples/checkpoint) | Go checkpoint-store example |
 | Add a plugin | [`examples/plugin`](https://github.com/axisvela/praxo-core/tree/main/examples/plugin) | Go process/WASM plugin host example |
