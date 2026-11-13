@@ -1,5 +1,15 @@
 # TypeScript Core Release Notes
 
+## 0.6.0 - 2026-11-13
+
+Source tag `typescript/v0.6.0`.
+
+### Added
+
+- OpenTelemetry event sink (`src/adapters/otel.ts`) over a caller-supplied
+  OTLP/HTTP transport, with default event-data exclusion and an explicit
+  data-key allowlist.
+
 ## 0.5.0 - 2026-11-12
 
 Source tag `typescript/v0.5.0`.

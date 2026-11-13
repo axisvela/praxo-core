@@ -4,3 +4,4 @@ export * from "./harmovela";
 export * from "./mcp";
 export * from "./mcp-http";
 export * from "./openaicompat";
+export * from "./otel";

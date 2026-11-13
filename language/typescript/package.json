@@ -1,6 +1,6 @@
 {
   "name": "@axisvela/praxo-core",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "description": "Embeddable TypeScript agent runtime with policy, human-in-the-loop approvals, checkpoints, and tool calling.",
   "homepage": "https://axisvela.github.io/praxo-core/languages/typescript/",
   "bugs": {
@@ -44,7 +44,7 @@
     "api": "node api-snapshot.js && node api-signatures.js",
     "api:check": "node api-snapshot.js --check && node api-signatures.js --check",
     "conformance": "node dist/conformance/run.js",
-    "test": "npm run build && npm run conformance && node --test tests/sdk.test.js tests/hitl.test.js tests/openaicompat.test.js tests/providers.test.js tests/harmovela.test.js tests/mcp.test.js tests/mcp-http.test.js tests/api-signatures.test.js"
+    "test": "npm run build && npm run conformance && node --test tests/sdk.test.js tests/hitl.test.js tests/openaicompat.test.js tests/providers.test.js tests/harmovela.test.js tests/mcp.test.js tests/mcp-http.test.js tests/otel.test.js tests/api-signatures.test.js"
   },
   "engines": {
     "node": ">=20"

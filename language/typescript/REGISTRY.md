@@ -1,7 +1,7 @@
 # PRAXO-CORE TypeScript Registry Introduction
 
-**Status:** published. Source version `0.5.0`, source
-tag `typescript/v0.5.0`. Published registry version: `0.4.1`. Registry
+**Status:** published. Source version `0.6.0`, source
+tag `typescript/v0.6.0`. Published registry version: `0.4.1`. Registry
 pages are release snapshots; verify the published version before relying on a
 feature.
 
@@ -15,11 +15,11 @@ PRAXO-CORE is a dependency-free TypeScript framework for building tool-using AI 
 | --- | --- |
 | Package | `@axisvela/praxo-core` |
 | Registry | [npm](https://www.npmjs.com/package/@axisvela/praxo-core/v/0.4.1) |
-| Source version | `0.5.0` |
+| Source version | `0.6.0` |
 | Published registry version | `0.4.1` |
 | Install (published) | `npm install @axisvela/praxo-core@0.4.1` |
-| Install (source/release prepared) | `npm install @axisvela/praxo-core@0.5.0` |
-| Source tag | `typescript/v0.5.0` |
+| Install (source/release prepared) | `npm install @axisvela/praxo-core@0.6.0` |
+| Source tag | `typescript/v0.6.0` |
 | Tier | Core |
 | Contract | `SPEC_VERSION` `0.2.0` |
 | Documentation | https://axisvela.github.io/praxo-core/languages/typescript/ |
@@ -33,7 +33,7 @@ PRAXO-CORE is a dependency-free TypeScript framework for building tool-using AI 
 | Gemini model | native | `src/adapters/gemini.ts` |
 | MCP client | native | `src/adapters/mcp.ts`; stdio, plus `src/adapters/mcp-http.ts` for Streamable HTTP 2025-03-26 |
 | Harmovela sink | native | `src/adapters/harmovela.ts` |
-| OpenTelemetry sink | not implemented |  |
+| OpenTelemetry sink | native (transport seam) | `src/adapters/otel.ts`; caller supplies OTLP/HTTP transport |
 
 ## Coding-agent entry
 

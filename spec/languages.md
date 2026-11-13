@@ -73,7 +73,7 @@ for real providers, platforms, and production behavior is reported separately.
 | --- | --- | --- | --- | --- | --- |
 | Go | Core (reference) | released | `v2.7.0` | reference | Reference implementation |
 | Python | Core | released | `python/v0.7.0` | complete | 11 vectors, HITL interrupts, OpenAI adapter, Harmovela sink, stdio MCP client, OpenTelemetry transport-seam sink; source `0.7.0`, PyPI `praxo-core==0.5.0` |
-| TypeScript | Core | released | `typescript/v0.5.0` | complete | 11 vectors, HITL interrupts, OpenAI adapter, Harmovela sink, stdio MCP client; source `0.5.0`, npm `@axisvela/praxo-core@0.4.1` |
+| TypeScript | Core | released | `typescript/v0.6.0` | complete | 11 vectors, HITL interrupts, OpenAI adapter, Harmovela sink, stdio MCP client, OpenTelemetry transport-seam sink; source `0.6.0`, npm `@axisvela/praxo-core@0.4.1` |
 | Java | Core | released | `java/v0.7.1` | complete | 11 vectors, HITL interrupts, OpenAI adapter, Harmovela sink, stdio and Streamable HTTP MCP clients, API snapshot; source `0.7.1`, Maven Central `com.axisvela:praxo-core:0.6.0` |
 | Rust | Core | released | `rust/v0.6.0` | complete | 11 vectors, HITL interrupts, native tests, `tool.Gateway`, `jsonschema.Schema`, streaming/cancellation/parallel tools, compiler-derived API/parity gate; source `0.6.0`, crates.io `praxo-core==0.5.0`; recorded install smoke covers `0.1.4` |
 | C | Core | released | `c/v0.8.0` | complete | 11 vectors, native tests; public Core API plus wire JSON primitives; policy/middleware/lifecycle, HITL interrupt decisions, cancellation, streaming, SSE, MCP transport-seam client, bounded parallel tools (pthread on Unix; sequential on Windows) |
