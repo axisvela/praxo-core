@@ -1,0 +1,135 @@
+name: ci-adapters
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "adapters/**"
+      - ".github/workflows/ci-adapters.yml"
+  pull_request:
+    paths:
+      - "adapters/**"
+      - ".github/workflows/ci-adapters.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-adapters-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  adapters:
+    runs-on: ubuntu-latest
+    env:
+      GOWORK: "off"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: "1.26.11"
+      - run: go test ./...
+        working-directory: adapters/mcp
+      - run: go vet ./...
+        working-directory: adapters/mcp
+      - run: go build ./...
+        working-directory: adapters/mcp
+      - run: go test ./...
+        working-directory: adapters/otel
+      - run: go vet ./...
+        working-directory: adapters/otel
+      - run: go build ./...
+        working-directory: adapters/otel
+      - run: go test ./...
+        working-directory: adapters/anthropic
+      - run: go vet ./...
+        working-directory: adapters/anthropic
+      - run: go build ./...
+        working-directory: adapters/anthropic
+      - run: go test ./...
+        working-directory: adapters/gemini
+      - run: go vet ./...
+        working-directory: adapters/gemini
+      - run: go build ./...
+        working-directory: adapters/gemini
+      - run: go test ./...
+        working-directory: adapters/harmovela
+      - run: go vet ./...
+        working-directory: adapters/harmovela
+      - run: go build ./...
+        working-directory: adapters/harmovela
+      - run: go test ./...
+        working-directory: adapters/a2a
+      - run: go vet ./...
+        working-directory: adapters/a2a
+      - run: go build ./...
+        working-directory: adapters/a2a
+      - run: go test ./...
+        working-directory: adapters/multiagent
+      - run: go vet ./...
+        working-directory: adapters/multiagent
+      - run: go build ./...
+        working-directory: adapters/multiagent
+      - run: go test ./...
+        working-directory: adapters/workspace
+      - run: go vet ./...
+        working-directory: adapters/workspace
+      - run: go build ./...
+        working-directory: adapters/workspace
+      - run: go test ./...
+        working-directory: adapters/workspace/e2b
+      - run: go vet ./...
+        working-directory: adapters/workspace/e2b
+      - run: go build ./...
+        working-directory: adapters/workspace/e2b
+      - run: go test ./...
+        working-directory: adapters/workspace/daytona
+      - run: go vet ./...
+        working-directory: adapters/workspace/daytona
+      - run: go build ./...
+        working-directory: adapters/workspace/daytona
+      - run: go test ./...
+        working-directory: adapters/workspace/opensandbox
+      - run: go vet ./...
+        working-directory: adapters/workspace/opensandbox
+      - run: go build ./...
+        working-directory: adapters/workspace/opensandbox
+      - run: go test ./...
+        working-directory: adapters/workspace/cubesandbox
+      - run: go vet ./...
+        working-directory: adapters/workspace/cubesandbox
+      - run: go build ./...
+        working-directory: adapters/workspace/cubesandbox
+
+  module-security-adapters:
+    strategy:
+      fail-fast: false
+      matrix:
+        module:
+          - adapters/mcp
+          - adapters/otel
+          - adapters/anthropic
+          - adapters/gemini
+          - adapters/harmovela
+          - adapters/a2a
+          - adapters/multiagent
+          - adapters/workspace
+          - adapters/workspace/e2b
+          - adapters/workspace/daytona
+          - adapters/workspace/opensandbox
+          - adapters/workspace/cubesandbox
+    runs-on: ubuntu-latest
+    env:
+      GOWORK: "off"
+    defaults:
+      run:
+        working-directory: ${{ matrix.module }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: "1.26.11"
+          cache-dependency-path: ${{ matrix.module }}/go.sum
+      - run: go test -race -mod=readonly ./...
+      - run: go run golang.org/x/vuln/cmd/govulncheck@latest ./...

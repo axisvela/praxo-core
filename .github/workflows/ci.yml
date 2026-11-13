@@ -33,6 +33,7 @@ on:
       - "language/d/**"
       - "language/zig/**"
       - "language/perl/**"
+      - "adapters/**"
   pull_request:
     paths-ignore:
       - "language/python/**"
@@ -64,6 +65,7 @@ on:
       - "language/d/**"
       - "language/zig/**"
       - "language/perl/**"
+      - "adapters/**"
   workflow_dispatch:
   schedule:
     - cron: '0 3 * * *'
