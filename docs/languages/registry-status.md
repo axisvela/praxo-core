@@ -1,7 +1,7 @@
 # Registry Publication Status
 
-Last checked: 2026-11-12 (Python 0.5.0, TypeScript 0.4.1, Java 0.6.0, Rust
-0.5.0, C# 0.5.0, Elixir 0.8.0, Erlang 0.7.1, Ruby 0.7.0, Dart 0.2.0, Perl 0.4.0,
+Last checked: 2026-11-13 (Python 0.6.0, TypeScript 0.5.0, Java 0.7.0, Rust
+0.6.0, C# 0.6.0, Elixir 0.8.0, Erlang 0.7.1, Ruby 0.7.0, Dart 0.4.0, Perl 0.4.0,
 Haskell 0.5.0, PowerShell 0.5.3, and R 0.7.1 published; Go `v2.7.0` remains
 current; other rows from the 2026-11-04/05 audit).
 
@@ -29,19 +29,19 @@ GitHub Latest represents the Go Reference Core only, not the last language packa
 | Language | Registry | Version | Address | Status |
 | --- | --- | --- | --- | --- |
 | Go | Go module proxy / pkg.go.dev | `v2.7.0` | https://pkg.go.dev/github.com/axisvela/praxo-core/v2 | published; page audited 2026-11-09 |
-| Python | PyPI | `0.5.0` | https://pypi.org/project/praxo-core/0.5.0/ | published |
-| TypeScript | npm | `0.4.1` | https://www.npmjs.com/package/@axisvela/praxo-core/v/0.4.1 | published; latest |
-| Java | Maven Central | `0.6.0` | https://repo1.maven.org/maven2/com/axisvela/praxo-core/0.6.0/ | published |
-| Rust | crates.io | `0.5.0` | https://crates.io/crates/praxo-core/0.5.0 | published |
-| C# | NuGet | `0.5.0` | https://www.nuget.org/packages/Praxo.Core/0.5.0 | published |
-| Elixir | Hex / HexDocs | `0.6.0` | https://hex.pm/packages/praxo_core/0.6.0 · https://praxo-core.hexdocs.pm/0.6.0/ | published |
+| Python | PyPI | `0.6.0` | https://pypi.org/project/praxo-core/0.6.0/ | published |
+| TypeScript | npm | `0.5.0` | https://www.npmjs.com/package/@axisvela/praxo-core/v/0.5.0 | published; latest |
+| Java | Maven Central | `0.7.0` | https://repo1.maven.org/maven2/com/axisvela/praxo-core/0.7.0/ | published |
+| Rust | crates.io | `0.6.0` | https://crates.io/crates/praxo-core/0.6.0 | published |
+| C# | NuGet | `0.6.0` | https://www.nuget.org/packages/Praxo.Core/0.6.0 | published |
+| Elixir | Hex / HexDocs | `0.8.0` | https://hex.pm/packages/praxo_core/0.8.0 · https://praxo-core.hexdocs.pm/0.8.0/ | published |
 | Erlang | Hex | `0.7.1` | https://hex.pm/packages/praxo_core_erlang/0.7.1 | published |
 | Ruby | RubyGems | `0.7.0` | https://rubygems.org/gems/praxo-core/versions/0.7.0 | published; Ruby source repo is `axisvela/praxo-core-ruby` |
 | Lua | LuaRocks | `0.6.0-1` | https://luarocks.org/modules/hanhhuiwen/praxo-core | published |
 | PHP | Packagist | `0.4.1` | https://packagist.org/packages/axisvela/praxo-core | published; source tag `php/v0.5.0` is newer |
 | Dart | pub.dev | `0.4.0` | https://pub.dev/packages/praxo_core/versions/0.4.0 | published |
 | D | DUB | `0.1.0` | https://code.dlang.org/packages/praxo-core | published |
-| Swift | Swift Package Index | `0.5.0` | https://swiftpackageindex.com/axisvela/praxo-core-swift | tag pushed; SPI indexing pending |
+| Swift | Swift Package Index | `0.4.0` | https://swiftpackageindex.com/axisvela/praxo-core-swift | published; source `0.5.0` prepared |
 | MATLAB | MATLAB File Exchange | `0.3.0` | https://www.mathworks.com/matlabcentral/fileexchange/185166-praxo-core | published |
 | PowerShell Core | PowerShell Gallery | `0.5.3` | https://www.powershellgallery.com/packages/praxo-core-ps/0.5.3 | published |
 | PowerShell Bridge | PowerShell Gallery | `0.1.0` | https://www.powershellgallery.com/packages/praxo-core-ps-br/0.1.0 | published |
@@ -64,10 +64,10 @@ GitHub Latest represents the Go Reference Core only, not the last language packa
 
 | Language | Source tag | Registry state |
 | --- | --- | --- |
-| C | `c/v0.7.0` | no registry publication |
-| C++ | `cpp/v0.5.0` | no registry publication |
-| Fortran | `fortran/v0.7.0` | fpm registry upstream paused |
-| COBOL | `cobol/v0.4.0` | no mainstream registry |
+| C | `c/v0.9.0` | no registry publication |
+| C++ | `cpp/v0.7.0` | no registry publication |
+| Fortran | `fortran/v0.9.0` | fpm registry upstream paused |
+| COBOL | `cobol/v0.6.0` | no mainstream registry |
 | Objective-C | `objc/v0.4.0` | CocoaPods publication deferred; requires macOS/Xcode and a Trunk token |
 | Zig | `zig/v0.5.0` | no central registry |
 | Tcl / Lisp / Prolog | `tcl/v0.1.0`, `lisp/v0.1.0`, `prolog/v0.1.1` | bridge packages; registry publication pending |

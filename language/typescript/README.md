@@ -19,12 +19,12 @@ orchestration platform:
 - Registry introduction: [REGISTRY.md](https://github.com/axisvela/praxo-core/blob/main/language/typescript/REGISTRY.md)
 - Machine-readable entry: [llms.txt](https://github.com/axisvela/praxo-core/blob/main/language/typescript/llms.txt) and [llms.md](https://github.com/axisvela/praxo-core/blob/main/language/typescript/llms.md)
 - Coding-agent contract: [docs/getting-started/coding-agents.md](https://github.com/axisvela/praxo-core/blob/main/docs/getting-started/coding-agents.md)
-- Registry: [npm](https://www.npmjs.com/package/@axisvela/praxo-core/v/0.4.1)
+- Registry: [npm](https://www.npmjs.com/package/@axisvela/praxo-core/v/0.5.0)
 
 ## Install
 
 ```bash
-npm install @axisvela/praxo-core@0.3.0
+npm install @axisvela/praxo-core@0.5.0
 ```
 
 ## Quickstart
@@ -131,9 +131,10 @@ output remains untrusted content.
 
 The normative contract is [`spec/`](../../spec/README.md); Go remains the
 reference implementation. This package supports `SPEC_VERSION` `0.2.0` and
-passes the TypeScript conformance and parity checks. Version `0.3.0` is released
-from tag `typescript/v0.6.0` and published on npm with provenance. VFS and plugin
-hosts are not yet implemented.
+passes the TypeScript conformance and parity checks. Source version `0.6.0` is
+prepared in the repository; the latest source tag and npm package are
+`typescript/v0.5.0` and `@axisvela/praxo-core@0.5.0`. VFS and plugin hosts are
+not yet implemented.
 
 ## Requirements
 

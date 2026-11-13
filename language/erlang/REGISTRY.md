@@ -17,8 +17,8 @@ PRAXO-CORE is an embeddable, MIT-licensed agent framework. This package is its n
 | Registry | [Hex](https://hex.pm/packages/praxo_core_erlang/0.7.1) |
 | Source version | `0.7.1` |
 | Published registry version | `0.7.1` |
-| Install (published) | `{deps, [{praxo_core_erlang, "0.5.0"}]}.` |
-| Install (source/release prepared) | `{deps, [{praxo_core_erlang, "0.7.1"}]}.` |
+| Install (published) | `{praxo_core, "0.7.1", {pkg, praxo_core_erlang}}` |
+| Install (source/release prepared) | `{praxo_core, {path, "language/erlang"}}` |
 | Source tag | `erlang/v0.7.1` |
 | Tier | Core |
 | Contract | `SPEC_VERSION` `0.2.0` |

@@ -8,7 +8,7 @@
 
 - package: `praxo-core-cpp`
 - registry: Source / CMake
-- source_version: `0.7.1`
+- source_version: `0.7.0`
 - published_version: not published
 - install_published: not published
 - install_source: `CMake source build (see README)`

@@ -7,22 +7,22 @@ Schema validation, and plugin manifest parsing. It runs in-process and does not
 require a hosted service.
 
 - `SPEC_VERSION`: `0.2.0`
-- Core version: `0.4.0`
+- Source version: `0.8.0` (prepared; latest source tag `csharp/v0.6.0`)
 - License: MIT
 - Dependencies: none beyond the .NET base class library
-- The NuGet package is `Praxo.Core@0.4.0`.
+- The latest NuGet package is `Praxo.Core@0.6.0`.
 
 ## Registry and Coding-Agent Entry
 
 - Registry introduction: [REGISTRY.md](https://github.com/axisvela/praxo-core/blob/main/language/csharp/REGISTRY.md)
 - Machine-readable entry: [llms.txt](https://github.com/axisvela/praxo-core/blob/main/language/csharp/llms.txt) and [llms.md](https://github.com/axisvela/praxo-core/blob/main/language/csharp/llms.md)
 - Coding-agent contract: [docs/getting-started/coding-agents.md](https://github.com/axisvela/praxo-core/blob/main/docs/getting-started/coding-agents.md)
-- Registry: [NuGet](https://www.nuget.org/packages/Praxo.Core/0.5.0)
+- Registry: [NuGet](https://www.nuget.org/packages/Praxo.Core/0.6.0)
 
 ## Install
 
 ```bash
-dotnet add package Praxo.Core --version 0.4.0
+dotnet add package Praxo.Core --version 0.6.0
 ```
 
 ## Scope
@@ -147,5 +147,5 @@ child process.
 
 ## Release
 
-Tag shape: `csharp/v0.8.0`. The tag targets `SPEC_VERSION` `0.2.0`. See
+Latest source tag: `csharp/v0.6.0`. It targets `SPEC_VERSION` `0.2.0`. See
 [CHANGELOG.md](CHANGELOG.md) for per-release changes and compatibility notes.

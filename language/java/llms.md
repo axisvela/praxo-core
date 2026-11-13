@@ -7,12 +7,12 @@
 ## Package
 
 - package: `com.axisvela:praxo-core`
-- registry: [Maven Central](https://repo1.maven.org/maven2/com/axisvela/praxo-core/0.6.0/)
+- registry: [Maven Central](https://repo1.maven.org/maven2/com/axisvela/praxo-core/0.7.0/)
 - source_version: `0.9.0`
-- published_version: `0.6.0`
-- install_published: `Maven: com.axisvela:praxo-core:0.6.0`
-- install_source: `Maven: com.axisvela:praxo-core:0.9.0`
-- source_tag: `java/v0.9.0`
+- published_version: `0.7.0`
+- install_published: `Maven: com.axisvela:praxo-core:0.7.0`
+- install_source: `Maven source build (see README)`
+- source_tag: `java/v0.7.1`
 - tier: Core
 - contract: `SPEC_VERSION` `0.2.0`
 - documentation: https://axisvela.github.io/praxo-core/languages/java/

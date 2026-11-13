@@ -1,8 +1,8 @@
 # Python Core Release Notes
 
-## 0.7.0 - 2026-11-13
+## 0.7.0 - Unreleased
 
-Source tag `python/v0.7.0`.
+Planned source tag `python/v0.7.0`.
 
 ### Added
 

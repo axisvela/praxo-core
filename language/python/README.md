@@ -19,12 +19,12 @@ orchestration platform:
 - Registry introduction: [REGISTRY.md](https://github.com/axisvela/praxo-core/blob/main/language/python/REGISTRY.md)
 - Machine-readable entry: [llms.txt](https://github.com/axisvela/praxo-core/blob/main/language/python/llms.txt) and [llms.md](https://github.com/axisvela/praxo-core/blob/main/language/python/llms.md)
 - Coding-agent contract: [docs/getting-started/coding-agents.md](https://github.com/axisvela/praxo-core/blob/main/docs/getting-started/coding-agents.md)
-- Registry: [PyPI](https://pypi.org/project/praxo-core/0.5.0/)
+- Registry: [PyPI](https://pypi.org/project/praxo-core/0.6.0/)
 
 ## Install
 
 ```bash
-pip install praxo-core==0.4.1
+pip install praxo-core==0.6.0
 ```
 
 For a source checkout:
@@ -136,8 +136,9 @@ read `MCPTool.input_schema` when you need the model-facing schema.
 
 The normative contract is [`spec/`](../../spec/README.md); Go remains the
 reference implementation. This package supports `SPEC_VERSION` `0.2.0` and
-passes all eleven conformance vector groups. Source version `0.4.1` is released
-from tag `python/v0.7.0`; the PyPI package `0.4.1` is published by that tag.
+passes all eleven conformance vector groups. Source version `0.7.0` is prepared
+in the repository; the latest source tag and PyPI package are `python/v0.6.0`
+and `praxo-core==0.6.0`.
 VFS and plugin hosts are not yet implemented.
 
 ## Requirements

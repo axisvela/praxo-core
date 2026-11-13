@@ -1,6 +1,6 @@
 # Framework Threat Model
 
-**Status:** working security baseline for the 2.5.x line. This is a threat model,
+**Status:** working security baseline for the 2.7.x line. This is a threat model,
 not independent security sign-off.
 
 ## Assets

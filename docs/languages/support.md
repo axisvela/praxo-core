@@ -97,28 +97,28 @@ a merged implementation PR as a support commitment.
 These are separate claims. A source tag records a repository release; a registry
 version records what a package manager can fetch; a consumer smoke records an
 install and run outside the repository. Do not cite one as evidence for another.
-Registry values below were checked against the public registries on 2026-11-12.
+Registry values below were checked against the public registries on 2026-11-13.
 
 | Language | Source tag | Registry version | Consumer install smoke |
 | --- | --- | --- | --- |
-| Python | `python/v0.6.0` | PyPI `praxo-core==0.5.0` published | Release workflow built and smoke-tested `0.5.0`; post-publication consumer check recorded for `0.4.1` only |
-| TypeScript | `typescript/v0.5.0` | npm `@axisvela/praxo-core@0.4.1` published as `latest` | Release workflow built and consumed the `0.4.1` tarball; post-publication consumer starter checks recorded for `0.3.0` |
-| Java | `java/v0.7.1` | Maven Central `com.axisvela:praxo-core:0.6.0` published with Harmovela and MCP adapters | Central validated and published `0.6.0`; `0.6.0` post-publication consumer check not rerun |
-| Rust | `rust/v0.6.0` | crates.io `praxo-core==0.5.0` published; `0.1.4` historical | Recorded for `0.1.4` only; not rerun for `0.5.0` |
-| C# | `csharp/v0.6.0` | NuGet `Praxo.Core==0.5.0` published | Not recorded |
+| Python | `python/v0.6.0` | PyPI `praxo-core==0.6.0` published | Release workflow built and smoke-tested `0.5.0`; post-publication consumer check recorded for `0.4.1` only |
+| TypeScript | `typescript/v0.5.0` | npm `@axisvela/praxo-core@0.5.0` published as `latest` | Release workflow built and consumed the `0.4.1` tarball; post-publication consumer starter checks recorded for `0.3.0` |
+| Java | `java/v0.7.1` | Maven Central `com.axisvela:praxo-core:0.7.0` published | Central validated and published `0.6.0`; `0.7.0` post-publication consumer check not rerun |
+| Rust | `rust/v0.6.0` | crates.io `praxo-core==0.6.0` published; `0.1.4` historical | Recorded for `0.1.4` only; not rerun for `0.6.0` |
+| C# | `csharp/v0.6.0` | NuGet `Praxo.Core==0.6.0` published | Not recorded |
 | Elixir | `elixir/v0.8.0` | Hex `praxo_core==0.8.0` published with OpenAI-compatible, Anthropic, Gemini, Harmovela, and MCP adapters; `0.5.1`, `0.4.1`, `0.4.0`, `0.3.0`, `0.2.0` historical | Extended starter added; Hex `0.4.1` resolved in a clean Mix project and allow/deny passed locally; `0.6.0` install smoke not rerun |
 | Erlang | `erlang/v0.7.1` | Hex `praxo_core_erlang==0.7.1` published; `0.4.0`, `0.3.1`, `0.2.0` historical | Not rerun for `0.5.0`; historical `0.1.1` smoke |
 | Ruby | `ruby/v0.7.0` | RubyGems `praxo-core==0.7.0` published; `0.4.1`, `0.4.0`, `0.3.0`, `0.2.0` historical | Extended starter added; RubyGems `0.4.1` installed into a clean gem home and allow/deny passed locally; `0.5.0` install smoke not rerun |
 | Lua | `lua/v0.6.0` | LuaRocks `praxo-core==0.6.0-1` published with the optional OpenAI-compatible adapter; `0.4.1-1`, `0.4.0-1`, `0.3.0-1`, `0.2.0-1` also published | Extended starter added; LuaRocks `0.4.1-1` installed into a clean tree and allow/deny passed locally; `0.5.0-1` install smoke not rerun |
-| PHP | `php/v0.6.0` | Packagist `axisvela/praxo-core==0.4.1` published with Composer `autoload.files`; `0.4.0`, `0.3.0`, `0.2.0` historical | Extended starter added; Composer install of published `0.4.1` passed locally and the starter passed without a bridge |
-| Dart | `dart/v0.3.0` | pub.dev `praxo_core==0.2.0` | Recorded for `0.1.1`; `0.2.0` install smoke not recorded |
+| PHP | `php/v0.7.0` | Packagist `axisvela/praxo-core==0.4.1` published with Composer `autoload.files`; `0.4.0`, `0.3.0`, `0.2.0` historical | Extended starter added; Composer install of published `0.4.1` passed locally and the starter passed without a bridge |
+| Dart | `dart/v0.4.0` | pub.dev `praxo_core==0.4.0` | Recorded for `0.1.1`; `0.4.0` install smoke not recorded |
 | Julia | `julia/v0.5.0` | General Registry PR #176024 approved; merge pending | Not recorded |
-| MATLAB | `matlab/v0.3.0` | MATLAB File Exchange `185166` published (`0.3.0`) | Not recorded |
-| Octave | `octave/v0.3.0` | Octave Packages PR #875 open; package archive published | Not recorded |
+| MATLAB | `matlab/v0.5.0` | MATLAB File Exchange `185166` published (`0.3.0`) | Not recorded |
+| Octave | `octave/v0.5.0` | Octave Packages PR #875 open; package archive published | Not recorded |
 | Perl | `perl/v0.4.0` | CPAN `Praxo-Core==0.4.0` published and indexed on MetaCPAN | Not recorded |
 | PowerShell | `powershell/v0.5.3` | PowerShell Gallery `praxo-core-ps==0.5.3` published | Not recorded |
-| Nim | `nim/v0.2.0` | Split repository package `0.1.1`; nim-lang/packages PR #3600 merged 2026-11-05; nimpkgs re-crawl pending | Not recorded |
-| OCaml | `ocaml/v0.4.0` | opam-repository PR #31106 open; package CI passed; opam-ci pending | Not recorded |
+| Nim | `nim/v0.4.0` | Split repository package `0.1.1`; nim-lang/packages PR #3600 merged 2026-11-05; nimpkgs re-crawl pending | Not recorded |
+| OCaml | `ocaml/v0.6.0` | opam-repository PR #31222 open | Not recorded |
 | Haskell | `haskell/v0.5.0` | Hackage `praxo-core==0.5.0` published | Not recorded |
 | Delphi / Free Pascal | `delphi/v0.5.0` | OPM assets published; maintainer submission pending | Not recorded |
 
@@ -129,33 +129,37 @@ its latest version matches the manifest at the release tag.
 
 | Language | Code/manifest version | Registry latest | Status |
 | --- | --- | --- | --- |
-| Python | `0.6.0` | PyPI `0.5.0` | source prepared; registry behind |
-| TypeScript | `0.5.0` | npm `0.4.1` | source prepared; registry behind |
-| Java | `0.7.1` | Maven Central `0.6.0` | source prepared; registry behind |
-| Rust | `0.6.0` | crates.io `0.5.0` | source prepared; registry behind |
-| C# | `0.6.0` | NuGet `0.5.0` | source prepared; registry behind |
+| Python | `0.7.0` | PyPI `0.6.0` | source prepared; latest tag and registry are `0.6.0` |
+| TypeScript | `0.6.0` | npm `0.5.0` | source prepared; latest tag and registry are `0.5.0` |
+| Java | `0.9.0` | Maven Central `0.7.0` | source prepared; latest source tag is `java/v0.7.1` |
+| Rust | `0.8.0` | crates.io `0.6.0` | source prepared; latest tag and registry are `0.6.0` |
+| C# | `0.8.0` | NuGet `0.6.0` | source prepared; latest tag and registry are `0.6.0` |
 | Elixir | `0.8.0` | Hex `0.8.0` | current |
 | Erlang | `0.7.1` | Hex `0.7.1` | current |
 | Ruby | `0.7.0` | RubyGems `0.7.0` | current |
-| PHP | `0.6.0` | Packagist `0.4.1` | source prepared; registry behind |
+| PHP | `0.7.0` | Packagist `0.4.1` | registry behind |
 | Lua | rockspec `0.6.0-1`; source tag `0.6.0` | LuaRocks `0.6.0-1` | current |
-| Dart | `0.3.0` | pub.dev `0.2.0` | source prepared; registry behind |
-| Julia | `0.3.0` | General Registry PR #176024 approved; merge pending | pending |
-| MATLAB | `0.3.0` | File Exchange `185166` (`0.3.0`) | current |
-| Octave | `0.3.0` | Octave Packages PR #875 open (`0.2.1`) | pending |
+| Dart | `0.4.0` | pub.dev `0.4.0` | current |
+| Julia | `0.5.0` | General Registry PR #176024 approved; merge pending | pending |
+| MATLAB | `0.5.0` | File Exchange `185166` (`0.3.0`) | registry behind |
+| Octave | `0.5.0` | Octave Packages PR #875 open | pending |
 | Perl | `0.4.0` | CPAN `0.4.0` | current |
 | PowerShell | `0.5.3` | PowerShell Gallery `0.5.3` | current |
 | Haskell | `0.5.0` | Hackage `0.5.0` | current |
 | R | `0.7.1` | r-universe `0.7.1` | current; CRAN not published |
-| Nim | `0.2.0` | Split repository package `0.1.1` | pending |
-| OCaml | `0.4.0` | opam registry `0.3.0` | pending |
-| Swift | `0.4.0` | SPM `0.2.0` | pending |
-| Delphi / Free Pascal | `0.4.0` | OPM `0.2.1` | pending |
-| D | `0.3.0` | DUB `0.1.0` | pending |
+| Nim | `0.4.0` | Split repository package `0.1.1` | pending |
+| OCaml | `0.6.0` | opam registry `0.3.0` | pending |
+| Swift | `0.5.0` | SPI `0.4.0` | registry behind |
+| Delphi / Free Pascal | `0.5.0` | OPM `0.2.1` | pending |
+| D | `0.4.0` | DUB `0.1.0` | pending |
 
 Do not install a source-tag-only language from a registry, and do not assume a
 registry package contains the source tag's latest behavior. The language page is
 the installation source of truth.
+
+The release notes below are historical capability context, not a current
+installation index. Use the tables above and
+[Registry Publication Status](registry-status.md) for current versions.
 
 - Python publishes `praxo-core==0.5.0` on PyPI from source tag
   `python/v0.5.0`. TypeScript publishes `@axisvela/praxo-core@0.4.1` on npm from

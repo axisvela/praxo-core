@@ -10,8 +10,8 @@
 - registry: [Hex](https://hex.pm/packages/praxo_core_erlang/0.7.1)
 - source_version: `0.7.1`
 - published_version: `0.7.1`
-- install_published: `{deps, [{praxo_core_erlang, "0.5.0"}]}.`
-- install_source: `{deps, [{praxo_core_erlang, "0.7.1"}]}.`
+- install_published: `{praxo_core, "0.7.1", {pkg, praxo_core_erlang}}`
+- install_source: `{praxo_core, {path, "language/erlang"}}`
 - source_tag: `erlang/v0.7.1`
 - tier: Core
 - contract: `SPEC_VERSION` `0.2.0`

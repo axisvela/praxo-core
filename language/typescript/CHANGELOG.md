@@ -1,8 +1,8 @@
 # TypeScript Core Release Notes
 
-## 0.6.0 - 2026-11-13
+## 0.6.0 - Unreleased
 
-Source tag `typescript/v0.6.0`.
+Planned source tag `typescript/v0.6.0`.
 
 ### Added
 
