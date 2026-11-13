@@ -621,6 +621,8 @@ jobs:
       - run: java --add-modules jdk.httpserver -cp target/classes:target/test-classes com.axisvela.praxo.adapters.OpenAICompatibleSelfTest
       - run: java --add-modules jdk.httpserver -cp target/classes:target/test-classes com.axisvela.praxo.adapters.ProviderAdaptersSelfTest
       - run: java -cp target/classes:target/test-classes com.axisvela.praxo.adapters.OtelSinkSelfTest
+      - run: java -cp target/classes:target/test-classes com.axisvela.praxo.agent.delegation.DelegationSelfTest
+      - run: java -cp target/classes:target/test-classes com.axisvela.praxo.retriever.RetrieverSelfTest
       - run: java -cp target/classes:target/test-classes com.axisvela.praxo.agent.AgentConcurrencySelfTest
       - run: java -cp target/classes:target/test-classes com.axisvela.praxo.agent.AgentAuthorizationSelfTest
       - run: java -cp target/classes:target/test-classes com.axisvela.praxo.agent.AgentLifecycleSelfTest

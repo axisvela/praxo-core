@@ -188,10 +188,10 @@
     "package": "com.axisvela:praxo-core",
     "published_version": "0.6.0",
     "registry": "Maven Central",
-    "source_install": "Maven: com.axisvela:praxo-core:0.8.0",
-    "source_version": "0.8.0",
+    "source_install": "Maven: com.axisvela:praxo-core:0.9.0",
+    "source_version": "0.9.0",
     "status": "published",
-    "tag": "java/v0.8.0",
+    "tag": "java/v0.9.0",
     "tier": "Core",
     "url": "https://repo1.maven.org/maven2/com/axisvela/praxo-core/0.6.0/"
   },

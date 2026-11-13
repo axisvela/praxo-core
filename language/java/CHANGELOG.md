@@ -1,5 +1,15 @@
 # Java Core Release Notes
 
+## 0.9.0 - 2026-11-13
+
+Source tag `java/v0.9.0`.
+
+### Added
+
+- Local subagent delegation (`agent.delegation.SubagentManager`) with
+  launch/check/wait/update/cancel and terminal states.
+- Retriever seam (`retriever.Document`, `Retriever`).
+
 ## 0.8.0 - 2026-11-13
 
 Source tag `java/v0.8.0`.

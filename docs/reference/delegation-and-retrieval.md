@@ -17,8 +17,9 @@ A subagent manager owns local child runs:
 
 The Go reference is `pkg/agent/delegation`. Python provides
 `praxo.delegation.SubagentManager` with an async runner seam; TypeScript
-provides `src/delegation.ts` `SubagentManager`. Other implementations do not
-have an in-tree delegation manager yet.
+provides `src/delegation.ts` `SubagentManager`; Java provides
+`agent.delegation.SubagentManager`. Other implementations do not have an in-tree
+delegation manager yet.
 
 ## Retrieval
 
@@ -30,8 +31,9 @@ A retriever seam maps a query and limit to documents:
 
 The Go reference is `pkg/retriever`. Python provides `praxo.retriever` with
 `Document`, `Retriever`, and `FuncRetriever`; TypeScript provides
-`src/retriever.ts` with the same shapes. Other implementations do not have an
-in-tree retriever yet.
+`src/retriever.ts` with the same shapes; Java provides `retriever.Document` and
+`retriever.Retriever`. Other implementations do not have an in-tree retriever
+yet.
 
 Retrieval does not define an embedding model, vector store, ranking service, or
 search-quality claim. Memory stores and context compaction remain separate Core

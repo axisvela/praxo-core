@@ -9,7 +9,7 @@ the OpenAI-compatible, Anthropic, and Gemini adapters, Harmovela sink, stdio MCP
 client, HITL interrupt decisions, and the agent loop are included. VFS and
 plugin hosts are not yet implemented.
 
-Source version: `0.8.0` (source tag `java/v0.8.0`; the earlier
+Source version: `0.9.0` (source tag `java/v0.9.0`; the earlier
 `java/v0.2.3` tag retains `io.axisvela.praxo`). Maven Central publishes `0.6.0`.
 Supported contract:
 `SPEC_VERSION` `0.2.0` (`com.axisvela.praxo.Version.SPEC_VERSION`).
