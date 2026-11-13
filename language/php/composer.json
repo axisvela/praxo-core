@@ -3,7 +3,7 @@
   "description": "PHP SDK for the PRAXO-CORE agent contract",
   "type": "library",
   "license": "MIT",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "require": {
     "php": ">=8.2"
   },

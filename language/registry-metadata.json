@@ -301,9 +301,9 @@
     "published_version": "0.4.1",
     "registry": "Packagist",
     "source_install": "composer require axisvela/praxo-core",
-    "source_version": "0.6.0",
+    "source_version": "0.7.0",
     "status": "published",
-    "tag": "php/v0.6.0",
+    "tag": "php/v0.7.0",
     "tier": "Core",
     "url": "https://packagist.org/packages/axisvela/praxo-core"
   },

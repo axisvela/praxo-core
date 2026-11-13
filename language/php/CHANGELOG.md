@@ -1,5 +1,17 @@
 # PHP Core Release Notes
 
+## 0.7.0 - 2026-11-13
+
+Source tag `php/v0.7.0`.
+
+### Added
+
+- OpenTelemetry event sink (`OtelSink`) over a caller-supplied OTLP/HTTP
+  transport.
+- Synchronous subagent seam (`SubagentManager`, `SubagentRunner`); PHP has no
+  in-process thread manager.
+- Retriever seam (`Document`, `Retriever`, `FuncRetriever`).
+
 ## 0.6.0 - 2026-11-12
 
 Source tag `php/v0.6.0`.

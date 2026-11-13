@@ -1078,5 +1078,92 @@ try {
 }
 check($httpRejected?->praxoCode === 'MCP_TRANSPORT', 'http mcp https required');
 
+$otelCalls = [];
+$otelTransport = function (string $url, string $body, array $headers) use (&$otelCalls): array {
+    $otelCalls[] = ['url' => $url, 'body' => $body, 'headers' => $headers];
+    return ['status' => 200, 'body' => ''];
+};
+$otel = new \Praxo\Core\Adapters\OtelSink(
+    endpoint: 'http://otel.test/v1/traces',
+    serviceName: 'praxo-test',
+    transport: $otelTransport,
+    allowedDataKeys: ['name'],
+);
+$otelEvent = new Event(
+    'tool.call',
+    's1',
+    'run-123',
+    ['name' => 'echo', 'secret' => 'hidden'],
+    '2026-11-10T07:00:00Z',
+);
+$otel->emit($otelEvent);
+check(count($otelCalls) === 1, 'otel single request');
+check($otelCalls[0]['url'] === 'http://otel.test/v1/traces', 'otel url');
+check($otelCalls[0]['headers']['content-type'] === 'application/json', 'otel content type');
+$otelPayload = Json::decode($otelCalls[0]['body']);
+$otelSpan = $otelPayload['resourceSpans'][0]['scopeSpans'][0]['spans'][0];
+check($otelSpan['name'] === 'praxo.tool.call', 'otel span name');
+check(strlen($otelSpan['traceId']) === 32, 'otel trace id');
+check(strlen($otelSpan['spanId']) === 16, 'otel span id');
+$otelAttributes = [];
+foreach ($otelSpan['attributes'] as $item) {
+    $otelAttributes[$item['key']] = $item['value']['stringValue'];
+}
+check($otelAttributes['praxo.event.data.name'] === 'echo', 'otel allowed data');
+check(!array_key_exists('praxo.event.data.secret', $otelAttributes), 'otel data excluded');
+$otel->emit($otelEvent);
+$otelSecond = Json::decode($otelCalls[1]['body']);
+$otelSecondSpan = $otelSecond['resourceSpans'][0]['scopeSpans'][0]['spans'][0];
+check($otelSecondSpan['traceId'] === $otelSpan['traceId'], 'otel deterministic trace');
+check($otelSecondSpan['spanId'] === $otelSpan['spanId'], 'otel deterministic span');
+$otelError = null;
+try {
+    (new \Praxo\Core\Adapters\OtelSink(
+        endpoint: 'http://otel.test/v1/traces',
+        transport: static fn (string $url, string $body, array $headers): array
+            => ['status' => 503, 'body' => 'down'],
+    ))->emit($otelEvent);
+} catch (\Praxo\Core\PraxoException $error) {
+    $otelError = $error;
+}
+check($otelError?->praxoCode === 'OTEL_HTTP', 'otel error');
+
+$document = new \Praxo\Core\Document('doc-1', 'hello:3', ['source' => 'test'], 0.5);
+check($document->toWire()['score'] === 0.5, 'retriever wire');
+$retriever = new \Praxo\Core\FuncRetriever(
+    static fn (string $query, int $limit): array => [
+        new \Praxo\Core\Document('doc-1', "{$query}:{$limit}"),
+    ],
+);
+$documents = $retriever->retrieve('hello', 3);
+check(count($documents) === 1 && $documents[0]->content === 'hello:3', 'retriever');
+
+$immediate = new class implements \Praxo\Core\SubagentRunner {
+    public function run(\Praxo\Core\SubagentRequest $request): \Praxo\Core\SubagentResult
+    {
+        return new \Praxo\Core\SubagentResult(output: 'done');
+    }
+};
+$manager = new \Praxo\Core\SubagentManager($immediate);
+$task = $manager->run(new \Praxo\Core\SubagentRequest('parent', 'child', 'do', mode: 'fork'));
+check($task->status === 'completed' && $task->output === 'done', 'delegation completed');
+$failing = new class implements \Praxo\Core\SubagentRunner {
+    public function run(\Praxo\Core\SubagentRequest $request): \Praxo\Core\SubagentResult
+    {
+        throw new \RuntimeException('boom');
+    }
+};
+$failed = (new \Praxo\Core\SubagentManager($failing))
+    ->run(new \Praxo\Core\SubagentRequest('parent', 'child', 'do'));
+check($failed->status === 'failed' && str_contains($failed->error, 'boom'), 'delegation failed');
+$invalid = null;
+try {
+    (new \Praxo\Core\SubagentManager($immediate))
+        ->run(new \Praxo\Core\SubagentRequest('', 'child', 'do'));
+} catch (\Praxo\Core\PraxoException $error) {
+    $invalid = $error;
+}
+check($invalid?->praxoCode === 'SUBAGENT_INVALID', 'delegation invalid');
+
 echo "PHP core tests passed ({$passed})\n";
 

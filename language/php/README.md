@@ -124,5 +124,5 @@ exactly-once delivery. Use HTTPS and filter sensitive event data first.
 
 ## Release
 
-Tag shape: `php/v0.4.1`. The tag targets `SPEC_VERSION` `0.2.0`. See
+Tag shape: `php/v0.7.0`. The tag targets `SPEC_VERSION` `0.2.0`. See
 [CHANGELOG.md](CHANGELOG.md) for per-release changes and compatibility notes.

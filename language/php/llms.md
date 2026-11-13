@@ -8,11 +8,11 @@
 
 - package: `axisvela/praxo-core`
 - registry: [Packagist](https://packagist.org/packages/axisvela/praxo-core)
-- source_version: `0.6.0`
+- source_version: `0.7.0`
 - published_version: `0.4.1`
 - install_published: `composer require axisvela/praxo-core`
 - install_source: `composer require axisvela/praxo-core`
-- source_tag: `php/v0.6.0`
+- source_tag: `php/v0.7.0`
 - tier: Core
 - contract: `SPEC_VERSION` `0.2.0`
 - documentation: https://axisvela.github.io/praxo-core/languages/php/
@@ -24,9 +24,9 @@
 - Gemini model: native (`Praxo\Core\Adapters\Gemini`)
 - MCP client: native (`Praxo\Core\Adapters\MCPClient`; stdio, plus `HttpMCPTransport` for Streamable HTTP 2025-03-26)
 - Harmovela sink: native (`Praxo\Core\Adapters\HarmovelaSink`)
-- OpenTelemetry sink: not implemented
-- Subagent delegation: not implemented
-- Retriever: not implemented
+- OpenTelemetry sink: native (transport seam) (`OtelSink`; caller supplies OTLP/HTTP transport)
+- Subagent delegation: native (synchronous seam) (`SubagentManager::run`; no asynchronous manager)
+- Retriever: native (`Document`, `Retriever`, `FuncRetriever`)
 
 ## Start
 
