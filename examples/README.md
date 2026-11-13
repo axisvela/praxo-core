@@ -37,6 +37,7 @@ There is intentional overlap. For example:
 | --- | --- | --- |
 | Structured output | [`recipes/structured-output-go`](recipes/structured-output-go) | Python / TypeScript / Java / C# `structured-output` |
 | Provider fallback | [`recipes/provider-fallback-go`](recipes/provider-fallback-go) | Python / TypeScript / C# / Rust `provider-fallback` |
+| Event sinks | [`recipes/event-sinks-go`](recipes/event-sinks-go) | Python / TypeScript / C# / Rust `event-sink` |
 | Checkpoint store | [`recipes/checkpoint-store-go`](recipes/checkpoint-store-go) | [`embedded-service-auth`](embedded-service-auth) |
 | Identity and policy | [`recipes/identity-go`](recipes/identity-go) | [`embedded-service-auth`](embedded-service-auth) |
 | VFS containment | [`recipes/vfs-containment-go`](recipes/vfs-containment-go) | [`workspace-agent`](workspace-agent) |

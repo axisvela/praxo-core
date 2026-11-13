@@ -11,6 +11,8 @@
   and fake-model tests.
 - [`provider-fallback/`](provider-fallback/): fallback model after a primary
   failure, with deterministic tests.
+- [`event-sink/`](event-sink/): lifecycle and tool events through `MultiSink`
+  and `FilterSink`, with deterministic tests.
 
 The examples install a published package. They do not require a repository
 checkout or local package replacement.

@@ -1,0 +1,16 @@
+{
+  "name": "praxo-event-sink",
+  "version": "0.0.0",
+  "private": true,
+  "type": "commonjs",
+  "description": "Published-package PRAXO-CORE event sink example.",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "test": "node --test test_event_sink.test.js"
+  },
+  "dependencies": {
+    "@axisvela/praxo-core": "0.5.0"
+  }
+}

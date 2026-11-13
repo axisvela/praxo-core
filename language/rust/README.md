@@ -37,6 +37,8 @@ cargo add praxo-core@0.6.0
 
 - [`examples/provider-fallback`](examples/provider-fallback): fallback model after
   a primary failure, with a deterministic check.
+- [`examples/event-sink`](examples/event-sink): lifecycle and tool events through
+  `MultiSink` and `FilterSink`, with a deterministic check.
 
 ## Requirements
 
