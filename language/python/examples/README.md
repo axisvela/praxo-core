@@ -9,6 +9,8 @@
 - [`mcp/`](mcp/): stdio MCP client with a local deterministic server.
 - [`service/`](service/): standard-library HTTP service with principal, policy,
   and fake-model tests.
+- [`provider-fallback/`](provider-fallback/): fallback model after a primary
+  failure, with deterministic tests.
 
 The examples install a published package. They do not require a repository
 checkout or local package replacement.
