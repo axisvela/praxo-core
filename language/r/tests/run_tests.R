@@ -11,6 +11,8 @@ if (requireNamespace("praxocore", quietly = TRUE)) {
   source(file.path(root, "language", "r", "R", "jsonschema.R"))
   source(file.path(root, "language", "r", "R", "plugin.R"))
   source(file.path(root, "language", "r", "R", "core.R"))
+  source(file.path(root, "language", "r", "R", "retriever.R"))
+  source(file.path(root, "language", "r", "R", "delegation.R"))
   source(file.path(root, "language", "r", "R", "openaicompat.R"))
   source(file.path(root, "language", "r", "R", "anthropic.R"))
   source(file.path(root, "language", "r", "R", "gemini.R"))
@@ -696,6 +698,44 @@ otel_test <- function() {
 }
 
 otel_test()
+
+retriever_test <- function() {
+  document_value <- document("doc-1", "hello:3",
+                             metadata = list(source = "test"), score = 0.5)
+  wire <- document_wire(document_value)
+  stopifnot(identical(wire$id, "doc-1"))
+  stopifnot(identical(wire$metadata$source, "test"))
+  stopifnot(identical(wire$score, 0.5))
+  retriever <- func_retriever(function(query, limit) {
+    list(document("doc-1", paste0(query, ":", limit)))
+  })
+  documents <- retriever_retrieve(retriever, "hello", 3)
+  stopifnot(length(documents) == 1L)
+  stopifnot(identical(documents[[1L]]$content, "hello:3"))
+}
+
+retriever_test()
+
+delegation_test <- function() {
+  request <- subagent_request("parent", "child", "do work", mode = "fork")
+  task <- subagent_run(function(value) subagent_result(output = "done"),
+                       request)
+  stopifnot(identical(task$status, "completed"))
+  stopifnot(identical(task$output, "done"))
+  stopifnot(identical(task$mode, "fork"))
+  failed <- subagent_run(function(value) stop("boom"), request)
+  stopifnot(identical(failed$status, "failed"))
+  stopifnot(grepl("boom", failed$error, fixed = TRUE))
+  error <- tryCatch({
+    subagent_run(function(value) NULL,
+                 subagent_request("", "child", "x"))
+    NULL
+  }, error = function(value) value)
+  stopifnot(inherits(error, "praxo_error"))
+  stopifnot(identical(error$code, "SUBAGENT_INVALID"))
+}
+
+delegation_test()
 
 source(file.path(test_dir, "helpers", "mcp_tests.R"))
 source(file.path(test_dir, "helpers", "provider_tests.R"))

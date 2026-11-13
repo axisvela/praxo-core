@@ -8,11 +8,11 @@
 
 - package: `praxocore`
 - registry: [r-universe](https://axisvela.r-universe.dev/praxocore)
-- source_version: `0.8.0`
+- source_version: `0.9.0`
 - published_version: `0.7.1`
 - install_published: `install.packages("praxocore", repos = "https://axisvela.r-universe.dev")`
 - install_source: `install.packages("praxocore", repos = "https://axisvela.r-universe.dev")`
-- source_tag: `r/v0.8.0`
+- source_tag: `r/v0.9.0`
 - tier: Core
 - contract: `SPEC_VERSION` `0.2.0`
 - documentation: https://axisvela.github.io/praxo-core/languages/r/
@@ -25,8 +25,8 @@
 - MCP client: native (transport seam) (`mcp_client`; base R needs caller-supplied transport for stdio)
 - Harmovela sink: native (`harmovela_sink`)
 - OpenTelemetry sink: native (transport seam) (`otel_sink`; caller supplies OTLP/HTTP transport)
-- Subagent delegation: not implemented
-- Retriever: not implemented
+- Subagent delegation: native (synchronous seam) (`subagent_run`; no asynchronous manager)
+- Retriever: native (`document`, `func_retriever`, `retriever_retrieve`)
 
 ## Start
 

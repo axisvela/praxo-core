@@ -1,5 +1,16 @@
 # R Core Release Notes
 
+## 0.9.0 - 2026-11-13
+
+Source tag `r/v0.9.0`.
+
+### Added
+
+- Document retriever seam (`document`, `func_retriever`, `retriever_retrieve`).
+- Synchronous subagent seam (`subagent_request`, `subagent_result`,
+  `subagent_run`); asynchronous lifecycle management remains outside this
+  package.
+
 ## 0.8.0 - 2026-11-13
 
 Source tag `r/v0.8.0`.

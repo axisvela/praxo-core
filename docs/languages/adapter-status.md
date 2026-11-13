@@ -277,6 +277,7 @@ selected keys must be allowlisted explicitly.
 | Java | native | `agent.delegation.SubagentManager` |
 | Rust | native | `delegation::SubagentManager` |
 | C# | native | `Praxo.Core.Delegation.SubagentManager` |
+| R | native (synchronous seam) | `subagent_run`; no asynchronous manager |
 | All other implementations | not implemented | Add with a named consumer or maintainer |
 
 Delegation means a local child-run manager with queued/running/terminal states,
@@ -293,6 +294,7 @@ workers, cross-process scheduling, or exactly-once execution.
 | Java | native | `retriever.Document` and `Retriever` |
 | Rust | native | `retriever::Document` and `Retriever` |
 | C# | native | `Praxo.Core.Retriever.Document` and `Retriever` |
+| R | native | `document`, `func_retriever`, `retriever_retrieve` |
 | All other implementations | not implemented | Add with a named consumer or maintainer |
 
 Retriever support means a document/query/limit seam. It does not define an
