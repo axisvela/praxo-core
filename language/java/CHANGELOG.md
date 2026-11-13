@@ -1,5 +1,15 @@
 # Java Core Release Notes
 
+## 0.8.0 - 2026-11-13
+
+Source tag `java/v0.8.0`.
+
+### Added
+
+- OpenTelemetry event sink (`adapters.OtelSink`) over a caller-supplied
+  OTLP/HTTP transport, with deterministic trace/span identifiers, default
+  event-data exclusion, and an explicit data-key allowlist.
+
 ## 0.7.1 - 2026-11-12
 
 Source tag `java/v0.7.1`.
