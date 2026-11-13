@@ -66,7 +66,6 @@ def main() -> int:
                 languages.add(language)
         if name.startswith("examples/consumer-"):
             consumers = True
-            core = True
         elif name.startswith("examples/"):
             examples = True
         if name.startswith("docs/") or name.endswith(".md"):
@@ -79,11 +78,12 @@ def main() -> int:
         if name.startswith("adapters/"):
             adapters = True
             core = True
-        if name in {"go.mod", "go.sum", "VERSION", "Makefile"} or name.endswith(".go"):
+        if name in {"go.mod", "go.sum", "VERSION", "Makefile"} or (
+            name.endswith(".go")
+            and not name.startswith(("language/", "examples/", "adapters/"))
+        ):
             core = True
 
-    if languages:
-        core = True
     if full:
         languages = set(LANGUAGES)
         core = docs = examples = consumers = adapters = True
