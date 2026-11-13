@@ -1,0 +1,50 @@
+name: ci-dotnet
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "language/csharp/**"
+      - "language/powershell/**"
+      - ".github/workflows/ci-dotnet.yml"
+  pull_request:
+    paths:
+      - "language/csharp/**"
+      - "language/powershell/**"
+      - ".github/workflows/ci-dotnet.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-dotnet-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  csharp-conformance:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "8.0.x"
+      - run: dotnet build language/csharp/Praxo.Core/Praxo.Core.csproj -c Release
+      - run: dotnet run --project language/csharp/Praxo.Conformance -c Release
+      - run: dotnet run --project language/csharp/Praxo.Conformance -c Release -- --check-api
+      - run: dotnet run --project language/csharp/Praxo.Tests -c Release
+      - run: dotnet run --project language/csharp/samples/VbSample -c Release
+      - run: dotnet run --project examples/fsharp/Praxo.FSharp.Sample.fsproj -c Release
+
+  powershell-core:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "8.0.x"
+      - run: dotnet build language/csharp/Praxo.Core/Praxo.Core.csproj -c Release
+      - run: dotnet run --project language/csharp/Praxo.Conformance -c Release
+      - run: dotnet run --project language/csharp/Praxo.Tests -c Release
+      - run: pwsh -NoProfile -File language/powershell/tests/run.ps1
+      - run: pwsh -NoProfile -File language/powershell/api-snapshot.ps1 -Check

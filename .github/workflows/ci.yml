@@ -8,12 +8,16 @@ on:
       - "language/typescript/**"
       - "language/java/**"
       - "language/rust/**"
+      - "language/csharp/**"
+      - "language/powershell/**"
   pull_request:
     paths-ignore:
       - "language/python/**"
       - "language/typescript/**"
       - "language/java/**"
       - "language/rust/**"
+      - "language/csharp/**"
+      - "language/powershell/**"
   workflow_dispatch:
   schedule:
     - cron: '0 3 * * *'
