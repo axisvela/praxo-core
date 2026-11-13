@@ -15,6 +15,10 @@ on:
       - "language/elixir/**"
       - "language/erlang/**"
       - "language/lua/**"
+      - "language/c/**"
+      - "language/cpp/**"
+      - "language/fortran/**"
+      - "language/cobol/**"
   pull_request:
     paths-ignore:
       - "language/python/**"
@@ -28,6 +32,10 @@ on:
       - "language/elixir/**"
       - "language/erlang/**"
       - "language/lua/**"
+      - "language/c/**"
+      - "language/cpp/**"
+      - "language/fortran/**"
+      - "language/cobol/**"
   workflow_dispatch:
   schedule:
     - cron: '0 3 * * *'

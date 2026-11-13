@@ -1,0 +1,93 @@
+name: ci-native
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "language/c/**"
+      - "language/cpp/**"
+      - "language/fortran/**"
+      - "language/cobol/**"
+      - "examples/opencl/**"
+      - ".github/workflows/ci-native.yml"
+  pull_request:
+    paths:
+      - "language/c/**"
+      - "language/cpp/**"
+      - "language/fortran/**"
+      - "language/cobol/**"
+      - "examples/opencl/**"
+      - ".github/workflows/ci-native.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-native-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  c-conformance:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: language/c
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Check C public API snapshot
+        run: python api-snapshot.py --check
+      - run: cmake -S . -B build -DCMAKE_INSTALL_PREFIX="$RUNNER_TEMP/praxo-c"
+      - run: cmake --build build
+      - run: ctest --test-dir build --output-on-failure
+      - name: Install C package and run consumer
+        run: |
+          cmake --install build
+          library="$(find "$RUNNER_TEMP/praxo-c" -name libpraxo_core.a -print -quit)"
+          test -n "$library"
+          cc -std=c11 -I"$RUNNER_TEMP/praxo-c/include" tests/install_consumer.c \
+            "$library" -lm -o "$RUNNER_TEMP/praxo-c-consumer"
+          "$RUNNER_TEMP/praxo-c-consumer"
+
+  cpp-conformance:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: cmake -S language/cpp -B language/cpp/build
+      - run: cmake --build language/cpp/build
+      - run: ctest --test-dir language/cpp/build --output-on-failure
+      - run: python3 language/cpp/api-snapshot.py --check
+
+  fortran-conformance:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: sudo apt-get update
+      - run: sudo apt-get install -y gfortran g++ cmake ninja-build
+      - run: python3 language/fortran/run-tests.py
+
+  cobol-conformance:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: sudo apt-get update
+      - run: sudo apt-get install -y gnucobol
+      - run: python3 language/cobol/run-tests.py
+
+  opencl-sample:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: sudo apt-get update && sudo apt-get install -y ocl-icd-opencl-dev pocl-opencl-icd
+      - run: mkdir -p build
+      - run: cc -std=c11 -DCL_TARGET_OPENCL_VERSION=300 -I language/c/include -I language/c/src examples/opencl/sample.c language/c/src/json.c -lOpenCL -lm -o build/opencl-sample
+      - run: ./build/opencl-sample
