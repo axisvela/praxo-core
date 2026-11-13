@@ -40,6 +40,7 @@ There is intentional overlap. For example:
 | Event sinks | [`recipes/event-sinks-go`](recipes/event-sinks-go) | Python / TypeScript / C# / Rust `event-sink` |
 | Streaming | [`recipes/streaming-go`](recipes/streaming-go) | Python / TypeScript / C# / Rust `streaming` |
 | MCP tools | [`ecosystem/mcp`](ecosystem/mcp) | Python / TypeScript / C# / Rust `mcp` |
+| Retry | [`recipes/retry-go`](recipes/retry-go) | Python / TypeScript / C# / Rust `retry` |
 | Checkpoint store | [`recipes/checkpoint-store-go`](recipes/checkpoint-store-go) | [`checkpoint`](checkpoint), [`embedded-service-auth`](embedded-service-auth), and Python / TypeScript / C# / Rust `checkpoint` |
 | Identity and policy | [`recipes/identity-go`](recipes/identity-go) | [`embedded-service-auth`](embedded-service-auth) |
 | VFS containment | [`recipes/vfs-containment-go`](recipes/vfs-containment-go) | [`workspace-agent`](workspace-agent) |

@@ -47,6 +47,8 @@ cargo add praxo-core@0.6.0
   validation with a deterministic valid/invalid output check.
 - [`examples/checkpoint`](examples/checkpoint): application-owned checkpoint
   storage with allowlisted payload encoding.
+- [`examples/retry`](examples/retry): retry transient model failures with
+  bounded attempts and a deterministic check.
 
 ## Requirements
 

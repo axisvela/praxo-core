@@ -1,0 +1,16 @@
+{
+  "name": "praxo-retry",
+  "version": "0.0.0",
+  "private": true,
+  "type": "commonjs",
+  "description": "Published-package PRAXO-CORE model retry example.",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "test": "node --test test_retry.test.js"
+  },
+  "dependencies": {
+    "@axisvela/praxo-core": "0.5.0"
+  }
+}

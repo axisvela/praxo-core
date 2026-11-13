@@ -17,6 +17,8 @@
   with a deterministic fake streaming model.
 - [`checkpoint/`](checkpoint/): application-owned checkpoint storage with
   allowlisted payload encoding.
+- [`retry/`](retry/): retry transient model failures with bounded attempts and
+  deterministic tests.
 
 The examples install a published package. They do not require a repository
 checkout or local package replacement.
