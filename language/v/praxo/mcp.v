@@ -7,7 +7,7 @@ pub type McpTransport = fn (method string, params map[string]json2.Any) !map[str
 pub struct McpOptions {
 pub:
 	transport        McpTransport
-	client_version   string = '0.4.1'
+	client_version   string = '0.4.2'
 	protocol_version string = '2024-11-05'
 }
 
@@ -27,7 +27,7 @@ pub fn mcp_client(options McpOptions) !&McpClient {
 		client_version: if options.client_version != '' {
 			options.client_version
 		} else {
-			'0.4.1'
+			'0.4.2'
 		}
 		protocol_version: if options.protocol_version != '' {
 			options.protocol_version
@@ -92,10 +92,10 @@ pub fn (client &McpClient) list_tools() ![]map[string]json2.Any {
 }
 
 pub fn (client &McpClient) call_tool(name string, arguments map[string]json2.Any) !json2.Any {
-	result := client.transport('tools/call', map[string]json2.Any{
-		'name':      json2.Any(name)
-		'arguments': json2.Any(arguments)
-	})!
+	mut call_params := map[string]json2.Any{}
+	call_params['name'] = json2.Any(name)
+	call_params['arguments'] = json2.Any(arguments)
+	result := client.transport('tools/call', call_params)!
 	if as_bool(result['isError'] or { json2.Any(false) }) or { false } {
 		return praxo_error('MCP_TOOL_ERROR', 'mcp: tool ${name} failed')
 	}

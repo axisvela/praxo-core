@@ -1,8 +1,8 @@
 # PowerShell Core Release Notes
 
-## 0.5.1 - 2026-11-13
+## 0.5.2 - 2026-11-13
 
-Source tag `powershell/v0.5.1`.
+Source tag `powershell/v0.5.2`.
 
 ### Added
 
