@@ -38,6 +38,10 @@ on:
       - "bindings/**"
       - "cmd/praxo-bridge/**"
       - "internal/bridge/**"
+      - "docs/**"
+      - "**/*.md"
+      - "mkdocs.yml"
+      - "requirements-docs.txt"
   pull_request:
     paths-ignore:
       - "language/python/**"
@@ -74,6 +78,10 @@ on:
       - "bindings/**"
       - "cmd/praxo-bridge/**"
       - "internal/bridge/**"
+      - "docs/**"
+      - "**/*.md"
+      - "mkdocs.yml"
+      - "requirements-docs.txt"
   workflow_dispatch:
   schedule:
     - cron: '0 3 * * *'

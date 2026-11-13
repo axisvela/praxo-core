@@ -24,6 +24,9 @@ CI is split by path so a language-only change does not run the full matrix.
 Shared changes under `spec/`, `scripts/`, and `.github/` still trigger the full
 `ci.yml` matrix. This is intentional: they can affect every language contract.
 
+Documentation-only changes are handled by `docs.yml`; `ci.yml` ignores
+`docs/**`, Markdown files, `mkdocs.yml`, and `requirements-docs.txt`.
+
 ## Adding or Changing a Language Workflow
 
 1. Add the workflow under `.github/workflows/`.

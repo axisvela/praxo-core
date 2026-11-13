@@ -24,6 +24,9 @@ CI 按路径拆分，语言专属改动不再运行完整矩阵。`ci.yml` 继�
 `spec/`、`scripts/`、`.github/` 下的共享修改仍会触发完整 `ci.yml` 矩阵。这是有意设计：
 这些文件可能影响所有语言契约。
 
+纯文档改动由 `docs.yml` 处理；`ci.yml` 忽略 `docs/**`、Markdown 文件、
+`mkdocs.yml` 和 `requirements-docs.txt`。
+
 ## 新增或修改语言 Workflow
 
 1. 在 `.github/workflows/` 下新增 workflow。
