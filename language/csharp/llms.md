@@ -25,6 +25,8 @@
 - MCP client: native (`Praxo.Core.Adapters.McpClient`; stdio, plus `McpStreamableHttpTransport` for Streamable HTTP 2025-03-26)
 - Harmovela sink: native (`Praxo.Core.HarmovelaSink`)
 - OpenTelemetry sink: native (transport seam) (`Praxo.Core.OtelSink`; caller supplies OTLP/HTTP transport)
+- Subagent delegation: not implemented
+- Retriever: not implemented
 
 ## Start
 

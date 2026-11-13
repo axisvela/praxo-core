@@ -28,12 +28,14 @@ SECTIONS = (
     ("MCP", "mcp", "MCP client"),
     ("Harmovela", "harmovela", "Harmovela sink"),
     ("OpenTelemetry", "otel", "OpenTelemetry sink"),
+    ("Delegation", "delegation", "Subagent delegation"),
+    ("Retriever", "retriever", "Retriever"),
 )
 
 SKIP_PARTS = {
     ".git", ".hg", ".svn", "__pycache__", "build", "dist", "target", "_build",
-    "node_modules", "vendor", ".venv", "venv", "docs", "doc", "tests", "test",
-    "coverage", "api", "spec",
+    "node_modules", "vendor", "deps", ".venv", "venv", "docs", "doc", "tests",
+    "test", "coverage", "api", "spec",
 }
 SOURCE_SUFFIXES = {
     ".go", ".py", ".ts", ".tsx", ".js", ".mjs", ".dart", ".java", ".kt", ".scala",
@@ -85,6 +87,8 @@ MARKERS = {
     "mcp": re.compile(r"Mcp|MCP|(?<![a-z])mcp(?![a-z])"),
     "harmovela": re.compile(r"harmovela", re.IGNORECASE),
     "otel": re.compile(r"opentelemetry|otlp|(?<![a-z])otel(?![a-z])", re.IGNORECASE),
+    "delegation": re.compile(r"delegation|subagent", re.IGNORECASE),
+    "retriever": re.compile(r"retriever", re.IGNORECASE),
 }
 TAG = re.compile(r"`([a-z0-9-]+/v[0-9]+\.[0-9]+\.[0-9]+)`")
 CAPABILITY_LABELS = (
@@ -94,6 +98,8 @@ CAPABILITY_LABELS = (
     "MCP client",
     "Harmovela sink",
     "OpenTelemetry sink",
+    "Subagent delegation",
+    "Retriever",
 )
 
 
@@ -143,7 +149,11 @@ def source_files(directory: Path):
 
 def detect_categories() -> dict[str, set[str]]:
     detected = {key: set() for _, key, _ in SECTIONS}
-    roots: list[tuple[str, Path]] = [("Go", ROOT / "adapters")]
+    roots: list[tuple[str, Path]] = [
+        ("Go", ROOT / "adapters"),
+        ("Go", ROOT / "pkg" / "agent" / "delegation"),
+        ("Go", ROOT / "pkg" / "retriever"),
+    ]
     for directory, display in LANGUAGE_DIRS.items():
         roots.append((display, ROOT / "language" / directory))
     for display, directory in roots:

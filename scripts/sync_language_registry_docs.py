@@ -60,6 +60,8 @@ CAPABILITY_SECTIONS = (
     ("MCP", "MCP client"),
     ("Harmovela", "Harmovela sink"),
     ("OpenTelemetry", "OpenTelemetry sink"),
+    ("Delegation", "Subagent delegation"),
+    ("Retriever", "Retriever"),
 )
 _CAPABILITIES: dict[str, dict[str, tuple[str, str]]] | None = None
 

@@ -34,6 +34,8 @@ A native Fortran 2008 agent implementation with source tag `fortran/v0.8.0`. Ver
 | MCP client | native (transport seam) | `mcp_client`; caller supplies transport |
 | Harmovela sink | native (transport seam) | `harmovela`; caller supplies HTTP transport |
 | OpenTelemetry sink | not implemented |  |
+| Subagent delegation | not implemented |  |
+| Retriever | not implemented |  |
 
 ## Coding-agent entry
 

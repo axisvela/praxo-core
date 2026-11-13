@@ -1,0 +1,50 @@
+# Delegation and Retrieval Seams
+
+These are optional adapter seams. They do not add a durable worker service, a
+vector database, or new Core wire contracts.
+
+## Delegation
+
+A subagent manager owns local child runs:
+
+- Modes: `isolated` starts with only the request; `fork` carries the parent
+  message history.
+- States: `queued`, `running`, `completed`, `failed`, `canceled`.
+- Operations: launch, check, wait, optional mid-flight update, and cancel.
+- Cancellation is local. It is not proof that remote work stopped.
+- A terminal state is final for the local task; it is not an exactly-once or
+  durable execution guarantee.
+
+The Go reference is `pkg/agent/delegation`. Python provides
+`praxo.delegation.SubagentManager` with an async runner seam. Other
+implementations do not have an in-tree delegation manager yet.
+
+## Retrieval
+
+A retriever seam maps a query and limit to documents:
+
+- `Document`: id, content, optional metadata, optional score.
+- `Retriever`: retrieve query/limit and return documents.
+- A function adapter is sufficient for local or caller-owned retrieval.
+
+The Go reference is `pkg/retriever`. Python provides `praxo.retriever` with
+`Document`, `Retriever`, and `FuncRetriever`. Other implementations do not have
+an in-tree retriever yet.
+
+Retrieval does not define an embedding model, vector store, ranking service, or
+search-quality claim. Memory stores and context compaction remain separate Core
+surfaces.
+
+## Baseline Status
+
+The canonical per-language list is the
+[adapter status](../languages/adapter-status.md#delegation) and
+[retriever](../languages/adapter-status.md#retriever) tables. Current evidence
+is deterministic fixture or fake-runner coverage, not live worker or search
+systems.
+
+## Testing
+
+Delegation tests cover launch, completion, failure, cancel, optional update,
+unknown tasks, and validation. Retrieval tests cover the document shape,
+query/limit forwarding, and the function seam.

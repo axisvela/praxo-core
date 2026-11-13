@@ -267,6 +267,29 @@ caller-supplied transport. It does not imply a collector, sampler, SDK,
 production exporter, or vendor backend. Event data is excluded by default;
 selected keys must be allowlisted explicitly.
 
+## Delegation
+
+| Language | Status | Notes |
+| --- | --- | --- |
+| Go | native | `pkg/agent/delegation` subagent manager |
+| Python | native | `praxo.delegation.SubagentManager` |
+| All other implementations | not implemented | Add with a named consumer or maintainer |
+
+Delegation means a local child-run manager with queued/running/terminal states,
+wait, optional update, and cancellation. It does not imply durable remote
+workers, cross-process scheduling, or exactly-once execution.
+
+## Retriever
+
+| Language | Status | Notes |
+| --- | --- | --- |
+| Go | native | `pkg/retriever.Document` and `Retriever` |
+| Python | native | `praxo.retriever.Document` and `Retriever` |
+| All other implementations | not implemented | Add with a named consumer or maintainer |
+
+Retriever support means a document/query/limit seam. It does not define an
+embedding model, vector database, ranking service, or production search quality.
+
 ## Adding a Native Adapter
 
 1. Follow the language's existing model, tool, or event seam; do not widen the Go

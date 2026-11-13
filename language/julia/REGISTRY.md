@@ -34,6 +34,8 @@ Julia implementation of the PRAXO-CORE contract.
 | MCP client | native (transport seam) | `mcp_client`; caller supplies transport |
 | Harmovela sink | native | `HarmovelaSink` |
 | OpenTelemetry sink | not implemented |  |
+| Subagent delegation | not implemented |  |
+| Retriever | not implemented |  |
 
 ## Coding-agent entry
 

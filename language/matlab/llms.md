@@ -25,6 +25,8 @@
 - MCP client: native (transport seam) (`praxo.mcp_client`; caller supplies a function handle)
 - Harmovela sink: native (`praxo.harmovela_sink`)
 - OpenTelemetry sink: not implemented
+- Subagent delegation: not implemented
+- Retriever: not implemented
 
 ## Start
 

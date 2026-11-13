@@ -25,6 +25,8 @@
 - MCP client: native (`TPraxoMcpClient`; stdio and `TPraxoHttpMcpTransport` for Streamable HTTP 2025-03-26)
 - Harmovela sink: native (`TPraxoHarmovelaSink`)
 - OpenTelemetry sink: not implemented
+- Subagent delegation: not implemented
+- Retriever: not implemented
 
 ## Start
 

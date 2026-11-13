@@ -34,6 +34,8 @@ Zig 0.17 implementation of the PRAXO-CORE agent contract. The normative contract
 | MCP client | native | `mcp.Client`; stdio and curl-backed `HttpTransport` for Streamable HTTP 2025-03-26 |
 | Harmovela sink | native | `harmovela` |
 | OpenTelemetry sink | not implemented |  |
+| Subagent delegation | not implemented |  |
+| Retriever | not implemented |  |
 
 ## Coding-agent entry
 

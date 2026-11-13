@@ -34,6 +34,8 @@ Swift implementation of the PRAXO-CORE contract.
 | MCP client | native | `McpClient`, `StdioMcpTransport`, `HttpMcpTransport`; typechecked locally, full build blocked |
 | Harmovela sink | native | `HarmovelaSink` with URLSession transport |
 | OpenTelemetry sink | not implemented |  |
+| Subagent delegation | not implemented |  |
+| Retriever | not implemented |  |
 
 ## Coding-agent entry
 

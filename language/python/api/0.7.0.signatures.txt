@@ -118,11 +118,26 @@ bases: Protocol
 constructor(*args, **kwargs)
 method compact(messages: 'list[Message]', budget: 'ContextBudget') -> 'list[Message]'
 
+## ControllableRunner
+class ControllableRunner
+bases: SubagentRunner, Protocol
+constructor(*args, **kwargs)
+method update(task_id: 'str', prompt: 'str') -> 'None'
+
 ## Decision
 class Decision
 constructor(allowed: 'bool', reason: 'str' = '') -> None
 field allowed: bool
 field reason: str = ''
+
+## Document
+class Document
+constructor(id: 'str', content: 'str', metadata: 'dict[str, str]' = <factory>, score: 'float' = 0.0) -> None
+field id: str
+field content: str
+field metadata: dict[str, str] = <factory>
+field score: float = 0.0
+method to_wire() -> 'dict[str, object]'
 
 ## Event
 class Event
@@ -144,6 +159,11 @@ method emit(event: 'Event') -> 'None'
 class FuncHook
 constructor(fn: 'Any') -> 'None'
 method authorize(action: 'Action') -> 'Decision'
+
+## FuncRetriever
+class FuncRetriever
+constructor(retrieve: 'Callable[[str, int], Awaitable[list[Document]]]') -> 'None'
+method retrieve(query: 'str', limit: 'int') -> 'list[Document]'
 
 ## FuncTool
 class FuncTool
@@ -323,6 +343,12 @@ field output: str
 field steps: int
 field usage: Usage = <factory>
 
+## Retriever
+class Retriever
+bases: Protocol
+constructor(*args, **kwargs)
+method retrieve(query: 'str', limit: 'int') -> 'list[Document]'
+
 ## RunState
 class RunState
 constructor(run_id: 'str', session: 'Any', prompt: 'str') -> None
@@ -362,6 +388,74 @@ method tool_spec() -> 'ToolSpec'
 method middleware() -> 'Middleware'
 method apply(result: 'Any') -> 'None'
 method validate_arguments(arguments: 'dict[str, Any]') -> 'None'
+
+## SubagentManager
+class SubagentManager
+constructor(runner: 'SubagentRunner') -> 'None'
+method launch(request: 'SubagentRequest') -> 'SubagentTask'
+method check(task_id: 'str') -> 'SubagentTask | None'
+method wait(task_id: 'str', timeout: 'float | None' = None) -> 'SubagentTask'
+method update(task_id: 'str', prompt: 'str') -> 'None'
+method cancel(task_id: 'str') -> 'None'
+
+## SubagentMode
+class SubagentMode
+bases: str, Enum
+constructor(*values)
+attribute ISOLATED: SubagentMode = <SubagentMode.ISOLATED: 'isolated'>
+attribute FORK: SubagentMode = <SubagentMode.FORK: 'fork'>
+
+## SubagentRequest
+class SubagentRequest
+constructor(parent_session_id: 'str', agent_id: 'str', prompt: 'str', context: 'dict[str, Any]' = <factory>, mode: 'SubagentMode' = <SubagentMode.ISOLATED: 'isolated'>, history: 'list[Any]' = <factory>) -> None
+field parent_session_id: str
+field agent_id: str
+field prompt: str
+field context: dict[str, Any] = <factory>
+field mode: SubagentMode = <SubagentMode.ISOLATED: 'isolated'>
+field history: list[Any] = <factory>
+
+## SubagentResult
+class SubagentResult
+constructor(task_id: 'str' = '', agent_id: 'str' = '', output: 'str' = '', usage: 'Any' = None) -> None
+field task_id: str = ''
+field agent_id: str = ''
+field output: str = ''
+field usage: Any = None
+
+## SubagentRunner
+class SubagentRunner
+bases: Protocol
+constructor(*args, **kwargs)
+method run(request: 'SubagentRequest') -> 'SubagentResult'
+
+## SubagentStatus
+class SubagentStatus
+bases: str, Enum
+constructor(*values)
+attribute QUEUED: SubagentStatus = <SubagentStatus.QUEUED: 'queued'>
+attribute RUNNING: SubagentStatus = <SubagentStatus.RUNNING: 'running'>
+attribute COMPLETED: SubagentStatus = <SubagentStatus.COMPLETED: 'completed'>
+attribute FAILED: SubagentStatus = <SubagentStatus.FAILED: 'failed'>
+attribute CANCELED: SubagentStatus = <SubagentStatus.CANCELED: 'canceled'>
+
+## SubagentTask
+class SubagentTask
+constructor(id: 'str', parent_session_id: 'str', agent_id: 'str', mode: 'SubagentMode', status: 'SubagentStatus', output: 'str' = '', error: 'str' = '', created_at: 'datetime' = <factory>, updated_at: 'datetime' = <factory>) -> None
+field id: str
+field parent_session_id: str
+field agent_id: str
+field mode: SubagentMode
+field status: SubagentStatus
+field output: str = ''
+field error: str = ''
+field created_at: datetime = <factory>
+field updated_at: datetime = <factory>
+
+## SubagentUpdateUnsupported
+class SubagentUpdateUnsupported
+bases: RuntimeError
+constructor
 
 ## Tool
 class Tool

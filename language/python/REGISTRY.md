@@ -34,6 +34,8 @@ PRAXO-CORE is a dependency-free Python framework for building tool-using AI agen
 | MCP client | native | `praxo.adapters.mcp.MCPClient`; stdio, plus `mcp_http.StreamableHTTPTransport` for Streamable HTTP 2025-03-26 |
 | Harmovela sink | native | `praxo.adapters.harmovela.HarmovelaSink` |
 | OpenTelemetry sink | native (transport seam) | `praxo.adapters.otel.OtelSink`; caller supplies OTLP/HTTP transport |
+| Subagent delegation | native | `praxo.delegation.SubagentManager` |
+| Retriever | native | `praxo.retriever.Document` and `Retriever` |
 
 ## Coding-agent entry
 

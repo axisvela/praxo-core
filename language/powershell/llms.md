@@ -25,6 +25,8 @@
 - MCP client: native (C# shared runtime) (`Connect-PraxoMcp`, `Get-PraxoMcpTools`, `Invoke-PraxoMcpTool`; wraps the C# MCP client and stdio/Streamable HTTP transports)
 - Harmovela sink: inherited (Uses the C# Core)
 - OpenTelemetry sink: inherited (Uses the C# Core)
+- Subagent delegation: not implemented
+- Retriever: not implemented
 
 ## Start
 

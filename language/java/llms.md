@@ -25,6 +25,8 @@
 - MCP client: native (`adapters.McpClient`; stdio, plus `McpStreamableHttpTransport` for Streamable HTTP 2025-03-26 (local runtime verification pending))
 - Harmovela sink: native (`adapters.HarmovelaSink`)
 - OpenTelemetry sink: native (transport seam) (`adapters.OtelSink`; caller supplies OTLP/HTTP transport)
+- Subagent delegation: not implemented
+- Retriever: not implemented
 
 ## Start
 

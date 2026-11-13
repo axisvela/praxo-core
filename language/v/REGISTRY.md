@@ -34,6 +34,8 @@ V is a native Core implementation with source tag `v/v0.3.0`. It passes all elev
 | MCP client | native (transport seam) | `praxo.mcp`; caller supplies `McpTransport` |
 | Harmovela sink | native | `harmovela_sink`; verified with V 0.5.2 and `x.json2` |
 | OpenTelemetry sink | not implemented |  |
+| Subagent delegation | not implemented |  |
+| Retriever | not implemented |  |
 
 ## Coding-agent entry
 

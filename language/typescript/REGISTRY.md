@@ -34,6 +34,8 @@ PRAXO-CORE is a dependency-free TypeScript framework for building tool-using AI 
 | MCP client | native | `src/adapters/mcp.ts`; stdio, plus `src/adapters/mcp-http.ts` for Streamable HTTP 2025-03-26 |
 | Harmovela sink | native | `src/adapters/harmovela.ts` |
 | OpenTelemetry sink | native (transport seam) | `src/adapters/otel.ts`; caller supplies OTLP/HTTP transport |
+| Subagent delegation | not implemented |  |
+| Retriever | not implemented |  |
 
 ## Coding-agent entry
 

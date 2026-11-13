@@ -9,6 +9,17 @@ from .context import (
     estimate_tokens,
     load_agents_md,
 )
+from .delegation import (
+    ControllableRunner,
+    SubagentManager,
+    SubagentMode,
+    SubagentRequest,
+    SubagentResult,
+    SubagentRunner,
+    SubagentStatus,
+    SubagentTask,
+    SubagentUpdateUnsupported,
+)
 from .event import Event, FilterSink, MultiSink, Sink
 from .hitl import (
     INTERRUPT_APPROVE,
@@ -48,6 +59,7 @@ from .model import (
     Usage,
 )
 from .policy import Action, Decision, FuncHook, Hook, PathChecker, PathGrant
+from .retriever import Document, FuncRetriever, Retriever
 from .tool import FuncTool, Gateway, GatewayInfo, GatewayTool, Registry, Tool
 from .toolcall import parse_tool_call, strip_tool_call_markup
 
@@ -64,12 +76,15 @@ __all__ = [
     "Checkpoint",
     "CheckpointMessage",
     "ContentBlock",
+    "ControllableRunner",
     "ContextBudget",
     "ContextCompactor",
     "Decision",
+    "Document",
     "Event",
     "FilterSink",
     "FuncHook",
+    "FuncRetriever",
     "FuncTool",
     "Gateway",
     "GatewayInfo",
@@ -100,11 +115,20 @@ __all__ = [
     "Request",
     "Response",
     "Result",
+    "Retriever",
     "RunState",
     "SPEC_VERSION",
     "Session",
     "Sink",
     "StructuredOutput",
+    "SubagentManager",
+    "SubagentMode",
+    "SubagentRequest",
+    "SubagentResult",
+    "SubagentRunner",
+    "SubagentStatus",
+    "SubagentTask",
+    "SubagentUpdateUnsupported",
     "Tool",
     "ToolCall",
     "ToolResult",

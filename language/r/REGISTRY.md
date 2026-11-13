@@ -34,6 +34,8 @@ R implementation of the PRAXO-CORE contract.
 | MCP client | native (transport seam) | `mcp_client`; base R needs caller-supplied transport for stdio |
 | Harmovela sink | native | `harmovela_sink` |
 | OpenTelemetry sink | native (transport seam) | `otel_sink`; caller supplies OTLP/HTTP transport |
+| Subagent delegation | not implemented |  |
+| Retriever | not implemented |  |
 
 ## Coding-agent entry
 

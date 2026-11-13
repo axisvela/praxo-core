@@ -34,6 +34,8 @@ C++20 implementation of the PRAXO-CORE agent contract. The normative contract is
 | MCP client | native (transport seam) | `McpClient`; caller supplies `McpTransport` |
 | Harmovela sink | native (transport seam) | `HarmovelaSink`; caller supplies HTTP transport |
 | OpenTelemetry sink | not implemented |  |
+| Subagent delegation | not implemented |  |
+| Retriever | not implemented |  |
 
 ## Coding-agent entry
 

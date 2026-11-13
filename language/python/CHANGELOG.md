@@ -9,6 +9,9 @@ Source tag `python/v0.7.0`.
 - OpenTelemetry event sink (`praxo.adapters.otel.OtelSink`) over a
   caller-supplied OTLP/HTTP transport, with default event-data exclusion and an
   explicit data-key allowlist.
+- Local subagent delegation (`praxo.delegation.SubagentManager`) with
+  launch/check/wait/update/cancel and terminal states.
+- Retriever seam (`praxo.retriever.Document`, `Retriever`, `FuncRetriever`).
 
 ## 0.6.0 - 2026-11-12
 

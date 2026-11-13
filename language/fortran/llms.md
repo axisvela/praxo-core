@@ -25,6 +25,8 @@
 - MCP client: native (transport seam) (`mcp_client`; caller supplies transport)
 - Harmovela sink: native (transport seam) (`harmovela`; caller supplies HTTP transport)
 - OpenTelemetry sink: not implemented
+- Subagent delegation: not implemented
+- Retriever: not implemented
 
 ## Start
 

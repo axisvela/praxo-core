@@ -34,6 +34,8 @@ PRAXO-CORE is an embeddable, MIT-licensed agent framework. This package is its n
 | MCP client | native (transport seam) | `praxo/adapters/mcp`; caller supplies transport |
 | Harmovela sink | native | `newHarmovelaSink` |
 | OpenTelemetry sink | not implemented |  |
+| Subagent delegation | not implemented |  |
+| Retriever | not implemented |  |
 
 ## Coding-agent entry
 

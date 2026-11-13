@@ -25,6 +25,8 @@
 - MCP client: native (`Praxo\Core\Adapters\MCPClient`; stdio, plus `HttpMCPTransport` for Streamable HTTP 2025-03-26)
 - Harmovela sink: native (`Praxo\Core\Adapters\HarmovelaSink`)
 - OpenTelemetry sink: not implemented
+- Subagent delegation: not implemented
+- Retriever: not implemented
 
 ## Start
 

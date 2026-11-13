@@ -34,6 +34,8 @@ PRAXO-CORE is an embeddable, MIT-licensed agent framework. This crate is its nat
 | MCP client | native | `mcp::McpClient`; stdio, plus `McpClient::connect_http` over a caller-supplied `McpHttpTransport` seam for Streamable HTTP 2025-03-26 |
 | Harmovela sink | native | `harmovela::Sink` |
 | OpenTelemetry sink | native (transport seam) | `adapters::otel::Sink`; caller supplies OTLP/HTTP transport |
+| Subagent delegation | not implemented |  |
+| Retriever | not implemented |  |
 
 ## Coding-agent entry
 
