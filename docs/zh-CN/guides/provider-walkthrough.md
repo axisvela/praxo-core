@@ -50,8 +50,10 @@ MCP 是工具会话，不是模型 Provider。最小客户端应：
 5. 在每次工具调用前保留 Policy 授权。
 
 Go、Python、TypeScript 和 Java 提供原生 MCP 客户端。其他语言提供调用方
-Transport 接缝。增加远程服务器前先阅读
-[MCP Adapter 说明](../reference/mcp-client.md)和
+Transport 接缝。可运行的本地 stdio 示例见
+[Python](https://github.com/axisvela/praxo-core/tree/main/language/python/examples/mcp)和
+[TypeScript](https://github.com/axisvela/praxo-core/tree/main/language/typescript/examples/mcp)。
+增加远程服务器前先阅读 [MCP Adapter 说明](../reference/mcp-client.md)和
 [Adapter 状态](../languages/adapter-status.md#mcp)。
 
 ## 边界

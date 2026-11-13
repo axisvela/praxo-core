@@ -84,6 +84,11 @@ checkpoints, streaming, cancellation, and optional adapters. It does not provide
 - Assuming the Go example works unchanged in every language SDK.
 - Calling a fixture or offline recipe production evidence.
 
+## Copy the Right Tests
+
+Use the [consumer test template](consumer-test-template.md) to copy only the
+checks that match your risk tier into the application repository.
+
 ## Keep for Review
 
 Record the package versions, model endpoint class, tool scope, policy owner,

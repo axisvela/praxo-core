@@ -53,8 +53,10 @@ MCP is a tool session, not a model provider. A minimal client should:
 5. keep policy authorization in front of every tool call.
 
 Go, Python, TypeScript, and Java provide native MCP clients. Other languages
-provide caller-supplied transport seams. Read the
-[MCP adapter notes](../reference/mcp-client.md) and
+provide caller-supplied transport seams. Runnable local stdio examples exist for
+[Python](https://github.com/axisvela/praxo-core/tree/main/language/python/examples/mcp)
+and [TypeScript](https://github.com/axisvela/praxo-core/tree/main/language/typescript/examples/mcp).
+Read the [MCP adapter notes](../reference/mcp-client.md) and
 [adapter status](../languages/adapter-status.md#mcp) before adding a remote
 server.
 

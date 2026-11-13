@@ -64,6 +64,7 @@ plugins:
             Provider and MCP: Provider 与 MCP
             Application Integration Checklist: 应用嵌入清单
             Embedded HTTP Service: HTTP 嵌入服务
+            Consumer Test Template: 消费者测试模板
             Recipes: 接入示例
             Identity and Policy: 身份与策略
             Long-Running Operations: 长时操作
@@ -155,6 +156,7 @@ nav:
       - Provider and MCP: guides/provider-walkthrough.md
       - Application Integration Checklist: guides/application-integration-checklist.md
       - Embedded HTTP Service: guides/embedded-service-tutorial.md
+      - Consumer Test Template: guides/consumer-test-template.md
       - Recipes: guides/recipes.md
       - Identity and Policy: guides/identity-policy.md
       - Long-Running Operations: guides/long-running-operations.md

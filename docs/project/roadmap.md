@@ -56,7 +56,7 @@ target and not to present Go-only behavior as a cross-language guarantee.
 | --- | --- | --- | --- |
 | 0. Decide | Know whether Core fits and which language/path to use | The overview, task chooser, comparison, and non-goals exist | Make the choice path shorter and show application responsibilities clearly |
 | 1. Run | Install a published package, connect a model, register one tool, and get a useful result | Published-package deterministic starters and four-language live-model examples now exist | Run the live path against supported endpoints and record language-specific troubleshooting |
-| 2. Prototype | Build one coherent local application with tools, streaming, structured output, MCP, workspace access, or telemetry | A task-oriented catalog, workspace tutorial, provider/MCP walkthrough, and structured-output examples exist | Add more language-specific prototype tutorials and a runnable MCP application |
+| 2. Prototype | Build one coherent local application with tools, streaming, structured output, MCP, workspace access, or telemetry | A task-oriented catalog, workspace tutorial, provider/MCP walkthrough, structured-output examples, and local MCP examples exist | Add MCP examples for the remaining SDKs and more language-specific prototype tutorials |
 | 3. Embed | Integrate Core into an existing service with application-owned identity, policy, persistence, events, and shutdown | A vendor-neutral HTTP service example and a risk-tiered integration checklist exist | Add identity/policy and durable-checkpoint service variants |
 | 4. Harden | Make the specific integration safe to upgrade, fail, cancel, and recover | Negative, upgrade, containment, and recovery assets exist | Organize them by application risk instead of requiring everything up front |
 | 5. Extend | Adopt plugins, delegation, long-running operations, workspace providers, or embodied integrations when needed | Experimental and advanced assets exist | Advance only with a named consumer and a concrete project need |
@@ -166,8 +166,9 @@ Turn the first run into one useful local application, such as:
   external services, and maturity.
 - Add one coherent prototype tutorial for each primary SDK, starting from the
   existing [workspace tutorial](../guides/workspace-agent-tutorial.md).
-- Extend the [Provider and MCP walkthrough](../guides/provider-walkthrough.md)
-  with a runnable MCP server example that does not require a source checkout.
+- Add runnable MCP client examples for the remaining SDKs; Python and TypeScript
+  stdio examples and a C# in-process example are available under their language
+  `examples/mcp` directories.
 - Give adapter pages a consistent install, authentication, minimal example, and
   limitation section.
 
@@ -218,10 +219,11 @@ from reaching the first useful result.
 
 ### Later-stage Work
 
-- Publish risk-tiered hardening checklists for read-only, side-effecting, and
-  high-risk applications.
-- Provide a small consumer-owned test template instead of requiring the whole
-  repository matrix.
+- Keep the risk-tiered
+  [application integration checklist](../guides/application-integration-checklist.md)
+  aligned with the read-only, side-effecting, and high-risk tiers.
+- Extend the [consumer test template](../guides/consumer-test-template.md) with
+  language-specific examples instead of requiring the whole repository matrix.
 - Run upgrade, fault, load, provider, database, collector, sandbox, and recovery
   checks for the integrations that actually need them.
 - Continue the [Execution Correctness](execution-correctness.md), Behavior Lab,

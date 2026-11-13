@@ -79,6 +79,10 @@ Core 提供 Agent 循环、模型/工具契约、Policy hook、事件、Checkpoi
 - 假设 Go 示例可在所有语言 SDK 中原样运行。
 - 将 fixture 或离线配方当作生产证据。
 
+## 复制合适的测试
+
+使用[消费者测试模板](consumer-test-template.md)，只将匹配风险档位的检查复制到应用仓库。
+
 ## 评审时保留
 
 记录包版本、模型端点类别、工具范围、Policy 负责人、审批模型、Checkpoint 存储、

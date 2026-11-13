@@ -45,7 +45,7 @@ PRAXO-CORE 继续定位为**可治理、可嵌入的 Agent 执行框架**。路�
 | --- | --- | --- | --- |
 | 0. 判断 | 知道 Core 是否适合，以及该选择哪种语言和路径 | 已有概览、任务入口、对比和非目标说明 | 缩短选型路径，明确应用仍需负责什么 |
 | 1. 运行 | 安装发布包、连接模型、注册一个工具并得到有用结果 | 已有发布包确定性 Starter 和四语言真实模型示例 | 对受支持端点运行真实路径，并记录各语言排错说明 |
-| 2. 原型 | 完成一个包含工具、Streaming、结构化输出、MCP、Workspace 或 Telemetry 的连贯本地应用 | 已有示例目录、Workspace 教程、Provider/MCP 演练和结构化输出示例 | 增加更多语言原型教程和可运行 MCP 应用 |
+| 2. 原型 | 完成一个包含工具、Streaming、结构化输出、MCP、Workspace 或 Telemetry 的连贯本地应用 | 已有示例目录、Workspace 教程、Provider/MCP 演练、结构化输出示例和本地 MCP 示例 | 增加其余 SDK 的 MCP 示例和更多语言原型教程 |
 | 3. 嵌入 | 将 Core 接入现有服务，由应用管理身份、策略、持久化、事件和退出 | 已有厂商中立的 HTTP 服务示例和分档集成清单 | 增加身份/策略和持久 Checkpoint 服务变体 |
 | 4. 加固 | 让具体集成可升级、可失败、可取消、可恢复 | 已有负向、升级、隔离和恢复资产 | 按应用风险组织，而不是要求新用户一开始全部执行 |
 | 5. 扩展 | 在需要时采用 Plugin、委派、长时操作、Workspace Provider 或具身集成 | 已有实验和高级资产 | 仅在有明确消费者和项目需求时推进 |
@@ -144,8 +144,8 @@ PRAXO-CORE 继续定位为**可治理、可嵌入的 Agent 执行框架**。路�
   凭据、本机命令、外部服务和成熟度。
 - 为每个主要 SDK 增加一篇连贯原型教程，从现有
   [Workspace 教程](../guides/workspace-agent-tutorial.md)开始。
-- 扩展 [Provider 与 MCP 演练](../guides/provider-walkthrough.md)，增加无需检出源码且
-  可运行的 MCP 服务器示例。
+- 为其余 SDK 增加可运行 MCP 客户端示例；Python、TypeScript 的 stdio 示例和 C#
+  的进程内示例已位于对应语言的 `examples/mcp` 目录。
 - 统一 Adapter 页面的安装、认证、最小示例和限制说明。
 
 ## 阶段 3：嵌入实际应用
@@ -193,8 +193,10 @@ PRAXO-CORE 继续定位为**可治理、可嵌入的 Agent 执行框架**。路�
 
 ### 后期工作
 
-- 发布只读、有副作用、高风险应用三档加固清单。
-- 提供精简的消费者侧测试模板，不要求复制整个仓库矩阵。
+- 保持[应用嵌入清单](../guides/application-integration-checklist.md)与只读、有副作用、
+  高风险三档一致。
+- 扩展[消费者测试模板](../guides/consumer-test-template.md)，增加语言示例，不要求复制
+  整个仓库矩阵。
 - 对真正需要的集成执行升级、故障、负载、Provider、数据库、Collector、Sandbox
   和恢复检查。
 - 将 [Execution Correctness](execution-correctness.md)、Behavior Lab、兼容性和
