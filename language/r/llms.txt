@@ -8,11 +8,11 @@
 
 - package: `praxocore`
 - registry: [r-universe](https://axisvela.r-universe.dev/praxocore)
-- source_version: `0.9.0`
+- source_version: `0.10.0`
 - published_version: `0.9.0`
 - install_published: `install.packages("praxocore", repos = "https://axisvela.r-universe.dev")`
 - install_source: `install.packages("praxocore", repos = "https://axisvela.r-universe.dev")`
-- source_tag: `r/v0.9.0`
+- source_tag: `r/v0.10.0`
 - tier: Core
 - contract: `SPEC_VERSION` `0.2.0`
 - documentation: https://axisvela.github.io/praxo-core/languages/r/
