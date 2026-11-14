@@ -11,13 +11,13 @@ module streaming_example_types
     procedure :: generate => generate_done
   end type
 contains
-  subroutine generate_done(self, request, response, error)
+  subroutine generate_done(self, req, res, error)
     class(simple_model), intent(inout) :: self
-    type(request), intent(in) :: request
-    type(response), intent(out) :: response
+    type(request), intent(in) :: req
+    type(response), intent(out) :: res
     type(sdk_error), intent(out) :: error
-    response%message%role = 'assistant'
-    response%message%content = 'done'
+    res%message%role = 'assistant'
+    res%message%content = 'done'
   end subroutine
 
   subroutine capture(ctx, part, error)

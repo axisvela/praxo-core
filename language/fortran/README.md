@@ -53,6 +53,9 @@ Use GNU Fortran, a C++17 compiler, CMake 3.22+, Ninja, Git, and Python 3.10+:
 python language/fortran/run-tests.py
 ```
 
+Examples that use schema validation can build just the pinned RE2 bridge with
+`python language/fortran/run-tests.py --re2-only`, then run their `run.py`.
+
 See [SETUP.md](SETUP.md) for the recorded environment, configuration, test
 commands, and local results.
 

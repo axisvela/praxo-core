@@ -12,6 +12,7 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--compiler", default=os.environ.get("FC", "gfortran"))
     parser.add_argument("--cxx", default=os.environ.get("CXX"))
+    parser.add_argument("--re2-only", action="store_true")
     args = parser.parse_args()
     compiler = shutil.which(args.compiler)
     if not compiler:
@@ -47,6 +48,8 @@ def main():
     for dependency in ("re2", "abseil"):
         if not (prefix / "share/licenses/praxo-fortran-re2" / dependency / "LICENSE").is_file():
             raise RuntimeError(f"missing installed {dependency} license")
+    if args.re2_only:
+        return
     env["PATH"] = str(prefix / "bin") + os.pathsep + env["PATH"]
     link = ["-L", str(prefix / "lib"), "-lpraxo_re2"]
     if os.name != "nt":

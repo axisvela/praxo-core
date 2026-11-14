@@ -286,7 +286,9 @@ jobs:
       - run: php language/php/examples/structured-output/structured_output.php
       - run: gcc -std=c11 -I language/c/include language/c/examples/structured-output/main.c language/c/build/libpraxo_core.a -o language/c/build/c-structured-output
       - run: language/c/build/c-structured-output
+      - run: python3 language/fortran/run-tests.py --re2-only
       - run: python language/fortran/examples/structured-output/run.py
+      - run: python language/fortran/examples/streaming/run.py
       - run: elixir -pa language/elixir/build/ebin language/elixir/examples/structured-output/structured_output.exs
       - run: escript language/erlang/examples/structured-output/structured_output.escript
       - run: lua language/lua/examples/structured-output/structured_output.lua
