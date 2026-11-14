@@ -248,7 +248,7 @@ jobs:
       - run: elixirc -o language/elixir/build/ebin language/elixir/lib/praxo/*.ex language/elixir/lib/praxo/adapters/*.ex
       - run: elixir -pa language/elixir/build/ebin language/elixir/examples/checkpoint/checkpoint.exs
       - run: mkdir -p language/erlang/build/ebin
-      - run: erlc -I language/erlang/src -o language/erlang/build/ebin language/erlang/src/*.erl
+      - run: erlc -I language/erlang/src -o language/erlang/build/ebin language/erlang/src/*.erl language/erlang/src/adapters/*.erl
       - run: escript language/erlang/examples/checkpoint/checkpoint.escript
       - run: lua language/lua/examples/checkpoint/checkpoint.lua
       - run: cmake -S language/c -B language/c/build
