@@ -1,0 +1,99 @@
+name: ci-additional
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "language/dart/examples/**"
+      - "language/perl/examples/**"
+      - "language/d/examples/**"
+      - "language/delphi/examples/**"
+      - ".github/workflows/ci-additional.yml"
+  pull_request:
+    paths:
+      - "language/dart/examples/**"
+      - "language/perl/examples/**"
+      - "language/d/examples/**"
+      - "language/delphi/examples/**"
+      - ".github/workflows/ci-additional.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-additional-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  dart-examples:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dart-lang/setup-dart@v1
+      - run: dart language/dart/examples/retry/retry.dart
+      - run: dart language/dart/examples/checkpoint/checkpoint.dart
+      - run: dart language/dart/examples/event-sink/event_sink.dart
+      - run: dart language/dart/examples/provider-fallback/fallback.dart
+      - run: dart language/dart/examples/structured-output/structured_output.dart
+      - run: dart language/dart/examples/streaming/streaming.dart
+      - run: dart language/dart/examples/identity-policy/identity_policy.dart
+      - run: dart language/dart/examples/service/service.dart
+      - run: dart language/dart/examples/mcp/mcp.dart
+
+  perl-examples:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: perl language/perl/examples/retry/retry.pl
+      - run: perl language/perl/examples/checkpoint/checkpoint.pl
+      - run: perl language/perl/examples/event-sink/event_sink.pl
+      - run: perl language/perl/examples/provider-fallback/fallback.pl
+      - run: perl language/perl/examples/structured-output/structured_output.pl
+      - run: perl language/perl/examples/streaming/streaming.pl
+      - run: perl language/perl/examples/identity-policy/identity_policy.pl
+      - run: perl language/perl/examples/service/service.pl
+      - run: perl language/perl/examples/mcp/mcp.pl
+
+  d-examples:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dlang-community/setup-dlang@v2
+        with:
+          compiler: dmd
+      - run: dmd -i -Ilanguage/d/source -run language/d/examples/retry/retry.d
+      - run: dmd -i -Ilanguage/d/source -run language/d/examples/checkpoint/checkpoint.d
+      - run: dmd -i -Ilanguage/d/source -run language/d/examples/event-sink/event_sink.d
+      - run: dmd -i -Ilanguage/d/source -run language/d/examples/provider-fallback/fallback.d
+      - run: dmd -i -Ilanguage/d/source -run language/d/examples/structured-output/structured_output.d
+      - run: dmd -i -Ilanguage/d/source -run language/d/examples/streaming/streaming.d
+      - run: dmd -i -Ilanguage/d/source -run language/d/examples/identity-policy/identity_policy.d
+      - run: dmd -i -Ilanguage/d/source -run language/d/examples/service/service.d
+      - run: dmd -i -Ilanguage/d/source -run language/d/examples/mcp/mcp.d
+
+  delphi-examples:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: sudo apt-get update
+      - run: sudo apt-get install -y fpc
+      - run: mkdir -p build/delphi
+      - run: fpc -Mobjfpc -Fulanguage/delphi -FEbuild/delphi language/delphi/examples/retry/retry.pas
+      - run: ./build/delphi/retry
+      - run: fpc -Mobjfpc -Fulanguage/delphi -FEbuild/delphi language/delphi/examples/checkpoint/checkpoint.pas
+      - run: ./build/delphi/checkpoint
+      - run: fpc -Mobjfpc -Fulanguage/delphi -FEbuild/delphi language/delphi/examples/event-sink/event_sink.pas
+      - run: ./build/delphi/event_sink
+      - run: fpc -Mobjfpc -Fulanguage/delphi -FEbuild/delphi language/delphi/examples/provider-fallback/fallback.pas
+      - run: ./build/delphi/fallback
+      - run: fpc -Mobjfpc -Fulanguage/delphi -FEbuild/delphi language/delphi/examples/structured-output/structured_output.pas
+      - run: ./build/delphi/structured_output
+      - run: fpc -Mobjfpc -Fulanguage/delphi -FEbuild/delphi language/delphi/examples/streaming/streaming.pas
+      - run: ./build/delphi/streaming
+      - run: fpc -Mobjfpc -Fulanguage/delphi -FEbuild/delphi language/delphi/examples/identity-policy/identity_policy.pas
+      - run: ./build/delphi/identity_policy
+      - run: fpc -Mobjfpc -Fulanguage/delphi -FEbuild/delphi language/delphi/examples/service/service.pas
+      - run: ./build/delphi/service
+      - run: fpc -Mobjfpc -Fulanguage/delphi -FEbuild/delphi language/delphi/examples/mcp/mcp.pas
+      - run: ./build/delphi/mcp
