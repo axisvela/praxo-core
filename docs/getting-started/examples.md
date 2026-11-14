@@ -5,7 +5,7 @@ examples live in the repository
 [`examples/`](https://github.com/axisvela/praxo-core/tree/main/examples)
 directory. Language-specific examples live under
 `language/<language>/examples/` so they are included in the dedicated language
-mirror repositories. For the nine-theme, sixteen-language matrix, see
+mirror repositories. For the nine-theme, thirty-language matrix, see
 [Language Coverage](language-coverage.md).
 
 ## Choose by Task

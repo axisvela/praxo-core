@@ -1,6 +1,6 @@
-# 16-Language Coverage Matrix
+# 30-Language Coverage Matrix
 
-The example catalog covers nine integration themes across sixteen language
+The example catalog covers nine integration themes across thirty language
 implementations. Each theme has a deterministic check that does not require a
 provider endpoint.
 
