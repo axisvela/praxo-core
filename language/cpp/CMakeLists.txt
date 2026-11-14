@@ -33,6 +33,9 @@ target_link_libraries(praxo-cpp-checkpoint-example PRIVATE praxo_cpp)
 add_executable(praxo-cpp-event-sink-example examples/event-sink/main.cpp)
 target_link_libraries(praxo-cpp-event-sink-example PRIVATE praxo_cpp)
 
+add_executable(praxo-cpp-streaming-example examples/streaming/main.cpp)
+target_link_libraries(praxo-cpp-streaming-example PRIVATE praxo_cpp)
+
 add_executable(praxo-cpp-harmovela-tests tests/harmovela.cpp)
 target_link_libraries(praxo-cpp-harmovela-tests PRIVATE praxo_cpp)
 
