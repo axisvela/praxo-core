@@ -394,9 +394,9 @@
   "Swift": {
     "dir": "language/swift",
     "docs": "https://axisvela.github.io/praxo-core/languages/swift/",
-    "install": ".package(url: \"https://github.com/axisvela/praxo-core-swift.git\", from: \"0.2.0\")",
+    "install": ".package(url: \"https://github.com/axisvela/praxo-core-swift.git\", from: \"0.4.0\")",
     "package": "praxo-core-swift",
-    "published_version": "0.2.0",
+    "published_version": "0.4.0",
     "registry": "Swift Package Index",
     "source_install": ".package(url: \"https://github.com/axisvela/praxo-core-swift.git\", from: \"0.5.0\")",
     "source_version": "0.5.0",

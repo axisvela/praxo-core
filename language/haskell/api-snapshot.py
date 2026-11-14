@@ -66,7 +66,9 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--check", action="store_true")
     args = parser.parse_args()
-    target = ROOT / "api/0.1.0.txt"
+    wire = (ROOT / "src/Praxo/Wire.hs").read_text(encoding="utf-8")
+    version = re.search(r'^sdkVersion = "([^"]+)"$', wire, re.MULTILINE)[1]
+    target = ROOT / "api" / f"{version}.txt"
     content = snapshot()
     if args.check:
         if not target.is_file() or target.read_text(encoding="utf-8") != content:

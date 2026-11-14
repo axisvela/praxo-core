@@ -53,10 +53,16 @@ installed model such as `llama3.2` and set `PRAXO_MODEL` accordingly.
 | C# | NuGet `Praxo.Core==0.8.0` | `cd language/csharp/examples/live-model; dotnet run` |
 | Rust | source with `http-ureq` | `cd language/rust/examples/live-model; cargo run` |
 | R | r-universe `praxocore==0.9.0` | `cd language/r/examples/live-model; Rscript live.R` |
+| Ruby | source | `ruby -I language/ruby/lib language/ruby/examples/live-model/live_starter.rb` |
+| PHP | source | `php language/php/examples/live-model/live_starter.php` |
+| Elixir | source | `elixir -pa language/elixir/build/ebin language/elixir/examples/live-model/live_starter.exs` |
+| Lua | source | `lua language/lua/examples/live-model/live_starter.lua` |
 
 The Go, Python, TypeScript, Java, C#, and R examples import a published package.
-The Rust example uses the repository source with the optional `http-ureq` feature
-until the next Rust release; it does not use a published crate feature.
+The Rust, Ruby, PHP, Elixir, and Lua examples run against repository source so
+they use the current adapter code; their READMEs also document package install
+where available. The Rust example uses the optional `http-ureq` feature until
+the next Rust release, so it does not rely on a published crate feature.
 
 Python `0.7.0`, TypeScript `0.6.0`, and Java `0.9.0` include the OpenAI
 tool-wire fix for tool-result follow-ups.
@@ -82,6 +88,10 @@ denied call produces no tool effect:
 - [C# starter](https://github.com/axisvela/praxo-core/tree/main/language/csharp/examples/consumer)
 - [Rust starter](https://github.com/axisvela/praxo-core/tree/main/language/rust/examples/consumer)
 - [R starter](https://github.com/axisvela/praxo-core/tree/main/language/r/examples/consumer)
+- [Ruby starter](https://github.com/axisvela/praxo-core/tree/main/language/ruby/examples/consumer)
+- [PHP starter](https://github.com/axisvela/praxo-core/tree/main/language/php/examples/consumer)
+- [Elixir starter](https://github.com/axisvela/praxo-core/tree/main/language/elixir/examples/consumer)
+- [Lua starter](https://github.com/axisvela/praxo-core/tree/main/language/lua/examples/consumer)
 
 ## Troubleshooting
 

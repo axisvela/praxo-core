@@ -310,6 +310,17 @@ class ReleaseChecksTests(unittest.TestCase):
         self.assertNotIn("PYPI_API_TOKEN", text)
         self.assertNotIn("password:", text)
 
+    def test_java_tag_push_builds_without_publishing_to_maven(self):
+        text = (ROOT / ".github/workflows/java-release.yml").read_text(encoding="utf-8")
+        publish = text.split("\n  publish:\n", 1)[1]
+        self.assertIn(
+            "if: github.event_name == 'workflow_dispatch' && inputs.target == 'publish'",
+            publish,
+        )
+        self.assertNotIn("github.event_name == 'push'", publish)
+        self.assertIn("          - build-only\n", text)
+        self.assertIn("          - publish\n", text)
+
     def test_typescript_release_uses_trusted_or_staged_publish(self):
         text = (ROOT / ".github/workflows/typescript-release.yml").read_text(encoding="utf-8")
         for expected in (

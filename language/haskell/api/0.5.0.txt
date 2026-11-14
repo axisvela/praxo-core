@@ -1,0 +1,155 @@
+# PRAXO-CORE Haskell Wire API 0.5.0
+# SPEC_VERSION 0.2.0
+
+## Praxo.Agent
+data AgentError = AgentError { errorCode :: String, errorMessage :: String } deriving (Eq, Show)
+data AgentOptions = AgentOptions { generate :: [Message] -> IO (Either AgentError Response), invoke :: ToolCall -> IO (Either AgentError Json), emit :: String -> IO (Either AgentError ()), maxSteps :: Int, maxTokens :: Integer }
+data Message = Message { messageRole :: String, messageContent :: String, messageToolCalls :: [ToolCall], messageToolCallId :: String } deriving (Eq, Show)
+data Response = Response { responseContent :: String, responseToolCalls :: [ToolCall], inputTokens :: Integer, outputTokens :: Integer } deriving (Eq, Show)
+data RunResult = RunResult { runOutput :: String, runSteps :: Int, runInputTokens :: Integer, runOutputTokens :: Integer, runMessages :: [Message] } deriving (Eq, Show)
+data ToolCall = ToolCall { toolCallId :: String, toolCallName :: String, toolCallArguments :: Json } deriving (Eq, Show)
+runAgent :: AgentOptions -> [Message] -> String -> IO (Either AgentError RunResult)
+
+## Praxo.Anthropic
+data AnthropicConfig = AnthropicConfig
+data AnthropicTool = AnthropicTool
+buildAnthropicRequest :: AnthropicConfig -> [Message] -> Either AgentError HttpRequest
+generateAnthropic :: AnthropicConfig -> [Message] -> IO (Either AgentError Response)
+parseAnthropicResponse :: String -> Either AgentError Response
+
+## Praxo.Delegation
+data SubagentRequest = SubagentRequest
+data SubagentResult = SubagentResult
+type SubagentRunner = SubagentRequest -> IO (Either AgentError SubagentResult)
+data SubagentTask = SubagentTask
+subagentRun :: SubagentRunner -> SubagentRequest -> IO (Either AgentError SubagentTask)
+
+## Praxo.Gemini
+data GeminiConfig = GeminiConfig
+data GeminiTool = GeminiTool
+buildGeminiRequest :: GeminiConfig -> [Message] -> Either AgentError HttpRequest
+generateGemini :: GeminiConfig -> [Message] -> IO (Either AgentError Response)
+parseGeminiResponse :: String -> Either AgentError Response
+
+## Praxo.Harmovela
+data HarmovelaRequest = HarmovelaRequest
+data HarmovelaResponse = HarmovelaResponse
+data HarmovelaSink = HarmovelaSink
+newtype HarmovelaTransport = HarmovelaTransport
+buildHarmovelaRequest :: HarmovelaSink -> Event -> IO (Either AgentError HarmovelaRequest)
+emitHarmovelaEvent :: HarmovelaSink -> Event -> IO (Either AgentError ())
+formatHarmovelaTimestamp :: Integer -> String
+newHarmovelaSink :: String -> HarmovelaTransport -> IO Integer -> HarmovelaSink
+
+## Praxo.Json
+data Json = JObject [(String, Json)] | JArray [Json] | JString String | JNumber Rational | JBool Bool | JNull deriving (Eq, Show)
+asArray :: Json -> [Json]
+asObject :: Json -> [(String, Json)]
+asString :: Json -> String
+encodeJson :: Json -> Either String String
+equalJson :: Json -> Json -> Bool
+field :: String -> Json -> Json
+parseJson :: String -> Either String Json
+
+## Praxo.JsonSchema
+data ValidationError = ValidationError { errorPath :: String, errorMessage :: String } deriving (Eq, Show)
+validateSchema :: Json -> Json -> Either String [ValidationError]
+
+## Praxo.Mcp
+data McpClient = McpClient
+newtype McpTransport = McpTransport (String -> Json -> IO (Either AgentError Json))
+mcpCallTool :: McpClient -> String -> Json -> IO (Either AgentError Json)
+mcpClient :: McpTransport -> String -> String -> IO (Either AgentError McpClient)
+mcpClose :: McpClient -> IO ()
+mcpListTools :: McpClient -> IO (Either AgentError [Json])
+
+## Praxo.Middleware
+data CallLimit = CallLimit
+data StructuredOutput = StructuredOutput
+applyStructured :: StructuredOutput -> String -> Either String String
+callLimit :: Int -> Int -> CallLimit
+callLimitModel :: CallLimit -> Either String CallLimit
+callLimitTool :: CallLimit -> Either String CallLimit
+checkToolSelected :: ToolSelection -> String -> Either String ()
+extractJson :: String -> Maybe Json
+fallbackEither :: Either e a -> Either e a -> Either e a
+fallbackGenerate :: IO (Either e a) -> IO (Either e a) -> IO (Either e a)
+piiRedact :: String -> String
+redactValue :: Json -> Json
+selectTools :: ToolSelection -> [String] -> [String]
+structuredOutput :: Json -> Int -> Maybe (String -> Either String String) -> StructuredOutput
+toolSelection :: [String] -> ToolSelection
+
+## Praxo.OpenAICompatible
+data HttpRequest = HttpRequest
+data HttpResponse = HttpResponse
+data OpenAIConfig = OpenAIConfig
+data OpenAITool = OpenAITool
+newtype Transport = Transport
+buildRequest :: OpenAIConfig -> [Message] -> Either AgentError HttpRequest
+generate :: OpenAIConfig -> [Message] -> IO (Either AgentError Response)
+parseResponse :: String -> Either AgentError Response
+
+## Praxo.Otel
+data OtelRequest = OtelRequest
+data OtelResponse = OtelResponse
+data OtelSink = OtelSink
+newtype OtelTransport = OtelTransport
+buildOtelRequest :: OtelSink -> Event -> IO (Either AgentError OtelRequest)
+emitOtelEvent :: OtelSink -> Event -> IO (Either AgentError ())
+newOtelSink :: String -> OtelTransport -> IO Integer -> OtelSink
+
+## Praxo.Pattern
+matchPattern :: String -> String -> Either String Bool
+
+## Praxo.Plugin
+parseManifest :: String -> Either String Json
+validateManifest :: Json -> Either String ()
+
+## Praxo.Retriever
+data Document = Document
+type Retriever = String -> Int -> IO (Either AgentError [Document])
+newRetriever :: (String -> Int -> IO (Either AgentError [Document])) -> Retriever
+retrieveDocuments :: Retriever -> String -> Int -> IO (Either AgentError [Document])
+
+## Praxo.Runtime
+data ContextBudget = ContextBudget { budgetMaxTokens :: Int, budgetKeepRecent :: Int } deriving (Eq, Show)
+data ContextMessage = ContextMessage
+data Decision = Decision { decisionAllowed :: Bool, decisionReason :: String } deriving (Eq, Show)
+data Event = Event
+data MemoryRecord = MemoryRecord
+data MemoryStore = MemoryStore
+newtype PathChecker = PathChecker [PathGrant] deriving (Eq, Show)
+data PathGrant = PathGrant { grantRoot :: String, grantAccess :: String } deriving (Eq, Show)
+data Sink = RecordSink [String] | MultiSink [Sink] | FilterSink Sink [String] deriving (Eq, Show)
+checkpointMarshal :: CheckpointAllowlist -> String -> Json -> Either String String
+checkpointUnmarshal :: CheckpointAllowlist -> String -> Either String Json
+compactContext :: ContextBudget -> [ContextMessage] -> ([ContextMessage], Bool)
+emitSink :: Sink -> Event -> Sink
+estimateTokens :: [ContextMessage] -> Int
+filterSink :: Sink -> [String] -> Sink
+memoryPut :: MemoryStore -> String -> MemoryRecord -> (MemoryStore, MemoryRecord)
+memorySearch :: MemoryStore -> String -> String -> Int -> [MemoryRecord]
+messageWire :: ContextMessage -> Json
+multiSink :: [Sink] -> Sink
+newCheckpoint :: CheckpointAllowlist
+newMemoryStore :: MemoryStore
+newSink :: Sink
+normalizePath :: String -> String
+pathAllowed :: PathChecker -> String -> String -> Bool
+pathCheck :: PathChecker -> String -> String -> Either String Decision
+pathChecker :: [PathGrant] -> Either String PathChecker
+registerCheckpoint :: CheckpointAllowlist -> String -> Either String CheckpointAllowlist
+sinkKindLists :: Sink -> [[String]]
+sinkKinds :: Sink -> [String]
+streamKinds :: [String]
+
+## Praxo.ToolCall
+data ToolCall = ToolCall { callName :: String, callInput :: Json, callMetadata :: [(String, String)] } deriving (Eq, Show)
+parseInputJson :: String -> Maybe Json
+parseToolCall :: String -> Maybe ToolCall
+stripToolCallMarkup :: String -> String
+
+## Praxo.Wire
+sdkVersion :: String
+specVersion :: String

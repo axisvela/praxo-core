@@ -65,7 +65,7 @@ jobs:
 
   publish:
     needs: build
-    if: github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && inputs.target == 'publish')
+    if: github.event_name == 'workflow_dispatch' && inputs.target == 'publish'
     runs-on: ubuntu-latest
     environment:
       name: maven-central

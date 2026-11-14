@@ -125,9 +125,11 @@ npm trusted publishers require an existing package, so configure the trusted
 publisher before the next release. Do not use a long-lived automation token for
 routine publication.
 Java publication uses `.github/workflows/java-release.yml`. A `java/vX.Y.Z` tag
-must match `language/java/pom.xml`; the workflow compiles, runs conformance and
-self-tests, then deploys with the `release` profile and publishes through the
-Central Portal. Configure environment `maven-central` and secrets
+must match `language/java/pom.xml`; the tag workflow compiles, runs conformance
+and self-tests, and uploads the package artifact without deploying. Maven
+Central publication is a manual dispatch with target `publish`, because the
+account has a limited monthly deployment quota; use it only after the Java
+source tag has stabilized. Configure environment `maven-central` and secrets
 `MAVEN_CENTRAL_USERNAME`, `MAVEN_CENTRAL_PASSWORD`, and
 `MAVEN_GPG_PRIVATE_KEY`. Manual dispatch defaults to `build-only`.
 

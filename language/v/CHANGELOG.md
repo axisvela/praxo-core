@@ -1,5 +1,21 @@
 # V Core Release Notes
 
+## 0.4.8 - 2026-11-13
+
+Source tag `v/v0.4.8`.
+
+### Fixed
+
+- Read OpenTelemetry event data through the object helper.
+- Stabilized the OTel sink test and repaired transport-seam verification.
+
+### Commits
+
+- `0308a7f` stabilize OTel sink test
+- `15bff10` read OTel event data as a JSON object
+- `93e2f48` always read OTel data through the object helper
+- `41ec91a` relax OTel attribute assertion
+
 ## 0.4.0 - 2026-11-13
 
 Source tag `v/v0.4.0`.

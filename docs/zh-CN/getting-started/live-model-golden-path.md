@@ -45,9 +45,17 @@ $env:PRAXO_MODEL = "llama3.2"
 | Python | PyPI `praxo-core==0.7.0` | `cd language/python/examples/live-model; python -m venv .venv; .venv/bin/python -m pip install -r requirements.txt; .venv/bin/python live_starter.py` |
 | TypeScript | npm `@axisvela/praxo-core@0.6.0` | `cd language/typescript/examples/live-model; npm install; npm start` |
 | Java | Maven `com.axisvela:praxo-core:0.9.0` | `cd language/java/examples/live-model; mvn -q compile exec:java` |
+| C# | NuGet `Praxo.Core==0.8.0` | `cd language/csharp/examples/live-model; dotnet run` |
+| Rust | source with `http-ureq` | `cd language/rust/examples/live-model; cargo run` |
+| R | r-universe `praxocore==0.9.0` | `cd language/r/examples/live-model; Rscript live.R` |
+| Ruby | source | `ruby -I language/ruby/lib language/ruby/examples/live-model/live_starter.rb` |
+| PHP | source | `php language/php/examples/live-model/live_starter.php` |
+| Elixir | source | `elixir -pa language/elixir/build/ebin language/elixir/examples/live-model/live_starter.exs` |
+| Lua | source | `lua language/lua/examples/live-model/live_starter.lua` |
 
-每个项目都导入已发布包。Go 示例不使用 module replacement，其他示例不使用
-仓库路径依赖。
+Go、Python、TypeScript、Java、C# 和 R 示例导入已发布包。Rust、Ruby、PHP、Elixir
+和 Lua 示例使用仓库源码，以便使用当前 adapter 代码；其 README 也记录可用的包安装
+方式。Rust 示例使用可选 `http-ureq` 特性，不依赖已发布 crate 中的该特性。
 
 Python `0.7.0`、TypeScript `0.6.0` 和 Java `0.9.0` 已包含 OpenAI tool-wire
 修复，可正确处理工具结果回传。
@@ -69,6 +77,13 @@ Python `0.7.0`、TypeScript `0.6.0` 和 Java `0.9.0` 已包含 OpenAI tool-wire
 - [Python 消费者](consumer-python.md)
 - [TypeScript 消费者](consumer-typescript.md)
 - [Java 消费者](consumer-java.md)
+- [C# starter](https://github.com/axisvela/praxo-core/tree/main/language/csharp/examples/consumer)
+- [Rust starter](https://github.com/axisvela/praxo-core/tree/main/language/rust/examples/consumer)
+- [R starter](https://github.com/axisvela/praxo-core/tree/main/language/r/examples/consumer)
+- [Ruby starter](https://github.com/axisvela/praxo-core/tree/main/language/ruby/examples/consumer)
+- [PHP starter](https://github.com/axisvela/praxo-core/tree/main/language/php/examples/consumer)
+- [Elixir starter](https://github.com/axisvela/praxo-core/tree/main/language/elixir/examples/consumer)
+- [Lua starter](https://github.com/axisvela/praxo-core/tree/main/language/lua/examples/consumer)
 
 ## 排错
 

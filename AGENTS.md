@@ -96,6 +96,8 @@ python scripts/test_sync_language_mirrors.py
 python scripts/sync_language_mirrors.py --dry-run
 python scripts/check_adapter_status.py --check
 python scripts/test_adapter_status.py
+python scripts/check_language_releases.py
+python -m unittest discover -s scripts -p "test_language_releases.py" -v
 cd language/typescript; npm ci
 cd language/typescript; npm run build
 cd language/typescript; npm run api:check

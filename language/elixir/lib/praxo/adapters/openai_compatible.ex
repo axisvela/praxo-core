@@ -37,7 +37,7 @@ defmodule Praxo.OpenAICompatible do
           "function" => %{
             "name" => tool.name,
             "description" => tool.description,
-            "parameters" => %{"type" => "object"}
+            "parameters" => tool.parameters || %{"type" => "object"}
           }
         }
       end)

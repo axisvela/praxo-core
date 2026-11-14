@@ -830,7 +830,12 @@ defmodule Praxo.Tests do
     request =
       Models.request(
         [%Praxo.Message{role: "user", content: "hi"}],
-        [Models.tool_spec("echo", "echo")]
+        [
+          Models.tool_spec("echo", "echo", %{
+            "type" => "object",
+            "properties" => %{"text" => %{"type" => "string"}}
+          })
+        ]
       )
 
     {:ok, response} = adapter.(request)
@@ -844,6 +849,11 @@ defmodule Praxo.Tests do
         check(payload["model"] == "test-model", "adapter model")
         check(hd(payload["messages"])["role"] == "user", "adapter role")
         check(hd(payload["tools"])["function"]["name"] == "echo", "adapter tool")
+        check(
+          get_in(hd(payload["tools"]), ["function", "parameters", "properties", "text", "type"]) ==
+            "string",
+          "adapter tool parameters"
+        )
     after
       1000 -> raise "adapter payload not captured"
     end
