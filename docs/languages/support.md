@@ -103,9 +103,9 @@ Registry values below were checked against the public registries on 2026-11-14.
 | --- | --- | --- | --- |
 | Python | `python/v0.7.0` | PyPI `praxo-core==0.7.0` published | Release workflow built and smoke-tested the `0.7.0` wheel and sdist; post-publication consumer check not rerun |
 | TypeScript | `typescript/v0.6.0` | npm `@axisvela/praxo-core@0.6.0` published as `latest` | Release workflow built and consumed the `0.6.0` tarball; post-publication consumer starter check not rerun |
-| Java | `java/v0.9.0` | Maven Central `com.axisvela:praxo-core:0.7.0` published | Source `0.9.0` tagged; Central still publishes `0.7.0`; `0.7.0` post-publication consumer check not rerun |
-| Rust | `rust/v0.6.0` | crates.io `praxo-core==0.6.0` published; `0.1.4` historical | Recorded for `0.1.4` only; not rerun for `0.6.0` |
-| C# | `csharp/v0.6.0` | NuGet `Praxo.Core==0.6.0` published | Not recorded |
+| Java | `java/v0.9.0` | Maven Central `com.axisvela:praxo-core:0.9.0` published | Release workflow built, signed, and published `0.9.0`; post-publication consumer check not rerun |
+| Rust | `rust/v0.8.0` | crates.io `praxo-core==0.8.0` published; `0.1.4` historical | Recorded for `0.1.4` only; not rerun for `0.8.0` |
+| C# | `csharp/v0.8.0` | NuGet `Praxo.Core==0.8.0` published | Not recorded |
 | Elixir | `elixir/v0.8.0` | Hex `praxo_core==0.8.0` published with OpenAI-compatible, Anthropic, Gemini, Harmovela, and MCP adapters; `0.5.1`, `0.4.1`, `0.4.0`, `0.3.0`, `0.2.0` historical | Extended starter added; Hex `0.4.1` resolved in a clean Mix project and allow/deny passed locally; `0.6.0` install smoke not rerun |
 | Erlang | `erlang/v0.7.1` | Hex `praxo_core_erlang==0.7.1` published; `0.4.0`, `0.3.1`, `0.2.0` historical | Not rerun for `0.5.0`; historical `0.1.1` smoke |
 | Ruby | `ruby/v0.7.0` | RubyGems `praxo-core==0.7.0` published; `0.4.1`, `0.4.0`, `0.3.0`, `0.2.0` historical | Extended starter added; RubyGems `0.4.1` installed into a clean gem home and allow/deny passed locally; `0.5.0` install smoke not rerun |
@@ -132,9 +132,9 @@ its latest version matches the manifest at the release tag.
 | --- | --- | --- | --- |
 | Python | `0.7.0` | PyPI `0.7.0` | current |
 | TypeScript | `0.6.0` | npm `0.6.0` | current |
-| Java | `0.9.0` | Maven Central `0.7.0` | source tagged `java/v0.9.0`; registry behind |
-| Rust | `0.8.0` | crates.io `0.6.0` | source prepared; latest tag and registry are `0.6.0` |
-| C# | `0.8.0` | NuGet `0.6.0` | source prepared; latest tag and registry are `0.6.0` |
+| Java | `0.9.0` | Maven Central `0.9.0` | current |
+| Rust | `0.8.0` | crates.io `0.8.0` | current |
+| C# | `0.8.0` | NuGet `0.8.0` | current |
 | Elixir | `0.8.0` | Hex `0.8.0` | current |
 | Erlang | `0.7.1` | Hex `0.7.1` | current |
 | Ruby | `0.7.0` | RubyGems `0.7.0` | current |

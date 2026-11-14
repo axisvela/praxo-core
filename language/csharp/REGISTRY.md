@@ -1,7 +1,7 @@
 # PRAXO-CORE C# Registry Introduction
 
-**Status:** source 0.8.0 prepared; NuGet 0.6.0 published. Source version `0.8.0`, source
-tag `csharp/v0.6.0`. Published registry version: `0.6.0`. Registry
+**Status:** published. Source version `0.8.0`, source
+tag `csharp/v0.8.0`. Published registry version: `0.8.0`. Registry
 pages are release snapshots; verify the published version before relying on a
 feature.
 
@@ -14,12 +14,12 @@ PRAXO-CORE is an embeddable, MIT-licensed agent framework. This package is its n
 | Field | Value |
 | --- | --- |
 | Package | `Praxo.Core` |
-| Registry | [NuGet](https://www.nuget.org/packages/Praxo.Core/0.6.0) |
+| Registry | [NuGet](https://www.nuget.org/packages/Praxo.Core/0.8.0) |
 | Source version | `0.8.0` |
-| Published registry version | `0.6.0` |
-| Install (published) | `dotnet add package Praxo.Core --version 0.6.0` |
+| Published registry version | `0.8.0` |
+| Install (published) | `dotnet add package Praxo.Core --version 0.8.0` |
 | Install (source/release prepared) | `ProjectReference to language/csharp/Praxo.Core` |
-| Source tag | `csharp/v0.6.0` |
+| Source tag | `csharp/v0.8.0` |
 | Tier | Core |
 | Contract | `SPEC_VERSION` `0.2.0` |
 | Documentation | https://axisvela.github.io/praxo-core/languages/csharp/ |

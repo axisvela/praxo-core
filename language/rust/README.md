@@ -16,8 +16,8 @@ included. A streaming SSE parser is
 included; an HTTP OpenAI-compatible client, VFS, and plugin hosts are not yet
 implemented.
 
-Source version `0.8.0` is prepared in the repository. The latest source tag and
-crates.io package are `rust/v0.6.0` and `praxo-core@0.6.0`. Supported contract:
+The latest source tag and crates.io package are `rust/v0.8.0` and
+`praxo-core@0.8.0`. Supported contract:
 `SPEC_VERSION` `0.2.0` (`praxo_core::SPEC_VERSION`).
 
 ## Registry and Coding-Agent Entry
@@ -26,12 +26,12 @@ crates.io package are `rust/v0.6.0` and `praxo-core@0.6.0`. Supported contract:
 - Machine-readable entry: [llms.txt](https://github.com/axisvela/praxo-core/blob/main/language/rust/llms.txt) and [llms.md](https://github.com/axisvela/praxo-core/blob/main/language/rust/llms.md)
 - [Examples](https://github.com/axisvela/praxo-core/tree/main/language/rust/examples): runnable language-specific examples.
 - Coding-agent contract: [docs/getting-started/coding-agents.md](https://github.com/axisvela/praxo-core/blob/main/docs/getting-started/coding-agents.md)
-- Registry: [crates.io](https://crates.io/crates/praxo-core/0.6.0)
+- Registry: [crates.io](https://crates.io/crates/praxo-core/0.8.0)
 
 ## Install
 
 ```bash
-cargo add praxo-core@0.6.0
+cargo add praxo-core@0.8.0
 ```
 
 ## Runnable Examples

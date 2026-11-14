@@ -44,13 +44,13 @@ $env:PRAXO_MODEL = "llama3.2"
 | Go | `github.com/axisvela/praxo-core/v2@v2.7.0` | `cd language/go/examples/live-model/go; go run .` |
 | Python | PyPI `praxo-core==0.7.0` | `cd language/python/examples/live-model; python -m venv .venv; .venv/bin/python -m pip install -r requirements.txt; .venv/bin/python live_starter.py` |
 | TypeScript | npm `@axisvela/praxo-core@0.6.0` | `cd language/typescript/examples/live-model; npm install; npm start` |
-| Java | Maven `com.axisvela:praxo-core:0.7.0` | `cd language/java/examples/live-model; mvn -q compile exec:java` |
+| Java | Maven `com.axisvela:praxo-core:0.9.0` | `cd language/java/examples/live-model; mvn -q compile exec:java` |
 
 每个项目都导入已发布包。Go 示例不使用 module replacement，其他示例不使用
 仓库路径依赖。
 
-Java 源码标签 `java/v0.9.0` 已包含 OpenAI tool-wire 修复，但 Maven Central
-仍提供 `0.7.0`。在下次 Java 发布前，Java 工具调用往返请使用源码构建。
+Python `0.7.0`、TypeScript `0.6.0` 和 Java `0.9.0` 已包含 OpenAI tool-wire
+修复，可正确处理工具结果回传。
 
 ## 示例内容
 

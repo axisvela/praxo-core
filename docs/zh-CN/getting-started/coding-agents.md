@@ -10,7 +10,7 @@
 | Go | `github.com/axisvela/praxo-core/v2` | `2.7.0` | [Go 消费者](consumer-go.md) |
 | Python | `praxo-core` | `0.7.0` | [Python 消费者](consumer-python.md) |
 | TypeScript | `@axisvela/praxo-core` | `0.6.0` | [TypeScript 消费者](consumer-typescript.md) |
-| Java | `com.axisvela:praxo-core` | `0.7.0` | [Java 消费者](consumer-java.md) |
+| Java | `com.axisvela:praxo-core` | `0.9.0` | [Java 消费者](consumer-java.md) |
 
 机器可读映射见 [`agent-integration.json`](agent-integration.json)。安装前请重新核对
 Registry；源码标签不能证明包仓库可用。Registry 页面是发布快照，可能落后于源码文档；

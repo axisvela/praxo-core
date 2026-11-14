@@ -47,13 +47,14 @@ Registry versions checked 2026-11-13 for the four pilot packages.
 | Go | [pkg.go.dev](https://pkg.go.dev/github.com/axisvela/praxo-core/v2) | `v2.7.0` | Rendered `v2.7.0` README shows the `@v2.7.0` install command, MIT license, canonical documentation and consumer links; the module proxy `@latest` reports `v2.7.0`; verified 2026-11-09 | No further action |
 | Python | [PyPI](https://pypi.org/project/praxo-core/) | `0.7.0` | `0.7.0` is published; the packaged README carries the absolute examples link and the `0.7.0` install command | No further action |
 | TypeScript | [npm](https://www.npmjs.com/package/@axisvela/praxo-core) | `0.6.0` | `0.6.0` is published as `latest`; the packaged README carries the absolute examples link and the `0.6.0` install command | No further action |
-| Java | [Maven Central](https://central.sonatype.com/artifact/com.axisvela/praxo-core) | `0.7.0` | Maven metadata reports `0.7.0`; the source tag `java/v0.9.0` is newer, and Central does not render the README | Publishes `0.9.0` when a Java release path and signing credentials are available |
+| Java | [Maven Central](https://central.sonatype.com/artifact/com.axisvela/praxo-core) | `0.9.0` | `0.9.0` is published with signed sources and javadoc; the POM description links the Java examples | No further action |
+| Rust | [crates.io](https://crates.io/crates/praxo-core) | `0.8.0` | `0.8.0` is published; the packaged README links the Rust examples | No further action |
+| C# | [NuGet](https://www.nuget.org/packages/Praxo.Core) | `0.8.0` | `0.8.0` is published; the packaged README links the C# examples | No further action |
 
-The published Python `0.7.0` and TypeScript `0.6.0` language pages were refreshed
-from this release. Java Maven Central remains at `0.7.0` even though source tag
-`java/v0.9.0` exists. The Go page follows the `v2.7.0` tag and was re-audited on
-2026-11-09. Do not claim that another published page is updated until its
-registry shows the new version and text.
+The Python `0.7.0`, TypeScript `0.6.0`, Java `0.9.0`, Rust `0.8.0`, and C#
+`0.8.0` language pages were refreshed from this release. The Go page follows the
+`v2.7.0` tag and was re-audited on 2026-11-09. Do not claim that another published
+page is updated until its registry shows the new version and text.
 
 Other registries are listed in [Registry Publication Status](registry-status.md).
 They were not all re-audited in this update; use the same checklist at release
