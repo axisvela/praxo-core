@@ -6,6 +6,7 @@ import check_example_coverage as coverage
 class ExampleCoverageTests(unittest.TestCase):
     def test_current_catalog_is_complete(self):
         self.assertEqual(coverage.missing(), [])
+        self.assertEqual(coverage.missing_ci(), [])
         self.assertEqual(coverage.main(), 0)
 
     def test_sample_only_directories_are_excluded(self):

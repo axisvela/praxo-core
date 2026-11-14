@@ -5,6 +5,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 LANGUAGE = ROOT / "language"
+WORKFLOWS = ROOT / ".github" / "workflows"
 GO_ONLY = {"clojure", "fsharp", "groovy", "javascript", "kotlin", "opencl", "scala"}
 THEMES = (
     "checkpoint",
@@ -54,10 +55,27 @@ def missing() -> list[str]:
     return failures
 
 
+def missing_ci() -> list[str]:
+    workflows = "\n".join(
+        path.read_text(encoding="utf-8")
+        for path in sorted(WORKFLOWS.glob("ci*.yml"))
+    )
+    failures = []
+    for theme, path in GO_THEMES.items():
+        relative = path.relative_to(ROOT).as_posix()
+        if relative not in workflows:
+            failures.append(f"go/{theme}")
+    return failures
+
+
 def main() -> int:
     failures = missing()
     if failures:
         print("missing examples: " + ", ".join(failures), file=sys.stderr)
+        return 1
+    failures = missing_ci()
+    if failures:
+        print("missing example CI runs: " + ", ".join(failures), file=sys.stderr)
         return 1
     print(f"Example coverage ok: {len(languages())} languages x {len(THEMES)} themes")
     return 0
