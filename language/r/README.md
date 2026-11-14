@@ -3,7 +3,7 @@
 R implementation of the PRAXO-CORE contract.
 
 - `SPEC_VERSION`: `0.2.0`
-- Core version: `0.9.0`
+- Core version: `0.10.0`
 - Tier: core
 - License: MIT
 - Dependencies: none (base R JSON parser/serializer)
@@ -19,7 +19,7 @@ R implementation of the PRAXO-CORE contract.
 
 ## Scope
 
-`0.9.0` implements all eleven conformance vector groups: tool-call parsing, JSON
+`0.10.0` implements all eleven conformance vector groups: tool-call parsing, JSON
 Schema, plugin manifests, memory, events, stream kinds, checkpoint envelopes,
 path policy, context budgets, middleware, the agent loop, and human-in-the-loop
 interrupt decisions. OpenAI-compatible, Harmovela, and stdio MCP adapters are
@@ -136,6 +136,6 @@ Local toolchain used by the repository maintainers lives at `D:\dev\R`.
 
 ## Release
 
-Tag shape: `r/v0.9.0`. The tag targets `SPEC_VERSION` `0.2.0`. r-universe
+Tag shape: `r/v0.10.0`. The tag targets `SPEC_VERSION` `0.2.0`. r-universe
 builds from the repository; CRAN submission uses `R CMD check --as-cran`. See
 [PUBLISHING.md](PUBLISHING.md) and [CHANGELOG.md](CHANGELOG.md).

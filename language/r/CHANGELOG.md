@@ -1,9 +1,15 @@
 # R Core Release Notes
 
-## Unreleased
+## 0.10.0 - 2026-11-14
+
+Source tag `r/v0.10.0`; r-universe publication is pending.
 
 ### Added
 
+- `agent_run(require_policy = TRUE)` rejects a run without a policy hook.
+- `agent_run(require_tool_scope = TRUE)` rejects a run with an empty
+  `allowed_tools` vector.
+- Both guards are opt-in and default to `FALSE`.
 - `agent_run` accepts `session` or `messages` for multi-turn history and returns
   the updated `messages` in its result.
 - Consumer starter (`examples/consumer`) and OpenAI-compatible live-model

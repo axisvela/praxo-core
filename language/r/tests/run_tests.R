@@ -759,6 +759,22 @@ delegation_test <- function() {
 
 delegation_test()
 
+expect_code(agent_run(function(request) done_response, "go",
+                      require_policy = TRUE),
+            "AGENT_INVALID_OPTIONS")
+expect_code(agent_run(function(request) done_response, "go",
+                      require_tool_scope = TRUE),
+            "AGENT_INVALID_OPTIONS")
+allowed <- agent_run(
+  function(request) done_response,
+  "go",
+  policy = record_policy()$hook,
+  allowed_tools = "echo",
+  require_policy = TRUE,
+  require_tool_scope = TRUE
+)
+stopifnot(identical(allowed$output, "done"))
+
 source(file.path(test_dir, "helpers", "mcp_tests.R"))
 source(file.path(test_dir, "helpers", "provider_tests.R"))
 

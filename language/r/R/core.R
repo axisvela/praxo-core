@@ -346,7 +346,16 @@ agent_run <- function(model, prompt, tools = list(), events = NULL, max_steps = 
                       cancellation = NULL, streaming_model = NULL,
                       on_delta = NULL, max_parallel_tools = 0L,
                       interrupt_on = character(), on_interrupt_decision = NULL,
-                      on_interrupt = NULL, session = NULL, messages = NULL) {
+                      on_interrupt = NULL, session = NULL, messages = NULL,
+                      require_policy = FALSE, require_tool_scope = FALSE) {
+  if (isTRUE(require_policy) && is.null(policy)) {
+    praxo_error("AGENT_INVALID_OPTIONS",
+                "agent: require policy: policy is required")
+  }
+  if (isTRUE(require_tool_scope) && length(allowed_tools) == 0L) {
+    praxo_error("AGENT_INVALID_OPTIONS",
+                "agent: require tool scope: allowed_tools must not be empty")
+  }
   run_id <- paste0("run-", format(Sys.time(), "%s"))
   if (max_steps <= 0L) max_steps <- 8L
   if (!is.null(session)) {
