@@ -39,7 +39,7 @@ Java implementation of the PRAXO-CORE contract. The normative contract is [`spec
 
 ## Coding-agent entry
 
-- [Examples](examples/): runnable language-specific examples.
+- [Examples](https://github.com/axisvela/praxo-core/tree/main/language/java/examples): runnable language-specific examples.
 - [llms.txt](llms.txt): compact machine-readable entry for this language.
 - [llms.md](llms.md): Markdown version of the same entry.
 - [Coding-agent contract](../../docs/getting-started/coding-agents.md): explicit

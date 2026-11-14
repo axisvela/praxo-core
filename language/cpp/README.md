@@ -13,6 +13,7 @@ is [`spec/`](../../spec/README.md); Go remains the reference implementation.
 
 - Registry introduction: [REGISTRY.md](https://github.com/axisvela/praxo-core/blob/main/language/cpp/REGISTRY.md)
 - Machine-readable entry: [llms.txt](https://github.com/axisvela/praxo-core/blob/main/language/cpp/llms.txt) and [llms.md](https://github.com/axisvela/praxo-core/blob/main/language/cpp/llms.md)
+- [Examples](https://github.com/axisvela/praxo-core/tree/main/language/cpp/examples): runnable language-specific examples.
 - Coding-agent contract: [docs/getting-started/coding-agents.md](https://github.com/axisvela/praxo-core/blob/main/docs/getting-started/coding-agents.md)
 - Registry: Source / CMake
 

@@ -5,6 +5,7 @@ import com.axisvela.praxo.PraxoException;
 import com.axisvela.praxo.model.Message;
 import com.axisvela.praxo.model.Request;
 import com.axisvela.praxo.model.Response;
+import com.axisvela.praxo.model.ToolCall;
 import com.axisvela.praxo.util.Json;
 
 import java.io.OutputStream;
@@ -14,18 +15,21 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicReference;
 
 public final class OpenAICompatibleSelfTest {
     private OpenAICompatibleSelfTest() {
     }
 
     public static void main(String[] args) throws Exception {
+        AtomicReference<Map<String, Object>> captured = new AtomicReference<>();
         HttpServer server = HttpServer.create(
                 new InetSocketAddress("127.0.0.1", 0), 0);
         server.createContext("/v1/chat/completions", exchange -> {
             Map<String, Object> payload = Json.object(new String(
                     exchange.getRequestBody().readAllBytes(),
                     StandardCharsets.UTF_8));
+            captured.set(payload);
             boolean stream = Boolean.TRUE.equals(payload.get("stream"));
             String prompt = "";
             if (payload.get("messages") != null) {
@@ -95,6 +99,31 @@ public final class OpenAICompatibleSelfTest {
                     "stream content");
             check(streamed.message().toolCalls().get(0).arguments()
                     .get("text").equals("hi"), "stream tool arguments");
+
+            Response toolResponse = model.generate(Request.of(List.of(
+                    Message.assistant("", List.of(
+                            new ToolCall("c1", "echo", new LinkedHashMap<>(
+                                    Map.of("text", "hi"))))),
+                    Message.tool("ok", "c1"))));
+            check(toolResponse.message().content().equals("hello"),
+                    "tool round-trip response");
+            List<Object> sent = Json.asArray(captured.get().get("messages"));
+            Map<String, Object> assistant = Json.asObject(sent.get(0));
+            Map<String, Object> tool = Json.asObject(sent.get(1));
+            check(!assistant.containsKey("toolCalls"), "assistant wire name");
+            check(!tool.containsKey("toolId"), "tool wire name");
+            Map<String, Object> call = Json.asObject(
+                    Json.asArray(assistant.get("tool_calls")).get(0));
+            check("c1".equals(call.get("id")), "tool call id");
+            check("function".equals(call.get("type")), "tool call type");
+            Map<String, Object> function = Json.asObject(call.get("function"));
+            check("echo".equals(function.get("name")),
+                    "tool call function name");
+            check("hi".equals(Json.object(
+                    String.valueOf(function.get("arguments"))).get("text")),
+                    "tool call arguments");
+            check("c1".equals(tool.get("tool_call_id")),
+                    "tool call id on tool message");
 
             try {
                 model.generateStream(

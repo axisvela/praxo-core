@@ -251,9 +251,14 @@ def insert_block(readme: Path, entry: dict) -> None:
 
 
 def examples_line(directory: Path) -> str:
-    if (directory / "examples").is_dir():
-        return "- [Examples](examples/): runnable language-specific examples.\n"
-    return ""
+    if not (directory / "examples").is_dir():
+        return ""
+    relative = directory.relative_to(ROOT).as_posix()
+    target = "examples" if relative == "." else f"{relative}/examples"
+    return (
+        f"- [Examples](https://github.com/axisvela/praxo-core/tree/main/{target}): "
+        "runnable language-specific examples.\n"
+    )
 
 
 def render_registry(entry: dict, directory: Path) -> str:

@@ -74,12 +74,7 @@ class OpenAICompatibleModel:
         return await asyncio.to_thread(self._post_stream, payload, on_delta)
 
     def _payload(self, request: Request, stream: bool) -> dict[str, Any]:
-        messages: list[dict[str, Any]] = []
-        for message in request.messages:
-            wire = message.to_wire()
-            if "content" not in wire and not wire.get("toolCalls"):
-                wire["content"] = ""
-            messages.append(wire)
+        messages = [_openai_message(message) for message in request.messages]
         payload: dict[str, Any] = {
             "model": request.model or self.config.model,
             "messages": messages,
@@ -233,6 +228,58 @@ class OpenAICompatibleModel:
             usage=_parse_usage(data.get("usage") or {}),
             finish_reason=choice.get("finish_reason"),
         )
+
+
+def _openai_message(message: Message) -> dict[str, Any]:
+    out: dict[str, Any] = {"role": message.role}
+    content = _openai_content(message)
+    if content is not None:
+        out["content"] = content
+    if message.tool_calls:
+        calls = []
+        for call in message.tool_calls:
+            calls.append(
+                {
+                    "id": call.id,
+                    "type": "function",
+                    "function": {
+                        "name": call.name,
+                        "arguments": json.dumps(call.arguments),
+                    },
+                }
+            )
+        out["tool_calls"] = calls
+    if message.tool_id is not None:
+        out["tool_call_id"] = message.tool_id
+    return out
+
+
+def _openai_content(message: Message) -> Any:
+    if not message.content_blocks:
+        return message.content or None
+    parts: list[dict[str, Any]] = []
+    if message.content:
+        parts.append({"type": "text", "text": message.content})
+    for block in message.content_blocks:
+        if block.type == "text":
+            if not block.text:
+                raise PraxoError("openaicompat: text content block is empty")
+            parts.append({"type": "text", "text": block.text})
+        elif block.type == "image_url":
+            if not block.image_url:
+                raise PraxoError("openaicompat: image_url content block is empty")
+            parts.append(
+                {"type": "image_url", "image_url": {"url": block.image_url}}
+            )
+        else:
+            raise PraxoError(
+                f"openaicompat: unsupported content block type {block.type!r}"
+            )
+    if not parts:
+        return None
+    if len(parts) == 1 and parts[0]["type"] == "text":
+        return parts[0]["text"]
+    return parts
 
 
 def _build_call(index: int, raw: dict[str, Any]) -> ToolCall:

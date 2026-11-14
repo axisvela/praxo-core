@@ -72,6 +72,11 @@
 - The Ruby consumer CI job installs the pinned gem explicitly, and the Lua
   consumer CI job installs into a temporary LuaRocks tree instead of assuming a
   writable system tree.
+- The Python, TypeScript, and Java OpenAI-compatible adapters now translate core
+  message fields to OpenAI wire names (`tool_calls`, `tool_call_id`). They
+  previously sent `toolCalls`/`toolId`, so a tool-result follow-up was rejected
+  by strict endpoints such as DeepSeek. The Go reference already emitted the
+  OpenAI names.
 
 ## [2.7.0] - 2026-11-09
 

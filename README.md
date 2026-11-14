@@ -47,7 +47,7 @@ See the full [implementation directory](docs/languages/index.md) and the
 
 - Registry introduction: [REGISTRY.md](https://github.com/axisvela/praxo-core/blob/main/REGISTRY.md)
 - Machine-readable entry: [llms.txt](https://github.com/axisvela/praxo-core/blob/main/llms.txt) and [llms.md](https://github.com/axisvela/praxo-core/blob/main/llms.md)
-- [Examples](examples/): runnable language-specific examples.
+- [Examples](https://github.com/axisvela/praxo-core/tree/main/examples): runnable language-specific examples.
 - Coding-agent contract: [docs/getting-started/coding-agents.md](https://github.com/axisvela/praxo-core/blob/main/docs/getting-started/coding-agents.md)
 - Registry: [Language Release Index](docs/languages/registry-status.md)
 

@@ -20,6 +20,8 @@ GNU Octave 复用 `language/matlab/examples/` 下的共享 MATLAB 示例；`matl
 
 ## 语言与验证方式
 
+下表列出十六种主要 Core 语言；其余十四种额外 SDK 语言在各主题章节中列出。
+
 | 语言 | 示例根目录 | 本地 / CI 证据 |
 | --- | --- | --- |
 | Go | `examples/` 与 `examples/recipes/` | Go 测试与配方 |
@@ -105,12 +107,7 @@ transport-neutral HTTP handler 示例也已覆盖 Dart、Perl、Julia、Swift、
 
 ## 额外 SDK 语言：MCP
 
-MCP transport 示例也已覆盖 Dart、Perl、D、Delphi 和 Objective-C，入口位于 `language/<language>/examples/mcp`。MATLAB 与 PowerShell 当前版本未暴露 MCP 客户端；其余源码 SDK 由原生 MCP 测试覆盖。
-
-## 额外 SDK 语言：MCP
-
-MCP transport 示例也已覆盖 Dart、Perl、Julia、Swift、Haskell、OCaml、D、Nim、Zig、V、Delphi 和 Objective-C，入口位于 `language/<language>/examples/mcp`。MATLAB 与 PowerShell 当前版本未暴露 MCP 客户端。
-
-## 额外 SDK 语言：MCP
-
-MCP transport 示例也已覆盖 Dart、Perl、Julia、Swift、Haskell、OCaml、D、Nim、Zig、V、Delphi、Objective-C 和 MATLAB，入口位于 `language/<language>/examples/mcp`。MATLAB/Octave 与 PowerShell Core 未内置 MCP 客户端，因此这些示例是 transport-neutral 的。
+MCP transport 示例也已覆盖 Dart、Perl、Julia、Swift、Haskell、OCaml、D、Nim、Zig、V、
+Delphi、PowerShell、MATLAB 和 Objective-C，入口位于
+`language/<language>/examples/mcp`。MATLAB/Octave 与 PowerShell Core 未内置 MCP
+客户端，因此这两个示例是 transport-neutral 的。

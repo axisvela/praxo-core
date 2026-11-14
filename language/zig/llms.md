@@ -34,6 +34,7 @@
 - Registry introduction: `REGISTRY.md`
 - Markdown entry: `llms.md`
 - Compact entry: `llms.txt`
+- [Examples](https://github.com/axisvela/praxo-core/tree/main/language/zig/examples): runnable language-specific examples.
 - Coding-agent contract: ../../docs/getting-started/coding-agents.md
 
 ## Boundaries

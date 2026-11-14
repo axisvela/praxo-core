@@ -12,7 +12,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from praxo.adapters.openaicompat import OpenAIConfig, OpenAICompatibleModel
 from praxo.agent import Agent, AgentOptions, Session
 from praxo.errors import PraxoError
-from praxo.model import Message, Request, Response, Usage
+from praxo.model import Message, Request, Response, ToolCall, Usage
 
 NON_STREAM = {
     "choices": [
@@ -71,9 +71,12 @@ STREAM = [
 
 
 class Handler(BaseHTTPRequestHandler):
+    last_body: dict = {}
+
     def do_POST(self) -> None:
         length = int(self.headers.get("Content-Length", "0"))
         body = json.loads(self.rfile.read(length))
+        Handler.last_body = body
         messages = body.get("messages") or []
         prompt = messages[-1].get("content") if messages else None
         self.send_response(200)
@@ -119,6 +122,33 @@ class OpenAICompatTest(unittest.IsolatedAsyncioTestCase):
         return OpenAICompatibleModel(
             OpenAIConfig(base_url=self.base_url, api_key="k", model="test")
         )
+
+    async def test_payload_uses_openai_tool_wire_names(self) -> None:
+        request = Request(
+            messages=[
+                Message(
+                    role="assistant",
+                    content="",
+                    tool_calls=[
+                        ToolCall(id="c1", name="echo", arguments={"text": "hi"})
+                    ],
+                ),
+                Message(role="tool", content="ok", tool_id="c1"),
+            ]
+        )
+        await self.model().generate(request)
+        messages = Handler.last_body["messages"]
+        assistant, tool = messages
+        self.assertNotIn("toolCalls", assistant)
+        self.assertNotIn("toolId", tool)
+        self.assertEqual(assistant["tool_calls"][0]["id"], "c1")
+        self.assertEqual(assistant["tool_calls"][0]["type"], "function")
+        self.assertEqual(assistant["tool_calls"][0]["function"]["name"], "echo")
+        self.assertEqual(
+            json.loads(assistant["tool_calls"][0]["function"]["arguments"]),
+            {"text": "hi"},
+        )
+        self.assertEqual(tool["tool_call_id"], "c1")
 
     async def test_generate(self) -> None:
         response = await self.model().generate(

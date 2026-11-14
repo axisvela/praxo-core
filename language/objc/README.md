@@ -20,6 +20,7 @@ review, package publication, and a delivery date are not claimed.
 
 - Registry introduction: [REGISTRY.md](https://github.com/axisvela/praxo-core/blob/main/language/objc/REGISTRY.md)
 - Machine-readable entry: [llms.txt](https://github.com/axisvela/praxo-core/blob/main/language/objc/llms.txt) and [llms.md](https://github.com/axisvela/praxo-core/blob/main/language/objc/llms.md)
+- [Examples](https://github.com/axisvela/praxo-core/tree/main/language/objc/examples): runnable language-specific examples.
 - Coding-agent contract: [docs/getting-started/coding-agents.md](https://github.com/axisvela/praxo-core/blob/main/docs/getting-started/coding-agents.md)
 - Registry: Source
 

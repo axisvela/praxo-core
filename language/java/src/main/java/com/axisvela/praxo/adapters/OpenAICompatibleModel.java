@@ -1,6 +1,7 @@
 package com.axisvela.praxo.adapters;
 
 import com.axisvela.praxo.PraxoException;
+import com.axisvela.praxo.model.ContentBlock;
 import com.axisvela.praxo.model.Message;
 import com.axisvela.praxo.model.Model;
 import com.axisvela.praxo.model.Request;
@@ -79,11 +80,7 @@ public final class OpenAICompatibleModel implements StreamingModel {
                 ? config.model() : request.model());
         List<Object> messages = new ArrayList<>();
         for (Message message : request.messages()) {
-            Map<String, Object> wire = message.toWire();
-            if (!wire.containsKey("content") && !wire.containsKey("toolCalls")) {
-                wire.put("content", "");
-            }
-            messages.add(wire);
+            messages.add(openAIMessage(message));
         }
         payload.put("messages", messages);
         payload.put("stream", stream);
@@ -121,6 +118,86 @@ public final class OpenAICompatibleModel implements StreamingModel {
             payload.put("temperature", request.temperature());
         }
         return payload;
+    }
+
+    private Map<String, Object> openAIMessage(Message message) {
+        Map<String, Object> out = new LinkedHashMap<>();
+        out.put("role", message.role());
+        Object content = openAIContent(message);
+        if (content != null) {
+            out.put("content", content);
+        }
+        if (!message.toolCalls().isEmpty()) {
+            List<Object> calls = new ArrayList<>();
+            for (ToolCall call : message.toolCalls()) {
+                Map<String, Object> function = new LinkedHashMap<>();
+                function.put("name", call.name());
+                function.put("arguments", Json.stringify(call.arguments()));
+                Map<String, Object> item = new LinkedHashMap<>();
+                item.put("id", call.id());
+                item.put("type", "function");
+                item.put("function", function);
+                calls.add(item);
+            }
+            out.put("tool_calls", calls);
+        }
+        if (message.toolId() != null) {
+            out.put("tool_call_id", message.toolId());
+        }
+        return out;
+    }
+
+    private Object openAIContent(Message message) {
+        List<ContentBlock> blocks = message.contentBlocks();
+        if (blocks.isEmpty()) {
+            return message.content() == null || message.content().isEmpty()
+                    ? null : message.content();
+        }
+        List<Object> parts = new ArrayList<>();
+        if (message.content() != null && !message.content().isEmpty()) {
+            Map<String, Object> text = new LinkedHashMap<>();
+            text.put("type", "text");
+            text.put("text", message.content());
+            parts.add(text);
+        }
+        for (ContentBlock block : blocks) {
+            if ("text".equals(block.type())) {
+                if (block.text() == null || block.text().isEmpty()) {
+                    throw new PraxoException(
+                            "OPENAI_COMPAT_ERROR",
+                            "openaicompat: text content block is empty");
+                }
+                Map<String, Object> text = new LinkedHashMap<>();
+                text.put("type", "text");
+                text.put("text", block.text());
+                parts.add(text);
+            } else if ("image_url".equals(block.type())) {
+                if (block.imageUrl() == null || block.imageUrl().isEmpty()) {
+                    throw new PraxoException(
+                            "OPENAI_COMPAT_ERROR",
+                            "openaicompat: image_url content block is empty");
+                }
+                Map<String, Object> image = new LinkedHashMap<>();
+                image.put("url", block.imageUrl());
+                Map<String, Object> part = new LinkedHashMap<>();
+                part.put("type", "image_url");
+                part.put("image_url", image);
+                parts.add(part);
+            } else {
+                throw new PraxoException(
+                        "OPENAI_COMPAT_ERROR",
+                        "openaicompat: unsupported content block type \""
+                                + block.type() + "\"");
+            }
+        }
+        if (parts.isEmpty()) {
+            return null;
+        }
+        if (parts.size() == 1
+                && "text".equals(((Map<?, ?>) parts.get(0)).get("type"))) {
+            return ((Map<?, ?>) parts.get(0)).get("text");
+        }
+        return parts;
     }
 
     private Response parseResponse(Map<String, Object> data) {

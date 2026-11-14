@@ -108,6 +108,67 @@ function startServer() {
   });
 }
 
+function startCaptureServer() {
+  const captured = [];
+  const server = http.createServer((request, response) => {
+    let body = "";
+    request.on("data", (chunk) => {
+      body += chunk;
+    });
+    request.on("end", () => {
+      captured.push(JSON.parse(body || "{}"));
+      response.writeHead(200, { "Content-Type": "application/json" });
+      response.end(
+        JSON.stringify({
+          choices: [
+            {
+              message: { role: "assistant", content: "ok" },
+              finish_reason: "stop",
+            },
+          ],
+          usage: {},
+        })
+      );
+    });
+  });
+  return new Promise((resolve) => {
+    server.listen(0, "127.0.0.1", () =>
+      resolve({ server, captured })
+    );
+  });
+}
+
+test("OpenAI-compatible request uses tool wire names", async (t) => {
+  const { server, captured } = await startCaptureServer();
+  t.after(() => server.close());
+  const { port } = server.address();
+  const model = new OpenAICompatibleModel({
+    baseUrl: `http://127.0.0.1:${port}/v1`,
+    model: "test",
+  });
+  await model.generate({
+    messages: [
+      {
+        role: "assistant",
+        content: "",
+        toolCalls: [{ id: "c1", name: "echo", arguments: { text: "hi" } }],
+      },
+      { role: "tool", content: "ok", toolId: "c1" },
+    ],
+  });
+  const [assistant, tool] = captured[0].messages;
+  assert.equal(assistant.tool_calls[0].id, "c1");
+  assert.equal(assistant.tool_calls[0].type, "function");
+  assert.equal(assistant.tool_calls[0].function.name, "echo");
+  assert.deepEqual(
+    JSON.parse(assistant.tool_calls[0].function.arguments),
+    { text: "hi" }
+  );
+  assert.equal(assistant.toolCalls, undefined);
+  assert.equal(tool.tool_call_id, "c1");
+  assert.equal(tool.toolId, undefined);
+});
+
 test("OpenAI-compatible non-streaming generation", async (t) => {
   const server = await startServer();
   t.after(() => server.close());

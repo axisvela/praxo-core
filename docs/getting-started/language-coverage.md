@@ -23,6 +23,9 @@ GNU Octave reuses the shared MATLAB examples under `language/matlab/examples/`;
 
 ## Languages and Verification
 
+The table below covers the sixteen primary Core languages. The fourteen
+additional SDK languages are listed in the per-theme sections.
+
 | Language | Example root | Local / CI evidence |
 | --- | --- | --- |
 | Go | `examples/` and `examples/recipes/` | Go tests and recipes |
@@ -112,12 +115,7 @@ Transport-neutral HTTP handler examples are also available for Dart, Perl, Julia
 
 ## Additional SDK Languages: MCP
 
-MCP transport examples are also available for Dart, Perl, D, Delphi, and Objective-C under `language/<language>/examples/mcp`. MATLAB and PowerShell do not expose an MCP client in this release; the remaining source SDKs are covered by their native MCP test suites.
-
-## Additional SDK Languages: MCP
-
-MCP transport examples are also available for Dart, Perl, Julia, Swift, Haskell, OCaml, D, Nim, Zig, V, Delphi, and Objective-C under `language/<language>/examples/mcp`. MATLAB and PowerShell do not expose an MCP client in this release.
-
-## Additional SDK Languages: MCP
-
-MCP transport examples are also available for Dart, Perl, Julia, Swift, Haskell, OCaml, D, Nim, Zig, V, Delphi, Objective-C, and MATLAB under `language/<language>/examples/mcp`. The MATLAB and PowerShell examples are transport-neutral because those Cores do not bundle an MCP client.
+MCP transport examples are available for Dart, Perl, Julia, Swift, Haskell,
+OCaml, D, Nim, Zig, V, Delphi, PowerShell, MATLAB, and Objective-C under
+`language/<language>/examples/mcp`. The MATLAB and PowerShell examples are
+transport-neutral because those Cores do not bundle an MCP client.

@@ -10,7 +10,7 @@
   <packaging>jar</packaging>
 
   <name>PRAXO-CORE Java SDK</name>
-  <description>Embeddable MIT-licensed Java agent runtime with policy, human-in-the-loop approvals, checkpoints, tools, events, memory, and an agent loop</description>
+  <description>Embeddable MIT-licensed Java agent runtime with policy, human-in-the-loop approvals, checkpoints, tools, events, memory, and an agent loop. Examples: https://github.com/axisvela/praxo-core/tree/main/language/java/examples</description>
   <url>https://axisvela.github.io/praxo-core/</url>
 
   <licenses>
@@ -32,7 +32,7 @@
     <connection>scm:git:https://github.com/axisvela/praxo-core.git</connection>
     <developerConnection>scm:git:ssh://git@github.com/axisvela/praxo-core.git</developerConnection>
     <url>https://github.com/axisvela/praxo-core</url>
-    <tag>java/v0.7.1</tag>
+    <tag>java/v0.9.0</tag>
   </scm>
 
   <properties>

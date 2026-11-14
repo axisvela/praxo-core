@@ -1,8 +1,8 @@
 # Java Core Release Notes
 
-## 0.9.0 - Unreleased
+## 0.9.0 - 2026-11-14
 
-Planned source tag `java/v0.9.0`.
+Source tag `java/v0.9.0`.
 
 ### Added
 
@@ -10,9 +10,13 @@ Planned source tag `java/v0.9.0`.
   launch/check/wait/update/cancel and terminal states.
 - Retriever seam (`retriever.Document`, `Retriever`).
 
-## 0.8.0 - Unreleased
+### Fixed
 
-Planned source tag `java/v0.8.0`.
+- The OpenAI-compatible adapter now emits `tool_calls` and `tool_call_id`
+  instead of the core wire names, so tool-result follow-ups work with strict
+  endpoints such as DeepSeek.
+
+## 0.8.0 - Not released (included in 0.9.0)
 
 ### Added
 

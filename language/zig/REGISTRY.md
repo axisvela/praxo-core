@@ -39,6 +39,7 @@ Zig 0.17 implementation of the PRAXO-CORE agent contract. The normative contract
 
 ## Coding-agent entry
 
+- [Examples](https://github.com/axisvela/praxo-core/tree/main/language/zig/examples): runnable language-specific examples.
 - [llms.txt](llms.txt): compact machine-readable entry for this language.
 - [llms.md](llms.md): Markdown version of the same entry.
 - [Coding-agent contract](../../docs/getting-started/coding-agents.md): explicit

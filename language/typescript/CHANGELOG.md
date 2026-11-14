@@ -1,8 +1,9 @@
 # TypeScript Core Release Notes
 
-## 0.6.0 - Unreleased
+## 0.6.0 - 2026-11-14
 
-Planned source tag `typescript/v0.6.0`.
+Source tag `typescript/v0.6.0`. npm publishes `@axisvela/praxo-core@0.6.0` from
+that tag.
 
 ### Added
 
@@ -12,6 +13,12 @@ Planned source tag `typescript/v0.6.0`.
 - Local subagent delegation (`src/delegation.ts`) with
   launch/check/wait/update/cancel and terminal states.
 - Retriever seam (`src/retriever.ts` `Document`, `Retriever`, `FuncRetriever`).
+
+### Fixed
+
+- The OpenAI-compatible adapter now emits `tool_calls` and `tool_call_id`
+  instead of the core wire names, so tool-result follow-ups work with strict
+  endpoints such as DeepSeek.
 
 ## 0.5.0 - 2026-11-12
 

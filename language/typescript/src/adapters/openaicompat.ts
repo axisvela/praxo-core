@@ -7,7 +7,6 @@ import {
   StreamingModel,
   ToolCall,
   Usage,
-  messageToWire,
   usage,
 } from "../model";
 
@@ -196,13 +195,9 @@ export class OpenAICompatibleModel implements StreamingModel {
     request: Request,
     stream: boolean
   ): Record<string, unknown> {
-    const messages = request.messages.map((message: Message) => {
-      const wire = messageToWire(message);
-      if (wire.content === undefined && !wire.toolCalls) {
-        wire.content = "";
-      }
-      return wire;
-    });
+    const messages = request.messages.map((message: Message) =>
+      openAIMessage(message)
+    );
     const payload: Record<string, unknown> = {
       model: request.model ?? this.config.model ?? "",
       messages,
@@ -299,6 +294,55 @@ function buildCall(
     name: String(fn.name ?? ""),
     arguments: args,
   };
+}
+
+function openAIMessage(message: Message): Record<string, unknown> {
+  const out: Record<string, unknown> = { role: message.role };
+  const content = openAIContent(message);
+  if (content !== undefined) out.content = content;
+  if (message.toolCalls?.length) {
+    out.tool_calls = message.toolCalls.map((call) => ({
+      id: call.id,
+      type: "function",
+      function: {
+        name: call.name,
+        arguments: JSON.stringify(call.arguments),
+      },
+    }));
+  }
+  if (message.toolId !== undefined) out.tool_call_id = message.toolId;
+  return out;
+}
+
+function openAIContent(message: Message): unknown {
+  const blocks = message.contentBlocks ?? [];
+  if (blocks.length === 0) {
+    return message.content ? message.content : undefined;
+  }
+  const parts: Record<string, unknown>[] = [];
+  if (message.content) parts.push({ type: "text", text: message.content });
+  for (const block of blocks) {
+    if (block.type === "text") {
+      if (!block.text) {
+        throw new PraxoError("openaicompat: text content block is empty");
+      }
+      parts.push({ type: "text", text: block.text });
+    } else if (block.type === "image_url") {
+      if (!block.imageUrl) {
+        throw new PraxoError("openaicompat: image_url content block is empty");
+      }
+      parts.push({ type: "image_url", image_url: { url: block.imageUrl } });
+    } else {
+      throw new PraxoError(
+        `openaicompat: unsupported content block type "${block.type}"`
+      );
+    }
+  }
+  if (parts.length === 0) return undefined;
+  if (parts.length === 1 && parts[0].type === "text") {
+    return parts[0].text;
+  }
+  return parts;
 }
 
 function parseUsage(raw: unknown): Usage {

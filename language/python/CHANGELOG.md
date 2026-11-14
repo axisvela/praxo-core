@@ -1,8 +1,8 @@
 # Python Core Release Notes
 
-## 0.7.0 - Unreleased
+## 0.7.0 - 2026-11-14
 
-Planned source tag `python/v0.7.0`.
+Source tag `python/v0.7.0`. PyPI publishes `praxo-core==0.7.0` from that tag.
 
 ### Added
 
@@ -12,6 +12,12 @@ Planned source tag `python/v0.7.0`.
 - Local subagent delegation (`praxo.delegation.SubagentManager`) with
   launch/check/wait/update/cancel and terminal states.
 - Retriever seam (`praxo.retriever.Document`, `Retriever`, `FuncRetriever`).
+
+### Fixed
+
+- The OpenAI-compatible adapter now emits `tool_calls` and `tool_call_id`
+  instead of the core wire names, so tool-result follow-ups work with strict
+  endpoints such as DeepSeek.
 
 ## 0.6.0 - 2026-11-12
 

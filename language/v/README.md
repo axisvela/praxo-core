@@ -16,6 +16,7 @@ outside the declared Core scope.
 
 - Registry introduction: [REGISTRY.md](https://github.com/axisvela/praxo-core/blob/main/language/v/REGISTRY.md)
 - Machine-readable entry: [llms.txt](https://github.com/axisvela/praxo-core/blob/main/language/v/llms.txt) and [llms.md](https://github.com/axisvela/praxo-core/blob/main/language/v/llms.md)
+- [Examples](https://github.com/axisvela/praxo-core/tree/main/language/v/examples): runnable language-specific examples.
 - Coding-agent contract: [docs/getting-started/coding-agents.md](https://github.com/axisvela/praxo-core/blob/main/docs/getting-started/coding-agents.md)
 - Registry: [VPM (pending)](https://github.com/axisvela/praxo-core-v)
 

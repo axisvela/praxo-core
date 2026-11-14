@@ -25,6 +25,7 @@ date are not claimed.
 
 - Registry introduction: [REGISTRY.md](https://github.com/axisvela/praxo-core/blob/main/language/ocaml/REGISTRY.md)
 - Machine-readable entry: [llms.txt](https://github.com/axisvela/praxo-core/blob/main/language/ocaml/llms.txt) and [llms.md](https://github.com/axisvela/praxo-core/blob/main/language/ocaml/llms.md)
+- [Examples](https://github.com/axisvela/praxo-core/tree/main/language/ocaml/examples): runnable language-specific examples.
 - Coding-agent contract: [docs/getting-started/coding-agents.md](https://github.com/axisvela/praxo-core/blob/main/docs/getting-started/coding-agents.md)
 - Registry: [opam (pending)](https://github.com/axisvela/praxo-core-ocaml)
 

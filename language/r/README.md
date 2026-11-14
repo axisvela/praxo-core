@@ -12,6 +12,7 @@ R implementation of the PRAXO-CORE contract.
 
 - Registry introduction: [REGISTRY.md](https://github.com/axisvela/praxo-core/blob/main/language/r/REGISTRY.md)
 - Machine-readable entry: [llms.txt](https://github.com/axisvela/praxo-core/blob/main/language/r/llms.txt) and [llms.md](https://github.com/axisvela/praxo-core/blob/main/language/r/llms.md)
+- [Examples](https://github.com/axisvela/praxo-core/tree/main/language/r/examples): runnable language-specific examples.
 - Coding-agent contract: [docs/getting-started/coding-agents.md](https://github.com/axisvela/praxo-core/blob/main/docs/getting-started/coding-agents.md)
 - Registry: [r-universe](https://axisvela.r-universe.dev/praxocore)
 

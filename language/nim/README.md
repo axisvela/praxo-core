@@ -15,6 +15,7 @@ outside the declared Core scope.
 
 - Registry introduction: [REGISTRY.md](https://github.com/axisvela/praxo-core/blob/main/language/nim/REGISTRY.md)
 - Machine-readable entry: [llms.txt](https://github.com/axisvela/praxo-core/blob/main/language/nim/llms.txt) and [llms.md](https://github.com/axisvela/praxo-core/blob/main/language/nim/llms.md)
+- [Examples](https://github.com/axisvela/praxo-core/tree/main/language/nim/examples): runnable language-specific examples.
 - Coding-agent contract: [docs/getting-started/coding-agents.md](https://github.com/axisvela/praxo-core/blob/main/docs/getting-started/coding-agents.md)
 - Registry: [Nimble/nim-lang packages](https://github.com/axisvela/praxo-core-nim)
 
