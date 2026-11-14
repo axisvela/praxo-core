@@ -13,7 +13,7 @@ provider endpoint.
 | Streaming | 30 | `language/<language>/examples/streaming` |
 | Structured output | 30 | `language/<language>/examples/structured-output` |
 | Identity and policy | 30 | `language/<language>/examples/identity-policy` |
-| HTTP service | 16 | `language/<language>/examples/service` |
+| HTTP service | 30 | `language/<language>/examples/service` |
 | MCP | 16 | `language/<language>/examples/mcp` |
 
 Go keeps its reference recipes and examples under `examples/`.
@@ -102,3 +102,7 @@ Streaming accumulation examples are also available for Dart, Perl, Julia, Swift,
 ## Additional SDK Languages: Identity and Policy
 
 Identity and policy examples are also available for Dart, Perl, Julia, Swift, Haskell, OCaml, D, Nim, Zig, V, Delphi, PowerShell, MATLAB, and Objective-C under `language/<language>/examples/identity-policy`.
+
+## Additional SDK Languages: HTTP Service
+
+Transport-neutral HTTP handler examples are also available for Dart, Perl, Julia, Swift, Haskell, OCaml, D, Nim, Zig, V, Delphi, PowerShell, MATLAB, and Objective-C under `language/<language>/examples/service`.

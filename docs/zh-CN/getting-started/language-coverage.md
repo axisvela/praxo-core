@@ -11,7 +11,7 @@
 | Streaming | 30 | `language/<language>/examples/streaming` |
 | Structured Output | 30 | `language/<language>/examples/structured-output` |
 | Identity / Policy | 30 | `language/<language>/examples/identity-policy` |
-| HTTP Service | 16 | `language/<language>/examples/service` |
+| HTTP Service | 30 | `language/<language>/examples/service` |
 | MCP | 16 | `language/<language>/examples/mcp` |
 
 Go 的参考配方与示例保留在 `examples/`。
@@ -96,3 +96,7 @@ Streaming 累加示例也已覆盖 Dart、Perl、Julia、Swift、Haskell、OCaml
 ## 额外 SDK 语言：Identity / Policy
 
 Identity / Policy 示例也已覆盖 Dart、Perl、Julia、Swift、Haskell、OCaml、D、Nim、Zig、V、Delphi、PowerShell、MATLAB 和 Objective-C，入口位于 `language/<language>/examples/identity-policy`。
+
+## 额外 SDK 语言：HTTP Service
+
+transport-neutral HTTP handler 示例也已覆盖 Dart、Perl、Julia、Swift、Haskell、OCaml、D、Nim、Zig、V、Delphi、PowerShell、MATLAB 和 Objective-C，入口位于 `language/<language>/examples/service`。
