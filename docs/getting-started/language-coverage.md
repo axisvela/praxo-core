@@ -18,6 +18,9 @@ provider endpoint.
 
 Go keeps its reference recipes and examples under `examples/`.
 
+GNU Octave reuses the shared MATLAB examples under `language/matlab/examples/`;
+`matlab-octave-core` is a shared implementation and has no separate example root.
+
 ## Languages and Verification
 
 | Language | Example root | Local / CI evidence |

@@ -16,6 +16,8 @@
 
 Go 的参考配方与示例保留在 `examples/`。
 
+GNU Octave 复用 `language/matlab/examples/` 下的共享 MATLAB 示例；`matlab-octave-core` 是共享实现，没有独立的示例根目录。
+
 ## 语言与验证方式
 
 | 语言 | 示例根目录 | 本地 / CI 证据 |

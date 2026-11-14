@@ -13,11 +13,24 @@ SYNC = importlib.util.module_from_spec(SPEC)
 assert SPEC.loader is not None
 SPEC.loader.exec_module(SYNC)
 
+SAMPLE_ONLY = {
+    "clojure",
+    "fsharp",
+    "groovy",
+    "javascript",
+    "kotlin",
+    "opencl",
+    "scala",
+}
+NON_REGISTRY = SAMPLE_ONLY | {"go"}
+
 
 class LanguageRegistryDocsTests(unittest.TestCase):
-    def test_every_language_directory_is_indexed(self):
+    def test_every_registry_directory_is_indexed(self):
         language_dirs = sorted(
-            path.name for path in (ROOT / "language").iterdir() if path.is_dir()
+            path.name
+            for path in (ROOT / "language").iterdir()
+            if path.is_dir() and path.name not in NON_REGISTRY
         )
         indexed = sorted(
             Path(entry["dir"]).name
@@ -34,6 +47,25 @@ class LanguageRegistryDocsTests(unittest.TestCase):
                 self.assertIn(f"{relative}/REGISTRY.md", index)
                 self.assertIn(f"{relative}/llms.txt", index)
                 self.assertIn(f"{relative}/llms.md", index)
+
+    def test_example_links_match_example_directories(self):
+        index = (ROOT / "language/REGISTRY-INDEX.md").read_text(encoding="utf-8")
+        for entry in SYNC.LANGUAGES:
+            if entry["dir"] == ".":
+                continue
+            relative = Path(entry["dir"]).relative_to("language").as_posix()
+            directory = ROOT / entry["dir"]
+            with self.subTest(language=entry["name"]):
+                if (directory / "examples").is_dir():
+                    self.assertIn(f"[examples]({relative}/examples/)", index)
+                elif entry["name"] == "GNU Octave":
+                    self.assertIn("[shared examples](matlab/examples/)", index)
+
+    def test_sample_only_directories_are_indexed(self):
+        index = (ROOT / "language/REGISTRY-INDEX.md").read_text(encoding="utf-8")
+        for name in SAMPLE_ONLY:
+            with self.subTest(language=name):
+                self.assertIn(f"[examples]({name}/examples/)", index)
 
     def test_entries_exist_and_cover_package_metadata(self):
         for entry in SYNC.LANGUAGES:

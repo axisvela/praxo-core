@@ -6,12 +6,14 @@ Go remains the reference implementation at the repository root.
 Start with the [Core directory](../docs/languages/index.md) for language-specific
 installation, build instructions, and limitations, or the
 [language matrix](../spec/languages.md) for declared scope and source tags.
-Each language directory also has a [registry introduction and coding-agent
-entry](REGISTRY-INDEX.md): `REGISTRY.md`, `llms.txt`, and `llms.md`.
+Each published implementation directory also has a [registry introduction and
+coding-agent entry](REGISTRY-INDEX.md): `REGISTRY.md`, `llms.txt`, and `llms.md`.
 
-Bridge wrappers live in [`bindings/`](../bindings/README.md). JavaScript,
-Kotlin, and Scala are [samples](../examples), not independent implementations.
-Visual Basic continues to consume the C# Core implementation under `csharp/samples/`.
+Bridge wrappers live in [`bindings/`](../bindings/README.md). Clojure, F#,
+Groovy, JavaScript, Kotlin, OpenCL, and Scala are
+[samples](REGISTRY-INDEX.md#sample-only-language-directories), not independent
+implementations. Visual Basic continues to consume the C# Core implementation
+under `csharp/samples/`.
 
 See [repository layout and source migration](../docs/project/repository-layout.md)
 if your scripts previously used root-level language directories. Package names,
