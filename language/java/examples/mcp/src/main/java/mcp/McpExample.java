@@ -130,7 +130,8 @@ public final class McpExample {
             List<String> names = tools.stream().map(McpTool::name).sorted().toList();
             if (!names.equals(List.of("add", "echo"))
                     || !(result instanceof Map<?, ?> map)
-                    || !Integer.valueOf(5).equals(map.get("sum"))) {
+                    || !(map.get("structuredContent") instanceof Map<?, ?> structured)
+                    || !Integer.valueOf(5).equals(structured.get("sum"))) {
                 throw new IllegalStateException("mcp example failed");
             }
             System.out.println("Java MCP example passed");
