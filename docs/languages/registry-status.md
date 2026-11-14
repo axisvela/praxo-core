@@ -2,7 +2,7 @@
 
 Last checked: 2026-11-14 (Python 0.7.0, TypeScript 0.6.0, Java 0.9.0, Rust
 0.8.0, C# 0.8.0, Elixir 0.8.0, Erlang 0.7.1, Ruby 0.7.0, PHP 0.7.0, Dart 0.4.0,
-Perl 0.4.0, Haskell 0.5.0, PowerShell 0.5.3, and R 0.9.0 published; Go `v2.7.0`
+Perl 0.4.0, Haskell 0.5.0, PowerShell 0.5.3, and R 0.9.0 published; Go `v2.8.0`
 remains current; other rows from the 2026-11-04/05 audit).
 
 This page summarizes where each language implementation is published. Source
@@ -28,7 +28,7 @@ GitHub Latest represents the Go Reference Core only, not the last language packa
 
 | Language | Registry | Version | Address | Status |
 | --- | --- | --- | --- | --- |
-| Go | Go module proxy / pkg.go.dev | `v2.7.0` | https://pkg.go.dev/github.com/axisvela/praxo-core/v2 | published; page audited 2026-11-09 |
+| Go | Go module proxy / pkg.go.dev | `v2.8.0` | https://pkg.go.dev/github.com/axisvela/praxo-core/v2 | published; page audited 2026-11-09 |
 | Python | PyPI | `0.7.0` | https://pypi.org/project/praxo-core/0.7.0/ | published |
 | TypeScript | npm | `0.6.0` | https://www.npmjs.com/package/@axisvela/praxo-core/v/0.6.0 | published; latest |
 | Java | Maven Central | `0.9.0` | https://repo1.maven.org/maven2/com/axisvela/praxo-core/0.9.0/ | published |

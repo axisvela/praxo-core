@@ -11,6 +11,7 @@ ROOT = Path(__file__).resolve().parents[1]
 
 def classify(files):
     env = dict(os.environ)
+    env.pop("GITHUB_OUTPUT", None)
     env["CI_CHANGED_FILES"] = "\n".join(files)
     result = subprocess.run(
         [sys.executable, "scripts/ci_changes.py"],

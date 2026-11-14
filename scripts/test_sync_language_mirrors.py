@@ -86,7 +86,8 @@ class MirrorSyncTests(unittest.TestCase):
         entry = {entry["key"]: entry for entry in sync.mirror_entries()}["go"]
         readme = sync.mirror_readme(entry, has_examples=True)
         self.assertIn("PRAXO-CORE for Go", readme)
-        self.assertIn("go get github.com/axisvela/praxo-core/v2@v2.7.0", readme)
+        version = (sync.ROOT / "VERSION").read_text(encoding="utf-8").strip()
+        self.assertIn(f"go get github.com/axisvela/praxo-core/v2@v{version}", readme)
         self.assertIn("language/go/examples/consumer-go", readme)
         self.assertIn("examples/live-model", readme)
 

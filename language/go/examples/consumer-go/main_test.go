@@ -63,8 +63,8 @@ func TestPublishedDependency(t *testing.T) {
 		}
 		if dependency.Path == "github.com/axisvela/praxo-core/v2" {
 			found = true
-			if dependency.Version != "v2.7.0" {
-				t.Fatalf("Core version=%q, want v2.7.0", dependency.Version)
+			if dependency.Version != "v2.8.0" {
+				t.Fatalf("Core version=%q, want v2.8.0", dependency.Version)
 			}
 		}
 	}

@@ -74,7 +74,8 @@ class DocumentationTests(unittest.TestCase):
         entries = {entry["language"]: entry for entry in data["languages"]}
         self.assertEqual(
             set(entries),
-            {"Go", "Python", "TypeScript", "Java", "Ruby", "PHP", "Elixir", "Lua"},
+            {"Go", "Python", "TypeScript", "Java", "Ruby", "PHP", "Elixir", "Lua",
+             "C#", "Rust", "R"},
         )
         registry = json.loads((ROOT / "language/registry-metadata.json").read_text(encoding="utf-8"))
         go_version = (ROOT / "VERSION").read_text(encoding="utf-8").strip()
