@@ -1,0 +1,157 @@
+name: ci-additional3
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "language/swift/examples/**"
+      - "language/swift/Package.swift"
+      - "language/julia/examples/**"
+      - "language/haskell/examples/**"
+      - "language/ocaml/examples/**"
+      - "language/nim/examples/**"
+      - "language/zig/examples/**"
+      - "language/v/examples/**"
+      - ".github/workflows/ci-additional3.yml"
+  pull_request:
+    paths:
+      - "language/swift/examples/**"
+      - "language/swift/Package.swift"
+      - "language/julia/examples/**"
+      - "language/haskell/examples/**"
+      - "language/ocaml/examples/**"
+      - "language/nim/examples/**"
+      - "language/zig/examples/**"
+      - "language/v/examples/**"
+      - ".github/workflows/ci-additional3.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-additional3-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  swift-examples:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: swift-actions/setup-swift@v2
+        with:
+          swift-version: "6.0"
+      - run: swift run --package-path language/swift praxo-retry-example
+      - run: swift run --package-path language/swift praxo-checkpoint-example
+      - run: swift run --package-path language/swift praxo-event-sink-example
+      - run: swift run --package-path language/swift praxo-provider-fallback-example
+      - run: swift run --package-path language/swift praxo-structured-output-example
+      - run: swift run --package-path language/swift praxo-streaming-example
+      - run: swift run --package-path language/swift praxo-identity-policy-example
+      - run: swift run --package-path language/swift praxo-service-example
+      - run: swift run --package-path language/swift praxo-mcp-example
+
+  julia-examples:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: julia-actions/setup-julia@v2
+        with:
+          version: "1.10"
+      - run: julia language/julia/examples/retry/retry.jl
+      - run: julia language/julia/examples/checkpoint/checkpoint.jl
+      - run: julia language/julia/examples/event-sink/event_sink.jl
+      - run: julia language/julia/examples/provider-fallback/fallback.jl
+      - run: julia language/julia/examples/structured-output/structured_output.jl
+      - run: julia language/julia/examples/streaming/streaming.jl
+      - run: julia language/julia/examples/identity-policy/identity_policy.jl
+      - run: julia language/julia/examples/service/service.jl
+      - run: julia language/julia/examples/mcp/mcp.jl
+
+  haskell-examples:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: haskell-actions/setup@v2
+        with:
+          ghc-version: "9.6"
+      - run: runghc -ilanguage/haskell/src language/haskell/examples/retry/retry.hs
+      - run: runghc -ilanguage/haskell/src language/haskell/examples/checkpoint/checkpoint.hs
+      - run: runghc -ilanguage/haskell/src language/haskell/examples/event-sink/event_sink.hs
+      - run: runghc -ilanguage/haskell/src language/haskell/examples/provider-fallback/fallback.hs
+      - run: runghc -ilanguage/haskell/src language/haskell/examples/structured-output/structured_output.hs
+      - run: runghc -ilanguage/haskell/src language/haskell/examples/streaming/streaming.hs
+      - run: runghc -ilanguage/haskell/src language/haskell/examples/identity-policy/identity_policy.hs
+      - run: runghc -ilanguage/haskell/src language/haskell/examples/service/service.hs
+      - run: runghc -ilanguage/haskell/src language/haskell/examples/mcp/mcp.hs
+
+  ocaml-examples:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ocaml/setup-ocaml@v3
+        with:
+          ocaml-compiler: "5.1"
+      - run: opam exec -- ocaml language/ocaml/examples/retry/retry.ml
+      - run: opam exec -- ocaml language/ocaml/examples/checkpoint/checkpoint.ml
+      - run: opam exec -- ocaml language/ocaml/examples/event-sink/event_sink.ml
+      - run: opam exec -- ocaml language/ocaml/examples/provider-fallback/fallback.ml
+      - run: opam exec -- ocaml language/ocaml/examples/structured-output/structured_output.ml
+      - run: opam exec -- ocaml language/ocaml/examples/streaming/streaming.ml
+      - run: opam exec -- ocaml language/ocaml/examples/identity-policy/identity_policy.ml
+      - run: opam exec -- ocaml language/ocaml/examples/service/service.ml
+      - run: opam exec -- ocaml language/ocaml/examples/mcp/mcp.ml
+
+  nim-examples:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: jiro4989/setup-nim-action@v2
+        with:
+          nim-version: "2.0.0"
+      - run: nim r --path:language/nim/src language/nim/examples/retry/retry.nim
+      - run: nim r --path:language/nim/src language/nim/examples/checkpoint/checkpoint.nim
+      - run: nim r --path:language/nim/src language/nim/examples/event-sink/event_sink.nim
+      - run: nim r --path:language/nim/src language/nim/examples/provider-fallback/fallback.nim
+      - run: nim r --path:language/nim/src language/nim/examples/structured-output/structured_output.nim
+      - run: nim r --path:language/nim/src language/nim/examples/streaming/streaming.nim
+      - run: nim r --path:language/nim/src language/nim/examples/identity-policy/identity_policy.nim
+      - run: nim r --path:language/nim/src language/nim/examples/service/service.nim
+      - run: nim r --path:language/nim/src language/nim/examples/mcp/mcp.nim
+
+  v-examples:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: vlang/setup-v@v1
+      - run: v -path language/v language/v/examples/retry/retry.v
+      - run: v -path language/v language/v/examples/checkpoint/checkpoint.v
+      - run: v -path language/v language/v/examples/event-sink/event_sink.v
+      - run: v -path language/v language/v/examples/provider-fallback/fallback.v
+      - run: v -path language/v language/v/examples/structured-output/structured_output.v
+      - run: v -path language/v language/v/examples/streaming/streaming.v
+      - run: v -path language/v language/v/examples/identity-policy/identity_policy.v
+      - run: v -path language/v language/v/examples/service/service.v
+      - run: v -path language/v language/v/examples/mcp/mcp.v
+
+  zig-examples:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: mlugg/setup-zig@v2
+        with:
+          version: "0.13.0"
+      - run: mkdir -p build
+      - run: zig run language/zig/examples/retry/retry.zig
+      - run: zig build-exe language/zig/examples/checkpoint/checkpoint.zig --dep json --dep runtime -Mroot=language/zig/examples/checkpoint/checkpoint.zig -Mjson=language/zig/src/json.zig -Mruntime=language/zig/src/runtime.zig -femit-bin=build/zig-checkpoint
+      - run: ./build/zig-checkpoint
+      - run: zig build-exe language/zig/examples/event-sink/event_sink.zig --dep models --dep runtime -Mroot=language/zig/examples/event-sink/event_sink.zig -Mmodels=language/zig/src/models.zig -Mruntime=language/zig/src/runtime.zig -femit-bin=build/zig-event-sink
+      - run: ./build/zig-event-sink
+      - run: zig run language/zig/examples/provider-fallback/fallback.zig
+      - run: zig build-exe language/zig/examples/structured-output/structured_output.zig --dep json --dep jsonschema -Mroot=language/zig/examples/structured-output/structured_output.zig -Mjson=language/zig/src/json.zig -Mjsonschema=language/zig/src/jsonschema.zig -femit-bin=build/zig-structured-output
+      - run: ./build/zig-structured-output
+      - run: zig run language/zig/examples/streaming/streaming.zig
+      - run: zig run language/zig/examples/identity-policy/identity_policy.zig
+      - run: zig run language/zig/examples/service/service.zig
+      - run: zig build-exe language/zig/examples/mcp/mcp.zig --dep json --dep mcp -Mroot=language/zig/examples/mcp/mcp.zig -Mjson=language/zig/src/json.zig -Mmcp=language/zig/src/mcp.zig -femit-bin=build/zig-mcp
+      - run: ./build/zig-mcp

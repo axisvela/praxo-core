@@ -4,7 +4,7 @@ This example accumulates streamed chunks and checks that they reconstruct the
 final output.
 
 ```bash
-swift language/swift/examples/streaming/streaming.swift
+swift run --package-path language/swift praxo-streaming-example
 ```
 
 Expected output:

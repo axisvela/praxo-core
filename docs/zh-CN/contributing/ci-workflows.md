@@ -20,6 +20,7 @@ CI 按路径拆分，语言专属改动不再运行完整矩阵。`ci.yml` 继�
 | `ci-adapters.yml` | Adapter 模块和 Adapter module-security | `adapters/**` |
 | `ci-additional.yml` | Dart、Perl、D、Delphi 示例矩阵 | 对应 `language/<language>/examples/**` 路径 |
 | `ci-additional2.yml` | PowerShell 与 MATLAB/Octave 示例矩阵 | 对应 `language/<language>/examples/**` 路径 |
+| `ci-additional3.yml` | Swift、Julia、Haskell、OCaml、Nim、V、Zig 示例矩阵 | 对应 `language/<language>/examples/**` 路径 |
 | `ci-examples.yml` | Go 示例、SDK 示例、Go 消费者与配方 | `examples/**` 和选定语言示例路径 |
 | `docs.yml` | 文档构建、Registry 检查、消费者 pin | `docs/**`、元数据、选定脚本和 workflow |
 
