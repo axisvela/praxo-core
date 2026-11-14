@@ -38,26 +38,26 @@ GitHub Latest represents the Go Reference Core only, not the last language packa
 | Erlang | Hex | `0.7.1` | https://hex.pm/packages/praxo_core_erlang/0.7.1 | published |
 | Ruby | RubyGems | `0.7.0` | https://rubygems.org/gems/praxo-core/versions/0.7.0 | published; Ruby source repo is `axisvela/praxo-core-ruby` |
 | Lua | LuaRocks | `0.6.0-1` | https://luarocks.org/modules/hanhhuiwen/praxo-core | published |
-| PHP | Packagist | `0.4.1` | https://packagist.org/packages/axisvela/praxo-core | published; source tag `php/v0.5.0` is newer |
+| PHP | Packagist | `0.4.1` | https://packagist.org/packages/axisvela/praxo-core | split repo `v0.7.0` tagged; Packagist update pending |
 | Dart | pub.dev | `0.4.0` | https://pub.dev/packages/praxo_core/versions/0.4.0 | published |
-| D | DUB | `0.1.0` | https://code.dlang.org/packages/praxo-core | published |
-| Swift | Swift Package Index | `0.4.0` | https://swiftpackageindex.com/axisvela/praxo-core-swift | published; source `0.5.0` prepared |
+| D | DUB | `0.1.0` | https://code.dlang.org/packages/praxo-core | split repo `v0.4.0` tagged; DUB refresh pending |
+| Swift | Swift Package Index | `0.4.0` | https://swiftpackageindex.com/axisvela/praxo-core-swift | split repo `0.5.0` tagged; SPI PR #16032 pending |
 | MATLAB | MATLAB File Exchange | `0.3.0` | https://www.mathworks.com/matlabcentral/fileexchange/185166-praxo-core | published |
 | PowerShell Core | PowerShell Gallery | `0.5.3` | https://www.powershellgallery.com/packages/praxo-core-ps/0.5.3 | published |
 | PowerShell Bridge | PowerShell Gallery | `0.1.0` | https://www.powershellgallery.com/packages/praxo-core-ps-br/0.1.0 | published |
 | Perl | CPAN | `0.4.0` | https://metacpan.org/dist/Praxo-Core | published and indexed on MetaCPAN |
 | Haskell | Hackage | `0.5.0` | https://hackage.haskell.org/package/praxo-core-0.5.0 | published |
-| R | r-universe | `0.7.1` | https://axisvela.r-universe.dev/praxocore | r-universe only; CRAN not published |
-| Nim | nim-lang/packages (Nimble) | `0.1.1` | https://github.com/axisvela/praxo-core-nim | split repo published; nim-lang/packages PR #3600 merged 2026-11-05; install smoke not recorded; nimpkgs re-crawl pending |
+| R | r-universe | `0.7.1` | https://axisvela.r-universe.dev/praxocore | r-universe only; source tag `r/v0.9.0`; rebuild pending; CRAN not published |
+| Nim | nim-lang/packages (Nimble) | `0.1.1` | https://github.com/axisvela/praxo-core-nim | split repo `v0.4.0` tagged; nim-lang/packages PR #3600 merged 2026-11-05; nimpkgs re-crawl pending |
 
 ## Uploaded or awaiting indexing
 
 | Language | Registry | Version | Address | Status |
 | --- | --- | --- | --- | --- |
-| Julia | Julia General Registry | `0.5.0` | https://github.com/JuliaRegistries/General/pull/176024 | automerge approved; merge pending |
+| Julia | Julia General Registry | `0.5.0` | https://github.com/JuliaRegistries/General/pull/176024 | mirror `0.5.0` tagged; automerge approved; merge pending |
 | Octave | Octave Packages | `0.5.0` | https://github.com/gnu-octave/packages/pull/875 | registration PR updated to 0.5.0 |
-| OCaml | opam | `0.6.0` | https://github.com/ocaml/opam-repository/pull/31222 | registration PR open |
-| V | VPM | `0.1.2` | https://github.com/axisvela/praxo-core-v | mirror published; VPM not indexed |
+| OCaml | opam | `0.6.0` | https://github.com/ocaml/opam-repository/pull/31222 | split repo `0.6.0` tagged; registration PR open |
+| V | VPM | `0.1.2` | https://github.com/axisvela/praxo-core-v | split repo `0.4.8` tagged; VPM not indexed |
 | Delphi / Free Pascal | OPM / GitHub release | `0.2.1` | https://github.com/axisvela/praxo-core/releases/tag/delphi%2Fv0.2.1 | OPM assets published; maintainer submission pending |
 
 ## Source-only or not published to a registry
