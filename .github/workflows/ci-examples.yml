@@ -228,6 +228,17 @@ jobs:
       - run: lua language/lua/examples/event-sink/event_sink.lua
       - run: Rscript language/r/examples/event-sink/event_sink.R
       - run: python language/cobol/examples/event-sink/build.py
+      - run: gcc -std=c11 language/c/examples/retry/main.c -o language/c/build/c-retry
+      - run: language/c/build/c-retry
+      - run: g++ -std=c++20 language/cpp/examples/retry/main.cpp -o language/cpp/build/cpp-retry
+      - run: language/cpp/build/cpp-retry
+      - run: gfortran language/fortran/examples/retry/retry_example.f90 -o language/fortran/build/fortran-retry
+      - run: language/fortran/build/fortran-retry
+      - run: elixir language/elixir/examples/retry/retry.exs
+      - run: escript language/erlang/examples/retry/retry.escript
+      - run: lua language/lua/examples/retry/retry.lua
+      - run: Rscript language/r/examples/retry/retry.R
+      - run: python language/cobol/examples/retry/build.py
       - run: cargo run --quiet
         working-directory: language/rust/examples/provider-fallback
       - run: cargo run --quiet

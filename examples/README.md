@@ -40,7 +40,7 @@ There is intentional overlap. For example:
 | Event sinks | [`recipes/event-sinks-go`](recipes/event-sinks-go) | Python / TypeScript / C# / Rust / Java / Ruby / PHP / C / C++ / Fortran / Elixir / Erlang / Lua / R / COBOL `event-sink` |
 | Streaming | [`recipes/streaming-go`](recipes/streaming-go) | Python / TypeScript / C# / Rust / Java `streaming` |
 | MCP tools | [`ecosystem/mcp`](ecosystem/mcp) | Python / TypeScript / C# / Rust `mcp` |
-| Retry | [`recipes/retry-go`](recipes/retry-go) | Python / TypeScript / C# / Rust / Java / Ruby / PHP `retry` |
+| Retry | [`recipes/retry-go`](recipes/retry-go) | Python / TypeScript / C# / Rust / Java / Ruby / PHP / C / C++ / Fortran / Elixir / Erlang / Lua / R / COBOL `retry` |
 | Checkpoint store | [`recipes/checkpoint-store-go`](recipes/checkpoint-store-go) | [`checkpoint`](checkpoint), [`embedded-service-auth`](embedded-service-auth), and Python / TypeScript / C# / Rust / Java / Ruby / PHP / C / C++ / Fortran / Elixir / Erlang / Lua / R / COBOL `checkpoint` |
 | Identity and policy | [`recipes/identity-go`](recipes/identity-go) | [`embedded-service-auth`](embedded-service-auth), and Python / TypeScript / C# / Rust / Java `identity-policy` |
 | HTTP service | [`embedded-service`](embedded-service) | Python / TypeScript / C# / Rust / Java `service` |
