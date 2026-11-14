@@ -78,6 +78,15 @@
   by strict endpoints such as DeepSeek. The Go reference already emitted the
   OpenAI names.
 
+### Published
+
+- PyPI `praxo-core==0.7.0` and npm `@axisvela/praxo-core@0.6.0` are published
+  from tags `python/v0.7.0` and `typescript/v0.6.0`. Java source tag
+  `java/v0.9.0` is created; Maven Central remains at `0.7.0`.
+- Registry README and registry-entry files now link the language example
+  directories with absolute URLs, and the live-model examples pin the published
+  Python `0.7.0` and TypeScript `0.6.0` packages.
+
 ## [2.7.0] - 2026-11-09
 
 ### Added

@@ -45,14 +45,15 @@ Registry versions checked 2026-11-13 for the four pilot packages.
 | Language | Page | Published version | Current page state | Next action |
 | --- | --- | --- | --- | --- |
 | Go | [pkg.go.dev](https://pkg.go.dev/github.com/axisvela/praxo-core/v2) | `v2.7.0` | Rendered `v2.7.0` README shows the `@v2.7.0` install command, MIT license, canonical documentation and consumer links; the module proxy `@latest` reports `v2.7.0`; verified 2026-11-09 | No further action |
-| Python | [PyPI](https://pypi.org/project/praxo-core/) | `0.6.0` | `0.6.0` is published, but its rendered description still carries an older install command and source-version text | Refresh the package README in the next publication |
-| TypeScript | [npm](https://www.npmjs.com/package/@axisvela/praxo-core) | `0.5.0` | `0.5.0` is published as `latest`; the rendered page text was not re-audited | Re-audit the `0.5.0` page when release metadata is refreshed |
-| Java | [Maven Central](https://central.sonatype.com/artifact/com.axisvela/praxo-core) | `0.7.0` | Maven metadata reports `0.7.0`; Central does not render the README | Re-audit sources and javadoc when release metadata is refreshed |
+| Python | [PyPI](https://pypi.org/project/praxo-core/) | `0.7.0` | `0.7.0` is published; the packaged README carries the absolute examples link and the `0.7.0` install command | No further action |
+| TypeScript | [npm](https://www.npmjs.com/package/@axisvela/praxo-core) | `0.6.0` | `0.6.0` is published as `latest`; the packaged README carries the absolute examples link and the `0.6.0` install command | No further action |
+| Java | [Maven Central](https://central.sonatype.com/artifact/com.axisvela/praxo-core) | `0.7.0` | Maven metadata reports `0.7.0`; the source tag `java/v0.9.0` is newer, and Central does not render the README | Publishes `0.9.0` when a Java release path and signing credentials are available |
 
-The source metadata updates in this repository do not change the already
-published `0.6.0`, `0.5.0`, and `0.7.0` language pages. The Go page follows the
-`v2.7.0` tag and was re-audited on 2026-11-09. Do not claim that another published
-page is updated until its registry shows the new version and text.
+The published Python `0.7.0` and TypeScript `0.6.0` language pages were refreshed
+from this release. Java Maven Central remains at `0.7.0` even though source tag
+`java/v0.9.0` exists. The Go page follows the `v2.7.0` tag and was re-audited on
+2026-11-09. Do not claim that another published page is updated until its
+registry shows the new version and text.
 
 Other registries are listed in [Registry Publication Status](registry-status.md).
 They were not all re-audited in this update; use the same checklist at release

@@ -1,6 +1,6 @@
 # Python 独立消费者
 
-在自己的应用中使用已发布的 `praxo-core==0.6.0`，要求 Python 3.11 或更新版本。
+在自己的应用中使用已发布的 `praxo-core==0.7.0`，要求 Python 3.11 或更新版本。
 无需检出 PRAXO-CORE 源码、API Key、模型服务或 AxisVela 产品。安装需要 PyPI 访问或已有 wheel 缓存。
 
 ## 选择边界
@@ -17,14 +17,14 @@ POSIX：
 
 ```sh
 python3 -m venv .venv
-.venv/bin/python -m pip install --index-url https://pypi.org/simple praxo-core==0.6.0
+.venv/bin/python -m pip install --index-url https://pypi.org/simple praxo-core==0.7.0
 ```
 
 PowerShell：
 
 ```powershell
 python -m venv .venv
-.venv\Scripts\python.exe -m pip install --index-url https://pypi.org/simple praxo-core==0.6.0
+.venv\Scripts\python.exe -m pip install --index-url https://pypi.org/simple praxo-core==0.7.0
 ```
 
 不要使用 `pip install -e`、仓库路径或 `PYTHONPATH` 替换 SDK。验收测试检查安装版本、

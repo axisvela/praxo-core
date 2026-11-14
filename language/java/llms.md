@@ -12,7 +12,7 @@
 - published_version: `0.7.0`
 - install_published: `Maven: com.axisvela:praxo-core:0.7.0`
 - install_source: `Maven source build (see README)`
-- source_tag: `java/v0.7.1`
+- source_tag: `java/v0.9.0`
 - tier: Core
 - contract: `SPEC_VERSION` `0.2.0`
 - documentation: https://axisvela.github.io/praxo-core/languages/java/

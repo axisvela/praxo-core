@@ -1,6 +1,6 @@
 # Registry Publication Status
 
-Last checked: 2026-11-13 (Python 0.6.0, TypeScript 0.5.0, Java 0.7.0, Rust
+Last checked: 2026-11-14 (Python 0.7.0, TypeScript 0.6.0, Java 0.7.0, Rust
 0.6.0, C# 0.6.0, Elixir 0.8.0, Erlang 0.7.1, Ruby 0.7.0, Dart 0.4.0, Perl 0.4.0,
 Haskell 0.5.0, PowerShell 0.5.3, and R 0.7.1 published; Go `v2.7.0` remains
 current; other rows from the 2026-11-04/05 audit).
@@ -29,9 +29,9 @@ GitHub Latest represents the Go Reference Core only, not the last language packa
 | Language | Registry | Version | Address | Status |
 | --- | --- | --- | --- | --- |
 | Go | Go module proxy / pkg.go.dev | `v2.7.0` | https://pkg.go.dev/github.com/axisvela/praxo-core/v2 | published; page audited 2026-11-09 |
-| Python | PyPI | `0.6.0` | https://pypi.org/project/praxo-core/0.6.0/ | published |
-| TypeScript | npm | `0.5.0` | https://www.npmjs.com/package/@axisvela/praxo-core/v/0.5.0 | published; latest |
-| Java | Maven Central | `0.7.0` | https://repo1.maven.org/maven2/com/axisvela/praxo-core/0.7.0/ | published |
+| Python | PyPI | `0.7.0` | https://pypi.org/project/praxo-core/0.7.0/ | published |
+| TypeScript | npm | `0.6.0` | https://www.npmjs.com/package/@axisvela/praxo-core/v/0.6.0 | published; latest |
+| Java | Maven Central | `0.7.0` | https://repo1.maven.org/maven2/com/axisvela/praxo-core/0.7.0/ | published; source tag `java/v0.9.0` is newer |
 | Rust | crates.io | `0.6.0` | https://crates.io/crates/praxo-core/0.6.0 | published |
 | C# | NuGet | `0.6.0` | https://www.nuget.org/packages/Praxo.Core/0.6.0 | published |
 | Elixir | Hex / HexDocs | `0.8.0` | https://hex.pm/packages/praxo_core/0.8.0 · https://praxo-core.hexdocs.pm/0.8.0/ | published |

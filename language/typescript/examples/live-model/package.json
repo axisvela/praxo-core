@@ -11,6 +11,6 @@
     "start": "node live_starter.js"
   },
   "dependencies": {
-    "@axisvela/praxo-core": "0.5.0"
+    "@axisvela/praxo-core": "0.6.0"
   }
 }

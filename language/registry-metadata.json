@@ -190,8 +190,8 @@
     "registry": "Maven Central",
     "source_install": "Maven source build (see README)",
     "source_version": "0.9.0",
-    "status": "source 0.9.0 prepared; Maven Central 0.7.0 published",
-    "tag": "java/v0.7.1",
+    "status": "source 0.9.0 tagged; Maven Central 0.7.0 published",
+    "tag": "java/v0.9.0",
     "tier": "Core",
     "url": "https://repo1.maven.org/maven2/com/axisvela/praxo-core/0.7.0/"
   },
@@ -338,16 +338,16 @@
   "Python": {
     "dir": "language/python",
     "docs": "https://axisvela.github.io/praxo-core/languages/python/",
-    "install": "pip install praxo-core==0.6.0",
+    "install": "pip install praxo-core==0.7.0",
     "package": "praxo-core",
-    "published_version": "0.6.0",
+    "published_version": "0.7.0",
     "registry": "PyPI",
     "source_install": "pip install ./language/python",
     "source_version": "0.7.0",
-    "status": "source 0.7.0 prepared; PyPI 0.6.0 published",
-    "tag": "python/v0.6.0",
+    "status": "published",
+    "tag": "python/v0.7.0",
     "tier": "Core",
-    "url": "https://pypi.org/project/praxo-core/0.6.0/"
+    "url": "https://pypi.org/project/praxo-core/0.7.0/"
   },
   "R": {
     "dir": "language/r",
@@ -408,16 +408,16 @@
   "TypeScript": {
     "dir": "language/typescript",
     "docs": "https://axisvela.github.io/praxo-core/languages/typescript/",
-    "install": "npm install @axisvela/praxo-core@0.5.0",
+    "install": "npm install @axisvela/praxo-core@0.6.0",
     "package": "@axisvela/praxo-core",
-    "published_version": "0.5.0",
+    "published_version": "0.6.0",
     "registry": "npm",
     "source_install": "npm install ./language/typescript",
     "source_version": "0.6.0",
-    "status": "source 0.6.0 prepared; npm 0.5.0 published",
-    "tag": "typescript/v0.5.0",
+    "status": "published",
+    "tag": "typescript/v0.6.0",
     "tier": "Core",
-    "url": "https://www.npmjs.com/package/@axisvela/praxo-core/v/0.5.0"
+    "url": "https://www.npmjs.com/package/@axisvela/praxo-core/v/0.6.0"
   },
   "V": {
     "dir": "language/v",

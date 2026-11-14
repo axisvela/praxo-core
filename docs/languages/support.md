@@ -97,13 +97,13 @@ a merged implementation PR as a support commitment.
 These are separate claims. A source tag records a repository release; a registry
 version records what a package manager can fetch; a consumer smoke records an
 install and run outside the repository. Do not cite one as evidence for another.
-Registry values below were checked against the public registries on 2026-11-13.
+Registry values below were checked against the public registries on 2026-11-14.
 
 | Language | Source tag | Registry version | Consumer install smoke |
 | --- | --- | --- | --- |
-| Python | `python/v0.6.0` | PyPI `praxo-core==0.6.0` published | Release workflow built and smoke-tested `0.5.0`; post-publication consumer check recorded for `0.4.1` only |
-| TypeScript | `typescript/v0.5.0` | npm `@axisvela/praxo-core@0.5.0` published as `latest` | Release workflow built and consumed the `0.4.1` tarball; post-publication consumer starter checks recorded for `0.3.0` |
-| Java | `java/v0.7.1` | Maven Central `com.axisvela:praxo-core:0.7.0` published | Central validated and published `0.6.0`; `0.7.0` post-publication consumer check not rerun |
+| Python | `python/v0.7.0` | PyPI `praxo-core==0.7.0` published | Release workflow built and smoke-tested the `0.7.0` wheel and sdist; post-publication consumer check not rerun |
+| TypeScript | `typescript/v0.6.0` | npm `@axisvela/praxo-core@0.6.0` published as `latest` | Release workflow built and consumed the `0.6.0` tarball; post-publication consumer starter check not rerun |
+| Java | `java/v0.9.0` | Maven Central `com.axisvela:praxo-core:0.7.0` published | Source `0.9.0` tagged; Central still publishes `0.7.0`; `0.7.0` post-publication consumer check not rerun |
 | Rust | `rust/v0.6.0` | crates.io `praxo-core==0.6.0` published; `0.1.4` historical | Recorded for `0.1.4` only; not rerun for `0.6.0` |
 | C# | `csharp/v0.6.0` | NuGet `Praxo.Core==0.6.0` published | Not recorded |
 | Elixir | `elixir/v0.8.0` | Hex `praxo_core==0.8.0` published with OpenAI-compatible, Anthropic, Gemini, Harmovela, and MCP adapters; `0.5.1`, `0.4.1`, `0.4.0`, `0.3.0`, `0.2.0` historical | Extended starter added; Hex `0.4.1` resolved in a clean Mix project and allow/deny passed locally; `0.6.0` install smoke not rerun |
@@ -130,9 +130,9 @@ its latest version matches the manifest at the release tag.
 
 | Language | Code/manifest version | Registry latest | Status |
 | --- | --- | --- | --- |
-| Python | `0.7.0` | PyPI `0.6.0` | source prepared; latest tag and registry are `0.6.0` |
-| TypeScript | `0.6.0` | npm `0.5.0` | source prepared; latest tag and registry are `0.5.0` |
-| Java | `0.9.0` | Maven Central `0.7.0` | source prepared; latest source tag is `java/v0.7.1` |
+| Python | `0.7.0` | PyPI `0.7.0` | current |
+| TypeScript | `0.6.0` | npm `0.6.0` | current |
+| Java | `0.9.0` | Maven Central `0.7.0` | source tagged `java/v0.9.0`; registry behind |
 | Rust | `0.8.0` | crates.io `0.6.0` | source prepared; latest tag and registry are `0.6.0` |
 | C# | `0.8.0` | NuGet `0.6.0` | source prepared; latest tag and registry are `0.6.0` |
 | Elixir | `0.8.0` | Hex `0.8.0` | current |
