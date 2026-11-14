@@ -115,6 +115,7 @@ Registry values below were checked against the public registries on 2026-11-13.
 | Julia | `julia/v0.5.0` | General Registry PR #176024 approved; merge pending | Not recorded |
 | MATLAB | `matlab/v0.5.0` | MATLAB File Exchange `185166` published (`0.3.0`) | Not recorded |
 | Octave | `octave/v0.5.0` | Octave Packages PR #875 open; package archive published | Not recorded |
+| R | `r/v0.9.0` | r-universe `praxocore==0.7.1` published; CRAN not published | Not rerun for `0.9.0` |
 | Perl | `perl/v0.4.0` | CPAN `Praxo-Core==0.4.0` published and indexed on MetaCPAN | Not recorded |
 | PowerShell | `powershell/v0.5.3` | PowerShell Gallery `praxo-core-ps==0.5.3` published | Not recorded |
 | Nim | `nim/v0.4.0` | Split repository package `0.1.1`; nim-lang/packages PR #3600 merged 2026-11-05; nimpkgs re-crawl pending | Not recorded |
@@ -146,7 +147,7 @@ its latest version matches the manifest at the release tag.
 | Perl | `0.4.0` | CPAN `0.4.0` | current |
 | PowerShell | `0.5.3` | PowerShell Gallery `0.5.3` | current |
 | Haskell | `0.5.0` | Hackage `0.5.0` | current |
-| R | `0.7.1` | r-universe `0.7.1` | current; CRAN not published |
+| R | `0.9.0` | r-universe `0.7.1` | registry behind; CRAN not published |
 | Nim | `0.4.0` | Split repository package `0.1.1` | pending |
 | OCaml | `0.6.0` | opam registry `0.3.0` | pending |
 | Swift | `0.5.0` | SPI `0.4.0` | registry behind |
