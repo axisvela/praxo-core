@@ -5,8 +5,8 @@ import com.axisvela.praxo.adapters.McpTool;
 import com.axisvela.praxo.adapters.McpTransport;
 import com.axisvela.praxo.tool.Registry;
 
-import java.util.ArrayDeque;
-import java.util.Deque;
+import java.util.concurrent.BlockingDeque;
+import java.util.concurrent.LinkedBlockingDeque;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,7 +16,7 @@ public final class McpExample {
     }
 
     static final class InProcessTransport implements McpTransport {
-        private final Deque<Map<String, Object>> messages = new ArrayDeque<>();
+        private final BlockingDeque<Map<String, Object>> messages = new LinkedBlockingDeque<>();
         private boolean running;
 
         @Override
@@ -50,7 +50,12 @@ public final class McpExample {
 
         @Override
         public Map<String, Object> receive() {
-            return messages.removeFirst();
+            try {
+                return messages.take();
+            } catch (InterruptedException error) {
+                Thread.currentThread().interrupt();
+                return null;
+            }
         }
 
         @Override
