@@ -177,13 +177,6 @@ contains
     end if
   end subroutine
 
-  subroutine children_of(doc, parent, children)
-    type(json_document), intent(in) :: doc
-    integer, intent(in) :: parent
-    integer, allocatable, intent(out) :: children(:)
-    children = json_children(doc, parent)
-  end subroutine
-
   subroutine append_call(calls, name, arguments)
     type(tool_call), allocatable, intent(inout) :: calls(:)
     character(*), intent(in) :: name, arguments
@@ -204,6 +197,7 @@ contains
     character(:), allocatable :: output
     integer, allocatable :: children(:)
     integer :: i
+    allocate(children(0))
     select case (json_kind(doc, node))
     case ('O')
       output = '{'

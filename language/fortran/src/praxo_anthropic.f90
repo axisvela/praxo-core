@@ -197,6 +197,7 @@ contains
     integer, allocatable :: children(:)
     integer :: i
     character :: kind
+    allocate(children(0))
     kind = json_kind(doc, node)
     select case (kind)
     case ('O')
