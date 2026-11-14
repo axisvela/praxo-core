@@ -169,6 +169,8 @@ jobs:
       - run: mvn -q -f language/java/examples/streaming/pom.xml compile exec:java
       - run: mvn -q -f language/java/examples/retry/pom.xml compile exec:java
       - run: mvn -q -f language/java/examples/identity-policy/pom.xml compile exec:java
+      - run: mvn -q -f language/java/examples/checkpoint/pom.xml compile exec:java
+      - run: mvn -q -f language/java/examples/service/pom.xml compile exec:java -Dexec.args=--test
       - run: cargo run --quiet
         working-directory: language/rust/examples/provider-fallback
       - run: cargo run --quiet

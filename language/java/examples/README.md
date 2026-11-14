@@ -14,6 +14,10 @@
   deterministic check.
 - [`identity-policy/`](identity-policy/): bind a trusted principal to policy and
   reject effects before execution.
+- [`checkpoint/`](checkpoint/): application-owned checkpoint storage with
+  allowlisted payload encoding.
+- [`service/`](service/): JDK HTTP service with principal, tenant, policy, and a
+  deterministic `--test` mode.
 
 The examples resolve a published artifact. They do not require a repository
 checkout or local package replacement.
