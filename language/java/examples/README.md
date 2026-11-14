@@ -18,6 +18,8 @@
   allowlisted payload encoding.
 - [`service/`](service/): JDK HTTP service with principal, tenant, policy, and a
   deterministic `--test` mode.
+- [`provider-fallback/`](provider-fallback/): fallback model after a primary
+  failure, with a deterministic check.
 
 The examples resolve a published artifact. They do not require a repository
 checkout or local package replacement.

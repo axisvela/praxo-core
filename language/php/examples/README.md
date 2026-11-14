@@ -3,5 +3,10 @@
 - [`consumer/`](consumer/): published Packagist
   `axisvela/praxo-core:0.4.1` starter with deterministic allow/deny checks.
 
-The example installs a published package. It does not require a repository
-checkout or local package replacement.
+- [`event-sink/`](event-sink/): lifecycle and tool events through `MultiSink`
+  and `FilterSink`, with a deterministic check.
+- [`retry/`](retry/): retry transient model failures with model middleware and
+  a deterministic check.
+
+The consumer example installs a published package. The other examples use the
+source SDK when run from this repository.

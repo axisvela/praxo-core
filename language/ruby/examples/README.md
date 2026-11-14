@@ -3,5 +3,10 @@
 - [`consumer/`](consumer/): published RubyGems `praxo-core==0.7.0` starter with
   deterministic allow/deny checks.
 
-The example installs a published gem. It does not require a repository checkout
-or local package replacement.
+- [`event-sink/`](event-sink/): lifecycle and tool events through `MultiSink`
+  and `FilterSink`, with a deterministic check.
+- [`retry/`](retry/): retry transient model failures with a bounded model
+  wrapper and a deterministic check.
+
+The consumer example installs a published gem. The other examples use the source
+SDK when run from this repository.

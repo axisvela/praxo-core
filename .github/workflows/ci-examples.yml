@@ -171,6 +171,11 @@ jobs:
       - run: mvn -q -f language/java/examples/identity-policy/pom.xml compile exec:java
       - run: mvn -q -f language/java/examples/checkpoint/pom.xml compile exec:java
       - run: mvn -q -f language/java/examples/service/pom.xml compile exec:java -Dexec.args=--test
+      - run: mvn -q -f language/java/examples/provider-fallback/pom.xml compile exec:java
+      - run: ruby -I language/ruby/lib language/ruby/examples/event-sink/test_event_sink.rb
+      - run: ruby -I language/ruby/lib language/ruby/examples/retry/test_retry.rb
+      - run: php language/php/examples/event-sink/test_event_sink.php
+      - run: php language/php/examples/retry/test_retry.php
       - run: cargo run --quiet
         working-directory: language/rust/examples/provider-fallback
       - run: cargo run --quiet
