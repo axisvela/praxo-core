@@ -12,6 +12,7 @@ on:
       - "language/nim/examples/**"
       - "language/zig/examples/**"
       - "language/v/examples/**"
+      - "language/objc/examples/**"
       - ".github/workflows/ci-additional3.yml"
   pull_request:
     paths:
@@ -23,6 +24,7 @@ on:
       - "language/nim/examples/**"
       - "language/zig/examples/**"
       - "language/v/examples/**"
+      - "language/objc/examples/**"
       - ".github/workflows/ci-additional3.yml"
   workflow_dispatch:
 
@@ -155,3 +157,27 @@ jobs:
       - run: zig run language/zig/examples/service/service.zig
       - run: zig build-exe language/zig/examples/mcp/mcp.zig --dep json --dep mcp -Mroot=language/zig/examples/mcp/mcp.zig -Mjson=language/zig/src/json.zig -Mmcp=language/zig/src/mcp.zig -femit-bin=build/zig-mcp
       - run: ./build/zig-mcp
+
+  objc-examples:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: mkdir -p build
+      - run: clang -fobjc-arc -fblocks -Ilanguage/objc -o build/objc-retry language/objc/examples/retry/retry.m -framework Foundation
+      - run: ./build/objc-retry
+      - run: clang -fobjc-arc -fblocks -Ilanguage/objc -o build/objc-checkpoint language/objc/examples/checkpoint/checkpoint.m language/objc/PraxoCore.m language/objc/PraxoJSON.m -framework Foundation
+      - run: ./build/objc-checkpoint
+      - run: clang -fobjc-arc -fblocks -Ilanguage/objc -o build/objc-event-sink language/objc/examples/event-sink/event_sink.m language/objc/PraxoCore.m language/objc/PraxoJSON.m -framework Foundation
+      - run: ./build/objc-event-sink
+      - run: clang -fobjc-arc -fblocks -Ilanguage/objc -o build/objc-provider-fallback language/objc/examples/provider-fallback/fallback.m -framework Foundation
+      - run: ./build/objc-provider-fallback
+      - run: clang -fobjc-arc -fblocks -Ilanguage/objc -o build/objc-structured-output language/objc/examples/structured-output/structured_output.m language/objc/PraxoJsonSchema.m language/objc/PraxoJSON.m -framework Foundation
+      - run: ./build/objc-structured-output
+      - run: clang -fobjc-arc -fblocks -Ilanguage/objc -o build/objc-streaming language/objc/examples/streaming/streaming.m -framework Foundation
+      - run: ./build/objc-streaming
+      - run: clang -fobjc-arc -fblocks -Ilanguage/objc -o build/objc-identity-policy language/objc/examples/identity-policy/identity_policy.m -framework Foundation
+      - run: ./build/objc-identity-policy
+      - run: clang -fobjc-arc -fblocks -Ilanguage/objc -o build/objc-service language/objc/examples/service/service.m -framework Foundation
+      - run: ./build/objc-service
+      - run: clang -fobjc-arc -fblocks -Ilanguage/objc -o build/objc-mcp language/objc/examples/mcp/mcp.m language/objc/PraxoMCP.m language/objc/PraxoCore.m language/objc/PraxoJSON.m -framework Foundation
+      - run: ./build/objc-mcp
