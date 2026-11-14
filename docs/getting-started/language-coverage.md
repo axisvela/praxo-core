@@ -12,7 +12,7 @@ provider endpoint.
 | Provider fallback | 30 | `language/<language>/examples/provider-fallback` |
 | Streaming | 30 | `language/<language>/examples/streaming` |
 | Structured output | 30 | `language/<language>/examples/structured-output` |
-| Identity and policy | 16 | `language/<language>/examples/identity-policy` |
+| Identity and policy | 30 | `language/<language>/examples/identity-policy` |
 | HTTP service | 16 | `language/<language>/examples/service` |
 | MCP | 16 | `language/<language>/examples/mcp` |
 
@@ -98,3 +98,7 @@ Structured output examples are also available for Dart, Perl, Julia, Swift, Hask
 ## Additional SDK Languages: Streaming
 
 Streaming accumulation examples are also available for Dart, Perl, Julia, Swift, Haskell, OCaml, D, Nim, Zig, V, Delphi, PowerShell, MATLAB, and Objective-C under `language/<language>/examples/streaming`. These are transport-neutral chunk accumulation examples.
+
+## Additional SDK Languages: Identity and Policy
+
+Identity and policy examples are also available for Dart, Perl, Julia, Swift, Haskell, OCaml, D, Nim, Zig, V, Delphi, PowerShell, MATLAB, and Objective-C under `language/<language>/examples/identity-policy`.
