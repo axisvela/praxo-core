@@ -1,6 +1,6 @@
 # Public Roadmap
 
-Current core release: `2.7.0`.
+Current core release: `2.8.0`.
 
 This roadmap is organized around developer outcomes: choose the framework,
 run something useful, build a real prototype, embed it in an application, and

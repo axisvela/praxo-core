@@ -95,6 +95,8 @@ type Options struct {
 	SkillsLimit           int
 	Events                event.Sink
 	Policy                policy.Hook
+	RequirePolicy         bool
+	RequireToolScope      bool
 	MaxSteps              int
 	MaxParallelTools      int
 	MaxTokens             int64
@@ -137,6 +139,12 @@ func New(opts Options) (*Agent, error) {
 	}
 	if opts.Model == nil {
 		return nil, errors.New("agent: model is required")
+	}
+	if opts.RequirePolicy && opts.Policy == nil {
+		return nil, errors.New("agent: require policy: Policy is required")
+	}
+	if opts.RequireToolScope && len(opts.AllowedTools) == 0 {
+		return nil, errors.New("agent: require tool scope: AllowedTools must not be empty")
 	}
 	memory, err := LoadAgentsMD(opts.MemoryFiles...)
 	if err != nil {

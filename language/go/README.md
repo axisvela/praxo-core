@@ -5,7 +5,7 @@ agent execution kernel with explicit policy controls, checkpoints, events, and
 tool calling. It runs in-process and does not require a hosted service.
 
 - `SPEC_VERSION`: `0.2.0`
-- Source module: `github.com/axisvela/praxo-core/v2@v2.7.0`
+- Source module: `github.com/axisvela/praxo-core/v2@v2.8.0`
 - Tier: Core (reference)
 - License: MIT
 - Go: module declares `1.25.0`; CI and releases use Go `1.26.11`
@@ -13,7 +13,7 @@ tool calling. It runs in-process and does not require a hosted service.
 ## Install
 
 ```bash
-go get github.com/axisvela/praxo-core/v2@v2.7.0
+go get github.com/axisvela/praxo-core/v2@v2.8.0
 ```
 
 ## Quickstart

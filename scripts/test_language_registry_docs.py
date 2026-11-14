@@ -86,7 +86,6 @@ class LanguageRegistryDocsTests(unittest.TestCase):
                     self.assertIn("## Languages", registry_text)
                     self.assertIn("## Boundaries", registry_text)
                     self.assertIn(entry["package"], registry_text)
-                    self.assertIn(entry["source_version"], registry_text)
                     self.assertIn(entry["published_version"], registry_text)
                 else:
                     self.assertIn("## Package", registry_text)

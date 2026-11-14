@@ -277,5 +277,5 @@ nav:
       - CI Workflows: contributing/ci-workflows.md
   - Releases:
       - Release Overview: releases/index.md
-      - Latest Release: releases/2.7.0.md
+      - Latest Release: releases/2.8.0.md
       - Release Process: project/releasing.md
