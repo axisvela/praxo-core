@@ -17,7 +17,7 @@ export PRAXO_MODEL=llama3.2
 
 各语言示例读取这些变量：
 
-- [Go 真实模型](https://github.com/axisvela/praxo-core/tree/main/examples/live-model/go)
+- [Go 真实模型](https://github.com/axisvela/praxo-core/tree/main/language/go/examples/live-model/go)
 - [Python 真实模型](https://github.com/axisvela/praxo-core/tree/main/language/python/examples/live-model)
 - [TypeScript 真实模型](https://github.com/axisvela/praxo-core/tree/main/language/typescript/examples/live-model)
 - [Java 真实模型](https://github.com/axisvela/praxo-core/tree/main/language/java/examples/live-model)

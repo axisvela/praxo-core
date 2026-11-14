@@ -51,7 +51,7 @@ class CiChangesTests(unittest.TestCase):
         self.assertEqual(json.loads(values["languages"]), ["python"])
 
     def test_go_consumer_change_does_not_run_core(self):
-        values = classify(["examples/consumer-go/main.go"])
+        values = classify(["language/go/examples/consumer-go/main.go"])
         self.assertEqual(values["consumers"], "true")
         self.assertEqual(values["core"], "false")
 

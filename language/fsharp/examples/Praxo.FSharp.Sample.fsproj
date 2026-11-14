@@ -7,6 +7,6 @@
     <Compile Include="Program.fs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="../../language/csharp/Praxo.Core/Praxo.Core.csproj" />
+    <ProjectReference Include="../../../language/csharp/Praxo.Core/Praxo.Core.csproj" />
   </ItemGroup>
 </Project>

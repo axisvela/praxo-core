@@ -153,7 +153,7 @@ def on_page_markdown(markdown, page, config, files):
             marker = "<!-- " + language + "-consumer-source: " + filename + " -->"
             if marker in markdown:
                 if language == "go":
-                    base = ROOT / "examples" / "consumer-go"
+                    base = ROOT / "language" / "go" / "examples" / "consumer-go"
                 else:
                     base = ROOT / "language" / language / "examples" / "consumer"
                 source = (base / relative).read_text(encoding="utf-8")

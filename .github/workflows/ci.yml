@@ -35,6 +35,13 @@ on:
       - "language/perl/**"
       - "adapters/**"
       - "examples/**"
+      - "language/clojure/**"
+      - "language/fsharp/**"
+      - "language/groovy/**"
+      - "language/javascript/**"
+      - "language/kotlin/**"
+      - "language/scala/**"
+      - "language/opencl/**"
       - "bindings/**"
       - "cmd/praxo-bridge/**"
       - "internal/bridge/**"
@@ -75,6 +82,13 @@ on:
       - "language/perl/**"
       - "adapters/**"
       - "examples/**"
+      - "language/clojure/**"
+      - "language/fsharp/**"
+      - "language/groovy/**"
+      - "language/javascript/**"
+      - "language/kotlin/**"
+      - "language/scala/**"
+      - "language/opencl/**"
       - "bindings/**"
       - "cmd/praxo-bridge/**"
       - "internal/bridge/**"
@@ -200,13 +214,13 @@ jobs:
       GOWORK: "off"
     defaults:
       run:
-        working-directory: examples/consumer-go
+        working-directory: language/go/examples/consumer-go
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-go@v5
         with:
           go-version: "1.26.11"
-          cache-dependency-path: examples/consumer-go/go.sum
+          cache-dependency-path: language/go/examples/consumer-go/go.sum
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
@@ -724,8 +738,8 @@ jobs:
       - run: javac -d language/java/build/classes $(find language/java/src/main/java -name '*.java')
       - run: curl -fL -o kotlin-compiler.zip https://github.com/JetBrains/kotlin/releases/download/v2.4.21/kotlin-compiler-2.4.21.zip
       - run: unzip -q kotlin-compiler.zip
-      - run: kotlinc/bin/kotlinc -cp language/java/build/classes -include-runtime -d examples/kotlin/sample.jar examples/kotlin/sample.kt
-      - run: java -cp examples/kotlin/sample.jar:language/java/build/classes SampleKt
+      - run: kotlinc/bin/kotlinc -cp language/java/build/classes -include-runtime -d language/kotlin/examples/sample.jar language/kotlin/examples/sample.kt
+      - run: java -cp language/kotlin/examples/sample.jar:language/java/build/classes SampleKt
 
   scala-sample:
     needs: changes
@@ -739,7 +753,7 @@ jobs:
           java-version: "21"
       - run: javac -d language/java/build/classes $(find language/java/src/main/java -name '*.java')
       - uses: VirtusLab/scala-cli-setup@main
-      - run: scala-cli run examples/scala/sample.scala --classpath language/java/build/classes --server=false --jvm 21
+      - run: scala-cli run language/scala/examples/sample.scala --classpath language/java/build/classes --server=false --jvm 21
 
   groovy-sample:
     needs: changes
@@ -754,7 +768,7 @@ jobs:
       - run: javac -d language/java/build/classes $(find language/java/src/main/java -name '*.java')
       - run: curl -fL -o groovy.zip https://archive.apache.org/dist/groovy/4.0.24/distribution/apache-groovy-binary-4.0.24.zip
       - run: unzip -q groovy.zip
-      - run: groovy-4.0.24/bin/groovy -cp language/java/build/classes examples/groovy/sample.groovy
+      - run: groovy-4.0.24/bin/groovy -cp language/java/build/classes language/groovy/examples/sample.groovy
 
   clojure-sample:
     needs: changes
@@ -768,7 +782,7 @@ jobs:
           java-version: "21"
       - run: javac -d language/java/build/classes $(find language/java/src/main/java -name '*.java')
       - run: sudo apt-get update && sudo apt-get install -y clojure
-      - run: CLASSPATH=language/java/build/classes clojure examples/clojure/sample.clj
+      - run: CLASSPATH=language/java/build/classes clojure language/clojure/examples/sample.clj
 
   opencl-sample:
     needs: changes
@@ -778,7 +792,7 @@ jobs:
       - uses: actions/checkout@v4
       - run: sudo apt-get update && sudo apt-get install -y ocl-icd-opencl-dev pocl-opencl-icd
       - run: mkdir -p build
-      - run: cc -std=c11 -DCL_TARGET_OPENCL_VERSION=300 -I language/c/include -I language/c/src examples/opencl/sample.c language/c/src/json.c -lOpenCL -lm -o build/opencl-sample
+      - run: cc -std=c11 -DCL_TARGET_OPENCL_VERSION=300 -I language/c/include -I language/c/src language/opencl/examples/sample.c language/c/src/json.c -lOpenCL -lm -o build/opencl-sample
       - run: ./build/opencl-sample
 
   prolog-bridge:
@@ -836,7 +850,7 @@ jobs:
       - run: dotnet run --project language/csharp/Praxo.Conformance -c Release -- --check-api
       - run: dotnet run --project language/csharp/Praxo.Tests -c Release
       - run: dotnet run --project language/csharp/samples/VbSample -c Release
-      - run: dotnet run --project examples/fsharp/Praxo.FSharp.Sample.fsproj -c Release
+      - run: dotnet run --project language/fsharp/examples/Praxo.FSharp.Sample.fsproj -c Release
 
   php-conformance:
     needs: changes
@@ -982,7 +996,7 @@ jobs:
           node-version: "22"
       - run: npm ci
       - run: npm run build
-      - run: node ../../examples/javascript/sample.mjs
+      - run: node ../../language/javascript/examples/sample.mjs
 
   lua-conformance:
     needs: changes
@@ -1129,9 +1143,9 @@ jobs:
       - run: go vet ./...
         working-directory: examples/embedded-service
       - run: go test ./...
-        working-directory: examples/live-model/go
+        working-directory: language/go/examples/live-model/go
       - run: go vet ./...
-        working-directory: examples/live-model/go
+        working-directory: language/go/examples/live-model/go
 
   example-sdks:
     needs: changes

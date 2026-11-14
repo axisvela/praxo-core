@@ -9,14 +9,14 @@
 | --- | --- | --- | --- |
 | L1 Core 契约与行为 | `pkg/...` 测试、`spec/vectors/`、API 快照 | Go 参考实现具备声明的本地行为或契约 | 已发布包、其他 SDK 或生产行为 |
 | L2 SDK 一致性 | `language/...` 测试、parity 与 conformance runner | 某个 SDK 声明范围与其向量一致 | 完整 Go 对齐、真实 provider 或采用 |
-| L3 已发布包消费者 | `examples/consumer-go`、`consumer-python`、`consumer-typescript`、`consumer-java` | Registry 产物可安装、构建并走通允许/拒绝等公开 API 路径 | Core 内部、生产安全或有人采用 |
+| L3 已发布包消费者 | `language/go/examples/consumer-go`、`consumer-python`、`consumer-typescript`、`consumer-java` | Registry 产物可安装、构建并走通允许/拒绝等公开 API 路径 | Core 内部、生产安全或有人采用 |
 | L4 应用配方 | 身份绑定、治理验收胶水、长时操作 fixture 与 verifier/fencing 演示 | 参考应用模式及声明的失败边界 | Core 拥有外部服务、存储、验证器或策略决策 |
 | L5 采用实验 | Agent Adoption Lab 记录 | 固定条件下编程工具如何发现、选择、集成与保留 | 框架本身正确性 |
 | L6 生产与运行 | 部署、平台、硬件与独立评审记录 | 被测部署或环境 | 其他环境或未来 revision |
 
 `已验证` 始终限定于 revision、产物和日期；后续提交不会扩展它。
 
-## `examples/consumer-go` 映射
+## `language/go/examples/consumer-go` 映射
 
 | 文件 | 层级 | 实际触及的 Core 接缝 | 配方/应用行为 |
 | --- | --- | --- | --- |

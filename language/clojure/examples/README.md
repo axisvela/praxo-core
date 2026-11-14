@@ -11,7 +11,7 @@ find language/java/src/main/java -name '*.java' > java-sources.txt
 javac -d language/java/build/classes @java-sources.txt
 
 # Then run the Clojure sample.
-CLASSPATH=language/java/build/classes clojure examples/clojure/sample.clj
+CLASSPATH=language/java/build/classes clojure language/clojure/examples/sample.clj
 ```
 
 CI installs Clojure and runs the same sample.

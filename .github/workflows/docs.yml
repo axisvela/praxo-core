@@ -27,7 +27,7 @@ on:
       - "docs/languages/registry-status.md"
       - "docs/languages/registry-pages.md"
       - "docs/getting-started/agent-integration.json"
-      - "examples/consumer-go/**"
+      - "language/go/examples/consumer-go/**"
       - "language/python/examples/consumer/**"
       - "language/typescript/examples/consumer/**"
       - "language/java/examples/consumer/**"

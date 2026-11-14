@@ -11,7 +11,7 @@ cd language/typescript
 npm ci
 npm run build
 cd ../..
-node examples/javascript/sample.mjs
+node language/javascript/examples/sample.mjs
 ```
 
 ## Usage
@@ -19,7 +19,7 @@ node examples/javascript/sample.mjs
 ```js
 import { createRequire } from "node:module";
 const require = createRequire(import.meta.url);
-const praxo = require("../../language/typescript/dist/index.js");
+const praxo = require("../../typescript/dist/index.js");
 
 const model = {
   async generate() {

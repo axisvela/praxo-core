@@ -18,7 +18,7 @@ export PRAXO_MODEL=llama3.2
 
 The language examples read these variables:
 
-- [Go live model](https://github.com/axisvela/praxo-core/tree/main/examples/live-model/go)
+- [Go live model](https://github.com/axisvela/praxo-core/tree/main/language/go/examples/live-model/go)
 - [Python live model](https://github.com/axisvela/praxo-core/tree/main/language/python/examples/live-model)
 - [TypeScript live model](https://github.com/axisvela/praxo-core/tree/main/language/typescript/examples/live-model)
 - [Java live model](https://github.com/axisvela/praxo-core/tree/main/language/java/examples/live-model)

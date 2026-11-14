@@ -14,7 +14,7 @@ CI is split by path so a language-only change does not run the full matrix.
 | `ci-rust.yml` | Rust conformance | `language/rust/**` |
 | `ci-dotnet.yml` | C# conformance and PowerShell Core | `language/csharp/**`, `language/powershell/**` |
 | `ci-extended.yml` | Ruby, PHP, Elixir, Erlang, Lua | Their `language/<language>/**` paths |
-| `ci-native.yml` | C, C++, Fortran, COBOL, OpenCL sample | Their paths and `examples/opencl/**` |
+| `ci-native.yml` | C, C++, Fortran, COBOL, OpenCL sample | Their paths and `language/opencl/examples/**` |
 | `ci-optional.yml` | Haskell, Swift, Dart, Julia, R | Their `language/<language>/**` paths |
 | `ci-optional2.yml` | MATLAB, Octave, OCaml, Objective-C, Nim, V, D, Zig, Perl | Their `language/<language>/**` paths |
 | `ci-adapters.yml` | Adapter modules and adapter module-security | `adapters/**` |

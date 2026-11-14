@@ -1,4 +1,4 @@
 ---
 title: JavaScript Sample
-sdk_readme: examples/javascript/README.md
+sdk_readme: language/javascript/examples/README.md
 ---

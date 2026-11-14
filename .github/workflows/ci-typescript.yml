@@ -6,10 +6,12 @@ on:
     paths:
       - "language/typescript/**"
       - ".github/workflows/ci-typescript.yml"
+      - "language/javascript/examples/**"
   pull_request:
     paths:
       - "language/typescript/**"
       - ".github/workflows/ci-typescript.yml"
+      - "language/javascript/examples/**"
   workflow_dispatch:
 
 permissions:
@@ -89,4 +91,4 @@ jobs:
           node-version: "22"
       - run: npm ci
       - run: npm run build
-      - run: node ../../examples/javascript/sample.mjs
+      - run: node ../../language/javascript/examples/sample.mjs

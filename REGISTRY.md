@@ -59,7 +59,7 @@ documentation before relying on a version or feature.
 
 - Task-oriented catalog: [docs Examples](docs/getting-started/examples.md)
 - Repository catalog: [examples/README.md](examples/README.md)
-- Live model: [examples/live-model](examples/live-model/README.md)
+- Live model: [language/go/examples/live-model](language/go/examples/live-model/README.md)
 - Language examples: `language/<language>/examples/`
 
 ## Boundaries

@@ -15,7 +15,7 @@ Keep these checks where your integration lives:
 5. the package version in the lockfile matches the intended release.
 
 Go consumer example:
-[`examples/consumer-go/governed_test.go`](https://github.com/axisvela/praxo-core/blob/main/examples/consumer-go/governed_test.go).
+[`language/go/examples/consumer-go/governed_test.go`](https://github.com/axisvela/praxo-core/blob/main/language/go/examples/consumer-go/governed_test.go).
 
 ## Side-Effecting Applications
 

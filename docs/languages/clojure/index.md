@@ -1,4 +1,4 @@
 ---
 title: Clojure Sample
-sdk_readme: examples/clojure/README.md
+sdk_readme: language/clojure/examples/README.md
 ---

@@ -158,7 +158,7 @@ other declared implementations are optional. See the
 
 | Goal | Example |
 | --- | --- |
-| Run a published package against a real model | [Live model](examples/live-model) |
+| Run a published package against a real model | [Live model](language/go/examples/live-model) |
 | Produce validated JSON | [Python](language/python/examples/structured-output), [TypeScript](language/typescript/examples/structured-output), [Java](language/java/examples/structured-output), [C#](language/csharp/examples/structured-output) |
 | Build a read-only workspace agent | [Workspace agent](examples/workspace-agent) |
 | Embed Core in an HTTP service | [Embedded service](examples/embedded-service) |

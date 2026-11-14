@@ -30,7 +30,7 @@ out/
 out-test/
 .dart_tool/
 language/dart/pubspec.lock
-examples/kotlin/*.jar
+language/kotlin/examples/*.jar
 kotlin-compiler.zip
 .scala-build/
 .bsp/

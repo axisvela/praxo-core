@@ -22,7 +22,7 @@ class ConsumerPinTests(unittest.TestCase):
         root = Path(self.directory.name)
         for path in (
             root / "docs/getting-started",
-            root / "examples/consumer-go",
+            root / "language/go/examples/consumer-go",
             root / "language/python/examples/consumer",
             root / "language/typescript/examples/consumer",
             root / "language/java/examples/consumer",
@@ -50,7 +50,7 @@ class ConsumerPinTests(unittest.TestCase):
             ),
             encoding="utf-8",
         )
-        (root / "examples/consumer-go/go.mod").write_text(
+        (root / "language/go/examples/consumer-go/go.mod").write_text(
             "module example.com/starter\n\nrequire github.com/axisvela/praxo-core/v2 v2.7.0\n",
             encoding="utf-8",
         )
@@ -109,7 +109,7 @@ class ConsumerPinTests(unittest.TestCase):
 
     def test_go_mismatch_is_rejected(self):
         self.build()
-        path = self.root / "examples/consumer-go/go.mod"
+        path = self.root / "language/go/examples/consumer-go/go.mod"
         path.write_text(
             "module example.com/starter\n\nrequire github.com/axisvela/praxo-core/v2 v2.6.0\n",
             encoding="utf-8",

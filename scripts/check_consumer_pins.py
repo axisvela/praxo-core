@@ -40,7 +40,7 @@ def validate(root: Path) -> list[str]:
     if expected.get("Go") != version:
         errors.append(f"Go map {expected.get('Go')!r} != VERSION {version!r}")
 
-    go_mod = (root / "examples/consumer-go/go.mod").read_text(encoding="utf-8")
+    go_mod = (root / "language/go/examples/consumer-go/go.mod").read_text(encoding="utf-8")
     match = GO_MOD.search(go_mod)
     if match is None:
         errors.append("consumer-go/go.mod: missing praxo-core requirement")

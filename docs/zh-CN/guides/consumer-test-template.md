@@ -14,7 +14,7 @@
 5. 锁文件中的包版本与目标发布版本一致。
 
 Go 消费者示例：
-[`examples/consumer-go/governed_test.go`](https://github.com/axisvela/praxo-core/blob/main/examples/consumer-go/governed_test.go)。
+[`language/go/examples/consumer-go/governed_test.go`](https://github.com/axisvela/praxo-core/blob/main/language/go/examples/consumer-go/governed_test.go)。
 
 ## 有副作用应用
 

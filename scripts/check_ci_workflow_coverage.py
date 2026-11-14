@@ -7,7 +7,17 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 WORKFLOWS = ROOT / ".github" / "workflows"
 LANGUAGE = ROOT / "language"
-EXCLUDED = {"matlab-octave-core"}
+EXCLUDED = {
+    "matlab-octave-core",
+    "go",
+    "clojure",
+    "fsharp",
+    "groovy",
+    "javascript",
+    "kotlin",
+    "opencl",
+    "scala",
+}
 
 
 def workflow_names() -> list[Path]:

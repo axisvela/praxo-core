@@ -13,7 +13,7 @@ Install OpenCL headers, an ICD loader, and a device. On Debian/Ubuntu:
 sudo apt-get install -y ocl-icd-opencl-dev pocl-opencl-icd
 cc -std=c11 -DCL_TARGET_OPENCL_VERSION=300 \
   -I language/c/include -I language/c/src \
-  examples/opencl/sample.c language/c/src/json.c \
+  language/opencl/examples/sample.c language/c/src/json.c \
   -lOpenCL -lm -o build/opencl-sample
 ./build/opencl-sample
 ```

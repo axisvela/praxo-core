@@ -10,7 +10,7 @@ implementation. The sample runs on Scala 3 and the JVM.
 find language/java/src/main/java -name '*.java' > java-sources.txt
 javac -d language/java/build/classes @java-sources.txt
 
-scala-cli run examples/scala/sample.scala --classpath language/java/build/classes --server=false
+scala-cli run language/scala/examples/sample.scala --classpath language/java/build/classes --server=false
 ```
 
 CI installs Scala CLI and runs the same sample.

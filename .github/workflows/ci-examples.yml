@@ -5,6 +5,14 @@ on:
     branches: [main]
     paths:
       - "examples/**"
+      - "language/go/examples/**"
+      - "language/clojure/examples/**"
+      - "language/fsharp/examples/**"
+      - "language/groovy/examples/**"
+      - "language/javascript/examples/**"
+      - "language/kotlin/examples/**"
+      - "language/scala/examples/**"
+      - "language/opencl/examples/**"
       - "language/python/examples/**"
       - "language/typescript/examples/**"
       - "language/csharp/examples/**"
@@ -24,6 +32,14 @@ on:
   pull_request:
     paths:
       - "examples/**"
+      - "language/go/examples/**"
+      - "language/clojure/examples/**"
+      - "language/fsharp/examples/**"
+      - "language/groovy/examples/**"
+      - "language/javascript/examples/**"
+      - "language/kotlin/examples/**"
+      - "language/scala/examples/**"
+      - "language/opencl/examples/**"
       - "language/python/examples/**"
       - "language/typescript/examples/**"
       - "language/csharp/examples/**"
@@ -84,9 +100,9 @@ jobs:
       - run: go vet ./...
         working-directory: examples/embedded-service-auth
       - run: go test ./...
-        working-directory: examples/live-model/go
+        working-directory: language/go/examples/live-model/go
       - run: go vet ./...
-        working-directory: examples/live-model/go
+        working-directory: language/go/examples/live-model/go
 
   example-sdks:
     runs-on: ubuntu-latest
@@ -338,13 +354,13 @@ jobs:
       GOWORK: "off"
     defaults:
       run:
-        working-directory: examples/consumer-go
+        working-directory: language/go/examples/consumer-go
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-go@v5
         with:
           go-version: "1.26.11"
-          cache-dependency-path: examples/consumer-go/go.sum
+          cache-dependency-path: language/go/examples/consumer-go/go.sum
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'

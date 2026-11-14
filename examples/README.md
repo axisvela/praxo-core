@@ -7,7 +7,7 @@ mirror repositories.
 
 ## First Agent
 
-- [Live Model Golden Path](live-model/README.md): published packages connected
+- [Live Model Golden Path](../language/go/examples/live-model/README.md): published packages connected
   to an OpenAI-compatible endpoint.
 - [Quickstart](quickstart/): Go reference endpoint example.
 
@@ -54,7 +54,7 @@ application-shaped integration. Do not copy both into one project.
 
 | Language | Examples |
 | --- | --- |
-| Go | [live-model](live-model/go), [consumer](consumer-go), and this directory |
+| Go | [live-model](../language/go/examples/live-model/go), [consumer](../language/go/examples/consumer-go), and this directory |
 | Python | [language/python/examples](../language/python/examples) |
 | TypeScript | [language/typescript/examples](../language/typescript/examples) |
 | Java | [language/java/examples](../language/java/examples) |

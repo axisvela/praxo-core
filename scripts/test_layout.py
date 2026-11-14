@@ -16,7 +16,7 @@ SAMPLES = ["javascript", "kotlin", "scala", "groovy", "clojure", "fsharp", "open
 class LayoutTests(unittest.TestCase):
     def test_language_locations(self):
         self.assertFalse((ROOT / "sdk").exists())
-        for category, names in (("language", LANGUAGES), ("bindings", BINDINGS), ("examples", SAMPLES)):
+        for category, names in (("language", LANGUAGES + SAMPLES), ("bindings", BINDINGS)):
             for name in names:
                 self.assertFalse((ROOT / name).exists(), name)
                 self.assertTrue((ROOT / category / name / "README.md").is_file(), name)
@@ -46,7 +46,7 @@ class LayoutTests(unittest.TestCase):
         runs = "\n".join(str(step.get("run", "")) for job in yaml.safe_load(text)["jobs"].values() for step in job["steps"])
         stale = re.findall(r"(?<![\w/.-])(?:\./)?(?:" + names + r")/(?=[\w?.])", runs)
         self.assertEqual(stale, [])
-        self.assertIn("node ../../examples/javascript/sample.mjs", text)
+        self.assertIn("node ../../language/javascript/examples/sample.mjs", text)
         self.assertIn("uses: ruby/setup-ruby@v1", text)
         self.assertNotIn("uses: language/", text)
 

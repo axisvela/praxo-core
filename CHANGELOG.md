@@ -634,7 +634,7 @@ wired language to 20/20.
   their integrated middleware surfaces passed their tests and CI jobs.
 - Promoted OCaml to a native Core SDK with integrated PII, structured output,
   call limits, and tool selection; released source tag `ocaml/v0.2.0`.
-- Added an OpenCL sample in `examples/opencl` that uses the C SDK and an OpenCL
+- Added an OpenCL sample in `language/opencl/examples` that uses the C SDK and an OpenCL
   ICD, with a CPU-capable POCL CI job.
 - Added a SWI-Prolog bridge over the maintained bridge CLI, with forwarding,
   UTF-8, error, and exit-code tests, and tagged it `prolog/v0.1.0`.
@@ -643,7 +643,7 @@ wired language to 20/20.
 - Added a native Erlang Core SDK under `language/erlang` with all eleven vector
   groups, native tests, API snapshot/parity, and an OTP 29 CI job; tagged
   `erlang/v0.1.0` with documented partial opt-in surfaces.
-- Added an F# sample over the C# / .NET SDK in `examples/fsharp`, registered it
+- Added an F# sample over the C# / .NET SDK in `language/fsharp/examples`, registered it
   in the language matrix, and added it to the .NET CI job.
 - Added a maturity column to the language support matrix, separate from source
   tags and version numbers; it distinguishes reference, complete, partial,

@@ -8,7 +8,7 @@ on:
       - "language/cpp/**"
       - "language/fortran/**"
       - "language/cobol/**"
-      - "examples/opencl/**"
+      - "language/opencl/examples/**"
       - ".github/workflows/ci-native.yml"
   pull_request:
     paths:
@@ -16,7 +16,7 @@ on:
       - "language/cpp/**"
       - "language/fortran/**"
       - "language/cobol/**"
-      - "examples/opencl/**"
+      - "language/opencl/examples/**"
       - ".github/workflows/ci-native.yml"
   workflow_dispatch:
 
@@ -89,5 +89,5 @@ jobs:
       - uses: actions/checkout@v4
       - run: sudo apt-get update && sudo apt-get install -y ocl-icd-opencl-dev pocl-opencl-icd
       - run: mkdir -p build
-      - run: cc -std=c11 -DCL_TARGET_OPENCL_VERSION=300 -I language/c/include -I language/c/src examples/opencl/sample.c language/c/src/json.c -lOpenCL -lm -o build/opencl-sample
+      - run: cc -std=c11 -DCL_TARGET_OPENCL_VERSION=300 -I language/c/include -I language/c/src language/opencl/examples/sample.c language/c/src/json.c -lOpenCL -lm -o build/opencl-sample
       - run: ./build/opencl-sample

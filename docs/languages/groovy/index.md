@@ -1,4 +1,4 @@
 ---
 title: Groovy Sample
-sdk_readme: examples/groovy/README.md
+sdk_readme: language/groovy/examples/README.md
 ---

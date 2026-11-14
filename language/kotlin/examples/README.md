@@ -11,8 +11,8 @@ find language/java/src/main/java -name '*.java' > java-sources.txt
 javac -d language/java/build/classes @java-sources.txt
 
 # Then compile and run the Kotlin sample.
-kotlinc -cp language/java/build/classes -include-runtime -d examples/kotlin/sample.jar examples/kotlin/sample.kt
-java -cp examples/kotlin/sample.jar:language/java/build/classes SampleKt
+kotlinc -cp language/java/build/classes -include-runtime -d language/kotlin/examples/sample.jar language/kotlin/examples/sample.kt
+java -cp language/kotlin/examples/sample.jar:language/java/build/classes SampleKt
 ```
 
 CI installs Kotlin and runs the same sample.

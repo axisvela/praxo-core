@@ -1,4 +1,4 @@
 ---
 title: OpenCL Sample
-sdk_readme: examples/opencl/README.md
+sdk_readme: language/opencl/examples/README.md
 ---

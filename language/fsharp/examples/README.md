@@ -8,7 +8,7 @@ implementation. The sample runs on .NET 8.
 From the repository root, use the .NET Core to run the sample:
 
 ```bash
-dotnet run --project examples/fsharp/Praxo.FSharp.Sample.fsproj
+dotnet run --project language/fsharp/examples/Praxo.FSharp.Sample.fsproj
 ```
 
 CI runs the same command after building the C# Core.

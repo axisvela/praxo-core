@@ -7,7 +7,7 @@ historical `2.5.0` compatibility baseline in `tests/consumer`.
 The files mix two evidence levels: L3 published-package consumer checks and L4
 application recipes. The long-running, identity, and parts of the governed suite
 validate the reference application pattern, not Core-owned capabilities. See the
-[test and evidence taxonomy](../../docs/project/test-taxonomy.md) for the file
+[test and evidence taxonomy](../../../../docs/project/test-taxonomy.md) for the file
 map and the criteria for promoting a recipe into Core.
 
 Use Go 1.26.11, the CI/release toolchain. With this directory as the working
@@ -59,16 +59,16 @@ security profile.
 The verified-identity pattern is a separate L4 application recipe at
 [`examples/recipes/identity-go`](../recipes/identity-go/README.md). It is not part
 of this starter and is not a Core capability claim. See the
-[identity and policy guide](../../docs/guides/identity-policy.md).
+[identity and policy guide](../../../../docs/guides/identity-policy.md).
 
 ## Long-Running Operations
 
 The long-running operation pattern is a separate L4 application recipe at
 [`examples/recipes/long-running-go`](../recipes/long-running-go/README.md). It is
 not part of this starter and is not a Core capability claim. See the
-[long-running operations guide](../../docs/guides/long-running-operations.md).
+[long-running operations guide](../../../../docs/guides/long-running-operations.md).
 
 Installation requires registry access or a populated module cache. Execution
 does not require an API key, model server, or AxisVela products. To start outside
-this checkout, follow the [consumer quickstart](../../docs/getting-started/consumer-go.md),
+this checkout, follow the [consumer quickstart](../../../../docs/getting-started/consumer-go.md),
 whose code is rendered from this module's tested source.

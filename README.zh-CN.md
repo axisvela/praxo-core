@@ -121,7 +121,7 @@ optional。当前覆盖见[行为实验](docs/zh-CN/languages/behavior-lab.md)�
 
 | 目标 | 示例 |
 | --- | --- |
-| 用发布包连接真实模型 | [真实模型](examples/live-model) |
+| 用发布包连接真实模型 | [真实模型](language/go/examples/live-model) |
 | 生成受校验 JSON | [Python](language/python/examples/structured-output)、[TypeScript](language/typescript/examples/structured-output)、[Java](language/java/examples/structured-output)、[C#](language/csharp/examples/structured-output) |
 | 构建只读 Workspace Agent | [Workspace agent](examples/workspace-agent) |
 | 将 Core 嵌入 HTTP 服务 | [Embedded service](examples/embedded-service) |

@@ -404,7 +404,7 @@ documentation before relying on a version or feature.
 
 - Task-oriented catalog: [docs Examples](docs/getting-started/examples.md)
 - Repository catalog: [examples/README.md](examples/README.md)
-- Live model: [examples/live-model](examples/live-model/README.md)
+- Live model: [language/go/examples/live-model](language/go/examples/live-model/README.md)
 - Language examples: `language/<language>/examples/`
 
 ## Boundaries
@@ -443,7 +443,7 @@ def render_root_llms() -> str:
 - Quickstart: https://github.com/axisvela/praxo-core/blob/main/docs/getting-started/quickstart.md
 - Examples: https://github.com/axisvela/praxo-core/blob/main/docs/getting-started/examples.md
 - Examples directory: https://github.com/axisvela/praxo-core/blob/main/examples/README.md
-- Live model: https://github.com/axisvela/praxo-core/blob/main/examples/live-model/README.md
+- Live model: https://github.com/axisvela/praxo-core/blob/main/language/go/examples/live-model/README.md
 - Start Here: https://github.com/axisvela/praxo-core/blob/main/docs/getting-started/index.md
 - Coding-agent contract: https://github.com/axisvela/praxo-core/blob/main/docs/getting-started/coding-agents.md
 - Language repository index: https://github.com/axisvela/praxo-core/blob/main/docs/languages/repositories.md

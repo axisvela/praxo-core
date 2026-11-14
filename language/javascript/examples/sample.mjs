@@ -1,7 +1,7 @@
 import { createRequire } from "node:module";
 
 const require = createRequire(import.meta.url);
-const praxo = require("../../language/typescript/dist/index.js");
+const praxo = require("../../typescript/dist/index.js");
 
 const model = {
   async generate() {

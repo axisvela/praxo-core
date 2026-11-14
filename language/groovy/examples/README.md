@@ -11,7 +11,7 @@ find language/java/src/main/java -name '*.java' > java-sources.txt
 javac -d language/java/build/classes @java-sources.txt
 
 # Then run the Groovy sample.
-groovy -cp language/java/build/classes examples/groovy/sample.groovy
+groovy -cp language/java/build/classes language/groovy/examples/sample.groovy
 ```
 
 CI installs Groovy and runs the same sample.

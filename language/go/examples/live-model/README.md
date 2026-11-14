@@ -1,7 +1,7 @@
 # Live Model Golden Path
 
 The Go project lives in [`go/`](go/). Other language projects live under
-`language/<lang>/examples/live-model`, so the dedicated language mirrors include
+`language/<lang>/language/go/examples/live-model`, so the dedicated language mirrors include
 them. Each example:
 
 - installs a published package instead of a repository checkout;
@@ -29,7 +29,7 @@ $env:PRAXO_MODEL = "llama3.2"
 ## Go
 
 ```bash
-cd examples/live-model/go
+cd language/go/examples/live-model/go
 go run .
 ```
 
@@ -63,9 +63,9 @@ The live path proves model/tool integration. For a deterministic denial check
 that must produce no tool effect, run the corresponding consumer starter after
 the live example:
 
-- [`examples/consumer-go`](../consumer-go)
-- [`language/python/examples/consumer`](../../language/python/examples/consumer)
-- [`language/typescript/examples/consumer`](../../language/typescript/examples/consumer)
-- [`language/java/examples/consumer`](../../language/java/examples/consumer)
+- [`language/go/examples/consumer-go`](../consumer-go)
+- [`language/python/examples/consumer`](../../../python/examples/consumer)
+- [`language/typescript/examples/consumer`](../../../typescript/examples/consumer)
+- [`language/java/examples/consumer`](../../../java/examples/consumer)
 
 These checks are intentionally separate from the live model path.

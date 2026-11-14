@@ -34,7 +34,7 @@ go get github.com/axisvela/praxo-core/v2@v2.7.0
 ## Application Source
 
 Use the following as `main.go`. On the documentation site this code is rendered
-directly from the [tested starter source](https://github.com/axisvela/praxo-core/blob/main/examples/consumer-go/main.go),
+directly from the [tested starter source](https://github.com/axisvela/praxo-core/blob/main/language/go/examples/consumer-go/main.go),
 not a separately maintained copy. GitHub readers can follow that source link.
 
 <!-- go-consumer-source: main.go -->
@@ -42,7 +42,7 @@ not a separately maintained copy. GitHub readers can follow that source link.
 ## Acceptance Tests
 
 Use the following as `main_test.go`, also rendered from the
-[tested source](https://github.com/axisvela/praxo-core/blob/main/examples/consumer-go/main_test.go).
+[tested source](https://github.com/axisvela/praxo-core/blob/main/language/go/examples/consumer-go/main_test.go).
 The dependency check rejects replacements and verifies the exact Core version.
 
 <!-- go-consumer-source: main_test.go -->
@@ -105,7 +105,7 @@ go test -mod=readonly -run Governed -v ./...
 | Policy service error | run fails closed; zero tool effects |
 
 The tests are in the
-[tested source](https://github.com/axisvela/praxo-core/blob/main/examples/consumer-go/governed_test.go).
+[tested source](https://github.com/axisvela/praxo-core/blob/main/language/go/examples/consumer-go/governed_test.go).
 The guard is application-level: Core keeps its ordinary nil-policy embeddable
 behavior. These checks do not prove authentic identity, durable approvals,
 effect reconciliation, or a general security profile.

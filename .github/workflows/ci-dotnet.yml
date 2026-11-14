@@ -7,11 +7,13 @@ on:
       - "language/csharp/**"
       - "language/powershell/**"
       - ".github/workflows/ci-dotnet.yml"
+      - "language/fsharp/examples/**"
   pull_request:
     paths:
       - "language/csharp/**"
       - "language/powershell/**"
       - ".github/workflows/ci-dotnet.yml"
+      - "language/fsharp/examples/**"
   workflow_dispatch:
 
 permissions:
@@ -34,7 +36,7 @@ jobs:
       - run: dotnet run --project language/csharp/Praxo.Conformance -c Release -- --check-api
       - run: dotnet run --project language/csharp/Praxo.Tests -c Release
       - run: dotnet run --project language/csharp/samples/VbSample -c Release
-      - run: dotnet run --project examples/fsharp/Praxo.FSharp.Sample.fsproj -c Release
+      - run: dotnet run --project language/fsharp/examples/Praxo.FSharp.Sample.fsproj -c Release
 
   powershell-core:
     runs-on: ubuntu-latest

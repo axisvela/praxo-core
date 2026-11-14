@@ -150,7 +150,7 @@ cd language/csharp; dotnet run --project Praxo.Conformance
 cd language/csharp; dotnet run --project Praxo.Conformance -- --check-api
 cd language/csharp; dotnet run --project Praxo.Tests
 cd language/csharp; dotnet run --project samples/VbSample
-dotnet run --project examples/fsharp/Praxo.FSharp.Sample.fsproj
+dotnet run --project language/fsharp/examples/Praxo.FSharp.Sample.fsproj
 php language/php/conformance/run.php
 php language/php/conformance/run.php --check-api
 php language/php/tests/run.php
@@ -181,11 +181,11 @@ cd language/zig; zig test src/plugin.zig
 cd language/zig; zig test src/pii_test.zig
 cd language/zig; python api-snapshot.py --check
 cd language/typescript; npm run build
-node examples/javascript/sample.mjs
+node language/javascript/examples/sample.mjs
 cd language/java; javac -d build/classes $(find src/main/java -name '*.java')
-groovy -cp language/java/build/classes examples/groovy/sample.groovy
-CLASSPATH=language/java/build/classes clojure examples/clojure/sample.clj
-cc -std=c11 -DCL_TARGET_OPENCL_VERSION=300 -I language/c/include -I language/c/src examples/opencl/sample.c language/c/src/json.c -lOpenCL -lm -o build/opencl-sample
+groovy -cp language/java/build/classes language/groovy/examples/sample.groovy
+CLASSPATH=language/java/build/classes clojure language/clojure/examples/sample.clj
+cc -std=c11 -DCL_TARGET_OPENCL_VERSION=300 -I language/c/include -I language/c/src language/opencl/examples/sample.c language/c/src/json.c -lOpenCL -lm -o build/opencl-sample
 ./build/opencl-sample
 perl language/perl/conformance/run.pl
 perl language/perl/api-snapshot.pl --check

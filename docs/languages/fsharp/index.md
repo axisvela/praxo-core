@@ -1,4 +1,4 @@
 ---
 title: F# Sample
-sdk_readme: examples/fsharp/README.md
+sdk_readme: language/fsharp/examples/README.md
 ---

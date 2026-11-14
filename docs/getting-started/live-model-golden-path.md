@@ -5,7 +5,7 @@ response. It uses an OpenAI-compatible endpoint, one low-risk `get_time` tool,
 and an explicit policy that permits only `get_time`.
 
 The Go project lives in
-[`examples/live-model/go`](https://github.com/axisvela/praxo-core/tree/main/examples/live-model/go).
+[`language/go/examples/live-model/go`](https://github.com/axisvela/praxo-core/tree/main/language/go/examples/live-model/go).
 Language-specific projects live under `language/<lang>/examples/live-model`, for
 example [`language/python/examples/live-model`](https://github.com/axisvela/praxo-core/tree/main/language/python/examples/live-model).
 Those directories are included in the dedicated language mirrors.
@@ -41,7 +41,7 @@ $env:PRAXO_MODEL = "llama3.2"
 
 | Language | Package | Commands |
 | --- | --- | --- |
-| Go | `github.com/axisvela/praxo-core/v2@v2.7.0` | `cd examples/live-model/go; go run .` |
+| Go | `github.com/axisvela/praxo-core/v2@v2.7.0` | `cd language/go/examples/live-model/go; go run .` |
 | Python | PyPI `praxo-core==0.6.0` | `cd language/python/examples/live-model; python -m venv .venv; .venv/bin/python -m pip install -r requirements.txt; .venv/bin/python live_starter.py` |
 | TypeScript | npm `@axisvela/praxo-core@0.5.0` | `cd language/typescript/examples/live-model; npm install; npm start` |
 | Java | Maven `com.axisvela:praxo-core:0.7.0` | `cd language/java/examples/live-model; mvn -q compile exec:java` |

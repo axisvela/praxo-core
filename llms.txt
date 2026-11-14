@@ -12,7 +12,7 @@
 - [Quickstart](https://github.com/axisvela/praxo-core/blob/main/docs/getting-started/quickstart.md): run a first agent from a checkout.
 - [Examples](https://github.com/axisvela/praxo-core/blob/main/docs/getting-started/examples.md): task-oriented and language-organized example catalog.
 - [Examples directory](https://github.com/axisvela/praxo-core/blob/main/examples/README.md): Go, Workspace, HTTP service, and cross-language examples.
-- [Live model](https://github.com/axisvela/praxo-core/blob/main/examples/live-model/README.md): published-package OpenAI-compatible path.
+- [Live model](https://github.com/axisvela/praxo-core/blob/main/language/go/examples/live-model/README.md): published-package OpenAI-compatible path.
 - [Start Here](https://github.com/axisvela/praxo-core/blob/main/docs/getting-started/index.md): task-oriented selection guidance.
 - [When Not To Use](https://github.com/axisvela/praxo-core/blob/main/docs/getting-started/when-not-to-use.md): explicit non-goals before selecting Core.
 

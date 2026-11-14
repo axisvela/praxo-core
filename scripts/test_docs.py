@@ -36,7 +36,7 @@ class Links(HTMLParser):
 
 class DocumentationTests(unittest.TestCase):
     def test_go_governed_acceptance_docs(self):
-        source = (ROOT / "examples/consumer-go/governed_test.go").read_text(encoding="utf-8")
+        source = (ROOT / "language/go/examples/consumer-go/governed_test.go").read_text(encoding="utf-8")
         self.assertGreaterEqual(source.count("func TestGoverned"), 5)
         for prefix, heading in (("", "Governed Acceptance"), ("zh-CN/", "治理验收")):
             page = (ROOT / "docs" / prefix / "getting-started/consumer-go.md").read_text(encoding="utf-8")
@@ -192,7 +192,7 @@ class DocumentationTests(unittest.TestCase):
                 self.assertIn(term, page)
             self.assertIn("test-taxonomy.md", (ROOT / "docs" / prefix / "project/contract-status.md").read_text(encoding="utf-8"))
         self.assertIn("consumer-go", (ROOT / "docs/project/test-taxonomy.md").read_text(encoding="utf-8"))
-        self.assertIn("test-taxonomy.md", (ROOT / "examples/consumer-go/README.md").read_text(encoding="utf-8"))
+        self.assertIn("test-taxonomy.md", (ROOT / "language/go/examples/consumer-go/README.md").read_text(encoding="utf-8"))
         self.assertIn("project/test-taxonomy.md", (ROOT / "mkdocs.yml").read_text(encoding="utf-8"))
         self.assertTrue((ROOT / "site/project/test-taxonomy/index.html").is_file())
 
@@ -320,7 +320,7 @@ class DocumentationTests(unittest.TestCase):
 
     def test_consumer_version_matches_recommended_release(self):
         version = (ROOT / "VERSION").read_text(encoding="utf-8").strip()
-        module = (ROOT / "examples/consumer-go/go.mod").read_text(encoding="utf-8")
+        module = (ROOT / "language/go/examples/consumer-go/go.mod").read_text(encoding="utf-8")
         self.assertIn("require github.com/axisvela/praxo-core/v2 v" + version + "\n", module)
         for prefix in ("", "zh-CN/"):
             guide = (ROOT / "docs" / prefix / "getting-started/consumer-go.md").read_text(encoding="utf-8")
@@ -330,7 +330,7 @@ class DocumentationTests(unittest.TestCase):
         page = SimpleNamespace(meta={})
         for filename in ("main.go", "main_test.go"):
             marker = "<!-- go-consumer-source: " + filename + " -->"
-            source = (ROOT / "examples/consumer-go" / filename).read_text(encoding="utf-8")
+            source = (ROOT / "language/go/examples/consumer-go" / filename).read_text(encoding="utf-8")
             rendered = docs_hooks.on_page_markdown(marker, page, None, None)
             self.assertEqual(rendered, "```go\n" + source.rstrip() + "\n```")
             for prefix in ("", "zh-CN/"):
@@ -387,7 +387,7 @@ class DocumentationTests(unittest.TestCase):
         sources += [ROOT / name / "README.md" for name in ("language", "bindings")]
         sources += list((ROOT / "language").glob("*/README.md"))
         sources += list((ROOT / "bindings").glob("*/README.md"))
-        sources += [ROOT / "examples" / name / "README.md" for name in ("javascript", "kotlin", "scala")]
+        sources += [ROOT / "language" / name / "examples" / "README.md" for name in ("javascript", "kotlin", "scala")]
         sources += [ROOT / name for name in ("README.md", "README.zh-CN.md", "CONTRIBUTING.md", "SECURITY.md", "ROADMAP.md")]
         for source in sources:
             for target in re.findall(r"!?\[[^\]\n]*\]\(([^\s)]+)", source.read_text(encoding="utf-8")):

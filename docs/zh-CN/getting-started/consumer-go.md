@@ -30,14 +30,14 @@ go get github.com/axisvela/praxo-core/v2@v2.7.0
 
 ## 应用源码
 
-以下为 `main.go`。文档站直接从[受测 Starter 源码](https://github.com/axisvela/praxo-core/blob/main/examples/consumer-go/main.go)
+以下为 `main.go`。文档站直接从[受测 Starter 源码](https://github.com/axisvela/praxo-core/blob/main/language/go/examples/consumer-go/main.go)
 渲染，不另外维护代码副本。在 GitHub 阅读时可通过该链接查看完整源码。
 
 <!-- go-consumer-source: main.go -->
 
 ## 验收测试
 
-以下为 `main_test.go`，同样从[受测源码](https://github.com/axisvela/praxo-core/blob/main/examples/consumer-go/main_test.go)
+以下为 `main_test.go`，同样从[受测源码](https://github.com/axisvela/praxo-core/blob/main/language/go/examples/consumer-go/main_test.go)
 渲染。依赖检查拒绝模块替换，并验证精确 Core 版本。
 
 <!-- go-consumer-source: main_test.go -->
@@ -93,7 +93,7 @@ go test -mod=readonly -run Governed -v ./...
 | 审批编辑改变参数 | 编辑后的操作重新授权；拒绝阻止副作用 |
 | Policy 服务错误 | 运行 fail closed；工具零副作用 |
 
-测试位于[受测源码](https://github.com/axisvela/praxo-core/blob/main/examples/consumer-go/governed_test.go)。
+测试位于[受测源码](https://github.com/axisvela/praxo-core/blob/main/language/go/examples/consumer-go/governed_test.go)。
 守卫属于应用层：Core 保留普通 nil-policy 嵌入模式。这些检查不证明真实身份、持久审批、
 效果对账或通用安全 Profile。
 

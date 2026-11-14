@@ -10,7 +10,7 @@
       "version": "2.7.0",
       "requirements": "Go 1.26.11 tested; the module declares 1.25.0",
       "install": "go get github.com/axisvela/praxo-core/v2@v2.7.0",
-      "starter": "examples/consumer-go",
+      "starter": "language/go/examples/consumer-go",
       "guide": "docs/getting-started/consumer-go.md",
       "verify": "GOWORK=off go test -mod=readonly ./...",
       "governed": "GOWORK=off go test -mod=readonly -run Governed -v ./..."

@@ -26,9 +26,9 @@ class GoUpgradeTests(unittest.TestCase):
         with tempfile.TemporaryDirectory(prefix='praxo-upgrade-') as directory:
             application = Path(directory)
             files = ('main.go', 'main_test.go', 'governed_test.go')
-            source = {name: (ROOT / 'examples/consumer-go' / name).read_bytes() for name in files}
+            source = {name: (ROOT / 'language/go/examples/consumer-go' / name).read_bytes() for name in files}
             for name in files:
-                shutil.copy2(ROOT / 'examples/consumer-go' / name, application / name)
+                shutil.copy2(ROOT / 'language/go/examples/consumer-go' / name, application / name)
 
             def run(*args):
                 result = subprocess.run([go, *args], cwd=application, env=env,

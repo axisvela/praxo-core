@@ -108,11 +108,11 @@ for real providers, platforms, and production behavior is reported separately.
 | Erlang | Core | released | `erlang/v0.7.1` | complete | 11 vectors, HITL interrupts, native tests, API snapshot/parity, policy/middleware/lifecycle, cancellation, streaming, SSE, parallel tools, run-scoped call limits, OTel, retriever, synchronous delegation; OTP 29; source `0.7.1`, Hex `praxo_core_erlang==0.7.1` |
 | Ada | Core | planned | none | planned | Native loop target; GNAT toolchain; consumer and maintainer required |
 | Mojo | Core | planned | none | planned | Native loop target; toolchain and CI maturity gate |
-| F# | Sample (.NET) | released | `csharp/v0.1.1` | sample | F# consumer sample in `examples/fsharp`; uses the C# Core |
-| Clojure | Sample (JVM) | released | `java/v0.2.2` | sample | Clojure consumer sample in `examples/clojure`; uses the Java Core |
+| F# | Sample (.NET) | released | `csharp/v0.1.1` | sample | F# consumer sample in `language/fsharp/examples`; uses the C# Core |
+| Clojure | Sample (JVM) | released | `java/v0.2.2` | sample | Clojure consumer sample in `language/clojure/examples`; uses the Java Core |
 | Solidity | Wire | planned | none | planned | Candidate contract integration; scope and technical limitations require investigation |
-| OpenCL | Sample | released | `c/v0.2.0` | sample | Compute integration sample in `examples/opencl`; uses the C Core and an OpenCL ICD |
-| Groovy | Sample (JVM) | released | `java/v0.2.2` | sample | Groovy consumer sample in `examples/groovy`; uses the Java Core |
+| OpenCL | Sample | released | `c/v0.2.0` | sample | Compute integration sample in `language/opencl/examples`; uses the C Core and an OpenCL ICD |
+| Groovy | Sample (JVM) | released | `java/v0.2.2` | sample | Groovy consumer sample in `language/groovy/examples`; uses the Java Core |
 | J# | Sample (.NET) | consumer-gated | none | gated | Legacy J# runtime and toolchain are unsupported; requires a named consumer and compatible .NET path |
 | FoxPro | Bridge | planned | none | planned | Bridge over the maintained runtime; Visual FoxPro is Windows-only and legacy |
 | Classic Visual Basic | Bridge | planned | none | planned | Bridge over the .NET Core or bridge CLI; VB6 cannot consume modern .NET directly |
