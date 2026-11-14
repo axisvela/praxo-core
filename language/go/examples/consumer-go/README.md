@@ -1,6 +1,6 @@
 # Independent Go Consumer
 
-This module installs published Core `2.8.0`, without local replacements or
+This module installs published Core `2.7.0`, without local replacements or
 optional adapters. It is the current-package starter, separate from the
 historical `2.5.0` compatibility baseline in `tests/consumer`.
 

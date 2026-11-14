@@ -156,14 +156,14 @@
   "Go": {
     "dir": ".",
     "docs": "https://axisvela.github.io/praxo-core/",
-    "install": "go get github.com/axisvela/praxo-core/v2@v2.8.0",
+    "install": "go get github.com/axisvela/praxo-core/v2@v2.7.0",
     "package": "github.com/axisvela/praxo-core/v2",
     "published_version": "v2.7.0",
     "registry": "Go module proxy / pkg.go.dev",
-    "source_install": "go get github.com/axisvela/praxo-core/v2@v2.8.0",
-    "source_version": "v2.8.0",
+    "source_install": "go get github.com/axisvela/praxo-core/v2@v2.7.0",
+    "source_version": "v2.7.0",
     "status": "published",
-    "tag": "v2.8.0",
+    "tag": "v2.7.0",
     "tier": "Core (reference)",
     "url": "https://pkg.go.dev/github.com/axisvela/praxo-core/v2"
   },

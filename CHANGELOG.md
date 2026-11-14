@@ -1,21 +1,5 @@
 ﻿# Changelog
 
-## [2.8.0] - 2026-11-14
-
-### Added
-
-- `agent.Options.RequirePolicy` rejects construction when no policy is
-  configured.
-- `agent.Options.RequireToolScope` rejects construction when `AllowedTools` is
-  empty.
-- HITL example (`examples/hitl`) covering approval and edit reauthorization.
-- Multi-turn checkpoint recovery example (`examples/session-checkpoint`).
-- Go discovery mirror support for `axisvela/praxo-core-go`.
-
-### Changed
-
-- Live-model examples use `get_time(zone)` with a parameter schema.
-
 ## [Unreleased]
 
 ### Added
