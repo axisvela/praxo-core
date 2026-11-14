@@ -44,7 +44,7 @@ See the [language implementation directory](languages/index.md) and the
 ## Go Reference Quickstart
 
 ```bash
-go get github.com/axisvela/praxo-core/v2@v2.7.0
+go get github.com/axisvela/praxo-core/v2@v2.8.0
 ```
 
 Follow the [quickstart](getting-started/quickstart.md) to run an agent against
@@ -63,10 +63,10 @@ above; source tags do not imply package-registry availability.
 
 ## Current Release
 
-Core `2.7.0` is a minor release adding long-running operation service, verifier,
-lease, metrics, and credential-rotation recipes, published-package upgrade
-checks, and additional integration and adoption evidence.
-See the [release notes](releases/2.7.0.md) for changes and limitations, or the
+Core `2.8.0` is a minor release adding opt-in `RequirePolicy` and
+`RequireToolScope` safe-default guards, HITL and multi-turn checkpoint examples,
+and a Go discovery mirror.
+See the [release notes](releases/2.8.0.md) for changes and limitations, or the
 [release overview](releases/index.md) for older versions.
 
 PRAXO-CORE is a framework, not a hosted service or a turnkey chat UI.

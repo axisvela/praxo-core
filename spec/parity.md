@@ -45,7 +45,7 @@ release; the matrix notes and the declared scope decide what the release claims.
 | --- | --- | --- | --- | --- | --- |
 | `pkg/model` | model, provider, messages, usage | partial | partial | partial | P1 |
 | `pkg/tool` | tool, registry, gateway, middleware, retry | partial | partial | partial | P1 |
-| `pkg/tool.SpecProvider` | tool spec and parameter schema | partial | partial | parity | P1 |
+| `tool.SpecProvider` | tool spec and parameter schema | partial | partial | parity | P1 |
 | `pkg/tool/jsonschema` | JSON Schema subset | partial | partial | partial | P1 |
 | `pkg/toolcall` | tool-call parsing | parity | parity | parity | P1 |
 | `pkg/agent` | agent loop and options | partial | partial | partial | P1 |

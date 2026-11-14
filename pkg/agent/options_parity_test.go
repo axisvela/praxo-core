@@ -6,6 +6,7 @@ import (
 	"testing"
 
 	"github.com/axisvela/praxo-core/v2/pkg/model"
+	"github.com/axisvela/praxo-core/v2/pkg/policy"
 	"github.com/axisvela/praxo-core/v2/pkg/tool"
 )
 
@@ -86,6 +87,27 @@ func (m *toolOnceModel) Generate(context.Context, model.Request) (model.Response
 		return model.Response{Message: model.Message{ToolCalls: []model.ToolCall{{ID: "c1", Name: "flaky"}}}}, nil
 	}
 	return model.Response{Message: model.Message{Content: "done"}}, nil
+}
+
+func TestNewRequiresPolicyAndToolScope(t *testing.T) {
+	if _, err := New(Options{Model: &stubModel{}, RequirePolicy: true}); err == nil {
+		t.Fatal("expected missing policy error")
+	}
+	if _, err := New(Options{Model: &stubModel{}, RequireToolScope: true}); err == nil {
+		t.Fatal("expected empty tool scope error")
+	}
+	hook := policy.FuncHook(func(context.Context, policy.Action) (policy.Decision, error) {
+		return policy.Decision{Allowed: true}, nil
+	})
+	if _, err := New(Options{
+		Model:            &stubModel{},
+		Policy:           hook,
+		AllowedTools:     []string{"echo"},
+		RequirePolicy:    true,
+		RequireToolScope: true,
+	}); err != nil {
+		t.Fatalf("explicit governance rejected: %v", err)
+	}
 }
 
 func TestAgentToolRetry(t *testing.T) {
