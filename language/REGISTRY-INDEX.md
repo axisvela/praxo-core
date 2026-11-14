@@ -67,3 +67,8 @@ packages.
 | Kotlin | Java Core | [examples](kotlin/examples/) |
 | OpenCL | C Core | [examples](opencl/examples/) |
 | Scala | Java Core | [examples](scala/examples/) |
+
+## Community
+
+- X: <https://x.com/axisvela>
+- Weibo: <https://weibo.com/u/1936025761>

@@ -71,3 +71,8 @@ See the [release notes](releases/2.7.0.md) for changes and limitations, or the
 
 PRAXO-CORE is a framework, not a hosted service or a turnkey chat UI.
 [AxisVela integrations](integrations/ecosystem.md) are optional.
+
+## Community
+
+- X: <https://x.com/axisvela>
+- Weibo: <https://weibo.com/u/1936025761>

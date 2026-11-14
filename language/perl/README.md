@@ -21,6 +21,7 @@ reference implementation.
 - [Examples](https://github.com/axisvela/praxo-core/tree/main/language/perl/examples): runnable language-specific examples.
 - Coding-agent contract: [docs/getting-started/coding-agents.md](https://github.com/axisvela/praxo-core/blob/main/docs/getting-started/coding-agents.md)
 - Registry: [CPAN (MetaCPAN index)](https://metacpan.org/dist/Praxo-Core)
+- Community: [X](https://x.com/axisvela) · [Weibo](https://weibo.com/u/1936025761)
 
 ## Scope
 

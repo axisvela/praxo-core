@@ -42,3 +42,8 @@ go get github.com/axisvela/praxo-core/v2@v2.7.0
 
 PRAXO-CORE 是框架，不是托管服务或开箱即用的聊天产品。
 [AxisVela 生态集成](integrations/ecosystem.md)是可选项。
+
+## 交流与社区
+
+- X：<https://x.com/axisvela>
+- 微博：<https://weibo.com/u/1936025761>

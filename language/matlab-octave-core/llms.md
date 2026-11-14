@@ -25,6 +25,11 @@
 - Compact entry: `llms.txt`
 - Coding-agent contract: ../../docs/getting-started/coding-agents.md
 
+## Community
+
+- X: <https://x.com/axisvela>
+- Weibo: <https://weibo.com/u/1936025761>
+
 ## Boundaries
 
 - In-process framework; not a model provider, hosted service, workflow engine,

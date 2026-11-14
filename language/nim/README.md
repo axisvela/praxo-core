@@ -18,6 +18,7 @@ outside the declared Core scope.
 - [Examples](https://github.com/axisvela/praxo-core/tree/main/language/nim/examples): runnable language-specific examples.
 - Coding-agent contract: [docs/getting-started/coding-agents.md](https://github.com/axisvela/praxo-core/blob/main/docs/getting-started/coding-agents.md)
 - Registry: [Nimble/nim-lang packages](https://github.com/axisvela/praxo-core-nim)
+- Community: [X](https://x.com/axisvela) · [Weibo](https://weibo.com/u/1936025761)
 
 ## Install
 

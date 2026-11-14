@@ -174,6 +174,11 @@ PRAXO-CORE 是独立的 MIT 框架。
 - [贡献指南](CONTRIBUTING.md)
 - [安全问题报告](SECURITY.md)
 
+## 交流与社区
+
+- X：<https://x.com/axisvela>
+- 微博：<https://weibo.com/u/1936025761>
+
 ## 许可证
 
 MIT。参见 [LICENSE](LICENSE) 与[来源说明](docs/zh-CN/project/provenance.md)。

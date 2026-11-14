@@ -50,6 +50,7 @@ See the full [implementation directory](docs/languages/index.md) and the
 - [Examples](https://github.com/axisvela/praxo-core/tree/main/examples): runnable language-specific examples.
 - Coding-agent contract: [docs/getting-started/coding-agents.md](https://github.com/axisvela/praxo-core/blob/main/docs/getting-started/coding-agents.md)
 - Registry: [Language Release Index](docs/languages/registry-status.md)
+- Community: [X](https://x.com/axisvela) · [Weibo](https://weibo.com/u/1936025761)
 
 ## Go Reference Quickstart
 
@@ -215,6 +216,11 @@ Core implementations are versioned independently.
 
 GitHub Latest Release represents only the Go Reference Core (`vX.Y.Z`). Language
 and adapter releases use independent tags and registry versions, not Latest.
+
+## Community
+
+- X: <https://x.com/axisvela>
+- Weibo: <https://weibo.com/u/1936025761>
 
 ## License
 

@@ -52,6 +52,11 @@
 - Language repository index: https://github.com/axisvela/praxo-core/blob/main/docs/languages/repositories.md
 - When Not To Use: https://github.com/axisvela/praxo-core/blob/main/docs/getting-started/when-not-to-use.md
 
+## Community
+
+- X: <https://x.com/axisvela>
+- Weibo: <https://weibo.com/u/1936025761>
+
 ## Boundaries
 
 - In-process framework; not a model provider, hosted service, workflow engine,

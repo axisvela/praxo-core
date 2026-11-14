@@ -115,6 +115,20 @@ class LanguageRegistryDocsTests(unittest.TestCase):
                         llms_txt.read_text(encoding="utf-8").startswith("# PRAXO-CORE")
                     )
 
+    def test_community_links_are_present(self):
+        for entry in SYNC.LANGUAGES:
+            directory = ROOT / entry["dir"]
+            with self.subTest(language=entry["name"]):
+                for name in ("REGISTRY.md", "llms.md", "README.md"):
+                    text = (directory / name).read_text(encoding="utf-8")
+                    self.assertIn("https://x.com/axisvela", text)
+                    self.assertIn("https://weibo.com/u/1936025761", text)
+        root_registry = (ROOT / "REGISTRY.md").read_text(encoding="utf-8")
+        root_llms = (ROOT / "llms.md").read_text(encoding="utf-8")
+        for text in (root_registry, root_llms):
+            self.assertIn("https://x.com/axisvela", text)
+            self.assertIn("https://weibo.com/u/1936025761", text)
+
     def test_machine_readable_manifest_matches_entries(self):
         manifest = json.loads((ROOT / "language/registry-metadata.json").read_text(encoding="utf-8"))
         for entry in SYNC.LANGUAGES:

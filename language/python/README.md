@@ -21,6 +21,7 @@ orchestration platform:
 - [Examples](https://github.com/axisvela/praxo-core/tree/main/language/python/examples): runnable language-specific examples.
 - Coding-agent contract: [docs/getting-started/coding-agents.md](https://github.com/axisvela/praxo-core/blob/main/docs/getting-started/coding-agents.md)
 - Registry: [PyPI](https://pypi.org/project/praxo-core/0.7.0/)
+- Community: [X](https://x.com/axisvela) · [Weibo](https://weibo.com/u/1936025761)
 
 ## Install
 

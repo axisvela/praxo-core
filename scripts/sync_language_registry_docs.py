@@ -9,6 +9,22 @@ ROOT = Path(__file__).resolve().parents[1]
 SPEC = ROOT / "spec" / "languages.md"
 BLOCK_START = "## Registry and Coding-Agent Entry"
 BLOCK_END = "## "
+COMMUNITY_LINKS = (
+    ("X", "https://x.com/axisvela"),
+    ("Weibo", "https://weibo.com/u/1936025761"),
+)
+
+
+def community_section() -> str:
+    lines = ["## Community", ""]
+    for name, link in COMMUNITY_LINKS:
+        lines.append(f"- {name}: <{link}>")
+    return "\n".join(lines) + "\n\n"
+
+
+def community_entry() -> str:
+    links = " · ".join(f"[{name}]({link})" for name, link in COMMUNITY_LINKS)
+    return f"- Community: {links}\n"
 
 LANGUAGES = [
     {"dir": ".", "name": "Go", "package": "github.com/axisvela/praxo-core/v2", "registry": "Go module proxy / pkg.go.dev", "version": "v2.7.0", "tag": "v2.7.0", "install": "go get github.com/axisvela/praxo-core/v2@v2.7.0", "url": "https://pkg.go.dev/github.com/axisvela/praxo-core/v2", "status": "published", "tier": "Core (reference)", "docs": "https://axisvela.github.io/praxo-core/"},
@@ -218,6 +234,7 @@ def block(entry: dict, directory: Path) -> str:
         f"- Machine-readable entry: [llms.txt]({prefix}/llms.txt) and [llms.md]({prefix}/llms.md)\n"
         f"{examples}- Coding-agent contract: [docs/getting-started/coding-agents.md]({coding})\n"
         f"- Registry: {registry}\n"
+        f"{community_entry()}"
     )
 
 
@@ -300,7 +317,7 @@ feature.
 - [Coding-agent contract]({rel_link(ROOT / 'docs/getting-started/coding-agents.md', directory)}): explicit
   scope, final-argument authorization, denial tests, and verification commands.
 
-## Boundaries
+{community_section()}## Boundaries
 
 - PRAXO-CORE is an embeddable, MIT-licensed execution kernel, not a hosted
   model, workflow engine, identity provider, or safety controller.
@@ -346,7 +363,7 @@ def render_llms(entry: dict, directory: Path, markdown: bool) -> str:
 - Compact entry: `llms.txt`
 {examples}- Coding-agent contract: {coding}
 
-## Boundaries
+{community_section()}## Boundaries
 
 - In-process framework; not a model provider, hosted service, workflow engine,
   identity provider, or safety controller.
@@ -412,7 +429,7 @@ documentation before relying on a version or feature.
 - Live model: [language/go/examples/live-model](language/go/examples/live-model/README.md)
 - Language examples: `language/<language>/examples/`
 
-## Boundaries
+{community_section()}## Boundaries
 
 - PRAXO-CORE is an embeddable, MIT-licensed execution kernel, not a hosted
   model, workflow engine, identity provider, or safety controller.
@@ -454,7 +471,7 @@ def render_root_llms() -> str:
 - Language repository index: https://github.com/axisvela/praxo-core/blob/main/docs/languages/repositories.md
 - When Not To Use: https://github.com/axisvela/praxo-core/blob/main/docs/getting-started/when-not-to-use.md
 
-## Boundaries
+{community_section()}## Boundaries
 
 - In-process framework; not a model provider, hosted service, workflow engine,
   identity provider, or safety controller.

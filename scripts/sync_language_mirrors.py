@@ -23,9 +23,9 @@ import sys
 import tempfile
 from pathlib import Path
 
+from mirror_readme import ORGANIZATION, REPO_PREFIX, mirror_readme
+
 ROOT = Path(__file__).resolve().parents[1]
-ORGANIZATION = "axisvela"
-REPO_PREFIX = "praxo-core-"
 DEFAULT_TOKEN_ENV = "PRAXO_MIRROR_TOKEN"
 MIRROR_KEYS = [
     "python",
@@ -91,10 +91,17 @@ def mirror_entries(root: Path = ROOT) -> list[dict]:
         by_key[key] = {
             "key": key,
             "name": name,
+            "dir": entry["dir"],
             "package": entry["package"],
             "published_version": entry["published_version"],
+            "source_version": entry.get("source_version", entry["published_version"]),
             "registry": entry["registry"],
+            "url": entry.get("url", ""),
             "install": entry["install"],
+            "source_install": entry.get("source_install", entry["install"]),
+            "tag": entry.get("tag", ""),
+            "tier": entry.get("tier", ""),
+            "status": entry.get("status", ""),
             "docs": entry["docs"],
             "source_dirs": [entry["dir"], *EXTRA_SOURCES.get(key, [])],
         }
@@ -102,47 +109,6 @@ def mirror_entries(root: Path = ROOT) -> list[dict]:
     if missing:
         raise SystemExit("missing mirror metadata: " + ", ".join(missing))
     return [by_key[key] for key in MIRROR_KEYS]
-
-
-def mirror_readme(entry: dict, has_examples: bool = False) -> str:
-    install = entry["install"]
-    examples = ""
-    if has_examples:
-        examples = (
-            f"- Examples: https://github.com/{ORGANIZATION}/{REPO_PREFIX}{entry['key']}"
-            f"/tree/main/language/{entry['key']}/examples\n"
-        )
-    return f"""# PRAXO-CORE for {entry['name']}
-
-Dedicated repository for the {entry['name']} implementation of PRAXO-CORE: an
-embeddable, MIT-licensed agent execution kernel with policy controls,
-human-in-the-loop approval, checkpoints, events, and tool calling.
-
-- Package: `{entry['package']}` (`{entry['published_version']}`)
-- Registry: {entry['registry']}
-- Install: `{install}`
-- Documentation: {entry['docs']}
-{examples}- Mirror repository: https://github.com/{ORGANIZATION}/{REPO_PREFIX}{entry['key']}
-- Canonical source: https://github.com/{ORGANIZATION}/praxo-core/tree/main/language/{entry['key']}
-- Release index: https://axisvela.github.io/praxo-core/languages/registry-status/
-
-This repository is a discovery mirror of the canonical {entry['name']} source.
-The monorepo remains the source of truth and the release workflow source. Shared
-conformance vectors are included under `spec/`, so the implementation can be
-built and tested here.
-
-## Verify
-
-Build and test instructions are in `language/{entry['key']}/README.md`. The
-monorepo CI runs the language's conformance, API snapshot, and native tests.
-
-PRAXO-CORE is not a hosted model, workflow engine, identity provider, or safety
-controller. Do not infer exactly-once execution, complete sandbox isolation,
-production security certification, live-provider behavior, or physical safety
-from this package.
-
-MIT licensed.
-"""
 
 
 def mirror_gitignore() -> str:
@@ -186,7 +152,7 @@ def build_mirror(entry: dict, destination: Path, root: Path = ROOT, clean: bool 
     shutil.copy2(root / "LICENSE", destination / "LICENSE")
     has_examples = (root / "language" / entry["key"] / "examples").is_dir()
     (destination / "README.md").write_text(
-        mirror_readme(entry, has_examples=has_examples), encoding="utf-8"
+        mirror_readme(entry, has_examples=has_examples, root=root), encoding="utf-8"
     )
     (destination / ".gitignore").write_text(mirror_gitignore(), encoding="utf-8")
 

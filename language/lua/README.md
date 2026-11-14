@@ -25,6 +25,7 @@ reference implementation.
 - [Examples](https://github.com/axisvela/praxo-core/tree/main/language/lua/examples): runnable language-specific examples.
 - Coding-agent contract: [docs/getting-started/coding-agents.md](https://github.com/axisvela/praxo-core/blob/main/docs/getting-started/coding-agents.md)
 - Registry: [LuaRocks](https://luarocks.org/modules/hanhhuiwen/praxo-core)
+- Community: [X](https://x.com/axisvela) · [Weibo](https://weibo.com/u/1936025761)
 
 ## Install
 

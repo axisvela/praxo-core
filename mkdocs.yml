@@ -26,6 +26,15 @@ theme:
     - search.suggest
     - content.code.copy
 
+extra:
+  social:
+    - icon: fontawesome/brands/x-twitter
+      link: https://x.com/axisvela
+      name: PRAXO-CORE on X
+    - icon: fontawesome/brands/weibo
+      link: https://weibo.com/u/1936025761
+      name: PRAXO-CORE on Weibo
+
 plugins:
   - search:
       lang:

@@ -8,11 +8,13 @@ on:
       - "spec/**"
       - "LICENSE"
       - "scripts/sync_language_mirrors.py"
+      - "scripts/mirror_readme.py"
       - "scripts/test_sync_language_mirrors.py"
       - ".github/workflows/language-mirrors.yml"
   pull_request:
     paths:
       - "scripts/sync_language_mirrors.py"
+      - "scripts/mirror_readme.py"
       - "scripts/test_sync_language_mirrors.py"
       - ".github/workflows/language-mirrors.yml"
   workflow_dispatch:

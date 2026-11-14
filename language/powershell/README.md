@@ -16,6 +16,7 @@ PRAXO-CORE framework. Requires PowerShell 7.4+ on .NET 8.
 - [Examples](https://github.com/axisvela/praxo-core/tree/main/language/powershell/examples): runnable language-specific examples.
 - Coding-agent contract: [docs/getting-started/coding-agents.md](https://github.com/axisvela/praxo-core/blob/main/docs/getting-started/coding-agents.md)
 - Registry: [PowerShell Gallery](https://www.powershellgallery.com/packages/praxo-core-ps/0.5.3)
+- Community: [X](https://x.com/axisvela) · [Weibo](https://weibo.com/u/1936025761)
 
 ## Install
 

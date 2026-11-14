@@ -53,13 +53,25 @@ class MirrorSyncTests(unittest.TestCase):
         self.assertIn("Canonical source:", readme)
         self.assertIn("language/python", readme)
         self.assertIn("praxo-core", readme)
-        self.assertNotIn("Examples:", readme)
+        self.assertIn("## Highlights", readme)
+        self.assertIn("## Quick start", readme)
+        self.assertIn("## Community", readme)
+        self.assertIn("https://x.com/axisvela", readme)
+        self.assertIn("https://weibo.com/u/1936025761", readme)
         self.assertIn("build/", sync.mirror_gitignore())
 
     def test_readme_links_examples_when_present(self):
         entry = {entry["key"]: entry for entry in sync.mirror_entries()}["python"]
         readme = sync.mirror_readme(entry, has_examples=True)
         self.assertIn("language/python/examples", readme)
+
+    def test_readme_uses_language_intro_and_example_catalog(self):
+        entry = {entry["key"]: entry for entry in sync.mirror_entries()}["rust"]
+        readme = sync.mirror_readme(entry, has_examples=True)
+        self.assertIn("native Rust Core", readme)
+        self.assertIn("provider-fallback", readme)
+        self.assertIn("## What's included", readme)
+        self.assertIn("## Examples", readme)
 
     def test_build_mirror_copies_sources_and_ignores_artifacts(self):
         entry = {entry["key"]: entry for entry in sync.mirror_entries()}["python"]

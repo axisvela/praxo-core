@@ -45,6 +45,11 @@ C11 implementation of the PRAXO-CORE Core contract with source version `0.9.0`. 
 - [Coding-agent contract](../../docs/getting-started/coding-agents.md): explicit
   scope, final-argument authorization, denial tests, and verification commands.
 
+## Community
+
+- X: <https://x.com/axisvela>
+- Weibo: <https://weibo.com/u/1936025761>
+
 ## Boundaries
 
 - PRAXO-CORE is an embeddable, MIT-licensed execution kernel, not a hosted

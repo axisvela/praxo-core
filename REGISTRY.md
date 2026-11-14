@@ -62,6 +62,11 @@ documentation before relying on a version or feature.
 - Live model: [language/go/examples/live-model](language/go/examples/live-model/README.md)
 - Language examples: `language/<language>/examples/`
 
+## Community
+
+- X: <https://x.com/axisvela>
+- Weibo: <https://weibo.com/u/1936025761>
+
 ## Boundaries
 
 - PRAXO-CORE is an embeddable, MIT-licensed execution kernel, not a hosted

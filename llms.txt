@@ -41,6 +41,11 @@
 - [Rust entry](https://github.com/axisvela/praxo-core/blob/main/language/rust/llms.txt)
 - [C# entry](https://github.com/axisvela/praxo-core/blob/main/language/csharp/llms.txt)
 
+## Community
+
+- X: <https://x.com/axisvela>
+- Weibo: <https://weibo.com/u/1936025761>
+
 ## Boundaries and Evidence
 
 - [Public roadmap](https://github.com/axisvela/praxo-core/blob/main/docs/project/roadmap.md): acceptance stages and compatibility commitments.
