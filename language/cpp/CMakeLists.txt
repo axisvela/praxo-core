@@ -39,6 +39,9 @@ target_link_libraries(praxo-cpp-streaming-example PRIVATE praxo_cpp)
 add_executable(praxo-cpp-structured-output-example examples/structured-output/main.cpp)
 target_link_libraries(praxo-cpp-structured-output-example PRIVATE praxo_cpp)
 
+add_executable(praxo-cpp-identity-policy-example examples/identity-policy/main.cpp)
+target_link_libraries(praxo-cpp-identity-policy-example PRIVATE praxo_cpp)
+
 add_executable(praxo-cpp-harmovela-tests tests/harmovela.cpp)
 target_link_libraries(praxo-cpp-harmovela-tests PRIVATE praxo_cpp)
 

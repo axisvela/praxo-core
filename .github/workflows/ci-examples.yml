@@ -212,11 +212,12 @@ jobs:
       - run: gcc -std=c11 -I language/c/include language/c/examples/checkpoint/main.c language/c/build/libpraxo_core.a -o language/c/build/c-checkpoint
       - run: language/c/build/c-checkpoint
       - run: cmake -S language/cpp -B language/cpp/build
-      - run: cmake --build language/cpp/build --target praxo-cpp-checkpoint-example praxo-cpp-event-sink-example praxo-cpp-streaming-example praxo-cpp-structured-output-example
+      - run: cmake --build language/cpp/build --target praxo-cpp-checkpoint-example praxo-cpp-event-sink-example praxo-cpp-streaming-example praxo-cpp-structured-output-example praxo-cpp-identity-policy-example
       - run: language/cpp/build/praxo-cpp-checkpoint-example
       - run: language/cpp/build/praxo-cpp-event-sink-example
       - run: language/cpp/build/praxo-cpp-streaming-example
       - run: language/cpp/build/praxo-cpp-structured-output-example
+      - run: language/cpp/build/praxo-cpp-identity-policy-example praxo-cpp-identity-policy-example
       - run: python language/fortran/examples/checkpoint/run.py
       - run: sudo apt-get update
       - run: sudo apt-get install -y gnucobol r-base-core
@@ -273,6 +274,17 @@ jobs:
       - run: lua language/lua/examples/structured-output/structured_output.lua
       - run: Rscript language/r/examples/structured-output/structured_output.R
       - run: python language/cobol/examples/structured-output/build.py
+      - run: ruby -I language/ruby/lib language/ruby/examples/identity-policy/identity_policy.rb
+      - run: php language/php/examples/identity-policy/identity_policy.php
+      - run: gcc -std=c11 -I language/c/include language/c/examples/identity-policy/main.c language/c/build/libpraxo_core.a -o language/c/build/c-identity-policy
+      - run: language/c/build/c-identity-policy
+      - run: gfortran -I language/fortran/build language/fortran/examples/identity-policy/identity_policy_example.f90 -o language/fortran/build/fortran-identity-policy
+      - run: language/fortran/build/fortran-identity-policy
+      - run: elixir language/elixir/examples/identity-policy/identity_policy.exs
+      - run: escript language/erlang/examples/identity-policy/identity_policy.escript
+      - run: lua language/lua/examples/identity-policy/identity_policy.lua
+      - run: Rscript language/r/examples/identity-policy/identity_policy.R
+      - run: python language/cobol/examples/identity-policy/build.py
       - run: cargo run --quiet
         working-directory: language/rust/examples/provider-fallback
       - run: cargo run --quiet

@@ -42,7 +42,7 @@ There is intentional overlap. For example:
 | MCP tools | [`ecosystem/mcp`](ecosystem/mcp) | Python / TypeScript / C# / Rust `mcp` |
 | Retry | [`recipes/retry-go`](recipes/retry-go) | Python / TypeScript / C# / Rust / Java / Ruby / PHP / C / C++ / Fortran / Elixir / Erlang / Lua / R / COBOL `retry` |
 | Checkpoint store | [`recipes/checkpoint-store-go`](recipes/checkpoint-store-go) | [`checkpoint`](checkpoint), [`embedded-service-auth`](embedded-service-auth), and Python / TypeScript / C# / Rust / Java / Ruby / PHP / C / C++ / Fortran / Elixir / Erlang / Lua / R / COBOL `checkpoint` |
-| Identity and policy | [`recipes/identity-go`](recipes/identity-go) | [`embedded-service-auth`](embedded-service-auth), and Python / TypeScript / C# / Rust / Java `identity-policy` |
+| Identity and policy | [`recipes/identity-go`](recipes/identity-go) | [`embedded-service-auth`](embedded-service-auth), and Python / TypeScript / C# / Rust / Java / Ruby / PHP / C / C++ / Fortran / Elixir / Erlang / Lua / R / COBOL `identity-policy` |
 | HTTP service | [`embedded-service`](embedded-service) | Python / TypeScript / C# / Rust / Java `service` |
 | VFS containment | [`recipes/vfs-containment-go`](recipes/vfs-containment-go) | [`workspace-agent`](workspace-agent) |
 | Long-running operations | [`recipes/long-running-go`](recipes/long-running-go) | [`embedded-service-auth`](embedded-service-auth) |
