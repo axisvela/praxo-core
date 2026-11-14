@@ -239,6 +239,19 @@ jobs:
       - run: lua language/lua/examples/retry/retry.lua
       - run: Rscript language/r/examples/retry/retry.R
       - run: python language/cobol/examples/retry/build.py
+      - run: ruby -I language/ruby/lib language/ruby/examples/provider-fallback/test_fallback.rb
+      - run: php language/php/examples/provider-fallback/test_fallback.php
+      - run: gcc -std=c11 language/c/examples/provider-fallback/main.c -o language/c/build/c-fallback
+      - run: language/c/build/c-fallback
+      - run: g++ -std=c++20 language/cpp/examples/provider-fallback/main.cpp -o language/cpp/build/cpp-fallback
+      - run: language/cpp/build/cpp-fallback
+      - run: gfortran language/fortran/examples/provider-fallback/fallback_example.f90 -o language/fortran/build/fortran-fallback
+      - run: language/fortran/build/fortran-fallback
+      - run: elixir language/elixir/examples/provider-fallback/fallback.exs
+      - run: escript language/erlang/examples/provider-fallback/fallback.escript
+      - run: lua language/lua/examples/provider-fallback/fallback.lua
+      - run: Rscript language/r/examples/provider-fallback/fallback.R
+      - run: python language/cobol/examples/provider-fallback/build.py
       - run: cargo run --quiet
         working-directory: language/rust/examples/provider-fallback
       - run: cargo run --quiet
