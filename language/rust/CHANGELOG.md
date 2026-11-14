@@ -1,8 +1,8 @@
 # Rust Core Release Notes
 
-## 0.8.0 - Unreleased
+## 0.8.0 - 2026-11-14
 
-Planned source tag `rust/v0.8.0`.
+Source tag `rust/v0.8.0`. crates.io publishes `praxo-core==0.8.0` from that tag.
 
 ### Added
 

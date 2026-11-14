@@ -1,8 +1,8 @@
 # C# Core Release Notes
 
-## 0.8.0 - Unreleased
+## 0.8.0 - 2026-11-14
 
-Planned source tag `csharp/v0.8.0`.
+Source tag `csharp/v0.8.0`. NuGet publishes `Praxo.Core==0.8.0` from that tag.
 
 ### Added
 
