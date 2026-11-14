@@ -1,0 +1,13 @@
+{
+  "name": "praxo-hitl-example",
+  "version": "0.0.0",
+  "private": true,
+  "type": "commonjs",
+  "scripts": {
+    "start": "node starter.js",
+    "test": "node --test test_starter.test.js"
+  },
+  "dependencies": {
+    "@axisvela/praxo-core": "0.6.0"
+  }
+}

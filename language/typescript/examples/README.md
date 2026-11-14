@@ -3,7 +3,10 @@
 - [`consumer/`](consumer/): published npm `@axisvela/praxo-core@0.6.0` starter
   with deterministic allow/deny checks.
 - [`live-model/`](live-model/): published npm package connected to an
-  OpenAI-compatible endpoint through `get_time`.
+  OpenAI-compatible endpoint through `get_time(zone)`.
+- [`hitl/`](hitl/): approval and edit-reauthorization for a write tool.
+- [`session-checkpoint/`](session-checkpoint/): multi-turn history save, reload,
+  and continue.
 - [`structured-output/`](structured-output/): validated JSON output with
   `StructuredOutput` and a deterministic fake-model test.
 - [`mcp/`](mcp/): stdio MCP client with a local deterministic server.
