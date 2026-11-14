@@ -35,7 +35,7 @@ There is intentional overlap. For example:
 
 | Topic | Recipe | Runnable example |
 | --- | --- | --- |
-| Structured output | [`recipes/structured-output-go`](recipes/structured-output-go) | Python / TypeScript / Java / C# / Rust `structured-output` |
+| Structured output | [`recipes/structured-output-go`](recipes/structured-output-go) | Python / TypeScript / Java / C# / Rust / Ruby / PHP / C / C++ / Fortran / Elixir / Erlang / Lua / R / COBOL `structured-output` |
 | Provider fallback | [`recipes/provider-fallback-go`](recipes/provider-fallback-go) | Python / TypeScript / C# / Rust / Java / Ruby / PHP / C / C++ / Fortran / Elixir / Erlang / Lua / R / COBOL `provider-fallback` |
 | Event sinks | [`recipes/event-sinks-go`](recipes/event-sinks-go) | Python / TypeScript / C# / Rust / Java / Ruby / PHP / C / C++ / Fortran / Elixir / Erlang / Lua / R / COBOL `event-sink` |
 | Streaming | [`recipes/streaming-go`](recipes/streaming-go) | Python / TypeScript / C# / Rust / Java / Ruby / PHP / C / C++ / Fortran / Elixir / Erlang / Lua / R / COBOL `streaming` |
