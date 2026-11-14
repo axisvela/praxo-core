@@ -1,6 +1,7 @@
 # Rust Multi-turn Checkpoint Recovery
 
-This example saves and restores a conversation history across two agent turns.
+This example uses published crates.io `praxo-core@0.8.0` and saves and restores
+a conversation history across two agent turns.
 It uses the Core allowlist for payload encoding and a teaching in-memory payload.
 
 ```bash
