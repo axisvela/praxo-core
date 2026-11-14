@@ -13,6 +13,7 @@ let package = Package(
         .executableTarget(name: "PraxoConformance", dependencies: ["PraxoCore"]),
         .executableTarget(name: "praxo-retry-example", dependencies: ["PraxoCore"], path: "examples/retry"),
         .executableTarget(name: "praxo-checkpoint-example", dependencies: ["PraxoCore"], path: "examples/checkpoint"),
+        .executableTarget(name: "praxo-session-checkpoint-example", dependencies: ["PraxoCore"], path: "examples/session-checkpoint"),
         .executableTarget(name: "praxo-event-sink-example", dependencies: ["PraxoCore"], path: "examples/event-sink"),
         .executableTarget(name: "praxo-provider-fallback-example", dependencies: ["PraxoCore"], path: "examples/provider-fallback"),
         .executableTarget(name: "praxo-structured-output-example", dependencies: ["PraxoCore"], path: "examples/structured-output"),
