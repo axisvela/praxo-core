@@ -3,7 +3,8 @@
 先按任务选择示例，再按语言查找。Go 参考示例和跨语言示例位于仓库
 [`examples/`](https://github.com/axisvela/praxo-core/tree/main/examples)
 目录；语言专属示例位于 `language/<language>/examples/`，会进入对应语言的
-发现镜像仓库。
+发现镜像仓库。九个主题、十六种语言的覆盖矩阵见
+[语言覆盖矩阵](language-coverage.md)。
 
 ## 按任务选择
 
