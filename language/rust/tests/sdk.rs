@@ -1109,3 +1109,35 @@ fn sse_stream_rejects_truncation_and_half_packets() {
         .expect("complete");
     assert_eq!(response.message.content.as_deref(), Some("hi"));
 }
+
+struct NeverModel;
+
+impl Model for NeverModel {
+    fn generate(&self, _request: &Request) -> praxo_core::errors::Result<Response> {
+        Err(praxo_core::errors::PraxoError::new("NO_MODEL", "not used"))
+    }
+}
+
+#[test]
+fn require_policy_rejects_missing_policy() {
+    let mut options = AgentOptions::new(Arc::new(NeverModel));
+    options.require_policy = true;
+    let error = match Agent::new(options) {
+        Ok(_) => panic!("policy required"),
+        Err(error) => error,
+    };
+    assert_eq!(error.code, "AGENT_INVALID_OPTIONS");
+    assert!(error.message.contains("require policy"));
+}
+
+#[test]
+fn require_tool_scope_rejects_empty_scope() {
+    let mut options = AgentOptions::new(Arc::new(NeverModel));
+    options.require_tool_scope = true;
+    let error = match Agent::new(options) {
+        Ok(_) => panic!("scope required"),
+        Err(error) => error,
+    };
+    assert_eq!(error.code, "AGENT_INVALID_OPTIONS");
+    assert!(error.message.contains("require tool scope"));
+}

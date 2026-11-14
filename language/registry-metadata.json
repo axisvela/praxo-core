@@ -385,9 +385,9 @@
     "published_version": "0.8.0",
     "registry": "crates.io",
     "source_install": "cargo add --path language/rust",
-    "source_version": "0.8.0",
+    "source_version": "0.9.0",
     "status": "published",
-    "tag": "rust/v0.8.0",
+    "tag": "rust/v0.9.0",
     "tier": "Core",
     "url": "https://crates.io/crates/praxo-core/0.8.0"
   },

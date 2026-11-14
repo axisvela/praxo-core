@@ -1,9 +1,15 @@
 # Rust Core Release Notes
 
-## Unreleased
+## 0.9.0 - 2026-11-14
+
+Source tag `rust/v0.9.0`; crates.io publication is pending.
 
 ### Added
 
+- `AgentOptions::require_policy` rejects construction without a policy hook.
+- `AgentOptions::require_tool_scope` rejects construction with an empty
+  `allowed_tools` list.
+- Both guards are opt-in and default to `false`.
 - Optional `http-ureq` feature with an OpenAI-compatible HTTP client
   (`OpenAICompatible::with_ureq`), including tool-call mapping, usage mapping,
   and streaming content.

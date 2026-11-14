@@ -94,6 +94,8 @@ pub struct AgentOptions {
     pub interrupt_on: Vec<String>,
     pub on_interrupt_decision: Option<InterruptHandler>,
     pub on_interrupt: Option<InterruptApproval>,
+    pub require_policy: bool,
+    pub require_tool_scope: bool,
 }
 
 impl AgentOptions {
@@ -128,6 +130,8 @@ impl AgentOptions {
             interrupt_on: Vec::new(),
             on_interrupt_decision: None,
             on_interrupt: None,
+            require_policy: false,
+            require_tool_scope: false,
         }
     }
 }
@@ -141,6 +145,18 @@ pub struct Agent {
 
 impl Agent {
     pub fn new(mut options: AgentOptions) -> Result<Self> {
+        if options.require_policy && options.policy.is_none() {
+            return Err(PraxoError::new(
+                "AGENT_INVALID_OPTIONS",
+                "agent: require policy: policy is required",
+            ));
+        }
+        if options.require_tool_scope && options.allowed_tools.is_empty() {
+            return Err(PraxoError::new(
+                "AGENT_INVALID_OPTIONS",
+                "agent: require tool scope: allowed_tools must not be empty",
+            ));
+        }
         let memory = load_agents_md(&options.memory_files)?;
         let system_prompt = if memory.is_empty() {
             options.system_prompt.clone()
