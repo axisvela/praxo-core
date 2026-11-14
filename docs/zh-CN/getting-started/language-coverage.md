@@ -12,7 +12,7 @@
 | Structured Output | 30 | `language/<language>/examples/structured-output` |
 | Identity / Policy | 30 | `language/<language>/examples/identity-policy` |
 | HTTP Service | 30 | `language/<language>/examples/service` |
-| MCP | 28 | `language/<language>/examples/mcp` |
+| MCP | 29 | `language/<language>/examples/mcp` |
 
 Go 的参考配方与示例保留在 `examples/`。
 
@@ -108,3 +108,7 @@ MCP transport 示例也已覆盖 Dart、Perl、D、Delphi 和 Objective-C，入�
 ## 额外 SDK 语言：MCP
 
 MCP transport 示例也已覆盖 Dart、Perl、Julia、Swift、Haskell、OCaml、D、Nim、Zig、V、Delphi 和 Objective-C，入口位于 `language/<language>/examples/mcp`。MATLAB 与 PowerShell 当前版本未暴露 MCP 客户端。
+
+## 额外 SDK 语言：MCP
+
+MCP transport 示例也已覆盖 Dart、Perl、Julia、Swift、Haskell、OCaml、D、Nim、Zig、V、Delphi、Objective-C 和 MATLAB，入口位于 `language/<language>/examples/mcp`。MATLAB/Octave Core 未内置 MCP 客户端，因此该示例是 transport-neutral 的。PowerShell 当前版本未暴露 MCP 客户端。

@@ -14,7 +14,7 @@ provider endpoint.
 | Structured output | 30 | `language/<language>/examples/structured-output` |
 | Identity and policy | 30 | `language/<language>/examples/identity-policy` |
 | HTTP service | 30 | `language/<language>/examples/service` |
-| MCP | 28 | `language/<language>/examples/mcp` |
+| MCP | 29 | `language/<language>/examples/mcp` |
 
 Go keeps its reference recipes and examples under `examples/`.
 
@@ -114,3 +114,7 @@ MCP transport examples are also available for Dart, Perl, D, Delphi, and Objecti
 ## Additional SDK Languages: MCP
 
 MCP transport examples are also available for Dart, Perl, Julia, Swift, Haskell, OCaml, D, Nim, Zig, V, Delphi, and Objective-C under `language/<language>/examples/mcp`. MATLAB and PowerShell do not expose an MCP client in this release.
+
+## Additional SDK Languages: MCP
+
+MCP transport examples are also available for Dart, Perl, Julia, Swift, Haskell, OCaml, D, Nim, Zig, V, Delphi, Objective-C, and MATLAB under `language/<language>/examples/mcp`. The MATLAB example is transport-neutral because the MATLAB/Octave Core does not bundle an MCP client. PowerShell does not expose an MCP client in this release.
