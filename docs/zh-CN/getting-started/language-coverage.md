@@ -4,7 +4,7 @@
 
 | 主题 | 语言数 | 入口 |
 | --- | --- | --- |
-| Checkpoint Allowlist | 16 | `language/<language>/examples/checkpoint` |
+| Checkpoint Allowlist | 30 | `language/<language>/examples/checkpoint` |
 | Event Sink | 16 | `language/<language>/examples/event-sink` |
 | Retry | 30 | `language/<language>/examples/retry` |
 | Provider Fallback | 16 | `language/<language>/examples/provider-fallback` |
@@ -72,3 +72,7 @@ python language/cobol/examples/checkpoint/build.py
 Retry 主题也已覆盖 Dart、Perl、Julia、Swift、Haskell、OCaml、D、Nim、Zig、V、
 Delphi、PowerShell、MATLAB 和 Objective-C，入口位于
 `language/<language>/examples/retry`。这些是确定性源码示例；CI 覆盖取决于工具链。
+
+## 额外 SDK 语言：Checkpoint
+
+Checkpoint Allowlist 示例也已覆盖 Dart、Perl、Julia、Swift、Haskell、OCaml、D、Nim、Zig、V、Delphi、PowerShell、MATLAB 和 Objective-C，入口位于 `language/<language>/examples/checkpoint`。
