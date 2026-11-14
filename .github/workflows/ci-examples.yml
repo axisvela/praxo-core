@@ -285,6 +285,19 @@ jobs:
       - run: lua language/lua/examples/identity-policy/identity_policy.lua
       - run: Rscript language/r/examples/identity-policy/identity_policy.R
       - run: python language/cobol/examples/identity-policy/build.py
+      - run: ruby language/ruby/examples/service/service.rb
+      - run: php language/php/examples/service/service.php
+      - run: gcc -std=c11 language/c/examples/service/main.c -o language/c/build/c-service
+      - run: language/c/build/c-service
+      - run: g++ -std=c++20 language/cpp/examples/service/main.cpp -o language/cpp/build/cpp-service
+      - run: language/cpp/build/cpp-service
+      - run: gfortran language/fortran/examples/service/service_example.f90 -o language/fortran/build/fortran-service
+      - run: language/fortran/build/fortran-service
+      - run: elixir language/elixir/examples/service/service.exs
+      - run: escript language/erlang/examples/service/service.escript
+      - run: lua language/lua/examples/service/service.lua
+      - run: Rscript language/r/examples/service/service.R
+      - run: python language/cobol/examples/service/build.py
       - run: cargo run --quiet
         working-directory: language/rust/examples/provider-fallback
       - run: cargo run --quiet
