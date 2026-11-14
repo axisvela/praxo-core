@@ -1,5 +1,17 @@
 # Python Core Release Notes
 
+## 0.8.0 - 2026-11-14
+
+Source tag `python/v0.8.0`; PyPI publication is pending.
+
+### Added
+
+- `AgentOptions.require_policy` rejects construction when no policy hook is
+  configured.
+- `AgentOptions.require_tool_scope` rejects construction when `allowed_tools`
+  is empty.
+- Both guards are opt-in and default to `False`.
+
 ## 0.7.0 - 2026-11-14
 
 Source tag `python/v0.7.0`. PyPI publishes `praxo-core==0.7.0` from that tag.

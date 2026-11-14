@@ -123,10 +123,18 @@ class AgentOptions:
     interrupt_on: set[str] = field(default_factory=set)
     on_interrupt_decision: InterruptHandler | None = None
     on_interrupt: InterruptApproval | None = None
+    require_policy: bool = False
+    require_tool_scope: bool = False
 
 
 class Agent:
     def __init__(self, options: AgentOptions) -> None:
+        if options.require_policy and options.policy is None:
+            raise ValueError("agent: require policy: policy is required")
+        if options.require_tool_scope and not options.allowed_tools:
+            raise ValueError(
+                "agent: require tool scope: allowed_tools must not be empty"
+            )
         self.options = options
         system_prompt = options.system_prompt
         memory = load_agents_md(options.memory_files)
