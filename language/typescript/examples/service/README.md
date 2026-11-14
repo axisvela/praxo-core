@@ -1,6 +1,6 @@
 # HTTP Service
 
-This example embeds published npm `@axisvela/praxo-core@0.5.0` in a Node
+This example embeds published npm `@axisvela/praxo-core@0.6.0` in a Node
 standard-library HTTP service. The application supplies a principal and tenant,
 restricts tools, and returns JSON.
 
