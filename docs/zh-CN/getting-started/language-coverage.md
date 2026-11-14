@@ -12,7 +12,7 @@
 | Structured Output | 30 | `language/<language>/examples/structured-output` |
 | Identity / Policy | 30 | `language/<language>/examples/identity-policy` |
 | HTTP Service | 30 | `language/<language>/examples/service` |
-| MCP | 16 | `language/<language>/examples/mcp` |
+| MCP | 21 | `language/<language>/examples/mcp` |
 
 Go 的参考配方与示例保留在 `examples/`。
 
@@ -100,3 +100,7 @@ Identity / Policy 示例也已覆盖 Dart、Perl、Julia、Swift、Haskell、OCa
 ## 额外 SDK 语言：HTTP Service
 
 transport-neutral HTTP handler 示例也已覆盖 Dart、Perl、Julia、Swift、Haskell、OCaml、D、Nim、Zig、V、Delphi、PowerShell、MATLAB 和 Objective-C，入口位于 `language/<language>/examples/service`。
+
+## 额外 SDK 语言：MCP
+
+MCP transport 示例也已覆盖 Dart、Perl、D、Delphi 和 Objective-C，入口位于 `language/<language>/examples/mcp`。MATLAB 与 PowerShell 当前版本未暴露 MCP 客户端；其余源码 SDK 由原生 MCP 测试覆盖。
