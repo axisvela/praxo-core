@@ -46,6 +46,13 @@ install(FILES include/praxo.h include/praxo_core.h
 add_executable(praxo-conformance src/main.c)
 target_link_libraries(praxo-conformance PRIVATE praxo_core)
 
+add_executable(praxo-c-hitl-example examples/hitl/main.c)
+target_link_libraries(praxo-c-hitl-example PRIVATE praxo_core)
+
+add_executable(praxo-c-session-checkpoint-example
+    examples/session-checkpoint/main.c)
+target_link_libraries(praxo-c-session-checkpoint-example PRIVATE praxo_core)
+
 add_executable(praxo-c-tests tests/test_core.c)
 target_link_libraries(praxo-c-tests PRIVATE praxo_core)
 
