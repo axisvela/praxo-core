@@ -11,7 +11,7 @@ provider endpoint.
 | Retry | 30 | `language/<language>/examples/retry` |
 | Provider fallback | 30 | `language/<language>/examples/provider-fallback` |
 | Streaming | 16 | `language/<language>/examples/streaming` |
-| Structured output | 16 | `language/<language>/examples/structured-output` |
+| Structured output | 30 | `language/<language>/examples/structured-output` |
 | Identity and policy | 16 | `language/<language>/examples/identity-policy` |
 | HTTP service | 16 | `language/<language>/examples/service` |
 | MCP | 16 | `language/<language>/examples/mcp` |
@@ -90,3 +90,7 @@ Event sink examples are also available for Dart, Perl, Julia, Swift, Haskell, OC
 ## Additional SDK Languages: Provider Fallback
 
 Provider fallback examples are also available for Dart, Perl, Julia, Swift, Haskell, OCaml, D, Nim, Zig, V, Delphi, PowerShell, MATLAB, and Objective-C under `language/<language>/examples/provider-fallback`.
+
+## Additional SDK Languages: Structured Output
+
+Structured output examples are also available for Dart, Perl, Julia, Swift, Haskell, OCaml, D, Nim, Zig, V, Delphi, PowerShell, MATLAB, and Objective-C under `language/<language>/examples/structured-output`.
