@@ -19,6 +19,7 @@ CI is split by path so a language-only change does not run the full matrix.
 | `ci-optional2.yml` | MATLAB, Octave, OCaml, Objective-C, Nim, V, D, Zig, Perl | Their `language/<language>/**` paths |
 | `ci-adapters.yml` | Adapter modules and adapter module-security | `adapters/**` |
 | `ci-additional.yml` | Dart, Perl, D, Delphi example matrix | Their `language/<language>/examples/**` paths |
+| `ci-additional2.yml` | PowerShell and MATLAB/Octave example matrix | Their `language/<language>/examples/**` paths |
 | `ci-examples.yml` | Go examples, SDK examples, Go consumer and recipes | `examples/**` and selected language example paths |
 | `docs.yml` | Documentation build, registry checks, consumer pins | `docs/**`, metadata, selected scripts and workflows |
 

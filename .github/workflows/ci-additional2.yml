@@ -1,0 +1,57 @@
+name: ci-additional2
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "language/powershell/examples/**"
+      - "language/matlab/examples/**"
+      - ".github/workflows/ci-additional2.yml"
+  pull_request:
+    paths:
+      - "language/powershell/examples/**"
+      - "language/matlab/examples/**"
+      - ".github/workflows/ci-additional2.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-additional2-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  powershell-examples:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "8.0.x"
+      - run: dotnet build language/csharp/Praxo.Core/Praxo.Core.csproj -c Release
+      - run: pwsh -NoProfile -File language/powershell/examples/retry/retry.ps1
+      - run: pwsh -NoProfile -File language/powershell/examples/checkpoint/checkpoint.ps1
+      - run: pwsh -NoProfile -File language/powershell/examples/event-sink/event_sink.ps1
+      - run: pwsh -NoProfile -File language/powershell/examples/provider-fallback/fallback.ps1
+      - run: pwsh -NoProfile -File language/powershell/examples/structured-output/structured_output.ps1
+      - run: pwsh -NoProfile -File language/powershell/examples/streaming/streaming.ps1
+      - run: pwsh -NoProfile -File language/powershell/examples/identity-policy/identity_policy.ps1
+      - run: pwsh -NoProfile -File language/powershell/examples/service/service.ps1
+      - run: pwsh -NoProfile -File language/powershell/examples/mcp/mcp.ps1
+
+  matlab-examples:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: sudo apt-get update
+      - run: sudo apt-get install -y octave
+      - run: octave --no-gui --quiet --path language/matlab/examples/retry --eval retry_example
+      - run: octave --no-gui --quiet --path language/matlab-octave-core --path language/matlab/examples/checkpoint --eval checkpoint_example
+      - run: octave --no-gui --quiet --path language/matlab-octave-core --path language/matlab/examples/event-sink --eval event_sink_example
+      - run: octave --no-gui --quiet --path language/matlab/examples/provider-fallback --eval fallback_example
+      - run: octave --no-gui --quiet --path language/matlab-octave-core --path language/matlab/examples/structured-output --eval structured_output_example
+      - run: octave --no-gui --quiet --path language/matlab/examples/streaming --eval streaming_example
+      - run: octave --no-gui --quiet --path language/matlab/examples/identity-policy --eval identity_policy_example
+      - run: octave --no-gui --quiet --path language/matlab/examples/service --eval service_example
+      - run: octave --no-gui --quiet --path language/matlab/examples/mcp --eval mcp_example
