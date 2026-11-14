@@ -15,16 +15,28 @@ async function main() {
   const modelName = envOr("PRAXO_MODEL", "llama3.2");
   const prompt = envOr(
     "PRAXO_PROMPT",
-    "What time is it? Use the get_time tool and reply with the time."
+    "What time is it? Use get_time with zone set to utc and reply with the time."
   );
 
   const tools = new Registry();
   const getTime = new FuncTool(
     "get_time",
-    "Return the current time in ISO 8601 format.",
-    () => new Date().toISOString()
+    "Return the current time in ISO 8601 format for the requested zone.",
+    (args) =>
+      args?.zone === "local"
+        ? new Date().toString()
+        : new Date().toISOString()
   );
-  getTime.parameters = { type: "object", properties: {} };
+  getTime.parameters = {
+    type: "object",
+    properties: {
+      zone: {
+        type: "string",
+        enum: ["utc", "local"],
+        description: "utc or local; defaults to utc",
+      },
+    },
+  };
   getTime.risk = "read";
   tools.register(getTime);
 

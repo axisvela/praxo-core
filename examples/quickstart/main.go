@@ -21,21 +21,32 @@ type timeTool struct{}
 
 func (timeTool) Name() string { return "get_time" }
 
-func (timeTool) Description() string { return "Return the current local time in RFC3339 format." }
+func (timeTool) Description() string {
+	return "Return the current time in RFC3339 format for the requested zone."
+}
 
 func (timeTool) Spec() model.ToolSpec {
 	return model.ToolSpec{
 		Name:        "get_time",
-		Description: "Return the current local time in RFC3339 format.",
+		Description: "Return the current time in RFC3339 format for the requested zone.",
 		Parameters: map[string]any{
-			"type":       "object",
-			"properties": map[string]any{},
+			"type": "object",
+			"properties": map[string]any{
+				"zone": map[string]any{
+					"type":        "string",
+					"enum":        []string{"utc", "local"},
+					"description": "utc or local; defaults to utc",
+				},
+			},
 		},
 	}
 }
 
-func (timeTool) Invoke(context.Context, map[string]any) (any, error) {
-	return time.Now().Format(time.RFC3339), nil
+func (timeTool) Invoke(_ context.Context, args map[string]any) (any, error) {
+	if zone, _ := args["zone"].(string); zone == "local" {
+		return time.Now().Format(time.RFC3339), nil
+	}
+	return time.Now().UTC().Format(time.RFC3339), nil
 }
 
 func main() {
@@ -47,7 +58,7 @@ func main() {
 func run(ctx context.Context, stdout, stderr io.Writer) error {
 	baseURL := envOr("PRAXO_BASE_URL", "http://localhost:11434/v1")
 	modelName := envOr("PRAXO_MODEL", "llama3.2")
-	prompt := envOr("PRAXO_PROMPT", "What time is it? Use the get_time tool.")
+	prompt := envOr("PRAXO_PROMPT", "What time is it? Use get_time with zone set to utc.")
 
 	tools := tool.NewRegistry()
 	tools.Register(timeTool{})

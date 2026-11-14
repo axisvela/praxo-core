@@ -11,16 +11,34 @@ public static class Program
     {
         public string Name => "get_time";
 
-        public string Description => "Return the current UTC time in ISO 8601 format.";
+        public string Description =>
+            "Return the current time in ISO 8601 format for the requested zone.";
 
         public JsonNode? Invoke(JsonObject arguments)
-            => JsonValue.Create(DateTimeOffset.UtcNow.ToString("O"));
+        {
+            var zone = arguments["zone"]?.GetValue<string>();
+            return JsonValue.Create(
+                zone == "local"
+                    ? DateTimeOffset.Now.ToString("O")
+                    : DateTimeOffset.UtcNow.ToString("O"));
+        }
 
         public ToolSpec Spec() => new()
         {
             Name = Name,
             Description = Description,
-            Parameters = JsonNode.Parse("""{"type":"object","properties":{}}""")!.AsObject(),
+            Parameters = JsonNode.Parse("""
+                {
+                  "type": "object",
+                  "properties": {
+                    "zone": {
+                      "type": "string",
+                      "enum": ["utc", "local"],
+                      "description": "utc or local; defaults to utc"
+                    }
+                  }
+                }
+                """)!.AsObject(),
             Risk = "read",
         };
     }
@@ -54,7 +72,7 @@ public static class Program
         var modelName = EnvOr("PRAXO_MODEL", "qwen3.5:4b");
         var prompt = EnvOr(
             "PRAXO_PROMPT",
-            "What time is it? Use the get_time tool and reply with the time.");
+            "What time is it? Use get_time with zone set to utc and reply with the time.");
 
         var model = new OpenAiCompatibleModel(
             new HttpClient { Timeout = TimeSpan.FromSeconds(120) },

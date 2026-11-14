@@ -28,6 +28,7 @@ from mirror_readme import ORGANIZATION, REPO_PREFIX, mirror_readme
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_TOKEN_ENV = "PRAXO_MIRROR_TOKEN"
 MIRROR_KEYS = [
+    "go",
     "python",
     "typescript",
     "java",
@@ -76,9 +77,46 @@ IGNORED_DIRECTORIES = {
     "zig-out",
     ".pytest_cache",
 }
-IGNORED_SUFFIXES = (".pyc", ".pyo")
+IGNORED_SUFFIXES = (".pyc", ".pyo", ".exe")
 IGNORED_FILES = {"pubspec.lock", ".DS_Store", "Thumbs.db"}
 GIT_IDENTITY = ("hanhuiwen", "hanhuiwen@axisvela.com")
+GO_SOURCE_DIRS = [
+    "pkg",
+    "adapters",
+    "cmd",
+    "internal",
+    "examples",
+    "language/go",
+    "api",
+    "benchmarks",
+    "tests",
+]
+GO_SOURCE_FILES = [
+    "go.mod",
+    "go.sum",
+    "VERSION",
+    "CHANGELOG.md",
+    "SECURITY.md",
+    "CONTRIBUTING.md",
+    "CODE_OF_CONDUCT.md",
+    "REGISTRY.md",
+    "llms.txt",
+    "llms.md",
+]
+GO_EXAMPLES = ["examples", "language/go/examples"]
+GO_README = "docs/languages/go/index.md"
+GO_INTRO = (
+    "Go is the reference implementation of PRAXO-CORE: an embeddable, "
+    "MIT-licensed agent execution kernel with explicit policy controls, "
+    "checkpoints, events, and tool calling. It runs in-process and does not "
+    "require a hosted service."
+)
+GO_HIGHLIGHTS = [
+    "- Governed agent loop with policy hooks, tool authorization, HITL, and events.",
+    "- Provider-neutral model, tool, memory, checkpoint, sandbox, and VFS seams.",
+    "- Runnable examples for live models, consumer starters, HITL, and checkpoints.",
+    "- Go is the reference implementation for the shared `spec/` contract.",
+]
 
 
 def mirror_entries(root: Path = ROOT) -> list[dict]:
@@ -87,7 +125,8 @@ def mirror_entries(root: Path = ROOT) -> list[dict]:
     )
     by_key = {}
     for name, entry in manifest.items():
-        key = Path(entry["dir"]).name
+        key = "go" if entry["dir"] == "." else Path(entry["dir"]).name
+        is_go = key == "go"
         by_key[key] = {
             "key": key,
             "name": name,
@@ -103,7 +142,15 @@ def mirror_entries(root: Path = ROOT) -> list[dict]:
             "tier": entry.get("tier", ""),
             "status": entry.get("status", ""),
             "docs": entry["docs"],
-            "source_dirs": [entry["dir"], *EXTRA_SOURCES.get(key, [])],
+            "source_dirs": GO_SOURCE_DIRS if is_go else [
+                entry["dir"],
+                *EXTRA_SOURCES.get(key, []),
+            ],
+            "source_files": GO_SOURCE_FILES if is_go else [],
+            "readme_source": GO_README if is_go else f"{entry['dir']}/README.md",
+            "examples_dirs": GO_EXAMPLES if is_go else None,
+            "highlights": GO_HIGHLIGHTS if is_go else None,
+            "intro": GO_INTRO if is_go else None,
         }
     missing = [key for key in MIRROR_KEYS if key not in by_key]
     if missing:
@@ -146,6 +193,11 @@ def build_mirror(entry: dict, destination: Path, root: Path = ROOT, clean: bool 
         target = destination / relative
         target.parent.mkdir(parents=True, exist_ok=True)
         shutil.copytree(source, target, ignore=_ignore)
+    for relative in entry.get("source_files", []):
+        source = root / relative
+        target = destination / relative
+        target.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(source, target)
     spec_source = root / "spec"
     if spec_source.is_dir():
         shutil.copytree(spec_source, destination / "spec", ignore=_ignore)

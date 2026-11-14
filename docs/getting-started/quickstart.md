@@ -55,7 +55,7 @@ Set `PRAXO_PROMPT` to change the request.
 ## What the example shows
 
 - a model adapter built on the standard library
-- a `get_time` tool exposed through `tool.Registry`
+- a `get_time(zone)` tool with a parameter schema exposed through `tool.Registry`
 - streamed text deltas through `agent.Options.OnDelta`
 - event delivery through `event.Sink` (written to stderr)
 - policy authorization through `policy.Hook`

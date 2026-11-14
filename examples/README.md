@@ -14,11 +14,13 @@ mirror repositories.
 ## Build a Prototype
 
 - [Workspace agent](workspace-agent/): read-only published-package Go application.
+- [HITL approval](hitl/): approve a write, then edit it and verify reauthorization denies the effect.
 - [Embedded service](embedded-service/): vendor-neutral HTTP service with caller context, policy, timeouts, and graceful shutdown.
 - [Authenticated service](embedded-service-auth/): HMAC bearer token and tenant-scoped policy variant.
 - [Reference agent](reference/): workspace-oriented reference application.
 - [Governed workspace](governed-workspace/): policy and approval boundaries.
 - [Checkpoint](checkpoint/): checkpoint store usage.
+- [Multi-turn checkpoint recovery](session-checkpoint/): save, reload, and continue a conversation.
 - [Plugin](plugin/): plugin host and example plugin.
 - [Multi-agent](multiagent/): local delegation patterns.
 - [Recipes](recipes/): focused integration recipes.

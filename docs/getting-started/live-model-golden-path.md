@@ -1,8 +1,9 @@
 # Live Model Golden Path
 
 This is the shortest path from a published PRAXO-CORE package to a real model
-response. It uses an OpenAI-compatible endpoint, one low-risk `get_time` tool,
-and an explicit policy that permits only `get_time`.
+response. It uses an OpenAI-compatible endpoint, one low-risk `get_time(zone)`
+tool with a small parameter schema, and an explicit policy that permits only
+`get_time`.
 
 The Go project lives in
 [`language/go/examples/live-model/go`](https://github.com/axisvela/praxo-core/tree/main/language/go/examples/live-model/go).
@@ -78,6 +79,9 @@ denied call produces no tool effect:
 - [Python consumer](consumer-python.md)
 - [TypeScript consumer](consumer-typescript.md)
 - [Java consumer](consumer-java.md)
+- [C# starter](https://github.com/axisvela/praxo-core/tree/main/language/csharp/examples/consumer)
+- [Rust starter](https://github.com/axisvela/praxo-core/tree/main/language/rust/examples/consumer)
+- [R starter](https://github.com/axisvela/praxo-core/tree/main/language/r/examples/consumer)
 
 ## Troubleshooting
 

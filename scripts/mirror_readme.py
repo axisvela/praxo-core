@@ -49,6 +49,7 @@ INSTALL_FENCES = {
     "haskell": "bash",
     "dart": "bash",
     "octave": "bash",
+    "go": "bash",
     "java": "text",
     "matlab": "text",
 }
@@ -162,23 +163,32 @@ def _example_description(path: Path) -> str:
 def _example_entries(root: Path, entry: dict) -> list[tuple[str, str, str]]:
     entries: list[tuple[str, str, str]] = []
     seen: set[str] = set()
-    for source in entry["source_dirs"]:
-        directory = root / source / "examples"
+    explicit = entry.get("examples_dirs")
+    if explicit:
+        directories = [(source, root / source) for source in explicit]
+    else:
+        directories = [
+            (source, root / source / "examples") for source in entry["source_dirs"]
+        ]
+    for source, directory in directories:
         if not directory.is_dir():
             continue
         for path in sorted(directory.iterdir(), key=lambda item: item.name.lower()):
             if not path.is_dir() or path.name in seen:
                 continue
             seen.add(path.name)
-            relative = Path(source, "examples", path.name).as_posix()
+            relative = (
+                Path(source, path.name).as_posix()
+                if explicit
+                else Path(source, "examples", path.name).as_posix()
+            )
             entries.append((path.name, relative, _example_description(path)))
     return entries
 
 
 def _capabilities(root: Path, entry: dict) -> list[tuple[str, str, str]]:
-    section = _section(
-        _read(root / entry["dir"] / "REGISTRY.md"), {"capabilities and status"}
-    )
+    source = entry.get("capabilities_source") or str(Path(entry["dir"]) / "REGISTRY.md")
+    section = _section(_read(root / source), {"capabilities and status"})
     rows: list[tuple[str, str, str]] = []
     for line in section.splitlines():
         if (
@@ -230,9 +240,17 @@ def _community() -> str:
 
 def mirror_readme(entry: dict, has_examples: bool = False, root: Path = ROOT) -> str:
     key = entry["key"]
-    source_readme = _read(root / entry["dir"] / "README.md")
+    is_go = key == "go"
+    readme_source = entry.get("readme_source") or str(
+        Path(entry["dir"]) / "README.md"
+    )
+    source_readme = _read(root / readme_source)
     positioning, bullets = _intro(source_readme)
     bullets = _feature_bullets(bullets)
+    if entry.get("intro"):
+        positioning = entry["intro"]
+    if entry.get("highlights") and not bullets:
+        bullets = list(entry["highlights"])
     if not positioning:
         positioning = (
             f"Dedicated repository for the {entry['name']} implementation of "
@@ -355,13 +373,19 @@ def mirror_readme(entry: dict, has_examples: bool = False, root: Path = ROOT) ->
                 f"| {_cell(name)} | {_cell(status)} | {_cell(detail)} |"
             )
     if examples:
+        example_intro = (
+            "Runnable examples live under [`examples`](examples) and "
+            "[`language/go/examples`](language/go/examples)."
+            if is_go
+            else f"Runnable examples live under "
+            f"[`language/{key}/examples`](language/{key}/examples)."
+        )
         lines.extend(
             [
                 "",
                 "## Examples",
                 "",
-                f"Runnable examples live under "
-                f"[`language/{key}/examples`](language/{key}/examples).",
+                example_intro,
                 "",
                 "| Example | What it shows |",
                 "| --- | --- |",
@@ -397,6 +421,19 @@ def mirror_readme(entry: dict, has_examples: bool = False, root: Path = ROOT) ->
                 "",
             ]
         )
+    if is_go:
+        lines.extend(
+            [
+                "Run the module checks from the mirror root:",
+                "",
+                "```bash",
+                "go test ./...",
+                "go vet ./...",
+                "go build ./...",
+                "```",
+                "",
+            ]
+        )
     lines.append(
         f"This mirror contains the language source and the shared `spec/` vectors, "
         f"so the implementation can be built and tested here. See "
@@ -404,6 +441,35 @@ def mirror_readme(entry: dict, has_examples: bool = False, root: Path = ROOT) ->
         "commands. The monorepo CI runs conformance, API snapshot, and native "
         "tests for this implementation."
     )
+    if is_go:
+        layout = [
+            "- `pkg/`, `adapters/`, `cmd/`, `internal/` — Go module source",
+            "- `examples/` — runnable Go and cross-language examples",
+            "- `language/go/examples/` — published-package consumer and live-model examples",
+            "- `spec/` — shared contract, vectors, and parity inventories",
+            "- `LICENSE` — MIT license",
+        ]
+        canonical = (
+            f"- Canonical source: https://github.com/{ORGANIZATION}/praxo-core"
+        )
+        registry_intro = "- Registry introduction: `REGISTRY.md`"
+        machine_entry = "- Machine-readable entry: `llms.txt` and `llms.md`"
+    else:
+        layout = [
+            f"- `language/{key}/` — implementation source, tests, API snapshot, "
+            "and examples",
+            "- `spec/` — shared contract, vectors, and parity inventories",
+            "- `LICENSE` — MIT license",
+        ]
+        canonical = (
+            f"- Canonical source: https://github.com/{ORGANIZATION}/praxo-core"
+            f"/tree/main/language/{key}"
+        )
+        registry_intro = f"- Registry introduction: `language/{key}/REGISTRY.md`"
+        machine_entry = (
+            f"- Machine-readable entry: `language/{key}/llms.txt` and "
+            f"`language/{key}/llms.md`"
+        )
     lines.extend(
         [
             "",
@@ -411,17 +477,13 @@ def mirror_readme(entry: dict, has_examples: bool = False, root: Path = ROOT) ->
             "",
             "## Repository layout",
             "",
-            f"- `language/{key}/` — implementation source, tests, API snapshot, "
-            "and examples",
-            "- `spec/` — shared contract, vectors, and parity inventories",
-            "- `LICENSE` — MIT license",
+            *layout,
             "",
             "## Canonical source",
             "",
-            f"- Canonical source: https://github.com/{ORGANIZATION}/praxo-core/tree/main/language/{key}",
-            f"- Registry introduction: `language/{key}/REGISTRY.md`",
-            f"- Machine-readable entry: `language/{key}/llms.txt` and "
-            f"`language/{key}/llms.md`",
+            canonical,
+            registry_intro,
+            machine_entry,
             f"- Mirror repository: https://github.com/{ORGANIZATION}/{REPO_PREFIX}{key}",
             "- Release index: https://axisvela.github.io/praxo-core/languages/registry-status/",
             "",

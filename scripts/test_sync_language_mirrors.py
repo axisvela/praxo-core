@@ -7,10 +7,11 @@ import sync_language_mirrors as sync
 
 class MirrorSyncTests(unittest.TestCase):
     def test_mirror_keys_cover_newer_repositories(self):
-        self.assertEqual(len(sync.MIRROR_KEYS), 21)
+        self.assertEqual(len(sync.MIRROR_KEYS), 22)
         self.assertEqual(
             set(sync.MIRROR_KEYS),
             {
+                "go",
                 "python",
                 "typescript",
                 "java",
@@ -46,6 +47,14 @@ class MirrorSyncTests(unittest.TestCase):
         self.assertIn("language/matlab-octave-core", entries["octave"]["source_dirs"])
         self.assertIn("language/matlab-octave-core", entries["matlab"]["source_dirs"])
 
+    def test_go_mirror_uses_root_sources(self):
+        entry = {entry["key"]: entry for entry in sync.mirror_entries()}["go"]
+        self.assertEqual(entry["dir"], ".")
+        self.assertIn("pkg", entry["source_dirs"])
+        self.assertIn("go.mod", entry["source_files"])
+        self.assertEqual(entry["readme_source"], "docs/languages/go/index.md")
+        self.assertIn("examples", entry["examples_dirs"])
+
     def test_readme_and_gitignore_are_stable(self):
         entry = {entry["key"]: entry for entry in sync.mirror_entries()}["python"]
         readme = sync.mirror_readme(entry)
@@ -72,6 +81,14 @@ class MirrorSyncTests(unittest.TestCase):
         self.assertIn("provider-fallback", readme)
         self.assertIn("## What's included", readme)
         self.assertIn("## Examples", readme)
+
+    def test_go_mirror_readme_uses_root_layout(self):
+        entry = {entry["key"]: entry for entry in sync.mirror_entries()}["go"]
+        readme = sync.mirror_readme(entry, has_examples=True)
+        self.assertIn("PRAXO-CORE for Go", readme)
+        self.assertIn("go get github.com/axisvela/praxo-core/v2@v2.7.0", readme)
+        self.assertIn("language/go/examples/consumer-go", readme)
+        self.assertIn("examples/live-model", readme)
 
     def test_build_mirror_copies_sources_and_ignores_artifacts(self):
         entry = {entry["key"]: entry for entry in sync.mirror_entries()}["python"]

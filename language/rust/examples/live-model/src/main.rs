@@ -17,7 +17,7 @@ impl Tool for TimeTool {
     }
 
     fn description(&self) -> &str {
-        "Return the current Unix time in seconds."
+        "Return the current time in seconds since the Unix epoch."
     }
 
     fn invoke(&self, _args: &Map<String, Value>) -> Result<Value> {
@@ -56,7 +56,7 @@ fn main() -> Result<()> {
     let model_name = env_or("PRAXO_MODEL", "qwen3.5:4b");
     let prompt = env_or(
         "PRAXO_PROMPT",
-        "What time is it? Use the get_time tool and reply with the time.",
+        "What time is it? Use get_time with zone set to utc and reply with the time.",
     );
 
     let model = Arc::new(OpenAICompatible::with_ureq(OpenAICompatConfig {

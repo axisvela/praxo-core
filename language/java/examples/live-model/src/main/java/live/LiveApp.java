@@ -12,6 +12,7 @@ import com.axisvela.praxo.tool.Registry;
 import com.axisvela.praxo.tool.Tool;
 
 import java.time.Instant;
+import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Map;
 
@@ -27,19 +28,27 @@ public final class LiveApp {
 
         @Override
         public String description() {
-            return "Return the current UTC time in ISO 8601 format.";
+            return "Return the current time in ISO 8601 format for the requested zone.";
         }
 
         @Override
         public Object invoke(Map<String, Object> args) {
-            return Instant.now().toString();
+            return "local".equals(args.get("zone"))
+                    ? ZonedDateTime.now().toString()
+                    : Instant.now().toString();
         }
 
         public ToolSpec spec() {
             return new ToolSpec(
                     "get_time",
                     description(),
-                    Map.of("type", "object", "properties", Map.of()),
+                    Map.of(
+                            "type", "object",
+                            "properties", Map.of(
+                                    "zone", Map.of(
+                                            "type", "string",
+                                            "enum", List.of("utc", "local"),
+                                            "description", "utc or local; defaults to utc"))),
                     "read");
         }
     }
@@ -49,7 +58,7 @@ public final class LiveApp {
         String modelName = envOr("PRAXO_MODEL", "llama3.2");
         String prompt = envOr(
                 "PRAXO_PROMPT",
-                "What time is it? Use the get_time tool and reply with the time.");
+                "What time is it? Use get_time with zone set to utc and reply with the time.");
 
         Registry tools = new Registry();
         tools.register(new TimeTool());

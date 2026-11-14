@@ -3,7 +3,8 @@
 - [`consumer/`](consumer/): published NuGet `Praxo.Core==0.8.0` starter with
   deterministic allow/deny checks.
 - [`live-model/`](live-model/): published NuGet package connected to an
-  OpenAI-compatible endpoint through `get_time`.
+  OpenAI-compatible endpoint through `get_time(zone)`.
+- [`hitl/`](hitl/): approval and edit-reauthorization for a write tool.
 - [`structured-output/`](structured-output/): published NuGet
   `Praxo.Core==0.8.0` with validated JSON output and a deterministic
   `--test` mode.
@@ -16,6 +17,8 @@
   with a deterministic `--test` mode.
 - [`checkpoint/`](checkpoint/): application-owned checkpoint storage with
   allowlisted payload encoding.
+- [`session-checkpoint/`](session-checkpoint/): multi-turn history save, reload,
+  and continue.
 - [`retry/`](retry/): retry transient model failures with bounded attempts and
   a deterministic `--test` mode.
 - [`identity-policy/`](identity-policy/): bind a trusted principal to policy and

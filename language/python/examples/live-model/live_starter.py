@@ -24,16 +24,30 @@ async def main() -> None:
     model_name = os.getenv("PRAXO_MODEL", "llama3.2")
     prompt = os.getenv(
         "PRAXO_PROMPT",
-        "What time is it? Use the get_time tool and reply with the time.",
+        "What time is it? Use get_time with zone set to utc and reply with the time.",
     )
+
+    def get_time_value(args):
+        if args.get("zone") == "local":
+            return datetime.now().astimezone().isoformat()
+        return datetime.now(timezone.utc).isoformat()
 
     tools = Registry()
     get_time = FuncTool(
         "get_time",
-        "Return the current UTC time in ISO 8601 format.",
-        lambda _args: datetime.now(timezone.utc).isoformat(),
+        "Return the current time in ISO 8601 format for the requested zone.",
+        get_time_value,
     )
-    get_time.parameters = {"type": "object", "properties": {}}
+    get_time.parameters = {
+        "type": "object",
+        "properties": {
+            "zone": {
+                "type": "string",
+                "enum": ["utc", "local"],
+                "description": "utc or local; defaults to utc",
+            }
+        },
+    }
     get_time.risk = "read"
     tools.register(get_time)
 
