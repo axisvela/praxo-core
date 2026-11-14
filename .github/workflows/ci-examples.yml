@@ -253,7 +253,7 @@ jobs:
       - run: lua language/lua/examples/checkpoint/checkpoint.lua
       - run: cmake -S language/c -B language/c/build
       - run: cmake --build language/c/build
-      - run: gcc -std=c11 -I language/c/include language/c/examples/checkpoint/main.c language/c/build/libpraxo_core.a -o language/c/build/c-checkpoint
+      - run: gcc -std=c11 -I language/c/include language/c/examples/checkpoint/main.c language/c/build/libpraxo_core.a -lm -o language/c/build/c-checkpoint
       - run: language/c/build/c-checkpoint
       - run: cmake -S language/cpp -B language/cpp/build
       - run: cmake --build language/cpp/build --target praxo-cpp-checkpoint-example praxo-cpp-event-sink-example praxo-cpp-streaming-example praxo-cpp-structured-output-example praxo-cpp-identity-policy-example praxo-cpp-mcp-example
@@ -268,7 +268,7 @@ jobs:
       - run: sudo apt-get install -y gnucobol r-base-core
       - run: Rscript language/r/examples/checkpoint/checkpoint.R
       - run: python language/cobol/examples/checkpoint/build.py
-      - run: gcc -std=c11 -I language/c/include language/c/examples/event-sink/main.c language/c/build/libpraxo_core.a -o language/c/build/c-event-sink
+      - run: gcc -std=c11 -I language/c/include language/c/examples/event-sink/main.c language/c/build/libpraxo_core.a -lm -o language/c/build/c-event-sink
       - run: language/c/build/c-event-sink
       - run: python language/fortran/examples/event-sink/run.py
       - run: elixir -pa language/elixir/build/ebin language/elixir/examples/event-sink/event_sink.exs
@@ -302,7 +302,7 @@ jobs:
       - run: python language/cobol/examples/provider-fallback/build.py
       - run: ruby -I language/ruby/lib language/ruby/examples/streaming/streaming.rb
       - run: php language/php/examples/streaming/streaming.php
-      - run: gcc -std=c11 -I language/c/include language/c/examples/streaming/main.c language/c/build/libpraxo_core.a -o language/c/build/c-streaming
+      - run: gcc -std=c11 -I language/c/include language/c/examples/streaming/main.c language/c/build/libpraxo_core.a -lm -o language/c/build/c-streaming
       - run: language/c/build/c-streaming
       - run: elixir -pa language/elixir/build/ebin language/elixir/examples/streaming/streaming.exs
       - run: escript language/erlang/examples/streaming/streaming.escript
@@ -311,7 +311,7 @@ jobs:
       - run: python language/cobol/examples/streaming/build.py
       - run: ruby -I language/ruby/lib language/ruby/examples/structured-output/structured_output.rb
       - run: php language/php/examples/structured-output/structured_output.php
-      - run: gcc -std=c11 -I language/c/include language/c/examples/structured-output/main.c language/c/build/libpraxo_core.a -o language/c/build/c-structured-output
+      - run: gcc -std=c11 -I language/c/include language/c/examples/structured-output/main.c language/c/build/libpraxo_core.a -lm -o language/c/build/c-structured-output
       - run: language/c/build/c-structured-output
       - run: python3 language/fortran/run-tests.py --re2-only
       - run: python language/fortran/examples/structured-output/run.py
@@ -323,7 +323,7 @@ jobs:
       - run: python language/cobol/examples/structured-output/build.py
       - run: ruby -I language/ruby/lib language/ruby/examples/identity-policy/identity_policy.rb
       - run: php language/php/examples/identity-policy/identity_policy.php
-      - run: gcc -std=c11 -I language/c/include language/c/examples/identity-policy/main.c language/c/build/libpraxo_core.a -o language/c/build/c-identity-policy
+      - run: gcc -std=c11 -I language/c/include language/c/examples/identity-policy/main.c language/c/build/libpraxo_core.a -lm -o language/c/build/c-identity-policy
       - run: language/c/build/c-identity-policy
       - run: gfortran -I language/fortran/build language/fortran/examples/identity-policy/identity_policy_example.f90 -o language/fortran/build/fortran-identity-policy
       - run: language/fortran/build/fortran-identity-policy
@@ -353,7 +353,7 @@ jobs:
       - run: escript language/erlang/examples/mcp/mcp.escript
       - run: lua language/lua/examples/mcp/mcp.lua
       - run: Rscript language/r/examples/mcp/mcp.R
-      - run: gcc -std=c11 -I language/c/include -I language/c/src language/c/examples/mcp/main.c language/c/src/mcp.c language/c/build/libpraxo_core.a -o language/c/build/c-mcp
+      - run: gcc -std=c11 -I language/c/include -I language/c/src language/c/examples/mcp/main.c language/c/src/mcp.c language/c/build/libpraxo_core.a -lm -o language/c/build/c-mcp
       - run: language/c/build/c-mcp
       - run: python language/fortran/examples/mcp/run.py
       - run: python language/cobol/examples/mcp/build.py
