@@ -235,7 +235,7 @@ jobs:
       - run: language/cpp/build/praxo-cpp-streaming-example
       - run: language/cpp/build/praxo-cpp-structured-output-example
       - run: language/cpp/build/praxo-cpp-identity-policy-example
-      - run: language/cpp/build/praxo-cpp-mcp-example praxo-cpp-mcp-example praxo-cpp-identity-policy-example praxo-cpp-mcp-example
+      - run: language/cpp/build/praxo-cpp-mcp-example
       - run: python language/fortran/examples/checkpoint/run.py
       - run: sudo apt-get update
       - run: sudo apt-get install -y gnucobol r-base-core
@@ -316,6 +316,7 @@ jobs:
       - run: lua language/lua/examples/service/service.lua
       - run: Rscript language/r/examples/service/service.R
       - run: python language/cobol/examples/service/build.py
+      - run: mvn -q -f language/java/examples/structured-output/pom.xml test
       - run: mvn -q -f language/java/examples/mcp/pom.xml compile exec:java
       - run: ruby -I language/ruby/lib language/ruby/examples/mcp/mcp.rb
       - run: php language/php/examples/mcp/mcp.php
