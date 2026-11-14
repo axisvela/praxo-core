@@ -8,7 +8,7 @@
 | Event Sink | 30 | `language/<language>/examples/event-sink` |
 | Retry | 30 | `language/<language>/examples/retry` |
 | Provider Fallback | 30 | `language/<language>/examples/provider-fallback` |
-| Streaming | 16 | `language/<language>/examples/streaming` |
+| Streaming | 30 | `language/<language>/examples/streaming` |
 | Structured Output | 30 | `language/<language>/examples/structured-output` |
 | Identity / Policy | 16 | `language/<language>/examples/identity-policy` |
 | HTTP Service | 16 | `language/<language>/examples/service` |
@@ -88,3 +88,7 @@ Provider Fallback 示例也已覆盖 Dart、Perl、Julia、Swift、Haskell、OCa
 ## 额外 SDK 语言：Structured Output
 
 Structured Output 示例也已覆盖 Dart、Perl、Julia、Swift、Haskell、OCaml、D、Nim、Zig、V、Delphi、PowerShell、MATLAB 和 Objective-C，入口位于 `language/<language>/examples/structured-output`。
+
+## 额外 SDK 语言：Streaming
+
+Streaming 累加示例也已覆盖 Dart、Perl、Julia、Swift、Haskell、OCaml、D、Nim、Zig、V、Delphi、PowerShell、MATLAB 和 Objective-C，入口位于 `language/<language>/examples/streaming`。这些是 transport-neutral 分片累加示例。

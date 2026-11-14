@@ -10,7 +10,7 @@ provider endpoint.
 | Event sink | 30 | `language/<language>/examples/event-sink` |
 | Retry | 30 | `language/<language>/examples/retry` |
 | Provider fallback | 30 | `language/<language>/examples/provider-fallback` |
-| Streaming | 16 | `language/<language>/examples/streaming` |
+| Streaming | 30 | `language/<language>/examples/streaming` |
 | Structured output | 30 | `language/<language>/examples/structured-output` |
 | Identity and policy | 16 | `language/<language>/examples/identity-policy` |
 | HTTP service | 16 | `language/<language>/examples/service` |
@@ -94,3 +94,7 @@ Provider fallback examples are also available for Dart, Perl, Julia, Swift, Hask
 ## Additional SDK Languages: Structured Output
 
 Structured output examples are also available for Dart, Perl, Julia, Swift, Haskell, OCaml, D, Nim, Zig, V, Delphi, PowerShell, MATLAB, and Objective-C under `language/<language>/examples/structured-output`.
+
+## Additional SDK Languages: Streaming
+
+Streaming accumulation examples are also available for Dart, Perl, Julia, Swift, Haskell, OCaml, D, Nim, Zig, V, Delphi, PowerShell, MATLAB, and Objective-C under `language/<language>/examples/streaming`. These are transport-neutral chunk accumulation examples.
