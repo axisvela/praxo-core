@@ -9,7 +9,7 @@ provider endpoint.
 | Checkpoint allowlist | 30 | `language/<language>/examples/checkpoint` |
 | Event sink | 30 | `language/<language>/examples/event-sink` |
 | Retry | 30 | `language/<language>/examples/retry` |
-| Provider fallback | 16 | `language/<language>/examples/provider-fallback` |
+| Provider fallback | 30 | `language/<language>/examples/provider-fallback` |
 | Streaming | 16 | `language/<language>/examples/streaming` |
 | Structured output | 16 | `language/<language>/examples/structured-output` |
 | Identity and policy | 16 | `language/<language>/examples/identity-policy` |
@@ -86,3 +86,7 @@ Checkpoint allowlist examples are also available for Dart, Perl, Julia, Swift, H
 ## Additional SDK Languages: Event Sink
 
 Event sink examples are also available for Dart, Perl, Julia, Swift, Haskell, OCaml, D, Nim, Zig, V, Delphi, PowerShell, MATLAB, and Objective-C under `language/<language>/examples/event-sink`.
+
+## Additional SDK Languages: Provider Fallback
+
+Provider fallback examples are also available for Dart, Perl, Julia, Swift, Haskell, OCaml, D, Nim, Zig, V, Delphi, PowerShell, MATLAB, and Objective-C under `language/<language>/examples/provider-fallback`.
