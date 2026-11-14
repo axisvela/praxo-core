@@ -298,6 +298,7 @@ jobs:
       - run: lua language/lua/examples/service/service.lua
       - run: Rscript language/r/examples/service/service.R
       - run: python language/cobol/examples/service/build.py
+      - run: mvn -q -f language/java/examples/mcp/pom.xml compile exec:java
       - run: cargo run --quiet
         working-directory: language/rust/examples/provider-fallback
       - run: cargo run --quiet
