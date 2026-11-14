@@ -13,7 +13,7 @@ let tool = RecordingSink()
 let filtered = FilterSink(tool) { event in event.type == "tool.call" }
 let multi = MultiSink([all, filtered])
 for type in ["run.started", "tool.call", "run.completed"] {
-    multi.emit(Event(type: type, sessionId: "s1"))
+    multi.emit(Event(type: type, sessionID: "s1"))
 }
 precondition(all.types == ["run.started", "tool.call", "run.completed"])
 precondition(tool.types == ["tool.call"])
