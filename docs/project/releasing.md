@@ -124,6 +124,13 @@ because staged approval was unavailable; that release has no provenance claim.
 npm trusted publishers require an existing package, so configure the trusted
 publisher before the next release. Do not use a long-lived automation token for
 routine publication.
+Java publication uses `.github/workflows/java-release.yml`. A `java/vX.Y.Z` tag
+must match `language/java/pom.xml`; the workflow compiles, runs conformance and
+self-tests, then deploys with the `release` profile and publishes through the
+Central Portal. Configure environment `maven-central` and secrets
+`MAVEN_CENTRAL_USERNAME`, `MAVEN_CENTRAL_PASSWORD`, and
+`MAVEN_GPG_PRIVATE_KEY`. Manual dispatch defaults to `build-only`.
+
 Rust publication uses crates.io Trusted Publishing through
 `.github/workflows/rust-release.yml`. A `rust/vX.Y.Z` tag must match the
 `Cargo.toml` package version. The build job runs tests, conformance, and the API

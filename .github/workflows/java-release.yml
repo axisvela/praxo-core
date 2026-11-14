@@ -1,0 +1,114 @@
+name: java-release
+
+on:
+  push:
+    tags:
+      - "java/v*"
+  workflow_dispatch:
+    inputs:
+      target:
+        description: Publish target
+        required: true
+        default: build-only
+        type: choice
+        options:
+          - build-only
+          - publish
+
+permissions:
+  contents: read
+
+concurrency:
+  group: java-release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: language/java
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+          cache: maven
+          cache-dependency-path: language/java/pom.xml
+      - name: Verify version and tag
+        shell: bash
+        run: |
+          version="$(python3 -c 'import xml.etree.ElementTree as ET; print(ET.parse("pom.xml").getroot().find("{http://maven.apache.org/POM/4.0.0}version").text)')"
+          if [ "${GITHUB_REF_TYPE}" = "tag" ]; then
+            test "java/v${version}" = "${GITHUB_REF_NAME}"
+          fi
+      - name: Compile and package
+        run: |
+          mvn -B -DskipTests test-compile
+          mvn -B -DskipTests package
+      - name: Run conformance and self-tests
+        run: |
+          java -cp target/classes com.axisvela.praxo.conformance.Run
+          java --add-modules jdk.httpserver -cp target/classes:target/test-classes com.axisvela.praxo.adapters.OpenAICompatibleSelfTest
+          java --add-modules jdk.httpserver -cp target/classes:target/test-classes com.axisvela.praxo.adapters.ProviderAdaptersSelfTest
+          java -cp target/classes:target/test-classes com.axisvela.praxo.agent.AgentLifecycleSelfTest
+          java -cp target/classes:target/test-classes com.axisvela.praxo.agent.AgentAuthorizationSelfTest
+          java -cp target/classes:target/test-classes com.axisvela.praxo.agent.AgentGuardrailSelfTest
+          java -cp target/classes:target/test-classes com.axisvela.praxo.checkpoint.CheckpointSelfTest
+          java -cp target/classes:target/test-classes com.axisvela.praxo.middleware.PiiMiddlewareSelfTest
+      - uses: actions/upload-artifact@v4
+        with:
+          name: java-package
+          path: language/java/target/*.jar
+          if-no-files-found: error
+
+  publish:
+    needs: build
+    if: github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && inputs.target == 'publish')
+    runs-on: ubuntu-latest
+    environment:
+      name: maven-central
+      url: https://central.sonatype.com/artifact/com.axisvela/praxo-core
+    permissions:
+      contents: read
+    defaults:
+      run:
+        working-directory: language/java
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+          cache: maven
+          cache-dependency-path: language/java/pom.xml
+      - name: Import signing key
+        env:
+          MAVEN_GPG_PRIVATE_KEY: ${{ secrets.MAVEN_GPG_PRIVATE_KEY }}
+        run: |
+          mkdir -p ~/.gnupg
+          chmod 700 ~/.gnupg
+          printf '%s' "${MAVEN_GPG_PRIVATE_KEY}" | gpg --batch --yes --import
+          gpg --list-secret-keys --keyid-format LONG
+      - name: Configure Maven Central credentials
+        env:
+          MAVEN_CENTRAL_USERNAME: ${{ secrets.MAVEN_CENTRAL_USERNAME }}
+          MAVEN_CENTRAL_PASSWORD: ${{ secrets.MAVEN_CENTRAL_PASSWORD }}
+        run: |
+          mkdir -p ~/.m2
+          cat > ~/.m2/settings.xml <<EOF
+          <settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
+                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                    xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 https://maven.apache.org/xsd/settings-1.0.0.xsd">
+            <servers>
+              <server>
+                <id>central</id>
+                <username>${MAVEN_CENTRAL_USERNAME}</username>
+                <password>${MAVEN_CENTRAL_PASSWORD}</password>
+              </server>
+            </servers>
+          </settings>
+          EOF
+      - name: Deploy to Maven Central
+        run: mvn -B -DskipTests -P release deploy -DautoPublish=true -DwaitUntil=published
