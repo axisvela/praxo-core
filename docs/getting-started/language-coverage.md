@@ -8,7 +8,7 @@ provider endpoint.
 | --- | --- | --- |
 | Checkpoint allowlist | 16 | `language/<language>/examples/checkpoint` |
 | Event sink | 16 | `language/<language>/examples/event-sink` |
-| Retry | 16 | `language/<language>/examples/retry` |
+| Retry | 30 | `language/<language>/examples/retry` |
 | Provider fallback | 16 | `language/<language>/examples/provider-fallback` |
 | Streaming | 16 | `language/<language>/examples/streaming` |
 | Structured output | 16 | `language/<language>/examples/structured-output` |
@@ -71,3 +71,10 @@ python language/cobol/examples/checkpoint/build.py
   or exactly-once delivery. Those remain application responsibilities.
 
 See [Examples](examples.md) for the task-oriented catalog.
+
+## Additional SDK Languages: Retry
+
+The Retry theme is also available for Dart, Perl, Julia, Swift, Haskell, OCaml,
+D, Nim, Zig, V, Delphi, PowerShell, MATLAB, and Objective-C under
+`language/<language>/examples/retry`. These are deterministic source examples;
+toolchain availability determines which run in CI.
