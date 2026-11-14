@@ -1,5 +1,16 @@
 # Java Core Release Notes
 
+## 0.10.0 - 2026-11-14
+
+Source tag `java/v0.10.0`; Maven Central publication is pending.
+
+### Added
+
+- `AgentOptions.requirePolicy` rejects construction without a policy hook.
+- `AgentOptions.requireToolScope` rejects construction with an empty
+  `allowedTools` list.
+- Both guards are opt-in and default to `false`.
+
 ## 0.9.0 - 2026-11-14
 
 Source tag `java/v0.9.0`.

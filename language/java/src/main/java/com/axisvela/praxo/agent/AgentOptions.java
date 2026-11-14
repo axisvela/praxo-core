@@ -49,6 +49,8 @@ public final class AgentOptions {
     public List<String> interruptOn = new ArrayList<>();
     public InterruptHandler onInterruptDecision;
     public InterruptApproval onInterrupt;
+    public boolean requirePolicy;
+    public boolean requireToolScope;
 
     public AgentOptions(Model model) {
         this.model = model;

@@ -75,6 +75,16 @@ public final class Agent {
     private final List<Middleware.ModelMiddleware> modelMiddleware;
 
     public Agent(AgentOptions options) {
+        if (options.requirePolicy && options.policy == null) {
+            throw new PraxoException(
+                    "AGENT_INVALID_OPTIONS",
+                    "agent: require policy: policy is required");
+        }
+        if (options.requireToolScope && options.allowedTools.isEmpty()) {
+            throw new PraxoException(
+                    "AGENT_INVALID_OPTIONS",
+                    "agent: require tool scope: allowedTools must not be empty");
+        }
         this.options = options;
         String memory = Contexts.loadAgentsMd(options.memoryFiles);
         this.systemPrompt = memory.isEmpty()
