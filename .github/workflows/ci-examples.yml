@@ -9,6 +9,17 @@ on:
       - "language/typescript/examples/**"
       - "language/csharp/examples/**"
       - "language/rust/examples/**"
+      - "language/java/examples/**"
+      - "language/ruby/examples/**"
+      - "language/php/examples/**"
+      - "language/c/examples/**"
+      - "language/cpp/examples/**"
+      - "language/fortran/examples/**"
+      - "language/elixir/examples/**"
+      - "language/erlang/examples/**"
+      - "language/lua/examples/**"
+      - "language/r/examples/**"
+      - "language/cobol/examples/**"
       - ".github/workflows/ci-examples.yml"
   pull_request:
     paths:
@@ -17,6 +28,17 @@ on:
       - "language/typescript/examples/**"
       - "language/csharp/examples/**"
       - "language/rust/examples/**"
+      - "language/java/examples/**"
+      - "language/ruby/examples/**"
+      - "language/php/examples/**"
+      - "language/c/examples/**"
+      - "language/cpp/examples/**"
+      - "language/fortran/examples/**"
+      - "language/elixir/examples/**"
+      - "language/erlang/examples/**"
+      - "language/lua/examples/**"
+      - "language/r/examples/**"
+      - "language/cobol/examples/**"
       - ".github/workflows/ci-examples.yml"
   workflow_dispatch:
 
@@ -176,6 +198,22 @@ jobs:
       - run: ruby -I language/ruby/lib language/ruby/examples/retry/test_retry.rb
       - run: php language/php/examples/event-sink/test_event_sink.php
       - run: php language/php/examples/retry/test_retry.php
+      - run: ruby -I language/ruby/lib language/ruby/examples/checkpoint/checkpoint.rb
+      - run: php language/php/examples/checkpoint/checkpoint.php
+      - run: mkdir -p language/elixir/build/ebin
+      - run: elixirc -o language/elixir/build/ebin language/elixir/lib/praxo/*.ex language/elixir/lib/praxo/adapters/*.ex
+      - run: elixir -pa language/elixir/build/ebin language/elixir/examples/checkpoint/checkpoint.exs
+      - run: mkdir -p language/erlang/build/ebin
+      - run: erlc -I language/erlang/src -o language/erlang/build/ebin language/erlang/src/*.erl
+      - run: escript language/erlang/examples/checkpoint/checkpoint.escript
+      - run: lua language/lua/examples/checkpoint/checkpoint.lua
+      - run: cmake -S language/c -B language/c/build
+      - run: cmake --build language/c/build
+      - run: gcc -std=c11 -I language/c/include language/c/examples/checkpoint/main.c language/c/build/libpraxo_core.a -o language/c/build/c-checkpoint
+      - run: language/c/build/c-checkpoint
+      - run: cmake -S language/cpp -B language/cpp/build
+      - run: cmake --build language/cpp/build --target praxo-cpp-checkpoint-example
+      - run: language/cpp/build/praxo-cpp-checkpoint-example
       - run: cargo run --quiet
         working-directory: language/rust/examples/provider-fallback
       - run: cargo run --quiet

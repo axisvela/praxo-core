@@ -41,7 +41,7 @@ There is intentional overlap. For example:
 | Streaming | [`recipes/streaming-go`](recipes/streaming-go) | Python / TypeScript / C# / Rust / Java `streaming` |
 | MCP tools | [`ecosystem/mcp`](ecosystem/mcp) | Python / TypeScript / C# / Rust `mcp` |
 | Retry | [`recipes/retry-go`](recipes/retry-go) | Python / TypeScript / C# / Rust / Java / Ruby / PHP `retry` |
-| Checkpoint store | [`recipes/checkpoint-store-go`](recipes/checkpoint-store-go) | [`checkpoint`](checkpoint), [`embedded-service-auth`](embedded-service-auth), and Python / TypeScript / C# / Rust / Java `checkpoint` |
+| Checkpoint store | [`recipes/checkpoint-store-go`](recipes/checkpoint-store-go) | [`checkpoint`](checkpoint), [`embedded-service-auth`](embedded-service-auth), and Python / TypeScript / C# / Rust / Java / Ruby / PHP / C / C++ / Fortran / Elixir / Erlang / Lua / R / COBOL `checkpoint` |
 | Identity and policy | [`recipes/identity-go`](recipes/identity-go) | [`embedded-service-auth`](embedded-service-auth), and Python / TypeScript / C# / Rust / Java `identity-policy` |
 | HTTP service | [`embedded-service`](embedded-service) | Python / TypeScript / C# / Rust / Java `service` |
 | VFS containment | [`recipes/vfs-containment-go`](recipes/vfs-containment-go) | [`workspace-agent`](workspace-agent) |
@@ -62,6 +62,12 @@ application-shaped integration. Do not copy both into one project.
 | Rust | [language/rust/examples](../language/rust/examples) |
 | Ruby | [language/ruby/examples](../language/ruby/examples) |
 | PHP | [language/php/examples](../language/php/examples) |
+| C | [`language/c/examples`](../language/c/examples) |
+| C++ | [`language/cpp/examples`](../language/cpp/examples) |
+| Fortran | [`language/fortran/examples`](../language/fortran/examples) |
+| Erlang | [`language/erlang/examples`](../language/erlang/examples) |
+| R | [`language/r/examples`](../language/r/examples) |
+| COBOL | [`language/cobol/examples`](../language/cobol/examples) |
 | Elixir | [language/elixir/examples](../language/elixir/examples) |
 | Lua | [language/lua/examples](../language/lua/examples) |
 
