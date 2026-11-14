@@ -7,7 +7,7 @@ provider endpoint.
 | Theme | Languages | Entry |
 | --- | --- | --- |
 | Checkpoint allowlist | 30 | `language/<language>/examples/checkpoint` |
-| Event sink | 16 | `language/<language>/examples/event-sink` |
+| Event sink | 30 | `language/<language>/examples/event-sink` |
 | Retry | 30 | `language/<language>/examples/retry` |
 | Provider fallback | 16 | `language/<language>/examples/provider-fallback` |
 | Streaming | 16 | `language/<language>/examples/streaming` |
@@ -82,3 +82,7 @@ toolchain availability determines which run in CI.
 ## Additional SDK Languages: Checkpoint
 
 Checkpoint allowlist examples are also available for Dart, Perl, Julia, Swift, Haskell, OCaml, D, Nim, Zig, V, Delphi, PowerShell, MATLAB, and Objective-C under `language/<language>/examples/checkpoint`.
+
+## Additional SDK Languages: Event Sink
+
+Event sink examples are also available for Dart, Perl, Julia, Swift, Haskell, OCaml, D, Nim, Zig, V, Delphi, PowerShell, MATLAB, and Objective-C under `language/<language>/examples/event-sink`.

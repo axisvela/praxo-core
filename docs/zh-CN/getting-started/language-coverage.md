@@ -5,7 +5,7 @@
 | 主题 | 语言数 | 入口 |
 | --- | --- | --- |
 | Checkpoint Allowlist | 30 | `language/<language>/examples/checkpoint` |
-| Event Sink | 16 | `language/<language>/examples/event-sink` |
+| Event Sink | 30 | `language/<language>/examples/event-sink` |
 | Retry | 30 | `language/<language>/examples/retry` |
 | Provider Fallback | 16 | `language/<language>/examples/provider-fallback` |
 | Streaming | 16 | `language/<language>/examples/streaming` |
@@ -76,3 +76,7 @@ Delphi、PowerShell、MATLAB 和 Objective-C，入口位于
 ## 额外 SDK 语言：Checkpoint
 
 Checkpoint Allowlist 示例也已覆盖 Dart、Perl、Julia、Swift、Haskell、OCaml、D、Nim、Zig、V、Delphi、PowerShell、MATLAB 和 Objective-C，入口位于 `language/<language>/examples/checkpoint`。
+
+## 额外 SDK 语言：Event Sink
+
+Event Sink 示例也已覆盖 Dart、Perl、Julia、Swift、Haskell、OCaml、D、Nim、Zig、V、Delphi、PowerShell、MATLAB 和 Objective-C，入口位于 `language/<language>/examples/event-sink`。
