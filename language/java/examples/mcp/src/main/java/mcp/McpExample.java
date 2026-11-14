@@ -128,11 +128,14 @@ public final class McpExample {
             client.registerTools(registry);
             Object result = client.callTool("add", Map.of("a", 2, "b", 3));
             List<String> names = tools.stream().map(McpTool::name).sorted().toList();
-            if (!names.equals(List.of("add", "echo"))
-                    || !(result instanceof Map<?, ?> map)
+            if (!names.equals(List.of("add", "echo"))) {
+                throw new IllegalStateException("mcp tool list failed: " + names);
+            }
+            if (!(result instanceof Map<?, ?> map)
                     || !(map.get("structuredContent") instanceof Map<?, ?> structured)
-                    || !Integer.valueOf(5).equals(structured.get("sum"))) {
-                throw new IllegalStateException("mcp example failed");
+                    || !(structured.get("sum") instanceof Number sum)
+                    || sum.intValue() != 5) {
+                throw new IllegalStateException("mcp result failed: " + result);
             }
             System.out.println("Java MCP example passed");
         }
