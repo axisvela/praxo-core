@@ -109,6 +109,8 @@ export interface AgentOptions {
   interruptOn?: string[];
   onInterruptDecision?: InterruptHandler;
   onInterrupt?: InterruptApproval;
+  requirePolicy?: boolean;
+  requireToolScope?: boolean;
 }
 
 interface PreparedTool {
@@ -127,6 +129,12 @@ export class Agent {
   private readonly interruptOn: Set<string>;
 
   constructor(readonly options: AgentOptions) {
+    if (options.requirePolicy && !options.policy) {
+      throw new Error("agent: require policy: policy is required");
+    }
+    if (options.requireToolScope && !(options.allowedTools ?? []).length) {
+      throw new Error("agent: require tool scope: allowedTools must not be empty");
+    }
     this.interruptOn = new Set(options.interruptOn ?? []);
     const memory = loadAgentsMd(options.memoryFiles ?? []);
     this.systemPrompt = memory

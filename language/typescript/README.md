@@ -133,8 +133,9 @@ output remains untrusted content.
 
 The normative contract is [`spec/`](../../spec/README.md); Go remains the
 reference implementation. This package supports `SPEC_VERSION` `0.2.0` and
-passes the TypeScript conformance and parity checks. The latest source tag and
-npm package are `typescript/v0.6.0` and `@axisvela/praxo-core@0.6.0`. VFS and plugin hosts are
+passes the TypeScript conformance and parity checks. The latest source tag is
+`typescript/v0.7.0`; the published npm package remains
+`@axisvela/praxo-core@0.6.0`. VFS and plugin hosts are
 not yet implemented.
 
 ## Requirements

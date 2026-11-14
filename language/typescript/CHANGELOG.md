@@ -1,5 +1,16 @@
 # TypeScript Core Release Notes
 
+## 0.7.0 - 2026-11-14
+
+Source tag `typescript/v0.7.0`; npm publication is pending.
+
+### Added
+
+- `AgentOptions.requirePolicy` rejects construction without a policy hook.
+- `AgentOptions.requireToolScope` rejects construction with an empty
+  `allowedTools` list.
+- Both guards are opt-in and default to `false`.
+
 ## 0.6.0 - 2026-11-14
 
 Source tag `typescript/v0.6.0`. npm publishes `@axisvela/praxo-core@0.6.0` from
