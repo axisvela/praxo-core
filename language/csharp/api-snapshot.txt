@@ -23,6 +23,8 @@ Praxo.Core.PiiRedactor PiiRedactor { get; set; }
 Praxo.Core.ResponseFormat ResponseFormat { get; set; }
 Praxo.Core.StructuredOutput StructuredOutput { get; set; }
 Praxo.Core.ToolRegistry Tools { get; set; }
+System.Boolean RequirePolicy { get; set; }
+System.Boolean RequireToolScope { get; set; }
 System.Collections.Generic.List`1[Praxo.Core.IMiddleware] Middleware { get; set; }
 System.Collections.Generic.List`1[Praxo.Core.ModelMiddleware] ModelMiddleware { get; set; }
 System.Collections.Generic.List`1[System.String] AllowedTools { get; set; }

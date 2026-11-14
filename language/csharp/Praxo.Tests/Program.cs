@@ -27,6 +27,7 @@ internal static class Program
         TestCapacityFailClosed();
         TestPluginValidation();
         TestPolicy();
+        TestSafeDefaults();
         TestAgentDirect();
         TestAgentToolLoop();
         TestFinalArguments();
@@ -258,6 +259,46 @@ internal static class Program
         {
             Directory.Delete(root, true);
         }
+    }
+
+    private static void TestSafeDefaults()
+    {
+        var model = new StaticModel("hello");
+        var missingPolicy = false;
+        try
+        {
+            _ = new Agent(new AgentOptions(model) { RequirePolicy = true });
+        }
+        catch (InvalidOperationException error)
+        {
+            missingPolicy = error.Message.Contains("require policy");
+        }
+        Check(missingPolicy, "require policy guard");
+
+        var missingScope = false;
+        try
+        {
+            _ = new Agent(new AgentOptions(model) { RequireToolScope = true });
+        }
+        catch (InvalidOperationException error)
+        {
+            missingScope = error.Message.Contains("require tool scope");
+        }
+        Check(missingScope, "require tool scope guard");
+
+        var guarded = new Agent(new AgentOptions(model)
+        {
+            AllowedTools = new List<string> { "echo" },
+            Policy = new AllowAllPolicy(),
+            RequirePolicy = true,
+            RequireToolScope = true,
+        });
+        Check(guarded != null, "safe defaults explicit configuration");
+    }
+
+    private sealed class AllowAllPolicy : IPolicyHook
+    {
+        public Decision Authorize(Praxo.Core.Action action) => new() { Allowed = true };
     }
 
     private static void TestAgentDirect()

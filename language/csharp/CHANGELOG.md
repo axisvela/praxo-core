@@ -1,5 +1,16 @@
 # C# Core Release Notes
 
+## 0.9.0 - 2026-11-14
+
+Source tag `csharp/v0.9.0`; NuGet publication is pending.
+
+### Added
+
+- `AgentOptions.RequirePolicy` rejects construction without a policy hook.
+- `AgentOptions.RequireToolScope` rejects construction with an empty
+  `AllowedTools` list.
+- Both guards are opt-in and default to `false`.
+
 ## 0.8.0 - 2026-11-14
 
 Source tag `csharp/v0.8.0`. NuGet publishes `Praxo.Core==0.8.0` from that tag.

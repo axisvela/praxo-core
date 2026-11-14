@@ -57,6 +57,10 @@ public sealed class AgentOptions
 
     public IInterruptApproval? OnInterrupt { get; set; }
 
+    public bool RequirePolicy { get; set; }
+
+    public bool RequireToolScope { get; set; }
+
     public AgentOptions(IModel model)
     {
         Model = model;
@@ -72,6 +76,16 @@ public sealed class Agent
 
     public Agent(AgentOptions options)
     {
+        if (options.RequirePolicy && options.Policy == null)
+        {
+            throw new InvalidOperationException(
+                "agent: require policy: Policy is required");
+        }
+        if (options.RequireToolScope && options.AllowedTools.Count == 0)
+        {
+            throw new InvalidOperationException(
+                "agent: require tool scope: AllowedTools must not be empty");
+        }
         _options = options;
         var memory = LoadAgentsMd(options.MemoryFiles);
         _systemPrompt = string.IsNullOrEmpty(memory)
