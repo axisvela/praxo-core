@@ -1,5 +1,5 @@
 import praxo/runtime
-import praxo/json
+import praxo/jsonutil
 
 let allow = newCheckpointAllowlist()
 allow.register("order")

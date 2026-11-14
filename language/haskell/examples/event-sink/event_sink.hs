@@ -13,7 +13,7 @@ main = do
                , Event "tool.call" "s1" Nothing JNull
                , Event "run.completed" "s1" Nothing JNull
                ]
-      result = foldl (flip emitSink) multi events
+      result = foldl emitSink multi events
   if sinkKindLists result ==
       [["run.started", "tool.call", "run.completed"], ["tool.call"]]
     then putStrLn "Haskell event sink example passed"

@@ -1,5 +1,5 @@
 import praxo/adapters/mcp
-import praxo/json
+import praxo/jsonutil
 
 proc transport(methodName: string, params: JsonNode): JsonNode =
   if methodName == "initialize":

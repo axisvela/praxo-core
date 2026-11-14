@@ -30,7 +30,7 @@
 int main(void) {
     @autoreleasepool {
         FakeTransport *transport = [FakeTransport new];
-        PXRMcpClient *client = [[PXRMcpClient alloc] initWithTransport:transport];
+        PXRMcpClient *client = [[PXRMcpClient alloc] initWithTransport:transport protocolVersion:@"2024-11-05" clientVersion:@"0.4.0" timeout:5.0];
         NSError *error = nil;
         if (![client start:&error]) return 1;
         NSArray *tools = [client listTools:&error];

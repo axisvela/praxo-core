@@ -1,4 +1,4 @@
-import praxo/json
+import praxo/jsonutil
 import praxo/jsonschema
 
 let schema = parseJsonText("""{"type":"object","required":["name"],"properties":{"name":{"type":"string"}}}""")
