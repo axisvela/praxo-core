@@ -42,6 +42,12 @@ target_link_libraries(praxo-cpp-structured-output-example PRIVATE praxo_cpp)
 add_executable(praxo-cpp-identity-policy-example examples/identity-policy/main.cpp)
 target_link_libraries(praxo-cpp-identity-policy-example PRIVATE praxo_cpp)
 
+add_executable(praxo-cpp-hitl-example examples/hitl/main.cpp)
+target_link_libraries(praxo-cpp-hitl-example PRIVATE praxo_cpp)
+
+add_executable(praxo-cpp-session-checkpoint-example examples/session-checkpoint/main.cpp)
+target_link_libraries(praxo-cpp-session-checkpoint-example PRIVATE praxo_cpp)
+
 add_executable(praxo-cpp-mcp-example examples/mcp/main.cpp)
 target_link_libraries(praxo-cpp-mcp-example PRIVATE praxo_cpp)
 
