@@ -212,12 +212,13 @@ jobs:
       - run: gcc -std=c11 -I language/c/include language/c/examples/checkpoint/main.c language/c/build/libpraxo_core.a -o language/c/build/c-checkpoint
       - run: language/c/build/c-checkpoint
       - run: cmake -S language/cpp -B language/cpp/build
-      - run: cmake --build language/cpp/build --target praxo-cpp-checkpoint-example praxo-cpp-event-sink-example praxo-cpp-streaming-example praxo-cpp-structured-output-example praxo-cpp-identity-policy-example
+      - run: cmake --build language/cpp/build --target praxo-cpp-checkpoint-example praxo-cpp-event-sink-example praxo-cpp-streaming-example praxo-cpp-structured-output-example praxo-cpp-identity-policy-example praxo-cpp-mcp-example
       - run: language/cpp/build/praxo-cpp-checkpoint-example
       - run: language/cpp/build/praxo-cpp-event-sink-example
       - run: language/cpp/build/praxo-cpp-streaming-example
       - run: language/cpp/build/praxo-cpp-structured-output-example
-      - run: language/cpp/build/praxo-cpp-identity-policy-example praxo-cpp-identity-policy-example
+      - run: language/cpp/build/praxo-cpp-identity-policy-example
+      - run: language/cpp/build/praxo-cpp-mcp-example praxo-cpp-mcp-example praxo-cpp-identity-policy-example praxo-cpp-mcp-example
       - run: python language/fortran/examples/checkpoint/run.py
       - run: sudo apt-get update
       - run: sudo apt-get install -y gnucobol r-base-core
@@ -305,6 +306,10 @@ jobs:
       - run: escript language/erlang/examples/mcp/mcp.escript
       - run: lua language/lua/examples/mcp/mcp.lua
       - run: Rscript language/r/examples/mcp/mcp.R
+      - run: gcc -std=c11 -I language/c/include -I language/c/src language/c/examples/mcp/main.c language/c/src/mcp.c language/c/build/libpraxo_core.a -o language/c/build/c-mcp
+      - run: language/c/build/c-mcp
+      - run: python language/fortran/examples/mcp/run.py
+      - run: python language/cobol/examples/mcp/build.py
       - run: cargo run --quiet
         working-directory: language/rust/examples/provider-fallback
       - run: cargo run --quiet
