@@ -214,6 +214,11 @@ jobs:
       - run: cmake -S language/cpp -B language/cpp/build
       - run: cmake --build language/cpp/build --target praxo-cpp-checkpoint-example
       - run: language/cpp/build/praxo-cpp-checkpoint-example
+      - run: python language/fortran/examples/checkpoint/run.py
+      - run: sudo apt-get update
+      - run: sudo apt-get install -y gnucobol r-base-core
+      - run: Rscript language/r/examples/checkpoint/checkpoint.R
+      - run: python language/cobol/examples/checkpoint/build.py
       - run: cargo run --quiet
         working-directory: language/rust/examples/provider-fallback
       - run: cargo run --quiet
