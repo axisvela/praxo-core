@@ -79,21 +79,21 @@ jobs:
       - run: sudo apt-get update
       - run: sudo apt-get install -y fpc
       - run: mkdir -p build/delphi
-      - run: fpc -Mobjfpc -Fulanguage/delphi -FEbuild/delphi language/delphi/examples/retry/retry.pas
+      - run: fpc -Mobjfpc -Facwstring -Fulanguage/delphi -FEbuild/delphi language/delphi/examples/retry/retry.pas
       - run: ./build/delphi/retry
-      - run: fpc -Mobjfpc -Fulanguage/delphi -FEbuild/delphi language/delphi/examples/checkpoint/checkpoint.pas
+      - run: fpc -Mobjfpc -Facwstring -Fulanguage/delphi -FEbuild/delphi language/delphi/examples/checkpoint/checkpoint.pas
       - run: ./build/delphi/checkpoint
-      - run: fpc -Mobjfpc -Fulanguage/delphi -FEbuild/delphi language/delphi/examples/event-sink/event_sink.pas
+      - run: fpc -Mobjfpc -Facwstring -Fulanguage/delphi -FEbuild/delphi language/delphi/examples/event-sink/event_sink.pas
       - run: ./build/delphi/event_sink
-      - run: fpc -Mobjfpc -Fulanguage/delphi -FEbuild/delphi language/delphi/examples/provider-fallback/fallback.pas
+      - run: fpc -Mobjfpc -Facwstring -Fulanguage/delphi -FEbuild/delphi language/delphi/examples/provider-fallback/fallback.pas
       - run: ./build/delphi/fallback
-      - run: fpc -Mobjfpc -Fulanguage/delphi -FEbuild/delphi language/delphi/examples/structured-output/structured_output.pas
+      - run: fpc -Mobjfpc -Facwstring -Fulanguage/delphi -FEbuild/delphi language/delphi/examples/structured-output/structured_output.pas
       - run: ./build/delphi/structured_output
-      - run: fpc -Mobjfpc -Fulanguage/delphi -FEbuild/delphi language/delphi/examples/streaming/streaming.pas
+      - run: fpc -Mobjfpc -Facwstring -Fulanguage/delphi -FEbuild/delphi language/delphi/examples/streaming/streaming.pas
       - run: ./build/delphi/streaming
-      - run: fpc -Mobjfpc -Fulanguage/delphi -FEbuild/delphi language/delphi/examples/identity-policy/identity_policy.pas
+      - run: fpc -Mobjfpc -Facwstring -Fulanguage/delphi -FEbuild/delphi language/delphi/examples/identity-policy/identity_policy.pas
       - run: ./build/delphi/identity_policy
-      - run: fpc -Mobjfpc -Fulanguage/delphi -FEbuild/delphi language/delphi/examples/service/service.pas
+      - run: fpc -Mobjfpc -Facwstring -Fulanguage/delphi -FEbuild/delphi language/delphi/examples/service/service.pas
       - run: ./build/delphi/service
-      - run: fpc -Mobjfpc -Fulanguage/delphi -FEbuild/delphi language/delphi/examples/mcp/mcp.pas
+      - run: fpc -Mobjfpc -Facwstring -Fulanguage/delphi -FEbuild/delphi language/delphi/examples/mcp/mcp.pas
       - run: ./build/delphi/mcp

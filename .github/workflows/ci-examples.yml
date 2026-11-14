@@ -325,7 +325,7 @@ jobs:
       - run: php language/php/examples/identity-policy/identity_policy.php
       - run: gcc -std=c11 -I language/c/include language/c/examples/identity-policy/main.c language/c/build/libpraxo_core.a -lm -o language/c/build/c-identity-policy
       - run: language/c/build/c-identity-policy
-      - run: gfortran -I language/fortran/build language/fortran/examples/identity-policy/identity_policy_example.f90 -o language/fortran/build/fortran-identity-policy
+      - run: gfortran -I language/fortran/build language/fortran/src/praxo_types.f90 language/fortran/examples/identity-policy/identity_policy_example.f90 -o language/fortran/build/fortran-identity-policy
       - run: language/fortran/build/fortran-identity-policy
       - run: elixir language/elixir/examples/identity-policy/identity_policy.exs
       - run: escript language/erlang/examples/identity-policy/identity_policy.escript
