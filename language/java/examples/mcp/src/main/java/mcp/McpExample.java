@@ -131,10 +131,13 @@ public final class McpExample {
             if (!names.equals(List.of("add", "echo"))) {
                 throw new IllegalStateException("mcp tool list failed: " + names);
             }
-            if (!(result instanceof Map<?, ?> map)
-                    || !(map.get("structuredContent") instanceof Map<?, ?> structured)
-                    || !(structured.get("sum") instanceof Number sum)
-                    || sum.intValue() != 5) {
+            if (!(result instanceof Map<?, ?> map)) {
+                throw new IllegalStateException("mcp result failed: " + result);
+            }
+            Map<?, ?> values = map.get("structuredContent") instanceof Map<?, ?> structured
+                    ? structured
+                    : map;
+            if (!(values.get("sum") instanceof Number sum) || sum.intValue() != 5) {
                 throw new IllegalStateException("mcp result failed: " + result);
             }
             System.out.println("Java MCP example passed");
