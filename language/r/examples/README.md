@@ -4,6 +4,9 @@
   deterministic allow/deny checks.
 - [`live-model/`](live-model/): OpenAI-compatible endpoint with `qwen3.5:4b` via
   Ollama.
+- [`hitl/`](hitl/): approval and edit-reauthorization for a write tool.
+- [`session-checkpoint/`](session-checkpoint/): multi-turn history save, reload,
+  and continue.
 - [`structured-output/`](structured-output/): validated JSON output with a
   deterministic test.
 - [`mcp/`](mcp/): stdio MCP client over a caller-supplied transport.

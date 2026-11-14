@@ -4,6 +4,9 @@
   deterministic allow/deny checks.
 - [`live-model/`](live-model/): source-mode OpenAI-compatible endpoint using
   the optional `http-ureq` feature and `qwen3.5:4b` via Ollama.
+- [`hitl/`](hitl/): approval and edit-reauthorization for a write tool.
+- [`session-checkpoint/`](session-checkpoint/): multi-turn history save, reload,
+  and continue.
 - [`provider-fallback/`](provider-fallback/): fallback model after a primary
   failure, with a deterministic check.
 - [`event-sink/`](event-sink/): lifecycle and tool events through `MultiSink`
