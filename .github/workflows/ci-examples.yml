@@ -299,6 +299,12 @@ jobs:
       - run: Rscript language/r/examples/service/service.R
       - run: python language/cobol/examples/service/build.py
       - run: mvn -q -f language/java/examples/mcp/pom.xml compile exec:java
+      - run: ruby -I language/ruby/lib language/ruby/examples/mcp/mcp.rb
+      - run: php language/php/examples/mcp/mcp.php
+      - run: elixir -pa language/elixir/build/ebin language/elixir/examples/mcp/mcp.exs
+      - run: escript language/erlang/examples/mcp/mcp.escript
+      - run: lua language/lua/examples/mcp/mcp.lua
+      - run: Rscript language/r/examples/mcp/mcp.R
       - run: cargo run --quiet
         working-directory: language/rust/examples/provider-fallback
       - run: cargo run --quiet
