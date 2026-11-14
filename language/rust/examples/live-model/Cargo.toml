@@ -1,0 +1,9 @@
+[package]
+name = "live-model"
+version = "0.1.0"
+edition = "2021"
+publish = false
+
+[dependencies]
+praxo-core = { path = "../..", features = ["http-ureq"] }
+serde_json = "1"

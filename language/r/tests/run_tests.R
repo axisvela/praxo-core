@@ -714,6 +714,28 @@ retriever_test <- function() {
   stopifnot(identical(documents[[1L]]$content, "hello:3"))
 }
 
+session_test <- function() {
+  history <- session("history", messages = list(
+    message(roles$user, "first"),
+    message(roles$assistant, "hello")
+  ))
+  seen <- NULL
+  model <- function(request) {
+    seen <<- request
+    response(message(roles$assistant, "done"))
+  }
+  result <- agent_run(model, "second", session = history)
+  stopifnot(identical(result$output, "done"))
+  stopifnot(identical(seen$messages[[1L]]$content, "first"))
+  stopifnot(identical(seen$messages[[2L]]$content, "hello"))
+  stopifnot(identical(seen$messages[[3L]]$content, "second"))
+  stopifnot(length(result$messages) == 4L)
+  stopifnot(identical(result$messages[[3L]]$content, "second"))
+  stopifnot(identical(result$messages[[4L]]$content, "done"))
+}
+
+session_test()
+
 retriever_test()
 
 delegation_test <- function() {

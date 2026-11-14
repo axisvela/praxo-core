@@ -36,6 +36,12 @@ class RecordTool {
   constructor() {
     this.name = "record";
     this.description = "Record a target in an in-memory counter.";
+    this.risk = "write";
+    this.parameters = {
+      type: "object",
+      required: ["target"],
+      properties: { target: { type: "string" } },
+    };
     this.calls = 0;
   }
 

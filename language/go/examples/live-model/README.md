@@ -1,7 +1,7 @@
 # Live Model Golden Path
 
 The Go project lives in [`go/`](go/). Other language projects live under
-`language/<lang>/language/go/examples/live-model`, so the dedicated language mirrors include
+`language/<lang>/examples/live-model`, so the dedicated language mirrors include
 them. Each example:
 
 - installs a published package instead of a repository checkout;
@@ -15,7 +15,7 @@ Use a local Ollama server or any OpenAI-compatible endpoint.
 
 ```bash
 export PRAXO_BASE_URL=http://localhost:11434/v1
-export PRAXO_MODEL=llama3.2
+export PRAXO_MODEL=qwen3.5:4b
 # export PRAXO_API_KEY=...   # only for hosted endpoints
 ```
 
@@ -23,8 +23,11 @@ PowerShell:
 
 ```powershell
 $env:PRAXO_BASE_URL = "http://localhost:11434/v1"
-$env:PRAXO_MODEL = "llama3.2"
+$env:PRAXO_MODEL = "qwen3.5:4b"
 ```
+
+`qwen3.5:4b` is a small local option; use any installed OpenAI-compatible model
+name instead if needed (for example `llama3.2`).
 
 ## Go
 

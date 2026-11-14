@@ -1,6 +1,6 @@
 # Streaming
 
-This example uses published NuGet `Praxo.Core==0.6.0` to consume deltas while
+This example uses published NuGet `Praxo.Core==0.8.0` to consume deltas while
 the agent loop keeps running normally.
 
 Call `Agent.RunStream` with a delta callback and implement `IStreamingModel`.

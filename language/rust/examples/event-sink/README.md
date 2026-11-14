@@ -1,6 +1,6 @@
 # Event Sink
 
-This example uses published crates.io `praxo-core@0.6.0` to observe agent
+This example uses published crates.io `praxo-core@0.8.0` to observe agent
 lifecycle and tool events without coupling the agent to a logging or telemetry
 backend.
 

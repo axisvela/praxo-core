@@ -44,8 +44,9 @@ response <- function(message, usage_value = NULL) list(message = message, usage 
 
 session <- function(id, messages = list()) list(id = id, messages = messages)
 
-run_result <- function(run_id, output, steps, usage) {
-  list(runId = run_id, output = output, steps = steps, usage = usage)
+run_result <- function(run_id, output, steps, usage, messages = list()) {
+  list(runId = run_id, output = output, steps = steps, usage = usage,
+       messages = messages)
 }
 
 memory_record <- function(id = "", frame = "", content = "", created_at = NULL) {
@@ -345,10 +346,17 @@ agent_run <- function(model, prompt, tools = list(), events = NULL, max_steps = 
                       cancellation = NULL, streaming_model = NULL,
                       on_delta = NULL, max_parallel_tools = 0L,
                       interrupt_on = character(), on_interrupt_decision = NULL,
-                      on_interrupt = NULL) {
+                      on_interrupt = NULL, session = NULL, messages = NULL) {
   run_id <- paste0("run-", format(Sys.time(), "%s"))
   if (max_steps <= 0L) max_steps <- 8L
-  messages <- list(message(roles$user, prompt))
+  if (!is.null(session)) {
+    if (missing(session_id)) session_id <- session$id
+    if (is.null(messages) && length(session$messages) > 0L) {
+      messages <- session$messages
+    }
+  }
+  messages <- messages %||% list()
+  messages[[length(messages) + 1L]] <- message(roles$user, prompt)
   total <- usage()
   emit <- function(type, data = NULL) {
     if (!is.null(events)) sink_emit(events, list(type = type, sessionId = session_id, runId = run_id, data = data))
@@ -460,7 +468,8 @@ agent_run <- function(model, prompt, tools = list(), events = NULL, max_steps = 
       }
       messages[[length(messages) + 1L]] <- result$message
       if (length(result$message$toolCalls) == 0L) {
-        outcome <- run_result(run_id, result$message$content %||% "", step, total)
+        outcome <- run_result(run_id, result$message$content %||% "", step, total,
+                              messages = messages)
         after_run_invoked <- TRUE
         cleanup_error <- after_run(outcome, NULL)
         if (!is.null(cleanup_error)) stop(cleanup_error)

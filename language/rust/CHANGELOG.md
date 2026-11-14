@@ -1,5 +1,14 @@
 # Rust Core Release Notes
 
+## Unreleased
+
+### Added
+
+- Optional `http-ureq` feature with an OpenAI-compatible HTTP client
+  (`OpenAICompatible::with_ureq`), including tool-call mapping, usage mapping,
+  and streaming content.
+- `examples/live-model` source-mode Ollama/OpenAI-compatible example.
+
 ## 0.8.0 - 2026-11-14
 
 Source tag `rust/v0.8.0`. crates.io publishes `praxo-core==0.8.0` from that tag.

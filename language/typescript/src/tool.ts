@@ -37,10 +37,24 @@ export class Registry {
   specs(): ToolSpec[] {
     return [...this.tools.values()]
       .sort((a, b) => a.name.localeCompare(b.name))
-      .map((tool) => ({
-        name: tool.name,
-        description: tool.description,
-      }));
+      .map((tool) => {
+        const provider = tool as { spec?: () => ToolSpec };
+        if (typeof provider.spec === "function") {
+          return provider.spec();
+        }
+        const schema = tool as {
+          parameters?: Record<string, unknown>;
+          risk?: string;
+        };
+        return {
+          name: tool.name,
+          description: tool.description,
+          ...(schema.parameters !== undefined
+            ? { parameters: schema.parameters }
+            : {}),
+          ...(schema.risk !== undefined ? { risk: schema.risk } : {}),
+        };
+      });
   }
 
   get size(): number {

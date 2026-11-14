@@ -16,6 +16,7 @@ adapter.
 | `model.Usage` | `Praxo::Models::usage` | parity | P1 |
 | `tool.Tool` | `Praxo::Agent::FuncTool` | parity | P1 |
 | `tool.Registry` | `Praxo::Agent::ToolRegistry` | parity | P1 |
+| `tool.SpecProvider` | `Praxo::Agent::FuncTool` parameters/risk | partial | P1 |
 | `event.Event` | `Praxo::Models::event` | parity | P1 |
 | `event.Sink` | `Praxo::Runtime::MultiSink` | partial | P1 |
 | `policy.Decision` | `Praxo::Models::decision` | parity | P1 |

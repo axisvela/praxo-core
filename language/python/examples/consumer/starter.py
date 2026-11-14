@@ -25,6 +25,12 @@ class FixtureModel:
 class RecordTool:
     name = "record"
     description = "Record a target in an in-memory counter."
+    risk = "write"
+    parameters = {
+        "type": "object",
+        "required": ["target"],
+        "properties": {"target": {"type": "string"}},
+    }
 
     def __init__(self):
         self.calls = 0

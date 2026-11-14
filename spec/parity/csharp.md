@@ -10,6 +10,7 @@ Go hook or adapter feature.
 
 | Go symbol | C# symbol | Status | Phase |
 | --- | --- | --- | --- |
+| `tool.SpecProvider` | `IToolSpecProvider` | parity | P1 |
 | `toolcall.ParseToolCall` | `ToolCallParser.Parse` | partial | P1 |
 | `toolcall.StripToolCallMarkup` | `ToolCallParser.StripMarkup` | partial | P1 |
 | `toolcall.ParseInputJSON` | `ToolCallParser.ParseInputJson` | partial | P1 |

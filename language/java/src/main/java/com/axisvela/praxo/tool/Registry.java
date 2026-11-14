@@ -3,6 +3,7 @@ package com.axisvela.praxo.tool;
 import com.axisvela.praxo.PraxoException;
 import com.axisvela.praxo.model.ToolSpec;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.LinkedHashMap;
@@ -27,10 +28,23 @@ public final class Registry {
     public synchronized List<ToolSpec> specs() {
         List<ToolSpec> out = new ArrayList<>();
         for (Tool tool : tools.values()) {
-            out.add(new ToolSpec(tool.name(), tool.description()));
+            out.add(specOf(tool));
         }
         out.sort(Comparator.comparing(ToolSpec::name));
         return out;
+    }
+
+    private static ToolSpec specOf(Tool tool) {
+        try {
+            Method method = tool.getClass().getMethod("spec");
+            Object value = method.invoke(tool);
+            if (value instanceof ToolSpec spec) {
+                return spec;
+            }
+        } catch (ReflectiveOperationException | RuntimeException ignored) {
+            // A tool without a spec() method uses the default name/description.
+        }
+        return new ToolSpec(tool.name(), tool.description());
     }
 
     public synchronized int size() {

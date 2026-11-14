@@ -43,3 +43,4 @@ language/delphi/*.o
 bindings/powershell/praxo-core-ps-br/bin/
 language/swift/.build/
 language/swift/.swiftpm/
+language/rust/examples/*/Cargo.lock

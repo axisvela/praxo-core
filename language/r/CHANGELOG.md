@@ -1,5 +1,14 @@
 # R Core Release Notes
 
+## Unreleased
+
+### Added
+
+- `agent_run` accepts `session` or `messages` for multi-turn history and returns
+  the updated `messages` in its result.
+- Consumer starter (`examples/consumer`) and OpenAI-compatible live-model
+  example (`examples/live-model`).
+
 ## 0.9.0 - 2026-11-13
 
 Source tag `r/v0.9.0`.

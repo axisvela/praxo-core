@@ -1,6 +1,6 @@
 # Provider Fallback
 
-This example uses published NuGet `Praxo.Core==0.6.0` to fall back to a second
+This example uses published NuGet `Praxo.Core==0.8.0` to fall back to a second
 model when the primary model call fails.
 
 `AgentOptions.FallbackModel` installs a model middleware. The fallback is used

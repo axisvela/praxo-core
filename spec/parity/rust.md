@@ -12,6 +12,7 @@
 | `model.Usage` | `model::Usage` | parity | P1 |
 | `tool.Tool` | `tool::Tool` | parity | P1 |
 | `tool.Registry` | `tool::Registry` | parity | P1 |
+| `tool.SpecProvider` | not exposed by `tool::Tool` | planned | P1 |
 | `tool.Gateway` | `tool::Gateway` | parity | P1 |
 | `tool.GatewayInfo` | `tool::GatewayInfo` | parity | P1 |
 | `tool.GatewayTool` | `tool::GatewayTool` | parity | P1 |

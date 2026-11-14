@@ -12,11 +12,13 @@ our @EXPORT_OK = qw(run_agent);
 package Praxo::Agent::FuncTool;
 
 sub new {
-    my ($class, $name, $description, $function) = @_;
+    my ($class, $name, $description, $function, $parameters, $risk) = @_;
     return bless {
         name => $name // '',
         description => $description // '',
         function => $function,
+        parameters => $parameters,
+        risk => $risk,
     }, $class;
 }
 
@@ -48,9 +50,21 @@ sub get {
 sub specs {
     my ($self) = @_;
     my @specs = map {
+        my $name = ref($_) ? $_->name : $_->{name};
+        my $description = ref($_) ? $_->description : $_->{description};
+        my ($parameters, $risk);
+        if (ref($_) && ref($_) ne 'HASH') {
+            $parameters = $_->can('parameters') ? $_->parameters : $_->{parameters};
+            $risk = $_->can('risk') ? $_->risk : $_->{risk};
+        } else {
+            $parameters = $_->{parameters};
+            $risk = $_->{risk};
+        }
         Praxo::Models::tool_spec(
-            name => (ref($_) ? $_->name : $_->{name}),
-            description => (ref($_) ? $_->description : $_->{description}),
+            name => $name,
+            description => $description,
+            parameters => $parameters,
+            risk => $risk,
         )
     } values %{ $self->{tools} };
     return [ sort { $a->{name} cmp $b->{name} } @specs ];

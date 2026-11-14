@@ -19,7 +19,47 @@ PY_REQ = re.compile(r"^praxo-core==(\d+\.\d+\.\d+)\s*$", re.MULTILINE)
 RUBY_GEM = re.compile(r"gem\s+['\"]praxo-core['\"]\s*,\s*['\"]([^'\"]+)['\"]")
 ELIXIR_DEP = re.compile(r"\{:praxo_core,\s*\"~>\s*([0-9.]+)\"")
 LUA_README = re.compile(r"LuaRocks\s+`praxo-core`\s+`([^`]+)`")
+PY_README = re.compile(r"praxo-core==([0-9]+\.[0-9]+\.[0-9]+)")
+PY_TEST = re.compile(r'distribution\.version,\s*"([^"]+)"')
+TS_README = re.compile(r"@axisvela/praxo-core@([0-9]+\.[0-9]+\.[0-9]+)")
+TS_TEST = re.compile(r'PRAXO_EXPECTED_VERSION\s*\|\|\s*"([^"]+)"')
+JAVA_README = re.compile(r"com\.axisvela:praxo-core:([0-9]+\.[0-9]+\.[0-9]+)")
+JAVA_TEST = re.compile(r'assertEquals\("([^"]+)",\s*Version\.SDK_VERSION\)')
+JAVA_JAR = re.compile(r"praxo-core-([0-9]+\.[0-9]+\.[0-9]+)\.jar")
+CS_PACKAGE = re.compile(r'Praxo\.Core"\s+Version="([^"]+)"')
+CS_README = re.compile(r"Praxo\.Core==([0-9]+\.[0-9]+\.[0-9]+)")
+RUST_CARGO = re.compile(r'praxo-core\s*=\s*"([^"]+)"')
+RUST_README = re.compile(r"praxo-core@([0-9]+\.[0-9]+\.[0-9]+)")
 POM_NS = {"m": "http://maven.apache.org/POM/4.0.0"}
+
+
+def _check_version(
+    path: Path, pattern: re.Pattern[str], expected: str, label: str, errors: list[str]
+) -> None:
+    try:
+        text = path.read_text(encoding="utf-8")
+    except OSError:
+        errors.append(f"{label}: missing file {path}")
+        return
+    match = pattern.search(text)
+    if match is None:
+        errors.append(f"{label}: missing version pin")
+    elif match.group(1) != expected:
+        errors.append(f"{label}: {match.group(1)!r} != map {expected!r}")
+
+
+def _registry_versions(root: Path) -> dict[str, str]:
+    try:
+        data = json.loads(
+            (root / "language" / "registry-metadata.json").read_text(encoding="utf-8")
+        )
+    except (OSError, json.JSONDecodeError):
+        return {}
+    return {
+        name: entry.get("published_version", "")
+        for name, entry in data.items()
+        if isinstance(entry, dict)
+    }
 
 
 def recommended(root: Path) -> dict[str, str]:
@@ -103,6 +143,109 @@ def validate(root: Path) -> list[str]:
         errors.append("consumer-lua/README.md: missing praxo-core version")
     elif match.group(1) != expected.get("Lua"):
         errors.append(f"consumer-lua: {match.group(1)!r} != map {expected.get('Lua')!r}")
+
+    if expected.get("Python"):
+        _check_version(
+            root / "language/python/examples/consumer/README.md",
+            PY_README,
+            expected["Python"],
+            "consumer-python/README.md",
+            errors,
+        )
+        _check_version(
+            root / "language/python/examples/consumer/test_starter.py",
+            PY_TEST,
+            expected["Python"],
+            "consumer-python/test_starter.py",
+            errors,
+        )
+        _check_version(
+            root / "language/python/examples/README.md",
+            PY_README,
+            expected["Python"],
+            "language/python/examples/README.md",
+            errors,
+        )
+
+    if expected.get("TypeScript"):
+        _check_version(
+            root / "language/typescript/examples/consumer/README.md",
+            TS_README,
+            expected["TypeScript"],
+            "consumer-typescript/README.md",
+            errors,
+        )
+        _check_version(
+            root / "language/typescript/examples/consumer/test_starter.test.js",
+            TS_TEST,
+            expected["TypeScript"],
+            "consumer-typescript/test_starter.test.js",
+            errors,
+        )
+        _check_version(
+            root / "language/typescript/examples/README.md",
+            TS_README,
+            expected["TypeScript"],
+            "language/typescript/examples/README.md",
+            errors,
+        )
+
+    if expected.get("Java"):
+        _check_version(
+            root / "language/java/examples/consumer/README.md",
+            JAVA_README,
+            expected["Java"],
+            "consumer-java/README.md",
+            errors,
+        )
+        _check_version(
+            root / "language/java/examples/consumer/src/test/java/starter/AppTest.java",
+            JAVA_TEST,
+            expected["Java"],
+            "consumer-java/AppTest.java SDK version",
+            errors,
+        )
+        _check_version(
+            root / "language/java/examples/consumer/src/test/java/starter/AppTest.java",
+            JAVA_JAR,
+            expected["Java"],
+            "consumer-java/AppTest.java jar name",
+            errors,
+        )
+        _check_version(
+            root / "language/java/examples/README.md",
+            JAVA_README,
+            expected["Java"],
+            "language/java/examples/README.md",
+            errors,
+        )
+
+    registry = _registry_versions(root)
+    csharp_version = registry.get("C#")
+    if csharp_version:
+        for path in sorted((root / "language/csharp/examples").glob("*/*.csproj")):
+            _check_version(
+                path, CS_PACKAGE, csharp_version, path.relative_to(root).as_posix(), errors
+            )
+        for path in sorted((root / "language/csharp/examples").glob("*/README.md")):
+            _check_version(
+                path, CS_README, csharp_version, path.relative_to(root).as_posix(), errors
+            )
+
+    rust_version = registry.get("Rust")
+    if rust_version:
+        for path in sorted((root / "language/rust/examples").glob("*/Cargo.toml")):
+            if path.parent.name == "live-model":
+                continue
+            _check_version(
+                path, RUST_CARGO, rust_version, path.relative_to(root).as_posix(), errors
+            )
+        for path in sorted((root / "language/rust/examples").glob("*/README.md")):
+            if path.parent.name == "live-model":
+                continue
+            _check_version(
+                path, RUST_README, rust_version, path.relative_to(root).as_posix(), errors
+            )
 
     return errors
 

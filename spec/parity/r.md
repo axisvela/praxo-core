@@ -15,6 +15,7 @@ behavior and common path but not every optional Go hook or provider adapter.
 | `model.Usage` | `usage` | parity | P1 |
 | `tool.Tool` | `tool_spec` | partial | P1 |
 | `tool.Registry` | `agent_run` | partial | P1 |
+| `tool.SpecProvider` | `tool_spec` parameters | parity | P1 |
 | `event.Event` | `event` | parity | P1 |
 | `event.Sink` | `sink_emit` | partial | P1 |
 | `policy.Decision` | `path_check` | partial | P1 |
@@ -27,6 +28,8 @@ behavior and common path but not every optional Go hook or provider adapter.
 | `agent.Agent` | `agent_run` | parity | P1 |
 | `agent.Options` | `agent_run` | partial | P1 |
 | `agent.New` | `agent_run` | parity | P1 |
+| `agent/types.Session` | `session` | parity | P1 |
+| `agent/types.SessionStore` | not implemented | planned | P2 |
 | `agent/stream.StreamPart` | `stream_kinds` | partial | P1 |
 | `toolcall.ParseToolCall` | `toolcall_parse` | parity | P1 |
 | `toolcall.StripToolCallMarkup` | `toolcall_strip` | parity | P1 |

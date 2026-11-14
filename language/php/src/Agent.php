@@ -79,7 +79,17 @@ final class ToolRegistry
     public function specs(): array
     {
         $specs = array_map(
-            static fn (Tool $tool): ToolSpec => new ToolSpec($tool->name(), $tool->description()),
+            static function (Tool $tool): ToolSpec {
+                if (method_exists($tool, 'spec')) {
+                    return $tool->spec();
+                }
+                return new ToolSpec(
+                    $tool->name(),
+                    $tool->description(),
+                    property_exists($tool, 'parameters') ? $tool->parameters : null,
+                    property_exists($tool, 'risk') ? $tool->risk : null,
+                );
+            },
             array_values($this->tools),
         );
         usort($specs, static fn (ToolSpec $left, ToolSpec $right): int => strcmp($left->name, $right->name));

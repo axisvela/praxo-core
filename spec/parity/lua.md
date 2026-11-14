@@ -16,6 +16,7 @@ adapter.
 | `model.Usage` | `models.usage` | parity | P1 |
 | `tool.Tool` | `agent.func_tool` | parity | P1 |
 | `tool.Registry` | `agent.tool_registry` | parity | P1 |
+| `tool.SpecProvider` | `agent.func_tool` parameters/risk or `spec` | parity | P1 |
 | `event.Event` | `models.event` | parity | P1 |
 | `event.Sink` | `runtime.multi_sink` | partial | P1 |
 | `policy.Decision` | `models.decision` | parity | P1 |

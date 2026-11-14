@@ -4,7 +4,7 @@
 
 Source tag `r/v0.9.0` maps to package `praxocore` version `0.9.0`. The package
 is indexed by r-universe at <https://axisvela.r-universe.dev/praxocore>; the
-current r-universe build is `0.7.1`. CRAN publication is not yet claimed.
+current r-universe build is `0.9.0`. CRAN publication is not yet claimed.
 
 ## Build
 

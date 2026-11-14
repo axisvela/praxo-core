@@ -83,10 +83,21 @@ class Registry:
             raise ToolNotFoundError(f"tool not found: {name}") from exc
 
     def specs(self) -> list[ToolSpec]:
-        return [
-            ToolSpec(name=tool.name, description=tool.description)
-            for tool in sorted(self._tools.values(), key=lambda item: item.name)
-        ]
+        specs: list[ToolSpec] = []
+        for tool in sorted(self._tools.values(), key=lambda item: item.name):
+            spec = getattr(tool, "spec", None)
+            if callable(spec):
+                specs.append(spec())
+                continue
+            specs.append(
+                ToolSpec(
+                    name=tool.name,
+                    description=tool.description,
+                    parameters=getattr(tool, "parameters", None),
+                    risk=getattr(tool, "risk", None),
+                )
+            )
+        return specs
 
     def __len__(self) -> int:
         return len(self._tools)

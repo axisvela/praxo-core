@@ -1,9 +1,9 @@
 # 注册表发布状态
 
-最后核对：2026-11-13（Python 0.6.0、TypeScript 0.5.0、Java 0.7.0、Rust 0.6.0、
-C# 0.6.0、Elixir 0.8.0、Erlang 0.7.1、Ruby 0.7.0、Dart 0.4.0、Perl 0.4.0、
-Haskell 0.5.0、PowerShell 0.5.3、R 0.7.1 已发布；Go `v2.7.0` 保持当前；
-其他行来自 2026-11-04/05 审计）。
+最后核对：2026-11-14（Python 0.6.0、TypeScript 0.5.0、Java 0.7.0、Rust 0.6.0、
+C# 0.6.0、Elixir 0.8.0、Erlang 0.7.1、Ruby 0.7.0、PHP 0.7.0、Dart 0.4.0、
+Perl 0.4.0、Haskell 0.5.0、PowerShell 0.5.3、R 0.9.0 已发布；Go `v2.7.0`
+保持当前；其他行来自 2026-11-04/05 审计）。
 
 本页汇总各语言实现当前发布到哪里。源码标签、包注册表版本、一致性测试和生产验证是
 不同层面的声明。注册表版本不代表完整 Go 功能对齐或生产就绪。
@@ -32,7 +32,7 @@ GitHub Latest 仅代表 Go 参考 Core，不代表最近发布的语言包。
 | Erlang | Hex | `0.7.1` | https://hex.pm/packages/praxo_core_erlang/0.7.1 | 已发布 |
 | Ruby | RubyGems | `0.7.0` | https://rubygems.org/gems/praxo-core/versions/0.7.0 | 已发布；Ruby 源码仓库为 `axisvela/praxo-core-ruby` |
 | Lua | LuaRocks | `0.6.0-1` | https://luarocks.org/modules/hanhhuiwen/praxo-core | 已发布 |
-| PHP | Packagist | `0.4.1` | https://packagist.org/packages/axisvela/praxo-core | 已发布；源码标签 `php/v0.7.0` 更新 |
+| PHP | Packagist | `0.7.0` | https://packagist.org/packages/axisvela/praxo-core | 已发布 |
 | Dart | pub.dev | `0.4.0` | https://pub.dev/packages/praxo_core/versions/0.4.0 | 已发布 |
 | D | DUB | `0.1.0` | https://code.dlang.org/packages/praxo-core | 已发布 |
 | Swift | Swift Package Index | `0.4.0` | https://swiftpackageindex.com/axisvela/praxo-core-swift | 已发布；源码 `0.5.0` 已准备 |
@@ -41,7 +41,7 @@ GitHub Latest 仅代表 Go 参考 Core，不代表最近发布的语言包。
 | PowerShell Bridge | PowerShell Gallery | `0.1.0` | https://www.powershellgallery.com/packages/praxo-core-ps-br/0.1.0 | 已发布 |
 | Perl | CPAN | `0.4.0` | https://metacpan.org/dist/Praxo-Core | 已发布并在 MetaCPAN 建立索引 |
 | Haskell | Hackage | `0.5.0` | https://hackage.haskell.org/package/praxo-core-0.5.0 | 已发布 |
-| R | r-universe | `0.7.1` | https://axisvela.r-universe.dev/praxocore | 仅 r-universe；未发布 CRAN |
+| R | r-universe | `0.9.0` | https://axisvela.r-universe.dev/praxocore | 已在 r-universe 发布；未发布 CRAN |
 | Nim | nim-lang/packages（Nimble） | `0.1.1` | https://github.com/axisvela/praxo-core-nim | split repo 已发布；nim-lang/packages PR #3600 已于 2026-11-05 合并；安装 smoke 未记录；nimpkgs 待重新抓取 |
 
 ## 已上传或等待索引

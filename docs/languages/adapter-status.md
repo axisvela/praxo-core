@@ -22,7 +22,7 @@ Status words:
 | Python | native | `praxo.adapters.openaicompat` |
 | TypeScript | native | `src/adapters/openaicompat.ts` |
 | Java | native | `adapters.OpenAICompatibleModel` |
-| Rust | native | `openai_compat` |
+| Rust | native | `openai_compat::OpenAICompatible` behind optional `http-ureq`; `parse_stream` always available |
 | C# | native | `Praxo.Core.OpenAiCompatible` |
 | Ruby | native | `Praxo::Adapters::OpenAICompatible` |
 | PHP | native | `Praxo\Core\Adapters\OpenAICompatible` |

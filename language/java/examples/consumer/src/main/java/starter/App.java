@@ -9,6 +9,7 @@ import com.axisvela.praxo.model.Model;
 import com.axisvela.praxo.model.Request;
 import com.axisvela.praxo.model.Response;
 import com.axisvela.praxo.model.ToolCall;
+import com.axisvela.praxo.model.ToolSpec;
 import com.axisvela.praxo.policy.Action;
 import com.axisvela.praxo.policy.Decision;
 import com.axisvela.praxo.tool.Registry;
@@ -57,6 +58,17 @@ public final class App {
         public Object invoke(Map<String, Object> args) {
             calls += 1;
             return "recorded";
+        }
+
+        public ToolSpec spec() {
+            return new ToolSpec(
+                    "record",
+                    description(),
+                    Map.of(
+                            "type", "object",
+                            "required", List.of("target"),
+                            "properties", Map.of("target", Map.of("type", "string"))),
+                    "write");
         }
 
         int calls() {

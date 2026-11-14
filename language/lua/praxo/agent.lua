@@ -5,8 +5,14 @@ local runtime = require("praxo.runtime")
 
 local M = {}
 
-function M.func_tool(name, description, func)
-  return { name = name, description = description, invoke = func }
+function M.func_tool(name, description, func, parameters, risk)
+  return {
+    name = name,
+    description = description,
+    invoke = func,
+    parameters = parameters,
+    risk = risk,
+  }
 end
 
 function M.tool_registry()
@@ -28,7 +34,16 @@ end
 function M.tool_specs(registry)
   local out = {}
   for _, tool in pairs(registry.tools) do
-    out[#out + 1] = models.tool_spec({ name = tool.name, description = tool.description })
+    if type(tool.spec) == "function" then
+      out[#out + 1] = tool.spec()
+    else
+      out[#out + 1] = models.tool_spec({
+        name = tool.name,
+        description = tool.description,
+        parameters = tool.parameters,
+        risk = tool.risk,
+      })
+    end
   end
   table.sort(out, function(a, b) return a.name < b.name end)
   return out

@@ -1,6 +1,6 @@
 # Checkpoint Store
 
-This example uses published NuGet `Praxo.Core==0.6.0` to keep checkpoint
+This example uses published NuGet `Praxo.Core==0.8.0` to keep checkpoint
 storage application-owned while using the SDK allowlist for payload encoding.
 
 `CheckpointAllowlist` accepts only registered payload types. The `MemoryStore`

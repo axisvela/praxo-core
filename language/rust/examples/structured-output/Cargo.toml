@@ -5,5 +5,5 @@ edition = "2021"
 publish = false
 
 [dependencies]
-praxo-core = "0.6.0"
+praxo-core = "0.8.0"
 serde_json = "1"

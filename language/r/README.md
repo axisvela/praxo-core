@@ -3,7 +3,7 @@
 R implementation of the PRAXO-CORE contract.
 
 - `SPEC_VERSION`: `0.2.0`
-- Core version: `0.6.1`
+- Core version: `0.9.0`
 - Tier: core
 - License: MIT
 - Dependencies: none (base R JSON parser/serializer)
@@ -19,11 +19,27 @@ R implementation of the PRAXO-CORE contract.
 
 ## Scope
 
-`0.6.1` implements all eleven conformance vector groups: tool-call parsing, JSON
+`0.9.0` implements all eleven conformance vector groups: tool-call parsing, JSON
 Schema, plugin manifests, memory, events, stream kinds, checkpoint envelopes,
 path policy, context budgets, middleware, the agent loop, and human-in-the-loop
 interrupt decisions. OpenAI-compatible, Harmovela, and stdio MCP adapters are
 included.
+
+## Quickstart
+
+```r
+model <- function(request) response(message(roles$assistant, "hello"))
+result <- agent_run(model, "hi")
+cat(result$output)
+```
+
+Tools are ordinary lists with `name`, `description`, optional `parameters`, and
+an `invoke` function. Pass `session = session(id, messages = ...)` to continue a
+conversation; `result$messages` contains the updated history.
+
+See [`examples/consumer`](examples/consumer) for a deterministic allow/deny
+starter and [`examples/live-model`](examples/live-model) for an OpenAI-compatible
+endpoint.
 
 ## OpenAI-Compatible Adapter
 

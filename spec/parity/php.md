@@ -9,6 +9,7 @@ path, but not every optional Go hook or provider adapter.
 
 | Go symbol | PHP symbol | Status | Phase |
 | --- | --- | --- | --- |
+| `tool.SpecProvider` | tool `spec()` or `parameters`/`risk` | parity | P1 |
 | `toolcall.ParseToolCall` | `ToolCallParser::parse` | partial | P1 |
 | `toolcall.StripToolCallMarkup` | `ToolCallParser::stripMarkup` | partial | P1 |
 | `toolcall.ParseInputJSON` | `ToolCallParser::parseInputJson` | partial | P1 |

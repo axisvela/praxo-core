@@ -43,6 +43,7 @@ use Praxo\Core\RunState;
 use Praxo\Core\Session;
 use Praxo\Core\StaticModel;
 use Praxo\Core\StreamingModel;
+use Praxo\Core\Tool;
 use Praxo\Core\ToolCall;
 use Praxo\Core\ToolCallParser;
 use Praxo\Core\ToolRegistry;
@@ -59,6 +60,32 @@ final class ToolModel implements Model
             ]));
         }
         return new Response(Message::assistant('done'));
+    }
+}
+
+final class SchemaTool implements Tool
+{
+    public array $parameters = [
+        'type' => 'object',
+        'required' => ['target'],
+        'properties' => ['target' => ['type' => 'string']],
+    ];
+
+    public string $risk = 'write';
+
+    public function name(): string
+    {
+        return 'record';
+    }
+
+    public function description(): string
+    {
+        return 'Record a target.';
+    }
+
+    public function invoke(array $arguments): mixed
+    {
+        return 'recorded';
     }
 }
 
@@ -1164,6 +1191,14 @@ try {
     $invalid = $error;
 }
 check($invalid?->praxoCode === 'SUBAGENT_INVALID', 'delegation invalid');
+
+$schemaRegistry = new ToolRegistry();
+$schemaRegistry->register(new SchemaTool());
+$schemaSpec = $schemaRegistry->specs()[0];
+check(
+    $schemaSpec->parameters['required'] === ['target'] && $schemaSpec->risk === 'write',
+    'tool schema',
+);
 
 echo "PHP core tests passed ({$passed})\n";
 

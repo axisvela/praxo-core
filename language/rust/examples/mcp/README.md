@@ -1,6 +1,6 @@
 # MCP
 
-This example uses published crates.io `praxo-core@0.6.0` with an in-process
+This example uses published crates.io `praxo-core@0.8.0` with an in-process
 `McpHttpTransport`. It needs no server process and no network endpoint.
 
 The client performs the MCP initialize handshake, lists tools, calls `add`, and

@@ -19,11 +19,14 @@ async function main() {
   );
 
   const tools = new Registry();
-  tools.register(
-    new FuncTool("get_time", "Return the current time in ISO 8601 format.", () =>
-      new Date().toISOString()
-    )
+  const getTime = new FuncTool(
+    "get_time",
+    "Return the current time in ISO 8601 format.",
+    () => new Date().toISOString()
   );
+  getTime.parameters = { type: "object", properties: {} };
+  getTime.risk = "read";
+  tools.register(getTime);
 
   const policy = new FuncHook((action) => {
     if (action.kind === "model.generate") {

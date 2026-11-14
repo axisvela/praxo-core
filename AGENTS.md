@@ -70,6 +70,20 @@ this framework.
 
 ## Build And Test
 
+### Windows Java/Maven Agent Execution
+
+When an agent runs Java or Maven from a persistent shell, redirect stdin from
+`NUL`; otherwise the process can block waiting on an inherited console handle.
+For example:
+
+```powershell
+cmd /d /c "mvn -q -o -DskipTests test-compile < NUL"
+cmd /d /c "java -cp target/classes com.axisvela.praxo.conformance.Run < NUL"
+```
+
+In Python wrappers, use `stdin=subprocess.DEVNULL` with a timeout and captured
+output. This is an execution-environment note, not a product requirement.
+
 ```bash
 GOWORK=off go test ./...
 GOWORK=off go vet ./...

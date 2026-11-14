@@ -16,17 +16,18 @@ Those directories are included in the dedicated language mirrors.
 - Ollama running locally, or another OpenAI-compatible endpoint.
 - No PRAXO-CORE source checkout is required.
 
-Install a model for Ollama:
+Install a model for Ollama. `qwen3.5:4b` is a good small local option; any
+OpenAI-compatible model name served by your endpoint also works:
 
 ```bash
-ollama pull llama3.2
+ollama pull qwen3.5:4b
 ```
 
 Configure the endpoint:
 
 ```bash
 export PRAXO_BASE_URL=http://localhost:11434/v1
-export PRAXO_MODEL=llama3.2
+export PRAXO_MODEL=qwen3.5:4b
 # export PRAXO_API_KEY=...   # only for hosted endpoints
 ```
 
@@ -34,8 +35,11 @@ On PowerShell:
 
 ```powershell
 $env:PRAXO_BASE_URL = "http://localhost:11434/v1"
-$env:PRAXO_MODEL = "llama3.2"
+$env:PRAXO_MODEL = "qwen3.5:4b"
 ```
+
+If `qwen3.5:4b` is not available in your Ollama installation, use another
+installed model such as `llama3.2` and set `PRAXO_MODEL` accordingly.
 
 ## Run by Language
 
@@ -45,9 +49,13 @@ $env:PRAXO_MODEL = "llama3.2"
 | Python | PyPI `praxo-core==0.7.0` | `cd language/python/examples/live-model; python -m venv .venv; .venv/bin/python -m pip install -r requirements.txt; .venv/bin/python live_starter.py` |
 | TypeScript | npm `@axisvela/praxo-core@0.6.0` | `cd language/typescript/examples/live-model; npm install; npm start` |
 | Java | Maven `com.axisvela:praxo-core:0.9.0` | `cd language/java/examples/live-model; mvn -q compile exec:java` |
+| C# | NuGet `Praxo.Core==0.8.0` | `cd language/csharp/examples/live-model; dotnet run` |
+| Rust | source with `http-ureq` | `cd language/rust/examples/live-model; cargo run` |
+| R | r-universe `praxocore==0.9.0` | `cd language/r/examples/live-model; Rscript live.R` |
 
-Each project imports a published package. The Go example does not use a module
-replacement, and the other examples do not use a repository path dependency.
+The Go, Python, TypeScript, Java, C#, and R examples import a published package.
+The Rust example uses the repository source with the optional `http-ureq` feature
+until the next Rust release; it does not use a published crate feature.
 
 Python `0.7.0`, TypeScript `0.6.0`, and Java `0.9.0` include the OpenAI
 tool-wire fix for tool-result follow-ups.

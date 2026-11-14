@@ -31,11 +31,14 @@ authorization configuration.
 ## Run with Ollama
 
 ```bash
-ollama pull llama3.2
+ollama pull qwen3.5:4b
 export PRAXO_BASE_URL=http://localhost:11434/v1
-export PRAXO_MODEL=llama3.2
+export PRAXO_MODEL=qwen3.5:4b
 GOWORK=off go run ./examples/quickstart
 ```
+
+If `qwen3.5:4b` is not available in your Ollama installation, use another
+installed model such as `llama3.2` and set `PRAXO_MODEL` accordingly.
 
 ## Run with a hosted endpoint
 

@@ -36,7 +36,16 @@ module Praxo
 
       def specs
         @tools.values.map do |tool|
-          Models.tool_spec(name: tool.name, description: tool.description)
+          if tool.respond_to?(:spec)
+            tool.spec
+          else
+            Models.tool_spec(
+              name: tool.name,
+              description: tool.description,
+              parameters: tool.respond_to?(:parameters) ? tool.parameters : nil,
+              risk: tool.respond_to?(:risk) ? tool.risk : nil
+            )
+          end
         end.sort_by(&:name)
       end
     end

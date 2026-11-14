@@ -738,4 +738,14 @@ end, request)
 check(failed.status == "failed" and string.find(failed.error, "boom", 1, true) ~= nil,
       "delegation failed")
 
+local schema_registry = agent.tool_registry()
+agent.register_tool(schema_registry, agent.func_tool(
+  "record", "Record a target.", function(_arguments) return "recorded" end,
+  { type = "object", required = { "target" }, properties = { target = { type = "string" } } },
+  "write"
+))
+local schema_spec = agent.tool_specs(schema_registry)[1]
+check(schema_spec.parameters.required[1] == "target" and schema_spec.risk == "write",
+      "tool schema")
+
 print("lua core tests passed")

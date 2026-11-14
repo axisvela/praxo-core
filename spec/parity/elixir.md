@@ -28,6 +28,7 @@ middleware commit. Toolchain and check instructions are recorded in
 | `model.Usage` | `Praxo.Usage` | parity | P1 |
 | `tool.Tool` | `Praxo.Tool` | parity | P1 |
 | `tool.Registry` | `Praxo.AgentOptions` | partial | P1 |
+| `tool.SpecProvider` | tool `parameters` | parity | P1 |
 | `event.Event` | `Praxo.Event` | parity | P1 |
 | `event.Sink` | `Praxo.Sink` | parity | P1 |
 | `policy.Decision` | `Praxo.Decision` | parity | P1 |

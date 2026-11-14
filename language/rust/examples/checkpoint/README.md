@@ -1,6 +1,6 @@
 # Checkpoint Store
 
-This example uses published crates.io `praxo-core@0.6.0` to keep checkpoint
+This example uses published crates.io `praxo-core@0.8.0` to keep checkpoint
 storage application-owned while using the SDK allowlist for payload encoding.
 
 `Allowlist` marshals and unmarshals only registered payload types. The

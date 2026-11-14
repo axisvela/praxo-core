@@ -1077,4 +1077,20 @@ update_queue << true
 check(update_manager.wait(update_task.id, 2).status == 'completed',
       'delegation update completed')
 
+schema_registry = Praxo::Agent::ToolRegistry.new
+schema_registry.register(Class.new do
+  def name = 'record'
+  def description = 'Record a target.'
+  def risk = 'write'
+  def parameters = {
+    'type' => 'object',
+    'required' => ['target'],
+    'properties' => { 'target' => { 'type' => 'string' } }
+  }
+  def invoke(_arguments) = 'recorded'
+end.new)
+schema_spec = schema_registry.specs.first
+check(schema_spec.parameters['required'] == ['target'] && schema_spec.risk == 'write',
+      'tool schema')
+
 puts 'ruby core tests passed'

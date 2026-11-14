@@ -75,13 +75,13 @@ Bridge、Sample 描述运行时的接入方式，不证明其语言缺乏 Framew
 | Python | `python/v0.6.0` | PyPI `praxo-core==0.6.0` 已发布 | 发布工作流构建并 smoke 测试 `0.5.0`；发布后消费者检查仅记录 `0.4.1` |
 | TypeScript | `typescript/v0.5.0` | npm `@axisvela/praxo-core@0.5.0` 已作为 `latest` 发布 | 发布工作流构建并消费 `0.4.1` tarball；发布后消费者 starter 检查记录 `0.3.0` |
 | Java | `java/v0.7.1` | Maven Central `com.axisvela:praxo-core:0.7.0` 已发布 | Central 已校验并发布 `0.6.0`；`0.7.0` 发布后消费者检查未重跑 |
-| Rust | `rust/v0.6.0` | crates.io `praxo-core==0.6.0` 已发布；`0.1.4` 为历史版本 | 仅记录 `0.1.4`；`0.6.0` 未重跑 |
-| C# | `csharp/v0.6.0` | NuGet `Praxo.Core==0.6.0` 已发布 | 未记录 |
+| Rust | `rust/v0.8.0` | crates.io `praxo-core==0.8.0` 已发布；`0.1.4` 为历史版本 | Consumer starter 已针对发布 `0.8.0` 本地运行；`http-ureq` live 路径仍为源码模式 |
+| C# | `csharp/v0.8.0` | NuGet `Praxo.Core==0.8.0` 已发布 | Consumer starter 已针对发布 `0.8.0` 本地运行 |
 | Elixir | `elixir/v0.8.0` | Hex `praxo_core==0.8.0` 已发布 | 已增加扩展 Starter；Hex `0.4.1` 在干净 Mix 项目中解析，allow/deny 本地通过 |
 | Erlang | `erlang/v0.7.1` | Hex `praxo_core_erlang==0.7.1` 已发布 | 历史 `0.1.1` smoke |
 | Ruby | `ruby/v0.7.0` | RubyGems `praxo-core==0.7.0` 已发布 | 已增加扩展 Starter；RubyGems `0.4.1` 已安装到干净 gem home，allow/deny 本地通过 |
 | Lua | `lua/v0.6.0` | LuaRocks `praxo-core==0.6.0-1` 已发布 | 已增加扩展 Starter；LuaRocks `0.4.1-1` 已安装到干净 tree，allow/deny 本地通过 |
-| PHP | `php/v0.7.0` | Packagist `axisvela/praxo-core==0.4.1` 已发布，包含 Composer `autoload.files`；`0.4.0`、`0.3.0`、`0.2.0` 为历史版本 | 已增加扩展 Starter；Composer 安装已发布 `0.4.1` 后 Starter 无桥接本地通过 |
+| PHP | `php/v0.7.0` | Packagist `axisvela/praxo-core==0.7.0` 已发布，包含 Composer `autoload.files`；`0.4.1`、`0.4.0`、`0.3.0`、`0.2.0` 为历史版本 | 已增加扩展 Starter；Composer 安装已发布 `0.4.1` 后 Starter 无桥接本地通过；`0.7.0` 安装 smoke 未重跑 |
 | Dart | `dart/v0.4.0` | pub.dev `praxo_core==0.4.0` | 已记录 `0.1.1`；`0.4.0` 安装 smoke 未记录 |
 | Julia | `julia/v0.5.0` | General Registry PR #174826 已创建；mirror `0.2.0` | 未记录 |
 | MATLAB | `matlab/v0.5.0` | MATLAB File Exchange `185166` 已发布（`0.3.0`） | 未记录 |
@@ -103,12 +103,12 @@ Bridge、Sample 描述运行时的接入方式，不证明其语言缺乏 Framew
 | Python | `0.7.0` | PyPI `0.6.0` | 源码已准备；最新标签和 registry 为 `0.6.0` |
 | TypeScript | `0.6.0` | npm `0.5.0` | 源码已准备；最新标签和 registry 为 `0.5.0` |
 | Java | `0.9.0` | Maven Central `0.7.0` | 源码已准备；最新源码标签为 `java/v0.7.1` |
-| Rust | `0.8.0` | crates.io `0.6.0` | 源码已准备；最新标签和 registry 为 `0.6.0` |
-| C# | `0.8.0` | NuGet `0.6.0` | 源码已准备；最新标签和 registry 为 `0.6.0` |
+| Rust | `0.8.0` | crates.io `0.8.0` | 已最新 |
+| C# | `0.8.0` | NuGet `0.8.0` | 已最新 |
 | Elixir | `0.8.0` | Hex `0.8.0` | 已最新 |
 | Erlang | `0.7.1` | Hex `0.7.1` | 已最新 |
 | Ruby | `0.7.0` | RubyGems `0.7.0` | 已最新 |
-| PHP | `0.7.0` | Packagist `0.4.1` | 注册表落后 |
+| PHP | `0.7.0` | Packagist `0.7.0` | 已最新 |
 | Lua | rockspec `0.6.0-1`；源码标签 `0.6.0` | LuaRocks `0.6.0-1` | 已最新 |
 | Dart | `0.4.0` | pub.dev `0.4.0` | 已最新 |
 | Julia | `0.5.0` | General Registry PR #176024 待合并 | 待完成 |
@@ -117,7 +117,7 @@ Bridge、Sample 描述运行时的接入方式，不证明其语言缺乏 Framew
 | Perl | `0.4.0` | CPAN `0.4.0` | 已最新 |
 | PowerShell | `0.5.3` | PowerShell Gallery `0.5.3` | 已最新 |
 | Haskell | `0.5.0` | Hackage `0.5.0` | 已最新 |
-| R | `0.7.1` | r-universe `0.7.1` | 已最新；未发布 CRAN |
+| R | `0.9.0` | r-universe `0.9.0` | r-universe 已最新；未发布 CRAN |
 | Nim | `0.4.0` | split 仓库包 `0.1.1` | 待完成 |
 | OCaml | `0.6.0` | opam registry `0.3.0` | 待完成 |
 | Swift | `0.5.0` | SPI `0.4.0` | 注册表落后 |

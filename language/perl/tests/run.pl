@@ -553,4 +553,20 @@ is(
     'delegate invalid',
 );
 
+my $schema_registry = Praxo::Agent::ToolRegistry->new;
+$schema_registry->register(Praxo::Agent::FuncTool->new(
+    'record',
+    'Record a target.',
+    sub { return 'recorded' },
+    {
+        type => 'object',
+        required => ['target'],
+        properties => { target => { type => 'string' } },
+    },
+    'write',
+));
+my $schema_spec = $schema_registry->specs->[0];
+is($schema_spec->{parameters}{required}[0], 'target', 'tool schema parameters');
+is($schema_spec->{risk}, 'write', 'tool schema risk');
+
 done_testing();

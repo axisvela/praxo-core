@@ -5,6 +5,7 @@ import com.axisvela.praxo.adapters.OpenAICompatibleModel;
 import com.axisvela.praxo.agent.Agent;
 import com.axisvela.praxo.agent.AgentOptions;
 import com.axisvela.praxo.agent.Session;
+import com.axisvela.praxo.model.ToolSpec;
 import com.axisvela.praxo.policy.Action;
 import com.axisvela.praxo.policy.Decision;
 import com.axisvela.praxo.tool.Registry;
@@ -32,6 +33,14 @@ public final class LiveApp {
         @Override
         public Object invoke(Map<String, Object> args) {
             return Instant.now().toString();
+        }
+
+        public ToolSpec spec() {
+            return new ToolSpec(
+                    "get_time",
+                    description(),
+                    Map.of("type", "object", "properties", Map.of()),
+                    "read");
         }
     }
 

@@ -15,7 +15,7 @@
 - Rust: `praxo-core` — [crates.io](https://crates.io/crates/praxo-core/0.8.0) — `0.8.0` — https://axisvela.github.io/praxo-core/languages/rust/
 - C#: `Praxo.Core` — [NuGet](https://www.nuget.org/packages/Praxo.Core/0.8.0) — `0.8.0` — https://axisvela.github.io/praxo-core/languages/csharp/
 - Ruby: `praxo-core` — [RubyGems](https://rubygems.org/gems/praxo-core/versions/0.7.0) — `0.7.0` — https://axisvela.github.io/praxo-core/languages/ruby/
-- PHP: `axisvela/praxo-core` — [Packagist](https://packagist.org/packages/axisvela/praxo-core) — `0.4.1` — https://axisvela.github.io/praxo-core/languages/php/
+- PHP: `axisvela/praxo-core` — [Packagist](https://packagist.org/packages/axisvela/praxo-core) — `0.7.0` — https://axisvela.github.io/praxo-core/languages/php/
 - Dart: `praxo_core` — [pub.dev](https://pub.dev/packages/praxo_core/versions/0.4.0) — `0.4.0` — https://axisvela.github.io/praxo-core/languages/dart/
 - Elixir: `praxo_core` — [Hex](https://hex.pm/packages/praxo_core) — `0.8.0` — https://axisvela.github.io/praxo-core/languages/elixir/
 - Erlang: `praxo_core_erlang` — [Hex](https://hex.pm/packages/praxo_core_erlang/0.7.1) — `0.7.1` — https://axisvela.github.io/praxo-core/languages/erlang/
@@ -29,7 +29,7 @@
 - V: `praxo-core` — [VPM (pending)](https://github.com/axisvela/praxo-core-v) — `0.1.2` — https://axisvela.github.io/praxo-core/languages/v/
 - D: `praxo-core` — [DUB](https://code.dlang.org/packages/praxo-core) — `0.1.0` — https://axisvela.github.io/praxo-core/languages/d/
 - PowerShell: `praxo-core-ps` — [PowerShell Gallery](https://www.powershellgallery.com/packages/praxo-core-ps/0.5.3) — `0.5.3` — https://axisvela.github.io/praxo-core/languages/powershell/
-- R: `praxocore` — [r-universe](https://axisvela.r-universe.dev/praxocore) — `0.7.1` — https://axisvela.github.io/praxo-core/languages/r/
+- R: `praxocore` — [r-universe](https://axisvela.r-universe.dev/praxocore) — `0.9.0` — https://axisvela.github.io/praxo-core/languages/r/
 - MATLAB: `PRAXO-CORE` — [MATLAB File Exchange](https://www.mathworks.com/matlabcentral/fileexchange/185166-praxo-core) — `0.3.0` — https://axisvela.github.io/praxo-core/languages/matlab/
 - GNU Octave: `praxo-core` — [Octave Packages](https://github.com/axisvela/praxo-core/releases/download/octave/v0.2.1/praxo-core-0.2.1.tar.gz) — `0.2.1` — https://axisvela.github.io/praxo-core/languages/octave/
 - Delphi / Free Pascal: `PRAXO-CORE` — [OPM / GitHub release](https://github.com/axisvela/praxo-core/releases/tag/delphi%2Fv0.2.1) — `0.2.1` — https://axisvela.github.io/praxo-core/languages/delphi/

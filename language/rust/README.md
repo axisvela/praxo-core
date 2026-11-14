@@ -12,9 +12,9 @@ reference implementation.
 **Status:** core. The package passes all eleven conformance vector groups.
 Context budgets, middleware, streaming callbacks, cancellation, bounded parallel
 tools, human-in-the-loop interrupt decisions, and the synchronous agent loop are
-included. A streaming SSE parser is
-included; an HTTP OpenAI-compatible client, VFS, and plugin hosts are not yet
-implemented.
+included. A streaming SSE parser is always available. An HTTP
+OpenAI-compatible client is available behind the optional `http-ureq` feature;
+VFS and plugin hosts are not yet implemented.
 
 The latest source tag and crates.io package are `rust/v0.8.0` and
 `praxo-core@0.8.0`. Supported contract:
@@ -37,6 +37,10 @@ cargo add praxo-core@0.8.0
 
 ## Runnable Examples
 
+- [`examples/consumer`](examples/consumer): published crates.io starter with
+  deterministic allow/deny checks.
+- [`examples/live-model`](examples/live-model): source-mode OpenAI-compatible
+  endpoint with the optional `http-ureq` feature.
 - [`examples/provider-fallback`](examples/provider-fallback): fallback model after
   a primary failure, with a deterministic check.
 - [`examples/event-sink`](examples/event-sink): lifecycle and tool events through
@@ -60,6 +64,8 @@ cargo add praxo-core@0.8.0
 
 - Rust 1.80 or newer
 - Python 3.10 or newer for the API gate (not a runtime dependency)
+- `http-ureq` is optional and adds the HTTP OpenAI-compatible client; the default
+  build remains dependency-light
 
 ## Build and test
 
@@ -94,6 +100,34 @@ let result = agent.run(&Session::new("session-1"), "hi")?;
 println!("{} {}", result.output, result.steps);
 ```
 
+## OpenAI-compatible HTTP client
+
+Enable the optional feature and use `OpenAICompatible::with_ureq`. The published
+`0.8.0` crate predates this feature; use the repository source until the next
+Rust release.
+
+```toml
+# Source checkout until the next Rust release.
+praxo-core = { path = "language/rust", features = ["http-ureq"] }
+```
+
+```rust
+use std::sync::Arc;
+use praxo_core::openai_compat::{OpenAICompatConfig, OpenAICompatible};
+
+let model = OpenAICompatible::with_ureq(OpenAICompatConfig {
+    base_url: "http://localhost:11434/v1".to_string(),
+    api_key: String::new(),
+    model: "qwen3.5:4b".to_string(),
+    timeout_secs: 120,
+});
+let agent = Agent::new(AgentOptions::new(Arc::new(model)))?;
+```
+
+The adapter maps `tool_calls`, `tool_call_id`, tool parameters, usage, and
+streaming content. Hosted HTTPS endpoints use the `native-tls` path enabled by
+`http-ureq`.
+
 ## Contract Surface
 
 | Module | Contract |
@@ -110,7 +144,7 @@ println!("{} {}", result.output, result.steps);
 | `toolcall` | tool-call parsing and markup stripping |
 | `jsonschema` | `Schema`, `from_json`, `validate` over the documented subset |
 | `plugin` | Manifest v1 parsing and validation |
-| `openaicompat` | OpenAI-compatible SSE stream parser |
+| `openaicompat` | SSE stream parser; `OpenAICompatible` HTTP client behind `http-ureq` |
 | `anthropic` | Anthropic Messages mapping with caller-supplied transport |
 | `gemini` | Gemini generateContent mapping with caller-supplied transport |
 | `harmovela` | Harmovela HTTP event sink and injectable transport |

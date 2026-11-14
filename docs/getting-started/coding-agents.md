@@ -13,6 +13,9 @@ language and run the verification commands.
 | Python | `praxo-core` | `0.7.0` | [Python consumer](consumer-python.md) |
 | TypeScript | `@axisvela/praxo-core` | `0.6.0` | [TypeScript consumer](consumer-typescript.md) |
 | Java | `com.axisvela:praxo-core` | `0.9.0` | [Java consumer](consumer-java.md) |
+| C# | `Praxo.Core` | `0.8.0` | [C# starter](https://github.com/axisvela/praxo-core/tree/main/language/csharp/examples/consumer) |
+| Rust | `praxo-core` | `0.8.0` | [Rust starter](https://github.com/axisvela/praxo-core/tree/main/language/rust/examples/consumer) |
+| R | `praxocore` | `0.9.0` | [R starter](https://github.com/axisvela/praxo-core/tree/main/language/r/examples/consumer) |
 
 The machine-readable map is
 [`agent-integration.json`](agent-integration.json). Re-check the registry before
@@ -45,8 +48,10 @@ discover, rank, or load this repository.
 
 ## Verify
 
-Run the language-specific commands from the starter directory. The four starters
-also include five governed negative checks; see each guide for exact commands.
+Run the language-specific commands from the starter directory. The Go, Python,
+TypeScript, and Java starters also include five governed negative checks; see
+each guide for exact commands. The C#, Rust, and R starters are deterministic
+allow/deny checks without the governed negative matrix.
 
 | Language | Verification |
 | --- | --- |
@@ -54,6 +59,9 @@ also include five governed negative checks; see each guide for exact commands.
 | Python | In a dedicated virtual environment: `python -I -m unittest discover -s . -v` |
 | TypeScript | `npm test` |
 | Java | `mvn -B test` |
+| C# | `dotnet run --project language/csharp/examples/consumer` |
+| Rust | `cargo run --manifest-path language/rust/examples/consumer/Cargo.toml` |
+| R | `Rscript language/r/examples/consumer/test_starter.R` |
 
 ## Do Not Infer
 

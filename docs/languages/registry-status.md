@@ -1,9 +1,9 @@
 # Registry Publication Status
 
 Last checked: 2026-11-14 (Python 0.7.0, TypeScript 0.6.0, Java 0.9.0, Rust
-0.8.0, C# 0.8.0, Elixir 0.8.0, Erlang 0.7.1, Ruby 0.7.0, Dart 0.4.0, Perl 0.4.0,
-Haskell 0.5.0, PowerShell 0.5.3, and R 0.7.1 published; Go `v2.7.0` remains
-current; other rows from the 2026-11-04/05 audit).
+0.8.0, C# 0.8.0, Elixir 0.8.0, Erlang 0.7.1, Ruby 0.7.0, PHP 0.7.0, Dart 0.4.0,
+Perl 0.4.0, Haskell 0.5.0, PowerShell 0.5.3, and R 0.9.0 published; Go `v2.7.0`
+remains current; other rows from the 2026-11-04/05 audit).
 
 This page summarizes where each language implementation is published. Source
 tags, package-registry versions, conformance, and production verification are
@@ -38,7 +38,7 @@ GitHub Latest represents the Go Reference Core only, not the last language packa
 | Erlang | Hex | `0.7.1` | https://hex.pm/packages/praxo_core_erlang/0.7.1 | published |
 | Ruby | RubyGems | `0.7.0` | https://rubygems.org/gems/praxo-core/versions/0.7.0 | published; Ruby source repo is `axisvela/praxo-core-ruby` |
 | Lua | LuaRocks | `0.6.0-1` | https://luarocks.org/modules/hanhhuiwen/praxo-core | published |
-| PHP | Packagist | `0.4.1` | https://packagist.org/packages/axisvela/praxo-core | split repo `v0.7.0` tagged; Packagist update pending |
+| PHP | Packagist | `0.7.0` | https://packagist.org/packages/axisvela/praxo-core | published |
 | Dart | pub.dev | `0.4.0` | https://pub.dev/packages/praxo_core/versions/0.4.0 | published |
 | D | DUB | `0.1.0` | https://code.dlang.org/packages/praxo-core | split repo `v0.4.0` tagged; DUB refresh pending |
 | Swift | Swift Package Index | `0.4.0` | https://swiftpackageindex.com/axisvela/praxo-core-swift | split repo `0.5.0` tagged; SPI PR #16032 pending |
@@ -47,7 +47,7 @@ GitHub Latest represents the Go Reference Core only, not the last language packa
 | PowerShell Bridge | PowerShell Gallery | `0.1.0` | https://www.powershellgallery.com/packages/praxo-core-ps-br/0.1.0 | published |
 | Perl | CPAN | `0.4.0` | https://metacpan.org/dist/Praxo-Core | published and indexed on MetaCPAN |
 | Haskell | Hackage | `0.5.0` | https://hackage.haskell.org/package/praxo-core-0.5.0 | published |
-| R | r-universe | `0.7.1` | https://axisvela.r-universe.dev/praxocore | r-universe only; source tag `r/v0.9.0`; rebuild pending; CRAN not published |
+| R | r-universe | `0.9.0` | https://axisvela.r-universe.dev/praxocore | published on r-universe; CRAN not published |
 | Nim | nim-lang/packages (Nimble) | `0.1.1` | https://github.com/axisvela/praxo-core-nim | split repo `v0.4.0` tagged; nim-lang/packages PR #3600 merged 2026-11-05; nimpkgs re-crawl pending |
 
 ## Uploaded or awaiting indexing

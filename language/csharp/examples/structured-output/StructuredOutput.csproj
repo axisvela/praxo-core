@@ -9,6 +9,6 @@
     <AssemblyName>Praxo.StructuredOutputExample</AssemblyName>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Praxo.Core" Version="0.6.0" />
+    <PackageReference Include="Praxo.Core" Version="0.8.0" />
   </ItemGroup>
 </Project>

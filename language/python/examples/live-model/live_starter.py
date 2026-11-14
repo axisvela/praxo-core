@@ -28,13 +28,14 @@ async def main() -> None:
     )
 
     tools = Registry()
-    tools.register(
-        FuncTool(
-            "get_time",
-            "Return the current UTC time in ISO 8601 format.",
-            lambda _args: datetime.now(timezone.utc).isoformat(),
-        )
+    get_time = FuncTool(
+        "get_time",
+        "Return the current UTC time in ISO 8601 format.",
+        lambda _args: datetime.now(timezone.utc).isoformat(),
     )
+    get_time.parameters = {"type": "object", "properties": {}}
+    get_time.risk = "read"
+    tools.register(get_time)
 
     agent = Agent(
         AgentOptions(
