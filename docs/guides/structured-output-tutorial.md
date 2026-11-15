@@ -120,6 +120,32 @@ The same pattern applies to the TypeScript, Java, C#, and Rust structured-output
 examples. A different language needs its own install command, executable
 example, and deterministic test before it counts as a complete path.
 
+## Prototype Walkthrough: TypeScript Structured-Output Processor
+
+1. Create an application directory and install the published package:
+
+```bash
+npm init -y
+npm install --save-exact @axisvela/praxo-core@0.7.0
+```
+
+2. Copy the schema, fixture model, policy, and `StructuredOutput` setup from
+   [`language/typescript/examples/structured-output`](https://github.com/axisvela/praxo-core/tree/main/language/typescript/examples/structured-output).
+
+3. Run the deterministic prototype:
+
+```bash
+npm start -- "Quarterly status: all checks green."
+npm test
+```
+
+4. The test must reject a response that omits `summary` or `tags`; do not treat
+   a parsed object as valid without schema validation.
+
+5. Replace the fixture model with `OpenAICompatibleModel` only after the
+   deterministic test passes. Keep the same schema, allowlist, and policy.
+   Record the package version, endpoint class, model name, and command output.
+
 ## Live Endpoint
 
 The runnable commands use an OpenAI-compatible endpoint:
