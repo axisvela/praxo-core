@@ -9,12 +9,12 @@ The normative contract is [`spec/`](../../spec/README.md); Go remains the
 reference implementation.
 
 - `SPEC_VERSION`: `0.2.0`
-- Core version: `0.4.1`
+- Core version: `0.8.1`
 - Tier: core
 - License: MIT
 - Dependencies: Ruby standard library only
 - Ruby source repository: https://github.com/axisvela/praxo-core-ruby
-- The latest RubyGems package is `praxo-core@0.4.1`
+- The latest RubyGems package is `praxo-core@0.8.1`
 
 ## Registry and Coding-Agent Entry
 

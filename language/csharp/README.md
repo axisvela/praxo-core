@@ -7,10 +7,10 @@ Schema validation, and plugin manifest parsing. It runs in-process and does not
 require a hosted service.
 
 - `SPEC_VERSION`: `0.2.0`
-- Source version: `0.9.0` (latest source tag `csharp/v0.9.1`)
+- Source version: `0.9.1` (latest source tag `csharp/v0.9.1`)
 - License: MIT
 - Dependencies: none beyond the .NET base class library
-- The latest NuGet package is `Praxo.Core@0.8.0`.
+- The latest NuGet package is `Praxo.Core@0.9.1`.
 
 ## Registry and Coding-Agent Entry
 
@@ -26,7 +26,7 @@ require a hosted service.
 Install the published package:
 
 ```bash
-dotnet add package Praxo.Core --version 0.9.0
+dotnet add package Praxo.Core --version 0.9.1
 ```
 
 Then run the smallest deterministic example:
@@ -61,7 +61,7 @@ Runnable examples live under [`language/csharp/examples`](https://github.com/axi
 ## Install
 
 ```bash
-dotnet add package Praxo.Core --version 0.9.0
+dotnet add package Praxo.Core --version 0.9.1
 ```
 
 ## Scope
