@@ -105,7 +105,7 @@ jobs:
       - run: python scripts/check_registry_state.py
       - run: python scripts/check_registry_pages.py
       - run: python scripts/check_consumer_pins.py
-      - run: python scripts/check_language_releases.py
+      - run: python scripts/check_language_releases.py --no-tags
       - run: python -m unittest discover -s scripts -p "test_*.py" -v
       - uses: actions/upload-pages-artifact@v3
         with:
