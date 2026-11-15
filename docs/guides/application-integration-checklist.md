@@ -3,6 +3,23 @@
 Use this checklist before embedding PRAXO-CORE in an application. Start with the
 risk tier that matches the work, not with the full repository test matrix.
 
+## Language Support
+
+- **Agent-capable Core:** Go, Python, TypeScript, Java, Rust, R, and C#. These
+  have a native agent loop and are the first choices for the same integration
+  path across the primary SDKs.
+- **Extended Core:** C, C++, PHP, Fortran, COBOL, Ruby, Elixir, Erlang, and Lua.
+  They provide the declared Core contract and runnable examples, but advanced
+  features and executable services may be narrower.
+- **Other declared implementations:** check the [language
+  matrix](../languages/matrix.md) and the per-language README before assuming an
+  example, adapter, or service shape is available.
+
+The example catalog covers thirty languages across thirteen themes, but that
+does not mean every example is an executable production service. Some are
+transport-neutral handlers, some use caller-supplied transports, and some are
+source-only. A Go example is not evidence that another SDK works unchanged.
+
 ## All Applications
 
 - Pin a published package version and record the upgrade path.
