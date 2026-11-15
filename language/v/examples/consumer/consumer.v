@@ -19,7 +19,7 @@ fn fixture_model(target string) &praxo.Model {
 }
 
 fn run_case(target string) (string, int, string) {
-	tool := praxo.func_tool('record', 'Record a target in an in-memory counter.')
+	mut tool := praxo.func_tool('record', 'Record a target in an in-memory counter.')
 	tool.invoke = fn (_arguments map[string]json2.Any) json2.Any {
 		return json2.Any('recorded')
 	}
@@ -49,9 +49,9 @@ fn main() {
 	}
 	println('allow: recorded; effects=1')
 
-	output, calls, failure = run_case('private')
-	if failure == '' || !failure.contains('denied') || calls != 0 {
-		eprintln('deny verification failed: output=${output} effects=${calls} error=${failure}')
+	denied_output, denied_calls, denied_failure := run_case('private')
+	if denied_failure == '' || !denied_failure.contains('denied') || denied_calls != 0 {
+		eprintln('deny verification failed: output=${denied_output} effects=${denied_calls} error=${denied_failure}')
 		exit(1)
 	}
 	println('deny: policy rejected; effects=0')

@@ -59,7 +59,7 @@ installed model such as `llama3.2` and set `PRAXO_MODEL` accordingly.
 | Lua | source | `lua language/lua/examples/live-model/live_starter.lua` |
 | OCaml | source, transport seam | `ocaml unix.cma language/ocaml/examples/live-model/live_model.ml` (supply a transport; see README) |
 | PowerShell | PowerShell `0.6.0` wrapper over C# Core `0.9.0` | `dotnet build language/csharp/Praxo.Core/Praxo.Core.csproj -c Release; pwsh -NoProfile -File language/powershell/examples/live-model/live_model.ps1` |
-| V | source | `v -path language/v language/v/examples/live-model/live_model.v` |
+| V | source | `v -path "language/v|@vlib|@vmodules" language/v/examples/live-model/live_model.v` |
 | Zig | source | build from README: `language/zig/examples/live-model/README.md` |
 
 The Go, Python, TypeScript, Java, C#, Rust, and R examples import a published

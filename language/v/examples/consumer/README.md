@@ -6,7 +6,7 @@ network connection, credentials, or a model service.
 From the repository root:
 
 ```bash
-v -path language/v language/v/examples/consumer/consumer.v
+v -path "language/v|@vlib|@vmodules" language/v/examples/consumer/consumer.v
 ```
 
 Expected output:

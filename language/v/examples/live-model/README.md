@@ -8,7 +8,7 @@ OpenAI-compatible endpoint and registers one low-risk `get_time` tool.
 From the repository root:
 
 ```bash
-v -path language/v language/v/examples/live-model/live_model.v
+v -path "language/v|@vlib|@vmodules" language/v/examples/live-model/live_model.v
 ```
 
 Environment:

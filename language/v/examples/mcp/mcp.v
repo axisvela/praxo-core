@@ -1,27 +1,17 @@
 module main
 
 import praxo
+import x.json2
 
 fn transport(method string, params map[string]json2.Any) !map[string]json2.Any {
 	if method == 'initialize' {
-		return {
-			'protocolVersion': json2.Any('2024-11-05')
-			'serverInfo':      json2.Any(map[string]json2.Any{'name': json2.Any('example-mcp')})
-		}
+		return json2.decode[map[string]json2.Any]('{"protocolVersion":"2024-11-05","serverInfo":{"name":"example-mcp"}}')!
 	}
 	if method == 'tools/list' {
-		schema := map[string]json2.Any{'type': json2.Any('object')}
-		return {
-			'tools': json2.Any([
-				map[string]json2.Any{'name': json2.Any('echo'), 'inputSchema': json2.Any(schema)}
-				map[string]json2.Any{'name': json2.Any('add'), 'inputSchema': json2.Any(schema)}
-			])
-		}
+		return json2.decode[map[string]json2.Any]('{"tools":[{"name":"echo","inputSchema":{"type":"object"}},{"name":"add","inputSchema":{"type":"object"}}]}')!
 	}
 	if method == 'tools/call' {
-		return {
-			'structuredContent': json2.Any(map[string]json2.Any{'sum': json2.Any(5)})
-		}
+		return json2.decode[map[string]json2.Any]('{"structuredContent":{"sum":5}}')!
 	}
 	return map[string]json2.Any{}
 }

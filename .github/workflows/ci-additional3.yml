@@ -138,15 +138,15 @@ jobs:
           echo "VROOT=$PWD/v" >> "$GITHUB_ENV"
           echo "$PWD/v" >> "$GITHUB_PATH"
       - run: v version
-      - run: v -path language/v language/v/examples/retry/retry.v
-      - run: v -path language/v language/v/examples/checkpoint/checkpoint.v
-      - run: v -path language/v language/v/examples/event-sink/event_sink.v
-      - run: v -path language/v language/v/examples/provider-fallback/fallback.v
-      - run: v -path language/v language/v/examples/structured-output/structured_output.v
-      - run: v -path language/v language/v/examples/streaming/streaming.v
-      - run: v -path language/v language/v/examples/identity-policy/identity_policy.v
-      - run: v -path language/v language/v/examples/service/service.v
-      - run: v -path language/v language/v/examples/mcp/mcp.v
+      - run: v -path "language/v|@vlib|@vmodules" language/v/examples/retry/retry.v
+      - run: v -path "language/v|@vlib|@vmodules" language/v/examples/checkpoint/checkpoint.v
+      - run: v -path "language/v|@vlib|@vmodules" language/v/examples/event-sink/event_sink.v
+      - run: v -path "language/v|@vlib|@vmodules" language/v/examples/provider-fallback/fallback.v
+      - run: v -path "language/v|@vlib|@vmodules" language/v/examples/structured-output/structured_output.v
+      - run: v -path "language/v|@vlib|@vmodules" language/v/examples/streaming/streaming.v
+      - run: v -path "language/v|@vlib|@vmodules" language/v/examples/identity-policy/identity_policy.v
+      - run: v -path "language/v|@vlib|@vmodules" language/v/examples/service/service.v
+      - run: v -path "language/v|@vlib|@vmodules" language/v/examples/mcp/mcp.v
 
   zig-examples:
     runs-on: ubuntu-latest
