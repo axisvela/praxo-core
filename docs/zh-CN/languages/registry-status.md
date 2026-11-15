@@ -34,8 +34,8 @@ GitHub Latest 仅代表 Go 参考 Core，不代表最近发布的语言包。
 | Lua | LuaRocks | `0.7.1-1` | https://luarocks.org/modules/hanhhuiwen/praxo-core | 已发布 |
 | PHP | Packagist | `0.8.1` | https://packagist.org/packages/axisvela/praxo-core | 已发布 |
 | Dart | pub.dev | `0.4.0` | https://pub.dev/packages/praxo_core/versions/0.4.0 | 已发布 |
-| D | DUB | `0.1.0` | https://code.dlang.org/packages/praxo-core | split 仓库 `v0.6.0` 已打 tag；DUB 刷新待完成 |
-| Swift | Swift Package Index | `0.4.0` | https://swiftpackageindex.com/axisvela/praxo-core-swift | split 仓库 `0.7.0` 已打 tag；SPI 更新待完成 |
+| D | DUB | `0.4.0` | https://code.dlang.org/packages/praxo-core | split 仓库 `v0.6.0` 已打 tag；DUB 刷新待完成 |
+| Swift | Swift Package Index | `0.6.0` | https://swiftpackageindex.com/axisvela/praxo-core-swift | split 仓库 `0.7.0` 已打 tag；SPI 更新待完成 |
 | MATLAB | MATLAB File Exchange | `0.3.0` | https://www.mathworks.com/matlabcentral/fileexchange/185166-praxo-core | 已发布 |
 | PowerShell Core | PowerShell Gallery | `0.7.0` | https://www.powershellgallery.com/packages/praxo-core-ps/0.7.0 | 已发布 |
 | PowerShell Bridge | PowerShell Gallery | `0.1.0` | https://www.powershellgallery.com/packages/praxo-core-ps-br/0.1.0 | 已发布 |

@@ -150,9 +150,9 @@ its latest version matches the manifest at the release tag.
 | R | `0.10.1` | r-universe `0.10.1` | current |
 | Nim | `0.6.0` | Split repository package `0.1.1` | pending |
 | OCaml | `0.8.0` | opam registry `0.3.0` | pending |
-| Swift | `0.7.0` | SPI `0.4.0` | registry behind |
+| Swift | `0.7.0` | SPI `0.6.0` | registry behind |
 | Delphi / Free Pascal | `0.7.0` | OPM `0.2.1` | pending |
-| D | `0.6.0` | DUB `0.1.0` | pending |
+| D | `0.6.0` | DUB `0.4.0` | pending |
 
 Do not install a source-tag-only language from a registry, and do not assume a
 registry package contains the source tag's latest behavior. The language page is

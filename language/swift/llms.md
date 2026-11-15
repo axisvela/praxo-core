@@ -9,8 +9,8 @@
 - package: `praxo-core-swift`
 - registry: [Swift Package Index](https://swiftpackageindex.com/axisvela/praxo-core-swift)
 - source_version: `0.7.0`
-- published_version: `0.4.0`
-- install_published: `.package(url: "https://github.com/axisvela/praxo-core-swift.git", from: "0.4.0")`
+- published_version: `0.6.0`
+- install_published: `.package(url: "https://github.com/axisvela/praxo-core-swift.git", from: "0.6.0")`
 - install_source: `.package(url: "https://github.com/axisvela/praxo-core-swift.git", from: "0.7.0")`
 - source_tag: `swift/v0.7.0`
 - tier: Core
