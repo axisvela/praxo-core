@@ -193,6 +193,10 @@ public sealed class PraxoHitlFixedDecision : IInterruptHandler
 
 public sealed class PraxoHitlPolicy : IPolicyHook
 {
+    public int AuthorizeCalls { get; private set; }
+
+    public string LastVisibility { get; private set; } = "";
+
     public Decision Authorize(Action action)
     {
         if (action.Kind == "model.generate")
@@ -202,6 +206,8 @@ public sealed class PraxoHitlPolicy : IPolicyHook
         if (action.Kind == "tool.invoke")
         {
             var visibility = action.Arguments?["visibility"]?.GetValue<string>();
+            AuthorizeCalls += 1;
+            LastVisibility = visibility ?? "";
             return action.ToolName == "write_note" && visibility == "public"
                 ? Decision.Allow("only public notes are permitted")
                 : Decision.Deny("only public notes are permitted");
@@ -226,7 +232,8 @@ function Invoke-HitlScenario {
     $options.Tools = $registry
     $options.MaxSteps = 3
     $options.AllowedTools.Add('write_note')
-    $options.Policy = [PraxoHitlPolicy]::new()
+    $policy = [PraxoHitlPolicy]::new()
+    $options.Policy = $policy
     Add-PraxoInterruptTool -Options $options -Name 'write_note' | Out-Null
     if ($null -ne $Decision) {
         $argText = if ($null -eq $Decision.Arguments) { '<null>' } else { $Decision.Arguments.ToJsonString() }
@@ -245,6 +252,8 @@ function Invoke-HitlScenario {
             Code = ''
             Effects = $tool.Calls
             Message = ''
+            AuthCalls = $policy.AuthorizeCalls
+            LastVisibility = $policy.LastVisibility
         }
     }
     catch [Praxo.Core.PraxoException] {
@@ -253,6 +262,8 @@ function Invoke-HitlScenario {
             Code = $_.Exception.Code
             Effects = $tool.Calls
             Message = $_.Exception.Message
+            AuthCalls = $policy.AuthorizeCalls
+            LastVisibility = $policy.LastVisibility
         }
     }
 }

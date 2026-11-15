@@ -71,6 +71,10 @@ public sealed class HitlFixedDecision : IInterruptHandler
 
 public sealed class HitlPublicPolicy : IPolicyHook
 {
+    public int AuthorizeCalls { get; private set; }
+
+    public string LastVisibility { get; private set; } = "";
+
     public Decision Authorize(Action action)
     {
         if (action.Kind == "model.generate")
@@ -80,6 +84,8 @@ public sealed class HitlPublicPolicy : IPolicyHook
         if (action.Kind == "tool.invoke")
         {
             var visibility = action.Arguments?["visibility"]?.GetValue<string>();
+            AuthorizeCalls += 1;
+            LastVisibility = visibility ?? "";
             return action.ToolName == "write_note" && visibility == "public"
                 ? Decision.Allow("only public notes are permitted")
                 : Decision.Deny("only public notes are permitted");
@@ -100,7 +106,8 @@ function Invoke-HitlScenario {
     $options.Tools = $registry
     $options.MaxSteps = 3
     $options.AllowedTools.Add('write_note')
-    $options.Policy = [HitlPublicPolicy]::new()
+    $policy = [HitlPublicPolicy]::new()
+    $options.Policy = $policy
     Add-PraxoInterruptTool -Options $options -Name 'write_note' | Out-Null
     $argText = if ($null -eq $Decision.Arguments) { '<null>' } else { $Decision.Arguments.ToJsonString() }
     [Console]::Error.WriteLine("DECISION action=$($Decision.Action) args=$argText")
@@ -110,7 +117,7 @@ function Invoke-HitlScenario {
     $session = New-PraxoSession -Id 'hitl'
     try {
         $result = Invoke-PraxoAgent -Agent $agent -Session $session -Prompt 'Write a note.'
-        [pscustomobject]@{ Output = $result.Output; Code = ''; Effects = $tool.Calls }
+        [pscustomobject]@{ Output = $result.Output; Code = ''; Effects = $tool.Calls; AuthCalls = $policy.AuthorizeCalls; LastVisibility = $policy.LastVisibility }
     }
     catch [Praxo.Core.PraxoException] {
         [pscustomobject]@{ Output = ''; Code = $_.Exception.Code; Effects = $tool.Calls }
@@ -131,7 +138,7 @@ $edit = Invoke-HitlScenario (New-PraxoInterruptDecision -Action 'edit' -Argument
 })
 if ($edit.Code -ne 'AGENT_POLICY_DENIED' -or $edit.Effects -ne 0) {
     [Console]::Error.WriteLine(
-        "edit scenario failed: effects=$($edit.Effects) error=$($edit.Code)")
+        "edit scenario failed: effects=$($edit.Effects) error=$($edit.Code) auth=$($edit.AuthCalls) last=$($edit.LastVisibility)")
     exit 1
 }
 Write-Output 'edit: policy rejected; effects=0'
