@@ -39,6 +39,7 @@ jobs:
       - run: pwsh -NoProfile -File language/powershell/examples/identity-policy/identity_policy.ps1
       - run: pwsh -NoProfile -File language/powershell/examples/service/service.ps1
       - run: pwsh -NoProfile -File language/powershell/examples/mcp/mcp.ps1
+      - run: pwsh -NoProfile -File language/powershell/examples/session-checkpoint/session_checkpoint.ps1
 
   matlab-examples:
     runs-on: ubuntu-latest

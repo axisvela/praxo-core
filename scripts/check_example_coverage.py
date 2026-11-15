@@ -39,8 +39,7 @@ NOT_APPLICABLE = {
         "ocaml", "powershell", "v", "zig",
     },
     "session-checkpoint": {
-        "delphi", "haskell", "julia", "matlab", "octave", "nim", "objc",
-        "ocaml", "powershell", "v", "zig",
+        "delphi", "matlab", "octave",
     },
 }
 GO_THEMES = {

@@ -7,6 +7,8 @@
 - [`identity-policy/`](identity-policy/): trusted principal binding and
   pre-effect denial.
 - [`checkpoint/`](checkpoint/): checkpoint allowlist round trip.
+- [`session-checkpoint/`](session-checkpoint/): multi-turn history recovery from
+  an in-memory checkpoint store.
 - [`event-sink/`](event-sink/): lifecycle and tool events.
 - [`provider-fallback/`](provider-fallback/): fallback after a primary model
   failure.

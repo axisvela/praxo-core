@@ -34,6 +34,7 @@ SOURCES = [
     "tests/otel.m",
     "tests/retriever.m",
     "tests/delegation.m",
+    "tests/session_checkpoint.m",
 ]
 
 

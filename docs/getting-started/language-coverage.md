@@ -18,7 +18,7 @@ provider endpoint.
 | HTTP service | 31 | `language/<language>/examples/service` |
 | MCP | 31 | `language/<language>/examples/mcp` |
 | HITL | 20 | `language/<language>/examples/hitl` |
-| Session checkpoint | 20 | `language/<language>/examples/session-checkpoint` |
+| Session checkpoint | 28 | `language/<language>/examples/session-checkpoint` |
 
 Go keeps its reference recipes and examples under `examples/`.
 
@@ -35,9 +35,10 @@ HITL is not part of the declared scope for Delphi, Haskell, Julia, MATLAB,
 Octave, Nim, Objective-C, OCaml, PowerShell, V, and Zig. Their `examples/hitl`
 entry is intentionally absent.
 
-Session checkpoint is not part of the declared scope for Delphi, Haskell, Julia,
-MATLAB, Octave, Nim, Objective-C, OCaml, PowerShell, V, and Zig. Their
-`examples/session-checkpoint` entry is intentionally absent.
+Session checkpoint is not part of the declared scope for Delphi, MATLAB, and
+Octave. Their `examples/session-checkpoint` entry is intentionally absent.
+Haskell, Julia, Nim, Objective-C, OCaml, PowerShell, V, and Zig provide the
+session-checkpoint example without HITL.
 
 The twenty languages with both themes are Go, Python, TypeScript, Java, Rust,
 C#, R, Ruby, PHP, C, C++, COBOL, Fortran, Elixir, Erlang, Lua, D, Dart, Perl,

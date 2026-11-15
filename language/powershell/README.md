@@ -48,6 +48,7 @@ Runnable examples live under [`language/powershell/examples`](https://github.com
 | Stream a response | [streaming](https://github.com/axisvela/praxo-core/tree/main/language/powershell/examples/streaming) |
 | Add identity and policy | [identity-policy](https://github.com/axisvela/praxo-core/tree/main/language/powershell/examples/identity-policy) |
 | Persist checkpoints | [checkpoint](https://github.com/axisvela/praxo-core/tree/main/language/powershell/examples/checkpoint) |
+| Resume a multi-turn session | [session-checkpoint](https://github.com/axisvela/praxo-core/tree/main/language/powershell/examples/session-checkpoint) |
 | Run behind HTTP | [service](https://github.com/axisvela/praxo-core/tree/main/language/powershell/examples/service) |
 | Retry transient failures | [retry](https://github.com/axisvela/praxo-core/tree/main/language/powershell/examples/retry) |
 | Add provider fallback | [provider-fallback](https://github.com/axisvela/praxo-core/tree/main/language/powershell/examples/provider-fallback) |

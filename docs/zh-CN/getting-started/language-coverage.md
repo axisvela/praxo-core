@@ -16,7 +16,7 @@
 | HTTP Service | 31 | `language/<language>/examples/service` |
 | MCP | 31 | `language/<language>/examples/mcp` |
 | HITL | 20 | `language/<language>/examples/hitl` |
-| Session Checkpoint | 20 | `language/<language>/examples/session-checkpoint` |
+| Session Checkpoint | 28 | `language/<language>/examples/session-checkpoint` |
 
 Go 的参考配方与示例保留在 `examples/`。
 
@@ -28,7 +28,7 @@ GNU Octave 复用 `language/matlab/examples/` 下的共享 MATLAB 示例；`matl
 
 HITL 不在以下语言的声明范围内：Delphi、Haskell、Julia、MATLAB、Octave、Nim、Objective-C、OCaml、PowerShell、V、Zig。对应 `examples/hitl` 入口有意缺省。
 
-Session Checkpoint 不在以下语言的声明范围内：Delphi、Haskell、Julia、MATLAB、Octave、Nim、Objective-C、OCaml、PowerShell、V、Zig。对应 `examples/session-checkpoint` 入口有意缺省。
+Session Checkpoint 不在以下语言的声明范围内：Delphi、MATLAB、Octave。对应 `examples/session-checkpoint` 入口有意缺省。Haskell、Julia、Nim、Objective-C、OCaml、PowerShell、V、Zig 提供 session-checkpoint 示例，但不提供 HITL。
 
 同时具备 HITL 与 Session Checkpoint 的二十种语言为：Go、Python、TypeScript、Java、Rust、C#、R、Ruby、PHP、C、C++、COBOL、Fortran、Elixir、Erlang、Lua、D、Dart、Perl、Swift。对于 transport-seam 或共享运行时示例，语言 README 会说明所需的调用方 transport 或继承的运行时。
 
