@@ -22,6 +22,8 @@
   tool calls.
 - [`session-checkpoint/`](session-checkpoint/): multi-turn history save, reload,
   and continue.
+- [`hitl/`](hitl/): approve a write tool, then edit the arguments and observe
+  reauthorization denial before any effect.
 
 The examples run from the repository source with
 `v -path "language/v|@vlib|@vmodules"`.

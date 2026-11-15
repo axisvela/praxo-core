@@ -26,6 +26,43 @@ function Import-PraxoCoreAssembly {
     $script:PraxoCoreDll = $path
 }
 
+function Initialize-PraxoInterruptInterop {
+    if ('Praxo.Core.PowerShellInterruptHandler' -as [type]) {
+        return
+    }
+    Add-Type -TypeDefinition @'
+using System;
+using Praxo.Core;
+
+namespace Praxo.Core
+{
+    public sealed class PowerShellInterruptHandler : IInterruptHandler
+    {
+        private readonly Func<Interrupt, InterruptDecision> _decide;
+
+        public PowerShellInterruptHandler(Func<Interrupt, InterruptDecision> decide)
+        {
+            _decide = decide;
+        }
+
+        public InterruptDecision Decide(Interrupt interrupt) => _decide(interrupt);
+    }
+
+    public sealed class PowerShellInterruptApproval : IInterruptApproval
+    {
+        private readonly Func<Interrupt, bool> _approve;
+
+        public PowerShellInterruptApproval(Func<Interrupt, bool> approve)
+        {
+            _approve = approve;
+        }
+
+        public bool Approve(Interrupt interrupt) => _approve(interrupt);
+    }
+}
+'@ -ReferencedAssemblies $script:PraxoCoreDll -CompilerOptions "/nowarn:1701"
+}
+
 function Get-PraxoCoreInfo {
     Import-PraxoCoreAssembly
     [pscustomobject]@{
@@ -60,6 +97,65 @@ function New-PraxoAgentOptions {
     param([Parameter(Mandatory = $true)]$Model)
     Import-PraxoCoreAssembly
     [Praxo.Core.AgentOptions]::new($Model)
+}
+
+function New-PraxoInterruptDecision {
+    param(
+        [Parameter(Mandatory = $true)]
+        [ValidateSet('approve', 'edit', 'reject', 'respond')]
+        [string]$Action,
+        [AllowNull()]$Arguments,
+        [string]$Response = '',
+        [string]$Reason = ''
+    )
+    Import-PraxoCoreAssembly
+    $decision = [Praxo.Core.InterruptDecision]::new()
+    $decision.Action = $Action
+    if ($null -ne $Arguments) {
+        if ($Arguments -is [System.Text.Json.Nodes.JsonObject]) {
+            $decision.Arguments = $Arguments
+        } else {
+            $json = ConvertTo-Json -InputObject $Arguments -Compress -Depth 20
+            $decision.Arguments = [System.Text.Json.Nodes.JsonNode]::Parse($json).AsObject()
+        }
+    }
+    $decision.Response = $Response
+    $decision.Reason = $Reason
+    $decision
+}
+
+function New-PraxoInterruptHandler {
+    param([Parameter(Mandatory = $true)][scriptblock]$Handler)
+    Import-PraxoCoreAssembly
+    Initialize-PraxoInterruptInterop
+    $decide = [System.Management.Automation.LanguagePrimitives]::ConvertTo(
+        $Handler,
+        [System.Func[Praxo.Core.Interrupt, Praxo.Core.InterruptDecision]]
+    )
+    [Praxo.Core.PowerShellInterruptHandler]::new($decide)
+}
+
+function New-PraxoInterruptApproval {
+    param([Parameter(Mandatory = $true)][scriptblock]$Handler)
+    Import-PraxoCoreAssembly
+    Initialize-PraxoInterruptInterop
+    $approve = [System.Management.Automation.LanguagePrimitives]::ConvertTo(
+        $Handler,
+        [System.Func[Praxo.Core.Interrupt, bool]]
+    )
+    [Praxo.Core.PowerShellInterruptApproval]::new($approve)
+}
+
+function Add-PraxoInterruptTool {
+    param(
+        [Parameter(Mandatory = $true)]$Options,
+        [Parameter(Mandatory = $true, ValueFromPipeline = $true)][string[]]$Name
+    )
+    process {
+        foreach ($tool in $Name) {
+            $Options.InterruptOn.Add($tool)
+        }
+    }
 }
 
 function New-PraxoAgent {
@@ -457,6 +553,10 @@ Export-ModuleMember -Function (@(
     'New-PraxoStaticModel',
     'New-PraxoSession',
     'New-PraxoAgentOptions',
+    'New-PraxoInterruptDecision',
+    'New-PraxoInterruptHandler',
+    'New-PraxoInterruptApproval',
+    'Add-PraxoInterruptTool',
     'New-PraxoAgent',
     'Invoke-PraxoAgent',
     'Invoke-PraxoAgentStream',

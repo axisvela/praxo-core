@@ -6,6 +6,7 @@ import ./praxo/jsonschema
 import ./praxo/plugin
 import ./praxo/runtime
 import ./praxo/middleware
+import ./praxo/hitl
 import ./praxo/agent
 import ./praxo/retriever
 import ./praxo/delegation
@@ -14,7 +15,7 @@ import ./praxo/adapters/harmovela_sink
 import ./praxo/adapters/otel_sink
 import ./praxo/adapters/mcp
 
-export errors, jsonutil, models, toolcall, jsonschema, plugin, runtime, middleware, agent, retriever, delegation
+export errors, jsonutil, models, toolcall, jsonschema, plugin, runtime, middleware, hitl, agent, retriever, delegation
 export openai_compatible
 export harmovela_sink
 export otel_sink

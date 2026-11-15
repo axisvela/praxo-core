@@ -85,10 +85,9 @@ both into one project.
 | Lua | [`language/lua/examples`](https://github.com/axisvela/praxo-core/tree/main/language/lua/examples) |
 
 Each language example directory has its own README with installation and run
-commands. Every Core language includes `consumer` and `live-model` entries;
-`hitl` and `session-checkpoint` are present where the language declares those
-capabilities. See [Language Coverage](language-coverage.md) for the explicit
-not-applicable lists. Python, TypeScript, Java, Rust, C#, and other Core
+commands. Every declared language includes `consumer`, `live-model`, `hitl`,
+and `session-checkpoint` entries. See [Language Coverage](language-coverage.md)
+for the per-language matrix. Python, TypeScript, Java, Rust, C#, and other Core
 implementations remain independently versioned; use the
 [language matrix](../languages/matrix.md) for current support. The only complete
 end-to-end prototype tutorial today is the Go [Workspace Agent

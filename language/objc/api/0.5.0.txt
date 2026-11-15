@@ -11,6 +11,10 @@ NSDictionary<NSString *, id> *PXROpenAIRequestPayload(NSString *model, NSArray<N
 NSString *PXRStripToolCallMarkup(NSString *content)
 NSString *const PXRCodeKey
 NSString *const PXRCoreErrorDomain
+NSString *const PXRInterruptApprove
+NSString *const PXRInterruptEdit
+NSString *const PXRInterruptReject
+NSString *const PXRInterruptRespond
 NSString *const PXRSDKVersion
 NSString *const PXRSpecVersion
 NSString *const PXRWireErrorDomain

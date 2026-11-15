@@ -21,3 +21,8 @@ Core assembly; PowerShell exposes typed constructors and command wrappers.
 | `agent/context.ContextBudget` | `New-PraxoContextBudget`, `Invoke-PraxoContextCompact` | parity | P1 |
 | `agent/middleware.PIIMiddleware` | `New-PraxoPiiRedactor`, `Invoke-PraxoPiiRedaction` | parity | P1 |
 | `agent.Agent` | `New-PraxoAgent`, `Invoke-PraxoAgent`, `Invoke-PraxoAgentStream` | parity | P1 |
+| `agent/hitl.Interrupt` | C# `Praxo.Core.Interrupt` | parity | P2 |
+| `agent/hitl.InterruptAction` | C# `InterruptAction` | parity | P2 |
+| `agent/hitl.InterruptDecision` | `New-PraxoInterruptDecision` | parity | P2 |
+| `agent/hitl.InterruptHandler` | `New-PraxoInterruptHandler` | parity | P2 |
+| `agent.Options.OnInterrupt` | `New-PraxoInterruptApproval` / `Add-PraxoInterruptTool` | parity | P2 |

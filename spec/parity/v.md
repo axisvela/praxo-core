@@ -43,3 +43,8 @@ streaming wire encodings, and plugin hosts are not provided.
 | `agent/middleware.PIIMiddleware` | `praxo.pii_redact` | parity | P1 |
 | `agent/middleware.StructuredOutput` | `praxo.StructuredOutput` | parity | P1 |
 | `agent/middleware.ToolSelectionMiddleware` | `praxo.tool_selection` | parity | P1 |
+| `agent/hitl.Interrupt` | `praxo.Interrupt` | parity | P2 |
+| `agent/hitl.InterruptAction` | `praxo.interrupt_approve` and peers | parity | P2 |
+| `agent/hitl.InterruptDecision` | `praxo.InterruptDecision` | parity | P2 |
+| `agent/hitl.InterruptHandler` | `praxo.InterruptHandler` | parity | P2 |
+| `agent.Options.OnInterrupt` | `AgentOptions.on_interrupt` / `on_interrupt_decision` | parity | P2 |

@@ -126,6 +126,28 @@ task = subagent_run(
 An empty parent session or agent ID raises `PraxoError` with code
 `SUBAGENT_INVALID`.
 
+## Human-in-the-Loop Approval
+
+`AgentOptions` accepts `interrupt_on`, `on_interrupt_decision`, and
+`on_interrupt` to pause matching tool calls. The agent checks allowed tools,
+runs the initial policy, applies before-tool middleware, and then applies the
+interrupt before `tool.call` and `invoke`.
+
+```julia
+options = AgentOptions(model;
+    interrupt_on = ["write_note"],
+    on_interrupt_decision = interrupt -> InterruptDecision(
+        INTERRUPT_EDIT;
+        arguments = Dict{String,Any}("text" => "hello", "visibility" => "private"),
+    ))
+```
+
+Decisions are `approve` (continue), `edit` (replace arguments and reauthorize),
+`reject` (raise `AGENT_APPROVAL_DENIED` with the reason), and `respond` (skip
+the tool and use the response). A matching call with no handler raises
+`AGENT_INTERRUPT_UNHANDLED`; an unknown action or edit without arguments raises
+`AGENT_INTERRUPT_DECISION_INVALID`. See [`examples/hitl`](examples/hitl/).
+
 ## Build and test
 
 ```bash

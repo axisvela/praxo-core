@@ -41,3 +41,8 @@ call limits, and tool selection; fallback models are supported.
 | `agent/middleware.PIIMiddleware` | `praxo.pii_redact` | parity | P1 |
 | `agent/middleware.StructuredOutput` | `praxo.structured_output` | parity | P1 |
 | `agent/middleware.ToolSelectionMiddleware` | `praxo.tool_selection` | parity | P1 |
+| `agent/hitl.Interrupt` | `options.onInterruptDecision` input | parity | P2 |
+| `agent/hitl.InterruptAction` | `approve` / `edit` / `reject` / `respond` | parity | P2 |
+| `agent/hitl.InterruptDecision` | `options.onInterruptDecision` return struct | parity | P2 |
+| `agent/hitl.InterruptHandler` | `options.onInterruptDecision` | parity | P2 |
+| `agent.Options.OnInterrupt` | `options.onInterrupt` | parity | P2 |

@@ -73,6 +73,42 @@ pub const StaticModel = struct {
 
 pub const PolicyFn = *const fn (ctx: *anyopaque, action: models.Action) models.Decision;
 
+pub const INTERRUPT_APPROVE = "approve";
+pub const INTERRUPT_EDIT = "edit";
+pub const INTERRUPT_REJECT = "reject";
+pub const INTERRUPT_RESPOND = "respond";
+
+pub const Interrupt = struct {
+    run_id: []const u8,
+    session_id: []const u8,
+    call: models.ToolCall,
+};
+
+pub const InterruptDecision = struct {
+    action: []const u8,
+    arguments: ?json.Json = null,
+    response: []const u8 = "",
+    reason: []const u8 = "",
+};
+
+pub const InterruptHandler = struct {
+    ctx: *anyopaque,
+    decideFn: *const fn (ctx: *anyopaque, interrupt: Interrupt) InterruptDecision,
+
+    pub fn decide(self: InterruptHandler, interrupt: Interrupt) InterruptDecision {
+        return self.decideFn(self.ctx, interrupt);
+    }
+};
+
+pub const InterruptApproval = struct {
+    ctx: *anyopaque,
+    approveFn: *const fn (ctx: *anyopaque, interrupt: Interrupt) bool,
+
+    pub fn approve(self: InterruptApproval, interrupt: Interrupt) bool {
+        return self.approveFn(self.ctx, interrupt);
+    }
+};
+
 pub const AgentOptions = struct {
     model: Model,
     tools: ?*Registry = null,
@@ -84,6 +120,9 @@ pub const AgentOptions = struct {
     max_steps: i64 = 8,
     max_tokens: i64 = 0,
     allowed_tools: []const []const u8 = &.{},
+    interrupt_on: []const []const u8 = &.{},
+    on_interrupt_decision: ?InterruptHandler = null,
+    on_interrupt: ?InterruptApproval = null,
     require_policy: bool = false,
     require_tool_scope: bool = false,
 };
@@ -94,6 +133,9 @@ pub const AgentError = error{
     AgentMaxTokens,
     AgentContextBudget,
     AgentToolNotAllowed,
+    AgentInterruptUnhandled,
+    AgentApprovalDenied,
+    AgentInterruptDecisionInvalid,
     ToolNotFound,
     PolicyError,
 };
@@ -177,23 +219,72 @@ pub const Agent = struct {
     }
 
     fn invokeTool(self: *Agent, allocator: Allocator, call: models.ToolCall, run_id: []const u8, session_id: []const u8) !models.Message {
-        try self.authorize(.{ .kind = "tool.invoke", .session_id = session_id, .tool_name = call.name, .arguments = call.arguments });
         if (!self.allowed(call.name)) return AgentError.AgentToolNotAllowed;
+        try self.authorize(.{ .kind = "tool.invoke", .session_id = session_id, .tool_name = call.name, .arguments = call.arguments });
         const registry = self.options.tools orelse return AgentError.ToolNotFound;
-        const tool = registry.get(call.name) catch return AgentError.ToolNotFound;
+        var active = call;
+        const original_arguments = call.arguments;
+        if (try self.applyInterrupt(allocator, &active, run_id, session_id)) |response| {
+            return .{
+                .role = models.TOOL,
+                .content = try json.stringify(allocator, .{ .string = response }),
+                .tool_id = active.id,
+            };
+        }
+        if (!self.allowed(active.name)) return AgentError.AgentToolNotAllowed;
+        if (!std.mem.eql(u8, active.name, call.name) or !json.equals(active.arguments, original_arguments)) {
+            try self.authorize(.{ .kind = "tool.invoke", .session_id = session_id, .tool_name = active.name, .arguments = active.arguments });
+        }
+        const tool = registry.get(active.name) catch return AgentError.ToolNotFound;
         var data = std.json.ObjectMap.empty;
-        try data.put(allocator, "name", .{ .string = call.name });
-        try data.put(allocator, "arguments", call.arguments);
+        try data.put(allocator, "name", .{ .string = active.name });
+        try data.put(allocator, "arguments", active.arguments);
         self.emit(.{ .type = "tool.call", .session_id = session_id, .run_id = run_id, .data = .{ .object = data } });
-        const value = tool.invoke(call.arguments) catch |error_value| {
+        const value = tool.invoke(active.arguments) catch |error_value| {
             self.emitFailure(session_id, run_id, error_value);
             return error_value;
         };
         return .{
             .role = models.TOOL,
             .content = try json.stringify(allocator, value),
-            .tool_id = call.id,
+            .tool_id = active.id,
         };
+    }
+
+    fn applyInterrupt(self: *Agent, allocator: Allocator, call: *models.ToolCall, run_id: []const u8, session_id: []const u8) !?[]const u8 {
+        if (!self.interruptOn(call.name)) return null;
+        if (self.options.on_interrupt_decision == null and self.options.on_interrupt == null) {
+            return AgentError.AgentInterruptUnhandled;
+        }
+        var data = std.json.ObjectMap.empty;
+        try data.put(allocator, "name", .{ .string = call.name });
+        try data.put(allocator, "arguments", call.arguments);
+        self.emit(.{ .type = "tool.interrupt", .session_id = session_id, .run_id = run_id, .data = .{ .object = data } });
+        const interrupt = Interrupt{ .run_id = run_id, .session_id = session_id, .call = call.* };
+        if (self.options.on_interrupt_decision) |handler| {
+            const decision = handler.decide(interrupt);
+            if (std.mem.eql(u8, decision.action, INTERRUPT_APPROVE)) return null;
+            if (std.mem.eql(u8, decision.action, INTERRUPT_EDIT)) {
+                const arguments = decision.arguments orelse return AgentError.AgentInterruptDecisionInvalid;
+                call.arguments = arguments;
+                return null;
+            }
+            if (std.mem.eql(u8, decision.action, INTERRUPT_REJECT)) return AgentError.AgentApprovalDenied;
+            if (std.mem.eql(u8, decision.action, INTERRUPT_RESPOND)) return decision.response;
+            return AgentError.AgentInterruptDecisionInvalid;
+        }
+        if (self.options.on_interrupt) |approval| {
+            if (!approval.approve(interrupt)) return AgentError.AgentApprovalDenied;
+            return null;
+        }
+        return AgentError.AgentInterruptUnhandled;
+    }
+
+    fn interruptOn(self: *Agent, name: []const u8) bool {
+        for (self.options.interrupt_on) |item| {
+            if (std.mem.eql(u8, item, name)) return true;
+        }
+        return false;
     }
 
     fn advertisedTools(self: *Agent, allocator: Allocator) ![]models.ToolSpec {

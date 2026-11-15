@@ -40,6 +40,7 @@ jobs:
       - run: pwsh -NoProfile -File language/powershell/examples/service/service.ps1
       - run: pwsh -NoProfile -File language/powershell/examples/mcp/mcp.ps1
       - run: pwsh -NoProfile -File language/powershell/examples/session-checkpoint/session_checkpoint.ps1
+      - run: pwsh -NoProfile -File language/powershell/examples/hitl/hitl.ps1
 
   matlab-examples:
     runs-on: ubuntu-latest
@@ -56,3 +57,5 @@ jobs:
       - run: octave --no-gui --quiet --path language/matlab/examples/identity-policy --eval identity_policy_example
       - run: octave --no-gui --quiet --path language/matlab/examples/service --eval service_example
       - run: octave --no-gui --quiet --path language/matlab/examples/mcp --eval mcp_example
+      - run: octave --no-gui --quiet --path language/matlab-octave-core --path language/matlab/examples/hitl --eval hitl_example
+      - run: octave --no-gui --quiet --path language/matlab-octave-core --path language/matlab/examples/session-checkpoint --eval session_checkpoint_example

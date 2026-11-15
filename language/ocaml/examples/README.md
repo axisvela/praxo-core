@@ -22,6 +22,8 @@
   deterministic check.
 - [`identity-policy/`](identity-policy/): bind a trusted principal to policy
   and reject effects before execution.
+- [`hitl/`](hitl/): approve a write, then edit it to a denied value and verify
+  that reauthorization stops the effect.
 
 The examples use the repository OCaml Core through `#use "praxo_core.ml"` and
 run with `ocaml -I language/ocaml <file>`. They are deterministic and do not

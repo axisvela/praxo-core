@@ -33,15 +33,8 @@ CODE_SUFFIXES = {
     ".py", ".r", ".rb", ".rs", ".scala", ".sh", ".swift", ".ts", ".tsx",
     ".v", ".zig",
 }
-NOT_APPLICABLE = {
-    "hitl": {
-        "delphi", "haskell", "julia", "matlab", "octave", "nim", "objc",
-        "ocaml", "powershell", "v", "zig",
-    },
-    "session-checkpoint": {
-        "delphi", "matlab", "octave",
-    },
-}
+NOT_APPLICABLE: dict[str, set[str]] = {}
+
 GO_THEMES = {
     "consumer": ROOT / "language/go/examples/consumer-go",
     "live-model": ROOT / "language/go/examples/live-model",

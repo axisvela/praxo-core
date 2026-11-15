@@ -4,8 +4,9 @@ PRAXO-CORE is an embeddable, MIT-licensed agent framework. This package is its
 native Nim Core with source tag `nim/v0.5.0`. It passes all eleven shared vector
 groups with `Nim 2.2.12` and includes the native agent loop, context compaction,
 memory store, path policy, checkpoint allowlist, tool-call parsing, and opt-in
-agent tool selection, PII redaction, structured output, and call limits. Vector
-coverage does not establish full Core parity or production readiness.
+agent tool selection, PII redaction, structured output, call limits, and
+human-in-the-loop interrupts. Vector coverage does not establish full Core
+parity or production readiness.
 
 The Core does not call Go or another language runtime. It includes an optional
 OpenAI-compatible, Anthropic, and Gemini model adapters; plugin hosts remain
@@ -105,6 +106,27 @@ Set `options.modelCallLimit` and `options.toolCallLimit` to positive values to
 limit calls per run. Zero or negative values leave the corresponding limit
 unbounded. Limits are checked before invoking the model or tool and reset for
 each run; a fallback model counts as one agent model call.
+
+Policy hooks receive the full `Action` (`kind`, `sessionId`, `toolName`,
+`arguments`) and return `newDecision(...)`. The agent authorizes
+`model.generate`, the original `tool.invoke`, and any edited or
+middleware-modified tool call before it runs.
+
+Set `options.interruptOn = @["write_note"]` to require human approval for named
+tools. `options.onInterruptDecision` receives an `Interrupt` (`runId`,
+`sessionId`, `call`) and returns an `InterruptDecision` with
+`INTERRUPT_APPROVE`, `INTERRUPT_EDIT`, `INTERRUPT_REJECT`, or
+`INTERRUPT_RESPOND`. `approve` continues; `edit` replaces arguments and
+reauthorizes them; `reject` raises `AGENT_APPROVAL_DENIED` with the reason;
+`respond` skips the tool and uses the response as the tool result. If no handler
+is configured, the run fails with `AGENT_INTERRUPT_UNHANDLED` before a
+`tool.interrupt` event is emitted. Unknown actions and `edit` without arguments
+fail with `AGENT_INTERRUPT_DECISION_INVALID`. `options.onInterrupt` is a boolean
+approval fallback; the decision handler takes precedence. Middleware in
+`options.middleware` runs after the initial policy and before the interrupt
+check.
+
+A runnable approval example is in [`examples/hitl/`](examples/hitl/).
 
 Public declarations are inventoried in [`api/0.5.0.txt`](api/0.5.0.txt).
 

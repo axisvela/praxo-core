@@ -17,8 +17,8 @@ provider endpoint.
 | Identity and policy | 31 | `language/<language>/examples/identity-policy` |
 | HTTP service | 31 | `language/<language>/examples/service` |
 | MCP | 31 | `language/<language>/examples/mcp` |
-| HITL | 20 | `language/<language>/examples/hitl` |
-| Session checkpoint | 28 | `language/<language>/examples/session-checkpoint` |
+| HITL | 31 | `language/<language>/examples/hitl` |
+| Session checkpoint | 31 | `language/<language>/examples/session-checkpoint` |
 
 Go keeps its reference recipes and examples under `examples/`.
 
@@ -29,21 +29,12 @@ Run `python scripts/check_example_coverage.py --report` for the current
 per-language matrix. Coverage requires a `README.md` and at least one source
 file; a README-only directory does not count as an implementation.
 
-## Not Applicable Themes
+## Coverage
 
-HITL is not part of the declared scope for Delphi, Haskell, Julia, MATLAB,
-Octave, Nim, Objective-C, OCaml, PowerShell, V, and Zig. Their `examples/hitl`
-entry is intentionally absent.
-
-Session checkpoint is not part of the declared scope for Delphi, MATLAB, and
-Octave. Their `examples/session-checkpoint` entry is intentionally absent.
-Haskell, Julia, Nim, Objective-C, OCaml, PowerShell, V, and Zig provide the
-session-checkpoint example without HITL.
-
-The twenty languages with both themes are Go, Python, TypeScript, Java, Rust,
-C#, R, Ruby, PHP, C, C++, COBOL, Fortran, Elixir, Erlang, Lua, D, Dart, Perl,
-and Swift. For transport-seam or shared-runtime examples, the language README
-states the required caller-owned transport or inherited runtime.
+All 31 declared languages provide both HITL and session-checkpoint examples.
+Go uses its root examples, and Octave reuses the MATLAB examples. For
+transport-seam or shared-runtime examples, the language README states the
+required caller-owned transport or inherited runtime.
 
 ## Languages and Verification
 

@@ -4,6 +4,7 @@ import std/strutils
 import std/times
 
 import ./errors
+import ./hitl
 import ./jsonutil
 import ./models
 import ./middleware
@@ -13,7 +14,9 @@ proc echoInvoke(arguments: JsonNode): JsonNode =
   return arguments
 
 type
-  Policy* = proc(kind: string): bool {.closure.}
+  Policy* = proc(action: Action): Decision {.closure.}
+
+  ToolMiddleware* = proc(runId: string, sessionId: string, call: var ToolCall) {.closure.}
 
   Tool* = ref object
     name*: string
@@ -45,6 +48,10 @@ type
     toolCallLimit*: int
     policy*: Policy
     allowedTools*: seq[string]
+    middleware*: seq[ToolMiddleware]
+    interruptOn*: seq[string]
+    onInterruptDecision*: InterruptHandler
+    onInterrupt*: InterruptApproval
     requirePolicy*: bool
     requireToolScope*: bool
 
@@ -116,11 +123,61 @@ proc emitEvent(events: Sink, kind: string, sessionId: string, runId: string, dat
     return
   events.emit(newEvent(kind, sessionId, runId, data))
 
-proc authorize(options: AgentOptions, kind: string) =
+proc copyJson(value: JsonNode): JsonNode =
+  if value.isNil:
+    return nil
+  return parseJson(encodeJson(value))
+
+proc toolAllowed(options: AgentOptions, name: string): bool =
+  return options.allowedTools.len == 0 or name in options.allowedTools
+
+proc authorize(options: AgentOptions, action: Action) =
   if options.policy.isNil:
     return
-  if not options.policy(kind):
-    raisePraxo("AGENT_POLICY_DENIED", "agent: " & kind & " denied")
+  let decision = options.policy(action)
+  if decision.allowed:
+    return
+  var message = "agent: " & action.kind & " denied"
+  if decision.reason.len > 0:
+    message = message & ": " & decision.reason
+  raisePraxo("AGENT_POLICY_DENIED", message)
+
+proc applyInterrupt(options: AgentOptions, call: var ToolCall, runId: string,
+                    sessionId: string): tuple[skip: bool, response: string] =
+  if call.name notin options.interruptOn:
+    return (false, "")
+  if options.onInterruptDecision.isNil and options.onInterrupt.isNil:
+    raisePraxo("AGENT_INTERRUPT_UNHANDLED",
+               "agent: approval handler not configured: " & call.name)
+  var data = newJObject()
+  data["name"] = %call.name
+  data["arguments"] = if call.arguments.isNil: newJObject() else: call.arguments
+  emitEvent(options.events, "tool.interrupt", sessionId, runId, data)
+  let interrupt = newInterrupt(runId, sessionId, call)
+  if not options.onInterruptDecision.isNil:
+    let decision = options.onInterruptDecision(interrupt)
+    case decision.action
+    of INTERRUPT_APPROVE:
+      return (false, "")
+    of INTERRUPT_EDIT:
+      if decision.arguments.isNil:
+        raisePraxo("AGENT_INTERRUPT_DECISION_INVALID",
+                   "agent: edit requires arguments")
+      call.arguments = decision.arguments
+      return (false, "")
+    of INTERRUPT_REJECT:
+      raisePraxo("AGENT_APPROVAL_DENIED",
+                 "agent: tool call denied by approval: " & call.name & ": " &
+                 decision.reason)
+    of INTERRUPT_RESPOND:
+      return (true, decision.response)
+    else:
+      raisePraxo("AGENT_INTERRUPT_DECISION_INVALID",
+                 "agent: invalid interrupt decision: " & decision.action)
+  if not options.onInterrupt(interrupt):
+    raisePraxo("AGENT_APPROVAL_DENIED",
+               "agent: tool call denied by approval: " & call.name)
+  return (false, "")
 
 var runSequence = 0
 
@@ -173,7 +230,7 @@ proc runAgent*(options: AgentOptions, session: Session, prompt: string): RunResu
           message.toolCalls = toolCalls
           modelMessages.add(message)
       limits.modelCall()
-      authorize(options, "model.generate")
+      authorize(options, newAction("model.generate", session.id))
       let response = options.model.generate(newRequest(modelMessages, specs))
       total = addUsage(total, response.usage)
       if options.maxTokens > 0 and total.inputTokens + total.outputTokens > options.maxTokens:
@@ -189,21 +246,38 @@ proc runAgent*(options: AgentOptions, session: Session, prompt: string): RunResu
         emitEvent(options.events, "run.completed", session.id, runId, newJNull())
         return newRunResult(runId, output, step, total)
       for call in response.message.toolCalls:
-        if options.allowedTools.len > 0 and call.name notin options.allowedTools:
-          raisePraxo("AGENT_TOOL_NOT_ALLOWED", "agent: tool " & call.name & " is not allowed")
-        authorize(options, "tool.invoke")
-        let index = findToolIndex(options.tools, call.name)
+        let originalName = call.name
+        let originalArguments = copyJson(call.arguments)
+        if not toolAllowed(options, originalName):
+          raisePraxo("AGENT_TOOL_NOT_ALLOWED", "agent: tool " & originalName & " is not allowed")
+        authorize(options, newAction("tool.invoke", session.id, originalName,
+                                     copyJson(originalArguments)))
+        var active = call
+        for handler in options.middleware:
+          handler(runId, session.id, active)
+        if not toolAllowed(options, active.name):
+          raisePraxo("AGENT_TOOL_NOT_ALLOWED", "agent: tool " & active.name & " is not allowed")
+        let outcome = applyInterrupt(options, active, runId, session.id)
+        if outcome.skip:
+          messages.add(newMessageTool(encodeJson(%outcome.response), active.id))
+          continue
+        if not toolAllowed(options, active.name):
+          raisePraxo("AGENT_TOOL_NOT_ALLOWED", "agent: tool " & active.name & " is not allowed")
+        if active.name != originalName or not jsonEquals(active.arguments, originalArguments):
+          authorize(options, newAction("tool.invoke", session.id, active.name,
+                                       copyJson(active.arguments)))
+        let index = findToolIndex(options.tools, active.name)
         if index < 0:
-          raisePraxo("TOOL_NOT_FOUND", "tool not found: " & call.name)
+          raisePraxo("TOOL_NOT_FOUND", "tool not found: " & active.name)
         if options.toolSelection.isSome:
-          checkToolSelected(options.toolSelection.get(), call.name)
+          checkToolSelected(options.toolSelection.get(), active.name)
         limits.toolCall()
         var data = newJObject()
-        data["name"] = %call.name
-        data["arguments"] = if call.arguments.isNil: newJObject() else: call.arguments
+        data["name"] = %active.name
+        data["arguments"] = if active.arguments.isNil: newJObject() else: active.arguments
         emitEvent(options.events, "tool.call", session.id, runId, data)
-        let value = options.tools[index].call(call.arguments)
-        messages.add(newMessageTool(encodeJson(if options.pii: redactValue(value) else: value), call.id))
+        let value = options.tools[index].call(active.arguments)
+        messages.add(newMessageTool(encodeJson(if options.pii: redactValue(value) else: value), active.id))
     raisePraxo("AGENT_MAX_STEPS", "maximum steps exceeded")
   except CatchableError as error:
     var data = newJObject()

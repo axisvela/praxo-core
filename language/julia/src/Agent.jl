@@ -4,8 +4,11 @@ using ..Json
 using ..Models
 import ..Models: generate
 using ..Errors
+using ..Hitl
 using ..Runtime
 using ..Middleware
+import ..Middleware: middleware_name
+import ..Middleware: before_run!, before_model!, after_model!, before_tool!, after_tool!, after_run!
 
 export AbstractModel, generate, StaticModel
 export AbstractTool, FuncTool, ToolRegistry
@@ -73,16 +76,23 @@ mutable struct AgentOptions
     response_format::Union{Nothing,Dict{String,Any}}
     max_steps::Int
     max_tokens::Int
+    interrupt_on::Set{String}
+    on_interrupt_decision::Union{Nothing,Function}
+    on_interrupt::Union{Nothing,Function}
     require_policy::Bool
     require_tool_scope::Bool
 end
 
 function AgentOptions(model::AbstractModel;
                       require_policy::Bool = false,
-                      require_tool_scope::Bool = false)
+                      require_tool_scope::Bool = false,
+                      interrupt_on = String[],
+                      on_interrupt_decision = nothing,
+                      on_interrupt = nothing)
     AgentOptions(model, nothing, nothing, nothing, "", nothing,
         AbstractMiddleware[], Function[], nothing, String[], nothing, nothing,
-        0, 0, nothing, nothing, nothing, 8, 0, require_policy, require_tool_scope)
+        0, 0, nothing, nothing, nothing, 8, 0, Set{String}(interrupt_on),
+        on_interrupt_decision, on_interrupt, require_policy, require_tool_scope)
 end
 
 mutable struct Agent
@@ -186,34 +196,102 @@ function generate_chain(agent::Agent, request::Request)
     handler(request)
 end
 
+struct InterruptOutcome
+    skip::Bool
+    response::String
+    call::ToolCall
+    edited::Bool
+end
+
 function invoke_tool(agent::Agent, call::ToolCall, run_id::String, session_id::String)
-    (isempty(agent.options.allowed_tools) || call.name in agent.options.allowed_tools) ||
-        throw(PraxoError("AGENT_TOOL_NOT_ALLOWED", "agent: tool $(call.name) is not allowed"))
-    authorize(agent, Action("tool.invoke", session_id, call.name, call.arguments))
+    original_name = call.name
+    original_arguments = deepcopy(call.arguments)
+    (isempty(agent.options.allowed_tools) || original_name in agent.options.allowed_tools) ||
+        throw(PraxoError("AGENT_TOOL_NOT_ALLOWED",
+            "agent: tool $(original_name) is not allowed"))
+    authorize(agent, Action("tool.invoke", session_id, original_name, original_arguments))
     agent.options.tools === nothing &&
-        throw(PraxoError("TOOL_NOT_FOUND", "tool $(call.name) is not registered"))
-    tool = get(agent.options.tools, call.name)
+        throw(PraxoError("TOOL_NOT_FOUND", "tool $(original_name) is not registered"))
     context = ToolCallContext(run_id, session_id, call)
     before_tool!(agent, context)
     if context.skip
-        value = context.result
-        error = context.error
-    else
-        emit_event(agent, "tool.call", session_id, run_id,
-                   Dict{String,Any}("name" => call.name, "arguments" => call.arguments))
-        try
-            value = invoke(tool, call.arguments)
-            error = nothing
-        catch exception
-            value = nothing
-            error = exception isa PraxoError ? exception :
-                PraxoError("TOOL_ERROR", sprint(showerror, exception))
-        end
+        return finish_tool(agent, context, context.result, context.error, context.call.id)
     end
+    outcome = apply_interrupt(agent, context.call, run_id, session_id)
+    if outcome.skip
+        context.call = outcome.call
+        return finish_tool(agent, context, outcome.response, nothing, outcome.call.id)
+    end
+    active = outcome.call
+    context.call = active
+    (isempty(agent.options.allowed_tools) || active.name in agent.options.allowed_tools) ||
+        throw(PraxoError("AGENT_TOOL_NOT_ALLOWED",
+            "agent: tool $(active.name) is not allowed"))
+    if outcome.edited || active.name != original_name ||
+       !Json.equals(active.arguments, original_arguments)
+        authorize(agent, Action("tool.invoke", session_id, active.name, active.arguments))
+    end
+    tool = get(agent.options.tools, active.name)
+    emit_event(agent, "tool.call", session_id, run_id,
+               Dict{String,Any}("name" => active.name, "arguments" => active.arguments))
+    value = nothing
+    error = nothing
+    try
+        value = invoke(tool, active.arguments)
+    catch exception
+        error = exception isa PraxoError ? exception :
+            PraxoError("TOOL_ERROR", sprint(showerror, exception))
+    end
+    finish_tool(agent, context, value, error, active.id)
+end
+
+function finish_tool(agent::Agent, context::ToolCallContext, value, error, tool_id::String)
     result = ToolResult(value, error)
     after_tool!(agent, context, result)
     result.error !== nothing && throw(result.error)
-    Message(Roles.TOOL, Json.stringify(result.value), ContentBlock[], ToolCall[], call.id)
+    Message(Roles.TOOL, Json.stringify(result.value), ContentBlock[], ToolCall[], tool_id)
+end
+
+function apply_interrupt(agent::Agent, call::ToolCall, run_id::String, session_id::String)
+    if !(call.name in agent.options.interrupt_on)
+        return InterruptOutcome(false, "", call, false)
+    end
+    if agent.options.on_interrupt_decision === nothing && agent.options.on_interrupt === nothing
+        throw(PraxoError("AGENT_INTERRUPT_UNHANDLED",
+            "agent: approval handler not configured: $(call.name)"))
+    end
+    emit_event(agent, "tool.interrupt", session_id, run_id,
+               Dict{String,Any}("name" => call.name, "arguments" => call.arguments))
+    interrupt = Interrupt(run_id, session_id, call)
+    if agent.options.on_interrupt_decision !== nothing
+        decision = agent.options.on_interrupt_decision(interrupt)
+        decision isa InterruptDecision ||
+            throw(PraxoError("AGENT_INTERRUPT_DECISION_INVALID",
+                "agent: invalid interrupt decision"))
+        if decision.action == INTERRUPT_APPROVE
+            return InterruptOutcome(false, "", call, false)
+        elseif decision.action == INTERRUPT_EDIT
+            decision.arguments === nothing &&
+                throw(PraxoError("AGENT_INTERRUPT_DECISION_INVALID",
+                    "agent: edit requires arguments"))
+            active = ToolCall(call.id, call.name, deepcopy(decision.arguments))
+            return InterruptOutcome(false, "", active, true)
+        elseif decision.action == INTERRUPT_REJECT
+            throw(PraxoError("AGENT_APPROVAL_DENIED",
+                "agent: tool call denied by approval: $(call.name): $(decision.reason)"))
+        elseif decision.action == INTERRUPT_RESPOND
+            return InterruptOutcome(true, decision.response, call, false)
+        end
+        throw(PraxoError("AGENT_INTERRUPT_DECISION_INVALID",
+            "agent: invalid interrupt decision: $(decision.action)"))
+    end
+    approved = agent.options.on_interrupt(interrupt)
+    approved isa Bool ||
+        throw(PraxoError("AGENT_INTERRUPT_DECISION_INVALID",
+            "agent: invalid interrupt decision"))
+    approved || throw(PraxoError("AGENT_APPROVAL_DENIED",
+        "agent: tool call denied by approval: $(call.name)"))
+    InterruptOutcome(false, "", call, false)
 end
 
 function before_run!(agent::Agent, state)

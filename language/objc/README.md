@@ -3,9 +3,10 @@
 Objective-C is a native Core implementation with source tag `objc/v0.5.0`. It
 passes all eleven shared vector groups and includes the native
 agent loop, context compaction, memory store, path policy, checkpoint
-allowlist, tool selection, tool-call parsing, and opt-in PII redaction,
-structured output validation, and call limits. Vector
-coverage does not establish full Core parity or production readiness.
+allowlist, tool selection, tool-call parsing, argument-aware policy, and opt-in
+PII redaction, structured output validation, call limits, and human-in-the-loop
+interrupts. Vector coverage does not establish full Core parity or production
+readiness.
 
 The Core does not call Go or another language runtime. It includes
 OpenAI-compatible, Anthropic, and Gemini model adapters, MCP and Harmovela
@@ -48,7 +49,8 @@ To build manually on macOS from `language/objc/`:
 ```bash
 clang -fobjc-arc -fblocks -Isrc -o build/praxo_tests \
   src/PraxoJSON.m src/PraxoJsonSchema.m src/PraxoPlugin.m src/PraxoWire.m \
-  src/PraxoCore.m src/PraxoAgent.m tests/main.m tests/correlation.m tests/middleware.m \
+  src/PraxoCore.m src/PraxoAgent.m src/PraxoHitl.m \
+  tests/main.m tests/correlation.m tests/middleware.m tests/hitl.m \
   -framework Foundation
 build/praxo_tests ../../spec
 ```
@@ -102,6 +104,26 @@ to validate and optionally repair the final output; failures return
 `options[@"modelCallLimit"]` and `options[@"toolCallLimit"]` to positive numbers
 to bound invocations independently per run. Values at or below zero are unlimited.
 These options are disabled by default.
+Set `options[@"policy"]` to a block that receives an action dictionary
+(`kind`, `sessionId`, optional `toolName`, `arguments`) and returns
+`PXRDecisionCreate(...)`. The agent authorizes `model.generate`, the original
+`tool.invoke`, and any edited or middleware-modified tool call before it runs.
+Set `options[@"interruptOn"]` to tool names that require human approval.
+`options[@"onInterruptDecision"]` receives a `PXRInterruptCreate` dictionary
+(`runId`, `sessionId`, `call`) and returns
+`PXRInterruptDecisionCreate(PXRInterruptApprove|Edit|Reject|Respond, ...)`.
+`approve` continues; `edit` replaces arguments and reauthorizes them; `reject`
+returns `AGENT_APPROVAL_DENIED` with the reason; `respond` skips the tool and
+uses the response as the tool result. Without a handler the run fails with
+`AGENT_INTERRUPT_UNHANDLED` before a `tool.interrupt` event. Unknown actions and
+`edit` without an arguments dictionary fail with
+`AGENT_INTERRUPT_DECISION_INVALID`. `options[@"onInterrupt"]` is a boolean
+approval fallback; the decision handler takes precedence. `options[@"middleware"]`
+may contain `PXRToolMiddleware` blocks that mutate the call after the initial
+policy and before the interrupt check.
+
+A runnable approval example is in [`examples/hitl/`](examples/hitl/).
+
 The parser returns `nil` when the content is not a recognized call or the
 manifest is invalid. Schema validation returns error paths. Core-local
 `PXRWireErrorDomain` and `PXRCoreErrorDomain` codes are not new shared wire

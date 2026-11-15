@@ -6,6 +6,7 @@ include("JsonSchema.jl")
 include("Plugin.jl")
 include("Errors.jl")
 include("Models.jl")
+include("Hitl.jl")
 include("Retriever.jl")
 include("Delegation.jl")
 include("Runtime.jl")
@@ -19,6 +20,7 @@ include("adapters/Gemini.jl")
 include("adapters/Mcp.jl")
 
 using .Models
+using .Hitl
 using .Retrieval
 using .Delegation
 using .Runtime
@@ -45,6 +47,8 @@ export SubagentRequest, SubagentResult, SubagentTask, SubagentRunner
 export subagent_request, subagent_result, subagent_run
 export ContextBudget, AgentOptions, Agent, StaticModel, FuncTool, ToolRegistry
 export AbstractPolicy, AbstractModel, AbstractMiddleware, PiiRedactor, PraxoError
+export INTERRUPT_APPROVE, INTERRUPT_EDIT, INTERRUPT_REJECT, INTERRUPT_RESPOND
+export Interrupt, InterruptDecision
 export OpenAICompatibleModel, openai_compatible
 export AnthropicModel, anthropic, GeminiModel, gemini
 export McpClient, mcp_client, mcp_list_tools, mcp_call_tool, mcp_close!

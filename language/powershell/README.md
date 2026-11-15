@@ -47,6 +47,7 @@ Runnable examples live under [`language/powershell/examples`](https://github.com
 | Validate structured output | [structured-output](https://github.com/axisvela/praxo-core/tree/main/language/powershell/examples/structured-output) |
 | Stream a response | [streaming](https://github.com/axisvela/praxo-core/tree/main/language/powershell/examples/streaming) |
 | Add identity and policy | [identity-policy](https://github.com/axisvela/praxo-core/tree/main/language/powershell/examples/identity-policy) |
+| Approve a tool call | [hitl](https://github.com/axisvela/praxo-core/tree/main/language/powershell/examples/hitl) |
 | Persist checkpoints | [checkpoint](https://github.com/axisvela/praxo-core/tree/main/language/powershell/examples/checkpoint) |
 | Resume a multi-turn session | [session-checkpoint](https://github.com/axisvela/praxo-core/tree/main/language/powershell/examples/session-checkpoint) |
 | Run behind HTTP | [service](https://github.com/axisvela/praxo-core/tree/main/language/powershell/examples/service) |
@@ -79,6 +80,27 @@ $session = New-PraxoSession -Id 'demo'
 
 The module loads `Praxo.Core.dll` from its own directory. Set `PRAXO_CORE_DLL`
 to override the assembly path.
+
+## Human-in-the-loop Approval
+
+Add a tool name to `InterruptOn`, then attach either an interrupt handler or a
+boolean approval. Decisions use `New-PraxoInterruptDecision` with `approve`,
+`edit`, `reject`, or `respond`; edited arguments are authorized again before
+`tool.call`.
+
+```powershell
+$options = New-PraxoAgentOptions -Model $model
+$options.Policy = $policy
+Add-PraxoInterruptTool -Options $options -Name 'write_note'
+$options.OnInterruptDecision = New-PraxoInterruptHandler -Handler {
+    param($interrupt)
+    New-PraxoInterruptDecision -Action 'approve'
+}
+```
+
+`New-PraxoInterruptApproval` wraps a boolean approval. See the
+[`hitl` example](https://github.com/axisvela/praxo-core/tree/main/language/powershell/examples/hitl)
+for approve and edited-denial scenarios.
 
 ## Scope
 

@@ -39,8 +39,9 @@ The model requests `record(target)`. The agent has an explicit tool scope
 `AGENT_POLICY_DENIED` in the tool invocation seam before the counter changes,
 and the program exits nonzero if either case is wrong.
 
-The Objective-C agent loop does not yet expose an argument-aware policy
-callback, so this example keeps the target rule in the tool invocation seam and
-uses the tool scope for name-level restriction. It is an integration starting
+The agent exposes an argument-aware policy callback and a before-tool interrupt
+seam. This example keeps its target rule in the tool invocation seam and uses the
+tool scope for name-level restriction to show defense in depth. See
+[`../hitl/`](../hitl/) for an approval example. It is an integration starting
 point, not a production security profile. Identity, durable approvals,
 isolation, and effect reconciliation remain the application's responsibility.

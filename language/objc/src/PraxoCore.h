@@ -15,6 +15,27 @@ typedef BOOL (^PXRModelGenerate)(NSDictionary<NSString *, id> *request,
 typedef id _Nullable (^PXRToolInvoke)(NSDictionary<NSString *, id> *arguments,
                                       NSError **error);
 typedef NSString * _Nullable (^PXRRepairer)(NSString *text);
+typedef NSDictionary<NSString *, id> * _Nullable (^PXRInterruptHandler)(
+    NSDictionary<NSString *, id> *interrupt);
+typedef BOOL (^PXRInterruptApproval)(NSDictionary<NSString *, id> *interrupt);
+typedef void (^PXRToolMiddleware)(NSString *runId,
+                                  NSString *sessionId,
+                                  NSMutableDictionary<NSString *, id> *call);
+
+extern NSString *const PXRInterruptApprove;
+extern NSString *const PXRInterruptEdit;
+extern NSString *const PXRInterruptReject;
+extern NSString *const PXRInterruptRespond;
+
+NSDictionary<NSString *, id> *PXRInterruptCreate(
+    NSString *runId,
+    NSString *sessionId,
+    NSDictionary<NSString *, id> *call);
+NSDictionary<NSString *, id> *PXRInterruptDecisionCreate(
+    NSString *action,
+    NSDictionary<NSString *, id> * _Nullable arguments,
+    NSString * _Nullable response,
+    NSString * _Nullable reason);
 
 NSError *PXRCoreError(NSString *code, NSString *message);
 NSString *PXRCodeFromError(NSError * _Nullable error);

@@ -39,3 +39,8 @@ not every optional Go hook or provider adapter.
 | `agent/middleware.PIIMiddleware` | `middleware.PiiRedactor` | parity | P1 |
 | `agent/middleware.StructuredOutput` | `middleware.StructuredOutput` | parity | P1 |
 | `agent/middleware.ToolSelectionMiddleware` | `middleware.ToolSelection` | parity | P1 |
+| `agent/hitl.Interrupt` | `agent.Interrupt` | parity | P2 |
+| `agent/hitl.InterruptAction` | `agent.InterruptAction` | parity | P2 |
+| `agent/hitl.InterruptDecision` | `agent.InterruptDecision` | parity | P2 |
+| `agent/hitl.InterruptHandler` | `agent.InterruptHandler` | parity | P2 |
+| `agent.Options.OnInterrupt` | `AgentOptions.onInterrupt` / `onInterruptDecision` | parity | P2 |

@@ -34,8 +34,13 @@ recordTool effects call
         modifyIORef' effects (+ 1)
         pure (Right (JString "recorded"))
 
-allowKinds :: String -> Bool
-allowKinds kind = kind == "model.generate" || kind == "tool.invoke"
+allowKinds :: Action -> Bool
+allowKinds action
+    | actionKind action == "model.generate" = True
+    | actionKind action == "tool.invoke" =
+        actionToolName action == "record"
+            && asString (field "target" (actionArguments action)) == "public"
+    | otherwise = False
 
 runCase :: String -> IO (Either AgentError RunResult, Int)
 runCase target = do
@@ -50,6 +55,12 @@ runCase target = do
             , allowedTools = ["record"]
             , requirePolicy = True
             , requireToolScope = True
+            , runId = "run-consumer"
+            , sessionId = "session-consumer"
+            , interruptOn = []
+            , onInterruptDecision = Nothing
+            , onInterrupt = Nothing
+            , beforeTool = Nothing
             }
     result <- runAgent options [] "Record the requested target."
     count <- readIORef effects

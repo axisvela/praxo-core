@@ -1,5 +1,23 @@
 # Nim Core Release Notes
 
+## Unreleased
+
+### Added
+
+- Human-in-the-loop interrupts: `Interrupt`, `InterruptDecision`,
+  `InterruptHandler`, `InterruptApproval`, the `INTERRUPT_*` actions,
+  `AgentOptions.interruptOn`, `onInterruptDecision`, and `onInterrupt`.
+- `AgentOptions.middleware` with `ToolMiddleware` before-tool hooks.
+- Tool calls now emit `tool.interrupt` and support approve, edit, reject, and
+  respond decisions. Edit reauthorizes replaced arguments before the effect.
+- `examples/hitl/` with approve and edited-argument denial scenarios.
+
+### Changed
+
+- `Policy` now receives the full `Action` (`kind`, `sessionId`, `toolName`,
+  `arguments`) and returns a `Decision` instead of a boolean. This is a breaking
+  change for policy hooks and is intended for the next minor release.
+
 ## 0.5.0 - 2026-11-15
 
 Source tag `nim/v0.5.0`.

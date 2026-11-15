@@ -168,6 +168,7 @@ jobs:
       - run: zig test src/plugin.zig
       - run: zig test src/pii_test.zig
       - run: zig test src/openaicompat_test.zig
+      - run: zig test src/agent_test.zig
       - run: python3 api-snapshot.py --check
 
   perl-conformance:

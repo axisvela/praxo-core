@@ -20,6 +20,11 @@ def main():
     subprocess.run([sys.executable, str(ROOT / "api-snapshot.py"), "--check"], check=True)
     subprocess.run([executable, "--quiet", "--no-history", "--no-init-file", "--no-site-file",
                     "--eval", "run_tests"], cwd=CORE, check=True, timeout=120)
+    for name, directory in (("hitl_example", ROOT / "examples" / "hitl"),
+                            ("session_checkpoint_example", ROOT / "examples" / "session-checkpoint")):
+        subprocess.run([executable, "--quiet", "--no-history", "--no-init-file", "--no-site-file",
+                        "--path", str(CORE), "--path", str(directory),
+                        "--eval", name], cwd=CORE, check=True, timeout=120)
 
 
 if __name__ == "__main__":

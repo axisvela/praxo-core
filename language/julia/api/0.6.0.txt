@@ -21,6 +21,12 @@ FuncRetriever
 FuncTool
 GeminiModel
 HarmovelaSink
+INTERRUPT_APPROVE
+INTERRUPT_EDIT
+INTERRUPT_REJECT
+INTERRUPT_RESPOND
+Interrupt
+InterruptDecision
 Json
 JsonSchema
 McpClient

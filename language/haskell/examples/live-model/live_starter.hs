@@ -28,8 +28,8 @@ invokeTool call
     | otherwise = pure (Left (AgentError "TOOL_NOT_FOUND"
         ("tool " ++ toolCallName call ++ " is not available")))
 
-allowKinds :: String -> Bool
-allowKinds kind = kind == "model.generate" || kind == "tool.invoke"
+allowKinds :: Action -> Bool
+allowKinds action = actionKind action == "model.generate" || actionKind action == "tool.invoke"
 
 unconfiguredTransport :: Transport
 unconfiguredTransport = Transport $ \_ ->
@@ -88,6 +88,12 @@ main = do
             , allowedTools = ["get_time"]
             , requirePolicy = True
             , requireToolScope = True
+            , runId = "run-live"
+            , sessionId = "session-live"
+            , interruptOn = []
+            , onInterruptDecision = Nothing
+            , onInterrupt = Nothing
+            , beforeTool = Nothing
             }
     result <- runAgent options [] prompt
     case result of

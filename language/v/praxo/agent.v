@@ -92,6 +92,36 @@ pub fn fallback_model(primary &Model, fallback &Model) &Model {
 }
 
 pub type PolicyHook = fn (kind string) bool
+pub type PolicyActionHook = fn (action Action) Decision
+
+pub const interrupt_approve = 'approve'
+pub const interrupt_edit = 'edit'
+pub const interrupt_reject = 'reject'
+pub const interrupt_respond = 'respond'
+
+pub struct Interrupt {
+pub:
+	run_id     string
+	session_id string
+	call       ToolCall
+}
+
+pub struct InterruptDecision {
+pub:
+	action    string
+	arguments ?map[string]json2.Any
+	response  string
+	reason    string
+}
+
+pub type InterruptDecisionHandler = fn (interrupt Interrupt) InterruptDecision
+pub type InterruptApproval = fn (interrupt Interrupt) bool
+
+struct InterruptResult {
+	skip     bool
+	response string
+	call     ToolCall
+}
 
 pub struct AgentOptions {
 pub mut:
@@ -108,7 +138,11 @@ pub mut:
 	max_tokens    int
 	session_id    string = 's1'
 	policy        ?PolicyHook
+	policy_action ?PolicyActionHook
 	allowed_tools []string
+	interrupt_on  []string
+	on_interrupt_decision ?InterruptDecisionHandler
+	on_interrupt  ?InterruptApproval
 	require_policy bool
 	require_tool_scope bool
 }
@@ -142,12 +176,63 @@ fn emit_event(events &Sink, kind string, session_id string, run_id string, data 
 	sink.emit(Event{kind: kind, session_id: session_id, run_id: run_id, data: data})
 }
 
-fn authorize(options AgentOptions, kind string) ! {
+fn authorize(options AgentOptions, action_value Action) ! {
+	if hook := options.policy_action {
+		if !hook(action_value).allowed {
+			return praxo_error('AGENT_POLICY_DENIED', 'agent: ${action_value.kind} denied')
+		}
+		return
+	}
 	if hook := options.policy {
-		if !hook(kind) {
-			return praxo_error('AGENT_POLICY_DENIED', 'agent: ${kind} denied')
+		if !hook(action_value.kind) {
+			return praxo_error('AGENT_POLICY_DENIED', 'agent: ${action_value.kind} denied')
 		}
 	}
+}
+
+fn apply_interrupt(options AgentOptions, call ToolCall, run_id string,
+	session_id string) !InterruptResult {
+	if call.name !in options.interrupt_on {
+		return InterruptResult{call: call}
+	}
+	if options.on_interrupt_decision == none && options.on_interrupt == none {
+		return praxo_error('AGENT_INTERRUPT_UNHANDLED', 'agent: approval handler not configured: ${call.name}')
+	}
+	mut data := map[string]json2.Any{}
+	data['name'] = json2.Any(call.name)
+	data['arguments'] = json2.Any(call.arguments)
+	emit_event(options.events, 'tool.interrupt', session_id, run_id, json2.Any(data))
+	interrupt := Interrupt{run_id: run_id, session_id: session_id, call: call}
+	if handler := options.on_interrupt_decision {
+		interrupt_decision := handler(interrupt)
+		if interrupt_decision.action == interrupt_approve {
+			return InterruptResult{call: call}
+		}
+		if interrupt_decision.action == interrupt_edit {
+			if arguments := interrupt_decision.arguments {
+				return InterruptResult{call: ToolCall{...call, arguments: arguments.clone()}}
+			}
+			return praxo_error('AGENT_INTERRUPT_DECISION_INVALID', 'agent: edit requires arguments')
+		}
+		if interrupt_decision.action == interrupt_reject {
+			return praxo_error('AGENT_APPROVAL_DENIED', 'agent: tool call denied by approval: ${call.name}: ${interrupt_decision.reason}')
+		}
+		if interrupt_decision.action == interrupt_respond {
+			return InterruptResult{
+				skip: true
+				response: interrupt_decision.response
+				call: call
+			}
+		}
+		return praxo_error('AGENT_INTERRUPT_DECISION_INVALID', 'agent: invalid interrupt decision: ${interrupt_decision.action}')
+	}
+	approval := options.on_interrupt or {
+		return praxo_error('AGENT_INTERRUPT_UNHANDLED', 'agent: approval handler not configured: ${call.name}')
+	}
+	if !approval(interrupt) {
+		return praxo_error('AGENT_APPROVAL_DENIED', 'agent: tool call denied by approval: ${call.name}')
+	}
+	return InterruptResult{call: call}
 }
 
 fn run_agent_inner(options AgentOptions, session_value Session, run_id string,
@@ -191,7 +276,7 @@ fn run_agent_inner(options AgentOptions, session_value Session, run_id string,
 			}
 		}
 		limit.model_call()!
-		authorize(options, 'model.generate')!
+		authorize(options, action('model.generate', session_value.id, '', map[string]json2.Any{}))!
 		result := model.generate(request(model_messages, specs)) or {
 			return err
 		}
@@ -213,35 +298,46 @@ fn run_agent_inner(options AgentOptions, session_value Session, run_id string,
 			return run_result(run_id, output, step, total)
 		}
 		for call in result.message.tool_calls {
-			if options.allowed_tools.len > 0 && call.name !in options.allowed_tools {
-				return praxo_error('AGENT_TOOL_NOT_ALLOWED', 'agent: tool ${call.name} is not allowed')
+			mut active := call
+			if options.allowed_tools.len > 0 && active.name !in options.allowed_tools {
+				return praxo_error('AGENT_TOOL_NOT_ALLOWED', 'agent: tool ${active.name} is not allowed')
 			}
-			authorize(options, 'tool.invoke')!
+			authorize(options, action('tool.invoke', session_value.id, active.name, active.arguments.clone()))!
 			if selection := options.tool_selection {
-				check_tool_selected(selection, call.name)!
-			}
-			index := find_tool_index(options.tools, call.name)
-			if index < 0 {
-				return praxo_error('TOOL_NOT_FOUND', 'tool not found: ${call.name}')
+				check_tool_selected(selection, active.name)!
 			}
 			limit.tool_call()!
+			interrupted := apply_interrupt(options, active, run_id, session_value.id)!
+			active = interrupted.call
+			if interrupted.skip {
+				messages << message_tool(encode_json(json2.Any(interrupted.response)), active.id)
+				continue
+			}
+			if active.name != call.name
+				|| !json_equals(json2.Any(active.arguments), json2.Any(call.arguments)) {
+				authorize(options, action('tool.invoke', session_value.id, active.name, active.arguments.clone()))!
+			}
+			index := find_tool_index(options.tools, active.name)
+			if index < 0 {
+				return praxo_error('TOOL_NOT_FOUND', 'tool not found: ${active.name}')
+			}
 			mut data := map[string]json2.Any{}
-			data['name'] = json2.Any(call.name)
-			data['arguments'] = json2.Any(call.arguments)
+			data['name'] = json2.Any(active.name)
+			data['arguments'] = json2.Any(active.arguments)
 			emit_event(options.events, 'tool.call', session_value.id, run_id, json2.Any(data))
 			mut tool := options.tools[index]
-			mut value := tool.call(call.arguments)
+			mut value := tool.call(active.arguments)
 			if options.pii_redaction {
 				value = redact_value(value)
 			}
-			messages << message_tool(encode_json(value), call.id)
+			messages << message_tool(encode_json(value), active.id)
 		}
 	}
 	return praxo_error('AGENT_MAX_STEPS', 'maximum steps exceeded')
 }
 
 pub fn run_agent(options AgentOptions, session_value Session, prompt string) !RunResult {
-	if options.require_policy && options.policy == none {
+	if options.require_policy && options.policy == none && options.policy_action == none {
 		return praxo_error('AGENT_INVALID_OPTIONS', 'agent: require policy: policy is required')
 	}
 	if options.require_tool_scope && options.allowed_tools.len == 0 {

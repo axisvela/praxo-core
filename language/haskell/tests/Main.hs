@@ -26,6 +26,7 @@ import Praxo.Wire
 main :: IO ()
 main = do
     agentTests
+    hitlTests
     runtimeTests
     middlewareTests
     adapterTests
@@ -103,7 +104,7 @@ agentTests = do
             n <- readIORef calls
             pure (Right (if n == 0 then A.Response "" [call] 2 1 else A.Response "done" [] 1 1))
         tool _ = modifyIORef' calls (+1) >> pure (Right JNull)
-        options = A.AgentOptions model tool sink 2 5 Nothing [] False False
+        options = A.AgentOptions model tool sink 2 5 Nothing [] False False "run-test" "session-test" [] Nothing Nothing Nothing
     result <- A.runAgent options [] "hello"
     assert "agent success and usage" (case result of Right r -> A.runSteps r == 2 && A.runInputTokens r == 3 && A.runOutputTokens r == 2; _ -> False)
     history <- readIORef requests
@@ -173,6 +174,125 @@ agentTests = do
     writeIORef calls 1
     defaults <- A.runAgent options [] "x"
     assert "safe defaults preserve behavior" (case defaults of Right r -> A.runOutput r == "done"; _ -> False)
+
+hitlTests :: IO ()
+hitlTests = do
+    let echoCall = A.ToolCall "call-1" "echo" (JObject [("value", JString "original")])
+        model messages = pure $ Right $ case reverse messages of
+            (lastMessage:_) | A.messageRole lastMessage == "tool" -> A.Response "final" [] 0 0
+            _ -> A.Response "" [echoCall] 0 0
+        echoModel messages = pure $ Right $ case reverse messages of
+            (lastMessage:_) | A.messageRole lastMessage == "tool" -> A.Response (A.messageContent lastMessage) [] 0 0
+            _ -> A.Response "" [echoCall] 0 0
+        base tool = A.AgentOptions
+            { A.generate = model
+            , A.invoke = tool
+            , A.emit = \_ -> pure (Right ())
+            , A.maxSteps = 4
+            , A.maxTokens = 0
+            , A.policy = Nothing
+            , A.allowedTools = ["echo"]
+            , A.requirePolicy = False
+            , A.requireToolScope = False
+            , A.runId = "run-hitl"
+            , A.sessionId = "session-hitl"
+            , A.interruptOn = ["echo"]
+            , A.onInterruptDecision = Nothing
+            , A.onInterrupt = Nothing
+            , A.beforeTool = Nothing
+            }
+
+    approveCalls <- newIORef []
+    approveEvents <- newIORef []
+    let approveTool call = modifyIORef' approveCalls (++ [A.toolCallArguments call]) >> pure (Right (A.toolCallArguments call))
+        approveOptions = (base approveTool)
+            { A.emit = \name -> modifyIORef' approveEvents (++ [name]) >> pure (Right ())
+            , A.onInterruptDecision = Just $ \interrupt -> do
+                assert "hitl interrupt run id" (A.interruptRunId interrupt == "run-hitl")
+                assert "hitl interrupt session id" (A.interruptSessionId interrupt == "session-hitl")
+                assert "hitl interrupt call" (A.toolCallName (A.interruptCall interrupt) == "echo")
+                assert "hitl interrupt arguments" (A.toolCallArguments (A.interruptCall interrupt) == JObject [("value", JString "original")])
+                pure (A.InterruptDecision A.interruptApprove Nothing "" "")
+            }
+    approved <- A.runAgent approveOptions [] "go"
+    approveCallValues <- readIORef approveCalls
+    approveEventValues <- readIORef approveEvents
+    assert "hitl approve" (case approved of Right r -> A.runOutput r == "final"; _ -> False)
+    assert "hitl approve effects" (approveCallValues == [JObject [("value", JString "original")]])
+    assert "hitl interrupt event order" (approveEventValues == ["run.started", "tool.interrupt", "tool.call", "run.completed"])
+
+    editCalls <- newIORef []
+    editOrder <- newIORef []
+    let editTool call = modifyIORef' editCalls (++ [call]) >> pure (Right JNull)
+        editPolicy action
+            | A.actionKind action == "model.generate" = True
+            | otherwise = asString (field "value" (A.actionArguments action)) == "original"
+        editOptions = (base editTool)
+            { A.policy = Just editPolicy
+            , A.beforeTool = Just $ \call -> do
+                modifyIORef' editOrder (++ ["before"])
+                pure (Right call)
+            , A.onInterruptDecision = Just $ \_ -> do
+                current <- readIORef editOrder
+                assert "hitl before middleware precedes interrupt" (current == ["before"])
+                modifyIORef' editOrder (++ ["interrupt"])
+                pure (A.InterruptDecision A.interruptEdit (Just (JObject [("value", JString "edited")])) "" "")
+            }
+    edited <- A.runAgent editOptions [] "go"
+    editCallValues <- readIORef editCalls
+    editOrderValues <- readIORef editOrder
+    assert "hitl edit reauthorization denied" (case edited of Left err -> A.errorCode err == "AGENT_POLICY_DENIED"; _ -> False)
+    assert "hitl edit no effects" (null editCallValues)
+    assert "hitl middleware before interrupt order" (editOrderValues == ["before", "interrupt"])
+
+    rejectCalls <- newIORef []
+    let rejectOptions = (base (\call -> modifyIORef' rejectCalls (++ [call]) >> pure (Right JNull)))
+            { A.onInterruptDecision = Just $ \_ -> pure (A.InterruptDecision A.interruptReject Nothing "" "not allowed") }
+    rejected <- A.runAgent rejectOptions [] "go"
+    rejectCallValues <- readIORef rejectCalls
+    assert "hitl reject code" (case rejected of Left err -> A.errorCode err == "AGENT_APPROVAL_DENIED" && "not allowed" `isInfixOf` A.errorMessage err; _ -> False)
+    assert "hitl reject no effects" (null rejectCallValues)
+
+    respondCalls <- newIORef []
+    let respondOptions = (base (\call -> modifyIORef' respondCalls (++ [call]) >> pure (Right JNull)))
+            { A.generate = echoModel
+            , A.onInterruptDecision = Just $ \_ -> pure (A.InterruptDecision A.interruptRespond Nothing "human answer" "")
+            }
+    responded <- A.runAgent respondOptions [] "go"
+    respondCallValues <- readIORef respondCalls
+    assert "hitl respond output" (case responded of Right r -> A.runOutput r == "\"human answer\""; _ -> False)
+    assert "hitl respond no effects" (null respondCallValues)
+
+    unhandledCalls <- newIORef []
+    unhandled <- A.runAgent (base (\call -> modifyIORef' unhandledCalls (++ [call]) >> pure (Right JNull))) [] "go"
+    unhandledCallValues <- readIORef unhandledCalls
+    assert "hitl unhandled code" (case unhandled of Left err -> A.errorCode err == "AGENT_INTERRUPT_UNHANDLED"; _ -> False)
+    assert "hitl unhandled no effects" (null unhandledCallValues)
+
+    invalidCalls <- newIORef []
+    let invalidOptions = (base (\call -> modifyIORef' invalidCalls (++ [call]) >> pure (Right JNull)))
+            { A.onInterruptDecision = Just $ \_ -> pure (A.InterruptDecision "invalid" Nothing "" "") }
+    invalid <- A.runAgent invalidOptions [] "go"
+    invalidCallValues <- readIORef invalidCalls
+    assert "hitl invalid decision code" (case invalid of Left err -> A.errorCode err == "AGENT_INTERRUPT_DECISION_INVALID"; _ -> False)
+    assert "hitl invalid decision no effects" (null invalidCallValues)
+
+    missingArgumentsCalls <- newIORef []
+    let missingArgumentsOptions = (base (\call -> modifyIORef' missingArgumentsCalls (++ [call]) >> pure (Right JNull)))
+            { A.onInterruptDecision = Just $ \_ -> pure (A.InterruptDecision A.interruptEdit Nothing "" "") }
+    missingArguments <- A.runAgent missingArgumentsOptions [] "go"
+    missingArgumentsCallValues <- readIORef missingArgumentsCalls
+    assert "hitl edit requires arguments" (case missingArguments of Left err -> A.errorCode err == "AGENT_INTERRUPT_DECISION_INVALID"; _ -> False)
+    assert "hitl edit missing arguments no effects" (null missingArgumentsCallValues)
+
+    approvalCalls <- newIORef []
+    let approvalOptions = (base (\call -> modifyIORef' approvalCalls (++ [call]) >> pure (Right JNull)))
+            { A.onInterrupt = Just $ \_ -> pure False }
+    approval <- A.runAgent approvalOptions [] "go"
+    approvalCallValues <- readIORef approvalCalls
+    assert "hitl approval denial code" (case approval of Left err -> A.errorCode err == "AGENT_APPROVAL_DENIED"; _ -> False)
+    assert "hitl approval denial no effects" (null approvalCallValues)
+
 
 runtimeTests :: IO ()
 runtimeTests = do

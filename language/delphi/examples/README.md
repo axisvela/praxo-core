@@ -5,6 +5,8 @@
 - [`live-model/`](live-model/): OpenAI-compatible `get_time` tool example with a
   caller-selected endpoint and model.
 - [`checkpoint/`](checkpoint/): checkpoint allowlist round trip.
+- [`hitl/`](hitl/): approve, edit, reject, and respond interrupt decisions.
+- [`session-checkpoint/`](session-checkpoint/): multi-turn history save and restore.
 - [`event-sink/`](event-sink/): event fan-out and tool-only filtering.
 - [`identity-policy/`](identity-policy/): trusted principal and policy checks.
 - [`mcp/`](mcp/): in-process MCP transport.

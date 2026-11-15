@@ -115,6 +115,12 @@ options = AgentOptions
     , allowedTools = []
     , requirePolicy = False
     , requireToolScope = False
+    , runId = "run-checkpoint"
+    , sessionId = "session-1"
+    , interruptOn = []
+    , onInterruptDecision = Nothing
+    , onInterrupt = Nothing
+    , beforeTool = Nothing
     }
 
 main :: IO ()

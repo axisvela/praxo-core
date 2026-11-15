@@ -9,6 +9,8 @@
 - [`checkpoint/`](checkpoint/): checkpoint allowlist round trip.
 - [`session-checkpoint/`](session-checkpoint/): multi-turn history recovery from
   an in-memory checkpoint store.
+- [`hitl/`](hitl/): human approval, edit, reject, and respond decisions for a
+  write tool.
 - [`event-sink/`](event-sink/): lifecycle and tool events.
 - [`provider-fallback/`](provider-fallback/): fallback after a primary model
   failure.

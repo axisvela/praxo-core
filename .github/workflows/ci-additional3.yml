@@ -73,6 +73,8 @@ jobs:
       - run: julia --project=language/julia language/julia/examples/service/service.jl
       - run: julia --project=language/julia language/julia/examples/mcp/mcp.jl
       - run: julia --project=language/julia language/julia/examples/session-checkpoint/session_checkpoint.jl
+      - run: julia --project=language/julia language/julia/examples/hitl/starter.jl
+      - run: julia --project=language/julia language/julia/examples/hitl/test_starter.jl
 
   haskell-examples:
     needs: changes
@@ -93,6 +95,8 @@ jobs:
       - run: runghc -ilanguage/haskell/src language/haskell/examples/service/service.hs
       - run: runghc -ilanguage/haskell/src language/haskell/examples/mcp/mcp.hs
       - run: runghc -ilanguage/haskell/src language/haskell/examples/session-checkpoint/session_checkpoint.hs
+      - run: runghc -ilanguage/haskell/src -ilanguage/haskell/examples/hitl language/haskell/examples/hitl/starter.hs
+      - run: runghc -ilanguage/haskell/src -ilanguage/haskell/examples/hitl language/haskell/examples/hitl/test_starter.hs
 
   ocaml-examples:
     needs: changes
@@ -113,6 +117,7 @@ jobs:
       - run: opam exec -- ocaml -I language/ocaml language/ocaml/examples/service/service.ml
       - run: opam exec -- ocaml -I language/ocaml language/ocaml/examples/mcp/mcp.ml
       - run: opam exec -- ocaml -I language/ocaml language/ocaml/examples/session-checkpoint/session_checkpoint.ml
+      - run: opam exec -- ocaml -I language/ocaml language/ocaml/examples/hitl/hitl.ml
 
   nim-examples:
     needs: changes
@@ -134,6 +139,8 @@ jobs:
       - run: nim r --path:language/nim/src language/nim/examples/mcp/mcp.nim
       - run: nim r --path:language/nim/src language/nim/examples/session-checkpoint/session_checkpoint.nim
       - run: nim r --path:language/nim/src language/nim/examples/session-checkpoint/test_session_checkpoint.nim
+      - run: nim r --path:language/nim/src language/nim/examples/hitl/starter.nim
+      - run: nim r --path:language/nim/src language/nim/examples/hitl/test_starter.nim
 
   v-examples:
     needs: changes
@@ -162,6 +169,7 @@ jobs:
       - run: v -path "language/v|@vlib|@vmodules" language/v/examples/service/service.v
       - run: v -path "language/v|@vlib|@vmodules" language/v/examples/mcp/mcp.v
       - run: v -path "language/v|@vlib|@vmodules" language/v/examples/session-checkpoint/starter.v
+      - run: v -path "language/v|@vlib|@vmodules" language/v/examples/hitl/hitl.v
 
   zig-examples:
     needs: changes
@@ -187,6 +195,8 @@ jobs:
       - run: zig build-exe --dep praxo -Mroot=language/zig/examples/mcp/mcp.zig -Mpraxo=language/zig/src/praxo.zig -femit-bin=build/zig-mcp
       - run: ./build/zig-mcp
       - run: zig run --dep praxo -Mroot=language/zig/examples/session-checkpoint/starter.zig -Mpraxo=language/zig/src/praxo.zig
+      - run: zig run --dep praxo -Mroot=language/zig/examples/hitl/hitl.zig -Mpraxo=language/zig/src/praxo.zig
+      - run: zig test --dep praxo -Mroot=language/zig/examples/hitl/hitl_test.zig -Mpraxo=language/zig/src/praxo.zig
 
   objc-examples:
     needs: changes
@@ -215,6 +225,8 @@ jobs:
       - run: ./build/objc-mcp
       - run: clang -fobjc-arc -fblocks -Ilanguage/objc/src -o build/objc-session-checkpoint language/objc/examples/session-checkpoint/session_checkpoint.m language/objc/src/PraxoJSON.m language/objc/src/PraxoJsonSchema.m language/objc/src/PraxoCore.m language/objc/src/PraxoAgent.m -framework Foundation
       - run: ./build/objc-session-checkpoint
+      - run: clang -fobjc-arc -fblocks -Ilanguage/objc/src -o build/objc-hitl language/objc/examples/hitl/hitl.m language/objc/src/PraxoHitl.m language/objc/src/PraxoJSON.m language/objc/src/PraxoJsonSchema.m language/objc/src/PraxoCore.m language/objc/src/PraxoAgent.m -framework Foundation
+      - run: ./build/objc-hitl
 
   examples-gate:
     needs: [changes, swift-examples, julia-examples, haskell-examples, ocaml-examples, nim-examples, v-examples, zig-examples, objc-examples]

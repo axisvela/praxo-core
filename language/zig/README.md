@@ -25,6 +25,31 @@ implementation.
 memory, event, stream, checkpoint, policy, context, middleware, and the agent
 loop. `zig/v0.1.0` remains the wire subset.
 
+## Human-in-the-Loop Approval
+
+Set `AgentOptions.interrupt_on` to the tool names that require a decision and
+supply `on_interrupt_decision` (`Agent.InterruptHandler`) or `on_interrupt`
+(`agent.InterruptApproval`). The interrupt check runs after tool scope, initial
+policy, and before `tool.call`. A decision of `agent.INTERRUPT_APPROVE`
+continues, `agent.INTERRUPT_EDIT` replaces `call.arguments` and reauthorizes
+them, `agent.INTERRUPT_REJECT` fails with `AgentApprovalDenied`, and
+`agent.INTERRUPT_RESPOND` skips the tool and uses `response` as the tool result.
+An interrupt without a handler fails with `AgentInterruptUnhandled`; an unknown
+action or an edit without arguments fails with `AgentInterruptDecisionInvalid`.
+Interrupts emit `tool.interrupt` after a handler is configured.
+
+```zig
+var context = DecisionContext{ .decision = .{ .action = agent.INTERRUPT_APPROVE } };
+var instance = agent.Agent.init(.{
+    .model = model,
+    .tools = &registry,
+    .interrupt_on = &.{"write_note"},
+    .on_interrupt_decision = .{ .ctx = &context, .decideFn = decide },
+});
+```
+
+See [`examples/hitl/`](examples/hitl/) for an approve and edit-denial run.
+
 ## Harmovela Event Sink
 
 ```zig

@@ -61,6 +61,18 @@ def main():
                    cwd=ROOT, check=True)
     executable = build / ("agent_tests.exe" if os.name == "nt" else "agent_tests")
     subprocess.run([str(executable), str(ROOT.parents[1] / "spec")], cwd=ROOT, check=True, timeout=120)
+    subprocess.run([compiler, *flags, "-Futests", f"-FE{build}", "tests/hitl_tests.lpr"],
+                   cwd=ROOT, check=True)
+    executable = build / ("hitl_tests.exe" if os.name == "nt" else "hitl_tests")
+    subprocess.run([str(executable)], cwd=ROOT, check=True, timeout=120)
+    subprocess.run([compiler, *flags, f"-FE{build}", "examples/hitl/hitl.pas"],
+                   cwd=ROOT, check=True)
+    executable = build / ("hitl.exe" if os.name == "nt" else "hitl")
+    subprocess.run([str(executable)], cwd=ROOT, check=True, timeout=120)
+    subprocess.run([compiler, *flags, f"-FE{build}", "examples/session-checkpoint/session_checkpoint.pas"],
+                   cwd=ROOT, check=True)
+    executable = build / ("session_checkpoint.exe" if os.name == "nt" else "session_checkpoint")
+    subprocess.run([str(executable)], cwd=ROOT, check=True, timeout=120)
     subprocess.run([compiler, *flags, "-Futests", f"-FE{build}", "tests/core_tests.lpr"],
                    cwd=ROOT, check=True)
     executable = build / ("core_tests.exe" if os.name == "nt" else "core_tests")

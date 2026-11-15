@@ -3,6 +3,14 @@
 
 ## 0.6.1 - 2026-11-15
 
+### Added
+
+- Human-in-the-loop wrappers over the inherited C# interrupt support:
+  `New-PraxoInterruptDecision`, `New-PraxoInterruptHandler`,
+  `New-PraxoInterruptApproval`, and `Add-PraxoInterruptTool`.
+- Tests and an example for approve, edit reauthorization denial, reject,
+  respond, unhandled, and invalid decisions.
+
 ### Changed
 
 - Expanded the registry README with a Get started section and a task-oriented example index.

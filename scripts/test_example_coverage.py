@@ -23,8 +23,8 @@ class ExampleCoverageTests(unittest.TestCase):
     def test_report_includes_special_layouts(self):
         report = "\n".join(coverage.report_lines())
         self.assertIn("go | 13/13 (root examples)", report)
-        self.assertIn("octave | 11/13 (MATLAB fallback)", report)
-        self.assertIn("objc | 12/13", report)
+        self.assertIn("octave | 13/13 (MATLAB fallback)", report)
+        self.assertIn("objc | 13/13", report)
 
     def test_sample_only_directories_are_excluded(self):
         languages = set(coverage.languages())

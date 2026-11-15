@@ -47,6 +47,12 @@ type harmovela_config = {
 type openai_config = {
 type anthropic_config = {
 type gemini_config = {
+type agent_action = {
+type policy_hook = agent_action -> decision
+type interrupt = {
+type interrupt_decision = {
+type interrupt_handler = interrupt -> interrupt_decision
+type interrupt_approval = interrupt -> bool
 type agent_options = {
 type mcp_transport = string -> json -> json
 type mcp_client = {
@@ -134,6 +140,13 @@ val scripted_model : response list -> model
 val static_model : string -> model
 val failing_model : unit -> model
 val fallback_model : model -> model -> model
+val interrupt_approve : string
+val interrupt_edit : string
+val interrupt_reject : string
+val interrupt_respond : string
+val agent_action_make : string -> string -> string -> json -> agent_action
+val interrupt_make : string -> string -> tool_invocation -> interrupt
+val interrupt_decision_make :
 val agent_options : model -> agent_options
 val tool_make : string -> string -> (json -> json) -> tool
 val find_tool : tool list -> string -> tool option

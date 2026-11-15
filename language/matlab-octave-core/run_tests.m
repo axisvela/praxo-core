@@ -27,6 +27,8 @@ test_policy();
 test_context();
 test_middleware();
 test_agent();
+test_hitl();
+test_session();
 test_openai();
 test_provider_adapters();
 test_mcp();

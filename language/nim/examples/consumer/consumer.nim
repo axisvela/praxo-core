@@ -35,8 +35,14 @@ proc runCase(target: string): tuple[result: RunResult, caught: ref CatchableErro
   var options = newAgentOptions(fixtureModel(target))
   options.tools = @[newTool("record", "Record a target in an in-memory counter.", record)]
   options.allowedTools = @["record"]
-  options.policy = proc(kind: string): bool =
-    kind == "model.generate" or kind == "tool.invoke"
+  options.policy = proc(action: Action): Decision =
+    if action.kind == "model.generate":
+      return newDecision(true)
+    if action.kind == "tool.invoke":
+      return newDecision(action.toolName == "record" and
+                         targetOf(action.arguments) == "public",
+                         "only the public target is permitted")
+    return newDecision(false, "unsupported action")
   options.maxSteps = 3
   options.requirePolicy = true
   options.requireToolScope = true

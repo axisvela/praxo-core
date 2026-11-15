@@ -1075,6 +1075,26 @@ type gemini_config = {
   gemini_max_output_tokens : int;
   gemini_tool_choice : string option;
 }
+type agent_action = {
+  action_kind : string;
+  action_session_id : string;
+  action_tool_name : string;
+  action_arguments : json;
+}
+type policy_hook = agent_action -> decision
+type interrupt = {
+  interrupt_run_id : string;
+  interrupt_session_id : string;
+  interrupt_call : tool_invocation;
+}
+type interrupt_decision = {
+  interrupt_action : string;
+  interrupt_arguments : json option;
+  interrupt_response : string;
+  interrupt_reason : string;
+}
+type interrupt_handler = interrupt -> interrupt_decision
+type interrupt_approval = interrupt -> bool
 type agent_options = {
   agent_model : model;
   agent_tools : tool list;
@@ -1088,7 +1108,11 @@ type agent_options = {
   agent_max_tokens : int;
   agent_session_id : string;
   agent_policy : (string -> bool) option;
+  agent_action_policy : policy_hook option;
   agent_allowed_tools : string list;
+  agent_interrupt_on : string list;
+  agent_on_interrupt_decision : interrupt_handler option;
+  agent_on_interrupt : interrupt_approval option;
   agent_require_policy : bool;
   agent_require_tool_scope : bool;
 }
@@ -2052,6 +2076,31 @@ let fallback_model primary fallback = {
   generate = fun request -> try primary.generate request with _ -> fallback.generate request;
 }
 
+let interrupt_approve = "approve"
+let interrupt_edit = "edit"
+let interrupt_reject = "reject"
+let interrupt_respond = "respond"
+
+let agent_action_make kind session_id tool_name arguments = {
+  action_kind = kind;
+  action_session_id = session_id;
+  action_tool_name = tool_name;
+  action_arguments = arguments;
+}
+
+let interrupt_make run_id session_id call = {
+  interrupt_run_id = run_id;
+  interrupt_session_id = session_id;
+  interrupt_call = call;
+}
+
+let interrupt_decision_make ?arguments ?(response = "") ?(reason = "") action = {
+  interrupt_action = action;
+  interrupt_arguments = arguments;
+  interrupt_response = response;
+  interrupt_reason = reason;
+}
+
 let agent_options model = {
   agent_model = model;
   agent_tools = [];
@@ -2065,7 +2114,11 @@ let agent_options model = {
   agent_max_tokens = 0;
   agent_session_id = "s1";
   agent_policy = None;
+  agent_action_policy = None;
   agent_allowed_tools = [];
+  agent_interrupt_on = [];
+  agent_on_interrupt_decision = None;
+  agent_on_interrupt = None;
   agent_require_policy = false;
   agent_require_tool_scope = false;
 }
@@ -2091,7 +2144,8 @@ let redact_message message = {
 }
 
 let run_agent options session prompt =
-  if options.agent_require_policy && options.agent_policy = None then
+  if options.agent_require_policy &&
+     options.agent_policy = None && options.agent_action_policy = None then
     raise_core "AGENT_INVALID_OPTIONS" "agent: require policy: policy is required";
   if options.agent_require_tool_scope && options.agent_allowed_tools = [] then
     raise_core "AGENT_INVALID_OPTIONS" "agent: require tool scope: allowed_tools must not be empty";
@@ -2113,12 +2167,65 @@ let run_agent options session prompt =
   let emit_failed message =
     emit_event "run.failed" (Object [("error", String message)])
   in
-  let authorize kind =
-    match options.agent_policy with
-    | None -> ()
-    | Some policy ->
-        if not (policy kind) then
-          raise_core "AGENT_POLICY_DENIED" ("agent: " ^ kind ^ " denied")
+  let apply_decision kind tool_name arguments policy =
+    let result = policy (agent_action_make kind session.session_id tool_name arguments) in
+    if not result.decision_allowed then
+      raise_core "AGENT_POLICY_DENIED"
+        ("agent: " ^ kind ^ " denied" ^
+           (if result.decision_reason <> "" then ": " ^ result.decision_reason else ""))
+  in
+  let authorize_action kind tool_name arguments =
+    match options.agent_action_policy with
+    | Some policy -> apply_decision kind tool_name arguments policy
+    | None ->
+        match options.agent_policy with
+        | None -> ()
+        | Some policy ->
+            if not (policy kind) then
+              raise_core "AGENT_POLICY_DENIED" ("agent: " ^ kind ^ " denied")
+  in
+  let authorize kind = authorize_action kind "" Null in
+  let apply_interrupt call =
+    if not (List.mem call.invocation_name options.agent_interrupt_on) then
+      (call, None)
+    else begin
+      if options.agent_on_interrupt_decision = None && options.agent_on_interrupt = None then
+        raise_core "AGENT_INTERRUPT_UNHANDLED"
+          ("agent: approval handler not configured: " ^ call.invocation_name);
+      emit_event "tool.interrupt" (Object [
+        ("name", String call.invocation_name);
+        ("arguments", call.invocation_arguments)]);
+      let interrupt = interrupt_make run_id session.session_id call in
+      match options.agent_on_interrupt_decision with
+      | Some handler ->
+          let decision = handler interrupt in
+          if decision.interrupt_action = interrupt_approve then (call, None)
+          else if decision.interrupt_action = interrupt_edit then
+            (match decision.interrupt_arguments with
+             | None ->
+                 raise_core "AGENT_INTERRUPT_DECISION_INVALID" "agent: edit requires arguments"
+             | Some arguments ->
+                 ({ call with invocation_arguments = arguments }, None))
+          else if decision.interrupt_action = interrupt_reject then
+            raise_core "AGENT_APPROVAL_DENIED"
+              ("agent: tool call denied by approval: " ^ call.invocation_name ^
+                 ": " ^ decision.interrupt_reason)
+          else if decision.interrupt_action = interrupt_respond then
+            (call, Some decision.interrupt_response)
+          else
+            raise_core "AGENT_INTERRUPT_DECISION_INVALID"
+              ("agent: invalid interrupt decision: " ^ decision.interrupt_action)
+      | None ->
+          let approved =
+            match options.agent_on_interrupt with
+            | Some approval -> approval interrupt
+            | None -> false
+          in
+          if not approved then
+            raise_core "AGENT_APPROVAL_DENIED"
+              ("agent: tool call denied by approval: " ^ call.invocation_name);
+          (call, None)
+    end
   in
   try
     emit_event "run.started" Null;
@@ -2161,24 +2268,39 @@ let run_agent options session prompt =
         result := Some (run_result_make run_id output !step !total)
       end else
         List.iter (fun call ->
+          let original_name = call.invocation_name in
+          let original_arguments = call.invocation_arguments in
           if options.agent_allowed_tools <> [] &&
-             not (List.mem call.invocation_name options.agent_allowed_tools) then
+             not (List.mem original_name options.agent_allowed_tools) then
             raise_core "AGENT_TOOL_NOT_ALLOWED"
-              ("agent: tool " ^ call.invocation_name ^ " is not allowed");
-          authorize "tool.invoke";
+              ("agent: tool " ^ original_name ^ " is not allowed");
           (match options.agent_tool_selection with
            | None -> ()
-           | Some selection -> check_tool_selected selection call.invocation_name);
-          match find_tool options.agent_tools call.invocation_name with
-          | None -> raise_core "TOOL_NOT_FOUND" ("tool not found: " ^ call.invocation_name)
-          | Some tool ->
-              (match options.agent_call_limit with Some limit -> call_limit_tool limit | None -> ());
-              emit_event "tool.call" (Object [
-                ("name", String call.invocation_name);
-                ("arguments", call.invocation_arguments)]);
-              let value = tool.tool_invoke call.invocation_arguments in
-              let value = if options.agent_pii then redact_value value else value in
-              messages := !messages @ [tool_message (encode_json value) call.invocation_id]
+           | Some selection -> check_tool_selected selection original_name);
+          authorize_action "tool.invoke" original_name original_arguments;
+          let active, interrupt_response = apply_interrupt call in
+          match interrupt_response with
+          | Some text ->
+              messages := !messages @
+                [tool_message (encode_json (String text)) active.invocation_id]
+          | None ->
+              if options.agent_allowed_tools <> [] &&
+                 not (List.mem active.invocation_name options.agent_allowed_tools) then
+                raise_core "AGENT_TOOL_NOT_ALLOWED"
+                  ("agent: tool " ^ active.invocation_name ^ " is not allowed");
+              if active.invocation_name <> original_name ||
+                 not (json_equal active.invocation_arguments original_arguments) then
+                authorize_action "tool.invoke" active.invocation_name active.invocation_arguments;
+              (match find_tool options.agent_tools active.invocation_name with
+               | None -> raise_core "TOOL_NOT_FOUND" ("tool not found: " ^ active.invocation_name)
+               | Some tool ->
+                   (match options.agent_call_limit with Some limit -> call_limit_tool limit | None -> ());
+                   emit_event "tool.call" (Object [
+                     ("name", String active.invocation_name);
+                     ("arguments", active.invocation_arguments)]);
+                   let value = tool.tool_invoke active.invocation_arguments in
+                   let value = if options.agent_pii then redact_value value else value in
+                   messages := !messages @ [tool_message (encode_json value) active.invocation_id])
         ) response.response_message.message_calls
     done;
     match !result with Some value -> value | None -> raise_core "AGENT_MAX_STEPS" "maximum steps exceeded"

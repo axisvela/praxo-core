@@ -475,6 +475,145 @@ let test_agent_middleware () =
   check (model_code = "AGENT_MODEL_CALL_LIMIT") "model call limit";
   print_endline "test_agent_middleware passed"
 
+let test_agent_hitl () =
+  let visibility arguments =
+    match field "visibility" arguments with
+    | Some (Praxo_core.String value) -> value
+    | _ -> ""
+  in
+  let allow_public actions action =
+    actions := !actions @
+      [(action.Praxo_core.action_kind, action.action_tool_name,
+        visibility action.action_arguments)];
+    if action.action_kind = "model.generate" then Praxo_core.decision_make true ""
+    else if action.action_kind = "tool.invoke" then
+      if action.action_tool_name = "write_note" &&
+         visibility action.action_arguments = "public" then
+        Praxo_core.decision_make true "only public notes are permitted"
+      else Praxo_core.decision_make false "only public notes are permitted"
+    else Praxo_core.decision_make false "unsupported action"
+  in
+  let run ?(echo_tool = false) ?decision ?approval
+      ?(interrupt_on = ["write_note"]) () =
+    let effects = ref 0 in
+    let actions = ref [] in
+    let model = { Praxo_core.generate = fun request ->
+      match List.rev request.Praxo_core.request_messages with
+      | message :: _ when message.Praxo_core.message_role = "tool" ->
+          let output = if echo_tool then message.Praxo_core.message_content else "done" in
+          Praxo_core.response_make (Praxo_core.assistant_message output [])
+            (Praxo_core.usage_make 0 0)
+      | _ ->
+          Praxo_core.response_make
+            (Praxo_core.assistant_message ""
+               [Praxo_core.tool_invocation_make "write-note-1" "write_note"
+                  (Praxo_core.Object [
+                    ("text", Praxo_core.String "hello");
+                    ("visibility", Praxo_core.String "public")])])
+            (Praxo_core.usage_make 0 0) } in
+    let tool = Praxo_core.tool_make "write_note"
+      "Write a short note with the requested visibility."
+      (fun _ -> incr effects; Praxo_core.String "written") in
+    let events = ref [] in
+    let options = { (Praxo_core.agent_options model) with
+      Praxo_core.agent_tools = [tool];
+      agent_allowed_tools = ["write_note"];
+      agent_action_policy = Some (allow_public actions);
+      agent_interrupt_on = interrupt_on;
+      agent_on_interrupt_decision = decision;
+      agent_on_interrupt = approval;
+      agent_max_steps = 3;
+      agent_events = Some (fun event -> events := !events @ [event.Praxo_core.event_type]) } in
+    let outcome =
+      try Ok (Praxo_core.run_agent options (Praxo_core.session_make "hitl" []) "Write a note.")
+      with Praxo_core.Core_error (code, message) -> Error (code, message)
+    in
+    (outcome, !effects, !actions, !events)
+  in
+  let seen = ref None in
+  let outcome, effects, _, events = run ~decision:(fun interrupt ->
+      seen := Some (interrupt.Praxo_core.interrupt_run_id,
+        interrupt.interrupt_session_id,
+        interrupt.interrupt_call.Praxo_core.invocation_name,
+        visibility interrupt.interrupt_call.Praxo_core.invocation_arguments);
+      Praxo_core.interrupt_decision_make Praxo_core.interrupt_approve) () in
+  (match outcome with
+   | Ok result -> check (result.Praxo_core.result_output = "done") "hitl approve output"
+   | Error (code, _) -> fail ("hitl approve failed: " ^ code));
+  check (effects = 1) "hitl approve effects";
+  check (match !seen with
+    | Some (run_id, session_id, name, value) ->
+        run_id <> "" && session_id = "hitl" && name = "write_note" && value = "public"
+    | None -> false) "hitl interrupt payload";
+  check (events = ["run.started"; "tool.interrupt"; "tool.call"; "run.completed"])
+    "hitl approve events";
+
+  let outcome, effects, actions, _ = run ~decision:(fun _ ->
+      Praxo_core.interrupt_decision_make
+        ~arguments:(Praxo_core.Object [
+          ("text", Praxo_core.String "hello");
+          ("visibility", Praxo_core.String "private")])
+        Praxo_core.interrupt_edit) () in
+  (match outcome with
+   | Error ("AGENT_POLICY_DENIED", _) -> ()
+   | _ -> fail "hitl edit should be denied by reauthorization");
+  check (effects = 0) "hitl edit effects";
+  let tool_actions = List.filter (fun (kind, name, _) ->
+    kind = "tool.invoke" && name = "write_note") actions in
+  check (List.length tool_actions = 2) "hitl edit reauthorization count";
+  (match List.nth tool_actions 0 with
+   | (_, _, value) -> check (value = "public") "hitl edit initial authorization");
+  (match List.nth tool_actions 1 with
+   | (_, _, value) -> check (value = "private") "hitl edit reauthorization");
+
+  let outcome, effects, _, _ = run ~decision:(fun _ ->
+      Praxo_core.interrupt_decision_make ~reason:"denied by reviewer"
+        Praxo_core.interrupt_reject) () in
+  (match outcome with
+   | Error ("AGENT_APPROVAL_DENIED", message) ->
+       check (Praxo_core.ends_with "denied by reviewer" message) "hitl reject reason"
+   | _ -> fail "hitl reject code");
+  check (effects = 0) "hitl reject effects";
+
+  let outcome, effects, _, _ = run ~echo_tool:true ~decision:(fun _ ->
+      Praxo_core.interrupt_decision_make ~response:"cached"
+        Praxo_core.interrupt_respond) () in
+  (match outcome with
+   | Ok result -> check (result.Praxo_core.result_output = "\"cached\"") "hitl respond output"
+   | Error (code, _) -> fail ("hitl respond failed: " ^ code));
+  check (effects = 0) "hitl respond effects";
+
+  let outcome, effects, _, events = run () in
+  (match outcome with
+   | Error ("AGENT_INTERRUPT_UNHANDLED", _) -> ()
+   | _ -> fail "hitl unhandled code");
+  check (effects = 0) "hitl unhandled effects";
+  check (not (List.mem "tool.interrupt" events)) "hitl unhandled event";
+
+  let invalid code decision =
+    let outcome, effects, _, _ = run ~decision () in
+    (match outcome with
+     | Error (actual, _) -> check (actual = code) ("hitl " ^ code)
+     | _ -> fail ("hitl " ^ code ^ " missing"));
+    check (effects = 0) ("hitl " ^ code ^ " effects")
+  in
+  invalid "AGENT_INTERRUPT_DECISION_INVALID" (fun _ ->
+    Praxo_core.interrupt_decision_make "bogus");
+  invalid "AGENT_INTERRUPT_DECISION_INVALID" (fun _ ->
+    Praxo_core.interrupt_decision_make Praxo_core.interrupt_edit);
+
+  let outcome, effects, _, _ = run ~approval:(fun _ -> false) () in
+  (match outcome with
+   | Error ("AGENT_APPROVAL_DENIED", _) -> ()
+   | _ -> fail "hitl approval denied code");
+  check (effects = 0) "hitl approval denied effects";
+  let outcome, effects, _, _ = run ~approval:(fun _ -> true) () in
+  (match outcome with
+   | Ok result -> check (result.Praxo_core.result_output = "done") "hitl approval output"
+   | Error (code, _) -> fail ("hitl approval failed: " ^ code));
+  check (effects = 1) "hitl approval effects";
+  print_endline "test_agent_hitl passed"
+
 let test_agent_safe_defaults () =
   let model = Praxo_core.static_model "ok" in
   let expect_code expected thunk =
@@ -709,6 +848,7 @@ let () =
   test_agent_loop root;
   test_agent_middleware ();
   test_agent_failures ();
+  test_agent_hitl ();
   test_agent_safe_defaults ();
   test_mcp ();
   test_seams ();

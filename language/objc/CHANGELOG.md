@@ -2,6 +2,20 @@
 
 ## Unreleased
 
+### Added
+
+- Human-in-the-loop interrupts: `PXRInterruptCreate`,
+  `PXRInterruptDecisionCreate`, the `PXRInterrupt*` action constants,
+  `PXRInterruptHandler`, `PXRInterruptApproval`, `PXRToolMiddleware`, and the
+  `interruptOn`, `onInterruptDecision`, `onInterrupt`, and `middleware` agent
+  options.
+- Tool calls now emit `tool.interrupt` and support approve, edit, reject, and
+  respond decisions. Edit reauthorizes replaced arguments before the effect.
+- `options[@"policy"]` is now invoked with an action dictionary for
+  `model.generate`, the original `tool.invoke`, and edited or middleware-modified
+  tool calls. Policy blocks return `PXRDecisionCreate(...)`.
+- `examples/hitl/` with approve and edited-argument denial scenarios.
+
 ### Changed
 
 - Core `Praxo*.h` and `Praxo*.m` files moved from `language/objc/` to

@@ -18,6 +18,8 @@ GeminiOptions
 HarmovelaOptions
 HarmovelaResponse
 HarmovelaSink
+Interrupt
+InterruptDecision
 Manifest
 McpClient
 McpOptions
@@ -93,6 +95,10 @@ get_string
 harmovela_default_clock
 harmovela_default_transport
 harmovela_sink
+interrupt_approve
+interrupt_edit
+interrupt_reject
+interrupt_respond
 is_array
 is_null
 is_object

@@ -947,6 +947,127 @@ fn test_agent_safe_defaults() {
 	assert default_result.output == 'ok'
 }
 
+fn hitl_model(request praxo.Request) !praxo.Response {
+	last := request.messages[request.messages.len - 1]
+	if last.role == praxo.role_tool {
+		return praxo.response(praxo.message_assistant('done', []praxo.ToolCall{}),
+			praxo.usage(0, 0))
+	}
+	return praxo.response(praxo.message_assistant('', [
+		praxo.tool_call('write-note-1', 'write_note', {
+			'text': json2.Any('hello')
+			'visibility': json2.Any('public')
+		}),
+	]), praxo.usage(0, 0))
+}
+
+fn hitl_policy(action praxo.Action) praxo.Decision {
+	if action.kind == 'model.generate' {
+		return praxo.decision(true, '')
+	}
+	if action.kind == 'tool.invoke' {
+		visibility := praxo.as_string(action.arguments['visibility'] or { json2.null }) or { '' }
+		return praxo.decision(action.tool_name == 'write_note' && visibility == 'public',
+			'only public notes are permitted')
+	}
+	return praxo.decision(false, 'unsupported action')
+}
+
+fn hitl_run(decision praxo.InterruptDecision, with_handler bool) (string, int, string, []string) {
+	mut tool := praxo.func_tool('write_note', 'Write a short note with the requested visibility.')
+	tool.invoke = fn (_arguments map[string]json2.Any) json2.Any {
+		return json2.Any('written')
+	}
+	mut options := praxo.agent_options(praxo.callback_model(hitl_model))
+	options.tools = [tool]
+	options.allowed_tools = ['write_note']
+	options.max_steps = 3
+	options.policy_action = hitl_policy
+	options.interrupt_on = ['write_note']
+	if with_handler {
+		options.on_interrupt_decision = fn [decision] (_interrupt praxo.Interrupt) praxo.InterruptDecision {
+			return decision
+		}
+	}
+	sink := &praxo.Sink{}
+	options.events = sink
+	mut failure := ''
+	result := praxo.run_agent(options, praxo.session('hitl', []praxo.Message{}), 'Write a note.') or {
+		failure = praxo.error_code(err)
+		praxo.RunResult{}
+	}
+	return result.output, tool.calls, failure, sink.kinds
+}
+
+fn test_agent_hitl_approve() {
+	output, calls, failure, kinds := hitl_run(praxo.InterruptDecision{
+		action: praxo.interrupt_approve
+	}, true)
+	assert failure == ''
+	assert output == 'done'
+	assert calls == 1
+	assert kinds == ['run.started', 'tool.interrupt', 'tool.call', 'run.completed']
+}
+
+fn test_agent_hitl_edit_reauth_denied() {
+	output, calls, failure, kinds := hitl_run(praxo.InterruptDecision{
+		action: praxo.interrupt_edit
+		arguments: {
+			'text': json2.Any('hello')
+			'visibility': json2.Any('private')
+		}
+	}, true)
+	assert failure == 'AGENT_POLICY_DENIED'
+	assert output == ''
+	assert calls == 0
+	assert kinds == ['run.started', 'tool.interrupt', 'run.failed']
+}
+
+fn test_agent_hitl_reject() {
+	output, calls, failure, kinds := hitl_run(praxo.InterruptDecision{
+		action: praxo.interrupt_reject
+		reason: 'not allowed'
+	}, true)
+	assert failure == 'AGENT_APPROVAL_DENIED'
+	assert output == ''
+	assert calls == 0
+	assert kinds == ['run.started', 'tool.interrupt', 'run.failed']
+}
+
+fn test_agent_hitl_respond() {
+	output, calls, failure, kinds := hitl_run(praxo.InterruptDecision{
+		action: praxo.interrupt_respond
+		response: 'skipped'
+	}, true)
+	assert failure == ''
+	assert output == 'done'
+	assert calls == 0
+	assert kinds == ['run.started', 'tool.interrupt', 'run.completed']
+}
+
+fn test_agent_hitl_unhandled() {
+	output, calls, failure, kinds := hitl_run(praxo.InterruptDecision{}, false)
+	assert failure == 'AGENT_INTERRUPT_UNHANDLED'
+	assert output == ''
+	assert calls == 0
+	assert kinds == ['run.started', 'run.failed']
+}
+
+fn test_agent_hitl_invalid() {
+	_, invalid_calls, invalid_failure, invalid_kinds := hitl_run(praxo.InterruptDecision{
+		action: 'bogus'
+	}, true)
+	assert invalid_failure == 'AGENT_INTERRUPT_DECISION_INVALID'
+	assert invalid_calls == 0
+	assert invalid_kinds == ['run.started', 'tool.interrupt', 'run.failed']
+	_, edit_calls, edit_failure, edit_kinds := hitl_run(praxo.InterruptDecision{
+		action: praxo.interrupt_edit
+	}, true)
+	assert edit_failure == 'AGENT_INTERRUPT_DECISION_INVALID'
+	assert edit_calls == 0
+	assert edit_kinds == ['run.started', 'tool.interrupt', 'run.failed']
+}
+
 fn main() {
 	test_json()
 	test_toolcall()
@@ -965,6 +1086,12 @@ fn main() {
 	test_agent_middleware()
 	test_agent_call_limits()
 	test_agent_safe_defaults()
+	test_agent_hitl_approve()
+	test_agent_hitl_edit_reauth_denied()
+	test_agent_hitl_reject()
+	test_agent_hitl_respond()
+	test_agent_hitl_unhandled()
+	test_agent_hitl_invalid()
 	test_openai_compatible()
 	test_anthropic_compatible()
 	test_gemini_compatible()

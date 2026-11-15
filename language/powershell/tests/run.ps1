@@ -119,6 +119,166 @@ $scopeSession = New-PraxoSession -Id 'guarded-scope'
 $scopeResult = Invoke-PraxoAgent -Agent $scopeAgent -Session $scopeSession -Prompt 'hello'
 Assert-True ($scopeResult.Output -eq 'hello') 'require tool scope accepts configured scope'
 
+$references = @($assembly, [System.Text.Json.Nodes.JsonNode].Assembly.Location)
+Add-Type -TypeDefinition @'
+using System.Text.Json.Nodes;
+using Praxo.Core;
+
+public sealed class PraxoHitlFixtureModel : IModel
+{
+    public bool EchoTool { get; set; }
+
+    public Response Generate(Request request)
+    {
+        var last = request.Messages[request.Messages.Count - 1];
+        if (last.Role == Roles.Tool)
+        {
+            return new Response
+            {
+                Message = Message.Assistant(EchoTool ? (last.Content ?? "") : "done"),
+            };
+        }
+        return new Response
+        {
+            Message = Message.Assistant("", new[]
+            {
+                new ToolCall
+                {
+                    Id = "write-note-1",
+                    Name = "write_note",
+                    Arguments = new JsonObject
+                    {
+                        ["text"] = "hello",
+                        ["visibility"] = "public",
+                    },
+                },
+            }),
+        };
+    }
+}
+
+public sealed class PraxoHitlWriteTool : ITool
+{
+    public int Calls { get; private set; }
+
+    public string Name => "write_note";
+
+    public string Description => "Write a short note with the requested visibility.";
+
+    public JsonNode? Invoke(JsonObject arguments)
+    {
+        Calls += 1;
+        return JsonValue.Create("written");
+    }
+}
+
+public sealed class PraxoHitlPolicy : IPolicyHook
+{
+    public Decision Authorize(Action action)
+    {
+        if (action.Kind == "model.generate")
+        {
+            return Decision.Allow("model generation");
+        }
+        if (action.Kind == "tool.invoke")
+        {
+            var visibility = action.Arguments?["visibility"]?.GetValue<string>();
+            return action.ToolName == "write_note" && visibility == "public"
+                ? Decision.Allow("only public notes are permitted")
+                : Decision.Deny("only public notes are permitted");
+        }
+        return Decision.Deny("unsupported action");
+    }
+}
+'@ -ReferencedAssemblies $references -CompilerOptions "/nowarn:1701"
+
+function Invoke-HitlScenario {
+    param(
+        [Praxo.Core.InterruptDecision]$Decision,
+        [scriptblock]$Approve,
+        [switch]$EchoTool
+    )
+    $tool = [PraxoHitlWriteTool]::new()
+    $registry = New-PraxoToolRegistry
+    Register-PraxoTool -Registry $registry -Tool $tool | Out-Null
+    $model = [PraxoHitlFixtureModel]::new()
+    $model.EchoTool = $EchoTool.IsPresent
+    $options = New-PraxoAgentOptions -Model $model
+    $options.Tools = $registry
+    $options.MaxSteps = 3
+    $options.AllowedTools.Add('write_note')
+    $options.Policy = [PraxoHitlPolicy]::new()
+    Add-PraxoInterruptTool -Options $options -Name 'write_note' | Out-Null
+    if ($null -ne $Decision) {
+        $decisionValue = $Decision
+        $options.OnInterruptDecision = New-PraxoInterruptHandler -Handler {
+            param($interrupt)
+            $decisionValue
+        }
+    }
+    if ($Approve) {
+        $options.OnInterrupt = New-PraxoInterruptApproval -Handler $Approve
+    }
+    $agent = New-PraxoAgent -Options $options
+    $session = New-PraxoSession -Id 'hitl'
+    try {
+        $result = Invoke-PraxoAgent -Agent $agent -Session $session -Prompt 'Write a note.'
+        [pscustomobject]@{
+            Output = $result.Output
+            Code = ''
+            Effects = $tool.Calls
+            Message = ''
+        }
+    }
+    catch [Praxo.Core.PraxoException] {
+        [pscustomobject]@{
+            Output = ''
+            Code = $_.Exception.Code
+            Effects = $tool.Calls
+            Message = $_.Exception.Message
+        }
+    }
+}
+
+$approve = Invoke-HitlScenario -Decision (New-PraxoInterruptDecision -Action 'approve')
+Assert-True ($approve.Code -eq '' -and $approve.Output -eq 'done' -and $approve.Effects -eq 1) 'hitl approve'
+
+$edit = Invoke-HitlScenario -Decision (New-PraxoInterruptDecision -Action 'edit' -Arguments @{
+    text = 'hello'
+    visibility = 'private'
+})
+Assert-True ($edit.Code -eq 'AGENT_POLICY_DENIED') 'hitl edit reauthorization'
+Assert-True ($edit.Effects -eq 0) 'hitl edit effects'
+
+$reject = Invoke-HitlScenario -Decision (New-PraxoInterruptDecision -Action 'reject' -Reason 'denied by reviewer')
+Assert-True ($reject.Code -eq 'AGENT_APPROVAL_DENIED') 'hitl reject'
+Assert-True ($reject.Message -match 'denied by reviewer') 'hitl reject reason'
+Assert-True ($reject.Effects -eq 0) 'hitl reject effects'
+
+$respond = Invoke-HitlScenario -EchoTool -Decision (New-PraxoInterruptDecision -Action 'respond' -Response 'cached')
+Assert-True ($respond.Code -eq '' -and $respond.Output -eq '"cached"') 'hitl respond'
+Assert-True ($respond.Effects -eq 0) 'hitl respond effects'
+
+$unhandled = Invoke-HitlScenario
+Assert-True ($unhandled.Code -eq 'AGENT_INTERRUPT_UNHANDLED') 'hitl unhandled'
+Assert-True ($unhandled.Effects -eq 0) 'hitl unhandled effects'
+
+$invalid = Invoke-HitlScenario -Decision (New-PraxoInterruptDecision -Action 'edit')
+Assert-True ($invalid.Code -eq 'AGENT_INTERRUPT_DECISION_INVALID') 'hitl invalid edit'
+Assert-True ($invalid.Effects -eq 0) 'hitl invalid effects'
+
+$invalidAction = [Praxo.Core.InterruptDecision]::new()
+$invalidAction.Action = 'bogus'
+$invalidDecision = Invoke-HitlScenario -Decision $invalidAction
+Assert-True ($invalidDecision.Code -eq 'AGENT_INTERRUPT_DECISION_INVALID') 'hitl invalid action'
+
+$denied = Invoke-HitlScenario -Approve { param($interrupt) $false }
+Assert-True ($denied.Code -eq 'AGENT_APPROVAL_DENIED') 'hitl approval denied'
+Assert-True ($denied.Effects -eq 0) 'hitl approval denied effects'
+
+$approved = Invoke-HitlScenario -Approve { param($interrupt) $true }
+Assert-True ($approved.Code -eq '' -and $approved.Output -eq 'done' -and $approved.Effects -eq 1) 'hitl approval'
+
 $script:harmovelaCalls = [System.Collections.Generic.List[object]]::new()
 $harmovelaTransport = {
     param($request)

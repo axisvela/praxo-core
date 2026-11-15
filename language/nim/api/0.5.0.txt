@@ -11,6 +11,14 @@ Decision
 Document
 Event
 FuncRetriever
+INTERRUPT_APPROVE
+INTERRUPT_EDIT
+INTERRUPT_REJECT
+INTERRUPT_RESPOND
+Interrupt
+InterruptApproval
+InterruptDecision
+InterruptHandler
 Manifest
 MemoryRecord
 MemoryStore
@@ -38,6 +46,7 @@ SubagentRunner
 SubagentTask
 Tool
 ToolCall
+ToolMiddleware
 ToolSelection
 ToolSpec
 Usage
@@ -86,6 +95,8 @@ newDecision
 newDocument
 newEvent
 newFuncRetriever
+newInterrupt
+newInterruptDecision
 newMemoryRecord
 newMemoryStore
 newMessage

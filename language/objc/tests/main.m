@@ -7,7 +7,7 @@
 static NSUInteger failures = 0;
 static NSUInteger checks = 0;
 
-void runCorrelationTests(void (*check)(BOOL, NSString *)); void runMiddlewareIntegrationTests(void (*check)(BOOL, NSString *)); void runOpenAIAdapterTests(void (*check)(BOOL, NSString *)); void runProviderAdapterTests(void (*check)(BOOL, NSString *)); void runHarmovelaTests(void (*check)(BOOL, NSString *)); void runMcpTests(void (*check)(BOOL, NSString *)); void runOtelTests(void (*check)(BOOL, NSString *)); void runRetrieverTests(void (*check)(BOOL, NSString *)); void runDelegationTests(void (*check)(BOOL, NSString *)); void runSessionCheckpointTests(void (*check)(BOOL, NSString *));
+void runCorrelationTests(void (*check)(BOOL, NSString *)); void runMiddlewareIntegrationTests(void (*check)(BOOL, NSString *)); void runOpenAIAdapterTests(void (*check)(BOOL, NSString *)); void runProviderAdapterTests(void (*check)(BOOL, NSString *)); void runHarmovelaTests(void (*check)(BOOL, NSString *)); void runMcpTests(void (*check)(BOOL, NSString *)); void runOtelTests(void (*check)(BOOL, NSString *)); void runRetrieverTests(void (*check)(BOOL, NSString *)); void runDelegationTests(void (*check)(BOOL, NSString *)); void runSessionCheckpointTests(void (*check)(BOOL, NSString *)); void runHitlTests(void (*check)(BOOL, NSString *));
 
 static void check(BOOL condition, NSString *message) {
     checks++;
@@ -518,6 +518,7 @@ int main(int argc, const char *argv[]) {
         runRetrieverTests(check);
         runDelegationTests(check);
         runSessionCheckpointTests(check);
+        runHitlTests(check);
         runSafeDefaultGuardTests(check);
         NSArray *relativeChecker = PXRPathCheckerCreate(@[PXRPathGrantCreate(@"allowed", @"read")], nil);
         check(!PXRPathAllowed(relativeChecker, @"../allowed/secret", @"read"),

@@ -57,6 +57,7 @@ Runnable examples live under [`language/haskell/examples`](https://github.com/ax
 | Retry transient failures | [retry](https://github.com/axisvela/praxo-core/tree/main/language/haskell/examples/retry) |
 | Add provider fallback | [provider-fallback](https://github.com/axisvela/praxo-core/tree/main/language/haskell/examples/provider-fallback) |
 | Observe agent events | [event-sink](https://github.com/axisvela/praxo-core/tree/main/language/haskell/examples/event-sink) |
+| Require human approval | [hitl](https://github.com/axisvela/praxo-core/tree/main/language/haskell/examples/hitl) |
 
 ## Build and Test
 
@@ -169,6 +170,36 @@ sink transport clock = H.newHarmovelaSink
 the status and a bounded body otherwise. The sink adds no authentication,
 retries, buffering, ordering, or exactly-once delivery. Event data may contain
 sensitive content, so filter caller-side; use HTTPS for remote endpoints.
+
+## Human-in-the-Loop Approval
+
+`AgentOptions` accepts `interruptOn`, `onInterruptDecision`, and `onInterrupt` to
+pause matching tool calls. The agent checks allowed tools, runs the initial
+policy, applies `beforeTool`, and then applies the interrupt before `tool.call`
+and `invoke`.
+
+```haskell
+import Praxo.Agent
+import Praxo.Json
+
+options :: AgentOptions -> AgentOptions
+options base = base
+    { interruptOn = ["write_note"]
+    , onInterruptDecision = Just $ \interrupt ->
+        pure (InterruptDecision interruptEdit
+            (Just (JObject [("text", JString "hello"),
+                            ("visibility", JString "private")]))
+            "" "")
+    }
+```
+
+Decisions are `interruptApprove` (continue), `interruptEdit` (replace arguments
+and reauthorize), `interruptReject` (return `AGENT_APPROVAL_DENIED` with the
+reason), and `interruptRespond` (skip the tool and use the response). A matching
+call with no handler returns `AGENT_INTERRUPT_UNHANDLED`; an unknown action or
+an edit without arguments returns `AGENT_INTERRUPT_DECISION_INVALID`. The policy
+hook receives an `Action` so edited arguments are reauthorized. See
+[`examples/hitl`](examples/hitl/).
 
 ## Declared Scope and Limits
 

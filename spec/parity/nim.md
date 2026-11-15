@@ -43,3 +43,8 @@ streaming wire encodings, and plugin hosts are not provided.
 | `agent/middleware.PIIMiddleware` | `piiRedact` | parity | P1 |
 | `agent/middleware.StructuredOutput` | `StructuredOutput` | parity | P1 |
 | `agent/middleware.ToolSelectionMiddleware` | `toolSelection` | parity | P1 |
+| `agent/hitl.Interrupt` | `hitl.Interrupt` | parity | P2 |
+| `agent/hitl.InterruptAction` | `hitl.interruptApprove` and peers | parity | P2 |
+| `agent/hitl.InterruptDecision` | `hitl.InterruptDecision` | parity | P2 |
+| `agent/hitl.InterruptHandler` | `hitl.InterruptHandler` | parity | P2 |
+| `agent.Options.OnInterrupt` | `AgentOptions.onInterrupt` / `onInterruptDecision` | parity | P2 |

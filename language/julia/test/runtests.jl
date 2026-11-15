@@ -470,3 +470,174 @@ PraxoCore.authorize(::AllowAllPolicy, ::Action) = Decision(true, "")
     @test isempty(defaults.allowed_tools)
     @test PraxoCore.run_agent(Agent(defaults), Session("s1"), "hello").output == "ok"
 end
+
+mutable struct HitlModel <: AbstractModel
+    turns::Int
+    echo_tool::Bool
+end
+
+function PraxoCore.generate(model::HitlModel, request::Request)
+    model.turns += 1
+    if model.turns == 1
+        return Response(PraxoCore.Models.message_assistant("", [
+            ToolCall("call-1", "echo", Dict{String,Any}("value" => "original")),
+        ]))
+    end
+    if model.echo_tool
+        for message in Iterators.reverse(request.messages)
+            message.role == Roles.TOOL && return Response(
+                PraxoCore.Models.message_assistant(something(message.content, "")),
+            )
+        end
+    end
+    Response(PraxoCore.Models.message_assistant("final"))
+end
+
+mutable struct HitlSink <: AbstractSink
+    types::Vector{String}
+end
+
+HitlSink() = HitlSink(String[])
+
+PraxoCore.emit(sink::HitlSink, event::Event) = push!(sink.types, event.type)
+
+mutable struct HitlPolicy <: AbstractPolicy
+    actions::Vector{Action}
+    order::Vector{String}
+end
+
+HitlPolicy() = HitlPolicy(Action[], String[])
+
+function PraxoCore.authorize(policy::HitlPolicy, action::Action)
+    if action.kind == "model.generate"
+        return Decision(true, "")
+    end
+    push!(policy.actions, action)
+    push!(policy.order, "policy")
+    value = action.arguments === nothing ? nothing : get(action.arguments, "value", nothing)
+    Decision(value == "original", "only original arguments are permitted")
+end
+
+mutable struct HitlBeforeTool <: AbstractMiddleware
+    order::Vector{String}
+end
+
+function PraxoCore.Middleware.before_tool!(middleware::HitlBeforeTool, call::ToolCallContext)
+    push!(middleware.order, "before")
+end
+
+function hitl_agent(decision=nothing; approval=nothing, policy=nothing,
+                    events=nothing, echo_tool::Bool=false, middleware=AbstractMiddleware[])
+    calls = Dict{String,Any}[]
+    tool = FuncTool("echo", "Echo", arguments -> (push!(calls, arguments); arguments))
+    registry = ToolRegistry()
+    PraxoCore.AgentRuntime.register!(registry, tool)
+    options = AgentOptions(HitlModel(0, echo_tool);
+        interrupt_on = ["echo"],
+        on_interrupt_decision = decision,
+        on_interrupt = approval)
+    options.tools = registry
+    options.policy = policy
+    options.events = events
+    append!(options.middleware, middleware)
+    Agent(options), calls
+end
+
+@testset "PraxoCore HITL" begin
+    events = HitlSink()
+    agent, calls = hitl_agent(
+        _ -> InterruptDecision(INTERRUPT_APPROVE);
+        events = events)
+    result = run_agent(agent, Session("hitl-approve"), "go")
+    @test result.output == "final"
+    @test calls == [Dict{String,Any}("value" => "original")]
+    @test events.types == ["run.started", "tool.interrupt", "tool.call", "run.completed"]
+
+    policy = HitlPolicy()
+    middleware = HitlBeforeTool(policy.order)
+    agent, calls = hitl_agent(
+        interrupt -> begin
+            push!(policy.order, "interrupt")
+            InterruptDecision(INTERRUPT_EDIT;
+                arguments = Dict{String,Any}("value" => "edited"))
+        end;
+        policy = policy,
+        middleware = AbstractMiddleware[middleware])
+    error = try
+        run_agent(agent, Session("hitl-edit"), "go")
+        nothing
+    catch caught
+        caught
+    end
+    @test error isa PraxoError
+    @test error.code == "AGENT_POLICY_DENIED"
+    @test isempty(calls)
+    @test length(policy.actions) == 2
+    @test [action.arguments["value"] for action in policy.actions] ==
+          ["original", "edited"]
+    @test policy.order == ["policy", "before", "interrupt", "policy"]
+
+    agent, calls = hitl_agent(
+        _ -> InterruptDecision(INTERRUPT_REJECT; reason = "not allowed"))
+    error = try
+        run_agent(agent, Session("hitl-reject"), "go")
+        nothing
+    catch caught
+        caught
+    end
+    @test error isa PraxoError
+    @test error.code == "AGENT_APPROVAL_DENIED"
+    @test occursin("not allowed", error.message)
+    @test isempty(calls)
+
+    agent, calls = hitl_agent(
+        _ -> InterruptDecision(INTERRUPT_RESPOND; response = "human answer");
+        echo_tool = true)
+    result = run_agent(agent, Session("hitl-respond"), "go")
+    @test result.output == "\"human answer\""
+    @test isempty(calls)
+
+    agent, calls = hitl_agent(nothing)
+    error = try
+        run_agent(agent, Session("hitl-unhandled"), "go")
+        nothing
+    catch caught
+        caught
+    end
+    @test error isa PraxoError
+    @test error.code == "AGENT_INTERRUPT_UNHANDLED"
+    @test isempty(calls)
+
+    agent, calls = hitl_agent(_ -> InterruptDecision("invalid"))
+    error = try
+        run_agent(agent, Session("hitl-invalid"), "go")
+        nothing
+    catch caught
+        caught
+    end
+    @test error isa PraxoError
+    @test error.code == "AGENT_INTERRUPT_DECISION_INVALID"
+    @test isempty(calls)
+
+    agent, calls = hitl_agent(_ -> InterruptDecision(INTERRUPT_EDIT))
+    error = try
+        run_agent(agent, Session("hitl-edit-missing"), "go")
+        nothing
+    catch caught
+        caught
+    end
+    @test error isa PraxoError
+    @test error.code == "AGENT_INTERRUPT_DECISION_INVALID"
+    @test isempty(calls)
+
+    agent, calls = hitl_agent(nothing; approval = _ -> false)
+    error = try
+        run_agent(agent, Session("hitl-session"), "go")
+        nothing
+    catch caught
+        caught
+    end
+    @test error isa PraxoError
+    @test error.code == "AGENT_APPROVAL_DENIED"
+    @test isempty(calls)
+end

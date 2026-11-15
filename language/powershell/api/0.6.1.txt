@@ -1,6 +1,7 @@
 ﻿# PRAXO-CORE PowerShell API 0.6.1
 # SPEC_VERSION 0.2.0
 
+Add-PraxoInterruptTool
 Add-PraxoMemoryRecord
 Close-PraxoMcp
 Connect-PraxoMcp
@@ -32,6 +33,9 @@ New-PraxoFuncSubagentRunner
 New-PraxoFuncTool
 New-PraxoHarmovelaSink
 New-PraxoHarmovelaSinkOptions
+New-PraxoInterruptApproval
+New-PraxoInterruptDecision
+New-PraxoInterruptHandler
 New-PraxoMcpHttpOptions
 New-PraxoMcpHttpTransport
 New-PraxoMcpServerOptions

@@ -200,6 +200,76 @@ BOOL PXRCheckToolSelected(NSMutableSet<NSString *> *selection,
     return YES;
 }
 
+static BOOL PXRNameAllowed(NSArray *allowed, NSString *name) {
+    if (allowed.count == 0) {
+        return YES;
+    }
+    for (NSString *candidate in allowed) {
+        if ([candidate isEqualToString:(name ?: @"")]) {
+            return YES;
+        }
+    }
+    return NO;
+}
+
+static BOOL PXRListContains(NSArray *values, NSString *value) {
+    for (NSString *candidate in values) {
+        if ([candidate isEqualToString:(value ?: @"")]) {
+            return YES;
+        }
+    }
+    return NO;
+}
+
+static NSDictionary *PXRAction(NSString *kind,
+                               NSString *sessionId,
+                               NSString *toolName,
+                               NSDictionary *arguments) {
+    NSMutableDictionary *action = [NSMutableDictionary dictionary];
+    action[@"kind"] = kind ?: @"";
+    action[@"sessionId"] = sessionId ?: @"";
+    if (toolName != nil) {
+        action[@"toolName"] = toolName;
+    }
+    action[@"arguments"] = arguments ?: @{};
+    return action;
+}
+
+static BOOL PXRAuthorize(NSMutableDictionary<NSString *, id> *options,
+                         NSDictionary *action,
+                         NSError **error) {
+    id (^policy)(NSDictionary *) = options[@"policy"];
+    if (policy == nil) {
+        return YES;
+    }
+    id decision = policy(action);
+    if ([decision isKindOfClass:[NSDictionary class]] &&
+        [decision[@"allowed"] boolValue]) {
+        return YES;
+    }
+    NSString *message = [@"agent: " stringByAppendingFormat:@"%@ denied",
+                         PXRString(action[@"kind"])];
+    if ([decision isKindOfClass:[NSDictionary class]]) {
+        NSString *reason = PXRString(decision[@"reason"]);
+        if (reason.length > 0) {
+            message = [message stringByAppendingFormat:@": %@", reason];
+        }
+    }
+    if (error != NULL) {
+        *error = PXRCoreError(@"AGENT_POLICY_DENIED", message);
+    }
+    return NO;
+}
+
+static NSString *PXRJSONStringValue(id value) {
+    NSArray *wrapped = @[value ?: [NSNull null]];
+    NSString *encoded = PXRJSONText(wrapped, NULL);
+    if (encoded.length >= 2) {
+        return [encoded substringWithRange:NSMakeRange(1, encoded.length - 2)];
+    }
+    return @"\"\"";
+}
+
 NSDictionary<NSString *, id> *PXRToolCreate(NSString *name,
                                             NSString *description,
                                             PXRToolInvoke invoke) {
@@ -286,6 +356,9 @@ NSMutableDictionary<NSString *, id> *PXRAgentOptionsCreate(PXRModelGenerate mode
     options[@"maxSteps"] = @8;
     options[@"maxTokens"] = @0;
     options[@"sessionId"] = @"s1";
+    options[@"allowedTools"] = @[];
+    options[@"interruptOn"] = @[];
+    options[@"middleware"] = @[];
     options[@"requirePolicy"] = @NO;
     options[@"requireToolScope"] = @NO;
     return options;
@@ -342,10 +415,11 @@ NSDictionary<NSString *, id> *PXRAgentRun(NSMutableDictionary<NSString *, id> *o
         return nil;
     }
     if ([options[@"requireToolScope"] boolValue] &&
-        (requiredScope == nil || requiredScope.count == 0)) {
+        (requiredScope == nil || requiredScope.count == 0) &&
+        PXRArray(options[@"allowedTools"]).count == 0) {
         if (error != NULL) {
             *error = PXRCoreError(@"AGENT_INVALID_OPTIONS",
-                                  @"agent: require tool scope: toolSelection must not be empty");
+                                  @"agent: require tool scope: allowedTools must not be empty");
         }
         return nil;
     }
@@ -363,6 +437,9 @@ NSDictionary<NSString *, id> *PXRAgentRun(NSMutableDictionary<NSString *, id> *o
     }
     NSInteger maxTokens = PXRInteger(options[@"maxTokens"]);
     NSArray *tools = PXRArray(options[@"tools"]);
+    NSArray *allowedTools = PXRArray(options[@"allowedTools"]);
+    NSArray *interruptOn = PXRArray(options[@"interruptOn"]);
+    NSArray *middleware = PXRArray(options[@"middleware"]);
     NSMutableSet *selection = options[@"toolSelection"];
     BOOL pii = [options[@"pii"] boolValue];
     NSDictionary *structured = options[@"structuredOutput"];
@@ -376,6 +453,14 @@ NSDictionary<NSString *, id> *PXRAgentRun(NSMutableDictionary<NSString *, id> *o
         if (!PXRCallLimitModel(limit, &modelError)) {
             return PXRAgentFail(options, sessionId, runId, PXRCodeFromError(modelError),
                                 modelError.localizedDescription, error);
+        }
+        NSError *modelPolicyError = nil;
+        if (!PXRAuthorize(options,
+                          PXRAction(@"model.generate", sessionId, nil, @{}),
+                          &modelPolicyError)) {
+            return PXRAgentFail(options, sessionId, runId,
+                                PXRCodeFromError(modelPolicyError),
+                                modelPolicyError.localizedDescription, error);
         }
         NSMutableArray *modelMessages = [NSMutableArray array];
         for (NSDictionary *item in messages) {
@@ -441,12 +526,128 @@ NSDictionary<NSString *, id> *PXRAgentRun(NSMutableDictionary<NSString *, id> *o
             return PXRRunResultCreate(runId, output, step, total);
         }
         for (NSDictionary *call in calls) {
+            NSString *originalName = PXRString(call[@"name"]);
+            NSDictionary *originalArguments =
+                [call[@"arguments"] isKindOfClass:[NSDictionary class]]
+                    ? call[@"arguments"] : @{};
+            if (!PXRNameAllowed(allowedTools, originalName)) {
+                return PXRAgentFail(options, sessionId, runId,
+                                    @"AGENT_TOOL_NOT_ALLOWED",
+                                    [@"agent: tool " stringByAppendingFormat:
+                                        @"%@ is not allowed", originalName], error);
+            }
+            NSError *policyError = nil;
+            if (!PXRAuthorize(options,
+                              PXRAction(@"tool.invoke", sessionId, originalName,
+                                        originalArguments),
+                              &policyError)) {
+                return PXRAgentFail(options, sessionId, runId,
+                                    PXRCodeFromError(policyError),
+                                    policyError.localizedDescription, error);
+            }
+            NSMutableDictionary *active = [call mutableCopy];
+            active[@"arguments"] = [originalArguments mutableCopy];
+            for (id item in middleware) {
+                PXRToolMiddleware handler = item;
+                handler(runId, sessionId, active);
+            }
+            if (!PXRNameAllowed(allowedTools, PXRString(active[@"name"]))) {
+                return PXRAgentFail(options, sessionId, runId,
+                                    @"AGENT_TOOL_NOT_ALLOWED",
+                                    [@"agent: tool " stringByAppendingFormat:
+                                        @"%@ is not allowed", PXRString(active[@"name"])], error);
+            }
+            NSString *activeName = PXRString(active[@"name"]);
+            BOOL skip = NO;
+            id response = nil;
+            if (PXRListContains(interruptOn, activeName)) {
+                PXRInterruptHandler decisionHandler =
+                    (PXRInterruptHandler)options[@"onInterruptDecision"];
+                PXRInterruptApproval approval =
+                    (PXRInterruptApproval)options[@"onInterrupt"];
+                if (decisionHandler == nil && approval == nil) {
+                    return PXRAgentFail(
+                        options, sessionId, runId, @"AGENT_INTERRUPT_UNHANDLED",
+                        [@"agent: approval handler not configured: "
+                            stringByAppendingString:activeName], error);
+                }
+                PXREmit(sink, PXREventCreate(@"tool.interrupt", sessionId, runId,
+                                            @{@"name": activeName,
+                                              @"arguments": active[@"arguments"] ?: @{}}));
+                NSDictionary *interrupt = PXRInterruptCreate(runId, sessionId, active);
+                if (decisionHandler != nil) {
+                    NSDictionary *decision = decisionHandler(interrupt);
+                    if (![decision isKindOfClass:[NSDictionary class]]) {
+                        return PXRAgentFail(options, sessionId, runId,
+                                            @"AGENT_INTERRUPT_DECISION_INVALID",
+                                            @"agent: invalid interrupt decision", error);
+                    }
+                    NSString *action = PXRString(decision[@"action"]);
+                    if ([action isEqualToString:PXRInterruptApprove]) {
+                    } else if ([action isEqualToString:PXRInterruptEdit]) {
+                        NSDictionary *arguments = decision[@"arguments"];
+                        if (![arguments isKindOfClass:[NSDictionary class]]) {
+                            return PXRAgentFail(options, sessionId, runId,
+                                                @"AGENT_INTERRUPT_DECISION_INVALID",
+                                                @"agent: edit requires arguments", error);
+                        }
+                        active[@"arguments"] = [arguments mutableCopy];
+                    } else if ([action isEqualToString:PXRInterruptReject]) {
+                        return PXRAgentFail(
+                            options, sessionId, runId, @"AGENT_APPROVAL_DENIED",
+                            [@"agent: tool call denied by approval: "
+                                stringByAppendingFormat:@"%@: %@", activeName,
+                                PXRString(decision[@"reason"])], error);
+                    } else if ([action isEqualToString:PXRInterruptRespond]) {
+                        skip = YES;
+                        response = decision[@"response"] ?: @"";
+                    } else {
+                        return PXRAgentFail(
+                            options, sessionId, runId,
+                            @"AGENT_INTERRUPT_DECISION_INVALID",
+                            [@"agent: invalid interrupt decision: "
+                                stringByAppendingString:action], error);
+                    }
+                } else if (!approval(interrupt)) {
+                    return PXRAgentFail(
+                        options, sessionId, runId, @"AGENT_APPROVAL_DENIED",
+                        [@"agent: tool call denied by approval: "
+                            stringByAppendingString:activeName], error);
+                }
+            }
+            if (skip) {
+                [messages addObject:PXRMessageTool(PXRJSONStringValue(response),
+                                                   PXRString(active[@"id"]))];
+                continue;
+            }
+            if (!PXRNameAllowed(allowedTools, PXRString(active[@"name"]))) {
+                return PXRAgentFail(options, sessionId, runId,
+                                    @"AGENT_TOOL_NOT_ALLOWED",
+                                    [@"agent: tool " stringByAppendingFormat:
+                                        @"%@ is not allowed", PXRString(active[@"name"])], error);
+            }
+            if (![PXRString(active[@"name"]) isEqualToString:originalName] ||
+                !PXRJSONEqual(active[@"arguments"], originalArguments)) {
+                NSError *editPolicyError = nil;
+                if (!PXRAuthorize(options,
+                                  PXRAction(@"tool.invoke", sessionId,
+                                            PXRString(active[@"name"]),
+                                            active[@"arguments"]),
+                                  &editPolicyError)) {
+                    return PXRAgentFail(options, sessionId, runId,
+                                        PXRCodeFromError(editPolicyError),
+                                        editPolicyError.localizedDescription, error);
+                }
+            }
             NSError *selectionError = nil;
-            if (selection != nil && !PXRCheckToolSelected(selection, PXRString(call[@"name"]), &selectionError)) {
-                return PXRAgentFail(options, sessionId, runId, PXRCodeFromError(selectionError),
+            if (selection != nil &&
+                !PXRCheckToolSelected(selection, PXRString(active[@"name"]),
+                                      &selectionError)) {
+                return PXRAgentFail(options, sessionId, runId,
+                                    PXRCodeFromError(selectionError),
                                     selectionError.localizedDescription, error);
             }
-            NSDictionary *tool = PXRFindTool(tools, PXRString(call[@"name"]));
+            NSDictionary *tool = PXRFindTool(tools, PXRString(active[@"name"]));
             if (tool == nil) {
                 return PXRAgentFail(options, sessionId, runId, @"TOOL_NOT_FOUND",
                                     @"tool not found", error);
@@ -457,18 +658,19 @@ NSDictionary<NSString *, id> *PXRAgentRun(NSMutableDictionary<NSString *, id> *o
                                     limitError.localizedDescription, error);
             }
             PXREmit(sink, PXREventCreate(@"tool.call", sessionId, runId,
-                                        @{@"name": PXRString(call[@"name"]),
-                                          @"arguments": call[@"arguments"] ?: @{}}));
+                                        @{@"name": PXRString(active[@"name"]),
+                                          @"arguments": active[@"arguments"] ?: @{}}));
             PXRToolInvoke invoke = tool[@"invoke"];
             NSError *toolError = nil;
-            id value = invoke != nil ? invoke(call[@"arguments"] ?: @{}, &toolError) : call[@"arguments"];
+            id value = invoke != nil ? invoke(active[@"arguments"] ?: @{}, &toolError)
+                                     : active[@"arguments"];
             if (toolError != nil) {
                 return PXRAgentFail(options, sessionId, runId, PXRCodeFromError(toolError),
                                     toolError.localizedDescription ?: @"tool failed", error);
             }
             id resultValue = value ?: [NSNull null];
             NSString *content = PXRJSONText(pii ? PXRRedactValue(resultValue) : resultValue, NULL) ?: @"null";
-            [messages addObject:PXRMessageTool(content, PXRString(call[@"id"]))];
+            [messages addObject:PXRMessageTool(content, PXRString(active[@"id"]))];
         }
     }
     return PXRAgentFail(options, sessionId, runId, @"AGENT_MAX_STEPS", @"maximum steps exceeded", error);

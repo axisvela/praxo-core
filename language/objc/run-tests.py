@@ -16,6 +16,7 @@ SOURCES = [
     "src/PraxoWire.m",
     "src/PraxoCore.m",
     "src/PraxoAgent.m",
+    "src/PraxoHitl.m",
     "src/PraxoOpenAI.m",
     "src/PraxoAnthropic.m",
     "src/PraxoGemini.m",
@@ -35,6 +36,7 @@ SOURCES = [
     "tests/retriever.m",
     "tests/delegation.m",
     "tests/session_checkpoint.m",
+    "tests/hitl.m",
 ]
 
 

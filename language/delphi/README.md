@@ -48,6 +48,8 @@ fpc -Mobjfpc -Scghi -O2 -Fu. -Futests -FEbuild tests/praxo_tests.lpr
 ./build/praxo_tests ../../spec
 fpc -Mobjfpc -Scghi -O2 -Fu. -Futests -FEbuild tests/agent_tests.lpr
 ./build/agent_tests ../../spec
+fpc -Mobjfpc -Scghi -O2 -Fu. -Futests -FEbuild tests/hitl_tests.lpr
+./build/hitl_tests
 fpc -Mobjfpc -Scghi -O2 -Fu. -FEbuild praxo_otel.pas
 fpc -Mobjfpc -Scghi -O2 -Fu. -FEbuild praxo_retriever.pas
 fpc -Mobjfpc -Scghi -O2 -Fu. -FEbuild praxo_delegation.pas
@@ -116,18 +118,30 @@ begin
 end;
 ```
 
-The separate `praxo_agent` unit provides `PraxoRunAgent` and an abstract
-`TPraxoAgentHost`. Implement `Generate`, `Invoke`, and `Emit` to connect a model,
-tools, and an event sink. `Generate` receives a borrowed message array and must
-return an owned object with a string `content`, optional integer `inputTokens`
-and `outputTokens`, and optional `toolCalls` array containing objects with
-string `id`, nonempty string `name`, and object `arguments`. `Invoke` receives
-borrowed arguments and returns an owned JSON value. The loop frees returned
-objects and values; callbacks must not retain or mutate borrowed data. Tool
-results are serialized as JSON in subsequent tool messages. Host exceptions
-propagate, with a best-effort `run.failed` event. Budget and malformed response
-errors use `EPraxoAgent.Code`; these local validation codes are not wire codes.
-Nonpositive `MaxSteps` defaults to eight and nonpositive `MaxTokens` is unlimited.
+The separate `praxo_agent` unit provides `PraxoRunAgent`,
+`PraxoRunAgentSession`, and an abstract `TPraxoAgentHost`. Implement `Generate`,
+`Invoke`, and `Emit` to connect a model, tools, and an event sink. Override
+`EmitEvent` when event data is needed. `Generate` receives a borrowed message
+array and must return an owned object with a string `content`, optional integer
+`inputTokens` and `outputTokens`, and optional `toolCalls` array containing
+objects with string `id`, nonempty string `name`, and object `arguments`.
+`Invoke` receives borrowed arguments and returns an owned JSON value. The loop
+frees returned objects and values; callbacks must not retain or mutate borrowed
+data. Tool results are serialized as JSON in subsequent tool messages. Host
+exceptions propagate, with a best-effort `run.failed` event. Budget and
+malformed response errors use `EPraxoAgent.Code`; these local validation codes
+are not wire codes. Nonpositive `MaxSteps` defaults to eight and nonpositive
+`MaxTokens` is unlimited.
+
+`PraxoRunAgentSession` accepts prior messages and returns the full updated
+history in `Result.Messages`, which the caller frees. The legacy
+`PraxoRunAgent` call keeps its existing signature and returns no history.
+`TPraxoAgentOptions` carries `SessionId`, `InterruptOn`,
+`OnInterruptDecision`, `OnInterrupt`, and an optional argument-aware
+`Authorize` hook. Interrupt decisions are `approve`, `edit`, `reject`, and
+`respond`; edited arguments are reauthorized before invocation. `tool.interrupt`
+and `tool.call` expose their name and arguments to hosts that override
+`EmitEvent`.
 
 ## Harmovela Event Sink
 
@@ -247,14 +261,15 @@ manager.
 - Manifest checks validate declarations only. They do not verify signatures,
   establish trust, execute plugins, or enforce OS sandboxing. Duplicate-field
   rejection is stricter than the Go JSON decoder.
-- The loop is synchronous, uses fresh in-memory history, executes tools serially,
-  and trusts the host to enforce tool availability and authorization. It lacks
-  cancellation, asynchronous streaming, persistence, and other advanced Core
-  features. Multiple tool calls are validated and executed sequentially, rather
-  than all being prepared before invocation as in Go. Events contain only their
-  type. `praxo_core` provides memory, event sinks, checkpoints, lexical path
-  policy, context compaction, PII/structured-output helpers, call limits, and
-  tool selection; the agent loop does not automatically apply every opt-in helper.
+- The loop is synchronous, accepts caller-supplied prior history, executes tools
+  serially, and checks tool scope and authorization before side effects. It lacks
+  cancellation, asynchronous streaming, durable persistence, and other advanced
+  Core features. Multiple tool calls are validated and executed sequentially,
+  rather than all being prepared before invocation as in Go. `Emit` receives only
+  the event type; override `EmitEvent` for event data. `praxo_core` provides
+  memory, event sinks, checkpoints, lexical path policy, context compaction,
+  PII/structured-output helpers, call limits, and tool selection; the agent loop
+  does not automatically apply every opt-in helper.
 - Core-local exceptions are not new shared wire error codes. Passing the eleven
   vector groups does not imply full Go feature parity or production readiness.
 - `praxo_otel`, `praxo_retriever`, and `praxo_delegation` are optional seams.

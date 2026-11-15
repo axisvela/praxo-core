@@ -22,6 +22,8 @@
   tool calls.
 - [`session-checkpoint/`](session-checkpoint/): multi-turn history save, reload,
   and continue.
+- [`hitl/`](hitl/): approve a write tool, then edit the arguments and observe
+  reauthorization denial before any effect.
 
 The examples build against the repository source with the `praxo` module
 mapping from `language/zig/src/praxo.zig`.

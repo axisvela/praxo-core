@@ -21,6 +21,23 @@ max_tokens = option(options, 'maxTokens', 0);
 if ~valid_limit(max_steps) || max_steps < 1 || ~valid_limit(max_tokens)
     error('praxo:agent', 'Invalid agent budget');
 end
+session_id = option(options, 'sessionId', 's1');
+if ~ischar(session_id) || isempty(session_id), session_id = 's1'; end
+interrupt_on = option(options, 'interruptOn', {});
+if ischar(interrupt_on), interrupt_on = {interrupt_on}; end
+if ~iscell(interrupt_on)
+    error('praxo:agent', 'Invalid interrupt configuration');
+end
+on_decision = [];
+if isfield(options, 'onInterruptDecision'), on_decision = options.onInterruptDecision; end
+on_interrupt = [];
+if isfield(options, 'onInterrupt'), on_interrupt = options.onInterrupt; end
+if ~isempty(on_decision) && ~isa(on_decision, 'function_handle')
+    error('praxo:agent', 'Invalid interrupt decision handler');
+end
+if ~isempty(on_interrupt) && ~isa(on_interrupt, 'function_handle')
+    error('praxo:agent', 'Invalid interrupt approval handler');
+end
 selection = [];
 if isfield(options, 'toolSelection'), selection = options.toolSelection; end
 pii = false;
@@ -44,12 +61,26 @@ for i = 1:numel(tools)
     names{i} = tool.name;
     specs{i} = struct('name', tool.name, 'description', option(tool, 'description', ''));
 end
-messages = {struct('role', 'user', 'content', prompt)};
+messages = option(options, 'messages', {});
+if isempty(messages) && isfield(options, 'history'), messages = options.history; end
+if ~iscell(messages)
+    error('praxo:agent', 'Invalid session history');
+end
+messages{end+1} = struct('role', 'user', 'content', prompt);
 result = struct('output', '', 'steps', 0, 'inputTokens', 0, 'outputTokens', 0, ...
+    'runId', 'run-1', 'sessionId', session_id, ...
     'events', {{'run.started'}}, 'toolInvocations', 0, 'errorCode', '', 'errorMessage', '', 'messages', {messages});
 for step = 1:max_steps
     advertised = specs;
-    if ~isempty(selection), advertised = praxo.select_tools(selection, specs); end
+    if ~isempty(allowed_tools)
+        advertised = specs(cellfun(@(spec) any(strcmp(allowed_tools, spec.name)), specs));
+    end
+    if ~isempty(selection), advertised = praxo.select_tools(selection, advertised); end
+    [allowed, reason] = authorize(options, 'model.generate', session_id, '', praxo.json_make_null());
+    if ~allowed
+        result = fail(result, 'AGENT_POLICY_DENIED', policy_message('model.generate', reason));
+        return;
+    end
     if ~isempty(limit)
         [limit, code] = praxo.call_limit_model(limit);
         if ~isempty(code)
@@ -123,6 +154,16 @@ for step = 1:max_steps
             result = fail(result, 'TOOL_NOT_FOUND', 'Tool not found');
             return;
         end
+        if ~isempty(allowed_tools) && ~any(strcmp(allowed_tools, call.name))
+            result = fail(result, 'AGENT_TOOL_NOT_ALLOWED', ...
+                ['agent: tool ' call.name ' is not allowed']);
+            return;
+        end
+        [allowed, reason] = authorize(options, 'tool.invoke', session_id, call.name, call.arguments);
+        if ~allowed
+            result = fail(result, 'AGENT_POLICY_DENIED', policy_message('tool.invoke', reason));
+            return;
+        end
         if ~isempty(limit)
             [limit, code] = praxo.call_limit_tool(limit);
             if ~isempty(code)
@@ -130,15 +171,91 @@ for step = 1:max_steps
                 return;
             end
         end
-        result.events{end+1} = 'tool.call';
-        result.toolInvocations = result.toolInvocations + 1;
-        try
-            value = tools{index}.invoke(call.arguments);
-            if pii, value = praxo.redact_value(value); end
-            content = praxo.encode_json(value);
-        catch err
-            result = fail(result, 'TOOL_ERROR', err.message);
-            return;
+        skipped = false;
+        content = '';
+        if any(strcmp(interrupt_on, call.name))
+            if isempty(on_decision) && isempty(on_interrupt)
+                result = fail(result, 'AGENT_INTERRUPT_UNHANDLED', ...
+                    ['agent: approval handler not configured: ' call.name]);
+                return;
+            end
+            result.events{end+1} = 'tool.interrupt';
+            interrupt = struct('runId', result.runId, 'sessionId', session_id, 'call', call);
+            if ~isempty(on_decision)
+                decision = on_decision(interrupt);
+                if ~isstruct(decision) || ~isscalar(decision) || ~isfield(decision, 'action') || ~ischar(decision.action)
+                    result = fail(result, 'AGENT_INTERRUPT_DECISION_INVALID', ...
+                        'agent: invalid interrupt decision');
+                    return;
+                end
+                switch decision.action
+                    case 'approve'
+                    case 'edit'
+                        if ~isfield(decision, 'arguments') || ~isstruct(decision.arguments) || ...
+                                ~isscalar(decision.arguments) || ~isfield(decision.arguments, 'kind') || ...
+                                ~ischar(decision.arguments.kind) || ~strcmp(decision.arguments.kind, 'object') || ...
+                                ~isfield(decision.arguments, 'value')
+                            result = fail(result, 'AGENT_INTERRUPT_DECISION_INVALID', ...
+                                'agent: edit requires arguments');
+                            return;
+                        end
+                        try
+                            praxo.encode_json(decision.arguments);
+                        catch err
+                            result = fail(result, 'AGENT_INTERRUPT_DECISION_INVALID', ...
+                                'agent: edit requires arguments');
+                            return;
+                        end
+                        call.arguments = decision.arguments;
+                        [allowed, reason] = authorize(options, 'tool.invoke', session_id, call.name, call.arguments);
+                        if ~allowed
+                            result = fail(result, 'AGENT_POLICY_DENIED', ...
+                                policy_message('tool.invoke', reason));
+                            return;
+                        end
+                    case 'reject'
+                        reason = '';
+                        if isfield(decision, 'reason') && ischar(decision.reason)
+                            reason = decision.reason;
+                        end
+                        result = fail(result, 'AGENT_APPROVAL_DENIED', ...
+                            ['agent: tool call denied by approval: ' call.name ': ' reason]);
+                        return;
+                    case 'respond'
+                        response_text = '';
+                        if isfield(decision, 'response') && ischar(decision.response)
+                            response_text = decision.response;
+                        end
+                        skipped = true;
+                        content = praxo.encode_json(praxo.json_make_string(response_text));
+                    otherwise
+                        result = fail(result, 'AGENT_INTERRUPT_DECISION_INVALID', ...
+                            ['agent: invalid interrupt decision: ' decision.action]);
+                        return;
+                end
+            else
+                approved = on_interrupt(interrupt);
+                if ~islogical(approved) || ~isscalar(approved)
+                    error('praxo:agent', 'Invalid interrupt approval');
+                end
+                if ~approved
+                    result = fail(result, 'AGENT_APPROVAL_DENIED', ...
+                        ['agent: tool call denied by approval: ' call.name]);
+                    return;
+                end
+            end
+        end
+        if ~skipped
+            result.events{end+1} = 'tool.call';
+            result.toolInvocations = result.toolInvocations + 1;
+            try
+                value = tools{index}.invoke(call.arguments);
+                if pii, value = praxo.redact_value(value); end
+                content = praxo.encode_json(value);
+            catch err
+                result = fail(result, 'TOOL_ERROR', err.message);
+                return;
+            end
         end
         messages{end+1} = struct('role', 'tool', 'content', content, 'toolCallId', call.id);
         result.messages = messages;
@@ -166,6 +283,30 @@ for i = 1:numel(output)
         end
     end
 end
+end
+
+function [allowed, reason] = authorize(options, kind, session_id, tool_name, arguments)
+allowed = true;
+reason = '';
+if ~isfield(options, 'policy') || isempty(options.policy), return; end
+action = struct('kind', kind, 'sessionId', session_id, 'toolName', tool_name, 'arguments', arguments);
+decision = options.policy(action);
+if islogical(decision) && isscalar(decision)
+    allowed = decision;
+elseif isstruct(decision) && isscalar(decision) && isfield(decision, 'allowed') && ...
+        islogical(decision.allowed) && isscalar(decision.allowed)
+    allowed = decision.allowed;
+    if isfield(decision, 'reason') && ischar(decision.reason)
+        reason = decision.reason;
+    end
+else
+    error('praxo:agent', 'Invalid policy decision');
+end
+end
+
+function message = policy_message(kind, reason)
+message = ['agent: ' kind ' denied'];
+if ~isempty(reason), message = [message ': ' reason]; end
 end
 
 function value = option(record, name, fallback)

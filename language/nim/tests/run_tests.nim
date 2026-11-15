@@ -1,4 +1,4 @@
-import std/json
+﻿import std/json
 import std/options
 import std/strutils
 import std/times
@@ -351,6 +351,183 @@ proc testAgentCallLimits() =
   options.model = staticModel("done")
   assert runAgent(options, newSession("s1"), "x").output == "done"
 
+proc testAgentHitl() =
+  type
+    RequestLog = ref object
+      items: seq[Request]
+    ActionLog = ref object
+      items: seq[Action]
+
+  proc publicPolicy(actions: ActionLog): Policy =
+    return proc(action: Action): Decision =
+      actions.items.add(action)
+      if action.kind == "model.generate":
+        return newDecision(true)
+      if action.kind == "tool.invoke":
+        return newDecision(action.toolName == "write_note" and
+                           getString(action.arguments, "visibility") == "public",
+                           "only public notes are permitted")
+      return newDecision(false, "unsupported action")
+
+  proc hitlModel(requests: RequestLog): Model =
+    var calls = 0
+    return callbackModel(proc(request: Request): Response =
+      requests.items.add(request)
+      inc calls
+      if calls == 1:
+        return newResponse(newMessageAssistant("", @[
+          newToolCall("write-note-1", "write_note",
+                      %*{"text": "hello", "visibility": "public"})]))
+      return newResponse(newMessageAssistant("done")))
+
+  proc optionsFor(requests: RequestLog, actions: ActionLog,
+                  decision: InterruptHandler = nil,
+                  approval: InterruptApproval = nil,
+                  withPolicy: bool = true): tuple[options: AgentOptions, tool: Tool] =
+    let tool = newTool("write_note", "Write a short note.")
+    var options = newAgentOptions(hitlModel(requests))
+    options.tools = @[tool]
+    options.allowedTools = @["write_note"]
+    options.maxSteps = 3
+    options.interruptOn = @["write_note"]
+    options.onInterruptDecision = decision
+    options.onInterrupt = approval
+    if withPolicy:
+      options.policy = publicPolicy(actions)
+    return (options, tool)
+
+  let requests = RequestLog()
+  let actions = ActionLog()
+  var observed = newInterrupt("", "", newToolCall("", ""))
+  var pair = optionsFor(requests, actions, proc(interrupt: Interrupt): InterruptDecision =
+    observed = interrupt
+    return newInterruptDecision(INTERRUPT_APPROVE))
+  let approveSink = newSink()
+  pair.options.events = approveSink
+  let approved = runAgent(pair.options, newSession("hitl-approve"), "Write a note.")
+  assert approved.output == "done" and pair.tool.calls == 1
+  assert observed.runId == approved.runId
+  assert observed.sessionId == "hitl-approve"
+  assert observed.call.name == "write_note"
+  assert getString(observed.call.arguments, "visibility") == "public"
+  assert approveSink.kinds == @["run.started", "tool.interrupt", "tool.call",
+                                "run.completed"]
+
+  requests.items = @[]
+  actions.items = @[]
+  pair = optionsFor(requests, actions, proc(interrupt: Interrupt): InterruptDecision =
+    return newInterruptDecision(INTERRUPT_EDIT,
+                                %*{"text": "hello", "visibility": "private"}))
+  var caught = ""
+  try:
+    discard runAgent(pair.options, newSession("hitl-edit"), "Write a note.")
+  except PraxoError as error:
+    caught = errorCode(error)
+  assert caught == "AGENT_POLICY_DENIED"
+  assert pair.tool.calls == 0
+  var toolActions: seq[Action] = @[]
+  for action in actions.items:
+    if action.kind == "tool.invoke":
+      toolActions.add(action)
+  assert toolActions.len == 2
+  assert getString(toolActions[0].arguments, "visibility") == "public"
+  assert getString(toolActions[1].arguments, "visibility") == "private"
+
+  requests.items = @[]
+  actions.items = @[]
+  pair = optionsFor(requests, actions, proc(interrupt: Interrupt): InterruptDecision =
+    return newInterruptDecision(INTERRUPT_REJECT, reason = "not allowed"))
+  caught = ""
+  var message = ""
+  try:
+    discard runAgent(pair.options, newSession("hitl-reject"), "Write a note.")
+  except PraxoError as error:
+    caught = errorCode(error)
+    message = error.msg
+  assert caught == "AGENT_APPROVAL_DENIED"
+  assert message.contains("not allowed")
+  assert pair.tool.calls == 0
+
+  requests.items = @[]
+  actions.items = @[]
+  pair = optionsFor(requests, actions,
+                    approval = proc(interrupt: Interrupt): bool = false)
+  caught = ""
+  try:
+    discard runAgent(pair.options, newSession("hitl-approval"), "Write a note.")
+  except PraxoError as error:
+    caught = errorCode(error)
+  assert caught == "AGENT_APPROVAL_DENIED"
+  assert pair.tool.calls == 0
+
+  requests.items = @[]
+  actions.items = @[]
+  pair = optionsFor(requests, actions, proc(interrupt: Interrupt): InterruptDecision =
+    return newInterruptDecision(INTERRUPT_RESPOND, response = "use cached result"))
+  let responded = runAgent(pair.options, newSession("hitl-respond"), "Write a note.")
+  assert responded.output == "done" and pair.tool.calls == 0
+  assert requests.items.len == 2
+  assert requests.items[1].messages[^1].role == ROLE_TOOL
+  assert requests.items[1].messages[^1].toolId == "write-note-1"
+  assert parseJsonText(requests.items[1].messages[^1].content).getStr ==
+    "use cached result"
+
+  requests.items = @[]
+  actions.items = @[]
+  pair = optionsFor(requests, actions)
+  let unhandledSink = newSink()
+  pair.options.events = unhandledSink
+  caught = ""
+  try:
+    discard runAgent(pair.options, newSession("hitl-unhandled"), "Write a note.")
+  except PraxoError as error:
+    caught = errorCode(error)
+  assert caught == "AGENT_INTERRUPT_UNHANDLED"
+  assert pair.tool.calls == 0
+  assert "tool.interrupt" notin unhandledSink.kinds
+
+  requests.items = @[]
+  actions.items = @[]
+  pair = optionsFor(requests, actions, proc(interrupt: Interrupt): InterruptDecision =
+    return newInterruptDecision("unknown"))
+  caught = ""
+  try:
+    discard runAgent(pair.options, newSession("hitl-invalid"), "Write a note.")
+  except PraxoError as error:
+    caught = errorCode(error)
+  assert caught == "AGENT_INTERRUPT_DECISION_INVALID"
+  assert pair.tool.calls == 0
+
+  requests.items = @[]
+  actions.items = @[]
+  pair = optionsFor(requests, actions, proc(interrupt: Interrupt): InterruptDecision =
+    return newInterruptDecision(INTERRUPT_EDIT))
+  caught = ""
+  try:
+    discard runAgent(pair.options, newSession("hitl-invalid-edit"), "Write a note.")
+  except PraxoError as error:
+    caught = errorCode(error)
+  assert caught == "AGENT_INTERRUPT_DECISION_INVALID"
+  assert pair.tool.calls == 0
+
+  requests.items = @[]
+  actions.items = @[]
+  var observedText = ""
+  pair = optionsFor(requests, actions, proc(interrupt: Interrupt): InterruptDecision =
+    observedText = getString(interrupt.call.arguments, "text")
+    return newInterruptDecision(INTERRUPT_APPROVE))
+  let middleware: ToolMiddleware = proc(runId: string, sessionId: string,
+                                         call: var ToolCall) =
+    call.arguments["text"] = %"from-middleware"
+  pair.options.middleware = @[middleware]
+  let middlewareResult = runAgent(pair.options, newSession("hitl-middleware"),
+                                  "Write a note.")
+  assert middlewareResult.output == "done"
+  assert observedText == "from-middleware"
+  assert pair.tool.calls == 1
+  assert parseJsonText(requests.items[1].messages[^1].content)["text"].getStr ==
+    "from-middleware"
+
 testJson()
 testToolcall()
 testJsonschema()
@@ -369,6 +546,7 @@ testAgentToolSelection()
 testAgentPii()
 testAgentStructuredOutput()
 testAgentCallLimits()
+testAgentHitl()
 
 proc testOpenAICompatible() =
   var capturedPath = ""
@@ -655,7 +833,7 @@ proc testAgentSafeDefaults() =
 
   options = newAgentOptions(model)
   options.requirePolicy = true
-  options.policy = proc(kind: string): bool = true
+  options.policy = proc(action: Action): Decision = newDecision(true)
   assert runAgent(options, newSession("s1"), "hello").output == "ok"
 
   options = newAgentOptions(model)

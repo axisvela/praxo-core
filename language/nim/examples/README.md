@@ -5,6 +5,8 @@
 - [`live-model/`](live-model/): OpenAI-compatible adapter with a `get_time` tool.
 - [`identity-policy/`](identity-policy/): trusted principal binding and
   pre-effect denial.
+- [`hitl/`](hitl/): human approval, edited-argument reauthorization, and a
+  deterministic self-check.
 - [`checkpoint/`](checkpoint/): checkpoint allowlist round trip.
 - [`session-checkpoint/`](session-checkpoint/): multi-turn history save, reload,
   and continue.

@@ -6,6 +6,11 @@ Source tag `ocaml/v0.7.0`.
 
 ### Added
 
+- Human-in-the-loop interrupts with `agent_interrupt_on`,
+  `agent_on_interrupt_decision`, and `agent_on_interrupt`. Decisions support
+  approve, edit, reject, and respond; edited arguments are authorized again.
+- `agent_action_policy` receives the action kind, session, tool name, and
+  arguments for argument-aware authorization.
 - `agent_require_policy` rejects `run_agent` when no policy hook is configured.
 - `agent_require_tool_scope` rejects `run_agent` when `agent_allowed_tools` is
   empty.

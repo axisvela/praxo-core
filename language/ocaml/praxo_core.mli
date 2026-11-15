@@ -143,6 +143,26 @@ type gemini_config = {
   gemini_max_output_tokens : int;
   gemini_tool_choice : string option;
 }
+type agent_action = {
+  action_kind : string;
+  action_session_id : string;
+  action_tool_name : string;
+  action_arguments : json;
+}
+type policy_hook = agent_action -> decision
+type interrupt = {
+  interrupt_run_id : string;
+  interrupt_session_id : string;
+  interrupt_call : tool_invocation;
+}
+type interrupt_decision = {
+  interrupt_action : string;
+  interrupt_arguments : json option;
+  interrupt_response : string;
+  interrupt_reason : string;
+}
+type interrupt_handler = interrupt -> interrupt_decision
+type interrupt_approval = interrupt -> bool
 type agent_options = {
   agent_model : model;
   agent_tools : tool list;
@@ -156,7 +176,11 @@ type agent_options = {
   agent_max_tokens : int;
   agent_session_id : string;
   agent_policy : (string -> bool) option;
+  agent_action_policy : policy_hook option;
   agent_allowed_tools : string list;
+  agent_interrupt_on : string list;
+  agent_on_interrupt_decision : interrupt_handler option;
+  agent_on_interrupt : interrupt_approval option;
   agent_require_policy : bool;
   agent_require_tool_scope : bool;
 }
@@ -284,6 +308,14 @@ val scripted_model : response list -> model
 val static_model : string -> model
 val failing_model : unit -> model
 val fallback_model : model -> model -> model
+val interrupt_approve : string
+val interrupt_edit : string
+val interrupt_reject : string
+val interrupt_respond : string
+val agent_action_make : string -> string -> string -> json -> agent_action
+val interrupt_make : string -> string -> tool_invocation -> interrupt
+val interrupt_decision_make :
+  ?arguments:json -> ?response:string -> ?reason:string -> string -> interrupt_decision
 val agent_options : model -> agent_options
 val tool_make : string -> string -> (json -> json) -> tool
 val find_tool : tool list -> string -> tool option

@@ -23,6 +23,8 @@
   deterministic check.
 - [`identity-policy/`](identity-policy/): bind a trusted principal to policy
   and reject effects before execution.
+- [`hitl/`](hitl/): approve a write, then edit it to a denied value and verify
+  that reauthorization stops the effect.
 
 The examples are thin PowerShell wrappers over the C# PRAXO-CORE runtime. Build
 `language/csharp/Praxo.Core` first, then run an example with `pwsh -NoProfile

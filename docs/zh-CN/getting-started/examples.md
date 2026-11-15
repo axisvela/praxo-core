@@ -64,8 +64,7 @@
 | Lua | [`language/lua/examples`](https://github.com/axisvela/praxo-core/tree/main/language/lua/examples) |
 
 每个语言示例目录都有自己的 README，包含安装和运行命令。每个 Core 语言都包含
-`consumer` 和 `live-model` 入口；`hitl` 和 `session-checkpoint` 仅在语言声明
-支持时提供，明确的不适用列表见[语言覆盖矩阵](language-coverage.md)。
+`consumer`、`live-model`、`hitl` 与 `session-checkpoint` 入口。每语言矩阵见[语言覆盖矩阵](language-coverage.md)。
 Python、TypeScript、Java、Rust、C# 等 Core 实现独立版本化；当前支持范围见
 [语言总表](../languages/matrix.md)。
 

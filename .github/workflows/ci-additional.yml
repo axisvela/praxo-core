@@ -108,3 +108,7 @@ jobs:
       - run: ./build/delphi/mcp
       - run: fpc -Mobjfpc -Facwstring -Fulanguage/delphi -FEbuild/delphi language/delphi/examples/consumer/consumer.pas
       - run: ./build/delphi/consumer
+      - run: fpc -Mobjfpc -Facwstring -Fulanguage/delphi -FEbuild/delphi language/delphi/examples/hitl/hitl.pas
+      - run: ./build/delphi/hitl
+      - run: fpc -Mobjfpc -Facwstring -Fulanguage/delphi -FEbuild/delphi language/delphi/examples/session-checkpoint/session_checkpoint.pas
+      - run: ./build/delphi/session_checkpoint

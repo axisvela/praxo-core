@@ -73,6 +73,28 @@ let _manifest = Praxo_core.validate_manifest "{}"
 Public declarations are inventoried in [`api/0.7.0.txt`](api/0.7.0.txt).
 `validate_manifest` returns `Some manifest` only for a valid declaration.
 
+## Human-in-the-loop Approval
+
+Set `agent_interrupt_on` and either `agent_on_interrupt_decision` or
+`agent_on_interrupt`. Decisions use `interrupt_approve`, `interrupt_edit`,
+`interrupt_reject`, and `interrupt_respond`; edited arguments are authorized
+again before `tool.call`. `agent_action_policy` receives the action kind,
+session, tool name, and arguments so reauthorization can reject edited values.
+
+```ocaml
+let options = {
+  (Praxo_core.agent_options model) with
+  Praxo_core.agent_tools = [write_note];
+  agent_allowed_tools = ["write_note"];
+  agent_action_policy = Some authorize;
+  agent_interrupt_on = ["write_note"];
+  agent_on_interrupt_decision = Some (fun _ ->
+    Praxo_core.interrupt_decision_make Praxo_core.interrupt_approve);
+}
+```
+
+See [`examples/hitl`](examples/hitl/) for approve and edited-denial scenarios.
+
 ## OpenAI-Compatible Adapter
 
 `openai_model` maps Core requests to `POST {baseUrl}/chat/completions`,

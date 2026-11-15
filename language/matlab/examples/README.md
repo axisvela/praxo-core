@@ -2,7 +2,8 @@
 
 MATLAB and Octave share the Core implementation in
 `language/matlab-octave-core/+praxo`. Run these examples with both paths on the
-interpreter search path.
+interpreter search path. There is no separate Octave example root; the Octave
+package reuses this directory.
 
 - [`consumer/`](consumer/): deterministic allow/deny governed tool path with an
   explicit tool scope and policy.
@@ -10,6 +11,8 @@ interpreter search path.
 - [`identity-policy/`](identity-policy/): trusted principal binding and
   pre-effect denial.
 - [`checkpoint/`](checkpoint/): checkpoint allowlist round trip.
+- [`hitl/`](hitl/): approve, edit, reject, and respond interrupt decisions.
+- [`session-checkpoint/`](session-checkpoint/): multi-turn history save and restore.
 - [`event-sink/`](event-sink/): lifecycle and tool events.
 - [`provider-fallback/`](provider-fallback/): fallback after a primary model
   failure.

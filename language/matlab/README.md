@@ -42,7 +42,8 @@ Set `OCTAVE` or pass `--octave /path/to/octave-cli` to select the interpreter.
 Python only launches the native tests and checks the source API inventory.
 The implementation and tests run in Octave, not Python. The runner covers all
 eleven shared vector groups and verifies each fixture's group and
-`SPEC_VERSION` before running it.
+`SPEC_VERSION` before running it, then runs the HITL and session-checkpoint
+example self-checks.
 
 ## API
 
@@ -93,19 +94,37 @@ object node. Each tool has a unique `name`, optional `description`, and an
 The tool result is JSON-encoded and added to subsequent model messages with its
 `toolCallId`. Calls run sequentially. Callback exceptions fail the run.
 
+Set `options.messages` (or `options.history`) to a cell array of prior messages
+to continue a session; `result.messages` always contains the full updated
+history, including the prompt and assistant/tool turns. The legacy call shape is
+unchanged.
+
 Options `maxSteps` and `maxTokens` default to 8 and 0 respectively; zero tokens
 means unlimited, and steps must be positive. The result contains `output`,
-`steps`, token counts, ordered event names, `toolInvocations`, `messages`,
-`errorCode`, and `errorMessage`. An empty `errorCode` indicates success.
-Budget failures use `AGENT_MAX_STEPS` or `AGENT_MAX_TOKENS`; missing tools use
-`TOOL_NOT_FOUND`, while invalid or failing model and tool callbacks use local
-`MODEL_ERROR` and `TOOL_ERROR`. Invalid configuration raises `praxo:agent`.
-Events are recorded rather than streamed. Token budgets depend on counts
-reported by the model, and are checked before accepting its message.
+`steps`, token counts, `runId`, `sessionId`, ordered event names,
+`toolInvocations`, `messages`, `errorCode`, and `errorMessage`. An empty
+`errorCode` indicates success. Budget failures use `AGENT_MAX_STEPS` or
+`AGENT_MAX_TOKENS`; missing tools use `TOOL_NOT_FOUND`, while invalid or failing
+model and tool callbacks use local `MODEL_ERROR` and `TOOL_ERROR`. Invalid
+configuration raises `praxo:agent`. Events are recorded rather than streamed.
+Token budgets depend on counts reported by the model, and are checked before
+accepting its message.
+
+HITL options are `interruptOn` (a tool-name cell array or character vector),
+`onInterruptDecision`, and `onInterrupt`. The decision callback receives an
+interrupt struct with `runId`, `sessionId`, and `call`, and returns a struct with
+`action` set to `approve`, `edit`, `reject`, or `respond`; `edit` supplies an
+`arguments` JSON node, `reject` may supply a `reason`, and `respond` supplies a
+`response` string. Edited arguments are reauthorized before invocation. Missing
+handlers return `AGENT_INTERRUPT_UNHANDLED`, rejected calls return
+`AGENT_APPROVAL_DENIED`, and malformed decisions return
+`AGENT_INTERRUPT_DECISION_INVALID`. The boolean `onInterrupt` callback is used
+only when `onInterruptDecision` is absent.
 
 Local parity inventory: `agent.Agent.Run` maps partially to `praxo.agent_run`
 (P2); the callback API and loop cover the shared agent-loop vectors, not the
-full reference agent surface. The shared parity inventory remains unchanged.
+full reference agent surface. HITL and session-history options are Core-local
+extensions; the shared parity inventory remains unchanged.
 
 ## Anthropic and Gemini Adapters
 

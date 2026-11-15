@@ -25,6 +25,14 @@ FilterSink
 Handler
 HttpRequest
 HttpTransport
+INTERRUPT_APPROVE
+INTERRUPT_EDIT
+INTERRUPT_REJECT
+INTERRUPT_RESPOND
+Interrupt
+InterruptApproval
+InterruptDecision
+InterruptHandler
 Json
 McpError
 MemoryRecord
@@ -78,6 +86,7 @@ ValidationError
 agent
 allowed
 apply
+approve
 array
 asModel
 beforeModel
@@ -88,6 +97,7 @@ callTool
 check
 close
 compact
+decide
 emit
 equals
 errorCode
