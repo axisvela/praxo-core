@@ -1,7 +1,7 @@
 # Registry Publication Status
 
 Last checked: 2026-11-15 (Python 0.8.1, TypeScript 0.7.1, Java 0.9.0, Rust
-0.9.1, C# 0.9.1, Elixir 0.9.1, Erlang 0.8.1, Ruby 0.8.1, PHP 0.8.1, Dart 0.4.0,
+0.9.1, C# 0.9.1, Elixir 0.9.1, Erlang 0.8.1, Ruby 0.8.1, PHP 0.8.0, Dart 0.4.0,
 Perl 0.5.1, Haskell 0.6.1, PowerShell 0.6.1, and R 0.10.1 published; Go `v2.8.0`
 remains current; other rows from the 2026-11-04/05 audit).
 
@@ -38,7 +38,7 @@ GitHub Latest represents the Go Reference Core only, not the last language packa
 | Erlang | Hex | `0.8.1` | https://hex.pm/packages/praxo_core_erlang/0.8.1 | published |
 | Ruby | RubyGems | `0.8.1` | https://rubygems.org/gems/praxo-core/versions/0.8.1 | published; Ruby source repo is `axisvela/praxo-core-ruby` |
 | Lua | LuaRocks | `0.7.1-1` | https://luarocks.org/modules/hanhhuiwen/praxo-core | published |
-| PHP | Packagist | `0.8.1` | https://packagist.org/packages/axisvela/praxo-core | published |
+| PHP | Packagist | `0.8.0` | https://packagist.org/packages/axisvela/praxo-core | published |
 | Dart | pub.dev | `0.4.0` | https://pub.dev/packages/praxo_core/versions/0.4.0 | published |
 | D | DUB | `0.1.0` | https://code.dlang.org/packages/praxo-core | split repo `v0.5.0` tagged; DUB refresh pending |
 | Swift | Swift Package Index | `0.4.0` | https://swiftpackageindex.com/axisvela/praxo-core-swift | split repo `0.6.0` tagged; SPI pending |

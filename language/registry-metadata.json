@@ -298,7 +298,7 @@
     "docs": "https://axisvela.github.io/praxo-core/languages/php/",
     "install": "composer require axisvela/praxo-core",
     "package": "axisvela/praxo-core",
-    "published_version": "0.8.1",
+    "published_version": "0.8.0",
     "registry": "Packagist",
     "source_install": "composer require axisvela/praxo-core",
     "source_version": "0.8.1",

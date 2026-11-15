@@ -110,7 +110,7 @@ Registry values below were checked against the public registries on 2026-11-14.
 | Erlang | `erlang/v0.8.1` | Hex `praxo_core_erlang==0.8.1` published; `0.4.0`, `0.3.1`, `0.2.0` historical | Not rerun for `0.5.0`; historical `0.1.1` smoke |
 | Ruby | `ruby/v0.8.1` | RubyGems `praxo-core==0.8.1` published; `0.4.1`, `0.4.0`, `0.3.0`, `0.2.0` historical | Extended starter added; RubyGems `0.4.1` installed into a clean gem home and allow/deny passed locally; `0.5.0` install smoke not rerun |
 | Lua | `lua/v0.7.1` | LuaRocks `praxo-core==0.7.1-1` published with the optional OpenAI-compatible adapter; `0.4.1-1`, `0.4.0-1`, `0.3.0-1`, `0.2.0-1` also published | Extended starter added; LuaRocks `0.4.1-1` installed into a clean tree and allow/deny passed locally; `0.5.0-1` install smoke not rerun |
-| PHP | `php/v0.8.1` | Packagist `axisvela/praxo-core==0.8.1` published with Composer `autoload.files`; `0.4.1`, `0.4.0`, `0.3.0`, `0.2.0` historical | Extended starter added; Composer install of published `0.4.1` passed locally; `0.8.1` install smoke not rerun |
+| PHP | `php/v0.8.1` | Packagist `axisvela/praxo-core==0.8.0` published with Composer `autoload.files`; `0.4.1`, `0.4.0`, `0.3.0`, `0.2.0` historical | Extended starter added; Composer install of published `0.4.1` passed locally; `0.8.1` install smoke not rerun |
 | Dart | `dart/v0.5.0` | pub.dev `praxo_core==0.4.0` | Recorded for `0.1.1`; `0.4.0` install smoke not recorded |
 | Julia | `julia/v0.6.0` | General Registry PR #176024 approved; merge pending | Not recorded |
 | MATLAB | `matlab/v0.6.0` | MATLAB File Exchange `185166` published (`0.3.0`) | Not recorded |
@@ -138,7 +138,7 @@ its latest version matches the manifest at the release tag.
 | Elixir | `0.9.1` | Hex `0.9.1` | current |
 | Erlang | `0.8.1` | Hex `0.8.1` | current |
 | Ruby | `0.8.1` | RubyGems `0.8.1` | current |
-| PHP | `0.8.1` | Packagist `0.8.1` | current |
+| PHP | `0.8.1` | Packagist `0.8.0` | tag released; registry behind |
 | Lua | rockspec `0.7.1-1`; source tag `0.7.1` | LuaRocks `0.7.1-1` | current |
 | Dart | `0.5.0` | pub.dev `0.4.0` | tag released; registry behind |
 | Julia | `0.6.0` | General Registry PR #176024 approved; merge pending | pending |

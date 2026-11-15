@@ -1,7 +1,7 @@
 # 注册表发布状态
 
 最后核对：2026-11-15（Python 0.8.1、TypeScript 0.7.1、Java 0.9.0、Rust 0.9.1、
-C# 0.9.1、Elixir 0.9.1、Erlang 0.8.1、Ruby 0.8.1、PHP 0.8.1、Dart 0.4.0、
+C# 0.9.1、Elixir 0.9.1、Erlang 0.8.1、Ruby 0.8.1、PHP 0.8.0、Dart 0.4.0、
 Perl 0.5.1、Haskell 0.6.1、PowerShell 0.6.1、R 0.10.1 已发布；Go `v2.8.0`
 保持当前；其他行来自 2026-11-04/05 审计）。
 
