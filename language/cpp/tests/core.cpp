@@ -283,6 +283,44 @@ int main() {
         auto result = run_agent(options, Session{"s1", {}}, "go");
         check(result.output == "done" && result.steps == 2 && invocations == 1, "agent loop");
 
+        AgentOptions default_guards(std::make_shared<StaticModel>("done"));
+        check(!default_guards.require_policy && !default_guards.require_tool_scope,
+              "safe-default guards off by default");
+        check(run_agent(std::move(default_guards), Session{"s1", {}}, "go").output == "done",
+              "defaults preserve behavior");
+
+        bool policy_guard_caught = false;
+        try {
+            AgentOptions required_policy(std::make_shared<StaticModel>("done"));
+            required_policy.require_policy = true;
+            (void)run_agent(std::move(required_policy), Session{"s1", {}}, "go");
+        } catch (const PraxoError& error) {
+            policy_guard_caught = error.code() == "AGENT_INVALID_OPTIONS";
+        }
+        check(policy_guard_caught, "require policy rejects missing policy");
+
+        AgentOptions satisfied_policy(std::make_shared<StaticModel>("done"));
+        satisfied_policy.require_policy = true;
+        satisfied_policy.policy = [](const Action&) { return Decision{true, "ok"}; };
+        check(run_agent(std::move(satisfied_policy), Session{"s1", {}}, "go").output == "done",
+              "require policy accepts configured policy");
+
+        bool scope_guard_caught = false;
+        try {
+            AgentOptions required_scope(std::make_shared<StaticModel>("done"));
+            required_scope.require_tool_scope = true;
+            (void)run_agent(std::move(required_scope), Session{"s1", {}}, "go");
+        } catch (const PraxoError& error) {
+            scope_guard_caught = error.code() == "AGENT_INVALID_OPTIONS";
+        }
+        check(scope_guard_caught, "require tool scope rejects empty allowed tools");
+
+        AgentOptions satisfied_scope(std::make_shared<StaticModel>("done"));
+        satisfied_scope.require_tool_scope = true;
+        satisfied_scope.allowed_tools = {"echo"};
+        check(run_agent(std::move(satisfied_scope), Session{"s1", {}}, "go").output == "done",
+              "require tool scope accepts allowed tools");
+
 
         std::vector<Json> final_arguments_invoked;
         auto final_arguments_registry = std::make_shared<ToolRegistry>();

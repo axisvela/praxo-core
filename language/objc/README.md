@@ -1,6 +1,6 @@
 # PRAXO-CORE for Objective-C
 
-Objective-C is a native Core implementation with source tag `objc/v0.4.0`. It
+Objective-C is a native Core implementation with source tag `objc/v0.5.0`. It
 passes all eleven shared vector groups and includes the native
 agent loop, context compaction, memory store, path policy, checkpoint
 allowlist, tool selection, tool-call parsing, and opt-in PII redaction,
@@ -81,7 +81,7 @@ finish reason, and injects `PXROpenAITransport` for deterministic tests.
 Missing base URLs and non-2xx responses produce a `PROVIDER_HTTP` error; invalid
 tool arguments produce `PROVIDER_JSON`. Streaming is not implemented.
 
-Public declarations are inventoried in [`api/0.4.0.txt`](api/0.4.0.txt).
+Public declarations are inventoried in [`api/0.5.0.txt`](api/0.5.0.txt).
 Agent events use the supplied session's `id` and a UUID-based run ID; the
 existing event sink callback is unchanged.
 Set `options[@"toolSelection"]` to a set from `PXRToolSelectionCreate` to

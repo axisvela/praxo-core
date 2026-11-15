@@ -33,7 +33,7 @@ main = do
     harmovelaTests
     mcpTests
     seamTests
-    assert "contract version" (specVersion == "0.2.0" && sdkVersion == "0.5.0")
+    assert "contract version" (specVersion == "0.2.0" && sdkVersion == "0.6.0")
     forM_ ["", "01", "1.", "+1", "NaN", "1e", "[1,]", "{\"a\":1,}", "{}{}", "\"\\q\"", "\"\\ud800\"", "\"\\udc00\"", "\"\\ud800\\u0041\"", "\"line\nbreak\"", "true garbage"] $ \raw ->
         assert ("invalid JSON " ++ show raw) (isLeft (parseJson raw))
     assert "unicode escape" (parseJson "\"\\u00e9\\ud83d\\ude00\"" == Right (JString "\x00e9\x1f600"))
@@ -103,7 +103,7 @@ agentTests = do
             n <- readIORef calls
             pure (Right (if n == 0 then A.Response "" [call] 2 1 else A.Response "done" [] 1 1))
         tool _ = modifyIORef' calls (+1) >> pure (Right JNull)
-        options = A.AgentOptions model tool sink 2 5
+        options = A.AgentOptions model tool sink 2 5 Nothing [] False False
     result <- A.runAgent options [] "hello"
     assert "agent success and usage" (case result of Right r -> A.runSteps r == 2 && A.runInputTokens r == 3 && A.runOutputTokens r == 2; _ -> False)
     history <- readIORef requests
@@ -153,6 +153,26 @@ agentTests = do
     limited <- A.runAgent (options { A.maxSteps = 0, A.generate = \_ -> pure (Right (A.Response "" [call] 0 0)) }) [] "x"
     count <- readIORef calls
     assert "default step budget" (count == 8 && case limited of Left err -> A.errorCode err == "AGENT_MAX_STEPS"; _ -> False)
+    writeIORef events []
+    missingPolicy <- A.runAgent (options { A.requirePolicy = True }) [] "x"
+    assert "require policy rejects missing hook" (case missingPolicy of Left err -> A.errorCode err == "AGENT_INVALID_OPTIONS" && "require policy" `isInfixOf` A.errorMessage err; _ -> False)
+    guardedEvents <- readIORef events
+    assert "require policy fails before work starts" (null guardedEvents)
+    writeIORef events []
+    writeIORef calls 1
+    allowedPolicy <- A.runAgent (options { A.requirePolicy = True, A.policy = Just (const True) }) [] "x"
+    assert "require policy accepts configured hook" (case allowedPolicy of Right r -> A.runOutput r == "done"; _ -> False)
+    writeIORef events []
+    missingScope <- A.runAgent (options { A.requireToolScope = True }) [] "x"
+    assert "require tool scope rejects empty scope" (case missingScope of Left err -> A.errorCode err == "AGENT_INVALID_OPTIONS" && "require tool scope" `isInfixOf` A.errorMessage err; _ -> False)
+    writeIORef events []
+    writeIORef calls 1
+    scoped <- A.runAgent (options { A.requireToolScope = True, A.allowedTools = ["echo"] }) [] "x"
+    assert "require tool scope accepts allowed tools" (case scoped of Right r -> A.runOutput r == "done"; _ -> False)
+    writeIORef events []
+    writeIORef calls 1
+    defaults <- A.runAgent options [] "x"
+    assert "safe defaults preserve behavior" (case defaults of Right r -> A.runOutput r == "done"; _ -> False)
 
 runtimeTests :: IO ()
 runtimeTests = do

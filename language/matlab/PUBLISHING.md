@@ -1,6 +1,6 @@
 # Publishing the MATLAB/Octave Core
 
-Source tag `matlab/v0.5.0`. The package is published on MATLAB File Exchange:
+Source tag `matlab/v0.6.0`. The package is published on MATLAB File Exchange:
 <https://www.mathworks.com/matlabcentral/fileexchange/185166-praxo-core>. It is
 not published to Octave Packages.
 

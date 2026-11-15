@@ -52,6 +52,7 @@ jobs:
       - run: swift run --package-path language/swift praxo-identity-policy-example
       - run: swift run --package-path language/swift praxo-service-example
       - run: swift run --package-path language/swift praxo-mcp-example
+      - run: swift run --package-path language/swift praxo-consumer-example
 
   julia-examples:
     runs-on: ubuntu-latest

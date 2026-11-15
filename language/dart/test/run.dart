@@ -139,6 +139,44 @@ Future<void> main() async {
   check(sink.types.join(',') == 'run.started,tool.call,run.completed',
       'agent events');
 
+  final defaultGuards = AgentOptions(StaticModel('ok'));
+  check(!defaultGuards.requirePolicy && !defaultGuards.requireToolScope,
+      'safe-default guards off by default');
+  check(runAgent(defaultGuards, const Session(id: 's1'), 'go').output == 'ok',
+      'defaults preserve behavior');
+
+  var policyGuard = false;
+  try {
+    Agent(AgentOptions(StaticModel('ok'), requirePolicy: true));
+  } on PraxoError catch (error) {
+    policyGuard = error.code == 'AGENT_INVALID_OPTIONS';
+  }
+  check(policyGuard, 'require policy rejects missing policy');
+
+  final guardedPolicy = Agent(AgentOptions(
+    StaticModel('ok'),
+    requirePolicy: true,
+    policy: (action) => const Decision(allowed: true),
+  ));
+  check(guardedPolicy.options.policy != null,
+      'require policy accepts configured policy');
+
+  var scopeGuard = false;
+  try {
+    Agent(AgentOptions(StaticModel('ok'), requireToolScope: true));
+  } on PraxoError catch (error) {
+    scopeGuard = error.code == 'AGENT_INVALID_OPTIONS';
+  }
+  check(scopeGuard, 'require tool scope rejects empty allowed tools');
+
+  final guardedScope = Agent(AgentOptions(
+    StaticModel('ok'),
+    requireToolScope: true,
+    allowedTools: const ['echo'],
+  ));
+  check(guardedScope.options.allowedTools.isNotEmpty,
+      'require tool scope accepts allowed tools');
+
   final recorded = <String, dynamic>{};
   final adapter = OpenAICompatibleModel(
     baseUrl: 'https://api.example.com/v1/',

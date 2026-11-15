@@ -1,5 +1,16 @@
 # Fortran Core Release Notes
 
+## 0.10.0 - 2026-11-15
+
+Source tag `fortran/v0.10.0`.
+
+### Added
+
+- Transport-seam Anthropic Messages and Gemini generateContent model adapters.
+- Opt-in `agent_options` fields `require_policy` and `require_tool_scope` with
+  `AGENT_INVALID_OPTIONS` guards for a missing policy hook or an empty allowed
+  tool list. Both default to `.false.` and preserve existing behavior.
+
 ## 0.9.0 - 2026-11-13
 
 Source release tag `fortran/v0.9.0`. This is not a package-registry release.
@@ -18,12 +29,6 @@ Source release tag `fortran/v0.8.0`. This is not a package-registry release.
 
 - Transport-seam MCP client with initialize, paginated tool listing,
   duplicate-tool and repeated-cursor rejection, tool calls, and close.
-
-## Unreleased
-
-### Added
-
-- Transport-seam Anthropic Messages and Gemini generateContent model adapters.
 
 ## 0.6.0 - 2026-11-02
 

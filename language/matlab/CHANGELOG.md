@@ -1,5 +1,15 @@
 # MATLAB Core Release Notes
 
+## 0.6.0 - 2026-11-15
+
+Source tag `matlab/v0.6.0`.
+
+### Added
+
+- Opt-in `agent_options` fields `requirePolicy` and `requireToolScope` with
+  `AGENT_INVALID_OPTIONS` guards for a missing `policy` hook or an empty
+  `allowedTools` list. Both default to `false` and preserve existing behavior.
+
 ## 0.5.0 - 2026-11-13
 
 Source tag `matlab/v0.5.0`.

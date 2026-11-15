@@ -1,5 +1,25 @@
 # Lua Core Release Notes
 
+## 0.7.0 - 2026-11-15
+
+Source tag `lua/v0.7.0`. Rockspec `0.7.0-1`.
+
+### Added
+
+- Opt-in `require_policy` guard: `run_agent` raises `AGENT_INVALID_OPTIONS`
+  when a policy is required but no policy hook is configured.
+- Opt-in `require_tool_scope` guard: `run_agent` raises
+  `AGENT_INVALID_OPTIONS` when tool scope is required but `allowed_tools` is
+  empty.
+- Native Anthropic Messages and Gemini generateContent model adapters.
+- Transport-seam MCP client with pagination and tool calls.
+
+### Changed
+
+- Adapters live under `praxo/adapters/`. The old
+  `praxo.openai_compatible` and `praxo.harmovela_sink` paths remain as
+  compatibility wrappers.
+
 ## 0.6.0 - 2026-11-13
 
 Source tag `lua/v0.6.0`. Rockspec `0.6.0-1`.
@@ -11,19 +31,6 @@ Source tag `lua/v0.6.0`. Rockspec `0.6.0-1`.
 - Retriever seam (`document`, `func_retriever`, `retriever_retrieve`).
 - Synchronous delegation seam (`subagent_request`, `subagent_result`,
   `subagent_run`); no asynchronous manager.
-
-## Unreleased
-
-### Added
-
-- Native Anthropic Messages and Gemini generateContent model adapters.
-- Transport-seam MCP client with pagination and tool calls.
-
-### Changed
-
-- Adapters live under `praxo/adapters/`. The old
-  `praxo.openai_compatible` and `praxo.harmovela_sink` paths remain as
-  compatibility wrappers.
 
 ## 0.4.1 - 2026-11-09
 

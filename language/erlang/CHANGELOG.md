@@ -1,5 +1,18 @@
 # Erlang Core Release Notes
 
+## 0.8.0 - 2026-11-15
+
+Source tag `erlang/v0.8.0`.
+
+### Added
+
+- Opt-in `require_policy` guard: `run_agent/3` returns
+  `AGENT_INVALID_OPTIONS` when a policy is required but no policy hook is
+  configured.
+- Opt-in `require_tool_scope` guard: `run_agent/3` returns
+  `AGENT_INVALID_OPTIONS` when tool scope is required but `allowed_tools` is
+  empty.
+
 ## 0.7.1 - 2026-11-12
 
 Source tag `erlang/v0.7.1`.

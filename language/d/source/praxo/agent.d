@@ -1,6 +1,6 @@
 module praxo.agent;
 
-import std.algorithm : sort;
+import std.algorithm : canFind, sort;
 import std.array : array, join;
 import std.conv : to;
 import praxo.errors : PraxoError;
@@ -75,6 +75,9 @@ class AgentOptions {
     ContextBudget* context;
     long maxSteps = 8;
     long maxTokens = 0;
+    string[] allowedTools;
+    bool requirePolicy = false;
+    bool requireToolScope = false;
 
     this(Model model) {
         this.model = model;
@@ -85,6 +88,14 @@ class Agent {
     private AgentOptions options;
 
     this(AgentOptions options) {
+        if (options.requirePolicy && options.policy is null) {
+            throw new PraxoError("AGENT_INVALID_OPTIONS",
+                "agent: require policy: policy is required");
+        }
+        if (options.requireToolScope && options.allowedTools.length == 0) {
+            throw new PraxoError("AGENT_INVALID_OPTIONS",
+                "agent: require tool scope: allowedTools must not be empty");
+        }
         this.options = options;
     }
 
@@ -107,7 +118,7 @@ class Agent {
                     if (!result.ok) throw new PraxoError("AGENT_CONTEXT_BUDGET", "context budget");
                     messages = result.messages;
                 }
-                auto request = Request(messages, options.tools is null ? [] : options.tools.specs());
+                auto request = Request(messages, advertisedTools());
                 auto response = options.model.generate(request);
                 usage = usage.plus(response.usage);
                 if (options.maxTokens > 0 && usage.inputTokens + usage.outputTokens > options.maxTokens) {
@@ -132,6 +143,9 @@ class Agent {
 
     private Message invokeTool(ToolCall call, string runId, string sessionId) {
         authorize(Action("tool.invoke", sessionId, call.name, call.arguments));
+        if (options.allowedTools.length > 0 && !options.allowedTools.canFind(call.name)) {
+            throw new PraxoError("AGENT_TOOL_NOT_ALLOWED", "tool not allowed");
+        }
         if (options.tools is null) throw new PraxoError("TOOL_NOT_FOUND", "tool is not registered");
         auto tool = options.tools.get(call.name);
         JSONValue[string] data;
@@ -140,6 +154,17 @@ class Agent {
         emit("tool.call", sessionId, runId, JSONValue(data));
         auto value = tool.invoke(call.arguments);
         return Message.tool(stringify(value), call.id);
+    }
+
+    private ToolSpec[] advertisedTools() {
+        if (options.tools is null) return [];
+        auto specs = options.tools.specs();
+        if (options.allowedTools.length == 0) return specs;
+        ToolSpec[] filtered;
+        foreach (spec; specs) {
+            if (options.allowedTools.canFind(spec.name)) filtered ~= spec;
+        }
+        return filtered;
     }
 
     private void authorize(Action action) {

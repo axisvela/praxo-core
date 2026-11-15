@@ -1,5 +1,17 @@
 # Swift Core Release Notes
 
+## 0.6.0 - 2026-11-15
+
+Source tag `swift/v0.6.0`.
+
+### Added
+
+- `AgentOptions.requirePolicy` rejects `Agent` construction when no policy hook
+  is configured.
+- `AgentOptions.requireToolScope` rejects `Agent` construction when
+  `allowedTools` is empty.
+- Both guards are opt-in and default to `false`.
+
 ## 0.5.0 - 2026-11-13
 
 Source tag `swift/v0.5.0`.

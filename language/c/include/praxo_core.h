@@ -6,7 +6,7 @@
 
 #include "praxo.h"
 
-#define PRAXO_CORE_VERSION "0.9.0"
+#define PRAXO_CORE_VERSION "0.10.0"
 
 typedef struct {
     const char *session;
@@ -179,6 +179,8 @@ typedef struct {
     const char *const *interrupt_on;
     size_t interrupt_on_count;
     PxInterruptHandler on_interrupt;
+    bool require_policy;
+    bool require_tool_scope;
 } PxAgentOptions;
 
 const char *px_parse_sse_stream(PxArena *arena, const char *text,

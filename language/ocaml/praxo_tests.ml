@@ -475,6 +475,38 @@ let test_agent_middleware () =
   check (model_code = "AGENT_MODEL_CALL_LIMIT") "model call limit";
   print_endline "test_agent_middleware passed"
 
+let test_agent_safe_defaults () =
+  let model = Praxo_core.static_model "ok" in
+  let expect_code expected thunk =
+    try ignore (thunk ()); fail "expected error"
+    with Praxo_core.Core_error (code, _) ->
+      check (code = expected) ("expected " ^ expected)
+  in
+  expect_code "AGENT_INVALID_OPTIONS" (fun () ->
+    ignore (Praxo_core.run_agent
+      { (Praxo_core.agent_options model) with Praxo_core.agent_require_policy = true }
+      (Praxo_core.session_make "s1" []) "hello"));
+  let allowed_policy = { (Praxo_core.agent_options model) with
+    Praxo_core.agent_policy = Some (fun _ -> true);
+    Praxo_core.agent_require_policy = true } in
+  let result = Praxo_core.run_agent allowed_policy (Praxo_core.session_make "s1" []) "hello" in
+  check (result.Praxo_core.result_output = "ok") "require policy accepted";
+  expect_code "AGENT_INVALID_OPTIONS" (fun () ->
+    ignore (Praxo_core.run_agent
+      { (Praxo_core.agent_options model) with Praxo_core.agent_require_tool_scope = true }
+      (Praxo_core.session_make "s1" []) "hello"));
+  let scoped = { (Praxo_core.agent_options model) with
+    Praxo_core.agent_allowed_tools = ["echo"];
+    Praxo_core.agent_require_tool_scope = true } in
+  let scoped_result = Praxo_core.run_agent scoped (Praxo_core.session_make "s1" []) "hello" in
+  check (scoped_result.Praxo_core.result_output = "ok") "require tool scope accepted";
+  let defaults = Praxo_core.agent_options model in
+  check (not defaults.Praxo_core.agent_require_policy) "default require policy";
+  check (not defaults.Praxo_core.agent_require_tool_scope) "default require tool scope";
+  let default_result = Praxo_core.run_agent defaults (Praxo_core.session_make "s1" []) "hello" in
+  check (default_result.Praxo_core.result_output = "ok") "defaults preserve behavior";
+  print_endline "test_agent_safe_defaults passed"
+
 let test_mcp () =
   let calls = ref [] in
   let transport method_name params =
@@ -677,6 +709,7 @@ let () =
   test_agent_loop root;
   test_agent_middleware ();
   test_agent_failures ();
+  test_agent_safe_defaults ();
   test_mcp ();
   test_seams ();
   Praxo_adapter_tests.test_openai_adapter ();

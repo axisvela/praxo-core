@@ -70,6 +70,9 @@ class AgentOptions {
   int maxSteps;
   int maxTokens;
   String? toolChoice;
+  List<String> allowedTools;
+  bool requirePolicy;
+  bool requireToolScope;
 
   AgentOptions(
     this.model, {
@@ -81,13 +84,25 @@ class AgentOptions {
     this.maxSteps = 8,
     this.maxTokens = 0,
     this.toolChoice,
+    this.allowedTools = const [],
+    this.requirePolicy = false,
+    this.requireToolScope = false,
   });
 }
 
 class Agent {
   final AgentOptions options;
 
-  Agent(this.options);
+  Agent(this.options) {
+    if (options.requirePolicy && options.policy == null) {
+      throw const PraxoError(
+          'AGENT_INVALID_OPTIONS', 'agent: require policy: policy is required');
+    }
+    if (options.requireToolScope && options.allowedTools.isEmpty) {
+      throw const PraxoError('AGENT_INVALID_OPTIONS',
+          'agent: require tool scope: allowedTools must not be empty');
+    }
+  }
 
   RunResult run(Session session, String prompt) {
     final maxSteps = options.maxSteps > 0 ? options.maxSteps : 8;
@@ -113,7 +128,7 @@ class Agent {
         }
         final request = Request(
           messages: messages,
-          tools: options.tools?.specs() ?? const [],
+          tools: _advertisedTools(),
           toolChoice: options.toolChoice,
         );
         final response = options.model.generate(request);
@@ -151,6 +166,10 @@ class Agent {
       toolName: call.name,
       arguments: call.arguments,
     ));
+    if (options.allowedTools.isNotEmpty &&
+        !options.allowedTools.contains(call.name)) {
+      throw const PraxoError('AGENT_TOOL_NOT_ALLOWED', 'tool not allowed');
+    }
     final registry = options.tools;
     if (registry == null) {
       throw const PraxoError('TOOL_NOT_FOUND', 'tool is not registered');
@@ -162,6 +181,16 @@ class Agent {
     });
     final value = tool.invoke(call.arguments);
     return Message.tool(Json.stringify(value), call.id);
+  }
+
+  List<ToolSpec> _advertisedTools() {
+    final specs = options.tools?.specs() ?? const <ToolSpec>[];
+    if (options.allowedTools.isEmpty) {
+      return specs;
+    }
+    return specs
+        .where((tool) => options.allowedTools.contains(tool.name))
+        .toList();
   }
 
   void _authorize(Action action) {

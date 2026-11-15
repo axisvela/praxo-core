@@ -68,6 +68,57 @@ $result = Invoke-PraxoAgent -Agent $agent -Session $session -Prompt 'hello'
 Assert-True ($result.Output -eq 'hello') 'agent output'
 Assert-True ($result.Steps -eq 1) 'agent steps'
 
+$defaultOptions = New-PraxoAgentOptions -Model $model
+Assert-True (-not $defaultOptions.RequirePolicy) 'require policy default false'
+Assert-True (-not $defaultOptions.RequireToolScope) 'require tool scope default false'
+
+$guardedOptions = New-PraxoAgentOptions -Model $model
+$guardedOptions.RequirePolicy = $true
+$requirePolicyThrown = $false
+try {
+    New-PraxoAgent -Options $guardedOptions | Out-Null
+} catch {
+    $requirePolicyThrown = $true
+    Assert-True ($_.Exception.Message -match 'require policy') 'require policy guard message'
+}
+Assert-True $requirePolicyThrown 'require policy guard'
+
+$guardedOptions = New-PraxoAgentOptions -Model $model
+$guardedOptions.RequireToolScope = $true
+$requireScopeThrown = $false
+try {
+    New-PraxoAgent -Options $guardedOptions | Out-Null
+} catch {
+    $requireScopeThrown = $true
+    Assert-True ($_.Exception.Message -match 'require tool scope') 'require tool scope guard message'
+}
+Assert-True $requireScopeThrown 'require tool scope guard'
+
+$assembly = (Get-PraxoCoreInfo).Assembly
+Add-Type -TypeDefinition @'
+using Praxo.Core;
+public sealed class PraxoAllowAllPolicy : IPolicyHook
+{
+    public Decision Authorize(Action action) => Decision.Allow("ok");
+}
+'@ -ReferencedAssemblies $assembly
+
+$policyOptions = New-PraxoAgentOptions -Model $model
+$policyOptions.RequirePolicy = $true
+$policyOptions.Policy = [PraxoAllowAllPolicy]::new()
+$policyAgent = New-PraxoAgent -Options $policyOptions
+$policySession = New-PraxoSession -Id 'guarded-policy'
+$policyResult = Invoke-PraxoAgent -Agent $policyAgent -Session $policySession -Prompt 'hello'
+Assert-True ($policyResult.Output -eq 'hello') 'require policy accepts configured policy'
+
+$scopeOptions = New-PraxoAgentOptions -Model $model
+$scopeOptions.RequireToolScope = $true
+$scopeOptions.AllowedTools.Add('echo')
+$scopeAgent = New-PraxoAgent -Options $scopeOptions
+$scopeSession = New-PraxoSession -Id 'guarded-scope'
+$scopeResult = Invoke-PraxoAgent -Agent $scopeAgent -Session $scopeSession -Prompt 'hello'
+Assert-True ($scopeResult.Output -eq 'hello') 'require tool scope accepts configured scope'
+
 $script:harmovelaCalls = [System.Collections.Generic.List[object]]::new()
 $harmovelaTransport = {
     param($request)

@@ -15,6 +15,7 @@ run() ->
     test_event(),
     test_structured(),
     test_agent(),
+    test_agent_guards(),
     test_run_ids(),
     test_agent_tool(),
     test_tool_selection(),
@@ -1168,6 +1169,45 @@ test_agent() ->
         praxo_sink:kinds(maps:get(events, Returned)) ==
             [<<"run.started">>, <<"run.completed">>],
         <<"agent events">>
+    ).
+
+test_agent_guards() ->
+    Model = praxo_agent:static_model(<<"done">>),
+    Policy = fun(_Action) -> #{allowed => true} end,
+    PolicyGuard = (praxo_agent:new_agent_options(Model))#{require_policy => true},
+    {error, <<"AGENT_INVALID_OPTIONS">>, _} = praxo_agent:run_agent(
+        PolicyGuard,
+        praxo_models:session(<<"s1">>),
+        <<"go">>
+    ),
+    PolicyConfigured = (praxo_agent:new_agent_options(Model))#{
+        require_policy => true,
+        policy => Policy
+    },
+    {ok, _, _} = praxo_agent:run_agent(
+        PolicyConfigured,
+        praxo_models:session(<<"s1">>),
+        <<"go">>
+    ),
+    ScopeGuard = (praxo_agent:new_agent_options(Model))#{require_tool_scope => true},
+    {error, <<"AGENT_INVALID_OPTIONS">>, _} = praxo_agent:run_agent(
+        ScopeGuard,
+        praxo_models:session(<<"s1">>),
+        <<"go">>
+    ),
+    ScopeConfigured = (praxo_agent:new_agent_options(Model))#{
+        require_tool_scope => true,
+        allowed_tools => [<<"echo">>]
+    },
+    {ok, _, _} = praxo_agent:run_agent(
+        ScopeConfigured,
+        praxo_models:session(<<"s1">>),
+        <<"go">>
+    ),
+    {ok, _, _} = praxo_agent:run_agent(
+        praxo_agent:new_agent_options(Model),
+        praxo_models:session(<<"s1">>),
+        <<"go">>
     ).
 
 test_run_ids() ->

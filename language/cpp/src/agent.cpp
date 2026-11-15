@@ -26,6 +26,17 @@ private:
 
 }  // namespace
 
+Agent::Agent(AgentOptions options) : options_(std::move(options)) {
+    if (options_.require_policy && !options_.policy) {
+        throw PraxoError("AGENT_INVALID_OPTIONS",
+                         "agent: require policy: policy is required");
+    }
+    if (options_.require_tool_scope && options_.allowed_tools.empty()) {
+        throw PraxoError("AGENT_INVALID_OPTIONS",
+                         "agent: require tool scope: allowedTools must not be empty");
+    }
+}
+
 void ToolRegistry::register_tool(std::shared_ptr<Tool> tool) {
     tools_[tool->name()] = std::move(tool);
 }

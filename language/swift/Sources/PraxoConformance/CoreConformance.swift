@@ -222,7 +222,7 @@ func runAgentLoop(_ input: Any?, _ expect: Any?) throws {
     options.events = sink
     options.maxSteps = Json.int(input, "maxSteps")
     options.maxTokens = Json.int(input, "maxTokens")
-    let agent = Agent(options)
+    let agent = try Agent(options)
     var result: RunResult?
     var failure: Error?
     do { result = try agent.run(Session(id: "s1"), Json.string(input, "prompt") ?? "") }

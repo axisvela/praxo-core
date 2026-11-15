@@ -91,6 +91,38 @@ program core_tests
   call check_error('AGENT_MAX_TOKENS', 'cumulative token budget')
 
   call reset()
+  options%require_policy = .true.
+  call run()
+  call check_error('AGENT_INVALID_OPTIONS', 'require policy guard', terminal=.false.)
+
+  call reset()
+  options%require_policy = .true.
+  options%gate => gate
+  call run()
+  call check(.not. error%failed() .and. result%output == 'hello', &
+    'require policy accepts configured policy')
+
+  call reset()
+  options%require_tool_scope = .true.
+  call run()
+  call check_error('AGENT_INVALID_OPTIONS', 'require tool scope guard', terminal=.false.)
+
+  call reset()
+  options%require_tool_scope = .true.
+  allocate(character(4) :: options%allowed_tools(1))
+  options%allowed_tools(1) = 'echo'
+  call run()
+  call check(.not. error%failed() .and. result%output == 'hello', &
+    'require tool scope accepts configured scope')
+
+  call reset()
+  options%require_policy = .false.
+  options%require_tool_scope = .false.
+  call run()
+  call check(.not. error%failed() .and. result%output == 'hello', &
+    'safe defaults remain opt-in')
+
+  call reset()
   gate%denied_kind = 'model.generate'
   options%gate => gate
   call run()

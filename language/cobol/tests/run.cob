@@ -56,6 +56,48 @@ procedure division.
     end-if
 
     perform reset-case
+    move "require policy missing" to test-name
+    move spaces to px-policy-program
+    move 1 to px-require-policy
+    perform run-agent
+    if px-result-error not = "AGENT_INVALID_OPTIONS" or model-count not = 0
+        perform fail-case
+    end-if
+
+    perform reset-case
+    move "require policy configured" to test-name
+    move 1 to px-require-policy
+    perform run-agent
+    if px-result-error not = spaces or px-result-output not = "hello"
+        perform fail-case
+    end-if
+
+    perform reset-case
+    move "require tool scope missing" to test-name
+    move 1 to px-require-tool-scope
+    perform run-agent
+    if px-result-error not = "AGENT_INVALID_OPTIONS" or model-count not = 0
+        perform fail-case
+    end-if
+
+    perform reset-case
+    move "require tool scope configured" to test-name
+    move 1 to px-require-tool-scope
+    move 1 to px-allowed-tool-count
+    move "echo" to px-allowed-tools(1)
+    perform run-agent
+    if px-result-error not = spaces or px-result-output not = "hello"
+        perform fail-case
+    end-if
+
+    perform reset-case
+    move "safe defaults opt in" to test-name
+    perform run-agent
+    if px-result-error not = spaces or px-result-output not = "hello"
+        perform fail-case
+    end-if
+
+    perform reset-case
     move "model policy denial" to test-name
     move 4 to test-mode
     perform run-agent
@@ -148,7 +190,7 @@ procedure division.
         display "FAIL: " failures " assertions"
         move 1 to return-code
     else
-        display "PASS: 14 native COBOL agent cases"
+        display "PASS: 19 native COBOL agent cases"
         move 0 to return-code
     end-if
     goback.

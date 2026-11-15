@@ -15,9 +15,11 @@ fn check(condition: bool) !void {
 
 pub fn errorCode(error_value: anyerror) []const u8 {
     return switch (error_value) {
+        error.AgentInvalidOptions => "AGENT_INVALID_OPTIONS",
         error.AgentMaxSteps => "AGENT_MAX_STEPS",
         error.AgentMaxTokens => "AGENT_MAX_TOKENS",
         error.AgentContextBudget => "AGENT_CONTEXT_BUDGET",
+        error.AgentToolNotAllowed => "AGENT_TOOL_NOT_ALLOWED",
         error.ToolNotFound => "TOOL_NOT_FOUND",
         error.PolicyError => "POLICY_ERROR",
         error.AgentModelCallLimit => "AGENT_MODEL_CALL_LIMIT",

@@ -22,6 +22,10 @@ The language examples read these variables:
 - [Python live model](https://github.com/axisvela/praxo-core/tree/main/language/python/examples/live-model)
 - [TypeScript live model](https://github.com/axisvela/praxo-core/tree/main/language/typescript/examples/live-model)
 - [Java live model](https://github.com/axisvela/praxo-core/tree/main/language/java/examples/live-model)
+- [PowerShell live model](https://github.com/axisvela/praxo-core/tree/main/language/powershell/examples/live-model)
+- [V live model](https://github.com/axisvela/praxo-core/tree/main/language/v/examples/live-model)
+- [Zig live model](https://github.com/axisvela/praxo-core/tree/main/language/zig/examples/live-model)
+- [OCaml live model](https://github.com/axisvela/praxo-core/tree/main/language/ocaml/examples/live-model) (transport seam)
 
 Ollama, vLLM, OpenAI, DeepSeek, Kimi/Moonshot, OpenRouter, Groq, and Together can
 use this adapter with different base URLs. The Python and TypeScript packages

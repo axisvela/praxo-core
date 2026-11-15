@@ -150,6 +150,65 @@ begin
   end;
 end;
 
+function AllowAllPolicy(const Kind: UTF8String): Boolean;
+begin
+  Result := True;
+end;
+
+procedure TestSafeDefaults;
+var
+  Host: TTestHost;
+  Script: TJSONData;
+  Allowed: TPraxoAgentStringArray;
+  Code: UTF8String;
+  R: TPraxoAgentResult;
+begin
+  Script := PraxoParseJSON('[{"content":"ok","inputTokens":0,"outputTokens":0}]');
+  try
+    Host := TTestHost.Create;
+    try
+      Host.Script := TJSONArray(Script);
+
+      Host.Next := 0;
+      Code := '';
+      try
+        PraxoRunAgent(Host, 'test', 1, 0, True, nil);
+      except
+        on E: EPraxoAgent do Code := E.Code;
+      end;
+      Check(Code = 'AGENT_INVALID_OPTIONS', 'require policy: ' + Code);
+
+      Host.Next := 0;
+      R := PraxoRunAgent(Host, 'test', 1, 0, True, @AllowAllPolicy);
+      Check(R.Output = 'ok', 'require policy accepted');
+
+      Host.Next := 0;
+      Code := '';
+      try
+        PraxoRunAgent(Host, 'test', 1, 0, False, nil, True, nil);
+      except
+        on E: EPraxoAgent do Code := E.Code;
+      end;
+      Check(Code = 'AGENT_INVALID_OPTIONS', 'require tool scope: ' + Code);
+
+      Host.Next := 0;
+      SetLength(Allowed, 1);
+      Allowed[0] := 'echo';
+      R := PraxoRunAgent(Host, 'test', 1, 0, False, nil, True, Allowed);
+      Check(R.Output = 'ok', 'require tool scope accepted');
+
+      Host.Next := 0;
+      R := PraxoRunAgent(Host, 'test', 1, 0);
+      Check(R.Output = 'ok', 'safe defaults preserve behavior');
+    finally
+      Host.Free;
+    end;
+  finally
+    Script.Free;
+  end;
+  Writeln('agent safe defaults passed');
+end;
+
 begin
   TestVectors(ParamStr(1));
   TestFailure('[]', 'model failure', '["run.started","run.failed"]', True, False, False);
@@ -159,5 +218,6 @@ begin
   TestFailure('[{"content":"","toolCalls":[{"id":"1","name":"x","arguments":{}}]}]', 'event failure', '["run.started","tool.call","run.failed"]', False, False, True);
   TestFailure('[{"content":"x","outputTokens":-1}]', 'Invalid token count: outputTokens', '["run.started","run.failed"]', False, False, False);
   TestFailure('[{"content":"","toolCalls":{}}]', 'toolCalls must be an array', '["run.started","run.failed"]', False, False, False);
+  TestSafeDefaults;
   Writeln('agent error tests passed');
 end.

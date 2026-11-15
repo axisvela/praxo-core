@@ -84,6 +84,9 @@ sub new {
         max_steps => 8,
         max_tokens => 0,
         tool_choice => undef,
+        allowed_tools => [],
+        require_policy => 0,
+        require_tool_scope => 0,
     }, $class;
 }
 
@@ -105,6 +108,14 @@ package Praxo::Agent::Agent;
 
 sub new {
     my ($class, $options) = @_;
+    Praxo::Errors::praxo_error(
+        'AGENT_INVALID_OPTIONS',
+        'agent: require policy: policy is required',
+    ) if $options->{require_policy} && !$options->{policy};
+    Praxo::Errors::praxo_error(
+        'AGENT_INVALID_OPTIONS',
+        'agent: require tool scope: allowed_tools must not be empty',
+    ) if $options->{require_tool_scope} && !@{ $options->{allowed_tools} // [] };
     return bless { options => $options }, $class;
 }
 

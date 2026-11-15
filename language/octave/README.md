@@ -1,7 +1,7 @@
 # PRAXO-CORE for GNU Octave
 
 Native Octave Core for the PRAXO-CORE agent framework. This is the independent
-Octave package root and source tag `octave/v0.5.0`; it shares the implementation
+Octave package root and source tag `octave/v0.6.0`; it shares the implementation
 in `language/matlab-octave-core/+praxo` with the MATLAB package. It passes all
 eleven shared vector groups under GNU Octave 11.3.0 and includes the native agent
 loop, memory store, checkpoint allowlist, lexical path policy, context
@@ -16,6 +16,7 @@ publication does not claim MATLAB runtime verification.
 
 - Registry introduction: [REGISTRY.md](https://github.com/axisvela/praxo-core/blob/main/language/octave/REGISTRY.md)
 - Machine-readable entry: [llms.txt](https://github.com/axisvela/praxo-core/blob/main/language/octave/llms.txt) and [llms.md](https://github.com/axisvela/praxo-core/blob/main/language/octave/llms.md)
+- [Examples](https://github.com/axisvela/praxo-core/tree/main/language/octave/examples): runnable language-specific examples.
 - Coding-agent contract: [docs/getting-started/coding-agents.md](https://github.com/axisvela/praxo-core/blob/main/docs/getting-started/coding-agents.md)
 - Registry: [Octave Packages](https://github.com/axisvela/praxo-core/releases/download/octave/v0.2.1/praxo-core-0.2.1.tar.gz)
 - Community: [X](https://x.com/axisvela) · [Weibo](https://weibo.com/u/1936025761)

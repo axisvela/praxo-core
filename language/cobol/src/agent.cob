@@ -33,6 +33,11 @@ procedure division using px-options px-session px-prompt
     px-result px-user-data.
     initialize px-result
     move px-session to work-session
+    if (px-require-policy = 1 and px-policy-program = spaces)
+        or (px-require-tool-scope = 1 and px-allowed-tool-count = 0)
+        move "AGENT_INVALID_OPTIONS" to px-result-error
+        goback
+    end-if
     if px-message-count of work-session < 0 or > 63
         move "AGENT_CONTEXT_BUDGET" to px-result-error
         goback

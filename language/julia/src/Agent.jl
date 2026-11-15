@@ -73,12 +73,16 @@ mutable struct AgentOptions
     response_format::Union{Nothing,Dict{String,Any}}
     max_steps::Int
     max_tokens::Int
+    require_policy::Bool
+    require_tool_scope::Bool
 end
 
-function AgentOptions(model::AbstractModel)
+function AgentOptions(model::AbstractModel;
+                      require_policy::Bool = false,
+                      require_tool_scope::Bool = false)
     AgentOptions(model, nothing, nothing, nothing, "", nothing,
         AbstractMiddleware[], Function[], nothing, String[], nothing, nothing,
-        0, 0, nothing, nothing, nothing, 8, 0)
+        0, 0, nothing, nothing, nothing, 8, 0, require_policy, require_tool_scope)
 end
 
 mutable struct Agent
@@ -89,6 +93,10 @@ mutable struct Agent
 end
 
 function Agent(options::AgentOptions)
+    options.require_policy && options.policy === nothing &&
+        throw(PraxoError("AGENT_INVALID_OPTIONS", "agent: require policy: policy is required"))
+    options.require_tool_scope && isempty(options.allowed_tools) &&
+        throw(PraxoError("AGENT_INVALID_OPTIONS", "agent: require tool scope: allowed_tools must not be empty"))
     middleware = AbstractMiddleware[]
     append!(middleware, options.middleware)
     options.structured_output === nothing || push!(middleware, options.structured_output)

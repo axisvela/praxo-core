@@ -57,12 +57,19 @@ installed model such as `llama3.2` and set `PRAXO_MODEL` accordingly.
 | PHP | source | `php language/php/examples/live-model/live_starter.php` |
 | Elixir | source | `elixir -pa language/elixir/build/ebin language/elixir/examples/live-model/live_starter.exs` |
 | Lua | source | `lua language/lua/examples/live-model/live_starter.lua` |
+| OCaml | source, transport seam | `ocaml unix.cma language/ocaml/examples/live-model/live_model.ml` (supply a transport; see README) |
+| PowerShell | C# Core `0.5.3` wrapper | `dotnet build language/csharp/Praxo.Core/Praxo.Core.csproj -c Release; pwsh -NoProfile -File language/powershell/examples/live-model/live_model.ps1` |
+| V | source | `v -path language/v language/v/examples/live-model/live_model.v` |
+| Zig | source | build from README: `language/zig/examples/live-model/README.md` |
 
 The Go, Python, TypeScript, Java, C#, and R examples import a published package.
-The Rust, Ruby, PHP, Elixir, and Lua examples run against repository source so
-they use the current adapter code; their READMEs also document package install
-where available. The Rust example uses the optional `http-ureq` feature until
-the next Rust release, so it does not rely on a published crate feature.
+The Rust, Ruby, PHP, Elixir, Lua, OCaml, V, and Zig examples run against
+repository source so they use the current adapter code; their READMEs also
+document package install where available. The Rust example uses the optional
+`http-ureq` feature until the next Rust release, so it does not rely on a
+published crate feature. PowerShell loads the C# Core assembly and inherits its
+OpenAI-compatible adapter. The OCaml Core does not bundle an HTTP client, so its
+example is a transport seam rather than a fully runnable live client.
 
 Python `0.7.0`, TypeScript `0.6.0`, and Java `0.9.0` include the OpenAI
 tool-wire fix for tool-result follow-ups.
@@ -92,6 +99,10 @@ denied call produces no tool effect:
 - [PHP starter](https://github.com/axisvela/praxo-core/tree/main/language/php/examples/consumer)
 - [Elixir starter](https://github.com/axisvela/praxo-core/tree/main/language/elixir/examples/consumer)
 - [Lua starter](https://github.com/axisvela/praxo-core/tree/main/language/lua/examples/consumer)
+- [OCaml starter](https://github.com/axisvela/praxo-core/tree/main/language/ocaml/examples/consumer)
+- [PowerShell starter](https://github.com/axisvela/praxo-core/tree/main/language/powershell/examples/consumer)
+- [V starter](https://github.com/axisvela/praxo-core/tree/main/language/v/examples/consumer)
+- [Zig starter](https://github.com/axisvela/praxo-core/tree/main/language/zig/examples/consumer)
 
 ## Troubleshooting
 

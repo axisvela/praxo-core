@@ -12,7 +12,7 @@ var session = Session(id: "session-1", messages: [
 ])
 let options = AgentOptions(TurnModel())
 options.maxSteps = 2
-let agent = Agent(options)
+let agent = try Agent(options)
 
 var result = try agent.run(session, "second")
 precondition(result.output == "turn 3")

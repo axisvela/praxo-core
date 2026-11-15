@@ -1,5 +1,17 @@
 # Objective-C Core Release Notes
 
+## 0.5.0 - 2026-11-15
+
+Source tag `objc/v0.5.0`.
+
+### Added
+
+- `PXRAgentOptionsCreate` now defaults the `requirePolicy` and
+  `requireToolScope` options to `NO`.
+- `requirePolicy` rejects a run without a `policy` hook.
+- `requireToolScope` rejects a run without a non-empty `toolSelection` set.
+- Both guards are opt-in and default to disabled.
+
 ## 0.4.0 - 2026-11-13
 
 Source tag `objc/v0.4.0`.

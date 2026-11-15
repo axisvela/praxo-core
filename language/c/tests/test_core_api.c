@@ -847,6 +847,38 @@ int main(void) {
     assert(respond.tool_calls == 0);
     assert(strcmp(hitl_result.output, "\"human answer\"") == 0);
 
+    PxAgentOptions open_options = {static_model, NULL, NULL, NULL, 2, 0};
+    assert(px_agent_run(&arena, &open_options, NULL, "hello", &hook_result) == NULL);
+    assert(!open_options.require_policy && !open_options.require_tool_scope);
+
+    AgentHookContext required_policy = {0};
+    PxAgentOptions required_policy_options = {
+        .generate = static_model,
+        .ctx = &required_policy,
+        .require_policy = true,
+    };
+    assert(strcmp(px_agent_run(&arena, &required_policy_options, NULL, "hello",
+        &hook_result), "AGENT_INVALID_OPTIONS") == 0);
+
+    PxAgentOptions satisfied_policy_options = required_policy_options;
+    satisfied_policy_options.authorize = hook_policy;
+    assert(px_agent_run(&arena, &satisfied_policy_options, NULL, "hello",
+        &hook_result) == NULL);
+
+    PxAgentOptions required_scope_options = {
+        .generate = static_model,
+        .require_tool_scope = true,
+    };
+    assert(strcmp(px_agent_run(&arena, &required_scope_options, NULL, "hello",
+        &hook_result), "AGENT_INVALID_OPTIONS") == 0);
+
+    const char *scope_tools[] = {"echo"};
+    PxAgentOptions satisfied_scope_options = required_scope_options;
+    satisfied_scope_options.allowed_tools = scope_tools;
+    satisfied_scope_options.allowed_tools_count = 1;
+    assert(px_agent_run(&arena, &satisfied_scope_options, NULL, "hello",
+        &hook_result) == NULL);
+
     px_arena_free(&arena);
     printf("C Core API tests passed\n");
     return 0;

@@ -1,5 +1,17 @@
 # C++ Core Release Notes
 
+## 0.8.0 - 2026-11-15
+
+Source tag `cpp/v0.8.0`.
+
+### Added
+
+- `AgentOptions.require_policy` rejects construction without a policy hook.
+- `AgentOptions.require_tool_scope` rejects construction with an empty
+  `allowed_tools` list.
+- Both guards are opt-in and default to `false`.
+- Transport-seam Anthropic Messages and Gemini generateContent model adapters.
+
 ## 0.7.0 - 2026-11-13
 
 Source release tag `cpp/v0.7.0`.
@@ -18,12 +30,6 @@ Source release tag `cpp/v0.6.0`.
 
 - Transport-seam MCP client with initialize, paginated tool listing,
   duplicate-tool and repeated-cursor rejection, tool calls, and close.
-
-## Unreleased
-
-### Added
-
-- Transport-seam Anthropic Messages and Gemini generateContent model adapters.
 
 ## 0.4.0 - 2026-11-02
 

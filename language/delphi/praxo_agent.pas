@@ -6,6 +6,9 @@ interface
 uses SysUtils, fpjson;
 
 type
+  TPraxoAgentPolicyHook = function(const Kind: UTF8String): Boolean;
+  TPraxoAgentStringArray = array of UTF8String;
+
   EPraxoAgent = class(Exception)
   public
     Code: UTF8String;
@@ -26,7 +29,7 @@ type
     OutputTokens: Int64;
   end;
 
-function PraxoRunAgent(Host: TPraxoAgentHost; const Prompt: UTF8String; MaxSteps: Integer; MaxTokens: Int64): TPraxoAgentResult;
+function PraxoRunAgent(Host: TPraxoAgentHost; const Prompt: UTF8String; MaxSteps: Integer; MaxTokens: Int64; RequirePolicy: Boolean = False; Policy: TPraxoAgentPolicyHook = nil; RequireToolScope: Boolean = False; AllowedTools: TPraxoAgentStringArray = nil): TPraxoAgentResult;
 
 implementation
 
@@ -58,7 +61,19 @@ begin
   Result := V.AsInt64;
 end;
 
-function PraxoRunAgent(Host: TPraxoAgentHost; const Prompt: UTF8String; MaxSteps: Integer; MaxTokens: Int64): TPraxoAgentResult;
+function ToolAllowed(const Name: UTF8String; const Tools: TPraxoAgentStringArray): Boolean;
+var
+  I: Integer;
+begin
+  if Length(Tools) = 0 then Exit(True);
+  for I := Low(Tools) to High(Tools) do
+    if Tools[I] = Name then Exit(True);
+  Result := False;
+end;
+
+function PraxoRunAgent(Host: TPraxoAgentHost; const Prompt: UTF8String; MaxSteps: Integer; MaxTokens: Int64;
+  RequirePolicy: Boolean; Policy: TPraxoAgentPolicyHook;
+  RequireToolScope: Boolean; AllowedTools: TPraxoAgentStringArray): TPraxoAgentResult;
 var
   Messages, Calls: TJSONArray;
   Response, Message, Call, Args: TJSONObject;
@@ -71,6 +86,10 @@ begin
   Result.Steps := 0;
   Result.InputTokens := 0;
   Result.OutputTokens := 0;
+  if RequirePolicy and not Assigned(Policy) then
+    raise EPraxoAgent.CreateCode('AGENT_INVALID_OPTIONS', 'agent: require policy: policy is required');
+  if RequireToolScope and (Length(AllowedTools) = 0) then
+    raise EPraxoAgent.CreateCode('AGENT_INVALID_OPTIONS', 'agent: require tool scope: AllowedTools must not be empty');
   if Host = nil then
     raise EPraxoAgent.CreateCode('AGENT_INVALID_HOST', 'Agent host is required');
   if MaxSteps <= 0 then MaxSteps := 8;
@@ -84,6 +103,8 @@ begin
       Host.Emit('run.started');
       for Step := 1 to MaxSteps do
       begin
+        if Assigned(Policy) and not Policy('model.generate') then
+          raise EPraxoAgent.CreateCode('AGENT_POLICY_DENIED', 'agent: model.generate denied');
         Response := Host.Generate(Messages);
         if Response = nil then
           raise EPraxoAgent.CreateCode('AGENT_INVALID_RESPONSE', 'Model returned nil');
@@ -126,6 +147,10 @@ begin
             if (Name = '') or (V = nil) or (V.JSONType <> jtObject) then
               raise EPraxoAgent.CreateCode('AGENT_INVALID_RESPONSE', 'Invalid tool arguments or name');
             Args := TJSONObject(V);
+            if not ToolAllowed(Name, AllowedTools) then
+              raise EPraxoAgent.CreateCode('AGENT_TOOL_NOT_ALLOWED', 'agent: tool ' + Name + ' is not allowed');
+            if Assigned(Policy) and not Policy('tool.invoke') then
+              raise EPraxoAgent.CreateCode('AGENT_POLICY_DENIED', 'agent: tool.invoke denied');
             Host.Emit('tool.call');
             ToolResult := Host.Invoke(Name, Args);
             if ToolResult = nil then

@@ -1,11 +1,13 @@
 # 30-Language Coverage Matrix
 
-The example catalog covers nine integration themes across thirty language
+The example catalog covers thirteen integration themes across thirty language
 implementations. Each theme has a deterministic check that does not require a
 provider endpoint.
 
 | Theme | Languages | Entry |
 | --- | --- | --- |
+| Consumer starter | 30 | `language/<language>/examples/consumer` |
+| Live model | 30 | `language/<language>/examples/live-model` |
 | Checkpoint allowlist | 30 | `language/<language>/examples/checkpoint` |
 | Event sink | 30 | `language/<language>/examples/event-sink` |
 | Retry | 30 | `language/<language>/examples/retry` |
@@ -15,11 +17,28 @@ provider endpoint.
 | Identity and policy | 30 | `language/<language>/examples/identity-policy` |
 | HTTP service | 30 | `language/<language>/examples/service` |
 | MCP | 30 | `language/<language>/examples/mcp` |
+| HITL | 16 | `language/<language>/examples/hitl` |
+| Session checkpoint | 20 | `language/<language>/examples/session-checkpoint` |
 
 Go keeps its reference recipes and examples under `examples/`.
 
 GNU Octave reuses the shared MATLAB examples under `language/matlab/examples/`;
 `matlab-octave-core` is a shared implementation and has no separate example root.
+
+## Not Applicable Themes
+
+HITL is not part of the declared scope for D, Dart, Delphi, Haskell, Julia,
+MATLAB, Octave, Nim, Objective-C, OCaml, PowerShell, Perl, Swift, V, and Zig.
+Their `examples/hitl` entry is intentionally absent.
+
+Session checkpoint is not part of the declared scope for Delphi, Haskell, Julia,
+MATLAB, Octave, Nim, Objective-C, OCaml, PowerShell, V, and Zig. Their
+`examples/session-checkpoint` entry is intentionally absent.
+
+The twenty languages with both themes are Go, Python, TypeScript, Java, Rust,
+C#, R, Ruby, PHP, C, C++, COBOL, Fortran, Elixir, Erlang, Lua, D, Dart, Perl, and
+Swift. For transport-seam or shared-runtime examples, the language README states
+the required caller-owned transport or inherited runtime.
 
 ## Languages and Verification
 

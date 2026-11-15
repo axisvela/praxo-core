@@ -411,6 +411,46 @@ static void runAgentLoop(NSDictionary<NSString *, id> *vector) {
           [identifier stringByAppendingString:@" events"]);
 }
 
+static void runSafeDefaultGuardTests(void (*check)(BOOL, NSString *)) {
+    NSError *error = nil;
+    NSMutableDictionary *defaults = PXRAgentOptionsCreate(PXRModelCreateStatic(@"ok"));
+    check(![defaults[@"requirePolicy"] boolValue] &&
+          ![defaults[@"requireToolScope"] boolValue],
+          @"safe-default guards off by default");
+    check(PXRAgentRun(defaults, PXRSessionCreate(@"s1", @[]), @"go", &error) != nil &&
+          error == nil,
+          @"defaults preserve behavior");
+
+    NSMutableDictionary *policyOpen = PXRAgentOptionsCreate(PXRModelCreateStatic(@"ok"));
+    policyOpen[@"requirePolicy"] = @YES;
+    error = nil;
+    check(PXRAgentRun(policyOpen, PXRSessionCreate(@"s1", @[]), @"go", &error) == nil,
+          @"require policy rejects missing policy");
+    check([PXRCodeFromError(error) isEqualToString:@"AGENT_INVALID_OPTIONS"],
+          @"require policy error code");
+
+    policyOpen[@"policy"] = ^id(NSDictionary *action) {
+        (void)action;
+        return PXRDecisionCreate(YES, @"ok");
+    };
+    error = nil;
+    check(PXRAgentRun(policyOpen, PXRSessionCreate(@"s1", @[]), @"go", &error) != nil,
+          @"require policy accepts configured policy");
+
+    NSMutableDictionary *scopeOpen = PXRAgentOptionsCreate(PXRModelCreateStatic(@"ok"));
+    scopeOpen[@"requireToolScope"] = @YES;
+    error = nil;
+    check(PXRAgentRun(scopeOpen, PXRSessionCreate(@"s1", @[]), @"go", &error) == nil,
+          @"require tool scope rejects empty allowed tools");
+    check([PXRCodeFromError(error) isEqualToString:@"AGENT_INVALID_OPTIONS"],
+          @"require tool scope error code");
+
+    scopeOpen[@"toolSelection"] = PXRToolSelectionCreate(@[@"echo"]);
+    error = nil;
+    check(PXRAgentRun(scopeOpen, PXRSessionCreate(@"s1", @[]), @"go", &error) != nil,
+          @"require tool scope accepts allowed tools");
+}
+
 int main(int argc, const char *argv[]) {
     @autoreleasepool {
         NSString *spec = argc > 1
@@ -477,6 +517,7 @@ int main(int argc, const char *argv[]) {
         runOtelTests(check);
         runRetrieverTests(check);
         runDelegationTests(check);
+        runSafeDefaultGuardTests(check);
         NSArray *relativeChecker = PXRPathCheckerCreate(@[PXRPathGrantCreate(@"allowed", @"read")], nil);
         check(!PXRPathAllowed(relativeChecker, @"../allowed/secret", @"read"),
               @"relative target outside root");

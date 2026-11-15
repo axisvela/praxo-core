@@ -1,5 +1,15 @@
 # COBOL Core Release Notes
 
+## 0.7.0 - 2026-11-15
+
+Source tag `cobol/v0.7.0`.
+
+### Added
+
+- Opt-in `px-require-policy` and `px-require-tool-scope` agent option flags
+  with `AGENT_INVALID_OPTIONS` guards for a missing policy program or an empty
+  allowed tool list. Both default to zero and preserve existing behavior.
+
 ## 0.6.0 - 2026-11-13
 
 Source release tag `cobol/v0.6.0`. This is not a package-registry release.

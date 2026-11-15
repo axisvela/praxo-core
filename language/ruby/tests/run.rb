@@ -171,6 +171,50 @@ rescue StandardError
 end
 check(caught, 'capacity fail closed')
 
+policy_guard_options = Praxo::Agent::AgentOptions.new(TestModel.new([{ 'content' => 'done' }]))
+policy_guard_options.require_policy = true
+caught = nil
+begin
+  Praxo::Agent.run_agent(policy_guard_options, M.session(id: 's1'), 'go')
+rescue StandardError => e
+  caught = e
+end
+check(caught && Praxo.error_code(caught) == 'AGENT_INVALID_OPTIONS',
+      'require policy guard code')
+check(caught.message == 'agent: require policy: policy is required',
+      'require policy guard message')
+
+policy_configured_options = Praxo::Agent::AgentOptions.new(TestModel.new([{ 'content' => 'done' }]))
+policy_configured_options.require_policy = true
+policy_configured_options.policy = lambda { |_action| M.decision(allowed: true) }
+configured_result = Praxo::Agent.run_agent(
+  policy_configured_options, M.session(id: 's1'), 'go'
+)
+check(configured_result.output == 'done', 'require policy configured')
+
+scope_guard_options = Praxo::Agent::AgentOptions.new(TestModel.new([{ 'content' => 'done' }]))
+scope_guard_options.require_tool_scope = true
+caught = nil
+begin
+  Praxo::Agent.run_agent(scope_guard_options, M.session(id: 's1'), 'go')
+rescue StandardError => e
+  caught = e
+end
+check(caught && Praxo.error_code(caught) == 'AGENT_INVALID_OPTIONS',
+      'require tool scope guard code')
+check(caught.message == 'agent: require tool scope: allowed_tools must not be empty',
+      'require tool scope guard message')
+
+scope_configured_options = Praxo::Agent::AgentOptions.new(TestModel.new([{ 'content' => 'done' }]))
+scope_configured_options.require_tool_scope = true
+scope_configured_options.allowed_tools = ['echo']
+check(Praxo::Agent.run_agent(scope_configured_options, M.session(id: 's1'), 'go').output == 'done',
+      'require tool scope configured')
+
+default_guard_options = Praxo::Agent::AgentOptions.new(TestModel.new([{ 'content' => 'done' }]))
+check(Praxo::Agent.run_agent(default_guard_options, M.session(id: 's1'), 'go').output == 'done',
+      'agent guards default off')
+
 
 class TestMiddleware
   attr_accessor :before_run_hook, :after_run_hook, :before_tool_hook

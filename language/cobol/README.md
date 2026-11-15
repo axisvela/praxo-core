@@ -3,8 +3,8 @@
 A native GnuCOBOL implementation, not a bridge to another Core. All 63 normative
 vectors across the eleven groups pass, together with native agent, JSON,
 contract-boundary, behavior, tooling, and API declaration checks. The
-`cobol-conformance` remote job checks the declared scope. `cobol/v0.6.0` is the
-source tag. Version `0.6.0` adds Anthropic and Gemini transport-seam model
+`cobol-conformance` remote job checks the declared scope. `cobol/v0.7.0` is the
+source tag. Version `0.7.0` adds Anthropic and Gemini transport-seam model
 adapters, an OTLP/HTTP OpenTelemetry sink, a retriever seam, and a synchronous
 delegation seam. Earlier source adds middleware, lifecycle, cancellation,
 streaming, SSE, batch tool dispatch, MCP, Harmovela, OpenAI-compatible adapters,
@@ -299,7 +299,7 @@ semantics.
 
 ## Gates
 
-`api/0.6.0.txt` inventories public copybook records, module program IDs,
+`api/0.7.0.txt` inventories public copybook records, module program IDs,
 and linkage parameters. `api-snapshot.py --check` runs in the test driver;
 regenerate intentionally with `--update`. Tooling tests check fixture
 determinism, assertion polarity, snapshot sensitivity, and the middleware,
@@ -308,11 +308,11 @@ cancellation, streaming, SSE, and batch-dispatch declarations. The
 SSE, JSON, contract, model-adapter, telemetry, retriever, and delegation
 programs.
 
-`cobol/v0.6.0` is the source tag. `api/0.1.1.txt`, `api/0.1.2.txt`, and
+`cobol/v0.7.0` is the source tag. `api/0.1.1.txt`, `api/0.1.2.txt`, and
 `api/0.2.0.txt` remain immutable previous declaration snapshots;
 `api/0.4.0.txt` adds the cancellation, stream, SSE, and batch records;
 `api/0.5.0.txt` adds the MCP, Harmovela, and OpenAI-compatible records;
-`api/0.6.0.txt` adds the Anthropic, Gemini, OTel, retriever, and delegation
+`api/0.7.0.txt` adds the Anthropic, Gemini, OTel, retriever, and delegation
 records. `spec/parity/cobol.md` records partial surfaces. The Core sources are
 MIT-licensed; GnuCOBOL and its runtime are separately licensed external
 toolchain dependencies.

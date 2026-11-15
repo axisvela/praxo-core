@@ -4,7 +4,7 @@
 
 The PHP package is `axisvela/praxo-core` on Packagist. Its publication source is
 the split repository `axisvela/praxo-core-php`. Split tag `v0.7.0` was pushed
-from main-repository tag `php/v0.7.0`; Packagist publishes
+from main-repository tag `php/v0.8.0`; Packagist publishes
 `axisvela/praxo-core==0.7.0`. `v0.4.1`, `v0.4.0`, `v0.3.0`, and `v0.2.0`
 remain available. This package has no automatic update hook, so later tags need
 a manual update from the package page or a configured GitHub hook.
@@ -18,7 +18,7 @@ after the push/webhook delay.
 ```bash
 php language/php/conformance/run.php
 php language/php/tests/run.php
-php language/php/conformance/run.php --api-snapshot > language/php/api/0.7.0.txt
+php language/php/conformance/run.php --api-snapshot > language/php/api/0.8.0.txt
 php language/php/conformance/run.php --check-api
 ```
 
@@ -31,7 +31,7 @@ tests and conformance checks directly.
 gh repo clone axisvela/praxo-core-php build/praxo-core-php
 cp language/php/src/*.php build/praxo-core-php/src/
 cp -R language/php/src/Adapters build/praxo-core-php/src/
-cp language/php/api/0.7.0.txt build/praxo-core-php/api/
+cp language/php/api/0.8.0.txt build/praxo-core-php/api/
 ```
 
 Update the split repository `README.md` version and API snapshot reference.

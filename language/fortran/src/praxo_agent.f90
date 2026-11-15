@@ -85,6 +85,8 @@ module praxo_agent
     logical :: redact_pii = .false.
     type(middleware_hook), allocatable :: middleware(:)
     character(:), allocatable :: allowed_tools(:)
+    logical :: require_policy = .false.
+    logical :: require_tool_scope = .false.
     procedure(agent_cancel_hook), pointer, nopass :: cancelled => null()
     class(*), pointer :: cancel_ctx => null()
     procedure(agent_stream_hook), pointer, nopass :: on_stream => null()
@@ -112,7 +114,7 @@ contains
     character(:), allocatable :: output
     character(:), allocatable :: redacted
     integer :: steps, i, j, step_limit, call_count, entered, hook_index
-    logical :: context_ok, first_failure, skip_call, use_parallel
+    logical :: context_ok, first_failure, skip_call, use_parallel, empty_scope
     type(sdk_error) :: first_error, hook_error
     character(:), allocatable :: interrupt_response
     type(tool_call), allocatable :: prepared_calls(:)
@@ -121,6 +123,18 @@ contains
 
     result%run_id = run_id
     result%output = ''
+    if (options%require_policy .and. .not. associated(options%gate)) then
+      error%code = 'AGENT_INVALID_OPTIONS'
+      return
+    end if
+    if (options%require_tool_scope) then
+      empty_scope = .not. allocated(options%allowed_tools)
+      if (.not. empty_scope) empty_scope = size(options%allowed_tools) == 0
+      if (empty_scope) then
+        error%code = 'AGENT_INVALID_OPTIONS'
+        return
+      end if
+    end if
     if (.not. associated(options%provider) .or. len_trim(run_id) == 0) then
       error%code = 'INVALID_REQUEST'
       return

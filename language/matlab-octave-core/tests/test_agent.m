@@ -107,6 +107,38 @@ options.callLimit = praxo.call_limit(0, 1);
 result = praxo.agent_run('x', options.model, options.tools, options);
 assert(strcmp(result.errorCode, 'AGENT_TOOL_CALL_LIMIT'));
 
+try
+    praxo.agent_run('x', scripted({struct('content', 'ok')}), {}, ...
+        struct('requirePolicy', true));
+    error('test:failure', 'Expected require policy guard');
+catch err
+    assert(strcmp(err.identifier, 'praxo:AGENT_INVALID_OPTIONS'));
+    assert(strcmp(err.message, 'agent: require policy: policy is required'));
+end
+
+options = struct('requirePolicy', true, 'policy', @(action) true);
+result = praxo.agent_run('x', scripted({struct('content', 'ok')}), {}, options);
+assert(isempty(result.errorCode) && strcmp(result.output, 'ok'));
+
+try
+    praxo.agent_run('x', scripted({struct('content', 'ok')}), {}, ...
+        struct('requireToolScope', true));
+    error('test:failure', 'Expected require tool scope guard');
+catch err
+    assert(strcmp(err.identifier, 'praxo:AGENT_INVALID_OPTIONS'));
+    assert(strcmp(err.message, ...
+        'agent: require tool scope: allowedTools must not be empty'));
+end
+
+tool = praxo.tool('echo', 'Echo', @(args) args);
+options = struct('requireToolScope', true, 'allowedTools', {{'echo'}});
+result = praxo.agent_run('x', scripted({struct('content', 'ok')}), {tool}, options);
+assert(isempty(result.errorCode) && strcmp(result.output, 'ok'));
+
+options = struct('requirePolicy', false, 'requireToolScope', false);
+result = praxo.agent_run('x', scripted({struct('content', 'ok')}), {}, options);
+assert(isempty(result.errorCode) && strcmp(result.output, 'ok'));
+
 disp('test_agent passed');
 end
 

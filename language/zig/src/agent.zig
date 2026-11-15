@@ -83,12 +83,17 @@ pub const AgentOptions = struct {
     context: ?runtime.ContextBudget = null,
     max_steps: i64 = 8,
     max_tokens: i64 = 0,
+    allowed_tools: []const []const u8 = &.{},
+    require_policy: bool = false,
+    require_tool_scope: bool = false,
 };
 
 pub const AgentError = error{
+    AgentInvalidOptions,
     AgentMaxSteps,
     AgentMaxTokens,
     AgentContextBudget,
+    AgentToolNotAllowed,
     ToolNotFound,
     PolicyError,
 };
@@ -102,6 +107,12 @@ pub const Agent = struct {
 
     pub fn run(self: *Agent, allocator: Allocator, session: models.Session, prompt: []const u8) !models.RunResult {
         const options = self.options;
+        if (options.require_policy and options.policy == null) {
+            return AgentError.AgentInvalidOptions;
+        }
+        if (options.require_tool_scope and options.allowed_tools.len == 0) {
+            return AgentError.AgentInvalidOptions;
+        }
         const max_steps: i64 = if (options.max_steps > 0) options.max_steps else 8;
         const run_id = try std.fmt.allocPrint(allocator, "run-{d}", .{ids.next()});
         var messages = std.array_list.Managed(models.Message).init(allocator);
@@ -132,7 +143,7 @@ pub const Agent = struct {
             }
             const request = models.Request{
                 .messages = messages.items,
-                .tools = if (options.tools) |registry| try registry.specs(allocator) else &.{},
+                .tools = try self.advertisedTools(allocator),
             };
             const response = options.model.generate(request) catch |error_value| {
                 self.emitFailure(session.id, run_id, error_value);
@@ -167,6 +178,7 @@ pub const Agent = struct {
 
     fn invokeTool(self: *Agent, allocator: Allocator, call: models.ToolCall, run_id: []const u8, session_id: []const u8) !models.Message {
         try self.authorize(.{ .kind = "tool.invoke", .session_id = session_id, .tool_name = call.name, .arguments = call.arguments });
+        if (!self.allowed(call.name)) return AgentError.AgentToolNotAllowed;
         const registry = self.options.tools orelse return AgentError.ToolNotFound;
         const tool = registry.get(call.name) catch return AgentError.ToolNotFound;
         var data = std.json.ObjectMap.empty;
@@ -182,6 +194,25 @@ pub const Agent = struct {
             .content = try json.stringify(allocator, value),
             .tool_id = call.id,
         };
+    }
+
+    fn advertisedTools(self: *Agent, allocator: Allocator) ![]models.ToolSpec {
+        const registry = self.options.tools orelse return &.{};
+        const specs = try registry.specs(allocator);
+        if (self.options.allowed_tools.len == 0) return specs;
+        var filtered = std.array_list.Managed(models.ToolSpec).init(allocator);
+        for (specs) |spec| {
+            if (self.allowed(spec.name)) try filtered.append(spec);
+        }
+        return filtered.toOwnedSlice();
+    }
+
+    fn allowed(self: *Agent, name: []const u8) bool {
+        if (self.options.allowed_tools.len == 0) return true;
+        for (self.options.allowed_tools) |item| {
+            if (std.mem.eql(u8, item, name)) return true;
+        }
+        return false;
     }
 
     fn authorize(self: *Agent, action: models.Action) !void {

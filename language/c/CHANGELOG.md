@@ -1,5 +1,18 @@
 # C Core Release Notes
 
+## 0.10.0 - 2026-11-15
+
+Source tag `c/v0.10.0`.
+
+### Added
+
+- `PxAgentOptions.require_policy` rejects a run without an `authorize` policy
+  hook.
+- `PxAgentOptions.require_tool_scope` rejects a run with an empty
+  `allowed_tools` list.
+- Both guards are opt-in and default to `false`.
+- Transport-seam Anthropic Messages and Gemini generateContent model adapters.
+
 ## 0.9.0 - 2026-11-13
 
 Source release tag `c/v0.9.0`.
@@ -18,12 +31,6 @@ Source release tag `c/v0.8.0`.
 
 - Transport-seam MCP client with initialize, paginated tool listing,
   duplicate-tool and repeated-cursor rejection, tool calls, and close.
-
-## Unreleased
-
-### Added
-
-- Transport-seam Anthropic Messages and Gemini generateContent model adapters.
 
 ## 0.6.0 - 2026-11-02
 

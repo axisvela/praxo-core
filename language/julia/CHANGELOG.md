@@ -1,5 +1,17 @@
 # Julia Core Release Notes
 
+## 0.6.0 - 2026-11-15
+
+Source tag `julia/v0.6.0`.
+
+### Added
+
+- `AgentOptions(...; require_policy = true)` and `Agent` reject construction
+  when no policy hook is configured.
+- `AgentOptions(...; require_tool_scope = true)` and `Agent` reject construction
+  when `allowed_tools` is empty.
+- Both guards are opt-in and default to `false`.
+
 ## 0.5.0 - 2026-11-13
 
 Source tag `julia/v0.5.0`.

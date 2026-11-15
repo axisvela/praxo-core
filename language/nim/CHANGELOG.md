@@ -1,5 +1,17 @@
 # Nim Core Release Notes
 
+## 0.5.0 - 2026-11-15
+
+Source tag `nim/v0.5.0`.
+
+### Added
+
+- `AgentOptions.requirePolicy` rejects `runAgent` when no policy hook is
+  configured.
+- `AgentOptions.requireToolScope` rejects `runAgent` when `allowedTools` is
+  empty.
+- Both guards are opt-in and default to `false`.
+
 ## 0.4.0 - 2026-11-13
 
 Source tag `nim/v0.4.0`.

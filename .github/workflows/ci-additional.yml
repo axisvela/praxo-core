@@ -40,6 +40,7 @@ jobs:
       - run: dart language/dart/examples/identity-policy/identity_policy.dart
       - run: dart language/dart/examples/service/service.dart
       - run: dart language/dart/examples/mcp/mcp.dart
+      - run: dart language/dart/examples/consumer/consumer.dart
 
   perl-examples:
     runs-on: ubuntu-latest
@@ -54,6 +55,7 @@ jobs:
       - run: perl language/perl/examples/identity-policy/identity_policy.pl
       - run: perl language/perl/examples/service/service.pl
       - run: perl language/perl/examples/mcp/mcp.pl
+      - run: perl language/perl/examples/consumer/consumer.pl
 
   d-examples:
     runs-on: ubuntu-latest
@@ -71,6 +73,7 @@ jobs:
       - run: dmd -i -Ilanguage/d/source -run language/d/examples/identity-policy/identity_policy.d
       - run: dmd -i -Ilanguage/d/source -run language/d/examples/service/service.d
       - run: dmd -i -Ilanguage/d/source -run language/d/examples/mcp/mcp.d
+      - run: dmd -i -Ilanguage/d/source -run language/d/examples/consumer/consumer.d
 
   delphi-examples:
     runs-on: ubuntu-latest
@@ -97,3 +100,5 @@ jobs:
       - run: ./build/delphi/service
       - run: fpc -Mobjfpc -Facwstring -Fulanguage/delphi -FEbuild/delphi language/delphi/examples/mcp/mcp.pas
       - run: ./build/delphi/mcp
+      - run: fpc -Mobjfpc -Facwstring -Fulanguage/delphi -FEbuild/delphi language/delphi/examples/consumer/consumer.pas
+      - run: ./build/delphi/consumer

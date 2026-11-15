@@ -51,6 +51,12 @@ target_link_libraries(praxo-cpp-session-checkpoint-example PRIVATE praxo_cpp)
 add_executable(praxo-cpp-mcp-example examples/mcp/main.cpp)
 target_link_libraries(praxo-cpp-mcp-example PRIVATE praxo_cpp)
 
+add_executable(praxo-cpp-consumer-example examples/consumer/main.cpp)
+target_link_libraries(praxo-cpp-consumer-example PRIVATE praxo_cpp)
+
+add_executable(praxo-cpp-live-model-example examples/live-model/main.cpp)
+target_link_libraries(praxo-cpp-live-model-example PRIVATE praxo_cpp)
+
 add_executable(praxo-cpp-harmovela-tests tests/harmovela.cpp)
 target_link_libraries(praxo-cpp-harmovela-tests PRIVATE praxo_cpp)
 

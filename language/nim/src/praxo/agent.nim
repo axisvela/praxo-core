@@ -13,6 +13,8 @@ proc echoInvoke(arguments: JsonNode): JsonNode =
   return arguments
 
 type
+  Policy* = proc(kind: string): bool {.closure.}
+
   Tool* = ref object
     name*: string
     description*: string
@@ -41,6 +43,10 @@ type
     structuredOutput*: Option[StructuredOutput]
     modelCallLimit*: int
     toolCallLimit*: int
+    policy*: Policy
+    allowedTools*: seq[string]
+    requirePolicy*: bool
+    requireToolScope*: bool
 
 proc newTool*(name: string, description: string,
               invoke: proc(arguments: JsonNode): JsonNode {.closure.} = echoInvoke): Tool =
@@ -110,9 +116,19 @@ proc emitEvent(events: Sink, kind: string, sessionId: string, runId: string, dat
     return
   events.emit(newEvent(kind, sessionId, runId, data))
 
+proc authorize(options: AgentOptions, kind: string) =
+  if options.policy.isNil:
+    return
+  if not options.policy(kind):
+    raisePraxo("AGENT_POLICY_DENIED", "agent: " & kind & " denied")
+
 var runSequence = 0
 
 proc runAgent*(options: AgentOptions, session: Session, prompt: string): RunResult =
+  if options.requirePolicy and options.policy.isNil:
+    raisePraxo("AGENT_INVALID_OPTIONS", "agent: require policy: policy is required")
+  if options.requireToolScope and options.allowedTools.len == 0:
+    raisePraxo("AGENT_INVALID_OPTIONS", "agent: require tool scope: allowedTools must not be empty")
   if options.model.isNil:
     raisePraxo("MODEL_ERROR", "model is not configured")
   let now = getTime()
@@ -130,6 +146,12 @@ proc runAgent*(options: AgentOptions, session: Session, prompt: string): RunResu
     let limits = callLimit(options.modelCallLimit, options.toolCallLimit)
     for step in 1 .. maxSteps:
       var specs = toolSpecs(options.tools)
+      if options.allowedTools.len > 0:
+        var filtered: seq[ToolSpec] = @[]
+        for spec in specs:
+          if spec.name in options.allowedTools:
+            filtered.add(spec)
+        specs = filtered
       if options.toolSelection.isSome:
         specs = selectTools(options.toolSelection.get(), specs)
       var modelMessages = messages
@@ -151,6 +173,7 @@ proc runAgent*(options: AgentOptions, session: Session, prompt: string): RunResu
           message.toolCalls = toolCalls
           modelMessages.add(message)
       limits.modelCall()
+      authorize(options, "model.generate")
       let response = options.model.generate(newRequest(modelMessages, specs))
       total = addUsage(total, response.usage)
       if options.maxTokens > 0 and total.inputTokens + total.outputTokens > options.maxTokens:
@@ -166,6 +189,9 @@ proc runAgent*(options: AgentOptions, session: Session, prompt: string): RunResu
         emitEvent(options.events, "run.completed", session.id, runId, newJNull())
         return newRunResult(runId, output, step, total)
       for call in response.message.toolCalls:
+        if options.allowedTools.len > 0 and call.name notin options.allowedTools:
+          raisePraxo("AGENT_TOOL_NOT_ALLOWED", "agent: tool " & call.name & " is not allowed")
+        authorize(options, "tool.invoke")
         let index = findToolIndex(options.tools, call.name)
         if index < 0:
           raisePraxo("TOOL_NOT_FOUND", "tool not found: " & call.name)

@@ -4,6 +4,18 @@ if nargin < 4 || isempty(options), options = struct(); end
 if ~ischar(prompt) || ~isa(model, 'function_handle') || ~iscell(tools) || ~isstruct(options) || ~isscalar(options)
     error('praxo:agent', 'Invalid agent configuration');
 end
+require_policy = logical(option(options, 'requirePolicy', false));
+require_tool_scope = logical(option(options, 'requireToolScope', false));
+has_policy = isfield(options, 'policy') && ~isempty(options.policy);
+if require_policy && ~has_policy
+    error('praxo:AGENT_INVALID_OPTIONS', ...
+        'agent: require policy: policy is required');
+end
+allowed_tools = option(options, 'allowedTools', {});
+if require_tool_scope && isempty(allowed_tools)
+    error('praxo:AGENT_INVALID_OPTIONS', ...
+        'agent: require tool scope: allowedTools must not be empty');
+end
 max_steps = option(options, 'maxSteps', 8);
 max_tokens = option(options, 'maxTokens', 0);
 if ~valid_limit(max_steps) || max_steps < 1 || ~valid_limit(max_tokens)

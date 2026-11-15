@@ -1,5 +1,17 @@
 # V Core Release Notes
 
+## 0.5.0 - 2026-11-15
+
+Source tag `v/v0.5.0`.
+
+### Added
+
+- `AgentOptions.require_policy` rejects `run_agent` when no policy hook is
+  configured.
+- `AgentOptions.require_tool_scope` rejects `run_agent` when `allowed_tools` is
+  empty.
+- Both guards are opt-in and default to `false`.
+
 ## 0.4.8 - 2026-11-13
 
 Source tag `v/v0.4.8`.

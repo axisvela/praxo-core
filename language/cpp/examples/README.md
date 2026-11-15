@@ -1,5 +1,8 @@
 # C++ Examples
 
+- [`consumer/`](consumer/): deterministic allow/deny governed tool path.
+- [`live-model/`](live-model/): OpenAI-compatible endpoint with one `get_time`
+  tool and a caller-owned transport seam.
 - [`hitl/`](hitl/): approval and edit-reauthorization for a write tool.
 - [`session-checkpoint/`](session-checkpoint/): multi-turn history save, reload,
   and continue.

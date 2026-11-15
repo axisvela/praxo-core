@@ -286,6 +286,8 @@ NSMutableDictionary<NSString *, id> *PXRAgentOptionsCreate(PXRModelGenerate mode
     options[@"maxSteps"] = @8;
     options[@"maxTokens"] = @0;
     options[@"sessionId"] = @"s1";
+    options[@"requirePolicy"] = @NO;
+    options[@"requireToolScope"] = @NO;
     return options;
 }
 
@@ -330,6 +332,22 @@ NSDictionary<NSString *, id> *PXRAgentRun(NSMutableDictionary<NSString *, id> *o
     PXRModelGenerate model = options[@"model"];
     if (model == nil) {
         return PXRAgentFail(options, sessionId, @"", @"MODEL_ERROR", @"model is not configured", error);
+    }
+    NSMutableSet *requiredScope = options[@"toolSelection"];
+    if ([options[@"requirePolicy"] boolValue] && options[@"policy"] == nil) {
+        if (error != NULL) {
+            *error = PXRCoreError(@"AGENT_INVALID_OPTIONS",
+                                  @"agent: require policy: policy is required");
+        }
+        return nil;
+    }
+    if ([options[@"requireToolScope"] boolValue] &&
+        (requiredScope == nil || requiredScope.count == 0)) {
+        if (error != NULL) {
+            *error = PXRCoreError(@"AGENT_INVALID_OPTIONS",
+                                  @"agent: require tool scope: toolSelection must not be empty");
+        }
+        return nil;
     }
     NSString *runId = [@"run-" stringByAppendingString:[[NSUUID UUID] UUIDString]];
     PXREventSink sink = options[@"events"];

@@ -20,6 +20,15 @@
 
 ### Added
 
+- Opt-in `require_policy`/`require_tool_scope` safe-default guards (and their
+  idiomatic casing per language) across the native Core agent APIs: Go, Python,
+  TypeScript, Java, Rust, C#, R, Ruby, PHP, Elixir, Lua, Perl, Erlang, C, C++,
+  Dart, Objective-C, D, Zig, Swift, Julia, OCaml, Haskell, Nim, V, Delphi,
+  MATLAB, Octave, Fortran, COBOL, and PowerShell. Defaults remain `false`.
+- Added `consumer` and `live-model` examples for C, C++, COBOL, Fortran,
+  Erlang, D, Dart, Perl, Swift, Delphi, Haskell, Julia, MATLAB, Octave, Nim,
+  Objective-C, OCaml, PowerShell, V, and Zig, aligning them with the
+  Go/Java/Python/TypeScript example set.
 - Extended consumer starters for Ruby (`praxo-core` 0.4.1), PHP
   (`axisvela/praxo-core` 0.4.0), Elixir (`praxo_core` 0.4.0), and Lua
   (`praxo-core` 0.4.0-1). Each starter uses a deterministic model, explicit tool

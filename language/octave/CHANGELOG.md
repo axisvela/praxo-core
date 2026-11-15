@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.6.0 - 2026-11-15
+
+Source tag `octave/v0.6.0`.
+
+- Add opt-in `agent_options` fields `requirePolicy` and `requireToolScope` with
+  `AGENT_INVALID_OPTIONS` guards for a missing `policy` hook or an empty
+  `allowedTools` list. Both default to `false` and preserve existing behavior.
+
 ## 0.5.0 - 2026-11-13
 
 - Add an OpenTelemetry OTLP/HTTP sink over a caller-supplied transport with an

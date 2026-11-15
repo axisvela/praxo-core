@@ -1,5 +1,16 @@
 # D Core Release Notes
 
+## 0.5.0 - 2026-11-15
+
+Source tag `d/v0.5.0`.
+
+### Added
+
+- `AgentOptions.requirePolicy` rejects construction without a policy hook.
+- `AgentOptions.requireToolScope` rejects construction with an empty
+  `allowedTools` list.
+- Both guards are opt-in and default to `false`.
+
 ## 0.4.0 - 2026-11-13
 
 Source tag `d/v0.4.0`.

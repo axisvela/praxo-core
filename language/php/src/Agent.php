@@ -146,6 +146,8 @@ final class AgentOptions
     public array $interruptOn = [];
     public mixed $onInterruptDecision = null;
     public mixed $onInterrupt = null;
+    public bool $requirePolicy = false;
+    public bool $requireToolScope = false;
 
     public function __construct(public Model $model)
     {
@@ -162,6 +164,18 @@ final class Agent
 
     public function __construct(private AgentOptions $options)
     {
+        if ($options->requirePolicy && $options->policy === null) {
+            throw new PraxoException(
+                'AGENT_INVALID_OPTIONS',
+                'agent: require policy: policy is required',
+            );
+        }
+        if ($options->requireToolScope && $options->allowedTools === []) {
+            throw new PraxoException(
+                'AGENT_INVALID_OPTIONS',
+                'agent: require tool scope: allowedTools must not be empty',
+            );
+        }
         $memory = self::loadAgentsMd($options->memoryFiles);
         $this->systemPrompt = $memory === ''
             ? $options->systemPrompt

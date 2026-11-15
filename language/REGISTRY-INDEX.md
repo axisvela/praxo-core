@@ -33,7 +33,7 @@ evidence.
 | PowerShell | [REGISTRY](powershell/REGISTRY.md) | [llms.txt](powershell/llms.txt) | [llms.md](powershell/llms.md) | [examples](powershell/examples/) |
 | R | [REGISTRY](r/REGISTRY.md) | [llms.txt](r/llms.txt) | [llms.md](r/llms.md) | [examples](r/examples/) |
 | MATLAB | [REGISTRY](matlab/REGISTRY.md) | [llms.txt](matlab/llms.txt) | [llms.md](matlab/llms.md) | [examples](matlab/examples/) |
-| GNU Octave | [REGISTRY](octave/REGISTRY.md) | [llms.txt](octave/llms.txt) | [llms.md](octave/llms.md) | [shared examples](matlab/examples/) |
+| GNU Octave | [REGISTRY](octave/REGISTRY.md) | [llms.txt](octave/llms.txt) | [llms.md](octave/llms.md) | [examples](octave/examples/) |
 | Delphi / Free Pascal | [REGISTRY](delphi/REGISTRY.md) | [llms.txt](delphi/llms.txt) | [llms.md](delphi/llms.md) | [examples](delphi/examples/) |
 | Objective-C | [REGISTRY](objc/REGISTRY.md) | [llms.txt](objc/llms.txt) | [llms.md](objc/llms.md) | [examples](objc/examples/) |
 | C | [REGISTRY](c/REGISTRY.md) | [llms.txt](c/llms.txt) | [llms.md](c/llms.md) | [examples](c/examples/) |
@@ -44,9 +44,11 @@ evidence.
 | MATLAB/Octave shared core | [REGISTRY](matlab-octave-core/REGISTRY.md) | [llms.txt](matlab-octave-core/llms.txt) | [llms.md](matlab-octave-core/llms.md) | — |
 
 The Go reference entry is the repository root [REGISTRY.md](../REGISTRY.md) and
-[llms.txt](../llms.txt). GNU Octave reuses the shared MATLAB examples under
-[matlab/examples/](matlab/examples/); `matlab-octave-core` is a shared
-implementation, not a standalone package, so it has no separate examples.
+[llms.txt](../llms.txt). GNU Octave keeps its own consumer and live-model
+examples under [octave/examples/](octave/examples/) and reuses the shared MATLAB
+examples for the other themes under [matlab/examples/](matlab/examples/);
+`matlab-octave-core` is a shared implementation, not a standalone package, so it
+has no separate examples.
 
 See the [registry page guidance](../docs/languages/registry-pages.md) for
 publication checks and the [coding-agent contract](../docs/getting-started/coding-agents.md)

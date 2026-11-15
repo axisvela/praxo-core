@@ -21,7 +21,7 @@ exception Schema_error of string
 exception Toolcall_error of string
 
 let spec_version = "0.2.0"
-let sdk_version = "0.6.0"
+let sdk_version = "0.7.0"
 
 let stream_kinds = ["values"; "updates"; "messages"; "tasks"; "debug"; "checkpoint"]
 let max_json = 1048576
@@ -1087,6 +1087,10 @@ type agent_options = {
   agent_max_steps : int;
   agent_max_tokens : int;
   agent_session_id : string;
+  agent_policy : (string -> bool) option;
+  agent_allowed_tools : string list;
+  agent_require_policy : bool;
+  agent_require_tool_scope : bool;
 }
 type mcp_transport = string -> json -> json
 type mcp_client = {
@@ -2060,6 +2064,10 @@ let agent_options model = {
   agent_max_steps = 8;
   agent_max_tokens = 0;
   agent_session_id = "s1";
+  agent_policy = None;
+  agent_allowed_tools = [];
+  agent_require_policy = false;
+  agent_require_tool_scope = false;
 }
 
 let tool_make name description invoke = {
@@ -2083,6 +2091,10 @@ let redact_message message = {
 }
 
 let run_agent options session prompt =
+  if options.agent_require_policy && options.agent_policy = None then
+    raise_core "AGENT_INVALID_OPTIONS" "agent: require policy: policy is required";
+  if options.agent_require_tool_scope && options.agent_allowed_tools = [] then
+    raise_core "AGENT_INVALID_OPTIONS" "agent: require tool scope: allowed_tools must not be empty";
   let max_steps = if options.agent_max_steps > 0 then options.agent_max_steps else 8 in
   let max_tokens = options.agent_max_tokens in
   (match options.agent_call_limit with
@@ -2101,6 +2113,13 @@ let run_agent options session prompt =
   let emit_failed message =
     emit_event "run.failed" (Object [("error", String message)])
   in
+  let authorize kind =
+    match options.agent_policy with
+    | None -> ()
+    | Some policy ->
+        if not (policy kind) then
+          raise_core "AGENT_POLICY_DENIED" ("agent: " ^ kind ^ " denied")
+  in
   try
     emit_event "run.started" Null;
     let total = ref (usage_make 0 0) in
@@ -2109,8 +2128,14 @@ let run_agent options session prompt =
     while !result = None do
       if !step >= max_steps then raise_core "AGENT_MAX_STEPS" "maximum steps exceeded";
       incr step;
+      authorize "model.generate";
       let specs =
         let specs = List.map (fun tool -> tool_spec_make tool.tool_name tool.tool_description) options.agent_tools in
+        let specs =
+          match options.agent_allowed_tools with
+          | [] -> specs
+          | allowed -> List.filter (fun spec -> List.mem spec.spec_name allowed) specs
+        in
         match options.agent_tool_selection with
         | None -> specs
         | Some selection -> select_tools selection specs
@@ -2136,6 +2161,11 @@ let run_agent options session prompt =
         result := Some (run_result_make run_id output !step !total)
       end else
         List.iter (fun call ->
+          if options.agent_allowed_tools <> [] &&
+             not (List.mem call.invocation_name options.agent_allowed_tools) then
+            raise_core "AGENT_TOOL_NOT_ALLOWED"
+              ("agent: tool " ^ call.invocation_name ^ " is not allowed");
+          authorize "tool.invoke";
           (match options.agent_tool_selection with
            | None -> ()
            | Some selection -> check_tool_selected selection call.invocation_name);

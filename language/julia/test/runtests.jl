@@ -425,3 +425,48 @@ end
     @test invalid_runner isa PraxoError
     @test invalid_runner.code == "SUBAGENT_INVALID"
 end
+
+struct AllowAllPolicy <: PraxoCore.AbstractPolicy end
+PraxoCore.authorize(::AllowAllPolicy, ::Action) = Decision(true, "")
+
+@testset "PraxoCore agent safe defaults" begin
+    model = StaticModel("ok")
+
+    missing_policy = try
+        Agent(AgentOptions(model; require_policy = true))
+        nothing
+    catch caught
+        caught
+    end
+    @test missing_policy isa PraxoError
+    @test missing_policy.code == "AGENT_INVALID_OPTIONS"
+    @test occursin("require policy", missing_policy.message)
+
+    policy_options = AgentOptions(model; require_policy = true)
+    policy_options.policy = AllowAllPolicy()
+    policy_agent = Agent(policy_options)
+    @test policy_agent isa Agent
+    @test PraxoCore.run_agent(policy_agent, Session("s1"), "hello").output == "ok"
+
+    empty_scope = try
+        Agent(AgentOptions(model; require_tool_scope = true))
+        nothing
+    catch caught
+        caught
+    end
+    @test empty_scope isa PraxoError
+    @test empty_scope.code == "AGENT_INVALID_OPTIONS"
+    @test occursin("require tool scope", empty_scope.message)
+
+    scoped_options = AgentOptions(model; require_tool_scope = true)
+    scoped_options.allowed_tools = ["echo"]
+    scoped_agent = Agent(scoped_options)
+    @test scoped_agent isa Agent
+    @test PraxoCore.run_agent(scoped_agent, Session("s1"), "hello").output == "ok"
+
+    defaults = AgentOptions(model)
+    @test defaults.require_policy == false
+    @test defaults.require_tool_scope == false
+    @test isempty(defaults.allowed_tools)
+    @test PraxoCore.run_agent(Agent(defaults), Session("s1"), "hello").output == "ok"
+end

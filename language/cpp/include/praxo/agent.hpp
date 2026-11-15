@@ -104,11 +104,13 @@ public:
     std::vector<std::string> interrupt_on;
     std::function<InterruptDecision(const Interrupt&)> on_interrupt_decision;
     std::function<bool(const Interrupt&)> on_interrupt;
+    bool require_policy = false;
+    bool require_tool_scope = false;
 };
 
 class Agent {
 public:
-    explicit Agent(AgentOptions options) : options_(std::move(options)) {}
+    explicit Agent(AgentOptions options);
     RunResult run(const Session& session, const std::string& prompt);
 
 private:

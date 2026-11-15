@@ -117,6 +117,8 @@ jobs:
         working-directory: language/go/examples/live-model/go
       - run: go vet ./...
         working-directory: language/go/examples/live-model/go
+      - run: GOWORK=off go test ./examples/hitl
+      - run: GOWORK=off go run ./examples/session-checkpoint
 
   example-sdks:
     runs-on: ubuntu-latest

@@ -1,7 +1,7 @@
 # PRAXO-CORE for Nim
 
 PRAXO-CORE is an embeddable, MIT-licensed agent framework. This package is its
-native Nim Core with source tag `nim/v0.4.0`. It passes all eleven shared vector
+native Nim Core with source tag `nim/v0.5.0`. It passes all eleven shared vector
 groups with `Nim 2.2.12` and includes the native agent loop, context compaction,
 memory store, path policy, checkpoint allowlist, tool-call parsing, and opt-in
 agent tool selection, PII redaction, structured output, and call limits. Vector
@@ -106,7 +106,7 @@ limit calls per run. Zero or negative values leave the corresponding limit
 unbounded. Limits are checked before invoking the model or tool and reset for
 each run; a fallback model counts as one agent model call.
 
-Public declarations are inventoried in [`api/0.4.0.txt`](api/0.4.0.txt).
+Public declarations are inventoried in [`api/0.5.0.txt`](api/0.5.0.txt).
 
 ## Anthropic and Gemini Adapters
 

@@ -91,6 +91,8 @@ pub fn fallback_model(primary &Model, fallback &Model) &Model {
 	return &Model{mode: 'fallback', primary: primary, fallback: fallback}
 }
 
+pub type PolicyHook = fn (kind string) bool
+
 pub struct AgentOptions {
 pub mut:
 	model         &Model = unsafe { nil }
@@ -105,6 +107,10 @@ pub mut:
 	max_steps     int = 8
 	max_tokens    int
 	session_id    string = 's1'
+	policy        ?PolicyHook
+	allowed_tools []string
+	require_policy bool
+	require_tool_scope bool
 }
 
 pub fn agent_options(model &Model) AgentOptions {
@@ -136,6 +142,14 @@ fn emit_event(events &Sink, kind string, session_id string, run_id string, data 
 	sink.emit(Event{kind: kind, session_id: session_id, run_id: run_id, data: data})
 }
 
+fn authorize(options AgentOptions, kind string) ! {
+	if hook := options.policy {
+		if !hook(kind) {
+			return praxo_error('AGENT_POLICY_DENIED', 'agent: ${kind} denied')
+		}
+	}
+}
+
 fn run_agent_inner(options AgentOptions, session_value Session, run_id string,
 	mut messages []Message) !RunResult {
 	max_steps := if options.max_steps > 0 { options.max_steps } else { 8 }
@@ -144,6 +158,15 @@ fn run_agent_inner(options AgentOptions, session_value Session, run_id string,
 	for step := 1; step <= max_steps; step++ {
 		mut model := options.model
 		mut specs := tool_specs(options.tools)
+		if options.allowed_tools.len > 0 {
+			mut filtered := []ToolSpec{cap: specs.len}
+			for spec in specs {
+				if spec.name in options.allowed_tools {
+					filtered << spec
+				}
+			}
+			specs = filtered.clone()
+		}
 		if selection := options.tool_selection {
 			specs = select_tools(selection, specs)
 		}
@@ -168,6 +191,7 @@ fn run_agent_inner(options AgentOptions, session_value Session, run_id string,
 			}
 		}
 		limit.model_call()!
+		authorize(options, 'model.generate')!
 		result := model.generate(request(model_messages, specs)) or {
 			return err
 		}
@@ -189,6 +213,10 @@ fn run_agent_inner(options AgentOptions, session_value Session, run_id string,
 			return run_result(run_id, output, step, total)
 		}
 		for call in result.message.tool_calls {
+			if options.allowed_tools.len > 0 && call.name !in options.allowed_tools {
+				return praxo_error('AGENT_TOOL_NOT_ALLOWED', 'agent: tool ${call.name} is not allowed')
+			}
+			authorize(options, 'tool.invoke')!
 			if selection := options.tool_selection {
 				check_tool_selected(selection, call.name)!
 			}
@@ -213,6 +241,12 @@ fn run_agent_inner(options AgentOptions, session_value Session, run_id string,
 }
 
 pub fn run_agent(options AgentOptions, session_value Session, prompt string) !RunResult {
+	if options.require_policy && options.policy == none {
+		return praxo_error('AGENT_INVALID_OPTIONS', 'agent: require policy: policy is required')
+	}
+	if options.require_tool_scope && options.allowed_tools.len == 0 {
+		return praxo_error('AGENT_INVALID_OPTIONS', 'agent: require tool scope: allowed_tools must not be empty')
+	}
 	if options.model == unsafe { nil } {
 		return praxo_error('MODEL_ERROR', 'model is not configured')
 	}

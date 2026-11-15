@@ -36,6 +36,8 @@ defmodule Praxo.AgentOptions do
             interrupt_on: [],
             on_interrupt_decision: nil,
             on_interrupt: nil,
+            require_policy: false,
+            require_tool_scope: false,
             entered: []
 end
 
@@ -103,6 +105,19 @@ defmodule Praxo.Agent do
   end
 
   def run_agent(%AgentOptions{} = options, session, prompt) do
+    cond do
+      options.require_policy and options.policy == nil ->
+        {:error, "AGENT_INVALID_OPTIONS", options}
+
+      options.require_tool_scope and options.allowed_tools == [] ->
+        {:error, "AGENT_INVALID_OPTIONS", options}
+
+      true ->
+        run_agent_validated(options, session, prompt)
+    end
+  end
+
+  defp run_agent_validated(%AgentOptions{} = options, session, prompt) do
     run_id = "run-#{System.system_time(:nanosecond)}-#{System.unique_integer([:positive, :monotonic])}"
     messages = session.messages ++ [Models.message("user", prompt)]
 

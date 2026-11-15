@@ -18,7 +18,20 @@ THEMES = (
     "service",
     "mcp",
 )
+ALIGNED_THEMES = ("consumer", "live-model", *THEMES, "hitl", "session-checkpoint")
+NOT_APPLICABLE = {
+    "hitl": {
+        "d", "dart", "delphi", "haskell", "julia", "matlab", "octave", "nim",
+        "objc", "ocaml", "powershell", "perl", "swift", "v", "zig",
+    },
+    "session-checkpoint": {
+        "delphi", "haskell", "julia", "matlab", "octave", "nim", "objc",
+        "ocaml", "powershell", "v", "zig",
+    },
+}
 GO_THEMES = {
+    "consumer": ROOT / "language/go/examples/consumer-go",
+    "live-model": ROOT / "language/go/examples/live-model",
     "checkpoint": ROOT / "examples/recipes/checkpoint-store-go",
     "event-sink": ROOT / "examples/recipes/event-sinks-go",
     "retry": ROOT / "examples/recipes/retry-go",
@@ -28,6 +41,8 @@ GO_THEMES = {
     "identity-policy": ROOT / "examples/recipes/identity-go",
     "service": ROOT / "examples/embedded-service",
     "mcp": ROOT / "examples/ecosystem/mcp",
+    "hitl": ROOT / "examples/hitl",
+    "session-checkpoint": ROOT / "examples/session-checkpoint",
 }
 
 
@@ -42,6 +57,11 @@ def languages() -> list[str]:
 def example_path(language: str, theme: str) -> Path:
     if language == "go":
         return GO_THEMES[theme]
+    if language == "octave":
+        candidate = LANGUAGE / "octave" / "examples" / theme
+        if (candidate / "README.md").is_file():
+            return candidate
+        return LANGUAGE / "matlab" / "examples" / theme
     return LANGUAGE / language / "examples" / theme
 
 
@@ -49,6 +69,18 @@ def missing() -> list[str]:
     failures = []
     for language in languages():
         for theme in THEMES:
+            path = example_path(language, theme)
+            if not (path / "README.md").is_file():
+                failures.append(f"{language}/{theme}")
+    return failures
+
+
+def missing_aligned() -> list[str]:
+    failures = []
+    for language in languages():
+        for theme in ALIGNED_THEMES:
+            if language in NOT_APPLICABLE.get(theme, set()):
+                continue
             path = example_path(language, theme)
             if not (path / "README.md").is_file():
                 failures.append(f"{language}/{theme}")
@@ -73,11 +105,18 @@ def main() -> int:
     if failures:
         print("missing examples: " + ", ".join(failures), file=sys.stderr)
         return 1
+    failures = missing_aligned()
+    if failures:
+        print("missing aligned examples: " + ", ".join(failures), file=sys.stderr)
+        return 1
     failures = missing_ci()
     if failures:
         print("missing example CI runs: " + ", ".join(failures), file=sys.stderr)
         return 1
-    print(f"Example coverage ok: {len(languages())} languages x {len(THEMES)} themes")
+    print(
+        f"Example coverage ok: {len(languages())} languages x {len(THEMES)} themes; "
+        f"{len(ALIGNED_THEMES)}-theme alignment with explicit n/a"
+    )
     return 0
 
 

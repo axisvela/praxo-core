@@ -94,10 +94,35 @@ new_agent_options(Model) ->
         interrupt_on => [],
         on_interrupt_decision => undefined,
         on_interrupt => undefined,
+        require_policy => false,
+        require_tool_scope => false,
         entered => []
     }.
 
 run_agent(Options0, Session, Prompt) ->
+    case validate_options(Options0) of
+        ok ->
+            run_agent_validated(Options0, Session, Prompt);
+        {error, Code} ->
+            {error, Code, Options0}
+    end.
+
+validate_options(Options) ->
+    RequirePolicy = maps:get(require_policy, Options, false),
+    Policy = maps:get(policy, Options, undefined),
+    RequireScope = maps:get(require_tool_scope, Options, false),
+    Allowed = maps:get(allowed_tools, Options, []),
+    case RequirePolicy andalso Policy =:= undefined of
+        true ->
+            {error, <<"AGENT_INVALID_OPTIONS">>};
+        false ->
+            case RequireScope andalso Allowed =:= [] of
+                true -> {error, <<"AGENT_INVALID_OPTIONS">>};
+                false -> ok
+            end
+    end.
+
+run_agent_validated(Options0, Session, Prompt) ->
     RunId = unique_run_id(),
     Messages0 = maps:get(messages, Session) ++ [praxo_models:message(<<"user">>, Prompt)],
     Messages =

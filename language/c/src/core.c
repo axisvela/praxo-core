@@ -600,6 +600,12 @@ const char *px_agent_run(PxArena *arena, const PxAgentOptions *options,
     if (options == NULL || options->generate == NULL) {
         return "AGENT_INVALID_OPTIONS";
     }
+    if (options->require_policy && options->authorize == NULL) {
+        return "AGENT_INVALID_OPTIONS";
+    }
+    if (options->require_tool_scope && options->allowed_tools_count == 0) {
+        return "AGENT_INVALID_OPTIONS";
+    }
     size_t entered = 0;
     for (size_t index = 0; index < options->middleware_count; index++) {
         const PxAgentMiddleware *middleware = &options->middleware[index];

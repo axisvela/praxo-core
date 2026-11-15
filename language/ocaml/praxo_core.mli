@@ -155,6 +155,10 @@ type agent_options = {
   agent_max_steps : int;
   agent_max_tokens : int;
   agent_session_id : string;
+  agent_policy : (string -> bool) option;
+  agent_allowed_tools : string list;
+  agent_require_policy : bool;
+  agent_require_tool_scope : bool;
 }
 type mcp_transport = string -> json -> json
 type mcp_client = {

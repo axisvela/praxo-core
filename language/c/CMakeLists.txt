@@ -53,6 +53,12 @@ add_executable(praxo-c-session-checkpoint-example
     examples/session-checkpoint/main.c)
 target_link_libraries(praxo-c-session-checkpoint-example PRIVATE praxo_core)
 
+add_executable(praxo-c-consumer-example examples/consumer/main.c)
+target_link_libraries(praxo-c-consumer-example PRIVATE praxo_core)
+
+add_executable(praxo-c-live-model-example examples/live-model/main.c)
+target_link_libraries(praxo-c-live-model-example PRIVATE praxo_core)
+
 add_executable(praxo-c-tests tests/test_core.c)
 target_link_libraries(praxo-c-tests PRIVATE praxo_core)
 

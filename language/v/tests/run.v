@@ -902,6 +902,51 @@ fn test_mcp() {
 	client.close()
 }
 
+fn allow_all_policy(_kind string) bool {
+	return true
+}
+
+fn test_agent_safe_defaults() {
+	model := praxo.static_model('ok')
+
+	mut options := praxo.agent_options(model)
+	options.require_policy = true
+	mut code := ''
+	praxo.run_agent(options, praxo.session('s1', []praxo.Message{}), 'hello') or {
+		code = praxo.error_code(err)
+		praxo.RunResult{}
+	}
+	assert code == 'AGENT_INVALID_OPTIONS'
+
+	options = praxo.agent_options(model)
+	options.require_policy = true
+	options.policy = allow_all_policy
+	policy_result := praxo.run_agent(options, praxo.session('s1', []praxo.Message{}), 'hello') or { panic(err) }
+	assert policy_result.output == 'ok'
+
+	options = praxo.agent_options(model)
+	options.require_tool_scope = true
+	code = ''
+	praxo.run_agent(options, praxo.session('s1', []praxo.Message{}), 'hello') or {
+		code = praxo.error_code(err)
+		praxo.RunResult{}
+	}
+	assert code == 'AGENT_INVALID_OPTIONS'
+
+	options = praxo.agent_options(model)
+	options.require_tool_scope = true
+	options.allowed_tools = ['echo']
+	scope_result := praxo.run_agent(options, praxo.session('s1', []praxo.Message{}), 'hello') or { panic(err) }
+	assert scope_result.output == 'ok'
+
+	defaults := praxo.agent_options(model)
+	assert !defaults.require_policy
+	assert !defaults.require_tool_scope
+	assert defaults.allowed_tools.len == 0
+	default_result := praxo.run_agent(defaults, praxo.session('s1', []praxo.Message{}), 'hello') or { panic(err) }
+	assert default_result.output == 'ok'
+}
+
 fn main() {
 	test_json()
 	test_toolcall()
@@ -919,6 +964,7 @@ fn main() {
 	test_callback_model()
 	test_agent_middleware()
 	test_agent_call_limits()
+	test_agent_safe_defaults()
 	test_openai_compatible()
 	test_anthropic_compatible()
 	test_gemini_compatible()

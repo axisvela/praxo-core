@@ -8,11 +8,11 @@
 
 - package: `praxo-core-zig`
 - registry: Source
-- source_version: `0.5.0`
+- source_version: `0.6.0`
 - published_version: not published
 - install_published: not published
 - install_source: `Source build (see README)`
-- source_tag: `zig/v0.5.0`
+- source_tag: `zig/v0.6.0`
 - tier: Core
 - contract: `SPEC_VERSION` `0.2.0`
 - documentation: https://axisvela.github.io/praxo-core/languages/zig/

@@ -1,5 +1,16 @@
 # Zig Core Release Notes
 
+## 0.6.0 - 2026-11-15
+
+Source tag `zig/v0.6.0`.
+
+### Added
+
+- `AgentOptions.require_policy` rejects a run without a policy hook.
+- `AgentOptions.require_tool_scope` rejects a run with an empty
+  `allowed_tools` list.
+- Both guards are opt-in and default to `false`.
+
 ## 0.5.0 - 2026-11-13
 
 Source tag `zig/v0.5.0`.

@@ -3,7 +3,7 @@
 Swift implementation of the PRAXO-CORE contract.
 
 - `SPEC_VERSION`: `0.2.0`
-- Core version: `0.5.0`
+- Core version: `0.6.0`
 - Tier: core
 - License: MIT
 
@@ -18,7 +18,7 @@ Swift implementation of the PRAXO-CORE contract.
 
 ## Scope
 
-`0.5.0` implements all eleven conformance vector groups: tool-call parsing, JSON
+`0.6.0` implements all eleven conformance vector groups: tool-call parsing, JSON
 Schema, plugin manifests, memory, events, stream kinds, checkpoint envelopes,
 path policy, context budgets, middleware, and the agent loop. It also includes
 non-streaming OpenAI-compatible, Anthropic, and Gemini model adapters, MCP
@@ -118,6 +118,6 @@ durable queue, or cross-process worker.
 
 ## Release
 
-Tag shape: `swift/v0.5.0`. The tag targets `SPEC_VERSION` `0.2.0`. SPM and
+Tag shape: `swift/v0.6.0`. The tag targets `SPEC_VERSION` `0.2.0`. SPM and
 Swift Package Index consumption require a split repository with root
 `Package.swift` and plain semver tags; see [PUBLISHING.md](PUBLISHING.md).

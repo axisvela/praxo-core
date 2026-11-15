@@ -1,5 +1,18 @@
 # Ruby Core Release Notes
 
+## 0.8.0 - 2026-11-15
+
+Source tag `ruby/v0.8.0`.
+
+### Added
+
+- Opt-in `require_policy` guard: agent construction fails with
+  `AGENT_INVALID_OPTIONS` when a policy is required but no policy hook is
+  configured.
+- Opt-in `require_tool_scope` guard: agent construction fails with
+  `AGENT_INVALID_OPTIONS` when tool scope is required but `allowed_tools` is
+  empty.
+
 ## 0.7.0 - 2026-11-13
 
 Source tag `ruby/v0.7.0`.

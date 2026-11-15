@@ -1,13 +1,13 @@
 # PRAXO-CORE Objective-C Registry Introduction
 
-**Status:** source-only. Source version `0.4.0`, source
-tag `objc/v0.4.0`. Published registry version: not published. Registry
+**Status:** source-only. Source version `0.5.0`, source
+tag `objc/v0.5.0`. Published registry version: not published. Registry
 pages are release snapshots; verify the published version before relying on a
 feature.
 
 ## Positioning
 
-Objective-C is a native Core implementation with source tag `objc/v0.4.0`. It passes all eleven shared vector groups and includes the native agent loop, context compaction, memory store, path policy, checkpoint allowlist, tool selection, tool-call parsing, and opt-in PII redaction, structured output validation, and call limits. Vector coverage does not establish full Core parity or production readiness.
+Objective-C is a native Core implementation with source tag `objc/v0.5.0`. It passes all eleven shared vector groups and includes the native agent loop, context compaction, memory store, path policy, checkpoint allowlist, tool selection, tool-call parsing, and opt-in PII redaction, structured output validation, and call limits. Vector coverage does not establish full Core parity or production readiness.
 
 ## Package
 
@@ -15,11 +15,11 @@ Objective-C is a native Core implementation with source tag `objc/v0.4.0`. It pa
 | --- | --- |
 | Package | `praxo-core-objc` |
 | Registry | Source |
-| Source version | `0.4.0` |
+| Source version | `0.5.0` |
 | Published registry version | not published |
 | Install (published) | not published |
 | Install (source/release prepared) | `See README/SETUP.md` |
-| Source tag | `objc/v0.4.0` |
+| Source tag | `objc/v0.5.0` |
 | Tier | Core |
 | Contract | `SPEC_VERSION` `0.2.0` |
 | Documentation | https://axisvela.github.io/praxo-core/languages/objc/ |

@@ -1,5 +1,16 @@
 # PowerShell Core Release Notes
 
+## 0.6.0 - 2026-11-15
+
+Source tag `powershell/v0.6.0`.
+
+### Added
+
+- Tests and documentation for the inherited C# safe-default guards exposed
+  through `New-PraxoAgentOptions`: setting `RequirePolicy` rejects agent
+  construction without a policy hook, and `RequireToolScope` rejects an empty
+  `AllowedTools` list. Both default to `false`; the C# Core owns the behavior.
+
 ## 0.5.3 - 2026-11-13
 
 Source tag `powershell/v0.5.3`.

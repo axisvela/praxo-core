@@ -2,6 +2,7 @@
           05 px-model-program pic x(64).
           05 px-tool-program pic x(64).
           05 px-policy-program pic x(64).
+          05 px-require-policy pic 9.
           05 px-event-program pic x(64).
           05 px-max-steps binary-long.
           05 px-max-tokens pic s9(15) comp-3.
@@ -16,6 +17,7 @@
           05 px-max-parallel-tools binary-long.
           05 px-allowed-tool-count binary-long.
           05 px-allowed-tools occurs 8 times pic x(64).
+          05 px-require-tool-scope pic 9.
           05 px-interrupt-program pic x(64).
           05 px-interrupt-count binary-long.
           05 px-interrupt-tools occurs 8 times pic x(64).

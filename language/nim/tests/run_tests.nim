@@ -641,6 +641,45 @@ proc testDelegation() =
     caught = errorCode(error)
   assert caught == "SUBAGENT_INVALID"
 
+proc testAgentSafeDefaults() =
+  let model = staticModel("ok")
+
+  var options = newAgentOptions(model)
+  options.requirePolicy = true
+  var caught = ""
+  try:
+    discard runAgent(options, newSession("s1"), "hello")
+  except PraxoError as error:
+    caught = errorCode(error)
+  assert caught == "AGENT_INVALID_OPTIONS"
+
+  options = newAgentOptions(model)
+  options.requirePolicy = true
+  options.policy = proc(kind: string): bool = true
+  assert runAgent(options, newSession("s1"), "hello").output == "ok"
+
+  options = newAgentOptions(model)
+  options.requireToolScope = true
+  caught = ""
+  try:
+    discard runAgent(options, newSession("s1"), "hello")
+  except PraxoError as error:
+    caught = errorCode(error)
+  assert caught == "AGENT_INVALID_OPTIONS"
+
+  options = newAgentOptions(model)
+  options.requireToolScope = true
+  options.allowedTools = @["echo"]
+  assert runAgent(options, newSession("s1"), "hello").output == "ok"
+
+  let defaults = newAgentOptions(model)
+  assert not defaults.requirePolicy
+  assert not defaults.requireToolScope
+  assert defaults.allowedTools.len == 0
+  assert runAgent(defaults, newSession("s1"), "hello").output == "ok"
+
+testAgentSafeDefaults()
+
 testOpenAICompatible()
 testAnthropicCompatible()
 testGeminiCompatible()

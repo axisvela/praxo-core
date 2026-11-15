@@ -93,6 +93,46 @@ void main() {
     check(runResult.output == "done" && runResult.steps == 2 && invocations == 1, "agent loop");
     check(sink.types == ["run.started", "tool.call", "run.completed"], "agent events");
 
+    auto defaultGuards = new AgentOptions(new TestModel([Message.assistant("done")]));
+    check(!defaultGuards.requirePolicy && !defaultGuards.requireToolScope,
+        "safe-default guards off by default");
+    check(runAgent(defaultGuards, Session("s1"), "go").output == "done",
+        "defaults preserve behavior");
+
+    bool policyGuard = false;
+    try {
+        auto required = new AgentOptions(new TestModel([Message.assistant("done")]));
+        required.requirePolicy = true;
+        new Agent(required);
+    } catch (PraxoError error) {
+        policyGuard = error.code == "AGENT_INVALID_OPTIONS";
+    }
+    check(policyGuard, "require policy rejects missing policy");
+
+    auto satisfiedPolicy = new AgentOptions(new TestModel([Message.assistant("done")]));
+    satisfiedPolicy.requirePolicy = true;
+    satisfiedPolicy.policy = delegate Decision(Action action) {
+        return Decision(true, "ok");
+    };
+    check(runAgent(satisfiedPolicy, Session("s1"), "go").output == "done",
+        "require policy accepts configured policy");
+
+    bool scopeGuard = false;
+    try {
+        auto required = new AgentOptions(new TestModel([Message.assistant("done")]));
+        required.requireToolScope = true;
+        new Agent(required);
+    } catch (PraxoError error) {
+        scopeGuard = error.code == "AGENT_INVALID_OPTIONS";
+    }
+    check(scopeGuard, "require tool scope rejects empty allowed tools");
+
+    auto satisfiedScope = new AgentOptions(new TestModel([Message.assistant("done")]));
+    satisfiedScope.requireToolScope = true;
+    satisfiedScope.allowedTools = ["echo"];
+    check(runAgent(satisfiedScope, Session("s1"), "go").output == "done",
+        "require tool scope accepts allowed tools");
+
     string providerPath = "";
     JSONValue providerPayload = JSONValue.init;
     ProviderTransport openaiTransport = delegate JSONValue(string path, JSONValue payload) {

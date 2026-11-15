@@ -72,6 +72,17 @@ application-shaped integration. Do not copy both into one project.
 | COBOL | [`language/cobol/examples`](../language/cobol/examples) |
 | Elixir | [language/elixir/examples](../language/elixir/examples) |
 | Lua | [language/lua/examples](../language/lua/examples) |
+| D | [language/d/examples](../language/d/examples) |
+| Dart | [language/dart/examples](../language/dart/examples) |
+| Perl | [language/perl/examples](../language/perl/examples) |
+| Swift | [language/swift/examples](../language/swift/examples) |
+| Delphi / Free Pascal | [language/delphi/examples](../language/delphi/examples) |
+| Haskell | [language/haskell/examples](../language/haskell/examples) |
+| Julia | [language/julia/examples](../language/julia/examples) |
+| MATLAB | [language/matlab/examples](../language/matlab/examples) |
+| Octave | [language/octave/examples](../language/octave/examples) |
+| Nim | [language/nim/examples](../language/nim/examples) |
+| Objective-C | [language/objc/examples](../language/objc/examples) |
 
 Each language example directory has its own README with install and run
 commands. Published-package examples do not require a repository checkout.

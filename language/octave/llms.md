@@ -8,11 +8,11 @@
 
 - package: `praxo-core`
 - registry: [Octave Packages](https://github.com/axisvela/praxo-core/releases/download/octave/v0.2.1/praxo-core-0.2.1.tar.gz)
-- source_version: `0.5.0`
+- source_version: `0.6.0`
 - published_version: `0.2.1`
 - install_published: `pkg install -forge praxo-core`
 - install_source: `pkg install -forge praxo-core`
-- source_tag: `octave/v0.5.0`
+- source_tag: `octave/v0.6.0`
 - tier: Core
 - contract: `SPEC_VERSION` `0.2.0`
 - documentation: https://axisvela.github.io/praxo-core/languages/octave/
@@ -34,6 +34,7 @@
 - Registry introduction: `REGISTRY.md`
 - Markdown entry: `llms.md`
 - Compact entry: `llms.txt`
+- [Examples](https://github.com/axisvela/praxo-core/tree/main/language/octave/examples): runnable language-specific examples.
 - Coding-agent contract: ../../docs/getting-started/coding-agents.md
 
 ## Community

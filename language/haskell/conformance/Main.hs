@@ -61,7 +61,7 @@ checkAgent input expected = do
                 then pure (Right (A.toolCallArguments call))
                 else pure (Left (A.AgentError "TOOL_NOT_FOUND" "tool not found"))
         sink event = modifyIORef' events (++ [JString event]) >> pure (Right ())
-        options = A.AgentOptions model tool sink (fromInteger (number (field "maxSteps" input))) (number (field "maxTokens" input))
+        options = A.AgentOptions model tool sink (fromInteger (number (field "maxSteps" input))) (number (field "maxTokens" input)) Nothing [] False False
     result <- A.runAgent options [] (asString (field "prompt" input))
     actualEvents <- readIORef events
     count <- readIORef invocations

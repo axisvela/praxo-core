@@ -67,6 +67,9 @@ public final class AgentOptions {
     public var context: ContextBudget?
     public var maxSteps: Int
     public var maxTokens: Int
+    public var allowedTools: [String] = []
+    public var requirePolicy: Bool = false
+    public var requireToolScope: Bool = false
 
     public init(_ model: Model) {
         self.model = model
@@ -76,10 +79,19 @@ public final class AgentOptions {
     }
 }
 
+private func validateAgentOptions(_ options: AgentOptions) throws {
+    if options.requirePolicy && options.policy == nil {
+        throw PraxoError("AGENT_INVALID_OPTIONS", "agent: require policy: policy is required")
+    }
+    if options.requireToolScope && options.allowedTools.isEmpty {
+        throw PraxoError("AGENT_INVALID_OPTIONS", "agent: require tool scope: allowedTools must not be empty")
+    }
+}
+
 public final class Agent {
     private let options: AgentOptions
 
-    public init(_ options: AgentOptions) { self.options = options }
+    public init(_ options: AgentOptions) throws { try validateAgentOptions(options); self.options = options }
 
     public func run(_ session: Session, _ prompt: String) throws -> RunResult {
         let maxSteps = options.maxSteps > 0 ? options.maxSteps : 8
@@ -93,13 +105,16 @@ public final class Agent {
         emit("run.started", session.id, runID)
         do {
             for step in 1...maxSteps {
-                authorize(Action(kind: "model.generate", sessionID: session.id))
+                try authorize(Action(kind: "model.generate", sessionID: session.id))
                 if let budget = options.context {
                     let (compacted, ok) = budget.compact(messages)
                     if !ok { throw PraxoError("AGENT_CONTEXT_BUDGET", "context budget") }
                     messages = compacted
                 }
-                let request = Request(messages: messages, tools: options.tools?.specs() ?? [])
+                let specs = (options.tools?.specs() ?? []).filter {
+                    options.allowedTools.isEmpty || options.allowedTools.contains($0.name)
+                }
+                let request = Request(messages: messages, tools: specs)
                 let response = try options.model.generate(request)
                 usage = usage.plus(response.usage)
                 if options.maxTokens > 0 && usage.inputTokens + usage.outputTokens > options.maxTokens {
@@ -123,7 +138,10 @@ public final class Agent {
     }
 
     private func invokeTool(_ call: ToolCall, _ runID: String, _ sessionID: String) throws -> Message {
-        authorize(Action(kind: "tool.invoke", sessionID: sessionID, toolName: call.name, arguments: call.arguments))
+        if !options.allowedTools.isEmpty && !options.allowedTools.contains(call.name) {
+            throw PraxoError("AGENT_TOOL_NOT_ALLOWED", "agent: tool \(call.name) is not allowed")
+        }
+        try authorize(Action(kind: "tool.invoke", sessionID: sessionID, toolName: call.name, arguments: call.arguments))
         guard let tools = options.tools else {
             throw PraxoError("TOOL_NOT_FOUND", "tool is not registered")
         }
@@ -133,11 +151,11 @@ public final class Agent {
         return Message.tool(try Json.stringify(value), toolID: call.id)
     }
 
-    private func authorize(_ action: Action) {
+    private func authorize(_ action: Action) throws {
         guard let policy = options.policy else { return }
         let decision = policy.authorize(action)
         if !decision.allowed {
-            // The run loop surfaces this as an error.
+            throw PraxoError("POLICY_ERROR", "policy denied the action")
         }
     }
 

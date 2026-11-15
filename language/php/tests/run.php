@@ -351,6 +351,45 @@ try {
     check($error->praxoCode === 'AGENT_CONTEXT_BUDGET', 'capacity fail closed code');
 }
 
+$policyGuardOptions = new AgentOptions(new StaticModel('done'));
+$policyGuardOptions->requirePolicy = true;
+try {
+    new Agent($policyGuardOptions);
+    check(false, 'require policy guard');
+} catch (PraxoException $error) {
+    check($error->praxoCode === 'AGENT_INVALID_OPTIONS', 'require policy guard code');
+    check($error->getMessage() === 'agent: require policy: policy is required', 'require policy guard message');
+}
+
+$policyConfiguredOptions = new AgentOptions(new StaticModel('done'));
+$policyConfiguredOptions->requirePolicy = true;
+$policyConfiguredOptions->policy = new RecordingPolicy();
+$policyConfiguredResult = (new Agent($policyConfiguredOptions))->run(new Session('s1'), 'go');
+check($policyConfiguredResult->output === 'done', 'require policy configured');
+
+$scopeGuardOptions = new AgentOptions(new StaticModel('done'));
+$scopeGuardOptions->requireToolScope = true;
+try {
+    new Agent($scopeGuardOptions);
+    check(false, 'require tool scope guard');
+} catch (PraxoException $error) {
+    check($error->praxoCode === 'AGENT_INVALID_OPTIONS', 'require tool scope guard code');
+    check(
+        $error->getMessage() === 'agent: require tool scope: allowedTools must not be empty',
+        'require tool scope guard message',
+    );
+}
+
+$scopeConfiguredOptions = new AgentOptions(new StaticModel('done'));
+$scopeConfiguredOptions->requireToolScope = true;
+$scopeConfiguredOptions->allowedTools = ['echo'];
+$scopeConfiguredResult = (new Agent($scopeConfiguredOptions))->run(new Session('s1'), 'go');
+check($scopeConfiguredResult->output === 'done', 'require tool scope configured');
+
+$defaultGuardOptions = new AgentOptions(new StaticModel('done'));
+$defaultGuardResult = (new Agent($defaultGuardOptions))->run(new Session('s1'), 'go');
+check($defaultGuardResult->output === 'done', 'agent guards default off');
+
 $agent = new Agent(new AgentOptions(new StaticModel('hello')));
 $result = $agent->run(new Session('s1'), 'hello');
 check($result->output === 'hello' && $result->steps === 1, 'agent direct');

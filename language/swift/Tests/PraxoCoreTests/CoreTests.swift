@@ -140,6 +140,57 @@ final class CoreTests: XCTestCase {
         XCTAssertEqual(sink.types, ["run.started", "tool.call", "run.completed"])
     }
 
+    final class AllowAllPolicy: PolicyHook {
+        func authorize(_ action: Action) -> Decision {
+            Decision(allowed: true, reason: "ok")
+        }
+    }
+
+    func testAgentRequirePolicyRejectsMissingPolicy() {
+        let options = AgentOptions(StaticModel("ok"))
+        options.requirePolicy = true
+        XCTAssertThrowsError(try Agent(options)) { error in
+            let praxo = error as? PraxoError
+            XCTAssertEqual(praxo?.code, "AGENT_INVALID_OPTIONS")
+            XCTAssertEqual(praxo?.message, "agent: require policy: policy is required")
+        }
+    }
+
+    func testAgentRequirePolicyAcceptsConfiguredPolicy() throws {
+        let options = AgentOptions(StaticModel("ok"))
+        options.requirePolicy = true
+        options.policy = AllowAllPolicy()
+        let result = try Agent(options).run(Session(id: "s1"), "hello")
+        XCTAssertEqual(result.output, "ok")
+    }
+
+    func testAgentRequireToolScopeRejectsEmptyScope() {
+        let options = AgentOptions(StaticModel("ok"))
+        options.requireToolScope = true
+        XCTAssertThrowsError(try Agent(options)) { error in
+            let praxo = error as? PraxoError
+            XCTAssertEqual(praxo?.code, "AGENT_INVALID_OPTIONS")
+            XCTAssertEqual(praxo?.message, "agent: require tool scope: allowedTools must not be empty")
+        }
+    }
+
+    func testAgentRequireToolScopeAcceptsAllowedTools() throws {
+        let options = AgentOptions(StaticModel("ok"))
+        options.requireToolScope = true
+        options.allowedTools = ["echo"]
+        let result = try Agent(options).run(Session(id: "s1"), "hello")
+        XCTAssertEqual(result.output, "ok")
+    }
+
+    func testAgentSafeDefaultsPreserveBehavior() throws {
+        let options = AgentOptions(StaticModel("ok"))
+        XCTAssertFalse(options.requirePolicy)
+        XCTAssertFalse(options.requireToolScope)
+        XCTAssertTrue(options.allowedTools.isEmpty)
+        let result = try Agent(options).run(Session(id: "s1"), "hello")
+        XCTAssertEqual(result.output, "ok")
+    }
+
     func testAgentLoopFailsClosedAtMaxSteps() {
         let registry = ToolRegistry()
         registry.register(FuncTool("echo", "Echo arguments") { $0 })

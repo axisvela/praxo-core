@@ -77,6 +77,8 @@ function M.agent_options(model)
     interrupt_on = {},
     on_interrupt_decision = nil,
     on_interrupt = nil,
+    require_policy = false,
+    require_tool_scope = false,
   }
 end
 
@@ -298,6 +300,12 @@ local function after_run(options, entered, result, err)
 end
 
 function M.run_agent(options, session, prompt)
+  if options.require_policy and not options.policy then
+    errors.raise("AGENT_INVALID_OPTIONS", "agent: require policy: policy is required")
+  end
+  if options.require_tool_scope and #(options.allowed_tools or {}) == 0 then
+    errors.raise("AGENT_INVALID_OPTIONS", "agent: require tool scope: allowed_tools must not be empty")
+  end
   local max_steps = (options.max_steps or 0) > 0 and options.max_steps or 8
   local run_id = "run-" .. tostring(math.floor(os.time() * 1000))
   local messages = {}

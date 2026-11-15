@@ -24,6 +24,7 @@ defmodule Praxo.Tests do
     test_paths()
     test_pii()
     test_agent()
+    test_agent_guards()
     test_run_ids()
     test_agent_tool()
     test_agent_tool_selection()
@@ -169,6 +170,40 @@ defmodule Praxo.Tests do
     check(result.output == "hello", "agent output")
     check(result.steps == 1, "agent steps")
     check(options.events.kinds == ["run.started", "run.completed"], "agent events")
+  end
+
+  defp test_agent_guards do
+    model = Agent.static_model("done")
+    policy = fn _action -> %{allowed: true} end
+
+    policy_guard = %{Agent.new_agent_options(model) | require_policy: true}
+    check(
+      match?({:error, "AGENT_INVALID_OPTIONS", _}, Agent.run_agent(policy_guard, Models.session("s1"), "go")),
+      "require policy guard"
+    )
+
+    policy_configured = %{Agent.new_agent_options(model) | require_policy: true, policy: policy}
+    check(
+      match?({:ok, _, _}, Agent.run_agent(policy_configured, Models.session("s1"), "go")),
+      "require policy configured"
+    )
+
+    scope_guard = %{Agent.new_agent_options(model) | require_tool_scope: true}
+    check(
+      match?({:error, "AGENT_INVALID_OPTIONS", _}, Agent.run_agent(scope_guard, Models.session("s1"), "go")),
+      "require tool scope guard"
+    )
+
+    scope_configured = %{Agent.new_agent_options(model) | require_tool_scope: true, allowed_tools: ["echo"]}
+    check(
+      match?({:ok, _, _}, Agent.run_agent(scope_configured, Models.session("s1"), "go")),
+      "require tool scope configured"
+    )
+
+    check(
+      match?({:ok, _, _}, Agent.run_agent(Agent.new_agent_options(model), Models.session("s1"), "go")),
+      "agent guards default off"
+    )
   end
 
   defp test_run_ids do

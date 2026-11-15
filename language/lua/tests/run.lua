@@ -121,6 +121,44 @@ capacity_options.context = runtime.context_budget(10, 0)
 check(not pcall(agent.run_agent, capacity_options, models.session({ id = "s1" }), "go"),
       "capacity fail closed")
 
+local policy_guard_options = agent.agent_options(agent.static_model("done"))
+policy_guard_options.require_policy = true
+local policy_guard_ok, policy_guard_error = pcall(
+  agent.run_agent, policy_guard_options, models.session({ id = "s1" }), "go"
+)
+check(not policy_guard_ok and errors.code(policy_guard_error) == "AGENT_INVALID_OPTIONS",
+      "require policy guard")
+check(policy_guard_error.message == "agent: require policy: policy is required",
+      "require policy guard message")
+
+local policy_configured_options = agent.agent_options(agent.static_model("done"))
+policy_configured_options.require_policy = true
+policy_configured_options.policy = function(_action) return { allowed = true } end
+local policy_configured_result = agent.run_agent(
+  policy_configured_options, models.session({ id = "s1" }), "go"
+)
+check(policy_configured_result.output == "done", "require policy configured")
+
+local scope_guard_options = agent.agent_options(agent.static_model("done"))
+scope_guard_options.require_tool_scope = true
+local scope_guard_ok, scope_guard_error = pcall(
+  agent.run_agent, scope_guard_options, models.session({ id = "s1" }), "go"
+)
+check(not scope_guard_ok and errors.code(scope_guard_error) == "AGENT_INVALID_OPTIONS",
+      "require tool scope guard")
+check(scope_guard_error.message == "agent: require tool scope: allowed_tools must not be empty",
+      "require tool scope guard message")
+
+local scope_configured_options = agent.agent_options(agent.static_model("done"))
+scope_configured_options.require_tool_scope = true
+scope_configured_options.allowed_tools = { "echo" }
+check(agent.run_agent(scope_configured_options, models.session({ id = "s1" }), "go").output == "done",
+      "require tool scope configured")
+
+check(agent.run_agent(agent.agent_options(agent.static_model("done")),
+                      models.session({ id = "s1" }), "go").output == "done",
+      "agent guards default off")
+
 local selection = middleware.tool_selection({ "echo" })
 local tools = { models.tool_spec({ name = "echo" }), models.tool_spec({ name = "other" }) }
 check(#middleware.select_tools(selection, tools) == 1, "tool selection")
