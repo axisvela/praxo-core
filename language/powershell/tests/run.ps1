@@ -128,6 +128,7 @@ $references = @(
 )
 Add-Type -TypeDefinition @'
 #nullable enable
+using System;
 using System.Text.Json.Nodes;
 using Praxo.Core;
 
