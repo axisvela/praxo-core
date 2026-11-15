@@ -128,7 +128,6 @@ $references = @(
 )
 Add-Type -TypeDefinition @'
 #nullable enable
-using System;
 using System.Text.Json.Nodes;
 using Praxo.Core;
 
@@ -203,7 +202,7 @@ public sealed class PraxoHitlPolicy : IPolicyHook
         if (action.Kind == "tool.invoke")
         {
             var visibility = action.Arguments?["visibility"]?.GetValue<string>();
-            Console.Error.WriteLine($"POLICY {action.Kind} {action.ToolName} {visibility}");
+            System.Console.Error.WriteLine($"POLICY {action.Kind} {action.ToolName} {visibility}");
             return action.ToolName == "write_note" && visibility == "public"
                 ? Decision.Allow("only public notes are permitted")
                 : Decision.Deny("only public notes are permitted");
