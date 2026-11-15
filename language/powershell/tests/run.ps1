@@ -120,7 +120,12 @@ $scopeSession = New-PraxoSession -Id 'guarded-scope'
 $scopeResult = Invoke-PraxoAgent -Agent $scopeAgent -Session $scopeSession -Prompt 'hello'
 Assert-True ($scopeResult.Output -eq 'hello') 'require tool scope accepts configured scope'
 
-$references = @($assembly, [System.Text.Json.Nodes.JsonNode].Assembly.Location)
+$references = @(
+    $assembly,
+    [System.Text.Json.Nodes.JsonNode].Assembly.Location,
+    [System.Collections.Generic.List[object]].Assembly.Location,
+    'System.Collections'
+)
 Add-Type -TypeDefinition @'
 #nullable enable
 using System.Text.Json.Nodes;
