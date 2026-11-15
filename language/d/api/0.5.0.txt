@@ -5,6 +5,7 @@ Action
 Agent
 AgentOptions
 AnthropicModel
+ApprovalDeniedError
 CallLimit
 CheckpointAllowlist
 CompactResult
@@ -22,6 +23,10 @@ HarmovelaResponse
 HarmovelaSink
 HarmovelaTimestamp
 HttpMcpTransport
+Interrupt
+InterruptDecision
+InterruptDecisionInvalidError
+InterruptUnhandledError
 McpClient
 McpToolInfo
 McpTransport

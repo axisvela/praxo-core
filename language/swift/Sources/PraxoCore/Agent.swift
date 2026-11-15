@@ -68,6 +68,10 @@ public final class AgentOptions {
     public var maxSteps: Int
     public var maxTokens: Int
     public var allowedTools: [String] = []
+    public var middleware: [ToolMiddleware] = []
+    public var interruptOn: [String] = []
+    public var onInterruptDecision: InterruptHandler?
+    public var onInterrupt: InterruptApproval?
     public var requirePolicy: Bool = false
     public var requireToolScope: Bool = false
 
@@ -131,31 +135,104 @@ public final class Agent {
             }
             throw PraxoError("AGENT_MAX_STEPS", "maximum steps")
         } catch {
-            let code = (error as? PraxoError)?.code ?? ""
-            emit("run.failed", session.id, runID, ["error": (error as? PraxoError)?.message ?? "\(error)"])
-            throw PraxoError(code, "\(error)")
+            let praxo = error as? PraxoError
+            emit("run.failed", session.id, runID, ["error": praxo?.message ?? "\(error)"])
+            throw PraxoError(praxo?.code ?? "", praxo?.message ?? "\(error)")
         }
     }
 
     private func invokeTool(_ call: ToolCall, _ runID: String, _ sessionID: String) throws -> Message {
-        if !options.allowedTools.isEmpty && !options.allowedTools.contains(call.name) {
-            throw PraxoError("AGENT_TOOL_NOT_ALLOWED", "agent: tool \(call.name) is not allowed")
+        let originalName = call.name
+        let originalArguments = call.arguments
+        if !toolAllowed(originalName) {
+            throw PraxoError("AGENT_TOOL_NOT_ALLOWED", "agent: tool \(originalName) is not allowed")
         }
-        try authorize(Action(kind: "tool.invoke", sessionID: sessionID, toolName: call.name, arguments: call.arguments))
+        try authorize(Action(kind: "tool.invoke", sessionID: sessionID,
+                             toolName: originalName, arguments: originalArguments))
         guard let tools = options.tools else {
             throw PraxoError("TOOL_NOT_FOUND", "tool is not registered")
         }
-        let tool = try tools.get(call.name)
-        emit("tool.call", sessionID, runID, ["name": call.name, "arguments": call.arguments])
-        let value = try tool.invoke(call.arguments)
-        return Message.tool(try Json.stringify(value), toolID: call.id)
+        var active = call
+        for middleware in options.middleware {
+            if let beforeTool = middleware.beforeTool {
+                active = try beforeTool(runID, sessionID, active)
+            }
+        }
+        if !toolAllowed(active.name) {
+            throw PraxoError("AGENT_TOOL_NOT_ALLOWED", "agent: tool \(active.name) is not allowed")
+        }
+        if let response = try applyInterrupt(&active, runID, sessionID) {
+            return Message.tool(try Json.stringify(response), toolID: active.id)
+        }
+        if !toolAllowed(active.name) {
+            throw PraxoError("AGENT_TOOL_NOT_ALLOWED", "agent: tool \(active.name) is not allowed")
+        }
+        if active.name != originalName || !Json.equals(originalArguments, active.arguments) {
+            try authorize(Action(kind: "tool.invoke", sessionID: sessionID,
+                                 toolName: active.name, arguments: active.arguments))
+        }
+        let tool = try tools.get(active.name)
+        emit("tool.call", sessionID, runID, ["name": active.name, "arguments": active.arguments])
+        let value = try tool.invoke(active.arguments)
+        return Message.tool(try Json.stringify(value), toolID: active.id)
+    }
+
+    private func applyInterrupt(_ call: inout ToolCall, _ runID: String, _ sessionID: String) throws -> Any? {
+        if !options.interruptOn.contains(call.name) {
+            return nil
+        }
+        guard options.onInterruptDecision != nil || options.onInterrupt != nil else {
+            throw PraxoError("AGENT_INTERRUPT_UNHANDLED",
+                             "agent: approval handler not configured: \(call.name)")
+        }
+        emit("tool.interrupt", sessionID, runID, ["name": call.name, "arguments": call.arguments])
+        let interrupt = Interrupt(runID: runID, sessionID: sessionID, call: call)
+        if let handler = options.onInterruptDecision {
+            let decision = try handler(interrupt)
+            switch decision.action {
+            case INTERRUPT_APPROVE:
+                return nil
+            case INTERRUPT_EDIT:
+                guard let arguments = decision.arguments else {
+                    throw PraxoError("AGENT_INTERRUPT_DECISION_INVALID",
+                                     "agent: edit requires arguments")
+                }
+                call.arguments = arguments
+                return nil
+            case INTERRUPT_REJECT:
+                throw PraxoError(
+                    "AGENT_APPROVAL_DENIED",
+                    "agent: tool call denied by approval: \(call.name): \(decision.reason ?? "")"
+                )
+            case INTERRUPT_RESPOND:
+                return decision.response ?? ""
+            default:
+                throw PraxoError("AGENT_INTERRUPT_DECISION_INVALID",
+                                 "agent: invalid interrupt decision: \(decision.action)")
+            }
+        }
+        if let approval = options.onInterrupt {
+            let approved = try approval(interrupt)
+            if !approved {
+                throw PraxoError("AGENT_APPROVAL_DENIED",
+                                 "agent: tool call denied by approval: \(call.name)")
+            }
+            return nil
+        }
+        throw PraxoError("AGENT_INTERRUPT_UNHANDLED",
+                         "agent: approval handler not configured: \(call.name)")
+    }
+
+    private func toolAllowed(_ name: String) -> Bool {
+        options.allowedTools.isEmpty || options.allowedTools.contains(name)
     }
 
     private func authorize(_ action: Action) throws {
         guard let policy = options.policy else { return }
         let decision = policy.authorize(action)
         if !decision.allowed {
-            throw PraxoError("POLICY_ERROR", "policy denied the action")
+            throw PraxoError("AGENT_POLICY_DENIED",
+                             "agent: \(action.kind) denied: \(decision.reason)")
         }
     }
 

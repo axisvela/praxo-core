@@ -177,6 +177,104 @@ Future<void> main() async {
   check(guardedScope.options.allowedTools.isNotEmpty,
       'require tool scope accepts allowed tools');
 
+  final approveEffects = <int>[0];
+  final approveEvents = RecordingSink();
+  final approveOutput = _runHitl(
+    approveEffects,
+    (_) => const InterruptDecision(action: interruptApprove),
+    events: approveEvents,
+  );
+  check(approveEffects[0] == 1 && approveOutput.contains('written'),
+      'hitl approve');
+  check(
+      approveEvents.types.join(',') ==
+          'run.started,tool.interrupt,tool.call,run.completed',
+      'hitl approve events');
+
+  final fallbackEffects = <int>[0];
+  final fallbackOutput = _runHitl(
+    fallbackEffects,
+    null,
+    approval: (_) => true,
+  );
+  check(fallbackEffects[0] == 1 && fallbackOutput.contains('written'),
+      'hitl approval fallback');
+
+  var fallbackDenied = false;
+  try {
+    _runHitl(<int>[0], null, approval: (_) => false);
+  } on PraxoError catch (error) {
+    fallbackDenied = error.code == 'AGENT_APPROVAL_DENIED';
+  }
+  check(fallbackDenied, 'hitl approval fallback denial');
+
+  final editEffects = <int>[0];
+  var editDenied = false;
+  try {
+    _runHitl(
+      editEffects,
+      (_) => const InterruptDecision(
+        action: interruptEdit,
+        arguments: {'text': 'hello', 'visibility': 'private'},
+      ),
+    );
+  } on PraxoError catch (error) {
+    editDenied = error.code == 'AGENT_POLICY_DENIED';
+  }
+  check(editDenied && editEffects[0] == 0, 'hitl edit reauthorization denial');
+
+  final rejectEffects = <int>[0];
+  var rejectDenied = false;
+  try {
+    _runHitl(
+      rejectEffects,
+      (_) => const InterruptDecision(
+        action: interruptReject,
+        reason: 'not allowed',
+      ),
+    );
+  } on PraxoError catch (error) {
+    rejectDenied = error.code == 'AGENT_APPROVAL_DENIED' &&
+        error.message.contains('not allowed');
+  }
+  check(rejectDenied && rejectEffects[0] == 0, 'hitl reject');
+
+  final respondEffects = <int>[0];
+  final respondOutput = _runHitl(
+    respondEffects,
+    (_) => const InterruptDecision(
+      action: interruptRespond,
+      response: 'human answer',
+    ),
+  );
+  check(respondEffects[0] == 0 && respondOutput.contains('human answer'),
+      'hitl respond');
+
+  final unhandledEffects = <int>[0];
+  var unhandled = false;
+  try {
+    _runHitl(unhandledEffects, null);
+  } on PraxoError catch (error) {
+    unhandled = error.code == 'AGENT_INTERRUPT_UNHANDLED';
+  }
+  check(unhandled && unhandledEffects[0] == 0, 'hitl unhandled');
+
+  var invalidDecision = false;
+  try {
+    _runHitl(<int>[0], (_) => const InterruptDecision(action: 'bogus'));
+  } on PraxoError catch (error) {
+    invalidDecision = error.code == 'AGENT_INTERRUPT_DECISION_INVALID';
+  }
+  check(invalidDecision, 'hitl invalid decision');
+
+  var editMissingArguments = false;
+  try {
+    _runHitl(<int>[0], (_) => const InterruptDecision(action: interruptEdit));
+  } on PraxoError catch (error) {
+    editMissingArguments = error.code == 'AGENT_INTERRUPT_DECISION_INVALID';
+  }
+  check(editMissingArguments, 'hitl edit requires arguments');
+
   final recorded = <String, dynamic>{};
   final adapter = OpenAICompatibleModel(
     baseUrl: 'https://api.example.com/v1/',
@@ -728,6 +826,77 @@ class RecordingSink implements EventSink {
 
   @override
   void emit(Event event) => types.add(event.type);
+}
+
+Decision _allowPublicNote(Action action) {
+  if (action.kind == 'model.generate') {
+    return const Decision(allowed: true);
+  }
+  if (action.kind == 'tool.invoke') {
+    return Decision(
+      allowed: action.toolName == 'write_note' &&
+          action.arguments?['visibility'] == 'public',
+      reason: 'only public notes are permitted',
+    );
+  }
+  return const Decision(allowed: false, reason: 'unsupported action');
+}
+
+String _runHitl(
+  List<int> effects,
+  InterruptDecision Function(Interrupt)? decision, {
+  bool Function(Interrupt)? approval,
+  List<String> interruptOn = const ['write_note'],
+  EventSink? events,
+}) {
+  var invocations = 0;
+  final registry = Registry()
+    ..register(FuncTool('write_note', 'Write a note', (arguments) {
+      invocations += 1;
+      return 'written';
+    }));
+  final options = AgentOptions(
+    _HitlModel(),
+    tools: registry,
+    events: events,
+    maxSteps: 3,
+    allowedTools: const ['write_note'],
+    policy: _allowPublicNote,
+    interruptOn: interruptOn,
+    onInterruptDecision: decision,
+    onInterrupt: approval,
+  );
+  try {
+    return runAgent(options, const Session(id: 'hitl'), 'Write a note.').output;
+  } finally {
+    effects[0] = invocations;
+  }
+}
+
+class _HitlModel implements Model {
+  var calls = 0;
+
+  @override
+  Response generate(Request request) {
+    calls += 1;
+    if (calls == 1) {
+      return Response(
+        message: Message.assistant('', [
+          const ToolCall(
+            id: 'write-1',
+            name: 'write_note',
+            arguments: {'text': 'hello', 'visibility': 'public'},
+          ),
+        ]),
+      );
+    }
+    final last = request.messages.last;
+    return Response(
+      message: Message.assistant(
+        last.role == roleTool ? (last.content ?? '') : 'done',
+      ),
+    );
+  }
 }
 
 class _FakeMcpTransport implements McpTransport {

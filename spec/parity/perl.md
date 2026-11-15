@@ -40,3 +40,8 @@ adapter.
 | `agent/middleware.PIIMiddleware` | `Praxo::Middleware::PiiRedactor` | parity | P1 |
 | `agent/middleware.StructuredOutput` | `Praxo::Middleware::StructuredOutput` | parity | P1 |
 | `agent/middleware.ToolSelectionMiddleware` | `Praxo::Middleware::ToolSelection` | parity | P1 |
+| `agent/hitl.Interrupt` | `Praxo::Models::interrupt` | parity | P2 |
+| `agent/hitl.InterruptAction` | `Praxo::Models::INTERRUPT_APPROVE` and peers | parity | P2 |
+| `agent/hitl.InterruptDecision` | `Praxo::Models::interrupt_decision` | parity | P2 |
+| `agent/hitl.InterruptHandler` | `AgentOptions.on_interrupt_decision` | parity | P2 |
+| `agent.Options.OnInterrupt` | `AgentOptions.on_interrupt` | parity | P2 |

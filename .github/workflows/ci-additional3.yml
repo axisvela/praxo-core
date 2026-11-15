@@ -3,29 +3,7 @@ name: ci-additional3
 on:
   push:
     branches: [main]
-    paths:
-      - "language/swift/examples/**"
-      - "language/swift/Package.swift"
-      - "language/julia/examples/**"
-      - "language/haskell/examples/**"
-      - "language/ocaml/examples/**"
-      - "language/nim/examples/**"
-      - "language/zig/examples/**"
-      - "language/v/examples/**"
-      - "language/objc/examples/**"
-      - ".github/workflows/ci-additional3.yml"
   pull_request:
-    paths:
-      - "language/swift/examples/**"
-      - "language/swift/Package.swift"
-      - "language/julia/examples/**"
-      - "language/haskell/examples/**"
-      - "language/ocaml/examples/**"
-      - "language/nim/examples/**"
-      - "language/zig/examples/**"
-      - "language/v/examples/**"
-      - "language/objc/examples/**"
-      - ".github/workflows/ci-additional3.yml"
   workflow_dispatch:
 
 permissions:
@@ -36,7 +14,27 @@ concurrency:
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
+  changes:
+    runs-on: ubuntu-24.04
+    outputs:
+      full: ${{ steps.filter.outputs.full }}
+      languages: ${{ steps.filter.outputs.languages }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - id: filter
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          REF_TYPE: ${{ github.ref_type }}
+          PR_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          PUSH_BEFORE: ${{ github.event.before }}
+          HEAD_SHA: ${{ github.sha }}
+        run: python scripts/ci_changes.py
+
   swift-examples:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'swift')
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
@@ -52,9 +50,12 @@ jobs:
       - run: swift run --package-path language/swift praxo-identity-policy-example
       - run: swift run --package-path language/swift praxo-service-example
       - run: swift run --package-path language/swift praxo-mcp-example
+      - run: swift run --package-path language/swift praxo-hitl-example
       - run: swift run --package-path language/swift praxo-consumer-example
 
   julia-examples:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'julia')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -73,6 +74,8 @@ jobs:
       - run: julia --project=language/julia language/julia/examples/mcp/mcp.jl
 
   haskell-examples:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'haskell')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -90,6 +93,8 @@ jobs:
       - run: runghc -ilanguage/haskell/src language/haskell/examples/mcp/mcp.hs
 
   ocaml-examples:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'ocaml')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -107,6 +112,8 @@ jobs:
       - run: opam exec -- ocaml -I language/ocaml language/ocaml/examples/mcp/mcp.ml
 
   nim-examples:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'nim')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -124,6 +131,8 @@ jobs:
       - run: nim r --path:language/nim/src language/nim/examples/mcp/mcp.nim
 
   v-examples:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'v')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -149,6 +158,8 @@ jobs:
       - run: v -path "language/v|@vlib|@vmodules" language/v/examples/mcp/mcp.v
 
   zig-examples:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'zig')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -171,6 +182,8 @@ jobs:
       - run: ./build/zig-mcp
 
   objc-examples:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || contains(fromJSON(needs.changes.outputs.languages), 'objc')
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v4
@@ -193,3 +206,26 @@ jobs:
       - run: ./build/objc-service
       - run: clang -fobjc-arc -fblocks -Ilanguage/objc/src -o build/objc-mcp language/objc/examples/mcp/mcp.m language/objc/src/PraxoMCP.m language/objc/src/PraxoCore.m language/objc/src/PraxoJSON.m -framework Foundation
       - run: ./build/objc-mcp
+
+  examples-gate:
+    needs: [changes, swift-examples, julia-examples, haskell-examples, ocaml-examples, nim-examples, v-examples, zig-examples, objc-examples]
+    if: always()
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Check example job results
+        env:
+          NEEDS: ${{ toJSON(needs) }}
+        run: |
+          python - <<'PY'
+          import json
+          import os
+
+          needs = json.loads(os.environ["NEEDS"])
+          failed = [
+              name
+              for name, value in needs.items()
+              if value["result"] in ("failure", "cancelled")
+          ]
+          if failed:
+              raise SystemExit("failing jobs: " + ", ".join(failed))
+          PY

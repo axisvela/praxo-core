@@ -1,5 +1,13 @@
 # Changelog
 
+## Unreleased
+
+### Added
+
+- HITL interrupt decisions via `AgentOptions.interruptOn`,
+  `onInterruptDecision`, and `onInterrupt`, with approve, edit, reject, and
+  respond actions, `tool.interrupt` events, and edit reauthorization.
+
 ## 0.5.0 - 2026-11-15
 
 Source tag `dart/v0.5.0`.

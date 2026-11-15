@@ -88,7 +88,7 @@ void main() {
   try {
     runScenario('private', deniedEffects);
   } on PraxoError catch (error) {
-    denied = error.code == 'POLICY_ERROR';
+    denied = error.code == 'AGENT_POLICY_DENIED';
   }
   if (!denied || deniedEffects[0] != 0) {
     stderr.writeln('deny verification failed: effects=${deniedEffects[0]}');

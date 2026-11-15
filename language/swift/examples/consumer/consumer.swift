@@ -92,7 +92,7 @@ do {
     _ = try runScenario("private", &deniedEffects)
     fail("private target was not denied; effects=\(deniedEffects)")
 } catch let error as PraxoError {
-    if error.code != "POLICY_ERROR" || deniedEffects != 0 {
+    if error.code != "AGENT_POLICY_DENIED" || deniedEffects != 0 {
         fail("deny verification failed: effects=\(deniedEffects) code=\(error.code)")
     }
     print("deny: policy rejected; effects=0")

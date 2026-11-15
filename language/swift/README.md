@@ -20,7 +20,8 @@ Swift implementation of the PRAXO-CORE contract.
 
 `0.6.0` implements all eleven conformance vector groups: tool-call parsing, JSON
 Schema, plugin manifests, memory, events, stream kinds, checkpoint envelopes,
-path policy, context budgets, middleware, and the agent loop. It also includes
+path policy, context budgets, middleware, HITL interrupt decisions, and the
+agent loop. It also includes
 non-streaming OpenAI-compatible, Anthropic, and Gemini model adapters, MCP
 transport seams, Harmovela, OpenTelemetry, retriever, and synchronous delegation
 seams.

@@ -35,8 +35,8 @@ CODE_SUFFIXES = {
 }
 NOT_APPLICABLE = {
     "hitl": {
-        "d", "dart", "delphi", "haskell", "julia", "matlab", "octave", "nim",
-        "objc", "ocaml", "powershell", "perl", "swift", "v", "zig",
+        "delphi", "haskell", "julia", "matlab", "octave", "nim", "objc",
+        "ocaml", "powershell", "v", "zig",
     },
     "session-checkpoint": {
         "delphi", "haskell", "julia", "matlab", "octave", "nim", "objc",

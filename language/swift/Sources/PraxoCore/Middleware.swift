@@ -124,6 +124,14 @@ public final class ToolSelection {
     }
 }
 
+public struct ToolMiddleware {
+    public var beforeTool: ((_ runID: String, _ sessionID: String, _ call: ToolCall) throws -> ToolCall)?
+
+    public init(beforeTool: ((_ runID: String, _ sessionID: String, _ call: ToolCall) throws -> ToolCall)? = nil) {
+        self.beforeTool = beforeTool
+    }
+}
+
 public typealias ModelHandler = (Request) throws -> Response
 public typealias ModelMiddleware = (@escaping ModelHandler) -> ModelHandler
 

@@ -2,8 +2,10 @@
 
 PRAXO-CORE is an embeddable, MIT-licensed agent framework. This distribution is
 its native Perl Core: an agent loop with tool registration and dispatch, policy
-hooks, typed events, memory, checkpoints, context budgets, middleware, OTel and Harmovela sinks, MCP, retriever and synchronous delegation seams, JSON
-Schema validation, and plugin manifest parsing.
+hooks, human-in-the-loop interrupt decisions, typed events, memory, checkpoints,
+context budgets, middleware, OTel and Harmovela sinks, MCP, retriever and
+synchronous delegation seams, JSON Schema validation, and plugin manifest
+parsing.
 
 The normative contract is [`spec/`](../../spec/README.md); Go remains the
 reference implementation.
@@ -52,6 +54,7 @@ Runnable examples live under [`language/perl/examples`](https://github.com/axisv
 | Validate structured output | [structured-output](https://github.com/axisvela/praxo-core/tree/main/language/perl/examples/structured-output) |
 | Stream a response | [streaming](https://github.com/axisvela/praxo-core/tree/main/language/perl/examples/streaming) |
 | Add identity and policy | [identity-policy](https://github.com/axisvela/praxo-core/tree/main/language/perl/examples/identity-policy) |
+| Require human approval | [hitl](https://github.com/axisvela/praxo-core/tree/main/language/perl/examples/hitl) |
 | Persist checkpoints | [checkpoint](https://github.com/axisvela/praxo-core/tree/main/language/perl/examples/checkpoint) |
 | Run behind HTTP | [service](https://github.com/axisvela/praxo-core/tree/main/language/perl/examples/service) |
 | Resume a multi-turn session | [session-checkpoint](https://github.com/axisvela/praxo-core/tree/main/language/perl/examples/session-checkpoint) |
@@ -63,7 +66,8 @@ Runnable examples live under [`language/perl/examples`](https://github.com/axisv
 
 The Core implements all eleven vector groups: toolcall, JSON Schema, plugin,
 memory, event, stream, checkpoint, policy, context, middleware, and the agent
-loop. It includes a public API snapshot and a dependency-free test runner.
+loop. It also implements human-in-the-loop interrupt decisions, and includes a
+public API snapshot and a dependency-free test runner.
 
 The distribution root package is `Praxo::Core`; `Praxo::Agent` and the other
 modules remain available.

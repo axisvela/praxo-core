@@ -19,6 +19,8 @@ class FuncTool
 class GeminiModel
 class HarmovelaResponse
 class HarmovelaSink
+class Interrupt
+class InterruptDecision
 class Json
 class McpClient
 class McpStreamableHttpTransport
@@ -61,6 +63,8 @@ class _Messages
 function Action
 function Document
 function Event
+function Interrupt
+function InterruptDecision
 function Message
 function PluginManifest
 function Request
@@ -161,6 +165,8 @@ typedef GeminiAsyncTransport
 typedef GeminiSyncTransport
 typedef HarmovelaClock
 typedef HarmovelaTransport
+typedef InterruptApproval
+typedef InterruptHandler
 typedef ModelHandler
 typedef ModelMiddleware
 typedef OpenAIAsyncTransport

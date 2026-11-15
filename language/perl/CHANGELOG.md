@@ -1,6 +1,18 @@
 # Perl Core Release Notes
 
 
+## Unreleased
+
+### Added
+
+- Human-in-the-loop interrupt decisions through `interrupt_on`,
+  `on_interrupt_decision`, and `on_interrupt` agent options.
+- `Praxo::Models::interrupt`, `interrupt_decision`, and the
+  `INTERRUPT_APPROVE`/`EDIT`/`REJECT`/`RESPOND` actions. Interrupted calls emit
+  `tool.interrupt`, edits are reauthorized before execution, rejects raise
+  `AGENT_APPROVAL_DENIED`, responds skip the tool, and invalid decisions raise
+  `AGENT_INTERRUPT_DECISION_INVALID`.
+
 ## 0.5.1 - 2026-11-15
 
 ### Changed

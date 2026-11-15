@@ -23,6 +23,8 @@ import praxo.retriever;
 import praxo.runtime;
 import praxo.toolcall;
 
+import hitl_tests : runHitlTests;
+
 void check(bool condition, string message) {
     if (!condition) throw new Error(message);
 }
@@ -132,6 +134,8 @@ void main() {
     satisfiedScope.allowedTools = ["echo"];
     check(runAgent(satisfiedScope, Session("s1"), "go").output == "done",
         "require tool scope accepts allowed tools");
+
+    runHitlTests();
 
     string providerPath = "";
     JSONValue providerPayload = JSONValue.init;

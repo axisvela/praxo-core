@@ -9,6 +9,7 @@ export 'src/adapters/otel_sink.dart';
 export 'src/adapters/retriever.dart';
 export 'src/agent.dart';
 export 'src/errors.dart';
+export 'src/hitl.dart';
 export 'src/json.dart';
 export 'src/jsonschema.dart';
 export 'src/middleware.dart';

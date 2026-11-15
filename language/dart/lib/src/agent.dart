@@ -1,4 +1,5 @@
 import 'errors.dart';
+import 'hitl.dart';
 import 'json.dart';
 import 'models.dart';
 import 'runtime.dart';
@@ -71,6 +72,9 @@ class AgentOptions {
   int maxTokens;
   String? toolChoice;
   List<String> allowedTools;
+  List<String> interruptOn;
+  InterruptHandler? onInterruptDecision;
+  InterruptApproval? onInterrupt;
   bool requirePolicy;
   bool requireToolScope;
 
@@ -85,6 +89,9 @@ class AgentOptions {
     this.maxTokens = 0,
     this.toolChoice,
     this.allowedTools = const [],
+    this.interruptOn = const [],
+    this.onInterruptDecision,
+    this.onInterrupt,
     this.requirePolicy = false,
     this.requireToolScope = false,
   });
@@ -160,28 +167,115 @@ class Agent {
   }
 
   Message _invokeTool(ToolCall call, String runId, String sessionId) {
+    final originalName = call.name;
+    final originalArguments = call.arguments;
+    if (!_toolAllowed(originalName)) {
+      throw const PraxoError('AGENT_TOOL_NOT_ALLOWED', 'tool not allowed');
+    }
     _authorize(Action(
       kind: 'tool.invoke',
       sessionId: sessionId,
-      toolName: call.name,
-      arguments: call.arguments,
+      toolName: originalName,
+      arguments: originalArguments,
     ));
-    if (options.allowedTools.isNotEmpty &&
-        !options.allowedTools.contains(call.name)) {
-      throw const PraxoError('AGENT_TOOL_NOT_ALLOWED', 'tool not allowed');
-    }
     final registry = options.tools;
     if (registry == null) {
       throw const PraxoError('TOOL_NOT_FOUND', 'tool is not registered');
     }
-    final tool = registry.get(call.name);
+    final (active, skip, result) = _applyInterrupt(call, runId, sessionId);
+    if (skip) {
+      return Message.tool(Json.stringify(result), active.id);
+    }
+    if (!_toolAllowed(active.name)) {
+      throw const PraxoError('AGENT_TOOL_NOT_ALLOWED', 'tool not allowed');
+    }
+    if (active.name != originalName ||
+        !Json.equals(active.arguments, originalArguments)) {
+      _authorize(Action(
+        kind: 'tool.invoke',
+        sessionId: sessionId,
+        toolName: active.name,
+        arguments: active.arguments,
+      ));
+    }
+    final tool = registry.get(active.name);
     _emit('tool.call', sessionId, runId, {
+      'name': active.name,
+      'arguments': active.arguments,
+    });
+    final value = tool.invoke(active.arguments);
+    return Message.tool(Json.stringify(value), active.id);
+  }
+
+  (ToolCall, bool, dynamic) _applyInterrupt(
+    ToolCall call,
+    String runId,
+    String sessionId,
+  ) {
+    if (!options.interruptOn.contains(call.name)) {
+      return (call, false, null);
+    }
+    if (options.onInterruptDecision == null && options.onInterrupt == null) {
+      throw PraxoError('AGENT_INTERRUPT_UNHANDLED',
+          'agent: approval handler not configured: ${call.name}');
+    }
+    _emit('tool.interrupt', sessionId, runId, {
       'name': call.name,
       'arguments': call.arguments,
     });
-    final value = tool.invoke(call.arguments);
-    return Message.tool(Json.stringify(value), call.id);
+    final interrupt = Interrupt(
+      runId: runId,
+      sessionId: sessionId,
+      call: call,
+    );
+    final handler = options.onInterruptDecision;
+    if (handler != null) {
+      final decision = handler(interrupt);
+      switch (decision.action) {
+        case interruptApprove:
+          return (call, false, null);
+        case interruptEdit:
+          final arguments = decision.arguments;
+          if (arguments == null) {
+            throw const PraxoError('AGENT_INTERRUPT_DECISION_INVALID',
+                'agent: edit requires arguments');
+          }
+          return (
+            ToolCall(
+              id: call.id,
+              name: call.name,
+              arguments: Map<String, dynamic>.from(arguments),
+            ),
+            false,
+            null,
+          );
+        case interruptReject:
+          throw PraxoError(
+            'AGENT_APPROVAL_DENIED',
+            'agent: tool call denied by approval: ${call.name}: '
+                '${decision.reason}',
+          );
+        case interruptRespond:
+          return (call, true, decision.response);
+        default:
+          throw PraxoError(
+            'AGENT_INTERRUPT_DECISION_INVALID',
+            'agent: invalid interrupt decision: ${decision.action}',
+          );
+      }
+    }
+    final approved = options.onInterrupt!(interrupt);
+    if (!approved) {
+      throw PraxoError(
+        'AGENT_APPROVAL_DENIED',
+        'agent: tool call denied by approval: ${call.name}',
+      );
+    }
+    return (call, false, null);
   }
+
+  bool _toolAllowed(String name) =>
+      options.allowedTools.isEmpty || options.allowedTools.contains(name);
 
   List<ToolSpec> _advertisedTools() {
     final specs = options.tools?.specs() ?? const <ToolSpec>[];
@@ -196,8 +290,12 @@ class Agent {
   void _authorize(Action action) {
     final policy = options.policy;
     if (policy == null) return;
-    if (!policy(action).allowed) {
-      throw const PraxoError('POLICY_ERROR', 'policy denied the action');
+    final decision = policy(action);
+    if (!decision.allowed) {
+      throw PraxoError(
+        'AGENT_POLICY_DENIED',
+        'agent: ${action.kind} denied: ${decision.reason}',
+      );
     }
   }
 

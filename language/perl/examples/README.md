@@ -7,6 +7,8 @@
 - [`checkpoint/`](checkpoint/): checkpoint allowlist round trip.
 - [`event-sink/`](event-sink/): event fan-out and tool-only filtering.
 - [`identity-policy/`](identity-policy/): trusted principal and policy checks.
+- [`hitl/`](hitl/): human approval, edit reauthorization, and no effects on
+  denial.
 - [`mcp/`](mcp/): in-process MCP transport.
 - [`provider-fallback/`](provider-fallback/): primary/fallback model selection.
 - [`retry/`](retry/): bounded transient-failure retry.

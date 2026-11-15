@@ -1,5 +1,15 @@
 # Swift Core Release Notes
 
+## Unreleased
+
+### Added
+
+- HITL interrupt decisions via `AgentOptions.interruptOn`,
+  `onInterruptDecision`, and `onInterrupt`, with approve, edit, reject, and
+  respond actions.
+- `AgentOptions.middleware` provides tool middleware that runs before the
+  interrupt check.
+
 ## 0.6.0 - 2026-11-15
 
 Source tag `swift/v0.6.0`.

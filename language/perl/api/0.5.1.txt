@@ -51,6 +51,8 @@ Praxo::Models::action
 Praxo::Models::content_block
 Praxo::Models::decision
 Praxo::Models::event
+Praxo::Models::interrupt
+Praxo::Models::interrupt_decision
 Praxo::Models::memory_record
 Praxo::Models::message
 Praxo::Models::message_assistant

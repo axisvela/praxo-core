@@ -12,9 +12,13 @@ AgentOptions.allowedTools var
 AgentOptions.context var
 AgentOptions.events var
 AgentOptions.init
+AgentOptions.interruptOn var
 AgentOptions.maxSteps var
 AgentOptions.maxTokens var
+AgentOptions.middleware var
 AgentOptions.model var
+AgentOptions.onInterrupt var
+AgentOptions.onInterruptDecision var
 AgentOptions.policy var
 AgentOptions.requirePolicy var
 AgentOptions.requireToolScope var
@@ -87,6 +91,25 @@ HarmovelaTimestamp.createdAt var
 HarmovelaTimestamp.init
 HarmovelaTimestamp.unixNanos var
 HttpMcpTransport.init
+INTERRUPT_APPROVE let
+INTERRUPT_EDIT let
+INTERRUPT_REJECT let
+INTERRUPT_RESPOND let
+Interrupt.call var
+Interrupt.runID var
+Interrupt.runId var
+Interrupt.sessionID var
+InterruptAction.approve let
+InterruptAction.edit let
+InterruptAction.reject let
+InterruptAction.respond let
+InterruptApproval typealias
+InterruptDecision.action var
+InterruptDecision.arguments var
+InterruptDecision.init
+InterruptDecision.reason var
+InterruptDecision.response var
+InterruptHandler typealias
 Json.parse func
 JsonError.description var
 JsonSchema.validate func
@@ -237,6 +260,8 @@ ToolCall.id var
 ToolCall.init
 ToolCall.name var
 ToolCallParser.parse func
+ToolMiddleware.beforeTool var
+ToolMiddleware.init
 ToolRegistry.get func
 ToolRegistry.init
 ToolRegistry.register func
@@ -301,6 +326,7 @@ compact func
 emit func
 enum ContextEstimator
 enum Fallback
+enum InterruptAction
 enum Json
 enum JsonError
 enum JsonSchema
@@ -313,6 +339,7 @@ extractJSON func
 filter func
 generate func
 get func
+init
 int func
 invoke func
 listTools func
@@ -339,6 +366,7 @@ retrieveDocuments func
 run func
 search func
 send func
+sessionId var
 specs func
 start func
 streamKinds let
@@ -356,6 +384,8 @@ struct GeminiConfig
 struct HarmovelaHTTPRequest
 struct HarmovelaHTTPResponse
 struct HarmovelaTimestamp
+struct Interrupt
+struct InterruptDecision
 struct Message
 struct OpenAICompatibleConfig
 struct OtelHTTPRequest
@@ -375,6 +405,7 @@ struct SubagentRequest
 struct SubagentResult
 struct SubagentTask
 struct ToolCall
+struct ToolMiddleware
 struct ToolSpec
 struct Usage
 struct ValidationError

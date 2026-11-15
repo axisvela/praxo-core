@@ -15,6 +15,7 @@
     "source/praxo/delegation.d",
     "source/praxo/errors.d",
     "source/praxo/gemini.d",
+    "source/praxo/hitl.d",
     "source/praxo/openai_compatible.d",
     "source/praxo/provider.d",
     "source/praxo/harmovela.d",

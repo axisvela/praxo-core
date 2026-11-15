@@ -17,7 +17,7 @@ provider endpoint.
 | Identity and policy | 31 | `language/<language>/examples/identity-policy` |
 | HTTP service | 31 | `language/<language>/examples/service` |
 | MCP | 31 | `language/<language>/examples/mcp` |
-| HITL | 16 | `language/<language>/examples/hitl` |
+| HITL | 20 | `language/<language>/examples/hitl` |
 | Session checkpoint | 20 | `language/<language>/examples/session-checkpoint` |
 
 Go keeps its reference recipes and examples under `examples/`.
@@ -31,18 +31,18 @@ file; a README-only directory does not count as an implementation.
 
 ## Not Applicable Themes
 
-HITL is not part of the declared scope for D, Dart, Delphi, Haskell, Julia,
-MATLAB, Octave, Nim, Objective-C, OCaml, PowerShell, Perl, Swift, V, and Zig.
-Their `examples/hitl` entry is intentionally absent.
+HITL is not part of the declared scope for Delphi, Haskell, Julia, MATLAB,
+Octave, Nim, Objective-C, OCaml, PowerShell, V, and Zig. Their `examples/hitl`
+entry is intentionally absent.
 
 Session checkpoint is not part of the declared scope for Delphi, Haskell, Julia,
 MATLAB, Octave, Nim, Objective-C, OCaml, PowerShell, V, and Zig. Their
 `examples/session-checkpoint` entry is intentionally absent.
 
-The sixteen languages with both themes are Go, Python, TypeScript, Java, Rust,
-C#, R, Ruby, PHP, C, C++, COBOL, Fortran, Elixir, Erlang, and Lua. For
-transport-seam or shared-runtime examples, the language README states the
-required caller-owned transport or inherited runtime.
+The twenty languages with both themes are Go, Python, TypeScript, Java, Rust,
+C#, R, Ruby, PHP, C, C++, COBOL, Fortran, Elixir, Erlang, Lua, D, Dart, Perl,
+and Swift. For transport-seam or shared-runtime examples, the language README
+states the required caller-owned transport or inherited runtime.
 
 ## Languages and Verification
 

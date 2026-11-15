@@ -40,6 +40,8 @@ jobs:
       - run: dart language/dart/examples/identity-policy/identity_policy.dart
       - run: dart language/dart/examples/service/service.dart
       - run: dart language/dart/examples/mcp/mcp.dart
+      - run: dart language/dart/examples/hitl/hitl.dart
+      - run: dart language/dart/examples/hitl/hitl_test.dart
       - run: dart language/dart/examples/consumer/consumer.dart
 
   perl-examples:
@@ -55,6 +57,8 @@ jobs:
       - run: perl language/perl/examples/identity-policy/identity_policy.pl
       - run: perl language/perl/examples/service/service.pl
       - run: perl language/perl/examples/mcp/mcp.pl
+      - run: perl language/perl/examples/hitl/hitl.pl
+      - run: perl language/perl/examples/hitl/test_hitl.pl
       - run: perl language/perl/examples/consumer/consumer.pl
 
   d-examples:
@@ -73,6 +77,8 @@ jobs:
       - run: dmd -i -Ilanguage/d/source -run language/d/examples/identity-policy/identity_policy.d
       - run: dmd -i -Ilanguage/d/source -run language/d/examples/service/service.d
       - run: dmd -i -Ilanguage/d/source -run language/d/examples/mcp/mcp.d
+      - run: dmd -i -Ilanguage/d/source -run language/d/examples/hitl/starter.d
+      - run: dmd -i -Ilanguage/d/source -Ilanguage/d/examples/hitl -version=HitlExampleTest -run language/d/examples/hitl/test_starter.d
       - run: dmd -i -Ilanguage/d/source -run language/d/examples/consumer/consumer.d
 
   delphi-examples:

@@ -6,6 +6,7 @@
   caller-selected endpoint and model.
 - [`checkpoint/`](checkpoint/): checkpoint allowlist round trip.
 - [`event-sink/`](event-sink/): event fan-out and tool-only filtering.
+- [`hitl/`](hitl/): approval, edit, and reauthorization denial before effects.
 - [`identity-policy/`](identity-policy/): trusted principal and policy checks.
 - [`mcp/`](mcp/): in-process MCP transport.
 - [`provider-fallback/`](provider-fallback/): primary/fallback model selection.

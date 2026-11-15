@@ -2,8 +2,9 @@
 
 PRAXO-CORE is an embeddable, MIT-licensed agent framework. This package is its
 native D Core: an agent loop with tool registration and dispatch, policy hooks,
-typed events, memory, checkpoints, context budgets, middleware, JSON Schema
-validation, and plugin manifest parsing.
+human-in-the-loop interrupt decisions, typed events, memory, checkpoints,
+context budgets, middleware, JSON Schema validation, and plugin manifest
+parsing.
 
 The normative contract is [`spec/`](../../spec/README.md); Go remains the
 reference implementation.
@@ -122,6 +123,18 @@ retries, or buffering.
 `Retriever` function alias, `FuncRetriever`, and `retrieveDocuments`. A negative
 limit throws `PraxoError` with code `RETRIEVER_INVALID`. The seam does not depend
 on an embedding model or vector database.
+
+## HITL Interrupt Decisions
+
+`praxo.hitl` defines `Interrupt` (run id, session id, tool call) and
+`InterruptDecision` (action, optional arguments, optional response, optional
+reason). Set `AgentOptions.interruptOn` to the tool names that need approval and
+either `onInterruptDecision` for explicit decisions or `onInterrupt` for a
+boolean approval fallback. Decisions support `approve`, `edit` (arguments are
+reauthorized before invocation), `reject`, and `respond` (the tool is skipped and
+the response is used as the tool result). A missing handler throws
+`AGENT_INTERRUPT_UNHANDLED`; invalid or incomplete decisions throw
+`AGENT_INTERRUPT_DECISION_INVALID`; denials throw `AGENT_APPROVAL_DENIED`.
 
 ## Subagent Delegation
 

@@ -1,5 +1,17 @@
 # D Core Release Notes
 
+## Unreleased
+
+### Added
+
+- First-class HITL interrupt decisions (`praxo.hitl`) with `approve`, `edit`,
+  `reject`, and `respond` actions, `tool.interrupt` events, and
+  `AGENT_APPROVAL_DENIED`, `AGENT_INTERRUPT_UNHANDLED`, and
+  `AGENT_INTERRUPT_DECISION_INVALID` errors.
+- `AgentOptions.interruptOn`, `onInterruptDecision`, `onInterrupt`, and
+  before-tool middleware ordering.
+- Deterministic HITL core tests and `examples/hitl`.
+
 ## 0.5.0 - 2026-11-15
 
 Source tag `d/v0.5.0`.
