@@ -1,6 +1,6 @@
 # PRAXO-CORE TypeScript Registry Introduction
 
-**Status:** published. Source version `0.8.0`, source
+**Status:** tag released; npm staged for approval. Source version `0.8.0`, source
 tag `typescript/v0.8.0`. Published registry version: `0.7.1`. Registry
 pages are release snapshots; verify the published version before relying on a
 feature.

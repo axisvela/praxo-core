@@ -1,6 +1,6 @@
 # Streaming
 
-This example uses published PyPI `praxo-core==0.8.1` to consume deltas while the
+This example uses published PyPI `praxo-core==0.9.0` to consume deltas while the
 agent loop keeps running normally.
 
 Set `AgentOptions(on_delta=...)` and implement `generate_stream` on the model.

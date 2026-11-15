@@ -1,6 +1,6 @@
 # Authenticated HTTP Service
 
-This example embeds published PyPI `praxo-core==0.8.1` in a standard-library
+This example embeds published PyPI `praxo-core==0.9.0` in a standard-library
 HTTP service with application-owned identity, tenant policy, an optional
 external policy decision service, and file-backed checkpoints.
 

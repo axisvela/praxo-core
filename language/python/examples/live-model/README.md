@@ -1,6 +1,6 @@
 # Python Live Model
 
-This example uses published PyPI `praxo-core==0.8.1` to connect the Python Core
+This example uses published PyPI `praxo-core==0.9.0` to connect the Python Core
 to an OpenAI-compatible endpoint and registers one low-risk `get_time` tool.
 
 ## Run

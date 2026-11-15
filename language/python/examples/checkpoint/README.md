@@ -1,6 +1,6 @@
 # Checkpoint Store
 
-This example uses published PyPI `praxo-core==0.8.1` to keep checkpoint storage
+This example uses published PyPI `praxo-core==0.9.0` to keep checkpoint storage
 application-owned while using the SDK allowlist for payload encoding.
 
 `Allowlist` marshals and unmarshals only registered payload types. The

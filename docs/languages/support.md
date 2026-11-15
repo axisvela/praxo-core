@@ -101,14 +101,14 @@ Registry values below were checked against the public registries on 2026-11-14.
 
 | Language | Source tag | Registry version | Consumer install smoke |
 | --- | --- | --- | --- |
-| Python | `python/v0.9.0` | PyPI `praxo-core==0.8.1` published | Release workflow built and smoke-tested the `0.8.1` wheel and sdist; post-publication consumer check not rerun |
-| TypeScript | `typescript/v0.8.0` | npm `@axisvela/praxo-core@0.7.1` published as `latest` | Release workflow built and consumed the `0.7.1` tarball; post-publication consumer starter check not rerun |
+| Python | `python/v0.9.0` | PyPI `praxo-core==0.9.0` published | Release workflow built and smoke-tested the `0.9.0` wheel and sdist; post-publication consumer check not rerun |
+| TypeScript | `typescript/v0.8.0` | npm `@axisvela/praxo-core@0.7.1` published as `latest` | `0.8.0` is staged for npm approval; consumer check remains on `0.7.1` |
 | Java | `java/v0.10.0` | Maven Central `com.axisvela:praxo-core:0.9.0` published | Release workflow built, signed, and published `0.9.0`; post-publication consumer check not rerun |
 | Rust | `rust/v0.9.1` | crates.io `praxo-core==0.9.1` published; `0.1.4` historical | Consumer starter ran against published `0.9.1` locally; `http-ureq` live path remains source-only |
 | C# | `csharp/v0.9.1` | NuGet `Praxo.Core==0.9.1` published | Consumer starter ran against published `0.9.1` locally |
 | Elixir | `elixir/v0.9.1` | Hex `praxo_core==0.9.1` published with OpenAI-compatible, Anthropic, Gemini, Harmovela, and MCP adapters; `0.5.1`, `0.4.1`, `0.4.0`, `0.3.0`, `0.2.0` historical | Extended starter added; Hex `0.4.1` resolved in a clean Mix project and allow/deny passed locally; `0.6.0` install smoke not rerun |
 | Erlang | `erlang/v0.8.1` | Hex `praxo_core_erlang==0.8.1` published; `0.4.0`, `0.3.1`, `0.2.0` historical | Not rerun for `0.5.0`; historical `0.1.1` smoke |
-| Ruby | `ruby/v0.8.1` | RubyGems `praxo-core==0.8.1` published; `0.4.1`, `0.4.0`, `0.3.0`, `0.2.0` historical | Extended starter added; RubyGems `0.4.1` installed into a clean gem home and allow/deny passed locally; `0.5.0` install smoke not rerun |
+| Ruby | `ruby/v0.8.1` | RubyGems `praxo-core==0.9.0` published; `0.4.1`, `0.4.0`, `0.3.0`, `0.2.0` historical | Extended starter added; RubyGems `0.4.1` installed into a clean gem home and allow/deny passed locally; `0.5.0` install smoke not rerun |
 | Lua | `lua/v0.7.1` | LuaRocks `praxo-core==0.7.1-1` published with the optional OpenAI-compatible adapter; `0.4.1-1`, `0.4.0-1`, `0.3.0-1`, `0.2.0-1` also published | Extended starter added; LuaRocks `0.4.1-1` installed into a clean tree and allow/deny passed locally; `0.5.0-1` install smoke not rerun |
 | PHP | `php/v0.8.1` | Packagist `axisvela/praxo-core==0.8.0` published with Composer `autoload.files`; `0.4.1`, `0.4.0`, `0.3.0`, `0.2.0` historical | Extended starter added; Composer install of published `0.4.1` passed locally; `0.8.1` install smoke not rerun |
 | Dart | `dart/v0.6.0` | pub.dev `praxo_core==0.4.0` | Recorded for `0.1.1`; `0.4.0` install smoke not recorded |
@@ -130,8 +130,8 @@ its latest version matches the manifest at the release tag.
 
 | Language | Code/manifest version | Registry latest | Status |
 | --- | --- | --- | --- |
-| Python | `0.9.0` | PyPI `0.8.1` | tag released; registry publish pending |
-| TypeScript | `0.8.0` | npm `0.7.1` | tag released; registry publish pending |
+| Python | `0.9.0` | PyPI `0.9.0` | current |
+| TypeScript | `0.8.0` | npm `0.7.1` | tag released; npm staged for approval |
 | Java | `0.10.0` | Maven Central `0.9.0` | tag released; registry behind |
 | Rust | `0.9.1` | crates.io `0.9.1` | current |
 | C# | `0.9.1` | NuGet `0.9.1` | current |

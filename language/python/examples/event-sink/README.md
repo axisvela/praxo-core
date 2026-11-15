@@ -1,6 +1,6 @@
 # Event Sink
 
-This example uses published PyPI `praxo-core==0.8.1` to observe agent lifecycle
+This example uses published PyPI `praxo-core==0.9.0` to observe agent lifecycle
 and tool events without coupling the agent to a logging or telemetry backend.
 
 `AgentOptions(events=...)` accepts any `Sink`. `MultiSink` fans out to several

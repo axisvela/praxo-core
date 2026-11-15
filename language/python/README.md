@@ -20,7 +20,7 @@ orchestration platform:
 - Machine-readable entry: [llms.txt](https://github.com/axisvela/praxo-core/blob/main/language/python/llms.txt) and [llms.md](https://github.com/axisvela/praxo-core/blob/main/language/python/llms.md)
 - [Examples](https://github.com/axisvela/praxo-core/tree/main/language/python/examples): runnable language-specific examples.
 - Coding-agent contract: [docs/getting-started/coding-agents.md](https://github.com/axisvela/praxo-core/blob/main/docs/getting-started/coding-agents.md)
-- Registry: [PyPI](https://pypi.org/project/praxo-core/0.8.1/)
+- Registry: [PyPI](https://pypi.org/project/praxo-core/0.9.0/)
 - Community: [X](https://x.com/axisvela) · [Weibo](https://weibo.com/u/1936025761)
 
 ## Get started
@@ -28,7 +28,7 @@ orchestration platform:
 Install the published package:
 
 ```bash
-pip install praxo-core==0.8.1
+pip install praxo-core==0.9.0
 ```
 
 Then run the smallest deterministic example:
@@ -64,7 +64,7 @@ Runnable examples live under [`language/python/examples`](https://github.com/axi
 ## Install
 
 ```bash
-pip install praxo-core==0.8.1
+pip install praxo-core==0.9.0
 ```
 
 For a source checkout:
@@ -177,7 +177,7 @@ read `MCPTool.input_schema` when you need the model-facing schema.
 The normative contract is [`spec/`](../../spec/README.md); Go remains the
 reference implementation. This package supports `SPEC_VERSION` `0.2.0` and
 passes all eleven conformance vector groups. The latest source tag is
-`python/v0.8.1`; the published PyPI package is `praxo-core==0.8.1`.
+`python/v0.9.0`; the published PyPI package is `praxo-core==0.9.0`.
 VFS and plugin hosts are not yet implemented.
 
 ## Requirements

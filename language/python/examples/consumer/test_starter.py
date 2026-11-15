@@ -32,8 +32,8 @@ class StarterTests(unittest.IsolatedAsyncioTestCase):
     def test_published_dependency(self):
         self.assertNotEqual(sys.prefix, sys.base_prefix, "use a dedicated virtual environment")
         distribution = importlib.metadata.distribution("praxo-core")
-        self.assertEqual(distribution.version, "0.8.1")
-        self.assertEqual(praxo.__version__, "0.8.1")
+        self.assertEqual(distribution.version, "0.9.0")
+        self.assertEqual(praxo.__version__, "0.9.0")
         self.assertTrue(Path(praxo.__file__).resolve().is_relative_to(Path(sys.prefix).resolve()))
         self.assertIsNone(distribution.read_text("direct_url.json"), "install from the registry, not a local path")
 

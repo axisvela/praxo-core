@@ -338,16 +338,16 @@
   "Python": {
     "dir": "language/python",
     "docs": "https://axisvela.github.io/praxo-core/languages/python/",
-    "install": "pip install praxo-core==0.8.1",
+    "install": "pip install praxo-core==0.9.0",
     "package": "praxo-core",
-    "published_version": "0.8.1",
+    "published_version": "0.9.0",
     "registry": "PyPI",
     "source_install": "pip install ./language/python",
     "source_version": "0.9.0",
     "status": "published",
     "tag": "python/v0.9.0",
     "tier": "Core",
-    "url": "https://pypi.org/project/praxo-core/0.8.1/"
+    "url": "https://pypi.org/project/praxo-core/0.9.0/"
   },
   "R": {
     "dir": "language/r",
@@ -414,7 +414,7 @@
     "registry": "npm",
     "source_install": "npm install ./language/typescript",
     "source_version": "0.8.0",
-    "status": "published",
+    "status": "tag released; npm staged for approval",
     "tag": "typescript/v0.8.0",
     "tier": "Core",
     "url": "https://www.npmjs.com/package/@axisvela/praxo-core/v/0.7.1"
