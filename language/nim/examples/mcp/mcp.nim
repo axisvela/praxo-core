@@ -11,7 +11,7 @@ proc transport(methodName: string, params: JsonNode): JsonNode =
     return parseJsonText("""{"structuredContent":{"sum":5}}""")
   newJObject()
 
-let client = mcpClient(transport)
+var client = mcpClient(transport)
 let tools = client.listTools()
 let value = client.callTool("add", newJObject())
 client.close()
