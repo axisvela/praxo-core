@@ -20,5 +20,5 @@ pub mod toolcall;
 
 pub use adapters::{harmovela, mcp, openai_compat, otel};
 
-pub const SDK_VERSION: &str = "0.9.0";
+pub const SDK_VERSION: &str = "0.9.1";
 pub const SPEC_VERSION: &str = "0.2.0";

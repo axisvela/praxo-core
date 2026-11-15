@@ -1,5 +1,12 @@
 # Elixir Core Release Notes
 
+
+## 0.9.1 - 2026-11-15
+
+### Changed
+
+- Expanded the registry README with a Get started section and a task-oriented example index.
+
 ## 0.9.0 - 2026-11-15
 
 Source tag `elixir/v0.9.0`.

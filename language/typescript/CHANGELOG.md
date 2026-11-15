@@ -1,5 +1,12 @@
 # TypeScript Core Release Notes
 
+
+## 0.7.1 - 2026-11-15
+
+### Changed
+
+- Expanded the registry README with a Get started section and a task-oriented example index.
+
 ## 0.7.0 - 2026-11-14
 
 Source tag `typescript/v0.7.0`; npm publication is pending.
