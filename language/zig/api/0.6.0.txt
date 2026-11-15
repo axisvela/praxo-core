@@ -75,6 +75,7 @@ TransportResult
 USER
 Usage
 ValidationError
+agent
 allowed
 apply
 array
@@ -101,13 +102,18 @@ has
 init
 integer
 invoke
+json
+jsonschema
 listTools
 marshal
+mcp
 messageWire
 model
+models
 next
 notify
 object
+openaicompat
 parse
 parseInputJson
 parseManifest
@@ -124,6 +130,7 @@ retrieve
 retrieveDocuments
 run
 runAgent
+runtime
 search
 send
 sink

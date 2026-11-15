@@ -135,6 +135,7 @@ jobs:
           curl -L -o v-src.zip https://codeload.github.com/vlang/v/zip/refs/tags/0.5.2
           unzip -q v-src.zip
           cp -R v-0.5.2/vlib/x/json2 v/vlib/x/json2
+          echo "VROOT=$PWD/v" >> "$GITHUB_ENV"
           echo "$PWD/v" >> "$GITHUB_PATH"
       - run: v version
       - run: v -path language/v language/v/examples/retry/retry.v
