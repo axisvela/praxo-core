@@ -909,7 +909,7 @@ pattern?: string | undefined
 description?: string | undefined
 
 ## SDK_VERSION
-const SDK_VERSION: "0.7.0"
+const SDK_VERSION: "0.7.1"
 
 ## Session
 interface Session
