@@ -126,7 +126,7 @@ example, and deterministic test before it counts as a complete path.
 
 ```bash
 npm init -y
-npm install --save-exact @axisvela/praxo-core@0.7.0
+npm install --save-exact @axisvela/praxo-core@0.7.1
 ```
 
 2. Copy the schema, fixture model, policy, and `StructuredOutput` setup from
@@ -177,7 +177,7 @@ cargo run
 ```
 
 Run the crate's tests in the same directory before replacing the fixture model.
-The published `praxo-core==0.9.0` crate uses the current adapter seams.
+The published `praxo-core==0.9.1` crate uses the current adapter seams.
 
 **R**
 
@@ -189,6 +189,39 @@ Rscript language/r/tests/run_tests.R
 For R, install `praxocore` from r-universe and keep the schema check in the
 application. A successful parse without schema validation is not a passing
 prototype.
+
+## Prototype Walkthroughs: Ruby, PHP, Elixir, and Lua
+
+These extended-language Cores use the same schema and validation rule. Run the
+tested example first; it is a complete local prototype for that language.
+
+**Ruby**
+
+```bash
+ruby -I language/ruby/lib language/ruby/examples/structured-output/structured_output.rb
+```
+
+**PHP**
+
+```bash
+php language/php/examples/structured-output/structured_output.php
+```
+
+**Elixir**
+
+```bash
+elixir -pa language/elixir/build/ebin language/elixir/examples/structured-output/structured_output.exs
+```
+
+**Lua**
+
+```bash
+lua language/lua/examples/structured-output/structured_output.lua
+```
+
+For each, confirm that invalid output is rejected before replacing the fixture
+model. These examples are source-mode prototypes; package installation and
+version pins remain language-specific.
 
 For every language, record the package version, endpoint class, model name,
 schema version, commands, and output. Keep identity, durable storage, retries,
