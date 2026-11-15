@@ -5,7 +5,7 @@ examples live in the repository
 [`examples/`](https://github.com/axisvela/praxo-core/tree/main/examples)
 directory. Language-specific examples live under
 `language/<language>/examples/` so they are included in the dedicated language
-mirror repositories. For the nine-theme, thirty-language matrix, see
+mirror repositories. For the thirteen-theme, thirty-language matrix, see
 [Language Coverage](language-coverage.md).
 
 ## Choose by Task
@@ -34,6 +34,22 @@ mirror repositories. For the nine-theme, thirty-language matrix, see
 | Delegate work | [`examples/multiagent`](https://github.com/axisvela/praxo-core/tree/main/examples/multiagent) | Go local delegation example |
 | Use focused recipes | [`examples/recipes`](https://github.com/axisvela/praxo-core/tree/main/examples/recipes) | Go recipes for providers, events, retries, VFS, and related seams |
 | Integrate an ecosystem component | [`examples/ecosystem`](https://github.com/axisvela/praxo-core/tree/main/examples/ecosystem) | Optional AxisVela adapter shapes |
+
+## Prototype Paths
+
+Pick one path and finish it before adding another integration. These groups are
+guidance, not release gates.
+
+| Group | Outcome | Start with |
+| --- | --- | --- |
+| Basic | Install a published package, call a tool, and deny one unsafe call | [Quickstart](quickstart.md), [Live Model Golden Path](live-model-golden-path.md), [Consumer starters](index.md) |
+| Integration | Add one real boundary: MCP, provider fallback, structured output, streaming, or HTTP service | [Provider and MCP walkthrough](../guides/provider-walkthrough.md), [Structured Output tutorial](../guides/structured-output-tutorial.md), [Embedded HTTP service tutorial](../guides/embedded-service-tutorial.md) |
+| Hardening | Make one integration safe to deny, approve, persist, retry, or cancel | [Identity and policy](../guides/identity-policy.md), [Application Integration Checklist](../guides/application-integration-checklist.md), [Consumer test template](../guides/consumer-test-template.md) |
+| Advanced | Add plugins, delegation, long-running operations, workspace providers, or embodied seams | [Plugin guide](../guides/plugins.md), [Multi-agent patterns](../guides/multi-agent.md), [Long-running operations](../guides/long-running-operations.md) |
+
+The primary SDKs share the same task-oriented catalog, but each language keeps
+its own install command and executable example. A Go example is not evidence
+that another SDK's example runs.
 
 ## Examples vs Recipes
 
@@ -74,7 +90,10 @@ commands. Every Core language includes `consumer` and `live-model` entries;
 capabilities. See [Language Coverage](language-coverage.md) for the explicit
 not-applicable lists. Python, TypeScript, Java, Rust, C#, and other Core
 implementations remain independently versioned; use the
-[language matrix](../languages/matrix.md) for current support.
+[language matrix](../languages/matrix.md) for current support. The only complete
+end-to-end prototype tutorial today is the Go [Workspace Agent
+tutorial](../guides/workspace-agent-tutorial.md); the other primary SDKs have
+task-focused examples but still need a comparable tutorial.
 
 ## How Examples Are Organized
 
