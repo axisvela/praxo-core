@@ -71,7 +71,9 @@ audience checks, and revocation.
 The [Python authenticated service example](https://github.com/axisvela/praxo-core/tree/main/language/python/examples/service-auth)
 applies the same boundary with the standard library: HMAC bearer tokens,
 subject and tenant claims, expiration checks, a tenant allowlist, policy
-binding, and a file-backed checkpoint.
+binding, and a file-backed checkpoint. Set `PRAXO_POLICY_URL` to delegate
+decisions to an application-owned HTTP policy decision service; the example
+fails closed on timeout, an invalid response, or a denial.
 
 ```bash
 cd language/python/examples/service-auth

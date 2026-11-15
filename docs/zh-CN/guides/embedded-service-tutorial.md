@@ -66,7 +66,8 @@ go test ./...
 
 [Python 认证服务示例](https://github.com/axisvela/praxo-core/tree/main/language/python/examples/service-auth)
 使用标准库实现同样的边界：HMAC Bearer Token、subject/tenant claims、过期检查、
-租户允许列表、策略绑定，以及文件型 Checkpoint。
+租户允许列表、策略绑定，以及文件型 Checkpoint。设置 `PRAXO_POLICY_URL` 可把决策
+委托给应用拥有的 HTTP 策略决策服务；超时、响应无效或拒绝都会 fail closed。
 
 ```bash
 cd language/python/examples/service-auth

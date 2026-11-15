@@ -5,7 +5,7 @@ import time
 import unittest
 import urllib.error
 import urllib.request
-from http.server import ThreadingHTTPServer
+from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 
 from praxo.model import Message, Response
@@ -15,6 +15,7 @@ from service import (
     FileCheckpointStore,
     Principal,
     PrincipalStore,
+    RemotePolicy,
     authorize,
     create_agent,
     make_handler,
@@ -34,8 +35,18 @@ class ServiceTests(unittest.TestCase):
         self.allowed = {"local"}
         self.principals = PrincipalStore()
         self.checkpoints = FileCheckpointStore(self.directory.name)
-        agent = create_agent(FakeModel(), self.allowed, self.principals)
-        self.server = ThreadingHTTPServer(
+        self.server = None
+        self.thread = None
+        self.start_service()
+
+    def start_service(self, remote_policy=None):
+        agent = create_agent(
+            FakeModel(),
+            self.allowed,
+            self.principals,
+            remote_policy,
+        )
+        server = ThreadingHTTPServer(
             ("127.0.0.1", 0),
             make_handler(
                 agent,
@@ -45,15 +56,63 @@ class ServiceTests(unittest.TestCase):
                 self.checkpoints,
             ),
         )
-        self.thread = threading.Thread(target=self.server.serve_forever, daemon=True)
-        self.thread.start()
-        self.base = f"http://127.0.0.1:{self.server.server_port}"
+        thread = threading.Thread(target=server.serve_forever, daemon=True)
+        thread.start()
+        self.server = server
+        self.thread = thread
+        self.base = f"http://127.0.0.1:{server.server_port}"
 
-    def tearDown(self):
+    def stop_service(self):
+        if self.server is None:
+            return
         self.server.shutdown()
         self.server.server_close()
         self.thread.join(timeout=2)
+        self.server = None
+        self.thread = None
+
+    def restart_service(self, remote_policy=None):
+        self.stop_service()
+        self.start_service(remote_policy)
+
+    def tearDown(self):
+        self.stop_service()
         self.directory.cleanup()
+
+    def start_pdp(self, allowed):
+        class Handler(BaseHTTPRequestHandler):
+            def do_POST(self):
+                length = int(self.headers.get("Content-Length", "0"))
+                self.rfile.read(length)
+                encoded = json.dumps(
+                    {"allowed": allowed, "reason": "test policy"}
+                ).encode()
+                self.send_response(200)
+                self.send_header("Content-Type", "application/json")
+                self.send_header("Content-Length", str(len(encoded)))
+                self.end_headers()
+                self.wfile.write(encoded)
+
+            def log_message(self, format, *args):
+                return
+
+        server = ThreadingHTTPServer(("127.0.0.1", 0), Handler)
+        thread = threading.Thread(target=server.serve_forever, daemon=True)
+        thread.start()
+
+        def cleanup():
+            server.shutdown()
+            server.server_close()
+            thread.join(timeout=2)
+
+        self.addCleanup(cleanup)
+        return f"http://127.0.0.1:{server.server_port}/authorize"
+
+    def unavailable_url(self):
+        server = ThreadingHTTPServer(("127.0.0.1", 0), BaseHTTPRequestHandler)
+        url = f"http://127.0.0.1:{server.server_port}/authorize"
+        server.server_close()
+        return url
 
     def token(self, subject="user-1", tenant="local", ttl=60):
         return sign_token(self.secret, subject, tenant, time.time() + ttl)
@@ -104,6 +163,20 @@ class ServiceTests(unittest.TestCase):
         self.assertEqual(saved["tenant_id"], "local")
         self.assertEqual(saved["session_id"], "local/user-1")
         self.assertEqual(saved["status"], "completed")
+
+    def test_remote_policy_allows_the_run(self):
+        self.restart_service(RemotePolicy(self.start_pdp(True), timeout=1))
+        with self.post(token=self.token()) as response:
+            body = json.loads(response.read())
+        self.assertEqual(body["output"], "hello from the service")
+
+    def test_remote_policy_denial_fails_closed(self):
+        self.restart_service(RemotePolicy(self.start_pdp(False), timeout=1))
+        self.assert_status(403, token=self.token())
+
+    def test_remote_policy_unavailable_fails_closed(self):
+        self.restart_service(RemotePolicy(self.unavailable_url(), timeout=0.2))
+        self.assert_status(403, token=self.token())
 
     def test_policy_requires_a_bound_principal(self):
         decision = authorize(

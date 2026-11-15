@@ -7,6 +7,7 @@ import json
 import os
 import sys
 import time
+import urllib.request
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
@@ -44,6 +45,45 @@ class PrincipalStore:
 
     def lookup(self, session_id: str) -> Principal | None:
         return self._principals.get(session_id)
+
+
+class RemotePolicy:
+    def __init__(self, url: str, timeout: float = 2.0) -> None:
+        self.url = url
+        self.timeout = timeout
+
+    def decide(self, principal: Principal, action: Action) -> Decision:
+        payload = {
+            "principal": {
+                "subject": principal.subject,
+                "tenant": principal.tenant,
+            },
+            "action": {
+                "kind": action.kind,
+                "tool_name": action.tool_name or "",
+                "arguments": action.arguments,
+            },
+        }
+        try:
+            request = urllib.request.Request(
+                self.url,
+                data=json.dumps(payload).encode("utf-8"),
+                headers={"Content-Type": "application/json"},
+                method="POST",
+            )
+            with urllib.request.urlopen(request, timeout=self.timeout) as response:
+                if response.status != 200:
+                    return Decision(False, "policy service returned an error")
+                body = json.loads(response.read())
+        except Exception:
+            return Decision(False, "policy service unavailable")
+        if not isinstance(body, dict) or not isinstance(body.get("allowed"), bool):
+            return Decision(False, "policy service returned an invalid decision")
+        reason = body.get("reason")
+        return Decision(
+            body["allowed"],
+            reason if isinstance(reason, str) else "",
+        )
 
 
 class FileCheckpointStore:
@@ -155,6 +195,7 @@ def authorize(
     store: PrincipalStore,
     allowed_tenants: set[str],
     action: Action,
+    remote_policy: RemotePolicy | None = None,
 ) -> Decision:
     principal = store.lookup(action.session_id)
     if principal is None:
@@ -163,6 +204,10 @@ def authorize(
         return Decision(False, "trusted principal is expired")
     if principal.tenant not in allowed_tenants:
         return Decision(False, "tenant is not allowed")
+    if remote_policy is not None:
+        remote = remote_policy.decide(principal, action)
+        if not remote.allowed:
+            return remote
     if action.kind == "model.generate":
         return Decision(True, "principal may run the agent")
     if action.kind != "tool.invoke":
@@ -176,6 +221,7 @@ def create_agent(
     model=None,
     allowed_tenants: set[str] | None = None,
     store: PrincipalStore | None = None,
+    remote_policy: RemotePolicy | None = None,
 ) -> Agent:
     selected = model or OpenAICompatibleModel(
         OpenAIConfig(
@@ -205,7 +251,14 @@ def create_agent(
             system_prompt="You are a concise service assistant. Use tools when they help.",
             max_steps=4,
             allowed_tools=["get_time"],
-            policy=FuncHook(lambda action: authorize(principals, allowed, action)),
+            policy=FuncHook(
+                lambda action: authorize(
+                    principals,
+                    allowed,
+                    action,
+                    remote_policy,
+                )
+            ),
             require_policy=True,
             require_tool_scope=True,
         )
@@ -332,6 +385,15 @@ def serve(host: str = "127.0.0.1", port: int = 8080) -> None:
     if not secret:
         raise SystemExit("PRAXO_SERVICE_SECRET is required")
     allowed = parse_tenants(os.getenv("PRAXO_ALLOWED_TENANTS", "local"))
+    policy_url = os.getenv("PRAXO_POLICY_URL", "")
+    remote_policy = (
+        RemotePolicy(
+            policy_url,
+            float(os.getenv("PRAXO_POLICY_TIMEOUT", "2")),
+        )
+        if policy_url
+        else None
+    )
     principals = PrincipalStore()
     checkpoint_store = FileCheckpointStore(
         os.getenv("PRAXO_CHECKPOINT_DIR", "checkpoints")
@@ -339,7 +401,11 @@ def serve(host: str = "127.0.0.1", port: int = 8080) -> None:
     server = ThreadingHTTPServer(
         (host, port),
         make_handler(
-            create_agent(allowed_tenants=allowed, store=principals),
+            create_agent(
+                allowed_tenants=allowed,
+                store=principals,
+                remote_policy=remote_policy,
+            ),
             secret,
             allowed,
             principals,

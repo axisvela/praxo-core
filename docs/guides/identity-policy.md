@@ -48,7 +48,9 @@ The Python authenticated HTTP service
 shows the same binding at a service boundary. It verifies an application-local
 HMAC bearer token, binds the subject and tenant to the session, rejects expired
 or disallowed tenants, authorizes only `get_time`, and saves a completed
-checkpoint. Run its deterministic tests with:
+checkpoint. It can also delegate decisions to an application-owned HTTP policy
+decision service and fails closed when that service is unavailable. Run its
+deterministic tests with:
 
 ```bash
 cd language/python/examples/service-auth

@@ -40,7 +40,8 @@ Python 认证 HTTP 服务
 [`language/python/examples/service-auth`](https://github.com/axisvela/praxo-core/tree/main/language/python/examples/service-auth)
 展示了服务边界上的同类绑定。它验证应用局部 HMAC Bearer Token，把 subject 和 tenant
 绑定到 Session，拒绝过期或不在允许列表中的租户，只授权 `get_time`，并在运行完成后
-保存 Checkpoint。运行确定性测试：
+保存 Checkpoint。它还可以把决策委托给应用拥有的 HTTP 策略决策服务，并在该服务不可用时
+fail closed。运行确定性测试：
 
 ```bash
 cd language/python/examples/service-auth
