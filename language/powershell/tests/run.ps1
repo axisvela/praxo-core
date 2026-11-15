@@ -96,6 +96,7 @@ Assert-True $requireScopeThrown 'require tool scope guard'
 
 $assembly = (Get-PraxoCoreInfo).Assembly
 Add-Type -TypeDefinition @'
+#nullable enable
 using Praxo.Core;
 public sealed class PraxoAllowAllPolicy : IPolicyHook
 {
@@ -121,6 +122,7 @@ Assert-True ($scopeResult.Output -eq 'hello') 'require tool scope accepts config
 
 $references = @($assembly, [System.Text.Json.Nodes.JsonNode].Assembly.Location)
 Add-Type -TypeDefinition @'
+#nullable enable
 using System.Text.Json.Nodes;
 using Praxo.Core;
 

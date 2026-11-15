@@ -5,6 +5,7 @@ Import-Module (Join-Path $PSScriptRoot '../../praxo-core-ps/praxo-core-ps.psd1')
 $assembly = (Get-PraxoCoreInfo).Assembly
 $references = @($assembly, [System.Text.Json.Nodes.JsonNode].Assembly.Location)
 Add-Type -TypeDefinition @'
+#nullable enable
 using System;
 using System.Text.Json.Nodes;
 using Praxo.Core;

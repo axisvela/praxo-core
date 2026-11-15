@@ -10,6 +10,7 @@ $references = @(
     'System.Collections'
 )
 Add-Type -TypeDefinition @'
+#nullable enable
 using Praxo.Core;
 
 public sealed class SessionCheckpointTurnModel : IModel
