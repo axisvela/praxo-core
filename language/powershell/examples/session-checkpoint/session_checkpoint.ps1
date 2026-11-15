@@ -3,7 +3,12 @@ $ErrorActionPreference = 'Stop'
 Import-Module (Join-Path $PSScriptRoot '../../praxo-core-ps/praxo-core-ps.psd1') -Force
 
 $assembly = (Get-PraxoCoreInfo).Assembly
-$references = @($assembly, [System.Text.Json.Nodes.JsonNode].Assembly.Location)
+$references = @(
+    $assembly,
+    [System.Text.Json.Nodes.JsonNode].Assembly.Location,
+    [System.Collections.Generic.List[object]].Assembly.Location,
+    'System.Collections'
+)
 Add-Type -TypeDefinition @'
 using Praxo.Core;
 
