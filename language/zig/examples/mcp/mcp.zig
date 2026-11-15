@@ -1,6 +1,7 @@
 const std = @import("std");
-const json = @import("json");
-const mcp = @import("mcp");
+const praxo = @import("praxo");
+const json = praxo.json;
+const mcp = praxo.mcp;
 
 var context: u8 = 0;
 

@@ -1,6 +1,7 @@
 const std = @import("std");
-const json = @import("json");
-const jsonschema = @import("jsonschema");
+const praxo = @import("praxo");
+const json = praxo.json;
+const jsonschema = praxo.jsonschema;
 
 pub fn main() !void {
     var arena = std.heap.ArenaAllocator.init(std.heap.page_allocator);

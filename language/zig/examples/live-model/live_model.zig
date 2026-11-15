@@ -1,8 +1,9 @@
 const std = @import("std");
-const agent = @import("agent");
-const json = @import("json");
-const models = @import("models");
-const openai = @import("openaicompat");
+const praxo = @import("praxo");
+const agent = praxo.agent;
+const json = praxo.json;
+const models = praxo.models;
+const openai = praxo.openaicompat;
 
 const TimeContext = struct {
     allocator: std.mem.Allocator,

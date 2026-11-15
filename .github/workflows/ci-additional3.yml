@@ -37,7 +37,7 @@ concurrency:
 
 jobs:
   swift-examples:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
       - uses: swift-actions/setup-swift@v2
@@ -60,7 +60,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: julia-actions/setup-julia@v2
         with:
-          version: "1.10"
+          version: "1.13.2"
       - run: julia --project=language/julia -e 'using Pkg; Pkg.instantiate()'
       - run: julia --project=language/julia language/julia/examples/retry/retry.jl
       - run: julia --project=language/julia language/julia/examples/checkpoint/checkpoint.jl
@@ -96,15 +96,15 @@ jobs:
       - uses: ocaml/setup-ocaml@v3
         with:
           ocaml-compiler: "5.1"
-      - run: opam exec -- ocaml language/ocaml/examples/retry/retry.ml
-      - run: opam exec -- ocaml language/ocaml/examples/checkpoint/checkpoint.ml
-      - run: opam exec -- ocaml language/ocaml/examples/event-sink/event_sink.ml
-      - run: opam exec -- ocaml language/ocaml/examples/provider-fallback/fallback.ml
-      - run: opam exec -- ocaml language/ocaml/examples/structured-output/structured_output.ml
-      - run: opam exec -- ocaml language/ocaml/examples/streaming/streaming.ml
-      - run: opam exec -- ocaml language/ocaml/examples/identity-policy/identity_policy.ml
-      - run: opam exec -- ocaml language/ocaml/examples/service/service.ml
-      - run: opam exec -- ocaml language/ocaml/examples/mcp/mcp.ml
+      - run: opam exec -- ocaml -I language/ocaml language/ocaml/examples/retry/retry.ml
+      - run: opam exec -- ocaml -I language/ocaml language/ocaml/examples/checkpoint/checkpoint.ml
+      - run: opam exec -- ocaml -I language/ocaml language/ocaml/examples/event-sink/event_sink.ml
+      - run: opam exec -- ocaml -I language/ocaml language/ocaml/examples/provider-fallback/fallback.ml
+      - run: opam exec -- ocaml -I language/ocaml language/ocaml/examples/structured-output/structured_output.ml
+      - run: opam exec -- ocaml -I language/ocaml language/ocaml/examples/streaming/streaming.ml
+      - run: opam exec -- ocaml -I language/ocaml language/ocaml/examples/identity-policy/identity_policy.ml
+      - run: opam exec -- ocaml -I language/ocaml language/ocaml/examples/service/service.ml
+      - run: opam exec -- ocaml -I language/ocaml language/ocaml/examples/mcp/mcp.ml
 
   nim-examples:
     runs-on: ubuntu-latest
@@ -127,7 +127,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: vlang/setup-v@v1
+      - name: Install V 0.5.2
+        run: |
+          curl -L -o v_linux.zip https://github.com/vlang/v/releases/download/0.5.2/v_linux.zip
+          echo '86caf9e70c3342d48ef19eb4f6c47b709f18c90ae86255520d5c29df6b482e23  v_linux.zip' | sha256sum --check
+          unzip -q v_linux.zip
+          curl -L -o v-src.zip https://codeload.github.com/vlang/v/zip/refs/tags/0.5.2
+          unzip -q v-src.zip
+          cp -R v-0.5.2/vlib/x/json2 v/vlib/x/json2
+          echo "$PWD/v" >> "$GITHUB_PATH"
+      - run: v version
       - run: v -path language/v language/v/examples/retry/retry.v
       - run: v -path language/v language/v/examples/checkpoint/checkpoint.v
       - run: v -path language/v language/v/examples/event-sink/event_sink.v
@@ -144,20 +153,20 @@ jobs:
       - uses: actions/checkout@v4
       - uses: mlugg/setup-zig@v2
         with:
-          version: "0.13.0"
+          version: "0.17.0"
       - run: mkdir -p build
       - run: zig run language/zig/examples/retry/retry.zig
-      - run: zig build-exe --dep json --dep runtime -Mroot=language/zig/examples/checkpoint/checkpoint.zig -Mjson=language/zig/src/json.zig -Mruntime=language/zig/src/runtime.zig -femit-bin=build/zig-checkpoint
+      - run: zig build-exe --dep praxo -Mroot=language/zig/examples/checkpoint/checkpoint.zig -Mpraxo=language/zig/src/praxo.zig -femit-bin=build/zig-checkpoint
       - run: ./build/zig-checkpoint
-      - run: zig build-exe --dep models --dep runtime -Mroot=language/zig/examples/event-sink/event_sink.zig -Mmodels=language/zig/src/models.zig -Mruntime=language/zig/src/runtime.zig -femit-bin=build/zig-event-sink
+      - run: zig build-exe --dep praxo -Mroot=language/zig/examples/event-sink/event_sink.zig -Mpraxo=language/zig/src/praxo.zig -femit-bin=build/zig-event-sink
       - run: ./build/zig-event-sink
       - run: zig run language/zig/examples/provider-fallback/fallback.zig
-      - run: zig build-exe --dep json --dep jsonschema -Mroot=language/zig/examples/structured-output/structured_output.zig -Mjson=language/zig/src/json.zig -Mjsonschema=language/zig/src/jsonschema.zig -femit-bin=build/zig-structured-output
+      - run: zig build-exe --dep praxo -Mroot=language/zig/examples/structured-output/structured_output.zig -Mpraxo=language/zig/src/praxo.zig -femit-bin=build/zig-structured-output
       - run: ./build/zig-structured-output
       - run: zig run language/zig/examples/streaming/streaming.zig
       - run: zig run language/zig/examples/identity-policy/identity_policy.zig
       - run: zig run language/zig/examples/service/service.zig
-      - run: zig build-exe --dep json --dep mcp -Mroot=language/zig/examples/mcp/mcp.zig -Mjson=language/zig/src/json.zig -Mmcp=language/zig/src/mcp.zig -femit-bin=build/zig-mcp
+      - run: zig build-exe --dep praxo -Mroot=language/zig/examples/mcp/mcp.zig -Mpraxo=language/zig/src/praxo.zig -femit-bin=build/zig-mcp
       - run: ./build/zig-mcp
 
   objc-examples:

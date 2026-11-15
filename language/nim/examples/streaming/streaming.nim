@@ -1,3 +1,5 @@
+import std/strutils
+
 let chunks = @["status: ", "green"]
 let output = chunks.join()
 doAssert output == "status: green"

@@ -1,6 +1,7 @@
 const std = @import("std");
-const models = @import("models");
-const runtime = @import("runtime");
+const praxo = @import("praxo");
+const models = praxo.models;
+const runtime = praxo.runtime;
 
 const Recording = struct {
     allocator: std.mem.Allocator,

@@ -1,4 +1,4 @@
-#use "language/ocaml/praxo_core.ml"
+#use "praxo_core.ml"
 
 let get_env name fallback =
   match Sys.getenv_opt name with

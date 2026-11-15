@@ -1,6 +1,7 @@
 const std = @import("std");
-const json = @import("json");
-const runtime = @import("runtime");
+const praxo = @import("praxo");
+const json = praxo.json;
+const runtime = praxo.runtime;
 
 pub fn main() !void {
     var arena = std.heap.ArenaAllocator.init(std.heap.page_allocator);

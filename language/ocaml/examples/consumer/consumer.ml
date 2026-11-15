@@ -1,4 +1,4 @@
-#use "language/ocaml/praxo_core.ml"
+#use "praxo_core.ml"
 
 let fixture_model target : model =
   { generate = fun request ->

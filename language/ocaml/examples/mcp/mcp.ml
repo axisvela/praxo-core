@@ -1,4 +1,4 @@
-#use "language/ocaml/praxo_core.ml"
+#use "praxo_core.ml"
 
 let () =
   let transport method_name _params =

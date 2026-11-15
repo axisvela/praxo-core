@@ -6,9 +6,9 @@ let contains text needle =
   in
   length_needle = 0 || loop 0
 
-let handle method path principal body =
-  if method = "GET" && path = "/healthz" then (200, "{\"status\":\"ok\"}")
-  else if method <> "POST" || path <> "/run" then (404, "{\"error\":\"not found\"}")
+let handle meth path principal body =
+  if meth = "GET" && path = "/healthz" then (200, "{\"status\":\"ok\"}")
+  else if meth <> "POST" || path <> "/run" then (404, "{\"error\":\"not found\"}")
   else if principal = "" then (401, "{\"error\":\"missing X-Praxo-Principal\"}")
   else if not (contains body "\"prompt\"") then (400, "{\"error\":\"prompt is required\"}")
   else (200, "{\"output\":\"hello from the service\"}")

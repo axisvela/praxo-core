@@ -2,7 +2,7 @@ module Mcp
 
 export McpClient, mcp_client, mcp_list_tools, mcp_call_tool, mcp_close!
 
-struct McpClient
+mutable struct McpClient
     transport::Function
     client_version::String
     protocol_version::String

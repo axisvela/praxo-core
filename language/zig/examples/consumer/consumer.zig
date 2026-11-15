@@ -1,7 +1,8 @@
 const std = @import("std");
-const agent = @import("agent");
-const json = @import("json");
-const models = @import("models");
+const praxo = @import("praxo");
+const agent = praxo.agent;
+const json = praxo.json;
+const models = praxo.models;
 
 const ToolContext = struct {
     calls: usize = 0,

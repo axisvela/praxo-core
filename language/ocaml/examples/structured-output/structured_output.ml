@@ -1,4 +1,4 @@
-#use "language/ocaml/praxo_core.ml"
+#use "praxo_core.ml"
 
 let () =
   let schema = parse_json "{\"type\":\"object\",\"required\":[\"name\"],\"properties\":{\"name\":{\"type\":\"string\"}}}" in
