@@ -94,6 +94,36 @@ curl -s http://127.0.0.1:8080/run \
 .venv/bin/python -m unittest test_service.py -v
 ```
 
+## TypeScript 认证变体
+
+[TypeScript 认证服务示例](https://github.com/axisvela/praxo-core/tree/main/language/typescript/examples/service-auth)
+使用 Node 标准库实现同样的 HMAC Bearer Token、租户允许列表、策略绑定、可选外部
+策略决策服务，以及文件型 Checkpoint。
+
+```bash
+cd language/typescript/examples/service-auth
+npm ci
+
+export PRAXO_SERVICE_SECRET=local-development-secret
+npm start
+```
+
+生成 Token 并调用服务：
+
+```bash
+TOKEN=$(node service.js --print-token user-1 local --ttl 600)
+curl -s http://127.0.0.1:8080/run \
+  -H 'Content-Type: application/json' \
+  -H "Authorization: Bearer $TOKEN" \
+  -d '{"prompt":"What time is it? Use get_time."}'
+```
+
+运行确定性测试：
+
+```bash
+npm test
+```
+
 ## 请求流程
 
 1. 基础 HTTP Handler 检查 `X-Praxo-Principal` 是否存在；认证变体验证 Bearer Token

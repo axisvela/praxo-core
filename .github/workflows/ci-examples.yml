@@ -225,6 +225,10 @@ jobs:
       - run: npm test
         working-directory: language/typescript/examples/service
       - run: npm ci --no-audit --no-fund
+        working-directory: language/typescript/examples/service-auth
+      - run: npm test
+        working-directory: language/typescript/examples/service-auth
+      - run: npm ci --no-audit --no-fund
         working-directory: language/typescript/examples/identity-policy
       - run: npm test
         working-directory: language/typescript/examples/identity-policy

@@ -48,6 +48,11 @@ cd language/python/examples/service-auth
 python -m unittest test_service.py -v
 ```
 
+TypeScript 服务示例
+[`language/typescript/examples/service-auth`](https://github.com/axisvela/praxo-core/tree/main/language/typescript/examples/service-auth)
+使用 Node 标准库实现同样的 HMAC 身份、租户允许列表、可选外部策略决策服务和
+Checkpoint 模式。
+
 ## 重要限制
 
 - 工具参数中的角色字符串是不可信输入。Hook 必须使用已验证 principal。

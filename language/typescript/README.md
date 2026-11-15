@@ -54,6 +54,7 @@ Runnable examples live under [`language/typescript/examples`](https://github.com
 | Add identity and policy | [identity-policy](https://github.com/axisvela/praxo-core/tree/main/language/typescript/examples/identity-policy) |
 | Persist checkpoints | [checkpoint](https://github.com/axisvela/praxo-core/tree/main/language/typescript/examples/checkpoint) |
 | Run behind HTTP | [service](https://github.com/axisvela/praxo-core/tree/main/language/typescript/examples/service) |
+| Run behind HTTP with verified identity | [service-auth](https://github.com/axisvela/praxo-core/tree/main/language/typescript/examples/service-auth) |
 | Approve or edit a tool call | [hitl](https://github.com/axisvela/praxo-core/tree/main/language/typescript/examples/hitl) |
 | Resume a multi-turn session | [session-checkpoint](https://github.com/axisvela/praxo-core/tree/main/language/typescript/examples/session-checkpoint) |
 | Retry transient failures | [retry](https://github.com/axisvela/praxo-core/tree/main/language/typescript/examples/retry) |

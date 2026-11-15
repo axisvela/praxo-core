@@ -100,6 +100,36 @@ Run its deterministic tests with:
 .venv/bin/python -m unittest test_service.py -v
 ```
 
+## TypeScript Authenticated Variant
+
+The [TypeScript authenticated service example](https://github.com/axisvela/praxo-core/tree/main/language/typescript/examples/service-auth)
+uses Node's standard library with the same HMAC bearer token, tenant allowlist,
+policy binding, optional external policy decision service, and file checkpoint.
+
+```bash
+cd language/typescript/examples/service-auth
+npm ci
+
+export PRAXO_SERVICE_SECRET=local-development-secret
+npm start
+```
+
+Generate a token and call the service:
+
+```bash
+TOKEN=$(node service.js --print-token user-1 local --ttl 600)
+curl -s http://127.0.0.1:8080/run \
+  -H 'Content-Type: application/json' \
+  -H "Authorization: Bearer $TOKEN" \
+  -d '{"prompt":"What time is it? Use get_time."}'
+```
+
+Run its deterministic tests with:
+
+```bash
+npm test
+```
+
 ## Request Flow
 
 1. The base HTTP handler checks that `X-Praxo-Principal` is present; the

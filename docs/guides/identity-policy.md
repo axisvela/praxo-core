@@ -57,6 +57,11 @@ cd language/python/examples/service-auth
 python -m unittest test_service.py -v
 ```
 
+The TypeScript service example
+[`language/typescript/examples/service-auth`](https://github.com/axisvela/praxo-core/tree/main/language/typescript/examples/service-auth)
+applies the same HMAC identity, tenant allowlist, optional external policy
+decision service, and checkpoint pattern with Node's standard library.
+
 ## Important Limits
 
 - A role string in tool arguments is untrusted input. The hook must use the

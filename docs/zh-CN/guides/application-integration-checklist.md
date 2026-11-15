@@ -40,8 +40,10 @@
 - 保留意图、尝试、审批、结果和失败的审计链。
 
 参见[身份与策略](identity-policy.md)和[长时操作](long-running-operations.md)。可运行的
-Python 示例
+Python 与 TypeScript 示例
 [`language/python/examples/service-auth`](https://github.com/axisvela/praxo-core/tree/main/language/python/examples/service-auth)
+与
+[`language/typescript/examples/service-auth`](https://github.com/axisvela/praxo-core/tree/main/language/typescript/examples/service-auth)
 展示了 HMAC 身份校验、租户允许列表，以及不可用时 fail closed 的外部策略决策服务。
 
 ## 高风险或多租户应用

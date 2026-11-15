@@ -58,10 +58,12 @@ Use this tier when an agent can create, update, delete, send, or pay.
 - Keep an audit trail of intent, attempt, approval, result, and failure.
 
 See [Identity and policy](identity-policy.md) and
-[Long-running operations](long-running-operations.md). For a runnable Python
-example with verified HMAC identity, a tenant allowlist, and a fail-closed
-external policy decision service, see
-[`language/python/examples/service-auth`](https://github.com/axisvela/praxo-core/tree/main/language/python/examples/service-auth).
+[Long-running operations](long-running-operations.md). For runnable Python and
+TypeScript examples with verified HMAC identity, a tenant allowlist, and a
+fail-closed external policy decision service, see
+[`language/python/examples/service-auth`](https://github.com/axisvela/praxo-core/tree/main/language/python/examples/service-auth)
+and
+[`language/typescript/examples/service-auth`](https://github.com/axisvela/praxo-core/tree/main/language/typescript/examples/service-auth).
 
 ## High-Risk or Multi-Tenant Applications
 
