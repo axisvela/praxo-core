@@ -4,11 +4,11 @@ import praxo/jsonutil
 
 proc transport(methodName: string, params: JsonNode): JsonNode =
   if methodName == "initialize":
-    return parseJsonText("""{"protocolVersion":"2024-11-05","serverInfo":{"name":"example-mcp"}}""")
+    return parseJsonText("""{"result":{"protocolVersion":"2024-11-05","serverInfo":{"name":"example-mcp"}}}""")
   if methodName == "tools/list":
-    return parseJsonText("""{"tools":[{"name":"echo","description":"Echo","inputSchema":{"type":"object"}},{"name":"add","description":"Add","inputSchema":{"type":"object"}}]}""")
+    return parseJsonText("""{"result":{"tools":[{"name":"echo","description":"Echo","inputSchema":{"type":"object"}},{"name":"add","description":"Add","inputSchema":{"type":"object"}}]}}""")
   if methodName == "tools/call":
-    return parseJsonText("""{"structuredContent":{"sum":5}}""")
+    return parseJsonText("""{"result":{"structuredContent":{"sum":5}}}""")
   newJObject()
 
 var client = mcpClient(transport)
