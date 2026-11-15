@@ -179,6 +179,18 @@ public sealed class PraxoHitlWriteTool : ITool
     }
 }
 
+public sealed class PraxoHitlFixedDecision : IInterruptHandler
+{
+    private readonly InterruptDecision _decision;
+
+    public PraxoHitlFixedDecision(InterruptDecision decision)
+    {
+        _decision = decision;
+    }
+
+    public InterruptDecision Decide(Interrupt interrupt) => _decision;
+}
+
 public sealed class PraxoHitlPolicy : IPolicyHook
 {
     public Decision Authorize(Action action)
@@ -217,11 +229,7 @@ function Invoke-HitlScenario {
     $options.Policy = [PraxoHitlPolicy]::new()
     Add-PraxoInterruptTool -Options $options -Name 'write_note' | Out-Null
     if ($null -ne $Decision) {
-        $decisionValue = $Decision
-        $options.OnInterruptDecision = New-PraxoInterruptHandler -Handler {
-            param($interrupt)
-            $decisionValue
-        }
+        $options.OnInterruptDecision = [PraxoHitlFixedDecision]::new($Decision)
     }
     if ($Approve) {
         $options.OnInterrupt = New-PraxoInterruptApproval -Handler $Approve

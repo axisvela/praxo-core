@@ -57,6 +57,18 @@ public sealed class HitlWriteTool : ITool
     }
 }
 
+public sealed class HitlFixedDecision : IInterruptHandler
+{
+    private readonly InterruptDecision _decision;
+
+    public HitlFixedDecision(InterruptDecision decision)
+    {
+        _decision = decision;
+    }
+
+    public InterruptDecision Decide(Interrupt interrupt) => _decision;
+}
+
 public sealed class HitlPublicPolicy : IPolicyHook
 {
     public Decision Authorize(Action action)
@@ -90,10 +102,7 @@ function Invoke-HitlScenario {
     $options.AllowedTools.Add('write_note')
     $options.Policy = [HitlPublicPolicy]::new()
     Add-PraxoInterruptTool -Options $options -Name 'write_note' | Out-Null
-    $options.OnInterruptDecision = New-PraxoInterruptHandler -Handler {
-        param($interrupt)
-        $Decision
-    }
+    $options.OnInterruptDecision = [HitlFixedDecision]::new($Decision)
 
     $agent = New-PraxoAgent -Options $options
     $session = New-PraxoSession -Id 'hitl'
