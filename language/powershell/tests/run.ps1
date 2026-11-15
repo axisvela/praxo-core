@@ -264,6 +264,8 @@ function Invoke-HitlScenario {
             Message = $_.Exception.Message
             AuthCalls = $policy.AuthorizeCalls
             LastVisibility = $policy.LastVisibility
+            AuthCalls = $policy.AuthorizeCalls
+            LastVisibility = $policy.LastVisibility
         }
     }
 }

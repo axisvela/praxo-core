@@ -120,7 +120,7 @@ function Invoke-HitlScenario {
         [pscustomobject]@{ Output = $result.Output; Code = ''; Effects = $tool.Calls; AuthCalls = $policy.AuthorizeCalls; LastVisibility = $policy.LastVisibility }
     }
     catch [Praxo.Core.PraxoException] {
-        [pscustomobject]@{ Output = ''; Code = $_.Exception.Code; Effects = $tool.Calls }
+        [pscustomobject]@{ Output = ''; Code = $_.Exception.Code; Effects = $tool.Calls; AuthCalls = $policy.AuthorizeCalls; LastVisibility = $policy.LastVisibility }
     }
 }
 
