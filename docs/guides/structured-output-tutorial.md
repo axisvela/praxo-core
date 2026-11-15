@@ -126,7 +126,7 @@ example, and deterministic test before it counts as a complete path.
 
 ```bash
 npm init -y
-npm install --save-exact @axisvela/praxo-core@0.7.1
+npm install --save-exact @axisvela/praxo-core@0.8.0
 ```
 
 2. Copy the schema, fixture model, policy, and `StructuredOutput` setup from

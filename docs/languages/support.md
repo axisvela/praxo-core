@@ -102,7 +102,7 @@ Registry values below were checked against the public registries on 2026-11-14.
 | Language | Source tag | Registry version | Consumer install smoke |
 | --- | --- | --- | --- |
 | Python | `python/v0.9.0` | PyPI `praxo-core==0.9.0` published | Release workflow built and smoke-tested the `0.9.0` wheel and sdist; post-publication consumer check not rerun |
-| TypeScript | `typescript/v0.8.0` | npm `@axisvela/praxo-core@0.7.1` published as `latest` | `0.8.0` is staged for npm approval; consumer check remains on `0.7.1` |
+| TypeScript | `typescript/v0.8.0` | npm `@axisvela/praxo-core@0.8.0` published as `latest` | Release workflow built the `0.8.0` tarball; post-publication consumer starter check not rerun |
 | Java | `java/v0.10.0` | Maven Central `com.axisvela:praxo-core:0.9.0` published | Release workflow built, signed, and published `0.9.0`; post-publication consumer check not rerun |
 | Rust | `rust/v0.9.1` | crates.io `praxo-core==0.9.1` published; `0.1.4` historical | Consumer starter ran against published `0.9.1` locally; `http-ureq` live path remains source-only |
 | C# | `csharp/v0.9.1` | NuGet `Praxo.Core==0.9.1` published | Consumer starter ran against published `0.9.1` locally |
@@ -131,7 +131,7 @@ its latest version matches the manifest at the release tag.
 | Language | Code/manifest version | Registry latest | Status |
 | --- | --- | --- | --- |
 | Python | `0.9.0` | PyPI `0.9.0` | current |
-| TypeScript | `0.8.0` | npm `0.7.1` | tag released; npm staged for approval |
+| TypeScript | `0.8.0` | npm `0.8.0` | current |
 | Java | `0.10.0` | Maven Central `0.9.0` | tag released; registry behind |
 | Rust | `0.9.1` | crates.io `0.9.1` | current |
 | C# | `0.9.1` | NuGet `0.9.1` | current |

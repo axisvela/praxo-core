@@ -1,6 +1,6 @@
 # Authenticated HTTP Service
 
-This example embeds published npm `@axisvela/praxo-core@0.7.1` in a Node
+This example embeds published npm `@axisvela/praxo-core@0.8.0` in a Node
 standard-library HTTP service with application-owned identity (local HMAC or
 OIDC), tenant policy, an optional external policy decision service, and
 file-backed checkpoints.

@@ -73,7 +73,7 @@ Bridge、Sample 描述运行时的接入方式，不证明其语言缺乏 Framew
 | 语言 | 源码标签 | 注册表版本 | 消费者安装 smoke |
 | --- | --- | --- | --- |
 | Python | `python/v0.9.0` | PyPI `praxo-core==0.9.0` 已发布 | 发布工作流构建并 smoke 测试了 `0.9.0` wheel 和 sdist；发布后消费者检查未重跑 |
-| TypeScript | `typescript/v0.8.0` | npm `@axisvela/praxo-core@0.7.1` 已作为 `latest` 发布 | 发布工作流构建并消费了 `0.8.0` staged for npm approval；发布后消费者 starter 检查未重跑 |
+| TypeScript | `typescript/v0.8.0` | npm `@axisvela/praxo-core@0.8.0` 已作为 `latest` 发布 | 发布工作流构建了 `0.8.0` tarball；发布后消费者检查未重跑 |
 | Java | `java/v0.10.0` | Maven Central `com.axisvela:praxo-core:0.9.0` 已发布 | 发布工作流构建、签名并发布 `0.9.0`；发布后消费者检查未重跑 |
 | Rust | `rust/v0.9.1` | crates.io `praxo-core==0.9.1` 已发布；`0.1.4` 为历史版本 | Consumer starter 已针对发布 `0.9.1` 本地运行；`http-ureq` live 路径仍为源码模式 |
 | C# | `csharp/v0.9.1` | NuGet `Praxo.Core==0.9.1` 已发布 | Consumer starter 已针对发布 `0.9.1` 本地运行 |
@@ -101,7 +101,7 @@ Bridge、Sample 描述运行时的接入方式，不证明其语言缺乏 Framew
 | 语言 | 代码/manifest 版本 | 注册表 latest | 状态 |
 | --- | --- | --- | --- |
 | Python | `0.9.0` | PyPI `0.9.0` | 已最新 |
-| TypeScript | `0.8.0` | npm `0.7.1` | tag released; npm staged for approval |
+| TypeScript | `0.8.0` | npm `0.8.0` | 已最新 |
 | Java | `0.10.0` | Maven Central `0.9.0` | 源码标签已发布；registry 落后 |
 | Rust | `0.9.1` | crates.io `0.9.1` | 已最新 |
 | C# | `0.9.1` | NuGet `0.9.1` | 已最新 |

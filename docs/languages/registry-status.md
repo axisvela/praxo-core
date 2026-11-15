@@ -1,6 +1,6 @@
 # Registry Publication Status
 
-Last checked: 2026-11-15 (Python 0.9.0, TypeScript 0.7.1, Java 0.9.0, Rust
+Last checked: 2026-11-15 (Python 0.9.0, TypeScript 0.8.0, Java 0.9.0, Rust
 0.9.1, C# 0.9.1, Elixir 0.9.1, Erlang 0.8.1, Ruby 0.8.1, PHP 0.8.0, Dart 0.4.0,
 Perl 0.6.0, Haskell 0.7.0, PowerShell 0.7.0, and R 0.10.1 published; Go `v2.8.0`
 remains current; other rows from the 2026-11-04/05 audit).
@@ -30,7 +30,7 @@ GitHub Latest represents the Go Reference Core only, not the last language packa
 | --- | --- | --- | --- | --- |
 | Go | Go module proxy / pkg.go.dev | `v2.8.0` | https://pkg.go.dev/github.com/axisvela/praxo-core/v2 | published; page audited 2026-11-09 |
 | Python | PyPI | `0.9.0` | https://pypi.org/project/praxo-core/0.9.0/ | published |
-| TypeScript | npm | `0.7.1` | https://www.npmjs.com/package/@axisvela/praxo-core/v/0.7.1 | `0.8.0` staged for npm approval |
+| TypeScript | npm | `0.8.0` | https://www.npmjs.com/package/@axisvela/praxo-core/v/0.8.0 | published; latest |
 | Java | Maven Central | `0.9.0` | https://repo1.maven.org/maven2/com/axisvela/praxo-core/0.9.0/ | published |
 | Rust | crates.io | `0.9.1` | https://crates.io/crates/praxo-core/0.9.1 | published |
 | C# | NuGet | `0.9.1` | https://www.nuget.org/packages/Praxo.Core/0.9.1 | published |

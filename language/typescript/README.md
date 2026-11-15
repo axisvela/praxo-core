@@ -20,7 +20,7 @@ orchestration platform:
 - Machine-readable entry: [llms.txt](https://github.com/axisvela/praxo-core/blob/main/language/typescript/llms.txt) and [llms.md](https://github.com/axisvela/praxo-core/blob/main/language/typescript/llms.md)
 - [Examples](https://github.com/axisvela/praxo-core/tree/main/language/typescript/examples): runnable language-specific examples.
 - Coding-agent contract: [docs/getting-started/coding-agents.md](https://github.com/axisvela/praxo-core/blob/main/docs/getting-started/coding-agents.md)
-- Registry: [npm](https://www.npmjs.com/package/@axisvela/praxo-core/v/0.7.1)
+- Registry: [npm](https://www.npmjs.com/package/@axisvela/praxo-core/v/0.8.0)
 - Community: [X](https://x.com/axisvela) · [Weibo](https://weibo.com/u/1936025761)
 
 ## Get started
@@ -28,7 +28,7 @@ orchestration platform:
 Install the published package:
 
 ```bash
-npm install @axisvela/praxo-core@0.7.1
+npm install @axisvela/praxo-core@0.8.0
 ```
 
 Then run the smallest deterministic example:
@@ -64,7 +64,7 @@ Runnable examples live under [`language/typescript/examples`](https://github.com
 ## Install
 
 ```bash
-npm install @axisvela/praxo-core@0.7.1
+npm install @axisvela/praxo-core@0.8.0
 ```
 
 ## Quickstart
@@ -173,7 +173,7 @@ The normative contract is [`spec/`](../../spec/README.md); Go remains the
 reference implementation. This package supports `SPEC_VERSION` `0.2.0` and
 passes the TypeScript conformance and parity checks. The latest source tag is
 `typescript/v0.8.0`; the published npm package is
-`@axisvela/praxo-core@0.7.1`. VFS and plugin hosts are
+`@axisvela/praxo-core@0.8.0`. VFS and plugin hosts are
 not yet implemented.
 
 ## Requirements
