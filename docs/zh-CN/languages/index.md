@@ -18,6 +18,24 @@ Model、MCP 与 Harmovela 覆盖见[适配器状态](adapter-status.md)。
 当前尚不提供完整 Framework；仅有明确的技术限制时才以 Wire 为最终范围。当前能力
 和最终目标的区别见[支持政策](support.md)。
 
+## 生态分类
+
+下列分类仅用于发现和选择，不代表支持阶段、发布门禁或优先级排序。一种语言可以同时属于多个分类。契约范围仍以[语言矩阵](matrix.md)为准，行为覆盖与支持级别以[支持政策](support.md)为准。
+
+| 分类 | 语言 | 说明 |
+| --- | --- | --- |
+| 流行 | Go、Python、TypeScript / JavaScript、Java、C#、C、C++、Rust、PHP、Ruby、Swift、Kotlin、Scala | 生态和工具链较广；JavaScript、Kotlin、Scala 是基于其他 Core 的示例 |
+| 新兴 | Zig、V、Nim、Swift、Dart、Kotlin、Solidity（计划中）、Mojo（计划中） | 较新或快速演进的生态；计划中条目尚不可用 |
+| 遗留 | COBOL、Fortran、Ada（计划中）、Delphi / Free Pascal、Objective-C、Perl、Visual Basic、VBScript（计划中）、FoxPro（计划中）、Classic Visual Basic（计划中）、J#（需消费者） | 维护和集成路径；计划中或被门禁的条目不是正式发布 |
+| 数据 | R、Julia、MATLAB、Octave、Python、Fortran | 分析、数值和 HPC 工作流 |
+| AI | Python、R、Julia、Mojo（计划中）、C++、Rust | 模型集成和推理工具；Core 不提供模型或托管服务 |
+| 本地 / 嵌入式 | C、C++、Rust、Zig、D、Ada（计划中）、Assembly（需消费者）、OpenCL（示例） | 原生运行时、设备和计算边界 |
+| 脚本 / 自动化 | Python、JavaScript、Ruby、Perl、PHP、Lua、Shell、PowerShell、Tcl | 胶水、运维和本地自动化 |
+| 冷门 / 领域特定 | Haskell、OCaml、F#、Clojure、Lisp、Prolog、Erlang、Elixir、Tcl、Zig、V、Nim | 生态专注、维护者较少的语言 |
+| 候补 / 计划 | Ada、Mojo、Solidity、VBScript、FoxPro、Q、Assembly、Scratch、ABAP、J#（需消费者） | 开始实现前需要具名消费者、维护者或兼容运行时 |
+
+用分类选择可能的起步语言，然后核对语言页面、包注册表和示例 README。分类不代表生产就绪或完整 Go 功能对齐。
+
 ## 原生实现
 
 | 语言 | 使用入口 |

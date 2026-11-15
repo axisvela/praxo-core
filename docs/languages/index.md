@@ -27,6 +27,29 @@ languages. Current Wire stages do not yet provide the full Framework; final
 wire-only scope requires documented technical limitations. See the
 [support policy](support.md) for the distinction between current scope and target.
 
+## Ecosystem Categories
+
+These are descriptive discovery tags, not support tiers, release gates, or a
+priority ranking. A language can appear in more than one category. Contract
+scope remains in the [matrix](matrix.md); behavior coverage and support levels
+remain in the [support policy](support.md).
+
+| Category | Languages | How to read it |
+| --- | --- | --- |
+| Mainstream | Go, Python, TypeScript / JavaScript, Java, C#, C, C++, Rust, PHP, Ruby, Swift, Kotlin, Scala | Broad ecosystem and tooling; JavaScript, Kotlin, and Scala are samples over another Core |
+| Emerging | Zig, V, Nim, Swift, Dart, Kotlin, Solidity (planned), Mojo (planned) | Newer or fast-moving ecosystems; planned entries are not available |
+| Legacy | COBOL, Fortran, Ada (planned), Delphi / Free Pascal, Objective-C, Perl, Visual Basic, VBScript (planned), FoxPro (planned), Classic Visual Basic (planned), J# (gated) | Maintenance and integration paths; planned or gated entries are not releases |
+| Data | R, Julia, MATLAB, Octave, Python, Fortran | Analysis, numerical, and HPC workflows |
+| AI | Python, R, Julia, Mojo (planned), C++, Rust | Model integration and inference tooling; Core does not supply models or hosting |
+| Local / embedded | C, C++, Rust, Zig, D, Ada (planned), Assembly (gated), OpenCL (sample) | Native runtimes, devices, and compute boundaries |
+| Scripting / automation | Python, JavaScript, Ruby, Perl, PHP, Lua, Shell, PowerShell, Tcl | Glue, operations, and local automation |
+| Niche / domain-specific | Haskell, OCaml, F#, Clojure, Lisp, Prolog, Erlang, Elixir, Tcl, Zig, V, Nim | Focused ecosystems with smaller maintainer pools |
+| Candidate / planned | Ada, Mojo, Solidity, VBScript, FoxPro, Q, Assembly, Scratch, ABAP, J# (gated) | Requires a named consumer, maintainer, or compatible runtime before work starts |
+
+Use the categories to choose a likely starting point, then verify the language
+page, package registry, and example README. A category does not imply production
+readiness or full Go feature parity.
+
 ## Native Implementations
 
 | Language | Entry point |
