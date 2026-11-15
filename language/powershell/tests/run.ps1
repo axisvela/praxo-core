@@ -236,8 +236,6 @@ function Invoke-HitlScenario {
     $options.Policy = $policy
     Add-PraxoInterruptTool -Options $options -Name 'write_note' | Out-Null
     if ($null -ne $Decision) {
-        $argText = if ($null -eq $Decision.Arguments) { '<null>' } else { $Decision.Arguments.ToJsonString() }
-    [Console]::Error.WriteLine("DECISION action=$($Decision.Action) args=$argText")
         $options.OnInterruptDecision = [PraxoHitlFixedDecision]::new($Decision)
     }
     if ($Approve) {
@@ -257,13 +255,12 @@ function Invoke-HitlScenario {
         }
     }
     catch [Praxo.Core.PraxoException] {
+        $cause = $_.Exception.GetBaseException()
         [pscustomobject]@{
             Output = ''
-            Code = $_.Exception.Code
+            Code = $cause.Code
             Effects = $tool.Calls
-            Message = $_.Exception.Message
-            AuthCalls = $policy.AuthorizeCalls
-            LastVisibility = $policy.LastVisibility
+            Message = $cause.Message
             AuthCalls = $policy.AuthorizeCalls
             LastVisibility = $policy.LastVisibility
         }
