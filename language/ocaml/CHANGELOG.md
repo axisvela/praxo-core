@@ -1,5 +1,14 @@
 # OCaml Core Release Notes
 
+## 0.8.0 - 2026-11-15
+
+Source tag `ocaml/v0.8.0`.
+
+### Added
+
+- HITL interrupt decisions and session-checkpoint support.
+
+
 ## 0.7.0 - 2026-11-15
 
 Source tag `ocaml/v0.7.0`.

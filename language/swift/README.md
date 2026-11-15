@@ -3,7 +3,7 @@
 Swift implementation of the PRAXO-CORE contract.
 
 - `SPEC_VERSION`: `0.2.0`
-- Core version: `0.6.0`
+- Core version: `0.7.0`
 - Tier: core
 - License: MIT
 
@@ -119,6 +119,6 @@ durable queue, or cross-process worker.
 
 ## Release
 
-Tag shape: `swift/v0.6.0`. The tag targets `SPEC_VERSION` `0.2.0`. SPM and
+Tag shape: `swift/v0.7.0`. The tag targets `SPEC_VERSION` `0.2.0`. SPM and
 Swift Package Index consumption require a split repository with root
 `Package.swift` and plain semver tags; see [PUBLISHING.md](PUBLISHING.md).

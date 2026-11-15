@@ -1,6 +1,8 @@
 # D Core Release Notes
 
-## Unreleased
+## 0.6.0 - 2026-11-15
+
+Source tag `d/v0.6.0`.
 
 ### Added
 

@@ -1,13 +1,13 @@
 # PRAXO-CORE D Registry Introduction
 
-**Status:** published. Source version `0.5.0`, source
-tag `d/v0.5.0`. Published registry version: `0.1.0`. Registry
+**Status:** published. Source version `0.6.0`, source
+tag `d/v0.6.0`. Published registry version: `0.1.0`. Registry
 pages are release snapshots; verify the published version before relying on a
 feature.
 
 ## Positioning
 
-PRAXO-CORE is an embeddable, MIT-licensed agent framework. This package is its native D Core: an agent loop with tool registration and dispatch, policy hooks, typed events, memory, checkpoints, context budgets, middleware, JSON Schema validation, and plugin manifest parsing.
+PRAXO-CORE is an embeddable, MIT-licensed agent framework. This package is its native D Core: an agent loop with tool registration and dispatch, policy hooks, human-in-the-loop interrupt decisions, typed events, memory, checkpoints, context budgets, middleware, JSON Schema validation, and plugin manifest parsing.
 
 ## Package
 
@@ -15,11 +15,11 @@ PRAXO-CORE is an embeddable, MIT-licensed agent framework. This package is its n
 | --- | --- |
 | Package | `praxo-core` |
 | Registry | [DUB](https://code.dlang.org/packages/praxo-core) |
-| Source version | `0.5.0` |
+| Source version | `0.6.0` |
 | Published registry version | `0.1.0` |
 | Install (published) | `dub add praxo-core` |
 | Install (source/release prepared) | `dub add praxo-core` |
-| Source tag | `d/v0.5.0` |
+| Source tag | `d/v0.6.0` |
 | Tier | Core |
 | Contract | `SPEC_VERSION` `0.2.0` |
 | Documentation | https://axisvela.github.io/praxo-core/languages/d/ |

@@ -1,6 +1,8 @@
 # Swift Core Release Notes
 
-## Unreleased
+## 0.7.0 - 2026-11-15
+
+Source tag `swift/v0.7.0`.
 
 ### Added
 

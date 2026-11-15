@@ -1,5 +1,14 @@
 # V Core Release Notes
 
+## 0.6.0 - 2026-11-15
+
+Source tag `v/v0.6.0`.
+
+### Added
+
+- HITL interrupt decisions and session-checkpoint support.
+
+
 ## 0.5.0 - 2026-11-15
 
 Source tag `v/v0.5.0`.

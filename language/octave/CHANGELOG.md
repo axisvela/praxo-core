@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.7.0 - 2026-11-15
+
+Source tag `octave/v0.7.0`.
+
+### Added
+
+- HITL interrupt decisions and session-checkpoint support.
+
+
 ## 0.6.0 - 2026-11-15
 
 Source tag `octave/v0.6.0`.

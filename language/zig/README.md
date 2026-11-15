@@ -5,7 +5,7 @@ contract is [`spec/`](../../spec/README.md); Go remains the reference
 implementation.
 
 - `SPEC_VERSION`: `0.2.0`
-- Core version: `0.6.0`
+- Core version: `0.7.0`
 - Tier: core
 - License: MIT
 - Dependencies: Zig standard library only
@@ -201,4 +201,4 @@ gemini_model.api_key = gemini_key;
 
 ## Release
 
-Tag shape: `zig/v0.6.0` for core; `zig/v0.1.0` remains the wire tag.
+Tag shape: `zig/v0.7.0` for core; `zig/v0.1.0` remains the wire tag.

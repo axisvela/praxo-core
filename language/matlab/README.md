@@ -5,7 +5,7 @@
 > matrix has been independently validated. File Exchange compatibility labels
 > are not test evidence; do not use them as a production support promise.
 
-Native MATLAB Core implementation with source tag `matlab/v0.6.0`. It is
+Native MATLAB Core implementation with source tag `matlab/v0.7.0`. It is
 published on
 [MATLAB File Exchange](https://www.mathworks.com/matlabcentral/fileexchange/185166-praxo-core).
 The shared implementation passes all eleven vector groups under GNU Octave

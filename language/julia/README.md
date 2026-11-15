@@ -3,7 +3,7 @@
 Julia implementation of the PRAXO-CORE contract.
 
 - `SPEC_VERSION`: `0.2.0`
-- Core version: `0.6.0`
+- Core version: `0.7.0`
 - Tier: core
 - License: MIT
 - Dependency: JSON.jl
@@ -168,5 +168,5 @@ Local toolchain used by the repository maintainers lives at `D:\dev\julia`.
 
 ## Release
 
-Tag shape: `julia/v0.6.0`. The tag targets `SPEC_VERSION` `0.2.0`. The mirror `axisvela/praxo-core-julia` registers the package through
+Tag shape: `julia/v0.7.0`. The tag targets `SPEC_VERSION` `0.2.0`. The mirror `axisvela/praxo-core-julia` registers the package through
 JuliaRegistrator; see [PUBLISHING.md](PUBLISHING.md).

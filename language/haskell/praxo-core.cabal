@@ -1,6 +1,6 @@
 cabal-version: 2.4
 name: praxo-core
-version: 0.6.1
+version: 0.7.0
 synopsis: Embeddable MIT-licensed agent framework for Haskell
 description: Native agent loop with tools, policy hooks, typed events, memory,
              checkpoints, context budgets, middleware, JSON Schema validation,

@@ -1,13 +1,13 @@
 # PRAXO-CORE OCaml Registry Introduction
 
-**Status:** pending registry merge. Source version `0.7.0`, source
-tag `ocaml/v0.7.0`. Published registry version: `0.3.0`. Registry
+**Status:** pending registry merge. Source version `0.8.0`, source
+tag `ocaml/v0.8.0`. Published registry version: `0.3.0`. Registry
 pages are release snapshots; verify the published version before relying on a
 feature.
 
 ## Positioning
 
-PRAXO-CORE is an embeddable, MIT-licensed agent framework. This package is its native OCaml Core with source tag `ocaml/v0.7.0`. It passes all eleven vector groups on OCaml 4.14.2 bytecode and includes the native agent loop, memory store, checkpoint allowlist, lexical path policy, context compaction, event sinks, middleware helpers, tool selection, and non-streaming OpenAI-compatible, Anthropic, and Gemini model adapters. It does not call Go or another language Core; there is no process bridge or plugin host.
+PRAXO-CORE is an embeddable, MIT-licensed agent framework. This package is its native OCaml Core with source tag `ocaml/v0.8.0`. It passes all eleven vector groups on OCaml 4.14.2 bytecode and includes the native agent loop, memory store, checkpoint allowlist, lexical path policy, context compaction, event sinks, middleware helpers, tool selection, and non-streaming OpenAI-compatible, Anthropic, and Gemini model adapters. It does not call Go or another language Core; there is no process bridge or plugin host.
 
 ## Package
 
@@ -15,11 +15,11 @@ PRAXO-CORE is an embeddable, MIT-licensed agent framework. This package is its n
 | --- | --- |
 | Package | `praxo-core` |
 | Registry | [opam (pending)](https://github.com/axisvela/praxo-core-ocaml) |
-| Source version | `0.7.0` |
+| Source version | `0.8.0` |
 | Published registry version | `0.3.0` |
 | Install (published) | `opam install praxo-core` |
 | Install (source/release prepared) | `opam install praxo-core` |
-| Source tag | `ocaml/v0.7.0` |
+| Source tag | `ocaml/v0.8.0` |
 | Tier | Core |
 | Contract | `SPEC_VERSION` `0.2.0` |
 | Documentation | https://axisvela.github.io/praxo-core/languages/ocaml/ |

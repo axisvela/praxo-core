@@ -8,7 +8,7 @@ uses
 
 const
   PraxoSpecVersion = '0.2.0';
-  PraxoSdkVersion = '0.6.0';
+  PraxoSdkVersion = '0.7.0';
 
 type
   EPraxoJSON = class(Exception);

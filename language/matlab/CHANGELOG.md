@@ -1,5 +1,14 @@
 # MATLAB Core Release Notes
 
+## 0.7.0 - 2026-11-15
+
+Source tag `matlab/v0.7.0`.
+
+### Added
+
+- HITL interrupt decisions and session-checkpoint support.
+
+
 ## 0.6.0 - 2026-11-15
 
 Source tag `matlab/v0.6.0`.

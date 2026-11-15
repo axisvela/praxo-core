@@ -10,7 +10,7 @@ The normative contract is [`spec/`](../../spec/README.md); Go remains the
 reference implementation.
 
 - `SPEC_VERSION`: `0.2.0`
-- Core version: `0.5.0`
+- Core version: `0.6.0`
 - Tier: core
 - License: MIT
 - Dependencies: D standard library only
@@ -153,4 +153,4 @@ asynchronous manager or durable worker is required.
 
 ## Release
 
-Tag shape: `d/v0.5.0`. The tag targets `SPEC_VERSION` `0.2.0`.
+Tag shape: `d/v0.6.0`. The tag targets `SPEC_VERSION` `0.2.0`.
