@@ -273,8 +273,8 @@ installation index. Use the tables above and
   call limits. Hex publishes `praxo_core==0.6.0`; `0.5.1`, `0.4.1`, `0.4.0`,
   `0.3.0`, and `0.2.0` remain available. HexDocs are published at
   <https://praxo-core.hexdocs.pm/0.6.0/>.
-- Nim, V, and Objective-C have source tags `nim/v0.2.0`, `v/v0.2.0`, and
-  `objc/v0.2.0`. They include all eleven vector groups, native tests, and API
+- Nim, V, and Objective-C have source tags `nim/v0.5.0`, `v/v0.5.0`, and
+  `objc/v0.5.0`. They include all eleven vector groups, native tests, and API
   snapshots. Nim publishes the Nimble package `praxo_core` from
   `axisvela/praxo-core-nim` with root `praxo_core.nimble` version `0.1.1`;
   nim-lang/packages PR #3600 merged on 2026-11-05 and nimpkgs still marks the old

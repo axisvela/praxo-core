@@ -8,6 +8,11 @@ environment and a configured CocoaPods Trunk token are available.
 
 ## CocoaPods
 
+Before the next `pod trunk push`, bump `VERSION` and `s.version` to a new patch
+(for example `0.5.1`), create the matching `objc/vX.Y.Z` tag, and run
+`pod spec lint`. The current `src/` layout must be present in that tag; the
+existing `objc/v0.5.0` tag predates the move.
+
 CocoaPods Trunk uses email registration, not a web account:
 
 ```bash
