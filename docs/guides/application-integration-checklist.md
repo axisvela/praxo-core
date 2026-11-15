@@ -15,7 +15,7 @@ risk tier that matches the work, not with the full repository test matrix.
   matrix](../languages/matrix.md) and the per-language README before assuming an
   example, adapter, or service shape is available.
 
-The example catalog covers thirty languages across thirteen themes, but that
+The example catalog covers thirty-one languages across thirteen themes, but that
 does not mean every example is an executable production service. Some are
 transport-neutral handlers, some use caller-supplied transports, and some are
 source-only. A Go example is not evidence that another SDK works unchanged.

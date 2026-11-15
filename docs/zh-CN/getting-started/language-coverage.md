@@ -1,20 +1,20 @@
-# 30 语言覆盖矩阵
+# 31 语言覆盖矩阵
 
-示例目录覆盖三十种语言实现的十三个集成主题。每个主题都有确定性检查，不需要真实模型端点。
+示例目录覆盖三十一种语言实现的十三个集成主题。每个主题都有确定性检查，不需要真实模型端点。
 
 | 主题 | 语言数 | 入口 |
 | --- | --- | --- |
-| Consumer Starter | 30 | `language/<language>/examples/consumer` |
-| Live Model | 30 | `language/<language>/examples/live-model` |
-| Checkpoint Allowlist | 30 | `language/<language>/examples/checkpoint` |
-| Event Sink | 30 | `language/<language>/examples/event-sink` |
-| Retry | 30 | `language/<language>/examples/retry` |
-| Provider Fallback | 30 | `language/<language>/examples/provider-fallback` |
-| Streaming | 30 | `language/<language>/examples/streaming` |
-| Structured Output | 30 | `language/<language>/examples/structured-output` |
-| Identity / Policy | 30 | `language/<language>/examples/identity-policy` |
-| HTTP Service | 30 | `language/<language>/examples/service` |
-| MCP | 30 | `language/<language>/examples/mcp` |
+| Consumer Starter | 31 | `language/<language>/examples/consumer` |
+| Live Model | 31 | `language/<language>/examples/live-model` |
+| Checkpoint Allowlist | 31 | `language/<language>/examples/checkpoint` |
+| Event Sink | 31 | `language/<language>/examples/event-sink` |
+| Retry | 31 | `language/<language>/examples/retry` |
+| Provider Fallback | 31 | `language/<language>/examples/provider-fallback` |
+| Streaming | 31 | `language/<language>/examples/streaming` |
+| Structured Output | 31 | `language/<language>/examples/structured-output` |
+| Identity / Policy | 31 | `language/<language>/examples/identity-policy` |
+| HTTP Service | 31 | `language/<language>/examples/service` |
+| MCP | 31 | `language/<language>/examples/mcp` |
 | HITL | 16 | `language/<language>/examples/hitl` |
 | Session Checkpoint | 20 | `language/<language>/examples/session-checkpoint` |
 
@@ -22,17 +22,19 @@ Go 的参考配方与示例保留在 `examples/`。
 
 GNU Octave 复用 `language/matlab/examples/` 下的共享 MATLAB 示例；`matlab-octave-core` 是共享实现，没有独立的示例根目录。
 
+运行 `python scripts/check_example_coverage.py --report` 可查看当前每语言矩阵。覆盖要求包含 `README.md` 和至少一个源码文件；只有 README 的目录不算已实现。
+
 ## 不适用主题
 
 HITL 不在以下语言的声明范围内：D、Dart、Delphi、Haskell、Julia、MATLAB、Octave、Nim、Objective-C、OCaml、PowerShell、Perl、Swift、V、Zig。对应 `examples/hitl` 入口有意缺省。
 
 Session Checkpoint 不在以下语言的声明范围内：Delphi、Haskell、Julia、MATLAB、Octave、Nim、Objective-C、OCaml、PowerShell、V、Zig。对应 `examples/session-checkpoint` 入口有意缺省。
 
-同时具备 HITL 与 Session Checkpoint 的二十种语言为：Go、Python、TypeScript、Java、Rust、C#、R、Ruby、PHP、C、C++、COBOL、Fortran、Elixir、Erlang、Lua、D、Dart、Perl、Swift。对于 transport-seam 或共享运行时示例，语言 README 会说明所需的调用方 transport 或继承的运行时。
+同时具备 HITL 与 Session Checkpoint 的十六种语言为：Go、Python、TypeScript、Java、Rust、C#、R、Ruby、PHP、C、C++、COBOL、Fortran、Elixir、Erlang、Lua。对于 transport-seam 或共享运行时示例，语言 README 会说明所需的调用方 transport 或继承的运行时。
 
 ## 语言与验证方式
 
-下表列出十六种主要 Core 语言；其余十四种额外 SDK 语言在各主题章节中列出。
+下表列出十六种主要 Core 语言；其余十五种额外 SDK 语言在各主题章节中列出。
 
 | 语言 | 示例根目录 | 本地 / CI 证据 |
 | --- | --- | --- |

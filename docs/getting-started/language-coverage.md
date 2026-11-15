@@ -1,22 +1,22 @@
-# 30-Language Coverage Matrix
+# 31-Language Coverage Matrix
 
-The example catalog covers thirteen integration themes across thirty language
+The example catalog covers thirteen integration themes across thirty-one language
 implementations. Each theme has a deterministic check that does not require a
 provider endpoint.
 
 | Theme | Languages | Entry |
 | --- | --- | --- |
-| Consumer starter | 30 | `language/<language>/examples/consumer` |
-| Live model | 30 | `language/<language>/examples/live-model` |
-| Checkpoint allowlist | 30 | `language/<language>/examples/checkpoint` |
-| Event sink | 30 | `language/<language>/examples/event-sink` |
-| Retry | 30 | `language/<language>/examples/retry` |
-| Provider fallback | 30 | `language/<language>/examples/provider-fallback` |
-| Streaming | 30 | `language/<language>/examples/streaming` |
-| Structured output | 30 | `language/<language>/examples/structured-output` |
-| Identity and policy | 30 | `language/<language>/examples/identity-policy` |
-| HTTP service | 30 | `language/<language>/examples/service` |
-| MCP | 30 | `language/<language>/examples/mcp` |
+| Consumer starter | 31 | `language/<language>/examples/consumer` |
+| Live model | 31 | `language/<language>/examples/live-model` |
+| Checkpoint allowlist | 31 | `language/<language>/examples/checkpoint` |
+| Event sink | 31 | `language/<language>/examples/event-sink` |
+| Retry | 31 | `language/<language>/examples/retry` |
+| Provider fallback | 31 | `language/<language>/examples/provider-fallback` |
+| Streaming | 31 | `language/<language>/examples/streaming` |
+| Structured output | 31 | `language/<language>/examples/structured-output` |
+| Identity and policy | 31 | `language/<language>/examples/identity-policy` |
+| HTTP service | 31 | `language/<language>/examples/service` |
+| MCP | 31 | `language/<language>/examples/mcp` |
 | HITL | 16 | `language/<language>/examples/hitl` |
 | Session checkpoint | 20 | `language/<language>/examples/session-checkpoint` |
 
@@ -24,6 +24,10 @@ Go keeps its reference recipes and examples under `examples/`.
 
 GNU Octave reuses the shared MATLAB examples under `language/matlab/examples/`;
 `matlab-octave-core` is a shared implementation and has no separate example root.
+
+Run `python scripts/check_example_coverage.py --report` for the current
+per-language matrix. Coverage requires a `README.md` and at least one source
+file; a README-only directory does not count as an implementation.
 
 ## Not Applicable Themes
 
@@ -35,14 +39,14 @@ Session checkpoint is not part of the declared scope for Delphi, Haskell, Julia,
 MATLAB, Octave, Nim, Objective-C, OCaml, PowerShell, V, and Zig. Their
 `examples/session-checkpoint` entry is intentionally absent.
 
-The twenty languages with both themes are Go, Python, TypeScript, Java, Rust,
-C#, R, Ruby, PHP, C, C++, COBOL, Fortran, Elixir, Erlang, Lua, D, Dart, Perl, and
-Swift. For transport-seam or shared-runtime examples, the language README states
-the required caller-owned transport or inherited runtime.
+The sixteen languages with both themes are Go, Python, TypeScript, Java, Rust,
+C#, R, Ruby, PHP, C, C++, COBOL, Fortran, Elixir, Erlang, and Lua. For
+transport-seam or shared-runtime examples, the language README states the
+required caller-owned transport or inherited runtime.
 
 ## Languages and Verification
 
-The table below covers the sixteen primary Core languages. The fourteen
+The table below covers the sixteen primary Core languages. The fifteen
 additional SDK languages are listed in the per-theme sections.
 
 | Language | Example root | Local / CI evidence |
