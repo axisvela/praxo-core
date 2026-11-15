@@ -1,5 +1,5 @@
 function retry_example()
-    [output, calls] = run_retry(2, 3);
+    [output, code, calls] = run_retry(2, 3);
     assert(strcmp(output, 'status: green') && calls == 3);
     [output, code, calls] = run_retry(3, 3);
     assert(isempty(output) && strcmp(code, 'MODEL_UNAVAILABLE') && calls == 3);
