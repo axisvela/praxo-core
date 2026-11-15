@@ -101,7 +101,7 @@ public sealed class PraxoAllowAllPolicy : IPolicyHook
 {
     public Decision Authorize(Action action) => Decision.Allow("ok");
 }
-'@ -ReferencedAssemblies $assembly
+'@ -ReferencedAssemblies $assembly -CompilerOptions "/nowarn:1701"
 
 $policyOptions = New-PraxoAgentOptions -Model $model
 $policyOptions.RequirePolicy = $true
