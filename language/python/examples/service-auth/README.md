@@ -43,7 +43,7 @@ decision to an application-owned HTTP policy decision service after the local
 identity and tenant checks:
 
 ```bash
-export PRAXO_POLICY_URL=https://policy.example.internal/authorize
+export PRAXO_POLICY_URL=https://policy.example.com/authorize
 export PRAXO_POLICY_TIMEOUT=2
 ```
 
