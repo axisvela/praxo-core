@@ -21,7 +21,7 @@ Declare the exact dependency in `mix.exs`:
 ```elixir
 defp deps do
   [
-    {:praxo_core, "~> 0.8.0"}
+    {:praxo_core, "~> 0.9.0"}
   ]
 end
 ```

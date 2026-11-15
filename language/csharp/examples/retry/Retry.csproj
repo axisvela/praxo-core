@@ -9,6 +9,6 @@
     <AssemblyName>Praxo.RetryExample</AssemblyName>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Praxo.Core" Version="0.8.0" />
+    <PackageReference Include="Praxo.Core" Version="0.9.0" />
   </ItemGroup>
 </Project>

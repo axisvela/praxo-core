@@ -10,12 +10,12 @@ language and run the verification commands.
 | Language | Package | Current recommended version | Starter |
 | --- | --- | --- | --- |
 | Go | `github.com/axisvela/praxo-core/v2` | `2.8.0` | [Go consumer](consumer-go.md) |
-| Python | `praxo-core` | `0.7.0` | [Python consumer](consumer-python.md) |
-| TypeScript | `@axisvela/praxo-core` | `0.6.0` | [TypeScript consumer](consumer-typescript.md) |
+| Python | `praxo-core` | `0.8.0` | [Python consumer](consumer-python.md) |
+| TypeScript | `@axisvela/praxo-core` | `0.7.0` | [TypeScript consumer](consumer-typescript.md) |
 | Java | `com.axisvela:praxo-core` | `0.9.0` | [Java consumer](consumer-java.md) |
-| C# | `Praxo.Core` | `0.8.0` | [C# starter](https://github.com/axisvela/praxo-core/tree/main/language/csharp/examples/consumer) |
-| Rust | `praxo-core` | `0.8.0` | [Rust starter](https://github.com/axisvela/praxo-core/tree/main/language/rust/examples/consumer) |
-| R | `praxocore` | `0.9.0` | [R starter](https://github.com/axisvela/praxo-core/tree/main/language/r/examples/consumer) |
+| C# | `Praxo.Core` | `0.9.0` | [C# starter](https://github.com/axisvela/praxo-core/tree/main/language/csharp/examples/consumer) |
+| Rust | `praxo-core` | `0.9.0` | [Rust starter](https://github.com/axisvela/praxo-core/tree/main/language/rust/examples/consumer) |
+| R | `praxocore` | `0.10.0` | [R starter](https://github.com/axisvela/praxo-core/tree/main/language/r/examples/consumer) |
 
 The machine-readable map is
 [`agent-integration.json`](agent-integration.json). Re-check the registry before

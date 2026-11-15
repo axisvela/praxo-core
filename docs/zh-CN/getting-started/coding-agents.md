@@ -8,8 +8,8 @@
 | 语言 | 包 | 当前推荐版本 | Starter |
 | --- | --- | --- | --- |
 | Go | `github.com/axisvela/praxo-core/v2` | `2.8.0` | [Go 消费者](consumer-go.md) |
-| Python | `praxo-core` | `0.7.0` | [Python 消费者](consumer-python.md) |
-| TypeScript | `@axisvela/praxo-core` | `0.6.0` | [TypeScript 消费者](consumer-typescript.md) |
+| Python | `praxo-core` | `0.8.0` | [Python 消费者](consumer-python.md) |
+| TypeScript | `@axisvela/praxo-core` | `0.7.0` | [TypeScript 消费者](consumer-typescript.md) |
 | Java | `com.axisvela:praxo-core` | `0.9.0` | [Java 消费者](consumer-java.md) |
 
 机器可读映射见 [`agent-integration.json`](agent-integration.json)。安装前请重新核对

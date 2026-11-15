@@ -42,12 +42,12 @@ $env:PRAXO_MODEL = "llama3.2"
 | 语言 | 包 | 命令 |
 | --- | --- | --- |
 | Go | `github.com/axisvela/praxo-core/v2@v2.8.0` | `cd language/go/examples/live-model/go; go run .` |
-| Python | PyPI `praxo-core==0.7.0` | `cd language/python/examples/live-model; python -m venv .venv; .venv/bin/python -m pip install -r requirements.txt; .venv/bin/python live_starter.py` |
-| TypeScript | npm `@axisvela/praxo-core@0.6.0` | `cd language/typescript/examples/live-model; npm install; npm start` |
+| Python | PyPI `praxo-core==0.8.0` | `cd language/python/examples/live-model; python -m venv .venv; .venv/bin/python -m pip install -r requirements.txt; .venv/bin/python live_starter.py` |
+| TypeScript | npm `@axisvela/praxo-core@0.7.0` | `cd language/typescript/examples/live-model; npm install; npm start` |
 | Java | Maven `com.axisvela:praxo-core:0.9.0` | `cd language/java/examples/live-model; mvn -q compile exec:java` |
-| C# | NuGet `Praxo.Core==0.8.0` | `cd language/csharp/examples/live-model; dotnet run` |
-| Rust | source with `http-ureq` | `cd language/rust/examples/live-model; cargo run` |
-| R | r-universe `praxocore==0.9.0` | `cd language/r/examples/live-model; Rscript live.R` |
+| C# | NuGet `Praxo.Core==0.9.0` | `cd language/csharp/examples/live-model; dotnet run` |
+| Rust | crates.io `praxo-core==0.9.0` with `http-ureq` | `cd language/rust/examples/live-model; cargo run` |
+| R | r-universe `praxocore==0.10.0` | `cd language/r/examples/live-model; Rscript live.R` |
 | Ruby | source | `ruby -I language/ruby/lib language/ruby/examples/live-model/live_starter.rb` |
 | PHP | source | `php language/php/examples/live-model/live_starter.php` |
 | Elixir | source | `elixir -pa language/elixir/build/ebin language/elixir/examples/live-model/live_starter.exs` |

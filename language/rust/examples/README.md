@@ -1,6 +1,6 @@
 # Rust Examples
 
-- [`consumer/`](consumer/): published crates.io `praxo-core==0.8.0` starter with
+- [`consumer/`](consumer/): published crates.io `praxo-core==0.9.0` starter with
   deterministic allow/deny checks.
 - [`live-model/`](live-model/): source-mode OpenAI-compatible endpoint using
   the optional `http-ureq` feature and `qwen3.5:4b` via Ollama.
@@ -26,6 +26,6 @@
 - [`identity-policy/`](identity-policy/): bind a trusted principal to policy and
   reject effects before execution.
 
-The deterministic examples use published crate `praxo-core = "0.8.0"`. The
+The deterministic examples use published crate `praxo-core = "0.9.0"`. The
 `live-model` example uses the repository source because `http-ureq` is not in the
-published `0.8.0` crate.
+published `0.9.0` crate.

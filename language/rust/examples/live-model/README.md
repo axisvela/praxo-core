@@ -4,7 +4,7 @@ This source-mode example connects the Rust Core to an OpenAI-compatible endpoint
 and registers one low-risk `get_time` tool.
 
 It uses the optional `http-ureq` feature and the `OpenAICompatible` adapter. The
-published `praxo-core==0.8.0` crate predates this feature; use the repository
+published `praxo-core==0.9.0` crate predates this feature; use the repository
 source until the next Rust release.
 
 ## Run

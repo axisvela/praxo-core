@@ -17,7 +17,7 @@ durable graph engine, or sandbox service. See [when not to use Core](when-not-to
 ## Install in a New Application
 
 ```sh
-luarocks install praxo-core 0.6.0-1
+luarocks install praxo-core 0.7.0-1
 ```
 
 Do not add the repository `language/lua` directory to `package.path`, and do not
@@ -42,7 +42,7 @@ Use the following as `test_starter.lua`, rendered from the
 ## Verify
 
 ```sh
-luarocks install praxo-core 0.6.0-1
+luarocks install praxo-core 0.7.0-1
 lua test_starter.lua
 ```
 

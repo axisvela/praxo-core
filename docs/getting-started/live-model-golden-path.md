@@ -47,29 +47,29 @@ installed model such as `llama3.2` and set `PRAXO_MODEL` accordingly.
 | Language | Package | Commands |
 | --- | --- | --- |
 | Go | `github.com/axisvela/praxo-core/v2@v2.8.0` | `cd language/go/examples/live-model/go; go run .` |
-| Python | PyPI `praxo-core==0.7.0` | `cd language/python/examples/live-model; python -m venv .venv; .venv/bin/python -m pip install -r requirements.txt; .venv/bin/python live_starter.py` |
-| TypeScript | npm `@axisvela/praxo-core@0.6.0` | `cd language/typescript/examples/live-model; npm install; npm start` |
+| Python | PyPI `praxo-core==0.8.0` | `cd language/python/examples/live-model; python -m venv .venv; .venv/bin/python -m pip install -r requirements.txt; .venv/bin/python live_starter.py` |
+| TypeScript | npm `@axisvela/praxo-core@0.7.0` | `cd language/typescript/examples/live-model; npm install; npm start` |
 | Java | Maven `com.axisvela:praxo-core:0.9.0` | `cd language/java/examples/live-model; mvn -q compile exec:java` |
-| C# | NuGet `Praxo.Core==0.8.0` | `cd language/csharp/examples/live-model; dotnet run` |
-| Rust | source with `http-ureq` | `cd language/rust/examples/live-model; cargo run` |
-| R | r-universe `praxocore==0.9.0` | `cd language/r/examples/live-model; Rscript live.R` |
+| C# | NuGet `Praxo.Core==0.9.0` | `cd language/csharp/examples/live-model; dotnet run` |
+| Rust | crates.io `praxo-core==0.9.0` with `http-ureq` | `cd language/rust/examples/live-model; cargo run` |
+| R | r-universe `praxocore==0.10.0` | `cd language/r/examples/live-model; Rscript live.R` |
 | Ruby | source | `ruby -I language/ruby/lib language/ruby/examples/live-model/live_starter.rb` |
 | PHP | source | `php language/php/examples/live-model/live_starter.php` |
 | Elixir | source | `elixir -pa language/elixir/build/ebin language/elixir/examples/live-model/live_starter.exs` |
 | Lua | source | `lua language/lua/examples/live-model/live_starter.lua` |
 | OCaml | source, transport seam | `ocaml unix.cma language/ocaml/examples/live-model/live_model.ml` (supply a transport; see README) |
-| PowerShell | C# Core `0.5.3` wrapper | `dotnet build language/csharp/Praxo.Core/Praxo.Core.csproj -c Release; pwsh -NoProfile -File language/powershell/examples/live-model/live_model.ps1` |
+| PowerShell | PowerShell `0.6.0` wrapper over C# Core `0.9.0` | `dotnet build language/csharp/Praxo.Core/Praxo.Core.csproj -c Release; pwsh -NoProfile -File language/powershell/examples/live-model/live_model.ps1` |
 | V | source | `v -path language/v language/v/examples/live-model/live_model.v` |
 | Zig | source | build from README: `language/zig/examples/live-model/README.md` |
 
-The Go, Python, TypeScript, Java, C#, and R examples import a published package.
-The Rust, Ruby, PHP, Elixir, Lua, OCaml, V, and Zig examples run against
+The Go, Python, TypeScript, Java, C#, Rust, and R examples import a published
+package. The Ruby, PHP, Elixir, Lua, OCaml, V, and Zig examples run against
 repository source so they use the current adapter code; their READMEs also
-document package install where available. The Rust example uses the optional
-`http-ureq` feature until the next Rust release, so it does not rely on a
-published crate feature. PowerShell loads the C# Core assembly and inherits its
-OpenAI-compatible adapter. The OCaml Core does not bundle an HTTP client, so its
-example is a transport seam rather than a fully runnable live client.
+document package install where available. The Rust example enables the
+`http-ureq` feature from the published `0.9.0` crate. PowerShell loads the C#
+Core assembly and inherits its OpenAI-compatible adapter. The OCaml Core does
+not bundle an HTTP client, so its example is a transport seam rather than a
+fully runnable live client.
 
 Python `0.7.0`, TypeScript `0.6.0`, and Java `0.9.0` include the OpenAI
 tool-wire fix for tool-result follow-ups.

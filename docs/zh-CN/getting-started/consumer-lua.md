@@ -15,7 +15,7 @@
 ## 在新应用安装
 
 ```sh
-luarocks install praxo-core 0.6.0-1
+luarocks install praxo-core 0.7.0-1
 ```
 
 验收时不要把仓库的 `language/lua` 目录加入 `package.path`，也不要使用本地 rockspec
@@ -37,7 +37,7 @@ luarocks install praxo-core 0.6.0-1
 ## 验证
 
 ```sh
-luarocks install praxo-core 0.6.0-1
+luarocks install praxo-core 0.7.0-1
 lua test_starter.lua
 ```
 
