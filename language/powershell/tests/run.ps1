@@ -202,6 +202,7 @@ public sealed class PraxoHitlPolicy : IPolicyHook
         if (action.Kind == "tool.invoke")
         {
             var visibility = action.Arguments?["visibility"]?.GetValue<string>();
+            Console.Error.WriteLine($"POLICY {action.Kind} {action.ToolName} {visibility}");
             return action.ToolName == "write_note" && visibility == "public"
                 ? Decision.Allow("only public notes are permitted")
                 : Decision.Deny("only public notes are permitted");
@@ -229,6 +230,7 @@ function Invoke-HitlScenario {
     $options.Policy = [PraxoHitlPolicy]::new()
     Add-PraxoInterruptTool -Options $options -Name 'write_note' | Out-Null
     if ($null -ne $Decision) {
+        [Console]::Error.WriteLine("DECISION action=$($Decision.Action) args=$($Decision.Arguments.ToJsonString())")
         $options.OnInterruptDecision = [PraxoHitlFixedDecision]::new($Decision)
     }
     if ($Approve) {
