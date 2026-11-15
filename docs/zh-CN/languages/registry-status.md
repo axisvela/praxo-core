@@ -23,8 +23,8 @@ GitHub Latest 仅代表 Go 参考 Core，不代表最近发布的语言包。
 | 语言 | 注册表 | 版本 | 地址 | 状态 |
 | --- | --- | --- | --- | --- |
 | Go | Go module proxy / pkg.go.dev | `v2.8.0` | https://pkg.go.dev/github.com/axisvela/praxo-core/v2 | 已发布；页面已于 2026-11-10 审计 |
-| Python | PyPI | `0.8.1` | https://pypi.org/project/praxo-core/0.8.1/ | 已发布 |
-| TypeScript | npm | `0.7.1` | https://www.npmjs.com/package/@axisvela/praxo-core/v/0.7.1 | 已发布；latest |
+| Python | PyPI | `0.8.1` | https://pypi.org/project/praxo-core/0.8.1/ | 已打 `0.9.0` tag；PyPI 发布待完成 |
+| TypeScript | npm | `0.7.1` | https://www.npmjs.com/package/@axisvela/praxo-core/v/0.7.1 | 已打 `0.8.0` tag；npm 发布待完成 |
 | Java | Maven Central | `0.9.0` | https://repo1.maven.org/maven2/com/axisvela/praxo-core/0.9.0/ | 已发布 |
 | Rust | crates.io | `0.9.1` | https://crates.io/crates/praxo-core/0.9.1 | 已发布 |
 | C# | NuGet | `0.9.1` | https://www.nuget.org/packages/Praxo.Core/0.9.1 | 已发布 |

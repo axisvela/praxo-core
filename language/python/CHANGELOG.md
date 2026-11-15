@@ -1,6 +1,16 @@
 # Python Core Release Notes
 
 
+## 0.9.0 - 2026-11-15
+
+Source tag `python/v0.9.0`.
+
+### Added
+
+- External policy decision service integration and an authenticated HTTP service
+  example with HMAC bearer identity, tenant policy, and file-backed
+  checkpoints.
+
 ## 0.8.1 - 2026-11-15
 
 ### Changed

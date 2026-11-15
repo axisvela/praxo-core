@@ -1,6 +1,16 @@
 # TypeScript Core Release Notes
 
 
+## 0.8.0 - 2026-11-15
+
+Source tag `typescript/v0.8.0`.
+
+### Added
+
+- Authenticated HTTP service example with local HMAC or OIDC/JWKS bearer
+  identities, tenant policy, an external policy decision endpoint, and
+  file-backed checkpoints.
+
 ## 0.7.1 - 2026-11-15
 
 ### Changed
