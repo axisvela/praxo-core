@@ -53,7 +53,7 @@ public sealed class LiveAllowGetTime : IPolicyHook
         return Decision.Deny("unsupported action");
     }
 }
-'@ -ReferencedAssemblies $references -Nowarn:1701
+'@ -ReferencedAssemblies $references -CompilerOptions "/nowarn:1701"
 
 function Get-EnvOr {
     param([string]$Name, [string]$Fallback)

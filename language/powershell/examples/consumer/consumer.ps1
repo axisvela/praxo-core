@@ -72,7 +72,7 @@ public sealed class ConsumerPublicTargetPolicy : IPolicyHook
         return Decision.Deny("unsupported action");
     }
 }
-'@ -ReferencedAssemblies $references -Nowarn:1701
+'@ -ReferencedAssemblies $references -CompilerOptions "/nowarn:1701"
 
 function Invoke-Scenario {
     param([string]$Target)

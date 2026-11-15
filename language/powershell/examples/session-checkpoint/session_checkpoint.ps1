@@ -17,7 +17,7 @@ public sealed class SessionCheckpointTurnModel : IModel
         };
     }
 }
-'@ -ReferencedAssemblies $references -Nowarn:1701
+'@ -ReferencedAssemblies $references -CompilerOptions "/nowarn:1701"
 
 function Save-SessionCheckpoint {
     param(
