@@ -16,7 +16,7 @@ included. A streaming SSE parser is always available. An HTTP
 OpenAI-compatible client is available behind the optional `http-ureq` feature;
 VFS and plugin hosts are not yet implemented.
 
-The latest source tag is `rust/v0.9.0`; the published crates.io package remains
+The latest source tag is `rust/v0.9.1`; the published crates.io package remains
 `praxo-core@0.9.0`. Supported contract:
 `SPEC_VERSION` `0.2.0` (`praxo_core::SPEC_VERSION`).
 
