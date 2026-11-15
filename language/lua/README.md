@@ -27,6 +27,43 @@ reference implementation.
 - Registry: [LuaRocks](https://luarocks.org/modules/hanhhuiwen/praxo-core)
 - Community: [X](https://x.com/axisvela) · [Weibo](https://weibo.com/u/1936025761)
 
+## Get started
+
+Install the published package:
+
+```bash
+luarocks install praxo-core 0.7.0-1
+```
+
+Then run the smallest deterministic example:
+
+- [Consumer starter](https://github.com/axisvela/praxo-core/tree/main/language/lua/examples/consumer): explicit tool scope and a deny check.
+- [Live model](https://github.com/axisvela/praxo-core/tree/main/language/lua/examples/live-model): connect an OpenAI-compatible endpoint and register `get_time`.
+
+See the [Lua documentation](https://axisvela.github.io/praxo-core/languages/lua/) for the full API and the
+[language matrix](https://axisvela.github.io/praxo-core/languages/matrix/) for
+current scope.
+
+## Examples
+
+Runnable examples live under [`language/lua/examples`](https://github.com/axisvela/praxo-core/tree/main/language/lua/examples).
+
+| Goal | Example |
+| --- | --- |
+| Install and deny one unsafe call | [consumer](https://github.com/axisvela/praxo-core/tree/main/language/lua/examples/consumer) |
+| Connect a real model | [live-model](https://github.com/axisvela/praxo-core/tree/main/language/lua/examples/live-model) |
+| Connect MCP tools | [mcp](https://github.com/axisvela/praxo-core/tree/main/language/lua/examples/mcp) |
+| Validate structured output | [structured-output](https://github.com/axisvela/praxo-core/tree/main/language/lua/examples/structured-output) |
+| Stream a response | [streaming](https://github.com/axisvela/praxo-core/tree/main/language/lua/examples/streaming) |
+| Add identity and policy | [identity-policy](https://github.com/axisvela/praxo-core/tree/main/language/lua/examples/identity-policy) |
+| Persist checkpoints | [checkpoint](https://github.com/axisvela/praxo-core/tree/main/language/lua/examples/checkpoint) |
+| Run behind HTTP | [service](https://github.com/axisvela/praxo-core/tree/main/language/lua/examples/service) |
+| Approve or edit a tool call | [hitl](https://github.com/axisvela/praxo-core/tree/main/language/lua/examples/hitl) |
+| Resume a multi-turn session | [session-checkpoint](https://github.com/axisvela/praxo-core/tree/main/language/lua/examples/session-checkpoint) |
+| Retry transient failures | [retry](https://github.com/axisvela/praxo-core/tree/main/language/lua/examples/retry) |
+| Add provider fallback | [provider-fallback](https://github.com/axisvela/praxo-core/tree/main/language/lua/examples/provider-fallback) |
+| Observe agent events | [event-sink](https://github.com/axisvela/praxo-core/tree/main/language/lua/examples/event-sink) |
+
 ## Install
 
 ```bash

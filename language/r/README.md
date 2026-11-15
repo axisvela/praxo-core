@@ -17,6 +17,43 @@ R implementation of the PRAXO-CORE contract.
 - Registry: [r-universe](https://axisvela.r-universe.dev/praxocore)
 - Community: [X](https://x.com/axisvela) · [Weibo](https://weibo.com/u/1936025761)
 
+## Get started
+
+Install the published package:
+
+```r
+install.packages("praxocore", repos = "https://axisvela.r-universe.dev")
+```
+
+Then run the smallest deterministic example:
+
+- [Consumer starter](https://github.com/axisvela/praxo-core/tree/main/language/r/examples/consumer): explicit tool scope and a deny check.
+- [Live model](https://github.com/axisvela/praxo-core/tree/main/language/r/examples/live-model): connect an OpenAI-compatible endpoint and register `get_time`.
+
+See the [R documentation](https://axisvela.github.io/praxo-core/languages/r/) for the full API and the
+[language matrix](https://axisvela.github.io/praxo-core/languages/matrix/) for
+current scope.
+
+## Examples
+
+Runnable examples live under [`language/r/examples`](https://github.com/axisvela/praxo-core/tree/main/language/r/examples).
+
+| Goal | Example |
+| --- | --- |
+| Install and deny one unsafe call | [consumer](https://github.com/axisvela/praxo-core/tree/main/language/r/examples/consumer) |
+| Connect a real model | [live-model](https://github.com/axisvela/praxo-core/tree/main/language/r/examples/live-model) |
+| Connect MCP tools | [mcp](https://github.com/axisvela/praxo-core/tree/main/language/r/examples/mcp) |
+| Validate structured output | [structured-output](https://github.com/axisvela/praxo-core/tree/main/language/r/examples/structured-output) |
+| Stream a response | [streaming](https://github.com/axisvela/praxo-core/tree/main/language/r/examples/streaming) |
+| Add identity and policy | [identity-policy](https://github.com/axisvela/praxo-core/tree/main/language/r/examples/identity-policy) |
+| Persist checkpoints | [checkpoint](https://github.com/axisvela/praxo-core/tree/main/language/r/examples/checkpoint) |
+| Run behind HTTP | [service](https://github.com/axisvela/praxo-core/tree/main/language/r/examples/service) |
+| Approve or edit a tool call | [hitl](https://github.com/axisvela/praxo-core/tree/main/language/r/examples/hitl) |
+| Resume a multi-turn session | [session-checkpoint](https://github.com/axisvela/praxo-core/tree/main/language/r/examples/session-checkpoint) |
+| Retry transient failures | [retry](https://github.com/axisvela/praxo-core/tree/main/language/r/examples/retry) |
+| Add provider fallback | [provider-fallback](https://github.com/axisvela/praxo-core/tree/main/language/r/examples/provider-fallback) |
+| Observe agent events | [event-sink](https://github.com/axisvela/praxo-core/tree/main/language/r/examples/event-sink) |
+
 ## Scope
 
 `0.10.0` implements all eleven conformance vector groups: tool-call parsing, JSON

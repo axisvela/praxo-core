@@ -17,7 +17,7 @@ OpenAI-compatible client is available behind the optional `http-ureq` feature;
 VFS and plugin hosts are not yet implemented.
 
 The latest source tag is `rust/v0.9.0`; the published crates.io package remains
-`praxo-core@0.8.0`. Supported contract:
+`praxo-core@0.9.0`. Supported contract:
 `SPEC_VERSION` `0.2.0` (`praxo_core::SPEC_VERSION`).
 
 ## Registry and Coding-Agent Entry
@@ -29,17 +29,54 @@ The latest source tag is `rust/v0.9.0`; the published crates.io package remains
 - Registry: [crates.io](https://crates.io/crates/praxo-core/0.9.0)
 - Community: [X](https://x.com/axisvela) · [Weibo](https://weibo.com/u/1936025761)
 
+## Get started
+
+Install the published package:
+
+```bash
+cargo add praxo-core@0.9.0
+```
+
+Then run the smallest deterministic example:
+
+- [Consumer starter](https://github.com/axisvela/praxo-core/tree/main/language/rust/examples/consumer): explicit tool scope and a deny check.
+- [Live model](https://github.com/axisvela/praxo-core/tree/main/language/rust/examples/live-model): connect an OpenAI-compatible endpoint and register `get_time`.
+
+See the [Rust documentation](https://axisvela.github.io/praxo-core/languages/rust/) for the full API and the
+[language matrix](https://axisvela.github.io/praxo-core/languages/matrix/) for
+current scope.
+
+## Examples
+
+Runnable examples live under [`language/rust/examples`](https://github.com/axisvela/praxo-core/tree/main/language/rust/examples).
+
+| Goal | Example |
+| --- | --- |
+| Install and deny one unsafe call | [consumer](https://github.com/axisvela/praxo-core/tree/main/language/rust/examples/consumer) |
+| Connect a real model | [live-model](https://github.com/axisvela/praxo-core/tree/main/language/rust/examples/live-model) |
+| Connect MCP tools | [mcp](https://github.com/axisvela/praxo-core/tree/main/language/rust/examples/mcp) |
+| Validate structured output | [structured-output](https://github.com/axisvela/praxo-core/tree/main/language/rust/examples/structured-output) |
+| Stream a response | [streaming](https://github.com/axisvela/praxo-core/tree/main/language/rust/examples/streaming) |
+| Add identity and policy | [identity-policy](https://github.com/axisvela/praxo-core/tree/main/language/rust/examples/identity-policy) |
+| Persist checkpoints | [checkpoint](https://github.com/axisvela/praxo-core/tree/main/language/rust/examples/checkpoint) |
+| Run behind HTTP | [service](https://github.com/axisvela/praxo-core/tree/main/language/rust/examples/service) |
+| Approve or edit a tool call | [hitl](https://github.com/axisvela/praxo-core/tree/main/language/rust/examples/hitl) |
+| Resume a multi-turn session | [session-checkpoint](https://github.com/axisvela/praxo-core/tree/main/language/rust/examples/session-checkpoint) |
+| Retry transient failures | [retry](https://github.com/axisvela/praxo-core/tree/main/language/rust/examples/retry) |
+| Add provider fallback | [provider-fallback](https://github.com/axisvela/praxo-core/tree/main/language/rust/examples/provider-fallback) |
+| Observe agent events | [event-sink](https://github.com/axisvela/praxo-core/tree/main/language/rust/examples/event-sink) |
+
 ## Install
 
 ```bash
-cargo add praxo-core@0.8.0
+cargo add praxo-core@0.9.0
 ```
 
 ## Runnable Examples
 
 - [`examples/consumer`](examples/consumer): published crates.io starter with
   deterministic allow/deny checks.
-- [`examples/live-model`](examples/live-model): source-mode OpenAI-compatible
+- [`examples/live-model`](examples/live-model): published-package OpenAI-compatible
   endpoint with the optional `http-ureq` feature.
 - [`examples/provider-fallback`](examples/provider-fallback): fallback model after
   a primary failure, with a deterministic check.

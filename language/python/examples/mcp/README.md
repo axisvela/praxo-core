@@ -1,6 +1,6 @@
 # MCP Stdio Client
 
-This example uses published PyPI `praxo-core==0.6.0` to connect to a minimal
+This example uses published PyPI `praxo-core==0.8.0` to connect to a minimal
 stdio MCP server, list its tools, register them in a Core registry, and call one
 tool.
 

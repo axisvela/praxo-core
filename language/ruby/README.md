@@ -25,6 +25,43 @@ reference implementation.
 - Registry: [RubyGems](https://rubygems.org/gems/praxo-core/versions/0.8.0)
 - Community: [X](https://x.com/axisvela) · [Weibo](https://weibo.com/u/1936025761)
 
+## Get started
+
+Install the published package:
+
+```bash
+gem install praxo-core
+```
+
+Then run the smallest deterministic example:
+
+- [Consumer starter](https://github.com/axisvela/praxo-core/tree/main/language/ruby/examples/consumer): explicit tool scope and a deny check.
+- [Live model](https://github.com/axisvela/praxo-core/tree/main/language/ruby/examples/live-model): connect an OpenAI-compatible endpoint and register `get_time`.
+
+See the [Ruby documentation](https://axisvela.github.io/praxo-core/languages/ruby/) for the full API and the
+[language matrix](https://axisvela.github.io/praxo-core/languages/matrix/) for
+current scope.
+
+## Examples
+
+Runnable examples live under [`language/ruby/examples`](https://github.com/axisvela/praxo-core/tree/main/language/ruby/examples).
+
+| Goal | Example |
+| --- | --- |
+| Install and deny one unsafe call | [consumer](https://github.com/axisvela/praxo-core/tree/main/language/ruby/examples/consumer) |
+| Connect a real model | [live-model](https://github.com/axisvela/praxo-core/tree/main/language/ruby/examples/live-model) |
+| Connect MCP tools | [mcp](https://github.com/axisvela/praxo-core/tree/main/language/ruby/examples/mcp) |
+| Validate structured output | [structured-output](https://github.com/axisvela/praxo-core/tree/main/language/ruby/examples/structured-output) |
+| Stream a response | [streaming](https://github.com/axisvela/praxo-core/tree/main/language/ruby/examples/streaming) |
+| Add identity and policy | [identity-policy](https://github.com/axisvela/praxo-core/tree/main/language/ruby/examples/identity-policy) |
+| Persist checkpoints | [checkpoint](https://github.com/axisvela/praxo-core/tree/main/language/ruby/examples/checkpoint) |
+| Run behind HTTP | [service](https://github.com/axisvela/praxo-core/tree/main/language/ruby/examples/service) |
+| Approve or edit a tool call | [hitl](https://github.com/axisvela/praxo-core/tree/main/language/ruby/examples/hitl) |
+| Resume a multi-turn session | [session-checkpoint](https://github.com/axisvela/praxo-core/tree/main/language/ruby/examples/session-checkpoint) |
+| Retry transient failures | [retry](https://github.com/axisvela/praxo-core/tree/main/language/ruby/examples/retry) |
+| Add provider fallback | [provider-fallback](https://github.com/axisvela/praxo-core/tree/main/language/ruby/examples/provider-fallback) |
+| Observe agent events | [event-sink](https://github.com/axisvela/praxo-core/tree/main/language/ruby/examples/event-sink) |
+
 ## Install
 
 ```bash

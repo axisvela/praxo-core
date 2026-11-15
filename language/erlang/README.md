@@ -10,7 +10,7 @@ It does not call Go or another Core.
 - Implementation type: Core.
 - Package version: `0.8.0`; supported `SPEC_VERSION`: `0.2.0`.
 - Hex package name: `praxo_core_erlang`; OTP application name: `praxo_core`.
-- The Hex package is `praxo_core_erlang@0.7.1`.
+- The Hex package is `praxo_core_erlang@0.8.0`.
 - Toolchain: Erlang/OTP 29 or newer. JSON uses the OTP `json` module.
 
 ## Registry and Coding-Agent Entry
@@ -22,10 +22,47 @@ It does not call Go or another Core.
 - Registry: [Hex](https://hex.pm/packages/praxo_core_erlang/0.8.0)
 - Community: [X](https://x.com/axisvela) · [Weibo](https://weibo.com/u/1936025761)
 
+## Get started
+
+Install the published package:
+
+```bash
+{praxo_core, "0.8.0", {pkg, praxo_core_erlang}}
+```
+
+Then run the smallest deterministic example:
+
+- [Consumer starter](https://github.com/axisvela/praxo-core/tree/main/language/erlang/examples/consumer): explicit tool scope and a deny check.
+- [Live model](https://github.com/axisvela/praxo-core/tree/main/language/erlang/examples/live-model): connect an OpenAI-compatible endpoint and register `get_time`.
+
+See the [Erlang documentation](https://axisvela.github.io/praxo-core/languages/erlang/) for the full API and the
+[language matrix](https://axisvela.github.io/praxo-core/languages/matrix/) for
+current scope.
+
+## Examples
+
+Runnable examples live under [`language/erlang/examples`](https://github.com/axisvela/praxo-core/tree/main/language/erlang/examples).
+
+| Goal | Example |
+| --- | --- |
+| Install and deny one unsafe call | [consumer](https://github.com/axisvela/praxo-core/tree/main/language/erlang/examples/consumer) |
+| Connect a real model | [live-model](https://github.com/axisvela/praxo-core/tree/main/language/erlang/examples/live-model) |
+| Connect MCP tools | [mcp](https://github.com/axisvela/praxo-core/tree/main/language/erlang/examples/mcp) |
+| Validate structured output | [structured-output](https://github.com/axisvela/praxo-core/tree/main/language/erlang/examples/structured-output) |
+| Stream a response | [streaming](https://github.com/axisvela/praxo-core/tree/main/language/erlang/examples/streaming) |
+| Add identity and policy | [identity-policy](https://github.com/axisvela/praxo-core/tree/main/language/erlang/examples/identity-policy) |
+| Persist checkpoints | [checkpoint](https://github.com/axisvela/praxo-core/tree/main/language/erlang/examples/checkpoint) |
+| Run behind HTTP | [service](https://github.com/axisvela/praxo-core/tree/main/language/erlang/examples/service) |
+| Approve or edit a tool call | [hitl](https://github.com/axisvela/praxo-core/tree/main/language/erlang/examples/hitl) |
+| Resume a multi-turn session | [session-checkpoint](https://github.com/axisvela/praxo-core/tree/main/language/erlang/examples/session-checkpoint) |
+| Retry transient failures | [retry](https://github.com/axisvela/praxo-core/tree/main/language/erlang/examples/retry) |
+| Add provider fallback | [provider-fallback](https://github.com/axisvela/praxo-core/tree/main/language/erlang/examples/provider-fallback) |
+| Observe agent events | [event-sink](https://github.com/axisvela/praxo-core/tree/main/language/erlang/examples/event-sink) |
+
 ## Install
 
 ```erlang
-{deps, [{praxo_core, "0.7.1", {pkg, praxo_core_erlang}}]}.
+{deps, [{praxo_core, "0.8.0", {pkg, praxo_core_erlang}}]}.
 ```
 
 - Local gate: eleven vector groups, native regression tests, API snapshot, and

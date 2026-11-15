@@ -1,6 +1,6 @@
 # Provider Fallback
 
-This example uses published npm `@axisvela/praxo-core@0.5.0` to fall back to a
+This example uses published npm `@axisvela/praxo-core@0.7.0` to fall back to a
 second model when the primary model call fails.
 
 `AgentOptions.fallbackModel` installs a model middleware. The fallback is used

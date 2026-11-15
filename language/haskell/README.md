@@ -23,6 +23,41 @@ middleware, JSON Schema validation, plugin manifest parsing, and runtime helpers
 - Registry: [Hackage](https://hackage.haskell.org/package/praxo-core-0.6.0)
 - Community: [X](https://x.com/axisvela) · [Weibo](https://weibo.com/u/1936025761)
 
+## Get started
+
+Install the published package:
+
+```bash
+cabal install praxo-core
+```
+
+Then run the smallest deterministic example:
+
+- [Consumer starter](https://github.com/axisvela/praxo-core/tree/main/language/haskell/examples/consumer): explicit tool scope and a deny check.
+- [Live model](https://github.com/axisvela/praxo-core/tree/main/language/haskell/examples/live-model): connect an OpenAI-compatible endpoint and register `get_time`.
+
+See the [Haskell documentation](https://axisvela.github.io/praxo-core/languages/haskell/) for the full API and the
+[language matrix](https://axisvela.github.io/praxo-core/languages/matrix/) for
+current scope.
+
+## Examples
+
+Runnable examples live under [`language/haskell/examples`](https://github.com/axisvela/praxo-core/tree/main/language/haskell/examples).
+
+| Goal | Example |
+| --- | --- |
+| Install and deny one unsafe call | [consumer](https://github.com/axisvela/praxo-core/tree/main/language/haskell/examples/consumer) |
+| Connect a real model | [live-model](https://github.com/axisvela/praxo-core/tree/main/language/haskell/examples/live-model) |
+| Connect MCP tools | [mcp](https://github.com/axisvela/praxo-core/tree/main/language/haskell/examples/mcp) |
+| Validate structured output | [structured-output](https://github.com/axisvela/praxo-core/tree/main/language/haskell/examples/structured-output) |
+| Stream a response | [streaming](https://github.com/axisvela/praxo-core/tree/main/language/haskell/examples/streaming) |
+| Add identity and policy | [identity-policy](https://github.com/axisvela/praxo-core/tree/main/language/haskell/examples/identity-policy) |
+| Persist checkpoints | [checkpoint](https://github.com/axisvela/praxo-core/tree/main/language/haskell/examples/checkpoint) |
+| Run behind HTTP | [service](https://github.com/axisvela/praxo-core/tree/main/language/haskell/examples/service) |
+| Retry transient failures | [retry](https://github.com/axisvela/praxo-core/tree/main/language/haskell/examples/retry) |
+| Add provider fallback | [provider-fallback](https://github.com/axisvela/praxo-core/tree/main/language/haskell/examples/provider-fallback) |
+| Observe agent events | [event-sink](https://github.com/axisvela/praxo-core/tree/main/language/haskell/examples/event-sink) |
+
 ## Build and Test
 
 Use GHC 9.0 or newer and Python 3.10 or newer. CI targets GHC 9.12.2 on Linux

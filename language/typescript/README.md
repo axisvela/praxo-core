@@ -23,10 +23,47 @@ orchestration platform:
 - Registry: [npm](https://www.npmjs.com/package/@axisvela/praxo-core/v/0.7.0)
 - Community: [X](https://x.com/axisvela) · [Weibo](https://weibo.com/u/1936025761)
 
+## Get started
+
+Install the published package:
+
+```bash
+npm install @axisvela/praxo-core@0.7.0
+```
+
+Then run the smallest deterministic example:
+
+- [Consumer starter](https://github.com/axisvela/praxo-core/tree/main/language/typescript/examples/consumer): explicit tool scope and a deny check.
+- [Live model](https://github.com/axisvela/praxo-core/tree/main/language/typescript/examples/live-model): connect an OpenAI-compatible endpoint and register `get_time`.
+
+See the [TypeScript documentation](https://axisvela.github.io/praxo-core/languages/typescript/) for the full API and the
+[language matrix](https://axisvela.github.io/praxo-core/languages/matrix/) for
+current scope.
+
+## Examples
+
+Runnable examples live under [`language/typescript/examples`](https://github.com/axisvela/praxo-core/tree/main/language/typescript/examples).
+
+| Goal | Example |
+| --- | --- |
+| Install and deny one unsafe call | [consumer](https://github.com/axisvela/praxo-core/tree/main/language/typescript/examples/consumer) |
+| Connect a real model | [live-model](https://github.com/axisvela/praxo-core/tree/main/language/typescript/examples/live-model) |
+| Connect MCP tools | [mcp](https://github.com/axisvela/praxo-core/tree/main/language/typescript/examples/mcp) |
+| Validate structured output | [structured-output](https://github.com/axisvela/praxo-core/tree/main/language/typescript/examples/structured-output) |
+| Stream a response | [streaming](https://github.com/axisvela/praxo-core/tree/main/language/typescript/examples/streaming) |
+| Add identity and policy | [identity-policy](https://github.com/axisvela/praxo-core/tree/main/language/typescript/examples/identity-policy) |
+| Persist checkpoints | [checkpoint](https://github.com/axisvela/praxo-core/tree/main/language/typescript/examples/checkpoint) |
+| Run behind HTTP | [service](https://github.com/axisvela/praxo-core/tree/main/language/typescript/examples/service) |
+| Approve or edit a tool call | [hitl](https://github.com/axisvela/praxo-core/tree/main/language/typescript/examples/hitl) |
+| Resume a multi-turn session | [session-checkpoint](https://github.com/axisvela/praxo-core/tree/main/language/typescript/examples/session-checkpoint) |
+| Retry transient failures | [retry](https://github.com/axisvela/praxo-core/tree/main/language/typescript/examples/retry) |
+| Add provider fallback | [provider-fallback](https://github.com/axisvela/praxo-core/tree/main/language/typescript/examples/provider-fallback) |
+| Observe agent events | [event-sink](https://github.com/axisvela/praxo-core/tree/main/language/typescript/examples/event-sink) |
+
 ## Install
 
 ```bash
-npm install @axisvela/praxo-core@0.6.0
+npm install @axisvela/praxo-core@0.7.0
 ```
 
 ## Quickstart
@@ -135,7 +172,7 @@ The normative contract is [`spec/`](../../spec/README.md); Go remains the
 reference implementation. This package supports `SPEC_VERSION` `0.2.0` and
 passes the TypeScript conformance and parity checks. The latest source tag is
 `typescript/v0.7.0`; the published npm package remains
-`@axisvela/praxo-core@0.6.0`. VFS and plugin hosts are
+`@axisvela/praxo-core@0.7.0`. VFS and plugin hosts are
 not yet implemented.
 
 ## Requirements
