@@ -146,6 +146,54 @@ npm test
    deterministic test passes. Keep the same schema, allowlist, and policy.
    Record the package version, endpoint class, model name, and command output.
 
+## Prototype Walkthroughs: Java, C#, Rust, and R
+
+Use the same schema and the tested example under each language's
+`examples/structured-output` directory. The steps are the same: install the
+published package, run the deterministic model, run the rejection test, then
+switch to a real endpoint without removing validation.
+
+**Java**
+
+```bash
+cd language/java/examples/structured-output
+mvn -q compile exec:java -Dexec.args="Quarterly status: all checks green."
+mvn -q test
+```
+
+**C#**
+
+```bash
+cd language/csharp/examples/structured-output
+dotnet run -- "Quarterly status: all checks green."
+dotnet run -- --test
+```
+
+**Rust**
+
+```bash
+cd language/rust/examples/structured-output
+cargo run
+```
+
+Run the crate's tests in the same directory before replacing the fixture model.
+The published `praxo-core==0.9.0` crate uses the current adapter seams.
+
+**R**
+
+```bash
+Rscript language/r/examples/structured-output/structured_output.R
+Rscript language/r/tests/run_tests.R
+```
+
+For R, install `praxocore` from r-universe and keep the schema check in the
+application. A successful parse without schema validation is not a passing
+prototype.
+
+For every language, record the package version, endpoint class, model name,
+schema version, commands, and output. Keep identity, durable storage, retries,
+effect verification, and isolation in the application.
+
 ## Live Endpoint
 
 The runnable commands use an OpenAI-compatible endpoint:
