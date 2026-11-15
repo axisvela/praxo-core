@@ -90,7 +90,7 @@ public sealed class HitlPublicPolicy : IPolicyHook
 '@ -ReferencedAssemblies $references -CompilerOptions "/nowarn:1701"
 
 function Invoke-HitlScenario {
-    param([Praxo.Core.InterruptDecision]$Decision)
+    param($Decision)
 
     $tool = [HitlWriteTool]::new()
     $registry = New-PraxoToolRegistry
@@ -102,7 +102,8 @@ function Invoke-HitlScenario {
     $options.AllowedTools.Add('write_note')
     $options.Policy = [HitlPublicPolicy]::new()
     Add-PraxoInterruptTool -Options $options -Name 'write_note' | Out-Null
-    [Console]::Error.WriteLine("DECISION action=$($Decision.Action) args=$($Decision.Arguments.ToJsonString())")
+    $argText = if ($null -eq $Decision.Arguments) { '<null>' } else { $Decision.Arguments.ToJsonString() }
+    [Console]::Error.WriteLine("DECISION action=$($Decision.Action) args=$argText")
     $options.OnInterruptDecision = [HitlFixedDecision]::new($Decision)
 
     $agent = New-PraxoAgent -Options $options

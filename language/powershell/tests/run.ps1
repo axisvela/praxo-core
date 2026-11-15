@@ -213,7 +213,7 @@ public sealed class PraxoHitlPolicy : IPolicyHook
 
 function Invoke-HitlScenario {
     param(
-        [Praxo.Core.InterruptDecision]$Decision,
+        $Decision,
         [scriptblock]$Approve,
         [switch]$EchoTool
     )
@@ -229,7 +229,8 @@ function Invoke-HitlScenario {
     $options.Policy = [PraxoHitlPolicy]::new()
     Add-PraxoInterruptTool -Options $options -Name 'write_note' | Out-Null
     if ($null -ne $Decision) {
-        [Console]::Error.WriteLine("DECISION action=$($Decision.Action) args=$($Decision.Arguments.ToJsonString())")
+        $argText = if ($null -eq $Decision.Arguments) { '<null>' } else { $Decision.Arguments.ToJsonString() }
+    [Console]::Error.WriteLine("DECISION action=$($Decision.Action) args=$argText")
         $options.OnInterruptDecision = [PraxoHitlFixedDecision]::new($Decision)
     }
     if ($Approve) {
