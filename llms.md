@@ -9,7 +9,7 @@
 ## Languages
 
 - Go: `github.com/axisvela/praxo-core/v2` — [Go module proxy / pkg.go.dev](https://pkg.go.dev/github.com/axisvela/praxo-core/v2) — `v2.8.0` — https://axisvela.github.io/praxo-core/
-- Python: `praxo-core` — [PyPI](https://pypi.org/project/praxo-core/0.8.1/) — `0.8.1` — https://axisvela.github.io/praxo-core/languages/python/
+- Python: `praxo-core` — [PyPI](https://pypi.org/project/praxo-core/0.9.0/) — `0.9.0` — https://axisvela.github.io/praxo-core/languages/python/
 - TypeScript: `@axisvela/praxo-core` — [npm](https://www.npmjs.com/package/@axisvela/praxo-core/v/0.7.1) — `0.7.1` — https://axisvela.github.io/praxo-core/languages/typescript/
 - Java: `com.axisvela:praxo-core` — [Maven Central](https://repo1.maven.org/maven2/com/axisvela/praxo-core/0.9.0/) — `0.9.0` — https://axisvela.github.io/praxo-core/languages/java/
 - Rust: `praxo-core` — [crates.io](https://crates.io/crates/praxo-core/0.9.1) — `0.9.1` — https://axisvela.github.io/praxo-core/languages/rust/
