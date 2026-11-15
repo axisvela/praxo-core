@@ -22,7 +22,11 @@
     return @{};
 }
 
-- (void)notifyMethod:(NSString *)method params:(NSDictionary *)params {}
+- (BOOL)notifyMethod:(NSString *)method
+              params:(NSDictionary *)params
+               error:(NSError **)error {
+    return YES;
+}
 - (void)close {}
 
 @end
