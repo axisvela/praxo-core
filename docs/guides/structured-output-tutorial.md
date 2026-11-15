@@ -78,6 +78,48 @@ cargo run
 The deterministic check validates a valid summary and rejects output that
 omits required fields.
 
+## Prototype Walkthrough: Python Structured-Output Processor
+
+This is a complete first prototype for a primary SDK. It turns one free-text
+input into validated JSON and fails closed when the model omits required fields.
+
+1. Create an application directory and install the published package:
+
+```bash
+python -m venv .venv
+.venv/bin/python -m pip install "praxo-core==0.8.0"
+```
+
+2. Copy the tested schema and agent setup from
+   [`language/python/examples/structured-output`](https://github.com/axisvela/praxo-core/tree/main/language/python/examples/structured-output).
+   Keep the explicit policy allowlist and `StructuredOutput` middleware.
+
+3. Run the deterministic model first:
+
+```bash
+.venv/bin/python summarize.py "Quarterly status: all checks green."
+```
+
+4. Run the deterministic rejection test. A response missing `summary` or
+   `tags` must raise instead of returning partial JSON:
+
+```bash
+.venv/bin/python -m unittest test_summarize.py -v
+```
+
+5. Replace the fixture model with the OpenAI-compatible adapter only after the
+   deterministic path passes. Keep the same schema and policy; do not remove the
+   validation layer when moving to a real endpoint.
+
+6. Record the package version, endpoint class, model name, schema version, and
+   the command output. This is a local prototype, not a production service:
+   identity, durable storage, retries, effect verification, and isolation remain
+   application responsibilities.
+
+The same pattern applies to the TypeScript, Java, C#, and Rust structured-output
+examples. A different language needs its own install command, executable
+example, and deterministic test before it counts as a complete path.
+
 ## Live Endpoint
 
 The runnable commands use an OpenAI-compatible endpoint:
