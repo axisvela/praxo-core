@@ -62,9 +62,41 @@ go test ./...
 这是应用局部 Token 格式，不是通用 JWT 实现。生产服务应使用自己的身份提供商、
 密钥管理、audience 校验和撤销机制。
 
+## Python 认证变体
+
+[Python 认证服务示例](https://github.com/axisvela/praxo-core/tree/main/language/python/examples/service-auth)
+使用标准库实现同样的边界：HMAC Bearer Token、subject/tenant claims、过期检查、
+租户允许列表、策略绑定，以及文件型 Checkpoint。
+
+```bash
+cd language/python/examples/service-auth
+python -m venv .venv
+.venv/bin/python -m pip install -r requirements.txt
+
+export PRAXO_SERVICE_SECRET=local-development-secret
+.venv/bin/python service.py --addr 127.0.0.1:8080
+```
+
+生成短期 Token 并调用服务：
+
+```bash
+TOKEN=$(.venv/bin/python service.py --print-token user-1 local --ttl 600)
+curl -s http://127.0.0.1:8080/run \
+  -H 'Content-Type: application/json' \
+  -H "Authorization: Bearer $TOKEN" \
+  -d '{"prompt":"What time is it? Use get_time."}'
+```
+
+运行确定性测试：
+
+```bash
+.venv/bin/python -m unittest test_service.py -v
+```
+
 ## 请求流程
 
-1. HTTP Handler 检查 `X-Praxo-Principal` 是否存在。
+1. 基础 HTTP Handler 检查 `X-Praxo-Principal` 是否存在；认证变体验证 Bearer Token
+   并推导 principal。
 2. 应用选择租户，并将 principal 和 tenant 传入 Core Session。
 3. Agent 在显式超时下调用模型。
 4. Policy 只允许模型生成和 `get_time` 工具。
@@ -75,7 +107,7 @@ go test ./...
 
 ## 服务边界
 
-示例包含：
+基础示例包含：
 
 - `/healthz` 健康检查；
 - 有大小限制的 `POST /run` JSON 请求；
@@ -84,7 +116,8 @@ go test ./...
 - SIGINT/SIGTERM 有界优雅退出；
 - 由应用拥有的事件日志。
 
-它有意不包含持久 Session、Checkpoint、审批或租户存储。这些属于应用或产品职责。
+基础示例有意不包含持久 Session、Checkpoint、审批或租户存储。这些属于应用或产品职责。
+认证变体增加了有界 Token 校验和文件型 Checkpoint。
 
 ## 无需模型的测试
 

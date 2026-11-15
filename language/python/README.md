@@ -28,7 +28,7 @@ orchestration platform:
 Install the published package:
 
 ```bash
-pip install praxo-core==0.8.0
+pip install praxo-core==0.8.1
 ```
 
 Then run the smallest deterministic example:
@@ -54,6 +54,7 @@ Runnable examples live under [`language/python/examples`](https://github.com/axi
 | Add identity and policy | [identity-policy](https://github.com/axisvela/praxo-core/tree/main/language/python/examples/identity-policy) |
 | Persist checkpoints | [checkpoint](https://github.com/axisvela/praxo-core/tree/main/language/python/examples/checkpoint) |
 | Run behind HTTP | [service](https://github.com/axisvela/praxo-core/tree/main/language/python/examples/service) |
+| Run behind HTTP with verified identity | [service-auth](https://github.com/axisvela/praxo-core/tree/main/language/python/examples/service-auth) |
 | Approve or edit a tool call | [hitl](https://github.com/axisvela/praxo-core/tree/main/language/python/examples/hitl) |
 | Resume a multi-turn session | [session-checkpoint](https://github.com/axisvela/praxo-core/tree/main/language/python/examples/session-checkpoint) |
 | Retry transient failures | [retry](https://github.com/axisvela/praxo-core/tree/main/language/python/examples/retry) |
@@ -63,7 +64,7 @@ Runnable examples live under [`language/python/examples`](https://github.com/axi
 ## Install
 
 ```bash
-pip install praxo-core==0.8.0
+pip install praxo-core==0.8.1
 ```
 
 For a source checkout:
@@ -176,7 +177,7 @@ read `MCPTool.input_schema` when you need the model-facing schema.
 The normative contract is [`spec/`](../../spec/README.md); Go remains the
 reference implementation. This package supports `SPEC_VERSION` `0.2.0` and
 passes all eleven conformance vector groups. The latest source tag is
-`python/v0.8.1`; the published PyPI package remains `praxo-core==0.8.0`.
+`python/v0.8.1`; the published PyPI package is `praxo-core==0.8.1`.
 VFS and plugin hosts are not yet implemented.
 
 ## Requirements

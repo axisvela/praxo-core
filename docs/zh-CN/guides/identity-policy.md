@@ -36,6 +36,17 @@ GOWORK=off go test -mod=readonly -run Identity -v ./...
 配方在认证后把 principal 放入 context value。真实服务中，该值必须来自已验证请求上下文或
 身份中间件，而不是 prompt 或模型。
 
+Python 认证 HTTP 服务
+[`language/python/examples/service-auth`](https://github.com/axisvela/praxo-core/tree/main/language/python/examples/service-auth)
+展示了服务边界上的同类绑定。它验证应用局部 HMAC Bearer Token，把 subject 和 tenant
+绑定到 Session，拒绝过期或不在允许列表中的租户，只授权 `get_time`，并在运行完成后
+保存 Checkpoint。运行确定性测试：
+
+```bash
+cd language/python/examples/service-auth
+python -m unittest test_service.py -v
+```
+
 ## 重要限制
 
 - 工具参数中的角色字符串是不可信输入。Hook 必须使用已验证 principal。

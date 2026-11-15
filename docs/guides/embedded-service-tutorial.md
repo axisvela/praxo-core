@@ -66,9 +66,42 @@ This is an application-local token format, not a general JWT implementation.
 Production services should use their identity provider, key management,
 audience checks, and revocation.
 
+## Python Authenticated Variant
+
+The [Python authenticated service example](https://github.com/axisvela/praxo-core/tree/main/language/python/examples/service-auth)
+applies the same boundary with the standard library: HMAC bearer tokens,
+subject and tenant claims, expiration checks, a tenant allowlist, policy
+binding, and a file-backed checkpoint.
+
+```bash
+cd language/python/examples/service-auth
+python -m venv .venv
+.venv/bin/python -m pip install -r requirements.txt
+
+export PRAXO_SERVICE_SECRET=local-development-secret
+.venv/bin/python service.py --addr 127.0.0.1:8080
+```
+
+Generate a short-lived token and call the service:
+
+```bash
+TOKEN=$(.venv/bin/python service.py --print-token user-1 local --ttl 600)
+curl -s http://127.0.0.1:8080/run \
+  -H 'Content-Type: application/json' \
+  -H "Authorization: Bearer $TOKEN" \
+  -d '{"prompt":"What time is it? Use get_time."}'
+```
+
+Run its deterministic tests with:
+
+```bash
+.venv/bin/python -m unittest test_service.py -v
+```
+
 ## Request Flow
 
-1. The HTTP handler checks that `X-Praxo-Principal` is present.
+1. The base HTTP handler checks that `X-Praxo-Principal` is present; the
+   authenticated variants verify a bearer token and derive the principal.
 2. The application selects the tenant and passes both values into the Core
    session.
 3. The agent calls the model under an explicit timeout.
@@ -81,7 +114,7 @@ application state.
 
 ## Service Boundary
 
-The example includes:
+The base example includes:
 
 - a `/healthz` endpoint;
 - `POST /run` with a bounded JSON body;
@@ -90,8 +123,9 @@ The example includes:
 - SIGINT/SIGTERM shutdown with a bounded drain;
 - event logging owned by the application.
 
-It deliberately does not include durable sessions, checkpoints, approvals, or a
-tenant store. Those are application or product responsibilities.
+The base example deliberately does not include durable sessions, checkpoints,
+approvals, or a tenant store. Those are application or product responsibilities.
+The authenticated variants add a bounded token check and a file checkpoint.
 
 ## Test Without a Model
 

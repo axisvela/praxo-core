@@ -43,6 +43,18 @@ The recipe stores the principal in a context value after authentication. In a
 real service, that value must come from your verified request context or identity
 middleware, not from the prompt or model.
 
+The Python authenticated HTTP service
+[`language/python/examples/service-auth`](https://github.com/axisvela/praxo-core/tree/main/language/python/examples/service-auth)
+shows the same binding at a service boundary. It verifies an application-local
+HMAC bearer token, binds the subject and tenant to the session, rejects expired
+or disallowed tenants, authorizes only `get_time`, and saves a completed
+checkpoint. Run its deterministic tests with:
+
+```bash
+cd language/python/examples/service-auth
+python -m unittest test_service.py -v
+```
+
 ## Important Limits
 
 - A role string in tool arguments is untrusted input. The hook must use the
