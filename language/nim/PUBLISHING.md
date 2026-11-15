@@ -2,7 +2,7 @@
 
 ## Status
 
-Source tag `nim/v0.1.1` maps to package `praxo_core` version `0.1.1`. The
+Source tag `nim/v0.6.0` maps to package `praxo_core` version `0.6.0`. The
 Nimble package is published from the split repository
 <https://github.com/axisvela/praxo-core-nim>, which has `praxo_core.nimble` and
 `src/` at its root. `nim-lang/packages` points `praxo_core` at the split
