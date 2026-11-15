@@ -83,7 +83,7 @@ Bridge、Sample 描述运行时的接入方式，不证明其语言缺乏 Framew
 | Lua | `lua/v0.7.1` | LuaRocks `praxo-core==0.7.1-1` 已发布，包含可选 OpenAI-compatible adapter；`0.4.1-1`、`0.4.0-1`、`0.3.0-1`、`0.2.0-1` 也已发布 | 已增加扩展 starter；LuaRocks `0.4.1-1` 已安装到干净 tree，allow/deny 本地通过；`0.5.0-1` 安装 smoke 未重跑 |
 | PHP | `php/v0.8.1` | Packagist `axisvela/praxo-core==0.8.0` 已发布，包含 Composer `autoload.files`；`0.4.1`、`0.4.0`、`0.3.0`、`0.2.0` 为历史版本 | 已增加扩展 starter；Composer 安装已发布 `0.4.1` 后 starter 无桥接本地通过；`0.8.1` 安装 smoke 未重跑 |
 | Dart | `dart/v0.6.0` | pub.dev `praxo_core==0.4.0` | 已记录 `0.1.1`；`0.4.0` 安装 smoke 未记录 |
-| Julia | `julia/v0.7.0` | General Registry PR #176024 已批准；待合并 | 未记录 |
+| Julia | `julia/v0.7.0` | General Registry PR #176393 待合并 | 未记录 |
 | MATLAB | `matlab/v0.7.0` | MATLAB File Exchange `185166` 已发布（`0.3.0`） | 未记录 |
 | Octave | `octave/v0.7.0` | Octave Packages PR #875 待合并；包归档已发布 | 未记录 |
 | Perl | `perl/v0.6.0` | CPAN `Praxo-Core==0.6.0` 已发布并在 MetaCPAN 建立索引 | 未记录 |
@@ -111,7 +111,7 @@ Bridge、Sample 描述运行时的接入方式，不证明其语言缺乏 Framew
 | PHP | `0.8.1` | Packagist `0.8.0` | 源码标签已发布；registry 落后 |
 | Lua | rockspec `0.7.1-1`；源码标签 `0.7.1` | LuaRocks `0.7.1-1` | 已最新 |
 | Dart | `0.6.0` | pub.dev `0.4.0` | 源码标签已发布；registry 落后 |
-| Julia | `0.7.0` | General Registry PR #176024 待合并 | 待完成 |
+| Julia | `0.7.0` | General Registry PR #176393 待合并 | 待完成 |
 | MATLAB | `0.7.0` | File Exchange `185166`（`0.3.0`） | 注册表落后 |
 | Octave | `0.7.0` | Octave Packages PR #875 待合并 | 待完成 |
 | Perl | `0.6.0` | CPAN `0.6.0` | 已最新 |

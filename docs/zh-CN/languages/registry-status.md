@@ -48,7 +48,7 @@ GitHub Latest 仅代表 Go 参考 Core，不代表最近发布的语言包。
 
 | 语言 | 注册表 | 版本 | 地址 | 状态 |
 | --- | --- | --- | --- | --- |
-| Julia | Julia General Registry | `0.7.0` | https://github.com/JuliaRegistries/General/pull/176024 | mirror `0.7.0` 已打 tag；注册待完成 |
+| Julia | Julia General Registry | `0.7.0` | https://github.com/JuliaRegistries/General/pull/176393 | mirror `0.7.0` 已打 tag；注册待完成 |
 | Octave | Octave Packages | `0.6.1` | https://github.com/gnu-octave/packages/pull/875 | 包归档已准备；注册待完成 |
 | OCaml | opam | `0.8.0` | https://github.com/ocaml/opam-repository/pull/31222 | split 仓库 `0.8.0` 已打 tag；注册 PR 待合并 |
 | V | VPM | `0.6.0` | https://github.com/axisvela/praxo-core-v | split 仓库 `0.6.0` 已打 tag；VPM 未索引 |

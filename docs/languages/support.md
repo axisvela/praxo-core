@@ -112,7 +112,7 @@ Registry values below were checked against the public registries on 2026-11-14.
 | Lua | `lua/v0.7.1` | LuaRocks `praxo-core==0.7.1-1` published with the optional OpenAI-compatible adapter; `0.4.1-1`, `0.4.0-1`, `0.3.0-1`, `0.2.0-1` also published | Extended starter added; LuaRocks `0.4.1-1` installed into a clean tree and allow/deny passed locally; `0.5.0-1` install smoke not rerun |
 | PHP | `php/v0.8.1` | Packagist `axisvela/praxo-core==0.8.0` published with Composer `autoload.files`; `0.4.1`, `0.4.0`, `0.3.0`, `0.2.0` historical | Extended starter added; Composer install of published `0.4.1` passed locally; `0.8.1` install smoke not rerun |
 | Dart | `dart/v0.6.0` | pub.dev `praxo_core==0.4.0` | Recorded for `0.1.1`; `0.4.0` install smoke not recorded |
-| Julia | `julia/v0.7.0` | General Registry PR #176024 approved; merge pending | Not recorded |
+| Julia | `julia/v0.7.0` | General Registry PR #176393 open; merge pending | Not recorded |
 | MATLAB | `matlab/v0.7.0` | MATLAB File Exchange `185166` published (`0.3.0`) | Not recorded |
 | Octave | `octave/v0.7.0` | Octave Packages PR #875 open; package archive published | Not recorded |
 | R | `r/v0.10.1` | r-universe `praxocore==0.10.1` published; CRAN not published | Consumer starter runs in source mode; published `0.10.1` install smoke not rerun |
@@ -141,7 +141,7 @@ its latest version matches the manifest at the release tag.
 | PHP | `0.8.1` | Packagist `0.8.0` | tag released; registry behind |
 | Lua | rockspec `0.7.1-1`; source tag `0.7.1` | LuaRocks `0.7.1-1` | current |
 | Dart | `0.6.0` | pub.dev `0.4.0` | tag released; registry behind |
-| Julia | `0.7.0` | General Registry PR #176024 approved; merge pending | pending |
+| Julia | `0.7.0` | General Registry PR #176393 open; merge pending | pending |
 | MATLAB | `0.7.0` | File Exchange `185166` (`0.3.0`) | registry behind |
 | Octave | `0.7.0` | Octave Packages PR #875 open | pending |
 | Perl | `0.6.0` | CPAN `0.6.0` | current |
