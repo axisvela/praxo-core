@@ -1,3 +1,4 @@
+import std/json
 import praxo/adapters/mcp
 import praxo/jsonutil
 
