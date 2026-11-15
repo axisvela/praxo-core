@@ -7,9 +7,9 @@
 ## Package
 
 - package: `praxo-core-ps`
-- registry: [PowerShell Gallery](https://www.powershellgallery.com/packages/praxo-core-ps/0.6.1)
+- registry: [PowerShell Gallery](https://www.powershellgallery.com/packages/praxo-core-ps/0.7.0)
 - source_version: `0.7.0`
-- published_version: `0.6.1`
+- published_version: `0.7.0`
 - install_published: `Install-Module praxo-core-ps`
 - install_source: `Install-Module praxo-core-ps`
 - source_tag: `powershell/v0.7.0`

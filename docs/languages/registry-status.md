@@ -2,7 +2,7 @@
 
 Last checked: 2026-11-15 (Python 0.8.1, TypeScript 0.7.1, Java 0.9.0, Rust
 0.9.1, C# 0.9.1, Elixir 0.9.1, Erlang 0.8.1, Ruby 0.8.1, PHP 0.8.0, Dart 0.4.0,
-Perl 0.5.1, Haskell 0.6.1, PowerShell 0.6.1, and R 0.10.1 published; Go `v2.8.0`
+Perl 0.6.0, Haskell 0.7.0, PowerShell 0.7.0, and R 0.10.1 published; Go `v2.8.0`
 remains current; other rows from the 2026-11-04/05 audit).
 
 This page summarizes where each language implementation is published. Source
@@ -43,10 +43,10 @@ GitHub Latest represents the Go Reference Core only, not the last language packa
 | D | DUB | `0.1.0` | https://code.dlang.org/packages/praxo-core | split repo `v0.5.0` tagged; DUB refresh pending |
 | Swift | Swift Package Index | `0.4.0` | https://swiftpackageindex.com/axisvela/praxo-core-swift | split repo `0.6.0` tagged; SPI pending |
 | MATLAB | MATLAB File Exchange | `0.3.0` | https://www.mathworks.com/matlabcentral/fileexchange/185166-praxo-core | published |
-| PowerShell Core | PowerShell Gallery | `0.6.1` | https://www.powershellgallery.com/packages/praxo-core-ps/0.6.1 | published |
+| PowerShell Core | PowerShell Gallery | `0.7.0` | https://www.powershellgallery.com/packages/praxo-core-ps/0.7.0 | published |
 | PowerShell Bridge | PowerShell Gallery | `0.1.0` | https://www.powershellgallery.com/packages/praxo-core-ps-br/0.1.0 | published |
-| Perl | CPAN | `0.5.1` | https://metacpan.org/dist/Praxo-Core | published and indexed on MetaCPAN |
-| Haskell | Hackage | `0.6.1` | https://hackage.haskell.org/package/praxo-core-0.6.1 | published |
+| Perl | CPAN | `0.6.0` | https://metacpan.org/dist/Praxo-Core | published and indexed on MetaCPAN |
+| Haskell | Hackage | `0.7.0` | https://hackage.haskell.org/package/praxo-core-0.7.0 | published |
 | R | r-universe | `0.10.1` | https://axisvela.r-universe.dev/praxocore | published on r-universe; CRAN not published |
 | Nim | nim-lang/packages (Nimble) | `0.1.1` | https://github.com/axisvela/praxo-core-nim | split repo `v0.5.1` tagged; nim-lang/packages PR #3600 merged 2026-11-05; nimpkgs re-crawl pending |
 
@@ -68,8 +68,8 @@ GitHub Latest represents the Go Reference Core only, not the last language packa
 | C++ | `cpp/v0.8.1` | no registry publication |
 | Fortran | `fortran/v0.10.1` | fpm registry upstream paused |
 | COBOL | `cobol/v0.7.1` | no mainstream registry |
-| Objective-C | `objc/v0.5.0` | CocoaPods publication deferred; requires macOS/Xcode and a Trunk token |
-| Zig | `zig/v0.6.1` | no central registry |
+| Objective-C | `objc/v0.6.0` | CocoaPods publication deferred; requires macOS/Xcode and a Trunk token |
+| Zig | `zig/v0.7.0` | no central registry |
 | Tcl / Lisp / Prolog | `tcl/v0.1.0`, `lisp/v0.1.0`, `prolog/v0.1.1` | bridge packages; registry publication pending |
 
 Use the [support policy](support.md) for maturity, support level, and consumer

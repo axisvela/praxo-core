@@ -116,11 +116,11 @@ Registry values below were checked against the public registries on 2026-11-14.
 | MATLAB | `matlab/v0.7.0` | MATLAB File Exchange `185166` published (`0.3.0`) | Not recorded |
 | Octave | `octave/v0.7.0` | Octave Packages PR #875 open; package archive published | Not recorded |
 | R | `r/v0.10.1` | r-universe `praxocore==0.10.1` published; CRAN not published | Consumer starter runs in source mode; published `0.10.1` install smoke not rerun |
-| Perl | `perl/v0.6.0` | CPAN `Praxo-Core==0.5.1` published and indexed on MetaCPAN | Not recorded |
-| PowerShell | `powershell/v0.7.0` | PowerShell Gallery `praxo-core-ps==0.6.1` published | Not recorded |
+| Perl | `perl/v0.6.0` | CPAN `Praxo-Core==0.6.0` published and indexed on MetaCPAN | Not recorded |
+| PowerShell | `powershell/v0.7.0` | PowerShell Gallery `praxo-core-ps==0.7.0` published | Not recorded |
 | Nim | `nim/v0.6.0` | Split repository package `0.1.1`; nim-lang/packages PR #3600 merged 2026-11-05; nimpkgs re-crawl pending | Not recorded |
 | OCaml | `ocaml/v0.8.0` | opam-repository PR #31222 open | Not recorded |
-| Haskell | `haskell/v0.7.0` | Hackage `praxo-core==0.6.1` published | Not recorded |
+| Haskell | `haskell/v0.7.0` | Hackage `praxo-core==0.7.0` published | Not recorded |
 | Delphi / Free Pascal | `delphi/v0.7.0` | OPM assets published; maintainer submission pending | Not recorded |
 
 ### Registry freshness against code
@@ -144,9 +144,9 @@ its latest version matches the manifest at the release tag.
 | Julia | `0.7.0` | General Registry PR #176024 approved; merge pending | pending |
 | MATLAB | `0.7.0` | File Exchange `185166` (`0.3.0`) | registry behind |
 | Octave | `0.7.0` | Octave Packages PR #875 open | pending |
-| Perl | `0.6.0` | CPAN `0.5.1` | current |
-| PowerShell | `0.7.0` | PowerShell Gallery `0.6.1` | current |
-| Haskell | `0.7.0` | Hackage `0.6.1` | current |
+| Perl | `0.6.0` | CPAN `0.6.0` | current |
+| PowerShell | `0.7.0` | PowerShell Gallery `0.7.0` | current |
+| Haskell | `0.7.0` | Hackage `0.7.0` | current |
 | R | `0.10.1` | r-universe `0.10.1` | current |
 | Nim | `0.6.0` | Split repository package `0.1.1` | pending |
 | OCaml | `0.8.0` | opam registry `0.3.0` | pending |
