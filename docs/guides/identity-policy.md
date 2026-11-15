@@ -60,7 +60,8 @@ python -m unittest test_service.py -v
 The TypeScript service example
 [`language/typescript/examples/service-auth`](https://github.com/axisvela/praxo-core/tree/main/language/typescript/examples/service-auth)
 applies the same HMAC identity, tenant allowlist, optional external policy
-decision service, and checkpoint pattern with Node's standard library.
+decision service, and checkpoint pattern with Node's standard library. It can
+also verify OIDC/JWKS JWTs from an external identity provider.
 
 ## Important Limits
 

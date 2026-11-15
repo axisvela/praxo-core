@@ -64,6 +64,7 @@ fail-closed external policy decision service, see
 [`language/python/examples/service-auth`](https://github.com/axisvela/praxo-core/tree/main/language/python/examples/service-auth)
 and
 [`language/typescript/examples/service-auth`](https://github.com/axisvela/praxo-core/tree/main/language/typescript/examples/service-auth).
+The TypeScript example also verifies OIDC/JWKS JWTs.
 
 ## High-Risk or Multi-Tenant Applications
 

@@ -98,7 +98,8 @@ curl -s http://127.0.0.1:8080/run \
 
 [TypeScript 认证服务示例](https://github.com/axisvela/praxo-core/tree/main/language/typescript/examples/service-auth)
 使用 Node 标准库实现同样的 HMAC Bearer Token、租户允许列表、策略绑定、可选外部
-策略决策服务，以及文件型 Checkpoint。
+策略决策服务，以及文件型 Checkpoint。设置 `PRAXO_OIDC_ISSUER` 后，它还可以验证
+外部身份提供商的 OIDC/JWKS JWT。
 
 ```bash
 cd language/typescript/examples/service-auth

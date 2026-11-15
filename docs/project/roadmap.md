@@ -57,7 +57,7 @@ target and not to present Go-only behavior as a cross-language guarantee.
 | 0. Decide | Know whether Core fits and which language/path to use | The overview, task chooser, comparison, and non-goals exist | Make the choice path shorter and show application responsibilities clearly |
 | 1. Run | Install a published package, connect a model, register one tool, and get a useful result | Published-package deterministic starters and live-model examples now cover the primary SDKs and several extended languages; source releases and registry versions are aligned as of 2026-11-15 | Run the live path against supported endpoints and record language-specific troubleshooting |
 | 2. Prototype | Build one coherent local application with tools, streaming, structured output, MCP, workspace access, or telemetry | A thirteen-theme example catalog now covers thirty languages, with explicit not-applicable lists for HITL and session checkpoint; the examples page groups paths by Basic, Integration, Hardening, and Advanced. The Go workspace tutorial plus structured-output prototype walkthroughs for Python, TypeScript, Java, C#, Rust, R, Ruby, PHP, Elixir, and Lua are complete end-to-end prototypes | Finish recorded live-provider checks and add an application-shaped prototype for a secondary SDK |
-| 3. Embed | Integrate Core into an existing service with application-owned identity, policy, persistence, events, and shutdown | Vendor-neutral Go/Python/TypeScript HTTP services, Go/Python/TypeScript authenticated identity/policy services, an optional external Python policy decision service, verified-identity and durable-checkpoint variants, and a risk-tiered checklist exist | Connect the authenticated service pattern to an external identity provider, and extend it to another SDK |
+| 3. Embed | Integrate Core into an existing service with application-owned identity, policy, persistence, events, and shutdown | Vendor-neutral Go/Python/TypeScript HTTP services, Go/Python/TypeScript authenticated identity/policy services, TypeScript OIDC/JWKS verification, an optional external Python policy decision service, verified-identity and durable-checkpoint variants, and a risk-tiered checklist exist | Add token introspection/revocation and provider discovery, and apply the external identity pattern to another SDK |
 | 4. Harden | Make the specific integration safe to upgrade, fail, cancel, and recover | Negative, upgrade, containment, and recovery assets exist | Organize them by application risk instead of requiring everything up front |
 | 5. Extend | Adopt plugins, delegation, long-running operations, workspace providers, or embodied integrations when needed | Experimental and advanced assets exist | Advance only with a named consumer and a concrete project need |
 
@@ -195,14 +195,13 @@ Integrate Core into an existing service while the application owns:
 
 ### Next Work
 
-- Connect the authenticated service pattern to an external identity provider,
-  building on the
-  [Go](https://github.com/axisvela/praxo-core/tree/main/examples/embedded-service-auth),
-  [Python](https://github.com/axisvela/praxo-core/tree/main/language/python/examples/service-auth),
-  and [TypeScript](https://github.com/axisvela/praxo-core/tree/main/language/typescript/examples/service-auth)
-  examples. They currently use application-local HMAC tokens. The Python example
-  also supports an application-owned HTTP policy decision service.
-- Extend the authenticated service pattern to another SDK.
+- Add token introspection, revocation, and provider discovery to the
+  [TypeScript OIDC example](https://github.com/axisvela/praxo-core/tree/main/language/typescript/examples/service-auth),
+  and apply the external identity pattern to another SDK. The
+  [Go](https://github.com/axisvela/praxo-core/tree/main/examples/embedded-service-auth)
+  and [Python](https://github.com/axisvela/praxo-core/tree/main/language/python/examples/service-auth)
+  examples use application-local HMAC tokens; Python also supports an
+  application-owned HTTP policy decision service.
 - Keep the [application integration checklist](../guides/application-integration-checklist.md)
   aligned with the read-only, side-effecting, and high-risk tiers.
 - Provide a minimal durable checkpoint path between the teaching examples and

@@ -51,7 +51,7 @@ python -m unittest test_service.py -v
 TypeScript 服务示例
 [`language/typescript/examples/service-auth`](https://github.com/axisvela/praxo-core/tree/main/language/typescript/examples/service-auth)
 使用 Node 标准库实现同样的 HMAC 身份、租户允许列表、可选外部策略决策服务和
-Checkpoint 模式。
+Checkpoint 模式，还可以验证外部身份提供商的 OIDC/JWKS JWT。
 
 ## 重要限制
 

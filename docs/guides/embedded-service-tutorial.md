@@ -105,6 +105,8 @@ Run its deterministic tests with:
 The [TypeScript authenticated service example](https://github.com/axisvela/praxo-core/tree/main/language/typescript/examples/service-auth)
 uses Node's standard library with the same HMAC bearer token, tenant allowlist,
 policy binding, optional external policy decision service, and file checkpoint.
+It can also verify OIDC/JWKS JWTs from an external identity provider when
+`PRAXO_OIDC_ISSUER` is set.
 
 ```bash
 cd language/typescript/examples/service-auth

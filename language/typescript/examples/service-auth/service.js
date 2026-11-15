@@ -1,7 +1,4 @@
-const crypto = require("node:crypto");
-const fs = require("node:fs");
 const http = require("node:http");
-const path = require("node:path");
 
 const {
   Agent,
@@ -13,99 +10,46 @@ const {
   ROLE_ASSISTANT,
 } = require("@axisvela/praxo-core");
 
-class AuthError extends Error {}
+const {
+  AuthError,
+  Principal,
+  PrincipalStore,
+  signToken,
+  verifyBearer,
+} = require("./auth");
+const { FileCheckpointStore } = require("./checkpoint_store");
+const { OidcVerifier } = require("./oidc");
+const { RemotePolicy } = require("./remote_policy");
 
-class Principal {
-  constructor(subject, tenant, expires) {
-    this.subject = subject;
-    this.tenant = tenant;
-    this.expires = expires;
-  }
 
-  get sessionId() {
-    return `${this.tenant}/${this.subject}`;
-  }
-}
-
-class PrincipalStore {
-  constructor() {
-    this.principals = new Map();
-  }
-
-  bind(principal) {
-    this.principals.set(principal.sessionId, principal);
-  }
-
-  lookup(sessionId) {
-    return this.principals.get(sessionId);
-  }
-}
-
-class RemotePolicy {
-  constructor(url, timeoutMs = 2000) {
-    this.url = url;
-    this.timeoutMs = timeoutMs;
-  }
-
-  async decide(principal, action) {
-    const payload = {
-      principal: {
-        subject: principal.subject,
-        tenant: principal.tenant,
-      },
-      action: {
-        kind: action.kind,
-        tool_name: action.toolName || "",
-        arguments: action.arguments || {},
-      },
-    };
-    try {
-      const response = await fetch(this.url, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-        signal: AbortSignal.timeout(Math.max(1, this.timeoutMs)),
-      });
-      if (response.status !== 200) {
-        return { allowed: false, reason: "policy service returned an error" };
-      }
-      const decision = await response.json();
-      if (
-        !decision ||
-        typeof decision !== "object" ||
-        typeof decision.allowed !== "boolean"
-      ) {
-        return {
-          allowed: false,
-          reason: "policy service returned an invalid decision",
-        };
-      }
-      return {
-        allowed: decision.allowed,
-        reason:
-          typeof decision.reason === "string" ? decision.reason : "",
-      };
-    } catch {
-      return { allowed: false, reason: "policy service unavailable" };
+function createAuthenticator() {
+  const issuer = process.env.PRAXO_OIDC_ISSUER || "";
+  if (issuer) {
+    const audience = process.env.PRAXO_OIDC_AUDIENCE || "";
+    const jwksUrl = process.env.PRAXO_OIDC_JWKS_URL || "";
+    if (!audience || !jwksUrl) {
+      throw new Error(
+        "PRAXO_OIDC_AUDIENCE and PRAXO_OIDC_JWKS_URL are required"
+      );
     }
+    return new OidcVerifier({
+      issuer,
+      audience,
+      jwksUrl,
+      tenantClaim: envOr("PRAXO_OIDC_TENANT_CLAIM", "tenant"),
+      timeoutMs:
+        Number(envOr("PRAXO_OIDC_TIMEOUT", "2")) * 1000,
+    });
   }
-}
-
-class FileCheckpointStore {
-  constructor(directory) {
-    this.directory = path.resolve(directory);
-    fs.mkdirSync(this.directory, { recursive: true });
+  const secret = process.env.PRAXO_SERVICE_SECRET || "";
+  if (!secret) {
+    throw new Error(
+      "PRAXO_SERVICE_SECRET or PRAXO_OIDC_ISSUER is required"
+    );
   }
-
-  save(checkpoint) {
-    const name =
-      String(checkpoint.runId).replace(/[^A-Za-z0-9_.-]/g, "_") ||
-      "checkpoint";
-    const target = path.join(this.directory, `${name}.json`);
-    const temporary = `${target}.tmp`;
-    fs.writeFileSync(temporary, JSON.stringify(checkpoint), "utf8");
-    fs.renameSync(temporary, target);
-  }
+  return {
+    verify: (header) => verifyBearer(header, secret),
+  };
 }
 
 function envOr(name, fallback) {
@@ -121,70 +65,6 @@ function parseTenants(value) {
   );
 }
 
-function signToken(secret, subject, tenant, expires) {
-  const payload = Buffer.from(
-    JSON.stringify({
-      sub: subject,
-      tenant,
-      exp: Math.floor(expires),
-    })
-  ).toString("base64url");
-  const signature = crypto
-    .createHmac("sha256", secret)
-    .update(payload)
-    .digest("hex");
-  return `${payload}.${signature}`;
-}
-
-function verifyBearer(header, secret, now = Math.floor(Date.now() / 1000)) {
-  if (!header.startsWith("Bearer ")) {
-    throw new AuthError("missing bearer token");
-  }
-  const token = header.slice("Bearer ".length);
-  const parts = token.split(".");
-  if (parts.length !== 2) {
-    throw new AuthError("invalid token");
-  }
-  const [payloadPart, signaturePart] = parts;
-  const expected = crypto
-    .createHmac("sha256", secret)
-    .update(payloadPart)
-    .digest();
-  const provided = Buffer.from(signaturePart, "hex");
-  if (
-    provided.length !== expected.length ||
-    !crypto.timingSafeEqual(provided, expected)
-  ) {
-    throw new AuthError("invalid token signature");
-  }
-  let payload;
-  try {
-    payload = JSON.parse(
-      Buffer.from(payloadPart, "base64url").toString("utf8")
-    );
-  } catch {
-    throw new AuthError("invalid token claims");
-  }
-  if (!payload || typeof payload !== "object" || Array.isArray(payload)) {
-    throw new AuthError("invalid token claims");
-  }
-  const subject = payload.sub;
-  const tenant = payload.tenant;
-  const expires = payload.exp;
-  if (typeof subject !== "string" || !subject) {
-    throw new AuthError("token is missing subject");
-  }
-  if (typeof tenant !== "string" || !tenant) {
-    throw new AuthError("token is missing tenant");
-  }
-  if (!Number.isInteger(expires)) {
-    throw new AuthError("token is missing expiration");
-  }
-  if (expires <= now) {
-    throw new AuthError("token is expired");
-  }
-  return new Principal(subject, tenant, expires);
-}
 
 async function authorize(store, allowedTenants, action, remotePolicy = null) {
   const principal = store.lookup(action.sessionId);
@@ -271,7 +151,7 @@ async function runPrompt(agent, principal, prompt, checkpointStore = null) {
 
 async function handleRequest(
   agent,
-  secret,
+  authenticator,
   allowedTenants,
   store,
   method,
@@ -288,7 +168,7 @@ async function handleRequest(
   }
   let principal;
   try {
-    principal = verifyBearer(authorization || "", secret);
+    principal = await authenticator.verify(authorization || "");
   } catch (error) {
     return { status: 401, body: { error: error.message } };
   }
@@ -342,7 +222,7 @@ function readBody(request) {
 
 function createHandler(
   agent,
-  secret,
+  authenticator,
   allowedTenants,
   store,
   checkpointStore = null
@@ -353,7 +233,7 @@ function createHandler(
       const body = request.method === "POST" ? await readBody(request) : "";
       const result = await handleRequest(
         agent,
-        secret,
+        authenticator,
         allowedTenants,
         store,
         request.method || "",
@@ -380,10 +260,7 @@ function createHandler(
 }
 
 function serve(host = "127.0.0.1", port = 8080) {
-  const secret = process.env.PRAXO_SERVICE_SECRET || "";
-  if (!secret) {
-    throw new Error("PRAXO_SERVICE_SECRET is required");
-  }
+  const authenticator = createAuthenticator();
   const allowed = parseTenants(
     envOr("PRAXO_ALLOWED_TENANTS", "local")
   );
@@ -401,7 +278,7 @@ function serve(host = "127.0.0.1", port = 8080) {
   const server = http.createServer(
     createHandler(
       createAgent(null, allowed, principals, remotePolicy),
-      secret,
+      authenticator,
       allowed,
       principals,
       checkpoints
@@ -465,10 +342,12 @@ module.exports = {
     }
   },
   FileCheckpointStore,
+  OidcVerifier,
   Principal,
   PrincipalStore,
   RemotePolicy,
   authorize,
+  createAuthenticator,
   createAgent,
   createHandler,
   handleRequest,

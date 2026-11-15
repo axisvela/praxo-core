@@ -45,6 +45,7 @@ Python 与 TypeScript 示例
 与
 [`language/typescript/examples/service-auth`](https://github.com/axisvela/praxo-core/tree/main/language/typescript/examples/service-auth)
 展示了 HMAC 身份校验、租户允许列表，以及不可用时 fail closed 的外部策略决策服务。
+TypeScript 示例还支持验证 OIDC/JWKS JWT。
 
 ## 高风险或多租户应用
 
