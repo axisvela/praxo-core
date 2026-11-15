@@ -11,6 +11,7 @@ clang -fobjc-arc -fblocks -Ilanguage/objc/src \
   language/objc/examples/session-checkpoint/session_checkpoint.m \
   language/objc/src/PraxoJSON.m language/objc/src/PraxoJsonSchema.m \
   language/objc/src/PraxoCore.m language/objc/src/PraxoAgent.m \
+  language/objc/src/PraxoHitl.m \
   -framework Foundation -o build/objc-session-checkpoint
 ./build/objc-session-checkpoint
 ```
@@ -24,6 +25,7 @@ clang -fobjc-arc -fblocks -fobjc-runtime=gnustep-2.0 -fuse-ld=lld \
   language/objc/examples/session-checkpoint/session_checkpoint.m \
   language/objc/src/PraxoJSON.m language/objc/src/PraxoJsonSchema.m \
   language/objc/src/PraxoCore.m language/objc/src/PraxoAgent.m \
+  language/objc/src/PraxoHitl.m \
   -lgnustep-base -lobjc -lstdc++ -o build/objc-session-checkpoint
 ./build/objc-session-checkpoint
 ```

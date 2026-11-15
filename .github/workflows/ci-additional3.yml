@@ -223,7 +223,7 @@ jobs:
       - run: ./build/objc-service
       - run: clang -fobjc-arc -fblocks -Ilanguage/objc/src -o build/objc-mcp language/objc/examples/mcp/mcp.m language/objc/src/PraxoMCP.m language/objc/src/PraxoCore.m language/objc/src/PraxoJSON.m -framework Foundation
       - run: ./build/objc-mcp
-      - run: clang -fobjc-arc -fblocks -Ilanguage/objc/src -o build/objc-session-checkpoint language/objc/examples/session-checkpoint/session_checkpoint.m language/objc/src/PraxoJSON.m language/objc/src/PraxoJsonSchema.m language/objc/src/PraxoCore.m language/objc/src/PraxoAgent.m -framework Foundation
+      - run: clang -fobjc-arc -fblocks -Ilanguage/objc/src -o build/objc-session-checkpoint language/objc/examples/session-checkpoint/session_checkpoint.m language/objc/src/PraxoJSON.m language/objc/src/PraxoJsonSchema.m language/objc/src/PraxoCore.m language/objc/src/PraxoAgent.m language/objc/src/PraxoHitl.m -framework Foundation
       - run: ./build/objc-session-checkpoint
       - run: clang -fobjc-arc -fblocks -Ilanguage/objc/src -o build/objc-hitl language/objc/examples/hitl/hitl.m language/objc/src/PraxoHitl.m language/objc/src/PraxoJSON.m language/objc/src/PraxoJsonSchema.m language/objc/src/PraxoCore.m language/objc/src/PraxoAgent.m -framework Foundation
       - run: ./build/objc-hitl
