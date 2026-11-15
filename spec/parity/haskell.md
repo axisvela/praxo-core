@@ -43,8 +43,9 @@ policy, context, and middleware.
 | `agent/middleware.PIIMiddleware` | `Praxo.Middleware.piiRedact` | parity | P1 |
 | `agent/middleware.StructuredOutput` | `Praxo.Middleware.structuredOutput` | parity | P1 |
 | `agent/middleware.ToolSelectionMiddleware` | `Praxo.Middleware.toolSelection` | parity | P1 |
-| `agent/hitl.Interrupt` | `Interrupt` | parity | P2 |
-| `agent/hitl.InterruptAction` | `InterruptAction` | parity | P2 |
-| `agent/hitl.InterruptDecision` | `InterruptDecision` | parity | P2 |
-| `agent/hitl.InterruptHandler` | `InterruptHandler` | parity | P2 |
-| `agent.Options.OnInterrupt` | `AgentOptions.onInterrupt` / `onInterruptDecision` | parity | P2 |
+
+| `agent/hitl.Interrupt` | `Praxo.Agent.Interrupt` | parity | P2 |
+| `agent/hitl.InterruptAction` | `Praxo.Agent.interruptApprove` | parity | P2 |
+| `agent/hitl.InterruptDecision` | `Praxo.Agent.InterruptDecision` | parity | P2 |
+| `agent/hitl.InterruptHandler` | `Praxo.Agent.InterruptHandler` | parity | P2 |
+| `agent.Options.OnInterrupt` | `Praxo.Agent.AgentOptions` | parity | P2 |

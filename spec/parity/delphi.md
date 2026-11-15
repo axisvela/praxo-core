@@ -42,8 +42,9 @@ loop is synchronous and does not automatically apply every opt-in helper.
 | `agent/middleware.PIIMiddleware` | `PraxoPiiRedact` | parity | P1 |
 | `agent/middleware.StructuredOutput` | `PraxoStructuredOutput` | parity | P1 |
 | `agent/middleware.ToolSelectionMiddleware` | `PraxoSelectTools` | parity | P1 |
-| `agent/hitl.Interrupt` | `TPraxoAgentInterrupt` | parity | P2 |
-| `agent/hitl.InterruptAction` | `praxo.decision` action values | parity | P2 |
-| `agent/hitl.InterruptDecision` | `TPraxoAgentDecision` | parity | P2 |
-| `agent/hitl.InterruptHandler` | `TPraxoAgentOptions.OnInterruptDecision` | parity | P2 |
-| `agent.Options.OnInterrupt` | `TPraxoAgentOptions.OnInterrupt` | parity | P2 |
+
+| `agent/hitl.Interrupt` | `PraxoRunAgentSession` | parity | P2 |
+| `agent/hitl.InterruptAction` | `PraxoAgentOptionsNew` | parity | P2 |
+| `agent/hitl.InterruptDecision` | `PraxoRunAgentSession` | parity | P2 |
+| `agent/hitl.InterruptHandler` | `PraxoAgentOptionsNew` | parity | P2 |
+| `agent.Options.OnInterrupt` | `PraxoAgentOptionsNew` | parity | P2 |

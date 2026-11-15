@@ -42,8 +42,9 @@ by the declared gate.
 | `agent/middleware.PIIMiddleware` | `Praxo_core.pii_redact` | parity | P1 |
 | `agent/middleware.StructuredOutput` | `Praxo_core.structured_output` | parity | P1 |
 | `agent/middleware.ToolSelectionMiddleware` | `Praxo_core.tool_selection` | parity | P1 |
+
 | `agent/hitl.Interrupt` | `interrupt` | parity | P2 |
-| `agent/hitl.InterruptAction` | `interrupt_approve` and peers | parity | P2 |
+| `agent/hitl.InterruptAction` | `interrupt_approve` | parity | P2 |
 | `agent/hitl.InterruptDecision` | `interrupt_decision` | parity | P2 |
 | `agent/hitl.InterruptHandler` | `interrupt_handler` | parity | P2 |
-| `agent.Options.OnInterrupt` | `agent_on_interrupt` / `agent_on_interrupt_decision` | parity | P2 |
+| `agent.Options.OnInterrupt` | `agent_options` | parity | P2 |

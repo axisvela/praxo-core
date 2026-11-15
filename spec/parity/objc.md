@@ -45,8 +45,9 @@ Go hook or provider adapter.
 
 The JSON, path, pattern, and policy helpers are implementation utilities. See
 `language/objc/README.md` for runtime, Unicode, regex, and security limits.
-| `agent/hitl.Interrupt` | `PXRInterrupt` | parity | P2 |
-| `agent/hitl.InterruptAction` | `PXRInterrupt*` constants | parity | P2 |
-| `agent/hitl.InterruptDecision` | `PXRInterruptDecision` | parity | P2 |
+
+| `agent/hitl.Interrupt` | `PXRInterruptCreate` | parity | P2 |
+| `agent/hitl.InterruptAction` | `PXRInterruptApprove` | parity | P2 |
+| `agent/hitl.InterruptDecision` | `PXRInterruptDecisionCreate` | parity | P2 |
 | `agent/hitl.InterruptHandler` | `PXRInterruptHandler` | parity | P2 |
-| `agent.Options.OnInterrupt` | `PXRAgentOptions` interrupt fields | parity | P2 |
+| `agent.Options.OnInterrupt` | `PXRInterruptApproval` | parity | P2 |
