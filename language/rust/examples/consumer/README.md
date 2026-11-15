@@ -1,6 +1,6 @@
 # Independent Rust Consumer
 
-This starter installs the published crates.io package `praxo-core@0.9.0` and
+This starter installs the published crates.io package `praxo-core@0.9.1` and
 verifies an allow/deny governed tool path.
 
 ```bash

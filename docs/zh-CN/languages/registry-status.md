@@ -1,8 +1,8 @@
 # 注册表发布状态
 
-最后核对：2026-11-15（Python 0.8.0、TypeScript 0.7.0、Java 0.9.0、Rust 0.9.0、
-C# 0.9.0、Elixir 0.9.0、Erlang 0.8.0、Ruby 0.8.0、PHP 0.8.0、Dart 0.4.0、
-Perl 0.5.0、Haskell 0.6.0、PowerShell 0.6.0、R 0.10.0 已发布；Go `v2.8.0`
+最后核对：2026-11-15（Python 0.8.1、TypeScript 0.7.1、Java 0.9.0、Rust 0.9.1、
+C# 0.9.1、Elixir 0.9.1、Erlang 0.8.1、Ruby 0.8.1、PHP 0.8.1、Dart 0.4.0、
+Perl 0.5.1、Haskell 0.6.1、PowerShell 0.6.1、R 0.10.1 已发布；Go `v2.8.0`
 保持当前；其他行来自 2026-11-04/05 审计）。
 
 本页汇总各语言实现当前发布到哪里。源码标签、包注册表版本、一致性测试和生产验证是
@@ -23,47 +23,47 @@ GitHub Latest 仅代表 Go 参考 Core，不代表最近发布的语言包。
 | 语言 | 注册表 | 版本 | 地址 | 状态 |
 | --- | --- | --- | --- | --- |
 | Go | Go module proxy / pkg.go.dev | `v2.8.0` | https://pkg.go.dev/github.com/axisvela/praxo-core/v2 | 已发布；页面已于 2026-11-10 审计 |
-| Python | PyPI | `0.8.0` | https://pypi.org/project/praxo-core/0.8.0/ | 已发布 |
-| TypeScript | npm | `0.7.0` | https://www.npmjs.com/package/@axisvela/praxo-core/v/0.7.0 | 已发布；latest |
+| Python | PyPI | `0.8.1` | https://pypi.org/project/praxo-core/0.8.1/ | 已发布 |
+| TypeScript | npm | `0.7.1` | https://www.npmjs.com/package/@axisvela/praxo-core/v/0.7.1 | 已发布；latest |
 | Java | Maven Central | `0.9.0` | https://repo1.maven.org/maven2/com/axisvela/praxo-core/0.9.0/ | 已发布 |
-| Rust | crates.io | `0.9.0` | https://crates.io/crates/praxo-core/0.9.0 | 已发布 |
-| C# | NuGet | `0.9.0` | https://www.nuget.org/packages/Praxo.Core/0.9.0 | 已发布 |
-| Elixir | Hex / HexDocs | `0.9.0` | https://hex.pm/packages/praxo_core/0.9.0 · https://praxo-core.hexdocs.pm/0.9.0/ | 已发布 |
-| Erlang | Hex | `0.8.0` | https://hex.pm/packages/praxo_core_erlang/0.8.0 | 已发布 |
-| Ruby | RubyGems | `0.8.0` | https://rubygems.org/gems/praxo-core/versions/0.8.0 | 已发布；Ruby 源码仓库为 `axisvela/praxo-core-ruby` |
-| Lua | LuaRocks | `0.7.0-1` | https://luarocks.org/modules/hanhhuiwen/praxo-core | 已发布 |
-| PHP | Packagist | `0.8.0` | https://packagist.org/packages/axisvela/praxo-core | 已发布 |
+| Rust | crates.io | `0.9.1` | https://crates.io/crates/praxo-core/0.9.1 | 已发布 |
+| C# | NuGet | `0.9.1` | https://www.nuget.org/packages/Praxo.Core/0.9.1 | 已发布 |
+| Elixir | Hex / HexDocs | `0.9.1` | https://hex.pm/packages/praxo_core/0.9.1 · https://praxo-core.hexdocs.pm/0.9.1/ | 已发布 |
+| Erlang | Hex | `0.8.1` | https://hex.pm/packages/praxo_core_erlang/0.8.1 | 已发布 |
+| Ruby | RubyGems | `0.8.1` | https://rubygems.org/gems/praxo-core/versions/0.8.1 | 已发布；Ruby 源码仓库为 `axisvela/praxo-core-ruby` |
+| Lua | LuaRocks | `0.7.1-1` | https://luarocks.org/modules/hanhhuiwen/praxo-core | 已发布 |
+| PHP | Packagist | `0.8.1` | https://packagist.org/packages/axisvela/praxo-core | 已发布 |
 | Dart | pub.dev | `0.4.0` | https://pub.dev/packages/praxo_core/versions/0.4.0 | 已发布 |
 | D | DUB | `0.1.0` | https://code.dlang.org/packages/praxo-core | split 仓库 `v0.5.0` 已打 tag；DUB 刷新待完成 |
 | Swift | Swift Package Index | `0.4.0` | https://swiftpackageindex.com/axisvela/praxo-core-swift | split 仓库 `0.6.0` 已打 tag；SPI 更新待完成 |
 | MATLAB | MATLAB File Exchange | `0.3.0` | https://www.mathworks.com/matlabcentral/fileexchange/185166-praxo-core | 已发布 |
-| PowerShell Core | PowerShell Gallery | `0.6.0` | https://www.powershellgallery.com/packages/praxo-core-ps/0.6.0 | 已发布 |
+| PowerShell Core | PowerShell Gallery | `0.6.1` | https://www.powershellgallery.com/packages/praxo-core-ps/0.6.1 | 已发布 |
 | PowerShell Bridge | PowerShell Gallery | `0.1.0` | https://www.powershellgallery.com/packages/praxo-core-ps-br/0.1.0 | 已发布 |
-| Perl | CPAN | `0.5.0` | https://metacpan.org/dist/Praxo-Core | 已发布并在 MetaCPAN 建立索引 |
-| Haskell | Hackage | `0.6.0` | https://hackage.haskell.org/package/praxo-core-0.6.0 | 已发布 |
-| R | r-universe | `0.10.0` | https://axisvela.r-universe.dev/praxocore | 已在 r-universe 发布；未发布 CRAN |
-| Nim | nim-lang/packages（Nimble） | `0.1.1` | https://github.com/axisvela/praxo-core-nim | split 仓库 `v0.5.0` 已打 tag；nim-lang/packages PR #3600 已于 2026-11-05 合并；nimpkgs 待重新抓取 |
+| Perl | CPAN | `0.5.1` | https://metacpan.org/dist/Praxo-Core | 已发布并在 MetaCPAN 建立索引 |
+| Haskell | Hackage | `0.6.1` | https://hackage.haskell.org/package/praxo-core-0.6.1 | 已发布 |
+| R | r-universe | `0.10.1` | https://axisvela.r-universe.dev/praxocore | 已在 r-universe 发布；未发布 CRAN |
+| Nim | nim-lang/packages（Nimble） | `0.1.1` | https://github.com/axisvela/praxo-core-nim | split 仓库 `v0.5.1` 已打 tag；nim-lang/packages PR #3600 已于 2026-11-05 合并；nimpkgs 待重新抓取 |
 
 ## 已上传或等待索引
 
 | 语言 | 注册表 | 版本 | 地址 | 状态 |
 | --- | --- | --- | --- | --- |
-| Julia | Julia General Registry | `0.6.0` | https://github.com/JuliaRegistries/General/pull/176024 | mirror `0.6.0` 已打 tag；注册待完成 |
-| Octave | Octave Packages | `0.6.0` | https://github.com/gnu-octave/packages/pull/875 | 包归档已准备；注册待完成 |
-| OCaml | opam | `0.7.0` | https://github.com/ocaml/opam-repository/pull/31222 | split 仓库 `0.7.0` 已打 tag；注册 PR 待合并 |
-| V | VPM | `0.5.0` | https://github.com/axisvela/praxo-core-v | split 仓库 `0.5.0` 已打 tag；VPM 未索引 |
+| Julia | Julia General Registry | `0.6.1` | https://github.com/JuliaRegistries/General/pull/176024 | mirror `0.6.1` 已打 tag；注册待完成 |
+| Octave | Octave Packages | `0.6.1` | https://github.com/gnu-octave/packages/pull/875 | 包归档已准备；注册待完成 |
+| OCaml | opam | `0.7.1` | https://github.com/ocaml/opam-repository/pull/31222 | split 仓库 `0.7.1` 已打 tag；注册 PR 待合并 |
+| V | VPM | `0.5.1` | https://github.com/axisvela/praxo-core-v | split 仓库 `0.5.1` 已打 tag；VPM 未索引 |
 | Delphi / Free Pascal | OPM / GitHub release | `0.2.1` | https://github.com/axisvela/praxo-core/releases/tag/delphi%2Fv0.2.1 | OPM 资产已发布；维护者提交待完成 |
 
 ## 仅源码或未发布到注册表
 
 | 语言 | 源码标签 | 注册表状态 |
 | --- | --- | --- |
-| C | `c/v0.10.0` | 未发布注册表 |
-| C++ | `cpp/v0.8.0` | 未发布注册表 |
-| Fortran | `fortran/v0.10.0` | fpm registry 上游暂停 |
-| COBOL | `cobol/v0.7.0` | 无主流注册表 |
-| Objective-C | `objc/v0.5.0` | CocoaPods 发布暂缓；需要 macOS/Xcode 与 Trunk token |
-| Zig | `zig/v0.6.0` | 无中央注册表 |
+| C | `c/v0.10.1` | 未发布注册表 |
+| C++ | `cpp/v0.8.1` | 未发布注册表 |
+| Fortran | `fortran/v0.10.1` | fpm registry 上游暂停 |
+| COBOL | `cobol/v0.7.1` | 无主流注册表 |
+| Objective-C | `objc/v0.5.1` | CocoaPods 发布暂缓；需要 macOS/Xcode 与 Trunk token |
+| Zig | `zig/v0.6.1` | 无中央注册表 |
 | Tcl / Lisp / Prolog | `tcl/v0.1.0`、`lisp/v0.1.0`、`prolog/v0.1.1` | 桥接包；注册表发布待完成 |
 
 成熟度、支持级别和 consumer smoke 的区别见[支持政策](support.md)。包注册表可用性

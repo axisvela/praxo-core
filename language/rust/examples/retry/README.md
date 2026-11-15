@@ -1,6 +1,6 @@
 # Retry
 
-This example uses published crates.io `praxo-core@0.9.0` to retry transient
+This example uses published crates.io `praxo-core@0.9.1` to retry transient
 model failures without changing the agent loop.
 
 The model middleware retries only `MODEL_UNAVAILABLE` errors, up to a configured

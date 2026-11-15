@@ -1,7 +1,7 @@
 # PHP Examples
 
 - [`consumer/`](consumer/): published Packagist
-  `axisvela/praxo-core:0.8.0` starter with deterministic allow/deny checks.
+  `axisvela/praxo-core:0.8.1` starter with deterministic allow/deny checks.
 - [`hitl/`](hitl/): approval and edit-reauthorization for a write tool.
 - [`session-checkpoint/`](session-checkpoint/): multi-turn history save, reload,
   and continue.

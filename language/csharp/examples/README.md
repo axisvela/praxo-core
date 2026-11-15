@@ -1,12 +1,12 @@
 # C# Examples
 
-- [`consumer/`](consumer/): published NuGet `Praxo.Core==0.9.0` starter with
+- [`consumer/`](consumer/): published NuGet `Praxo.Core==0.9.1` starter with
   deterministic allow/deny checks.
 - [`live-model/`](live-model/): published NuGet package connected to an
   OpenAI-compatible endpoint through `get_time(zone)`.
 - [`hitl/`](hitl/): approval and edit-reauthorization for a write tool.
 - [`structured-output/`](structured-output/): published NuGet
-  `Praxo.Core==0.9.0` with validated JSON output and a deterministic
+  `Praxo.Core==0.9.1` with validated JSON output and a deterministic
   `--test` mode.
 - [`mcp/`](mcp/): in-process MCP client with a deterministic `--test` mode.
 - [`provider-fallback/`](provider-fallback/): fallback model after a primary

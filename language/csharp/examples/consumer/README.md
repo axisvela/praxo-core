@@ -1,6 +1,6 @@
 # Independent C# Consumer
 
-This starter installs the published NuGet package `Praxo.Core==0.9.0` and
+This starter installs the published NuGet package `Praxo.Core==0.9.1` and
 verifies an allow/deny governed tool path.
 
 ```bash

@@ -1,6 +1,6 @@
 # Structured Output Processor
 
-This example uses published npm `@axisvela/praxo-core@0.7.0` to turn free text
+This example uses published npm `@axisvela/praxo-core@0.7.1` to turn free text
 into validated JSON with `StructuredOutput`.
 
 ## Run

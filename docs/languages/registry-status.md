@@ -1,8 +1,8 @@
 # Registry Publication Status
 
-Last checked: 2026-11-15 (Python 0.8.0, TypeScript 0.7.0, Java 0.9.0, Rust
-0.9.0, C# 0.9.0, Elixir 0.9.0, Erlang 0.8.0, Ruby 0.8.0, PHP 0.8.0, Dart 0.4.0,
-Perl 0.5.0, Haskell 0.6.0, PowerShell 0.6.0, and R 0.10.0 published; Go `v2.8.0`
+Last checked: 2026-11-15 (Python 0.8.1, TypeScript 0.7.1, Java 0.9.0, Rust
+0.9.1, C# 0.9.1, Elixir 0.9.1, Erlang 0.8.1, Ruby 0.8.1, PHP 0.8.1, Dart 0.4.0,
+Perl 0.5.1, Haskell 0.6.1, PowerShell 0.6.1, and R 0.10.1 published; Go `v2.8.0`
 remains current; other rows from the 2026-11-04/05 audit).
 
 This page summarizes where each language implementation is published. Source
@@ -29,47 +29,47 @@ GitHub Latest represents the Go Reference Core only, not the last language packa
 | Language | Registry | Version | Address | Status |
 | --- | --- | --- | --- | --- |
 | Go | Go module proxy / pkg.go.dev | `v2.8.0` | https://pkg.go.dev/github.com/axisvela/praxo-core/v2 | published; page audited 2026-11-09 |
-| Python | PyPI | `0.8.0` | https://pypi.org/project/praxo-core/0.8.0/ | published |
-| TypeScript | npm | `0.7.0` | https://www.npmjs.com/package/@axisvela/praxo-core/v/0.7.0 | published; latest |
+| Python | PyPI | `0.8.1` | https://pypi.org/project/praxo-core/0.8.1/ | published |
+| TypeScript | npm | `0.7.1` | https://www.npmjs.com/package/@axisvela/praxo-core/v/0.7.1 | published; latest |
 | Java | Maven Central | `0.9.0` | https://repo1.maven.org/maven2/com/axisvela/praxo-core/0.9.0/ | published |
-| Rust | crates.io | `0.9.0` | https://crates.io/crates/praxo-core/0.9.0 | published |
-| C# | NuGet | `0.9.0` | https://www.nuget.org/packages/Praxo.Core/0.9.0 | published |
-| Elixir | Hex / HexDocs | `0.9.0` | https://hex.pm/packages/praxo_core/0.9.0 · https://praxo-core.hexdocs.pm/0.9.0/ | published |
-| Erlang | Hex | `0.8.0` | https://hex.pm/packages/praxo_core_erlang/0.8.0 | published |
-| Ruby | RubyGems | `0.8.0` | https://rubygems.org/gems/praxo-core/versions/0.8.0 | published; Ruby source repo is `axisvela/praxo-core-ruby` |
-| Lua | LuaRocks | `0.7.0-1` | https://luarocks.org/modules/hanhhuiwen/praxo-core | published |
-| PHP | Packagist | `0.8.0` | https://packagist.org/packages/axisvela/praxo-core | published |
+| Rust | crates.io | `0.9.1` | https://crates.io/crates/praxo-core/0.9.1 | published |
+| C# | NuGet | `0.9.1` | https://www.nuget.org/packages/Praxo.Core/0.9.1 | published |
+| Elixir | Hex / HexDocs | `0.9.1` | https://hex.pm/packages/praxo_core/0.9.1 · https://praxo-core.hexdocs.pm/0.9.1/ | published |
+| Erlang | Hex | `0.8.1` | https://hex.pm/packages/praxo_core_erlang/0.8.1 | published |
+| Ruby | RubyGems | `0.8.1` | https://rubygems.org/gems/praxo-core/versions/0.8.1 | published; Ruby source repo is `axisvela/praxo-core-ruby` |
+| Lua | LuaRocks | `0.7.1-1` | https://luarocks.org/modules/hanhhuiwen/praxo-core | published |
+| PHP | Packagist | `0.8.1` | https://packagist.org/packages/axisvela/praxo-core | published |
 | Dart | pub.dev | `0.4.0` | https://pub.dev/packages/praxo_core/versions/0.4.0 | published |
 | D | DUB | `0.1.0` | https://code.dlang.org/packages/praxo-core | split repo `v0.5.0` tagged; DUB refresh pending |
 | Swift | Swift Package Index | `0.4.0` | https://swiftpackageindex.com/axisvela/praxo-core-swift | split repo `0.6.0` tagged; SPI pending |
 | MATLAB | MATLAB File Exchange | `0.3.0` | https://www.mathworks.com/matlabcentral/fileexchange/185166-praxo-core | published |
-| PowerShell Core | PowerShell Gallery | `0.6.0` | https://www.powershellgallery.com/packages/praxo-core-ps/0.6.0 | published |
+| PowerShell Core | PowerShell Gallery | `0.6.1` | https://www.powershellgallery.com/packages/praxo-core-ps/0.6.1 | published |
 | PowerShell Bridge | PowerShell Gallery | `0.1.0` | https://www.powershellgallery.com/packages/praxo-core-ps-br/0.1.0 | published |
-| Perl | CPAN | `0.5.0` | https://metacpan.org/dist/Praxo-Core | published and indexed on MetaCPAN |
-| Haskell | Hackage | `0.6.0` | https://hackage.haskell.org/package/praxo-core-0.6.0 | published |
-| R | r-universe | `0.10.0` | https://axisvela.r-universe.dev/praxocore | published on r-universe; CRAN not published |
-| Nim | nim-lang/packages (Nimble) | `0.1.1` | https://github.com/axisvela/praxo-core-nim | split repo `v0.5.0` tagged; nim-lang/packages PR #3600 merged 2026-11-05; nimpkgs re-crawl pending |
+| Perl | CPAN | `0.5.1` | https://metacpan.org/dist/Praxo-Core | published and indexed on MetaCPAN |
+| Haskell | Hackage | `0.6.1` | https://hackage.haskell.org/package/praxo-core-0.6.1 | published |
+| R | r-universe | `0.10.1` | https://axisvela.r-universe.dev/praxocore | published on r-universe; CRAN not published |
+| Nim | nim-lang/packages (Nimble) | `0.1.1` | https://github.com/axisvela/praxo-core-nim | split repo `v0.5.1` tagged; nim-lang/packages PR #3600 merged 2026-11-05; nimpkgs re-crawl pending |
 
 ## Uploaded or awaiting indexing
 
 | Language | Registry | Version | Address | Status |
 | --- | --- | --- | --- | --- |
-| Julia | Julia General Registry | `0.6.0` | https://github.com/JuliaRegistries/General/pull/176024 | mirror `0.6.0` tagged; registration pending |
-| Octave | Octave Packages | `0.6.0` | https://github.com/gnu-octave/packages/pull/875 | package archive prepared; registration pending |
-| OCaml | opam | `0.7.0` | https://github.com/ocaml/opam-repository/pull/31222 | split repo `0.7.0` tagged; registration PR open |
-| V | VPM | `0.5.0` | https://github.com/axisvela/praxo-core-v | split repo `0.5.0` tagged; VPM not indexed |
+| Julia | Julia General Registry | `0.6.1` | https://github.com/JuliaRegistries/General/pull/176024 | mirror `0.6.1` tagged; registration pending |
+| Octave | Octave Packages | `0.6.1` | https://github.com/gnu-octave/packages/pull/875 | package archive prepared; registration pending |
+| OCaml | opam | `0.7.1` | https://github.com/ocaml/opam-repository/pull/31222 | split repo `0.7.1` tagged; registration PR open |
+| V | VPM | `0.5.1` | https://github.com/axisvela/praxo-core-v | split repo `0.5.1` tagged; VPM not indexed |
 | Delphi / Free Pascal | OPM / GitHub release | `0.2.1` | https://github.com/axisvela/praxo-core/releases/tag/delphi%2Fv0.2.1 | OPM assets published; maintainer submission pending |
 
 ## Source-only or not published to a registry
 
 | Language | Source tag | Registry state |
 | --- | --- | --- |
-| C | `c/v0.10.0` | no registry publication |
-| C++ | `cpp/v0.8.0` | no registry publication |
-| Fortran | `fortran/v0.10.0` | fpm registry upstream paused |
-| COBOL | `cobol/v0.7.0` | no mainstream registry |
-| Objective-C | `objc/v0.5.0` | CocoaPods publication deferred; requires macOS/Xcode and a Trunk token |
-| Zig | `zig/v0.6.0` | no central registry |
+| C | `c/v0.10.1` | no registry publication |
+| C++ | `cpp/v0.8.1` | no registry publication |
+| Fortran | `fortran/v0.10.1` | fpm registry upstream paused |
+| COBOL | `cobol/v0.7.1` | no mainstream registry |
+| Objective-C | `objc/v0.5.1` | CocoaPods publication deferred; requires macOS/Xcode and a Trunk token |
+| Zig | `zig/v0.6.1` | no central registry |
 | Tcl / Lisp / Prolog | `tcl/v0.1.0`, `lisp/v0.1.0`, `prolog/v0.1.1` | bridge packages; registry publication pending |
 
 Use the [support policy](support.md) for maturity, support level, and consumer

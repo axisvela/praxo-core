@@ -1,6 +1,6 @@
 # Structured Output Processor
 
-This example uses published PyPI `praxo-core==0.8.0` to turn free text into
+This example uses published PyPI `praxo-core==0.8.1` to turn free text into
 validated JSON with `StructuredOutput`.
 
 ## Run

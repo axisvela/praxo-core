@@ -8,6 +8,6 @@
     "test": "node --test test_starter.test.js"
   },
   "dependencies": {
-    "@axisvela/praxo-core": "0.7.0"
+    "@axisvela/praxo-core": "0.7.1"
   }
 }

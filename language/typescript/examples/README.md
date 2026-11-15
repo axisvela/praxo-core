@@ -1,6 +1,6 @@
 # TypeScript Examples
 
-- [`consumer/`](consumer/): published npm `@axisvela/praxo-core@0.7.0` starter
+- [`consumer/`](consumer/): published npm `@axisvela/praxo-core@0.7.1` starter
   with deterministic allow/deny checks.
 - [`live-model/`](live-model/): published npm package connected to an
   OpenAI-compatible endpoint through `get_time(zone)`.

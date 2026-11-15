@@ -1,6 +1,6 @@
 # Event Sink
 
-This example uses published npm `@axisvela/praxo-core@0.7.0` to observe agent
+This example uses published npm `@axisvela/praxo-core@0.7.1` to observe agent
 lifecycle and tool events without coupling the agent to a logging or telemetry
 backend.
 

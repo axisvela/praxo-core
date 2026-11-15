@@ -5,4 +5,4 @@ edition = "2021"
 publish = false
 
 [dependencies]
-praxo-core = "0.9.0"
+praxo-core = "0.9.1"
