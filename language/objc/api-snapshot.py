@@ -10,7 +10,7 @@ REPO = ROOT.parents[1]
 
 def header_text():
     parts = [
-        (ROOT / name).read_text(encoding="utf-8")
+        (ROOT / "src" / name).read_text(encoding="utf-8")
         for name in ("PraxoJSON.h", "PraxoWire.h", "PraxoCore.h", "PraxoOpenAI.h")
     ]
     return "\n".join(parts)
@@ -31,7 +31,7 @@ def declared_symbols():
 
 
 def source_version(name):
-    text = (ROOT / "PraxoWire.m").read_text(encoding="utf-8")
+    text = (ROOT / "src" / "PraxoWire.m").read_text(encoding="utf-8")
     match = re.search(
         r'NSString \*const ' + re.escape(name) + r' = @"([^"]+)";', text
     )

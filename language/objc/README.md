@@ -40,12 +40,15 @@ python language/objc/run-tests.py
 runtime. The runner links GNUstep builds with lld because the GNU ld PE/COFF
 path discards the GNUstep selector COMDAT sections.
 
+Core sources live under `src/`; direct source builds add `-Isrc` from
+`language/objc/` or `-Ilanguage/objc/src` from the repository root.
+
 To build manually on macOS from `language/objc/`:
 
 ```bash
-clang -fobjc-arc -fblocks -I. -o build/praxo_tests \
-  PraxoJSON.m PraxoJsonSchema.m PraxoPlugin.m PraxoWire.m \
-  PraxoCore.m PraxoAgent.m tests/main.m tests/correlation.m tests/middleware.m \
+clang -fobjc-arc -fblocks -Isrc -o build/praxo_tests \
+  src/PraxoJSON.m src/PraxoJsonSchema.m src/PraxoPlugin.m src/PraxoWire.m \
+  src/PraxoCore.m src/PraxoAgent.m tests/main.m tests/correlation.m tests/middleware.m \
   -framework Foundation
 build/praxo_tests ../../spec
 ```

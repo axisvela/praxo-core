@@ -9,11 +9,11 @@ JSON Schema, and restricts the run to `get_time`.
 macOS with Apple Foundation:
 
 ```bash
-clang -fobjc-arc -fblocks -Ilanguage/objc \
+clang -fobjc-arc -fblocks -Ilanguage/objc/src \
   language/objc/examples/live-model/live_starter.m \
-  language/objc/PraxoJSON.m language/objc/PraxoJsonSchema.m \
-  language/objc/PraxoCore.m language/objc/PraxoAgent.m \
-  language/objc/PraxoOpenAI.m \
+  language/objc/src/PraxoJSON.m language/objc/src/PraxoJsonSchema.m \
+  language/objc/src/PraxoCore.m language/objc/src/PraxoAgent.m \
+  language/objc/src/PraxoOpenAI.m \
   -framework Foundation -o build/objc-live-model
 ./build/objc-live-model
 ```
@@ -22,11 +22,11 @@ GNUstep (Linux or Windows):
 
 ```bash
 clang -fobjc-arc -fblocks -fobjc-runtime=gnustep-2.0 -fuse-ld=lld \
-  -Ilanguage/objc \
+  -Ilanguage/objc/src \
   language/objc/examples/live-model/live_starter.m \
-  language/objc/PraxoJSON.m language/objc/PraxoJsonSchema.m \
-  language/objc/PraxoCore.m language/objc/PraxoAgent.m \
-  language/objc/PraxoOpenAI.m \
+  language/objc/src/PraxoJSON.m language/objc/src/PraxoJsonSchema.m \
+  language/objc/src/PraxoCore.m language/objc/src/PraxoAgent.m \
+  language/objc/src/PraxoOpenAI.m \
   -lgnustep-base -lobjc -lstdc++ -o build/objc-live-model
 ./build/objc-live-model
 ```

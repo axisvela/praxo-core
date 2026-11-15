@@ -1,5 +1,13 @@
 # Objective-C Core Release Notes
 
+## Unreleased
+
+### Changed
+
+- Core `Praxo*.h` and `Praxo*.m` files moved from `language/objc/` to
+  `language/objc/src/`. Update direct source builds to add `-Ilanguage/objc/src`
+  and prefix core source paths with `src/`. CocoaPods consumers are unaffected.
+
 ## 0.5.0 - 2026-11-15
 
 Source tag `objc/v0.5.0`.

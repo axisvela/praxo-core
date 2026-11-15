@@ -10,20 +10,20 @@ import sys
 ROOT = Path(__file__).resolve().parent
 REPO = ROOT.parents[1]
 SOURCES = [
-    "PraxoJSON.m",
-    "PraxoJsonSchema.m",
-    "PraxoPlugin.m",
-    "PraxoWire.m",
-    "PraxoCore.m",
-    "PraxoAgent.m",
-    "PraxoOpenAI.m",
-    "PraxoAnthropic.m",
-    "PraxoGemini.m",
-    "PraxoHarmovela.m",
-    "PraxoMCP.m",
-    "PraxoOtel.m",
-    "PraxoRetriever.m",
-    "PraxoDelegation.m",
+    "src/PraxoJSON.m",
+    "src/PraxoJsonSchema.m",
+    "src/PraxoPlugin.m",
+    "src/PraxoWire.m",
+    "src/PraxoCore.m",
+    "src/PraxoAgent.m",
+    "src/PraxoOpenAI.m",
+    "src/PraxoAnthropic.m",
+    "src/PraxoGemini.m",
+    "src/PraxoHarmovela.m",
+    "src/PraxoMCP.m",
+    "src/PraxoOtel.m",
+    "src/PraxoRetriever.m",
+    "src/PraxoDelegation.m",
     "tests/main.m",
     "tests/correlation.m",
     "tests/middleware.m",
@@ -49,7 +49,7 @@ def main():
     build = ROOT / "build"
     build.mkdir(exist_ok=True)
     executable = build / ("praxo_tests.exe" if os.name == "nt" else "praxo_tests")
-    command = [compiler, "-fobjc-arc", "-fblocks", "-I", str(ROOT), "-o", str(executable)]
+    command = [compiler, "-fobjc-arc", "-fblocks", "-I", str(ROOT / "src"), "-o", str(executable)]
     command.extend(str(ROOT / source) for source in SOURCES)
     if platform.system() == "Darwin":
         command.extend(["-framework", "Foundation"])

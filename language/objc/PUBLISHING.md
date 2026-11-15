@@ -2,7 +2,7 @@
 
 ## Status
 
-Source tag `objc/v0.5.0` maps to CocoaPods pod `PraxoCore` version `0.4.0`.
+Source tag `objc/v0.5.0` maps to CocoaPods pod `PraxoCore` version `0.5.0`.
 The pod is not yet published. Publication is deferred until a macOS/Xcode
 environment and a configured CocoaPods Trunk token are available.
 
@@ -17,7 +17,7 @@ pod trunk push language/objc/PraxoCore.podspec
 ```
 
 The podspec uses the main repository tag and includes `Praxo*.{h,m}` from
-`language/objc`. Validate it before pushing:
+`language/objc/src`. Validate it before pushing:
 
 ```bash
 pod spec lint language/objc/PraxoCore.podspec

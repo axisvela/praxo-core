@@ -6,10 +6,10 @@ the network or a model service.
 macOS with Apple Foundation:
 
 ```bash
-clang -fobjc-arc -fblocks -Ilanguage/objc \
+clang -fobjc-arc -fblocks -Ilanguage/objc/src \
   language/objc/examples/consumer/consumer.m \
-  language/objc/PraxoJSON.m language/objc/PraxoJsonSchema.m \
-  language/objc/PraxoCore.m language/objc/PraxoAgent.m \
+  language/objc/src/PraxoJSON.m language/objc/src/PraxoJsonSchema.m \
+  language/objc/src/PraxoCore.m language/objc/src/PraxoAgent.m \
   -framework Foundation -o build/objc-consumer
 ./build/objc-consumer
 ```
@@ -19,10 +19,10 @@ GNUstep (Linux or Windows) adds the runtime flags used by
 
 ```bash
 clang -fobjc-arc -fblocks -fobjc-runtime=gnustep-2.0 -fuse-ld=lld \
-  -Ilanguage/objc \
+  -Ilanguage/objc/src \
   language/objc/examples/consumer/consumer.m \
-  language/objc/PraxoJSON.m language/objc/PraxoJsonSchema.m \
-  language/objc/PraxoCore.m language/objc/PraxoAgent.m \
+  language/objc/src/PraxoJSON.m language/objc/src/PraxoJsonSchema.m \
+  language/objc/src/PraxoCore.m language/objc/src/PraxoAgent.m \
   -lgnustep-base -lobjc -lstdc++ -o build/objc-consumer
 ./build/objc-consumer
 ```
