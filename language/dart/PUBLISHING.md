@@ -90,3 +90,23 @@ one release path and record it:
 
 Do not publish `0.6.0` from the current branch if the tag points at different
 content. Verify the tag/commit first.
+
+## Next release candidate (`0.6.1`)
+
+The existing `dart/v0.5.0` and `dart/v0.6.0` tags will not retrigger the new
+workflow. The clean automated path is a new patch tag. This is a release action
+and requires explicit release authorization.
+
+1. Set `language/dart/VERSION`, `language/dart/pubspec.yaml`, and
+   `language/dart/CHANGELOG.md` to `0.6.1`.
+2. Generate `language/dart/api/0.6.1.txt`:
+   `cd language/dart && python api-snapshot.py`.
+3. Update the Dart source version/tag in `language/registry-metadata.json` and
+   the support/matrix release pages required by the release checklist.
+4. Run `dart run conformance/run.dart`, `python api-snapshot.py --check`,
+   `dart run test/run.dart`, and `dart pub publish --dry-run`.
+5. Commit the version/changelog/snapshot/metadata changes, then create and push
+   `dart/v0.6.1`.
+6. Verify the `dart-release` workflow and the pub.dev audit log.
+
+Do not create the tag before the version files and snapshot are committed.
