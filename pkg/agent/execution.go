@@ -194,7 +194,11 @@ func (a *Agent) remember(ctx context.Context, runID, sessionID string, result *R
 		Frame:     memory.FrameEvent,
 		Content:   result.Output,
 		CreatedAt: time.Now().UTC(),
-		Metadata:  map[string]any{"steps": result.Steps},
+		Metadata: map[string]any{
+			"steps":  result.Steps,
+			"source": "assistant",
+			"trust":  "untrusted",
+		},
 	}
 	if a.Hooks.OnMemoryWrite != nil {
 		if err := a.Hooks.OnMemoryWrite(ctx, runID, record); err != nil {
