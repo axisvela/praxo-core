@@ -7,6 +7,7 @@ It demonstrates:
 
 - HMAC-SHA256 token verification in the application;
 - OIDC/JWT verification with provider discovery and JWKS;
+- RFC 7662 token introspection and RFC 7009 revocation;
 - subject and tenant claims;
 - expiration checks;
 - tenant allowlist enforcement before the agent runs;
@@ -67,8 +68,43 @@ The verifier checks `iss`, `aud`, `exp`, and optional `nbf`, selects the key by
 and refreshes once when the token `kid` is unknown. A missing or invalid
 signature, unknown `kid`, unavailable JWKS or discovery metadata, invalid
 issuer or audience, expired token, or missing subject or tenant denies the
-request. This example does not implement token introspection, revocation, token
-exchange, DPoP, or authorization policy.
+request.
+
+## Token Introspection
+
+Set `PRAXO_INTROSPECTION_URL` to verify opaque tokens through an RFC 7662
+endpoint:
+
+```bash
+export PRAXO_INTROSPECTION_URL=https://issuer.example.com/introspect
+export PRAXO_INTROSPECTION_CLIENT_ID=praxo-service
+export PRAXO_INTROSPECTION_CLIENT_SECRET=...
+export PRAXO_OIDC_TENANT_CLAIM=tenant
+go run . -addr :8080
+```
+
+Client credentials use HTTP Basic authentication. When the URL is unset but
+`PRAXO_OIDC_ISSUER` is set, the endpoint can be discovered from provider
+metadata. The verifier requires `active: true`, `sub`, the configured tenant
+claim, and an integer `exp` in the future. A timeout, non-200 response, inactive
+token, missing claim, or expired `exp` denies the request. Introspection takes
+precedence over OIDC/JWT verification when both are configured.
+
+## Token Revocation
+
+Revoke a token through an RFC 7009 endpoint:
+
+```bash
+export PRAXO_REVOCATION_URL=https://issuer.example.com/revoke
+export PRAXO_INTROSPECTION_CLIENT_ID=praxo-service
+export PRAXO_INTROSPECTION_CLIENT_SECRET=...
+go run . --revoke-token "$TOKEN"
+```
+
+When `PRAXO_REVOCATION_URL` is unset, the endpoint can be discovered from
+`PRAXO_OIDC_ISSUER` metadata. Revocation is an application decision; the service
+does not revoke automatically on logout, approval, or run completion. Token
+exchange, DPoP, and authorization policy remain outside this example.
 
 ## Test
 
@@ -80,5 +116,7 @@ Tests cover missing token, expired token, unknown tenant, the allowed path, and
 checkpoint persistence using a fake model. OIDC tests use a generated RSA key,
 a loopback discovery document, and a loopback JWKS endpoint; they cover the
 allowed path, wrong audience, expired token, unknown key, and unavailable
-provider metadata. The file store is a teaching implementation, not a
-concurrent database or a power-loss-proof store.
+provider metadata. Introspection tests use a loopback RFC 7662 endpoint for
+active, inactive, missing-expiration, and unavailable-provider cases;
+revocation tests cover success and provider failure. The file store is a
+teaching implementation, not a concurrent database or a power-loss-proof store.

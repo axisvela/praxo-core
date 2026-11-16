@@ -53,7 +53,9 @@ curl -s http://127.0.0.1:8080/run \
 [认证服务示例](https://github.com/axisvela/praxo-core/tree/main/examples/embedded-service-auth)
 增加应用侧 HMAC Bearer Token、subject/tenant claims、过期检查、Agent 运行前的
 租户允许列表，以及运行完成时保存的文件型 Checkpoint。设置 `PRAXO_OIDC_ISSUER` 后改为
-验证 OIDC/JWKS JWT，并可从 Issuer 元数据发现 `jwks_uri`。
+验证 OIDC/JWKS JWT，并可从 Issuer 元数据发现 `jwks_uri`。设置
+`PRAXO_INTROSPECTION_URL` 后改用 RFC 7662 introspection；`--revoke-token TOKEN`
+通过 RFC 7009 撤销。两者同时配置时 introspection 优先。
 
 ```bash
 cd examples/embedded-service-auth

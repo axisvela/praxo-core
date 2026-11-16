@@ -46,8 +46,9 @@ middleware, not from the prompt or model.
 The Go authenticated service example
 [`examples/embedded-service-auth`](https://github.com/axisvela/praxo-core/tree/main/examples/embedded-service-auth)
 shows the same binding at a service boundary. It verifies an application-local
-HMAC token by default and can verify OIDC/JWKS JWTs with provider discovery when
-`PRAXO_OIDC_ISSUER` is set.
+HMAC token by default, OIDC/JWKS JWTs with provider discovery when
+`PRAXO_OIDC_ISSUER` is set, or opaque tokens through RFC 7662 introspection when
+`PRAXO_INTROSPECTION_URL` is set. It also supports RFC 7009 revocation.
 
 The Python authenticated HTTP service
 [`language/python/examples/service-auth`](https://github.com/axisvela/praxo-core/tree/main/language/python/examples/service-auth)

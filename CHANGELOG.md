@@ -92,6 +92,8 @@
 - Python `service-auth` adds RFC 7662 token introspection and RFC 7009
   revocation, including provider discovery, loopback tests, and an
   `--revoke-token` CLI path.
+- Go `embedded-service-auth` adds RFC 7662 token introspection and RFC 7009
+  revocation, with provider discovery and an `--revoke-token` CLI path.
 
 ### Changed
 

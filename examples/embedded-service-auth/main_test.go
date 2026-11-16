@@ -264,3 +264,129 @@ func TestOIDCProviderUnavailableFailsClosed(t *testing.T) {
 		t.Fatalf("expected 401, got %d", response.Code)
 	}
 }
+
+type introspectionState struct {
+	token        string
+	revoked      string
+	active       bool
+	missingExp   bool
+	revokeStatus int
+}
+
+func withIntrospection(t *testing.T, state *introspectionState, run func(url string)) {
+	t.Helper()
+	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if err := r.ParseForm(); err != nil {
+			writeError(w, http.StatusBadRequest, "invalid form")
+			return
+		}
+		switch r.URL.Path {
+		case "/introspect":
+			state.token = r.FormValue("token")
+			if !state.active {
+				writeJSON(w, http.StatusOK, map[string]any{"active": false})
+				return
+			}
+			body := map[string]any{
+				"active": true,
+				"sub":    "user-1",
+				"tenant": "local",
+			}
+			if !state.missingExp {
+				body["exp"] = time.Now().Add(time.Hour).Unix()
+			}
+			writeJSON(w, http.StatusOK, body)
+		case "/revoke":
+			state.revoked = r.FormValue("token")
+			if state.revokeStatus != 0 && state.revokeStatus != http.StatusOK {
+				w.WriteHeader(state.revokeStatus)
+				return
+			}
+			writeJSON(w, http.StatusOK, map[string]any{})
+		default:
+			w.WriteHeader(http.StatusNotFound)
+		}
+	}))
+	defer server.Close()
+	run(server.URL)
+}
+
+func TestIntrospectionAcceptsActiveToken(t *testing.T) {
+	state := &introspectionState{active: true}
+	withIntrospection(t, state, func(endpoint string) {
+		verifier := newIntrospectionVerifier(endpoint+"/introspect", "", "", "", "", "tenant", time.Second)
+		handler, _ := testHandlerWithAuth(t, verifier.Verify)
+		response := httptest.NewRecorder()
+		handler.ServeHTTP(response, newRunRequest("opaque-token"))
+		if response.Code != http.StatusOK {
+			t.Fatalf("expected 200, got %d: %s", response.Code, response.Body.String())
+		}
+		if state.token != "opaque-token" {
+			t.Fatalf("introspected token = %q", state.token)
+		}
+	})
+}
+
+func TestIntrospectionRejectsInactiveToken(t *testing.T) {
+	state := &introspectionState{active: false}
+	withIntrospection(t, state, func(endpoint string) {
+		verifier := newIntrospectionVerifier(endpoint+"/introspect", "", "", "", "", "tenant", time.Second)
+		handler, _ := testHandlerWithAuth(t, verifier.Verify)
+		response := httptest.NewRecorder()
+		handler.ServeHTTP(response, newRunRequest("opaque-token"))
+		if response.Code != http.StatusUnauthorized {
+			t.Fatalf("expected 401, got %d", response.Code)
+		}
+	})
+}
+
+func TestIntrospectionRequiresExpiration(t *testing.T) {
+	state := &introspectionState{active: true, missingExp: true}
+	withIntrospection(t, state, func(endpoint string) {
+		verifier := newIntrospectionVerifier(endpoint+"/introspect", "", "", "", "", "tenant", time.Second)
+		handler, _ := testHandlerWithAuth(t, verifier.Verify)
+		response := httptest.NewRecorder()
+		handler.ServeHTTP(response, newRunRequest("opaque-token"))
+		if response.Code != http.StatusUnauthorized {
+			t.Fatalf("expected 401, got %d", response.Code)
+		}
+	})
+}
+
+func TestIntrospectionUnavailableFailsClosed(t *testing.T) {
+	server := httptest.NewServer(http.HandlerFunc(func(http.ResponseWriter, *http.Request) {}))
+	endpoint := server.URL
+	server.Close()
+	verifier := newIntrospectionVerifier(endpoint, "", "", "", "", "tenant", 200*time.Millisecond)
+	handler, _ := testHandlerWithAuth(t, verifier.Verify)
+	response := httptest.NewRecorder()
+	handler.ServeHTTP(response, newRunRequest("opaque-token"))
+	if response.Code != http.StatusUnauthorized {
+		t.Fatalf("expected 401, got %d", response.Code)
+	}
+}
+
+func TestRevokeTokenPostsToken(t *testing.T) {
+	state := &introspectionState{}
+	withIntrospection(t, state, func(endpoint string) {
+		if err := revokeToken(context.Background(), "opaque-token", revocationOptions{
+			URL: endpoint + "/revoke", Timeout: time.Second,
+		}); err != nil {
+			t.Fatal(err)
+		}
+		if state.revoked != "opaque-token" {
+			t.Fatalf("revoked token = %q", state.revoked)
+		}
+	})
+}
+
+func TestRevokeTokenFailsClosed(t *testing.T) {
+	state := &introspectionState{revokeStatus: http.StatusServiceUnavailable}
+	withIntrospection(t, state, func(endpoint string) {
+		if err := revokeToken(context.Background(), "opaque-token", revocationOptions{
+			URL: endpoint + "/revoke", Timeout: time.Second,
+		}); err == nil {
+			t.Fatal("expected revocation error")
+		}
+	})
+}

@@ -33,8 +33,10 @@ type jwksDocument struct {
 }
 
 type providerMetadata struct {
-	Issuer  string `json:"issuer"`
-	JWKSURI string `json:"jwks_uri"`
+	Issuer                string `json:"issuer"`
+	JWKSURI               string `json:"jwks_uri"`
+	IntrospectionEndpoint string `json:"introspection_endpoint"`
+	RevocationEndpoint    string `json:"revocation_endpoint"`
 }
 
 type oidcVerifier struct {
@@ -217,14 +219,18 @@ func (v *oidcVerifier) fetchKeys() (map[string]jwkKey, error) {
 }
 
 func (v *oidcVerifier) metadata() (providerMetadata, error) {
-	if v.issuer == "" {
+	return fetchProviderMetadata(v.client, v.issuer, v.discoveryURL)
+}
+
+func fetchProviderMetadata(client *http.Client, issuer, discoveryURL string) (providerMetadata, error) {
+	if issuer == "" {
 		return providerMetadata{}, errors.New("identity provider issuer is required")
 	}
-	url := v.discoveryURL
+	url := discoveryURL
 	if url == "" {
-		url = v.issuer + "/.well-known/openid-configuration"
+		url = issuer + "/.well-known/openid-configuration"
 	}
-	response, err := v.client.Get(url)
+	response, err := client.Get(url)
 	if err != nil {
 		return providerMetadata{}, errors.New("identity provider unavailable")
 	}
@@ -236,11 +242,8 @@ func (v *oidcVerifier) metadata() (providerMetadata, error) {
 	if err := json.NewDecoder(response.Body).Decode(&metadata); err != nil {
 		return providerMetadata{}, errors.New("invalid provider metadata")
 	}
-	if strings.TrimRight(metadata.Issuer, "/") != v.issuer {
+	if strings.TrimRight(metadata.Issuer, "/") != strings.TrimRight(issuer, "/") {
 		return providerMetadata{}, errors.New("invalid provider issuer")
-	}
-	if metadata.JWKSURI == "" {
-		return providerMetadata{}, errors.New("provider metadata is missing jwks_uri")
 	}
 	return metadata, nil
 }

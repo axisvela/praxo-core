@@ -57,6 +57,9 @@ adds an application-verified HMAC bearer token, subject and tenant claims,
 expiration checks, a tenant allowlist before the agent runs, and a file-backed
 checkpoint saved on run completion. Set `PRAXO_OIDC_ISSUER` to verify OIDC/JWKS
 JWTs instead; the verifier can discover `jwks_uri` from the issuer metadata.
+Set `PRAXO_INTROSPECTION_URL` for RFC 7662 introspection, and use
+`--revoke-token TOKEN` for RFC 7009 revocation. Introspection takes precedence
+when both OIDC and introspection are configured.
 
 ```bash
 cd examples/embedded-service-auth

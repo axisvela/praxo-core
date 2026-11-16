@@ -39,7 +39,9 @@ GOWORK=off go test -mod=readonly -run Identity -v ./...
 Go 认证服务示例
 [`examples/embedded-service-auth`](https://github.com/axisvela/praxo-core/tree/main/examples/embedded-service-auth)
 展示了服务边界上的同类绑定。它默认验证应用局部 HMAC Token，设置
-`PRAXO_OIDC_ISSUER` 后可验证带 Provider 发现的 OIDC/JWKS JWT。
+`PRAXO_OIDC_ISSUER` 后可验证带 Provider 发现的 OIDC/JWKS JWT，设置
+`PRAXO_INTROSPECTION_URL` 后可通过 RFC 7662 校验不透明 Token；同时支持 RFC 7009
+撤销。
 
 Python 认证 HTTP 服务
 [`language/python/examples/service-auth`](https://github.com/axisvela/praxo-core/tree/main/language/python/examples/service-auth)

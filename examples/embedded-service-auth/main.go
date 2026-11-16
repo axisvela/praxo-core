@@ -64,7 +64,33 @@ func (timeTool) Invoke(context.Context, map[string]any) (any, error) {
 
 func main() {
 	addr := flag.String("addr", ":8080", "HTTP listen address")
+	revoke := flag.String("revoke-token", "", "Revoke a token and exit")
 	flag.Parse()
+	if *revoke != "" {
+		timeout, err := authTimeout()
+		if err != nil {
+			log.Fatal(err)
+		}
+		err = revokeToken(context.Background(), *revoke, revocationOptions{
+			URL:          os.Getenv("PRAXO_REVOCATION_URL"),
+			Issuer:       os.Getenv("PRAXO_OIDC_ISSUER"),
+			DiscoveryURL: os.Getenv("PRAXO_OIDC_DISCOVERY_URL"),
+			ClientID: envOr(
+				"PRAXO_INTROSPECTION_CLIENT_ID",
+				os.Getenv("PRAXO_OIDC_CLIENT_ID"),
+			),
+			ClientSecret: envOr(
+				"PRAXO_INTROSPECTION_CLIENT_SECRET",
+				os.Getenv("PRAXO_OIDC_CLIENT_SECRET"),
+			),
+			Timeout: timeout,
+		})
+		if err != nil {
+			log.Fatal(err)
+		}
+		log.Print("token revoked")
+		return
+	}
 
 	authenticate, err := newAuthenticator()
 	if err != nil {
@@ -152,19 +178,39 @@ func newAgent(runtimeModel model.Model, allowed map[string]bool, store *fileStor
 	})
 }
 
+func authTimeout() (time.Duration, error) {
+	timeout := 2 * time.Second
+	if raw := os.Getenv("PRAXO_OIDC_TIMEOUT"); raw != "" {
+		seconds, err := strconv.Atoi(raw)
+		if err != nil || seconds <= 0 {
+			return 0, errors.New("PRAXO_OIDC_TIMEOUT must be a positive integer")
+		}
+		timeout = time.Duration(seconds) * time.Second
+	}
+	return timeout, nil
+}
+
 func newAuthenticator() (func(string, time.Time) (claims, error), error) {
+	timeout, err := authTimeout()
+	if err != nil {
+		return nil, err
+	}
+	if url := os.Getenv("PRAXO_INTROSPECTION_URL"); url != "" {
+		verifier := newIntrospectionVerifier(
+			url,
+			os.Getenv("PRAXO_OIDC_ISSUER"),
+			os.Getenv("PRAXO_OIDC_DISCOVERY_URL"),
+			envOr("PRAXO_INTROSPECTION_CLIENT_ID", os.Getenv("PRAXO_OIDC_CLIENT_ID")),
+			envOr("PRAXO_INTROSPECTION_CLIENT_SECRET", os.Getenv("PRAXO_OIDC_CLIENT_SECRET")),
+			envOr("PRAXO_OIDC_TENANT_CLAIM", "tenant"),
+			timeout,
+		)
+		return verifier.Verify, nil
+	}
 	if issuer := os.Getenv("PRAXO_OIDC_ISSUER"); issuer != "" {
 		audience := os.Getenv("PRAXO_OIDC_AUDIENCE")
 		if audience == "" {
 			return nil, errors.New("PRAXO_OIDC_AUDIENCE is required")
-		}
-		timeout := 2 * time.Second
-		if raw := os.Getenv("PRAXO_OIDC_TIMEOUT"); raw != "" {
-			seconds, err := strconv.Atoi(raw)
-			if err != nil || seconds <= 0 {
-				return nil, errors.New("PRAXO_OIDC_TIMEOUT must be a positive integer")
-			}
-			timeout = time.Duration(seconds) * time.Second
 		}
 		verifier := newOIDCVerifier(
 			issuer,
@@ -178,7 +224,7 @@ func newAuthenticator() (func(string, time.Time) (claims, error), error) {
 	}
 	secret := os.Getenv("PRAXO_SERVICE_SECRET")
 	if secret == "" {
-		return nil, errors.New("PRAXO_SERVICE_SECRET or PRAXO_OIDC_ISSUER is required")
+		return nil, errors.New("PRAXO_SERVICE_SECRET, PRAXO_OIDC_ISSUER, or PRAXO_INTROSPECTION_URL is required")
 	}
 	return func(header string, now time.Time) (claims, error) {
 		return verifyBearer(header, secret, now)
