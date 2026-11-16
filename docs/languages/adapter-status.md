@@ -4,6 +4,20 @@ This page tracks native adapter coverage for Model providers, MCP tool sessions,
 and Harmovela event delivery. Contract conformance and behavior coverage are
 separate; an adapter is not production or provider evidence.
 
+## Three Evidence Layers
+
+Read adapter rows at one of three layers. Do not collapse them into one claim.
+
+| Layer | What it proves | What it does not prove |
+| --- | --- | --- |
+| Contract complete | Declared vectors, parity inventory, and API snapshot pass for the language's declared scope | That an adapter exists or that a real provider/MCP/Harmovela service was exercised |
+| Adapter available | An in-tree, transport-seam, inherited, or bridge adapter maps the shared contract | That the adapter was run against a live provider or external service |
+| Integration verified | A recorded run used a real model endpoint, real MCP service, or Harmovela integration with a fixed version, environment, and date | Production readiness, all-provider coverage, or Go feature parity |
+
+A language can be contract-complete without a native adapter, and can have an
+adapter without integration verification. The matrix and support pages must say
+which layer a claim uses.
+
 Status words:
 
 - `native`: an in-tree adapter for this implementation.

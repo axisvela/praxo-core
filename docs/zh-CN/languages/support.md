@@ -211,7 +211,8 @@ Bridge、Sample 描述运行时的接入方式，不证明其语言缺乏 Framew
 Python、TypeScript、Java、Rust、R、C# 包含人工审批中断决策；Python、TypeScript、
 Java、C# 还包含流式路径与 OpenAI 兼容适配器，不能据此推断其他语言也具备这些能力。`complete` 表示声明范围内的契约一致性；parity 清单仍可包含
 该范围之外的功能 `partial`/`planned` 行。共享向量通过不等于 Go 全功能一致、真实提供商验证、
-生产就绪或包仓库发布完成。
+生产就绪或包仓库发布完成，也不证明已有适配器或已完成集成验证。三层证据见
+[适配器状态](adapter-status.md)。
 
 VFS、插件宿主、调度与可选集成应以对应 Core 的 README 和 API 参考为准。
 贡献要求见 [Core 设计](../contributing/core-design.md)和

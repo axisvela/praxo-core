@@ -24,6 +24,23 @@ implementation; Python, TypeScript, Java, Rust, C#, R, Ruby, PHP, Elixir, Lua,
 and other implementations ship independent packages. It is not a Go-only
 framework.
 
+## Two Paths
+
+Start with the smaller path, then add governance when you need it.
+
+1. **Five-minute embed:** install a published package, connect one model, register
+   one tool, and run one allow/deny check. Start with the
+   [Go consumer](docs/getting-started/consumer-go.md),
+   [Python consumer](docs/getting-started/consumer-python.md), or
+   [TypeScript consumer](docs/getting-started/consumer-typescript.md).
+2. **Governed acceptance:** add final tool reauthorization, HITL, negative tests,
+   and zero-effect denial checks. Read the
+   [application integration checklist](docs/guides/application-integration-checklist.md)
+   and the [governed reference example](https://github.com/axisvela/praxo-core/tree/main/examples/governed-workspace).
+
+You do not need the full language matrix, evidence taxonomy, or every adapter
+before your first run.
+
 ## Choose Your Language
 
 | Language | Package | Start |
@@ -90,7 +107,7 @@ demonstrates tools, streamed text, events, and policy. See the
 ## Why PRAXO-CORE
 
 - **Explicit governance:** policy hooks, tool authorization, and HITL decisions.
-- **Recoverable execution:** checkpoint and session contracts with resume support.
+- **Checkpoint and session contracts:** message-history continuation and application-owned recovery, not durable execution.
 - **Observable behavior:** structured events and optional OpenTelemetry integration.
 - **Provider-neutral embedding:** model, memory, tool, retrieval, and sandbox interfaces.
 - **MIT boundary:** optional integrations stay separate from the core framework.
@@ -105,9 +122,9 @@ surface; each language implementation declares its own scope and evidence.
 | --- | --- | --- | --- |
 | Governed | Policy hooks, tool authorization and HITL integration | Configured allow/deny and approval paths | Authentication, policy configuration and enforcement; an Agent can run without Policy |
 | Sandbox support | Execution contracts and adapters | Contract behavior and selected adapter boundaries | A real isolated runtime and deployment hardening; an interface is not OS isolation |
-| Recoverable | Session/checkpoint contracts and recovery integration | Serialization and scoped recovery fixtures | Durable stores, effect verification and idempotency; checkpoints are not external transactions or exactly-once guarantees |
+| Checkpoint and session | Session/checkpoint contracts with message-history continuation | Serialization and scoped recovery fixtures | Durable stores, run-step recovery, effect verification and idempotency; checkpoints are not external transactions or exactly-once guarantees |
 | Multilingual | Shared specification and independent implementations | Each language's declared vectors and behavior coverage | Selection against that language's limitations; not assumed Go feature parity |
-| Multi-agent | Local subagent delegation | Delegation behavior in the declared suites | Distributed coordination and durable orchestration if needed |
+| Multi-agent | Local subagent delegation | Launch, status, cancel, and optional update suites | Parent-to-child policy/tool-scope narrowing, distributed coordination, and durable orchestration if needed |
 
 See the [test taxonomy](docs/project/test-taxonomy.md) for evidence levels and
 the [consumer starters](docs/getting-started/coding-agents.md) for package-level checks.

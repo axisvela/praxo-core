@@ -316,7 +316,10 @@ other implementation.
 `complete` records declared-scope conformance; the parity inventory may still
 contain `partial` or `planned` rows for features outside that scope. Passing
 shared vectors does not prove complete feature parity with Go, live
-provider verification, production readiness, or package publication.
+provider verification, production readiness, or package publication. It also
+does not prove an adapter is available or integration-verified. See
+[Adapter Status](adapter-status.md) for the contract-complete /
+adapter-available / integration-verified layers.
 
 VFS backends, plugin hosts, scheduling, and optional integrations must be
 evaluated against the specific Core's README and API reference.

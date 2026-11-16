@@ -14,6 +14,10 @@ A subagent manager owns local child runs:
 - Cancellation is local. It is not proof that remote work stopped.
 - A terminal state is final for the local task; it is not an exactly-once or
   durable execution guarantee.
+- The manager does not enforce parent-to-child policy, tool-scope, budget, or
+  recursion-depth narrowing. The runner must derive the child scope from trusted
+  parent context and must not let the child widen it. Policy, tool scope, and
+  final-argument reauthorization stay in the child agent configuration.
 
 The Go reference is `pkg/agent/delegation`. Python provides
 `praxo.delegation.SubagentManager` with an async runner seam; TypeScript

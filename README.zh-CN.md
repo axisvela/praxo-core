@@ -20,6 +20,20 @@
 **PRAXO-CORE 是多语言框架。** Go 是参考实现；Python、TypeScript、Java、Rust、C#、R、
 Ruby、PHP、Elixir、Lua 等语言都有独立发布包。它不是 Go 专用框架。
 
+## 两条路径
+
+先走较小的路径，再按需增加治理。
+
+1. **五分钟嵌入：** 安装发布包、连接一个模型、注册一个工具，运行一次 allow/deny
+   检查。从 [Go 独立消费者](docs/zh-CN/getting-started/consumer-go.md)、
+   [Python 独立消费者](docs/zh-CN/getting-started/consumer-python.md) 或
+   [TypeScript 独立消费者](docs/zh-CN/getting-started/consumer-typescript.md) 开始。
+2. **治理验收：** 增加最终工具重新授权、HITL、负向测试和零效果拒绝检查。阅读
+   [应用嵌入清单](docs/zh-CN/guides/application-integration-checklist.md)和
+   [受治理参考示例](https://github.com/axisvela/praxo-core/tree/main/examples/governed-workspace)。
+
+第一次运行前不需要理解完整语言矩阵、证据分类或所有适配器。
+
 ## 选择语言
 
 | 语言 | 包 | 开始 |
@@ -82,7 +96,7 @@ Go 参考实现覆盖完整接口；各语言实现分别声明范围与证据�
 | Sandbox Support | 执行契约与适配器 | 契约行为与选定适配器边界 | 真实隔离运行时和部署加固；接口不等于操作系统隔离 |
 | Recoverable | Session/Checkpoint 契约与恢复集成 | 序列化与限定范围的恢复夹具 | 持久存储、效果验证和幂等；Checkpoint 不保证外部事务或 exactly-once |
 | Multilingual | 共享规范与独立语言实现 | 各语言声明的向量和行为覆盖 | 按语言限制选型，不假设完整 Go 功能对齐 |
-| Multi-Agent | 局部 Subagent 委派 | 声明测试范围内的委派行为 | 按需提供分布式协调与持久编排 |
+| Multi-Agent | 局部 Subagent 委派 | 启动、状态、取消和可选更新测试 | 按需实现父子策略/工具范围收窄、分布式协调与持久编排 |
 
 证据层次见[测试分类](docs/zh-CN/project/test-taxonomy.md)，发布包验证见
 [消费者 Starter](docs/zh-CN/getting-started/coding-agents.md)。

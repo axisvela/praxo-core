@@ -14,9 +14,20 @@ from discovery to a useful project. New users should not need to understand the
 full specification, evidence taxonomy, cross-language matrices, or advanced
 execution profiles before they can build an agent.
 
+**Planning update: 2026-11-16.** The next focus is evidence depth and the first
+working path, not more language entries. The first path is a five-minute embed;
+governed acceptance is a second step. Public claims now separate contract
+completeness, adapter availability, and integration verification. Safe default
+semantics also move up: recalled memory is untrusted data unless the application
+raises its authority deliberately, and final tool arguments remain
+reauthorized after edits.
+
 PRAXO-CORE remains a **governed, embeddable agent execution framework**. The
 roadmap favors runnable applications and clear integration boundaries over new
-language, adapter, profile, or test counts.
+language, adapter, profile, or test counts. Existing systems and constrained
+runtime environments are the primary integration target; a new language Kernel
+or adapter still requires a named consumer, a maintainer, and a real deployment
+path.
 
 ### Planning Principles
 
@@ -49,16 +60,20 @@ installation, and feature coverage follow the
 The roadmap does not require every language to publish every example at the same
 time. It does require user-facing paths to say which language and package they
 target and not to present Go-only behavior as a cross-language guarantee.
+Language count is not a goal: read `complete` as contract-complete, and check
+[Adapter Status](../languages/adapter-status.md) for the separate adapter and
+integration layers.
 
 ## Adoption Path
 
 | Stage | Developer outcome | Current state | Next result |
 | --- | --- | --- | --- |
 | 0. Decide | Know whether Core fits and which language/path to use | The overview, task chooser, comparison, and non-goals exist | Make the choice path shorter and show application responsibilities clearly |
-| 1. Run | Install a published package, connect a model, register one tool, and get a useful result | Published-package deterministic starters and live-model examples now cover the primary SDKs and several extended languages; registry versions are current for Python, TypeScript, Rust, C#, Elixir, Erlang, Ruby, Lua, Perl, Haskell, PowerShell, and R, while Java, PHP, Dart, MATLAB, Swift, and D remain behind their source tags (checked 2026-11-15) | Run the live path against supported endpoints and record language-specific troubleshooting |
+| 1. Run | Install a published package, connect a model, register one tool, and get a useful result | The five-minute embed path and deterministic starters cover the primary SDKs; live-model examples cover several extended languages; registry versions are current for Python, TypeScript, Rust, C#, Elixir, Erlang, Ruby, Lua, Perl, Haskell, PowerShell, and R, while Java, PHP, Dart, MATLAB, Swift, and D remain behind their source tags (checked 2026-11-15) | Validate the five-minute path with external developers and record live-endpoint troubleshooting |
 | 2. Prototype | Build one coherent local application with tools, streaming, structured output, MCP, workspace access, or telemetry | A thirteen-theme example catalog now covers thirty-one languages, including HITL and session-checkpoint examples; the examples page groups paths by Basic, Integration, Hardening, and Advanced. The [Structured Output tutorial](../guides/structured-output-tutorial.md) gives a runnable path for all thirty-one languages, with published-package walkthroughs for Python and TypeScript | Finish recorded live-provider checks and add an application-shaped prototype for a secondary SDK |
-| 3. Embed | Integrate Core into an existing service with application-owned identity, policy, persistence, events, and shutdown | Vendor-neutral Go/Python/TypeScript HTTP services, Go/Python/TypeScript authenticated identity/policy services, TypeScript OIDC/JWKS verification with provider discovery plus token introspection and revocation, Go and Python OIDC/JWKS verification with provider discovery, an optional external Python policy decision service, verified-identity and durable-checkpoint variants, and a risk-tiered checklist exist | Add token introspection/revocation and provider discovery, and apply the external identity pattern to another SDK |
-| 4. Harden | Make the specific integration safe to upgrade, fail, cancel, and recover | Negative, upgrade, containment, and recovery assets exist | Organize them by application risk instead of requiring everything up front |
+| 3. Embed | Integrate Core into an existing service with application-owned identity, policy, persistence, events, and shutdown | Vendor-neutral Go/Python/TypeScript HTTP services, Go/Python/TypeScript authenticated identity/policy services, TypeScript OIDC/JWKS verification with provider discovery plus token introspection and revocation, Go and Python OIDC/JWKS verification with provider discovery, an optional external Python policy decision service, verified-identity and durable-checkpoint variants, and a risk-tiered checklist exist | Extend introspection/revocation and the external identity pattern to further SDKs; add a minimal durable checkpoint path |
+| 4. Harden | Make the specific integration safe to upgrade, fail, cancel, and recover | Negative, upgrade, containment, and recovery assets exist; memory recall now defaults to untrusted historical data, and retry tests cover the unknown-effect non-idempotent hazard | Organize checks by application risk, and add malicious cross-turn memory and effect-reconciliation cases to the consumer test template |
+| 5. Extend | Adopt plugins, delegation, long-running operations, workspace providers, or embodied integrations when needed | Application-level delegation examples cover Go, Python, TypeScript, Java, C#, and Rust; Go reference examples cover long-running operations, workspaces, and plugins | Add controlled parent-to-child policy, tool-scope, budget, and depth narrowing before claiming governed delegation |
 | 5. Extend | Adopt plugins, delegation, long-running operations, workspace providers, or embodied integrations when needed | Application-level delegation examples cover Go, Python, TypeScript, Java, C#, and Rust; Go reference examples cover long-running operations, workspaces, and plugins | Advance only with a named consumer and a concrete project need |
 
 The stages describe the recommended order for adoption. They are not release
@@ -101,7 +116,8 @@ the first project.
 
 From an empty directory, install a published package, connect Ollama or an
 OpenAI-compatible endpoint, register one low-risk tool, and see a model response
-or tool result in 15-30 minutes.
+or tool result in 15-30 minutes. The quickstart keeps the five-minute embed path
+separate from the later governed-acceptance path.
 
 The first path keeps only three checks:
 
@@ -231,6 +247,10 @@ from reaching the first useful result.
   aligned with the read-only, side-effecting, and high-risk tiers.
 - Extend the [consumer test template](../guides/consumer-test-template.md) with
   language-specific examples instead of requiring the whole repository matrix.
+- Keep malicious cross-turn memory cases in the default suite: memory content
+  must not gain instruction authority or change tool authorization.
+- Keep the unknown-effect retry cases: a transport or timeout error does not
+  prove that a non-idempotent tool produced no effect.
 - Run upgrade, fault, load, provider, database, collector, sandbox, and recovery
   checks for the integrations that actually need them.
 - Continue the [Execution Correctness](execution-correctness.md), Behavior Lab,
@@ -256,22 +276,31 @@ separate product consumer. Details and acceptance conditions remain in the
 [embodied pilot plan](embodied-pilot.md); embodied work is not on the normal SDK
 adoption path.
 
+Controlled delegation is the next advanced capability: a child run may only
+narrow the parent's policy, tool scope, step budget, and depth, and its final
+tool arguments still pass reauthorization. Until that contract is implemented
+and versioned, treat parent-to-child narrowing as application-owned.
+
 Do not prioritize new ROS, workspace-provider, language, or generic asynchronous
 action APIs without a named consumer and a concrete gap.
 
 ## Current Priorities
 
-1. Published-package live-model golden paths across the main SDKs, starting with
-   Go, Python, TypeScript, and Java.
-2. A language-aware, task-oriented example catalog.
-3. One complete practical prototype tutorial per primary SDK, not only Go.
-4. Vendor-neutral application integration samples in representative languages.
-5. Risk-tiered production and maintenance checklists that state language support
-   explicitly.
+1. Make the five-minute embed path real and externally validated: published
+   package, one model, one tool, one denial check.
+2. Obtain one independent consumer, one third-party reproduction, and one
+   recorded real provider/MCP/Harmovela integration.
+3. Deepen existing capabilities before adding new ones: controlled delegation
+   scope narrowing, memory provenance/trust, and a minimal checkpoint/session
+   store reference implementation.
+4. Keep the three evidence layers explicit: contract complete, adapter
+   available, integration verified.
+5. Publish task-oriented tutorials for MCP, controlled delegation, and
+   OpenTelemetry traces instead of language-count messaging.
 
 These priorities favor fewer complete paths over more isolated features. A
 single Go example is not sufficient evidence that the developer path works for
-the other language SDKs.
+the other language SDKs, and registry downloads alone are not adoption.
 
 ## Adoption Evidence
 
@@ -289,6 +318,11 @@ downloads alone are not adoption.
 ## Deferred Until Adoption Paths Are Stable
 
 - Expanding Behavior Lab or compatibility matrices for count alone.
+- New language Kernels, repositories, or broad adapter sets without a named
+  consumer, a maintainer, a real deployment path, and integration evidence.
+- A durable execution module until a consumer needs crash-step recovery, pending
+  approvals, effect cursors, or exactly-once semantics and provides real
+  recovery tests.
 - Re-running every historical evidence record after documentation changes.
 - Broad coding-agent skill comparisons and repeated adoption experiments.
 - Full fault, load, live-provider, and operational evidence for integrations

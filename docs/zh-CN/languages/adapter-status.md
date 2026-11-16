@@ -3,6 +3,19 @@
 本页跟踪 Model provider、MCP tool session 与 Harmovela 事件投递的原生适配器覆盖。
 契约一致性与行为覆盖是独立维度；适配器存在不等于生产或 provider 证据。
 
+## 三层证据
+
+适配器行必须按以下三层之一解读，不能合并成同一个声明。
+
+| 层级 | 证明内容 | 不证明 |
+| --- | --- | --- |
+| Contract complete | 该语言声明范围内的向量、parity 清单与 API snapshot 通过 | 已有适配器，或已对真实 provider/MCP/Harmovela 服务运行 |
+| Adapter available | 树内、transport seam、继承或 bridge 适配器完成共享契约映射 | 已对真实 provider 或外部服务运行 |
+| Integration verified | 有固定版本、环境和日期的真实模型、MCP 或 Harmovela 集成运行记录 | 生产就绪、覆盖全部 provider 或 Go 功能对齐 |
+
+一种语言可以 contract-complete 但没有原生适配器，也可以有适配器但未做集成验证。
+矩阵和支持页必须说明声明属于哪一层。
+
 状态词：
 
 - `native`：该实现有树内适配器。

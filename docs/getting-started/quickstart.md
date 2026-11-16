@@ -1,5 +1,12 @@
 # Quickstart
 
+There are two paths. Do the first one before reading the full matrix.
+
+1. **Five-minute embed:** install a published package, connect one model, register
+   one tool, and run one allow/deny check.
+2. **Governed acceptance:** add final tool reauthorization, HITL, negative tests,
+   and zero-effect denial checks.
+
 Start with the [independent Go consumer](consumer-go.md) to install a published
 package in your own application and verify allow/deny behavior without a source
 checkout, API key, or model service.

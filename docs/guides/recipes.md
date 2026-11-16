@@ -167,7 +167,9 @@ These are contract checks, not live-provider evidence.
 
 `pkg/tool.Retry` retries failed invocations according to a policy. The zero
 value performs one attempt; configure `Attempts`, `BaseDelay`, `MaxDelay`, and
-`ShouldRetry` deliberately.
+`ShouldRetry` deliberately. With `Attempts > 1` and no `ShouldRetry`, every
+error is retried, including transport or timeout errors whose external effect is
+unknown. Do not use that configuration for a non-idempotent tool.
 
 ```go
 wrapped := tool.Wrap(charge, tool.Retry(tool.RetryPolicy{
@@ -490,7 +492,9 @@ ag, err := agent.New(agent.Options{
 })
 ```
 
-See the
+Recalled records are injected as untrusted historical user data, not as system
+instructions, and the recall block names the frame and source when available.
+Memory content must not be able to raise its own instruction authority. See the
 [Mnemovela Core example](https://github.com/axisvela/praxo-core/tree/main/examples/ecosystem-sdk/mnemovela).
 
 ## GNOSIVELA
