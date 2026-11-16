@@ -7,9 +7,9 @@
 ## Package
 
 - package: `praxo-core`
-- registry: [Octave Packages](https://github.com/axisvela/praxo-core/releases/download/octave/v0.2.1/praxo-core-0.2.1.tar.gz)
+- registry: [Octave Packages](https://github.com/axisvela/praxo-core/releases/download/octave/v0.7.0/praxo-core-0.7.0.tar.gz)
 - source_version: `0.7.0`
-- published_version: `0.2.1`
+- published_version: `0.7.0`
 - install_published: `pkg install -forge praxo-core`
 - install_source: `pkg install -forge praxo-core`
 - source_tag: `octave/v0.7.0`

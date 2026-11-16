@@ -16,7 +16,7 @@ v -path "language/v|@vlib|@vmodules" test language/v/examples/service
 
 Expected result: the V test runner reports no failures.
 
-unverified: toolchain absent
+Verified locally with the existing D:\dev toolchain; the scripted-transport auth test passed.
 
 The existing handler check remains:
 

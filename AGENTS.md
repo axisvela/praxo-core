@@ -70,6 +70,55 @@ this framework.
 
 ## Build And Test
 
+### Local Toolchain Locations
+
+Local toolchains are installed under `D:\dev`. Reuse the existing portable
+installations; do not install duplicate toolchains into the user profile or
+elsewhere. Add the relevant directory to `PATH` per command when a tool is not
+already on `PATH`.
+
+Per-language paths, versions, blockers, and working commands are maintained
+internally in
+`D:\profile\paper-code\axis-vela\PRAXOVELA-EE\docs\praxo-core\languages\environment-and-configuration.md`.
+Swift has an additional Windows setup guide in
+`D:\profile\paper-code\axis-vela\PRAXOVELA-EE\docs\praxo-core\languages\swift-windows-toolchain.md`.
+Record new toolchain findings and workarounds there.
+
+| Tool / language | Local path |
+| --- | --- |
+| Go | `D:\dev\Go\bin\go.exe` |
+| Python | `C:\Python314\python.exe`; also `D:\dev\Python\Python312` and `Python313` |
+| Node.js / npm | `D:\dev\nvm4w\nodejs` |
+| Java | `D:\dev\Eclipse Adoptium\jdk-25.0.5.8-hotspot` |
+| Maven | `D:\dev\apache-maven-3.9.10\bin\mvn.cmd` |
+| Rust | `D:\data\rust\.cargo\bin\cargo.exe` |
+| .NET | `C:\Program Files\dotnet\dotnet.exe`; also `D:\dev\dotnet` |
+| Elixir | `D:\dev\Elixir\bin\elixir.bat` |
+| Erlang / escript / rebar3 | `D:\dev\Erlang OTP\bin`; `D:\dev\rebar3\rebar3.cmd` |
+| Ruby | `D:\dev\ruby\bin\ruby.exe` |
+| PHP | `D:\dev\php\php.exe` |
+| Lua | `D:\dev\lua\bin\lua.exe` |
+| Dart | `D:\dev\dart\dart-sdk\bin\dart.exe` |
+| Perl | `D:\dev\msys64\usr\bin\perl.exe` |
+| Free Pascal | `D:\dev\fpc\bin\i386-Win32\fpc.exe` |
+| DMD | `D:\dev\DMD\D\dmd2\windows\bin64\dmd.exe` |
+| Clang / MSYS2 | `D:\dev\msys64\mingw64\bin` |
+| GCC / G++ / gfortran | `D:\dev\winlibs\mingw64\bin` |
+| Zig | `D:\dev\zig\zig-x86_64-windows-0.17.0\zig.exe` |
+| Swift | `C:\Users\hanhw1\AppData\Local\Programs\Swift\Toolchains\6.4.2+Asserts\usr\bin` |
+| Julia | `D:\dev\julia\bin\julia.exe` |
+| GNU Octave | `D:\dev\octave-11.3.0-w64\mingw64\bin\octave-cli.exe` |
+| R | `D:\dev\R\bin\Rscript.exe` (also `D:\dev\R45`) |
+| Nim | `D:\dev\nim-2.2.12_x64\bin\nim.exe` |
+| GHC / runghc | `D:\dev\ghc-9.12.2-x86_64-unknown-mingw32\bin` |
+| OCaml | `D:\dev\dkml\usr\bin` |
+| V | `D:\dev\v\v\v.exe` |
+| GnuCOBOL | `D:\dev\gnucobol\bin\cobc.exe` |
+| PowerShell | Windows PowerShell 5.1 or `pwsh` from WindowsApps |
+
+MATLAB is not installed locally. Octave is the local compatibility runtime; do
+not claim MATLAB runtime verification from an Octave run.
+
 ### Windows Java/Maven Agent Execution
 
 When an agent runs Java or Maven from a persistent shell, redirect stdin from

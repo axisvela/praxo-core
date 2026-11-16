@@ -48,7 +48,7 @@ The Go page was checked on 2026-11-16; the four pilot packages were checked on
 | Go | [pkg.go.dev](https://pkg.go.dev/github.com/axisvela/praxo-core/v2) | `v2.9.0` | Rendered `v2.9.0` README shows the `@v2.9.0` install command, MIT license, and release notes; pkg.go.dev reports `v2.9.0` published 2026-11-16 | No further action |
 | Python | [PyPI](https://pypi.org/project/praxo-core/) | `0.9.0` | `0.9.0` is published; the packaged README carries the absolute examples link and the `0.9.0` install command | No further action |
 | TypeScript | [npm](https://www.npmjs.com/package/@axisvela/praxo-core) | `0.8.0` | `0.8.0` is published as `latest`; the packaged README carries the absolute examples link and the `0.8.0` install command | No further action |
-| Java | [Maven Central](https://central.sonatype.com/artifact/com.axisvela/praxo-core) | `0.9.0` | `0.9.0` is published with signed sources and javadoc; the POM description links the Java examples | No further action |
+| Java | [Maven Central](https://central.sonatype.com/artifact/com.axisvela/praxo-core) | `0.10.0` | `0.10.0` is published with signed sources and javadoc; the POM description links the Java examples | No further action |
 | Rust | [crates.io](https://crates.io/crates/praxo-core) | `0.8.0` | `0.8.1` is published; the packaged README links the Rust examples | No further action |
 | C# | [NuGet](https://www.nuget.org/packages/Praxo.Core) | `0.8.0` | `0.8.1` is published; the packaged README links the C# examples | No further action |
 

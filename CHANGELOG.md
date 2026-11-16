@@ -123,13 +123,13 @@
 - Elixir, Erlang, and Perl service examples add transport-seam introspection
   and revocation, with scripted-transport tests; they remain handler-only
   examples.
-- Service authentication now covers the remaining declared implementations at
-  source level: Rust, Lua, D, C, C++, Objective-C, Delphi/Free Pascal, Zig,
-  Fortran, and PowerShell pass local scripted-transport tests; Java compiles
-  and Swift typechecks with runtime checks blocked locally; Haskell, OCaml,
-  Julia, Nim, V, R, and MATLAB/Octave source and tests are present but
-  unverified because their toolchains are absent; COBOL documents the transport
-  boundary only. OIDC/JWKS remains limited to Go, Python, and TypeScript.
+- Service authentication now covers 30 of 31 declared implementations at source
+  level. Rust, Lua, D, C, C++, Objective-C, Delphi/Free Pascal, Zig, Fortran,
+  PowerShell, Java, Swift, Haskell, OCaml, Julia, Nim, V, and R pass local
+  scripted-transport, loopback, or file-redirected tests; GNU Octave runs the
+  shared MATLAB/Octave auth test; native MATLAB remains unverified; COBOL
+  documents the transport boundary only. OIDC/JWKS remains limited to Go,
+  Python, and TypeScript.
 
 ### Changed
 
@@ -150,6 +150,12 @@
 
 ### Fixed
 
+- The Haskell service auth example no longer references a case-bound `value`
+  from an outer `where` block, and the Julia example accepts callable scripted
+  transports instead of requiring a `Function`.
+- Java service auth tests run on Windows via `javaw` plus file redirection when
+  the console `java` launcher hangs. Swift auth tests link with `lld` and the
+  assembled MSVC CRT libraries, then run as a normal Windows executable.
 - The PHP consumer source-mode fallback now loads `../../src/autoload.php`
   instead of a non-existent nested path; `php test_starter.php` passes locally.
 - `pkg/tool.RetryPolicy` documents and tests the unknown-effect hazard: with

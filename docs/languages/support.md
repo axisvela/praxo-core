@@ -103,23 +103,23 @@ Registry values below were checked against the public registries on 2026-11-14.
 | --- | --- | --- | --- |
 | Python | `python/v0.9.0` | PyPI `praxo-core==0.9.0` published | Release workflow built and smoke-tested the `0.9.0` wheel and sdist; post-publication consumer check not rerun |
 | TypeScript | `typescript/v0.8.0` | npm `@axisvela/praxo-core@0.8.0` published as `latest` | Release workflow built the `0.8.0` tarball; post-publication consumer starter check not rerun |
-| Java | `java/v0.10.0` | Maven Central `com.axisvela:praxo-core:0.9.0` published | Release workflow built, signed, and published `0.9.0`; post-publication consumer check not rerun |
+| Java | `java/v0.10.0` | Maven Central `com.axisvela:praxo-core:0.10.0` published | Release workflow built, signed, and published `0.10.0`; post-publication consumer check not rerun |
 | Rust | `rust/v0.9.1` | crates.io `praxo-core==0.9.1` published; `0.1.4` historical | Consumer starter ran against published `0.9.1` locally; `http-ureq` live path remains source-only |
 | C# | `csharp/v0.9.1` | NuGet `Praxo.Core==0.9.1` published | Consumer starter ran against published `0.9.1` locally |
 | Elixir | `elixir/v0.9.1` | Hex `praxo_core==0.9.1` published with OpenAI-compatible, Anthropic, Gemini, Harmovela, and MCP adapters; `0.5.1`, `0.4.1`, `0.4.0`, `0.3.0`, `0.2.0` historical | Extended starter added; Hex `0.4.1` resolved in a clean Mix project and allow/deny passed locally; `0.6.0` install smoke not rerun |
 | Erlang | `erlang/v0.8.1` | Hex `praxo_core_erlang==0.8.1` published; `0.4.0`, `0.3.1`, `0.2.0` historical | Not rerun for `0.5.0`; historical `0.1.1` smoke |
 | Ruby | `ruby/v0.8.1` | RubyGems `praxo-core==0.9.0` published; `0.4.1`, `0.4.0`, `0.3.0`, `0.2.0` historical | Extended starter added; RubyGems `0.4.1` installed into a clean gem home and allow/deny passed locally; `0.5.0` install smoke not rerun |
 | Lua | `lua/v0.7.1` | LuaRocks `praxo-core==0.7.1-1` published with the optional OpenAI-compatible adapter; `0.4.1-1`, `0.4.0-1`, `0.3.0-1`, `0.2.0-1` also published | Extended starter added; LuaRocks `0.4.1-1` installed into a clean tree and allow/deny passed locally; `0.5.0-1` install smoke not rerun |
-| PHP | `php/v0.8.1` | Packagist `axisvela/praxo-core==0.8.0` published with Composer `autoload.files`; `0.4.1`, `0.4.0`, `0.3.0`, `0.2.0` historical | Extended starter added; Composer install of published `0.4.1` passed locally; `0.8.1` install smoke not rerun |
+| PHP | `php/v0.8.1` | Packagist `axisvela/praxo-core==0.8.1` published with Composer `autoload.files`; `0.4.1`, `0.4.0`, `0.3.0`, `0.2.0` historical | Extended starter added; Composer install of published `0.4.1` passed locally; `0.8.1` install smoke not rerun |
 | Dart | `dart/v0.6.1` | pub.dev `praxo_core==0.6.1` | Clean `0.6.1` install smoke passed locally on 2026-11-16 |
 | Julia | `julia/v0.7.0` | General Registry PR #176393 open; merge pending | Not recorded |
-| MATLAB | `matlab/v0.7.0` | MATLAB File Exchange `185166` published (`0.3.0`) | Not recorded |
-| Octave | `octave/v0.7.0` | Octave Packages PR #875 open; package archive published | Not recorded |
+| MATLAB | `matlab/v0.7.0` | MATLAB File Exchange `185166` published (`0.5.0`); `0.7.0` upload pending | Not recorded |
+| Octave | `octave/v0.7.0` | Octave `0.7.0` release tarball published; Octave Packages PR #875 pending | Not recorded |
 | R | `r/v0.10.1` | r-universe `praxocore==0.10.1` published; CRAN not published | Consumer starter runs in source mode; published `0.10.1` install smoke not rerun |
 | Perl | `perl/v0.6.0` | CPAN `Praxo-Core==0.6.0` published and indexed on MetaCPAN | Not recorded |
 | PowerShell | `powershell/v0.7.0` | PowerShell Gallery `praxo-core-ps==0.7.0` published | Not recorded |
 | Nim | `nim/v0.6.0` | Split repository package `0.1.1`; nim-lang/packages PR #3600 merged 2026-11-05; nimpkgs re-crawl pending | Not recorded |
-| OCaml | `ocaml/v0.8.0` | opam-repository PR #31222 open | Not recorded |
+| OCaml | `ocaml/v0.8.0` | opam `0.3.0`; PR #31222 closed after opam-ci failure; new submission needed | Not recorded |
 | Haskell | `haskell/v0.7.0` | Hackage `praxo-core==0.7.0` published | Not recorded |
 | Delphi / Free Pascal | `delphi/v0.7.0` | OPM assets published; maintainer submission pending | Not recorded |
 
@@ -132,25 +132,25 @@ its latest version matches the manifest at the release tag.
 | --- | --- | --- | --- |
 | Python | `0.9.0` | PyPI `0.9.0` | current |
 | TypeScript | `0.8.0` | npm `0.8.0` | current |
-| Java | `0.10.0` | Maven Central `0.9.0` | tag released; registry behind |
+| Java | `0.10.0` | Maven Central `0.10.0` | current |
 | Rust | `0.9.1` | crates.io `0.9.1` | current |
 | C# | `0.9.1` | NuGet `0.9.1` | current |
 | Elixir | `0.9.1` | Hex `0.9.1` | current |
 | Erlang | `0.8.1` | Hex `0.8.1` | current |
 | Ruby | `0.8.1` | RubyGems `0.8.1` | current |
-| PHP | `0.8.1` | Packagist `0.8.0` | tag released; registry behind |
+| PHP | `0.8.1` | Packagist `0.8.1` | current |
 | Lua | rockspec `0.7.1-1`; source tag `0.7.1` | LuaRocks `0.7.1-1` | current |
 | Dart | `0.6.1` | pub.dev `0.6.1` | current |
 | Julia | `0.7.0` | General Registry PR #176393 open; merge pending | pending |
-| MATLAB | `0.7.0` | File Exchange `185166` (`0.3.0`) | registry behind |
-| Octave | `0.7.0` | Octave Packages PR #875 open | pending |
+| MATLAB | `0.7.0` | File Exchange `185166` (`0.5.0`) | 0.7.0 upload pending |
+| Octave | `0.7.0` | 0.7.0 release tarball; Octave Packages PR #875 pending | pending |
 | Perl | `0.6.0` | CPAN `0.6.0` | current |
 | PowerShell | `0.7.0` | PowerShell Gallery `0.7.0` | current |
 | Haskell | `0.7.0` | Hackage `0.7.0` | current |
 | R | `0.10.1` | r-universe `0.10.1` | current |
 | Nim | `0.6.0` | Split repository package `0.1.1` | pending |
-| OCaml | `0.8.0` | opam registry `0.3.0`; PR #31222 open (`0.8.0`) | pending |
-| Swift | `0.7.0` | SPI `0.6.0` | registry behind |
+| OCaml | `0.8.0` | opam registry `0.3.0`; PR #31222 closed (`0.8.0`) | new submission needed |
+| Swift | `0.7.0` | SPI `0.7.0` | current |
 | Delphi / Free Pascal | `0.7.0` | OPM `0.2.1` | pending |
 | D | `0.6.0` | DUB `0.4.0` | pending |
 

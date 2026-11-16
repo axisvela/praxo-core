@@ -72,6 +72,18 @@ Expected output:
 service test: ok
 ```
 
+On Windows hosts where the console `java` launcher hangs but `javaw` works, run
+the compiled test with file redirection:
+
+```powershell
+javac -d build\java-service -cp language\java\target\classes `
+  language\java\examples\service\src\main\java\service\*.java
+javaw --add-modules jdk.httpserver `
+  -cp "build\java-service;language\java\target\classes" `
+  service.ServiceExample --test > build\java-auth.out
+Get-Content build\java-auth.out
+```
+
 The test uses a fake model and loopback HTTP servers for introspection and
 revocation; no external endpoint or identity provider is required. It covers
 the active token, inactive token, missing expiration, unavailable provider,

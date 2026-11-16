@@ -66,8 +66,8 @@ authenticate authenticator authorization now =
                     ]
                     (basicAuth (authenticatorClientId authenticator) (authenticatorClientSecret authenticator))
                 pure (either (const Nothing) (parseResponse authenticator now) response)
-  where
-    token = trim (drop (length "Bearer ") value)
+          where
+            token = trim (drop (length "Bearer ") value)
 
 revoke :: RevocationClient -> String -> IO (Either AuthError ())
 revoke client token

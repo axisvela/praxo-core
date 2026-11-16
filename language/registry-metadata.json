@@ -144,14 +144,14 @@
     "docs": "https://axisvela.github.io/praxo-core/languages/octave/",
     "install": "pkg install -forge praxo-core",
     "package": "praxo-core",
-    "published_version": "0.2.1",
+    "published_version": "0.7.0",
     "registry": "Octave Packages",
     "source_install": "pkg install -forge praxo-core",
     "source_version": "0.7.0",
-    "status": "release tarball published; package index PR pending",
+    "status": "release tarball 0.7.0 published; package index PR pending",
     "tag": "octave/v0.7.0",
     "tier": "Core",
-    "url": "https://github.com/axisvela/praxo-core/releases/download/octave/v0.2.1/praxo-core-0.2.1.tar.gz"
+    "url": "https://github.com/axisvela/praxo-core/releases/download/octave/v0.7.0/praxo-core-0.7.0.tar.gz"
   },
   "Go": {
     "dir": ".",
@@ -184,16 +184,16 @@
   "Java": {
     "dir": "language/java",
     "docs": "https://axisvela.github.io/praxo-core/languages/java/",
-    "install": "Maven: com.axisvela:praxo-core:0.9.0",
+    "install": "Maven: com.axisvela:praxo-core:0.10.0",
     "package": "com.axisvela:praxo-core",
-    "published_version": "0.9.0",
+    "published_version": "0.10.0",
     "registry": "Maven Central",
     "source_install": "Maven source build (see README)",
     "source_version": "0.10.0",
     "status": "published",
     "tag": "java/v0.10.0",
     "tier": "Core",
-    "url": "https://repo1.maven.org/maven2/com/axisvela/praxo-core/0.9.0/"
+    "url": "https://repo1.maven.org/maven2/com/axisvela/praxo-core/0.10.0/"
   },
   "Julia": {
     "dir": "language/julia",
@@ -228,11 +228,11 @@
     "docs": "https://axisvela.github.io/praxo-core/languages/matlab/",
     "install": "File Exchange entry 185166",
     "package": "PRAXO-CORE",
-    "published_version": "0.3.0",
+    "published_version": "0.5.0",
     "registry": "MATLAB File Exchange",
     "source_install": "File Exchange entry 185166",
     "source_version": "0.7.0",
-    "status": "published; MATLAB runtime compatibility unverified",
+    "status": "published; 0.7.0 upload pending; MATLAB runtime unverified",
     "tag": "matlab/v0.7.0",
     "tier": "Core",
     "url": "https://www.mathworks.com/matlabcentral/fileexchange/185166-praxo-core"
@@ -298,7 +298,7 @@
     "docs": "https://axisvela.github.io/praxo-core/languages/php/",
     "install": "composer require axisvela/praxo-core",
     "package": "axisvela/praxo-core",
-    "published_version": "0.8.0",
+    "published_version": "0.8.1",
     "registry": "Packagist",
     "source_install": "composer require axisvela/praxo-core",
     "source_version": "0.8.1",
@@ -394,13 +394,13 @@
   "Swift": {
     "dir": "language/swift",
     "docs": "https://axisvela.github.io/praxo-core/languages/swift/",
-    "install": ".package(url: \"https://github.com/axisvela/praxo-core-swift.git\", from: \"0.6.0\")",
+    "install": ".package(url: \"https://github.com/axisvela/praxo-core-swift.git\", from: \"0.7.0\")",
     "package": "praxo-core-swift",
-    "published_version": "0.6.0",
+    "published_version": "0.7.0",
     "registry": "Swift Package Index",
     "source_install": ".package(url: \"https://github.com/axisvela/praxo-core-swift.git\", from: \"0.7.0\")",
     "source_version": "0.7.0",
-    "status": "package list merged",
+    "status": "published",
     "tag": "swift/v0.7.0",
     "tier": "Core",
     "url": "https://swiftpackageindex.com/axisvela/praxo-core-swift"

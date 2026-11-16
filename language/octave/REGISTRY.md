@@ -1,7 +1,7 @@
 # PRAXO-CORE GNU Octave Registry Introduction
 
-**Status:** release tarball published; package index PR pending. Source version `0.7.0`, source
-tag `octave/v0.7.0`. Published registry version: `0.2.1`. Registry
+**Status:** release tarball 0.7.0 published; package index PR pending. Source version `0.7.0`, source
+tag `octave/v0.7.0`. Published registry version: `0.7.0`. Registry
 pages are release snapshots; verify the published version before relying on a
 feature.
 
@@ -14,9 +14,9 @@ Native Octave Core for the PRAXO-CORE agent framework. This is the independent O
 | Field | Value |
 | --- | --- |
 | Package | `praxo-core` |
-| Registry | [Octave Packages](https://github.com/axisvela/praxo-core/releases/download/octave/v0.2.1/praxo-core-0.2.1.tar.gz) |
+| Registry | [Octave Packages](https://github.com/axisvela/praxo-core/releases/download/octave/v0.7.0/praxo-core-0.7.0.tar.gz) |
 | Source version | `0.7.0` |
-| Published registry version | `0.2.1` |
+| Published registry version | `0.7.0` |
 | Install (published) | `pkg install -forge praxo-core` |
 | Install (source/release prepared) | `pkg install -forge praxo-core` |
 | Source tag | `octave/v0.7.0` |

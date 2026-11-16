@@ -21,7 +21,7 @@ end
 Base.showerror(io::IO, error::AuthError) = print(io, error.message)
 
 struct IntrospectionAuthenticator
-    transport::Function
+    transport::Any
     endpoint::String
     client_id::String
     client_secret::String
@@ -43,7 +43,7 @@ function IntrospectionAuthenticator(
 end
 
 struct RevocationClient
-    transport::Function
+    transport::Any
     endpoint::String
     client_id::String
     client_secret::String

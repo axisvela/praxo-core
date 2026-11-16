@@ -18,7 +18,7 @@ publication does not claim MATLAB runtime verification.
 - Machine-readable entry: [llms.txt](https://github.com/axisvela/praxo-core/blob/main/language/octave/llms.txt) and [llms.md](https://github.com/axisvela/praxo-core/blob/main/language/octave/llms.md)
 - [Examples](https://github.com/axisvela/praxo-core/tree/main/language/octave/examples): runnable language-specific examples.
 - Coding-agent contract: [docs/getting-started/coding-agents.md](https://github.com/axisvela/praxo-core/blob/main/docs/getting-started/coding-agents.md)
-- Registry: [Octave Packages](https://github.com/axisvela/praxo-core/releases/download/octave/v0.2.1/praxo-core-0.2.1.tar.gz)
+- Registry: [Octave Packages](https://github.com/axisvela/praxo-core/releases/download/octave/v0.7.0/praxo-core-0.7.0.tar.gz)
 - Community: [X](https://x.com/axisvela) · [Weibo](https://weibo.com/u/1936025761)
 
 ## Install

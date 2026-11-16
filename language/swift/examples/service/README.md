@@ -25,6 +25,7 @@ Introspection requires `active: true`, `sub`, the configured tenant claim, and
 a future integer `exp`. Provider errors and failed revocation fail closed. OIDC
 and JWKS verification are not included in this Swift example.
 
-Local status: unverified at runtime because `swift build` is blocked by the
-Windows toolchain. Source may be checked with `swiftc -typecheck`; no run is
-claimed.
+Verified at runtime on Windows with `swiftc -use-ld=lld` plus the assembled
+Windows SDK and MSVC CRT libraries; the executable prints both expected lines.
+`swift build` remains blocked by the local toolchain, so the documented link/run
+command is the local gate. macOS CI remains authoritative.

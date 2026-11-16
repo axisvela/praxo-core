@@ -19,7 +19,7 @@ Expected output:
 Nim service auth tests passed
 ```
 
-unverified: toolchain absent
+Verified locally with the existing D:\dev toolchain; the scripted-transport auth test passed.
 
 The existing handler check remains:
 

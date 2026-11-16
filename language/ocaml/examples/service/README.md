@@ -24,5 +24,5 @@ Introspection requires `active: true`, `sub`, the configured tenant claim, and
 a future integer `exp`. Provider errors and failed revocation fail closed. OIDC
 and JWKS verification are not included in this OCaml example.
 
-Local status: unverified because OCaml is not installed on the local
-workstation. The source and tests are provided but were not compiled or run.
+Verified locally with OCaml 4.14.2 (Dkml); the scripted-transport auth test
+prints `OCaml service auth tests passed`.

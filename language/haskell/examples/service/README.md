@@ -25,5 +25,5 @@ Introspection requires `active: true`, `sub`, the configured tenant claim, and
 a future integer `exp`. Provider errors and failed revocation fail closed. OIDC
 and JWKS verification are not included in this Haskell example.
 
-Local status: unverified because GHC is not installed on the local workstation.
-The source and tests are provided but were not compiled or run.
+Verified locally with GHC 9.12.2 (`runghc`); the scripted-transport auth test
+prints `Haskell service auth tests passed`.

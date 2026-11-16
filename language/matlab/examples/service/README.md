@@ -27,4 +27,5 @@ MATLAB/Octave service package:
 octave-cli --eval "addpath('language/matlab-octave-core'); addpath('language/matlab-octave-core/tests'); test_service_auth"
 ```
 
-unverified: toolchain absent (MATLAB and Octave are not installed).
+Verified under GNU Octave 11.3.0 with the existing `D:\dev` toolchain; native
+MATLAB runtime remains unavailable and unverified.
