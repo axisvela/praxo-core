@@ -16,9 +16,32 @@ Swift implementation of the PRAXO-CORE contract.
 - Registry: [Swift Package Index](https://swiftpackageindex.com/axisvela/praxo-core-swift)
 - Community: [X](https://x.com/axisvela) · [Weibo](https://weibo.com/u/1936025761)
 
+## Examples
+
+Thirteen runnable examples ship under [`examples/`](examples):
+
+| Example | What it shows |
+| --- | --- |
+| [consumer](examples/consumer) | Deterministic model, one tool, and allow/deny policy |
+| [live-model](examples/live-model) | OpenAI-compatible endpoint and a `get_time` tool |
+| [structured-output](examples/structured-output) | Final JSON answer validation and rejection |
+| [identity-policy](examples/identity-policy) | Trusted principal, role/tenant denial |
+| [service](examples/service) | Transport-neutral HTTP request handler |
+| [checkpoint](examples/checkpoint) | Allowlisted checkpoint payload round trip |
+| [session-checkpoint](examples/session-checkpoint) | Multi-turn history continuation |
+| [event-sink](examples/event-sink) | Sink fan-out and tool-only filtering |
+| [retry](examples/retry) | Bounded retry and exhausted failure |
+| [provider-fallback](examples/provider-fallback) | Primary/fallback model selection |
+| [streaming](examples/streaming) | Streamed chunk accumulation |
+| [mcp](examples/mcp) | Caller-owned in-process MCP transport |
+| [hitl](examples/hitl) | Approval, edit, and final-argument reauthorization |
+
+Each example has its own README with the exact `swift run` command. They are
+deterministic local checks, not live-provider or production evidence.
+
 ## Scope
 
-`0.6.0` implements all eleven conformance vector groups: tool-call parsing, JSON
+`0.7.0` implements all eleven conformance vector groups: tool-call parsing, JSON
 Schema, plugin manifests, memory, events, stream kinds, checkpoint envelopes,
 path policy, context budgets, middleware, HITL interrupt decisions, and the
 agent loop. It also includes
@@ -29,7 +52,7 @@ seams.
 ## Install
 
 ```swift
-.package(url: "https://github.com/axisvela/praxo-core-swift.git", from: "0.2.0")
+.package(url: "https://github.com/axisvela/praxo-core-swift.git", from: "0.7.0")
 ```
 
 ## Build and test
