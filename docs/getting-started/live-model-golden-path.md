@@ -48,17 +48,17 @@ installed model such as `llama3.2` and set `PRAXO_MODEL` accordingly.
 | --- | --- | --- |
 | Go | `github.com/axisvela/praxo-core/v2@v2.8.0` | `cd language/go/examples/live-model/go; go run .` |
 | Python | PyPI `praxo-core==0.9.0` | `cd language/python/examples/live-model; python -m venv .venv; .venv/bin/python -m pip install -r requirements.txt; .venv/bin/python live_starter.py` |
-| TypeScript | npm `@axisvela/praxo-core@0.7.1` | `cd language/typescript/examples/live-model; npm install; npm start` |
+| TypeScript | npm `@axisvela/praxo-core@0.8.0` | `cd language/typescript/examples/live-model; npm install; npm start` |
 | Java | Maven `com.axisvela:praxo-core:0.9.0` | `cd language/java/examples/live-model; mvn -q compile exec:java` |
-| C# | NuGet `Praxo.Core==0.9.0` | `cd language/csharp/examples/live-model; dotnet run` |
-| Rust | crates.io `praxo-core==0.9.0` with `http-ureq` | `cd language/rust/examples/live-model; cargo run` |
-| R | r-universe `praxocore==0.10.0` | `cd language/r/examples/live-model; Rscript live.R` |
+| C# | NuGet `Praxo.Core==0.9.1` | `cd language/csharp/examples/live-model; dotnet run` |
+| Rust | crates.io `praxo-core==0.9.1` with `http-ureq` | `cd language/rust/examples/live-model; cargo run` |
+| R | r-universe `praxocore==0.10.1` | `cd language/r/examples/live-model; Rscript live.R` |
 | Ruby | source | `ruby -I language/ruby/lib language/ruby/examples/live-model/live_starter.rb` |
 | PHP | source | `php language/php/examples/live-model/live_starter.php` |
 | Elixir | source | `elixir -pa language/elixir/build/ebin language/elixir/examples/live-model/live_starter.exs` |
 | Lua | source | `lua language/lua/examples/live-model/live_starter.lua` |
 | OCaml | source, transport seam | `ocaml unix.cma language/ocaml/examples/live-model/live_model.ml` (supply a transport; see README) |
-| PowerShell | PowerShell `0.6.0` wrapper over C# Core `0.9.0` | `dotnet build language/csharp/Praxo.Core/Praxo.Core.csproj -c Release; pwsh -NoProfile -File language/powershell/examples/live-model/live_model.ps1` |
+| PowerShell | PowerShell `0.7.0` wrapper over C# Core `0.9.1` | `dotnet build language/csharp/Praxo.Core/Praxo.Core.csproj -c Release; pwsh -NoProfile -File language/powershell/examples/live-model/live_model.ps1` |
 | V | source | `v -path "language/v|@vlib|@vmodules" language/v/examples/live-model/live_model.v` |
 | Zig | source | build from README: `language/zig/examples/live-model/README.md` |
 
@@ -106,15 +106,41 @@ denied call produces no tool effect:
 
 ## Troubleshooting
 
-- **Connection refused:** confirm `PRAXO_BASE_URL` includes `/v1` when required
-  by the endpoint.
-- **Model not found:** check `PRAXO_MODEL` against the model name served by the
-  endpoint.
-- **Authentication error:** set `PRAXO_API_KEY` for hosted endpoints.
-- **No tool call:** ask the model explicitly to use `get_time`; some small models
-  answer from context instead of calling tools.
-- **Timeout:** use a smaller model or increase the adapter timeout in the
-  language example.
+| Symptom | Check | Fix |
+| --- | --- | --- |
+| Connection refused or DNS failure | `PRAXO_BASE_URL` | Use the full API root, usually ending in `/v1`. For Ollama: `http://localhost:11434/v1`. Do not point at a web UI or model download URL. |
+| 404 or "no such endpoint" | Base URL path | Hosted providers often require `/v1`; remove a duplicated `/v1/v1`. Check the provider's compatibility base URL. |
+| 401 or 403 from a hosted endpoint | `PRAXO_API_KEY` | Set a valid key; do not commit it. Ollama normally needs no key. Some gateways also require provider-specific headers or `Authorization: Bearer`. |
+| Model not found or 400 model error | `PRAXO_MODEL` | Use the exact model id served by the endpoint, not the package name or a display name. Pull the Ollama model first. |
+| Request hangs | Endpoint, network, model size | Try a smaller model, check proxy/firewall settings, and increase the adapter timeout in the example. The live examples do not expose a separate timeout variable. |
+| Model answers without a tool call | Prompt and model capability | Ask explicitly to use `get_time` and pass a `zone`. Small models may ignore tools or invent arguments. |
+| Tool schema or argument error | `zone` parameter | Use a string timezone such as `UTC` or `Europe/Berlin`; do not pass a number or an empty object. |
+| Policy denial | Allowed tool scope | The live example permits only `get_time`; a different tool is expected to be denied. Verify the denial path with the consumer starter. |
+| PowerShell cannot find a command | Environment variable or quoting | Set `$env:PRAXO_BASE_URL` and `$env:PRAXO_MODEL`; use the commands from the language README. For Go, run with `$env:GOWORK = "off"`. |
+| Windows path or build error | Toolchain and path | Run from the repository root or the example directory as documented; quote paths with spaces. C, C++, and Zig may need their documented compiler or SDK setup. |
+
+The language examples use their adapter defaults for HTTP timeouts. Increase the
+timeout in the example code when a local model is slow; do not add an
+undocumented environment variable.
+
+Common environment variables:
+
+```bash
+export PRAXO_BASE_URL=http://localhost:11434/v1
+export PRAXO_MODEL=llama3.2
+export PRAXO_API_KEY=...   # hosted endpoints only
+```
+
+On PowerShell:
+
+```powershell
+$env:PRAXO_BASE_URL = "http://localhost:11434/v1"
+$env:PRAXO_MODEL = "llama3.2"
+$env:PRAXO_API_KEY = "..."
+```
+
+Record the endpoint class, model id, package version, command, and observed
+error when reporting a failure. Do not paste keys or tenant data.
 
 The example is an integration starting point, not a production security profile.
 Identity, durable approvals, isolation, and effect reconciliation remain the

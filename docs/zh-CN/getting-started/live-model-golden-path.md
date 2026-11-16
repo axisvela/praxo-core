@@ -45,9 +45,9 @@ $env:PRAXO_MODEL = "llama3.2"
 | Python | PyPI `praxo-core==0.9.0` | `cd language/python/examples/live-model; python -m venv .venv; .venv/bin/python -m pip install -r requirements.txt; .venv/bin/python live_starter.py` |
 | TypeScript | npm `@axisvela/praxo-core@0.8.0` | `cd language/typescript/examples/live-model; npm install; npm start` |
 | Java | Maven `com.axisvela:praxo-core:0.9.0` | `cd language/java/examples/live-model; mvn -q compile exec:java` |
-| C# | NuGet `Praxo.Core==0.9.0` | `cd language/csharp/examples/live-model; dotnet run` |
-| Rust | crates.io `praxo-core==0.9.0` with `http-ureq` | `cd language/rust/examples/live-model; cargo run` |
-| R | r-universe `praxocore==0.10.0` | `cd language/r/examples/live-model; Rscript live.R` |
+| C# | NuGet `Praxo.Core==0.9.1` | `cd language/csharp/examples/live-model; dotnet run` |
+| Rust | crates.io `praxo-core==0.9.1` with `http-ureq` | `cd language/rust/examples/live-model; cargo run` |
+| R | r-universe `praxocore==0.10.1` | `cd language/r/examples/live-model; Rscript live.R` |
 | Ruby | source | `ruby -I language/ruby/lib language/ruby/examples/live-model/live_starter.rb` |
 | PHP | source | `php language/php/examples/live-model/live_starter.php` |
 | Elixir | source | `elixir -pa language/elixir/build/ebin language/elixir/examples/live-model/live_starter.exs` |
@@ -87,11 +87,39 @@ Python `0.7.0`、TypeScript `0.6.0` 和 Java `0.9.0` 已包含 OpenAI tool-wire
 
 ## 排错
 
-- **连接被拒绝：** 确认 `PRAXO_BASE_URL` 是否包含端点要求的 `/v1`。
-- **模型不存在：** 检查 `PRAXO_MODEL` 与端点实际提供的模型名。
-- **认证失败：** 托管端点需要设置 `PRAXO_API_KEY`。
-- **没有工具调用：** 明确要求模型使用 `get_time`；部分小模型会直接回答而不调用工具。
-- **超时：** 使用更小的模型，或调整对应语言示例中的 Adapter 超时。
+| 现象 | 检查 | 修复 |
+| --- | --- | --- |
+| 连接被拒绝或 DNS 失败 | `PRAXO_BASE_URL` | 使用完整 API 根地址，通常以 `/v1` 结尾。Ollama 使用 `http://localhost:11434/v1`；不要指向网页 UI 或模型下载地址。 |
+| 404 或找不到端点 | Base URL 路径 | 托管 Provider 通常要求 `/v1`；避免出现 `/v1/v1`。核对 Provider 的兼容端点。 |
+| 托管端点返回 401/403 | `PRAXO_API_KEY` | 设置有效 Key，且不要提交到仓库。Ollama 通常不需要 Key；部分网关还要求额外 Header 或 Bearer Token。 |
+| 模型不存在或 400 模型错误 | `PRAXO_MODEL` | 使用端点实际提供的模型 ID，不是包名或展示名；先拉取 Ollama 模型。 |
+| 请求挂起 | 端点、网络、模型大小 | 换更小的模型，检查代理/防火墙，并在示例代码中增加 Adapter 超时。live 示例没有独立超时环境变量。 |
+| 模型没有调用工具 | Prompt 与模型能力 | 明确要求使用 `get_time` 并传入 `zone`；小模型可能忽略工具或编造参数。 |
+| Tool Schema 或参数错误 | `zone` 参数 | 使用字符串时区，如 `UTC` 或 `Europe/Berlin`；不要传数字或空对象。 |
+| Policy 拒绝 | 工具范围 | live 示例只允许 `get_time`；其他工具被拒绝是预期行为，用消费者 Starter 验证拒绝路径。 |
+| PowerShell 找不到命令 | 环境变量或引用 | 设置 `$env:PRAXO_BASE_URL`、`$env:PRAXO_MODEL`；Go 运行时设置 `$env:GOWORK = "off"`。 |
+| Windows 路径或构建错误 | 工具链与路径 | 从仓库根目录或文档指定的示例目录运行；含空格路径要加引号。C、C++、Zig 可能需要文档中的编译器或 SDK。 |
+
+语言示例使用 Adapter 默认 HTTP 超时。本地模型较慢时，在示例代码中增加超时；不要
+添加未文档化的环境变量。
+
+常用环境变量：
+
+```bash
+export PRAXO_BASE_URL=http://localhost:11434/v1
+export PRAXO_MODEL=llama3.2
+export PRAXO_API_KEY=...   # 仅托管端点
+```
+
+PowerShell：
+
+```powershell
+$env:PRAXO_BASE_URL = "http://localhost:11434/v1"
+$env:PRAXO_MODEL = "llama3.2"
+$env:PRAXO_API_KEY = "..."
+```
+
+报告问题时记录端点类别、模型 ID、包版本、命令和实际错误；不要粘贴 Key 或租户数据。
 
 该示例是集成起点，不是生产安全 Profile。身份、持久审批、隔离和效果对账仍由
 应用负责。
