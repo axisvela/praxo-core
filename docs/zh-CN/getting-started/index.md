@@ -6,6 +6,17 @@
 4. 使用[采用指南](adoption.md)将首次运行扩展为应用集成。
 5. 按[公开路线图](../project/roadmap.md)继续原型、嵌入、加固和高级路径。
 
+## 选择路径层级
+
+| 层级 | 目标 | 起点 |
+| --- | --- | --- |
+| 体验 | 快速看到模型或工具结果 | [快速开始](quickstart.md)、[真实模型 Golden Path](live-model-golden-path.md) |
+| 验证 | 安装发布包，证明 allow/deny 和零效果拒绝 | [独立消费者](consumer-go.md)：Go、Python、TypeScript、Java、Ruby、PHP、Elixir 或 Lua |
+| 加固 | 加入已验证身份、审批、Checkpoint、恢复和效果对账 | [身份与策略](../guides/identity-policy.md)、[应用嵌入清单](../guides/application-integration-checklist.md)、[长时操作](../guides/long-running-operations.md) |
+
+大多数开发者应先完成一层，再进入下一层。三层共享契约，但回答不同问题：
+“能否运行？”、“包是否可用？”、“这个具体集成是否可安全运行？”。
+
 ## 按任务选择
 
 | 需求 | 起点 | 重要边界 |

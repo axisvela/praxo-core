@@ -10,6 +10,18 @@
 5. Follow the [public roadmap](../project/roadmap.md) for prototype, embedding,
    hardening, and advanced paths.
 
+## Pick the Path Layer
+
+| Layer | Goal | Start |
+| --- | --- | --- |
+| Try | See a model or tool result quickly | [Quickstart](quickstart.md), [Live Model Golden Path](live-model-golden-path.md) |
+| Verify | Install a published package and prove allow/deny and zero-effect denial | [Consumer starters](consumer-go.md) for Go, Python, TypeScript, Java, Ruby, PHP, Elixir, or Lua |
+| Harden | Add verified identity, approvals, checkpoints, recovery, and effect reconciliation | [Identity and policy](../guides/identity-policy.md), [application integration checklist](../guides/application-integration-checklist.md), [long-running operations](../guides/long-running-operations.md) |
+
+Most developers should finish one layer before moving to the next. The layers
+share contracts but answer different questions: "does it run?", "is the package
+usable?", and "is this specific integration safe to operate?".
+
 ## Choose by Task
 
 | Need | Start with | Important boundary |
