@@ -24,6 +24,17 @@ GNU Octave 复用 `language/matlab/examples/` 下的共享 MATLAB 示例；`matl
 
 运行 `python scripts/check_example_coverage.py --report` 可查看当前每语言矩阵。覆盖要求包含 `README.md` 和至少一个源码文件；只有 README 的目录不算已实现。
 
+这只是源码存在检查，不是运行或语义对齐验证。示例深度与运行证据分开：
+
+| 深度 | 要求 |
+| --- | --- |
+| 机制检查 | 孤立的 schema、handler 或 callback 断言，可能不调用 Core |
+| Core 集成 | 通过实际 Core/model/tool/policy 接缝验证所声明行为 |
+| 应用教程 | 包含安装、输入到输出任务、错误处理与后续路径 |
+
+有记录的运行是独立证据维度，需 revision、工具链、命令、输出和限制。机制检查即使
+实测通过，也不会变成应用教程。目录尚未按上述深度完整审计，不由计数推断等价深度。
+
 ## 覆盖情况
 
 全部 31 种声明语言都提供 HITL 与 Session Checkpoint 示例。Go 使用仓库根目录示例，

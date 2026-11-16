@@ -144,8 +144,9 @@ npm test
 Every declared Core ships a `language/<language>/examples/service` example. The
 following table lists the deterministic run command from the repository root.
 Go, Python, TypeScript, Java, C#, and Rust include executable HTTP servers; the
-remaining examples are transport-neutral request handlers that exercise the same
-principal, tenant, `/healthz`, `/run`, and denial checks without opening a socket.
+remaining examples include transport-neutral request-handler mechanisms. Their
+depth differs: some do not invoke Core, tools, or tenant policy. They are not
+equivalent embedded services or authentication implementations.
 The [language coverage page](../getting-started/language-coverage.md) records
 which mode each example uses.
 
@@ -183,8 +184,10 @@ which mode each example uses.
 | Zig | `zig run language/zig/examples/service/service.zig` |
 
 Source-mode handler examples print a language-specific `service example passed`
-line and exit nonzero when a denied request reaches the tool. They do not prove
-identity verification, durable state, or production HTTP behavior.
+line for their local assertions. A handler status-code check alone does not
+prove zero tool effects; that requires an instrumented tool invocation through
+Core. These examples do not prove identity verification, durable state, or
+production HTTP behavior.
 
 ## Request Flow
 

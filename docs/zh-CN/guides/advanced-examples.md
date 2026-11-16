@@ -18,8 +18,9 @@
 | C# | [`language/csharp/examples/advanced-delegation`](https://github.com/axisvela/praxo-core/tree/main/language/csharp/examples/advanced-delegation) | `dotnet run --project AdvancedDelegation.csproj` |
 | Rust | [`language/rust/examples/advanced-delegation`](https://github.com/axisvela/praxo-core/tree/main/language/rust/examples/advanced-delegation) | `cargo run` |
 
-每个示例都检查子效果只运行一次、父 Agent 不能直接调用子工具、子 Agent 不能扩大自己的
-范围。发布包示例使用确定性 Fixture 模型，不需要 provider 端点。
+应用级示例检查子效果和单独配置的父代理拒绝，不测试自动父策略继承、恶意子代理扩大
+权限、累计预算或取消传播。Go 管理器示例另有生命周期范围。源码存在不代表每个包和
+工具链均已实测；运行声明必须对应记录。
 
 这不是 Go `pkg/agent/delegation` 契约。持久 worker、远程任务队列、重试、取消传播和效果
 对账仍由应用负责。

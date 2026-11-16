@@ -29,6 +29,20 @@ Run `python scripts/check_example_coverage.py --report` for the current
 per-language matrix. Coverage requires a `README.md` and at least one source
 file; a README-only directory does not count as an implementation.
 
+This is a source-presence check, not an execution or semantic-parity test.
+Distinguish example depth from verification:
+
+| Depth | Required behavior |
+| --- | --- |
+| Mechanism check | Isolated schema, handler, or callback assertions; may not invoke Core |
+| Core integration | Invokes the actual Core/model/tool/policy seam for the claimed behavior |
+| Application tutorial | Documents setup, an input-to-output task, failure handling, and continuation |
+
+A recorded run is a separate evidence dimension: name its revision, toolchain,
+command, output, and limits. A mechanism check can have a recorded run without
+becoming an application tutorial. The catalog has not been fully audited against
+these depth labels; do not infer equal depth from the counts above.
+
 ## Coverage
 
 All 31 declared languages provide both HITL and session-checkpoint examples.

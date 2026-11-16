@@ -53,6 +53,21 @@
 - External consumers declare the supported framework range.
 - Breaking changes require a minor bump before `1.0.0`.
 
+## Unreleased Memory Recall Change
+
+Go source at `73da5139` moves `Recall` results from the system role to a user
+data block. Published `2.8.0` does not include this change. No public API or
+shared wire shape is added; other SDKs require their own behavior audit.
+
+Consumers using recall should review model-request snapshots and any custom
+compaction that depends on message roles. Stored records need no rewrite:
+missing source metadata is shown as `unknown`, and recalled records remain
+untrusted regardless of a stored trust label. Keep trusted application
+instructions separate from recalled content; do not restore system authority
+for model or external text. This removes a role elevation, not all prompt
+injection. Before a release is available, use application-owned context assembly
+or disable automatic recall where this boundary is required.
+
 ## Consumer Matrix
 
 | Consumer | Expected integration |

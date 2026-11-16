@@ -28,8 +28,9 @@ framework.
 
 Start with the smaller path, then add governance when you need it.
 
-1. **Five-minute embed:** install a published package, connect one model, register
-   one tool, and run one allow/deny check. Start with the
+1. **Deterministic embed:** install a published package, use a fixture model,
+   register one tool, and run one allow/deny check. Five minutes is a target with
+   the toolchain installed, not a measured result. Start with the
    [Go consumer](docs/getting-started/consumer-go.md),
    [Python consumer](docs/getting-started/consumer-python.md), or
    [TypeScript consumer](docs/getting-started/consumer-typescript.md).

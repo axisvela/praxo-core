@@ -2,8 +2,9 @@
 
 There are two paths. Do the first one before reading the full matrix.
 
-1. **Five-minute embed:** install a published package, connect one model, register
-   one tool, and run one allow/deny check.
+1. **Deterministic embed:** install a published package, use a fixture model,
+   register one tool, and run one allow/deny check. Five minutes is a target with
+   the toolchain already installed, not an independently measured result.
 2. **Governed acceptance:** add final tool reauthorization, HITL, negative tests,
    and zero-effect denial checks.
 
@@ -22,6 +23,10 @@ published Maven Central artifact and Java 21 or newer.
 
 For a published-package path with a real OpenAI-compatible model, use the
 [Live Model Golden Path](live-model-golden-path.md).
+
+The live-path target is 15-30 minutes with an endpoint and credentials already
+available. Record model download/account setup separately, and record any author
+assistance when measuring completion.
 
 The endpoint example below runs an agent against an OpenAI-compatible service.
 It requires a PRAXO-CORE source checkout; run its commands from the repository

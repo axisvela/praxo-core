@@ -20,9 +20,11 @@ The examples use only the shared agent, tool, and policy seams.
 | C# | [`language/csharp/examples/advanced-delegation`](https://github.com/axisvela/praxo-core/tree/main/language/csharp/examples/advanced-delegation) | `dotnet run --project AdvancedDelegation.csproj` |
 | Rust | [`language/rust/examples/advanced-delegation`](https://github.com/axisvela/praxo-core/tree/main/language/rust/examples/advanced-delegation) | `cargo run` |
 
-Each example checks that the child effect runs once, the parent cannot call the
-child's tool directly, and the child cannot widen its scope. Publishing-package
-examples use a deterministic fixture model and do not need a provider endpoint.
+The application-level examples check a child effect and a separately configured
+parent denial. They do not test automatic parent-policy inheritance, hostile
+child scope expansion, cumulative budgets, or cancellation propagation. The Go
+manager example has its own lifecycle scope. Source availability is not execution
+evidence for every package/toolchain; consult recorded runs before claiming one.
 
 This is not the Go `pkg/agent/delegation` contract. Durable workers, remote task
 queues, retries, cancellation propagation, and effect reconciliation remain

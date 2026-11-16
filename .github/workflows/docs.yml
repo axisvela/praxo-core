@@ -10,6 +10,7 @@ on:
       - "requirements-docs.txt"
       - "scripts/docs_hooks.py"
       - "scripts/test_docs.py"
+      - "scripts/test_roadmap.py"
       - "scripts/test_layout.py"
       - "scripts/check_adapter_status.py"
       - "scripts/test_adapter_status.py"

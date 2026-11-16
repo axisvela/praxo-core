@@ -1,8 +1,9 @@
 # Structured Output by Language
 
-This tutorial turns free text into validated JSON with `StructuredOutput`. The
-same schema and validation rule are implemented across the thirty-one language
-implementations in the [language coverage matrix](../getting-started/language-coverage.md).
+The published-package processor examples turn free text into validated JSON.
+The [language coverage matrix](../getting-started/language-coverage.md) lists
+structured-output source entries for thirty-one languages, not thirty-one
+equivalent processors or verified application tutorials.
 
 Five primary SDKs ship published-package examples:
 
@@ -16,8 +17,10 @@ The remaining SDKs ship deterministic source-mode examples under
 `language/<language>/examples/structured-output`. Go keeps its reference recipe
 under `examples/recipes/structured-output-go`.
 
-Each example validates `title`, `summary`, and `tags` before returning the model
-output. Invalid output fails instead of returning malformed data.
+The processor examples validate `title`, `summary`, and `tags`. Source-mode
+mechanism checks may instead validate a smaller schema (for example, C checks
+`name`) without calling a model. Running a schema check is not evidence of a
+model-to-application integration.
 
 ## Schema
 
@@ -232,12 +235,14 @@ npm test
 
 ## Other Prototype Paths
 
-Use the same schema and the tested example under each language's
-`examples/structured-output` directory. The steps are the same: build or install
-the Core, run the deterministic model, run the rejection check, then switch to a
-real endpoint without removing validation.
+Inspect the schema and program under each language's
+`examples/structured-output` directory before running it. First build or install
+the required Core and run its acceptance/rejection assertions. A schema-only
+mechanism needs a model and application integration before it is a processor;
+adding a provider adapter alone does not establish that integration.
 
-The Java, C#, and Rust examples run a deterministic fake model by default. The
+Java and C# have separate deterministic test modes and live run commands; Rust
+uses a deterministic model in its default example. The
 Go recipe validates both structured output and tool arguments. Source-mode
 examples such as Ruby, PHP, Elixir, Lua, C, C++, Fortran, COBOL, Erlang, Dart,
 Perl, Julia, Swift, Haskell, OCaml, D, Nim, Zig, V, Delphi, PowerShell, MATLAB,
@@ -273,8 +278,9 @@ endpoint path.
 
 - the package is installed from a registry where a published example exists;
 - the model adapter is configured from environment variables where supported;
-- `StructuredOutput` validates the final JSON against the schema;
-- a fake-model test verifies the integration without a live endpoint.
+- the processor examples validate final JSON against their schema;
+- fixture-model checks exercise those integrations without a live endpoint;
+- schema-only source examples exercise their own smaller validation cases.
 
 They do not prove model quality, schema completeness, provider structured-output
 support, or production behavior. Keep the final schema validation in the

@@ -12,7 +12,8 @@
 
 **规划更新：2026-11-16。** 下一阶段重点是证据深度和第一条可用路径，而不是增加语言
 条目。第一条路径是五分钟嵌入，治理验收是第二步。公开声明区分契约完成、Adapter 可用
-和集成已验证。默认安全语义也前移：记忆召回默认是不可信数据，除非应用显式提升其权威；
+和集成已验证。Go 源码提交 `73da5139` 已将记忆召回移出 system 角色，但尚未发布；
+`2.8.0` 仍使用旧角色。该修复不防止所有提示注入，也不代表全部 SDK 具有相同行为。
 工具参数在编辑后仍重新授权。
 
 PRAXO-CORE 继续定位为**可治理、可嵌入的 Agent 执行框架**。路线图优先完整可运行的
@@ -47,15 +48,18 @@ PRAXO-CORE 继续定位为**可治理、可嵌入的 Agent 执行框架**。路�
 不能把仅在 Go 中成立的行为表述为跨语言保证。语言数量不是目标：`complete` 只表示
 契约完成；Adapter 和集成层见[适配器状态](../languages/adapter-status.md)。
 
+这些是技术覆盖分组，不是投入优先级或支持 SLA。消费者需求可以使任一分组中的实现
+获得优先投入，但不会改变其声明能力或证据等级。
+
 ## 采用路径
 
 | 阶段 | 开发者成果 | 当前状态 | 下一项成果 |
 | --- | --- | --- | --- |
 | 0. 判断 | 知道 Core 是否适合，以及该选择哪种语言和路径 | 已有概览、任务入口、对比和非目标说明 | 缩短选型路径，明确应用仍需负责什么 |
-| 1. 运行 | 安装发布包、连接模型、注册一个工具并得到有用结果 | 五分钟嵌入路径和确定性 Starter 覆盖主要 SDK；真实模型示例覆盖多种扩展语言；Python、TypeScript、Rust、C#、Elixir、Erlang、Ruby、Lua、Perl、Haskell、PowerShell 和 R 的注册表版本已最新，Java、PHP、Dart、MATLAB、Swift 和 D 仍落后于源码标签（2026-11-15 核对） | 用外部开发者验证五分钟路径，并记录真实端点排错说明 |
-| 2. 原型 | 完成一个包含工具、Streaming、结构化输出、MCP、Workspace 或 Telemetry 的连贯本地应用 | 已有示例目录、Workspace 教程、Provider/MCP 演练、本地 MCP 示例、跨语言结构化输出/MCP 教程和 Python/TypeScript/C#/Rust Provider fallback、event-sink 和 streaming 示例；[结构化输出教程](../guides/structured-output-tutorial.md)已覆盖全部三十一种语言 | 增加其余 SDK 的 MCP/fallback 示例和更多语言原型教程 |
+| 1. 运行 | 安装发布包、连接模型、注册一个工具并得到有用结果 | 已有发布包确定性 Starter 和真实模型示例；五分钟完成尚未经过独立计时。注册表状态单独记录在语言支持页面 | 分别测量确定性嵌入和真实端点完成情况，并记录排错过程 |
+| 2. 原型 | 完成一个包含工具、Streaming、结构化输出、MCP、Workspace 或 Telemetry 的连贯本地应用 | 十三个主题在三十一种语言中有源码入口，但深度从孤立机制检查到 Core 集成、应用教程不等；目录已按任务分组 | 审计示例深度与运行命令，再验证一个消费者选定的应用路径 |
 | 3. 嵌入 | 将 Core 接入现有服务，由应用管理身份、策略、持久化、事件和退出 | 已有厂商中立的 Go/Python/TypeScript 服务、Go/Python/TypeScript 认证身份/策略服务、TypeScript OIDC/JWKS 验证与 provider discovery、Token introspection/撤销、Go 和 Python 带 provider discovery 的 OIDC/JWKS 验证、Python 可选外部策略决策服务、已验证身份与持久 Checkpoint 变体和分档清单 | 将 Token introspection/撤销和外部身份模式扩展到更多 SDK；增加最小持久 Checkpoint 路径 |
-| 4. 加固 | 让具体集成可升级、可失败、可取消、可恢复 | 已有负向、升级、隔离和恢复资产；记忆召回默认作为不可信历史数据，重试测试覆盖未知效果的非幂等风险 | 按应用风险组织，并把恶意跨轮记忆和效果对账用例加入消费者测试模板 |
+| 4. 加固 | 让具体集成可升级、可失败、可取消、可恢复 | 已有负向、升级、隔离和恢复资产；未发布的 Go 记忆角色修复和重试风险测试有本地确定性覆盖，不是通用提示注入或跨 SDK 保证 | 验证并发布 Go 修复，审计受影响 SDK，增加分风险消费者检查 |
 | 5. 扩展 | 在需要时采用 Plugin、委派、长时操作、Workspace Provider 或具身集成 | 应用级委派示例覆盖 Go、Python、TypeScript、Java、C# 和 Rust；Go 参考示例覆盖长时操作、Workspace 和 Plugin | 在宣称受治理委派前，先实现父子策略、工具范围、预算和深度收窄 |
 
 这些阶段表示推荐采用顺序，不是发布门禁，也不要求所有语言同步推进。
@@ -92,8 +96,13 @@ PRAXO-CORE 继续定位为**可治理、可嵌入的 Agent 执行框架**。路�
 ### 开发者成果
 
 从空目录开始，安装已发布包，连接 Ollama 或 OpenAI-compatible 端点，注册一个低风险
-工具，并在 15-30 分钟内看到模型响应或工具结果。Quickstart 将五分钟嵌入路径与后续
-治理验收路径分开。
+工具，并看到模型响应或工具结果。完成时间是目标，不是已测量结果：
+
+- 五分钟：工具链已安装后完成确定性嵌入，不要求真实模型或 API Key。
+- 15-30 分钟：端点和凭据已就绪后完成真实工具调用；模型下载和账号准备另行记录。
+
+从文档安装命令开始计时，到预期结果出现为止，记录环境、失败、修复与作者协助。
+治理验收仍是独立后续路径。
 
 首次路径只检查三件事：
 
@@ -149,12 +158,10 @@ PRAXO-CORE 继续定位为**可治理、可嵌入的 Agent 执行框架**。路�
 
 ### 下一步工作
 
-- 扩展 Basic、Integration、Hardening、Advanced 分类的示例目录，并标注发布包/源码模式、
-  凭据、本机命令、外部服务和成熟度。
-- 为每个主要 SDK 增加一篇连贯原型教程，从现有
-  [Workspace 教程](../guides/workspace-agent-tutorial.md)开始。
-- 为其余 SDK 增加可运行 MCP 客户端示例；Python、TypeScript 的 stdio 示例和 C#
-  的进程内示例已位于对应语言的 `examples/mcp` 目录。
+- 保留已有 Basic、Integration、Hardening、Advanced 分组，区分机制检查、Core 集成、
+  应用教程和有记录的运行；只有源码文件不代表路径可用。
+- 先为明确消费者验证一个应用型原型，再扩展其他 SDK 教程。
+- 按实际传输方式和命令审计已有 MCP 示例；只补消费者需要的缺失行为。
 - 统一 Adapter 页面的安装、认证、最小示例和限制说明。
 
 ## 阶段 3：嵌入实际应用
@@ -180,12 +187,13 @@ PRAXO-CORE 继续定位为**可治理、可嵌入的 Agent 执行框架**。路�
 
 ### 下一步工作
 
-- 为
+- 按消费者需要向更多 SDK 扩展身份能力。
   [TypeScript OIDC 示例](https://github.com/axisvela/praxo-core/tree/main/language/typescript/examples/service-auth)
-  增加 Token introspection、撤销与 provider discovery，并将外部身份模式扩展到另一种
-  SDK。[Go](https://github.com/axisvela/praxo-core/tree/main/examples/embedded-service-auth)
+  已支持 Token introspection、撤销和 provider discovery。
+  [Go](https://github.com/axisvela/praxo-core/tree/main/examples/embedded-service-auth)
   与 [Python](https://github.com/axisvela/praxo-core/tree/main/language/python/examples/service-auth)
-  示例使用应用局部 HMAC Token；Python 还支持应用拥有的 HTTP 策略决策服务。
+  示例均支持带 provider discovery 的 OIDC/JWKS，并保留应用局部 HMAC 路径；Python
+  还支持应用拥有的 HTTP 策略决策服务。
 - 保持[应用嵌入清单](../guides/application-integration-checklist.md)与只读、有副作用、
   高风险三档一致。
 - 在教学型 Checkpoint 示例和高级长时操作 Fixture 之间提供最小持久化路径。
@@ -210,7 +218,8 @@ PRAXO-CORE 继续定位为**可治理、可嵌入的 Agent 执行框架**。路�
   高风险三档一致。
 - 扩展[消费者测试模板](../guides/consumer-test-template.md)，增加语言示例，不要求复制
   整个仓库矩阵。
-- 将恶意跨轮记忆用例保留在默认套件：记忆内容不能获得指令权威或改变工具授权。
+- 测试 assistant 输出、应用保存的工具结果和外部写入的两轮记忆写入/召回；断言召回
+  不进入 system，策略拒绝仍然零效果，不由此推断通用提示注入防护。
 - 保留未知效果重试用例：传输或超时错误不能证明非幂等工具没有产生效果。
 - 对真正需要的集成执行升级、故障、负载、Provider、数据库、Collector、Sandbox
   和恢复检查。
@@ -230,20 +239,26 @@ Provider-neutral Workspace、远端长时操作和具身集成。
 AKROVELA 是具身试点选定消费者，PRAXOVELA 是另一个独立产品消费者。具体状态和验收条件
 保留在[具身试点计划](embodied-pilot.md)；具身工作不属于普通 SDK 采用主线。
 
-受控委派是下一项高级能力：子 Run 只能收窄父 Run 的策略、工具范围、步数预算和深度，
-其最终工具参数仍重新授权。在该契约实现并版本化之前，父子范围收窄仍由应用负责。
+受控委派属于提案，需明确消费者，并在公共 API 变更前完成语义评审。区分父代理可调用的
+工具与可委派的权限：父代理可以只调用 `delegate`，同时授权子代理使用独立批准的
+`read_file` 能力。需定义不可绕过的父策略组合、跨兄弟任务累计预算、子任务数和深度限制、
+取消/截止时间传播及最终参数重授权。实现并版本化之前仍由应用强制执行，现有父子示例
+不能证明权限继承约束。
 
 没有明确消费者和具体缺口时，不优先增加 ROS、Workspace Provider、新语言或通用异步
 Action API。
 
 ## 当前优先项
 
-1. 让五分钟嵌入路径真实可用并通过外部验证：发布包、一个模型、一个工具、一次拒绝检查。
-2. 获得一个独立消费者、一次第三方复现，以及一条真实 Provider/MCP/Harmovela 集成记录。
-3. 先深化现有能力：受控委派范围收窄、记忆来源/信任、最小 Checkpoint/Session Store
-   参考实现。
-4. 保持三层证据明确：契约完成、Adapter 可用、集成已验证。
-5. 发布 MCP、受控委派和 OpenTelemetry trace 的任务型教程，而不是语言数量宣传。
+1. 验证并准备发布 Go 记忆角色修复，补迁移说明、两轮回归和 SDK 影响审计；不把未发布
+   源码行为写成发布包保证。
+2. 验证一个消费者选定的嵌入路径：先确定性安装/运行/拒绝，再完成真实模型工具调用，
+   测量时间、修复和作者协助。
+3. 获取一个独立框架消费者和一次第三方复现。真实 Provider、MCP、Harmovela 分别记录；
+   只有一次运行覆盖整条链路才能声称组合链路已验证。
+4. 只深化该消费者证明的缺口；如需要受控委派，先做语义评审。新增 Store 或公共 API 前
+   优先复用已有 Checkpoint Store 配方。
+5. 保持证据等级和示例深度明确，从已验证路径产出任务教程，而不是再开全面 SDK 扩张。
 
 这些优先项选择少量完整路径，而不是更多孤立功能。一个 Go 示例不能证明其他语言 SDK
 的开发者路径同样可用，Registry 下载量也不等于采用。

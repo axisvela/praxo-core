@@ -24,8 +24,9 @@ Ruby、PHP、Elixir、Lua 等语言都有独立发布包。它不是 Go 专用�
 
 先走较小的路径，再按需增加治理。
 
-1. **五分钟嵌入：** 安装发布包、连接一个模型、注册一个工具，运行一次 allow/deny
-   检查。从 [Go 独立消费者](docs/zh-CN/getting-started/consumer-go.md)、
+1. **确定性嵌入：** 安装发布包、使用 fixture 模型、注册一个工具，运行一次 allow/deny
+   检查。工具链已安装后五分钟完成是目标，不是实测结果。从
+   [Go 独立消费者](docs/zh-CN/getting-started/consumer-go.md)、
    [Python 独立消费者](docs/zh-CN/getting-started/consumer-python.md) 或
    [TypeScript 独立消费者](docs/zh-CN/getting-started/consumer-typescript.md) 开始。
 2. **治理验收：** 增加最终工具重新授权、HITL、负向测试和零效果拒绝检查。阅读

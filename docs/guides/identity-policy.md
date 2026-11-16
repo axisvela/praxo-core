@@ -73,9 +73,10 @@ tokens, and revoke tokens through application-owned provider endpoints.
 ## All-Language Examples
 
 Every declared Core ships a `language/<language>/examples/identity-policy`
-example. Each one binds a trusted principal, rejects missing, inactive,
-role-mismatched, and tenant-mismatched actions, and verifies that denied calls
-never invoke the tool. Run these from the repository root.
+example. Depth varies: some check an application authorization predicate without
+running Core or a tool. Only instrumented Core integrations establish zero tool
+effects on denial; do not infer that from a standalone predicate check. Run
+these from the repository root.
 
 | Language | Run command |
 | --- | --- |

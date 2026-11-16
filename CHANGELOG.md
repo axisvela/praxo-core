@@ -93,6 +93,11 @@
   system message. The recall block labels each record's frame and source when
   available, and assistant-written memory records now carry `source` and
   `trust` metadata.
+- Roadmap review separates unreleased Go fixes from published-package behavior,
+  timing targets from measured results, and source coverage from example depth.
+  Two-run memory regressions cover assistant output, application-stored tool
+  results, and external writes using an in-memory store; they do not prove
+  disk recovery or general prompt-injection prevention.
 - README and quickstart separate the five-minute embed path from governed
   acceptance, and the recoverable-execution wording now says checkpoint/session
   contracts with message-history continuation rather than durable execution.

@@ -1,7 +1,7 @@
 # 多语言 Structured Output
 
-本教程使用 `StructuredOutput` 将自由文本转换为受校验 JSON。同一份 schema 和校验规则
-覆盖[语言覆盖矩阵](../getting-started/language-coverage.md)中的三十一种语言实现。
+发布包处理器示例将自由文本转换为受校验 JSON。[语言覆盖矩阵](../getting-started/language-coverage.md)
+列出三十一种语言的结构化输出源码入口，不代表三十一个等价处理器或已验证应用教程。
 
 五个主要 SDK 提供发布包示例：
 
@@ -14,8 +14,8 @@
 其余 SDK 在 `language/<language>/examples/structured-output` 提供确定性源码示例。Go
 参考配方位于 `examples/recipes/structured-output-go`。
 
-每个示例都会在返回模型输出前校验 `title`、`summary` 和 `tags`。非法输出会失败，
-不会返回畸形数据。
+处理器示例校验 `title`、`summary` 和 `tags`。源码模式机制检查可能使用更小的 schema，
+例如 C 只检查 `name`，不调用模型。Schema 检查通过不是模型到应用集成的证据。
 
 ## Schema
 
@@ -223,11 +223,12 @@ npm test
 
 ## 其他原型路径
 
-使用同一份 schema 和各语言 `examples/structured-output` 下的已测试示例。步骤相同：
-构建或安装 Core，运行确定性模型，运行拒绝检查，然后在不移除校验的前提下切换到真实
-端点。
+先检查各语言 `examples/structured-output` 的实际 schema 和程序，构建或安装其依赖的
+Core，再运行接受/拒绝断言。Schema-only 机制还需要模型和应用集成才能成为处理器，
+单独增加 Provider Adapter 不等于完成集成。
 
-Java、C# 和 Rust 示例默认运行确定性 fake 模型。Go 配方同时验证结构化输出和工具参数。
+Java、C# 分别提供确定性测试模式和真实端点运行命令；Rust 默认示例使用确定性模型。
+Go 配方同时验证结构化输出和工具参数。
 Ruby、PHP、Elixir、Lua、C、C++、Fortran、COBOL、Erlang、Dart、Perl、Julia、Swift、
 Haskell、OCaml、D、Nim、Zig、V、Delphi、PowerShell、MATLAB、Octave 和 Objective-C
 的源码示例在无 provider 端点时展示相同的接受/拒绝行为。
@@ -259,8 +260,9 @@ $env:PRAXO_MODEL = "llama3.2"
 
 - 有发布包示例的语言从 registry 安装包；
 - 支持真实端点的示例从环境变量配置模型 Adapter；
-- `StructuredOutput` 按 schema 校验最终 JSON；
-- fake-model 测试无需真实端点即可验证集成。
+- 处理器示例按各自 schema 校验最终 JSON；
+- fixture-model 检查无需真实端点即可验证对应集成；
+- schema-only 源码示例只检查自己的较小校验用例。
 
 它们不证明模型质量、schema 完整性、Provider 原生结构化输出支持或生产行为。即使
 Provider 原生支持结构化输出，应用仍应保留最终 schema 校验。

@@ -18,9 +18,10 @@ execution profiles before they can build an agent.
 working path, not more language entries. The first path is a five-minute embed;
 governed acceptance is a second step. Public claims now separate contract
 completeness, adapter availability, and integration verification. Safe default
-semantics also move up: recalled memory is untrusted data unless the application
-raises its authority deliberately, and final tool arguments remain
-reauthorized after edits.
+semantics also move up: Go source at `73da5139` removes recalled memory from the
+system role. This change is unreleased; `2.8.0` still uses the previous role.
+The fix does not prevent all prompt injection, and does not establish the same
+behavior in every SDK. Final tool arguments remain reauthorized after edits.
 
 PRAXO-CORE remains a **governed, embeddable agent execution framework**. The
 roadmap favors runnable applications and clear integration boundaries over new
@@ -64,17 +65,20 @@ Language count is not a goal: read `complete` as contract-complete, and check
 [Adapter Status](../languages/adapter-status.md) for the separate adapter and
 integration layers.
 
+These are technical coverage groups, not investment priorities or support SLAs.
+Consumer demand may prioritize an implementation from any group without changing
+its declared capability or evidence level.
+
 ## Adoption Path
 
 | Stage | Developer outcome | Current state | Next result |
 | --- | --- | --- | --- |
 | 0. Decide | Know whether Core fits and which language/path to use | The overview, task chooser, comparison, and non-goals exist | Make the choice path shorter and show application responsibilities clearly |
-| 1. Run | Install a published package, connect a model, register one tool, and get a useful result | The five-minute embed path and deterministic starters cover the primary SDKs; live-model examples cover several extended languages; registry versions are current for Python, TypeScript, Rust, C#, Elixir, Erlang, Ruby, Lua, Perl, Haskell, PowerShell, and R, while Java, PHP, Dart, MATLAB, Swift, and D remain behind their source tags (checked 2026-11-15) | Validate the five-minute path with external developers and record live-endpoint troubleshooting |
-| 2. Prototype | Build one coherent local application with tools, streaming, structured output, MCP, workspace access, or telemetry | A thirteen-theme example catalog now covers thirty-one languages, including HITL and session-checkpoint examples; the examples page groups paths by Basic, Integration, Hardening, and Advanced. The [Structured Output tutorial](../guides/structured-output-tutorial.md) gives a runnable path for all thirty-one languages, with published-package walkthroughs for Python and TypeScript | Finish recorded live-provider checks and add an application-shaped prototype for a secondary SDK |
+| 1. Run | Install a published package, connect a model, register one tool, and get a useful result | Published-package deterministic starters and live-model examples exist; five-minute completion has not been independently measured. Registry state is recorded separately in the language support pages | Measure deterministic embedding and live-endpoint completion separately, including troubleshooting |
+| 2. Prototype | Build one coherent local application with tools, streaming, structured output, MCP, workspace access, or telemetry | Thirteen example themes have source entries across thirty-one languages. Entries range from isolated mechanism checks to Core integrations and application tutorials; the catalog is grouped by task | Audit example depth and runnable commands, then validate one consumer-selected application path |
 | 3. Embed | Integrate Core into an existing service with application-owned identity, policy, persistence, events, and shutdown | Vendor-neutral Go/Python/TypeScript HTTP services, Go/Python/TypeScript authenticated identity/policy services, TypeScript OIDC/JWKS verification with provider discovery plus token introspection and revocation, Go and Python OIDC/JWKS verification with provider discovery, an optional external Python policy decision service, verified-identity and durable-checkpoint variants, and a risk-tiered checklist exist | Extend introspection/revocation and the external identity pattern to further SDKs; add a minimal durable checkpoint path |
-| 4. Harden | Make the specific integration safe to upgrade, fail, cancel, and recover | Negative, upgrade, containment, and recovery assets exist; memory recall now defaults to untrusted historical data, and retry tests cover the unknown-effect non-idempotent hazard | Organize checks by application risk, and add malicious cross-turn memory and effect-reconciliation cases to the consumer test template |
+| 4. Harden | Make the specific integration safe to upgrade, fail, cancel, and recover | Negative, upgrade, containment, and recovery assets exist. The unreleased Go memory-role fix and retry hazard tests have local deterministic coverage, not general prompt-injection or cross-SDK guarantees | Validate and release the Go fix, audit affected SDKs, and add risk-specific consumer checks |
 | 5. Extend | Adopt plugins, delegation, long-running operations, workspace providers, or embodied integrations when needed | Application-level delegation examples cover Go, Python, TypeScript, Java, C#, and Rust; Go reference examples cover long-running operations, workspaces, and plugins | Add controlled parent-to-child policy, tool-scope, budget, and depth narrowing before claiming governed delegation |
-| 5. Extend | Adopt plugins, delegation, long-running operations, workspace providers, or embodied integrations when needed | Application-level delegation examples cover Go, Python, TypeScript, Java, C#, and Rust; Go reference examples cover long-running operations, workspaces, and plugins | Advance only with a named consumer and a concrete project need |
 
 The stages describe the recommended order for adoption. They are not release
 gates and do not require all languages to advance together.
@@ -116,8 +120,16 @@ the first project.
 
 From an empty directory, install a published package, connect Ollama or an
 OpenAI-compatible endpoint, register one low-risk tool, and see a model response
-or tool result in 15-30 minutes. The quickstart keeps the five-minute embed path
-separate from the later governed-acceptance path.
+or tool result. Completion-time targets are not measured results:
+
+- Five minutes for deterministic embedding, with the language toolchain already
+  installed; no live model or API key is required.
+- 15-30 minutes for a real tool call, with the model endpoint and credentials
+  already available; model download and account setup are recorded separately.
+
+Measure from the documented install command to the expected result, recording
+environment, failures, repairs, and any author assistance. Governed acceptance
+remains a separate follow-up path.
 
 The first path keeps only three checks:
 
@@ -177,14 +189,13 @@ Turn the first run into one useful local application, such as:
 
 ### Next Work
 
-- Extend the examples catalog with Basic, Integration, Hardening, and Advanced
-  groups and mark package/source mode, credentials, local command execution,
-  external services, and maturity.
-- Add one coherent prototype tutorial for each primary SDK, starting from the
-  existing [workspace tutorial](../guides/workspace-agent-tutorial.md).
-- Add runnable MCP client examples for the remaining SDKs; Python and TypeScript
-  stdio examples and a C# in-process example are available under their language
-  `examples/mcp` directories.
+- Keep the existing Basic, Integration, Hardening, and Advanced catalog groups;
+  distinguish mechanism checks, Core integrations, application tutorials, and
+  recorded runs. Source-file coverage alone does not establish a working path.
+- Validate one application-shaped prototype for a named consumer before
+  expanding tutorials across SDKs.
+- Audit the existing MCP examples against their actual transports and commands;
+  only add missing behavior required by a consumer.
 - Give adapter pages a consistent install, authentication, minimal example, and
   limitation section.
 
@@ -247,8 +258,10 @@ from reaching the first useful result.
   aligned with the read-only, side-effecting, and high-risk tiers.
 - Extend the [consumer test template](../guides/consumer-test-template.md) with
   language-specific examples instead of requiring the whole repository matrix.
-- Keep malicious cross-turn memory cases in the default suite: memory content
-  must not gain instruction authority or change tool authorization.
+- Test two-run memory write/recall paths for assistant output, application-stored
+  tool results, and external writes. Assert that recalled content is not system
+  data and that a denied tool call still has zero effects; do not infer general
+  prompt-injection prevention from these tests.
 - Keep the unknown-effect retry cases: a transport or timeout error does not
   prove that a non-idempotent tool produced no effect.
 - Run upgrade, fault, load, provider, database, collector, sandbox, and recovery
@@ -276,27 +289,33 @@ separate product consumer. Details and acceptance conditions remain in the
 [embodied pilot plan](embodied-pilot.md); embodied work is not on the normal SDK
 adoption path.
 
-Controlled delegation is the next advanced capability: a child run may only
-narrow the parent's policy, tool scope, step budget, and depth, and its final
-tool arguments still pass reauthorization. Until that contract is implemented
-and versioned, treat parent-to-child narrowing as application-owned.
+Controlled delegation is proposed, gated by a named consumer and a semantics
+review before public API changes. Distinguish tools a parent can invoke from
+authority it can delegate: a parent may invoke only `delegate` while granting a
+child a separately authorized `read_file` capability. Define non-bypassable
+parent-policy composition, shared cumulative budgets across siblings, child-count
+and depth limits, cancellation/deadline propagation, and final-argument
+reauthorization. Until implemented and versioned, enforcement is application-owned;
+existing parent/child examples do not prove inherited authority constraints.
 
 Do not prioritize new ROS, workspace-provider, language, or generic asynchronous
 action APIs without a named consumer and a concrete gap.
 
 ## Current Priorities
 
-1. Make the five-minute embed path real and externally validated: published
-   package, one model, one tool, one denial check.
-2. Obtain one independent consumer, one third-party reproduction, and one
-   recorded real provider/MCP/Harmovela integration.
-3. Deepen existing capabilities before adding new ones: controlled delegation
-   scope narrowing, memory provenance/trust, and a minimal checkpoint/session
-   store reference implementation.
-4. Keep the three evidence layers explicit: contract complete, adapter
-   available, integration verified.
-5. Publish task-oriented tutorials for MCP, controlled delegation, and
-   OpenTelemetry traces instead of language-count messaging.
+1. Validate and prepare release of the Go memory-role fix, with migration notes,
+   two-run regressions, and an SDK impact audit. Do not present unreleased source
+   behavior as a published-package guarantee.
+2. Validate one consumer-selected embedding path: deterministic install/run/deny,
+   then a real provider tool call. Measure time, repairs, and author assistance.
+3. Seek one independent framework consumer and one third-party reproduction.
+   Record real provider, MCP, and Harmovela checks separately; a combined-chain
+   claim requires one recorded run exercising that chain.
+4. Deepen only the gaps demonstrated by that consumer, starting with a controlled
+   delegation semantics review if required. Reuse existing checkpoint-store
+   recipes before adding another store or public API.
+5. Keep evidence layers and example depth explicit, and publish a task tutorial
+   from the validated path rather than opening another broad SDK campaign.
 
 These priorities favor fewer complete paths over more isolated features. A
 single Go example is not sufficient evidence that the developer path works for

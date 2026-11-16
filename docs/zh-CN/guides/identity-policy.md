@@ -61,9 +61,9 @@ Checkpoint 模式，还可以验证外部身份提供商的 OIDC/JWKS JWT、发�
 
 ## 全语言示例
 
-每种已声明 Core 都提供 `language/<language>/examples/identity-policy` 示例。每个示例都绑定
-可信 principal，拒绝缺失、未激活、角色不匹配和租户不匹配的动作，并验证被拒绝的调用不会
-触达工具。以下命令在仓库根目录运行。
+每种已声明 Core 都提供 `language/<language>/examples/identity-policy` 示例，但深度不同：
+部分只检查应用授权谓词，不运行 Core 或工具。只有经过 Core 并统计工具效果的集成，
+才能证明拒绝零效果，不能由独立谓词检查推断。以下命令在仓库根目录运行。
 
 | 语言 | 运行命令 |
 | --- | --- |

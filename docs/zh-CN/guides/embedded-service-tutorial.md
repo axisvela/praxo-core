@@ -133,9 +133,9 @@ npm test
 ## 其他语言示例
 
 每种已声明 Core 都提供 `language/<language>/examples/service` 示例。下表列出在仓库根目录运行的
-确定性命令。Go、Python、TypeScript、Java、C# 和 Rust 包含可执行的 HTTP 服务；其余示例是
-传输中立的请求处理器，在不打开 socket 的情况下验证相同的 principal、租户、`/healthz`、
-`/run` 和拒绝检查。[语言覆盖页](../getting-started/language-coverage.md)记录每种示例的模式。
+确定性命令。Go、Python、TypeScript、Java、C# 和 Rust 包含可执行的 HTTP 服务；其余包含
+传输中立的请求处理机制，深度不一，部分不调用 Core、工具或租户策略，不能视为等价的
+嵌入服务或认证实现。[语言覆盖页](../getting-started/language-coverage.md)记录示例模式。
 
 | 语言 | 运行命令 |
 | --- | --- |
@@ -170,8 +170,8 @@ npm test
 | V | `v run language/v/examples/service/service.v` |
 | Zig | `zig run language/zig/examples/service/service.zig` |
 
-源码模式 Handler 示例会输出对应语言的 `service example passed`，并在被拒绝的请求仍触达
-工具时以非零状态退出。它们不证明身份验证、持久状态或生产 HTTP 行为。
+源码模式 Handler 示例的 `service example passed` 只说明本地断言通过。状态码检查不能证明
+零工具效果，后者需要经过 Core 并统计工具调用。它们不证明身份验证、持久状态或生产 HTTP 行为。
 
 ## 请求流程
 

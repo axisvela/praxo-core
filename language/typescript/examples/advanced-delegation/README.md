@@ -17,8 +17,9 @@ deny: parent record blocked; child effect unchanged
 ```
 
 The example is deterministic and does not need a model endpoint. It verifies
-that the child effect runs once, the parent cannot record directly, and the
-child cannot widen its scope.
+that the child effect runs once and a separately configured parent policy denies
+direct recording. It does not test automatic permission inheritance, hostile
+child scope expansion, shared budgets, or cancellation propagation.
 
 This is not the Go `pkg/agent/delegation` contract. It is an application-level
 orchestration pattern; durable workers, remote task queues, retries, and effect
