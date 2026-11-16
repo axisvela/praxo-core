@@ -1,7 +1,7 @@
 # Registry Publication Status
 
-Last checked: 2026-11-15 (Python 0.9.0, TypeScript 0.8.0, Java 0.9.0, Rust
-0.9.1, C# 0.9.1, Elixir 0.9.1, Erlang 0.8.1, Ruby 0.8.1, PHP 0.8.0, Dart 0.4.0,
+Last checked: 2026-11-16 (Python 0.9.0, TypeScript 0.8.0, Java 0.9.0, Rust
+0.9.1, C# 0.9.1, Elixir 0.9.1, Erlang 0.8.1, Ruby 0.8.1, PHP 0.8.0, Dart 0.6.1,
 Perl 0.6.0, Haskell 0.7.0, PowerShell 0.7.0, and R 0.10.1 published; Go `v2.8.0`
 remains current; other rows from the 2026-11-04/05 audit).
 
