@@ -65,12 +65,12 @@ use a new version tag.
 
 ## Current state
 
-- Source version: `0.6.0`
-- Published pub.dev version: `0.4.0`
+- Source version: `0.6.1`
+- Published pub.dev version: `0.4.0` until the `dart/v0.6.1` workflow completes
 - Registry status: behind source; publish the next verified version with a new
   tag rather than reusing `dart/v0.6.0`.
-- Dry-run on 2026-11-16 passed conformance, API snapshot, and tests. It reported
-  the previous version `0.4.0` and recommended an incremental version.
+- Dry-run for `0.6.1` passed conformance, API snapshot, and tests with 0
+  warnings and one version hint (previous published version `0.4.0`).
 - The package ships a minimal `example/`; `examples/` is excluded from the pub
   archive via `.pubignore` and linked from the README to avoid the plural
   directory warning.
@@ -91,11 +91,11 @@ one release path and record it:
 Do not publish `0.6.0` from the current branch if the tag points at different
 content. Verify the tag/commit first.
 
-## Next release candidate (`0.6.1`)
+## Release `0.6.1`
 
 The existing `dart/v0.5.0` and `dart/v0.6.0` tags will not retrigger the new
-workflow. The clean automated path is a new patch tag. This is a release action
-and requires explicit release authorization.
+workflow. The clean automated path is a new patch tag. The release changes are
+prepared in the working tree; the tag is created only after commit and gates.
 
 1. Set `language/dart/VERSION`, `language/dart/pubspec.yaml`, and
    `language/dart/CHANGELOG.md` to `0.6.1`.

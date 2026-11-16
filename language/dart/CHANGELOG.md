@@ -1,5 +1,22 @@
 # Changelog
 
+## 0.6.1 - 2026-11-16
+
+Source tag `dart/v0.6.1`.
+
+### Added
+
+- A minimal `example/` entry for pub.dev and a README index for the thirteen
+  repository examples.
+- GitHub Actions OIDC publishing configuration in the monorepo.
+
+### Changed
+
+- The published archive excludes the plural `examples/` directory; the README
+  links the full examples from the repository.
+- Corrected the published version reference to `0.4.0` while the source moves to
+  `0.6.1`.
+
 ## 0.6.0 - 2026-11-15
 
 Source tag `dart/v0.6.0`.
