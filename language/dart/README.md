@@ -14,7 +14,8 @@ reference implementation.
 - Tier: core
 - License: MIT
 - Dependencies: Dart standard library only
-- Published on pub.dev as `praxo_core@0.1.1`
+- Published on pub.dev as `praxo_core@0.4.0`; source is `0.6.0`
+- Publishing setup: [PUBLISHING.md](PUBLISHING.md)
 
 ## Registry and Coding-Agent Entry
 

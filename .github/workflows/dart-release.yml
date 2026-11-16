@@ -1,0 +1,48 @@
+name: dart-release
+
+on:
+  push:
+    tags:
+      - "dart/v*"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: dart-release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: language/dart
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dart-lang/setup-dart@v1
+      - name: Verify version and tag
+        shell: bash
+        run: |
+          version="$(cat VERSION)"
+          test -n "${version}"
+          test "version: ${version}" = "$(grep '^version:' pubspec.yaml)"
+          if [ "${GITHUB_REF_TYPE}" = "tag" ]; then
+            test "dart/v${version}" = "${GITHUB_REF_NAME}"
+          fi
+      - name: Run release gates
+        run: |
+          dart run conformance/run.dart
+          python api-snapshot.py --check
+          dart run test/run.dart
+
+  publish:
+    needs: verify
+    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/dart/v')
+    permissions:
+      id-token: write
+    uses: dart-lang/setup-dart/.github/workflows/publish.yml@v1
+    with:
+      working-directory: language/dart
+      environment: pub.dev
