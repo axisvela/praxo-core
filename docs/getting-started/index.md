@@ -34,7 +34,7 @@ usable?", and "is this specific integration safe to operate?".
 | Authorize tools and prove denial has no effects | The same consumer starters | A policy hook is an enforcement point, not an identity service or process sandbox |
 | Bind verified identity and policy | [Identity and policy recipe](../guides/identity-policy.md) | Application authenticates and supplies a trusted principal; model-provided roles are ignored |
 | Add a long-running remote operation | [Long-running operations recipe](../guides/long-running-operations.md) | Run state, cancel request/confirmation, and remote effect evidence remain separate |
-| Add human approval, checkpoints, or recovery | [Recipes](../guides/recipes.md), [adoption guide](adoption.md), [governed execution design](../reference/governed-execution.md) | Persistent approvals, leases, and effect reconciliation are integration responsibilities; the design is proposed, not a profile guarantee |
+| Add human approval, checkpoints, or recovery | [Checkpoint and continuation](../guides/checkpoint-continuation.md), [recipes](../guides/recipes.md), [adoption guide](adoption.md), [governed execution design](../reference/governed-execution.md) | Choose message-history continuation, an allowlisted store, or operation state explicitly; persistent approvals, leases, and effect reconciliation are integration responsibilities |
 | Use durable graph workflows, exactly-once effects, or a managed sandbox | [When Not to Use PRAXO-CORE](when-not-to-use.md) first | Core supplies seams, not those products or guarantees |
 
 ## Continue by Task
