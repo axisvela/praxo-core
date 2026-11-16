@@ -42,17 +42,17 @@ crates.io、NuGet、RubyGems、Packagist、Hex、pub.dev 等 Registry 页面，�
 
 ## 当前试点页面审计
 
-2026-11-13 核对四个试点包的 Registry 版本。
+Go 页面于 2026-11-16 核对；四个试点包于 2026-11-13 核对。
 
 | 语言 | 页面 | 已发布版本 | 当前页面状态 | 下一步 |
 | --- | --- | --- | --- | --- |
-| Go | [pkg.go.dev](https://pkg.go.dev/github.com/axisvela/praxo-core/v2) | `v2.9.0` | 源码 tag `v2.9.0` 已创建；渲染后的 pkg.go.dev 页面与 module proxy `@latest` 验证待完成 | 发布后核对渲染页面 |
+| Go | [pkg.go.dev](https://pkg.go.dev/github.com/axisvela/praxo-core/v2) | `v2.9.0` | 渲染后的 `v2.9.0` README 包含 `@v2.9.0` 安装命令、MIT 许可和发布说明；pkg.go.dev 显示 `v2.9.0` 于 2026-11-16 发布 | 无需进一步操作 |
 | Python | [PyPI](https://pypi.org/project/praxo-core/) | `0.9.0` | `0.9.0` 已发布，但渲染描述仍包含较旧的安装命令与源码版本文本 | 下次发布时刷新包 README |
 | TypeScript | [npm](https://www.npmjs.com/package/@axisvela/praxo-core) | `0.8.0` | `0.8.0` 已作为 `latest` 发布 | 无需进一步操作 |
 | Java | [Maven Central](https://central.sonatype.com/artifact/com.axisvela/praxo-core) | `0.7.0` | Maven metadata 报告 `0.7.0`；Central 不渲染 README | 刷新发布元数据时重审 sources 与 javadoc |
 
 本仓库的源元数据更新**不会**改变已发布的 `0.9.0`、`0.8.0` 与 `0.7.0` 语言页面。
-Go 页面随 `v2.9.0` tag 更新，渲染页面验证待完成。在其他 Registry 显示新版本与
+Go 页面随 `v2.9.0` tag 更新，并已于 2026-11-16 核对。在其他 Registry 显示新版本与
 新文本前，不得声称对应页面已更新。
 
 其他 Registry 见[Registry 发布状态](registry-status.md)。本次未逐一重新审计；发布时
