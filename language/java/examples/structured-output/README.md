@@ -1,6 +1,6 @@
 # Structured Output Processor
 
-This example uses published Maven Central `com.axisvela:praxo-core:0.7.0` to
+This example uses published Maven Central `com.axisvela:praxo-core:0.9.0` to
 turn free text into validated JSON with `StructuredOutput`.
 
 ## Run

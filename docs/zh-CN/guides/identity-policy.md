@@ -36,12 +36,17 @@ GOWORK=off go test -mod=readonly -run Identity -v ./...
 配方在认证后把 principal 放入 context value。真实服务中，该值必须来自已验证请求上下文或
 身份中间件，而不是 prompt 或模型。
 
+Go 认证服务示例
+[`examples/embedded-service-auth`](https://github.com/axisvela/praxo-core/tree/main/examples/embedded-service-auth)
+展示了服务边界上的同类绑定。它默认验证应用局部 HMAC Token，设置
+`PRAXO_OIDC_ISSUER` 后可验证带 Provider 发现的 OIDC/JWKS JWT。
+
 Python 认证 HTTP 服务
 [`language/python/examples/service-auth`](https://github.com/axisvela/praxo-core/tree/main/language/python/examples/service-auth)
-展示了服务边界上的同类绑定。它验证应用局部 HMAC Bearer Token，把 subject 和 tenant
-绑定到 Session，拒绝过期或不在允许列表中的租户，只授权 `get_time`，并在运行完成后
-保存 Checkpoint。它还可以把决策委托给应用拥有的 HTTP 策略决策服务，并在该服务不可用时
-fail closed。运行确定性测试：
+展示了服务边界上的同类绑定。它验证应用局部 HMAC Bearer Token 或 OIDC/JWKS JWT，把
+subject 和 tenant 绑定到 Session，拒绝过期或不在允许列表中的租户，只授权 `get_time`，
+并在运行完成后保存 Checkpoint。它还可以把决策委托给应用拥有的 HTTP 策略决策服务，并在
+该服务不可用时 fail closed。运行确定性测试：
 
 ```bash
 cd language/python/examples/service-auth
@@ -51,7 +56,50 @@ python -m unittest test_service.py -v
 TypeScript 服务示例
 [`language/typescript/examples/service-auth`](https://github.com/axisvela/praxo-core/tree/main/language/typescript/examples/service-auth)
 使用 Node 标准库实现同样的 HMAC 身份、租户允许列表、可选外部策略决策服务和
-Checkpoint 模式，还可以验证外部身份提供商的 OIDC/JWKS JWT。
+Checkpoint 模式，还可以验证外部身份提供商的 OIDC/JWKS JWT、发现 Provider 元数据、
+校验不透明 Token，并通过应用自有的 Provider 端点撤销 Token。
+
+## 全语言示例
+
+每种已声明 Core 都提供 `language/<language>/examples/identity-policy` 示例。每个示例都绑定
+可信 principal，拒绝缺失、未激活、角色不匹配和租户不匹配的动作，并验证被拒绝的调用不会
+触达工具。以下命令在仓库根目录运行。
+
+| 语言 | 运行命令 |
+| --- | --- |
+| Go | `cd examples/recipes/identity-go && GOWORK=off go test -mod=readonly -run Identity -v ./...` |
+| Python | `cd language/python/examples/identity-policy && .venv/bin/python -m unittest test_identity_policy.py -v` |
+| TypeScript | `cd language/typescript/examples/identity-policy && npm test` |
+| Java | `cd language/java/examples/identity-policy && mvn -q compile exec:java` |
+| C# | `cd language/csharp/examples/identity-policy && dotnet run -- --test` |
+| Rust | `cd language/rust/examples/identity-policy && cargo run` |
+| C | `gcc -std=c11 -I language/c/include language/c/examples/identity-policy/main.c language/c/build/libpraxo_core.a -o build/c-identity-policy && ./build/c-identity-policy` |
+| C++ | `g++ -std=c++20 -I language/cpp/include language/cpp/examples/identity-policy/main.cpp language/cpp/build/libpraxo_cpp.a -o build/cpp-identity-policy && ./build/cpp-identity-policy` |
+| COBOL | `python language/cobol/examples/identity-policy/build.py` |
+| D | `dmd -run language/d/examples/identity-policy/identity_policy.d` |
+| Dart | `dart language/dart/examples/identity-policy/identity_policy.dart` |
+| Delphi / Free Pascal | `fpc -Mobjfpc language/delphi/examples/identity-policy/identity_policy.pas && ./identity_policy` |
+| Elixir | `elixir language/elixir/examples/identity-policy/identity_policy.exs` |
+| Erlang | `escript language/erlang/examples/identity-policy/identity_policy.escript` |
+| Fortran | `gfortran language/fortran/examples/identity-policy/identity_policy_example.f90 -o build/fortran-identity-policy && ./build/fortran-identity-policy` |
+| Haskell | `runghc language/haskell/examples/identity-policy/identity_policy.hs` |
+| Julia | `julia language/julia/examples/identity-policy/identity_policy.jl` |
+| Lua | `lua language/lua/examples/identity-policy/identity_policy.lua` |
+| MATLAB / Octave | `octave-cli --path language/matlab/examples/identity-policy --eval identity_policy_example` |
+| Nim | `nim r language/nim/examples/identity-policy/identity_policy.nim` |
+| Objective-C | `clang -fobjc-arc language/objc/examples/identity-policy/identity_policy.m -framework Foundation -o build/objc-identity-policy && ./build/objc-identity-policy` |
+| OCaml | `ocaml language/ocaml/examples/identity-policy/identity_policy.ml` |
+| Perl | `perl language/perl/examples/identity-policy/identity_policy.pl` |
+| PHP | `php language/php/examples/identity-policy/identity_policy.php` |
+| PowerShell | `powershell -File language/powershell/examples/identity-policy/identity_policy.ps1` |
+| R | `Rscript language/r/examples/identity-policy/identity_policy.R` |
+| Ruby | `ruby -I language/ruby/lib language/ruby/examples/identity-policy/identity_policy.rb` |
+| Swift | `swift run --package-path language/swift praxo-identity-policy-example` |
+| V | `v run language/v/examples/identity-policy/identity_policy.v` |
+| Zig | `zig run language/zig/examples/identity-policy/identity_policy.zig` |
+
+这些是授权模式示例，不是身份提供商或策略决策服务。服务边界上的 Token 验证请参见
+[HTTP 嵌入服务教程](embedded-service-tutorial.md)。
 
 ## 重要限制
 

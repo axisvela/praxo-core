@@ -52,14 +52,15 @@ curl -s http://127.0.0.1:8080/run \
 
 [认证服务示例](https://github.com/axisvela/praxo-core/tree/main/examples/embedded-service-auth)
 增加应用侧 HMAC Bearer Token、subject/tenant claims、过期检查、Agent 运行前的
-租户允许列表，以及运行完成时保存的文件型 Checkpoint。
+租户允许列表，以及运行完成时保存的文件型 Checkpoint。设置 `PRAXO_OIDC_ISSUER` 后改为
+验证 OIDC/JWKS JWT，并可从 Issuer 元数据发现 `jwks_uri`。
 
 ```bash
 cd examples/embedded-service-auth
 go test ./...
 ```
 
-这是应用局部 Token 格式，不是通用 JWT 实现。生产服务应使用自己的身份提供商、
+默认使用应用局部 Token 格式，不是通用 JWT 实现。生产服务应使用自己的身份提供商、
 密钥管理、audience 校验和撤销机制。
 
 ## Python 认证变体
@@ -67,7 +68,8 @@ go test ./...
 [Python 认证服务示例](https://github.com/axisvela/praxo-core/tree/main/language/python/examples/service-auth)
 使用标准库实现同样的边界：HMAC Bearer Token、subject/tenant claims、过期检查、
 租户允许列表、策略绑定，以及文件型 Checkpoint。设置 `PRAXO_POLICY_URL` 可把决策
-委托给应用拥有的 HTTP 策略决策服务；超时、响应无效或拒绝都会 fail closed。
+委托给应用拥有的 HTTP 策略决策服务；超时、响应无效或拒绝都会 fail closed。设置
+`PRAXO_OIDC_ISSUER` 后改为验证 OIDC/JWKS JWT，并可从 Issuer 元数据发现 `jwks_uri`。
 
 ```bash
 cd language/python/examples/service-auth
@@ -98,8 +100,11 @@ curl -s http://127.0.0.1:8080/run \
 
 [TypeScript 认证服务示例](https://github.com/axisvela/praxo-core/tree/main/language/typescript/examples/service-auth)
 使用 Node 标准库实现同样的 HMAC Bearer Token、租户允许列表、策略绑定、可选外部
-策略决策服务，以及文件型 Checkpoint。设置 `PRAXO_OIDC_ISSUER` 后，它还可以验证
-外部身份提供商的 OIDC/JWKS JWT。
+策略决策服务，以及文件型 Checkpoint。设置 `PRAXO_OIDC_ISSUER` 后，它会验证外部
+身份提供商的 OIDC/JWKS JWT，并可从 `.well-known/openid-configuration` 发现
+`jwks_uri`。设置 `PRAXO_INTROSPECTION_URL` 后改为通过 RFC 7662 端点校验不透明
+Token。示例还提供 `node service.js --revoke-token TOKEN`，通过 RFC 7009 端点撤销
+Token；Provider 端点不可用时失败关闭。
 
 ```bash
 cd language/typescript/examples/service-auth
@@ -124,6 +129,49 @@ curl -s http://127.0.0.1:8080/run \
 ```bash
 npm test
 ```
+
+## 其他语言示例
+
+每种已声明 Core 都提供 `language/<language>/examples/service` 示例。下表列出在仓库根目录运行的
+确定性命令。Go、Python、TypeScript、Java、C# 和 Rust 包含可执行的 HTTP 服务；其余示例是
+传输中立的请求处理器，在不打开 socket 的情况下验证相同的 principal、租户、`/healthz`、
+`/run` 和拒绝检查。[语言覆盖页](../getting-started/language-coverage.md)记录每种示例的模式。
+
+| 语言 | 运行命令 |
+| --- | --- |
+| Go | `cd examples/embedded-service && go run . -addr :8080 -tenant local` |
+| Python | `cd language/python/examples/service && .venv/bin/python service.py` |
+| TypeScript | `cd language/typescript/examples/service && npm start` |
+| Java | `cd language/java/examples/service && mvn -q compile exec:java` |
+| C# | `cd language/csharp/examples/service && dotnet run` |
+| Rust | `cd language/rust/examples/service && cargo run` |
+| C | `gcc -std=c11 language/c/examples/service/main.c -o build/c-service && ./build/c-service` |
+| C++ | `g++ -std=c++20 language/cpp/examples/service/main.cpp -o build/cpp-service && ./build/cpp-service` |
+| COBOL | `python language/cobol/examples/service/build.py` |
+| D | `dmd -run language/d/examples/service/service.d` |
+| Dart | `dart language/dart/examples/service/service.dart` |
+| Delphi / Free Pascal | `fpc -Mobjfpc language/delphi/examples/service/service.pas && ./service` |
+| Elixir | `elixir language/elixir/examples/service/service.exs` |
+| Erlang | `escript language/erlang/examples/service/service.escript` |
+| Fortran | `gfortran language/fortran/examples/service/service_example.f90 -o build/fortran-service && ./build/fortran-service` |
+| Haskell | `runghc language/haskell/examples/service/service.hs` |
+| Julia | `julia language/julia/examples/service/service.jl` |
+| Lua | `lua language/lua/examples/service/service.lua` |
+| MATLAB / Octave | `octave-cli --path language/matlab/examples/service --eval service_example` |
+| Nim | `nim r language/nim/examples/service/service.nim` |
+| Objective-C | `clang -fobjc-arc language/objc/examples/service/service.m -framework Foundation -o build/objc-service && ./build/objc-service` |
+| OCaml | `ocaml language/ocaml/examples/service/service.ml` |
+| Perl | `perl language/perl/examples/service/service.pl` |
+| PHP | `php language/php/examples/service/service.php` |
+| PowerShell | `powershell -File language/powershell/examples/service/service.ps1` |
+| R | `Rscript language/r/examples/service/service.R` |
+| Ruby | `ruby -I language/ruby/lib language/ruby/examples/service/service.rb` |
+| Swift | `swift run --package-path language/swift praxo-service-example` |
+| V | `v run language/v/examples/service/service.v` |
+| Zig | `zig run language/zig/examples/service/service.zig` |
+
+源码模式 Handler 示例会输出对应语言的 `service example passed`，并在被拒绝的请求仍触达
+工具时以非零状态退出。它们不证明身份验证、持久状态或生产 HTTP 行为。
 
 ## 请求流程
 

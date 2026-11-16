@@ -119,7 +119,7 @@ Bridge、Sample 描述运行时的接入方式，不证明其语言缺乏 Framew
 | Haskell | `0.7.0` | Hackage `0.7.0` | 已最新 |
 | R | `0.10.1` | r-universe `0.10.1` | 已最新 |
 | Nim | `0.6.0` | split 仓库包 `0.1.1` | 待完成 |
-| OCaml | `0.8.0` | opam registry `0.3.0` | 待完成 |
+| OCaml | `0.8.0` | opam registry `0.3.0`；PR #31222 待合并（`0.8.0`） | 待完成 |
 | Swift | `0.7.0` | SPI `0.6.0` | 注册表落后 |
 | Delphi / Free Pascal | `0.7.0` | OPM `0.2.1` | 待完成 |
 | D | `0.6.0` | DUB `0.4.0` | 待完成 |

@@ -1,6 +1,6 @@
 # 契约与证据状态
 
-**状态：** 公开规划参考，2026-11-09。本页定义路线图使用的状态词，并记录主要契约领域的
+**状态：** 公开规划参考，2026-11-15。本页定义路线图使用的状态词，并记录主要契约领域的
 当前状态。它不是发布排期，也不扩大任何 API 或 Profile。
 
 ## 状态词
@@ -35,6 +35,7 @@
 | Java 发布包升级 | 已实现；由 CI 验证 | 解析 Maven Central `0.3.0`，将不变消费者升级到 `0.4.0`，并重跑 starter/治理检查；仅一个版本对，不是通用升级保证 |
 | Go、Python、TypeScript 与 Java 治理负向验收 | 已实现；在各自标注 revision 验证 | 各五项应用层检查：缺少 Policy/范围、最终参数与审批编辑重授权、Policy 服务失败；不是通用 Profile |
 | Go 身份/策略配方 | 已实现；在标注 revision 验证 | 应用提供已验证 principal；缺失、过期、租户不匹配与模型伪造角色均拒绝；不是身份提供商或 PDP |
+| 认证服务身份示例 | 已实现；Go、Python、TypeScript 示例于 2026-11-15 本地验证 | Go 和 Python 默认验证应用局部 HMAC Token，配置后验证带 Provider 发现的 OIDC/JWKS JWT。TypeScript 支持 HMAC、带发现的 OIDC/JWKS、RFC 7662 introspection 与 RFC 7009 revocation。测试使用 loopback discovery、JWKS、introspection 与 revocation 端点；不是身份提供商、密钥管理器或生产撤销服务 |
 | Go 长时操作配方 | 已实现；在标注 revision 验证 | L4 配方证据：文件（temp+sync+rename）、loopback HTTP、子进程重启、独立 verifier 进程与文件 fencing fixture 覆盖幂等提交、响应丢失、部分写入恢复、rename 前后确定性故障注入、损坏状态失败关闭、取消请求/确认、Run 取消、完成/效果验证区分、verifier 收据、持久 fencing、lease 过期/续期/撤销、带 health/readiness、基础 metrics、示例 Prometheus scrape/留存/告警配置（仅配置校验；无 live collector）、环境变量配置、file-based token/secret 轮换（签发属外部）与优雅退出的独立服务二进制、可配置 file/SQLite/Postgres lease 后端与 reload-modify-save（SQLite 已验证；Postgres gated 测试需 `PRAXO_POSTGRES_DSN`，本环境未验证）、rename 边界前后进程级崩溃、gated 100 提交负载/故障测试与干净检出复现脚本、使用自己 token/密钥的独立 verifier 二进制，以及静态 Bearer/TLS 拒绝；只有 Run 取消断言触及 Core 接缝。无生产密钥管理、lease 协调服务、可信时钟、OS 级断电证明、身份提供商或 exactly-once；未配置 lease 时，边界测试记录并发写入者的丢更新 |
 | Go 适配器一致性配方 | 已实现；在标注 revision 验证 | 使用 `pkg/conformance` 校验 fake model、流式 model、tool 与 retriever 契约，包括不匹配失败；不是 live provider 或生产证据 |
 | Go 重试安全配方 | 已实现；在标注 revision 验证 | 演示 `tool.Retry` 谓词、取消、非幂等重复效果风险，以及带状态查询的应用侧 wrapper；不提供 Core effect ledger 或 exactly-once 保证 |
@@ -52,7 +53,7 @@
 | 编程 Agent 集成映射 | 已实现；版本由文档测试校验 | 包映射、集成契约与验证命令；不是安装渠道、自动 Skill 或采用证据 |
 | 编程 Agent 发现辅助 | 已实现；`llms.txt` 存在且链接由测试校验 | 机器可读仓库入口；不保证工具发现、搜索排序、安装或采用 |
 | 编程 Agent Skill 模板 | 实验；两项有范围的工具结果 | 工具中立的 `SKILL.md`。Claude Code `2.1.196` 于 2026-11-08（`bdd36d7`）在临时 home 中安装并列出 Skill 组件；该 CLI 未登录，因此未执行任务。opencode `1.18.18` 发现了项目本地副本，并用已发布 PyPI `praxo-core==0.3.2`、显式工具范围和 allow/deny 测试完成确定性 Python 任务（3/3 通过；模型 `deepseek/deepseek-flash`；2026-11-08，`7004a08`）。Codex、Copilot、自动安装、MCP 与运行时 Skill 行为仍未验证 |
-| Registry 页面元数据 | 新语言版本已发布并核对渲染页面 | PyPI `0.9.0`、npm `0.8.0`、Maven Central `0.9.0`、crates.io `0.9.0`、NuGet `0.9.0`、Packagist `0.8.0`、r-universe `0.10.0` 已发布；Go `v2.8.0` 保持当前。其他 Registry 仍在发布时检查 |
+| Registry 页面元数据 | 新语言版本已发布并核对渲染页面 | PyPI `0.9.0`、npm `0.8.0`、Maven Central `0.9.0`、crates.io `0.9.1`、NuGet `0.9.1`、Packagist `0.8.0`、r-universe `0.10.1` 已发布；Go `v2.8.0` 保持当前。Java、PHP、Dart、MATLAB、Swift 和 D 仍落后于源码标签；其他 Registry 仍在发布时检查 |
 | 每语言 Registry 与编程 Agent 入口 | 已实现；生成并由链接测试校验 | 每个 `language/<language>/` 目录都有 `REGISTRY.md`、`llms.txt` 与 `llms.md`，并提供中央索引和 README 链接。npm、Python sdist、Cargo、NuGet、RubyGems、Hex、CPAN 与 Hackage 的允许清单已包含这些文件；Maven Central 仍以 POM 元数据为主。这是源码证据，不证明 Registry 页面已刷新 |
 | 编程 Agent 采用实验 | 已运行试点；完整基线未运行 | [采用基线协议](adoption-baseline.md)定义轨道、任务、指标与证据。一次 opencode `1.18.18` 与 `deepseek/deepseek-flash` 试点记录：指定集成在有无 Skill 时各通过一次；自由选型无 Skill 时 3/3 次未发现 PRAXO-CORE，有 Skill 时 3/3 次选择它；原不适用 workflow 任务超时且未计分，受限后续任务 3/3 次推荐非 Core workflow/sandbox 组合，并在有 Skill 时 3/3 次明确排除 PRAXO-CORE。预注册的 held-out 任务一次超时、每种条件三次完成：两种条件在全部完成试验中都选择 PRAXO-CORE，与无 Skill 时 3/3 regression 未发现的结果不一致；有 Skill 时一次试验需要一次修复。一次受限升级试点在源码不变的情况下安装 0.3.2 并通过 8/8 测试；后续任务将 `requirements.txt` 更新为 0.3.2，源码不变且 8/8 测试通过。后续变更后的留存仍未观察；不是采用证据 |
 | Embodied Integration Profile | 设计提案；AKROVELA 确定性 P1 切片已实现；E1-E8 未运行 | 治理之上增加远程动作、绑定/新鲜观测、取消确认和效果验证；分开实验证据、Mission 权威、运行世界状态、独立保障与本地安全；AKROVELA 像 PRAXOVELA 一样嵌入 Core；产品侧适配器与确定性 P1 切片已存在于 AKROVELA 仓库，仿真、独立观测/验证者、ROS/硬件效果与 E1-E8 试点证据仍待定 |

@@ -55,16 +55,17 @@ Run its deterministic tests with:
 The [authenticated service example](https://github.com/axisvela/praxo-core/tree/main/examples/embedded-service-auth)
 adds an application-verified HMAC bearer token, subject and tenant claims,
 expiration checks, a tenant allowlist before the agent runs, and a file-backed
-checkpoint saved on run completion.
+checkpoint saved on run completion. Set `PRAXO_OIDC_ISSUER` to verify OIDC/JWKS
+JWTs instead; the verifier can discover `jwks_uri` from the issuer metadata.
 
 ```bash
 cd examples/embedded-service-auth
 go test ./...
 ```
 
-This is an application-local token format, not a general JWT implementation.
-Production services should use their identity provider, key management,
-audience checks, and revocation.
+The default is an application-local token format, not a general JWT
+implementation. Production services should use their identity provider, key
+management, audience checks, and revocation.
 
 ## Python Authenticated Variant
 
@@ -73,7 +74,9 @@ applies the same boundary with the standard library: HMAC bearer tokens,
 subject and tenant claims, expiration checks, a tenant allowlist, policy
 binding, and a file-backed checkpoint. Set `PRAXO_POLICY_URL` to delegate
 decisions to an application-owned HTTP policy decision service; the example
-fails closed on timeout, an invalid response, or a denial.
+fails closed on timeout, an invalid response, or a denial. Set
+`PRAXO_OIDC_ISSUER` to verify OIDC/JWKS JWTs and discover `jwks_uri` from the
+issuer metadata instead of using the local HMAC format.
 
 ```bash
 cd language/python/examples/service-auth
@@ -105,8 +108,12 @@ Run its deterministic tests with:
 The [TypeScript authenticated service example](https://github.com/axisvela/praxo-core/tree/main/language/typescript/examples/service-auth)
 uses Node's standard library with the same HMAC bearer token, tenant allowlist,
 policy binding, optional external policy decision service, and file checkpoint.
-It can also verify OIDC/JWKS JWTs from an external identity provider when
-`PRAXO_OIDC_ISSUER` is set.
+When `PRAXO_OIDC_ISSUER` is set, it verifies OIDC/JWKS JWTs and can discover
+`jwks_uri` from the issuer's `.well-known/openid-configuration`. Set
+`PRAXO_INTROSPECTION_URL` to verify opaque tokens through an RFC 7662 endpoint
+instead. The example also exposes `node service.js --revoke-token TOKEN` for an
+RFC 7009 revocation endpoint and fails closed when a provider endpoint is
+unavailable.
 
 ```bash
 cd language/typescript/examples/service-auth
@@ -131,6 +138,53 @@ Run its deterministic tests with:
 ```bash
 npm test
 ```
+
+## Other Language Examples
+
+Every declared Core ships a `language/<language>/examples/service` example. The
+following table lists the deterministic run command from the repository root.
+Go, Python, TypeScript, Java, C#, and Rust include executable HTTP servers; the
+remaining examples are transport-neutral request handlers that exercise the same
+principal, tenant, `/healthz`, `/run`, and denial checks without opening a socket.
+The [language coverage page](../getting-started/language-coverage.md) records
+which mode each example uses.
+
+| Language | Run command |
+| --- | --- |
+| Go | `cd examples/embedded-service && go run . -addr :8080 -tenant local` |
+| Python | `cd language/python/examples/service && .venv/bin/python service.py` |
+| TypeScript | `cd language/typescript/examples/service && npm start` |
+| Java | `cd language/java/examples/service && mvn -q compile exec:java` |
+| C# | `cd language/csharp/examples/service && dotnet run` |
+| Rust | `cd language/rust/examples/service && cargo run` |
+| C | `gcc -std=c11 language/c/examples/service/main.c -o build/c-service && ./build/c-service` |
+| C++ | `g++ -std=c++20 language/cpp/examples/service/main.cpp -o build/cpp-service && ./build/cpp-service` |
+| COBOL | `python language/cobol/examples/service/build.py` |
+| D | `dmd -run language/d/examples/service/service.d` |
+| Dart | `dart language/dart/examples/service/service.dart` |
+| Delphi / Free Pascal | `fpc -Mobjfpc language/delphi/examples/service/service.pas && ./service` |
+| Elixir | `elixir language/elixir/examples/service/service.exs` |
+| Erlang | `escript language/erlang/examples/service/service.escript` |
+| Fortran | `gfortran language/fortran/examples/service/service_example.f90 -o build/fortran-service && ./build/fortran-service` |
+| Haskell | `runghc language/haskell/examples/service/service.hs` |
+| Julia | `julia language/julia/examples/service/service.jl` |
+| Lua | `lua language/lua/examples/service/service.lua` |
+| MATLAB / Octave | `octave-cli --path language/matlab/examples/service --eval service_example` |
+| Nim | `nim r language/nim/examples/service/service.nim` |
+| Objective-C | `clang -fobjc-arc language/objc/examples/service/service.m -framework Foundation -o build/objc-service && ./build/objc-service` |
+| OCaml | `ocaml language/ocaml/examples/service/service.ml` |
+| Perl | `perl language/perl/examples/service/service.pl` |
+| PHP | `php language/php/examples/service/service.php` |
+| PowerShell | `powershell -File language/powershell/examples/service/service.ps1` |
+| R | `Rscript language/r/examples/service/service.R` |
+| Ruby | `ruby -I language/ruby/lib language/ruby/examples/service/service.rb` |
+| Swift | `swift run --package-path language/swift praxo-service-example` |
+| V | `v run language/v/examples/service/service.v` |
+| Zig | `zig run language/zig/examples/service/service.zig` |
+
+Source-mode handler examples print a language-specific `service example passed`
+line and exit nonzero when a denied request reaches the tool. They do not prove
+identity verification, durable state, or production HTTP behavior.
 
 ## Request Flow
 

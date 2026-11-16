@@ -103,7 +103,7 @@ Provider Fallback 示例也已覆盖 Dart、Perl、Julia、Swift、Haskell、OCa
 
 ## 额外 SDK 语言：Structured Output
 
-Structured Output 示例也已覆盖 Dart、Perl、Julia、Swift、Haskell、OCaml、D、Nim、Zig、V、Delphi、PowerShell、MATLAB 和 Objective-C，入口位于 `language/<language>/examples/structured-output`。
+Structured Output 示例也已覆盖 Dart、Perl、Julia、Swift、Haskell、OCaml、D、Nim、Zig、V、Delphi、PowerShell、MATLAB 和 Objective-C，入口位于 `language/<language>/examples/structured-output`。[结构化输出教程](../guides/structured-output-tutorial.md)列出了每种已声明语言的运行命令。
 
 ## 额外 SDK 语言：Streaming
 
@@ -123,3 +123,10 @@ MCP transport 示例也已覆盖 Dart、Perl、Julia、Swift、Haskell、OCaml�
 Delphi、PowerShell、MATLAB 和 Objective-C，入口位于
 `language/<language>/examples/mcp`。MATLAB/Octave 与 PowerShell Core 未内置 MCP
 客户端，因此这两个示例是 transport-neutral 的。
+
+## 高级示例
+
+应用级委派示例已覆盖 Go、Python、TypeScript、Java、C# 和 Rust。Go 还提供长时操作、受治理
+Workspace 和 Plugin 参考示例。其余已声明语言尚无高级示例；缺失条目是已记录差距，不是
+通过。参见[高级示例](../guides/advanced-examples.md)，并运行
+`python scripts/check_example_coverage.py --report-advanced` 查看当前逐语言报告。

@@ -114,7 +114,7 @@ Provider fallback examples are also available for Dart, Perl, Julia, Swift, Hask
 
 ## Additional SDK Languages: Structured Output
 
-Structured output examples are also available for Dart, Perl, Julia, Swift, Haskell, OCaml, D, Nim, Zig, V, Delphi, PowerShell, MATLAB, and Objective-C under `language/<language>/examples/structured-output`.
+Structured output examples are also available for Dart, Perl, Julia, Swift, Haskell, OCaml, D, Nim, Zig, V, Delphi, PowerShell, MATLAB, and Objective-C under `language/<language>/examples/structured-output`. The [Structured Output tutorial](../guides/structured-output-tutorial.md) lists the run command for every declared language.
 
 ## Additional SDK Languages: Streaming
 
@@ -134,3 +134,13 @@ MCP transport examples are available for Dart, Perl, Julia, Swift, Haskell,
 OCaml, D, Nim, Zig, V, Delphi, PowerShell, MATLAB, and Objective-C under
 `language/<language>/examples/mcp`. The MATLAB and PowerShell examples are
 transport-neutral because those Cores do not bundle an MCP client.
+
+## Advanced Examples
+
+Application-level delegation examples are available for Go, Python,
+TypeScript, Java, C#, and Rust. Go also has reference examples for long-running
+operations, governed workspaces, and plugins. The remaining declared languages
+do not yet have advanced examples; missing entries are recorded gaps, not
+passes. See [Advanced examples](../guides/advanced-examples.md) and run
+`python scripts/check_example_coverage.py --report-advanced` for the current
+per-language report.

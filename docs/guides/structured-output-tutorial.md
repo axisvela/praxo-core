@@ -1,13 +1,20 @@
 # Structured Output by Language
 
 This tutorial turns free text into validated JSON with `StructuredOutput`. The
-same schema is implemented in five published-package examples:
+same schema and validation rule are implemented across the thirty-one language
+implementations in the [language coverage matrix](../getting-started/language-coverage.md).
+
+Five primary SDKs ship published-package examples:
 
 - [Python](https://github.com/axisvela/praxo-core/tree/main/language/python/examples/structured-output)
 - [TypeScript](https://github.com/axisvela/praxo-core/tree/main/language/typescript/examples/structured-output)
 - [Java](https://github.com/axisvela/praxo-core/tree/main/language/java/examples/structured-output)
 - [C#](https://github.com/axisvela/praxo-core/tree/main/language/csharp/examples/structured-output)
 - [Rust](https://github.com/axisvela/praxo-core/tree/main/language/rust/examples/structured-output)
+
+The remaining SDKs ship deterministic source-mode examples under
+`language/<language>/examples/structured-output`. Go keeps its reference recipe
+under `examples/recipes/structured-output-go`.
 
 Each example validates `title`, `summary`, and `tags` before returning the model
 output. Invalid output fails instead of returning malformed data.
@@ -26,7 +33,7 @@ output. Invalid output fails instead of returning malformed data.
 }
 ```
 
-## Run by Language
+## Published-Package Examples
 
 ### Python
 
@@ -43,6 +50,8 @@ Deterministic test:
 .venv/bin/python -m unittest test_summarize.py -v
 ```
 
+The example installs published PyPI `praxo-core==0.9.0`.
+
 ### TypeScript
 
 ```bash
@@ -52,6 +61,8 @@ npm start -- "Quarterly status: all checks green."
 npm test
 ```
 
+The example installs published npm `@axisvela/praxo-core@0.8.0`.
+
 ### Java
 
 ```bash
@@ -59,6 +70,8 @@ cd language/java/examples/structured-output
 mvn -q compile exec:java -Dexec.args="Quarterly status: all checks green."
 mvn -q test
 ```
+
+The example resolves Maven Central `com.axisvela:praxo-core:0.9.0`.
 
 ### C#
 
@@ -68,6 +81,8 @@ dotnet run -- "Quarterly status: all checks green."
 dotnet run -- --test
 ```
 
+The example installs published NuGet `Praxo.Core==0.9.1`.
+
 ### Rust
 
 ```bash
@@ -75,8 +90,81 @@ cd language/rust/examples/structured-output
 cargo run
 ```
 
-The deterministic check validates a valid summary and rejects output that
-omits required fields.
+The deterministic run validates a valid summary and rejects output that omits
+required fields. The example uses published crates.io `praxo-core==0.9.1`.
+
+## Go Reference Recipe
+
+```bash
+cd examples/recipes/structured-output-go
+GOWORK=off go test -mod=readonly -run 'Structured|Schema|Arguments|ResponseFormat' -v ./...
+```
+
+From the repository root, the published-package check is:
+
+```bash
+python scripts/test_go_structured_output_recipe.py -v
+```
+
+The Go recipe also proves that invalid tool arguments are rejected before the
+tool effect and that `model.ResponseFormat` carries the same schema.
+
+## Source-Mode Examples
+
+Source-mode examples use the repository implementation and do not install a
+package. Build the Core first when the language requires it, then run the
+example from the repository root. Each example prints a language-specific
+`structured output example passed` line and exits nonzero when valid output is
+rejected or invalid output is accepted.
+
+| Language | Run command |
+| --- | --- |
+| C | `gcc -std=c11 -I language/c/include language/c/examples/structured-output/main.c language/c/build/libpraxo_core.a -lm -o build/c-structured-output && ./build/c-structured-output` |
+| C++ | `g++ -std=c++20 -I language/cpp/include language/cpp/examples/structured-output/main.cpp language/cpp/build/libpraxo_cpp.a -o build/cpp-structured-output && ./build/cpp-structured-output` |
+| COBOL | `python language/cobol/examples/structured-output/build.py` |
+| D | `dmd -i -Ilanguage/d/source -run language/d/examples/structured-output/structured_output.d` |
+| Dart | `dart language/dart/examples/structured-output/structured_output.dart` |
+| Delphi / Free Pascal | `fpc -Mobjfpc -Fulanguage/delphi language/delphi/examples/structured-output/structured_output.pas && ./structured_output` |
+| Elixir | `elixir -pa language/elixir/build/ebin language/elixir/examples/structured-output/structured_output.exs` |
+| Erlang | `escript language/erlang/examples/structured-output/structured_output.escript` |
+| Fortran | `python language/fortran/examples/structured-output/run.py` |
+| Haskell | `runghc -ilanguage/haskell/src language/haskell/examples/structured-output/structured_output.hs` |
+| Julia | `julia language/julia/examples/structured-output/structured_output.jl` |
+| Lua | `lua language/lua/examples/structured-output/structured_output.lua` |
+| MATLAB / Octave | `octave-cli --path language/matlab-octave-core --path language/matlab/examples/structured-output --eval structured_output_example` |
+| Nim | `nim r --path:language/nim/src language/nim/examples/structured-output/structured_output.nim` |
+| Objective-C | `clang -fobjc-arc -Ilanguage/objc/src language/objc/examples/structured-output/structured_output.m language/objc/src/PraxoJsonSchema.m language/objc/src/PraxoJSON.m -framework Foundation -o build/objc-structured-output && ./build/objc-structured-output` |
+| OCaml | `ocaml language/ocaml/examples/structured-output/structured_output.ml` |
+| Perl | `perl language/perl/examples/structured-output/structured_output.pl` |
+| PHP | `php language/php/examples/structured-output/structured_output.php` |
+| PowerShell | `pwsh -NoProfile -File language/powershell/examples/structured-output/structured_output.ps1` |
+| R | `Rscript language/r/examples/structured-output/structured_output.R` |
+| Ruby | `ruby -I language/ruby/lib language/ruby/examples/structured-output/structured_output.rb` |
+| Swift | `swift run --package-path language/swift praxo-structured-output-example` |
+| V | See the V command below the table. |
+| Zig | `zig build-exe language/zig/examples/structured-output/structured_output.zig --dep json --dep jsonschema -Mroot=language/zig/examples/structured-output/structured_output.zig -Mjson=language/zig/src/json.zig -Mjsonschema=language/zig/src/jsonschema.zig -femit-bin=build/zig-structured-output && ./build/zig-structured-output` |
+
+Core build prerequisites:
+
+```bash
+# C
+cmake -S language/c -B language/c/build && cmake --build language/c/build
+
+# C++
+cmake -S language/cpp -B language/cpp/build && cmake --build language/cpp/build
+
+# Elixir
+mkdir -p language/elixir/build/ebin
+elixirc -o language/elixir/build/ebin language/elixir/lib/praxo/*.ex language/elixir/lib/praxo/adapters/*.ex
+```
+
+```bash
+# V
+v -path "language/v|@vlib|@vmodules" language/v/examples/structured-output/structured_output.v
+```
+
+Octave reuses the MATLAB example through the shared
+`language/matlab-octave-core` implementation.
 
 ## Prototype Walkthrough: Python Structured-Output Processor
 
@@ -116,10 +204,6 @@ python -m venv .venv
    identity, durable storage, retries, effect verification, and isolation remain
    application responsibilities.
 
-The same pattern applies to the TypeScript, Java, C#, and Rust structured-output
-examples. A different language needs its own install command, executable
-example, and deterministic test before it counts as a complete path.
-
 ## Prototype Walkthrough: TypeScript Structured-Output Processor
 
 1. Create an application directory and install the published package:
@@ -146,90 +230,27 @@ npm test
    deterministic test passes. Keep the same schema, allowlist, and policy.
    Record the package version, endpoint class, model name, and command output.
 
-## Prototype Walkthroughs: Java, C#, Rust, and R
+## Other Prototype Paths
 
 Use the same schema and the tested example under each language's
-`examples/structured-output` directory. The steps are the same: install the
-published package, run the deterministic model, run the rejection test, then
-switch to a real endpoint without removing validation.
+`examples/structured-output` directory. The steps are the same: build or install
+the Core, run the deterministic model, run the rejection check, then switch to a
+real endpoint without removing validation.
 
-**Java**
+The Java, C#, and Rust examples run a deterministic fake model by default. The
+Go recipe validates both structured output and tool arguments. Source-mode
+examples such as Ruby, PHP, Elixir, Lua, C, C++, Fortran, COBOL, Erlang, Dart,
+Perl, Julia, Swift, Haskell, OCaml, D, Nim, Zig, V, Delphi, PowerShell, MATLAB,
+Octave, and Objective-C show the same accept/reject behavior without a provider
+endpoint.
 
-```bash
-cd language/java/examples/structured-output
-mvn -q compile exec:java -Dexec.args="Quarterly status: all checks green."
-mvn -q test
-```
-
-**C#**
-
-```bash
-cd language/csharp/examples/structured-output
-dotnet run -- "Quarterly status: all checks green."
-dotnet run -- --test
-```
-
-**Rust**
-
-```bash
-cd language/rust/examples/structured-output
-cargo run
-```
-
-Run the crate's tests in the same directory before replacing the fixture model.
-The published `praxo-core==0.9.1` crate uses the current adapter seams.
-
-**R**
-
-```bash
-Rscript language/r/examples/structured-output/structured_output.R
-Rscript language/r/tests/run_tests.R
-```
-
-For R, install `praxocore` from r-universe and keep the schema check in the
-application. A successful parse without schema validation is not a passing
-prototype.
-
-## Prototype Walkthroughs: Ruby, PHP, Elixir, and Lua
-
-These extended-language Cores use the same schema and validation rule. Run the
-tested example first; it is a complete local prototype for that language.
-
-**Ruby**
-
-```bash
-ruby -I language/ruby/lib language/ruby/examples/structured-output/structured_output.rb
-```
-
-**PHP**
-
-```bash
-php language/php/examples/structured-output/structured_output.php
-```
-
-**Elixir**
-
-```bash
-elixir -pa language/elixir/build/ebin language/elixir/examples/structured-output/structured_output.exs
-```
-
-**Lua**
-
-```bash
-lua language/lua/examples/structured-output/structured_output.lua
-```
-
-For each, confirm that invalid output is rejected before replacing the fixture
-model. These examples are source-mode prototypes; package installation and
-version pins remain language-specific.
-
-For every language, record the package version, endpoint class, model name,
-schema version, commands, and output. Keep identity, durable storage, retries,
-effect verification, and isolation in the application.
+For every language, record the package or source revision, endpoint class, model
+name, schema version, commands, and output. Keep identity, durable storage,
+retries, effect verification, and isolation in the application.
 
 ## Live Endpoint
 
-The runnable commands use an OpenAI-compatible endpoint:
+The runnable published-package commands use an OpenAI-compatible endpoint:
 
 ```bash
 export PRAXO_BASE_URL=http://localhost:11434/v1
@@ -244,10 +265,14 @@ $env:PRAXO_BASE_URL = "http://localhost:11434/v1"
 $env:PRAXO_MODEL = "llama3.2"
 ```
 
+Source-mode examples that do not ship a provider adapter validate the schema
+only. Wire a provider adapter behind the same model seam before claiming a live
+endpoint path.
+
 ## What the Examples Prove
 
-- the package is installed from a registry;
-- the model adapter is configured from environment variables;
+- the package is installed from a registry where a published example exists;
+- the model adapter is configured from environment variables where supported;
 - `StructuredOutput` validates the final JSON against the schema;
 - a fake-model test verifies the integration without a live endpoint.
 
@@ -258,6 +283,7 @@ application even when a provider supports structured output natively.
 ## Related
 
 - [Examples](../getting-started/examples.md)
+- [Language Coverage](../getting-started/language-coverage.md)
 - [Live Model Golden Path](../getting-started/live-model-golden-path.md)
 - [Application integration checklist](application-integration-checklist.md)
 - [Consumer test template](consumer-test-template.md)
