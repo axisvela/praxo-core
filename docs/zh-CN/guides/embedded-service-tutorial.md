@@ -147,19 +147,34 @@ Java 和 C# 服务示例也支持 RFC 7662 introspection 与 RFC 7009 撤销：
 
 测试使用 loopback introspection/revocation 端点，不需要外部身份提供商。
 
-## Ruby 与 PHP 传输中立变体
+## Ruby、PHP、Dart、Elixir、Erlang 和 Perl 传输中立变体
 
-Ruby、PHP 和 Dart 服务示例仍是请求处理器，不是可执行 HTTP 服务。它们提供可注入
-transport 的 introspection 与撤销模块：
+Ruby、PHP、Dart、Elixir、Erlang 和 Perl 服务示例仍是请求处理器，不是可执行
+HTTP 服务。它们提供可注入 transport 的 introspection 与撤销模块：
 
 - Ruby：`language/ruby/examples/service/authentication.rb` 和
   `NetHttpTransport`；
 - PHP：`language/php/examples/service/authentication.php` 和
   `StreamTransport`；
 - Dart：`language/dart/examples/service/authentication.dart` 和
-  `HttpTransport`。
+  `HttpTransport`；
+- Elixir：`language/elixir/examples/service/authentication.ex` 和
+  `HttpTransport`；
+- Erlang：`language/erlang/examples/service/authentication.erl` 和调用方提供的
+  transport；
+- Perl：`language/perl/examples/service/ServiceAuth.pm` 和 `HTTP::Tiny`
+  transport。
 
 应用必须在 Handler 之前完成认证，并从验证结果派生 principal/tenant。不包含 OIDC/JWKS。
+确定性测试使用脚本化 transport：
+
+```bash
+elixir language/elixir/examples/service/authentication_test.exs
+mkdir -p build
+erlc -o build language/erlang/examples/service/authentication.erl language/erlang/examples/service/authentication_test.erl
+erl -noshell -pa build -s authentication_test main -s init stop
+perl language/perl/examples/service/authentication_test.pl
+```
 
 ## 其他语言示例
 

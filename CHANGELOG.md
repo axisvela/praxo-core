@@ -98,6 +98,9 @@
   revocation with loopback tests and an `--revoke-token` CLI path.
 - Ruby, PHP, and Dart service examples add transport-seam introspection and
   revocation; they remain handler-only examples.
+- Elixir, Erlang, and Perl service examples add transport-seam introspection
+  and revocation, with scripted-transport tests; they remain handler-only
+  examples.
 
 ### Changed
 

@@ -160,21 +160,36 @@ revocation:
 The tests use loopback introspection and revocation endpoints; no external
 identity provider is required.
 
-## Ruby and PHP Transport-Neutral Variants
+## Ruby, PHP, Dart, Elixir, Erlang, and Perl Transport-Neutral Variants
 
-The Ruby, PHP, and Dart service examples remain request handlers, not
-executable HTTP servers. They include introspection and revocation modules with
-an injectable transport:
+The Ruby, PHP, Dart, Elixir, Erlang, and Perl service examples remain request
+handlers, not executable HTTP servers. They include introspection and
+revocation modules with an injectable transport:
 
 - Ruby: `language/ruby/examples/service/authentication.rb` plus
   `NetHttpTransport`;
 - PHP: `language/php/examples/service/authentication.php` plus
   `StreamTransport`;
 - Dart: `language/dart/examples/service/authentication.dart` plus
-  `HttpTransport`.
+  `HttpTransport`;
+- Elixir: `language/elixir/examples/service/authentication.ex` plus
+  `HttpTransport`;
+- Erlang: `language/erlang/examples/service/authentication.erl` plus a
+  caller-supplied transport;
+- Perl: `language/perl/examples/service/ServiceAuth.pm` plus an `HTTP::Tiny`
+  transport.
 
 The application must authenticate before the handler and derive the principal
-and tenant from the verified result. OIDC/JWKS is not included.
+and tenant from the verified result. OIDC/JWKS is not included. Their
+deterministic tests use scripted transports:
+
+```bash
+elixir language/elixir/examples/service/authentication_test.exs
+mkdir -p build
+erlc -o build language/erlang/examples/service/authentication.erl language/erlang/examples/service/authentication_test.erl
+erl -noshell -pa build -s authentication_test main -s init stop
+perl language/perl/examples/service/authentication_test.pl
+```
 
 ## Other Language Examples
 
