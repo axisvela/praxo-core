@@ -26,6 +26,30 @@ reference implementation.
 - Registry: [pub.dev](https://pub.dev/packages/praxo_core/versions/0.4.0)
 - Community: [X](https://x.com/axisvela) · [Weibo](https://weibo.com/u/1936025761)
 
+## Examples
+
+The pub package ships a minimal [`example/`](example) and links the full
+repository examples. Thirteen runnable themes live under
+[`language/dart/examples`](https://github.com/axisvela/praxo-core/tree/main/language/dart/examples):
+
+| Example | What it shows |
+| --- | --- |
+| [consumer](https://github.com/axisvela/praxo-core/tree/main/language/dart/examples/consumer) | Deterministic model, one tool, allow/deny |
+| [live-model](https://github.com/axisvela/praxo-core/tree/main/language/dart/examples/live-model) | OpenAI-compatible endpoint and `get_time` |
+| [structured-output](https://github.com/axisvela/praxo-core/tree/main/language/dart/examples/structured-output) | Schema validation and rejection |
+| [identity-policy](https://github.com/axisvela/praxo-core/tree/main/language/dart/examples/identity-policy) | Trusted principal and denial |
+| [service](https://github.com/axisvela/praxo-core/tree/main/language/dart/examples/service) | Transport-neutral request handler |
+| [checkpoint](https://github.com/axisvela/praxo-core/tree/main/language/dart/examples/checkpoint) | Allowlisted checkpoint round trip |
+| [session-checkpoint](https://github.com/axisvela/praxo-core/tree/main/language/dart/examples/session-checkpoint) | Multi-turn continuation |
+| [event-sink](https://github.com/axisvela/praxo-core/tree/main/language/dart/examples/event-sink) | Sink fan-out and filtering |
+| [retry](https://github.com/axisvela/praxo-core/tree/main/language/dart/examples/retry) | Bounded retry and exhausted failure |
+| [provider-fallback](https://github.com/axisvela/praxo-core/tree/main/language/dart/examples/provider-fallback) | Primary/fallback selection |
+| [streaming](https://github.com/axisvela/praxo-core/tree/main/language/dart/examples/streaming) | Chunk accumulation |
+| [mcp](https://github.com/axisvela/praxo-core/tree/main/language/dart/examples/mcp) | MCP transport example |
+| [hitl](https://github.com/axisvela/praxo-core/tree/main/language/dart/examples/hitl) | Approval, edit, and reauthorization |
+
+These are deterministic local checks, not live-provider or production evidence.
+
 ## Install
 
 ```bash

@@ -69,3 +69,24 @@ use a new version tag.
 - Published pub.dev version: `0.4.0`
 - Registry status: behind source; publish the next verified version with a new
   tag rather than reusing `dart/v0.6.0`.
+- Dry-run on 2026-11-16 passed conformance, API snapshot, and tests. It reported
+  the previous version `0.4.0` and recommended an incremental version.
+- The package ships a minimal `example/`; `examples/` is excluded from the pub
+  archive via `.pubignore` and linked from the README to avoid the plural
+  directory warning.
+
+## Catching up from 0.4.0
+
+Do not move or reuse the existing `dart/v0.5.0` and `dart/v0.6.0` tags. Choose
+one release path and record it:
+
+1. **Preserve version order (preferred):** publish `0.5.0` from tag
+   `dart/v0.5.0` and `0.6.0` from tag `dart/v0.6.0` using manual publishing (or
+   an explicitly authorized equivalent), then resume tag-triggered automated
+   publishing from `0.7.0`.
+2. **Skip to a new version:** bump source, `pubspec.yaml`, and changelog together
+   to `0.6.1` or `0.7.0`, then push that new tag. pub.dev may warn about the
+   skipped version but can accept a higher semantic version.
+
+Do not publish `0.6.0` from the current branch if the tag points at different
+content. Verify the tag/commit first.
