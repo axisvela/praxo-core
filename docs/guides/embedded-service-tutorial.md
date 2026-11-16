@@ -160,6 +160,20 @@ revocation:
 The tests use loopback introspection and revocation endpoints; no external
 identity provider is required.
 
+## Ruby and PHP Transport-Neutral Variants
+
+The Ruby and PHP service examples remain request handlers, not executable HTTP
+servers. They include introspection and revocation modules with an injectable
+transport:
+
+- Ruby: `language/ruby/examples/service/authentication.rb` plus
+  `NetHttpTransport`;
+- PHP: `language/php/examples/service/authentication.php` plus
+  `StreamTransport`.
+
+The application must authenticate before the handler and derive the principal
+and tenant from the verified result. OIDC/JWKS is not included.
+
 ## Other Language Examples
 
 Every declared Core ships a `language/<language>/examples/service` example. The
