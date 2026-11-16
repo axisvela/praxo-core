@@ -6,7 +6,7 @@ $autoload = __DIR__ . '/vendor/autoload.php';
 if (is_file($autoload)) {
     require $autoload;
 } else {
-    require __DIR__ . '/../../language/php/src/autoload.php';
+    require __DIR__ . '/../../src/autoload.php';
 }
 
 use Praxo\Core\Action;

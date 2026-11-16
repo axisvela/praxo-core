@@ -110,6 +110,8 @@
 
 ### Fixed
 
+- The PHP consumer source-mode fallback now loads `../../src/autoload.php`
+  instead of a non-existent nested path; `php test_starter.php` passes locally.
 - Memory recall no longer elevates model-generated or external content to
   system authority across turns. New tests cover malicious cross-turn memory
   and confirm that tool policy still denies the call with zero effects.
