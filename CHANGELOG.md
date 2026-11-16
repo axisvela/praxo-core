@@ -96,7 +96,7 @@
   revocation, with provider discovery and an `--revoke-token` CLI path.
 - Java and C# service examples add RFC 7662 introspection and RFC 7009
   revocation with loopback tests and an `--revoke-token` CLI path.
-- Ruby and PHP service examples add transport-seam introspection and
+- Ruby, PHP, and Dart service examples add transport-seam introspection and
   revocation; they remain handler-only examples.
 
 ### Changed

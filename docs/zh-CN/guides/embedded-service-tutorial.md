@@ -149,13 +149,15 @@ Java 和 C# 服务示例也支持 RFC 7662 introspection 与 RFC 7009 撤销：
 
 ## Ruby 与 PHP 传输中立变体
 
-Ruby 和 PHP 服务示例仍是请求处理器，不是可执行 HTTP 服务。它们提供可注入 transport 的
-introspection 与撤销模块：
+Ruby、PHP 和 Dart 服务示例仍是请求处理器，不是可执行 HTTP 服务。它们提供可注入
+transport 的 introspection 与撤销模块：
 
 - Ruby：`language/ruby/examples/service/authentication.rb` 和
   `NetHttpTransport`；
 - PHP：`language/php/examples/service/authentication.php` 和
-  `StreamTransport`。
+  `StreamTransport`；
+- Dart：`language/dart/examples/service/authentication.dart` 和
+  `HttpTransport`。
 
 应用必须在 Handler 之前完成认证，并从验证结果派生 principal/tenant。不包含 OIDC/JWKS。
 
