@@ -7,11 +7,11 @@
 ## Package
 
 - package: `praxo_core`
-- registry: [pub.dev](https://pub.dev/packages/praxo_core/versions/0.4.0)
+- registry: [pub.dev](https://pub.dev/packages/praxo_core/versions/0.6.1)
 - source_version: `0.6.1`
-- published_version: `0.4.0`
-- install_published: `dart pub add praxo_core:^0.4.0`
-- install_source: `dart pub add praxo_core:^0.4.0`
+- published_version: `0.6.1`
+- install_published: `dart pub add praxo_core:^0.6.1`
+- install_source: `dart pub add praxo_core:^0.6.1`
 - source_tag: `dart/v0.6.1`
 - tier: Core
 - contract: `SPEC_VERSION` `0.2.0`

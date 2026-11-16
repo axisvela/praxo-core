@@ -66,9 +66,8 @@ use a new version tag.
 ## Current state
 
 - Source version: `0.6.1`
-- Published pub.dev version: `0.4.0` until the `dart/v0.6.1` workflow completes
-- Registry status: behind source; publish the next verified version with a new
-  tag rather than reusing `dart/v0.6.0`.
+- Published pub.dev version: `0.6.1`
+- Registry status: current with source
 - Dry-run for `0.6.1` passed conformance, API snapshot, and tests with 0
   warnings and one version hint (previous published version `0.4.0`).
 - The package ships a minimal `example/`; `examples/` is excluded from the pub
@@ -94,8 +93,11 @@ content. Verify the tag/commit first.
 ## Troubleshooting OIDC publishing
 
 The first `dart/v0.6.1` run passed `verify`, package validation, and archive
-creation, but `publish / Publish to pub.dev` failed with exit code 65. Treat
-this as a pub.dev OIDC/admin configuration mismatch, not a package failure.
+creation, but `publish / Publish to pub.dev` failed with exit code 65. The cause
+was the pub.dev tag pattern `/v{{version}}`; after changing it to
+`dart/v{{version}}`, re-running the same run succeeded and published `0.6.1`.
+Treat an exit-65 publish failure as a pub.dev OIDC/admin configuration mismatch,
+not a package failure.
 
 Verify on <https://pub.dev/packages/praxo_core/admin>:
 
@@ -110,14 +112,15 @@ Verify on <https://pub.dev/packages/praxo_core/admin>:
    is an uploader or publisher admin.
 
 After fixing the admin setting, re-run the failed `dart-release` run from
-GitHub Actions. Re-running uses the same `dart/v0.6.1` tag and does not require
-a new tag. Do not move or recreate the tag.
+GitHub Actions. Re-running uses the same tag and does not require a new tag. Do
+not move or recreate the tag.
 
 ## Release `0.6.1`
 
-The existing `dart/v0.5.0` and `dart/v0.6.0` tags will not retrigger the new
-workflow. The clean automated path is a new patch tag. The release changes are
-prepared in the working tree; the tag is created only after commit and gates.
+`dart/v0.6.1` is published. The existing `dart/v0.5.0` and `dart/v0.6.0` tags did
+not retrigger the new workflow; `0.6.1` was the first version published through
+the tag-triggered OIDC workflow. A clean-project `dart pub add praxo_core:^0.6.1`
+smoke passed locally after publication.
 
 1. Set `language/dart/VERSION`, `language/dart/pubspec.yaml`, and
    `language/dart/CHANGELOG.md` to `0.6.1`.

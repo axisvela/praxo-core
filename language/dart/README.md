@@ -14,7 +14,7 @@ reference implementation.
 - Tier: core
 - License: MIT
 - Dependencies: Dart standard library only
-- Published on pub.dev as `praxo_core@0.4.0`; source is `0.6.1`
+- Published on pub.dev as `praxo_core@0.6.1`; source is `0.6.1`
 - Publishing setup: [PUBLISHING.md](PUBLISHING.md)
 
 ## Registry and Coding-Agent Entry
@@ -23,7 +23,7 @@ reference implementation.
 - Machine-readable entry: [llms.txt](https://github.com/axisvela/praxo-core/blob/main/language/dart/llms.txt) and [llms.md](https://github.com/axisvela/praxo-core/blob/main/language/dart/llms.md)
 - [Examples](https://github.com/axisvela/praxo-core/tree/main/language/dart/examples): runnable language-specific examples.
 - Coding-agent contract: [docs/getting-started/coding-agents.md](https://github.com/axisvela/praxo-core/blob/main/docs/getting-started/coding-agents.md)
-- Registry: [pub.dev](https://pub.dev/packages/praxo_core/versions/0.4.0)
+- Registry: [pub.dev](https://pub.dev/packages/praxo_core/versions/0.6.1)
 - Community: [X](https://x.com/axisvela) · [Weibo](https://weibo.com/u/1936025761)
 
 ## Examples
