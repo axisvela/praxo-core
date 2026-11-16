@@ -91,6 +91,28 @@ one release path and record it:
 Do not publish `0.6.0` from the current branch if the tag points at different
 content. Verify the tag/commit first.
 
+## Troubleshooting OIDC publishing
+
+The first `dart/v0.6.1` run passed `verify`, package validation, and archive
+creation, but `publish / Publish to pub.dev` failed with exit code 65. Treat
+this as a pub.dev OIDC/admin configuration mismatch, not a package failure.
+
+Verify on <https://pub.dev/packages/praxo_core/admin>:
+
+1. **Automated publishing → GitHub Actions** is enabled for repository
+   `axisvela/praxo-core`.
+2. The tag pattern is `dart/v{{version}}` (not `dart-v{{version}}` and not
+   `v{{version}}`). The pushed tag is `dart/v0.6.1`.
+3. If the admin page requires a GitHub environment, its name is `pub.dev`,
+   matching the workflow input. If no environment is required, remove the
+   `environment: pub.dev` input from the workflow before the next attempt.
+4. The package is under the `axisvela.com` publisher and the publishing account
+   is an uploader or publisher admin.
+
+After fixing the admin setting, re-run the failed `dart-release` run from
+GitHub Actions. Re-running uses the same `dart/v0.6.1` tag and does not require
+a new tag. Do not move or recreate the tag.
+
 ## Release `0.6.1`
 
 The existing `dart/v0.5.0` and `dart/v0.6.0` tags will not retrigger the new
