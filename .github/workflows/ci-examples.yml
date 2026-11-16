@@ -386,6 +386,19 @@ jobs:
       - run: cargo run --quiet
         working-directory: language/rust/examples/identity-policy
 
+      - run: python -m pip install -r requirements.txt
+        working-directory: language/python/examples/advanced-delegation
+      - run: python delegation.py
+        working-directory: language/python/examples/advanced-delegation
+      - run: npm install --no-audit --no-fund
+        working-directory: language/typescript/examples/advanced-delegation
+      - run: npm start
+        working-directory: language/typescript/examples/advanced-delegation
+      - run: mvn -q -f language/java/examples/advanced-delegation/pom.xml compile exec:java
+      - run: dotnet run --project language/csharp/examples/advanced-delegation/AdvancedDelegation.csproj
+      - run: cargo run --quiet
+        working-directory: language/rust/examples/advanced-delegation
+
   current-go-consumer:
     runs-on: ${{ matrix.os }}
     strategy:

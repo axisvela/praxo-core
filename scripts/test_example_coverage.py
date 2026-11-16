@@ -26,6 +26,15 @@ class ExampleCoverageTests(unittest.TestCase):
         self.assertIn("octave | 13/13 (MATLAB fallback)", report)
         self.assertIn("objc | 13/13", report)
 
+    def test_advanced_report_lists_current_examples(self):
+        report = "\n".join(coverage.advanced_report_lines())
+        self.assertIn("go | advanced-delegation", report)
+        self.assertIn("python | advanced-delegation", report)
+        self.assertIn("typescript | advanced-delegation", report)
+        self.assertIn("java | advanced-delegation", report)
+        self.assertIn("csharp | advanced-delegation", report)
+        self.assertIn("rust | advanced-delegation", report)
+
     def test_sample_only_directories_are_excluded(self):
         languages = set(coverage.languages())
         self.assertTrue(

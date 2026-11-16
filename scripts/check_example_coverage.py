@@ -20,6 +20,11 @@ THEMES = (
     "mcp",
 )
 ALIGNED_THEMES = ("consumer", "live-model", *THEMES, "hitl", "session-checkpoint")
+ADVANCED_THEMES = (
+    "advanced-delegation",
+    "advanced-long-running",
+    "advanced-workspace",
+)
 IGNORED_DIRECTORIES = {
     ".git", "__pycache__", "bin", "build", "dist", "node_modules", "obj",
     "target",
@@ -51,6 +56,12 @@ GO_THEMES = {
     "session-checkpoint": ROOT / "examples/session-checkpoint",
 }
 
+GO_ADVANCED_THEMES = {
+    "advanced-delegation": ROOT / "examples/multiagent",
+    "advanced-long-running": ROOT / "examples/recipes/long-running-go",
+    "advanced-workspace": ROOT / "examples/governed-workspace",
+}
+
 
 def languages() -> list[str]:
     return sorted(
@@ -69,6 +80,29 @@ def example_path(language: str, theme: str) -> Path:
             return candidate
         return LANGUAGE / "matlab" / "examples" / theme
     return LANGUAGE / language / "examples" / theme
+
+
+def advanced_path(language: str, theme: str) -> Path:
+    if language == "go":
+        return GO_ADVANCED_THEMES[theme]
+    if language == "octave":
+        candidate = LANGUAGE / "octave" / "examples" / theme
+        if (candidate / "README.md").is_file():
+            return candidate
+        return LANGUAGE / "matlab" / "examples" / theme
+    return LANGUAGE / language / "examples" / theme
+
+
+def advanced_report_lines() -> list[str]:
+    lines = ["language | advanced themes"]
+    for language in languages():
+        implemented = [
+            theme
+            for theme in ADVANCED_THEMES
+            if implementation_files(advanced_path(language, theme))
+        ]
+        lines.append(f"{language} | {', '.join(implemented) or '-'}")
+    return lines
 
 
 def implementation_files(path: Path) -> list[Path]:
@@ -172,9 +206,16 @@ def main(argv: list[str] | None = None) -> int:
         action="store_true",
         help="print per-language aligned coverage and explicit n/a themes",
     )
+    parser.add_argument(
+        "--report-advanced",
+        action="store_true",
+        help="print per-language advanced example coverage without failing",
+    )
     args = parser.parse_args(argv)
     if args.report:
         print("\n".join(report_lines()))
+    if args.report_advanced:
+        print("\n".join(advanced_report_lines()))
     failures = missing()
     if failures:
         print("missing examples: " + ", ".join(failures), file=sys.stderr)

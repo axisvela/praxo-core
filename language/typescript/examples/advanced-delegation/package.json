@@ -1,0 +1,14 @@
+{
+  "name": "praxo-advanced-delegation",
+  "version": "0.0.0",
+  "private": true,
+  "type": "commonjs",
+  "description": "Published-package PRAXO-CORE application-level delegation example.",
+  "scripts": {
+    "start": "node delegation.js",
+    "test": "node delegation.js"
+  },
+  "dependencies": {
+    "@axisvela/praxo-core": "0.8.0"
+  }
+}
