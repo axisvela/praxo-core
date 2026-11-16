@@ -17,6 +17,29 @@ Keep these checks where your integration lives:
 Go consumer example:
 [`language/go/examples/consumer-go/governed_test.go`](https://github.com/axisvela/praxo-core/blob/main/language/go/examples/consumer-go/governed_test.go).
 
+## Memory and Context Trust
+
+Add these checks when the application enables memory recall or injects
+retrieved text into a prompt:
+
+- write a record in one run, start a fresh agent, recall it in a second run, and
+  assert the recalled content is not a `system` message;
+- assert the recall block identifies untrusted historical data and, when
+  available, the source/frame;
+- store a malicious instruction as assistant output, a tool result, and an
+  external record; assert none of them can raise their own instruction
+  authority;
+- make the model request a denied tool after malicious recall and assert the
+  policy still denies with zero tool effects;
+- test the application's own context assembler separately; a Core role change
+  does not prove general prompt-injection prevention.
+
+Reference tests:
+
+- Go: `pkg/agent/memory_recall_test.go` in the Core repository.
+- Python/TypeScript: add the equivalent two-run fixture in the consumer test
+  suite; the public service-auth examples show loopback identity tests.
+
 ## Side-Effecting Applications
 
 Add these checks when a tool can write, send, delete, or pay:
@@ -28,7 +51,16 @@ Add these checks when a tool can write, send, delete, or pay:
 - cancellation is recorded as requested, confirmed, rejected, or unknown;
 - corrupted or partial checkpoint state fails closed.
 
-See [Long-running operations](long-running-operations.md).
+Retry checks should include the unsafe case, not only the recovery case:
+
+- with `Attempts > 1` and no `ShouldRetry`, a non-idempotent tool is invoked
+  again after a transport error; record that duplicate effect as a known hazard;
+- with `ShouldRetry` returning false for unknown outcomes, assert one invocation;
+- query authoritative status or reconcile the effect ledger before retrying;
+- test that a status-query failure does not become an automatic retry.
+
+See [Long-running operations](long-running-operations.md) and the
+[retry safety recipe](../guides/recipes.md#retry-safety-and-unknown-outcomes).
 
 ## High-Risk or Multi-Tenant Applications
 

@@ -16,6 +16,24 @@
 Go 消费者示例：
 [`language/go/examples/consumer-go/governed_test.go`](https://github.com/axisvela/praxo-core/blob/main/language/go/examples/consumer-go/governed_test.go)。
 
+## 记忆与上下文信任
+
+应用启用记忆召回或向 Prompt 注入检索文本时增加：
+
+- 在一个 Run 写入记录，启动新的 Agent，在第二个 Run 召回，并断言召回内容不是
+  `system` 消息；
+- 断言召回块标明“不可信历史数据”，并在可用时标明来源/frame；
+- 将恶意指令分别存为 assistant 输出、工具结果和外部记录，断言它们都不能提升自身
+  指令权威；
+- 让模型在恶意召回后请求被禁止的工具，断言 Policy 仍拒绝且工具效果为零；
+- 单独测试应用自己的上下文组装；Core 的角色修复不证明通用提示注入防护。
+
+参考测试：
+
+- Go：Core 仓库中的 `pkg/agent/memory_recall_test.go`。
+- Python/TypeScript：在消费者测试套件中加入等价的两轮 fixture；公开的 service-auth
+  示例展示了 loopback 身份测试。
+
 ## 有副作用应用
 
 当工具可以写入、发送、删除或支付时增加：
@@ -27,7 +45,16 @@ Go 消费者示例：
 - 取消记录为请求、已确认、拒绝或未知；
 - 损坏或部分写入的 Checkpoint 状态失败关闭。
 
-参见[长时操作](long-running-operations.md)。
+重试检查应包含不安全路径，而不只是恢复路径：
+
+- `Attempts > 1` 且没有 `ShouldRetry` 时，非幂等工具在 Transport 错误后会被再次调用；
+  把该重复效果记录为已知风险；
+- `ShouldRetry` 对未知结果返回 false 时，断言只调用一次；
+- 重试前查询权威状态或对账效果账本；
+- 测试状态查询失败不会变成自动重试。
+
+参见[长时操作](long-running-operations.md)和
+[重试安全配方](../../guides/recipes.md#retry-safety-and-unknown-outcomes)。
 
 ## 高风险或多租户应用
 
