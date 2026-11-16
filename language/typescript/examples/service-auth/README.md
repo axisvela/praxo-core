@@ -1,9 +1,10 @@
 # Authenticated HTTP Service
 
 This example embeds published npm `@axisvela/praxo-core@0.8.0` in a Node
-standard-library HTTP service with application-owned identity (local HMAC or
-OIDC), tenant policy, an optional external policy decision service, and
-file-backed checkpoints.
+standard-library HTTP service with application-owned identity (local HMAC,
+OIDC/JWT, or token introspection), tenant policy, an optional external policy
+decision service, and file-backed checkpoints. The OIDC path supports provider
+discovery, and the example includes a token revocation helper.
 
 The service verifies a bearer identity before the agent runs. The verified
 principal carries a subject, tenant, and expiration. The application binds the
@@ -47,7 +48,9 @@ The service can verify JWTs from an external OIDC identity provider:
 ```bash
 export PRAXO_OIDC_ISSUER=https://issuer.example.com
 export PRAXO_OIDC_AUDIENCE=praxo-service
-export PRAXO_OIDC_JWKS_URL=https://issuer.example.com/.well-known/jwks.json
+# optional; discovered from the issuer when omitted
+# export PRAXO_OIDC_DISCOVERY_URL=https://issuer.example.com/.well-known/openid-configuration
+# export PRAXO_OIDC_JWKS_URL=https://issuer.example.com/.well-known/jwks.json
 export PRAXO_OIDC_TENANT_CLAIM=tenant
 export PRAXO_OIDC_TIMEOUT=2
 npm start
@@ -58,10 +61,55 @@ from the JWKS, and checks `iss`, `aud`, `exp`, and optional `nbf`. It reads the
 subject from `sub` and the tenant from `PRAXO_OIDC_TENANT_CLAIM` (default
 `tenant`).
 
+When `PRAXO_OIDC_JWKS_URL` is unset, the verifier fetches the issuer's
+`.well-known/openid-configuration` metadata and uses its `jwks_uri`. Set
+`PRAXO_OIDC_DISCOVERY_URL` only when the metadata document is not at the
+standard location. Provider metadata must report the configured issuer.
+
 The verifier caches JWKS for five minutes and refreshes once when the token
 `kid` is unknown. A missing or invalid signature, unknown `kid`, unavailable
-JWKS, invalid issuer or audience, expired token, or missing subject or tenant
-denies the request. `--print-token` remains HMAC-only.
+JWKS or discovery metadata, invalid issuer or audience, expired token, or
+missing subject or tenant denies the request. `--print-token` remains HMAC-only.
+
+## Token Introspection
+
+Set `PRAXO_INTROSPECTION_URL` to verify opaque access tokens through an
+RFC 7662-compatible introspection endpoint:
+
+```bash
+export PRAXO_INTROSPECTION_URL=https://issuer.example.com/introspect
+export PRAXO_INTROSPECTION_CLIENT_ID=praxo-service
+export PRAXO_INTROSPECTION_CLIENT_SECRET=...
+export PRAXO_OIDC_TENANT_CLAIM=tenant
+npm start
+```
+
+Client credentials use HTTP Basic authentication. If `PRAXO_INTROSPECTION_URL`
+is unset but `PRAXO_OIDC_ISSUER` is set, the endpoint can be discovered from
+provider metadata. The verifier requires `active: true`, `sub`, the configured
+tenant claim, and an integer `exp` in the future. A timeout, non-200 response,
+inactive token, missing claim, or expired `exp` denies the request.
+
+Introspection takes precedence over OIDC/JWT verification when both are
+configured. Use it only over a trusted HTTPS connection, and keep the client
+secret in the application's secret store.
+
+## Token Revocation
+
+The helper revokes a token through an RFC 7009-compatible endpoint and fails
+closed on a provider error:
+
+```bash
+export PRAXO_REVOCATION_URL=https://issuer.example.com/revoke
+export PRAXO_INTROSPECTION_CLIENT_ID=praxo-service
+export PRAXO_INTROSPECTION_CLIENT_SECRET=...
+node service.js --revoke-token "$TOKEN"
+```
+
+When `PRAXO_REVOCATION_URL` is unset, the endpoint can be discovered from
+`PRAXO_OIDC_ISSUER` metadata. Revocation is an application decision: the
+service does not automatically revoke a token on logout, approval, or run
+completion.
 
 ## External Policy Decision Service
 
@@ -106,19 +154,23 @@ npm test
 ```
 
 The tests use a fake model, a loopback HTTP service, a loopback policy decision
-service, and a generated RSA key with a loopback JWKS endpoint. They cover
-missing, tampered, and expired tokens, OIDC issuer/audience/tenant/signature/
-JWKS failures, tenant denial, remote policy allow/deny/unavailable behavior,
-policy binding, and checkpoint persistence without a model endpoint.
+service, a generated RSA key with a loopback JWKS endpoint, and a loopback
+provider metadata/introspection/revocation endpoint. They cover missing,
+tampered, and expired tokens, OIDC issuer/audience/tenant/signature/JWKS/
+discovery failures, introspection active/inactive/unavailable/missing-exp
+behavior, revocation success and failure, tenant denial, remote policy
+allow/deny/unavailable behavior, policy binding, and checkpoint persistence
+without a model endpoint.
 
 ## Boundaries
 
 - Core does not authenticate callers or issue credentials.
 - Replace the local HMAC format with your identity provider, audience checks,
   key management, and revocation in production.
-- The OIDC path verifies JWT signatures and standard claims only. It does not
-  perform token introspection, revocation, token exchange, DPoP, authorization
-  policy, or provider discovery. Use a trusted HTTPS issuer and JWKS endpoint.
+- The OIDC path verifies JWT signatures and standard claims. It does not perform
+  token exchange, DPoP, or authorization policy. Token introspection and
+  revocation are separate opt-in paths. Use a trusted HTTPS issuer, JWKS,
+  introspection, and revocation endpoint.
 - A policy service allow does not replace local tool scope, sandboxing, or
   least-privilege credentials.
 - The external policy service receives tool arguments. Send only what the

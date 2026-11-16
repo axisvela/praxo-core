@@ -1,6 +1,6 @@
 const crypto = require("node:crypto");
 
-const { AuthError } = require("./oidc");
+const { AuthError } = require("./errors");
 
 class Principal {
   constructor(subject, tenant, expires) {

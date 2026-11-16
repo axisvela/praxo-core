@@ -8,7 +8,6 @@ import os
 import sys
 import time
 import urllib.request
-from dataclasses import dataclass
 from datetime import datetime, timezone
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
@@ -20,31 +19,8 @@ from praxo.errors import PolicyDeniedError
 from praxo.policy import Action, Decision, FuncHook
 from praxo.tool import FuncTool, Registry
 
-
-class AuthError(Exception):
-    pass
-
-
-@dataclass(frozen=True)
-class Principal:
-    subject: str
-    tenant: str
-    expires: int
-
-    @property
-    def session_id(self) -> str:
-        return f"{self.tenant}/{self.subject}"
-
-
-class PrincipalStore:
-    def __init__(self) -> None:
-        self._principals: dict[str, Principal] = {}
-
-    def bind(self, principal: Principal) -> None:
-        self._principals[principal.session_id] = principal
-
-    def lookup(self, session_id: str) -> Principal | None:
-        return self._principals.get(session_id)
+from identity import AuthError, Principal, PrincipalStore
+from oidc import OidcVerifier
 
 
 class RemotePolicy:
@@ -306,7 +282,10 @@ def make_handler(
     allowed_tenants: set[str],
     store: PrincipalStore,
     checkpoint_store: FileCheckpointStore | None = None,
+    authenticator=None,
 ):
+    verify = authenticator or (lambda header: verify_bearer(header, secret))
+
     class Handler(BaseHTTPRequestHandler):
         def do_GET(self) -> None:
             if self.path == "/healthz":
@@ -319,9 +298,17 @@ def make_handler(
                 self._write(404, {"error": "not found"})
                 return
             try:
-                principal = verify_bearer(
+                length = int(self.headers.get("Content-Length", "0"))
+            except ValueError:
+                self._write(400, {"error": "invalid body"})
+                return
+            if length <= 0 or length > 65536:
+                self._write(400, {"error": "invalid body"})
+                return
+            raw_body = self.rfile.read(length)
+            try:
+                principal = verify(
                     self.headers.get("Authorization", ""),
-                    secret,
                 )
             except AuthError as error:
                 self._write(401, {"error": str(error)})
@@ -330,15 +317,7 @@ def make_handler(
                 self._write(403, {"error": "tenant is not allowed"})
                 return
             try:
-                length = int(self.headers.get("Content-Length", "0"))
-            except ValueError:
-                self._write(400, {"error": "invalid body"})
-                return
-            if length <= 0 or length > 65536:
-                self._write(400, {"error": "invalid body"})
-                return
-            try:
-                payload = json.loads(self.rfile.read(length))
+                payload = json.loads(raw_body)
             except (ValueError, AttributeError):
                 self._write(400, {"error": "invalid JSON body"})
                 return
@@ -380,10 +359,31 @@ def make_handler(
     return Handler
 
 
+def create_authenticator():
+    issuer = os.getenv("PRAXO_OIDC_ISSUER", "")
+    if issuer:
+        audience = os.getenv("PRAXO_OIDC_AUDIENCE", "")
+        if not audience:
+            raise SystemExit("PRAXO_OIDC_AUDIENCE is required")
+        verifier = OidcVerifier(
+            issuer,
+            audience,
+            jwks_url=os.getenv("PRAXO_OIDC_JWKS_URL", ""),
+            discovery_url=os.getenv("PRAXO_OIDC_DISCOVERY_URL", ""),
+            tenant_claim=os.getenv("PRAXO_OIDC_TENANT_CLAIM", "tenant"),
+            timeout=float(os.getenv("PRAXO_OIDC_TIMEOUT", "2")),
+        )
+        return verifier.verify
+    return None
+
+
 def serve(host: str = "127.0.0.1", port: int = 8080) -> None:
     secret = os.getenv("PRAXO_SERVICE_SECRET", "")
-    if not secret:
-        raise SystemExit("PRAXO_SERVICE_SECRET is required")
+    authenticator = create_authenticator()
+    if authenticator is None and not secret:
+        raise SystemExit(
+            "PRAXO_SERVICE_SECRET or PRAXO_OIDC_ISSUER is required"
+        )
     allowed = parse_tenants(os.getenv("PRAXO_ALLOWED_TENANTS", "local"))
     policy_url = os.getenv("PRAXO_POLICY_URL", "")
     remote_policy = (
@@ -410,6 +410,7 @@ def serve(host: str = "127.0.0.1", port: int = 8080) -> None:
             allowed,
             principals,
             checkpoint_store,
+            authenticator=authenticator,
         ),
     )
     server.daemon_threads = True

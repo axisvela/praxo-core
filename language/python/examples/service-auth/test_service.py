@@ -1,3 +1,5 @@
+import base64
+import hashlib
 import json
 import tempfile
 import threading
@@ -11,6 +13,7 @@ from pathlib import Path
 from praxo.model import Message, Response
 from praxo.policy import Action
 
+from oidc import OidcVerifier
 from service import (
     FileCheckpointStore,
     Principal,
@@ -21,6 +24,69 @@ from service import (
     make_handler,
     sign_token,
 )
+
+
+OIDC_ISSUER = "https://issuer.example.com"
+OIDC_AUDIENCE = "praxo-service"
+OIDC_KEY_ID = "test-key"
+RSA_N = int.from_bytes(
+    base64.urlsafe_b64decode(
+        "ofgWCuLjybRlzo0tZWJjNiuSfb4p4fAkd_wWJcyQoTbji9k0l8W26mPddxHmfHQp-Vaw-4qPCJrcS2mJPMEzP1Pt0Bm4d4QlL-yRT-SFd2lZS-pCgNMsD1W_YpRPEwOWvG6b32690r2jZ47soMZo9wGzjb_7OMg0LOL-bSf63kpaSHSXndS5z5rexMdbBYUsLA9e-KXBdQOS-UTo7WTBEMa2R2CapHg665xsmtdVMTBQY4uDZlxvb3qCo5ZwKh9kG4LT6_I5IhlJH7aGhyxXFvUK-DWNmoudF8NAco9_h9iaGNj8q2ethFkMLs91kzk2PAcDTW9gb54h4FRWyuXpoQ"
+        + "=="
+    ),
+    "big",
+)
+RSA_D = int.from_bytes(
+    base64.urlsafe_b64decode(
+        "Eq5xpGnNCivDflJsRQBXHx1hdR1k6Ulwe2JZD50LpXyWPEAeP88vLNO97IjlA7_GQ5sLKMgvfTeXZx9SE-7YwVol2NXOoAJe46sui395IW_GO-pWJ1O0BkTGoVEn2bKVRUCgu-GjBVaYLU6f3l9kJfFNS3E0QbVdxzubSu3Mkqzjkn439X0M_V51gfpRLI9JYanrC4D4qAdGcopV_0ZHHzQlBjudU2QvXt4ehNYTCBr6XCLQUShb1juUO1ZdiYoFaFQT5Tw8bGUl_x_jTj3ccPDVZFD9pIuhLhBOneufuBiB4cS98l2SR_RQyGWSeWjnczT0QU91p1DhOVRuOopznQ"
+        + "=="
+    ),
+    "big",
+)
+RSA_E = 65537
+
+
+def base64url(value: bytes) -> str:
+    return base64.urlsafe_b64encode(value).rstrip(b"=").decode("ascii")
+
+
+def jwks_document() -> dict:
+    return {
+        "keys": [
+            {
+                "kty": "RSA",
+                "kid": OIDC_KEY_ID,
+                "use": "sig",
+                "alg": "RS256",
+                "n": base64url(RSA_N.to_bytes((RSA_N.bit_length() + 7) // 8, "big")),
+                "e": base64url(RSA_E.to_bytes(3, "big")),
+            }
+        ]
+    }
+
+
+def oidc_claims(**overrides) -> dict:
+    values = {
+        "iss": OIDC_ISSUER,
+        "aud": OIDC_AUDIENCE,
+        "sub": "user-1",
+        "tenant": "local",
+        "exp": int(time.time()) + 60,
+    }
+    values.update(overrides)
+    return values
+
+
+def sign_jwt(claims: dict, kid: str = OIDC_KEY_ID) -> str:
+    header = base64url(json.dumps({"alg": "RS256", "typ": "JWT", "kid": kid}).encode())
+    payload = base64url(json.dumps(claims).encode())
+    signing_input = f"{header}.{payload}".encode("ascii")
+    digest = hashlib.sha256(signing_input).digest()
+    encoded = bytes.fromhex("3031300d060960864801650304020105000420") + digest
+    size = (RSA_N.bit_length() + 7) // 8
+    message = b"\x00\x01" + b"\xff" * (size - len(encoded) - 3) + b"\x00" + encoded
+    signature = pow(int.from_bytes(message, "big"), RSA_D, RSA_N)
+    return f"{header}.{payload}.{base64url(signature.to_bytes(size, 'big'))}"
 
 
 class FakeModel:
@@ -39,7 +105,7 @@ class ServiceTests(unittest.TestCase):
         self.thread = None
         self.start_service()
 
-    def start_service(self, remote_policy=None):
+    def start_service(self, remote_policy=None, authenticator=None):
         agent = create_agent(
             FakeModel(),
             self.allowed,
@@ -54,6 +120,7 @@ class ServiceTests(unittest.TestCase):
                 self.allowed,
                 self.principals,
                 self.checkpoints,
+                authenticator=authenticator,
             ),
         )
         thread = threading.Thread(target=server.serve_forever, daemon=True)
@@ -71,9 +138,9 @@ class ServiceTests(unittest.TestCase):
         self.server = None
         self.thread = None
 
-    def restart_service(self, remote_policy=None):
+    def restart_service(self, remote_policy=None, authenticator=None):
         self.stop_service()
-        self.start_service(remote_policy)
+        self.start_service(remote_policy, authenticator)
 
     def tearDown(self):
         self.stop_service()
@@ -113,6 +180,53 @@ class ServiceTests(unittest.TestCase):
         url = f"http://127.0.0.1:{server.server_port}/authorize"
         server.server_close()
         return url
+
+    def start_provider(self, issuer=OIDC_ISSUER):
+        class Handler(BaseHTTPRequestHandler):
+            base_url = ""
+
+            def do_GET(self):
+                if self.path == "/.well-known/openid-configuration":
+                    body = {
+                        "issuer": issuer,
+                        "jwks_uri": self.base_url + "/jwks",
+                    }
+                elif self.path == "/jwks":
+                    body = jwks_document()
+                else:
+                    self.send_response(404)
+                    self.end_headers()
+                    return
+                encoded = json.dumps(body).encode()
+                self.send_response(200)
+                self.send_header("Content-Type", "application/json")
+                self.send_header("Content-Length", str(len(encoded)))
+                self.end_headers()
+                self.wfile.write(encoded)
+
+            def log_message(self, format, *args):
+                return
+
+        server = ThreadingHTTPServer(("127.0.0.1", 0), Handler)
+        Handler.base_url = f"http://127.0.0.1:{server.server_port}"
+        thread = threading.Thread(target=server.serve_forever, daemon=True)
+        thread.start()
+
+        def cleanup():
+            server.shutdown()
+            server.server_close()
+            thread.join(timeout=2)
+
+        self.addCleanup(cleanup)
+        return Handler.base_url + "/.well-known/openid-configuration"
+
+    def oidc_verifier(self, discovery_url):
+        return OidcVerifier(
+            OIDC_ISSUER,
+            OIDC_AUDIENCE,
+            discovery_url=discovery_url,
+            timeout=1,
+        )
 
     def token(self, subject="user-1", tenant="local", ttl=60):
         return sign_token(self.secret, subject, tenant, time.time() + ttl)
@@ -222,6 +336,62 @@ class ServiceTests(unittest.TestCase):
         )
         self.assertFalse(denied.allowed)
         self.assertTrue(allowed.allowed)
+
+    def test_oidc_discovery_allows_token(self):
+        discovery = self.start_provider()
+        self.restart_service(
+            authenticator=self.oidc_verifier(discovery).verify
+        )
+        with self.post(token=sign_jwt(oidc_claims())) as response:
+            body = json.loads(response.read())
+        self.assertEqual(body["output"], "hello from the service")
+
+    def test_oidc_rejects_wrong_audience(self):
+        discovery = self.start_provider()
+        self.restart_service(
+            authenticator=self.oidc_verifier(discovery).verify
+        )
+        self.assert_status(
+            401,
+            token=sign_jwt(oidc_claims(aud="other-service")),
+        )
+
+    def test_oidc_rejects_expired_token(self):
+        discovery = self.start_provider()
+        self.restart_service(
+            authenticator=self.oidc_verifier(discovery).verify
+        )
+        self.assert_status(
+            401,
+            token=sign_jwt(oidc_claims(exp=int(time.time()) - 1)),
+        )
+
+    def test_oidc_rejects_unknown_key(self):
+        discovery = self.start_provider()
+        self.restart_service(
+            authenticator=self.oidc_verifier(discovery).verify
+        )
+        self.assert_status(
+            401,
+            token=sign_jwt(oidc_claims(), kid="other-key"),
+        )
+
+    def test_oidc_provider_unavailable_fails_closed(self):
+        server = ThreadingHTTPServer(("127.0.0.1", 0), BaseHTTPRequestHandler)
+        discovery = (
+            f"http://127.0.0.1:{server.server_port}"
+            "/.well-known/openid-configuration"
+        )
+        server.server_close()
+        self.restart_service(
+            authenticator=OidcVerifier(
+                OIDC_ISSUER,
+                OIDC_AUDIENCE,
+                discovery_url=discovery,
+                timeout=0.2,
+            ).verify
+        )
+        self.assert_status(401, token=sign_jwt(oidc_claims()))
 
 
 if __name__ == "__main__":

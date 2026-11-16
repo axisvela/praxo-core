@@ -12,6 +12,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"strconv"
 	"strings"
 	"time"
 
@@ -65,9 +66,9 @@ func main() {
 	addr := flag.String("addr", ":8080", "HTTP listen address")
 	flag.Parse()
 
-	secret := os.Getenv("PRAXO_SERVICE_SECRET")
-	if secret == "" {
-		log.Fatal("PRAXO_SERVICE_SECRET is required")
+	authenticate, err := newAuthenticator()
+	if err != nil {
+		log.Fatal(err)
 	}
 	allowed := parseTenants(envOr("PRAXO_ALLOWED_TENANTS", "local"))
 	store, err := newFileStore(envOr("PRAXO_CHECKPOINT_DIR", "checkpoints"))
@@ -85,7 +86,7 @@ func main() {
 	}
 	server := &http.Server{
 		Addr:              *addr,
-		Handler:           newHandler(agentInstance, secret, allowed),
+		Handler:           newHandler(agentInstance, authenticate, allowed),
 		ReadHeaderTimeout: 5 * time.Second,
 		ReadTimeout:       30 * time.Second,
 		WriteTimeout:      150 * time.Second,
@@ -151,14 +152,47 @@ func newAgent(runtimeModel model.Model, allowed map[string]bool, store *fileStor
 	})
 }
 
-func newHandler(agentInstance *agent.Agent, secret string, allowed map[string]bool) http.Handler {
+func newAuthenticator() (func(string, time.Time) (claims, error), error) {
+	if issuer := os.Getenv("PRAXO_OIDC_ISSUER"); issuer != "" {
+		audience := os.Getenv("PRAXO_OIDC_AUDIENCE")
+		if audience == "" {
+			return nil, errors.New("PRAXO_OIDC_AUDIENCE is required")
+		}
+		timeout := 2 * time.Second
+		if raw := os.Getenv("PRAXO_OIDC_TIMEOUT"); raw != "" {
+			seconds, err := strconv.Atoi(raw)
+			if err != nil || seconds <= 0 {
+				return nil, errors.New("PRAXO_OIDC_TIMEOUT must be a positive integer")
+			}
+			timeout = time.Duration(seconds) * time.Second
+		}
+		verifier := newOIDCVerifier(
+			issuer,
+			audience,
+			os.Getenv("PRAXO_OIDC_JWKS_URL"),
+			os.Getenv("PRAXO_OIDC_DISCOVERY_URL"),
+			envOr("PRAXO_OIDC_TENANT_CLAIM", "tenant"),
+			timeout,
+		)
+		return verifier.Verify, nil
+	}
+	secret := os.Getenv("PRAXO_SERVICE_SECRET")
+	if secret == "" {
+		return nil, errors.New("PRAXO_SERVICE_SECRET or PRAXO_OIDC_ISSUER is required")
+	}
+	return func(header string, now time.Time) (claims, error) {
+		return verifyBearer(header, secret, now)
+	}, nil
+}
+
+func newHandler(agentInstance *agent.Agent, authenticate func(string, time.Time) (claims, error), allowed map[string]bool) http.Handler {
 	mux := http.NewServeMux()
 	mux.HandleFunc("GET /healthz", func(w http.ResponseWriter, _ *http.Request) {
 		w.WriteHeader(http.StatusOK)
 		_, _ = w.Write([]byte("ok\n"))
 	})
 	mux.HandleFunc("POST /run", func(w http.ResponseWriter, r *http.Request) {
-		principal, err := verifyBearer(r.Header.Get("Authorization"), secret, time.Now())
+		principal, err := authenticate(r.Header.Get("Authorization"), time.Now())
 		if err != nil {
 			writeError(w, http.StatusUnauthorized, err.Error())
 			return

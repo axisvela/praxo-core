@@ -9,11 +9,15 @@ const test = require("node:test");
 const {
   FakeModel,
   FileCheckpointStore,
+  IntrospectionVerifier,
   OidcVerifier,
   PrincipalStore,
+  ProviderDiscovery,
   RemotePolicy,
   createAgent,
+  createAuthenticator,
   createHandler,
+  revokeToken,
   signToken,
   verifyBearer,
 } = require("./service");
@@ -86,6 +90,78 @@ function oidcVerifier(jwksUrl) {
     jwksUrl,
     timeoutMs: 1000,
   });
+}
+
+function sendJson(response, value, status = 200) {
+  const encoded = JSON.stringify(value);
+  response.writeHead(status, {
+    "Content-Type": "application/json",
+    "Content-Length": Buffer.byteLength(encoded),
+  });
+  response.end(encoded);
+}
+
+async function withProvider(run) {
+  const state = {
+    active: true,
+    introspectionBody: null,
+    introspected: null,
+    revoked: null,
+    revokeStatus: 200,
+  };
+  const server = http.createServer((request, response) => {
+    const chunks = [];
+    request.on("data", (chunk) => chunks.push(chunk));
+    request.on("end", () => {
+      const body = Buffer.concat(chunks).toString("utf8");
+      const base = `http://127.0.0.1:${server.address().port}`;
+      if (request.url === "/.well-known/openid-configuration") {
+        return sendJson(response, {
+          issuer: OIDC_ISSUER,
+          jwks_uri: `${base}/jwks`,
+          introspection_endpoint: `${base}/introspect`,
+          revocation_endpoint: `${base}/revoke`,
+        });
+      }
+      if (request.url === "/jwks") {
+        return sendJson(response, jwks());
+      }
+      if (request.url === "/introspect") {
+        const form = new URLSearchParams(body);
+        state.introspected = form.get("token");
+        if (!state.active) {
+          return sendJson(response, { active: false });
+        }
+        return sendJson(
+          response,
+          state.introspectionBody || {
+            active: true,
+            sub: "user-1",
+            tenant: "local",
+            exp: Math.floor(Date.now() / 1000) + 60,
+          }
+        );
+      }
+      if (request.url === "/revoke") {
+        const form = new URLSearchParams(body);
+        state.revoked = form.get("token");
+        return sendJson(response, {}, state.revokeStatus);
+      }
+      response.writeHead(404);
+      response.end();
+    });
+  });
+  const base = await listen(server);
+  const discovery = new ProviderDiscovery({
+    issuer: OIDC_ISSUER,
+    discoveryUrl: `${base}/.well-known/openid-configuration`,
+    timeoutMs: 1000,
+  });
+  try {
+    await run({ base, discovery, state });
+  } finally {
+    await close(server);
+  }
 }
 
 async function listen(server) {
@@ -325,6 +401,151 @@ test("OIDC JWKS unavailable fails closed", async () => {
     const response = await post(base, signJwt(oidcClaims()));
     assert.equal(response.status, 401);
   }, null, oidcVerifier(url));
+});
+
+test("OIDC provider discovery resolves JWKS", async () => {
+  await withProvider(async ({ discovery }) => {
+    const verifier = new OidcVerifier({
+      issuer: OIDC_ISSUER,
+      audience: OIDC_AUDIENCE,
+      discovery,
+      timeoutMs: 1000,
+    });
+    await withService(
+      async ({ base }) => {
+        const response = await post(base, signJwt(oidcClaims()));
+        assert.equal(response.status, 200);
+      },
+      null,
+      { verify: (header) => verifier.verify(header) }
+    );
+  });
+});
+
+test("provider discovery rejects an issuer mismatch", async () => {
+  await withProvider(async ({ discovery }) => {
+    const wrong = new ProviderDiscovery({
+      issuer: "https://other.example.com",
+      discoveryUrl: discovery.discoveryUrl,
+      timeoutMs: 1000,
+    });
+    await assert.rejects(() => wrong.metadata(), /invalid provider issuer/);
+  });
+});
+
+test("introspection accepts an active token", async () => {
+  await withProvider(async ({ discovery, state }) => {
+    await withService(
+      async ({ base }) => {
+        const response = await post(base, "opaque-token");
+        assert.equal(response.status, 200);
+        assert.deepEqual(await response.json(), {
+          output: "hello from the service",
+        });
+        assert.equal(state.introspected, "opaque-token");
+      },
+      null,
+      new IntrospectionVerifier({ discovery, timeoutMs: 1000 })
+    );
+  });
+});
+
+test("introspection rejects an inactive token", async () => {
+  await withProvider(async ({ discovery, state }) => {
+    state.active = false;
+    await withService(
+      async ({ base }) => {
+        const response = await post(base, "opaque-token");
+        assert.equal(response.status, 401);
+      },
+      null,
+      new IntrospectionVerifier({ discovery, timeoutMs: 1000 })
+    );
+  });
+});
+
+test("introspection unavailable fails closed", async () => {
+  const url = await unavailableUrl();
+  await withService(
+    async ({ base }) => {
+      const response = await post(base, "opaque-token");
+      assert.equal(response.status, 401);
+    },
+    null,
+    new IntrospectionVerifier({ url, timeoutMs: 200 })
+  );
+});
+
+test("introspection requires an expiration", async () => {
+  await withProvider(async ({ discovery, state }) => {
+    state.introspectionBody = {
+      active: true,
+      sub: "user-1",
+      tenant: "local",
+    };
+    await withService(
+      async ({ base }) => {
+        const response = await post(base, "opaque-token");
+        assert.equal(response.status, 401);
+      },
+      null,
+      new IntrospectionVerifier({ discovery, timeoutMs: 1000 })
+    );
+  });
+});
+
+test("authenticator selects introspection when configured", () => {
+  const previous = { ...process.env };
+  try {
+    process.env.PRAXO_INTROSPECTION_URL = "https://id.example.com/introspect";
+    delete process.env.PRAXO_OIDC_ISSUER;
+    delete process.env.PRAXO_SERVICE_SECRET;
+    assert.ok(createAuthenticator() instanceof IntrospectionVerifier);
+  } finally {
+    process.env = previous;
+  }
+});
+
+test("authenticator uses OIDC discovery without a JWKS URL", () => {
+  const previous = { ...process.env };
+  try {
+    process.env.PRAXO_OIDC_ISSUER = OIDC_ISSUER;
+    process.env.PRAXO_OIDC_AUDIENCE = OIDC_AUDIENCE;
+    delete process.env.PRAXO_OIDC_JWKS_URL;
+    delete process.env.PRAXO_SERVICE_SECRET;
+    delete process.env.PRAXO_INTROSPECTION_URL;
+    const authenticator = createAuthenticator();
+    assert.ok(authenticator instanceof OidcVerifier);
+    assert.ok(authenticator.discovery);
+  } finally {
+    process.env = previous;
+  }
+});
+
+test("revocation posts the token", async () => {
+  await withProvider(async ({ discovery, state }) => {
+    await revokeToken({
+      token: "opaque-token",
+      discovery,
+      timeoutMs: 1000,
+    });
+    assert.equal(state.revoked, "opaque-token");
+  });
+});
+
+test("revocation fails closed on a provider error", async () => {
+  await withProvider(async ({ discovery, state }) => {
+    state.revokeStatus = 503;
+    await assert.rejects(
+      () =>
+        revokeToken({
+          token: "opaque-token",
+          discovery,
+          timeoutMs: 1000,
+        }),
+      /token revocation failed/
+    );
+  });
 });
 
 test("remote policy allow permits the run", async () => {

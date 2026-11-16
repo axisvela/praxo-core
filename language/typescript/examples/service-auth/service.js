@@ -18,33 +18,62 @@ const {
   verifyBearer,
 } = require("./auth");
 const { FileCheckpointStore } = require("./checkpoint_store");
+const { ProviderDiscovery } = require("./discovery");
+const {
+  IntrospectionVerifier,
+  revokeToken,
+} = require("./introspection");
 const { OidcVerifier } = require("./oidc");
 const { RemotePolicy } = require("./remote_policy");
 
 
 function createAuthenticator() {
   const issuer = process.env.PRAXO_OIDC_ISSUER || "";
+  const tenantClaim = envOr("PRAXO_OIDC_TENANT_CLAIM", "tenant");
+  const timeoutMs = Number(envOr("PRAXO_OIDC_TIMEOUT", "2")) * 1000;
+  const discoveryUrl = process.env.PRAXO_OIDC_DISCOVERY_URL || "";
+  const introspectionUrl = process.env.PRAXO_INTROSPECTION_URL || "";
+  const clientId =
+    process.env.PRAXO_INTROSPECTION_CLIENT_ID ||
+    process.env.PRAXO_OIDC_CLIENT_ID ||
+    "";
+  const clientSecret =
+    process.env.PRAXO_INTROSPECTION_CLIENT_SECRET ||
+    process.env.PRAXO_OIDC_CLIENT_SECRET ||
+    "";
+  if (introspectionUrl) {
+    return new IntrospectionVerifier({
+      url: introspectionUrl,
+      issuer,
+      discoveryUrl,
+      clientId,
+      clientSecret,
+      tenantClaim,
+      timeoutMs,
+    });
+  }
   if (issuer) {
     const audience = process.env.PRAXO_OIDC_AUDIENCE || "";
     const jwksUrl = process.env.PRAXO_OIDC_JWKS_URL || "";
-    if (!audience || !jwksUrl) {
-      throw new Error(
-        "PRAXO_OIDC_AUDIENCE and PRAXO_OIDC_JWKS_URL are required"
-      );
+    if (!audience) {
+      throw new Error("PRAXO_OIDC_AUDIENCE is required");
     }
+    const discovery = jwksUrl
+      ? null
+      : new ProviderDiscovery({ issuer, discoveryUrl, timeoutMs });
     return new OidcVerifier({
       issuer,
       audience,
       jwksUrl,
-      tenantClaim: envOr("PRAXO_OIDC_TENANT_CLAIM", "tenant"),
-      timeoutMs:
-        Number(envOr("PRAXO_OIDC_TIMEOUT", "2")) * 1000,
+      discovery,
+      tenantClaim,
+      timeoutMs,
     });
   }
   const secret = process.env.PRAXO_SERVICE_SECRET || "";
   if (!secret) {
     throw new Error(
-      "PRAXO_SERVICE_SECRET or PRAXO_OIDC_ISSUER is required"
+      "PRAXO_SERVICE_SECRET, PRAXO_OIDC_ISSUER, or PRAXO_INTROSPECTION_URL is required"
     );
   }
   return {
@@ -293,6 +322,43 @@ function serve(host = "127.0.0.1", port = 8080) {
 function main() {
   const args = process.argv.slice(2);
   const secret = process.env.PRAXO_SERVICE_SECRET || "";
+  const revokeIndex = args.indexOf("--revoke-token");
+  if (revokeIndex >= 0) {
+    const token = args[revokeIndex + 1];
+    if (!token) {
+      console.error("usage: --revoke-token TOKEN");
+      process.exit(1);
+    }
+    const issuer = process.env.PRAXO_OIDC_ISSUER || "";
+    const url = process.env.PRAXO_REVOCATION_URL || "";
+    const discoveryUrl =
+      process.env.PRAXO_OIDC_DISCOVERY_URL || "";
+    const clientId =
+      process.env.PRAXO_INTROSPECTION_CLIENT_ID ||
+      process.env.PRAXO_OIDC_CLIENT_ID ||
+      "";
+    const clientSecret =
+      process.env.PRAXO_INTROSPECTION_CLIENT_SECRET ||
+      process.env.PRAXO_OIDC_CLIENT_SECRET ||
+      "";
+    revokeToken({
+      token,
+      url,
+      issuer,
+      discoveryUrl,
+      clientId,
+      clientSecret,
+      timeoutMs: Number(envOr("PRAXO_OIDC_TIMEOUT", "2")) * 1000,
+    })
+      .then(() => {
+        console.log("token revoked");
+      })
+      .catch((error) => {
+        console.error(error.message);
+        process.exit(1);
+      });
+    return;
+  }
   const printIndex = args.indexOf("--print-token");
   if (printIndex >= 0) {
     if (!secret) {
@@ -342,9 +408,11 @@ module.exports = {
     }
   },
   FileCheckpointStore,
+  IntrospectionVerifier,
   OidcVerifier,
   Principal,
   PrincipalStore,
+  ProviderDiscovery,
   RemotePolicy,
   authorize,
   createAuthenticator,
@@ -352,6 +420,7 @@ module.exports = {
   createHandler,
   handleRequest,
   parseTenants,
+  revokeToken,
   runPrompt,
   serve,
   signToken,

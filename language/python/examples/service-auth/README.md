@@ -4,10 +4,11 @@ This example embeds published PyPI `praxo-core==0.9.0` in a standard-library
 HTTP service with application-owned identity, tenant policy, an optional
 external policy decision service, and file-backed checkpoints.
 
-The service verifies an HMAC bearer token before the agent runs. The token
-carries a subject, tenant, and expiration. The application binds the verified
-principal to the session, checks the tenant allowlist, authorizes only
-`model.generate` and `get_time`, and saves a completed checkpoint after the run.
+The service verifies an HMAC bearer token before the agent runs, or an
+OIDC/JWKS JWT when `PRAXO_OIDC_ISSUER` is set. The token carries a subject,
+tenant, and expiration. The application binds the verified principal to the
+session, checks the tenant allowlist, authorizes only `model.generate` and
+`get_time`, and saves a completed checkpoint after the run.
 
 ## Run
 
@@ -34,7 +35,39 @@ curl -s http://127.0.0.1:8080/run \
 
 The token format is application-local: base64url JSON claims signed with
 HMAC-SHA256. It is not a JWT implementation and has no issuer, audience,
-revocation, or key rotation.
+revocation, or key rotation. Set `PRAXO_OIDC_ISSUER` to use the OIDC/JWT path
+instead.
+
+## OIDC Identity Provider
+
+The service can verify RS256, RS384, and RS512 JWTs from an external OIDC
+identity provider:
+
+```bash
+export PRAXO_OIDC_ISSUER=https://issuer.example.com
+export PRAXO_OIDC_AUDIENCE=praxo-service
+# optional; discovered from the issuer when omitted
+# export PRAXO_OIDC_DISCOVERY_URL=https://issuer.example.com/.well-known/openid-configuration
+# export PRAXO_OIDC_JWKS_URL=https://issuer.example.com/.well-known/jwks.json
+export PRAXO_OIDC_TENANT_CLAIM=tenant
+export PRAXO_OIDC_TIMEOUT=2
+.venv/bin/python service.py --addr 127.0.0.1:8080
+```
+
+When `PRAXO_OIDC_JWKS_URL` is unset, the verifier fetches the issuer's
+`.well-known/openid-configuration` metadata and uses its `jwks_uri`. Set
+`PRAXO_OIDC_DISCOVERY_URL` only when the metadata document is not at the
+standard location. Provider metadata must report the configured issuer.
+
+The verifier checks `iss`, `aud`, `exp`, and optional `nbf`, selects the key by
+`kid`, and reads the subject from `sub` and the tenant from
+`PRAXO_OIDC_TENANT_CLAIM` (default `tenant`). It caches JWKS for five minutes
+and refreshes once when the token `kid` is unknown. A missing or invalid
+signature, unknown `kid`, unavailable JWKS or discovery metadata, invalid
+issuer or audience, expired token, or missing subject or tenant denies the
+request. The OIDC path uses only the Python standard library; `--print-token`
+remains HMAC-only. Token introspection and revocation are not included in this
+example.
 
 ## External Policy Decision Service
 
@@ -78,16 +111,20 @@ sending them to the policy service.
 .venv/bin/python -m unittest test_service.py -v
 ```
 
-The tests use a fake model, a loopback HTTP service, and a loopback policy
-decision service. They cover missing, tampered, and expired tokens, tenant
-denial, remote policy allow/deny/unavailable behavior, policy binding, and
-checkpoint persistence without a model endpoint.
+The tests use a fake model, a loopback HTTP service, a loopback policy decision
+service, and a loopback OIDC discovery/JWKS endpoint. They cover missing,
+tampered, and expired HMAC tokens, OIDC allowed/wrong-audience/expired/
+unknown-key/unavailable-provider behavior, tenant denial, remote policy
+allow/deny/unavailable behavior, policy binding, and checkpoint persistence
+without a model endpoint.
 
 ## Boundaries
 
 - Core does not authenticate callers or issue credentials.
 - Replace the local HMAC format with your identity provider, audience checks,
-  key management, and revocation in production.
+  key management, and revocation in production. The OIDC path verifies JWT
+  signatures and standard claims only; it does not perform token introspection,
+  revocation, token exchange, or DPoP.
 - A policy service allow does not replace local tool scope, sandboxing, or
   least-privilege credentials.
 - The external policy service receives tool arguments. Send only what the

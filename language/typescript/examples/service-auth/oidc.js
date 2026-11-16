@@ -1,6 +1,7 @@
 const crypto = require("node:crypto");
 
-class AuthError extends Error {}
+const { ProviderDiscovery } = require("./discovery");
+const { AuthError } = require("./errors");
 
 const OIDC_ALGORITHMS = {
   RS256: "sha256",
@@ -28,7 +29,9 @@ class OidcVerifier {
   constructor({
     issuer,
     audience,
-    jwksUrl,
+    jwksUrl = "",
+    discovery = null,
+    discoveryUrl = "",
     tenantClaim = "tenant",
     timeoutMs = 2000,
     clockSkewSeconds = 0,
@@ -36,12 +39,27 @@ class OidcVerifier {
     this.issuer = issuer;
     this.audience = audience;
     this.jwksUrl = jwksUrl;
+    this.discovery =
+      discovery ||
+      (issuer && !jwksUrl
+        ? new ProviderDiscovery({ issuer, discoveryUrl, timeoutMs })
+        : null);
     this.tenantClaim = tenantClaim;
     this.timeoutMs = timeoutMs;
     this.clockSkewSeconds = clockSkewSeconds;
     this.keys = null;
     this.fetchedAt = 0;
     this.cacheMs = 300000;
+  }
+
+  async resolveJwksUrl() {
+    if (this.jwksUrl) {
+      return this.jwksUrl;
+    }
+    if (this.discovery) {
+      return this.discovery.jwksUri();
+    }
+    throw new AuthError("identity provider JWKS is not configured");
   }
 
   async verify(header) {
@@ -152,8 +170,9 @@ class OidcVerifier {
   }
 
   async fetchKeys() {
+    const jwksUrl = await this.resolveJwksUrl();
     try {
-      const response = await fetch(this.jwksUrl, {
+      const response = await fetch(jwksUrl, {
         signal: AbortSignal.timeout(Math.max(1, this.timeoutMs)),
       });
       if (response.status !== 200) {
@@ -164,7 +183,10 @@ class OidcVerifier {
         throw new Error("jwks body");
       }
       return body.keys;
-    } catch {
+    } catch (error) {
+      if (error instanceof AuthError) {
+        throw error;
+      }
       throw new AuthError("identity provider unavailable");
     }
   }
