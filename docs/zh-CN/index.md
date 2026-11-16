@@ -20,7 +20,7 @@
 ## 从 Go 开始
 
 ```bash
-go get github.com/axisvela/praxo-core/v2@v2.8.0
+go get github.com/axisvela/praxo-core/v2@v2.9.0
 ```
 
 通过[快速开始](getting-started/quickstart.md)连接 Ollama 或 OpenAI 兼容端点。
@@ -38,7 +38,7 @@ go get github.com/axisvela/praxo-core/v2@v2.8.0
 
 ## 当前版本
 
-核心 `2.8.0` 是次版本发布，增加 opt-in 的 `RequirePolicy` 与 `RequireToolScope` 安全默认值守卫、HITL 与多轮 checkpoint 示例，以及 Go 发现镜像。查看[最新发布说明](releases/2.8.0.md)或[版本总览](releases/index.md)。
+核心 `2.9.0` 是次版本发布，修复 Go 记忆召回角色。召回内容作为带 frame/source 标签的不可信 user 数据注入，而不再进入 system 消息；assistant 写入的记忆记录带 `source` 与 `trust` 元数据。该版本新增两轮回归，不改变导出的 `pkg/...` API 或 Wire 形状。查看[最新发布说明](releases/2.9.0.md)或[版本总览](releases/index.md)。
 
 PRAXO-CORE 是框架，不是托管服务或开箱即用的聊天产品。
 [AxisVela 生态集成](integrations/ecosystem.md)是可选项。

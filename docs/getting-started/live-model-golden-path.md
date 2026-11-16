@@ -46,7 +46,7 @@ installed model such as `llama3.2` and set `PRAXO_MODEL` accordingly.
 
 | Language | Package | Commands |
 | --- | --- | --- |
-| Go | `github.com/axisvela/praxo-core/v2@v2.8.0` | `cd language/go/examples/live-model/go; go run .` |
+| Go | `github.com/axisvela/praxo-core/v2@v2.9.0` | `cd language/go/examples/live-model/go; go run .` |
 | Python | PyPI `praxo-core==0.9.0` | `cd language/python/examples/live-model; python -m venv .venv; .venv/bin/python -m pip install -r requirements.txt; .venv/bin/python live_starter.py` |
 | TypeScript | npm `@axisvela/praxo-core@0.8.0` | `cd language/typescript/examples/live-model; npm install; npm start` |
 | Java | Maven `com.axisvela:praxo-core:0.9.0` | `cd language/java/examples/live-model; mvn -q compile exec:java` |

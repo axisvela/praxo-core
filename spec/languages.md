@@ -71,7 +71,7 @@ for real providers, platforms, and production behavior is reported separately.
 
 | Language | Tier | Status | Tag | Maturity | Notes |
 | --- | --- | --- | --- | --- | --- |
-| Go | Core (reference) | released | `v2.8.0` | reference | Reference implementation with safe-default policy/tool-scope guards |
+| Go | Core (reference) | released | `v2.9.0` | reference | Reference implementation with safe-default policy/tool-scope guards |
 | Python | Core | released | `python/v0.9.0` | complete | 11 vectors, HITL interrupts, safe-default policy/tool-scope guards, OpenAI adapter, Harmovela sink, stdio MCP client, OpenTelemetry transport-seam sink, subagent delegation, retriever seam, and external policy decision service integration; source `0.9.0`, PyPI `praxo-core==0.9.0` |
 | TypeScript | Core | released | `typescript/v0.8.0` | complete | 11 vectors, HITL interrupts, safe-default policy/tool-scope guards, OpenAI adapter, Harmovela sink, stdio MCP client, OpenTelemetry transport-seam sink, subagent delegation, retriever seam, and authenticated HTTP service with OIDC/JWKS; source `0.8.0`, npm `@axisvela/praxo-core@0.8.0` |
 | Java | Core | released | `java/v0.10.0` | complete | 11 vectors, HITL interrupts, safe-default policy/tool-scope guards, OpenAI adapter, Harmovela sink, stdio and Streamable HTTP MCP clients, OpenTelemetry transport-seam sink, subagent delegation, and retriever seam, API snapshot; source `0.10.0`, Maven Central `com.axisvela:praxo-core:0.9.0` |

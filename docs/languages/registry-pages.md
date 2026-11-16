@@ -44,7 +44,7 @@ Registry versions checked 2026-11-13 for the four pilot packages.
 
 | Language | Page | Published version | Current page state | Next action |
 | --- | --- | --- | --- | --- |
-| Go | [pkg.go.dev](https://pkg.go.dev/github.com/axisvela/praxo-core/v2) | `v2.8.0` | Rendered `v2.8.0` README shows the `@v2.8.0` install command, MIT license, canonical documentation and consumer links; the module proxy `@latest` reports `v2.8.0`; verified 2026-11-09 | No further action |
+| Go | [pkg.go.dev](https://pkg.go.dev/github.com/axisvela/praxo-core/v2) | `v2.9.0` | Source tag `v2.9.0` is created; rendered pkg.go.dev page and module proxy `@latest` verification are pending | Verify the rendered page after publication |
 | Python | [PyPI](https://pypi.org/project/praxo-core/) | `0.9.0` | `0.9.0` is published; the packaged README carries the absolute examples link and the `0.9.0` install command | No further action |
 | TypeScript | [npm](https://www.npmjs.com/package/@axisvela/praxo-core) | `0.8.0` | `0.8.0` is published as `latest`; the packaged README carries the absolute examples link and the `0.8.0` install command | No further action |
 | Java | [Maven Central](https://central.sonatype.com/artifact/com.axisvela/praxo-core) | `0.9.0` | `0.9.0` is published with signed sources and javadoc; the POM description links the Java examples | No further action |
@@ -53,8 +53,8 @@ Registry versions checked 2026-11-13 for the four pilot packages.
 
 The Python `0.7.0`, TypeScript `0.6.0`, Java `0.9.0`, Rust `0.8.0`, and C#
 `0.8.0` language pages were refreshed from this release. The Go page follows the
-`v2.8.0` tag and was re-audited on 2026-11-09. Do not claim that another published
-page is updated until its registry shows the new version and text.
+`v2.9.0` tag; rendered page verification is pending. Do not claim that another
+published page is updated until its registry shows the new version and text.
 
 Other registries are listed in [Registry Publication Status](registry-status.md).
 They were not all re-audited in this update; use the same checklist at release

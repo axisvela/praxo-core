@@ -19,7 +19,7 @@ class RoadmapTests(unittest.TestCase):
             with self.subTest(language=prefix):
                 text = (ROOT / "docs" / prefix / "project/contract-status.md").read_text(encoding="utf-8")
                 row = next(line for line in text.splitlines() if line.startswith("| ") and "73da5139" in line)
-                for marker in ("Go", "2.8.0", "system", "SDK"):
+                for marker in ("Go", "2.9.0", "system", "SDK"):
                     self.assertIn(marker, row)
 
     def test_tutorial_does_not_claim_identical_schemas(self):

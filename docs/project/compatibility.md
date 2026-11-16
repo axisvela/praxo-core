@@ -47,17 +47,25 @@
   `2.6.0`. It adds runnable long-running operation and integration recipes,
   published-package upgrade checks, and evidence updates, with no `pkg/...` API
   change.
+- `2.8.0` is a minor release adding opt-in `RequirePolicy` and
+  `RequireToolScope` guards, HITL and checkpoint examples, and a Go mirror. The
+  exported `pkg/...` declarations gain two `agent.Options` fields; existing
+  callers need no source changes.
+- `2.9.0` is a minor release correcting the Go memory recall role. It changes
+  model-request behavior but not the exported `pkg/...` API or shared wire
+  shape; `api/2.9.0.txt` is identical to `api/2.8.0.txt`.
 
 - Framework versions start at `0.x`.
 - PRAXOVELA product versions are independent.
 - External consumers declare the supported framework range.
 - Breaking changes require a minor bump before `1.0.0`.
 
-## Unreleased Memory Recall Change
+## Memory Recall Change in 2.9.0
 
-Go source at `73da5139` moves `Recall` results from the system role to a user
-data block. Published `2.8.0` does not include this change. No public API or
-shared wire shape is added; other SDKs require their own behavior audit.
+Go `2.9.0` moves `Recall` results from the system role to a user data block,
+using the fix first recorded at `73da5139`. Published `2.8.0` does not include
+this change. No public API or shared wire shape is added; other SDKs require
+their own behavior audit.
 
 Consumers using recall should review model-request snapshots and any custom
 compaction that depends on message roles. Stored records need no rewrite:
@@ -65,8 +73,8 @@ missing source metadata is shown as `unknown`, and recalled records remain
 untrusted regardless of a stored trust label. Keep trusted application
 instructions separate from recalled content; do not restore system authority
 for model or external text. This removes a role elevation, not all prompt
-injection. Before a release is available, use application-owned context assembly
-or disable automatic recall where this boundary is required.
+injection. Applications that require a stricter boundary should use
+application-owned context assembly or disable automatic recall.
 
 ## Consumer Matrix
 

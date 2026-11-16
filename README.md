@@ -76,7 +76,7 @@ Go is the reference implementation; use the language table above for other
 runtimes.
 
 ```bash
-go get github.com/axisvela/praxo-core/v2@v2.8.0
+go get github.com/axisvela/praxo-core/v2@v2.9.0
 ```
 
 First verify the [independent Go consumer](docs/getting-started/consumer-go.md):
@@ -218,12 +218,14 @@ or [optional AxisVela integrations](docs/integrations/ecosystem.md). See the
 
 ## Releases and Contributing
 
-Core `2.8.0` is a minor release adding opt-in `RequirePolicy` and
-`RequireToolScope` safe-default guards, HITL and multi-turn checkpoint examples,
-and a Go discovery mirror. Optional adapters and Core implementations are
+Core `2.9.0` is a minor release fixing the Go memory recall role. Recalled
+content is injected as untrusted user data with frame/source labels instead of
+a system message; assistant-written memory records carry `source` and `trust`
+metadata. The release adds two-run regressions and does not change exported
+`pkg/...` API or wire shape. Optional adapters and Core implementations are
 versioned independently.
 
-- [Latest release notes](docs/releases/2.8.0.md)
+- [Latest release notes](docs/releases/2.9.0.md)
 - [Release history](docs/releases/index.md)
 - [Language Release Index](docs/languages/registry-status.md)
 - [Compatibility policy](docs/project/compatibility-policy.md)

@@ -8,7 +8,7 @@
 
 ## Languages
 
-- Go: `github.com/axisvela/praxo-core/v2` — [Go module proxy / pkg.go.dev](https://pkg.go.dev/github.com/axisvela/praxo-core/v2) — `v2.8.0` — https://axisvela.github.io/praxo-core/
+- Go: `github.com/axisvela/praxo-core/v2` — [Go module proxy / pkg.go.dev](https://pkg.go.dev/github.com/axisvela/praxo-core/v2) — `v2.9.0` — https://axisvela.github.io/praxo-core/
 - Python: `praxo-core` — [PyPI](https://pypi.org/project/praxo-core/0.9.0/) — `0.9.0` — https://axisvela.github.io/praxo-core/languages/python/
 - TypeScript: `@axisvela/praxo-core` — [npm](https://www.npmjs.com/package/@axisvela/praxo-core/v/0.8.0) — `0.8.0` — https://axisvela.github.io/praxo-core/languages/typescript/
 - Java: `com.axisvela:praxo-core` — [Maven Central](https://repo1.maven.org/maven2/com/axisvela/praxo-core/0.9.0/) — `0.9.0` — https://axisvela.github.io/praxo-core/languages/java/
@@ -16,7 +16,7 @@
 - C#: `Praxo.Core` — [NuGet](https://www.nuget.org/packages/Praxo.Core/0.9.1) — `0.9.1` — https://axisvela.github.io/praxo-core/languages/csharp/
 - Ruby: `praxo-core` — [RubyGems](https://rubygems.org/gems/praxo-core/versions/0.8.1) — `0.8.1` — https://axisvela.github.io/praxo-core/languages/ruby/
 - PHP: `axisvela/praxo-core` — [Packagist](https://packagist.org/packages/axisvela/praxo-core) — `0.8.0` — https://axisvela.github.io/praxo-core/languages/php/
-- Dart: `praxo_core` — [pub.dev](https://pub.dev/packages/praxo_core/versions/0.4.0) — `0.4.0` — https://axisvela.github.io/praxo-core/languages/dart/
+- Dart: `praxo_core` — [pub.dev](https://pub.dev/packages/praxo_core/versions/0.6.1) — `0.6.1` — https://axisvela.github.io/praxo-core/languages/dart/
 - Elixir: `praxo_core` — [Hex](https://hex.pm/packages/praxo_core) — `0.9.1` — https://axisvela.github.io/praxo-core/languages/elixir/
 - Erlang: `praxo_core_erlang` — [Hex](https://hex.pm/packages/praxo_core_erlang/0.8.1) — `0.8.1` — https://axisvela.github.io/praxo-core/languages/erlang/
 - Lua: `praxo-core` — [LuaRocks](https://luarocks.org/modules/hanhhuiwen/praxo-core) — `0.7.1-1` — https://axisvela.github.io/praxo-core/languages/lua/

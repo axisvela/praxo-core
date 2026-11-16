@@ -59,7 +59,7 @@ Ruby、PHP、Elixir、Lua 等语言都有独立发布包。它不是 Go 专用�
 Go 是参考实现；其他运行时请使用上表。
 
 ```bash
-go get github.com/axisvela/praxo-core/v2@v2.8.0
+go get github.com/axisvela/praxo-core/v2@v2.9.0
 ```
 
 先通过[Go 独立消费者](docs/zh-CN/getting-started/consumer-go.md)在自己的应用安装发布包，
@@ -179,9 +179,9 @@ PRAXO-CORE 是独立的 MIT 框架。
 
 ## 版本与贡献
 
-核心 `2.8.0` 是次版本发布，增加长运行操作服务、验证器、租约、指标与凭据轮换配方，已发布包升级检查，以及更多集成与采用证据。适配器和 Core 实现独立版本化。
+核心 `2.9.0` 是次版本发布，修复 Go 记忆召回角色。召回内容作为带 frame/source 标签的不可信 user 数据注入，而不再进入 system 消息；assistant 写入的记忆记录带 `source` 与 `trust` 元数据。该版本新增两轮回归，不改变导出的 `pkg/...` API 或 Wire 形状。适配器和 Core 实现独立版本化。
 
-- [最新发布说明](docs/zh-CN/releases/2.7.0.md)
+- [最新发布说明](docs/zh-CN/releases/2.9.0.md)
 - [版本历史](docs/zh-CN/releases/index.md)
 - [兼容政策](docs/zh-CN/project/compatibility-policy.md)
 - [v2 迁移](docs/zh-CN/project/migration-v2.md)

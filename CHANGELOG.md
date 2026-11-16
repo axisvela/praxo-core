@@ -1,5 +1,27 @@
 ﻿# Changelog
 
+## [2.9.0] - 2026-11-16
+
+### Changed
+
+- Go memory recall is injected as untrusted historical user data instead of a
+  system message. The recall block labels each record's frame and source when
+  available, and assistant-written memory records now carry `source` and
+  `trust` metadata.
+- A stored `trust` label cannot elevate recalled content to system authority;
+  missing source metadata is shown as `unknown`.
+- No exported `pkg/...` API or shared wire shape changes.
+  `api/2.9.0.txt` is identical to `api/2.8.0.txt`.
+
+### Fixed
+
+- Go memory recall no longer elevates model-generated or external content to
+  system authority across turns. New tests cover malicious cross-turn memory
+  and confirm that tool policy still denies the call with zero effects.
+- Two-run regressions cover assistant output, application-stored tool results,
+  and external writes. They do not prove disk recovery, Bridge behavior, or
+  general prompt-injection prevention.
+
 ## [2.8.0] - 2026-11-14
 
 ### Added
@@ -111,10 +133,6 @@
 
 ### Changed
 
-- Memory recall is injected as untrusted historical user data instead of a
-  system message. The recall block labels each record's frame and source when
-  available, and assistant-written memory records now carry `source` and
-  `trust` metadata.
 - Roadmap review separates unreleased Go fixes from published-package behavior,
   timing targets from measured results, and source coverage from example depth.
   Two-run memory regressions cover assistant output, application-stored tool
@@ -134,9 +152,6 @@
 
 - The PHP consumer source-mode fallback now loads `../../src/autoload.php`
   instead of a non-existent nested path; `php test_starter.php` passes locally.
-- Memory recall no longer elevates model-generated or external content to
-  system authority across turns. New tests cover malicious cross-turn memory
-  and confirm that tool policy still denies the call with zero effects.
 - `pkg/tool.RetryPolicy` documents and tests the unknown-effect hazard: with
   `Attempts > 1` and no `ShouldRetry`, every error is retried, so a
   non-idempotent tool can duplicate an effect after a transport or timeout

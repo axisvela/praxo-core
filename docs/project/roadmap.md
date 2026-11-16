@@ -1,6 +1,6 @@
 # Public Roadmap
 
-Current core release: `2.8.0`.
+Current core release: `2.9.0`.
 
 This roadmap is organized around developer outcomes: choose the framework,
 run something useful, build a real prototype, embed it in an application, and
@@ -19,7 +19,7 @@ working path, not more language entries. The first path is a five-minute embed;
 governed acceptance is a second step. Public claims now separate contract
 completeness, adapter availability, and integration verification. Safe default
 semantics also move up: Go source at `73da5139` removes recalled memory from the
-system role. This change is unreleased; `2.8.0` still uses the previous role.
+system role. `2.9.0` includes the fix; `2.8.0` still used the previous role.
 The fix does not prevent all prompt injection, and does not establish the same
 behavior in every SDK. Final tool arguments remain reauthorized after edits.
 
@@ -77,7 +77,7 @@ its declared capability or evidence level.
 | 1. Run | Install a published package, connect a model, register one tool, and get a useful result | Published-package deterministic starters and live-model examples exist; five-minute completion has not been independently measured. Registry state is recorded separately in the language support pages. The live-model guide now covers endpoint, model id, credential, timeout, tool schema, and platform troubleshooting | Measure deterministic embedding and live-endpoint completion separately with the troubleshooting guide |
 | 2. Prototype | Build one coherent local application with tools, streaming, structured output, MCP, workspace access, or telemetry | Thirteen example themes have source entries across thirty-one languages. Entries range from isolated mechanism checks to Core integrations and application tutorials; the catalog is grouped by task | Audit example depth and runnable commands, then validate one consumer-selected application path |
 | 3. Embed | Integrate Core into an existing service with application-owned identity, policy, persistence, events, and shutdown | Vendor-neutral Go/Python/TypeScript HTTP services and authenticated identity/policy services; Go, Python, and TypeScript support OIDC/JWKS with provider discovery; 30 of 31 declared implementations have source-level RFC 7662 introspection and RFC 7009 revocation, with 20 verified locally, Java/Swift compile or typecheck-only, eight source-unverified because toolchains are absent, and COBOL boundary-only; an optional external Python policy decision service, verified-identity and durable-checkpoint variants, a risk-tiered checklist, and a checkpoint-continuation guide connecting message history, allowlisted stores, and operation state exist | Extend OIDC/external identity to further SDKs, verify the missing-toolchain sources on CI, and validate the checkpoint store for a real consumer |
-| 4. Harden | Make the specific integration safe to upgrade, fail, cancel, and recover | Negative, upgrade, containment, and recovery assets exist. The unreleased Go memory-role fix and retry hazard tests have local deterministic coverage. A source audit found no automatic recall in other SDK agent paths; Bridge remains unknown. The consumer test template now covers two-run memory trust and unknown-effect retry/reconciliation | Validate and release the Go fix, verify Bridge recall exposure, and apply the template to a real consumer |
+| 4. Harden | Make the specific integration safe to upgrade, fail, cancel, and recover | Negative, upgrade, containment, and recovery assets exist. The Go memory-role fix is released in `2.9.0`; retry hazard tests have local deterministic coverage. A source audit found no automatic recall in other SDK agent paths; Bridge remains unknown. The consumer test template now covers two-run memory trust and unknown-effect retry/reconciliation | Verify Bridge recall exposure and apply the template to a real consumer |
 | 5. Extend | Adopt plugins, delegation, long-running operations, workspace providers, or embodied integrations when needed | Application-level delegation examples cover Go, Python, TypeScript, Java, C#, and Rust; Go reference examples cover long-running operations, workspaces, and plugins | Add controlled parent-to-child policy, tool-scope, budget, and depth narrowing before claiming governed delegation |
 
 The stages describe the recommended order for adoption. They are not release

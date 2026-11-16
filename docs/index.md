@@ -44,7 +44,7 @@ See the [language implementation directory](languages/index.md) and the
 ## Go Reference Quickstart
 
 ```bash
-go get github.com/axisvela/praxo-core/v2@v2.8.0
+go get github.com/axisvela/praxo-core/v2@v2.9.0
 ```
 
 Follow the [quickstart](getting-started/quickstart.md) to run an agent against
@@ -63,10 +63,12 @@ above; source tags do not imply package-registry availability.
 
 ## Current Release
 
-Core `2.8.0` is a minor release adding opt-in `RequirePolicy` and
-`RequireToolScope` safe-default guards, HITL and multi-turn checkpoint examples,
-and a Go discovery mirror.
-See the [release notes](releases/2.8.0.md) for changes and limitations, or the
+Core `2.9.0` is a minor release fixing the Go memory recall role. Recalled
+content is injected as untrusted user data with frame/source labels instead of
+a system message, and assistant-written memory records carry `source` and
+`trust` metadata. The release adds two-run regressions and does not change the
+exported `pkg/...` API or wire shape.
+See the [release notes](releases/2.9.0.md) for changes and limitations, or the
 [release overview](releases/index.md) for older versions.
 
 PRAXO-CORE is a framework, not a hosted service or a turnkey chat UI.
