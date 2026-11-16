@@ -160,7 +160,7 @@ revocation:
 The tests use loopback introspection and revocation endpoints; no external
 identity provider is required.
 
-## Ruby, PHP, Dart, Elixir, Erlang, and Perl Transport-Neutral Variants
+## Transport-Neutral and Injectable Authentication Variants
 
 The Ruby, PHP, Dart, Elixir, Erlang, and Perl service examples remain request
 handlers, not executable HTTP servers. They include introspection and
@@ -179,9 +179,14 @@ revocation modules with an injectable transport:
 - Perl: `language/perl/examples/service/ServiceAuth.pm` plus an `HTTP::Tiny`
   transport.
 
+The same introspection/revocation contract is locally verified for Rust, Lua,
+D, C, C++, Objective-C, Delphi/Free Pascal, Zig, Fortran, and PowerShell. Their
+module paths and deterministic test commands are documented in each
+`examples/service/README.md`.
+
 The application must authenticate before the handler and derive the principal
-and tenant from the verified result. OIDC/JWKS is not included. Their
-deterministic tests use scripted transports:
+and tenant from the verified result. OIDC/JWKS is not included. The first six
+examples use these deterministic tests:
 
 ```bash
 elixir language/elixir/examples/service/authentication_test.exs
@@ -190,6 +195,12 @@ erlc -o build language/erlang/examples/service/authentication.erl language/erlan
 erl -noshell -pa build -s authentication_test main -s init stop
 perl language/perl/examples/service/authentication_test.pl
 ```
+
+Java, C#, and Swift keep standard-client transports; Java and C# use loopback
+tests, while Swift only typechecks locally. Source-only variants exist for
+Haskell, OCaml, Julia, Nim, V, R, and MATLAB/Octave, but they are unverified
+because the corresponding toolchains are absent. COBOL documents the transport
+boundary only.
 
 ## Other Language Examples
 

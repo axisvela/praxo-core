@@ -35,6 +35,7 @@ test_mcp();
 test_otel();
 test_retriever();
 test_delegation();
+test_service_auth();
 disp('All declared MATLAB/Octave Core vector groups passed');
 end
 

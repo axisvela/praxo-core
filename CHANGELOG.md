@@ -101,6 +101,13 @@
 - Elixir, Erlang, and Perl service examples add transport-seam introspection
   and revocation, with scripted-transport tests; they remain handler-only
   examples.
+- Service authentication now covers the remaining declared implementations at
+  source level: Rust, Lua, D, C, C++, Objective-C, Delphi/Free Pascal, Zig,
+  Fortran, and PowerShell pass local scripted-transport tests; Java compiles
+  and Swift typechecks with runtime checks blocked locally; Haskell, OCaml,
+  Julia, Nim, V, R, and MATLAB/Octave source and tests are present but
+  unverified because their toolchains are absent; COBOL documents the transport
+  boundary only. OIDC/JWKS remains limited to Go, Python, and TypeScript.
 
 ### Changed
 

@@ -147,7 +147,7 @@ Java 和 C# 服务示例也支持 RFC 7662 introspection 与 RFC 7009 撤销：
 
 测试使用 loopback introspection/revocation 端点，不需要外部身份提供商。
 
-## Ruby、PHP、Dart、Elixir、Erlang 和 Perl 传输中立变体
+## 传输中立与可注入认证变体
 
 Ruby、PHP、Dart、Elixir、Erlang 和 Perl 服务示例仍是请求处理器，不是可执行
 HTTP 服务。它们提供可注入 transport 的 introspection 与撤销模块：
@@ -165,8 +165,12 @@ HTTP 服务。它们提供可注入 transport 的 introspection 与撤销模块�
 - Perl：`language/perl/examples/service/ServiceAuth.pm` 和 `HTTP::Tiny`
   transport。
 
+相同的 introspection/撤销契约已在 Rust、Lua、D、C、C++、Objective-C、
+Delphi/Free Pascal、Zig、Fortran 和 PowerShell 本地验证；模块路径与确定性测试命令见各自的
+`examples/service/README.md`。
+
 应用必须在 Handler 之前完成认证，并从验证结果派生 principal/tenant。不包含 OIDC/JWKS。
-确定性测试使用脚本化 transport：
+前六种语言的确定性测试命令为：
 
 ```bash
 elixir language/elixir/examples/service/authentication_test.exs
@@ -175,6 +179,10 @@ erlc -o build language/erlang/examples/service/authentication.erl language/erlan
 erl -noshell -pa build -s authentication_test main -s init stop
 perl language/perl/examples/service/authentication_test.pl
 ```
+
+Java、C# 和 Swift 保留标准客户端 transport；Java 与 C# 使用 loopback 测试，Swift
+目前只能本地类型检查。Haskell、OCaml、Julia、Nim、V、R 和 MATLAB/Octave 已有源码，
+但因工具链缺失未验证。COBOL 仅记录 transport 边界。
 
 ## 其他语言示例
 

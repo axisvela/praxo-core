@@ -1,0 +1,6 @@
+precondition(handle(method: "GET", path: "/healthz", principal: "", body: "").0 == 200)
+precondition(handle(method: "POST", path: "/run", principal: "", body: "{\"prompt\":\"hi\"}").0 == 401)
+precondition(handle(method: "POST", path: "/run", principal: "user-1", body: "{\"prompt\":\"hi\"}").0 == 200)
+runAuthenticationTests()
+print("Swift service example passed")
+print("Swift service auth tests passed")

@@ -27,15 +27,24 @@ principal and tenant from trusted context.
 
 ## Token Introspection and Revocation
 
-This example does not bundle an HTTP or TLS client, so RFC 7662 introspection
-and RFC 7009 revocation are not enabled by default. A production application
-should supply its own transport (for example `ureq` or a product HTTP client),
-verify `Authorization: Bearer` tokens, require `active`, `sub`, the tenant
-claim, and a future `exp`, and fail closed when the provider is unavailable.
-Keep revocation an explicit application decision.
+`src/authentication.rs` provides RFC 7662 introspection and RFC 7009
+revocation with a caller-supplied `Transport` trait. It verifies
+`Authorization: Bearer` tokens, requires `active`, non-empty `sub` and tenant
+claims, and a future integer `exp`, and fails closed when the provider is
+unavailable. Revocation is an explicit application decision.
 
-The Go, Python, TypeScript, Java, and C# service-auth examples show the same
-contract with their standard-library HTTP clients.
+The example does not bundle an HTTP or TLS client; a production application
+supplies the transport, for example `ureq` or a product HTTP client.
+
+```bash
+cargo test
+```
+
+Expected output includes:
+
+```text
+test authentication::tests::authentication_contract ... ok
+```
 
 ## Test
 
