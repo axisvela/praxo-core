@@ -1,11 +1,13 @@
 import base64
 import hashlib
 import json
+import os
 import tempfile
 import threading
 import time
 import unittest
 import urllib.error
+import urllib.parse
 import urllib.request
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
@@ -13,14 +15,17 @@ from pathlib import Path
 from praxo.model import Message, Response
 from praxo.policy import Action
 
+from introspection import IntrospectionVerifier, revoke_token
 from oidc import OidcVerifier
 from service import (
+    AuthError,
     FileCheckpointStore,
     Principal,
     PrincipalStore,
     RemotePolicy,
     authorize,
     create_agent,
+    create_authenticator,
     make_handler,
     sign_token,
 )
@@ -220,6 +225,65 @@ class ServiceTests(unittest.TestCase):
         self.addCleanup(cleanup)
         return Handler.base_url + "/.well-known/openid-configuration"
 
+    def start_introspection(self, active=True, body=None, revoke_status=200):
+        state = {
+            "active": active,
+            "body": body,
+            "token": None,
+            "revoked": None,
+            "revoke_status": revoke_status,
+        }
+
+        class Handler(BaseHTTPRequestHandler):
+            def do_POST(self):
+                length = int(self.headers.get("Content-Length", "0"))
+                raw = self.rfile.read(length)
+                form = urllib.parse.parse_qs(raw.decode("utf-8"))
+                if self.path == "/introspect":
+                    state["token"] = form.get("token", [""])[0]
+                    if not state["active"]:
+                        payload = {"active": False}
+                    else:
+                        payload = state["body"] or {
+                            "active": True,
+                            "sub": "user-1",
+                            "tenant": "local",
+                            "exp": int(time.time()) + 60,
+                        }
+                elif self.path == "/revoke":
+                    state["revoked"] = form.get("token", [""])[0]
+                    if state["revoke_status"] != 200:
+                        self.send_response(state["revoke_status"])
+                        self.end_headers()
+                        return
+                    payload = {}
+                else:
+                    self.send_response(404)
+                    self.end_headers()
+                    return
+                encoded = json.dumps(payload).encode()
+                self.send_response(200)
+                self.send_header("Content-Type", "application/json")
+                self.send_header("Content-Length", str(len(encoded)))
+                self.end_headers()
+                self.wfile.write(encoded)
+
+            def log_message(self, format, *args):
+                return
+
+        server = ThreadingHTTPServer(("127.0.0.1", 0), Handler)
+        base = f"http://127.0.0.1:{server.server_port}"
+        thread = threading.Thread(target=server.serve_forever, daemon=True)
+        thread.start()
+
+        def cleanup():
+            server.shutdown()
+            server.server_close()
+            thread.join(timeout=2)
+
+        self.addCleanup(cleanup)
+        return base, state
+
     def oidc_verifier(self, discovery_url):
         return OidcVerifier(
             OIDC_ISSUER,
@@ -392,6 +456,82 @@ class ServiceTests(unittest.TestCase):
             ).verify
         )
         self.assert_status(401, token=sign_jwt(oidc_claims()))
+
+    def test_introspection_active_token_returns_output(self):
+        base, state = self.start_introspection()
+        verifier = IntrospectionVerifier(
+            url=f"{base}/introspect", timeout=1
+        )
+        self.restart_service(authenticator=verifier.verify)
+        with self.post(token="opaque-token") as response:
+            body = json.loads(response.read())
+        self.assertEqual(body["output"], "hello from the service")
+        self.assertEqual(state["token"], "opaque-token")
+
+    def test_introspection_inactive_token_is_rejected(self):
+        base, _ = self.start_introspection(active=False)
+        verifier = IntrospectionVerifier(
+            url=f"{base}/introspect", timeout=1
+        )
+        self.restart_service(authenticator=verifier.verify)
+        self.assert_status(401, token="opaque-token")
+
+    def test_introspection_unavailable_fails_closed(self):
+        server = ThreadingHTTPServer(("127.0.0.1", 0), BaseHTTPRequestHandler)
+        url = f"http://127.0.0.1:{server.server_port}/introspect"
+        server.server_close()
+        self.restart_service(
+            authenticator=IntrospectionVerifier(
+                url=url, timeout=0.2
+            ).verify
+        )
+        self.assert_status(401, token="opaque-token")
+
+    def test_introspection_requires_expiration(self):
+        base, _ = self.start_introspection(
+            body={"active": True, "sub": "user-1", "tenant": "local"}
+        )
+        verifier = IntrospectionVerifier(
+            url=f"{base}/introspect", timeout=1
+        )
+        self.restart_service(authenticator=verifier.verify)
+        self.assert_status(401, token="opaque-token")
+
+    def test_revocation_posts_the_token(self):
+        base, state = self.start_introspection()
+        self.assertTrue(
+            revoke_token("opaque-token", url=f"{base}/revoke", timeout=1)
+        )
+        self.assertEqual(state["revoked"], "opaque-token")
+
+    def test_revocation_fails_closed(self):
+        base, _ = self.start_introspection(revoke_status=503)
+        with self.assertRaises(AuthError):
+            revoke_token("opaque-token", url=f"{base}/revoke", timeout=1)
+
+    def test_authenticator_selects_introspection_when_configured(self):
+        previous = {key: os.environ.get(key) for key in (
+            "PRAXO_INTROSPECTION_URL",
+            "PRAXO_OIDC_ISSUER",
+            "PRAXO_SERVICE_SECRET",
+        )}
+        try:
+            os.environ["PRAXO_INTROSPECTION_URL"] = (
+                "https://id.example.com/introspect"
+            )
+            os.environ.pop("PRAXO_OIDC_ISSUER", None)
+            os.environ.pop("PRAXO_SERVICE_SECRET", None)
+            authenticator = create_authenticator()
+            self.assertIsInstance(
+                getattr(authenticator, "__self__", None),
+                IntrospectionVerifier,
+            )
+        finally:
+            for key, value in previous.items():
+                if value is None:
+                    os.environ.pop(key, None)
+                else:
+                    os.environ[key] = value
 
 
 if __name__ == "__main__":

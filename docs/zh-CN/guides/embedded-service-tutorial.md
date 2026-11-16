@@ -70,6 +70,9 @@ go test ./...
 租户允许列表、策略绑定，以及文件型 Checkpoint。设置 `PRAXO_POLICY_URL` 可把决策
 委托给应用拥有的 HTTP 策略决策服务；超时、响应无效或拒绝都会 fail closed。设置
 `PRAXO_OIDC_ISSUER` 后改为验证 OIDC/JWKS JWT，并可从 Issuer 元数据发现 `jwks_uri`。
+设置 `PRAXO_INTROSPECTION_URL` 后改为通过 RFC 7662 校验不透明 Token；
+`service.py --revoke-token TOKEN` 可通过 `PRAXO_REVOCATION_URL` 或 Issuer discovery
+发现的 RFC 7009 端点撤销 Token。
 
 ```bash
 cd language/python/examples/service-auth

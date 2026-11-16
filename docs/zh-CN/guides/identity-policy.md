@@ -43,10 +43,11 @@ Go 认证服务示例
 
 Python 认证 HTTP 服务
 [`language/python/examples/service-auth`](https://github.com/axisvela/praxo-core/tree/main/language/python/examples/service-auth)
-展示了服务边界上的同类绑定。它验证应用局部 HMAC Bearer Token 或 OIDC/JWKS JWT，把
-subject 和 tenant 绑定到 Session，拒绝过期或不在允许列表中的租户，只授权 `get_time`，
-并在运行完成后保存 Checkpoint。它还可以把决策委托给应用拥有的 HTTP 策略决策服务，并在
-该服务不可用时 fail closed。运行确定性测试：
+展示了服务边界上的同类绑定。它验证应用局部 HMAC Bearer Token、OIDC/JWKS JWT，或通过
+RFC 7662 introspection 校验不透明 Token；把 subject 和 tenant 绑定到 Session，拒绝过期
+或不在允许列表中的租户，只授权 `get_time`，并在运行完成后保存 Checkpoint。它还支持
+RFC 7009 撤销，并可将决策委托给应用拥有的 HTTP 策略决策服务，在该服务不可用时
+fail closed。运行确定性测试：
 
 ```bash
 cd language/python/examples/service-auth

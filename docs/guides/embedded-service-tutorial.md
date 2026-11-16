@@ -76,7 +76,10 @@ binding, and a file-backed checkpoint. Set `PRAXO_POLICY_URL` to delegate
 decisions to an application-owned HTTP policy decision service; the example
 fails closed on timeout, an invalid response, or a denial. Set
 `PRAXO_OIDC_ISSUER` to verify OIDC/JWKS JWTs and discover `jwks_uri` from the
-issuer metadata instead of using the local HMAC format.
+issuer metadata instead of using the local HMAC format. Set
+`PRAXO_INTROSPECTION_URL` to verify opaque tokens through RFC 7662 instead;
+`service.py --revoke-token TOKEN` uses an RFC 7009 endpoint when
+`PRAXO_REVOCATION_URL` or issuer discovery provides one.
 
 ```bash
 cd language/python/examples/service-auth

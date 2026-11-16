@@ -4,10 +4,11 @@ This example embeds published PyPI `praxo-core==0.9.0` in a standard-library
 HTTP service with application-owned identity, tenant policy, an optional
 external policy decision service, and file-backed checkpoints.
 
-The service verifies an HMAC bearer token before the agent runs, or an
-OIDC/JWKS JWT when `PRAXO_OIDC_ISSUER` is set. The token carries a subject,
-tenant, and expiration. The application binds the verified principal to the
-session, checks the tenant allowlist, authorizes only `model.generate` and
+The service verifies an HMAC bearer token before the agent runs, an OIDC/JWKS
+JWT when `PRAXO_OIDC_ISSUER` is set, or an opaque token through RFC 7662
+introspection when `PRAXO_INTROSPECTION_URL` is set. The token carries a
+subject, tenant, and expiration. The application binds the verified principal to
+the session, checks the tenant allowlist, authorizes only `model.generate` and
 `get_time`, and saves a completed checkpoint after the run.
 
 ## Run
@@ -66,8 +67,42 @@ and refreshes once when the token `kid` is unknown. A missing or invalid
 signature, unknown `kid`, unavailable JWKS or discovery metadata, invalid
 issuer or audience, expired token, or missing subject or tenant denies the
 request. The OIDC path uses only the Python standard library; `--print-token`
-remains HMAC-only. Token introspection and revocation are not included in this
-example.
+remains HMAC-only.
+
+## Token Introspection
+
+Set `PRAXO_INTROSPECTION_URL` to verify opaque access tokens through an
+RFC 7662-compatible endpoint:
+
+```bash
+export PRAXO_INTROSPECTION_URL=https://issuer.example.com/introspect
+export PRAXO_INTROSPECTION_CLIENT_ID=praxo-service
+export PRAXO_INTROSPECTION_CLIENT_SECRET=...
+export PRAXO_OIDC_TENANT_CLAIM=tenant
+.venv/bin/python service.py --addr 127.0.0.1:8080
+```
+
+Client credentials use HTTP Basic authentication. When the URL is unset but
+`PRAXO_OIDC_ISSUER` is set, the endpoint can be discovered from provider
+metadata. The verifier requires `active: true`, `sub`, the configured tenant
+claim, and an integer `exp` in the future. A timeout, non-200 response,
+inactive token, missing claim, or expired `exp` denies the request. Introspection
+takes precedence over OIDC/JWT verification when both are configured.
+
+## Token Revocation
+
+Revoke a token through an RFC 7009-compatible endpoint:
+
+```bash
+export PRAXO_REVOCATION_URL=https://issuer.example.com/revoke
+export PRAXO_INTROSPECTION_CLIENT_ID=praxo-service
+export PRAXO_INTROSPECTION_CLIENT_SECRET=...
+.venv/bin/python service.py --revoke-token "$TOKEN"
+```
+
+When `PRAXO_REVOCATION_URL` is unset, the endpoint can be discovered from
+`PRAXO_OIDC_ISSUER` metadata. Revocation is an application decision; the service
+does not revoke automatically on logout, approval, or run completion.
 
 ## External Policy Decision Service
 
@@ -112,19 +147,20 @@ sending them to the policy service.
 ```
 
 The tests use a fake model, a loopback HTTP service, a loopback policy decision
-service, and a loopback OIDC discovery/JWKS endpoint. They cover missing,
-tampered, and expired HMAC tokens, OIDC allowed/wrong-audience/expired/
-unknown-key/unavailable-provider behavior, tenant denial, remote policy
-allow/deny/unavailable behavior, policy binding, and checkpoint persistence
-without a model endpoint.
+service, a loopback OIDC discovery/JWKS endpoint, and a loopback introspection
+and revocation endpoint. They cover missing, tampered, and expired HMAC tokens,
+OIDC allowed/wrong-audience/expired/unknown-key/unavailable-provider behavior,
+introspection active/inactive/unavailable/missing-exp behavior, revocation
+success and failure, tenant denial, remote policy allow/deny/unavailable
+behavior, policy binding, and checkpoint persistence without a model endpoint.
 
 ## Boundaries
 
 - Core does not authenticate callers or issue credentials.
 - Replace the local HMAC format with your identity provider, audience checks,
   key management, and revocation in production. The OIDC path verifies JWT
-  signatures and standard claims only; it does not perform token introspection,
-  revocation, token exchange, or DPoP.
+  signatures and standard claims; introspection and revocation are separate
+  opt-in paths. The example does not perform token exchange or DPoP.
 - A policy service allow does not replace local tool scope, sandboxing, or
   least-privilege credentials.
 - The external policy service receives tool arguments. Send only what the

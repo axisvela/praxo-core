@@ -87,6 +87,12 @@
   verification is pending. Other language MCP clients remain stdio or
   transport-seam only.
 
+### Added
+
+- Python `service-auth` adds RFC 7662 token introspection and RFC 7009
+  revocation, including provider discovery, loopback tests, and an
+  `--revoke-token` CLI path.
+
 ### Changed
 
 - Memory recall is injected as untrusted historical user data instead of a

@@ -58,7 +58,7 @@ PRAXO-CORE 继续定位为**可治理、可嵌入的 Agent 执行框架**。路�
 | 0. 判断 | 知道 Core 是否适合，以及该选择哪种语言和路径 | 已有概览、任务入口、对比和非目标说明 | 缩短选型路径，明确应用仍需负责什么 |
 | 1. 运行 | 安装发布包、连接模型、注册一个工具并得到有用结果 | 已有发布包确定性 Starter 和真实模型示例；五分钟完成尚未经过独立计时。注册表状态单独记录在语言支持页面 | 分别测量确定性嵌入和真实端点完成情况，并记录排错过程 |
 | 2. 原型 | 完成一个包含工具、Streaming、结构化输出、MCP、Workspace 或 Telemetry 的连贯本地应用 | 十三个主题在三十一种语言中有源码入口，但深度从孤立机制检查到 Core 集成、应用教程不等；目录已按任务分组 | 审计示例深度与运行命令，再验证一个消费者选定的应用路径 |
-| 3. 嵌入 | 将 Core 接入现有服务，由应用管理身份、策略、持久化、事件和退出 | 已有厂商中立的 Go/Python/TypeScript 服务、Go/Python/TypeScript 认证身份/策略服务、TypeScript OIDC/JWKS 验证与 provider discovery、Token introspection/撤销、Go 和 Python 带 provider discovery 的 OIDC/JWKS 验证、Python 可选外部策略决策服务、已验证身份与持久 Checkpoint 变体和分档清单 | 将 Token introspection/撤销和外部身份模式扩展到更多 SDK；增加最小持久 Checkpoint 路径 |
+| 3. 嵌入 | 将 Core 接入现有服务，由应用管理身份、策略、持久化、事件和退出 | 已有厂商中立的 Go/Python/TypeScript 服务、Go/Python/TypeScript 认证身份/策略服务、TypeScript 和 Python 的 OIDC/JWKS 验证与 provider discovery、Token introspection/撤销、Go 带 provider discovery 的 OIDC/JWKS 验证、Python 可选外部策略决策服务、已验证身份与持久 Checkpoint 变体和分档清单 | 将 Token introspection/撤销和外部身份模式扩展到更多 SDK；增加最小持久 Checkpoint 路径 |
 | 4. 加固 | 让具体集成可升级、可失败、可取消、可恢复 | 已有负向、升级、隔离和恢复资产；未发布的 Go 记忆角色修复和重试风险测试有本地确定性覆盖。源码审计未发现其他 SDK Agent 主路径的自动召回，Bridge 仍未知 | 验证并发布 Go 修复，核查 Bridge 是否暴露召回，增加分风险消费者检查 |
 | 5. 扩展 | 在需要时采用 Plugin、委派、长时操作、Workspace Provider 或具身集成 | 应用级委派示例覆盖 Go、Python、TypeScript、Java、C# 和 Rust；Go 参考示例覆盖长时操作、Workspace 和 Plugin | 在宣称受治理委派前，先实现父子策略、工具范围、预算和深度收窄 |
 

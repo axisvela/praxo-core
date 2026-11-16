@@ -52,10 +52,11 @@ HMAC token by default and can verify OIDC/JWKS JWTs with provider discovery when
 The Python authenticated HTTP service
 [`language/python/examples/service-auth`](https://github.com/axisvela/praxo-core/tree/main/language/python/examples/service-auth)
 shows the same binding at a service boundary. It verifies an application-local
-HMAC bearer token or an OIDC/JWKS JWT, binds the subject and tenant to the
-session, rejects expired or disallowed tenants, authorizes only `get_time`, and
-saves a completed checkpoint. It can also delegate decisions to an
-application-owned HTTP policy decision service and fails closed when that
+HMAC bearer token, an OIDC/JWKS JWT, or an opaque token through RFC 7662
+introspection; binds the subject and tenant to the session; rejects expired or
+disallowed tenants; authorizes only `get_time`; and saves a completed
+checkpoint. It also supports RFC 7009 revocation and can delegate decisions to
+an application-owned HTTP policy decision service, failing closed when that
 service is unavailable. Run its deterministic tests with:
 
 ```bash

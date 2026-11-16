@@ -20,6 +20,7 @@ from praxo.policy import Action, Decision, FuncHook
 from praxo.tool import FuncTool, Registry
 
 from identity import AuthError, Principal, PrincipalStore
+from introspection import IntrospectionVerifier, revoke_token
 from oidc import OidcVerifier
 
 
@@ -361,17 +362,38 @@ def make_handler(
 
 def create_authenticator():
     issuer = os.getenv("PRAXO_OIDC_ISSUER", "")
+    timeout = float(os.getenv("PRAXO_OIDC_TIMEOUT", "2"))
+    tenant_claim = os.getenv("PRAXO_OIDC_TENANT_CLAIM", "tenant")
+    discovery_url = os.getenv("PRAXO_OIDC_DISCOVERY_URL", "")
+    introspection_url = os.getenv("PRAXO_INTROSPECTION_URL", "")
+    client_id = os.getenv("PRAXO_INTROSPECTION_CLIENT_ID", "") or os.getenv(
+        "PRAXO_OIDC_CLIENT_ID", ""
+    )
+    client_secret = os.getenv(
+        "PRAXO_INTROSPECTION_CLIENT_SECRET", ""
+    ) or os.getenv("PRAXO_OIDC_CLIENT_SECRET", "")
+    if introspection_url:
+        return IntrospectionVerifier(
+            url=introspection_url,
+            issuer=issuer,
+            discovery_url=discovery_url,
+            client_id=client_id,
+            client_secret=client_secret,
+            tenant_claim=tenant_claim,
+            timeout=timeout,
+        ).verify
     if issuer:
         audience = os.getenv("PRAXO_OIDC_AUDIENCE", "")
         if not audience:
             raise SystemExit("PRAXO_OIDC_AUDIENCE is required")
+        jwks_url = os.getenv("PRAXO_OIDC_JWKS_URL", "")
         verifier = OidcVerifier(
             issuer,
             audience,
-            jwks_url=os.getenv("PRAXO_OIDC_JWKS_URL", ""),
-            discovery_url=os.getenv("PRAXO_OIDC_DISCOVERY_URL", ""),
-            tenant_claim=os.getenv("PRAXO_OIDC_TENANT_CLAIM", "tenant"),
-            timeout=float(os.getenv("PRAXO_OIDC_TIMEOUT", "2")),
+            jwks_url=jwks_url,
+            discovery_url=discovery_url,
+            tenant_claim=tenant_claim,
+            timeout=timeout,
         )
         return verifier.verify
     return None
@@ -427,9 +449,26 @@ def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--addr", default="127.0.0.1:8080")
     parser.add_argument("--print-token", nargs=2, metavar=("SUBJECT", "TENANT"))
+    parser.add_argument("--revoke-token", metavar="TOKEN")
     parser.add_argument("--ttl", type=int, default=3600)
     args = parser.parse_args()
     secret = os.getenv("PRAXO_SERVICE_SECRET", "")
+    if args.revoke_token:
+        revoke_token(
+            args.revoke_token,
+            url=os.getenv("PRAXO_REVOCATION_URL", ""),
+            issuer=os.getenv("PRAXO_OIDC_ISSUER", ""),
+            discovery_url=os.getenv("PRAXO_OIDC_DISCOVERY_URL", ""),
+            client_id=os.getenv("PRAXO_INTROSPECTION_CLIENT_ID", "")
+            or os.getenv("PRAXO_OIDC_CLIENT_ID", ""),
+            client_secret=os.getenv(
+                "PRAXO_INTROSPECTION_CLIENT_SECRET", ""
+            )
+            or os.getenv("PRAXO_OIDC_CLIENT_SECRET", ""),
+            timeout=float(os.getenv("PRAXO_OIDC_TIMEOUT", "2")),
+        )
+        print("token revoked")
+        return
     if args.print_token:
         if not secret:
             raise SystemExit("PRAXO_SERVICE_SECRET is required")
