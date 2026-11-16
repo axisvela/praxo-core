@@ -59,6 +59,42 @@ func TestRetryMiddlewareZeroValueDoesNotRetry(t *testing.T) {
 	}
 }
 
+type sideEffectTool struct {
+	effects int
+}
+
+func (s *sideEffectTool) Name() string        { return "charge" }
+func (s *sideEffectTool) Description() string { return "records a non-idempotent effect" }
+func (s *sideEffectTool) Invoke(context.Context, map[string]any) (any, error) {
+	s.effects++
+	return nil, errors.New("connection reset after request")
+}
+
+func TestRetryMiddlewareWithoutShouldRetryRepeatsNonIdempotentEffect(t *testing.T) {
+	inner := &sideEffectTool{}
+	wrapped := Wrap(inner, Retry(RetryPolicy{Attempts: 3}))
+	if _, err := wrapped.Invoke(context.Background(), nil); err == nil {
+		t.Fatal("expected error")
+	}
+	if inner.effects != 3 {
+		t.Fatalf("effects = %d, want the documented 3 attempts", inner.effects)
+	}
+}
+
+func TestRetryMiddlewareShouldRetryPreventsUnknownEffectDuplicate(t *testing.T) {
+	inner := &sideEffectTool{}
+	wrapped := Wrap(inner, Retry(RetryPolicy{
+		Attempts:    3,
+		ShouldRetry: func(error) bool { return false },
+	}))
+	if _, err := wrapped.Invoke(context.Background(), nil); err == nil {
+		t.Fatal("expected error")
+	}
+	if inner.effects != 1 {
+		t.Fatalf("effects = %d, want 1", inner.effects)
+	}
+}
+
 type cancelRetryTool struct {
 	cancel   context.CancelFunc
 	attempts int

@@ -8,7 +8,11 @@ import (
 )
 
 // RetryPolicy controls retries around a tool invocation. The zero value
-// performs a single attempt.
+// performs a single attempt. When Attempts > 1 and ShouldRetry is nil, every
+// error is retried. A transport, timeout, or cancellation error does not prove
+// that a non-idempotent tool produced no effect. Supply a ShouldRetry predicate
+// that returns false for unknown outcomes, or use an idempotency key or status
+// lookup, before enabling retries for a side-effecting tool.
 type RetryPolicy struct {
 	Attempts    int
 	BaseDelay   time.Duration
