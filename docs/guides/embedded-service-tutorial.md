@@ -145,6 +145,21 @@ Run its deterministic tests with:
 npm test
 ```
 
+## Java and C# Authenticated Variants
+
+The Java and C# service examples also support RFC 7662 introspection and RFC 7009
+revocation:
+
+- set `PRAXO_INTROSPECTION_URL`, `PRAXO_INTROSPECTION_CLIENT_ID`, and
+  `PRAXO_INTROSPECTION_CLIENT_SECRET` to verify `Authorization: Bearer` opaque
+  tokens;
+- use `--revoke-token TOKEN` with `PRAXO_REVOCATION_URL` to revoke a token;
+- the tenant comes from `PRAXO_OIDC_TENANT_CLAIM` (default `tenant`);
+- OIDC/JWKS verification is not included in these two examples.
+
+The tests use loopback introspection and revocation endpoints; no external
+identity provider is required.
+
 ## Other Language Examples
 
 Every declared Core ships a `language/<language>/examples/service` example. The

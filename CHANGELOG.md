@@ -94,6 +94,8 @@
   `--revoke-token` CLI path.
 - Go `embedded-service-auth` adds RFC 7662 token introspection and RFC 7009
   revocation, with provider discovery and an `--revoke-token` CLI path.
+- Java and C# service examples add RFC 7662 introspection and RFC 7009
+  revocation with loopback tests and an `--revoke-token` CLI path.
 
 ### Changed
 

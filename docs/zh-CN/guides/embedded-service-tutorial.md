@@ -135,6 +135,18 @@ curl -s http://127.0.0.1:8080/run \
 npm test
 ```
 
+## Java 与 C# 认证变体
+
+Java 和 C# 服务示例也支持 RFC 7662 introspection 与 RFC 7009 撤销：
+
+- 设置 `PRAXO_INTROSPECTION_URL`、`PRAXO_INTROSPECTION_CLIENT_ID` 和
+  `PRAXO_INTROSPECTION_CLIENT_SECRET` 后验证 `Authorization: Bearer` 不透明 Token；
+- 设置 `PRAXO_REVOCATION_URL` 后使用 `--revoke-token TOKEN` 撤销；
+- 租户从 `PRAXO_OIDC_TENANT_CLAIM`（默认 `tenant`）读取；
+- 这两个示例不包含 OIDC/JWKS 验证。
+
+测试使用 loopback introspection/revocation 端点，不需要外部身份提供商。
+
 ## 其他语言示例
 
 每种已声明 Core 都提供 `language/<language>/examples/service` 示例。下表列出在仓库根目录运行的

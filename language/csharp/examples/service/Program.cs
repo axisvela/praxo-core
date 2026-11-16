@@ -16,15 +16,61 @@ public static class Program
             Console.WriteLine("service test: ok");
             return 0;
         }
+        if (args.Length > 1 && args[0] == "--revoke-token")
+        {
+            var revokeUrl = Environment.GetEnvironmentVariable("PRAXO_REVOCATION_URL") ?? "";
+            if (revokeUrl.Length == 0)
+            {
+                Console.Error.WriteLine("PRAXO_REVOCATION_URL is required");
+                return 1;
+            }
+            RevocationClient.RevokeAsync(
+                args[1],
+                new HttpClient { Timeout = AuthTimeout() },
+                revokeUrl,
+                EnvOr("PRAXO_INTROSPECTION_CLIENT_ID",
+                    Environment.GetEnvironmentVariable("PRAXO_OIDC_CLIENT_ID") ?? ""),
+                EnvOr("PRAXO_INTROSPECTION_CLIENT_SECRET",
+                    Environment.GetEnvironmentVariable("PRAXO_OIDC_CLIENT_SECRET") ?? ""))
+                .GetAwaiter().GetResult();
+            Console.WriteLine("token revoked");
+            return 0;
+        }
 
+        var tenant = EnvOr("PRAXO_TENANT", "local");
         var model = new OpenAiCompatibleModel(new HttpClient(), new OpenAiCompatibleOptions
         {
             BaseUrl = EnvOr("PRAXO_BASE_URL", "http://localhost:11434/v1"),
             ApiKey = Environment.GetEnvironmentVariable("PRAXO_API_KEY") ?? "",
             Model = EnvOr("PRAXO_MODEL", "llama3.2"),
         });
-        Serve("127.0.0.1", 8080, CreateAgent(model), EnvOr("PRAXO_TENANT", "local"));
+        Serve("127.0.0.1", 8080, CreateAgent(model), CreateAuthenticator(tenant));
         return 0;
+    }
+
+    private static IRequestAuthenticator CreateAuthenticator(string tenant)
+    {
+        var url = Environment.GetEnvironmentVariable("PRAXO_INTROSPECTION_URL") ?? "";
+        if (url.Length > 0)
+        {
+            return new IntrospectionAuthenticator(
+                new HttpClient { Timeout = AuthTimeout() },
+                url,
+                EnvOr("PRAXO_INTROSPECTION_CLIENT_ID",
+                    Environment.GetEnvironmentVariable("PRAXO_OIDC_CLIENT_ID") ?? ""),
+                EnvOr("PRAXO_INTROSPECTION_CLIENT_SECRET",
+                    Environment.GetEnvironmentVariable("PRAXO_OIDC_CLIENT_SECRET") ?? ""),
+                EnvOr("PRAXO_OIDC_TENANT_CLAIM", "tenant"));
+        }
+        return new ContextAuthenticator(tenant);
+    }
+
+    private static TimeSpan AuthTimeout()
+    {
+        var raw = Environment.GetEnvironmentVariable("PRAXO_OIDC_TIMEOUT") ?? "";
+        return short.TryParse(raw, out var seconds) && seconds > 0
+            ? TimeSpan.FromSeconds(seconds)
+            : TimeSpan.FromSeconds(2);
     }
 
     public static Agent CreateAgent(IModel model)
@@ -96,6 +142,7 @@ public static class Program
 
     private static void RunDeterministicTest()
     {
+        RunIntrospectionTests();
         var agent = CreateAgent(new FakeModel());
         var health = HandleRequest(agent, "local", "GET", "/healthz", null, "");
         if (health.Status != 200)
@@ -120,7 +167,78 @@ public static class Program
         }
     }
 
-    private static void Serve(string host, int port, Agent agent, string tenant)
+    private static void RunIntrospectionTests()
+    {
+        var now = DateTimeOffset.UtcNow;
+        var expires = now.AddMinutes(1).ToUnixTimeSeconds();
+        var active = new IntrospectionAuthenticator(
+            new HttpClient(new FakeHandler(_ => JsonResponse(
+                $$"""{"active":true,"sub":"user-1","tenant":"local","exp":{{expires}}}"""))),
+            "https://id.example.com/introspect", "", "", "tenant");
+        var principal = active.Authenticate(null, "Bearer opaque", now);
+        if (principal is null
+            || principal.Subject != "user-1"
+            || principal.Tenant != "local")
+        {
+            throw new InvalidOperationException("introspection active path failed");
+        }
+
+        var inactive = new IntrospectionAuthenticator(
+            new HttpClient(new FakeHandler(_ => JsonResponse("""{"active":false}"""))),
+            "https://id.example.com/introspect", "", "", "tenant");
+        if (inactive.Authenticate(null, "Bearer opaque", now) is not null)
+        {
+            throw new InvalidOperationException("inactive token was accepted");
+        }
+
+        var missingExp = new IntrospectionAuthenticator(
+            new HttpClient(new FakeHandler(_ => JsonResponse(
+                """{"active":true,"sub":"user-1","tenant":"local"}"""))),
+            "https://id.example.com/introspect", "", "", "tenant");
+        if (missingExp.Authenticate(null, "Bearer opaque", now) is not null)
+        {
+            throw new InvalidOperationException("missing expiration was accepted");
+        }
+
+        var unavailable = new IntrospectionAuthenticator(
+            new HttpClient(new FakeHandler(_ => new HttpResponseMessage(
+                HttpStatusCode.ServiceUnavailable))),
+            "https://id.example.com/introspect", "", "", "tenant");
+        if (unavailable.Authenticate(null, "Bearer opaque", now) is not null)
+        {
+            throw new InvalidOperationException("unavailable provider was accepted");
+        }
+
+        RevocationClient.RevokeAsync(
+            "opaque",
+            new HttpClient(new FakeHandler(_ => new HttpResponseMessage(HttpStatusCode.OK))),
+            "https://id.example.com/revoke", "", "").GetAwaiter().GetResult();
+        try
+        {
+            RevocationClient.RevokeAsync(
+                "opaque",
+                new HttpClient(new FakeHandler(_ => new HttpResponseMessage(
+                    HttpStatusCode.ServiceUnavailable))),
+                "https://id.example.com/revoke", "", "").GetAwaiter().GetResult();
+            throw new InvalidOperationException("revocation failure was accepted");
+        }
+        catch (InvalidOperationException error)
+            when (error.Message == "token revocation failed")
+        {
+        }
+    }
+
+    private static HttpResponseMessage JsonResponse(string json)
+        => new(HttpStatusCode.OK)
+        {
+            Content = new StringContent(json, Encoding.UTF8, "application/json"),
+        };
+
+    private static void Serve(
+        string host,
+        int port,
+        Agent agent,
+        IRequestAuthenticator authenticator)
     {
         var listener = new TcpListener(IPAddress.Parse(host), port);
         listener.Start();
@@ -128,11 +246,14 @@ public static class Program
         while (true)
         {
             var client = listener.AcceptTcpClient();
-            ThreadPool.QueueUserWorkItem(_ => ServeClient(client, agent, tenant));
+            ThreadPool.QueueUserWorkItem(_ => ServeClient(client, agent, authenticator));
         }
     }
 
-    private static void ServeClient(TcpClient client, Agent agent, string tenant)
+    private static void ServeClient(
+        TcpClient client,
+        Agent agent,
+        IRequestAuthenticator authenticator)
     {
         using (client)
         using (var stream = client.GetStream())
@@ -160,8 +281,17 @@ public static class Program
                 var length = headersByName.TryGetValue("Content-Length", out var value)
                     && int.TryParse(value, out var parsed) ? parsed : 0;
                 var body = ReadBody(stream, remainder, length);
-                var principal = headersByName.GetValueOrDefault("X-Praxo-Principal");
-                var (status, response) = HandleRequest(agent, tenant, method, path, principal, body);
+                var principalHeader = headersByName.GetValueOrDefault("X-Praxo-Principal");
+                var authorization = headersByName.GetValueOrDefault("Authorization");
+                var principal = authenticator.Authenticate(
+                    principalHeader, authorization, DateTimeOffset.UtcNow);
+                if (principal is null)
+                {
+                    WriteResponse(stream, 401, new JsonObject { ["error"] = "unauthorized" });
+                    return;
+                }
+                var (status, response) = HandleRequest(
+                    agent, principal.Tenant, method, path, principal.Subject, body);
                 WriteResponse(stream, status, response);
             }
             catch (Exception)
@@ -252,5 +382,20 @@ public static class Program
     {
         public Response Generate(Request request)
             => new() { Message = Message.Assistant("hello from the service") };
+    }
+
+    private sealed class FakeHandler : HttpMessageHandler
+    {
+        private readonly Func<HttpRequestMessage, HttpResponseMessage> _handler;
+
+        public FakeHandler(Func<HttpRequestMessage, HttpResponseMessage> handler)
+        {
+            _handler = handler;
+        }
+
+        protected override Task<HttpResponseMessage> SendAsync(
+            HttpRequestMessage request,
+            CancellationToken cancellationToken)
+            => Task.FromResult(_handler(request));
     }
 }
