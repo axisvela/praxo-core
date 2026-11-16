@@ -25,6 +25,18 @@ The `X-Praxo-Principal` header is an application context stand-in, not
 authentication. A production service must verify identity and derive the
 principal and tenant from trusted context.
 
+## Token Introspection and Revocation
+
+This example does not bundle an HTTP or TLS client, so RFC 7662 introspection
+and RFC 7009 revocation are not enabled by default. A production application
+should supply its own transport (for example `ureq` or a product HTTP client),
+verify `Authorization: Bearer` tokens, require `active`, `sub`, the tenant
+claim, and a future `exp`, and fail closed when the provider is unavailable.
+Keep revocation an explicit application decision.
+
+The Go, Python, TypeScript, Java, and C# service-auth examples show the same
+contract with their standard-library HTTP clients.
+
 ## Test
 
 ```bash
