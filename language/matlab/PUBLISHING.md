@@ -1,6 +1,6 @@
 # Publishing the MATLAB/Octave Core
 
-Source tag `matlab/v0.6.0`. The package is published on MATLAB File Exchange:
+Source tag `matlab/v0.7.0`. The package is published on MATLAB File Exchange:
 <https://www.mathworks.com/matlabcentral/fileexchange/185166-praxo-core>. It is
 not published to Octave Packages.
 
@@ -23,13 +23,28 @@ MATLAB release and enables only the host platform, not MATLAB Online or all OSes
 This is source execution evidence, not an installed-artifact test. The packager
 has not yet been independently executed in MATLAB.
 
-This creates `praxo-core-0.5.0.mltbx` containing `+praxo`, `README.md`,
+This creates `praxo-core-0.7.0.mltbx` containing `+praxo`, `README.md`,
 `LICENSE`, and `toolbox-image.png`. The image is
 `language/matlab/toolbox-image.png`; use it as the File Exchange thumbnail.
 
 MATLAB package names must be identifiers matching `[A-Za-z][A-Za-z0-9_]*`.
 Use `praxo_core` as the package name; keep `PRAXO-CORE` only as the display
 name. `package_toolbox.m` sets both accordingly.
+
+## Generated Upload ZIP (2026-11-16)
+
+MATLAB is not installed on the local workstation, so `package_toolbox.m` was
+not executed. A File Exchange ZIP upload package was generated from the same
+file set the packager uses:
+
+- `language/matlab/build/praxo-core-0.7.0.zip`
+- GitHub release asset: <https://github.com/axisvela/praxo-core/releases/download/matlab/v0.7.0/praxo-core-0.7.0.zip>
+- Contents: `+praxo/`, `README.md`, `LICENSE`, `toolbox-image.png`
+- Size: 132,811 bytes
+- SHA-256: `88243AFBB5AB9A5AADE4614196E030BF3D55249134A2A81513AEFEC8557F8D92`
+
+The ZIP is the upload artifact. Generate a `.mltbx` in MATLAB when a MATLAB
+runtime is available; do not claim MATLAB execution evidence from this ZIP.
 
 ## MATLAB File Exchange
 

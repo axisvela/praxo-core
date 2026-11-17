@@ -16,9 +16,10 @@ delegation. It does not delegate its behavior to Go or another language Core.
 
 MATLAB and Octave share the implementation in
 `language/matlab-octave-core/+praxo`. The Octave package root and source tag
-live in `language/octave` (`octave/v0.6.0`). Local validation uses GNU Octave
-11.3.0; MATLAB compatibility is a target, not yet independently verified. The
-source tag does not imply production readiness or a delivery date.
+live in `language/octave` (`octave/v0.7.0`). Local validation uses GNU Octave
+11.3.0, including the shared service-auth test; native MATLAB compatibility is a
+target, not yet independently verified. The source tag does not imply production
+readiness or a delivery date.
 
 ## Registry and Coding-Agent Entry
 
