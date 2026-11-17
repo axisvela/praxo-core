@@ -46,6 +46,58 @@ file set the packager uses:
 The ZIP is the upload artifact. Generate a `.mltbx` in MATLAB when a MATLAB
 runtime is available; do not claim MATLAB execution evidence from this ZIP.
 
+## File Exchange Submission Text
+
+File Exchange shows the submission description, not the repository README or
+the README inside the ZIP. Use the following text in the submission Description
+field when uploading `praxo-core-0.7.0.zip`:
+
+```text
+PRAXO-CORE is an MIT-licensed embeddable agent framework for MATLAB. It provides
+a native agent loop, tool contracts, policy hooks, memory, checkpoints, context
+compaction, events, middleware, HITL decisions, MCP-shaped transport for a
+caller-owned client, OpenAI/Anthropic/Gemini adapters, Harmovela and OTel event
+sinks, retrieval, and synchronous subagent delegation.
+
+Install from File Exchange, or download the 0.7.0 ZIP from
+https://github.com/axisvela/praxo-core/releases/download/matlab/v0.7.0/praxo-core-0.7.0.zip
+and add the installed toolbox to the MATLAB path.
+
+Quickstart:
+  result = praxo.agent_run('Hi', @(request) struct('content', 'hello'), {}, struct());
+  disp(result.output)
+
+Examples (13 runnable examples in the repository):
+- consumer: deterministic model, tool, and allow/deny
+- live-model: OpenAI-compatible endpoint and get_time tool
+- service: transport-neutral HTTP handler
+- identity-policy: trusted principal and tenant checks
+- structured-output: schema validation and rejection
+- streaming: accumulated output reconstruction
+- retry: bounded transient retry
+- provider-fallback: primary failure and fallback
+- checkpoint: allowlist round trip
+- session-checkpoint: multi-turn history recovery
+- event-sink: filtered sink composition
+- mcp: caller-owned MCP-shaped transport
+- hitl: approve, edit, reject, and respond
+
+Example source and commands:
+https://github.com/axisvela/praxo-core/tree/main/language/matlab/examples
+
+Documentation:
+https://axisvela.github.io/praxo-core/languages/matlab/
+
+Limits: MATLAB runtime compatibility is unverified; current execution evidence
+is GNU Octave 11.3.0. The 13 examples are not bundled in the File Exchange
+toolbox. Commercial MATLAB releases, MATLAB Online, and OS-specific support are
+not claimed.
+```
+
+The current live File Exchange page is version 0.5.0 and will not change until
+a MathWorks account uploads the 0.7.0 ZIP and updates the Description field.
+Uploading the ZIP alone may leave the visible description unchanged.
+
 ## MATLAB File Exchange
 
 The live submission's release/platform labels remain unverified; source changes
