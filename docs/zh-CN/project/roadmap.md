@@ -153,6 +153,8 @@ PRAXO-CORE 继续定位为**可治理、可嵌入的 Agent 执行框架**。路�
 - [集成 Adapter](../integrations/index.md)
 - [Plugin 指南](../guides/plugins.md)
 - [多 Agent 模式](../guides/multi-agent.md)
+- [代表性链路教程](../guides/representative-chain-tutorial.md)，包含 Go 真实模型
+  链路和 Python/TypeScript 确定性对应链路
 - `examples/` 下的 `reference`、`governed-workspace`、`checkpoint`、`plugin` 和
   `recipes` 示例
 
