@@ -118,6 +118,8 @@ name the version that was actually installed.
 - Windows symlink containment when the test host cannot create symlinks.
 - Test results for a different commit, tag, binary, or dependency resolution.
 - Package-registry availability inferred from a source tag.
+- An all-green CI status. Cancelled, failed, or not-run jobs are not passes;
+  use the recorded CI links and their stated limits.
 
 ## Reporting A Gap
 
