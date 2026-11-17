@@ -130,6 +130,14 @@ A runnable approval example is in [`examples/hitl/`](examples/hitl/).
 
 Public declarations are inventoried in [`api/0.5.0.txt`](api/0.5.0.txt).
 
+## Representative Flows
+
+- [Representative chain](examples/representative-chain/): deterministic MCP
+  record, final-argument authorization, child delegation, OTel/Harmovela events,
+  and an edited denial with zero effects.
+- [Advanced delegation](examples/advanced-delegation/): application-level
+  parent/child scope plus six governance negative checks.
+
 ## Anthropic and Gemini Adapters
 
 `newAnthropicCompatible` and `newGeminiCompatible` provide native model adapters
