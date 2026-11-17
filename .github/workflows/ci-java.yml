@@ -57,6 +57,8 @@ jobs:
       - run: java -cp target/classes:target/test-classes com.axisvela.praxo.jsonschema.JsonSchemaSelfTest
       - run: java -cp target/classes:target/test-classes com.axisvela.praxo.checkpoint.CheckpointSelfTest
       - run: java -cp target/classes:target/test-classes com.axisvela.praxo.middleware.PiiMiddlewareSelfTest
+      - run: javac -cp target/classes -d build/representative-chain examples/representative-chain/src/main/java/representativechain/RepresentativeChain.java
+      - run: java -cp target/classes:build/representative-chain representativechain.RepresentativeChain
 
   current-java-consumer:
     runs-on: ${{ matrix.os }}

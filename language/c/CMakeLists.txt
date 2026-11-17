@@ -92,6 +92,10 @@ add_executable(praxo-c-delegation-governance-tests
     tests/test_delegation_governance.c)
 target_link_libraries(praxo-c-delegation-governance-tests PRIVATE praxo_core)
 
+add_executable(praxo-c-representative-chain-tests
+    tests/test_representative_chain.c)
+target_link_libraries(praxo-c-representative-chain-tests PRIVATE praxo_core)
+
 if(MSVC)
     target_compile_options(praxo-c-tests PRIVATE /UNDEBUG)
     target_compile_options(praxo-c-core-tests PRIVATE /UNDEBUG)
@@ -105,6 +109,7 @@ if(MSVC)
     target_compile_options(praxo-c-retriever-tests PRIVATE /UNDEBUG)
     target_compile_options(praxo-c-delegation-tests PRIVATE /UNDEBUG)
     target_compile_options(praxo-c-delegation-governance-tests PRIVATE /UNDEBUG)
+    target_compile_options(praxo-c-representative-chain-tests PRIVATE /UNDEBUG)
 else()
     target_compile_options(praxo-c-tests PRIVATE -UNDEBUG)
     target_compile_options(praxo-c-core-tests PRIVATE -UNDEBUG)
@@ -118,6 +123,7 @@ else()
     target_compile_options(praxo-c-retriever-tests PRIVATE -UNDEBUG)
     target_compile_options(praxo-c-delegation-tests PRIVATE -UNDEBUG)
     target_compile_options(praxo-c-delegation-governance-tests PRIVATE -UNDEBUG)
+    target_compile_options(praxo-c-representative-chain-tests PRIVATE -UNDEBUG)
 endif()
 
 add_test(NAME praxo-conformance COMMAND praxo-conformance)
@@ -134,6 +140,8 @@ add_test(NAME praxo-c-retriever-tests COMMAND praxo-c-retriever-tests)
 add_test(NAME praxo-c-delegation-tests COMMAND praxo-c-delegation-tests)
 add_test(NAME praxo-c-delegation-governance-tests
     COMMAND praxo-c-delegation-governance-tests)
+add_test(NAME praxo-c-representative-chain-tests
+    COMMAND praxo-c-representative-chain-tests)
 
 if(BUILD_TESTING)
     find_package(Python3 3.10 REQUIRED COMPONENTS Interpreter)

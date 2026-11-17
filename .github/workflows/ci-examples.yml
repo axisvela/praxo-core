@@ -281,6 +281,7 @@ jobs:
       - run: sudo apt-get install -y gnucobol r-base-core
       - run: Rscript language/r/examples/checkpoint/checkpoint.R
       - run: Rscript language/r/examples/advanced-delegation/test_governance.R
+      - run: Rscript language/r/examples/representative-chain/chain.R
       - run: python language/cobol/examples/checkpoint/build.py
       - run: gcc -std=c11 -I language/c/include language/c/examples/event-sink/main.c language/c/build/libpraxo_core.a -lm -o language/c/build/c-event-sink
       - run: language/c/build/c-event-sink

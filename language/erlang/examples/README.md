@@ -14,6 +14,8 @@
 - [`mcp/`](mcp/): stdio MCP client with a deterministic server.
 - [`provider-fallback/`](provider-fallback/): fallback model after a primary
   failure.
+- [`representative-chain/`](representative-chain/): deterministic MCP, governed
+  child delegation, OTel/Harmovela events, and edited denial.
 - [`retry/`](retry/): retry transient model failures.
 - [`service/`](service/): application-owned HTTP service shape.
 - [`streaming/`](streaming/): streaming callbacks.

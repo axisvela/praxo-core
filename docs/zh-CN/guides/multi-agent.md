@@ -75,6 +75,8 @@ done, err := manager.Wait(ctx, task.ID)
 [`examples/representative-chain`](https://github.com/axisvela/praxo-core/tree/main/examples/representative-chain)
 使用真实本地模型串联 MCP 工具、最终参数授权、受治理子代理委派、OTel span 和
 Harmovela 事件，并检查编辑后拒绝路径零效果。未设置 `PRAXO_OLLAMA_MODEL` 时跳过。
+其余十五种 wired 语言在各自的 representative-chain 示例或原生测试套件中有确定性
+对应链路。
 
 ## 可选编排模块
 

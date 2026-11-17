@@ -45,6 +45,7 @@ internal static class Program
         HarmovelaSinkTests.Run();
         _passed += OtelSinkTests.Run();
         _passed += DelegationTests.Run();
+        _passed += RepresentativeChainTests.Run();
         _passed += RetrieverTests.Run();
         TestParallelTools();
         TestModelCancellation();

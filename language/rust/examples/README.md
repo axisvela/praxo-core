@@ -25,6 +25,9 @@
   policy, and a deterministic check.
 - [`identity-policy/`](identity-policy/): bind a trusted principal to policy and
   reject effects before execution.
+- [`representative-chain/`](representative-chain/): deterministic scripted
+  model, in-process MCP record tool, governed child delegation, OTel/Harmovela
+  event sinks, and edited denial with zero effects.
 
 The deterministic examples use published crate `praxo-core = "0.9.1"`. The
 `live-model` example uses the repository source because `http-ureq` is not in the

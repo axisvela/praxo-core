@@ -185,7 +185,8 @@ Turn the first run into one useful local application, such as:
 - [Plugin guide](../guides/plugins.md)
 - [Multi-agent patterns](../guides/multi-agent.md)
 - [Representative chain tutorial](../guides/representative-chain-tutorial.md),
-  with the Go real-model chain and deterministic Python/TypeScript counterparts
+  with the Go real-model chain and deterministic counterparts across the wired
+  languages
 - Examples under `examples/`, including `reference`, `governed-workspace`,
   `checkpoint`, `plugin`, and `recipes`
 

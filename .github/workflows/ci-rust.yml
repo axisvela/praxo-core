@@ -35,3 +35,5 @@ jobs:
       - run: cargo run --quiet --bin conformance
       - run: python api-snapshot.py --check
       - run: python -m unittest discover -s tests -p "test_*.py" -v
+      - run: cargo run --quiet
+        working-directory: language/rust/examples/representative-chain

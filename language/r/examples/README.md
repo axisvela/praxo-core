@@ -22,6 +22,9 @@
 - [`retry/`](retry/): retry transient model failures with bounded attempts.
 - [`identity-policy/`](identity-policy/): bind a trusted principal to policy and
   reject effects before execution.
+- [`representative-chain/`](representative-chain/): deterministic scripted
+  model, in-memory MCP record tool, governed child delegation, OTel/Harmovela
+  event sinks, and edited denial with zero effects.
 
 The examples install the published `praxocore` package or run against the
 repository source. They do not require a source checkout for installation.
