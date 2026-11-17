@@ -492,6 +492,9 @@ ag, err := agent.New(agent.Options{
 })
 ```
 
+Supplying a `memory.Store` alone does not inject records; `Recall: true` is
+required. Other Core SDKs currently do not auto-recall.
+
 Recalled records are injected as untrusted historical user data, not as system
 instructions, and the recall block names the frame and source when available.
 Memory content must not be able to raise its own instruction authority. See the

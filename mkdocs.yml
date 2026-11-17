@@ -83,6 +83,7 @@ plugins:
             Checkpoint and Continuation: Checkpoint 与续跑
             Long-Running Operations: 长时操作
             Multi-Agent: 多 Agent 模式
+            Representative Chain Tutorial: 代表性链路教程
             Plugins: 插件编写
             Language Implementations: 语言实现
             Implementation Directory: 实现目录
@@ -181,6 +182,7 @@ nav:
       - Checkpoint and Continuation: guides/checkpoint-continuation.md
       - Long-Running Operations: guides/long-running-operations.md
       - Multi-Agent: guides/multi-agent.md
+      - Representative Chain Tutorial: guides/representative-chain-tutorial.md
       - Plugins: guides/plugins.md
   - Language Implementations:
       - Implementation Directory: languages/index.md

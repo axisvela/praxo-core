@@ -2,7 +2,12 @@
 name = "praxo-advanced-delegation"
 version = "0.1.0"
 edition = "2021"
+default-run = "praxo-advanced-delegation"
 
 [dependencies]
 serde_json = "1"
 praxo-core = "0.9.1"
+
+[[bin]]
+name = "governance"
+path = "src/governance_main.rs"

@@ -15,6 +15,27 @@ graph、handoff、supervisor、共享状态或 Agent registry 运行时；下文
 - `flow.Chain` 和 `flow.Parallel`：通用 Runnable 组合
 - 单 Agent 步骤内的并行工具调用
 
+## 应用级委派治理
+
+`SubagentManager` 与 `SubagentRunner` 本身不会自动继承或收窄权限。应用在启动子
+Agent 前必须：
+
+- 将子工具范围计算为父可委派范围的子集；
+- 组合父策略与子策略，二者都允许才放行；
+- 在兄弟任务之间共享累计工具/效果预算；
+- 限制子任务数量和深度；
+- 将取消与 deadline 传播到子上下文；
+- 在 middleware、HITL 编辑或 hook 之后重新授权最终工具参数。
+
+Go `examples/multiagent/governance_test.go`、Python
+`language/python/examples/advanced-delegation/test_governance.py`、TypeScript
+`language/typescript/examples/advanced-delegation/governance.test.js`、Java
+`language/java/examples/advanced-delegation/src/main/java/advanceddelegation/GovernanceSelfTest.java`、
+C# `language/csharp/examples/advanced-delegation/GovernanceSelfTest.cs`、Rust
+`language/rust/examples/advanced-delegation/src/governance_main.rs` 和 R
+`language/r/examples/advanced-delegation/test_governance.R` 展示了这些负向检查。它们是应用级示例，不是 Core 委派 profile 或公开 API 保证。未知效果、
+持久 worker 和跨服务预算仍由应用负责。
+
 ## 未内置
 
 - graph 与子图执行
@@ -47,6 +68,10 @@ done, err := manager.Wait(ctx, task.ID)
 ```
 
 路由器与 `SubagentRunner` 由产品提供；框架负责任务生命周期和可观察状态。
+
+[`examples/representative-chain`](https://github.com/axisvela/praxo-core/tree/main/examples/representative-chain)
+使用真实本地模型串联 MCP 工具、最终参数授权、受治理子代理委派、OTel span 和
+Harmovela 事件，并检查编辑后拒绝路径零效果。未设置 `PRAXO_OLLAMA_MODEL` 时跳过。
 
 ## 可选编排模块
 

@@ -18,8 +18,13 @@ deny: parent record blocked; child effect unchanged
 
 The example is deterministic and does not need a model endpoint. It verifies
 that the child effect runs once and a separately configured parent policy denies
-direct recording. It does not test automatic permission inheritance, hostile
-child scope expansion, shared budgets, or cancellation propagation.
+direct recording.
+
+`governance.test.js` adds application-level negative checks for hostile child
+scope expansion, policy composition, depth and child limits, shared sibling
+budgets, cancellation before effects, and final-argument reauthorization. These
+checks are application-owned; the published Core API does not inherit or narrow
+authority automatically.
 
 This is not the Go `pkg/agent/delegation` contract. It is an application-level
 orchestration pattern; durable workers, remote task queues, retries, and effect

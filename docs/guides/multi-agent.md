@@ -16,6 +16,29 @@ supervisor and sequential composition without durable workflow semantics.
 - `flow.Chain` and `flow.Parallel`: generic runnable composition
 - Parallel tool execution inside one agent step
 
+## Application-Level Delegation Governance
+
+`SubagentManager` and `SubagentRunner` do not inherit or narrow authority by
+themselves. Before launching a child, the application must:
+
+- compute the child tool scope as a subset of the parent's delegable scope;
+- compose the parent policy with the child policy so both must allow;
+- share one cumulative tool/effect budget across siblings;
+- cap child count and depth;
+- propagate cancellation and deadlines to child contexts;
+- reauthorize final tool arguments after middleware, HITL edits, or hooks.
+
+The Go `examples/multiagent/governance_test.go`, Python
+`language/python/examples/advanced-delegation/test_governance.py`, TypeScript
+`language/typescript/examples/advanced-delegation/governance.test.js`, Java
+`language/java/examples/advanced-delegation/src/main/java/advanceddelegation/GovernanceSelfTest.java`,
+C# `language/csharp/examples/advanced-delegation/GovernanceSelfTest.cs`, Rust
+`language/rust/examples/advanced-delegation/src/governance_main.rs`, and R
+`language/r/examples/advanced-delegation/test_governance.R` demonstrate these
+negative checks. They are application-level examples, not a Core
+delegation profile or a public API guarantee. Unknown effects, durable workers,
+and cross-service budgets remain application responsibilities.
+
 ## What Is Not Built In
 
 - graph and subgraph execution
@@ -51,6 +74,11 @@ done, err := manager.Wait(ctx, task.ID)
 
 A product supplies the router and `SubagentRunner`; the framework owns the task
 lifecycle and observable state.
+
+[`examples/representative-chain`](https://github.com/axisvela/praxo-core/tree/main/examples/representative-chain)
+runs a real local model through an MCP tool, final-argument authorization,
+governed child delegation, OTel spans, and Harmovela events, then checks a
+denied edit for zero effects. It skips when `PRAXO_OLLAMA_MODEL` is unset.
 
 ## Optional Composition Module
 

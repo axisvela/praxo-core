@@ -68,6 +68,12 @@ wire 名称保留现有大小写，包括 `model.ContentBlock` 中的 `image_url
 记忆按帧类型化：事件、决策、经验、过程、工作区状态、约束、意图。框架不规定
 保留或准入策略；由适配器决定。
 
+`memory.Store` 是存储与检索接口，不是自动提示词注入。仅提供 Store 不会让 Agent
+召回记录。Go 需要显式设置 `agent.Options.Recall`；其他 Core SDK 目前只提供 Memory
+Store 与 `MemoryFiles`/`AGENTS.md` 加载，不做自动召回。启用召回时，记录会以不可信
+历史数据呈现，并带帧/来源标签，不得变成 system 指令。若某 SDK 增加召回，必须保持
+同样的边界并补两轮负向回归。
+
 ## 事件契约
 
 事件是生命周期事实，不是日志。使用方可以将它们发布到 Harmovela 或持久化到

@@ -40,8 +40,23 @@
 
 ## [Unreleased]
 
+### Changed
+
+- Clarified that `memory.Store` is storage/retrieval and does not inject records
+  by default; Go recall remains opt-in, and other Core SDKs do not auto-recall.
+  Added a Go regression for the default no-recall boundary.
+
 ### Added
 
+- Application-level governed delegation negative checks for Go, Python,
+  TypeScript, Java, C#, Rust, and R covering child scope narrowing, parent/child
+  policy composition, shared sibling budgets, child/depth limits, cancellation
+  before effects, and final-argument reauthorization. No public Core API or
+  wire change.
+- Representative Go end-to-end chain (`examples/representative-chain`) using a
+  real local Ollama model, MCP tool, final-argument authorization, governed
+  child delegation, OTel spans, Harmovela loopback events, and a denied-edit
+  zero-effect check. The test skips when `PRAXO_OLLAMA_MODEL` is unset.
 - Opt-in `require_policy`/`require_tool_scope` safe-default guards (and their
   idiomatic casing per language) across the native Core agent APIs: Go, Python,
   TypeScript, Java, Rust, C#, R, Ruby, PHP, Elixir, Lua, Perl, Erlang, C, C++,

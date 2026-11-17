@@ -170,7 +170,9 @@ ag, err := agent.New(agent.Options{
 })
 ```
 
-参见
+仅提供 `memory.Store` 不会注入记录；必须显式设置 `Recall: true`。其他 Core SDK
+目前不做自动召回。召回内容按不可信历史数据处理，不是 system 指令；其来源和帧标签
+不能提升自身指令权限。参见
 [Mnemovela Core 示例](https://github.com/axisvela/praxo-core/tree/main/examples/ecosystem-sdk/mnemovela)。
 
 ## GNOSIVELA

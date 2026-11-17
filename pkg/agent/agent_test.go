@@ -465,6 +465,23 @@ func (denyToolPolicy) Authorize(_ context.Context, action policy.Action) (policy
 	return policy.Decision{Allowed: false, Reason: "tool denied"}, nil
 }
 
+func TestMemoryStoreWithoutRecallDoesNotInject(t *testing.T) {
+	mem := &fakeMemory{records: []memory.Record{{
+		Frame:   memory.FrameExperience,
+		Content: "use tabs",
+	}}}
+	m := &requestModel{}
+	ag := &Agent{Model: m, Memory: mem}
+	if _, err := ag.Run(context.Background(), Session{ID: "s1"}, "style?"); err != nil {
+		t.Fatal(err)
+	}
+	for _, msg := range m.req.Messages {
+		if strings.Contains(msg.Content, "use tabs") {
+			t.Fatalf("memory store injected without recall: %+v", m.req.Messages)
+		}
+	}
+}
+
 func TestRecallCannotElevateToolAuthorization(t *testing.T) {
 	mem := &fakeMemory{records: []memory.Record{{
 		Frame:   memory.FrameEvent,

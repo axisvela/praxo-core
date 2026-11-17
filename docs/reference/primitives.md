@@ -73,6 +73,14 @@ Memory is typed by frame: event, decision, experience, procedure, workspace
 state, constraint, intention. The framework does not dictate retention or
 admission; adapters do.
 
+`memory.Store` is a storage and retrieval interface, not automatic prompt
+injection. Supplying a store does not make an agent recall records. Go requires
+`agent.Options.Recall`; the other Core SDKs currently expose memory stores and
+`MemoryFiles`/`AGENTS.md` loading but do not auto-recall. When recall is enabled,
+records are rendered as untrusted historical data with frame/source labels and
+must not become system instructions. Adding recall to another SDK requires the
+same boundary and a two-run negative regression.
+
 ## Event Contract
 
 Events are lifecycle facts, not logs. Consumers may publish them to Harmovela

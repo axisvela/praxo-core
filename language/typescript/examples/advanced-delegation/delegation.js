@@ -61,9 +61,11 @@ class ParentOnlyTool {
     this.description = "A tool that must remain outside the child scope.";
     this.risk = "write";
     this.parameters = { type: "object", properties: {} };
+    this.calls = 0;
   }
 
   async invoke() {
+    this.calls += 1;
     return "parent-effect";
   }
 }
@@ -192,4 +194,11 @@ if (require.main === module) {
   });
 }
 
-module.exports = { buildChild, buildParent, run };
+module.exports = {
+  FixtureModel,
+  ParentOnlyTool,
+  RecordTool,
+  buildChild,
+  buildParent,
+  run,
+};

@@ -53,6 +53,10 @@ Context is managed in layers:
 
 - `Options.MemoryFiles` loads `AGENTS.md` content into the system prompt at
   construction time, bounded by `MaxAgentsMDBytes`.
+- `Options.Recall` is opt-in. Supplying `Options.Memory` without `Recall: true`
+  performs memory writes but does not inject records into the prompt. Recalled
+  records are labeled as untrusted historical data, never system instructions.
+  Other Core SDKs currently expose memory stores without automatic recall.
 - `ContextBudget` deterministically keeps recent turns and tool-call/result
   pairs under an estimated token bound.
 - `ContextCompactor` can summarize older turns before the deterministic pass;

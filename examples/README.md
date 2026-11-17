@@ -23,6 +23,7 @@ mirror repositories.
 - [Multi-turn checkpoint recovery](session-checkpoint/): save, reload, and continue a conversation.
 - [Plugin](plugin/): plugin host and example plugin.
 - [Multi-agent](multiagent/): local delegation patterns.
+- [Representative chain](representative-chain/): real local model through MCP, final authorization, delegation, OTel/Harmovela events, and denial zero effect.
 - [Recipes](recipes/): focused integration recipes.
 - [Ecosystem](ecosystem/): optional ecosystem adapters.
 

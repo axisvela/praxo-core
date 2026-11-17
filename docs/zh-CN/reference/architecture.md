@@ -27,7 +27,8 @@ Agent 循环仅依赖其所需的接口。插件宿主、HTTP 客户端、调度
 profile 均不能证明满足这些要求。
 
 1. 启动运行，应用运行中间件，并发出 `run.started`。
-2. 从系统提示词、召回的记忆、技能、会话消息和用户提示词构建提示词。
+2. 从系统提示词、按需召回的记忆（启用 `Options.Recall` 时）、技能、会话消息和
+   用户提示词构建提示词。
 3. 每一步：
    - 授权模型生成；
    - 配置了 `ContextBudget` 时压缩提示词；
@@ -49,6 +50,9 @@ profile 均不能证明满足这些要求。
 
 - `Options.MemoryFiles` 在构造时将 `AGENTS.md` 内容加载到系统提示词中，受
   `MaxAgentsMDBytes` 限制。
+- `Options.Recall` 为显式开启。仅提供 `Options.Memory` 而不设置 `Recall: true`
+  会执行记忆写入，但不会把记录注入提示词。召回记录标记为不可信历史数据，而不是
+  system 指令。其他 Core SDK 目前提供 Memory Store，但不做自动召回。
 - `ContextBudget` 确定性地将最近轮次和工具调用/结果对保持在估算的 token
   上限内。
 - `ContextCompactor` 可以在确定性处理之前摘要较早的轮次；`ModelSummarizer`

@@ -6,6 +6,7 @@ import (
 	"encoding/json"
 	"net/http"
 	"net/http/httptest"
+	"os"
 	"strings"
 	"testing"
 )
@@ -49,4 +50,18 @@ func TestRunAgainstOpenAICompatibleFixture(t *testing.T) {
 	if !strings.Contains(output.String(), "hello from the fixture") {
 		t.Fatalf("unexpected output: %q", output.String())
 	}
+}
+
+func TestRunAgainstLiveEndpoint(t *testing.T) {
+	if os.Getenv("PRAXO_LIVE_TEST") != "1" {
+		t.Skip("set PRAXO_LIVE_TEST=1 and configure PRAXO_BASE_URL/PRAXO_MODEL")
+	}
+	var output bytes.Buffer
+	if err := run(context.Background(), &output); err != nil {
+		t.Fatal(err)
+	}
+	if strings.TrimSpace(output.String()) == "" {
+		t.Fatal("empty live model output")
+	}
+	t.Logf("live output: %s", strings.TrimSpace(output.String()))
 }

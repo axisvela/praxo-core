@@ -6,7 +6,7 @@
   "description": "Published-package PRAXO-CORE application-level delegation example.",
   "scripts": {
     "start": "node delegation.js",
-    "test": "node delegation.js"
+    "test": "node delegation.js && node --test governance.test.js"
   },
   "dependencies": {
     "@axisvela/praxo-core": "0.8.0"

@@ -119,6 +119,9 @@ jobs:
         working-directory: language/go/examples/live-model/go
       - run: GOWORK=off go test ./examples/hitl
       - run: GOWORK=off go run ./examples/session-checkpoint
+      - run: GOWORK=off go test ./examples/multiagent
+      - run: GOWORK=off go test ./...
+        working-directory: examples/representative-chain
 
   example-sdks:
     runs-on: ubuntu-latest
@@ -277,6 +280,7 @@ jobs:
       - run: sudo apt-get update
       - run: sudo apt-get install -y gnucobol r-base-core
       - run: Rscript language/r/examples/checkpoint/checkpoint.R
+      - run: Rscript language/r/examples/advanced-delegation/test_governance.R
       - run: python language/cobol/examples/checkpoint/build.py
       - run: gcc -std=c11 -I language/c/include language/c/examples/event-sink/main.c language/c/build/libpraxo_core.a -lm -o language/c/build/c-event-sink
       - run: language/c/build/c-event-sink
@@ -390,13 +394,19 @@ jobs:
         working-directory: language/python/examples/advanced-delegation
       - run: python delegation.py
         working-directory: language/python/examples/advanced-delegation
+      - run: python -m unittest test_governance.py -v
+        working-directory: language/python/examples/advanced-delegation
       - run: npm install --no-audit --no-fund
         working-directory: language/typescript/examples/advanced-delegation
-      - run: npm start
+      - run: npm test
         working-directory: language/typescript/examples/advanced-delegation
       - run: mvn -q -f language/java/examples/advanced-delegation/pom.xml compile exec:java
+      - run: mvn -q -f language/java/examples/advanced-delegation/pom.xml compile exec:java -Dexec.args=governance
       - run: dotnet run --project language/csharp/examples/advanced-delegation/AdvancedDelegation.csproj
+      - run: dotnet run --project language/csharp/examples/advanced-delegation/AdvancedDelegation.csproj -- --governance
       - run: cargo run --quiet
+        working-directory: language/rust/examples/advanced-delegation
+      - run: cargo run --quiet --bin governance
         working-directory: language/rust/examples/advanced-delegation
 
   current-go-consumer:

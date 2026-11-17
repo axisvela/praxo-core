@@ -186,8 +186,12 @@ public static class Program
         }
     }
 
-    public static int Main()
+    public static int Main(string[] args)
     {
+        if (args.Contains("--governance"))
+        {
+            return GovernanceSelfTest.Run();
+        }
         var record = new RecordTool();
         var result = BuildParent(record).Run(
             new Session("advanced-delegation-parent"),

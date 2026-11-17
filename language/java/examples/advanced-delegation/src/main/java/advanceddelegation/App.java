@@ -215,6 +215,10 @@ public final class App {
     }
 
     public static void main(String[] args) throws Exception {
+        if (args.length > 0 && "governance".equals(args[0])) {
+            GovernanceSelfTest.run(System.out);
+            return;
+        }
         run(System.out);
     }
 }
