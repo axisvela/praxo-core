@@ -40,7 +40,8 @@
 | PHP 已发布包 | Packagist 从 split 标签 `v0.8.1` 发布 `axisvela/praxo-core==0.8.1`；更早版本仍可用 | Registry 发布 | 当前环境无 Composer，未记录 `0.8.1` 的 Composer 安装 smoke；修复 fallback 路径后源码模式 Starter 本地通过，已记录的 registry Starter 安装覆盖 `0.4.1`；仅一个平台；不是独立消费者；不含 provider 或生产证据 |
 | C# 已发布包 | `Praxo.Core==0.9.1` 由 GitHub Actions Trusted Publishing 从源码标签 `csharp/v0.9.1` 完成构建、测试、打包并推送到 NuGet | CI + registry | 当前 restore/代理环境执行干净 `dotnet add package` 报 `NU1100`，未获得消费者安装 smoke；不含 provider 或生产证据 |
 | MATLAB File Exchange 包 | `PRAXO-CORE 0.5.0` 是 File Exchange 条目 `185166` 的已发布版本；源码标签 `matlab/v0.7.0` 已存在，0.7.0 上传仍待完成 | Registry 发布 | 未记录 MATLAB 运行时验证和消费者安装 smoke；Octave 验证不能证明 MATLAB 行为 |
-| PowerShell Core | PowerShell Gallery 已发布 `praxo-core-ps==0.7.0`。CI 构建 C# Core，运行 C# conformance/behavior 套件、包装 smoke 和 PowerShell API snapshot | Registry + contract/unit + CI | 共享 C# 运行时，不是独立 agent loop；行为证据继承自 C# Core；尚无消费者安装 smoke 或 provider 证据 |
+| PowerShell Core | PowerShell Gallery 已发布 `praxo-core-ps==0.7.1`。CI 构建 C# Core，运行 C# conformance/behavior 套件、包装 smoke 和 PowerShell API snapshot。2026-11-17 已验证发布页显示模块介绍、Quickstart、starter 和 examples 链接 | Registry + contract/unit + CI | 共享 C# 运行时，不是独立 agent loop；行为证据继承自 C# Core；尚无消费者安装 smoke 或 provider 证据 |
+| Perl 已发布包 | CPAN 已从源码标签 `perl/v0.6.1` 发布 `Praxo-Core==0.6.1`。MetaCPAN 于 2026-11-17 索引该版本，摘要为 “Embeddable AI agent framework with tool calling and policy hooks for Perl”。发布工作流在上传前运行 conformance、API snapshot、原生测试、`make test` 和 `make dist` | Registry 发布 + 发布工作流 + MetaCPAN 索引 | 仅一个平台；未记录发布后的 `cpanm` 消费者安装；不是独立消费者；不含 provider 或生产证据 |
 | Elixir 已发布包 | Hex 已从源码标签 `elixir/v0.9.1` 发布 `praxo_core==0.9.1`。临时 `HEX_HOME`/`MIX_HOME` 拉取并编译包，发布包消费者输出 `allow: recorded; effects=1` 与 `deny: policy rejected; effects=0` | Registry 发布 + Hex 拉取/编译 + 发布包消费者 | 仅一个平台；不是独立消费者；MCP/OTP 服务嵌入、真实 provider 往返、发布反馈与升级留存仍未验证 |
 | Erlang 已发布包 | Hex 已从源码标签 `erlang/v0.8.1` 发布 `praxo_core_erlang==0.8.1`。临时 `HEX_HOME`/`MIX_HOME` 拉取后 `rebar3 compile` 成功，发布包消费者输出 allow 一次效果与 deny 零效果 | Registry 发布 + Hex 拉取/rebar3 编译 + 发布包消费者 | 仅一个平台；非独立消费者；MCP/OTP 服务嵌入、真实 provider 往返与发布反馈仍未验证 |
 | D 已发布包 | DUB/code.dlang.org 当前列出版本 `praxo-core==0.4.0`；源码标签 `d/v0.6.0` 更新，DUB 刷新仍待完成 | Registry 元数据 | 未对 `0.4.0` 执行编译或独立消费者 smoke；不含 provider 或生产证据 |
@@ -79,7 +80,8 @@ Registry 链接指向当前已发布版本；上表的消费者 smoke 行指明�
 - [Hex 上的 praxo_core 0.9.1](https://hex.pm/packages/praxo_core/0.9.1)
 - [NuGet 上的 Praxo.Core 0.9.1](https://www.nuget.org/packages/Praxo.Core/0.9.1)
 - [Packagist 上的 axisvela/praxo-core 0.8.1](https://packagist.org/packages/axisvela/praxo-core)
-- [PowerShell Gallery 上的 praxo-core-ps 0.7.0](https://www.powershellgallery.com/packages/praxo-core-ps/0.7.0)
+- [PowerShell Gallery 上的 praxo-core-ps 0.7.1](https://www.powershellgallery.com/packages/praxo-core-ps/0.7.1)
+- [MetaCPAN 上的 Praxo-Core 0.6.1](https://metacpan.org/release/Praxo-Core-0.6.1)
 - [Hex 上的 praxo_core_erlang 0.8.1](https://hex.pm/packages/praxo_core_erlang/0.8.1)
 - [DUB 上的 praxo-core 0.4.0](https://code.dlang.org/packages/praxo-core)
 - [Maven Central 上的 com.axisvela:praxo-core 0.10.0](https://repo1.maven.org/maven2/com/axisvela/praxo-core/0.10.0/)
