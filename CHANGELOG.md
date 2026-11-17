@@ -45,6 +45,10 @@
 - Clarified that `memory.Store` is storage/retrieval and does not inject records
   by default; Go recall remains opt-in, and other Core SDKs do not auto-recall.
   Added a Go regression for the default no-recall boundary.
+- Recorded local Ollama live-model checks for Go, Python, and TypeScript with a
+  `get_time` tool call. The Python check used an injected `http.client`
+  transport because standard `urllib` hangs in the local environment; this is
+  not the documented adapter path.
 
 ### Added
 
