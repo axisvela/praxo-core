@@ -315,9 +315,9 @@
     "published_version": "0.6.0",
     "registry": "CPAN (MetaCPAN index)",
     "source_install": "cpanm Praxo::Core",
-    "source_version": "0.6.0",
+    "source_version": "0.6.1",
     "status": "published on CPAN; install smoke not recorded",
-    "tag": "perl/v0.6.0",
+    "tag": "perl/v0.6.1",
     "tier": "Core",
     "url": "https://metacpan.org/dist/Praxo-Core"
   },

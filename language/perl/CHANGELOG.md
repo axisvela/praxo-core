@@ -1,6 +1,8 @@
 # Perl Core Release Notes
 
-## Unreleased
+## 0.6.1 - 2026-11-17
+
+Source tag `perl/v0.6.1`.
 
 ### Changed
 
