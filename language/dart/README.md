@@ -29,7 +29,7 @@ reference implementation.
 ## Examples
 
 The pub package ships a minimal [`example/`](example) and links the full
-repository examples. Thirteen runnable themes live under
+repository examples. Fifteen runnable themes live under
 [`language/dart/examples`](https://github.com/axisvela/praxo-core/tree/main/language/dart/examples):
 
 | Example | What it shows |
@@ -47,6 +47,8 @@ repository examples. Thirteen runnable themes live under
 | [streaming](https://github.com/axisvela/praxo-core/tree/main/language/dart/examples/streaming) | Chunk accumulation |
 | [mcp](https://github.com/axisvela/praxo-core/tree/main/language/dart/examples/mcp) | MCP transport example |
 | [hitl](https://github.com/axisvela/praxo-core/tree/main/language/dart/examples/hitl) | Approval, edit, and reauthorization |
+| [representative-chain](https://github.com/axisvela/praxo-core/tree/main/language/dart/examples/representative-chain) | MCP record, delegation, OTel/Harmovela, denied edit |
+| [advanced-delegation](https://github.com/axisvela/praxo-core/tree/main/language/dart/examples/advanced-delegation) | Parent/child scope and six governance checks |
 
 These are deterministic local checks, not live-provider or production evidence.
 
