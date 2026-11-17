@@ -56,6 +56,14 @@ assert praxo.validate_schema(schema, praxo.parse_json('"aaa"') or { panic(err) }
 
 Public declarations are inventoried in [`api/0.4.0.txt`](api/0.4.0.txt).
 
+## Representative Flows
+
+- [Representative chain](examples/representative-chain/): deterministic MCP
+  record, final-argument authorization, child delegation, OTel/Harmovela events,
+  and an edited denial with zero effects.
+- [Advanced delegation](examples/advanced-delegation/): application-level
+  parent/child scope plus six governance negative checks.
+
 ## OpenAI-Compatible Adapter
 
 `openai_compatible` and `openai_compatible_with_options` build a non-streaming
