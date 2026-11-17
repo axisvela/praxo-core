@@ -5,6 +5,77 @@
 > matrix has been independently validated. File Exchange compatibility labels
 > are not test evidence; do not use them as a production support promise.
 
+## Package
+
+| Field | Value |
+| --- | --- |
+| Package | `PRAXO-CORE` (MATLAB toolbox) |
+| Source tag | `matlab/v0.7.0` |
+| File Exchange | [entry 185166](https://www.mathworks.com/matlabcentral/fileexchange/185166-praxo-core) |
+| Install | File Exchange Add-On, or the release ZIP / source path |
+| License | MIT |
+| Contract | `SPEC_VERSION` `0.2.0` |
+| Documentation | https://axisvela.github.io/praxo-core/languages/matlab/ |
+
+## Install and Quickstart
+
+Install the toolbox from File Exchange, or unzip the release package and add the
+installed toolbox to the MATLAB path. From a source checkout:
+
+```matlab
+addpath('language/matlab-octave-core');
+result = praxo.agent_run('Hi', @(request) struct('content', 'hello'), {}, struct());
+disp(result.output)
+```
+
+For an OpenAI-compatible endpoint, pass the adapter as the model:
+
+```matlab
+options = struct('baseUrl', 'https://api.openai.com/v1', ...
+    'model', 'gpt-4o-mini', 'apiKey', getenv('PRAXO_API_KEY'));
+model = @(request) praxo.openai_compatible(request, options);
+result = praxo.agent_run('Hi', model, {}, struct());
+```
+
+The File Exchange ZIP contains the `+praxo` Core. The 13 runnable examples remain
+in the repository and are not bundled in the toolbox.
+
+## Examples
+
+| Theme | Example | What it shows |
+| --- | --- | --- |
+| Consumer | [consumer](https://github.com/axisvela/praxo-core/tree/main/language/matlab/examples/consumer) | Deterministic model, tool, and allow/deny |
+| Live model | [live-model](https://github.com/axisvela/praxo-core/tree/main/language/matlab/examples/live-model) | OpenAI-compatible endpoint and `get_time` tool |
+| HTTP service | [service](https://github.com/axisvela/praxo-core/tree/main/language/matlab/examples/service) | Transport-neutral request handler |
+| Identity and policy | [identity-policy](https://github.com/axisvela/praxo-core/tree/main/language/matlab/examples/identity-policy) | Trusted principal and tenant checks |
+| Structured output | [structured-output](https://github.com/axisvela/praxo-core/tree/main/language/matlab/examples/structured-output) | Schema validation and rejection |
+| Streaming | [streaming](https://github.com/axisvela/praxo-core/tree/main/language/matlab/examples/streaming) | Accumulated output reconstruction |
+| Retry | [retry](https://github.com/axisvela/praxo-core/tree/main/language/matlab/examples/retry) | Bounded transient retry |
+| Provider fallback | [provider-fallback](https://github.com/axisvela/praxo-core/tree/main/language/matlab/examples/provider-fallback) | Primary failure and fallback |
+| Checkpoint | [checkpoint](https://github.com/axisvela/praxo-core/tree/main/language/matlab/examples/checkpoint) | Allowlist round trip |
+| Session checkpoint | [session-checkpoint](https://github.com/axisvela/praxo-core/tree/main/language/matlab/examples/session-checkpoint) | Multi-turn history recovery |
+| Event sink | [event-sink](https://github.com/axisvela/praxo-core/tree/main/language/matlab/examples/event-sink) | Filtered sink composition |
+| MCP | [mcp](https://github.com/axisvela/praxo-core/tree/main/language/matlab/examples/mcp) | Caller-owned MCP-shaped transport |
+| HITL | [hitl](https://github.com/axisvela/praxo-core/tree/main/language/matlab/examples/hitl) | Approve, edit, reject, and respond |
+
+Each example directory has a README with the exact `octave-cli` or
+`matlab -batch` command and expected output. Examples are currently validated
+under GNU Octave; native MATLAB execution remains unverified.
+
+## Capabilities
+
+| Capability | Status |
+| --- | --- |
+| OpenAI-compatible model | native |
+| Anthropic model | native |
+| Gemini model | native |
+| MCP | transport-neutral caller-owned client |
+| Harmovela sink | native |
+| OpenTelemetry sink | native transport seam |
+| Retriever | native seam |
+| Subagent delegation | synchronous seam |
+| Memory, checkpoint, policy, HITL | native Core-local |
+
 Native MATLAB Core implementation with source tag `matlab/v0.7.0`. It is
 published on
 [MATLAB File Exchange](https://www.mathworks.com/matlabcentral/fileexchange/185166-praxo-core).
@@ -131,7 +202,7 @@ extensions; the shared parity inventory remains unchanged.
 
 praxo.anthropic_compatible(request, options) and
 praxo.gemini_compatible(request, options) map the native Messages and
-generateContent APIs. Both accept an injected 	ransport for deterministic
+generateContent APIs. Both accept an injected transport for deterministic
 tests.
 
 ## Harmovela Event Sink
