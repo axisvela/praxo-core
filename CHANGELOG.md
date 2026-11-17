@@ -65,8 +65,8 @@
   zero-effect check. The test skips when `PRAXO_OLLAMA_MODEL` is unset.
   Deterministic counterparts now cover the other wired languages: Python,
   TypeScript, Java, C#, Rust, R, C, C++, Fortran, COBOL, PHP, Ruby, Elixir,
-  Erlang, and Lua. They use in-memory or transport-seam MCP, OTel, and Harmovela
-  seams.
+  Erlang, Lua, Perl, V, Nim, and Dart. They use in-memory or transport-seam MCP,
+  OTel, and Harmovela seams.
 - Opt-in `require_policy`/`require_tool_scope` safe-default guards (and their
   idiomatic casing per language) across the native Core agent APIs: Go, Python,
   TypeScript, Java, Rust, C#, R, Ruby, PHP, Elixir, Lua, Perl, Erlang, C, C++,
