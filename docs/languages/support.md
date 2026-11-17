@@ -121,7 +121,7 @@ Registry values below were checked against the public registries on 2026-11-14.
 | Nim | `nim/v0.6.0` | Split repository package `0.1.1`; nim-lang/packages PR #3600 merged 2026-11-05; nimpkgs re-crawl pending | Not recorded |
 | OCaml | `ocaml/v0.8.0` | opam `0.3.0`; PR #31222 closed after opam-ci failure; new submission needed | Not recorded |
 | Haskell | `haskell/v0.7.0` | Hackage `praxo-core==0.7.0` published | Not recorded |
-| Delphi / Free Pascal | `delphi/v0.7.0` | OPM assets published; maintainer submission pending | Not recorded |
+| Delphi / Free Pascal | `delphi/v0.7.0` | 0.7.0 OPM assets published; OPM listing pending | Not recorded |
 
 ### Registry freshness against code
 
@@ -151,7 +151,7 @@ its latest version matches the manifest at the release tag.
 | Nim | `0.6.0` | Split repository package `0.1.1` | pending |
 | OCaml | `0.8.0` | opam registry `0.3.0`; PR #31222 closed (`0.8.0`) | new submission needed |
 | Swift | `0.7.0` | SPI `0.7.0` | current |
-| Delphi / Free Pascal | `0.7.0` | OPM `0.2.1` | pending |
+| Delphi / Free Pascal | `0.7.0` | OPM `0.2.1`; 0.7.0 assets published | OPM listing pending |
 | D | `0.6.0` | DUB `0.4.0` | pending |
 
 Do not install a source-tag-only language from a registry, and do not assume a

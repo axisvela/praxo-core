@@ -8,8 +8,8 @@
     <Author Value="AxisVela"/>
     <Description Value="PRAXO-CORE native Free Pascal/Delphi Core: JSON, tool calls, JSON Schema subset, plugin manifests, policy, memory, checkpoints, context, middleware, events, and an agent loop."/>
     <License Value="MIT"/>
-    <Version Major="0" Minor="2" Release="1"/>
-    <Files Count="3">
+    <Version Major="0" Minor="7" Release="0"/>
+    <Files Count="11">
       <Item1>
         <Filename Value="praxo.pas"/>
         <UnitName Value="praxo"/>
@@ -22,6 +22,38 @@
         <Filename Value="praxo_agent.pas"/>
         <UnitName Value="praxo_agent"/>
       </Item3>
+      <Item4>
+        <Filename Value="praxo_anthropic.pas"/>
+        <UnitName Value="praxo_anthropic"/>
+      </Item4>
+      <Item5>
+        <Filename Value="praxo_delegation.pas"/>
+        <UnitName Value="praxo_delegation"/>
+      </Item5>
+      <Item6>
+        <Filename Value="praxo_gemini.pas"/>
+        <UnitName Value="praxo_gemini"/>
+      </Item6>
+      <Item7>
+        <Filename Value="praxo_harmovela.pas"/>
+        <UnitName Value="praxo_harmovela"/>
+      </Item7>
+      <Item8>
+        <Filename Value="praxo_mcp.pas"/>
+        <UnitName Value="praxo_mcp"/>
+      </Item8>
+      <Item9>
+        <Filename Value="praxo_openai.pas"/>
+        <UnitName Value="praxo_openai"/>
+      </Item9>
+      <Item10>
+        <Filename Value="praxo_otel.pas"/>
+        <UnitName Value="praxo_otel"/>
+      </Item10>
+      <Item11>
+        <Filename Value="praxo_retriever.pas"/>
+        <UnitName Value="praxo_retriever"/>
+      </Item11>
     </Files>
     <RequiredPkgs Count="1">
       <Item1>

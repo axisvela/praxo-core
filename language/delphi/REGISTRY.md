@@ -1,6 +1,6 @@
 # PRAXO-CORE Delphi / Free Pascal Registry Introduction
 
-**Status:** source release; OPM submission pending. Source version `0.7.0`, source
+**Status:** 0.7.0 OPM assets published; OPM listing pending. Source version `0.7.0`, source
 tag `delphi/v0.7.0`. Published registry version: `0.2.1`. Registry
 pages are release snapshots; verify the published version before relying on a
 feature.
@@ -14,7 +14,7 @@ Native Core implementation with source tag `delphi/v0.7.0`. It passes all eleven
 | Field | Value |
 | --- | --- |
 | Package | `PRAXO-CORE` |
-| Registry | [OPM / GitHub release](https://github.com/axisvela/praxo-core/releases/tag/delphi%2Fv0.2.1) |
+| Registry | [OPM / GitHub release](https://github.com/axisvela/praxo-core/releases/tag/delphi%2Fv0.7.0) |
 | Source version | `0.7.0` |
 | Published registry version | `0.2.1` |
 | Install (published) | `OPM package or release archive` |

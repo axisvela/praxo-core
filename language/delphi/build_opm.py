@@ -31,8 +31,9 @@ def main() -> None:
         shutil.rmtree(STAGE)
     STAGE.mkdir(parents=True)
 
-    for name in ("praxo.pas", "praxo_core.pas", "praxo_agent.pas", "praxo_core.lpk"):
-        shutil.copy2(ROOT / name, STAGE / name)
+    for source in sorted(ROOT.glob("praxo*.pas")):
+        shutil.copy2(source, STAGE / source.name)
+    shutil.copy2(ROOT / "praxo_core.lpk", STAGE / "praxo_core.lpk")
     shutil.copy2(ROOT / "README.md", STAGE / "README.md")
     shutil.copy2(ROOT / "LICENSE", STAGE / "LICENSE")
     api = ROOT / "api" / f"{version}.txt"

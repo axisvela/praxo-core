@@ -36,7 +36,7 @@ controls, checkpoints, and event tracing. It is not a Go-only framework.
 | R | `praxocore` | [r-universe](https://axisvela.r-universe.dev/praxocore) | `0.10.1` | https://axisvela.github.io/praxo-core/languages/r/ |
 | MATLAB | `PRAXO-CORE` | [MATLAB File Exchange](https://www.mathworks.com/matlabcentral/fileexchange/185166-praxo-core) | `0.5.0` | https://axisvela.github.io/praxo-core/languages/matlab/ |
 | GNU Octave | `praxo-core` | [Octave Packages](https://github.com/axisvela/praxo-core/releases/download/octave/v0.7.0/praxo-core-0.7.0.tar.gz) | `0.7.0` | https://axisvela.github.io/praxo-core/languages/octave/ |
-| Delphi / Free Pascal | `PRAXO-CORE` | [OPM / GitHub release](https://github.com/axisvela/praxo-core/releases/tag/delphi%2Fv0.2.1) | `0.2.1` | https://axisvela.github.io/praxo-core/languages/delphi/ |
+| Delphi / Free Pascal | `PRAXO-CORE` | [OPM / GitHub release](https://github.com/axisvela/praxo-core/releases/tag/delphi%2Fv0.7.0) | `0.2.1` | https://axisvela.github.io/praxo-core/languages/delphi/ |
 | Objective-C | `praxo-core-objc` | Source | not published | https://axisvela.github.io/praxo-core/languages/objc/ |
 | C | `praxo-core-c` | Source / CMake | not published | https://axisvela.github.io/praxo-core/languages/c/ |
 | C++ | `praxo-core-cpp` | Source / CMake | not published | https://axisvela.github.io/praxo-core/languages/cpp/ |

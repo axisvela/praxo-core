@@ -91,7 +91,7 @@ Bridge、Sample 描述运行时的接入方式，不证明其语言缺乏 Framew
 | Nim | `nim/v0.6.0` | split 仓库包 `0.1.1`；nim-lang/packages PR #3600 已于 2026-11-05 合并；nimpkgs 待重新抓取 | 未记录 |
 | OCaml | `ocaml/v0.8.0` | opam `0.3.0`；PR #31222 因 opam-ci 失败已关闭，需要重新提交 | 未记录 |
 | Haskell | `haskell/v0.7.0` | Hackage `praxo-core==0.7.0` 已发布 | 未记录 |
-| Delphi / Free Pascal | `delphi/v0.7.0` | OPM 资产已发布；维护者提交待完成 | 未记录 |
+| Delphi / Free Pascal | `delphi/v0.7.0` | 0.7.0 OPM 资产已发布；OPM 收录待完成 | 未记录 |
 
 ### 注册表相对代码的新旧状态
 
@@ -121,7 +121,7 @@ Bridge、Sample 描述运行时的接入方式，不证明其语言缺乏 Framew
 | Nim | `0.6.0` | split 仓库包 `0.1.1` | 待完成 |
 | OCaml | `0.8.0` | opam registry `0.3.0`；PR #31222 已关闭（`0.8.0`） | 需要重新提交 |
 | Swift | `0.7.0` | SPI `0.7.0` | 已最新 |
-| Delphi / Free Pascal | `0.7.0` | OPM `0.2.1` | 待完成 |
+| Delphi / Free Pascal | `0.7.0` | OPM `0.2.1`；0.7.0 资产已发布 | OPM 收录待完成 |
 | D | `0.6.0` | DUB `0.4.0` | 待完成 |
 
 不要从注册表安装只有源码标签的语言，也不要假设注册表包包含源码标签的最新行为。

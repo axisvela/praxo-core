@@ -7,7 +7,7 @@
 ## Package
 
 - package: `PRAXO-CORE`
-- registry: [OPM / GitHub release](https://github.com/axisvela/praxo-core/releases/tag/delphi%2Fv0.2.1)
+- registry: [OPM / GitHub release](https://github.com/axisvela/praxo-core/releases/tag/delphi%2Fv0.7.0)
 - source_version: `0.7.0`
 - published_version: `0.2.1`
 - install_published: `OPM package or release archive`

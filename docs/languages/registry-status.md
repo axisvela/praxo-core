@@ -59,7 +59,7 @@ GitHub Latest represents the Go Reference Core only, not the last language packa
 | Octave | Octave Packages | `0.7.0` | https://github.com/axisvela/praxo-core/releases/tag/octave%2Fv0.7.0 | 0.7.0 release tarball published; package index PR pending |
 | OCaml | opam | `0.8.0` | https://github.com/ocaml/opam-repository/pull/31222 | split repo `0.8.0` tagged; registration PR open |
 | V | VPM | `0.6.0` | https://github.com/axisvela/praxo-core-v | split repo `0.6.0` tagged; VPM not indexed |
-| Delphi / Free Pascal | OPM / GitHub release | `0.2.1` | https://github.com/axisvela/praxo-core/releases/tag/delphi%2Fv0.2.1 | OPM assets published; maintainer submission pending |
+| Delphi / Free Pascal | OPM / GitHub release | `0.2.1` | https://github.com/axisvela/praxo-core/releases/tag/delphi%2Fv0.7.0 | 0.7.0 OPM assets published; OPM listing pending |
 
 ## Source-only or not published to a registry
 
