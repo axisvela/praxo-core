@@ -112,8 +112,10 @@ go clean -modcache
 loopback Harmovela server；子代理模型为确定性 fixture。它不证明远程 MCP 或
 Harmovela、独立复现、吞吐、故障恢复、exactly-once 或通用 prompt-injection 防护。
 
-Python 确定性对应链路位于
-[`language/python/examples/representative-chain`](https://github.com/axisvela/praxo-core/tree/main/language/python/examples/representative-chain)，
+Python 和 TypeScript 确定性对应链路位于
+[`language/python/examples/representative-chain`](https://github.com/axisvela/praxo-core/tree/main/language/python/examples/representative-chain)
+和
+[`language/typescript/examples/representative-chain`](https://github.com/axisvela/praxo-core/tree/main/language/typescript/examples/representative-chain)，
 覆盖相同的 MCP、授权、委派、OTel/Harmovela 和拒绝边界，但不需要真实 provider。
 
 更多证据和委派边界见[验证证据](../project/verification-evidence.md)和

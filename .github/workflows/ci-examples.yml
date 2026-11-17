@@ -404,6 +404,10 @@ jobs:
         working-directory: language/typescript/examples/advanced-delegation
       - run: npm test
         working-directory: language/typescript/examples/advanced-delegation
+      - run: npm install --no-audit --no-fund
+        working-directory: language/typescript/examples/representative-chain
+      - run: npm test
+        working-directory: language/typescript/examples/representative-chain
       - run: mvn -q -f language/java/examples/advanced-delegation/pom.xml compile exec:java
       - run: mvn -q -f language/java/examples/advanced-delegation/pom.xml compile exec:java -Dexec.args=governance
       - run: dotnet run --project language/csharp/examples/advanced-delegation/AdvancedDelegation.csproj

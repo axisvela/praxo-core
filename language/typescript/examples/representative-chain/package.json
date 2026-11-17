@@ -1,0 +1,14 @@
+{
+  "name": "praxo-representative-chain",
+  "version": "0.0.0",
+  "private": true,
+  "type": "commonjs",
+  "description": "Deterministic PRAXO-CORE representative chain with MCP, delegation, OTel, Harmovela, and denial checks.",
+  "scripts": {
+    "start": "node chain.js",
+    "test": "node chain.js"
+  },
+  "dependencies": {
+    "@axisvela/praxo-core": "0.8.0"
+  }
+}

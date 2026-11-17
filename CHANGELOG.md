@@ -56,9 +56,11 @@
 - Representative Go end-to-end chain (`examples/representative-chain`) using a
   real local Ollama model, MCP tool, final-argument authorization, governed
   child delegation, OTel spans, Harmovela loopback events, and a denied-edit
-  zero-effect check. The test skips when `PRAXO_OLLAMA_MODEL` is unset. A Python
-  deterministic counterpart (`language/python/examples/representative-chain`)
-  covers the same seams with in-memory MCP and sink transports.
+  zero-effect check. The test skips when `PRAXO_OLLAMA_MODEL` is unset. Python
+  and TypeScript deterministic counterparts
+  (`language/python/examples/representative-chain` and
+  `language/typescript/examples/representative-chain`) cover the same seams with
+  in-memory MCP and sink transports.
 - Opt-in `require_policy`/`require_tool_scope` safe-default guards (and their
   idiomatic casing per language) across the native Core agent APIs: Go, Python,
   TypeScript, Java, Rust, C#, R, Ruby, PHP, Elixir, Lua, Perl, Erlang, C, C++,
