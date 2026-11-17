@@ -35,9 +35,12 @@ The Go `examples/multiagent/governance_test.go`, Python
 C# `language/csharp/examples/advanced-delegation/GovernanceSelfTest.cs`, Rust
 `language/rust/examples/advanced-delegation/src/governance_main.rs`, and R
 `language/r/examples/advanced-delegation/test_governance.R` demonstrate these
-negative checks. They are application-level examples, not a Core
-delegation profile or a public API guarantee. Unknown effects, durable workers,
-and cross-service budgets remain application responsibilities.
+negative checks. The extended implementations C, C++, Fortran, COBOL, PHP, Ruby,
+Elixir, Erlang, and Lua add the same checks in their native test suites or
+example directories, so all sixteen wired languages have application-level
+negative checks. They are application-level examples, not a Core delegation
+profile or a public API guarantee. Unknown effects, durable workers, and
+cross-service budgets remain application responsibilities.
 
 ## What Is Not Built In
 

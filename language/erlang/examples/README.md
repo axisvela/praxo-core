@@ -1,5 +1,7 @@
 # Erlang Examples
 
+- [`advanced-delegation/`](advanced-delegation/): application-level governed
+  parent/child delegation.
 - [`consumer/`](consumer/): deterministic allow/deny governed tool path.
 - [`live-model/`](live-model/): OpenAI-compatible endpoint with one `get_time`
   tool over the OTP `httpc` client.

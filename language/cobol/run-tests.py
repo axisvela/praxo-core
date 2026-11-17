@@ -86,6 +86,7 @@ def main():
         "otel-tests": ["tests/otel.cob", "src/otel.cob", *json_sources],
         "retriever-tests": ["tests/retriever.cob", "src/retriever.cob"],
         "delegation-tests": ["tests/delegation.cob", "src/delegation.cob"],
+        "governance-tests": ["tests/governance.cob", "src/agent.cob"],
         "registry-tests": ["tests/registry.cob", "src/registry.cob"],
         "registry-agent-tests": ["tests/registry-agent.cob", "src/agent.cob", "src/registry.cob"],
         "core-tests": ["tests/run.cob", "src/agent.cob"],

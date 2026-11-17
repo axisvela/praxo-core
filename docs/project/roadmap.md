@@ -298,10 +298,11 @@ child a separately authorized `read_file` capability. Define non-bypassable
 parent-policy composition, shared cumulative budgets across siblings, child-count
 and depth limits, cancellation/deadline propagation, and final-argument
 reauthorization. Until implemented and versioned, enforcement is application-owned.
-Application-level negative tests in Go, Python, TypeScript, Java, C#, Rust, and R
-now cover scope narrowing, parent/child policy composition, shared sibling
-budgets, child/depth limits, cancellation before effects, and final-argument
-reauthorization. They do not provide Core-enforced inheritance; public API and
+All sixteen wired languages now have application-level negative tests covering
+scope narrowing, parent/child policy composition, shared sibling budgets,
+child/depth limits, cancellation before effects, and final-argument
+reauthorization. Extended implementations use native test suites or example
+directories. They do not provide Core-enforced inheritance; public API and
 profile work remain gated.
 
 Do not prioritize new ROS, workspace-provider, language, or generic asynchronous

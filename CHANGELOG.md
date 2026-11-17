@@ -48,11 +48,13 @@
 
 ### Added
 
-- Application-level governed delegation negative checks for Go, Python,
-  TypeScript, Java, C#, Rust, and R covering child scope narrowing, parent/child
-  policy composition, shared sibling budgets, child/depth limits, cancellation
-  before effects, and final-argument reauthorization. No public Core API or
-  wire change.
+- Application-level governed delegation negative checks for all sixteen wired
+  languages: Go, Python, TypeScript, Java, C#, Rust, R, C, C++, Fortran, COBOL,
+  PHP, Ruby, Elixir, Erlang, and Lua. They cover child scope narrowing,
+  parent/child policy composition, shared sibling budgets, child/depth limits,
+  cancellation before effects, and final-argument reauthorization. Extended
+  implementations use native test suites or example directories. No public Core
+  API or wire change.
 - Representative Go end-to-end chain (`examples/representative-chain`) using a
   real local Ollama model, MCP tool, final-argument authorization, governed
   child delegation, OTel spans, Harmovela loopback events, and a denied-edit

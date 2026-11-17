@@ -67,6 +67,9 @@ add_executable(praxo-cpp-mcp-tests tests/mcp.cpp)
 target_link_libraries(praxo-cpp-mcp-tests PRIVATE praxo_cpp)
 add_executable(praxo-cpp-seams-tests tests/seams.cpp)
 target_link_libraries(praxo-cpp-seams-tests PRIVATE praxo_cpp)
+add_executable(praxo-cpp-delegation-governance-tests
+    tests/delegation_governance.cpp)
+target_link_libraries(praxo-cpp-delegation-governance-tests PRIVATE praxo_cpp)
 
 add_test(NAME praxo-cpp-conformance COMMAND praxo-cpp-conformance)
 add_test(NAME praxo-cpp-tests COMMAND praxo-cpp-tests)
@@ -74,3 +77,5 @@ add_test(NAME praxo-cpp-harmovela-tests COMMAND praxo-cpp-harmovela-tests)
 add_test(NAME praxo-cpp-provider-tests COMMAND praxo-cpp-provider-tests)
 add_test(NAME praxo-cpp-mcp-tests COMMAND praxo-cpp-mcp-tests)
 add_test(NAME praxo-cpp-seams-tests COMMAND praxo-cpp-seams-tests)
+add_test(NAME praxo-cpp-delegation-governance-tests
+    COMMAND praxo-cpp-delegation-governance-tests)

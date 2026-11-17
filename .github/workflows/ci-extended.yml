@@ -38,6 +38,7 @@ jobs:
       - run: ruby language/ruby/conformance/run.rb
       - run: ruby language/ruby/api-snapshot.rb --check
       - run: ruby language/ruby/tests/run.rb
+      - run: ruby language/ruby/examples/advanced-delegation/governance_test.rb
 
   current-ruby-consumer:
     runs-on: ubuntu-latest
@@ -65,6 +66,7 @@ jobs:
       - run: php language/php/conformance/run.php
       - run: php language/php/conformance/run.php --check-api
       - run: php language/php/tests/run.php
+      - run: php language/php/examples/advanced-delegation/governance_test.php
 
   php-windows-conformance:
     runs-on: windows-latest
@@ -76,6 +78,7 @@ jobs:
       - run: php language/php/conformance/run.php
       - run: php language/php/conformance/run.php --check-api
       - run: php language/php/tests/run.php
+      - run: php language/php/examples/advanced-delegation/governance_test.php
 
   current-php-consumer:
     runs-on: ubuntu-latest
@@ -109,6 +112,7 @@ jobs:
       - run: elixirc -o language/elixir/build/ebin language/elixir/lib/praxo/*.ex language/elixir/lib/praxo/adapters/*.ex
       - run: elixir -pa language/elixir/build/ebin language/elixir/tests/run_tests.exs
       - run: elixir -pa language/elixir/build/ebin language/elixir/conformance/run.exs
+      - run: elixir -pa language/elixir/build/ebin language/elixir/examples/advanced-delegation/governance_test.exs
 
   current-elixir-consumer:
     runs-on: ubuntu-latest
@@ -138,6 +142,7 @@ jobs:
           python-version: "3.12"
       - run: python language/erlang/run-tests.py
       - run: python language/erlang/api-snapshot.py --check
+      - run: escript language/erlang/examples/advanced-delegation/governance.escript
 
   lua-conformance:
     runs-on: ubuntu-latest
@@ -147,6 +152,7 @@ jobs:
       - run: lua5.4 language/lua/conformance/run.lua
       - run: python3 language/lua/api-snapshot.py --check
       - run: lua5.4 language/lua/tests/run.lua
+      - run: lua5.4 language/lua/examples/advanced-delegation/governance.lua
       - name: Verify installed rock
         shell: bash
         run: |

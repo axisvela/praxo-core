@@ -71,7 +71,8 @@ def main():
               "mcp-tests": root / "tests" / "mcp.f90",
               "otel-tests": root / "tests" / "otel.f90",
               "retriever-tests": root / "tests" / "retriever.f90",
-              "delegation-tests": root / "tests" / "delegation.f90"}
+              "delegation-tests": root / "tests" / "delegation.f90",
+              "governance-tests": root / "tests" / "governance.f90"}
     for name, main_source in suites.items():
         executable = build / (name + (".exe" if os.name == "nt" else ""))
         subprocess.run(
