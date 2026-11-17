@@ -1,11 +1,15 @@
 # PRAXO-CORE Perl Core
 
-PRAXO-CORE is an embeddable, MIT-licensed agent framework. This distribution is
-its native Perl Core: an agent loop with tool registration and dispatch, policy
-hooks, human-in-the-loop interrupt decisions, typed events, memory, checkpoints,
-context budgets, middleware, OTel and Harmovela sinks, MCP, retriever and
-synchronous delegation seams, JSON Schema validation, and plugin manifest
-parsing.
+PRAXO-CORE is an embeddable, MIT-licensed AI agent framework. This distribution
+is its native Perl Core: an agent loop with tool registration and dispatch,
+policy hooks, human-in-the-loop interrupt decisions, typed events, memory,
+checkpoints, context budgets, middleware, OTel and Harmovela sinks, MCP,
+retriever and synchronous delegation seams, JSON Schema validation, and plugin
+manifest parsing.
+
+It is not an HTTP user agent, web crawler, or hosted AI agent service. HTTP is
+used by optional adapters to communicate with model providers and external
+services.
 
 The normative contract is [`spec/`](../../spec/README.md); Go remains the
 reference implementation.

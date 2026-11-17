@@ -1,5 +1,12 @@
 # Perl Core Release Notes
 
+## Unreleased
+
+### Changed
+
+- Clarified the CPAN classification: `Praxo::Core` is an embeddable AI agent
+  framework, not an HTTP user agent, web crawler, or hosted agent service.
+  Added `NAME` and `DESCRIPTION` POD and updated the Makefile abstract.
 
 ## 0.6.0 - 2026-11-15
 

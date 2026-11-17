@@ -102,8 +102,19 @@ class DocumentationTests(unittest.TestCase):
             page = (ROOT / "docs" / prefix / "getting-started/coding-agents.md").read_text(encoding="utf-8")
             self.assertIn("agent-integration.json", page)
             self.assertIn(entries["Go"]["version"], page)
+            for entry in entries.values():
+                self.assertIn(f"`{entry['package']}`", page, entry["language"])
+                self.assertIn(f"`{entry['version']}`", page, entry["language"])
         self.assertIn("getting-started/coding-agents.md", (ROOT / "mkdocs.yml").read_text(encoding="utf-8"))
         self.assertTrue((ROOT / "site/getting-started/agent-integration.json").is_file())
+
+    def test_perl_pod_classification(self):
+        source = (ROOT / "language/perl/lib/Praxo/Core.pm").read_text(encoding="utf-8")
+        self.assertIn("=head1 NAME", source)
+        self.assertIn("Embeddable AI agent framework for Perl", source)
+        self.assertIn("not an HTTP user agent", source)
+        makefile = (ROOT / "language/perl/Makefile.PL").read_text(encoding="utf-8")
+        self.assertIn("Embeddable AI agent framework", makefile)
 
     def test_registry_page_metadata(self):
         python_meta = tomllib.loads((ROOT / "language/python/pyproject.toml").read_text(encoding="utf-8"))

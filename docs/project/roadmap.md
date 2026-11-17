@@ -69,6 +69,13 @@ These are technical coverage groups, not investment priorities or support SLAs.
 Consumer demand may prioritize an implementation from any group without changing
 its declared capability or evidence level.
 
+Long-tail language work is evaluated as market experiments, not language-count
+expansion. The first candidates are PowerShell for existing Windows automation,
+Fortran for simulation workflows, COBOL for existing business systems, and
+Delphi / Free Pascal for existing applications. Each needs a named consumer and
+evidence that an embedded Core solves a real task better than external
+orchestration. A conformance pass or package publication is not adoption.
+
 ## Adoption Path
 
 | Stage | Developer outcome | Current state | Next result |
@@ -109,6 +116,9 @@ Within a few minutes, a developer can answer:
 - Separate "try the framework" from "verify a package" and "harden a deployment."
 - Describe language support in terms of what a developer can build, not only
   contract tier or test coverage.
+- Make each package description classify the project as an AI agent framework,
+  not an HTTP agent or hosted service, and keep coding-agent version maps
+  consistent with registry metadata.
 
 Contract status and evidence remain available in
 [Contract and Evidence Status](contract-status.md), but are not prerequisites for
@@ -311,9 +321,10 @@ action APIs without a named consumer and a concrete gap.
 
 ## Current Priorities
 
-1. Validate and prepare release of the Go memory-role fix, with migration notes,
-   two-run regressions, and an SDK impact audit. Do not present unreleased source
-   behavior as a published-package guarantee.
+1. Close the discovery and classification gap before adding languages: make
+   package descriptions say "AI agent framework" rather than ambiguous "agent",
+   keep the coding-agent package map generated from or checked against release
+   metadata, and record how external indexes classify the project.
 2. Validate one consumer-selected embedding path: deterministic install/run/deny,
    then a real provider tool call. Measure time, repairs, and author assistance.
 3. Seek one independent framework consumer and one third-party reproduction.

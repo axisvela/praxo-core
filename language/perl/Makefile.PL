@@ -6,7 +6,7 @@ WriteMakefile(
     NAME             => 'Praxo::Core',
     DISTNAME         => 'Praxo-Core',
     VERSION          => '0.6.0',
-    ABSTRACT         => 'Embeddable MIT-licensed agent framework for Perl',
+    ABSTRACT         => 'Embeddable AI agent framework with tool calling and policy hooks for Perl',
     AUTHOR           => 'AxisVela <releases@axisvela.com>',
     LICENSE          => 'mit',
     MIN_PERL_VERSION => '5.020',
