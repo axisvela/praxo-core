@@ -104,6 +104,7 @@ PRAXO_LIVE_TEST=1 PRAXO_BASE_URL=http://127.0.0.1:11434/v1 \
 | 模型不存在或 400 模型错误 | `PRAXO_MODEL` | 使用端点实际提供的模型 ID，不是包名或展示名；先拉取 Ollama 模型。 |
 | 请求挂起 | 端点、网络、模型大小 | 换更小的模型，检查代理/防火墙，并在示例代码中增加 Adapter 超时。live 示例没有独立超时环境变量。 |
 | Python `urllib` 或 Node `http`/`fetch` 对 loopback 挂起，但 `curl` 或 Python `http.client` 正常 | OS 代理/PAC、终端监控、运行时 | 用 `curl` 或 `http.client` 确认端点；检查 loopback 代理绕过和安全软件；换运行时或托管端点。Go 示例可用于判断端点本身是否正常。 |
+| 模型加载报 CLIP 或视觉模型错误 | 模型类型、本地内存、推理服务 | 改用非视觉且支持工具调用的模型（如 `qwen2.5:0.5b`），或释放内存并重启本地服务。该失败属于推理服务，不是 PRAXO-CORE。 |
 | 模型没有调用工具 | Prompt 与模型能力 | 明确要求使用 `get_time` 并传入 `zone`；小模型可能忽略工具或编造参数。 |
 | Tool Schema 或参数错误 | `zone` 参数 | 使用字符串时区，如 `UTC` 或 `Europe/Berlin`；不要传数字或空对象。 |
 | Policy 拒绝 | 工具范围 | live 示例只允许 `get_time`；其他工具被拒绝是预期行为，用消费者 Starter 验证拒绝路径。 |

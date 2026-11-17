@@ -123,6 +123,7 @@ denied call produces no tool effect:
 | Model not found or 400 model error | `PRAXO_MODEL` | Use the exact model id served by the endpoint, not the package name or a display name. Pull the Ollama model first. |
 | Request hangs | Endpoint, network, model size | Try a smaller model, check proxy/firewall settings, and increase the adapter timeout in the example. The live examples do not expose a separate timeout variable. |
 | Python `urllib` or Node `http`/`fetch` hangs on loopback while `curl` or Python `http.client` succeeds | OS proxy/PAC, endpoint monitor, runtime | Confirm the endpoint with `curl` or `http.client`; check loopback proxy bypass and security software; try another runtime or a hosted endpoint. The Go example can isolate whether the endpoint itself works. |
+| Model load fails with a CLIP or vision error | Model type, local memory, inference server | Use a non-vision tool-capable model such as `qwen2.5:0.5b`, or free memory and restart the local server. The failure is in the inference server, not PRAXO-CORE. |
 | Model answers without a tool call | Prompt and model capability | Ask explicitly to use `get_time` and pass a `zone`. Small models may ignore tools or invent arguments. |
 | Tool schema or argument error | `zone` parameter | Use a string timezone such as `UTC` or `Europe/Berlin`; do not pass a number or an empty object. |
 | Policy denial | Allowed tool scope | The live example permits only `get_time`; a different tool is expected to be denied. Verify the denial path with the consumer starter. |
