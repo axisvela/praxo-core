@@ -1,6 +1,6 @@
 # PRAXO-CORE Julia Core
 
-Julia implementation of the PRAXO-CORE contract.
+Julia implementation of the PRAXO-CORE AI agent framework contract.
 
 - `SPEC_VERSION`: `0.2.0`
 - Core version: `0.7.0`

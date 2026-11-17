@@ -1,5 +1,14 @@
 # Julia Core Release Notes
 
+## Unreleased
+
+### Added
+
+- Deterministic representative-chain example covering MCP, final-argument
+  authorization, governed child delegation, OTel/Harmovela events, and an edited
+  denial with zero effects.
+- Advanced-delegation example plus six application-level governance checks.
+
 ## 0.7.0 - 2026-11-15
 
 Source tag `julia/v0.7.0`.
