@@ -1,11 +1,41 @@
 @{
     RootModule        = 'praxo-core-ps.psm1'
-    ModuleVersion     = '0.7.0'
+    ModuleVersion     = '0.7.1'
     GUID              = '8f04a4d6-1f3c-4f6e-9d69-7b2f11d3a902'
     Author            = 'AxisVela'
     CompanyName       = 'AxisVela'
     Copyright         = '(c) AxisVela. MIT License.'
-    Description       = 'PowerShell Core wrapper for the C# PRAXO-CORE framework.'
+    Description       = @'
+PRAXO-CORE for PowerShell is an embeddable, policy-governed agent execution
+kernel for PowerShell 7.4+ on .NET 8. It wraps the C# PRAXO-CORE agent loop,
+tools, policy, events, memory, checkpoints, MCP, OpenTelemetry, retriever, and
+human-in-the-loop approval helpers.
+
+Install:
+  Install-Module praxo-core-ps
+
+Quickstart:
+  $model = New-PraxoStaticModel -Content 'hello'
+  $options = New-PraxoAgentOptions -Model $model
+  $agent = New-PraxoAgent -Options $options
+  $session = New-PraxoSession -Id 'demo'
+  (Invoke-PraxoAgent -Agent $agent -Session $session -Prompt 'hello').Output
+
+Starter (allow/deny):
+  https://github.com/axisvela/praxo-core/tree/main/language/powershell/examples/consumer
+
+Examples:
+  https://github.com/axisvela/praxo-core/tree/main/language/powershell/examples
+
+Documentation:
+  https://axisvela.github.io/praxo-core/languages/powershell/
+
+Source and license (MIT):
+  https://github.com/axisvela/praxo-core
+
+PRAXO-CORE is an execution kernel, not a hosted model, workflow engine,
+identity provider, or production sandbox.
+'@
     PowerShellVersion = '7.4'
     FunctionsToExport = @(
         'Get-PraxoCoreInfo',
@@ -71,10 +101,16 @@
     VariablesToExport = @()
     AliasesToExport   = @()
     PrivateData = @{
+        PraxoSpecVersion = '0.2.0'
         PSData = @{
             Tags       = @('praxo', 'agent', 'core', 'dotnet')
             LicenseUri = 'https://github.com/axisvela/praxo-core/blob/main/LICENSE'
             ProjectUri = 'https://github.com/axisvela/praxo-core'
+            ReleaseNotes = @'
+0.7.1
+- Add a project introduction and starter, examples, and documentation links to the PowerShell Gallery page.
+- Resolve the module version and SPEC_VERSION from the packaged manifest when source version files are not present.
+'@
         }
     }
 }

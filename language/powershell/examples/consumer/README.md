@@ -5,12 +5,22 @@ PowerShell module loads `Praxo.Core.dll`; the agent loop, tools, policy, and
 deterministic model behavior are inherited from the C# Core. No network,
 credentials, or model service is needed.
 
-From the repository root:
+From an installed module:
+
+```powershell
+Install-Module praxo-core-ps
+pwsh -NoProfile -File language/powershell/examples/consumer/consumer.ps1
+```
+
+From a source checkout:
 
 ```powershell
 dotnet build language/csharp/Praxo.Core/Praxo.Core.csproj -c Release
 pwsh -NoProfile -File language/powershell/examples/consumer/consumer.ps1
 ```
+
+The script imports the source module when it is present and otherwise imports
+the installed `praxo-core-ps` module.
 
 Expected output:
 

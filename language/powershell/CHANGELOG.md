@@ -1,5 +1,21 @@
 # PowerShell Core Release Notes
 
+## 0.7.1 - 2026-11-17
+
+Source tag `powershell/v0.7.1`.
+
+### Changed
+
+- Expanded the PowerShell Gallery description with the project introduction,
+  install command, starter, examples, and documentation links.
+- Added Gallery release notes.
+
+### Fixed
+
+- `Get-PraxoCoreInfo` falls back to the packaged module manifest for the module
+  version and `SPEC_VERSION` when the source `VERSION` and `spec/SPEC_VERSION`
+  files are not present in an installed module.
+
 ## 0.7.0 - 2026-11-15
 
 Source tag `powershell/v0.7.0`.

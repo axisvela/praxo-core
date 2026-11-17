@@ -2,10 +2,15 @@
 
 ## Status
 
-Source tag `powershell/v0.2.0` maps to PowerShell Gallery package
-`praxo-core-ps` version `0.2.0`. The module is published to the PowerShell
+Source tag `powershell/v0.7.1` maps to PowerShell Gallery package
+`praxo-core-ps` version `0.7.1`. The module is published to the PowerShell
 Gallery and is a shared-runtime wrapper over the C# Core. The legacy bridge
-package `praxo-core-ps-br` is not published.
+package `praxo-core-ps-br` is published separately as `0.1.0`.
+
+The PowerShell Gallery page does not render `README.md`. Its introduction and
+starter links come from `Description` and `PrivateData.PSData.ReleaseNotes` in
+`praxo-core-ps.psd1`. Update those fields and publish a new patch version; an
+already-published version cannot be edited in place.
 
 ## Build
 

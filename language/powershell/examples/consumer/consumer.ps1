@@ -1,6 +1,11 @@
 $ErrorActionPreference = 'Stop'
 
-Import-Module (Join-Path $PSScriptRoot '../../praxo-core-ps/praxo-core-ps.psd1') -Force
+$modulePath = Join-Path $PSScriptRoot '../../praxo-core-ps/praxo-core-ps.psd1'
+if (Test-Path $modulePath) {
+    Import-Module $modulePath -Force
+} else {
+    Import-Module praxo-core-ps -Force
+}
 
 $assembly = (Get-PraxoCoreInfo).Assembly
 $references = @($assembly, [System.Text.Json.Nodes.JsonNode].Assembly.Location)

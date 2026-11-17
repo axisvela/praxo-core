@@ -65,10 +65,24 @@ namespace Praxo.Core
 
 function Get-PraxoCoreInfo {
     Import-PraxoCoreAssembly
+    $versionPath = Join-Path $PSScriptRoot '../VERSION'
+    $specPath = Join-Path $PSScriptRoot '../../../spec/SPEC_VERSION'
+    $manifestPath = Join-Path $PSScriptRoot 'praxo-core-ps.psd1'
+    $manifest = Import-PowerShellDataFile $manifestPath
+    $version = if (Test-Path $versionPath) {
+        (Get-Content $versionPath -Raw).Trim()
+    } else {
+        [string]$manifest.ModuleVersion
+    }
+    $specVersion = if (Test-Path $specPath) {
+        (Get-Content $specPath -Raw).Trim()
+    } else {
+        [string]$manifest.PrivateData.PraxoSpecVersion
+    }
     [pscustomobject]@{
         Name = 'PraxoCore'
-        Version = (Get-Content (Join-Path $PSScriptRoot '../VERSION') -Raw).Trim()
-        SpecVersion = (Get-Content (Join-Path $PSScriptRoot '../../../spec/SPEC_VERSION') -Raw).Trim()
+        Version = $version
+        SpecVersion = $specVersion
         Assembly = $script:PraxoCoreDll
         Runtime = [System.Runtime.InteropServices.RuntimeInformation]::FrameworkDescription
     }
