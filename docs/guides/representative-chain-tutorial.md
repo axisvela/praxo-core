@@ -116,6 +116,11 @@ The child model is deterministic. It does not prove remote MCP or Harmovela
 operation, independent reproduction, throughput, fault recovery, exactly-once
 execution, or general prompt-injection prevention.
 
+A deterministic Python counterpart under
+[`language/python/examples/representative-chain`](https://github.com/axisvela/praxo-core/tree/main/language/python/examples/representative-chain)
+covers the same MCP, authorization, delegation, OTel/Harmovela, and denial seams
+without a live provider.
+
 See the [verification evidence](../project/verification-evidence.md) and
 [multi-agent patterns](multi-agent.md) for the wider evidence and delegation
 boundaries.

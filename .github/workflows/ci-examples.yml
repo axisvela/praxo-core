@@ -396,6 +396,10 @@ jobs:
         working-directory: language/python/examples/advanced-delegation
       - run: python -m unittest test_governance.py -v
         working-directory: language/python/examples/advanced-delegation
+      - run: python -m pip install -r requirements.txt
+        working-directory: language/python/examples/representative-chain
+      - run: python chain.py
+        working-directory: language/python/examples/representative-chain
       - run: npm install --no-audit --no-fund
         working-directory: language/typescript/examples/advanced-delegation
       - run: npm test
