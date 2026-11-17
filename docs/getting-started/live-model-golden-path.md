@@ -82,6 +82,15 @@ tool-wire fix for tool-result follow-ups.
 - a policy hook that denies every other tool;
 - one normal agent run with the model response printed to the console.
 
+The Go example also includes a guarded live test:
+
+```bash
+PRAXO_LIVE_TEST=1 PRAXO_BASE_URL=http://127.0.0.1:11434/v1 \
+  PRAXO_MODEL=qwen3.5:4b go test -run TestRunAgainstLiveEndpoint -v .
+```
+
+It skips unless `PRAXO_LIVE_TEST=1`, so normal CI stays deterministic.
+
 ## Denial Check
 
 The live path does not assume the model will request a dangerous tool. Run the
@@ -113,6 +122,7 @@ denied call produces no tool effect:
 | 401 or 403 from a hosted endpoint | `PRAXO_API_KEY` | Set a valid key; do not commit it. Ollama normally needs no key. Some gateways also require provider-specific headers or `Authorization: Bearer`. |
 | Model not found or 400 model error | `PRAXO_MODEL` | Use the exact model id served by the endpoint, not the package name or a display name. Pull the Ollama model first. |
 | Request hangs | Endpoint, network, model size | Try a smaller model, check proxy/firewall settings, and increase the adapter timeout in the example. The live examples do not expose a separate timeout variable. |
+| Python `urllib` or Node `http`/`fetch` hangs on loopback while `curl` or Python `http.client` succeeds | OS proxy/PAC, endpoint monitor, runtime | Confirm the endpoint with `curl` or `http.client`; check loopback proxy bypass and security software; try another runtime or a hosted endpoint. The Go example can isolate whether the endpoint itself works. |
 | Model answers without a tool call | Prompt and model capability | Ask explicitly to use `get_time` and pass a `zone`. Small models may ignore tools or invent arguments. |
 | Tool schema or argument error | `zone` parameter | Use a string timezone such as `UTC` or `Europe/Berlin`; do not pass a number or an empty object. |
 | Policy denial | Allowed tool scope | The live example permits only `get_time`; a different tool is expected to be denied. Verify the denial path with the consumer starter. |

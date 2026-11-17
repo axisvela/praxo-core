@@ -68,6 +68,15 @@ Python `0.7.0`、TypeScript `0.6.0` 和 Java `0.9.0` 已包含 OpenAI tool-wire
 - Policy hook 拒绝其他所有工具；
 - 运行一次正常 Agent 并输出模型结果。
 
+Go 示例还包含受控 live 测试：
+
+```bash
+PRAXO_LIVE_TEST=1 PRAXO_BASE_URL=http://127.0.0.1:11434/v1 \
+  PRAXO_MODEL=qwen3.5:4b go test -run TestRunAgainstLiveEndpoint -v .
+```
+
+未设置 `PRAXO_LIVE_TEST=1` 时跳过，普通 CI 保持确定性。
+
 ## 拒绝检查
 
 真实模型路径不能假设模型一定会请求危险工具。请运行对应消费者 Starter，
@@ -94,6 +103,7 @@ Python `0.7.0`、TypeScript `0.6.0` 和 Java `0.9.0` 已包含 OpenAI tool-wire
 | 托管端点返回 401/403 | `PRAXO_API_KEY` | 设置有效 Key，且不要提交到仓库。Ollama 通常不需要 Key；部分网关还要求额外 Header 或 Bearer Token。 |
 | 模型不存在或 400 模型错误 | `PRAXO_MODEL` | 使用端点实际提供的模型 ID，不是包名或展示名；先拉取 Ollama 模型。 |
 | 请求挂起 | 端点、网络、模型大小 | 换更小的模型，检查代理/防火墙，并在示例代码中增加 Adapter 超时。live 示例没有独立超时环境变量。 |
+| Python `urllib` 或 Node `http`/`fetch` 对 loopback 挂起，但 `curl` 或 Python `http.client` 正常 | OS 代理/PAC、终端监控、运行时 | 用 `curl` 或 `http.client` 确认端点；检查 loopback 代理绕过和安全软件；换运行时或托管端点。Go 示例可用于判断端点本身是否正常。 |
 | 模型没有调用工具 | Prompt 与模型能力 | 明确要求使用 `get_time` 并传入 `zone`；小模型可能忽略工具或编造参数。 |
 | Tool Schema 或参数错误 | `zone` 参数 | 使用字符串时区，如 `UTC` 或 `Europe/Berlin`；不要传数字或空对象。 |
 | Policy 拒绝 | 工具范围 | live 示例只允许 `get_time`；其他工具被拒绝是预期行为，用消费者 Starter 验证拒绝路径。 |
