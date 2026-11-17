@@ -1,5 +1,14 @@
 # Perl Core Release Notes
 
+## Unreleased
+
+### Added
+
+- Deterministic representative-chain example covering MCP, final-argument
+  authorization, governed child delegation, OTel/Harmovela events, and an edited
+  denial with zero effects.
+- Advanced-delegation example plus six application-level governance checks.
+
 ## 0.6.1 - 2026-11-17
 
 Source tag `perl/v0.6.1`.

@@ -65,6 +65,8 @@ Runnable examples live under [`language/perl/examples`](https://github.com/axisv
 | Retry transient failures | [retry](https://github.com/axisvela/praxo-core/tree/main/language/perl/examples/retry) |
 | Add provider fallback | [provider-fallback](https://github.com/axisvela/praxo-core/tree/main/language/perl/examples/provider-fallback) |
 | Observe agent events | [event-sink](https://github.com/axisvela/praxo-core/tree/main/language/perl/examples/event-sink) |
+| Run the representative chain | [representative-chain](https://github.com/axisvela/praxo-core/tree/main/language/perl/examples/representative-chain) |
+| Apply governed delegation | [advanced-delegation](https://github.com/axisvela/praxo-core/tree/main/language/perl/examples/advanced-delegation) |
 
 ## Scope
 
