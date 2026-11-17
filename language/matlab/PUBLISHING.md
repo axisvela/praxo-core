@@ -40,8 +40,8 @@ file set the packager uses:
 - `language/matlab/build/praxo-core-0.7.0.zip`
 - GitHub release asset: <https://github.com/axisvela/praxo-core/releases/download/matlab/v0.7.0/praxo-core-0.7.0.zip>
 - Contents: `+praxo/`, `README.md`, `LICENSE`, `toolbox-image.png`
-- Size: 132,811 bytes
-- SHA-256: `88243AFBB5AB9A5AADE4614196E030BF3D55249134A2A81513AEFEC8557F8D92`
+- Size: 132,824 bytes
+- SHA-256: `8C45E34DBA9FB9A884DD971BD54AB08A72F9D2247C6206880FE196534E8BC3C1`
 
 The ZIP is the upload artifact. Generate a `.mltbx` in MATLAB when a MATLAB
 runtime is available; do not claim MATLAB execution evidence from this ZIP.
