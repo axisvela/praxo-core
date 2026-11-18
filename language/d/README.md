@@ -37,6 +37,14 @@ The Core implements all eleven vector groups: toolcall, JSON Schema, plugin,
 memory, event, stream, checkpoint, policy, context, middleware, and the agent
 loop. It includes a public API snapshot and a test runner.
 
+## Representative Flows
+
+- [Representative chain](examples/representative-chain/): deterministic MCP
+  record, final-argument authorization, child delegation, OTel/Harmovela events,
+  and an edited denial with zero effects.
+- [Advanced delegation](examples/advanced-delegation/): application-level
+  parent/child scope plus six governance negative checks.
+
 ## Build and test
 
 ```bash
