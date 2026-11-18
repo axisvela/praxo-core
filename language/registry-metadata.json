@@ -100,30 +100,30 @@
   "Elixir": {
     "dir": "language/elixir",
     "docs": "https://axisvela.github.io/praxo-core/languages/elixir/",
-    "install": "{:praxo_core, \"~> 0.9.1\"}",
+    "install": "{:praxo_core, \"~> 0.9.2\"}",
     "package": "praxo_core",
-    "published_version": "0.9.1",
+    "published_version": "0.9.2",
     "registry": "Hex",
     "source_install": "{:praxo_core, path: \"language/elixir\"}",
     "source_version": "0.9.2",
     "status": "published",
     "tag": "elixir/v0.9.2",
     "tier": "Core",
-    "url": "https://hex.pm/packages/praxo_core"
+    "url": "https://hex.pm/packages/praxo_core/0.9.2"
   },
   "Erlang": {
     "dir": "language/erlang",
     "docs": "https://axisvela.github.io/praxo-core/languages/erlang/",
-    "install": "{praxo_core, \"0.8.1\", {pkg, praxo_core_erlang}}",
+    "install": "{praxo_core, \"0.8.2\", {pkg, praxo_core_erlang}}",
     "package": "praxo_core_erlang",
-    "published_version": "0.8.1",
+    "published_version": "0.8.2",
     "registry": "Hex",
     "source_install": "{praxo_core, {path, \"language/erlang\"}}",
     "source_version": "0.8.2",
     "status": "published",
     "tag": "erlang/v0.8.2",
     "tier": "Core",
-    "url": "https://hex.pm/packages/praxo_core_erlang/0.8.1"
+    "url": "https://hex.pm/packages/praxo_core_erlang/0.8.2"
   },
   "Fortran": {
     "dir": "language/fortran",
@@ -172,14 +172,14 @@
     "docs": "https://axisvela.github.io/praxo-core/languages/haskell/",
     "install": "cabal install praxo-core",
     "package": "praxo-core",
-    "published_version": "0.7.0",
+    "published_version": "0.7.1",
     "registry": "Hackage",
     "source_install": "cabal install praxo-core",
     "source_version": "0.7.1",
     "status": "published",
     "tag": "haskell/v0.7.1",
     "tier": "Core",
-    "url": "https://hackage.haskell.org/package/praxo-core-0.7.0"
+    "url": "https://hackage.haskell.org/package/praxo-core-0.7.1"
   },
   "Java": {
     "dir": "language/java",
@@ -326,14 +326,14 @@
     "docs": "https://axisvela.github.io/praxo-core/languages/powershell/",
     "install": "Install-Module praxo-core-ps",
     "package": "praxo-core-ps",
-    "published_version": "0.7.1",
+    "published_version": "0.7.2",
     "registry": "PowerShell Gallery",
     "source_install": "Install-Module praxo-core-ps",
     "source_version": "0.7.2",
     "status": "published; shared C# runtime",
     "tag": "powershell/v0.7.2",
     "tier": "Core (.NET)",
-    "url": "https://www.powershellgallery.com/packages/praxo-core-ps/0.7.1"
+    "url": "https://www.powershellgallery.com/packages/praxo-core-ps/0.7.2"
   },
   "Python": {
     "dir": "language/python",

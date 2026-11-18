@@ -3,6 +3,7 @@
 最后核对：2026-11-18。Python `0.9.1`、Rust `0.9.2` 与 Ruby `0.8.2` 已发布，
 并通过公开 registry API 确认。TypeScript `0.8.1` 已 staged 等待 npm 批准；直接发布
 批准后 npm `0.8.1` 已发布，`latest` 现为 `0.8.1`。C# `0.9.2` 已推送，并随后出现在公开 NuGet 索引。
+Elixir `0.9.2`、Erlang `0.8.2`、Haskell `0.7.1` 与 PowerShell `0.7.2` 已发布并确认；CPAN `0.6.2` 上传成功，MetaCPAN 索引待完成。
 其他行保留原有核对日期；Go `v2.9.0` 页面于 2026-11-16 核对。
 
 本页汇总各语言实现当前发布到哪里。源码标签、包注册表版本、一致性测试和生产验证是
@@ -28,8 +29,8 @@ GitHub Latest 仅代表 Go 参考 Core，不代表最近发布的语言包。
 | Java | Maven Central | `0.10.0` | https://repo1.maven.org/maven2/com/axisvela/praxo-core/0.10.0/ | 已发布 |
 | Rust | crates.io | `0.9.2` | https://crates.io/crates/praxo-core/0.9.2 | 已发布 |
 | C# | NuGet | `0.9.2` | https://www.nuget.org/packages/Praxo.Core/0.9.2 | 已发布 |
-| Elixir | Hex / HexDocs | `0.9.1` | https://hex.pm/packages/praxo_core/0.9.1 · https://praxo-core.hexdocs.pm/0.9.1/ | 已发布 |
-| Erlang | Hex | `0.8.1` | https://hex.pm/packages/praxo_core_erlang/0.8.1 | 已发布 |
+| Elixir | Hex / HexDocs | `0.9.2` | https://hex.pm/packages/praxo_core/0.9.2 · https://praxo-core.hexdocs.pm/0.9.2/ | 已发布 |
+| Erlang | Hex | `0.8.2` | https://hex.pm/packages/praxo_core_erlang/0.8.2 | 已发布 |
 | Ruby | RubyGems | `0.8.2` | https://rubygems.org/gems/praxo-core/versions/0.8.2 | 已发布；Ruby 源码仓库为 `axisvela/praxo-core-ruby` |
 | Lua | LuaRocks | `0.7.1-1` | https://luarocks.org/modules/hanhhuiwen/praxo-core | 已发布 |
 | PHP | Packagist | `0.8.1` | https://packagist.org/packages/axisvela/praxo-core | 已发布 |
@@ -40,7 +41,7 @@ GitHub Latest 仅代表 Go 参考 Core，不代表最近发布的语言包。
 | PowerShell Core | PowerShell Gallery | `0.7.0` | https://www.powershellgallery.com/packages/praxo-core-ps/0.7.0 | 已发布 |
 | PowerShell Bridge | PowerShell Gallery | `0.1.0` | https://www.powershellgallery.com/packages/praxo-core-ps-br/0.1.0 | 已发布 |
 | Perl | CPAN | `0.6.0` | https://metacpan.org/dist/Praxo-Core | 已发布并在 MetaCPAN 建立索引 |
-| Haskell | Hackage | `0.7.0` | https://hackage.haskell.org/package/praxo-core-0.7.0 | 已发布 |
+| Haskell | Hackage | `0.7.1` | https://hackage.haskell.org/package/praxo-core-0.7.0 | 已发布 |
 | R | r-universe | `0.10.1` | https://axisvela.r-universe.dev/praxocore | 已在 r-universe 发布；未发布 CRAN |
 | Nim | nim-lang/packages（Nimble） | `0.1.1` | https://github.com/axisvela/praxo-core-nim | split 仓库 `v0.6.0` 已打 tag；nim-lang/packages PR #3600 已于 2026-11-05 合并；nimpkgs 待重新抓取 |
 

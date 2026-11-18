@@ -7,7 +7,7 @@ if ($UseInstalledModule) {
     if ($env:PRAXO_CORE_DLL) {
         throw 'Unset PRAXO_CORE_DLL before verifying an installed package.'
     }
-    Import-Module -FullyQualifiedName @{ ModuleName = 'praxo-core-ps'; RequiredVersion = '0.7.1' } -Force
+    Import-Module -FullyQualifiedName @{ ModuleName = 'praxo-core-ps'; RequiredVersion = '0.7.2' } -Force
 } elseif (Test-Path $modulePath) {
     Import-Module $modulePath -Force
 } else {

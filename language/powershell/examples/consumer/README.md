@@ -8,7 +8,7 @@ credentials, or model service is needed.
 From an installed module:
 
 ```powershell
-Install-Module praxo-core-ps -RequiredVersion 0.7.1
+Install-Module praxo-core-ps -RequiredVersion 0.7.2
 pwsh -NoProfile -File language/powershell/examples/consumer/consumer.ps1 -UseInstalledModule
 ```
 
@@ -16,7 +16,7 @@ For an isolated package download without installing into the user module path:
 
 ```powershell
 New-Item -ItemType Directory -Path ./modules -Force | Out-Null
-Save-PSResource praxo-core-ps -Version 0.7.1 -Path ./modules -TrustRepository
+Save-PSResource praxo-core-ps -Version 0.7.2 -Path ./modules -TrustRepository
 $env:PSModulePath = (Resolve-Path ./modules).Path + [IO.Path]::PathSeparator + $env:PSModulePath
 pwsh -NoProfile -File language/powershell/examples/consumer/consumer.ps1 -UseInstalledModule
 ```
@@ -34,7 +34,7 @@ dotnet build language/csharp/Praxo.Core/Praxo.Core.csproj -c Release
 pwsh -NoProfile -File language/powershell/examples/consumer/consumer.ps1
 ```
 
-The `-UseInstalledModule` switch explicitly selects installed version `0.7.1`
+The `-UseInstalledModule` switch explicitly selects installed version `0.7.2`
 even inside a source checkout. It fails if the package is unavailable, rather
 than falling back to the source module. Unset `PRAXO_CORE_DLL` before running
 this mode so that the module uses its packaged assembly.

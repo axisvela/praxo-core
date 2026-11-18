@@ -45,6 +45,8 @@
 - Published Python `0.9.1`, TypeScript `0.8.1`, Rust `0.9.2`, C# `0.9.2`, and
   Ruby `0.8.2` with the expanded example set. npm `0.8.1` was staged, approved,
   and published as `latest`; Java Maven publication remains deferred.
+- Published Elixir `0.9.2`, Erlang `0.8.2`, Haskell `0.7.1`, and PowerShell
+  `0.7.2`. Perl `0.6.2` uploaded but MetaCPAN indexing was still pending.
 - Added annotated sample snapshot tags for JavaScript (`javascript/v0.8.0`),
   Kotlin/Scala/Groovy/Clojure (`v0.10.0`), F# and Visual Basic (`v0.9.1`), and
   OpenCL (`opencl/v0.10.0`). These are samples over host Cores, not separate
