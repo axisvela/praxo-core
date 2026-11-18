@@ -53,7 +53,7 @@ Deterministic test:
 .venv/bin/python -m unittest test_summarize.py -v
 ```
 
-The example installs published PyPI `praxo-core==0.9.0`.
+The example installs published PyPI `praxo-core==0.9.1`.
 
 ### TypeScript
 
@@ -74,7 +74,7 @@ mvn -q compile exec:java -Dexec.args="Quarterly status: all checks green."
 mvn -q test
 ```
 
-The example resolves Maven Central `com.axisvela:praxo-core:0.9.0`.
+The example resolves Maven Central `com.axisvela:praxo-core:0.9.1`.
 
 ### C#
 
@@ -178,7 +178,7 @@ input into validated JSON and fails closed when the model omits required fields.
 
 ```bash
 python -m venv .venv
-.venv/bin/python -m pip install "praxo-core==0.9.0"
+.venv/bin/python -m pip install "praxo-core==0.9.1"
 ```
 
 2. Copy the tested schema and agent setup from

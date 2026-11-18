@@ -8,15 +8,15 @@
 | 语言 | 包 | 当前推荐版本 | Starter |
 | --- | --- | --- | --- |
 | Go | `github.com/axisvela/praxo-core/v2` | `2.9.0` | [Go 消费者](consumer-go.md) |
-| Python | `praxo-core` | `0.9.0` | [Python 消费者](consumer-python.md) |
+| Python | `praxo-core` | `0.9.1` | [Python 消费者](consumer-python.md) |
 | TypeScript | `@axisvela/praxo-core` | `0.8.0` | [TypeScript 消费者](consumer-typescript.md) |
 | Java | `com.axisvela:praxo-core` | `0.10.0` | [Java 消费者](consumer-java.md) |
-| Ruby | `praxo-core` | `0.8.1` | [Ruby Starter](https://github.com/axisvela/praxo-core/tree/main/language/ruby/examples/consumer) |
+| Ruby | `praxo-core` | `0.8.2` | [Ruby Starter](https://github.com/axisvela/praxo-core/tree/main/language/ruby/examples/consumer) |
 | PHP | `axisvela/praxo-core` | `0.8.1` | [PHP Starter](https://github.com/axisvela/praxo-core/tree/main/language/php/examples/consumer) |
 | Elixir | `praxo_core` | `0.9.1` | [Elixir Starter](https://github.com/axisvela/praxo-core/tree/main/language/elixir/examples/consumer) |
 | Lua | `praxo-core` | `0.7.1-1` | [Lua Starter](https://github.com/axisvela/praxo-core/tree/main/language/lua/examples/consumer) |
-| C# | `Praxo.Core` | `0.9.1` | [C# Starter](https://github.com/axisvela/praxo-core/tree/main/language/csharp/examples/consumer) |
-| Rust | `praxo-core` | `0.9.1` | [Rust Starter](https://github.com/axisvela/praxo-core/tree/main/language/rust/examples/consumer) |
+| C# | `Praxo.Core` | `0.9.2` | [C# Starter](https://github.com/axisvela/praxo-core/tree/main/language/csharp/examples/consumer) |
+| Rust | `praxo-core` | `0.9.2` | [Rust Starter](https://github.com/axisvela/praxo-core/tree/main/language/rust/examples/consumer) |
 | R | `praxocore` | `0.10.1` | [R Starter](https://github.com/axisvela/praxo-core/tree/main/language/r/examples/consumer) |
 
 机器可读映射见 [`agent-integration.json`](agent-integration.json)，CI 会校验本表与该文件

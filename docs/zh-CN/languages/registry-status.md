@@ -1,9 +1,9 @@
 # 注册表发布状态
 
-最后核对：2026-11-16（Python 0.9.0、TypeScript 0.8.0、Java 0.10.0、Rust 0.9.1、
-C# 0.9.1、Elixir 0.9.1、Erlang 0.8.1、Ruby 0.8.1、PHP 0.8.1、Dart 0.6.1、
-Perl 0.6.0、Haskell 0.7.0、PowerShell 0.7.0、R 0.10.1 已发布；Go `v2.9.0`
-是当前发布版本，渲染页面已于 2026-11-16 核对；其他行来自 2026-11-04/05 审计）。
+最后核对：2026-11-18。Python `0.9.1`、Rust `0.9.2` 与 Ruby `0.8.2` 已发布，
+并通过公开 registry API 确认。TypeScript `0.8.1` 已 staged 等待 npm 批准；直接发布
+返回 403，`0.8.0` 仍为 `latest`。C# `0.9.2` 已推送，并随后出现在公开 NuGet 索引。
+其他行保留原有核对日期；Go `v2.9.0` 页面于 2026-11-16 核对。
 
 本页汇总各语言实现当前发布到哪里。源码标签、包注册表版本、一致性测试和生产验证是
 不同层面的声明。注册表版本不代表完整 Go 功能对齐或生产就绪。
@@ -23,14 +23,14 @@ GitHub Latest 仅代表 Go 参考 Core，不代表最近发布的语言包。
 | 语言 | 注册表 | 版本 | 地址 | 状态 |
 | --- | --- | --- | --- | --- |
 | Go | Go module proxy / pkg.go.dev | `v2.9.0` | https://pkg.go.dev/github.com/axisvela/praxo-core/v2 | 已发布；页面已于 2026-11-16 审计 |
-| Python | PyPI | `0.9.0` | https://pypi.org/project/praxo-core/0.9.0/ | 已发布 |
-| TypeScript | npm | `0.8.0` | https://www.npmjs.com/package/@axisvela/praxo-core/v/0.8.0 | 已发布；latest |
+| Python | PyPI | `0.9.1` | https://pypi.org/project/praxo-core/0.9.1/ | 已发布 |
+| TypeScript | npm | `0.8.0` | https://www.npmjs.com/package/@axisvela/praxo-core/v/0.8.0 | 已发布；latest；`0.8.1` staged 待批准 |
 | Java | Maven Central | `0.10.0` | https://repo1.maven.org/maven2/com/axisvela/praxo-core/0.10.0/ | 已发布 |
-| Rust | crates.io | `0.9.1` | https://crates.io/crates/praxo-core/0.9.1 | 已发布 |
-| C# | NuGet | `0.9.1` | https://www.nuget.org/packages/Praxo.Core/0.9.1 | 已发布 |
+| Rust | crates.io | `0.9.2` | https://crates.io/crates/praxo-core/0.9.2 | 已发布 |
+| C# | NuGet | `0.9.2` | https://www.nuget.org/packages/Praxo.Core/0.9.2 | 已发布 |
 | Elixir | Hex / HexDocs | `0.9.1` | https://hex.pm/packages/praxo_core/0.9.1 · https://praxo-core.hexdocs.pm/0.9.1/ | 已发布 |
 | Erlang | Hex | `0.8.1` | https://hex.pm/packages/praxo_core_erlang/0.8.1 | 已发布 |
-| Ruby | RubyGems | `0.8.1` | https://rubygems.org/gems/praxo-core/versions/0.8.1 | 已发布；Ruby 源码仓库为 `axisvela/praxo-core-ruby` |
+| Ruby | RubyGems | `0.8.2` | https://rubygems.org/gems/praxo-core/versions/0.8.2 | 已发布；Ruby 源码仓库为 `axisvela/praxo-core-ruby` |
 | Lua | LuaRocks | `0.7.1-1` | https://luarocks.org/modules/hanhhuiwen/praxo-core | 已发布 |
 | PHP | Packagist | `0.8.1` | https://packagist.org/packages/axisvela/praxo-core | 已发布 |
 | Dart | pub.dev | `0.6.1` | https://pub.dev/packages/praxo_core/versions/0.6.1 | 已发布 |

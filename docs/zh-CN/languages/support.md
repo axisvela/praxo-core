@@ -72,14 +72,14 @@ Bridge、Sample 描述运行时的接入方式，不证明其语言缺乏 Framew
 
 | 语言 | 源码标签 | 注册表版本 | 消费者安装 smoke |
 | --- | --- | --- | --- |
-| Python | `python/v0.9.1` | PyPI `praxo-core==0.9.0` 已发布 | 发布工作流构建并 smoke 测试了 `0.9.0` wheel 和 sdist；发布后消费者检查未重跑 |
-| TypeScript | `typescript/v0.8.1` | npm `@axisvela/praxo-core@0.8.0` 已作为 `latest` 发布 | 发布工作流构建了 `0.8.0` tarball；发布后消费者检查未重跑 |
+| Python | `python/v0.9.1` | PyPI `praxo-core==0.9.1` 已发布 | 发布工作流构建并 smoke 测试了 `0.9.0` wheel 和 sdist；发布后消费者检查未重跑 |
+| TypeScript | `typescript/v0.8.1` | npm `@axisvela/praxo-core@0.8.0` 已作为 `latest` 发布；`0.8.1` staged 待批准 | 发布工作流构建并 staged `0.8.1`；直接发布返回 403，消费者检查仍基于 `0.8.0` |
 | Java | `java/v0.10.0` | Maven Central `com.axisvela:praxo-core:0.10.0` 已发布 | 发布工作流构建、签名并发布 `0.10.0`；发布后消费者检查未重跑 |
-| Rust | `rust/v0.9.2` | crates.io `praxo-core==0.9.1` 已发布；`0.1.4` 为历史版本 | Consumer starter 已针对发布 `0.9.1` 本地运行；`http-ureq` live 路径仍为源码模式 |
-| C# | `csharp/v0.9.2` | NuGet `Praxo.Core==0.9.1` 已发布 | 干净 `NUGET_PACKAGES` 安装使用显式 NuGet source，发布包消费者本地通过 |
+| Rust | `rust/v0.9.2` | crates.io `praxo-core==0.9.2` 已发布；`0.1.4` 为历史版本 | 发布工作流对 `0.9.2` 运行测试、conformance、API snapshot 和 dry-run；本地 registry 消费者安装未重跑 |
+| C# | `csharp/v0.9.2` | NuGet `Praxo.Core==0.9.2` 已发布 | 发布工作流构建、测试、打包并推送 `0.9.2`；本地发布包消费者安装记录针对 `0.9.1`，为历史证据 |
 | Elixir | `elixir/v0.9.1` | Hex `praxo_core==0.9.1` 已发布，包含 OpenAI-compatible、Anthropic、Gemini、Harmovela 和 MCP adapter；`0.5.1`、`0.4.1`、`0.4.0`、`0.3.0`、`0.2.0` 为历史版本 | 已增加扩展 starter；Hex `0.4.1` 在干净 Mix 项目中解析，allow/deny 本地通过；`0.6.0` 安装 smoke 未重跑 |
 | Erlang | `erlang/v0.8.1` | Hex `praxo_core_erlang==0.8.1` 已发布；`0.4.0`、`0.3.1`、`0.2.0` 为历史版本 | `0.5.0` 未重跑；历史 `0.1.1` smoke |
-| Ruby | `ruby/v0.8.2` | RubyGems `praxo-core==0.8.1` 已发布；`0.4.1`、`0.4.0`、`0.3.0`、`0.2.0` 为历史版本 | `0.8.1` 源码已同步到 `axisvela/praxo-core-ruby` 并打 `v0.8.1` tag；gem build 与干净 gem home 安装 smoke 本地通过 |
+| Ruby | `ruby/v0.8.2` | RubyGems `praxo-core==0.8.2` 已发布；`0.4.1`、`0.4.0`、`0.3.0`、`0.2.0` 为历史版本 | 发布工作流对 `0.8.2` 运行 conformance、API snapshot、测试、gem build 和 push；split 仓库已同步并打 `v0.8.2` tag；本地发布包安装未重跑 |
 | Lua | `lua/v0.7.1` | LuaRocks `praxo-core==0.7.1-1` 已发布，包含可选 OpenAI-compatible adapter；`0.4.1-1`、`0.4.0-1`、`0.3.0-1`、`0.2.0-1` 也已发布 | 已增加扩展 starter；LuaRocks `0.4.1-1` 已安装到干净 tree，allow/deny 本地通过；`0.5.0-1` 安装 smoke 未重跑 |
 | PHP | `php/v0.8.1` | Packagist `axisvela/praxo-core==0.8.1` 已发布，包含 Composer `autoload.files`；`0.4.1`、`0.4.0`、`0.3.0`、`0.2.0` 为历史版本 | 2026-11-18 全新 Composer 安装已发布 `0.8.1`，消费者 allow/deny 测试本地通过 |
 | Dart | `dart/v0.6.1` | pub.dev `praxo_core==0.6.1` | 已记录 `0.1.1`；`0.4.0` 安装 smoke 未记录 |
@@ -100,14 +100,14 @@ Bridge、Sample 描述运行时的接入方式，不证明其语言缺乏 Framew
 
 | 语言 | 代码/manifest 版本 | 注册表 latest | 状态 |
 | --- | --- | --- | --- |
-| Python | `0.9.1` | PyPI `0.9.0` | registry 待发布 |
+| Python | `0.9.1` | PyPI `0.9.1` | 已最新 |
 | TypeScript | `0.8.1` | npm `0.8.0` | registry 待发布 |
 | Java | `0.10.0` | Maven Central `0.10.0` | 已最新 |
-| Rust | `0.9.2` | crates.io `0.9.1` | registry 待发布 |
-| C# | `0.9.2` | NuGet `0.9.1` | registry 待发布 |
+| Rust | `0.9.2` | crates.io `0.9.2` | 已最新 |
+| C# | `0.9.2` | NuGet `0.9.2` | 已最新 |
 | Elixir | `0.9.1` | Hex `0.9.1` | 已最新 |
 | Erlang | `0.8.1` | Hex `0.8.1` | 已最新 |
-| Ruby | `0.8.2` | RubyGems `0.8.1` | registry 待发布 |
+| Ruby | `0.8.2` | RubyGems `0.8.2` | 已最新 |
 | PHP | `0.8.1` | Packagist `0.8.1` | 已最新 |
 | Lua | rockspec `0.7.1-1`；源码标签 `0.7.1` | LuaRocks `0.7.1-1` | 已最新 |
 | Dart | `0.6.1` | pub.dev `0.6.1` | 已最新 |

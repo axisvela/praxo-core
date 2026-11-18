@@ -1,6 +1,6 @@
 # Identity and Policy
 
-This example uses published crates.io `praxo-core@0.9.1` to bind a trusted
+This example uses published crates.io `praxo-core@0.9.2` to bind a trusted
 principal to Core policy authorization. The application owns authentication and
 principal storage; Core only calls the policy hook.
 

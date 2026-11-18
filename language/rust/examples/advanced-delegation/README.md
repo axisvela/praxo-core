@@ -1,7 +1,7 @@
 # Advanced Delegation
 
 This example shows an application-level parent/child agent pattern using
-published crates.io `praxo-core@0.9.1`. The parent agent may call a `delegate`
+published crates.io `praxo-core@0.9.2`. The parent agent may call a `delegate`
 tool but not the child's `record` tool. The delegate tool runs a child agent
 with its own tool scope, policy, and fixture model.
 

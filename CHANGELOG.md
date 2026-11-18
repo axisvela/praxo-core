@@ -42,6 +42,9 @@
 
 ### Changed
 
+- Published Python `0.9.1`, Rust `0.9.2`, C# `0.9.2`, and Ruby `0.8.2` with the
+  expanded example set. TypeScript `0.8.1` is staged for npm approval after a
+  direct-publish `403`; `0.8.0` remains `latest` until approval.
 - Added annotated sample snapshot tags for JavaScript (`javascript/v0.8.0`),
   Kotlin/Scala/Groovy/Clojure (`v0.10.0`), F# and Visual Basic (`v0.9.1`), and
   OpenCL (`opencl/v0.10.0`). These are samples over host Cores, not separate

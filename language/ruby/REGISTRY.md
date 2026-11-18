@@ -1,7 +1,7 @@
 # PRAXO-CORE Ruby Registry Introduction
 
 **Status:** published; split source repository. Source version `0.8.2`, source
-tag `ruby/v0.8.2`. Published registry version: `0.8.1`. Registry
+tag `ruby/v0.8.2`. Published registry version: `0.8.2`. Registry
 pages are release snapshots; verify the published version before relying on a
 feature.
 
@@ -16,9 +16,9 @@ Use it when an existing Ruby application needs a governed model/tool loop withou
 | Field | Value |
 | --- | --- |
 | Package | `praxo-core` |
-| Registry | [RubyGems](https://rubygems.org/gems/praxo-core/versions/0.8.1) |
+| Registry | [RubyGems](https://rubygems.org/gems/praxo-core/versions/0.8.2) |
 | Source version | `0.8.2` |
-| Published registry version | `0.8.1` |
+| Published registry version | `0.8.2` |
 | Install (published) | `gem install praxo-core` |
 | Install (source/release prepared) | `gem install praxo-core` |
 | Source tag | `ruby/v0.8.2` |

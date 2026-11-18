@@ -1,6 +1,6 @@
 # Independent Ruby Consumer
 
-This module installs published `praxo-core` `0.8.1` and verifies an allow/deny
+This module installs published `praxo-core` `0.8.2` and verifies an allow/deny
 governed tool path without local replacements.
 
 ```bash

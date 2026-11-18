@@ -101,14 +101,14 @@ Registry values below were checked against the public registries on 2026-11-17.
 
 | Language | Source tag | Registry version | Consumer install smoke |
 | --- | --- | --- | --- |
-| Python | `python/v0.9.1` | PyPI `praxo-core==0.9.0` published | Release workflow built and smoke-tested the `0.9.0` wheel and sdist; post-publication consumer check not rerun |
-| TypeScript | `typescript/v0.8.1` | npm `@axisvela/praxo-core@0.8.0` published as `latest` | Release workflow built the `0.8.0` tarball; post-publication consumer starter check not rerun |
+| Python | `python/v0.9.1` | PyPI `praxo-core==0.9.1` published | Release workflow built and smoke-tested the `0.9.1` wheel and sdist; post-publication consumer check not rerun |
+| TypeScript | `typescript/v0.8.1` | npm `@axisvela/praxo-core@0.8.0` published as `latest`; `0.8.1` staged for approval | Release workflow built and staged `0.8.1`; direct publish returned 403, so consumer check remains on `0.8.0` |
 | Java | `java/v0.10.0` | Maven Central `com.axisvela:praxo-core:0.10.0` published | Release workflow built, signed, and published `0.10.0`; post-publication consumer check not rerun |
-| Rust | `rust/v0.9.2` | crates.io `praxo-core==0.9.1` published; `0.1.4` historical | Consumer starter ran against published `0.9.1` locally; `http-ureq` live path remains source-only |
-| C# | `csharp/v0.9.2` | NuGet `Praxo.Core==0.9.1` published | Clean `NUGET_PACKAGES` install used an explicit NuGet source and the published-package consumer passed locally |
+| Rust | `rust/v0.9.2` | crates.io `praxo-core==0.9.2` published; `0.1.4` historical | Release workflow ran tests, conformance, API snapshot, and dry-run for `0.9.2`; local registry consumer install not rerun |
+| C# | `csharp/v0.9.2` | NuGet `Praxo.Core==0.9.2` published | Release workflow built, tested, packed, and pushed `0.9.2`; local published-package consumer install for `0.9.1` is historical |
 | Elixir | `elixir/v0.9.1` | Hex `praxo_core==0.9.1` published with OpenAI-compatible, Anthropic, Gemini, Harmovela, and MCP adapters; `0.5.1`, `0.4.1`, `0.4.0`, `0.3.0`, `0.2.0` historical | Extended starter added; Hex `0.4.1` resolved in a clean Mix project and allow/deny passed locally; `0.6.0` install smoke not rerun |
 | Erlang | `erlang/v0.8.1` | Hex `praxo_core_erlang==0.8.1` published; `0.4.0`, `0.3.1`, `0.2.0` historical | Not rerun for `0.5.0`; historical `0.1.1` smoke |
-| Ruby | `ruby/v0.8.2` | RubyGems `praxo-core==0.8.1` published; `0.4.1`, `0.4.0`, `0.3.0`, `0.2.0` historical | `0.8.1` source synced to `axisvela/praxo-core-ruby` with tag `v0.8.1`; gem build and clean-gem-home install smoke passed locally |
+| Ruby | `ruby/v0.8.2` | RubyGems `praxo-core==0.8.2` published; `0.4.1`, `0.4.0`, `0.3.0`, `0.2.0` historical | Release workflow ran conformance, API snapshot, tests, gem build, and push for `0.8.2`; split repo synced and tagged `v0.8.2`; local published-gem install not rerun |
 | Lua | `lua/v0.7.1` | LuaRocks `praxo-core==0.7.1-1` published with the optional OpenAI-compatible adapter; `0.4.1-1`, `0.4.0-1`, `0.3.0-1`, `0.2.0-1` also published | Extended starter added; LuaRocks `0.4.1-1` installed into a clean tree and allow/deny passed locally; `0.5.0-1` install smoke not rerun |
 | PHP | `php/v0.8.1` | Packagist `axisvela/praxo-core==0.8.1` published with Composer `autoload.files`; `0.4.1`, `0.4.0`, `0.3.0`, `0.2.0` historical | Fresh Composer install of published `0.8.1` and consumer allow/deny tests passed locally on 2026-11-18 |
 | Dart | `dart/v0.6.1` | pub.dev `praxo_core==0.6.1` | Clean `0.6.1` install smoke passed locally on 2026-11-16 |
@@ -130,14 +130,14 @@ its latest version matches the manifest at the release tag.
 
 | Language | Code/manifest version | Registry latest | Status |
 | --- | --- | --- | --- |
-| Python | `0.9.1` | PyPI `0.9.0` | registry publication pending |
+| Python | `0.9.1` | PyPI `0.9.1` | current |
 | TypeScript | `0.8.1` | npm `0.8.0` | registry publication pending |
 | Java | `0.10.0` | Maven Central `0.10.0` | current |
-| Rust | `0.9.2` | crates.io `0.9.1` | registry publication pending |
-| C# | `0.9.2` | NuGet `0.9.1` | registry publication pending |
+| Rust | `0.9.2` | crates.io `0.9.2` | current |
+| C# | `0.9.2` | NuGet `0.9.2` | current |
 | Elixir | `0.9.1` | Hex `0.9.1` | current |
 | Erlang | `0.8.1` | Hex `0.8.1` | current |
-| Ruby | `0.8.2` | RubyGems `0.8.1` | registry publication pending |
+| Ruby | `0.8.2` | RubyGems `0.8.2` | current |
 | PHP | `0.8.1` | Packagist `0.8.1` | current |
 | Lua | rockspec `0.7.1-1`; source tag `0.7.1` | LuaRocks `0.7.1-1` | current |
 | Dart | `0.6.1` | pub.dev `0.6.1` | current |

@@ -48,7 +48,7 @@ python -m venv .venv
 .venv/bin/python -m unittest test_summarize.py -v
 ```
 
-示例安装已发布的 PyPI `praxo-core==0.9.0`。
+示例安装已发布的 PyPI `praxo-core==0.9.1`。
 
 ### TypeScript
 
@@ -69,7 +69,7 @@ mvn -q compile exec:java -Dexec.args="Quarterly status: all checks green."
 mvn -q test
 ```
 
-示例解析 Maven Central `com.axisvela:praxo-core:0.9.0`。
+示例解析 Maven Central `com.axisvela:praxo-core:0.9.1`。
 
 ### C#
 
@@ -170,7 +170,7 @@ Octave 通过共享的 `language/matlab-octave-core` 复用 MATLAB 示例。
 
 ```bash
 python -m venv .venv
-.venv/bin/python -m pip install "praxo-core==0.9.0"
+.venv/bin/python -m pip install "praxo-core==0.9.1"
 ```
 
 2. 从

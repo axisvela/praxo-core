@@ -1,6 +1,6 @@
 # Structured Output Processor
 
-This example uses published NuGet `Praxo.Core==0.9.1` to turn free text into
+This example uses published NuGet `Praxo.Core==0.9.2` to turn free text into
 validated JSON with `StructuredOutput`.
 
 ## Run

@@ -2,7 +2,8 @@
 
 ## 0.8.1 - 2026-11-18
 
-Source tag `typescript/v0.8.1`; npm publication follows the release workflow.
+Source tag `typescript/v0.8.1`; npm `0.8.1` is staged for maintainer approval.
+Direct publish was denied by npm OIDC permissions, so `0.8.0` remains `latest`.
 
 ### Added
 
