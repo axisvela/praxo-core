@@ -9,8 +9,8 @@
 - package: `praxo-core`
 - registry: [LuaRocks](https://luarocks.org/modules/hanhhuiwen/praxo-core)
 - source_version: `0.7.2-1`
-- published_version: `0.7.1-1`
-- install_published: `luarocks install praxo-core 0.7.1-1`
+- published_version: `0.7.2-1`
+- install_published: `luarocks install praxo-core 0.7.2-1`
 - install_source: `luarocks install praxo-core 0.7.1-1`
 - source_tag: `lua/v0.7.2`
 - tier: Core

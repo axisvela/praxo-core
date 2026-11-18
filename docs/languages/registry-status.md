@@ -40,9 +40,9 @@ GitHub Latest represents the Go Reference Core only, not the last language packa
 | Elixir | Hex / HexDocs | `0.9.2` | https://hex.pm/packages/praxo_core/0.9.2 路 https://praxo-core.hexdocs.pm/0.9.2/ | published |
 | Erlang | Hex | `0.8.2` | https://hex.pm/packages/praxo_core_erlang/0.8.2 | published |
 | Ruby | RubyGems | `0.8.2` | https://rubygems.org/gems/praxo-core/versions/0.8.2 | published; Ruby source repo is `axisvela/praxo-core-ruby` |
-| Lua | LuaRocks | `0.7.1-1` | https://luarocks.org/modules/hanhhuiwen/praxo-core | published |
+| Lua | LuaRocks | `0.7.2-1` | https://luarocks.org/modules/hanhhuiwen/praxo-core | published |
 | PHP | Packagist | `0.8.1` | https://packagist.org/packages/axisvela/praxo-core | published |
-| Dart | pub.dev | `0.6.1` | https://pub.dev/packages/praxo_core/versions/0.6.1 | published |
+| Dart | pub.dev | `0.6.2` | https://pub.dev/packages/praxo_core/versions/0.6.2 | published |
 | D | DUB | `0.4.0` | https://code.dlang.org/packages/praxo-core | split repo `v0.6.0` tagged; DUB refresh pending |
 | Swift | Swift Package Index | `0.7.0` | https://swiftpackageindex.com/axisvela/praxo-core-swift | published |
 | MATLAB | MATLAB File Exchange | `0.5.0` | https://www.mathworks.com/matlabcentral/fileexchange/185166-praxo-core | published; 0.7.0 upload pending |

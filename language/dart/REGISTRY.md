@@ -1,7 +1,7 @@
 # PRAXO-CORE Dart Registry Introduction
 
 **Status:** published. Source version `0.6.2`, source
-tag `dart/v0.6.2`. Published registry version: `0.6.1`. Registry
+tag `dart/v0.6.2`. Published registry version: `0.6.2`. Registry
 pages are release snapshots; verify the published version before relying on a
 feature.
 
@@ -14,10 +14,10 @@ PRAXO-CORE is an embeddable, MIT-licensed agent framework. This package is its n
 | Field | Value |
 | --- | --- |
 | Package | `praxo_core` |
-| Registry | [pub.dev](https://pub.dev/packages/praxo_core/versions/0.6.1) |
+| Registry | [pub.dev](https://pub.dev/packages/praxo_core/versions/0.6.2) |
 | Source version | `0.6.2` |
-| Published registry version | `0.6.1` |
-| Install (published) | `dart pub add praxo_core:^0.6.1` |
+| Published registry version | `0.6.2` |
+| Install (published) | `dart pub add praxo_core:^0.6.2` |
 | Install (source/release prepared) | `dart pub add praxo_core:^0.6.1` |
 | Source tag | `dart/v0.6.2` |
 | Tier | Core |

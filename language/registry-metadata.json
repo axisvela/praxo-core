@@ -72,16 +72,16 @@
   "Dart": {
     "dir": "language/dart",
     "docs": "https://axisvela.github.io/praxo-core/languages/dart/",
-    "install": "dart pub add praxo_core:^0.6.1",
+    "install": "dart pub add praxo_core:^0.6.2",
     "package": "praxo_core",
-    "published_version": "0.6.1",
+    "published_version": "0.6.2",
     "registry": "pub.dev",
     "source_install": "dart pub add praxo_core:^0.6.1",
     "source_version": "0.6.2",
     "status": "published",
     "tag": "dart/v0.6.2",
     "tier": "Core",
-    "url": "https://pub.dev/packages/praxo_core/versions/0.6.1"
+    "url": "https://pub.dev/packages/praxo_core/versions/0.6.2"
   },
   "Delphi / Free Pascal": {
     "dir": "language/delphi",
@@ -212,9 +212,9 @@
   "Lua": {
     "dir": "language/lua",
     "docs": "https://axisvela.github.io/praxo-core/languages/lua/",
-    "install": "luarocks install praxo-core 0.7.1-1",
+    "install": "luarocks install praxo-core 0.7.2-1",
     "package": "praxo-core",
-    "published_version": "0.7.1-1",
+    "published_version": "0.7.2-1",
     "registry": "LuaRocks",
     "source_install": "luarocks install praxo-core 0.7.1-1",
     "source_version": "0.7.2-1",
