@@ -46,7 +46,7 @@ test "subagent run completes synchronously and preserves the terminal state" {
     try std.testing.expectEqualStrings("completed", task.status);
     try std.testing.expectEqualStrings("fork", task.mode);
     try std.testing.expectEqualStrings("done", task.output);
-    try std.testing.expectEqualStrings("", task.error);
+    try std.testing.expectEqualStrings("", task.@"error");
     try std.testing.expectEqualStrings("2023-11-14T22:13:20.123456789Z", task.created_at);
     try std.testing.expectEqualStrings("2023-11-14T22:13:20.123456789Z", task.updated_at);
 }
@@ -64,7 +64,7 @@ test "subagent run fails terminally and preserves the runner error code" {
         fixedClock,
     );
     try std.testing.expectEqualStrings("failed", task.status);
-    try std.testing.expectEqualStrings("SUBAGENT_BOOM", task.error);
+    try std.testing.expectEqualStrings("SUBAGENT_BOOM", task.@"error");
 }
 
 test "subagent run requires parent session and agent ids" {

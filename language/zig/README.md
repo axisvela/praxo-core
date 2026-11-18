@@ -1,6 +1,6 @@
 # PRAXO-CORE Zig Core
 
-Zig 0.17 implementation of the PRAXO-CORE agent contract. The normative
+Zig 0.17 implementation of the PRAXO-CORE AI agent framework contract. The normative
 contract is [`spec/`](../../spec/README.md); Go remains the reference
 implementation.
 
@@ -49,6 +49,14 @@ var instance = agent.Agent.init(.{
 ```
 
 See [`examples/hitl/`](examples/hitl/) for an approve and edit-denial run.
+
+## Representative Flows
+
+- [Representative chain](examples/representative-chain/): deterministic MCP
+  record, final-argument authorization, child delegation, OTel/Harmovela events,
+  and an edited denial with zero effects.
+- [Advanced delegation](examples/advanced-delegation/): application-level
+  parent/child scope plus six governance negative checks.
 
 ## Harmovela Event Sink
 

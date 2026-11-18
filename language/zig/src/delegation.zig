@@ -34,7 +34,7 @@ pub const SubagentTask = struct {
     mode: []const u8 = "isolated",
     status: []const u8 = "",
     output: []const u8 = "",
-    error: []const u8 = "",
+    @"error": []const u8 = "",
     created_at: []const u8 = "",
     updated_at: []const u8 = "",
 };
@@ -81,7 +81,7 @@ pub fn subagentRun(
     };
     const result = runner_value.run(allocator, request) catch |error_value| {
         task.status = "failed";
-        task.error = errorCode(error_value);
+        task.@"error" = errorCode(error_value);
         task.updated_at = try formatRfc3339(allocator, if (clock) |value| value() else nowParts());
         return task;
     };
