@@ -18,7 +18,7 @@ Swift implementation of the PRAXO-CORE contract.
 
 ## Examples
 
-Thirteen runnable examples ship under [`examples/`](examples):
+Fifteen runnable examples ship under [`examples/`](examples):
 
 | Example | What it shows |
 | --- | --- |
@@ -35,6 +35,8 @@ Thirteen runnable examples ship under [`examples/`](examples):
 | [streaming](examples/streaming) | Streamed chunk accumulation |
 | [mcp](examples/mcp) | Caller-owned in-process MCP transport |
 | [hitl](examples/hitl) | Approval, edit, and final-argument reauthorization |
+| [representative-chain](examples/representative-chain) | MCP, policy, delegation, OTel/Harmovela, and denied-edit chain |
+| [advanced-delegation](examples/advanced-delegation) | Six application-level delegation governance checks |
 
 Each example has its own README with the exact `swift run` command. They are
 deterministic local checks, not live-provider or production evidence.
