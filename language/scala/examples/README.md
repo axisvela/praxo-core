@@ -32,6 +32,14 @@ println(result.output)
 Tools, middleware, memory, checkpoints, policy, and streaming are the Java Core
 APIs; do not create a separate Scala core.
 
+## Representative Chain and Governance
+
+Scala uses the Java Core directly. Run the host language examples instead of
+creating a separate Scala chain:
+
+- [Java representative chain](../../java/examples/representative-chain/)
+- [Java advanced delegation](../../java/examples/advanced-delegation/README.md)
+
 ## Release
 
 No separate tag. Scala ships with the Java package `java/v0.2.1`.

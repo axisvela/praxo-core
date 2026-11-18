@@ -69,6 +69,10 @@
   MATLAB/Octave implementation, Delphi / Free Pascal, Objective-C, Swift, and
   PowerShell. They use in-memory or transport-seam MCP, OTel, and Harmovela
   seams.
+- Sample-language entries (JavaScript, Kotlin, Scala, Groovy, Clojure, Visual
+  Basic, F#, and OpenCL) now point to their host Core's representative-chain and
+  delegation examples. Shell, Lisp, Tcl, and Prolog record that the bridge
+  contract has no local delegation surface; their forwarding tests were rerun.
 - Opt-in `require_policy`/`require_tool_scope` safe-default guards (and their
   idiomatic casing per language) across the native Core agent APIs: Go, Python,
   TypeScript, Java, Rust, C#, R, Ruby, PHP, Elixir, Lua, Perl, Erlang, C, C++,

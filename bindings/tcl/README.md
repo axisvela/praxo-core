@@ -44,6 +44,15 @@ The test builds the Go bridge, then checks version reporting, Unicode tool-call
 forwarding, markup stripping, schema validation, and contract-error exit code.
 Set `TCLSH` to select a specific interpreter.
 
+## Representative Chain and Governance
+
+The bridge exposes one-shot bridge commands and has no local agent loop,
+subagent manager, or child-policy surface, so a bridge-local chain/delegation
+example is not applicable. Use the
+[Go representative chain](https://github.com/axisvela/praxo-core/tree/main/examples/representative-chain)
+and [Go multi-agent example](https://github.com/axisvela/praxo-core/tree/main/examples/multiagent).
+The Tcl forwarding path is verified by `python bindings/tcl/test_bridge.py`.
+
 ## Limits
 
 - Requires Tcl 8.6 and either a prebuilt bridge or Go.

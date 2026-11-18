@@ -35,6 +35,14 @@ console.log(result.output);
 Tools, middleware, memory, checkpoints, policy, and streaming are the same
 TypeScript APIs; do not create a separate JavaScript core.
 
+## Representative Chain and Governance
+
+JavaScript uses the TypeScript implementation directly. Run the host language
+examples instead of creating a separate JavaScript chain:
+
+- [TypeScript representative chain](../../typescript/examples/representative-chain/README.md)
+- [TypeScript advanced delegation](../../typescript/examples/advanced-delegation/README.md)
+
 ## Release
 
 No separate tag. JavaScript ships with the TypeScript package

@@ -31,6 +31,14 @@ CI installs Clojure and runs the same sample.
 Tools, middleware, memory, checkpoints, policy, and streaming are the Java Core
 APIs; do not create a separate Clojure core.
 
+## Representative Chain and Governance
+
+Clojure uses the Java Core directly. Run the host language examples instead of
+creating a separate Clojure chain:
+
+- [Java representative chain](../../java/examples/representative-chain/)
+- [Java advanced delegation](../../java/examples/advanced-delegation/README.md)
+
 ## Release
 
 No separate tag. Clojure ships with the Java package `java/v0.2.1`.

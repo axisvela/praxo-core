@@ -31,6 +31,15 @@ python bindings/lisp/test_bridge.py
 Set `SBCL` to select a compiler. The test builds the bridge, sends raw UTF-8
 JSON over stdin, checks JSON output, and verifies exit-code propagation.
 
+## Representative Chain and Governance
+
+The bridge exposes one-shot bridge commands and has no local agent loop,
+subagent manager, or child-policy surface, so a bridge-local chain/delegation
+example is not applicable. Use the
+[Go representative chain](https://github.com/axisvela/praxo-core/tree/main/examples/representative-chain)
+and [Go multi-agent example](https://github.com/axisvela/praxo-core/tree/main/examples/multiagent).
+The Lisp forwarding path is verified by `python bindings/lisp/test_bridge.py`.
+
 ## Contract and Limits
 
 - Input is one JSON object on stdin; output is one JSON object on stdout;

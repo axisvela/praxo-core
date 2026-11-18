@@ -28,6 +28,14 @@ OpenCL kernel that adds one to each element. A real integration would dispatch
 compute work from a tool callback and return the result as JSON; OpenCL itself
 does not implement the PRAXO-CORE contract.
 
+## Representative Chain and Governance
+
+OpenCL uses the C Core and has no separate agent loop. Run the host language
+chain and delegation tests instead of creating a separate OpenCL chain:
+
+- [`test_representative_chain.c`](../../c/tests/test_representative_chain.c)
+- [`test_delegation_governance.c`](../../c/tests/test_delegation_governance.c)
+
 ## Release
 
 No separate tag. The sample reuses the C package `c/v0.2.0`.

@@ -9,7 +9,15 @@ From the repository root, use the .NET Core to run:
 dotnet run --project language/csharp/samples/VbSample
 ```
 
-See the [C# / .NET Core](../csharp/) for runtime requirements, supported features,
-contract version, and limitations, and the
+See the [C# / .NET Core](../csharp/index.md) for runtime requirements, supported
+features, contract version, and limitations, and the
 [VB sample source](https://github.com/axisvela/praxo-core/tree/main/language/csharp/samples/VbSample)
 for usage. No separate Visual Basic package or release is implied.
+
+## Representative Chain and Governance
+
+Visual Basic uses the C# Core directly. Run the host language examples instead
+of creating a separate Visual Basic chain:
+
+- [C# representative chain tests](https://github.com/axisvela/praxo-core/blob/main/language/csharp/Praxo.Tests/RepresentativeChainTests.cs)
+- [C# advanced delegation](https://github.com/axisvela/praxo-core/tree/main/language/csharp/examples/advanced-delegation)

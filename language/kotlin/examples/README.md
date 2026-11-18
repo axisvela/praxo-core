@@ -32,6 +32,14 @@ println(result.output)
 Tools, middleware, memory, checkpoints, policy, and streaming are the Java Core
 APIs; do not create a separate Kotlin core.
 
+## Representative Chain and Governance
+
+Kotlin uses the Java Core directly. Run the host language examples instead of
+creating a separate Kotlin chain:
+
+- [Java representative chain](../../java/examples/representative-chain/)
+- [Java advanced delegation](../../java/examples/advanced-delegation/README.md)
+
 ## Release
 
 No separate tag. Kotlin ships with the Java package `java/v0.2.1`.

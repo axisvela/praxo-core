@@ -137,7 +137,10 @@ Delphi、PowerShell、MATLAB 和 Objective-C，入口位于
 
 ## 高级示例
 
-应用级委派示例已覆盖 Go、Python、TypeScript、Java、C# 和 Rust。Go 还提供长时操作、受治理
-Workspace 和 Plugin 参考示例。其余已声明语言尚无高级示例；缺失条目是已记录差距，不是
-通过。参见[高级示例](../guides/advanced-examples.md)，并运行
+应用级委派和确定性 representative-chain 示例已覆盖各 Core SDK 语言，包括原生、共享
+运行时和 adapter 实现。部分 SDK 将相同检查放在原生测试套件中，而非
+`examples/advanced-delegation` 目录。Go 还提供长时操作、受治理 Workspace 和 Plugin 参考示例。Sample
+语言指向宿主 Core 的 chain/delegation 示例；Shell、Lisp、Tcl 和 Prolog 明确记录 Bridge
+契约没有本地委派接口。记录运行见[验证证据](../project/verification-evidence.md)，模式说明见
+[高级示例](../guides/advanced-examples.md)，并运行
 `python scripts/check_example_coverage.py --report-advanced` 查看当前逐语言报告。

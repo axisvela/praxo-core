@@ -151,10 +151,14 @@ transport-neutral because those Cores do not bundle an MCP client.
 
 ## Advanced Examples
 
-Application-level delegation examples are available for Go, Python,
-TypeScript, Java, C#, and Rust. Go also has reference examples for long-running
-operations, governed workspaces, and plugins. The remaining declared languages
-do not yet have advanced examples; missing entries are recorded gaps, not
-passes. See [Advanced examples](../guides/advanced-examples.md) and run
+Application-level delegation and deterministic representative-chain examples
+are available across the Core SDK languages, including the native, shared-runtime,
+and adapter-based implementations. Some SDKs place the same checks in native test
+suites rather than an `examples/advanced-delegation` directory. Go also has
+reference examples for long-running operations, governed workspaces, and plugins. Sample languages point to their
+host Core's chain/delegation examples; Shell, Lisp, Tcl, and Prolog explicitly
+record that the bridge contract has no local delegation surface. See the
+[verification evidence](../project/verification-evidence.md) for recorded runs
+and [Advanced examples](../guides/advanced-examples.md) for the pattern. Run
 `python scripts/check_example_coverage.py --report-advanced` for the current
 per-language report.

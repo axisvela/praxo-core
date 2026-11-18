@@ -27,6 +27,14 @@ printfn "%s" result.Output
 Tools, middleware, memory, checkpoints, policy, and streaming are the C# Core
 APIs; do not create a separate F# core.
 
+## Representative Chain and Governance
+
+F# uses the C# Core directly. Run the host language examples instead of creating
+a separate F# chain:
+
+- [C# representative chain tests](../../csharp/Praxo.Tests/RepresentativeChainTests.cs)
+- [C# advanced delegation](../../csharp/examples/advanced-delegation/README.md)
+
 ## Release
 
 No separate tag. F# ships with the C# package `csharp/v0.1.0`.
