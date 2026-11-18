@@ -39,7 +39,7 @@ jobs:
       - run: ruby language/ruby/api-snapshot.rb --check
       - run: ruby language/ruby/tests/run.rb
       - run: ruby language/ruby/examples/advanced-delegation/governance_test.rb
-      - run: ruby language/ruby/examples/representative-chain/chain.rb
+      - run: ruby -I language/ruby/lib language/ruby/examples/representative-chain/chain.rb
 
   current-ruby-consumer:
     runs-on: ubuntu-latest
