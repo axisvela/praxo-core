@@ -105,7 +105,7 @@ Registry values below were checked against the public registries on 2026-11-17.
 | TypeScript | `typescript/v0.8.0` | npm `@axisvela/praxo-core@0.8.0` published as `latest` | Release workflow built the `0.8.0` tarball; post-publication consumer starter check not rerun |
 | Java | `java/v0.10.0` | Maven Central `com.axisvela:praxo-core:0.10.0` published | Release workflow built, signed, and published `0.10.0`; post-publication consumer check not rerun |
 | Rust | `rust/v0.9.1` | crates.io `praxo-core==0.9.1` published; `0.1.4` historical | Consumer starter ran against published `0.9.1` locally; `http-ureq` live path remains source-only |
-| C# | `csharp/v0.9.1` | NuGet `Praxo.Core==0.9.1` published | Consumer starter ran against published `0.9.1` locally |
+| C# | `csharp/v0.9.1` | NuGet `Praxo.Core==0.9.1` published | Clean `NUGET_PACKAGES` install used an explicit NuGet source and the published-package consumer passed locally |
 | Elixir | `elixir/v0.9.1` | Hex `praxo_core==0.9.1` published with OpenAI-compatible, Anthropic, Gemini, Harmovela, and MCP adapters; `0.5.1`, `0.4.1`, `0.4.0`, `0.3.0`, `0.2.0` historical | Extended starter added; Hex `0.4.1` resolved in a clean Mix project and allow/deny passed locally; `0.6.0` install smoke not rerun |
 | Erlang | `erlang/v0.8.1` | Hex `praxo_core_erlang==0.8.1` published; `0.4.0`, `0.3.1`, `0.2.0` historical | Not rerun for `0.5.0`; historical `0.1.1` smoke |
 | Ruby | `ruby/v0.8.1` | RubyGems `praxo-core==0.8.1` published; `0.4.1`, `0.4.0`, `0.3.0`, `0.2.0` historical | `0.8.1` source synced to `axisvela/praxo-core-ruby` with tag `v0.8.1`; gem build and clean-gem-home install smoke passed locally |

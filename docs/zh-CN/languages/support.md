@@ -76,7 +76,7 @@ Bridge、Sample 描述运行时的接入方式，不证明其语言缺乏 Framew
 | TypeScript | `typescript/v0.8.0` | npm `@axisvela/praxo-core@0.8.0` 已作为 `latest` 发布 | 发布工作流构建了 `0.8.0` tarball；发布后消费者检查未重跑 |
 | Java | `java/v0.10.0` | Maven Central `com.axisvela:praxo-core:0.10.0` 已发布 | 发布工作流构建、签名并发布 `0.10.0`；发布后消费者检查未重跑 |
 | Rust | `rust/v0.9.1` | crates.io `praxo-core==0.9.1` 已发布；`0.1.4` 为历史版本 | Consumer starter 已针对发布 `0.9.1` 本地运行；`http-ureq` live 路径仍为源码模式 |
-| C# | `csharp/v0.9.1` | NuGet `Praxo.Core==0.9.1` 已发布 | Consumer starter 已针对发布 `0.9.1` 本地运行 |
+| C# | `csharp/v0.9.1` | NuGet `Praxo.Core==0.9.1` 已发布 | 干净 `NUGET_PACKAGES` 安装使用显式 NuGet source，发布包消费者本地通过 |
 | Elixir | `elixir/v0.9.1` | Hex `praxo_core==0.9.1` 已发布，包含 OpenAI-compatible、Anthropic、Gemini、Harmovela 和 MCP adapter；`0.5.1`、`0.4.1`、`0.4.0`、`0.3.0`、`0.2.0` 为历史版本 | 已增加扩展 starter；Hex `0.4.1` 在干净 Mix 项目中解析，allow/deny 本地通过；`0.6.0` 安装 smoke 未重跑 |
 | Erlang | `erlang/v0.8.1` | Hex `praxo_core_erlang==0.8.1` 已发布；`0.4.0`、`0.3.1`、`0.2.0` 为历史版本 | `0.5.0` 未重跑；历史 `0.1.1` smoke |
 | Ruby | `ruby/v0.8.1` | RubyGems `praxo-core==0.8.1` 已发布；`0.4.1`、`0.4.0`、`0.3.0`、`0.2.0` 为历史版本 | `0.8.1` 源码已同步到 `axisvela/praxo-core-ruby` 并打 `v0.8.1` tag；gem build 与干净 gem home 安装 smoke 本地通过 |
