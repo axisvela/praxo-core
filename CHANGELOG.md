@@ -47,6 +47,8 @@
   and published as `latest`; Java Maven publication remains deferred.
 - Published Elixir `0.9.2`, Erlang `0.8.2`, Haskell `0.7.1`, and PowerShell
   `0.7.2`. Perl `0.6.2` uploaded but MetaCPAN indexing was still pending.
+- Prepared Lua `0.7.2` and Dart `0.6.2` source releases for the expanded example
+  index; registry publication follows their tag workflows.
 - Added annotated sample snapshot tags for JavaScript (`javascript/v0.8.0`),
   Kotlin/Scala/Groovy/Clojure (`v0.10.0`), F# and Visual Basic (`v0.9.1`), and
   OpenCL (`opencl/v0.10.0`). These are samples over host Cores, not separate

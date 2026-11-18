@@ -10,11 +10,11 @@ The normative contract is [`spec/`](../../spec/README.md); Go remains the
 reference implementation.
 
 - `SPEC_VERSION`: `0.2.0`
-- Core version: `0.7.1`
+- Core version: `0.7.2`
 - Tier: core
 - License: MIT
 - Dependencies: Lua standard library only
-- LuaRocks page: `praxo-core@0.7.1-1` published with the optional
+- LuaRocks page: `praxo-core@0.7.2-1` published with the optional
   OpenAI-compatible adapter. Releases are built and published by
   `.github/workflows/lua-release.yml`
 
@@ -32,7 +32,7 @@ reference implementation.
 Install the published package:
 
 ```bash
-luarocks install praxo-core 0.7.1-1
+luarocks install praxo-core 0.7.2-1
 ```
 
 Then run the smallest deterministic example:
@@ -153,5 +153,5 @@ exactly-once delivery. Use HTTPS and filter sensitive event data first.
 
 ## Release
 
-Tag shape: `lua/v0.7.1`. The tag targets `SPEC_VERSION` `0.2.0`. See
+Tag shape: `lua/v0.7.2`. The tag targets `SPEC_VERSION` `0.2.0`. See
 [CHANGELOG.md](CHANGELOG.md) for per-release changes and compatibility notes.

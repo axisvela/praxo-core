@@ -109,9 +109,9 @@ Registry values below were checked against the public registries on 2026-11-17.
 | Elixir | `elixir/v0.9.2` | Hex `praxo_core==0.9.2` published with OpenAI-compatible, Anthropic, Gemini, Harmovela, and MCP adapters; `0.5.1`, `0.4.1`, `0.4.0`, `0.3.0`, `0.2.0` historical | Extended starter added; Hex `0.4.1` resolved in a clean Mix project and allow/deny passed locally; `0.6.0` install smoke not rerun |
 | Erlang | `erlang/v0.8.2` | Hex `praxo_core_erlang==0.8.2` published; `0.4.0`, `0.3.1`, `0.2.0` historical | Not rerun for `0.5.0`; historical `0.1.1` smoke |
 | Ruby | `ruby/v0.8.2` | RubyGems `praxo-core==0.8.2` published; `0.4.1`, `0.4.0`, `0.3.0`, `0.2.0` historical | Release workflow ran conformance, API snapshot, tests, gem build, and push for `0.8.2`; split repo synced and tagged `v0.8.2`; local published-gem install not rerun |
-| Lua | `lua/v0.7.1` | LuaRocks `praxo-core==0.7.1-1` published with the optional OpenAI-compatible adapter; `0.4.1-1`, `0.4.0-1`, `0.3.0-1`, `0.2.0-1` also published | Extended starter added; LuaRocks `0.4.1-1` installed into a clean tree and allow/deny passed locally; `0.5.0-1` install smoke not rerun |
+| Lua | `lua/v0.7.2` | LuaRocks `praxo-core==0.7.1-1` published with the optional OpenAI-compatible adapter; `0.4.1-1`, `0.4.0-1`, `0.3.0-1`, `0.2.0-1` also published | Extended starter added; LuaRocks `0.4.1-1` installed into a clean tree and allow/deny passed locally; `0.5.0-1` install smoke not rerun |
 | PHP | `php/v0.8.1` | Packagist `axisvela/praxo-core==0.8.1` published with Composer `autoload.files`; `0.4.1`, `0.4.0`, `0.3.0`, `0.2.0` historical | Fresh Composer install of published `0.8.1` and consumer allow/deny tests passed locally on 2026-11-18 |
-| Dart | `dart/v0.6.1` | pub.dev `praxo_core==0.6.1` | Clean `0.6.1` install smoke passed locally on 2026-11-16 |
+| Dart | `dart/v0.6.2` | pub.dev `praxo_core==0.6.1` | Prior clean `0.6.1` install smoke passed locally; `0.6.2` publication pending |
 | Julia | `julia/v0.7.0` | General Registry PR #176393 open; merge pending | Not recorded |
 | MATLAB | `matlab/v0.7.0` | MATLAB File Exchange `185166` published (`0.5.0`); `0.7.0` upload pending | Not recorded |
 | Octave | `octave/v0.7.0` | Octave `0.7.0` release tarball published; Octave Packages PR #875 pending | Not recorded |
@@ -139,8 +139,8 @@ its latest version matches the manifest at the release tag.
 | Erlang | `0.8.2` | Hex `0.8.2` | current |
 | Ruby | `0.8.2` | RubyGems `0.8.2` | current |
 | PHP | `0.8.1` | Packagist `0.8.1` | current |
-| Lua | rockspec `0.7.1-1`; source tag `0.7.1` | LuaRocks `0.7.1-1` | current |
-| Dart | `0.6.1` | pub.dev `0.6.1` | current |
+| Lua | rockspec `0.7.2-1`; source tag `0.7.2` | LuaRocks `0.7.1-1` | registry publication pending |
+| Dart | `0.6.2` | pub.dev `0.6.1` | registry publication pending |
 | Julia | `0.7.0` | General Registry PR #176393 open; merge pending | pending |
 | MATLAB | `0.7.0` | File Exchange `185166` (`0.5.0`) | 0.7.0 upload pending |
 | Octave | `0.7.0` | 0.7.0 release tarball; Octave Packages PR #875 pending | pending |
