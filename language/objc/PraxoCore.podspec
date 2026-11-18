@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
   s.name             = "PraxoCore"
   s.version          = "0.6.0"
-  s.summary          = "Embeddable MIT-licensed agent framework for Objective-C"
+  s.summary          = "Embeddable MIT-licensed AI agent framework for Objective-C"
   s.description      = <<-DESC
 Native Objective-C Core for PRAXO-CORE: tools, policy, events, memory,
 context, middleware, checkpoints, JSON Schema, plugin manifests, and an agent loop.

@@ -124,6 +124,14 @@ policy and before the interrupt check.
 
 A runnable approval example is in [`examples/hitl/`](examples/hitl/).
 
+## Representative Flows
+
+- [Representative chain](examples/representative-chain/): MCP record, final
+  authorization, child delegation, OTel/Harmovela events, and an edited denial
+  with zero effects.
+- [Advanced delegation](examples/advanced-delegation/): parent/child scope and
+  six governance negative checks.
+
 The parser returns `nil` when the content is not a recognized call or the
 manifest is invalid. Schema validation returns error paths. Core-local
 `PXRWireErrorDomain` and `PXRCoreErrorDomain` codes are not new shared wire
