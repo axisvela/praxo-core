@@ -1091,6 +1091,7 @@ jobs:
       - run: dotnet run --project language/csharp/Praxo.Conformance -c Release
       - run: dotnet run --project language/csharp/Praxo.Tests -c Release
       - run: pwsh -NoProfile -File language/powershell/tests/run.ps1
+      - run: pwsh -NoProfile -File language/powershell/examples/consumer/consumer.tests.ps1
       - run: pwsh -NoProfile -File language/powershell/api-snapshot.ps1 -Check
 
   rust-conformance:

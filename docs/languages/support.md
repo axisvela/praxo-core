@@ -110,14 +110,14 @@ Registry values below were checked against the public registries on 2026-11-17.
 | Erlang | `erlang/v0.8.1` | Hex `praxo_core_erlang==0.8.1` published; `0.4.0`, `0.3.1`, `0.2.0` historical | Not rerun for `0.5.0`; historical `0.1.1` smoke |
 | Ruby | `ruby/v0.8.1` | RubyGems `praxo-core==0.8.1` published; `0.4.1`, `0.4.0`, `0.3.0`, `0.2.0` historical | `0.8.1` source synced to `axisvela/praxo-core-ruby` with tag `v0.8.1`; gem build and clean-gem-home install smoke passed locally |
 | Lua | `lua/v0.7.1` | LuaRocks `praxo-core==0.7.1-1` published with the optional OpenAI-compatible adapter; `0.4.1-1`, `0.4.0-1`, `0.3.0-1`, `0.2.0-1` also published | Extended starter added; LuaRocks `0.4.1-1` installed into a clean tree and allow/deny passed locally; `0.5.0-1` install smoke not rerun |
-| PHP | `php/v0.8.1` | Packagist `axisvela/praxo-core==0.8.1` published with Composer `autoload.files`; `0.4.1`, `0.4.0`, `0.3.0`, `0.2.0` historical | Extended starter added; Composer install of published `0.4.1` passed locally; `0.8.1` install smoke not rerun |
+| PHP | `php/v0.8.1` | Packagist `axisvela/praxo-core==0.8.1` published with Composer `autoload.files`; `0.4.1`, `0.4.0`, `0.3.0`, `0.2.0` historical | Fresh Composer install of published `0.8.1` and consumer allow/deny tests passed locally on 2026-11-18 |
 | Dart | `dart/v0.6.1` | pub.dev `praxo_core==0.6.1` | Clean `0.6.1` install smoke passed locally on 2026-11-16 |
 | Julia | `julia/v0.7.0` | General Registry PR #176393 open; merge pending | Not recorded |
 | MATLAB | `matlab/v0.7.0` | MATLAB File Exchange `185166` published (`0.5.0`); `0.7.0` upload pending | Not recorded |
 | Octave | `octave/v0.7.0` | Octave `0.7.0` release tarball published; Octave Packages PR #875 pending | Not recorded |
 | R | `r/v0.10.1` | r-universe `praxocore==0.10.1` published; CRAN not published | Consumer starter runs in source mode; published `0.10.1` install smoke not rerun |
-| Perl | `perl/v0.6.1` | CPAN `Praxo-Core==0.6.1` published and indexed on MetaCPAN | Not recorded |
-| PowerShell | `powershell/v0.7.1` | PowerShell Gallery `praxo-core-ps==0.7.1` published | Not recorded |
+| Perl | `perl/v0.6.1` | CPAN `Praxo-Core==0.6.1` published and indexed on MetaCPAN | MetaCPAN tarball installed with `cpanm` 1.7049 in an isolated prefix; packaged consumer allow/deny passed locally on 2026-11-18 |
+| PowerShell | `powershell/v0.7.1` | PowerShell Gallery `praxo-core-ps==0.7.1` published | `Save-PSResource` download, isolated module/DLL provenance, and consumer allow/deny passed locally on 2026-11-18; `Install-Module` itself not tested |
 | Nim | `nim/v0.6.0` | Split repository package `0.1.1`; nim-lang/packages PR #3600 merged 2026-11-05; nimpkgs re-crawl pending | Not recorded |
 | OCaml | `ocaml/v0.8.0` | opam `0.3.0`; PR #31222 closed after opam-ci failure; new submission needed | Not recorded |
 | Haskell | `haskell/v0.7.0` | Hackage `praxo-core==0.7.0` published | Not recorded |

@@ -1,14 +1,26 @@
+param([switch]$UseInstalledModule)
+
 $ErrorActionPreference = 'Stop'
 
 $modulePath = Join-Path $PSScriptRoot '../../praxo-core-ps/praxo-core-ps.psd1'
-if (Test-Path $modulePath) {
+if ($UseInstalledModule) {
+    if ($env:PRAXO_CORE_DLL) {
+        throw 'Unset PRAXO_CORE_DLL before verifying an installed package.'
+    }
+    Import-Module -FullyQualifiedName @{ ModuleName = 'praxo-core-ps'; RequiredVersion = '0.7.1' } -Force
+} elseif (Test-Path $modulePath) {
     Import-Module $modulePath -Force
 } else {
     Import-Module praxo-core-ps -Force
 }
 
 $assembly = (Get-PraxoCoreInfo).Assembly
-$references = @($assembly, [System.Text.Json.Nodes.JsonNode].Assembly.Location)
+$references = @(
+    $assembly,
+    [System.Text.Json.Nodes.JsonNode].Assembly.Location,
+    [System.Collections.Generic.List[object]].Assembly.Location,
+    'System.Collections'
+)
 Add-Type -TypeDefinition @'
 #nullable enable
 using System.Text.Json.Nodes;

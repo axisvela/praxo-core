@@ -42,6 +42,12 @@
 
 ### Changed
 
+- PowerShell consumer examples can explicitly select installed module `0.7.1`
+  with `-UseInstalledModule`, without source fallback or a DLL override. Module
+  selection regressions cover source mode, missing packages, and DLL overrides.
+- Recorded local PHP `0.8.1` Composer installation, PowerShell `0.7.1`
+  `Save-PSResource` download, and Perl `0.6.1` `cpanm` installation with isolated
+  packaged-module consumer checks. These do not establish independent adoption.
 - Clarified that `memory.Store` is storage/retrieval and does not inject records
   by default; Go recall remains opt-in, and other Core SDKs do not auto-recall.
   Added a Go regression for the default no-recall boundary.
