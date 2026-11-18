@@ -28,7 +28,7 @@ orchestration platform:
 Install the published package:
 
 ```bash
-npm install @axisvela/praxo-core@0.8.0
+npm install @axisvela/praxo-core@0.8.1
 ```
 
 Then run the smallest deterministic example:
@@ -64,7 +64,7 @@ Runnable examples live under [`language/typescript/examples`](https://github.com
 ## Install
 
 ```bash
-npm install @axisvela/praxo-core@0.8.0
+npm install @axisvela/praxo-core@0.8.1
 ```
 
 ## Quickstart
@@ -172,8 +172,8 @@ output remains untrusted content.
 The normative contract is [`spec/`](../../spec/README.md); Go remains the
 reference implementation. This package supports `SPEC_VERSION` `0.2.0` and
 passes the TypeScript conformance and parity checks. The latest source tag is
-`typescript/v0.8.0`; the published npm package is
-`@axisvela/praxo-core@0.8.0`. VFS and plugin hosts are
+`typescript/v0.8.1`; the published npm package is
+`@axisvela/praxo-core@0.8.1`. VFS and plugin hosts are
 not yet implemented.
 
 ## Requirements

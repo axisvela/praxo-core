@@ -1,5 +1,19 @@
 # Python Core Release Notes
 
+## 0.9.1 - 2026-11-18
+
+Source tag `python/v0.9.1`; PyPI publication follows the release workflow.
+
+### Added
+
+- Representative-chain, advanced-delegation, and the expanded task-oriented
+  example index, including MCP, OTel/Harmovela, and governance checks.
+- Registry README links for the current example set.
+
+### Compatibility
+
+- No public API or wire change; `SPEC_VERSION` remains `0.2.0`.
+
 
 ## 0.9.0 - 2026-11-15
 

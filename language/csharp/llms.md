@@ -8,11 +8,11 @@
 
 - package: `Praxo.Core`
 - registry: [NuGet](https://www.nuget.org/packages/Praxo.Core/0.9.1)
-- source_version: `0.9.1`
+- source_version: `0.9.2`
 - published_version: `0.9.1`
 - install_published: `dotnet add package Praxo.Core --version 0.9.1`
 - install_source: `ProjectReference to language/csharp/Praxo.Core`
-- source_tag: `csharp/v0.9.1`
+- source_tag: `csharp/v0.9.2`
 - tier: Core
 - contract: `SPEC_VERSION` `0.2.0`
 - documentation: https://axisvela.github.io/praxo-core/languages/csharp/

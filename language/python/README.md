@@ -28,7 +28,7 @@ orchestration platform:
 Install the published package:
 
 ```bash
-pip install praxo-core==0.9.0
+pip install praxo-core==0.9.1
 ```
 
 Then run the smallest deterministic example:
@@ -64,7 +64,7 @@ Runnable examples live under [`language/python/examples`](https://github.com/axi
 ## Install
 
 ```bash
-pip install praxo-core==0.9.0
+pip install praxo-core==0.9.1
 ```
 
 For a source checkout:
@@ -177,7 +177,7 @@ read `MCPTool.input_schema` when you need the model-facing schema.
 The normative contract is [`spec/`](../../spec/README.md); Go remains the
 reference implementation. This package supports `SPEC_VERSION` `0.2.0` and
 passes all eleven conformance vector groups. The latest source tag is
-`python/v0.9.0`; the published PyPI package is `praxo-core==0.9.0`.
+`python/v0.9.1`; the published PyPI package is `praxo-core==0.9.1`.
 VFS and plugin hosts are not yet implemented.
 
 ## Requirements
