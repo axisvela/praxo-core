@@ -150,7 +150,7 @@ its latest version matches the manifest at the release tag.
 | R | `0.10.2` | r-universe `0.10.1` | registry publication pending |
 | Nim | `0.6.0` | Split repository package `0.1.1` | pending |
 | OCaml | `0.8.0` | opam registry `0.3.0`; PR #31222 closed (`0.8.0`) | new submission needed |
-| Swift | `0.7.0` | SPI `0.7.0` | current |
+| Swift | `0.7.1` | SPI `0.7.0` | registry publication pending |
 | Delphi / Free Pascal | `0.7.0` | OPM `0.2.1`; 0.7.0 assets published | OPM listing pending |
 | D | `0.6.0` | DUB `0.4.0` | pending |
 

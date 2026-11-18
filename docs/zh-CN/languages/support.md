@@ -120,7 +120,7 @@ Bridge、Sample 描述运行时的接入方式，不证明其语言缺乏 Framew
 | R | `0.10.2` | r-universe `0.10.1` | registry 待发布 |
 | Nim | `0.6.0` | split 仓库包 `0.1.1` | 待完成 |
 | OCaml | `0.8.0` | opam registry `0.3.0`；PR #31222 已关闭（`0.8.0`） | 需要重新提交 |
-| Swift | `0.7.0` | SPI `0.7.0` | 已最新 |
+| Swift | `0.7.1` | SPI `0.7.0` | registry 待发布 |
 | Delphi / Free Pascal | `0.7.0` | OPM `0.2.1`；0.7.0 资产已发布 | OPM 收录待完成 |
 | D | `0.6.0` | DUB `0.4.0` | 待完成 |
 
