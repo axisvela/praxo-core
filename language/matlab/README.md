@@ -57,6 +57,8 @@ in the repository and are not bundled in the toolbox.
 | Event sink | [event-sink](https://github.com/axisvela/praxo-core/tree/main/language/matlab/examples/event-sink) | Filtered sink composition |
 | MCP | [mcp](https://github.com/axisvela/praxo-core/tree/main/language/matlab/examples/mcp) | Caller-owned MCP-shaped transport |
 | HITL | [hitl](https://github.com/axisvela/praxo-core/tree/main/language/matlab/examples/hitl) | Approve, edit, reject, and respond |
+| Representative chain | [representative-chain](https://github.com/axisvela/praxo-core/tree/main/language/matlab/examples/representative-chain) | MCP, delegation, OTel/Harmovela, denied edit |
+| Advanced delegation | [advanced-delegation](https://github.com/axisvela/praxo-core/tree/main/language/matlab/examples/advanced-delegation) | Parent/child scope and six governance checks |
 
 Each example directory has a README with the exact `octave-cli` or
 `matlab -batch` command and expected output. Examples are currently validated

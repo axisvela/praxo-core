@@ -1,5 +1,12 @@
 # Changelog
 
+## Unreleased
+
+### Added
+
+- Representative-chain and advanced-delegation wrappers for the shared
+  MATLAB/Octave implementation.
+
 ## 0.7.0 - 2026-11-15
 
 Source tag `octave/v0.7.0`.

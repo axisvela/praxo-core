@@ -1,5 +1,12 @@
 # MATLAB Core Release Notes
 
+## Unreleased
+
+### Added
+
+- Shared representative-chain and advanced-delegation examples, validated under
+  GNU Octave; native MATLAB runtime remains unverified.
+
 ## 0.7.0 - 2026-11-15
 
 Source tag `matlab/v0.7.0`.

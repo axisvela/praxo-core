@@ -58,6 +58,13 @@ python language/octave/build_octave_package.py
 
 It contains `DESCRIPTION`, `inst/+praxo`, `LICENSE`, and `README.md`.
 
+## Representative Flows
+
+- [Representative chain](examples/representative-chain/): shared MATLAB/Octave
+  chain with MCP, delegation, OTel/Harmovela, and denied edit.
+- [Advanced delegation](examples/advanced-delegation/): parent/child scope and
+  six governance checks.
+
 ## API
 
 ```matlab
