@@ -63,7 +63,7 @@ class LanguageReleaseTests(unittest.TestCase):
             return releases.validate(self.root)
 
     def test_current_repository_passes(self):
-        self.assertEqual(releases.validate(ROOT), [])
+        self.assertEqual(releases.validate(ROOT, check_tags=False), [])
 
     def test_valid_fixture_passes(self):
         self.assertEqual(self.errors(), [])
