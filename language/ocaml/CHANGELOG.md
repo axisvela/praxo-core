@@ -1,5 +1,14 @@
 # OCaml Core Release Notes
 
+## Unreleased
+
+### Added
+
+- Deterministic representative-chain example covering MCP, final-argument
+  authorization, governed child delegation, OTel/Harmovela events, and an edited
+  denial with zero effects.
+- Advanced-delegation example plus six application-level governance checks.
+
 ## 0.8.0 - 2026-11-15
 
 Source tag `ocaml/v0.8.0`.

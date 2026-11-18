@@ -1,6 +1,6 @@
 # PRAXO-CORE for OCaml
 
-PRAXO-CORE is an embeddable, MIT-licensed agent framework. This package is its
+PRAXO-CORE is an embeddable, MIT-licensed AI agent framework. This package is its
 native OCaml Core with source tag `ocaml/v0.8.0`. It passes all eleven vector
 groups on OCaml 4.14.2 bytecode and includes the native agent loop, memory store,
 checkpoint allowlist, lexical path policy, context compaction, event sinks,
@@ -35,6 +35,14 @@ date are not claimed.
 ```bash
 opam install praxo-core
 ```
+
+## Representative Flows
+
+- [Representative chain](examples/representative-chain/): deterministic MCP
+  record, final-argument authorization, child delegation, OTel/Harmovela events,
+  and an edited denial with zero effects.
+- [Advanced delegation](examples/advanced-delegation/): application-level
+  parent/child scope plus six governance negative checks.
 
 ## Build and Test
 
