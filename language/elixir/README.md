@@ -8,6 +8,10 @@ tool-call parsing, and opt-in tool selection, PII redaction, structured output
 validation, call limits, and human-in-the-loop interrupt decisions. Vector
 coverage does not establish full Core parity or production readiness.
 
+Use it when an existing Elixir/OTP application needs a governed model/tool loop
+without adding a sidecar in another language. It is not an HTTP user agent,
+crawler, hosted agent service, or model provider.
+
 The Core uses the OTP 27+ `:json` module and does not call Go or another
 language runtime. Erlang shares the BEAM runtime and does not add a second
 agent loop. OpenAI-compatible, Anthropic, Gemini, Harmovela, and MCP adapters

@@ -1,12 +1,21 @@
-# Fortran Core
+# PRAXO-CORE Fortran Core
 
-A native Fortran 2008 agent implementation with source tag `fortran/v0.10.0`.
-Version `0.6.0` adds cancellation, stream callbacks, a native SSE parser, and
-caller-provided batch tool dispatch. Version `0.4.0` replaced the
-bounded ASCII matcher with upstream RE2 through a small C ABI library. The
-agent loop, JSON, policy, middleware, and human-in-the-loop interrupt decisions
-remain Fortran, not a bridge to another agent runtime. All 63 normative vectors
-across eleven groups and native regressions pass locally. Source tags do not imply package-registry publication.
+PRAXO-CORE is an embeddable, MIT-licensed agent framework. This package is its
+native Fortran 2008 Core: an in-process agent loop with tools, policy,
+middleware, events, checkpoints, and human-in-the-loop decisions, implemented in
+Fortran rather than bridged to another runtime.
+
+Use it when an existing Fortran application needs a governed model/tool loop
+without adding a Python or Go sidecar. It is not an HTTP user agent, crawler,
+hosted agent service, or model provider.
+
+Current source is `fortran/v0.10.0`. Version `0.6.0` adds cancellation, stream
+callbacks, a native SSE parser, and caller-provided batch tool dispatch. Version
+`0.4.0` replaced the bounded ASCII matcher with upstream RE2 through a small C
+ABI library. The agent loop, JSON, policy, middleware, and human-in-the-loop
+interrupt decisions remain Fortran. All 63 normative vectors across eleven
+groups and native regressions pass locally. Source tags do not imply
+package-registry publication.
 
 ## Harmovela Event Sink
 

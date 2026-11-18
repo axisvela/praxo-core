@@ -1,10 +1,18 @@
-# COBOL Core
+# PRAXO-CORE COBOL Core
 
-A native GnuCOBOL implementation, not a bridge to another Core. All 63 normative
-vectors across the eleven groups pass, together with native agent, JSON,
-contract-boundary, behavior, tooling, and API declaration checks. The
-`cobol-conformance` remote job checks the declared scope. `cobol/v0.7.0` is the
-source tag. Version `0.7.0` adds Anthropic and Gemini transport-seam model
+PRAXO-CORE is an embeddable, MIT-licensed agent framework. This package is its
+native GnuCOBOL Core: an in-process agent loop with tools, policy, middleware,
+events, checkpoints, and human-in-the-loop decisions, implemented in COBOL
+rather than bridged to another Core.
+
+Use it when an existing COBOL batch or transaction program needs a governed
+model/tool loop without moving orchestration into another runtime. It is not an
+HTTP user agent, crawler, hosted agent service, or model provider.
+
+All 63 normative vectors across the eleven groups pass, together with native
+agent, JSON, contract-boundary, behavior, tooling, and API declaration checks.
+The `cobol-conformance` remote job checks the declared scope. `cobol/v0.7.0` is
+the source tag. Version `0.7.0` adds Anthropic and Gemini transport-seam model
 adapters, an OTLP/HTTP OpenTelemetry sink, a retriever seam, and a synchronous
 delegation seam. Earlier source adds middleware, lifecycle, cancellation,
 streaming, SSE, batch tool dispatch, MCP, Harmovela, OpenAI-compatible adapters,

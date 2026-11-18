@@ -5,6 +5,10 @@ native Ruby Core: an agent loop with tool registration and dispatch, policy
 hooks, typed events, memory, checkpoints, context budgets, middleware, JSON
 Schema validation, and plugin manifest parsing.
 
+Use it when an existing Ruby application needs a governed model/tool loop
+without adding a sidecar in another language. It is not an HTTP user agent,
+crawler, hosted agent service, or model provider.
+
 The normative contract is [`spec/`](../../spec/README.md); Go remains the
 reference implementation.
 

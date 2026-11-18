@@ -5,9 +5,13 @@ native PHP Core: an agent loop with tool registration and dispatch, policy
 hooks, typed events, memory, checkpoints, context budgets, middleware, JSON
 Schema validation, and plugin manifest parsing.
 
+Use it when an existing PHP application needs a governed model/tool loop without
+adding a Python or Go sidecar. It is not an HTTP user agent, crawler, hosted
+agent service, or model provider.
+
 - `SPEC_VERSION`: `0.2.0`
 - Core version: `0.8.1`
-- The latest Packagist package is `axisvela/praxo-core@0.8.0`
+- The latest Packagist package is `axisvela/praxo-core@0.8.1`
 - License: MIT
 - Dependencies: none beyond the PHP standard library
 - Runtime: use a patched PHP release. On Windows use `8.2.35-1`, `8.3.36-1`,

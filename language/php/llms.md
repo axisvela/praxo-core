@@ -44,8 +44,8 @@
 
 ## Boundaries
 
-- In-process framework; not a model provider, hosted service, workflow engine,
-  identity provider, or safety controller.
+- In-process framework; not an HTTP user agent, crawler, model provider, hosted
+  service, workflow engine, identity provider, or safety controller.
 - No exactly-once, sandbox-isolation, production-security, real-time, or
   physical-safety claim.
 - Registry pages are release snapshots. Verify the published version and read the

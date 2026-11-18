@@ -9,6 +9,8 @@ feature.
 
 PRAXO-CORE is an embeddable, MIT-licensed agent framework. This package is its native Elixir Core with source tag `elixir/v0.9.1`. It passes all eleven shared vector groups with `Elixir 1.20.4` on `Erlang/OTP 29` and includes the native agent loop, context compaction, memory store, path policy, checkpoint allowlist, tool-call parsing, and opt-in tool selection, PII redaction, structured output validation, call limits, and human-in-the-loop interrupt decisions. Vector coverage does not establish full Core parity or production readiness.
 
+Use it when an existing Elixir/OTP application needs a governed model/tool loop without adding a sidecar in another language. It is not an HTTP user agent, crawler, hosted agent service, or model provider.
+
 ## Package
 
 | Field | Value |

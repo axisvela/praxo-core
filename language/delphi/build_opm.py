@@ -61,7 +61,8 @@ def main() -> None:
             "CommunityDescription": (
                 "Embeddable MIT agent framework Core for Free Pascal/Lazarus: "
                 "tools, policy, events, memory, checkpoints, context, middleware, "
-                "and a native agent loop. No Go runtime or provider adapter."
+                "and a native agent loop. Not an HTTP user agent, crawler, hosted "
+                "service, Go runtime bridge, or provider adapter."
             ),
             "ExternalDependecies": "",
             "OrphanedPackage": 0,

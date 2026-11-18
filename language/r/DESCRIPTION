@@ -1,11 +1,13 @@
 Package: praxocore
 Type: Package
-Title: PRAXO-CORE Contract
+Title: Embeddable AI Agent Framework for R
 Version: 0.10.1
 Authors@R: person("AxisVela", role = c("aut", "cre"), email = "releases@axisvela.com")
-Description: R implementation of the PRAXO-CORE contract: tool calls, JSON
-    Schema subset, plugin manifests, memory, events, checkpoint envelopes,
-    policy, context, middleware, and the agent loop.
+Description: Native R Core for PRAXO-CORE, an embeddable MIT-licensed agent
+    framework. Provides an in-process agent loop with tool calls, JSON Schema
+    subset, plugin manifests, memory, events, checkpoint envelopes, policy,
+    context, and middleware. It is not an HTTP user agent, crawler, hosted
+    service, or model provider.
 License: MIT + file LICENSE
 Encoding: UTF-8
 URL: https://github.com/axisvela/praxo-core, https://axisvela.github.io/praxo-core/

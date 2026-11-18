@@ -9,6 +9,8 @@ feature.
 
 PRAXO-CORE is an embeddable, MIT-licensed agent framework. This package is its native PHP Core: an agent loop with tool registration and dispatch, policy hooks, typed events, memory, checkpoints, context budgets, middleware, JSON Schema validation, and plugin manifest parsing.
 
+Use it when an existing PHP application needs a governed model/tool loop without adding a Python or Go sidecar. It is not an HTTP user agent, crawler, hosted agent service, or model provider.
+
 ## Package
 
 | Field | Value |

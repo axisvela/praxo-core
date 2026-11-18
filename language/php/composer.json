@@ -1,6 +1,6 @@
 {
   "name": "axisvela/praxo-core",
-  "description": "PHP SDK for the PRAXO-CORE agent contract",
+  "description": "Native PHP Core for PRAXO-CORE, an embeddable MIT-licensed agent framework with an in-process tool loop, policy, events, memory, checkpoints, and middleware; not an HTTP user agent or hosted service",
   "type": "library",
   "license": "MIT",
   "version": "0.8.1",

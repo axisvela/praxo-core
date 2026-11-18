@@ -1,10 +1,17 @@
 # PRAXO-CORE for Delphi and Free Pascal
 
-Native Core implementation with source tag `delphi/v0.7.0`. It passes all eleven
-vector groups and includes the native agent loop plus memory, event, checkpoint,
-policy, context, and middleware helpers. It does not call Go or another language
-Core; it includes native OpenAI-compatible, Anthropic, and Gemini model adapters
-but no process bridge or plugin host.
+PRAXO-CORE is an embeddable, MIT-licensed agent framework. This package is its
+native Delphi / Free Pascal Core: an in-process agent loop with tools, policy,
+memory, events, checkpoints, context, and middleware helpers. It is implemented
+in Object Pascal and does not call Go or another language Core.
+
+Use it when an existing Delphi or Free Pascal application needs a governed
+model/tool loop without adding an external runtime. It is not an HTTP user agent,
+crawler, hosted agent service, or model provider. It includes native
+OpenAI-compatible, Anthropic, and Gemini model adapters but no process bridge or
+plugin host.
+
+Current source is `delphi/v0.7.0`. It passes all eleven vector groups.
 
 Local validation uses Free Pascal 3.2.2 on Windows i386. It does not establish
 commercial Delphi compiler compatibility, Linux/macOS support, production
