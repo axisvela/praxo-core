@@ -44,6 +44,7 @@
 | PowerShell Core | PowerShell Gallery 已发布 `praxo-core-ps==0.7.2`，下载 archive 中模块版本为 `0.7.2`。发布工作流构建 C# Core、运行 wrapper/API 检查、打包并发布 | Registry 发布 + 发布工作流门禁 | 未重跑 `0.7.2` 的 `Install-Module` 和全新发布包消费者安装；一个平台；不是独立消费者；不含 provider 证据 |
 | Perl 已发布包 | CPAN `Praxo-Core==0.6.1` 仍是已索引版本。源码标签 `perl/v0.6.2` 已通过 conformance、API snapshot 和测试，发布工作流已上传；核对时 MetaCPAN 尚未索引 `0.6.2` | 源码发布 + 发布工作流上传 + MetaCPAN 索引待完成 | `0.6.2` 发布未确认；未记录发布后消费者安装；一个平台；不含 provider 证据 |
 | R 源码发布 | 已创建源码标签 `r/v0.10.2`，`r-release` workflow 的 build/check 通过。核对时 r-universe API 仍报告 `0.10.1`，registry 重建待完成 | 源码发布 + r-universe 重建待完成 | 未记录 R 发布后消费者安装；一个平台；不含 provider 或生产证据 |
+| Swift 源码发布 | 已推送源码标签 `swift/v0.7.1` 和 split 标签 `0.7.1`。split 仓库包含更新后的 Package.swift、Sources、Tests、examples 和 API snapshot。核对时 Swift Package Index 仍显示 `0.7.0` 为 latest | 源码发布 + split tag + SPI 索引待完成 | 未记录 Swift build/test 或发布后消费者运行；macOS 运行时仍未验证；一个平台；不含 provider 或生产证据 |
 | Elixir 已发布包 | Hex 已从源码标签 `elixir/v0.9.2` 发布 `praxo_core==0.9.2`，Hex API 显示版本和 docs 可用。发布工作流运行 conformance、API snapshot、原生测试并发布 Hex | Registry 发布 + 发布工作流门禁 | 未记录 `0.9.2` 的发布后消费者安装；一个平台；不是独立消费者；不含 provider 证据 |
 | Erlang 已发布包 | Hex 已从源码标签 `erlang/v0.8.2` 发布 `praxo_core_erlang==0.8.2`，Hex API 显示版本和 docs 可用。发布工作流运行 conformance、API snapshot、原生测试并发布 Hex | Registry 发布 + 发布工作流门禁 | 未记录 `0.8.2` 的发布后消费者安装；一个平台；不是独立消费者；不含 provider 证据 |
 | D 已发布包 | DUB/code.dlang.org 当前列出版本 `praxo-core==0.4.0`；源码标签 `d/v0.6.0` 更新，DUB 刷新仍待完成 | Registry 元数据 | 未对 `0.4.0` 执行编译或独立消费者 smoke；不含 provider 或生产证据 |

@@ -50,8 +50,8 @@
 - Published Lua `0.7.2-1` and Dart `0.6.2` with the expanded example index.
 - Published source tags `php/v0.8.2` and `r/v0.10.2`. PHP split tag `v0.8.2`
   was pushed; Packagist and r-universe registry refreshes were still pending.
-- Prepared Swift `0.7.1` source and split-repository release for the expanded
-  example index.
+- Published Swift source tag `swift/v0.7.1` and split tag `0.7.1`; the
+  Swift Package Index refresh was still pending.
 - Added annotated sample snapshot tags for JavaScript (`javascript/v0.8.0`),
   Kotlin/Scala/Groovy/Clojure (`v0.10.0`), F# and Visual Basic (`v0.9.1`), and
   OpenCL (`opencl/v0.10.0`). These are samples over host Cores, not separate
