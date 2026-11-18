@@ -26,6 +26,8 @@ Ubuntu.
 - [Representative chain](examples/representative-chain/): deterministic MCP
   record, final-argument authorization, child delegation, OTel/Harmovela events,
   and an edited denial with zero effects.
+- [Advanced delegation](examples/advanced-delegation/): parent/child scope and
+  six governance negative checks.
 
 ## Build and Test
 

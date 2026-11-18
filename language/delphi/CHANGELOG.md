@@ -7,6 +7,8 @@
 - Deterministic representative-chain example covering MCP, final-argument
   authorization, governed child delegation, OTel/Harmovela events, and an edited
   denial with zero effects.
+- Advanced-delegation governance example with six application-level negative
+  checks.
 
 ## 0.7.0 - 2026-11-15
 
