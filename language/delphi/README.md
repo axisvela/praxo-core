@@ -21,6 +21,12 @@ Ubuntu.
 - Registry: [OPM / GitHub release](https://github.com/axisvela/praxo-core/releases/tag/delphi%2Fv0.7.0)
 - Community: [X](https://x.com/axisvela) · [Weibo](https://weibo.com/u/1936025761)
 
+## Representative Flows
+
+- [Representative chain](examples/representative-chain/): deterministic MCP
+  record, final-argument authorization, child delegation, OTel/Harmovela events,
+  and an edited denial with zero effects.
+
 ## Build and Test
 
 With Free Pascal and Python 3.10 or newer, from the repository root:
