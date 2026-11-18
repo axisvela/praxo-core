@@ -5,8 +5,9 @@ were published and confirmed through their public registry APIs. TypeScript
 npm `0.8.1` was approved and published after staging; `latest` is now `0.8.1`. C# `0.9.2` was pushed and subsequently appeared in the public
 NuGet index. Elixir `0.9.2`, Erlang `0.8.2`, Haskell `0.7.1`, and PowerShell `0.7.2`
 were published and confirmed; CPAN `0.6.2` upload succeeded but MetaCPAN
-indexing was pending. Earlier rows retain their recorded check dates; Go `v2.9.0` was
-verified on 2026-11-16.
+indexing was pending. Lua `0.7.2-1` and Dart `0.6.2` were published and confirmed.
+Earlier rows retain their recorded check dates; Go `v2.9.0` was verified on
+2026-11-16.
 
 This page summarizes where each language implementation is published. Source
 tags, package-registry versions, conformance, and production verification are

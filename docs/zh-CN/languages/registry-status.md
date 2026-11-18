@@ -1,9 +1,8 @@
 # 注册表发布状态
 
 最后核对：2026-11-18。Python `0.9.1`、Rust `0.9.2` 与 Ruby `0.8.2` 已发布，
-并通过公开 registry API 确认。TypeScript `0.8.1` 已 staged 等待 npm 批准；直接发布
-批准后 npm `0.8.1` 已发布，`latest` 现为 `0.8.1`。C# `0.9.2` 已推送，并随后出现在公开 NuGet 索引。
-Elixir `0.9.2`、Erlang `0.8.2`、Haskell `0.7.1` 与 PowerShell `0.7.2` 已发布并确认；CPAN `0.6.2` 上传成功，MetaCPAN 索引待完成。
+并通过公开 registry API 确认。TypeScript `0.8.1` staged 后已批准并发布，`latest` 现为 `0.8.1`。C# `0.9.2` 已推送，并随后出现在公开 NuGet 索引。
+Elixir `0.9.2`、Erlang `0.8.2`、Haskell `0.7.1` 与 PowerShell `0.7.2` 已发布并确认；CPAN `0.6.2` 上传成功，MetaCPAN 索引待完成。Lua `0.7.2-1` 与 Dart `0.6.2` 已发布并确认。
 其他行保留原有核对日期；Go `v2.9.0` 页面于 2026-11-16 核对。
 
 本页汇总各语言实现当前发布到哪里。源码标签、包注册表版本、一致性测试和生产验证是
