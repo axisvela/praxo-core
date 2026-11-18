@@ -79,7 +79,7 @@ dotnet run -- "Quarterly status: all checks green."
 dotnet run -- --test
 ```
 
-示例安装已发布的 NuGet `Praxo.Core==0.9.1`。
+示例安装已发布的 NuGet `Praxo.Core==0.9.2`。
 
 ### Rust
 

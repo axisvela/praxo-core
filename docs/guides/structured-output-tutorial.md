@@ -84,7 +84,7 @@ dotnet run -- "Quarterly status: all checks green."
 dotnet run -- --test
 ```
 
-The example installs published NuGet `Praxo.Core==0.9.1`.
+The example installs published NuGet `Praxo.Core==0.9.2`.
 
 ### Rust
 
@@ -94,7 +94,7 @@ cargo run
 ```
 
 The deterministic run validates a valid summary and rejects output that omits
-required fields. The example uses published crates.io `praxo-core==0.9.1`.
+required fields. The example uses published crates.io `praxo-core==0.9.2`.
 
 ## Go Reference Recipe
 

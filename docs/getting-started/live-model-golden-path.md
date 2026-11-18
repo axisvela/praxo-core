@@ -66,7 +66,7 @@ The Go, Python, TypeScript, Java, C#, Rust, and R examples import a published
 package. The Ruby, PHP, Elixir, Lua, OCaml, V, and Zig examples run against
 repository source so they use the current adapter code; their READMEs also
 document package install where available. The Rust example enables the
-`http-ureq` feature from the published `0.9.1` crate. PowerShell loads the C#
+`http-ureq` feature from the published `0.9.2` crate. PowerShell loads the C#
 Core assembly and inherits its OpenAI-compatible adapter. The OCaml Core does
 not bundle an HTTP client, so its example is a transport seam rather than a
 fully runnable live client.
