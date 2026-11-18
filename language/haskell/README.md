@@ -1,6 +1,6 @@
 # PRAXO-CORE Haskell Core
 
-PRAXO-CORE is an embeddable, MIT-licensed agent framework. This package is its
+PRAXO-CORE is an embeddable, MIT-licensed AI agent framework. This package is its
 native Haskell Core. It implements all eleven declared vector groups and does not
 call Go or another Core. It includes a native callback-based agent loop with
 tools, policy hooks, typed events, memory, checkpoints, context budgets,
@@ -58,6 +58,8 @@ Runnable examples live under [`language/haskell/examples`](https://github.com/ax
 | Add provider fallback | [provider-fallback](https://github.com/axisvela/praxo-core/tree/main/language/haskell/examples/provider-fallback) |
 | Observe agent events | [event-sink](https://github.com/axisvela/praxo-core/tree/main/language/haskell/examples/event-sink) |
 | Require human approval | [hitl](https://github.com/axisvela/praxo-core/tree/main/language/haskell/examples/hitl) |
+| Run the representative chain | [representative-chain](https://github.com/axisvela/praxo-core/tree/main/language/haskell/examples/representative-chain) |
+| Apply governed delegation | [advanced-delegation](https://github.com/axisvela/praxo-core/tree/main/language/haskell/examples/advanced-delegation) |
 
 ## Build and Test
 
