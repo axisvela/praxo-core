@@ -48,8 +48,8 @@
 - Published Elixir `0.9.2`, Erlang `0.8.2`, Haskell `0.7.1`, and PowerShell
   `0.7.2`. Perl `0.6.2` uploaded but MetaCPAN indexing was still pending.
 - Published Lua `0.7.2-1` and Dart `0.6.2` with the expanded example index.
-- Prepared PHP `0.8.2` and R `0.10.2` source releases; registry/indexing
-  publication follows their repository updates.
+- Published source tags `php/v0.8.2` and `r/v0.10.2`. PHP split tag `v0.8.2`
+  was pushed; Packagist and r-universe registry refreshes were still pending.
 - Added annotated sample snapshot tags for JavaScript (`javascript/v0.8.0`),
   Kotlin/Scala/Groovy/Clojure (`v0.10.0`), F# and Visual Basic (`v0.9.1`), and
   OpenCL (`opencl/v0.10.0`). These are samples over host Cores, not separate
