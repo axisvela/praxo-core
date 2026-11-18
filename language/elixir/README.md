@@ -1,7 +1,7 @@
 # PRAXO-CORE for Elixir
 
 PRAXO-CORE is an embeddable, MIT-licensed agent framework. This package is its
-native Elixir Core with source tag `elixir/v0.9.1`. It passes all eleven shared
+native Elixir Core with source tag `elixir/v0.9.2`. It passes all eleven shared
 vector groups with `Elixir 1.20.4` on `Erlang/OTP 29` and includes the native
 agent loop, context compaction, memory store, path policy, checkpoint allowlist,
 tool-call parsing, and opt-in tool selection, PII redaction, structured output
@@ -17,8 +17,8 @@ language runtime. Erlang shares the BEAM runtime and does not add a second
 agent loop. OpenAI-compatible, Anthropic, Gemini, Harmovela, and MCP adapters
 are included; plugin hosts remain outside the declared Core scope.
 
-The latest Hex package is `praxo_core@0.9.1`. HexDocs:
-<https://praxo-core.hexdocs.pm/0.9.1/>.
+The latest Hex package is `praxo_core@0.9.2`. HexDocs:
+<https://praxo-core.hexdocs.pm/0.9.2/>.
 
 ## Registry and Coding-Agent Entry
 
@@ -34,7 +34,7 @@ The latest Hex package is `praxo_core@0.9.1`. HexDocs:
 Install the published package:
 
 ```bash
-{:praxo_core, "~> 0.9.1"}
+{:praxo_core, "~> 0.9.2"}
 ```
 
 Then run the smallest deterministic example:
@@ -69,7 +69,7 @@ Runnable examples live under [`language/elixir/examples`](https://github.com/axi
 ## Install
 
 ```elixir
-{:praxo_core, "~> 0.9.1"}
+{:praxo_core, "~> 0.9.2"}
 ```
 
 ## Harmovela Event Sink

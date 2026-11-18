@@ -9,7 +9,7 @@ It is not an HTTP user agent, crawler, hosted agent service, or a separate
 PowerShell agent-loop implementation. Requires PowerShell 7.4+ on .NET 8.
 
 - `SPEC_VERSION`: `0.2.0`
-- Core version: `0.7.1`
+- Core version: `0.7.2`
 - Package: `praxo-core-ps`
 - Tier: core
 - License: MIT
@@ -20,7 +20,7 @@ PowerShell agent-loop implementation. Requires PowerShell 7.4+ on .NET 8.
 - Machine-readable entry: [llms.txt](https://github.com/axisvela/praxo-core/blob/main/language/powershell/llms.txt) and [llms.md](https://github.com/axisvela/praxo-core/blob/main/language/powershell/llms.md)
 - [Examples](https://github.com/axisvela/praxo-core/tree/main/language/powershell/examples): runnable language-specific examples.
 - Coding-agent contract: [docs/getting-started/coding-agents.md](https://github.com/axisvela/praxo-core/blob/main/docs/getting-started/coding-agents.md)
-- Registry: [PowerShell Gallery](https://www.powershellgallery.com/packages/praxo-core-ps/0.7.1)
+- Registry: [PowerShell Gallery](https://www.powershellgallery.com/packages/praxo-core-ps/0.7.2)
 - Community: [X](https://x.com/axisvela) · [Weibo](https://weibo.com/u/1936025761)
 
 ## Get started

@@ -1,16 +1,16 @@
 # PRAXO-CORE Erlang Core
 
 PRAXO-CORE is an embeddable, MIT-licensed agent framework. This package is its
-native Erlang Core with source tag `erlang/v0.8.1`. It passes all eleven shared
+native Erlang Core with source tag `erlang/v0.8.2`. It passes all eleven shared
 vector groups on Erlang/OTP 29 and includes the native agent loop, memory store,
 checkpoint allowlist, lexical path policy, context compaction, event sinks,
 middleware helpers, tool selection, and human-in-the-loop interrupt decisions.
 It does not call Go or another Core.
 
 - Implementation type: Core.
-- Package version: `0.8.1`; supported `SPEC_VERSION`: `0.2.0`.
+- Package version: `0.8.2`; supported `SPEC_VERSION`: `0.2.0`.
 - Hex package name: `praxo_core_erlang`; OTP application name: `praxo_core`.
-- The Hex package is `praxo_core_erlang@0.8.1`.
+- The Hex package is `praxo_core_erlang@0.8.2`.
 - Toolchain: Erlang/OTP 29 or newer. JSON uses the OTP `json` module.
 
 ## Registry and Coding-Agent Entry
@@ -19,7 +19,7 @@ It does not call Go or another Core.
 - Machine-readable entry: [llms.txt](https://github.com/axisvela/praxo-core/blob/main/language/erlang/llms.txt) and [llms.md](https://github.com/axisvela/praxo-core/blob/main/language/erlang/llms.md)
 - [Examples](https://github.com/axisvela/praxo-core/tree/main/language/erlang/examples): runnable language-specific examples.
 - Coding-agent contract: [docs/getting-started/coding-agents.md](https://github.com/axisvela/praxo-core/blob/main/docs/getting-started/coding-agents.md)
-- Registry: [Hex](https://hex.pm/packages/praxo_core_erlang/0.8.1)
+- Registry: [Hex](https://hex.pm/packages/praxo_core_erlang/0.8.2)
 - Community: [X](https://x.com/axisvela) · [Weibo](https://weibo.com/u/1936025761)
 
 ## Get started
@@ -27,7 +27,7 @@ It does not call Go or another Core.
 Install the published package:
 
 ```bash
-{praxo_core, "0.8.1", {pkg, praxo_core_erlang}}
+{praxo_core, "0.8.2", {pkg, praxo_core_erlang}}
 ```
 
 Then run the smallest deterministic example:
@@ -62,7 +62,7 @@ Runnable examples live under [`language/erlang/examples`](https://github.com/axi
 ## Install
 
 ```erlang
-{deps, [{praxo_core, "0.8.1", {pkg, praxo_core_erlang}}]}.
+{deps, [{praxo_core, "0.8.2", {pkg, praxo_core_erlang}}]}.
 ```
 
 - Local gate: eleven vector groups, native regression tests, API snapshot, and

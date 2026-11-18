@@ -1,6 +1,6 @@
 @{
     RootModule        = 'praxo-core-ps.psm1'
-    ModuleVersion     = '0.7.1'
+    ModuleVersion     = '0.7.2'
     GUID              = '8f04a4d6-1f3c-4f6e-9d69-7b2f11d3a902'
     Author            = 'AxisVela'
     CompanyName       = 'AxisVela'
@@ -107,7 +107,7 @@ identity provider, or production sandbox.
             LicenseUri = 'https://github.com/axisvela/praxo-core/blob/main/LICENSE'
             ProjectUri = 'https://github.com/axisvela/praxo-core'
             ReleaseNotes = @'
-0.7.1
+0.7.2
 - Add a project introduction and starter, examples, and documentation links to the PowerShell Gallery page.
 - Resolve the module version and SPEC_VERSION from the packaged manifest when source version files are not present.
 '@

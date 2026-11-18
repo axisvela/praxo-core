@@ -7,7 +7,7 @@ tools, policy hooks, typed events, memory, checkpoints, context budgets,
 middleware, JSON Schema validation, plugin manifest parsing, and runtime helpers.
 
 - Implementation type: Core.
-- Package version: `0.7.0`; supported `SPEC_VERSION`: `0.2.0`.
+- Package version: `0.7.1`; supported `SPEC_VERSION`: `0.2.0`.
 - Local gate: all eleven shared vector groups, native regression tests, and
   source API/parity checks.
 - Linux and Windows CI run the full suite. Hackage publication uses
@@ -20,7 +20,7 @@ middleware, JSON Schema validation, plugin manifest parsing, and runtime helpers
 - Machine-readable entry: [llms.txt](https://github.com/axisvela/praxo-core/blob/main/language/haskell/llms.txt) and [llms.md](https://github.com/axisvela/praxo-core/blob/main/language/haskell/llms.md)
 - [Examples](https://github.com/axisvela/praxo-core/tree/main/language/haskell/examples): runnable language-specific examples.
 - Coding-agent contract: [docs/getting-started/coding-agents.md](https://github.com/axisvela/praxo-core/blob/main/docs/getting-started/coding-agents.md)
-- Registry: [Hackage](https://hackage.haskell.org/package/praxo-core-0.7.0)
+- Registry: [Hackage](https://hackage.haskell.org/package/praxo-core-0.7.1)
 - Community: [X](https://x.com/axisvela) · [Weibo](https://weibo.com/u/1936025761)
 
 ## Get started

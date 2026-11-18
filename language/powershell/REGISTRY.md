@@ -1,7 +1,7 @@
 # PRAXO-CORE PowerShell Registry Introduction
 
-**Status:** published; shared C# runtime. Source version `0.7.1`, source
-tag `powershell/v0.7.1`. Published registry version: `0.7.1`. Registry
+**Status:** published; shared C# runtime. Source version `0.7.2`, source
+tag `powershell/v0.7.2`. Published registry version: `0.7.1`. Registry
 pages are release snapshots; verify the published version before relying on a
 feature.
 
@@ -17,11 +17,11 @@ It is not an HTTP user agent, crawler, hosted agent service, or a separate Power
 | --- | --- |
 | Package | `praxo-core-ps` |
 | Registry | [PowerShell Gallery](https://www.powershellgallery.com/packages/praxo-core-ps/0.7.1) |
-| Source version | `0.7.1` |
+| Source version | `0.7.2` |
 | Published registry version | `0.7.1` |
 | Install (published) | `Install-Module praxo-core-ps` |
 | Install (source/release prepared) | `Install-Module praxo-core-ps` |
-| Source tag | `powershell/v0.7.1` |
+| Source tag | `powershell/v0.7.2` |
 | Tier | Core (.NET) |
 | Contract | `SPEC_VERSION` `0.2.0` |
 | Documentation | https://axisvela.github.io/praxo-core/languages/powershell/ |

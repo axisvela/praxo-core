@@ -1,7 +1,7 @@
 # PRAXO-CORE Elixir Registry Introduction
 
-**Status:** published. Source version `0.9.1`, source
-tag `elixir/v0.9.1`. Published registry version: `0.9.1`. Registry
+**Status:** published. Source version `0.9.2`, source
+tag `elixir/v0.9.2`. Published registry version: `0.9.1`. Registry
 pages are release snapshots; verify the published version before relying on a
 feature.
 
@@ -17,11 +17,11 @@ Use it when an existing Elixir/OTP application needs a governed model/tool loop 
 | --- | --- |
 | Package | `praxo_core` |
 | Registry | [Hex](https://hex.pm/packages/praxo_core) |
-| Source version | `0.9.1` |
+| Source version | `0.9.2` |
 | Published registry version | `0.9.1` |
 | Install (published) | `{:praxo_core, "~> 0.9.1"}` |
 | Install (source/release prepared) | `{:praxo_core, path: "language/elixir"}` |
-| Source tag | `elixir/v0.9.1` |
+| Source tag | `elixir/v0.9.2` |
 | Tier | Core |
 | Contract | `SPEC_VERSION` `0.2.0` |
 | Documentation | https://axisvela.github.io/praxo-core/languages/elixir/ |

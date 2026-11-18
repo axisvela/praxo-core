@@ -77,8 +77,8 @@ Bridge、Sample 描述运行时的接入方式，不证明其语言缺乏 Framew
 | Java | `java/v0.10.0` | Maven Central `com.axisvela:praxo-core:0.10.0` 已发布 | 发布工作流构建、签名并发布 `0.10.0`；发布后消费者检查未重跑 |
 | Rust | `rust/v0.9.2` | crates.io `praxo-core==0.9.2` 已发布；`0.1.4` 为历史版本 | 发布工作流对 `0.9.2` 运行测试、conformance、API snapshot 和 dry-run；本地 registry 消费者安装未重跑 |
 | C# | `csharp/v0.9.2` | NuGet `Praxo.Core==0.9.2` 已发布 | 发布工作流构建、测试、打包并推送 `0.9.2`；本地发布包消费者安装记录针对 `0.9.1`，为历史证据 |
-| Elixir | `elixir/v0.9.1` | Hex `praxo_core==0.9.1` 已发布，包含 OpenAI-compatible、Anthropic、Gemini、Harmovela 和 MCP adapter；`0.5.1`、`0.4.1`、`0.4.0`、`0.3.0`、`0.2.0` 为历史版本 | 已增加扩展 starter；Hex `0.4.1` 在干净 Mix 项目中解析，allow/deny 本地通过；`0.6.0` 安装 smoke 未重跑 |
-| Erlang | `erlang/v0.8.1` | Hex `praxo_core_erlang==0.8.1` 已发布；`0.4.0`、`0.3.1`、`0.2.0` 为历史版本 | `0.5.0` 未重跑；历史 `0.1.1` smoke |
+| Elixir | `elixir/v0.9.2` | Hex `praxo_core==0.9.1` 已发布，包含 OpenAI-compatible、Anthropic、Gemini、Harmovela 和 MCP adapter；`0.5.1`、`0.4.1`、`0.4.0`、`0.3.0`、`0.2.0` 为历史版本 | 已增加扩展 starter；Hex `0.4.1` 在干净 Mix 项目中解析，allow/deny 本地通过；`0.6.0` 安装 smoke 未重跑 |
+| Erlang | `erlang/v0.8.2` | Hex `praxo_core_erlang==0.8.1` 已发布；`0.4.0`、`0.3.1`、`0.2.0` 为历史版本 | `0.5.0` 未重跑；历史 `0.1.1` smoke |
 | Ruby | `ruby/v0.8.2` | RubyGems `praxo-core==0.8.2` 已发布；`0.4.1`、`0.4.0`、`0.3.0`、`0.2.0` 为历史版本 | 发布工作流对 `0.8.2` 运行 conformance、API snapshot、测试、gem build 和 push；split 仓库已同步并打 `v0.8.2` tag；本地发布包安装未重跑 |
 | Lua | `lua/v0.7.1` | LuaRocks `praxo-core==0.7.1-1` 已发布，包含可选 OpenAI-compatible adapter；`0.4.1-1`、`0.4.0-1`、`0.3.0-1`、`0.2.0-1` 也已发布 | 已增加扩展 starter；LuaRocks `0.4.1-1` 已安装到干净 tree，allow/deny 本地通过；`0.5.0-1` 安装 smoke 未重跑 |
 | PHP | `php/v0.8.1` | Packagist `axisvela/praxo-core==0.8.1` 已发布，包含 Composer `autoload.files`；`0.4.1`、`0.4.0`、`0.3.0`、`0.2.0` 为历史版本 | 2026-11-18 全新 Composer 安装已发布 `0.8.1`，消费者 allow/deny 测试本地通过 |
@@ -86,11 +86,11 @@ Bridge、Sample 描述运行时的接入方式，不证明其语言缺乏 Framew
 | Julia | `julia/v0.7.0` | General Registry PR #176393 待合并 | 未记录 |
 | MATLAB | `matlab/v0.7.0` | MATLAB File Exchange `185166` 已发布（`0.5.0`）；`0.7.0` 上传待完成 | 未记录 |
 | Octave | `octave/v0.7.0` | Octave `0.7.0` release tarball 已发布；Octave Packages PR #875 待合并 | 未记录 |
-| Perl | `perl/v0.6.1` | CPAN `Praxo-Core==0.6.1` 已发布并在 MetaCPAN 建立索引 | 2026-11-18 使用 `cpanm` 1.7049 安装 MetaCPAN tarball 到隔离前缀，发布包消费者 allow/deny 本地通过 |
-| PowerShell | `powershell/v0.7.1` | PowerShell Gallery `praxo-core-ps==0.7.1` 已发布 | 2026-11-18 `Save-PSResource` 下载、隔离模块/DLL 来源与消费者 allow/deny 本地通过；未测试 `Install-Module` 本身 |
+| Perl | `perl/v0.6.2` | CPAN `Praxo-Core==0.6.1` 已发布并在 MetaCPAN 建立索引 | 2026-11-18 使用 `cpanm` 1.7049 安装 MetaCPAN tarball 到隔离前缀，发布包消费者 allow/deny 本地通过 |
+| PowerShell | `powershell/v0.7.2` | PowerShell Gallery `praxo-core-ps==0.7.1` 已发布 | 2026-11-18 `Save-PSResource` 下载、隔离模块/DLL 来源与消费者 allow/deny 本地通过；未测试 `Install-Module` 本身 |
 | Nim | `nim/v0.6.0` | split 仓库包 `0.1.1`；nim-lang/packages PR #3600 已于 2026-11-05 合并；nimpkgs 待重新抓取 | 未记录 |
 | OCaml | `ocaml/v0.8.0` | opam `0.3.0`；PR #31222 因 opam-ci 失败已关闭，需要重新提交 | 未记录 |
-| Haskell | `haskell/v0.7.0` | Hackage `praxo-core==0.7.0` 已发布 | 未记录 |
+| Haskell | `haskell/v0.7.1` | Hackage `praxo-core==0.7.0` 已发布 | 未记录 |
 | Delphi / Free Pascal | `delphi/v0.7.0` | 0.7.0 OPM 资产已发布；OPM 收录待完成 | 未记录 |
 
 ### 注册表相对代码的新旧状态
@@ -105,8 +105,8 @@ Bridge、Sample 描述运行时的接入方式，不证明其语言缺乏 Framew
 | Java | `0.10.0` | Maven Central `0.10.0` | 已最新 |
 | Rust | `0.9.2` | crates.io `0.9.2` | 已最新 |
 | C# | `0.9.2` | NuGet `0.9.2` | 已最新 |
-| Elixir | `0.9.1` | Hex `0.9.1` | 已最新 |
-| Erlang | `0.8.1` | Hex `0.8.1` | 已最新 |
+| Elixir | `0.9.2` | Hex `0.9.1` | registry 待发布 |
+| Erlang | `0.8.2` | Hex `0.8.1` | registry 待发布 |
 | Ruby | `0.8.2` | RubyGems `0.8.2` | 已最新 |
 | PHP | `0.8.1` | Packagist `0.8.1` | 已最新 |
 | Lua | rockspec `0.7.1-1`；源码标签 `0.7.1` | LuaRocks `0.7.1-1` | 已最新 |
@@ -115,8 +115,8 @@ Bridge、Sample 描述运行时的接入方式，不证明其语言缺乏 Framew
 | MATLAB | `0.7.0` | File Exchange `185166`（`0.5.0`） | 0.7.0 上传待完成 |
 | Octave | `0.7.0` | 0.7.0 release tarball；Octave Packages PR #875 待合并 | 待完成 |
 | Perl | `0.6.0` | CPAN `0.6.0` | 已最新 |
-| PowerShell | `0.7.1` | PowerShell Gallery `0.7.1` | 已最新 |
-| Haskell | `0.7.0` | Hackage `0.7.0` | 已最新 |
+| PowerShell | `0.7.2` | PowerShell Gallery `0.7.1` | registry 待发布 |
+| Haskell | `0.7.1` | Hackage `0.7.0` | registry 待发布 |
 | R | `0.10.1` | r-universe `0.10.1` | 已最新 |
 | Nim | `0.6.0` | split 仓库包 `0.1.1` | 待完成 |
 | OCaml | `0.8.0` | opam registry `0.3.0`；PR #31222 已关闭（`0.8.0`） | 需要重新提交 |

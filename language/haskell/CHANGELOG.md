@@ -1,6 +1,8 @@
 # Haskell Core Release Notes
 
-## Unreleased
+## 0.7.1 - 2026-11-18
+
+Source tag `haskell/v0.7.1`; Hackage publication follows the release workflow.
 
 ### Added
 
@@ -8,6 +10,10 @@
   authorization, governed child delegation, OTel/Harmovela events, and an edited
   denial with zero effects.
 - Advanced-delegation example plus six application-level governance checks.
+
+### Compatibility
+
+- No public API or wire change; `SPEC_VERSION` remains `0.2.0`.
 
 ## 0.7.0 - 2026-11-15
 
