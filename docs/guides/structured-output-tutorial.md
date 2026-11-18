@@ -64,7 +64,7 @@ npm start -- "Quarterly status: all checks green."
 npm test
 ```
 
-The example installs published npm `@axisvela/praxo-core@0.8.0`.
+The example installs published npm `@axisvela/praxo-core@0.8.1`.
 
 ### Java
 
@@ -213,7 +213,7 @@ python -m venv .venv
 
 ```bash
 npm init -y
-npm install --save-exact @axisvela/praxo-core@0.8.0
+npm install --save-exact @axisvela/praxo-core@0.8.1
 ```
 
 2. Copy the schema, fixture model, policy, and `StructuredOutput` setup from

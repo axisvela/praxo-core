@@ -2,8 +2,7 @@
 
 Last checked: 2026-11-18. Python `0.9.1`, Rust `0.9.2`, and Ruby `0.8.2`
 were published and confirmed through their public registry APIs. TypeScript
-`0.8.1` was staged for npm approval after direct publish returned 403; `0.8.0`
-remains `latest`. C# `0.9.2` was pushed and subsequently appeared in the public
+npm `0.8.1` was approved and published after staging; `latest` is now `0.8.1`. C# `0.9.2` was pushed and subsequently appeared in the public
 NuGet index. Earlier rows retain their recorded check dates; Go `v2.9.0` was
 verified on 2026-11-16.
 
@@ -32,7 +31,7 @@ GitHub Latest represents the Go Reference Core only, not the last language packa
 | --- | --- | --- | --- | --- |
 | Go | Go module proxy / pkg.go.dev | `v2.9.0` | https://pkg.go.dev/github.com/axisvela/praxo-core/v2 | published; page audited 2026-11-16 |
 | Python | PyPI | `0.9.1` | https://pypi.org/project/praxo-core/0.9.1/ | published |
-| TypeScript | npm | `0.8.0` | https://www.npmjs.com/package/@axisvela/praxo-core/v/0.8.0 | published; latest; `0.8.1` staged for approval |
+| TypeScript | npm | `0.8.1` | https://www.npmjs.com/package/@axisvela/praxo-core/v/0.8.1 | published; latest |
 | Java | Maven Central | `0.10.0` | https://repo1.maven.org/maven2/com/axisvela/praxo-core/0.10.0/ | published |
 | Rust | crates.io | `0.9.2` | https://crates.io/crates/praxo-core/0.9.2 | published |
 | C# | NuGet | `0.9.2` | https://www.nuget.org/packages/Praxo.Core/0.9.2 | published |

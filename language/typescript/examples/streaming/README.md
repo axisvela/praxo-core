@@ -1,6 +1,6 @@
 # Streaming
 
-This example uses published npm `@axisvela/praxo-core@0.8.0` to consume deltas
+This example uses published npm `@axisvela/praxo-core@0.8.1` to consume deltas
 while the agent loop keeps running normally.
 
 Set `AgentOptions.onDelta` and implement `generateStream` on the model. The agent

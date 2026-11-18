@@ -11,7 +11,7 @@ language and run the verification commands.
 | --- | --- | --- | --- |
 | Go | `github.com/axisvela/praxo-core/v2` | `2.9.0` | [Go consumer](consumer-go.md) |
 | Python | `praxo-core` | `0.9.1` | [Python consumer](consumer-python.md) |
-| TypeScript | `@axisvela/praxo-core` | `0.8.0` | [TypeScript consumer](consumer-typescript.md) |
+| TypeScript | `@axisvela/praxo-core` | `0.8.1` | [TypeScript consumer](consumer-typescript.md) |
 | Java | `com.axisvela:praxo-core` | `0.10.0` | [Java consumer](consumer-java.md) |
 | Ruby | `praxo-core` | `0.8.2` | [Ruby starter](https://github.com/axisvela/praxo-core/tree/main/language/ruby/examples/consumer) |
 | PHP | `axisvela/praxo-core` | `0.8.1` | [PHP starter](https://github.com/axisvela/praxo-core/tree/main/language/php/examples/consumer) |

@@ -59,7 +59,7 @@ npm start -- "Quarterly status: all checks green."
 npm test
 ```
 
-示例安装已发布的 npm `@axisvela/praxo-core@0.8.0`。
+示例安装已发布的 npm `@axisvela/praxo-core@0.8.1`。
 
 ### Java
 
@@ -202,7 +202,7 @@ python -m venv .venv
 
 ```bash
 npm init -y
-npm install --save-exact @axisvela/praxo-core@0.8.0
+npm install --save-exact @axisvela/praxo-core@0.8.1
 ```
 
 2. 从

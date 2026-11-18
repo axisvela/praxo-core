@@ -1,6 +1,6 @@
 # TypeScript Live Model
 
-This example uses published npm `@axisvela/praxo-core@0.8.0` to connect the
+This example uses published npm `@axisvela/praxo-core@0.8.1` to connect the
 TypeScript Core to an OpenAI-compatible endpoint and registers one low-risk
 `get_time` tool.
 

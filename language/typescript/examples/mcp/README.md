@@ -1,6 +1,6 @@
 # MCP Stdio Client
 
-This example uses published npm `@axisvela/praxo-core@0.8.0` to connect to a
+This example uses published npm `@axisvela/praxo-core@0.8.1` to connect to a
 minimal stdio MCP server, list tools, register them in a Core registry, and call
 one tool.
 

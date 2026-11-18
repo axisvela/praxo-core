@@ -73,7 +73,7 @@ Bridge、Sample 描述运行时的接入方式，不证明其语言缺乏 Framew
 | 语言 | 源码标签 | 注册表版本 | 消费者安装 smoke |
 | --- | --- | --- | --- |
 | Python | `python/v0.9.1` | PyPI `praxo-core==0.9.1` 已发布 | 发布工作流构建并 smoke 测试了 `0.9.0` wheel 和 sdist；发布后消费者检查未重跑 |
-| TypeScript | `typescript/v0.8.1` | npm `@axisvela/praxo-core@0.8.0` 已作为 `latest` 发布；`0.8.1` staged 待批准 | 发布工作流构建并 staged `0.8.1`；直接发布返回 403，消费者检查仍基于 `0.8.0` |
+| TypeScript | `typescript/v0.8.1` | npm `@axisvela/praxo-core@0.8.1` 已作为 `latest` 发布 | 发布工作流构建并 staged `0.8.1`；批准后 npm 已发布。发布后消费者检查未重跑 |
 | Java | `java/v0.10.0` | Maven Central `com.axisvela:praxo-core:0.10.0` 已发布 | 发布工作流构建、签名并发布 `0.10.0`；发布后消费者检查未重跑 |
 | Rust | `rust/v0.9.2` | crates.io `praxo-core==0.9.2` 已发布；`0.1.4` 为历史版本 | 发布工作流对 `0.9.2` 运行测试、conformance、API snapshot 和 dry-run；本地 registry 消费者安装未重跑 |
 | C# | `csharp/v0.9.2` | NuGet `Praxo.Core==0.9.2` 已发布 | 发布工作流构建、测试、打包并推送 `0.9.2`；本地发布包消费者安装记录针对 `0.9.1`，为历史证据 |
@@ -101,7 +101,7 @@ Bridge、Sample 描述运行时的接入方式，不证明其语言缺乏 Framew
 | 语言 | 代码/manifest 版本 | 注册表 latest | 状态 |
 | --- | --- | --- | --- |
 | Python | `0.9.1` | PyPI `0.9.1` | 已最新 |
-| TypeScript | `0.8.1` | npm `0.8.0` | registry 待发布 |
+| TypeScript | `0.8.1` | npm `0.8.1` | 已最新 |
 | Java | `0.10.0` | Maven Central `0.10.0` | 已最新 |
 | Rust | `0.9.2` | crates.io `0.9.2` | 已最新 |
 | C# | `0.9.2` | NuGet `0.9.2` | 已最新 |
