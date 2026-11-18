@@ -42,6 +42,10 @@
 
 ### Changed
 
+- Added annotated sample snapshot tags for JavaScript (`javascript/v0.8.0`),
+  Kotlin/Scala/Groovy/Clojure (`v0.10.0`), F# and Visual Basic (`v0.9.1`), and
+  OpenCL (`opencl/v0.10.0`). These are samples over host Cores, not separate
+  package releases.
 - PowerShell consumer examples can explicitly select installed module `0.7.1`
   with `-UseInstalledModule`, without source fallback or a DLL override. Module
   selection regressions cover source mode, missing packages, and DLL overrides.
