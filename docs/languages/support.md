@@ -110,12 +110,12 @@ Registry values below were checked against the public registries on 2026-11-17.
 | Erlang | `erlang/v0.8.2` | Hex `praxo_core_erlang==0.8.2` published; `0.4.0`, `0.3.1`, `0.2.0` historical | Not rerun for `0.5.0`; historical `0.1.1` smoke |
 | Ruby | `ruby/v0.8.2` | RubyGems `praxo-core==0.8.2` published; `0.4.1`, `0.4.0`, `0.3.0`, `0.2.0` historical | Release workflow ran conformance, API snapshot, tests, gem build, and push for `0.8.2`; split repo synced and tagged `v0.8.2`; local published-gem install not rerun |
 | Lua | `lua/v0.7.2` | LuaRocks `praxo-core==0.7.2-1` published with the optional OpenAI-compatible adapter; `0.4.1-1`, `0.4.0-1`, `0.3.0-1`, `0.2.0-1` also published | Extended starter added; LuaRocks `0.4.1-1` installed into a clean tree and allow/deny passed locally; `0.5.0-1` install smoke not rerun |
-| PHP | `php/v0.8.1` | Packagist `axisvela/praxo-core==0.8.1` published with Composer `autoload.files`; `0.4.1`, `0.4.0`, `0.3.0`, `0.2.0` historical | Fresh Composer install of published `0.8.1` and consumer allow/deny tests passed locally on 2026-11-18 |
+| PHP | `php/v0.8.2` | Packagist `axisvela/praxo-core==0.8.1` published with Composer `autoload.files`; `0.4.1`, `0.4.0`, `0.3.0`, `0.2.0` historical | Fresh Composer install of published `0.8.1` and consumer allow/deny tests passed locally on 2026-11-18 |
 | Dart | `dart/v0.6.2` | pub.dev `praxo_core==0.6.2` | Prior clean `0.6.1` install smoke passed locally; `0.6.2` publication pending |
 | Julia | `julia/v0.7.0` | General Registry PR #176393 open; merge pending | Not recorded |
 | MATLAB | `matlab/v0.7.0` | MATLAB File Exchange `185166` published (`0.5.0`); `0.7.0` upload pending | Not recorded |
 | Octave | `octave/v0.7.0` | Octave `0.7.0` release tarball published; Octave Packages PR #875 pending | Not recorded |
-| R | `r/v0.10.1` | r-universe `praxocore==0.10.1` published; CRAN not published | Consumer starter runs in source mode; published `0.10.1` install smoke not rerun |
+| R | `r/v0.10.2` | r-universe `praxocore==0.10.1` published; CRAN not published | Consumer starter runs in source mode; published `0.10.1` install smoke not rerun |
 | Perl | `perl/v0.6.2` | CPAN `Praxo-Core==0.6.1` published and indexed on MetaCPAN | MetaCPAN tarball installed with `cpanm` 1.7049 in an isolated prefix; packaged consumer allow/deny passed locally on 2026-11-18 |
 | PowerShell | `powershell/v0.7.2` | PowerShell Gallery `praxo-core-ps==0.7.2` published | `Save-PSResource` download, isolated module/DLL provenance, and consumer allow/deny passed locally on 2026-11-18; `Install-Module` itself not tested |
 | Nim | `nim/v0.6.0` | Split repository package `0.1.1`; nim-lang/packages PR #3600 merged 2026-11-05; nimpkgs re-crawl pending | Not recorded |
@@ -138,7 +138,7 @@ its latest version matches the manifest at the release tag.
 | Elixir | `0.9.2` | Hex `0.9.2` | current |
 | Erlang | `0.8.2` | Hex `0.8.2` | current |
 | Ruby | `0.8.2` | RubyGems `0.8.2` | current |
-| PHP | `0.8.1` | Packagist `0.8.1` | current |
+| PHP | `0.8.2` | Packagist `0.8.1` | registry publication pending |
 | Lua | rockspec `0.7.2-1`; source tag `0.7.2` | LuaRocks `0.7.2-1` | current |
 | Dart | `0.6.2` | pub.dev `0.6.2` | current |
 | Julia | `0.7.0` | General Registry PR #176393 open; merge pending | pending |
@@ -147,7 +147,7 @@ its latest version matches the manifest at the release tag.
 | Perl | `0.6.2` | CPAN `0.6.1` | registry publication pending |
 | PowerShell | `0.7.2` | PowerShell Gallery `0.7.2` | current |
 | Haskell | `0.7.1` | Hackage `0.7.1` | current |
-| R | `0.10.1` | r-universe `0.10.1` | current |
+| R | `0.10.2` | r-universe `0.10.1` | registry publication pending |
 | Nim | `0.6.0` | Split repository package `0.1.1` | pending |
 | OCaml | `0.8.0` | opam registry `0.3.0`; PR #31222 closed (`0.8.0`) | new submission needed |
 | Swift | `0.7.0` | SPI `0.7.0` | current |

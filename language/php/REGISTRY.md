@@ -1,7 +1,7 @@
 # PRAXO-CORE PHP Registry Introduction
 
-**Status:** published. Source version `0.8.1`, source
-tag `php/v0.8.1`. Published registry version: `0.8.1`. Registry
+**Status:** published. Source version `0.8.2`, source
+tag `php/v0.8.2`. Published registry version: `0.8.1`. Registry
 pages are release snapshots; verify the published version before relying on a
 feature.
 
@@ -17,11 +17,11 @@ Use it when an existing PHP application needs a governed model/tool loop without
 | --- | --- |
 | Package | `axisvela/praxo-core` |
 | Registry | [Packagist](https://packagist.org/packages/axisvela/praxo-core) |
-| Source version | `0.8.1` |
+| Source version | `0.8.2` |
 | Published registry version | `0.8.1` |
 | Install (published) | `composer require axisvela/praxo-core` |
 | Install (source/release prepared) | `composer require axisvela/praxo-core` |
-| Source tag | `php/v0.8.1` |
+| Source tag | `php/v0.8.2` |
 | Tier | Core |
 | Contract | `SPEC_VERSION` `0.2.0` |
 | Documentation | https://axisvela.github.io/praxo-core/languages/php/ |

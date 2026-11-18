@@ -81,7 +81,7 @@ Bridge、Sample 描述运行时的接入方式，不证明其语言缺乏 Framew
 | Erlang | `erlang/v0.8.2` | Hex `praxo_core_erlang==0.8.2` 已发布；`0.4.0`、`0.3.1`、`0.2.0` 为历史版本 | `0.5.0` 未重跑；历史 `0.1.1` smoke |
 | Ruby | `ruby/v0.8.2` | RubyGems `praxo-core==0.8.2` 已发布；`0.4.1`、`0.4.0`、`0.3.0`、`0.2.0` 为历史版本 | 发布工作流对 `0.8.2` 运行 conformance、API snapshot、测试、gem build 和 push；split 仓库已同步并打 `v0.8.2` tag；本地发布包安装未重跑 |
 | Lua | `lua/v0.7.2` | LuaRocks `praxo-core==0.7.2-1` 已发布，包含可选 OpenAI-compatible adapter；`0.4.1-1`、`0.4.0-1`、`0.3.0-1`、`0.2.0-1` 也已发布 | 已增加扩展 starter；LuaRocks `0.4.1-1` 已安装到干净 tree，allow/deny 本地通过；`0.5.0-1` 安装 smoke 未重跑 |
-| PHP | `php/v0.8.1` | Packagist `axisvela/praxo-core==0.8.1` 已发布，包含 Composer `autoload.files`；`0.4.1`、`0.4.0`、`0.3.0`、`0.2.0` 为历史版本 | 2026-11-18 全新 Composer 安装已发布 `0.8.1`，消费者 allow/deny 测试本地通过 |
+| PHP | `php/v0.8.2` | Packagist `axisvela/praxo-core==0.8.1` 已发布，包含 Composer `autoload.files`；`0.4.1`、`0.4.0`、`0.3.0`、`0.2.0` 为历史版本 | 2026-11-18 全新 Composer 安装已发布 `0.8.1`，消费者 allow/deny 测试本地通过 |
 | Dart | `dart/v0.6.2` | pub.dev `praxo_core==0.6.1` | 历史 `0.6.1` 安装 smoke 本地通过；`0.6.2` 发布待完成 |
 | Julia | `julia/v0.7.0` | General Registry PR #176393 待合并 | 未记录 |
 | MATLAB | `matlab/v0.7.0` | MATLAB File Exchange `185166` 已发布（`0.5.0`）；`0.7.0` 上传待完成 | 未记录 |
@@ -108,7 +108,7 @@ Bridge、Sample 描述运行时的接入方式，不证明其语言缺乏 Framew
 | Elixir | `0.9.2` | Hex `0.9.2` | 已最新 |
 | Erlang | `0.8.2` | Hex `0.8.2` | 已最新 |
 | Ruby | `0.8.2` | RubyGems `0.8.2` | 已最新 |
-| PHP | `0.8.1` | Packagist `0.8.1` | 已最新 |
+| PHP | `0.8.2` | Packagist `0.8.1` | registry 待发布 |
 | Lua | rockspec `0.7.1-1`；源码标签 `0.7.2` | LuaRocks `0.7.1-1` | 已最新 |
 | Dart | `0.6.2` | pub.dev `0.6.2` | 已最新 |
 | Julia | `0.7.0` | General Registry PR #176393 待合并 | 待完成 |
@@ -117,7 +117,7 @@ Bridge、Sample 描述运行时的接入方式，不证明其语言缺乏 Framew
 | Perl | `0.6.0` | CPAN `0.6.0` | 已最新 |
 | PowerShell | `0.7.2` | PowerShell Gallery `0.7.2` | 已最新 |
 | Haskell | `0.7.1` | Hackage `0.7.1` | 已最新 |
-| R | `0.10.1` | r-universe `0.10.1` | 已最新 |
+| R | `0.10.2` | r-universe `0.10.1` | registry 待发布 |
 | Nim | `0.6.0` | split 仓库包 `0.1.1` | 待完成 |
 | OCaml | `0.8.0` | opam registry `0.3.0`；PR #31222 已关闭（`0.8.0`） | 需要重新提交 |
 | Swift | `0.7.0` | SPI `0.7.0` | 已最新 |

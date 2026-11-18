@@ -301,9 +301,9 @@
     "published_version": "0.8.1",
     "registry": "Packagist",
     "source_install": "composer require axisvela/praxo-core",
-    "source_version": "0.8.1",
+    "source_version": "0.8.2",
     "status": "published",
-    "tag": "php/v0.8.1",
+    "tag": "php/v0.8.2",
     "tier": "Core",
     "url": "https://packagist.org/packages/axisvela/praxo-core"
   },
@@ -357,9 +357,9 @@
     "published_version": "0.10.1",
     "registry": "r-universe",
     "source_install": "install.packages(\"praxocore\", repos = \"https://axisvela.r-universe.dev\")",
-    "source_version": "0.10.1",
+    "source_version": "0.10.2",
     "status": "r-universe 0.10.1 published; CRAN not published",
-    "tag": "r/v0.10.1",
+    "tag": "r/v0.10.2",
     "tier": "Core",
     "url": "https://axisvela.r-universe.dev/praxocore"
   },

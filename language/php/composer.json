@@ -3,7 +3,7 @@
   "description": "Native PHP Core for PRAXO-CORE, an embeddable MIT-licensed agent framework with an in-process tool loop, policy, events, memory, checkpoints, and middleware; not an HTTP user agent or hosted service",
   "type": "library",
   "license": "MIT",
-  "version": "0.8.1",
+  "version": "0.8.2",
   "require": {
     "php": ">=8.2"
   },

@@ -1,5 +1,19 @@
 # R Core Release Notes
 
+## 0.10.2 - 2026-11-18
+
+Source tag `r/v0.10.2`; r-universe rebuild follows the source push.
+
+### Added
+
+- Representative-chain, advanced-delegation, and the expanded task-oriented
+  example index, including MCP, OTel/Harmovela, and governance checks.
+- Registry README links for the current example set.
+
+### Compatibility
+
+- No public API or wire change; `SPEC_VERSION` remains `0.2.0`.
+
 
 ## 0.10.1 - 2026-11-15
 
