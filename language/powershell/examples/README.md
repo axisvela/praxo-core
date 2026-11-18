@@ -8,6 +8,10 @@
   deterministic valid/invalid check.
 - [`mcp/`](mcp/): transport-neutral MCP client boundary over a caller-owned
   transport.
+- [`representative-chain/`](representative-chain/): deterministic MCP, policy,
+  delegation, OTel/Harmovela, and edited-denial end-to-end chain.
+- [`advanced-delegation/`](advanced-delegation/): application-level governance
+  negative checks for delegated child agents.
 - [`service/`](service/): transport-neutral request handler with health,
   principal, and run cases.
 - [`provider-fallback/`](provider-fallback/): fallback model after a primary

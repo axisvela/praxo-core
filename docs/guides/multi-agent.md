@@ -82,8 +82,8 @@ lifecycle and observable state.
 runs a real local model through an MCP tool, final-argument authorization,
 governed child delegation, OTel spans, and Harmovela events, then checks a
 denied edit for zero effects. It skips when `PRAXO_OLLAMA_MODEL` is unset.
-Deterministic counterparts exist for the other fifteen wired languages under
-their representative-chain examples or native test suites.
+Deterministic counterparts exist for the other Core SDK languages under their
+representative-chain examples or native test suites.
 
 ## Optional Composition Module
 

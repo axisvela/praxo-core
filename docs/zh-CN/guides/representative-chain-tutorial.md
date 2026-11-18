@@ -112,10 +112,9 @@ go clean -modcache
 loopback Harmovela server；子代理模型为确定性 fixture。它不证明远程 MCP 或
 Harmovela、独立复现、吞吐、故障恢复、exactly-once 或通用 prompt-injection 防护。
 
-Python、TypeScript、Java、C#、Rust、R、C、C++、Fortran、COBOL、PHP、Ruby、
-Elixir、Erlang 和 Lua 的确定性对应链路位于各自的 representative-chain 示例或原生
+其余 Core SDK 语言的确定性对应链路位于各自的 representative-chain 示例或原生
 测试套件，覆盖相同的 MCP、授权、委派、OTel/Harmovela 和拒绝边界，但不需要真实
-provider。
+provider；记录范围和限制见[验证证据](../project/verification-evidence.md)。
 
 更多证据和委派边界见[验证证据](../project/verification-evidence.md)和
 [多 Agent 模式](multi-agent.md)。

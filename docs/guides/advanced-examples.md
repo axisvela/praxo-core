@@ -20,11 +20,14 @@ The examples use only the shared agent, tool, and policy seams.
 | C# | [`language/csharp/examples/advanced-delegation`](https://github.com/axisvela/praxo-core/tree/main/language/csharp/examples/advanced-delegation) | `dotnet run --project AdvancedDelegation.csproj` |
 | Rust | [`language/rust/examples/advanced-delegation`](https://github.com/axisvela/praxo-core/tree/main/language/rust/examples/advanced-delegation) | `cargo run` |
 
-The application-level examples check a child effect and a separately configured
-parent denial. They do not test automatic parent-policy inheritance, hostile
-child scope expansion, cumulative budgets, or cancellation propagation. The Go
+Across the Core SDK set, the governance examples also check child scope
+narrowing, parent/child policy composition, shared sibling budgets, child-count
+and depth limits, cancellation before effects, and final-argument
+reauthorization. They do not implement automatic parent-policy inheritance or
+cancellation propagation; those remain application responsibilities. The Go
 manager example has its own lifecycle scope. Source availability is not execution
-evidence for every package/toolchain; consult recorded runs before claiming one.
+evidence for every package/toolchain; consult the recorded runs in the
+[verification evidence](../project/verification-evidence.md) before claiming one.
 
 This is not the Go `pkg/agent/delegation` contract. Durable workers, remote task
 queues, retries, cancellation propagation, and effect reconciliation remain

@@ -52,9 +52,9 @@
 
 ### Added
 
-- Application-level governed delegation negative checks for all sixteen wired
-  languages: Go, Python, TypeScript, Java, C#, Rust, R, C, C++, Fortran, COBOL,
-  PHP, Ruby, Elixir, Erlang, and Lua. They cover child scope narrowing,
+- Application-level governed delegation negative checks across the Core SDK
+  languages with agent-loop access, from Go and Python through the native,
+  shared-runtime, and adapter-based implementations. They cover child scope narrowing,
   parent/child policy composition, shared sibling budgets, child/depth limits,
   cancellation before effects, and final-argument reauthorization. Extended
   implementations use native test suites or example directories. No public Core
@@ -66,8 +66,9 @@
   Deterministic counterparts now cover the other wired languages: Python,
   TypeScript, Java, C#, Rust, R, C, C++, Fortran, COBOL, PHP, Ruby, Elixir,
   Erlang, Lua, Perl, V, Nim, Dart, Julia, D, OCaml, Haskell, Zig, the shared
-  MATLAB/Octave implementation, Delphi / Free Pascal, Objective-C, and Swift.
-  They use in-memory or transport-seam MCP, OTel, and Harmovela seams.
+  MATLAB/Octave implementation, Delphi / Free Pascal, Objective-C, Swift, and
+  PowerShell. They use in-memory or transport-seam MCP, OTel, and Harmovela
+  seams.
 - Opt-in `require_policy`/`require_tool_scope` safe-default guards (and their
   idiomatic casing per language) across the native Core agent APIs: Go, Python,
   TypeScript, Java, Rust, C#, R, Ruby, PHP, Elixir, Lua, Perl, Erlang, C, C++,

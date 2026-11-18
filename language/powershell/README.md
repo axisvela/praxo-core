@@ -44,6 +44,8 @@ Runnable examples live under [`language/powershell/examples`](https://github.com
 | Install and deny one unsafe call | [consumer](https://github.com/axisvela/praxo-core/tree/main/language/powershell/examples/consumer) |
 | Connect a real model | [live-model](https://github.com/axisvela/praxo-core/tree/main/language/powershell/examples/live-model) |
 | Connect MCP tools | [mcp](https://github.com/axisvela/praxo-core/tree/main/language/powershell/examples/mcp) |
+| Run the representative end-to-end chain | [representative-chain](https://github.com/axisvela/praxo-core/tree/main/language/powershell/examples/representative-chain) |
+| Test delegated-child governance | [advanced-delegation](https://github.com/axisvela/praxo-core/tree/main/language/powershell/examples/advanced-delegation) |
 | Validate structured output | [structured-output](https://github.com/axisvela/praxo-core/tree/main/language/powershell/examples/structured-output) |
 | Stream a response | [streaming](https://github.com/axisvela/praxo-core/tree/main/language/powershell/examples/streaming) |
 | Add identity and policy | [identity-policy](https://github.com/axisvela/praxo-core/tree/main/language/powershell/examples/identity-policy) |
