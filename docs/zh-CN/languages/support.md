@@ -79,7 +79,7 @@ Bridge、Sample 描述运行时的接入方式，不证明其语言缺乏 Framew
 | C# | `csharp/v0.9.1` | NuGet `Praxo.Core==0.9.1` 已发布 | Consumer starter 已针对发布 `0.9.1` 本地运行 |
 | Elixir | `elixir/v0.9.1` | Hex `praxo_core==0.9.1` 已发布，包含 OpenAI-compatible、Anthropic、Gemini、Harmovela 和 MCP adapter；`0.5.1`、`0.4.1`、`0.4.0`、`0.3.0`、`0.2.0` 为历史版本 | 已增加扩展 starter；Hex `0.4.1` 在干净 Mix 项目中解析，allow/deny 本地通过；`0.6.0` 安装 smoke 未重跑 |
 | Erlang | `erlang/v0.8.1` | Hex `praxo_core_erlang==0.8.1` 已发布；`0.4.0`、`0.3.1`、`0.2.0` 为历史版本 | `0.5.0` 未重跑；历史 `0.1.1` smoke |
-| Ruby | `ruby/v0.8.1` | RubyGems `praxo-core==0.9.0` 已发布；`0.4.1`、`0.4.0`、`0.3.0`、`0.2.0` 为历史版本 | 已增加扩展 starter；RubyGems `0.4.1` 已安装到干净 gem home，allow/deny 本地通过；`0.5.0` 安装 smoke 未重跑 |
+| Ruby | `ruby/v0.8.1` | RubyGems `praxo-core==0.8.1` 已发布；`0.4.1`、`0.4.0`、`0.3.0`、`0.2.0` 为历史版本 | `0.8.1` 源码已同步到 `axisvela/praxo-core-ruby` 并打 `v0.8.1` tag；gem build 与干净 gem home 安装 smoke 本地通过 |
 | Lua | `lua/v0.7.1` | LuaRocks `praxo-core==0.7.1-1` 已发布，包含可选 OpenAI-compatible adapter；`0.4.1-1`、`0.4.0-1`、`0.3.0-1`、`0.2.0-1` 也已发布 | 已增加扩展 starter；LuaRocks `0.4.1-1` 已安装到干净 tree，allow/deny 本地通过；`0.5.0-1` 安装 smoke 未重跑 |
 | PHP | `php/v0.8.1` | Packagist `axisvela/praxo-core==0.8.1` 已发布，包含 Composer `autoload.files`；`0.4.1`、`0.4.0`、`0.3.0`、`0.2.0` 为历史版本 | 已增加扩展 starter；Composer 安装已发布 `0.4.1` 后 starter 无桥接本地通过；`0.8.1` 安装 smoke 未重跑 |
 | Dart | `dart/v0.6.1` | pub.dev `praxo_core==0.6.1` | 已记录 `0.1.1`；`0.4.0` 安装 smoke 未记录 |

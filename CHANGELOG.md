@@ -69,6 +69,8 @@
   MATLAB/Octave implementation, Delphi / Free Pascal, Objective-C, Swift, and
   PowerShell. They use in-memory or transport-seam MCP, OTel, and Harmovela
   seams.
+- Synced the Ruby release-source repository to `0.8.1` and added annotated tag
+  `v0.8.1`; corrected the Ruby consumer guide to pin `praxo-core==0.8.1`.
 - Sample-language entries (JavaScript, Kotlin, Scala, Groovy, Clojure, Visual
   Basic, F#, and OpenCL) now point to their host Core's representative-chain and
   delegation examples. Shell, Lisp, Tcl, and Prolog record that the bridge
