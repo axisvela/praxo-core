@@ -103,6 +103,7 @@ process contract:
 | Language | Process host | Verification |
 | --- | --- | --- |
 | Go | `pkg/plugin/host/process` | unit, TCK, containment tests |
+| Go WASM | `pkg/plugin/host/wasm` | Hermetic WASM modules: framing, memory bound, timeout, cancellation, evidence |
 | Python | `praxo.ProcessHost` | tests + API snapshot |
 | TypeScript | `ProcessHost` | tests + API snapshot |
 | Rust | `plugin_process::ProcessHost` | cargo tests |

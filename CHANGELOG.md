@@ -9,6 +9,8 @@ Source tag `v2.10.0`.
 - OpenAI-compatible, Anthropic, and Gemini SSE streaming across the declared
   Core adapters, including Anthropic and Gemini stream reassembly in the
   extended and optional SDKs.
+- Go reference WASM plugin host with bounded linear memory, guest ABI,
+  timeout/cancellation, and telemetry evidence.
 - Process plugin hosts with JSON-Lines stdio, token authentication, health
   handshake, invocation timeout, cancellation, and typed call errors in Go,
   Python, TypeScript, Rust, C#, Dart, Ruby, Elixir, Erlang, Haskell, V, and
