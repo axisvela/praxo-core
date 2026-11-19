@@ -454,3 +454,67 @@ void px_plugin_process_stop(PxPluginProcess *host) { (void)host; }
 void px_plugin_process_free(PxPluginProcess *host) { (void)host; }
 
 #endif
+
+static void px_copy_text(char *target, size_t size, const char *source) {
+    if (target == NULL || size == 0) return;
+    if (source == NULL) source = "";
+    size_t length = strlen(source);
+    if (length >= size) length = size - 1;
+    memcpy(target, source, length);
+    target[length] = '\0';
+}
+
+int px_plugin_process_start_simple(const char *plugin_id, const char *path,
+    const char *arg, const char *token, void **handle, char *error,
+    size_t error_size) {
+    const char *args[1];
+    PxPluginProcessConfig config;
+    const char *detail = NULL;
+    if (handle == NULL) return 0;
+    *handle = NULL;
+    args[0] = arg;
+    config.plugin_id = plugin_id;
+    config.path = path;
+    config.args = args;
+    config.arg_count = arg == NULL ? 0 : 1;
+    config.token = token;
+    config.start_timeout_ms = 10000;
+    config.invoke_timeout_ms = 30000;
+    PxPluginProcess *created = px_plugin_process_start(&config, &detail);
+    if (created == NULL) {
+        px_copy_text(error, error_size, detail);
+        return 0;
+    }
+    *handle = created;
+    return 1;
+}
+
+int px_plugin_process_invoke_simple(void *handle, const char *service,
+    const char *method, const char *payload, char *response,
+    size_t response_size, char *error, size_t error_size) {
+    unsigned char *result = NULL;
+    size_t result_length = 0;
+    const char *detail = NULL;
+    if (response != NULL && response_size > 0) response[0] = '\0';
+    int ok = px_plugin_process_invoke(handle, service, method,
+        (const unsigned char *)(payload == NULL ? "" : payload),
+        payload == NULL ? 0 : strlen(payload), &result, &result_length,
+        &detail);
+    if (!ok) {
+        px_copy_text(error, error_size, detail);
+        return 0;
+    }
+    if (response != NULL && response_size > 0) {
+        size_t length = result_length;
+        if (length >= response_size) length = response_size - 1;
+        if (length > 0) memcpy(response, result, length);
+        response[length] = '\0';
+    }
+    free(result);
+    return 1;
+}
+
+void px_plugin_process_stop_simple(void *handle) {
+    px_plugin_process_stop(handle);
+    px_plugin_process_free(handle);
+}

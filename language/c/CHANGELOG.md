@@ -1,8 +1,8 @@
 # C Core Release Notes
 
-## 0.11.0 - 2026-11-19
+## 0.12.0 - 2026-11-19
 
-Source tag `c/v0.11.0`.
+Source tag `c/v0.12.0`.
 
 ### Added
 
