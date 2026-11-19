@@ -46,13 +46,13 @@ Go 页面于 2026-11-16 核对；四个试点包于 2026-11-13 核对。
 
 | 语言 | 页面 | 已发布版本 | 当前页面状态 | 下一步 |
 | --- | --- | --- | --- | --- |
-| Go | [pkg.go.dev](https://pkg.go.dev/github.com/axisvela/praxo-core/v2) | `v2.9.0` | 渲染后的 `v2.9.0` README 包含 `@v2.9.0` 安装命令、MIT 许可和发布说明；pkg.go.dev 显示 `v2.9.0` 于 2026-11-16 发布 | 无需进一步操作 |
+| Go | [pkg.go.dev](https://pkg.go.dev/github.com/axisvela/praxo-core/v2) | `v2.10.0` | 渲染后的 `v2.10.0` README 包含 `@v2.10.0` 安装命令、MIT 许可和发布说明；pkg.go.dev 显示 `v2.10.0` 于 2026-11-16 发布 | 无需进一步操作 |
 | Python | [PyPI](https://pypi.org/project/praxo-core/) | `0.9.1` | `0.9.1` 已发布；包内 README 包含扩展示例链接与 `0.9.1` 安装命令。介绍块仍链接 `0.9.0` 页面 | 下次发布刷新 registry 页面链接 |
 | TypeScript | [npm](https://www.npmjs.com/package/@axisvela/praxo-core) | `0.8.1` | `0.8.1` 已作为 `latest` 发布 | 无需进一步操作 |
 | Java | [Maven Central](https://central.sonatype.com/artifact/com.axisvela/praxo-core) | `0.10.0` | `0.10.0` 已发布，包含签名的 sources 与 javadoc；POM 描述链接 Java 示例 | 无需进一步操作 |
 
 本仓库的源元数据更新**不会**改变已发布的 `0.9.0`、`0.8.0` 与 `0.7.0` 语言页面。
-Go 页面随 `v2.9.0` tag 更新，并已于 2026-11-16 核对。在其他 Registry 显示新版本与
+Go 页面随 `v2.10.0` tag 更新，并已于 2026-11-16 核对。在其他 Registry 显示新版本与
 新文本前，不得声称对应页面已更新。
 
 其他 Registry 见[Registry 发布状态](registry-status.md)。本次未逐一重新审计；发布时
