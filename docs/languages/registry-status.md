@@ -6,7 +6,7 @@ npm `0.8.1` was approved and published after staging; `latest` is now `0.8.1`. C
 NuGet index. Elixir `0.9.2`, Erlang `0.8.2`, Haskell `0.7.1`, and PowerShell `0.7.2`
 were published and confirmed; CPAN `0.6.2` upload succeeded but MetaCPAN
 indexing was pending. Lua `0.7.2-1` and Dart `0.6.2` were published and confirmed.
-Earlier rows retain their recorded check dates; Go `v2.9.0` was verified on
+Earlier rows retain their recorded check dates; Go `v2.10.0` was verified on
 2026-11-16.
 
 This page summarizes where each language implementation is published. Source
@@ -32,7 +32,7 @@ GitHub Latest represents the Go Reference Core only, not the last language packa
 
 | Language | Registry | Version | Address | Status |
 | --- | --- | --- | --- | --- |
-| Go | Go module proxy / pkg.go.dev | `v2.9.0` | https://pkg.go.dev/github.com/axisvela/praxo-core/v2 | published; page audited 2026-11-16 |
+| Go | Go module proxy / pkg.go.dev | `v2.10.0` | https://pkg.go.dev/github.com/axisvela/praxo-core/v2 | published; page audited 2026-11-16 |
 | Python | PyPI | `0.9.1` | https://pypi.org/project/praxo-core/0.9.1/ | published |
 | TypeScript | npm | `0.8.1` | https://www.npmjs.com/package/@axisvela/praxo-core/v/0.8.1 | published; latest |
 | Java | Maven Central | `0.10.0` | https://repo1.maven.org/maven2/com/axisvela/praxo-core/0.10.0/ | published |
