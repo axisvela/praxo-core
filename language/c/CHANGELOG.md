@@ -1,5 +1,15 @@
 # C Core Release Notes
 
+## 0.11.0 - 2026-11-19
+
+Source tag `c/v0.11.0`.
+
+### Added
+
+- Process plugin host over JSON-Lines stdio on Windows, with token
+  authentication, health handshake, invocation timeout, and typed call errors.
+- `praxo_plugin_process.h` public API.
+
 ## 0.10.0 - 2026-11-15
 
 Source tag `c/v0.10.0`.

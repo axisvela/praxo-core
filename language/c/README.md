@@ -1,6 +1,6 @@
 # PRAXO-CORE C Core
 
-C11 implementation of the PRAXO-CORE Core contract with source version `0.10.0`.
+C11 implementation of the PRAXO-CORE Core contract with source version `0.11.0`.
 The normative contract is [`spec/`](../../spec/README.md); Go remains the
 reference implementation.
 
@@ -76,6 +76,13 @@ a bounded response body.
 The sink adds no authentication, retries, buffering, ordering, or
 exactly-once-delivery guarantee. Apply caller-side filtering because event data
 may contain sensitive content, and use HTTPS for remote endpoints.
+
+## Process plugin host
+
+`px_plugin_process_start` / `px_plugin_process_invoke` /
+`px_plugin_process_stop` implement the JSON-Lines process plugin contract on
+Windows with token authentication, health handshake, invocation timeout, and
+typed call errors.
 
 ## Public API Snapshot
 

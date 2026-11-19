@@ -14,6 +14,7 @@ add_library(praxo_core STATIC
     src/toolcall.c
     src/jsonschema.c
     src/plugin.c
+    src/plugin_process.c
     src/core.c
     src/core_context.c
     src/core_middleware.c
@@ -40,7 +41,7 @@ install(TARGETS praxo_core
     ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
-install(FILES include/praxo.h include/praxo_core.h
+install(FILES include/praxo.h include/praxo_core.h include/praxo_plugin_process.h
     DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 
 add_executable(praxo-conformance src/main.c)
@@ -77,6 +78,11 @@ target_link_libraries(praxo-c-anthropic-tests PRIVATE praxo_core)
 add_executable(praxo-c-gemini-tests tests/test_gemini.c)
 target_link_libraries(praxo-c-gemini-tests PRIVATE praxo_core)
 
+add_executable(praxo-c-plugin-process-tests tests/test_plugin_process.c)
+if(WIN32)
+    target_link_libraries(praxo-c-plugin-process-tests PRIVATE praxo_core)
+endif()
+
 add_executable(praxo-c-harmovela-tests tests/test_harmovela.c)
 target_link_libraries(praxo-c-harmovela-tests PRIVATE praxo_core)
 
@@ -103,6 +109,7 @@ if(MSVC)
     target_compile_options(praxo-c-openai-tests PRIVATE /UNDEBUG)
     target_compile_options(praxo-c-anthropic-tests PRIVATE /UNDEBUG)
     target_compile_options(praxo-c-gemini-tests PRIVATE /UNDEBUG)
+    target_compile_options(praxo-c-plugin-process-tests PRIVATE /UNDEBUG)
     target_compile_options(praxo-c-harmovela-tests PRIVATE /UNDEBUG)
     target_compile_options(praxo-c-mcp-tests PRIVATE /UNDEBUG)
     target_compile_options(praxo-c-otel-tests PRIVATE /UNDEBUG)
@@ -133,6 +140,9 @@ add_test(NAME praxo-c-adapter-tests COMMAND praxo-c-adapter-tests)
 add_test(NAME praxo-c-openai-tests COMMAND praxo-c-openai-tests)
 add_test(NAME praxo-c-anthropic-tests COMMAND praxo-c-anthropic-tests)
 add_test(NAME praxo-c-gemini-tests COMMAND praxo-c-gemini-tests)
+if(WIN32)
+    add_test(NAME praxo-c-plugin-process-tests COMMAND praxo-c-plugin-process-tests)
+endif()
 add_test(NAME praxo-c-harmovela-tests COMMAND praxo-c-harmovela-tests)
 add_test(NAME praxo-c-mcp-tests COMMAND praxo-c-mcp-tests)
 add_test(NAME praxo-c-otel-tests COMMAND praxo-c-otel-tests)

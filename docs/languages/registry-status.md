@@ -68,7 +68,7 @@ GitHub Latest represents the Go Reference Core only, not the last language packa
 
 | Language | Source tag | Registry state |
 | --- | --- | --- |
-| C | `c/v0.10.0` | no registry publication |
+| C | `c/v0.11.0` | no registry publication |
 | C++ | `cpp/v0.8.0` | no registry publication |
 | Fortran | `fortran/v0.10.0` | fpm registry upstream paused |
 | COBOL | `cobol/v0.7.0` | no mainstream registry |
