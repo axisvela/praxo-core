@@ -1,7 +1,7 @@
 #use "praxo_core.ml"
 
 let fixture_model target : model =
-  { generate = fun request ->
+  { generate = (fun request ->
       match List.rev request.request_messages with
       | message :: _ when message.message_role = "tool" ->
           response_make (assistant_message "recorded" []) (usage_make 0 0)
@@ -10,7 +10,8 @@ let fixture_model target : model =
             (assistant_message ""
                [tool_invocation_make "record-1" "record"
                   (Object [("target", String target)])])
-            (usage_make 0 0) }
+            (usage_make 0 0));
+    generate_stream = None; }
 
 let authorize target kind =
   kind = "model.generate" || (kind = "tool.invoke" && target = "public")

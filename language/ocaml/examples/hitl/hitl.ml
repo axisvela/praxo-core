@@ -4,7 +4,7 @@ let note_arguments visibility =
   Object [("text", String "hello"); ("visibility", String visibility)]
 
 let fixture_model visibility : model =
-  { generate = fun request ->
+  { generate = (fun request ->
       match List.rev request.request_messages with
       | message :: _ when message.message_role = "tool" ->
           response_make (assistant_message "done" []) (usage_make 0 0)
@@ -13,7 +13,8 @@ let fixture_model visibility : model =
             (assistant_message ""
                [tool_invocation_make "write-note-1" "write_note"
                   (note_arguments visibility)])
-            (usage_make 0 0) }
+            (usage_make 0 0));
+    generate_stream = None; }
 
 let visibility_of arguments =
   match arguments with
