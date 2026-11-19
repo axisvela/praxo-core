@@ -221,6 +221,7 @@ dotnet run --project language/fsharp/examples/Praxo.FSharp.Sample.fsproj
 php language/php/conformance/run.php
 php language/php/conformance/run.php --check-api
 php language/php/tests/run.php
+php language/php/tests/plugin_process.php
 cd language/swift; swift test
 cd language/swift; swift run praxo-conformance
 cd language/swift; python3 api-snapshot.py --check

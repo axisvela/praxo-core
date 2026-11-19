@@ -243,6 +243,9 @@ string $pattern
 string $replacement
 ### Praxo\Core\Plugin
 Praxo\Core\PluginManifest parseManifest(string $raw)
+### Praxo\Core\PluginCallException
+PluginCallException(string $callCode, string $message)
+string $callCode
 ### Praxo\Core\PluginManifest
 ?array $signature
 PluginManifest(int $schemaVersion, string $id, string $version, string $kind, array $entrypoint, string $protocol, array $capabilities, array $permissions, array $limits, string $isolation, array $health, ?array $signature, string $sbom)
@@ -258,6 +261,21 @@ string $kind
 string $protocol
 string $sbom
 string $version
+### Praxo\Core\PluginProcessConfig
+?string $token
+PluginProcessConfig(string $pluginId, string $path, array $args, ?string $token, string $tokenEnvVar, float $startTimeout, float $invokeTimeout)
+array $args
+float $invokeTimeout
+float $startTimeout
+string $path
+string $pluginId
+string $tokenEnvVar
+### Praxo\Core\PluginProcessHost
+PluginProcessHost(Praxo\Core\PluginProcessConfig $config)
+bool isActive()
+string invoke(string $service, string $method, string $payload)
+void start()
+void stop()
 ### Praxo\Core\PraxoException
 PraxoException(string $praxoCode, string $message)
 Praxo\Core\PraxoException approvalDenied(string $message)

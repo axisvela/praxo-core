@@ -11,6 +11,7 @@ require_once __DIR__ . '/Middleware.php';
 require_once __DIR__ . '/Agent.php';
 require_once __DIR__ . '/Retriever.php';
 require_once __DIR__ . '/Delegation.php';
+require_once __DIR__ . '/PluginProcessHost.php';
 require_once __DIR__ . '/Adapters/OpenAICompatible.php';
 require_once __DIR__ . '/Adapters/Anthropic.php';
 require_once __DIR__ . '/Adapters/Gemini.php';

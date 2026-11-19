@@ -1,5 +1,12 @@
 # PHP Core Release Notes
 
+## Unreleased
+
+### Added
+
+- `PluginProcessHost` supervises a JSON-Lines plugin child with token
+  authentication.
+
 ## 0.8.2 - 2026-11-18
 
 Source tag `php/v0.8.2`; Packagist publication follows the split-repository release.

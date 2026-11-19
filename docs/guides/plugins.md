@@ -122,6 +122,7 @@ process contract:
 | Swift | `PluginProcessHost` | parse-only locally |
 | Java | `plugin.ProcessHost` | self-test with `java -Xint` |
 | Delphi | `TPraxoPluginProcess` | FPC test |
+| PHP | `PluginProcessHost` | PHP test |
 
 ```python
 
