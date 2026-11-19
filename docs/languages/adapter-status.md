@@ -169,6 +169,29 @@ Gemini SSE streaming reassembles `:streamGenerateContent?alt=sse` text deltas,
 complete function calls, usage metadata, and finish reasons for every Gemini
 adapter listed above.
 
+## Plugin Host
+
+| Language | Status | Detail |
+| --- | --- | --- |
+| Go | native | `pkg/plugin/host/process`; process, WASM, TCK, containment tests |
+| Python | native | `ProcessHost`; JSON-Lines, token auth, health, timeout, cancel |
+| TypeScript | native | `ProcessHost`; JSON-Lines, token auth, health, timeout, cancel |
+| Rust | native | `plugin_process::ProcessHost`; JSON-Lines, timeout, cancel |
+| C# | native | `PluginProcessHost`; JSON-Lines, timeout, cancel |
+| Dart | native | `PluginProcessHost`; JSON-Lines, timeout, cancel |
+| Ruby | native | `Praxo::PluginProcessHost`; JSON-Lines, timeout, cancel |
+| Elixir | native | `Praxo.PluginProcess`; JSON-Lines, timeout, cancel |
+| Erlang | native | `praxo_plugin_process`; JSON-Lines, timeout, cancel |
+| Haskell | native | `Praxo.PluginProcess`; JSON-Lines, timeout |
+| V | native | `PluginProcessHost`; JSON-Lines, timeout |
+| OCaml | native | `start_plugin_process`; JSON-Lines, timeout, cancel |
+| Swift | native (parse-only locally) | `PluginProcessHost`; full build blocked by local SDK |
+| Java | native (compile-only locally) | `plugin.ProcessHost`; `java` launcher hangs, `javaw` self-test pending |
+
+Manifest parsing, lifecycle states, and registry validation remain available in
+every listed Core. Process host conformance does not imply WASM or container
+hosting. D, PHP, Objective-C, MATLAB/Octave, Nim, C, C++, Fortran, COBOL,
+Julia, Zig, and Delphi do not yet ship a verified process host.
 ## MCP
 
 | Language | Status | Notes |
