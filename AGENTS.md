@@ -230,6 +230,8 @@ cd language/swift; swift run praxo-conformance
 cd language/swift; python3 api-snapshot.py --check
 cmake -S language/cpp -B language/cpp/build; cmake --build language/cpp/build; ctest --test-dir language/cpp/build --output-on-failure
 python language/cpp/api-snapshot.py --check
+g++ -std=c++20 -O2 -I language/cpp/include language/cpp/tests/plugin_process.cpp -L language/c/build -lpraxo_core -o build/praxo-cpp-plugin-process
+./build/praxo-cpp-plugin-process
 ruby language/ruby/conformance/run.rb
 ruby language/ruby/api-snapshot.rb --check
 ruby language/ruby/tests/run.rb

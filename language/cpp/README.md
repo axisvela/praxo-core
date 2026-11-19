@@ -7,7 +7,8 @@ is [`spec/`](../../spec/README.md); Go remains the reference implementation.
 - Core version: `0.8.0`
 - Tier: core
 - License: MIT
-- Dependencies: C++20 standard library only
+- Dependencies: C++20 standard library; the optional `ProcessPluginHost` links
+  the C Core library
 
 ## Registry and Coding-Agent Entry
 

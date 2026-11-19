@@ -1064,6 +1064,10 @@ jobs:
       - run: cmake -S language/cpp -B language/cpp/build
       - run: cmake --build language/cpp/build
       - run: ctest --test-dir language/cpp/build --output-on-failure
+      - run: cmake -S language/c -B language/c/build
+      - run: cmake --build language/c/build
+      - run: g++ -std=c++20 -O2 -I language/cpp/include language/cpp/tests/plugin_process.cpp -L language/c/build -lpraxo_core -o build/praxo-cpp-plugin-process
+      - run: ./build/praxo-cpp-plugin-process
       - run: python3 language/cpp/api-snapshot.py --check
 
   perl-conformance:

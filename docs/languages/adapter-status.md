@@ -196,11 +196,11 @@ adapter listed above.
 | PHP | native | `PluginProcessHost`; JSON-Lines, token auth |
 | Objective-C | native (C bindings) | `PXRPluginProcess`; JSON-Lines, token auth |
 | Nim | native (C bindings) | `plugin_process.start`; JSON-Lines, token auth |
+| C++ | native (C bindings) | `ProcessPluginHost`; JSON-Lines, token auth |
 
 Manifest parsing, lifecycle states, and registry validation remain available in
 every listed Core. Process host conformance does not imply WASM or container
-hosting. MATLAB/Octave, Nim, C++, and COBOL do not yet ship a verified
-process host.
+hosting. MATLAB/Octave and COBOL do not yet ship a verified process host.
 ## MCP
 
 | Language | Status | Notes |

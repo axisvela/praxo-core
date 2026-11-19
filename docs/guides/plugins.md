@@ -125,6 +125,7 @@ process contract:
 | PHP | `PluginProcessHost` | PHP test |
 | Objective-C | `PXRPluginProcess` | C-binding test |
 | Nim | `plugin_process.start` | C-binding test |
+| C++ | `ProcessPluginHost` | C-binding test |
 
 ```python
 

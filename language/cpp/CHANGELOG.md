@@ -1,5 +1,12 @@
 # C++ Core Release Notes
 
+## Unreleased
+
+### Added
+
+- `ProcessPluginHost` binds the C process host over JSON-Lines with token
+  authentication.
+
 ## 0.8.0 - 2026-11-15
 
 Source tag `cpp/v0.8.0`.
