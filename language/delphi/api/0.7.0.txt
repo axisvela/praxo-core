@@ -50,3 +50,7 @@ function Generate(Messages: TJSONArray; Tools: TJSONArray;
 function Generate(Messages: TJSONArray): TJSONObject; overload;
 function GenerateStream(Messages: TJSONArray; Tools: TJSONArray;
 function GenerateStream(Messages: TJSONArray;
+function Call(const Service, Method: string; const Payload: RawByteString): RawByteString;
+procedure Start;
+function Invoke(const Service, Method: string;
+procedure Stop;

@@ -54,6 +54,10 @@
         <Filename Value="praxo_retriever.pas"/>
         <UnitName Value="praxo_retriever"/>
       </Item11>
+      <Item12>
+        <Filename Value="praxo_plugin_process.pas"/>
+        <UnitName Value="praxo_plugin_process"/>
+      </Item12>
     </Files>
     <RequiredPkgs Count="1">
       <Item1>

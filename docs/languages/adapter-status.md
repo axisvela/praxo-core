@@ -192,6 +192,7 @@ adapter listed above.
 | C | native (Windows) | `PxPluginProcess`; JSON-Lines, timeout |
 | Swift | native (parse-only locally) | `PluginProcessHost`; full build blocked by local SDK |
 | Java | native | `plugin.ProcessHost`; JSON-Lines, token auth, timeout, cancel |
+| Delphi | native | `praxo_plugin_process`; JSON-Lines, token auth |
 
 Manifest parsing, lifecycle states, and registry validation remain available in
 every listed Core. Process host conformance does not imply WASM or container

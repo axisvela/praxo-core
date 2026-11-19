@@ -186,6 +186,7 @@ python language/octave/api-snapshot.py --check
 python language/octave/build_octave_package.py
 cd language/delphi; fpc -Mobjfpc -Scghi -O2 -Fu. -FEbuild praxo.pas
 cd language/delphi; python run-tests.py
+cd language/delphi; fpc -Mobjfpc -Scghi -O2 -Fu. -FEbuild tests/plugin_process_tests.pas; ./build/plugin_process_tests
 python language/delphi/api-snapshot.py --check
 cd language/ocaml; python run-tests.py
 python language/ocaml/api-snapshot.py --check

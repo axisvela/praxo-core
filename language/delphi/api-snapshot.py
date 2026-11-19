@@ -27,7 +27,8 @@ def snapshot():
              "# SPEC_VERSION " + spec, ""]
     for raw in (interface + "\n" + interface_text("praxo_agent.pas") + "\n" +
                 interface_text("praxo_core.pas") + "\n" +
-                interface_text("praxo_openai.pas")).splitlines():
+                interface_text("praxo_openai.pas") + "\n" +
+                interface_text("praxo_plugin_process.pas")).splitlines():
         line = raw.strip()
         match = re.match(r"^(function|procedure)\s+(\w+)", line, re.IGNORECASE)
         if match:

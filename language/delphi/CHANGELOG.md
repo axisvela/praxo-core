@@ -4,6 +4,8 @@
 
 ### Added
 
+- `TPraxoPluginProcess` supervises a JSON-Lines plugin child with token
+  authentication.
 - Deterministic representative-chain example covering MCP, final-argument
   authorization, governed child delegation, OTel/Harmovela events, and an edited
   denial with zero effects.

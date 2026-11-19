@@ -51,6 +51,11 @@ def main():
     subprocess.run([compiler, *flags, f"-FE{build}", "praxo_otel.pas"], cwd=ROOT, check=True)
     subprocess.run([compiler, *flags, f"-FE{build}", "praxo_retriever.pas"], cwd=ROOT, check=True)
     subprocess.run([compiler, *flags, f"-FE{build}", "praxo_delegation.pas"], cwd=ROOT, check=True)
+    subprocess.run([compiler, *flags, f"-FE{build}", "praxo_plugin_process.pas"], cwd=ROOT, check=True)
+    subprocess.run([compiler, *flags, "-Futests", f"-FE{build}", "tests/plugin_process_tests.pas"],
+                   cwd=ROOT, check=True)
+    plugin_executable = build / ("plugin_process_tests.exe" if os.name == "nt" else "plugin_process_tests")
+    subprocess.run([str(plugin_executable)], cwd=ROOT, check=True, timeout=120)
     subprocess.run([compiler, *flags, "-Futests", f"-FE{build}", "tests/praxo_tests.lpr"],
                    cwd=ROOT, check=True)
     executable = build / ("praxo_tests.exe" if os.name == "nt" else "praxo_tests")

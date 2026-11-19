@@ -9,7 +9,7 @@ Use it when an existing Delphi or Free Pascal application needs a governed
 model/tool loop without adding an external runtime. It is not an HTTP user agent,
 crawler, hosted agent service, or model provider. It includes native
 OpenAI-compatible, Anthropic, and Gemini model adapters, including Anthropic and Gemini
-SSE streaming, but no process bridge or plugin host.
+SSE streaming, and a JSON-Lines process plugin host.
 
 Current source is `delphi/v0.7.0`. It passes all eleven vector groups.
 
