@@ -115,6 +115,9 @@ process contract:
 | V | `PluginProcessHost` | smoke test |
 | OCaml | `start_plugin_process` | smoke + core test |
 | Fortran | `plugin_process_start` | static test |
+| Zig | `plugin_process.start` | C-binding test |
+| Julia | `PluginProcess.ProcessHost` | Julia test |
+| D | `ProcessHost` | D test |
 | C | `PxPluginProcess` | Windows tests |
 | Swift | `PluginProcessHost` | parse-only locally |
 | Java | `plugin.ProcessHost` | self-test with `java -Xint` |

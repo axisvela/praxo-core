@@ -7,11 +7,13 @@ AgentOptions
 AnthropicModel
 AnthropicStreamCall
 ApprovalDeniedError
+CONTROL_SERVICE
 CallLimit
 CheckpointAllowlist
 CompactResult
 ContentBlock
 ContextBudget
+DEFAULT_TOKEN_ENV
 Decision
 Document
 Event
@@ -28,6 +30,8 @@ Interrupt
 InterruptDecision
 InterruptDecisionInvalidError
 InterruptUnhandledError
+METHOD_HEALTH
+METHOD_SHUTDOWN
 McpClient
 McpToolInfo
 McpTransport
@@ -40,6 +44,7 @@ MultiSink
 OpenAICompatibleModel
 OtelResponse
 OtelSink
+PROTOCOL_VERSION
 ParsedToolCall
 PartialCall
 PathChecker
@@ -47,6 +52,8 @@ PathGrant
 PiiRedactor
 PluginManifest
 PraxoError
+ProcessConfig
+ProcessHost
 Registry
 Request
 Response
@@ -75,6 +82,7 @@ beforeModel
 beforeTool
 bounded
 buildPayload
+call
 callTool
 check
 close
@@ -103,6 +111,7 @@ getInt
 getString
 hasKey
 if
+invoke
 listTools
 loopback
 marshal
@@ -137,6 +146,7 @@ runSubagent
 search
 specs
 start
+stop
 string
 stringify
 stripMarkup

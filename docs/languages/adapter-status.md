@@ -188,14 +188,15 @@ adapter listed above.
 | Fortran | native (C bindings) | `plugin_process_start`; JSON-Lines, timeout |
 | Zig | native (C bindings) | `plugin_process.start`; JSON-Lines, timeout |
 | Julia | native | `ProcessHost`; JSON-Lines, token auth, timeout |
+| D | native | `ProcessHost`; JSON-Lines, token auth |
 | C | native (Windows) | `PxPluginProcess`; JSON-Lines, timeout |
 | Swift | native (parse-only locally) | `PluginProcessHost`; full build blocked by local SDK |
 | Java | native | `plugin.ProcessHost`; JSON-Lines, token auth, timeout, cancel |
 
 Manifest parsing, lifecycle states, and registry validation remain available in
 every listed Core. Process host conformance does not imply WASM or container
-hosting. D, PHP, Objective-C, MATLAB/Octave, Nim, C++, COBOL, Julia, and
-Delphi do not yet ship a verified process host.
+hosting. PHP, Objective-C, MATLAB/Octave, Nim, C++, COBOL, and Delphi do not
+yet ship a verified process host.
 ## MCP
 
 | Language | Status | Notes |

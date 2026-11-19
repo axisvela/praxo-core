@@ -954,6 +954,8 @@ jobs:
       - run: ./build/conformance
       - run: dmd -i -Isource -O -release source/tests.d -of=build/tests
       - run: ./build/tests
+      - run: dmd -i -Isource -O -release source/plugin_process_tests.d -of=build/plugin_process_tests
+      - run: ./build/plugin_process_tests
       - run: python3 api-snapshot.py --check
 
   zig-conformance:

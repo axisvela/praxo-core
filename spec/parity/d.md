@@ -34,6 +34,7 @@ adapter.
 | `toolcall.ParseInputJSON` | `praxo.toolcall.parseInputJson` | parity | P1 |
 | `tool/jsonschema.Schema` | `praxo.jsonschema.validate` | partial | P1 |
 | `plugin.ParseManifest` | `praxo.plugin.parseManifest` | parity | P1 |
+| `plugin/host/process` | `ProcessHost` | parity | P1 |
 | `agent/middleware.CallLimitMiddleware` | `praxo.middleware.CallLimit` | parity | P1 |
 | `agent/middleware.FallbackModel` | `praxo.middleware.fallbackModel` | parity | P1 |
 | `agent/middleware.PIIMiddleware` | `praxo.middleware.PiiRedactor` | parity | P1 |
