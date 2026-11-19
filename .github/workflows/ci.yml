@@ -549,6 +549,8 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
+      - run: cmake -S language/c -B language/c/build
+      - run: cmake --build language/c/build
       - run: python language/objc/run-tests.py --compiler clang
 
   elixir-conformance:

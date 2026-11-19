@@ -123,6 +123,7 @@ process contract:
 | Java | `plugin.ProcessHost` | self-test with `java -Xint` |
 | Delphi | `TPraxoPluginProcess` | FPC test |
 | PHP | `PluginProcessHost` | PHP test |
+| Objective-C | `PXRPluginProcess` | C-binding test |
 
 ```python
 

@@ -191,6 +191,7 @@ python language/delphi/api-snapshot.py --check
 cd language/ocaml; python run-tests.py
 python language/ocaml/api-snapshot.py --check
 python language/objc/api-snapshot.py --check
+# build language/c first, then:
 python language/objc/run-tests.py
 python language/elixir/api-snapshot.py --check
 mkdir -p language/elixir/build/ebin; elixirc -o language/elixir/build/ebin language/elixir/lib/praxo/*.ex language/elixir/lib/praxo/adapters/*.ex
