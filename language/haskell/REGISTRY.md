@@ -1,13 +1,13 @@
 # PRAXO-CORE Haskell Registry Introduction
 
-**Status:** published. Source version `0.7.1`, source
-tag `haskell/v0.7.1`. Published registry version: `0.7.1`. Registry
+**Status:** published. Source version `0.8.0`, source
+tag `haskell/v0.8.0`. Published registry version: `0.7.1`. Registry
 pages are release snapshots; verify the published version before relying on a
 feature.
 
 ## Positioning
 
-PRAXO-CORE is an embeddable, MIT-licensed agent framework. This package is its native Haskell Core. It implements all eleven declared vector groups and does not call Go or another Core. It includes a native callback-based agent loop with tools, policy hooks, typed events, memory, checkpoints, context budgets, middleware, JSON Schema validation, plugin manifest parsing, and runtime helpers.
+PRAXO-CORE is an embeddable, MIT-licensed AI agent framework. This package is its native Haskell Core. It implements all eleven declared vector groups and does not call Go or another Core. It includes a native callback-based agent loop with tools, policy hooks, typed events, memory, checkpoints, context budgets, middleware, JSON Schema validation, plugin manifest parsing, and runtime helpers.
 
 ## Package
 
@@ -15,11 +15,11 @@ PRAXO-CORE is an embeddable, MIT-licensed agent framework. This package is its n
 | --- | --- |
 | Package | `praxo-core` |
 | Registry | [Hackage](https://hackage.haskell.org/package/praxo-core-0.7.1) |
-| Source version | `0.7.1` |
+| Source version | `0.8.0` |
 | Published registry version | `0.7.1` |
 | Install (published) | `cabal install praxo-core` |
 | Install (source/release prepared) | `cabal install praxo-core` |
-| Source tag | `haskell/v0.7.1` |
+| Source tag | `haskell/v0.8.0` |
 | Tier | Core |
 | Contract | `SPEC_VERSION` `0.2.0` |
 | Documentation | https://axisvela.github.io/praxo-core/languages/haskell/ |
@@ -29,9 +29,8 @@ PRAXO-CORE is an embeddable, MIT-licensed agent framework. This package is its n
 | Adapter | Status | Detail |
 | --- | --- | --- |
 | OpenAI-compatible model | native (transport seam) | Caller supplies `Transport`; no bundled HTTP client; SSE streaming reassembly |
-| Anthropic model | native (transport seam) | `Praxo.Anthropic`; caller supplies transport; Anthropic SSE streaming |
-| Gemini model | native (transport seam) | `Praxo.Gemini`; caller supplies transport; Gemini SSE streaming |
-| Process plugin host | native | `Praxo.PluginProcess`; JSON-Lines stdio, token auth, health, timeout |
+| Anthropic model | native (transport seam) | `Praxo.Anthropic`; caller supplies transport; `generateAnthropicStream` reassembles Anthropic SSE |
+| Gemini model | native (transport seam) | `Praxo.Gemini`; caller supplies transport; `generateGeminiStream` reassembles Gemini SSE |
 | MCP client | native (transport seam) | `Praxo.Mcp`; caller supplies `McpTransport` |
 | Harmovela sink | native (transport seam) | `Praxo.Harmovela`; caller supplies transport |
 | OpenTelemetry sink | native (transport seam) | `Praxo.Otel`; caller supplies `OtelTransport` |

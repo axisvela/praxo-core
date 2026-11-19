@@ -8,20 +8,20 @@
 
 - package: `praxo-core-fortran`
 - registry: Source / CMake
-- source_version: `0.10.0`
+- source_version: `0.11.0`
 - published_version: not published
 - install_published: not published
 - install_source: `Source build (see README)`
-- source_tag: `fortran/v0.10.0`
+- source_tag: `fortran/v0.11.0`
 - tier: Core
 - contract: `SPEC_VERSION` `0.2.0`
 - documentation: https://axisvela.github.io/praxo-core/languages/fortran/
 
 # Capabilities and Status
 
-- OpenAI-compatible model: native (transport seam) (`openai_compatible`; caller supplies HTTP transport)
-- Anthropic model: native (transport seam) (`anthropic_compatible`; caller supplies HTTP transport)
-- Gemini model: native (transport seam) (`gemini_compatible`; caller supplies HTTP transport)
+- OpenAI-compatible model: native (transport seam) (`openai_compatible`; caller supplies HTTP transport; `generate_stream` reassembles SSE content, tool calls, usage, and finish reason)
+- Anthropic model: native (transport seam) (`anthropic_compatible`; caller supplies HTTP transport; `generate_stream` reassembles Anthropic SSE)
+- Gemini model: native (transport seam) (`gemini_compatible`; caller supplies HTTP transport; `generate_stream` reassembles Gemini SSE)
 - MCP client: native (transport seam) (`mcp_client`; caller supplies transport)
 - Harmovela sink: native (transport seam) (`harmovela`; caller supplies HTTP transport)
 - OpenTelemetry sink: native (transport seam) (`otel_sink`; caller supplies transport)
@@ -44,8 +44,8 @@
 
 # Boundaries
 
-- In-process framework; not an HTTP user agent, crawler, model provider, hosted
-  service, workflow engine, identity provider, or safety controller.
+- In-process framework; not a model provider, hosted service, workflow engine,
+  identity provider, or safety controller.
 - No exactly-once, sandbox-isolation, production-security, real-time, or
   physical-safety claim.
 - Registry pages are release snapshots. Verify the published version and read the

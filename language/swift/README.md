@@ -148,6 +148,6 @@ token authentication, health handshake, invocation timeout, and typed errors.
 
 ## Release
 
-Tag shape: `swift/v0.7.1`. The tag targets `SPEC_VERSION` `0.2.0`. SPM and
+Tag shape: `swift/v0.8.0`. The tag targets `SPEC_VERSION` `0.2.0`. SPM and
 Swift Package Index consumption require a split repository with root
 `Package.swift` and plain semver tags; see [PUBLISHING.md](PUBLISHING.md).

@@ -1,7 +1,7 @@
 # PRAXO-CORE Swift Registry Introduction
 
-**Status:** published. Source version `0.7.1`, source
-tag `swift/v0.7.1`. Published registry version: `0.7.0`. Registry
+**Status:** published. Source version `0.8.0`, source
+tag `swift/v0.8.0`. Published registry version: `0.7.0`. Registry
 pages are release snapshots; verify the published version before relying on a
 feature.
 
@@ -15,11 +15,11 @@ Swift implementation of the PRAXO-CORE contract.
 | --- | --- |
 | Package | `praxo-core-swift` |
 | Registry | [Swift Package Index](https://swiftpackageindex.com/axisvela/praxo-core-swift) |
-| Source version | `0.7.1` |
+| Source version | `0.8.0` |
 | Published registry version | `0.7.0` |
-| Install (published) | `.package(url: "https://github.com/axisvela/praxo-core-swift.git", from: "0.7.1")` |
+| Install (published) | `.package(url: "https://github.com/axisvela/praxo-core-swift.git", from: "0.7.0")` |
 | Install (source/release prepared) | `.package(url: "https://github.com/axisvela/praxo-core-swift.git", from: "0.7.0")` |
-| Source tag | `swift/v0.7.1` |
+| Source tag | `swift/v0.8.0` |
 | Tier | Core |
 | Contract | `SPEC_VERSION` `0.2.0` |
 | Documentation | https://axisvela.github.io/praxo-core/languages/swift/ |
@@ -29,9 +29,8 @@ Swift implementation of the PRAXO-CORE contract.
 | Adapter | Status | Detail |
 | --- | --- | --- |
 | OpenAI-compatible model | native | `OpenAICompatibleModel` with URLSession transport; SSE streaming reassembly |
-| Anthropic model | native | `AnthropicModel` with injectable transport; Anthropic SSE streaming |
-| Gemini model | native | `GeminiModel` with injectable transport; Gemini SSE streaming |
-| Process plugin host | native | `PluginProcessHost`; JSON-Lines stdio, token auth, health, timeout |
+| Anthropic model | native | `AnthropicModel` with injectable transport; `generateStream` reassembles Anthropic SSE |
+| Gemini model | native | `GeminiModel` with injectable transport; `generateStream` reassembles Gemini SSE |
 | MCP client | native | `McpClient`, `StdioMcpTransport`, `HttpMcpTransport`; typechecked locally, full build blocked |
 | Harmovela sink | native | `HarmovelaSink` with URLSession transport |
 | OpenTelemetry sink | native (transport seam) | `OtelSink`; caller supplies `OtelTransport` |

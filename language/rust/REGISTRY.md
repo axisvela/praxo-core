@@ -1,7 +1,7 @@
 # PRAXO-CORE Rust Registry Introduction
 
-**Status:** published. Source version `0.9.2`, source
-tag `rust/v0.9.2`. Published registry version: `0.9.2`. Registry
+**Status:** published. Source version `0.10.0`, source
+tag `rust/v0.10.0`. Published registry version: `0.9.2`. Registry
 pages are release snapshots; verify the published version before relying on a
 feature.
 
@@ -15,11 +15,11 @@ PRAXO-CORE is an embeddable, MIT-licensed agent framework. This crate is its nat
 | --- | --- |
 | Package | `praxo-core` |
 | Registry | [crates.io](https://crates.io/crates/praxo-core/0.9.2) |
-| Source version | `0.9.2` |
+| Source version | `0.10.0` |
 | Published registry version | `0.9.2` |
 | Install (published) | `cargo add praxo-core@0.9.2` |
 | Install (source/release prepared) | `cargo add --path language/rust` |
-| Source tag | `rust/v0.9.2` |
+| Source tag | `rust/v0.10.0` |
 | Tier | Core |
 | Contract | `SPEC_VERSION` `0.2.0` |
 | Documentation | https://axisvela.github.io/praxo-core/languages/rust/ |
@@ -29,9 +29,8 @@ PRAXO-CORE is an embeddable, MIT-licensed agent framework. This crate is its nat
 | Adapter | Status | Detail |
 | --- | --- | --- |
 | OpenAI-compatible model | native | `openai_compat::OpenAICompatible` behind optional `http-ureq`; `parse_stream` always available |
-| Anthropic model | native (transport seam) | `adapters::anthropic`; caller supplies transport ; Anthropic SSE streaming|
-| Gemini model | native (transport seam) | `adapters::gemini`; caller supplies transport; Gemini SSE streaming |
-| Process plugin host | native | `plugin_process::ProcessHost`; JSON-Lines stdio, token auth, health, timeout, cancel |
+| Anthropic model | native (transport seam) | `adapters::anthropic`; caller supplies transport; `StreamingModel` via `send_stream` |
+| Gemini model | native (transport seam) | `adapters::gemini`; caller supplies transport; `StreamingModel` via `send_stream` |
 | MCP client | native | `mcp::McpClient`; stdio, plus `McpClient::connect_http` over a caller-supplied `McpHttpTransport` seam for Streamable HTTP 2025-03-26 |
 | Harmovela sink | native | `harmovela::Sink` |
 | OpenTelemetry sink | native (transport seam) | `adapters::otel::Sink`; caller supplies OTLP/HTTP transport |

@@ -1,7 +1,7 @@
 # PRAXO-CORE COBOL Registry Introduction
 
-**Status:** source-only. Source version `0.7.0`, source
-tag `cobol/v0.7.0`. Published registry version: not published. Registry
+**Status:** source-only. Source version `0.8.0`, source
+tag `cobol/v0.8.0`. Published registry version: not published. Registry
 pages are release snapshots; verify the published version before relying on a
 feature.
 
@@ -9,21 +9,17 @@ feature.
 
 PRAXO-CORE is an embeddable, MIT-licensed agent framework. This package is its native GnuCOBOL Core: an in-process agent loop with tools, policy, middleware, events, checkpoints, and human-in-the-loop decisions, implemented in COBOL rather than bridged to another Core.
 
-Use it when an existing COBOL batch or transaction program needs a governed model/tool loop without moving orchestration into another runtime. It is not an HTTP user agent, crawler, hosted agent service, or model provider.
-
-All 63 normative vectors across the eleven groups pass, together with native agent, JSON, contract-boundary, behavior, tooling, and API declaration checks. The `cobol-conformance` remote job checks the declared scope. `cobol/v0.7.0` is the source tag. Version `0.7.0` adds Anthropic and Gemini transport-seam model adapters, an OTLP/HTTP OpenTelemetry sink, a retriever seam, and a synchronous delegation seam. Earlier source adds middleware, lifecycle, cancellation, streaming, SSE, batch tool dispatch, MCP, Harmovela, OpenAI-compatible adapters, and human-in-the-loop interrupt decisions.
-
 ## Package
 
 | Field | Value |
 | --- | --- |
 | Package | `praxo-core-cobol` |
 | Registry | Source |
-| Source version | `0.7.0` |
+| Source version | `0.8.0` |
 | Published registry version | not published |
 | Install (published) | not published |
 | Install (source/release prepared) | `Source build (see README)` |
-| Source tag | `cobol/v0.7.0` |
+| Source tag | `cobol/v0.8.0` |
 | Tier | Core |
 | Contract | `SPEC_VERSION` `0.2.0` |
 | Documentation | https://axisvela.github.io/praxo-core/languages/cobol/ |
@@ -32,7 +28,7 @@ All 63 normative vectors across the eleven groups pass, together with native age
 
 | Adapter | Status | Detail |
 | --- | --- | --- |
-| OpenAI-compatible model | native (transport seam) | `praxo-openai`; caller supplies a transport program and optional delta program; SSE streaming reassembles content, tool calls, usage, and finish reason; the model callback lacks tool specs/history |
+| OpenAI-compatible model | native (transport seam) | `praxo-openai`; caller supplies a transport program and an optional delta program; SSE streaming reassembles content, tool calls, usage, and finish reason; the model callback lacks tool specs/history |
 | Anthropic model | native (transport seam) | `praxo-anthropic`; caller supplies a transport program; maps system messages, tools, tool choice, text, tool use, and usage |
 | Gemini model | native (transport seam) | `praxo-gemini`; caller supplies a transport program; maps system instructions, tools, tool choice, text, function calls, usage, and Gemini SSE streaming |
 | MCP client | native (transport seam) | `praxo-mcp`; caller supplies a transport program |

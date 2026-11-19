@@ -11,7 +11,7 @@ HTTP user agent, crawler, hosted agent service, or model provider.
 
 All 63 normative vectors across the eleven groups pass, together with native
 agent, JSON, contract-boundary, behavior, tooling, and API declaration checks.
-The `cobol-conformance` remote job checks the declared scope. `cobol/v0.7.0` is
+The `cobol-conformance` remote job checks the declared scope. `cobol/v0.8.0` is
 the source tag. Version `0.7.0` adds Anthropic and Gemini transport-seam model
 adapters, an OTLP/HTTP OpenTelemetry sink, a retriever seam, and a synchronous
 delegation seam. Earlier source adds middleware, lifecycle, cancellation,
@@ -324,7 +324,7 @@ cancellation, streaming, SSE, and batch-dispatch declarations. The
 SSE, JSON, contract, model-adapter, telemetry, retriever, and delegation
 programs.
 
-`cobol/v0.7.0` is the source tag. `api/0.1.1.txt`, `api/0.1.2.txt`, and
+`cobol/v0.8.0` is the source tag. `api/0.1.1.txt`, `api/0.1.2.txt`, and
 `api/0.2.0.txt` remain immutable previous declaration snapshots;
 `api/0.4.0.txt` adds the cancellation, stream, SSE, and batch records;
 `api/0.5.0.txt` adds the MCP, Harmovela, and OpenAI-compatible records;

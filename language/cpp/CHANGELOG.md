@@ -1,6 +1,8 @@
 # C++ Core Release Notes
 
-## Unreleased
+## 0.9.0 - 2026-11-20
+
+Source tag `cpp/v0.9.0`.
 
 ### Added
 

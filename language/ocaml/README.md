@@ -1,7 +1,7 @@
 # PRAXO-CORE for OCaml
 
 PRAXO-CORE is an embeddable, MIT-licensed AI agent framework. This package is its
-native OCaml Core with source tag `ocaml/v0.8.0`. It passes all eleven vector
+native OCaml Core with source tag `ocaml/v0.9.0`. It passes all eleven vector
 groups on OCaml 4.14.2 bytecode and includes the native agent loop, memory store,
 checkpoint allowlist, lexical path policy, context compaction, event sinks,
 middleware helpers, tool selection, streaming OpenAI-compatible and Anthropic, and\nGemini streaming model adapters. It does not call Go or another language Core; there is no process

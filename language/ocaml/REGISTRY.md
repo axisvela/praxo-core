@@ -1,13 +1,13 @@
 # PRAXO-CORE OCaml Registry Introduction
 
-**Status:** pending registry merge. Source version `0.8.0`, source
-tag `ocaml/v0.8.0`. Published registry version: `0.3.0`. Registry
+**Status:** pending registry merge. Source version `0.9.0`, source
+tag `ocaml/v0.9.0`. Published registry version: `0.3.0`. Registry
 pages are release snapshots; verify the published version before relying on a
 feature.
 
 ## Positioning
 
-PRAXO-CORE is an embeddable, MIT-licensed agent framework. This package is its native OCaml Core with source tag `ocaml/v0.8.0`. It passes all eleven vector groups on OCaml 4.14.2 bytecode and includes the native agent loop, memory store, checkpoint allowlist, lexical path policy, context compaction, event sinks, middleware helpers, tool selection, and non-streaming OpenAI-compatible, Anthropic, and Gemini model adapters. It does not call Go or another language Core; there is no process bridge or plugin host.
+PRAXO-CORE is an embeddable, MIT-licensed AI agent framework. This package is its native OCaml Core with source tag `ocaml/v0.9.0`. It passes all eleven vector groups on OCaml 4.14.2 bytecode and includes the native agent loop, memory store, checkpoint allowlist, lexical path policy, context compaction, event sinks, middleware helpers, tool selection, streaming OpenAI-compatible and Anthropic, and\nGemini streaming model adapters. It does not call Go or another language Core; there is no process bridge or plugin host.
 
 ## Package
 
@@ -15,11 +15,11 @@ PRAXO-CORE is an embeddable, MIT-licensed agent framework. This package is its n
 | --- | --- |
 | Package | `praxo-core` |
 | Registry | [opam (pending)](https://github.com/axisvela/praxo-core-ocaml) |
-| Source version | `0.8.0` |
+| Source version | `0.9.0` |
 | Published registry version | `0.3.0` |
 | Install (published) | `opam install praxo-core` |
 | Install (source/release prepared) | `opam install praxo-core` |
-| Source tag | `ocaml/v0.8.0` |
+| Source tag | `ocaml/v0.9.0` |
 | Tier | Core |
 | Contract | `SPEC_VERSION` `0.2.0` |
 | Documentation | https://axisvela.github.io/praxo-core/languages/ocaml/ |
@@ -29,9 +29,8 @@ PRAXO-CORE is an embeddable, MIT-licensed agent framework. This package is its n
 | Adapter | Status | Detail |
 | --- | --- | --- |
 | OpenAI-compatible model | native (transport seam) | Caller supplies `transport`; no bundled HTTP client; SSE streaming reassembly |
-| Anthropic model | native (transport seam) | `anthropic_model`; caller supplies transport; Anthropic SSE streaming |
-| Gemini model | native (transport seam) | `gemini_model`; caller supplies transport; Gemini SSE streaming |
-| Process plugin host | native | `start_plugin_process`; JSON-Lines stdio, token auth, health, timeout |
+| Anthropic model | native (transport seam) | `anthropic_model`; caller supplies transport; `anthropic_generate_stream` reassembles Anthropic SSE |
+| Gemini model | native (transport seam) | `gemini_model`; caller supplies transport; `gemini_generate_stream` reassembles Gemini SSE |
 | MCP client | native (transport seam) | `mcp_client`; caller supplies transport |
 | Harmovela sink | native (transport seam) | `harmovela_sink`; caller supplies transport |
 | OpenTelemetry sink | native (transport seam) | `otel_sink_new` and `otel_emit`; caller supplies OTLP/HTTP transport |

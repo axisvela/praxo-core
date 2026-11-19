@@ -1,6 +1,8 @@
 # C Core Release Notes
 
-## Unreleased
+## 0.13.0 - 2026-11-20
+
+Source tag `c/v0.13.0`.
 
 ### Fixed
 

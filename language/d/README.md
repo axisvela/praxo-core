@@ -161,4 +161,4 @@ asynchronous manager or durable worker is required.
 
 ## Release
 
-Tag shape: `d/v0.6.0`. The tag targets `SPEC_VERSION` `0.2.0`.
+Tag shape: `d/v0.7.0`. The tag targets `SPEC_VERSION` `0.2.0`.

@@ -3,7 +3,7 @@
 - Tier: core
 - SPEC_VERSION: 0.2.0
 
-Released source tag `nim/v0.6.0` ships the core loop. The Core passes all eleven
+Released source tag `nim/v0.7.0` ships the core loop. The Core passes all eleven
 vector groups, its tests, and its public API snapshot. The agent integrates
 opt-in PII redaction, structured output, call limits, and tool selection.
 `callbackModel` accepts a synchronous consumer closure from `Request` to
@@ -38,7 +38,7 @@ streaming wire encodings, and plugin hosts are not provided.
 | `toolcall.ParseInputJSON` | `parseInputJson` | parity | P1 |
 | `tool/jsonschema.Schema` | `validateSchema` | partial | P1 |
 | `plugin.ParseManifest` | `parseManifest` | parity | P1 |
-| `plugin/host/process` | `plugin_process.start` | parity | P1 |
+| `pkg/plugin/host/process.Host` | `plugin_process.start` | parity | P1 |
 | `agent/middleware.CallLimitMiddleware` | `callLimit` | parity | P1 |
 | `agent/middleware.FallbackModel` | `fallbackModel` | parity | P1 |
 | `agent/middleware.PIIMiddleware` | `piiRedact` | parity | P1 |

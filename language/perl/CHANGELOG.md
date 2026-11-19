@@ -1,5 +1,13 @@
 # Perl Core Release Notes
 
+## 0.7.0 - 2026-11-20
+
+Source tag `perl/v0.7.0`.
+
+### Added
+
+- Process plugin host and provider streaming updates.
+
 ## 0.6.2 - 2026-11-18
 
 Source tag `perl/v0.6.2`; CPAN publication follows the release workflow.

@@ -8,20 +8,20 @@
 
 - package: `PraxoCore`
 - registry: [Julia General (pending)](https://github.com/axisvela/PraxoCore.jl)
-- source_version: `0.7.0`
+- source_version: `0.8.0`
 - published_version: `0.2.0`
 - install_published: `Pkg.add("PraxoCore")`
-- install_source: `Pkg.add(name="PraxoCore", version="0.7.0")`
-- source_tag: `julia/v0.7.0`
+- install_source: `Pkg.add(name="PraxoCore", version="0.8.0")`
+- source_tag: `julia/v0.8.0`
 - tier: Core
 - contract: `SPEC_VERSION` `0.2.0`
 - documentation: https://axisvela.github.io/praxo-core/languages/julia/
 
 ## Capabilities and Status
 
-- OpenAI-compatible model: native (`OpenAICompatibleModel`)
-- Anthropic model: native (`AnthropicModel`; injectable transport)
-- Gemini model: native (`GeminiModel`; injectable transport)
+- OpenAI-compatible model: native (`OpenAICompatibleModel`; `generate_stream` reassembles SSE content, tool calls, usage, and finish reason)
+- Anthropic model: native (`AnthropicModel`; injectable transport; `generate_stream` reassembles Anthropic SSE)
+- Gemini model: native (`GeminiModel`; injectable transport; `generate_stream` reassembles Gemini SSE)
 - MCP client: native (transport seam) (`mcp_client`; caller supplies transport)
 - Harmovela sink: native (`HarmovelaSink`)
 - OpenTelemetry sink: native (transport seam) (`otel_sink`; caller supplies OTLP/HTTP transport)

@@ -1,7 +1,7 @@
 # PRAXO-CORE R Registry Introduction
 
-**Status:** r-universe 0.10.1 published; CRAN not published. Source version `0.10.2`, source
-tag `r/v0.10.2`. Published registry version: `0.10.1`. Registry
+**Status:** r-universe 0.10.1 published; CRAN not published. Source version `0.11.0`, source
+tag `r/v0.11.0`. Published registry version: `0.10.1`. Registry
 pages are release snapshots; verify the published version before relying on a
 feature.
 
@@ -9,19 +9,17 @@ feature.
 
 PRAXO-CORE is an embeddable, MIT-licensed agent framework. This package is its native R Core: an in-process agent loop with tools, policy, events, memory, checkpoints, middleware, and JSON Schema validation, implemented in base R.
 
-Use it when an existing R analysis or automation script needs a governed model/tool loop without moving orchestration into Python. It is not an HTTP user agent, crawler, hosted agent service, or model provider.
-
 ## Package
 
 | Field | Value |
 | --- | --- |
 | Package | `praxocore` |
 | Registry | [r-universe](https://axisvela.r-universe.dev/praxocore) |
-| Source version | `0.10.2` |
+| Source version | `0.11.0` |
 | Published registry version | `0.10.1` |
 | Install (published) | `install.packages("praxocore", repos = "https://axisvela.r-universe.dev")` |
 | Install (source/release prepared) | `install.packages("praxocore", repos = "https://axisvela.r-universe.dev")` |
-| Source tag | `r/v0.10.2` |
+| Source tag | `r/v0.11.0` |
 | Tier | Core |
 | Contract | `SPEC_VERSION` `0.2.0` |
 | Documentation | https://axisvela.github.io/praxo-core/languages/r/ |
@@ -30,9 +28,9 @@ Use it when an existing R analysis or automation script needs a governed model/t
 
 | Adapter | Status | Detail |
 | --- | --- | --- |
-| OpenAI-compatible model | native | `openai_compatible` adapter |
-| Anthropic model | native (transport seam) | `anthropic`; caller may supply `transport` ; Anthropic SSE streaming|
-| Gemini model | native (transport seam) | `gemini`; caller may supply `transport`; Gemini SSE streaming |
+| OpenAI-compatible model | native | `openai_compatible` adapter; `openai_compatible_streaming_model` reassembles SSE content, tool calls, usage, and finish reason |
+| Anthropic model | native (transport seam) | `anthropic`; caller may supply `transport`; `anthropic_streaming_model` reassembles SSE |
+| Gemini model | native (transport seam) | `gemini`; caller may supply `transport`; SSE streaming |
 | MCP client | native (transport seam) | `mcp_client`; base R needs caller-supplied transport for stdio |
 | Harmovela sink | native | `harmovela_sink` |
 | OpenTelemetry sink | native (transport seam) | `otel_sink`; caller supplies OTLP/HTTP transport |

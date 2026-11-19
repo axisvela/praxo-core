@@ -8,20 +8,20 @@
 
 - package: `praxo-core-objc`
 - registry: Source
-- source_version: `0.6.0`
+- source_version: `0.7.0`
 - published_version: not published
 - install_published: not published
 - install_source: `See README/SETUP.md`
-- source_tag: `objc/v0.6.0`
+- source_tag: `objc/v0.7.0`
 - tier: Core
 - contract: `SPEC_VERSION` `0.2.0`
 - documentation: https://axisvela.github.io/praxo-core/languages/objc/
 
 # Capabilities and Status
 
-- OpenAI-compatible model: native (`PXROpenAIGenerate` with injectable transport)
-- Anthropic model: native (`PXRAnthropicGenerate` with injectable transport)
-- Gemini model: native (`PXRGeminiGenerate` with injectable transport)
+- OpenAI-compatible model: native (`PXROpenAIGenerate` with injectable transport; SSE streaming reassembly)
+- Anthropic model: native (`PXRAnthropicGenerate` with injectable transport; `PXRAnthropicGenerateStream` reassembles Anthropic SSE)
+- Gemini model: native (`PXRGeminiGenerate` with injectable transport; `PXRGeminiGenerateStream` reassembles Gemini SSE)
 - MCP client: native (`PXRMcpClient`; stdio and `PXRHttpMcpTransport` for Streamable HTTP 2025-03-26)
 - Harmovela sink: native (`PraxoHarmovela`)
 - OpenTelemetry sink: native (transport seam) (`PXROtelSink`; caller supplies `PXROtelTransport`)

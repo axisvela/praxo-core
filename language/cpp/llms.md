@@ -8,20 +8,20 @@
 
 - package: `praxo-core-cpp`
 - registry: Source / CMake
-- source_version: `0.8.0`
+- source_version: `0.9.0`
 - published_version: not published
 - install_published: not published
 - install_source: `CMake source build (see README)`
-- source_tag: `cpp/v0.8.0`
+- source_tag: `cpp/v0.9.0`
 - tier: Core
 - contract: `SPEC_VERSION` `0.2.0`
 - documentation: https://axisvela.github.io/praxo-core/languages/cpp/
 
 ## Capabilities and Status
 
-- OpenAI-compatible model: native (transport seam) (`OpenAICompatible`; caller supplies HTTP transport)
-- Anthropic model: native (transport seam) (`Anthropic`; caller supplies HTTP transport)
-- Gemini model: native (transport seam) (`Gemini`; caller supplies HTTP transport)
+- OpenAI-compatible model: native (transport seam) (`OpenAICompatible`; caller supplies HTTP and streaming transports; `OpenAICompatibleStreamTransport` reassembles SSE content, tool calls, usage, and finish reason)
+- Anthropic model: native (transport seam) (`Anthropic`; caller supplies HTTP and streaming transports; Anthropic SSE reassembly)
+- Gemini model: native (transport seam) (`Gemini`; caller supplies HTTP and streaming transports; Gemini SSE reassembly)
 - MCP client: native (transport seam) (`McpClient`; caller supplies `McpTransport`)
 - Harmovela sink: native (transport seam) (`HarmovelaSink`; caller supplies HTTP transport)
 - OpenTelemetry sink: native (transport seam) (`OtelSink`; caller supplies `OtelTransport`)

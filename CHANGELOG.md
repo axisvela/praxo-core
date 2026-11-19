@@ -1,6 +1,8 @@
 # Changelog
 
-## [Unreleased]
+## 2.10.0 - 2026-11-20
+
+Source tag `v2.10.0`.
 
 ### Added
 

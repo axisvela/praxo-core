@@ -1,13 +1,13 @@
 # PRAXO-CORE Nim Registry Introduction
 
-**Status:** split repository; registry crawler pending. Source version `0.6.0`, source
-tag `nim/v0.6.0`. Published registry version: `0.1.1`. Registry
+**Status:** split repository; registry crawler pending. Source version `0.7.0`, source
+tag `nim/v0.7.0`. Published registry version: `0.1.1`. Registry
 pages are release snapshots; verify the published version before relying on a
 feature.
 
 ## Positioning
 
-PRAXO-CORE is an embeddable, MIT-licensed agent framework. This package is its native Nim Core with source tag `nim/v0.6.0`. It passes all eleven shared vector groups with `Nim 2.2.12` and includes the native agent loop, context compaction, memory store, path policy, checkpoint allowlist, tool-call parsing, and opt-in agent tool selection, PII redaction, structured output, call limits, and human-in-the-loop interrupts. Vector coverage does not establish full Core parity or production readiness.
+PRAXO-CORE is an embeddable, MIT-licensed agent framework. This package is its native Nim Core with source tag `nim/v0.7.0`. It passes all eleven shared vector groups with `Nim 2.2.12` and includes the native agent loop, context compaction, memory store, path policy, checkpoint allowlist, tool-call parsing, and opt-in agent tool selection, PII redaction, structured output, call limits, and human-in-the-loop interrupts. Vector coverage does not establish full Core parity or production readiness.
 
 ## Package
 
@@ -15,11 +15,11 @@ PRAXO-CORE is an embeddable, MIT-licensed agent framework. This package is its n
 | --- | --- |
 | Package | `praxo_core` |
 | Registry | [Nimble/nim-lang packages](https://github.com/axisvela/praxo-core-nim) |
-| Source version | `0.6.0` |
+| Source version | `0.7.0` |
 | Published registry version | `0.1.1` |
 | Install (published) | `nimble install praxo_core` |
 | Install (source/release prepared) | `nimble install praxo_core` |
-| Source tag | `nim/v0.6.0` |
+| Source tag | `nim/v0.7.0` |
 | Tier | Core |
 | Contract | `SPEC_VERSION` `0.2.0` |
 | Documentation | https://axisvela.github.io/praxo-core/languages/nim/ |
@@ -29,8 +29,8 @@ PRAXO-CORE is an embeddable, MIT-licensed agent framework. This package is its n
 | Adapter | Status | Detail |
 | --- | --- | --- |
 | OpenAI-compatible model | native | `praxo/adapters/openai_compatible`; SSE streaming reassembly |
-| Anthropic model | native | `newAnthropicCompatible`; injectable transport; Anthropic SSE streaming |
-| Gemini model | native | `newGeminiCompatible`; injectable transport; Gemini SSE streaming |
+| Anthropic model | native | `newAnthropicCompatible`; injectable transport; `generateStream` reassembles Anthropic SSE |
+| Gemini model | native | `newGeminiCompatible`; injectable transport; `generateStream` reassembles Gemini SSE |
 | MCP client | native (transport seam) | `praxo/adapters/mcp`; caller supplies transport |
 | Harmovela sink | native | `newHarmovelaSink` |
 | OpenTelemetry sink | native (transport seam) | `newOtelSink`; caller supplies OTLP/HTTP transport |

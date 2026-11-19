@@ -8,20 +8,20 @@
 
 - package: `praxo_core`
 - registry: [Nimble/nim-lang packages](https://github.com/axisvela/praxo-core-nim)
-- source_version: `0.6.0`
+- source_version: `0.7.0`
 - published_version: `0.1.1`
 - install_published: `nimble install praxo_core`
 - install_source: `nimble install praxo_core`
-- source_tag: `nim/v0.6.0`
+- source_tag: `nim/v0.7.0`
 - tier: Core
 - contract: `SPEC_VERSION` `0.2.0`
 - documentation: https://axisvela.github.io/praxo-core/languages/nim/
 
 ## Capabilities and Status
 
-- OpenAI-compatible model: native (`praxo/adapters/openai_compatible`)
-- Anthropic model: native (`newAnthropicCompatible`; injectable transport)
-- Gemini model: native (`newGeminiCompatible`; injectable transport)
+- OpenAI-compatible model: native (`praxo/adapters/openai_compatible`; SSE streaming reassembly)
+- Anthropic model: native (`newAnthropicCompatible`; injectable transport; `generateStream` reassembles Anthropic SSE)
+- Gemini model: native (`newGeminiCompatible`; injectable transport; `generateStream` reassembles Gemini SSE)
 - MCP client: native (transport seam) (`praxo/adapters/mcp`; caller supplies transport)
 - Harmovela sink: native (`newHarmovelaSink`)
 - OpenTelemetry sink: native (transport seam) (`newOtelSink`; caller supplies OTLP/HTTP transport)

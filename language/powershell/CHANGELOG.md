@@ -1,5 +1,13 @@
 # PowerShell Core Release Notes
 
+## 0.8.0 - 2026-11-20
+
+Source tag `powershell/v0.8.0`.
+
+### Added
+
+- Process plugin host and provider streaming updates.
+
 ## 0.7.2 - 2026-11-18
 
 Source tag `powershell/v0.7.2`; PowerShell Gallery publication follows the release workflow.

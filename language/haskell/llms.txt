@@ -8,20 +8,20 @@
 
 - package: `praxo-core`
 - registry: [Hackage](https://hackage.haskell.org/package/praxo-core-0.7.1)
-- source_version: `0.7.1`
+- source_version: `0.8.0`
 - published_version: `0.7.1`
 - install_published: `cabal install praxo-core`
 - install_source: `cabal install praxo-core`
-- source_tag: `haskell/v0.7.1`
+- source_tag: `haskell/v0.8.0`
 - tier: Core
 - contract: `SPEC_VERSION` `0.2.0`
 - documentation: https://axisvela.github.io/praxo-core/languages/haskell/
 
 # Capabilities and Status
 
-- OpenAI-compatible model: native (transport seam) (Caller supplies `Transport`; no bundled HTTP client)
-- Anthropic model: native (transport seam) (`Praxo.Anthropic`; caller supplies transport)
-- Gemini model: native (transport seam) (`Praxo.Gemini`; caller supplies transport)
+- OpenAI-compatible model: native (transport seam) (Caller supplies `Transport`; no bundled HTTP client; SSE streaming reassembly)
+- Anthropic model: native (transport seam) (`Praxo.Anthropic`; caller supplies transport; `generateAnthropicStream` reassembles Anthropic SSE)
+- Gemini model: native (transport seam) (`Praxo.Gemini`; caller supplies transport; `generateGeminiStream` reassembles Gemini SSE)
 - MCP client: native (transport seam) (`Praxo.Mcp`; caller supplies `McpTransport`)
 - Harmovela sink: native (transport seam) (`Praxo.Harmovela`; caller supplies transport)
 - OpenTelemetry sink: native (transport seam) (`Praxo.Otel`; caller supplies `OtelTransport`)

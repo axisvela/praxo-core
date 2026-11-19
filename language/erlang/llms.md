@@ -8,20 +8,20 @@
 
 - package: `praxo_core_erlang`
 - registry: [Hex](https://hex.pm/packages/praxo_core_erlang/0.8.2)
-- source_version: `0.8.2`
+- source_version: `0.9.0`
 - published_version: `0.8.2`
 - install_published: `{praxo_core, "0.8.2", {pkg, praxo_core_erlang}}`
 - install_source: `{praxo_core, {path, "language/erlang"}}`
-- source_tag: `erlang/v0.8.2`
+- source_tag: `erlang/v0.9.0`
 - tier: Core
 - contract: `SPEC_VERSION` `0.2.0`
 - documentation: https://axisvela.github.io/praxo-core/languages/erlang/
 
 ## Capabilities and Status
 
-- OpenAI-compatible model: native (`praxo_openai_compatible`)
-- Anthropic model: native (`praxo_anthropic`)
-- Gemini model: native (`praxo_gemini`)
+- OpenAI-compatible model: native (`praxo_openai_compatible`; `streaming_model/1` and `generate_stream/3` reassemble SSE content, tool calls, usage, and finish reason)
+- Anthropic model: native (`praxo_anthropic`; `streaming_model/1` reassembles Anthropic SSE)
+- Gemini model: native (`praxo_gemini`; `streaming_model/1` reassembles Gemini SSE)
 - MCP client: native (`praxo_mcp`; stdio, plus `praxo_mcp_http:transport/2` for Streamable HTTP 2025-03-26)
 - Harmovela sink: native (`praxo_harmovela`)
 - OpenTelemetry sink: native (transport seam) (`praxo_otel`; caller supplies transport)

@@ -2,6 +2,8 @@
 
 ## 0.6.2 - 2026-11-18
 
+Source tag `dart/v0.7.0`.
+
 Source tag `dart/v0.6.2`; pub.dev publication follows the release workflow.
 
 ### Added
@@ -14,7 +16,7 @@ Source tag `dart/v0.6.2`; pub.dev publication follows the release workflow.
 
 - No public API or wire change; `SPEC_VERSION` remains `0.2.0`.
 
-## Unreleased
+## 0.7.0 - 2026-11-20
 
 ### Added
 

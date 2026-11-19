@@ -1,5 +1,13 @@
 # Haskell Core Release Notes
 
+## 0.8.0 - 2026-11-20
+
+Source tag `haskell/v0.8.0`.
+
+### Added
+
+- Process plugin host and provider streaming updates.
+
 ## 0.7.1 - 2026-11-18
 
 Source tag `haskell/v0.7.1`; Hackage publication follows the release workflow.

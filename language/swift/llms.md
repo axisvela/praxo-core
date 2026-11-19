@@ -8,20 +8,20 @@
 
 - package: `praxo-core-swift`
 - registry: [Swift Package Index](https://swiftpackageindex.com/axisvela/praxo-core-swift)
-- source_version: `0.7.1`
+- source_version: `0.8.0`
 - published_version: `0.7.0`
 - install_published: `.package(url: "https://github.com/axisvela/praxo-core-swift.git", from: "0.7.0")`
 - install_source: `.package(url: "https://github.com/axisvela/praxo-core-swift.git", from: "0.7.0")`
-- source_tag: `swift/v0.7.1`
+- source_tag: `swift/v0.8.0`
 - tier: Core
 - contract: `SPEC_VERSION` `0.2.0`
 - documentation: https://axisvela.github.io/praxo-core/languages/swift/
 
 ## Capabilities and Status
 
-- OpenAI-compatible model: native (`OpenAICompatibleModel` with URLSession transport)
-- Anthropic model: native (`AnthropicModel` with injectable transport)
-- Gemini model: native (`GeminiModel` with injectable transport)
+- OpenAI-compatible model: native (`OpenAICompatibleModel` with URLSession transport; SSE streaming reassembly)
+- Anthropic model: native (`AnthropicModel` with injectable transport; `generateStream` reassembles Anthropic SSE)
+- Gemini model: native (`GeminiModel` with injectable transport; `generateStream` reassembles Gemini SSE)
 - MCP client: native (`McpClient`, `StdioMcpTransport`, `HttpMcpTransport`; typechecked locally, full build blocked)
 - Harmovela sink: native (`HarmovelaSink` with URLSession transport)
 - OpenTelemetry sink: native (transport seam) (`OtelSink`; caller supplies `OtelTransport`)

@@ -186,6 +186,6 @@ Local toolchain used by the repository maintainers lives at `D:\dev\R`.
 
 ## Release
 
-Tag shape: `r/v0.10.2`. The tag targets `SPEC_VERSION` `0.2.0`. r-universe
+Tag shape: `r/v0.11.0`. The tag targets `SPEC_VERSION` `0.2.0`. r-universe
 builds from the repository; CRAN submission uses `R CMD check --as-cran`. See
 [PUBLISHING.md](PUBLISHING.md) and [CHANGELOG.md](CHANGELOG.md).

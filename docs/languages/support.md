@@ -130,29 +130,29 @@ its latest version matches the manifest at the release tag.
 
 | Language | Code/manifest version | Registry latest | Status |
 | --- | --- | --- | --- |
-| Python | `0.9.1` | PyPI `0.9.1` | current |
-| TypeScript | `0.8.1` | npm `0.8.1` | current |
-| Java | `0.10.0` | Maven Central `0.10.0` | current |
-| Rust | `0.9.2` | crates.io `0.9.2` | current |
-| C# | `0.9.2` | NuGet `0.9.2` | current |
-| Elixir | `0.9.2` | Hex `0.9.2` | current |
-| Erlang | `0.8.2` | Hex `0.8.2` | current |
-| Ruby | `0.8.2` | RubyGems `0.8.2` | current |
-| PHP | `0.8.2` | Packagist `0.8.1` | registry publication pending |
-| Lua | rockspec `0.7.2-1`; source tag `0.7.2` | LuaRocks `0.7.2-1` | current |
-| Dart | `0.6.2` | pub.dev `0.6.2` | current |
-| Julia | `0.7.0` | General Registry PR #176393 open; merge pending | pending |
-| MATLAB | `0.7.0` | File Exchange `185166` (`0.5.0`) | 0.7.0 upload pending |
-| Octave | `0.7.0` | 0.7.0 release tarball; Octave Packages PR #875 pending | pending |
-| Perl | `0.6.2` | CPAN `0.6.1` | registry publication pending |
-| PowerShell | `0.7.2` | PowerShell Gallery `0.7.2` | current |
-| Haskell | `0.7.1` | Hackage `0.7.1` | current |
-| R | `0.10.2` | r-universe `0.10.1` | registry publication pending |
-| Nim | `0.6.0` | Split repository package `0.1.1` | pending |
-| OCaml | `0.8.0` | opam registry `0.3.0`; PR #31222 closed (`0.8.0`) | new submission needed |
-| Swift | `0.7.1` | SPI `0.7.0` | registry publication pending |
-| Delphi / Free Pascal | `0.7.0` | OPM `0.2.1`; 0.7.0 assets published | OPM listing pending |
-| D | `0.6.0` | DUB `0.4.0` | pending |
+| Python | 0.10.0 | PyPI `0.9.1` | current |
+| TypeScript | 0.9.0 | npm `0.8.1` | current |
+| Java | 0.11.0 | Maven Central `0.10.0` | current |
+| Rust | 0.10.0 | crates.io `0.9.2` | current |
+| C# | 0.10.0 | NuGet `0.9.2` | current |
+| Elixir | 0.10.0 | Hex `0.9.2` | current |
+| Erlang | 0.9.0 | Hex `0.8.2` | current |
+| Ruby | 0.9.0 | RubyGems `0.8.2` | current |
+| PHP | 0.9.0 | Packagist `0.8.1` | registry publication pending |
+| Lua | 0.8.0-1 | LuaRocks `0.7.2-1` | current |
+| Dart | 0.7.0 | pub.dev `0.6.2` | current |
+| Julia | 0.8.0 | General Registry PR #176393 open; merge pending | pending |
+| MATLAB | 0.8.0 | File Exchange `185166` (`0.5.0`) | 0.7.0 upload pending |
+| Octave | 0.8.0 | 0.7.0 release tarball; Octave Packages PR #875 pending | pending |
+| Perl | 0.7.0 | CPAN `0.6.1` | registry publication pending |
+| PowerShell | 0.8.0 | PowerShell Gallery `0.7.2` | current |
+| Haskell | 0.8.0 | Hackage `0.7.1` | current |
+| R | 0.11.0 | r-universe `0.10.1` | registry publication pending |
+| Nim | 0.7.0 | Split repository package `0.1.1` | pending |
+| OCaml | 0.9.0 | opam registry `0.3.0`; PR #31222 closed (`0.8.0`) | new submission needed |
+| Swift | 0.8.0 | SPI `0.7.0` | registry publication pending |
+| Delphi / Free Pascal | 0.8.0 | OPM `0.2.1`; 0.7.0 assets published | OPM listing pending |
+| D | 0.7.0 | DUB `0.4.0` | pending |
 
 Do not install a source-tag-only language from a registry, and do not assume a
 registry package contains the source tag's latest behavior. The language page is

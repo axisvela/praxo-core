@@ -8,20 +8,20 @@
 
 - package: `praxo_core`
 - registry: [pub.dev](https://pub.dev/packages/praxo_core/versions/0.6.2)
-- source_version: `0.6.2`
+- source_version: `0.7.0`
 - published_version: `0.6.2`
 - install_published: `dart pub add praxo_core:^0.6.2`
 - install_source: `dart pub add praxo_core:^0.6.1`
-- source_tag: `dart/v0.6.2`
+- source_tag: `dart/v0.7.0`
 - tier: Core
 - contract: `SPEC_VERSION` `0.2.0`
 - documentation: https://axisvela.github.io/praxo-core/languages/dart/
 
 ## Capabilities and Status
 
-- OpenAI-compatible model: native (`OpenAiCompatibleModel` with sync and async transport paths)
-- Anthropic model: native (`AnthropicModel` with sync and async transport paths)
-- Gemini model: native (`GeminiModel` with sync and async transport paths)
+- OpenAI-compatible model: native (`OpenAiCompatibleModel` with sync and async transport paths; `generateStream` reassembles SSE content, tool calls, usage, and finish reason)
+- Anthropic model: native (`AnthropicModel` with sync and async transport paths; `generateStream` reassembles Anthropic SSE)
+- Gemini model: native (`GeminiModel`; `generateStream` reassembles Gemini SSE)
 - MCP client: native (`McpClient`; stdio, plus `McpStreamableHttpTransport` for Streamable HTTP 2025-03-26)
 - Harmovela sink: native (`HarmovelaSink`)
 - OpenTelemetry sink: native (transport seam) (`OtelSink`; caller supplies `OtelTransport`)

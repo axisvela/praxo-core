@@ -8,20 +8,20 @@
 
 - package: `praxocore`
 - registry: [r-universe](https://axisvela.r-universe.dev/praxocore)
-- source_version: `0.10.2`
+- source_version: `0.11.0`
 - published_version: `0.10.1`
 - install_published: `install.packages("praxocore", repos = "https://axisvela.r-universe.dev")`
 - install_source: `install.packages("praxocore", repos = "https://axisvela.r-universe.dev")`
-- source_tag: `r/v0.10.2`
+- source_tag: `r/v0.11.0`
 - tier: Core
 - contract: `SPEC_VERSION` `0.2.0`
 - documentation: https://axisvela.github.io/praxo-core/languages/r/
 
 ## Capabilities and Status
 
-- OpenAI-compatible model: native (`openai_compatible` adapter)
-- Anthropic model: native (transport seam) (`anthropic`; caller may supply `transport`)
-- Gemini model: native (transport seam) (`gemini`; caller may supply `transport`)
+- OpenAI-compatible model: native (`openai_compatible` adapter; `openai_compatible_streaming_model` reassembles SSE content, tool calls, usage, and finish reason)
+- Anthropic model: native (transport seam) (`anthropic`; caller may supply `transport`; `anthropic_streaming_model` reassembles SSE)
+- Gemini model: native (transport seam) (`gemini`; caller may supply `transport`; SSE streaming)
 - MCP client: native (transport seam) (`mcp_client`; base R needs caller-supplied transport for stdio)
 - Harmovela sink: native (`harmovela_sink`)
 - OpenTelemetry sink: native (transport seam) (`otel_sink`; caller supplies OTLP/HTTP transport)
@@ -44,8 +44,8 @@
 
 ## Boundaries
 
-- In-process framework; not an HTTP user agent, crawler, model provider, hosted
-  service, workflow engine, identity provider, or safety controller.
+- In-process framework; not a model provider, hosted service, workflow engine,
+  identity provider, or safety controller.
 - No exactly-once, sandbox-isolation, production-security, real-time, or
   physical-safety claim.
 - Registry pages are release snapshots. Verify the published version and read the

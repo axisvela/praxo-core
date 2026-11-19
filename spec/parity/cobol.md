@@ -6,7 +6,7 @@
 Released native Core. All 63 vectors in eleven groups, native agent tests,
 JSON tests, contract boundary tests, tooling tests, and the API declaration
 snapshot pass locally. The remote `cobol-conformance` job checks these;
-`cobol/v0.7.0` is the released tag; it adds the middleware, lifecycle,
+`cobol/v0.8.0` is the released tag; it adds the middleware, lifecycle,
 cancellation, streaming, SSE, and batch-dispatch surface. `partial` does not
 claim every optional Go hook, provider adapter, or full model surface. See `language/cobol/README.md` for bounded JSON, pattern,
 path-policy, plugin, and middleware behavior.
@@ -46,7 +46,7 @@ path-policy, plugin, and middleware behavior.
 | `toolcall.StripToolCallMarkup` | `praxo-toolcall` strip operation | partial | P1 |
 | `tool/jsonschema.Schema` | `praxo-jsonschema`, `praxo-schema-scalar`, `praxo-schema-visit` | partial | P1 |
 | `plugin.ParseManifest` | `praxo-plugin` | partial | P1 |
-| `plugin/host/process` | C `px_plugin_process_*_simple` ABI integration | partial | P3 |
+| `pkg/plugin/host/process.Host` | C `px_plugin_process_*_simple` ABI integration | partial | P3 |
 | `agent/middleware.CallLimitMiddleware` | `praxo-middleware` call-limit operation | partial | P1 |
 | `agent/middleware.ToolSelectionMiddleware` | `praxo-middleware` tool-selection operation | partial | P1 |
 | `agent/middleware.FallbackModel` | `praxo-middleware` fallback operation | partial | P1 |

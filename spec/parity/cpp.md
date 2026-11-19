@@ -39,7 +39,7 @@ adapter.
 | `toolcall.ParseInputJSON` | `parse_input_json` | parity | P1 |
 | `tool/jsonschema.Schema` | `validate` | partial | P1 |
 | `plugin.ParseManifest` | `parse_manifest` | parity | P1 |
-| `plugin/host/process` | `ProcessPluginHost` | parity | P1 |
+| `pkg/plugin/host/process.Host` | `ProcessPluginHost` | parity | P1 |
 | `agent/middleware.CallLimitMiddleware` | `CallLimit` (run-scoped) | parity | P1 |
 | `agent/middleware.FallbackModel` | `fallback_model` | parity | P1 |
 | `agent/middleware.PIIMiddleware` | `PiiRedactor` | parity | P1 |

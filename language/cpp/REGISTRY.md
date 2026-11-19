@@ -1,7 +1,7 @@
 # PRAXO-CORE C++ Registry Introduction
 
-**Status:** source-only. Source version `0.8.0`, source
-tag `cpp/v0.8.0`. Published registry version: not published. Registry
+**Status:** source-only. Source version `0.9.0`, source
+tag `cpp/v0.9.0`. Published registry version: not published. Registry
 pages are release snapshots; verify the published version before relying on a
 feature.
 
@@ -15,11 +15,11 @@ C++20 implementation of the PRAXO-CORE agent contract. The normative contract is
 | --- | --- |
 | Package | `praxo-core-cpp` |
 | Registry | Source / CMake |
-| Source version | `0.8.0` |
+| Source version | `0.9.0` |
 | Published registry version | not published |
 | Install (published) | not published |
 | Install (source/release prepared) | `CMake source build (see README)` |
-| Source tag | `cpp/v0.8.0` |
+| Source tag | `cpp/v0.9.0` |
 | Tier | Core |
 | Contract | `SPEC_VERSION` `0.2.0` |
 | Documentation | https://axisvela.github.io/praxo-core/languages/cpp/ |
@@ -28,9 +28,9 @@ C++20 implementation of the PRAXO-CORE agent contract. The normative contract is
 
 | Adapter | Status | Detail |
 | --- | --- | --- |
-| OpenAI-compatible model | native (transport seam) | `OpenAICompatible`; caller supplies HTTP transport |
-| Anthropic model | native (transport seam) | `Anthropic`; caller supplies HTTP and streaming transports; Anthropic SSE streaming |
-| Gemini model | native (transport seam) | `Gemini`; caller supplies HTTP and streaming transports; Gemini SSE streaming |
+| OpenAI-compatible model | native (transport seam) | `OpenAICompatible`; caller supplies HTTP and streaming transports; `OpenAICompatibleStreamTransport` reassembles SSE content, tool calls, usage, and finish reason |
+| Anthropic model | native (transport seam) | `Anthropic`; caller supplies HTTP and streaming transports; Anthropic SSE reassembly |
+| Gemini model | native (transport seam) | `Gemini`; caller supplies HTTP and streaming transports; Gemini SSE reassembly |
 | MCP client | native (transport seam) | `McpClient`; caller supplies `McpTransport` |
 | Harmovela sink | native (transport seam) | `HarmovelaSink`; caller supplies HTTP transport |
 | OpenTelemetry sink | native (transport seam) | `OtelSink`; caller supplies `OtelTransport` |

@@ -1,7 +1,7 @@
 # PRAXO-CORE Delphi / Free Pascal Registry Introduction
 
-**Status:** 0.7.0 OPM assets published; OPM listing pending. Source version `0.7.0`, source
-tag `delphi/v0.7.0`. Published registry version: `0.2.1`. Registry
+**Status:** 0.7.0 OPM assets published; OPM listing pending. Source version `0.8.0`, source
+tag `delphi/v0.8.0`. Published registry version: `0.2.1`. Registry
 pages are release snapshots; verify the published version before relying on a
 feature.
 
@@ -9,21 +9,17 @@ feature.
 
 PRAXO-CORE is an embeddable, MIT-licensed agent framework. This package is its native Delphi / Free Pascal Core: an in-process agent loop with tools, policy, memory, events, checkpoints, context, and middleware helpers. It is implemented in Object Pascal and does not call Go or another language Core.
 
-Use it when an existing Delphi or Free Pascal application needs a governed model/tool loop without adding an external runtime. It is not an HTTP user agent, crawler, hosted agent service, or model provider. It includes native OpenAI-compatible, Anthropic, and Gemini model adapters but no process bridge or plugin host.
-
-Current source is `delphi/v0.7.0`. It passes all eleven vector groups.
-
 ## Package
 
 | Field | Value |
 | --- | --- |
 | Package | `PRAXO-CORE` |
 | Registry | [OPM / GitHub release](https://github.com/axisvela/praxo-core/releases/tag/delphi%2Fv0.7.0) |
-| Source version | `0.7.0` |
+| Source version | `0.8.0` |
 | Published registry version | `0.2.1` |
 | Install (published) | `OPM package or release archive` |
 | Install (source/release prepared) | `OPM package or release archive` |
-| Source tag | `delphi/v0.7.0` |
+| Source tag | `delphi/v0.8.0` |
 | Tier | Core |
 | Contract | `SPEC_VERSION` `0.2.0` |
 | Documentation | https://axisvela.github.io/praxo-core/languages/delphi/ |
@@ -33,8 +29,8 @@ Current source is `delphi/v0.7.0`. It passes all eleven vector groups.
 | Adapter | Status | Detail |
 | --- | --- | --- |
 | OpenAI-compatible model | native | `TPraxoOpenAIAdapter` with FPC HTTP transport; SSE streaming reassembly |
-| Anthropic model | native | `TPraxoAnthropicAdapter`; FPC HTTP transport; Anthropic SSE streaming |
-| Gemini model | native | `TPraxoGeminiAdapter`; FPC HTTP transport; Gemini SSE streaming |
+| Anthropic model | native | `TPraxoAnthropicAdapter`; FPC HTTP transport; `GenerateStream` reassembles Anthropic SSE |
+| Gemini model | native | `TPraxoGeminiAdapter`; FPC HTTP transport; `GenerateStream` reassembles Gemini SSE |
 | MCP client | native | `TPraxoMcpClient`; stdio and `TPraxoHttpMcpTransport` for Streamable HTTP 2025-03-26 |
 | Harmovela sink | native | `TPraxoHarmovelaSink` |
 | OpenTelemetry sink | native (transport seam) | `TPraxoOtelSink`; caller supplies `TPraxoOtelTransport` |

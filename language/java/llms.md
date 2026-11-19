@@ -8,11 +8,11 @@
 
 - package: `com.axisvela:praxo-core`
 - registry: [Maven Central](https://repo1.maven.org/maven2/com/axisvela/praxo-core/0.10.0/)
-- source_version: `0.10.0`
+- source_version: `0.11.0`
 - published_version: `0.10.0`
 - install_published: `Maven: com.axisvela:praxo-core:0.10.0`
 - install_source: `Maven source build (see README)`
-- source_tag: `java/v0.10.0`
+- source_tag: `java/v0.11.0`
 - tier: Core
 - contract: `SPEC_VERSION` `0.2.0`
 - documentation: https://axisvela.github.io/praxo-core/languages/java/
@@ -20,8 +20,8 @@
 ## Capabilities and Status
 
 - OpenAI-compatible model: native (`adapters.OpenAICompatibleModel`)
-- Anthropic model: native (`adapters.AnthropicModel`)
-- Gemini model: native (`adapters.GeminiModel`)
+- Anthropic model: native (`adapters.AnthropicModel`; SSE streaming reassembly)
+- Gemini model: native (`adapters.GeminiModel`; SSE streaming)
 - MCP client: native (`adapters.McpClient`; stdio, plus `McpStreamableHttpTransport` for Streamable HTTP 2025-03-26 (local runtime verification pending))
 - Harmovela sink: native (`adapters.HarmovelaSink`)
 - OpenTelemetry sink: native (transport seam) (`adapters.OtelSink`; caller supplies OTLP/HTTP transport)

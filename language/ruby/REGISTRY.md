@@ -1,7 +1,7 @@
 # PRAXO-CORE Ruby Registry Introduction
 
-**Status:** published; split source repository. Source version `0.8.2`, source
-tag `ruby/v0.8.2`. Published registry version: `0.8.2`. Registry
+**Status:** published; split source repository. Source version `0.9.0`, source
+tag `ruby/v0.9.0`. Published registry version: `0.8.2`. Registry
 pages are release snapshots; verify the published version before relying on a
 feature.
 
@@ -9,19 +9,17 @@ feature.
 
 PRAXO-CORE is an embeddable, MIT-licensed agent framework. This gem is its native Ruby Core: an agent loop with tool registration and dispatch, policy hooks, typed events, memory, checkpoints, context budgets, middleware, JSON Schema validation, and plugin manifest parsing.
 
-Use it when an existing Ruby application needs a governed model/tool loop without adding a sidecar in another language. It is not an HTTP user agent, crawler, hosted agent service, or model provider.
-
 ## Package
 
 | Field | Value |
 | --- | --- |
 | Package | `praxo-core` |
 | Registry | [RubyGems](https://rubygems.org/gems/praxo-core/versions/0.8.2) |
-| Source version | `0.8.2` |
+| Source version | `0.9.0` |
 | Published registry version | `0.8.2` |
 | Install (published) | `gem install praxo-core` |
 | Install (source/release prepared) | `gem install praxo-core` |
-| Source tag | `ruby/v0.8.2` |
+| Source tag | `ruby/v0.9.0` |
 | Tier | Core |
 | Contract | `SPEC_VERSION` `0.2.0` |
 | Documentation | https://axisvela.github.io/praxo-core/languages/ruby/ |
@@ -30,10 +28,9 @@ Use it when an existing Ruby application needs a governed model/tool loop withou
 
 | Adapter | Status | Detail |
 | --- | --- | --- |
-| OpenAI-compatible model | native | `Praxo::Adapters::OpenAICompatible`; SSE streaming reassembly |
-| Anthropic model | native | `Praxo::Adapters::Anthropic`; injectable transport ; Anthropic SSE streaming |
-| Gemini model | native | `Praxo::Adapters::Gemini`; injectable transport; Gemini SSE streaming |
-| Process plugin host | native | `Praxo::PluginProcessHost`; JSON-Lines stdio, token auth, health, timeout, cancel |
+| OpenAI-compatible model | native | `Praxo::Adapters::OpenAICompatible`; `generate_stream` reassembles SSE content, tool calls, usage, and finish reason |
+| Anthropic model | native | `Praxo::Adapters::Anthropic`; injectable transport; `generate_stream` reassembles Anthropic SSE |
+| Gemini model | native | `Praxo::Adapters::Gemini`; injectable transport; `generate_stream` reassembles Gemini SSE |
 | MCP client | native | `Praxo::Adapters::MCPClient`; stdio, plus `HttpMCPTransport` for Streamable HTTP 2025-03-26 |
 | Harmovela sink | native | `Praxo::Adapters::HarmovelaSink` |
 | OpenTelemetry sink | native (transport seam) | `OtelSink`; caller supplies OTLP/HTTP transport |

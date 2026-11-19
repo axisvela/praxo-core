@@ -1,7 +1,7 @@
 # PRAXO-CORE for Nim
 
 PRAXO-CORE is an embeddable, MIT-licensed agent framework. This package is its
-native Nim Core with source tag `nim/v0.6.0`. It passes all eleven shared vector
+native Nim Core with source tag `nim/v0.7.0`. It passes all eleven shared vector
 groups with `Nim 2.2.12` and includes the native agent loop, context compaction,
 memory store, path policy, checkpoint allowlist, tool-call parsing, and opt-in
 agent tool selection, PII redaction, structured output, call limits, and

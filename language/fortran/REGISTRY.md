@@ -1,7 +1,7 @@
 # PRAXO-CORE Fortran Registry Introduction
 
-**Status:** source-only. Source version `0.10.0`, source
-tag `fortran/v0.10.0`. Published registry version: not published. Registry
+**Status:** source-only. Source version `0.11.0`, source
+tag `fortran/v0.11.0`. Published registry version: not published. Registry
 pages are release snapshots; verify the published version before relying on a
 feature.
 
@@ -9,21 +9,17 @@ feature.
 
 PRAXO-CORE is an embeddable, MIT-licensed agent framework. This package is its native Fortran 2008 Core: an in-process agent loop with tools, policy, middleware, events, checkpoints, and human-in-the-loop decisions, implemented in Fortran rather than bridged to another runtime.
 
-Use it when an existing Fortran application needs a governed model/tool loop without adding a Python or Go sidecar. It is not an HTTP user agent, crawler, hosted agent service, or model provider.
-
-Current source is `fortran/v0.10.0`. Version `0.6.0` adds cancellation, stream callbacks, a native SSE parser, and caller-provided batch tool dispatch. Version `0.4.0` replaced the bounded ASCII matcher with upstream RE2 through a small C ABI library. The agent loop, JSON, policy, middleware, and human-in-the-loop interrupt decisions remain Fortran. All 63 normative vectors across eleven groups and native regressions pass locally. Source tags do not imply package-registry publication.
-
 ## Package
 
 | Field | Value |
 | --- | --- |
 | Package | `praxo-core-fortran` |
 | Registry | Source / CMake |
-| Source version | `0.10.0` |
+| Source version | `0.11.0` |
 | Published registry version | not published |
 | Install (published) | not published |
 | Install (source/release prepared) | `Source build (see README)` |
-| Source tag | `fortran/v0.10.0` |
+| Source tag | `fortran/v0.11.0` |
 | Tier | Core |
 | Contract | `SPEC_VERSION` `0.2.0` |
 | Documentation | https://axisvela.github.io/praxo-core/languages/fortran/ |
@@ -32,10 +28,9 @@ Current source is `fortran/v0.10.0`. Version `0.6.0` adds cancellation, stream c
 
 | Adapter | Status | Detail |
 | --- | --- | --- |
-| OpenAI-compatible model | native (transport seam) | `openai_compatible`; caller supplies HTTP transport |
-| Anthropic model | native (transport seam) | `anthropic_compatible`; caller supplies HTTP transport; Anthropic SSE streaming |
-| Gemini model | native (transport seam) | `gemini_compatible`; caller supplies HTTP transport; Gemini SSE streaming |
-| Process plugin host | native (C bindings) | `plugin_process_start`; JSON-Lines, token auth, health, timeout |
+| OpenAI-compatible model | native (transport seam) | `openai_compatible`; caller supplies HTTP transport; `generate_stream` reassembles SSE content, tool calls, usage, and finish reason |
+| Anthropic model | native (transport seam) | `anthropic_compatible`; caller supplies HTTP transport; `generate_stream` reassembles Anthropic SSE |
+| Gemini model | native (transport seam) | `gemini_compatible`; caller supplies HTTP transport; `generate_stream` reassembles Gemini SSE |
 | MCP client | native (transport seam) | `mcp_client`; caller supplies transport |
 | Harmovela sink | native (transport seam) | `harmovela`; caller supplies HTTP transport |
 | OpenTelemetry sink | native (transport seam) | `otel_sink`; caller supplies transport |

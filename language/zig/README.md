@@ -219,4 +219,4 @@ gemini_model.api_key = gemini_key;
 
 ## Release
 
-Tag shape: `zig/v0.7.0` for core; `zig/v0.1.0` remains the wire tag.
+Tag shape: `zig/v0.8.0` for core; `zig/v0.1.0` remains the wire tag.

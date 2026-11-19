@@ -11,7 +11,7 @@ crawler, hosted agent service, or model provider. It includes native
 OpenAI-compatible, Anthropic, and Gemini model adapters, including Anthropic and Gemini
 SSE streaming, and a JSON-Lines process plugin host.
 
-Current source is `delphi/v0.7.0`. It passes all eleven vector groups.
+Current source is `delphi/v0.8.0`. It passes all eleven vector groups.
 
 Local validation uses Free Pascal 3.2.2 on Windows i386. It does not establish
 commercial Delphi compiler compatibility, Linux/macOS support, production

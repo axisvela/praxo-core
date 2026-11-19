@@ -1,13 +1,13 @@
 # PRAXO-CORE Erlang Registry Introduction
 
-**Status:** published. Source version `0.8.2`, source
-tag `erlang/v0.8.2`. Published registry version: `0.8.2`. Registry
+**Status:** published. Source version `0.9.0`, source
+tag `erlang/v0.9.0`. Published registry version: `0.8.2`. Registry
 pages are release snapshots; verify the published version before relying on a
 feature.
 
 ## Positioning
 
-PRAXO-CORE is an embeddable, MIT-licensed agent framework. This package is its native Erlang Core with source tag `erlang/v0.8.2`. It passes all eleven shared vector groups on Erlang/OTP 29 and includes the native agent loop, memory store, checkpoint allowlist, lexical path policy, context compaction, event sinks, middleware helpers, tool selection, and human-in-the-loop interrupt decisions. It does not call Go or another Core.
+PRAXO-CORE is an embeddable, MIT-licensed agent framework. This package is its native Erlang Core with source tag `erlang/v0.9.0`. It passes all eleven shared vector groups on Erlang/OTP 29 and includes the native agent loop, memory store, checkpoint allowlist, lexical path policy, context compaction, event sinks, middleware helpers, tool selection, and human-in-the-loop interrupt decisions. It does not call Go or another Core.
 
 ## Package
 
@@ -15,11 +15,11 @@ PRAXO-CORE is an embeddable, MIT-licensed agent framework. This package is its n
 | --- | --- |
 | Package | `praxo_core_erlang` |
 | Registry | [Hex](https://hex.pm/packages/praxo_core_erlang/0.8.2) |
-| Source version | `0.8.2` |
+| Source version | `0.9.0` |
 | Published registry version | `0.8.2` |
 | Install (published) | `{praxo_core, "0.8.2", {pkg, praxo_core_erlang}}` |
 | Install (source/release prepared) | `{praxo_core, {path, "language/erlang"}}` |
-| Source tag | `erlang/v0.8.2` |
+| Source tag | `erlang/v0.9.0` |
 | Tier | Core |
 | Contract | `SPEC_VERSION` `0.2.0` |
 | Documentation | https://axisvela.github.io/praxo-core/languages/erlang/ |
@@ -28,10 +28,9 @@ PRAXO-CORE is an embeddable, MIT-licensed agent framework. This package is its n
 
 | Adapter | Status | Detail |
 | --- | --- | --- |
-| OpenAI-compatible model | native | `praxo_openai_compatible` |
-| Anthropic model | native | `praxo_anthropic`; Anthropic SSE streaming |
-| Gemini model | native | `praxo_gemini`; Gemini SSE streaming |
-| Process plugin host | native | `praxo_plugin_process`; JSON-Lines stdio, token auth, health, timeout, cancel |
+| OpenAI-compatible model | native | `praxo_openai_compatible`; `streaming_model/1` and `generate_stream/3` reassemble SSE content, tool calls, usage, and finish reason |
+| Anthropic model | native | `praxo_anthropic`; `streaming_model/1` reassembles Anthropic SSE |
+| Gemini model | native | `praxo_gemini`; `streaming_model/1` reassembles Gemini SSE |
 | MCP client | native | `praxo_mcp`; stdio, plus `praxo_mcp_http:transport/2` for Streamable HTTP 2025-03-26 |
 | Harmovela sink | native | `praxo_harmovela` |
 | OpenTelemetry sink | native (transport seam) | `praxo_otel`; caller supplies transport |

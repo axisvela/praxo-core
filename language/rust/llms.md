@@ -8,11 +8,11 @@
 
 - package: `praxo-core`
 - registry: [crates.io](https://crates.io/crates/praxo-core/0.9.2)
-- source_version: `0.9.2`
+- source_version: `0.10.0`
 - published_version: `0.9.2`
 - install_published: `cargo add praxo-core@0.9.2`
 - install_source: `cargo add --path language/rust`
-- source_tag: `rust/v0.9.2`
+- source_tag: `rust/v0.10.0`
 - tier: Core
 - contract: `SPEC_VERSION` `0.2.0`
 - documentation: https://axisvela.github.io/praxo-core/languages/rust/
@@ -20,8 +20,8 @@
 ## Capabilities and Status
 
 - OpenAI-compatible model: native (`openai_compat::OpenAICompatible` behind optional `http-ureq`; `parse_stream` always available)
-- Anthropic model: native (transport seam) (`adapters::anthropic`; caller supplies transport)
-- Gemini model: native (transport seam) (`adapters::gemini`; caller supplies transport)
+- Anthropic model: native (transport seam) (`adapters::anthropic`; caller supplies transport; `StreamingModel` via `send_stream`)
+- Gemini model: native (transport seam) (`adapters::gemini`; caller supplies transport; `StreamingModel` via `send_stream`)
 - MCP client: native (`mcp::McpClient`; stdio, plus `McpClient::connect_http` over a caller-supplied `McpHttpTransport` seam for Streamable HTTP 2025-03-26)
 - Harmovela sink: native (`harmovela::Sink`)
 - OpenTelemetry sink: native (transport seam) (`adapters::otel::Sink`; caller supplies OTLP/HTTP transport)

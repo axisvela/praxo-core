@@ -1,6 +1,8 @@
 # Objective-C Core Release Notes
 
-## Unreleased
+## 0.7.0 - 2026-11-20
+
+Source tag `objc/v0.7.0`.
 
 ### Added
 

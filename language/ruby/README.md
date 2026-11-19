@@ -184,5 +184,5 @@ cooperative cancel, and typed call errors.
 
 ## Release
 
-Tag shape: `ruby/v0.8.2`. The tag targets `SPEC_VERSION` `0.2.0`. See
+Tag shape: `ruby/v0.9.0`. The tag targets `SPEC_VERSION` `0.2.0`. See
 [CHANGELOG.md](CHANGELOG.md) for per-release changes and compatibility notes.

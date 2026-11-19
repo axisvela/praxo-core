@@ -1,13 +1,13 @@
 # PRAXO-CORE Zig Registry Introduction
 
-**Status:** source-only. Source version `0.7.0`, source
-tag `zig/v0.7.0`. Published registry version: not published. Registry
+**Status:** source-only. Source version `0.8.0`, source
+tag `zig/v0.8.0`. Published registry version: not published. Registry
 pages are release snapshots; verify the published version before relying on a
 feature.
 
 ## Positioning
 
-Zig 0.17 implementation of the PRAXO-CORE agent contract. The normative contract is [`spec/`](../../spec/README.md); Go remains the reference implementation.
+Zig 0.17 implementation of the PRAXO-CORE AI agent framework contract. The normative contract is [`spec/`](../../spec/README.md); Go remains the reference implementation.
 
 ## Package
 
@@ -15,11 +15,11 @@ Zig 0.17 implementation of the PRAXO-CORE agent contract. The normative contract
 | --- | --- |
 | Package | `praxo-core-zig` |
 | Registry | Source |
-| Source version | `0.7.0` |
+| Source version | `0.8.0` |
 | Published registry version | not published |
 | Install (published) | not published |
 | Install (source/release prepared) | `Source build (see README)` |
-| Source tag | `zig/v0.7.0` |
+| Source tag | `zig/v0.8.0` |
 | Tier | Core |
 | Contract | `SPEC_VERSION` `0.2.0` |
 | Documentation | https://axisvela.github.io/praxo-core/languages/zig/ |
@@ -29,8 +29,8 @@ Zig 0.17 implementation of the PRAXO-CORE agent contract. The normative contract
 | Adapter | Status | Detail |
 | --- | --- | --- |
 | OpenAI-compatible model | native | `openaicompat.Adapter` with `std.http`; SSE streaming reassembly |
-| Anthropic model | native | `anthropic.Adapter`; injectable transport; Anthropic SSE streaming |
-| Gemini model | native | `gemini.Adapter`; injectable transport; Gemini SSE streaming |
+| Anthropic model | native | `anthropic.Adapter`; injectable transport; `generateStream` reassembles Anthropic SSE |
+| Gemini model | native | `gemini.Adapter`; injectable transport; `generateStream` reassembles Gemini SSE |
 | MCP client | native | `mcp.Client`; stdio and curl-backed `HttpTransport` for Streamable HTTP 2025-03-26 |
 | Harmovela sink | native | `harmovela` |
 | OpenTelemetry sink | native (transport seam) | `otel.Sink`; caller supplies OTLP/HTTP transport |

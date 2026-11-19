@@ -1,5 +1,13 @@
 # Elixir Core Release Notes
 
+## 0.10.0 - 2026-11-20
+
+Source tag `elixir/v0.10.0`.
+
+### Added
+
+- Process plugin host and provider streaming updates.
+
 ## 0.9.2 - 2026-11-18
 
 Source tag `elixir/v0.9.2`; Hex publication follows the release workflow.

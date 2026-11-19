@@ -1,13 +1,13 @@
 # PRAXO-CORE Julia Registry Introduction
 
-**Status:** pending registry merge. Source version `0.7.0`, source
-tag `julia/v0.7.0`. Published registry version: `0.2.0`. Registry
+**Status:** pending registry merge. Source version `0.8.0`, source
+tag `julia/v0.8.0`. Published registry version: `0.2.0`. Registry
 pages are release snapshots; verify the published version before relying on a
 feature.
 
 ## Positioning
 
-Julia implementation of the PRAXO-CORE contract.
+Julia implementation of the PRAXO-CORE AI agent framework contract.
 
 ## Package
 
@@ -15,11 +15,11 @@ Julia implementation of the PRAXO-CORE contract.
 | --- | --- |
 | Package | `PraxoCore` |
 | Registry | [Julia General (pending)](https://github.com/axisvela/PraxoCore.jl) |
-| Source version | `0.7.0` |
+| Source version | `0.8.0` |
 | Published registry version | `0.2.0` |
 | Install (published) | `Pkg.add("PraxoCore")` |
-| Install (source/release prepared) | `Pkg.add(name="PraxoCore", version="0.7.0")` |
-| Source tag | `julia/v0.7.0` |
+| Install (source/release prepared) | `Pkg.add(name="PraxoCore", version="0.8.0")` |
+| Source tag | `julia/v0.8.0` |
 | Tier | Core |
 | Contract | `SPEC_VERSION` `0.2.0` |
 | Documentation | https://axisvela.github.io/praxo-core/languages/julia/ |
@@ -28,9 +28,9 @@ Julia implementation of the PRAXO-CORE contract.
 
 | Adapter | Status | Detail |
 | --- | --- | --- |
-| OpenAI-compatible model | native | `OpenAICompatibleModel`; SSE streaming reassembly |
-| Anthropic model | native | `AnthropicModel`; injectable transport; Anthropic SSE streaming |
-| Gemini model | native | `GeminiModel`; injectable transport; Gemini SSE streaming |
+| OpenAI-compatible model | native | `OpenAICompatibleModel`; `generate_stream` reassembles SSE content, tool calls, usage, and finish reason |
+| Anthropic model | native | `AnthropicModel`; injectable transport; `generate_stream` reassembles Anthropic SSE |
+| Gemini model | native | `GeminiModel`; injectable transport; `generate_stream` reassembles Gemini SSE |
 | MCP client | native (transport seam) | `mcp_client`; caller supplies transport |
 | Harmovela sink | native | `HarmovelaSink` |
 | OpenTelemetry sink | native (transport seam) | `otel_sink`; caller supplies OTLP/HTTP transport |

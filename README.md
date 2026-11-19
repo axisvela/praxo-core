@@ -76,7 +76,7 @@ Go is the reference implementation; use the language table above for other
 runtimes.
 
 ```bash
-go get github.com/axisvela/praxo-core/v2@v2.9.0
+go get github.com/axisvela/praxo-core/v2@v2.10.0
 ```
 
 First verify the [independent Go consumer](docs/getting-started/consumer-go.md):

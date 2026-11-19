@@ -8,11 +8,11 @@
 
 - package: `@axisvela/praxo-core`
 - registry: [npm](https://www.npmjs.com/package/@axisvela/praxo-core/v/0.8.1)
-- source_version: `0.8.1`
+- source_version: `0.9.0`
 - published_version: `0.8.1`
 - install_published: `npm install @axisvela/praxo-core@0.8.1`
 - install_source: `npm install ./language/typescript`
-- source_tag: `typescript/v0.8.1`
+- source_tag: `typescript/v0.9.0`
 - tier: Core
 - contract: `SPEC_VERSION` `0.2.0`
 - documentation: https://axisvela.github.io/praxo-core/languages/typescript/
@@ -20,8 +20,8 @@
 # Capabilities and Status
 
 - OpenAI-compatible model: native (`src/adapters/openaicompat.ts`)
-- Anthropic model: native (`src/adapters/anthropic.ts`)
-- Gemini model: native (`src/adapters/gemini.ts`)
+- Anthropic model: native (`src/adapters/anthropic.ts`; SSE streaming reassembly)
+- Gemini model: native (`src/adapters/gemini.ts`; SSE streaming)
 - MCP client: native (`src/adapters/mcp.ts`; stdio, plus `src/adapters/mcp-http.ts` for Streamable HTTP 2025-03-26)
 - Harmovela sink: native (`src/adapters/harmovela.ts`)
 - OpenTelemetry sink: native (transport seam) (`src/adapters/otel.ts`; caller supplies OTLP/HTTP transport)

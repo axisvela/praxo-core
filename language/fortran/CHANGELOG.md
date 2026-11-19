@@ -1,5 +1,13 @@
 # Fortran Core Release Notes
 
+## 0.11.0 - 2026-11-20
+
+Source tag `fortran/v0.11.0`.
+
+### Added
+
+- Process plugin host and provider streaming updates.
+
 ## 0.10.0 - 2026-11-15
 
 Source tag `fortran/v0.10.0`.

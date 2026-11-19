@@ -8,20 +8,20 @@
 
 - package: `praxo-core-zig`
 - registry: Source
-- source_version: `0.7.0`
+- source_version: `0.8.0`
 - published_version: not published
 - install_published: not published
 - install_source: `Source build (see README)`
-- source_tag: `zig/v0.7.0`
+- source_tag: `zig/v0.8.0`
 - tier: Core
 - contract: `SPEC_VERSION` `0.2.0`
 - documentation: https://axisvela.github.io/praxo-core/languages/zig/
 
 ## Capabilities and Status
 
-- OpenAI-compatible model: native (`openaicompat.Adapter` with `std.http`)
-- Anthropic model: native (`anthropic.Adapter`; injectable transport)
-- Gemini model: native (`gemini.Adapter`; injectable transport)
+- OpenAI-compatible model: native (`openaicompat.Adapter` with `std.http`; SSE streaming reassembly)
+- Anthropic model: native (`anthropic.Adapter`; injectable transport; `generateStream` reassembles Anthropic SSE)
+- Gemini model: native (`gemini.Adapter`; injectable transport; `generateStream` reassembles Gemini SSE)
 - MCP client: native (`mcp.Client`; stdio and curl-backed `HttpTransport` for Streamable HTTP 2025-03-26)
 - Harmovela sink: native (`harmovela`)
 - OpenTelemetry sink: native (transport seam) (`otel.Sink`; caller supplies OTLP/HTTP transport)

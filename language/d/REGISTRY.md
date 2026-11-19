@@ -1,7 +1,7 @@
 # PRAXO-CORE D Registry Introduction
 
-**Status:** published. Source version `0.6.0`, source
-tag `d/v0.6.0`. Published registry version: `0.4.0`. Registry
+**Status:** published. Source version `0.7.0`, source
+tag `d/v0.7.0`. Published registry version: `0.4.0`. Registry
 pages are release snapshots; verify the published version before relying on a
 feature.
 
@@ -15,11 +15,11 @@ PRAXO-CORE is an embeddable, MIT-licensed agent framework. This package is its n
 | --- | --- |
 | Package | `praxo-core` |
 | Registry | [DUB](https://code.dlang.org/packages/praxo-core) |
-| Source version | `0.6.0` |
+| Source version | `0.7.0` |
 | Published registry version | `0.4.0` |
 | Install (published) | `dub add praxo-core` |
 | Install (source/release prepared) | `dub add praxo-core` |
-| Source tag | `d/v0.6.0` |
+| Source tag | `d/v0.7.0` |
 | Tier | Core |
 | Contract | `SPEC_VERSION` `0.2.0` |
 | Documentation | https://axisvela.github.io/praxo-core/languages/d/ |
@@ -29,8 +29,8 @@ PRAXO-CORE is an embeddable, MIT-licensed agent framework. This package is its n
 | Adapter | Status | Detail |
 | --- | --- | --- |
 | OpenAI-compatible model | native (transport seam) | `OpenAICompatibleModel`; caller may inject transport; SSE streaming reassembly |
-| Anthropic model | native (transport seam) | `AnthropicModel`; caller may inject transport; Anthropic SSE streaming |
-| Gemini model | native (transport seam) | `GeminiModel`; caller may inject transport; Gemini SSE streaming |
+| Anthropic model | native (transport seam) | `AnthropicModel`; caller may inject transport; SSE streaming reassembly |
+| Gemini model | native (transport seam) | `GeminiModel`; caller may inject transport; SSE streaming |
 | MCP client | native | `praxo.mcp.McpClient`; stdio, plus `HttpMcpTransport` for Streamable HTTP 2025-03-26 |
 | Harmovela sink | native | `HarmovelaSink` |
 | OpenTelemetry sink | native (transport seam) | `OtelSink`; caller supplies OTLP/HTTP transport |

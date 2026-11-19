@@ -8,20 +8,20 @@
 
 - package: `praxo-core-cobol`
 - registry: Source
-- source_version: `0.7.0`
+- source_version: `0.8.0`
 - published_version: not published
 - install_published: not published
 - install_source: `Source build (see README)`
-- source_tag: `cobol/v0.7.0`
+- source_tag: `cobol/v0.8.0`
 - tier: Core
 - contract: `SPEC_VERSION` `0.2.0`
 - documentation: https://axisvela.github.io/praxo-core/languages/cobol/
 
 ## Capabilities and Status
 
-- OpenAI-compatible model: native (transport seam) (`praxo-openai`; caller supplies a transport program; the model callback lacks tool specs/history)
+- OpenAI-compatible model: native (transport seam) (`praxo-openai`; caller supplies a transport program and an optional delta program; SSE streaming reassembles content, tool calls, usage, and finish reason; the model callback lacks tool specs/history)
 - Anthropic model: native (transport seam) (`praxo-anthropic`; caller supplies a transport program; maps system messages, tools, tool choice, text, tool use, and usage)
-- Gemini model: native (transport seam) (`praxo-gemini`; caller supplies a transport program; maps system instructions, tools, tool choice, text, function calls, and usage)
+- Gemini model: native (transport seam) (`praxo-gemini`; caller supplies a transport program; maps system instructions, tools, tool choice, text, function calls, usage, and Gemini SSE streaming)
 - MCP client: native (transport seam) (`praxo-mcp`; caller supplies a transport program)
 - Harmovela sink: native (transport seam) (`praxo-harmovela`; caller supplies a transport program)
 - OpenTelemetry sink: native (transport seam) (`praxo-otel`; caller supplies an OTLP/HTTP transport program)
@@ -44,8 +44,8 @@
 
 ## Boundaries
 
-- In-process framework; not an HTTP user agent, crawler, model provider, hosted
-  service, workflow engine, identity provider, or safety controller.
+- In-process framework; not a model provider, hosted service, workflow engine,
+  identity provider, or safety controller.
 - No exactly-once, sandbox-isolation, production-security, real-time, or
   physical-safety claim.
 - Registry pages are release snapshots. Verify the published version and read the

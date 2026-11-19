@@ -44,7 +44,7 @@ coverage does not imply parity for these unrepresented capabilities.
 | `toolcall.ParseInputJSON` | `px_extract_json` | partial | P1 |
 | `tool/jsonschema.Schema` | `px_schema_validate` | partial | P1 |
 | `plugin.ParseManifest` | `px_plugin_validate` | parity | P1 |
-| `plugin/host/process` | `px_plugin_process_start` | parity | P1 |
+| `pkg/plugin/host/process.Host` | `px_plugin_process_start` | parity | P1 |
 | `agent/middleware.CallLimitMiddleware` | `px_call_limit_model` | partial | P1 |
 | `agent/middleware.FallbackModel` | `px_fallback` | parity | P1 |
 | `agent/middleware.PIIMiddleware` | `px_pii_redact` | parity | P1 |

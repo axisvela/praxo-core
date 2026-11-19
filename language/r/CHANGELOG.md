@@ -2,6 +2,8 @@
 
 ## 0.10.2 - 2026-11-18
 
+Source tag `r/v0.11.0`.
+
 Source tag `r/v0.10.2`; r-universe rebuild follows the source push.
 
 ### Added
@@ -57,7 +59,7 @@ Source tag `r/v0.8.0`.
   transport, with deterministic trace/span identifiers, default event-data
   exclusion, and an explicit data-key allowlist.
 
-## Unreleased
+## 0.11.0 - 2026-11-20
 
 ### Added
 

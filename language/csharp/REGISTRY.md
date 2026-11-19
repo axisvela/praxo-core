@@ -1,7 +1,7 @@
 # PRAXO-CORE C# Registry Introduction
 
-**Status:** published. Source version `0.9.2`, source
-tag `csharp/v0.9.2`. Published registry version: `0.9.2`. Registry
+**Status:** published. Source version `0.10.0`, source
+tag `csharp/v0.10.0`. Published registry version: `0.9.2`. Registry
 pages are release snapshots; verify the published version before relying on a
 feature.
 
@@ -15,11 +15,11 @@ PRAXO-CORE is an embeddable, MIT-licensed agent framework. This package is its n
 | --- | --- |
 | Package | `Praxo.Core` |
 | Registry | [NuGet](https://www.nuget.org/packages/Praxo.Core/0.9.2) |
-| Source version | `0.9.2` |
+| Source version | `0.10.0` |
 | Published registry version | `0.9.2` |
 | Install (published) | `dotnet add package Praxo.Core --version 0.9.2` |
 | Install (source/release prepared) | `ProjectReference to language/csharp/Praxo.Core` |
-| Source tag | `csharp/v0.9.2` |
+| Source tag | `csharp/v0.10.0` |
 | Tier | Core |
 | Contract | `SPEC_VERSION` `0.2.0` |
 | Documentation | https://axisvela.github.io/praxo-core/languages/csharp/ |
@@ -29,9 +29,8 @@ PRAXO-CORE is an embeddable, MIT-licensed agent framework. This package is its n
 | Adapter | Status | Detail |
 | --- | --- | --- |
 | OpenAI-compatible model | native | `Praxo.Core.OpenAiCompatible` |
-| Anthropic model | native | `Praxo.Core.AnthropicModel` |
-| Gemini model | native | `Praxo.Core.GeminiModel`; Gemini SSE streaming |
-| Process plugin host | native | `PluginProcessHost`; JSON-Lines stdio, token auth, health, timeout, cancel |
+| Anthropic model | native | `Praxo.Core.AnthropicModel`; SSE streaming reassembly |
+| Gemini model | native | `Praxo.Core.GeminiModel`; SSE streaming |
 | MCP client | native | `Praxo.Core.Adapters.McpClient`; stdio, plus `McpStreamableHttpTransport` for Streamable HTTP 2025-03-26 |
 | Harmovela sink | native | `Praxo.Core.HarmovelaSink` |
 | OpenTelemetry sink | native (transport seam) | `Praxo.Core.OtelSink`; caller supplies OTLP/HTTP transport |

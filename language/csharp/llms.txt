@@ -8,11 +8,11 @@
 
 - package: `Praxo.Core`
 - registry: [NuGet](https://www.nuget.org/packages/Praxo.Core/0.9.2)
-- source_version: `0.9.2`
+- source_version: `0.10.0`
 - published_version: `0.9.2`
 - install_published: `dotnet add package Praxo.Core --version 0.9.2`
 - install_source: `ProjectReference to language/csharp/Praxo.Core`
-- source_tag: `csharp/v0.9.2`
+- source_tag: `csharp/v0.10.0`
 - tier: Core
 - contract: `SPEC_VERSION` `0.2.0`
 - documentation: https://axisvela.github.io/praxo-core/languages/csharp/
@@ -20,8 +20,8 @@
 # Capabilities and Status
 
 - OpenAI-compatible model: native (`Praxo.Core.OpenAiCompatible`)
-- Anthropic model: native (`Praxo.Core.AnthropicModel`)
-- Gemini model: native (`Praxo.Core.GeminiModel`)
+- Anthropic model: native (`Praxo.Core.AnthropicModel`; SSE streaming reassembly)
+- Gemini model: native (`Praxo.Core.GeminiModel`; SSE streaming)
 - MCP client: native (`Praxo.Core.Adapters.McpClient`; stdio, plus `McpStreamableHttpTransport` for Streamable HTTP 2025-03-26)
 - Harmovela sink: native (`Praxo.Core.HarmovelaSink`)
 - OpenTelemetry sink: native (transport seam) (`Praxo.Core.OtelSink`; caller supplies OTLP/HTTP transport)

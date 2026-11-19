@@ -1,6 +1,8 @@
 # Julia Core Release Notes
 
-## Unreleased
+## 0.8.0 - 2026-11-20
+
+Source tag `julia/v0.8.0`.
 
 ### Added
 

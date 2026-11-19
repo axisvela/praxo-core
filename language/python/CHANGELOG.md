@@ -1,5 +1,13 @@
 # Python Core Release Notes
 
+## 0.10.0 - 2026-11-20
+
+Source tag `python/v0.10.0`.
+
+### Added
+
+- Process plugin host and provider streaming updates.
+
 ## 0.9.1 - 2026-11-18
 
 Source tag `python/v0.9.1`; PyPI publication follows the release workflow.

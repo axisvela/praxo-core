@@ -8,20 +8,20 @@
 
 - package: `praxo-core`
 - registry: [LuaRocks](https://luarocks.org/modules/hanhhuiwen/praxo-core)
-- source_version: `0.7.2-1`
+- source_version: `0.8.0-1`
 - published_version: `0.7.2-1`
 - install_published: `luarocks install praxo-core 0.7.2-1`
-- install_source: `luarocks install praxo-core 0.7.1-1`
-- source_tag: `lua/v0.7.2`
+- install_source: `luarocks install praxo-core 0.8.0-1`
+- source_tag: `lua/v0.8.0`
 - tier: Core
 - contract: `SPEC_VERSION` `0.2.0`
 - documentation: https://axisvela.github.io/praxo-core/languages/lua/
 
 # Capabilities and Status
 
-- OpenAI-compatible model: native (`praxo.openai_compatible`)
-- Anthropic model: native (`praxo.adapters.anthropic`)
-- Gemini model: native (`praxo.adapters.gemini`)
+- OpenAI-compatible model: native (`praxo.openai_compatible`; `stream` reassembles SSE content, tool calls, usage, and finish reason)
+- Anthropic model: native (`praxo.adapters.anthropic`; `stream` reassembles Anthropic SSE)
+- Gemini model: native (`praxo.adapters.gemini`; `stream` reassembles Gemini SSE)
 - MCP client: native (transport seam) (`praxo.adapters.mcp`; caller supplies transport)
 - Harmovela sink: native (`praxo.harmovela_sink`)
 - OpenTelemetry sink: native (transport seam) (`adapters.otel_sink`; caller supplies OTLP/HTTP transport)

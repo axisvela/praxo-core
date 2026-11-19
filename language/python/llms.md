@@ -8,11 +8,11 @@
 
 - package: `praxo-core`
 - registry: [PyPI](https://pypi.org/project/praxo-core/0.9.1/)
-- source_version: `0.9.1`
+- source_version: `0.10.0`
 - published_version: `0.9.1`
 - install_published: `pip install praxo-core==0.9.1`
 - install_source: `pip install ./language/python`
-- source_tag: `python/v0.9.1`
+- source_tag: `python/v0.10.0`
 - tier: Core
 - contract: `SPEC_VERSION` `0.2.0`
 - documentation: https://axisvela.github.io/praxo-core/languages/python/
@@ -20,8 +20,8 @@
 ## Capabilities and Status
 
 - OpenAI-compatible model: native (`praxo.adapters.openaicompat`)
-- Anthropic model: native (`praxo.adapters.anthropic.AnthropicModel`)
-- Gemini model: native (`praxo.adapters.gemini.GeminiModel`)
+- Anthropic model: native (`praxo.adapters.anthropic.AnthropicModel`; SSE streaming reassembly)
+- Gemini model: native (`praxo.adapters.gemini.GeminiModel`; SSE streaming)
 - MCP client: native (`praxo.adapters.mcp.MCPClient`; stdio, plus `mcp_http.StreamableHTTPTransport` for Streamable HTTP 2025-03-26)
 - Harmovela sink: native (`praxo.adapters.harmovela.HarmovelaSink`)
 - OpenTelemetry sink: native (transport seam) (`praxo.adapters.otel.OtelSink`; caller supplies OTLP/HTTP transport)

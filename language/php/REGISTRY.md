@@ -1,7 +1,7 @@
 # PRAXO-CORE PHP Registry Introduction
 
-**Status:** published. Source version `0.8.2`, source
-tag `php/v0.8.2`. Published registry version: `0.8.1`. Registry
+**Status:** published. Source version `0.9.0`, source
+tag `php/v0.9.0`. Published registry version: `0.8.1`. Registry
 pages are release snapshots; verify the published version before relying on a
 feature.
 
@@ -9,19 +9,17 @@ feature.
 
 PRAXO-CORE is an embeddable, MIT-licensed agent framework. This package is its native PHP Core: an agent loop with tool registration and dispatch, policy hooks, typed events, memory, checkpoints, context budgets, middleware, JSON Schema validation, and plugin manifest parsing.
 
-Use it when an existing PHP application needs a governed model/tool loop without adding a Python or Go sidecar. It is not an HTTP user agent, crawler, hosted agent service, or model provider.
-
 ## Package
 
 | Field | Value |
 | --- | --- |
 | Package | `axisvela/praxo-core` |
 | Registry | [Packagist](https://packagist.org/packages/axisvela/praxo-core) |
-| Source version | `0.8.2` |
+| Source version | `0.9.0` |
 | Published registry version | `0.8.1` |
 | Install (published) | `composer require axisvela/praxo-core` |
 | Install (source/release prepared) | `composer require axisvela/praxo-core` |
-| Source tag | `php/v0.8.2` |
+| Source tag | `php/v0.9.0` |
 | Tier | Core |
 | Contract | `SPEC_VERSION` `0.2.0` |
 | Documentation | https://axisvela.github.io/praxo-core/languages/php/ |
@@ -30,9 +28,9 @@ Use it when an existing PHP application needs a governed model/tool loop without
 
 | Adapter | Status | Detail |
 | --- | --- | --- |
-| OpenAI-compatible model | native | `Praxo\Core\Adapters\OpenAICompatible`; SSE streaming reassembly |
-| Anthropic model | native | `Praxo\Core\Adapters\Anthropic` ; Anthropic SSE streaming |
-| Gemini model | native | `Praxo\Core\Adapters\Gemini`; Gemini SSE streaming |
+| OpenAI-compatible model | native | `Praxo\Core\Adapters\OpenAICompatible`; implements `StreamingModel` and reassembles SSE content, tool calls, usage, and finish reason |
+| Anthropic model | native | `Praxo\Core\Adapters\Anthropic`; implements `StreamingModel` with Anthropic SSE |
+| Gemini model | native | `Praxo\Core\Adapters\Gemini`; implements `StreamingModel` with Gemini SSE |
 | MCP client | native | `Praxo\Core\Adapters\MCPClient`; stdio, plus `HttpMCPTransport` for Streamable HTTP 2025-03-26 |
 | Harmovela sink | native | `Praxo\Core\Adapters\HarmovelaSink` |
 | OpenTelemetry sink | native (transport seam) | `OtelSink`; caller supplies OTLP/HTTP transport |

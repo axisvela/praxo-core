@@ -8,20 +8,20 @@
 
 - package: `PRAXO-CORE`
 - registry: [OPM / GitHub release](https://github.com/axisvela/praxo-core/releases/tag/delphi%2Fv0.7.0)
-- source_version: `0.7.0`
+- source_version: `0.8.0`
 - published_version: `0.2.1`
 - install_published: `OPM package or release archive`
 - install_source: `OPM package or release archive`
-- source_tag: `delphi/v0.7.0`
+- source_tag: `delphi/v0.8.0`
 - tier: Core
 - contract: `SPEC_VERSION` `0.2.0`
 - documentation: https://axisvela.github.io/praxo-core/languages/delphi/
 
 # Capabilities and Status
 
-- OpenAI-compatible model: native (`TPraxoOpenAIAdapter` with FPC HTTP transport)
-- Anthropic model: native (`TPraxoAnthropicAdapter`; FPC HTTP transport)
-- Gemini model: native (`TPraxoGeminiAdapter`; FPC HTTP transport)
+- OpenAI-compatible model: native (`TPraxoOpenAIAdapter` with FPC HTTP transport; SSE streaming reassembly)
+- Anthropic model: native (`TPraxoAnthropicAdapter`; FPC HTTP transport; `GenerateStream` reassembles Anthropic SSE)
+- Gemini model: native (`TPraxoGeminiAdapter`; FPC HTTP transport; `GenerateStream` reassembles Gemini SSE)
 - MCP client: native (`TPraxoMcpClient`; stdio and `TPraxoHttpMcpTransport` for Streamable HTTP 2025-03-26)
 - Harmovela sink: native (`TPraxoHarmovelaSink`)
 - OpenTelemetry sink: native (transport seam) (`TPraxoOtelSink`; caller supplies `TPraxoOtelTransport`)
@@ -44,8 +44,8 @@
 
 # Boundaries
 
-- In-process framework; not an HTTP user agent, crawler, model provider, hosted
-  service, workflow engine, identity provider, or safety controller.
+- In-process framework; not a model provider, hosted service, workflow engine,
+  identity provider, or safety controller.
 - No exactly-once, sandbox-isolation, production-security, real-time, or
   physical-safety claim.
 - Registry pages are release snapshots. Verify the published version and read the

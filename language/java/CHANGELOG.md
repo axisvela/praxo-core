@@ -1,6 +1,8 @@
 # Java Core Release Notes
 
-## Unreleased
+## 0.11.0 - 2026-11-20
+
+Source tag `java/v0.11.0`.
 
 ### Added
 

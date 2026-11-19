@@ -1,6 +1,8 @@
 # COBOL Core Release Notes
 
-## Unreleased
+## 0.8.0 - 2026-11-20
+
+Source tag `cobol/v0.8.0`.
 
 ### Fixed
 

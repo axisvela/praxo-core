@@ -1,7 +1,7 @@
 # PRAXO-CORE Lua Registry Introduction
 
-**Status:** published. Source version `0.7.2-1`, source
-tag `lua/v0.7.1`. Published registry version: `0.7.2-1`. Registry
+**Status:** published. Source version `0.8.0-1`, source
+tag `lua/v0.8.0`. Published registry version: `0.7.2-1`. Registry
 pages are release snapshots; verify the published version before relying on a
 feature.
 
@@ -15,11 +15,11 @@ PRAXO-CORE is an embeddable, MIT-licensed agent framework. This rock is its nati
 | --- | --- |
 | Package | `praxo-core` |
 | Registry | [LuaRocks](https://luarocks.org/modules/hanhhuiwen/praxo-core) |
-| Source version | `0.7.2-1` |
+| Source version | `0.8.0-1` |
 | Published registry version | `0.7.2-1` |
 | Install (published) | `luarocks install praxo-core 0.7.2-1` |
-| Install (source/release prepared) | `luarocks install praxo-core 0.7.1-1` |
-| Source tag | `lua/v0.7.2` |
+| Install (source/release prepared) | `luarocks install praxo-core 0.8.0-1` |
+| Source tag | `lua/v0.8.0` |
 | Tier | Core |
 | Contract | `SPEC_VERSION` `0.2.0` |
 | Documentation | https://axisvela.github.io/praxo-core/languages/lua/ |
@@ -28,9 +28,9 @@ PRAXO-CORE is an embeddable, MIT-licensed agent framework. This rock is its nati
 
 | Adapter | Status | Detail |
 | --- | --- | --- |
-| OpenAI-compatible model | native | `praxo.openai_compatible`; SSE streaming reassembly |
-| Anthropic model | native | `praxo.adapters.anthropic` ; Anthropic SSE streaming |
-| Gemini model | native | `praxo.adapters.gemini`; Gemini SSE streaming |
+| OpenAI-compatible model | native | `praxo.openai_compatible`; `stream` reassembles SSE content, tool calls, usage, and finish reason |
+| Anthropic model | native | `praxo.adapters.anthropic`; `stream` reassembles Anthropic SSE |
+| Gemini model | native | `praxo.adapters.gemini`; `stream` reassembles Gemini SSE |
 | MCP client | native (transport seam) | `praxo.adapters.mcp`; caller supplies transport |
 | Harmovela sink | native | `praxo.harmovela_sink` |
 | OpenTelemetry sink | native (transport seam) | `adapters.otel_sink`; caller supplies OTLP/HTTP transport |

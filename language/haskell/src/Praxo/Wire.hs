@@ -4,4 +4,4 @@ specVersion :: String
 specVersion = "0.2.0"
 
 sdkVersion :: String
-sdkVersion = "0.7.1"
+sdkVersion = "0.8.0"

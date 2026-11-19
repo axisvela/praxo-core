@@ -1,5 +1,13 @@
 # Ruby Core Release Notes
 
+## 0.9.0 - 2026-11-20
+
+Source tag `ruby/v0.9.0`.
+
+### Added
+
+- Process plugin host and provider streaming updates.
+
 ## 0.8.2 - 2026-11-18
 
 Source tag `ruby/v0.8.2`; RubyGems publication follows the release workflow.

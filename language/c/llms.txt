@@ -8,20 +8,20 @@
 
 - package: `praxo-core-c`
 - registry: Source / CMake
-- source_version: `0.12.0`
+- source_version: `0.13.0`
 - published_version: not published
 - install_published: not published
 - install_source: `CMake source build (see README)`
-- source_tag: `c/v0.12.0`
+- source_tag: `c/v0.13.0`
 - tier: Core
 - contract: `SPEC_VERSION` `0.2.0`
 - documentation: https://axisvela.github.io/praxo-core/languages/c/
 
 # Capabilities and Status
 
-- OpenAI-compatible model: native (transport seam) (`PxOpenAICompatible`; caller supplies HTTP transport)
-- Anthropic model: native (transport seam) (`PxAnthropic`; caller supplies HTTP transport)
-- Gemini model: native (transport seam) (`PxGemini`; caller supplies HTTP transport)
+- OpenAI-compatible model: native (transport seam) (`PxOpenAICompatible`; caller supplies HTTP transport; `px_openai_generate_stream` reassembles SSE content, tool calls, usage, and finish reason)
+- Anthropic model: native (transport seam) (`PxAnthropic`; caller supplies HTTP transport; `px_anthropic_generate_stream` reassembles Anthropic SSE)
+- Gemini model: native (transport seam) (`PxGemini`; caller supplies HTTP transport; `px_gemini_generate_stream` reassembles Gemini SSE)
 - MCP client: native (transport seam) (`PxMcpClient`; caller supplies `PxMcpTransport`)
 - Harmovela sink: native (transport seam) (`praxo_harmovela`; caller supplies HTTP transport)
 - OpenTelemetry sink: native (transport seam) (`PxOtelSink`; caller supplies `PxOtelTransport`)

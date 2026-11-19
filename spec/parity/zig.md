@@ -3,8 +3,8 @@
 - Tier: core
 - SPEC_VERSION: 0.2.0
 
-`zig/v0.7.0` ships the core loop. The Core passes all eleven vector groups, its
-tests, and its public API snapshot. `zig/v0.7.0` remains the wire tag.
+`zig/v0.8.0` ships the core loop. The Core passes all eleven vector groups, its
+tests, and its public API snapshot. `zig/v0.8.0` remains the wire tag.
 `partial` marks a surface that covers the vector behavior and common path but
 not every optional Go hook or provider adapter.
 
@@ -34,7 +34,7 @@ not every optional Go hook or provider adapter.
 | `toolcall.ParseInputJSON` | `parseInputJson` | parity | P1 |
 | `tool/jsonschema.Schema` | `validate` | partial | P1 |
 | `plugin.ParseManifest` | `parseManifest` | parity | P1 |
-| `plugin/host/process` | `plugin_process.start` | parity | P1 |
+| `pkg/plugin/host/process.Host` | `plugin_process.start` | parity | P1 |
 | `agent/middleware.CallLimitMiddleware` | `middleware.CallLimit` | parity | P1 |
 | `agent/middleware.FallbackModel` | `middleware.Fallback` | parity | P1 |
 | `agent/middleware.PIIMiddleware` | `middleware.PiiRedactor` | parity | P1 |

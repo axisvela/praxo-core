@@ -3,7 +3,7 @@
 - Tier: core
 - SPEC_VERSION: 0.2.0
 
-`d/v0.6.0` ships the core loop. The Core passes all eleven vector groups, its
+`d/v0.7.0` ships the core loop. The Core passes all eleven vector groups, its
 tests, and its public API snapshot. `partial` marks a surface that covers the
 vector behavior and common path but not every optional Go hook or provider
 adapter.
@@ -34,7 +34,7 @@ adapter.
 | `toolcall.ParseInputJSON` | `praxo.toolcall.parseInputJson` | parity | P1 |
 | `tool/jsonschema.Schema` | `praxo.jsonschema.validate` | partial | P1 |
 | `plugin.ParseManifest` | `praxo.plugin.parseManifest` | parity | P1 |
-| `plugin/host/process` | `ProcessHost` | parity | P1 |
+| `pkg/plugin/host/process.Host` | `ProcessHost` | parity | P1 |
 | `agent/middleware.CallLimitMiddleware` | `praxo.middleware.CallLimit` | parity | P1 |
 | `agent/middleware.FallbackModel` | `praxo.middleware.fallbackModel` | parity | P1 |
 | `agent/middleware.PIIMiddleware` | `praxo.middleware.PiiRedactor` | parity | P1 |

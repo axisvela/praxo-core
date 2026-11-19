@@ -3,7 +3,7 @@
 - Tier: core
 - SPEC_VERSION: 0.2.0
 
-`julia/v0.7.0` ships the core loop. The Core passes all eleven vector groups and
+`julia/v0.8.0` ships the core loop. The Core passes all eleven vector groups and
 checks its public API snapshot. `partial` marks a surface that covers the vector
 behavior and common path but not every optional Go hook or provider adapter.
 
@@ -35,7 +35,7 @@ behavior and common path but not every optional Go hook or provider adapter.
 | `toolcall.ParseInputJSON` | `ToolCallParser.parse_input_json` | parity | P1 |
 | `tool/jsonschema.Schema` | `JsonSchema.validate` | partial | P1 |
 | `plugin.ParseManifest` | `Plugin.parse_manifest` | parity | P1 |
-| `plugin/host/process` | `ProcessHost` | parity | P1 |
+| `pkg/plugin/host/process.Host` | `ProcessHost` | parity | P1 |
 | `agent/middleware.CallLimitMiddleware` | `CallLimitMiddleware` | parity | P1 |
 | `agent/middleware.FallbackModel` | `fallback_model` | parity | P1 |
 | `agent/middleware.PIIMiddleware` | `PiiMiddleware` | parity | P1 |

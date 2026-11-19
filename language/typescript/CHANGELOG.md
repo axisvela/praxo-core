@@ -1,5 +1,13 @@
 # TypeScript Core Release Notes
 
+## 0.9.0 - 2026-11-20
+
+Source tag `typescript/v0.9.0`.
+
+### Added
+
+- Process plugin host and provider streaming updates.
+
 ## 0.8.1 - 2026-11-18
 
 Source tag `typescript/v0.8.1`. npm `0.8.1` was staged for maintainer approval
