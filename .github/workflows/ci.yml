@@ -885,6 +885,9 @@ jobs:
       - uses: shivammathur/setup-php@v2
         with:
           php-version: "8.4.27"
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
       - run: php language/php/conformance/run.php
       - run: php language/php/conformance/run.php --check-api
       - run: php language/php/tests/run.php
@@ -987,9 +990,12 @@ jobs:
       - run: zig test src/plugin.zig
       - run: zig test src/pii_test.zig
       - run: zig test src/openaicompat_test.zig
-      - run: cmake -S language/c -B language/c/build
-      - run: cmake --build language/c/build
-      - run: zig test src/plugin_process.zig -I language/c/include -L language/c/build -lpraxo_core -lc
+      - run: cmake -S ../../language/c -B ../../language/c/build
+        working-directory: language/zig
+      - run: cmake --build ../../language/c/build
+        working-directory: language/zig
+      - run: zig test src/plugin_process.zig -I ../../language/c/include -L ../../language/c/build -lpraxo_core -lc
+        working-directory: language/zig
       - run: python3 api-snapshot.py --check
 
   dart-conformance:
@@ -1067,8 +1073,8 @@ jobs:
       - run: ctest --test-dir language/cpp/build --output-on-failure
       - run: cmake -S language/c -B language/c/build
       - run: cmake --build language/c/build
-      - run: g++ -std=c++20 -O2 -I language/cpp/include language/cpp/tests/plugin_process.cpp -L language/c/build -lpraxo_core -o build/praxo-cpp-plugin-process
-      - run: ./build/praxo-cpp-plugin-process
+      - run: g++ -std=c++20 -O2 -I language/cpp/include language/cpp/tests/plugin_process.cpp -L language/c/build -lpraxo_core -o language/cpp/build/praxo-cpp-plugin-process
+      - run: ./language/cpp/build/praxo-cpp-plugin-process
       - run: python3 language/cpp/api-snapshot.py --check
 
   perl-conformance:

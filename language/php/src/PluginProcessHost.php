@@ -40,10 +40,10 @@ final class PluginProcessHost
     public function __construct(private PluginProcessConfig $config)
     {
         if ($config->pluginId === '') {
-            throw new PraxoException('plugin: PluginID is required');
+            throw new PraxoException('PLUGIN_INVALID', 'plugin: PluginID is required');
         }
         if ($config->path === '') {
-            throw new PraxoException('plugin: path is required');
+            throw new PraxoException('PLUGIN_INVALID', 'plugin: path is required');
         }
         $this->token = $config->token ?? bin2hex(random_bytes(32));
     }
@@ -56,7 +56,7 @@ final class PluginProcessHost
     public function start(): void
     {
         if ($this->process !== null) {
-            throw new PraxoException('plugin: host already started');
+            throw new PraxoException('PLUGIN_INVALID', 'plugin: host already started');
         }
         $command = [$this->config->path, ...$this->config->args];
         $descriptors = [
@@ -69,7 +69,7 @@ final class PluginProcessHost
         $environment[$this->config->tokenEnvVar] = $this->token;
         $process = proc_open($command, $descriptors, $pipes, null, $environment);
         if (!is_resource($process)) {
-            throw new PraxoException('plugin: start failed');
+            throw new PraxoException('PLUGIN_START', 'plugin: start failed');
         }
         $this->process = $process;
         $this->pipes = $pipes;
