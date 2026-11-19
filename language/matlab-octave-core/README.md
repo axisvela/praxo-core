@@ -31,3 +31,32 @@ octave-cli --eval "addpath('language/matlab-octave-core'); addpath('language/mat
 Verified under GNU Octave 11.3.0 with the existing `D:\dev` toolchain; the
 shared test prints `test_service_auth passed`. Native MATLAB runtime remains
 unavailable and unverified.
+
+## Optional Java Process Host
+
+`praxo.PluginProcess` uses Java `ProcessBuilder`, not Octave `popen2`. A working
+JVM (`usejava('jvm')`) is required. Windows Octave 11.3 is locally verified;
+MATLAB runtime verification remains pending.
+
+```matlab
+config = struct('plugin_id', 'com.example.echo', 'path', 'python', ...
+    'args', {{'path/to/plugin.py'}});
+host = praxo.PluginProcess(config);
+cleanup = onCleanup(@() host.stop());
+response = host.invoke('tool.provider', 'echo', '{"text":"hi"}', 5);
+```
+
+The token is generated with Java UUID and supplied through the child environment
+and each request, never through command arguments. Stderr is discarded separately
+from protocol output. Calls validate response ID/version and limit response size.
+A response timeout terminates the child and marks the host inactive. This initial
+text-payload adapter does not implement the protocol's cancel-before-kill flow,
+binary payloads, or concurrent calls; do not treat it as full host parity.
+
+`config.start_timeout` optionally sets the health-check timeout in seconds
+(default 10). Invocation timeouts default to 30 seconds and must be positive,
+finite scalars. Remote call errors use `praxo:pluginCall` and leave the host
+active. Malformed responses, output closure, child exit, and response timeouts
+terminate the child and make subsequent calls fail until a new host is created.
+`stop` is idempotent, requests shutdown, waits briefly, and forcibly terminates
+an unresponsive process. Constructor failures also clean up the child and pipes.

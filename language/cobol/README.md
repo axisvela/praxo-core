@@ -332,3 +332,21 @@ programs.
 records. `spec/parity/cobol.md` records partial surfaces. The Core sources are
 MIT-licensed; GnuCOBOL and its runtime are separately licensed external
 toolchain dependencies.
+## Process Host ABI Check
+
+The optional C process host must be compiled for the same architecture as
+GnuCOBOL. Do not link the Win32 compiler against the Win64 C build directory.
+The integration check compiles the required C sources with GCC bundled beside
+`cobc`, then statically links them into the COBOL test:
+
+```powershell
+python language/cobol/tests/run_plugin_process.py --compiler D:\dev\gnucobol\bin\cobc.exe
+```
+
+On Linux, use `python3 language/cobol/tests/run_plugin_process.py` with matching
+`cobc` and GCC on PATH. This verifies the C `*_simple` ABI from COBOL, not a new
+native COBOL supervision API. The test passes an opaque pointer by value and
+passes its address only when starting the host. Python is a test dependency.
+It covers echo, permission denial, a successful call after denial, and cleanup
+of a null host pointer. The C objects are isolated under `build/plugin-process`
+and do not replace the independently built Win64 C Core library.

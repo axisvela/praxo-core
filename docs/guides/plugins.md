@@ -126,6 +126,9 @@ process contract:
 | Objective-C | `PXRPluginProcess` | C-binding test |
 | Nim | `plugin_process.start` | C-binding test |
 | C++ | `ProcessPluginHost` | C-binding test |
+| COBOL | C `*_simple` ABI calls | Win32 integration test; no native wrapper API |
+| Octave | `praxo.PluginProcess` | Windows JVM tests; partial text-payload host |
+| MATLAB | shared `praxo.PluginProcess` source | runtime verification pending |
 
 ```python
 

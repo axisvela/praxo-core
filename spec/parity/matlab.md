@@ -47,3 +47,8 @@ call limits, and tool selection; fallback models are supported.
 | `agent/hitl.InterruptDecision` | `praxo.agent_run` | parity | P2 |
 | `agent/hitl.InterruptHandler` | `praxo.agent_run` | parity | P2 |
 | `agent.Options.OnInterrupt` | `praxo.agent_options` | parity | P2 |
+## Optional Process Host
+
+The shared `praxo.PluginProcess` Java-backed implementation has been tested only
+under Octave. MATLAB runtime verification is pending. It is not full process-host
+parity: cancellation, binary payloads, and concurrent calls remain unsupported.

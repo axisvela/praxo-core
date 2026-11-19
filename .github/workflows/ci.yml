@@ -498,7 +498,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - run: sudo apt-get update && sudo apt-get install -y octave
+      - run: sudo apt-get update && sudo apt-get install -y octave default-jre-headless
       - run: python language/octave/run-tests.py --octave octave-cli
 
   octave-package:
@@ -939,6 +939,7 @@ jobs:
       - run: sudo apt-get update
       - run: sudo apt-get install -y gnucobol
       - run: python3 language/cobol/run-tests.py
+      - run: python3 language/cobol/tests/run_plugin_process.py
 
   d-conformance:
     needs: changes

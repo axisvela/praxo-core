@@ -26,6 +26,11 @@ def snapshot():
     lines = ["# PRAXO-CORE MATLAB/Octave Core API " + sdk, "# SPEC_VERSION " + spec, ""]
     for path in sorted((CORE / "+praxo").glob("*.m")):
         text = path.read_text(encoding="utf-8")
+        if text.startswith("classdef PluginProcess < handle"):
+            lines.extend(["praxo.PluginProcess(config)",
+                          "praxo.PluginProcess.invoke(service, method, payload, timeout)",
+                          "praxo.PluginProcess.stop()"])
+            continue
         match = re.match(r"function\s+([^\n]+)", text)
         if not match or not re.search(r"\b" + re.escape(path.stem) + r"\s*\(", match[1]):
             raise ValueError("invalid public function declaration: " + str(path))

@@ -20,6 +20,11 @@ def main():
     subprocess.run([sys.executable, str(ROOT / "api-snapshot.py"), "--check"], check=True)
     subprocess.run([executable, "--quiet", "--no-history", "--no-init-file", "--no-site-file",
                     "--eval", "run_tests"], cwd=CORE, check=True, timeout=120)
+    environment = os.environ.copy()
+    environment["PRAXO_PYTHON"] = sys.executable
+    subprocess.run([executable, "--quiet", "--no-history", "--no-init-file", "--no-site-file",
+                    "--eval", "addpath('tests'); test_plugin_process"],
+                   cwd=CORE, env=environment, check=True, timeout=30)
 
 
 if __name__ == "__main__":

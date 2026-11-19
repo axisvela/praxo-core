@@ -46,6 +46,7 @@ path-policy, plugin, and middleware behavior.
 | `toolcall.StripToolCallMarkup` | `praxo-toolcall` strip operation | partial | P1 |
 | `tool/jsonschema.Schema` | `praxo-jsonschema`, `praxo-schema-scalar`, `praxo-schema-visit` | partial | P1 |
 | `plugin.ParseManifest` | `praxo-plugin` | partial | P1 |
+| `plugin/host/process` | C `px_plugin_process_*_simple` ABI integration | partial | P3 |
 | `agent/middleware.CallLimitMiddleware` | `praxo-middleware` call-limit operation | partial | P1 |
 | `agent/middleware.ToolSelectionMiddleware` | `praxo-middleware` tool-selection operation | partial | P1 |
 | `agent/middleware.FallbackModel` | `praxo-middleware` fallback operation | partial | P1 |

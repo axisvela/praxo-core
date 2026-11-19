@@ -47,3 +47,9 @@ call limits, and tool selection; fallback models are supported.
 | `agent/hitl.InterruptDecision` | `praxo.agent_run` | parity | P2 |
 | `agent/hitl.InterruptHandler` | `praxo.agent_run` | parity | P2 |
 | `agent.Options.OnInterrupt` | `praxo.agent_options` | parity | P2 |
+## Optional Process Host
+
+`praxo.PluginProcess` is a Java-backed text-payload host. Windows Octave tests
+cover echo, remote denial, timeout termination, and stop. Cancel-before-kill,
+binary payloads, and concurrent calls are not implemented; this is partial
+process-host support, not full protocol parity.

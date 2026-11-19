@@ -200,7 +200,12 @@ adapter listed above.
 
 Manifest parsing, lifecycle states, and registry validation remain available in
 every listed Core. Process host conformance does not imply WASM or container
-hosting. MATLAB/Octave and COBOL do not yet ship a verified process host.
+hosting. COBOL now has a locally verified Win32 C-host ABI integration test
+(`tests/run_plugin_process.py`), not a separate native supervision API.
+The shared MATLAB/Octave `praxo.PluginProcess` Java adapter passes Windows
+Octave echo, denial, timeout, and stop tests; MATLAB is not runtime-verified.
+This adapter remains partial: binary payloads, concurrent calls, and
+cancel-before-kill are not implemented.
 ## MCP
 
 | Language | Status | Notes |

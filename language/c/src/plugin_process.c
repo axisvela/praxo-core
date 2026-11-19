@@ -175,7 +175,7 @@ static int px_quote(char **cursor, const char *end, const char *value) {
 
 static int px_read_line(PxPluginProcess *host, int timeout_ms,
     char *line, size_t capacity) {
-    ULONGLONG deadline = GetTickCount64() + (ULONGLONG)timeout_ms;
+    DWORD started = GetTickCount();
     for (;;) {
         char *newline = host->buffer_length == 0 ? NULL
             : memchr(host->buffer, '\n', host->buffer_length);
@@ -204,7 +204,7 @@ static int px_read_line(PxPluginProcess *host, int timeout_ms,
             host->buffer_length += read;
             continue;
         }
-        if (GetTickCount64() >= deadline) return -1;
+        if ((DWORD)(GetTickCount() - started) >= (DWORD)timeout_ms) return -1;
         Sleep(2);
     }
 }
