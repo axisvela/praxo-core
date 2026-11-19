@@ -1,5 +1,23 @@
 # Changelog
 
+## [Unreleased]
+
+### Added
+
+- OpenAI-compatible, Anthropic, and Gemini SSE streaming across the declared
+  Core adapters, including Anthropic and Gemini stream reassembly in the
+  extended and optional SDKs.
+- Process plugin hosts with JSON-Lines stdio, token authentication, health
+  handshake, invocation timeout, cancellation, and typed call errors in Go,
+  Python, TypeScript, Rust, C#, Dart, Ruby, Elixir, Erlang, Haskell, V, and
+  OCaml. Swift carries a parse-only implementation; Java is compile-verified.
+- `spec/wire/plugin-process.json` freezes the process host request/response
+  frames, control methods, token environment variable, and call-error codes.
+
+### Changed
+
+- Anthropic and Gemini adapter parity rows now record SSE streaming support.
+
 ## [2.9.0] - 2026-11-16
 
 ### Changed
