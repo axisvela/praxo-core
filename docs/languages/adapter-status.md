@@ -187,6 +187,7 @@ adapter listed above.
 | OCaml | native | `start_plugin_process`; JSON-Lines, timeout, cancel |
 | Fortran | native (C bindings) | `plugin_process_start`; JSON-Lines, timeout |
 | Zig | native (C bindings) | `plugin_process.start`; JSON-Lines, timeout |
+| Julia | native | `ProcessHost`; JSON-Lines, token auth, timeout |
 | C | native (Windows) | `PxPluginProcess`; JSON-Lines, timeout |
 | Swift | native (parse-only locally) | `PluginProcessHost`; full build blocked by local SDK |
 | Java | native | `plugin.ProcessHost`; JSON-Lines, token auth, timeout, cancel |

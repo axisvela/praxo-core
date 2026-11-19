@@ -260,6 +260,7 @@ julia --project=language/julia -e 'using Pkg; Pkg.instantiate()'
 julia --project=language/julia language/julia/conformance/run.jl
 julia --project=language/julia language/julia/api-snapshot.jl --check
 julia --project=language/julia language/julia/test/runtests.jl
+julia --compile=min --project=language/julia language/julia/tests/plugin_process.jl
 Rscript language/r/conformance/run.R
 Rscript language/r/api-snapshot.R --check
 Rscript language/r/tests/run_tests.R

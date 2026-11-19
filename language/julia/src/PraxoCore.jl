@@ -4,6 +4,7 @@ include("Json.jl")
 include("ToolCall.jl")
 include("JsonSchema.jl")
 include("Plugin.jl")
+include("PluginProcess.jl")
 include("Errors.jl")
 include("Models.jl")
 include("Hitl.jl")
@@ -32,11 +33,13 @@ using .OpenAICompatible
 using .Anthropic
 using .Gemini
 using .Mcp
+using .PluginProcess
 using .Errors
 
 export Json, ParsedToolCall, ToolCallParser
 export ValidationError, JsonSchema
 export PluginManifest, Plugin
+export ProcessConfig, ProcessHost, start_plugin!, invoke_plugin, stop_plugin!, close_plugin!
 export ContentBlock, ToolCall, Message, ToolSpec, Usage, Request, Response, message_dict
 export Session, RunResult, MemoryRecord, PathGrant, Action, Decision, Event, Roles, StreamKinds
 export AbstractSink, MultiSink, FilterSink, MemoryStore, CheckpointAllowlist, PathChecker

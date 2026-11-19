@@ -23,8 +23,8 @@ Julia implementation of the PRAXO-CORE AI agent framework contract.
 Schema, plugin manifests, memory, events, stream kinds, checkpoint envelopes,
 path policy, context budgets, middleware, and the agent loop.
 OpenAI-compatible and Anthropic and Gemini streaming model
-adapters, and an OpenTelemetry event sink, are available under
-`src/adapters/`.
+adapters, an OpenTelemetry event sink, and the `PluginProcess` process host are
+available under `src/adapters/` and `src/PluginProcess.jl`.
 
 ## OpenAI-Compatible Adapter
 

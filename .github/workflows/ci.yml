@@ -1079,6 +1079,7 @@ jobs:
       - run: julia --project=language/julia language/julia/conformance/run.jl
       - run: julia --project=language/julia language/julia/api-snapshot.jl --check
       - run: julia --project=language/julia language/julia/test/runtests.jl
+      - run: julia --project=language/julia language/julia/tests/plugin_process.jl
 
   r-conformance:
     needs: changes

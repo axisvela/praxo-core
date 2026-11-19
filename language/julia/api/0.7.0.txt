@@ -45,6 +45,8 @@ PiiRedactor
 Plugin
 PluginManifest
 PraxoError
+ProcessConfig
+ProcessHost
 Request
 Response
 Retriever
@@ -79,6 +81,7 @@ before_model!
 before_run!
 before_tool!
 check
+close_plugin!
 compact
 emit
 estimate_tokens
@@ -87,6 +90,7 @@ func_retriever
 gemini
 generate
 harmovela_sink
+invoke_plugin
 marshal
 mcp_call_tool
 mcp_client
@@ -103,6 +107,8 @@ retrieve_documents
 run_agent
 search
 select
+start_plugin!
+stop_plugin!
 subagent_request
 subagent_result
 subagent_run
