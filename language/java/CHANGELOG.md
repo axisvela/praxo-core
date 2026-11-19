@@ -1,5 +1,12 @@
 # Java Core Release Notes
 
+## Unreleased
+
+### Added
+
+- `plugin.ProcessHost` supervises a JSON-Lines plugin child with token
+  authentication, timeout, and cancellation.
+
 ## 0.10.0 - 2026-11-14
 
 Source tag `java/v0.10.0`; Maven Central publication is pending.

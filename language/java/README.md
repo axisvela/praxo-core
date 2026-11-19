@@ -6,8 +6,8 @@ Java implementation of the PRAXO-CORE contract. The normative contract is
 **Status:** The package passes all eleven conformance vector groups.
 Context budgets, middleware, streaming, virtual-thread execution, cancellation,
 the OpenAI-compatible, Anthropic, and Gemini adapters, Harmovela sink, stdio MCP
-client, HITL interrupt decisions, and the agent loop are included. VFS and
-plugin hosts are not yet implemented.
+client, HITL interrupt decisions, the process plugin host, and the agent loop
+are included. VFS and other plugin hosts are not yet implemented.
 
 The latest source tag is `java/v0.10.0`; the earlier `java/v0.2.3` tag retains
 `io.axisvela.praxo`. Maven Central publishes `0.9.0`; the `0.10.0` source is pending publication.
@@ -185,7 +185,7 @@ included tests use a deterministic fake server, not a live service.
 | `com.axisvela.praxo.hitl` | Interrupt, InterruptDecision, approve/edit/reject/respond handlers |
 | `com.axisvela.praxo.toolcall` | tool-call parsing and markup stripping |
 | `com.axisvela.praxo.jsonschema` | documented JSON Schema subset |
-| `com.axisvela.praxo.plugin` | Manifest v1 parsing and validation |
+| `com.axisvela.praxo.plugin` | Manifest v1 parsing, validation, and process host |
 | `com.axisvela.praxo.adapters` | OpenAI-compatible adapter and Harmovela event sink |
 
 Wire codecs preserve the Go names, including `image_url`, `runId`, and

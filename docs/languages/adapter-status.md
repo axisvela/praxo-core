@@ -189,7 +189,7 @@ adapter listed above.
 | Zig | native (C bindings) | `plugin_process.start`; JSON-Lines, timeout |
 | C | native (Windows) | `PxPluginProcess`; JSON-Lines, timeout |
 | Swift | native (parse-only locally) | `PluginProcessHost`; full build blocked by local SDK |
-| Java | native (compile-only locally) | `plugin.ProcessHost`; `java` launcher hangs, `javaw` self-test pending |
+| Java | native | `plugin.ProcessHost`; JSON-Lines, token auth, timeout, cancel |
 
 Manifest parsing, lifecycle states, and registry validation remain available in
 every listed Core. Process host conformance does not imply WASM or container

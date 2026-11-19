@@ -724,6 +724,7 @@ jobs:
       - run: java -cp target/classes:target/test-classes com.axisvela.praxo.jsonschema.JsonSchemaSelfTest
       - run: java -cp target/classes:target/test-classes com.axisvela.praxo.checkpoint.CheckpointSelfTest
       - run: java -cp target/classes:target/test-classes com.axisvela.praxo.middleware.PiiMiddlewareSelfTest
+      - run: java -cp target/classes:target/test-classes com.axisvela.praxo.plugin.ProcessHostSelfTest
 
   kotlin-sample:
     needs: changes

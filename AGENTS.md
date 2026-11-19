@@ -159,6 +159,7 @@ cd language/java; java -cp target/classes com.axisvela.praxo.conformance.Run
 cd language/java; java --add-modules jdk.httpserver -cp target/classes:target/test-classes com.axisvela.praxo.adapters.OpenAICompatibleSelfTest
 cd language/java; java --add-modules jdk.httpserver -cp target/classes:target/test-classes com.axisvela.praxo.adapters.ProviderAdaptersSelfTest
 cd language/java; java -cp target/classes:target/test-classes com.axisvela.praxo.adapters.OtelSinkSelfTest
+cd language/java; java -Xint -cp target/classes:target/test-classes com.axisvela.praxo.plugin.ProcessHostSelfTest
 cd language/java; java -cp target/classes:target/test-classes com.axisvela.praxo.agent.delegation.DelegationSelfTest
 cd language/java; java -cp target/classes:target/test-classes com.axisvela.praxo.retriever.RetrieverSelfTest
 cd language/java; java -cp target/classes:target/test-classes com.axisvela.praxo.agent.AgentConcurrencySelfTest

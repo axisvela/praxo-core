@@ -117,7 +117,7 @@ process contract:
 | Fortran | `plugin_process_start` | static test |
 | C | `PxPluginProcess` | Windows tests |
 | Swift | `PluginProcessHost` | parse-only locally |
-| Java | `plugin.ProcessHost` | compile-only locally; UI blocked |
+| Java | `plugin.ProcessHost` | self-test with `java -Xint` |
 
 ```python
 
