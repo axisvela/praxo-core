@@ -194,7 +194,7 @@ final class ProviderAdaptersTests: XCTestCase {
             .appendingPathComponent("fixtures/process_plugin.py")
         let config = PluginProcessConfig(
             pluginId: "com.example.echo",
-            path: ProcessInfo.processInfo.environment["PYTHON"] ?? "python",
+            path: ProcessInfo.processInfo.environment["PYTHON"] ?? "/usr/bin/python3",
             args: [fixture.path],
             invokeTimeout: 2
         )

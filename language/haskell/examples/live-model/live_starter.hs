@@ -94,6 +94,8 @@ main = do
             , onInterruptDecision = Nothing
             , onInterrupt = Nothing
             , beforeTool = Nothing
+            , onDelta = Nothing
+            , generateStream = Nothing
             }
     result <- runAgent options [] prompt
     case result of

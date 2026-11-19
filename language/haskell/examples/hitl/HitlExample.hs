@@ -60,6 +60,8 @@ runScenario session decision = do
             , onInterruptDecision = Just (\_ -> pure decision)
             , onInterrupt = Nothing
             , beforeTool = Nothing
+            , onDelta = Nothing
+            , generateStream = Nothing
             }
     result <- runAgent options [] "Write a note."
     count <- readIORef effects

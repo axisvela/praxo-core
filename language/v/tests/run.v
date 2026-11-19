@@ -694,11 +694,12 @@ fn test_gemini_compatible() {
 		api_key: 'secret'
 		stream_transport: stream_transport
 	})
-	mut deltas := []string{}
-	stream_result := stream_adapter.generate_stream(request, fn [mut deltas] (delta string) {
-		deltas << delta
+	deltas := chan string{cap: 8}
+	stream_result := stream_adapter.generate_stream(request, fn [deltas] (delta string) {
+		deltas <- delta
 	}) or { panic(err) }
-	assert deltas == ['he', 'llo']
+	assert <-deltas == 'he'
+	assert <-deltas == 'llo'
 	assert stream_result.message.content == 'hello'
 	assert stream_result.message.tool_calls[0].name == 'echo'
 	assert praxo.get_string(stream_result.message.tool_calls[0].arguments, 'text') or { '' } == 'hi'

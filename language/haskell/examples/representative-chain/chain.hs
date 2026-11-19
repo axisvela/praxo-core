@@ -217,4 +217,6 @@ baseOptions generateFn invokeFn emitFn = AgentOptions
     , onInterruptDecision = Nothing
     , onInterrupt = Nothing
     , beforeTool = Nothing
+    , onDelta = Nothing
+    , generateStream = Nothing
     }

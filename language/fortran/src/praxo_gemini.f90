@@ -88,7 +88,7 @@ contains
     type(sdk_error), intent(out) :: error
     type(json_document) :: doc
     type(sdk_error) :: delta_error
-    integer :: start, finish, newline, i, node, candidate, part, usage
+    integer :: start, finish, newline, i, candidate, part, usage
     integer :: candidates_node, parts_node
     integer, allocatable :: candidates(:), parts(:)
     character(:), allocatable :: line, chunk, piece

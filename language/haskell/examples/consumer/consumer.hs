@@ -61,6 +61,8 @@ runCase target = do
             , onInterruptDecision = Nothing
             , onInterrupt = Nothing
             , beforeTool = Nothing
+            , onDelta = Nothing
+            , generateStream = Nothing
             }
     result <- runAgent options [] "Record the requested target."
     count <- readIORef effects
