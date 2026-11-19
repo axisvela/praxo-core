@@ -38,6 +38,7 @@ streaming wire encodings, and plugin hosts are not provided.
 | `toolcall.ParseInputJSON` | `parseInputJson` | parity | P1 |
 | `tool/jsonschema.Schema` | `validateSchema` | partial | P1 |
 | `plugin.ParseManifest` | `parseManifest` | parity | P1 |
+| `plugin/host/process` | `plugin_process.start` | parity | P1 |
 | `agent/middleware.CallLimitMiddleware` | `callLimit` | parity | P1 |
 | `agent/middleware.FallbackModel` | `fallbackModel` | parity | P1 |
 | `agent/middleware.PIIMiddleware` | `piiRedact` | parity | P1 |

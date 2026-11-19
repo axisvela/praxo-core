@@ -4,6 +4,7 @@ import ./praxo/models
 import ./praxo/toolcall
 import ./praxo/jsonschema
 import ./praxo/plugin
+import ./praxo/plugin_process
 import ./praxo/runtime
 import ./praxo/middleware
 import ./praxo/hitl

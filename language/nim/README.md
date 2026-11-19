@@ -9,8 +9,8 @@ human-in-the-loop interrupts. Vector coverage does not establish full Core
 parity or production readiness.
 
 The Core does not call Go or another language runtime. It includes an optional
-OpenAI-compatible, Anthropic, and Gemini model adapters; plugin hosts remain
-outside the declared Core scope.
+OpenAI-compatible, Anthropic, and Gemini model adapters, plus a JSON-Lines
+process plugin host that binds the C Core.
 
 ## Registry and Coding-Agent Entry
 
@@ -224,8 +224,7 @@ let task = subagentRun(proc(request: SubagentRequest): SubagentResult =
   are not cross-process unique.
 - Path checks are lexical and confined by separator boundaries. They do not
   resolve symlinks or replace operating-system sandboxing.
-- Provider adapters, streaming wire encodings, and plugin hosts are not part of
-  this Core.
+- Provider adapters and streaming wire encodings are not part of this Core.
 
 The source is MIT; see [LICENSE](LICENSE). Nim, MinGW, and other toolchain
 components are separate projects, not vendored code.

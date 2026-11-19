@@ -203,6 +203,8 @@ python language/nim/api-snapshot.py --check
 nim c --path:language/nim/src --hints:off --out:build/praxo-nim-conformance language/nim/conformance/run.nim
 ./build/praxo-nim-conformance
 nim c --path:language/nim/src --hints:off --out:build/praxo-nim-tests language/nim/tests/run_tests.nim
+nim c --path:language/nim/src --hints:off --passL:language/c/build/libpraxo_core.a --passL:-lm --out:build/praxo-nim-plugin-process language/nim/tests/plugin_process.nim
+./build/praxo-nim-plugin-process
 ./build/praxo-nim-tests
 python language/v/api-snapshot.py --check
 v -o build/praxo-v-conformance language/v/conformance/run.v

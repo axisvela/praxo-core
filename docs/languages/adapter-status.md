@@ -195,6 +195,7 @@ adapter listed above.
 | Delphi | native | `praxo_plugin_process`; JSON-Lines, token auth |
 | PHP | native | `PluginProcessHost`; JSON-Lines, token auth |
 | Objective-C | native (C bindings) | `PXRPluginProcess`; JSON-Lines, token auth |
+| Nim | native (C bindings) | `plugin_process.start`; JSON-Lines, token auth |
 
 Manifest parsing, lifecycle states, and registry validation remain available in
 every listed Core. Process host conformance does not imply WASM or container

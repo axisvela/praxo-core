@@ -609,6 +609,10 @@ jobs:
       - run: ./build/praxo-nim-conformance
       - run: nim c --path:language/nim/src --hints:off --out:build/praxo-nim-tests language/nim/tests/run_tests.nim
       - run: ./build/praxo-nim-tests
+      - run: cmake -S language/c -B language/c/build
+      - run: cmake --build language/c/build
+      - run: nim c --path:language/nim/src --hints:off --passL:language/c/build/libpraxo_core.a --passL:-lm --out:build/praxo-nim-plugin-process language/nim/tests/plugin_process.nim
+      - run: ./build/praxo-nim-plugin-process
 
   v-conformance:
     needs: changes

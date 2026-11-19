@@ -26,8 +26,10 @@ Message
 Model
 PathChecker
 PathGrant
+PluginProcessError
 Policy
 PraxoError
+ProcessHost
 ROLE_ASSISTANT
 ROLE_SYSTEM
 ROLE_TOOL
@@ -80,6 +82,7 @@ getInt
 getNode
 getObject
 getString
+invoke
 isNullNode
 jsonEquals
 marshal
@@ -132,7 +135,9 @@ retrieveDocuments
 runAgent
 scriptedModel
 selectTools
+start
 staticModel
+stop
 streamKinds
 stripToolCallMarkup
 structuredOutput

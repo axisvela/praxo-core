@@ -124,6 +124,7 @@ process contract:
 | Delphi | `TPraxoPluginProcess` | FPC test |
 | PHP | `PluginProcessHost` | PHP test |
 | Objective-C | `PXRPluginProcess` | C-binding test |
+| Nim | `plugin_process.start` | C-binding test |
 
 ```python
 
