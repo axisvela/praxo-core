@@ -1,4 +1,4 @@
-﻿# Changelog
+# Changelog
 
 ## [2.9.0] - 2026-11-16
 
