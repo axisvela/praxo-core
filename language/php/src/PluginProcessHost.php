@@ -66,6 +66,12 @@ final class PluginProcessHost
         ];
         $environment = getenv();
         $environment = is_array($environment) ? $environment : [];
+        foreach (['PATH', 'Path', 'SystemRoot'] as $key) {
+            $value = getenv($key);
+            if ($value !== false && !array_key_exists($key, $environment)) {
+                $environment[$key] = $value;
+            }
+        }
         $environment[$this->config->tokenEnvVar] = $this->token;
         $process = proc_open($command, $descriptors, $pipes, null, $environment);
         if (!is_resource($process)) {

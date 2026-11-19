@@ -1,4 +1,5 @@
 #include <cstdlib>
+#include <fstream>
 #include <iostream>
 #include <stdexcept>
 #include <string>
@@ -12,8 +13,12 @@ int main() {
 #else
     const std::string python = configured ? configured : "python3";
 #endif
+    std::string fixture = "language/cpp/tests/fixtures/process_plugin.py";
+    if (!std::ifstream(fixture).good()) {
+        fixture = "tests/fixtures/process_plugin.py";
+    }
     praxo::ProcessPluginConfig config{
-        "com.example.echo", python, "tests/fixtures/process_plugin.py", ""};
+        "com.example.echo", python, fixture, ""};
     praxo::ProcessPluginHost host(std::move(config));
     host.start();
     try {
