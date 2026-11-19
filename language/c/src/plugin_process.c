@@ -1,3 +1,6 @@
+#ifndef _WIN32
+#define _POSIX_C_SOURCE 200809L
+#endif
 #include "praxo_plugin_process.h"
 
 #include <stdio.h>
@@ -102,27 +105,7 @@ static unsigned char *px_b64_decode(const char *text, size_t *length) {
     return output;
 }
 
-static int px_escape(char **cursor, const char *end, const char *value) {
-    if (value == NULL) value = "";
-    for (const unsigned char *p = (const unsigned char *)value; *p; p++) {
-        if (*cursor + 8 >= end) return 0;
-        switch (*p) {
-        case '"': *(*cursor)++ = '\\'; *(*cursor)++ = '"'; break;
-        case '\\': *(*cursor)++ = '\\'; *(*cursor)++ = '\\'; break;
-        case '\n': *(*cursor)++ = '\\'; *(*cursor)++ = 'n'; break;
-        case '\r': *(*cursor)++ = '\\'; *(*cursor)++ = 'r'; break;
-        case '\t': *(*cursor)++ = '\\'; *(*cursor)++ = 't'; break;
-        default:
-            if (*p < 0x20)
-                (*cursor) += snprintf(*cursor, (size_t)(end - *cursor),
-                    "\\u%04x", *p);
-            else
-                *(*cursor)++ = (char)*p;
-            break;
-        }
-    }
-    return 1;
-}
+#include "plugin_process_json.h"
 
 #ifdef _WIN32
 
@@ -229,6 +212,10 @@ static void px_terminate(PxPluginProcess *host) {
     }
 }
 
+#else
+#include "plugin_process_posix.h"
+#endif
+
 static int px_call(PxPluginProcess *host, const char *service,
     const char *method, const unsigned char *payload, size_t payload_length,
     unsigned char **response, size_t *response_length, const char **error,
@@ -256,12 +243,20 @@ static int px_call(PxPluginProcess *host, const char *service,
     cursor += snprintf(cursor, (size_t)(end - cursor),
         "\",\"payload\":\"%s\"}\n", encoded);
     free(encoded);
+#ifdef _WIN32
     DWORD written = 0;
     if (!WriteFile(host->input, frame, (DWORD)strlen(frame), &written, NULL) ||
         written != (DWORD)strlen(frame)) {
         px_error(error, "INTERNAL");
         return 0;
     }
+#else
+    if (!px_write_frame(host, frame, strlen(frame), timeout_ms)) {
+        px_terminate(host);
+        px_error(error, "INTERNAL");
+        return 0;
+    }
+#endif
     char line[PX_PLUGIN_FRAME_MAX];
     int read = px_read_line(host, timeout_ms, line, sizeof(line));
     if (read == 0) {
@@ -289,7 +284,11 @@ static int px_call(PxPluginProcess *host, const char *service,
             }
         } else {
             const char *code = px_get_str(root, "code");
-            px_error(error, code == NULL ? "INTERNAL" : code);
+            static const char *codes[] = {"CAPABILITY_DENIED", "NOT_ACTIVE",
+                "NOT_FOUND", "INVALID_REQUEST", "TIMEOUT", "INTERNAL", "CANCELED"};
+            px_error(error, "INTERNAL");
+            for (size_t i = 0; code != NULL && i < sizeof(codes) / sizeof(codes[0]); i++)
+                if (strcmp(code, codes[i]) == 0) px_error(error, codes[i]);
         }
     }
     px_arena_free(&arena);
@@ -329,6 +328,7 @@ PxPluginProcess *px_plugin_process_start(const PxPluginProcessConfig *config,
         ? config->token : "0123456789abcdef0123456789abcdef");
     if (host->plugin_id == NULL || host->buffer == NULL || host->token == NULL)
         goto fail;
+#ifdef _WIN32
     char command[32768];
     char *cursor = command;
     char *end = command + sizeof(command);
@@ -378,6 +378,9 @@ PxPluginProcess *px_plugin_process_start(const PxPluginProcessConfig *config,
     host->process = process.hProcess;
     host->input = stdin_write;
     host->output = stdout_read;
+#else
+    if (!px_spawn(host, config)) goto fail;
+#endif
     int start_timeout = config->start_timeout_ms > 0
         ? config->start_timeout_ms : 10000;
     unsigned char *ignored = NULL;
@@ -385,7 +388,7 @@ PxPluginProcess *px_plugin_process_start(const PxPluginProcessConfig *config,
     if (!px_call(host, "host.control", "health", NULL, 0, &ignored,
             &ignored_length, error, start_timeout)) {
         free(ignored);
-        px_plugin_process_stop(host);
+        px_plugin_process_free(host);
         return NULL;
     }
     free(ignored);
@@ -431,29 +434,6 @@ void px_plugin_process_free(PxPluginProcess *host) {
     free(host->buffer);
     free(host);
 }
-
-#else
-
-PxPluginProcess *px_plugin_process_start(const PxPluginProcessConfig *config,
-    const char **error) {
-    (void)config;
-    px_error(error, "PROVIDER_HTTP");
-    return NULL;
-}
-
-int px_plugin_process_invoke(PxPluginProcess *host, const char *service,
-    const char *method, const unsigned char *payload, size_t payload_length,
-    unsigned char **response, size_t *response_length, const char **error) {
-    (void)host; (void)service; (void)method; (void)payload;
-    (void)payload_length; (void)response; (void)response_length;
-    px_error(error, "NOT_ACTIVE");
-    return 0;
-}
-
-void px_plugin_process_stop(PxPluginProcess *host) { (void)host; }
-void px_plugin_process_free(PxPluginProcess *host) { (void)host; }
-
-#endif
 
 static void px_copy_text(char *target, size_t size, const char *source) {
     if (target == NULL || size == 0) return;

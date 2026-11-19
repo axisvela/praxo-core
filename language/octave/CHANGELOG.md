@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+### Fixed
+
+- Sort shared API filenames case-insensitively so the `PluginProcess` class
+  has the same snapshot position on Windows and Linux. A regression test covers
+  both MATLAB and Octave snapshot generators.
+
 ### Added
 
 - Representative-chain and advanced-delegation wrappers for the shared

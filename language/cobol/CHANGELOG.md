@@ -1,5 +1,13 @@
 # COBOL Core Release Notes
 
+## Unreleased
+
+### Fixed
+
+- Use an explicit NUL byte for the empty C payload in the process-host ABI
+  test; GnuCOBOL 3.2 rejects the empty `z""` literal accepted by the local 2.0
+  compiler.
+
 ## 0.7.0 - 2026-11-15
 
 Source tag `cobol/v0.7.0`.

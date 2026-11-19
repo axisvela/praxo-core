@@ -18,6 +18,7 @@ def main():
     if not executable:
         parser.error("Octave CLI not found; set OCTAVE or pass --octave")
     subprocess.run([sys.executable, str(ROOT / "api-snapshot.py"), "--check"], check=True)
+    subprocess.run([sys.executable, str(ROOT / "test_api_snapshot.py")], check=True)
     subprocess.run([executable, "--quiet", "--no-history", "--no-init-file", "--no-site-file",
                     "--eval", "run_tests"], cwd=CORE, check=True, timeout=120)
     environment = os.environ.copy()

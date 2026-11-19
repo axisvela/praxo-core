@@ -44,7 +44,7 @@ procedure division.
     end-if
     call static "px_plugin_process_invoke_simple" using
         by value host-handle
-        by reference z"tool.provider" z"denied" z""
+        by reference z"tool.provider" z"denied" x"00"
         by reference response-buffer
         by value length of response-buffer
         by reference error-buffer

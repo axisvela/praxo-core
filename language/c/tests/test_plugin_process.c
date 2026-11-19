@@ -44,6 +44,12 @@ int main(void) {
     ok = px_plugin_process_invoke(host, "tool.provider", "denied", NULL, 0,
         &response, &response_length, &error);
     assert(!ok && error != NULL && strcmp(error, "CAPABILITY_DENIED") == 0);
+    ok = px_plugin_process_invoke(host, "tool.provider", "echo",
+        (const unsigned char *)payload, strlen(payload), &response,
+        &response_length, &error);
+    assert(ok && response_length == strlen(payload));
+    free(response);
+    px_plugin_process_stop(host);
     px_plugin_process_stop(host);
     px_plugin_process_free(host);
     config.invoke_timeout_ms = 200;
@@ -54,7 +60,20 @@ int main(void) {
     ok = px_plugin_process_invoke(host, "tool.provider", "block", NULL, 0,
         &response, &response_length, &error);
     assert(!ok && error != NULL && strcmp(error, "TIMEOUT") == 0);
+    ok = px_plugin_process_invoke(host, "tool.provider", "echo", NULL, 0,
+        &response, &response_length, &error);
+    assert(!ok && error != NULL && strcmp(error, "NOT_ACTIVE") == 0);
     px_plugin_process_free(host);
+    const char *exit_args[] = {"-c", "raise SystemExit(0)"};
+    config.args = exit_args;
+    config.arg_count = 2;
+    host = px_plugin_process_start(&config, &error);
+    assert(host == NULL && error != NULL);
+    config.path = "praxo-plugin-executable-that-does-not-exist";
+    host = px_plugin_process_start(&config, &error);
+    assert(host == NULL && error != NULL);
+    px_plugin_process_stop(NULL);
+    px_plugin_process_free(NULL);
     printf("C plugin process tests passed\n");
     return 0;
 }

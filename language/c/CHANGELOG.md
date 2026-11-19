@@ -1,5 +1,17 @@
 # C Core Release Notes
 
+## Unreleased
+
+### Fixed
+
+- Replace the POSIX process-host placeholder with `posix_spawnp` supervision,
+  poll-based response deadlines, bounded socket writes without SIGPIPE, and
+  child termination/reaping. This also enables C-host bindings on Linux.
+- Keep remote error codes valid after freeing the response JSON arena and free
+  the host allocation when the startup health check fails.
+- Enable process-host assertions in release builds and give CTest an explicit
+  Python interpreter, fixture working directory, and test timeout.
+
 ## 0.12.0 - 2026-11-19
 
 Source tag `c/v0.12.0`.

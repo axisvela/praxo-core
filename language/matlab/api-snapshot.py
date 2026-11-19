@@ -24,7 +24,7 @@ def version():
 def snapshot():
     sdk, spec = version()
     lines = ["# PRAXO-CORE MATLAB/Octave Core API " + sdk, "# SPEC_VERSION " + spec, ""]
-    for path in sorted((CORE / "+praxo").glob("*.m")):
+    for path in sorted((CORE / "+praxo").glob("*.m"), key=lambda path: path.name.casefold()):
         text = path.read_text(encoding="utf-8")
         if text.startswith("classdef PluginProcess < handle"):
             lines.extend(["praxo.PluginProcess(config)",

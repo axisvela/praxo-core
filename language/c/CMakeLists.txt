@@ -122,6 +122,7 @@ else()
     target_compile_options(praxo-c-openai-tests PRIVATE -UNDEBUG)
     target_compile_options(praxo-c-anthropic-tests PRIVATE -UNDEBUG)
     target_compile_options(praxo-c-gemini-tests PRIVATE -UNDEBUG)
+    target_compile_options(praxo-c-plugin-process-tests PRIVATE -UNDEBUG)
     target_compile_options(praxo-c-harmovela-tests PRIVATE -UNDEBUG)
     target_compile_options(praxo-c-mcp-tests PRIVATE -UNDEBUG)
     target_compile_options(praxo-c-otel-tests PRIVATE -UNDEBUG)
@@ -151,6 +152,10 @@ add_test(NAME praxo-c-representative-chain-tests
 
 if(BUILD_TESTING)
     find_package(Python3 3.10 REQUIRED COMPONENTS Interpreter)
+    set_tests_properties(praxo-c-plugin-process-tests PROPERTIES
+        ENVIRONMENT "PYTHON=${Python3_EXECUTABLE}"
+        WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/../.."
+        TIMEOUT 30)
     include(cmake/ApiCompiler.cmake)
     praxo_api_compiler_args(PRAXO_API_COMPILER_ARGS "${CMAKE_C_COMPILER_ID}"
         "${CMAKE_C_COMPILER_FRONTEND_VARIANT}" "${CMAKE_C_COMPILER}")
