@@ -82,10 +82,10 @@ let make_checkpoint checkpoint_id session run_id messages = {
 }
 
 let turn_model : model = {
-  generate = fun request ->
+  generate = (fun request ->
     response_make
       (assistant_message ("turn " ^ string_of_int (List.length request.request_messages)) [])
-      (usage_make 0 0);
+      (usage_make 0 0));
   generate_stream = None;
 }
 
