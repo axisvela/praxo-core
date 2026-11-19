@@ -1,6 +1,6 @@
 # Release Overview
 
-Core `2.9.0` is the current framework release. Review the notes for the version
+Core `2.10.0` is the current framework release. Review the notes for the version
 you are adopting and follow the [compatibility policy](../project/compatibility-policy.md).
 Core and adapter versions are independent; see [Core support](../languages/support.md)
 and the [adapter directory](../integrations/index.md).
@@ -13,6 +13,7 @@ declared capability scope. Publication order does not imply a shared version.
 
 | Core version | Release notes |
 | --- | --- |
+| 2.10.0 | [Streaming and process plugin hosts](2.10.0.md) |
 | 2.9.0 | [Memory recall trust boundary](2.9.0.md) |
 | 2.8.0 | [Safe defaults, HITL, and checkpoint examples](2.8.0.md) |
 | 2.7.0 | [Long-running operations and integration recipes](2.7.0.md) |

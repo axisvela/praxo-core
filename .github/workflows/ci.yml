@@ -987,9 +987,9 @@ jobs:
       - run: zig test src/plugin.zig
       - run: zig test src/pii_test.zig
       - run: zig test src/openaicompat_test.zig
-      - run: cmake -S ../c -B ../c/build
-      - run: cmake --build ../c/build
-      - run: zig test src/plugin_process.zig -I ../c/include -L ../c/build -lpraxo_core -lc
+      - run: cmake -S language/c -B language/c/build
+      - run: cmake --build language/c/build
+      - run: zig test src/plugin_process.zig -I language/c/include -L language/c/build -lpraxo_core -lc
       - run: python3 api-snapshot.py --check
 
   dart-conformance:

@@ -51,7 +51,7 @@ maxSteps?: number | undefined
 maxTokens?: number | undefined
 maxParallelTools?: number | undefined
 onDelta?: ((delta: string) => void) | undefined
-signal?: any
+signal?: AbortSignal | undefined
 interruptOn?: string[] | undefined
 onInterruptDecision?: InterruptHandler | undefined
 onInterrupt?: InterruptApproval | undefined
@@ -478,12 +478,12 @@ interface McpClientOptions
 command?: string | undefined
 args?: string[] | undefined
 cwd?: string | undefined
-env?: any
+env?: NodeJS.ProcessEnv | undefined
 transport?: McpTransport | undefined
 protocolVersion?: string | undefined
 clientInfo?: { name: string; version: string; } | undefined
 timeoutMs?: number | undefined
-signal?: any
+signal?: AbortSignal | undefined
 
 ## McpError
 class McpError
@@ -505,7 +505,7 @@ cause?: unknown
 
 ## McpRequestOptions
 interface McpRequestOptions
-signal?: any
+signal?: AbortSignal | undefined
 timeoutMs?: number | undefined
 
 ## McpStreamableHTTPOptions
@@ -513,7 +513,7 @@ interface McpStreamableHTTPOptions
 endpoint: string
 headers?: Record<string, string> | undefined
 protocolVersion?: string | undefined
-fetch?: any
+fetch?: ((input: string | URL | Request, init?: RequestInit) => Promise<Response>) | undefined
 
 ## McpStreamableHTTPTransport
 class McpStreamableHTTPTransport
@@ -871,7 +871,7 @@ pluginId: string
 path: string
 args?: string[] | undefined
 dir?: string | undefined
-env?: any
+env?: NodeJS.ProcessEnv | undefined
 token?: string | undefined
 tokenEnvVar?: string | undefined
 startTimeoutMs?: number | undefined
@@ -907,7 +907,7 @@ toolChoice?: string | undefined
 responseFormat?: ResponseFormat | undefined
 cacheHint?: CacheHint | undefined
 temperature?: number | undefined
-signal?: any
+signal?: AbortSignal | undefined
 
 ## Response
 interface Response

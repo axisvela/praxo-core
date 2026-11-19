@@ -225,7 +225,7 @@ metadata. The release adds two-run regressions and does not change exported
 `pkg/...` API or wire shape. Optional adapters and Core implementations are
 versioned independently.
 
-- [Latest release notes](docs/releases/2.9.0.md)
+- [Latest release notes](docs/releases/2.10.0.md)
 - [Release history](docs/releases/index.md)
 - [Language Release Index](docs/languages/registry-status.md)
 - [Compatibility policy](docs/project/compatibility-policy.md)
