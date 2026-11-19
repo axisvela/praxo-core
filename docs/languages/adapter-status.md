@@ -185,6 +185,7 @@ adapter listed above.
 | Haskell | native | `Praxo.PluginProcess`; JSON-Lines, timeout |
 | V | native | `PluginProcessHost`; JSON-Lines, timeout |
 | OCaml | native | `start_plugin_process`; JSON-Lines, timeout, cancel |
+| Fortran | native (C bindings) | `plugin_process_start`; JSON-Lines, timeout |
 | C | native (Windows) | `PxPluginProcess`; JSON-Lines, timeout |
 | Swift | native (parse-only locally) | `PluginProcessHost`; full build blocked by local SDK |
 | Java | native (compile-only locally) | `plugin.ProcessHost`; `java` launcher hangs, `javaw` self-test pending |

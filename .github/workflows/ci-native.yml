@@ -71,6 +71,17 @@ jobs:
       - run: sudo apt-get update
       - run: sudo apt-get install -y gfortran g++ cmake ninja-build
       - run: python3 language/fortran/run-tests.py
+      - run: cmake -S language/c -B language/c/build -DCMAKE_BUILD_TYPE=Release
+      - run: cmake --build language/c/build --target praxo_core
+      - name: Fortran process plugin host
+        env:
+          PYTHON: python3
+        run: |
+          cd language/fortran
+          mkdir -p build
+          gfortran -c -J build -o build/praxo_plugin_process.o src/praxo_plugin_process.f90
+          gfortran -static -J build -I build tests/plugin_process.f90 build/praxo_plugin_process.o ../c/build/libpraxo_core.a -lm -o build/plugin_process_tests
+          ./build/plugin_process_tests
 
   cobol-conformance:
     runs-on: ubuntu-latest

@@ -706,6 +706,30 @@ type(plugin_manifest), intent(out) :: manifest
 type(sdk_error), intent(out) :: error
 end interface declaration
 
+module praxo_plugin_process
+public :: plugin_process_host, plugin_process_invoke, plugin_process_start, plugin_process_stop
+type :: plugin_process_host
+type(c_ptr) :: handle = c_null_ptr
+end type
+subroutine plugin_process_start(host, plugin_id, path, args, token, status, error)
+type(plugin_process_host), intent(out) :: host
+character(*), intent(in) :: plugin_id, path
+character(*), intent(in) :: args(:)
+character(*), intent(in), optional :: token
+integer, intent(out) :: status
+character(:), allocatable, intent(out) :: error
+end interface declaration
+subroutine plugin_process_invoke(host, service, method, payload, response, status, error)
+type(plugin_process_host), intent(in) :: host
+character(*), intent(in) :: service, method, payload
+character(:), allocatable, intent(out) :: response
+integer, intent(out) :: status
+character(:), allocatable, intent(out) :: error
+end interface declaration
+subroutine plugin_process_stop(host)
+type(plugin_process_host), intent(inout) :: host
+end interface declaration
+
 module praxo_policy
 public :: normalize_path, path_checker, path_grant
 type :: path_grant

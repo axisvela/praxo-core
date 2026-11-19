@@ -114,6 +114,7 @@ process contract:
 | Haskell | `Praxo.PluginProcess` | smoke test |
 | V | `PluginProcessHost` | smoke test |
 | OCaml | `start_plugin_process` | smoke + core test |
+| Fortran | `plugin_process_start` | static test |
 | C | `PxPluginProcess` | Windows tests |
 | Swift | `PluginProcessHost` | parse-only locally |
 | Java | `plugin.ProcessHost` | compile-only locally; UI blocked |

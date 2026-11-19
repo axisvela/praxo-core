@@ -211,6 +211,11 @@ claude%transport => anthropic_http
 Both adapters map tool calls, tool schemas, usage, and provider errors. Callers
 supply the HTTP transport.
 
+## Process plugin host
+
+`plugin_process_start` / `plugin_process_invoke` / `plugin_process_stop` bind
+the C process host with token authentication, health handshake, invocation
+timeout, and typed call errors.
 ## Scope and Limits
 
 JSON documents are limited to 262144 input bytes, 4096 value nodes, and 64 nested
