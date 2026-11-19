@@ -149,8 +149,15 @@ malformed JSON returns `PROVIDER_JSON`.
 
 Limitations: the model callback still carries one role/content/call-id triple per
 message and no assistant tool-call history, so the adapter receives tool
-declarations only through the dedicated options record. Streaming is not
-implemented.
+declarations only through the dedicated options record.
+
+Set `px-provider-stream` to `1` and name a `px-provider-delta-program` to use
+the streaming path. The adapter adds `"stream": true`, calls `praxo-sse` over
+the transport response, reassembles content, fragmented tool calls, usage, and
+`finish_reason`, and invokes the delta program for each text delta. The
+transport still returns the complete SSE body; true incremental network reads
+depend on the caller's transport program. `px-sse-finish-reason` is available
+but the Core `px-response` type has no finish-reason field.
 
 ### Anthropic Messages
 
@@ -160,7 +167,8 @@ implemented.
 user and assistant messages map to `messages`; tools are passed through as raw
 Anthropic tool declarations; `auto`, `any`, a raw `tool_choice` object, or a
 tool name are supported. The adapter parses text and `tool_use` content blocks
-and `input_tokens`/`output_tokens` usage. `px-anthropic-version` defaults to
+and `input_tokens`/`output_tokens` usage. Set `px-anthropic-stream` for SSE
+streaming through `px-anthropic-sse`; `px-anthropic-version` defaults to
 `2023-06-01`.
 
 Limitations: tool declarations and assistant tool-call history are not taken

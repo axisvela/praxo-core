@@ -164,6 +164,118 @@ static BOOL PXRGeminiDefaultTransport(
     return YES;
 }
 
+NSDictionary<NSString *, id> *PXRGeminiParseStream(
+    NSString *text,
+    PXROpenAIDelta onDelta,
+    NSError **error) {
+    NSMutableString *content = [NSMutableString string];
+    NSMutableArray *calls = [NSMutableArray array];
+    NSInteger inputTokens = 0;
+    NSInteger outputTokens = 0;
+    NSInteger cachedTokens = 0;
+    NSString *finishReason = nil;
+    NSCharacterSet *spaces = [NSCharacterSet whitespaceAndNewlineCharacterSet];
+    for (NSString *raw in [text componentsSeparatedByString:@"\n"]) {
+        NSString *line = [raw stringByTrimmingCharactersInSet:spaces];
+        if (line.length < 5 || ![line hasPrefix:@"data:"]) continue;
+        NSString *chunk = [[line substringFromIndex:5]
+            stringByTrimmingCharactersInSet:spaces];
+        if (chunk.length == 0 || [chunk isEqualToString:@"[DONE]"]) continue;
+        id decoded = nil;
+        NSError *parseError = nil;
+        if (!PXRParseJSONText(chunk, &decoded, &parseError) ||
+            ![decoded isKindOfClass:[NSDictionary class]]) {
+            if (error) *error = PXRCoreError(@"MODEL_STREAM",
+                                             @"gemini: invalid stream chunk");
+            return nil;
+        }
+        NSDictionary *event = decoded;
+        if (PXRObject(event[@"error"]).count > 0) {
+            if (error) *error = PXRCoreError(@"MODEL_STREAM",
+                                             @"gemini: provider stream error");
+            return nil;
+        }
+        NSDictionary *usage = PXRObject(event[@"usageMetadata"]);
+        if (usage.count > 0) {
+            inputTokens = [usage[@"promptTokenCount"] respondsToSelector:@selector(integerValue)]
+                ? [usage[@"promptTokenCount"] integerValue] : inputTokens;
+            outputTokens = [usage[@"candidatesTokenCount"] respondsToSelector:@selector(integerValue)]
+                ? [usage[@"candidatesTokenCount"] integerValue] : outputTokens;
+            cachedTokens = [usage[@"cachedContentTokenCount"] respondsToSelector:@selector(integerValue)]
+                ? [usage[@"cachedContentTokenCount"] integerValue] : cachedTokens;
+        }
+        NSArray *candidates = PXRArray(event[@"candidates"]);
+        if (candidates.count == 0) continue;
+        NSDictionary *candidate = PXRObject(candidates[0]);
+        NSString *reason = PXRString(candidate[@"finishReason"]);
+        if (reason.length > 0) finishReason = reason;
+        NSDictionary *candidateContent = PXRObject(candidate[@"content"]);
+        for (id item in PXRArray(candidateContent[@"parts"])) {
+            NSDictionary *part = PXRObject(item);
+            NSString *piece = PXRString(part[@"text"]);
+            if (piece.length > 0) {
+                [content appendString:piece];
+                if (onDelta) onDelta(piece);
+            }
+            NSDictionary *call = PXRObject(part[@"functionCall"]);
+            if (call.count > 0) {
+                [calls addObject:PXRToolCallCreate(
+                    [NSString stringWithFormat:@"call-%lu", (unsigned long)calls.count + 1],
+                    PXRString(call[@"name"]),
+                    PXRObject(call[@"args"]))];
+            }
+        }
+    }
+    NSMutableDictionary *response = [PXRResponseCreate(
+        PXRMessageAssistant(content, calls),
+        PXRUsageCreate(inputTokens, outputTokens)) mutableCopy];
+    if (finishReason.length > 0) response[@"finishReason"] = finishReason;
+    return response;
+}
+
+BOOL PXRGeminiGenerateStream(
+    NSString *baseURL,
+    NSString *model,
+    NSString *apiKey,
+    NSInteger maxOutputTokens,
+    NSDictionary<NSString *, id> *request,
+    PXROpenAITransport transport,
+    PXROpenAIDelta onDelta,
+    NSDictionary<NSString *, id> **response,
+    NSError **error) {
+    if (baseURL.length == 0) {
+        if (error) *error = PXRCoreError(@"PROVIDER_HTTP",
+                                         @"provider base URL is required");
+        return NO;
+    }
+    if (apiKey.length == 0 || model.length == 0) {
+        if (error) *error = PXRCoreError(@"MODEL_CONFIG",
+                                         @"gemini: missing configuration");
+        return NO;
+    }
+    NSDictionary *payload = PXRGeminiRequestPayload(
+        PXRArray(request[@"messages"]), PXRArray(request[@"tools"]),
+        PXRString(request[@"toolChoice"]), maxOutputTokens);
+    NSString *path = [NSString stringWithFormat:
+        @"/v1beta/models/%@:streamGenerateContent?alt=sse", model];
+    NSInteger statusCode = 0;
+    NSString *body = nil;
+    BOOL sent = transport != nil
+        ? transport(path, payload, &statusCode, &body, error)
+        : PXRGeminiDefaultTransport(baseURL, apiKey, path, payload,
+                                    &statusCode, &body, error);
+    if (!sent) return NO;
+    if (statusCode < 200 || statusCode >= 300) {
+        if (error) *error = PXRCoreError(@"PROVIDER_HTTP",
+                                         @"provider returned non-2xx");
+        return NO;
+    }
+    NSDictionary *parsed = PXRGeminiParseStream(body ?: @"", onDelta, error);
+    if (parsed == nil) return NO;
+    if (response) *response = parsed;
+    return YES;
+}
+
 BOOL PXRGeminiGenerate(
     NSString *baseURL,
     NSString *model,
@@ -212,6 +324,12 @@ PXRModelGenerate PXRGeminiModelCreate(
     return ^BOOL(NSDictionary<NSString *, id> *request,
                  NSDictionary<NSString *, id> **response,
                  NSError **error) {
+        PXROpenAIDelta onDelta = request[@"onDelta"];
+        if (onDelta != nil) {
+            return PXRGeminiGenerateStream(baseURL, model, apiKey,
+                                           maxOutputTokens, request, transport,
+                                           onDelta, response, error);
+        }
         return PXRGeminiGenerate(baseURL, model, apiKey, maxOutputTokens,
                                  request, transport, response, error);
     };

@@ -72,6 +72,7 @@ filterSink
 fromInts
 fromStrings
 generate
+generateStream
 getArray
 getBool
 getFloat

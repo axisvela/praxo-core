@@ -1,9 +1,11 @@
-openai_compatible <- function(base_url, model, api_key = NULL, transport = NULL, timeout = 60) {
+openai_compatible <- function(base_url, model, api_key = NULL, transport = NULL,
+                              stream_transport = NULL, timeout = 60) {
   list(
     baseUrl = sub("/+$", "", if (is.null(base_url)) "" else base_url),
     model = if (is.null(model)) "" else model,
     apiKey = api_key,
     transport = transport,
+    streamTransport = stream_transport,
     timeout = timeout
   )
 }
@@ -49,9 +51,10 @@ openai_compatible_message <- function(value) {
   out
 }
 
-openai_compatible_payload <- function(adapter, request) {
+openai_compatible_payload <- function(adapter, request, stream = FALSE) {
   messages <- lapply(request$messages %||% list(), openai_compatible_message)
   payload <- list(model = adapter$model, messages = messages)
+  if (isTRUE(stream)) payload$stream <- TRUE
   tools <- lapply(request$tools %||% list(), function(tool) {
     list(
       type = "function",
@@ -136,6 +139,62 @@ openai_compatible_post <- function(adapter, path, payload) {
     json_parse(body),
     error = function(error) praxo_error("PROVIDER_JSON", "provider returned invalid JSON")
   )
+}
+
+openai_compatible_post_stream <- function(adapter, path, payload) {
+  if (!nzchar(adapter$baseUrl)) {
+    praxo_error("PROVIDER_HTTP", "provider base URL is required")
+  }
+  input <- tempfile()
+  output <- tempfile()
+  on.exit(unlink(c(input, output)), add = TRUE)
+  writeLines(json_encode(payload), input, useBytes = TRUE)
+  args <- c("-sS", "-N", "-X", "POST", "-H", "Content-Type: application/json",
+            "-H", "Accept: text/event-stream")
+  if (!is.null(adapter$apiKey) && nzchar(adapter$apiKey)) {
+    args <- c(args, "-H", paste0("Authorization: Bearer ", adapter$apiKey))
+  }
+  args <- c(args, "--data-binary", paste0("@", input), "-o", output,
+            "-w", "%{http_code}", paste0(adapter$baseUrl, path))
+  status_text <- tryCatch(
+    suppressWarnings(system2("curl", args, stdout = TRUE, stderr = FALSE)),
+    error = function(error) character()
+  )
+  status <- suppressWarnings(as.integer(tail(status_text, 1L)))
+  if (is.na(status)) praxo_error("PROVIDER_HTTP", "provider request failed")
+  body <- if (file.exists(output)) paste(readLines(output, warn = FALSE), collapse = "\n") else ""
+  if (status < 200L || status >= 300L) {
+    praxo_error("PROVIDER_HTTP",
+                paste0("provider returned HTTP ", status, ": ", substr(body, 1L, 512L)))
+  }
+  body
+}
+
+openai_compatible_stream_generate <- function(adapter, request,
+                                              on_delta = function(delta) invisible(NULL)) {
+  payload <- openai_compatible_payload(adapter, request, stream = TRUE)
+  path <- "/chat/completions"
+  text <- if (!is.null(adapter$streamTransport)) {
+    adapter$streamTransport(path, payload)
+  } else if (!is.null(adapter$transport)) {
+    value <- adapter$transport(path, payload)
+    if (is.character(value)) value else
+      praxo_error("PROVIDER_HTTP",
+                  "openai-compatible: stream transport must return SSE text")
+  } else {
+    openai_compatible_post_stream(adapter, path, payload)
+  }
+  if (!is.character(text)) {
+    praxo_error("PROVIDER_HTTP",
+                "openai-compatible: stream transport must return SSE text")
+  }
+  parse_sse_stream(paste0(text, collapse = "\n"), on_delta)
+}
+
+openai_compatible_streaming_model <- function(adapter) {
+  function(request, on_delta = function(delta) invisible(NULL)) {
+    openai_compatible_stream_generate(adapter, request, on_delta)
+  }
 }
 
 openai_compatible_generate <- function(adapter, request) {

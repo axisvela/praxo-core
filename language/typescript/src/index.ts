@@ -14,6 +14,7 @@ export * from "./memory";
 export * from "./middleware";
 export * from "./model";
 export * from "./plugin";
+export * from "./plugin_process";
 export * from "./policy";
 export * from "./retriever";
 export * from "./stream";

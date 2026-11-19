@@ -71,6 +71,7 @@ function M.agent_options(model)
     middleware = {},
     allowed_tools = {},
     cancellation = nil,
+    on_delta = nil,
     on_stream = nil,
     max_parallel_tools = 1,
     batch_invoke = nil,
@@ -338,7 +339,12 @@ function M.run_agent(options, session, prompt)
         tools = options.tools and M.tool_specs(options.tools) or {},
         tool_choice = options.tool_choice,
       })
-      local response = options.model.generate(request)
+      local response
+      if options.on_delta and type(options.model.stream) == "function" then
+        response = options.model.stream(request, options.on_delta)
+      else
+        response = options.model.generate(request)
+      end
       check_cancelled(options)
       usage = models.usage_plus(usage, response.usage or models.usage())
       local total = (usage.input_tokens or 0) + (usage.output_tokens or 0)

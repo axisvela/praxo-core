@@ -4,8 +4,7 @@ PRAXO-CORE is an embeddable, MIT-licensed AI agent framework. This package is it
 native OCaml Core with source tag `ocaml/v0.8.0`. It passes all eleven vector
 groups on OCaml 4.14.2 bytecode and includes the native agent loop, memory store,
 checkpoint allowlist, lexical path policy, context compaction, event sinks,
-middleware helpers, tool selection, and non-streaming OpenAI-compatible,
-Anthropic, and Gemini model adapters. It does not call Go or another language Core; there is no process
+middleware helpers, tool selection, streaming OpenAI-compatible and Anthropic, and\nGemini streaming model adapters. It does not call Go or another language Core; there is no process
 bridge or plugin host.
 
 The experimental path check is lexical and does not resolve symlinks or reparse
@@ -107,7 +106,7 @@ See [`examples/hitl`](examples/hitl/) for approve and edited-denial scenarios.
 
 `openai_model` maps Core requests to `POST {baseUrl}/chat/completions`,
 including messages, tools, tool choice, assistant tool calls, token usage, and
-provider HTTP errors (`PROVIDER_HTTP`). Streaming is not implemented.
+provider HTTP errors (`PROVIDER_HTTP`). `generate_stream` sets `stream: true`,\nparses SSE, reassembles content, fragmented tool calls, and usage, and calls the\ndelta callback. Set `agent_on_delta` to use it through the agent.
 
 ```ocaml
 let config = {
@@ -189,6 +188,11 @@ returns `document` values. `subagent_run` runs a caller-supplied
 state. It does not provide an asynchronous manager, durable queue, or
 cross-process worker.
 
+## Process plugin host
+
+`start_plugin_process` / `invoke_plugin_process` / `stop_plugin_process` speak
+the framework JSON-Lines process plugin protocol with token authentication,
+health handshake, invocation timeout, and typed errors.
 ## Current Limits
 
 - The verified target is OCaml 4.14.2 bytecode. Native `ocamlopt`, other

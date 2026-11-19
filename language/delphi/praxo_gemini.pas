@@ -20,6 +20,11 @@ type
     function Generate(Messages: TJSONArray; Tools: TJSONArray;
       const ToolChoice: UTF8String): TJSONObject; overload;
     function Generate(Messages: TJSONArray): TJSONObject; overload;
+    function GenerateStream(Messages: TJSONArray; Tools: TJSONArray;
+      const ToolChoice: UTF8String;
+      OnDelta: TPraxoOpenAIDeltaHook): TJSONObject; overload;
+    function GenerateStream(Messages: TJSONArray;
+      OnDelta: TPraxoOpenAIDeltaHook): TJSONObject; overload;
     property BaseURL: UTF8String read FBaseURL write FBaseURL;
     property APIKey: UTF8String read FAPIKey write FAPIKey;
     property Model: UTF8String read FModel write FModel;
@@ -317,8 +322,112 @@ begin
   end;
 end;
 
+function ParseStreamBody(const Body: UTF8String;
+  OnDelta: TPraxoOpenAIDeltaHook): TJSONObject;
+var
+  Lines: TStringList;
+  I, J: Integer;
+  Line, Chunk, Piece, Content: UTF8String;
+  Data, Value, ArgsValue: TJSONData;
+  Root, Usage, Candidate, ContentObject, CallObject, ToolCallObject, Arguments: TJSONObject;
+  Candidates, Parts, Calls: TJSONArray;
+  InputTokens, OutputTokens: Int64;
+  FinishReason: UTF8String;
+begin
+  Content := '';
+  FinishReason := '';
+  InputTokens := 0;
+  OutputTokens := 0;
+  Calls := TJSONArray.Create;
+  Lines := TStringList.Create;
+  try
+    Lines.Text := Body;
+    for I := 0 to Lines.Count - 1 do
+    begin
+      Line := Trim(Lines[I]);
+      if Copy(Line, 1, 5) <> 'data:' then Continue;
+      Chunk := Trim(Copy(Line, 6, Length(Line)));
+      if (Chunk = '') or (Chunk = '[DONE]') then Continue;
+      try
+        Data := PraxoParseJSON(Chunk);
+      except
+        on E: Exception do
+        begin
+          Calls.Free;
+          raise EPraxoProvider.CreateCode('MODEL_STREAM', E.Message);
+        end;
+      end;
+      try
+        if Data.JSONType <> jtObject then
+          raise EPraxoProvider.CreateCode('MODEL_STREAM', 'gemini: invalid stream chunk');
+        Root := TJSONObject(Data);
+        if LastField(Root, 'error') <> nil then
+          raise EPraxoProvider.CreateCode('MODEL_STREAM', 'gemini: provider stream error');
+        Value := LastField(Root, 'usageMetadata');
+        if (Value <> nil) and (Value.JSONType = jtObject) then
+        begin
+          Usage := TJSONObject(Value);
+          InputTokens := FieldInteger(Usage, 'promptTokenCount', InputTokens);
+          OutputTokens := FieldInteger(Usage, 'candidatesTokenCount', OutputTokens);
+        end;
+        Value := LastField(Root, 'candidates');
+        if (Value = nil) or (Value.JSONType <> jtArray) then Continue;
+        Candidates := TJSONArray(Value);
+        if Candidates.Count = 0 then Continue;
+        Candidate := TJSONObject(Candidates.Items[0]);
+        FinishReason := FieldString(Candidate, 'finishReason', FinishReason);
+        Value := LastField(Candidate, 'content');
+        if (Value = nil) or (Value.JSONType <> jtObject) then Continue;
+        ContentObject := TJSONObject(Value);
+        Value := LastField(ContentObject, 'parts');
+        if (Value = nil) or (Value.JSONType <> jtArray) then Continue;
+        Parts := TJSONArray(Value);
+        for J := 0 to Parts.Count - 1 do
+        begin
+          if Parts.Items[J].JSONType <> jtObject then Continue;
+          Piece := FieldString(TJSONObject(Parts.Items[J]), 'text');
+          if Piece <> '' then
+          begin
+            Content := Content + Piece;
+            if Assigned(OnDelta) then OnDelta(Piece);
+          end;
+          Value := LastField(TJSONObject(Parts.Items[J]), 'functionCall');
+          if (Value <> nil) and (Value.JSONType = jtObject) then
+          begin
+            CallObject := TJSONObject(Value);
+            ToolCallObject := TJSONObject.Create;
+            ToolCallObject.Add('id', 'call-' + IntToStr(Calls.Count + 1));
+            ToolCallObject.Add('name', FieldString(CallObject, 'name'));
+            ArgsValue := LastField(CallObject, 'args');
+            if (ArgsValue <> nil) and (ArgsValue.JSONType = jtObject) then
+              Arguments := TJSONObject(ArgsValue.Clone)
+            else
+              Arguments := TJSONObject.Create;
+            ToolCallObject.Add('arguments', Arguments);
+            Calls.Add(ToolCallObject);
+          end;
+        end;
+      finally
+        Data.Free;
+      end;
+    end;
+    Result := TJSONObject.Create;
+    Result.Add('content', Content);
+    Result.Add('toolCalls', Calls);
+    Result.Add('inputTokens', InputTokens);
+    Result.Add('outputTokens', OutputTokens);
+    if FinishReason <> '' then Result.Add('finishReason', FinishReason);
+  except
+    Lines.Free;
+    Calls.Free;
+    raise;
+  end;
+  Lines.Free;
+end;
+
 function HTTPPost(const BaseURL, APIKey, Path, Body: UTF8String;
-  out ResponseBody: UTF8String; out StatusCode: Integer): Boolean;
+  out ResponseBody: UTF8String; out StatusCode: Integer;
+  Stream: Boolean = False): Boolean;
 var
   Client: TFPHTTPClient;
   Request, Response: TStringStream;
@@ -332,6 +441,8 @@ begin
   try
     Client.RequestBody := Request;
     Client.AddHeader('Content-Type', 'application/json');
+    if Stream then Client.AddHeader('Accept', 'text/event-stream')
+    else Client.AddHeader('Accept', 'application/json');
     Client.AddHeader('x-goog-api-key', APIKey);
     try
       Client.HTTPMethod('POST', BaseURL + Path, Response, []);
@@ -380,7 +491,7 @@ begin
       ResponseBody, StatusCode)
   else
     Sent := HTTPPost(FBaseURL, FAPIKey,
-      '/v1beta/models/' + FModel + ':generateContent', Body, ResponseBody, StatusCode);
+      '/v1beta/models/' + FModel + ':generateContent', Body, ResponseBody, StatusCode, False);
   if not Sent then
     raise EPraxoProvider.CreateCode('PROVIDER_HTTP', 'provider request failed: ' + ResponseBody);
   if (StatusCode < 200) or (StatusCode >= 300) then
@@ -392,6 +503,39 @@ end;
 function TPraxoGeminiAdapter.Generate(Messages: TJSONArray): TJSONObject;
 begin
   Result := Generate(Messages, FTools, FToolChoice);
+end;
+
+function TPraxoGeminiAdapter.GenerateStream(Messages, Tools: TJSONArray;
+  const ToolChoice: UTF8String;
+  OnDelta: TPraxoOpenAIDeltaHook): TJSONObject;
+var
+  Body, ResponseBody: UTF8String;
+  StatusCode: Integer;
+  Sender: TPraxoOpenAITransport;
+  Sent: Boolean;
+  Path: UTF8String;
+begin
+  if FAPIKey = '' then
+    raise EPraxoProvider.CreateCode('MODEL_CONFIG', 'gemini: API key is required');
+  Body := BuildPayload(FMaxOutputTokens, Messages, Tools, ToolChoice);
+  Path := '/v1beta/models/' + FModel + ':streamGenerateContent?alt=sse';
+  Sender := FTransport;
+  if Assigned(Sender) then
+    Sent := Sender(Path, Body, ResponseBody, StatusCode)
+  else
+    Sent := HTTPPost(FBaseURL, FAPIKey, Path, Body, ResponseBody, StatusCode, True);
+  if not Sent then
+    raise EPraxoProvider.CreateCode('PROVIDER_HTTP', 'provider request failed: ' + ResponseBody);
+  if (StatusCode < 200) or (StatusCode >= 300) then
+    raise EPraxoProvider.CreateCode('PROVIDER_HTTP',
+      'provider returned HTTP ' + IntToStr(StatusCode), StatusCode);
+  Result := ParseStreamBody(ResponseBody, OnDelta);
+end;
+
+function TPraxoGeminiAdapter.GenerateStream(Messages: TJSONArray;
+  OnDelta: TPraxoOpenAIDeltaHook): TJSONObject;
+begin
+  Result := GenerateStream(Messages, FTools, FToolChoice, OnDelta);
 end;
 
 end.

@@ -176,6 +176,11 @@ untrusted content. Operations are bounded by the client timeout (default 30
 seconds), timeouts send `notifications/cancelled`, and `Close` terminates the
 child process.
 
+## Process plugin host
+
+`PluginProcessHost` speaks the framework JSON-Lines process plugin protocol:
+token authentication through `PRAXOVELA_PLUGIN_TOKEN`, health handshake,
+invocation timeout, cooperative cancel, and typed call errors.
 ## Layout
 
 - `Praxo.Core/` library.

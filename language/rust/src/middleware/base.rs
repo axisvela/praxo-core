@@ -56,7 +56,11 @@ pub trait Middleware: Send + Sync {
         Ok(())
     }
 
-    fn after_run(&self, _result: Option<&mut RunResult>, _error: Option<&PraxoError>) -> Result<()> {
+    fn after_run(
+        &self,
+        _result: Option<&mut RunResult>,
+        _error: Option<&PraxoError>,
+    ) -> Result<()> {
         Ok(())
     }
 }

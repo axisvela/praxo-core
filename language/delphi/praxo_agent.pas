@@ -28,6 +28,7 @@ type
   TPraxoAgentAuthorizeHook = function(const Kind, ToolName: UTF8String; Arguments: TJSONObject): Boolean;
   TPraxoAgentDecisionHook = function(const Interrupt: TPraxoAgentInterrupt): TPraxoAgentDecision;
   TPraxoAgentApprovalHook = function(const Interrupt: TPraxoAgentInterrupt): Boolean;
+  TPraxoAgentDeltaHook = procedure(const Delta: UTF8String) of object;
 
 const
   PraxoInterruptApprove = 'approve';
@@ -45,6 +46,7 @@ type
   TPraxoAgentHost = class
   public
     function Generate(Messages: TJSONArray): TJSONObject; virtual; abstract;
+    function GenerateStream(Messages: TJSONArray; OnDelta: TPraxoAgentDeltaHook): TJSONObject; virtual;
     function Invoke(const Name: UTF8String; Arguments: TJSONObject): TJSONData; virtual; abstract;
     procedure Emit(const EventType: UTF8String); virtual; abstract;
     procedure EmitEvent(const EventType: UTF8String; Data: TJSONObject); virtual;
@@ -62,6 +64,7 @@ type
     InterruptOn: TPraxoAgentStringArray;
     OnInterruptDecision: TPraxoAgentDecisionHook;
     OnInterrupt: TPraxoAgentApprovalHook;
+    OnDelta: TPraxoAgentDeltaHook;
   end;
 
   TPraxoAgentResult = record
@@ -98,6 +101,21 @@ begin
   Emit(EventType);
 end;
 
+function TPraxoAgentHost.GenerateStream(Messages: TJSONArray;
+  OnDelta: TPraxoAgentDeltaHook): TJSONObject;
+var
+  Content: TJSONData;
+begin
+  Result := Generate(Messages);
+  if Assigned(Result) and Assigned(OnDelta) then
+  begin
+    Content := Result.Find('content');
+    if (Content <> nil) and (Content.JSONType = jtString) and
+      (Content.AsString <> '') then
+      OnDelta(Content.AsString);
+  end;
+end;
+
 function PraxoAgentOptionsNew: TPraxoAgentOptions;
 begin
   Result.MaxSteps := 8;
@@ -111,6 +129,7 @@ begin
   SetLength(Result.InterruptOn, 0);
   Result.OnInterruptDecision := nil;
   Result.OnInterrupt := nil;
+  Result.OnDelta := nil;
 end;
 
 function StringValue(Obj: TJSONObject; const Name: UTF8String): UTF8String;
@@ -276,7 +295,10 @@ begin
       for Step := 1 to MaxSteps do
       begin
         AuthorizeAction(Options, 'model.generate', '', nil);
-        Response := Host.Generate(Messages);
+        if Assigned(Options.OnDelta) then
+          Response := Host.GenerateStream(Messages, Options.OnDelta)
+        else
+          Response := Host.Generate(Messages);
         if Response = nil then
           raise EPraxoAgent.CreateCode('AGENT_INVALID_RESPONSE', 'Model returned nil');
         try

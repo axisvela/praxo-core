@@ -136,14 +136,32 @@ pub const Adapter = struct {
         const result = if (self.transport) |transport|
             try transport.send(self.allocator, "/v1/messages", request_payload)
         else
-            try self.post(request_payload);
+            try self.post(request_payload, false);
         if (result.status < 200 or result.status >= 300) return compat.ProviderError.ProviderHttp;
         const data = json.parse(self.allocator, result.body) catch return compat.ProviderError.ProviderJson;
         return self.parseResponse(data);
     }
 
+    pub fn generateStream(self: *Adapter, request: models.Request, on_delta: agent.DeltaHandler) !models.Response {
+        if (self.base_url.len == 0 or self.api_key.len == 0 or self.model.len == 0) return compat.ProviderError.ProviderBaseUrlRequired;
+        var request_payload = try self.payload(request);
+        if (request_payload == .object) {
+            try request_payload.object.put(self.allocator, "stream", .{ .bool = true });
+        }
+        const result = if (self.transport) |transport|
+            try transport.send(self.allocator, "/v1/messages", request_payload)
+        else
+            try self.post(request_payload, true);
+        if (result.status < 200 or result.status >= 300) return compat.ProviderError.ProviderHttp;
+        return self.parseSse(result.body, on_delta);
+    }
+
     pub fn asModel(self: *Adapter) agent.Model {
-        return .{ .ctx = self, .generateFn = generateModel };
+        return .{
+            .ctx = self,
+            .generateFn = generateModel,
+            .streamFn = generateStreamModel,
+        };
     }
 
     fn generateModel(ctx: *anyopaque, request: models.Request) anyerror!models.Response {
@@ -151,7 +169,122 @@ pub const Adapter = struct {
         return self.generate(request);
     }
 
-    fn post(self: *Adapter, request_payload: json.Json) !compat.TransportResult {
+    fn generateStreamModel(ctx: *anyopaque, request: models.Request, on_delta: agent.DeltaHandler) anyerror!models.Response {
+        const self: *Adapter = @ptrCast(@alignCast(ctx));
+        return self.generateStream(request, on_delta);
+    }
+
+    fn parseSse(self: *Adapter, text: []const u8, on_delta: agent.DeltaHandler) !models.Response {
+        var content = std.array_list.Managed(u8).init(self.allocator);
+        var input_tokens: i64 = 0;
+        var output_tokens: i64 = 0;
+        var cached_tokens: i64 = 0;
+        var stop_reason: ?[]const u8 = null;
+        var done = false;
+
+        const Partial = struct {
+            id: std.array_list.Managed(u8),
+            name: std.array_list.Managed(u8),
+            arguments: std.array_list.Managed(u8),
+            used: bool = false,
+        };
+        var slots: [8]Partial = undefined;
+        for (&slots) |*slot| {
+            slot.* = .{
+                .id = std.array_list.Managed(u8).init(self.allocator),
+                .name = std.array_list.Managed(u8).init(self.allocator),
+                .arguments = std.array_list.Managed(u8).init(self.allocator),
+            };
+        }
+
+        var lines = std.mem.splitScalar(u8, text, '\n');
+        while (lines.next()) |raw| {
+            const line = std.mem.trim(u8, raw, " \r\t");
+            if (!std.mem.startsWith(u8, line, "data:")) continue;
+            const chunk = std.mem.trim(u8, line[5..], " \r\t");
+            if (chunk.len == 0) continue;
+            const event = json.parse(self.allocator, chunk) catch return compat.ProviderError.ModelStream;
+            if (event != .object) continue;
+            const kind = json.string(event, "type") orelse "";
+            if (std.mem.eql(u8, kind, "message_start")) {
+                if (json.object(json.get(event, "message") orelse json.Json{ .null = {} }, "usage")) |usage| {
+                    const usage_value = json.Json{ .object = usage };
+                    input_tokens = json.integer(usage_value, "input_tokens", input_tokens);
+                    cached_tokens = json.integer(usage_value, "cache_read_input_tokens", cached_tokens);
+                }
+            } else if (std.mem.eql(u8, kind, "content_block_start")) {
+                const raw_index = json.integer(event, "index", @as(i64, @intCast(slots.len)));
+                if (raw_index < 0 or raw_index >= slots.len) return compat.ProviderError.ProviderJson;
+                const block = json.get(event, "content_block") orelse json.Json{ .null = {} };
+                if (std.mem.eql(u8, json.string(block, "type") orelse "", "tool_use")) {
+                    const index: usize = @intCast(raw_index);
+                    const slot = &slots[index];
+                    slot.used = true;
+                    if (json.string(block, "id")) |id| try slot.id.appendSlice(id);
+                    if (json.string(block, "name")) |name| try slot.name.appendSlice(name);
+                }
+            } else if (std.mem.eql(u8, kind, "content_block_delta")) {
+                const raw_index = json.integer(event, "index", 0);
+                if (raw_index < 0 or raw_index >= slots.len) return compat.ProviderError.ProviderJson;
+                const index: usize = @intCast(raw_index);
+                const delta = json.get(event, "delta") orelse json.Json{ .null = {} };
+                const delta_type = json.string(delta, "type") orelse "";
+                if (std.mem.eql(u8, delta_type, "text_delta")) {
+                    if (json.string(delta, "text")) |piece| {
+                        if (piece.len > 0) {
+                            try content.appendSlice(piece);
+                            on_delta.emit(piece);
+                        }
+                    }
+                } else if (std.mem.eql(u8, delta_type, "input_json_delta")) {
+                    if (json.string(delta, "partial_json")) |partial| {
+                        try slots[index].arguments.appendSlice(partial);
+                    }
+                }
+            } else if (std.mem.eql(u8, kind, "message_delta")) {
+                const delta = json.get(event, "delta") orelse json.Json{ .null = {} };
+                if (json.string(delta, "stop_reason")) |reason| stop_reason = reason;
+                if (json.get(event, "usage")) |usage| {
+                    output_tokens = json.integer(usage, "output_tokens", output_tokens);
+                }
+            } else if (std.mem.eql(u8, kind, "message_stop")) {
+                done = true;
+            } else if (std.mem.eql(u8, kind, "error")) {
+                return compat.ProviderError.ModelStream;
+            }
+        }
+        if (!done and stop_reason == null) return compat.ProviderError.ModelStream;
+
+        var tool_calls = std.array_list.Managed(models.ToolCall).init(self.allocator);
+        for (&slots) |*slot| {
+            if (!slot.used or slot.name.items.len == 0) continue;
+            var arguments = json.Json{ .object = .empty };
+            if (slot.arguments.items.len > 0) {
+                arguments = json.parse(self.allocator, slot.arguments.items) catch return compat.ProviderError.ProviderJson;
+                if (arguments != .object) return compat.ProviderError.ProviderJson;
+            }
+            try tool_calls.append(.{
+                .id = try slot.id.toOwnedSlice(),
+                .name = try slot.name.toOwnedSlice(),
+                .arguments = arguments,
+            });
+        }
+        return .{
+            .message = .{
+                .role = models.ASSISTANT,
+                .content = try content.toOwnedSlice(),
+                .tool_calls = try tool_calls.toOwnedSlice(),
+            },
+            .usage = .{
+                .input_tokens = input_tokens,
+                .output_tokens = output_tokens,
+                .cached_tokens = cached_tokens,
+            },
+            .finish_reason = stop_reason,
+        };
+    }
+
+    fn post(self: *Adapter, request_payload: json.Json, stream: bool) !compat.TransportResult {
         const base = std.mem.trimEnd(u8, self.base_url, "/");
         const url = try std.fmt.allocPrint(self.allocator, "{s}/v1/messages", .{base});
         defer self.allocator.free(url);
@@ -168,6 +301,7 @@ pub const Adapter = struct {
         const key_header = try std.fmt.bufPrint(&key_buffer, "{s}", .{self.api_key});
         const headers = [_]std.http.Header{
             .{ .name = "content-type", .value = "application/json" },
+            .{ .name = "accept", .value = if (stream) "text/event-stream" else "application/json" },
             .{ .name = "x-api-key", .value = key_header },
             .{ .name = "anthropic-version", .value = self.version },
         };

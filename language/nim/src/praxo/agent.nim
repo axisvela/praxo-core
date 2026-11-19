@@ -32,6 +32,7 @@ type
     primary*: Model
     fallback*: Model
     invoke*: proc(request: Request): Response {.closure.}
+    stream*: proc(request: Request, onDelta: proc(delta: string)): Response {.closure.}
 
   AgentOptions* = object
     model*: Model
@@ -49,6 +50,7 @@ type
     policy*: Policy
     allowedTools*: seq[string]
     middleware*: seq[ToolMiddleware]
+    onDelta*: proc(delta: string) {.closure.}
     interruptOn*: seq[string]
     onInterruptDecision*: InterruptHandler
     onInterrupt*: InterruptApproval
@@ -87,6 +89,14 @@ proc generate*(model: Model, request: Request): Response =
     raisePraxo("MODEL_ERROR", "script exhausted")
   result = model.script[model.index]
   inc model.index
+
+proc generateStream*(model: Model, request: Request,
+                     onDelta: proc(delta: string)): Response =
+  if not model.stream.isNil:
+    return model.stream(request, onDelta)
+  result = model.generate(request)
+  if result.message.content.len > 0:
+    onDelta(result.message.content)
 
 proc scriptedModel*(steps: seq[Response]): Model =
   return Model(mode: "scripted", script: steps)
@@ -231,7 +241,11 @@ proc runAgent*(options: AgentOptions, session: Session, prompt: string): RunResu
           modelMessages.add(message)
       limits.modelCall()
       authorize(options, newAction("model.generate", session.id))
-      let response = options.model.generate(newRequest(modelMessages, specs))
+      let response =
+        if options.onDelta.isNil:
+          options.model.generate(newRequest(modelMessages, specs))
+        else:
+          options.model.generateStream(newRequest(modelMessages, specs), options.onDelta)
       total = addUsage(total, response.usage)
       if options.maxTokens > 0 and total.inputTokens + total.outputTokens > options.maxTokens:
         raisePraxo("AGENT_MAX_TOKENS", "token budget exceeded")

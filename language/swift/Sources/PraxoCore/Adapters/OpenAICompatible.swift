@@ -49,7 +49,7 @@ public struct OpenAICompatibleConfig {
     }
 }
 
-public final class OpenAICompatibleModel: Model {
+public final class OpenAICompatibleModel: StreamingModel {
     public let config: OpenAICompatibleConfig
     private let transport: ProviderTransport
 
@@ -138,6 +138,100 @@ public final class OpenAICompatibleModel: Model {
             usage: Usage(inputTokens: Json.int(usage, "prompt_tokens"),
                          outputTokens: Json.int(usage, "completion_tokens")),
             finishReason: Json.string(choice, "finish_reason")
+        )
+    }
+
+    public func generateStream(_ request: Request,
+                               onDelta: (String) -> Void) throws -> Response {
+        guard !config.baseURL.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
+            throw PraxoError("PROVIDER_HTTP", "provider base URL is required")
+        }
+        var payload = try buildPayload(request)
+        payload["stream"] = true
+        var headers = headers()
+        headers["Accept"] = "text/event-stream"
+        let httpRequest = ProviderHTTPRequest(
+            method: "POST",
+            url: endpoint(),
+            headers: headers,
+            body: try Json.stringify(payload),
+            timeout: config.timeout
+        )
+        let httpResponse = try transport.send(httpRequest)
+        guard (200..<300).contains(httpResponse.statusCode) else {
+            throw PraxoError("PROVIDER_HTTP",
+                             "provider returned HTTP \(httpResponse.statusCode): \(bounded(httpResponse.body))")
+        }
+        return try parseSseResponse(httpResponse.body, onDelta: onDelta)
+    }
+
+    public func parseSseResponse(_ text: String,
+                                 onDelta: (String) -> Void) throws -> Response {
+        var content = ""
+        var inputTokens = 0
+        var outputTokens = 0
+        var finishReason: String?
+        var done = false
+        var calls: [Int: (id: String, name: String, arguments: String)] = [:]
+
+        for raw in text.split(separator: "\n", omittingEmptySubsequences: false) {
+            let line = raw.trimmingCharacters(in: .whitespacesAndNewlines)
+            guard line.hasPrefix("data:") else { continue }
+            let chunk = String(line.dropFirst(5)).trimmingCharacters(in: .whitespacesAndNewlines)
+            if chunk.isEmpty { continue }
+            if chunk == "[DONE]" {
+                done = true
+                break
+            }
+            let event: Any
+            do {
+                event = try Json.parse(chunk)
+            } catch {
+                throw PraxoError("MODEL_STREAM", "invalid SSE packet")
+            }
+            if let usage = Json.get(event, "usage") as? [String: Any] {
+                inputTokens = Json.int(usage, "prompt_tokens", fallback: inputTokens)
+                outputTokens = Json.int(usage, "completion_tokens", fallback: outputTokens)
+            }
+            for choice in Json.array(event, "choices") {
+                if let delta = Json.get(choice, "delta") as? [String: Any] {
+                    if let piece = Json.string(delta, "content"), !piece.isEmpty {
+                        content += piece
+                        onDelta(piece)
+                    }
+                    for item in Json.array(delta, "tool_calls") {
+                        let index = Json.int(item, "index", fallback: calls.count)
+                        guard index >= 0 && index < 64 else {
+                            throw PraxoError("PROVIDER_JSON", "tool call index out of range")
+                        }
+                        var slot = calls[index] ?? (id: "", name: "", arguments: "")
+                        slot.id += Json.string(item, "id") ?? ""
+                        if let function = Json.get(item, "function") as? [String: Any] {
+                            slot.name += Json.string(function, "name") ?? ""
+                            slot.arguments += Json.string(function, "arguments") ?? ""
+                        }
+                        calls[index] = slot
+                    }
+                }
+                if let reason = Json.string(choice, "finish_reason") {
+                    finishReason = reason
+                    done = true
+                }
+            }
+        }
+        guard done else {
+            throw PraxoError("MODEL_STREAM", "stream ended before completion")
+        }
+        var toolCalls: [ToolCall] = []
+        for index in calls.keys.sorted() {
+            guard let call = calls[index], !call.name.isEmpty else { continue }
+            let arguments = try parseArguments(call.arguments)
+            toolCalls.append(ToolCall(id: call.id, name: call.name, arguments: arguments))
+        }
+        return Response(
+            message: Message(role: Roles.assistant, content: content, toolCalls: toolCalls),
+            usage: Usage(inputTokens: inputTokens, outputTokens: outputTokens),
+            finishReason: finishReason
         )
     }
 

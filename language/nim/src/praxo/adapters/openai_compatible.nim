@@ -1,23 +1,27 @@
-import std/[httpclient, json, strutils]
+import std/[algorithm, httpclient, json, sequtils, strutils, tables]
 import ../errors, ../jsonutil, ../models, ../agent
 
 type
   Transport* = proc(path: string, payload: JsonNode): JsonNode {.closure.}
+  StreamTransport* = proc(path: string, payload: JsonNode): string {.closure.}
   OpenAICompatible* = ref object
     baseUrl*: string
     model*: string
     apiKey*: string
     transport*: Transport
+    streamTransport*: StreamTransport
     timeoutMs*: int
 
 proc newOpenAICompatible*(baseUrl: string, model: string, apiKey: string = "",
                           transport: Transport = nil,
+                          streamTransport: StreamTransport = nil,
                           timeoutMs: int = 60000): OpenAICompatible =
   OpenAICompatible(
     baseUrl: baseUrl.strip(chars = {'/'}),
     model: model,
     apiKey: apiKey,
     transport: transport,
+    streamTransport: streamTransport,
     timeoutMs: timeoutMs,
   )
 
@@ -117,6 +121,94 @@ proc post(adapter: OpenAICompatible, path: string, body: JsonNode): JsonNode =
       "provider returned HTTP " & $response.code.int & ": " & response.body)
   return parseJsonText(response.body)
 
+proc postStream(adapter: OpenAICompatible, path: string, body: JsonNode): string =
+  if adapter.baseUrl.len == 0:
+    raisePraxo("PROVIDER_HTTP", "provider base URL is required")
+  let client = newHttpClient(timeout = adapter.timeoutMs)
+  defer: client.close()
+  client.headers = newHttpHeaders({
+    "Content-Type": "application/json",
+    "Accept": "text/event-stream",
+  })
+  if adapter.apiKey.len > 0:
+    client.headers["Authorization"] = "Bearer " & adapter.apiKey
+  let response = client.request(adapter.baseUrl & path, httpMethod = HttpPost,
+                                body = encodeJson(body))
+  if response.code.int < 200 or response.code.int >= 300:
+    raisePraxo("PROVIDER_HTTP",
+      "provider returned HTTP " & $response.code.int & ": " & response.body)
+  return response.body
+
+proc parseSseResponse(text: string,
+                      onDelta: proc(delta: string)): models.Response =
+  var content = ""
+  var inputTokens = 0
+  var outputTokens = 0
+  var done = false
+  var calls = initTable[int, tuple[id, name, arguments: string]]()
+  for raw in text.splitLines():
+    let line = raw.strip()
+    if not line.startsWith("data:"):
+      continue
+    let chunk = line[5 .. ^1].strip()
+    if chunk.len == 0:
+      continue
+    if chunk == "[DONE]":
+      done = true
+      break
+    let event =
+      try:
+        parseJsonText(chunk)
+      except CatchableError:
+        raisePraxo("MODEL_STREAM", "invalid SSE packet")
+    let usage = getObject(event, "usage")
+    if not usage.isNil:
+      inputTokens = getInt(usage, "prompt_tokens", inputTokens)
+      outputTokens = getInt(usage, "completion_tokens", outputTokens)
+    for choice in getArray(event, "choices"):
+      let delta = getObject(choice, "delta")
+      if not delta.isNil:
+        let piece = getString(delta, "content")
+        if piece.len > 0:
+          content.add(piece)
+          onDelta(piece)
+        for item in getArray(delta, "tool_calls"):
+          let index = getInt(item, "index", calls.len)
+          var slot = calls.getOrDefault(index,
+            (id: "", name: "", arguments: ""))
+          let id = getString(item, "id")
+          if id.len > 0:
+            slot.id.add(id)
+          let functionValue = getObject(item, "function")
+          if not functionValue.isNil:
+            slot.name.add(getString(functionValue, "name"))
+            slot.arguments.add(getString(functionValue, "arguments"))
+          calls[index] = slot
+      let reason = getString(choice, "finish_reason")
+      if reason.len > 0:
+        done = true
+  if not done:
+    raisePraxo("MODEL_STREAM", "stream ended before completion")
+  var toolCalls: seq[ToolCall] = @[]
+  var indexes = toSeq(calls.keys)
+  indexes.sort()
+  for index in indexes:
+    let slot = calls[index]
+    if slot.name.len == 0:
+      continue
+    var arguments = newJObject()
+    if slot.arguments.len > 0:
+      try:
+        arguments = parseJsonText(slot.arguments)
+      except CatchableError:
+        raisePraxo("PROVIDER_JSON", "provider returned invalid tool arguments")
+      if arguments.kind != JObject:
+        raisePraxo("PROVIDER_JSON", "provider returned invalid tool arguments")
+    toolCalls.add(newToolCall(id = slot.id, name = slot.name,
+                              arguments = arguments))
+  return newResponse(newMessageAssistant(content, toolCalls),
+                     newUsage(inputTokens, outputTokens))
+
 proc generate*(adapter: OpenAICompatible, request: Request): models.Response =
   let body = adapter.payload(request)
   let data = if adapter.transport != nil:
@@ -125,5 +217,20 @@ proc generate*(adapter: OpenAICompatible, request: Request): models.Response =
       adapter.post("/chat/completions", body)
   return parseResponse(data)
 
+proc generateStream*(adapter: OpenAICompatible, request: Request,
+                     onDelta: proc(delta: string)): models.Response =
+  var body = adapter.payload(request)
+  body["stream"] = %true
+  let text = if adapter.streamTransport != nil:
+      adapter.streamTransport("/chat/completions", body)
+    else:
+      adapter.postStream("/chat/completions", body)
+  return parseSseResponse(text, onDelta)
+
 proc openaiModel*(adapter: OpenAICompatible): Model =
-  return callbackModel(proc(request: Request): models.Response = adapter.generate(request))
+  return Model(
+    mode: "callback",
+    invoke: proc(request: Request): models.Response = adapter.generate(request),
+    stream: proc(request: Request, onDelta: proc(delta: string)): models.Response =
+      adapter.generateStream(request, onDelta),
+  )

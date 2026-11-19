@@ -16,6 +16,11 @@ The Core uses the OTP 27+ `:json` module and does not call Go or another
 language runtime. Erlang shares the BEAM runtime and does not add a second
 agent loop. OpenAI-compatible, Anthropic, Gemini, Harmovela, and MCP adapters
 are included; plugin hosts remain outside the declared Core scope.
+`Praxo.OpenAICompatible.streaming_model/1` and `Praxo.Anthropic.streaming_model/1` add provider streaming:
+`generate_stream` sets `stream: true`, parses SSE through
+`Praxo.SSE.parse_response/2`, reassembles content, fragmented tool calls, usage,
+and `finish_reason`, and invokes the delta callback. Inject `stream_transport`
+to return raw SSE text. Set `on_delta` in `AgentOptions` to use it.
 
 The latest Hex package is `praxo_core@0.9.2`. HexDocs:
 <https://praxo-core.hexdocs.pm/0.9.2/>.
@@ -239,6 +244,11 @@ Limits: stdio transport only, no remote transport or authentication; MCP output
 is untrusted content. Timeouts and caller cancellation send
 `notifications/cancelled`, and `close/1` terminates the child process.
 
+## Process plugin host
+
+`Praxo.PluginProcess` speaks the framework JSON-Lines process plugin protocol
+with token authentication, health handshake, invocation timeout, cooperative
+cancel, and typed call errors.
 ## Current Limits
 
 - Verified with `Elixir 1.20.4` and `Erlang/OTP 29` on Windows and in Linux CI.

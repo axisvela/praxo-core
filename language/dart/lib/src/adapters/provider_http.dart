@@ -43,6 +43,43 @@ dynamic postSync({
   }
 }
 
+String postTextSync({
+  required Uri uri,
+  required Map<String, dynamic> payload,
+  required Map<String, String> headers,
+  required Duration timeout,
+}) {
+  if (uri.scheme != 'http') {
+    throw const PraxoError('PROVIDER_HTTP',
+        'synchronous transport supports http only; use generateAsync or inject a transport for https');
+  }
+  final bodyBytes = utf8.encode(Json.stringify(payload));
+  final socket = RawSynchronousSocket.connectSync(
+      uri.host, uri.port == 0 ? 80 : uri.port);
+  try {
+    final target = uri.hasQuery ? '${uri.path}?${uri.query}' : uri.path;
+    final lines = <String>[
+      'POST $target HTTP/1.1',
+      'Host: ${uri.host}',
+      'Content-Type: application/json',
+      'Content-Length: ${bodyBytes.length}',
+      'Connection: close',
+      ...headers.entries.map((entry) => '${entry.key}: ${entry.value}'),
+    ];
+    socket.writeFromSync(utf8.encode('${lines.join('\r\n')}\r\n\r\n'));
+    socket.writeFromSync(bodyBytes);
+    final bytes = <int>[];
+    while (true) {
+      final chunk = socket.readSync(65536);
+      if (chunk == null || chunk.isEmpty) break;
+      bytes.addAll(chunk);
+    }
+    return _decodeText(bytes);
+  } finally {
+    socket.closeSync();
+  }
+}
+
 Future<dynamic> postAsync({
   required Uri uri,
   required Map<String, dynamic> payload,
@@ -80,6 +117,28 @@ dynamic decodeHttpResponse(int status, String body) {
 
 String bounded(String value) =>
     value.length <= 512 ? value : value.substring(0, 512);
+
+String _decodeText(List<int> bytes) {
+  final text = utf8.decode(bytes);
+  final split = text.indexOf('\r\n\r\n');
+  if (split < 0) {
+    throw const PraxoError(
+        'PROVIDER_HTTP', 'provider returned an invalid HTTP response');
+  }
+  final head = text.substring(0, split).split('\r\n');
+  final statusParts = head.isEmpty ? <String>[] : head.first.split(' ');
+  final status =
+      statusParts.length > 1 ? int.tryParse(statusParts[1]) ?? 0 : 0;
+  var body = text.substring(split + 4);
+  if (head.any((line) => line.toLowerCase() == 'transfer-encoding: chunked')) {
+    body = _dechunk(body);
+  }
+  if (status < 200 || status >= 300) {
+    throw PraxoError('PROVIDER_HTTP',
+        'provider returned HTTP $status: ${bounded(body)}');
+  }
+  return body;
+}
 
 dynamic _decode(List<int> bytes) {
   final text = utf8.decode(bytes);

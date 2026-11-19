@@ -471,6 +471,37 @@ System.Text.Json.Nodes.JsonObject Health { get; set; }
 System.Text.Json.Nodes.JsonObject Limits { get; set; }
 System.Text.Json.Nodes.JsonObject Permissions { get; set; }
 System.Text.Json.Nodes.JsonObject Signature { get; set; }
+### Praxo.Core.PluginProcessConfig
+PluginProcessConfig()
+System.Collections.Generic.Dictionary`2[System.String,System.String] Env { get; set; }
+System.Collections.Generic.List`1[System.String] Args { get; set; }
+System.Int32 MaxFrameBytes { get; set; }
+System.String Dir { get; set; }
+System.String Path { get; set; }
+System.String PluginId { get; set; }
+System.String Token { get; set; }
+System.String TokenEnvVar { get; set; }
+System.TimeSpan GracePeriod { get; set; }
+System.TimeSpan InvokeTimeout { get; set; }
+System.TimeSpan StartTimeout { get; set; }
+### Praxo.Core.PluginProcessException
+PluginProcessException(System.String code, System.String message)
+System.String Code { get; }
+### Praxo.Core.PluginProcessHost
+PluginProcessHost(Praxo.Core.PluginProcessConfig config)
+System.Boolean IsActive { get; }
+System.Byte[] Invoke(System.String service, System.String method, System.Byte[] payload)
+System.Byte[] Invoke(System.String service, System.String method, System.Byte[] payload, System.TimeSpan timeout)
+System.Int32 ProtocolVersion
+System.String CancelMethod
+System.String ControlService
+System.String HealthMethod
+System.String PluginId { get; }
+System.String ShutdownMethod
+System.String StderrText { get; }
+System.Void Dispose()
+System.Void Start()
+System.Void Stop()
 ### Praxo.Core.PraxoException
 Praxo.Core.PraxoException ApprovalDenied(System.String message)
 Praxo.Core.PraxoException Checkpoint(System.String message)

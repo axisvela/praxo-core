@@ -1,6 +1,34 @@
 module praxo
 
+import net.http
 import x.json2
+
+pub type AnthropicStreamTransport = fn (base_url string, api_key string, version string, path string, payload map[string]json2.Any) !string
+
+fn anthropic_default_stream_transport(base_url string, api_key string, version string, path string, payload map[string]json2.Any) !string {
+	if base_url == '' {
+		return praxo_error('PROVIDER_HTTP', 'provider base URL is required')
+	}
+	mut headers := http.new_header(key: .content_type, value: 'application/json')
+	headers.add(.accept, 'text/event-stream')
+	mut custom := map[string]string{}
+	custom['x-api-key'] = api_key
+	custom['anthropic-version'] = version
+	headers.add_custom_map(custom)!
+	response := http.fetch(
+		url: base_url + path
+		method: .post
+		data: encode_json(json2.Any(payload))
+		header: headers
+	) or {
+		return praxo_error('PROVIDER_HTTP', 'provider request failed: ${err.msg()}')
+	}
+	if response.status_code < 200 || response.status_code >= 300 {
+		detail := if response.body.len > 512 { response.body[..512] } else { response.body }
+		return praxo_error('PROVIDER_HTTP', 'provider returned HTTP ${response.status_code}: ${detail}')
+	}
+	return response.body
+}
 
 @[heap]
 pub struct AnthropicCompatible {
@@ -11,6 +39,7 @@ pub mut:
 	version    string = '2023-06-01'
 	max_tokens int = 1024
 	transport  ProviderTransport = provider_default_transport
+	stream_transport AnthropicStreamTransport = anthropic_default_stream_transport
 }
 
 pub struct AnthropicOptions {
@@ -19,6 +48,7 @@ pub:
 	version    string
 	max_tokens int
 	transport  ProviderTransport = provider_default_transport
+	stream_transport AnthropicStreamTransport = anthropic_default_stream_transport
 }
 
 pub fn anthropic_compatible(base_url string, model string) &AnthropicCompatible {
@@ -33,13 +63,21 @@ pub fn anthropic_compatible_with_options(base_url string, model string, options 
 		version: if options.version != '' { options.version } else { '2023-06-01' }
 		max_tokens: if options.max_tokens > 0 { options.max_tokens } else { 1024 }
 		transport: options.transport
+		stream_transport: options.stream_transport
 	}
 }
 
 pub fn anthropic_compatible_model(adapter &AnthropicCompatible) &Model {
-	return callback_model(fn [adapter] (request Request) !Response {
-		return adapter.generate(request)
-	})
+	return &Model{
+		mode: 'callback'
+		callback: fn [adapter] (request Request) !Response {
+			return adapter.generate(request)
+		}
+		stream_callback: fn [adapter] (request Request, on_delta DeltaHandler) !Response {
+			return adapter.generate_stream(request, on_delta)
+		}
+		has_stream: true
+	}
 }
 
 fn anthropic_text_part(text string) json2.Any {
@@ -186,4 +224,114 @@ pub fn (adapter &AnthropicCompatible) generate(request Request) !Response {
 	headers['anthropic-version'] = adapter.version
 	data := adapter.transport(adapter.base_url, '/v1/messages', payload, headers)!
 	return anthropic_parse_response(data)
+}
+
+fn anthropic_parse_sse(text string, on_delta DeltaHandler) !Response {
+	mut content := ''
+	mut input_tokens := 0
+	mut output_tokens := 0
+	mut cached_tokens := 0
+	mut stop_reason := ''
+	mut done := false
+	mut calls := map[int]PartialCall{}
+	for raw in text.split_into_lines() {
+		line := raw.trim_space()
+		if !line.starts_with('data:') {
+			continue
+		}
+		chunk := line[5..].trim_space()
+		if chunk == '' {
+			continue
+		}
+		event := parse_json(chunk) or {
+			return praxo_error('MODEL_STREAM', 'anthropic: invalid SSE packet')
+		}
+		if event !is map[string]json2.Any {
+			continue
+		}
+		event_object := event as map[string]json2.Any
+		kind := get_string(event_object, 'type') or { '' }
+		if kind == 'message_start' {
+			usage_value := get_object(get_object(event_object, 'message'), 'usage')
+			input_tokens = get_int(usage_value, 'input_tokens', input_tokens)
+			cached_tokens = get_int(usage_value, 'cache_read_input_tokens', cached_tokens)
+		} else if kind == 'content_block_start' {
+			index := get_int(event_object, 'index', calls.len)
+			block := get_object(event_object, 'content_block')
+			if get_string(block, 'type') or { '' } == 'tool_use' {
+				calls[index] = PartialCall{
+					id: get_string(block, 'id') or { '' }
+					name: get_string(block, 'name') or { '' }
+				}
+			}
+		} else if kind == 'content_block_delta' {
+			index := get_int(event_object, 'index', 0)
+			delta := get_object(event_object, 'delta')
+			delta_type := get_string(delta, 'type') or { '' }
+			if delta_type == 'text_delta' {
+				piece := get_string(delta, 'text') or { '' }
+				if piece != '' {
+					content += piece
+					on_delta(piece)
+				}
+			} else if delta_type == 'input_json_delta' {
+				mut slot := calls[index] or { PartialCall{} }
+				slot.arguments += get_string(delta, 'partial_json') or { '' }
+				calls[index] = slot
+			}
+		} else if kind == 'message_delta' {
+			delta := get_object(event_object, 'delta')
+			reason := get_string(delta, 'stop_reason') or { '' }
+			if reason != '' {
+				stop_reason = reason
+			}
+			usage_value := get_object(event_object, 'usage')
+			output_tokens = get_int(usage_value, 'output_tokens', output_tokens)
+		} else if kind == 'message_stop' {
+			done = true
+		} else if kind == 'error' {
+			return praxo_error('MODEL_STREAM', 'anthropic: provider stream error')
+		}
+	}
+	if !done && stop_reason == '' {
+		return praxo_error('MODEL_STREAM', 'stream ended before completion')
+	}
+	mut indexes := calls.keys()
+	indexes.sort()
+	mut tool_calls := []ToolCall{}
+	for index in indexes {
+		slot := calls[index]
+		if slot.name == '' {
+			continue
+		}
+		mut arguments := map[string]json2.Any{}
+		if slot.arguments != '' {
+			parsed := parse_json(slot.arguments) or {
+				return praxo_error('PROVIDER_JSON', 'anthropic: invalid tool arguments')
+			}
+			if parsed is map[string]json2.Any {
+				arguments = parsed as map[string]json2.Any
+			} else {
+				return praxo_error('PROVIDER_JSON', 'anthropic: tool arguments must be an object')
+			}
+		}
+		tool_calls << tool_call(slot.id, slot.name, arguments)
+	}
+	return Response{
+		message: message_assistant(content, tool_calls)
+		usage: usage(input_tokens, output_tokens)
+	}
+}
+
+pub fn (adapter &AnthropicCompatible) generate_stream(request Request, on_delta DeltaHandler) !Response {
+	if adapter.api_key == '' {
+		return praxo_error('MODEL_CONFIG', 'anthropic: API key is required')
+	}
+	if adapter.model == '' {
+		return praxo_error('MODEL_CONFIG', 'anthropic: model is required')
+	}
+	mut payload := anthropic_payload(adapter, request)
+	payload['stream'] = json2.Any(true)
+	text := adapter.stream_transport(adapter.base_url, adapter.api_key, adapter.version, '/v1/messages', payload)!
+	return anthropic_parse_sse(text, on_delta)
 }

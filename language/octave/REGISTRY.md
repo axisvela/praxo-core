@@ -28,9 +28,9 @@ Native Octave Core for the PRAXO-CORE agent framework. This is the independent O
 
 | Adapter | Status | Detail |
 | --- | --- | --- |
-| OpenAI-compatible model | native | Shared `praxo.openai_compatible` implementation |
-| Anthropic model | native | Shared `praxo.anthropic_compatible` |
-| Gemini model | native | Shared `praxo.gemini_compatible` |
+| OpenAI-compatible model | native | Shared `praxo.openai_compatible` implementation; SSE streaming reassembly |
+| Anthropic model | native | Shared `praxo.anthropic_compatible`; Anthropic SSE streaming |
+| Gemini model | native | Shared `praxo.gemini_compatible`; Gemini SSE streaming |
 | MCP client | native (transport seam) | Shared `praxo.mcp_client` implementation |
 | Harmovela sink | native | Shared `praxo.harmovela_sink` |
 | OpenTelemetry sink | native (transport seam) | Shared `praxo.otel_sink`; caller supplies OTLP/HTTP transport |

@@ -15,6 +15,7 @@ type
 
   TPraxoOpenAITransport = function(const Path, Body: UTF8String;
     out ResponseBody: UTF8String; out StatusCode: Integer): Boolean of object;
+  TPraxoOpenAIDeltaHook = procedure(const Delta: UTF8String) of object;
 
   TPraxoOpenAIAdapter = class
   private
@@ -30,6 +31,11 @@ type
     function Generate(Messages: TJSONArray; Tools: TJSONArray;
       const ToolChoice: UTF8String): TJSONObject; overload;
     function Generate(Messages: TJSONArray): TJSONObject; overload;
+    function GenerateStream(Messages: TJSONArray; Tools: TJSONArray;
+      const ToolChoice: UTF8String;
+      OnDelta: TPraxoOpenAIDeltaHook): TJSONObject; overload;
+    function GenerateStream(Messages: TJSONArray;
+      OnDelta: TPraxoOpenAIDeltaHook): TJSONObject; overload;
     property BaseURL: UTF8String read FBaseURL write FBaseURL;
     property APIKey: UTF8String read FAPIKey write FAPIKey;
     property Model: UTF8String read FModel write FModel;
@@ -274,6 +280,169 @@ begin
   end;
 end;
 
+function ParseStreamBody(const Body: UTF8String;
+  OnDelta: TPraxoOpenAIDeltaHook): TJSONObject;
+var
+  Lines: TStringList;
+  I, J, Index, Slot: Integer;
+  Line, Chunk, Piece, Reason, Content: UTF8String;
+  Data, Value: TJSONData;
+  Root, Choice, Delta, Item, FunctionObject, Usage, Arguments: TJSONObject;
+  Choices, Calls, CallsOut: TJSONArray;
+  InputTokens, OutputTokens: Int64;
+  Done: Boolean;
+  Ids, Names, Args: array[0..7] of UTF8String;
+  Used: array[0..7] of Boolean;
+  CallObject: TJSONObject;
+begin
+  Content := '';
+  Reason := '';
+  InputTokens := 0;
+  OutputTokens := 0;
+  Done := False;
+  for I := 0 to 7 do
+  begin
+    Ids[I] := '';
+    Names[I] := '';
+    Args[I] := '';
+    Used[I] := False;
+  end;
+  Lines := TStringList.Create;
+  try
+    Lines.Text := Body;
+    for I := 0 to Lines.Count - 1 do
+    begin
+      Line := Trim(Lines[I]);
+      if Copy(Line, 1, 5) <> 'data:' then Continue;
+      Chunk := Trim(Copy(Line, 6, Length(Line)));
+      if Chunk = '' then Continue;
+      if Chunk = '[DONE]' then
+      begin
+        Done := True;
+        Break;
+      end;
+      try
+        Data := PraxoParseJSON(Chunk);
+      except
+        on E: Exception do
+          raise EPraxoProvider.CreateCode('MODEL_STREAM', E.Message);
+      end;
+      try
+        if Data.JSONType <> jtObject then
+          raise EPraxoProvider.CreateCode('MODEL_STREAM', 'invalid SSE packet');
+        Root := TJSONObject(Data);
+        Value := LastField(Root, 'usage');
+        if (Value <> nil) and (Value.JSONType = jtObject) then
+        begin
+          Usage := TJSONObject(Value);
+          InputTokens := FieldInteger(Usage, 'prompt_tokens', InputTokens);
+          OutputTokens := FieldInteger(Usage, 'completion_tokens', OutputTokens);
+        end;
+        Value := LastField(Root, 'choices');
+        if (Value = nil) or (Value.JSONType <> jtArray) then Continue;
+        Choices := TJSONArray(Value);
+        for J := 0 to Choices.Count - 1 do
+        begin
+          if Choices.Items[J].JSONType <> jtObject then Continue;
+          Choice := TJSONObject(Choices.Items[J]);
+          Value := LastField(Choice, 'delta');
+          if (Value <> nil) and (Value.JSONType = jtObject) then
+          begin
+            Delta := TJSONObject(Value);
+            Piece := FieldString(Delta, 'content');
+            if Piece <> '' then
+            begin
+              Content := Content + Piece;
+              if Assigned(OnDelta) then OnDelta(Piece);
+            end;
+            Value := LastField(Delta, 'tool_calls');
+            if (Value <> nil) and (Value.JSONType = jtArray) then
+            begin
+              Calls := TJSONArray(Value);
+              for Index := 0 to Calls.Count - 1 do
+              begin
+                if Calls.Items[Index].JSONType <> jtObject then Continue;
+                Item := TJSONObject(Calls.Items[Index]);
+                Slot := FieldInteger(Item, 'index', 0);
+                if (Slot < 0) or (Slot > 7) then
+                  raise EPraxoProvider.CreateCode('PROVIDER_JSON',
+                    'tool call index out of range');
+                Used[Slot] := True;
+                Ids[Slot] := Ids[Slot] + FieldString(Item, 'id');
+                Value := LastField(Item, 'function');
+                if (Value <> nil) and (Value.JSONType = jtObject) then
+                begin
+                  FunctionObject := TJSONObject(Value);
+                  Names[Slot] := Names[Slot] + FieldString(FunctionObject, 'name');
+                  Args[Slot] := Args[Slot] + FieldString(FunctionObject, 'arguments');
+                end;
+              end;
+            end;
+          end;
+          if FieldString(Choice, 'finish_reason') <> '' then
+          begin
+            Reason := FieldString(Choice, 'finish_reason');
+            Done := True;
+          end;
+        end;
+      finally
+        Data.Free;
+      end;
+    end;
+  finally
+    Lines.Free;
+  end;
+  if not Done then
+    raise EPraxoProvider.CreateCode('MODEL_STREAM',
+      'stream ended before completion');
+  Result := TJSONObject.Create;
+  try
+    Result.Add('content', Content);
+    CallsOut := TJSONArray.Create;
+    for I := 0 to 7 do
+      if Used[I] and (Names[I] <> '') then
+      begin
+        Arguments := TJSONObject.Create;
+        if Args[I] <> '' then
+        begin
+          try
+            Data := PraxoParseJSON(Args[I]);
+          except
+            on E: Exception do
+            begin
+              Arguments.Free;
+              raise EPraxoProvider.CreateCode('PROVIDER_JSON', E.Message);
+            end;
+          end;
+          try
+            if Data.JSONType <> jtObject then
+            begin
+              Arguments.Free;
+              raise EPraxoProvider.CreateCode('PROVIDER_JSON',
+                'tool arguments must be an object');
+            end;
+            Arguments.Free;
+            Arguments := TJSONObject(Data.Clone);
+          finally
+            Data.Free;
+          end;
+        end;
+        CallObject := TJSONObject.Create;
+        CallObject.Add('id', Ids[I]);
+        CallObject.Add('name', Names[I]);
+        CallObject.Add('arguments', Arguments);
+        CallsOut.Add(CallObject);
+      end;
+    Result.Add('toolCalls', CallsOut);
+    Result.Add('inputTokens', InputTokens);
+    Result.Add('outputTokens', OutputTokens);
+    if Reason <> '' then Result.Add('finishReason', Reason);
+  except
+    Result.Free;
+    raise;
+  end;
+end;
+
 constructor TPraxoOpenAIAdapter.Create(const ABaseURL, AModel: UTF8String);
 begin
   inherited Create;
@@ -289,7 +458,7 @@ begin
 end;
 
 function BuildPayload(const Model: UTF8String; Messages, Tools: TJSONArray;
-  const ToolChoice: UTF8String): UTF8String;
+  const ToolChoice: UTF8String; Stream: Boolean = False): UTF8String;
 var
   Root: TJSONObject;
   EncodedMessages, EncodedTools: TJSONArray;
@@ -311,6 +480,8 @@ begin
     end;
     if ToolChoice <> '' then
       Root.Add('tool_choice', ToolChoice);
+    if Stream then
+      Root.Add('stream', True);
     Result := PraxoEncodeJSON(Root);
   finally
     Root.Free;
@@ -391,6 +562,40 @@ end;
 function TPraxoOpenAIAdapter.Generate(Messages: TJSONArray): TJSONObject;
 begin
   Result := Generate(Messages, FTools, FToolChoice);
+end;
+
+function TPraxoOpenAIAdapter.GenerateStream(Messages, Tools: TJSONArray;
+  const ToolChoice: UTF8String; OnDelta: TPraxoOpenAIDeltaHook): TJSONObject;
+var
+  Body, ResponseBody: UTF8String;
+  StatusCode: Integer;
+  Sender: TPraxoOpenAITransport;
+  Sent: Boolean;
+begin
+  if FBaseURL = '' then
+    raise EPraxoProvider.CreateCode('PROVIDER_HTTP',
+      'provider base URL is required');
+  Body := BuildPayload(FModel, Messages, Tools, ToolChoice, True);
+  Sender := FTransport;
+  if Assigned(Sender) then
+    Sent := Sender('/chat/completions', Body, ResponseBody, StatusCode)
+  else
+    Sent := HTTPPost(FBaseURL, FAPIKey, '/chat/completions', Body,
+      ResponseBody, StatusCode);
+  if not Sent then
+    raise EPraxoProvider.CreateCode('PROVIDER_HTTP',
+      'provider request failed: ' + ResponseBody);
+  if (StatusCode < 200) or (StatusCode >= 300) then
+    raise EPraxoProvider.CreateCode('PROVIDER_HTTP',
+      'provider returned HTTP ' + IntToStr(StatusCode) + ': ' +
+      Copy(ResponseBody, 1, 4096), StatusCode);
+  Result := ParseStreamBody(ResponseBody, OnDelta);
+end;
+
+function TPraxoOpenAIAdapter.GenerateStream(Messages: TJSONArray;
+  OnDelta: TPraxoOpenAIDeltaHook): TJSONObject;
+begin
+  Result := GenerateStream(Messages, FTools, FToolChoice, OnDelta);
 end;
 
 end.

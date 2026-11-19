@@ -6,18 +6,22 @@ import '../agent.dart';
 import '../errors.dart';
 import '../json.dart';
 import '../models.dart';
+import '../sse.dart';
 
 typedef OpenAISyncTransport = dynamic Function(
     String path, Map<String, dynamic> payload);
 typedef OpenAIAsyncTransport = Future<dynamic> Function(
     String path, Map<String, dynamic> payload);
+typedef OpenAIStreamTransport = dynamic Function(
+    String path, Map<String, dynamic> payload);
 
-class OpenAICompatibleModel implements Model {
+class OpenAICompatibleModel implements StreamingModel {
   final String baseUrl;
   final String model;
   final String? apiKey;
   final OpenAISyncTransport? transport;
   final OpenAIAsyncTransport? asyncTransport;
+  final OpenAIStreamTransport? streamTransport;
   final Duration timeout;
 
   OpenAICompatibleModel({
@@ -26,6 +30,7 @@ class OpenAICompatibleModel implements Model {
     this.apiKey,
     this.transport,
     this.asyncTransport,
+    this.streamTransport,
     this.timeout = const Duration(seconds: 60),
   });
 
@@ -37,6 +42,20 @@ class OpenAICompatibleModel implements Model {
         ? transport!('/chat/completions', payload)
         : _postSync('/chat/completions', payload);
     return parseResponse(data);
+  }
+
+  @override
+  Response generateStream(Request request, void Function(String) onDelta) {
+    _requireBaseUrl();
+    final payload = buildPayload(request)..['stream'] = true;
+    final text = streamTransport != null
+        ? streamTransport!('/chat/completions', payload)
+        : _postStreamSync('/chat/completions', payload);
+    if (text is! String) {
+      throw const PraxoError(
+          'PROVIDER_HTTP', 'stream transport must return SSE text');
+    }
+    return parseSseResponse(text, onDelta);
   }
 
   Future<Response> generateAsync(Request request) async {
@@ -221,6 +240,41 @@ class OpenAICompatibleModel implements Model {
     }
   }
 
+  String _postStreamSync(String path, Map<String, dynamic> payload) {
+    final uri = Uri.parse(_endpoint(path));
+    if (uri.scheme != 'http') {
+      throw const PraxoError('PROVIDER_HTTP',
+          'synchronous streaming supports http only; inject a streamTransport for https');
+    }
+    final bodyBytes = utf8.encode(Json.stringify(payload));
+    final socket = RawSynchronousSocket.connectSync(
+        uri.host, uri.port == 0 ? 80 : uri.port);
+    try {
+      final target = uri.hasQuery ? '${uri.path}?${uri.query}' : uri.path;
+      final headers = <String>[
+        'POST $target HTTP/1.1',
+        'Host: ${uri.host}',
+        'Content-Type: application/json',
+        'Accept: text/event-stream',
+        'Content-Length: ${bodyBytes.length}',
+        'Connection: close',
+        if (apiKey != null) 'Authorization: Bearer $apiKey',
+      ];
+      socket.writeFromSync(utf8.encode('${headers.join('\r\n')}\r\n\r\n'));
+      socket.writeFromSync(bodyBytes);
+      final bytes = <int>[];
+      while (true) {
+        final chunk = socket.readSync(65536);
+        if (chunk == null || chunk.isEmpty) break;
+        bytes.addAll(chunk);
+      }
+      final (_, body) = _decodeHttpBody(bytes);
+      return body;
+    } finally {
+      socket.closeSync();
+    }
+  }
+
   Future<dynamic> _postAsync(String path, Map<String, dynamic> payload) async {
     final client = HttpClient()..connectionTimeout = timeout;
     try {
@@ -240,6 +294,11 @@ class OpenAICompatibleModel implements Model {
   }
 
   dynamic _decodeHttp(List<int> bytes) {
+    final (status, body) = _decodeHttpBody(bytes);
+    return decodeHttpResponse(status, body);
+  }
+
+  (int, String) _decodeHttpBody(List<int> bytes) {
     final text = utf8.decode(bytes, allowMalformed: true);
     final headerEnd = text.indexOf('\r\n\r\n');
     if (headerEnd < 0) {
@@ -264,7 +323,11 @@ class OpenAICompatibleModel implements Model {
         .contains('chunked')) {
       body = _decodeChunked(body);
     }
-    return decodeHttpResponse(status, body);
+    if (status < 200 || status >= 300) {
+      throw PraxoError(
+          'PROVIDER_HTTP', 'provider returned HTTP $status: ${_bounded(body)}');
+    }
+    return (status, body);
   }
 
   String _decodeChunked(String body) {

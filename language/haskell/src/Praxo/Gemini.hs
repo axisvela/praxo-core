@@ -2,10 +2,14 @@ module Praxo.Gemini
     ( GeminiTool(..)
     , GeminiConfig(..)
     , buildGeminiRequest
+    , buildGeminiRequestWithStream
     , parseGeminiResponse
     , generateGemini
+    , generateGeminiStream
     ) where
 
+import Data.Char (isSpace)
+import Data.List (dropWhileEnd, stripPrefix)
 import Praxo.Agent (AgentError(..), Message(..), Response(..), ToolCall(..))
 import Praxo.Json (Json(..), asArray, asString, encodeJson, field, parseJson)
 import Praxo.OpenAICompatible (HttpRequest(..), HttpResponse(..), Transport(..))
@@ -27,7 +31,10 @@ data GeminiConfig = GeminiConfig
     }
 
 buildGeminiRequest :: GeminiConfig -> [Message] -> Either AgentError HttpRequest
-buildGeminiRequest config messages = do
+buildGeminiRequest = buildGeminiRequestWithStream False
+
+buildGeminiRequestWithStream :: Bool -> GeminiConfig -> [Message] -> Either AgentError HttpRequest
+buildGeminiRequestWithStream stream config messages = do
     (system, contents) <- contentsJson messages
     let declarations = map toolJson (geminiTools config)
         base = [("contents", JArray contents)]
@@ -44,10 +51,11 @@ buildGeminiRequest config messages = do
         Right text ->
             Right HttpRequest
                 { httpMethod = "POST"
-                , httpURL = trimSlash (geminiBaseURL config) ++ "/v1beta/models/" ++ geminiModel config ++ ":generateContent"
+                , httpURL = trimSlash (geminiBaseURL config) ++ "/v1beta/models/" ++ geminiModel config ++
+                    (if stream then ":streamGenerateContent?alt=sse" else ":generateContent")
                 , httpHeaders =
                     [ ("Content-Type", "application/json")
-                    , ("Accept", "application/json")
+                    , ("Accept", if stream then "text/event-stream" else "application/json")
                     ] ++ case geminiKey config of
                         Nothing -> []
                         Just key -> [("x-goog-api-key", key)]
@@ -149,6 +157,75 @@ generateGemini config messages =
                         Left (AgentError "PROVIDER_HTTP"
                             ("provider returned HTTP " ++ show (httpStatus response) ++ ": " ++ bounded (httpResponseBody response)))
                     | otherwise -> parseGeminiResponse (httpResponseBody response)
+
+generateGeminiStream :: GeminiConfig -> [Message] -> (String -> IO ()) -> IO (Either AgentError Response)
+generateGeminiStream config messages onDelta =
+    case buildGeminiRequestWithStream True config messages of
+        Left errorValue -> pure (Left errorValue)
+        Right httpRequest -> do
+            result <- sendTransport (geminiTransport config) httpRequest
+            case result of
+                Left errorValue -> pure (Left errorValue)
+                Right response
+                    | httpStatus response < 200 || httpStatus response >= 300 ->
+                        pure (Left (AgentError "PROVIDER_HTTP"
+                            ("provider returned HTTP " ++ show (httpStatus response) ++ ": " ++ bounded (httpResponseBody response))))
+                    | otherwise -> parseGeminiSse (httpResponseBody response) onDelta
+
+parseGeminiSse :: String -> (String -> IO ()) -> IO (Either AgentError Response)
+parseGeminiSse body onDelta = go (lines body) "" [] 0 0 0
+  where
+    go [] content calls inputTokens outputTokens cachedTokens =
+        pure (Right Response
+            { responseContent = content
+            , responseToolCalls = calls
+            , inputTokens = inputTokens
+            , outputTokens = outputTokens
+            })
+    go (raw:rest) content calls inputTokens outputTokens cachedTokens =
+        case stripPrefix "data:" (trim raw) of
+            Nothing -> go rest content calls inputTokens outputTokens cachedTokens
+            Just rawChunk ->
+                let chunk = trim rawChunk
+                in if null chunk || chunk == "[DONE]"
+                    then go rest content calls inputTokens outputTokens cachedTokens
+                    else case parseJson chunk of
+                        Left detail -> pure (Left (AgentError "MODEL_STREAM" ("gemini: invalid SSE packet: " ++ detail)))
+                        Right event
+                            | field "error" event /= JNull ->
+                                pure (Left (AgentError "MODEL_STREAM" "gemini: provider stream error"))
+                            | otherwise -> do
+                                let usage = field "usageMetadata" event
+                                    inputTokens' = if field "promptTokenCount" usage == JNull
+                                        then inputTokens else jsonInteger (field "promptTokenCount" usage)
+                                    outputTokens' = if field "candidatesTokenCount" usage == JNull
+                                        then outputTokens else jsonInteger (field "candidatesTokenCount" usage)
+                                    cachedTokens' = if field "cachedContentTokenCount" usage == JNull
+                                        then cachedTokens else jsonInteger (field "cachedContentTokenCount" usage)
+                                case asArray (field "candidates" event) of
+                                    [] -> go rest content calls inputTokens' outputTokens' cachedTokens'
+                                    candidate : _ -> do
+                                        let parts = asArray (field "parts" (field "content" candidate))
+                                        (content', calls') <- foldParts content calls parts
+                                        go rest content' calls' inputTokens' outputTokens' cachedTokens'
+    foldParts content calls [] = pure (content, calls)
+    foldParts content calls (part:parts) = do
+        let piece = asString (field "text" part)
+        if null piece then pure () else onDelta piece
+        let call = field "functionCall" part
+            calls' = if field "name" call == JNull
+                then calls
+                else calls ++ [ToolCall
+                    { toolCallId = "call-" ++ show (length calls + 1)
+                    , toolCallName = asString (field "name" call)
+                    , toolCallArguments = case field "args" call of
+                        value@(JObject _) -> value
+                        _ -> JObject []
+                    }]
+        foldParts (content ++ piece) calls' parts
+
+trim :: String -> String
+trim = dropWhileEnd isSpace . dropWhile isSpace
 
 orAgent :: Either String Json -> String -> Either AgentError Json
 orAgent (Right value) _ = Right value

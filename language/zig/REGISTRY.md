@@ -28,9 +28,9 @@ Zig 0.17 implementation of the PRAXO-CORE agent contract. The normative contract
 
 | Adapter | Status | Detail |
 | --- | --- | --- |
-| OpenAI-compatible model | native | `openaicompat.Adapter` with `std.http` |
-| Anthropic model | native | `anthropic.Adapter`; injectable transport |
-| Gemini model | native | `gemini.Adapter`; injectable transport |
+| OpenAI-compatible model | native | `openaicompat.Adapter` with `std.http`; SSE streaming reassembly |
+| Anthropic model | native | `anthropic.Adapter`; injectable transport; Anthropic SSE streaming |
+| Gemini model | native | `gemini.Adapter`; injectable transport; Gemini SSE streaming |
 | MCP client | native | `mcp.Client`; stdio and curl-backed `HttpTransport` for Streamable HTTP 2025-03-26 |
 | Harmovela sink | native | `harmovela` |
 | OpenTelemetry sink | native (transport seam) | `otel.Sink`; caller supplies OTLP/HTTP transport |

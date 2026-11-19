@@ -13,6 +13,9 @@ class MemoryStore
 class MultiSink
 class PathChecker
 class PiiRedactor
+class PluginCallError
+class PluginProcessConfig
+class PluginProcessHost
 class Runner
 class StaticModel
 class StructuredOutput
@@ -20,6 +23,7 @@ class SubagentManager
 class ToolRegistry
 class ToolSelection
 def action
+def active?
 def after_run
 def allowed?
 def allows?
@@ -34,6 +38,7 @@ def before_model
 def before_run
 def before_tool
 def bool
+def call
 def cancel
 def check
 def check_cancelled
@@ -78,6 +83,7 @@ def parse_input_json
 def parse_json_call
 def parse_manifest
 def parse_plain
+def parse_response
 def parse_tag
 def parse_toolcall
 def parse_xml
@@ -96,14 +102,19 @@ def run
 def run_agent
 def run_result
 def search
+def send_cancel
 def session
 def set
 def specs
+def start
+def stderr_text
+def stop
 def stream_part
 def string
 def stringify
 def strip_markup
 def structured_apply
+def terminate
 def text_present
 def timestamp
 def to_wire

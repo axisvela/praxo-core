@@ -284,8 +284,8 @@ installation index. Use the tables above and
   registry split-repository steps are still pending. V publishes package
   `praxo-core` tag `0.1.2` from `axisvela/praxo-core-v`; VPM submission is
   pending. Swift
-  publishes SPM tag `0.2.0` from `axisvela/praxo-core-swift`; Swift Package
-  Index PR #16032 is open. Production readiness and complete Go parity are not
+  publishes SPM tag `0.7.0` from `axisvela/praxo-core-swift`; Swift Package
+  Index `0.7.0` is published. Production readiness and complete Go parity are not
   claimed; optional Go hooks and provider adapters are not included.
 - Erlang source tag `erlang/v0.5.0` adds HITL interrupt decisions to policy
   hooks, middleware, final-tool allowlist checks, reauthorization, lifecycle

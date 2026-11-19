@@ -28,9 +28,9 @@ Julia implementation of the PRAXO-CORE contract.
 
 | Adapter | Status | Detail |
 | --- | --- | --- |
-| OpenAI-compatible model | native | `OpenAICompatibleModel` |
-| Anthropic model | native | `AnthropicModel`; injectable transport |
-| Gemini model | native | `GeminiModel`; injectable transport |
+| OpenAI-compatible model | native | `OpenAICompatibleModel`; SSE streaming reassembly |
+| Anthropic model | native | `AnthropicModel`; injectable transport; Anthropic SSE streaming |
+| Gemini model | native | `GeminiModel`; injectable transport; Gemini SSE streaming |
 | MCP client | native (transport seam) | `mcp_client`; caller supplies transport |
 | Harmovela sink | native | `HarmovelaSink` |
 | OpenTelemetry sink | native (transport seam) | `otel_sink`; caller supplies OTLP/HTTP transport |

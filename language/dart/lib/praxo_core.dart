@@ -15,5 +15,6 @@ export 'src/jsonschema.dart';
 export 'src/middleware.dart';
 export 'src/models.dart';
 export 'src/plugin.dart';
+export 'src/plugin_process.dart';
 export 'src/runtime.dart';
 export 'src/toolcall.dart';

@@ -45,6 +45,9 @@ praxo.Offloader
 praxo.PIIRedactor
 praxo.PathChecker
 praxo.PathGrant
+praxo.PluginCallError
+praxo.ProcessConfig
+praxo.ProcessHost
 praxo.Registry
 praxo.Request
 praxo.Response

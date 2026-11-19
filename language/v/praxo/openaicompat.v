@@ -4,6 +4,7 @@ import net.http
 import x.json2
 
 pub type Transport = fn (base_url string, api_key string, path string, payload map[string]json2.Any) !map[string]json2.Any
+pub type StreamTransport = fn (base_url string, api_key string, path string, payload map[string]json2.Any) !string
 
 fn openai_default_transport(base_url string, api_key string, path string, payload map[string]json2.Any) !map[string]json2.Any {
 	if base_url == '' {
@@ -31,21 +32,47 @@ fn openai_default_transport(base_url string, api_key string, path string, payloa
 	return as_object(data)
 }
 
+fn openai_default_stream_transport(base_url string, api_key string, path string, payload map[string]json2.Any) !string {
+	if base_url == '' {
+		return praxo_error('PROVIDER_HTTP', 'provider base URL is required')
+	}
+	mut headers := http.new_header(key: .content_type, value: 'application/json')
+	headers.add(.accept, 'text/event-stream')
+	if api_key != '' {
+		headers.add(.authorization, 'Bearer ${api_key}')
+	}
+	response := http.fetch(
+		url: base_url + path
+		method: .post
+		data: encode_json(json2.Any(payload))
+		header: headers
+	) or {
+		return praxo_error('PROVIDER_HTTP', 'provider request failed: ${err.msg()}')
+	}
+	if response.status_code < 200 || response.status_code >= 300 {
+		detail := if response.body.len > 512 { response.body[..512] } else { response.body }
+		return praxo_error('PROVIDER_HTTP', 'provider returned HTTP ${response.status_code}: ${detail}')
+	}
+	return response.body
+}
+
 @[heap]
 pub struct OpenAICompatible {
 pub mut:
-	base_url  string
-	model     string
-	api_key   string
-	transport Transport = openai_default_transport
-	timeout   int
+	base_url        string
+	model           string
+	api_key         string
+	transport       Transport = openai_default_transport
+	stream_transport StreamTransport = openai_default_stream_transport
+	timeout         int
 }
 
 pub struct OpenAIOptions {
 pub:
-	api_key   string
-	transport Transport = openai_default_transport
-	timeout   int
+	api_key          string
+	transport        Transport = openai_default_transport
+	stream_transport StreamTransport = openai_default_stream_transport
+	timeout          int
 }
 
 pub fn openai_compatible(base_url string, model string) &OpenAICompatible {
@@ -58,14 +85,22 @@ pub fn openai_compatible_with_options(base_url string, model string, options Ope
 		model: model
 		api_key: options.api_key
 		transport: options.transport
+		stream_transport: options.stream_transport
 		timeout: if options.timeout > 0 { options.timeout } else { 60 }
 	}
 }
 
 pub fn openai_compatible_model(adapter &OpenAICompatible) &Model {
-	return callback_model(fn [adapter] (request Request) !Response {
-		return adapter.generate(request)
-	})
+	return &Model{
+		mode: 'callback'
+		callback: fn [adapter] (request Request) !Response {
+			return adapter.generate(request)
+		}
+		stream_callback: fn [adapter] (request Request, on_delta DeltaHandler) !Response {
+			return adapter.generate_stream(request, on_delta)
+		}
+		has_stream: true
+	}
 }
 
 fn openai_message(message Message) map[string]json2.Any {
@@ -186,4 +221,109 @@ pub fn (adapter &OpenAICompatible) generate(request Request) !Response {
 	path := '/chat/completions'
 	data := adapter.transport(adapter.base_url, adapter.api_key, path, payload)!
 	return openai_parse_response(data)
+}
+
+struct PartialCall {
+mut:
+	id        string
+	name      string
+	arguments string
+}
+
+fn openai_parse_sse(text string, on_delta DeltaHandler) !Response {
+	mut content := ''
+	mut input_tokens := 0
+	mut output_tokens := 0
+	mut done := false
+	mut calls := map[int]PartialCall{}
+	for raw in text.split_into_lines() {
+		line := raw.trim_space()
+		if !line.starts_with('data:') {
+			continue
+		}
+		chunk := line[5..].trim_space()
+		if chunk == '' {
+			continue
+		}
+		if chunk == '[DONE]' {
+			done = true
+			break
+		}
+		event := parse_json(chunk) or {
+			return praxo_error('MODEL_STREAM', 'invalid SSE packet')
+		}
+		if event !is map[string]json2.Any {
+			continue
+		}
+		event_object := event as map[string]json2.Any
+		usage_value := get_object(event_object, 'usage')
+		if usage_value.len > 0 {
+			input_tokens = get_int(usage_value, 'prompt_tokens', input_tokens)
+			output_tokens = get_int(usage_value, 'completion_tokens', output_tokens)
+		}
+		for choice_value in get_array(event_object, 'choices') {
+			choice := as_object(choice_value)
+			delta := get_object(choice, 'delta')
+			if delta.len > 0 {
+				piece := get_string(delta, 'content') or { '' }
+				if piece != '' {
+					content += piece
+					on_delta(piece)
+				}
+				for item_value in get_array(delta, 'tool_calls') {
+					item := as_object(item_value)
+					index := get_int(item, 'index', calls.len)
+					mut slot := calls[index] or { PartialCall{} }
+					slot.id += get_string(item, 'id') or { '' }
+					function_value := get_object(item, 'function')
+					slot.name += get_string(function_value, 'name') or { '' }
+					slot.arguments += get_string(function_value, 'arguments') or { '' }
+					calls[index] = slot
+				}
+			}
+			reason := get_string(choice, 'finish_reason') or { '' }
+			if reason != '' {
+				done = true
+			}
+		}
+	}
+	if !done {
+		return praxo_error('MODEL_STREAM', 'stream ended before completion')
+	}
+	mut indexes := calls.keys()
+	indexes.sort()
+	mut tool_calls := []ToolCall{}
+	for index in indexes {
+		slot := calls[index]
+		if slot.name == '' {
+			continue
+		}
+		mut arguments := map[string]json2.Any{}
+		if slot.arguments != '' {
+			parsed := parse_json(slot.arguments) or {
+				return praxo_error('PROVIDER_JSON', 'provider returned invalid tool arguments')
+			}
+			if parsed is map[string]json2.Any {
+				arguments = parsed as map[string]json2.Any
+			} else {
+				return praxo_error('PROVIDER_JSON', 'provider tool arguments must be an object')
+			}
+		}
+		tool_calls << tool_call(slot.id, slot.name, arguments)
+	}
+	return Response{
+		message: message_assistant(content, tool_calls)
+		usage: usage(input_tokens, output_tokens)
+	}
+}
+
+pub fn (adapter &OpenAICompatible) generate_stream(request Request, on_delta DeltaHandler) !Response {
+	if adapter.base_url == '' {
+		return praxo_error('PROVIDER_HTTP', 'provider base URL is required')
+	}
+	mut payload := openai_payload(adapter, request)
+	payload['stream'] = json2.Any(true)
+	path := '/chat/completions'
+	text := adapter.stream_transport(adapter.base_url, adapter.api_key, path, payload)!
+	return openai_parse_sse(text, on_delta)
 }

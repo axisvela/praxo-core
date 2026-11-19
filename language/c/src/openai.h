@@ -20,6 +20,9 @@ PxValue *px_openai_parse_response(PxArena *arena, const char *text,
     const char **error);
 PxValue *px_openai_generate(PxArena *arena, PxValue *messages, PxValue *tools,
     void *ctx);
+PxValue *px_openai_generate_stream(PxArena *arena, PxValue *messages,
+    PxValue *tools, const char *(*on_delta)(const char *delta, void *ctx),
+    void *ctx, const char **error);
 const char *px_openai_url(PxArena *arena, const PxOpenAICompatible *adapter);
 
 #endif

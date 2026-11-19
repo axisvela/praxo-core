@@ -11,10 +11,7 @@ use crate::tool::{Registry, Tool};
 pub fn run_agent_loop(vector: &Value) -> std::result::Result<(), String> {
     let input = &vector["input"];
     let expect = &vector["expect"];
-    let steps = input["script"]
-        .as_array()
-        .cloned()
-        .unwrap_or_default();
+    let steps = input["script"].as_array().cloned().unwrap_or_default();
     let calls = Arc::new(Mutex::new(0usize));
     let mut registry = Registry::new();
     if let Some(tools) = input["tools"].as_array() {
@@ -102,10 +99,7 @@ impl Model for ScriptedModel {
             .map(|call| serde_json::from_value(call).expect("tool call"))
             .collect();
         Ok(Response {
-            message: Message::assistant(
-                step["content"].as_str().unwrap_or(""),
-                tool_calls,
-            ),
+            message: Message::assistant(step["content"].as_str().unwrap_or(""), tool_calls),
             usage: Usage {
                 input_tokens: step["inputTokens"].as_i64().unwrap_or(0),
                 output_tokens: step["outputTokens"].as_i64().unwrap_or(0),

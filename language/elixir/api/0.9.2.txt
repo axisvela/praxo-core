@@ -7,6 +7,7 @@ Praxo.Agent.call
 Praxo.Agent.failing_model
 Praxo.Agent.fallback_model
 Praxo.Agent.generate
+Praxo.Agent.generate_stream
 Praxo.Agent.new_agent_options
 Praxo.Agent.new_tool
 Praxo.Agent.run_agent
@@ -15,7 +16,9 @@ Praxo.Agent.static_model
 Praxo.AgentOptions
 Praxo.Anthropic
 Praxo.Anthropic.generate
+Praxo.Anthropic.generate_stream
 Praxo.Anthropic.new
+Praxo.Anthropic.streaming_model
 Praxo.CallLimit
 Praxo.CheckpointAllowlist
 Praxo.CheckpointAllowlist.marshal
@@ -35,7 +38,9 @@ Praxo.FuncRetriever.new
 Praxo.FuncRetriever.retrieve
 Praxo.Gemini
 Praxo.Gemini.generate
+Praxo.Gemini.generate_stream
 Praxo.Gemini.new
+Praxo.Gemini.streaming_model
 Praxo.HarmovelaSink
 Praxo.HarmovelaSink.emit
 Praxo.HarmovelaSink.new
@@ -122,7 +127,9 @@ Praxo.Models.tool_spec
 Praxo.Models.usage
 Praxo.OpenAICompatible
 Praxo.OpenAICompatible.generate
+Praxo.OpenAICompatible.generate_stream
 Praxo.OpenAICompatible.new
+Praxo.OpenAICompatible.streaming_model
 Praxo.OtelSink
 Praxo.OtelSink.emit
 Praxo.OtelSink.new
@@ -130,6 +137,10 @@ Praxo.PathChecker
 Praxo.PathGrant
 Praxo.Plugin
 Praxo.Plugin.parse_manifest
+Praxo.PluginProcess
+Praxo.PluginProcess.invoke
+Praxo.PluginProcess.start
+Praxo.PluginProcess.stop
 Praxo.Request
 Praxo.Response
 Praxo.RunResult
@@ -148,6 +159,7 @@ Praxo.Runtime.stream_kinds
 Praxo.Runtime.truncate_to_tokens
 Praxo.SSE
 Praxo.SSE.parse
+Praxo.SSE.parse_response
 Praxo.Session
 Praxo.Sink
 Praxo.Sink.emit

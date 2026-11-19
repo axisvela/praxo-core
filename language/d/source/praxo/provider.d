@@ -13,6 +13,7 @@ import praxo.errors : PraxoError;
 import praxo.json : parse, stringify;
 
 alias ProviderTransport = JSONValue delegate(string path, JSONValue payload);
+alias ProviderStreamTransport = string delegate(string path, JSONValue payload);
 
 JSONValue postJSON(string baseUrl, string path, JSONValue payload, string[string] headers) {
     auto input = buildPath(tempDir(),
@@ -46,6 +47,36 @@ JSONValue postJSON(string baseUrl, string path, JSONValue payload, string[string
     } catch (Exception) {
         throw new PraxoError("PROVIDER_JSON", "provider returned invalid JSON");
     }
+}
+
+string postText(string baseUrl, string path, JSONValue payload, string[string] headers) {
+    auto input = buildPath(tempDir(),
+        "praxo-provider-" ~ uniform(0, 2_000_000_000).to!string ~ ".json");
+    write(input, stringify(payload));
+    scope(exit) remove(input);
+    string[] command = ["curl", "-sS", "-N", "-X", "POST"];
+    foreach (key, value; headers) {
+        command ~= ["-H", key ~ ": " ~ value];
+    }
+    command ~= ["--data-binary", "@" ~ input, "-w", "\n%{http_code}", baseUrl ~ path];
+    auto result = execute(command);
+    auto text = result.output;
+    auto index = text.lastIndexOf('\n');
+    int status = 0;
+    string body = text;
+    if (index >= 0) {
+        body = text[0 .. index];
+        try {
+            status = strip(text[index + 1 .. $]).to!int;
+        } catch (Exception) {
+            status = 0;
+        }
+    }
+    if (status < 200 || status >= 300) {
+        throw new PraxoError("PROVIDER_HTTP",
+            "provider returned HTTP " ~ status.to!string ~ ": " ~ bounded(body));
+    }
+    return body;
 }
 
 string bounded(string body) {

@@ -1,5 +1,5 @@
 -module(praxo_openai_compatible).
--export([new/2, new/3, generate/2, model/1]).
+-export([new/2, new/3, generate/2, generate_stream/3, model/1, streaming_model/1]).
 
 new(BaseUrl, Model) ->
     new(BaseUrl, Model, #{}).
@@ -10,15 +10,19 @@ new(BaseUrl, Model, Options) ->
         model => praxo_util:to_bin(Model),
         api_key => maps:get(api_key, Options, undefined),
         transport => maps:get(transport, Options, undefined),
+        stream_transport => maps:get(stream_transport, Options, undefined),
         timeout => maps:get(timeout, Options, 60000)
     }.
 
 generate(Adapter, Request) ->
+    generate(Adapter, Request, false).
+
+generate(Adapter, Request, Stream) ->
     case maps:get(base_url, Adapter) of
         <<>> ->
             {error, <<"PROVIDER_HTTP">>, Adapter};
         _ ->
-            Payload = payload(Adapter, Request),
+            Payload = payload(Adapter, Request, Stream),
             Path = <<"/chat/completions">>,
             Result =
                 case maps:get(transport, Adapter) of
@@ -38,15 +42,53 @@ generate(Adapter, Request) ->
             end
     end.
 
+generate_stream(Adapter, Request, OnDelta) ->
+    case maps:get(base_url, Adapter) of
+        <<>> ->
+            {error, <<"PROVIDER_HTTP">>, Adapter};
+        _ ->
+            Payload = payload(Adapter, Request, true),
+            Path = <<"/chat/completions">>,
+            Result =
+                case maps:get(stream_transport, Adapter) of
+                    undefined -> post_stream(Adapter, Path, Payload);
+                    Transport -> Transport(Path, Payload)
+                end,
+            case Result of
+                {ok, Text} when is_binary(Text) ->
+                    case praxo_sse:parse_response(Text, OnDelta) of
+                        {ok, Parsed} -> {ok, streamed_response(Parsed), Adapter};
+                        {error, Code} -> {error, Code, Adapter}
+                    end;
+                {error, Code} ->
+                    {error, Code, Adapter};
+                {error, Code, Detail} ->
+                    {error, Code, Adapter#{last_error => Detail}}
+            end
+    end.
+
 model(Adapter) ->
     fun(Request) -> generate(Adapter, Request) end.
 
-payload(Adapter, Request) ->
+streaming_model(Adapter) ->
+    #{
+        generate => fun(Request) -> generate(Adapter, Request) end,
+        stream => fun(Request, OnDelta) ->
+            generate_stream(Adapter, Request, OnDelta)
+        end
+    }.
+
+payload(Adapter, Request, Stream) ->
     Messages = [message_payload(Message) || Message <- maps:get(messages, Request, [])],
-    Base = #{
+    Base0 = #{
         <<"model">> => maps:get(model, Adapter),
         <<"messages">> => Messages
     },
+    Base =
+        case Stream of
+            true -> Base0#{<<"stream">> => true};
+            false -> Base0
+        end,
     WithTools =
         case maps:get(tools, Request, []) of
             [] -> Base;
@@ -146,6 +188,29 @@ parse_response(Data) ->
             {error, Code}
     end.
 
+streamed_response(Parsed) ->
+    Calls = [
+        praxo_models:tool_call(
+            maps:get(id, Call, <<>>),
+            maps:get(name, Call, <<>>),
+            maps:get(arguments, Call, #{})
+        )
+     || Call <- maps:get(tool_calls, Parsed, [])
+    ],
+    Usage = maps:get(usage, Parsed, #{input => 0, output => 0}),
+    Response = praxo_models:response(
+        praxo_models:message_assistant(maps:get(content, Parsed, <<>>), Calls),
+        praxo_models:usage(
+            maps:get(input, Usage, 0),
+            maps:get(output, Usage, 0)
+        )
+    ),
+    case maps:get(finish_reason, Parsed, undefined) of
+        undefined -> Response;
+        null -> Response;
+        Finish -> Response#{finish_reason => Finish}
+    end.
+
 parse_calls([]) ->
     {ok, []};
 parse_calls([Item | Rest]) ->
@@ -203,6 +268,24 @@ post(Adapter, Path, Payload) ->
                 {ok, Data} -> {ok, Data};
                 {error, _} -> {error, <<"PROVIDER_JSON">>}
             end;
+        {ok, {{_, Status, _}, _ResponseHeaders, ResponseBody}} ->
+            {error, <<"PROVIDER_HTTP">>, #{status => Status, body => bounded(ResponseBody)}};
+        {error, _Reason} ->
+            {error, <<"PROVIDER_HTTP">>}
+    end.
+
+post_stream(Adapter, Path, Payload) ->
+    _ = application:ensure_all_started(inets),
+    Url = binary_to_list(<<(maps:get(base_url, Adapter))/binary, Path/binary>>),
+    Headers = request_headers(maps:get(api_key, Adapter)) ++
+        [{"Accept", "text/event-stream"}],
+    Body = binary_to_list(praxo_json:encode(Payload)),
+    HttpOptions = [{timeout, maps:get(timeout, Adapter)}],
+    Options = [{body_format, binary}],
+    case httpc:request(post, {Url, Headers, "application/json", Body}, HttpOptions, Options) of
+        {ok, {{_, Status, _}, _ResponseHeaders, ResponseBody}}
+                when Status >= 200, Status < 300 ->
+            {ok, ResponseBody};
         {ok, {{_, Status, _}, _ResponseHeaders, ResponseBody}} ->
             {error, <<"PROVIDER_HTTP">>, #{status => Status, body => bounded(ResponseBody)}};
         {error, _Reason} ->

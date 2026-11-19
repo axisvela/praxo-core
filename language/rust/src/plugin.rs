@@ -192,9 +192,7 @@ pub fn parse_manifest(raw: &str) -> Result<Manifest> {
         Some(value) => {
             let signature = as_object(Some(value), "signature")?;
             check_keys(&signature, SIGNATURE_KEYS, "signature")?;
-            if !text_present(signature.get("algorithm"))
-                || !text_present(signature.get("keyId"))
-            {
+            if !text_present(signature.get("algorithm")) || !text_present(signature.get("keyId")) {
                 return Err(PraxoError::plugin(
                     "plugin: manifest: signature requires algorithm and keyId",
                 ));
@@ -273,9 +271,10 @@ pub fn validate_trust(manifest: &Manifest, profile: &str) -> Result<()> {
 
 fn validate_permissions(permissions: &Map<String, Value>) -> Result<()> {
     if let Some(value) = permissions.get("filesystem") {
-        for item in value.as_array().ok_or_else(|| {
-            PraxoError::plugin("plugin: manifest: filesystem must be an array")
-        })? {
+        for item in value
+            .as_array()
+            .ok_or_else(|| PraxoError::plugin("plugin: manifest: filesystem must be an array"))?
+        {
             let entry = as_object(Some(item), "filesystem")?;
             check_keys(&entry, FILESYSTEM_KEYS, "filesystem")?;
             if !text_present(entry.get("path")) {
@@ -292,9 +291,10 @@ fn validate_permissions(permissions: &Map<String, Value>) -> Result<()> {
         }
     }
     if let Some(value) = permissions.get("network") {
-        for item in value.as_array().ok_or_else(|| {
-            PraxoError::plugin("plugin: manifest: network must be an array")
-        })? {
+        for item in value
+            .as_array()
+            .ok_or_else(|| PraxoError::plugin("plugin: manifest: network must be an array"))?
+        {
             let entry = as_object(Some(item), "network")?;
             check_keys(&entry, NETWORK_KEYS, "network")?;
             if !text_present(entry.get("host")) {
@@ -376,7 +376,10 @@ fn as_int(value: Option<&Value>, where_: &str) -> Result<i64> {
 }
 
 fn text_present(value: Option<&Value>) -> bool {
-    value.and_then(Value::as_str).map(|text| !text.is_empty()).unwrap_or(false)
+    value
+        .and_then(Value::as_str)
+        .map(|text| !text.is_empty())
+        .unwrap_or(false)
 }
 
 const TOP_KEYS: &[&str] = &[

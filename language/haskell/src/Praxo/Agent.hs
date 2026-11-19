@@ -25,7 +25,7 @@ type InterruptHandler = Interrupt -> IO InterruptDecision
 type InterruptApproval = Interrupt -> IO Bool
 data Message = Message { messageRole :: String, messageContent :: String, messageToolCalls :: [ToolCall], messageToolCallId :: String } deriving (Eq, Show)
 data Response = Response { responseContent :: String, responseToolCalls :: [ToolCall], inputTokens :: Integer, outputTokens :: Integer } deriving (Eq, Show)
-data AgentOptions = AgentOptions { generate :: [Message] -> IO (Either AgentError Response), invoke :: ToolCall -> IO (Either AgentError Json), emit :: String -> IO (Either AgentError ()), maxSteps :: Int, maxTokens :: Integer, policy :: Maybe (Action -> Bool), allowedTools :: [String], requirePolicy :: Bool, requireToolScope :: Bool, runId :: String, sessionId :: String, interruptOn :: [String], onInterruptDecision :: Maybe InterruptHandler, onInterrupt :: Maybe InterruptApproval, beforeTool :: Maybe (ToolCall -> IO (Either AgentError ToolCall)) }
+data AgentOptions = AgentOptions { generate :: [Message] -> IO (Either AgentError Response), invoke :: ToolCall -> IO (Either AgentError Json), emit :: String -> IO (Either AgentError ()), maxSteps :: Int, maxTokens :: Integer, policy :: Maybe (Action -> Bool), allowedTools :: [String], requirePolicy :: Bool, requireToolScope :: Bool, runId :: String, sessionId :: String, interruptOn :: [String], onInterruptDecision :: Maybe InterruptHandler, onInterrupt :: Maybe InterruptApproval, beforeTool :: Maybe (ToolCall -> IO (Either AgentError ToolCall)), onDelta :: Maybe (String -> IO ()), generateStream :: Maybe ([Message] -> (String -> IO ()) -> IO (Either AgentError Response)) }
 data RunResult = RunResult { runOutput :: String, runSteps :: Int, runInputTokens :: Integer, runOutputTokens :: Integer, runMessages :: [Message] } deriving (Eq, Show)
 
 data InterruptOutcome = InterruptOutcome
@@ -81,7 +81,9 @@ runAgent options history prompt =
     loop step usedIn usedOut messages
         | step > limit = pure (Left (AgentError "AGENT_MAX_STEPS" "agent: maximum steps exceeded"))
         | otherwise = ensureAllowed (authorize "model.generate" (ToolCall "" "" JNull)) $ do
-            generated <- generate options messages
+            generated <- case (generateStream options, onDelta options) of
+                (Just stream, Just delta) -> stream messages delta
+                _ -> generate options messages
             case generated of
                 Left err -> pure (Left err)
                 Right response | inputTokens response < 0 || outputTokens response < 0 ->

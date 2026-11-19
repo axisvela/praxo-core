@@ -19,11 +19,12 @@ Julia implementation of the PRAXO-CORE AI agent framework contract.
 
 ## Scope
 
-`0.6.0` implements all eleven conformance vector groups: tool-call parsing, JSON
+`0.7.0` implements all eleven conformance vector groups: tool-call parsing, JSON
 Schema, plugin manifests, memory, events, stream kinds, checkpoint envelopes,
-path policy, context budgets, middleware, and the agent loop. Non-streaming
-OpenAI-compatible, Anthropic, and Gemini model adapters, plus an OpenTelemetry
-event sink, are available under `src/adapters/`.
+path policy, context budgets, middleware, and the agent loop.
+OpenAI-compatible and Anthropic and Gemini streaming model
+adapters, and an OpenTelemetry event sink, are available under
+`src/adapters/`.
 
 ## OpenAI-Compatible Adapter
 
@@ -39,7 +40,10 @@ result = generate(adapter, Request([Message(Roles.USER, "hi")]))
 ```
 
 Provider HTTP failures raise `PraxoError` with code `PROVIDER_HTTP`; invalid
-tool-argument JSON raises `PROVIDER_JSON`. Streaming is not implemented.
+tool-argument JSON raises `PROVIDER_JSON`. `generate_stream` sets `stream: true`,
+parses SSE, reassembles content, fragmented tool calls, usage, and
+`finish_reason`, and calls the delta callback. Inject `stream_transport`
+returning raw SSE text; set `on_delta` in `AgentOptions` to use it.
 
 ## Anthropic and Gemini Adapters
 

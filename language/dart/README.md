@@ -102,7 +102,12 @@ final options = AgentOptions(StaticModel('hello'))
 
 `OpenAICompatibleModel` maps Core requests to `POST {baseUrl}/chat/completions`,
 including messages, tools, tool choice, assistant tool calls, token usage, and
-provider HTTP errors (`PROVIDER_HTTP`). Streaming is not implemented.
+provider HTTP errors (`PROVIDER_HTTP`). `generateStream` sets `stream: true`,
+parses SSE, reassembles content, fragmented tool calls, usage, and
+`finish_reason`, and invokes the delta callback. Inject `streamTransport`
+returning SSE text, or use the synchronous http transport. HTTPS streaming
+requires a caller-supplied transport; `generateStreamAsync` is not part of the
+synchronous Agent seam.
 
 ```dart
 final model = OpenAICompatibleModel(
@@ -122,7 +127,7 @@ avoid network calls.
 
 ## Anthropic and Gemini Adapters
 
-`AnthropicModel` and `GeminiModel` map the native Messages and generateContent
+`AnthropicModel` maps the native Messages API with `generateStream` SSE\nreassembly. `GeminiModel` maps generateContent
 APIs. Both provide synchronous and asynchronous generation, injectable
 transports, tool-call mapping, usage, and provider error handling.
 
@@ -168,6 +173,11 @@ default transport supports `http` only; inject a transport for `https`. The sink
 adds no authentication, retries, buffering, ordering, or exactly-once delivery.
 Use HTTPS and caller-side filtering for sensitive event data.
 
+## Process plugin host
+
+`PluginProcessHost` speaks the framework JSON-Lines process plugin protocol with
+token authentication, health handshake, invocation timeout, cooperative cancel,
+and typed call errors.
 ## Layout
 
 - `lib/` package source.

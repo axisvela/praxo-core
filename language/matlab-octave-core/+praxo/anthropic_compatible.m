@@ -12,6 +12,8 @@ version = option(options, 'version', '2023-06-01');
 max_tokens = option(options, 'maxTokens', 1024);
 timeout = option(options, 'timeout', 120);
 transport = option(options, 'transport', []);
+stream_transport = option(options, 'stream_transport', []);
+on_delta = option(request, 'onDelta', []);
 if isempty(base_url)
     provider_error('PROVIDER_HTTP', 'provider base URL is required');
 end
@@ -25,6 +27,29 @@ base_url = regexprep(base_url, '/+$', '');
 messages = option(request, 'messages', {});
 tools = option(request, 'tools', {});
 tool_choice = option(request, 'toolChoice', '');
+if ~isempty(on_delta)
+    payload = request_payload(model, max_tokens, messages, tools, tool_choice, true);
+    if ~isempty(stream_transport)
+        text = stream_transport('/v1/messages', payload);
+    elseif ~isempty(transport)
+        result = transport('/v1/messages', payload);
+        if isstruct(result) && isscalar(result) && isfield(result, 'status') && isfield(result, 'body')
+            if result.status < 200 || result.status >= 300
+                provider_error('PROVIDER_HTTP', sprintf('provider returned HTTP %d', result.status));
+            end
+            text = result.body;
+        else
+            text = result;
+        end
+    else
+        text = default_stream_transport(base_url, api_key, version, timeout, '/v1/messages', payload);
+    end
+    if ~ischar(text)
+        provider_error('PROVIDER_HTTP', 'stream transport must return text');
+    end
+    response = parse_sse_response(text, on_delta);
+    return;
+end
 payload = request_payload(model, max_tokens, messages, tools, tool_choice);
 if isempty(transport)
     result = default_transport(base_url, api_key, version, timeout, '/v1/messages', payload);
@@ -40,7 +65,7 @@ end
 response = parse_response(result.body);
 end
 
-function node = request_payload(model, max_tokens, messages, tools, tool_choice)
+function node = request_payload(model, max_tokens, messages, tools, tool_choice, stream)
 system = '';
 encoded_messages = {};
 pending = {};
@@ -107,6 +132,9 @@ if ~isempty(tools)
         pairs(end + 1, :) = {'tool_choice', praxo.json_make_object({ ...
             'type', praxo.json_make_string('none')})};
     end
+end
+if nargin >= 6 && stream
+    pairs(end + 1, :) = {'stream', praxo.json_make_bool(true)};
 end
 node = praxo.json_make_object(pairs);
 end
@@ -190,6 +218,160 @@ end
 response = struct('content', text, 'toolCalls', {calls}, ...
     'inputTokens', input_tokens, 'outputTokens', output_tokens, ...
     'finishReason', finish_reason);
+end
+
+function response = parse_sse_response(text, on_delta)
+content = '';
+input_tokens = 0;
+output_tokens = 0;
+cached_tokens = 0;
+finish_reason = '';
+done = false;
+call_indexes = [];
+call_ids = {};
+call_names = {};
+call_arguments = {};
+lines = regexp(text, '\r?\n', 'split');
+for i = 1:numel(lines)
+    line = strtrim(lines{i});
+    if isempty(line) || numel(line) < 5 || ~strcmp(line(1:5), 'data:')
+        continue;
+    end
+    chunk = strtrim(line(6:end));
+    if isempty(chunk)
+        continue;
+    end
+    try
+        event = praxo.parse_json(chunk);
+    catch
+        provider_error('MODEL_STREAM', 'invalid SSE packet');
+    end
+    [type_node, has_type] = praxo.json_field(event, 'type');
+    kind = '';
+    if has_type && strcmp(type_node.kind, 'string')
+        kind = type_node.value;
+    end
+    if strcmp(kind, 'message_start')
+        [message_node, has_message] = praxo.json_field(event, 'message');
+        if has_message && strcmp(message_node.kind, 'object')
+            [usage, has_usage] = praxo.json_field(message_node, 'usage');
+            if has_usage && strcmp(usage.kind, 'object')
+                [node, found] = praxo.json_field(usage, 'input_tokens');
+                if found && strcmp(node.kind, 'number')
+                    input_tokens = node.value;
+                end
+                [node, found] = praxo.json_field(usage, 'cache_read_input_tokens');
+                if found && strcmp(node.kind, 'number')
+                    cached_tokens = node.value;
+                end
+            end
+        end
+    elseif strcmp(kind, 'content_block_start')
+        index = numel(call_indexes);
+        [index_node, has_index] = praxo.json_field(event, 'index');
+        if has_index && strcmp(index_node.kind, 'number')
+            index = index_node.value;
+        end
+        [block, has_block] = praxo.json_field(event, 'content_block');
+        if has_block && strcmp(block.kind, 'object')
+            [block_type, has_block_type] = praxo.json_field(block, 'type');
+            if has_block_type && strcmp(block_type.kind, 'string') && strcmp(block_type.value, 'tool_use')
+                call_indexes(end + 1) = index;
+                [id_node, has_id] = praxo.json_field(block, 'id');
+                call_ids{end + 1} = ternary(has_id && strcmp(id_node.kind, 'string'), id_node.value, '');
+                [name_node, has_name] = praxo.json_field(block, 'name');
+                call_names{end + 1} = ternary(has_name && strcmp(name_node.kind, 'string'), name_node.value, '');
+                call_arguments{end + 1} = '';
+            end
+        end
+    elseif strcmp(kind, 'content_block_delta')
+        index = 0;
+        [index_node, has_index] = praxo.json_field(event, 'index');
+        if has_index && strcmp(index_node.kind, 'number')
+            index = index_node.value;
+        end
+        [delta, has_delta] = praxo.json_field(event, 'delta');
+        if has_delta && strcmp(delta.kind, 'object')
+            [delta_type, has_delta_type] = praxo.json_field(delta, 'type');
+            if has_delta_type && strcmp(delta_type.kind, 'string')
+                if strcmp(delta_type.value, 'text_delta')
+                    [piece_node, has_piece] = praxo.json_field(delta, 'text');
+                    if has_piece && strcmp(piece_node.kind, 'string') && ~isempty(piece_node.value)
+                        content = [content piece_node.value];
+                        on_delta(piece_node.value);
+                    end
+                elseif strcmp(delta_type.value, 'input_json_delta')
+                    [partial_node, has_partial] = praxo.json_field(delta, 'partial_json');
+                    if has_partial && strcmp(partial_node.kind, 'string')
+                        slot = find(call_indexes == index, 1);
+                        if ~isempty(slot)
+                            call_arguments{slot} = [call_arguments{slot} partial_node.value];
+                        end
+                    end
+                end
+            end
+        end
+    elseif strcmp(kind, 'message_delta')
+        [delta, has_delta] = praxo.json_field(event, 'delta');
+        if has_delta && strcmp(delta.kind, 'object')
+            [reason_node, has_reason] = praxo.json_field(delta, 'stop_reason');
+            if has_reason && strcmp(reason_node.kind, 'string') && ~isempty(reason_node.value)
+                finish_reason = reason_node.value;
+            end
+        end
+        [usage, has_usage] = praxo.json_field(event, 'usage');
+        if has_usage && strcmp(usage.kind, 'object')
+            [node, found] = praxo.json_field(usage, 'output_tokens');
+            if found && strcmp(node.kind, 'number')
+                output_tokens = node.value;
+            end
+        end
+    elseif strcmp(kind, 'message_stop')
+        done = true;
+    elseif strcmp(kind, 'error')
+        provider_error('MODEL_STREAM', 'anthropic: provider stream error');
+    end
+end
+if ~done && isempty(finish_reason)
+    provider_error('MODEL_STREAM', 'stream ended before completion');
+end
+[~, order] = sort(call_indexes);
+calls = {};
+for k = 1:numel(order)
+    slot = order(k);
+    if isempty(call_names{slot})
+        continue;
+    end
+    if isempty(call_arguments{slot})
+        arguments = praxo.json_make_object({});
+    else
+        try
+            arguments = praxo.parse_json(call_arguments{slot});
+        catch
+            provider_error('PROVIDER_JSON', 'anthropic: invalid tool arguments');
+        end
+        if ~strcmp(arguments.kind, 'object')
+            provider_error('PROVIDER_JSON', 'anthropic: tool arguments must be an object');
+        end
+    end
+    calls{end + 1} = struct('id', call_ids{slot}, 'name', call_names{slot}, ...
+        'arguments', arguments);
+end
+response = struct('content', content, 'toolCalls', {calls}, ...
+    'inputTokens', input_tokens, 'outputTokens', output_tokens, ...
+    'finishReason', finish_reason);
+end
+
+function text = default_stream_transport(base_url, api_key, version, timeout, path, payload)
+raw = praxo.encode_json(payload);
+web_options = weboptions('MediaType', 'application/json', ...
+    'ContentType', 'text', 'Timeout', timeout, ...
+    'HeaderFields', {'x-api-key', api_key; 'anthropic-version', version});
+try
+    text = webwrite([base_url path], raw, web_options);
+catch err
+    provider_error('PROVIDER_HTTP', err.message);
+end
 end
 
 function result = default_transport(base_url, api_key, version, timeout, path, payload)

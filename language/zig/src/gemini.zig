@@ -166,8 +166,91 @@ pub const Adapter = struct {
         return self.parseResponse(data);
     }
 
+    pub fn generateStream(self: *Adapter, request: models.Request, on_delta: agent.DeltaHandler) !models.Response {
+        if (self.base_url.len == 0 or self.api_key.len == 0 or self.model.len == 0) return compat.ProviderError.ProviderBaseUrlRequired;
+        const request_payload = try self.payload(request);
+        const path = try std.fmt.allocPrint(self.allocator, "/v1beta/models/{s}:streamGenerateContent?alt=sse", .{self.model});
+        const result = if (self.transport) |transport|
+            try transport.send(self.allocator, path, request_payload)
+        else
+            try self.post(path, request_payload);
+        if (result.status < 200 or result.status >= 300) return compat.ProviderError.ProviderHttp;
+        return self.parseSse(result.body, on_delta);
+    }
+
     pub fn asModel(self: *Adapter) agent.Model {
-        return .{ .ctx = self, .generateFn = generateModel };
+        return .{
+            .ctx = self,
+            .generateFn = generateModel,
+            .streamFn = generateStreamModel,
+        };
+    }
+
+    fn generateStreamModel(ctx: *anyopaque, request: models.Request, on_delta: agent.DeltaHandler) anyerror!models.Response {
+        const self: *Adapter = @ptrCast(@alignCast(ctx));
+        return self.generateStream(request, on_delta);
+    }
+
+    fn parseSse(self: *Adapter, text: []const u8, on_delta: agent.DeltaHandler) !models.Response {
+        var content = std.array_list.Managed(u8).init(self.allocator);
+        var calls = std.array_list.Managed(models.ToolCall).init(self.allocator);
+        var input_tokens: i64 = 0;
+        var output_tokens: i64 = 0;
+        var cached_tokens: i64 = 0;
+        var finish_reason: ?[]const u8 = null;
+        var lines = std.mem.splitScalar(u8, text, '\n');
+        while (lines.next()) |raw| {
+            const line = std.mem.trim(u8, raw, " \r\t");
+            if (!std.mem.startsWith(u8, line, "data:")) continue;
+            const chunk = std.mem.trim(u8, line[5..], " \r\t");
+            if (chunk.len == 0 or std.mem.eql(u8, chunk, "[DONE]")) continue;
+            const event = json.parse(self.allocator, chunk) catch return compat.ProviderError.ModelStream;
+            if (event != .object) continue;
+            if (json.get(event, "error") != null) return compat.ProviderError.ModelStream;
+            if (json.get(event, "usageMetadata")) |usage| {
+                input_tokens = json.integer(usage, "promptTokenCount", input_tokens);
+                output_tokens = json.integer(usage, "candidatesTokenCount", output_tokens);
+                cached_tokens = json.integer(usage, "cachedContentTokenCount", cached_tokens);
+            }
+            const candidates = json.array(event, "candidates");
+            if (candidates.len == 0) continue;
+            const candidate = candidates[0];
+            if (json.string(candidate, "finishReason")) |reason| finish_reason = reason;
+            const candidate_content = json.get(candidate, "content") orelse json.Json{ .null = {} };
+            for (json.array(candidate_content, "parts")) |part| {
+                if (json.string(part, "text")) |piece| {
+                    if (piece.len > 0) {
+                        try content.appendSlice(piece);
+                        on_delta.emit(piece);
+                    }
+                }
+                if (json.get(part, "functionCall")) |call| {
+                    if (call != .object) continue;
+                    var arguments = json.Json{ .object = .empty };
+                    if (json.get(call, "args")) |args| {
+                        if (args == .object) arguments = args;
+                    }
+                    try calls.append(.{
+                        .id = try std.fmt.allocPrint(self.allocator, "call-{d}", .{calls.items.len + 1}),
+                        .name = json.string(call, "name") orelse "",
+                        .arguments = arguments,
+                    });
+                }
+            }
+        }
+        return .{
+            .message = .{
+                .role = models.ASSISTANT,
+                .content = try content.toOwnedSlice(),
+                .tool_calls = try calls.toOwnedSlice(),
+            },
+            .usage = .{
+                .input_tokens = input_tokens,
+                .output_tokens = output_tokens,
+                .cached_tokens = cached_tokens,
+            },
+            .finish_reason = finish_reason,
+        };
     }
 
     fn generateModel(ctx: *anyopaque, request: models.Request) anyerror!models.Response {
@@ -264,4 +347,49 @@ test "gemini maps request and response" {
     try std.testing.expectEqualStrings("hello", response.message.content.?);
     try std.testing.expectEqual(@as(i64, 3), response.usage.input_tokens);
     try std.testing.expectEqualStrings("echo", response.message.tool_calls[0].name);
+}
+
+test "gemini reassembles stream" {
+    const allocator = std.heap.page_allocator;
+    const Context = struct {
+        fn send(ctx: *anyopaque, allocator_value: Allocator, path: []const u8, payload: json.Json) anyerror!compat.TransportResult {
+            _ = ctx;
+            _ = allocator_value;
+            _ = payload;
+            try std.testing.expect(std.mem.indexOf(u8, path, ":streamGenerateContent") != null);
+            try std.testing.expect(std.mem.indexOf(u8, path, "alt=sse") != null);
+            return .{ .status = 200, .body =
+                "data: {\"candidates\":[{\"content\":{\"parts\":[{\"text\":\"he\"}]}}]}\n\n" ++
+                "data: {\"candidates\":[{\"content\":{\"parts\":[{\"text\":\"llo\"},{\"functionCall\":{\"name\":\"echo\",\"args\":{\"text\":\"hi\"}}}]},\"finishReason\":\"STOP\"}],\"usageMetadata\":{\"promptTokenCount\":4,\"candidatesTokenCount\":2,\"cachedContentTokenCount\":1}}" };
+        }
+    };
+    var context: u8 = 0;
+    var adapter = Adapter.init(allocator, "https://example.test", "gemini-test");
+    adapter.api_key = "gk";
+    adapter.transport = .{ .ctx = &context, .sendFn = Context.send };
+    const Collector = struct {
+        var deltas: [8][]const u8 = undefined;
+        var count: usize = 0;
+        fn emit(ctx: *anyopaque, delta: []const u8) void {
+            _ = ctx;
+            if (@This().count >= @This().deltas.len) return;
+            @This().deltas[@This().count] = delta;
+            @This().count += 1;
+        }
+    };
+    Collector.count = 0;
+    const response = try adapter.generateStream(
+        .{ .messages = &.{.{ .role = models.USER, .content = "hi" }} },
+        .{ .ctx = undefined, .emitFn = Collector.emit },
+    );
+    try std.testing.expectEqual(@as(usize, 2), Collector.count);
+    try std.testing.expectEqualStrings("he", Collector.deltas[0]);
+    try std.testing.expectEqualStrings("llo", Collector.deltas[1]);
+    try std.testing.expectEqualStrings("hello", response.message.content.?);
+    try std.testing.expectEqual(@as(i64, 4), response.usage.input_tokens);
+    try std.testing.expectEqual(@as(i64, 2), response.usage.output_tokens);
+    try std.testing.expectEqual(@as(i64, 1), response.usage.cached_tokens);
+    try std.testing.expectEqualStrings("STOP", response.finish_reason.?);
+    try std.testing.expectEqualStrings("echo", response.message.tool_calls[0].name);
+    try std.testing.expectEqualStrings("hi", response.message.tool_calls[0].arguments.object.get("text").?.string);
 }

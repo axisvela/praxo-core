@@ -567,11 +567,14 @@ agent_run <- function(model, prompt, tools = list(), events = NULL, max_steps = 
 parse_sse_stream <- function(text, on_delta = function(delta) invisible(NULL)) {
   content <- character()
   finish_reason <- NULL
+  usage_value <- NULL
+  calls <- list()
   done <- FALSE
   lines <- strsplit(text, "\n", fixed = TRUE)[[1L]]
   for (line in lines) {
     if (!startsWith(line, "data:")) next
     data <- trimws(sub("^data:", "", line))
+    if (!nzchar(data)) next
     if (identical(data, "[DONE]")) {
       done <- TRUE
       break
@@ -580,18 +583,55 @@ parse_sse_stream <- function(text, on_delta = function(delta) invisible(NULL)) {
     if (is.null(chunk)) {
       praxo_error("MODEL_STREAM", "openai-compatible: invalid stream chunk")
     }
-    choices <- json_array(chunk, "choices")
-    choice <- if (length(choices) > 0L) choices[[1L]] else list()
-    reason <- json_string(choice, "finish_reason", NULL)
-    if (!is.null(reason)) finish_reason <- reason
-    delta <- json_string(json_get(choice, "delta", list()), "content", NULL)
-    if (!is.null(delta) && nzchar(delta)) {
-      content <- c(content, delta)
-      on_delta(delta)
+    if (!is.null(chunk$usage)) usage_value <- chunk$usage
+    for (choice in json_array(chunk, "choices")) {
+      reason <- json_string(choice, "finish_reason", NULL)
+      if (!is.null(reason)) finish_reason <- reason
+      delta <- json_get(choice, "delta", list())
+      text_delta <- json_string(delta, "content", NULL)
+      if (!is.null(text_delta) && nzchar(text_delta)) {
+        content <- c(content, text_delta)
+        on_delta(text_delta)
+      }
+      for (item in json_array(delta, "tool_calls")) {
+        index <- as.integer(json_int(item, "index", length(calls))) + 1L
+        while (length(calls) < index) {
+          calls[[length(calls) + 1L]] <- list(id = "", name = "", arguments = "")
+        }
+        id <- json_string(item, "id", NULL)
+        if (!is.null(id) && nzchar(id)) calls[[index]]$id <- id
+        function_value <- json_get(item, "function", list())
+        name <- json_string(function_value, "name", NULL)
+        if (!is.null(name) && nzchar(name)) {
+          calls[[index]]$name <- paste0(calls[[index]]$name, name)
+        }
+        args <- json_string(function_value, "arguments", NULL)
+        if (!is.null(args) && nzchar(args)) {
+          calls[[index]]$arguments <- paste0(calls[[index]]$arguments, args)
+        }
+      }
     }
   }
   if (!done && is.null(finish_reason)) {
     praxo_error("MODEL_STREAM", "openai-compatible: stream ended before completion")
   }
-  response(message(roles$assistant, paste0(content, collapse = "")))
+  tool_calls <- lapply(calls, function(call) {
+    arguments <- list()
+    if (nzchar(call$arguments)) {
+      parsed <- tryCatch(json_parse(call$arguments), error = function(error) NULL)
+      if (is.null(parsed) || !is.list(parsed) || is.null(names(parsed))) {
+        praxo_error("PROVIDER_JSON", "provider returned invalid tool arguments")
+      }
+      arguments <- parsed
+    }
+    tool_call(call$id, call$name, arguments)
+  })
+  usage_value <- usage_value %||% list()
+  result <- response(
+    message(roles$assistant, paste0(content, collapse = ""), tool_calls = tool_calls),
+    usage(json_int(usage_value, "prompt_tokens", 0L),
+          json_int(usage_value, "completion_tokens", 0L))
+  )
+  result$finishReason <- finish_reason
+  result
 }

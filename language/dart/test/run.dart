@@ -345,6 +345,63 @@ Future<void> main() async {
       'adapter usage');
   check(adapterResponse.finishReason == 'tool_calls', 'adapter finish');
 
+  var streamFlag = false;
+  final streamDeltas = <String>[];
+  final streamAdapter = OpenAICompatibleModel(
+    baseUrl: 'https://api.example.com/v1',
+    model: 'provider-model',
+    streamTransport: (path, payload) {
+      check(path == '/chat/completions', 'adapter stream path');
+      streamFlag = payload['stream'] == true;
+      return 'data: {"choices":[{"delta":{"content":"he"}}]}\n\n'
+          'data: {"choices":[{"delta":{"content":"llo"}}]}\n\n'
+          'data: {"choices":[{"delta":{"tool_calls":[{"index":0,'
+          '"id":"call-1","function":{"name":"ec",'
+          '"arguments":"{\\"text\\":"}}]}}]}\n\n'
+          'data: {"choices":[{"delta":{"tool_calls":[{"index":0,'
+          '"function":{"name":"ho","arguments":"\\"hi\\"}"}}]}}],'
+          '"usage":{"prompt_tokens":4,"completion_tokens":2}}\n\n'
+          'data: {"choices":[{"delta":{},"finish_reason":"tool_calls"}]}\n\n'
+          'data: [DONE]\n\n';
+    },
+  );
+  final streamResponse = streamAdapter.generateStream(
+    adapterRequest,
+    streamDeltas.add,
+  );
+  check(streamFlag, 'adapter stream flag');
+  check(streamDeltas.length == 2 &&
+      streamDeltas[0] == 'he' &&
+      streamDeltas[1] == 'llo', 'adapter stream deltas');
+  check(streamResponse.message.content == 'hello', 'adapter stream content');
+  check(streamResponse.message.toolCalls.single.id == 'call-1',
+      'adapter stream call id');
+  check(streamResponse.message.toolCalls.single.name == 'echo',
+      'adapter stream call name');
+  check(streamResponse.message.toolCalls.single.arguments['text'] == 'hi',
+      'adapter stream arguments');
+  check(streamResponse.usage.inputTokens == 4 &&
+      streamResponse.usage.outputTokens == 2, 'adapter stream usage');
+  check(streamResponse.finishReason == 'tool_calls',
+      'adapter stream finish');
+
+  final agentStreamAdapter = OpenAICompatibleModel(
+    baseUrl: 'https://api.example.com/v1',
+    model: 'provider-model',
+    streamTransport: (path, payload) =>
+        'data: {"choices":[{"delta":{"content":"ok"}}]}\n\n'
+        'data: {"choices":[{"delta":{},"finish_reason":"stop"}]}\n\n'
+        'data: [DONE]\n\n',
+  );
+  final agentDeltas = <String>[];
+  final agentResult = Agent(AgentOptions(
+    agentStreamAdapter,
+    onDelta: agentDeltas.add,
+  )).run(const Session(id: 's1'), 'go');
+  check(agentResult.output == 'ok', 'adapter agent stream output');
+  check(agentDeltas.length == 1 && agentDeltas[0] == 'ok',
+      'adapter agent stream deltas');
+
   var httpCode = '';
   try {
     OpenAICompatibleModel.decodeHttpResponse(503, 'down');
@@ -447,6 +504,88 @@ Future<void> main() async {
       'anthropic call id');
   check(anthropicResponse.usage.cachedTokens == 2, 'anthropic cached');
 
+  final anthropicEvents = [
+    {
+      'type': 'message_start',
+      'message': {
+        'usage': {'input_tokens': 4, 'cache_read_input_tokens': 1}
+      }
+    },
+    {
+      'type': 'content_block_start',
+      'index': 0,
+      'content_block': {'type': 'text', 'text': ''}
+    },
+    {
+      'type': 'content_block_delta',
+      'index': 0,
+      'delta': {'type': 'text_delta', 'text': 'he'}
+    },
+    {
+      'type': 'content_block_delta',
+      'index': 0,
+      'delta': {'type': 'text_delta', 'text': 'llo'}
+    },
+    {
+      'type': 'content_block_start',
+      'index': 1,
+      'content_block': {
+        'type': 'tool_use',
+        'id': 'call-1',
+        'name': 'echo',
+        'input': <String, dynamic>{}
+      }
+    },
+    {
+      'type': 'content_block_delta',
+      'index': 1,
+      'delta': {'type': 'input_json_delta', 'partial_json': '{"text":'}
+    },
+    {
+      'type': 'content_block_delta',
+      'index': 1,
+      'delta': {'type': 'input_json_delta', 'partial_json': '"hi"}'}
+    },
+    {
+      'type': 'message_delta',
+      'delta': {'stop_reason': 'tool_use'},
+      'usage': {'output_tokens': 2}
+    },
+    {'type': 'message_stop'},
+  ];
+  final anthropicStreamText = anthropicEvents
+      .map((event) => 'data: ${Json.stringify(event)}')
+      .join('\n\n');
+  final anthropicStream = AnthropicModel(
+    model: 'claude-test',
+    apiKey: 'ak',
+    streamTransport: (path, payload) {
+      check(path == '/v1/messages', 'anthropic stream path');
+      check(payload['stream'] == true, 'anthropic stream flag');
+      return anthropicStreamText;
+    },
+  );
+  final anthropicDeltas = <String>[];
+  final anthropicStreamResponse = anthropicStream.generateStream(
+    providerRequest,
+    anthropicDeltas.add,
+  );
+  check(anthropicDeltas.join() == 'hello', 'anthropic stream deltas');
+  check(anthropicStreamResponse.message.content == 'hello',
+      'anthropic stream content');
+  check(anthropicStreamResponse.message.toolCalls.single.id == 'call-1',
+      'anthropic stream call id');
+  check(anthropicStreamResponse.message.toolCalls.single.arguments['text'] ==
+      'hi', 'anthropic stream args');
+  check(anthropicStreamResponse.usage.inputTokens == 4,
+      'anthropic stream input tokens');
+  check(anthropicStreamResponse.usage.outputTokens == 2,
+      'anthropic stream output tokens');
+  check(anthropicStreamResponse.usage.cachedTokens == 1,
+      'anthropic stream cached');
+  check(anthropicStreamResponse.finishReason == 'tool_use',
+      'anthropic stream finish');
+
   final geminiRecorded = <String, dynamic>{};
   final gemini = GeminiModel(
     model: 'gemini-test',
@@ -489,6 +628,37 @@ Future<void> main() async {
   check(geminiResponse.message.toolCalls.single.name == 'echo',
       'gemini call name');
   check(geminiResponse.usage.inputTokens == 3, 'gemini usage');
+
+  final geminiStreamed = <String, dynamic>{};
+  final geminiStream = GeminiModel(
+    model: 'gemini-test',
+    apiKey: 'gk',
+    streamTransport: (path, payload) {
+      geminiStreamed['path'] = path;
+      geminiStreamed['payload'] = payload;
+      return 'data: {"candidates":[{"content":{"parts":[{"text":"he"}]}}]}\n\n'
+          'data: {"candidates":[{"content":{"parts":[{"text":"llo"},'
+          '{"functionCall":{"name":"echo","args":{"text":"hi"}}}]},'
+          '"finishReason":"STOP"}],"usageMetadata":{"promptTokenCount":4,'
+          '"candidatesTokenCount":2,"cachedContentTokenCount":1}}';
+    },
+  );
+  final geminiDeltas = <String>[];
+  final geminiStreamResponse =
+      geminiStream.generateStream(providerRequest, geminiDeltas.add);
+  check((geminiStreamed['path'] as String).contains(':streamGenerateContent'),
+      'gemini stream path');
+  check((geminiStreamed['path'] as String).contains('alt=sse'),
+      'gemini stream alt');
+  check(geminiDeltas.join() == 'hello', 'gemini stream deltas');
+  check(geminiStreamResponse.message.content == 'hello',
+      'gemini stream content');
+  check(geminiStreamResponse.message.toolCalls.single.name == 'echo',
+      'gemini stream call');
+  check(geminiStreamResponse.usage.inputTokens == 4, 'gemini stream usage');
+  check(geminiStreamResponse.usage.outputTokens == 2, 'gemini stream output');
+  check(geminiStreamResponse.usage.cachedTokens == 1, 'gemini stream cached');
+  check(geminiStreamResponse.finishReason == 'STOP', 'gemini stream finish');
 
   final anthropicAsync = await AnthropicModel(
     model: 'claude-test',
@@ -817,6 +987,61 @@ Future<void> main() async {
   }
   check((delegateError as PraxoError?)?.code == 'SUBAGENT_INVALID',
       'delegate invalid');
+
+  final fixture = File('test/fixtures/process_plugin.py').absolute.path;
+  final processHost = PluginProcessHost(PluginProcessConfig(
+    pluginId: 'com.example.echo',
+    path: Platform.environment['PYTHON'] ?? 'python',
+    args: [fixture],
+    invokeTimeout: const Duration(seconds: 2),
+    gracePeriod: const Duration(seconds: 2),
+  ));
+  await processHost.start();
+  check(processHost.isActive, 'plugin process active');
+  final pluginPayload = utf8.encode('{"text":"hi"}');
+  final echoed = await processHost.invoke('tool.provider', 'echo', pluginPayload);
+  check(utf8.decode(echoed) == '{"text":"hi"}', 'plugin process echo');
+  Object? pluginDenied;
+  try {
+    await processHost.invoke('tool.provider', 'denied');
+  } on PluginCallException catch (error) {
+    pluginDenied = error;
+  }
+  check((pluginDenied as PluginCallException?)?.code == 'CAPABILITY_DENIED',
+      'plugin process denied');
+  await processHost.stop();
+  check(!processHost.isActive, 'plugin process stopped');
+
+  final idleHost = PluginProcessHost(PluginProcessConfig(
+    pluginId: 'com.example.echo',
+    path: Platform.environment['PYTHON'] ?? 'python',
+    args: [fixture],
+  ));
+  Object? idleError;
+  try {
+    await idleHost.invoke('tool.provider', 'echo');
+  } on PluginCallException catch (error) {
+    idleError = error;
+  }
+  check((idleError as PluginCallException?)?.code == 'NOT_ACTIVE',
+      'plugin process not active');
+
+  final slowHost = PluginProcessHost(PluginProcessConfig(
+    pluginId: 'com.example.echo',
+    path: Platform.environment['PYTHON'] ?? 'python',
+    args: [fixture],
+    invokeTimeout: const Duration(milliseconds: 200),
+  ));
+  await slowHost.start();
+  Object? timeoutError;
+  try {
+    await slowHost.invoke('tool.provider', 'block');
+  } on PluginCallException catch (error) {
+    timeoutError = error;
+  }
+  check((timeoutError as PluginCallException?)?.code == 'TIMEOUT',
+      'plugin process timeout');
+  await slowHost.stop();
 
   stdout.writeln('dart core tests passed');
 }

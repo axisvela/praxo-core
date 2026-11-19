@@ -38,9 +38,10 @@ impl Middleware for ToolSelectionMiddleware {
     }
 
     fn before_model(&self, call: &mut ModelCall) -> Result<()> {
-        let names = self
-            .selector
-            .select(last_user_message(&call.request.messages), &call.request.tools)?;
+        let names = self.selector.select(
+            last_user_message(&call.request.messages),
+            &call.request.tools,
+        )?;
         let chosen: HashSet<String> = names.into_iter().collect();
         self.selected
             .lock()
@@ -66,11 +67,7 @@ impl Middleware for ToolSelectionMiddleware {
         Ok(())
     }
 
-    fn after_run(
-        &self,
-        result: Option<&mut RunResult>,
-        _error: Option<&PraxoError>,
-    ) -> Result<()> {
+    fn after_run(&self, result: Option<&mut RunResult>, _error: Option<&PraxoError>) -> Result<()> {
         if let Some(result) = result {
             self.selected
                 .lock()

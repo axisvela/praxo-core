@@ -1,6 +1,7 @@
 #pragma once
 
 #include <functional>
+#include <sstream>
 #include <map>
 #include <string>
 #include <utility>
@@ -22,11 +23,17 @@ struct GeminiOptions {
 using GeminiTransport = std::function<Json(
     const std::string& url, const Json& payload,
     const std::map<std::string, std::string>& headers)>;
+using GeminiStreamTransport = std::function<std::string(
+    const std::string& url, const Json& payload,
+    const std::map<std::string, std::string>& headers)>;
 
 class Gemini : public Model {
 public:
-    Gemini(GeminiOptions options, GeminiTransport transport)
-        : options_(std::move(options)), transport_(std::move(transport)) {}
+    Gemini(GeminiOptions options, GeminiTransport transport,
+           GeminiStreamTransport stream_transport = {})
+        : options_(std::move(options)),
+          transport_(std::move(transport)),
+          stream_transport_(std::move(stream_transport)) {}
 
     Json build_payload(const Request& request) const {
         auto [system, contents] = build_contents(request.messages);
@@ -82,6 +89,98 @@ public:
             {"content-type", "application/json"},
             {"x-goog-api-key", options_.api_key}};
         return parse_response(transport_(endpoint(), build_payload(request), headers));
+    }
+
+    Response generate_stream(
+            const Request& request,
+            const std::function<void(const std::string&)>& on_delta) override {
+        if (options_.base_url.empty()) {
+            throw PraxoError("PROVIDER_HTTP", "provider base URL is required");
+        }
+        if (options_.api_key.empty()) {
+            throw PraxoError("MODEL_CONFIG", "gemini: API key is required");
+        }
+        if (options_.model.empty()) {
+            throw PraxoError("MODEL_CONFIG", "gemini: model is required");
+        }
+        if (!stream_transport_) {
+            throw PraxoError(
+                "PROVIDER_HTTP",
+                "a Gemini streaming transport is required");
+        }
+        std::map<std::string, std::string> headers{
+            {"content-type", "application/json"},
+            {"accept", "text/event-stream"},
+            {"x-goog-api-key", options_.api_key}};
+        return parse_sse(
+            stream_transport_(endpoint(true), build_payload(request), headers),
+            on_delta);
+    }
+
+    static Response parse_sse(
+            const std::string& text,
+            const std::function<void(const std::string&)>& on_delta) {
+        Response response;
+        response.message.role = ASSISTANT;
+        std::string content;
+        std::istringstream lines(text);
+        std::string raw;
+        while (std::getline(lines, raw)) {
+            if (!raw.empty() && raw.back() == '\r') raw.pop_back();
+            if (raw.rfind("data:", 0) != 0) continue;
+            std::string chunk = raw.substr(5);
+            while (!chunk.empty() && chunk.front() == ' ') {
+                chunk.erase(chunk.begin());
+            }
+            if (chunk.empty() || chunk == "[DONE]") continue;
+            Json event = Json::parse(chunk);
+            if (!event.at("error").is_null()) {
+                throw PraxoError("MODEL_STREAM",
+                                 "gemini: provider stream error");
+            }
+            const Json& usage = event.at("usageMetadata");
+            if (usage.is_object()) {
+                response.usage.input_tokens = number(usage.at("promptTokenCount"));
+                response.usage.output_tokens = number(
+                    usage.at("candidatesTokenCount"));
+                response.usage.cached_tokens = number(
+                    usage.at("cachedContentTokenCount"));
+            }
+            const Json& candidates = event.at("candidates");
+            if (!candidates.is_array() || candidates.as_array().empty()) {
+                continue;
+            }
+            const Json& candidate = candidates.as_array().front();
+            if (candidate.at("finishReason").is_string()) {
+                response.finish_reason =
+                    candidate.at("finishReason").as_string();
+            }
+            const Json& parts = candidate.at("content").at("parts");
+            if (!parts.is_array()) continue;
+            for (const auto& part : parts.as_array()) {
+                if (part.at("text").is_string()) {
+                    const std::string piece = part.at("text").as_string();
+                    if (!piece.empty()) {
+                        content += piece;
+                        if (on_delta) on_delta(piece);
+                    }
+                }
+                const Json& call = part.at("functionCall");
+                if (call.is_object()) {
+                    ToolCall tool;
+                    tool.id = "call-" + std::to_string(
+                        response.message.tool_calls.size() + 1);
+                    tool.name = call.at("name").is_string()
+                        ? call.at("name").as_string() : "";
+                    if (call.at("args").is_object()) {
+                        tool.arguments = call.at("args");
+                    }
+                    response.message.tool_calls.push_back(std::move(tool));
+                }
+            }
+        }
+        response.message.content = content;
+        return response;
     }
 
     static Response parse_response(const Json& data) {
@@ -202,14 +301,16 @@ private:
         return {system, contents};
     }
 
-    std::string endpoint() const {
+    std::string endpoint(bool stream = false) const {
         std::string root = options_.base_url;
         while (!root.empty() && root.back() == '/') root.pop_back();
-        return root + "/v1beta/models/" + options_.model + ":generateContent";
+        return root + "/v1beta/models/" + options_.model +
+            (stream ? ":streamGenerateContent?alt=sse" : ":generateContent");
     }
 
     GeminiOptions options_;
     GeminiTransport transport_;
+    GeminiStreamTransport stream_transport_;
 };
 
 }  // namespace praxo

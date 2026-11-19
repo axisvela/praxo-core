@@ -68,6 +68,7 @@ procedure(agent_cancel_hook), pointer, nopass :: cancelled => null()
 class(*), pointer :: cancel_ctx => null()
 procedure(agent_stream_hook), pointer, nopass :: on_stream => null()
 class(*), pointer :: stream_ctx => null()
+type(delta_handler) :: delta
 procedure(agent_parallel_hook), pointer, nopass :: parallel => null()
 class(*), pointer :: parallel_ctx => null()
 integer :: max_parallel_tools = 1
@@ -102,12 +103,20 @@ integer :: max_tokens = 1024
 procedure(anthropic_transport), pointer, nopass :: transport => null()
 contains
 procedure :: generate => generate_anthropic
+procedure :: generate_stream => generate_stream_anthropic
 end type
 function anthropic_transport(url, payload, api_key, version, error) result(body)
 end interface declaration
 subroutine generate_anthropic(self, req, res, error)
 class(anthropic_compatible), intent(inout) :: self
 type(request), intent(in) :: req
+type(response), intent(out) :: res
+type(sdk_error), intent(out) :: error
+end interface declaration
+subroutine generate_stream_anthropic(self, req, on_delta, ctx, res, error)
+class(anthropic_compatible), intent(inout) :: self
+type(request), intent(in) :: req
+class(*), pointer, intent(in) :: ctx
 type(response), intent(out) :: res
 type(sdk_error), intent(out) :: error
 end interface declaration
@@ -223,12 +232,20 @@ integer :: max_output_tokens = 0
 procedure(gemini_transport), pointer, nopass :: transport => null()
 contains
 procedure :: generate => generate_gemini
+procedure :: generate_stream => generate_stream_gemini
 end type
 function gemini_transport(url, payload, api_key, error) result(body)
 end interface declaration
 subroutine generate_gemini(self, req, res, error)
 class(gemini_compatible), intent(inout) :: self
 type(request), intent(in) :: req
+type(response), intent(out) :: res
+type(sdk_error), intent(out) :: error
+end interface declaration
+subroutine generate_stream_gemini(self, req, on_delta, ctx, res, error)
+class(gemini_compatible), intent(inout) :: self
+type(request), intent(in) :: req
+class(*), pointer, intent(in) :: ctx
 type(response), intent(out) :: res
 type(sdk_error), intent(out) :: error
 end interface declaration
@@ -282,10 +299,15 @@ class(harmovela_sink), intent(in) :: self
 end interface declaration
 
 module praxo_interfaces
-public :: event_sink, model, policy, registry, tool
+public :: delta_handler, delta_interface, event_sink, model, policy, registry, run_model, tool
+type :: delta_handler
+procedure(delta_interface), pointer, nopass :: callback => null()
+class(*), pointer :: ctx => null()
+end type
 type, abstract :: model
 contains
 procedure(generate_interface), deferred :: generate
+procedure :: generate_stream => default_generate_stream
 end type
 type, abstract :: tool
 type(tool_spec) :: spec
@@ -310,10 +332,25 @@ procedure :: specs => registry_specs
 procedure :: has => registry_has
 end type
 abstract interface
+subroutine delta_interface(ctx, delta, error)
+import :: sdk_error
+class(*), pointer, intent(in) :: ctx
+character(*), intent(in) :: delta
+type(sdk_error), intent(inout) :: error
+end subroutine
 subroutine generate_interface(self, req, res, error)
 import model, request, response, sdk_error
 class(model), intent(inout) :: self
 type(request), intent(in) :: req
+type(response), intent(out) :: res
+type(sdk_error), intent(out) :: error
+end subroutine
+subroutine generate_stream_interface(self, req, on_delta, ctx, res, error)
+import model, request, response, sdk_error, delta_interface
+class(model), intent(inout) :: self
+type(request), intent(in) :: req
+procedure(delta_interface) :: on_delta
+class(*), pointer, intent(in) :: ctx
 type(response), intent(out) :: res
 type(sdk_error), intent(out) :: error
 end subroutine
@@ -336,6 +373,25 @@ class(event_sink), intent(inout) :: self
 type(event), intent(in) :: item
 end subroutine
 end interface
+subroutine delta_interface(ctx, delta, error)
+class(*), pointer, intent(in) :: ctx
+character(*), intent(in) :: delta
+type(sdk_error), intent(inout) :: error
+end interface declaration
+subroutine run_model(provider, delta, req, res, error)
+class(model), pointer, intent(in) :: provider
+type(delta_handler), intent(in) :: delta
+type(request), intent(in) :: req
+type(response), intent(out) :: res
+type(sdk_error), intent(out) :: error
+end interface declaration
+subroutine default_generate_stream(self, req, on_delta, ctx, res, error)
+class(model), intent(inout) :: self
+type(request), intent(in) :: req
+class(*), pointer, intent(in) :: ctx
+type(response), intent(out) :: res
+type(sdk_error), intent(out) :: error
+end interface declaration
 logical function registry_has(self, name) result(found)
 class(registry), intent(in) :: self
 character(*), intent(in) :: name
@@ -574,12 +630,20 @@ character(:), allocatable :: api_key
 procedure(openai_transport), pointer, nopass :: transport => null()
 contains
 procedure :: generate => generate_openai
+procedure :: generate_stream => generate_stream_openai
 end type
 function openai_transport(url, payload, api_key, error) result(body)
 end interface declaration
 subroutine generate_openai(self, req, res, error)
 class(openai_compatible), intent(inout) :: self
 type(request), intent(in) :: req
+type(response), intent(out) :: res
+type(sdk_error), intent(out) :: error
+end interface declaration
+subroutine generate_stream_openai(self, req, on_delta, ctx, res, error)
+class(openai_compatible), intent(inout) :: self
+type(request), intent(in) :: req
+class(*), pointer, intent(in) :: ctx
 type(response), intent(out) :: res
 type(sdk_error), intent(out) :: error
 end interface declaration

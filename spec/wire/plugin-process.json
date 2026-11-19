@@ -1,0 +1,51 @@
+{
+  "specVersion": "0.2.0",
+  "kind": "plugin-process-host",
+  "protocolVersion": 1,
+  "transport": "json-lines-over-stdio",
+  "tokenEnvVar": "PRAXOVELA_PLUGIN_TOKEN",
+  "controlService": "host.control",
+  "controlMethods": ["health", "cancel", "shutdown"],
+  "request": {
+    "id": "string",
+    "version": 1,
+    "plugin_id": "string",
+    "service": "string",
+    "method": "string",
+    "token": "string",
+    "payload": "base64 string, optional"
+  },
+  "response": {
+    "id": "string",
+    "version": 1,
+    "ok": "boolean",
+    "code": "string, optional",
+    "message": "string, optional",
+    "payload": "base64 string, optional"
+  },
+  "rules": {
+    "oneFramePerLine": true,
+    "tokenRequiredOnEveryRequest": true,
+    "tokenNeverInArgv": true,
+    "healthAnsweredDuringStart": true,
+    "cancelAbandonsInflight": true,
+    "shutdownExitsCleanly": true,
+    "stderrIsNotProtocol": true
+  },
+  "callErrorCodes": [
+    "CAPABILITY_DENIED",
+    "NOT_ACTIVE",
+    "NOT_FOUND",
+    "INVALID_REQUEST",
+    "TIMEOUT",
+    "INTERNAL",
+    "CANCELED"
+  ],
+  "defaults": {
+    "startTimeoutMs": 10000,
+    "invokeTimeoutMs": 30000,
+    "gracePeriodMs": 5000,
+    "cancelGraceMs": 250,
+    "maxFrameBytes": 8388608
+  }
+}

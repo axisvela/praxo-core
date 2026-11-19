@@ -486,6 +486,52 @@ fn test_openai_compatible() {
 	wrapped := model.generate(request) or { panic(err) }
 	assert wrapped.message.content == 'hello'
 
+	stream_transport := fn (_base_url string, _api_key string, path string, payload map[string]json2.Any) !string {
+		assert path == '/chat/completions'
+		assert praxo.get_bool(payload, 'stream', false)
+		return [
+			r'data: {"choices":[{"delta":{"content":"he"}}]}',
+			r'data: {"choices":[{"delta":{"content":"llo"}}]}',
+			r'data: {"choices":[{"delta":{"tool_calls":[{"index":0,"id":"call-1","function":{"name":"ec","arguments":"{\"text\":"}}]}}]}',
+			r'data: {"choices":[{"delta":{"tool_calls":[{"index":0,"function":{"name":"ho","arguments":"\"hi\"}"}}]}}],"usage":{"prompt_tokens":4,"completion_tokens":2}}',
+			r'data: {"choices":[{"delta":{},"finish_reason":"tool_calls"}]}',
+			'data: [DONE]',
+		].join('\n\n') + '\n\n'
+	}
+	stream_adapter := praxo.openai_compatible_with_options('https://example.test/v1', 'test-model', praxo.OpenAIOptions{
+		stream_transport: stream_transport
+	})
+	mut streaming_model := praxo.openai_compatible_model(stream_adapter)
+	mut options := praxo.agent_options(streaming_model)
+	options.streaming = true
+	options.on_delta = fn (delta string) {}
+	stream_result := streaming_model.generate_stream(request, options.on_delta) or { panic(err) }
+	assert stream_result.message.content == 'hello'
+	assert stream_result.message.tool_calls.len == 1
+	assert stream_result.message.tool_calls[0].id == 'call-1'
+	assert stream_result.message.tool_calls[0].name == 'echo'
+	stream_text := stream_result.message.tool_calls[0].arguments['text'] or { json2.Any('') }
+	assert praxo.as_string(stream_text) or { '' } == 'hi'
+	assert stream_result.usage.input_tokens == 4
+	assert stream_result.usage.output_tokens == 2
+
+	agent_stream_transport := fn (_base_url string, _api_key string, _path string, _payload map[string]json2.Any) !string {
+		return [
+			r'data: {"choices":[{"delta":{"content":"ok"}}]}',
+			r'data: {"choices":[{"delta":{},"finish_reason":"stop"}]}',
+			'data: [DONE]',
+		].join('\n\n') + '\n\n'
+	}
+	agent_stream_adapter := praxo.openai_compatible_with_options('https://example.test/v1', 'm', praxo.OpenAIOptions{
+		stream_transport: agent_stream_transport
+	})
+	mut agent_stream_model := praxo.openai_compatible_model(agent_stream_adapter)
+	mut agent_stream_options := praxo.agent_options(agent_stream_model)
+	agent_stream_options.streaming = true
+	agent_stream_options.on_delta = fn (delta string) {}
+	agent_stream_result := praxo.run_agent(agent_stream_options, praxo.session('s1', []praxo.Message{}), 'go') or { panic(err) }
+	assert agent_stream_result.output == 'ok'
+
 	invalid := fn (_base_url string, _api_key string, _path string, _payload map[string]json2.Any) !map[string]json2.Any {
 		data := praxo.parse_json('{"choices":[{"message":{"content":"","tool_calls":[{"id":"call-1","function":{"name":"echo","arguments":"not json"}}]}}]}') or { panic(err) }
 		return praxo.as_object(data)
@@ -633,6 +679,31 @@ fn test_gemini_compatible() {
 	mut model := praxo.gemini_compatible_model(adapter)
 	wrapped := model.generate(request) or { panic(err) }
 	assert wrapped.message.content == 'hello'
+
+	stream_events := [
+		'data: {"candidates":[{"content":{"parts":[{"text":"he"}]}}]}',
+		'data: {"candidates":[{"content":{"parts":[{"text":"llo"},{"functionCall":{"name":"echo","args":{"text":"hi"}}}]},"finishReason":"STOP"}],"usageMetadata":{"promptTokenCount":4,"candidatesTokenCount":2}}',
+	]
+	stream_text := stream_events.join('\n\n')
+	stream_transport := fn [stream_text] (_base_url string, _api_key string, path string, _payload map[string]json2.Any) !string {
+		assert path.contains(':streamGenerateContent')
+		assert path.contains('alt=sse')
+		return stream_text
+	}
+	stream_adapter := praxo.gemini_compatible_with_options('https://generativelanguage.googleapis.com', 'test-model', praxo.GeminiOptions{
+		api_key: 'secret'
+		stream_transport: stream_transport
+	})
+	mut deltas := []string{}
+	stream_result := stream_adapter.generate_stream(request, fn [mut deltas] (delta string) {
+		deltas << delta
+	}) or { panic(err) }
+	assert deltas == ['he', 'llo']
+	assert stream_result.message.content == 'hello'
+	assert stream_result.message.tool_calls[0].name == 'echo'
+	assert praxo.get_string(stream_result.message.tool_calls[0].arguments, 'text') or { '' } == 'hi'
+	assert stream_result.usage.input_tokens == 4
+	assert stream_result.usage.output_tokens == 2
 
 	missing := praxo.gemini_compatible('https://generativelanguage.googleapis.com', 'test-model')
 	mut missing_code := ''

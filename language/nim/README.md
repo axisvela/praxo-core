@@ -71,7 +71,7 @@ The callback receives the current messages and tool specifications on each
 step. It returns a response including any tool calls and usage. Catchable
 errors propagate through the agent and can trigger `fallbackModel`.
 
-For an OpenAI-compatible endpoint, use the non-streaming adapter:
+For an OpenAI-compatible endpoint, use the adapter:
 
 ```nim
 let adapter = newOpenAICompatible(
@@ -84,7 +84,10 @@ let result = runAgent(newAgentOptions(model), newSession("s1"), "Hi")
 ```
 
 The adapter maps tool calls, usage, and `tool_choice`. It accepts an injected
-`Transport` for deterministic tests. Streaming is not implemented.
+`Transport` for deterministic tests. `generateStream` sets `stream: true`,
+parses SSE, reassembles content, fragmented tool calls, usage, and
+`finish_reason`, and calls the delta callback. Inject `streamTransport` returning
+raw SSE text; set `options.onDelta` to use it through the agent.
 
 Set `options.toolSelection = some(toolSelection(@["echo"]))` (import
 `std/options`) to advertise only selected tools and reject calls to other
@@ -142,7 +145,8 @@ Public declarations are inventoried in [`api/0.5.0.txt`](api/0.5.0.txt).
 
 `newAnthropicCompatible` and `newGeminiCompatible` provide native model adapters
 for the Messages and generateContent APIs. Both accept an injected transport for
-deterministic tests.
+deterministic tests. `generateStream` reassembles Anthropic and Gemini SSE through
+`streamTransport`.
 
 ```nim
 let claude = newAnthropicCompatible("https://api.anthropic.com", "claude-sonnet-4-5", apiKey = "ak")

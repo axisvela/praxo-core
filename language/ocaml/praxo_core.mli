@@ -103,7 +103,10 @@ type tool = {
   tool_description : string;
   tool_invoke : json -> json;
 }
-type model = { generate : request -> response }
+type model = {
+  generate : request -> response;
+  generate_stream : (request -> (string -> unit) -> response) option;
+}
 type http_request = {
   http_method : string;
   http_url : string;
@@ -181,6 +184,7 @@ type agent_options = {
   agent_interrupt_on : string list;
   agent_on_interrupt_decision : interrupt_handler option;
   agent_on_interrupt : interrupt_approval option;
+  agent_on_delta : (string -> unit) option;
   agent_require_policy : bool;
   agent_require_tool_scope : bool;
 }
@@ -251,23 +255,39 @@ val usage_make : int -> int -> usage
 val usage_add : usage -> usage -> usage
 val request_make : core_message list -> core_tool_spec list -> request
 val response_make : core_message -> usage -> response
-val openai_request : openai_config -> request -> http_request
+val openai_request : ?stream:bool -> openai_config -> request -> http_request
 val openai_parse_response : string -> response
 val openai_generate : openai_config -> transport -> request -> response
 val openai_model : openai_config -> transport -> model
-val anthropic_request : anthropic_config -> request -> http_request
+val anthropic_request : ?stream:bool -> anthropic_config -> request -> http_request
 val anthropic_parse_response : string -> response
 val anthropic_generate : anthropic_config -> transport -> request -> response
+val anthropic_generate_stream : anthropic_config -> transport -> request -> (string -> unit) -> response
 val anthropic_model : anthropic_config -> transport -> model
-val gemini_request : gemini_config -> request -> http_request
+val gemini_request : ?stream:bool -> gemini_config -> request -> http_request
 val gemini_parse_response : string -> response
 val gemini_generate : gemini_config -> transport -> request -> response
+val gemini_generate_stream : gemini_config -> transport -> request -> (string -> unit) -> response
 val gemini_model : gemini_config -> transport -> model
 val harmovela_config : string -> transport -> (unit -> int) -> harmovela_config
 val format_harmovela_timestamp : int -> string
 val harmovela_envelope : harmovela_config -> core_event -> int -> json
 val harmovela_emit : harmovela_config -> core_event -> unit
 val harmovela_sink : harmovela_config -> sink
+type plugin_process_config = {
+  process_plugin_id : string;
+  process_path : string;
+  process_args : string list;
+  process_token : string;
+  process_token_env : string;
+  process_start_timeout : float;
+  process_invoke_timeout : float;
+}
+type plugin_process_host
+val plugin_process_config_make : string -> string -> string list -> string -> plugin_process_config
+val start_plugin_process : plugin_process_config -> plugin_process_host
+val invoke_plugin_process : plugin_process_host -> string -> string -> string -> string
+val stop_plugin_process : plugin_process_host -> unit
 val session_make : string -> core_message list -> session
 val run_result_make : string -> string -> int -> usage -> run_result
 val memory_record_make : string -> string -> string -> string option -> memory_record

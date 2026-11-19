@@ -788,6 +788,37 @@ name: string
 pattern: RegExp
 replacement: string
 
+## PLUGIN_CANCEL_METHOD
+const PLUGIN_CANCEL_METHOD: "cancel"
+
+## PLUGIN_CONTROL_SERVICE
+const PLUGIN_CONTROL_SERVICE: "host.control"
+
+## PLUGIN_DEFAULT_TOKEN_ENV
+const PLUGIN_DEFAULT_TOKEN_ENV: "PRAXOVELA_PLUGIN_TOKEN"
+
+## PLUGIN_HEALTH_METHOD
+const PLUGIN_HEALTH_METHOD: "health"
+
+## PLUGIN_PROTOCOL_VERSION
+const PLUGIN_PROTOCOL_VERSION: 1
+
+## PLUGIN_SHUTDOWN_METHOD
+const PLUGIN_SHUTDOWN_METHOD: "shutdown"
+
+## PluginCallCode
+type PluginCallCode = PluginCallCode
+
+## PluginCallError
+class PluginCallError
+constructor(code: string, message?: string): PluginCallError
+callCode: PluginCallCode
+code: string
+name: string
+message: string
+stack?: string | undefined
+cause?: unknown
+
 ## PluginError
 class PluginError
 constructor(message: string): PluginError
@@ -823,6 +854,30 @@ name: string
 message: string
 stack?: string | undefined
 cause?: unknown
+
+## ProcessHost
+class ProcessHost
+constructor(config: ProcessHostConfig): ProcessHost
+pluginId: string
+isActive: boolean
+start(): Promise<void>
+invoke(service: string, method: string, payload?: Buffer, timeoutMs?: number): Promise<Buffer>
+stop(): Promise<void>
+stderrText(): string
+
+## ProcessHostConfig
+interface ProcessHostConfig
+pluginId: string
+path: string
+args?: string[] | undefined
+dir?: string | undefined
+env?: NodeJS.ProcessEnv | undefined
+token?: string | undefined
+tokenEnvVar?: string | undefined
+startTimeoutMs?: number | undefined
+invokeTimeoutMs?: number | undefined
+gracePeriodMs?: number | undefined
+maxFrameBytes?: number | undefined
 
 ## PROVIDER_BASE_URLS
 const PROVIDER_BASE_URLS: Record<string, string>

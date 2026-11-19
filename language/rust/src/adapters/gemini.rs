@@ -1,8 +1,11 @@
+use std::io::BufRead;
+
 use serde_json::{json, Map, Value};
 
 use crate::errors::{PraxoError, Result};
 use crate::model::{
-    Message, Model, Request, Response, ToolCall, Usage, ROLE_ASSISTANT, ROLE_SYSTEM, ROLE_TOOL,
+    Message, Model, Request, Response, StreamingModel, ToolCall, Usage, ROLE_ASSISTANT,
+    ROLE_SYSTEM, ROLE_TOOL,
 };
 
 pub const DEFAULT_BASE_URL: &str = "https://generativelanguage.googleapis.com";
@@ -28,6 +31,14 @@ impl Default for GeminiConfig {
 
 pub trait GeminiTransport: Send + Sync {
     fn send(&self, path: &str, payload: &Value) -> Result<Value>;
+
+    fn send_stream(&self, path: &str, payload: &Value) -> Result<Box<dyn BufRead + Send>> {
+        let _ = (path, payload);
+        Err(PraxoError::new(
+            "PROVIDER_HTTP",
+            "gemini: streaming transport is required",
+        ))
+    }
 }
 
 pub struct Gemini<T: GeminiTransport> {
@@ -52,10 +63,7 @@ impl<T: GeminiTransport> Gemini<T> {
             ));
         }
         if self.config.model.is_empty() {
-            return Err(PraxoError::new(
-                "MODEL_CONFIG",
-                "gemini: model is required",
-            ));
+            return Err(PraxoError::new("MODEL_CONFIG", "gemini: model is required"));
         }
         let payload = self.payload(request);
         let path = format!(
@@ -64,6 +72,29 @@ impl<T: GeminiTransport> Gemini<T> {
         );
         let data = self.transport.send(&path, &payload)?;
         parse_response(&data)
+    }
+
+    pub fn generate_stream(
+        &self,
+        request: &Request,
+        on_delta: &mut dyn FnMut(&str) -> Result<()>,
+    ) -> Result<Response> {
+        if self.config.api_key.is_empty() {
+            return Err(PraxoError::new(
+                "MODEL_CONFIG",
+                "gemini: API key is required",
+            ));
+        }
+        if self.config.model.is_empty() {
+            return Err(PraxoError::new("MODEL_CONFIG", "gemini: model is required"));
+        }
+        let payload = self.payload(request);
+        let path = format!(
+            "/v1beta/models/{}:streamGenerateContent?alt=sse",
+            urlencoding(&self.config.model)
+        );
+        let reader = self.transport.send_stream(&path, &payload)?;
+        parse_stream(reader, on_delta)
     }
 
     fn payload(&self, request: &Request) -> Value {
@@ -116,6 +147,114 @@ impl<T: GeminiTransport> Model for Gemini<T> {
     fn generate(&self, request: &Request) -> Result<Response> {
         Gemini::generate(self, request)
     }
+}
+
+impl<T: GeminiTransport> StreamingModel for Gemini<T> {
+    fn generate_stream(
+        &self,
+        request: &Request,
+        on_delta: &mut dyn FnMut(&str) -> Result<()>,
+    ) -> Result<Response> {
+        Gemini::generate_stream(self, request, on_delta)
+    }
+}
+
+fn parse_stream(
+    reader: Box<dyn BufRead + Send>,
+    on_delta: &mut dyn FnMut(&str) -> Result<()>,
+) -> Result<Response> {
+    let mut content = String::new();
+    let mut calls = Vec::new();
+    let mut usage = Usage::default();
+    let mut finish_reason = None;
+    for line in reader.lines() {
+        let line = line.map_err(|error| PraxoError::new("MODEL_STREAM", error.to_string()))?;
+        let line = line.trim();
+        if !line.starts_with("data:") {
+            continue;
+        }
+        let raw = line[5..].trim();
+        if raw.is_empty() || raw == "[DONE]" {
+            continue;
+        }
+        let chunk: Value = serde_json::from_str(raw).map_err(|error| {
+            PraxoError::new(
+                "MODEL_STREAM",
+                format!("gemini: invalid SSE packet: {error}"),
+            )
+        })?;
+        if let Some(error) = chunk.get("error") {
+            let message = error
+                .get("message")
+                .and_then(Value::as_str)
+                .unwrap_or("gemini: stream error");
+            return Err(PraxoError::new("MODEL_STREAM", message));
+        }
+        if let Some(metadata) = chunk.get("usageMetadata").and_then(Value::as_object) {
+            usage = Usage {
+                input_tokens: metadata
+                    .get("promptTokenCount")
+                    .and_then(Value::as_i64)
+                    .unwrap_or(usage.input_tokens),
+                output_tokens: metadata
+                    .get("candidatesTokenCount")
+                    .and_then(Value::as_i64)
+                    .unwrap_or(usage.output_tokens),
+                cached_tokens: metadata
+                    .get("cachedContentTokenCount")
+                    .and_then(Value::as_i64)
+                    .unwrap_or(usage.cached_tokens),
+            };
+        }
+        if let Some(candidate) = chunk
+            .get("candidates")
+            .and_then(Value::as_array)
+            .and_then(|candidates| candidates.first())
+        {
+            if let Some(reason) = candidate.get("finishReason").and_then(Value::as_str) {
+                finish_reason = Some(reason.to_string());
+            }
+            if let Some(parts) = candidate
+                .get("content")
+                .and_then(|content| content.get("parts"))
+                .and_then(Value::as_array)
+            {
+                for part in parts {
+                    if let Some(text) = part.get("text").and_then(Value::as_str) {
+                        if !text.is_empty() {
+                            content.push_str(text);
+                            on_delta(text)?;
+                        }
+                    }
+                    if let Some(call) = part.get("functionCall").and_then(Value::as_object) {
+                        calls.push(ToolCall {
+                            id: format!("call-{}", calls.len() + 1),
+                            name: call
+                                .get("name")
+                                .and_then(Value::as_str)
+                                .unwrap_or_default()
+                                .to_string(),
+                            arguments: call
+                                .get("args")
+                                .and_then(Value::as_object)
+                                .cloned()
+                                .unwrap_or_default(),
+                        });
+                    }
+                }
+            }
+        }
+    }
+    Ok(Response {
+        message: Message {
+            role: ROLE_ASSISTANT.to_string(),
+            content: Some(content),
+            tool_calls: calls,
+            ..Message::default()
+        },
+        usage,
+        finish_reason,
+    })
 }
 
 fn build_contents(messages: &[Message]) -> (Option<Value>, Vec<Value>) {
@@ -258,4 +397,3 @@ fn urlencoding(value: &str) -> String {
     }
     out
 }
-

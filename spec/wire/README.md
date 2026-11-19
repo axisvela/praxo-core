@@ -9,6 +9,7 @@ normative. Do not "fix" casing or reorder fields to look idiomatic.
 | `errors.json` | Exported sentinels, stable codes, Core exception names, plugin call error codes |
 | `jsonschema.json` | Supported and ignored JSON Schema keywords |
 | `plugin.json` | Manifest v1, kinds, states, event kinds, protocol |
+| `plugin-process.json` | Process host JSON-Lines request/response, token env, control methods, call-error codes |
 | `tools.json` | Tool specs, gateway metadata, parsed tool-call projection, tool-result representation |
 | `model.json` | Messages, content blocks, tool calls, request/response, usage |
 | `checkpoint.json` | Allowlist envelope and the Go checkpoint projection |

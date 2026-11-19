@@ -45,7 +45,7 @@ procedure division.
     move "auto" to px-anthropic-tool-choice
     move 4 to px-anthropic-tool-choice-length
     move px-anthropic-options to px-user-data
-    move "S" to px-user-data(4000:1)
+    move "N" to px-user-data(4000:1)
     call "praxo-anthropic" using px-anthropic-options px-session
         px-response px-user-data px-status
     if px-status not = spaces
@@ -93,6 +93,32 @@ procedure division.
     move '"tool_choice":{"type":"auto"}' to ws-needle
     move 29 to ws-needle-length
     perform require-haystack
+    move 1 to px-anthropic-stream
+    move "S" to px-user-data(4000:1)
+    call "praxo-anthropic" using px-anthropic-options px-session
+        px-response px-user-data px-status
+    if px-status not = spaces
+        display "anthropic stream failed: " px-status
+        stop run returning 1
+    end-if
+    if px-answer(1:px-answer-length) not = "hello"
+        display "unexpected stream answer: " px-answer(1:px-answer-length)
+        stop run returning 1
+    end-if
+    if px-input-tokens not = 4 or px-output-tokens not = 2
+        display "unexpected stream usage: " px-input-tokens " "
+            px-output-tokens
+        stop run returning 1
+    end-if
+    if px-call-count not = 1
+        display "unexpected stream call count: " px-call-count
+        stop run returning 1
+    end-if
+    if px-call-name(1) not = "echo"
+        display "unexpected stream call name: " px-call-name(1)
+        stop run returning 1
+    end-if
+    move 0 to px-anthropic-stream
     move "F" to px-user-data(4000:1)
     call "praxo-anthropic" using px-anthropic-options px-session
         px-response px-user-data px-status
@@ -156,6 +182,24 @@ procedure division using px-anthropic-call px-user-data px-status.
         move 200 to px-anthropic-status-code
         move "not json" to px-anthropic-response
         move 8 to px-anthropic-response-length
+        goback
+    end-if
+    if ws-mode = "S"
+        string
+            'data: {"type":"message_start","message":{"usage":{"input_tokens":4,"cache_read_input_tokens":1}}}' x"0a" x"0a"
+            'data: {"type":"content_block_start","index":0,"content_block":{"type":"text","text":""}}' x"0a" x"0a"
+            'data: {"type":"content_block_delta","index":0,"delta":{"type":"text_delta","text":"he"}}' x"0a" x"0a"
+            'data: {"type":"content_block_delta","index":0,"delta":{"type":"text_delta","text":"llo"}}' x"0a" x"0a"
+            'data: {"type":"content_block_start","index":1,"content_block":{"type":"tool_use","id":"tu1","name":"echo","input":{}}}' x"0a" x"0a"
+            'data: {"type":"content_block_delta","index":1,"delta":{"type":"input_json_delta","partial_json":"{\"x\":1}"}}' x"0a" x"0a"
+            'data: {"type":"message_delta","delta":{"stop_reason":"tool_use"},"usage":{"output_tokens":2}}' x"0a" x"0a"
+            'data: {"type":"message_stop"}'
+            into fake-json
+        end-string
+        move fake-json to px-anthropic-response
+        compute px-anthropic-response-length = function length(
+            function trim(fake-json))
+        move 200 to px-anthropic-status-code
         goback
     end-if
     move '{"content":[{"type":"text","text":"hello"},{"type":"tool_use","id":"tu1","name":"echo","input":{"x":1}}],"usage":{"input_tokens":3,"output_tokens":2}}'

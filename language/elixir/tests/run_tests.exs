@@ -18,6 +18,7 @@ defmodule Praxo.Tests do
     test_toolcall()
     test_jsonschema()
     test_plugin()
+    test_plugin_process()
     test_memory()
     test_checkpoint()
     test_context()
@@ -106,6 +107,30 @@ defmodule Praxo.Tests do
     check(match?({:error, _}, Plugin.parse_manifest(raw <> "{}")), "plugin trailing data")
   end
 
+  defp test_plugin_process do
+    fixture = Path.join(__DIR__, "fixtures/process_plugin.py")
+    config = %{
+      plugin_id: "com.example.echo",
+      path: System.get_env("PYTHON", "python"),
+      args: [fixture],
+      invoke_timeout: 2_000
+    }
+    {:ok, host} = Praxo.PluginProcess.start(config)
+    {:ok, payload} = Praxo.PluginProcess.invoke(host, "tool.provider", "echo", ~s({"text":"hi"}))
+    check(payload == ~s({"text":"hi"}), "plugin process echo")
+    {:error, denied} = Praxo.PluginProcess.invoke(host, "tool.provider", "denied", "")
+    check(denied.code == "CAPABILITY_DENIED", "plugin process denied")
+    :ok = Praxo.PluginProcess.stop(host)
+
+    idle = %Praxo.PluginProcess{port: nil, plugin_id: "x", token: "t", seq: 0, active: false}
+    {:error, idle_error} = Praxo.PluginProcess.invoke(idle, "tool.provider", "echo", "")
+    check(idle_error.code == "NOT_ACTIVE", "plugin process not active")
+
+    slow = Map.put(config, :invoke_timeout, 200)
+    {:ok, slow_host} = Praxo.PluginProcess.start(slow)
+    {:error, timeout} = Praxo.PluginProcess.invoke(slow_host, "tool.provider", "block", "")
+    check(timeout.code == "TIMEOUT", "plugin process timeout")
+  end
   defp test_memory do
     store = MemoryStore.new()
     {store, _} = MemoryStore.put(store, "s1", Models.memory_record("m1", "event", "Alpha", "2026-01-01T00:00:00Z"))
@@ -892,6 +917,80 @@ defmodule Praxo.Tests do
     after
       1000 -> raise "adapter payload not captured"
     end
+
+    stream_model =
+      Praxo.OpenAICompatible.streaming_model(
+        base_url: "http://example.test/v1",
+        model: "test-model",
+        stream_transport: fn payload ->
+          send(self(), {:stream_payload, payload})
+
+          {:ok,
+           "data: {\"choices\":[{\"delta\":{\"content\":\"he\"}}]}\n\n" <>
+             "data: {\"choices\":[{\"delta\":{\"content\":\"llo\"}}]}\n\n" <>
+             "data: {\"choices\":[{\"delta\":{\"tool_calls\":[{\"index\":0," <>
+             "\"id\":\"call-1\",\"function\":{\"name\":\"ec\"," <>
+             "\"arguments\":\"{\\\"text\\\":\"}}]}}]}\n\n" <>
+             "data: {\"choices\":[{\"delta\":{\"tool_calls\":[{\"index\":0," <>
+             "\"function\":{\"name\":\"ho\",\"arguments\":\"\\\"hi\\\"}\"}}]}}]," <>
+             "\"usage\":{\"prompt_tokens\":4,\"completion_tokens\":2}}\n\n" <>
+             "data: {\"choices\":[{\"delta\":{},\"finish_reason\":\"tool_calls\"}]}\n\n" <>
+             "data: [DONE]\n\n"}
+        end
+      )
+
+    {:ok, stream_response, _} =
+      Agent.generate_stream(stream_model, request, fn delta ->
+        send(self(), {:delta, delta})
+        :ok
+      end)
+
+    check(stream_response.message.content == "hello", "adapter stream content")
+    [stream_call] = stream_response.message.tool_calls
+    check(stream_call.name == "echo" and stream_call.arguments["text"] == "hi", "adapter stream tool call")
+    check(stream_response.usage.input_tokens == 4 and stream_response.usage.output_tokens == 2, "adapter stream usage")
+
+    receive do
+      {:stream_payload, stream_payload} ->
+        check(stream_payload["stream"] == true, "adapter stream flag")
+    after
+      1000 -> raise "adapter stream payload not captured"
+    end
+
+    receive do
+      {:delta, "he"} -> :ok
+    after
+      1000 -> raise "adapter first delta missing"
+    end
+
+    receive do
+      {:delta, "llo"} -> :ok
+    after
+      1000 -> raise "adapter second delta missing"
+    end
+
+    agent_stream_model =
+      Praxo.OpenAICompatible.streaming_model(
+        base_url: "http://example.test/v1",
+        model: "test-model",
+        stream_transport: fn _payload ->
+          {:ok,
+           "data: {\"choices\":[{\"delta\":{\"content\":\"ok\"}}]}\n\n" <>
+             "data: {\"choices\":[{\"delta\":{},\"finish_reason\":\"stop\"}]}\n\n" <>
+             "data: [DONE]\n\n"}
+        end
+      )
+
+    options = Agent.new_agent_options(agent_stream_model)
+    options = %{options | on_delta: fn delta -> send(self(), {:agent_delta, delta}) end}
+    {:ok, result, _} = Agent.run_agent(options, Models.session("s1"), "go")
+    check(result.output == "ok", "adapter agent stream output")
+
+    receive do
+      {:agent_delta, "ok"} -> :ok
+    after
+      1000 -> raise "adapter agent delta missing"
+    end
   end
 
   defp test_anthropic_adapter do
@@ -940,6 +1039,57 @@ defmodule Praxo.Tests do
         check(hd(payload["tools"])["input_schema"]["type"] == "object", "anthropic tools")
     after
       1000 -> raise "anthropic payload not captured"
+    end
+
+    events = [
+      %{"type" => "message_start", "message" => %{"usage" => %{"input_tokens" => 4, "cache_read_input_tokens" => 1}}},
+      %{"type" => "content_block_start", "index" => 0, "content_block" => %{"type" => "text", "text" => ""}},
+      %{"type" => "content_block_delta", "index" => 0, "delta" => %{"type" => "text_delta", "text" => "he"}},
+      %{"type" => "content_block_delta", "index" => 0, "delta" => %{"type" => "text_delta", "text" => "llo"}},
+      %{"type" => "content_block_start", "index" => 1, "content_block" => %{"type" => "tool_use", "id" => "call-1", "name" => "echo", "input" => %{}}},
+      %{"type" => "content_block_delta", "index" => 1, "delta" => %{"type" => "input_json_delta", "partial_json" => "{\"text\":"}},
+      %{"type" => "content_block_delta", "index" => 1, "delta" => %{"type" => "input_json_delta", "partial_json" => "\"hi\"}"}},
+      %{"type" => "message_delta", "delta" => %{"stop_reason" => "tool_use"}, "usage" => %{"output_tokens" => 2}},
+      %{"type" => "message_stop"}
+    ]
+
+    stream_text =
+      events
+      |> Enum.map(fn event -> "data: " <> Json.encode(event) end)
+      |> Enum.join("\n\n")
+
+    stream_model =
+      Praxo.Anthropic.streaming_model(
+        model: "claude-test",
+        api_key: "ak",
+        stream_transport: fn payload ->
+          send(self(), {:anthropic_stream_payload, payload})
+          {:ok, stream_text}
+        end
+      )
+
+    {:ok, stream_response, _} =
+      Agent.generate_stream(stream_model, request, fn delta ->
+        send(self(), {:anthropic_delta, delta})
+        :ok
+      end)
+
+    check(stream_response.message.content == "hello", "anthropic stream content")
+    [stream_call] = stream_response.message.tool_calls
+    check(stream_call.id == "call-1" and stream_call.name == "echo" and stream_call.arguments["text"] == "hi", "anthropic stream tool call")
+    check(stream_response.usage.input_tokens == 4 and stream_response.usage.output_tokens == 2, "anthropic stream usage")
+
+    receive do
+      {:anthropic_stream_payload, stream_payload} ->
+        check(stream_payload["stream"] == true, "anthropic stream flag")
+    after
+      1000 -> raise "anthropic stream payload not captured"
+    end
+
+    receive do
+      {:anthropic_delta, "he"} -> :ok
+    after
+      1000 -> raise "anthropic delta missing"
     end
   end
 
@@ -993,6 +1143,50 @@ defmodule Praxo.Tests do
         check(payload["toolConfig"]["functionCallingConfig"]["mode"] == "AUTO", "gemini tool mode")
     after
       1000 -> raise "gemini payload not captured"
+    end
+
+    stream_model =
+      Praxo.Gemini.streaming_model(
+        model: "gemini-test",
+        api_key: "gk",
+        stream_transport: fn payload ->
+          send(self(), {:gemini_stream_payload, payload})
+
+          {:ok,
+           "data: {\"candidates\":[{\"content\":{\"parts\":[{\"text\":\"he\"}]}}]}\n\n" <>
+             "data: {\"candidates\":[{\"content\":{\"parts\":[{\"text\":\"llo\"}," <>
+             "{\"functionCall\":{\"name\":\"echo\",\"args\":{\"text\":\"hi\"}}}]}," <>
+             "\"finishReason\":\"STOP\"}],\"usageMetadata\":{\"promptTokenCount\":4," <>
+             "\"candidatesTokenCount\":2,\"cachedContentTokenCount\":1}}"}
+        end
+      )
+
+    {:ok, stream_response} =
+      stream_model.stream.(request, fn delta -> send(self(), {:gemini_delta, delta}) end)
+
+    receive do
+      {:gemini_delta, "he"} -> :ok
+    after
+      1000 -> raise "gemini delta he missing"
+    end
+
+    receive do
+      {:gemini_delta, "llo"} -> :ok
+    after
+      1000 -> raise "gemini delta llo missing"
+    end
+
+    check(stream_response.message.content == "hello", "gemini stream content")
+    [stream_call] = stream_response.message.tool_calls
+    check(stream_call.name == "echo" and stream_call.arguments["text"] == "hi",
+      "gemini stream tool call")
+    check(stream_response.usage.input_tokens == 4 and stream_response.usage.output_tokens == 2,
+      "gemini stream usage")
+
+    receive do
+      {:gemini_stream_payload, _payload} -> :ok
+    after
+      1000 -> raise "gemini stream payload not captured"
     end
   end
 

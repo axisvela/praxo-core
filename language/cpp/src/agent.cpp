@@ -310,7 +310,9 @@ RunResult Agent::run(const Session& session, const std::string& prompt) {
             Request request;
             request.messages = messages;
             if (options_.tools) request.tools = options_.tools->specs();
-            Response response = options_.model->generate(request);
+            Response response = options_.on_delta
+                ? options_.model->generate_stream(request, options_.on_delta)
+                : options_.model->generate(request);
             check_cancelled();
             usage = usage.plus(response.usage);
             if (options_.max_tokens > 0 &&

@@ -91,6 +91,7 @@ module praxo_agent
     class(*), pointer :: cancel_ctx => null()
     procedure(agent_stream_hook), pointer, nopass :: on_stream => null()
     class(*), pointer :: stream_ctx => null()
+    type(delta_handler) :: delta
     procedure(agent_parallel_hook), pointer, nopass :: parallel => null()
     class(*), pointer :: parallel_ctx => null()
     integer :: max_parallel_tools = 1
@@ -212,7 +213,7 @@ contains
         exit
       end if
       call move_alloc(compacted, req%messages)
-      call options%provider%generate(req, res, error)
+      call run_model(options%provider, options%delta, req, res, error)
       if (error%failed()) exit
       call check_cancelled()
       if (error%failed()) exit

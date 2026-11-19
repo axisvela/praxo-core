@@ -4,7 +4,7 @@
 ## Praxo.Agent
 data Action = Action { actionKind :: String, actionSessionId :: String, actionToolName :: String, actionArguments :: Json } deriving (Eq, Show)
 data AgentError = AgentError { errorCode :: String, errorMessage :: String } deriving (Eq, Show)
-data AgentOptions = AgentOptions { generate :: [Message] -> IO (Either AgentError Response), invoke :: ToolCall -> IO (Either AgentError Json), emit :: String -> IO (Either AgentError ()), maxSteps :: Int, maxTokens :: Integer, policy :: Maybe (Action -> Bool), allowedTools :: [String], requirePolicy :: Bool, requireToolScope :: Bool, runId :: String, sessionId :: String, interruptOn :: [String], onInterruptDecision :: Maybe InterruptHandler, onInterrupt :: Maybe InterruptApproval, beforeTool :: Maybe (ToolCall -> IO (Either AgentError ToolCall)) }
+data AgentOptions = AgentOptions { generate :: [Message] -> IO (Either AgentError Response), invoke :: ToolCall -> IO (Either AgentError Json), emit :: String -> IO (Either AgentError ()), maxSteps :: Int, maxTokens :: Integer, policy :: Maybe (Action -> Bool), allowedTools :: [String], requirePolicy :: Bool, requireToolScope :: Bool, runId :: String, sessionId :: String, interruptOn :: [String], onInterruptDecision :: Maybe InterruptHandler, onInterrupt :: Maybe InterruptApproval, beforeTool :: Maybe (ToolCall -> IO (Either AgentError ToolCall)), onDelta :: Maybe (String -> IO ()), generateStream :: Maybe ([Message] -> (String -> IO ()) -> IO (Either AgentError Response)) }
 data Interrupt = Interrupt { interruptRunId :: String, interruptSessionId :: String, interruptCall :: ToolCall } deriving (Eq, Show)
 type InterruptApproval = Interrupt -> IO Bool
 data InterruptDecision = InterruptDecision { interruptAction :: String, interruptArguments :: Maybe Json, interruptResponse :: String, interruptReason :: String } deriving (Eq, Show)
@@ -24,6 +24,7 @@ data AnthropicConfig = AnthropicConfig
 data AnthropicTool = AnthropicTool
 buildAnthropicRequest :: AnthropicConfig -> [Message] -> Either AgentError HttpRequest
 generateAnthropic :: AnthropicConfig -> [Message] -> IO (Either AgentError Response)
+generateAnthropicStream :: AnthropicConfig -> [Message] -> (String -> IO ()) -> IO (Either AgentError Response)
 parseAnthropicResponse :: String -> Either AgentError Response
 
 ## Praxo.Delegation
@@ -37,7 +38,9 @@ subagentRun :: SubagentRunner -> SubagentRequest -> IO (Either AgentError Subage
 data GeminiConfig = GeminiConfig
 data GeminiTool = GeminiTool
 buildGeminiRequest :: GeminiConfig -> [Message] -> Either AgentError HttpRequest
+buildGeminiRequestWithStream :: Bool -> GeminiConfig -> [Message] -> Either AgentError HttpRequest
 generateGemini :: GeminiConfig -> [Message] -> IO (Either AgentError Response)
+generateGeminiStream :: GeminiConfig -> [Message] -> (String -> IO ()) -> IO (Either AgentError Response)
 parseGeminiResponse :: String -> Either AgentError Response
 
 ## Praxo.Harmovela
@@ -97,6 +100,7 @@ data OpenAITool = OpenAITool
 newtype Transport = Transport
 buildRequest :: OpenAIConfig -> [Message] -> Either AgentError HttpRequest
 generate :: OpenAIConfig -> [Message] -> IO (Either AgentError Response)
+generateStream :: OpenAIConfig -> [Message] -> (String -> IO ()) -> IO (Either AgentError Response)
 parseResponse :: String -> Either AgentError Response
 
 ## Praxo.Otel

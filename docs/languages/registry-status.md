@@ -50,7 +50,7 @@ GitHub Latest represents the Go Reference Core only, not the last language packa
 | PowerShell Core | PowerShell Gallery | `0.7.2` | https://www.powershellgallery.com/packages/praxo-core-ps/0.7.2 | published; page content verified 2026-11-17 |
 | PowerShell Bridge | PowerShell Gallery | `0.1.0` | https://www.powershellgallery.com/packages/praxo-core-ps-br/0.1.0 | published |
 | Perl | CPAN | `0.6.1` | https://metacpan.org/dist/Praxo-Core | published and indexed on MetaCPAN 2026-11-17 |
-| Haskell | Hackage | `0.7.1` | https://hackage.haskell.org/package/praxo-core-0.7.0 | published |
+| Haskell | Hackage | `0.7.1` | https://hackage.haskell.org/package/praxo-core-0.7.1 | published |
 | R | r-universe | `0.10.1` | https://axisvela.r-universe.dev/praxocore | published on r-universe; CRAN not published |
 | Nim | nim-lang/packages (Nimble) | `0.1.1` | https://github.com/axisvela/praxo-core-nim | split repo `v0.6.0` tagged; nim-lang/packages PR #3600 merged 2026-11-05; nimpkgs re-crawl pending |
 

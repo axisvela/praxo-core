@@ -101,7 +101,7 @@ io:format("~s~n", [maps:get(output, Result)]).
 
 ## OpenAI-Compatible Adapter
 
-`praxo_openai_compatible` provides a non-streaming adapter over the native model
+`praxo_openai_compatible` provides an adapter over the native model
 seam. It posts to `{base_url}/chat/completions` and maps assistant content, tool
 calls, and token usage. Inject `transport` to run without network access; it
 receives `(Path, Payload)` and returns `{ok, DecodedJson}`.
@@ -116,7 +116,15 @@ Model = praxo_openai_compatible:model(Adapter).
 ```
 
 Provider HTTP failures return `{error, <<"PROVIDER_HTTP">>, Adapter}`; invalid
-tool-argument JSON returns `PROVIDER_JSON`. Streaming is not implemented.
+tool-argument JSON returns `PROVIDER_JSON`.
+
+`streaming_model/1` returns a model map with `generate` and `stream` entries.
+`generate_stream/3` sets `stream: true`, parses SSE through
+`praxo_sse:parse_response/2`, reassembles content, fragmented tool calls, usage,
+and `finish_reason`, and invokes the delta callback. Inject `stream_transport`
+returning raw SSE text to run without network access; the bundled `httpc` path
+buffers the complete response body. Set `on_delta` in the agent options to use
+the streaming path.
 
 Public declarations are inventoried in [`api/0.4.0.txt`](api/0.4.0.txt).
 This is a source declaration check, not a binary ABI promise. Regenerate it with
@@ -124,7 +132,7 @@ This is a source declaration check, not a binary ABI promise. Regenerate it with
 
 ## Anthropic and Gemini Adapters
 
-`praxo_anthropic` and `praxo_gemini` map the native Messages and generateContent
+`praxo_anthropic` maps the native Messages API with `streaming_model/1` SSE\nreassembly. `praxo_gemini` maps generateContent
 APIs. Both accept a caller-supplied transport for deterministic tests.
 
 ```erlang
@@ -155,6 +163,11 @@ a network. A 2xx status returns `ok`; other statuses return
 The sink adds no authentication, retries, buffering, ordering, or exactly-once
 delivery. Use HTTPS and filter sensitive event data first.
 
+## Process plugin host
+
+`praxo_plugin_process` speaks the framework JSON-Lines process plugin protocol
+with token authentication, health handshake, invocation timeout, cooperative
+cancel, and typed call errors.
 ## Current Limits
 
 - The verified target is Erlang/OTP 29. Older releases without the `json`

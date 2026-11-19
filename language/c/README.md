@@ -141,21 +141,31 @@ Context messages currently support role/content text only, and policy path
 checks are lexical, not filesystem or symlink containment. A null event-filter
 predicate forwards all events; a non-null empty predicate forwards none.
 
-The agent loop has no cancellation token or callback-abort path. A run is
-bounded by its step limit, token limit, or a callback error, not by context
-cancellation. `PxCallLimit` is mutable per-run state without synchronization;
-do not share one instance across concurrent runs. Both limits are explicit
-partial-parity surfaces until a versioned API change is designed.
+The agent loop supports cooperative cancellation through the
+`PxAgentOptions.cancelled` callback, which is checked between steps and before
+tool batches. It cannot abort an in-flight model or tool callback, so a run is
+also bounded by its step limit, token limit, or a callback error.
+`PxCallLimit` is mutable per-run state without synchronization; do not share one
+instance across concurrent runs. Both limits are explicit partial-parity
+surfaces until a versioned API change is designed.
 
 ## OpenAI-Compatible Adapter
 
-`src/openai.c` with declarations in `src/openai.h` is an in-tree,
-non-streaming transport-seam adapter. It maps role/content messages, assistant
-tool calls, tool results, and tool specs to the OpenAI request shape, and maps
+`src/openai.c` with declarations in `src/openai.h` is an in-tree
+transport-seam adapter. It maps role/content messages, assistant tool calls,
+tool results, and tool specs to the OpenAI request shape, and maps
 `message.content`, `message.tool_calls`, `usage`, and `finish_reason` back to
 the Core response object. Tool arguments are parsed from the provider JSON
 string and invalid JSON is rejected. It is not part of the installed public
 headers or the public API snapshot.
+
+`px_openai_generate_stream` sets `stream: true`, parses the SSE response,
+reassembles content, fragmented tool calls, usage, and `finish_reason`, and
+invokes the `on_delta` callback for each text delta. The transport still returns
+the complete SSE body; true incremental network reads depend on the caller's
+transport implementation. The delta callback receives the same context pointer
+passed to the agent, so callers that need separate state should branch on the
+callback's own arguments or use `transport_ctx` for the adapter.
 
 No HTTP client is bundled. The transport callback is the only network seam, so
 production use requires a caller-provided POST implementation. Adding one is a
@@ -165,7 +175,8 @@ would each need its own build, licensing, and error-mapping review. Tests use an
 injected fake transport and make no network calls. A transport failure returns
 `NULL` from `px_openai_generate` and surfaces as `MODEL_ERROR` through the agent
 callback; call `px_openai_parse_response` directly for a `PROVIDER_JSON` status.
-Streaming is not implemented.
+Truncated or malformed streams return `MODEL_STREAM`; invalid streamed tool
+arguments return `PROVIDER_JSON`.
 
 ```c
 #include "openai.h"
@@ -184,6 +195,7 @@ PxOpenAICompatible adapter = {
     .transport_ctx = NULL,
 };
 options.generate = px_openai_generate;
+options.generate_stream = px_openai_generate_stream;
 options.ctx = &adapter;
 ```
 
@@ -191,6 +203,8 @@ options.ctx = &adapter;
 
 `src/anthropic.c` and `src/gemini.c` provide the same transport-seam contract
 for the Anthropic Messages and Gemini generateContent APIs.
+`px_anthropic_generate_stream` reassembles Anthropic SSE content, tool calls,
+usage, and finish reason; both Anthropic and Gemini reassemble SSE.
 
 ```c
 #include "anthropic.h"

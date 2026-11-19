@@ -28,9 +28,9 @@ PRAXO-CORE is an embeddable, MIT-licensed agent framework. This rock is its nati
 
 | Adapter | Status | Detail |
 | --- | --- | --- |
-| OpenAI-compatible model | native | `praxo.openai_compatible` |
-| Anthropic model | native | `praxo.adapters.anthropic` |
-| Gemini model | native | `praxo.adapters.gemini` |
+| OpenAI-compatible model | native | `praxo.openai_compatible`; SSE streaming reassembly |
+| Anthropic model | native | `praxo.adapters.anthropic` ; Anthropic SSE streaming |
+| Gemini model | native | `praxo.adapters.gemini`; Gemini SSE streaming |
 | MCP client | native (transport seam) | `praxo.adapters.mcp`; caller supplies transport |
 | Harmovela sink | native | `praxo.harmovela_sink` |
 | OpenTelemetry sink | native (transport seam) | `adapters.otel_sink`; caller supplies OTLP/HTTP transport |

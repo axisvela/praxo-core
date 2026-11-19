@@ -146,7 +146,11 @@ finish reason, and parses call arguments into typed JSON objects. Set
 `options.transport` to a function handle returning `status` and `body` for
 deterministic tests. The default transport uses `webwrite`. Missing base URLs
 and non-2xx responses raise `praxo:provider` with a `PROVIDER_HTTP` code;
-invalid tool arguments use `PROVIDER_JSON`. Streaming is not implemented.
+invalid tool arguments use `PROVIDER_JSON`. Set `request.onDelta` to use
+streaming: the adapter adds `"stream": true`, parses SSE, reassembles content,
+fragmented tool calls, usage, and `finish_reason`, and calls the delta callback.
+Inject `stream_transport` returning raw SSE text, or use the `webwrite` text
+response path.
 
 ```matlab
 options = struct('baseUrl', 'https://api.openai.com/v1', ...
@@ -205,7 +209,7 @@ extensions; the shared parity inventory remains unchanged.
 praxo.anthropic_compatible(request, options) and
 praxo.gemini_compatible(request, options) map the native Messages and
 generateContent APIs. Both accept an injected transport for deterministic
-tests.
+tests; set `request.onDelta` to reassemble Anthropic SSE.
 
 ## Harmovela Event Sink
 

@@ -4,6 +4,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+typedef void (^PXROpenAIDelta)(NSString *delta);
+
 typedef BOOL (^PXROpenAITransport)(NSString *path,
                                    NSDictionary<NSString *, id> *payload,
                                    NSInteger *statusCode,
@@ -25,6 +27,16 @@ FOUNDATION_EXPORT BOOL PXROpenAIGenerate(
     NSString * _Nullable apiKey,
     NSDictionary<NSString *, id> *request,
     PXROpenAITransport _Nullable transport,
+    NSDictionary<NSString *, id> * _Nullable * _Nullable response,
+    NSError **error);
+
+FOUNDATION_EXPORT BOOL PXROpenAIGenerateStream(
+    NSString *baseURL,
+    NSString *model,
+    NSString * _Nullable apiKey,
+    NSDictionary<NSString *, id> *request,
+    PXROpenAITransport _Nullable transport,
+    PXROpenAIDelta onDelta,
     NSDictionary<NSString *, id> * _Nullable * _Nullable response,
     NSError **error);
 

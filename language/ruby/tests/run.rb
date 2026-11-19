@@ -699,6 +699,61 @@ check(adapter_response.message.tool_calls.first.arguments['text'] == 'hi', 'adap
 check(adapter_response.usage.input_tokens == 3 && adapter_response.usage.output_tokens == 2, 'adapter usage')
 check(adapter_response.finish_reason == 'tool_calls', 'adapter finish')
 
+stream_payload = nil
+stream_deltas = []
+stream_adapter = Praxo::Adapters::OpenAICompatible.new(
+  base_url: 'http://example.test/v1',
+  model: 'test-model',
+  stream_transport: lambda do |path, payload|
+    check(path == '/chat/completions', 'adapter stream path')
+    stream_payload = payload
+    "data: {\"choices\":[{\"delta\":{\"content\":\"he\"}}]}\n\n" \
+      "data: {\"choices\":[{\"delta\":{\"content\":\"llo\"}}]}\n\n" \
+      "data: {\"choices\":[{\"delta\":{\"tool_calls\":[{\"index\":0," \
+      "\"id\":\"call-1\",\"function\":{\"name\":\"ec\"," \
+      "\"arguments\":\"{\\\"text\\\":\"}}]}}]}\n\n" \
+      "data: {\"choices\":[{\"delta\":{\"tool_calls\":[{\"index\":0," \
+      "\"function\":{\"name\":\"ho\",\"arguments\":\"\\\"hi\\\"}\"}}]}}]," \
+      "\"usage\":{\"prompt_tokens\":4,\"completion_tokens\":2}}\n\n" \
+      "data: {\"choices\":[{\"delta\":{},\"finish_reason\":\"tool_calls\"}]}\n\n" \
+      "data: [DONE]\n\n"
+  end
+)
+stream_response = stream_adapter.generate_stream(
+  adapter_request,
+  ->(delta) { stream_deltas << delta }
+)
+check(stream_payload[:stream] == true, 'adapter stream flag')
+check(stream_deltas == %w[he llo], 'adapter stream deltas')
+check(stream_response.message.content == 'hello', 'adapter stream content')
+check(stream_response.message.tool_calls.first.id == 'call-1', 'adapter stream call id')
+check(stream_response.message.tool_calls.first.name == 'echo', 'adapter stream call name')
+check(stream_response.message.tool_calls.first.arguments['text'] == 'hi', 'adapter stream args')
+check(stream_response.usage.input_tokens == 4 && stream_response.usage.output_tokens == 2, 'adapter stream usage')
+check(stream_response.finish_reason == 'tool_calls', 'adapter stream finish')
+
+agent_stream_adapter = Praxo::Adapters::OpenAICompatible.new(
+  base_url: 'http://example.test/v1',
+  model: 'test-model',
+  stream_transport: lambda do |_path, payload|
+    if payload[:stream]
+      "data: {\"choices\":[{\"delta\":{\"content\":\"ok\"}}]}\n\n" \
+        "data: {\"choices\":[{\"delta\":{},\"finish_reason\":\"stop\"}]}\n\n" \
+        "data: [DONE]\n\n"
+    else
+      ''
+    end
+  end
+)
+agent_deltas = []
+agent_stream_options = Praxo::Agent::AgentOptions.new(agent_stream_adapter)
+agent_stream_options.on_delta = ->(delta) { agent_deltas << delta }
+agent_stream_result = Praxo::Agent.run_agent(
+  agent_stream_options, M.session(id: 's1'), 'go'
+)
+check(agent_stream_result.output == 'ok', 'adapter agent stream output')
+check(agent_deltas == ['ok'], 'adapter agent stream deltas')
+
 captured = nil
 adapter_tool = Praxo::Adapters::OpenAICompatible.new(
   base_url: 'http://example.test/v1',
@@ -790,6 +845,43 @@ check(anthropic_response.usage.cached_tokens == 2, 'anthropic cached')
 check(anthropic_payload[:system] == 'be brief', 'anthropic system')
 check(anthropic_payload[:tools].first[:input_schema]['type'] == 'object', 'anthropic tools')
 
+anthropic_events = [
+  { 'type' => 'message_start', 'message' => { 'usage' => { 'input_tokens' => 4, 'cache_read_input_tokens' => 1 } } },
+  { 'type' => 'content_block_start', 'index' => 0, 'content_block' => { 'type' => 'text', 'text' => '' } },
+  { 'type' => 'content_block_delta', 'index' => 0, 'delta' => { 'type' => 'text_delta', 'text' => 'he' } },
+  { 'type' => 'content_block_delta', 'index' => 0, 'delta' => { 'type' => 'text_delta', 'text' => 'llo' } },
+  { 'type' => 'content_block_start', 'index' => 1, 'content_block' => { 'type' => 'tool_use', 'id' => 'call-1', 'name' => 'echo', 'input' => {} } },
+  { 'type' => 'content_block_delta', 'index' => 1, 'delta' => { 'type' => 'input_json_delta', 'partial_json' => '{"text":' } },
+  { 'type' => 'content_block_delta', 'index' => 1, 'delta' => { 'type' => 'input_json_delta', 'partial_json' => '"hi"}' } },
+  { 'type' => 'message_delta', 'delta' => { 'stop_reason' => 'tool_use' }, 'usage' => { 'output_tokens' => 2 } },
+  { 'type' => 'message_stop' }
+]
+anthropic_stream_text = anthropic_events.map do |event|
+  "data: #{Praxo::Json.stringify(event)}"
+end.join("\n\n")
+anthropic_stream = Praxo::Adapters::Anthropic.new(
+  model: 'claude-test',
+  api_key: 'ak',
+  stream_transport: lambda do |path, payload|
+    check(path == '/v1/messages', 'anthropic stream path')
+    check(payload[:stream] == true, 'anthropic stream flag')
+    anthropic_stream_text
+  end
+)
+anthropic_deltas = []
+anthropic_stream_response = anthropic_stream.generate_stream(
+  M.request(messages: [M.message_text(M::USER, 'hi')]),
+  ->(delta) { anthropic_deltas << delta }
+)
+check(anthropic_deltas == %w[he llo], 'anthropic stream deltas')
+check(anthropic_stream_response.message.content == 'hello', 'anthropic stream content')
+check(anthropic_stream_response.message.tool_calls.first.id == 'call-1', 'anthropic stream call id')
+check(anthropic_stream_response.message.tool_calls.first.arguments['text'] == 'hi', 'anthropic stream args')
+check(anthropic_stream_response.usage.input_tokens == 4, 'anthropic stream input tokens')
+check(anthropic_stream_response.usage.output_tokens == 2, 'anthropic stream output tokens')
+check(anthropic_stream_response.usage.cached_tokens == 1, 'anthropic stream cached')
+check(anthropic_stream_response.finish_reason == 'tool_use', 'anthropic stream finish')
+
 gemini_payload = nil
 gemini = Praxo::Adapters::Gemini.new(
   model: 'gemini-test',
@@ -818,6 +910,36 @@ check(gemini_response.message.tool_calls.first.name == 'echo', 'gemini call name
 check(gemini_response.usage.input_tokens == 3, 'gemini usage')
 check(gemini_payload[:system_instruction][:parts].first[:text] == 'be brief', 'gemini system')
 check(gemini_payload[:toolConfig][:functionCallingConfig][:mode] == 'AUTO', 'gemini tool mode')
+
+gemini_stream_payload = nil
+gemini_stream = Praxo::Adapters::Gemini.new(
+  model: 'gemini-test',
+  api_key: 'gk',
+  stream_transport: lambda do |path, payload|
+    check(path.include?(':streamGenerateContent'), 'gemini stream path')
+    check(path.include?('alt=sse'), 'gemini stream alt')
+    gemini_stream_payload = payload
+    "data: {\"candidates\":[{\"content\":{\"parts\":[{\"text\":\"he\"}]}}]}\n\n" \
+      "data: {\"candidates\":[{\"content\":{\"parts\":[{\"text\":\"llo\"}," \
+      "{\"functionCall\":{\"name\":\"echo\",\"args\":{\"text\":\"hi\"}}}]}," \
+      "\"finishReason\":\"STOP\"}],\"usageMetadata\":{\"promptTokenCount\":4," \
+      "\"candidatesTokenCount\":2,\"cachedContentTokenCount\":1}}"
+  end
+)
+gemini_deltas = []
+gemini_stream_response = gemini_stream.generate_stream(
+  M.request(messages: [M.message_text(M::USER, 'hi')]),
+  ->(delta) { gemini_deltas << delta }
+)
+check(gemini_deltas == %w[he llo], 'gemini stream deltas')
+check(gemini_stream_response.message.content == 'hello', 'gemini stream content')
+check(gemini_stream_response.message.tool_calls.first.name == 'echo', 'gemini stream call')
+check(gemini_stream_response.usage.input_tokens == 4, 'gemini stream usage')
+check(gemini_stream_response.usage.output_tokens == 2, 'gemini stream output')
+check(gemini_stream_response.usage.cached_tokens == 1, 'gemini stream cached')
+check(gemini_stream_response.finish_reason == 'STOP', 'gemini stream finish')
+check(gemini_stream_payload[:contents], 'gemini stream payload')
+
 
 client_to_server_r, client_to_server_w = IO.pipe
 server_to_client_r, server_to_client_w = IO.pipe
@@ -1136,5 +1258,52 @@ end.new)
 schema_spec = schema_registry.specs.first
 check(schema_spec.parameters['required'] == ['target'] && schema_spec.risk == 'write',
       'tool schema')
+
+plugin_fixture = File.expand_path('fixtures/process_plugin.py', __dir__)
+plugin_config = Praxo::PluginProcessConfig.new(
+  plugin_id: 'com.example.echo',
+  path: ENV.fetch('PYTHON', 'python'),
+  args: [plugin_fixture],
+  invoke_timeout: 2.0,
+  grace_period: 2.0
+)
+plugin_host = Praxo::PluginProcessHost.new(plugin_config)
+plugin_host.start
+check(plugin_host.active?, 'plugin process active')
+check(plugin_host.invoke('tool.provider', 'echo', '{"text":"hi"}') == '{"text":"hi"}',
+      'plugin process echo')
+begin
+  plugin_host.invoke('tool.provider', 'denied')
+  raise 'expected capability denial'
+rescue Praxo::PluginCallError => error
+  check(error.code == 'CAPABILITY_DENIED', 'plugin process denied')
+end
+plugin_host.stop
+check(!plugin_host.active?, 'plugin process stopped')
+
+idle_host = Praxo::PluginProcessHost.new(plugin_config)
+begin
+  idle_host.invoke('tool.provider', 'echo')
+  raise 'expected not active'
+rescue Praxo::PluginCallError => error
+  check(error.code == 'NOT_ACTIVE', 'plugin process not active')
+end
+
+slow_host = Praxo::PluginProcessHost.new(Praxo::PluginProcessConfig.new(
+  plugin_id: 'com.example.echo',
+  path: ENV.fetch('PYTHON', 'python'),
+  args: [plugin_fixture],
+  invoke_timeout: 0.2,
+  grace_period: 1.0
+))
+slow_host.start
+begin
+  slow_host.invoke('tool.provider', 'block')
+  raise 'expected timeout'
+rescue Praxo::PluginCallError => error
+  check(error.code == 'TIMEOUT', 'plugin process timeout')
+ensure
+  slow_host.stop
+end
 
 puts 'ruby core tests passed'

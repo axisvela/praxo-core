@@ -19,10 +19,7 @@ impl Sink {
         Self::with_transport(endpoint, Arc::new(StdTransport))
     }
 
-    pub fn with_transport(
-        endpoint: impl Into<String>,
-        transport: Arc<dyn Transport>,
-    ) -> Self {
+    pub fn with_transport(endpoint: impl Into<String>, transport: Arc<dyn Transport>) -> Self {
         Self {
             endpoint: endpoint.into(),
             service_name: "praxo-core".to_string(),
@@ -71,10 +68,7 @@ impl Sink {
         if let Some(data) = &event.data {
             for name in &self.allowed_data_keys {
                 if let Some(value) = data.get(name) {
-                    attributes.push(attribute(
-                        &format!("praxo.event.data.{name}"),
-                        &text(value),
-                    ));
+                    attributes.push(attribute(&format!("praxo.event.data.{name}"), &text(value)));
                 }
             }
         }

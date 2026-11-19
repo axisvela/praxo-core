@@ -28,9 +28,9 @@ Objective-C is a native Core implementation with source tag `objc/v0.6.0`. It pa
 
 | Adapter | Status | Detail |
 | --- | --- | --- |
-| OpenAI-compatible model | native | `PXROpenAIGenerate` with injectable transport |
-| Anthropic model | native | `PXRAnthropicGenerate` with injectable transport |
-| Gemini model | native | `PXRGeminiGenerate` with injectable transport |
+| OpenAI-compatible model | native | `PXROpenAIGenerate` with injectable transport; SSE streaming reassembly |
+| Anthropic model | native | `PXRAnthropicGenerate` with injectable transport; Anthropic SSE streaming |
+| Gemini model | native | `PXRGeminiGenerate` with injectable transport; Gemini SSE streaming |
 | MCP client | native | `PXRMcpClient`; stdio and `PXRHttpMcpTransport` for Streamable HTTP 2025-03-26 |
 | Harmovela sink | native | `PraxoHarmovela` |
 | OpenTelemetry sink | native (transport seam) | `PXROtelSink`; caller supplies `PXROtelTransport` |

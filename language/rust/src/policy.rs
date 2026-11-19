@@ -55,9 +55,7 @@ impl PathChecker {
         let mut resolved = Vec::new();
         for grant in grants {
             if grant.root.is_empty() {
-                return Err(PraxoError::policy(
-                    "policy: path grant root is required",
-                ));
+                return Err(PraxoError::policy("policy: path grant root is required"));
             }
             if !ACCESS.contains(&grant.access.as_str()) {
                 return Err(PraxoError::policy(format!(
@@ -109,8 +107,7 @@ impl PathChecker {
 }
 
 fn resolve(value: &str) -> Result<PathBuf> {
-    let path = Path::new(value)
-        .to_path_buf();
+    let path = Path::new(value).to_path_buf();
     match path.canonicalize() {
         Ok(real) => return Ok(real),
         Err(error) if error.kind() == std::io::ErrorKind::NotFound => {}

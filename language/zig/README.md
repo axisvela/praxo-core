@@ -21,7 +21,7 @@ implementation.
 
 ## Scope
 
-`0.6.0` implements all eleven vector groups: toolcall, JSON Schema, plugin,
+`0.7.0` implements all eleven vector groups: toolcall, JSON Schema, plugin,
 memory, event, stream, checkpoint, policy, context, middleware, and the agent
 loop. `zig/v0.1.0` remains the wire subset.
 
@@ -173,7 +173,7 @@ On Windows, copy or emit the binary with an `.exe` suffix before running it.
 - `src/otel.zig` OTLP/HTTP OpenTelemetry sink over an injected transport.
 - `src/retriever.zig` document retriever seam.
 - `src/delegation.zig` synchronous subagent delegation seam.
-- `src/openaicompat.zig` non-streaming OpenAI-compatible adapter.
+- `src/openaicompat.zig` OpenAI-compatible adapter with SSE streaming.
 - `src/conformance.zig` vector runner.
 - `api-snapshot.py` and `api/` public API snapshot.
 
@@ -184,8 +184,7 @@ content, tool calls, usage, and finish reason, and parses tool arguments into
 JSON objects. It uses `std.http` and accepts an injected `Transport` for
 deterministic tests. Missing base URLs and non-2xx responses return
 `ProviderError.ProviderHttp`; invalid tool arguments return
-`ProviderError.ProviderJson`. `providerCode` maps errors to `PROVIDER_HTTP` and
-`PROVIDER_JSON`. Streaming is not implemented.
+`ProviderError.ProviderJson`. `providerCode` maps errors to `PROVIDER_HTTP`,\n`PROVIDER_JSON`, and `MODEL_STREAM`. `generateStream` sets `stream: true`,\nparses SSE, reassembles content, fragmented tool calls, and usage, and invokes\n`agent.DeltaHandler`. Set `AgentOptions.onDelta` to use it through the agent.
 
 ```zig
 var adapter = openaicompat.Adapter.init(allocator, "https://api.openai.com/v1", "gpt-4o-mini");
@@ -199,6 +198,7 @@ const result = try agent.runAgent(allocator, .{ .model = model }, .{ .id = "s1" 
 `anthropic.Adapter` and `gemini.Adapter` provide native Messages and
 generateContent mappings over the same injectable `Transport` seam. They map
 tool calls, tools schemas, usage, finish reasons, and provider errors.
+`generateStream` reassembles Anthropic and Gemini SSE.
 
 ```zig
 var claude = anthropic.Adapter.init(allocator, "https://api.anthropic.com", "claude-sonnet-4-5");

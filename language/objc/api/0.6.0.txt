@@ -2,6 +2,7 @@
 # SPEC_VERSION 0.2.0
 
 BOOL PXROpenAIGenerate(NSString *baseURL, NSString *model, NSString * _Nullable apiKey, NSDictionary<NSString *, id> *request, PXROpenAITransport _Nullable transport, NSDictionary<NSString *, id> * _Nullable * _Nullable response, NSError **error)
+BOOL PXROpenAIGenerateStream(NSString *baseURL, NSString *model, NSString * _Nullable apiKey, NSDictionary<NSString *, id> *request, PXROpenAITransport _Nullable transport, PXROpenAIDelta onDelta, NSDictionary<NSString *, id> * _Nullable * _Nullable response, NSError **error)
 NSArray<NSString *> *PXRValidateSchema(NSDictionary<NSString *, id> *schema, id data)
 NSDictionary<NSString *, id> * _Nullable PXROpenAIParseResponse(NSDictionary<NSString *, id> *data, NSError **error)
 NSDictionary<NSString *, id> * _Nullable PXRParseInputJSON(NSString *raw)

@@ -302,11 +302,16 @@ function parseSseStream(string $text, callable $onDelta): Response
     $content = '';
     $finishReason = null;
     $done = false;
+    $usage = new Usage();
+    $calls = [];
     foreach (preg_split("/\r?\n/", $text) ?: [] as $line) {
         if (!str_starts_with($line, 'data:')) {
             continue;
         }
         $data = trim(substr($line, 5));
+        if ($data === '') {
+            continue;
+        }
         if ($data === '[DONE]') {
             $done = true;
             break;
@@ -316,15 +321,38 @@ function parseSseStream(string $text, callable $onDelta): Response
         } catch (\Throwable) {
             throw new PraxoException('MODEL_STREAM', 'openai-compatible: invalid stream chunk');
         }
-        $choiceRoot = Json::array($chunk, 'choices')[0] ?? null;
-        $reason = Json::string($choiceRoot, 'finish_reason');
-        if ($reason !== null) {
-            $finishReason = $reason;
+        $usageData = Json::get($chunk, 'usage');
+        if (is_array($usageData)) {
+            $usage = new Usage(
+                (int) ($usageData['prompt_tokens'] ?? 0),
+                (int) ($usageData['completion_tokens'] ?? 0),
+            );
         }
-        $delta = Json::string(Json::get($choiceRoot, 'delta'), 'content');
-        if ($delta !== null && $delta !== '') {
-            $content .= $delta;
-            $onDelta($delta);
+        foreach (Json::array($chunk, 'choices') as $choiceRoot) {
+            $reason = Json::string($choiceRoot, 'finish_reason');
+            if ($reason !== null) {
+                $finishReason = $reason;
+            }
+            $delta = Json::get($choiceRoot, 'delta');
+            $textDelta = Json::string($delta, 'content');
+            if ($textDelta !== null && $textDelta !== '') {
+                $content .= $textDelta;
+                $onDelta($textDelta);
+            }
+            foreach (Json::array($delta, 'tool_calls') as $item) {
+                $index = isset($item['index']) ? (int) $item['index'] : count($calls);
+                $calls[$index] ??= ['id' => '', 'name' => '', 'arguments' => ''];
+                if (is_string($item['id'] ?? null)) {
+                    $calls[$index]['id'] .= $item['id'];
+                }
+                $function = $item['function'] ?? [];
+                if (is_string($function['name'] ?? null)) {
+                    $calls[$index]['name'] .= $function['name'];
+                }
+                if (is_string($function['arguments'] ?? null)) {
+                    $calls[$index]['arguments'] .= $function['arguments'];
+                }
+            }
         }
     }
     if (!$done && $finishReason === null) {
@@ -333,5 +361,25 @@ function parseSseStream(string $text, callable $onDelta): Response
             'openai-compatible: stream ended before completion',
         );
     }
-    return new Response(Message::assistant($content));
+    ksort($calls);
+    $toolCalls = [];
+    foreach ($calls as $call) {
+        $arguments = [];
+        if ($call['arguments'] !== '') {
+            try {
+                $arguments = Json::decode($call['arguments']);
+            } catch (\Throwable) {
+                throw new PraxoException('PROVIDER_JSON', 'provider returned invalid tool arguments');
+            }
+            if (!is_array($arguments)) {
+                throw new PraxoException('PROVIDER_JSON', 'provider returned invalid tool arguments');
+            }
+        }
+        $toolCalls[] = new ToolCall($call['id'], $call['name'], $arguments);
+    }
+    return new Response(
+        Message::assistant($content, $toolCalls),
+        $usage,
+        $finishReason,
+    );
 }

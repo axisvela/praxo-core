@@ -28,9 +28,9 @@ feature.
 
 | Adapter | Status | Detail |
 | --- | --- | --- |
-| OpenAI-compatible model | native | `praxo.openai_compatible` using `webwrite` |
-| Anthropic model | native | `praxo.anthropic_compatible`; injectable transport |
-| Gemini model | native | `praxo.gemini_compatible`; injectable transport |
+| OpenAI-compatible model | native | `praxo.openai_compatible` using `webwrite`; SSE streaming reassembly |
+| Anthropic model | native | `praxo.anthropic_compatible`; injectable transport; Anthropic SSE streaming |
+| Gemini model | native | `praxo.gemini_compatible`; injectable transport; Gemini SSE streaming |
 | MCP client | native (transport seam) | `praxo.mcp_client`; caller supplies a function handle |
 | Harmovela sink | native | `praxo.harmovela_sink` |
 | OpenTelemetry sink | native (transport seam) | `praxo.otel_sink`; caller supplies OTLP/HTTP transport |

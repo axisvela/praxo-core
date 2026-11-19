@@ -17,6 +17,10 @@ status_code = 200;
         result = struct('status', status_code, 'body', body);
     end
 
+    function append_delta(delta)
+        deltas{end + 1} = delta;
+    end
+
 response_body = ['{"choices":[{"message":{"content":"hello","tool_calls":[' ...
     '{"id":"c1","type":"function","function":{"name":"echo",' ...
     '"arguments":"{\"text\":\"hi\"}"}}]},"finish_reason":"tool_calls"}],' ...
@@ -51,6 +55,41 @@ assert(found && strcmp(value.value, 'hi'));
 assert(response.inputTokens == 3);
 assert(response.outputTokens == 2);
 assert(strcmp(response.finishReason, 'tool_calls'));
+
+deltas = {};
+request.onDelta = @append_delta;
+options.stream_transport = @(path, payload) [ ...
+    'data: {"choices":[{"delta":{"content":"he"}}]}' char(10) char(10) ...
+    'data: {"choices":[{"delta":{"content":"llo"}}]}' char(10) char(10) ...
+    'data: {"choices":[{"delta":{"tool_calls":[{"index":0,"id":"call-1",' ...
+    '"function":{"name":"ec","arguments":"{\"text\":"}}]}}]}' char(10) char(10) ...
+    'data: {"choices":[{"delta":{"tool_calls":[{"index":0,' ...
+    '"function":{"name":"ho","arguments":"\"hi\"}"}}]}}],' ...
+    '"usage":{"prompt_tokens":4,"completion_tokens":2}}' char(10) char(10) ...
+    'data: {"choices":[{"delta":{},"finish_reason":"tool_calls"}]}' char(10) char(10) ...
+    'data: [DONE]' char(10)];
+response = praxo.openai_compatible(request, options);
+assert(strcmp(response.content, 'hello'));
+assert(numel(deltas) == 2 && strcmp(deltas{1}, 'he') && strcmp(deltas{2}, 'llo'));
+assert(numel(response.toolCalls) == 1);
+assert(strcmp(response.toolCalls{1}.id, 'call-1'));
+assert(strcmp(response.toolCalls{1}.name, 'echo'));
+[value, found] = praxo.json_field(response.toolCalls{1}.arguments, 'text');
+assert(found && strcmp(value.value, 'hi'));
+assert(response.inputTokens == 4 && response.outputTokens == 2);
+assert(strcmp(response.finishReason, 'tool_calls'));
+
+deltas = {};
+options.stream_transport = @(path, payload) [ ...
+    'data: {"choices":[{"delta":{"content":"ok"}}]}' char(10) char(10) ...
+    'data: {"choices":[{"delta":{},"finish_reason":"stop"}]}' char(10) char(10) ...
+    'data: [DONE]' char(10)];
+agent_model = @(model_request) praxo.openai_compatible(model_request, options);
+agent_options = praxo.agent_options(agent_model);
+agent_options.onDelta = @append_delta;
+agent_result = praxo.agent_run('go', agent_model, {}, agent_options);
+assert(strcmp(agent_result.output, 'ok'));
+assert(numel(deltas) == 1 && strcmp(deltas{1}, 'ok'));
 
 captured_payload = [];
 calls = 0;

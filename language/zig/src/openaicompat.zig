@@ -9,6 +9,7 @@ pub const ProviderError = error{
     ProviderBaseUrlRequired,
     ProviderHttp,
     ProviderJson,
+    ModelStream,
 };
 
 pub const TransportResult = struct {
@@ -111,13 +112,131 @@ pub const Adapter = struct {
         return self.parseResponse(data);
     }
 
+    pub fn generateStream(self: *Adapter, request: models.Request, on_delta: agent.DeltaHandler) !models.Response {
+        if (self.base_url.len == 0) return ProviderError.ProviderBaseUrlRequired;
+        var request_payload = try self.payload(request);
+        if (request_payload == .object) {
+            try request_payload.object.put(self.allocator, "stream", .{ .bool = true });
+        }
+        const body = try json.stringify(self.allocator, request_payload);
+        const result = if (self.transport) |transport|
+            try transport.send(self.allocator, "/chat/completions", request_payload)
+        else
+            try self.post(body);
+        if (result.status < 200 or result.status >= 300) return ProviderError.ProviderHttp;
+        return self.parseSse(result.body, on_delta);
+    }
+
     pub fn asModel(self: *Adapter) agent.Model {
-        return .{ .ctx = self, .generateFn = generateModel };
+        return .{
+            .ctx = self,
+            .generateFn = generateModel,
+            .streamFn = generateStreamModel,
+        };
     }
 
     fn generateModel(ctx: *anyopaque, request: models.Request) anyerror!models.Response {
         const self: *Adapter = @ptrCast(@alignCast(ctx));
         return self.generate(request);
+    }
+
+    fn generateStreamModel(ctx: *anyopaque, request: models.Request, on_delta: agent.DeltaHandler) anyerror!models.Response {
+        const self: *Adapter = @ptrCast(@alignCast(ctx));
+        return self.generateStream(request, on_delta);
+    }
+
+    fn parseSse(self: *Adapter, text: []const u8, on_delta: agent.DeltaHandler) !models.Response {
+        var content = std.array_list.Managed(u8).init(self.allocator);
+        var input_tokens: i64 = 0;
+        var output_tokens: i64 = 0;
+        var done = false;
+
+        const Partial = struct {
+            id: std.array_list.Managed(u8),
+            name: std.array_list.Managed(u8),
+            arguments: std.array_list.Managed(u8),
+            used: bool = false,
+        };
+        var slots: [8]Partial = undefined;
+        for (&slots) |*slot| {
+            slot.* = .{
+                .id = std.array_list.Managed(u8).init(self.allocator),
+                .name = std.array_list.Managed(u8).init(self.allocator),
+                .arguments = std.array_list.Managed(u8).init(self.allocator),
+            };
+        }
+
+        var lines = std.mem.splitScalar(u8, text, '\n');
+        while (lines.next()) |raw| {
+            const line = std.mem.trim(u8, raw, " \r\t");
+            if (!std.mem.startsWith(u8, line, "data:")) continue;
+            const chunk = std.mem.trim(u8, line[5..], " \r\t");
+            if (chunk.len == 0) continue;
+            if (std.mem.eql(u8, chunk, "[DONE]")) {
+                done = true;
+                break;
+            }
+            const event = json.parse(self.allocator, chunk) catch return ProviderError.ModelStream;
+            if (event != .object) continue;
+            if (json.object(event, "usage")) |usage| {
+                input_tokens = json.integer(.{ .object = usage }, "prompt_tokens", input_tokens);
+                output_tokens = json.integer(.{ .object = usage }, "completion_tokens", output_tokens);
+            }
+            for (json.array(event, "choices")) |choice| {
+                if (json.object(choice, "delta")) |delta| {
+                    const delta_value = json.Json{ .object = delta };
+                    if (json.string(delta_value, "content")) |piece| {
+                        if (piece.len > 0) {
+                            try content.appendSlice(piece);
+                            on_delta.emit(piece);
+                        }
+                    }
+                    for (json.array(delta_value, "tool_calls")) |item| {
+                        const raw_index = json.integer(item, "index", @as(i64, @intCast(slots.len)));
+                        if (raw_index < 0 or raw_index >= slots.len) return ProviderError.ProviderJson;
+                        const index: usize = @intCast(raw_index);
+                        const slot = &slots[index];
+                        slot.used = true;
+                        if (json.string(item, "id")) |id| try slot.id.appendSlice(id);
+                        if (json.object(item, "function")) |function_value| {
+                            const function_json = json.Json{ .object = function_value };
+                            if (json.string(function_json, "name")) |name| try slot.name.appendSlice(name);
+                            if (json.string(function_json, "arguments")) |arguments| try slot.arguments.appendSlice(arguments);
+                        }
+                    }
+                }
+                if (json.string(choice, "finish_reason")) |_| {
+                    done = true;
+                }
+            }
+        }
+        if (!done) return ProviderError.ModelStream;
+
+        var tool_calls = std.array_list.Managed(models.ToolCall).init(self.allocator);
+        for (&slots) |*slot| {
+            if (!slot.used or slot.name.items.len == 0) continue;
+            var arguments = json.Json{ .object = .empty };
+            if (slot.arguments.items.len > 0) {
+                arguments = json.parse(self.allocator, slot.arguments.items) catch return ProviderError.ProviderJson;
+                if (arguments != .object) return ProviderError.ProviderJson;
+            }
+            try tool_calls.append(.{
+                .id = try slot.id.toOwnedSlice(),
+                .name = try slot.name.toOwnedSlice(),
+                .arguments = arguments,
+            });
+        }
+        return .{
+            .message = .{
+                .role = models.ASSISTANT,
+                .content = try content.toOwnedSlice(),
+                .tool_calls = try tool_calls.toOwnedSlice(),
+            },
+            .usage = .{
+                .input_tokens = input_tokens,
+                .output_tokens = output_tokens,
+            },
+        };
     }
 
     fn post(self: *Adapter, body: []const u8) !TransportResult {
@@ -212,6 +331,7 @@ pub fn providerCode(error_value: anyerror) []const u8 {
     return switch (error_value) {
         ProviderError.ProviderHttp, ProviderError.ProviderBaseUrlRequired => "PROVIDER_HTTP",
         ProviderError.ProviderJson => "PROVIDER_JSON",
+        ProviderError.ModelStream => "MODEL_STREAM",
         else => @errorName(error_value),
     };
 }

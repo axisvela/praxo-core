@@ -29,8 +29,8 @@ C++20 implementation of the PRAXO-CORE agent contract. The normative contract is
 | Adapter | Status | Detail |
 | --- | --- | --- |
 | OpenAI-compatible model | native (transport seam) | `OpenAICompatible`; caller supplies HTTP transport |
-| Anthropic model | native (transport seam) | `Anthropic`; caller supplies HTTP transport |
-| Gemini model | native (transport seam) | `Gemini`; caller supplies HTTP transport |
+| Anthropic model | native (transport seam) | `Anthropic`; caller supplies HTTP and streaming transports; Anthropic SSE streaming |
+| Gemini model | native (transport seam) | `Gemini`; caller supplies HTTP and streaming transports; Gemini SSE streaming |
 | MCP client | native (transport seam) | `McpClient`; caller supplies `McpTransport` |
 | Harmovela sink | native (transport seam) | `HarmovelaSink`; caller supplies HTTP transport |
 | OpenTelemetry sink | native (transport seam) | `OtelSink`; caller supplies `OtelTransport` |

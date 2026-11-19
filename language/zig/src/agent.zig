@@ -6,12 +6,33 @@ const runtime = @import("runtime.zig");
 
 const Allocator = std.mem.Allocator;
 
+pub const DeltaHandler = struct {
+    ctx: *anyopaque,
+    emitFn: *const fn (ctx: *anyopaque, delta: []const u8) void,
+
+    pub fn emit(self: DeltaHandler, delta: []const u8) void {
+        self.emitFn(self.ctx, delta);
+    }
+};
+
 pub const Model = struct {
     ctx: *anyopaque,
     generateFn: *const fn (ctx: *anyopaque, request: models.Request) anyerror!models.Response,
+    streamFn: ?*const fn (ctx: *anyopaque, request: models.Request, on_delta: DeltaHandler) anyerror!models.Response = null,
 
     pub fn generate(self: Model, request: models.Request) !models.Response {
         return self.generateFn(self.ctx, request);
+    }
+
+    pub fn generateStream(self: Model, request: models.Request, on_delta: DeltaHandler) !models.Response {
+        if (self.streamFn) |stream_fn| {
+            return stream_fn(self.ctx, request, on_delta);
+        }
+        const response = try self.generate(request);
+        if (response.message.content) |content| {
+            if (content.len > 0) on_delta.emit(content);
+        }
+        return response;
     }
 };
 
@@ -123,6 +144,7 @@ pub const AgentOptions = struct {
     interrupt_on: []const []const u8 = &.{},
     on_interrupt_decision: ?InterruptHandler = null,
     on_interrupt: ?InterruptApproval = null,
+    on_delta: ?DeltaHandler = null,
     require_policy: bool = false,
     require_tool_scope: bool = false,
 };
@@ -187,10 +209,16 @@ pub const Agent = struct {
                 .messages = messages.items,
                 .tools = try self.advertisedTools(allocator),
             };
-            const response = options.model.generate(request) catch |error_value| {
-                self.emitFailure(session.id, run_id, error_value);
-                return error_value;
-            };
+            const response = if (options.on_delta) |on_delta|
+                options.model.generateStream(request, on_delta) catch |error_value| {
+                    self.emitFailure(session.id, run_id, error_value);
+                    return error_value;
+                }
+            else
+                options.model.generate(request) catch |error_value| {
+                    self.emitFailure(session.id, run_id, error_value);
+                    return error_value;
+                };
             usage = models.usagePlus(usage, response.usage);
             if (options.max_tokens > 0 and usage.input_tokens + usage.output_tokens > options.max_tokens) {
                 self.emitFailure(session.id, run_id, AgentError.AgentMaxTokens);

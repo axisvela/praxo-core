@@ -1,6 +1,7 @@
 local json = require("praxo.json")
 local models = require("praxo.models")
 local errors = require("praxo.errors")
+local sse = require("praxo.sse")
 
 local M = {}
 
@@ -56,6 +57,30 @@ local function build_payload(request, config)
   if request.temperature and request.temperature ~= 0 then payload.temperature = request.temperature end
   if request.response_format then payload.response_format = request.response_format end
   return payload
+end
+
+local function default_stream_transport(payload, config)
+  local tmp = os.tmpname()
+  local handle = assert(io.open(tmp, "wb"))
+  handle:write(json.encode(payload))
+  handle:close()
+
+  local headers = '-H "Content-Type: application/json" -H "Accept: text/event-stream"'
+  if config.api_key then
+    headers = headers .. string.format(' -H "Authorization: Bearer %s"', config.api_key)
+  end
+  local command = string.format(
+    'curl -sS -N -f -X POST %q %s --data-binary @%q',
+    config.base_url .. "/chat/completions", headers, tmp
+  )
+  local pipe = io.popen(command, "r")
+  local body = pipe:read("*a")
+  local ok = pipe:close()
+  os.remove(tmp)
+  if not ok then
+    errors.raise("PROVIDER_HTTP", "provider request failed")
+  end
+  return body
 end
 
 local function default_transport(payload, config)
@@ -121,6 +146,7 @@ function M.new(opts)
     model = opts.model,
     api_key = opts.api_key,
     transport = opts.transport,
+    stream_transport = opts.stream_transport,
   }
   return {
     generate = function(request)
@@ -132,6 +158,18 @@ function M.new(opts)
         data = default_transport(payload, config)
       end
       return parse_response(data)
+    end,
+    stream = function(request, on_delta)
+      local payload = build_payload(request, config)
+      payload.stream = true
+      local text = config.stream_transport and config.stream_transport(payload)
+        or default_stream_transport(payload, config)
+      if type(text) ~= "string" then
+        errors.raise("PROVIDER_HTTP", "stream transport must return SSE text")
+      end
+      local response, code = sse.parse_response(text, on_delta)
+      if not response then errors.raise(code, "openai-compatible: stream failed") end
+      return response
     end,
   }
 end

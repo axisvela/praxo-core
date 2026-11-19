@@ -12,3 +12,5 @@
           05 px-anthropic-tool-choice-length binary-long.
           05 px-anthropic-max-tokens binary-long.
           05 px-anthropic-version pic x(32).
+          05 px-anthropic-stream pic 9.
+          05 px-anthropic-delta-program pic x(64).

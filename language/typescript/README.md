@@ -238,3 +238,9 @@ and keep `spec/parity.md` current. `SPEC_VERSION` is exported from the package.
 ## License
 
 MIT. See [LICENSE](LICENSE).
+
+## Process plugin host
+
+`ProcessHost` speaks the framework JSON-Lines process plugin contract with
+token authentication, health handshake, invocation timeout, cancellation, and
+typed call errors. See `docs/guides/plugins.md`.

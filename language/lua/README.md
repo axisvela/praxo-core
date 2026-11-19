@@ -117,10 +117,14 @@ options.max_steps = 8
 
 - `praxo.adapters.openai_compatible` for OpenAI, DeepSeek, Kimi/Moonshot, and
   other OpenAI-compatible endpoints.
-- `praxo.adapters.anthropic` for the Anthropic Messages API.
+- `praxo.adapters.anthropic` for the Anthropic Messages API, including `stream` SSE reassembly.
 - `praxo.adapters.gemini` for the Gemini generateContent API.
 
 Each adapter accepts an injectable `transport` function for deterministic tests.
+`openai_compatible` also exposes `stream(request, on_delta)`, which sets
+`stream: true`, parses SSE, reassembles content, fragmented tool calls, usage,
+and `finish_reason`, and calls the delta callback. Inject `stream_transport` to
+return raw SSE text; set `on_delta` on the agent options to use it.
 
 ## MCP Client
 

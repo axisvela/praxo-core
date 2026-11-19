@@ -2,8 +2,7 @@ use std::sync::{Arc, Barrier, Mutex};
 use std::time::Duration;
 
 use praxo_core::delegation::{
-    SubagentManager, SubagentMode, SubagentRequest, SubagentResult, SubagentRunner,
-    SubagentStatus,
+    SubagentManager, SubagentMode, SubagentRequest, SubagentResult, SubagentRunner, SubagentStatus,
 };
 use praxo_core::errors::Result;
 
@@ -19,10 +18,7 @@ struct Failing;
 
 impl SubagentRunner for Failing {
     fn run(&self, _request: &SubagentRequest) -> Result<SubagentResult> {
-        Err(praxo_core::errors::PraxoError::new(
-            "TEST_FAILURE",
-            "boom",
-        ))
+        Err(praxo_core::errors::PraxoError::new("TEST_FAILURE", "boom"))
     }
 }
 
@@ -100,7 +96,10 @@ fn cancel_marks_running_task() {
     }));
     let task = manager.launch(request()).expect("launch");
     started.wait();
-    assert_eq!(manager.check(&task.id).unwrap().status, SubagentStatus::Running);
+    assert_eq!(
+        manager.check(&task.id).unwrap().status,
+        SubagentStatus::Running
+    );
     manager.cancel(&task.id).expect("cancel");
     let final_task = manager
         .wait(&task.id, Some(Duration::from_secs(2)))
@@ -137,5 +136,7 @@ fn update_forwards_to_controllable_runner() {
 fn unknown_task_is_rejected() {
     let manager = SubagentManager::new(Arc::new(Immediate));
     assert!(manager.check("missing").is_none());
-    assert!(manager.wait("missing", Some(Duration::from_millis(10))).is_err());
+    assert!(manager
+        .wait("missing", Some(Duration::from_millis(10)))
+        .is_err());
 }

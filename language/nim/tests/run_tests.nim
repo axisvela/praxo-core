@@ -592,6 +592,52 @@ proc testOpenAICompatible() =
   assert captured["messages"][0]["tool_calls"][0]["function"]["arguments"].getStr() ==
     """{"text":"bye"}"""
 
+  var streamPayload: JsonNode
+  let streamAdapter = newOpenAICompatible(
+    baseUrl = "http://example.test/v1",
+    model = "test-model",
+    streamTransport = proc(path: string, payload: JsonNode): string =
+      streamPayload = payload
+      return "data: {\"choices\":[{\"delta\":{\"content\":\"he\"}}]}\n\n" &
+        "data: {\"choices\":[{\"delta\":{\"content\":\"llo\"}}]}\n\n" &
+        "data: {\"choices\":[{\"delta\":{\"tool_calls\":[{\"index\":0," &
+        "\"id\":\"call-1\",\"function\":{\"name\":\"ec\"," &
+        "\"arguments\":\"{\\\"text\\\":\"}}]}}]}\n\n" &
+        "data: {\"choices\":[{\"delta\":{\"tool_calls\":[{\"index\":0," &
+        "\"function\":{\"name\":\"ho\",\"arguments\":\"\\\"hi\\\"}\"}}]}}]," &
+        "\"usage\":{\"prompt_tokens\":4,\"completion_tokens\":2}}\n\n" &
+        "data: {\"choices\":[{\"delta\":{},\"finish_reason\":\"tool_calls\"}]}\n\n" &
+        "data: [DONE]\n\n"
+  )
+  var deltas: seq[string] = @[]
+  let streamResponse = streamAdapter.generateStream(
+    request,
+    proc(delta: string) = deltas.add(delta),
+  )
+  assert streamPayload["stream"].getBool()
+  assert deltas == @["he", "llo"]
+  assert streamResponse.message.content == "hello"
+  assert streamResponse.message.toolCalls[0].id == "call-1"
+  assert streamResponse.message.toolCalls[0].name == "echo"
+  assert streamResponse.message.toolCalls[0].arguments["text"].getStr() == "hi"
+  assert streamResponse.usage.inputTokens == 4
+  assert streamResponse.usage.outputTokens == 2
+
+  let agentStreamAdapter = newOpenAICompatible(
+    baseUrl = "http://example.test/v1",
+    model = "test-model",
+    streamTransport = proc(path: string, payload: JsonNode): string =
+      return "data: {\"choices\":[{\"delta\":{\"content\":\"ok\"}}]}\n\n" &
+        "data: {\"choices\":[{\"delta\":{},\"finish_reason\":\"stop\"}]}\n\n" &
+        "data: [DONE]\n\n"
+  )
+  var agentDeltas: seq[string] = @[]
+  var options = newAgentOptions(openaiModel(agentStreamAdapter))
+  options.onDelta = proc(delta: string) = agentDeltas.add(delta)
+  let agentResult = runAgent(options, newSession("s1"), "go")
+  assert agentResult.output == "ok"
+  assert agentDeltas == @["ok"]
+
 proc testAnthropicCompatible() =
   var capturedPath = ""
   var captured: JsonNode
@@ -621,6 +667,46 @@ proc testAnthropicCompatible() =
   assert response.message.toolCalls[0].arguments["text"].getStr() == "hi"
   assert response.usage.inputTokens == 3
 
+  var streamCaptured: JsonNode
+  let events = @[
+    parseJsonText("{\"type\":\"message_start\",\"message\":{\"usage\":{\"input_tokens\":4,\"cache_read_input_tokens\":1}}}"),
+    parseJsonText("{\"type\":\"content_block_start\",\"index\":0,\"content_block\":{\"type\":\"text\",\"text\":\"\"}}"),
+    parseJsonText("{\"type\":\"content_block_delta\",\"index\":0,\"delta\":{\"type\":\"text_delta\",\"text\":\"he\"}}"),
+    parseJsonText("{\"type\":\"content_block_delta\",\"index\":0,\"delta\":{\"type\":\"text_delta\",\"text\":\"llo\"}}"),
+    parseJsonText("{\"type\":\"content_block_start\",\"index\":1,\"content_block\":{\"type\":\"tool_use\",\"id\":\"call-1\",\"name\":\"echo\",\"input\":{}}}"),
+    parseJsonText("{\"type\":\"content_block_delta\",\"index\":1,\"delta\":{\"type\":\"input_json_delta\",\"partial_json\":\"{\\\"text\\\":\"}}"),
+    parseJsonText("{\"type\":\"content_block_delta\",\"index\":1,\"delta\":{\"type\":\"input_json_delta\",\"partial_json\":\"\\\"hi\\\"}\"}}"),
+    parseJsonText("{\"type\":\"message_delta\",\"delta\":{\"stop_reason\":\"tool_use\"},\"usage\":{\"output_tokens\":2}}"),
+    parseJsonText("{\"type\":\"message_stop\"}"),
+  ]
+  var streamText = ""
+  for event in events:
+    if streamText.len > 0:
+      streamText.add("\n\n")
+    streamText.add("data: " & encodeJson(event))
+  let streamAdapter = newAnthropicCompatible(
+    baseUrl = "http://example.test",
+    model = "claude-test",
+    apiKey = "ak",
+    streamTransport = proc(path: string, payload: JsonNode): string =
+      assert path == "/v1/messages"
+      streamCaptured = payload
+      assert payload["stream"].getBool()
+      return streamText,
+  )
+  var deltas: seq[string] = @[]
+  let streamResponse = streamAdapter.generateStream(
+    request,
+    proc(delta: string) = deltas.add(delta),
+  )
+  assert deltas == @["he", "llo"]
+  assert streamResponse.message.content == "hello"
+  assert streamResponse.message.toolCalls[0].id == "call-1"
+  assert streamResponse.message.toolCalls[0].name == "echo"
+  assert streamResponse.message.toolCalls[0].arguments["text"].getStr() == "hi"
+  assert streamResponse.usage.inputTokens == 4
+  assert streamResponse.usage.outputTokens == 2
+
 proc testGeminiCompatible() =
   var capturedPath = ""
   var captured: JsonNode
@@ -647,6 +733,36 @@ proc testGeminiCompatible() =
   assert captured["toolConfig"]["functionCallingConfig"]["mode"].getStr() == "AUTO"
   assert response.message.content == "hello"
   assert response.message.toolCalls[0].name == "echo"
+
+  let streamEvents = @[
+    parseJsonText("{\"candidates\":[{\"content\":{\"parts\":[{\"text\":\"he\"}]}}]}"),
+    parseJsonText("{\"candidates\":[{\"content\":{\"parts\":[{\"text\":\"llo\"},{\"functionCall\":{\"name\":\"echo\",\"args\":{\"text\":\"hi\"}}}]},\"finishReason\":\"STOP\"}],\"usageMetadata\":{\"promptTokenCount\":4,\"candidatesTokenCount\":2,\"cachedContentTokenCount\":1}}"),
+  ]
+  var streamText = ""
+  for event in streamEvents:
+    if streamText.len > 0:
+      streamText.add("\n\n")
+    streamText.add("data: " & encodeJson(event))
+  let streamAdapter = newGeminiCompatible(
+    baseUrl = "http://example.test",
+    model = "gemini-test",
+    apiKey = "gk",
+    streamTransport = proc(path: string, payload: JsonNode): string =
+      assert path.contains(":streamGenerateContent")
+      assert path.contains("alt=sse")
+      return streamText,
+  )
+  var geminiDeltas: seq[string] = @[]
+  let streamResponse = streamAdapter.generateStream(
+    request,
+    proc(delta: string) = geminiDeltas.add(delta),
+  )
+  assert geminiDeltas == @["he", "llo"]
+  assert streamResponse.message.content == "hello"
+  assert streamResponse.message.toolCalls[0].name == "echo"
+  assert streamResponse.message.toolCalls[0].arguments["text"].getStr() == "hi"
+  assert streamResponse.usage.inputTokens == 4
+  assert streamResponse.usage.outputTokens == 2
 
 proc testHarmovelaSink() =
   var capturedPath = ""

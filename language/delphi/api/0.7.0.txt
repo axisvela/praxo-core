@@ -9,6 +9,7 @@ function PraxoValidateSchema(Schema, Data: TJSONData): TPraxoStringArray;
 function PraxoValidateManifest(const Raw: UTF8String; out Manifest: TJSONObject): Boolean;
 function PraxoJSONEqual(A, B: TJSONData): Boolean;
 function Generate(Messages: TJSONArray): TJSONObject; virtual; abstract;
+function GenerateStream(Messages: TJSONArray; OnDelta: TPraxoAgentDeltaHook): TJSONObject; virtual;
 function Invoke(const Name: UTF8String; Arguments: TJSONObject): TJSONData; virtual; abstract;
 procedure Emit(const EventType: UTF8String); virtual; abstract;
 procedure EmitEvent(const EventType: UTF8String; Data: TJSONObject); virtual;
@@ -47,3 +48,5 @@ function PraxoFallback(const PrimaryFailed: Boolean; const Primary, Fallback: UT
 function PraxoCheckToolSelected(const Selection: TPraxoStringArray; const Name: UTF8String): UTF8String;
 function Generate(Messages: TJSONArray; Tools: TJSONArray;
 function Generate(Messages: TJSONArray): TJSONObject; overload;
+function GenerateStream(Messages: TJSONArray; Tools: TJSONArray;
+function GenerateStream(Messages: TJSONArray;

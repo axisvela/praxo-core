@@ -224,6 +224,135 @@ static BOOL PXROpenAIDefaultTransport(
     return YES;
 }
 
+static NSDictionary<NSString *, id> *PXROpenAIParseStream(
+    NSString *body,
+    PXROpenAIDelta onDelta,
+    NSError **error) {
+    NSMutableString *content = [NSMutableString string];
+    NSMutableDictionary<NSNumber *, NSMutableDictionary *> *calls =
+        [NSMutableDictionary dictionary];
+    NSInteger inputTokens = 0;
+    NSInteger outputTokens = 0;
+    NSString *finishReason = nil;
+    BOOL done = NO;
+    NSCharacterSet *spaces = [NSCharacterSet whitespaceAndNewlineCharacterSet];
+    for (NSString *raw in [body componentsSeparatedByString:@"\n"]) {
+        NSString *line = [raw stringByTrimmingCharactersInSet:spaces];
+        if (line.length < 5 || ![line hasPrefix:@"data:"]) {
+            continue;
+        }
+        NSString *chunk = [[line substringFromIndex:5]
+            stringByTrimmingCharactersInSet:spaces];
+        if (chunk.length == 0) {
+            continue;
+        }
+        if ([chunk isEqualToString:@"[DONE]"]) {
+            done = YES;
+            break;
+        }
+        id decoded = nil;
+        NSError *parseError = nil;
+        if (!PXRParseJSONText(chunk, &decoded, &parseError) ||
+            ![decoded isKindOfClass:[NSDictionary class]]) {
+            if (error) {
+                *error = PXRCoreError(@"MODEL_STREAM", @"invalid SSE packet");
+            }
+            return nil;
+        }
+        NSDictionary *event = decoded;
+        NSDictionary *usage = PXRObject(event[@"usage"]);
+        if (usage.count > 0) {
+            inputTokens = [usage[@"prompt_tokens"] respondsToSelector:@selector(integerValue)]
+                ? [usage[@"prompt_tokens"] integerValue] : 0;
+            outputTokens = [usage[@"completion_tokens"] respondsToSelector:@selector(integerValue)]
+                ? [usage[@"completion_tokens"] integerValue] : 0;
+        }
+        for (id choiceValue in PXRArray(event[@"choices"])) {
+            NSDictionary *choice = PXRObject(choiceValue);
+            NSDictionary *delta = PXRObject(choice[@"delta"]);
+            NSString *piece = PXRString(delta[@"content"]);
+            if (piece.length > 0) {
+                [content appendString:piece];
+                if (onDelta) {
+                    onDelta(piece);
+                }
+            }
+            for (id itemValue in PXRArray(delta[@"tool_calls"])) {
+                NSDictionary *item = PXRObject(itemValue);
+                NSInteger index = [item[@"index"] respondsToSelector:@selector(integerValue)]
+                    ? [item[@"index"] integerValue] : (NSInteger)calls.count;
+                if (index < 0 || index >= 64) {
+                    if (error) {
+                        *error = PXRCoreError(@"PROVIDER_JSON",
+                                              @"tool call index out of range");
+                    }
+                    return nil;
+                }
+                NSMutableDictionary *slot = calls[@(index)];
+                if (slot == nil) {
+                    slot = [@{
+                        @"id": @"",
+                        @"name": @"",
+                        @"arguments": @"",
+                    } mutableCopy];
+                }
+                slot[@"id"] = [slot[@"id"] stringByAppendingString:PXRString(item[@"id"])];
+                NSDictionary *function = PXRObject(item[@"function"]);
+                slot[@"name"] = [slot[@"name"]
+                    stringByAppendingString:PXRString(function[@"name"])];
+                slot[@"arguments"] = [slot[@"arguments"]
+                    stringByAppendingString:PXRString(function[@"arguments"])];
+                calls[@(index)] = slot;
+            }
+            NSString *reason = PXRString(choice[@"finish_reason"]);
+            if (reason.length > 0) {
+                finishReason = reason;
+                done = YES;
+            }
+        }
+    }
+    if (!done) {
+        if (error) {
+            *error = PXRCoreError(@"MODEL_STREAM",
+                                  @"stream ended before completion");
+        }
+        return nil;
+    }
+    NSMutableArray *toolCalls = [NSMutableArray array];
+    NSArray *indexes = [[calls allKeys] sortedArrayUsingSelector:@selector(compare:)];
+    for (NSNumber *index in indexes) {
+        NSDictionary *slot = calls[index];
+        if (PXRString(slot[@"name"]).length == 0) {
+            continue;
+        }
+        NSDictionary *arguments = @{};
+        NSString *rawArguments = PXRString(slot[@"arguments"]);
+        if (rawArguments.length > 0) {
+            id parsed = nil;
+            NSError *parseError = nil;
+            if (!PXRParseJSONText(rawArguments, &parsed, &parseError) ||
+                ![parsed isKindOfClass:[NSDictionary class]]) {
+                if (error) {
+                    *error = PXRCoreError(@"PROVIDER_JSON",
+                                          @"invalid tool call arguments");
+                }
+                return nil;
+            }
+            arguments = parsed;
+        }
+        [toolCalls addObject:PXRToolCallCreate(PXRString(slot[@"id"]),
+                                               PXRString(slot[@"name"]),
+                                               arguments)];
+    }
+    NSMutableDictionary *response = [PXRResponseCreate(
+        PXRMessageAssistant(content, toolCalls),
+        PXRUsageCreate(inputTokens, outputTokens)) mutableCopy];
+    if (finishReason.length > 0) {
+        response[@"finishReason"] = finishReason;
+    }
+    return response;
+}
+
 BOOL PXROpenAIGenerate(
     NSString *baseURL,
     NSString *model,
@@ -284,6 +413,58 @@ BOOL PXROpenAIGenerate(
     return YES;
 }
 
+BOOL PXROpenAIGenerateStream(
+    NSString *baseURL,
+    NSString *model,
+    NSString *apiKey,
+    NSDictionary<NSString *, id> *request,
+    PXROpenAITransport transport,
+    PXROpenAIDelta onDelta,
+    NSDictionary<NSString *, id> **response,
+    NSError **error) {
+    if (baseURL.length == 0) {
+        if (error) {
+            *error = PXRCoreError(@"PROVIDER_HTTP",
+                                  @"provider base URL is required");
+        }
+        return NO;
+    }
+    NSMutableDictionary *payload = [PXROpenAIRequestPayload(
+        model,
+        PXRArray(request[@"messages"]),
+        PXRArray(request[@"tools"]),
+        PXRString(request[@"toolChoice"])) mutableCopy];
+    payload[@"stream"] = @YES;
+    NSInteger statusCode = 200;
+    NSString *body = nil;
+    if (transport != nil) {
+        if (!transport(@"/chat/completions", payload, &statusCode, &body, error)) {
+            return NO;
+        }
+    } else if (!PXROpenAIDefaultTransport(baseURL, apiKey, @"/chat/completions",
+                                         payload, &statusCode, &body, error)) {
+        return NO;
+    }
+    if (statusCode < 200 || statusCode >= 300) {
+        if (error) {
+            *error = PXRCoreError(
+                @"PROVIDER_HTTP",
+                [NSString stringWithFormat:@"provider returned HTTP %ld: %@",
+                                           (long)statusCode,
+                                           PXRBounded(body ?: @"", 4096)]);
+        }
+        return NO;
+    }
+    NSDictionary *parsed = PXROpenAIParseStream(body ?: @"", onDelta, error);
+    if (parsed == nil) {
+        return NO;
+    }
+    if (response != NULL) {
+        *response = parsed;
+    }
+    return YES;
+}
+
 PXRModelGenerate PXROpenAIModelCreate(
     NSString *baseURL,
     NSString *model,
@@ -292,6 +473,11 @@ PXRModelGenerate PXROpenAIModelCreate(
     return ^BOOL(NSDictionary<NSString *, id> *request,
                  NSDictionary<NSString *, id> **response,
                  NSError **error) {
+        PXROpenAIDelta onDelta = request[@"onDelta"];
+        if (onDelta != nil) {
+            return PXROpenAIGenerateStream(baseURL, model, apiKey, request,
+                                           transport, onDelta, response, error);
+        }
         return PXROpenAIGenerate(baseURL, model, apiKey, request, transport,
                                  response, error);
     };

@@ -248,3 +248,9 @@ installation from a package registry.
 ## License
 
 MIT. See [LICENSE](../../LICENSE).
+
+## Process plugin host
+
+`praxo.ProcessHost` speaks the framework JSON-Lines process plugin contract
+with token authentication, health handshake, invocation timeout, cancellation,
+and typed call errors. See `docs/guides/plugins.md`.

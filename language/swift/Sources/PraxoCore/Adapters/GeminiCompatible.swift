@@ -21,7 +21,7 @@ public struct GeminiConfig {
     }
 }
 
-public final class GeminiModel: Model {
+public final class GeminiModel: StreamingModel {
     public let config: GeminiConfig
     private let transport: ProviderTransport
 
@@ -51,6 +51,86 @@ public final class GeminiModel: Model {
                              "provider returned HTTP \(httpResponse.statusCode): \(bounded(httpResponse.body))")
         }
         return try parseResponse(httpResponse.body)
+    }
+
+    public func generateStream(_ request: Request,
+                               onDelta: (String) -> Void) throws -> Response {
+        guard !config.apiKey.isEmpty else {
+            throw PraxoError("MODEL_CONFIG", "gemini: API key is required")
+        }
+        guard !config.model.isEmpty else {
+            throw PraxoError("MODEL_CONFIG", "gemini: model is required")
+        }
+        var requestHeaders = headers()
+        requestHeaders["Accept"] = "text/event-stream"
+        let httpRequest = ProviderHTTPRequest(
+            method: "POST",
+            url: endpoint(true),
+            headers: requestHeaders,
+            body: try Json.stringify(buildPayload(request)),
+            timeout: config.timeout
+        )
+        let httpResponse = try transport.send(httpRequest)
+        guard (200..<300).contains(httpResponse.statusCode) else {
+            throw PraxoError("PROVIDER_HTTP",
+                             "provider returned HTTP \\(httpResponse.statusCode): \\(bounded(httpResponse.body))")
+        }
+        return try parseSseResponse(httpResponse.body, onDelta: onDelta)
+    }
+
+    public func parseSseResponse(_ text: String,
+                                 onDelta: (String) -> Void) throws -> Response {
+        var content = ""
+        var calls: [ToolCall] = []
+        var inputTokens = 0
+        var outputTokens = 0
+        var cachedTokens = 0
+        var finishReason: String?
+        for raw in text.split(separator: "\n", omittingEmptySubsequences: false) {
+            let line = raw.trimmingCharacters(in: .whitespacesAndNewlines)
+            guard line.hasPrefix("data:") else { continue }
+            let chunk = String(line.dropFirst(5)).trimmingCharacters(in: .whitespacesAndNewlines)
+            if chunk.isEmpty || chunk == "[DONE]" { continue }
+            let event: Any
+            do {
+                event = try Json.parse(chunk)
+            } catch {
+                throw PraxoError("MODEL_STREAM", "gemini: invalid stream chunk")
+            }
+            if Json.get(event, "error") != nil {
+                throw PraxoError("MODEL_STREAM", "gemini: provider stream error")
+            }
+            let usage = Json.get(event, "usageMetadata") as? [String: Any] ?? [:]
+            inputTokens = Json.int(usage, "promptTokenCount", fallback: inputTokens)
+            outputTokens = Json.int(usage, "candidatesTokenCount", fallback: outputTokens)
+            cachedTokens = Json.int(usage, "cachedContentTokenCount", fallback: cachedTokens)
+            let candidates = Json.array(event, "candidates")
+            guard let candidate = candidates.first else { continue }
+            if let reason = Json.string(candidate, "finishReason") {
+                finishReason = reason
+            }
+            let candidateContent = Json.get(candidate, "content") as? [String: Any] ?? [:]
+            for part in Json.array(candidateContent, "parts") {
+                let piece = Json.string(part, "text") ?? ""
+                if !piece.isEmpty {
+                    content += piece
+                    onDelta(piece)
+                }
+                if let call = Json.get(part, "functionCall") as? [String: Any] {
+                    calls.append(ToolCall(
+                        id: "call-\\(calls.count + 1)",
+                        name: Json.string(call, "name") ?? "",
+                        arguments: Json.get(call, "args") as? [String: Any] ?? [:]
+                    ))
+                }
+            }
+        }
+        return Response(
+            message: Message(role: Roles.assistant, content: content, toolCalls: calls),
+            usage: Usage(inputTokens: inputTokens, outputTokens: outputTokens,
+                         cachedTokens: cachedTokens),
+            finishReason: finishReason
+        )
     }
 
     public func buildPayload(_ request: Request) throws -> [String: Any] {
@@ -184,12 +264,13 @@ public final class GeminiModel: Model {
         }
     }
 
-    private func endpoint() -> String {
+    private func endpoint(_ stream: Bool = false) -> String {
         var base = config.baseURL
         while base.hasSuffix("/") { base.removeLast() }
         let encoded = config.model.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed)
             ?? config.model
-        return base + "/v1beta/models/\(encoded):generateContent"
+        return base + "/v1beta/models/\(encoded)" +
+            (stream ? ":streamGenerateContent?alt=sse" : ":generateContent")
     }
 
     private func headers() -> [String: String] {

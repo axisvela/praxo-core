@@ -8,6 +8,7 @@
 #include "praxo/errors.hpp"
 #include "praxo/json.hpp"
 #include "praxo/models.hpp"
+#include "praxo/sse.hpp"
 
 namespace praxo {
 
@@ -20,12 +21,18 @@ struct OpenAICompatibleOptions {
 using OpenAICompatibleTransport = std::function<Json(
     const std::string& url, const Json& payload,
     const std::map<std::string, std::string>& headers)>;
+using OpenAICompatibleStreamTransport = std::function<std::string(
+    const std::string& url, const Json& payload,
+    const std::map<std::string, std::string>& headers)>;
 
 class OpenAICompatible : public Model {
 public:
     OpenAICompatible(OpenAICompatibleOptions options,
-                     OpenAICompatibleTransport transport)
-        : options_(std::move(options)), transport_(std::move(transport)) {}
+                     OpenAICompatibleTransport transport,
+                     OpenAICompatibleStreamTransport stream_transport = {})
+        : options_(std::move(options)),
+          transport_(std::move(transport)),
+          stream_transport_(std::move(stream_transport)) {}
 
     Json build_payload(const Request& request) const {
         Json messages = Json::array();
@@ -93,6 +100,29 @@ public:
             headers["authorization"] = "Bearer " + options_.api_key;
         }
         return parse_response(transport_(endpoint(), build_payload(request), headers));
+    }
+
+    Response generate_stream(
+            const Request& request,
+            const std::function<void(const std::string&)>& on_delta) override {
+        if (options_.base_url.empty()) {
+            throw PraxoError("PROVIDER_HTTP", "provider base URL is required");
+        }
+        if (!stream_transport_) {
+            throw PraxoError(
+                "PROVIDER_HTTP",
+                "an OpenAI-compatible streaming transport is required");
+        }
+        std::map<std::string, std::string> headers{
+            {"content-type", "application/json"},
+            {"accept", "text/event-stream"}};
+        if (!options_.api_key.empty()) {
+            headers["authorization"] = "Bearer " + options_.api_key;
+        }
+        Json payload = build_payload(request);
+        payload["stream"] = true;
+        return parse_sse_response(
+            stream_transport_(endpoint(), payload, headers), on_delta);
     }
 
     static Response parse_response(const Json& data) {
@@ -164,6 +194,7 @@ private:
 
     OpenAICompatibleOptions options_;
     OpenAICompatibleTransport transport_;
+    OpenAICompatibleStreamTransport stream_transport_;
 };
 
 }  // namespace praxo

@@ -6,6 +6,7 @@ run() ->
     test_toolcall(),
     test_jsonschema(),
     test_plugin(),
+    test_plugin_process(),
     test_memory(),
     test_checkpoint(),
     test_context(),
@@ -315,6 +316,61 @@ test_openai_compatible() ->
             #{transport => fun(_, _) -> {ok, Data} end})
     ),
     {ok, _, _} = Model(Request),
+    StreamTransport = fun(Path, Payload) ->
+        Parent ! {stream_path, Path},
+        Parent ! {stream_payload, Payload},
+        {ok, <<
+            "data: {\"choices\":[{\"delta\":{\"content\":\"he\"}}]}\n\n"
+            "data: {\"choices\":[{\"delta\":{\"content\":\"llo\"}}]}\n\n"
+            "data: {\"choices\":[{\"delta\":{\"tool_calls\":[{\"index\":0,"
+            "\"id\":\"call-1\",\"function\":{\"name\":\"ec\","
+            "\"arguments\":\"{\\\"text\\\":\"}}]}}]}\n\n"
+            "data: {\"choices\":[{\"delta\":{\"tool_calls\":[{\"index\":0,"
+            "\"function\":{\"name\":\"ho\",\"arguments\":\"\\\"hi\\\"}\"}}]}}],"
+            "\"usage\":{\"prompt_tokens\":4,\"completion_tokens\":2}}\n\n"
+            "data: {\"choices\":[{\"delta\":{},\"finish_reason\":\"tool_calls\"}]}\n\n"
+            "data: [DONE]\n\n"
+        >>}
+    end,
+    Streaming = praxo_openai_compatible:new(
+        <<"https://example.test/v1">>,
+        <<"test-model">>,
+        #{api_key => <<"secret">>, stream_transport => StreamTransport}
+    ),
+    OnDelta = fun(Delta) -> Parent ! {delta, Delta} end,
+    {ok, StreamResponse, _} =
+        praxo_openai_compatible:generate_stream(Streaming, Request, OnDelta),
+    receive
+        {stream_path, StreamPath} ->
+            check(StreamPath == <<"/chat/completions">>, <<"openai stream path">>)
+    after 1000 -> erlang:error(openai_stream_path_timeout)
+    end,
+    receive
+        {stream_payload, StreamPayload} ->
+            check(maps:get(<<"stream">>, StreamPayload) == true,
+                <<"openai stream flag">>)
+    after 1000 -> erlang:error(openai_stream_payload_timeout)
+    end,
+    receive
+        {delta, Delta1} -> check(Delta1 == <<"he">>, <<"openai stream delta 1">>)
+    after 1000 -> erlang:error(openai_stream_delta_timeout)
+    end,
+    receive
+        {delta, Delta2} -> check(Delta2 == <<"llo">>, <<"openai stream delta 2">>)
+    after 1000 -> erlang:error(openai_stream_delta_timeout)
+    end,
+    StreamMessage = maps:get(message, StreamResponse),
+    check(maps:get(content, StreamMessage) == <<"hello">>,
+        <<"openai stream content">>),
+    [StreamCall] = maps:get(tool_calls, StreamMessage),
+    check(maps:get(id, StreamCall) == <<"call-1">>, <<"openai stream call id">>),
+    check(maps:get(name, StreamCall) == <<"echo">>, <<"openai stream call name">>),
+    check(maps:get(<<"text">>, maps:get(arguments, StreamCall)) == <<"hi">>,
+        <<"openai stream arguments">>),
+    check(praxo_json:equals(maps:get(usage, StreamResponse), praxo_models:usage(4, 2)),
+        <<"openai stream usage">>),
+    check(maps:get(finish_reason, StreamResponse) == <<"tool_calls">>,
+        <<"openai stream finish reason">>),
     {ok, Invalid} = praxo_json:parse(<<
         "{\"choices\":[{\"message\":{\"content\":\"\",\"tool_calls\":[{\"id\":\"call-1\","
         "\"function\":{\"name\":\"echo\",\"arguments\":\"not json\"}}]}}]}"
@@ -381,7 +437,75 @@ test_anthropic() ->
     [Call] = maps:get(tool_calls, Message),
     check(maps:get(id, Call) == <<"tool-1">>, <<"anthropic call id">>),
     check(maps:get(<<"text">>, maps:get(arguments, Call)) == <<"hi">>,
-          <<"anthropic arguments">>).
+          <<"anthropic arguments">>),
+
+    Events = [
+        #{<<"type">> => <<"message_start">>,
+          <<"message">> => #{<<"usage">> => #{<<"input_tokens">> => 4,
+                                             <<"cache_read_input_tokens">> => 1}}},
+        #{<<"type">> => <<"content_block_start">>, <<"index">> => 0,
+          <<"content_block">> => #{<<"type">> => <<"text">>, <<"text">> => <<>>}},
+        #{<<"type">> => <<"content_block_delta">>, <<"index">> => 0,
+          <<"delta">> => #{<<"type">> => <<"text_delta">>, <<"text">> => <<"he">>}},
+        #{<<"type">> => <<"content_block_delta">>, <<"index">> => 0,
+          <<"delta">> => #{<<"type">> => <<"text_delta">>, <<"text">> => <<"llo">>}},
+        #{<<"type">> => <<"content_block_start">>, <<"index">> => 1,
+          <<"content_block">> => #{<<"type">> => <<"tool_use">>, <<"id">> => <<"call-1">>,
+                                   <<"name">> => <<"echo">>, <<"input">> => #{}}},
+        #{<<"type">> => <<"content_block_delta">>, <<"index">> => 1,
+          <<"delta">> => #{<<"type">> => <<"input_json_delta">>,
+                           <<"partial_json">> => <<"{\"text\":">>}},
+        #{<<"type">> => <<"content_block_delta">>, <<"index">> => 1,
+          <<"delta">> => #{<<"type">> => <<"input_json_delta">>,
+                           <<"partial_json">> => <<"\"hi\"}">>}},
+        #{<<"type">> => <<"message_delta">>,
+          <<"delta">> => #{<<"stop_reason">> => <<"tool_use">>},
+          <<"usage">> => #{<<"output_tokens">> => 2}},
+        #{<<"type">> => <<"message_stop">>}
+    ],
+    StreamText = iolist_to_binary(lists:join(<<"\n\n">>,
+        [<<"data: ", (praxo_json:encode(Event))/binary>> || Event <- Events])),
+    StreamTransport = fun(StreamPath, StreamPayload) ->
+        Parent ! {anthropic_stream_path, StreamPath},
+        Parent ! {anthropic_stream_payload, StreamPayload},
+        {ok, StreamText}
+    end,
+    StreamAdapter = praxo_anthropic:new(
+        <<"https://example.test">>,
+        <<"claude-test">>,
+        #{api_key => <<"ak">>, stream_transport => StreamTransport}
+    ),
+    {ok, StreamResponse, _} = praxo_anthropic:generate_stream(
+        StreamAdapter, Request, fun(Delta) -> Parent ! {anthropic_delta, Delta} end),
+    receive
+        {anthropic_stream_path, StreamPath} ->
+            check(StreamPath == <<"/v1/messages">>, <<"anthropic stream path">>)
+    after 1000 -> erlang:error(anthropic_stream_path_timeout)
+    end,
+    receive
+        {anthropic_stream_payload, StreamPayload} ->
+            check(maps:get(<<"stream">>, StreamPayload) == true,
+                  <<"anthropic stream flag">>)
+    after 1000 -> erlang:error(anthropic_stream_payload_timeout)
+    end,
+    receive
+        {anthropic_delta, <<"he">>} -> ok
+    after 1000 -> erlang:error(anthropic_stream_delta_timeout)
+    end,
+    receive
+        {anthropic_delta, <<"llo">>} -> ok
+    after 1000 -> erlang:error(anthropic_stream_delta_timeout)
+    end,
+    StreamMessage = maps:get(message, StreamResponse),
+    check(maps:get(content, StreamMessage) == <<"hello">>,
+          <<"anthropic stream content">>),
+    [StreamCall] = maps:get(tool_calls, StreamMessage),
+    check(maps:get(id, StreamCall) == <<"call-1">>, <<"anthropic stream call id">>),
+    check(maps:get(name, StreamCall) == <<"echo">>, <<"anthropic stream call name">>),
+    check(maps:get(<<"text">>, maps:get(arguments, StreamCall)) == <<"hi">>,
+          <<"anthropic stream arguments">>),
+    check(maps:get(finish_reason, StreamResponse) == <<"tool_use">>,
+          <<"anthropic stream finish reason">>).
 
 test_gemini() ->
     Parent = self(),
@@ -429,7 +553,53 @@ test_gemini() ->
     [Call] = maps:get(tool_calls, Message),
     check(maps:get(name, Call) == <<"echo">>, <<"gemini call name">>),
     check(maps:get(<<"text">>, maps:get(arguments, Call)) == <<"hi">>,
-          <<"gemini arguments">>).
+          <<"gemini arguments">>),
+
+    StreamTransport = fun(Path, _Payload) ->
+        Parent ! {gemini_stream_path, Path},
+        {ok, <<
+            "data: {\"candidates\":[{\"content\":{\"parts\":[{\"text\":\"he\"}]}}]}"
+            "\n\n"
+            "data: {\"candidates\":[{\"content\":{\"parts\":[{\"text\":\"llo\"},"
+            "{\"functionCall\":{\"name\":\"echo\",\"args\":{\"text\":\"hi\"}}}]},"
+            "\"finishReason\":\"STOP\"}],\"usageMetadata\":{\"promptTokenCount\":4,"
+            "\"candidatesTokenCount\":2}}"
+        >>}
+    end,
+    StreamAdapter = praxo_gemini:new(
+        <<"https://example.test">>,
+        <<"gemini-test">>,
+        #{api_key => <<"gk">>, stream_transport => StreamTransport}
+    ),
+    {ok, StreamResponse, _} = praxo_gemini:generate_stream(
+        StreamAdapter,
+        Request,
+        fun(Delta) -> Parent ! {gemini_delta, Delta} end
+    ),
+    receive
+        {gemini_stream_path, StreamPath} ->
+            check(binary:match(StreamPath, <<":streamGenerateContent?alt=sse">>) =/= nomatch,
+                  <<"gemini stream path">>)
+    after 1000 -> erlang:error(gemini_stream_path_timeout)
+    end,
+    receive
+        {gemini_delta, <<"he">>} -> ok
+    after 1000 -> erlang:error(gemini_delta_he_timeout)
+    end,
+    receive
+        {gemini_delta, <<"llo">>} -> ok
+    after 1000 -> erlang:error(gemini_delta_llo_timeout)
+    end,
+    StreamMessage = maps:get(message, StreamResponse),
+    check(maps:get(content, StreamMessage) == <<"hello">>,
+          <<"gemini stream content">>),
+    [StreamCall] = maps:get(tool_calls, StreamMessage),
+    check(maps:get(name, StreamCall) == <<"echo">>, <<"gemini stream call">>),
+    StreamUsage = maps:get(usage, StreamResponse),
+    check(maps:get(input_tokens, StreamUsage) == 4, <<"gemini stream input">>),
+    check(maps:get(output_tokens, StreamUsage) == 2, <<"gemini stream output">>),
+    check(maps:get(finish_reason, StreamResponse) == <<"STOP">>,
+          <<"gemini stream finish">>).
 
 test_mcp() ->
     Transport = fun(Method, Params, _Timeout) ->
@@ -996,6 +1166,41 @@ test_plugin() ->
         praxo_plugin:parse_manifest(<<Raw/binary, "{}">>) == {error, <<"PLUGIN_INVALID">>},
         <<"plugin trailing data">>
     ).
+
+test_plugin_process() ->
+    Fixture = list_to_binary(filename:absname(filename:join([
+        filename:dirname(?FILE), "fixtures", "process_plugin.py"
+    ]))),
+    Python = case os:find_executable("python") of
+        false -> <<"python">>;
+        Found -> list_to_binary(Found)
+    end,
+    Config = #{
+        plugin_id => <<"com.example.echo">>,
+        path => Python,
+        args => [Fixture],
+        start_timeout => 2000,
+        invoke_timeout => 2000
+    },
+    {ok, Host} = praxo_plugin_process:start(Config),
+    {ok, <<"{\"text\":\"hi\"}">>} =
+        praxo_plugin_process:invoke(Host, <<"tool.provider">>, <<"echo">>, <<"{\"text\":\"hi\"}">>),
+    {error, {call_error, <<"CAPABILITY_DENIED">>, _}} =
+        praxo_plugin_process:invoke(Host, <<"tool.provider">>, <<"denied">>, <<>>),
+    ok = praxo_plugin_process:stop(Host),
+    {error, {call_error, <<"NOT_ACTIVE">>, _}} =
+        praxo_plugin_process:invoke(Host#{active => false}, <<"tool.provider">>, <<"echo">>, <<>>),
+    SlowConfig = Config#{invoke_timeout => 200},
+    {ok, Slow} = praxo_plugin_process:start(SlowConfig),
+    {error, {call_error, <<"TIMEOUT">>, _}} =
+        praxo_plugin_process:invoke(Slow, <<"tool.provider">>, <<"block">>, <<>>),
+    flush_mailbox().
+flush_mailbox() ->
+    receive
+        _ -> flush_mailbox()
+    after 0 ->
+        ok
+    end.
 
 test_memory() ->
     Store0 = praxo_memory:new(),

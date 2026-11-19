@@ -30,6 +30,8 @@ copybook anthropic-options
   05 px-anthropic-tool-choice-lengthbinary-long.
   05 px-anthropic-max-tokensbinary-long.
   05 px-anthropic-versionpic x(32).
+  05 px-anthropic-streampic 9.
+  05 px-anthropic-delta-programpic x(64).
 
 copybook api
 
@@ -182,6 +184,8 @@ copybook gemini-options
   05 px-gemini-tool-choicepic x(128).
   05 px-gemini-tool-choice-lengthbinary-long.
   05 px-gemini-max-tokensbinary-long.
+  05 px-gemini-streampic 9.
+  05 px-gemini-delta-programpic x(64).
 
 copybook harmovela-call
   01 px-harmovela-call.
@@ -481,6 +485,8 @@ copybook provider-options
   05 px-provider-toolspic x(2048).
   05 px-provider-tools-lengthbinary-long.
   05 px-provider-max-tokensbinary-long.
+  05 px-provider-streampic 9.
+  05 px-provider-delta-programpic x(64).
 
 copybook registry-state
   01 px-registry-state.
@@ -576,15 +582,31 @@ copybook slice
   05 px-slice-output-lengthbinary-long.
   05 px-slice-errorpic x(64).
 
+copybook sse-delta
+  01 px-sse-delta-call.
+  05 px-sse-delta-textpic x(2048).
+  05 px-sse-delta-lengthbinary-long.
+
 copybook sse
   01 px-sse-request.
   05 px-sse-textpic x(32768).
   05 px-sse-lengthbinary-long.
+  05 px-sse-delta-programpic x(64).
+  05 px-sse-user-datapic x(4096).
   01 px-sse-result.
   05 px-sse-donepic 9.
   05 px-sse-event-countbinary-long.
   05 px-sse-contentpic x(32768).
   05 px-sse-content-lengthbinary-long.
+  05 px-sse-finish-reasonpic x(64).
+  05 px-sse-input-tokenspic s9(15) comp-3.
+  05 px-sse-output-tokenspic s9(15) comp-3.
+  05 px-sse-tool-countbinary-long.
+  05 px-sse-callsoccurs 8 times.
+  10 px-sse-call-idpic x(64).
+  10 px-sse-call-namepic x(64).
+  10 px-sse-call-argumentspic x(2048).
+  10 px-sse-call-arguments-lengthbinary-long.
   05 px-sse-errorpic x(64).
 
 copybook stream
@@ -638,6 +660,10 @@ module agent
 program praxo-run
   using px-options px-session px-prompt px-result px-user-data
 
+module anthropic-sse
+program praxo-anthropic-sse
+  using px-sse-request px-sse-result
+
 module anthropic
 program praxo-anthropic
   using px-anthropic-options px-session px-response px-user-data px-status
@@ -657,6 +683,10 @@ program praxo-delegation
 module event
 program praxo-event
   using px-event-request px-event-result
+
+module gemini-sse
+program praxo-gemini-sse
+  using px-sse-request px-sse-result
 
 module gemini
 program praxo-gemini

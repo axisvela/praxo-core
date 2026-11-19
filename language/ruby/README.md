@@ -130,12 +130,16 @@ execution, and run-scoped call limits:
 
 `Praxo::SSE.parse` parses OpenAI-compatible server-sent-event text and raises
 `MODEL_STREAM` for truncated streams or malformed half packets.
+`Praxo::SSE.parse_response` additionally reassembles fragmented tool calls,
+usage, and `finish_reason`; `OpenAICompatible#generate_stream` uses it with an
+injected `stream_transport` or the built-in HTTP path. Set `on_delta` on the
+agent options to use streaming.
 
 ## Model Adapters
 
 - `Praxo::Adapters::OpenAICompatible` for OpenAI, DeepSeek, Kimi/Moonshot, and
   other OpenAI-compatible endpoints.
-- `Praxo::Adapters::Anthropic` for the Anthropic Messages API.
+- `Praxo::Adapters::Anthropic` for the Anthropic Messages API, including `generate_stream` SSE reassembly.
 - `Praxo::Adapters::Gemini` for the Gemini generateContent API.
 
 Each adapter accepts a `transport` lambda for deterministic tests.
@@ -166,6 +170,11 @@ status and a bounded body. The sink adds no authentication, retries, buffering,
 ordering, or exactly-once delivery. Use HTTPS and filter sensitive event data
 before emitting.
 
+## Process plugin host
+
+`Praxo::PluginProcessHost` speaks the framework JSON-Lines process plugin
+protocol with token authentication, health handshake, invocation timeout,
+cooperative cancel, and typed call errors.
 ## Layout
 
 - `lib/praxo/` package source.

@@ -7,17 +7,15 @@ use crate::model::{Model, Request, Response};
 pub fn fallback_model(fallback: Option<Arc<dyn Model>>) -> ModelMiddleware {
     Box::new(move |next: ModelHandler| {
         let fallback = fallback.clone();
-        Box::new(move |request: &Request| {
-            match next(request) {
-                Ok(response) => Ok(response),
-                Err(primary) => {
-                    let Some(fallback) = &fallback else {
-                        return Err(primary);
-                    };
-                    match fallback.generate(request) {
-                        Ok(response) => Ok(response),
-                        Err(_) => Err(primary),
-                    }
+        Box::new(move |request: &Request| match next(request) {
+            Ok(response) => Ok(response),
+            Err(primary) => {
+                let Some(fallback) = &fallback else {
+                    return Err(primary);
+                };
+                match fallback.generate(request) {
+                    Ok(response) => Ok(response),
+                    Err(_) => Err(primary),
                 }
             }
         })

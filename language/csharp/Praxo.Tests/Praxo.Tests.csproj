@@ -9,6 +9,9 @@
     <AssemblyName>Praxo.Tests</AssemblyName>
   </PropertyGroup>
   <ItemGroup>
+    <None Include="fixtures/**" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\Praxo.Core\Praxo.Core.csproj" />
   </ItemGroup>
 </Project>

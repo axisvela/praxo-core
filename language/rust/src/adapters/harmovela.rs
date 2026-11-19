@@ -39,10 +39,7 @@ impl Sink {
         Self::with_transport(base_url, Arc::new(StdTransport))
     }
 
-    pub fn with_transport(
-        base_url: impl Into<String>,
-        transport: Arc<dyn Transport>,
-    ) -> Self {
+    pub fn with_transport(base_url: impl Into<String>, transport: Arc<dyn Transport>) -> Self {
         Self {
             base_url: base_url.into(),
             source: "praxo-core".to_string(),
@@ -102,11 +99,7 @@ impl Sink {
             let bounded: String = response.body.chars().take(512).collect();
             return Err(PraxoError::new(
                 "HARMOVELA_HTTP",
-                format!(
-                    "harmovela: HTTP {}: {}",
-                    response.status,
-                    bounded.trim()
-                ),
+                format!("harmovela: HTTP {}: {}", response.status, bounded.trim()),
             ));
         }
         Ok(())
@@ -145,9 +138,8 @@ impl Transport for StdTransport {
             None => (rest, "/"),
         };
         let (host, port) = split_authority(authority)?;
-        let mut stream = TcpStream::connect((host.as_str(), port)).map_err(|error| {
-            PraxoError::new("HARMOVELA_TRANSPORT", error.to_string())
-        })?;
+        let mut stream = TcpStream::connect((host.as_str(), port))
+            .map_err(|error| PraxoError::new("HARMOVELA_TRANSPORT", error.to_string()))?;
         stream
             .set_read_timeout(Some(Duration::from_secs(30)))
             .map_err(|error| PraxoError::new("HARMOVELA_TRANSPORT", error.to_string()))?;
@@ -177,9 +169,9 @@ impl Transport for StdTransport {
 fn split_authority(authority: &str) -> Result<(String, u16)> {
     match authority.rsplit_once(':') {
         Some((host, port)) if !host.is_empty() => {
-            let port = port.parse::<u16>().map_err(|_| {
-                PraxoError::new("HARMOVELA_TRANSPORT", "harmovela: invalid port")
-            })?;
+            let port = port
+                .parse::<u16>()
+                .map_err(|_| PraxoError::new("HARMOVELA_TRANSPORT", "harmovela: invalid port"))?;
             Ok((host.to_string(), port))
         }
         Some(_) => Err(PraxoError::new(
@@ -207,9 +199,7 @@ fn parse_response(bytes: &[u8]) -> Result<HttpResponse> {
         .next()
         .and_then(|line| line.split_whitespace().nth(1))
         .and_then(|code| code.parse::<u16>().ok())
-        .ok_or_else(|| {
-            PraxoError::new("HARMOVELA_TRANSPORT", "harmovela: invalid HTTP status")
-        })?;
+        .ok_or_else(|| PraxoError::new("HARMOVELA_TRANSPORT", "harmovela: invalid HTTP status"))?;
     let body = String::from_utf8_lossy(&bytes[split + 4..]).to_string();
     Ok(HttpResponse { status, body })
 }

@@ -8,6 +8,7 @@
     failing_model/0,
     fallback_model/2,
     generate/2,
+    generate_stream/3,
     new_agent_options/1,
     run_agent/3
 ]).
@@ -39,6 +40,8 @@ failing_model() ->
 fallback_model(Primary, Fallback) ->
     #{mode => fallback, primary => Primary, fallback => Fallback, index => 0}.
 
+generate(#{generate := Fun}, Request) when is_function(Fun, 1) ->
+    Fun(Request);
 generate(Model, Request) when is_function(Model, 1) ->
     Model(Request);
 generate(#{mode := fallback, primary := Primary, fallback := Fallback} = Model, Request) ->
@@ -71,6 +74,25 @@ generate(#{mode := scripted, script := Script, index := Index} = Model, _Request
             {ok, lists:nth(Index + 1, Script), Model#{index => Index + 1}}
     end.
 
+generate_stream(#{stream := Fun}, Request, OnDelta) when is_function(Fun, 2) ->
+    Fun(Request, OnDelta);
+generate_stream(Model, Request, OnDelta) when is_function(OnDelta, 1) ->
+    case generate(Model, Request) of
+        {ok, Response, State} ->
+            Message = maps:get(message, Response),
+            Content = maps:get(content, Message, <<>>),
+            case Content of
+                <<>> -> {ok, Response, State};
+                _ ->
+                    case OnDelta(Content) of
+                        {error, Code} -> {error, Code, State};
+                        _ -> {ok, Response, State}
+                    end
+            end;
+        Other ->
+            Other
+    end.
+
 new_agent_options(Model) ->
     #{
         model => Model,
@@ -89,6 +111,7 @@ new_agent_options(Model) ->
         middleware => [],
         allowed_tools => [],
         cancellation => undefined,
+        on_delta => undefined,
         on_stream => undefined,
         max_parallel_tools => 1,
         interrupt_on => [],
@@ -246,11 +269,17 @@ loop(Options, Messages, RunId, Step, MaxSteps, Total, Limit) ->
     end.
 
 run_model(Options, Messages, Request, RunId, Step, MaxSteps, Total, Limit) ->
-    case generate(maps:get(model, Options), Request) of
-        {error, Code, Model} ->
-            fail(Options#{model => Model}, RunId, Code);
-        {ok, Response, Model} ->
-            Options1 = Options#{model => Model},
+    CurrentModel = maps:get(model, Options),
+    Result =
+        case maps:get(on_delta, Options, undefined) of
+            undefined -> generate(CurrentModel, Request);
+            OnDelta -> generate_stream(CurrentModel, Request, OnDelta)
+        end,
+    case Result of
+        {error, Code, Model1} ->
+            fail(Options#{model => Model1}, RunId, Code);
+        {ok, Response, Model1} ->
+            Options1 = Options#{model => Model1},
             case check_cancelled(Options1) of
                 {error, Code} ->
                     fail(Options1, RunId, Code);

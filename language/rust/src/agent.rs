@@ -161,7 +161,9 @@ impl Agent {
         let system_prompt = if memory.is_empty() {
             options.system_prompt.clone()
         } else {
-            format!("{}\n\n{}", options.system_prompt, memory).trim().to_string()
+            format!("{}\n\n{}", options.system_prompt, memory)
+                .trim()
+                .to_string()
         };
         let mut middleware = std::mem::take(&mut options.middleware);
         if let Some(structured) = options.structured_output.take() {
@@ -270,16 +272,9 @@ impl Agent {
                         )
                     })?
                 } else if let Some(callback) = on_delta.as_deref_mut() {
-                    let streaming = self
-                        .options
-                        .streaming_model
-                        .as_deref()
-                        .ok_or_else(|| {
-                            PraxoError::new(
-                                "AGENT_STREAM",
-                                "agent: model does not support streaming",
-                            )
-                        })?;
+                    let streaming = self.options.streaming_model.as_deref().ok_or_else(|| {
+                        PraxoError::new("AGENT_STREAM", "agent: model does not support streaming")
+                    })?;
                     streaming.generate_stream(&call.request, callback)?
                 } else {
                     self.generate(&call.request)?
@@ -301,11 +296,7 @@ impl Agent {
                         usage,
                     };
                     after_run_invoked = true;
-                    if let Some(error) = self.after_run_entered(
-                        &entered,
-                        Some(&mut result),
-                        None,
-                    ) {
+                    if let Some(error) = self.after_run_entered(&entered, Some(&mut result), None) {
                         return Err(error);
                     }
                     self.emit("run.completed", &session.id, &run_id, None)?;
@@ -428,12 +419,7 @@ impl Agent {
         Ok(out)
     }
 
-    fn invoke_tool(
-        &self,
-        call: &ToolCall,
-        run_id: &str,
-        session_id: &str,
-    ) -> Result<Message> {
+    fn invoke_tool(&self, call: &ToolCall, run_id: &str, session_id: &str) -> Result<Message> {
         let prepared = self.prepare_tool(call, run_id, session_id)?;
         let result = self.execute_prepared(&prepared);
         self.finish_tool(&prepared, result)
@@ -514,7 +500,10 @@ impl Agent {
         let tool = tools.get(&active.name)?;
         let mut data = Map::new();
         data.insert("name".to_string(), Value::String(active.name.clone()));
-        data.insert("arguments".to_string(), Value::Object(active.arguments.clone()));
+        data.insert(
+            "arguments".to_string(),
+            Value::Object(active.arguments.clone()),
+        );
         self.emit("tool.call", session_id, run_id, Some(data))?;
         Ok(PreparedTool {
             middleware_call,
@@ -532,16 +521,23 @@ impl Agent {
         run_id: &str,
         session_id: &str,
     ) -> Result<Option<Value>> {
-        if !self.options.interrupt_on.iter().any(|name| name == &call.name) {
+        if !self
+            .options
+            .interrupt_on
+            .iter()
+            .any(|name| name == &call.name)
+        {
             return Ok(None);
         }
-        if self.options.on_interrupt_decision.is_none() && self.options.on_interrupt.is_none()
-        {
+        if self.options.on_interrupt_decision.is_none() && self.options.on_interrupt.is_none() {
             return Err(PraxoError::interrupt_unhandled());
         }
         let mut data = Map::new();
         data.insert("name".to_string(), Value::String(call.name.clone()));
-        data.insert("arguments".to_string(), Value::Object(call.arguments.clone()));
+        data.insert(
+            "arguments".to_string(),
+            Value::Object(call.arguments.clone()),
+        );
         self.emit("tool.interrupt", session_id, run_id, Some(data))?;
         let interrupt = Interrupt {
             run_id: run_id.to_string(),
@@ -554,9 +550,7 @@ impl Agent {
                 InterruptAction::Approve => Ok(None),
                 InterruptAction::Edit => {
                     let arguments = decision.arguments.ok_or_else(|| {
-                        PraxoError::interrupt_decision_invalid(
-                            "agent: edit requires arguments",
-                        )
+                        PraxoError::interrupt_decision_invalid("agent: edit requires arguments")
                     })?;
                     call.arguments = arguments;
                     Ok(None)
@@ -632,12 +626,7 @@ impl Agent {
         Ok(Message::tool(content, prepared.active.id.clone()))
     }
 
-    fn before_run(
-        &self,
-        run_id: &str,
-        prompt: &str,
-        entered: &mut Vec<usize>,
-    ) -> Result<()> {
+    fn before_run(&self, run_id: &str, prompt: &str, entered: &mut Vec<usize>) -> Result<()> {
         let state = RunState {
             run_id: run_id.to_string(),
             prompt: prompt.to_string(),
@@ -694,9 +683,7 @@ impl Agent {
             let Some(middleware) = self.middleware.get(*index) else {
                 continue;
             };
-            if let Err(caught) =
-                middleware.after_run(result.as_deref_mut(), error)
-            {
+            if let Err(caught) = middleware.after_run(result.as_deref_mut(), error) {
                 if first_error.is_none() {
                     first_error = Some(caught);
                 }
@@ -751,8 +738,6 @@ impl Agent {
         events.emit(&event)
     }
 }
-
-
 
 struct PreparedTool {
     middleware_call: MiddlewareToolCall,

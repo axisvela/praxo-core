@@ -10,12 +10,14 @@ module Praxo
       DEFAULT_BASE_URL = 'https://generativelanguage.googleapis.com'
 
       def initialize(base_url: DEFAULT_BASE_URL, model:, api_key: nil,
-                     max_output_tokens: 0, transport: nil, timeout: 60)
+                     max_output_tokens: 0, transport: nil, stream_transport: nil,
+                     timeout: 60)
         @base_url = base_url.to_s.sub(%r{/$}, '')
         @model = model
         @api_key = api_key
         @max_output_tokens = max_output_tokens
         @transport = transport
+        @stream_transport = stream_transport
         @timeout = timeout
       end
 
@@ -27,6 +29,20 @@ module Praxo
         path = "/v1beta/models/#{URI.encode_www_form_component(@model)}:generateContent"
         data = @transport ? @transport.call(path, payload) : post(path, payload)
         parse_response(data)
+      end
+
+      def generate_stream(request, on_delta)
+        Praxo.error('MODEL_CONFIG', 'gemini: API key is required') unless @api_key && !@api_key.empty?
+        Praxo.error('MODEL_CONFIG', 'gemini: model is required') unless @model && !@model.empty?
+
+        payload = build_payload(request)
+        path = "/v1beta/models/#{URI.encode_www_form_component(@model)}:streamGenerateContent?alt=sse"
+        text = if @stream_transport
+                 @stream_transport.call(path, payload)
+               else
+                 post_stream(path, payload)
+               end
+        parse_stream(text, on_delta)
       end
 
       private
@@ -154,6 +170,83 @@ module Praxo
           ),
           finish_reason: candidate['finishReason']
         )
+      end
+
+      def parse_stream(text, on_delta)
+        content = +''
+        calls = []
+        input_tokens = 0
+        output_tokens = 0
+        cached_tokens = 0
+        finish_reason = nil
+        text.to_s.each_line do |raw|
+          line = raw.strip
+          next unless line.start_with?('data:')
+
+          chunk_text = line[5..].to_s.strip
+          next if chunk_text.empty? || chunk_text == '[DONE]'
+
+          chunk = Json.parse(chunk_text)
+          Praxo.error('MODEL_STREAM', "gemini: #{chunk.dig('error', 'message') || 'stream error'}") if chunk['error']
+
+          usage = chunk['usageMetadata'] || {}
+          input_tokens = usage['promptTokenCount'] if usage['promptTokenCount']
+          output_tokens = usage['candidatesTokenCount'] if usage['candidatesTokenCount']
+          cached_tokens = usage['cachedContentTokenCount'] if usage['cachedContentTokenCount']
+
+          candidate = Array(chunk['candidates']).first
+          next unless candidate
+
+          finish_reason = candidate['finishReason'] if candidate['finishReason']
+          Array((candidate['content'] || {})['parts']).each do |part|
+            piece = part['text'].to_s
+            if !piece.empty?
+              content << piece
+              on_delta.call(piece)
+            end
+            call = part['functionCall']
+            next unless call
+
+            calls << Models.tool_call(
+              id: "call-#{calls.length + 1}",
+              name: call['name'] || '',
+              arguments: call['args'] || {}
+            )
+          end
+        end
+        Models.response(
+          message: Models.message(
+            role: Models::ASSISTANT,
+            content: content,
+            tool_calls: calls
+          ),
+          usage: Models.usage(
+            input_tokens: input_tokens.to_i,
+            output_tokens: output_tokens.to_i,
+            cached_tokens: cached_tokens.to_i
+          ),
+          finish_reason: finish_reason
+        )
+      end
+
+      def post_stream(path, payload)
+        uri = URI.join(@base_url + '/', path.sub(%r{^/}, ''))
+        request = Net::HTTP::Post.new(uri)
+        request['Content-Type'] = 'application/json'
+        request['Accept'] = 'text/event-stream'
+        request['x-goog-api-key'] = @api_key
+        request.body = Json.stringify(payload)
+        response = Net::HTTP.start(
+          uri.host,
+          uri.port,
+          use_ssl: uri.scheme == 'https',
+          read_timeout: @timeout
+        ) { |http| http.request(request) }
+        body = response.body.to_s
+        unless response.is_a?(Net::HTTPSuccess)
+          Praxo.error('PROVIDER_HTTP', "provider returned HTTP #{response.code}: #{body}")
+        end
+        body
       end
 
       def post(path, payload)

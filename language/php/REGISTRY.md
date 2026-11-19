@@ -30,9 +30,9 @@ Use it when an existing PHP application needs a governed model/tool loop without
 
 | Adapter | Status | Detail |
 | --- | --- | --- |
-| OpenAI-compatible model | native | `Praxo\Core\Adapters\OpenAICompatible` |
-| Anthropic model | native | `Praxo\Core\Adapters\Anthropic` |
-| Gemini model | native | `Praxo\Core\Adapters\Gemini` |
+| OpenAI-compatible model | native | `Praxo\Core\Adapters\OpenAICompatible`; SSE streaming reassembly |
+| Anthropic model | native | `Praxo\Core\Adapters\Anthropic` ; Anthropic SSE streaming |
+| Gemini model | native | `Praxo\Core\Adapters\Gemini`; Gemini SSE streaming |
 | MCP client | native | `Praxo\Core\Adapters\MCPClient`; stdio, plus `HttpMCPTransport` for Streamable HTTP 2025-03-26 |
 | Harmovela sink | native | `Praxo\Core\Adapters\HarmovelaSink` |
 | OpenTelemetry sink | native (transport seam) | `OtelSink`; caller supplies OTLP/HTTP transport |

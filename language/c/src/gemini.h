@@ -21,6 +21,10 @@ PxValue *px_gemini_parse_response(PxArena *arena, const char *text,
     const char **error);
 PxValue *px_gemini_generate(PxArena *arena, PxValue *messages, PxValue *tools,
     void *ctx);
+PxValue *px_gemini_generate_stream(PxArena *arena, PxValue *messages,
+    PxValue *tools, const char *(*on_delta)(const char *delta, void *ctx),
+    void *ctx, const char **error);
 const char *px_gemini_url(PxArena *arena, const PxGemini *adapter);
+const char *px_gemini_stream_url(PxArena *arena, const PxGemini *adapter);
 
 #endif

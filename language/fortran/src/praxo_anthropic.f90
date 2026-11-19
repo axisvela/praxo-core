@@ -1,7 +1,7 @@
 module praxo_anthropic
   use iso_fortran_env, only: int64, real64
   use praxo_types, only: sdk_error, request, response, string_value, tool_call, message
-  use praxo_interfaces, only: model
+  use praxo_interfaces, only: model, delta_interface
   use praxo_json, only: json_document, parse_json, json_get, json_children, &
     json_kind, json_text, json_real
   implicit none
@@ -26,6 +26,11 @@ module praxo_anthropic
     procedure(anthropic_transport), pointer, nopass :: transport => null()
   contains
     procedure :: generate => generate_anthropic
+    procedure :: generate_stream => generate_stream_anthropic
+  end type
+
+  type :: anthropic_stream_call
+    character(:), allocatable :: id, name, arguments
   end type
 contains
   subroutine generate_anthropic(self, req, res, error)
@@ -55,6 +60,185 @@ contains
       self%api_key, version, error)
     if (error%failed()) return
     call map_response(body, res, error)
+  end subroutine
+
+  subroutine generate_stream_anthropic(self, req, on_delta, ctx, res, error)
+    class(anthropic_compatible), intent(inout) :: self
+    type(request), intent(in) :: req
+    procedure(delta_interface) :: on_delta
+    class(*), pointer, intent(in) :: ctx
+    type(response), intent(out) :: res
+    type(sdk_error), intent(out) :: error
+    character(:), allocatable :: payload, body, version
+    if (.not. allocated(self%api_key) .or. len_trim(self%api_key) == 0) then
+      error%code = 'MODEL_CONFIG'
+      return
+    end if
+    if (.not. allocated(self%model_name) .or. len_trim(self%model_name) == 0) then
+      error%code = 'MODEL_CONFIG'
+      return
+    end if
+    if (.not. associated(self%transport)) then
+      error%code = 'PROVIDER_HTTP'
+      return
+    end if
+    version = '2023-06-01'
+    if (allocated(self%version)) then
+      if (len_trim(self%version) > 0) version = self%version
+    end if
+    payload = build_payload(self, req)
+    payload = payload(:len(payload) - 1)//',"stream":true}'
+    body = self%transport(endpoint(self%base_url), payload, &
+      self%api_key, version, error)
+    if (error%failed()) return
+    call map_stream_response(body, on_delta, ctx, res, error)
+  end subroutine
+
+  subroutine map_stream_response(body, on_delta, ctx, res, error)
+    character(*), intent(in) :: body
+    procedure(delta_interface) :: on_delta
+    class(*), pointer, intent(in) :: ctx
+    type(response), intent(out) :: res
+    type(sdk_error), intent(out) :: error
+    type(json_document) :: doc, argument_document
+    type(sdk_error) :: delta_error, argument_error
+    type(anthropic_stream_call) :: calls(8)
+    integer :: start, finish, newline, i, node, block, delta
+    integer :: slot, call_count, chosen
+    character(:), allocatable :: line, chunk, kind, piece, reason, raw_arguments
+    real(real64) :: value
+    logical :: done, ok
+    res%message%role = 'assistant'
+    res%message%content = ''
+    res%usage%input_tokens = 0
+    res%usage%output_tokens = 0
+    call_count = 0
+    reason = ''
+    done = .false.
+    do i = 1, 8
+      calls(i)%id = ''
+      calls(i)%name = ''
+      calls(i)%arguments = ''
+    end do
+    start = 1
+    do while (start <= len(body) .and. .not. error%failed() .and. .not. done)
+      newline = index(body(start:), achar(10))
+      if (newline == 0) then
+        finish = len(body) + 1
+      else
+        finish = start + newline - 1
+      end if
+      if (finish > start) then
+        line = body(start:finish - 1)
+      else
+        line = ''
+      end if
+      line = trim(line)
+      if (len_trim(line) > 1) then
+        if (line(len_trim(line):len_trim(line)) == achar(13)) &
+          line = line(:len_trim(line) - 1)
+      end if
+      if (len(line) >= 5 .and. line(1:5) == 'data:') then
+        if (len(line) > 5) then
+          chunk = trim(adjustl(line(6:)))
+        else
+          chunk = ''
+        end if
+        if (len_trim(chunk) > 0) then
+          call parse_json(trim(chunk), doc, error)
+          if (error%failed()) then
+            error%code = 'MODEL_STREAM'
+          else
+            kind = json_text(doc, json_get(doc, 1, 'type'))
+            select case (kind)
+            case ('message_start')
+              node = json_get(doc, 1, 'message')
+              block = json_get(doc, node, 'usage')
+              value = json_real(doc, json_get(doc, block, 'input_tokens'), ok)
+              if (ok) res%usage%input_tokens = int(value, int64)
+            case ('content_block_start')
+              value = json_real(doc, json_get(doc, 1, 'index'), ok)
+              slot = 1
+              if (ok) slot = int(value) + 1
+              if (slot >= 1 .and. slot <= 8) then
+                block = json_get(doc, 1, 'content_block')
+                if (json_text(doc, json_get(doc, block, 'type')) == 'tool_use') then
+                  calls(slot)%id = json_text(doc, json_get(doc, block, 'id'))
+                  calls(slot)%name = json_text(doc, json_get(doc, block, 'name'))
+                  if (slot > call_count) call_count = slot
+                end if
+              end if
+            case ('content_block_delta')
+              value = json_real(doc, json_get(doc, 1, 'index'), ok)
+              slot = 1
+              if (ok) slot = int(value) + 1
+              delta = json_get(doc, 1, 'delta')
+              kind = json_text(doc, json_get(doc, delta, 'type'))
+              if (kind == 'text_delta') then
+                piece = json_text(doc, json_get(doc, delta, 'text'))
+                if (len(piece) > 0 .and. len(res%message%content) < 32768) then
+                  res%message%content = res%message%content//piece
+                  delta_error%code = ''
+                  call on_delta(ctx, piece, delta_error)
+                  if (delta_error%failed()) error = delta_error
+                end if
+              else if (kind == 'input_json_delta') then
+                if (slot >= 1 .and. slot <= 8) then
+                  raw_arguments = json_text(doc, json_get(doc, delta, 'partial_json'))
+                  if (len(calls(slot)%arguments) < 2048) then
+                    calls(slot)%arguments = calls(slot)%arguments//raw_arguments
+                  end if
+                  if (slot > call_count) call_count = slot
+                end if
+              end if
+            case ('message_delta')
+              delta = json_get(doc, 1, 'delta')
+              raw_arguments = json_text(doc, json_get(doc, delta, 'stop_reason'))
+              if (len(raw_arguments) > 0) then
+                reason = raw_arguments
+                done = .true.
+              end if
+              node = json_get(doc, 1, 'usage')
+              value = json_real(doc, json_get(doc, node, 'output_tokens'), ok)
+              if (ok) res%usage%output_tokens = int(value, int64)
+            case ('message_stop')
+              done = .true.
+            case ('error')
+              error%code = 'MODEL_STREAM'
+            end select
+          end if
+        end if
+      end if
+      if (newline == 0) exit
+      start = finish + 1
+    end do
+    if (.not. error%failed() .and. .not. done) error%code = 'MODEL_STREAM'
+    if (error%failed()) return
+    chosen = 0
+    do i = 1, call_count
+      if (len_trim(calls(i)%name) > 0) chosen = chosen + 1
+    end do
+    if (chosen > 0) then
+      allocate(res%message%tool_calls(chosen))
+      chosen = 0
+      do i = 1, call_count
+        if (len_trim(calls(i)%name) == 0) cycle
+        chosen = chosen + 1
+        res%message%tool_calls(chosen)%id = calls(i)%id
+        res%message%tool_calls(chosen)%name = calls(i)%name
+        if (len_trim(calls(i)%arguments) == 0) then
+          res%message%tool_calls(chosen)%arguments = '{}'
+        else
+          call parse_json(calls(i)%arguments, argument_document, argument_error)
+          if (argument_error%failed() .or. &
+              json_kind(argument_document, 1) /= 'O') then
+            error%code = 'PROVIDER_JSON'
+            return
+          end if
+          res%message%tool_calls(chosen)%arguments = calls(i)%arguments
+        end if
+      end do
+    end if
   end subroutine
 
   function build_payload(self, req) result(payload)

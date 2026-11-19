@@ -139,6 +139,79 @@ local function parse_response(data)
   })
 end
 
+local function default_stream_transport(payload, config)
+  local tmp = os.tmpname()
+  local handle = assert(io.open(tmp, "wb"))
+  handle:write(json.encode(payload))
+  handle:close()
+  local path = "/v1beta/models/" .. config.model
+    .. ":streamGenerateContent?alt=sse"
+  local command = string.format(
+    'curl -sS -N -f -X POST %q -H "Content-Type: application/json" -H "Accept: text/event-stream" -H "x-goog-api-key: %s" --data-binary @%q',
+    config.base_url .. path, config.api_key, tmp
+  )
+  local pipe = io.popen(command, "r")
+  local body = pipe:read("*a")
+  local ok = pipe:close()
+  os.remove(tmp)
+  if not ok then errors.raise("PROVIDER_HTTP", "provider request failed") end
+  return body
+end
+
+local function parse_sse(text, on_delta)
+  local content = {}
+  local calls = {}
+  local input_tokens = 0
+  local output_tokens = 0
+  local cached_tokens = 0
+  local finish_reason = nil
+  for line in (text or ""):gmatch("([^\n]*)\n?") do
+    local trimmed = line:match("^%s*(.-)%s*$")
+    local chunk = trimmed:match("^data:%s*(.*)$")
+    if chunk and chunk ~= "" and chunk ~= "[DONE]" then
+      local ok, event = pcall(json.parse, chunk)
+      if not ok or type(event) ~= "table" then return nil, "MODEL_STREAM" end
+      if event.error then return nil, "MODEL_STREAM" end
+      local usage = event.usageMetadata or {}
+      input_tokens = usage.promptTokenCount or input_tokens
+      output_tokens = usage.candidatesTokenCount or output_tokens
+      cached_tokens = usage.cachedContentTokenCount or cached_tokens
+      local candidate = (event.candidates or {})[1]
+      if candidate then
+        finish_reason = candidate.finishReason or finish_reason
+        local parts = (candidate.content and candidate.content.parts) or {}
+        for _, part in ipairs(parts) do
+          local piece = part.text or ""
+          if piece ~= "" then
+            content[#content + 1] = piece
+            on_delta(piece)
+          end
+          if part.functionCall then
+            calls[#calls + 1] = models.tool_call({
+              id = "call-" .. (#calls + 1),
+              name = part.functionCall.name or "",
+              arguments = part.functionCall.args or {},
+            })
+          end
+        end
+      end
+    end
+  end
+  return models.response({
+    message = models.message({
+      role = models.ASSISTANT,
+      content = table.concat(content),
+      tool_calls = calls,
+    }),
+    usage = models.usage({
+      input_tokens = input_tokens,
+      output_tokens = output_tokens,
+      cached_tokens = cached_tokens,
+    }),
+    finish_reason = finish_reason,
+  })
+end
+
 local function default_transport(payload, config)
   local tmp = os.tmpname()
   local handle = assert(io.open(tmp, "wb"))
@@ -166,6 +239,7 @@ function M.new(opts)
     api_key = opts.api_key,
     max_output_tokens = opts.max_output_tokens or 0,
     transport = opts.transport,
+    stream_transport = opts.stream_transport,
   }
   return {
     generate = function(request)
@@ -179,6 +253,20 @@ function M.new(opts)
       local data = config.transport and config.transport(payload)
         or default_transport(payload, config)
       return parse_response(data)
+    end,
+    stream = function(request, on_delta)
+      if not config.api_key or config.api_key == "" then
+        errors.raise("MODEL_CONFIG", "gemini: API key is required")
+      end
+      if not config.model or config.model == "" then
+        errors.raise("MODEL_CONFIG", "gemini: model is required")
+      end
+      local payload = build_payload(request, config)
+      local text = config.stream_transport and config.stream_transport(payload)
+        or default_stream_transport(payload, config)
+      local response, code = parse_sse(text, on_delta)
+      if not response then errors.raise(code, "gemini: stream failed") end
+      return response
     end,
   }
 end

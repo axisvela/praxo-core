@@ -11,3 +11,5 @@
           05 px-gemini-tool-choice pic x(128).
           05 px-gemini-tool-choice-length binary-long.
           05 px-gemini-max-tokens binary-long.
+          05 px-gemini-stream pic 9.
+          05 px-gemini-delta-program pic x(64).

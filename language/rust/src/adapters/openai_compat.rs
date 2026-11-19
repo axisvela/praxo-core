@@ -48,9 +48,7 @@ pub fn parse_stream<R: BufRead>(
 }
 
 #[cfg(feature = "http-ureq")]
-pub use http::{
-    OpenAICompatConfig, OpenAICompatTransport, OpenAICompatible, UreqTransport,
-};
+pub use http::{OpenAICompatConfig, OpenAICompatTransport, OpenAICompatible, UreqTransport};
 
 #[cfg(feature = "http-ureq")]
 mod http {
@@ -120,11 +118,9 @@ mod http {
         pub fn generate(&self, request: &Request) -> Result<Response> {
             self.validate(request)?;
             let payload = self.payload(request, false);
-            let data = self.transport.send_json(
-                &self.endpoint(),
-                &self.headers(),
-                &payload,
-            )?;
+            let data = self
+                .transport
+                .send_json(&self.endpoint(), &self.headers(), &payload)?;
             parse_response(&data)
         }
 
@@ -135,16 +131,19 @@ mod http {
         ) -> Result<Response> {
             self.validate(request)?;
             let payload = self.payload(request, true);
-            let reader = self.transport.send_stream(
-                &self.endpoint(),
-                &self.headers(),
-                &payload,
-            )?;
+            let reader = self
+                .transport
+                .send_stream(&self.endpoint(), &self.headers(), &payload)?;
             parse_stream(reader, on_delta)
         }
 
         fn validate(&self, request: &Request) -> Result<()> {
-            if request.model.as_deref().unwrap_or(&self.config.model).is_empty() {
+            if request
+                .model
+                .as_deref()
+                .unwrap_or(&self.config.model)
+                .is_empty()
+            {
                 return Err(PraxoError::new(
                     "MODEL_CONFIG",
                     "openai-compatible: model is required",
@@ -165,10 +164,7 @@ mod http {
         fn headers(&self) -> Vec<(&'static str, String)> {
             let mut headers = Vec::new();
             if !self.config.api_key.is_empty() {
-                headers.push((
-                    "Authorization",
-                    format!("Bearer {}", self.config.api_key),
-                ));
+                headers.push(("Authorization", format!("Bearer {}", self.config.api_key)));
             }
             headers.push(("Content-Type", "application/json".to_string()));
             headers
@@ -214,7 +210,10 @@ mod http {
             }
             if let Some(format) = &request.response_format {
                 if let Some(schema) = &format.schema {
-                    let name = format.name.clone().unwrap_or_else(|| "response".to_string());
+                    let name = format
+                        .name
+                        .clone()
+                        .unwrap_or_else(|| "response".to_string());
                     body.insert(
                         "response_format".to_string(),
                         json!({
@@ -275,16 +274,10 @@ mod http {
             match request.send_json(payload.clone()) {
                 Ok(response) => {
                     let text = response.into_string().map_err(|error| {
-                        PraxoError::new(
-                            "MODEL_HTTP",
-                            format!("openai-compatible: {error}"),
-                        )
+                        PraxoError::new("MODEL_HTTP", format!("openai-compatible: {error}"))
                     })?;
                     serde_json::from_str(&text).map_err(|error| {
-                        PraxoError::new(
-                            "PROVIDER_JSON",
-                            format!("openai-compatible: {error}"),
-                        )
+                        PraxoError::new("PROVIDER_JSON", format!("openai-compatible: {error}"))
                     })
                 }
                 Err(ureq::Error::Status(code, response)) => {
@@ -556,7 +549,10 @@ mod http {
             assert_eq!(response.usage.input_tokens, 7);
             assert_eq!(response.usage.output_tokens, 3);
             let payload = payloads.lock().unwrap().remove(0);
-            assert_eq!(payload["tools"][0]["function"]["parameters"]["type"], "object");
+            assert_eq!(
+                payload["tools"][0]["function"]["parameters"]["type"],
+                "object"
+            );
         }
 
         #[test]

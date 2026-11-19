@@ -15,6 +15,21 @@ FOUNDATION_EXPORT NSDictionary<NSString *, id> *PXRAnthropicRequestPayload(
 FOUNDATION_EXPORT NSDictionary<NSString *, id> * _Nullable PXRAnthropicParseResponse(
     NSDictionary<NSString *, id> *data, NSError **error);
 
+FOUNDATION_EXPORT NSDictionary<NSString *, id> * _Nullable PXRAnthropicParseStream(
+    NSString *text, PXROpenAIDelta onDelta, NSError **error);
+
+FOUNDATION_EXPORT BOOL PXRAnthropicGenerateStream(
+    NSString *baseURL,
+    NSString *model,
+    NSString * _Nullable apiKey,
+    NSString * _Nullable version,
+    NSInteger maxTokens,
+    NSDictionary<NSString *, id> *request,
+    PXROpenAITransport _Nullable transport,
+    PXROpenAIDelta onDelta,
+    NSDictionary<NSString *, id> * _Nullable * _Nullable response,
+    NSError **error);
+
 FOUNDATION_EXPORT BOOL PXRAnthropicGenerate(
     NSString *baseURL,
     NSString *model,

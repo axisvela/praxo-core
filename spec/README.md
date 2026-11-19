@@ -25,7 +25,7 @@ spec/
 Implemented:
 
 - `wire/` event, error, JSON Schema, plugin, tool, model, and checkpoint
-  contracts. Entries marked `"wire": false` document Go/source projections and
+  contracts, including the process plugin JSON-Lines host. Entries marked `"wire": false` document Go/source projections and
   are not frozen cross-language wire.
 - `vectors/` groups for agent loop, toolcall, JSON Schema, plugin, memory,
   event, stream, checkpoint, policy, context, and middleware

@@ -8,7 +8,20 @@ static char response_text[8192];
 static char captured_url[512];
 static char captured_body[16384];
 static char captured_key[128];
+static char delta_text[256];
+static size_t delta_length = 0;
 static int transport_calls = 0;
+
+static const char *fake_delta(const char *delta, void *ctx) {
+    (void)ctx;
+    size_t length = strlen(delta);
+    if (delta_length + length + 1 < sizeof(delta_text)) {
+        memcpy(delta_text + delta_length, delta, length);
+        delta_length += length;
+        delta_text[delta_length] = '\0';
+    }
+    return NULL;
+}
 
 static const char *fake_transport(const char *url, const char *body,
         const char *api_key, void *ctx, const char **error) {
@@ -106,10 +119,57 @@ int main(void) {
     PxValue *block_wire = px_obj_get(block_request, "messages");
     assert(strcmp(px_get_str(block_wire->as.array.items[0], "content"), "ab") == 0);
 
+    snprintf(response_text, sizeof(response_text),
+        "data: {\"choices\":[{\"delta\":{\"content\":\"he\"}}]}\n\n"
+        "data: {\"choices\":[{\"delta\":{\"content\":\"llo\"}}]}\n\n"
+        "data: {\"choices\":[{\"delta\":{\"tool_calls\":[{\"index\":0,"
+        "\"id\":\"call-1\",\"function\":{\"name\":\"ec\","
+        "\"arguments\":\"{\\\"text\\\":\"}}]}}]}\n\n"
+        "data: {\"choices\":[{\"delta\":{\"tool_calls\":[{\"index\":0,"
+        "\"function\":{\"name\":\"ho\",\"arguments\":\"\\\"hi\\\"}\"}}]}}],"
+        "\"usage\":{\"prompt_tokens\":4,\"completion_tokens\":2}}\n\n"
+        "data: {\"choices\":[{\"delta\":{},\"finish_reason\":\"tool_calls\"}]}\n\n"
+        "data: [DONE]\n\n");
+    delta_length = 0;
+    delta_text[0] = '\0';
+    const char *stream_error = NULL;
+    PxValue *streamed = px_openai_generate_stream(&arena, messages, tools,
+        fake_delta, &adapter, &stream_error);
+    assert(streamed != NULL);
+    assert(stream_error == NULL);
+    assert(strcmp(px_get_str(streamed, "content"), "hello") == 0);
+    assert(strcmp(delta_text, "hello") == 0);
+    assert(px_get_num(streamed, "inputTokens", -1) == 4);
+    assert(px_get_num(streamed, "outputTokens", -1) == 2);
+    assert(strcmp(px_get_str(streamed, "finishReason"), "tool_calls") == 0);
+    PxValue *stream_calls = px_obj_get(streamed, "toolCalls");
+    assert(stream_calls != NULL && stream_calls->type == PX_ARR
+        && stream_calls->as.array.len == 1);
+    PxValue *stream_call = stream_calls->as.array.items[0];
+    assert(strcmp(px_get_str(stream_call, "id"), "call-1") == 0);
+    assert(strcmp(px_get_str(stream_call, "name"), "echo") == 0);
+    PxValue *stream_arguments = px_obj_get(stream_call, "arguments");
+    assert(stream_arguments != NULL && stream_arguments->type == PX_OBJ);
+    assert(strcmp(px_get_str(stream_arguments, "text"), "hi") == 0);
+    PxValue *stream_body = px_parse(&arena, captured_body);
+    PxValue *stream_flag = px_obj_get(stream_body, "stream");
+    assert(stream_flag != NULL && stream_flag->type == PX_BOOL
+        && stream_flag->as.boolean);
+
+    snprintf(response_text, sizeof(response_text),
+        "data: {\"choices\":[{\"delta\":{\"content\":\"hi\"}}]}\n\n");
+    delta_length = 0;
+    delta_text[0] = '\0';
+    stream_error = NULL;
+    assert(px_openai_generate_stream(&arena, messages, tools, fake_delta,
+        &adapter, &stream_error) == NULL);
+    assert(stream_error != NULL && strcmp(stream_error, "MODEL_STREAM") == 0);
+
+    int calls_before_invalid = transport_calls;
     PxOpenAICompatible invalid = adapter;
     invalid.base_url = "";
     assert(px_openai_generate(&arena, messages, tools, &invalid) == NULL);
-    assert(transport_calls == 1);
+    assert(transport_calls == calls_before_invalid);
 
     PxOpenAICompatible direct = adapter;
     direct.base_url = "https://example.test/v1/chat/completions";

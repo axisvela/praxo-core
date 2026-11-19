@@ -12,6 +12,7 @@ pub mod memory;
 pub mod middleware;
 pub mod model;
 pub mod plugin;
+pub mod plugin_process;
 pub mod policy;
 pub mod retriever;
 pub mod stream;

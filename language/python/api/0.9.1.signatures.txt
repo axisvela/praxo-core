@@ -309,6 +309,37 @@ constructor(root: 'str', access: 'str') -> None
 field root: str
 field access: str
 
+## PluginCallError
+class PluginCallError
+bases: PraxoError
+constructor(error_code: 'str', message: 'str' = '') -> 'None'
+attribute code: str = 'PLUGIN_CALL'
+
+## ProcessConfig
+class ProcessConfig
+constructor(plugin_id: 'str', path: 'str', args: 'list[str]' = <factory>, dir: 'str | None' = None, env: 'dict[str, str] | None' = None, token: 'str' = '', token_env_var: 'str' = 'PRAXOVELA_PLUGIN_TOKEN', start_timeout: 'float' = 10.0, invoke_timeout: 'float' = 30.0, grace_period: 'float' = 5.0, max_frame: 'int' = 8388608) -> None
+field plugin_id: str
+field path: str
+field args: list[str] = <factory>
+field dir: str | None = None
+field env: dict[str, str] | None = None
+field token: str = ''
+field token_env_var: str = 'PRAXOVELA_PLUGIN_TOKEN'
+field start_timeout: float = 10.0
+field invoke_timeout: float = 30.0
+field grace_period: float = 5.0
+field max_frame: int = 8388608
+
+## ProcessHost
+class ProcessHost
+constructor(config: 'ProcessConfig') -> 'None'
+property plugin_id -> 'str'
+property active -> 'bool'
+method start() -> 'None'
+method invoke(service: 'str', method: 'str', payload: 'bytes' = b'', timeout: 'float | None' = None) -> 'bytes'
+method stop() -> 'None'
+method stderr_text() -> 'str'
+
 ## Registry
 class Registry
 constructor(_tools: 'dict[str, Tool]' = <factory>) -> None

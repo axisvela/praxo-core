@@ -11,13 +11,17 @@ use Praxo\Core\PraxoException;
 use Praxo\Core\Request;
 use Praxo\Core\Response;
 use Praxo\Core\Roles;
+use Praxo\Core\StreamingModel;
 use Praxo\Core\ToolCall;
 use Praxo\Core\Usage;
 
-final class OpenAICompatible implements Model
+use function Praxo\Core\parseSseStream;
+
+final class OpenAICompatible implements StreamingModel
 {
     /**
      * @param callable(string, array): array|null $transport
+     * @param callable(string, array): string|null $streamTransport
      */
     public function __construct(
         private readonly string $baseUrl,
@@ -25,6 +29,7 @@ final class OpenAICompatible implements Model
         private readonly ?string $apiKey = null,
         private $transport = null,
         private readonly int $timeout = 60,
+        private $streamTransport = null,
     ) {
     }
 
@@ -35,6 +40,22 @@ final class OpenAICompatible implements Model
             ? ($this->transport)('/chat/completions', $payload)
             : $this->post('/chat/completions', $payload);
         return $this->parseResponse($data);
+    }
+
+    public function generateStream(Request $request, callable $onDelta): Response
+    {
+        $payload = $this->buildPayload($request);
+        $payload['stream'] = true;
+        $text = $this->streamTransport !== null
+            ? ($this->streamTransport)('/chat/completions', $payload)
+            : $this->postStream('/chat/completions', $payload);
+        if (!is_string($text)) {
+            throw new PraxoException(
+                'PROVIDER_HTTP',
+                'openai-compatible: stream transport must return SSE text',
+            );
+        }
+        return parseSseStream($text, $onDelta);
     }
 
     private function buildPayload(Request $request): array
@@ -131,6 +152,33 @@ final class OpenAICompatible implements Model
             ),
             finishReason: $choice['finish_reason'] ?? null,
         );
+    }
+
+    private function postStream(string $path, array $payload): string
+    {
+        $url = rtrim($this->baseUrl, '/') . $path;
+        $headers = "Content-Type: application/json\r\nAccept: text/event-stream\r\n";
+        if ($this->apiKey !== null) {
+            $headers .= "Authorization: Bearer {$this->apiKey}\r\n";
+        }
+        $context = stream_context_create([
+            'http' => [
+                'method' => 'POST',
+                'header' => $headers,
+                'content' => Json::encode($payload),
+                'timeout' => $this->timeout,
+                'ignore_errors' => true,
+            ],
+        ]);
+        $body = @file_get_contents($url, false, $context);
+        if ($body === false) {
+            throw new PraxoException('PROVIDER_HTTP', 'provider request failed');
+        }
+        $status = $http_response_header[0] ?? '';
+        if (!preg_match('/\s2\d\d\s/', $status)) {
+            throw new PraxoException('PROVIDER_HTTP', "provider returned {$status}: {$body}");
+        }
+        return $body;
     }
 
     private function post(string $path, array $payload): array

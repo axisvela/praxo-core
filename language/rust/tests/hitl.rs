@@ -188,9 +188,7 @@ fn reject_fails_without_effects() {
         })
     });
     let (agent, invoked) = build(Some(handler), None, |_| {});
-    let error = agent
-        .run(&Session::new("s1"), "go")
-        .expect_err("reject");
+    let error = agent.run(&Session::new("s1"), "go").expect_err("reject");
     assert_eq!(error.code, "AGENT_APPROVAL_DENIED");
     assert!(invoked.lock().expect("invoked").is_empty());
 }
@@ -239,16 +237,15 @@ fn invalid_decision_fails() {
 #[test]
 fn unhandled_interrupt_fails() {
     let (agent, invoked) = build(None, None, |_| {});
-    let error = agent
-        .run(&Session::new("s1"), "go")
-        .expect_err("unhandled");
+    let error = agent.run(&Session::new("s1"), "go").expect_err("unhandled");
     assert_eq!(error.code, "AGENT_INTERRUPT_UNHANDLED");
     assert!(invoked.lock().expect("invoked").is_empty());
 }
 
 #[test]
 fn boolean_approval_can_deny() {
-    let approval: praxo_core::hitl::InterruptApproval = Arc::new(|_interrupt: &Interrupt| Ok(false));
+    let approval: praxo_core::hitl::InterruptApproval =
+        Arc::new(|_interrupt: &Interrupt| Ok(false));
     let (agent, invoked) = build(None, Some(approval), |_| {});
     let error = agent.run(&Session::new("s1"), "go").expect_err("denied");
     assert_eq!(error.code, "AGENT_APPROVAL_DENIED");
@@ -275,8 +272,5 @@ fn emits_interrupt_event() {
     assert_eq!(interrupts.len(), 1);
     let data = interrupts[0].data.as_ref().expect("data");
     assert_eq!(data.get("name"), Some(&json!("echo")));
-    assert_eq!(
-        data.get("arguments"),
-        Some(&json!({"value": "original"}))
-    );
+    assert_eq!(data.get("arguments"), Some(&json!({"value": "original"})));
 }

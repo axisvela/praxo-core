@@ -28,9 +28,10 @@ Swift implementation of the PRAXO-CORE contract.
 
 | Adapter | Status | Detail |
 | --- | --- | --- |
-| OpenAI-compatible model | native | `OpenAICompatibleModel` with URLSession transport |
-| Anthropic model | native | `AnthropicModel` with injectable transport |
-| Gemini model | native | `GeminiModel` with injectable transport |
+| OpenAI-compatible model | native | `OpenAICompatibleModel` with URLSession transport; SSE streaming reassembly |
+| Anthropic model | native | `AnthropicModel` with injectable transport; Anthropic SSE streaming |
+| Gemini model | native | `GeminiModel` with injectable transport; Gemini SSE streaming |
+| Process plugin host | native | `PluginProcessHost`; JSON-Lines stdio, token auth, health, timeout |
 | MCP client | native | `McpClient`, `StdioMcpTransport`, `HttpMcpTransport`; typechecked locally, full build blocked |
 | Harmovela sink | native | `HarmovelaSink` with URLSession transport |
 | OpenTelemetry sink | native (transport seam) | `OtelSink`; caller supplies `OtelTransport` |

@@ -1,8 +1,9 @@
-import std/[httpclient, json, strutils]
+import std/[algorithm, httpclient, json, sequtils, strutils, tables]
 import ../errors, ../jsonutil, ../models, ../agent
 
 type
   AnthropicTransport* = proc(path: string, payload: JsonNode): JsonNode {.closure.}
+  AnthropicStreamTransport* = proc(path: string, payload: JsonNode): string {.closure.}
   AnthropicCompatible* = ref object
     baseUrl*: string
     model*: string
@@ -10,6 +11,7 @@ type
     version*: string
     maxTokens*: int
     transport*: AnthropicTransport
+    streamTransport*: AnthropicStreamTransport
     timeoutMs*: int
 
 proc newAnthropicCompatible*(baseUrl: string, model: string,
@@ -17,6 +19,7 @@ proc newAnthropicCompatible*(baseUrl: string, model: string,
                              version: string = "2023-06-01",
                              maxTokens: int = 1024,
                              transport: AnthropicTransport = nil,
+                             streamTransport: AnthropicStreamTransport = nil,
                              timeoutMs: int = 60000): AnthropicCompatible =
   AnthropicCompatible(
     baseUrl: baseUrl.strip(chars = {'/'}),
@@ -25,6 +28,7 @@ proc newAnthropicCompatible*(baseUrl: string, model: string,
     version: version,
     maxTokens: maxTokens,
     transport: transport,
+    streamTransport: streamTransport,
     timeoutMs: timeoutMs,
   )
 
@@ -134,6 +138,123 @@ proc post(adapter: AnthropicCompatible, path: string, body: JsonNode): JsonNode 
       "provider returned HTTP " & $response.code.int & ": " & response.body)
   parseJsonText(response.body)
 
+proc postStream(adapter: AnthropicCompatible, path: string,
+                body: JsonNode): string =
+  if adapter.baseUrl.len == 0:
+    raisePraxo("PROVIDER_HTTP", "provider base URL is required")
+  let client = newHttpClient(timeout = adapter.timeoutMs)
+  defer: client.close()
+  client.headers = newHttpHeaders({
+    "Content-Type": "application/json",
+    "Accept": "text/event-stream",
+    "x-api-key": adapter.apiKey,
+    "anthropic-version": adapter.version,
+  })
+  let response = client.request(adapter.baseUrl & path, httpMethod = HttpPost,
+                                body = encodeJson(body))
+  if response.code.int < 200 or response.code.int >= 300:
+    raisePraxo("PROVIDER_HTTP",
+      "provider returned HTTP " & $response.code.int & ": " & response.body)
+  return response.body
+
+proc parseSseResponse(text: string,
+                      onDelta: proc(delta: string)): models.Response =
+  var content = ""
+  var calls = initTable[int, tuple[id, name, arguments: string]]()
+  var inputTokens = 0
+  var outputTokens = 0
+  var stopReason = ""
+  var stopped = false
+  for raw in text.splitLines():
+    let line = raw.strip()
+    if not line.startsWith("data:"):
+      continue
+    let chunk = line[5 .. ^1].strip()
+    if chunk.len == 0:
+      continue
+    let event =
+      try:
+        parseJsonText(chunk)
+      except CatchableError:
+        raisePraxo("MODEL_STREAM", "anthropic: invalid stream chunk")
+    let kind = getString(event, "type")
+    case kind
+    of "message_start":
+      let usage = getObject(getObject(event, "message"), "usage")
+      if not usage.isNil:
+        inputTokens = getInt(usage, "input_tokens", inputTokens)
+    of "content_block_start":
+      let index = getInt(event, "index", calls.len)
+      let contentBlock = getObject(event, "content_block")
+      if not contentBlock.isNil and getString(contentBlock, "type") == "tool_use":
+        calls[index] = (id: getString(contentBlock, "id"),
+                        name: getString(contentBlock, "name"), arguments: "")
+    of "content_block_delta":
+      let index = getInt(event, "index", 0)
+      let delta = getObject(event, "delta")
+      if not delta.isNil:
+        let deltaType = getString(delta, "type")
+        if deltaType == "text_delta":
+          let piece = getString(delta, "text")
+          if piece.len > 0:
+            content.add(piece)
+            onDelta(piece)
+        elif deltaType == "input_json_delta" and calls.hasKey(index):
+          var call = calls[index]
+          call.arguments.add(getString(delta, "partial_json"))
+          calls[index] = call
+    of "message_delta":
+      let delta = getObject(event, "delta")
+      if not delta.isNil:
+        let reason = getString(delta, "stop_reason")
+        if reason.len > 0:
+          stopReason = reason
+      let usage = getObject(event, "usage")
+      if not usage.isNil:
+        outputTokens = getInt(usage, "output_tokens", outputTokens)
+    of "message_stop":
+      stopped = true
+    of "error":
+      raisePraxo("MODEL_STREAM", "anthropic: stream error")
+    else:
+      discard
+  if not stopped and stopReason.len == 0:
+    raisePraxo("MODEL_STREAM", "anthropic: stream ended before completion")
+  var toolCalls: seq[ToolCall] = @[]
+  var indexes = toSeq(calls.keys)
+  indexes.sort()
+  for index in indexes:
+    let call = calls[index]
+    if call.name.len == 0:
+      continue
+    var arguments = newJObject()
+    if call.arguments.len > 0:
+      try:
+        arguments = parseJsonText(call.arguments)
+      except CatchableError:
+        raisePraxo("PROVIDER_JSON", "anthropic: invalid tool arguments")
+      if arguments.kind != JObject:
+        raisePraxo("PROVIDER_JSON", "anthropic: invalid tool arguments")
+    toolCalls.add(newToolCall(id = call.id, name = call.name,
+                              arguments = arguments))
+  let response = newResponse(newMessageAssistant(content, toolCalls),
+                             newUsage(inputTokens, outputTokens))
+  return response
+
+proc generateStream*(adapter: AnthropicCompatible, request: Request,
+                     onDelta: proc(delta: string)): models.Response =
+  if adapter.apiKey.len == 0:
+    raisePraxo("MODEL_CONFIG", "anthropic: API key is required")
+  if adapter.model.len == 0:
+    raisePraxo("MODEL_CONFIG", "anthropic: model is required")
+  var body = adapter.payload(request)
+  body["stream"] = %true
+  let text = if adapter.streamTransport != nil:
+      adapter.streamTransport("/v1/messages", body)
+    else:
+      adapter.postStream("/v1/messages", body)
+  return parseSseResponse(text, onDelta)
+
 proc generate*(adapter: AnthropicCompatible, request: Request): models.Response =
   if adapter.apiKey.len == 0:
     raisePraxo("MODEL_CONFIG", "anthropic: API key is required")
@@ -147,4 +268,9 @@ proc generate*(adapter: AnthropicCompatible, request: Request): models.Response 
   parseResponse(data)
 
 proc anthropicModel*(adapter: AnthropicCompatible): Model =
-  callbackModel(proc(request: Request): models.Response = adapter.generate(request))
+  return Model(
+    mode: "callback",
+    invoke: proc(request: Request): models.Response = adapter.generate(request),
+    stream: proc(request: Request, onDelta: proc(delta: string)): models.Response =
+      adapter.generateStream(request, onDelta),
+  )

@@ -7,8 +7,12 @@ anthropic_generate
 anthropic_message
 anthropic_model
 anthropic_parse_response
+anthropic_parse_sse
 anthropic_payload
 anthropic_post
+anthropic_post_stream
+anthropic_stream_generate
+anthropic_streaming_model
 anthropic_tool_choice
 call_limit
 call_limit_model
@@ -34,8 +38,12 @@ gemini_generate
 gemini_message_parts
 gemini_model
 gemini_parse_response
+gemini_parse_sse
 gemini_payload
 gemini_post
+gemini_post_stream
+gemini_stream_generate
+gemini_streaming_model
 gemini_tool_mode
 harmovela_emit
 harmovela_post
@@ -85,6 +93,9 @@ openai_compatible_object
 openai_compatible_parse_response
 openai_compatible_payload
 openai_compatible_post
+openai_compatible_post_stream
+openai_compatible_stream_generate
+openai_compatible_streaming_model
 otel_attribute
 otel_emit
 otel_hash32

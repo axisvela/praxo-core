@@ -51,6 +51,52 @@ void runOpenAIAdapterTests(void (*check)(BOOL, NSString *)) {
     check([response[@"finishReason"] isEqualToString:@"tool_calls"],
           @"openai finish reason");
 
+    __block NSMutableString *streamDeltas = [NSMutableString string];
+    PXROpenAIDelta onDelta = ^(NSString *delta) {
+        [streamDeltas appendString:delta];
+    };
+    PXROpenAITransport streaming = ^BOOL(NSString *path,
+                                         NSDictionary<NSString *, id> *payload,
+                                         NSInteger *statusCode,
+                                         NSString **responseBody,
+                                         NSError **error) {
+        capturedPayload = payload;
+        *statusCode = 200;
+        *responseBody =
+            @"data: {\"choices\":[{\"delta\":{\"content\":\"he\"}}]}\n\n"
+            @"data: {\"choices\":[{\"delta\":{\"content\":\"llo\"}}]}\n\n"
+            @"data: {\"choices\":[{\"delta\":{\"tool_calls\":[{\"index\":0,"
+            @"\"id\":\"call-1\",\"function\":{\"name\":\"ec\","
+            @"\"arguments\":\"{\\\"text\\\":\"}}]}}]}\n\n"
+            @"data: {\"choices\":[{\"delta\":{\"tool_calls\":[{\"index\":0,"
+            @"\"function\":{\"name\":\"ho\",\"arguments\":\"\\\"hi\\\"}\"}}]}}],"
+            @"\"usage\":{\"prompt_tokens\":4,\"completion_tokens\":2}}\n\n"
+            @"data: {\"choices\":[{\"delta\":{},\"finish_reason\":\"tool_calls\"}]}\n\n"
+            @"data: [DONE]\n\n";
+        return YES;
+    };
+    response = nil;
+    error = nil;
+    ok = PXROpenAIGenerateStream(@"http://example.test/v1", @"test-model", nil,
+                                 request, streaming, onDelta, &response, &error);
+    check(ok && error == nil, @"openai stream generate");
+    check([capturedPayload[@"stream"] boolValue], @"openai stream flag");
+    check([streamDeltas isEqualToString:@"hello"], @"openai stream deltas");
+    check([response[@"message"][@"content"] isEqualToString:@"hello"],
+          @"openai stream content");
+    check([response[@"message"][@"toolCalls"][0][@"id"] isEqualToString:@"call-1"],
+          @"openai stream call id");
+    check([response[@"message"][@"toolCalls"][0][@"name"] isEqualToString:@"echo"],
+          @"openai stream call name");
+    check([response[@"message"][@"toolCalls"][0][@"arguments"][@"text"]
+           isEqualToString:@"hi"], @"openai stream arguments");
+    check([response[@"usage"][@"inputTokens"] integerValue] == 4,
+          @"openai stream input tokens");
+    check([response[@"usage"][@"outputTokens"] integerValue] == 2,
+          @"openai stream output tokens");
+    check([response[@"finishReason"] isEqualToString:@"tool_calls"],
+          @"openai stream finish reason");
+
     capturedPayload = nil;
     NSDictionary *assistant = PXRMessageAssistant(
         @"", @[PXRToolCallCreate(@"c1", @"echo", @{ @"text": @"bye" })]);

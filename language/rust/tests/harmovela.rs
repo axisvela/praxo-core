@@ -45,10 +45,7 @@ fn event() -> Event {
 #[test]
 fn posts_envelope_and_merges_payload() {
     let capture = Arc::new(Capture::new(201, ""));
-    let sink = Sink::with_transport(
-        "http://harmovela.test/aep/api/",
-        capture.clone(),
-    );
+    let sink = Sink::with_transport("http://harmovela.test/aep/api/", capture.clone());
     sink.emit(&event()).expect("emit");
     let requests = capture.requests.lock().expect("requests");
     assert_eq!(requests.len(), 1);

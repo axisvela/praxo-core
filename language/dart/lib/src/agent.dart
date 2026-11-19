@@ -8,6 +8,10 @@ abstract class Model {
   Response generate(Request request);
 }
 
+abstract class StreamingModel implements Model {
+  Response generateStream(Request request, void Function(String) onDelta);
+}
+
 abstract class Tool {
   String get name;
   String get description;
@@ -77,6 +81,7 @@ class AgentOptions {
   InterruptApproval? onInterrupt;
   bool requirePolicy;
   bool requireToolScope;
+  void Function(String)? onDelta;
 
   AgentOptions(
     this.model, {
@@ -94,6 +99,7 @@ class AgentOptions {
     this.onInterrupt,
     this.requirePolicy = false,
     this.requireToolScope = false,
+    this.onDelta,
   });
 }
 
@@ -138,7 +144,17 @@ class Agent {
           tools: _advertisedTools(),
           toolChoice: options.toolChoice,
         );
-        final response = options.model.generate(request);
+        final Response response;
+        if (options.onDelta != null) {
+          final model = options.model;
+          if (model is! StreamingModel) {
+            throw const PraxoError(
+                'AGENT_STREAM', 'agent: model does not support streaming');
+          }
+          response = model.generateStream(request, options.onDelta!);
+        } else {
+          response = options.model.generate(request);
+        }
         usage = usage.plus(response.usage);
         if (options.maxTokens > 0 &&
             usage.inputTokens + usage.outputTokens > options.maxTokens) {

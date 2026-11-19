@@ -91,7 +91,12 @@ for step = 1:max_steps
     request_messages = messages;
     if pii, request_messages = redact_messages(messages); end
     try
-        response = model(struct('messages', {request_messages}, 'tools', {advertised}));
+        request_value = struct('messages', {request_messages}, 'tools', {advertised});
+        on_delta = option(options, 'onDelta', []);
+        if ~isempty(on_delta)
+            request_value.onDelta = on_delta;
+        end
+        response = model(request_value);
         if ~isstruct(response) || ~isscalar(response) || ~isfield(response, 'content') || ~ischar(response.content)
             error('praxo:agent', 'Invalid model response');
         end

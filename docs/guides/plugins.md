@@ -95,6 +95,60 @@ Host-side configuration (`process.Config`) includes `PluginID`, `Provider`,
 timeouts, frame bound, `Limits`, and `RequireLimits`. Production callers should
 set `RequireLimits` and `RequireEvidence`.
 
+## Core SDK process hosts
+
+Go is the reference host. The following Core SDKs provide the same JSON-Lines
+process contract:
+
+| Language | Process host | Verification |
+| --- | --- | --- |
+| Go | `pkg/plugin/host/process` | unit, TCK, containment tests |
+| Python | `praxo.ProcessHost` | tests + API snapshot |
+| TypeScript | `ProcessHost` | tests + API snapshot |
+| Rust | `plugin_process::ProcessHost` | cargo tests |
+| C# | `PluginProcessHost` | core tests |
+| Dart | `PluginProcessHost` | core tests |
+| Ruby | `Praxo::PluginProcessHost` | core tests |
+| Elixir | `Praxo.PluginProcess` | test suite |
+| Erlang | `praxo_plugin_process` | test suite |
+| Haskell | `Praxo.PluginProcess` | smoke test |
+| V | `PluginProcessHost` | smoke test |
+| OCaml | `start_plugin_process` | smoke + core test |
+| Swift | `PluginProcessHost` | parse-only locally |
+| Java | `plugin.ProcessHost` | compile-only locally; UI blocked |
+
+```python
+
+```python
+from praxo import ProcessConfig, ProcessHost
+
+with ProcessHost(ProcessConfig(
+    plugin_id="com.example.search",
+    path="./bin/search",
+    invoke_timeout=30.0,
+)) as host:
+    result = host.invoke("tool.provider", "invoke", b"<opaque payload>")
+```
+
+```ts
+import { ProcessHost } from "@axisvela/praxo-core";
+
+const host = new ProcessHost({
+  pluginId: "com.example.search",
+  path: "./bin/search",
+  invokeTimeoutMs: 30_000,
+});
+await host.start();
+const result = await host.invoke("tool.provider", "invoke", Buffer.from("<opaque payload>"));
+await host.stop();
+```
+
+These hosts provision the channel token through `PRAXOVELA_PLUGIN_TOKEN`, perform
+the `health` handshake during start, bound invoke time with a timeout, send
+`cancel` before terminating an uncooperative child, and map failures to the
+shared call-error codes. Containment and OS resource limits remain Go-reference
+features; product hosts must add equivalent platform controls.
+
 ## WASM host
 
 A WASM guest must export:

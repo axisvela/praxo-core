@@ -39,6 +39,5 @@ impl InterruptDecision {
     }
 }
 
-pub type InterruptHandler =
-    Arc<dyn Fn(&Interrupt) -> Result<InterruptDecision> + Send + Sync>;
+pub type InterruptHandler = Arc<dyn Fn(&Interrupt) -> Result<InterruptDecision> + Send + Sync>;
 pub type InterruptApproval = Arc<dyn Fn(&Interrupt) -> Result<bool> + Send + Sync>;

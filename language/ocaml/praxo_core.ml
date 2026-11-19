@@ -1035,7 +1035,10 @@ type tool = {
   tool_description : string;
   tool_invoke : json -> json;
 }
-type model = { generate : request -> response }
+type model = {
+  generate : request -> response;
+  generate_stream : (request -> (string -> unit) -> response) option;
+}
 type http_request = {
   http_method : string;
   http_url : string;
@@ -1113,6 +1116,7 @@ type agent_options = {
   agent_interrupt_on : string list;
   agent_on_interrupt_decision : interrupt_handler option;
   agent_on_interrupt : interrupt_approval option;
+  agent_on_delta : (string -> unit) option;
   agent_require_policy : bool;
   agent_require_tool_scope : bool;
 }
@@ -1263,7 +1267,7 @@ let openai_message_json message =
    | _ -> ());
   Object !fields
 
-let openai_request config request =
+let openai_request ?(stream = false) config request =
   if config.openai_base_url = "" then
     raise_core "PROVIDER_HTTP" "provider base URL is required";
   let base =
@@ -1290,8 +1294,10 @@ let openai_request config request =
   (match config.openai_tool_choice with
    | Some choice -> fields := !fields @ [("tool_choice", String choice)]
    | None -> ());
+  if stream then fields := !fields @ [("stream", Bool true)];
+  let accept = if stream then "text/event-stream" else "application/json" in
   let headers =
-    [("Content-Type", "application/json"); ("Accept", "application/json")] @
+    [("Content-Type", "application/json"); ("Accept", accept)] @
     (match config.openai_api_key with
      | Some key -> [("Authorization", "Bearer " ^ key)]
      | None -> [])
@@ -1353,8 +1359,116 @@ let openai_generate config transport request =
       (Printf.sprintf "provider returned HTTP %d: %s" response.http_status (openai_bound response.http_body));
   openai_parse_response response.http_body
 
+let openai_parse_sse text on_delta =
+  let content = Buffer.create 256 in
+  let calls : (int, string * string * string) Hashtbl.t = Hashtbl.create 8 in
+  let input_tokens = ref 0 in
+  let output_tokens = ref 0 in
+  let finish_reason = ref None in
+  let done_stream = ref false in
+  List.iter (fun raw ->
+    let line = String.trim raw in
+    if String.length line >= 5 && String.sub line 0 5 = "data:" then begin
+      let chunk = String.trim (String.sub line 5 (String.length line - 5)) in
+      if chunk <> "" then
+        if chunk = "[DONE]" then done_stream := true
+        else begin
+          let event =
+            try parse_json chunk
+            with Json_error message ->
+              raise_core "MODEL_STREAM" ("invalid SSE packet: " ^ message)
+          in
+          (match field "usage" event with
+           | Some usage ->
+               input_tokens := openai_int "prompt_tokens" usage;
+               output_tokens := openai_int "completion_tokens" usage
+           | None -> ());
+          List.iter (fun choice ->
+            (match field "delta" choice with
+             | Some delta ->
+                 (match field_string "content" delta with
+                  | Some piece when piece <> "" ->
+                      Buffer.add_string content piece;
+                      on_delta piece
+                  | _ -> ());
+                 List.iter (fun item ->
+                   let index =
+                     match field "index" item with
+                     | Some (Number number) -> int_of_float number
+                     | _ -> Hashtbl.length calls
+                   in
+                   let id, name, arguments =
+                     match Hashtbl.find_opt calls index with
+                     | Some value -> value
+                     | None -> ("", "", "")
+                   in
+                   let id =
+                     match field_string "id" item with
+                     | Some value -> id ^ value
+                     | None -> id
+                   in
+                   let name, arguments =
+                     match field "function" item with
+                     | Some function_value ->
+                         let name =
+                           match field_string "name" function_value with
+                           | Some value -> name ^ value
+                           | None -> name
+                         in
+                         let arguments =
+                           match field_string "arguments" function_value with
+                           | Some value -> arguments ^ value
+                           | None -> arguments
+                         in
+                         (name, arguments)
+                     | None -> (name, arguments)
+                   in
+                   Hashtbl.replace calls index (id, name, arguments)
+                 ) (field_array "tool_calls" delta)
+             | None -> ());
+            (match field_string "finish_reason" choice with
+             | Some reason -> finish_reason := Some reason; done_stream := true
+             | None -> ())
+          ) (field_array "choices" event)
+        end
+    end
+  ) (String.split_on_char '\n' text);
+  if not !done_stream then
+    raise_core "MODEL_STREAM" "stream ended before completion";
+  let indexes = Hashtbl.fold (fun index _ acc -> index :: acc) calls [] |> List.sort compare in
+  let tool_calls = List.filter_map (fun index ->
+    match Hashtbl.find_opt calls index with
+    | None -> None
+    | Some (id, name, arguments) when name = "" -> None
+    | Some (id, name, arguments) ->
+        let parsed =
+          if arguments = "" then Object []
+          else
+            try parse_json arguments
+            with Json_error message ->
+              raise_core "PROVIDER_JSON" ("tool arguments are not valid JSON: " ^ message)
+        in
+        (match parsed with
+         | Object _ -> Some (tool_invocation_make id name parsed)
+         | _ -> raise_core "PROVIDER_JSON" "tool arguments must be an object")
+  ) indexes in
+  response_make (assistant_message (Buffer.contents content) tool_calls)
+    (usage_make !input_tokens !output_tokens)
+
+let openai_generate_stream config transport request on_delta =
+  let http = openai_request ~stream:true config request in
+  let response = transport http in
+  if response.http_status < 200 || response.http_status >= 300 then
+    raise_core "PROVIDER_HTTP"
+      (Printf.sprintf "provider returned HTTP %d: %s" response.http_status (openai_bound response.http_body));
+  openai_parse_sse response.http_body on_delta
+
 let openai_model config transport =
-  { generate = fun request -> openai_generate config transport request }
+  {
+    generate = (fun request -> openai_generate config transport request);
+    generate_stream = Some (fun request on_delta ->
+      openai_generate_stream config transport request on_delta);
+  }
 
 let provider_trim text =
   let rec trim value =
@@ -1377,7 +1491,7 @@ let anthropic_message_json message =
     ]]) message.message_calls;
   !content
 
-let anthropic_request config request =
+let anthropic_request ?(stream = false) config request =
   if config.anthropic_base_url = "" then
     raise_core "PROVIDER_HTTP" "provider base URL is required";
   if config.anthropic_api_key = "" then
@@ -1427,12 +1541,14 @@ let anthropic_request config request =
      | Some "none" -> fields := !fields @ [("tool_choice", Object [("type", String "none")])]
      | _ -> ())
   end;
+  if stream then fields := !fields @ [("stream", Bool true)];
+  let accept = if stream then "text/event-stream" else "application/json" in
   {
     http_method = "POST";
     http_url = provider_trim config.anthropic_base_url ^ "/v1/messages";
     http_headers = [
       ("Content-Type", "application/json");
-      ("Accept", "application/json");
+      ("Accept", accept);
       ("x-api-key", config.anthropic_api_key);
       ("anthropic-version", config.anthropic_version);
     ];
@@ -1473,8 +1589,119 @@ let anthropic_generate config transport request =
       (Printf.sprintf "provider returned HTTP %d: %s" response.http_status (openai_bound response.http_body));
   anthropic_parse_response response.http_body
 
+let anthropic_parse_sse text on_delta =
+  let content = Buffer.create 256 in
+  let calls : (int, string * string * string) Hashtbl.t = Hashtbl.create 8 in
+  let input_tokens = ref 0 in
+  let output_tokens = ref 0 in
+  let cached_tokens = ref 0 in
+  let stop_reason = ref None in
+  let done_stream = ref false in
+  List.iter (fun raw ->
+    let line = String.trim raw in
+    if String.length line >= 5 && String.sub line 0 5 = "data:" then begin
+      let chunk = String.trim (String.sub line 5 (String.length line - 5)) in
+      if chunk <> "" then begin
+        let event =
+          try parse_json chunk
+          with Json_error message ->
+            raise_core "MODEL_STREAM" ("invalid SSE packet: " ^ message)
+        in
+        match (match field_string "type" event with Some value -> value | None -> "") with
+        | "message_start" ->
+            let message = match field "message" event with Some value -> value | None -> Object [] in
+            (match field "usage" message with
+             | Some usage ->
+                 input_tokens := openai_int "input_tokens" usage;
+                 cached_tokens := openai_int "cache_read_input_tokens" usage
+             | None -> ())
+        | "content_block_start" ->
+            let index =
+              match field "index" event with
+              | Some (Number number) -> int_of_float number
+              | _ -> Hashtbl.length calls
+            in
+            let block = match field "content_block" event with Some value -> value | None -> Object [] in
+            if (match field_string "type" block with Some value -> value | None -> "") = "tool_use" then
+              Hashtbl.replace calls index
+                ((match field_string "id" block with Some value -> value | None -> ""),
+                 (match field_string "name" block with Some value -> value | None -> ""),
+                 "")
+        | "content_block_delta" ->
+            let index =
+              match field "index" event with
+              | Some (Number number) -> int_of_float number
+              | _ -> 0
+            in
+            let delta = match field "delta" event with Some value -> value | None -> Object [] in
+            (match field_string "type" delta with
+             | Some "text_delta" ->
+                 (match field_string "text" delta with
+                  | Some piece when piece <> "" ->
+                      Buffer.add_string content piece;
+                      on_delta piece
+                  | _ -> ())
+             | Some "input_json_delta" ->
+                 (match field_string "partial_json" delta with
+                  | Some partial ->
+                      let id, name, arguments =
+                        match Hashtbl.find_opt calls index with
+                        | Some value -> value
+                        | None -> ("", "", "")
+                      in
+                      Hashtbl.replace calls index (id, name, arguments ^ partial)
+                  | None -> ())
+             | _ -> ())
+        | "message_delta" ->
+            let delta = match field "delta" event with Some value -> value | None -> Object [] in
+            (match field_string "stop_reason" delta with
+             | Some reason -> stop_reason := Some reason
+             | None -> ());
+            (match field "usage" event with
+             | Some usage -> output_tokens := openai_int "output_tokens" usage
+             | None -> ())
+        | "message_stop" -> done_stream := true
+        | "error" -> raise_core "MODEL_STREAM" "anthropic: provider stream error"
+        | _ -> ()
+      end
+    end
+  ) (String.split_on_char '\n' text);
+  if not !done_stream && !stop_reason = None then
+    raise_core "MODEL_STREAM" "stream ended before completion";
+  let indexes = Hashtbl.fold (fun index _ acc -> index :: acc) calls [] |> List.sort compare in
+  let tool_calls = List.filter_map (fun index ->
+    match Hashtbl.find_opt calls index with
+    | None -> None
+    | Some (_, name, _) when name = "" -> None
+    | Some (id, name, arguments) ->
+        let parsed =
+          if arguments = "" then Object []
+          else
+            try parse_json arguments
+            with Json_error message ->
+              raise_core "PROVIDER_JSON" ("anthropic: tool arguments are not valid JSON: " ^ message)
+        in
+        (match parsed with
+         | Object _ -> Some (tool_invocation_make id name parsed)
+         | _ -> raise_core "PROVIDER_JSON" "anthropic: tool arguments must be an object")
+  ) indexes in
+  response_make (assistant_message (Buffer.contents content) tool_calls)
+    (usage_make !input_tokens !output_tokens)
+
+let anthropic_generate_stream config transport request on_delta =
+  let http = anthropic_request ~stream:true config request in
+  let response = transport http in
+  if response.http_status < 200 || response.http_status >= 300 then
+    raise_core "PROVIDER_HTTP"
+      (Printf.sprintf "provider returned HTTP %d: %s" response.http_status (openai_bound response.http_body));
+  anthropic_parse_sse response.http_body on_delta
+
 let anthropic_model config transport =
-  { generate = fun request -> anthropic_generate config transport request }
+  {
+    generate = (fun request -> anthropic_generate config transport request);
+    generate_stream = Some (fun request on_delta ->
+      anthropic_generate_stream config transport request on_delta);
+  }
 
 let gemini_message_parts message =
   let parts = ref [] in
@@ -1485,7 +1712,7 @@ let gemini_message_parts message =
   ])]]) message.message_calls;
   !parts
 
-let gemini_request config request =
+let gemini_request ?(stream = false) config request =
   if config.gemini_base_url = "" then
     raise_core "PROVIDER_HTTP" "provider base URL is required";
   if config.gemini_api_key = "" then
@@ -1542,10 +1769,12 @@ let gemini_request config request =
     ])];
   {
     http_method = "POST";
-    http_url = provider_trim config.gemini_base_url ^ "/v1beta/models/" ^ config.gemini_model ^ ":generateContent";
+    http_url =
+      provider_trim config.gemini_base_url ^ "/v1beta/models/" ^ config.gemini_model ^
+      (if stream then ":streamGenerateContent?alt=sse" else ":generateContent");
     http_headers = [
       ("Content-Type", "application/json");
-      ("Accept", "application/json");
+      ("Accept", if stream then "text/event-stream" else "application/json");
       ("x-goog-api-key", config.gemini_api_key);
     ];
     http_payload = encode_json (Object !fields);
@@ -1585,8 +1814,253 @@ let gemini_generate config transport request =
       (Printf.sprintf "provider returned HTTP %d: %s" response.http_status (openai_bound response.http_body));
   gemini_parse_response response.http_body
 
+let gemini_parse_sse text on_delta =
+  let content = Buffer.create 256 in
+  let calls = ref [] in
+  let input_tokens = ref 0 in
+  let output_tokens = ref 0 in
+  let cached_tokens = ref 0 in
+  List.iter (fun raw ->
+    let line = String.trim raw in
+    if String.length line >= 5 && String.sub line 0 5 = "data:" then begin
+      let chunk = String.trim (String.sub line 5 (String.length line - 5)) in
+      if chunk <> "" && chunk <> "[DONE]" then begin
+        let event =
+          try parse_json chunk
+          with Json_error message ->
+            raise_core "MODEL_STREAM" ("gemini: invalid stream chunk: " ^ message)
+        in
+        if field "error" event <> None then
+          raise_core "MODEL_STREAM" "gemini: provider stream error";
+        (match field "usageMetadata" event with
+         | Some usage ->
+             input_tokens := openai_int "promptTokenCount" usage;
+             output_tokens := openai_int "candidatesTokenCount" usage;
+             cached_tokens := openai_int "cachedContentTokenCount" usage
+         | None -> ());
+        match field_array "candidates" event with
+        | [] -> ()
+        | candidate :: _ ->
+            (match field "content" candidate with
+             | Some candidate_content ->
+                 List.iter (fun part ->
+                   (match field_string "text" part with
+                    | Some piece when piece <> "" ->
+                        Buffer.add_string content piece;
+                        on_delta piece
+                    | _ -> ());
+                   match field "functionCall" part with
+                   | Some call ->
+                       let arguments =
+                         match field "args" call with Some (Object _ as value) -> value | _ -> Object []
+                       in
+                       calls := !calls @ [tool_invocation_make
+                         (Printf.sprintf "call-%d" (List.length !calls + 1))
+                         (match field_string "name" call with Some value -> value | None -> "") arguments]
+                   | None -> ()) (field_array "parts" candidate_content)
+             | None -> ())
+      end
+    end
+  ) (String.split_on_char '\n' text);
+  response_make (assistant_message (Buffer.contents content) !calls)
+    (usage_make !input_tokens !output_tokens)
+
+let gemini_generate_stream config transport request on_delta =
+  let http = gemini_request ~stream:true config request in
+  let response = transport http in
+  if response.http_status < 200 || response.http_status >= 300 then
+    raise_core "PROVIDER_HTTP"
+      (Printf.sprintf "provider returned HTTP %d: %s" response.http_status (openai_bound response.http_body));
+  gemini_parse_sse response.http_body on_delta
+
 let gemini_model config transport =
-  { generate = fun request -> gemini_generate config transport request }
+  {
+    generate = (fun request -> gemini_generate config transport request);
+    generate_stream = Some (fun request on_delta ->
+      gemini_generate_stream config transport request on_delta);
+  }
+
+type plugin_process_config = {
+  process_plugin_id : string;
+  process_path : string;
+  process_args : string list;
+  process_token : string;
+  process_token_env : string;
+  process_start_timeout : float;
+  process_invoke_timeout : float;
+}
+
+type plugin_process_host = {
+  process_config : plugin_process_config;
+  process_token_value : string;
+  process_pid : int;
+  process_input : Unix.file_descr;
+  process_output : Unix.file_descr;
+  process_error : Unix.file_descr;
+  mutable process_buffer : string;
+  mutable process_seq : int;
+  mutable process_active : bool;
+}
+
+let plugin_process_config_make plugin_id path args token = {
+  process_plugin_id = plugin_id;
+  process_path = path;
+  process_args = args;
+  process_token = token;
+  process_token_env = "PRAXOVELA_PLUGIN_TOKEN";
+  process_start_timeout = 10.0;
+  process_invoke_timeout = 30.0;
+}
+
+let plugin_process_alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"
+
+let plugin_process_encode input =
+  let out = Buffer.create (String.length input * 2) in
+  let length = String.length input in
+  let index = ref 0 in
+  while !index < length do
+    let a = Char.code input.[!index] in
+    let b = if !index + 1 < length then Char.code input.[!index + 1] else 0 in
+    let c = if !index + 2 < length then Char.code input.[!index + 2] else 0 in
+    Buffer.add_char out plugin_process_alphabet.[a lsr 2];
+    Buffer.add_char out plugin_process_alphabet.[((a land 3) lsl 4) lor (b lsr 4)];
+    Buffer.add_char out (if !index + 1 < length then plugin_process_alphabet.[((b land 15) lsl 2) lor (c lsr 6)] else '=');
+    Buffer.add_char out (if !index + 2 < length then plugin_process_alphabet.[c land 63] else '=');
+    index := !index + 3
+  done;
+  Buffer.contents out
+
+let plugin_process_decode input =
+  let table = Array.make 256 (-1) in
+  String.iteri (fun index value -> table.(Char.code value) <- index) plugin_process_alphabet;
+  let out = Buffer.create (String.length input) in
+  let buffer = ref 0 in
+  let bits = ref 0 in
+  String.iter (fun value ->
+      if value <> '=' then begin
+        let digit = table.(Char.code value) in
+        if digit < 0 then raise_core "INTERNAL" "plugin: invalid payload";
+        buffer := (!buffer lsl 6) lor digit;
+        bits := !bits + 6;
+        if !bits >= 8 then begin
+          bits := !bits - 8;
+          Buffer.add_char out (Char.chr ((!buffer lsr !bits) land 255))
+        end
+      end) input;
+  Buffer.contents out
+
+let plugin_process_write host text =
+  let data = Bytes.of_string text in
+  let rec loop offset =
+    if offset < Bytes.length data then
+      let written = Unix.write host.process_input data offset (Bytes.length data - offset) in
+      loop (offset + written)
+  in
+  loop 0
+
+let plugin_process_read host timeout =
+  let deadline = Unix.gettimeofday () +. timeout in
+  let rec loop () =
+    match String.index_opt host.process_buffer '\n' with
+    | Some index ->
+        let line = String.sub host.process_buffer 0 index in
+        host.process_buffer <-
+          String.sub host.process_buffer (index + 1)
+            (String.length host.process_buffer - index - 1);
+        Some line
+    | None ->
+        let remaining = deadline -. Unix.gettimeofday () in
+        if remaining <= 0.0 then None
+        else
+          let ready, _, _ = Unix.select [host.process_output] [] [] remaining in
+          if ready = [] then None
+          else
+            let buffer = Bytes.create 8192 in
+            let count = Unix.read host.process_output buffer 0 8192 in
+            if count = 0 then None
+            else begin
+              host.process_buffer <- host.process_buffer ^ Bytes.sub_string buffer 0 count;
+              loop ()
+            end
+  in
+  loop ()
+
+let plugin_process_call host service method_name payload timeout =
+  host.process_seq <- host.process_seq + 1;
+  let request_id = Printf.sprintf "req-%d" host.process_seq in
+  let frame = Object [
+    ("id", String request_id);
+    ("version", Number 1.0);
+    ("plugin_id", String host.process_config.process_plugin_id);
+    ("service", String service);
+    ("method", String method_name);
+    ("token", String host.process_token_value);
+    ("payload", String (plugin_process_encode payload));
+  ] in
+  plugin_process_write host (encode_json frame ^ "\n");
+  let deadline = Unix.gettimeofday () +. timeout in
+  let rec await () =
+    let remaining = deadline -. Unix.gettimeofday () in
+    if remaining <= 0.0 then raise_core "TIMEOUT" "plugin: invocation timed out";
+    match plugin_process_read host remaining with
+    | None -> raise_core "TIMEOUT" "plugin: invocation timed out"
+    | Some line ->
+        match parse_json line with
+        | Object fields ->
+            let object_value = Object fields in
+            let id = match field_string "id" object_value with Some value -> value | None -> "" in
+            if id <> request_id then await ()
+            else if field "ok" object_value <> Some (Bool true) then
+              let code = match field_string "code" object_value with Some value -> value | None -> "INTERNAL" in
+              let message = match field_string "message" object_value with Some value -> value | None -> "" in
+              raise_core code message
+            else
+              let payload = match field_string "payload" object_value with Some value -> value | None -> "" in
+              plugin_process_decode payload
+        | _ -> await ()
+  in
+  await ()
+
+let start_plugin_process config =
+  if config.process_plugin_id = "" then raise_core "INVALID_REQUEST" "plugin: PluginID is required";
+  if config.process_path = "" then raise_core "INVALID_REQUEST" "plugin: path is required";
+  let token = if config.process_token = "" then Digest.to_hex (Digest.string (string_of_float (Unix.gettimeofday ()))) else config.process_token in
+  let input_read, input_write = Unix.pipe () in
+  let output_read, output_write = Unix.pipe () in
+  let error_read, error_write = Unix.pipe () in
+  let env = Array.of_list ((config.process_token_env ^ "=" ^ token) :: Array.to_list (Unix.environment ())) in
+  let argv = Array.of_list (config.process_path :: config.process_args) in
+  let pid = Unix.create_process_env config.process_path argv env input_read output_write error_write in
+  Unix.close input_read;
+  Unix.close output_write;
+  Unix.close error_write;
+  let host = {
+    process_config = config;
+    process_token_value = token;
+    process_pid = pid;
+    process_input = input_write;
+    process_output = output_read;
+    process_error = error_read;
+    process_buffer = "";
+    process_seq = 0;
+    process_active = false;
+  } in
+  ignore (plugin_process_call host "host.control" "health" "" config.process_start_timeout);
+  host.process_active <- true;
+  host
+
+let invoke_plugin_process host service method_name payload =
+  if not host.process_active then raise_core "NOT_ACTIVE" "plugin: host is not active";
+  plugin_process_call host service method_name payload host.process_config.process_invoke_timeout
+
+let stop_plugin_process host =
+  (try ignore (plugin_process_call host "host.control" "shutdown" "" 5.0) with _ -> ());
+  host.process_active <- false;
+  (try Unix.kill host.process_pid Sys.sigkill with _ -> ());
+  (try ignore (Unix.waitpid [] host.process_pid) with _ -> ());
+  Unix.close host.process_input;
+  Unix.close host.process_output;
+  Unix.close host.process_error
 
 let session_make session_id messages = { session_id; session_messages = messages }
 
@@ -2058,22 +2532,28 @@ let check_tool_selected selection name =
 
 let scripted_model responses =
   let index = ref 0 in
-  { generate = fun _ ->
+  {
+    generate = (fun _ ->
       if !index >= List.length responses then raise_core "MODEL_ERROR" "script exhausted";
       let response = List.nth responses !index in
       incr index;
-      response }
+      response);
+    generate_stream = None;
+  }
 
 let static_model content = {
-  generate = fun _ -> response_make (assistant_message content []) (usage_make 0 0);
+  generate = (fun _ -> response_make (assistant_message content []) (usage_make 0 0));
+  generate_stream = None;
 }
 
 let failing_model () = {
-  generate = fun _ -> raise_core "MODEL_ERROR" "primary model failed";
+  generate = (fun _ -> raise_core "MODEL_ERROR" "primary model failed");
+  generate_stream = None;
 }
 
 let fallback_model primary fallback = {
-  generate = fun request -> try primary.generate request with _ -> fallback.generate request;
+  generate = (fun request -> try primary.generate request with _ -> fallback.generate request);
+  generate_stream = None;
 }
 
 let interrupt_approve = "approve"
@@ -2119,6 +2599,7 @@ let agent_options model = {
   agent_interrupt_on = [];
   agent_on_interrupt_decision = None;
   agent_on_interrupt = None;
+  agent_on_delta = None;
   agent_require_policy = false;
   agent_require_tool_scope = false;
 }
@@ -2249,7 +2730,18 @@ let run_agent options session prompt =
       in
       (match options.agent_call_limit with Some limit -> call_limit_model limit | None -> ());
       let request_messages = if options.agent_pii then List.map redact_message !messages else !messages in
-      let response = options.agent_model.generate (request_make request_messages specs) in
+      let response =
+        match options.agent_on_delta with
+        | Some on_delta ->
+            (match options.agent_model.generate_stream with
+             | Some stream -> stream (request_make request_messages specs) on_delta
+             | None ->
+                 let result = options.agent_model.generate (request_make request_messages specs) in
+                 if result.response_message.message_content <> "" then
+                   on_delta result.response_message.message_content;
+                 result)
+        | None -> options.agent_model.generate (request_make request_messages specs)
+      in
       total := usage_add !total response.response_usage;
       if max_tokens > 0 && (!total).input_tokens + (!total).output_tokens > max_tokens then
         raise_core "AGENT_MAX_TOKENS" "token budget exceeded";

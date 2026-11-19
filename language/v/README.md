@@ -7,7 +7,8 @@ allowlist, and tool-call parsing. Tool selection, PII redaction, structured
 output, and call limits are opt-in in the agent. Vector
 coverage does not establish full Core parity or production readiness.
 
-The Core does not call Go or another language runtime. It includes non-streaming
+The Core does not call Go or another language runtime. It includes streaming
+OpenAI-compatible and non-streaming
 OpenAI-compatible, Anthropic, and Gemini model adapters, an OpenTelemetry event
 sink, a retriever seam, and synchronous subagent delegation; plugin hosts remain
 outside the declared Core scope.
@@ -66,11 +67,14 @@ Public declarations are inventoried in [`api/0.4.0.txt`](api/0.4.0.txt).
 
 ## OpenAI-Compatible Adapter
 
-`openai_compatible` and `openai_compatible_with_options` build a non-streaming
-adapter over the native model seam. It posts to `{base_url}/chat/completions`
-and maps assistant content, tool calls, and token usage. Supply `transport` to
-run without network access; it receives `(base_url, api_key, path, payload)` and
-returns decoded JSON.
+`openai_compatible` and `openai_compatible_with_options` build an adapter over
+the native model seam. It posts to `{base_url}/chat/completions` and maps
+assistant content, tool calls, and token usage. Supply `transport` to run
+without network access; it receives `(base_url, api_key, path, payload)` and
+returns decoded JSON. `generate_stream` adds `stream: true`, parses SSE, and
+reassembles content, fragmented tool calls, and usage. Inject
+`stream_transport` returning raw SSE text, or set `streaming` and `on_delta`
+on the agent options.
 
 ```v
 adapter := praxo.openai_compatible_with_options('https://api.example.com/v1',
@@ -82,7 +86,7 @@ model := praxo.openai_compatible_model(adapter)
 ```
 
 Provider HTTP failures return code `PROVIDER_HTTP`; invalid tool-argument JSON
-returns `PROVIDER_JSON`. Streaming is not implemented.
+returns `PROVIDER_JSON`; truncated or malformed streams return `MODEL_STREAM`.
 
 ## Anthropic and Gemini Adapters
 
@@ -91,7 +95,8 @@ returns `PROVIDER_JSON`. Streaming is not implemented.
 `{base_url}/v1beta/models/{model}:generateContent` with `x-goog-api-key`. Both
 map system messages, tools, tool calls, tool results, and token usage over the
 injected `ProviderTransport`; it receives `(base_url, path, payload, headers)`
-and returns decoded JSON. Streaming is not implemented.
+and returns decoded JSON. `generate_stream` reassembles Anthropic and Gemini SSE through an
+injected `stream_transport`.
 
 ```v
 claude := praxo.anthropic_compatible_with_options('https://api.anthropic.com',

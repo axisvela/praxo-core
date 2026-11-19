@@ -7,7 +7,13 @@ module Praxo.OpenAICompatible
     , buildRequest
     , parseResponse
     , generate
+    , generateStream
     ) where
+
+import Control.Monad (foldM)
+import Data.Char (isSpace)
+import Data.List (dropWhileEnd, stripPrefix)
+import qualified Data.Map.Strict as Map
 
 import Praxo.Agent (AgentError(..), Message(..), Response(..), ToolCall(..))
 import Praxo.Json (Json(..), asArray, asString, encodeJson, field, parseJson)
@@ -44,7 +50,10 @@ data OpenAIConfig = OpenAIConfig
     }
 
 buildRequest :: OpenAIConfig -> [Message] -> Either AgentError HttpRequest
-buildRequest config messages
+buildRequest = buildRequestWithStream False
+
+buildRequestWithStream :: Bool -> OpenAIConfig -> [Message] -> Either AgentError HttpRequest
+buildRequestWithStream stream config messages
     | null (openAIBaseURL config) = Left (AgentError "PROVIDER_HTTP" "provider base URL is required")
     | otherwise = do
         encoded <- mapM messageJson messages
@@ -57,7 +66,8 @@ buildRequest config messages
             withChoice = case openAIToolChoice config of
                 Nothing -> withTools
                 Just choice -> withTools ++ [("tool_choice", JString choice)]
-        case encodeJson (JObject withChoice) of
+            withStream = if stream then withChoice ++ [("stream", JBool True)] else withChoice
+        case encodeJson (JObject withStream) of
             Left detail -> Left (AgentError "PROVIDER_REQUEST" detail)
             Right text ->
                 Right HttpRequest
@@ -65,7 +75,7 @@ buildRequest config messages
                     , httpURL = trimSlash (openAIBaseURL config) ++ "/chat/completions"
                     , httpHeaders =
                         [ ("Content-Type", "application/json")
-                        , ("Accept", "application/json")
+                        , ("Accept", if stream then "text/event-stream" else "application/json")
                         ] ++ case openAIKey config of
                             Nothing -> []
                             Just key -> [("Authorization", "Bearer " ++ key)]
@@ -162,6 +172,92 @@ toolJson tool =
     parameters = case openAIToolParameters tool of
         JNull -> JObject [("type", JString "object")]
         value -> value
+
+generateStream :: OpenAIConfig -> [Message] -> (String -> IO ()) -> IO (Either AgentError Response)
+generateStream config messages onDelta =
+    case buildRequestWithStream True config messages of
+        Left errorValue -> pure (Left errorValue)
+        Right httpRequest -> do
+            result <- sendTransport (openAITransport config) httpRequest
+            case result of
+                Left errorValue -> pure (Left errorValue)
+                Right response
+                    | httpStatus response < 200 || httpStatus response >= 300 ->
+                        pure (Left (AgentError "PROVIDER_HTTP"
+                            ("provider returned HTTP " ++ show (httpStatus response) ++ ": " ++ bounded (httpResponseBody response))))
+                    | otherwise -> parseSse (httpResponseBody response) onDelta
+
+parseSse :: String -> (String -> IO ()) -> IO (Either AgentError Response)
+parseSse body onDelta = go (lines body) "" Map.empty 0 0 Nothing False
+  where
+    go [] content calls inputTokens outputTokens finishReason done
+        | done = finish content calls inputTokens outputTokens finishReason
+        | otherwise = pure (Left (AgentError "MODEL_STREAM" "stream ended before completion"))
+    go (raw:rest) content calls inputTokens outputTokens finishReason done =
+        case stripPrefix "data:" (trim raw) of
+            Nothing -> go rest content calls inputTokens outputTokens finishReason done
+            Just rawChunk ->
+                let chunk = trim rawChunk
+                in if null chunk
+                    then go rest content calls inputTokens outputTokens finishReason done
+                    else if chunk == "[DONE]"
+                        then finish content calls inputTokens outputTokens finishReason
+                        else case parseJson chunk of
+                            Left detail -> pure (Left (AgentError "MODEL_STREAM" ("invalid SSE packet: " ++ detail)))
+                            Right event -> do
+                                let usage = field "usage" event
+                                    inputTokens' = if field "prompt_tokens" usage == JNull
+                                        then inputTokens else jsonInteger (field "prompt_tokens" usage)
+                                    outputTokens' = if field "completion_tokens" usage == JNull
+                                        then outputTokens else jsonInteger (field "completion_tokens" usage)
+                                (content', calls', finishReason', done') <-
+                                    foldM (handleChoice onDelta) (content, calls, finishReason, done)
+                                        (asArray (field "choices" event))
+                                go rest content' calls' inputTokens' outputTokens' finishReason' done'
+    finish content calls inputTokens outputTokens finishReason =
+        let built = foldl addCall (Right []) (Map.toAscList calls)
+        in pure $ case built of
+            Left errorValue -> Left errorValue
+            Right toolCalls -> Right Response
+                { responseContent = content
+                , responseToolCalls = toolCalls
+                , inputTokens = inputTokens
+                , outputTokens = outputTokens
+                }
+      where
+        addCall (Left errorValue) _ = Left errorValue
+        addCall (Right acc) (_, (identifier, name, rawArguments))
+            | null name = Right acc
+            | otherwise = case if null rawArguments then Right (JObject []) else parseJson rawArguments of
+                Left detail -> Left (AgentError "PROVIDER_JSON" ("tool arguments are not valid JSON: " ++ detail))
+                Right value@(JObject _) ->
+                    Right (acc ++ [ToolCall identifier name value])
+                Right _ -> Left (AgentError "PROVIDER_JSON" "tool arguments must be an object")
+
+handleChoice :: (String -> IO ()) -> (String, Map.Map Integer (String, String, String), Maybe String, Bool)
+             -> Json -> IO (String, Map.Map Integer (String, String, String), Maybe String, Bool)
+handleChoice onDelta (content, calls, finishReason, done) choice = do
+    let delta = field "delta" choice
+        piece = asString (field "content" delta)
+    if null piece then pure () else onDelta piece
+    let calls' = foldl updateCall calls (asArray (field "tool_calls" delta))
+        reason = asString (field "finish_reason" choice)
+        finishReason' = if null reason then finishReason else Just reason
+        done' = done || not (null reason)
+    pure (content ++ piece, calls', finishReason', done')
+  where
+    updateCall current item =
+        let index = jsonInteger (field "index" item)
+            function = field "function" item
+            (identifier, name, arguments) = Map.findWithDefault ("", "", "") index current
+        in Map.insert index
+            ( identifier ++ asString (field "id" item)
+            , name ++ asString (field "name" function)
+            , arguments ++ asString (field "arguments" function)
+            ) current
+
+trim :: String -> String
+trim = dropWhileEnd isSpace . dropWhile isSpace
 
 jsonInteger :: Json -> Integer
 jsonInteger (JNumber value) = truncate value

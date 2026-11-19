@@ -1,6 +1,33 @@
 module praxo
 
+import net.http
 import x.json2
+
+pub type GeminiStreamTransport = fn (base_url string, api_key string, path string, payload map[string]json2.Any) !string
+
+fn gemini_default_stream_transport(base_url string, api_key string, path string, payload map[string]json2.Any) !string {
+	if base_url == '' {
+		return praxo_error('PROVIDER_HTTP', 'provider base URL is required')
+	}
+	mut headers := http.new_header(key: .content_type, value: 'application/json')
+	headers.add(.accept, 'text/event-stream')
+	mut custom := map[string]string{}
+	custom['x-goog-api-key'] = api_key
+	headers.add_custom_map(custom)!
+	response := http.fetch(
+		url: base_url + path
+		method: .post
+		data: encode_json(json2.Any(payload))
+		header: headers
+	) or {
+		return praxo_error('PROVIDER_HTTP', 'provider request failed: ${err.msg()}')
+	}
+	if response.status_code < 200 || response.status_code >= 300 {
+		detail := if response.body.len > 512 { response.body[..512] } else { response.body }
+		return praxo_error('PROVIDER_HTTP', 'provider returned HTTP ${response.status_code}: ${detail}')
+	}
+	return response.body
+}
 
 @[heap]
 pub struct GeminiCompatible {
@@ -10,6 +37,7 @@ pub mut:
 	api_key           string
 	max_output_tokens int
 	transport         ProviderTransport = provider_default_transport
+	stream_transport GeminiStreamTransport = gemini_default_stream_transport
 }
 
 pub struct GeminiOptions {
@@ -17,6 +45,7 @@ pub:
 	api_key           string
 	max_output_tokens int
 	transport         ProviderTransport = provider_default_transport
+	stream_transport GeminiStreamTransport = gemini_default_stream_transport
 }
 
 pub fn gemini_compatible(base_url string, model string) &GeminiCompatible {
@@ -30,13 +59,21 @@ pub fn gemini_compatible_with_options(base_url string, model string, options Gem
 		api_key: options.api_key
 		max_output_tokens: options.max_output_tokens
 		transport: options.transport
+		stream_transport: options.stream_transport
 	}
 }
 
 pub fn gemini_compatible_model(adapter &GeminiCompatible) &Model {
-	return callback_model(fn [adapter] (request Request) !Response {
-		return adapter.generate(request)
-	})
+	return &Model{
+		mode: 'callback'
+		callback: fn [adapter] (request Request) !Response {
+			return adapter.generate(request)
+		}
+		stream_callback: fn [adapter] (request Request, on_delta DeltaHandler) !Response {
+			return adapter.generate_stream(request, on_delta)
+		}
+		has_stream: true
+	}
 }
 
 fn gemini_text_part(text string) json2.Any {
@@ -177,6 +214,75 @@ fn gemini_urlencode(value string) string {
 		}
 	}
 	return out
+}
+
+fn gemini_parse_sse(text string, on_delta DeltaHandler) !Response {
+	mut content := ''
+	mut calls := []ToolCall{}
+	mut input_tokens := 0
+	mut output_tokens := 0
+	mut finish_reason := ''
+	for raw in text.split_into_lines() {
+		line := raw.trim_space()
+		if !line.starts_with('data:') {
+			continue
+		}
+		chunk := line[5..].trim_space()
+		if chunk == '' || chunk == '[DONE]' {
+			continue
+		}
+		event := parse_json(chunk) or {
+			return praxo_error('MODEL_STREAM', 'gemini: invalid stream chunk')
+		}
+		if event !is map[string]json2.Any {
+			continue
+		}
+		event_object := event as map[string]json2.Any
+		if 'error' in event_object {
+			return praxo_error('MODEL_STREAM', 'gemini: provider stream error')
+		}
+		usage_value := get_object(event_object, 'usageMetadata')
+		if usage_value.len > 0 {
+			input_tokens = get_int(usage_value, 'promptTokenCount', input_tokens)
+			output_tokens = get_int(usage_value, 'candidatesTokenCount', output_tokens)
+		}
+		candidates := get_array(event_object, 'candidates')
+		if candidates.len == 0 {
+			continue
+		}
+		candidate := as_object(candidates[0])
+		finish_reason = get_string(candidate, 'finishReason') or { finish_reason }
+		for item in get_array(get_object(candidate, 'content'), 'parts') {
+			part := as_object(item)
+			piece := get_string(part, 'text') or { '' }
+			if piece != '' {
+				content += piece
+				on_delta(piece)
+			}
+			call_value := get_object(part, 'functionCall')
+			if call_value.len > 0 {
+				calls << tool_call(
+					'call-${calls.len + 1}',
+					get_string(call_value, 'name') or { '' },
+					as_object(get(call_value, 'args') or { json2.null })
+				)
+			}
+		}
+	}
+	return response(message_assistant(content, calls), usage(input_tokens, output_tokens))
+}
+
+pub fn (adapter &GeminiCompatible) generate_stream(request Request, on_delta DeltaHandler) !Response {
+	if adapter.api_key == '' {
+		return praxo_error('MODEL_CONFIG', 'gemini: API key is required')
+	}
+	if adapter.model == '' {
+		return praxo_error('MODEL_CONFIG', 'gemini: model is required')
+	}
+	payload := gemini_payload(adapter, request)
+	path := '/v1beta/models/${gemini_urlencode(adapter.model)}:streamGenerateContent?alt=sse'
+	text := adapter.stream_transport(adapter.base_url, adapter.api_key, path, payload)!
+	return gemini_parse_sse(text, on_delta)
 }
 
 fn gemini_parse_response(data map[string]json2.Any) !Response {

@@ -155,7 +155,7 @@ output, validation errors, and attempt number.
 
 ## OpenAI-Compatible Adapter
 
-`praxo_openai` provides a non-streaming `openai_compatible` type that extends
+`praxo_openai` provides an `openai_compatible` type that extends
 `model`. It maps role/content messages, assistant tool calls, tool results, and
 tool declarations to the OpenAI request shape, and maps `message.content`,
 `message.tool_calls` (arguments validated as a JSON object), and `usage` back to
@@ -170,7 +170,14 @@ Adding a transport is a separate dependency decision: a reviewed libcurl C ABI
 binding (MIT-style license) or an `execute_command_line` wrapper around an
 external client (process-dependent, not a library dependency) would each need
 its own build, licensing, and error-mapping review. Tests inject a fake
-transport and make no network calls. Streaming is not implemented.
+transport and make no network calls.
+
+`generate_stream` sets `stream: true`, parses the SSE response, reassembles
+content, fragmented tool calls, usage, and `finish_reason`, and invokes the
+delta callback for each text delta. The transport still returns the complete
+SSE body; true incremental network reads depend on the caller's transport.
+Set `options%delta%callback` and `options%delta%ctx` to use the agent's
+streaming path.
 
 ```fortran
 use praxo_openai
@@ -179,6 +186,7 @@ adapter%base_url = 'https://api.example/v1'
 adapter%model_name = 'provider-model'
 adapter%transport => my_transport
 options%provider => adapter
+options%delta%callback => my_delta
 ```
 
 `my_transport(url, payload, api_key, error)` returns the response body as an
@@ -188,7 +196,8 @@ allocatable character string and sets `error%code` on failure.
 
 `praxo_anthropic` and `praxo_gemini` provide transport-seam
 `anthropic_compatible` and `gemini_compatible` types for the Messages and
-generateContent APIs.
+generateContent APIs. `generate_stream` reassembles Anthropic SSE; Gemini
+remains non-streaming.
 
 ```fortran
 use praxo_anthropic
@@ -269,7 +278,8 @@ tests, and the snapshot check. Passing fixtures covers the declared Core scope.
 The RE2/Unicode suite also runs against the installed bridge. The parity
 inventory still records JSON Schema as partial because JSON/numeric limits
 and schema coverage are separate from regex support; asynchronous agent
-streaming remains outside the declared Core surface.
+streaming remains outside the declared Core surface; provider SSE reassembly is
+available over the caller-supplied transport.
 
 See [CHANGELOG.md](CHANGELOG.md) for per-release changes and compatibility notes.
 

@@ -2,6 +2,7 @@ gemini <- function(base_url = "https://generativelanguage.googleapis.com",
                    model = "",
                    api_key = NULL,
                    transport = NULL,
+                   stream_transport = NULL,
                    timeout = 60,
                    max_output_tokens = 0L) {
   list(
@@ -9,6 +10,7 @@ gemini <- function(base_url = "https://generativelanguage.googleapis.com",
     model = if (is.null(model)) "" else model,
     apiKey = api_key,
     transport = transport,
+    streamTransport = stream_transport,
     timeout = timeout,
     maxOutputTokens = max_output_tokens
   )
@@ -179,6 +181,129 @@ gemini_generate <- function(adapter, request) {
 
 gemini_model <- function(adapter) {
   function(request) gemini_generate(adapter, request)
+}
+
+gemini_stream_generate <- function(adapter, request,
+                                   on_delta = function(delta) invisible(NULL)) {
+  if (is.null(adapter$apiKey) || !nzchar(adapter$apiKey)) {
+    praxo_error("PROVIDER_CONFIG", "gemini: API key is required")
+  }
+  if (!nzchar(adapter$model)) {
+    praxo_error("PROVIDER_CONFIG", "gemini: model is required")
+  }
+  path <- paste0(
+    "/v1beta/models/",
+    utils::URLencode(adapter$model, reserved = TRUE),
+    ":streamGenerateContent?alt=sse"
+  )
+  payload <- gemini_payload(adapter, request)
+  text <- if (!is.null(adapter$streamTransport)) {
+    adapter$streamTransport(path, payload)
+  } else {
+    gemini_post_stream(adapter, path, payload)
+  }
+  if (!is.character(text)) {
+    praxo_error("PROVIDER_HTTP", "gemini: stream transport must return SSE text")
+  }
+  gemini_parse_sse(paste0(text, collapse = "\n"), on_delta)
+}
+
+gemini_streaming_model <- function(adapter) {
+  function(request, on_delta = function(delta) invisible(NULL)) {
+    gemini_stream_generate(adapter, request, on_delta)
+  }
+}
+
+gemini_parse_sse <- function(text, on_delta) {
+  content <- character()
+  calls <- list()
+  input_tokens <- 0L
+  output_tokens <- 0L
+  cached_tokens <- 0L
+  finish_reason <- NULL
+  lines <- strsplit(text, "\n", fixed = TRUE)[[1L]]
+  for (line in lines) {
+    if (!startsWith(line, "data:")) next
+    raw <- trimws(sub("^data:", "", line))
+    if (!nzchar(raw) || identical(raw, "[DONE]")) next
+    chunk <- tryCatch(json_parse(raw), error = function(error) NULL)
+    if (is.null(chunk)) praxo_error("MODEL_STREAM", "gemini: invalid stream chunk")
+    if (!is.null(chunk$error)) {
+      praxo_error("MODEL_STREAM", paste0("gemini: ",
+                                         chunk$error$message %||% "stream error"))
+    }
+    usage_value <- chunk$usageMetadata %||% list()
+    if (length(usage_value) > 0L) {
+      input_tokens <- as.integer(usage_value$promptTokenCount %||% input_tokens)
+      output_tokens <- as.integer(usage_value$candidatesTokenCount %||% output_tokens)
+      cached_tokens <- as.integer(
+        usage_value$cachedContentTokenCount %||% cached_tokens
+      )
+    }
+    candidates <- chunk$candidates %||% list()
+    if (length(candidates) == 0L) next
+    candidate <- candidates[[1L]]
+    finish_reason <- candidate$finishReason %||% finish_reason
+    for (part in json_get(candidate, "content", list())$parts %||% list()) {
+      piece <- part$text %||% ""
+      if (nzchar(piece)) {
+        content <- c(content, piece)
+        on_delta(piece)
+      }
+      call <- part$functionCall
+      if (!is.null(call)) {
+        calls[[length(calls) + 1L]] <- tool_call(
+          paste0("call-", length(calls) + 1L),
+          call$name %||% "",
+          openai_compatible_object(call$args)
+        )
+      }
+    }
+  }
+  result <- response(
+    message(roles$assistant, paste0(content, collapse = ""), tool_calls = calls),
+    usage(input_tokens, output_tokens)
+  )
+  result$usage$cachedTokens <- cached_tokens
+  result$finishReason <- finish_reason
+  result
+}
+
+gemini_post_stream <- function(adapter, path, payload) {
+  if (!nzchar(adapter$baseUrl)) {
+    praxo_error("PROVIDER_HTTP", "provider base URL is required")
+  }
+  input <- tempfile()
+  output <- tempfile()
+  on.exit(unlink(c(input, output)), add = TRUE)
+  writeLines(json_encode(payload), input, useBytes = TRUE)
+  args <- c(
+    "-sS", "-N", "-X", "POST",
+    "-H", "Content-Type: application/json",
+    "-H", "Accept: text/event-stream",
+    "-H", paste0("x-goog-api-key: ", adapter$apiKey),
+    "--data-binary", paste0("@", input),
+    "-o", output, "-w", "%{http_code}",
+    paste0(adapter$baseUrl, path)
+  )
+  status_text <- tryCatch(
+    suppressWarnings(system2("curl", args, stdout = TRUE, stderr = FALSE)),
+    error = function(error) character()
+  )
+  status <- suppressWarnings(as.integer(tail(status_text, 1L)))
+  if (is.na(status)) praxo_error("PROVIDER_HTTP", "provider request failed")
+  body <- if (file.exists(output)) {
+    paste(readLines(output, warn = FALSE), collapse = "\n")
+  } else {
+    ""
+  }
+  if (status < 200L || status >= 300L) {
+    praxo_error(
+      "PROVIDER_HTTP",
+      paste0("provider returned HTTP ", status, ": ", substr(body, 1L, 512L))
+    )
+  }
+  body
 }
 
 gemini_post <- function(adapter, path, payload) {

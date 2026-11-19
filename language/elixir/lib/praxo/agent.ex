@@ -31,6 +31,7 @@ defmodule Praxo.AgentOptions do
             middleware: [],
             allowed_tools: [],
             cancellation: nil,
+            on_delta: nil,
             on_stream: nil,
             max_parallel_tools: 1,
             interrupt_on: [],
@@ -97,6 +98,40 @@ defmodule Praxo.Agent do
     else
       response = Enum.at(model.script, model.index)
       {:ok, response, %{model | index: model.index + 1}}
+    end
+  end
+
+  def generate(%{generate: fun} = model, request) when is_function(fun, 1) do
+    case fun.(request) do
+      {:ok, response} -> {:ok, response, model}
+      {:error, code} -> {:error, code, model}
+    end
+  end
+
+  def generate_stream(%{stream: fun} = model, request, on_delta)
+      when is_function(fun, 2) do
+    case fun.(request, on_delta) do
+      {:ok, response} -> {:ok, response, model}
+      {:error, code} -> {:error, code, model}
+    end
+  end
+
+  def generate_stream(model, request, on_delta) when is_function(on_delta, 1) do
+    case generate(model, request) do
+      {:ok, response, model} ->
+        content = response.message.content
+
+        if is_binary(content) and content != "" do
+          case on_delta.(content) do
+            {:error, code} -> {:error, code, model}
+            _ -> {:ok, response, model}
+          end
+        else
+          {:ok, response, model}
+        end
+
+      other ->
+        other
     end
   end
 
@@ -228,7 +263,14 @@ defmodule Praxo.Agent do
   end
 
   defp run_model(options, messages, request, run_id, step, max_steps, total, limit) do
-    case generate(options.model, request) do
+    result =
+      if options.on_delta do
+        generate_stream(options.model, request, options.on_delta)
+      else
+        generate(options.model, request)
+      end
+
+    case result do
       {:error, code, model} ->
         fail(%{options | model: model}, run_id, code)
 

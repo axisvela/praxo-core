@@ -43,7 +43,10 @@ fn dsml_singular() -> &'static Regex {
 
 fn xml_tool() -> &'static Regex {
     static RE: OnceLock<Regex> = OnceLock::new();
-    regex(&RE, r#"(?s)<tool_call\s+name="([^"]+)"\s*>\s*(.*?)\s*</tool_call>"#)
+    regex(
+        &RE,
+        r#"(?s)<tool_call\s+name="([^"]+)"\s*>\s*(.*?)\s*</tool_call>"#,
+    )
 }
 
 fn invoke_name() -> &'static Regex {
@@ -130,7 +133,10 @@ pub fn strip_markup(content: &str) -> String {
     for pattern in strip_patterns() {
         out = pattern.replace_all(&out, "").to_string();
     }
-    excess_newlines().replace_all(&out, "\n\n").trim().to_string()
+    excess_newlines()
+        .replace_all(&out, "\n\n")
+        .trim()
+        .to_string()
 }
 
 pub fn parse_input_json(raw: &str) -> Option<Map<String, Value>> {
@@ -175,24 +181,20 @@ fn parse_dsml(content: &str) -> Option<ParsedToolCall> {
     if !content.contains("<｜｜DSML｜｜tool_calls>") {
         let capture = dsml_singular().captures(content)?;
         let raw = capture.get(2)?.as_str();
-        let input = parse_input_json(raw)
-            .unwrap_or_else(|| {
-                let mut map = Map::new();
-                map.insert("content".to_string(), Value::String(raw.trim().to_string()));
-                map
-            });
+        let input = parse_input_json(raw).unwrap_or_else(|| {
+            let mut map = Map::new();
+            map.insert("content".to_string(), Value::String(raw.trim().to_string()));
+            map
+        });
         return Some(basic(capture.get(1)?.as_str(), input));
     }
     let invoke = dsml_invoke().captures(content)?;
     let mut input = Map::new();
     for capture in dsml_param().captures_iter(content) {
         let raw = capture.get(3).map(|item| item.as_str()).unwrap_or("");
-        let value = serde_json::from_str(raw)
-            .unwrap_or_else(|_| Value::String(raw.trim().to_string()));
-        input.insert(
-            capture.get(1)?.as_str().to_string(),
-            value,
-        );
+        let value =
+            serde_json::from_str(raw).unwrap_or_else(|_| Value::String(raw.trim().to_string()));
+        input.insert(capture.get(1)?.as_str().to_string(), value);
     }
     Some(basic(invoke.get(1)?.as_str(), input))
 }
@@ -213,7 +215,12 @@ fn parse_invoke(content: &str) -> Option<ParsedToolCall> {
     if !content.contains("<tool_call_invoke>") {
         return None;
     }
-    let name = invoke_name().captures(content)?.get(1)?.as_str().trim().to_string();
+    let name = invoke_name()
+        .captures(content)?
+        .get(1)?
+        .as_str()
+        .trim()
+        .to_string();
     let raw = if let Some(capture) = invoke_attr().captures(content) {
         capture.get(1)?.as_str().replace("\\\"", "\"")
     } else if let Some(capture) = invoke_body().captures(content) {
@@ -270,7 +277,11 @@ fn parse_skill_install(content: &str) -> Option<ParsedToolCall> {
         };
         input.insert(
             key.trim_matches('"').to_string(),
-            Value::String(value.trim_matches(|ch| ch == '"' || ch == ' ' || ch == '\\').to_string()),
+            Value::String(
+                value
+                    .trim_matches(|ch| ch == '"' || ch == ' ' || ch == '\\')
+                    .to_string(),
+            ),
         );
     }
     if !input.contains_key("url") {

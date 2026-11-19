@@ -3,17 +3,20 @@ import ../errors, ../jsonutil, ../models, ../agent
 
 type
   GeminiTransport* = proc(path: string, payload: JsonNode): JsonNode {.closure.}
+  GeminiStreamTransport* = proc(path: string, payload: JsonNode): string {.closure.}
   GeminiCompatible* = ref object
     baseUrl*: string
     model*: string
     apiKey*: string
     maxOutputTokens*: int
     transport*: GeminiTransport
+    streamTransport*: GeminiStreamTransport
     timeoutMs*: int
 
 proc newGeminiCompatible*(baseUrl: string, model: string, apiKey: string = "",
                           maxOutputTokens: int = 0,
                           transport: GeminiTransport = nil,
+                          streamTransport: GeminiStreamTransport = nil,
                           timeoutMs: int = 60000): GeminiCompatible =
   GeminiCompatible(
     baseUrl: baseUrl.strip(chars = {'/'}),
@@ -21,6 +24,7 @@ proc newGeminiCompatible*(baseUrl: string, model: string, apiKey: string = "",
     apiKey: apiKey,
     maxOutputTokens: maxOutputTokens,
     transport: transport,
+    streamTransport: streamTransport,
     timeoutMs: timeoutMs,
   )
 
@@ -132,6 +136,86 @@ proc post(adapter: GeminiCompatible, path: string, body: JsonNode): JsonNode =
       "provider returned HTTP " & $response.code.int & ": " & response.body)
   parseJsonText(response.body)
 
+proc postStream(adapter: GeminiCompatible, path: string,
+                body: JsonNode): string =
+  if adapter.baseUrl.len == 0:
+    raisePraxo("PROVIDER_HTTP", "provider base URL is required")
+  let client = newHttpClient(timeout = adapter.timeoutMs)
+  defer: client.close()
+  client.headers = newHttpHeaders({
+    "Content-Type": "application/json",
+    "Accept": "text/event-stream",
+    "x-goog-api-key": adapter.apiKey,
+  })
+  let response = client.request(adapter.baseUrl & path, httpMethod = HttpPost,
+                                body = encodeJson(body))
+  if response.code.int < 200 or response.code.int >= 300:
+    raisePraxo("PROVIDER_HTTP",
+      "provider returned HTTP " & $response.code.int & ": " & response.body)
+  return response.body
+
+proc parseSseResponse(text: string,
+                      onDelta: proc(delta: string)): models.Response =
+  var content = ""
+  var calls: seq[ToolCall] = @[]
+  var inputTokens = 0
+  var outputTokens = 0
+  for raw in text.splitLines():
+    let line = raw.strip()
+    if not line.startsWith("data:"):
+      continue
+    let chunk = line[5 .. ^1].strip()
+    if chunk.len == 0 or chunk == "[DONE]":
+      continue
+    let event =
+      try:
+        parseJsonText(chunk)
+      except CatchableError:
+        raisePraxo("MODEL_STREAM", "gemini: invalid stream chunk")
+    if event.hasKey("error"):
+      raisePraxo("MODEL_STREAM", "gemini: provider stream error")
+    if event.hasKey("usageMetadata") and event["usageMetadata"].kind == JObject:
+      inputTokens = getInt(event["usageMetadata"], "promptTokenCount", inputTokens)
+      outputTokens = getInt(event["usageMetadata"], "candidatesTokenCount", outputTokens)
+    if not event.hasKey("candidates") or event["candidates"].kind != JArray or
+        event["candidates"].len == 0:
+      continue
+    let candidate = event["candidates"][0]
+    if candidate.hasKey("content") and candidate["content"].kind == JObject and
+        candidate["content"].hasKey("parts"):
+      for part in candidate["content"]["parts"]:
+        if part.kind != JObject:
+          continue
+        if part.hasKey("text") and part["text"].kind == JString:
+          let piece = part["text"].getStr()
+          if piece.len > 0:
+            content.add(piece)
+            onDelta(piece)
+        if part.hasKey("functionCall") and part["functionCall"].kind == JObject:
+          let call = part["functionCall"]
+          calls.add(newToolCall(
+            id = "call-" & $(calls.len + 1),
+            name = getString(call, "name"),
+            arguments = if call.hasKey("args") and call["args"].kind == JObject:
+                call["args"] else: newJObject(),
+          ))
+  return newResponse(newMessageAssistant(content, calls),
+                     newUsage(inputTokens, outputTokens))
+
+proc generateStream*(adapter: GeminiCompatible, request: Request,
+                     onDelta: proc(delta: string)): models.Response =
+  if adapter.apiKey.len == 0:
+    raisePraxo("MODEL_CONFIG", "gemini: API key is required")
+  if adapter.model.len == 0:
+    raisePraxo("MODEL_CONFIG", "gemini: model is required")
+  let body = adapter.payload(request)
+  let path = "/v1beta/models/" & adapter.model & ":streamGenerateContent?alt=sse"
+  let text = if adapter.streamTransport != nil:
+      adapter.streamTransport(path, body)
+    else:
+      adapter.postStream(path, body)
+  return parseSseResponse(text, onDelta)
+
 proc generate*(adapter: GeminiCompatible, request: Request): models.Response =
   if adapter.apiKey.len == 0:
     raisePraxo("MODEL_CONFIG", "gemini: API key is required")
@@ -146,4 +230,9 @@ proc generate*(adapter: GeminiCompatible, request: Request): models.Response =
   parseResponse(data)
 
 proc geminiModel*(adapter: GeminiCompatible): Model =
-  callbackModel(proc(request: Request): models.Response = adapter.generate(request))
+  return Model(
+    mode: "callback",
+    invoke: proc(request: Request): models.Response = adapter.generate(request),
+    stream: proc(request: Request, onDelta: proc(delta: string)): models.Response =
+      adapter.generateStream(request, onDelta),
+  )

@@ -2,11 +2,18 @@ module praxo_interfaces
   use praxo_types
   implicit none
   private
-  public :: model, tool, policy, event_sink, registry
+  public :: model, tool, policy, event_sink, registry, delta_interface, delta_handler
+  public :: run_model
+
+  type :: delta_handler
+    procedure(delta_interface), pointer, nopass :: callback => null()
+    class(*), pointer :: ctx => null()
+  end type
 
   type, abstract :: model
   contains
     procedure(generate_interface), deferred :: generate
+    procedure :: generate_stream => default_generate_stream
   end type
 
   type, abstract :: tool
@@ -40,10 +47,25 @@ module praxo_interfaces
   end type
 
   abstract interface
+    subroutine delta_interface(ctx, delta, error)
+      import :: sdk_error
+      class(*), pointer, intent(in) :: ctx
+      character(*), intent(in) :: delta
+      type(sdk_error), intent(inout) :: error
+    end subroutine
     subroutine generate_interface(self, req, res, error)
       import model, request, response, sdk_error
       class(model), intent(inout) :: self
       type(request), intent(in) :: req
+      type(response), intent(out) :: res
+      type(sdk_error), intent(out) :: error
+    end subroutine
+    subroutine generate_stream_interface(self, req, on_delta, ctx, res, error)
+      import model, request, response, sdk_error, delta_interface
+      class(model), intent(inout) :: self
+      type(request), intent(in) :: req
+      procedure(delta_interface) :: on_delta
+      class(*), pointer, intent(in) :: ctx
       type(response), intent(out) :: res
       type(sdk_error), intent(out) :: error
     end subroutine
@@ -67,6 +89,37 @@ module praxo_interfaces
     end subroutine
   end interface
 contains
+  subroutine run_model(provider, delta, req, res, error)
+    class(model), pointer, intent(in) :: provider
+    class(model), pointer :: active
+    type(delta_handler), intent(in) :: delta
+    type(request), intent(in) :: req
+    type(response), intent(out) :: res
+    type(sdk_error), intent(out) :: error
+    active => provider
+    if (associated(delta%callback)) then
+      call active%generate_stream(req, delta%callback, delta%ctx, res, error)
+    else
+      call active%generate(req, res, error)
+    end if
+  end subroutine
+
+  subroutine default_generate_stream(self, req, on_delta, ctx, res, error)
+    class(model), intent(inout) :: self
+    type(request), intent(in) :: req
+    procedure(delta_interface) :: on_delta
+    class(*), pointer, intent(in) :: ctx
+    type(response), intent(out) :: res
+    type(sdk_error), intent(out) :: error
+    type(sdk_error) :: delta_error
+    call self%generate(req, res, error)
+    if (error%failed()) return
+    if (len(res%message%content) == 0) return
+    delta_error%code = ''
+    call on_delta(ctx, res%message%content, delta_error)
+    if (delta_error%failed()) error = delta_error
+  end subroutine
+
   logical function registry_has(self, name) result(found)
     class(registry), intent(in) :: self
     character(*), intent(in) :: name

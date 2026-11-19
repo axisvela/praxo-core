@@ -21,6 +21,11 @@ type
     function Generate(Messages: TJSONArray; Tools: TJSONArray;
       const ToolChoice: UTF8String): TJSONObject; overload;
     function Generate(Messages: TJSONArray): TJSONObject; overload;
+    function GenerateStream(Messages: TJSONArray; Tools: TJSONArray;
+      const ToolChoice: UTF8String;
+      OnDelta: TPraxoOpenAIDeltaHook): TJSONObject; overload;
+    function GenerateStream(Messages: TJSONArray;
+      OnDelta: TPraxoOpenAIDeltaHook): TJSONObject; overload;
     property BaseURL: UTF8String read FBaseURL write FBaseURL;
     property APIKey: UTF8String read FAPIKey write FAPIKey;
     property Model: UTF8String read FModel write FModel;
@@ -108,7 +113,8 @@ begin
 end;
 
 function BuildPayload(const Model: UTF8String; MaxTokens: Integer;
-  Messages, Tools: TJSONArray; const ToolChoice: UTF8String): UTF8String;
+  Messages, Tools: TJSONArray; const ToolChoice: UTF8String;
+  Stream: Boolean = False): UTF8String;
 var
   Root, Group, Item, Tool: TJSONObject;
   WireMessages, WireTools, Content, Pending: TJSONArray;
@@ -195,6 +201,7 @@ begin
       else if ToolChoice = 'none' then
         Root.Add('tool_choice', TJSONObject.Create(['type', 'none']));
     end;
+    if Stream then Root.Add('stream', True);
     Result := PraxoEncodeJSON(Root);
   finally
     Root.Free;
@@ -277,7 +284,8 @@ begin
 end;
 
 function HTTPPost(const BaseURL, APIKey, Version, Path, Body: UTF8String;
-  out ResponseBody: UTF8String; out StatusCode: Integer): Boolean;
+  out ResponseBody: UTF8String; out StatusCode: Integer;
+  Stream: Boolean = False): Boolean;
 var
   Client: TFPHTTPClient;
   Request, Response: TStringStream;
@@ -291,6 +299,8 @@ begin
   try
     Client.RequestBody := Request;
     Client.AddHeader('Content-Type', 'application/json');
+    if Stream then Client.AddHeader('Accept', 'text/event-stream')
+    else Client.AddHeader('Accept', 'application/json');
     Client.AddHeader('x-api-key', APIKey);
     Client.AddHeader('anthropic-version', Version);
     try
@@ -311,6 +321,183 @@ begin
     Client.Free;
     Request.Free;
     Response.Free;
+  end;
+end;
+
+function ParseStreamBody(const Body: UTF8String;
+  OnDelta: TPraxoOpenAIDeltaHook): TJSONObject;
+var
+  Lines: TStringList;
+  I, J, Index, Slot: Integer;
+  Line, Chunk, Piece, Reason, Content, Kind, DeltaType: UTF8String;
+  Data, Value: TJSONData;
+  Root, Block, Delta, Usage, MessageValue, Arguments, CallObject: TJSONObject;
+  Blocks, CallsOut: TJSONArray;
+  InputTokens, OutputTokens: Int64;
+  Done: Boolean;
+  Ids, Names, Args: array[0..7] of UTF8String;
+  Used: array[0..7] of Boolean;
+begin
+  Content := '';
+  Reason := '';
+  InputTokens := 0;
+  OutputTokens := 0;
+  Done := False;
+  for I := 0 to 7 do
+  begin
+    Ids[I] := '';
+    Names[I] := '';
+    Args[I] := '';
+    Used[I] := False;
+  end;
+  Lines := TStringList.Create;
+  try
+    Lines.Text := Body;
+    for I := 0 to Lines.Count - 1 do
+    begin
+      Line := Trim(Lines[I]);
+      if Copy(Line, 1, 5) <> 'data:' then Continue;
+      Chunk := Trim(Copy(Line, 6, Length(Line)));
+      if Chunk = '' then Continue;
+      try
+        Data := PraxoParseJSON(Chunk);
+      except
+        on E: Exception do
+          raise EPraxoProvider.CreateCode('MODEL_STREAM', E.Message);
+      end;
+      try
+        if Data.JSONType <> jtObject then
+          raise EPraxoProvider.CreateCode('MODEL_STREAM', 'invalid SSE packet');
+        Root := TJSONObject(Data);
+        Kind := FieldString(Root, 'type');
+        if Kind = 'message_start' then
+        begin
+          Value := LastField(Root, 'message');
+          if (Value <> nil) and (Value.JSONType = jtObject) then
+          begin
+            MessageValue := TJSONObject(Value);
+            Value := LastField(MessageValue, 'usage');
+            if (Value <> nil) and (Value.JSONType = jtObject) then
+            begin
+              Usage := TJSONObject(Value);
+              InputTokens := FieldInteger(Usage, 'input_tokens', InputTokens);
+            end;
+          end;
+        end
+        else if Kind = 'content_block_start' then
+        begin
+          Slot := FieldInteger(Root, 'index', 0);
+          if (Slot < 0) or (Slot > 7) then
+            raise EPraxoProvider.CreateCode('PROVIDER_JSON',
+              'tool call index out of range');
+          Value := LastField(Root, 'content_block');
+          if (Value <> nil) and (Value.JSONType = jtObject) then
+          begin
+            Block := TJSONObject(Value);
+            if FieldString(Block, 'type') = 'tool_use' then
+            begin
+              Used[Slot] := True;
+              Ids[Slot] := FieldString(Block, 'id');
+              Names[Slot] := FieldString(Block, 'name');
+              Args[Slot] := '';
+            end;
+          end;
+        end
+        else if Kind = 'content_block_delta' then
+        begin
+          Slot := FieldInteger(Root, 'index', 0);
+          if (Slot < 0) or (Slot > 7) then
+            raise EPraxoProvider.CreateCode('PROVIDER_JSON',
+              'tool call index out of range');
+          Value := LastField(Root, 'delta');
+          if (Value <> nil) and (Value.JSONType = jtObject) then
+          begin
+            Delta := TJSONObject(Value);
+            DeltaType := FieldString(Delta, 'type');
+            if DeltaType = 'text_delta' then
+            begin
+              Piece := FieldString(Delta, 'text');
+              if Piece <> '' then
+              begin
+                Content := Content + Piece;
+                if Assigned(OnDelta) then OnDelta(Piece);
+              end;
+            end
+            else if DeltaType = 'input_json_delta' then
+              if Used[Slot] then
+                Args[Slot] := Args[Slot] + FieldString(Delta, 'partial_json');
+          end;
+        end
+        else if Kind = 'message_delta' then
+        begin
+          Value := LastField(Root, 'delta');
+          if (Value <> nil) and (Value.JSONType = jtObject) then
+            Reason := FieldString(TJSONObject(Value), 'stop_reason');
+          Value := LastField(Root, 'usage');
+          if (Value <> nil) and (Value.JSONType = jtObject) then
+            OutputTokens := FieldInteger(TJSONObject(Value), 'output_tokens',
+              OutputTokens);
+        end
+        else if Kind = 'message_stop' then
+          Done := True
+        else if Kind = 'error' then
+          raise EPraxoProvider.CreateCode('MODEL_STREAM',
+            'anthropic: provider stream error');
+      finally
+        Data.Free;
+      end;
+    end;
+  finally
+    Lines.Free;
+  end;
+  if (not Done) and (Reason = '') then
+    raise EPraxoProvider.CreateCode('MODEL_STREAM',
+      'stream ended before completion');
+  Result := TJSONObject.Create;
+  try
+    Result.Add('content', Content);
+    CallsOut := TJSONArray.Create;
+    for I := 0 to 7 do
+      if Used[I] and (Names[I] <> '') then
+      begin
+        Arguments := TJSONObject.Create;
+        if Args[I] <> '' then
+        begin
+          try
+            Data := PraxoParseJSON(Args[I]);
+          except
+            on E: Exception do
+            begin
+              Arguments.Free;
+              raise EPraxoProvider.CreateCode('PROVIDER_JSON', E.Message);
+            end;
+          end;
+          try
+            if Data.JSONType <> jtObject then
+            begin
+              Arguments.Free;
+              raise EPraxoProvider.CreateCode('PROVIDER_JSON',
+                'tool arguments must be an object');
+            end;
+            Arguments.Free;
+            Arguments := TJSONObject(Data.Clone);
+          finally
+            Data.Free;
+          end;
+        end;
+        CallObject := TJSONObject.Create;
+        CallObject.Add('id', Ids[I]);
+        CallObject.Add('name', Names[I]);
+        CallObject.Add('arguments', Arguments);
+        CallsOut.Add(CallObject);
+      end;
+    Result.Add('toolCalls', CallsOut);
+    Result.Add('inputTokens', InputTokens);
+    Result.Add('outputTokens', OutputTokens);
+    if Reason <> '' then Result.Add('finishReason', Reason);
+  except
+    Result.Free;
+    raise;
   end;
 end;
 
@@ -341,7 +528,7 @@ begin
     Sent := Sender('/v1/messages', Body, ResponseBody, StatusCode)
   else
     Sent := HTTPPost(FBaseURL, FAPIKey, FVersion, '/v1/messages', Body,
-      ResponseBody, StatusCode);
+      ResponseBody, StatusCode, False);
   if not Sent then
     raise EPraxoProvider.CreateCode('PROVIDER_HTTP', 'provider request failed: ' + ResponseBody);
   if (StatusCode < 200) or (StatusCode >= 300) then
@@ -353,6 +540,40 @@ end;
 function TPraxoAnthropicAdapter.Generate(Messages: TJSONArray): TJSONObject;
 begin
   Result := Generate(Messages, FTools, FToolChoice);
+end;
+
+function TPraxoAnthropicAdapter.GenerateStream(Messages, Tools: TJSONArray;
+  const ToolChoice: UTF8String;
+  OnDelta: TPraxoOpenAIDeltaHook): TJSONObject;
+var
+  Body, ResponseBody: UTF8String;
+  StatusCode: Integer;
+  Sender: TPraxoOpenAITransport;
+  Sent: Boolean;
+begin
+  if FAPIKey = '' then
+    raise EPraxoProvider.CreateCode('MODEL_CONFIG',
+      'anthropic: API key is required');
+  Body := BuildPayload(FModel, FMaxTokens, Messages, Tools, ToolChoice, True);
+  Sender := FTransport;
+  if Assigned(Sender) then
+    Sent := Sender('/v1/messages', Body, ResponseBody, StatusCode)
+  else
+    Sent := HTTPPost(FBaseURL, FAPIKey, FVersion, '/v1/messages', Body,
+      ResponseBody, StatusCode, True);
+  if not Sent then
+    raise EPraxoProvider.CreateCode('PROVIDER_HTTP',
+      'provider request failed: ' + ResponseBody);
+  if (StatusCode < 200) or (StatusCode >= 300) then
+    raise EPraxoProvider.CreateCode('PROVIDER_HTTP',
+      'provider returned HTTP ' + IntToStr(StatusCode), StatusCode);
+  Result := ParseStreamBody(ResponseBody, OnDelta);
+end;
+
+function TPraxoAnthropicAdapter.GenerateStream(Messages: TJSONArray;
+  OnDelta: TPraxoOpenAIDeltaHook): TJSONObject;
+begin
+  Result := GenerateStream(Messages, FTools, FToolChoice, OnDelta);
 end;
 
 end.

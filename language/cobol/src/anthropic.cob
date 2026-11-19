@@ -6,6 +6,7 @@ configuration section.
 repository. function all intrinsic.
 data division.
 working-storage section.
+copy "sse.cpy".
 01 ws-body pic x(16384).
 01 ws-body-position binary-long.
 01 ws-source pic x(4096).
@@ -92,7 +93,11 @@ procedure division using px-anthropic-options px-session px-response
     move ws-url to px-anthropic-url
     move ws-url-length to px-anthropic-url-length
     move "POST" to px-anthropic-method
-    move "application/json" to px-anthropic-content-type
+    if px-anthropic-stream = 1
+        move "text/event-stream" to px-anthropic-content-type
+    else
+        move "application/json" to px-anthropic-content-type
+    end-if
     move px-anthropic-api-key to px-anthropic-send-key
     move px-anthropic-api-key-length to
         px-anthropic-send-key-length
@@ -113,6 +118,10 @@ procedure division using px-anthropic-options px-session px-response
     if px-anthropic-status-code < 200
         or px-anthropic-status-code >= 300
         move "PROVIDER_HTTP" to px-status
+        goback
+    end-if
+    if px-anthropic-stream = 1
+        perform map-stream-response
         goback
     end-if
     move px-anthropic-response to px-json-text
@@ -172,6 +181,38 @@ procedure division using px-anthropic-options px-session px-response
         end-if
     end-if
     goback.
+map-stream-response.
+    move px-anthropic-response to px-sse-text
+    move px-anthropic-response-length to px-sse-length
+    move px-anthropic-delta-program to px-sse-delta-program
+    move px-user-data to px-sse-user-data
+    move spaces to px-sse-error
+    call "praxo-anthropic-sse" using px-sse-request px-sse-result
+        on exception move "MODEL_STREAM" to px-sse-error
+    end-call
+    if px-sse-error not = spaces
+        move px-sse-error to px-status
+        exit paragraph
+    end-if
+    move px-sse-content to px-answer
+    if px-sse-content-length > 2048
+        move 2048 to px-answer-length
+    else
+        move px-sse-content-length to px-answer-length
+    end-if
+    move px-sse-input-tokens to px-input-tokens
+    move px-sse-output-tokens to px-output-tokens
+    move px-sse-tool-count to px-call-count
+    perform varying ws-loop from 1 by 1
+        until ws-loop > px-call-count
+        move px-sse-call-id(ws-loop) to px-call-id(ws-loop)
+        move px-sse-call-name(ws-loop) to px-call-name(ws-loop)
+        move px-sse-call-arguments(ws-loop)
+            to px-call-input(ws-loop)
+        move px-sse-call-arguments-length(ws-loop)
+            to px-call-input-length(ws-loop)
+    end-perform.
+
 build-system.
     move spaces to ws-system
     move 1 to ws-system-position
@@ -260,6 +301,10 @@ build-body.
     if px-status not = spaces exit paragraph end-if
     move "]" to ws-literal
     perform append-literal
+    if px-anthropic-stream = 1
+        move ',"stream":true' to ws-literal
+        perform append-literal
+    end-if
     if px-anthropic-tools-length > 0
         move ',"tools":' to ws-literal
         perform append-literal

@@ -1,3 +1,4 @@
+import '../agent.dart';
 import '../errors.dart';
 import '../json.dart';
 import '../models.dart';
@@ -8,13 +9,14 @@ typedef GeminiSyncTransport = dynamic Function(
 typedef GeminiAsyncTransport = Future<dynamic> Function(
     String path, Map<String, dynamic> payload);
 
-class GeminiModel {
+class GeminiModel implements StreamingModel {
   final String baseUrl;
   final String model;
   final String? apiKey;
   final int maxOutputTokens;
   final GeminiSyncTransport? transport;
   final GeminiAsyncTransport? asyncTransport;
+  final GeminiSyncTransport? streamTransport;
   final Duration timeout;
 
   GeminiModel({
@@ -24,6 +26,7 @@ class GeminiModel {
     this.maxOutputTokens = 0,
     this.transport,
     this.asyncTransport,
+    this.streamTransport,
     this.timeout = const Duration(seconds: 60),
   });
 
@@ -55,6 +58,97 @@ class GeminiModel {
             timeout: timeout,
           );
     return parseResponse(data);
+  }
+
+  @override
+  Response generateStream(Request request, void Function(String) onDelta) {
+    _validate();
+    final payload = buildPayload(request);
+    final path =
+        '/v1beta/models/${Uri.encodeComponent(model)}:streamGenerateContent?alt=sse';
+    final String text;
+    if (streamTransport != null) {
+      final value = streamTransport!(path, payload);
+      if (value is! String) {
+        throw const PraxoError(
+            'PROVIDER_HTTP', 'gemini: stream transport must return SSE text');
+      }
+      text = value;
+    } else {
+      text = postTextSync(
+        uri: Uri.parse('${_root()}$path'),
+        payload: payload,
+        headers: {..._headers(), 'Accept': 'text/event-stream'},
+        timeout: timeout,
+      );
+    }
+    return parseStream(text, onDelta);
+  }
+
+  Response parseStream(String text, void Function(String) onDelta) {
+    final content = StringBuffer();
+    final calls = <ToolCall>[];
+    var inputTokens = 0;
+    var outputTokens = 0;
+    var cachedTokens = 0;
+    String? finishReason;
+    for (final raw in text.split('\n')) {
+      final line = raw.trim();
+      if (!line.startsWith('data:')) continue;
+      final chunkText = line.substring(5).trim();
+      if (chunkText.isEmpty || chunkText == '[DONE]') continue;
+      dynamic chunk;
+      try {
+        chunk = Json.parse(chunkText);
+      } on FormatException {
+        throw const PraxoError('MODEL_STREAM', 'gemini: invalid stream chunk');
+      }
+      final error = Json.get(chunk, 'error');
+      if (error != null) {
+        throw PraxoError('MODEL_STREAM',
+            'gemini: ${Json.string(error, 'message') ?? 'stream error'}');
+      }
+      final usage = Json.get(chunk, 'usageMetadata') ?? const <String, dynamic>{};
+      inputTokens = Json.integer(usage, 'promptTokenCount', inputTokens);
+      outputTokens =
+          Json.integer(usage, 'candidatesTokenCount', outputTokens);
+      cachedTokens =
+          Json.integer(usage, 'cachedContentTokenCount', cachedTokens);
+      final candidates = Json.array(chunk, 'candidates');
+      if (candidates.isEmpty) continue;
+      final candidate = candidates.first;
+      finishReason = Json.string(candidate, 'finishReason') ?? finishReason;
+      final candidateContent =
+          Json.get(candidate, 'content') ?? const <String, dynamic>{};
+      for (final part in Json.array(candidateContent, 'parts')) {
+        final piece = Json.string(part, 'text') ?? '';
+        if (piece.isNotEmpty) {
+          content.write(piece);
+          onDelta(piece);
+        }
+        final call = Json.get(part, 'functionCall');
+        if (call != null) {
+          calls.add(ToolCall(
+            id: 'call-${calls.length + 1}',
+            name: Json.string(call, 'name') ?? '',
+            arguments: _arguments(Json.get(call, 'args')),
+          ));
+        }
+      }
+    }
+    return Response(
+      message: Message(
+        role: roleAssistant,
+        content: content.toString(),
+        toolCalls: calls,
+      ),
+      usage: Usage(
+        inputTokens: inputTokens,
+        outputTokens: outputTokens,
+        cachedTokens: cachedTokens,
+      ),
+      finishReason: finishReason,
+    );
   }
 
   Map<String, dynamic> buildPayload(Request request) {

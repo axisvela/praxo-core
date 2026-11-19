@@ -38,35 +38,40 @@ Status words:
 | Java | native | `adapters.OpenAICompatibleModel` |
 | Rust | native | `openai_compat::OpenAICompatible` behind optional `http-ureq`; `parse_stream` always available |
 | C# | native | `Praxo.Core.OpenAiCompatible` |
-| Ruby | native | `Praxo::Adapters::OpenAICompatible` |
-| PHP | native | `Praxo\Core\Adapters\OpenAICompatible` |
-| Elixir | native | `Praxo.OpenAICompatible` |
-| Lua | native | `praxo.openai_compatible` |
-| Perl | native | `Praxo::Adapters::OpenAICompatible` |
-| Nim | native | `praxo/adapters/openai_compatible` |
-| R | native | `openai_compatible` adapter |
-| Erlang | native | `praxo_openai_compatible` |
-| Julia | native | `OpenAICompatibleModel` |
-| V | native | `praxo.openaicompat`; verified with V 0.5.2 and `x.json2` |
-| Dart | native | `OpenAiCompatibleModel` with sync and async transport paths |
-| Haskell | native (transport seam) | Caller supplies `Transport`; no bundled HTTP client |
-| Swift | native | `OpenAICompatibleModel` with URLSession transport |
-| OCaml | native (transport seam) | Caller supplies `transport`; no bundled HTTP client |
-| Delphi / Free Pascal | native | `TPraxoOpenAIAdapter` with FPC HTTP transport |
-| Objective-C | native | `PXROpenAIGenerate` with injectable transport |
-| MATLAB | native | `praxo.openai_compatible` using `webwrite` |
-| GNU Octave | native | Shared `praxo.openai_compatible` implementation |
-| Zig | native | `openaicompat.Adapter` with `std.http` |
-| C | native (transport seam) | `PxOpenAICompatible`; caller supplies HTTP transport |
-| C++ | native (transport seam) | `OpenAICompatible`; caller supplies HTTP transport |
-| Fortran | native (transport seam) | `openai_compatible`; caller supplies HTTP transport |
-| D | native (transport seam) | `OpenAICompatibleModel`; caller may inject transport |
-| COBOL | native (transport seam) | `praxo-openai`; caller supplies a transport program; the model callback lacks tool specs/history |
+| Ruby | native | `Praxo::Adapters::OpenAICompatible`; `generate_stream` reassembles SSE content, tool calls, usage, and finish reason |
+| PHP | native | `Praxo\Core\Adapters\OpenAICompatible`; implements `StreamingModel` and reassembles SSE content, tool calls, usage, and finish reason |
+| Elixir | native | `Praxo.OpenAICompatible`; `streaming_model/1` and SSE reassembly cover content, tool calls, usage, and finish reason |
+| Lua | native | `praxo.openai_compatible`; `stream` reassembles SSE content, tool calls, usage, and finish reason |
+| Perl | native | `Praxo::Adapters::OpenAICompatible`; `generate_stream` reassembles SSE content, tool calls, usage, and finish reason |
+| Nim | native | `praxo/adapters/openai_compatible`; SSE streaming reassembly |
+| R | native | `openai_compatible` adapter; `openai_compatible_streaming_model` reassembles SSE content, tool calls, usage, and finish reason |
+| Erlang | native | `praxo_openai_compatible`; `streaming_model/1` and `generate_stream/3` reassemble SSE content, tool calls, usage, and finish reason |
+| Julia | native | `OpenAICompatibleModel`; `generate_stream` reassembles SSE content, tool calls, usage, and finish reason |
+| V | native | `praxo.openaicompat`; verified with V 0.5.2 and `x.json2`; SSE streaming reassembly |
+| Dart | native | `OpenAiCompatibleModel` with sync and async transport paths; `generateStream` reassembles SSE content, tool calls, usage, and finish reason |
+| Haskell | native (transport seam) | Caller supplies `Transport`; no bundled HTTP client; SSE streaming reassembly |
+| Swift | native | `OpenAICompatibleModel` with URLSession transport; SSE streaming reassembly |
+| OCaml | native (transport seam) | Caller supplies `transport`; no bundled HTTP client; SSE streaming reassembly |
+| Delphi / Free Pascal | native | `TPraxoOpenAIAdapter` with FPC HTTP transport; SSE streaming reassembly |
+| Objective-C | native | `PXROpenAIGenerate` with injectable transport; SSE streaming reassembly |
+| MATLAB | native | `praxo.openai_compatible` using `webwrite`; SSE streaming reassembly |
+| GNU Octave | native | Shared `praxo.openai_compatible` implementation; SSE streaming reassembly |
+| Zig | native | `openaicompat.Adapter` with `std.http`; SSE streaming reassembly |
+| C | native (transport seam) | `PxOpenAICompatible`; caller supplies HTTP transport; `px_openai_generate_stream` reassembles SSE content, tool calls, usage, and finish reason |
+| C++ | native (transport seam) | `OpenAICompatible`; caller supplies HTTP and streaming transports; `OpenAICompatibleStreamTransport` reassembles SSE content, tool calls, usage, and finish reason |
+| Fortran | native (transport seam) | `openai_compatible`; caller supplies HTTP transport; `generate_stream` reassembles SSE content, tool calls, usage, and finish reason |
+| D | native (transport seam) | `OpenAICompatibleModel`; caller may inject transport; SSE streaming reassembly |
+| COBOL | native (transport seam) | `praxo-openai`; caller supplies a transport program and an optional delta program; SSE streaming reassembles content, tool calls, usage, and finish reason; the model callback lacks tool specs/history |
 | PowerShell | inherited | Uses the C# Core |
 | Visual Basic / F# | inherited | Samples over the C# Core |
 | Kotlin / Scala / Groovy / Clojure | inherited | Samples over the Java Core |
 | JavaScript | inherited | Sample over the TypeScript Core |
 | Shell / Lisp / Tcl / Prolog | bridge | Uses the Go Core through the bridge |
+
+Streaming-capable OpenAI-compatible adapters reassemble SSE content, fragmented
+tool calls, usage, and `finish_reason`: Go, Python, TypeScript, Java, Rust, C#,
+R, C, C++, Fortran, Erlang, COBOL, Ruby, PHP, Elixir, Lua, Dart, Perl, Julia, MATLAB, GNU Octave, Nim, V, Zig, Delphi, Swift, OCaml, Objective-C, Haskell, and D. The C, C++, Fortran, R, Erlang, and COBOL transports still return the
+complete SSE body unless the caller supplies an incremental transport. All declared Core OpenAI-compatible adapters now have streaming coverage.
 
 The baseline mapping is documented in the
 [OpenAI-compatible model adapter](../reference/openai-compatible-adapter.md).
@@ -79,35 +84,35 @@ provider presets.
 | Language | Status | Notes |
 | --- | --- | --- |
 | Go | native | `adapters/anthropic` |
-| Python | native | `praxo.adapters.anthropic.AnthropicModel` |
-| TypeScript | native | `src/adapters/anthropic.ts` |
-| C# | native | `Praxo.Core.AnthropicModel` |
-| R | native (transport seam) | `anthropic`; caller may supply `transport` |
-| Elixir | native | `Praxo.Anthropic` |
-| Java | native | `adapters.AnthropicModel` |
-| Rust | native (transport seam) | `adapters::anthropic`; caller supplies transport |
-| Ruby | native | `Praxo::Adapters::Anthropic`; injectable transport |
-| PHP | native | `Praxo\Core\Adapters\Anthropic` |
-| Lua | native | `praxo.adapters.anthropic` |
-| Perl | native | `Praxo::Adapters::Anthropic` |
-| Dart | native | `AnthropicModel` with sync and async transport paths |
-| Erlang | native | `praxo_anthropic` |
-| D | native (transport seam) | `AnthropicModel`; caller may inject transport |
+| Python | native | `praxo.adapters.anthropic.AnthropicModel`; SSE streaming reassembly |
+| TypeScript | native | `src/adapters/anthropic.ts`; SSE streaming reassembly |
+| C# | native | `Praxo.Core.AnthropicModel`; SSE streaming reassembly |
+| R | native (transport seam) | `anthropic`; caller may supply `transport`; `anthropic_streaming_model` reassembles SSE |
+| Elixir | native | `Praxo.Anthropic`; `streaming_model/1` reassembles Anthropic SSE |
+| Java | native | `adapters.AnthropicModel`; SSE streaming reassembly |
+| Rust | native (transport seam) | `adapters::anthropic`; caller supplies transport; `StreamingModel` via `send_stream` |
+| Ruby | native | `Praxo::Adapters::Anthropic`; injectable transport; `generate_stream` reassembles Anthropic SSE |
+| PHP | native | `Praxo\Core\Adapters\Anthropic`; implements `StreamingModel` with Anthropic SSE |
+| Lua | native | `praxo.adapters.anthropic`; `stream` reassembles Anthropic SSE |
+| Perl | native | `Praxo::Adapters::Anthropic`; `generate_stream` reassembles Anthropic SSE |
+| Dart | native | `AnthropicModel` with sync and async transport paths; `generateStream` reassembles Anthropic SSE |
+| Erlang | native | `praxo_anthropic`; `streaming_model/1` reassembles Anthropic SSE |
+| D | native (transport seam) | `AnthropicModel`; caller may inject transport; SSE streaming reassembly |
 | COBOL | native (transport seam) | `praxo-anthropic`; caller supplies a transport program; maps system messages, tools, tool choice, text, tool use, and usage |
-| C | native (transport seam) | `PxAnthropic`; caller supplies HTTP transport |
-| C++ | native (transport seam) | `Anthropic`; caller supplies HTTP transport |
-| Fortran | native (transport seam) | `anthropic_compatible`; caller supplies HTTP transport |
-| Julia | native | `AnthropicModel`; injectable transport |
-| Nim | native | `newAnthropicCompatible`; injectable transport |
-| Haskell | native (transport seam) | `Praxo.Anthropic`; caller supplies transport |
-| OCaml | native (transport seam) | `anthropic_model`; caller supplies transport |
-| Swift | native | `AnthropicModel` with injectable transport |
-| V | native (transport seam) | `anthropic_compatible`; caller supplies `ProviderTransport` |
-| Zig | native | `anthropic.Adapter`; injectable transport |
-| MATLAB | native | `praxo.anthropic_compatible`; injectable transport |
-| GNU Octave | native | Shared `praxo.anthropic_compatible` |
-| Delphi / Free Pascal | native | `TPraxoAnthropicAdapter`; FPC HTTP transport |
-| Objective-C | native | `PXRAnthropicGenerate` with injectable transport |
+| C | native (transport seam) | `PxAnthropic`; caller supplies HTTP transport; `px_anthropic_generate_stream` reassembles Anthropic SSE |
+| C++ | native (transport seam) | `Anthropic`; caller supplies HTTP and streaming transports; Anthropic SSE reassembly |
+| Fortran | native (transport seam) | `anthropic_compatible`; caller supplies HTTP transport; `generate_stream` reassembles Anthropic SSE |
+| Julia | native | `AnthropicModel`; injectable transport; `generate_stream` reassembles Anthropic SSE |
+| Nim | native | `newAnthropicCompatible`; injectable transport; `generateStream` reassembles Anthropic SSE |
+| Haskell | native (transport seam) | `Praxo.Anthropic`; caller supplies transport; `generateAnthropicStream` reassembles Anthropic SSE |
+| OCaml | native (transport seam) | `anthropic_model`; caller supplies transport; `anthropic_generate_stream` reassembles Anthropic SSE |
+| Swift | native | `AnthropicModel` with injectable transport; `generateStream` reassembles Anthropic SSE |
+| V | native (transport seam) | `anthropic_compatible`; caller supplies `ProviderTransport`; `generate_stream` reassembles Anthropic SSE |
+| Zig | native | `anthropic.Adapter`; injectable transport; `generateStream` reassembles Anthropic SSE |
+| MATLAB | native | `praxo.anthropic_compatible`; injectable transport; `onDelta` reassembles Anthropic SSE |
+| GNU Octave | native | Shared `praxo.anthropic_compatible`; `onDelta` reassembles Anthropic SSE |
+| Delphi / Free Pascal | native | `TPraxoAnthropicAdapter`; FPC HTTP transport; `GenerateStream` reassembles Anthropic SSE |
+| Objective-C | native | `PXRAnthropicGenerate` with injectable transport; `PXRAnthropicGenerateStream` reassembles Anthropic SSE |
 | PowerShell | inherited | Uses the C# Core |
 | Visual Basic / F# | inherited | Samples over the C# Core |
 | Kotlin / Scala / Groovy / Clojure | inherited | Samples over the Java Core |
@@ -115,46 +120,54 @@ provider presets.
 | Shell / Lisp / Tcl / Prolog | bridge | Uses the Go Core through the bridge |
 | All other implementations | not implemented | Use the OpenAI-compatible adapter only for OpenAI-compatible endpoints |
 
+Anthropic SSE streaming reassembles `message_start`, text deltas, tool-use JSON
+deltas, `message_delta`, and `message_stop` for Go, Python, TypeScript, Java, Rust,
+C#, R, Elixir, Ruby, PHP, Lua, Perl, Dart, Erlang, D, C++, C, Fortran, Julia, Nim, Haskell, OCaml, Swift, V, Zig, MATLAB, GNU Octave, Delphi, Objective-C, and COBOL. Other Anthropic adapters remain non-streaming.
+
 ## Model (Gemini Native)
 
 | Language | Status | Notes |
 | --- | --- | --- |
-| Go | native | `adapters/gemini` |
-| Python | native | `praxo.adapters.gemini.GeminiModel` |
-| TypeScript | native | `src/adapters/gemini.ts` |
-| C# | native | `Praxo.Core.GeminiModel` |
-| R | native (transport seam) | `gemini`; caller may supply `transport` |
-| Elixir | native | `Praxo.Gemini` |
-| Java | native | `adapters.GeminiModel` |
-| Rust | native (transport seam) | `adapters::gemini`; caller supplies transport |
-| Ruby | native | `Praxo::Adapters::Gemini`; injectable transport |
-| PHP | native | `Praxo\Core\Adapters\Gemini` |
-| Lua | native | `praxo.adapters.gemini` |
-| Perl | native | `Praxo::Adapters::Gemini` |
-| Dart | native | `GeminiModel` with sync and async transport paths |
-| Erlang | native | `praxo_gemini` |
-| D | native (transport seam) | `GeminiModel`; caller may inject transport |
-| COBOL | native (transport seam) | `praxo-gemini`; caller supplies a transport program; maps system instructions, tools, tool choice, text, function calls, and usage |
-| C | native (transport seam) | `PxGemini`; caller supplies HTTP transport |
-| C++ | native (transport seam) | `Gemini`; caller supplies HTTP transport |
-| Fortran | native (transport seam) | `gemini_compatible`; caller supplies HTTP transport |
-| Julia | native | `GeminiModel`; injectable transport |
-| Nim | native | `newGeminiCompatible`; injectable transport |
-| Haskell | native (transport seam) | `Praxo.Gemini`; caller supplies transport |
-| OCaml | native (transport seam) | `gemini_model`; caller supplies transport |
-| Swift | native | `GeminiModel` with injectable transport |
-| V | native (transport seam) | `gemini_compatible`; caller supplies `ProviderTransport` |
-| Zig | native | `gemini.Adapter`; injectable transport |
-| MATLAB | native | `praxo.gemini_compatible`; injectable transport |
-| GNU Octave | native | Shared `praxo.gemini_compatible` |
-| Delphi / Free Pascal | native | `TPraxoGeminiAdapter`; FPC HTTP transport |
-| Objective-C | native | `PXRGeminiGenerate` with injectable transport |
+| Go | native | `adapters/gemini`; SSE streaming reassembly |
+| Python | native | `praxo.adapters.gemini.GeminiModel`; SSE streaming |
+| TypeScript | native | `src/adapters/gemini.ts`; SSE streaming |
+| C# | native | `Praxo.Core.GeminiModel`; SSE streaming |
+| R | native (transport seam) | `gemini`; caller may supply `transport`; SSE streaming |
+| Elixir | native | `Praxo.Gemini`; `streaming_model/1` reassembles Gemini SSE |
+| Java | native | `adapters.GeminiModel`; SSE streaming |
+| Rust | native (transport seam) | `adapters::gemini`; caller supplies transport; `StreamingModel` via `send_stream` |
+| Ruby | native | `Praxo::Adapters::Gemini`; injectable transport; `generate_stream` reassembles Gemini SSE |
+| PHP | native | `Praxo\Core\Adapters\Gemini`; implements `StreamingModel` with Gemini SSE |
+| Lua | native | `praxo.adapters.gemini`; `stream` reassembles Gemini SSE |
+| Perl | native | `Praxo::Adapters::Gemini`; `generate_stream` reassembles Gemini SSE |
+| Dart | native | `GeminiModel`; `generateStream` reassembles Gemini SSE |
+| Erlang | native | `praxo_gemini`; `streaming_model/1` reassembles Gemini SSE |
+| D | native (transport seam) | `GeminiModel`; caller may inject transport; SSE streaming |
+| COBOL | native (transport seam) | `praxo-gemini`; caller supplies a transport program; maps system instructions, tools, tool choice, text, function calls, usage, and Gemini SSE streaming |
+| C | native (transport seam) | `PxGemini`; caller supplies HTTP transport; `px_gemini_generate_stream` reassembles Gemini SSE |
+| C++ | native (transport seam) | `Gemini`; caller supplies HTTP and streaming transports; Gemini SSE reassembly |
+| Fortran | native (transport seam) | `gemini_compatible`; caller supplies HTTP transport; `generate_stream` reassembles Gemini SSE |
+| Julia | native | `GeminiModel`; injectable transport; `generate_stream` reassembles Gemini SSE |
+| Nim | native | `newGeminiCompatible`; injectable transport; `generateStream` reassembles Gemini SSE |
+| Haskell | native (transport seam) | `Praxo.Gemini`; caller supplies transport; `generateGeminiStream` reassembles Gemini SSE |
+| OCaml | native (transport seam) | `gemini_model`; caller supplies transport; `gemini_generate_stream` reassembles Gemini SSE |
+| Swift | native | `GeminiModel` with injectable transport; `generateStream` reassembles Gemini SSE |
+| V | native (transport seam) | `gemini_compatible`; caller supplies `ProviderTransport`; `generate_stream` reassembles Gemini SSE |
+| Zig | native | `gemini.Adapter`; injectable transport; `generateStream` reassembles Gemini SSE |
+| MATLAB | native | `praxo.gemini_compatible`; injectable transport; `onDelta` reassembles Gemini SSE |
+| GNU Octave | native | Shared `praxo.gemini_compatible`; `onDelta` reassembles Gemini SSE |
+| Delphi / Free Pascal | native | `TPraxoGeminiAdapter`; FPC HTTP transport; `GenerateStream` reassembles Gemini SSE |
+| Objective-C | native | `PXRGeminiGenerate` with injectable transport; `PXRGeminiGenerateStream` reassembles Gemini SSE |
 | PowerShell | inherited | Uses the C# Core |
 | Visual Basic / F# | inherited | Samples over the C# Core |
 | Kotlin / Scala / Groovy / Clojure | inherited | Samples over the Java Core |
 | JavaScript | inherited | Sample over the TypeScript Core |
 | Shell / Lisp / Tcl / Prolog | bridge | Uses the Go Core through the bridge |
 | All other implementations | not implemented | Native generateContent mapping follows adoption order |
+
+Gemini SSE streaming reassembles `:streamGenerateContent?alt=sse` text deltas,
+complete function calls, usage metadata, and finish reasons for every Gemini
+adapter listed above.
 
 ## MCP
 

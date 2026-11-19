@@ -104,7 +104,7 @@ agentTests = do
             n <- readIORef calls
             pure (Right (if n == 0 then A.Response "" [call] 2 1 else A.Response "done" [] 1 1))
         tool _ = modifyIORef' calls (+1) >> pure (Right JNull)
-        options = A.AgentOptions model tool sink 2 5 Nothing [] False False "run-test" "session-test" [] Nothing Nothing Nothing
+        options = A.AgentOptions model tool sink 2 5 Nothing [] False False "run-test" "session-test" [] Nothing Nothing Nothing Nothing Nothing
     result <- A.runAgent options [] "hello"
     assert "agent success and usage" (case result of Right r -> A.runSteps r == 2 && A.runInputTokens r == 3 && A.runOutputTokens r == 2; _ -> False)
     history <- readIORef requests
@@ -200,6 +200,8 @@ hitlTests = do
             , A.onInterruptDecision = Nothing
             , A.onInterrupt = Nothing
             , A.beforeTool = Nothing
+            , A.onDelta = Nothing
+            , A.generateStream = Nothing
             }
 
     approveCalls <- newIORef []
@@ -383,6 +385,46 @@ adapterTests = do
             assert "openai messages" (length payloadMessages == 2 && equalJson (field "tool_call_id" (payloadMessages !! 1)) (JString "call-1"))
             let payloadTools = asArray (field "tools" payload)
             assert "openai tools" (length payloadTools == 1 && equalJson (field "name" (field "function" (head payloadTools))) (JString "echo"))
+    streamDeltas <- newIORef ""
+    let sse = unlines
+            [ "data: {\"choices\":[{\"delta\":{\"content\":\"he\"}}]}"
+            , ""
+            , "data: {\"choices\":[{\"delta\":{\"content\":\"llo\"}}]}"
+            , ""
+            , "data: {\"choices\":[{\"delta\":{\"tool_calls\":[{\"index\":0,\"id\":\"call-1\",\"function\":{\"name\":\"ec\",\"arguments\":\"{\\\"text\\\":\"}}]}}]}"
+            , ""
+            , "data: {\"choices\":[{\"delta\":{\"tool_calls\":[{\"index\":0,\"function\":{\"name\":\"ho\",\"arguments\":\"\\\"hi\\\"}\"}}]}}],\"usage\":{\"prompt_tokens\":4,\"completion_tokens\":2}}"
+            , ""
+            , "data: {\"choices\":[{\"delta\":{},\"finish_reason\":\"tool_calls\"}]}"
+            , ""
+            , "data: [DONE]"
+            , ""
+            ]
+        streamTransport request = do
+            writeIORef captured (Just request)
+            pure (Right (O.HttpResponse 200 sse))
+    streamed <- O.generateStream (config { O.openAITransport = O.Transport streamTransport }) messages
+        (\delta -> modifyIORef' streamDeltas (++ delta))
+    case streamed of
+        Left err -> fail ("openai stream: " ++ A.errorMessage err)
+        Right response -> do
+            assert "openai stream content" (A.responseContent response == "hello")
+            assert "openai stream usage" (A.inputTokens response == 4 && A.outputTokens response == 2)
+            case A.responseToolCalls response of
+                [call] -> do
+                    assert "openai stream call id" (A.toolCallId call == "call-1")
+                    assert "openai stream call name" (A.toolCallName call == "echo")
+                    assert "openai stream call arguments" (A.toolCallArguments call == JObject [("text", JString "hi")])
+                _ -> fail "openai stream call"
+    deltas <- readIORef streamDeltas
+    assert "openai stream deltas" (deltas == "hello")
+    streamRequest <- readIORef captured
+    case streamRequest of
+        Just http -> do
+            assert "openai stream accept" (lookup "Accept" (O.httpHeaders http) == Just "text/event-stream")
+            let payload = json (O.httpBody http)
+            assert "openai stream flag" (equalJson (field "stream" payload) (JBool True))
+        Nothing -> fail "openai stream transport not called"
     let failing = O.Transport (\_ -> pure (Right (O.HttpResponse 503 "down")))
     failed <- O.generate (config { O.openAITransport = failing }) messages
     assert "openai provider error" (case failed of Left err -> A.errorCode err == "PROVIDER_HTTP"; _ -> False)
@@ -436,6 +478,45 @@ providerTests = do
             assert "anthropic system" (field "system" payload == JString "be brief")
             assert "anthropic tools" (length (asArray (field "tools" payload)) == 1)
 
+    capturedStream <- newIORef Nothing
+    let sseBody = concatMap (\event -> "data: " ++ event ++ "\n\n")
+            [ "{\"type\":\"message_start\",\"message\":{\"usage\":{\"input_tokens\":4,\"cache_read_input_tokens\":1}}}"
+            , "{\"type\":\"content_block_start\",\"index\":0,\"content_block\":{\"type\":\"text\",\"text\":\"\"}}"
+            , "{\"type\":\"content_block_delta\",\"index\":0,\"delta\":{\"type\":\"text_delta\",\"text\":\"he\"}}"
+            , "{\"type\":\"content_block_delta\",\"index\":0,\"delta\":{\"type\":\"text_delta\",\"text\":\"llo\"}}"
+            , "{\"type\":\"content_block_start\",\"index\":1,\"content_block\":{\"type\":\"tool_use\",\"id\":\"call-1\",\"name\":\"echo\",\"input\":{}}}"
+            , "{\"type\":\"content_block_delta\",\"index\":1,\"delta\":{\"type\":\"input_json_delta\",\"partial_json\":\"{\\\"text\\\":\"}}"
+            , "{\"type\":\"content_block_delta\",\"index\":1,\"delta\":{\"type\":\"input_json_delta\",\"partial_json\":\"\\\"hi\\\"}\"}}"
+            , "{\"type\":\"message_delta\",\"delta\":{\"stop_reason\":\"tool_use\"},\"usage\":{\"output_tokens\":2}}"
+            , "{\"type\":\"message_stop\"}"
+            ]
+        streamTransport = O.Transport (\request -> do
+            writeIORef capturedStream (Just request)
+            pure (Right (O.HttpResponse 200 sseBody)))
+        streamConfig = anthropicConfig { An.anthropicTransport = streamTransport }
+    deltas <- newIORef ([] :: [String])
+    streamResult <- An.generateAnthropicStream streamConfig messages
+        (\delta -> modifyIORef' deltas (++ [delta]))
+    case streamResult of
+        Left err -> fail ("anthropic stream: " ++ A.errorMessage err)
+        Right response -> do
+            assert "anthropic stream content" (A.responseContent response == "hello")
+            assert "anthropic stream usage" (A.inputTokens response == 4 && A.outputTokens response == 2)
+            case A.responseToolCalls response of
+                [call] -> do
+                    assert "anthropic stream call id" (A.toolCallId call == "call-1")
+                    assert "anthropic stream call name" (A.toolCallName call == "echo")
+                    assert "anthropic stream arguments" (A.toolCallArguments call == JObject [("text", JString "hi")])
+                _ -> fail "anthropic stream call"
+    emitted <- readIORef deltas
+    assert "anthropic stream deltas" (emitted == ["he", "llo"])
+    streamRequest <- readIORef capturedStream
+    case streamRequest of
+        Nothing -> fail "anthropic stream transport not called"
+        Just http -> do
+            assert "anthropic stream accept" (lookup "Accept" (O.httpHeaders http) == Just "text/event-stream")
+            assert "anthropic stream flag" (field "stream" (json (O.httpBody http)) == JBool True)
+
     capturedGemini <- newIORef Nothing
     let geminiTransport = O.Transport (\request -> do
             writeIORef capturedGemini (Just request)
@@ -467,6 +548,40 @@ providerTests = do
             let payload = json (O.httpBody http)
             assert "gemini system" (length (asArray (field "parts" (field "system_instruction" payload))) == 1)
             assert "gemini tools" (length (asArray (field "functionDeclarations" (head (asArray (field "tools" payload))))) == 1)
+
+    capturedGeminiStream <- newIORef Nothing
+    let geminiSse = concat
+            [ "data: {\"candidates\":[{\"content\":{\"parts\":[{\"text\":\"he\"}]}}]}\n\n"
+            , "data: {\"candidates\":[{\"content\":{\"parts\":[{\"text\":\"llo\"},"
+            , "{\"functionCall\":{\"name\":\"echo\",\"args\":{\"text\":\"hi\"}}}]},"
+            , "\"finishReason\":\"STOP\"}],\"usageMetadata\":{\"promptTokenCount\":4,"
+            , "\"candidatesTokenCount\":2,\"cachedContentTokenCount\":1}}"
+            ]
+        geminiStreamTransport = O.Transport (\request -> do
+            writeIORef capturedGeminiStream (Just request)
+            pure (Right (O.HttpResponse 200 geminiSse)))
+        geminiStreamConfig = geminiConfig { G.geminiTransport = geminiStreamTransport }
+    geminiDeltas <- newIORef ([] :: [String])
+    geminiStreamResult <- G.generateGeminiStream geminiStreamConfig messages
+        (\delta -> modifyIORef' geminiDeltas (++ [delta]))
+    case geminiStreamResult of
+        Left err -> fail ("gemini stream: " ++ A.errorMessage err)
+        Right response -> do
+            assert "gemini stream content" (A.responseContent response == "hello")
+            assert "gemini stream usage" (A.inputTokens response == 4 && A.outputTokens response == 2)
+            case A.responseToolCalls response of
+                [call] -> do
+                    assert "gemini stream call name" (A.toolCallName call == "echo")
+                    assert "gemini stream arguments" (A.toolCallArguments call == JObject [("text", JString "hi")])
+                _ -> fail "gemini stream call"
+    emitted <- readIORef geminiDeltas
+    assert "gemini stream deltas" (emitted == ["he", "llo"])
+    streamRequest <- readIORef capturedGeminiStream
+    case streamRequest of
+        Nothing -> fail "gemini stream transport not called"
+        Just http -> do
+            assert "gemini stream url" (":streamGenerateContent?alt=sse" `isInfixOf` O.httpURL http)
+            assert "gemini stream accept" (lookup "Accept" (O.httpHeaders http) == Just "text/event-stream")
 
 harmovelaTests :: IO ()
 harmovelaTests = do

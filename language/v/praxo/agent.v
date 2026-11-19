@@ -30,16 +30,26 @@ fn missing_model_callback(_request Request) !Response {
 	return praxo_error('MODEL_ERROR', 'model callback is not configured')
 }
 
+pub type DeltaHandler = fn (delta string)
+
+fn noop_delta(_delta string) {}
+
+fn missing_stream_callback(_request Request, _on_delta DeltaHandler) !Response {
+	return praxo_error('MODEL_ERROR', 'model stream callback is not configured')
+}
+
 @[heap]
 pub struct Model {
 pub mut:
-	mode     string
-	script   []Response
-	index    int
-	content  string
-	primary  &Model = unsafe { nil }
-	fallback &Model = unsafe { nil }
-	callback fn (Request) !Response = missing_model_callback
+	mode            string
+	script          []Response
+	index           int
+	content         string
+	primary         &Model = unsafe { nil }
+	fallback        &Model = unsafe { nil }
+	callback        fn (Request) !Response = missing_model_callback
+	stream_callback fn (Request, DeltaHandler) !Response = missing_stream_callback
+	has_stream      bool
 }
 
 pub fn (mut model Model) generate(_request Request) !Response {
@@ -68,6 +78,17 @@ pub fn (mut model Model) generate(_request Request) !Response {
 	}
 	result := model.script[model.index]
 	model.index++
+	return result
+}
+
+pub fn (mut model Model) generate_stream(request Request, on_delta DeltaHandler) !Response {
+	if model.has_stream {
+		return model.stream_callback(request, on_delta)
+	}
+	result := model.generate(request)!
+	if result.message.content != '' {
+		on_delta(result.message.content)
+	}
 	return result
 }
 
@@ -140,6 +161,8 @@ pub mut:
 	policy        ?PolicyHook
 	policy_action ?PolicyActionHook
 	allowed_tools []string
+	on_delta      DeltaHandler = noop_delta
+	streaming     bool
 	interrupt_on  []string
 	on_interrupt_decision ?InterruptDecisionHandler
 	on_interrupt  ?InterruptApproval
@@ -277,8 +300,14 @@ fn run_agent_inner(options AgentOptions, session_value Session, run_id string,
 		}
 		limit.model_call()!
 		authorize(options, action('model.generate', session_value.id, '', map[string]json2.Any{}))!
-		result := model.generate(request(model_messages, specs)) or {
-			return err
+		result := if options.streaming {
+			model.generate_stream(request(model_messages, specs), options.on_delta) or {
+				return err
+			}
+		} else {
+			model.generate(request(model_messages, specs)) or {
+				return err
+			}
 		}
 		total = usage_plus(total, result.usage)
 		if options.max_tokens > 0 && total.input_tokens + total.output_tokens > options.max_tokens {

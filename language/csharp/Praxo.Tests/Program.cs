@@ -26,6 +26,7 @@ internal static class Program
         TestCallLimit();
         TestCapacityFailClosed();
         TestPluginValidation();
+        TestPluginProcessHost();
         TestPolicy();
         TestSafeDefaults();
         TestAgentDirect();
@@ -241,6 +242,65 @@ internal static class Program
         Check(manifest.Id == "com.example.echo", "plugin manifest");
     }
 
+    private static void TestPluginProcessHost()
+    {
+        var fixture = Path.Combine(AppContext.BaseDirectory, "fixtures", "process_plugin.py");
+        var config = new PluginProcessConfig
+        {
+            PluginId = "com.example.echo",
+            Path = Environment.GetEnvironmentVariable("PYTHON") ?? "python",
+            Args = new List<string> { fixture },
+            InvokeTimeout = TimeSpan.FromSeconds(2),
+            GracePeriod = TimeSpan.FromSeconds(2),
+        };
+        using (var host = new PluginProcessHost(config))
+        {
+            host.Start();
+            Check(host.IsActive, "plugin process active");
+            var payload = Encoding.UTF8.GetBytes("{\"text\":\"hi\"}");
+            Check(host.Invoke("tool.provider", "echo", payload).SequenceEqual(payload),
+                "plugin process echo");
+            try
+            {
+                host.Invoke("tool.provider", "denied");
+                throw new InvalidOperationException("expected capability denial");
+            }
+            catch (PluginProcessException error)
+            {
+                Check(error.Code == "CAPABILITY_DENIED", "plugin process denied");
+            }
+        }
+
+        var idle = new PluginProcessHost(config);
+        try
+        {
+            idle.Invoke("tool.provider", "echo");
+            throw new InvalidOperationException("expected not active");
+        }
+        catch (PluginProcessException error)
+        {
+            Check(error.Code == "NOT_ACTIVE", "plugin process not active");
+        }
+
+        var slow = new PluginProcessConfig
+        {
+            PluginId = "com.example.echo",
+            Path = config.Path,
+            Args = config.Args,
+            InvokeTimeout = TimeSpan.FromMilliseconds(200),
+        };
+        using var slowHost = new PluginProcessHost(slow);
+        slowHost.Start();
+        try
+        {
+            slowHost.Invoke("tool.provider", "block");
+            throw new InvalidOperationException("expected timeout");
+        }
+        catch (PluginProcessException error)
+        {
+            Check(error.Code == "TIMEOUT", "plugin process timeout");
+        }
+    }
     private static void TestPolicy()
     {
         var root = Path.Combine(Path.GetTempPath(), $"praxo-test-{Guid.NewGuid():N}");

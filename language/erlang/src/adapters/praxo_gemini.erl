@@ -1,5 +1,5 @@
 -module(praxo_gemini).
--export([new/2, new/3, generate/2, model/1]).
+-export([new/2, new/3, generate/2, generate_stream/3, model/1, streaming_model/1]).
 
 new(Model, ApiKey) ->
     new(<<"https://generativelanguage.googleapis.com">>, Model, #{api_key => ApiKey}).
@@ -11,6 +11,7 @@ new(BaseUrl, Model, Options) ->
         api_key => maps:get(api_key, Options, undefined),
         max_output_tokens => maps:get(max_output_tokens, Options, 0),
         transport => maps:get(transport, Options, undefined),
+        stream_transport => maps:get(stream_transport, Options, undefined),
         timeout => maps:get(timeout, Options, 60000)
     }.
 
@@ -45,6 +46,169 @@ generate(Adapter, Request) ->
 
 model(Adapter) ->
     fun(Request) -> generate(Adapter, Request) end.
+
+streaming_model(Adapter) ->
+    #{generate => fun(Request) -> generate(Adapter, Request) end,
+      stream => fun(Request, OnDelta) ->
+          generate_stream(Adapter, Request, OnDelta)
+      end}.
+
+generate_stream(Adapter, Request, OnDelta) ->
+    case maps:get(api_key, Adapter) of
+        undefined -> {error, <<"MODEL_CONFIG">>, Adapter};
+        <<>> -> {error, <<"MODEL_CONFIG">>, Adapter};
+        _ ->
+            case maps:get(model, Adapter) of
+                <<>> -> {error, <<"MODEL_CONFIG">>, Adapter};
+                _ ->
+                    Payload = payload(Adapter, Request),
+                    Path = <<"/v1beta/models/", (maps:get(model, Adapter))/binary,
+                             ":streamGenerateContent?alt=sse">>,
+                    Result =
+                        case maps:get(stream_transport, Adapter) of
+                            undefined -> post_stream(Adapter, Path, Payload);
+                            Transport -> Transport(Path, Payload)
+                        end,
+                    case Result of
+                        {ok, Text} when is_binary(Text) ->
+                            case parse_sse(Text, OnDelta) of
+                                {ok, Response} -> {ok, Response, Adapter};
+                                {error, Code} -> {error, Code, Adapter}
+                            end;
+                        {error, Code} -> {error, Code, Adapter};
+                        {error, Code, Detail} ->
+                            {error, Code, Adapter#{last_error => Detail}}
+                    end
+            end
+    end.
+
+post_stream(Adapter, Path, Payload) ->
+    _ = application:ensure_all_started(inets),
+    Url = binary_to_list(<<(maps:get(base_url, Adapter))/binary, Path/binary>>),
+    Headers = [
+        {"Content-Type", "application/json"},
+        {"Accept", "text/event-stream"},
+        {"x-goog-api-key", binary_to_list(default_bin(maps:get(api_key, Adapter)))}
+    ],
+    Body = binary_to_list(praxo_json:encode(Payload)),
+    HttpOptions = [{timeout, maps:get(timeout, Adapter)}],
+    Options = [{body_format, binary}],
+    case httpc:request(post, {Url, Headers, "application/json", Body}, HttpOptions, Options) of
+        {ok, {{_, Status, _}, _ResponseHeaders, ResponseBody}}
+                when Status >= 200, Status < 300 ->
+            {ok, ResponseBody};
+        {ok, {{_, Status, _}, _ResponseHeaders, ResponseBody}} ->
+            {error, <<"PROVIDER_HTTP">>, #{status => Status, body => bounded(ResponseBody)}};
+        {error, _Reason} ->
+            {error, <<"PROVIDER_HTTP">>}
+    end.
+
+parse_sse(Text, OnDelta) ->
+    Lines = binary:split(Text, <<"\n">>, [global]),
+    parse_sse_lines(Lines, #{content => [], calls => [], input => 0,
+                             output => 0, finish => undefined}, OnDelta).
+
+parse_sse_lines([], State, _OnDelta) ->
+    {ok, build_stream_response(State)};
+parse_sse_lines([Raw | Rest], State, OnDelta) ->
+    Line = trim_bin(Raw),
+    case Line of
+        <<"data:", Chunk0/binary>> ->
+            Chunk = trim_bin(Chunk0),
+            case Chunk of
+                <<>> -> parse_sse_lines(Rest, State, OnDelta);
+                <<"[DONE]">> -> parse_sse_lines(Rest, State, OnDelta);
+                _ ->
+                    case praxo_json:parse(Chunk) of
+                        {ok, Event} when is_map(Event) ->
+                            case apply_stream_event(Event, State, OnDelta) of
+                                {ok, Next} -> parse_sse_lines(Rest, Next, OnDelta);
+                                {error, Code} -> {error, Code}
+                            end;
+                        _ -> {error, <<"MODEL_STREAM">>}
+                    end
+            end;
+        _ ->
+            parse_sse_lines(Rest, State, OnDelta)
+    end.
+
+apply_stream_event(Event, State, OnDelta) ->
+    case praxo_json:get(Event, <<"error">>) of
+        undefined ->
+            Usage = praxo_json:get_object(Event, <<"usageMetadata">>),
+            State1 = State#{
+                input => praxo_json:get_int(Usage, <<"promptTokenCount">>,
+                    maps:get(input, State)),
+                output => praxo_json:get_int(Usage, <<"candidatesTokenCount">>,
+                    maps:get(output, State))
+            },
+            case praxo_json:get_array(Event, <<"candidates">>) of
+                [Candidate | _] when is_map(Candidate) ->
+                    Finish = case praxo_json:get_string(Candidate, <<"finishReason">>) of
+                        undefined -> maps:get(finish, State1);
+                        Value -> Value
+                    end,
+                    Content = praxo_json:get_object(Candidate, <<"content">>),
+                    Parts = praxo_json:get_array(Content, <<"parts">>),
+                    {Text, Calls} = stream_parts(Parts, maps:get(content, State1),
+                        maps:get(calls, State1), OnDelta),
+                    {ok, State1#{content => Text, calls => Calls, finish => Finish}};
+                _ ->
+                    {ok, State1}
+            end;
+        _ ->
+            {error, <<"MODEL_STREAM">>}
+    end.
+
+stream_parts([], Text, Calls, _OnDelta) ->
+    {Text, Calls};
+stream_parts([Part | Rest], Text, Calls, OnDelta) ->
+    Piece = default_bin(praxo_json:get_string(Part, <<"text">>)),
+    case Piece of
+        <<>> -> ok;
+        _ -> OnDelta(Piece)
+    end,
+    Calls2 = case praxo_json:get(Part, <<"functionCall">>) of
+        Call when is_map(Call) ->
+            Tool = praxo_models:tool_call(
+                <<"call-", (integer_to_binary(length(Calls) + 1))/binary>>,
+                default_bin(praxo_json:get_string(Call, <<"name">>)),
+                case praxo_json:get(Call, <<"args">>) of
+                    Args when is_map(Args) -> Args;
+                    _ -> #{}
+                end
+            ),
+            Calls ++ [Tool];
+        _ -> Calls
+    end,
+    stream_parts(Rest, [Piece | Text], Calls2, OnDelta).
+
+build_stream_response(State) ->
+    Text = iolist_to_binary(lists:reverse(maps:get(content, State))),
+    Response = praxo_models:response(
+        praxo_models:message_assistant(Text, maps:get(calls, State)),
+        praxo_models:usage(maps:get(input, State), maps:get(output, State))
+    ),
+    case maps:get(finish, State) of
+        undefined -> Response;
+        Finish -> Response#{finish_reason => Finish}
+    end.
+
+trim_bin(Bin) ->
+    bin_trim_right(bin_trim_left(Bin)).
+
+bin_trim_left(<<C, Rest/binary>>)
+        when C =:= $\s; C =:= $\r; C =:= $\t ->
+    bin_trim_left(Rest);
+bin_trim_left(Bin) -> Bin.
+
+bin_trim_right(<<>>) -> <<>>;
+bin_trim_right(Bin) ->
+    case binary:last(Bin) of
+        C when C =:= $\s; C =:= $\r; C =:= $\t ->
+            bin_trim_right(binary:part(Bin, 0, byte_size(Bin) - 1));
+        _ -> Bin
+    end.
 
 payload(Adapter, Request) ->
     {System, Contents} = build_contents(maps:get(messages, Request, [])),

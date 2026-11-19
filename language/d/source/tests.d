@@ -1,4 +1,4 @@
-﻿module tests;
+module tests;
 
 import core.time : Duration;
 import std.conv : to;
@@ -11,7 +11,7 @@ import praxo.errors : PraxoError;
 import praxo.gemini;
 import praxo.harmovela;
 import praxo.openai_compatible;
-import praxo.provider : ProviderTransport;
+import praxo.provider : ProviderStreamTransport, ProviderTransport;
 import praxo.jsonschema;
 import praxo.json;
 import praxo.mcp;
@@ -156,6 +156,32 @@ void main() {
     check(openaiResponse.message.toolCalls[0].arguments.object["text"].str == "hi",
         "openai arguments");
 
+    ProviderStreamTransport streamTransport = delegate string(string path, JSONValue payload) {
+        providerPath = path;
+        providerPayload = payload;
+        return "data: {\"choices\":[{\"delta\":{\"content\":\"he\"}}]}\n\n"
+            ~ "data: {\"choices\":[{\"delta\":{\"content\":\"llo\"}}]}\n\n"
+            ~ "data: {\"choices\":[{\"delta\":{\"tool_calls\":[{\"index\":0,\"id\":\"call-1\",\"function\":{\"name\":\"ec\",\"arguments\":\"{\\\"text\\\":\"}}]}}]}\n\n"
+            ~ "data: {\"choices\":[{\"delta\":{\"tool_calls\":[{\"index\":0,\"function\":{\"name\":\"ho\",\"arguments\":\"\\\"hi\\\"}\"}}]}}],\"usage\":{\"prompt_tokens\":4,\"completion_tokens\":2}}\n\n"
+            ~ "data: {\"choices\":[{\"delta\":{},\"finish_reason\":\"tool_calls\"}]}\n\n"
+            ~ "data: [DONE]\n\n";
+    };
+    auto streamModel = new OpenAICompatibleModel(
+        "http://example.test/v1", "test-model", "k", openaiTransport, streamTransport);
+    string[] streamDeltas;
+    auto streamResponse = streamModel.generateStream(providerRequest,
+        delegate void(string delta) { streamDeltas ~= delta; });
+    check(providerPath == "/chat/completions", "openai stream path");
+    check(getBool(providerPayload, "stream"), "openai stream flag");
+    check(streamDeltas == ["he", "llo"], "openai stream deltas");
+    check(streamResponse.message.content == "hello", "openai stream content");
+    check(streamResponse.message.toolCalls[0].id == "call-1", "openai stream call id");
+    check(streamResponse.message.toolCalls[0].name == "echo", "openai stream call name");
+    check(streamResponse.message.toolCalls[0].arguments.object["text"].str == "hi",
+        "openai stream arguments");
+    check(streamResponse.usage.inputTokens == 4 && streamResponse.usage.outputTokens == 2,
+        "openai stream usage");
+
     ProviderTransport anthropicTransport = delegate JSONValue(string path, JSONValue payload) {
         check(path == "/v1/messages", "anthropic path");
         providerPayload = payload;
@@ -170,6 +196,51 @@ void main() {
     check(anthropicResponse.message.toolCalls[0].arguments.object["text"].str == "hi",
         "anthropic arguments");
 
+    JSONValue[] anthropicEvents = [
+        parse(`{"type":"message_start","message":{"usage":{"input_tokens":4,"cache_read_input_tokens":1}}}`),
+        parse(`{"type":"content_block_start","index":0,"content_block":{"type":"text","text":""}}`),
+        parse(`{"type":"content_block_delta","index":0,"delta":{"type":"text_delta","text":"he"}}`),
+        parse(`{"type":"content_block_delta","index":0,"delta":{"type":"text_delta","text":"llo"}}`),
+        parse(`{"type":"content_block_start","index":1,"content_block":{"type":"tool_use","id":"call-1","name":"echo","input":{}}}`),
+        parse(`{"type":"content_block_delta","index":1,"delta":{"type":"input_json_delta","partial_json":"{\"text\":"}}`),
+        parse(`{"type":"content_block_delta","index":1,"delta":{"type":"input_json_delta","partial_json":"\"hi\"}"}}`),
+        parse(`{"type":"message_delta","delta":{"stop_reason":"tool_use"},"usage":{"output_tokens":2}}`),
+        parse(`{"type":"message_stop"}`),
+    ];
+    string anthropicStreamText;
+    foreach (event; anthropicEvents) {
+        anthropicStreamText ~= "data: " ~ stringify(event) ~ "\n\n";
+    }
+    ProviderStreamTransport anthropicStreamTransport =
+        delegate string(string path, JSONValue payload) {
+            check(path == "/v1/messages", "anthropic stream path");
+            check(getBool(payload, "stream"), "anthropic stream flag");
+            return anthropicStreamText;
+        };
+    auto anthropicStream = new AnthropicModel(
+        "claude-test", "ak", "http://example.test", "2023-06-01", 1024,
+        null, anthropicStreamTransport);
+    string[] anthropicDeltas;
+    auto anthropicStreamResponse = anthropicStream.generateStream(
+        providerRequest,
+        delegate void(string delta) { anthropicDeltas ~= delta; });
+    check(anthropicDeltas == ["he", "llo"], "anthropic stream deltas");
+    check(anthropicStreamResponse.message.content == "hello",
+        "anthropic stream content");
+    check(anthropicStreamResponse.message.toolCalls[0].id == "call-1",
+        "anthropic stream call id");
+    check(anthropicStreamResponse.message.toolCalls[0].name == "echo",
+        "anthropic stream call name");
+    check(anthropicStreamResponse.message.toolCalls[0].arguments.object["text"].str == "hi",
+        "anthropic stream arguments");
+    check(anthropicStreamResponse.usage.inputTokens == 4
+        && anthropicStreamResponse.usage.outputTokens == 2,
+        "anthropic stream usage");
+    check(anthropicStreamResponse.usage.cachedTokens == 1,
+        "anthropic stream cached");
+    check(anthropicStreamResponse.finishReason == "tool_use",
+        "anthropic stream finish");
+
     ProviderTransport geminiTransport = delegate JSONValue(string path, JSONValue payload) {
         check(path.length >= 16 && path[$ - 16 .. $] == ":generateContent",
             "gemini path");
@@ -183,6 +254,28 @@ void main() {
         "gemini system");
     check(geminiResponse.message.content == "hello", "gemini content");
     check(geminiResponse.message.toolCalls[0].name == "echo", "gemini call name");
+
+    ProviderStreamTransport geminiStream = delegate string(string path, JSONValue payload) {
+        check(path.length >= 30 && path[$ - 30 .. $] == ":streamGenerateContent?alt=sse",
+            "gemini stream path");
+        providerPayload = payload;
+        return `data: {"candidates":[{"content":{"parts":[{"text":"he"}]}}]}`
+            ~ "\n\n"
+            ~ `data: {"candidates":[{"content":{"parts":[{"text":"llo"},{"functionCall":{"name":"echo","args":{"text":"hi"}}}]},"finishReason":"STOP"}],"usageMetadata":{"promptTokenCount":4,"candidatesTokenCount":2}}`;
+    };
+    auto geminiStreamModel = new GeminiModel(
+        "gemini-test", "gk", "http://example.test", 0, null, geminiStream);
+    string geminiDeltas;
+    auto geminiStreamResponse = geminiStreamModel.generateStream(providerRequest,
+        delegate void(string delta) { geminiDeltas ~= delta; });
+    check(geminiDeltas == "hello", "gemini stream deltas");
+    check(geminiStreamResponse.message.content == "hello",
+        "gemini stream content");
+    check(geminiStreamResponse.message.toolCalls[0].name == "echo",
+        "gemini stream call");
+    check(geminiStreamResponse.usage.inputTokens == 4, "gemini stream input");
+    check(geminiStreamResponse.usage.outputTokens == 2, "gemini stream output");
+    check(geminiStreamResponse.finishReason == "STOP", "gemini stream finish");
 
     string harmovelaPath = "";
     JSONValue harmovelaBody = JSONValue.init;

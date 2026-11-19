@@ -825,6 +825,66 @@ int main() {
             check(adapter_response.finish_reason.value_or("") == "tool_calls",
                   "cpp openai finish reason");
 
+            std::string stream_url;
+            Json stream_payload = Json(nullptr);
+            std::string streamed;
+            OpenAICompatible streaming(
+                adapter_options,
+                [](const std::string&, const Json&,
+                   const std::map<std::string, std::string>&) {
+                    return Json(nullptr);
+                },
+                [&](const std::string& url, const Json& payload,
+                    const std::map<std::string, std::string>& headers) {
+                    stream_url = url;
+                    stream_payload = payload;
+                    check(headers.at("accept") == "text/event-stream",
+                          "cpp openai stream accept");
+                    check(headers.at("authorization") == "Bearer secret",
+                          "cpp openai stream authorization");
+                    return std::string(
+                        "data: {\"choices\":[{\"delta\":{\"content\":\"he\"}}]}\n\n"
+                        "data: {\"choices\":[{\"delta\":{\"content\":\"llo\"}}]}\n\n"
+                        "data: {\"choices\":[{\"delta\":{\"tool_calls\":[{\"index\":0,"
+                        "\"id\":\"call-1\",\"function\":{\"name\":\"ec\","
+                        "\"arguments\":\"{\\\"text\\\":\"}}]}}]}\n\n"
+                        "data: {\"choices\":[{\"delta\":{\"tool_calls\":[{\"index\":0,"
+                        "\"function\":{\"name\":\"ho\",\"arguments\":\"\\\"hi\\\"}\"}}]}}],"
+                        "\"usage\":{\"prompt_tokens\":4,\"completion_tokens\":2}}\n\n"
+                        "data: {\"choices\":[{\"delta\":{},\"finish_reason\":\"tool_calls\"}]}\n\n"
+                        "data: [DONE]\n\n");
+                });
+            Response streamed_response = streaming.generate_stream(
+                adapter_request,
+                [&](const std::string& delta) { streamed += delta; });
+            check(stream_url == "https://example.test/v1/chat/completions",
+                  "cpp openai stream endpoint");
+            check(stream_payload.at("stream") == Json(true),
+                  "cpp openai stream flag");
+            check(streamed == "hello", "cpp openai stream deltas");
+            check(streamed_response.message.content.value_or("") == "hello",
+                  "cpp openai stream content");
+            check(streamed_response.message.tool_calls.size() == 1 &&
+                      streamed_response.message.tool_calls[0].id == "call-1" &&
+                      streamed_response.message.tool_calls[0].name == "echo" &&
+                      streamed_response.message.tool_calls[0].arguments ==
+                          Json::parse(R"({"text":"hi"})"),
+                  "cpp openai stream tool call");
+            check(streamed_response.usage.input_tokens == 4 &&
+                      streamed_response.usage.output_tokens == 2,
+                  "cpp openai stream usage");
+            check(streamed_response.finish_reason.value_or("") == "tool_calls",
+                  "cpp openai stream finish reason");
+
+            bool missing_stream = false;
+            try {
+                (void)adapter.generate_stream(
+                    adapter_request, [](const std::string&) {});
+            } catch (const PraxoError& error) {
+                missing_stream = error.code() == "PROVIDER_HTTP";
+            }
+            check(missing_stream, "cpp openai missing stream transport rejected");
+
             OpenAICompatibleOptions invalid_options;
             invalid_options.model = "test-model";
             bool missing_base = false;

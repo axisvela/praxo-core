@@ -78,7 +78,9 @@ impl Store for MemoryStore {
             .map(|items| {
                 items
                     .iter()
-                    .filter(|item| needle.is_empty() || item.content.to_lowercase().contains(&needle))
+                    .filter(|item| {
+                        needle.is_empty() || item.content.to_lowercase().contains(&needle)
+                    })
                     .cloned()
                     .collect()
             })

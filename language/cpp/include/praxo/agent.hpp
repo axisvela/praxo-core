@@ -52,6 +52,12 @@ class Model {
 public:
     virtual ~Model() = default;
     virtual Response generate(const Request& request) = 0;
+    virtual Response generate_stream(
+            const Request& request,
+            const std::function<void(const std::string&)>& on_delta) {
+        (void)on_delta;
+        return generate(request);
+    }
 };
 
 class StaticModel : public Model {
@@ -99,6 +105,7 @@ public:
     std::vector<Middleware> middleware;
     std::vector<std::string> allowed_tools;
     std::function<bool()> cancellation;
+    std::function<void(const std::string&)> on_delta;
     std::function<void(const StreamPart&)> on_stream;
     int max_parallel_tools = 1;
     std::vector<std::string> interrupt_on;

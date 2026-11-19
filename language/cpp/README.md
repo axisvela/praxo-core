@@ -114,20 +114,27 @@ options.tools = registry;
 
 ## OpenAI-Compatible Adapter
 
-`praxo/openai_compat.hpp` provides a non-streaming `Model` with an injected
-transport. It maps role/content messages, assistant tool calls, tool results,
-and tool specs to the OpenAI request shape, and maps `message.content`,
-`message.tool_calls` (arguments parsed from the provider JSON string), `usage`,
-and `finish_reason` back to `praxo::Response`. Invalid tool arguments throw
-`PROVIDER_JSON`; a missing base URL throws `PROVIDER_HTTP` before any transport
-call.
+`praxo/openai_compat.hpp` provides a `Model` with an injected transport. It maps
+role/content messages, assistant tool calls, tool results, and tool specs to the
+OpenAI request shape, and maps `message.content`, `message.tool_calls`
+(arguments parsed from the provider JSON string), `usage`, and `finish_reason`
+back to `praxo::Response`. Invalid tool arguments throw `PROVIDER_JSON`; a
+missing base URL throws `PROVIDER_HTTP` before any transport call.
+
+An optional `OpenAICompatibleStreamTransport` returning SSE text enables
+`generate_stream`. Content, fragmented tool calls, usage, and `finish_reason`
+are reassembled, and each text delta is forwarded to
+`AgentOptions::on_delta`. `Model::generate_stream` defaults to `generate` for
+models that do not stream.
 
 No HTTP client is bundled. The transport callback is the only network seam, so
 production use requires a caller-provided POST implementation. Adding one is a
 separate dependency decision: a reviewed libcurl build (MIT-style license) or a
 platform socket client (Winsock/POSIX, platform-specific) would each need its
 own build, licensing, and error-mapping review. Tests inject a fake transport
-and make no network calls. Streaming is not implemented.
+and make no network calls. The Anthropic adapter supports SSE streaming via an
+optional `AnthropicStreamTransport` and `GeminiStreamTransport`; both providers reassemble SSE.
+`MODEL_STREAM` reports truncated or malformed SSE input.
 
 ```cpp
 #include "praxo/openai_compat.hpp"
@@ -140,9 +147,15 @@ praxo::OpenAICompatible adapter(config,
     [](const std::string& url, const praxo::Json& payload,
        const std::map<std::string, std::string>& headers) {
         return post_json(url, payload.dump(), headers);
+    },
+    [](const std::string& url, const praxo::Json& payload,
+       const std::map<std::string, std::string>& headers) {
+        return post_sse(url, payload.dump(), headers);
     });
 auto response = adapter.generate(request);
 ```
+
+Set `AgentOptions::on_delta` to have the agent call the streaming path.
 
 ## Anthropic and Gemini Adapters
 

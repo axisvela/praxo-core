@@ -79,6 +79,7 @@ mutable struct AgentOptions
     interrupt_on::Set{String}
     on_interrupt_decision::Union{Nothing,Function}
     on_interrupt::Union{Nothing,Function}
+    on_delta::Union{Nothing,Function}
     require_policy::Bool
     require_tool_scope::Bool
 end
@@ -88,11 +89,13 @@ function AgentOptions(model::AbstractModel;
                       require_tool_scope::Bool = false,
                       interrupt_on = String[],
                       on_interrupt_decision = nothing,
-                      on_interrupt = nothing)
+                      on_interrupt = nothing,
+                      on_delta = nothing)
     AgentOptions(model, nothing, nothing, nothing, "", nothing,
         AbstractMiddleware[], Function[], nothing, String[], nothing, nothing,
         0, 0, nothing, nothing, nothing, 8, 0, Set{String}(interrupt_on),
-        on_interrupt_decision, on_interrupt, require_policy, require_tool_scope)
+        on_interrupt_decision, on_interrupt, on_delta, require_policy,
+        require_tool_scope)
 end
 
 mutable struct Agent
@@ -143,7 +146,9 @@ function run(agent::Agent, session::Session, prompt::String)
                 call.response === nothing && throw(PraxoError("AGENT_MIDDLEWARE", "agent: skipped without response"))
                 call.response
             else
-                generate_chain(agent, call.request)
+                agent.options.on_delta === nothing ?
+                    generate_chain(agent, call.request) :
+                    generate_chain_stream(agent, call.request, agent.options.on_delta)
             end
             after_model!(agent, call, response)
             usage = plus(usage, response.usage)
@@ -190,6 +195,23 @@ end
 
 function generate_chain(agent::Agent, request::Request)
     handler = req -> generate(agent.options.model, req)
+    for middleware in reverse(agent.model_middleware)
+        handler = middleware(handler)
+    end
+    handler(request)
+end
+
+function generate_stream(model::AbstractModel, request::Request, on_delta::Function)
+    response = generate(model, request)
+    content = response.message.content
+    if content !== nothing && !isempty(content)
+        on_delta(content)
+    end
+    return response
+end
+
+function generate_chain_stream(agent::Agent, request::Request, on_delta::Function)
+    handler = req -> generate_stream(agent.options.model, req, on_delta)
     for middleware in reverse(agent.model_middleware)
         handler = middleware(handler)
     end

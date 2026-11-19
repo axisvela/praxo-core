@@ -81,7 +81,7 @@ options.tools = registry;
 
 - `OpenAICompatibleModel` for OpenAI, DeepSeek, Kimi/Moonshot, and other
   OpenAI-compatible endpoints.
-- `AnthropicModel` for the Anthropic Messages API.
+- `AnthropicModel` for the Anthropic Messages API, including `generateStream` SSE reassembly.
 - `GeminiModel` for the Gemini generateContent API.
 
 Each adapter accepts a `ProviderTransport` delegate for deterministic tests.

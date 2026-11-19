@@ -7,6 +7,7 @@ repository. function all intrinsic.
 data division.
 working-storage section.
 copy "provider-options.cpy".
+copy "sse.cpy".
 01 ws-body pic x(16384).
 01 ws-body-position binary-long.
 01 ws-source pic x(4096).
@@ -134,6 +135,10 @@ procedure division using px-session px-response px-user-data px-status.
         move ws-source-length to ws-piece-length
         perform append-piece
     end-if
+    if px-provider-stream = 1
+        move ',"stream":true' to ws-literal
+        perform append-literal
+    end-if
     move "}" to ws-literal
     perform append-literal
     if px-status not = spaces goback end-if
@@ -163,6 +168,10 @@ procedure division using px-session px-response px-user-data px-status.
     if px-provider-status-code < 200
         or px-provider-status-code >= 300
         move "PROVIDER_HTTP" to px-status
+        goback
+    end-if
+    if px-provider-stream = 1
+        perform map-stream-response
         goback
     end-if
     move px-provider-response to px-json-text
@@ -274,6 +283,38 @@ procedure division using px-session px-response px-user-data px-status.
         end-if
     end-if
     goback.
+map-stream-response.
+    move px-provider-response to px-sse-text
+    move px-provider-response-length to px-sse-length
+    move px-provider-delta-program to px-sse-delta-program
+    move px-user-data to px-sse-user-data
+    move spaces to px-sse-error
+    call "praxo-sse" using px-sse-request px-sse-result
+        on exception move "MODEL_STREAM" to px-sse-error
+    end-call
+    if px-sse-error not = spaces
+        move px-sse-error to px-status
+        exit paragraph
+    end-if
+    move px-sse-content to px-answer
+    if px-sse-content-length > 2048
+        move 2048 to px-answer-length
+    else
+        move px-sse-content-length to px-answer-length
+    end-if
+    move px-sse-input-tokens to px-input-tokens
+    move px-sse-output-tokens to px-output-tokens
+    move px-sse-tool-count to px-call-count
+    perform varying ws-loop from 1 by 1
+        until ws-loop > px-call-count
+        move px-sse-call-id(ws-loop) to px-call-id(ws-loop)
+        move px-sse-call-name(ws-loop) to px-call-name(ws-loop)
+        move px-sse-call-arguments(ws-loop)
+            to px-call-input(ws-loop)
+        move px-sse-call-arguments-length(ws-loop)
+            to px-call-input-length(ws-loop)
+    end-perform.
+
 append-literal.
     compute ws-piece-length = function length(function trim(ws-literal))
     if ws-piece-length > 0

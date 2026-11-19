@@ -88,6 +88,24 @@ pub const KINDS: [&str; 5];
 ## constant praxo_core::plugin::STATES
 pub const STATES: [&str; 9];
 
+## constant praxo_core::plugin_process::CANCEL_METHOD
+pub const CANCEL_METHOD: &str = "cancel";
+
+## constant praxo_core::plugin_process::CONTROL_SERVICE
+pub const CONTROL_SERVICE: &str = "host.control";
+
+## constant praxo_core::plugin_process::DEFAULT_TOKEN_ENV
+pub const DEFAULT_TOKEN_ENV: &str = "PRAXOVELA_PLUGIN_TOKEN";
+
+## constant praxo_core::plugin_process::HEALTH_METHOD
+pub const HEALTH_METHOD: &str = "health";
+
+## constant praxo_core::plugin_process::PROTOCOL_VERSION
+pub const PROTOCOL_VERSION: i64 = 1;
+
+## constant praxo_core::plugin_process::SHUTDOWN_METHOD
+pub const SHUTDOWN_METHOD: &str = "shutdown";
+
 ## constant praxo_core::stream::STREAM_CHECKPOINT
 pub const STREAM_CHECKPOINT: &str = "checkpoint";
 
@@ -237,6 +255,8 @@ pub fn strip_markup(content: &str) -> String
 
 ## module praxo_core::plugin
 
+## module praxo_core::plugin_process
+
 ## module praxo_core::policy
 
 ## module praxo_core::retriever
@@ -251,7 +271,9 @@ pub fn strip_markup(content: &str) -> String
 pub struct Anthropic<T: AnthropicTransport> { /* private fields */ }
 impl<T: AnthropicTransport> Anthropic<T>
 impl<T: AnthropicTransport> Model for Anthropic<T>
+impl<T: AnthropicTransport> StreamingModel for Anthropic<T>
 method pub fn generate(&self, request: &Request) -> Result<Response>
+method pub fn generate_stream( &self, request: &Request, on_delta: &mut dyn FnMut(&str) -> Result<()>, ) -> Result<Response>
 method pub fn new(config: AnthropicConfig, transport: T) -> Self
 method pub fn transport(&self) -> &T
 
@@ -265,7 +287,9 @@ impl Default for AnthropicConfig
 pub struct Gemini<T: GeminiTransport> { /* private fields */ }
 impl<T: GeminiTransport> Gemini<T>
 impl<T: GeminiTransport> Model for Gemini<T>
+impl<T: GeminiTransport> StreamingModel for Gemini<T>
 method pub fn generate(&self, request: &Request) -> Result<Response>
+method pub fn generate_stream( &self, request: &Request, on_delta: &mut dyn FnMut(&str) -> Result<()>, ) -> Result<Response>
 method pub fn new(config: GeminiConfig, transport: T) -> Self
 method pub fn transport(&self) -> &T
 
@@ -703,6 +727,35 @@ pub struct Manifest { pub schema_version: i64, pub id: String, pub version: Stri
 impl Clone for Manifest
 impl Debug for Manifest
 
+## struct praxo_core::plugin_process::ProcessConfig
+pub struct ProcessConfig { pub plugin_id: String, pub path: String, pub args: Vec<String>, pub dir: Option<String>, pub env: Option<Vec<(String, String)>>, pub token: String, pub token_env_var: String, pub start_timeout: Duration, pub invoke_timeout: Duration, pub grace_period: Duration, pub max_frame: usize, }
+impl Clone for ProcessConfig
+impl Debug for ProcessConfig
+impl ProcessConfig
+method pub fn new(plugin_id: impl Into<String>, path: impl Into<String>) -> Self
+
+## struct praxo_core::plugin_process::ProcessError
+pub struct ProcessError { pub code: String, pub message: String, }
+impl Clone for ProcessError
+impl Debug for ProcessError
+impl Display for ProcessError
+impl Error for ProcessError
+impl ProcessError
+method pub fn new(code: impl Into<String>, message: impl Into<String>) -> Self
+
+## struct praxo_core::plugin_process::ProcessHost
+pub struct ProcessHost { /* private fields */ }
+impl Drop for ProcessHost
+impl ProcessHost
+method pub fn invoke( &mut self, service: &str, method: &str, payload: &[u8], ) -> Result<Vec<u8>, ProcessError>
+method pub fn invoke_with_timeout( &mut self, service: &str, method: &str, payload: &[u8], timeout: Duration, ) -> Result<Vec<u8>, ProcessError>
+method pub fn is_active(&self) -> bool
+method pub fn new(config: ProcessConfig) -> Result<Self, ProcessError>
+method pub fn plugin_id(&self) -> &str
+method pub fn start(&mut self) -> Result<(), ProcessError>
+method pub fn stderr_text(&self) -> String
+method pub fn stop(&mut self)
+
 ## struct praxo_core::policy::Action
 pub struct Action { pub kind: String, pub session_id: String, pub tool_name: Option<String>, pub arguments: Option<Map<String, Value>>, }
 impl Clone for Action
@@ -784,10 +837,10 @@ impl Debug for ParsedToolCall
 impl PartialEq for ParsedToolCall
 
 ## trait praxo_core::adapters::anthropic::AnthropicTransport
-pub trait AnthropicTransport: Send + Sync { fn send(&self, path: &str, payload: &Value) -> Result<Value>; }
+pub trait AnthropicTransport: Send + Sync { fn send(&self, path: &str, payload: &Value) -> Result<Value>; fn send_stream( &self, path: &str, payload: &Value, ) -> Result<Box<dyn BufRead + Send>> { ... } }
 
 ## trait praxo_core::adapters::gemini::GeminiTransport
-pub trait GeminiTransport: Send + Sync { fn send(&self, path: &str, payload: &Value) -> Result<Value>; }
+pub trait GeminiTransport: Send + Sync { fn send(&self, path: &str, payload: &Value) -> Result<Value>; fn send_stream( &self, path: &str, payload: &Value, ) -> Result<Box<dyn BufRead + Send>> { ... } }
 
 ## trait praxo_core::adapters::harmovela::Transport
 pub trait Transport: Send + Sync { fn send(&self, request: &HttpRequest) -> Result<HttpResponse>; }

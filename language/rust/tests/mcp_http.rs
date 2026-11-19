@@ -1,9 +1,7 @@
 use std::sync::atomic::{AtomicBool, Ordering};
 use std::sync::{Arc, Mutex};
 
-use praxo_core::adapters::mcp::{
-    McpClient, McpHttpRequest, McpHttpResponse, McpHttpTransport,
-};
+use praxo_core::adapters::mcp::{McpClient, McpHttpRequest, McpHttpResponse, McpHttpTransport};
 use praxo_core::errors::Result;
 use serde_json::{json, Map, Value};
 

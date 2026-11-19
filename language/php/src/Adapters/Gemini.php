@@ -9,12 +9,13 @@ use Praxo\Core\Message;
 use Praxo\Core\Model;
 use Praxo\Core\PraxoException;
 use Praxo\Core\Request;
+use Praxo\Core\StreamingModel;
 use Praxo\Core\Response;
 use Praxo\Core\Roles;
 use Praxo\Core\ToolCall;
 use Praxo\Core\Usage;
 
-final class Gemini implements Model
+final class Gemini implements StreamingModel
 {
     /** @param callable(string, array): array|null $transport */
     public function __construct(
@@ -23,6 +24,7 @@ final class Gemini implements Model
         private readonly string $baseUrl = 'https://generativelanguage.googleapis.com',
         private readonly int $maxOutputTokens = 0,
         private $transport = null,
+        private $streamTransport = null,
         private readonly int $timeout = 60,
     ) {
     }
@@ -41,6 +43,126 @@ final class Gemini implements Model
             ? ($this->transport)($path, $payload)
             : $this->post($path, $payload);
         return $this->parseResponse($data);
+    }
+
+    public function generateStream(Request $request, callable $onDelta): Response
+    {
+        if ($this->apiKey === null || $this->apiKey === '') {
+            throw new PraxoException('MODEL_CONFIG', 'gemini: API key is required');
+        }
+        if ($this->model === '') {
+            throw new PraxoException('MODEL_CONFIG', 'gemini: model is required');
+        }
+        $payload = $this->buildPayload($request);
+        $path = '/v1beta/models/' . rawurlencode($this->model)
+            . ':streamGenerateContent?alt=sse';
+        $text = $this->streamTransport !== null
+            ? ($this->streamTransport)($path, $payload)
+            : $this->postStream($path, $payload);
+        if (!is_string($text)) {
+            throw new PraxoException('PROVIDER_HTTP', 'gemini: stream transport must return SSE text');
+        }
+        return $this->parseStream($text, $onDelta);
+    }
+
+    private function parseStream(string $text, callable $onDelta): Response
+    {
+        $content = '';
+        $calls = [];
+        $inputTokens = 0;
+        $outputTokens = 0;
+        $cachedTokens = 0;
+        $finishReason = null;
+        foreach (explode("\n", $text) as $raw) {
+            $line = trim($raw);
+            if (!str_starts_with($line, 'data:')) {
+                continue;
+            }
+            $chunkText = trim(substr($line, 5));
+            if ($chunkText === '' || $chunkText === '[DONE]') {
+                continue;
+            }
+            $chunk = Json::decode($chunkText);
+            if (!is_array($chunk)) {
+                throw new PraxoException('MODEL_STREAM', 'gemini: invalid stream chunk');
+            }
+            if (isset($chunk['error'])) {
+                throw new PraxoException(
+                    'MODEL_STREAM',
+                    'gemini: ' . (string) ($chunk['error']['message'] ?? 'stream error'),
+                );
+            }
+            $usage = $chunk['usageMetadata'] ?? [];
+            if (isset($usage['promptTokenCount'])) {
+                $inputTokens = (int) $usage['promptTokenCount'];
+            }
+            if (isset($usage['candidatesTokenCount'])) {
+                $outputTokens = (int) $usage['candidatesTokenCount'];
+            }
+            if (isset($usage['cachedContentTokenCount'])) {
+                $cachedTokens = (int) $usage['cachedContentTokenCount'];
+            }
+            $candidate = $chunk['candidates'][0] ?? null;
+            if ($candidate === null) {
+                continue;
+            }
+            if (isset($candidate['finishReason'])) {
+                $finishReason = (string) $candidate['finishReason'];
+            }
+            foreach ($candidate['content']['parts'] ?? [] as $part) {
+                $piece = isset($part['text']) ? (string) $part['text'] : '';
+                if ($piece !== '') {
+                    $content .= $piece;
+                    $onDelta($piece);
+                }
+                if (isset($part['functionCall'])) {
+                    $calls[] = new ToolCall(
+                        id: 'call-' . (count($calls) + 1),
+                        name: (string) ($part['functionCall']['name'] ?? ''),
+                        arguments: is_array($part['functionCall']['args'] ?? null)
+                            ? $part['functionCall']['args'] : [],
+                    );
+                }
+            }
+        }
+        return new Response(
+            message: new Message(
+                role: Roles::ASSISTANT,
+                content: $content,
+                toolCalls: $calls,
+            ),
+            usage: new Usage(
+                inputTokens: $inputTokens,
+                outputTokens: $outputTokens,
+                cachedTokens: $cachedTokens,
+            ),
+            finishReason: $finishReason,
+        );
+    }
+
+    private function postStream(string $path, array $payload): string
+    {
+        $url = rtrim($this->baseUrl, '/') . $path;
+        $headers = "Content-Type: application/json\r\nAccept: text/event-stream\r\n"
+            . "x-goog-api-key: {$this->apiKey}\r\n";
+        $context = stream_context_create([
+            'http' => [
+                'method' => 'POST',
+                'header' => $headers,
+                'content' => Json::encode($payload),
+                'timeout' => $this->timeout,
+                'ignore_errors' => true,
+            ],
+        ]);
+        $body = @file_get_contents($url, false, $context);
+        if ($body === false) {
+            throw new PraxoException('PROVIDER_HTTP', 'provider request failed');
+        }
+        $status = $http_response_header[0] ?? '';
+        if (!preg_match('/\s2\d\d\s/', $status)) {
+            throw new PraxoException('PROVIDER_HTTP', "provider returned {$status}: {$body}");
+        }
+        return $body;
     }
 
     private function buildPayload(Request $request): array

@@ -8,8 +8,8 @@ in Object Pascal and does not call Go or another language Core.
 Use it when an existing Delphi or Free Pascal application needs a governed
 model/tool loop without adding an external runtime. It is not an HTTP user agent,
 crawler, hosted agent service, or model provider. It includes native
-OpenAI-compatible, Anthropic, and Gemini model adapters but no process bridge or
-plugin host.
+OpenAI-compatible, Anthropic, and Gemini model adapters, including Anthropic and Gemini
+SSE streaming, but no process bridge or plugin host.
 
 Current source is `delphi/v0.7.0`. It passes all eleven vector groups.
 
@@ -96,12 +96,10 @@ The JSON node type is Free Pascal's `TJSONData` (`fpjson`), so consumers already
 using `fpjson` can inspect results directly. `TPraxoCall.Input` is caller-owned.
 `PraxoValidateManifest` returns an owned `TJSONObject` on success.
 
-The separate `praxo_openai` unit provides a non-streaming OpenAI-compatible
-adapter. It posts to `{baseURL}/chat/completions`, maps assistant content, tool
+The separate `praxo_openai` unit provides an OpenAI-compatible adapter. It posts to `{baseURL}/chat/completions`, maps assistant content, tool
 calls, usage, and finish reason, and exposes an injectable
 `TPraxoOpenAITransport` for deterministic tests. Missing base URLs and non-2xx
-responses raise `EPraxoProvider` with a `PROVIDER_HTTP` code. Streaming is not
-implemented. The default transport uses `fphttpclient` without OpenSSL; for
+responses raise `EPraxoProvider` with a `PROVIDER_HTTP` code. `GenerateStream`\nsets `stream: true`, parses SSE, reassembles content, fragmented tool calls,\nusage, and finish reason, and calls a delta hook. Set `OnDelta` in\n`TPraxoAgentOptions` to use it through the agent. The default transport uses `fphttpclient` without OpenSSL; for
 HTTPS, include `opensslsockets` in the application or inject a TLS-capable
 transport.
 

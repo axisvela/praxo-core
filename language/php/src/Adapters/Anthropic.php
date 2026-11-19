@@ -11,10 +11,11 @@ use Praxo\Core\PraxoException;
 use Praxo\Core\Request;
 use Praxo\Core\Response;
 use Praxo\Core\Roles;
+use Praxo\Core\StreamingModel;
 use Praxo\Core\ToolCall;
 use Praxo\Core\Usage;
 
-final class Anthropic implements Model
+final class Anthropic implements StreamingModel
 {
     /** @param callable(string, array): array|null $transport */
     public function __construct(
@@ -25,6 +26,7 @@ final class Anthropic implements Model
         private readonly int $maxTokens = 1024,
         private $transport = null,
         private readonly int $timeout = 60,
+        private $streamTransport = null,
     ) {
     }
 
@@ -43,7 +45,25 @@ final class Anthropic implements Model
         return $this->parseResponse($data);
     }
 
-    private function buildPayload(Request $request): array
+    public function generateStream(Request $request, callable $onDelta): Response
+    {
+        if ($this->apiKey === null || $this->apiKey === '') {
+            throw new PraxoException('MODEL_CONFIG', 'anthropic: API key is required');
+        }
+        if ($this->model === '') {
+            throw new PraxoException('MODEL_CONFIG', 'anthropic: model is required');
+        }
+        $payload = $this->buildPayload($request, true);
+        $text = $this->streamTransport !== null
+            ? ($this->streamTransport)('/v1/messages', $payload)
+            : $this->postStream('/v1/messages', $payload);
+        if (!is_string($text)) {
+            throw new PraxoException('PROVIDER_HTTP', 'anthropic: stream transport must return SSE text');
+        }
+        return $this->parseStream($text, $onDelta);
+    }
+
+    private function buildPayload(Request $request, bool $stream = false): array
     {
         [$system, $messages] = $this->buildMessages($request->messages);
         $payload = [
@@ -70,6 +90,9 @@ final class Anthropic implements Model
         }
         if ($request->temperature !== 0.0) {
             $payload['temperature'] = $request->temperature;
+        }
+        if ($stream) {
+            $payload['stream'] = true;
         }
         return $payload;
     }
@@ -143,6 +166,97 @@ final class Anthropic implements Model
         };
     }
 
+    private function parseStream(string $text, callable $onDelta): Response
+    {
+        $content = '';
+        $calls = [];
+        $inputTokens = 0;
+        $outputTokens = 0;
+        $cachedTokens = 0;
+        $stopReason = null;
+        $stopped = false;
+        foreach (preg_split("/\r?\n/", $text) ?: [] as $line) {
+            if (!str_starts_with($line, 'data:')) {
+                continue;
+            }
+            $chunk = trim(substr($line, 5));
+            if ($chunk === '') {
+                continue;
+            }
+            try {
+                $event = Json::decode($chunk);
+            } catch (\Throwable) {
+                throw new PraxoException('MODEL_STREAM', 'anthropic: invalid stream chunk');
+            }
+            if (!is_array($event)) {
+                continue;
+            }
+            $type = $event['type'] ?? '';
+            if ($type === 'message_start') {
+                $usage = $event['message']['usage'] ?? [];
+                $inputTokens = (int) ($usage['input_tokens'] ?? 0);
+                $cachedTokens = (int) ($usage['cache_read_input_tokens'] ?? 0);
+            } elseif ($type === 'content_block_start') {
+                $index = (int) ($event['index'] ?? 0);
+                $block = $event['content_block'] ?? [];
+                if (($block['type'] ?? '') === 'tool_use') {
+                    $calls[$index] = [
+                        'id' => $block['id'] ?? '',
+                        'name' => $block['name'] ?? '',
+                        'arguments' => '',
+                    ];
+                }
+            } elseif ($type === 'content_block_delta') {
+                $index = (int) ($event['index'] ?? 0);
+                $delta = $event['delta'] ?? [];
+                $deltaType = $delta['type'] ?? '';
+                if ($deltaType === 'text_delta') {
+                    $piece = $delta['text'] ?? '';
+                    if ($piece !== '') {
+                        $content .= $piece;
+                        $onDelta($piece);
+                    }
+                } elseif ($deltaType === 'input_json_delta' && isset($calls[$index])) {
+                    $calls[$index]['arguments'] .= $delta['partial_json'] ?? '';
+                }
+            } elseif ($type === 'message_delta') {
+                $stopReason = $event['delta']['stop_reason'] ?? $stopReason;
+                $outputTokens = (int) ($event['usage']['output_tokens'] ?? $outputTokens);
+            } elseif ($type === 'message_stop') {
+                $stopped = true;
+            } elseif ($type === 'error') {
+                throw new PraxoException('MODEL_STREAM', 'anthropic: stream error');
+            }
+        }
+        if (!$stopped && $stopReason === null) {
+            throw new PraxoException('MODEL_STREAM', 'anthropic: stream ended before completion');
+        }
+        ksort($calls);
+        $toolCalls = [];
+        foreach ($calls as $call) {
+            if (($call['name'] ?? '') === '') {
+                continue;
+            }
+            $arguments = [];
+            if (($call['arguments'] ?? '') !== '') {
+                try {
+                    $arguments = Json::decode($call['arguments']);
+                } catch (\Throwable) {
+                    throw new PraxoException('PROVIDER_JSON', 'anthropic: invalid tool arguments');
+                }
+                if (!is_array($arguments)) {
+                    throw new PraxoException('PROVIDER_JSON', 'anthropic: invalid tool arguments');
+                }
+            }
+            $toolCalls[] = new ToolCall($call['id'], $call['name'], $arguments);
+        }
+        return new Response(
+            Message::assistant($content, $toolCalls),
+            new Usage($inputTokens, $outputTokens, $cachedTokens),
+            $stopReason,
+        );
+    }
+
     private function parseResponse(array $data): Response
     {
         if (isset($data['error'])) {
@@ -178,6 +292,32 @@ final class Anthropic implements Model
             ),
             finishReason: isset($data['stop_reason']) ? (string) $data['stop_reason'] : null,
         );
+    }
+
+    private function postStream(string $path, array $payload): string
+    {
+        $url = rtrim($this->baseUrl, '/') . $path;
+        $headers = "Content-Type: application/json\r\nAccept: text/event-stream\r\n";
+        $headers .= "x-api-key: {$this->apiKey}\r\n";
+        $headers .= "anthropic-version: {$this->version}\r\n";
+        $context = stream_context_create([
+            'http' => [
+                'method' => 'POST',
+                'header' => $headers,
+                'content' => Json::encode($payload),
+                'timeout' => $this->timeout,
+                'ignore_errors' => true,
+            ],
+        ]);
+        $body = @file_get_contents($url, false, $context);
+        if ($body === false) {
+            throw new PraxoException('PROVIDER_HTTP', 'provider request failed');
+        }
+        $status = $http_response_header[0] ?? '';
+        if (!preg_match('/\s2\d\d\s/', $status)) {
+            throw new PraxoException('PROVIDER_HTTP', "provider returned {$status}: {$body}");
+        }
+        return $body;
     }
 
     private function post(string $path, array $payload): array

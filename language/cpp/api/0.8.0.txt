@@ -90,6 +90,8 @@ get
 if
 invoke
 is_object
+isspace
+lines
 list_tools
 literal
 marshal
@@ -127,12 +129,15 @@ snprintf
 source_value
 spec_value
 specs
+stream
 strip_markup
 truncate_to_tokens
 unmarshal
+using AnthropicStreamTransport
 using AnthropicTransport
 using Array
 using Function
+using GeminiStreamTransport
 using GeminiTransport
 using HarmovelaClock
 using HarmovelaTransport
@@ -140,6 +145,7 @@ using McpTransport
 using ModelHandler
 using ModelMiddleware
 using Object
+using OpenAICompatibleStreamTransport
 using OpenAICompatibleTransport
 using OtelTransport
 using Retriever

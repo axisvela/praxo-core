@@ -4,6 +4,10 @@ public protocol Model {
     func generate(_ request: Request) throws -> Response
 }
 
+public protocol StreamingModel: Model {
+    func generateStream(_ request: Request, onDelta: (String) -> Void) throws -> Response
+}
+
 public protocol Tool {
     var name: String { get }
     var description: String { get }
@@ -72,6 +76,7 @@ public final class AgentOptions {
     public var interruptOn: [String] = []
     public var onInterruptDecision: InterruptHandler?
     public var onInterrupt: InterruptApproval?
+    public var onDelta: ((String) -> Void)?
     public var requirePolicy: Bool = false
     public var requireToolScope: Bool = false
 
@@ -119,7 +124,15 @@ public final class Agent {
                     options.allowedTools.isEmpty || options.allowedTools.contains($0.name)
                 }
                 let request = Request(messages: messages, tools: specs)
-                let response = try options.model.generate(request)
+                let response: Response
+                if let onDelta = options.onDelta {
+                    guard let streaming = options.model as? StreamingModel else {
+                        throw PraxoError("AGENT_STREAM", "agent: model does not support streaming")
+                    }
+                    response = try streaming.generateStream(request, onDelta: onDelta)
+                } else {
+                    response = try options.model.generate(request)
+                }
                 usage = usage.plus(response.usage)
                 if options.maxTokens > 0 && usage.inputTokens + usage.outputTokens > options.maxTokens {
                     throw PraxoError("AGENT_MAX_TOKENS", "token budget")

@@ -128,7 +128,10 @@ impl StructuredOutput {
         if let Some(validator) = &self.validator {
             return validator(&serde_json::to_string(arguments).unwrap_or_default());
         }
-        let errors = validate(&Value::Object(self.schema.clone()), &Value::Object(arguments.clone()));
+        let errors = validate(
+            &Value::Object(self.schema.clone()),
+            &Value::Object(arguments.clone()),
+        );
         if errors.is_empty() {
             Ok(())
         } else {
@@ -171,11 +174,7 @@ impl Middleware for StructuredOutput {
         Ok(())
     }
 
-    fn after_run(
-        &self,
-        result: Option<&mut RunResult>,
-        error: Option<&PraxoError>,
-    ) -> Result<()> {
+    fn after_run(&self, result: Option<&mut RunResult>, error: Option<&PraxoError>) -> Result<()> {
         if error.is_some() {
             return Ok(());
         }
@@ -203,5 +202,3 @@ pub fn extract_json(output: &str) -> Result<Value> {
     serde_json::from_str(&text[start..])
         .map_err(|error| PraxoError::structured_output(format!("decode JSON: {error}")))
 }
-
-

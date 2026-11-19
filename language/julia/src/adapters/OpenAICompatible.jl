@@ -4,6 +4,7 @@ using ..Json
 using ..Errors
 using ..Models
 import ..Models: generate
+import ..AgentRuntime: generate_stream
 
 export OpenAICompatibleModel, openai_compatible
 
@@ -12,16 +13,18 @@ struct OpenAICompatibleModel <: AbstractModel
     model::String
     api_key::Union{Nothing,String}
     transport::Union{Nothing,Function}
+    stream_transport::Union{Nothing,Function}
 end
 
 function openai_compatible(base_url::AbstractString, model::AbstractString;
                            api_key::Union{Nothing,AbstractString}=nothing,
-                           transport=nothing)
+                           transport=nothing, stream_transport=nothing)
     return OpenAICompatibleModel(
         strip(String(base_url), '/'),
         String(model),
         api_key === nothing ? nothing : String(api_key),
         transport,
+        stream_transport,
     )
 end
 
@@ -186,6 +189,130 @@ function generate(adapter::OpenAICompatibleModel, request::Request)
     data isa AbstractDict ||
         throw(PraxoError("PROVIDER_JSON", "provider response must be an object"))
     return parse_response(data)
+end
+
+function default_stream_transport(adapter::OpenAICompatibleModel, path::String,
+                                  body::Dict{String,Any})
+    isempty(adapter.base_url) &&
+        throw(PraxoError("PROVIDER_HTTP", "provider base URL is required"))
+    input = tempname()
+    try
+        open(input, "w") do io
+            write(io, Json.stringify(body))
+        end
+        args = String["curl", "-sS", "-N", "-X", "POST",
+                       "-H", "Content-Type: application/json",
+                       "-H", "Accept: text/event-stream"]
+        if adapter.api_key !== nothing && !isempty(adapter.api_key)
+            append!(args, ["-H", "Authorization: Bearer $(adapter.api_key)"])
+        end
+        append!(args, ["--data-binary", "@$input", adapter.base_url * path])
+        text = try
+            read(Cmd(args), String)
+        catch
+            throw(PraxoError("PROVIDER_HTTP", "provider request failed"))
+        end
+        return text
+    finally
+        rm(input; force=true)
+    end
+end
+
+function parse_sse_response(text::AbstractString, on_delta::Function)
+    content = IOBuffer()
+    calls = Dict{Int,Dict{String,String}}()
+    input_tokens = 0
+    output_tokens = 0
+    finish_reason = nothing
+    done = false
+    for raw in split(text, '\n')
+        line = strip(raw)
+        startswith(line, "data:") || continue
+        chunk = strip(line[6:end])
+        isempty(chunk) && continue
+        if chunk == "[DONE]"
+            done = true
+            break
+        end
+        event = try
+            Json.parse_json(chunk)
+        catch
+            throw(PraxoError("MODEL_STREAM", "invalid SSE packet"))
+        end
+        event isa AbstractDict || continue
+        usage = Json.getvalue(event, "usage", nothing)
+        if usage isa AbstractDict
+            input_tokens = Json.getint(usage, "prompt_tokens", 0)
+            output_tokens = Json.getint(usage, "completion_tokens", 0)
+        end
+        for choice in Json.getarray(event, "choices")
+            choice isa AbstractDict || continue
+            delta = Json.getvalue(choice, "delta", nothing)
+            if delta isa AbstractDict
+                piece = Json.getstring(delta, "content", nothing)
+                if piece !== nothing && !isempty(piece)
+                    write(content, piece)
+                    on_delta(piece)
+                end
+                for item in Json.getarray(delta, "tool_calls")
+                    item isa AbstractDict || continue
+                    index = Json.getint(item, "index", length(calls))
+                    call = get!(calls, index,
+                        Dict{String,String}("id" => "", "name" => "", "arguments" => ""))
+                    id = Json.getstring(item, "id", nothing)
+                    id === nothing || (call["id"] *= id)
+                    function_value = Json.getvalue(item, "function", nothing)
+                    if function_value isa AbstractDict
+                        name = Json.getstring(function_value, "name", nothing)
+                        name === nothing || (call["name"] *= name)
+                        arguments = Json.getstring(function_value, "arguments", nothing)
+                        arguments === nothing || (call["arguments"] *= arguments)
+                    end
+                end
+            end
+            reason = Json.getstring(choice, "finish_reason", nothing)
+            if reason !== nothing
+                finish_reason = reason
+                done = true
+            end
+        end
+    end
+    done || throw(PraxoError("MODEL_STREAM", "stream ended before completion"))
+    tool_calls = ToolCall[]
+    for index in sort(collect(keys(calls)))
+        call = calls[index]
+        isempty(call["name"]) && continue
+        arguments = Dict{String,Any}()
+        if !isempty(call["arguments"])
+            parsed = try
+                Json.parse_json(call["arguments"])
+            catch
+                throw(PraxoError("PROVIDER_JSON", "provider returned invalid tool arguments"))
+            end
+            parsed isa AbstractDict ||
+                throw(PraxoError("PROVIDER_JSON", "provider returned invalid tool arguments"))
+            arguments = Dict{String,Any}(String(key) => value for (key, value) in parsed)
+        end
+        push!(tool_calls, ToolCall(call["id"], call["name"], arguments))
+    end
+    return Response(
+        message_assistant(String(take!(content)), tool_calls),
+        Usage(input_tokens, output_tokens, 0),
+        finish_reason,
+    )
+end
+
+function generate_stream(adapter::OpenAICompatibleModel, request::Request,
+                         on_delta::Function)
+    body = payload(adapter, request)
+    body["stream"] = true
+    path = "/chat/completions"
+    text = adapter.stream_transport === nothing ?
+        default_stream_transport(adapter, path, body) :
+        adapter.stream_transport(path, body)
+    text isa AbstractString ||
+        throw(PraxoError("PROVIDER_HTTP", "stream transport must return SSE text"))
+    return parse_sse_response(text, on_delta)
 end
 
 end

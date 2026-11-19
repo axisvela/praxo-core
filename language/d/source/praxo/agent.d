@@ -15,6 +15,10 @@ interface Model {
     Response generate(Request request);
 }
 
+interface StreamingModel : Model {
+    Response generateStream(Request request, void delegate(string) onDelta);
+}
+
 interface Tool {
     string getName();
     string getDescription();
@@ -85,6 +89,7 @@ class AgentOptions {
     InterruptHandler onInterruptDecision;
     InterruptApproval onInterrupt;
     BeforeToolHandler[] beforeToolMiddleware;
+    void delegate(string) onDelta;
     bool requirePolicy = false;
     bool requireToolScope = false;
 
@@ -134,7 +139,17 @@ class Agent {
                     messages = result.messages;
                 }
                 auto request = Request(messages, advertisedTools());
-                auto response = options.model.generate(request);
+                Response response;
+                if (options.onDelta is null) {
+                    response = options.model.generate(request);
+                } else {
+                    auto streaming = cast(StreamingModel) options.model;
+                    if (streaming is null) {
+                        throw new PraxoError("AGENT_STREAM",
+                            "agent: model does not support streaming");
+                    }
+                    response = streaming.generateStream(request, options.onDelta);
+                }
                 usage = usage.plus(response.usage);
                 if (options.maxTokens > 0 && usage.inputTokens + usage.outputTokens > options.maxTokens) {
                     throw new PraxoError("AGENT_MAX_TOKENS", "token budget");

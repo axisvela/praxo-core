@@ -5,6 +5,7 @@ Action
 Agent
 AgentOptions
 AnthropicModel
+AnthropicStreamCall
 ApprovalDeniedError
 CallLimit
 CheckpointAllowlist
@@ -40,6 +41,7 @@ OpenAICompatibleModel
 OtelResponse
 OtelSink
 ParsedToolCall
+PartialCall
 PathChecker
 PathGrant
 PiiRedactor
@@ -52,6 +54,7 @@ RunResult
 Session
 StaticModel
 StdioMcpTransport
+StreamingModel
 StructuredOutput
 StructuredResult
 SubagentManager
@@ -92,6 +95,7 @@ fallbackModel
 filter
 flush
 generate
+generateStream
 get
 getArray
 getBool
@@ -112,10 +116,12 @@ parseInputJson
 parseManifest
 parseResponse
 parseSse
+parseStreamResponse
 parseToolCall
 plus
 post
 postJSON
+postText
 put
 redact
 redactValue

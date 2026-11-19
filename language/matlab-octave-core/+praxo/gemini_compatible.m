@@ -11,6 +11,8 @@ api_key = option(options, 'apiKey', '');
 max_output_tokens = option(options, 'maxOutputTokens', 0);
 timeout = option(options, 'timeout', 120);
 transport = option(options, 'transport', []);
+stream_transport = option(options, 'stream_transport', []);
+on_delta = option(request, 'onDelta', []);
 if isempty(base_url)
     provider_error('PROVIDER_HTTP', 'provider base URL is required');
 end
@@ -25,6 +27,29 @@ messages = option(request, 'messages', {});
 tools = option(request, 'tools', {});
 tool_choice = option(request, 'toolChoice', '');
 payload = request_payload(messages, tools, tool_choice, max_output_tokens);
+if ~isempty(on_delta)
+    path = ['/v1beta/models/' model ':streamGenerateContent?alt=sse'];
+    if ~isempty(stream_transport)
+        text = stream_transport(path, payload);
+    elseif ~isempty(transport)
+        result = transport(path, payload);
+        if isstruct(result) && isscalar(result) && isfield(result, 'status') && isfield(result, 'body')
+            if result.status < 200 || result.status >= 300
+                provider_error('PROVIDER_HTTP', sprintf('provider returned HTTP %d', result.status));
+            end
+            text = result.body;
+        else
+            text = result;
+        end
+    else
+        text = default_stream_transport(base_url, api_key, timeout, path, payload);
+    end
+    if ~ischar(text)
+        provider_error('PROVIDER_HTTP', 'stream transport must return text');
+    end
+    response = parse_sse_response(text, on_delta);
+    return;
+end
 path = ['/v1beta/models/' model ':generateContent'];
 if isempty(transport)
     result = default_transport(base_url, api_key, timeout, path, payload);
@@ -214,6 +239,103 @@ end
 response = struct('content', text, 'toolCalls', {calls}, ...
     'inputTokens', input_tokens, 'outputTokens', output_tokens, ...
     'finishReason', finish_reason);
+end
+
+function response = parse_sse_response(text, on_delta)
+content = '';
+input_tokens = 0;
+output_tokens = 0;
+cached_tokens = 0;
+finish_reason = '';
+calls = {};
+lines = regexp(text, '\r?\n', 'split');
+for i = 1:numel(lines)
+    line = strtrim(lines{i});
+    if numel(line) < 5 || ~strcmp(line(1:5), 'data:')
+        continue;
+    end
+    chunk = strtrim(line(6:end));
+    if isempty(chunk) || strcmp(chunk, '[DONE]')
+        continue;
+    end
+    try
+        event = praxo.parse_json(chunk);
+    catch
+        provider_error('MODEL_STREAM', 'gemini: invalid stream chunk');
+    end
+    [error_node, has_error] = praxo.json_field(event, 'error');
+    if has_error
+        provider_error('MODEL_STREAM', 'gemini: provider stream error');
+    end
+    [usage, has_usage] = praxo.json_field(event, 'usageMetadata');
+    if has_usage && strcmp(usage.kind, 'object')
+        [node, found] = praxo.json_field(usage, 'promptTokenCount');
+        if found && strcmp(node.kind, 'number')
+            input_tokens = node.value;
+        end
+        [node, found] = praxo.json_field(usage, 'candidatesTokenCount');
+        if found && strcmp(node.kind, 'number')
+            output_tokens = node.value;
+        end
+        [node, found] = praxo.json_field(usage, 'cachedContentTokenCount');
+        if found && strcmp(node.kind, 'number')
+            cached_tokens = node.value;
+        end
+    end
+    [candidates, has_candidates] = praxo.json_field(event, 'candidates');
+    if ~has_candidates || ~strcmp(candidates.kind, 'array') || isempty(candidates.value)
+        continue;
+    end
+    candidate = candidates.value{1};
+    [finish_node, has_finish] = praxo.json_field(candidate, 'finishReason');
+    if has_finish && strcmp(finish_node.kind, 'string')
+        finish_reason = finish_node.value;
+    end
+    [content_node, has_content] = praxo.json_field(candidate, 'content');
+    if ~has_content || ~strcmp(content_node.kind, 'object')
+        continue;
+    end
+    [parts, has_parts] = praxo.json_field(content_node, 'parts');
+    if ~has_parts || ~strcmp(parts.kind, 'array')
+        continue;
+    end
+    for j = 1:numel(parts.value)
+        part = parts.value{j};
+        [text_node, has_text] = praxo.json_field(part, 'text');
+        if has_text && strcmp(text_node.kind, 'string') && ~isempty(text_node.value)
+            content = [content text_node.value];
+            on_delta(text_node.value);
+        end
+        [call_node, has_call] = praxo.json_field(part, 'functionCall');
+        if has_call && strcmp(call_node.kind, 'object')
+            [name_node, has_name] = praxo.json_field(call_node, 'name');
+            [args_node, has_args] = praxo.json_field(call_node, 'args');
+            arguments = praxo.json_make_object({});
+            if has_args && strcmp(args_node.kind, 'object')
+                arguments = args_node;
+            end
+            calls{end + 1} = struct( ...
+                'id', sprintf('call-%d', numel(calls) + 1), ...
+                'name', ternary(has_name && strcmp(name_node.kind, 'string'), name_node.value, ''), ...
+                'arguments', arguments);
+        end
+    end
+end
+response = struct('content', content, 'toolCalls', {calls}, ...
+    'inputTokens', input_tokens, 'outputTokens', output_tokens, ...
+    'finishReason', finish_reason);
+end
+
+function text = default_stream_transport(base_url, api_key, timeout, path, payload)
+raw = praxo.encode_json(payload);
+web_options = weboptions('MediaType', 'application/json', ...
+    'ContentType', 'text', 'Timeout', timeout, ...
+    'HeaderFields', {'x-goog-api-key', api_key});
+try
+    text = webwrite([base_url path], raw, web_options);
+catch err
+    provider_error('PROVIDER_HTTP', err.message);
+end
 end
 
 function result = default_transport(base_url, api_key, timeout, path, payload)

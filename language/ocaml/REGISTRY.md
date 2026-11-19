@@ -28,9 +28,10 @@ PRAXO-CORE is an embeddable, MIT-licensed agent framework. This package is its n
 
 | Adapter | Status | Detail |
 | --- | --- | --- |
-| OpenAI-compatible model | native (transport seam) | Caller supplies `transport`; no bundled HTTP client |
-| Anthropic model | native (transport seam) | `anthropic_model`; caller supplies transport |
-| Gemini model | native (transport seam) | `gemini_model`; caller supplies transport |
+| OpenAI-compatible model | native (transport seam) | Caller supplies `transport`; no bundled HTTP client; SSE streaming reassembly |
+| Anthropic model | native (transport seam) | `anthropic_model`; caller supplies transport; Anthropic SSE streaming |
+| Gemini model | native (transport seam) | `gemini_model`; caller supplies transport; Gemini SSE streaming |
+| Process plugin host | native | `start_plugin_process`; JSON-Lines stdio, token auth, health, timeout |
 | MCP client | native (transport seam) | `mcp_client`; caller supplies transport |
 | Harmovela sink | native (transport seam) | `harmovela_sink`; caller supplies transport |
 | OpenTelemetry sink | native (transport seam) | `otel_sink_new` and `otel_emit`; caller supplies OTLP/HTTP transport |

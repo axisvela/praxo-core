@@ -74,7 +74,7 @@ module Praxo
     class AgentOptions
       attr_accessor :model, :tools, :events, :policy, :system_prompt, :context,
                     :max_steps, :max_tokens, :tool_choice, :middleware,
-                    :allowed_tools, :cancellation, :on_stream,
+                    :allowed_tools, :cancellation, :on_delta, :on_stream,
                     :max_parallel_tools, :interrupt_on, :on_interrupt_decision,
                     :on_interrupt, :require_policy, :require_tool_scope
 
@@ -91,6 +91,7 @@ module Praxo
         @middleware = []
         @allowed_tools = []
         @cancellation = nil
+        @on_delta = nil
         @on_stream = nil
         @max_parallel_tools = 1
         @interrupt_on = []
@@ -151,7 +152,11 @@ module Praxo
               tools: options.tools ? options.tools.specs : [],
               tool_choice: options.tool_choice
             )
-            response = options.model.generate(request)
+            response = if options.on_delta && options.model.respond_to?(:generate_stream)
+                         options.model.generate_stream(request, options.on_delta)
+                       else
+                         options.model.generate(request)
+                       end
             check_cancelled(options)
             usage = usage.plus(response.usage || Models.usage)
             total = usage.input_tokens.to_i + usage.output_tokens.to_i

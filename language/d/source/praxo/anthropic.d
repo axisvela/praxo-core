@@ -1,31 +1,41 @@
 module praxo.anthropic;
 
 import std.json : JSONType, JSONValue;
-import std.string : stripRight;
+import std.algorithm : sort, startsWith;
+import std.string : splitLines, strip, stripRight;
 
-import praxo.agent : Model;
+import praxo.agent : Model, StreamingModel;
 import praxo.errors : PraxoError;
-import praxo.json : get, getString, getInt, getArray, stringify;
+import praxo.json : get, getString, getInt, getArray, parse, stringify;
 import praxo.models;
 import praxo.provider;
 
-class AnthropicModel : Model {
+struct AnthropicStreamCall {
+    string id;
+    string name;
+    string arguments;
+}
+
+class AnthropicModel : Model, StreamingModel {
     string baseUrl;
     string model;
     string apiKey;
     string apiVersion;
     int maxTokens;
     ProviderTransport transport;
+    ProviderStreamTransport streamTransport;
 
     this(string model, string apiKey, string baseUrl = "https://api.anthropic.com",
          string apiVersion = "2023-06-01", int maxTokens = 1024,
-         ProviderTransport transport = null) {
+         ProviderTransport transport = null,
+         ProviderStreamTransport streamTransport = null) {
         this.baseUrl = baseUrl.stripRight("/");
         this.model = model;
         this.apiKey = apiKey;
         this.apiVersion = apiVersion;
         this.maxTokens = maxTokens;
         this.transport = transport;
+        this.streamTransport = streamTransport;
     }
 
     Response generate(Request request) {
@@ -49,7 +59,130 @@ class AnthropicModel : Model {
         return postJSON(baseUrl, path, payload, headers);
     }
 
-    JSONValue buildPayload(Request request) {
+    Response generateStream(Request request, void delegate(string) onDelta) {
+        if (apiKey is null || apiKey.length == 0) {
+            throw new PraxoError("MODEL_CONFIG", "anthropic: API key is required");
+        }
+        if (model.length == 0) {
+            throw new PraxoError("MODEL_CONFIG", "anthropic: model is required");
+        }
+        auto payload = buildPayload(request, true);
+        auto path = "/v1/messages";
+        string text;
+        if (streamTransport !is null) {
+            text = streamTransport(path, payload);
+        } else {
+            string[string] headers;
+            headers["content-type"] = "application/json";
+            headers["accept"] = "text/event-stream";
+            headers["x-api-key"] = apiKey;
+            headers["anthropic-version"] = apiVersion;
+            text = postText(baseUrl, path, payload, headers);
+        }
+        return parseStreamResponse(text, onDelta);
+    }
+
+    Response parseStreamResponse(string text, void delegate(string) onDelta) {
+        string content;
+        AnthropicStreamCall[int] calls;
+        long inputTokens;
+        long outputTokens;
+        long cachedTokens;
+        string stopReason;
+        bool stopped;
+        foreach (line; text.splitLines) {
+            auto trimmed = line.strip();
+            if (!trimmed.startsWith("data:")) continue;
+            auto chunk = trimmed[5 .. $].strip();
+            if (chunk.length == 0) continue;
+            JSONValue event;
+            try {
+                event = parse(chunk);
+            } catch (Exception) {
+                throw new PraxoError("MODEL_STREAM", "anthropic: invalid stream chunk");
+            }
+            auto kind = getString(event, "type");
+            if (kind is null) kind = "";
+            switch (kind) {
+                case "message_start":
+                    auto message = get(event, "message");
+                    auto usage = get(message, "usage");
+                    inputTokens = getInt(usage, "input_tokens", inputTokens);
+                    cachedTokens = getInt(usage, "cache_read_input_tokens", cachedTokens);
+                    break;
+                case "content_block_start":
+                    auto index = cast(int) getInt(event, "index", 0);
+                    auto block = get(event, "content_block");
+                    if (getString(block, "type") == "tool_use") {
+                        AnthropicStreamCall call;
+                        auto id = getString(block, "id");
+                        auto name = getString(block, "name");
+                        call.id = id is null ? "" : id;
+                        call.name = name is null ? "" : name;
+                        calls[index] = call;
+                    }
+                    break;
+                case "content_block_delta":
+                    auto index = cast(int) getInt(event, "index", 0);
+                    auto delta = get(event, "delta");
+                    auto deltaType = getString(delta, "type");
+                    if (deltaType == "text_delta") {
+                        auto piece = getString(delta, "text");
+                        if (piece !is null && piece.length > 0) {
+                            content ~= piece;
+                            onDelta(piece);
+                        }
+                    } else if (deltaType == "input_json_delta" && index in calls) {
+                        auto partial = getString(delta, "partial_json");
+                        if (partial !is null) calls[index].arguments ~= partial;
+                    }
+                    break;
+                case "message_delta":
+                    auto delta = get(event, "delta");
+                    auto reason = getString(delta, "stop_reason");
+                    if (reason !is null && reason.length > 0) stopReason = reason;
+                    auto usage = get(event, "usage");
+                    outputTokens = getInt(usage, "output_tokens", outputTokens);
+                    break;
+                case "message_stop":
+                    stopped = true;
+                    break;
+                case "error":
+                    throw new PraxoError("MODEL_STREAM", "anthropic: stream error");
+                default:
+                    break;
+            }
+        }
+        if (!stopped && stopReason.length == 0) {
+            throw new PraxoError("MODEL_STREAM",
+                "anthropic: stream ended before completion");
+        }
+        auto indexes = calls.keys;
+        indexes.sort;
+        ToolCall[] toolCalls;
+        foreach (index; indexes) {
+            auto call = calls[index];
+            if (call.name.length == 0) continue;
+            JSONValue arguments = emptyObject();
+            if (call.arguments.length > 0) {
+                try {
+                    arguments = parse(call.arguments);
+                } catch (Exception) {
+                    throw new PraxoError("PROVIDER_JSON",
+                        "anthropic: invalid tool arguments");
+                }
+                if (arguments.type != JSONType.object) {
+                    throw new PraxoError("PROVIDER_JSON",
+                        "anthropic: invalid tool arguments");
+                }
+            }
+            toolCalls ~= ToolCall(call.id, call.name, arguments);
+        }
+        return Response(Message.assistant(content, toolCalls),
+            Usage(inputTokens, outputTokens, cachedTokens), stopReason);
+    }
+
+    JSONValue buildPayload(Request request, bool stream = false) {
         string[] system;
         JSONValue[] messages;
         JSONValue[] pending;
@@ -115,6 +248,7 @@ class AnthropicModel : Model {
         if (request.temperature != 0) {
             payload["temperature"] = JSONValue(request.temperature);
         }
+        if (stream) payload["stream"] = JSONValue(true);
         return objectOf(payload);
     }
 

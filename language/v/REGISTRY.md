@@ -28,9 +28,10 @@ V is a native Core implementation with source tag `v/v0.6.0`. It passes all elev
 
 | Adapter | Status | Detail |
 | --- | --- | --- |
-| OpenAI-compatible model | native | `praxo.openaicompat`; verified with V 0.5.2 and `x.json2` |
-| Anthropic model | native (transport seam) | `anthropic_compatible`; caller supplies `ProviderTransport` |
-| Gemini model | native (transport seam) | `gemini_compatible`; caller supplies `ProviderTransport` |
+| OpenAI-compatible model | native | `praxo.openaicompat`; verified with V 0.5.2 and `x.json2`; SSE streaming reassembly |
+| Anthropic model | native (transport seam) | `anthropic_compatible`; caller supplies `ProviderTransport`; Anthropic SSE streaming |
+| Gemini model | native (transport seam) | `gemini_compatible`; caller supplies `ProviderTransport`; Gemini SSE streaming |
+| Process plugin host | native | `PluginProcessHost`; JSON-Lines stdio, token auth, health, timeout |
 | MCP client | native (transport seam) | `praxo.mcp`; caller supplies `McpTransport` |
 | Harmovela sink | native | `harmovela_sink`; verified with V 0.5.2 and `x.json2` |
 | OpenTelemetry sink | native (transport seam) | `new_otel_sink`; caller supplies `OtelTransport` |

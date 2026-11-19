@@ -101,6 +101,37 @@ procedure division.
     move '"toolConfig":' to ws-needle
     move 13 to ws-needle-length
     perform require-haystack
+    move 1 to px-gemini-stream
+    move "G" to px-user-data(4000:1)
+    call "praxo-gemini" using px-gemini-options px-session
+        px-response px-user-data px-status
+    if px-status not = spaces
+        display "gemini stream failed: " px-status
+        stop run returning 1
+    end-if
+    if px-answer(1:px-answer-length) not = "hello"
+        display "unexpected stream answer: " px-answer(1:px-answer-length)
+        stop run returning 1
+    end-if
+    if px-input-tokens not = 4 or px-output-tokens not = 2
+        display "unexpected stream usage: " px-input-tokens " "
+            px-output-tokens
+        stop run returning 1
+    end-if
+    if px-call-count not = 1
+        display "unexpected stream call count: " px-call-count
+        stop run returning 1
+    end-if
+    if px-call-name(1) not = "echo"
+        display "unexpected stream call name: " px-call-name(1)
+        stop run returning 1
+    end-if
+    move capture-url to ws-haystack
+    move 512 to ws-haystack-length
+    move ":streamGenerateContent?alt=sse" to ws-needle
+    move 30 to ws-needle-length
+    perform require-haystack
+    move 0 to px-gemini-stream
     move "F" to px-user-data(4000:1)
     call "praxo-gemini" using px-gemini-options px-session
         px-response px-user-data px-status
@@ -164,6 +195,18 @@ procedure division using px-gemini-call px-user-data px-status.
         move 200 to px-gemini-status-code
         move "not json" to px-gemini-response
         move 8 to px-gemini-response-length
+        goback
+    end-if
+    if ws-mode = "G"
+        string
+            'data: {"candidates":[{"content":{"parts":[{"text":"he"}]}}]}' x"0a" x"0a"
+            'data: {"candidates":[{"content":{"parts":[{"text":"llo"},{"functionCall":{"name":"echo","args":{"x":1}}}]},"finishReason":"STOP"}],"usageMetadata":{"promptTokenCount":4,"candidatesTokenCount":2}}'
+            into fake-json
+        end-string
+        move fake-json to px-gemini-response
+        compute px-gemini-response-length = function length(
+            function trim(fake-json))
+        move 200 to px-gemini-status-code
         goback
     end-if
     move '{"candidates":[{"content":{"parts":[{"text":"hello"},{"functionCall":{"name":"echo","args":{"x":1}}}]}}],"usageMetadata":{"promptTokenCount":3,"candidatesTokenCount":2}}'

@@ -47,7 +47,7 @@ deterministic local checks, not live-provider or production evidence.
 Schema, plugin manifests, memory, events, stream kinds, checkpoint envelopes,
 path policy, context budgets, middleware, HITL interrupt decisions, and the
 agent loop. It also includes
-non-streaming OpenAI-compatible, Anthropic, and Gemini model adapters, MCP
+streaming OpenAI-compatible and Anthropic plus streaming Gemini model adapters, MCP
 transport seams, Harmovela, OpenTelemetry, retriever, and synchronous delegation
 seams.
 
@@ -71,7 +71,7 @@ CI runs all three on macOS. The package has no external dependencies.
 
 `OpenAICompatibleModel` maps Core requests to `POST {baseUrl}/chat/completions`,
 including messages, tools, tool choice, assistant tool calls, token usage, and
-provider HTTP errors (`PROVIDER_HTTP`). Streaming is not implemented.
+provider HTTP errors (`PROVIDER_HTTP`). `generateStream` sets `stream: true`, parses SSE, reassembles content, fragmented tool calls, usage, and finish reason, and calls the delta callback. Set `AgentOptions.onDelta` to use it.
 
 ```swift
 let config = OpenAICompatibleConfig(
@@ -135,6 +135,10 @@ caller-side and use HTTPS for remote endpoints.
 returns a terminal `SubagentTask`; it does not provide an asynchronous manager,
 durable queue, or cross-process worker.
 
+## Process plugin host
+
+`PluginProcessHost` speaks the framework JSON-Lines process plugin protocol with
+token authentication, health handshake, invocation timeout, and typed errors.
 ## Layout
 
 - `Sources/PraxoCore/` library.

@@ -58,6 +58,11 @@ from .model import (
     ToolSpec,
     Usage,
 )
+from .plugin_process import (
+    PluginCallError,
+    ProcessConfig,
+    ProcessHost,
+)
 from .policy import Action, Decision, FuncHook, Hook, PathChecker, PathGrant
 from .retriever import Document, FuncRetriever, Retriever
 from .tool import FuncTool, Gateway, GatewayInfo, GatewayTool, Registry, Tool
@@ -110,6 +115,9 @@ __all__ = [
     "Offloader",
     "PIIRedactor",
     "PathChecker",
+    "PluginCallError",
+    "ProcessConfig",
+    "ProcessHost",
     "PathGrant",
     "Registry",
     "Request",

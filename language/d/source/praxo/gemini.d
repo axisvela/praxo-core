@@ -1,30 +1,34 @@
 module praxo.gemini;
 
+import std.array : split;
 import std.conv : to;
 import std.json : JSONType, JSONValue;
-import std.string : stripRight;
+import std.string : startsWith, strip, stripRight;
 
-import praxo.agent : Model;
+import praxo.agent : Model, StreamingModel;
 import praxo.errors : PraxoError;
-import praxo.json : get, getString, getInt, getArray;
+import praxo.json : get, getString, getInt, getArray, parse;
 import praxo.models;
 import praxo.provider;
 
-class GeminiModel : Model {
+class GeminiModel : Model, StreamingModel {
     string baseUrl;
     string model;
     string apiKey;
     int maxOutputTokens;
     ProviderTransport transport;
+    ProviderStreamTransport streamTransport;
 
     this(string model, string apiKey,
          string baseUrl = "https://generativelanguage.googleapis.com",
-         int maxOutputTokens = 0, ProviderTransport transport = null) {
+         int maxOutputTokens = 0, ProviderTransport transport = null,
+         ProviderStreamTransport streamTransport = null) {
         this.baseUrl = baseUrl.stripRight("/");
         this.model = model;
         this.apiKey = apiKey;
         this.maxOutputTokens = maxOutputTokens;
         this.transport = transport;
+        this.streamTransport = streamTransport;
     }
 
     Response generate(Request request) {
@@ -38,6 +42,85 @@ class GeminiModel : Model {
         auto path = "/v1beta/models/" ~ model ~ ":generateContent";
         auto data = transport is null ? defaultPost(path, payload) : transport(path, payload);
         return parseResponse(data);
+    }
+
+    Response generateStream(Request request, void delegate(string) onDelta) {
+        if (apiKey is null || apiKey.length == 0) {
+            throw new PraxoError("MODEL_CONFIG", "gemini: API key is required");
+        }
+        if (model.length == 0) {
+            throw new PraxoError("MODEL_CONFIG", "gemini: model is required");
+        }
+        auto payload = buildPayload(request);
+        auto path = "/v1beta/models/" ~ model ~ ":streamGenerateContent?alt=sse";
+        string text;
+        if (streamTransport !is null) {
+            text = streamTransport(path, payload);
+        } else {
+            string[string] headers;
+            headers["content-type"] = "application/json";
+            headers["accept"] = "text/event-stream";
+            headers["x-goog-api-key"] = apiKey;
+            text = postText(baseUrl, path, payload, headers);
+        }
+        return parseStreamResponse(text, onDelta);
+    }
+
+    Response parseStreamResponse(string text, void delegate(string) onDelta) {
+        string content;
+        ToolCall[] calls;
+        long inputTokens;
+        long outputTokens;
+        long cachedTokens;
+        string finishReason;
+        foreach (raw; text.split("\n")) {
+            auto line = raw.strip;
+            if (!line.startsWith("data:")) continue;
+            auto chunk = line[5 .. $].strip;
+            if (chunk.length == 0 || chunk == "[DONE]") continue;
+            JSONValue event;
+            try {
+                event = parse(chunk);
+            } catch (Exception) {
+                throw new PraxoError("MODEL_STREAM", "gemini: invalid stream chunk");
+            }
+            if (event.type != JSONType.object) continue;
+            if (get(event, "error").type != JSONType.null_) {
+                throw new PraxoError("MODEL_STREAM", "gemini: provider stream error");
+            }
+            auto usage = get(event, "usageMetadata");
+            if (usage.type == JSONType.object) {
+                inputTokens = getInt(usage, "promptTokenCount");
+                outputTokens = getInt(usage, "candidatesTokenCount");
+                cachedTokens = getInt(usage, "cachedContentTokenCount");
+            }
+            auto candidates = getArray(event, "candidates");
+            if (candidates.length == 0) continue;
+            auto candidate = candidates[0];
+            auto reason = getString(candidate, "finishReason");
+            if (reason !is null) finishReason = reason;
+            foreach (part; getArray(get(candidate, "content"), "parts")) {
+                auto piece = getString(part, "text");
+                if (piece !is null && piece.length > 0) {
+                    content ~= piece;
+                    onDelta(piece);
+                }
+                auto call = get(part, "functionCall");
+                if (call.type == JSONType.object) {
+                    auto args = get(call, "args");
+                    calls ~= ToolCall(
+                        "call-" ~ (calls.length + 1).to!string,
+                        getString(call, "name"),
+                        args.type == JSONType.object ? args : emptyObject()
+                    );
+                }
+            }
+        }
+        return Response(
+            Message.assistant(content, calls),
+            Usage(inputTokens, outputTokens, cachedTokens),
+            finishReason
+        );
     }
 
     JSONValue defaultPost(string path, JSONValue payload) {

@@ -4,15 +4,28 @@ defmodule Praxo.OpenAICompatible do
   alias Praxo.Json
 
   def new(opts) do
-    config = %{
+    config = config(opts)
+    fn request -> generate(request, config) end
+  end
+
+  def streaming_model(opts) do
+    config = config(opts)
+
+    %{
+      generate: fn request -> generate(request, config) end,
+      stream: fn request, on_delta -> generate_stream(request, config, on_delta) end
+    }
+  end
+
+  defp config(opts) do
+    %{
       base_url: String.trim_trailing(Keyword.fetch!(opts, :base_url), "/"),
       model: Keyword.fetch!(opts, :model),
       api_key: Keyword.get(opts, :api_key),
       transport: Keyword.get(opts, :transport),
+      stream_transport: Keyword.get(opts, :stream_transport),
       timeout: Keyword.get(opts, :timeout, 60_000)
     }
-
-    fn request -> generate(request, config) end
   end
 
   def generate(%Praxo.Request{} = request, config) do
@@ -20,6 +33,15 @@ defmodule Praxo.OpenAICompatible do
 
     case do_transport(payload, config) do
       {:ok, data} -> parse_response(data)
+      {:error, reason} -> {:error, reason}
+    end
+  end
+
+  def generate_stream(%Praxo.Request{} = request, config, on_delta) do
+    payload = build_payload(request, config) |> Map.put("stream", true)
+
+    case do_stream_transport(payload, config) do
+      {:ok, text} -> Praxo.SSE.parse_response(text, on_delta)
       {:error, reason} -> {:error, reason}
     end
   end
@@ -113,6 +135,39 @@ defmodule Praxo.OpenAICompatible do
           {:ok, data} -> {:ok, data}
           {:error, _} -> {:error, "PROVIDER_JSON"}
         end
+
+      {:ok, {{_, status, _}, _, _}} ->
+        {:error, "PROVIDER_HTTP_#{status}"}
+
+      {:error, _} ->
+        {:error, "PROVIDER_HTTP"}
+    end
+  end
+
+  defp do_stream_transport(payload, %{stream_transport: transport})
+       when is_function(transport, 1) do
+    transport.(payload)
+  end
+
+  defp do_stream_transport(payload, config) do
+    :inets.start()
+    :ssl.start()
+    url = String.to_charlist(config.base_url <> "/chat/completions")
+
+    headers =
+      [{~c"content-type", ~c"application/json"}, {~c"accept", ~c"text/event-stream"}] ++
+        auth_header(config.api_key)
+
+    body = Json.encode(payload)
+
+    case :httpc.request(
+           :post,
+           {url, headers, ~c"application/json", body},
+           [timeout: config.timeout],
+           body_format: :binary
+         ) do
+      {:ok, {{_, status, _}, _, response_body}} when status >= 200 and status < 300 ->
+        {:ok, response_body}
 
       {:ok, {{_, status, _}, _, _}} ->
         {:error, "PROVIDER_HTTP_#{status}"}

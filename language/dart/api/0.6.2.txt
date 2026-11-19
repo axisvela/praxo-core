@@ -37,7 +37,10 @@ class ParsedToolCall
 class PathChecker
 class PathGrant
 class PiiRedactor
+class PluginCallException
 class PluginManifest
+class PluginProcessConfig
+class PluginProcessHost
 class PraxoError
 class Registry
 class Request
@@ -46,6 +49,7 @@ class RunResult
 class Session
 class StaticModel
 class StdioMcpTransport
+class StreamingModel
 class StructuredOutput
 class SubagentManager
 class SubagentRequest
@@ -67,6 +71,7 @@ function Interrupt
 function InterruptDecision
 function Message
 function PluginManifest
+function PluginProcessConfig
 function Request
 function Response
 function RunResult
@@ -90,6 +95,7 @@ function _dechunk
 function _decode
 function _decodeChunked
 function _decodeHttp
+function _decodeText
 function _endpoint
 function _ensureConnected
 function _eventId
@@ -108,7 +114,9 @@ function _parseXml
 function _payload
 function _post
 function _postAsync
+function _postStreamSync
 function _postSync
+function _randomToken
 function _stableId
 function _text
 function _toolChoice
@@ -131,6 +139,7 @@ function fallbackModel
 function flush
 function generate
 function generateAsync
+function generateStream
 function get
 function integer
 function listTools
@@ -141,8 +150,11 @@ function parse
 function parseInputJson
 function parseManifest
 function parseResponse
+function parseSseResponse
+function parseStream
 function postAsync
 function postSync
+function postTextSync
 function put
 function redact
 function redactValue
@@ -153,6 +165,7 @@ function run
 function search
 function specs
 function start
+function stop
 function string
 function stripMarkup
 function truncateToTokens
@@ -170,6 +183,7 @@ typedef InterruptHandler
 typedef ModelHandler
 typedef ModelMiddleware
 typedef OpenAIAsyncTransport
+typedef OpenAIStreamTransport
 typedef OpenAISyncTransport
 typedef OtelClock
 typedef OtelTransport

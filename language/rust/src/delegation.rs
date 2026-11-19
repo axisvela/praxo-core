@@ -215,11 +215,7 @@ impl SubagentManager {
             .map(|slot| slot.task.lock().expect("task").clone())
     }
 
-    pub fn wait(
-        &self,
-        task_id: &str,
-        timeout: Option<Duration>,
-    ) -> Result<SubagentTask> {
+    pub fn wait(&self, task_id: &str, timeout: Option<Duration>) -> Result<SubagentTask> {
         let slot = self.slot(task_id)?;
         let deadline = timeout.map(|value| Instant::now() + value);
         let mut task = slot.task.lock().expect("task");

@@ -31,13 +31,15 @@ pub fn run_middleware(vector: &Value) -> Result<(), String> {
             middleware
                 .after_tool(&tool_call("r1", "s1", "echo"), &mut result)
                 .map_err(|error| error.message)?;
-            check(result.value == expect["value"], "value mismatch".to_string())
+            check(
+                result.value == expect["value"],
+                "value mismatch".to_string(),
+            )
         }
         "structured" => {
-            let mut output = StructuredOutput::new(
-                input["schema"].as_object().cloned().unwrap_or_default(),
-            )
-            .with_repairs(input["maxRepairs"].as_u64().unwrap_or(0) as usize);
+            let mut output =
+                StructuredOutput::new(input["schema"].as_object().cloned().unwrap_or_default())
+                    .with_repairs(input["maxRepairs"].as_u64().unwrap_or(0) as usize);
             if let Some(repair) = input["repairOutput"].as_str() {
                 let repair = repair.to_string();
                 output = output.with_repairer(move |_, _| Ok(repair.clone()));
@@ -96,10 +98,7 @@ pub fn run_middleware(vector: &Value) -> Result<(), String> {
                         let mut call = tool_call("r1", "s1", "echo");
                         middleware.before_tool(&mut call)
                     }
-                    _ => Err(PraxoError::new(
-                        "CONFORMANCE",
-                        "unknown call kind",
-                    )),
+                    _ => Err(PraxoError::new("CONFORMANCE", "unknown call kind")),
                 };
                 outcomes.push(Value::String(match result {
                     Ok(()) => "ok".to_string(),
@@ -126,12 +125,14 @@ pub fn run_middleware(vector: &Value) -> Result<(), String> {
                 .cloned()
                 .unwrap_or_default()
                 .into_iter()
-                .filter_map(|item| item.as_str().map(|name| ToolSpec {
-                    name: name.to_string(),
-                    description: String::new(),
-                    parameters: None,
-                    risk: None,
-                }))
+                .filter_map(|item| {
+                    item.as_str().map(|name| ToolSpec {
+                        name: name.to_string(),
+                        description: String::new(),
+                        parameters: None,
+                        risk: None,
+                    })
+                })
                 .collect();
             let mut call = ModelCall {
                 run_id: "r1".to_string(),
@@ -167,11 +168,10 @@ pub fn run_middleware(vector: &Value) -> Result<(), String> {
             )
         }
         "fallback" => {
-            let handler = fallback_with_content(
-                input["fallbackContent"].as_str().unwrap_or("").to_string(),
-            )(Box::new(|_| {
-                Err(PraxoError::new("PRIMARY_FAILED", "primary failed"))
-            }));
+            let handler =
+                fallback_with_content(input["fallbackContent"].as_str().unwrap_or("").to_string())(
+                    Box::new(|_| Err(PraxoError::new("PRIMARY_FAILED", "primary failed"))),
+                );
             let response = handler(&Request::default()).map_err(|error| error.message)?;
             check(
                 response.message.content.unwrap_or_default()

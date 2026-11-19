@@ -89,6 +89,42 @@ let test_openai_adapter () =
   } in
   check_code "PROVIDER_RESPONSE" (fun () ->
     ignore (Praxo_core.openai_generate config invalid_transport request));
+  let stream_transport http =
+    captured := Some http;
+    {
+      Praxo_core.http_status = 200;
+      http_body = "data: {\"choices\":[{\"delta\":{\"content\":\"he\"}}]}\n\n\
+        data: {\"choices\":[{\"delta\":{\"content\":\"llo\"}}]}\n\n\
+        data: {\"choices\":[{\"delta\":{\"tool_calls\":[{\"index\":0,\"id\":\"call-1\",\"function\":{\"name\":\"ec\",\"arguments\":\"{\\\"text\\\":\"}}]}}]}\n\n\
+        data: {\"choices\":[{\"delta\":{\"tool_calls\":[{\"index\":0,\"function\":{\"name\":\"ho\",\"arguments\":\"\\\"hi\\\"}\"}}]}}],\"usage\":{\"prompt_tokens\":4,\"completion_tokens\":2}}\n\n\
+        data: {\"choices\":[{\"delta\":{},\"finish_reason\":\"tool_calls\"}]}\n\n\
+        data: [DONE]\n\n";
+    }
+  in
+  let model = Praxo_core.openai_model config stream_transport in
+  let deltas = ref [] in
+  let stream_response =
+    match model.Praxo_core.generate_stream with
+    | Some stream -> stream request (fun delta -> deltas := !deltas @ [delta])
+    | None -> fail "openai stream callback"
+  in
+  let http = match !captured with Some value -> value | None -> fail "openai stream transport" in
+  let payload = Praxo_core.parse_json http.Praxo_core.http_payload in
+  check (match field "stream" payload with Some (Bool true) -> true | _ -> false)
+    "openai stream flag";
+  check (!deltas = ["he"; "llo"]) "openai stream deltas";
+  check (stream_response.Praxo_core.response_message.Praxo_core.message_content = "hello")
+    "openai stream content";
+  (match stream_response.Praxo_core.response_message.Praxo_core.message_calls with
+   | [call] ->
+       check (call.Praxo_core.invocation_id = "call-1") "openai stream call id";
+       check (call.Praxo_core.invocation_name = "echo") "openai stream call name";
+       check (Praxo_core.json_equal call.Praxo_core.invocation_arguments
+         (Praxo_core.Object [("text", Praxo_core.String "hi")])) "openai stream call arguments"
+   | _ -> fail "openai stream call count");
+  check (stream_response.Praxo_core.response_usage.Praxo_core.input_tokens = 4 &&
+         stream_response.Praxo_core.response_usage.Praxo_core.output_tokens = 2)
+    "openai stream usage";
   print_endline "test_openai_adapter passed"
 
 let test_anthropic_adapter () =
@@ -128,6 +164,42 @@ let test_anthropic_adapter () =
   check (string_field "model" payload = "claude-test") "anthropic model";
   check (string_field "system" payload = "be brief") "anthropic system";
   check (List.length (array_field "tools" payload) = 1) "anthropic tools";
+
+  let stream_events = [
+    {|data: {"type":"message_start","message":{"usage":{"input_tokens":4}}} |};
+    {|data: {"type":"content_block_start","index":0,"content_block":{"type":"text","text":""}} |};
+    {|data: {"type":"content_block_delta","index":0,"delta":{"type":"text_delta","text":"he"}} |};
+    {|data: {"type":"content_block_delta","index":0,"delta":{"type":"text_delta","text":"llo"}} |};
+    {|data: {"type":"content_block_start","index":1,"content_block":{"type":"tool_use","id":"call-1","name":"echo","input":{}}} |};
+    {|data: {"type":"content_block_delta","index":1,"delta":{"type":"input_json_delta","partial_json":"{\"text\":"}} |};
+    {|data: {"type":"content_block_delta","index":1,"delta":{"type":"input_json_delta","partial_json":"\"hi\"}"}} |};
+    {|data: {"type":"message_delta","delta":{"stop_reason":"tool_use"},"usage":{"output_tokens":2}} |};
+    {|data: {"type":"message_stop"} |};
+  ] in
+  let captured_stream = ref None in
+  let stream_transport http =
+    captured_stream := Some http;
+    { Praxo_core.http_status = 200; http_body = String.concat "\n\n" stream_events }
+  in
+  let deltas = ref [] in
+  let stream_response =
+    Praxo_core.anthropic_generate_stream config stream_transport request
+      (fun delta -> deltas := !deltas @ [delta])
+  in
+  check (!deltas = ["he"; "llo"]) "anthropic stream deltas";
+  check (stream_response.Praxo_core.response_message.Praxo_core.message_content = "hello") "anthropic stream content";
+  check (stream_response.Praxo_core.response_usage.Praxo_core.input_tokens = 4 &&
+         stream_response.Praxo_core.response_usage.Praxo_core.output_tokens = 2)
+    "anthropic stream usage";
+  (match stream_response.Praxo_core.response_message.Praxo_core.message_calls with
+   | [call] ->
+       check (call.Praxo_core.invocation_id = "call-1") "anthropic stream call id";
+       check (call.Praxo_core.invocation_name = "echo") "anthropic stream call name";
+       check (Praxo_core.json_equal call.Praxo_core.invocation_arguments
+         (Praxo_core.Object [("text", Praxo_core.String "hi")])) "anthropic stream arguments"
+   | _ -> fail "anthropic stream call count");
+  let stream_http = match !captured_stream with Some value -> value | None -> fail "anthropic stream transport" in
+  check (List.assoc_opt "Accept" stream_http.Praxo_core.http_headers = Some "text/event-stream") "anthropic stream accept";
   print_endline "test_anthropic_adapter passed"
 
 let test_gemini_adapter () =
@@ -160,8 +232,52 @@ let test_gemini_adapter () =
   check (List.assoc_opt "x-goog-api-key" http.Praxo_core.http_headers = Some "gk") "gemini key";
   let payload = Praxo_core.parse_json http.Praxo_core.http_payload in
   check (List.length (array_field "parts" (match field "system_instruction" payload with Some value -> value | None -> fail "gemini system")) = 1) "gemini system";
+
+  let stream_events = [
+    {|data: {"candidates":[{"content":{"parts":[{"text":"he"}]}}]} |};
+    {|data: {"candidates":[{"content":{"parts":[{"text":"llo"},{"functionCall":{"name":"echo","args":{"text":"hi"}}}]},"finishReason":"STOP"}],"usageMetadata":{"promptTokenCount":4,"candidatesTokenCount":2}} |};
+  ] in
+  let captured_stream = ref None in
+  let stream_transport http =
+    captured_stream := Some http;
+    { Praxo_core.http_status = 200; http_body = String.concat "\n\n" stream_events }
+  in
+  let deltas = ref [] in
+  let stream_response =
+    Praxo_core.gemini_generate_stream config stream_transport request
+      (fun delta -> deltas := !deltas @ [delta])
+  in
+  check (!deltas = ["he"; "llo"]) "gemini stream deltas";
+  check (stream_response.Praxo_core.response_message.Praxo_core.message_content = "hello") "gemini stream content";
+  check (stream_response.Praxo_core.response_usage.Praxo_core.input_tokens = 4 &&
+         stream_response.Praxo_core.response_usage.Praxo_core.output_tokens = 2)
+    "gemini stream usage";
+  (match stream_response.Praxo_core.response_message.Praxo_core.message_calls with
+   | [call] -> check (call.Praxo_core.invocation_name = "echo") "gemini stream call"
+   | _ -> fail "gemini stream call count");
+  let stream_http = match !captured_stream with Some value -> value | None -> fail "gemini stream transport" in
+  check (Praxo_core.ends_with ":streamGenerateContent?alt=sse" stream_http.Praxo_core.http_url) "gemini stream url";
   print_endline "test_gemini_adapter passed"
 
+let test_plugin_process () =
+  let python = match Sys.getenv_opt "PYTHON" with Some value -> value | None -> "python" in
+  let config = Praxo_core.plugin_process_config_make "com.example.echo" python
+    ["tests/fixtures/process_plugin.py"] "" in
+  let host = Praxo_core.start_plugin_process config in
+  check (Praxo_core.invoke_plugin_process host "tool.provider" "echo" "{\"text\":\"hi\"}" =
+    "{\"text\":\"hi\"}") "plugin process echo";
+  (try
+     ignore (Praxo_core.invoke_plugin_process host "tool.provider" "denied" "");
+     fail "plugin process denied"
+   with Praxo_core.Core_error (code, _) ->
+     check (code = "CAPABILITY_DENIED") "plugin process denied");
+  (try
+     ignore (Praxo_core.invoke_plugin_process host "tool.provider" "block" "");
+     fail "plugin process timeout"
+   with Praxo_core.Core_error (code, _) ->
+     check (code = "TIMEOUT") "plugin process timeout");
+  Praxo_core.stop_plugin_process host;
+  print_endline "test_plugin_process passed"
 let test_harmovela () =
   let requests = ref [] in
   let transport request =

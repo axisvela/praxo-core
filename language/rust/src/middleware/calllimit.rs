@@ -60,11 +60,7 @@ impl Middleware for CallLimitMiddleware {
         Ok(())
     }
 
-    fn after_run(
-        &self,
-        result: Option<&mut RunResult>,
-        _error: Option<&PraxoError>,
-    ) -> Result<()> {
+    fn after_run(&self, result: Option<&mut RunResult>, _error: Option<&PraxoError>) -> Result<()> {
         if let Some(result) = result {
             self.counts
                 .lock()

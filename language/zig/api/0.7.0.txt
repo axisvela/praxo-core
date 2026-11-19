@@ -16,6 +16,7 @@ CompactResult
 ContentBlock
 ContextBudget
 Decision
+DeltaHandler
 Document
 Error
 Event
@@ -107,6 +108,7 @@ eventSink
 eventWire
 filter
 generate
+generateStream
 get
 handler
 harmovela

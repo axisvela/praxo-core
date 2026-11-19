@@ -14,10 +14,32 @@ defmodule Praxo.Gemini do
       api_key: Keyword.get(opts, :api_key),
       max_output_tokens: Keyword.get(opts, :max_output_tokens, 0),
       transport: Keyword.get(opts, :transport),
+      stream_transport: Keyword.get(opts, :stream_transport),
       timeout: Keyword.get(opts, :timeout, 60_000)
     }
 
     fn request -> generate(request, config) end
+  end
+
+  def streaming_model(opts) do
+    config = %{
+      base_url:
+        String.trim_trailing(
+          Keyword.get(opts, :base_url, "https://generativelanguage.googleapis.com"),
+          "/"
+        ),
+      model: Keyword.fetch!(opts, :model),
+      api_key: Keyword.get(opts, :api_key),
+      max_output_tokens: Keyword.get(opts, :max_output_tokens, 0),
+      transport: Keyword.get(opts, :transport),
+      stream_transport: Keyword.get(opts, :stream_transport),
+      timeout: Keyword.get(opts, :timeout, 60_000)
+    }
+
+    %{
+      generate: fn request -> generate(request, config) end,
+      stream: fn request, on_delta -> generate_stream(request, config, on_delta) end
+    }
   end
 
   def generate(%Praxo.Request{} = request, config) do
@@ -34,6 +56,149 @@ defmodule Praxo.Gemini do
     "GEMINI_API_KEY" -> {:error, "GEMINI_API_KEY"}
     "GEMINI_MODEL" -> {:error, "GEMINI_MODEL"}
     "PROVIDER_HTTP" -> {:error, "PROVIDER_HTTP"}
+  end
+
+  def generate_stream(%Praxo.Request{} = request, config, on_delta) do
+    if config.api_key in [nil, ""], do: throw("GEMINI_API_KEY")
+    if config.model in [nil, ""], do: throw("GEMINI_MODEL")
+
+    payload = build_payload(request, config)
+
+    case do_stream_transport(payload, config) do
+      {:ok, text} -> parse_stream(text, on_delta)
+      {:error, reason} -> {:error, reason}
+    end
+  catch
+    "GEMINI_API_KEY" -> {:error, "GEMINI_API_KEY"}
+    "GEMINI_MODEL" -> {:error, "GEMINI_MODEL"}
+  end
+
+  defp do_stream_transport(payload, %{stream_transport: transport})
+       when is_function(transport, 1) do
+    transport.(payload)
+  end
+
+  defp do_stream_transport(payload, config) do
+    :inets.start()
+    :ssl.start()
+    model = URI.encode_www_form(config.model)
+
+    url =
+      String.to_charlist(
+        config.base_url <>
+          "/v1beta/models/" <> model <> ":streamGenerateContent?alt=sse"
+      )
+
+    headers = [
+      {~c"content-type", ~c"application/json"},
+      {~c"accept", ~c"text/event-stream"},
+      {~c"x-goog-api-key", String.to_charlist(config.api_key || "")}
+    ]
+
+    case :httpc.request(
+           :post,
+           {url, headers, ~c"application/json", Json.encode(payload)},
+           [timeout: config.timeout],
+           body_format: :binary
+         ) do
+      {:ok, {{_, status, _}, _, body}} when status >= 200 and status < 300 ->
+        {:ok, body}
+
+      {:ok, {{_, status, _}, _, _}} ->
+        {:error, "PROVIDER_HTTP_#{status}"}
+
+      {:error, _} ->
+        {:error, "PROVIDER_HTTP"}
+    end
+  end
+
+  defp parse_stream(text, on_delta) do
+    initial = %{
+      content: "",
+      calls: [],
+      input: 0,
+      output: 0,
+      cached: 0,
+      finish: nil
+    }
+
+    state =
+      text
+      |> String.split("\n")
+      |> Enum.reduce(initial, fn raw, state ->
+        line = String.trim(raw)
+
+        if String.starts_with?(line, "data:") do
+          payload = line |> String.slice(5..-1//1) |> String.trim()
+
+          if payload not in ["", "[DONE]"] do
+            case Json.parse(payload) do
+              {:ok, chunk} ->
+                if chunk["error"] != nil, do: throw("MODEL_STREAM")
+                usage = chunk["usageMetadata"] || %{}
+
+                state = %{
+                  state
+                  | input: usage["promptTokenCount"] || state.input,
+                    output: usage["candidatesTokenCount"] || state.output,
+                    cached: usage["cachedContentTokenCount"] || state.cached
+                }
+
+                case chunk["candidates"] || [] do
+                  [] ->
+                    state
+
+                  [candidate | _] ->
+                    state = %{state | finish: candidate["finishReason"] || state.finish}
+                    parts = get_in(candidate, ["content", "parts"]) || []
+
+                    Enum.reduce(parts, state, fn part, state ->
+                      piece = part["text"] || ""
+                      state = if piece == "", do: state,
+                        else: %{state | content: state.content <> piece}
+                      if piece != "", do: on_delta.(piece)
+
+                      case part["functionCall"] do
+                        nil ->
+                          state
+
+                        call ->
+                          tool = %Praxo.ToolCall{
+                            id: "call-#{length(state.calls) + 1}",
+                            name: call["name"] || "",
+                            arguments: call["args"] || %{}
+                          }
+
+                          %{state | calls: state.calls ++ [tool]}
+                      end
+                    end)
+                end
+
+              {:error, _} ->
+                throw("MODEL_STREAM")
+            end
+          else
+            state
+          end
+        else
+          state
+        end
+      end)
+
+    {:ok,
+     %Praxo.Response{
+       message: %Praxo.Message{
+         role: "assistant",
+         content: state.content,
+         tool_calls: state.calls
+       },
+       usage: %Praxo.Usage{
+         input_tokens: state.input,
+         output_tokens: state.output
+       }
+     }}
+  catch
+    "MODEL_STREAM" -> {:error, "MODEL_STREAM"}
   end
 
   defp build_payload(request, config) do

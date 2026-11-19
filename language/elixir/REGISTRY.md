@@ -30,9 +30,10 @@ Use it when an existing Elixir/OTP application needs a governed model/tool loop 
 
 | Adapter | Status | Detail |
 | --- | --- | --- |
-| OpenAI-compatible model | native | `Praxo.OpenAICompatible` |
-| Anthropic model | native | `Praxo.Anthropic` |
-| Gemini model | native | `Praxo.Gemini` |
+| OpenAI-compatible model | native | `Praxo.OpenAICompatible`; SSE streaming reassembly |
+| Anthropic model | native | `Praxo.Anthropic` ; Anthropic SSE streaming |
+| Gemini model | native | `Praxo.Gemini`; Gemini SSE streaming |
+| Process plugin host | native | `Praxo.PluginProcess`; JSON-Lines stdio, token auth, health, timeout, cancel |
 | MCP client | native | `Praxo.Mcp`; stdio, plus `Praxo.McpHttp.transport` for Streamable HTTP 2025-03-26 |
 | Harmovela sink | native | `Praxo.HarmovelaSink` |
 | OpenTelemetry sink | native (transport seam) | `Praxo.OtelSink`; caller supplies OTLP/HTTP transport |

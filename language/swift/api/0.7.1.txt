@@ -17,6 +17,7 @@ AgentOptions.maxSteps var
 AgentOptions.maxTokens var
 AgentOptions.middleware var
 AgentOptions.model var
+AgentOptions.onDelta var
 AgentOptions.onInterrupt var
 AgentOptions.onInterruptDecision var
 AgentOptions.policy var
@@ -190,6 +191,23 @@ PluginManifest.permissions let
 PluginManifest.protocolName let
 PluginManifest.schemaVersion let
 PluginManifest.version let
+PluginProcessConfig.args var
+PluginProcessConfig.env var
+PluginProcessConfig.gracePeriod var
+PluginProcessConfig.init
+PluginProcessConfig.invokeTimeout var
+PluginProcessConfig.path var
+PluginProcessConfig.pluginId var
+PluginProcessConfig.startTimeout var
+PluginProcessConfig.token var
+PluginProcessConfig.tokenEnvVar var
+PluginProcessError.code let
+PluginProcessError.init
+PluginProcessError.message let
+PluginProcessHost.config let
+PluginProcessHost.controlService let
+PluginProcessHost.init
+PluginProcessHost.protocolVersion let
 PraxoError.code let
 PraxoError.init
 PraxoError.message let
@@ -312,6 +330,7 @@ class MultiSink
 class OpenAICompatibleModel
 class OtelSink
 class PiiRedactor
+class PluginProcessHost
 class StaticModel
 class StdioMcpTransport
 class StructuredOutput
@@ -323,6 +342,7 @@ class URLSessionOtelTransport
 class URLSessionTransport
 close func
 compact func
+description var
 emit func
 enum ContextEstimator
 enum Fallback
@@ -338,16 +358,19 @@ equals func
 extractJSON func
 filter func
 generate func
+generateStream func
 get func
 init
 int func
 invoke func
+isActive var
 listTools func
 marshal func
 notify func
 now func
 parseInputJson func
 parseResponse func
+parseSseResponse func
 plus func
 protocol EventSink
 protocol HarmovelaTransport
@@ -356,6 +379,7 @@ protocol Model
 protocol OtelTransport
 protocol PolicyHook
 protocol ProviderTransport
+protocol StreamingModel
 protocol Tool
 protocol ToolSelector
 redact func
@@ -369,6 +393,7 @@ send func
 sessionId var
 specs func
 start func
+stop func
 streamKinds let
 string func
 stringify func
@@ -394,6 +419,8 @@ struct ParsedToolCall
 struct PathChecker
 struct PathGrant
 struct PluginManifest
+struct PluginProcessConfig
+struct PluginProcessError
 struct PraxoError
 struct ProviderHTTPRequest
 struct ProviderHTTPResponse

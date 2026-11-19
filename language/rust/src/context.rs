@@ -18,9 +18,8 @@ fn byte_len(value: Option<&str>) -> usize {
 pub fn estimate_tokens(messages: &[Message]) -> usize {
     let mut total = 0;
     for message in messages {
-        total += 4
-            + byte_len(message.content.as_deref()) / 4
-            + byte_len(message.tool_id.as_deref()) / 4;
+        total +=
+            4 + byte_len(message.content.as_deref()) / 4 + byte_len(message.tool_id.as_deref()) / 4;
         for block in &message.content_blocks {
             total += 4
                 + byte_len(block.text.as_deref()) / 4
@@ -104,7 +103,11 @@ impl ContextBudget {
                 return (Vec::new(), false);
             }
         }
-        let keep = if self.keep_recent > 0 { self.keep_recent } else { 4 };
+        let keep = if self.keep_recent > 0 {
+            self.keep_recent
+        } else {
+            4
+        };
         let mut start = rest.len().saturating_sub(keep);
         while start > 0 && rest[start].role == ROLE_TOOL {
             start -= 1;
@@ -192,7 +195,11 @@ impl ContextCompactor for ModelSummarizer {
                 rest.push(message.clone());
             }
         }
-        let keep = if budget.keep_recent > 0 { budget.keep_recent } else { 4 };
+        let keep = if budget.keep_recent > 0 {
+            budget.keep_recent
+        } else {
+            4
+        };
         let mut start = rest.len().saturating_sub(keep);
         while start > 0 && rest[start].role == ROLE_TOOL {
             start -= 1;

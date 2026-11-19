@@ -583,6 +583,148 @@ openai_compatible_test <- function() {
 
 openai_compatible_test()
 
+openai_compatible_streaming_test <- function() {
+  captured <- new.env(parent = emptyenv())
+  stream_transport <- function(path, payload) {
+    captured$path <- path
+    captured$payload <- payload
+    chunks <- list(
+      list(choices = list(list(delta = list(content = "he")))),
+      list(choices = list(list(delta = list(content = "llo")))),
+      list(choices = list(list(delta = list(tool_calls = list(list(
+        index = 0L, id = "call-1",
+        `function` = list(name = "ec", arguments = '{"text":')
+      )))))),
+      list(
+        choices = list(list(delta = list(tool_calls = list(list(
+          index = 0L,
+          `function` = list(name = "ho", arguments = '"hi"}')
+        ))))),
+        usage = list(prompt_tokens = 4L, completion_tokens = 2L)
+      ),
+      list(choices = list(list(finish_reason = "tool_calls")))
+    )
+    paste(c(
+      vapply(chunks, function(chunk) paste0("data: ", json_encode(chunk)), character(1)),
+      "data: [DONE]"
+    ), collapse = "\n\n")
+  }
+  adapter <- openai_compatible("https://example.test/v1", "test-model",
+                               api_key = "secret",
+                               stream_transport = stream_transport)
+  request_value <- request(messages = list(message(roles$user, "hi")))
+  deltas <- character()
+  result <- openai_compatible_streaming_model(adapter)(
+    request_value,
+    function(delta) deltas <<- c(deltas, delta)
+  )
+  stopifnot(isTRUE(captured$payload$stream))
+  stopifnot(identical(captured$path, "/chat/completions"))
+  stopifnot(identical(deltas, c("he", "llo")))
+  stopifnot(identical(result$message$content, "hello"))
+  stopifnot(identical(result$message$toolCalls[[1L]]$id, "call-1"))
+  stopifnot(identical(result$message$toolCalls[[1L]]$name, "echo"))
+  stopifnot(identical(result$message$toolCalls[[1L]]$arguments$text, "hi"))
+  stopifnot(identical(result$usage$inputTokens, 4L))
+  stopifnot(identical(result$usage$outputTokens, 2L))
+  stopifnot(identical(result$finishReason, "tool_calls"))
+
+  text_adapter <- openai_compatible(
+    "https://example.test/v1", "test-model",
+    transport = function(path, payload) stream_transport(path, payload)
+  )
+  stopifnot(identical(
+    openai_compatible_streaming_model(text_adapter)(request_value)$message$content,
+    "hello"
+  ))
+
+  expect_code(
+    openai_compatible_streaming_model(openai_compatible(
+      "https://example.test/v1", "m",
+      transport = function(path, payload) list()
+    ))(request_value),
+    "PROVIDER_HTTP"
+  )
+  expect_code(
+    openai_compatible_streaming_model(openai_compatible("", "m"))(request_value),
+    "PROVIDER_HTTP"
+  )
+
+  plain <- function(path, payload) paste(c(
+    paste0("data: ", json_encode(list(
+      choices = list(list(delta = list(content = "ok")))
+    ))),
+    paste0("data: ", json_encode(list(
+      choices = list(list(finish_reason = "stop"))
+    ))),
+    "data: [DONE]"
+  ), collapse = "\n\n")
+  plain_adapter <- openai_compatible(
+    "https://example.test/v1", "m",
+    stream_transport = plain
+  )
+  run <- agent_run(
+    function(request) stop("non-stream model should not run"),
+    "go",
+    streaming_model = openai_compatible_streaming_model(plain_adapter),
+    on_delta = function(delta) invisible(NULL)
+  )
+  stopifnot(identical(run$output, "ok"))
+}
+
+openai_compatible_streaming_test()
+
+anthropic_streaming_test <- function() {
+  chunks <- list(
+    list(type = "message_start", message = list(
+      usage = list(input_tokens = 4L, cache_read_input_tokens = 1L)
+    )),
+    list(type = "content_block_start", index = 0L,
+         content_block = list(type = "text", text = "")),
+    list(type = "content_block_delta", index = 0L,
+         delta = list(type = "text_delta", text = "he")),
+    list(type = "content_block_delta", index = 0L,
+         delta = list(type = "text_delta", text = "llo")),
+    list(type = "content_block_start", index = 1L,
+         content_block = list(type = "tool_use", id = "call-1",
+                              name = "echo", input = list())),
+    list(type = "content_block_delta", index = 1L,
+         delta = list(type = "input_json_delta", partial_json = '{"text":')),
+    list(type = "content_block_delta", index = 1L,
+         delta = list(type = "input_json_delta", partial_json = '"hi"}')),
+    list(type = "message_delta",
+         delta = list(stop_reason = "tool_use"),
+         usage = list(output_tokens = 2L)),
+    list(type = "message_stop")
+  )
+  body <- paste(vapply(chunks, function(chunk) {
+    paste0("data: ", json_encode(chunk))
+  }, character(1)), collapse = "\n\n")
+  adapter <- anthropic("https://example.test", "claude-test", api_key = "ak",
+                       stream_transport = function(path, payload) {
+                         stopifnot(identical(path, "/v1/messages"))
+                         stopifnot(isTRUE(payload$stream))
+                         body
+                       })
+  request_value <- request(messages = list(message(roles$user, "hi")))
+  deltas <- character()
+  result <- anthropic_streaming_model(adapter)(
+    request_value,
+    function(delta) deltas <<- c(deltas, delta)
+  )
+  stopifnot(identical(deltas, c("he", "llo")))
+  stopifnot(identical(result$message$content, "hello"))
+  stopifnot(identical(result$message$toolCalls[[1L]]$id, "call-1"))
+  stopifnot(identical(result$message$toolCalls[[1L]]$name, "echo"))
+  stopifnot(identical(result$message$toolCalls[[1L]]$arguments$text, "hi"))
+  stopifnot(identical(result$usage$inputTokens, 4L))
+  stopifnot(identical(result$usage$outputTokens, 2L))
+  stopifnot(identical(result$usage$cachedTokens, 1L))
+  stopifnot(identical(result$finishReason, "tool_use"))
+}
+
+anthropic_streaming_test()
+
 harmovela_test <- function() {
   captured <- new.env(parent = emptyenv())
   transport <- function(path, envelope) {

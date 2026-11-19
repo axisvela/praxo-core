@@ -81,6 +81,43 @@ final class OpenAICompatibleTests: XCTestCase {
         XCTAssertEqual(function?["name"] as? String, "echo")
     }
 
+    func testStreaming() throws {
+        let sse = """
+        data: {"choices":[{"delta":{"content":"he"}}]}
+
+        data: {"choices":[{"delta":{"content":"llo"}}]}
+
+        data: {"choices":[{"delta":{"tool_calls":[{"index":0,"id":"call-1","function":{"name":"ec","arguments":"{\\"text\\":"}}]}}]}
+
+        data: {"choices":[{"delta":{"tool_calls":[{"index":0,"function":{"name":"ho","arguments":"\\"hi\\"}"}}]}}],"usage":{"prompt_tokens":4,"completion_tokens":2}}
+
+        data: {"choices":[{"delta":{},"finish_reason":"tool_calls"}]}
+
+        data: [DONE]
+
+        """
+        let transport = RecordingTransport(ProviderHTTPResponse(statusCode: 200, body: sse))
+        let model = OpenAICompatibleModel(
+            OpenAICompatibleConfig(baseURL: "https://api.example.com/v1", model: "test-model"),
+            transport: transport
+        )
+        let request = Request(messages: [Message.text(Roles.user, "hi")])
+        var deltas: [String] = []
+        let response = try model.generateStream(request, onDelta: { deltas.append($0) })
+        XCTAssertEqual(deltas, ["he", "llo"])
+        XCTAssertEqual(response.message.content, "hello")
+        XCTAssertEqual(response.message.toolCalls.count, 1)
+        XCTAssertEqual(response.message.toolCalls[0].id, "call-1")
+        XCTAssertEqual(response.message.toolCalls[0].name, "echo")
+        XCTAssertEqual(response.message.toolCalls[0].arguments["text"] as? String, "hi")
+        XCTAssertEqual(response.usage.inputTokens, 4)
+        XCTAssertEqual(response.usage.outputTokens, 2)
+        XCTAssertEqual(response.finishReason, "tool_calls")
+        let payload = try Json.parse(transport.requests[0].body) as? [String: Any]
+        XCTAssertEqual(payload?["stream"] as? Bool, true)
+        XCTAssertEqual(transport.requests[0].headers["Accept"], "text/event-stream")
+    }
+
     func testContentBlocksBecomeText() throws {
         let transport = RecordingTransport(ProviderHTTPResponse(
             statusCode: 200,

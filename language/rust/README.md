@@ -182,7 +182,7 @@ streaming content. Hosted HTTPS endpoints use the `native-tls` path enabled by
 | `jsonschema` | `Schema`, `from_json`, `validate` over the documented subset |
 | `plugin` | Manifest v1 parsing and validation |
 | `openaicompat` | SSE stream parser; `OpenAICompatible` HTTP client behind `http-ureq` |
-| `anthropic` | Anthropic Messages mapping with caller-supplied transport |
+| `anthropic` | Anthropic Messages mapping with caller-supplied transport; `StreamingModel` via `send_stream` |
 | `gemini` | Gemini generateContent mapping with caller-supplied transport |
 | `harmovela` | Harmovela HTTP event sink and injectable transport |
 | `mcp` | Native stdio MCP client, tool adapters, and registry helper |
@@ -241,6 +241,11 @@ belongs to the child process. `McpClient::close` and `Drop` terminate the child;
 in-flight timeouts send `notifications/cancelled` but do not prove remote work
 stopped. The included tests use a deterministic fake server, not a live service.
 
+## Process plugin host
+
+`plugin_process::ProcessHost` speaks the framework JSON-Lines process plugin
+protocol: token authentication through `PRAXOVELA_PLUGIN_TOKEN`, health
+handshake, invocation timeout, cooperative cancel, and typed call errors.
 ## Conformance
 
 The runner reads `../../spec/vectors/*.json`. A released Core implementation must pass every vector

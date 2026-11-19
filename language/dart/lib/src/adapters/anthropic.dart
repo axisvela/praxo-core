@@ -1,3 +1,4 @@
+import '../agent.dart';
 import '../errors.dart';
 import '../json.dart';
 import '../models.dart';
@@ -8,7 +9,7 @@ typedef AnthropicSyncTransport = dynamic Function(
 typedef AnthropicAsyncTransport = Future<dynamic> Function(
     String path, Map<String, dynamic> payload);
 
-class AnthropicModel {
+class AnthropicModel implements StreamingModel {
   final String baseUrl;
   final String model;
   final String? apiKey;
@@ -16,6 +17,8 @@ class AnthropicModel {
   final int maxTokens;
   final AnthropicSyncTransport? transport;
   final AnthropicAsyncTransport? asyncTransport;
+  final dynamic Function(String path, Map<String, dynamic> payload)?
+      streamTransport;
   final Duration timeout;
 
   AnthropicModel({
@@ -26,6 +29,7 @@ class AnthropicModel {
     this.maxTokens = 1024,
     this.transport,
     this.asyncTransport,
+    this.streamTransport,
     this.timeout = const Duration(seconds: 60),
   });
 
@@ -55,6 +59,146 @@ class AnthropicModel {
             timeout: timeout,
           );
     return parseResponse(data);
+  }
+
+  @override
+  Response generateStream(Request request, void Function(String) onDelta) {
+    _validate();
+    final payload = buildPayload(request)..['stream'] = true;
+    final String text;
+    if (streamTransport != null) {
+      final value = streamTransport!('/v1/messages', payload);
+      if (value is! String) {
+        throw const PraxoError(
+            'PROVIDER_HTTP', 'anthropic: stream transport must return SSE text');
+      }
+      text = value;
+    } else {
+      text = postTextSync(
+        uri: Uri.parse('${_root()}/v1/messages'),
+        payload: payload,
+        headers: {..._headers(), 'Accept': 'text/event-stream'},
+        timeout: timeout,
+      );
+    }
+    return parseStream(text, onDelta);
+  }
+
+  Response parseStream(String text, void Function(String) onDelta) {
+    final content = StringBuffer();
+    final calls = <int, Map<String, String>>{};
+    var inputTokens = 0;
+    var outputTokens = 0;
+    var cachedTokens = 0;
+    String? stopReason;
+    var stopped = false;
+    for (final raw in text.split('\n')) {
+      final line = raw.trim();
+      if (!line.startsWith('data:')) continue;
+      final chunk = line.substring(5).trim();
+      if (chunk.isEmpty) continue;
+      dynamic event;
+      try {
+        event = Json.parse(chunk);
+      } on FormatException {
+        throw const PraxoError('MODEL_STREAM', 'anthropic: invalid stream chunk');
+      }
+      if (event is! Map) continue;
+      switch (event['type']) {
+        case 'message_start':
+          final message = event['message'];
+          final usage = message is Map ? message['usage'] : null;
+          if (usage is Map) {
+            inputTokens = (usage['input_tokens'] as num?)?.toInt() ?? 0;
+            cachedTokens =
+                (usage['cache_read_input_tokens'] as num?)?.toInt() ?? 0;
+          }
+          break;
+        case 'content_block_start':
+          final index = (event['index'] as num?)?.toInt() ?? 0;
+          final block = event['content_block'];
+          if (block is Map && block['type'] == 'tool_use') {
+            calls[index] = {
+              'id': '${block['id'] ?? ''}',
+              'name': '${block['name'] ?? ''}',
+              'arguments': '',
+            };
+          }
+          break;
+        case 'content_block_delta':
+          final index = (event['index'] as num?)?.toInt() ?? 0;
+          final delta = event['delta'];
+          if (delta is Map) {
+            if (delta['type'] == 'text_delta') {
+              final piece = delta['text'];
+              if (piece is String && piece.isNotEmpty) {
+                content.write(piece);
+                onDelta(piece);
+              }
+            } else if (delta['type'] == 'input_json_delta' &&
+                calls.containsKey(index)) {
+              calls[index]!['arguments'] =
+                  '${calls[index]!['arguments']}${delta['partial_json'] ?? ''}';
+            }
+          }
+          break;
+        case 'message_delta':
+          final delta = event['delta'];
+          final usage = event['usage'];
+          if (delta is Map && delta['stop_reason'] is String) {
+            stopReason = delta['stop_reason'] as String;
+          }
+          if (usage is Map) {
+            outputTokens =
+                (usage['output_tokens'] as num?)?.toInt() ?? outputTokens;
+          }
+          break;
+        case 'message_stop':
+          stopped = true;
+          break;
+        case 'error':
+          throw const PraxoError('MODEL_STREAM', 'anthropic: stream error');
+      }
+    }
+    if (!stopped && stopReason == null) {
+      throw const PraxoError(
+          'MODEL_STREAM', 'anthropic: stream ended before completion');
+    }
+    final keys = calls.keys.toList()..sort();
+    final toolCalls = <ToolCall>[];
+    for (final index in keys) {
+      final call = calls[index]!;
+      if (call['name']!.isEmpty) continue;
+      var arguments = <String, dynamic>{};
+      if (call['arguments']!.isNotEmpty) {
+        dynamic parsed;
+        try {
+          parsed = Json.parse(call['arguments']!);
+        } on FormatException {
+          throw const PraxoError(
+              'PROVIDER_JSON', 'anthropic: invalid tool arguments');
+        }
+        if (parsed is! Map) {
+          throw const PraxoError(
+              'PROVIDER_JSON', 'anthropic: invalid tool arguments');
+        }
+        arguments = Map<String, dynamic>.from(parsed);
+      }
+      toolCalls.add(ToolCall(
+        id: call['id']!,
+        name: call['name']!,
+        arguments: arguments,
+      ));
+    }
+    return Response(
+      message: Message.assistant(content.toString(), toolCalls),
+      usage: Usage(
+        inputTokens: inputTokens,
+        outputTokens: outputTokens,
+        cachedTokens: cachedTokens,
+      ),
+      finishReason: stopReason,
+    );
   }
 
   Map<String, dynamic> buildPayload(Request request) {

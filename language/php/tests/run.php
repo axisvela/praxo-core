@@ -869,6 +869,69 @@ check($adapterResponse->message->toolCalls[0]->arguments['text'] === 'hi', 'adap
 check($adapterResponse->usage->inputTokens === 3 && $adapterResponse->usage->outputTokens === 2, 'adapter usage');
 check($adapterResponse->finishReason === 'tool_calls', 'adapter finish');
 
+$streamPayload = null;
+$streamDeltas = [];
+$streamAdapter = new \Praxo\Core\Adapters\OpenAICompatible(
+    'http://example.test/v1',
+    'test-model',
+    'secret',
+    null,
+    60,
+    function (string $path, array $payload) use (&$streamPayload): string {
+        check($path === '/chat/completions', 'adapter stream path');
+        $streamPayload = $payload;
+        return <<<'SSE'
+data: {"choices":[{"delta":{"content":"he"}}]}
+
+data: {"choices":[{"delta":{"content":"llo"}}]}
+
+data: {"choices":[{"delta":{"tool_calls":[{"index":0,"id":"call-1","function":{"name":"ec","arguments":"{\"text\":"}}]}}]}
+
+data: {"choices":[{"delta":{"tool_calls":[{"index":0,"function":{"name":"ho","arguments":"\"hi\"}"}}]}}],"usage":{"prompt_tokens":4,"completion_tokens":2}}
+
+data: {"choices":[{"delta":{},"finish_reason":"tool_calls"}]}
+
+data: [DONE]
+
+SSE;
+    }
+);
+$streamRequest = new Request([Message::text(Roles::USER, 'hi')]);
+$streamResponse = $streamAdapter->generateStream(
+    $streamRequest,
+    static function (string $delta) use (&$streamDeltas): void {
+        $streamDeltas[] = $delta;
+    }
+);
+check($streamPayload['stream'] === true, 'adapter stream flag');
+check($streamDeltas === ['he', 'llo'], 'adapter stream deltas');
+check($streamResponse->message->content === 'hello', 'adapter stream content');
+check($streamResponse->message->toolCalls[0]->id === 'call-1', 'adapter stream call id');
+check($streamResponse->message->toolCalls[0]->name === 'echo', 'adapter stream call name');
+check($streamResponse->message->toolCalls[0]->arguments['text'] === 'hi', 'adapter stream args');
+check($streamResponse->usage->inputTokens === 4 && $streamResponse->usage->outputTokens === 2, 'adapter stream usage');
+check($streamResponse->finishReason === 'tool_calls', 'adapter stream finish');
+
+$agentStreamAdapter = new \Praxo\Core\Adapters\OpenAICompatible(
+    'http://example.test/v1',
+    'test-model',
+    null,
+    null,
+    60,
+    static fn (string $_path, array $payload): string => $payload['stream'] === true
+        ? "data: {\"choices\":[{\"delta\":{\"content\":\"ok\"}}]}\n\n"
+            . "data: {\"choices\":[{\"delta\":{},\"finish_reason\":\"stop\"}]}\n\n"
+            . "data: [DONE]\n\n"
+        : ''
+);
+$agentDeltas = [];
+$agentStreamResult = (new Agent(new AgentOptions($agentStreamAdapter)))
+    ->runStream(new Session('s1'), 'go', static function (string $delta) use (&$agentDeltas): void {
+        $agentDeltas[] = $delta;
+    });
+check($agentStreamResult->output === 'ok', 'adapter agent stream output');
+check($agentDeltas === ['ok'], 'adapter agent stream deltas');
+
 $captured = null;
 $toolAdapter = new \Praxo\Core\Adapters\OpenAICompatible(
     'http://example.test/v1',
@@ -966,6 +1029,45 @@ check($anthropicResponse->usage->cachedTokens === 2, 'anthropic cached');
 check($anthropicPayload['system'] === 'be brief', 'anthropic system');
 check($anthropicPayload['tools'][0]['input_schema']['type'] === 'object', 'anthropic tools');
 
+$anthropicEvents = [
+    ['type' => 'message_start', 'message' => ['usage' => ['input_tokens' => 4, 'cache_read_input_tokens' => 1]]],
+    ['type' => 'content_block_start', 'index' => 0, 'content_block' => ['type' => 'text', 'text' => '']],
+    ['type' => 'content_block_delta', 'index' => 0, 'delta' => ['type' => 'text_delta', 'text' => 'he']],
+    ['type' => 'content_block_delta', 'index' => 0, 'delta' => ['type' => 'text_delta', 'text' => 'llo']],
+    ['type' => 'content_block_start', 'index' => 1, 'content_block' => ['type' => 'tool_use', 'id' => 'call-1', 'name' => 'echo', 'input' => []]],
+    ['type' => 'content_block_delta', 'index' => 1, 'delta' => ['type' => 'input_json_delta', 'partial_json' => '{"text":']],
+    ['type' => 'content_block_delta', 'index' => 1, 'delta' => ['type' => 'input_json_delta', 'partial_json' => '"hi"}']],
+    ['type' => 'message_delta', 'delta' => ['stop_reason' => 'tool_use'], 'usage' => ['output_tokens' => 2]],
+    ['type' => 'message_stop'],
+];
+$anthropicStreamText = implode("\n\n", array_map(
+    static fn (array $event): string => 'data: ' . Json::encode($event),
+    $anthropicEvents,
+));
+$anthropicStream = new \Praxo\Core\Adapters\Anthropic(
+    'claude-test',
+    'ak',
+    streamTransport: static function (string $path, array $payload) use ($anthropicStreamText): string {
+        check($path === '/v1/messages', 'anthropic stream path');
+        check($payload['stream'] === true, 'anthropic stream flag');
+        return $anthropicStreamText;
+    },
+);
+$anthropicDeltas = [];
+$anthropicStreamResponse = $anthropicStream->generateStream(
+    new Request([Message::text(Roles::USER, 'hi')]),
+    static function (string $delta) use (&$anthropicDeltas): void {
+        $anthropicDeltas[] = $delta;
+    },
+);
+check($anthropicDeltas === ['he', 'llo'], 'anthropic stream deltas');
+check($anthropicStreamResponse->message->content === 'hello', 'anthropic stream content');
+check($anthropicStreamResponse->message->toolCalls[0]->id === 'call-1', 'anthropic stream call id');
+check($anthropicStreamResponse->message->toolCalls[0]->arguments['text'] === 'hi', 'anthropic stream args');
+check($anthropicStreamResponse->usage->inputTokens === 4 && $anthropicStreamResponse->usage->outputTokens === 2, 'anthropic stream usage');
+check($anthropicStreamResponse->usage->cachedTokens === 1, 'anthropic stream cached');
+check($anthropicStreamResponse->finishReason === 'tool_use', 'anthropic stream finish');
+
 $geminiPayload = null;
 $gemini = new \Praxo\Core\Adapters\Gemini(
     'gemini-test',
@@ -994,6 +1096,40 @@ check($geminiResponse->message->toolCalls[0]->name === 'echo', 'gemini call name
 check($geminiResponse->usage->inputTokens === 3, 'gemini usage');
 check($geminiPayload['system_instruction']['parts'][0]['text'] === 'be brief', 'gemini system');
 check($geminiPayload['toolConfig']['functionCallingConfig']['mode'] === 'AUTO', 'gemini tool mode');
+
+$geminiStreamPayload = null;
+$geminiStream = new \Praxo\Core\Adapters\Gemini(
+    'gemini-test',
+    'gk',
+    streamTransport: function (string $path, array $payload) use (&$geminiStreamPayload): string {
+        check(str_contains($path, ':streamGenerateContent'), 'gemini stream path');
+        check(str_contains($path, 'alt=sse'), 'gemini stream alt');
+        $geminiStreamPayload = $payload;
+        return implode("\n\n", [
+            'data: {"candidates":[{"content":{"parts":[{"text":"he"}]}}]}',
+            'data: {"candidates":[{"content":{"parts":[{"text":"llo"},'
+                . '{"functionCall":{"name":"echo","args":{"text":"hi"}}}]},'
+                . '"finishReason":"STOP"}],"usageMetadata":{"promptTokenCount":4,'
+                . '"candidatesTokenCount":2,"cachedContentTokenCount":1}}',
+        ]);
+    },
+);
+$geminiDeltas = [];
+$geminiStreamResponse = $geminiStream->generateStream(
+    new Request(messages: [new Message(role: Roles::USER, content: 'hi')]),
+    function (string $delta) use (&$geminiDeltas): void {
+        $geminiDeltas[] = $delta;
+    },
+);
+check(implode('', $geminiDeltas) === 'hello', 'gemini stream deltas');
+check($geminiStreamResponse->message->content === 'hello', 'gemini stream content');
+check($geminiStreamResponse->message->toolCalls[0]->name === 'echo', 'gemini stream call');
+check($geminiStreamResponse->usage->inputTokens === 4, 'gemini stream usage');
+check($geminiStreamResponse->usage->outputTokens === 2, 'gemini stream output');
+check($geminiStreamResponse->usage->cachedTokens === 1, 'gemini stream cached');
+check($geminiStreamResponse->finishReason === 'STOP', 'gemini stream finish');
+check(is_array($geminiStreamPayload) && isset($geminiStreamPayload['contents']), 'gemini stream payload');
+
 
 $mcp = new \Praxo\Core\Adapters\MCPClient(new class implements \Praxo\Core\Adapters\MCPTransport {
     public array $notifications = [];

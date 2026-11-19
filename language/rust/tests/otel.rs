@@ -69,8 +69,7 @@ fn posts_otlp_span_with_allowed_attributes() {
 
     let payload: Value = serde_json::from_str(&request.body).expect("payload");
     assert_eq!(
-        payload["resourceSpans"][0]["resource"]["attributes"][0]["value"]
-            ["stringValue"],
+        payload["resourceSpans"][0]["resource"]["attributes"][0]["value"]["stringValue"],
         json!("praxo-test")
     );
     let span = span(&request.body);

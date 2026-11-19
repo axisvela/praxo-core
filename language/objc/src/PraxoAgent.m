@@ -498,8 +498,11 @@ NSDictionary<NSString *, id> *PXRAgentRun(NSMutableDictionary<NSString *, id> *o
             }
             [modelMessages addObject:copy];
         }
-        NSDictionary *request = PXRRequestCreate(modelMessages, PXRToolSpecs(
-            selection != nil ? PXRSelectTools(selection, tools) : tools));
+        NSMutableDictionary *request = [PXRRequestCreate(modelMessages, PXRToolSpecs(
+            selection != nil ? PXRSelectTools(selection, tools) : tools)) mutableCopy];
+        if (options[@"onDelta"] != nil) {
+            request[@"onDelta"] = options[@"onDelta"];
+        }
         if (!model(request, &response, &modelError)) {
             return PXRAgentFail(options, sessionId, runId, PXRCodeFromError(modelError),
                                 modelError.localizedDescription ?: @"model failed", error);

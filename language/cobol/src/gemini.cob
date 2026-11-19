@@ -6,6 +6,7 @@ configuration section.
 repository. function all intrinsic.
 data division.
 working-storage section.
+copy "sse.cpy".
 01 ws-body pic x(16384).
 01 ws-body-position binary-long.
 01 ws-source pic x(4096).
@@ -105,12 +106,22 @@ procedure division using px-gemini-options px-session px-response
         ws-url(ws-url-length + 1:ws-model-length)
     add ws-model-length to ws-url-length
     compute ws-piece-length = ws-url-length + 1
-    move ":generateContent" to ws-url(ws-piece-length:16)
-    add 16 to ws-url-length
+    if px-gemini-stream = 1
+        move ":streamGenerateContent?alt=sse" to
+            ws-url(ws-piece-length:31)
+        add 31 to ws-url-length
+    else
+        move ":generateContent" to ws-url(ws-piece-length:16)
+        add 16 to ws-url-length
+    end-if
     move ws-url to px-gemini-url
     move ws-url-length to px-gemini-url-length
     move "POST" to px-gemini-method
-    move "application/json" to px-gemini-content-type
+    if px-gemini-stream = 1
+        move "text/event-stream" to px-gemini-content-type
+    else
+        move "application/json" to px-gemini-content-type
+    end-if
     move px-gemini-api-key to px-gemini-send-api-key
     move px-gemini-api-key-length to px-gemini-send-api-key-length
     move ws-body to px-gemini-body
@@ -123,6 +134,10 @@ procedure division using px-gemini-options px-session px-response
     if px-status not = spaces goback end-if
     if px-gemini-status-code < 200 or px-gemini-status-code >= 300
         move "PROVIDER_HTTP" to px-status
+        goback
+    end-if
+    if px-gemini-stream = 1
+        perform map-stream-response
         goback
     end-if
     move px-gemini-response to px-json-text
@@ -429,6 +444,38 @@ find-field.
             exit perform
         end-if
     end-perform.
+map-stream-response.
+    move px-gemini-response to px-sse-text
+    move px-gemini-response-length to px-sse-length
+    move px-gemini-delta-program to px-sse-delta-program
+    move px-user-data to px-sse-user-data
+    move spaces to px-sse-error
+    call "praxo-gemini-sse" using px-sse-request px-sse-result
+        on exception move "MODEL_STREAM" to px-sse-error
+    end-call
+    if px-sse-error not = spaces
+        move px-sse-error to px-status
+        exit paragraph
+    end-if
+    move px-sse-content to px-answer
+    if px-sse-content-length > 2048
+        move 2048 to px-answer-length
+    else
+        move px-sse-content-length to px-answer-length
+    end-if
+    move px-sse-input-tokens to px-input-tokens
+    move px-sse-output-tokens to px-output-tokens
+    move px-sse-tool-count to px-call-count
+    perform varying ws-loop from 1 by 1
+        until ws-loop > px-call-count
+        move px-sse-call-id(ws-loop) to px-call-id(ws-loop)
+        move px-sse-call-name(ws-loop) to px-call-name(ws-loop)
+        move px-sse-call-arguments(ws-loop)
+            to px-call-input(ws-loop)
+        move px-sse-call-arguments-length(ws-loop)
+            to px-call-input-length(ws-loop)
+    end-perform.
+
 raw-node.
     move spaces to ws-raw
     move 0 to ws-raw-length

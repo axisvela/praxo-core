@@ -30,9 +30,10 @@ Use it when an existing Ruby application needs a governed model/tool loop withou
 
 | Adapter | Status | Detail |
 | --- | --- | --- |
-| OpenAI-compatible model | native | `Praxo::Adapters::OpenAICompatible` |
-| Anthropic model | native | `Praxo::Adapters::Anthropic`; injectable transport |
-| Gemini model | native | `Praxo::Adapters::Gemini`; injectable transport |
+| OpenAI-compatible model | native | `Praxo::Adapters::OpenAICompatible`; SSE streaming reassembly |
+| Anthropic model | native | `Praxo::Adapters::Anthropic`; injectable transport ; Anthropic SSE streaming |
+| Gemini model | native | `Praxo::Adapters::Gemini`; injectable transport; Gemini SSE streaming |
+| Process plugin host | native | `Praxo::PluginProcessHost`; JSON-Lines stdio, token auth, health, timeout, cancel |
 | MCP client | native | `Praxo::Adapters::MCPClient`; stdio, plus `HttpMCPTransport` for Streamable HTTP 2025-03-26 |
 | Harmovela sink | native | `Praxo::Adapters::HarmovelaSink` |
 | OpenTelemetry sink | native (transport seam) | `OtelSink`; caller supplies OTLP/HTTP transport |

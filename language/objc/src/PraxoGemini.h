@@ -14,6 +14,20 @@ FOUNDATION_EXPORT NSDictionary<NSString *, id> *PXRGeminiRequestPayload(
 FOUNDATION_EXPORT NSDictionary<NSString *, id> * _Nullable PXRGeminiParseResponse(
     NSDictionary<NSString *, id> *data, NSError **error);
 
+FOUNDATION_EXPORT NSDictionary<NSString *, id> * _Nullable PXRGeminiParseStream(
+    NSString *text, PXROpenAIDelta onDelta, NSError **error);
+
+FOUNDATION_EXPORT BOOL PXRGeminiGenerateStream(
+    NSString *baseURL,
+    NSString *model,
+    NSString * _Nullable apiKey,
+    NSInteger maxOutputTokens,
+    NSDictionary<NSString *, id> *request,
+    PXROpenAITransport _Nullable transport,
+    PXROpenAIDelta onDelta,
+    NSDictionary<NSString *, id> * _Nullable * _Nullable response,
+    NSError **error);
+
 FOUNDATION_EXPORT BOOL PXRGeminiGenerate(
     NSString *baseURL,
     NSString *model,

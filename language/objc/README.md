@@ -84,7 +84,7 @@ PXRModelGenerate model = PXROpenAIModelCreate(
 `{baseURL}/chat/completions`, maps assistant content, tool calls, usage, and
 finish reason, and injects `PXROpenAITransport` for deterministic tests.
 Missing base URLs and non-2xx responses produce a `PROVIDER_HTTP` error; invalid
-tool arguments produce `PROVIDER_JSON`. Streaming is not implemented.
+tool arguments produce `PROVIDER_JSON`. `PXROpenAIGenerateStream` sets `stream: true`, parses SSE, reassembles content, fragmented tool calls, usage, and finish reason, and calls a delta block. Set `options[@"onDelta"]` to use it through the agent.
 
 Public declarations are inventoried in [`api/0.5.0.txt`](api/0.5.0.txt).
 Agent events use the supplied session's `id` and a UUID-based run ID; the
@@ -215,8 +215,7 @@ queue, or cross-process worker.
   aliases, or replace operating-system sandboxing.
 - Manifest checks validate declarations only. They do not verify signatures,
   establish trust, execute plugins, or enforce OS sandboxing.
-- The OpenAI-compatible adapter is non-streaming. Streaming wire encodings and
-  plugin hosts are not part of this Core.
+- OpenAI-compatible, Anthropic, and Gemini SSE streaming is supported. Streaming wire encodings and\n  plugin hosts are not part of this Core.
 
 The source is MIT; see [LICENSE](LICENSE). Clang, GNUstep, and other toolchain
 components are separate projects, not vendored code.

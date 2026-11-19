@@ -30,7 +30,8 @@ Java implementation of the PRAXO-CORE contract. The normative contract is [`spec
 | --- | --- | --- |
 | OpenAI-compatible model | native | `adapters.OpenAICompatibleModel` |
 | Anthropic model | native | `adapters.AnthropicModel` |
-| Gemini model | native | `adapters.GeminiModel` |
+| Gemini model | native | `adapters.GeminiModel`; Gemini SSE streaming |
+| Process plugin host | native | `plugin.ProcessHost`; JSON-Lines stdio, token auth, health, timeout, cancel (runtime verification blocked locally) |
 | MCP client | native | `adapters.McpClient`; stdio, plus `McpStreamableHttpTransport` for Streamable HTTP 2025-03-26 (local runtime verification pending) |
 | Harmovela sink | native | `adapters.HarmovelaSink` |
 | OpenTelemetry sink | native (transport seam) | `adapters.OtelSink`; caller supplies OTLP/HTTP transport |

@@ -10,3 +10,5 @@
           05 px-provider-tools pic x(2048).
           05 px-provider-tools-length binary-long.
           05 px-provider-max-tokens binary-long.
+          05 px-provider-stream pic 9.
+          05 px-provider-delta-program pic x(64).

@@ -34,6 +34,9 @@ OtelResponse
 OtelSink
 PathChecker
 PathGrant
+PluginProcessConfig
+PluginProcessError
+PluginProcessHost
 Request
 Response
 RunResult
@@ -130,6 +133,9 @@ path_allowed
 path_checker
 path_grant
 pii_redact
+plugin_process_control_service
+plugin_process_default_token_env
+plugin_process_protocol_version
 praxo_error
 redact_value
 request
@@ -144,6 +150,7 @@ run_result
 scripted_model
 select_tools
 session
+start_plugin_process
 static_model
 stream_kinds
 strip_tool_call_markup

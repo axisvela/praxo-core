@@ -65,11 +65,7 @@ impl HttpInner {
     }
 
     fn post(&self, message: Value, timeout: Duration) -> Result<McpHttpResponse> {
-        let session_id = self
-            .session_id
-            .lock()
-            .expect("mcp http session")
-            .clone();
+        let session_id = self.session_id.lock().expect("mcp http session").clone();
         let protocol_version = self
             .protocol_version
             .lock()
@@ -113,8 +109,7 @@ impl HttpInner {
         if let Some(result) = message.get("result").and_then(Value::as_object) {
             if let Some(version) = result.get("protocolVersion").and_then(Value::as_str) {
                 if !version.is_empty() {
-                    *self.protocol_version.lock().expect("mcp http protocol") =
-                        version.to_string();
+                    *self.protocol_version.lock().expect("mcp http protocol") = version.to_string();
                 }
             }
         }
@@ -142,10 +137,9 @@ impl McpBackend for HttpInner {
             return Err(rpc_error(method, error));
         }
         let result = message.get("result").cloned().unwrap_or_else(|| json!({}));
-        result
-            .as_object()
-            .cloned()
-            .ok_or_else(|| PraxoError::mcp_protocol(format!("mcp: {method} result must be an object")))
+        result.as_object().cloned().ok_or_else(|| {
+            PraxoError::mcp_protocol(format!("mcp: {method} result must be an object"))
+        })
     }
 
     fn notify(&self, method: &str, params: Option<Value>) -> Result<()> {
@@ -245,11 +239,7 @@ impl McpBackend for HttpInner {
         if self.closed.swap(true, Ordering::SeqCst) {
             return;
         }
-        let session = self
-            .session_id
-            .lock()
-            .expect("mcp http session")
-            .clone();
+        let session = self.session_id.lock().expect("mcp http session").clone();
         if !session.is_empty() {
             let protocol = self
                 .protocol_version

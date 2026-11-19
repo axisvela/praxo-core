@@ -49,10 +49,9 @@ pub fn run_all() -> Vec<String> {
         .collect();
     paths.sort();
     for path in paths {
-        let file: Value = serde_json::from_str(
-            &fs::read_to_string(&path).expect("read vector file"),
-        )
-        .expect("parse vector file");
+        let file: Value =
+            serde_json::from_str(&fs::read_to_string(&path).expect("read vector file"))
+                .expect("parse vector file");
         let group = file["group"].as_str().unwrap_or("");
         let name = path
             .file_stem()
@@ -184,7 +183,10 @@ fn run_plugin(vector: &Value) -> Result<(), String> {
             check(manifest.id == id, format!("id: got {}", manifest.id))?;
         }
         if let Some(kind) = expect["kind"].as_str() {
-            check(manifest.kind == kind, format!("kind: got {}", manifest.kind))?;
+            check(
+                manifest.kind == kind,
+                format!("kind: got {}", manifest.kind),
+            )?;
         }
     }
     Ok(())
@@ -196,8 +198,8 @@ fn run_memory(vector: &Value) -> Result<(), String> {
     let store = MemoryStore::new();
     if let Some(puts) = input["puts"].as_array() {
         for put in puts {
-            let record: MemoryRecord = serde_json::from_value(put["record"].clone())
-                .map_err(|error| error.to_string())?;
+            let record: MemoryRecord =
+                serde_json::from_value(put["record"].clone()).map_err(|error| error.to_string())?;
             store
                 .put(put["session"].as_str().unwrap_or(""), record)
                 .map_err(|error| error.message)?;
@@ -218,10 +220,7 @@ fn run_memory(vector: &Value) -> Result<(), String> {
         .iter()
         .map(|record| Value::String(record.content.clone()))
         .collect();
-    check(
-        normalize(ids) == expect["ids"],
-        "ids mismatch".to_string(),
-    )?;
+    check(normalize(ids) == expect["ids"], "ids mismatch".to_string())?;
     check(
         normalize(contents) == expect["contents"],
         "contents mismatch".to_string(),
@@ -243,7 +242,9 @@ fn run_event(vector: &Value) -> Result<(), String> {
         .unwrap_or_default();
     if input["sink"].as_str().unwrap_or("filter") == "multi" {
         let count = input["sinkCount"].as_u64().unwrap_or(1).max(1) as usize;
-        let sinks: Vec<Arc<RecordingSink>> = (0..count).map(|_| Arc::new(RecordingSink::default())).collect();
+        let sinks: Vec<Arc<RecordingSink>> = (0..count)
+            .map(|_| Arc::new(RecordingSink::default()))
+            .collect();
         let multi = MultiSink::new(
             sinks
                 .iter()
@@ -253,10 +254,7 @@ fn run_event(vector: &Value) -> Result<(), String> {
         for event in &events {
             multi.emit(event).map_err(|error| error.message)?;
         }
-        let got: Vec<Value> = sinks
-            .iter()
-            .map(|sink| normalize(sink.types()))
-            .collect();
+        let got: Vec<Value> = sinks.iter().map(|sink| normalize(sink.types())).collect();
         return check(
             Value::Array(got) == expect["perSink"],
             "perSink mismatch".to_string(),
@@ -322,9 +320,7 @@ fn run_checkpoint(vector: &Value) -> Result<(), String> {
             .map_err(|error| error.code)
     } else if operation == "unmarshal" {
         allow
-            .unmarshal(
-                &json!({"type": input["type"], "data": input["value"]}).to_string(),
-            )
+            .unmarshal(&json!({"type": input["type"], "data": input["value"]}).to_string())
             .map(|_| ())
             .map_err(|error| error.code)
     } else {
@@ -335,7 +331,10 @@ fn run_checkpoint(vector: &Value) -> Result<(), String> {
             Some(code) == expect["errorCode"].as_str(),
             format!("errorCode: got {code}"),
         ),
-        Ok(()) => check(expect["errorCode"].is_null(), "expected an error".to_string()),
+        Ok(()) => check(
+            expect["errorCode"].is_null(),
+            "expected an error".to_string(),
+        ),
     }
 }
 

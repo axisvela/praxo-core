@@ -78,6 +78,61 @@ end
     @test result.usage.output_tokens == 3
     @test result.finish_reason == "tool_calls"
 
+    stream_payload = Ref{Any}(nothing)
+    sse_line = chunk -> "data: " * Json.stringify(chunk) * "\n\n"
+    stream_adapter = openai_compatible(
+        "https://example.test/v1", "test-model";
+        stream_transport = (path, payload) -> begin
+            stream_payload[] = payload
+            join([
+                sse_line(Dict("choices" => [Dict("delta" => Dict("content" => "he"))])),
+                sse_line(Dict("choices" => [Dict("delta" => Dict("content" => "llo"))])),
+                sse_line(Dict("choices" => [Dict("delta" => Dict("tool_calls" => [
+                    Dict("index" => 0, "id" => "call-1", "function" => Dict(
+                        "name" => "ec", "arguments" => "{\"text\":",
+                    )),
+                ]))])),
+                sse_line(Dict(
+                    "choices" => [Dict("delta" => Dict("tool_calls" => [
+                        Dict("index" => 0, "function" => Dict(
+                            "name" => "ho", "arguments" => "\"hi\"}",
+                        )),
+                    ]))],
+                    "usage" => Dict("prompt_tokens" => 4, "completion_tokens" => 2),
+                )),
+                sse_line(Dict("choices" => [Dict("delta" => Dict(), "finish_reason" => "tool_calls")])),
+                "data: [DONE]\n\n",
+            ])
+        end,
+    )
+    stream_deltas = String[]
+    stream_result = PraxoCore.AgentRuntime.generate_stream(
+        stream_adapter, request, delta -> push!(stream_deltas, delta),
+    )
+    @test stream_payload[]["stream"] === true
+    @test stream_deltas == ["he", "llo"]
+    @test stream_result.message.content == "hello"
+    @test stream_result.message.tool_calls[1].id == "call-1"
+    @test stream_result.message.tool_calls[1].name == "echo"
+    @test stream_result.message.tool_calls[1].arguments["text"] == "hi"
+    @test stream_result.usage.input_tokens == 4
+    @test stream_result.usage.output_tokens == 2
+    @test stream_result.finish_reason == "tool_calls"
+
+    agent_stream_adapter = openai_compatible(
+        "https://example.test/v1", "test-model";
+        stream_transport = (path, payload) -> join([
+            sse_line(Dict("choices" => [Dict("delta" => Dict("content" => "ok"))])),
+            sse_line(Dict("choices" => [Dict("delta" => Dict(), "finish_reason" => "stop")])),
+            "data: [DONE]\n\n",
+        ]),
+    )
+    agent_deltas = String[]
+    agent_options = AgentOptions(agent_stream_adapter; on_delta = delta -> push!(agent_deltas, delta))
+    agent_result = run_agent(Agent(agent_options), Session("s1"), "go")
+    @test agent_result.output == "ok"
+    @test agent_deltas == ["ok"]
+
     invalid = (path, payload) -> Json.parse_json("""
         {"choices":[{"message":{"content":"","tool_calls":[{"id":"call-1",
         "function":{"name":"echo","arguments":"not json"}}]}}]}
@@ -142,6 +197,50 @@ end
     @test result.message.tool_calls[1].arguments["text"] == "hi"
     @test result.usage.cached_tokens == 2
     @test result.finish_reason == "end_turn"
+
+    events = [
+        Dict("type" => "message_start",
+             "message" => Dict("usage" => Dict("input_tokens" => 4,
+                                               "cache_read_input_tokens" => 1))),
+        Dict("type" => "content_block_start", "index" => 0,
+             "content_block" => Dict("type" => "text", "text" => "")),
+        Dict("type" => "content_block_delta", "index" => 0,
+             "delta" => Dict("type" => "text_delta", "text" => "he")),
+        Dict("type" => "content_block_delta", "index" => 0,
+             "delta" => Dict("type" => "text_delta", "text" => "llo")),
+        Dict("type" => "content_block_start", "index" => 1,
+             "content_block" => Dict("type" => "tool_use", "id" => "call-1",
+                                     "name" => "echo", "input" => Dict())),
+        Dict("type" => "content_block_delta", "index" => 1,
+             "delta" => Dict("type" => "input_json_delta",
+                             "partial_json" => "{\"text\":")),
+        Dict("type" => "content_block_delta", "index" => 1,
+             "delta" => Dict("type" => "input_json_delta",
+                             "partial_json" => "\"hi\"}")),
+        Dict("type" => "message_delta", "delta" => Dict("stop_reason" => "tool_use"),
+             "usage" => Dict("output_tokens" => 2)),
+        Dict("type" => "message_stop"),
+    ]
+    stream_text = join(["data: " * Json.stringify(event) for event in events], "\n\n")
+    stream_adapter = anthropic("https://example.test", "claude-test";
+        api_key = "ak",
+        stream_transport = (path, payload) -> begin
+            @test path == "/v1/messages"
+            @test payload["stream"] === true
+            stream_text
+        end)
+    deltas = String[]
+    streamed = PraxoCore.AgentRuntime.generate_stream(
+        stream_adapter, request, delta -> push!(deltas, delta))
+    @test deltas == ["he", "llo"]
+    @test streamed.message.content == "hello"
+    @test streamed.message.tool_calls[1].id == "call-1"
+    @test streamed.message.tool_calls[1].name == "echo"
+    @test streamed.message.tool_calls[1].arguments["text"] == "hi"
+    @test streamed.usage.input_tokens == 4
+    @test streamed.usage.output_tokens == 2
+    @test streamed.usage.cached_tokens == 1
+    @test streamed.finish_reason == "tool_use"
 end
 
 @testset "PraxoCore Gemini adapter" begin
@@ -170,6 +269,38 @@ end
     @test result.message.tool_calls[1].name == "echo"
     @test result.usage.input_tokens == 3
     @test result.finish_reason == "STOP"
+
+    events = [
+        Dict("candidates" => [Dict("content" => Dict("parts" => [
+            Dict("text" => "he")]))]),
+        Dict("candidates" => [Dict("content" => Dict("parts" => [
+            Dict("text" => "llo"),
+            Dict("functionCall" => Dict("name" => "echo",
+                                        "args" => Dict("text" => "hi"))),
+        ]), "finishReason" => "STOP")],
+        "usageMetadata" => Dict("promptTokenCount" => 4,
+                                "candidatesTokenCount" => 2,
+                                "cachedContentTokenCount" => 1)),
+    ]
+    stream_text = join(["data: " * Json.stringify(event) for event in events], "\n\n")
+    stream_adapter = gemini("https://example.test", "gemini-test";
+        api_key = "gk",
+        stream_transport = (path, payload) -> begin
+            @test occursin(":streamGenerateContent", path)
+            @test occursin("alt=sse", path)
+            stream_text
+        end)
+    deltas = String[]
+    streamed = PraxoCore.AgentRuntime.generate_stream(
+        stream_adapter, request, delta -> push!(deltas, delta))
+    @test deltas == ["he", "llo"]
+    @test streamed.message.content == "hello"
+    @test streamed.message.tool_calls[1].name == "echo"
+    @test streamed.message.tool_calls[1].arguments["text"] == "hi"
+    @test streamed.usage.input_tokens == 4
+    @test streamed.usage.output_tokens == 2
+    @test streamed.usage.cached_tokens == 1
+    @test streamed.finish_reason == "STOP"
 end
 
 @testset "PraxoCore Harmovela sink" begin

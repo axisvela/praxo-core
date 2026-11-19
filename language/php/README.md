@@ -130,10 +130,14 @@ $agent = new Agent($options);
 
 - `Praxo\Core\Adapters\OpenAICompatible` for OpenAI, DeepSeek, Kimi/Moonshot,
   and other OpenAI-compatible endpoints.
-- `Praxo\Core\Adapters\Anthropic` for the Anthropic Messages API.
+- `Praxo\Core\Adapters\Anthropic` for the Anthropic Messages API, including `generateStream` SSE reassembly.
 - `Praxo\Core\Adapters\Gemini` for the Gemini generateContent API.
 
-Each adapter accepts an injectable transport callable.
+Each adapter accepts an injectable transport callable. `OpenAICompatible`
+implements `StreamingModel`; `generateStream` sets `stream: true`, parses SSE,
+reassembles content, fragmented tool calls, usage, and `finish_reason`, and
+calls the delta callback. Pass a `streamTransport` returning raw SSE text, or
+use `Agent::runStream`.
 
 ## MCP Client
 

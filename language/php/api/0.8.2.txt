@@ -5,11 +5,13 @@ Action(string $kind, string $sessionId, ?string $toolName, ?array $arguments)
 string $kind
 string $sessionId
 ### Praxo\Core\Adapters\Anthropic
-Anthropic(string $model, ?string $apiKey, string $baseUrl, string $version, int $maxTokens, $transport, int $timeout)
+Anthropic(string $model, ?string $apiKey, string $baseUrl, string $version, int $maxTokens, $transport, int $timeout, $streamTransport)
 Praxo\Core\Response generate(Praxo\Core\Request $request)
+Praxo\Core\Response generateStream(Praxo\Core\Request $request, callable $onDelta)
 ### Praxo\Core\Adapters\Gemini
-Gemini(string $model, ?string $apiKey, string $baseUrl, int $maxOutputTokens, $transport, int $timeout)
+Gemini(string $model, ?string $apiKey, string $baseUrl, int $maxOutputTokens, $transport, $streamTransport, int $timeout)
 Praxo\Core\Response generate(Praxo\Core\Request $request)
+Praxo\Core\Response generateStream(Praxo\Core\Request $request, callable $onDelta)
 ### Praxo\Core\Adapters\HarmovelaSink
 HarmovelaSink(string $baseUrl, ?string $source, ?string $specVersion, $transport, $clock, int $timeout)
 void emit(Praxo\Core\Event $event)
@@ -27,8 +29,9 @@ mixed callTool(string $name, array $arguments)
 string protocolVersion()
 void close()
 ### Praxo\Core\Adapters\OpenAICompatible
-OpenAICompatible(string $baseUrl, string $model, ?string $apiKey, $transport, int $timeout)
+OpenAICompatible(string $baseUrl, string $model, ?string $apiKey, $transport, int $timeout, $streamTransport)
 Praxo\Core\Response generate(Praxo\Core\Request $request)
+Praxo\Core\Response generateStream(Praxo\Core\Request $request, callable $onDelta)
 ### Praxo\Core\Adapters\OtelSink
 OtelSink(string $endpoint, string $serviceName, $transport, array $allowedDataKeys, int $timeout)
 void emit(Praxo\Core\Event $event)
@@ -240,6 +243,9 @@ string $pattern
 string $replacement
 ### Praxo\Core\Plugin
 Praxo\Core\PluginManifest parseManifest(string $raw)
+### Praxo\Core\PluginCallException
+PluginCallException(string $callCode, string $message)
+string $callCode
 ### Praxo\Core\PluginManifest
 ?array $signature
 PluginManifest(int $schemaVersion, string $id, string $version, string $kind, array $entrypoint, string $protocol, array $capabilities, array $permissions, array $limits, string $isolation, array $health, ?array $signature, string $sbom)
@@ -255,6 +261,22 @@ string $kind
 string $protocol
 string $sbom
 string $version
+### Praxo\Core\PluginProcessConfig
+?string $token
+PluginProcessConfig(string $pluginId, string $path, array $args, ?string $token, string $tokenEnvVar, float $startTimeout, float $invokeTimeout, float $gracePeriod)
+array $args
+float $gracePeriod
+float $invokeTimeout
+float $startTimeout
+string $path
+string $pluginId
+string $tokenEnvVar
+### Praxo\Core\PluginProcessHost
+PluginProcessHost(Praxo\Core\PluginProcessConfig $config)
+bool isActive()
+string invoke(string $service, string $method, string $payload)
+void start()
+void stop()
 ### Praxo\Core\PraxoException
 PraxoException(string $praxoCode, string $message)
 Praxo\Core\PraxoException approvalDenied(string $message)

@@ -86,10 +86,14 @@ endpoint.
 
 ## OpenAI-Compatible Adapter
 
-`R/openaicompat.R` adds a non-streaming OpenAI-compatible adapter over the
-native model seam. It posts to `{base_url}/chat/completions` and maps assistant
-content, tool calls, and token usage. Supply `transport` to run without network
-access; the function receives `(path, payload)` and returns decoded JSON.
+`R/openaicompat.R` adds an OpenAI-compatible adapter over the native model
+seam. It posts to `{base_url}/chat/completions` and maps assistant content, tool
+calls, and token usage. Supply `transport` to run without network access; the
+function receives `(path, payload)` and returns decoded JSON.
+`openai_compatible_streaming_model()` returns a `(request, on_delta)` function
+for `agent_run(streaming_model = ...)`. Supply `stream_transport` returning SSE
+text, or let `curl` read the stream. Streaming tool-call fragments, usage, and
+`finish_reason` are reassembled into the final response.
 
 ```r
 adapter <- openai_compatible("https://api.example.com/v1", "model-id",
@@ -101,13 +105,16 @@ model <- openai_compatible_model(adapter)
 ```
 
 Provider HTTP failures raise `praxo_error` with code `PROVIDER_HTTP`; invalid
-tool-argument JSON raises `PROVIDER_JSON`. Streaming is not implemented.
+tool-argument JSON raises `PROVIDER_JSON`; truncated or malformed streams raise
+`MODEL_STREAM`.
 
 ## Anthropic and Gemini Adapters
 
 `R/anthropic.R` maps the Anthropic Messages API, and `R/gemini.R` maps the
 Gemini generateContent API. Both accept a caller-supplied `transport` for
 deterministic tests and fall back to `curl` in normal use.
+`anthropic_streaming_model()` uses `stream_transport` and reassembles
+`message_start`/`text_delta`/`input_json_delta`/`message_delta`/`message_stop`.
 
 ```r
 claude <- anthropic(model = "claude-sonnet-4-5", api_key = Sys.getenv("ANTHROPIC_API_KEY"))

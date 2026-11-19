@@ -3,6 +3,7 @@ require 'uri'
 require_relative '../models'
 require_relative '../json'
 require_relative '../errors'
+require_relative '../sse'
 
 module Praxo
   module Adapters
@@ -11,11 +12,13 @@ module Praxo
     # transport is injectable for deterministic tests:
     #   ->(path, payload) { parsed_response_hash }
     class OpenAICompatible
-      def initialize(base_url:, model:, api_key: nil, transport: nil, timeout: 60)
+      def initialize(base_url:, model:, api_key: nil, transport: nil,
+                     stream_transport: nil, timeout: 60)
         @base_url = base_url.to_s.sub(%r{/$}, '')
         @model = model
         @api_key = api_key
         @transport = transport
+        @stream_transport = stream_transport
         @timeout = timeout
       end
 
@@ -23,6 +26,12 @@ module Praxo
         payload = build_payload(request)
         data = @transport ? @transport.call('/chat/completions', payload) : post('/chat/completions', payload)
         parse_response(data)
+      end
+
+      def generate_stream(request, on_delta)
+        payload = build_payload(request).merge(stream: true)
+        text = @stream_transport ? @stream_transport.call('/chat/completions', payload) : post_stream('/chat/completions', payload)
+        SSE.parse_response(text, on_delta)
       end
 
       private
@@ -115,6 +124,26 @@ module Praxo
           Praxo.error('PROVIDER_HTTP', "provider returned HTTP #{response.code}: #{body}")
         end
         Json.parse(body)
+      end
+
+      def post_stream(path, payload)
+        uri = URI.join(@base_url + '/', path.sub(%r{^/}, ''))
+        request = Net::HTTP::Post.new(uri)
+        request['Content-Type'] = 'application/json'
+        request['Accept'] = 'text/event-stream'
+        request['Authorization'] = "Bearer #{@api_key}" if @api_key
+        request.body = Json.stringify(payload)
+        response = Net::HTTP.start(
+          uri.host,
+          uri.port,
+          use_ssl: uri.scheme == 'https',
+          read_timeout: @timeout
+        ) { |http| http.request(request) }
+        body = response.body.to_s
+        unless response.is_a?(Net::HTTPSuccess)
+          Praxo.error('PROVIDER_HTTP', "provider returned HTTP #{response.code}: #{body}")
+        end
+        body
       end
     end
   end

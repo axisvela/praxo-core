@@ -32,9 +32,9 @@ All 63 normative vectors across the eleven groups pass, together with native age
 
 | Adapter | Status | Detail |
 | --- | --- | --- |
-| OpenAI-compatible model | native (transport seam) | `praxo-openai`; caller supplies a transport program; the model callback lacks tool specs/history |
+| OpenAI-compatible model | native (transport seam) | `praxo-openai`; caller supplies a transport program and optional delta program; SSE streaming reassembles content, tool calls, usage, and finish reason; the model callback lacks tool specs/history |
 | Anthropic model | native (transport seam) | `praxo-anthropic`; caller supplies a transport program; maps system messages, tools, tool choice, text, tool use, and usage |
-| Gemini model | native (transport seam) | `praxo-gemini`; caller supplies a transport program; maps system instructions, tools, tool choice, text, function calls, and usage |
+| Gemini model | native (transport seam) | `praxo-gemini`; caller supplies a transport program; maps system instructions, tools, tool choice, text, function calls, usage, and Gemini SSE streaming |
 | MCP client | native (transport seam) | `praxo-mcp`; caller supplies a transport program |
 | Harmovela sink | native (transport seam) | `praxo-harmovela`; caller supplies a transport program |
 | OpenTelemetry sink | native (transport seam) | `praxo-otel`; caller supplies an OTLP/HTTP transport program |

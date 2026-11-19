@@ -30,7 +30,8 @@ PRAXO-CORE is a dependency-free Python framework for building tool-using AI agen
 | --- | --- | --- |
 | OpenAI-compatible model | native | `praxo.adapters.openaicompat` |
 | Anthropic model | native | `praxo.adapters.anthropic.AnthropicModel` |
-| Gemini model | native | `praxo.adapters.gemini.GeminiModel` |
+| Gemini model | native | `praxo.adapters.gemini.GeminiModel`; Gemini SSE streaming |
+| Process plugin host | native | `praxo.ProcessHost`; JSON-Lines stdio, token auth, health, timeout, cancel |
 | MCP client | native | `praxo.adapters.mcp.MCPClient`; stdio, plus `mcp_http.StreamableHTTPTransport` for Streamable HTTP 2025-03-26 |
 | Harmovela sink | native | `praxo.adapters.harmovela.HarmovelaSink` |
 | OpenTelemetry sink | native (transport seam) | `praxo.adapters.otel.OtelSink`; caller supplies OTLP/HTTP transport |

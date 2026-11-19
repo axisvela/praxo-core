@@ -110,7 +110,10 @@ impl Middleware for PiiMiddleware {
             .iter()
             .map(|message| Message {
                 role: message.role.clone(),
-                content: Some(self.redactor.redact(message.content.as_deref().unwrap_or(""))),
+                content: Some(
+                    self.redactor
+                        .redact(message.content.as_deref().unwrap_or("")),
+                ),
                 content_blocks: message
                     .content_blocks
                     .iter()
@@ -130,9 +133,7 @@ impl Middleware for PiiMiddleware {
                         arguments: tool_call
                             .arguments
                             .iter()
-                            .map(|(key, value)| {
-                                (key.clone(), self.redactor.redact_value(value))
-                            })
+                            .map(|(key, value)| (key.clone(), self.redactor.redact_value(value)))
                             .collect(),
                     })
                     .collect(),
@@ -146,11 +147,7 @@ impl Middleware for PiiMiddleware {
         Ok(())
     }
 
-    fn after_tool(
-        &self,
-        _call: &MiddlewareToolCall,
-        result: &mut ToolResult,
-    ) -> Result<()> {
+    fn after_tool(&self, _call: &MiddlewareToolCall, result: &mut ToolResult) -> Result<()> {
         result.value = self.redactor.redact_value(&result.value);
         Ok(())
     }

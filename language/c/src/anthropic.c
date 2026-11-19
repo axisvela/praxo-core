@@ -1,5 +1,6 @@
 #include "anthropic.h"
 
+#include <stdlib.h>
 #include <string.h>
 
 static const char *str_or_empty(const char *value) {
@@ -240,6 +241,244 @@ const char *px_anthropic_url(PxArena *arena, const PxAnthropic *adapter) {
     memcpy(url, base, length);
     memcpy(url + length, "/v1/messages", 13);
     return url;
+}
+
+typedef struct {
+    char *id;
+    size_t id_length;
+    size_t id_capacity;
+    char *name;
+    size_t name_length;
+    size_t name_capacity;
+    char *arguments;
+    size_t arguments_length;
+    size_t arguments_capacity;
+} PxAnthropicStreamCall;
+
+static int append_stream_text(char **buffer, size_t *length, size_t *capacity,
+        const char *text) {
+    if (text == NULL) return 1;
+    size_t extra = strlen(text);
+    if (*length + extra + 1 > *capacity) {
+        size_t next = *capacity == 0 ? 64 : *capacity;
+        while (next < *length + extra + 1) next *= 2;
+        char *grown = realloc(*buffer, next);
+        if (grown == NULL) return 0;
+        *buffer = grown;
+        *capacity = next;
+    }
+    memcpy(*buffer + *length, text, extra);
+    *length += extra;
+    (*buffer)[*length] = '\0';
+    return 1;
+}
+
+static void free_stream_calls(PxAnthropicStreamCall *calls, size_t count) {
+    for (size_t index = 0; index < count; index++) {
+        free(calls[index].id);
+        free(calls[index].name);
+        free(calls[index].arguments);
+    }
+}
+
+static PxValue *parse_stream_response(PxArena *arena, const char *text,
+        const char *(*on_delta)(const char *delta, void *ctx), void *ctx,
+        const char **error) {
+    char *copy = px_arena_strdup(arena, text == NULL ? "" : text);
+    char *content = NULL;
+    size_t content_length = 0;
+    size_t content_capacity = 0;
+    PxAnthropicStreamCall calls[8];
+    memset(calls, 0, sizeof(calls));
+    size_t call_count = 0;
+    const char *stop_reason = NULL;
+    double input_tokens = 0;
+    double output_tokens = 0;
+    double cached_tokens = 0;
+    const char *stream_error = NULL;
+    int stopped = 0;
+    for (char *line = strtok(copy, "\n"); line != NULL;
+            line = strtok(NULL, "\n")) {
+        size_t length = strlen(line);
+        if (length > 0 && line[length - 1] == '\r') line[length - 1] = '\0';
+        if (strncmp(line, "data:", 5) != 0) continue;
+        char *data = line + 5;
+        while (*data == ' ') data++;
+        if (data[0] == '\0') continue;
+        PxValue *event = px_parse(arena, data);
+        if (event == NULL || event->type != PX_OBJ) {
+            stream_error = "MODEL_STREAM";
+            break;
+        }
+        const char *kind = px_get_str(event, "type");
+        if (kind == NULL) continue;
+        if (strcmp(kind, "message_start") == 0) {
+            PxValue *message = px_obj_get(event, "message");
+            PxValue *usage = message == NULL ? NULL : px_obj_get(message, "usage");
+            if (usage != NULL) {
+                input_tokens = px_get_num(usage, "input_tokens", input_tokens);
+                cached_tokens = px_get_num(usage, "cache_read_input_tokens",
+                    cached_tokens);
+            }
+        } else if (strcmp(kind, "content_block_start") == 0) {
+            double index_value = px_get_num(event, "index", (double)call_count);
+            if (index_value < 0 || index_value >= 8) {
+                stream_error = "PROVIDER_JSON";
+                break;
+            }
+            size_t index = (size_t)index_value;
+            if (index + 1 > call_count) call_count = index + 1;
+            PxValue *block = px_obj_get(event, "content_block");
+            const char *block_type = block == NULL ? NULL
+                : px_get_str(block, "type");
+            if (block_type != NULL && strcmp(block_type, "tool_use") == 0) {
+                PxAnthropicStreamCall *call = &calls[index];
+                const char *id = px_get_str(block, "id");
+                const char *name = px_get_str(block, "name");
+                if (!append_stream_text(&call->id, &call->id_length,
+                        &call->id_capacity, id)) {
+                    stream_error = "MODEL_STREAM";
+                    break;
+                }
+                if (!append_stream_text(&call->name, &call->name_length,
+                        &call->name_capacity, name)) {
+                    stream_error = "MODEL_STREAM";
+                    break;
+                }
+            }
+        } else if (strcmp(kind, "content_block_delta") == 0) {
+            double index_value = px_get_num(event, "index", 0);
+            PxValue *delta = px_obj_get(event, "delta");
+            const char *delta_type = delta == NULL ? NULL
+                : px_get_str(delta, "type");
+            if (delta_type == NULL) continue;
+            if (strcmp(delta_type, "text_delta") == 0) {
+                const char *piece = px_get_str(delta, "text");
+                if (piece != NULL && piece[0] != '\0') {
+                    if (!append_stream_text(&content, &content_length,
+                            &content_capacity, piece)) {
+                        stream_error = "MODEL_STREAM";
+                        break;
+                    }
+                    if (on_delta != NULL) {
+                        const char *callback_error = on_delta(piece, ctx);
+                        if (callback_error != NULL) {
+                            stream_error = callback_error;
+                            break;
+                        }
+                    }
+                }
+            } else if (strcmp(delta_type, "input_json_delta") == 0
+                    && index_value >= 0 && index_value < 8) {
+                size_t index = (size_t)index_value;
+                if (index < call_count) {
+                    const char *partial = px_get_str(delta, "partial_json");
+                    if (!append_stream_text(&calls[index].arguments,
+                            &calls[index].arguments_length,
+                            &calls[index].arguments_capacity, partial)) {
+                        stream_error = "MODEL_STREAM";
+                        break;
+                    }
+                }
+            }
+        } else if (strcmp(kind, "message_delta") == 0) {
+            PxValue *delta = px_obj_get(event, "delta");
+            const char *reason = delta == NULL ? NULL
+                : px_get_str(delta, "stop_reason");
+            if (reason != NULL) stop_reason = reason;
+            PxValue *usage = px_obj_get(event, "usage");
+            if (usage != NULL) {
+                output_tokens = px_get_num(usage, "output_tokens",
+                    output_tokens);
+            }
+        } else if (strcmp(kind, "message_stop") == 0) {
+            stopped = 1;
+        } else if (strcmp(kind, "error") == 0) {
+            stream_error = "MODEL_STREAM";
+            break;
+        }
+    }
+    if (stream_error == NULL && !stopped && stop_reason == NULL) {
+        stream_error = "MODEL_STREAM";
+    }
+    if (stream_error != NULL) {
+        free_stream_calls(calls, call_count);
+        free(content);
+        if (error != NULL) *error = stream_error;
+        return NULL;
+    }
+    PxValue *out = px_obj(arena);
+    px_obj_set(arena, out, "content", px_str(arena,
+        content == NULL ? "" : content));
+    PxValue *tool_calls = px_arr(arena);
+    for (size_t index = 0; index < call_count; index++) {
+        if (calls[index].name == NULL || calls[index].name[0] == '\0') continue;
+        PxValue *arguments = px_obj(arena);
+        if (calls[index].arguments != NULL
+                && calls[index].arguments[0] != '\0') {
+            arguments = px_parse(arena, calls[index].arguments);
+            if (arguments == NULL || arguments->type != PX_OBJ) {
+                free_stream_calls(calls, call_count);
+                free(content);
+                if (error != NULL) *error = "PROVIDER_JSON";
+                return NULL;
+            }
+        }
+        PxValue *call = px_obj(arena);
+        px_obj_set(arena, call, "id", px_str(arena,
+            calls[index].id == NULL ? "" : calls[index].id));
+        px_obj_set(arena, call, "name", px_str(arena, calls[index].name));
+        px_obj_set(arena, call, "arguments", arguments);
+        px_arr_push(arena, tool_calls, call);
+    }
+    px_obj_set(arena, out, "toolCalls", tool_calls);
+    px_obj_set(arena, out, "inputTokens", px_num(arena, input_tokens));
+    px_obj_set(arena, out, "outputTokens", px_num(arena, output_tokens));
+    px_obj_set(arena, out, "cachedTokens", px_num(arena, cached_tokens));
+    if (stop_reason != NULL) {
+        px_obj_set(arena, out, "finishReason", px_str(arena, stop_reason));
+    }
+    free_stream_calls(calls, call_count);
+    free(content);
+    return out;
+}
+
+PxValue *px_anthropic_generate_stream(PxArena *arena, PxValue *messages,
+        PxValue *tools, const char *(*on_delta)(const char *delta, void *ctx),
+        void *ctx, const char **error) {
+    if (error != NULL) *error = NULL;
+    PxAnthropic *adapter = ctx;
+    if (adapter == NULL || adapter->transport == NULL) {
+        if (error != NULL) *error = "PROVIDER_HTTP";
+        return NULL;
+    }
+    const char *request_error = NULL;
+    PxValue *payload = px_anthropic_request(arena, adapter, messages, tools,
+        &request_error);
+    if (payload == NULL || request_error != NULL) {
+        if (error != NULL) *error = request_error == NULL
+            ? "PROVIDER_JSON" : request_error;
+        return NULL;
+    }
+    px_obj_set(arena, payload, "stream", px_bool(arena, true));
+    char *body = px_stringify(arena, payload);
+    if (body == NULL) {
+        if (error != NULL) *error = "PROVIDER_JSON";
+        return NULL;
+    }
+    const char *url = px_anthropic_url(arena, adapter);
+    if (url == NULL) {
+        if (error != NULL) *error = "PROVIDER_HTTP";
+        return NULL;
+    }
+    const char *response = adapter->transport(url, body, adapter->api_key,
+        adapter->transport_ctx, &request_error);
+    if (request_error != NULL || response == NULL) {
+        if (error != NULL) *error = request_error == NULL
+            ? "PROVIDER_HTTP" : request_error;
+        return NULL;
+    }
+    return parse_stream_response(arena, response, on_delta, ctx, error);
 }
 
 PxValue *px_anthropic_generate(PxArena *arena, PxValue *messages, PxValue *tools,

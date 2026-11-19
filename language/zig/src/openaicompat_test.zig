@@ -2,6 +2,7 @@ const std = @import("std");
 const json = @import("json.zig");
 const models = @import("models.zig");
 const openai = @import("openaicompat.zig");
+const agent = @import("agent.zig");
 
 const Fake = struct {
     status: u16 = 200,
@@ -22,6 +23,52 @@ const Fake = struct {
         return .{ .ctx = self, .sendFn = send };
     }
 };
+
+const DeltaSink = struct {
+    total: usize = 0,
+
+    fn emit(ctx: *anyopaque, delta: []const u8) void {
+        const self: *DeltaSink = @ptrCast(@alignCast(ctx));
+        self.total += delta.len;
+    }
+
+    fn handler(self: *DeltaSink) agent.DeltaHandler {
+        return .{ .ctx = self, .emitFn = emit };
+    }
+};
+
+test "openai compatible stream" {
+    var arena = std.heap.ArenaAllocator.init(std.testing.allocator);
+    defer arena.deinit();
+    const allocator = arena.allocator();
+    var fake = Fake{ .body =
+        "data: {\"choices\":[{\"delta\":{\"content\":\"he\"}}]}\n\n" ++
+        "data: {\"choices\":[{\"delta\":{\"content\":\"llo\"}}]}\n\n" ++
+        "data: {\"choices\":[{\"delta\":{\"tool_calls\":[{\"index\":0," ++
+        "\"id\":\"call-1\",\"function\":{\"name\":\"ec\"," ++
+        "\"arguments\":\"{\\\"text\\\":\"}}]}}]}\n\n" ++
+        "data: {\"choices\":[{\"delta\":{\"tool_calls\":[{\"index\":0," ++
+        "\"function\":{\"name\":\"ho\",\"arguments\":\"\\\"hi\\\"}\"}}]}}]," ++
+        "\"usage\":{\"prompt_tokens\":4,\"completion_tokens\":2}}\n\n" ++
+        "data: {\"choices\":[{\"delta\":{},\"finish_reason\":\"tool_calls\"}]}\n\n" ++
+        "data: [DONE]\n\n" };
+    var adapter = openai.Adapter.init(allocator, "http://example.test/v1", "test-model");
+    adapter.transport = fake.transport();
+    const request = models.Request{
+        .messages = &.{.{ .role = models.USER, .content = "hello" }},
+    };
+    var sink = DeltaSink{};
+    const response = try adapter.generateStream(request, sink.handler());
+    try std.testing.expect(json.boolean(fake.captured_payload.?, "stream", false));
+    try std.testing.expectEqual(@as(usize, 5), sink.total);
+    try std.testing.expectEqualStrings("hello", response.message.content.?);
+    try std.testing.expectEqual(@as(usize, 1), response.message.tool_calls.len);
+    try std.testing.expectEqualStrings("call-1", response.message.tool_calls[0].id);
+    try std.testing.expectEqualStrings("echo", response.message.tool_calls[0].name);
+    try std.testing.expectEqualStrings("hi", json.string(response.message.tool_calls[0].arguments, "text").?);
+    try std.testing.expectEqual(@as(i64, 4), response.usage.input_tokens);
+    try std.testing.expectEqual(@as(i64, 2), response.usage.output_tokens);
+}
 
 test "openai compatible generate" {
     var arena = std.heap.ArenaAllocator.init(std.testing.allocator);

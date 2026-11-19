@@ -109,7 +109,7 @@ changes require review and regeneration with `python api-snapshot.py`.
 
 `Praxo.OpenAICompatible` builds a `POST {baseUrl}/chat/completions` request with
 messages, tools, tool choice, assistant tool calls, and token usage, and maps
-provider HTTP failures to `PROVIDER_HTTP`. Streaming is not implemented.
+provider HTTP failures to `PROVIDER_HTTP`. `generateStream` sets `stream: true`,\nparses SSE, reassembles content, fragmented tool calls, and usage, and calls\nthe delta callback. Set `onDelta` and `generateStream` on `AgentOptions` to use\nit through the agent.
 
 ```haskell
 import qualified Praxo.Agent as A
@@ -148,8 +148,8 @@ import qualified Praxo.Anthropic as An
 import qualified Praxo.Gemini as G
 `
 
-They map tool calls, tool schemas, usage, and provider errors. No HTTP client is
-bundled.
+They map tool calls, tool schemas, usage, and provider errors.
+`generateAnthropicStream` and `generateGeminiStream` reassemble SSE. No HTTP client is bundled.
 
 ## Harmovela Event Sink
 

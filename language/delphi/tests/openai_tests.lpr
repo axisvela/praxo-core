@@ -12,6 +12,16 @@ type
       out AResponseBody: UTF8String; out AStatusCode: Integer): Boolean;
   end;
 
+  TDeltaCollector = class
+    Total: UTF8String;
+    procedure Add(const Delta: UTF8String);
+  end;
+
+procedure TDeltaCollector.Add(const Delta: UTF8String);
+begin
+  Total := Total + Delta;
+end;
+
 function TFakeTransport.Send(const APath, ABody: UTF8String;
   out AResponseBody: UTF8String; out AStatusCode: Integer): Boolean;
 begin
@@ -236,9 +246,72 @@ begin
   end;
 end;
 
+procedure TestStreamMapping;
+var
+  Adapter: TPraxoOpenAIAdapter;
+  Fake: TFakeTransport;
+  Collector: TDeltaCollector;
+  Messages, EncodedCalls: TJSONArray;
+  User, Response, Payload, CallObject: TJSONObject;
+  Value: TJSONData;
+begin
+  Fake := TFakeTransport.Create;
+  Fake.Status := 200;
+  Fake.Response :=
+    'data: {"choices":[{"delta":{"content":"he"}}]}' + #10 + #10 +
+    'data: {"choices":[{"delta":{"content":"llo"}}]}' + #10 + #10 +
+    'data: {"choices":[{"delta":{"tool_calls":[{"index":0,"id":"call-1",' +
+    '"function":{"name":"ec","arguments":"{\"text\":"}}]}}]}' + #10 + #10 +
+    'data: {"choices":[{"delta":{"tool_calls":[{"index":0,' +
+    '"function":{"name":"ho","arguments":"\"hi\"}"}}]}}],' +
+    '"usage":{"prompt_tokens":4,"completion_tokens":2}}' + #10 + #10 +
+    'data: {"choices":[{"delta":{},"finish_reason":"tool_calls"}]}' + #10 + #10 +
+    'data: [DONE]' + #10;
+  Collector := TDeltaCollector.Create;
+  Adapter := TPraxoOpenAIAdapter.Create('http://example.test/v1', 'test-model');
+  Adapter.Transport := @Fake.Send;
+  Messages := TJSONArray.Create;
+  User := TJSONObject.Create;
+  User.Add('role', 'user');
+  User.Add('content', 'hi');
+  Messages.Add(User);
+  Response := Adapter.GenerateStream(Messages, @Collector.Add);
+  try
+    Payload := TJSONObject(PraxoParseJSON(Fake.Body));
+    try
+      Value := Field(Payload, 'stream');
+      Check((Value <> nil) and (Value.JSONType = jtBoolean) and
+        Value.AsBoolean, 'stream flag');
+    finally
+      Payload.Free;
+    end;
+    Check(Collector.Total = 'hello', 'stream deltas');
+    Check(Str(Response, 'content') = 'hello', 'stream content');
+    Value := Field(Response, 'toolCalls');
+    Check((Value <> nil) and (Value.JSONType = jtArray), 'stream toolCalls');
+    EncodedCalls := TJSONArray(Value);
+    Check(EncodedCalls.Count = 1, 'stream call count');
+    CallObject := TJSONObject(EncodedCalls.Items[0]);
+    Check(Str(CallObject, 'id') = 'call-1', 'stream call id');
+    Check(Str(CallObject, 'name') = 'echo', 'stream call name');
+    Check(Str(TJSONObject(Field(CallObject, 'arguments')), 'text') = 'hi',
+      'stream call arguments');
+    Check(IntValue(Response, 'inputTokens') = 4, 'stream input tokens');
+    Check(IntValue(Response, 'outputTokens') = 2, 'stream output tokens');
+    Check(Str(Response, 'finishReason') = 'tool_calls', 'stream finish');
+  finally
+    Response.Free;
+    Messages.Free;
+    Adapter.Free;
+    Fake.Free;
+    Collector.Free;
+  end;
+end;
+
 begin
   TestGenerateAndMapping;
   TestAssistantAndToolMapping;
   TestErrors;
+  TestStreamMapping;
   writeln('openai adapter tests passed');
 end.

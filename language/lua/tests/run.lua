@@ -583,6 +583,66 @@ check(captured.model == "test-model", "adapter model")
 check(captured.messages[1].role == "user", "adapter role")
 check(captured.tools[1]["function"].name == "echo", "adapter tool spec")
 
+local stream_payload = nil
+local stream_adapter = openai_compat.new({
+  base_url = "http://example.test/v1",
+  model = "test-model",
+  stream_transport = function(payload)
+    stream_payload = payload
+    return [=[data: {"choices":[{"delta":{"content":"he"}}]}
+
+data: {"choices":[{"delta":{"content":"llo"}}]}
+
+data: {"choices":[{"delta":{"tool_calls":[{"index":0,"id":"call-1","function":{"name":"ec","arguments":"{\"text\":"}}]}}]}
+
+data: {"choices":[{"delta":{"tool_calls":[{"index":0,"function":{"name":"ho","arguments":"\"hi\"}"}}]}}],"usage":{"prompt_tokens":4,"completion_tokens":2}}
+
+data: {"choices":[{"delta":{},"finish_reason":"tool_calls"}]}
+
+data: [DONE]
+]=]
+  end,
+})
+local stream_deltas = {}
+local stream_response = stream_adapter.stream(adapter_request, function(delta)
+  stream_deltas[#stream_deltas + 1] = delta
+end)
+check(stream_payload.stream == true, "adapter stream flag")
+check(#stream_deltas == 2 and stream_deltas[1] == "he" and stream_deltas[2] == "llo",
+      "adapter stream deltas")
+check(stream_response.message.content == "hello", "adapter stream content")
+check(stream_response.message.tool_calls[1].id == "call-1", "adapter stream call id")
+check(stream_response.message.tool_calls[1].name == "echo", "adapter stream call name")
+check(stream_response.message.tool_calls[1].arguments.text == "hi",
+      "adapter stream arguments")
+check(stream_response.usage.input_tokens == 4 and stream_response.usage.output_tokens == 2,
+      "adapter stream usage")
+check(stream_response.finish_reason == "tool_calls", "adapter stream finish")
+
+local agent_stream_adapter = openai_compat.new({
+  base_url = "http://example.test/v1",
+  model = "test-model",
+  stream_transport = function(_payload)
+    return [=[data: {"choices":[{"delta":{"content":"ok"}}]}
+
+data: {"choices":[{"delta":{},"finish_reason":"stop"}]}
+
+data: [DONE]
+]=]
+  end,
+})
+local agent_stream_options = agent.agent_options(agent_stream_adapter)
+local agent_stream_deltas = {}
+agent_stream_options.on_delta = function(delta)
+  agent_stream_deltas[#agent_stream_deltas + 1] = delta
+end
+local agent_stream_result = agent.run_agent(
+  agent_stream_options, models.session({ id = "s1" }), "go"
+)
+check(agent_stream_result.output == "ok", "adapter agent stream output")
+check(#agent_stream_deltas == 1 and agent_stream_deltas[1] == "ok",
+      "adapter agent stream deltas")
+
 local harmovela_captured = nil
 local harmovela = harmovela_sink.new({
   base_url = "http://example.test/aep/api/",
@@ -654,6 +714,45 @@ check(anthropic_response.message.tool_calls[1].arguments.text == "hi", "anthropi
 check(anthropic_payload.system == "be brief", "anthropic system")
 check(anthropic_payload.tools[1].input_schema.type == "object", "anthropic tools")
 
+local anthropic_events = {
+  { type = "message_start", message = { usage = { input_tokens = 4, cache_read_input_tokens = 1 } } },
+  { type = "content_block_start", index = 0, content_block = { type = "text", text = "" } },
+  { type = "content_block_delta", index = 0, delta = { type = "text_delta", text = "he" } },
+  { type = "content_block_delta", index = 0, delta = { type = "text_delta", text = "llo" } },
+  { type = "content_block_start", index = 1, content_block = { type = "tool_use", id = "call-1", name = "echo", input = {} } },
+  { type = "content_block_delta", index = 1, delta = { type = "input_json_delta", partial_json = '{"text":' } },
+  { type = "content_block_delta", index = 1, delta = { type = "input_json_delta", partial_json = '"hi"}' } },
+  { type = "message_delta", delta = { stop_reason = "tool_use" }, usage = { output_tokens = 2 } },
+  { type = "message_stop" },
+}
+local anthropic_stream_text = {}
+for _, event in ipairs(anthropic_events) do
+  anthropic_stream_text[#anthropic_stream_text + 1] = "data: " .. json.encode(event)
+end
+anthropic_stream_text = table.concat(anthropic_stream_text, "\n\n")
+local anthropic_stream = anthropic_adapter.new({
+  model = "claude-test",
+  api_key = "ak",
+  stream_transport = function(payload)
+    check(payload.stream == true, "anthropic stream flag")
+    return anthropic_stream_text
+  end,
+})
+local anthropic_deltas = {}
+local anthropic_stream_response = anthropic_stream.stream(
+  models.request({ messages = { models.message_text(models.USER, "hi") } }),
+  function(delta) anthropic_deltas[#anthropic_deltas + 1] = delta end
+)
+check(#anthropic_deltas == 2 and anthropic_deltas[1] == "he" and anthropic_deltas[2] == "llo",
+      "anthropic stream deltas")
+check(anthropic_stream_response.message.content == "hello", "anthropic stream content")
+check(anthropic_stream_response.message.tool_calls[1].id == "call-1", "anthropic stream call id")
+check(anthropic_stream_response.message.tool_calls[1].arguments.text == "hi",
+      "anthropic stream args")
+check(anthropic_stream_response.usage.input_tokens == 4, "anthropic stream input tokens")
+check(anthropic_stream_response.usage.output_tokens == 2, "anthropic stream output tokens")
+check(anthropic_stream_response.finish_reason == "tool_use", "anthropic stream finish")
+
 local gemini_payload = nil
 local gemini = gemini_adapter.new({
   model = "gemini-test",
@@ -683,6 +782,34 @@ check(gemini_response.message.content == "hello", "gemini content")
 check(gemini_response.message.tool_calls[1].name == "echo", "gemini call name")
 check(gemini_payload.system_instruction.parts[1].text == "be brief", "gemini system")
 check(gemini_payload.toolConfig.functionCallingConfig.mode == "AUTO", "gemini tool mode")
+
+local gemini_stream_payload = nil
+local gemini_stream = gemini_adapter.new({
+  model = "gemini-test",
+  api_key = "gk",
+  stream_transport = function(payload)
+    gemini_stream_payload = payload
+    return 'data: {"candidates":[{"content":{"parts":[{"text":"he"}]}}]}'
+
+      .. '\n\ndata: {"candidates":[{"content":{"parts":[{"text":"llo"},'
+      .. '{"functionCall":{"name":"echo","args":{"text":"hi"}}}]},'
+      .. '"finishReason":"STOP"}],"usageMetadata":{"promptTokenCount":4,'
+      .. '"candidatesTokenCount":2,"cachedContentTokenCount":1}}'
+  end,
+})
+local gemini_deltas = {}
+local gemini_stream_response = gemini_stream.stream(
+  models.request({ messages = { models.message({ role = models.USER, content = "hi" }) } }),
+  function(delta) gemini_deltas[#gemini_deltas + 1] = delta end
+)
+check(table.concat(gemini_deltas) == "hello", "gemini stream deltas")
+check(gemini_stream_response.message.content == "hello", "gemini stream content")
+check(gemini_stream_response.message.tool_calls[1].name == "echo", "gemini stream call")
+check(gemini_stream_response.usage.input_tokens == 4, "gemini stream usage")
+check(gemini_stream_response.usage.output_tokens == 2, "gemini stream output")
+check(gemini_stream_response.finish_reason == "STOP", "gemini stream finish")
+check(gemini_stream_payload.contents ~= nil, "gemini stream payload")
+
 
 local mcp = mcp_adapter.new({
   transport = function(method, params)
