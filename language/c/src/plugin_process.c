@@ -2,12 +2,19 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 #include <string.h>
 
 #include "praxo.h"
 
 #ifdef _WIN32
 #include <windows.h>
+#else
+#include <errno.h>
+#include <poll.h>
+#include <signal.h>
+#include <sys/wait.h>
+#include <unistd.h>
 #endif
 
 #define PX_PLUGIN_TOKEN_ENV "PRAXOVELA_PLUGIN_TOKEN"
@@ -27,6 +34,10 @@ struct PxPluginProcess {
     HANDLE process;
     HANDLE input;
     HANDLE output;
+#else
+    int pid;
+    int input;
+    int output;
 #endif
 };
 
@@ -303,6 +314,15 @@ PxPluginProcess *px_plugin_process_start(const PxPluginProcessConfig *config,
         px_error(error, "INTERNAL");
         return NULL;
     }
+#ifdef _WIN32
+    host->process = NULL;
+    host->input = NULL;
+    host->output = NULL;
+#else
+    host->pid = 0;
+    host->input = -1;
+    host->output = -1;
+#endif
     host->plugin_id = px_copy(config->plugin_id);
     host->buffer = calloc(1, PX_PLUGIN_FRAME_MAX);
     host->token = px_copy(config->token != NULL && config->token[0] != '\0'

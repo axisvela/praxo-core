@@ -6,7 +6,7 @@ Source tag `c/v0.11.0`.
 
 ### Added
 
-- Process plugin host over JSON-Lines stdio on Windows, with token
+- Process plugin host over JSON-Lines stdio on Windows and POSIX, with token
   authentication, health handshake, invocation timeout, and typed call errors.
 - `praxo_plugin_process.h` public API.
 

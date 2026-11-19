@@ -81,7 +81,7 @@ may contain sensitive content, and use HTTPS for remote endpoints.
 
 `px_plugin_process_start` / `px_plugin_process_invoke` /
 `px_plugin_process_stop` implement the JSON-Lines process plugin contract on
-Windows with token authentication, health handshake, invocation timeout, and
+Windows and POSIX with token authentication, health handshake, invocation timeout, and
 typed call errors.
 
 ## Public API Snapshot

@@ -31,7 +31,7 @@ C11 implementation of the PRAXO-CORE Core contract with source version `0.11.0`.
 | OpenAI-compatible model | native (transport seam) | `PxOpenAICompatible`; caller supplies HTTP transport |
 | Anthropic model | native (transport seam) | `PxAnthropic`; caller supplies HTTP transport; Anthropic SSE streaming |
 | Gemini model | native (transport seam) | `PxGemini`; caller supplies HTTP transport; Gemini SSE streaming |
-| Process plugin host | native (Windows) | `PxPluginProcess`; JSON-Lines stdio, token auth, health, timeout |
+| Process plugin host | native (Windows/POSIX) | `PxPluginProcess`; JSON-Lines stdio, token auth, health, timeout |
 | MCP client | native (transport seam) | `PxMcpClient`; caller supplies `PxMcpTransport` |
 | Harmovela sink | native (transport seam) | `praxo_harmovela`; caller supplies HTTP transport |
 | OpenTelemetry sink | native (transport seam) | `PxOtelSink`; caller supplies `PxOtelTransport` |
