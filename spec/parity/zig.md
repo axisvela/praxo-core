@@ -34,6 +34,7 @@ not every optional Go hook or provider adapter.
 | `toolcall.ParseInputJSON` | `parseInputJson` | parity | P1 |
 | `tool/jsonschema.Schema` | `validate` | partial | P1 |
 | `plugin.ParseManifest` | `parseManifest` | parity | P1 |
+| `plugin/host/process` | `plugin_process.start` | parity | P1 |
 | `agent/middleware.CallLimitMiddleware` | `middleware.CallLimit` | parity | P1 |
 | `agent/middleware.FallbackModel` | `middleware.Fallback` | parity | P1 |
 | `agent/middleware.PIIMiddleware` | `middleware.PiiRedactor` | parity | P1 |

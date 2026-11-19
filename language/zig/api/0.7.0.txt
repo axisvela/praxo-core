@@ -24,6 +24,7 @@ EventSink
 Fallback
 FilterSink
 Handler
+Host
 HttpRequest
 HttpTransport
 INTERRUPT_APPROVE
@@ -49,6 +50,7 @@ PathGrant
 PiiRedactor
 PluginError
 PluginManifest
+PluginProcessError
 PolicyFn
 ProviderError
 Registry
@@ -151,6 +153,7 @@ send
 sink
 specs
 start
+stop
 stream_kinds
 string
 stringify

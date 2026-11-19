@@ -4,6 +4,8 @@
 
 ### Added
 
+- `plugin_process.start`, `plugin_process.invoke`, and `Host.stop` bind the C
+  process host over JSON Lines with token authentication and timeout.
 - Deterministic representative-chain example covering MCP, final-argument
   authorization, governed child delegation, OTel/Harmovela events, and an edited
   denial with zero effects.

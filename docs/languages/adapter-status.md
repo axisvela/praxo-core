@@ -186,14 +186,15 @@ adapter listed above.
 | V | native | `PluginProcessHost`; JSON-Lines, timeout |
 | OCaml | native | `start_plugin_process`; JSON-Lines, timeout, cancel |
 | Fortran | native (C bindings) | `plugin_process_start`; JSON-Lines, timeout |
+| Zig | native (C bindings) | `plugin_process.start`; JSON-Lines, timeout |
 | C | native (Windows) | `PxPluginProcess`; JSON-Lines, timeout |
 | Swift | native (parse-only locally) | `PluginProcessHost`; full build blocked by local SDK |
 | Java | native (compile-only locally) | `plugin.ProcessHost`; `java` launcher hangs, `javaw` self-test pending |
 
 Manifest parsing, lifecycle states, and registry validation remain available in
 every listed Core. Process host conformance does not imply WASM or container
-hosting. D, PHP, Objective-C, MATLAB/Octave, Nim, C++, Fortran, COBOL, Julia,
-Zig, and Delphi do not yet ship a verified process host.
+hosting. D, PHP, Objective-C, MATLAB/Octave, Nim, C++, COBOL, Julia, and
+Delphi do not yet ship a verified process host.
 ## MCP
 
 | Language | Status | Notes |

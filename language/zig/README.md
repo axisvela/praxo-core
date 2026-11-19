@@ -157,6 +157,16 @@ zig test src/delegation_test.zig
 python api-snapshot.py --check
 ```
 
+The process plugin host binds the C Core library:
+
+```bash
+cmake -S ../c -B ../c/build
+cmake --build ../c/build
+zig test src/plugin_process.zig -I ../c/include -L ../c/build -lpraxo_core -lc
+```
+
+On Windows, append `-lws2_32`.
+
 On Windows, copy or emit the binary with an `.exe` suffix before running it.
 
 ## Layout
