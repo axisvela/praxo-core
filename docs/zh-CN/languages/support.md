@@ -67,31 +67,31 @@ Bridge、Sample 描述运行时的接入方式，不证明其语言缺乏 Framew
 ### 源码标签、注册表与消费者 smoke
 
 三者是独立的声明：源码标签记录仓库发布，注册表版本记录包管理器可获取的版本，
-消费者 smoke 记录仓库之外的安装与运行。不能用一个为另一个作证。下表注册表版本
-已于 2026-11-14 对公开 registry 核对。
+消费者 smoke 记录仓库之外的安装与运行。不能用一个为另一个作证。下表注册表版本已于 2026-11-20 对本修订更新的行核对；较早的行保留原核对日期。
 
 | 语言 | 源码标签 | 注册表版本 | 消费者安装 smoke |
 | --- | --- | --- | --- |
-| Python | `python/v0.9.1` | PyPI `praxo-core==0.9.1` 已发布 | 发布工作流构建并 smoke 测试了 `0.9.0` wheel 和 sdist；发布后消费者检查未重跑 |
-| TypeScript | `typescript/v0.8.1` | npm `@axisvela/praxo-core@0.8.1` 已作为 `latest` 发布 | 发布工作流构建并 staged `0.8.1`；批准后 npm 已发布。发布后消费者检查未重跑 |
-| Java | `java/v0.10.0` | Maven Central `com.axisvela:praxo-core:0.10.0` 已发布 | 发布工作流构建、签名并发布 `0.10.0`；发布后消费者检查未重跑 |
-| Rust | `rust/v0.9.2` | crates.io `praxo-core==0.9.2` 已发布；`0.1.4` 为历史版本 | 发布工作流对 `0.9.2` 运行测试、conformance、API snapshot 和 dry-run；本地 registry 消费者安装未重跑 |
-| C# | `csharp/v0.9.2` | NuGet `Praxo.Core==0.9.2` 已发布 | 发布工作流构建、测试、打包并推送 `0.9.2`；本地发布包消费者安装记录针对 `0.9.1`，为历史证据 |
-| Elixir | `elixir/v0.9.2` | Hex `praxo_core==0.9.1` 已发布，包含 OpenAI-compatible、Anthropic、Gemini、Harmovela 和 MCP adapter；`0.5.1`、`0.4.1`、`0.4.0`、`0.3.0`、`0.2.0` 为历史版本 | 已增加扩展 starter；Hex `0.4.1` 在干净 Mix 项目中解析，allow/deny 本地通过；`0.6.0` 安装 smoke 未重跑 |
-| Erlang | `erlang/v0.8.2` | Hex `praxo_core_erlang==0.8.2` 已发布；`0.4.0`、`0.3.1`、`0.2.0` 为历史版本 | `0.5.0` 未重跑；历史 `0.1.1` smoke |
-| Ruby | `ruby/v0.8.2` | RubyGems `praxo-core==0.8.2` 已发布；`0.4.1`、`0.4.0`、`0.3.0`、`0.2.0` 为历史版本 | 发布工作流对 `0.8.2` 运行 conformance、API snapshot、测试、gem build 和 push；split 仓库已同步并打 `v0.8.2` tag；本地发布包安装未重跑 |
-| Lua | `lua/v0.7.2` | LuaRocks `praxo-core==0.7.2-1` 已发布，包含可选 OpenAI-compatible adapter；`0.4.1-1`、`0.4.0-1`、`0.3.0-1`、`0.2.0-1` 也已发布 | 已增加扩展 starter；LuaRocks `0.4.1-1` 已安装到干净 tree，allow/deny 本地通过；`0.5.0-1` 安装 smoke 未重跑 |
-| PHP | `php/v0.8.2` | Packagist `axisvela/praxo-core==0.8.1` 已发布，包含 Composer `autoload.files`；`0.4.1`、`0.4.0`、`0.3.0`、`0.2.0` 为历史版本 | 2026-11-18 全新 Composer 安装已发布 `0.8.1`，消费者 allow/deny 测试本地通过 |
-| Dart | `dart/v0.6.2` | pub.dev `praxo_core==0.6.1` | 历史 `0.6.1` 安装 smoke 本地通过；`0.6.2` 发布待完成 |
-| Julia | `julia/v0.7.0` | General Registry PR #176393 待合并 | 未记录 |
-| MATLAB | `matlab/v0.7.0` | MATLAB File Exchange `185166` 已发布（`0.5.0`）；`0.7.0` 上传待完成 | 未记录 |
-| Octave | `octave/v0.7.0` | Octave `0.7.0` release tarball 已发布；Octave Packages PR #875 待合并 | 未记录 |
-| Perl | `perl/v0.6.2` | CPAN `Praxo-Core==0.6.1` 已发布并在 MetaCPAN 建立索引 | 2026-11-18 使用 `cpanm` 1.7049 安装 MetaCPAN tarball 到隔离前缀，发布包消费者 allow/deny 本地通过 |
-| PowerShell | `powershell/v0.7.2` | PowerShell Gallery `praxo-core-ps==0.7.2` 已发布 | 2026-11-18 `Save-PSResource` 下载、隔离模块/DLL 来源与消费者 allow/deny 本地通过；未测试 `Install-Module` 本身 |
-| Nim | `nim/v0.6.0` | split 仓库包 `0.1.1`；nim-lang/packages PR #3600 已于 2026-11-05 合并；nimpkgs 待重新抓取 | 未记录 |
-| OCaml | `ocaml/v0.8.0` | opam `0.3.0`；PR #31222 因 opam-ci 失败已关闭，需要重新提交 | 未记录 |
-| Haskell | `haskell/v0.7.1` | Hackage `praxo-core==0.7.1` 已发布 | 发布工作流门禁通过；未记录消费者安装 |
-| Delphi / Free Pascal | `delphi/v0.7.0` | 0.7.0 OPM 资产已发布；OPM 收录待完成 | 未记录 |
+| Python | `python/v0.10.0` | PyPI `praxo-core==0.10.0` 已发布 | Docs CI 将未改动消费者从 `0.2.4` 升级到 `0.10.0` 并通过；未记录外部安装 |
+| TypeScript | `typescript/v0.9.0` | npm `@axisvela/praxo-core@0.9.0` 已作为 `latest` 发布 | Docs CI 从 `0.1.5` 升级到 `0.9.0` 通过；示例锁文件已使用 registry integrity；未记录外部安装 |
+| Java | `java/v0.11.0` | Maven Central `com.axisvela:praxo-core:0.11.0` 已发布 | 发布工作流构建 `0.11.0`；docs CI 的全新消费者检查不是独立消费者 |
+| Rust | `rust/v0.10.0` | crates.io `praxo-core==0.10.0` 已发布；`0.1.4` 为历史版本 | 发布工作流运行测试、conformance、API snapshot 和 dry-run；本地 registry 消费者安装未重跑 |
+| C# | `csharp/v0.10.0` | NuGet `Praxo.Core==0.10.0` 已发布 | 发布工作流构建、测试、打包并推送；本地发布包消费者安装记录针对 `0.9.1`，为历史证据 |
+| Elixir | `elixir/v0.10.0` | Hex `praxo_core==0.10.0` 已发布，包含 OpenAI-compatible、Anthropic、Gemini、Harmovela 和 MCP adapter | 已增加扩展 starter；较早的干净 Mix 安装覆盖 `0.4.1`；`0.10.0` 安装 smoke 未重跑 |
+| Erlang | `erlang/v0.9.0` | Hex `praxo_core_erlang==0.9.0` 已发布 | `0.9.0` 未重跑；历史 `0.1.1` smoke |
+| Ruby | `ruby/v0.9.0` | RubyGems `praxo-core==0.9.0` 已发布 | 发布工作流运行 conformance、API snapshot、测试、gem build 和 push；split 仓库已同步并打 tag；本地发布包安装未重跑 |
+| Lua | `lua/v0.8.0` | LuaRocks `praxo-core==0.8.0-1` 已发布，包含可选 OpenAI-compatible adapter | 已增加扩展 starter；较早的干净 rock 安装覆盖 `0.4.1-1`；`0.8.0-1` 安装 smoke 未重跑 |
+| PHP | `php/v0.9.0` | Packagist `axisvela/praxo-core==0.8.1` 已发布，包含 Composer `autoload.files` | 2026-11-18 全新 Composer 安装已发布 `0.8.1`，消费者 allow/deny 本地通过；`0.9.0` 未发布 |
+| Dart | `dart/v0.7.0` | pub.dev `praxo_core==0.7.0` 已发布 | 历史 `0.6.1` 安装 smoke 本地通过；`0.7.0` 消费者安装未重跑 |
+| Julia | `julia/v0.8.0` | General Registry PR #176393 待合并 | 未记录 |
+| MATLAB | `matlab/v0.8.0` | MATLAB File Exchange `185166` 已发布（`0.5.0`）；`0.8.0` 上传待完成 | 未记录；原生 MATLAB 未验证 |
+| Octave | `octave/v0.8.0` | Octave `0.7.0` release tarball 已发布；Octave Packages PR #875 待合并 | 未记录；仅 Octave 11.3.0 本地执行 |
+| R | `r/v0.11.0` | r-universe `praxocore==0.10.1` 已发布；CRAN 未发布 | 消费者 starter 以源码模式运行；已发布 `0.10.1` 安装 smoke 未重跑 |
+| Perl | `perl/v0.7.0` | CPAN `Praxo-Core==0.7.0` 已发布并在 MetaCPAN 建立索引 | 2026-11-18 使用 `cpanm` 1.7049 安装 tarball 到隔离前缀，发布包消费者 allow/deny 通过 |
+| PowerShell | `powershell/v0.8.0` | PowerShell Gallery `praxo-core-ps==0.8.0` 已发布 | 2026-11-18 `Save-PSResource` 下载、隔离模块/DLL 来源与消费者 allow/deny 本地通过；未测试 `Install-Module` 本身 |
+| Nim | `nim/v0.7.0` | split 仓库包 `0.1.1`；nim-lang/packages PR #3600 已于 2026-11-05 合并；nimpkgs 待重新抓取 | 未记录 |
+| OCaml | `ocaml/v0.9.0` | opam `0.3.0`；PR #31222 因 opam-ci 失败已关闭，需要重新提交 | 未记录 |
+| Haskell | `haskell/v0.8.0` | Hackage `praxo-core==0.8.0` 已发布 | 发布工作流门禁通过；未记录消费者安装 |
+| Delphi / Free Pascal | `delphi/v0.8.0` | OPM `0.2.1`；0.7.0 OPM 资产已发布；OPM 收录待完成 | 未记录；商业 Delphi 未验证 |
 
 ### 注册表相对代码的新旧状态
 
@@ -100,29 +100,29 @@ Bridge、Sample 描述运行时的接入方式，不证明其语言缺乏 Framew
 
 | 语言 | 代码/manifest 版本 | 注册表 latest | 状态 |
 | --- | --- | --- | --- |
-| Python | `0.9.1` | PyPI `0.9.1` | 已最新 |
-| TypeScript | `0.8.1` | npm `0.8.1` | 已最新 |
-| Java | `0.10.0` | Maven Central `0.10.0` | 已最新 |
-| Rust | `0.9.2` | crates.io `0.9.2` | 已最新 |
-| C# | `0.9.2` | NuGet `0.9.2` | 已最新 |
-| Elixir | `0.9.2` | Hex `0.9.2` | 已最新 |
-| Erlang | `0.8.2` | Hex `0.8.2` | 已最新 |
-| Ruby | `0.8.2` | RubyGems `0.8.2` | 已最新 |
-| PHP | `0.8.2` | Packagist `0.8.1` | registry 待发布 |
-| Lua | rockspec `0.7.1-1`；源码标签 `0.7.2` | LuaRocks `0.7.1-1` | 已最新 |
-| Dart | `0.6.2` | pub.dev `0.6.2` | 已最新 |
-| Julia | `0.7.0` | General Registry PR #176393 待合并 | 待完成 |
-| MATLAB | `0.7.0` | File Exchange `185166`（`0.5.0`） | 0.7.0 上传待完成 |
-| Octave | `0.7.0` | 0.7.0 release tarball；Octave Packages PR #875 待合并 | 待完成 |
-| Perl | `0.6.0` | CPAN `0.6.0` | 已最新 |
-| PowerShell | `0.7.2` | PowerShell Gallery `0.7.2` | 已最新 |
-| Haskell | `0.7.1` | Hackage `0.7.1` | 已最新 |
-| R | `0.10.2` | r-universe `0.10.1` | registry 待发布 |
-| Nim | `0.6.0` | split 仓库包 `0.1.1` | 待完成 |
-| OCaml | `0.8.0` | opam registry `0.3.0`；PR #31222 已关闭（`0.8.0`） | 需要重新提交 |
-| Swift | `0.7.1` | SPI `0.7.0` | registry 待发布 |
-| Delphi / Free Pascal | `0.7.0` | OPM `0.2.1`；0.7.0 资产已发布 | OPM 收录待完成 |
-| D | `0.6.0` | DUB `0.4.0` | 待完成 |
+| Python | 0.10.0 | PyPI `0.10.0` | 已最新 |
+| TypeScript | 0.9.0 | npm `0.9.0` | 已最新 |
+| Java | 0.11.0 | Maven Central `0.11.0` | 已最新 |
+| Rust | 0.10.0 | crates.io `0.10.0` | 已最新 |
+| C# | 0.10.0 | NuGet `0.10.0` | 已最新 |
+| Elixir | 0.10.0 | Hex `0.10.0` | 已最新 |
+| Erlang | 0.9.0 | Hex `0.9.0` | 已最新 |
+| Ruby | 0.9.0 | RubyGems `0.9.0` | 已最新 |
+| PHP | 0.9.0 | Packagist `0.8.1` | registry 待发布 |
+| Lua | 0.8.0-1 | LuaRocks `0.8.0-1` | 已最新 |
+| Dart | 0.7.0 | pub.dev `0.7.0` | 已最新 |
+| Julia | 0.8.0 | General Registry PR #176393 待合并 | 待完成 |
+| MATLAB | 0.8.0 | File Exchange `185166`（`0.5.0`） | 0.8.0 上传待完成 |
+| Octave | 0.8.0 | 0.7.0 release tarball；Octave Packages PR #875 待合并 | 0.8.0 包待完成 |
+| Perl | 0.7.0 | CPAN `0.7.0` | 已最新 |
+| PowerShell | 0.8.0 | PowerShell Gallery `0.8.0` | 已最新 |
+| Haskell | 0.8.0 | Hackage `0.8.0` | 已最新 |
+| R | 0.11.0 | r-universe `0.10.1` | registry 待发布 |
+| Nim | 0.7.0 | split 仓库包 `0.1.1` | 待完成 |
+| OCaml | 0.9.0 | opam registry `0.3.0`；PR #31222 已关闭（`0.8.0`） | 需要重新提交 |
+| Swift | 0.8.0 | SPI `0.7.0` | registry 待发布 |
+| Delphi / Free Pascal | 0.8.0 | OPM `0.2.1`；0.7.0 资产已发布 | OPM 收录待完成 |
+| D | 0.7.0 | DUB `0.4.0` | 待完成 |
 
 不要从注册表安装只有源码标签的语言，也不要假设注册表包包含源码标签的最新行为。
 语言页面是安装信息的唯一来源。
