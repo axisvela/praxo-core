@@ -7,7 +7,8 @@ until the corresponding upstream repository accepts and builds them.
 
 - xmake-repo: https://github.com/xmake-io/xmake-repo/pull/11308
 - vcpkg: https://github.com/microsoft/vcpkg/pull/55192
-- Conan Center: https://github.com/conan-io/conan-center-index/pull/31502
+- Conan Center C: https://github.com/conan-io/conan-center-index/pull/31502
+- Conan Center C++: https://github.com/conan-io/conan-center-index/pull/31503
 
 Both vcpkg and Conan Center require an external CLA signature before their CI
 queues run. The PR commits use the GitHub noreply identity
