@@ -51,14 +51,19 @@ Conan Center requires the recipes to live in a PR against
 
 ## xmake, Meson WrapDB, Bazel Central Registry
 
-These require additional upstream metadata:
+Upstream build files now exist:
 
-- xmake-repo expects a stable source archive and checksum.
-- Meson WrapDB expects a `meson.build` in the upstream project.
-- Bazel Central Registry expects Bazel `BUILD`/module metadata.
+- `language/c/meson.build` and `language/cpp/meson.build` are locally built and installed.
+- `language/c/xmake.lua` and `language/cpp/xmake.lua` are locally built with xmake 3.1.2.
 
-No recipes are committed for those channels until the required archive
-checksum or build metadata is generated and tested.
+Registry submission still needs:
+
+- xmake-repo package recipes with stable source archive checksums.
+- a Meson WrapDB wrap pointing at an archive whose root is the C/C++ project.
+- Bazel Central Registry `BUILD`/module metadata.
+
+No registry PR is submitted for those channels until the archive layout or
+checksums are validated by the receiving repository.
 
 ## Scope
 
