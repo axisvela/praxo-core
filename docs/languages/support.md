@@ -111,7 +111,7 @@ Registry values below were checked against the public registries on 2026-11-17.
 | Ruby | `ruby/v0.8.2` | RubyGems `praxo-core==0.9.0` published; `0.4.1`, `0.4.0`, `0.3.0`, `0.2.0` historical | Release workflow ran conformance, API snapshot, tests, gem build, and push for `0.8.2`; split repo synced and tagged `v0.8.2`; local published-gem install not rerun |
 | Lua | `lua/v0.7.2` | LuaRocks `praxo-core==0.8.0-1` published with the optional OpenAI-compatible adapter; `0.4.1-1`, `0.4.0-1`, `0.3.0-1`, `0.2.0-1` also published | Extended starter added; LuaRocks `0.4.1-1` installed into a clean tree and allow/deny passed locally; `0.5.0-1` install smoke not rerun |
 | PHP | `php/v0.8.2` | Packagist `axisvela/praxo-core==0.8.1` published with Composer `autoload.files`; `0.4.1`, `0.4.0`, `0.3.0`, `0.2.0` historical | Fresh Composer install of published `0.8.1` and consumer allow/deny tests passed locally on 2026-11-18 |
-| Dart | `dart/v0.6.2` | pub.dev `praxo_core==0.6.2` | Prior clean `0.6.1` install smoke passed locally; `0.6.2` publication pending |
+| Dart | `dart/v0.7.0` | pub.dev `praxo_core==0.7.0` | Prior clean `0.6.1` install smoke passed locally; `0.7.0` publication pending |
 | Julia | `julia/v0.7.0` | General Registry PR #176393 open; merge pending | Not recorded |
 | MATLAB | `matlab/v0.7.0` | MATLAB File Exchange `185166` published (`0.5.0`); `0.7.0` upload pending | Not recorded |
 | Octave | `octave/v0.7.0` | Octave `0.7.0` release tarball published; Octave Packages PR #875 pending | Not recorded |
@@ -140,7 +140,7 @@ its latest version matches the manifest at the release tag.
 | Ruby | 0.9.0 | RubyGems `0.9.0` | current |
 | PHP | 0.9.0 | Packagist `0.8.1` | registry publication pending |
 | Lua | 0.8.0-1 | LuaRocks `0.8.0-1` | current |
-| Dart | 0.7.0 | pub.dev `0.6.2` | current |
+| Dart | 0.7.0 | pub.dev `0.7.0` | current |
 | Julia | 0.8.0 | General Registry PR #176393 open; merge pending | pending |
 | MATLAB | 0.8.0 | File Exchange `185166` (`0.5.0`) | 0.7.0 upload pending |
 | Octave | 0.8.0 | 0.7.0 release tarball; Octave Packages PR #875 pending | pending |

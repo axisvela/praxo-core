@@ -43,7 +43,7 @@ GitHub Latest represents the Go Reference Core only, not the last language packa
 | Ruby | RubyGems | `0.9.0` | https://rubygems.org/gems/praxo-core/versions/0.8.2 | published; Ruby source repo is `axisvela/praxo-core-ruby` |
 | Lua | LuaRocks | `0.8.0-1` | https://luarocks.org/modules/hanhhuiwen/praxo-core | published |
 | PHP | Packagist | `0.8.1` | https://packagist.org/packages/axisvela/praxo-core | published |
-| Dart | pub.dev | `0.6.2` | https://pub.dev/packages/praxo_core/versions/0.6.2 | published |
+| Dart | pub.dev | `0.7.0` | https://pub.dev/packages/praxo_core/versions/0.7.0 | published |
 | D | DUB | `0.4.0` | https://code.dlang.org/packages/praxo-core | split repo `v0.6.0` tagged; DUB refresh pending |
 | Swift | Swift Package Index | `0.7.0` | https://swiftpackageindex.com/axisvela/praxo-core-swift | published |
 | MATLAB | MATLAB File Exchange | `0.5.0` | https://www.mathworks.com/matlabcentral/fileexchange/185166-praxo-core | published; 0.7.0 upload pending |
