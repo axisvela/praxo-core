@@ -5,6 +5,8 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 include(CTest)
+include(GNUInstallDirs)
+include(CMakePackageConfigHelpers)
 
 add_library(praxo_cpp STATIC
     src/agent.cpp
@@ -16,7 +18,33 @@ add_library(praxo_cpp STATIC
     src/toolcall.cpp
     src/harmovela.cpp
 )
-target_include_directories(praxo_cpp PUBLIC include)
+target_include_directories(praxo_cpp PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+    $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)
+
+install(TARGETS praxo_cpp
+    EXPORT praxo-cpp-targets
+    ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
+install(DIRECTORY include/praxo
+    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+install(EXPORT praxo-cpp-targets
+    FILE praxo-cpp-targets.cmake
+    NAMESPACE praxo::
+    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/praxo-cpp)
+configure_package_config_file(
+    cmake/praxo-cpp-config.cmake.in
+    ${CMAKE_CURRENT_BINARY_DIR}/praxo-cpp-config.cmake
+    INSTALL_DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/praxo-cpp)
+write_basic_package_version_file(
+    ${CMAKE_CURRENT_BINARY_DIR}/praxo-cpp-config-version.cmake
+    VERSION 0.9.0
+    COMPATIBILITY SameMajorVersion)
+install(FILES
+    ${CMAKE_CURRENT_BINARY_DIR}/praxo-cpp-config.cmake
+    ${CMAKE_CURRENT_BINARY_DIR}/praxo-cpp-config-version.cmake
+    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/praxo-cpp)
 
 add_executable(praxo-cpp-conformance
     conformance/main.cpp

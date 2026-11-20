@@ -1,0 +1,5 @@
+@PACKAGE_INIT@
+
+include("${CMAKE_CURRENT_LIST_DIR}/praxo-core-targets.cmake")
+
+check_required_components(praxo-core)

@@ -6,6 +6,7 @@ set(CMAKE_C_STANDARD_REQUIRED ON)
 
 include(CTest)
 include(GNUInstallDirs)
+include(CMakePackageConfigHelpers)
 
 add_library(praxo_core STATIC
     src/files.c
@@ -38,11 +39,28 @@ if(NOT WIN32)
     target_link_libraries(praxo_core PUBLIC m)
 endif()
 install(TARGETS praxo_core
+    EXPORT praxo-core-targets
     ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
 install(FILES include/praxo.h include/praxo_core.h include/praxo_plugin_process.h
     DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+install(EXPORT praxo-core-targets
+    FILE praxo-core-targets.cmake
+    NAMESPACE praxo::
+    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/praxo-core)
+configure_package_config_file(
+    cmake/praxo-core-config.cmake.in
+    ${CMAKE_CURRENT_BINARY_DIR}/praxo-core-config.cmake
+    INSTALL_DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/praxo-core)
+write_basic_package_version_file(
+    ${CMAKE_CURRENT_BINARY_DIR}/praxo-core-config-version.cmake
+    VERSION 0.13.0
+    COMPATIBILITY SameMajorVersion)
+install(FILES
+    ${CMAKE_CURRENT_BINARY_DIR}/praxo-core-config.cmake
+    ${CMAKE_CURRENT_BINARY_DIR}/praxo-core-config-version.cmake
+    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/praxo-core)
 
 add_executable(praxo-conformance src/main.c)
 target_link_libraries(praxo-conformance PRIVATE praxo_core)
