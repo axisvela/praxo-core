@@ -132,7 +132,7 @@ its latest version matches the manifest at the release tag.
 | --- | --- | --- | --- |
 | Python | 0.10.0 | PyPI `0.9.1` | current |
 | TypeScript | 0.9.0 | npm `0.8.1` | current |
-| Java | 0.11.0 | Maven Central `0.10.0` | current |
+| Java | 0.11.0 | Maven Central `0.11.0` | current |
 | Rust | 0.10.0 | crates.io `0.9.2` | current |
 | C# | 0.10.0 | NuGet `0.9.2` | current |
 | Elixir | 0.10.0 | Hex `0.9.2` | current |
