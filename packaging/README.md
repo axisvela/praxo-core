@@ -7,8 +7,8 @@ until the corresponding upstream repository accepts and builds them.
 
 | Package | Source tag | Commit |
 | --- | --- | --- |
-| `praxo-core` (C) | `c/v0.13.0` | `d6af4a07f6554ed4b748dd82bdecf81d1e851b69` |
-| `praxo-core-cpp` (C++) | `cpp/v0.9.0` | `d6af4a07f6554ed4b748dd82bdecf81d1e851b69` |
+| `praxo-core` (C) | `c/v0.13.0` | `da4cae049176c5f9d4d6912cdef3f69e1a10db41` |
+| `praxo-core-cpp` (C++) | `cpp/v0.9.0` | `da4cae049176c5f9d4d6912cdef3f69e1a10db41` |
 
 Both projects install CMake package configs:
 
