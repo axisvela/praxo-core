@@ -104,7 +104,7 @@ for the rows updated in this revision; earlier rows retain their recorded dates.
 | --- | --- | --- | --- |
 | Python | `python/v0.10.0` | PyPI `praxo-core==0.10.0` published | Docs CI published-upgrade check moved an unchanged consumer from `0.2.4` to `0.10.0` and passed; external install not recorded |
 | TypeScript | `typescript/v0.9.0` | npm `@axisvela/praxo-core@0.9.0` published as `latest` | Docs CI upgrade from `0.1.5` to `0.9.0` passed; example lockfiles now use the registry integrity; external install not recorded |
-| Java | `java/v0.11.0` | Maven Central `com.axisvela:praxo-core:0.11.0` published | Release workflow built `0.11.0`; the fresh consumer install is the docs CI check and is not an independent consumer |
+| Java | `java/v0.11.0` | Maven Central `com.axisvela:praxo-core:0.11.0` published | Release workflow built `0.11.0`; docs CI fresh consumer install passed on 2026-11-20 (run `44731906136`); not an independent consumer |
 | Rust | `rust/v0.10.0` | crates.io `praxo-core==0.10.0` published; `0.1.4` historical | Release workflow ran tests, conformance, API snapshot, and dry-run; local registry consumer install not rerun |
 | C# | `csharp/v0.10.0` | NuGet `Praxo.Core==0.10.0` published | Release workflow built, tested, packed, and pushed; local published-package consumer install for `0.9.1` is historical |
 | Elixir | `elixir/v0.10.0` | Hex `praxo_core==0.10.0` published with OpenAI-compatible, Anthropic, Gemini, Harmovela, and MCP adapters | Extended starter added; earlier clean Mix install covered `0.4.1`; `0.10.0` install smoke not rerun |
