@@ -3,6 +3,16 @@
 These are source recipes for registry PRs. They are not registry publications
 until the corresponding upstream repository accepts and builds them.
 
+## Open PRs
+
+- xmake-repo: https://github.com/xmake-io/xmake-repo/pull/11308
+- vcpkg: https://github.com/microsoft/vcpkg/pull/55192
+- Conan Center: https://github.com/conan-io/conan-center-index/pull/31502
+
+Both vcpkg and Conan Center require an external CLA signature before their CI
+queues run. The PR commits use the GitHub noreply identity
+`5856775+hanhuiwen@users.noreply.github.com`.
+
 ## Versions
 
 | Package | Source tag | Commit |
