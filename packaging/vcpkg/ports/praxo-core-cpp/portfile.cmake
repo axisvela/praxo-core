@@ -1,6 +1,6 @@
 vcpkg_from_git(
     URL https://github.com/axisvela/praxo-core.git
-    REF 2817085dc781bb379b6d09ec2aaa8f73e5ab318e
+    REF d6af4a07f6554ed4b748dd82bdecf81d1e851b69
     OUT_SOURCE_PATH SOURCE_PATH
 )
 
