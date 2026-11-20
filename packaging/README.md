@@ -49,16 +49,28 @@ conan create packaging/conan/recipes/praxo-core-cpp
 Conan Center requires the recipes to live in a PR against
 `conan-io/conan-center-index`; the recipes here are the review-ready source.
 
-## xmake, Meson WrapDB, Bazel Central Registry
+## xmake
 
-Upstream build files now exist:
+xmake-repo package recipes are under `packaging/xmake/packages/`. They use the
+pinned git commit, so they do not depend on a source archive checksum.
+
+```bash
+xmake repo --add -g axisvela-local packaging/xmake
+xmake require -y praxo-core
+xmake require -y praxo-core-cpp
+```
+
+Both recipes were locally built with xmake 3.1.2 and MSVC in a consumer project.
+
+## Meson WrapDB and Bazel Central Registry
+
+Upstream build files exist:
 
 - `language/c/meson.build` and `language/cpp/meson.build` are locally built and installed.
 - `language/c/xmake.lua` and `language/cpp/xmake.lua` are locally built with xmake 3.1.2.
 
 Registry submission still needs:
 
-- xmake-repo package recipes with stable source archive checksums.
 - a Meson WrapDB wrap pointing at an archive whose root is the C/C++ project.
 - Bazel Central Registry `BUILD`/module metadata.
 

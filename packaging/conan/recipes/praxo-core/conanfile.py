@@ -19,7 +19,7 @@ class PraxoCoreConan(ConanFile):
     def source(self):
         git = Git(self)
         git.clone(url="https://github.com/axisvela/praxo-core.git", target=".")
-        git.checkout("d00308d30facc24f81adb860b2a9f4ad28f99722")
+        git.checkout("da4cae049176c5f9d4d6912cdef3f69e1a10db41")
 
     def layout(self):
         cmake_layout(self)
