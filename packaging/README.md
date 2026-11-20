@@ -79,6 +79,7 @@ checksums are validated by the receiving repository.
 
 ## Scope
 
+The vcpkg ports declare Android unsupported until Android-specific CI exists.
 The C++ package does not automatically link the C Core. C++ process plugin
 users must also link `praxo-core` for the C symbols used by
 `praxo/plugin_process.hpp`.
