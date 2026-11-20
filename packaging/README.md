@@ -5,7 +5,8 @@ until the corresponding upstream repository accepts and builds them.
 
 ## Open PRs
 
-- xmake-repo: https://github.com/xmake-io/xmake-repo/pull/11308
+- xmake-repo C: https://github.com/xmake-io/xmake-repo/pull/11309
+- xmake-repo C++: https://github.com/xmake-io/xmake-repo/pull/11310
 - vcpkg: https://github.com/microsoft/vcpkg/pull/55192
 - Conan Center C: https://github.com/conan-io/conan-center-index/pull/31502
 - Conan Center C++: https://github.com/conan-io/conan-center-index/pull/31503
@@ -62,8 +63,9 @@ Conan Center requires the recipes to live in a PR against
 
 ## xmake
 
-xmake-repo package recipes are under `packaging/xmake/packages/`. They use the
-pinned git commit, so they do not depend on a source archive checksum.
+xmake-repo package recipes are under `packaging/xmake/packages/`. C and C++ are
+separate packages with separate upstream PRs. They use the release archive URLs
+and SHA256 values, matching the upstream review request.
 
 ```bash
 xmake repo --add -g axisvela-local packaging/xmake
@@ -72,6 +74,8 @@ xmake require -y praxo-core-cpp
 ```
 
 Both recipes were locally built with xmake 3.1.2 and MSVC in a consumer project.
+The combined PR #11308 was split after review; the C and C++ packages are now
+reviewed separately.
 
 ## Meson WrapDB and Bazel Central Registry
 
