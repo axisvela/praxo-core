@@ -408,16 +408,16 @@
   "TypeScript": {
     "dir": "language/typescript",
     "docs": "https://axisvela.github.io/praxo-core/languages/typescript/",
-    "install": "npm install @axisvela/praxo-core@0.8.1",
+    "install": "npm install @axisvela/praxo-core@0.9.0",
     "package": "@axisvela/praxo-core",
-    "published_version": "0.8.1",
+    "published_version": "0.9.0",
     "registry": "npm",
     "source_install": "npm install ./language/typescript",
     "source_version": "0.9.0",
     "status": "published",
     "tag": "typescript/v0.9.0",
     "tier": "Core",
-    "url": "https://www.npmjs.com/package/@axisvela/praxo-core/v/0.8.1"
+    "url": "https://www.npmjs.com/package/@axisvela/praxo-core/v/0.9.0"
   },
   "V": {
     "dir": "language/v",

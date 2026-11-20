@@ -102,7 +102,7 @@ Registry values below were checked against the public registries on 2026-11-17.
 | Language | Source tag | Registry version | Consumer install smoke |
 | --- | --- | --- | --- |
 | Python | `python/v0.9.1` | PyPI `praxo-core==0.10.0` published | Release workflow built and smoke-tested the `0.9.1` wheel and sdist; post-publication consumer check not rerun |
-| TypeScript | `typescript/v0.8.1` | npm `@axisvela/praxo-core@0.8.1` published as `latest` | Release workflow built and staged `0.8.1`; after approval npm published it. Post-publication consumer check not rerun |
+| TypeScript | `typescript/v0.9.0` | npm `@axisvela/praxo-core@0.9.0` published as `latest` | Release workflow built and staged `0.9.0`; after approval npm published it. Post-publication consumer check not rerun |
 | Java | `java/v0.10.0` | Maven Central `com.axisvela:praxo-core:0.10.0` published | Release workflow built, signed, and published `0.10.0`; post-publication consumer check not rerun |
 | Rust | `rust/v0.9.2` | crates.io `praxo-core==0.10.0` published; `0.1.4` historical | Release workflow ran tests, conformance, API snapshot, and dry-run for `0.9.2`; local registry consumer install not rerun |
 | C# | `csharp/v0.9.2` | NuGet `Praxo.Core==0.10.0` published | Release workflow built, tested, packed, and pushed `0.9.2`; local published-package consumer install for `0.9.1` is historical |
@@ -131,7 +131,7 @@ its latest version matches the manifest at the release tag.
 | Language | Code/manifest version | Registry latest | Status |
 | --- | --- | --- | --- |
 | Python | 0.10.0 | PyPI `0.10.0` | current |
-| TypeScript | 0.9.0 | npm `0.8.1` | current |
+| TypeScript | 0.9.0 | npm `0.9.0` | current |
 | Java | 0.11.0 | Maven Central `0.11.0` | current |
 | Rust | 0.10.0 | crates.io `0.10.0` | current |
 | C# | 0.10.0 | NuGet `0.10.0` | current |

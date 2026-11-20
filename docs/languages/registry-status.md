@@ -34,7 +34,7 @@ GitHub Latest represents the Go Reference Core only, not the last language packa
 | --- | --- | --- | --- | --- |
 | Go | Go module proxy / pkg.go.dev | `v2.10.0` | https://pkg.go.dev/github.com/axisvela/praxo-core/v2 | published; page audited 2026-11-16 |
 | Python | PyPI | `0.10.0` | https://pypi.org/project/praxo-core/0.9.1/ | published |
-| TypeScript | npm | `0.8.1` | https://www.npmjs.com/package/@axisvela/praxo-core/v/0.8.1 | published; latest |
+| TypeScript | npm | `0.9.0` | https://www.npmjs.com/package/@axisvela/praxo-core/v/0.9.0 | published; latest |
 | Java | Maven Central | `0.11.0` | https://repo1.maven.org/maven2/com/axisvela/praxo-core/0.10.0/ | published |
 | Rust | crates.io | `0.10.0` | https://crates.io/crates/praxo-core/0.9.2 | published |
 | C# | NuGet | `0.10.0` | https://www.nuget.org/packages/Praxo.Core/0.9.2 | published |

@@ -12,6 +12,6 @@
     "test": "node --test test_service.test.js"
   },
   "dependencies": {
-    "@axisvela/praxo-core": "0.8.1"
+    "@axisvela/praxo-core": "0.9.0"
   }
 }
