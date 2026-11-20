@@ -1,6 +1,6 @@
 # Public Roadmap
 
-Current core release: `2.9.0`.
+Current core release: `2.10.0`.
 
 This roadmap is organized around developer outcomes: choose the framework,
 run something useful, build a real prototype, embed it in an application, and
@@ -19,9 +19,16 @@ working path, not more language entries. The first path is a five-minute embed;
 governed acceptance is a second step. Public claims now separate contract
 completeness, adapter availability, and integration verification. Safe default
 semantics also move up: Go source at `73da5139` removes recalled memory from the
-system role. `2.9.0` includes the fix; `2.8.0` still used the previous role.
-The fix does not prevent all prompt injection, and does not establish the same
-behavior in every SDK. Final tool arguments remain reauthorized after edits.
+system role. `2.9.0` and `2.10.0` include the fix; `2.8.0` still used the previous
+role. The fix does not prevent all prompt injection, and does not establish the
+same behavior in every SDK. Final tool arguments remain reauthorized after edits.
+
+**Planning update: 2026-11-20.** `2.10.0` records provider SSE streaming and
+process plugin hosts across the declared language cores. C and C++ package
+recipes for vcpkg, Conan Center, and xmake are prepared and submitted upstream;
+an open PR is not a registry publication or install evidence. Distribution work
+stays separate from language count: a package is adopted only after an external
+project installs it and runs the allow/deny path.
 
 PRAXO-CORE remains a **governed, embeddable agent execution framework**. The
 roadmap favors runnable applications and clear integration boundaries over new
@@ -248,6 +255,10 @@ Integrate Core into an existing service while the application owns:
   aligned with the read-only, side-effecting, and high-risk tiers.
 - Provide a minimal durable checkpoint path between the teaching examples and
   the advanced long-running operation fixture.
+- Validate the C and C++ package recipes from a clean external project before
+  describing them as installable. Record prepared, submitted, merged, and
+  registry-installable as separate states; the vcpkg ports currently exclude
+  Android until Android-specific CI exists.
 
 ## Stage 4: Harden and Maintain
 

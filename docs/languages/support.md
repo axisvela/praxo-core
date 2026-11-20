@@ -97,31 +97,32 @@ a merged implementation PR as a support commitment.
 These are separate claims. A source tag records a repository release; a registry
 version records what a package manager can fetch; a consumer smoke records an
 install and run outside the repository. Do not cite one as evidence for another.
-Registry values below were checked against the public registries on 2026-11-17.
+Registry values below were checked against the public registries on 2026-11-20
+for the rows updated in this revision; earlier rows retain their recorded dates.
 
 | Language | Source tag | Registry version | Consumer install smoke |
 | --- | --- | --- | --- |
-| Python | `python/v0.9.1` | PyPI `praxo-core==0.10.0` published | Release workflow built and smoke-tested the `0.9.1` wheel and sdist; post-publication consumer check not rerun |
-| TypeScript | `typescript/v0.9.0` | npm `@axisvela/praxo-core@0.9.0` published as `latest` | Release workflow built and staged `0.9.0`; after approval npm published it. Post-publication consumer check not rerun |
-| Java | `java/v0.10.0` | Maven Central `com.axisvela:praxo-core:0.10.0` published | Release workflow built, signed, and published `0.10.0`; post-publication consumer check not rerun |
-| Rust | `rust/v0.9.2` | crates.io `praxo-core==0.10.0` published; `0.1.4` historical | Release workflow ran tests, conformance, API snapshot, and dry-run for `0.9.2`; local registry consumer install not rerun |
-| C# | `csharp/v0.9.2` | NuGet `Praxo.Core==0.10.0` published | Release workflow built, tested, packed, and pushed `0.9.2`; local published-package consumer install for `0.9.1` is historical |
-| Elixir | `elixir/v0.9.2` | Hex `praxo_core==0.10.0` published with OpenAI-compatible, Anthropic, Gemini, Harmovela, and MCP adapters; `0.5.1`, `0.4.1`, `0.4.0`, `0.3.0`, `0.2.0` historical | Extended starter added; Hex `0.4.1` resolved in a clean Mix project and allow/deny passed locally; `0.6.0` install smoke not rerun |
-| Erlang | `erlang/v0.8.2` | Hex `praxo_core_erlang==0.9.0` published; `0.4.0`, `0.3.1`, `0.2.0` historical | Not rerun for `0.5.0`; historical `0.1.1` smoke |
-| Ruby | `ruby/v0.8.2` | RubyGems `praxo-core==0.9.0` published; `0.4.1`, `0.4.0`, `0.3.0`, `0.2.0` historical | Release workflow ran conformance, API snapshot, tests, gem build, and push for `0.8.2`; split repo synced and tagged `v0.8.2`; local published-gem install not rerun |
-| Lua | `lua/v0.7.2` | LuaRocks `praxo-core==0.8.0-1` published with the optional OpenAI-compatible adapter; `0.4.1-1`, `0.4.0-1`, `0.3.0-1`, `0.2.0-1` also published | Extended starter added; LuaRocks `0.4.1-1` installed into a clean tree and allow/deny passed locally; `0.5.0-1` install smoke not rerun |
-| PHP | `php/v0.8.2` | Packagist `axisvela/praxo-core==0.8.1` published with Composer `autoload.files`; `0.4.1`, `0.4.0`, `0.3.0`, `0.2.0` historical | Fresh Composer install of published `0.8.1` and consumer allow/deny tests passed locally on 2026-11-18 |
-| Dart | `dart/v0.7.0` | pub.dev `praxo_core==0.7.0` | Prior clean `0.6.1` install smoke passed locally; `0.7.0` publication pending |
-| Julia | `julia/v0.7.0` | General Registry PR #176393 open; merge pending | Not recorded |
-| MATLAB | `matlab/v0.7.0` | MATLAB File Exchange `185166` published (`0.5.0`); `0.7.0` upload pending | Not recorded |
-| Octave | `octave/v0.7.0` | Octave `0.7.0` release tarball published; Octave Packages PR #875 pending | Not recorded |
-| R | `r/v0.10.2` | r-universe `praxocore==0.10.1` published; CRAN not published | Consumer starter runs in source mode; published `0.10.1` install smoke not rerun |
-| Perl | `perl/v0.6.2` | CPAN `Praxo-Core==0.7.0` published and indexed on MetaCPAN | MetaCPAN tarball installed with `cpanm` 1.7049 in an isolated prefix; packaged consumer allow/deny passed locally on 2026-11-18 |
-| PowerShell | `powershell/v0.7.2` | PowerShell Gallery `praxo-core-ps==0.8.0` published | `Save-PSResource` download, isolated module/DLL provenance, and consumer allow/deny passed locally on 2026-11-18; `Install-Module` itself not tested |
-| Nim | `nim/v0.6.0` | Split repository package `0.1.1`; nim-lang/packages PR #3600 merged 2026-11-05; nimpkgs re-crawl pending | Not recorded |
-| OCaml | `ocaml/v0.8.0` | opam `0.3.0`; PR #31222 closed after opam-ci failure; new submission needed | Not recorded |
-| Haskell | `haskell/v0.7.1` | Hackage `praxo-core==0.8.0` published | Release-workflow gates passed; consumer install not recorded |
-| Delphi / Free Pascal | `delphi/v0.7.0` | 0.7.0 OPM assets published; OPM listing pending | Not recorded |
+| Python | `python/v0.10.0` | PyPI `praxo-core==0.10.0` published | Docs CI published-upgrade check moved an unchanged consumer from `0.2.4` to `0.10.0` and passed; external install not recorded |
+| TypeScript | `typescript/v0.9.0` | npm `@axisvela/praxo-core@0.9.0` published as `latest` | Docs CI upgrade from `0.1.5` to `0.9.0` passed; example lockfiles now use the registry integrity; external install not recorded |
+| Java | `java/v0.11.0` | Maven Central `com.axisvela:praxo-core:0.11.0` published | Release workflow built `0.11.0`; the fresh consumer install is the docs CI check and is not an independent consumer |
+| Rust | `rust/v0.10.0` | crates.io `praxo-core==0.10.0` published; `0.1.4` historical | Release workflow ran tests, conformance, API snapshot, and dry-run; local registry consumer install not rerun |
+| C# | `csharp/v0.10.0` | NuGet `Praxo.Core==0.10.0` published | Release workflow built, tested, packed, and pushed; local published-package consumer install for `0.9.1` is historical |
+| Elixir | `elixir/v0.10.0` | Hex `praxo_core==0.10.0` published with OpenAI-compatible, Anthropic, Gemini, Harmovela, and MCP adapters | Extended starter added; earlier clean Mix install covered `0.4.1`; `0.10.0` install smoke not rerun |
+| Erlang | `erlang/v0.9.0` | Hex `praxo_core_erlang==0.9.0` published | Not rerun for `0.9.0`; historical `0.1.1` smoke |
+| Ruby | `ruby/v0.9.0` | RubyGems `praxo-core==0.9.0` published | Release workflow ran conformance, API snapshot, tests, gem build, and push; split repo synced and tagged; local published-gem install not rerun |
+| Lua | `lua/v0.8.0` | LuaRocks `praxo-core==0.8.0-1` published with the optional OpenAI-compatible adapter | Extended starter added; earlier clean-rock install covered `0.4.1-1`; `0.8.0-1` install smoke not rerun |
+| PHP | `php/v0.9.0` | Packagist `axisvela/praxo-core==0.8.1` published with Composer `autoload.files` | Fresh Composer install of published `0.8.1` and consumer allow/deny tests passed locally on 2026-11-18; `0.9.0` not published |
+| Dart | `dart/v0.7.0` | pub.dev `praxo_core==0.7.0` published | Prior clean `0.6.1` install smoke passed locally; `0.7.0` consumer install not rerun |
+| Julia | `julia/v0.8.0` | General Registry PR #176393 open; merge pending | Not recorded |
+| MATLAB | `matlab/v0.8.0` | MATLAB File Exchange `185166` published (`0.5.0`); `0.8.0` upload pending | Not recorded; native MATLAB unverified |
+| Octave | `octave/v0.8.0` | Octave `0.7.0` release tarball published; Octave Packages PR #875 pending | Not recorded; Octave 11.3.0 local execution only |
+| R | `r/v0.11.0` | r-universe `praxocore==0.10.1` published; CRAN not published | Consumer starter runs in source mode; published `0.10.1` install smoke not rerun |
+| Perl | `perl/v0.7.0` | CPAN `Praxo-Core==0.7.0` published and indexed on MetaCPAN | MetaCPAN tarball installed with `cpanm` 1.7049 in an isolated prefix; packaged consumer allow/deny passed on 2026-11-18 |
+| PowerShell | `powershell/v0.8.0` | PowerShell Gallery `praxo-core-ps==0.8.0` published | `Save-PSResource` download, isolated module/DLL provenance, and consumer allow/deny passed locally on 2026-11-18; `Install-Module` itself not tested |
+| Nim | `nim/v0.7.0` | Split repository package `0.1.1`; nim-lang/packages PR #3600 merged 2026-11-05; nimpkgs re-crawl pending | Not recorded |
+| OCaml | `ocaml/v0.9.0` | opam `0.3.0`; PR #31222 closed after opam-ci failure; new submission needed | Not recorded |
+| Haskell | `haskell/v0.8.0` | Hackage `praxo-core==0.8.0` published | Release-workflow gates passed; consumer install not recorded |
+| Delphi / Free Pascal | `delphi/v0.8.0` | OPM `0.2.1`; 0.7.0 OPM assets published; OPM listing pending | Not recorded; commercial Delphi unverified |
 
 ### Registry freshness against code
 
@@ -142,9 +143,9 @@ its latest version matches the manifest at the release tag.
 | Lua | 0.8.0-1 | LuaRocks `0.8.0-1` | current |
 | Dart | 0.7.0 | pub.dev `0.7.0` | current |
 | Julia | 0.8.0 | General Registry PR #176393 open; merge pending | pending |
-| MATLAB | 0.8.0 | File Exchange `185166` (`0.5.0`) | 0.7.0 upload pending |
-| Octave | 0.8.0 | 0.7.0 release tarball; Octave Packages PR #875 pending | pending |
-| Perl | 0.7.0 | CPAN `0.7.0` | registry publication pending |
+| MATLAB | 0.8.0 | File Exchange `185166` (`0.5.0`) | 0.8.0 upload pending |
+| Octave | 0.8.0 | 0.7.0 release tarball; Octave Packages PR #875 pending | 0.8.0 package pending |
+| Perl | 0.7.0 | CPAN `0.7.0` | current |
 | PowerShell | 0.8.0 | PowerShell Gallery `0.8.0` | current |
 | Haskell | 0.8.0 | Hackage `0.8.0` | current |
 | R | 0.11.0 | r-universe `0.10.1` | registry publication pending |
