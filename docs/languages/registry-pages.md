@@ -46,11 +46,11 @@ The Go page was checked on 2026-11-16; the four pilot packages were checked on
 | Language | Page | Published version | Current page state | Next action |
 | --- | --- | --- | --- | --- |
 | Go | [pkg.go.dev](https://pkg.go.dev/github.com/axisvela/praxo-core/v2) | `v2.10.0` | Rendered `v2.10.0` README shows the `@v2.10.0` install command, MIT license, and release notes; pkg.go.dev reports `v2.10.0` published 2026-11-16 | No further action |
-| Python | [PyPI](https://pypi.org/project/praxo-core/) | `0.9.1` | `0.9.1` is published; the packaged README carries the expanded examples link and the `0.9.1` install command. The introduction block still links the `0.9.0` page | Refresh the registry-page link in the next release |
+| Python | [PyPI](https://pypi.org/project/praxo-core/) | `0.10.0` | `0.9.1` is published; the packaged README carries the expanded examples link and the `0.9.1` install command. The introduction block still links the `0.9.0` page | Refresh the registry-page link in the next release |
 | TypeScript | [npm](https://www.npmjs.com/package/@axisvela/praxo-core) | `0.8.1` | `0.8.1` is published as `latest` | No further action |
 | Java | [Maven Central](https://central.sonatype.com/artifact/com.axisvela/praxo-core) | `0.11.0` | `0.11.0` is published with signed sources and javadoc; the POM description links the Java examples | No further action |
-| Rust | [crates.io](https://crates.io/crates/praxo-core) | `0.9.2` | `0.9.2` is published; the packaged README carries the example index | No further action |
-| C# | [NuGet](https://www.nuget.org/packages/Praxo.Core) | `0.9.2` | `0.9.2` is published and indexed; the packaged README carries the example index | No further action |
+| Rust | [crates.io](https://crates.io/crates/praxo-core) | `0.10.0` | `0.9.2` is published; the packaged README carries the example index | No further action |
+| C# | [NuGet](https://www.nuget.org/packages/Praxo.Core) | `0.10.0` | `0.9.2` is published and indexed; the packaged README carries the example index | No further action |
 
 The Python `0.7.0`, TypeScript `0.6.0`, Java `0.9.0`, Rust `0.8.0`, and C#
 `0.8.0` language pages were refreshed from this release. The Go page follows the

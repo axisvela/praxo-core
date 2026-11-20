@@ -8,15 +8,15 @@
 | 语言 | 包 | 当前推荐版本 | Starter |
 | --- | --- | --- | --- |
 | Go | `github.com/axisvela/praxo-core/v2` | `2.10.0` | [Go 消费者](consumer-go.md) |
-| Python | `praxo-core` | `0.9.1` | [Python 消费者](consumer-python.md) |
+| Python | `praxo-core` | `0.10.0` | [Python 消费者](consumer-python.md) |
 | TypeScript | `@axisvela/praxo-core` | `0.8.1` | [TypeScript 消费者](consumer-typescript.md) |
 | Java | `com.axisvela:praxo-core` | `0.11.0` | [Java 消费者](consumer-java.md) |
-| Ruby | `praxo-core` | `0.8.2` | [Ruby Starter](https://github.com/axisvela/praxo-core/tree/main/language/ruby/examples/consumer) |
+| Ruby | `praxo-core` | `0.9.0` | [Ruby Starter](https://github.com/axisvela/praxo-core/tree/main/language/ruby/examples/consumer) |
 | PHP | `axisvela/praxo-core` | `0.8.1` | [PHP Starter](https://github.com/axisvela/praxo-core/tree/main/language/php/examples/consumer) |
-| Elixir | `praxo_core` | `0.9.2` | [Elixir Starter](https://github.com/axisvela/praxo-core/tree/main/language/elixir/examples/consumer) |
-| Lua | `praxo-core` | `0.7.2-1` | [Lua Starter](https://github.com/axisvela/praxo-core/tree/main/language/lua/examples/consumer) |
-| C# | `Praxo.Core` | `0.9.2` | [C# Starter](https://github.com/axisvela/praxo-core/tree/main/language/csharp/examples/consumer) |
-| Rust | `praxo-core` | `0.9.2` | [Rust Starter](https://github.com/axisvela/praxo-core/tree/main/language/rust/examples/consumer) |
+| Elixir | `praxo_core` | `0.10.0` | [Elixir Starter](https://github.com/axisvela/praxo-core/tree/main/language/elixir/examples/consumer) |
+| Lua | `praxo-core` | `0.8.0-1` | [Lua Starter](https://github.com/axisvela/praxo-core/tree/main/language/lua/examples/consumer) |
+| C# | `Praxo.Core` | `0.10.0` | [C# Starter](https://github.com/axisvela/praxo-core/tree/main/language/csharp/examples/consumer) |
+| Rust | `praxo-core` | `0.10.0` | [Rust Starter](https://github.com/axisvela/praxo-core/tree/main/language/rust/examples/consumer) |
 | R | `praxocore` | `0.10.1` | [R Starter](https://github.com/axisvela/praxo-core/tree/main/language/r/examples/consumer) |
 
 机器可读映射见 [`agent-integration.json`](agent-integration.json)，CI 会校验本表与该文件
@@ -48,7 +48,7 @@
 | 语言 | 验证 |
 | --- | --- |
 | Go | `GOWORK=off go test -mod=readonly ./...` |
-| Python | 在独立虚拟环境中：`python -I -m unittest discover -s . -v` |
+| Python | 在独立虚拟环境中：`python -I -m unittest discover -s . -v` | `0.10.0` 
 | TypeScript | `npm test` |
 | Java | `mvn -B test` |
 

@@ -31,7 +31,7 @@ The latest Hex package is `praxo_core@0.9.2`. HexDocs:
 - Machine-readable entry: [llms.txt](https://github.com/axisvela/praxo-core/blob/main/language/elixir/llms.txt) and [llms.md](https://github.com/axisvela/praxo-core/blob/main/language/elixir/llms.md)
 - [Examples](https://github.com/axisvela/praxo-core/tree/main/language/elixir/examples): runnable language-specific examples.
 - Coding-agent contract: [docs/getting-started/coding-agents.md](https://github.com/axisvela/praxo-core/blob/main/docs/getting-started/coding-agents.md)
-- Registry: [Hex](https://hex.pm/packages/praxo_core/0.9.2)
+- Registry: [Hex](https://hex.pm/packages/praxo_core/0.10.0)
 - Community: [X](https://x.com/axisvela) · [Weibo](https://weibo.com/u/1936025761)
 
 ## Get started

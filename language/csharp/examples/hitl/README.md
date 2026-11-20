@@ -1,6 +1,6 @@
 # C# HITL Approval
 
-This example uses published NuGet `Praxo.Core==0.9.2` to demonstrate a write tool
+This example uses published NuGet `Praxo.Core==0.10.0` to demonstrate a write tool
 that requires human approval:
 
 - approve the original `write_note(text="hello", visibility="public")` call;

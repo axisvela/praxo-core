@@ -16,16 +16,16 @@
   "C#": {
     "dir": "language/csharp",
     "docs": "https://axisvela.github.io/praxo-core/languages/csharp/",
-    "install": "dotnet add package Praxo.Core --version 0.9.2",
+    "install": "dotnet add package Praxo.Core --version 0.10.0",
     "package": "Praxo.Core",
-    "published_version": "0.9.2",
+    "published_version": "0.10.0",
     "registry": "NuGet",
     "source_install": "ProjectReference to language/csharp/Praxo.Core",
     "source_version": "0.10.0",
     "status": "published",
     "tag": "csharp/v0.10.0",
     "tier": "Core",
-    "url": "https://www.nuget.org/packages/Praxo.Core/0.9.2"
+    "url": "https://www.nuget.org/packages/Praxo.Core/0.10.0"
   },
   "C++": {
     "dir": "language/cpp",
@@ -100,30 +100,30 @@
   "Elixir": {
     "dir": "language/elixir",
     "docs": "https://axisvela.github.io/praxo-core/languages/elixir/",
-    "install": "{:praxo_core, \"~> 0.9.2\"}",
+    "install": "{:praxo_core, \"~> 0.10.0\"}",
     "package": "praxo_core",
-    "published_version": "0.9.2",
+    "published_version": "0.10.0",
     "registry": "Hex",
     "source_install": "{:praxo_core, path: \"language/elixir\"}",
     "source_version": "0.10.0",
     "status": "published",
     "tag": "elixir/v0.10.0",
     "tier": "Core",
-    "url": "https://hex.pm/packages/praxo_core/0.9.2"
+    "url": "https://hex.pm/packages/praxo_core/0.10.0"
   },
   "Erlang": {
     "dir": "language/erlang",
     "docs": "https://axisvela.github.io/praxo-core/languages/erlang/",
-    "install": "{praxo_core, \"0.8.2\", {pkg, praxo_core_erlang}}",
+    "install": "{praxo_core, \"0.9.0\", {pkg, praxo_core_erlang}}",
     "package": "praxo_core_erlang",
-    "published_version": "0.8.2",
+    "published_version": "0.9.0",
     "registry": "Hex",
     "source_install": "{praxo_core, {path, \"language/erlang\"}}",
     "source_version": "0.9.0",
     "status": "published",
     "tag": "erlang/v0.9.0",
     "tier": "Core",
-    "url": "https://hex.pm/packages/praxo_core_erlang/0.8.2"
+    "url": "https://hex.pm/packages/praxo_core_erlang/0.9.0"
   },
   "Fortran": {
     "dir": "language/fortran",
@@ -172,14 +172,14 @@
     "docs": "https://axisvela.github.io/praxo-core/languages/haskell/",
     "install": "cabal install praxo-core",
     "package": "praxo-core",
-    "published_version": "0.7.1",
+    "published_version": "0.8.0",
     "registry": "Hackage",
     "source_install": "cabal install praxo-core",
     "source_version": "0.8.0",
     "status": "published",
     "tag": "haskell/v0.8.0",
     "tier": "Core",
-    "url": "https://hackage.haskell.org/package/praxo-core-0.7.1"
+    "url": "https://hackage.haskell.org/package/praxo-core-0.8.0"
   },
   "Java": {
     "dir": "language/java",
@@ -212,9 +212,9 @@
   "Lua": {
     "dir": "language/lua",
     "docs": "https://axisvela.github.io/praxo-core/languages/lua/",
-    "install": "luarocks install praxo-core 0.7.2-1",
+    "install": "luarocks install praxo-core 0.8.0-1",
     "package": "praxo-core",
-    "published_version": "0.7.2-1",
+    "published_version": "0.8.0-1",
     "registry": "LuaRocks",
     "source_install": "luarocks install praxo-core 0.8.0-1",
     "source_version": "0.8.0-1",
@@ -312,7 +312,7 @@
     "docs": "https://axisvela.github.io/praxo-core/languages/perl/",
     "install": "cpanm Praxo::Core",
     "package": "Praxo::Core",
-    "published_version": "0.6.1",
+    "published_version": "0.7.0",
     "registry": "CPAN (MetaCPAN index)",
     "source_install": "cpanm Praxo::Core",
     "source_version": "0.7.0",
@@ -326,28 +326,28 @@
     "docs": "https://axisvela.github.io/praxo-core/languages/powershell/",
     "install": "Install-Module praxo-core-ps",
     "package": "praxo-core-ps",
-    "published_version": "0.7.2",
+    "published_version": "0.8.0",
     "registry": "PowerShell Gallery",
     "source_install": "Install-Module praxo-core-ps",
     "source_version": "0.8.0",
     "status": "published; shared C# runtime",
     "tag": "powershell/v0.8.0",
     "tier": "Core (.NET)",
-    "url": "https://www.powershellgallery.com/packages/praxo-core-ps/0.7.2"
+    "url": "https://www.powershellgallery.com/packages/praxo-core-ps/0.8.0"
   },
   "Python": {
     "dir": "language/python",
     "docs": "https://axisvela.github.io/praxo-core/languages/python/",
-    "install": "pip install praxo-core==0.9.1",
+    "install": "pip install praxo-core==0.10.0",
     "package": "praxo-core",
-    "published_version": "0.9.1",
+    "published_version": "0.10.0",
     "registry": "PyPI",
     "source_install": "pip install ./language/python",
     "source_version": "0.10.0",
     "status": "published",
     "tag": "python/v0.10.0",
     "tier": "Core",
-    "url": "https://pypi.org/project/praxo-core/0.9.1/"
+    "url": "https://pypi.org/project/praxo-core/0.10.0/"
   },
   "R": {
     "dir": "language/r",
@@ -368,28 +368,28 @@
     "docs": "https://axisvela.github.io/praxo-core/languages/ruby/",
     "install": "gem install praxo-core",
     "package": "praxo-core",
-    "published_version": "0.8.2",
+    "published_version": "0.9.0",
     "registry": "RubyGems",
     "source_install": "gem install praxo-core",
     "source_version": "0.9.0",
     "status": "published; split source repository",
     "tag": "ruby/v0.9.0",
     "tier": "Core",
-    "url": "https://rubygems.org/gems/praxo-core/versions/0.8.2"
+    "url": "https://rubygems.org/gems/praxo-core/versions/0.9.0"
   },
   "Rust": {
     "dir": "language/rust",
     "docs": "https://axisvela.github.io/praxo-core/languages/rust/",
-    "install": "cargo add praxo-core@0.9.2",
+    "install": "cargo add praxo-core@0.10.0",
     "package": "praxo-core",
-    "published_version": "0.9.2",
+    "published_version": "0.10.0",
     "registry": "crates.io",
     "source_install": "cargo add --path language/rust",
     "source_version": "0.10.0",
     "status": "published",
     "tag": "rust/v0.10.0",
     "tier": "Core",
-    "url": "https://crates.io/crates/praxo-core/0.9.2"
+    "url": "https://crates.io/crates/praxo-core/0.10.0"
   },
   "Swift": {
     "dir": "language/swift",

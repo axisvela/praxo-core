@@ -1,6 +1,6 @@
 # Python Examples
 
-- [`consumer/`](consumer/): published PyPI `praxo-core==0.9.1` starter with
+- [`consumer/`](consumer/): published PyPI `praxo-core==0.10.0` starter with
   deterministic allow/deny checks.
 - [`live-model/`](live-model/): published PyPI package connected to an
   OpenAI-compatible endpoint through `get_time(zone)`.

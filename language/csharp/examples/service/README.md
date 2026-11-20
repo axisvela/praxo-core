@@ -1,6 +1,6 @@
 # HTTP Service
 
-This example embeds published NuGet `Praxo.Core==0.9.2` in a standard-library
+This example embeds published NuGet `Praxo.Core==0.10.0` in a standard-library
 TCP/HTTP service. The application supplies a principal and tenant, restricts
 tools, and returns JSON.
 

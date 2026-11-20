@@ -23,15 +23,15 @@ GitHub Latest 仅代表 Go 参考 Core，不代表最近发布的语言包。
 | 语言 | 注册表 | 版本 | 地址 | 状态 |
 | --- | --- | --- | --- | --- |
 | Go | Go module proxy / pkg.go.dev | `v2.10.0` | https://pkg.go.dev/github.com/axisvela/praxo-core/v2 | 已发布；页面已于 2026-11-16 审计 |
-| Python | PyPI | `0.9.1` | https://pypi.org/project/praxo-core/0.9.1/ | 已发布 |
+| Python | PyPI | `0.10.0` | https://pypi.org/project/praxo-core/0.9.1/ | 已发布 |
 | TypeScript | npm | `0.8.1` | https://www.npmjs.com/package/@axisvela/praxo-core/v/0.8.1 | 已发布；latest |
 | Java | Maven Central | `0.11.0` | https://repo1.maven.org/maven2/com/axisvela/praxo-core/0.10.0/ | 已发布 |
-| Rust | crates.io | `0.9.2` | https://crates.io/crates/praxo-core/0.9.2 | 已发布 |
-| C# | NuGet | `0.9.2` | https://www.nuget.org/packages/Praxo.Core/0.9.2 | 已发布 |
-| Elixir | Hex / HexDocs | `0.9.2` | https://hex.pm/packages/praxo_core/0.9.2 · https://praxo-core.hexdocs.pm/0.9.2/ | 已发布 |
-| Erlang | Hex | `0.8.2` | https://hex.pm/packages/praxo_core_erlang/0.8.2 | 已发布 |
-| Ruby | RubyGems | `0.8.2` | https://rubygems.org/gems/praxo-core/versions/0.8.2 | 已发布；Ruby 源码仓库为 `axisvela/praxo-core-ruby` |
-| Lua | LuaRocks | `0.7.2-1` | https://luarocks.org/modules/hanhhuiwen/praxo-core | 已发布 |
+| Rust | crates.io | `0.10.0` | https://crates.io/crates/praxo-core/0.9.2 | 已发布 |
+| C# | NuGet | `0.10.0` | https://www.nuget.org/packages/Praxo.Core/0.9.2 | 已发布 |
+| Elixir | Hex / HexDocs | `0.10.0` | https://hex.pm/packages/praxo_core/0.9.2 · https://praxo-core.hexdocs.pm/0.9.2/ | 已发布 |
+| Erlang | Hex | `0.9.0` | https://hex.pm/packages/praxo_core_erlang/0.8.2 | 已发布 |
+| Ruby | RubyGems | `0.9.0` | https://rubygems.org/gems/praxo-core/versions/0.8.2 | 已发布；Ruby 源码仓库为 `axisvela/praxo-core-ruby` |
+| Lua | LuaRocks | `0.8.0-1` | https://luarocks.org/modules/hanhhuiwen/praxo-core | 已发布 |
 | PHP | Packagist | `0.8.1` | https://packagist.org/packages/axisvela/praxo-core | 已发布 |
 | Dart | pub.dev | `0.6.2` | https://pub.dev/packages/praxo_core/versions/0.6.2 | 已发布 |
 | D | DUB | `0.4.0` | https://code.dlang.org/packages/praxo-core | split 仓库 `v0.6.0` 已打 tag；DUB 刷新待完成 |
@@ -40,7 +40,7 @@ GitHub Latest 仅代表 Go 参考 Core，不代表最近发布的语言包。
 | PowerShell Core | PowerShell Gallery | `0.7.0` | https://www.powershellgallery.com/packages/praxo-core-ps/0.7.0 | 已发布 |
 | PowerShell Bridge | PowerShell Gallery | `0.1.0` | https://www.powershellgallery.com/packages/praxo-core-ps-br/0.1.0 | 已发布 |
 | Perl | CPAN | `0.6.0` | https://metacpan.org/dist/Praxo-Core | 已发布并在 MetaCPAN 建立索引 |
-| Haskell | Hackage | `0.7.1` | https://hackage.haskell.org/package/praxo-core-0.7.0 | 已发布 |
+| Haskell | Hackage | `0.8.0` | https://hackage.haskell.org/package/praxo-core-0.7.0 | 已发布 |
 | R | r-universe | `0.10.1` | https://axisvela.r-universe.dev/praxocore | 已在 r-universe 发布；未发布 CRAN |
 | Nim | nim-lang/packages（Nimble） | `0.1.1` | https://github.com/axisvela/praxo-core-nim | split 仓库 `v0.6.0` 已打 tag；nim-lang/packages PR #3600 已于 2026-11-05 合并；nimpkgs 待重新抓取 |
 
