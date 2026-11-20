@@ -46,6 +46,8 @@ install(FILES
     ${CMAKE_CURRENT_BINARY_DIR}/praxo-cpp-config-version.cmake
     DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/praxo-cpp)
 
+if(BUILD_TESTING)
+
 add_executable(praxo-cpp-conformance
     conformance/main.cpp
     conformance/run.cpp
@@ -113,3 +115,5 @@ add_test(NAME praxo-cpp-delegation-governance-tests
     COMMAND praxo-cpp-delegation-governance-tests)
 add_test(NAME praxo-cpp-representative-chain-tests
     COMMAND praxo-cpp-representative-chain-tests)
+
+endif()

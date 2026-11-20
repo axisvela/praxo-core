@@ -62,6 +62,8 @@ install(FILES
     ${CMAKE_CURRENT_BINARY_DIR}/praxo-core-config-version.cmake
     DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/praxo-core)
 
+if(BUILD_TESTING)
+
 add_executable(praxo-conformance src/main.c)
 target_link_libraries(praxo-conformance PRIVATE praxo_core)
 
@@ -191,4 +193,6 @@ if(BUILD_TESTING)
         set_tests_properties(praxo-c-api-snapshot-tests PROPERTIES
             ENVIRONMENT "PRAXO_API_TEST_COMPILER=${CMAKE_C_COMPILER}")
     endif()
+endif()
+
 endif()
