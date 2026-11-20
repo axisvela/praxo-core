@@ -7,7 +7,7 @@ require __DIR__ . '/../src/autoload.php';
 use Praxo\Core\PluginProcessConfig;
 use Praxo\Core\PluginProcessHost;
 
-$python = PHP_OS_FAMILY === 'Windows' ? 'C:\\Python314\\python.exe' : 'python3';
+$python = getenv('PRAXO_PYTHON') ?: (PHP_OS_FAMILY === 'Windows' ? 'python' : 'python3');
 $host = new PluginProcessHost(new PluginProcessConfig(
     'com.example.echo',
     $python,

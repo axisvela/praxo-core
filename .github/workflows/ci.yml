@@ -888,6 +888,10 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
+      - shell: pwsh
+        run: |
+          $python = (python -c "import sys; print(sys.executable)")
+          "PRAXO_PYTHON=$python" | Out-File -FilePath $env:GITHUB_ENV -Append
       - run: php language/php/conformance/run.php
       - run: php language/php/conformance/run.php --check-api
       - run: php language/php/tests/run.php
