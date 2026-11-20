@@ -103,7 +103,8 @@ begin
     end;
   end;
   FActive := False;
-  FProcess.Terminate(0);
+  if FProcess.Running then
+    FProcess.Terminate(0);
   FreeAndNil(FProcess);
 end;
 

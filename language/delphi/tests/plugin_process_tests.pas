@@ -11,8 +11,13 @@ var
   Response: RawByteString;
 begin
   Config.PluginId := 'com.example.echo';
+  {$IFDEF WINDOWS}
   Config.Path := 'C:\Python314\python.exe';
-  Config.Args := ['tests\fixtures\process_plugin.py'];
+  Config.Args := ['tests/fixtures/process_plugin.py'];
+  {$ELSE}
+  Config.Path := 'python3';
+  Config.Args := ['tests/fixtures/process_plugin.py'];
+  {$ENDIF}
   Config.Token := '';
   Config.StartTimeoutMs := 10000;
   Config.InvokeTimeoutMs := 30000;
