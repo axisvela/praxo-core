@@ -53,6 +53,30 @@ Manual dispatch runs only the read-only prerequisite for the selected commit.
 The publication job additionally requires a `v*` tag push and is skipped on
 manual runs, allowing live gate validation without creating a tag or release.
 
+## Tag-Push Verification and Fallback
+
+After pushing a language tag, verify that a push-triggered release run exists:
+
+```bash
+gh run list --workflow=ruby-release.yml --limit 3
+```
+
+On 2026-11-21, four language tags (`ruby/v0.9.2`, `powershell/v0.8.1`,
+`perl/v0.7.1`, and `lua/v0.8.1`) were pushed successfully, but GitHub created no
+tag-push release runs. The workflow files, tag patterns, and tag targets were
+valid; dispatching the same workflows on the tag refs built and published
+successfully. Treat tag-push delivery as best-effort and verify it every time.
+
+If the run is missing, dispatch on the tag ref so the build still uses the
+tagged commit:
+
+```bash
+gh workflow run ruby-release.yml --ref ruby/vX.Y.Z -f target=publish
+```
+
+Use `-f target=build-only` when validating a tag without publishing. Do not move
+an existing tag after a failed build; fix the source and create a new patch tag.
+
 ## Artifact Evidence
 
 `release-manifest.json` records the release version, tag, full commit SHA, spec

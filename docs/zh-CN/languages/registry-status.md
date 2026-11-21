@@ -36,14 +36,14 @@ GitHub Latest 仅代表 Go 参考 Core，不代表最近发布的语言包。
 | Lua | LuaRocks | `0.8.1-1` | https://luarocks.org/modules/hanhhuiwen/praxo-core | 已发布 |
 | PHP | Packagist | `0.8.1` | https://packagist.org/packages/axisvela/praxo-core | 已发布 |
 | Dart | pub.dev | `0.7.0` | https://pub.dev/packages/praxo_core/versions/0.7.0 | 已发布 |
-| D | DUB | `0.4.0` | https://code.dlang.org/packages/praxo-core | split 仓库 `v0.6.1` 已打 tag；DUB 刷新待完成 |
+| D | DUB | `0.6.1` | https://code.dlang.org/packages/praxo-core | 已从 split 标签 `v0.6.1` 发布；源码标签 `d/v0.7.0` 更新 |
 | Swift | Swift Package Index | `0.7.0` | https://swiftpackageindex.com/axisvela/praxo-core-swift | split 标签 `0.7.2` 已推送；SPI 刷新待完成 |
 | MATLAB | MATLAB File Exchange | `0.5.0` | https://www.mathworks.com/matlabcentral/fileexchange/185166-praxo-core | 已发布；0.8.0 上传待完成 |
 | PowerShell Core | PowerShell Gallery | `0.8.1` | https://www.powershellgallery.com/packages/praxo-core-ps/0.8.1 | 已发布；记录于 registry metadata；页面未重新审计 |
 | PowerShell Bridge | PowerShell Gallery | `0.1.0` | https://www.powershellgallery.com/packages/praxo-core-ps-br/0.1.0 | 已发布 |
 | Perl | CPAN | `0.7.1` | https://metacpan.org/dist/Praxo-Core | 已发布；MetaCPAN 索引可能滞后 |
 | Haskell | Hackage | `0.8.0` | https://hackage.haskell.org/package/praxo-core-0.8.0 | 已发布 |
-| R | r-universe | `0.10.1` | https://axisvela.r-universe.dev/praxocore | 已在 r-universe 发布；未发布 CRAN；提交需先通过 `R CMD check --as-cran` |
+| R | r-universe | `0.11.0` | https://axisvela.r-universe.dev/praxocore | 已从 `d59cb301` 在 r-universe 发布；未发布 CRAN；提交需先通过 `R CMD check --as-cran` |
 | Nim | nim-lang/packages（Nimble） | `0.1.1` | https://github.com/axisvela/praxo-core-nim | split 仓库 `v0.6.0` 已打 tag；nim-lang/packages PR #3600 已于 2026-11-05 合并；nimpkgs 待重新抓取 |
 
 ## 已上传或等待索引

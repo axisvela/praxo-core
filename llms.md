@@ -27,9 +27,9 @@
 - Swift: `praxo-core-swift` — [Swift Package Index](https://swiftpackageindex.com/axisvela/praxo-core-swift) — `0.7.0` — https://axisvela.github.io/praxo-core/languages/swift/
 - Nim: `praxo_core` — [Nimble/nim-lang packages](https://github.com/axisvela/praxo-core-nim) — `0.1.1` — https://axisvela.github.io/praxo-core/languages/nim/
 - V: `praxo-core` — [VPM (pending)](https://github.com/axisvela/praxo-core-v) — `0.1.2` — https://axisvela.github.io/praxo-core/languages/v/
-- D: `praxo-core` — [DUB](https://code.dlang.org/packages/praxo-core) — `0.4.0` — https://axisvela.github.io/praxo-core/languages/d/
+- D: `praxo-core` — [DUB](https://code.dlang.org/packages/praxo-core) — `0.6.1` — https://axisvela.github.io/praxo-core/languages/d/
 - PowerShell: `praxo-core-ps` — [PowerShell Gallery](https://www.powershellgallery.com/packages/praxo-core-ps/0.8.1) — `0.8.1` — https://axisvela.github.io/praxo-core/languages/powershell/
-- R: `praxocore` — [r-universe](https://axisvela.r-universe.dev/praxocore) — `0.10.1` — https://axisvela.github.io/praxo-core/languages/r/
+- R: `praxocore` — [r-universe](https://axisvela.r-universe.dev/praxocore) — `0.11.0` — https://axisvela.github.io/praxo-core/languages/r/
 - MATLAB: `PRAXO-CORE` — [MATLAB File Exchange](https://www.mathworks.com/matlabcentral/fileexchange/185166-praxo-core) — `0.5.0` — https://axisvela.github.io/praxo-core/languages/matlab/
 - GNU Octave: `praxo-core` — [Octave Packages](https://github.com/axisvela/praxo-core/releases/download/octave/v0.7.0/praxo-core-0.7.0.tar.gz) — `0.7.0` — https://axisvela.github.io/praxo-core/languages/octave/
 - Delphi / Free Pascal: `PRAXO-CORE` — [OPM / GitHub release](https://github.com/axisvela/praxo-core/releases/tag/delphi%2Fv0.7.0) — `0.2.1` — https://axisvela.github.io/praxo-core/languages/delphi/

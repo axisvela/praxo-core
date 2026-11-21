@@ -81,15 +81,15 @@ Kotlin、VB.NET、Scala 等仅示例实现保留在本仓库，作为宿主 Core
 | Elixir | `elixir/v0.10.0` | Hex `praxo_core==0.10.0` 已发布，包含 OpenAI-compatible、Anthropic、Gemini、Harmovela 和 MCP adapter | 已增加扩展 starter；较早的干净 Mix 安装覆盖 `0.4.1`；`0.10.0` 安装 smoke 未重跑 |
 | Erlang | `erlang/v0.9.0` | Hex `praxo_core_erlang==0.9.0` 已发布 | `0.9.0` 未重跑；历史 `0.1.1` smoke |
 | Ruby | `ruby/v0.9.2` | RubyGems `praxo-core==0.9.2` 已发布 | 发布工作流已发布 `0.9.2`；CI `current-ruby-consumer` 于 2026-11-21 安装发布包并通过 allow/deny starter（run `44913820352`）。`0.9.2` 更新 RubyGems README 与 gem 描述 |
-| Lua | `lua/v0.8.1` | LuaRocks `praxo-core==0.8.1-1` 已发布，包含可选 OpenAI-compatible adapter | 发布工作流构建 rock、在干净目录安装、运行安装后 smoke 并发布。CI `current-lua-consumer` 于 2026-11-21 安装 `0.8.1-1` 并通过（run `44913820352`）。`0.8.1-1` 扩展 rockspec 描述与 README |
+| Lua | `lua/v0.8.1` | LuaRocks `praxo-core==0.8.1-1` 已发布，包含可选 OpenAI-compatible adapter | 发布工作流构建 rock、在干净目录安装、运行安装后 smoke 并发布。CI `current-lua-consumer` 于 2026-11-21 安装 `0.8.1-1` 并通过（run `44917317881`）。`0.8.1-1` 扩展 rockspec 描述与 README |
 | PHP | `php/v0.9.0` | Packagist `axisvela/praxo-core==0.8.1` 已发布，包含 Composer `autoload.files` | 2026-11-18 全新 Composer 安装已发布 `0.8.1`，消费者 allow/deny 本地通过；`0.9.0` 未发布 |
 | Dart | `dart/v0.7.0` | pub.dev `praxo_core==0.7.0` 已发布 | 历史 `0.6.1` 安装 smoke 本地通过；`0.7.0` 消费者安装未重跑 |
 | Julia | `julia/v0.8.0` | General Registry PR #176393 待合并 | 未记录 |
 | MATLAB | `matlab/v0.8.0` | MATLAB File Exchange `185166` 已发布（`0.5.0`）；`0.8.0` 上传待完成 | 未记录；原生 MATLAB 未验证 |
 | Octave | `octave/v0.8.0` | Octave `0.7.0` release tarball 已发布；Octave Packages PR #875 待合并 | 未记录；仅 Octave 11.3.0 本地执行 |
-| R | `r/v0.11.0` | r-universe `praxocore==0.10.1` 已发布；CRAN 未发布 | 消费者 starter 以源码模式运行；已发布 `0.10.1` 安装 smoke 未重跑。CRAN 为可选项，需先通过 `R CMD check --as-cran` |
+| R | `r/v0.11.0` | r-universe `praxocore==0.11.0` 已发布；CRAN 未发布 | r-universe 已于 2026-11-21 从源码提交 `d59cb301` 重建 `0.11.0`。未记录发布后 R 消费者安装。CRAN 为可选项，需先通过 `R CMD check --as-cran` |
 | Perl | `perl/v0.7.1` | CPAN `Praxo-Core==0.7.1` 已发布 | 发布工作流运行 conformance、API snapshot、测试和 `make dist` 后发布。`0.7.1` 发布 `README.pod` 而非 Markdown；MetaCPAN 索引可能滞后 |
-| PowerShell | `powershell/v0.8.1` | PowerShell Gallery `praxo-core-ps==0.8.1` 已发布 | 发布构建运行 wrapper 测试与 API snapshot；Gallery 报告 `0.8.1` 已发布。未重跑全新 `Install-Module` 消费者 smoke |
+| PowerShell | `powershell/v0.8.1` | PowerShell Gallery `praxo-core-ps==0.8.1` 已发布 | 发布构建运行 wrapper 测试与 API snapshot；Gallery 报告 `0.8.1` 已发布。CI `current-powershell-consumer` 于 2026-11-21 从 PSGallery 安装 `0.8.1` 并通过 allow/deny（run `44917317881`） |
 | Nim | `nim/v0.7.0` | split 仓库包 `0.1.1`；nim-lang/packages PR #3600 已于 2026-11-05 合并；nimpkgs 待重新抓取 | 未记录 |
 | OCaml | `ocaml/v0.9.0` | opam `0.3.0`；PR #31222 因 opam-ci 失败已关闭，需要重新提交 | 未记录 |
 | Haskell | `haskell/v0.8.0` | Hackage `praxo-core==0.8.0` 已发布 | 发布工作流门禁通过；未记录消费者安装 |
@@ -119,12 +119,12 @@ Kotlin、VB.NET、Scala 等仅示例实现保留在本仓库，作为宿主 Core
 | Perl | 0.7.1 | CPAN `0.7.1` | 已最新 |
 | PowerShell | 0.8.1 | PowerShell Gallery `0.8.1` | 已最新 |
 | Haskell | 0.8.0 | Hackage `0.8.0` | 已最新 |
-| R | 0.11.0 | r-universe `0.10.1` | registry 待发布；未发布 CRAN |
+| R | 0.11.0 | r-universe `0.11.0` | 已最新；未发布 CRAN |
 | Nim | 0.7.0 | split 仓库包 `0.1.1` | 待完成 |
 | OCaml | 0.9.0 | opam registry `0.3.0`；PR #31222 已关闭（`0.8.0`） | 需要重新提交 |
 | Swift | 0.8.0 | SPI `0.7.0` | split 标签 0.7.2 已推送；registry 待发布 |
 | Delphi / Free Pascal | 0.8.0 | OPM `0.2.1`；0.7.0 资产已发布 | OPM 收录待完成 |
-| D | 0.7.0 | DUB `0.4.0` | split 标签 v0.6.1 已推送；registry 待发布 |
+| D | 0.7.0 | DUB `0.6.1` | split 包 0.6.1 已最新；源码 0.7.0 未包含在 split 包中 |
 
 不要从注册表安装只有源码标签的语言，也不要假设注册表包包含源码标签的最新行为。
 语言页面是安装信息的唯一来源。

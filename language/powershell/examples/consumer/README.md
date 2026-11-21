@@ -22,8 +22,8 @@ pwsh -NoProfile -File language/powershell/examples/consumer/consumer.ps1 -UseIns
 ```
 
 The destination directory must exist. The `Save-PSResource` path and packaged
-module/DLL consumer were verified locally; `Install-Module` itself was not
-tested in that run. See the
+module/DLL consumer were verified locally; CI now installs `0.8.1` from
+PSGallery with `Install-Module` and runs this allow/deny path. See the
 [verification evidence](https://axisvela.github.io/praxo-core/project/verification-evidence/)
 for toolchain and network limits.
 

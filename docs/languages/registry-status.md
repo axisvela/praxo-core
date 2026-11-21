@@ -44,14 +44,14 @@ GitHub Latest represents the Go Reference Core only, not the last language packa
 | Lua | LuaRocks | `0.8.1-1` | https://luarocks.org/modules/hanhhuiwen/praxo-core | published |
 | PHP | Packagist | `0.8.1` | https://packagist.org/packages/axisvela/praxo-core | published |
 | Dart | pub.dev | `0.7.0` | https://pub.dev/packages/praxo_core/versions/0.7.0 | published |
-| D | DUB | `0.4.0` | https://code.dlang.org/packages/praxo-core | split repo `v0.6.1` tagged; DUB refresh pending |
+| D | DUB | `0.6.1` | https://code.dlang.org/packages/praxo-core | published from split tag `v0.6.1`; source tag `d/v0.7.0` is newer |
 | Swift | Swift Package Index | `0.7.0` | https://swiftpackageindex.com/axisvela/praxo-core-swift | split tag `0.7.2` pushed; Swift Package Index refresh pending |
 | MATLAB | MATLAB File Exchange | `0.5.0` | https://www.mathworks.com/matlabcentral/fileexchange/185166-praxo-core | published; 0.8.0 upload pending |
 | PowerShell Core | PowerShell Gallery | `0.8.1` | https://www.powershellgallery.com/packages/praxo-core-ps/0.8.1 | published; recorded in registry metadata; page not re-audited |
 | PowerShell Bridge | PowerShell Gallery | `0.1.0` | https://www.powershellgallery.com/packages/praxo-core-ps-br/0.1.0 | published |
 | Perl | CPAN | `0.7.1` | https://metacpan.org/dist/Praxo-Core | published; MetaCPAN indexing may lag the upload |
 | Haskell | Hackage | `0.8.0` | https://hackage.haskell.org/package/praxo-core-0.8.0 | published |
-| R | r-universe | `0.10.1` | https://axisvela.r-universe.dev/praxocore | published on r-universe; CRAN not published; submission gated by `R CMD check --as-cran` |
+| R | r-universe | `0.11.0` | https://axisvela.r-universe.dev/praxocore | published on r-universe from `d59cb301`; CRAN not published; submission gated by `R CMD check --as-cran` |
 | Nim | nim-lang/packages (Nimble) | `0.1.1` | https://github.com/axisvela/praxo-core-nim | split repo `v0.6.0` tagged; nim-lang/packages PR #3600 merged 2026-11-05; nimpkgs re-crawl pending |
 
 ## Uploaded or awaiting indexing

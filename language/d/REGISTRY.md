@@ -1,7 +1,7 @@
 # PRAXO-CORE D Registry Introduction
 
-**Status:** published. Source version `0.7.0`, source
-tag `d/v0.7.0`. Published registry version: `0.4.0`. Registry
+**Status:** published; split package 0.6.1; source 0.7.0. Source version `0.7.0`, source
+tag `d/v0.7.0`. Published registry version: `0.6.1`. Registry
 pages are release snapshots; verify the published version before relying on a
 feature.
 
@@ -16,7 +16,7 @@ PRAXO-CORE is an embeddable, MIT-licensed agent framework. This package is its n
 | Package | `praxo-core` |
 | Registry | [DUB](https://code.dlang.org/packages/praxo-core) |
 | Source version | `0.7.0` |
-| Published registry version | `0.4.0` |
+| Published registry version | `0.6.1` |
 | Install (published) | `dub add praxo-core` |
 | Install (source/release prepared) | `dub add praxo-core` |
 | Source tag | `d/v0.7.0` |

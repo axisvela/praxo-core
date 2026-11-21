@@ -9,7 +9,7 @@
 - package: `praxo-core`
 - registry: [DUB](https://code.dlang.org/packages/praxo-core)
 - source_version: `0.7.0`
-- published_version: `0.4.0`
+- published_version: `0.6.1`
 - install_published: `dub add praxo-core`
 - install_source: `dub add praxo-core`
 - source_tag: `d/v0.7.0`

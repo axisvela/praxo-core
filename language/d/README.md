@@ -25,8 +25,8 @@ parsing.
   durable execution, exactly-once effects, or an effect ledger.
 - Provider credentials, authentication, retries, and durable state remain
   application-owned.
-- The DUB package may lag the source tag; check the published version before
-  relying on a feature.
+- The DUB package is `0.6.1` and lags source `0.7.0`; 0.7.0 features are not in
+  the split package. Use the source tree for the newer tag.
 - Go remains the reference implementation; full Go feature parity is not
   claimed.
 
@@ -40,7 +40,7 @@ reference implementation.
 - Tier: core
 - License: MIT
 - Dependencies: D standard library only
-- Published on DUB/code.dlang.org as `praxo-core@0.4.0`
+- Published on DUB/code.dlang.org as `praxo-core@0.6.1`
 
 ## Registry and Coding-Agent Entry
 
