@@ -1,7 +1,7 @@
 # PRAXO-CORE Lua Registry Introduction
 
-**Status:** published 0.8.0-1; 0.8.1 publication pending. Source version `0.8.1-1`, source
-tag `lua/v0.8.1`. Published registry version: `0.8.0-1`. Registry
+**Status:** published. Source version `0.8.1-1`, source
+tag `lua/v0.8.1`. Published registry version: `0.8.1-1`. Registry
 pages are release snapshots; verify the published version before relying on a
 feature.
 
@@ -16,9 +16,9 @@ PRAXO-CORE is an embeddable, MIT-licensed agent framework. This rock is its nati
 | Package | `praxo-core` |
 | Registry | [LuaRocks](https://luarocks.org/modules/hanhhuiwen/praxo-core) |
 | Source version | `0.8.1-1` |
-| Published registry version | `0.8.0-1` |
-| Install (published) | `luarocks install praxo-core 0.8.0-1` |
-| Install (source/release prepared) | `luarocks install praxo-core 0.8.0-1` |
+| Published registry version | `0.8.1-1` |
+| Install (published) | `luarocks install praxo-core 0.8.1-1` |
+| Install (source/release prepared) | `luarocks install praxo-core 0.8.1-1` |
 | Source tag | `lua/v0.8.1` |
 | Tier | Core |
 | Contract | `SPEC_VERSION` `0.2.0` |

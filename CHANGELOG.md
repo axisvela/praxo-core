@@ -64,9 +64,9 @@ Source tag `v2.10.0`.
 
 ### Changed
 
-- Prepared Ruby `0.9.2`, PowerShell `0.8.1`, Perl `0.7.1`, and Lua `0.8.1`
+- Published Ruby `0.9.2`, PowerShell `0.8.1`, Perl `0.7.1`, and Lua `0.8.1`
   registry-presentation releases with Features, examples, and Limits; MetaCPAN
-  now ships `README.pod`. Publication is pending.
+  now ships `README.pod`.
 - Published Python `0.9.1`, TypeScript `0.8.1`, Rust `0.9.2`, C# `0.9.2`, and
   Ruby `0.8.2` with the expanded example set. npm `0.8.1` was staged, approved,
   and published as `latest`; Java Maven publication remains deferred.

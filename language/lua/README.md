@@ -39,7 +39,7 @@ reference implementation.
 - Tier: core
 - License: MIT
 - Dependencies: Lua standard library only
-- LuaRocks page: `praxo-core@0.8.0-1` published with the optional
+- LuaRocks page: `praxo-core@0.8.1-1` published with the optional
   OpenAI-compatible adapter. Releases are built and published by
   `.github/workflows/lua-release.yml`
 
@@ -57,7 +57,7 @@ reference implementation.
 Install the published package:
 
 ```bash
-luarocks install praxo-core 0.8.0-1
+luarocks install praxo-core 0.8.1-1
 ```
 
 Then run the smallest deterministic example:

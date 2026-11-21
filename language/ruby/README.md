@@ -33,9 +33,9 @@ reference implementation.
 - License: MIT
 - Dependencies: Ruby standard library only
 - Ruby source repository: https://github.com/axisvela/praxo-core-ruby
-- The latest RubyGems package is `praxo-core@0.9.1`
-- `0.9.1` fixes Ruby 3.4 Bundler loading by removing the undeclared `base64`
-  dependency
+- The latest RubyGems package is `praxo-core@0.9.2`
+- `0.9.2` refreshes the RubyGems README and gem description; `0.9.1` fixed
+  Ruby 3.4 Bundler loading by removing the undeclared `base64` dependency
 
 ## Registry and Coding-Agent Entry
 
@@ -43,7 +43,7 @@ reference implementation.
 - Machine-readable entry: [llms.txt](https://github.com/axisvela/praxo-core/blob/main/language/ruby/llms.txt) and [llms.md](https://github.com/axisvela/praxo-core/blob/main/language/ruby/llms.md)
 - [Examples](https://github.com/axisvela/praxo-core/tree/main/language/ruby/examples): runnable language-specific examples.
 - Coding-agent contract: [docs/getting-started/coding-agents.md](https://github.com/axisvela/praxo-core/blob/main/docs/getting-started/coding-agents.md)
-- Registry: [RubyGems](https://rubygems.org/gems/praxo-core/versions/0.9.1)
+- Registry: [RubyGems](https://rubygems.org/gems/praxo-core/versions/0.9.2)
 - Community: [X](https://x.com/axisvela) · [Weibo](https://weibo.com/u/1936025761)
 
 ## Get started

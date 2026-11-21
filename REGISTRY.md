@@ -18,13 +18,13 @@ controls, checkpoints, and event tracing. It is not a Go-only framework.
 | Java | `com.axisvela:praxo-core` | [Maven Central](https://repo1.maven.org/maven2/com/axisvela/praxo-core/0.11.0/) | `0.11.0` | https://axisvela.github.io/praxo-core/languages/java/ |
 | Rust | `praxo-core` | [crates.io](https://crates.io/crates/praxo-core/0.10.0) | `0.10.0` | https://axisvela.github.io/praxo-core/languages/rust/ |
 | C# | `Praxo.Core` | [NuGet](https://www.nuget.org/packages/Praxo.Core/0.10.0) | `0.10.0` | https://axisvela.github.io/praxo-core/languages/csharp/ |
-| Ruby | `praxo-core` | [RubyGems](https://rubygems.org/gems/praxo-core/versions/0.9.1) | `0.9.1` | https://axisvela.github.io/praxo-core/languages/ruby/ |
+| Ruby | `praxo-core` | [RubyGems](https://rubygems.org/gems/praxo-core/versions/0.9.2) | `0.9.2` | https://axisvela.github.io/praxo-core/languages/ruby/ |
 | PHP | `axisvela/praxo-core` | [Packagist](https://packagist.org/packages/axisvela/praxo-core) | `0.8.1` | https://axisvela.github.io/praxo-core/languages/php/ |
 | Dart | `praxo_core` | [pub.dev](https://pub.dev/packages/praxo_core/versions/0.7.0) | `0.7.0` | https://axisvela.github.io/praxo-core/languages/dart/ |
 | Elixir | `praxo_core` | [Hex](https://hex.pm/packages/praxo_core/0.10.0) | `0.10.0` | https://axisvela.github.io/praxo-core/languages/elixir/ |
 | Erlang | `praxo_core_erlang` | [Hex](https://hex.pm/packages/praxo_core_erlang/0.9.0) | `0.9.0` | https://axisvela.github.io/praxo-core/languages/erlang/ |
-| Lua | `praxo-core` | [LuaRocks](https://luarocks.org/modules/hanhhuiwen/praxo-core) | `0.8.0-1` | https://axisvela.github.io/praxo-core/languages/lua/ |
-| Perl | `Praxo::Core` | [CPAN (MetaCPAN index)](https://metacpan.org/dist/Praxo-Core) | `0.7.0` | https://axisvela.github.io/praxo-core/languages/perl/ |
+| Lua | `praxo-core` | [LuaRocks](https://luarocks.org/modules/hanhhuiwen/praxo-core) | `0.8.1-1` | https://axisvela.github.io/praxo-core/languages/lua/ |
+| Perl | `Praxo::Core` | [CPAN (MetaCPAN index)](https://metacpan.org/dist/Praxo-Core) | `0.7.1` | https://axisvela.github.io/praxo-core/languages/perl/ |
 | OCaml | `praxo-core` | [opam (pending)](https://github.com/axisvela/praxo-core-ocaml) | `0.3.0` | https://axisvela.github.io/praxo-core/languages/ocaml/ |
 | Haskell | `praxo-core` | [Hackage](https://hackage.haskell.org/package/praxo-core-0.8.0) | `0.8.0` | https://axisvela.github.io/praxo-core/languages/haskell/ |
 | Julia | `PraxoCore` | [Julia General (pending)](https://github.com/axisvela/PraxoCore.jl) | `0.2.0` | https://axisvela.github.io/praxo-core/languages/julia/ |
@@ -32,7 +32,7 @@ controls, checkpoints, and event tracing. It is not a Go-only framework.
 | Nim | `praxo_core` | [Nimble/nim-lang packages](https://github.com/axisvela/praxo-core-nim) | `0.1.1` | https://axisvela.github.io/praxo-core/languages/nim/ |
 | V | `praxo-core` | [VPM (pending)](https://github.com/axisvela/praxo-core-v) | `0.1.2` | https://axisvela.github.io/praxo-core/languages/v/ |
 | D | `praxo-core` | [DUB](https://code.dlang.org/packages/praxo-core) | `0.4.0` | https://axisvela.github.io/praxo-core/languages/d/ |
-| PowerShell | `praxo-core-ps` | [PowerShell Gallery](https://www.powershellgallery.com/packages/praxo-core-ps/0.8.0) | `0.8.0` | https://axisvela.github.io/praxo-core/languages/powershell/ |
+| PowerShell | `praxo-core-ps` | [PowerShell Gallery](https://www.powershellgallery.com/packages/praxo-core-ps/0.8.1) | `0.8.1` | https://axisvela.github.io/praxo-core/languages/powershell/ |
 | R | `praxocore` | [r-universe](https://axisvela.r-universe.dev/praxocore) | `0.10.1` | https://axisvela.github.io/praxo-core/languages/r/ |
 | MATLAB | `PRAXO-CORE` | [MATLAB File Exchange](https://www.mathworks.com/matlabcentral/fileexchange/185166-praxo-core) | `0.5.0` | https://axisvela.github.io/praxo-core/languages/matlab/ |
 | GNU Octave | `praxo-core` | [Octave Packages](https://github.com/axisvela/praxo-core/releases/download/octave/v0.7.0/praxo-core-0.7.0.tar.gz) | `0.7.0` | https://axisvela.github.io/praxo-core/languages/octave/ |

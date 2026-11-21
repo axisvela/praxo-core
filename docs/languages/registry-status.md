@@ -1,7 +1,8 @@
 # Registry Publication Status
 
-Last checked: 2026-11-21 for the rows updated in this revision. Ruby `0.9.1`
-published to RubyGems from source tag `ruby/v0.9.1`. Java `0.11.0`
+Last checked: 2026-11-21 for the rows updated in this revision. Ruby `0.9.2`,
+Lua `0.8.1-1`, Perl `0.7.1`, and PowerShell `0.8.1` are published from their
+source tags. Java `0.11.0`
 published to Maven Central from source tag `java/v0.11.0`. TypeScript npm
 `0.9.0` is published and `latest`; the consumer example lockfiles were corrected
 to the registry integrity after `npm ci` reported EINTEGRITY. Go `v2.10.0` is
@@ -39,16 +40,16 @@ GitHub Latest represents the Go Reference Core only, not the last language packa
 | C# | NuGet | `0.10.0` | https://www.nuget.org/packages/Praxo.Core/0.10.0 | published |
 | Elixir | Hex / HexDocs | `0.10.0` | https://hex.pm/packages/praxo_core/0.10.0; https://praxo-core.hexdocs.pm/0.10.0/ | published |
 | Erlang | Hex | `0.9.0` | https://hex.pm/packages/praxo_core_erlang/0.9.0 | published |
-| Ruby | RubyGems | `0.9.1` | https://rubygems.org/gems/praxo-core/versions/0.9.1 | published; Ruby source repo is `axisvela/praxo-core-ruby` |
-| Lua | LuaRocks | `0.8.0-1` | https://luarocks.org/modules/hanhhuiwen/praxo-core | published |
+| Ruby | RubyGems | `0.9.2` | https://rubygems.org/gems/praxo-core/versions/0.9.2 | published; Ruby source repo is `axisvela/praxo-core-ruby` |
+| Lua | LuaRocks | `0.8.1-1` | https://luarocks.org/modules/hanhhuiwen/praxo-core | published |
 | PHP | Packagist | `0.8.1` | https://packagist.org/packages/axisvela/praxo-core | published |
 | Dart | pub.dev | `0.7.0` | https://pub.dev/packages/praxo_core/versions/0.7.0 | published |
 | D | DUB | `0.4.0` | https://code.dlang.org/packages/praxo-core | split repo `v0.6.0` tagged; DUB refresh pending |
 | Swift | Swift Package Index | `0.7.0` | https://swiftpackageindex.com/axisvela/praxo-core-swift | split tag `0.7.1` pushed; Swift Package Index refresh pending |
 | MATLAB | MATLAB File Exchange | `0.5.0` | https://www.mathworks.com/matlabcentral/fileexchange/185166-praxo-core | published; 0.8.0 upload pending |
-| PowerShell Core | PowerShell Gallery | `0.8.0` | https://www.powershellgallery.com/packages/praxo-core-ps/0.8.0 | published; recorded in registry metadata; page not re-audited |
+| PowerShell Core | PowerShell Gallery | `0.8.1` | https://www.powershellgallery.com/packages/praxo-core-ps/0.8.1 | published; recorded in registry metadata; page not re-audited |
 | PowerShell Bridge | PowerShell Gallery | `0.1.0` | https://www.powershellgallery.com/packages/praxo-core-ps-br/0.1.0 | published |
-| Perl | CPAN | `0.7.0` | https://metacpan.org/dist/Praxo-Core | published and indexed on MetaCPAN 2026-11-17 |
+| Perl | CPAN | `0.7.1` | https://metacpan.org/dist/Praxo-Core | published; MetaCPAN indexing may lag the upload |
 | Haskell | Hackage | `0.8.0` | https://hackage.haskell.org/package/praxo-core-0.8.0 | published |
 | R | r-universe | `0.10.1` | https://axisvela.r-universe.dev/praxocore | published on r-universe; CRAN not published; submission gated by `R CMD check --as-cran` |
 | Nim | nim-lang/packages (Nimble) | `0.1.1` | https://github.com/axisvela/praxo-core-nim | split repo `v0.6.0` tagged; nim-lang/packages PR #3600 merged 2026-11-05; nimpkgs re-crawl pending |
