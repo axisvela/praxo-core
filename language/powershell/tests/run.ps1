@@ -9,8 +9,9 @@ function Assert-True {
 
 Import-Module (Join-Path $PSScriptRoot '../praxo-core-ps/praxo-core-ps.psd1') -Force
 
+$expectedVersion = (Get-Content (Join-Path $PSScriptRoot '../VERSION') -Raw).Trim()
 $info = Get-PraxoCoreInfo
-Assert-True ($info.Version -eq '0.8.0') 'core version'
+Assert-True ($info.Version -eq $expectedVersion) 'core version'
 Assert-True ($info.SpecVersion -eq '0.2.0') 'spec version'
 
 $call = Get-PraxoToolCall '{"name":"echo","input":{"text":"hi"}}'
