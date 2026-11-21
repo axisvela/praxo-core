@@ -5,11 +5,14 @@ until the corresponding upstream repository accepts and builds them.
 
 ## Open PRs
 
-- xmake-repo C: https://github.com/xmake-io/xmake-repo/pull/11309
-- xmake-repo C++: https://github.com/xmake-io/xmake-repo/pull/11310
-- vcpkg: https://github.com/microsoft/vcpkg/pull/55192
-- Conan Center C: https://github.com/conan-io/conan-center-index/pull/31502
-- Conan Center C++: https://github.com/conan-io/conan-center-index/pull/31503
+Last checked 2026-11-21: all five PRs are open; none are merged. An open PR is
+not a registry publication or install evidence.
+
+- xmake-repo C (open): https://github.com/xmake-io/xmake-repo/pull/11309
+- xmake-repo C++ (open): https://github.com/xmake-io/xmake-repo/pull/11310
+- vcpkg, combined C and C++ ports (open): https://github.com/microsoft/vcpkg/pull/55192
+- Conan Center C (open): https://github.com/conan-io/conan-center-index/pull/31502
+- Conan Center C++ (open): https://github.com/conan-io/conan-center-index/pull/31503
 
 Both vcpkg and Conan Center require an external CLA signature before their CI
 queues run. The PR commits use the GitHub noreply identity

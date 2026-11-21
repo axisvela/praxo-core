@@ -1,5 +1,15 @@
 # Perl Core Release Notes
 
+## 0.7.1 - 2026-11-21
+
+Source tag `perl/v0.7.1`.
+
+### Changed
+
+- Added a POD README for MetaCPAN and expanded the README with Features and
+  Limits. `make dist` now ships `README.pod` instead of `README.md`. No public
+  API or wire change.
+
 ## 0.7.0 - 2026-11-20
 
 Source tag `perl/v0.7.0`.

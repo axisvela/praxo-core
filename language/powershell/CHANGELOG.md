@@ -1,5 +1,14 @@
 # PowerShell Core Release Notes
 
+## 0.8.1 - 2026-11-21
+
+Source tag `powershell/v0.8.1`.
+
+### Changed
+
+- Expanded the PowerShell Gallery module description and README with Features
+  and Limits. No public API or wire change.
+
 ## 0.8.0 - 2026-11-20
 
 Source tag `powershell/v0.8.0`.

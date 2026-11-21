@@ -8,8 +8,33 @@ scope, events, memory, checkpoints, and human-in-the-loop decisions.
 It is not an HTTP user agent, crawler, hosted agent service, or a separate
 PowerShell agent-loop implementation. Requires PowerShell 7.4+ on .NET 8.
 
+## Features
+
+- Native PowerShell cmdlets over the C# Core agent loop, tools, sessions, and
+  options.
+- Policy hooks, explicit tool scope, final-argument reauthorization, and HITL
+  approve, edit, reject, and respond decisions.
+- Typed events, memory, checkpoints, context budgets, middleware, JSON Schema,
+  and plugin manifests.
+- MCP, OpenTelemetry, retriever, and delegation helpers.
+- A deterministic consumer starter with allow/deny checks.
+
+## Limits
+
+- Core is an execution framework, not a hosted model, identity provider,
+  workflow engine, or production sandbox.
+- Checkpoints are recovery hints, not transactions. Core does not provide
+  durable execution, exactly-once effects, or an effect ledger.
+- Provider credentials, authentication, retries, and durable state remain
+  application-owned.
+- The module shares the C# Core; it is not a separate agent-loop runtime.
+- Go remains the reference implementation; full Go feature parity is not
+  claimed.
+
+## Package
+
 - `SPEC_VERSION`: `0.2.0`
-- Core version: `0.8.0`
+- Core version: `0.8.1`
 - Package: `praxo-core-ps`
 - Tier: core
 - License: MIT

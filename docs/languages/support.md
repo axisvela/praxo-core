@@ -32,7 +32,10 @@ C exposes both wire-level JSON primitives and a public Core API.
 Read each implementation's current public API and limitations before adopting it.
 Bridge and Sample describe how users access a runtime, not proof that their
 languages are incapable of Framework support. Shared-runtime languages can
-reuse the host Framework rather than duplicate its agent loop.
+reuse the host Framework rather than duplicate its agent loop. Sample-only
+implementations such as Kotlin, VB.NET, and Scala remain in the monorepo as
+examples over their host Core; they do not need an independent repository or
+package unless promoted to a separately versioned Core.
 
 ## Behavior Capability Tiers
 
@@ -109,16 +112,16 @@ for the rows updated in this revision; earlier rows retain their recorded dates.
 | C# | `csharp/v0.10.0` | NuGet `Praxo.Core==0.10.0` published | Release workflow built, tested, packed, and pushed; local published-package consumer install for `0.9.1` is historical |
 | Elixir | `elixir/v0.10.0` | Hex `praxo_core==0.10.0` published with OpenAI-compatible, Anthropic, Gemini, Harmovela, and MCP adapters | Extended starter added; earlier clean Mix install covered `0.4.1`; `0.10.0` install smoke not rerun |
 | Erlang | `erlang/v0.9.0` | Hex `praxo_core_erlang==0.9.0` published | Not rerun for `0.9.0`; historical `0.1.1` smoke |
-| Ruby | `ruby/v0.9.1` | RubyGems `praxo-core==0.9.1` published | The release workflow published `0.9.1`; the CI `current-ruby-consumer` job installed the published gem and passed the allow/deny starter on 2026-11-21 (run `44908109562`). `0.9.1` removes the undeclared `base64` dependency that broke Ruby 3.4 Bundler loading in `0.9.0` |
-| Lua | `lua/v0.8.0` | LuaRocks `praxo-core==0.8.0-1` published with the optional OpenAI-compatible adapter | Extended starter added; earlier clean-rock install covered `0.4.1-1`; `0.8.0-1` install smoke not rerun |
+| Ruby | `ruby/v0.9.2` | RubyGems `praxo-core==0.9.1` published | The release workflow published `0.9.1`; the CI `current-ruby-consumer` job installed it and passed the allow/deny starter on 2026-11-21 (run `44908109562`). `0.9.2` is a registry presentation update pending publication |
+| Lua | `lua/v0.8.1` | LuaRocks `praxo-core==0.8.0-1` published with the optional OpenAI-compatible adapter | Extended starter added; earlier clean-rock install covered `0.4.1-1`; `0.8.1` rockspec and README presentation update pending publication |
 | PHP | `php/v0.9.0` | Packagist `axisvela/praxo-core==0.8.1` published with Composer `autoload.files` | Fresh Composer install of published `0.8.1` and consumer allow/deny tests passed locally on 2026-11-18; `0.9.0` not published |
 | Dart | `dart/v0.7.0` | pub.dev `praxo_core==0.7.0` published | Prior clean `0.6.1` install smoke passed locally; `0.7.0` consumer install not rerun |
 | Julia | `julia/v0.8.0` | General Registry PR #176393 open; merge pending | Not recorded |
 | MATLAB | `matlab/v0.8.0` | MATLAB File Exchange `185166` published (`0.5.0`); `0.8.0` upload pending | Not recorded; native MATLAB unverified |
 | Octave | `octave/v0.8.0` | Octave `0.7.0` release tarball published; Octave Packages PR #875 pending | Not recorded; Octave 11.3.0 local execution only |
-| R | `r/v0.11.0` | r-universe `praxocore==0.10.1` published; CRAN not published | Consumer starter runs in source mode; published `0.10.1` install smoke not rerun |
-| Perl | `perl/v0.7.0` | CPAN `Praxo-Core==0.7.0` published and indexed on MetaCPAN | MetaCPAN tarball installed with `cpanm` 1.7049 in an isolated prefix; packaged consumer allow/deny passed on 2026-11-18 |
-| PowerShell | `powershell/v0.8.0` | PowerShell Gallery `praxo-core-ps==0.8.0` published | `Save-PSResource` download, isolated module/DLL provenance, and consumer allow/deny passed locally on 2026-11-18; `Install-Module` itself not tested |
+| R | `r/v0.11.0` | r-universe `praxocore==0.10.1` published; CRAN not published | Consumer starter runs in source mode; published `0.10.1` install smoke not rerun. CRAN is optional and gated by `R CMD check --as-cran` |
+| Perl | `perl/v0.7.1` | CPAN `Praxo-Core==0.7.0` published and indexed on MetaCPAN | MetaCPAN tarball installed with `cpanm` 1.7049 in an isolated prefix; packaged consumer allow/deny passed on 2026-11-18. `0.7.1` adds a POD README and is pending publication |
+| PowerShell | `powershell/v0.8.1` | PowerShell Gallery `praxo-core-ps==0.8.0` published | `Save-PSResource` download, isolated module/DLL provenance, and consumer allow/deny passed locally on 2026-11-18; `Install-Module` itself not tested. `0.8.1` updates the Gallery description and is pending publication |
 | Nim | `nim/v0.7.0` | Split repository package `0.1.1`; nim-lang/packages PR #3600 merged 2026-11-05; nimpkgs re-crawl pending | Not recorded |
 | OCaml | `ocaml/v0.9.0` | opam `0.3.0`; PR #31222 closed after opam-ci failure; new submission needed | Not recorded |
 | Haskell | `haskell/v0.8.0` | Hackage `praxo-core==0.8.0` published | Release-workflow gates passed; consumer install not recorded |
@@ -138,17 +141,17 @@ its latest version matches the manifest at the release tag.
 | C# | 0.10.0 | NuGet `0.10.0` | current |
 | Elixir | 0.10.0 | Hex `0.10.0` | current |
 | Erlang | 0.9.0 | Hex `0.9.0` | current |
-| Ruby | 0.9.1 | RubyGems `0.9.1` | current |
+| Ruby | 0.9.2 | RubyGems `0.9.1` | registry publication pending |
 | PHP | 0.9.0 | Packagist `0.8.1` | registry publication pending |
-| Lua | 0.8.0-1 | LuaRocks `0.8.0-1` | current |
+| Lua | 0.8.1-1 | LuaRocks `0.8.0-1` | registry publication pending |
 | Dart | 0.7.0 | pub.dev `0.7.0` | current |
 | Julia | 0.8.0 | General Registry PR #176393 open; merge pending | pending |
 | MATLAB | 0.8.0 | File Exchange `185166` (`0.5.0`) | 0.8.0 upload pending |
 | Octave | 0.8.0 | 0.7.0 release tarball; Octave Packages PR #875 pending | 0.8.0 package pending |
-| Perl | 0.7.0 | CPAN `0.7.0` | current |
-| PowerShell | 0.8.0 | PowerShell Gallery `0.8.0` | current |
+| Perl | 0.7.1 | CPAN `0.7.0` | registry publication pending |
+| PowerShell | 0.8.1 | PowerShell Gallery `0.8.0` | registry publication pending |
 | Haskell | 0.8.0 | Hackage `0.8.0` | current |
-| R | 0.11.0 | r-universe `0.10.1` | registry publication pending |
+| R | 0.11.0 | r-universe `0.10.1` | registry publication pending; CRAN not published |
 | Nim | 0.7.0 | Split repository package `0.1.1` | pending |
 | OCaml | 0.9.0 | opam registry `0.3.0`; PR #31222 closed (`0.8.0`) | new submission needed |
 | Swift | 0.8.0 | SPI `0.7.0` | registry publication pending |

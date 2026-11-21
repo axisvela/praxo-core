@@ -1,5 +1,14 @@
 # Ruby Core Release Notes
 
+## 0.9.2 - 2026-11-21
+
+Source tag `ruby/v0.9.2`.
+
+### Changed
+
+- Expanded the RubyGems README with Features, examples, and Limits, and updated
+  the gem summary and description. No public API or wire change.
+
 ## 0.9.1 - 2026-11-21
 
 Source tag `ruby/v0.9.1`.

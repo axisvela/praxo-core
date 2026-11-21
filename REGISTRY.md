@@ -18,7 +18,7 @@ controls, checkpoints, and event tracing. It is not a Go-only framework.
 | Java | `com.axisvela:praxo-core` | [Maven Central](https://repo1.maven.org/maven2/com/axisvela/praxo-core/0.11.0/) | `0.11.0` | https://axisvela.github.io/praxo-core/languages/java/ |
 | Rust | `praxo-core` | [crates.io](https://crates.io/crates/praxo-core/0.10.0) | `0.10.0` | https://axisvela.github.io/praxo-core/languages/rust/ |
 | C# | `Praxo.Core` | [NuGet](https://www.nuget.org/packages/Praxo.Core/0.10.0) | `0.10.0` | https://axisvela.github.io/praxo-core/languages/csharp/ |
-| Ruby | `praxo-core` | [RubyGems](https://rubygems.org/gems/praxo-core/versions/0.9.0) | `0.9.0` | https://axisvela.github.io/praxo-core/languages/ruby/ |
+| Ruby | `praxo-core` | [RubyGems](https://rubygems.org/gems/praxo-core/versions/0.9.1) | `0.9.1` | https://axisvela.github.io/praxo-core/languages/ruby/ |
 | PHP | `axisvela/praxo-core` | [Packagist](https://packagist.org/packages/axisvela/praxo-core) | `0.8.1` | https://axisvela.github.io/praxo-core/languages/php/ |
 | Dart | `praxo_core` | [pub.dev](https://pub.dev/packages/praxo_core/versions/0.7.0) | `0.7.0` | https://axisvela.github.io/praxo-core/languages/dart/ |
 | Elixir | `praxo_core` | [Hex](https://hex.pm/packages/praxo_core/0.10.0) | `0.10.0` | https://axisvela.github.io/praxo-core/languages/elixir/ |

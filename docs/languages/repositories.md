@@ -62,6 +62,12 @@ OCaml, Nim, and D) are intentionally excluded because they have their own releas
 layouts and workflows. They must be updated through their publication process,
 not by overwriting them with the mirror layout.
 
+Sample-only implementations (Kotlin, Scala, Groovy, Clojure, VB.NET, F#,
+JavaScript, and OpenCL) stay in the monorepo. Their examples are valuable
+validation paths over the Java, C#, TypeScript, or C hosts. They do not need an
+independent repository or package unless they are promoted to a separately
+versioned Core with a named consumer and maintainer.
+
 ## Why Mirrors Include `spec/`
 
 A mirror keeps the canonical `language/<language>` tree and the shared `spec/`

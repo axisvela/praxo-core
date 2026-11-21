@@ -8,6 +8,32 @@ Use it when an existing R analysis or automation script needs a governed
 model/tool loop without moving orchestration into Python. It is not an HTTP user
 agent, crawler, hosted agent service, or model provider.
 
+## Features
+
+- A base-R agent loop with tool registration and dispatch.
+- Policy hooks, tool scope, HITL interrupt decisions, events, memory, context
+  budgets, middleware, checkpoints, and a JSON Schema subset.
+- OpenAI-compatible, Anthropic, and Gemini adapters with SSE streaming.
+- stdio MCP, OpenTelemetry, Harmovela, retriever, and synchronous delegation
+  seams.
+- Cancellation, streaming callbacks, and bounded parallel tools.
+- No package dependencies beyond base R.
+
+## Limits
+
+- Core is an execution framework, not a model provider, hosted agent service,
+  crawler, workflow engine, or production sandbox.
+- Checkpoints are recovery hints, not transactions. Core does not provide
+  durable execution, exactly-once effects, or an effect ledger.
+- Provider credentials, authentication, retries, and durable state remain
+  application-owned.
+- Base R lacks persistent bidirectional stdio in some environments; the MCP
+  client accepts a caller-supplied transport.
+- Go remains the reference implementation; full Go feature parity is not
+  claimed.
+
+## Package
+
 - `SPEC_VERSION`: `0.2.0`
 - Core version: `0.11.0`
 - Tier: core

@@ -11,11 +11,34 @@ It is not an HTTP user agent, web crawler, or hosted AI agent service. HTTP is
 used by optional adapters to communicate with model providers and external
 services.
 
+## Features
+
+- A native Perl agent loop with tool registration and dispatch.
+- Policy hooks, tool scope, HITL decisions, events, memory, context budgets,
+  middleware, checkpoints, JSON Schema, and plugin manifests.
+- OpenAI-compatible, Anthropic, and Gemini adapters with SSE streaming.
+- MCP, OpenTelemetry, Harmovela, retriever, and synchronous delegation seams.
+- An API snapshot and a dependency-free test runner.
+- MIT-licensed and Perl core modules only.
+
+## Limits
+
+- Core is an execution framework, not a model provider, hosted agent service,
+  crawler, workflow engine, or production sandbox.
+- Checkpoints are recovery hints, not transactions. Core does not provide
+  durable execution, exactly-once effects, or an effect ledger.
+- Provider credentials, authentication, retries, and durable state remain
+  application-owned.
+- Go remains the reference implementation; full Go feature parity is not
+  claimed.
+
 The normative contract is [`spec/`](../../spec/README.md); Go remains the
 reference implementation.
 
+## Package
+
 - `SPEC_VERSION`: `0.2.0`
-- Core version: `0.7.0`
+- Core version: `0.7.1`
 - Tier: core
 - License: MIT
 - Dependencies: Perl core modules only (`JSON::PP`, `File::Spec`, `Cwd`)

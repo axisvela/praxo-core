@@ -43,7 +43,7 @@ GitHub Latest 仅代表 Go 参考 Core，不代表最近发布的语言包。
 | PowerShell Bridge | PowerShell Gallery | `0.1.0` | https://www.powershellgallery.com/packages/praxo-core-ps-br/0.1.0 | 已发布 |
 | Perl | CPAN | `0.7.0` | https://metacpan.org/dist/Praxo-Core | 已发布并在 MetaCPAN 建立索引（2026-11-17） |
 | Haskell | Hackage | `0.8.0` | https://hackage.haskell.org/package/praxo-core-0.8.0 | 已发布 |
-| R | r-universe | `0.10.1` | https://axisvela.r-universe.dev/praxocore | 已在 r-universe 发布；未发布 CRAN |
+| R | r-universe | `0.10.1` | https://axisvela.r-universe.dev/praxocore | 已在 r-universe 发布；未发布 CRAN；提交需先通过 `R CMD check --as-cran` |
 | Nim | nim-lang/packages（Nimble） | `0.1.1` | https://github.com/axisvela/praxo-core-nim | split 仓库 `v0.6.0` 已打 tag；nim-lang/packages PR #3600 已于 2026-11-05 合并；nimpkgs 待重新抓取 |
 
 ## 已上传或等待索引
@@ -59,8 +59,8 @@ GitHub Latest 仅代表 Go 参考 Core，不代表最近发布的语言包。
 
 | 语言 | 源码标签 | 注册表状态 |
 | --- | --- | --- |
-| C | `c/v0.13.0` | 未发布注册表 |
-| C++ | `cpp/v0.9.0` | 未发布注册表 |
+| C | `c/v0.13.0` | 未发布注册表；xmake-repo PR #11309、vcpkg PR #55192、Conan Center PR #31502 仍开放，未合并 |
+| C++ | `cpp/v0.9.0` | 未发布注册表；xmake-repo PR #11310、vcpkg PR #55192、Conan Center PR #31503 仍开放，未合并 |
 | Fortran | `fortran/v0.11.0` | fpm registry 上游暂停 |
 | COBOL | `cobol/v0.8.0` | 无主流注册表 |
 | OCaml | `ocaml/v0.9.0` | opam `0.3.0`；PR #31222 因 opam-ci 失败已关闭，需要重新提交 |

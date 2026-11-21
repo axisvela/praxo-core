@@ -2,9 +2,11 @@
 
 ## Status
 
-Source tag `r/v0.9.0` maps to package `praxocore` version `0.9.0`. The package
+Source tag `r/v0.11.0` maps to package `praxocore` version `0.11.0`. The package
 is indexed by r-universe at <https://axisvela.r-universe.dev/praxocore>; the
-current r-universe build is `0.9.0`. CRAN publication is not yet claimed.
+current r-universe build is `0.10.1` and the source is `0.11.0`. CRAN is the
+main additional registry candidate, but publication is not claimed. Submit only
+after `R CMD check --as-cran` passes and exported objects are documented.
 
 ## Build
 
@@ -12,7 +14,7 @@ From the repository root:
 
 ```bash
 R CMD build language/r
-R CMD check --no-manual --no-build-vignettes praxocore_0.9.0.tar.gz
+R CMD check --no-manual --no-build-vignettes praxocore_0.11.0.tar.gz
 ```
 
 `R CMD check` must finish without ERROR before submission. The package tests
@@ -39,4 +41,6 @@ CRAN does not require an account; submission uses the maintainer email in
    respond to the confirmation email.
 
 Do not submit while the check reports an ERROR or the package lacks documentation
-for exported functions.
+for exported functions. No other R registry is required for the current scope;
+r-universe remains the supported installation path until CRAN accepts the
+package.

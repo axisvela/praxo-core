@@ -2,6 +2,31 @@
 
 Swift implementation of the PRAXO-CORE contract.
 
+## Features
+
+- A native Swift agent loop with tool registration and dispatch.
+- Policy hooks, tool scope, HITL approve/edit/reject/respond decisions, events,
+  memory, checkpoints, and context budgets.
+- OpenAI-compatible, Anthropic, and Gemini adapters with streaming and an
+  injectable transport.
+- MCP, OpenTelemetry, Harmovela, retriever, and synchronous delegation seams.
+- XCTest coverage, an API snapshot, and a conformance runner.
+- MIT-licensed and dependency-free.
+
+## Limits
+
+- Core is an execution framework, not a model provider, hosted agent service,
+  crawler, workflow engine, or production sandbox.
+- Checkpoints are recovery hints, not transactions. Core does not provide
+  durable execution, exactly-once effects, or an effect ledger.
+- Provider credentials, authentication, retries, and durable state remain
+  application-owned.
+- MCP uses caller-supplied transports; no remote MCP service is bundled.
+- Go remains the reference implementation; full Go feature parity is not
+  claimed.
+
+## Package
+
 - `SPEC_VERSION`: `0.2.0`
 - Core version: `0.8.0`
 - Tier: core

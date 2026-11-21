@@ -1,15 +1,22 @@
 @{
     RootModule        = 'praxo-core-ps.psm1'
-    ModuleVersion     = '0.8.0'
+    ModuleVersion     = '0.8.1'
     GUID              = '8f04a4d6-1f3c-4f6e-9d69-7b2f11d3a902'
     Author            = 'AxisVela'
     CompanyName       = 'AxisVela'
     Copyright         = '(c) AxisVela. MIT License.'
     Description       = @'
 PRAXO-CORE for PowerShell is an embeddable, policy-governed agent execution
-kernel for PowerShell 7.4+ on .NET 8. It wraps the C# PRAXO-CORE agent loop,
-tools, policy, events, memory, checkpoints, MCP, OpenTelemetry, retriever, and
-human-in-the-loop approval helpers.
+kernel for PowerShell 7.4+ on .NET 8. It wraps the C# PRAXO-CORE agent loop.
+
+Features:
+  - Native PowerShell cmdlets for the agent loop, tools, sessions, and options.
+  - Policy hooks, explicit tool scope, final-argument reauthorization, and
+    human-in-the-loop approve, edit, reject, and respond decisions.
+  - Typed events, memory, checkpoints, context budgets, middleware, JSON Schema,
+    and plugin manifests.
+  - MCP, OpenTelemetry, retriever, and delegation helpers over the C# Core.
+  - Deterministic consumer starter with allow/deny checks.
 
 Install:
   Install-Module praxo-core-ps
@@ -27,14 +34,18 @@ Starter (allow/deny):
 Examples:
   https://github.com/axisvela/praxo-core/tree/main/language/powershell/examples
 
+Limits:
+  - Not a hosted model, identity provider, workflow engine, or production
+    sandbox.
+  - Checkpoints are recovery hints, not transactions; no exactly-once effects.
+  - Provider credentials, retries, and durable state remain application-owned.
+  - The module shares the C# Core; it is not a separate agent-loop runtime.
+
 Documentation:
   https://axisvela.github.io/praxo-core/languages/powershell/
 
 Source and license (MIT):
   https://github.com/axisvela/praxo-core
-
-PRAXO-CORE is an execution kernel, not a hosted model, workflow engine,
-identity provider, or production sandbox.
 '@
     PowerShellVersion = '7.4'
     FunctionsToExport = @(

@@ -4,8 +4,8 @@ Gem::Specification.new do |spec|
   spec.authors = ["AxisVela"]
   spec.email = ["releases@axisvela.com"]
 
-  spec.summary = "Embeddable MIT-licensed agent framework for Ruby"
-  spec.description = "Native Ruby Core for the PRAXO-CORE agent framework: tools, policy, events, memory, context, middleware, checkpoints, and an agent loop."
+  spec.summary = "Embeddable, policy-governed AI agent framework for Ruby"
+  spec.description = "Native Ruby Core for PRAXO-CORE: a dependency-free agent loop with governed tool calls, policy and HITL decisions, events, memory, context, middleware, checkpoints, streaming OpenAI-compatible/Anthropic/Gemini adapters, MCP, OpenTelemetry, and delegation."
   spec.homepage = "https://axisvela.github.io/praxo-core/"
   spec.license = "MIT"
   spec.required_ruby_version = ">= 3.1"

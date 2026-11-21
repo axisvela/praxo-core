@@ -9,11 +9,26 @@ Use it when an existing Ruby application needs a governed model/tool loop
 without adding a sidecar in another language. It is not an HTTP user agent,
 crawler, hosted agent service, or model provider.
 
+## Features
+
+- A native, dependency-free Ruby agent loop with tool registration and dispatch.
+- Explicit tool scope, policy hooks, final-argument reauthorization, and HITL
+  approve, edit, reject, and respond decisions.
+- Typed events, memory, context budgets, middleware, checkpoints, and a JSON
+  Schema subset.
+- OpenAI-compatible, Anthropic, and Gemini adapters with SSE streaming; stdio
+  MCP, OpenTelemetry, Harmovela, retriever, and synchronous delegation seams.
+- Streaming callbacks, cancellation, bounded parallel tools, and run-scoped call
+  limits.
+- An MIT-licensed embedding boundary with no hosted service or provider SDK.
+
 The normative contract is [`spec/`](../../spec/README.md); Go remains the
 reference implementation.
 
+## Package
+
 - `SPEC_VERSION`: `0.2.0`
-- Core version: `0.9.1`
+- Core version: `0.9.2`
 - Tier: core
 - License: MIT
 - Dependencies: Ruby standard library only
@@ -28,7 +43,7 @@ reference implementation.
 - Machine-readable entry: [llms.txt](https://github.com/axisvela/praxo-core/blob/main/language/ruby/llms.txt) and [llms.md](https://github.com/axisvela/praxo-core/blob/main/language/ruby/llms.md)
 - [Examples](https://github.com/axisvela/praxo-core/tree/main/language/ruby/examples): runnable language-specific examples.
 - Coding-agent contract: [docs/getting-started/coding-agents.md](https://github.com/axisvela/praxo-core/blob/main/docs/getting-started/coding-agents.md)
-- Registry: [RubyGems](https://rubygems.org/gems/praxo-core/versions/0.9.0)
+- Registry: [RubyGems](https://rubygems.org/gems/praxo-core/versions/0.9.1)
 - Community: [X](https://x.com/axisvela) · [Weibo](https://weibo.com/u/1936025761)
 
 ## Get started
@@ -80,6 +95,19 @@ The Core implements all eleven vector groups: toolcall, JSON Schema, plugin,
 memory, event, stream, checkpoint, policy, context, middleware, and the agent
 loop. It also implements human-in-the-loop interrupt decisions, and includes a
 public API snapshot and a dependency-free test runner.
+
+## Limits
+
+- Core is an execution framework, not a model provider, hosted agent service,
+  crawler, workflow engine, or production sandbox.
+- Checkpoints are recovery hints, not transactions. Core does not provide
+  durable execution, exactly-once effects, or an effect ledger.
+- Provider credentials, authentication, retries, rate limits, and durable state
+  remain application-owned.
+- The process plugin host uses JSON-Lines over stdio; it is not WASM, container,
+  or OS-level isolation.
+- Go remains the reference implementation; full Go feature parity is not
+  claimed.
 
 ## Build and test
 

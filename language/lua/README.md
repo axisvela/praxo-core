@@ -6,11 +6,36 @@ hooks, typed events, memory, checkpoints, context budgets, middleware, JSON
 Schema validation, plugin manifest parsing, and human-in-the-loop interrupt
 decisions.
 
+## Features
+
+- A native Lua 5.4 agent loop with tool registration and dispatch.
+- Policy hooks, tool scope, HITL decisions, events, memory, context budgets,
+  middleware, checkpoints, and a JSON Schema subset.
+- OpenAI-compatible, Anthropic, and Gemini adapters with SSE streaming.
+- MCP, OpenTelemetry, Harmovela, retriever, and synchronous delegation seams.
+- Caller-provided batch tool dispatch; the Core does not create threads.
+- MIT-licensed and Lua standard library only.
+
+## Limits
+
+- Core is an execution framework, not a model provider, hosted agent service,
+  crawler, workflow engine, or production sandbox.
+- Parallel tools use caller-provided batch callbacks; the Core does not create
+  threads.
+- Checkpoints are recovery hints, not transactions. Core does not provide
+  durable execution, exactly-once effects, or an effect ledger.
+- Provider credentials, authentication, retries, and durable state remain
+  application-owned.
+- Go remains the reference implementation; full Go feature parity is not
+  claimed.
+
 The normative contract is [`spec/`](../../spec/README.md); Go remains the
 reference implementation.
 
+## Package
+
 - `SPEC_VERSION`: `0.2.0`
-- Core version: `0.8.0-1`
+- Core version: `0.8.1-1`
 - Tier: core
 - License: MIT
 - Dependencies: Lua standard library only
