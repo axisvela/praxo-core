@@ -78,7 +78,7 @@ Bridge、Sample 描述运行时的接入方式，不证明其语言缺乏 Framew
 | C# | `csharp/v0.10.0` | NuGet `Praxo.Core==0.10.0` 已发布 | 发布工作流构建、测试、打包并推送；本地发布包消费者安装记录针对 `0.9.1`，为历史证据 |
 | Elixir | `elixir/v0.10.0` | Hex `praxo_core==0.10.0` 已发布，包含 OpenAI-compatible、Anthropic、Gemini、Harmovela 和 MCP adapter | 已增加扩展 starter；较早的干净 Mix 安装覆盖 `0.4.1`；`0.10.0` 安装 smoke 未重跑 |
 | Erlang | `erlang/v0.9.0` | Hex `praxo_core_erlang==0.9.0` 已发布 | `0.9.0` 未重跑；历史 `0.1.1` smoke |
-| Ruby | `ruby/v0.9.1` | RubyGems `praxo-core==0.9.1` 已发布 | 发布工作流已发布 `0.9.1`；CI `current-ruby-consumer` 安装发布包并运行 allow/deny starter。`0.9.1` 移除了导致 Ruby 3.4 Bundler 加载失败的未声明 `base64` 依赖 |
+| Ruby | `ruby/v0.9.1` | RubyGems `praxo-core==0.9.1` 已发布 | 发布工作流已发布 `0.9.1`；CI `current-ruby-consumer` 于 2026-11-21 安装发布包并通过 allow/deny starter（run `44908109562`）。`0.9.1` 移除了导致 Ruby 3.4 Bundler 加载失败的未声明 `base64` 依赖 |
 | Lua | `lua/v0.8.0` | LuaRocks `praxo-core==0.8.0-1` 已发布，包含可选 OpenAI-compatible adapter | 已增加扩展 starter；较早的干净 rock 安装覆盖 `0.4.1-1`；`0.8.0-1` 安装 smoke 未重跑 |
 | PHP | `php/v0.9.0` | Packagist `axisvela/praxo-core==0.8.1` 已发布，包含 Composer `autoload.files` | 2026-11-18 全新 Composer 安装已发布 `0.8.1`，消费者 allow/deny 本地通过；`0.9.0` 未发布 |
 | Dart | `dart/v0.7.0` | pub.dev `praxo_core==0.7.0` 已发布 | 历史 `0.6.1` 安装 smoke 本地通过；`0.7.0` 消费者安装未重跑 |
