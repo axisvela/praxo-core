@@ -18,9 +18,9 @@ reference implementation.
 - License: MIT
 - Dependencies: Ruby standard library only
 - Ruby source repository: https://github.com/axisvela/praxo-core-ruby
-- The latest RubyGems package is `praxo-core@0.9.0`
-- `0.9.1` removes the undeclared `base64` dependency, restoring Ruby 3.4
-  Bundler loading; registry publication is pending
+- The latest RubyGems package is `praxo-core@0.9.1`
+- `0.9.1` fixes Ruby 3.4 Bundler loading by removing the undeclared `base64`
+  dependency
 
 ## Registry and Coding-Agent Entry
 

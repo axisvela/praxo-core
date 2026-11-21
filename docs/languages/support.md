@@ -97,7 +97,7 @@ a merged implementation PR as a support commitment.
 These are separate claims. A source tag records a repository release; a registry
 version records what a package manager can fetch; a consumer smoke records an
 install and run outside the repository. Do not cite one as evidence for another.
-Registry values below were checked against the public registries on 2026-11-20
+Registry values below were checked against the public registries on 2026-11-21
 for the rows updated in this revision; earlier rows retain their recorded dates.
 
 | Language | Source tag | Registry version | Consumer install smoke |
@@ -109,7 +109,7 @@ for the rows updated in this revision; earlier rows retain their recorded dates.
 | C# | `csharp/v0.10.0` | NuGet `Praxo.Core==0.10.0` published | Release workflow built, tested, packed, and pushed; local published-package consumer install for `0.9.1` is historical |
 | Elixir | `elixir/v0.10.0` | Hex `praxo_core==0.10.0` published with OpenAI-compatible, Anthropic, Gemini, Harmovela, and MCP adapters | Extended starter added; earlier clean Mix install covered `0.4.1`; `0.10.0` install smoke not rerun |
 | Erlang | `erlang/v0.9.0` | Hex `praxo_core_erlang==0.9.0` published | Not rerun for `0.9.0`; historical `0.1.1` smoke |
-| Ruby | `ruby/v0.9.1` | RubyGems `praxo-core==0.9.0` published | Release workflow ran conformance, API snapshot, tests, gem build, and push; split repo synced and tagged; local published-gem install not rerun. A Bundler consumer on Ruby 3.4 failed to load `0.9.0` because `base64` was not declared; `0.9.1` removes that dependency and its registry publication is pending |
+| Ruby | `ruby/v0.9.1` | RubyGems `praxo-core==0.9.1` published | The release workflow published `0.9.1`; the CI `current-ruby-consumer` job installs the published gem and runs the allow/deny starter. `0.9.1` removes the undeclared `base64` dependency that broke Ruby 3.4 Bundler loading in `0.9.0` |
 | Lua | `lua/v0.8.0` | LuaRocks `praxo-core==0.8.0-1` published with the optional OpenAI-compatible adapter | Extended starter added; earlier clean-rock install covered `0.4.1-1`; `0.8.0-1` install smoke not rerun |
 | PHP | `php/v0.9.0` | Packagist `axisvela/praxo-core==0.8.1` published with Composer `autoload.files` | Fresh Composer install of published `0.8.1` and consumer allow/deny tests passed locally on 2026-11-18; `0.9.0` not published |
 | Dart | `dart/v0.7.0` | pub.dev `praxo_core==0.7.0` published | Prior clean `0.6.1` install smoke passed locally; `0.7.0` consumer install not rerun |
@@ -138,7 +138,7 @@ its latest version matches the manifest at the release tag.
 | C# | 0.10.0 | NuGet `0.10.0` | current |
 | Elixir | 0.10.0 | Hex `0.10.0` | current |
 | Erlang | 0.9.0 | Hex `0.9.0` | current |
-| Ruby | 0.9.1 | RubyGems `0.9.0` | registry publication pending |
+| Ruby | 0.9.1 | RubyGems `0.9.1` | current |
 | PHP | 0.9.0 | Packagist `0.8.1` | registry publication pending |
 | Lua | 0.8.0-1 | LuaRocks `0.8.0-1` | current |
 | Dart | 0.7.0 | pub.dev `0.7.0` | current |

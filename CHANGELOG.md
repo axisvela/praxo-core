@@ -94,9 +94,8 @@ Source tag `v2.10.0`.
 
 ### Fixed
 
-- Prepared Ruby `0.9.1`, which removes the undeclared `base64` runtime
+- Published Ruby `0.9.1`, which removes the undeclared `base64` runtime
   dependency and restores `require 'praxo'` under Ruby 3.4 Bundler isolation.
-  Registry publication is pending.
 
 ### Added
 

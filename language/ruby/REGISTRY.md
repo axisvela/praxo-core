@@ -1,9 +1,8 @@
 # PRAXO-CORE Ruby Registry Introduction
 
-**Status:** published `0.9.0`; split source repository. Source version `0.9.1`,
-source tag `ruby/v0.9.1`. Published registry version: `0.9.0`; `0.9.1`
-publication pending. Registry pages are release snapshots; verify the published
-version before relying on a feature.
+**Status:** published; split source repository. Source version `0.9.1`, source
+tag `ruby/v0.9.1`. Published registry version: `0.9.1`. Registry pages are
+release snapshots; verify the published version before relying on a feature.
 
 ## Positioning
 
@@ -14,9 +13,9 @@ PRAXO-CORE is an embeddable, MIT-licensed agent framework. This gem is its nativ
 | Field | Value |
 | --- | --- |
 | Package | `praxo-core` |
-| Registry | [RubyGems](https://rubygems.org/gems/praxo-core/versions/0.9.0) |
+| Registry | [RubyGems](https://rubygems.org/gems/praxo-core/versions/0.9.1) |
 | Source version | `0.9.1` |
-| Published registry version | `0.9.0` |
+| Published registry version | `0.9.1` |
 | Install (published) | `gem install praxo-core` |
 | Install (source/release prepared) | `gem install praxo-core` |
 | Source tag | `ruby/v0.9.1` |

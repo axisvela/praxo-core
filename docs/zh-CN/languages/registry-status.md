@@ -1,6 +1,7 @@
 # 注册表发布状态
 
-最后核对：2026-11-20（仅本修订更新的行）。Java `0.11.0` 已从源码标签
+最后核对：2026-11-21（仅本修订更新的行）。Ruby `0.9.1` 已从源码标签
+`ruby/v0.9.1` 发布到 RubyGems。Java `0.11.0` 已从源码标签
 `java/v0.11.0` 发布到 Maven Central。TypeScript npm `0.9.0` 已发布并为 `latest`；
 consumer 示例锁文件已改为 registry integrity，此前 `npm ci` 报 EINTEGRITY。
 Go `v2.10.0` 为当前参考版本。其他行保留原有核对日期；本页不声称每个 registry
@@ -31,7 +32,7 @@ GitHub Latest 仅代表 Go 参考 Core，不代表最近发布的语言包。
 | C# | NuGet | `0.10.0` | https://www.nuget.org/packages/Praxo.Core/0.10.0 | 已发布 |
 | Elixir | Hex / HexDocs | `0.10.0` | https://hex.pm/packages/praxo_core/0.10.0；https://praxo-core.hexdocs.pm/0.10.0/ | 已发布 |
 | Erlang | Hex | `0.9.0` | https://hex.pm/packages/praxo_core_erlang/0.9.0 | 已发布 |
-| Ruby | RubyGems | `0.9.0` | https://rubygems.org/gems/praxo-core/versions/0.9.0 | 已发布；Ruby 源码仓库为 `axisvela/praxo-core-ruby` |
+| Ruby | RubyGems | `0.9.1` | https://rubygems.org/gems/praxo-core/versions/0.9.1 | 已发布；Ruby 源码仓库为 `axisvela/praxo-core-ruby` |
 | Lua | LuaRocks | `0.8.0-1` | https://luarocks.org/modules/hanhhuiwen/praxo-core | 已发布 |
 | PHP | Packagist | `0.8.1` | https://packagist.org/packages/axisvela/praxo-core | 已发布 |
 | Dart | pub.dev | `0.7.0` | https://pub.dev/packages/praxo_core/versions/0.7.0 | 已发布 |

@@ -1,6 +1,7 @@
 # Registry Publication Status
 
-Last checked: 2026-11-20 for the rows updated in this revision. Java `0.11.0`
+Last checked: 2026-11-21 for the rows updated in this revision. Ruby `0.9.1`
+published to RubyGems from source tag `ruby/v0.9.1`. Java `0.11.0`
 published to Maven Central from source tag `java/v0.11.0`. TypeScript npm
 `0.9.0` is published and `latest`; the consumer example lockfiles were corrected
 to the registry integrity after `npm ci` reported EINTEGRITY. Go `v2.10.0` is
@@ -38,7 +39,7 @@ GitHub Latest represents the Go Reference Core only, not the last language packa
 | C# | NuGet | `0.10.0` | https://www.nuget.org/packages/Praxo.Core/0.10.0 | published |
 | Elixir | Hex / HexDocs | `0.10.0` | https://hex.pm/packages/praxo_core/0.10.0; https://praxo-core.hexdocs.pm/0.10.0/ | published |
 | Erlang | Hex | `0.9.0` | https://hex.pm/packages/praxo_core_erlang/0.9.0 | published |
-| Ruby | RubyGems | `0.9.0` | https://rubygems.org/gems/praxo-core/versions/0.9.0 | published; Ruby source repo is `axisvela/praxo-core-ruby` |
+| Ruby | RubyGems | `0.9.1` | https://rubygems.org/gems/praxo-core/versions/0.9.1 | published; Ruby source repo is `axisvela/praxo-core-ruby` |
 | Lua | LuaRocks | `0.8.0-1` | https://luarocks.org/modules/hanhhuiwen/praxo-core | published |
 | PHP | Packagist | `0.8.1` | https://packagist.org/packages/axisvela/praxo-core | published |
 | Dart | pub.dev | `0.7.0` | https://pub.dev/packages/praxo_core/versions/0.7.0 | published |
