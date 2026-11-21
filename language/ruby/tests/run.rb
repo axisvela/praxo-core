@@ -1306,4 +1306,18 @@ ensure
   slow_host.stop
 end
 
+no_gems_script = File.join(Dir.tmpdir, "praxo-no-gems-#{Process.pid}.rb")
+File.write(no_gems_script, "$LOAD_PATH.unshift(ARGV[0])\nrequire 'praxo'\nputs 'loaded'\n")
+begin
+  output = IO.popen(
+    [RbConfig.ruby, '--disable-gems', no_gems_script, File.expand_path('../lib', __dir__)],
+    err: [:child, :out],
+    &:read
+  )
+  check($?.success?, "load without rubygems: #{output}")
+  check(output.include?('loaded'), 'load without rubygems output')
+ensure
+  FileUtils.rm_f(no_gems_script)
+end
+
 puts 'ruby core tests passed'

@@ -52,6 +52,17 @@ jobs:
         run: |
           rm -f praxo-core-*.gem
           gem build praxo-core.gemspec
+      - name: Verify isolated Bundler consumer
+        shell: bash
+        run: |
+          tmp="$(mktemp -d)"
+          cat > "${tmp}/Gemfile" <<EOF
+          source "https://rubygems.org"
+          gem "praxo-core", path: "${GITHUB_WORKSPACE}/language/ruby"
+          EOF
+          cd "${tmp}"
+          bundle install
+          bundle exec ruby -e 'require "praxo"'
       - uses: actions/upload-artifact@v4
         with:
           name: ruby-gem

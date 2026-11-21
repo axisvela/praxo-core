@@ -10,11 +10,11 @@ The normative contract is [`spec/`](../../spec/README.md); Go remains the
 reference implementation.
 
 - `SPEC_VERSION`: `0.2.0`
-- Core version: `0.6.2`
+- Core version: `0.7.0`
 - Tier: core
 - License: MIT
 - Dependencies: Dart standard library only
-- Published on pub.dev as `praxo_core@0.6.2`; source is `0.6.2`
+- Published on pub.dev as `praxo_core@0.7.0`; source is `0.7.0`
 - Publishing setup: [PUBLISHING.md](PUBLISHING.md)
 
 ## Registry and Coding-Agent Entry

@@ -51,7 +51,6 @@ GitHub Latest 仅代表 Go 参考 Core，不代表最近发布的语言包。
 | --- | --- | --- | --- | --- |
 | Julia | Julia General Registry | `0.7.0` | https://github.com/JuliaRegistries/General/pull/176393 | mirror `0.7.0` 已打 tag；注册待完成 |
 | Octave | Octave Packages | `0.7.0` | https://github.com/axisvela/praxo-core/releases/tag/octave%2Fv0.7.0 | 0.7.0 release tarball 已发布；包索引 PR 待完成 |
-| OCaml | opam | `0.8.0` | https://github.com/ocaml/opam-repository/pull/31222 | split 仓库 `0.8.0` 已打 tag；注册 PR 待合并 |
 | V | VPM | `0.6.0` | https://github.com/axisvela/praxo-core-v | split 仓库 `0.6.0` 已打 tag；VPM 未索引 |
 | Delphi / Free Pascal | OPM / GitHub release | `0.2.1` | https://github.com/axisvela/praxo-core/releases/tag/delphi%2Fv0.7.0 | 0.7.0 OPM 资产已发布；OPM 收录待完成 |
 
@@ -59,12 +58,13 @@ GitHub Latest 仅代表 Go 参考 Core，不代表最近发布的语言包。
 
 | 语言 | 源码标签 | 注册表状态 |
 | --- | --- | --- |
-| C | `c/v0.11.0` | 未发布注册表 |
-| C++ | `cpp/v0.8.0` | 未发布注册表 |
-| Fortran | `fortran/v0.10.0` | fpm registry 上游暂停 |
-| COBOL | `cobol/v0.7.0` | 无主流注册表 |
-| Objective-C | `objc/v0.6.0` | CocoaPods 发布暂缓；需要 macOS/Xcode 与 Trunk token |
-| Zig | `zig/v0.7.0` | 无中央注册表 |
+| C | `c/v0.13.0` | 未发布注册表 |
+| C++ | `cpp/v0.9.0` | 未发布注册表 |
+| Fortran | `fortran/v0.11.0` | fpm registry 上游暂停 |
+| COBOL | `cobol/v0.8.0` | 无主流注册表 |
+| OCaml | `ocaml/v0.9.0` | opam `0.3.0`；PR #31222 因 opam-ci 失败已关闭，需要重新提交 |
+| Objective-C | `objc/v0.7.0` | CocoaPods 发布暂缓；需要 macOS/Xcode 与 Trunk token |
+| Zig | `zig/v0.8.0` | 无中央注册表 |
 | Tcl / Lisp / Prolog | `tcl/v0.1.0`、`lisp/v0.1.0`、`prolog/v0.1.1` | 桥接包；注册表发布待完成 |
 
 成熟度、支持级别和 consumer smoke 的区别见[支持政策](support.md)。包注册表可用性

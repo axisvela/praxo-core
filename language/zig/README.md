@@ -5,7 +5,7 @@ contract is [`spec/`](../../spec/README.md); Go remains the reference
 implementation.
 
 - `SPEC_VERSION`: `0.2.0`
-- Core version: `0.7.0`
+- Core version: `0.8.0`
 - Tier: core
 - License: MIT
 - Dependencies: Zig standard library only
@@ -21,7 +21,7 @@ implementation.
 
 ## Scope
 
-`0.7.0` implements all eleven vector groups: toolcall, JSON Schema, plugin,
+`0.8.0` implements all eleven vector groups: toolcall, JSON Schema, plugin,
 memory, event, stream, checkpoint, policy, context, middleware, and the agent
 loop. `zig/v0.1.0` remains the wire subset.
 

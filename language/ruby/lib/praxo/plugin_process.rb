@@ -1,4 +1,3 @@
-require 'base64'
 require 'json'
 require 'open3'
 require 'securerandom'
@@ -147,7 +146,7 @@ module Praxo
         'service' => service,
         'method' => method,
         'token' => @token,
-        'payload' => Base64.strict_encode64(payload.to_s)
+        'payload' => [payload.to_s].pack('m0')
       }
       encoded = "#{JSON.generate(frame)}\n"
       raise PluginCallError.new('INVALID_REQUEST', 'plugin: request frame too large') if encoded.bytesize > config.max_frame
@@ -185,7 +184,7 @@ module Praxo
           raise PluginCallError.new(response['code'] || 'INTERNAL', response['message'] || '')
         end
         begin
-          return Base64.strict_decode64(response['payload'] || '')
+          return (response['payload'] || '').unpack1('m0')
         rescue ArgumentError
           raise PluginCallError.new('INTERNAL', 'plugin: invalid payload')
         end

@@ -17,6 +17,8 @@ from pathlib import Path
 
 SEMVER = re.compile(r"\d+\.\d+\.\d+(?:-\d+)?")
 TAG_VERSION = re.compile(r"/v(\d+\.\d+\.\d+(?:-\d+)?)$")
+NOTE_SOURCE = re.compile(r"source `([^`]+)`")
+README_VERSION = re.compile(r"(?:Core|Source) version: `([^`]+)`")
 MATRIX_NAME_TO_KEY = {
     "Go": "Go",
     "Python": "Python",
@@ -236,13 +238,13 @@ def _check_release_notes(root: Path, metadata: dict, errors: list[str]) -> None:
                 errors.append(f"{path}: missing release notes for {label} version {version!r}")
 
 
-def _matrix_rows(path: Path, errors: list[str]) -> dict[str, tuple[str, str]]:
+def _matrix_rows(path: Path, errors: list[str]) -> dict[str, tuple[str, str, str]]:
     text = _read(path, errors)
     if "## Matrix\n" not in text:
         errors.append(f"{path}: missing '## Matrix' section")
         return {}
     section = text.split("## Matrix\n", 1)[1].split("\n## ", 1)[0]
-    rows: dict[str, tuple[str, str]] = {}
+    rows: dict[str, tuple[str, str, str]] = {}
     for line in section.splitlines():
         if not line.startswith("| ") or line.startswith("| Language") or line.startswith("| ---"):
             continue
@@ -250,8 +252,8 @@ def _matrix_rows(path: Path, errors: list[str]) -> dict[str, tuple[str, str]]:
         if len(cells) != 6:
             errors.append(f"{path}: invalid matrix row: {line}")
             continue
-        name, _tier, status, tag, _maturity, _notes = cells
-        rows[name] = (status, tag.strip("`"))
+        name, _tier, status, tag, _maturity, notes = cells
+        rows[name] = (status, tag.strip("`"), notes)
     return rows
 
 
@@ -262,7 +264,7 @@ def _check_matrix(root: Path, metadata: dict, errors: list[str]) -> None:
         entry = metadata.get(key)
         if not isinstance(entry, dict) or display not in rows:
             continue
-        status, tag = rows[display]
+        status, tag, notes = rows[display]
         expected_tag = entry.get("tag", "")
         expected_status = "released" if expected_tag else "in progress"
         if status != expected_status:
@@ -271,6 +273,14 @@ def _check_matrix(root: Path, metadata: dict, errors: list[str]) -> None:
             errors.append(f"{path}: {display} tag is {tag!r}, want {expected_tag!r}")
         if not expected_tag and tag != "none":
             errors.append(f"{path}: {display} tag is {tag!r}, want 'none' for an in-progress row")
+        note_source = NOTE_SOURCE.search(notes)
+        source = entry.get("source_version", "")
+        if note_source is not None and isinstance(source, str) and source:
+            if _normalize(note_source.group(1)) != _normalize(source):
+                errors.append(
+                    f"{path}: {display} note source version {note_source.group(1)!r} "
+                    f"does not match registry-metadata {source!r}"
+                )
 
 
 def _check_support(root: Path, metadata: dict, errors: list[str]) -> None:
@@ -309,6 +319,63 @@ def _check_support(root: Path, metadata: dict, errors: list[str]) -> None:
             )
 
 
+def _check_language_readmes(root: Path, metadata: dict, errors: list[str]) -> None:
+    for name, entry in metadata.items():
+        if not isinstance(entry, dict):
+            continue
+        relative = entry.get("dir")
+        if not isinstance(relative, str) or not relative or relative == ".":
+            continue
+        path = root / relative / "README.md"
+        if not path.is_file():
+            continue
+        text = _read(path, errors)
+        match = README_VERSION.search(text)
+        if match is None:
+            continue
+        source = entry.get("source_version", "")
+        if isinstance(source, str) and source and _normalize(match.group(1)) != _normalize(source):
+            errors.append(
+                f"{path}: README version {match.group(1)!r} "
+                f"does not match registry-metadata {source!r}"
+            )
+
+
+def _registry_status_key(display: str) -> str | None:
+    return MATRIX_NAME_TO_KEY.get(display) or FRESHNESS_NAME_TO_KEY.get(display)
+
+
+def _check_registry_status(root: Path, metadata: dict, errors: list[str]) -> None:
+    path = root / "docs/languages/registry-status.md"
+    if not path.is_file():
+        return
+    text = _read(path, errors)
+    marker = "## Source-only or not published to a registry"
+    if marker not in text:
+        errors.append(f"{path}: missing {marker!r} section")
+        return
+    section = text.split(marker, 1)[1].split("\n## ", 1)[0]
+    for line in section.splitlines():
+        if not line.startswith("| ") or line.startswith("| Language") or line.startswith("| ---"):
+            continue
+        cells = [cell.strip() for cell in line.strip().strip("|").split("|")]
+        if len(cells) != 3:
+            continue
+        display, tag_cell, _state = cells
+        key = _registry_status_key(display)
+        entry = metadata.get(key) if key else None
+        if not isinstance(entry, dict):
+            continue
+        expected = entry.get("tag")
+        if not isinstance(expected, str) or not expected:
+            continue
+        tags = re.findall(r"`([^`]+)`", tag_cell)
+        if expected not in tags:
+            errors.append(
+                f"{path}: {display} source tag {tag_cell!r} does not include {expected!r}"
+            )
+
+
 def validate(root: Path, check_tags: bool = True) -> list[str]:
     errors: list[str] = []
     metadata_path = root / "language/registry-metadata.json"
@@ -328,6 +395,8 @@ def validate(root: Path, check_tags: bool = True) -> list[str]:
     _check_release_notes(root, metadata, errors)
     _check_matrix(root, metadata, errors)
     _check_support(root, metadata, errors)
+    _check_registry_status(root, metadata, errors)
+    _check_language_readmes(root, metadata, errors)
     return errors
 
 

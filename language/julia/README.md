@@ -3,7 +3,7 @@
 Julia implementation of the PRAXO-CORE AI agent framework contract.
 
 - `SPEC_VERSION`: `0.2.0`
-- Core version: `0.7.0`
+- Core version: `0.8.0`
 - Tier: core
 - License: MIT
 - Dependency: JSON.jl
@@ -19,7 +19,7 @@ Julia implementation of the PRAXO-CORE AI agent framework contract.
 
 ## Scope
 
-`0.7.0` implements all eleven conformance vector groups: tool-call parsing, JSON
+`0.8.0` implements all eleven conformance vector groups: tool-call parsing, JSON
 Schema, plugin manifests, memory, events, stream kinds, checkpoint envelopes,
 path policy, context budgets, middleware, and the agent loop.
 OpenAI-compatible and Anthropic and Gemini streaming model

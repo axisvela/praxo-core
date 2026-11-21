@@ -10,8 +10,8 @@ adding a Python or Go sidecar. It is not an HTTP user agent, crawler, hosted
 agent service, or model provider.
 
 - `SPEC_VERSION`: `0.2.0`
-- Core version: `0.8.2`
-- The latest Packagist package is `axisvela/praxo-core@0.8.2`
+- Core version: `0.9.0`
+- The latest Packagist package is `axisvela/praxo-core@0.8.1`
 - License: MIT
 - Dependencies: none beyond the PHP standard library
 - Runtime: use a patched PHP release. On Windows use `8.2.35-1`, `8.3.36-1`,
@@ -74,7 +74,7 @@ composer require axisvela/praxo-core
 The Core implements all eleven vector groups: toolcall, jsonschema, plugin,
 checkpoint, event, memory, policy, stream, context, middleware, agent loop, and
 human-in-the-loop interrupt decisions. It includes a public API snapshot and
-dependency-free tests. `0.8.2` includes Composer autoload metadata and the optional
+dependency-free tests. The package includes Composer autoload metadata and the optional
 `Praxo\Core\Adapters\OpenAICompatible`, `Anthropic`, and `Gemini` adapters.
 
 `maxParallelTools` and `batchToolInvoker` add caller-provided cooperative
@@ -167,7 +167,7 @@ exactly-once delivery. Use HTTPS and filter sensitive event data first.
 - `src/` library (PSR-4 `Praxo\Core\`).
 - `conformance/run.php` vector runner, API snapshot, and check mode.
 - `tests/run.php` dependency-free core tests.
-- `api/0.8.2.txt` checked-in public API snapshot.
+- `api/0.9.0.txt` checked-in public API snapshot.
 
 ## Release
 

@@ -9,7 +9,7 @@ model/tool loop without moving orchestration into Python. It is not an HTTP user
 agent, crawler, hosted agent service, or model provider.
 
 - `SPEC_VERSION`: `0.2.0`
-- Core version: `0.10.2`
+- Core version: `0.11.0`
 - Tier: core
 - License: MIT
 - Dependencies: none (base R JSON parser/serializer)
@@ -62,7 +62,7 @@ Runnable examples live under [`language/r/examples`](https://github.com/axisvela
 
 ## Scope
 
-`0.10.2` implements all eleven conformance vector groups: tool-call parsing, JSON
+`0.11.0` implements all eleven conformance vector groups: tool-call parsing, JSON
 Schema, plugin manifests, memory, events, stream kinds, checkpoint envelopes,
 path policy, context budgets, middleware, the agent loop, and human-in-the-loop
 interrupt decisions. OpenAI-compatible, Harmovela, and stdio MCP adapters are

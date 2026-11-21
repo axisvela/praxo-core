@@ -1,4 +1,3 @@
-require 'base64'
 require 'json'
 require 'net/http'
 require 'uri'
@@ -85,7 +84,7 @@ module ServiceAuth
       return nil if @client_id.empty?
 
       raw = "#{@client_id}:#{@client_secret}"
-      "Basic #{Base64.strict_encode64(raw)}"
+      "Basic #{[raw].pack('m0')}"
     end
   end
 
@@ -118,7 +117,7 @@ module ServiceAuth
       return nil if @client_id.empty?
 
       raw = "#{@client_id}:#{@client_secret}"
-      "Basic #{Base64.strict_encode64(raw)}"
+      "Basic #{[raw].pack('m0')}"
     end
   end
 end

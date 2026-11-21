@@ -3,7 +3,7 @@
 Swift implementation of the PRAXO-CORE contract.
 
 - `SPEC_VERSION`: `0.2.0`
-- Core version: `0.7.1`
+- Core version: `0.8.0`
 - Tier: core
 - License: MIT
 
@@ -43,7 +43,7 @@ deterministic local checks, not live-provider or production evidence.
 
 ## Scope
 
-`0.7.1` implements all eleven conformance vector groups: tool-call parsing, JSON
+`0.8.0` implements all eleven conformance vector groups: tool-call parsing, JSON
 Schema, plugin manifests, memory, events, stream kinds, checkpoint envelopes,
 path policy, context budgets, middleware, HITL interrupt decisions, and the
 agent loop. It also includes

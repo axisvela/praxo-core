@@ -58,7 +58,6 @@ GitHub Latest represents the Go Reference Core only, not the last language packa
 | --- | --- | --- | --- | --- |
 | Julia | Julia General Registry | `0.7.0` | https://github.com/JuliaRegistries/General/pull/176393 | mirror `0.7.0` tagged; registration pending |
 | Octave | Octave Packages | `0.7.0` | https://github.com/axisvela/praxo-core/releases/tag/octave%2Fv0.7.0 | 0.7.0 release tarball published; package index PR pending |
-| OCaml | opam | `0.8.0` | https://github.com/ocaml/opam-repository/pull/31222 | split repo `0.8.0` tagged; registration PR open |
 | V | VPM | `0.6.0` | https://github.com/axisvela/praxo-core-v | split repo `0.6.0` tagged; VPM not indexed |
 | Delphi / Free Pascal | OPM / GitHub release | `0.2.1` | https://github.com/axisvela/praxo-core/releases/tag/delphi%2Fv0.7.0 | 0.7.0 OPM assets published; OPM listing pending |
 
@@ -66,12 +65,13 @@ GitHub Latest represents the Go Reference Core only, not the last language packa
 
 | Language | Source tag | Registry state |
 | --- | --- | --- |
-| C | `c/v0.12.0` | no registry publication |
-| C++ | `cpp/v0.8.0` | no registry publication |
-| Fortran | `fortran/v0.10.0` | fpm registry upstream paused |
-| COBOL | `cobol/v0.7.0` | no mainstream registry |
-| Objective-C | `objc/v0.6.0` | CocoaPods publication deferred; requires macOS/Xcode and a Trunk token |
-| Zig | `zig/v0.7.0` | no central registry |
+| C | `c/v0.13.0` | no registry publication |
+| C++ | `cpp/v0.9.0` | no registry publication |
+| Fortran | `fortran/v0.11.0` | fpm registry upstream paused |
+| COBOL | `cobol/v0.8.0` | no mainstream registry |
+| OCaml | `ocaml/v0.9.0` | opam `0.3.0`; PR #31222 closed after opam-ci failure; new submission needed |
+| Objective-C | `objc/v0.7.0` | CocoaPods publication deferred; requires macOS/Xcode and a Trunk token |
+| Zig | `zig/v0.8.0` | no central registry |
 | Tcl / Lisp / Prolog | `tcl/v0.1.0`, `lisp/v0.1.0`, `prolog/v0.1.1` | bridge packages; registry publication pending |
 
 Use the [support policy](support.md) for maturity, support level, and consumer

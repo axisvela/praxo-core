@@ -10,11 +10,11 @@ The normative contract is [`spec/`](../../spec/README.md); Go remains the
 reference implementation.
 
 - `SPEC_VERSION`: `0.2.0`
-- Core version: `0.6.0`
+- Core version: `0.7.0`
 - Tier: core
 - License: MIT
 - Dependencies: D standard library only
-- Published on DUB/code.dlang.org as `praxo-core@0.1.0`
+- Published on DUB/code.dlang.org as `praxo-core@0.4.0`
 
 ## Registry and Coding-Agent Entry
 

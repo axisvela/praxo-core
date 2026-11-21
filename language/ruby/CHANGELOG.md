@@ -1,5 +1,14 @@
 # Ruby Core Release Notes
 
+## 0.9.1 - 2026-11-21
+
+Source tag `ruby/v0.9.1`.
+
+### Fixed
+
+- Removed the runtime `base64` dependency so `require 'praxo'` loads under
+  Bundler isolation on Ruby 3.4, where `base64` is no longer a default gem.
+
 ## 0.9.0 - 2026-11-20
 
 Source tag `ruby/v0.9.0`.

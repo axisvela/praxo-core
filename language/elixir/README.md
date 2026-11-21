@@ -22,8 +22,8 @@ are included; plugin hosts remain outside the declared Core scope.
 and `finish_reason`, and invokes the delta callback. Inject `stream_transport`
 to return raw SSE text. Set `on_delta` in `AgentOptions` to use it.
 
-The latest Hex package is `praxo_core@0.9.2`. HexDocs:
-<https://praxo-core.hexdocs.pm/0.9.2/>.
+The latest Hex package is `praxo_core@0.10.0`. HexDocs:
+<https://praxo-core.hexdocs.pm/0.10.0/>.
 
 ## Registry and Coding-Agent Entry
 

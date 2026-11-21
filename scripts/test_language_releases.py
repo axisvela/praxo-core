@@ -39,6 +39,7 @@ class LanguageReleaseTests(unittest.TestCase):
             ),
         )
         self.write("language/python/pyproject.toml", '[project]\nversion = "0.8.0"\n')
+        self.write("language/python/README.md", "- Core version: `0.8.0`\n")
         self.write(
             "language/python/CHANGELOG.md",
             "# Python\n\n## 0.8.0 - 2026-11-14\n\n- change\n\n## 0.7.0 - 2026-11-13\n\n- published\n",
@@ -48,7 +49,14 @@ class LanguageReleaseTests(unittest.TestCase):
             "## Matrix\n\n"
             "| Language | Tier | Status | Tag | Maturity | Notes |\n"
             "| --- | --- | --- | --- | --- | --- |\n"
-            f"| Python | Core | released | `{TAG}` | complete | note |\n",
+            f"| Python | Core | released | `{TAG}` | complete | source `0.8.0` |\n",
+        )
+        self.write(
+            "docs/languages/registry-status.md",
+            "## Source-only or not published to a registry\n\n"
+            "| Language | Source tag | Registry state |\n"
+            "| --- | --- | --- |\n"
+            "| Python | `python/v0.8.0` | source only |\n",
         )
         self.write(
             "docs/languages/support.md",
@@ -101,6 +109,30 @@ class LanguageReleaseTests(unittest.TestCase):
         errors = self.errors()
         self.assertTrue(any("status is 'in progress'" in error for error in errors))
         self.assertTrue(any("tag is 'none'" in error for error in errors))
+
+    def test_matrix_note_source_version_must_match_metadata(self):
+        self.write(
+            "spec/languages.md",
+            "## Matrix\n\n"
+            "| Language | Tier | Status | Tag | Maturity | Notes |\n"
+            "| --- | --- | --- | --- | --- | --- |\n"
+            f"| Python | Core | released | `{TAG}` | complete | source `0.9.0` |\n",
+        )
+        self.assertTrue(any("note source version" in error for error in self.errors()))
+
+    def test_language_readme_version_must_match_metadata(self):
+        self.write("language/python/README.md", "- Core version: `0.7.0`\n")
+        self.assertTrue(any("README version" in error for error in self.errors()))
+
+    def test_registry_status_source_tag_must_match_metadata(self):
+        self.write(
+            "docs/languages/registry-status.md",
+            "## Source-only or not published to a registry\n\n"
+            "| Language | Source tag | Registry state |\n"
+            "| --- | --- | --- |\n"
+            "| Python | `python/v0.7.0` | source only |\n",
+        )
+        self.assertTrue(any("source tag" in error for error in self.errors()))
 
     def test_support_page_versions_must_match_metadata(self):
         self.write(

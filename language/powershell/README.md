@@ -9,7 +9,7 @@ It is not an HTTP user agent, crawler, hosted agent service, or a separate
 PowerShell agent-loop implementation. Requires PowerShell 7.4+ on .NET 8.
 
 - `SPEC_VERSION`: `0.2.0`
-- Core version: `0.7.2`
+- Core version: `0.8.0`
 - Package: `praxo-core-ps`
 - Tier: core
 - License: MIT

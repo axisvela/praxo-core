@@ -92,6 +92,12 @@ Source tag `v2.10.0`.
   transport because standard `urllib` hangs in the local environment; this is
   not the documented adapter path.
 
+### Fixed
+
+- Prepared Ruby `0.9.1`, which removes the undeclared `base64` runtime
+  dependency and restores `require 'praxo'` under Ruby 3.4 Bundler isolation.
+  Registry publication is pending.
+
 ### Added
 
 - Application-level governed delegation negative checks across the Core SDK
