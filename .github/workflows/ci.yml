@@ -274,6 +274,29 @@ jobs:
       - run: bundle install
       - run: bundle exec ruby test_starter.rb
 
+  current-powershell-consumer:
+    needs: changes
+    if: needs.changes.outputs.full == 'true' || needs.changes.outputs.consumers == 'true'
+    runs-on: windows-latest
+    defaults:
+      run:
+        working-directory: language/powershell/examples/consumer
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install published module
+        shell: pwsh
+        run: |
+          Install-Module praxo-core-ps -RequiredVersion 0.8.1 -Repository PSGallery -Scope CurrentUser -Force -AllowClobber
+      - name: Run installed-package allow/deny
+        shell: pwsh
+        run: |
+          $env:PRAXO_CORE_DLL = $null
+          $output = & pwsh -NoProfile -File consumer.ps1 -UseInstalledModule 2>&1 | Out-String
+          Write-Output $output
+          if ($output -notmatch 'allow: recorded; effects=1' -or $output -notmatch 'deny: policy rejected; effects=0') {
+            throw "PowerShell consumer failed: $output"
+          }
+
   current-php-consumer:
     needs: changes
     if: needs.changes.outputs.full == 'true' || needs.changes.outputs.consumers == 'true'
@@ -320,7 +343,7 @@ jobs:
         shell: bash
         run: |
           tree="$RUNNER_TEMP/praxo-luarocks"
-          luarocks --lua-version 5.4 --tree "$tree" install praxo-core 0.4.1-1
+          luarocks --lua-version 5.4 --tree "$tree" install praxo-core 0.8.1-1
           consumer="$RUNNER_TEMP/praxo-lua-consumer"
           mkdir -p "$consumer"
           cp starter.lua test_starter.lua "$consumer"
