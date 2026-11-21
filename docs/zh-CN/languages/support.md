@@ -80,8 +80,8 @@ Kotlin、VB.NET、Scala 等仅示例实现保留在本仓库，作为宿主 Core
 | C# | `csharp/v0.10.0` | NuGet `Praxo.Core==0.10.0` 已发布 | 发布工作流构建、测试、打包并推送；本地发布包消费者安装记录针对 `0.9.1`，为历史证据 |
 | Elixir | `elixir/v0.10.0` | Hex `praxo_core==0.10.0` 已发布，包含 OpenAI-compatible、Anthropic、Gemini、Harmovela 和 MCP adapter | 已增加扩展 starter；较早的干净 Mix 安装覆盖 `0.4.1`；`0.10.0` 安装 smoke 未重跑 |
 | Erlang | `erlang/v0.9.0` | Hex `praxo_core_erlang==0.9.0` 已发布 | `0.9.0` 未重跑；历史 `0.1.1` smoke |
-| Ruby | `ruby/v0.9.2` | RubyGems `praxo-core==0.9.2` 已发布 | 发布工作流已发布 `0.9.2`；CI `current-ruby-consumer` 安装发布包并运行 allow/deny starter。`0.9.2` 更新 RubyGems README 与 gem 描述 |
-| Lua | `lua/v0.8.1` | LuaRocks `praxo-core==0.8.1-1` 已发布，包含可选 OpenAI-compatible adapter | 发布工作流构建 rock、在干净目录安装、运行安装后 smoke 并发布。`0.8.1-1` 扩展 rockspec 描述与 README |
+| Ruby | `ruby/v0.9.2` | RubyGems `praxo-core==0.9.2` 已发布 | 发布工作流已发布 `0.9.2`；CI `current-ruby-consumer` 于 2026-11-21 安装发布包并通过 allow/deny starter（run `44913820352`）。`0.9.2` 更新 RubyGems README 与 gem 描述 |
+| Lua | `lua/v0.8.1` | LuaRocks `praxo-core==0.8.1-1` 已发布，包含可选 OpenAI-compatible adapter | 发布工作流构建 rock、在干净目录安装、运行安装后 smoke 并发布。CI `current-lua-consumer` 于 2026-11-21 安装 `0.8.1-1` 并通过（run `44913820352`）。`0.8.1-1` 扩展 rockspec 描述与 README |
 | PHP | `php/v0.9.0` | Packagist `axisvela/praxo-core==0.8.1` 已发布，包含 Composer `autoload.files` | 2026-11-18 全新 Composer 安装已发布 `0.8.1`，消费者 allow/deny 本地通过；`0.9.0` 未发布 |
 | Dart | `dart/v0.7.0` | pub.dev `praxo_core==0.7.0` 已发布 | 历史 `0.6.1` 安装 smoke 本地通过；`0.7.0` 消费者安装未重跑 |
 | Julia | `julia/v0.8.0` | General Registry PR #176393 待合并 | 未记录 |
@@ -122,9 +122,9 @@ Kotlin、VB.NET、Scala 等仅示例实现保留在本仓库，作为宿主 Core
 | R | 0.11.0 | r-universe `0.10.1` | registry 待发布；未发布 CRAN |
 | Nim | 0.7.0 | split 仓库包 `0.1.1` | 待完成 |
 | OCaml | 0.9.0 | opam registry `0.3.0`；PR #31222 已关闭（`0.8.0`） | 需要重新提交 |
-| Swift | 0.8.0 | SPI `0.7.0` | registry 待发布 |
+| Swift | 0.8.0 | SPI `0.7.0` | split 标签 0.7.2 已推送；registry 待发布 |
 | Delphi / Free Pascal | 0.8.0 | OPM `0.2.1`；0.7.0 资产已发布 | OPM 收录待完成 |
-| D | 0.7.0 | DUB `0.4.0` | 待完成 |
+| D | 0.7.0 | DUB `0.4.0` | split 标签 v0.6.1 已推送；registry 待发布 |
 
 不要从注册表安装只有源码标签的语言，也不要假设注册表包包含源码标签的最新行为。
 语言页面是安装信息的唯一来源。

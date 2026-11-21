@@ -112,8 +112,8 @@ for the rows updated in this revision; earlier rows retain their recorded dates.
 | C# | `csharp/v0.10.0` | NuGet `Praxo.Core==0.10.0` published | Release workflow built, tested, packed, and pushed; local published-package consumer install for `0.9.1` is historical |
 | Elixir | `elixir/v0.10.0` | Hex `praxo_core==0.10.0` published with OpenAI-compatible, Anthropic, Gemini, Harmovela, and MCP adapters | Extended starter added; earlier clean Mix install covered `0.4.1`; `0.10.0` install smoke not rerun |
 | Erlang | `erlang/v0.9.0` | Hex `praxo_core_erlang==0.9.0` published | Not rerun for `0.9.0`; historical `0.1.1` smoke |
-| Ruby | `ruby/v0.9.2` | RubyGems `praxo-core==0.9.2` published | The release workflow published `0.9.2`; the CI `current-ruby-consumer` job installs the published gem and runs the allow/deny starter. `0.9.2` refreshes the RubyGems README and gem description |
-| Lua | `lua/v0.8.1` | LuaRocks `praxo-core==0.8.1-1` published with the optional OpenAI-compatible adapter | The release workflow built the rock, installed it in a clean tree, ran the installed smoke, and published. `0.8.1-1` expands the rockspec description and README |
+| Ruby | `ruby/v0.9.2` | RubyGems `praxo-core==0.9.2` published | The release workflow published `0.9.2`; the CI `current-ruby-consumer` job installed the published gem and passed the allow/deny starter on 2026-11-21 (run `44913820352`). `0.9.2` refreshes the RubyGems README and gem description |
+| Lua | `lua/v0.8.1` | LuaRocks `praxo-core==0.8.1-1` published with the optional OpenAI-compatible adapter | The release workflow built the rock, installed it in a clean tree, ran the installed smoke, and published. The CI `current-lua-consumer` job installed `0.8.1-1` and passed on 2026-11-21 (run `44913820352`). `0.8.1-1` expands the rockspec description and README |
 | PHP | `php/v0.9.0` | Packagist `axisvela/praxo-core==0.8.1` published with Composer `autoload.files` | Fresh Composer install of published `0.8.1` and consumer allow/deny tests passed locally on 2026-11-18; `0.9.0` not published |
 | Dart | `dart/v0.7.0` | pub.dev `praxo_core==0.7.0` published | Prior clean `0.6.1` install smoke passed locally; `0.7.0` consumer install not rerun |
 | Julia | `julia/v0.8.0` | General Registry PR #176393 open; merge pending | Not recorded |
@@ -154,9 +154,9 @@ its latest version matches the manifest at the release tag.
 | R | 0.11.0 | r-universe `0.10.1` | registry publication pending; CRAN not published |
 | Nim | 0.7.0 | Split repository package `0.1.1` | pending |
 | OCaml | 0.9.0 | opam registry `0.3.0`; PR #31222 closed (`0.8.0`) | new submission needed |
-| Swift | 0.8.0 | SPI `0.7.0` | registry publication pending |
+| Swift | 0.8.0 | SPI `0.7.0` | split tag 0.7.2 pushed; registry publication pending |
 | Delphi / Free Pascal | 0.8.0 | OPM `0.2.1`; 0.7.0 assets published | OPM listing pending |
-| D | 0.7.0 | DUB `0.4.0` | pending |
+| D | 0.7.0 | DUB `0.4.0` | split tag v0.6.1 pushed; registry publication pending |
 
 Do not install a source-tag-only language from a registry, and do not assume a
 registry package contains the source tag's latest behavior. The language page is
