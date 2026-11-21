@@ -5,9 +5,27 @@ native GnuCOBOL Core: an in-process agent loop with tools, policy, middleware,
 events, checkpoints, and human-in-the-loop decisions, implemented in COBOL
 rather than bridged to another Core.
 
-Use it when an existing COBOL batch or transaction program needs a governed
-model/tool loop without moving orchestration into another runtime. It is not an
-HTTP user agent, crawler, hosted agent service, or model provider.
+Use it when an application needs to keep review policy and tool logic in
+COBOL. **Do not put synchronous remote model calls inside a per-record batch
+loop or an online transaction.** Start with the
+[deterministic consumer](https://github.com/axisvela/praxo-core/tree/main/language/cobol/examples/consumer)
+for a runnable allow/deny check without network access or credentials.
+
+## Where to Embed
+
+Keep the primary batch deterministic. Write a bounded set of exceptions for
+a separate review step, let the main job finish without waiting for review,
+and treat suggestions as advisory. A batch-end step or another process is still
+on the critical path if the main job waits for it. If COBOL only exports
+exceptions and reads decisions, an external worker is usually simpler; the
+batch program does not need to link Core.
+
+The [batch exception review example](https://github.com/axisvela/praxo-core/tree/main/language/cobol/examples/batch-exception-review)
+checks this boundary with a deterministic COBOL review fixture and simulated
+worker failure and timeout. The
+[provider transport scaffold](https://github.com/axisvela/praxo-core/tree/main/language/cobol/examples/live-model)
+requires a caller-supplied HTTP transport; it is not a live-model quickstart.
+Neither example establishes production throughput or batch-window compliance.
 
 All 63 normative vectors across the eleven groups pass, together with native
 agent, JSON, contract-boundary, behavior, tooling, and API declaration checks.
@@ -118,7 +136,10 @@ Set `px-cancel-program` to a callback that returns a nonblank status when the
 run should stop. The agent checks it before model work and before and after each
 tool call. A cancellation stops later effects, sets `AGENT_CANCELLED`, runs
 after-run cleanup, and emits `run.failed`. Model responses already produced are
-not used after cancellation.
+not used after cancellation. This does not interrupt an already blocked model
+or tool callback. Configure connection and response timeouts in the transport,
+and enforce the review job's total deadline and exception budget outside Core.
+SSE notifications do not make the transport asynchronous.
 
 ## Streaming and SSE
 

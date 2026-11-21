@@ -61,6 +61,14 @@ PRAXO-CORE 继续定位为**可治理、可嵌入的 Agent 执行框架**。路�
 用于既有应用的 Delphi / Free Pascal。每项都需要明确消费者，并证明嵌入式 Core
 比外部编排更适合真实任务。契约通过或包发布不等于采用。
 
+### COBOL 批处理异常审阅
+
+- 保持主批处理确定性，且不等待审阅完成。先运行[批处理异常审阅示例](https://github.com/axisvela/praxo-core/tree/main/language/cobol/examples/batch-exception-review)，
+  检查 worker 慢响应或不可用时，正常输出不变、异常记录保留、审阅不提交业务写入。
+- 有具名使用方后，再比较使用 Core 的独立 COBOL 审阅步骤与不在主批嵌入 Core 的外部
+  worker。记录批窗口是否达标、异常积压及恢复情况、接入成本。除非将策略和工具逻辑留在
+  COBOL 能解决已证实的问题，否则优先外部 worker。示例不是生产证据。
+
 ## 采用路径
 
 | 阶段 | 开发者成果 | 当前状态 | 下一项成果 |

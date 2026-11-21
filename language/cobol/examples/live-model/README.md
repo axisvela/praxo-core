@@ -1,9 +1,10 @@
-# COBOL Live Model
+# COBOL Provider Transport Scaffold
 
-This example connects the COBOL Core to an OpenAI-compatible endpoint through
-the existing `praxo-openai` transport-seam adapter and registers one low-risk
-`get_time(zone)` tool. The model may only call `get_time`; every other tool call
-is denied by policy.
+This scaffold wires `praxo-openai` and a `get_time(zone)` tool, but **does not
+connect to a model out of the box**. The shipped `live-transport` stub returns
+`PROVIDER_HTTP` without making a request. Setting an endpoint, model, and key
+does not replace the stub. For a runnable, offline allow/deny check, start with
+the [deterministic consumer](../consumer/).
 
 ## Build and run
 
@@ -14,7 +15,7 @@ python language/cobol/examples/live-model/build.py
 
 Set `COBC` if GnuCOBOL is not on `PATH`.
 
-Environment variables:
+After supplying a real transport, configure it with these environment variables:
 
 ```bash
 export PRAXO_BASE_URL=http://localhost:11434/v1
@@ -46,6 +47,12 @@ The example ships `live-transport`, which reports `PROVIDER_HTTP`. Replace it
 with a program built on your HTTP client (for example a C binding or a helper
 process). Without it the example prints troubleshooting for `PRAXO_BASE_URL`,
 `PRAXO_MODEL`, and `PRAXO_API_KEY` and exits nonzero.
+
+The callback is synchronous. Set connection and response deadlines inside the
+transport; Core's cooperative cancellation cannot interrupt a blocked callback.
+Keep this example out of per-record batch and online transaction paths. The
+[batch exception review example](../batch-exception-review/) demonstrates a
+separate review step without requiring a live model.
 
 `get_time` uses GnuCOBOL `FUNCTION CURRENT-DATE`, the host wall clock. The
 `utc` branch adds a `Z` suffix; run on a UTC host if you need strict UTC. The

@@ -37,6 +37,7 @@ services behind them.
 | Long-term memory, conflict resolution, and forget/audit policy | A dedicated memory system | `pkg/memory` is an interface, not a complete memory product |
 | A non-Go stack with no adapter work | A supported language Core or the bridge | Declared scope and parity differ by language; check the matrix first |
 | Production security evidence today | A system with independent review and deployment evidence | Contract tests are not a security certification |
+| Per-record remote model calls in a batch with a hard deadline | Deterministic batch processing and a separate exception review that the batch does not wait on | Synchronous callbacks expose the batch window to provider latency and outages |
 
 ## What You Must Build
 

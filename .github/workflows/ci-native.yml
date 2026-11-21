@@ -93,6 +93,7 @@ jobs:
       - run: sudo apt-get update
       - run: sudo apt-get install -y gnucobol
       - run: python3 language/cobol/run-tests.py
+      - run: python3 language/cobol/examples/batch-exception-review/run.py
       - run: python3 language/cobol/tests/run_plugin_process.py
 
   opencl-sample:

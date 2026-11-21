@@ -128,6 +128,8 @@ copy "provider-call.cpy".
 01 px-user-data pic x(4096).
 01 px-status pic x(64).
 procedure division using px-provider-call px-user-data px-status.
+    display "No HTTP request sent: live-transport is a scaffold stub."
+        upon stderr
     move "PROVIDER_HTTP" to px-status
     goback.
 end program live-transport.

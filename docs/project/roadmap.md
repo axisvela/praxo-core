@@ -83,6 +83,18 @@ Delphi / Free Pascal for existing applications. Each needs a named consumer and
 evidence that an embedded Core solves a real task better than external
 orchestration. A conformance pass or package publication is not adoption.
 
+### COBOL batch exception review
+
+- Keep the primary batch deterministic and independent of review completion.
+  Start with the [batch exception review example](https://github.com/axisvela/praxo-core/tree/main/language/cobol/examples/batch-exception-review):
+  check that normal output is unchanged, exceptions are retained, and reviews
+  do not commit business writes when a worker is slow or unavailable.
+- With a named consumer, compare a separate COBOL review step using Core with
+  an external worker that does not embed Core in the batch. Measure batch
+  completion against its window, exception backlog and recovery, and integration
+  effort. Prefer the external worker unless keeping policy and tools in COBOL
+  solves a demonstrated problem. The fixture is not production evidence.
+
 ## Adoption Path
 
 | Stage | Developer outcome | Current state | Next result |
