@@ -45,11 +45,11 @@ commit so the recipe does not depend on a mutable archive checksum.
 To test from a vcpkg checkout, copy both directories into `ports/` and run:
 
 ```bash
-vcpkg install praxo-core
-vcpkg install praxo-core-cpp
+vcpkg install praxo-core:x64-windows-static praxo-core-cpp:x64-windows-static
 ```
 
-Submit separate PRs to `microsoft/vcpkg`; do not combine the C and C++ ports.
+The current upstream PR contains both ports. Validate each port's installed
+CMake target and platform support independently.
 
 ## Conan
 
@@ -97,7 +97,9 @@ checksums are validated by the receiving repository.
 
 ## Scope
 
-The vcpkg ports declare Android unsupported until Android-specific CI exists.
+The C port excludes Android because its C runtime uses `timespec_get`.
+The independent C++ port does not inherit that exclusion; Android support is
+not verified until the C++ port actually builds on the Android triplets.
 The C++ package does not automatically link the C Core. C++ process plugin
 users must also link `praxo-core` for the C symbols used by
 `praxo/plugin_process.hpp`.

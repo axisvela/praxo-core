@@ -1,9 +1,6 @@
 cmake_minimum_required(VERSION 3.20)
 project(praxo_cpp CXX)
 
-set(CMAKE_CXX_STANDARD 20)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-
 include(CTest)
 include(GNUInstallDirs)
 include(CMakePackageConfigHelpers)
@@ -18,6 +15,7 @@ add_library(praxo_cpp STATIC
     src/toolcall.cpp
     src/harmovela.cpp
 )
+target_compile_features(praxo_cpp PUBLIC cxx_std_20)
 target_include_directories(praxo_cpp PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)

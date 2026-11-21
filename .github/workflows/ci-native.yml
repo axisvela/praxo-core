@@ -59,6 +59,12 @@ jobs:
       - run: cmake -S language/cpp -B language/cpp/build
       - run: cmake --build language/cpp/build
       - run: ctest --test-dir language/cpp/build --output-on-failure
+      - name: Verify installed C++ consumer
+        run: |
+          cmake --install language/cpp/build --prefix "$RUNNER_TEMP/praxo-cpp"
+          cmake -S language/cpp/examples/consumer -B "$RUNNER_TEMP/praxo-cpp-consumer" -DCMAKE_PREFIX_PATH="$RUNNER_TEMP/praxo-cpp"
+          cmake --build "$RUNNER_TEMP/praxo-cpp-consumer"
+          "$RUNNER_TEMP/praxo-cpp-consumer/praxo-cpp-installed-consumer"
       - run: python3 language/cpp/api-snapshot.py --check
 
   fortran-conformance:
