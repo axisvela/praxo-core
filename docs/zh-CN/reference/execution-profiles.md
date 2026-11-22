@@ -10,7 +10,7 @@
 | --- | --- | --- |
 | Standard Embedding | 现有嵌入行为 | 嵌入循环，由应用显式配置所需控制 |
 | Governed Execution Profile | 验收设计提案；已有部分集成证据 | 要求显式授权、操作绑定和故障处理 |
-| Embodied Integration Profile | 设计提案；AKROVELA 已选定；P1/F5 与 E1-E8 确定性/本地组件已通过；尚无已接受 P2/P3 运行 | 为已选定具身消费者增加远程动作与观测要求 |
+| Embodied Integration Profile | 设计提案；AKROVELA 已选定；P1/F5 与 E1-E8 已通过；G1-G8 部分通过（G6 缺口）；尚无已接受 P2/P3 运行 | 为已选定具身消费者增加远程动作与观测要求 |
 
 Go 参考实现是行为起点，其他语言需分别声明控制能力与证据；同名层次不代表语言能力对齐。
 参见[契约与证据状态](../project/contract-status.md)。
@@ -55,8 +55,9 @@ Core、Effect PEP、远程权威和部署仍各自执行约束；配置校验与
 这一领域集成提案增加治理验收要求，不替换或弱化它们。
 [Embodied Integration Profile](embodied-integration.md)定义远程提交、反馈、观测新鲜度、
 取消确认与效果验证。AKROVELA 已选定为消费者，并像 PRAXOVELA 一样将 PRAXO-CORE 作为产品
-组件嵌入；本地 ROS 2 bridge、F5 仿真范围与 E1-E8 确定性/本地组件矩阵已通过，但真实 ROS 2/
-Gazebo 执行、独立验证者与已接受的 P2 运行仍待就位，之后才可称为实验性实现。
+组件嵌入；本地 ROS 2 bridge、F5 仿真范围与 E1-E8 确定性/本地组件矩阵已通过，G1-G8 仍为部分通过
+并存在 G6 缺口。真实 ROS 2/Gazebo 执行、独立验证者与已接受的 P2 运行仍待就位，之后才可称为
+实验性实现。
 
 [试点计划](../project/embodied-pilot.md)拟通过既有接缝交付消费者示例、单个中间件实验适配器和
 消费者局部操作/观测协议，复用治理装配并要求 G1-G8 加 E1-E8。新集成协议不自动成为
