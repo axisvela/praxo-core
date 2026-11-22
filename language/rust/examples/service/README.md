@@ -36,6 +36,12 @@ unavailable. Revocation is an explicit application decision.
 The example does not bundle an HTTP or TLS client; a production application
 supplies the transport, for example `ureq` or a product HTTP client.
 
+`src/oidc.rs` adds OIDC/JWKS verification for RS256, RS384, and RS512 JWTs.
+It discovers provider metadata, caches JWKS for five minutes, refreshes once on
+an unknown `kid`, checks issuer, audience, `exp`, optional `nbf`, subject and
+tenant, and fails closed. The tests use static signed vectors plus scripted
+discovery/JWKS responses.
+
 ```bash
 cargo test
 ```
@@ -44,6 +50,8 @@ Expected output includes:
 
 ```text
 test authentication::tests::authentication_contract ... ok
+test oidc::tests::oidc_discovery_and_jwks_reject_invalid_tokens ... ok
+test oidc::tests::oidc_provider_unavailable_fails_closed ... ok
 ```
 
 ## Test
