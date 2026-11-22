@@ -282,8 +282,8 @@ Turn the first run into one useful local application, such as:
   model.
   COBOL's `Tutorial/batch-exception-review/` reuses the existing deterministic
   batch handoff and checks reviewed, unavailable and timeout paths while keeping
-  batch output and exceptions unchanged. Local GnuCOBOL 2.0.0/Python checks pass;
-  Linux CI is configured and pending. It does not implement real posting,
+  batch output and exceptions unchanged. Local GnuCOBOL 2.0.0/Python checks pass,
+  and Linux CI passed at `01d9b1ff` (run `45040372057`). It does not implement real posting,
   durable queues, recovery proof or a live model. See the
   [Tutorial Plan](../getting-started/tutorial-plan.md) for the scenario map,
   current status, delivery standard and next candidates.

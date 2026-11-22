@@ -68,7 +68,8 @@ reuses the existing deterministic batch handoff fixture. It checks a separate
 COBOL review worker, an unavailable worker and a timeout, while requiring the
 batch output and exception file to remain unchanged. It does not implement real
 posting, payments, durable queues or recovery proof. Local GnuCOBOL 2.0.0 and
-Python 3.14 checks passed; Linux CI is configured and pending.
+Python 3.14 checks passed, and Linux CI passed at `01d9b1ff` in
+[run 45040372057](https://github.com/axisvela/praxo-core/actions/runs/45040372057).
 
 The catalog uses the depth labels from the
 [Language Coverage depth audit](language-coverage.md#depth-audit):

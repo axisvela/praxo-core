@@ -53,7 +53,8 @@ C# Core 构建和全部四项源码模式检查，见
 [COBOL 批处理异常审阅教程](https://github.com/axisvela/praxo-core/tree/main/language/cobol/Tutorial/batch-exception-review)
 复用现有确定性批处理交接 fixture，检查独立 COBOL 审阅 worker、worker 不可用和超时三种
 路径，并要求批输出与异常文件保持不变。它不实现真实记账、支付、持久队列或恢复证明。
-本地 GnuCOBOL 2.0.0 与 Python 3.14 检查通过；Linux CI 已配置，结果待确认。
+本地 GnuCOBOL 2.0.0 与 Python 3.14 检查通过，Linux CI 也已在 `01d9b1ff` 的
+[run 45040372057](https://github.com/axisvela/praxo-core/actions/runs/45040372057) 通过。
 
 示例目录使用[语言覆盖矩阵](language-coverage.md)中的深度标签：
 

@@ -122,9 +122,9 @@ passed the tutorial wrapper and its three underlying scenarios. The reviewed
 path produced advisory output while preserving batch output and exceptions; the
 unavailable and timeout paths produced no advisory output and left both files
 unchanged. This reuses the existing deterministic handoff fixture, not a second
-bank model. Linux CI is configured but its result is not yet recorded. No real
-posting, payment, durable queue, recovery proof, live model or independent
-consumer evidence is claimed.
+bank model. Linux CI [45040372057](https://github.com/axisvela/praxo-core/actions/runs/45040372057)
+also passed at `01d9b1ff`. No real posting, payment, durable queue, recovery
+proof, live model or independent consumer evidence is claimed.
 
 | Area | Verified | Level | Limits |
 | --- | --- | --- | --- |
