@@ -72,6 +72,13 @@ decision service, and checkpoint pattern with Node's standard library. It can
 also verify OIDC/JWKS JWTs, discover provider metadata, introspect opaque
 tokens, and revoke tokens through application-owned provider endpoints.
 
+The C# service example
+[`language/csharp/examples/service`](https://github.com/axisvela/praxo-core/tree/main/language/csharp/examples/service)
+adds OIDC/JWKS verification, provider discovery, introspection, and revocation
+to its HTTP boundary. Its deterministic test uses a loopback discovery/JWKS
+provider and covers allow, wrong audience, expiry, wrong issuer, unknown key,
+and provider outage.
+
 ## All-Language Examples
 
 Every declared Core ships a `language/<language>/examples/identity-policy`

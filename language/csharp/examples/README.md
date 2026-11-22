@@ -24,7 +24,8 @@
 - [`identity-policy/`](identity-policy/): bind a trusted principal to policy and
   reject effects before execution.
 - [`service/`](service/): standard-library HTTP service with principal, tenant,
-  policy, and a deterministic `--test` mode.
+  policy, introspection, revocation, OIDC/JWKS, and a deterministic `--test`
+  mode.
 
 The example installs a published package. It does not require a repository
 checkout or a project reference replacement.

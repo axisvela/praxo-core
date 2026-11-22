@@ -51,7 +51,7 @@ Runnable examples live under [`language/csharp/examples`](https://github.com/axi
 | Stream a response | [streaming](https://github.com/axisvela/praxo-core/tree/main/language/csharp/examples/streaming) |
 | Add identity and policy | [identity-policy](https://github.com/axisvela/praxo-core/tree/main/language/csharp/examples/identity-policy) |
 | Persist checkpoints | [checkpoint](https://github.com/axisvela/praxo-core/tree/main/language/csharp/examples/checkpoint) |
-| Run behind HTTP | [service](https://github.com/axisvela/praxo-core/tree/main/language/csharp/examples/service) |
+| Run behind HTTP | [service](https://github.com/axisvela/praxo-core/tree/main/language/csharp/examples/service) with introspection, revocation, and OIDC/JWKS |
 | Approve or edit a tool call | [hitl](https://github.com/axisvela/praxo-core/tree/main/language/csharp/examples/hitl) |
 | Resume a multi-turn session | [session-checkpoint](https://github.com/axisvela/praxo-core/tree/main/language/csharp/examples/session-checkpoint) |
 | Retry transient failures | [retry](https://github.com/axisvela/praxo-core/tree/main/language/csharp/examples/retry) |

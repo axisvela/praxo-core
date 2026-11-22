@@ -44,7 +44,15 @@ public static class Program
             ApiKey = Environment.GetEnvironmentVariable("PRAXO_API_KEY") ?? "",
             Model = EnvOr("PRAXO_MODEL", "llama3.2"),
         });
-        Serve("127.0.0.1", 8080, CreateAgent(model), CreateAuthenticator(tenant));
+        try
+        {
+            Serve("127.0.0.1", 8080, CreateAgent(model), CreateAuthenticator(tenant));
+        }
+        catch (Exception error)
+        {
+            Console.Error.WriteLine(error.Message);
+            return 1;
+        }
         return 0;
     }
 
@@ -60,6 +68,22 @@ public static class Program
                     Environment.GetEnvironmentVariable("PRAXO_OIDC_CLIENT_ID") ?? ""),
                 EnvOr("PRAXO_INTROSPECTION_CLIENT_SECRET",
                     Environment.GetEnvironmentVariable("PRAXO_OIDC_CLIENT_SECRET") ?? ""),
+                EnvOr("PRAXO_OIDC_TENANT_CLAIM", "tenant"));
+        }
+        var issuer = Environment.GetEnvironmentVariable("PRAXO_OIDC_ISSUER") ?? "";
+        if (issuer.Length > 0)
+        {
+            var audience = Environment.GetEnvironmentVariable("PRAXO_OIDC_AUDIENCE") ?? "";
+            if (audience.Length == 0)
+            {
+                throw new InvalidOperationException("PRAXO_OIDC_AUDIENCE is required");
+            }
+            return new OidcAuthenticator(
+                new HttpClient { Timeout = AuthTimeout() },
+                issuer,
+                audience,
+                Environment.GetEnvironmentVariable("PRAXO_OIDC_JWKS_URL") ?? "",
+                Environment.GetEnvironmentVariable("PRAXO_OIDC_DISCOVERY_URL") ?? "",
                 EnvOr("PRAXO_OIDC_TENANT_CLAIM", "tenant"));
         }
         return new ContextAuthenticator(tenant);
@@ -143,6 +167,7 @@ public static class Program
     private static void RunDeterministicTest()
     {
         RunIntrospectionTests();
+        OidcTests.Run();
         var agent = CreateAgent(new FakeModel());
         var health = HandleRequest(agent, "local", "GET", "/healthz", null, "");
         if (health.Status != 200)

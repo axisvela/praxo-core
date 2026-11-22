@@ -155,10 +155,13 @@ revocation:
   tokens;
 - use `--revoke-token TOKEN` with `PRAXO_REVOCATION_URL` to revoke a token;
 - the tenant comes from `PRAXO_OIDC_TENANT_CLAIM` (default `tenant`);
-- OIDC/JWKS verification is not included in these two examples.
+- the C# example also verifies OIDC/JWKS JWTs with provider discovery when
+  `PRAXO_OIDC_ISSUER` and `PRAXO_OIDC_AUDIENCE` are set;
+- the Java example does not include OIDC/JWKS verification.
 
-The tests use loopback introspection and revocation endpoints; no external
-identity provider is required.
+The C# OIDC tests use a loopback discovery/JWKS provider; the introspection and
+revocation tests use loopback or fake endpoints. No external identity provider
+is required.
 
 ## Transport-Neutral and Injectable Authentication Variants
 

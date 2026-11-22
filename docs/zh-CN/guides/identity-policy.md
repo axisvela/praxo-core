@@ -62,6 +62,12 @@ TypeScript 服务示例
 Checkpoint 模式，还可以验证外部身份提供商的 OIDC/JWKS JWT、发现 Provider 元数据、
 校验不透明 Token，并通过应用自有的 Provider 端点撤销 Token。
 
+C# 服务示例
+[`language/csharp/examples/service`](https://github.com/axisvela/praxo-core/tree/main/language/csharp/examples/service)
+在 HTTP 边界增加 OIDC/JWKS 验证、Provider 发现、introspection 与撤销。其确定性测试使用
+loopback discovery/JWKS Provider，覆盖允许、错误 audience、过期、错误 issuer、未知 key 与
+Provider 不可用。
+
 ## 全语言示例
 
 每种已声明 Core 都提供 `language/<language>/examples/identity-policy` 示例，但深度不同：
