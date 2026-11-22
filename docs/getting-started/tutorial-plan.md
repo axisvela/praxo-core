@@ -59,7 +59,8 @@ when its tutorial has runnable commands, tests, and recorded evidence.
 | C# order service desk | ASP.NET Core, native Core, CLI and Web | Self-tests plus real-service CLI and Web in Linux CI | Deterministic model; no production identity |
 | PowerShell Windows diagnostics | Shared C# Core through the module | Local Windows tests and hosted Windows CI | No Gallery install, repair, remote host or live model |
 | Perl log triage | Native Perl Core, fixed fixture log, severity report | Local Perl 5.40.3 tests and Linux CI | No arbitrary path, shell, alert delivery or live model |
-| COBOL, R, Julia, Octave, Lua, Rust, Zig, C, C++ | Not implemented as Tutorial entries | Not run | Candidate paths only |
+| R data quality | Native R statistics, fixed data frame, computed report | Local R 4.6.1 tests; Linux CI configured and pending | No arbitrary file/SQL/shell, live model or causal claim |
+| COBOL, Julia, Octave, Lua, Rust, Zig, C, C++ | Not implemented as Tutorial entries | Not run | Candidate paths only |
 
 See [Verification Evidence](../project/verification-evidence.md) for exact run
 IDs and scope. "Passed in CI" does not mean production readiness, independent
@@ -98,9 +99,9 @@ not in `pkg/...` or `spec/`.
 
 ## Next Work
 
-1. Add an analytics path (R or Julia) that separates computed evidence from model
-   narrative.
-2. Reuse the COBOL batch exception example rather than creating a new bank model.
+1. Reuse the COBOL batch exception example rather than creating a new bank model.
+2. Add Julia experiment comparison as a second analytics path with computed
+   evidence separated from model narrative.
 3. Add device tutorials only when a concrete runtime and transport contract exist.
 4. Turn each verified tutorial into a consumer test-authorized path, not just a
    maintainer demo.

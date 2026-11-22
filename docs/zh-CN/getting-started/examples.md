@@ -44,6 +44,11 @@ C# Core 构建和全部四项源码模式检查，见
 本地 Perl 5.40.3 测试通过，Linux CI 也已在 `3b5edcc7` 的
 [run 45038008192](https://github.com/axisvela/praxo-core/actions/runs/45038008192) 通过。
 
+[R 数据质量教程](https://github.com/axisvela/praxo-core/tree/main/language/r/Tutorial/data-quality)
+增加分析路径：固定数据框、原生 R 统计和结构化报告，报告只封装工具计算值。包含策略
+拒绝与依赖失败检查。它不读取任意文件、不执行 SQL/Shell、不安装包、不调用真实模型。
+本地 R 4.6.1 测试通过；Linux CI 已配置，结果待确认。
+
 示例目录使用[语言覆盖矩阵](language-coverage.md)中的深度标签：
 
 | 深度 | 含义 |
@@ -73,6 +78,7 @@ C# Core 构建和全部四项源码模式检查，见
 | 构建 Workspace Agent | [Workspace Agent 教程](../guides/workspace-agent-tutorial.md) | 使用发布包的只读 Go 应用 |
 | 只读诊断 Windows 服务与磁盘 | [PowerShell Windows 诊断](https://github.com/axisvela/praxo-core/tree/main/language/powershell/Tutorial/windows-diagnostics) | 共享 C# Core 上的固定只读工具；不修复、不访问远程主机、不执行任意 Shell |
 | 巡检合成日志并生成报告 | [Perl 日志巡检](https://github.com/axisvela/praxo-core/tree/main/language/perl/Tutorial/log-triage) | 原生 Perl Core、固定 fixture 日志、严重级别统计、拒绝与依赖失败检查 |
+| 用计算证据评估数据质量 | [R 数据质量](https://github.com/axisvela/praxo-core/tree/main/language/r/Tutorial/data-quality) | 原生 R 统计固定数据框；模型封装工具计算值，不编造数字 |
 | 嵌入应用 | [应用嵌入清单](../guides/application-integration-checklist.md) | 只读、有副作用、高风险部署的分档清单 |
 | 通过 HTTP 运行 Core | [HTTP 嵌入服务教程](../guides/embedded-service-tutorial.md)、[语言覆盖](language-coverage.md) | Go、Python、TypeScript、Java、C# 和 Rust 提供可执行 HTTP 服务；其余已声明语言提供传输中立 Handler 示例 |
 | 查看 Go 参考应用 | [`examples/reference`](https://github.com/axisvela/praxo-core/tree/main/examples/reference) | Go 参考应用 |

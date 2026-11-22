@@ -274,7 +274,11 @@ Turn the first run into one useful local application, such as:
   Perl's `Tutorial/log-triage/` adds a native operations path with a fixed fixture
   log, severity report, policy denial and dependency failure. Local Perl 5.40.3
   checks pass, and Linux CI passed at `3b5edcc7` (run `45038008192`). It does not read arbitrary
-  paths, execute shell, deliver alerts or call a live model. See the
+  paths, execute shell, deliver alerts or call a live model.
+  R's `Tutorial/data-quality/` computes fixed-dataset statistics through the
+  native R Core and returns a report that packages tool-computed values. Local
+  R 4.6.1 checks pass; Linux CI is configured and pending. It does not read
+  arbitrary files, run SQL/shell, install packages or call a live model. See the
   [Tutorial Plan](../getting-started/tutorial-plan.md) for the scenario map,
   current status, delivery standard and next candidates.
 - Validate one application-shaped prototype for a named consumer before
