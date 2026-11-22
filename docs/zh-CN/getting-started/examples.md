@@ -71,7 +71,8 @@ C# Core 构建和全部四项源码模式检查，见
 [Python 办公问答教程](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/office-qa)
 用文档引用回答固定办公政策问题。受限搜索工具返回证据，确定性模型封装顶部结果为答案。
 包含策略拒绝与索引失败检查。它不读取任意文件、不调用 Connector、不发送邮件、不调用
-真实模型。本地 Python 3.14 检查通过；Linux CI 已配置，结果待确认。
+真实模型。本地 Python 3.14 检查通过，Linux CI 也已在 `cfd850a6` 的
+[run 45043537084](https://github.com/axisvela/praxo-core/actions/runs/45043537084) 通过。
 
 示例目录使用[语言覆盖矩阵](language-coverage.md)中的深度标签：
 

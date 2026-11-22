@@ -122,9 +122,10 @@ Octave/MATLAB 信号趋势教程（2026-11-22）：本地 GNU Octave 11.3.0 通�
 
 Python 办公问答教程（2026-11-22）：本地 Python 3.14 源码模式通过成功、策略拒绝和模拟
 索引失败。答案引用 `handbook` fixture 并包含 travel approval 句子；越界 scope 在工具
-调用前被拒绝（`reads=0`）；模拟索引失败在调用一次后失败。Linux CI 已配置，结果尚未
-记录。未验证任意文件/Connector、邮件/日历操作、真实 Provider、生产文档存储、公共托管
-或独立采用。
+调用前被拒绝（`reads=0`）；模拟索引失败在调用一次后失败。Linux CI
+[45043537084](https://github.com/axisvela/praxo-core/actions/runs/45043537084)
+也已在 `cfd850a6` 通过。未验证任意文件/Connector、邮件/日历操作、真实 Provider、
+生产文档存储、公共托管或独立采用。
 
 | 领域 | 已验证 | 级别 | 限制 |
 | --- | --- | --- | --- |

@@ -152,9 +152,11 @@ Python office-Q&A tutorial (2026-11-22): local Python 3.14 with Core source mode
 passed success, policy denial and simulated index failure. The answer cited the
 `handbook` fixture and contained the travel-approval sentence; an out-of-scope
 scope was denied before any tool call (`reads=0`); simulated index failure failed
-after one call. Linux CI is configured but its result is not yet recorded. No
-arbitrary file/connector, email/calendar action, live provider, production
-document store, public hosting or independent adoption is verified.
+after one call. Linux CI
+[45043537084](https://github.com/axisvela/praxo-core/actions/runs/45043537084)
+also passed at `cfd850a6`. No arbitrary file/connector, email/calendar action,
+live provider, production document store, public hosting or independent adoption
+is verified.
 
 | Area | Verified | Level | Limits |
 | --- | --- | --- | --- |

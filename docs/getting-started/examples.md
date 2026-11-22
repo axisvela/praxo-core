@@ -93,7 +93,8 @@ answers fixed office-policy questions with document citations. A scoped search
 tool returns evidence, and the deterministic model packages the top result into
 an answer. It includes policy denial and index-failure checks. It does not read
 arbitrary files, call connectors, send email or call a live model. Local Python
-3.14 checks passed; Linux CI is configured and pending.
+3.14 checks passed, and Linux CI passed at `cfd850a6` in
+[run 45043537084](https://github.com/axisvela/praxo-core/actions/runs/45043537084).
 
 The catalog uses the depth labels from the
 [Language Coverage depth audit](language-coverage.md#depth-audit):
