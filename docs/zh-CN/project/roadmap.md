@@ -181,10 +181,12 @@ PRAXO-CORE 继续定位为**可治理、可嵌入的 Agent 执行框架**。路�
 服务、完整企业 Web 教程或外部采用。
 
 Java 的 `Tutorial/order-review/` 已加入 CLI、loopback Web 入口和 JUnit 契约测试；
-本地 JVM 验证受阻，新配置的 CI 门禁尚未运行。TypeScript 教程已安装自身固定版本依赖。
+本地 JVM 验证受阻，但 Linux CI 已在 `3c2063f9`（run `45031868787`）通过编译和
+mock Agent/Web 测试。TypeScript 教程已安装自身固定版本依赖。
 
 共享后端仓库当前为私有，需要授权访问；默认 Java 契约 CI 不依赖该仓库，固定版本的
 完整集成门禁改为需要显式读取权限的手动执行。
+上述运行中的完整集成门禁被跳过，尚未验证。
 
 ### 开发者成果
 

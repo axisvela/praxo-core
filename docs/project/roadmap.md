@@ -252,11 +252,13 @@ Turn the first run into one useful local application, such as:
   dependency failure. This is source/local fixture evidence, not a hosted
   service, a full enterprise Web tutorial, or external adoption.
   Java's `Tutorial/order-review/` adds a CLI and loopback Web entry plus JUnit
-  contract tests; local JVM verification is blocked and its configured CI gate
-  has not yet run. TypeScript now installs its own pinned tutorial dependency.
+  contract tests; local JVM verification is blocked, but compilation and
+  mock-backed Agent/Web tests passed in Linux CI at `3c2063f9` (run
+  `45031868787`). TypeScript now installs its own pinned tutorial dependency.
   The shared backend repository is currently private; these slices require
   authorized access. Default Java contract CI is independent of that repository;
   the pinned full integration gate is manual and requires explicit read access.
+  That full integration gate was skipped in the cited run, not verified.
 - Validate one application-shaped prototype for a named consumer before
   expanding tutorials across SDKs.
 - Audit the existing MCP examples against their actual transports and commands;

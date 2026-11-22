@@ -20,7 +20,10 @@ The shared backend repository is currently private: these domain slices require
 an authorized local checkout and are not yet a publicly reproducible path.
 The [Java order review tutorial](https://github.com/axisvela/praxo-core/tree/main/language/java/Tutorial/order-review)
 adds a loopback HTTP entry point and a JUnit contract fixture. Its local runtime
-is blocked by this workstation's JVM launcher; CI verification is pending.
+is blocked by this workstation's JVM launcher; Linux CI compilation and
+mock-backed Agent/Web tests passed at `3c2063f9` in
+[run 45031868787](https://github.com/axisvela/praxo-core/actions/runs/45031868787).
+The private business-service integration job was skipped, not passed.
 
 The catalog uses the depth labels from the
 [Language Coverage depth audit](language-coverage.md#depth-audit):

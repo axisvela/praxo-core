@@ -40,7 +40,10 @@ the requested order (Agent policy permits only `order-100`).
 
 On Windows agent shells redirect Java/Maven stdin from NUL and bound execution
 time. This workstation's Java launcher has previously hung; no runtime success
-for this new tutorial is claimed until its tests actually pass.
+is claimed locally. Linux CI passed `mvn -B -q test` at Core `3c2063f9` in
+[run 45031868787](https://github.com/axisvela/praxo-core/actions/runs/45031868787).
+That verifies compilation and mock-backed Agent/Web tests, not the private
+business service or a live model. The full integration job was skipped.
 
 ## Web Entry
 

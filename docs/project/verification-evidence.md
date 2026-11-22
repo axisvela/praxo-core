@@ -47,6 +47,17 @@ and date it names.
 
 ### Packages, Identity Examples, and Consumer Runs
 
+Shared order tutorial slice (2026-11-22): Core `3c2063f9` and synthetic backend
+revision `fe85622b3445c41d53fbada8e0199c8f1b353ec5`. Local backend tests plus
+Python/TypeScript clients passed four test methods (Python source mode,
+TypeScript installed npm `0.9.0`). Java compilation and mock-backed Agent/Web
+JUnit passed in Linux CI [45031868787](https://github.com/axisvela/praxo-core/actions/runs/45031868787).
+The backend repository is private: full three-language integration was skipped,
+not passed. Earlier Core run `45031542641` failed during private repository
+checkout before tests. Backend CI did not start; no backend hosted-runner result
+is claimed. These are maintainer teaching fixtures, not independent adoption,
+live-provider, public-service, refund, or durable-transaction evidence.
+
 | Area | Verified | Level | Limits |
 | --- | --- | --- | --- |
 | Python published package | PyPI `praxo-core==0.10.0` is published from source tag `python/v0.10.0`. The docs CI published-upgrade check installed `0.2.4`, ran the unchanged consumer and governed checks, upgraded to `0.10.0`, and reran the suite successfully. Historical local checks cover `0.3.2` and `0.2.4` | Registry publication + CI upgrade | One version pair; a post-publication consumer install outside CI for `0.10.0` is not recorded here; one platform/toolchain; not an independent or non-author consumer; no provider or production evidence |

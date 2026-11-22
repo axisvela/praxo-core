@@ -15,7 +15,10 @@
 不是完整企业 Web 应用。已有示例与发布文档 URL 保持不变。
 共享后端仓库当前为私有；这些领域切片需要已授权的本地检出，尚不是可公开复现的路径。
 [Java 订单审阅教程](https://github.com/axisvela/praxo-core/tree/main/language/java/Tutorial/order-review)
-另有 loopback HTTP 入口和 JUnit 契约 fixture；本地运行受 JVM 启动器阻塞，CI 验证待执行。
+另有 loopback HTTP 入口和 JUnit 契约 fixture；本地运行受 JVM 启动器阻塞，Linux CI
+已在 `3c2063f9` 通过编译及 mock Agent/Web 测试，见
+[run 45031868787](https://github.com/axisvela/praxo-core/actions/runs/45031868787)。
+私有业务服务集成任务被跳过，不是通过。
 
 示例目录使用[语言覆盖矩阵](language-coverage.md)中的深度标签：
 
