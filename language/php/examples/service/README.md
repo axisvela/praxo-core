@@ -20,5 +20,8 @@ PHP service auth tests passed
 ```
 
 Introspection requires `active: true`, `sub`, the configured tenant claim, and
-a future integer `exp`. Provider errors and failed revocation fail closed. OIDC
-and JWKS verification are not included in this PHP example.
+a future integer `exp`. Provider errors and failed revocation fail closed. OidcAuthenticator verifies RS256/RS384/RS512 JWTs with provider discovery,
+a five-minute JWKS cache, issuer/audience checks, tenant binding, and fail-closed
+provider behavior. The scripted transport covers allow, wrong audience, expired
+token, wrong issuer, unknown key, and unavailable provider. Run the test with
+OpenSSL enabled when the local PHP build requires it.

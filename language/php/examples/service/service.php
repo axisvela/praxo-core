@@ -10,8 +10,16 @@ final class ScriptedTransport implements IntrospectionTransport
     public array $forms = [];
     public bool $unavailable = false;
 
-    public function __construct(private int $status, private string $body)
+    public function __construct(
+        private int $status,
+        private string $body,
+        private array $getRoutes = [],
+    ) {
+    }
+
+    public function getJson(string $url): array
     {
+        return $this->getRoutes[$url] ?? [404, '{}'];
     }
 
     public function postForm(string $url, string $form, ?string $authorization): array
@@ -102,6 +110,93 @@ $unavailableAuth = new IntrospectionAuthenticator(
 );
 if ($unavailableAuth->authenticate('Bearer opaque-token', $now) !== null) {
     throw new RuntimeException('unavailable provider was accepted');
+}
+
+function base64Url(string $value): string
+{
+    return rtrim(strtr(base64_encode($value), '+/', '-_'), '=');
+}
+
+$oidcKey = openssl_pkey_new([
+    'private_key_bits' => 2048,
+    'private_key_type' => OPENSSL_KEYTYPE_RSA,
+]);
+$oidcDetails = openssl_pkey_get_details($oidcKey);
+$oidcIssuer = 'https://issuer.example.com';
+$oidcJwksUrl = $oidcIssuer . '/jwks';
+$oidcDiscovery = $oidcIssuer . '/.well-known/openid-configuration';
+$oidcJwks = json_encode(['keys' => [[
+    'kid' => 'test-key',
+    'kty' => 'RSA',
+    'use' => 'sig',
+    'alg' => 'RS256',
+    'n' => base64Url($oidcDetails['rsa']['n']),
+    'e' => base64Url($oidcDetails['rsa']['e']),
+]]]);
+$oidcMetadata = json_encode([
+    'issuer' => $oidcIssuer,
+    'jwks_uri' => $oidcJwksUrl,
+]);
+$oidcTransport = new ScriptedTransport(200, '{}', [
+    $oidcDiscovery => [200, $oidcMetadata],
+    $oidcJwksUrl => [200, $oidcJwks],
+]);
+$oidc = new OidcAuthenticator($oidcTransport, $oidcIssuer, 'praxo-service');
+$oidcClaims = static fn (string $issuer, string $audience, int $expires): array => [
+    'iss' => $issuer,
+    'aud' => $audience,
+    'sub' => 'user-1',
+    'tenant' => 'local',
+    'exp' => $expires,
+];
+$signOidc = static function (array $claims, string $kid = 'test-key') use ($oidcKey): string {
+    $header = base64Url(json_encode(['alg' => 'RS256', 'kid' => $kid, 'typ' => 'JWT']));
+    $payload = base64Url(json_encode($claims));
+    $input = $header . '.' . $payload;
+    openssl_sign($input, $signature, $oidcKey, OPENSSL_ALGO_SHA256);
+    return $input . '.' . base64Url($signature);
+};
+$allowed = $oidc->authenticate(
+    'Bearer ' . $signOidc($oidcClaims($oidcIssuer, 'praxo-service', $now + 60)),
+    $now,
+);
+if ($allowed === null || $allowed->subject !== 'user-1' || $allowed->tenant !== 'local') {
+    throw new RuntimeException('OIDC allowed token was rejected');
+}
+if ($oidc->authenticate(
+    'Bearer ' . $signOidc($oidcClaims($oidcIssuer, 'other-service', $now + 60)),
+    $now,
+) !== null) {
+    throw new RuntimeException('OIDC wrong audience was accepted');
+}
+if ($oidc->authenticate(
+    'Bearer ' . $signOidc($oidcClaims($oidcIssuer, 'praxo-service', $now - 60)),
+    $now,
+) !== null) {
+    throw new RuntimeException('OIDC expired token was accepted');
+}
+if ($oidc->authenticate(
+    'Bearer ' . $signOidc($oidcClaims('https://wrong.example.com', 'praxo-service', $now + 60)),
+    $now,
+) !== null) {
+    throw new RuntimeException('OIDC wrong issuer was accepted');
+}
+if ($oidc->authenticate(
+    'Bearer ' . $signOidc($oidcClaims($oidcIssuer, 'praxo-service', $now + 60), 'other-key'),
+    $now,
+) !== null) {
+    throw new RuntimeException('OIDC unknown key was accepted');
+}
+$unavailableOidc = new OidcAuthenticator(
+    new ScriptedTransport(200, '{}'),
+    $oidcIssuer,
+    'praxo-service',
+);
+if ($unavailableOidc->authenticate(
+    'Bearer ' . $signOidc($oidcClaims($oidcIssuer, 'praxo-service', $now + 60)),
+    $now,
+) !== null) {
+    throw new RuntimeException('unavailable OIDC provider was accepted');
 }
 
 $revocation = new RevocationClient(

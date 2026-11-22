@@ -3,10 +3,11 @@ require_relative 'authentication'
 class ScriptedTransport
   attr_reader :forms
 
-  def initialize(status, body)
+  def initialize(status, body, get: {})
     @status = status
     @body = body
     @forms = []
+    @get = get
     @unavailable = false
   end
 
@@ -19,6 +20,10 @@ class ScriptedTransport
     raise ServiceAuth::AuthError, 'identity provider unavailable' if @unavailable
 
     [@status, @body]
+  end
+
+  def get_json(url)
+    @get.fetch(url, [404, '{}'])
   end
 end
 
@@ -73,6 +78,81 @@ unavailable_auth = ServiceAuth::IntrospectionAuthenticator.new(
   transport: unavailable, endpoint: 'https://id.example.com/introspect'
 )
 raise 'unavailable provider was accepted' unless unavailable_auth.authenticate('Bearer opaque-token', now).nil?
+
+oidc_key = OpenSSL::PKey::RSA.new(2048)
+oidc_issuer = 'https://issuer.example.com'
+oidc_jwks_url = "#{oidc_issuer}/jwks"
+oidc_discovery = "#{oidc_issuer}/.well-known/openid-configuration"
+oidc_jwks = JSON.generate(
+  'keys' => [{
+    'kid' => 'test-key',
+    'kty' => 'RSA',
+    'use' => 'sig',
+    'alg' => 'RS256',
+    'n' => ServiceAuth.b64url(oidc_key.n.to_s(2)),
+    'e' => ServiceAuth.b64url(oidc_key.e.to_s(2))
+  }]
+)
+oidc_metadata = JSON.generate(
+  'issuer' => oidc_issuer, 'jwks_uri' => oidc_jwks_url
+)
+oidc_get = {
+  oidc_discovery => [200, oidc_metadata],
+  oidc_jwks_url => [200, oidc_jwks]
+}
+oidc_transport = ScriptedTransport.new(200, '{}', get: oidc_get)
+oidc = ServiceAuth::OidcAuthenticator.new(
+  transport: oidc_transport, issuer: oidc_issuer, audience: 'praxo-service'
+)
+
+sign_oidc = lambda do |claims, kid = 'test-key'|
+  header = ServiceAuth.b64url(JSON.generate(
+    'alg' => 'RS256', 'kid' => kid, 'typ' => 'JWT'
+  ))
+  payload = ServiceAuth.b64url(JSON.generate(claims))
+  input = "#{header}.#{payload}"
+  signature = oidc_key.sign(OpenSSL::Digest.new('SHA256'), input)
+  "#{input}.#{ServiceAuth.b64url(signature)}"
+end
+oidc_claims = lambda do |issuer, audience, expires|
+  {
+    'iss' => issuer, 'aud' => audience, 'sub' => 'user-1',
+    'tenant' => 'local', 'exp' => expires
+  }
+end
+allowed = oidc.authenticate(
+  "Bearer #{sign_oidc.call(oidc_claims.call(oidc_issuer, 'praxo-service', now + 60))}",
+  now
+)
+raise 'OIDC allowed token was rejected' unless allowed&.subject == 'user-1' &&
+  allowed.tenant == 'local'
+raise 'OIDC wrong audience was accepted' unless oidc.authenticate(
+  "Bearer #{sign_oidc.call(oidc_claims.call(oidc_issuer, 'other-service', now + 60))}",
+  now
+).nil?
+raise 'OIDC expired token was accepted' unless oidc.authenticate(
+  "Bearer #{sign_oidc.call(oidc_claims.call(oidc_issuer, 'praxo-service', now - 60))}",
+  now
+).nil?
+raise 'OIDC wrong issuer was accepted' unless oidc.authenticate(
+  "Bearer #{sign_oidc.call(oidc_claims.call('https://wrong.example.com',
+                                            'praxo-service', now + 60))}",
+  now
+).nil?
+raise 'OIDC unknown key was accepted' unless oidc.authenticate(
+  "Bearer #{sign_oidc.call(oidc_claims.call(oidc_issuer, 'praxo-service', now + 60),
+                           'other-key')}",
+  now
+).nil?
+unavailable_oidc = ServiceAuth::OidcAuthenticator.new(
+  transport: ScriptedTransport.new(200, '{}'),
+  issuer: oidc_issuer,
+  audience: 'praxo-service'
+)
+raise 'unavailable OIDC provider was accepted' unless unavailable_oidc.authenticate(
+  "Bearer #{sign_oidc.call(oidc_claims.call(oidc_issuer, 'praxo-service', now + 60))}",
+  now
+).nil?
 
 revocation = ServiceAuth::RevocationClient.new(
   transport: active, endpoint: 'https://id.example.com/revoke'

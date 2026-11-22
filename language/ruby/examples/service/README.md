@@ -21,5 +21,7 @@ Ruby service auth tests passed
 ```
 
 Introspection requires `active: true`, `sub`, the configured tenant claim, and
-a future integer `exp`. Provider errors and failed revocation fail closed. OIDC
-and JWKS verification are not included in this Ruby example.
+a future integer `exp`. Provider errors and failed revocation fail closed. OidcAuthenticator verifies RS256/RS384/RS512 JWTs with provider discovery,
+a five-minute JWKS cache, issuer/audience checks, tenant binding, and fail-closed
+provider behavior. The scripted test transport covers allow, wrong audience,
+expired token, wrong issuer, unknown key, and unavailable provider.
