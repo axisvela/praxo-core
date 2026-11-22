@@ -77,8 +77,13 @@ pwsh -NoProfile -File tests.ps1 -SourceMode -IncludeLocalMachine
 
 The script covers fixture success, fixed-scope denial, simulated dependency
 failure and Windows local reads. It launches each case in an isolated `pwsh`
-process and checks exit status and read counts. Windows CI runs this source-mode
-suite; it does not test a Gallery install or a real model.
+process and checks exit status and read counts.
+
+On 2026-11-22, Core `5afe6e35` passed
+[CI run 45036962205](https://github.com/axisvela/praxo-core/actions/runs/45036962205)
+on Windows: the C# Core Debug build and all four source-mode checks passed. This
+is hosted Windows CI evidence, not a Gallery install, administrator operation,
+remote host or live model.
 
 ## Boundaries
 

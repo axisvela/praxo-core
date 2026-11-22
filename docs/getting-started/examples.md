@@ -42,7 +42,9 @@ The [PowerShell Windows diagnostics tutorial](https://github.com/axisvela/praxo-
 is the first operations-shaped path: fixture and local read-only service/disk
 checks, with policy denial and dependency failure. It reuses the shared C# Core
 through `praxo-core-ps`; it does not execute repairs, remote commands or a live model.
-Local Windows PowerShell 7.7.0 tests passed 4/4; Windows CI is configured and pending.
+Local Windows PowerShell 7.7.0 tests passed 4/4. Hosted Windows CI also passed
+the C# Core build and all four source-mode checks at `5afe6e35` in
+[run 45036962205](https://github.com/axisvela/praxo-core/actions/runs/45036962205).
 
 The catalog uses the depth labels from the
 [Language Coverage depth audit](language-coverage.md#depth-audit):

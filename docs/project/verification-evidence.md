@@ -91,8 +91,10 @@ PowerShell Windows diagnostics tutorial (2026-11-22): local Windows PowerShell
 mode. Fixture mode performed two read-only tool calls; an out-of-scope service
 was denied before reads (`reads=0`); simulated dependency failure exited nonzero
 after one read; local mode read `Spooler` status and system-drive free space with
-`source=local_machine`. The tutorial registers no mutating tools. Windows CI is
-configured but the result is not yet recorded. No Gallery install, live model,
+`source=local_machine`. The tutorial registers no mutating tools. Hosted Windows CI
+[45036962205](https://github.com/axisvela/praxo-core/actions/runs/45036962205)
+also passed at `5afe6e35`: it built C# Core Debug and ran all four source-mode
+checks, including local service/disk reads. No Gallery install, live model,
 remote host, repair, administrator operation, production monitoring or independent
 adoption is verified.
 

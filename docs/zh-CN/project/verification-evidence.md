@@ -74,9 +74,11 @@ Web 范围。模型为确定性 fixture，凭据为公开教学常量；没有�
 PowerShell Windows 诊断教程（2026-11-22）：本地 Windows PowerShell 7.7.0 使用共享
 C# Core Debug 源码模式通过四项检查。Fixture 模式执行两次只读工具调用；越界服务在读取
 前被拒绝（`reads=0`）；模拟依赖失败在读取一次后非零退出；本机模式读取 `Spooler`
-状态和系统盘剩余空间，标记 `source=local_machine`。教程未注册变更类工具。Windows CI
-已配置但结果尚未记录。未验证 Gallery 安装、真实模型、远程主机、修复、管理员操作、
-生产监控或独立采用。
+状态和系统盘剩余空间，标记 `source=local_machine`。教程未注册变更类工具。托管 Windows CI
+[45036962205](https://github.com/axisvela/praxo-core/actions/runs/45036962205)
+也已在 `5afe6e35` 通过：构建 C# Core Debug 并运行全部四项源码模式检查，包括本机
+服务/磁盘读取。未验证 Gallery 安装、真实模型、远程主机、修复、管理员操作、生产监控
+或独立采用。
 
 | 领域 | 已验证 | 级别 | 限制 |
 | --- | --- | --- | --- |

@@ -33,7 +33,9 @@
 [PowerShell Windows 诊断教程](https://github.com/axisvela/praxo-core/tree/main/language/powershell/Tutorial/windows-diagnostics)
 是第一条运维形态路径：fixture 与本机只读服务/磁盘检查，包含策略拒绝和依赖失败。
 它通过 `praxo-core-ps` 复用共享 C# Core，不执行修复、远程命令或真实模型。本地
-Windows PowerShell 7.7.0 测试 4/4 通过；Windows CI 已配置，结果待确认。
+Windows PowerShell 7.7.0 本地测试 4/4 通过；托管 Windows CI 也已在 `5afe6e35` 通过
+C# Core 构建和全部四项源码模式检查，见
+[run 45036962205](https://github.com/axisvela/praxo-core/actions/runs/45036962205)。
 
 示例目录使用[语言覆盖矩阵](language-coverage.md)中的深度标签：
 
