@@ -76,7 +76,8 @@ computes baseline/candidate means and delta over fixed results through the nativ
 Julia Core, then packages the computed evidence in a report. It includes policy
 denial and dependency-failure checks. It does not read arbitrary data, execute
 model-provided Julia code, install packages or call a live model. Local Julia
-1.13.2 tests passed; Linux CI is configured and pending.
+1.13.2 tests passed, and Linux CI passed at `bbf12c42` in
+[run 45041423996](https://github.com/axisvela/praxo-core/actions/runs/45041423996).
 
 The catalog uses the depth labels from the
 [Language Coverage depth audit](language-coverage.md#depth-audit):

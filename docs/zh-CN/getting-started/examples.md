@@ -59,7 +59,8 @@ C# Core 构建和全部四项源码模式检查，见
 [Julia 实验比较教程](https://github.com/axisvela/praxo-core/tree/main/language/julia/Tutorial/experiment-comparison)
 通过原生 Julia Core 计算固定 baseline/candidate 均值与差值，再把计算证据封装进报告。
 包含策略拒绝与依赖失败检查。它不读取任意数据、不执行模型提供的 Julia 代码、不安装包、
-不调用真实模型。本地 Julia 1.13.2 测试通过；Linux CI 已配置，结果待确认。
+不调用真实模型。本地 Julia 1.13.2 测试通过，Linux CI 也已在 `bbf12c42` 的
+[run 45041423996](https://github.com/axisvela/praxo-core/actions/runs/45041423996) 通过。
 
 示例目录使用[语言覆盖矩阵](language-coverage.md)中的深度标签：
 

@@ -287,9 +287,9 @@ Turn the first run into one useful local application, such as:
   durable queues, recovery proof or a live model.
   Julia's `Tutorial/experiment-comparison/` computes fixed baseline/candidate
   metrics through the native Julia Core and packages computed evidence in a
-  report. Local Julia 1.13.2 checks pass; Linux CI is configured and pending. It
-  does not read arbitrary data, run model-provided Julia code, install packages
-  or call a live model. See the
+  report. Local Julia 1.13.2 checks pass, and Linux CI passed at `bbf12c42` (run
+  `45041423996`). It does not read arbitrary data, run model-provided Julia code,
+  install packages or call a live model. See the
   [Tutorial Plan](../getting-started/tutorial-plan.md) for the scenario map,
   current status, delivery standard and next candidates.
 - Validate one application-shaped prototype for a named consumer before

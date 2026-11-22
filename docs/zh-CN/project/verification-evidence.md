@@ -107,8 +107,10 @@ fixture，不是第二套银行模型。Linux CI
 Julia 实验比较教程（2026-11-22）：本地 Julia 1.13.2 源码模式通过成功、策略拒绝和
 模拟依赖失败。报告包含 5 个样本、baseline mean 0.74、candidate mean 0.784、delta
 0.044、winner `candidate`，`mutating_actions` 为空；越界数据集在读取前被拒绝
-（`reads=0`）；模拟依赖失败在读取一次后非零退出。Linux CI 已配置，结果尚未记录。
-未验证任意数据、模型提供的 Julia 执行、包安装、真实模型、因果结论、生产平台或独立采用。
+（`reads=0`）；模拟依赖失败在读取一次后非零退出。Linux CI
+[45041423996](https://github.com/axisvela/praxo-core/actions/runs/45041423996)
+也已在 `bbf12c42` 通过。未验证任意数据、模型提供的 Julia 执行、包安装、真实模型、
+因果结论、生产平台或独立采用。
 
 | 领域 | 已验证 | 级别 | 限制 |
 | --- | --- | --- | --- |

@@ -61,7 +61,7 @@ when its tutorial has runnable commands, tests, and recorded evidence.
 | Perl log triage | Native Perl Core, fixed fixture log, severity report | Local Perl 5.40.3 tests and Linux CI | No arbitrary path, shell, alert delivery or live model |
 | R data quality | Native R statistics, fixed data frame, computed report | Local R 4.6.1 tests and Linux CI | No arbitrary file/SQL/shell, live model or causal claim |
 | COBOL batch exception review | Reuses deterministic batch handoff; separate review worker | Local GnuCOBOL 2.0.0/Python checks and Linux CI | No real posting, durable queue, recovery proof or live model |
-| Julia experiment comparison | Native Julia means/delta over fixed results | Local Julia 1.13.2 tests; Linux CI configured and pending | No arbitrary data/code/package install, live model or causal claim |
+| Julia experiment comparison | Native Julia means/delta over fixed results | Local Julia 1.13.2 tests and Linux CI | No arbitrary data/code/package install, live model or causal claim |
 | Octave, Lua, Rust, Zig, C, C++ | Not implemented as Tutorial entries | Not run | Candidate paths only |
 
 See [Verification Evidence](../project/verification-evidence.md) for exact run

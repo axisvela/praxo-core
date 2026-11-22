@@ -131,9 +131,11 @@ mode passed success, policy denial and simulated dependency failure. The report
 contained five samples, baseline mean 0.74, candidate mean 0.784, delta 0.044,
 winner `candidate` and an empty `mutating_actions` list; an out-of-scope dataset
 was denied before any read (`reads=0`); simulated dependency failure exited
-nonzero after one read. Linux CI is configured but its result is not yet
-recorded. No arbitrary data, model-provided Julia execution, package install,
-live model, causal claim, production platform or independent adoption is verified.
+nonzero after one read. Linux CI
+[45041423996](https://github.com/axisvela/praxo-core/actions/runs/45041423996)
+also passed at `bbf12c42`. No arbitrary data, model-provided Julia execution,
+package install, live model, causal claim, production platform or independent
+adoption is verified.
 
 | Area | Verified | Level | Limits |
 | --- | --- | --- | --- |
