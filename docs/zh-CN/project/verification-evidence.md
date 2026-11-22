@@ -83,8 +83,10 @@ C# Core Debug 源码模式通过四项检查。Fixture 模式执行两次只读�
 Perl 日志巡检教程（2026-11-22）：本地 Perl 5.40.3 源码模式通过成功报告、策略拒绝和
 模拟依赖失败。成功路径读取固定 fixture 一次，报告 2 个 error、1 个 warning、2 个 info，
 且 `mutating_actions` 为空；越界日志在读取前被拒绝（`reads=0`）；模拟依赖失败在读取一次
-后非零退出。Linux CI 已配置，但结果尚未记录。未验证任意路径、Shell 执行、告警发送、
-真实模型、生产日志管道或独立采用。
+后非零退出。Linux CI
+[45038008192](https://github.com/axisvela/praxo-core/actions/runs/45038008192)
+也已在 `3b5edcc7` 通过。未验证任意路径、Shell 执行、告警发送、真实模型、生产日志
+管道或独立采用。
 
 | 领域 | 已验证 | 级别 | 限制 |
 | --- | --- | --- | --- |

@@ -53,7 +53,7 @@ Web 服务、运维 Shell、分析工作流、宿主嵌入或受约束设备。�
 | Java 订单审阅 | 原生 Core、JUnit、loopback Web、真实服务 CLI | Mock/Web JUnit 与真实服务 CLI 已在 Linux CI 通过 | Java Web 对真实后端与真实模型未验证 |
 | C# 订单服务台 | ASP.NET Core、原生 Core、CLI 与 Web | 自测及真实服务 CLI/Web 已在 Linux CI 通过 | 确定性模型；无生产身份 |
 | PowerShell Windows 诊断 | 通过模块复用共享 C# Core | 本地 Windows 测试与托管 Windows CI | 无 Gallery 安装、修复、远程主机或真实模型 |
-| Perl 日志巡检 | 原生 Perl Core、固定 fixture 日志、严重级别报告 | 本地 Perl 5.40.3 测试；Linux CI 已配置待确认 | 无任意路径、Shell、告警发送或真实模型 |
+| Perl 日志巡检 | 原生 Perl Core、固定 fixture 日志、严重级别报告 | 本地 Perl 5.40.3 测试与 Linux CI | 无任意路径、Shell、告警发送或真实模型 |
 | COBOL、R、Julia、Octave、Lua、Rust、Zig、C、C++ | 尚未实现为 Tutorial | 未运行 | 仅为候选路径 |
 
 准确运行 ID 与范围见[验证证据](../project/verification-evidence.md)。“CI 通过”不等于

@@ -199,7 +199,8 @@ PowerShell 的 `Tutorial/windows-diagnostics/` 通过共享 C# Core 增加固定
 `5afe6e35`（run `45036962205`）通过 C# Core 构建和全部四项源码模式检查。它不提供
 修复、远程主机、任意 Shell 命令或真实模型路径。
 Perl 的 `Tutorial/log-triage/` 增加原生运维路径：固定 fixture 日志、严重级别报告、
-策略拒绝和依赖失败。本地 Perl 5.40.3 检查通过；Linux CI 已配置待确认。它不读取任意
+策略拒绝和依赖失败。本地 Perl 5.40.3 检查通过，Linux CI 也已在 `3b5edcc7`
+（run `45038008192`）通过。它不读取任意
 路径、不执行 Shell、不发送告警、不调用真实模型。场景地图、当前状态、交付标准与后续
 候选见 [Tutorial 整体规划](../getting-started/tutorial-plan.md)。
 

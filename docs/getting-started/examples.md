@@ -52,7 +52,8 @@ The [Perl log triage tutorial](https://github.com/axisvela/praxo-core/tree/main/
 adds a native Perl operations path: one fixed fixture log, severity counts and a
 structured report, with policy denial and dependency-failure checks. It does not
 read arbitrary paths, execute shell commands, send alerts or call a live model.
-Local Perl 5.40.3 tests passed; Linux CI is configured and pending.
+Local Perl 5.40.3 tests passed, and Linux CI passed at `3b5edcc7` in
+[run 45038008192](https://github.com/axisvela/praxo-core/actions/runs/45038008192).
 
 The catalog uses the depth labels from the
 [Language Coverage depth audit](language-coverage.md#depth-audit):

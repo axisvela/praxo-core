@@ -58,7 +58,7 @@ when its tutorial has runnable commands, tests, and recorded evidence.
 | Java order review | Native Core, JUnit, loopback Web, real-service CLI | Mock/Web JUnit and real-service CLI passed in Linux CI | Java Web-to-real-backend and live model not verified |
 | C# order service desk | ASP.NET Core, native Core, CLI and Web | Self-tests plus real-service CLI and Web in Linux CI | Deterministic model; no production identity |
 | PowerShell Windows diagnostics | Shared C# Core through the module | Local Windows tests and hosted Windows CI | No Gallery install, repair, remote host or live model |
-| Perl log triage | Native Perl Core, fixed fixture log, severity report | Local Perl 5.40.3 tests; Linux CI configured and pending | No arbitrary path, shell, alert delivery or live model |
+| Perl log triage | Native Perl Core, fixed fixture log, severity report | Local Perl 5.40.3 tests and Linux CI | No arbitrary path, shell, alert delivery or live model |
 | COBOL, R, Julia, Octave, Lua, Rust, Zig, C, C++ | Not implemented as Tutorial entries | Not run | Candidate paths only |
 
 See [Verification Evidence](../project/verification-evidence.md) for exact run

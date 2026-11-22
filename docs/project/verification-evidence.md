@@ -103,9 +103,9 @@ the success report, policy denial and simulated dependency failure. Success read
 the fixed fixture once and reported two errors, one warning and two info lines
 with an empty `mutating_actions` list; the out-of-scope log was denied before any
 read (`reads=0`); simulated dependency failure exited nonzero after one read.
-Linux CI is configured but its result is not yet recorded. No arbitrary path,
-shell execution, alert delivery, live model, production log pipeline or
-independent adoption is verified.
+Linux CI [45038008192](https://github.com/axisvela/praxo-core/actions/runs/45038008192)
+also passed at `3b5edcc7`. No arbitrary path, shell execution, alert delivery,
+live model, production log pipeline or independent adoption is verified.
 
 | Area | Verified | Level | Limits |
 | --- | --- | --- | --- |

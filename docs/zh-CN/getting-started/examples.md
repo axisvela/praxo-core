@@ -41,7 +41,8 @@ C# Core 构建和全部四项源码模式检查，见
 [Perl 日志巡检教程](https://github.com/axisvela/praxo-core/tree/main/language/perl/Tutorial/log-triage)
 增加原生 Perl 运维路径：固定 fixture 日志、严重级别统计和结构化报告，包含策略拒绝与
 依赖失败检查。它不读取任意路径、不执行 Shell 命令、不发送告警、不调用真实模型。
-本地 Perl 5.40.3 测试通过；Linux CI 已配置，结果待确认。
+本地 Perl 5.40.3 测试通过，Linux CI 也已在 `3b5edcc7` 的
+[run 45038008192](https://github.com/axisvela/praxo-core/actions/runs/45038008192) 通过。
 
 示例目录使用[语言覆盖矩阵](language-coverage.md)中的深度标签：
 

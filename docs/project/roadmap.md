@@ -273,7 +273,7 @@ Turn the first run into one useful local application, such as:
   remote hosts, arbitrary shell commands or live model path.
   Perl's `Tutorial/log-triage/` adds a native operations path with a fixed fixture
   log, severity report, policy denial and dependency failure. Local Perl 5.40.3
-  checks pass; Linux CI is configured and pending. It does not read arbitrary
+  checks pass, and Linux CI passed at `3b5edcc7` (run `45038008192`). It does not read arbitrary
   paths, execute shell, deliver alerts or call a live model. See the
   [Tutorial Plan](../getting-started/tutorial-plan.md) for the scenario map,
   current status, delivery standard and next candidates.
