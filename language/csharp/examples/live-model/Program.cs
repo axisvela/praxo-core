@@ -74,8 +74,14 @@ public static class Program
             "PRAXO_PROMPT",
             "What time is it? Use get_time with zone set to utc and reply with the time.");
 
+        var handler = new HttpClientHandler();
+        if (Uri.TryCreate(baseUrl, UriKind.Absolute, out var baseUri) && baseUri.IsLoopback)
+        {
+            handler.UseProxy = false;
+        }
+
         var model = new OpenAiCompatibleModel(
-            new HttpClient { Timeout = TimeSpan.FromSeconds(120) },
+            new HttpClient(handler) { Timeout = TimeSpan.FromSeconds(120) },
             new OpenAiCompatibleOptions
             {
                 BaseUrl = baseUrl,

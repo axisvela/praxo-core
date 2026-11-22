@@ -3,6 +3,9 @@
 发布包处理器示例将自由文本转换为受校验 JSON。[语言覆盖矩阵](../getting-started/language-coverage.md)
 列出三十一种语言的结构化输出源码入口，不代表三十一个等价处理器或已验证应用教程。
 
+带输入目录、结果/错误文件和续跑模式的应用形态 Python 路径见
+[Python 结构化输出应用](python-structured-output-app.md)。
+
 五个主要 SDK 提供发布包示例：
 
 - [Python](https://github.com/axisvela/praxo-core/tree/main/language/python/examples/structured-output)

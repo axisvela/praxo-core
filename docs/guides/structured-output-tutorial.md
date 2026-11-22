@@ -5,6 +5,10 @@ The [language coverage matrix](../getting-started/language-coverage.md) lists
 structured-output source entries for thirty-one languages, not thirty-one
 equivalent processors or verified application tutorials.
 
+For an application-shaped Python path with an input directory, result and error
+files, and resume mode, see the
+[Python Structured Output Application](python-structured-output-app.md).
+
 Five primary SDKs ship published-package examples:
 
 - [Python](https://github.com/axisvela/praxo-core/tree/main/language/python/examples/structured-output)

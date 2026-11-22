@@ -76,6 +76,7 @@ plugins:
             Embedded HTTP Service: HTTP 嵌入服务
             Consumer Test Template: 消费者测试模板
             Structured Output Tutorial: 结构化输出教程
+            Python Structured Output App: Python 结构化输出应用
             Advanced Examples: 高级示例
             MCP Tutorial: MCP 教程
             Recipes: 接入示例
@@ -175,6 +176,7 @@ nav:
       - Embedded HTTP Service: guides/embedded-service-tutorial.md
       - Consumer Test Template: guides/consumer-test-template.md
       - Structured Output Tutorial: guides/structured-output-tutorial.md
+      - Python Structured Output App: guides/python-structured-output-app.md
       - Advanced Examples: guides/advanced-examples.md
       - MCP Tutorial: guides/mcp-tutorial.md
       - Recipes: guides/recipes.md

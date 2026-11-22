@@ -61,6 +61,28 @@ The repository starters can validate the template, but they are not a substitute
 for an external consumer. Do not cite a maintainer-owned fixture as adoption
 evidence.
 
+### Recorded fixture runs
+
+On 2026-11-22 the template commands were run against the maintainer-owned
+starters:
+
+| Language | Result | Limit |
+| --- | --- | --- |
+| Go | Governed test passed | Published-package fixture |
+| Python | 5/5 governed tests passed | `PYTHONPATH` source mode |
+| TypeScript | 9/9 tests passed | Published-package fixture |
+| C# | allow/deny output passed | Published-package fixture |
+| Rust | allow/deny output passed | Required `CARGO_HTTP_CHECK_REVOKE=false` for crates.io |
+| Ruby | Starter passed | Source mode |
+| PHP | Starter passed | Vendor/source mode |
+| Elixir | Starter passed | Source mode |
+| Lua | Starter passed | Source mode, run from repository root |
+| Java | Did not finish within 180s locally | Local JVM launcher hang; use CI evidence |
+
+See [verification evidence](../project/verification-evidence.md) for the full
+record and limits. These runs validate that the template is executable; they do
+not establish an external consumer path.
+
 ## Memory and Context Trust
 
 Add these checks when the application enables memory recall or injects

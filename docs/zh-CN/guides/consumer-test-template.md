@@ -56,6 +56,26 @@ Go 消费者示例：
 仓库 Starter 可以验证模板本身，但不能替代外部消费者。不要把维护者自有 fixture 当作
 采用证据。
 
+### 已记录的 fixture 运行
+
+2026-11-22 对维护者自有 Starter 运行模板命令：
+
+| 语言 | 结果 | 限制 |
+| --- | --- | --- |
+| Go | 治理测试通过 | 发布包 fixture |
+| Python | 5/5 治理测试通过 | `PYTHONPATH` 源码模式 |
+| TypeScript | 9/9 测试通过 | 发布包 fixture |
+| C# | allow/deny 输出通过 | 发布包 fixture |
+| Rust | allow/deny 输出通过 | crates.io 需要 `CARGO_HTTP_CHECK_REVOKE=false` |
+| Ruby | Starter 通过 | 源码模式 |
+| PHP | Starter 通过 | vendor/源码模式 |
+| Elixir | Starter 通过 | 源码模式 |
+| Lua | Starter 通过 | 源码模式，需从仓库根目录运行 |
+| Java | 本地 180 秒内未完成 | 本地 JVM 启动器挂起；使用 CI 证据 |
+
+完整记录和限制见[验证证据](../project/verification-evidence.md)。这些运行证明模板
+可执行，不证明存在外部消费者路径。
+
 ## 记忆与上下文信任
 
 应用启用记忆召回或向 Prompt 注入检索文本时增加：
