@@ -23,6 +23,33 @@ The `X-Praxo-Principal` header is an application context stand-in, not
 authentication. A production service must verify identity and derive the
 principal and tenant from trusted context.
 
+## OIDC/JWKS
+
+Set `PRAXO_OIDC_ISSUER` and `PRAXO_OIDC_AUDIENCE` to verify RS256, RS384, or
+RS512 JWTs from an external OIDC provider:
+
+```bash
+export PRAXO_OIDC_ISSUER=https://issuer.example.com
+export PRAXO_OIDC_AUDIENCE=praxo-service
+export PRAXO_OIDC_TENANT_CLAIM=tenant
+# optional; discovered from the issuer when omitted
+# export PRAXO_OIDC_DISCOVERY_URL=https://issuer.example.com/.well-known/openid-configuration
+# export PRAXO_OIDC_JWKS_URL=https://issuer.example.com/.well-known/jwks.json
+mvn -q compile exec:java
+```
+
+The verifier fetches provider metadata when `PRAXO_OIDC_JWKS_URL` is unset,
+requires the metadata issuer to match, caches JWKS for five minutes, and
+refreshes once on an unknown `kid`. It requires a valid signature, matching
+`iss` and `aud`, a future integer `exp`, an optional `nbf` that is not in the
+future, a non-empty `sub`, and the configured tenant claim. Discovery, JWKS,
+timeout, invalid signature, unknown key, wrong issuer, wrong audience, expired
+token, or missing claims deny the request. This is not key management,
+revocation, or a hosted identity provider.
+
+If both `PRAXO_INTROSPECTION_URL` and `PRAXO_OIDC_ISSUER` are set, introspection
+takes precedence.
+
 ## Token Introspection
 
 Set `PRAXO_INTROSPECTION_URL` to verify `Authorization: Bearer` tokens through
@@ -57,8 +84,8 @@ mvn -q compile exec:java -Dexec.args="--revoke-token $TOKEN"
 ```
 
 Revocation is an application decision; the service does not revoke
-automatically. OIDC/JWKS verification is not included in this Java service
-example.
+automatically. OIDC/JWKS verification is available separately through
+`PRAXO_OIDC_ISSUER`.
 
 ## Test
 
@@ -84,7 +111,10 @@ javaw --add-modules jdk.httpserver `
 Get-Content build\java-auth.out
 ```
 
-The test uses a fake model and loopback HTTP servers for introspection and
-revocation; no external endpoint or identity provider is required. It covers
-the active token, inactive token, missing expiration, unavailable provider,
-revocation success, and revocation failure.
+The test uses a fake model and loopback HTTP servers for introspection,
+revocation, and OIDC discovery/JWKS; no external endpoint or identity provider
+is required. It covers the active token, inactive token, missing expiration,
+unavailable provider, revocation success, revocation failure, OIDC allow, wrong
+audience, expired token, wrong issuer, unknown key, and unavailable provider.
+On this Windows host the `java`/`javaw` launcher currently hangs before `main`;
+compilation is verified but the runtime result is not recorded.

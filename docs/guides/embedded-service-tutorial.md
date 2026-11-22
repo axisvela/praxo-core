@@ -157,7 +157,7 @@ revocation:
 - the tenant comes from `PRAXO_OIDC_TENANT_CLAIM` (default `tenant`);
 - the C# example also verifies OIDC/JWKS JWTs with provider discovery when
   `PRAXO_OIDC_ISSUER` and `PRAXO_OIDC_AUDIENCE` are set;
-- the Java example does not include OIDC/JWKS verification.
+- the Java example includes OIDC/JWKS verification, but local runtime execution is blocked by the JVM launcher hang; only compilation is verified.
 
 The C# OIDC tests use a loopback discovery/JWKS provider; the introspection and
 revocation tests use loopback or fake endpoints. No external identity provider

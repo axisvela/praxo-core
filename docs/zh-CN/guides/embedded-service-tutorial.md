@@ -145,7 +145,7 @@ Java 和 C# 服务示例也支持 RFC 7662 introspection 与 RFC 7009 撤销：
 - 租户从 `PRAXO_OIDC_TENANT_CLAIM`（默认 `tenant`）读取；
 - C# 示例在设置 `PRAXO_OIDC_ISSUER` 与 `PRAXO_OIDC_AUDIENCE` 后还验证带 Provider
   发现的 OIDC/JWKS JWT；
-- Java 示例不包含 OIDC/JWKS 验证。
+- Java 示例包含 OIDC/JWKS 验证，但本机 JVM 启动器挂起，运行时未验证；仅编译通过。
 
 C# OIDC 测试使用 loopback discovery/JWKS Provider；introspection 与撤销测试使用
 loopback 或 fake 端点。不需要外部身份提供商。

@@ -56,7 +56,7 @@ Runnable examples live under [`language/java/examples`](https://github.com/axisv
 | Stream a response | [streaming](https://github.com/axisvela/praxo-core/tree/main/language/java/examples/streaming) |
 | Add identity and policy | [identity-policy](https://github.com/axisvela/praxo-core/tree/main/language/java/examples/identity-policy) |
 | Persist checkpoints | [checkpoint](https://github.com/axisvela/praxo-core/tree/main/language/java/examples/checkpoint) |
-| Run behind HTTP | [service](https://github.com/axisvela/praxo-core/tree/main/language/java/examples/service) |
+| Run behind HTTP | [service](https://github.com/axisvela/praxo-core/tree/main/language/java/examples/service) with introspection, revocation, and OIDC/JWKS (compile-verified locally) |
 | Approve or edit a tool call | [hitl](https://github.com/axisvela/praxo-core/tree/main/language/java/examples/hitl) |
 | Resume a multi-turn session | [session-checkpoint](https://github.com/axisvela/praxo-core/tree/main/language/java/examples/session-checkpoint) |
 | Retry transient failures | [retry](https://github.com/axisvela/praxo-core/tree/main/language/java/examples/retry) |

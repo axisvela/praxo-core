@@ -22,9 +22,16 @@ import java.net.InetSocketAddress;
 import java.net.ProxySelector;
 import java.net.URI;
 import java.net.http.HttpClient;
+import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
+import java.security.KeyPair;
+import java.security.KeyPairGenerator;
+import java.security.Signature;
+import java.security.interfaces.RSAPublicKey;
 import java.time.Duration;
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.Base64;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -150,11 +157,30 @@ public final class ServiceExample {
                             System.getenv().getOrDefault("PRAXO_OIDC_CLIENT_SECRET", "")),
                     envOr("PRAXO_OIDC_TENANT_CLAIM", "tenant"));
         }
+        String issuer = System.getenv().getOrDefault("PRAXO_OIDC_ISSUER", "");
+        if (!issuer.isEmpty()) {
+            String audience = System.getenv().getOrDefault("PRAXO_OIDC_AUDIENCE", "");
+            if (audience.isEmpty()) {
+                throw new IllegalStateException("PRAXO_OIDC_AUDIENCE is required");
+            }
+            return new OidcAuthenticator(
+                    authClient(),
+                    issuer,
+                    audience,
+                    System.getenv().getOrDefault("PRAXO_OIDC_JWKS_URL", ""),
+                    System.getenv().getOrDefault("PRAXO_OIDC_DISCOVERY_URL", ""),
+                    envOr("PRAXO_OIDC_TENANT_CLAIM", "tenant"));
+        }
         return new ContextAuthenticator(tenant);
     }
 
     private static void runTests() {
         runAuthTests();
+        try {
+            runOidcTests();
+        } catch (Exception error) {
+            throw new IllegalStateException("OIDC tests failed", error);
+        }
         Agent agent = createAgent(new FakeModel());
         check(handle(agent, "local", "GET", "/healthz", null, "").status() == 200);
         check(handle(agent, "local", "POST", "/run", null, "{\"prompt\":\"hi\"}").status() == 401);
@@ -247,6 +273,136 @@ public final class ServiceExample {
         } finally {
             revokeFailure.stop(0);
         }
+    }
+
+    private static void runOidcTests() throws Exception {
+        KeyPairGenerator generator = KeyPairGenerator.getInstance("RSA");
+        generator.initialize(2048);
+        KeyPair keys = generator.generateKeyPair();
+        HttpServer provider = startOidcProvider(jwks(keys, "test-key"));
+        String issuer = "http://127.0.0.1:" + provider.getAddress().getPort();
+        Instant now = Instant.now();
+        try {
+            OidcAuthenticator authenticator = new OidcAuthenticator(
+                    directClient(), issuer, "praxo-service", "", "", "tenant");
+            AuthenticatedPrincipal allowed = authenticator.authenticate(
+                    null,
+                    "Bearer " + signJwt(keys, "test-key", oidcClaims(
+                            issuer, "praxo-service", "user-1", "local",
+                            now.plusSeconds(60).getEpochSecond())),
+                    now);
+            check(allowed != null
+                    && "user-1".equals(allowed.subject())
+                    && "local".equals(allowed.tenant()));
+
+            check(authenticator.authenticate(
+                    null,
+                    "Bearer " + signJwt(keys, "test-key", oidcClaims(
+                            issuer, "other-service", "user-1", "local",
+                            now.plusSeconds(60).getEpochSecond())),
+                    now) == null);
+            check(authenticator.authenticate(
+                    null,
+                    "Bearer " + signJwt(keys, "test-key", oidcClaims(
+                            issuer, "praxo-service", "user-1", "local",
+                            now.minusSeconds(60).getEpochSecond())),
+                    now) == null);
+            check(authenticator.authenticate(
+                    null,
+                    "Bearer " + signJwt(keys, "test-key", oidcClaims(
+                            "https://wrong.example.com", "praxo-service", "user-1", "local",
+                            now.plusSeconds(60).getEpochSecond())),
+                    now) == null);
+            check(authenticator.authenticate(
+                    null,
+                    "Bearer " + signJwt(keys, "other-key", oidcClaims(
+                            issuer, "praxo-service", "user-1", "local",
+                            now.plusSeconds(60).getEpochSecond())),
+                    now) == null);
+        } finally {
+            provider.stop(0);
+        }
+        OidcAuthenticator unavailable = new OidcAuthenticator(
+                directClient(), issuer, "praxo-service", "", "", "tenant");
+        check(unavailable.authenticate(
+                null,
+                "Bearer " + signJwt(keys, "test-key", oidcClaims(
+                        issuer, "praxo-service", "user-1", "local",
+                        now.plusSeconds(60).getEpochSecond())),
+                now) == null);
+    }
+
+    private static Map<String, Object> oidcClaims(
+            String issuer, String audience, String subject, String tenant, long expires) {
+        Map<String, Object> claims = new LinkedHashMap<>();
+        claims.put("iss", issuer);
+        claims.put("aud", audience);
+        claims.put("sub", subject);
+        claims.put("tenant", tenant);
+        claims.put("exp", expires);
+        return claims;
+    }
+
+    private static String signJwt(KeyPair keys, String kid, Map<String, Object> claims)
+            throws Exception {
+        Map<String, Object> header = new LinkedHashMap<>();
+        header.put("alg", "RS256");
+        header.put("kid", kid);
+        header.put("typ", "JWT");
+        String signingInput = base64Url(Json.stringify(header).getBytes(StandardCharsets.UTF_8))
+                + "." + base64Url(Json.stringify(claims).getBytes(StandardCharsets.UTF_8));
+        Signature signature = Signature.getInstance("SHA256withRSA");
+        signature.initSign(keys.getPrivate());
+        signature.update(signingInput.getBytes(StandardCharsets.US_ASCII));
+        return signingInput + "." + base64Url(signature.sign());
+    }
+
+    private static String jwks(KeyPair keys, String kid) {
+        RSAPublicKey publicKey = (RSAPublicKey) keys.getPublic();
+        Map<String, Object> key = new LinkedHashMap<>();
+        key.put("kid", kid);
+        key.put("kty", "RSA");
+        key.put("use", "sig");
+        key.put("alg", "RS256");
+        key.put("n", base64Url(unsigned(publicKey.getModulus())));
+        key.put("e", base64Url(unsigned(publicKey.getPublicExponent())));
+        return Json.stringify(Map.of("keys", List.of(key)));
+    }
+
+    private static HttpServer startOidcProvider(String jwks) throws IOException {
+        HttpServer server = HttpServer.create(new InetSocketAddress("127.0.0.1", 0), 0);
+        String issuer = "http://127.0.0.1:" + server.getAddress().getPort();
+        Map<String, Object> metadata = new LinkedHashMap<>();
+        metadata.put("issuer", issuer);
+        metadata.put("jwks_uri", issuer + "/jwks");
+        server.createContext("/.well-known/openid-configuration", exchange -> {
+            byte[] body = Json.stringify(metadata).getBytes(StandardCharsets.UTF_8);
+            exchange.sendResponseHeaders(200, body.length);
+            exchange.getResponseBody().write(body);
+            exchange.close();
+        });
+        server.createContext("/jwks", exchange -> {
+            byte[] body = jwks.getBytes(StandardCharsets.UTF_8);
+            exchange.sendResponseHeaders(200, body.length);
+            exchange.getResponseBody().write(body);
+            exchange.close();
+        });
+        server.start();
+        return server;
+    }
+
+    private static byte[] unsigned(BigInteger value) {
+        byte[] bytes = value.toByteArray();
+        if (bytes.length > 1 && bytes[0] == 0) {
+            byte[] trimmed = new byte[bytes.length - 1];
+            System.arraycopy(bytes, 1, trimmed, 0, trimmed.length);
+            return trimmed;
+        }
+        return bytes;
+    }
+
+    private static String base64Url(byte[] value) {
+        return Base64.getUrlEncoder().withoutPadding().encodeToString(value);
     }
 
     private static HttpClient directClient() {
