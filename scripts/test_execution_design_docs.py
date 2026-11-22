@@ -51,7 +51,8 @@ class ExecutionDesignDocumentationTests(unittest.TestCase):
             for name in ('Core', 'Run', 'Task', 'Process', 'Mission', 'governed-execution.md'):
                 self.assertIn(name, text)
         english = (DOCS / 'reference/embodied-integration.md').read_text(encoding='utf-8')
-        self.assertIn('consumer pilot not started', english)
+        self.assertIn('P1 and F5 local component evidence exists', english)
+        self.assertIn('E1-E8 not run', english)
         self.assertIn('Simulation is not hardware or production evidence', english)
         self.assertIn('AKROVELA embeds', english)
         self.assertIn('PRAXOVELA', english)

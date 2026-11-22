@@ -1,15 +1,18 @@
 # Embodied Pilot Plan
 
-**Status:** proposed pilot plan, updated 2026-11-08. AKROVELA is the selected
-consumer; its maintainer and safety-owner selection is recorded. The AKROVELA
-repository now contains a product-owned Core adapter and a locally verified
-deterministic P1 slice: exact-operation tools, governed runtime assembly, and a
-PostgreSQL Run/reconciliation journal, plus a public v1 operation/receipt
-contract. The simulation task, independent observation source and verifier, ROS 2
-execution, hardware effect, and E1-E8 pilot evidence remain open or
-unimplemented. This page is an acceptance plan, not a schedule, staffing plan, or
-a claim of pilot acceptance. Detailed execution plans remain in internal planning
-storage.
+**Status:** proposed pilot plan, updated 2026-11-21. AKROVELA is the selected
+consumer; its maintainer and safety-owner selection is recorded. AKROVELA
+`0.13.0` contains a product-owned Core adapter, still embedding published
+PRAXO-CORE `v2.6.0`, and a locally verified deterministic P1 slice: exact-operation
+tools, governed runtime assembly, a PostgreSQL Run/reconciliation journal, public
+v1 operation/receipt contracts, and F5 local component scopes. The F5 records
+cover adapter cases and an API/PostgreSQL local-development scope with a simulated
+observation source and a `simulated` ROS 2 bridge backend; they set
+`stage_3_4_p2_acceptance=not_claimed`. The `rclpy` backend is not executed on
+Windows. Real ROS 2/Gazebo/Linux execution, independent observation source and
+verifier, hardware effect, PEIRAVELA, and E1-E8 pilot evidence remain open. This
+page is an acceptance plan, not a schedule, staffing plan, or a claim of pilot
+acceptance. Detailed execution plans remain in internal planning storage.
 
 This plan turns the [Embodied Integration Profile](../reference/embodied-integration.md)
 requirements E1-E8 into bounded, recordable evidence. It does not create a new
@@ -59,9 +62,10 @@ look stronger than it is.
 AKROVELA is the selected consumer and embeds PRAXO-CORE as a product component,
 like PRAXOVELA; its adapter belongs in the AKROVELA repository. DIDACTOVELA
 capture/learning remains an optional boundary, not a prerequisite for every
-pilot. Both are unreleased `0.1.0` products. The AKROVELA node path needs published
-operation/receipt and observation contracts with failure tests; a learning
-handoff needs explicit data admission and candidate/evaluation boundaries. Do not
+pilot. AKROVELA is a `0.13.0` component release; DIDACTOVELA remains an unreleased
+`0.1.0` product. The AKROVELA node path has published operation/receipt and
+observation contracts with component failure tests; a learning handoff needs
+explicit data admission and candidate/evaluation boundaries. Do not
 count their initialization as P1/P2 evidence or silently migrate an existing
 consumer. Core supplies public APIs and generic constraints, not AKROVELA product
 state or domain authority.

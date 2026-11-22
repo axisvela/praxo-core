@@ -1,20 +1,22 @@
 # Embodied Integration Profile
 
-**Status: proposed design, updated 2026-11-08; AKROVELA is the selected pilot
-consumer; consumer pilot not started.** No embodied runtime, middleware adapter,
-new Core API or safety guarantee is introduced. Like PRAXOVELA, AKROVELA embeds
-PRAXO-CORE as a component of its own product; Core remains product-neutral. This
-page specializes the [execution levels](execution-profiles.md) and
+**Status: proposed design, updated 2026-11-21; AKROVELA is the selected pilot
+consumer; P1 and F5 local component evidence exists; E1-E8 not run.** No embodied
+runtime, reusable middleware adapter, new Core API or safety guarantee is
+introduced. Like PRAXOVELA, AKROVELA embeds PRAXO-CORE as a component of its own
+product; Core remains product-neutral. This page specializes the
+[execution levels](execution-profiles.md) and
 [Governed Execution Profile](governed-execution.md), not the normative wire spec.
 
 ## Prerequisites
 
 A pilot needs one named consumer, one middleware, one bounded simulation task,
 an execution authority, an observation source and a verification rule. AKROVELA
-is the selected consumer; its product-owned adapter, simulator mapping, execution
-authority details, observation source and verifier remain unimplemented or open.
-Do not build parallel ROS 2, Dora and Zenoh adapters without consumer evidence.
-AxisVela products remain optional for independent consumers.
+is the selected consumer; its product-owned adapter and F5 local simulation
+mappings exist, but execution-authority independence, a real observation source,
+an independent verifier, and accepted P2/P3 evidence remain open. Do not build
+parallel ROS 2, Dora and Zenoh adapters without consumer evidence. AxisVela
+products remain optional for independent consumers.
 
 The consumer must identify the components enforcing the governed requirements.
 An embodied integration cannot skip authorization or weaken failure handling by
@@ -26,9 +28,11 @@ AKROVELA is the selected pilot consumer and owns the product-side PRAXO-CORE
 embedding adapter. Like PRAXOVELA, AKROVELA embeds PRAXO-CORE as a component of
 its own product; the products retain different positioning and state. Core stays
 a product-neutral MIT kernel and does not acquire AKROVELA operation, product,
-Mission or safety state. AKROVELA and DIDACTOVELA remain unreleased `0.1.0`
-products; the adapter and pilot evidence are not implemented. Selection does not
-replace retained execution paths or close any governed/embodied gate.
+Mission or safety state. AKROVELA is a `0.13.0` component release and still embeds
+PRAXO-CORE `v2.6.0`; DIDACTOVELA remains an unreleased `0.1.0` product. The
+AKROVELA adapter and F5 local component evidence exist, but no accepted pilot run
+closes a governed/embodied gate. Selection does not replace retained execution
+paths.
 KINETOVELA Mission and PEIRAVELA experiment identities remain distinct from node
 attempts and learning lineage.
 
@@ -152,8 +156,9 @@ unsatisfied; partial experiments must narrow their claims.
 
 The [embodied pilot plan](../project/embodied-pilot.md) turns E1-E8 into
 deterministic, simulation, and optional hardware gates with required evidence and
-stop conditions. AKROVELA is the selected consumer, but no adapter, simulation
-mapping or run is recorded; it is not an implementation claim.
+stop conditions. AKROVELA is the selected consumer and records P1 and F5 local
+component evidence, but no accepted P2 run or E1-E8 pilot result; it is not an
+implementation claim for this profile.
 
 The [long-running operation recipe](../guides/long-running-operations.md) supplies
 software-fixture examples of response loss, status recovery, cancellation and

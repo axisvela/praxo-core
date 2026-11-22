@@ -41,7 +41,7 @@ are not part of the EC-D scope count.
 | EC-10 | `pkg/agent` event-sink tests (pre-invocation fail, terminal failure not masked) | PRAXOVELA/RHEOVELA effect and audit tests | Callback/sink failures are surfaced without false success | Durable acknowledgement, pre-execution gate and post-commit evidence require product policy |
 | EC-11 | Path/VFS/WASM limit controls in the `core-containment-baseline` scope; containment tests in `docs/project/verification-evidence.md` | None claiming real isolation | Local path, VFS, and WASM limit controls are contract/unit tested | **No real sandbox isolation**; external container/VM evidence required |
 | EC-12 | No Core distributed-lock claim | EE Postgres nodes 6/6 (lease/fencing/concurrent acquire); RHEOVELA `ha_locks`/`stage_leases`/outbox 38/38; RHEOVELA 128-job + 1h soak | Real Postgres lease/fencing, outbox claim and long local concurrency | Multi-process deployed authority, tenant isolation and production load remain external |
-| EC-13 | No Core physical-effect semantics | None | — | **Blocked**; no named embodied consumer, middleware or simulation. The [embodied pilot plan](embodied-pilot.md) requires governed G1-G8 plus E1-E8, an allowed end-to-end path and consumer-local protocol evidence, but records no run |
+| EC-13 | No Core physical-effect semantics | AKROVELA F5 local component/API simulation at `b589b17b` (dirty worktree, 2026-11-18): 5/5 adapter and 6/6 API/PostgreSQL cases; simulated observation source and bridge backend; `stage_3_4_p2_acceptance=not_claimed` | Accepted, completed, and verified outcomes remain distinct in the product's local fixtures | **Partial**; a named consumer and component simulation exist, but no real ROS 2/Gazebo/Linux execution, hardware effect, independent observation/verifier, governed G1-G8/E1-E8 end-to-end run, or accepted P2/P3 |
 | EC-14 | `pkg/agent/resume_test.go::TestRunResumesFromSessionMessages` (in the EC-D mechanics scope) | RHEOVELA Postgres store 38/38, HTTP effect, checkpoint 4/4; PRAXOVELA checkpoint/effect tests | Local resume ordering plus durable product store/checkpoint contracts | Durable logical identity, business dedup and authoritative recovery remain consumer-owned |
 | EC-O | No Core claim | None | — | **Blocked**; no deployed environment, fault budget, permissions or independent AEP |
 
@@ -50,6 +50,7 @@ are not part of the EC-D scope count.
 | Product / repository | Evidence | Does not prove |
 | --- | --- | --- |
 | `praxo-core` | EC-D runner/inventory; Go agent/tool tests; verification evidence | Consumer effects, sandbox, deployment |
+| AKROVELA | F5 local adapter/API simulation records (2026-11-18); P1 PRAXO-CORE slice | Real ROS 2/Gazebo/Linux, hardware effect, independent verifier, accepted P2/P3 |
 | RHEOVELA | Postgres store/effect/outbox/checkpoint/HTTP tests; C9 in `demo-repository/praxovela-e2e` | Production execution authority, external provider |
 | PRAXOVELA | Effect ledger, A/B/C boundary, durable outbox, replay and runtime options | Real external provider status, full C separate-tx (C is an A alias) |
 | PRAXOVELA-EE | Product entry audits/P0 tests | Deployed AEGIVELA/EIDOVELA or multi-tenant operations |

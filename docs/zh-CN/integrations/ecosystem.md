@@ -86,13 +86,14 @@ PRAXO-CORE 是 AxisVela Agent 共享的框架层。它暴露中立的契约，�
 | COORDIVELA | [coordivela-open](https://github.com/axisvela/coordivela-open) | 开发协调；事件、工具或产品集成 |
 | KINETOVELA | [kinetovela-open](https://github.com/axisvela/kinetovela-open) | Robot/Fleet 运行生命周期、Mission 分配与物理效果证据；公开契约工具/产品集成，不是 Core 沙箱 |
 | PEIRAVELA | [peiravela-open](https://github.com/axisvela/peiravela-open) | 实验世界、场景、扰动和原始 SimulationEvidence；公开 SUT adapter SPI，不拥有 Mission 或最终保障权威 |
-| AKROVELA | [akrovela-open](https://github.com/axisvela/akrovela-open) | 目标为受治理现场执行：局部操作、尝试与回执；像 PRAXOVELA 一样通过产品侧适配器嵌入 PRAXO-CORE，不是第二个 Agent 循环 |
+| AKROVELA | [akrovela-open](https://github.com/axisvela/akrovela-open) | 受治理现场执行核心：局部操作、尝试、回执与 F5 组件适配器；像 PRAXOVELA 一样通过产品侧适配器嵌入 PRAXO-CORE，不是第二个 Agent 循环 |
 | DIDACTOVELA | [didactovela-open](https://github.com/axisvela/didactovela-open) | 目标为数据/标注/训练与候选产物生命周期；不是框架记忆、生产推理或授权策略 |
 
-AKROVELA 与 DIDACTOVELA 均为未发布 `0.1.0` 产品。AKROVELA 已选定为试点消费者，并像
-PRAXOVELA 一样通过产品侧适配器将 PRAXO-CORE 作为自身产品组件嵌入；两者产品定位和状态不同。
-适配器、领域执行、数据集/训练路径和机器人集成尚未实现；已有网关、推理与 spool 不会自动迁移。
-接入前先审查已发布领域契约；这些职责边界不改变 Core API/Wire 或默认行为。
+AKROVELA 为 `0.13.0` 组件发布；DIDACTOVELA 仍为未发布 `0.1.0` 产品。AKROVELA 已选定为
+试点消费者，并像 PRAXOVELA 一样通过产品侧适配器将 PRAXO-CORE 作为自身产品组件嵌入；两者
+产品定位和状态不同。适配器与 F5 本地组件范围已存在，但真实 ROS 2/Gazebo/硬件执行、数据集/
+训练路径和已验证机器人集成尚未实现；已有网关、推理与 spool 不会自动迁移。接入前先审查
+已发布领域契约；这些职责边界不改变 Core API/Wire 或默认行为。
 
 具身集成中，PEIRAVELA 实验证据、KINETOVELA Mission/效果记录、ONTOVELA 运行世界状态、
 TEKMOVELA 独立保障分别保留。KINETOVELA 本地安全边界独立于控制面。这些是可选集成角色，

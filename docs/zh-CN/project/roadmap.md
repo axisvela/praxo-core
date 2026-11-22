@@ -77,7 +77,7 @@ PRAXO-CORE 继续定位为**可治理、可嵌入的 Agent 执行框架**。路�
 | 1. 运行 | 安装发布包、连接模型、注册一个工具并得到有用结果 | 已有发布包确定性 Starter 和真实模型示例；五分钟完成尚未经过独立计时。注册表状态单独记录在语言支持页面。live-model 指南已覆盖端点、模型 ID、凭据、超时、Tool Schema 和平台排错 | 使用排错指南分别测量确定性嵌入和真实端点完成情况 |
 | 2. 原型 | 完成一个包含工具、Streaming、结构化输出、MCP、Workspace 或 Telemetry 的连贯本地应用 | 十三个主题在三十一种语言中有源码入口，但深度从孤立机制检查到 Core 集成、应用教程不等；目录已按任务分组 | 审计示例深度与运行命令，再验证一个消费者选定的应用路径 |
 | 3. 嵌入 | 将 Core 接入现有服务，由应用管理身份、策略、持久化、事件和退出 | 已有厂商中立的 Go/Python/TypeScript 服务和认证身份/策略服务；Go、Python 和 TypeScript 支持带 provider discovery 的 OIDC/JWKS；31 个已声明实现中有 30 个提供源码级 RFC 7662 introspection 与 RFC 7009 撤销，其中 29 个本地运行验证（28 个原生运行时 + Octave 覆盖 MATLAB/Octave 共享模块），原生 MATLAB 未验证，COBOL 仅记录边界；另有 Python 可选外部策略决策服务、已验证身份与持久 Checkpoint 变体、分档清单，以及连接消息历史、allowlist Store 和操作状态的 Checkpoint 续跑指南 | 将 OIDC/外部身份模式扩展到更多 SDK，为消费者选定的语言补齐 registry 发布，单独记录原生 MATLAB，并为真实消费者验证 Checkpoint Store |
-| 4. 加固 | 让具体集成可升级、可失败、可取消、可恢复 | 已有负向、升级、隔离和恢复资产；Go 记忆角色修复已在 `2.9.0` 发布，重试风险测试有本地确定性覆盖。源码审计未发现其他 SDK Agent 主路径的自动召回，Bridge 仍未知。消费者测试模板已加入两轮记忆信任和未知效果重试/对账检查 | 核查 Bridge 是否暴露召回，并把模板应用到真实消费者 |
+| 4. 加固 | 让具体集成可升级、可失败、可取消、可恢复 | 已有负向、升级、隔离和恢复资产；Go 记忆角色修复已在 `2.9.0` 发布，重试风险测试有本地确定性覆盖。源码审计未发现其他 SDK Agent 主路径或 Bridge `run`/`event stream` 路径的自动召回。消费者测试模板已加入两轮记忆信任和未知效果重试/对账检查 | 把模板应用到真实消费者 |
 | 5. 扩展 | 在需要时采用 Plugin、委派、长时操作、Workspace Provider 或具身集成 | 应用级委派示例覆盖 Go、Python、TypeScript、Java、C# 和 Rust；Go 参考示例覆盖长时操作、Workspace 和 Plugin | 在宣称受治理委派前，先实现父子策略、工具范围、预算和深度收窄 |
 
 这些阶段表示推荐采用顺序，不是发布门禁，也不要求所有语言同步推进。
@@ -218,7 +218,10 @@ PRAXO-CORE 继续定位为**可治理、可嵌入的 Agent 执行框架**。路�
   还支持应用拥有的 HTTP 策略决策服务。
 - 保持[应用嵌入清单](../guides/application-integration-checklist.md)与只读、有副作用、
   高风险三档一致。
-- 在教学型 Checkpoint 示例和高级长时操作 Fixture 之间提供最小持久化路径。
+- 在真实消费者中使用 [Checkpoint Store
+  配方](https://github.com/axisvela/praxo-core/tree/main/examples/recipes/checkpoint-store-go)
+  和 [续跑指南](../guides/checkpoint-continuation.md)，并记录结果；不要把配方等同于并发
+  数据库、exactly-once 或持久 lease 服务。
 
 ## 阶段 4：加固与维护
 
