@@ -292,9 +292,10 @@ Turn the first run into one useful local application, such as:
   install packages or call a live model.
   Octave/MATLAB's `Tutorial/signal-trends/` computes fixed-signal mean,
   peak-to-peak, RMS and threshold anomalies through the shared Core and packages
-  the evidence in a report. Local GNU Octave 11.3.0 checks pass; native MATLAB is
-  unverified and Linux CI is configured and pending. It does not read arbitrary
-  files, run model-provided code, control devices or call a live model. See the
+  the evidence in a report. Local GNU Octave 11.3.0 checks pass, and Linux CI
+  passed at `0664a194` (run `45042266323`). Native MATLAB is unverified. It does
+  not read arbitrary files, run model-provided code, control devices or call a
+  live model. See the
   [Tutorial Plan](../getting-started/tutorial-plan.md) for the scenario map,
   current status, delivery standard and next candidates.
 - Validate one application-shaped prototype for a named consumer before

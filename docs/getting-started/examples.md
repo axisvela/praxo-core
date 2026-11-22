@@ -84,8 +84,9 @@ computes fixed-signal mean, peak-to-peak, RMS and threshold anomalies through th
 shared MATLAB/Octave Core, then packages the computed evidence in a report. It
 includes policy denial and dependency-failure checks. It does not read arbitrary
 files, execute model-provided code, control devices or call a live model. Local
-GNU Octave 11.3.0 tests passed; native MATLAB is not verified. Linux CI is
-configured and pending.
+GNU Octave 11.3.0 tests passed; native MATLAB is not verified. Linux CI passed
+at `0664a194` in
+[run 45042266323](https://github.com/axisvela/praxo-core/actions/runs/45042266323).
 
 The catalog uses the depth labels from the
 [Language Coverage depth audit](language-coverage.md#depth-audit):

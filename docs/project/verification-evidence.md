@@ -142,10 +142,11 @@ passed success, policy denial and simulated dependency failure. The report
 contained ten samples, mean 0.42, peak-to-peak 1, RMS about 0.53075, two
 threshold anomalies and first anomaly index 4, with an empty `mutating_actions`
 list; an out-of-scope dataset was denied before any tool call (`reads=0`);
-simulated dependency failure returned `TOOL_ERROR` after one call. Linux CI is
-configured but its result is not yet recorded. Native MATLAB, arbitrary
-file/code execution, device control, live model, production signal pipeline and
-independent adoption are not verified.
+simulated dependency failure returned `TOOL_ERROR` after one call. Linux CI
+[45042266323](https://github.com/axisvela/praxo-core/actions/runs/45042266323)
+also passed at `0664a194`. Native MATLAB, arbitrary file/code execution, device
+control, live model, production signal pipeline and independent adoption are not
+verified.
 
 | Area | Verified | Level | Limits |
 | --- | --- | --- | --- |

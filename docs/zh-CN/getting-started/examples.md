@@ -65,8 +65,8 @@ C# Core 构建和全部四项源码模式检查，见
 [Octave/MATLAB 信号趋势教程](https://github.com/axisvela/praxo-core/tree/main/language/octave/Tutorial/signal-trends)
 通过共享 MATLAB/Octave Core 计算固定信号的均值、峰峰值、RMS 与阈值异常，再把计算
 证据封装进报告。包含策略拒绝与依赖失败检查。它不读取任意文件、不执行模型提供的代码、
-不控制设备、不调用真实模型。本地 GNU Octave 11.3.0 测试通过；原生 MATLAB 未验证。
-Linux CI 已配置，结果待确认。
+不控制设备、不调用真实模型。本地 GNU Octave 11.3.0 测试通过；原生 MATLAB 未验证。Linux CI 也已在 `0664a194`
+的 [run 45042266323](https://github.com/axisvela/praxo-core/actions/runs/45042266323) 通过。
 
 示例目录使用[语言覆盖矩阵](language-coverage.md)中的深度标签：
 
