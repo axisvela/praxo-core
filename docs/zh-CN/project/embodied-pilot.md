@@ -7,7 +7,7 @@
 bridge 后端的 API/PostgreSQL 本地开发范围，并设置 `stage_3_4_p2_acceptance=not_claimed`。
 当前 F5 API 运行在 `a5e8e1d` 通过 6/6 用例，包含重复提交幂等、scope 拒绝和 API 终态重启；
 这是本地开发证据，不是 P2 验收。产品 E1-E8 确定性/本地组件矩阵在 `f8fd4d7` 通过；这是组件证据，
-不是 P2 验收。G1-G8 矩阵在 `a02dfa5` 仍为部分通过：G2/G6 缺少仿真映射。Windows 上不执行
+不是 P2 验收。G1-G8 矩阵在 `9192b1e` 的适用门禁通过；G2/G6 仿真不适用。Windows 上不执行
 `rclpy` 后端。真实 ROS 2/Gazebo/Linux 执行、独立观测源和验证者、硬件效果、PEIRAVELA 与
 E1-E8 试点验收仍待定。本页是验收计划，不是时间表、人员计划或试点验收声明。
 详细执行计划仍保存在内部规划存储中。

@@ -1,7 +1,7 @@
 # Embodied Integration Profile
 
 **状态：2026-11-22 设计提案；AKROVELA 已选定为试点消费者，已有 P1/F5 与 E1-E8 确定性/本地
-组件证据，G1-G8 部分通过，P2/P3 未运行。** 不新增具身运行时、可复用中间件适配器、Core API 或
+组件证据，G1-G8 适用门禁通过，P2/P3 未运行。** 不新增具身运行时、可复用中间件适配器、Core API 或
 安全保证。与 PRAXOVELA
 一样，AKROVELA 将 PRAXO-CORE 作为自身产品组件嵌入；Core 保持产品中立。本文细化
 [执行层次](execution-profiles.md)与 [Governed Execution Profile](governed-execution.md)，
@@ -110,7 +110,7 @@ epoch 重新绑定，不能仅信任更大的整数。仿真暂停/回拨需显�
 
 [具身试点计划](../project/embodied-pilot.md)把 E1-E8 转化为确定性、仿真与可选硬件门禁，
 并规定必需证据与停止条件。AKROVELA 已选定为消费者并记录 P1、F5 与 E1-E8 确定性/本地组件
-证据，以及存在 G2/G6 仿真缺口的 G1-G8 部分矩阵；但没有已接受的 P2 运行或 E1-E8 试点验收，不是本
+证据，以及存在 G2/G6 仿真不适用的 G1-G8 适用矩阵；但没有已接受的 P2 运行或 E1-E8 试点验收，不是本
 Profile 的实现声明。
 
 [长时操作配方](../guides/long-running-operations.md)提供响应丢失、状态恢复、取消和 fencing 的

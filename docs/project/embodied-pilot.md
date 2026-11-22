@@ -12,8 +12,9 @@ observation source and a `simulated` ROS 2 bridge backend; they set
 passes 6/6 cases with idempotent duplicate submission, scope rejection, and
 terminal API restart; it is local development evidence, not P2 acceptance. The
 product's E1-E8 deterministic/local component matrix passes at `f8fd4d7`; this
-is component evidence, not P2 acceptance. The G1-G8 matrix at `a02dfa5` is
-partial: G2 and G6 have no local simulation cases. The `rclpy`
+is component evidence, not P2 acceptance. The G1-G8 matrix at `9192b1e` passes
+all applicable deterministic and local component gates; G2/G6 local simulation is
+not applicable. The `rclpy`
 backend is not executed on Windows. Real ROS
 2/Gazebo/Linux execution, independent observation source and verifier, hardware
 effect, PEIRAVELA, and E1-E8 pilot acceptance remain open. This
