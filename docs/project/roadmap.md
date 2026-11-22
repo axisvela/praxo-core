@@ -30,6 +30,19 @@ an open PR is not a registry publication or install evidence. Distribution work
 stays separate from language count: a package is adopted only after an external
 project installs it and runs the allow/deny path.
 
+**Planning update: 2026-11-22.** The documentation now has one canonical
+task-to-path table in Start Here, language entries grouped by what a developer
+can build today, a first-pass source-depth audit for the example catalog, and
+language-specific starting points in the consumer test template. These close the
+internal documentation gaps, but they do not close the external ones. Independent
+five-minute timing, hosted-endpoint validation, an external consumer-selected
+path, and registry install verification remain open and are tracked in
+[#30](https://github.com/axisvela/praxo-core/issues/30),
+[#31](https://github.com/axisvela/praxo-core/issues/31),
+[#32](https://github.com/axisvela/praxo-core/issues/32), and
+[#33](https://github.com/axisvela/praxo-core/issues/33). Repository fixtures are
+not substitutes for external evidence.
+
 PRAXO-CORE remains a **governed, embeddable agent execution framework**. The
 roadmap favors runnable applications and clear integration boundaries over new
 language, adapter, profile, or test counts. Existing systems and constrained
@@ -99,11 +112,11 @@ orchestration. A conformance pass or package publication is not adoption.
 
 | Stage | Developer outcome | Current state | Next result |
 | --- | --- | --- | --- |
-| 0. Decide | Know whether Core fits and which language/path to use | The overview, task chooser, comparison, non-goals, and a Try/Verify/Harden path-layer table exist | Use the layered path in external onboarding and refine the language-specific entry points |
-| 1. Run | Install a published package, connect a model, register one tool, and get a useful result | Published-package deterministic starters and live-model examples exist; five-minute completion has not been independently measured. Registry state is recorded separately in the language support pages. The live-model guide now covers endpoint, model id, credential, timeout, tool schema, and platform troubleshooting | Measure deterministic embedding and live-endpoint completion separately with the troubleshooting guide |
-| 2. Prototype | Build one coherent local application with tools, streaming, structured output, MCP, workspace access, or telemetry | Thirteen example themes have source entries across thirty-one languages. Entries range from isolated mechanism checks to Core integrations and application tutorials; the catalog is grouped by task | Audit example depth and runnable commands, then validate one consumer-selected application path |
+| 0. Decide | Know whether Core fits and which language/path to use | The overview, comparison, non-goals, and a single canonical task-to-path table in Start Here exist; the landing page and overview link to it. Language entries are grouped by what can be built today | Use the canonical path in external onboarding and record where it breaks; keep language entry points aligned with registry state |
+| 1. Run | Install a published package, connect a model, register one tool, and get a useful result | Published-package deterministic starters and live-model examples exist; five-minute completion has not been independently measured. Registry state is recorded separately in the language support pages. The live-model guide covers endpoint, model id, credential, timeout, tool schema, and platform troubleshooting. Local Ollama tool-call runs are recorded for Go, Python, and TypeScript; no hosted endpoint is recorded | Record independent deterministic and live-endpoint completion separately; hosted endpoint validation is tracked in [#31](https://github.com/axisvela/praxo-core/issues/31) and independent timing in [#30](https://github.com/axisvela/praxo-core/issues/30) |
+| 2. Prototype | Build one coherent local application with tools, streaming, structured output, MCP, workspace access, or telemetry | Thirteen example themes have source entries across thirty-one languages. The catalog is grouped by task, and a first-pass source-depth audit now labels Core references, mechanism checks, and transport-neutral handlers; it does not certify execution. The Go Workspace Agent tutorial is the only end-to-end prototype tutorial; most other examples remain integration checks | Turn the source-depth audit into recorded runs for one consumer-selected application path; external validation is tracked in [#32](https://github.com/axisvela/praxo-core/issues/32) |
 | 3. Embed | Integrate Core into an existing service with application-owned identity, policy, persistence, events, and shutdown | Vendor-neutral Go/Python/TypeScript/C# HTTP services and authenticated identity/policy services; Go, Python, TypeScript, C#, Ruby, PHP, and Rust support OIDC/JWKS with provider discovery; the Java example passes in Linux CI, while its local Windows JVM is blocked; 30 of 31 declared implementations have source-level RFC 7662 introspection and RFC 7009 revocation, with 29 runtime-verified locally (28 native runtimes plus Octave for the shared MATLAB/Octave module), native MATLAB unverified, and COBOL boundary-only; an optional external Python policy decision service, verified-identity and durable-checkpoint variants, a risk-tiered checklist, and a checkpoint-continuation guide connecting message history, allowlisted stores, and operation state exist | Extend OIDC/external identity to further SDKs, close registry publication gaps for consumer-selected languages, record native MATLAB separately, and validate the checkpoint store for a real consumer |
-| 4. Harden | Make the specific integration safe to upgrade, fail, cancel, and recover | Negative, upgrade, containment, and recovery assets exist. The Go memory-role fix is released in `2.9.0`; retry hazard tests have local deterministic coverage. A source audit found no automatic recall in other SDK agent paths or in the Bridge `run`/`event stream` paths. The consumer test template now covers two-run memory trust and unknown-effect retry/reconciliation | Apply the template to a real consumer |
+| 4. Harden | Make the specific integration safe to upgrade, fail, cancel, and recover | Negative, upgrade, containment, and recovery assets exist. The Go memory-role fix is released in `2.9.0`; retry hazard tests have local deterministic coverage. A source audit found no automatic recall in other SDK agent paths or in the Bridge `run`/`event stream` paths. The consumer test template now covers two-run memory trust, unknown-effect retry/reconciliation, and language-specific starting points, but it has been applied only to maintainer-owned fixtures | Apply the template to an external consumer; repository fixtures are not a substitute. Tracked in [#32](https://github.com/axisvela/praxo-core/issues/32) |
 | 5. Extend | Adopt plugins, delegation, long-running operations, workspace providers, or embodied integrations when needed | Application-level delegation examples cover Go, Python, TypeScript, Java, C#, and Rust; Go reference examples cover long-running operations, workspaces, and plugins | Add controlled parent-to-child policy, tool-scope, budget, and depth narrowing before claiming governed delegation |
 
 The stages describe the recommended order for adoption. They are not release
@@ -366,6 +379,13 @@ action APIs without a named consumer and a concrete gap.
 These priorities favor fewer complete paths over more isolated features. A
 single Go example is not sufficient evidence that the developer path works for
 the other language SDKs, and registry downloads alone are not adoption.
+
+External verification requests are tracked in
+[#30](https://github.com/axisvela/praxo-core/issues/30) (independent timing),
+[#31](https://github.com/axisvela/praxo-core/issues/31) (hosted endpoint),
+[#32](https://github.com/axisvela/praxo-core/issues/32) (external consumer path),
+and [#33](https://github.com/axisvela/praxo-core/issues/33) (registry installs).
+Closing an internal documentation gap does not close an external evidence gap.
 
 ## Adoption Evidence
 

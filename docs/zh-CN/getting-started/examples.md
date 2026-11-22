@@ -6,6 +6,19 @@
 发现镜像仓库。十三个主题、三十一种语言的覆盖矩阵见
 [语言覆盖矩阵](language-coverage.md)。
 
+## 深度与证据
+
+示例目录使用[语言覆盖矩阵](language-coverage.md)中的深度标签：
+
+| 深度 | 含义 |
+| --- | --- |
+| 机制检查 | 孤立的 Schema、Handler、重试或回调断言；可能不调用 Core |
+| Core 集成 | 真正调用 Core 的模型、工具、策略、Checkpoint 或事件接口 |
+| 应用教程 | 记录设置、输入到输出任务、失败处理和续跑 |
+
+运行记录是独立维度：必须注明 revision、工具链、命令、输出和限制。源码入口不等于
+可运行路径。机制检查主题与实际运行记录见[验证证据](../project/verification-evidence.md)。
+
 ## 按任务选择
 
 | 任务 | 示例 | 说明 |
@@ -69,6 +82,10 @@
 Python、TypeScript、Java、Rust、C# 等 Core 实现独立版本化；当前支持范围见
 [语言总表](../languages/matrix.md)。应用级委派等高级示例见
 [高级示例](../guides/advanced-examples.md)。
+
+每个分组内部深度不同。基础示例通常是带确定性检查的 Core 集成；集成示例混合 Core
+集成与机制检查；加固和高级示例通常是 Go 应用形态配方或教程，除非对应语言 README
+另有说明。不要仅凭任务标签假设同等深度。
 
 ## 组织方式
 

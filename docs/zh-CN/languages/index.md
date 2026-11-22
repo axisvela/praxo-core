@@ -12,6 +12,24 @@ Model、MCP 与 Harmovela 覆盖见[适配器状态](adapter-status.md)。
 
 每个条目使用独立的 docs/languages/<language>/ 目录，用于 Core 页面以及后续示例、适配器说明和发布页面。
 
+## 今天能构建什么
+
+按需要的成果选择分组，再核对语言页面、包注册表和示例 README。这些是构建导向路径，
+不是支持层级或生产就绪声明。
+
+| 路径 | 语言 | 能获得什么 | 边界 |
+| --- | --- | --- | --- |
+| 发布包治理 Starter | Go、Python、TypeScript、Java | 从发布包安装或构建，运行确定性模型，并通过 allow/deny 与治理负向检查 | 每种语言对应一个记录的包版本；不是采用或生产证据 |
+| 发布包 allow/deny Starter | Ruby、PHP、Elixir、Lua | 发布包、确定性 allow/deny 和源码示例 | 扩展语言 Starter；治理负向矩阵仍只覆盖四个试点语言 |
+| 发布包或源码发布并可运行示例 | Rust、C#、R、Dart、Erlang、Haskell、Perl、PowerShell | Registry 或 r-universe 发布，以及 HITL、Streaming、Checkpoint 等确定性示例 | Registry 版本可能落后源码标签；核对发布状态和示例深度 |
+| 源码 Core 与确定性示例 | C、C++、Fortran、COBOL、Julia、MATLAB/Octave、Swift、D、Nim、V、Zig、OCaml、Objective-C、Delphi / Free Pascal | 从源码构建并运行确定性示例，包括 HITL 与 Session Checkpoint | 部分 Registry 提交仍在进行；平台和工具链限制按语言记录 |
+| 共享运行时 Sample | JavaScript、Kotlin、Scala、Groovy、Clojure、Visual Basic、F# | 基于 TypeScript、Java 或 .NET Core 的使用示例 | 不是独立运行时或独立版本化包 |
+| Bridge | Shell、Lisp、Tcl、Prolog | 基于维护中运行时的进程或 CLI Bridge | 没有本地 Agent 循环或委派接口 |
+
+源码入口不等于执行证明。哪些主题真正调用 Core、哪些只是机制检查，见
+[示例深度审计](../getting-started/language-coverage.md)，实际运行记录见
+[验证证据](../project/verification-evidence.md)。
+
 选定实现的可复现一致性证据见[兼容性实验](compatibility-lab.md)，跨语言 agent 行为场景见[行为实验](behavior-lab.md)。行为覆盖分为 agent-capable、extended 和 optional 三个层级，见[支持政策](support.md)。
 
 具备原生实现能力的独立语言默认以 Framework 为最终目标。处于 Wire 阶段的实现

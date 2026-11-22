@@ -26,10 +26,30 @@ go get github.com/axisvela/praxo-core/v2@v2.10.0
 通过[快速开始](getting-started/quickstart.md)连接 Ollama 或 OpenAI 兼容端点。
 其他语言请查看[语言实现目录](languages/index.md)。源码标签不等于已发布到包管理器。
 
+## 选择语言
+
+| 语言 | 今天能构建什么 | 起点 |
+| --- | --- | --- |
+| Go（参考） | 发布模块、治理 allow/deny、真实模型链路、参考示例 | [Go 独立消费者](getting-started/consumer-go.md) |
+| Python | 发布包、治理验收、HITL、Streaming、MCP | [Python 独立消费者](getting-started/consumer-python.md) |
+| TypeScript | 发布包、治理验收、HITL、Streaming、MCP | [TypeScript 独立消费者](getting-started/consumer-typescript.md) |
+| Java | 发布包、治理验收、HITL、Streaming、MCP | [Java 独立消费者](getting-started/consumer-java.md) |
+| Rust | 发布 crate、HITL、Streaming、MCP、OIDC 服务示例 | [Rust 实现](languages/rust/index.md) |
+| C# | 发布 NuGet 包、HITL、Streaming、MCP、OIDC 服务 | [C# 实现](languages/csharp/index.md) |
+| R | r-universe 源码发布、HITL、Streaming、分析工作流 | [R 实现](languages/r/index.md) |
+| Ruby | 发布 gem、allow/deny Starter、HITL、Streaming、OIDC 服务 | [Ruby 独立消费者](getting-started/consumer-ruby.md) |
+| PHP | 发布包、allow/deny Starter、HITL、Streaming、OIDC 服务 | [PHP 独立消费者](getting-started/consumer-php.md) |
+| Elixir | 发布包、allow/deny Starter、HITL、Streaming、进程插件 | [Elixir 独立消费者](getting-started/consumer-elixir.md) |
+| Lua | 发布 rock、allow/deny Starter、HITL、Streaming | [Lua 独立消费者](getting-started/consumer-lua.md) |
+
+这些描述表示可构建路径，不代表完整功能对齐或生产就绪。Registry 版本可能落后源码
+标签；安装前查看[注册表发布状态](languages/registry-status.md)。
+
 ## 按目标阅读
 
 | 目标 | 入口 |
 | --- | --- |
+| 选择任务和证明该任务的路径层级 | [阅读导览中的任务到路径表](getting-started/index.md) |
 | 评估是否适合自己的产品 | [采用指南](getting-started/adoption.md)、[框架对比](project/comparison.md) |
 | 连接模型或外部工具 | [适配器目录](integrations/index.md)、[接入示例](guides/recipes.md) |
 | 理解运行时和安全边界 | [架构](reference/architecture.md)、[安全模型](security/index.md) |
@@ -38,7 +58,10 @@ go get github.com/axisvela/praxo-core/v2@v2.10.0
 
 ## 当前版本
 
-核心 `2.9.0` 是次版本发布，修复 Go 记忆召回角色。召回内容作为带 frame/source 标签的不可信 user 数据注入，而不再进入 system 消息；assistant 写入的记忆记录带 `source` 与 `trust` 元数据。该版本新增两轮回归，不改变导出的 `pkg/...` API 或 Wire 形状。查看[最新发布说明](releases/2.10.0.md)或[版本总览](releases/index.md)。
+核心 `2.10.0` 在已声明语言的 Core Adapter 中增加 OpenAI-compatible、Anthropic 和
+Gemini SSE Streaming，增加 Go 参考 WASM 插件宿主，以及各语言 Core 的进程插件宿主。
+它延续 `2.9.0` 的 Go 记忆召回角色修复：召回内容作为不可信 user 数据注入，而不再进入
+system 消息。查看[最新发布说明](releases/2.10.0.md)或[版本总览](releases/index.md)。
 
 PRAXO-CORE 是框架，不是托管服务或开箱即用的聊天产品。
 [AxisVela 生态集成](integrations/ecosystem.md)是可选项。

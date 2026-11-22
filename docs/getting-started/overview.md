@@ -8,7 +8,8 @@ scheduler contract.
 
 ## What It Is
 
-- a small Go reference framework with Python, TypeScript, and Java Core implementations
+- a Go reference framework with independently versioned Core implementations in
+  Python, TypeScript, Java, Rust, C#, R, and other declared languages
 - provider-neutral
 - tool-driven
 - memory-aware
@@ -17,6 +18,33 @@ scheduler contract.
 - sandbox-ready
 - checkpointable
 - plugin-extensible through the frozen runtime plugin contract
+
+## What You Can Build Today
+
+Use the canonical [task-to-path table](index.md#task-to-path-table) to choose a
+task and the layer that proves it. Language entry points are grouped by what a
+developer can build now, not only by contract tier:
+
+- **Published-package governed starter:** Go, Python, TypeScript, and Java.
+  Install, run a deterministic model, and prove allow/deny with the governed
+  negative checks.
+- **Published-package allow/deny starter:** Ruby, PHP, Elixir, and Lua. These
+  extended-language starters prove installation and deterministic allow/deny,
+  not the full four-language governed matrix.
+- **Published package or source release with runnable examples:** Rust, C#, R,
+  Dart, Erlang, Haskell, Perl, and PowerShell. Check the registry version before
+  installing.
+- **Source Core with deterministic examples:** C, C++, Fortran, COBOL, Julia,
+  MATLAB/Octave, Swift, D, Nim, V, Zig, OCaml, Objective-C, and Delphi / Free
+  Pascal. Some have no package-registry publication or pending upstream review.
+- **Shared-runtime samples and bridges:** JavaScript, Kotlin, Scala, Groovy,
+  Clojure, Visual Basic, and F# use a host Core; Shell, Lisp, Tcl, and Prolog use
+  the bridge runtime.
+
+See [Language Implementations](../languages/index.md#what-you-can-build-today)
+for the exact groups and [registry publication status](../languages/registry-status.md)
+for package state. These paths do not imply production readiness or full Go
+feature parity.
 
 ## What It Is Not
 

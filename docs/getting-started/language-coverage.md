@@ -29,8 +29,36 @@ Run `python scripts/check_example_coverage.py --report` for the current
 per-language matrix. Coverage requires a `README.md` and at least one source
 file; a README-only directory does not count as an implementation.
 
-This is a source-presence check, not an execution or semantic-parity test.
-Distinguish example depth from verification:
+## Depth Audit
+
+**Audit date:** 2026-11-22. **Scope:** source-level review of all 31 declared
+languages across the thirteen themes. The audit reads each example's source files
+and classifies Core references as integration or mechanism/handler code. It does
+not execute every example, and it does not replace the recorded runs in
+[verification evidence](../project/verification-evidence.md).
+Regenerate the table with:
+
+```bash
+python scripts/check_example_coverage.py --depth-report
+```
+
+| Theme | Core reference (source) | Non-Core or transport-neutral entries | Assertions present |
+| --- | --- | --- | --- |
+| Consumer starter | 31/31 | none | 10/31 |
+| Live model | 31/31 | none | 2/31 |
+| Checkpoint allowlist | 31/31 | none | 15/31 |
+| Event sink | 30/31 | PowerShell | 14/31 |
+| Retry | 8/31 | C, COBOL, C++, D, Dart, Delphi, Elixir, Erlang, Fortran, Haskell, Julia, Lua, MATLAB/Octave, Nim, Objective-C, OCaml, Perl, PowerShell, R, Swift, V, Zig | 13/31 |
+| Provider fallback | 8/31 | Same extended-language set as Retry | 13/31 |
+| Streaming | 15/31 | COBOL, D, Dart, Delphi, Haskell, Julia, MATLAB/Octave, Nim, Objective-C, OCaml, Perl, PowerShell, Swift, V, Zig | 14/31 |
+| Structured output | 31/31 | none | 16/31 |
+| Identity and policy | 12/31 | D, Dart, Delphi, Elixir, Erlang, Haskell, Julia, Lua, MATLAB/Octave, Nim, Objective-C, OCaml, Perl, PowerShell, R, Swift, V, Zig | 15/31 |
+| HTTP service | 31/31 source entries | Several extended SDKs are transport-neutral handlers; executable servers exist for Go, Python, TypeScript, Java, C#, and Rust | 18/31 |
+| MCP | 27/31 | C, MATLAB/Octave, PowerShell | 14/31 |
+| HITL | 31/31 | none | 10/31 |
+| Session checkpoint | 31/31 | none | 11/31 |
+
+The depth labels are:
 
 | Depth | Required behavior |
 | --- | --- |
@@ -38,10 +66,20 @@ Distinguish example depth from verification:
 | Core integration | Invokes the actual Core/model/tool/policy seam for the claimed behavior |
 | Application tutorial | Documents setup, an input-to-output task, failure handling, and continuation |
 
+"Core reference" means the source mentions the Core package or API. It does
+not prove the example runs, that every seam is exercised correctly, or that the
+behavior is equivalent across languages. "Non-Core" entries implement the
+mechanism locally; they are useful mechanism checks but not evidence that the
+language Core provides the behavior. "Assertions present" is a source-level
+presence check, not a recorded run.
+
 A recorded run is a separate evidence dimension: name its revision, toolchain,
 command, output, and limits. A mechanism check can have a recorded run without
-becoming an application tutorial. The catalog has not been fully audited against
-these depth labels; do not infer equal depth from the counts above.
+becoming an application tutorial. The live-model theme is the clearest example:
+all 31 implementations have a live-model source entry, but only Go, Python, and
+TypeScript have a recorded local Ollama tool-call run, and no hosted
+OpenAI-compatible endpoint is recorded. Per-example execution records and more
+application tutorials remain open work.
 
 ## Coverage
 

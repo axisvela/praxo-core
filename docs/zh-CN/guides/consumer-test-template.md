@@ -16,6 +16,46 @@
 Go 消费者示例：
 [`language/go/examples/consumer-go/governed_test.go`](https://github.com/axisvela/praxo-core/blob/main/language/go/examples/consumer-go/governed_test.go)。
 
+## 各语言起点
+
+复制最接近的 Starter，再把 fixture model、工具和策略替换为应用自己的。仓库 Starter 是
+维护者自有 fixture，不是外部消费者证据。
+
+| 语言 | Starter | 最小命令 |
+| --- | --- | --- |
+| Go | [`language/go/examples/consumer-go`](https://github.com/axisvela/praxo-core/tree/main/language/go/examples/consumer-go) | `cd language/go/examples/consumer-go && go test -mod=readonly -run Governed` |
+| Python | [`language/python/examples/consumer`](https://github.com/axisvela/praxo-core/tree/main/language/python/examples/consumer) | `cd language/python/examples/consumer && python -m unittest test_governed.py -v` |
+| TypeScript | [`language/typescript/examples/consumer`](https://github.com/axisvela/praxo-core/tree/main/language/typescript/examples/consumer) | `cd language/typescript/examples/consumer && npm test` |
+| Java | [`language/java/examples/consumer`](https://github.com/axisvela/praxo-core/tree/main/language/java/examples/consumer) | `cd language/java/examples/consumer && mvn -q test` |
+| C# | [`language/csharp/examples/consumer`](https://github.com/axisvela/praxo-core/tree/main/language/csharp/examples/consumer) | `dotnet run --project language/csharp/examples/consumer` |
+| Rust | [`language/rust/examples/consumer`](https://github.com/axisvela/praxo-core/tree/main/language/rust/examples/consumer) | `cd language/rust/examples/consumer && cargo run` |
+| Ruby | [`language/ruby/examples/consumer`](https://github.com/axisvela/praxo-core/tree/main/language/ruby/examples/consumer) | `cd language/ruby/examples/consumer && bundle exec ruby test_starter.rb` |
+| PHP | [`language/php/examples/consumer`](https://github.com/axisvela/praxo-core/tree/main/language/php/examples/consumer) | `cd language/php/examples/consumer && composer test` |
+| Elixir | [`language/elixir/examples/consumer`](https://github.com/axisvela/praxo-core/tree/main/language/elixir/examples/consumer) | `cd language/elixir/examples/consumer && mix run -r starter.exs -e "ConsumerStarter.run()"` |
+| Lua | [`language/lua/examples/consumer`](https://github.com/axisvela/praxo-core/tree/main/language/lua/examples/consumer) | `cd language/lua/examples/consumer && lua test_starter.lua` |
+
+四个治理试点语言另有更完整的验收测试：
+
+| 语言 | 治理验收 |
+| --- | --- |
+| Go | `language/go/examples/consumer-go/governed_test.go` |
+| Python | `language/python/examples/consumer/test_governed.py` |
+| TypeScript | `language/typescript/examples/consumer/governed.test.js` |
+| Java | `language/java/examples/consumer/src/test/java/starter/GovernedAcceptanceTest.java` |
+
+## 将模板应用到第一个消费者
+
+1. 选择一个消费者仓库和一个风险档位。
+2. 只复制与该档位匹配的检查，不要复制整个 Core 矩阵。
+3. 固定已发布包版本，运行五项最小检查。
+4. 如果应用注入召回或检索文本，增加两轮记忆检查；如果工具会写入、发送、删除或支付，
+   增加副作用检查。
+5. 记录环境、命令、预期结果、实际结果、修复，以及运行在源码模式还是发布包模式。
+6. 将记录保留在消费者仓库；行为或文档不匹配时开一个聚焦 Issue。
+
+仓库 Starter 可以验证模板本身，但不能替代外部消费者。不要把维护者自有 fixture 当作
+采用证据。
+
 ## 记忆与上下文信任
 
 应用启用记忆召回或向 Prompt 注入检索文本时增加：
@@ -53,8 +93,7 @@ Go 消费者示例：
 - 重试前查询权威状态或对账效果账本；
 - 测试状态查询失败不会变成自动重试。
 
-参见[长时操作](long-running-operations.md)和
-[重试安全配方](../../guides/recipes.md#retry-safety-and-unknown-outcomes)。
+参见[长时操作](long-running-operations.md)和[重试安全配方](recipes.md)。
 
 ## 高风险或多租户应用
 

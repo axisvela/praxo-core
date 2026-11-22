@@ -21,6 +21,16 @@
 上游 PR 不等于 registry 发布或安装证据。分发工作不追求语言数量：外部项目完成
 安装并跑通 allow/deny 后，才算采用。
 
+**规划更新：2026-11-22。** 文档现在统一为“阅读导览”中的一张任务到路径表；语言入口
+按开发者今天能构建什么分组；示例目录已有第一轮源码深度审计；消费者测试模板已加入
+各语言起点。这些只关闭内部文档缺口，不关闭外部证据缺口。独立五分钟计时、托管端点
+验证、外部消费者选定路径和 Registry 安装验证仍然开放，分别记录在
+[#30](https://github.com/axisvela/praxo-core/issues/30)、
+[#31](https://github.com/axisvela/praxo-core/issues/31)、
+[#32](https://github.com/axisvela/praxo-core/issues/32) 和
+[#33](https://github.com/axisvela/praxo-core/issues/33)。仓库自维护 fixture 不能替代
+外部证据。
+
 PRAXO-CORE 继续定位为**可治理、可嵌入的 Agent 执行框架**。路线图优先完整可运行的
 应用路径和清晰集成边界，不追求语言、Adapter、Profile 或测试数量。既有系统和受约束
 运行环境是主要集成目标；新增语言 Kernel 或 Adapter 仍需要明确消费者、维护者和真实
@@ -73,11 +83,11 @@ PRAXO-CORE 继续定位为**可治理、可嵌入的 Agent 执行框架**。路�
 
 | 阶段 | 开发者成果 | 当前状态 | 下一项成果 |
 | --- | --- | --- | --- |
-| 0. 判断 | 知道 Core 是否适合，以及该选择哪种语言和路径 | 已有概览、任务入口、对比、非目标说明和 Try/Verify/Harden 路径层级表 | 在外部引导中使用分层路径，并完善各语言入口 |
-| 1. 运行 | 安装发布包、连接模型、注册一个工具并得到有用结果 | 已有发布包确定性 Starter 和真实模型示例；五分钟完成尚未经过独立计时。注册表状态单独记录在语言支持页面。live-model 指南已覆盖端点、模型 ID、凭据、超时、Tool Schema 和平台排错 | 使用排错指南分别测量确定性嵌入和真实端点完成情况 |
-| 2. 原型 | 完成一个包含工具、Streaming、结构化输出、MCP、Workspace 或 Telemetry 的连贯本地应用 | 十三个主题在三十一种语言中有源码入口，但深度从孤立机制检查到 Core 集成、应用教程不等；目录已按任务分组 | 审计示例深度与运行命令，再验证一个消费者选定的应用路径 |
+| 0. 判断 | 知道 Core 是否适合，以及该选择哪种语言和路径 | 已有概览、对比、非目标说明，以及“阅读导览”中唯一一张任务到路径表；首页与概览均链接到该表。语言入口按今天能构建什么分组 | 在外部引导中使用该表并记录断点；保持语言入口与 Registry 状态一致 |
+| 1. 运行 | 安装发布包、连接模型、注册一个工具并得到有用结果 | 已有发布包确定性 Starter 和真实模型示例；五分钟完成尚未经过独立计时。注册表状态单独记录在语言支持页面。live-model 指南已覆盖端点、模型 ID、凭据、超时、Tool Schema 和平台排错。Go、Python、TypeScript 已记录本地 Ollama 工具调用，但没有托管端点记录 | 分别记录独立确定性嵌入和真实端点完成情况；托管端点见 [#31](https://github.com/axisvela/praxo-core/issues/31)，独立计时见 [#30](https://github.com/axisvela/praxo-core/issues/30) |
+| 2. 原型 | 完成一个包含工具、Streaming、结构化输出、MCP、Workspace 或 Telemetry 的连贯本地应用 | 十三个主题在三十一种语言中有源码入口，目录已按任务分组；第一轮源码深度审计已区分 Core 引用、机制检查和传输中立 Handler，但不证明实际执行。只有 Go Workspace Agent 教程是端到端原型教程，其他示例多为集成检查 | 将源码深度审计转为消费者选定路径的运行记录；外部验证见 [#32](https://github.com/axisvela/praxo-core/issues/32) |
 | 3. 嵌入 | 将 Core 接入现有服务，由应用管理身份、策略、持久化、事件和退出 | 已有厂商中立的 Go/Python/TypeScript/C# 服务和认证身份/策略服务；Go、Python、TypeScript、C#、Ruby、PHP 与 Rust 支持带 provider discovery 的 OIDC/JWKS；Java 示例已在 Linux CI 通过，本地 Windows JVM 仍受阻；31 个已声明实现中有 30 个提供源码级 RFC 7662 introspection 与 RFC 7009 撤销，其中 29 个本地运行验证（28 个原生运行时 + Octave 覆盖 MATLAB/Octave 共享模块），原生 MATLAB 未验证，COBOL 仅记录边界；另有 Python 可选外部策略决策服务、已验证身份与持久 Checkpoint 变体、分档清单，以及连接消息历史、allowlist Store 和操作状态的 Checkpoint 续跑指南 | 将 OIDC/外部身份模式扩展到更多 SDK，为消费者选定的语言补齐 registry 发布，单独记录原生 MATLAB，并为真实消费者验证 Checkpoint Store |
-| 4. 加固 | 让具体集成可升级、可失败、可取消、可恢复 | 已有负向、升级、隔离和恢复资产；Go 记忆角色修复已在 `2.9.0` 发布，重试风险测试有本地确定性覆盖。源码审计未发现其他 SDK Agent 主路径或 Bridge `run`/`event stream` 路径的自动召回。消费者测试模板已加入两轮记忆信任和未知效果重试/对账检查 | 把模板应用到真实消费者 |
+| 4. 加固 | 让具体集成可升级、可失败、可取消、可恢复 | 已有负向、升级、隔离和恢复资产；Go 记忆角色修复已在 `2.9.0` 发布，重试风险测试有本地确定性覆盖。源码审计未发现其他 SDK Agent 主路径或 Bridge `run`/`event stream` 路径的自动召回。消费者测试模板已加入两轮记忆信任、未知效果重试/对账检查和各语言起点，但只应用于仓库自维护 fixture | 把模板应用到外部消费者；仓库 fixture 不能替代。见 [#32](https://github.com/axisvela/praxo-core/issues/32) |
 | 5. 扩展 | 在需要时采用 Plugin、委派、长时操作、Workspace Provider 或具身集成 | 应用级委派示例覆盖 Go、Python、TypeScript、Java、C# 和 Rust；Go 参考示例覆盖长时操作、Workspace 和 Plugin | 在宣称受治理委派前，先实现父子策略、工具范围、预算和深度收窄 |
 
 这些阶段表示推荐采用顺序，不是发布门禁，也不要求所有语言同步推进。
@@ -103,9 +113,9 @@ PRAXO-CORE 继续定位为**可治理、可嵌入的 Agent 执行框架**。路�
 
 ### 下一步工作
 
-- 在首页和入门文档中统一一张“任务到路径”表。
-- 分开“体验框架”“验证包”和“加固部署”三类路径。
-- 用开发者能做成什么描述语言支持，不只展示契约层级和测试覆盖。
+- 已在“阅读导览”中统一一张“任务到路径”表；后续在外部引导中验证并记录断点。
+- 已分开“体验框架”“验证包”“嵌入应用”“加固部署”和“扩展”路径。
+- 已按“能构建什么”分组语言入口；后续与 Registry 状态保持同步。
 - 让每个包的说明明确归类为 AI Agent 框架，而不是 HTTP Agent 或托管服务，并保持
   Coding Agent 版本表与发布元数据一致。
 
@@ -291,6 +301,12 @@ Action API。
 
 这些优先项选择少量完整路径，而不是更多孤立功能。一个 Go 示例不能证明其他语言 SDK
 的开发者路径同样可用，Registry 下载量也不等于采用。
+
+外部验证需求分别记录在 [#30](https://github.com/axisvela/praxo-core/issues/30)
+（独立计时）、[#31](https://github.com/axisvela/praxo-core/issues/31)（托管端点）、
+[#32](https://github.com/axisvela/praxo-core/issues/32)（外部消费者路径）和
+[#33](https://github.com/axisvela/praxo-core/issues/33)（Registry 安装）。关闭内部
+文档缺口不等于关闭外部证据缺口。
 
 ## 采用证据
 

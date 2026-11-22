@@ -24,7 +24,34 @@ GNU Octave 复用 `language/matlab/examples/` 下的共享 MATLAB 示例；`matl
 
 运行 `python scripts/check_example_coverage.py --report` 可查看当前每语言矩阵。覆盖要求包含 `README.md` 和至少一个源码文件；只有 README 的目录不算已实现。
 
-这只是源码存在检查，不是运行或语义对齐验证。示例深度与运行证据分开：
+## 深度审计
+
+**审计日期：** 2026-11-22。**范围：** 对 31 种声明语言的十三个主题做源码级审查。
+审计读取每个示例的源码，并按 Core 引用情况归类为集成或机制/Handler 代码。它不执行
+每个示例，也不替代[验证证据](../project/verification-evidence.md)中的运行记录。
+重新生成：
+
+```bash
+python scripts/check_example_coverage.py --depth-report
+```
+
+| 主题 | Core 引用（源码） | 非 Core 或传输中立条目 | 含断言 |
+| --- | --- | --- | --- |
+| Consumer Starter | 31/31 | 无 | 10/31 |
+| Live Model | 31/31 | 无 | 2/31 |
+| Checkpoint Allowlist | 31/31 | 无 | 15/31 |
+| Event Sink | 30/31 | PowerShell | 14/31 |
+| Retry | 8/31 | C、COBOL、C++、D、Dart、Delphi、Elixir、Erlang、Fortran、Haskell、Julia、Lua、MATLAB/Octave、Nim、Objective-C、OCaml、Perl、PowerShell、R、Swift、V、Zig | 13/31 |
+| Provider Fallback | 8/31 | 与 Retry 相同的扩展语言集合 | 13/31 |
+| Streaming | 15/31 | COBOL、D、Dart、Delphi、Haskell、Julia、MATLAB/Octave、Nim、Objective-C、OCaml、Perl、PowerShell、Swift、V、Zig | 14/31 |
+| Structured Output | 31/31 | 无 | 16/31 |
+| Identity / Policy | 12/31 | D、Dart、Delphi、Elixir、Erlang、Haskell、Julia、Lua、MATLAB/Octave、Nim、Objective-C、OCaml、Perl、PowerShell、R、Swift、V、Zig | 15/31 |
+| HTTP Service | 31/31 源码条目 | 部分扩展 SDK 是传输中立 Handler；Go、Python、TypeScript、Java、C#、Rust 提供可执行服务 | 18/31 |
+| MCP | 27/31 | C、MATLAB/Octave、PowerShell | 14/31 |
+| HITL | 31/31 | 无 | 10/31 |
+| Session Checkpoint | 31/31 | 无 | 11/31 |
+
+深度定义：
 
 | 深度 | 要求 |
 | --- | --- |
@@ -32,8 +59,14 @@ GNU Octave 复用 `language/matlab/examples/` 下的共享 MATLAB 示例；`matl
 | Core 集成 | 通过实际 Core/model/tool/policy 接缝验证所声明行为 |
 | 应用教程 | 包含安装、输入到输出任务、错误处理与后续路径 |
 
+“Core 引用”表示源码提到 Core 包或 API，不证明示例实际运行、每个接缝都正确使用，
+或跨语言行为等价。“非 Core”条目用本地代码实现机制，是有用的机制检查，但不是该语言
+Core 提供该行为的证据。“含断言”只是源码存在检查，不是运行记录。
+
 有记录的运行是独立证据维度，需 revision、工具链、命令、输出和限制。机制检查即使
-实测通过，也不会变成应用教程。目录尚未按上述深度完整审计，不由计数推断等价深度。
+实测通过，也不会变成应用教程。Live Model 是最明显的例子：31 种实现都有源码入口，
+但只有 Go、Python、TypeScript 记录了本地 Ollama 工具调用，且没有托管端点记录。
+逐示例运行记录和更多应用教程仍是待办工作。
 
 ## 覆盖情况
 

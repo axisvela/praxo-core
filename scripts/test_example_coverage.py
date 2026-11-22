@@ -35,6 +35,20 @@ class ExampleCoverageTests(unittest.TestCase):
         self.assertIn("csharp | advanced-delegation", report)
         self.assertIn("rust | advanced-delegation", report)
 
+    def test_depth_report_covers_themes_and_reports_mechanism_checks(self):
+        report = "\n".join(coverage.depth_report_lines())
+        self.assertIn("consumer | 31/31", report)
+        self.assertIn("retry | 8/31", report)
+        self.assertIn("mcp | 27/31", report)
+        self.assertIn("c, cobol", report)
+        self.assertIn("Core reference", report)
+
+    def test_r_source_core_usage_is_not_a_mechanism_check(self):
+        self.assertTrue(
+            coverage.uses_core("r", 'source("language/r/R/core.R")')
+        )
+        self.assertFalse(coverage.uses_core("r", "run <- function() NULL"))
+
     def test_sample_only_directories_are_excluded(self):
         languages = set(coverage.languages())
         self.assertTrue(

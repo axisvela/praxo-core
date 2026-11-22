@@ -17,6 +17,50 @@ Keep these checks where your integration lives:
 Go consumer example:
 [`language/go/examples/consumer-go/governed_test.go`](https://github.com/axisvela/praxo-core/blob/main/language/go/examples/consumer-go/governed_test.go).
 
+## Language-specific starting points
+
+Copy the closest starter, then replace its fixture model, tool, and policy with
+your application's. The repository starters are maintainer-owned fixtures, not
+external consumer evidence.
+
+| Language | Starter | Minimal command |
+| --- | --- | --- |
+| Go | [`language/go/examples/consumer-go`](https://github.com/axisvela/praxo-core/tree/main/language/go/examples/consumer-go) | `cd language/go/examples/consumer-go && go test -mod=readonly -run Governed` |
+| Python | [`language/python/examples/consumer`](https://github.com/axisvela/praxo-core/tree/main/language/python/examples/consumer) | `cd language/python/examples/consumer && python -m unittest test_governed.py -v` |
+| TypeScript | [`language/typescript/examples/consumer`](https://github.com/axisvela/praxo-core/tree/main/language/typescript/examples/consumer) | `cd language/typescript/examples/consumer && npm test` |
+| Java | [`language/java/examples/consumer`](https://github.com/axisvela/praxo-core/tree/main/language/java/examples/consumer) | `cd language/java/examples/consumer && mvn -q test` |
+| C# | [`language/csharp/examples/consumer`](https://github.com/axisvela/praxo-core/tree/main/language/csharp/examples/consumer) | `dotnet run --project language/csharp/examples/consumer` |
+| Rust | [`language/rust/examples/consumer`](https://github.com/axisvela/praxo-core/tree/main/language/rust/examples/consumer) | `cd language/rust/examples/consumer && cargo run` |
+| Ruby | [`language/ruby/examples/consumer`](https://github.com/axisvela/praxo-core/tree/main/language/ruby/examples/consumer) | `cd language/ruby/examples/consumer && bundle exec ruby test_starter.rb` |
+| PHP | [`language/php/examples/consumer`](https://github.com/axisvela/praxo-core/tree/main/language/php/examples/consumer) | `cd language/php/examples/consumer && composer test` |
+| Elixir | [`language/elixir/examples/consumer`](https://github.com/axisvela/praxo-core/tree/main/language/elixir/examples/consumer) | `cd language/elixir/examples/consumer && mix run -r starter.exs -e "ConsumerStarter.run()"` |
+| Lua | [`language/lua/examples/consumer`](https://github.com/axisvela/praxo-core/tree/main/language/lua/examples/consumer) | `cd language/lua/examples/consumer && lua test_starter.lua` |
+
+The four governed pilot languages add broader acceptance tests:
+
+| Language | Governed acceptance |
+| --- | --- |
+| Go | `language/go/examples/consumer-go/governed_test.go` |
+| Python | `language/python/examples/consumer/test_governed.py` |
+| TypeScript | `language/typescript/examples/consumer/governed.test.js` |
+| Java | `language/java/examples/consumer/src/test/java/starter/GovernedAcceptanceTest.java` |
+
+## Apply the template to the first consumer
+
+1. Choose one consumer repository and one risk tier.
+2. Copy only the checks that match that tier; do not copy the whole Core matrix.
+3. Pin the exact published package version and run the five minimal checks.
+4. Add the memory two-run checks if the application injects recalled or retrieved
+   text, and the side-effect checks if a tool can write, send, delete, or pay.
+5. Record the environment, commands, expected result, observed result, repairs,
+   and whether the run used source mode or a published package.
+6. Keep the record in the consumer repository and open a focused issue for any
+   behavior or documentation mismatch.
+
+The repository starters can validate the template, but they are not a substitute
+for an external consumer. Do not cite a maintainer-owned fixture as adoption
+evidence.
+
 ## Memory and Context Trust
 
 Add these checks when the application enables memory recall or injects

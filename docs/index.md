@@ -24,22 +24,25 @@ and integrations; AxisVela products are not required.
 PRAXO-CORE is multi-language. Go is the reference implementation; other
 implementations have independent packages and declared scope.
 
-| Language | Start |
-| --- | --- |
-| Go (reference) | [Go consumer](getting-started/consumer-go.md) |
-| Python | [Python consumer](getting-started/consumer-python.md) |
-| TypeScript | [TypeScript consumer](getting-started/consumer-typescript.md) |
-| Java | [Java consumer](getting-started/consumer-java.md) |
-| Rust | [Rust implementation](languages/rust/index.md) |
-| C# | [C# implementation](languages/csharp/index.md) |
-| R | [R implementation](languages/r/index.md) |
-| Ruby | [Ruby consumer](getting-started/consumer-ruby.md) |
-| PHP | [PHP consumer](getting-started/consumer-php.md) |
-| Elixir | [Elixir consumer](getting-started/consumer-elixir.md) |
-| Lua | [Lua consumer](getting-started/consumer-lua.md) |
+| Language | You can build today | Start |
+| --- | --- | --- |
+| Go (reference) | Published module, governed allow/deny, real-model chain, reference examples | [Go consumer](getting-started/consumer-go.md) |
+| Python | Published package, governed acceptance, HITL, streaming, MCP | [Python consumer](getting-started/consumer-python.md) |
+| TypeScript | Published package, governed acceptance, HITL, streaming, MCP | [TypeScript consumer](getting-started/consumer-typescript.md) |
+| Java | Published package, governed acceptance, HITL, streaming, MCP | [Java consumer](getting-started/consumer-java.md) |
+| Rust | Published crate, HITL, streaming, MCP, OIDC service example | [Rust implementation](languages/rust/index.md) |
+| C# | Published NuGet package, HITL, streaming, MCP, OIDC service | [C# implementation](languages/csharp/index.md) |
+| R | r-universe source release, HITL, streaming, analytics workflows | [R implementation](languages/r/index.md) |
+| Ruby | Published gem, allow/deny starter, HITL, streaming, OIDC service | [Ruby consumer](getting-started/consumer-ruby.md) |
+| PHP | Published package, allow/deny starter, HITL, streaming, OIDC service | [PHP consumer](getting-started/consumer-php.md) |
+| Elixir | Published package, allow/deny starter, HITL, streaming, process plugins | [Elixir consumer](getting-started/consumer-elixir.md) |
+| Lua | Published rock, allow/deny starter, HITL, streaming | [Lua consumer](getting-started/consumer-lua.md) |
 
-See the [language implementation directory](languages/index.md) and the
-[dedicated repository index](languages/repositories.md).
+These descriptions are buildable paths, not full feature parity or production
+readiness. Registry versions may lag source tags; check [registry publication
+status](languages/registry-status.md) before installing. See the
+[language implementation directory](languages/index.md#what-you-can-build-today)
+and the [dedicated repository index](languages/repositories.md).
 
 ## Go Reference Quickstart
 
@@ -55,6 +58,7 @@ above; source tags do not imply package-registry availability.
 
 | Your goal | Start here |
 | --- | --- |
+| Choose a task and the path layer that proves it | [Start Here task-to-path table](getting-started/index.md#task-to-path-table) |
 | Evaluate whether it fits your product | [Adoption guide](getting-started/adoption.md) and [comparison](project/comparison.md) |
 | Connect a model or external tool | [Adapter directory](integrations/index.md) and [recipes](guides/recipes.md) |
 | Understand runtime boundaries | [Architecture](reference/architecture.md) and [security](security/index.md) |
@@ -63,11 +67,11 @@ above; source tags do not imply package-registry availability.
 
 ## Current Release
 
-Core `2.9.0` is a minor release fixing the Go memory recall role. Recalled
-content is injected as untrusted user data with frame/source labels instead of
-a system message, and assistant-written memory records carry `source` and
-`trust` metadata. The release adds two-run regressions and does not change the
-exported `pkg/...` API or wire shape.
+Core `2.10.0` adds OpenAI-compatible, Anthropic, and Gemini SSE streaming across
+the declared Core adapters, a Go reference WASM plugin host, and process plugin
+hosts in the declared language cores. It follows the `2.9.0` Go memory-recall
+role fix, which injects recalled content as untrusted user data instead of a
+system message.
 See the [release notes](releases/2.10.0.md) for changes and limitations, or the
 [release overview](releases/index.md) for older versions.
 

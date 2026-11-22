@@ -8,6 +8,22 @@ directory. Language-specific examples live under
 mirror repositories. For the thirteen-theme, thirty-one-language matrix, see
 [Language Coverage](language-coverage.md).
 
+## Depth and Evidence
+
+The catalog uses the depth labels from the
+[Language Coverage depth audit](language-coverage.md#depth-audit):
+
+| Depth | What it means |
+| --- | --- |
+| Mechanism check | Isolated schema, handler, retry, or callback assertions; may not invoke Core |
+| Core integration | Invokes the actual Core model, tool, policy, checkpoint, or event seam for the claimed behavior |
+| Application tutorial | Documents setup, an input-to-output task, failure handling, and continuation |
+
+A recorded run is separate from depth: it names the revision, toolchain, command,
+output, and limits. A source entry is not a working path. Check the depth audit
+for mechanism-only themes and the
+[verification evidence](../project/verification-evidence.md) for recorded runs.
+
 ## Choose by Task
 
 | Task | Example | Notes |
@@ -47,6 +63,13 @@ guidance, not release gates.
 | Integration | Add one real boundary: MCP, provider fallback, structured output, streaming, or HTTP service | [Provider and MCP walkthrough](../guides/provider-walkthrough.md), [Structured Output tutorial](../guides/structured-output-tutorial.md), [Embedded HTTP service tutorial](../guides/embedded-service-tutorial.md) |
 | Hardening | Make one integration safe to deny, approve, persist, retry, or cancel | [Identity and policy](../guides/identity-policy.md), [Application Integration Checklist](../guides/application-integration-checklist.md), [Consumer test template](../guides/consumer-test-template.md) |
 | Advanced | Add plugins, delegation, long-running operations, workspace providers, or embodied seams | [Advanced examples](../guides/advanced-examples.md), [Plugin guide](../guides/plugins.md), [Multi-agent patterns](../guides/multi-agent.md), [Long-running operations](../guides/long-running-operations.md) |
+
+Depth varies inside every group. Basic examples are Core integrations with
+deterministic checks; Integration examples mix Core integrations and mechanism
+checks; Hardening and Advanced examples are application-shaped Go recipes or
+tutorials unless a language README says otherwise. Use the
+[depth audit](language-coverage.md#depth-audit) rather than assuming equal depth
+from the task label.
 
 The primary SDKs share the same task-oriented catalog, but each language keeps
 its own install command and executable example. A Go example is not evidence

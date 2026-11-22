@@ -17,6 +17,26 @@ adapter notes, and release pages. Language-specific runnable examples live in
 `language/<language>/examples/` and are included in the dedicated language
 mirror repositories.
 
+## What You Can Build Today
+
+Choose the group that matches the result you need, then verify the language page,
+package registry, and example README. These are build-oriented paths, not support
+tiers or production-readiness claims.
+
+| Path | Languages | What you get | Boundary |
+| --- | --- | --- | --- |
+| Published-package governed starter | Go, Python, TypeScript, Java | Install or build from a published package, run a deterministic model, and pass allow/deny plus governed negative checks | One recorded package revision per language; not adoption or production evidence |
+| Published-package allow/deny starter | Ruby, PHP, Elixir, Lua | A published package, deterministic allow/deny, and source examples | Extended-language starters; the governed negative matrix remains scoped to the four pilot languages |
+| Published package or source release with runnable examples | Rust, C#, R, Dart, Erlang, Haskell, Perl, PowerShell | A registry or r-universe release plus deterministic examples for HITL, streaming, checkpoints, and related themes | Registry versions can lag source tags; check registry status and example depth |
+| Source Core with deterministic examples | C, C++, Fortran, COBOL, Julia, MATLAB/Octave, Swift, D, Nim, V, Zig, OCaml, Objective-C, Delphi / Free Pascal | Build from source and run deterministic examples, including HITL and session checkpoints | Some registry submissions are pending; platform and toolchain limits remain documented per language |
+| Shared-runtime sample | JavaScript, Kotlin, Scala, Groovy, Clojure, Visual Basic, F# | A usage sample over the TypeScript, Java, or .NET Core | Not an independent runtime or separately versioned package |
+| Bridge | Shell, Lisp, Tcl, Prolog | A process or CLI bridge over the maintained runtime | No local agent loop or delegation surface |
+
+A source entry is not an execution certificate. See the
+[example depth audit](../getting-started/language-coverage.md#depth-audit) for
+which themes invoke Core and which are mechanism checks, and
+[verification evidence](../project/verification-evidence.md) for recorded runs.
+
 See the [compatibility lab](compatibility-lab.md) for reproducible conformance
 evidence across selected implementations, and the [behavior lab](behavior-lab.md)
 for cross-language agent behavior scenarios. Behavior coverage uses separate

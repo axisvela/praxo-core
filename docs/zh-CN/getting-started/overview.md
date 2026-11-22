@@ -6,7 +6,8 @@ PRAXO-CORE 是 PRAXOVELA 及 AKROVELA 等其他嵌入它的 AxisVela 产品背�
 
 ## 它是什么
 
-- 一个小型 Go 参考框架，并提供 Python、TypeScript 和 Java Core
+- 一个 Go 参考框架，并提供 Python、TypeScript、Java、Rust、C#、R 等独立版本化的
+  Core 实现
 - 提供商中立
 - 工具驱动
 - 感知记忆
@@ -15,6 +16,27 @@ PRAXO-CORE 是 PRAXOVELA 及 AKROVELA 等其他嵌入它的 AxisVela 产品背�
 - 可接入沙箱
 - 可检查点化
 - 可通过冻结的运行时插件契约扩展
+
+## 今天能构建什么
+
+用唯一的[任务到路径表](index.md)选择任务和证明该任务的层级。语言入口按
+开发者今天能构建什么分组，而不只按契约层级：
+
+- **发布包治理 Starter：** Go、Python、TypeScript 和 Java。安装、运行确定性模型，并用
+  治理负向检查证明 allow/deny。
+- **发布包 allow/deny Starter：** Ruby、PHP、Elixir 和 Lua。这些扩展语言 Starter 证明
+  安装和确定性 allow/deny，不包含完整四语言治理矩阵。
+- **发布包或源码发布并可运行示例：** Rust、C#、R、Dart、Erlang、Haskell、Perl 和
+  PowerShell。安装前先核对 Registry 版本。
+- **源码 Core 与确定性示例：** C、C++、Fortran、COBOL、Julia、MATLAB/Octave、Swift、
+  D、Nim、V、Zig、OCaml、Objective-C 和 Delphi / Free Pascal。部分尚无 Registry
+  发布或上游审核仍在进行。
+- **共享运行时 Sample 与 Bridge：** JavaScript、Kotlin、Scala、Groovy、Clojure、
+  Visual Basic 和 F# 使用宿主 Core；Shell、Lisp、Tcl 和 Prolog 使用 Bridge 运行时。
+
+精确分组见[语言实现](../languages/index.md)，包状态见
+[Registry 发布状态](../languages/registry-status.md)。这些路径不代表生产就绪或与
+Go 完全等价。
 
 ## 它不是什么
 
@@ -40,9 +62,10 @@ Core 不获取它们的产品状态或领域权威。
 
 ## 多语言 Core
 
-Go 模块是参考实现。Python、TypeScript 和 Java Core 共享 `spec/` 中的一份语言
-无关契约，并由同一套一致性测试强制执行。各语言 wire 形状完全相同；源码 API
-一对一映射，但使用符合语言习惯的名称。设计见
+Go 模块是参考实现。Python、TypeScript、Java、Rust、C#、R 等 Core 实现共享
+`spec/` 中的一份语言无关契约，并由一致性测试强制执行。各语言 wire 形状完全相同；
+源码 API 一对一映射，但使用符合语言习惯的名称。C、C++、Fortran、COBOL、Ruby、
+PHP、Elixir、Erlang 和 Lua 等实现按各自声明的范围提供 Core 或聚焦实现。设计见
 [多语言 Core 设计](../contributing/core-design.md)；实现类型、分发与限制见
 [Core 支持政策](../languages/support.md)。
 

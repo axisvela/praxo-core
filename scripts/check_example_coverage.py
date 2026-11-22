@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import argparse
+import re
 import sys
 from pathlib import Path
 
@@ -39,6 +40,13 @@ CODE_SUFFIXES = {
     ".v", ".zig",
 }
 NOT_APPLICABLE: dict[str, set[str]] = {}
+CORE_PATTERN = re.compile(r"praxo", re.IGNORECASE)
+R_CORE_PATTERN = re.compile(r"source\([^)]*core\.R|praxo", re.IGNORECASE)
+ASSERTION_PATTERN = re.compile(
+    r"assert|stopifnot|expect\(|@Test|#\[test\]|func Test|def test_|"
+    r"test\(|Assert\.",
+    re.IGNORECASE,
+)
 
 GO_THEMES = {
     "consumer": ROOT / "language/go/examples/consumer-go",
@@ -119,6 +127,50 @@ def implementation_files(path: Path) -> list[Path]:
             for part in file.relative_to(path).parts
         )
     )
+
+
+def example_text(language: str, theme: str) -> str:
+    paths = [example_path(language, theme)]
+    if language == "octave":
+        paths.append(example_path("matlab", theme))
+    files: list[Path] = []
+    for path in paths:
+        files.extend(implementation_files(path))
+    return "\n".join(
+        file.read_text(encoding="utf-8", errors="replace") for file in files
+    )
+
+
+def uses_core(language: str, text: str) -> bool:
+    pattern = R_CORE_PATTERN if language == "r" else CORE_PATTERN
+    return bool(pattern.search(text))
+
+
+def has_assertion(text: str) -> bool:
+    return bool(ASSERTION_PATTERN.search(text))
+
+
+def depth_report_lines() -> list[str]:
+    lines = [
+        "theme | Core reference | non-Core (mechanism or handler) | assertions",
+    ]
+    for theme in ALIGNED_THEMES:
+        core: list[str] = []
+        non_core: list[str] = []
+        asserted: list[str] = []
+        for language in languages():
+            text = example_text(language, theme)
+            if not text:
+                continue
+            (core if uses_core(language, text) else non_core).append(language)
+            if has_assertion(text):
+                asserted.append(language)
+        total = len(core) + len(non_core)
+        lines.append(
+            f"{theme} | {len(core)}/{total} | "
+            f"{', '.join(non_core) or '-'} | {len(asserted)}/{total}"
+        )
+    return lines
 
 
 def missing_code() -> list[str]:
@@ -211,11 +263,18 @@ def main(argv: list[str] | None = None) -> int:
         action="store_true",
         help="print per-language advanced example coverage without failing",
     )
+    parser.add_argument(
+        "--depth-report",
+        action="store_true",
+        help="print a source-level depth audit for the aligned example themes",
+    )
     args = parser.parse_args(argv)
     if args.report:
         print("\n".join(report_lines()))
     if args.report_advanced:
         print("\n".join(advanced_report_lines()))
+    if args.depth_report:
+        print("\n".join(depth_report_lines()))
     failures = missing()
     if failures:
         print("missing examples: " + ", ".join(failures), file=sys.stderr)
