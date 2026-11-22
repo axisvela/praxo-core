@@ -9,7 +9,8 @@
 ## 深度与证据
 
 新增领域应用教程位于 `language/<language>/Tutorial/`，与 `examples/` 并列。
-目前有 [Python 订单审阅](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/order-review)
+场景地图、当前状态和交付标准见 [Tutorial 整体规划](tutorial-plan.md)。目前有
+[Python 订单审阅](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/order-review)
 和 [TypeScript 订单支持](https://github.com/axisvela/praxo-core/tree/main/language/typescript/Tutorial/order-review)，
 共同调用公开 [agent-tutorial-services](https://github.com/axisvela/agent-tutorial-services)
 中的本地合成业务服务。这些是初始确定性切片，

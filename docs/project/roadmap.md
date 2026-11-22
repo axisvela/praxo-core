@@ -270,7 +270,9 @@ Turn the first run into one useful local application, such as:
   service/disk checks through the shared C# Core. Local PowerShell 7.7.0 tests
   pass 4/4, and hosted Windows CI passed the C# Core build plus all four
   source-mode checks at `5afe6e35` (run `45036962205`). It supports no repairs,
-  remote hosts, arbitrary shell commands or live model path.
+  remote hosts, arbitrary shell commands or live model path. See the
+  [Tutorial Plan](../getting-started/tutorial-plan.md) for the scenario map,
+  current status, delivery standard and next candidates.
 - Validate one application-shaped prototype for a named consumer before
   expanding tutorials across SDKs.
 - Audit the existing MCP examples against their actual transports and commands;

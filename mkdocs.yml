@@ -61,6 +61,7 @@ plugins:
             Live Model Golden Path: 真实模型 Golden Path
             Examples: 示例目录
             Language Coverage: 语言覆盖矩阵
+            Tutorial Plan: Tutorial 整体规划
             Go Consumer: Go 独立消费者
             Python Consumer: Python 独立消费者
             TypeScript Consumer: TypeScript 独立消费者
@@ -157,6 +158,7 @@ nav:
       - Live Model Golden Path: getting-started/live-model-golden-path.md
       - Examples: getting-started/examples.md
       - Language Coverage: getting-started/language-coverage.md
+      - Tutorial Plan: getting-started/tutorial-plan.md
       - Go Consumer: getting-started/consumer-go.md
       - Python Consumer: getting-started/consumer-python.md
       - TypeScript Consumer: getting-started/consumer-typescript.md

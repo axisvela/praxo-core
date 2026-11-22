@@ -11,7 +11,9 @@ mirror repositories. For the thirteen-theme, thirty-one-language matrix, see
 ## Depth and Evidence
 
 New domain application tutorials live in `language/<language>/Tutorial/`, as a
-sibling of `examples/`. Start with [Python order review](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/order-review)
+sibling of `examples/`. See the [Tutorial Plan](tutorial-plan.md) for the
+scenario map, current status and delivery standard. Start with
+[Python order review](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/order-review)
 or [TypeScript order support](https://github.com/axisvela/praxo-core/tree/main/language/typescript/Tutorial/order-review).
 Both use the local synthetic service in
 [agent-tutorial-services](https://github.com/axisvela/agent-tutorial-services); they are
