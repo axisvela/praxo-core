@@ -52,9 +52,9 @@ Web 服务、运维 Shell、分析工作流、宿主嵌入或受约束设备。�
 | 场景 | 主语言/生态 | 选择理由 | 状态 |
 | --- | --- | --- | --- |
 | 知识问答与文档助手 | Python、TypeScript | 检索、引用、结构化回答、流式 UI | Python 办公问答已实现并通过 CI |
-| 客服与联络中心 | TypeScript、C# | Web/SSE、ASP.NET Core、身份与审计 | 计划 |
+| 客服与联络中心 | TypeScript、C# | Web/SSE、ASP.NET Core、身份与审计 | TypeScript 客服已实现；CI 待确认 |
 | 营销内容与分群 | Python、R | 内容工作流与原生统计分群 | 计划 |
-| 办公效率 | Python、C# | 文档、邮件/日历工具、.NET 集成 | Python 办公问答下一步 |
+| 办公效率 | Python、C# | 文档、邮件/日历工具、.NET 集成 | Python 办公问答已实现 |
 | 销售 / CRM | C#、TypeScript | 企业认证与 Web 集成 | 计划 |
 | 理财 / 零售金融 | Java、R | 服务边界与风险/收益分析 | 计划 |
 | 保险理赔 | Python、Java | 文档提取、审批与审计边界 | 计划 |
@@ -102,6 +102,7 @@ Core 与 Adapter，而不是增加框架表面积。
 | Julia 实验比较 | 原生 Julia 对固定结果计算均值/差值 | 本地 Julia 1.13.2 测试与 Linux CI | 无任意数据/代码/包安装、真实模型或因果结论 |
 | Octave/MATLAB 信号趋势 | 共享信号指标、阈值异常 | 本地 GNU Octave 11.3.0 测试与 Linux CI | 原生 MATLAB 未验证；无设备控制或真实模型 |
 | Python 办公问答 | 原生 Core、固定文档、带引用答案 | 本地 Python 3.14 检查与 Linux CI | 无任意文件/Connector、邮件操作或真实模型 |
+| TypeScript 客服 | 原生 Core、固定订单/政策工具、SSE 流 | 本地 Node 24 检查；Linux CI 已配置待确认 | 无回复发送、订单修改、退款或真实模型 |
 | Lua、Rust、Zig、C、C++ | 尚未实现为 Tutorial | 未运行 | 仅为候选路径 |
 
 准确运行 ID 与范围见[验证证据](../project/verification-evidence.md)。“CI 通过”不等于
@@ -135,9 +136,8 @@ Core 与 Adapter，而不是增加框架表面积。
 
 ## 下一步
 
-1. 增加 TypeScript 客服流式教程，复用受限文档或订单工具与引用边界。
-2. 只有存在具体消费者路径后，才增加 Java 理财/金融或 C# 销售/CRM。
-3. 只有存在具体运行时与 transport 契约时才增加设备教程。
-4. 把已验证教程转成消费者授权测试路径，而不只是维护者演示。
+1. 只有存在具体消费者路径后，才增加 Java 理财/金融或 C# 销售/CRM。
+2. 只有存在具体运行时与 transport 契约时才增加设备教程。
+3. 把已验证教程转成消费者授权测试路径，而不只是维护者演示。
 
 语言数量不是目标。少量完整、差异化路径比大量孤立机制检查更有价值。

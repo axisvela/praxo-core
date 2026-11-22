@@ -55,6 +55,19 @@ jobs:
           r-version: 'release'
       - run: Rscript language/r/Tutorial/data-quality/data_quality.R --test
 
+  typescript-customer-support:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - run: npm ci --ignore-scripts --no-audit --no-fund
+        working-directory: language/typescript/Tutorial/customer-support
+      - run: npm test
+        working-directory: language/typescript/Tutorial/customer-support
+
   python-office-qa:
     runs-on: ubuntu-latest
     timeout-minutes: 10

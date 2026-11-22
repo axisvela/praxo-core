@@ -58,7 +58,7 @@ and a named consumer; keep the tutorial boundary narrow.
 | Scenario | Primary language(s) | Why this language/ecosystem | Status |
 | --- | --- | --- | --- |
 | Knowledge Q&A and document assistant | Python, TypeScript | Retrieval, citations, structured answers, streaming UI | Python office Q&A implemented and CI verified |
-| Customer service / contact center | TypeScript, C# | Web/SSE, ASP.NET Core, identity and audit | Planned |
+| Customer service / contact center | TypeScript, C# | Web/SSE, ASP.NET Core, identity and audit | TypeScript customer-support implemented; CI pending |
 | Marketing content and segmentation | Python, R | Content workflows plus native statistical segments | Planned |
 | Office productivity | Python, C# | Documents, email/calendar tools, .NET integration | Python office Q&A next |
 | Sales / CRM | C#, TypeScript | Enterprise authentication and web integration | Planned |
@@ -113,6 +113,7 @@ add framework surface.
 | Julia experiment comparison | Native Julia means/delta over fixed results | Local Julia 1.13.2 tests and Linux CI | No arbitrary data/code/package install, live model or causal claim |
 | Octave/MATLAB signal trends | Shared signal metrics, threshold anomalies | Local GNU Octave 11.3.0 tests and Linux CI | Native MATLAB unverified; no device control or live model |
 | Python office Q&A | Native Core, fixed documents, citation-bearing answer | Local Python 3.14 checks and Linux CI | No arbitrary file/connector, email action or live model |
+| TypeScript customer support | Native Core, fixed order/policy tools, SSE stream | Local Node 24 checks; Linux CI configured and pending | No reply send, order change, refund or live model |
 | Lua, Rust, Zig, C, C++ | Not implemented as Tutorial entries | Not run | Candidate paths only |
 
 See [Verification Evidence](../project/verification-evidence.md) for exact run
@@ -152,11 +153,9 @@ not in `pkg/...` or `spec/`.
 
 ## Next Work
 
-1. Add TypeScript customer-support streaming as the next scenario, reusing a
-   scoped document or order tool and a citation boundary.
-2. Add Java wealth/finance or C# sales/CRM only after a concrete consumer path.
-3. Add device tutorials only when a concrete runtime and transport contract exist.
-4. Turn each verified tutorial into a consumer test-authorized path, not just a
+1. Add Java wealth/finance or C# sales/CRM only after a concrete consumer path.
+2. Add device tutorials only when a concrete runtime and transport contract exist.
+3. Turn each verified tutorial into a consumer test-authorized path, not just a
    maintainer demo.
 
 Language count is not the goal. Fewer complete, differentiated paths are more

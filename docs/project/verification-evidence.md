@@ -158,6 +158,13 @@ also passed at `cfd850a6`. No arbitrary file/connector, email/calendar action,
 live provider, production document store, public hosting or independent adoption
 is verified.
 
+TypeScript customer-support tutorial (2026-11-22): local Node 24 passed the SSE
+success case with a `shipping` citation, missing-credential 401, simulated
+dependency 503 before a stream start, and an out-of-scope order denied by Agent
+policy before HTTP effects. The final reply said `order-100` was delayed. Linux
+CI is configured but its result is not yet recorded. No reply send, order change,
+refund, live provider, public endpoint or independent adoption is verified.
+
 | Area | Verified | Level | Limits |
 | --- | --- | --- | --- |
 | Python published package | PyPI `praxo-core==0.10.0` is published from source tag `python/v0.10.0`. The docs CI published-upgrade check installed `0.2.4`, ran the unchanged consumer and governed checks, upgraded to `0.10.0`, and reran the suite successfully. Historical local checks cover `0.3.2` and `0.2.4` | Registry publication + CI upgrade | One version pair; a post-publication consumer install outside CI for `0.10.0` is not recorded here; one platform/toolchain; not an independent or non-author consumer; no provider or production evidence |
