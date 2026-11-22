@@ -52,11 +52,19 @@ revision `fe85622b3445c41d53fbada8e0199c8f1b353ec5`. Local backend tests plus
 Python/TypeScript clients passed four test methods (Python source mode,
 TypeScript installed npm `0.9.0`). Java compilation and mock-backed Agent/Web
 JUnit passed in Linux CI [45031868787](https://github.com/axisvela/praxo-core/actions/runs/45031868787).
-The backend repository is private: full three-language integration was skipped,
+The original backend repository was private: full three-language integration was skipped,
 not passed. Earlier Core run `45031542641` failed during private repository
-checkout before tests. Backend CI did not start; no backend hosted-runner result
-is claimed. These are maintainer teaching fixtures, not independent adoption,
+checkout before tests. The original backend CI did not start. These are maintainer teaching fixtures, not independent adoption,
 live-provider, public-service, refund, or durable-transaction evidence.
+
+Public backend follow-up (2026-11-22): the approved teaching subset is now MIT
+source at [agent-tutorial-services](https://github.com/axisvela/agent-tutorial-services),
+revision `8b7820edbf9150b5b8c90fe73368a1bba8854186`. Its standalone backend CI
+[45032761254](https://github.com/axisvela/agent-tutorial-services/actions/runs/45032761254)
+passed. Local backend plus Python/TypeScript checks passed again (four test
+methods). The original demo repository remains private. The new Core full-client
+gate pins the public commit and needs no private credentials; results are not
+inferred from backend CI or from the earlier Java mock tests.
 
 | Area | Verified | Level | Limits |
 | --- | --- | --- | --- |

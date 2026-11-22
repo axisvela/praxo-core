@@ -43,9 +43,17 @@
 共四个测试方法通过（Python 源码模式，TypeScript 安装 npm `0.9.0`）。Java 编译和
 mock Agent/Web JUnit 已在 Linux CI
 [45031868787](https://github.com/axisvela/praxo-core/actions/runs/45031868787) 通过。
-后端仓库为私有：完整三语言集成被跳过，不是通过。之前 Core run `45031542641`
-在私有仓库检出时失败，未执行测试。后端 CI 未启动，不声称后端托管 Runner 验证。
+原后端仓库为私有：完整三语言集成被跳过，不是通过。之前 Core run `45031542641`
+在私有仓库检出时失败，未执行测试。原后端 CI 未启动。
 这些是维护者教学 fixture，不是独立采用、真实 Provider、公共服务、退款或持久事务证据。
+
+公开后端后续记录（2026-11-22）：已批准的教学子集作为 MIT 源码发布至
+[agent-tutorial-services](https://github.com/axisvela/agent-tutorial-services)，
+提交 `8b7820edbf9150b5b8c90fe73368a1bba8854186`。该仓库独立后端 CI
+[45032761254](https://github.com/axisvela/agent-tutorial-services/actions/runs/45032761254)
+通过，本地后端与 Python/TypeScript 客户端四个测试方法再次通过。原演示仓库保持私有。
+新的 Core 完整客户端门禁固定引用公开提交，不需要私有凭据；不能由后端 CI 或此前
+Java mock 测试推断完整集成结果。
 
 | 领域 | 已验证 | 级别 | 限制 |
 | --- | --- | --- | --- |

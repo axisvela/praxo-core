@@ -238,7 +238,7 @@ Turn the first run into one useful local application, such as:
   distinguish mechanism checks, Core integrations, application tutorials, and
   recorded runs. Source-file coverage alone does not establish a working path.
 - Build language-shaped application tutorials over shared synthetic business
-  services in `axisvela/demo-repository/shared-business-services`. Start with
+  services in the public MIT `axisvela/agent-tutorial-services` repository. Start with
   scoped order lookup and resolution drafts, then add Java enterprise orders,
   Python/C# service desks, PowerShell/Perl operations, COBOL batch review,
   Julia/R/Octave analysis, Lua host embedding, and Rust/Zig/C/C++ device scenarios
@@ -255,10 +255,10 @@ Turn the first run into one useful local application, such as:
   contract tests; local JVM verification is blocked, but compilation and
   mock-backed Agent/Web tests passed in Linux CI at `3c2063f9` (run
   `45031868787`). TypeScript now installs its own pinned tutorial dependency.
-  The shared backend repository is currently private; these slices require
-  authorized access. Default Java contract CI is independent of that repository;
-  the pinned full integration gate is manual and requires explicit read access.
-  That full integration gate was skipped in the cited run, not verified.
+  The teaching backend is now public; the original demo repository stays private.
+  Core CI pins public backend revision `8b7820e` for the full native-client gate,
+  without private credentials. That gate was skipped in the cited historical
+  run; publishing source does not retroactively verify it or establish adoption.
 - Validate one application-shaped prototype for a named consumer before
   expanding tutorials across SDKs.
 - Audit the existing MCP examples against their actual transports and commands;

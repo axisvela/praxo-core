@@ -13,17 +13,20 @@ mirror repositories. For the thirteen-theme, thirty-one-language matrix, see
 New domain application tutorials live in `language/<language>/Tutorial/`, as a
 sibling of `examples/`. Start with [Python order review](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/order-review)
 or [TypeScript order support](https://github.com/axisvela/praxo-core/tree/main/language/typescript/Tutorial/order-review).
-Both use the local synthetic service in `axisvela/demo-repository`; they are
+Both use the local synthetic service in
+[agent-tutorial-services](https://github.com/axisvela/agent-tutorial-services); they are
 initial deterministic slices, not completed enterprise Web applications.
 Existing examples and published documentation URLs remain unchanged.
-The shared backend repository is currently private: these domain slices require
-an authorized local checkout and are not yet a publicly reproducible path.
+The teaching backend is public MIT source and runs locally; no hosted business
+endpoint is provided. The original demo repository remains private.
 The [Java order review tutorial](https://github.com/axisvela/praxo-core/tree/main/language/java/Tutorial/order-review)
 adds a loopback HTTP entry point and a JUnit contract fixture. Its local runtime
 is blocked by this workstation's JVM launcher; Linux CI compilation and
 mock-backed Agent/Web tests passed at `3c2063f9` in
 [run 45031868787](https://github.com/axisvela/praxo-core/actions/runs/45031868787).
-The private business-service integration job was skipped, not passed.
+The private business-service integration job was skipped in that historical run.
+The current integration job uses a pinned public backend revision, without
+private credentials; its result is recorded separately.
 
 The catalog uses the depth labels from the
 [Language Coverage depth audit](language-coverage.md#depth-audit):

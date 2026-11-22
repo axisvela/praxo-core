@@ -167,7 +167,7 @@ PRAXO-CORE 继续定位为**可治理、可嵌入的 Agent 执行框架**。路�
 
 ## 阶段 2：完成真实原型
 
-按语言特点构建应用教程，复用 `axisvela/demo-repository/shared-business-services`
+按语言特点构建应用教程，复用公开 MIT 仓库 `axisvela/agent-tutorial-services`
 中的合成业务服务。先实现有资源范围的订单查询和处理草稿，再按验证结果增加 Java
 企业订单、Python/C# 服务台、PowerShell/Perl 运维、COBOL 批处理审阅、Julia/R/Octave
 分析、Lua 宿主嵌入以及 Rust/Zig/C/C++ 设备场景。业务 API 不进入 Core 或 `spec/`；
@@ -184,9 +184,9 @@ Java 的 `Tutorial/order-review/` 已加入 CLI、loopback Web 入口和 JUnit �
 本地 JVM 验证受阻，但 Linux CI 已在 `3c2063f9`（run `45031868787`）通过编译和
 mock Agent/Web 测试。TypeScript 教程已安装自身固定版本依赖。
 
-共享后端仓库当前为私有，需要授权访问；默认 Java 契约 CI 不依赖该仓库，固定版本的
-完整集成门禁改为需要显式读取权限的手动执行。
-上述运行中的完整集成门禁被跳过，尚未验证。
+教学后端现已公开，原演示仓库保持私有。Core CI 固定引用公开后端 `8b7820e` 执行完整
+原生客户端门禁，不需要私有凭据。上述历史运行中的完整集成门禁被跳过；公开源码不会
+追溯验证该门禁，也不等于采用证据。
 
 ### 开发者成果
 

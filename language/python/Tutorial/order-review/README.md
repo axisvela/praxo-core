@@ -6,13 +6,12 @@ order through HTTP and creates a deterministic resolution draft. It never
 changes the order or issues a refund. Recommendations are application rules;
 model text is not proof that the draft exists.
 
-Start the sibling demo repository's service in another terminal:
-
-The demo repository is currently private and requires authorized access. This
-slice is not yet a publicly reproducible tutorial or a publicly hosted service.
+Start the public teaching service in another terminal:
 
 ```bash
-python shared-business-services/service/orders.py
+git clone https://github.com/axisvela/agent-tutorial-services.git
+cd agent-tutorial-services
+python service/orders.py
 ```
 
 From this directory:
@@ -31,7 +30,9 @@ Optional live mode: set `PRAXO_BASE_URL`, `PRAXO_MODEL`, and `PRAXO_API_KEY` as
 needed, then run `python app.py --live`. Live mode has not been verified for this
 example. The business service uses `--base-url`, separate from the model URL.
 
-The service and cross-language tests live in
-`demo-repository/shared-business-services/tests/`. Drafts are process-local,
+The service and cross-language tests live in `agent-tutorial-services/tests/`.
+Core CI pins an immutable public service revision; no private repository access
+or cross-repository token is required. Public source is available, not a hosted
+service or independent reproduction result. Drafts are process-local,
 idempotent per tenant/order/key, and lost on restart. Tokens are public fixture
 credentials, not a production identity system. The service is loopback-only.

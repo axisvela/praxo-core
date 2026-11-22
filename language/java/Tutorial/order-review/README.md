@@ -8,17 +8,12 @@ order status. It does not use an LLM to decide a refund or perform business writ
 
 ## Start the Business Service
 
-From `axisvela/demo-repository` in a separate terminal:
-
-That repository is currently private; an authorized checkout is required. No
-public hosted backend is available. Java's default CI tests use their own local
-contract fixture and do not require access to the business service repository.
-The full cross-repository gate is manual: dispatch `ci-tutorials` with
-`run_shared_service=true` and an explicitly configured, read-only
-`DEMO_REPOSITORY_TOKEN`. Public pull requests never receive that credential.
+Start the public teaching backend in a separate terminal:
 
 ```bash
-python shared-business-services/service/orders.py
+git clone https://github.com/axisvela/agent-tutorial-services.git
+cd agent-tutorial-services
+python service/orders.py
 ```
 
 This serves synthetic order data at `http://127.0.0.1:8765`. Requests are checked
@@ -44,6 +39,10 @@ is claimed locally. Linux CI passed `mvn -B -q test` at Core `3c2063f9` in
 [run 45031868787](https://github.com/axisvela/praxo-core/actions/runs/45031868787).
 That verifies compilation and mock-backed Agent/Web tests, not the private
 business service or a live model. The full integration job was skipped.
+That historical run used a private backend. The backend is now published at
+`axisvela/agent-tutorial-services`; the current full integration job pins a
+public revision and runs without a private repository token. Its result is
+recorded separately from this mock-backed run. No public hosted endpoint exists.
 
 ## Web Entry
 
