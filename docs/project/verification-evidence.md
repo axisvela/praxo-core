@@ -112,8 +112,9 @@ success report, policy denial and simulated dependency failure. The report
 contained six rows, one missing amount, five complete rows, four regions, mean
 amount 118 and max score 0.95, with an empty `mutating_actions` list; an
 out-of-scope dataset was denied before any read (`reads=0`); simulated
-dependency failure exited nonzero after one read. Linux CI is configured but its
-result is not yet recorded. No arbitrary file/SQL/shell, package installation,
+dependency failure exited nonzero after one read. Linux CI
+[45039622807](https://github.com/axisvela/praxo-core/actions/runs/45039622807)
+also passed at `e89c9037`. No arbitrary file/SQL/shell, package installation,
 live model, causal claim, production pipeline or independent adoption is verified.
 
 | Area | Verified | Level | Limits |

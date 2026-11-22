@@ -59,8 +59,9 @@ The [R data-quality tutorial](https://github.com/axisvela/praxo-core/tree/main/l
 adds an analytics path: a fixed data frame, native R statistics and a structured
 report that packages tool-computed values. Policy denial and dependency-failure
 checks are included. It does not read arbitrary files, run SQL, execute shell,
-install packages or call a live model. Local R 4.6.1 tests passed; Linux CI is
-configured and pending.
+install packages or call a live model. Local R 4.6.1 tests passed, and Linux CI
+passed at `e89c9037` in
+[run 45039622807](https://github.com/axisvela/praxo-core/actions/runs/45039622807).
 
 The catalog uses the depth labels from the
 [Language Coverage depth audit](language-coverage.md#depth-audit):

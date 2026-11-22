@@ -47,7 +47,8 @@ C# Core 构建和全部四项源码模式检查，见
 [R 数据质量教程](https://github.com/axisvela/praxo-core/tree/main/language/r/Tutorial/data-quality)
 增加分析路径：固定数据框、原生 R 统计和结构化报告，报告只封装工具计算值。包含策略
 拒绝与依赖失败检查。它不读取任意文件、不执行 SQL/Shell、不安装包、不调用真实模型。
-本地 R 4.6.1 测试通过；Linux CI 已配置，结果待确认。
+本地 R 4.6.1 测试通过，Linux CI 也已在 `e89c9037` 的
+[run 45039622807](https://github.com/axisvela/praxo-core/actions/runs/45039622807) 通过。
 
 示例目录使用[语言覆盖矩阵](language-coverage.md)中的深度标签：
 

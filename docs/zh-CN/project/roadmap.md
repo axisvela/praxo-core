@@ -203,8 +203,9 @@ Perl 的 `Tutorial/log-triage/` 增加原生运维路径：固定 fixture 日志
 （run `45038008192`）通过。它不读取任意
 路径、不执行 Shell、不发送告警、不调用真实模型。
 R 的 `Tutorial/data-quality/` 通过原生 R Core 计算固定数据框统计并返回封装工具计算值的
-报告。本地 R 4.6.1 检查通过；Linux CI 已配置待确认。它不读取任意文件、不执行 SQL/Shell、
-不安装包、不调用真实模型。场景地图、当前状态、交付标准与后续
+报告。本地 R 4.6.1 检查通过，Linux CI 也已在 `e89c9037`（run `45039622807`）通过。
+它不读取任意文件、不执行 SQL/Shell、不安装包、不调用真实模型。场景地图、当前状态、
+交付标准与后续
 候选见 [Tutorial 整体规划](../getting-started/tutorial-plan.md)。
 
 ### 开发者成果
