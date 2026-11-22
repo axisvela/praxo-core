@@ -1,6 +1,6 @@
 # Embodied Integration Profile
 
-**Status: proposed design, updated 2026-11-21; AKROVELA is the selected pilot
+**Status: proposed design, updated 2026-11-22; AKROVELA is the selected pilot
 consumer; P1 and F5 local component evidence exists; E1-E8 not run.** No embodied
 runtime, reusable middleware adapter, new Core API or safety guarantee is
 introduced. Like PRAXOVELA, AKROVELA embeds PRAXO-CORE as a component of its own
@@ -28,8 +28,8 @@ AKROVELA is the selected pilot consumer and owns the product-side PRAXO-CORE
 embedding adapter. Like PRAXOVELA, AKROVELA embeds PRAXO-CORE as a component of
 its own product; the products retain different positioning and state. Core stays
 a product-neutral MIT kernel and does not acquire AKROVELA operation, product,
-Mission or safety state. AKROVELA is a `0.13.0` component release and still embeds
-PRAXO-CORE `v2.6.0`; DIDACTOVELA remains an unreleased `0.1.0` product. The
+Mission or safety state. AKROVELA is a `0.13.0` component release and embeds
+PRAXO-CORE `v2.10.0`; DIDACTOVELA remains an unreleased `0.1.0` product. The
 AKROVELA adapter and F5 local component evidence exist, but no accepted pilot run
 closes a governed/embodied gate. Selection does not replace retained execution
 paths.

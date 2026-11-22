@@ -1,9 +1,9 @@
 # Embodied Pilot Plan
 
-**Status:** proposed pilot plan, updated 2026-11-21. AKROVELA is the selected
+**Status:** proposed pilot plan, updated 2026-11-22. AKROVELA is the selected
 consumer; its maintainer and safety-owner selection is recorded. AKROVELA
-`0.13.0` contains a product-owned Core adapter, still embedding published
-PRAXO-CORE `v2.6.0`, and a locally verified deterministic P1 slice: exact-operation
+`0.13.0` contains a product-owned Core adapter, now embedding published
+PRAXO-CORE `v2.10.0`, and a locally verified deterministic P1 slice: exact-operation
 tools, governed runtime assembly, a PostgreSQL Run/reconciliation journal, public
 v1 operation/receipt contracts, and F5 local component scopes. The F5 records
 cover adapter cases and an API/PostgreSQL local-development scope with a simulated

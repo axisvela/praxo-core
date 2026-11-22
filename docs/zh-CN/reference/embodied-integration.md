@@ -1,6 +1,6 @@
 # Embodied Integration Profile
 
-**状态：2026-11-21 设计提案；AKROVELA 已选定为试点消费者，已有 P1 与 F5 本地组件证据，
+**状态：2026-11-22 设计提案；AKROVELA 已选定为试点消费者，已有 P1 与 F5 本地组件证据，
 E1-E8 未运行。** 不新增具身运行时、可复用中间件适配器、Core API 或安全保证。与 PRAXOVELA
 一样，AKROVELA 将 PRAXO-CORE 作为自身产品组件嵌入；Core 保持产品中立。本文细化
 [执行层次](execution-profiles.md)与 [Governed Execution Profile](governed-execution.md)，
@@ -20,7 +20,7 @@ Dora、Zenoh 适配器；独立消费者仍可使用 AxisVela 之外的产品。
 AKROVELA 已选定为试点消费者，并拥有产品侧 PRAXO-CORE 嵌入适配器。与 PRAXOVELA 一样，
 AKROVELA 将 PRAXO-CORE 作为自身产品组件嵌入；两者产品定位和状态不同。Core 保持产品中立的
 MIT 内核，不获取 AKROVELA 的操作、产品、Mission 或安全状态。AKROVELA 为 `0.13.0` 组件
-发布，仍嵌入 PRAXO-CORE `v2.6.0`；DIDACTOVELA 仍为未发布 `0.1.0` 产品。AKROVELA 适配器与
+发布，嵌入 PRAXO-CORE `v2.10.0`；DIDACTOVELA 仍为未发布 `0.1.0` 产品。AKROVELA 适配器与
 F5 本地组件证据已存在，但没有已接受的试点运行通过治理/具身门禁。选定不替换已有执行路径。
 KINETOVELA Mission、PEIRAVELA 实验身份与节点尝试、学习来源保持分离。
 

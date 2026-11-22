@@ -1,7 +1,7 @@
 # 具身试点计划
 
-**状态：** 试点计划提案，2026-11-21 更新。AKROVELA 已选定为消费者，维护者和安全负责人选择
-已记录。AKROVELA `0.13.0` 已有产品侧 Core 适配器（仍嵌入已发布 PRAXO-CORE `v2.6.0`）和本地
+**状态：** 试点计划提案，2026-11-22 更新。AKROVELA 已选定为消费者，维护者和安全负责人选择
+已记录。AKROVELA `0.13.0` 已有产品侧 Core 适配器（嵌入已发布 PRAXO-CORE `v2.10.0`）和本地
 验证的确定性 P1 切片：精确操作工具、治理运行时装配、PostgreSQL Run/对账日志、公开 v1 操作/
 回执契约，以及 F5 本地组件范围。F5 记录覆盖适配器用例和使用模拟观测源、`simulated` ROS 2
 bridge 后端的 API/PostgreSQL 本地开发范围，并设置 `stage_3_4_p2_acceptance=not_claimed`。
