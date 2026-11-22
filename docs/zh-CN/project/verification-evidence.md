@@ -21,12 +21,21 @@
 
 ## 当前证据
 
+证据按领域分组；每一行只对其注明的 revision、产物和日期负责。
+
+### Core、执行与真实模型
+
 | 领域 | 已验证 | 级别 | 限制 |
 | --- | --- | --- | --- |
 | Go Core | Tests、vet、build、API snapshot、race、fuzz 和 module-security CI；当前 main 与发布工作流检查；`v2.10.0` 为当前版本（2026-11-20）；`current-go-consumer` CI 任务从 Registry 安装推荐版本并运行确定性 allow/deny 检查；`v2.6.0` 可从公共 module proxy 在干净外部模块解析；另行记录的干净外部模块安装与最小 agent smoke 覆盖 `v2.5.2` | 契约/单元 + CI + 本地集成 | JSON Schema 和 plugin manifest fuzz 曾在 10s deadline 失败、rerun 通过；慢输入风险仍在调查；tag 提交的 `current-go-consumer` CI 任务从 module proxy 安装 `v2.9.0` 并运行确定性 allow/deny 检查；pkg.go.dev 于 2026-11-16 显示 `v2.9.0`；安装证据仍由 CI 驱动，不是独立非作者消费者 |
 | Live-model Ollama 交叉验证 | Go `qwen3.5:4b` 与 TypeScript/Python `qwen2.5:0.5b` 各完成一次本地 Ollama 的 `get_time` 工具调用路径。Python 使用注入的 `http.client` transport，因为本机标准 `urllib` 挂起 | 本地集成 | 一个本地端点/平台；Python transport 是本地 workaround，不是文档化 adapter 路径；托管端点、计费调用和独立复现未测试 |
 | Go 长时操作配方 | 文件存储覆盖幂等提交、响应丢失、子进程重启、独立 verifier、带 lease 过期/续期/撤销的 fencing、rename 前后确定性故障注入、损坏状态失败关闭、带 health/readiness、基础 metrics、示例 Prometheus scrape/留存/告警配置（仅配置校验；无 live collector）、环境变量配置、file-based token/secret 轮换（签发属外部）与优雅退出的独立服务二进制、可配置 file/SQLite/Postgres lease 后端与 reload-modify-save（SQLite 已验证；Postgres gated 测试需 `PRAXO_POSTGRES_DSN`，本环境未验证）、rename 边界前后进程级崩溃、gated 100 提交负载/故障测试与干净检出复现脚本、使用自己 token/密钥的独立 verifier 二进制，以及无 lease 时的并发写入者边界测试 | 契约/单元 + 本地集成 | L4 应用配方；没有生产部署、live collector/留存/告警、OS 级断电、生产 lease 协调、可信时钟或 exactly-once |
 | 代表性端到端链路 | Go `examples/representative-chain`：真实 Ollama `qwen3.5:4b` → MCP `record` 工具 → 最终参数策略 → 受治理子代理委派 → OTel span 与 loopback Harmovela 事件 → 编辑后拒绝且零效果。2026-11-17 记录：输出 `DONE`、效果 parent=1/child=1、子代理调用 2 次、10 个 span、10 个事件、拒绝效果 0 | 本地集成 | 一个本地模型/平台；内存 MCP 与 loopback Harmovela；不是远程或生产部署；没有独立复现、负载或故障测试 |
+
+### 发布包、身份示例与消费者运行
+
+| 领域 | 已验证 | 级别 | 限制 |
+| --- | --- | --- | --- |
 | Python 已发布包 | PyPI 已从源码标签 `python/v0.10.0` 发布 `praxo-core==0.10.0`。Docs CI 发布升级检查安装 `0.2.4`，运行未改动消费者与治理检查，升级到 `0.10.0` 后再次通过。历史本地检查覆盖 `0.3.2` 和 `0.2.4` | Registry 发布 + CI 升级 | 一个版本对；未记录 CI 之外的 `0.10.0` 消费者安装；一个平台/工具链；不是独立或非作者消费者；不含 provider 或生产证据 |
 | TypeScript 已发布包 | npm `@axisvela/praxo-core@0.9.0` 已从源码标签 `typescript/v0.9.0` 发布。Docs CI 发布升级检查将未改动消费者从 `0.1.5` 移到 `0.9.0` 并通过治理检查。示例锁文件已改用 registry `0.9.0` integrity；此前沿用 `0.8.1` integrity 导致 `npm ci` 报 EINTEGRITY | Registry 发布 + CI 升级 + 全新锁文件安装 | 一个版本对；Docs CI 安装由 CI 驱动，不是独立消费者；一个平台；不含 provider 或生产证据 |
 | Rust 已发布 crate | crates.io `praxo-core==0.10.0` 已从源码标签 `rust/v0.10.0` 发布。发布工作流在发布前运行 `cargo test`、conformance、API snapshot 和 package dry-run。已记录的本地 registry 安装 smoke 覆盖 `0.1.4` | Registry 发布 + 发布工作流门禁 | 未记录 `0.10.0` 的发布后消费者安装；一个平台；不是独立消费者；不含 provider 或生产证据 |
@@ -53,7 +62,13 @@ uby language/ruby/examples/service/service.rb 在 Ruby 3.4.12 下通过（2026-1
 | Java 已发布包 | Maven Central `com.axisvela:praxo-core:0.11.0` 已从源码标签 `java/v0.11.0` 发布，包含 sources、javadoc 和 GPG 签名。早先 tag 推送只运行 build-only，因此 consumer pin 在 publish 前移动时未被发现；docs CI 全新消费者安装已解析 `0.11.0` 并通过 starter/治理检查（run `44731906136`） | Registry 发布 + Central 校验 + 全新消费者安装 | Hosted Docs CI 通过；不是独立消费者；本机 Maven/JVM 执行挂起；一个平台；不含 provider 或生产证据 |
 | 扩展消费者 Starter（Ruby/PHP/Elixir/Lua） | `examples/consumer-ruby`、`consumer-php`、`consumer-elixir`、`consumer-lua` 的确定性允许/拒绝 Starter 在源码模式本地通过。已记录的 registry 安装检查覆盖 RubyGems `praxo-core==0.4.1`、Hex `praxo_core==0.4.1`、LuaRocks `praxo-core==0.4.1-1` 和 Composer `axisvela/praxo-core==0.4.1`；这些是历史版本。当前发布版本见 Registry Publication Status | 契约/单元 + 历史本地 registry 安装 | 扩展语言 Starter；不含治理负向矩阵；一个平台；不含 provider、身份、隔离或生产证据 |
 | 消费者测试模板 fixture 运行 | 2026-11-22 对维护者自有消费者 fixture 运行模板命令：Go `go test -mod=readonly -run Governed ./...` 通过；Python `test_governed.py` 在 `PYTHONPATH=language/python` 下 5/5 通过；TypeScript `npm test` 9/9 通过；C# 输出 allow/deny；Rust 在 `CARGO_HTTP_CHECK_REVOKE=false` 下输出 allow/deny；Ruby、PHP、Elixir、Lua 分别打印通过信息（Lua 需从仓库根目录运行）；Java `mvn -q test` 在本地 JVM 启动器上 180 秒内未完成 | 契约/单元 + 本地 fixture 运行 | 维护者自有 fixture，不是外部消费者；Python/Ruby/Elixir/Lua 使用源码或本地包路径；Java 使用 CI 证据而非本次本地运行；Rust 需要本地 TLS 撤销检查变通；一个平台和工具链；不含 provider、身份、隔离或生产证据 |
-| C#、Rust、Java live-model 本地尝试 | 2026-11-22 本地 Ollama 端点对 Python `http.client` 的 OpenAI-compatible 请求在 3.37 秒内返回。C# live-model 示例在 180 秒内未返回；Rust live-model 的 `cargo run` 在 180 秒内未完成依赖解析与构建；本地 Java live-model 因 JVM 启动器挂起未运行。C# 示例现在对 loopback URL 禁用代理，Rust live-model 依赖已更新为 `praxo-core==0.10.0` | 本地尝试 / 阻塞 | 未记录成功的 C#/Rust/Java live-model 运行；这些是本地工具链和 HTTP 客户端限制，不是 Provider 证据；Go、Python、TypeScript 的本地 Ollama 运行仍是已记录的 live 证据 |
+| Python 结构化输出应用 | `language/python/examples/structured-output-app` 将文本目录转换为受校验 JSON-lines 结果，单独记录被拒绝的模型输出，并跳过已成功的输入。2026-11-22 在源码检出中设置 `PYTHONPATH=language/python` 记录：首轮 `processed=1 skipped=0 failed=1`，续跑 `processed=0 skipped=1 failed=1`；`test_app.py` 2/2 通过；示例已加入 `ci-examples` | 契约/单元 + 本地应用运行 | 维护者 fixture/源码模式；默认确定性模型；JSON-lines 文件不是数据库、队列或 exactly-once 账本；不含真实端点、外部消费者或生产证据 |
+| C#、Rust、Java live-model 本地尝试 | 2026-11-22 本地 Ollama 端点对 Python `http.client` 的 OpenAI-compatible 请求在 3.37 秒内返回，最小 C# `HttpClient` 请求以及使用 OpenAI-compatible Adapter 的 C# Agent 对本地 mock 通过。完整 C# live-model 可执行文件在当前 shell 未返回；Rust live-model 的 `cargo run` 在 180 秒内未完成依赖解析与构建；本地 Java live-model 因 JVM 启动器挂起未运行。C# 示例现在对 loopback URL 禁用代理，Rust live-model 依赖已更新为 `praxo-core==0.10.0` | 本地尝试 / 阻塞 | 未记录成功的完整 C#/Rust/Java live-model 运行；这些是本地工具链和进程执行环境限制，不是 Provider 证据；Go、Python、TypeScript 的本地 Ollama 运行仍是已记录的 live 证据 |
+
+### 跨语言行为与集成安全
+
+| 领域 | 已验证 | 级别 | 限制 |
+| --- | --- | --- | --- |
 | 跨语言委派治理 | 全部十六种 wired 语言以及 Perl、V、Nim、Dart、Julia、D、OCaml、Haskell、Zig、MATLAB/Octave（共享实现）、Delphi / Free Pascal 都有应用级负向检查，覆盖子范围收窄、父子策略组合、兄弟预算、深度/子任务限制、取消后零效果和最终参数重授权。2026-11-17 记录：Go/Python/TypeScript/Rust/R/PHP/Ruby/Elixir/Erlang/Lua 各 6/6；C 16/16 ctest；C++ 7/7 ctest；COBOL 全量套件含 6 个治理用例；Fortran 直接运行 23 项检查；C# 通过 ProjectReference 6/6；Java 仅编译；Perl/V/Nim/Dart/Julia/D/OCaml/Haskell/Zig/MATLAB-Octave/Delphi 各 6/6 | 契约/单元 + 本地集成 | 应用级示例，不是 Core 强制继承；Fortran 全量门禁受本机可执行文件删除阻塞，Java 运行时受 JVM 挂起阻塞；MATLAB 证据仅限 GNU Octave；Delphi 证据为 Free Pascal 3.2.2；无独立复现或生产证据 |
 | 跨语言 agent 行为 | 全部十六个已接入语言在源码中通过二十个授权、生命周期、取消、输入校验、调用上限、并行工具、run 隔离、PII、checkpoint、容量、SSE 截断、流失败和 HITL 决策场景。agent-capable 语言使用场景级或 self-test 覆盖，扩展语言使用原生套件覆盖；COBOL、Lua、PHP 和 Fortran 的并行工具委托给调用方提供的批处理回调。其他实现属于 optional。`b6218e5` 的 clean-tree CI 报告记录 320 passed、0 unsupported、无失败 | 场景测试 + CI | 十六个已接入语言在源码中均达到 20/20；部分扩展行为是套件级覆盖，失败不能定位到具体场景；`4ffd83b` 的本地报告是历史证据，不是当前证据；不是吞吐/压力测试，也不是完整功能对齐、provider、sandbox 或生产证据 |
 | 受治理工作区 | Policy 必需配置、最终参数授权、单次审批、审批后修改、排队撤销、依赖失败关闭 | 契约/单元 | 示例级契约；不是 Core Profile、可信身份服务或持久审批存储 |
@@ -63,8 +78,18 @@ uby language/ruby/examples/service/service.rb 在 Ruby 3.4.12 下通过（2026-1
 | OpenTelemetry | 可运行内存示例生成 `run.started`、`tool.call`、`run.completed`；allowlist 排除工具参数/结果 | 示例 + 单元 | 未验证 collector、OTLP 后端、采样、保留或生产遥测 |
 | A2A 互操作 | Google ADK 消费已发布 Core `v2.5.1` A2A，无本地 Core replace；成功、拒绝、失败、超时、认证、TLS、跨源和并发 fixture | 本地集成 | Loopback 确定性 fixture，不是部署 peer 或生产负载 |
 | Agent IAM 契约 | Direct 与 gateway 形状的 Agent IAM 示例对契约 fake；凭证时间窗、key、签名和主体字段检查 | 契约/单元 | NOMIVELA/EIDOVELA/AEGIVELA 响应为 fake；demo 没有 proof 重放缓存或请求体绑定 gateway assertion |
+
+### 编程 Agent 与采用
+
+| 领域 | 已验证 | 级别 | 限制 |
+| --- | --- | --- | --- |
 | 编程 Agent Skill 发现 | Claude Code `2.1.196` 在临时 skills 目录插件中安装 `agent-skills/praxo-integration`；`plugin list` 显示已加载，`plugin details` 列出 Skill 组件（2026-11-08，`bdd36d7`；issue #15） | 本地结构检查 | 仅该工具和平台；该 CLI 未执行模型任务或发布包集成；不是采用证据 |
 | 编程 Agent Skill 任务 | opencode `1.18.18` 从项目本地 `.opencode/skills/praxo-integration/SKILL.md` 发现 `agent-skills/praxo-integration`，并使用已发布 PyPI `praxo-core==0.3.2`、显式工具范围与 allow/deny 测试完成确定性 Python 任务（3/3 通过；模型 `deepseek/deepseek-flash`；Python 3.14.6；2026-11-08，`7004a08`） | 本地结构检查 + 本地任务执行 | 仅一个工具、一个任务、一个平台；首次通过且无需修复；未覆盖治理负向矩阵、live 模型、真实身份、持久审批、效果提交、exactly-once 或隔离；不是采用证据 |
+
+### 产品与具身证据
+
+| 领域 | 已验证 | 级别 | 限制 |
+| --- | --- | --- | --- |
 | AKROVELA 嵌入 PRAXO-CORE | AKROVELA 通过产品侧适配器嵌入已发布 PRAXO-CORE `v2.10.0`：精确操作工具、强制 Policy、受限预算、脱敏遥测与 PostgreSQL Run/对账日志。AKROVELA 仓库记录使用测试模型和本地 PostgreSQL 的确定性 P1 切片（`b5e5da9`，2026-11-08）、F5 本地 API/PostgreSQL 仿真（`a5e8e1d`，2026-11-22）与 E1-E8 确定性/本地组件矩阵（`f8fd4d7`，2026-11-22）。F5 运行 6/6 用例通过，重复提交保持幂等、scope 不匹配返回 `403`、API 终态重启保留 receipt，`full_api_e2e=local_dev_passed`、`database_receipt_durability=terminal_restart_verified`、`mid_execution_crash_recovery=verified`；`stage_3_4_p2_acceptance=not_claimed`。E1-E8 矩阵通过全部八项要求；这不是 P2 验收。G1-G8 确定性/本地组件矩阵在 `907b1eb`（2026-11-22）映射 46 个测试，全部通过，包括 G2 未暴露工具拒绝与 G6 装配、压缩、offload、恢复；G2/G6 仿真不适用于 F5 直接操作 API，因此不声称完整 P2 验收。产品已于 2026-11-22 在 `9ac0e53` 从 Core `v2.6.0` 升级到 `v2.10.0`，并在 `054e98a` 记录验证；`go build ./...`、`go vet ./...` 与 `go test ./...` 通过，包括针对一次性本地 PostgreSQL 17 数据库的 PostgreSQL-gated recorder/runtime 测试。 | 本地集成（产品仓）；组件/fixture 范围 | 没有生产模型 provider、Agent HTTP 端点、真实 ROS 2/Gazebo/Linux 执行、硬件效果、独立观测源/验证者、live KINETOVELA 集成或 E1-E8 试点验收；F5 API 运行使用模拟 bridge/source 与一次性本地数据库；E1-E8 与 G1-G8 矩阵是确定性/本地组件证据，不是 P2 仿真验收；G1-G8 的 G2/G6 仿真不适用；产品侧证据，不是 Core 验收或独立采用 |
 | Bridge 召回面 | 对 `4bcb39c2`（2026-11-21）的 `cmd/praxo-bridge` 与 `internal/bridge` 源码审计：`run` 与 `event stream` 将请求 prompt 直接传给 `agent.Run`；未发现记忆构造、召回注入、system 角色提升或会话消息存储，`tool list` 返回空列表 | 契约/源码审计 | 仅源码审计；没有 live provider 或端到端 Bridge 记忆测试；不证明未来变更、其他工具或 provider 侧行为中不存在 |
 | 集成恢复 | 真实本地 Symbivela、Ontovela、Rheovela、Orchadyn、Praxovela、LIMENORA 和 integration-domain；8 步、5 产品、4 gates、13 证据、11/11 报告检查；preserve/verify 拒绝和 silent-rerun 拒绝 | 本地集成 | 可丢弃本地数据库和固定 ID；没有生产、网络分区、并发负载、独立复现或部署验证 |
