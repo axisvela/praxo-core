@@ -197,7 +197,10 @@ C# 已有本地验证的 ASP.NET Core 服务台教程，包含固定订单路由
 PowerShell 的 `Tutorial/windows-diagnostics/` 通过共享 C# Core 增加固定只读 Windows
 服务/磁盘检查。本地 PowerShell 7.7.0 测试 4/4 通过，托管 Windows CI 也已在
 `5afe6e35`（run `45036962205`）通过 C# Core 构建和全部四项源码模式检查。它不提供
-修复、远程主机、任意 Shell 命令或真实模型路径。场景地图、当前状态、交付标准与后续
+修复、远程主机、任意 Shell 命令或真实模型路径。
+Perl 的 `Tutorial/log-triage/` 增加原生运维路径：固定 fixture 日志、严重级别报告、
+策略拒绝和依赖失败。本地 Perl 5.40.3 检查通过；Linux CI 已配置待确认。它不读取任意
+路径、不执行 Shell、不发送告警、不调用真实模型。场景地图、当前状态、交付标准与后续
 候选见 [Tutorial 整体规划](../getting-started/tutorial-plan.md)。
 
 ### 开发者成果

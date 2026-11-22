@@ -270,7 +270,11 @@ Turn the first run into one useful local application, such as:
   service/disk checks through the shared C# Core. Local PowerShell 7.7.0 tests
   pass 4/4, and hosted Windows CI passed the C# Core build plus all four
   source-mode checks at `5afe6e35` (run `45036962205`). It supports no repairs,
-  remote hosts, arbitrary shell commands or live model path. See the
+  remote hosts, arbitrary shell commands or live model path.
+  Perl's `Tutorial/log-triage/` adds a native operations path with a fixed fixture
+  log, severity report, policy denial and dependency failure. Local Perl 5.40.3
+  checks pass; Linux CI is configured and pending. It does not read arbitrary
+  paths, execute shell, deliver alerts or call a live model. See the
   [Tutorial Plan](../getting-started/tutorial-plan.md) for the scenario map,
   current status, delivery standard and next candidates.
 - Validate one application-shaped prototype for a named consumer before

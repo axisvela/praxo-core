@@ -58,7 +58,8 @@ when its tutorial has runnable commands, tests, and recorded evidence.
 | Java order review | Native Core, JUnit, loopback Web, real-service CLI | Mock/Web JUnit and real-service CLI passed in Linux CI | Java Web-to-real-backend and live model not verified |
 | C# order service desk | ASP.NET Core, native Core, CLI and Web | Self-tests plus real-service CLI and Web in Linux CI | Deterministic model; no production identity |
 | PowerShell Windows diagnostics | Shared C# Core through the module | Local Windows tests and hosted Windows CI | No Gallery install, repair, remote host or live model |
-| Perl, COBOL, R, Julia, Octave, Lua, Rust, Zig, C, C++ | Not implemented as Tutorial entries | Not run | Candidate paths only |
+| Perl log triage | Native Perl Core, fixed fixture log, severity report | Local Perl 5.40.3 tests; Linux CI configured and pending | No arbitrary path, shell, alert delivery or live model |
+| COBOL, R, Julia, Octave, Lua, Rust, Zig, C, C++ | Not implemented as Tutorial entries | Not run | Candidate paths only |
 
 See [Verification Evidence](../project/verification-evidence.md) for exact run
 IDs and scope. "Passed in CI" does not mean production readiness, independent
@@ -97,12 +98,11 @@ not in `pkg/...` or `spec/`.
 
 ## Next Work
 
-1. Implement Perl log/batch inspection with fixed parsing and report tools.
-2. Add an analytics path (R or Julia) that separates computed evidence from model
+1. Add an analytics path (R or Julia) that separates computed evidence from model
    narrative.
-3. Reuse the COBOL batch exception example rather than creating a new bank model.
-4. Add device tutorials only when a concrete runtime and transport contract exist.
-5. Turn each verified tutorial into a consumer test-authorized path, not just a
+2. Reuse the COBOL batch exception example rather than creating a new bank model.
+3. Add device tutorials only when a concrete runtime and transport contract exist.
+4. Turn each verified tutorial into a consumer test-authorized path, not just a
    maintainer demo.
 
 Language count is not the goal. Fewer complete, differentiated paths are more

@@ -98,6 +98,15 @@ checks, including local service/disk reads. No Gallery install, live model,
 remote host, repair, administrator operation, production monitoring or independent
 adoption is verified.
 
+Perl log-triage tutorial (2026-11-22): local Perl 5.40.3 in source mode passed
+the success report, policy denial and simulated dependency failure. Success read
+the fixed fixture once and reported two errors, one warning and two info lines
+with an empty `mutating_actions` list; the out-of-scope log was denied before any
+read (`reads=0`); simulated dependency failure exited nonzero after one read.
+Linux CI is configured but its result is not yet recorded. No arbitrary path,
+shell execution, alert delivery, live model, production log pipeline or
+independent adoption is verified.
+
 | Area | Verified | Level | Limits |
 | --- | --- | --- | --- |
 | Python published package | PyPI `praxo-core==0.10.0` is published from source tag `python/v0.10.0`. The docs CI published-upgrade check installed `0.2.4`, ran the unchanged consumer and governed checks, upgraded to `0.10.0`, and reran the suite successfully. Historical local checks cover `0.3.2` and `0.2.4` | Registry publication + CI upgrade | One version pair; a post-publication consumer install outside CI for `0.10.0` is not recorded here; one platform/toolchain; not an independent or non-author consumer; no provider or production evidence |

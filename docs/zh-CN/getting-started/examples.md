@@ -38,6 +38,11 @@ Windows PowerShell 7.7.0 本地测试 4/4 通过；托管 Windows CI 也已在 `
 C# Core 构建和全部四项源码模式检查，见
 [run 45036962205](https://github.com/axisvela/praxo-core/actions/runs/45036962205)。
 
+[Perl 日志巡检教程](https://github.com/axisvela/praxo-core/tree/main/language/perl/Tutorial/log-triage)
+增加原生 Perl 运维路径：固定 fixture 日志、严重级别统计和结构化报告，包含策略拒绝与
+依赖失败检查。它不读取任意路径、不执行 Shell 命令、不发送告警、不调用真实模型。
+本地 Perl 5.40.3 测试通过；Linux CI 已配置，结果待确认。
+
 示例目录使用[语言覆盖矩阵](language-coverage.md)中的深度标签：
 
 | 深度 | 含义 |
@@ -66,6 +71,7 @@ C# Core 构建和全部四项源码模式检查，见
 | 校验结构化输出 | [`language/python/examples/structured-output`](https://github.com/axisvela/praxo-core/tree/main/language/python/examples/structured-output), [`language/typescript/examples/structured-output`](https://github.com/axisvela/praxo-core/tree/main/language/typescript/examples/structured-output), [`language/csharp/examples/structured-output`](https://github.com/axisvela/praxo-core/tree/main/language/csharp/examples/structured-output), [`language/rust/examples/structured-output`](https://github.com/axisvela/praxo-core/tree/main/language/rust/examples/structured-output), [`language/java/examples/structured-output`](https://github.com/axisvela/praxo-core/tree/main/language/java/examples/structured-output), [`language/ruby/examples/structured-output`](https://github.com/axisvela/praxo-core/tree/main/language/ruby/examples/structured-output), [`language/php/examples/structured-output`](https://github.com/axisvela/praxo-core/tree/main/language/php/examples/structured-output), [`language/c/examples/structured-output`](https://github.com/axisvela/praxo-core/tree/main/language/c/examples/structured-output), [`language/cpp/examples/structured-output`](https://github.com/axisvela/praxo-core/tree/main/language/cpp/examples/structured-output), [`language/fortran/examples/structured-output`](https://github.com/axisvela/praxo-core/tree/main/language/fortran/examples/structured-output), [`language/elixir/examples/structured-output`](https://github.com/axisvela/praxo-core/tree/main/language/elixir/examples/structured-output), [`language/erlang/examples/structured-output`](https://github.com/axisvela/praxo-core/tree/main/language/erlang/examples/structured-output), [`language/lua/examples/structured-output`](https://github.com/axisvela/praxo-core/tree/main/language/lua/examples/structured-output), [`language/r/examples/structured-output`](https://github.com/axisvela/praxo-core/tree/main/language/r/examples/structured-output), [`language/cobol/examples/structured-output`](https://github.com/axisvela/praxo-core/tree/main/language/cobol/examples/structured-output) | JSON Schema 校验；接受合法输出并拒绝非法输出 |
 | 构建 Workspace Agent | [Workspace Agent 教程](../guides/workspace-agent-tutorial.md) | 使用发布包的只读 Go 应用 |
 | 只读诊断 Windows 服务与磁盘 | [PowerShell Windows 诊断](https://github.com/axisvela/praxo-core/tree/main/language/powershell/Tutorial/windows-diagnostics) | 共享 C# Core 上的固定只读工具；不修复、不访问远程主机、不执行任意 Shell |
+| 巡检合成日志并生成报告 | [Perl 日志巡检](https://github.com/axisvela/praxo-core/tree/main/language/perl/Tutorial/log-triage) | 原生 Perl Core、固定 fixture 日志、严重级别统计、拒绝与依赖失败检查 |
 | 嵌入应用 | [应用嵌入清单](../guides/application-integration-checklist.md) | 只读、有副作用、高风险部署的分档清单 |
 | 通过 HTTP 运行 Core | [HTTP 嵌入服务教程](../guides/embedded-service-tutorial.md)、[语言覆盖](language-coverage.md) | Go、Python、TypeScript、Java、C# 和 Rust 提供可执行 HTTP 服务；其余已声明语言提供传输中立 Handler 示例 |
 | 查看 Go 参考应用 | [`examples/reference`](https://github.com/axisvela/praxo-core/tree/main/examples/reference) | Go 参考应用 |

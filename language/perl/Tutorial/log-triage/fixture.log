@@ -1,0 +1,5 @@
+2026-11-22T10:00:00Z INFO worker started
+2026-11-22T10:00:03Z WARN queue depth 80
+2026-11-22T10:00:05Z ERROR payment timeout
+2026-11-22T10:00:06Z ERROR batch failed
+2026-11-22T10:00:08Z INFO retry scheduled

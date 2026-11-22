@@ -38,6 +38,13 @@ jobs:
       - run: dotnet build language/csharp/Praxo.Core/Praxo.Core.csproj -c Debug --nologo
       - run: pwsh -NoProfile -File language/powershell/Tutorial/windows-diagnostics/tests.ps1 -SourceMode -IncludeLocalMachine
 
+  perl-log-triage:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - run: perl language/perl/Tutorial/log-triage/triage.pl --test
+
   java-order-review:
     runs-on: ubuntu-latest
     timeout-minutes: 10

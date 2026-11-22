@@ -48,6 +48,12 @@ Local Windows PowerShell 7.7.0 tests passed 4/4. Hosted Windows CI also passed
 the C# Core build and all four source-mode checks at `5afe6e35` in
 [run 45036962205](https://github.com/axisvela/praxo-core/actions/runs/45036962205).
 
+The [Perl log triage tutorial](https://github.com/axisvela/praxo-core/tree/main/language/perl/Tutorial/log-triage)
+adds a native Perl operations path: one fixed fixture log, severity counts and a
+structured report, with policy denial and dependency-failure checks. It does not
+read arbitrary paths, execute shell commands, send alerts or call a live model.
+Local Perl 5.40.3 tests passed; Linux CI is configured and pending.
+
 The catalog uses the depth labels from the
 [Language Coverage depth audit](language-coverage.md#depth-audit):
 
@@ -79,6 +85,7 @@ for mechanism-only themes and the
 | Validate structured output | [Language Coverage](language-coverage.md), [Structured Output tutorial](../guides/structured-output-tutorial.md) | All 31 declared languages under `language/<language>/examples/structured-output`; valid output accepted and invalid output rejected |
 | Build a workspace agent | [Workspace Agent tutorial](../guides/workspace-agent-tutorial.md) | Read-only published-package Go application |
 | Diagnose a Windows service and disk read-only | [PowerShell Windows diagnostics](https://github.com/axisvela/praxo-core/tree/main/language/powershell/Tutorial/windows-diagnostics) | Fixed read-only tools over the shared C# Core; no repairs, remote hosts, or arbitrary shell commands |
+| Triage a synthetic log and produce a report | [Perl log triage](https://github.com/axisvela/praxo-core/tree/main/language/perl/Tutorial/log-triage) | Native Perl Core, fixed fixture log, severity counts, denial and dependency-failure checks |
 | Embed in an application | [Application Integration Checklist](../guides/application-integration-checklist.md) | Risk-tiered checklist for read-only, side-effecting, and high-risk deployments |
 | Run Core behind HTTP | [Embedded HTTP service tutorial](../guides/embedded-service-tutorial.md), [Language Coverage](language-coverage.md) | Executable HTTP servers for Go, Python, TypeScript, Java, C#, and Rust; transport-neutral handler examples for every other declared language |
 | Explore the Go reference | [`examples/reference`](https://github.com/axisvela/praxo-core/tree/main/examples/reference) | Go reference application |

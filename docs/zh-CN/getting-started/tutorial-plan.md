@@ -53,7 +53,8 @@ Web 服务、运维 Shell、分析工作流、宿主嵌入或受约束设备。�
 | Java 订单审阅 | 原生 Core、JUnit、loopback Web、真实服务 CLI | Mock/Web JUnit 与真实服务 CLI 已在 Linux CI 通过 | Java Web 对真实后端与真实模型未验证 |
 | C# 订单服务台 | ASP.NET Core、原生 Core、CLI 与 Web | 自测及真实服务 CLI/Web 已在 Linux CI 通过 | 确定性模型；无生产身份 |
 | PowerShell Windows 诊断 | 通过模块复用共享 C# Core | 本地 Windows 测试与托管 Windows CI | 无 Gallery 安装、修复、远程主机或真实模型 |
-| Perl、COBOL、R、Julia、Octave、Lua、Rust、Zig、C、C++ | 尚未实现为 Tutorial | 未运行 | 仅为候选路径 |
+| Perl 日志巡检 | 原生 Perl Core、固定 fixture 日志、严重级别报告 | 本地 Perl 5.40.3 测试；Linux CI 已配置待确认 | 无任意路径、Shell、告警发送或真实模型 |
+| COBOL、R、Julia、Octave、Lua、Rust、Zig、C、C++ | 尚未实现为 Tutorial | 未运行 | 仅为候选路径 |
 
 准确运行 ID 与范围见[验证证据](../project/verification-evidence.md)。“CI 通过”不等于
 生产就绪、独立采用或公共托管业务服务。
@@ -86,10 +87,9 @@ Web 服务、运维 Shell、分析工作流、宿主嵌入或受约束设备。�
 
 ## 下一步
 
-1. 实现 Perl 日志/批处理巡检，使用固定解析与报告工具。
-2. 增加一条分析路径（R 或 Julia），把计算结果与模型叙述分开。
-3. 复用 COBOL 批处理异常示例，不另建银行模型。
-4. 只有存在具体运行时与 transport 契约时才增加设备教程。
-5. 把已验证教程转成消费者授权测试路径，而不只是维护者演示。
+1. 增加一条分析路径（R 或 Julia），把计算结果与模型叙述分开。
+2. 复用 COBOL 批处理异常示例，不另建银行模型。
+3. 只有存在具体运行时与 transport 契约时才增加设备教程。
+4. 把已验证教程转成消费者授权测试路径，而不只是维护者演示。
 
 语言数量不是目标。少量完整、差异化路径比大量孤立机制检查更有价值。
