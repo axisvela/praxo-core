@@ -16,6 +16,8 @@ or [TypeScript order support](https://github.com/axisvela/praxo-core/tree/main/l
 Both use the local synthetic service in `axisvela/demo-repository`; they are
 initial deterministic slices, not completed enterprise Web applications.
 Existing examples and published documentation URLs remain unchanged.
+The shared backend repository is currently private: these domain slices require
+an authorized local checkout and are not yet a publicly reproducible path.
 The [Java order review tutorial](https://github.com/axisvela/praxo-core/tree/main/language/java/Tutorial/order-review)
 adds a loopback HTTP entry point and a JUnit contract fixture. Its local runtime
 is blocked by this workstation's JVM launcher; CI verification is pending.

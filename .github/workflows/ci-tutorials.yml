@@ -11,21 +11,46 @@ on:
       - 'language/*/Tutorial/**'
       - '.github/workflows/ci-tutorials.yml'
   workflow_dispatch:
+    inputs:
+      run_shared_service:
+        description: Run integration against the private demo repository (requires DEMO_REPOSITORY_TOKEN)
+        required: false
+        type: boolean
+        default: false
 
 permissions:
   contents: read
 
 jobs:
-  order-review-integrations:
+  java-order-review:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: maven
+      - run: mvn -B -q test
+        working-directory: language/java/Tutorial/order-review
+
+  shared-service-integrations:
+    if: github.event_name == 'workflow_dispatch' && inputs.run_shared_service
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Require explicit private repository access
+        run: test -n "${DEMO_READ_TOKEN:?Configure DEMO_REPOSITORY_TOKEN for private demo checkout}"
+        env:
+          DEMO_READ_TOKEN: ${{ secrets.DEMO_REPOSITORY_TOKEN }}
       - uses: actions/checkout@v4
         with:
           repository: axisvela/demo-repository
           ref: fe85622b3445c41d53fbada8e0199c8f1b353ec5
           path: tutorial-services
+          token: ${{ secrets.DEMO_REPOSITORY_TOKEN }}
           persist-credentials: false
       - uses: actions/setup-python@v5
         with:

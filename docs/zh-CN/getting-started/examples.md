@@ -13,6 +13,7 @@
 和 [TypeScript 订单支持](https://github.com/axisvela/praxo-core/tree/main/language/typescript/Tutorial/order-review)，
 共同调用 `axisvela/demo-repository` 中的本地合成业务服务。这些是初始确定性切片，
 不是完整企业 Web 应用。已有示例与发布文档 URL 保持不变。
+共享后端仓库当前为私有；这些领域切片需要已授权的本地检出，尚不是可公开复现的路径。
 [Java 订单审阅教程](https://github.com/axisvela/praxo-core/tree/main/language/java/Tutorial/order-review)
 另有 loopback HTTP 入口和 JUnit 契约 fixture；本地运行受 JVM 启动器阻塞，CI 验证待执行。
 

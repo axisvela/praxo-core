@@ -8,6 +8,9 @@ restricted to `order-100` by Agent policy and checked again by service scope.
 Start `python shared-business-services/service/orders.py` from the sibling
 demo repository, then from this directory run:
 
+The demo repository is currently private: obtain an authorized checkout first.
+There is no public hosted backend or independent reproduction claim.
+
 ```bash
 npm ci
 npm start

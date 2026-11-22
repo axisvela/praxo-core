@@ -8,6 +8,9 @@ model text is not proof that the draft exists.
 
 Start the sibling demo repository's service in another terminal:
 
+The demo repository is currently private and requires authorized access. This
+slice is not yet a publicly reproducible tutorial or a publicly hosted service.
+
 ```bash
 python shared-business-services/service/orders.py
 ```

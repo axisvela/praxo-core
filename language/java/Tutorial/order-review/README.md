@@ -10,6 +10,13 @@ order status. It does not use an LLM to decide a refund or perform business writ
 
 From `axisvela/demo-repository` in a separate terminal:
 
+That repository is currently private; an authorized checkout is required. No
+public hosted backend is available. Java's default CI tests use their own local
+contract fixture and do not require access to the business service repository.
+The full cross-repository gate is manual: dispatch `ci-tutorials` with
+`run_shared_service=true` and an explicitly configured, read-only
+`DEMO_REPOSITORY_TOKEN`. Public pull requests never receive that credential.
+
 ```bash
 python shared-business-services/service/orders.py
 ```

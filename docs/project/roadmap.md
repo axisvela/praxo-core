@@ -254,6 +254,9 @@ Turn the first run into one useful local application, such as:
   Java's `Tutorial/order-review/` adds a CLI and loopback Web entry plus JUnit
   contract tests; local JVM verification is blocked and its configured CI gate
   has not yet run. TypeScript now installs its own pinned tutorial dependency.
+  The shared backend repository is currently private; these slices require
+  authorized access. Default Java contract CI is independent of that repository;
+  the pinned full integration gate is manual and requires explicit read access.
 - Validate one application-shaped prototype for a named consumer before
   expanding tutorials across SDKs.
 - Audit the existing MCP examples against their actual transports and commands;
