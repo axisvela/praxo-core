@@ -55,6 +55,17 @@ jobs:
           r-version: 'release'
       - run: Rscript language/r/Tutorial/data-quality/data_quality.R --test
 
+  cobol-batch-review:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: sudo apt-get update && sudo apt-get install -y gnucobol
+      - run: python language/cobol/Tutorial/batch-exception-review/run.py
+
   java-order-review:
     runs-on: ubuntu-latest
     timeout-minutes: 10

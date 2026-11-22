@@ -117,6 +117,15 @@ dependency failure exited nonzero after one read. Linux CI
 also passed at `e89c9037`. No arbitrary file/SQL/shell, package installation,
 live model, causal claim, production pipeline or independent adoption is verified.
 
+COBOL batch-exception tutorial (2026-11-22): local GnuCOBOL 2.0.0 and Python 3.14
+passed the tutorial wrapper and its three underlying scenarios. The reviewed
+path produced advisory output while preserving batch output and exceptions; the
+unavailable and timeout paths produced no advisory output and left both files
+unchanged. This reuses the existing deterministic handoff fixture, not a second
+bank model. Linux CI is configured but its result is not yet recorded. No real
+posting, payment, durable queue, recovery proof, live model or independent
+consumer evidence is claimed.
+
 | Area | Verified | Level | Limits |
 | --- | --- | --- | --- |
 | Python published package | PyPI `praxo-core==0.10.0` is published from source tag `python/v0.10.0`. The docs CI published-upgrade check installed `0.2.4`, ran the unchanged consumer and governed checks, upgraded to `0.10.0`, and reran the suite successfully. Historical local checks cover `0.3.2` and `0.2.4` | Registry publication + CI upgrade | One version pair; a post-publication consumer install outside CI for `0.10.0` is not recorded here; one platform/toolchain; not an independent or non-author consumer; no provider or production evidence |

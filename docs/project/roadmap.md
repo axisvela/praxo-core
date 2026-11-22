@@ -279,7 +279,12 @@ Turn the first run into one useful local application, such as:
   native R Core and returns a report that packages tool-computed values. Local
   R 4.6.1 checks pass, and Linux CI passed at `e89c9037` (run `45039622807`). It
   does not read arbitrary files, run SQL/shell, install packages or call a live
-  model. See the
+  model.
+  COBOL's `Tutorial/batch-exception-review/` reuses the existing deterministic
+  batch handoff and checks reviewed, unavailable and timeout paths while keeping
+  batch output and exceptions unchanged. Local GnuCOBOL 2.0.0/Python checks pass;
+  Linux CI is configured and pending. It does not implement real posting,
+  durable queues, recovery proof or a live model. See the
   [Tutorial Plan](../getting-started/tutorial-plan.md) for the scenario map,
   current status, delivery standard and next candidates.
 - Validate one application-shaped prototype for a named consumer before
