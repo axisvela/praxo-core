@@ -26,7 +26,10 @@ mock-backed Agent/Web tests passed at `3c2063f9` in
 [run 45031868787](https://github.com/axisvela/praxo-core/actions/runs/45031868787).
 The private business-service integration job was skipped in that historical run.
 The current integration job uses a pinned public backend revision, without
-private credentials; its result is recorded separately.
+private credentials. All three native CLI clients passed against the real local
+teaching backend at `8b0593bb` in
+[run 45033109188](https://github.com/axisvela/praxo-core/actions/runs/45033109188),
+using published packages and deterministic models, not live providers.
 
 The catalog uses the depth labels from the
 [Language Coverage depth audit](language-coverage.md#depth-audit):

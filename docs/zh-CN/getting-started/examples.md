@@ -20,7 +20,9 @@
 已在 `3c2063f9` 通过编译及 mock Agent/Web 测试，见
 [run 45031868787](https://github.com/axisvela/praxo-core/actions/runs/45031868787)。
 上述历史运行中的私有业务服务集成任务被跳过，不是通过。当前集成任务已固定引用公开
-后端提交，不需要私有凭据；验证结果另行记录。
+后端提交，不需要私有凭据；三个原生 CLI 客户端已在 `8b0593bb` 的
+[run 45033109188](https://github.com/axisvela/praxo-core/actions/runs/45033109188)
+对真实本地教学后端通过，使用发布包与确定性模型，不是真实 Provider 验证。
 
 示例目录使用[语言覆盖矩阵](language-coverage.md)中的深度标签：
 

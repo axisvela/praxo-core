@@ -66,6 +66,16 @@ methods). The original demo repository remains private. The new Core full-client
 gate pins the public commit and needs no private credentials; results are not
 inferred from backend CI or from the earlier Java mock tests.
 
+Full native-client integration passed in Core
+[run 45033109188](https://github.com/axisvela/praxo-core/actions/runs/45033109188)
+at `8b0593bb`, using backend `8b7820e`, Ubuntu 26.04, Python 3.12.16,
+Node 24.22.3 and Temurin 21.0.13. The job installed PyPI `0.10.0`, npm `0.9.0`
+and Maven Central `0.11.0`. All four unittest methods passed, including each
+native client's successful draft, Agent denial, server-side tenant denial and
+unavailable-store checks. Java mock/Web JUnit also passed separately. This is
+loopback deterministic CLI integration, not a live model, a hosted business
+service, Java Web-to-real-backend verification, or independent consumer evidence.
+
 | Area | Verified | Level | Limits |
 | --- | --- | --- | --- |
 | Python published package | PyPI `praxo-core==0.10.0` is published from source tag `python/v0.10.0`. The docs CI published-upgrade check installed `0.2.4`, ran the unchanged consumer and governed checks, upgraded to `0.10.0`, and reran the suite successfully. Historical local checks cover `0.3.2` and `0.2.4` | Registry publication + CI upgrade | One version pair; a post-publication consumer install outside CI for `0.10.0` is not recorded here; one platform/toolchain; not an independent or non-author consumer; no provider or production evidence |

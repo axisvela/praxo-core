@@ -257,8 +257,10 @@ Turn the first run into one useful local application, such as:
   `45031868787`). TypeScript now installs its own pinned tutorial dependency.
   The teaching backend is now public; the original demo repository stays private.
   Core CI pins public backend revision `8b7820e` for the full native-client gate,
-  without private credentials. That gate was skipped in the cited historical
-  run; publishing source does not retroactively verify it or establish adoption.
+  without private credentials. Full Python/TypeScript/Java CLI integration passed
+  at Core `8b0593bb` in run `45033109188`, using published packages and deterministic
+  models. The earlier private gate remains a recorded skip, not a pass; neither
+  result establishes independent adoption or live-provider verification.
 - Validate one application-shaped prototype for a named consumer before
   expanding tutorials across SDKs.
 - Audit the existing MCP examples against their actual transports and commands;

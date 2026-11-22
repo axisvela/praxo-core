@@ -55,6 +55,14 @@ mock Agent/Web JUnit 已在 Linux CI
 新的 Core 完整客户端门禁固定引用公开提交，不需要私有凭据；不能由后端 CI 或此前
 Java mock 测试推断完整集成结果。
 
+完整原生客户端集成已在 Core `8b0593bb` 的
+[run 45033109188](https://github.com/axisvela/praxo-core/actions/runs/45033109188)
+通过，固定后端 `8b7820e`，环境为 Ubuntu 26.04、Python 3.12.16、Node 24.22.3、
+Temurin 21.0.13。任务安装 PyPI `0.10.0`、npm `0.9.0` 和 Maven Central `0.11.0`，
+全部四个 unittest 方法通过，覆盖每个原生客户端的成功草稿、Agent 拒绝、服务端租户
+拒绝与存储不可用。Java mock/Web JUnit 单独通过。这是 loopback 确定性 CLI 集成，
+不是真实模型、托管业务服务、Java Web 对真实后端验证或独立消费者证据。
+
 | 领域 | 已验证 | 级别 | 限制 |
 | --- | --- | --- | --- |
 | Python 已发布包 | PyPI 已从源码标签 `python/v0.10.0` 发布 `praxo-core==0.10.0`。Docs CI 发布升级检查安装 `0.2.4`，运行未改动消费者与治理检查，升级到 `0.10.0` 后再次通过。历史本地检查覆盖 `0.3.2` 和 `0.2.4` | Registry 发布 + CI 升级 | 一个版本对；未记录 CI 之外的 `0.10.0` 消费者安装；一个平台/工具链；不是独立或非作者消费者；不含 provider 或生产证据 |

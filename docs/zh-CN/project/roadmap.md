@@ -185,8 +185,9 @@ Java 的 `Tutorial/order-review/` 已加入 CLI、loopback Web 入口和 JUnit �
 mock Agent/Web 测试。TypeScript 教程已安装自身固定版本依赖。
 
 教学后端现已公开，原演示仓库保持私有。Core CI 固定引用公开后端 `8b7820e` 执行完整
-原生客户端门禁，不需要私有凭据。上述历史运行中的完整集成门禁被跳过；公开源码不会
-追溯验证该门禁，也不等于采用证据。
+原生客户端门禁，不需要私有凭据。完整 Python/TypeScript/Java CLI 集成已在 Core
+`8b0593bb`（run `45033109188`）通过，使用发布包和确定性模型。此前的私有门禁仍是
+历史跳过记录，不是通过；两者都不等于独立采用或真实 Provider 验证。
 
 ### 开发者成果
 

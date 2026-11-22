@@ -42,7 +42,11 @@ business service or a live model. The full integration job was skipped.
 That historical run used a private backend. The backend is now published at
 `axisvela/agent-tutorial-services`; the current full integration job pins a
 public revision and runs without a private repository token. Its result is
-recorded separately from this mock-backed run. No public hosted endpoint exists.
+recorded separately from this mock-backed run: all three native CLI clients
+passed against the public backend at Core `8b0593bb` in
+[run 45033109188](https://github.com/axisvela/praxo-core/actions/runs/45033109188).
+That is real-service CLI integration, not Java Web-to-real-backend or live-model
+verification. No public hosted endpoint exists.
 
 ## Web Entry
 
