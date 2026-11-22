@@ -237,6 +237,23 @@ Turn the first run into one useful local application, such as:
 - Keep the existing Basic, Integration, Hardening, and Advanced catalog groups;
   distinguish mechanism checks, Core integrations, application tutorials, and
   recorded runs. Source-file coverage alone does not establish a working path.
+- Build language-shaped application tutorials over shared synthetic business
+  services in `axisvela/demo-repository/shared-business-services`. Start with
+  scoped order lookup and resolution drafts, then add Java enterprise orders,
+  Python/C# service desks, PowerShell/Perl operations, COBOL batch review,
+  Julia/R/Octave analysis, Lua host embedding, and Rust/Zig/C/C++ device scenarios
+  only as their paths are validated. Business APIs remain outside Core and
+  `spec/`; local service execution is required, public hosting is optional.
+  Maintainer tutorials are not independent consumer evidence.
+  New application tutorials live in `language/<language>/Tutorial/`, alongside
+  `examples/`; existing mechanism examples stay in their published locations.
+  The first local slice now has an HTTP order service plus native Python and
+  TypeScript clients covering draft-only success, policy/server denial, and
+  dependency failure. This is source/local fixture evidence, not a hosted
+  service, a full enterprise Web tutorial, or external adoption.
+  Java's `Tutorial/order-review/` adds a CLI and loopback Web entry plus JUnit
+  contract tests; local JVM verification is blocked and its configured CI gate
+  has not yet run. TypeScript now installs its own pinned tutorial dependency.
 - Validate one application-shaped prototype for a named consumer before
   expanding tutorials across SDKs.
 - Audit the existing MCP examples against their actual transports and commands;

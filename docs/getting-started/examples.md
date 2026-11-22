@@ -10,6 +10,16 @@ mirror repositories. For the thirteen-theme, thirty-one-language matrix, see
 
 ## Depth and Evidence
 
+New domain application tutorials live in `language/<language>/Tutorial/`, as a
+sibling of `examples/`. Start with [Python order review](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/order-review)
+or [TypeScript order support](https://github.com/axisvela/praxo-core/tree/main/language/typescript/Tutorial/order-review).
+Both use the local synthetic service in `axisvela/demo-repository`; they are
+initial deterministic slices, not completed enterprise Web applications.
+Existing examples and published documentation URLs remain unchanged.
+The [Java order review tutorial](https://github.com/axisvela/praxo-core/tree/main/language/java/Tutorial/order-review)
+adds a loopback HTTP entry point and a JUnit contract fixture. Its local runtime
+is blocked by this workstation's JVM launcher; CI verification is pending.
+
 The catalog uses the depth labels from the
 [Language Coverage depth audit](language-coverage.md#depth-audit):
 

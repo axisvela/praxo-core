@@ -1,0 +1,52 @@
+name: ci-tutorials
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'language/*/Tutorial/**'
+      - '.github/workflows/ci-tutorials.yml'
+  pull_request:
+    paths:
+      - 'language/*/Tutorial/**'
+      - '.github/workflows/ci-tutorials.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  order-review-integrations:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        with:
+          repository: axisvela/demo-repository
+          ref: fe85622b3445c41d53fbada8e0199c8f1b353ec5
+          path: tutorial-services
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: maven
+      - run: mvn -B -q test
+        working-directory: language/java/Tutorial/order-review
+      - run: mvn -B -q org.apache.maven.plugins:maven-dependency-plugin:3.8.1:copy-dependencies -DincludeScope=runtime
+        working-directory: language/java/Tutorial/order-review
+      - run: python -m pip install --target tutorial-packages -r language/python/Tutorial/order-review/requirements.txt
+      - run: npm ci --ignore-scripts --no-audit --no-fund
+        working-directory: language/typescript/Tutorial/order-review
+      - run: python -m unittest discover -s tutorial-services/shared-business-services/tests -v
+        env:
+          PRAXO_CORE_REPO: ${{ github.workspace }}
+          PRAXO_PYTHON_PACKAGE_PATH: ${{ github.workspace }}/tutorial-packages
+          PRAXO_JAVA_CLASSPATH: ${{ github.workspace }}/language/java/Tutorial/order-review/target/classes:${{ github.workspace }}/language/java/Tutorial/order-review/target/dependency/*

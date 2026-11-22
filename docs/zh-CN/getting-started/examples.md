@@ -8,6 +8,14 @@
 
 ## 深度与证据
 
+新增领域应用教程位于 `language/<language>/Tutorial/`，与 `examples/` 并列。
+目前有 [Python 订单审阅](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/order-review)
+和 [TypeScript 订单支持](https://github.com/axisvela/praxo-core/tree/main/language/typescript/Tutorial/order-review)，
+共同调用 `axisvela/demo-repository` 中的本地合成业务服务。这些是初始确定性切片，
+不是完整企业 Web 应用。已有示例与发布文档 URL 保持不变。
+[Java 订单审阅教程](https://github.com/axisvela/praxo-core/tree/main/language/java/Tutorial/order-review)
+另有 loopback HTTP 入口和 JUnit 契约 fixture；本地运行受 JVM 启动器阻塞，CI 验证待执行。
+
 示例目录使用[语言覆盖矩阵](language-coverage.md)中的深度标签：
 
 | 深度 | 含义 |

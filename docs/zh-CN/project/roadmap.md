@@ -167,6 +167,22 @@ PRAXO-CORE 继续定位为**可治理、可嵌入的 Agent 执行框架**。路�
 
 ## 阶段 2：完成真实原型
 
+按语言特点构建应用教程，复用 `axisvela/demo-repository/shared-business-services`
+中的合成业务服务。先实现有资源范围的订单查询和处理草稿，再按验证结果增加 Java
+企业订单、Python/C# 服务台、PowerShell/Perl 运维、COBOL 批处理审阅、Julia/R/Octave
+分析、Lua 宿主嵌入以及 Rust/Zig/C/C++ 设备场景。业务 API 不进入 Core 或 `spec/`；
+必须支持本地运行，公共托管可选。维护者教程不等于独立消费者证据。
+
+新增应用教程位于 `language/<language>/Tutorial/`，与 `examples/` 并列；已有机制
+示例保留原路径。
+
+首个本地切片已实现 HTTP 订单服务和原生 Python、TypeScript 客户端，覆盖仅创建草稿的
+成功路径、Agent 策略/服务端拒绝和依赖失败。这是源码/本地 fixture 证据，不是托管
+服务、完整企业 Web 教程或外部采用。
+
+Java 的 `Tutorial/order-review/` 已加入 CLI、loopback Web 入口和 JUnit 契约测试；
+本地 JVM 验证受阻，新配置的 CI 门禁尚未运行。TypeScript 教程已安装自身固定版本依赖。
+
 ### 开发者成果
 
 将首次运行扩展为一个有用的本地应用，例如：
