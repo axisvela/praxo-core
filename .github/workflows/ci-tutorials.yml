@@ -55,6 +55,17 @@ jobs:
           r-version: 'release'
       - run: Rscript language/r/Tutorial/data-quality/data_quality.R --test
 
+  python-office-qa:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install --target tutorial-packages -r language/python/Tutorial/office-qa/requirements.txt
+      - run: PYTHONPATH=tutorial-packages python language/python/Tutorial/office-qa/app.py --test
+
   cobol-batch-review:
     runs-on: ubuntu-latest
     timeout-minutes: 10

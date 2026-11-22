@@ -295,7 +295,11 @@ Turn the first run into one useful local application, such as:
   the evidence in a report. Local GNU Octave 11.3.0 checks pass, and Linux CI
   passed at `0664a194` (run `45042266323`). Native MATLAB is unverified. It does
   not read arbitrary files, run model-provided code, control devices or call a
-  live model. See the
+  live model.
+  Python's `Tutorial/office-qa/` adds a citation-bearing office Q&A path over
+  fixed policy documents, with scoped search denial and index failure. Local
+  Python checks pass; Linux CI is configured and pending. It does not read
+  arbitrary files, call connectors, send email or use a live model. See the
   [Tutorial Plan](../getting-started/tutorial-plan.md) for the scenario map,
   current status, delivery standard and next candidates.
 - Validate one application-shaped prototype for a named consumer before

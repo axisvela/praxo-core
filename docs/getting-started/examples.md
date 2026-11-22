@@ -88,6 +88,13 @@ GNU Octave 11.3.0 tests passed; native MATLAB is not verified. Linux CI passed
 at `0664a194` in
 [run 45042266323](https://github.com/axisvela/praxo-core/actions/runs/45042266323).
 
+The [Python office Q&A tutorial](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/office-qa)
+answers fixed office-policy questions with document citations. A scoped search
+tool returns evidence, and the deterministic model packages the top result into
+an answer. It includes policy denial and index-failure checks. It does not read
+arbitrary files, call connectors, send email or call a live model. Local Python
+3.14 checks passed; Linux CI is configured and pending.
+
 The catalog uses the depth labels from the
 [Language Coverage depth audit](language-coverage.md#depth-audit):
 
@@ -124,6 +131,7 @@ for mechanism-only themes and the
 | Review a bank batch exception handoff | [COBOL batch exception review](https://github.com/axisvela/praxo-core/tree/main/language/cobol/Tutorial/batch-exception-review) | Reuses the deterministic COBOL batch fixture; separate review worker, unavailable and timeout paths; no real posting |
 | Compare fixed experiment results | [Julia experiment comparison](https://github.com/axisvela/praxo-core/tree/main/language/julia/Tutorial/experiment-comparison) | Native Julia means/delta over fixed results; model packages computed evidence, no arbitrary code or causal claim |
 | Review signal trends and threshold anomalies | [Octave/MATLAB signal trends](https://github.com/axisvela/praxo-core/tree/main/language/octave/Tutorial/signal-trends) | Native Signal metrics over a fixed signal; Octave run verified, native MATLAB not claimed; no device control |
+| Answer office policy questions with citations | [Python office Q&A](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/office-qa) | Native Core, fixed document fixtures, citation-bearing answer, scoped denial and index failure |
 | Embed in an application | [Application Integration Checklist](../guides/application-integration-checklist.md) | Risk-tiered checklist for read-only, side-effecting, and high-risk deployments |
 | Run Core behind HTTP | [Embedded HTTP service tutorial](../guides/embedded-service-tutorial.md), [Language Coverage](language-coverage.md) | Executable HTTP servers for Go, Python, TypeScript, Java, C#, and Rust; transport-neutral handler examples for every other declared language |
 | Explore the Go reference | [`examples/reference`](https://github.com/axisvela/praxo-core/tree/main/examples/reference) | Go reference application |

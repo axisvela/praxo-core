@@ -148,6 +148,14 @@ also passed at `0664a194`. Native MATLAB, arbitrary file/code execution, device
 control, live model, production signal pipeline and independent adoption are not
 verified.
 
+Python office-Q&A tutorial (2026-11-22): local Python 3.14 with Core source mode
+passed success, policy denial and simulated index failure. The answer cited the
+`handbook` fixture and contained the travel-approval sentence; an out-of-scope
+scope was denied before any tool call (`reads=0`); simulated index failure failed
+after one call. Linux CI is configured but its result is not yet recorded. No
+arbitrary file/connector, email/calendar action, live provider, production
+document store, public hosting or independent adoption is verified.
+
 | Area | Verified | Level | Limits |
 | --- | --- | --- | --- |
 | Python published package | PyPI `praxo-core==0.10.0` is published from source tag `python/v0.10.0`. The docs CI published-upgrade check installed `0.2.4`, ran the unchanged consumer and governed checks, upgraded to `0.10.0`, and reran the suite successfully. Historical local checks cover `0.3.2` and `0.2.4` | Registry publication + CI upgrade | One version pair; a post-publication consumer install outside CI for `0.10.0` is not recorded here; one platform/toolchain; not an independent or non-author consumer; no provider or production evidence |

@@ -216,7 +216,10 @@ Linux CI 也已在 `bbf12c42`（run `45041423996`）通过。它不读取任意�
 Octave/MATLAB 的 `Tutorial/signal-trends/` 通过共享 Core 计算固定信号的均值、峰峰值、
 RMS 与阈值异常，并把证据封装进报告。本地 GNU Octave 11.3.0 检查通过，Linux CI 也已
 在 `0664a194`（run `45042266323`）通过；原生 MATLAB 未验证。它不读取任意文件、不执行
-模型提供的代码、不控制设备、不调用真实模型。场景地图、当前状态、交付标准与后续
+模型提供的代码、不控制设备、不调用真实模型。
+Python 的 `Tutorial/office-qa/` 增加带引用的办公政策问答路径，使用固定文档、受限搜索、
+拒绝与索引失败检查。本地 Python 检查通过；Linux CI 已配置待确认。它不读取任意文件、
+不调用 Connector、不发送邮件、不使用真实模型。场景地图、当前状态、交付标准与后续
 候选见 [Tutorial 整体规划](../getting-started/tutorial-plan.md)。
 
 ### 开发者成果

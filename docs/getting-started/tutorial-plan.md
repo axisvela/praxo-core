@@ -49,6 +49,55 @@ contracts, not framework compatibility promises.
 These are candidate paths. A language moves from candidate to implemented only
 when its tutorial has runnable commands, tests, and recorded evidence.
 
+## Extended Scenario Catalog
+
+The catalog below broadens the application map without creating a commitment to
+build every entry. Choose the primary language by runtime fit, available tools,
+and a named consumer; keep the tutorial boundary narrow.
+
+| Scenario | Primary language(s) | Why this language/ecosystem | Status |
+| --- | --- | --- | --- |
+| Knowledge Q&A and document assistant | Python, TypeScript | Retrieval, citations, structured answers, streaming UI | Python office Q&A implemented; CI pending |
+| Customer service / contact center | TypeScript, C# | Web/SSE, ASP.NET Core, identity and audit | Planned |
+| Marketing content and segmentation | Python, R | Content workflows plus native statistical segments | Planned |
+| Office productivity | Python, C# | Documents, email/calendar tools, .NET integration | Python office Q&A next |
+| Sales / CRM | C#, TypeScript | Enterprise authentication and web integration | Planned |
+| Wealth / retail finance | Java, R | Service boundaries plus risk/return analysis | Planned |
+| Insurance claims | Python, Java | Document extraction, approval, audit boundaries | Planned |
+| Procurement / ERP | Java, C# | Enterprise systems and application-owned identity | Planned |
+| Factory / manufacturing | C++, Rust | OPC UA/device SDK seams, edge deployment | Planned |
+| Industrial automation | C++, Rust, Octave | Device SDK plus signal analysis | Planned |
+| Consumer electronics | Lua, C, Rust | Host embedding, constrained runtime, gateway | Planned |
+| Robotics | C++, Rust, Julia | ROS 2 integration, control and numerical analysis | Planned |
+| Logistics | Go, Java | Event-driven services and long-running operations | Planned |
+| Energy / grid | Rust, C++, Julia | Edge constraints and numerical analysis | Planned |
+| Security / SOC | Go, Perl, PowerShell | Services, logs and Windows operations | Planned |
+| Healthcare scheduling | C#, Java | Identity, audit and enterprise integration | Planned |
+| Legal / compliance | Python, R | Citations, evidence, human-review boundaries | Planned |
+| Education / tutoring | TypeScript, Python | Web Q&A and content workflows | Planned |
+| Media / content | TypeScript, Python | Streaming, generation and publishing tools | Planned |
+| Travel / booking | TypeScript, C# | Web entry and enterprise booking boundaries | Planned |
+| Retail / e-commerce | TypeScript, Java | Web storefront and order services | Planned |
+| Data platform | Python, R, Julia | Native compute with evidence-linked reports | Planned |
+
+This is a demand map, not a delivery promise. A scenario moves forward only with
+a named consumer or maintainer, a concrete task, a deterministic mode, a denial
+or failure path, and recorded evidence. A language can own several scenarios, but
+the first implementation should reuse its existing Core and adapters rather than
+add framework surface.
+
+### Scenario Selection Rules
+
+- Choose the language whose runtime and libraries fit the task, not the one with
+  the most existing examples.
+- Prefer a local deterministic task with one or two tools over a broad platform
+  mock.
+- Keep business contracts and synthetic data outside Core and `spec/`.
+- Keep identity, durable state, effect reconciliation and approvals application-owned.
+- Do not add a new Core API until a consumer proves a reusable gap.
+- Treat a passing tutorial as integration evidence, not adoption or production
+  readiness.
+
 ## Current Status
 
 | Tutorial | Core integration | Verification | Limits |
@@ -63,6 +112,7 @@ when its tutorial has runnable commands, tests, and recorded evidence.
 | COBOL batch exception review | Reuses deterministic batch handoff; separate review worker | Local GnuCOBOL 2.0.0/Python checks and Linux CI | No real posting, durable queue, recovery proof or live model |
 | Julia experiment comparison | Native Julia means/delta over fixed results | Local Julia 1.13.2 tests and Linux CI | No arbitrary data/code/package install, live model or causal claim |
 | Octave/MATLAB signal trends | Shared signal metrics, threshold anomalies | Local GNU Octave 11.3.0 tests and Linux CI | Native MATLAB unverified; no device control or live model |
+| Python office Q&A | Native Core, fixed documents, citation-bearing answer | Local Python 3.14 checks; Linux CI configured and pending | No arbitrary file/connector, email action or live model |
 | Lua, Rust, Zig, C, C++ | Not implemented as Tutorial entries | Not run | Candidate paths only |
 
 See [Verification Evidence](../project/verification-evidence.md) for exact run
@@ -102,8 +152,11 @@ not in `pkg/...` or `spec/`.
 
 ## Next Work
 
-1. Add device tutorials only when a concrete runtime and transport contract exist.
-2. Turn each verified tutorial into a consumer test-authorized path, not just a
+1. Add TypeScript customer-support streaming as the next scenario, reusing a
+   scoped document or order tool and a citation boundary.
+2. Add Java wealth/finance or C# sales/CRM only after a concrete consumer path.
+3. Add device tutorials only when a concrete runtime and transport contract exist.
+4. Turn each verified tutorial into a consumer test-authorized path, not just a
    maintainer demo.
 
 Language count is not the goal. Fewer complete, differentiated paths are more
