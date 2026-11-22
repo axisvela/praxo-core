@@ -86,6 +86,16 @@ checks. This extends the C# scope beyond mock transports, not the Java Web
 scope. Models are deterministic and credentials are public fixtures; no live
 provider, production authentication, public hosting or independent adoption.
 
+PowerShell Windows diagnostics tutorial (2026-11-22): local Windows PowerShell
+7.7.0 ran four checks successfully using the shared C# Core Debug build in source
+mode. Fixture mode performed two read-only tool calls; an out-of-scope service
+was denied before reads (`reads=0`); simulated dependency failure exited nonzero
+after one read; local mode read `Spooler` status and system-drive free space with
+`source=local_machine`. The tutorial registers no mutating tools. Windows CI is
+configured but the result is not yet recorded. No Gallery install, live model,
+remote host, repair, administrator operation, production monitoring or independent
+adoption is verified.
+
 | Area | Verified | Level | Limits |
 | --- | --- | --- | --- |
 | Python published package | PyPI `praxo-core==0.10.0` is published from source tag `python/v0.10.0`. The docs CI published-upgrade check installed `0.2.4`, ran the unchanged consumer and governed checks, upgraded to `0.10.0`, and reran the suite successfully. Historical local checks cover `0.3.2` and `0.2.4` | Registry publication + CI upgrade | One version pair; a post-publication consumer install outside CI for `0.10.0` is not recorded here; one platform/toolchain; not an independent or non-author consumer; no provider or production evidence |

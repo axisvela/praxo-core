@@ -27,6 +27,17 @@ jobs:
       - run: dotnet build language/csharp/Tutorial/order-review/OrderReview.csproj --nologo
       - run: dotnet language/csharp/Tutorial/order-review/bin/Debug/net8.0/Praxo.OrderReview.dll --test
 
+  powershell-windows-diagnostics:
+    runs-on: windows-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+      - run: dotnet build language/csharp/Praxo.Core/Praxo.Core.csproj -c Debug --nologo
+      - run: pwsh -NoProfile -File language/powershell/Tutorial/windows-diagnostics/tests.ps1 -SourceMode -IncludeLocalMachine
+
   java-order-review:
     runs-on: ubuntu-latest
     timeout-minutes: 10

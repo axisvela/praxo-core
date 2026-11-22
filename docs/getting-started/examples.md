@@ -38,6 +38,12 @@ passed at Core `ae953050`, public backend `cd08b09`, in
 [run 45034303513](https://github.com/axisvela/praxo-core/actions/runs/45034303513).
 These are deterministic teaching integrations, not production identity or live-model evidence.
 
+The [PowerShell Windows diagnostics tutorial](https://github.com/axisvela/praxo-core/tree/main/language/powershell/Tutorial/windows-diagnostics)
+is the first operations-shaped path: fixture and local read-only service/disk
+checks, with policy denial and dependency failure. It reuses the shared C# Core
+through `praxo-core-ps`; it does not execute repairs, remote commands or a live model.
+Local Windows PowerShell 7.7.0 tests passed 4/4; Windows CI is configured and pending.
+
 The catalog uses the depth labels from the
 [Language Coverage depth audit](language-coverage.md#depth-audit):
 
@@ -68,6 +74,7 @@ for mechanism-only themes and the
 | Process a batch into validated JSON with failure and resume | [Python Structured Output Application](../guides/python-structured-output-app.md) | Application-shaped Python path with input, result, and error files; fixture and live modes |
 | Validate structured output | [Language Coverage](language-coverage.md), [Structured Output tutorial](../guides/structured-output-tutorial.md) | All 31 declared languages under `language/<language>/examples/structured-output`; valid output accepted and invalid output rejected |
 | Build a workspace agent | [Workspace Agent tutorial](../guides/workspace-agent-tutorial.md) | Read-only published-package Go application |
+| Diagnose a Windows service and disk read-only | [PowerShell Windows diagnostics](https://github.com/axisvela/praxo-core/tree/main/language/powershell/Tutorial/windows-diagnostics) | Fixed read-only tools over the shared C# Core; no repairs, remote hosts, or arbitrary shell commands |
 | Embed in an application | [Application Integration Checklist](../guides/application-integration-checklist.md) | Risk-tiered checklist for read-only, side-effecting, and high-risk deployments |
 | Run Core behind HTTP | [Embedded HTTP service tutorial](../guides/embedded-service-tutorial.md), [Language Coverage](language-coverage.md) | Executable HTTP servers for Go, Python, TypeScript, Java, C#, and Rust; transport-neutral handler examples for every other declared language |
 | Explore the Go reference | [`examples/reference`](https://github.com/axisvela/praxo-core/tree/main/examples/reference) | Go reference application |

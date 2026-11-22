@@ -194,6 +194,10 @@ C# 已有本地验证的 ASP.NET Core 服务台教程，包含固定订单路由
 `ae953050`（run `45034303513`）、后端 `cd08b09` 的 CI 通过；不声称真实模型、生产
 身份或公共部署验证。
 
+PowerShell 的 `Tutorial/windows-diagnostics/` 通过共享 C# Core 增加固定只读 Windows
+服务/磁盘检查。本地 PowerShell 7.7.0 测试 4/4 通过；Windows CI 已配置，结果待确认。
+它不提供修复、远程主机、任意 Shell 命令或真实模型路径。
+
 ### 开发者成果
 
 将首次运行扩展为一个有用的本地应用，例如：

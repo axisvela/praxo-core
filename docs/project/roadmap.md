@@ -266,6 +266,10 @@ Turn the first run into one useful local application, such as:
   authentication, draft replay and dependency-failure checks. Four-language CLI
   and C# Web integration passed in CI at `ae953050` (run `45034303513`), backend
   `cd08b09`; no live model, production identity or public deployment is claimed.
+  PowerShell's `Tutorial/windows-diagnostics/` adds fixed read-only Windows
+  service/disk checks through the shared C# Core. Local PowerShell 7.7.0 tests
+  pass 4/4; Windows CI is configured and pending. It supports no repairs, remote
+  hosts, arbitrary shell commands or live model path.
 - Validate one application-shaped prototype for a named consumer before
   expanding tutorials across SDKs.
 - Audit the existing MCP examples against their actual transports and commands;
