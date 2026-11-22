@@ -63,6 +63,14 @@ Temurin 21.0.13。任务安装 PyPI `0.10.0`、npm `0.9.0` 和 Maven Central `0.
 拒绝与存储不可用。Java mock/Web JUnit 单独通过。这是 loopback 确定性 CLI 集成，
 不是真实模型、托管业务服务、Java Web 对真实后端验证或独立消费者证据。
 
+C# 服务台后续已在 Core `ae953050`、后端 `cd08b09` 的
+[run 45034303513](https://github.com/axisvela/praxo-core/actions/runs/45034303513)
+通过（2026-11-22）。C# 使用 .NET 8 与 NuGet `0.10.0`，独立原生/ASP.NET Core
+自测通过；后端五个 unittest 方法全部通过，包含四个原生 CLI 客户端以及真实 C# Web
+对后端的鉴权拒绝、草稿创建/重放和存储不可用路径。这扩展的是 C# 范围，不是 Java
+Web 范围。模型为确定性 fixture，凭据为公开教学常量；没有真实 Provider、生产认证、
+公共托管或独立采用声明。
+
 | 领域 | 已验证 | 级别 | 限制 |
 | --- | --- | --- | --- |
 | Python 已发布包 | PyPI 已从源码标签 `python/v0.10.0` 发布 `praxo-core==0.10.0`。Docs CI 发布升级检查安装 `0.2.4`，运行未改动消费者与治理检查，升级到 `0.10.0` 后再次通过。历史本地检查覆盖 `0.3.2` 和 `0.2.4` | Registry 发布 + CI 升级 | 一个版本对；未记录 CI 之外的 `0.10.0` 消费者安装；一个平台/工具链；不是独立或非作者消费者；不含 provider 或生产证据 |

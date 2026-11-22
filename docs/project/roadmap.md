@@ -263,8 +263,9 @@ Turn the first run into one useful local application, such as:
   result establishes independent adoption or live-provider verification.
   C# now has a local-verified ASP.NET Core service-desk tutorial with fixed-order
   routing and a native Core CLI; the public integration harness adds real Web
-  authentication, draft replay and dependency-failure checks. Four-language
-  hosted verification is pending; no live model or production identity is claimed.
+  authentication, draft replay and dependency-failure checks. Four-language CLI
+  and C# Web integration passed in CI at `ae953050` (run `45034303513`), backend
+  `cd08b09`; no live model, production identity or public deployment is claimed.
 - Validate one application-shaped prototype for a named consumer before
   expanding tutorials across SDKs.
 - Audit the existing MCP examples against their actual transports and commands;

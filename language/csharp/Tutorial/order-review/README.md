@@ -79,5 +79,11 @@ fixed route scope and dependency failure. Public backend `tests/test_clients.py`
 can additionally exercise this CLI and Web entry against the real local order
 service when `PRAXO_DOTNET_DLL` points to the compiled DLL.
 
+On 2026-11-22, Core `ae953050` passed
+[CI run 45034303513](https://github.com/axisvela/praxo-core/actions/runs/45034303513):
+C# self-tests plus all five real-service unittest methods, using public backend
+`cd08b09`. Four native CLI clients and the C# ASP.NET Core Web entry ran against
+the real ephemeral service. Tests used deterministic models, not live providers.
+
 No live model, production identity, durable approvals, cancellation propagation,
 public hosting or independent adoption is established by this deterministic slice.

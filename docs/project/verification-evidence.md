@@ -76,6 +76,16 @@ unavailable-store checks. Java mock/Web JUnit also passed separately. This is
 loopback deterministic CLI integration, not a live model, a hosted business
 service, Java Web-to-real-backend verification, or independent consumer evidence.
 
+C# service-desk follow-up passed in Core
+[run 45034303513](https://github.com/axisvela/praxo-core/actions/runs/45034303513)
+at `ae953050`, backend `cd08b09` (2026-11-22). C# used NuGet `0.10.0` on .NET 8.
+Standalone native/ASP.NET Core self-tests passed; all five backend unittest
+methods passed, including four native CLI clients and a real C# Web-to-backend
+path with authentication denial, draft creation/replay and unavailable-store
+checks. This extends the C# scope beyond mock transports, not the Java Web
+scope. Models are deterministic and credentials are public fixtures; no live
+provider, production authentication, public hosting or independent adoption.
+
 | Area | Verified | Level | Limits |
 | --- | --- | --- | --- |
 | Python published package | PyPI `praxo-core==0.10.0` is published from source tag `python/v0.10.0`. The docs CI published-upgrade check installed `0.2.4`, ran the unchanged consumer and governed checks, upgraded to `0.10.0`, and reran the suite successfully. Historical local checks cover `0.3.2` and `0.2.4` | Registry publication + CI upgrade | One version pair; a post-publication consumer install outside CI for `0.10.0` is not recorded here; one platform/toolchain; not an independent or non-author consumer; no provider or production evidence |

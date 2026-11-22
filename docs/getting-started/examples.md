@@ -33,8 +33,10 @@ using published packages and deterministic models, not live providers.
 
 The [C# order service desk](https://github.com/axisvela/praxo-core/tree/main/language/csharp/Tutorial/order-review)
 adds an ASP.NET Core minimal API and native Core CLI. Local self-tests and a
-real Web-to-order-service path pass; the four-language CI gate is configured
-against public backend `cd08b09`, with its run result pending.
+real Web-to-order-service path pass. Four-language CLI and C# Web integration
+passed at Core `ae953050`, public backend `cd08b09`, in
+[run 45034303513](https://github.com/axisvela/praxo-core/actions/runs/45034303513).
+These are deterministic teaching integrations, not production identity or live-model evidence.
 
 The catalog uses the depth labels from the
 [Language Coverage depth audit](language-coverage.md#depth-audit):

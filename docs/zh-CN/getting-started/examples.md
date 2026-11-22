@@ -26,7 +26,9 @@
 
 [C# 订单服务台](https://github.com/axisvela/praxo-core/tree/main/language/csharp/Tutorial/order-review)
 新增 ASP.NET Core minimal API 与原生 Core CLI，本地自测及 Web 对真实订单服务路径已通过。
-四语言 CI 门禁已固定引用公开后端 `cd08b09`，运行结果待确认。
+四语言 CLI 与 C# Web 集成已在 Core `ae953050`、公开后端 `cd08b09` 的
+[run 45034303513](https://github.com/axisvela/praxo-core/actions/runs/45034303513)
+通过。这是确定性教学集成，不是生产身份或真实模型证据。
 
 示例目录使用[语言覆盖矩阵](language-coverage.md)中的深度标签：
 
