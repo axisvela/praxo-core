@@ -24,6 +24,14 @@ $env:PRAXO_MODEL = "qwen3.5:4b"
 cargo run
 ```
 
+If registry access is unavailable, build with cached dependencies and run the
+resulting binary:
+
+```bash
+cargo build --offline
+./target/debug/live-model
+```
+
 `qwen3.5:4b` is a small local option; use any installed OpenAI-compatible model
 name instead if needed. The example authorizes only `get_time`; every other
 tool call is denied by policy.
