@@ -10,6 +10,13 @@ cd language/csharp/examples/live-model
 dotnet run
 ```
 
+If the apphost or `dotnet run` does not return in your environment, run the
+built DLL directly:
+
+```bash
+dotnet bin/Debug/net8.0/Praxo.LiveModel.dll
+```
+
 Environment:
 
 ```powershell
