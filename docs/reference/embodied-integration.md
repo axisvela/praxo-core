@@ -159,7 +159,7 @@ The [embodied pilot plan](../project/embodied-pilot.md) turns E1-E8 into
 deterministic, simulation, and optional hardware gates with required evidence and
 stop conditions. AKROVELA is the selected consumer and records P1, F5, and
 E1-E8 deterministic/local component evidence plus a partial G1-G8 matrix with a
-G6 gap, but no accepted P2 run or E1-E8 pilot acceptance; it is not an
+G6 simulation gap, but no accepted P2 run or E1-E8 pilot acceptance; it is not an
 implementation claim for this profile.
 
 The [long-running operation recipe](../guides/long-running-operations.md) supplies

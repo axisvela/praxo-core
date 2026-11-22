@@ -12,7 +12,7 @@ release line is created.
 | --- | --- | --- |
 | Standard Embedding | Existing embedding behavior | Embed the loop and configure the controls your application needs |
 | Governed Execution Profile | Proposed acceptance design; partial integration evidence | Require explicit authorization, operation binding and failure handling |
-| Embodied Integration Profile | Proposed design; AKROVELA selected; P1/F5 and E1-E8 pass; G1-G8 partial (G6 gap); no accepted P2/P3 run | Add remote-action and observation requirements for the selected embodied consumer |
+| Embodied Integration Profile | Proposed design; AKROVELA selected; P1/F5 and E1-E8 pass; G1-G8 partial (G6 simulation not-run); no accepted P2/P3 run | Add remote-action and observation requirements for the selected embodied consumer |
 
 The Go reference is the behavioral starting point. Other language implementations
 must declare their own supported controls and evidence; the same level name does
@@ -76,8 +76,9 @@ contract; it does not replace or weaken them. The
 feedback, observation freshness, cancellation confirmation and effect verification.
 AKROVELA is the named consumer and, like PRAXOVELA, embeds PRAXO-CORE as a
 product component. A local ROS 2 bridge, F5 simulation scopes, and the E1-E8
-deterministic/local component matrix pass; the G1-G8 matrix is partial with a G6
-coverage gap. Real ROS 2/Gazebo execution, an independent verifier, and an
+deterministic/local component matrix pass; the G1-G8 matrix is partial because G6
+has no local simulation case and G2/G4 lack local simulation cases. Real ROS
+2/Gazebo execution, an independent verifier, and an
 accepted P2 run remain open before this profile can be described as an
 experimental implementation.
 
