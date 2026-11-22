@@ -57,7 +57,8 @@ Web 服务、运维 Shell、分析工作流、宿主嵌入或受约束设备。�
 | R 数据质量 | 原生 R 统计、固定数据框、计算报告 | 本地 R 4.6.1 测试与 Linux CI | 无任意文件/SQL/Shell、真实模型或因果结论 |
 | COBOL 批处理异常审阅 | 复用确定性批处理交接；独立审阅 worker | 本地 GnuCOBOL 2.0.0/Python 检查与 Linux CI | 无真实记账、持久队列、恢复证明或真实模型 |
 | Julia 实验比较 | 原生 Julia 对固定结果计算均值/差值 | 本地 Julia 1.13.2 测试与 Linux CI | 无任意数据/代码/包安装、真实模型或因果结论 |
-| Octave、Lua、Rust、Zig、C、C++ | 尚未实现为 Tutorial | 未运行 | 仅为候选路径 |
+| Octave/MATLAB 信号趋势 | 共享信号指标、阈值异常 | 本地 GNU Octave 11.3.0 测试；Linux CI 已配置待确认 | 原生 MATLAB 未验证；无设备控制或真实模型 |
+| Lua、Rust、Zig、C、C++ | 尚未实现为 Tutorial | 未运行 | 仅为候选路径 |
 
 准确运行 ID 与范围见[验证证据](../project/verification-evidence.md)。“CI 通过”不等于
 生产就绪、独立采用或公共托管业务服务。

@@ -137,6 +137,16 @@ also passed at `bbf12c42`. No arbitrary data, model-provided Julia execution,
 package install, live model, causal claim, production platform or independent
 adoption is verified.
 
+Octave/MATLAB signal-trends tutorial (2026-11-22): local GNU Octave 11.3.0
+passed success, policy denial and simulated dependency failure. The report
+contained ten samples, mean 0.42, peak-to-peak 1, RMS about 0.53075, two
+threshold anomalies and first anomaly index 4, with an empty `mutating_actions`
+list; an out-of-scope dataset was denied before any tool call (`reads=0`);
+simulated dependency failure returned `TOOL_ERROR` after one call. Linux CI is
+configured but its result is not yet recorded. Native MATLAB, arbitrary
+file/code execution, device control, live model, production signal pipeline and
+independent adoption are not verified.
+
 | Area | Verified | Level | Limits |
 | --- | --- | --- | --- |
 | Python published package | PyPI `praxo-core==0.10.0` is published from source tag `python/v0.10.0`. The docs CI published-upgrade check installed `0.2.4`, ran the unchanged consumer and governed checks, upgraded to `0.10.0`, and reran the suite successfully. Historical local checks cover `0.3.2` and `0.2.4` | Registry publication + CI upgrade | One version pair; a post-publication consumer install outside CI for `0.10.0` is not recorded here; one platform/toolchain; not an independent or non-author consumer; no provider or production evidence |

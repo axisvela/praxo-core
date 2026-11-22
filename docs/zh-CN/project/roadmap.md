@@ -212,7 +212,11 @@ Linux CI 也已在 `01d9b1ff`（run `45040372057`）通过。它不实现真实�
 Julia 的 `Tutorial/experiment-comparison/` 通过原生 Julia Core 计算固定
 baseline/candidate 指标，并把计算证据封装进报告。本地 Julia 1.13.2 检查通过，
 Linux CI 也已在 `bbf12c42`（run `45041423996`）通过。它不读取任意数据、不执行模型
-提供的 Julia 代码、不安装包、不调用真实模型。场景地图、当前状态、交付标准与后续
+提供的 Julia 代码、不安装包、不调用真实模型。
+Octave/MATLAB 的 `Tutorial/signal-trends/` 通过共享 Core 计算固定信号的均值、峰峰值、
+RMS 与阈值异常，并把证据封装进报告。本地 GNU Octave 11.3.0 检查通过；原生 MATLAB
+未验证，Linux CI 已配置待确认。它不读取任意文件、不执行模型提供的代码、不控制设备、
+不调用真实模型。场景地图、当前状态、交付标准与后续
 候选见 [Tutorial 整体规划](../getting-started/tutorial-plan.md)。
 
 ### 开发者成果

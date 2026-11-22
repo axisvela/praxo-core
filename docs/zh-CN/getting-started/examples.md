@@ -62,6 +62,12 @@ C# Core 构建和全部四项源码模式检查，见
 不调用真实模型。本地 Julia 1.13.2 测试通过，Linux CI 也已在 `bbf12c42` 的
 [run 45041423996](https://github.com/axisvela/praxo-core/actions/runs/45041423996) 通过。
 
+[Octave/MATLAB 信号趋势教程](https://github.com/axisvela/praxo-core/tree/main/language/octave/Tutorial/signal-trends)
+通过共享 MATLAB/Octave Core 计算固定信号的均值、峰峰值、RMS 与阈值异常，再把计算
+证据封装进报告。包含策略拒绝与依赖失败检查。它不读取任意文件、不执行模型提供的代码、
+不控制设备、不调用真实模型。本地 GNU Octave 11.3.0 测试通过；原生 MATLAB 未验证。
+Linux CI 已配置，结果待确认。
+
 示例目录使用[语言覆盖矩阵](language-coverage.md)中的深度标签：
 
 | 深度 | 含义 |
@@ -94,6 +100,7 @@ C# Core 构建和全部四项源码模式检查，见
 | 用计算证据评估数据质量 | [R 数据质量](https://github.com/axisvela/praxo-core/tree/main/language/r/Tutorial/data-quality) | 原生 R 统计固定数据框；模型封装工具计算值，不编造数字 |
 | 审阅银行批处理异常交接 | [COBOL 批处理异常审阅](https://github.com/axisvela/praxo-core/tree/main/language/cobol/Tutorial/batch-exception-review) | 复用确定性 COBOL 批处理 fixture；独立审阅 worker、不可用和超时路径；无真实记账 |
 | 比较固定实验结果 | [Julia 实验比较](https://github.com/axisvela/praxo-core/tree/main/language/julia/Tutorial/experiment-comparison) | 原生 Julia 对固定结果计算均值/差值；模型封装计算证据，不执行任意代码或作因果结论 |
+| 审阅信号趋势与阈值异常 | [Octave/MATLAB 信号趋势](https://github.com/axisvela/praxo-core/tree/main/language/octave/Tutorial/signal-trends) | 原生信号指标计算固定信号；Octave 已验证，不声称原生 MATLAB；无设备控制 |
 | 嵌入应用 | [应用嵌入清单](../guides/application-integration-checklist.md) | 只读、有副作用、高风险部署的分档清单 |
 | 通过 HTTP 运行 Core | [HTTP 嵌入服务教程](../guides/embedded-service-tutorial.md)、[语言覆盖](language-coverage.md) | Go、Python、TypeScript、Java、C# 和 Rust 提供可执行 HTTP 服务；其余已声明语言提供传输中立 Handler 示例 |
 | 查看 Go 参考应用 | [`examples/reference`](https://github.com/axisvela/praxo-core/tree/main/examples/reference) | Go 参考应用 |

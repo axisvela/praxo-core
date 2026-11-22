@@ -62,7 +62,8 @@ when its tutorial has runnable commands, tests, and recorded evidence.
 | R data quality | Native R statistics, fixed data frame, computed report | Local R 4.6.1 tests and Linux CI | No arbitrary file/SQL/shell, live model or causal claim |
 | COBOL batch exception review | Reuses deterministic batch handoff; separate review worker | Local GnuCOBOL 2.0.0/Python checks and Linux CI | No real posting, durable queue, recovery proof or live model |
 | Julia experiment comparison | Native Julia means/delta over fixed results | Local Julia 1.13.2 tests and Linux CI | No arbitrary data/code/package install, live model or causal claim |
-| Octave, Lua, Rust, Zig, C, C++ | Not implemented as Tutorial entries | Not run | Candidate paths only |
+| Octave/MATLAB signal trends | Shared signal metrics, threshold anomalies | Local GNU Octave 11.3.0 tests; Linux CI configured and pending | Native MATLAB unverified; no device control or live model |
+| Lua, Rust, Zig, C, C++ | Not implemented as Tutorial entries | Not run | Candidate paths only |
 
 See [Verification Evidence](../project/verification-evidence.md) for exact run
 IDs and scope. "Passed in CI" does not mean production readiness, independent

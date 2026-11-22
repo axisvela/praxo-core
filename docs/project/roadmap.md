@@ -289,7 +289,12 @@ Turn the first run into one useful local application, such as:
   metrics through the native Julia Core and packages computed evidence in a
   report. Local Julia 1.13.2 checks pass, and Linux CI passed at `bbf12c42` (run
   `45041423996`). It does not read arbitrary data, run model-provided Julia code,
-  install packages or call a live model. See the
+  install packages or call a live model.
+  Octave/MATLAB's `Tutorial/signal-trends/` computes fixed-signal mean,
+  peak-to-peak, RMS and threshold anomalies through the shared Core and packages
+  the evidence in a report. Local GNU Octave 11.3.0 checks pass; native MATLAB is
+  unverified and Linux CI is configured and pending. It does not read arbitrary
+  files, run model-provided code, control devices or call a live model. See the
   [Tutorial Plan](../getting-started/tutorial-plan.md) for the scenario map,
   current status, delivery standard and next candidates.
 - Validate one application-shaped prototype for a named consumer before
