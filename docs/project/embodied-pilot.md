@@ -8,9 +8,11 @@ tools, governed runtime assembly, a PostgreSQL Run/reconciliation journal, publi
 v1 operation/receipt contracts, and F5 local component scopes. The F5 records
 cover adapter cases and an API/PostgreSQL local-development scope with a simulated
 observation source and a `simulated` ROS 2 bridge backend; they set
-`stage_3_4_p2_acceptance=not_claimed`. The `rclpy` backend is not executed on
-Windows. Real ROS 2/Gazebo/Linux execution, independent observation source and
-verifier, hardware effect, PEIRAVELA, and E1-E8 pilot evidence remain open. This
+`stage_3_4_p2_acceptance=not_claimed`. The product's E1-E8 deterministic/local
+component matrix passes at `d76f13f`; this is component evidence, not P2
+acceptance. The `rclpy` backend is not executed on Windows. Real ROS
+2/Gazebo/Linux execution, independent observation source and verifier, hardware
+effect, PEIRAVELA, and E1-E8 pilot acceptance remain open. This
 page is an acceptance plan, not a schedule, staffing plan, or a claim of pilot
 acceptance. Detailed execution plans remain in internal planning storage.
 

@@ -1,7 +1,8 @@
 # Embodied Integration Profile
 
 **Status: proposed design, updated 2026-11-22; AKROVELA is the selected pilot
-consumer; P1 and F5 local component evidence exists; E1-E8 not run.** No embodied
+consumer; P1/F5 and E1-E8 deterministic/local component evidence exists; P2/P3
+not run.** No embodied
 runtime, reusable middleware adapter, new Core API or safety guarantee is
 introduced. Like PRAXOVELA, AKROVELA embeds PRAXO-CORE as a component of its own
 product; Core remains product-neutral. This page specializes the
@@ -156,9 +157,9 @@ unsatisfied; partial experiments must narrow their claims.
 
 The [embodied pilot plan](../project/embodied-pilot.md) turns E1-E8 into
 deterministic, simulation, and optional hardware gates with required evidence and
-stop conditions. AKROVELA is the selected consumer and records P1 and F5 local
-component evidence, but no accepted P2 run or E1-E8 pilot result; it is not an
-implementation claim for this profile.
+stop conditions. AKROVELA is the selected consumer and records P1, F5, and
+E1-E8 deterministic/local component evidence, but no accepted P2 run or E1-E8
+pilot acceptance; it is not an implementation claim for this profile.
 
 The [long-running operation recipe](../guides/long-running-operations.md) supplies
 software-fixture examples of response loss, status recovery, cancellation and
