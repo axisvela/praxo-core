@@ -71,6 +71,13 @@ posting, payments, durable queues or recovery proof. Local GnuCOBOL 2.0.0 and
 Python 3.14 checks passed, and Linux CI passed at `01d9b1ff` in
 [run 45040372057](https://github.com/axisvela/praxo-core/actions/runs/45040372057).
 
+The [Julia experiment-comparison tutorial](https://github.com/axisvela/praxo-core/tree/main/language/julia/Tutorial/experiment-comparison)
+computes baseline/candidate means and delta over fixed results through the native
+Julia Core, then packages the computed evidence in a report. It includes policy
+denial and dependency-failure checks. It does not read arbitrary data, execute
+model-provided Julia code, install packages or call a live model. Local Julia
+1.13.2 tests passed; Linux CI is configured and pending.
+
 The catalog uses the depth labels from the
 [Language Coverage depth audit](language-coverage.md#depth-audit):
 
@@ -105,6 +112,7 @@ for mechanism-only themes and the
 | Triage a synthetic log and produce a report | [Perl log triage](https://github.com/axisvela/praxo-core/tree/main/language/perl/Tutorial/log-triage) | Native Perl Core, fixed fixture log, severity counts, denial and dependency-failure checks |
 | Assess dataset quality with computed evidence | [R data quality](https://github.com/axisvela/praxo-core/tree/main/language/r/Tutorial/data-quality) | Native R statistics over a fixed data frame; the model packages tool-computed values, not invented numbers |
 | Review a bank batch exception handoff | [COBOL batch exception review](https://github.com/axisvela/praxo-core/tree/main/language/cobol/Tutorial/batch-exception-review) | Reuses the deterministic COBOL batch fixture; separate review worker, unavailable and timeout paths; no real posting |
+| Compare fixed experiment results | [Julia experiment comparison](https://github.com/axisvela/praxo-core/tree/main/language/julia/Tutorial/experiment-comparison) | Native Julia means/delta over fixed results; model packages computed evidence, no arbitrary code or causal claim |
 | Embed in an application | [Application Integration Checklist](../guides/application-integration-checklist.md) | Risk-tiered checklist for read-only, side-effecting, and high-risk deployments |
 | Run Core behind HTTP | [Embedded HTTP service tutorial](../guides/embedded-service-tutorial.md), [Language Coverage](language-coverage.md) | Executable HTTP servers for Go, Python, TypeScript, Java, C#, and Rust; transport-neutral handler examples for every other declared language |
 | Explore the Go reference | [`examples/reference`](https://github.com/axisvela/praxo-core/tree/main/examples/reference) | Go reference application |

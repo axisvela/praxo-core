@@ -61,7 +61,8 @@ when its tutorial has runnable commands, tests, and recorded evidence.
 | Perl log triage | Native Perl Core, fixed fixture log, severity report | Local Perl 5.40.3 tests and Linux CI | No arbitrary path, shell, alert delivery or live model |
 | R data quality | Native R statistics, fixed data frame, computed report | Local R 4.6.1 tests and Linux CI | No arbitrary file/SQL/shell, live model or causal claim |
 | COBOL batch exception review | Reuses deterministic batch handoff; separate review worker | Local GnuCOBOL 2.0.0/Python checks and Linux CI | No real posting, durable queue, recovery proof or live model |
-| Julia, Octave, Lua, Rust, Zig, C, C++ | Not implemented as Tutorial entries | Not run | Candidate paths only |
+| Julia experiment comparison | Native Julia means/delta over fixed results | Local Julia 1.13.2 tests; Linux CI configured and pending | No arbitrary data/code/package install, live model or causal claim |
+| Octave, Lua, Rust, Zig, C, C++ | Not implemented as Tutorial entries | Not run | Candidate paths only |
 
 See [Verification Evidence](../project/verification-evidence.md) for exact run
 IDs and scope. "Passed in CI" does not mean production readiness, independent
@@ -100,10 +101,8 @@ not in `pkg/...` or `spec/`.
 
 ## Next Work
 
-1. Add Julia experiment comparison as a second analytics path with computed
-   evidence separated from model narrative.
-2. Add device tutorials only when a concrete runtime and transport contract exist.
-3. Turn each verified tutorial into a consumer test-authorized path, not just a
+1. Add device tutorials only when a concrete runtime and transport contract exist.
+2. Turn each verified tutorial into a consumer test-authorized path, not just a
    maintainer demo.
 
 Language count is not the goal. Fewer complete, differentiated paths are more

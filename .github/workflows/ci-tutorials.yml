@@ -66,6 +66,17 @@ jobs:
       - run: sudo apt-get update && sudo apt-get install -y gnucobol
       - run: python language/cobol/Tutorial/batch-exception-review/run.py
 
+  julia-experiment-comparison:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: julia-actions/setup-julia@v2
+        with:
+          version: '1.13'
+      - run: julia --project=language/julia -e 'using Pkg; Pkg.instantiate()'
+      - run: julia --project=language/julia language/julia/Tutorial/experiment-comparison/experiment_comparison.jl --test
+
   java-order-review:
     runs-on: ubuntu-latest
     timeout-minutes: 10

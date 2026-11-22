@@ -126,6 +126,15 @@ bank model. Linux CI [45040372057](https://github.com/axisvela/praxo-core/action
 also passed at `01d9b1ff`. No real posting, payment, durable queue, recovery
 proof, live model or independent consumer evidence is claimed.
 
+Julia experiment-comparison tutorial (2026-11-22): local Julia 1.13.2 in source
+mode passed success, policy denial and simulated dependency failure. The report
+contained five samples, baseline mean 0.74, candidate mean 0.784, delta 0.044,
+winner `candidate` and an empty `mutating_actions` list; an out-of-scope dataset
+was denied before any read (`reads=0`); simulated dependency failure exited
+nonzero after one read. Linux CI is configured but its result is not yet
+recorded. No arbitrary data, model-provided Julia execution, package install,
+live model, causal claim, production platform or independent adoption is verified.
+
 | Area | Verified | Level | Limits |
 | --- | --- | --- | --- |
 | Python published package | PyPI `praxo-core==0.10.0` is published from source tag `python/v0.10.0`. The docs CI published-upgrade check installed `0.2.4`, ran the unchanged consumer and governed checks, upgraded to `0.10.0`, and reran the suite successfully. Historical local checks cover `0.3.2` and `0.2.4` | Registry publication + CI upgrade | One version pair; a post-publication consumer install outside CI for `0.10.0` is not recorded here; one platform/toolchain; not an independent or non-author consumer; no provider or production evidence |
