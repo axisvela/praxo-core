@@ -388,6 +388,8 @@ jobs:
         working-directory: language/rust/examples/retry
       - run: cargo run --quiet -- --test
         working-directory: language/rust/examples/service
+      - run: cargo test --quiet
+        working-directory: language/rust/examples/service
       - run: cargo run --quiet
         working-directory: language/rust/examples/identity-policy
 

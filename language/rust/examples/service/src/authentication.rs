@@ -36,6 +36,8 @@ impl fmt::Display for AuthError {
 impl Error for AuthError {}
 
 pub trait Transport {
+    fn get_json(&self, url: &str) -> Result<(u16, String), AuthError>;
+
     fn post_form(
         &self,
         url: &str,
@@ -207,8 +209,7 @@ impl<'a> RevocationClient<'a> {
 }
 
 fn base64_encode(input: &[u8]) -> String {
-    const ALPHABET: &[u8; 64] =
-        b"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+    const ALPHABET: &[u8; 64] = b"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
     let mut output = String::new();
     for chunk in input.chunks(3) {
         let first = chunk[0] as u32;
@@ -270,6 +271,10 @@ mod tests {
     }
 
     impl Transport for ScriptedTransport {
+        fn get_json(&self, _url: &str) -> Result<(u16, String), AuthError> {
+            Err(AuthError::new("not used"))
+        }
+
         fn post_form(
             &self,
             url: &str,
@@ -359,14 +364,12 @@ mod tests {
         ];
         for body in rejected {
             let transport = ScriptedTransport::ok(200, body);
-            let auth =
-                IntrospectionAuthenticator::new(&transport, "https://idp.example", "", "");
+            let auth = IntrospectionAuthenticator::new(&transport, "https://idp.example", "", "");
             assert!(auth.authenticate(Some("Bearer token-1"), now).is_none());
         }
 
         let failure = ScriptedTransport::ok(500, active_body(now));
-        let failure_auth =
-            IntrospectionAuthenticator::new(&failure, "https://idp.example", "", "");
+        let failure_auth = IntrospectionAuthenticator::new(&failure, "https://idp.example", "", "");
         assert!(failure_auth
             .authenticate(Some("Bearer token-1"), now)
             .is_none());
@@ -385,21 +388,16 @@ mod tests {
                 now + 60
             ),
         );
-        let custom_auth =
-            IntrospectionAuthenticator::new(&custom, "https://idp.example", "", "")
-                .with_tenant_claim("org");
+        let custom_auth = IntrospectionAuthenticator::new(&custom, "https://idp.example", "", "")
+            .with_tenant_claim("org");
         let principal = custom_auth
             .authenticate(Some("Bearer token-1"), now)
             .expect("custom tenant");
         assert_eq!(principal.tenant, "org-a");
 
         let revocation = ScriptedTransport::ok(200, "");
-        let client = RevocationClient::new(
-            &revocation,
-            "https://idp.example/revoke",
-            "svc",
-            "secret",
-        );
+        let client =
+            RevocationClient::new(&revocation, "https://idp.example/revoke", "svc", "secret");
         assert!(client.revoke("token-1").is_ok());
         let calls = revocation.calls();
         assert_eq!(calls.len(), 1);
