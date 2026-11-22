@@ -31,6 +31,11 @@ teaching backend at `8b0593bb` in
 [run 45033109188](https://github.com/axisvela/praxo-core/actions/runs/45033109188),
 using published packages and deterministic models, not live providers.
 
+The [C# order service desk](https://github.com/axisvela/praxo-core/tree/main/language/csharp/Tutorial/order-review)
+adds an ASP.NET Core minimal API and native Core CLI. Local self-tests and a
+real Web-to-order-service path pass; the four-language CI gate is configured
+against public backend `cd08b09`, with its run result pending.
+
 The catalog uses the depth labels from the
 [Language Coverage depth audit](language-coverage.md#depth-audit):
 

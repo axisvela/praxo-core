@@ -261,6 +261,10 @@ Turn the first run into one useful local application, such as:
   at Core `8b0593bb` in run `45033109188`, using published packages and deterministic
   models. The earlier private gate remains a recorded skip, not a pass; neither
   result establishes independent adoption or live-provider verification.
+  C# now has a local-verified ASP.NET Core service-desk tutorial with fixed-order
+  routing and a native Core CLI; the public integration harness adds real Web
+  authentication, draft replay and dependency-failure checks. Four-language
+  hosted verification is pending; no live model or production identity is claimed.
 - Validate one application-shaped prototype for a named consumer before
   expanding tutorials across SDKs.
 - Audit the existing MCP examples against their actual transports and commands;

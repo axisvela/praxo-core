@@ -16,6 +16,17 @@ permissions:
   contents: read
 
 jobs:
+  csharp-order-review:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+      - run: dotnet build language/csharp/Tutorial/order-review/OrderReview.csproj --nologo
+      - run: dotnet language/csharp/Tutorial/order-review/bin/Debug/net8.0/Praxo.OrderReview.dll --test
+
   java-order-review:
     runs-on: ubuntu-latest
     timeout-minutes: 10
@@ -37,7 +48,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           repository: axisvela/agent-tutorial-services
-          ref: 8b7820edbf9150b5b8c90fe73368a1bba8854186
+          ref: cd08b095982af3596d2e86597f97d5df02af3c52
           path: tutorial-services
           persist-credentials: false
       - uses: actions/setup-python@v5
@@ -46,6 +57,10 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '24'
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+      - run: dotnet build language/csharp/Tutorial/order-review/OrderReview.csproj --nologo
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
@@ -63,3 +78,4 @@ jobs:
           PRAXO_CORE_REPO: ${{ github.workspace }}
           PRAXO_PYTHON_PACKAGE_PATH: ${{ github.workspace }}/tutorial-packages
           PRAXO_JAVA_CLASSPATH: ${{ github.workspace }}/language/java/Tutorial/order-review/target/classes:${{ github.workspace }}/language/java/Tutorial/order-review/target/dependency/*
+          PRAXO_DOTNET_DLL: ${{ github.workspace }}/language/csharp/Tutorial/order-review/bin/Debug/net8.0/Praxo.OrderReview.dll
