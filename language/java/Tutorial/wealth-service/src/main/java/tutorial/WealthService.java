@@ -38,6 +38,12 @@ public final class WealthService {
             "bonds", 80000.0);
 
     private static final class FixtureModel implements Model {
+        private final String account;
+
+        private FixtureModel(String account) {
+            this.account = account;
+        }
+
         @Override
         public Response generate(com.axisvela.praxo.model.Request request) throws Exception {
             int tools = 0;
@@ -49,12 +55,12 @@ public final class WealthService {
             if (tools == 0) {
                 return Response.of(Message.assistant("", List.of(
                         new ToolCall("portfolio-1", "read_portfolio",
-                                Map.of("account", "acct-100")))));
+                                Map.of("account", account)))));
             }
             if (tools == 1) {
                 return Response.of(Message.assistant("", List.of(
                         new ToolCall("draft-1", "draft_rebalance",
-                                Map.of("account", "acct-100", "target_equity", 55.0)))));
+                                Map.of("account", account, "target_equity", 55.0)))));
             }
             Map<String, Object> draft = Json.object(lastToolContent(request));
             Map<String, Object> report = new LinkedHashMap<>();
@@ -155,7 +161,7 @@ public final class WealthService {
         Registry tools = new Registry();
         tools.register(new ReadPortfolioTool(reads, simulateFailure));
         tools.register(new DraftRebalanceTool(reads));
-        AgentOptions options = new AgentOptions(new FixtureModel());
+        AgentOptions options = new AgentOptions(new FixtureModel(account));
         options.tools = tools;
         options.allowedTools = List.of("read_portfolio", "draft_rebalance");
         options.policy = action -> authorize(action)
