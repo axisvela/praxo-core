@@ -56,7 +56,7 @@ Web 服务、运维 Shell、分析工作流、宿主嵌入或受约束设备。�
 | 营销内容与分群 | Python、R | 内容工作流与原生统计分群 | R 营销分群已实现（本地；CI job 已添加、尚未运行）；Python 内容工作流计划 |
 | 办公效率 | Python、C# | 文档、邮件/日历工具、.NET 集成 | Python 办公问答已实现 |
 | 销售 / CRM | C#、TypeScript | 企业认证与 Web 集成 | C# 销售/CRM 已实现并通过 CI |
-| 理财 / 零售金融 | Java、R | 服务边界与风险/收益分析 | Java 理财审阅已实现并通过 CI |
+| 理财 / 零售金融 | Java、R | 服务边界与风险/收益分析 | Java 理财审阅通过 CI；R 理财分析已实现（本地；CI job 已添加、尚未运行） |
 | 保险理赔 | Python、Java | 文档提取、审批与审计边界 | Python 理赔分诊已实现（本地；CI job 已添加、尚未运行）；Java 计划 |
 | 采购 / ERP | Java、C# | 企业系统与应用自有身份 | 计划 |
 | 工厂 / 制造 | C++、Rust | OPC UA/设备 SDK 接缝与边缘部署 | Rust 网关适配器 fixture 已实现并通过 CI；真实 OPC UA/设备 SDK 计划中 |
@@ -65,7 +65,7 @@ Web 服务、运维 Shell、分析工作流、宿主嵌入或受约束设备。�
 | 机器人 | C++、Rust、Julia | ROS 2 集成、控制与数值分析 | 计划 |
 | 物流 | Go、Java | 事件驱动服务与长时操作 | Go 物流 checkpoint/恢复已实现（本地；CI job 已添加、尚未运行）；Java 计划 |
 | 能源 / 电网 | Rust、C++、Julia | 边缘约束与数值分析 | 计划 |
-| 安全 / SOC | Go、Perl、PowerShell | 服务、日志与 Windows 运维 | Go SOC 告警分诊已实现（本地；CI job 已添加、尚未运行）；Perl/PowerShell 计划 |
+| 安全 / SOC | Go、Perl、PowerShell | 服务、日志与 Windows 运维 | Go SOC 告警分诊与证据库已实现（本地；CI job 已添加、尚未运行）；Perl/PowerShell 计划 |
 | 医疗排班 | C#、Java | 身份、审计与企业集成 | 计划 |
 | 法律 / 合规 | Python、R | 引用、证据与人工复核边界 | Python 法律合规备忘录已实现（本地；CI job 已添加、尚未运行）；R 计划 |
 | 教育 / 辅导 | TypeScript、Python | Web 问答与内容工作流 | 计划 |
@@ -115,6 +115,8 @@ Core 与 Adapter，而不是增加框架表面积。
 | Go 事件处置协调 | 参考 Go Core、应用自有 `IncidentSource`、仅草案动作、`event.FuncSink` 遥测 | 本地 `go test`/`go run --test` 通过；Linux CI job 已添加，尚未运行 | 仅进程内事件源与 event sink fixture；无真实事件系统、持久工作流、真实模型或事件写入 |
 | Go SOC 告警分诊 | 参考 Go Core、应用自有 `AlertSource`、Core `PIIRedactor`、仅草案隔离、`event.FuncSink` 审计 | 本地 `go test`/`go run --test` 通过；Linux CI job 已添加，尚未运行 | 仅进程内事件源 fixture；无真实 SIEM、主机动作、真实模型；运行期工具参数/错误/事件不脱敏 |
 | Go 物流 checkpoint | 参考 Go Core、`checkpoint.Checkpoint` 往返、两轮恢复、仅草案改道 | 本地 `go test`/`go run --test` 通过；Linux CI job 已添加，尚未运行 | 仅内存 JSON 存储；无数据库、并发存储、租约/exactly-once、真实物流系统或真实模型 |
+| Go 证据库 | 参考 Go Core、`vfs/localfs` 受限根、路径穿越拒绝、仅草案发现 | 本地 `go test`/`go run --test` 通过；Linux CI job 已添加，尚未运行 | 仅临时证据库目录；无加密存储、案件系统、生产沙箱或真实模型 |
+| R 理财分析 | 原生 R 加权风险/集中度指标、固定组合、仅草案再平衡 | 本地 R 4.6.1 检查通过；Linux CI job 已添加，尚未运行 | 仅固定组合 fixture；无交易、市场数据、理财建议或真实模型 |
 | C 设备诊断 | 原生 C Core、应用自有 `PxDeviceAdapter` 函数指针、仅草案动作 | 本地 MinGW gcc/CMake 检查通过；Linux CI job 已添加，尚未运行 | 仅进程内适配器 fixture；无串行总线、Socket、设备 SDK、设备写入或真实模型 |
 | C++ 工业边缘 | 原生 C++ Core、应用自有 `DeviceAdapter` 接口、仅草案动作 | 本地 MinGW g++/CMake 检查通过；Linux CI job 已添加，尚未运行 | 仅进程内适配器 fixture；无现场总线、OPC UA、Socket、设备 SDK、设备写入或真实模型 |
 

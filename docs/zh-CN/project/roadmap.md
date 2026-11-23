@@ -210,6 +210,10 @@ R 的 `Tutorial/marketing-segmentation/` 把固定八客户 fixture 分成四个
 分群均值（`vip` = `825`），选出最高价值分群并生成零发送的仅审阅 `invite_segment`
 草案。本地 R 4.6.1 检查通过；Linux CI job 已添加但尚未运行。它不发送消息、不发布
 活动、不读取任意数据、不调用真实模型。
+R 的 `Tutorial/wealth-analysis/` 对固定 `acct-100` 组合计算加权风险 `0.54` 与集中度
+`0.60`，建议 `rebalance`，并生成 `trades_executed=0` 的仅审阅提案。本地 R 4.6.1
+检查通过；Linux CI job 已添加但尚未运行。它不交易、不使用市场数据、不提供理财建议、
+不调用真实模型。
 COBOL 的 `Tutorial/batch-exception-review/` 复用现有确定性批处理交接，检查已审阅、
 不可用和超时路径，同时保持批输出与异常文件不变。本地 GnuCOBOL 2.0.0/Python 检查通过，
 Linux CI 也已在 `01d9b1ff`（run `45040372057`）通过。它不实现真实记账、持久队列、
@@ -273,6 +277,10 @@ Go 的 `Tutorial/logistics-checkpoint/` 评估固定 `shipment-100`，把对话�
 保持 1、`drafts` 达到 1），并保存扩展后的 checkpoint。本地 `go test` 与 `go run --test`
 通过；Linux CI job 已添加但尚未运行。存储仅是内存 JSON 往返，不是数据库、并发存储或
 exactly-once 证明，也不连接真实物流系统或真实模型。
+Go 的 `Tutorial/evidence-vault/` 从受限根目录的 `vfs/localfs` 后端读取唯一允许的
+`evidence-100.txt`，拒绝 `../secret.txt` 与绝对路径，并生成 `case_writes=0` 的仅审阅
+发现。本地 `go test` 与 `go run --test` 通过并断言 containment；Linux CI job 已添加但
+尚未运行。证据库是临时目录，不是加密存储或生产沙箱，且不连接案件系统或真实模型。
 C 的 `Tutorial/device-diagnostics/` 通过应用自有 `PxDeviceAdapter` 函数指针读取固定
 `device-100` 快照，并生成 `notify_operator` 仅审阅动作草案。本地 MinGW gcc/CMake 检查
 通过；Linux CI job 已添加但尚未运行。它不实现串行总线、Socket、设备 SDK、设备命令或

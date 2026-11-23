@@ -62,7 +62,7 @@ and a named consumer; keep the tutorial boundary narrow.
 | Marketing content and segmentation | Python, R | Content workflows plus native statistical segments | R marketing segmentation implemented (local; CI job added, not yet run); Python content workflow planned |
 | Office productivity | Python, C# | Documents, email/calendar tools, .NET integration | Python office Q&A next |
 | Sales / CRM | C#, TypeScript | Enterprise authentication and web integration | C# sales/CRM implemented and CI verified |
-| Wealth / retail finance | Java, R | Service boundaries plus risk/return analysis | Java wealth review implemented and CI verified |
+| Wealth / retail finance | Java, R | Service boundaries plus risk/return analysis | Java wealth review CI verified; R wealth analysis implemented (local; CI job added, not yet run) |
 | Insurance claims | Python, Java | Document extraction, approval, audit boundaries | Python claims triage implemented (local; CI job added, not yet run); Java planned |
 | Procurement / ERP | Java, C# | Enterprise systems and application-owned identity | Planned |
 | Factory / manufacturing | C++, Rust | OPC UA/device SDK seams, edge deployment | Rust gateway adapter fixture implemented and CI verified; real OPC UA/device SDK planned |
@@ -71,7 +71,7 @@ and a named consumer; keep the tutorial boundary narrow.
 | Robotics | C++, Rust, Julia | ROS 2 integration, control and numerical analysis | Planned |
 | Logistics | Go, Java | Event-driven services and long-running operations | Go logistics checkpoint/resume implemented (local; CI job added, not yet run); Java planned |
 | Energy / grid | Rust, C++, Julia | Edge constraints and numerical analysis | Planned |
-| Security / SOC | Go, Perl, PowerShell | Services, logs and Windows operations | Go SOC alert triage implemented (local; CI job added, not yet run); Perl/PowerShell planned |
+| Security / SOC | Go, Perl, PowerShell | Services, logs and Windows operations | Go SOC alert triage and evidence-vault implemented (local; CI jobs added, not yet run); Perl/PowerShell planned |
 | Healthcare scheduling | C#, Java | Identity, audit and enterprise integration | Planned |
 | Legal / compliance | Python, R | Citations, evidence, human-review boundaries | Python legal compliance memo implemented (local; CI job added, not yet run); R planned |
 | Education / tutoring | TypeScript, Python | Web Q&A and content workflows | Planned |
@@ -126,6 +126,8 @@ add framework surface.
 | Go incident coordination | Reference Go Core, application-owned `IncidentSource`, draft-only action, `event.FuncSink` telemetry | Local `go test`/`go run --test` pass; Linux CI job added, not yet run | In-process source and event sink fixtures only; no real incident system, durable workflow, live model or incident write |
 | Go SOC alert triage | Reference Go Core, application-owned `AlertSource`, Core `PIIRedactor`, draft-only isolation, `event.FuncSink` audit | Local `go test`/`go run --test` pass; Linux CI job added, not yet run | In-process source/event fixtures only; no real SIEM, host action, live model; live tool args/errors/events not redacted |
 | Go logistics checkpoint | Reference Go Core, `checkpoint.Checkpoint` round-trip, two-run resume, draft-only reroute | Local `go test`/`go run --test` pass; Linux CI job added, not yet run | In-memory JSON store only; no database, concurrent store, lease/exactly-once, real logistics system or live model |
+| Go evidence vault | Reference Go Core, `vfs/localfs` confined root, path-traversal denial, draft-only finding | Local `go test`/`go run --test` pass; Linux CI job added, not yet run | Temporary vault directory only; no encrypted store, case system, production sandbox or live model |
+| R wealth analysis | Native R weighted-risk/concentration metrics, fixed portfolio, draft-only rebalance | Local R 4.6.1 checks pass; Linux CI job added, not yet run | Fixed portfolio fixture only; no trades, market data, financial advice or live model |
 | C device diagnostics | Native C Core, application-owned `PxDeviceAdapter` function pointer, draft-only action | Local MinGW gcc/CMake checks pass; Linux CI job added, not yet run | In-process adapter fixture only; no serial bus, socket, device SDK, device write or live model |
 | C++ industrial edge | Native C++ Core, application-owned `DeviceAdapter` interface, draft-only action | Local MinGW g++/CMake checks pass; Linux CI job added, not yet run | In-process adapter fixture only; no fieldbus, OPC UA, socket, device SDK, device write or live model |
 

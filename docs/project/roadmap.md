@@ -286,6 +286,11 @@ Turn the first run into one useful local application, such as:
   highest-value segment and drafts a review-only `invite_segment` with zero sends.
   Local R 4.6.1 checks pass; the Linux CI job is added but not yet run. It does
   not send messages, launch a campaign, read arbitrary data or use a live model.
+  R's `Tutorial/wealth-analysis/` computes weighted risk `0.54` and concentration
+  `0.60` over a fixed `acct-100` portfolio, recommends `rebalance`, and drafts a
+  review-only proposal with `trades_executed=0`. Local R 4.6.1 checks pass; the
+  Linux CI job is added but not yet run. It does not trade, use market data, give
+  advice or call a live model.
   COBOL's `Tutorial/batch-exception-review/` reuses the existing deterministic
   batch handoff and checks reviewed, unavailable and timeout paths while keeping
   batch output and exceptions unchanged. Local GnuCOBOL 2.0.0/Python checks pass,
@@ -373,6 +378,13 @@ Turn the first run into one useful local application, such as:
   `go run --test` pass; the Linux CI job is added but not yet run. The store is an
   in-memory JSON round-trip, not a database, concurrent store or exactly-once
   proof, and it does not connect a real logistics system or use a live model.
+  Go's `Tutorial/evidence-vault/` reads one allowlisted `evidence-100.txt` from a
+  `vfs/localfs` backend confined to a vault root, rejects `../secret.txt` and
+  absolute paths, and drafts a review-only finding with `case_writes=0`. Local
+  `go test` and `go run --test` pass and assert containment; the Linux CI job is
+  added but not yet run. The vault is a temporary directory, not an encrypted
+  store or production sandbox, and the tutorial connects no case system or live
+  model.
   C's `Tutorial/device-diagnostics/` reads a fixed `device-100` snapshot through an
   application-owned `PxDeviceAdapter` function pointer and drafts a
   `notify_operator` review action. Local MinGW gcc/CMake checks pass; the Linux CI
