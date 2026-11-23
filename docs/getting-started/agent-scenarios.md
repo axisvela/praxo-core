@@ -92,7 +92,7 @@ Repository links in the tables point to source on `main`, not immutable run evid
 
 | ID | Scenario | Targets | First bounded tutorial outcome / related slice |
 | --- | --- | --- | --- |
-| SC-01 | Literature review and hypotheses | Python, Julia, Haskell | Retrieve fixed abstracts, cite claims and label hypotheses as unverified; no fabricated papers |
+| SC-01 | Literature review and hypotheses | Python, Julia, Haskell | Retrieve fixed abstracts, cite claims and label hypotheses as unverified; no fabricated papers; [Haskell literature-review slice](https://github.com/axisvela/praxo-core/tree/main/language/haskell/Tutorial/literature-review) covers two fixture papers and an unverified draft |
 | SC-02 | Drug and molecular design | Python, Julia, C++ | Rank synthetic descriptors under fixed constraints; no efficacy, toxicity, synthesis or clinical claim |
 | SC-03 | Self-driving laboratory | Julia, Rust, C | Simulate a parameter/result loop with deterministic limits; no laboratory actuator or chemical handling |
 | SC-04 | Materials inverse design and simulation | Fortran, Julia, C++ | Evaluate fixed candidate properties and draft the next simulation; no validated new material |

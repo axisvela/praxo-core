@@ -48,6 +48,16 @@ jobs:
       - run: python scripts/tutorial_catalog.py --check
       - run: python scripts/test_tutorial_catalog.py
 
+  haskell-literature-review:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: haskell-actions/setup@v2
+        with:
+          ghc-version: '9.12.2'
+      - run: runghc -ilanguage/haskell/src language/haskell/Tutorial/literature-review/app.hs --test
+
   dart-meeting-coordination:
     runs-on: ubuntu-latest
     timeout-minutes: 10

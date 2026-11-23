@@ -62,6 +62,7 @@ TUTORIALS = {
     "finops-review": ("SE", "analysis,tools,draft,policy", "SE-07"),
     "api-orchestration": ("SE", "tools,orchestration,draft,policy", "SE-08"),
     "meeting-coordination": ("OP", "tools,draft,policy", "OP-02"),
+    "literature-review": ("SC", "retrieval,citations,tools,draft,policy", "SC-01"),
 }
 GUIDES = {
     "workspace-agent-tutorial": ("SE", "go", "filesystem,tools,policy"),

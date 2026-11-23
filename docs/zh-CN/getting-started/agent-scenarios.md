@@ -75,7 +75,7 @@ system 指令。Memory Store 不等于自动召回；checkpoint 消息续跑不�
 
 | ID | 场景 | 目标语言 | 首个有界教学成果 / 相关切片 |
 | --- | --- | --- | --- |
-| SC-01 | 文献综述与假设生成 | Python、Julia、Haskell | 检索固定摘要、引用主张、标明假设未验证；不编造论文 |
+| SC-01 | 文献综述与假设生成 | Python、Julia、Haskell | 检索固定摘要、引用主张、标明假设未验证；不编造论文；[Haskell 文献综述切片](https://github.com/axisvela/praxo-core/tree/main/language/haskell/Tutorial/literature-review)覆盖两篇 fixture 论文与未验证草案 |
 | SC-02 | 制药与分子设计 | Python、Julia、C++ | 固定约束下排序合成描述符；不声称药效、毒性、合成或临床结果 |
 | SC-03 | 自动化实验室 | Julia、Rust、C | 模拟参数/结果迭代且独立校验限制；不操作实验设备或化学品 |
 | SC-04 | 材料逆向设计与仿真 | Fortran、Julia、C++ | 计算固定候选属性并草拟下轮仿真；不声称发现有效材料 |
