@@ -206,6 +206,16 @@ also passed at `a78de75e`. The adapter is an in-process fixture; no MQTT, OPC UA
 socket, device command, live model, public hosting or independent adoption is
 verified.
 
+Zig gateway-health tutorial (2026-11-23): local Zig 0.17.0 with the native Zig
+Core passed success, policy denial and simulated adapter failure. The success
+report contained the fixed `gateway-100` snapshot (`health=degraded`, disk `91`,
+memory `78`), a `draft_only`, `review_required` `restart_telemetry` draft and zero
+device writes; the out-of-scope `gateway-200` was denied before the adapter
+(`reads=0`); simulated adapter failure returned `GatewayReadFailed` after one
+read. Linux CI is pending. The adapter is an in-process fixture; no MQTT, OPC UA,
+socket, device command, live model, public hosting or independent adoption is
+verified.
+
 | Area | Verified | Level | Limits |
 | --- | --- | --- | --- |
 | Python published package | PyPI `praxo-core==0.10.0` is published from source tag `python/v0.10.0`. The docs CI published-upgrade check installed `0.2.4`, ran the unchanged consumer and governed checks, upgraded to `0.10.0`, and reran the suite successfully. Historical local checks cover `0.3.2` and `0.2.4` | Registry publication + CI upgrade | One version pair; a post-publication consumer install outside CI for `0.10.0` is not recorded here; one platform/toolchain; not an independent or non-author consumer; no provider or production evidence |

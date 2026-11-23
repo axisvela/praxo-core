@@ -98,6 +98,18 @@ jobs:
       - run: cargo run --quiet --locked -- --test
         working-directory: language/rust/Tutorial/iot-gateway
 
+  zig-gateway-health:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: mlugg/setup-zig@v2
+        with:
+          version: "0.17.0"
+      - run: mkdir -p build
+      - run: zig build-exe --dep praxo -Mroot=language/zig/Tutorial/gateway-health/main.zig -Mpraxo=language/zig/src/praxo.zig -femit-bin=build/praxo-zig-gateway
+      - run: ./build/praxo-zig-gateway --test
+
   python-office-qa:
     runs-on: ubuntu-latest
     timeout-minutes: 10

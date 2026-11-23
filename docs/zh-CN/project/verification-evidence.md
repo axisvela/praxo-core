@@ -167,6 +167,13 @@ Rust IoT 网关教程（2026-11-23）：本地 Rust 使用已发布 `praxo-core=
 也已在 `a78de75e` 通过。Adapter 是进程内 fixture；未验证 MQTT、OPC UA、Socket、
 设备命令、真实模型、公共托管或独立采用。
 
+Zig 网关健康教程（2026-11-23）：本地 Zig 0.17.0 与原生 Zig Core 通过成功、策略拒绝和
+模拟 Adapter 失败。成功报告包含固定 `gateway-100` 快照（`health=degraded`、磁盘
+`91`、内存 `78`）、`draft_only`、`review_required` 的 `restart_telemetry` 草案和零
+设备写入；越界 `gateway-200` 在 Adapter 前被拒绝（`reads=0`）；模拟 Adapter 失败在
+读取一次后返回 `GatewayReadFailed`。Linux CI 待确认。Adapter 是进程内 fixture；
+未验证 MQTT、OPC UA、Socket、设备命令、真实模型、公共托管或独立采用。
+
 | 领域 | 已验证 | 级别 | 限制 |
 | --- | --- | --- | --- |
 | Python 已发布包 | PyPI 已从源码标签 `python/v0.10.0` 发布 `praxo-core==0.10.0`。Docs CI 发布升级检查安装 `0.2.4`，运行未改动消费者与治理检查，升级到 `0.10.0` 后再次通过。历史本地检查覆盖 `0.3.2` 和 `0.2.4` | Registry 发布 + CI 升级 | 一个版本对；未记录 CI 之外的 `0.10.0` 消费者安装；一个平台/工具链；不是独立或非作者消费者；不含 provider 或生产证据 |

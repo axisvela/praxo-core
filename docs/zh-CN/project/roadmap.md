@@ -170,7 +170,8 @@ PRAXO-CORE 继续定位为**可治理、可嵌入的 Agent 执行框架**。路�
 按语言特点构建应用教程，复用公开 MIT 仓库 `axisvela/agent-tutorial-services`
 中的合成业务服务。先实现有资源范围的订单查询和处理草稿，再按验证结果增加 Java
 企业订单、Python/C# 服务台、PowerShell/Perl 运维、COBOL 批处理审阅、Julia/R/Octave
-分析、Lua 宿主嵌入、Rust 网关适配器 fixture 以及 Zig/C/C++ 设备场景。业务 API 不进入 Core 或 `spec/`；
+分析、Lua 宿主嵌入、Rust 网关适配器 fixture、Zig 网关健康 fixture 以及 C/C++ 设备场景。
+业务 API 不进入 Core 或 `spec/`；
 必须支持本地运行，公共托管可选。维护者教程不等于独立消费者证据。
 
 新增应用教程位于 `language/<language>/Tutorial/`，与 `examples/` 并列；已有机制
@@ -235,7 +236,10 @@ Lua 的 `Tutorial/host-embedding/` 把原生 Lua Core 嵌入宿主事件循环�
 Rust 的 `Tutorial/iot-gateway/` 通过显式的应用自有 `GatewayAdapter` trait 读取固定
 `device-100` 遥测，并生成仅审阅运维动作草案。本地 Rust 检查通过，Linux CI 也已在
 `a78de75e`（run `45098362060`）通过。Adapter 是进程内 fixture，不实现 MQTT、OPC UA、
-Socket、设备命令或真实模型。场景地图、
+Socket、设备命令或真实模型。
+Zig 的 `Tutorial/gateway-health/` 通过显式的应用自有 `GatewayAdapter` 函数表检查固定
+`gateway-100` 快照，并生成 `restart_telemetry` 仅审阅动作草案。本地 Zig 0.17.0 检查
+通过；Linux CI 待确认。它不实现 MQTT、OPC UA、Socket、设备命令或真实模型。场景地图、
 当前状态、交付标准与后续候选见 [Tutorial 整体规划](../getting-started/tutorial-plan.md)。
 
 ### 开发者成果

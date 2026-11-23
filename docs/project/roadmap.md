@@ -242,7 +242,8 @@ Turn the first run into one useful local application, such as:
   scoped order lookup and resolution drafts, then add Java enterprise orders,
   Python/C# service desks, PowerShell/Perl operations, COBOL batch review,
   Julia/R/Octave analysis, Lua host embedding, a Rust gateway adapter fixture,
-  and Zig/C/C++ device scenarios only as their paths are validated. Business APIs remain outside Core and
+  a Zig gateway health fixture, and C/C++ device scenarios only as their paths
+  are validated. Business APIs remain outside Core and
   `spec/`; local service execution is required, public hosting is optional.
   Maintainer tutorials are not independent consumer evidence.
   New application tutorials live in `language/<language>/Tutorial/`, alongside
@@ -322,7 +323,12 @@ Turn the first run into one useful local application, such as:
   explicit application-owned `GatewayAdapter` trait and drafts a review-only
   operator action. Local Rust checks pass, and Linux CI passed at `a78de75e` (run
   `45098362060`). The adapter is an in-process fixture; it does not implement
-  MQTT, OPC UA, sockets, device commands or a live model. See the
+  MQTT, OPC UA, sockets, device commands or a live model.
+  Zig's `Tutorial/gateway-health/` checks a fixed `gateway-100` snapshot through an
+  explicit application-owned `GatewayAdapter` function table and drafts a
+  `restart_telemetry` review action. Local Zig 0.17.0 checks pass; Linux CI is
+  pending. It does not implement MQTT, OPC UA, sockets, device commands or a live
+  model. See the
   [Tutorial Plan](../getting-started/tutorial-plan.md) for the scenario map,
   current status, delivery standard and next candidates.
 - Validate one application-shaped prototype for a named consumer before
