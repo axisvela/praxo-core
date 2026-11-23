@@ -258,6 +258,11 @@ Go 的 `Tutorial/incident-coordination/` 通过应用自有 `IncidentSource` 读
 `run.started`/`tool.call`/`run.completed`。本地 `go test` 与 `go run --test` 通过；
 Linux CI job 已添加但尚未运行。它不连接真实事件系统、不启动持久工作流、不修改事件、
 也不调用真实模型。
+Go 的 `Tutorial/soc-alert-triage/` 通过应用自有 `AlertSource` 读取固定 `alert-100`
+快照，用 Core `PIIRedactor` 脱敏报告人邮箱与电话，生成仅审阅 `isolate_host` 草案，并通过
+`event.FuncSink` 记录审计事件。本地 `go test` 与 `go run --test` 通过并断言原始 PII
+不存在；Linux CI job 已添加但尚未运行。它不连接真实 SIEM、不执行主机动作、不调用真实
+模型，也不对运行期工具参数、错误或事件载荷脱敏。
 C 的 `Tutorial/device-diagnostics/` 通过应用自有 `PxDeviceAdapter` 函数指针读取固定
 `device-100` 快照，并生成 `notify_operator` 仅审阅动作草案。本地 MinGW gcc/CMake 检查
 通过；Linux CI job 已添加但尚未运行。它不实现串行总线、Socket、设备 SDK、设备命令或

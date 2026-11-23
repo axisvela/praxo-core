@@ -71,7 +71,7 @@ and a named consumer; keep the tutorial boundary narrow.
 | Robotics | C++, Rust, Julia | ROS 2 integration, control and numerical analysis | Planned |
 | Logistics | Go, Java | Event-driven services and long-running operations | Planned |
 | Energy / grid | Rust, C++, Julia | Edge constraints and numerical analysis | Planned |
-| Security / SOC | Go, Perl, PowerShell | Services, logs and Windows operations | Planned |
+| Security / SOC | Go, Perl, PowerShell | Services, logs and Windows operations | Go SOC alert triage implemented (local; CI job added, not yet run); Perl/PowerShell planned |
 | Healthcare scheduling | C#, Java | Identity, audit and enterprise integration | Planned |
 | Legal / compliance | Python, R | Citations, evidence, human-review boundaries | Planned |
 | Education / tutoring | TypeScript, Python | Web Q&A and content workflows | Planned |
@@ -123,6 +123,7 @@ add framework surface.
 | Rust IoT gateway | Native Rust Core, read-only `GatewayAdapter`, draft-only action | Local Rust checks and Linux CI | In-process adapter fixture only; no MQTT, OPC UA, socket, device write or live model |
 | Zig gateway health | Native Zig Core, read-only `GatewayAdapter` function table, draft-only action | Local Zig 0.17.0 checks and Linux CI | In-process adapter fixture only; no MQTT, OPC UA, socket, device write or live model |
 | Go incident coordination | Reference Go Core, application-owned `IncidentSource`, draft-only action, `event.FuncSink` telemetry | Local `go test`/`go run --test` pass; Linux CI job added, not yet run | In-process source and event sink fixtures only; no real incident system, durable workflow, live model or incident write |
+| Go SOC alert triage | Reference Go Core, application-owned `AlertSource`, Core `PIIRedactor`, draft-only isolation, `event.FuncSink` audit | Local `go test`/`go run --test` pass; Linux CI job added, not yet run | In-process source/event fixtures only; no real SIEM, host action, live model; live tool args/errors/events not redacted |
 | C device diagnostics | Native C Core, application-owned `PxDeviceAdapter` function pointer, draft-only action | Local MinGW gcc/CMake checks pass; Linux CI job added, not yet run | In-process adapter fixture only; no serial bus, socket, device SDK, device write or live model |
 | C++ industrial edge | Native C++ Core, application-owned `DeviceAdapter` interface, draft-only action | Local MinGW g++/CMake checks pass; Linux CI job added, not yet run | In-process adapter fixture only; no fieldbus, OPC UA, socket, device SDK, device write or live model |
 

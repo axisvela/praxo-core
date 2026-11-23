@@ -352,6 +352,13 @@ Turn the first run into one useful local application, such as:
   `event.FuncSink`. Local `go test` and `go run --test` pass; the Linux CI job is
   added but not yet run. It does not connect a real incident system, start a
   durable workflow, mutate an incident or call a live model.
+  Go's `Tutorial/soc-alert-triage/` reads a fixed `alert-100` snapshot through an
+  application-owned `AlertSource`, redacts reporter email and phone with Core's
+  `PIIRedactor`, drafts a review-only `isolate_host` and records audit events
+  through an `event.FuncSink`. Local `go test` and `go run --test` pass and assert
+  the raw PII is absent; the Linux CI job is added but not yet run. It does not
+  connect a real SIEM, run a host action, call a live model, or redact live tool
+  arguments, errors or event payloads.
   C's `Tutorial/device-diagnostics/` reads a fixed `device-100` snapshot through an
   application-owned `PxDeviceAdapter` function pointer and drafts a
   `notify_operator` review action. Local MinGW gcc/CMake checks pass; the Linux CI
