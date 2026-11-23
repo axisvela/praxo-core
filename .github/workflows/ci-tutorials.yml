@@ -163,6 +163,16 @@ jobs:
           ghc-version: '9.12.2'
       - run: runghc -ilanguage/haskell/src language/haskell/Tutorial/literature-review/app.hs --test
 
+  dart-onboarding-plan:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dart-lang/setup-dart@v1
+        with:
+          sdk: stable
+      - run: dart language/dart/Tutorial/onboarding-plan/onboarding.dart --test
+
   dart-meeting-coordination:
     runs-on: ubuntu-latest
     timeout-minutes: 10

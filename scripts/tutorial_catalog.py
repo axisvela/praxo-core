@@ -77,6 +77,7 @@ TUTORIALS = {
     "rpa-reconciliation": ("OP", "analysis,tools,draft,policy", "OP-04"),
     "recruiting-match": ("OP", "analysis,tools,draft,policy", "OP-05"),
     "quant-risk": ("FC", "analysis,tools,draft,policy", "FC-02"),
+    "onboarding-plan": ("OP", "tools,draft,policy", "OP-06"),
 }
 GUIDES = {
     "workspace-agent-tutorial": ("SE", "go", "filesystem,tools,policy"),

@@ -45,7 +45,7 @@ system 指令。Memory Store 不等于自动召回；checkpoint 消息续跑不�
 | OP-03 | 企业知识库动态维护 | Python、Elixir、OCaml | 检测文档 fixture 变更、去重并草拟带引用修订；不自动写 Wiki；[Elixir 知识维护切片](https://github.com/axisvela/praxo-core/tree/main/language/elixir/Tutorial/knowledge-maintenance)覆盖固定差异与修订草案 |
 | OP-04 | 跨系统 Agentic RPA | Java、C#、Delphi | 对账合成报销/采购记录；未知效果时停止盲重试；[Delphi RPA 对账](https://github.com/axisvela/praxo-core/tree/main/language/delphi/Tutorial/rpa-reconciliation)对固定差额草拟异常单 |
 | OP-05 | 招聘与人才匹配 | Ruby、PHP、Python | 对合成人才做岗位相关技能匹配并解释；不自动招聘决策或联系；[Ruby 招聘匹配](https://github.com/axisvela/praxo-core/tree/main/language/ruby/Tutorial/recruiting-match)排序固定候选并草拟名单 |
-| OP-06 | 个性化入职导师 | Python、Dart、Swift | 按角色与前置条件规划课程；权限仍归应用 |
+| OP-06 | 个性化入职导师 | Python、Dart、Swift | 按角色与前置条件规划课程；权限仍归应用；[Dart 入职计划](https://github.com/axisvela/praxo-core/tree/main/language/dart/Tutorial/onboarding-plan)草拟仅审阅学习路径 |
 | OP-07 | 高管经营简报 | R、Julia、D | 计算合成经营变化并引用指标；不把相关性当因果；[D 高管简报切片](https://github.com/axisvela/praxo-core/tree/main/language/d/Tutorial/executive-brief)覆盖固定变化与复核草案 |
 
 ## 客服、营销与销售（7）
