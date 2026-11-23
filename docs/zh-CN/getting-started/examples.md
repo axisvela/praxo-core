@@ -83,7 +83,9 @@ C# Core 构建和全部四项源码模式检查，见
 [Java 理财审阅教程](https://github.com/axisvela/praxo-core/tree/main/language/java/Tutorial/wealth-service)
 在固定 `acct-100` 组合上增加仅审阅金融服务：读取组合、生成供人工复核的重平衡草案，
 不执行交易或转账。策略拒绝 `acct-200`，Web 边界覆盖 401 与 503。本地编译通过，但本地
-JVM 阻塞运行；Linux CI 已配置待确认。没有真实账户、市场数据或券商集成。
+JVM 阻塞运行；Linux CI 也已在 `827d47ca` 的
+[run 45088386879](https://github.com/axisvela/praxo-core/actions/runs/45088386879) 通过。
+没有真实账户、市场数据或券商集成。
 
 示例目录使用[语言覆盖矩阵](language-coverage.md)中的深度标签：
 

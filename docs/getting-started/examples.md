@@ -108,8 +108,10 @@ The [Java wealth review tutorial](https://github.com/axisvela/praxo-core/tree/ma
 adds a review-only finance service over a fixed `acct-100` portfolio. It reads the
 portfolio, drafts a rebalance for human review and never places trades or
 transfers cash. Policy denies `acct-200`; the Web boundary covers 401 and 503.
-Local compilation passed, but the local JVM blocks runtime execution; Linux CI is
-configured and pending. No real account, market data or brokerage integration exists.
+Local compilation passed, but the local JVM blocks runtime execution. Linux CI
+passed at `827d47ca` in
+[run 45088386879](https://github.com/axisvela/praxo-core/actions/runs/45088386879).
+No real account, market data or brokerage integration exists.
 
 The catalog uses the depth labels from the
 [Language Coverage depth audit](language-coverage.md#depth-audit):

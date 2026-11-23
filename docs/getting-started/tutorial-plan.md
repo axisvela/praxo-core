@@ -62,7 +62,7 @@ and a named consumer; keep the tutorial boundary narrow.
 | Marketing content and segmentation | Python, R | Content workflows plus native statistical segments | Planned |
 | Office productivity | Python, C# | Documents, email/calendar tools, .NET integration | Python office Q&A next |
 | Sales / CRM | C#, TypeScript | Enterprise authentication and web integration | Planned |
-| Wealth / retail finance | Java, R | Service boundaries plus risk/return analysis | Java wealth review implemented; CI pending |
+| Wealth / retail finance | Java, R | Service boundaries plus risk/return analysis | Java wealth review implemented and CI verified |
 | Insurance claims | Python, Java | Document extraction, approval, audit boundaries | Planned |
 | Procurement / ERP | Java, C# | Enterprise systems and application-owned identity | Planned |
 | Factory / manufacturing | C++, Rust | OPC UA/device SDK seams, edge deployment | Planned |
@@ -114,7 +114,7 @@ add framework surface.
 | Octave/MATLAB signal trends | Shared signal metrics, threshold anomalies | Local GNU Octave 11.3.0 tests and Linux CI | Native MATLAB unverified; no device control or live model |
 | Python office Q&A | Native Core, fixed documents, citation-bearing answer | Local Python 3.14 checks and Linux CI | No arbitrary file/connector, email action or live model |
 | TypeScript customer support | Native Core, fixed order/policy tools, SSE stream | Local Node 24 checks and Linux CI | No reply send, order change, refund or live model |
-| Java wealth review | Native Core, fixed portfolio, draft-only rebalance | Local compile; Linux CI configured and pending | No trades, transfers, market data or live model |
+| Java wealth review | Native Core, fixed portfolio, draft-only rebalance | Local compile and Linux CI | No trades, transfers, market data or live model |
 | Lua, Rust, Zig, C, C++ | Not implemented as Tutorial entries | Not run | Candidate paths only |
 
 See [Verification Evidence](../project/verification-evidence.md) for exact run

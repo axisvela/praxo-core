@@ -171,9 +171,11 @@ compiled locally with `javac` against the local Core classes. Local Maven/JVM
 execution is blocked by the workstation launcher, so no local JUnit result is
 claimed. The test is configured to cover draft-only success, `acct-200` policy
 denial, portfolio dependency failure, and the Web health/401/200/503 boundary.
-Linux CI is configured but its result is not yet recorded. No trade, transfer,
-market data, production identity, live model, public hosting or independent
-adoption is verified.
+Linux CI [45088386879](https://github.com/axisvela/praxo-core/actions/runs/45088386879)
+also passed at `827d47ca`; the first CI run exposed a fixture using `acct-100`
+for the `acct-200` denial test, which was fixed before the passing run. No trade,
+transfer, market data, production identity, live model, public hosting or
+independent adoption is verified.
 
 | Area | Verified | Level | Limits |
 | --- | --- | --- | --- |
