@@ -104,7 +104,7 @@ Repository links in the tables point to source on `main`, not immutable run evid
 | ID | Scenario | Targets | First bounded tutorial outcome / related slice |
 | --- | --- | --- | --- |
 | IN-01 | Predictive maintenance and scheduling | C++, Rust, Nim | Compute fixed sensor indicators and draft maintenance; [industrial edge](https://github.com/axisvela/praxo-core/tree/main/language/cpp/Tutorial/industrial-edge) and [Nim maintenance-triage](https://github.com/axisvela/praxo-core/tree/main/language/nim/Tutorial/maintenance-triage) do not predict a validated failure window |
-| IN-02 | Adaptive production scheduling | Erlang, C++, V | Replan a bounded synthetic job queue and draft MES/AGV instructions; no physical dispatch |
+| IN-02 | Adaptive production scheduling | Erlang, C++, V | Replan a bounded synthetic job queue and draft MES/AGV instructions; no physical dispatch; [V production-scheduling slice](https://github.com/axisvela/praxo-core/tree/main/language/v/Tutorial/production-scheduling) computes a fixed priority order and draft |
 | IN-03 | Supply-chain disruption and sourcing | Go, Java, Ruby | Score synthetic supplier events and draft alternatives; [logistics checkpoint](https://github.com/axisvela/praxo-core/tree/main/language/go/Tutorial/logistics-checkpoint) is message continuation only |
 | IN-04 | Microgrid dispatch and load balance | Julia, Fortran, Zig | Simulate constrained charge/discharge schedules and check limits outside the agent; no grid commands |
 | IN-05 | Engineering drawing review and BOM | C++, C#, OCaml | Validate a synthetic parsed drawing graph and draft a BOM; no CAD/BIM vision or engineering certification |

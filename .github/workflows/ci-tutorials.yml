@@ -48,6 +48,17 @@ jobs:
       - run: python scripts/tutorial_catalog.py --check
       - run: python scripts/test_tutorial_catalog.py
 
+  v-production-scheduling:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: vlang/setup-v@v1
+        with:
+          version: latest
+      - run: v -path "language/v|@vlib|@vmodules" -o build/v-schedule language/v/Tutorial/production-scheduling/schedule.v
+      - run: ./build/v-schedule --test
+
   d-executive-brief:
     runs-on: ubuntu-latest
     timeout-minutes: 10

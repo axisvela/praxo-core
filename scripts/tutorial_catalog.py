@@ -65,6 +65,7 @@ TUTORIALS = {
     "literature-review": ("SC", "retrieval,citations,tools,draft,policy", "SC-01"),
     "maintenance-triage": ("IN", "tools,draft,policy", "IN-01"),
     "executive-brief": ("OP", "analysis,tools,draft,policy", "OP-07"),
+    "production-scheduling": ("IN", "analysis,tools,draft,policy", "IN-02"),
 }
 GUIDES = {
     "workspace-agent-tutorial": ("SE", "go", "filesystem,tools,policy"),

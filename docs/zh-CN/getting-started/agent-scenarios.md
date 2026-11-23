@@ -87,7 +87,7 @@ system 指令。Memory Store 不等于自动召回；checkpoint 消息续跑不�
 | ID | 场景 | 目标语言 | 首个有界教学成果 / 相关切片 |
 | --- | --- | --- | --- |
 | IN-01 | 预测维护与检修排程 | C++、Rust、Nim | 计算固定传感指标并草拟维护；[工业边缘](https://github.com/axisvela/praxo-core/tree/main/language/cpp/Tutorial/industrial-edge)与 [Nim 维护分诊](https://github.com/axisvela/praxo-core/tree/main/language/nim/Tutorial/maintenance-triage)均不验证故障窗口预测 |
-| IN-02 | 柔性产线动态排产 | Erlang、C++、V | 重排有界合成任务队列、草拟 MES/AGV 指令；不物理调度 |
+| IN-02 | 柔性产线动态排产 | Erlang、C++、V | 重排有界合成任务队列、草拟 MES/AGV 指令；不物理调度；[V 生产排产切片](https://github.com/axisvela/praxo-core/tree/main/language/v/Tutorial/production-scheduling)计算固定优先顺序与草案 |
 | IN-03 | 供应链断链预警与寻源 | Go、Java、Ruby | 评估合成供应商事件并草拟替代；物流 checkpoint 仅消息续跑 |
 | IN-04 | 微网调度与负荷平衡 | Julia、Fortran、Zig | 模拟有约束充放电计划，Agent 外校验安全限制；不发电网指令 |
 | IN-05 | 图纸审查与 BOM | C++、C#、OCaml | 校验合成的已解析图纸图并草拟 BOM；不宣称 CAD/BIM 视觉或工程认证 |
