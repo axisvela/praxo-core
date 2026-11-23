@@ -326,9 +326,9 @@ Turn the first run into one useful local application, such as:
   MQTT, OPC UA, sockets, device commands or a live model.
   Zig's `Tutorial/gateway-health/` checks a fixed `gateway-100` snapshot through an
   explicit application-owned `GatewayAdapter` function table and drafts a
-  `restart_telemetry` review action. Local Zig 0.17.0 checks pass; Linux CI is
-  pending. It does not implement MQTT, OPC UA, sockets, device commands or a live
-  model. See the
+  `restart_telemetry` review action. Local Zig 0.17.0 checks pass, and Linux CI
+  passed at `0b2f15d6` (run `45102354617`). It does not implement MQTT, OPC UA,
+  sockets, device commands or a live model. See the
   [Tutorial Plan](../getting-started/tutorial-plan.md) for the scenario map,
   current status, delivery standard and next candidates.
 - Validate one application-shaped prototype for a named consumer before

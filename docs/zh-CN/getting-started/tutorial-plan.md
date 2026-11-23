@@ -38,7 +38,7 @@ Web 服务、运维 Shell、分析工作流、宿主嵌入或受约束设备。�
 | Octave / MATLAB | 信号与传感器趋势审阅 | 原生矩阵/信号处理；Octave 与 MATLAB 证据分开 | 分析（计划） |
 | Lua | 嵌入既有宿主 | 宿主回调与小体积集成 | 宿主相关 |
 | Rust | IoT 网关诊断 | 边缘部署、显式只读 Adapter 契约、进程插件 | 已实现并通过 CI |
-| Zig | 小型网关健康检查 | 最小部署与明确平台限制 | 已实现；CI 待确认 |
+| Zig | 小型网关健康检查 | 最小部署与明确平台限制 | 已实现并通过 CI |
 | C | 受约束宿主诊断组件 | 调用方负责内存/网络/transport 契约 | 设备（计划） |
 | C++ | 工业边缘维护 | 既有设备 SDK 包装为受限工具 | 设备（计划） |
 
@@ -61,7 +61,7 @@ Web 服务、运维 Shell、分析工作流、宿主嵌入或受约束设备。�
 | 采购 / ERP | Java、C# | 企业系统与应用自有身份 | 计划 |
 | 工厂 / 制造 | C++、Rust | OPC UA/设备 SDK 接缝与边缘部署 | Rust 网关适配器 fixture 已实现并通过 CI；真实 OPC UA/设备 SDK 计划中 |
 | 工业自动化 | C++、Rust、Octave | 设备 SDK 与信号分析 | 计划 |
-| 消费电子 | Lua、C、Rust、Zig | 宿主嵌入、受约束运行时、网关 | Lua 宿主嵌入与 Rust 网关 fixture 已实现并通过 CI；Zig 网关健康 CI 待确认 |
+| 消费电子 | Lua、C、Rust、Zig | 宿主嵌入、受约束运行时、网关 | Lua 宿主嵌入、Rust 网关 fixture 与 Zig 网关健康已实现并通过 CI |
 | 机器人 | C++、Rust、Julia | ROS 2 集成、控制与数值分析 | 计划 |
 | 物流 | Go、Java | 事件驱动服务与长时操作 | 计划 |
 | 能源 / 电网 | Rust、C++、Julia | 边缘约束与数值分析 | 计划 |
@@ -107,7 +107,7 @@ Core 与 Adapter，而不是增加框架表面积。
 | C# 销售/CRM | 原生 Core、固定客户、仅草案跟进 | 本地 .NET 8 构建/自测与 Linux CI | 无 CRM 写入、邮件发送或真实模型 |
 | Lua 宿主嵌入 | 原生 Lua Core、宿主回调、仅草案动作 | 本地 Lua 5.4.6 检查与 Linux CI | 无设备命令、Socket 或真实模型 |
 | Rust IoT 网关 | 原生 Rust Core、只读 `GatewayAdapter`、仅草案动作 | 本地 Rust 检查与 Linux CI | 仅进程内适配器 fixture；无 MQTT、OPC UA、Socket、设备写入或真实模型 |
-| Zig 网关健康 | 原生 Zig Core、只读 `GatewayAdapter` 函数表、仅草案动作 | 本地 Zig 0.17.0 检查；CI 待确认 | 仅进程内适配器 fixture；无 MQTT、OPC UA、Socket、设备写入或真实模型 |
+| Zig 网关健康 | 原生 Zig Core、只读 `GatewayAdapter` 函数表、仅草案动作 | 本地 Zig 0.17.0 检查与 Linux CI | 仅进程内适配器 fixture；无 MQTT、OPC UA、Socket、设备写入或真实模型 |
 | C、C++ | 尚未实现为 Tutorial | 未运行 | 仅为候选路径 |
 
 准确运行 ID 与范围见[验证证据](../project/verification-evidence.md)。“CI 通过”不等于

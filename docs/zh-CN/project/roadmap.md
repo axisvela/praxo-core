@@ -239,7 +239,8 @@ Rust 的 `Tutorial/iot-gateway/` 通过显式的应用自有 `GatewayAdapter` tr
 Socket、设备命令或真实模型。
 Zig 的 `Tutorial/gateway-health/` 通过显式的应用自有 `GatewayAdapter` 函数表检查固定
 `gateway-100` 快照，并生成 `restart_telemetry` 仅审阅动作草案。本地 Zig 0.17.0 检查
-通过；Linux CI 待确认。它不实现 MQTT、OPC UA、Socket、设备命令或真实模型。场景地图、
+通过，Linux CI 也已在 `0b2f15d6`（run `45102354617`）通过。它不实现 MQTT、OPC UA、
+Socket、设备命令或真实模型。场景地图、
 当前状态、交付标准与后续候选见 [Tutorial 整体规划](../getting-started/tutorial-plan.md)。
 
 ### 开发者成果

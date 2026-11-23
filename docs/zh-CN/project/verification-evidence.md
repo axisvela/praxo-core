@@ -171,8 +171,10 @@ Zig 网关健康教程（2026-11-23）：本地 Zig 0.17.0 与原生 Zig Core �
 模拟 Adapter 失败。成功报告包含固定 `gateway-100` 快照（`health=degraded`、磁盘
 `91`、内存 `78`）、`draft_only`、`review_required` 的 `restart_telemetry` 草案和零
 设备写入；越界 `gateway-200` 在 Adapter 前被拒绝（`reads=0`）；模拟 Adapter 失败在
-读取一次后返回 `GatewayReadFailed`。Linux CI 待确认。Adapter 是进程内 fixture；
-未验证 MQTT、OPC UA、Socket、设备命令、真实模型、公共托管或独立采用。
+读取一次后返回 `GatewayReadFailed`。Linux CI
+[45102354617](https://github.com/axisvela/praxo-core/actions/runs/45102354617)
+也已在 `0b2f15d6` 通过。Adapter 是进程内 fixture；未验证 MQTT、OPC UA、Socket、
+设备命令、真实模型、公共托管或独立采用。
 
 | 领域 | 已验证 | 级别 | 限制 |
 | --- | --- | --- | --- |

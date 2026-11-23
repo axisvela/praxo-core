@@ -42,7 +42,7 @@ contracts, not framework compatibility promises.
 | Octave / MATLAB | Signal and sensor trend review | Native matrix/signal processing; Octave vs MATLAB evidence split | Analysis planned |
 | Lua | Embed in an existing host | Host callbacks and small-footprint integration | Host-specific |
 | Rust | IoT gateway diagnosis | Edge deployment, explicit read-only adapter contract, process plugins | Implemented and CI verified |
-| Zig | Small gateway health check | Minimal deployment and explicit platform limits | Implemented; CI pending |
+| Zig | Small gateway health check | Minimal deployment and explicit platform limits | Implemented and CI verified |
 | C | Constrained host diagnostic component | Caller-owned memory/network/transport contract | Devices planned |
 | C++ | Industrial edge maintenance | Existing device SDK wrapped as scoped tools | Devices planned |
 
@@ -67,7 +67,7 @@ and a named consumer; keep the tutorial boundary narrow.
 | Procurement / ERP | Java, C# | Enterprise systems and application-owned identity | Planned |
 | Factory / manufacturing | C++, Rust | OPC UA/device SDK seams, edge deployment | Rust gateway adapter fixture implemented and CI verified; real OPC UA/device SDK planned |
 | Industrial automation | C++, Rust, Octave | Device SDK plus signal analysis | Planned |
-| Consumer electronics | Lua, C, Rust, Zig | Host embedding, constrained runtime, gateway | Lua host embedding and Rust gateway fixture implemented and CI verified; Zig gateway health CI pending |
+| Consumer electronics | Lua, C, Rust, Zig | Host embedding, constrained runtime, gateway | Lua host embedding, Rust gateway fixture and Zig gateway health implemented and CI verified |
 | Robotics | C++, Rust, Julia | ROS 2 integration, control and numerical analysis | Planned |
 | Logistics | Go, Java | Event-driven services and long-running operations | Planned |
 | Energy / grid | Rust, C++, Julia | Edge constraints and numerical analysis | Planned |
@@ -118,7 +118,7 @@ add framework surface.
 | C# sales/CRM | Native Core, fixed customer, draft-only follow-up | Local .NET 8 build/self-test and Linux CI | No CRM write, email send or live model |
 | Lua host embedding | Native Lua Core, host callbacks, draft-only action | Local Lua 5.4.6 checks and Linux CI | No device command, socket or live model |
 | Rust IoT gateway | Native Rust Core, read-only `GatewayAdapter`, draft-only action | Local Rust checks and Linux CI | In-process adapter fixture only; no MQTT, OPC UA, socket, device write or live model |
-| Zig gateway health | Native Zig Core, read-only `GatewayAdapter` function table, draft-only action | Local Zig 0.17.0 checks; CI pending | In-process adapter fixture only; no MQTT, OPC UA, socket, device write or live model |
+| Zig gateway health | Native Zig Core, read-only `GatewayAdapter` function table, draft-only action | Local Zig 0.17.0 checks and Linux CI | In-process adapter fixture only; no MQTT, OPC UA, socket, device write or live model |
 | C, C++ | Not implemented as Tutorial entries | Not run | Candidate paths only |
 
 See [Verification Evidence](../project/verification-evidence.md) for exact run

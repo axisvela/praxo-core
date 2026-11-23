@@ -212,7 +212,9 @@ report contained the fixed `gateway-100` snapshot (`health=degraded`, disk `91`,
 memory `78`), a `draft_only`, `review_required` `restart_telemetry` draft and zero
 device writes; the out-of-scope `gateway-200` was denied before the adapter
 (`reads=0`); simulated adapter failure returned `GatewayReadFailed` after one
-read. Linux CI is pending. The adapter is an in-process fixture; no MQTT, OPC UA,
+read. Linux CI
+[45102354617](https://github.com/axisvela/praxo-core/actions/runs/45102354617)
+also passed at `0b2f15d6`. The adapter is an in-process fixture; no MQTT, OPC UA,
 socket, device command, live model, public hosting or independent adoption is
 verified.
 

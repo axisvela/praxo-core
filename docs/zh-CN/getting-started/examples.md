@@ -111,7 +111,9 @@ Socket、设备命令或真实模型。本地 `cargo` 检查通过，Linux CI �
 通过显式的应用自有 `GatewayAdapter` 函数表读取固定 `gateway-100` 健康快照，并生成一条
 `restart_telemetry` 人工审阅动作草案。策略在调用 Adapter 前拒绝 `gateway-200`
 （`reads=0`）；模拟 Adapter 失败在读取一次后失败。Adapter 是进程内 fixture，不实现
-MQTT、OPC UA、Socket、设备命令或真实模型。本地 Zig 0.17.0 检查通过；Linux CI 待确认。
+MQTT、OPC UA、Socket、设备命令或真实模型。本地 Zig 0.17.0 检查通过，Linux CI 也已在
+`0b2f15d6` 的
+[run 45102354617](https://github.com/axisvela/praxo-core/actions/runs/45102354617) 通过。
 
 示例目录使用[语言覆盖矩阵](language-coverage.md)中的深度标签：
 
