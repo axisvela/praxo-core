@@ -281,6 +281,11 @@ Turn the first run into one useful local application, such as:
   R 4.6.1 checks pass, and Linux CI passed at `e89c9037` (run `45039622807`). It
   does not read arbitrary files, run SQL/shell, install packages or call a live
   model.
+  R's `Tutorial/marketing-segmentation/` splits a fixed eight-customer fixture into
+  four segments, computes native per-segment averages (`vip` = `825`), picks the
+  highest-value segment and drafts a review-only `invite_segment` with zero sends.
+  Local R 4.6.1 checks pass; the Linux CI job is added but not yet run. It does
+  not send messages, launch a campaign, read arbitrary data or use a live model.
   COBOL's `Tutorial/batch-exception-review/` reuses the existing deterministic
   batch handoff and checks reviewed, unavailable and timeout paths while keeping
   batch output and exceptions unchanged. Local GnuCOBOL 2.0.0/Python checks pass,
@@ -307,6 +312,12 @@ Turn the first run into one useful local application, such as:
   fixed policy documents, with scoped search denial and index failure. Local
   Python checks pass, and Linux CI passed at `cfd850a6` (run `45043537084`). It
   does not read arbitrary files, call connectors, send email or use a live model.
+  Python's `Tutorial/insurance-claims/` reads a fixed `claim-100` file, computes a
+  deterministic risk signal, drafts a review-only payout and validates the final
+  report through `StructuredOutput` (a malformed report raises
+  `StructuredOutputError`). Local Python 3.14 checks pass; the Linux CI job is
+  added but not yet run. It does not execute a payment, decide coverage, read
+  arbitrary files or use a live model.
   TypeScript's `Tutorial/customer-support/` streams a cited support reply over
   SSE with fixed order/policy tools, authentication, denial and dependency-failure
   checks. Local Node 24 checks pass, and Linux CI passed at `39558592` (run

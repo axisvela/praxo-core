@@ -53,11 +53,11 @@ Web 服务、运维 Shell、分析工作流、宿主嵌入或受约束设备。�
 | --- | --- | --- | --- |
 | 知识问答与文档助手 | Python、TypeScript | 检索、引用、结构化回答、流式 UI | Python 办公问答已实现并通过 CI |
 | 客服与联络中心 | TypeScript、C# | Web/SSE、ASP.NET Core、身份与审计 | TypeScript 客服已实现并通过 CI |
-| 营销内容与分群 | Python、R | 内容工作流与原生统计分群 | 计划 |
+| 营销内容与分群 | Python、R | 内容工作流与原生统计分群 | R 营销分群已实现（本地；CI job 已添加、尚未运行）；Python 内容工作流计划 |
 | 办公效率 | Python、C# | 文档、邮件/日历工具、.NET 集成 | Python 办公问答已实现 |
 | 销售 / CRM | C#、TypeScript | 企业认证与 Web 集成 | C# 销售/CRM 已实现并通过 CI |
 | 理财 / 零售金融 | Java、R | 服务边界与风险/收益分析 | Java 理财审阅已实现并通过 CI |
-| 保险理赔 | Python、Java | 文档提取、审批与审计边界 | 计划 |
+| 保险理赔 | Python、Java | 文档提取、审批与审计边界 | Python 理赔分诊已实现（本地；CI job 已添加、尚未运行）；Java 计划 |
 | 采购 / ERP | Java、C# | 企业系统与应用自有身份 | 计划 |
 | 工厂 / 制造 | C++、Rust | OPC UA/设备 SDK 接缝与边缘部署 | Rust 网关适配器 fixture 已实现并通过 CI；真实 OPC UA/设备 SDK 计划中 |
 | 工业自动化 | C++、Rust、Octave | 设备 SDK 与信号分析 | 计划 |
@@ -98,11 +98,13 @@ Core 与 Adapter，而不是增加框架表面积。
 | PowerShell Windows 诊断 | 通过模块复用共享 C# Core | 本地 Windows 测试与托管 Windows CI | 无 Gallery 安装、修复、远程主机或真实模型 |
 | Perl 日志巡检 | 原生 Perl Core、固定 fixture 日志、严重级别报告 | 本地 Perl 5.40.3 测试与 Linux CI | 无任意路径、Shell、告警发送或真实模型 |
 | R 数据质量 | 原生 R 统计、固定数据框、计算报告 | 本地 R 4.6.1 测试与 Linux CI | 无任意文件/SQL/Shell、真实模型或因果结论 |
+| R 营销分群 | 原生 R 分群统计、固定客户 fixture、仅草案活动 | 本地 R 4.6.1 检查通过；Linux CI job 已添加，尚未运行 | 仅固定客户 fixture；无消息发送、活动发布、任意数据或真实模型 |
 | COBOL 批处理异常审阅 | 复用确定性批处理交接；独立审阅 worker | 本地 GnuCOBOL 2.0.0/Python 检查与 Linux CI | 无真实记账、持久队列、恢复证明或真实模型 |
 | Julia 实验比较 | 原生 Julia 对固定结果计算均值/差值 | 本地 Julia 1.13.2 测试与 Linux CI | 无任意数据/代码/包安装、真实模型或因果结论 |
 | Fortran 仿真指标 | 原生 Fortran Core、固定十样本指标、仅草案报告 | 本地 gfortran 16.2.0/RE2 检查通过；Linux CI job 已添加，尚未运行 | 仅固定指标 fixture；无任意数据集、模型提供代码、包安装、发布或真实模型 |
 | Octave/MATLAB 信号趋势 | 共享信号指标、阈值异常 | 本地 GNU Octave 11.3.0 测试与 Linux CI | 原生 MATLAB 未验证；无设备控制或真实模型 |
 | Python 办公问答 | 原生 Core、固定文档、带引用答案 | 本地 Python 3.14 检查与 Linux CI | 无任意文件/Connector、邮件操作或真实模型 |
+| Python 保险理赔 | 原生 Core、应用自有理赔工具、仅草案决定、`StructuredOutput` schema 校验 | 本地 Python 3.14 检查通过；Linux CI job 已添加，尚未运行 | 仅固定理赔 fixture；无支付、承保决定、真实理赔系统或真实模型 |
 | TypeScript 客服 | 原生 Core、固定订单/政策工具、SSE 流 | 本地 Node 24 检查与 Linux CI | 无回复发送、订单修改、退款或真实模型 |
 | Java 理财审阅 | 原生 Core、固定组合、仅草案重平衡 | 本地编译与 Linux CI | 无交易、转账、市场数据或真实模型 |
 | C# 销售/CRM | 原生 Core、固定客户、仅草案跟进 | 本地 .NET 8 构建/自测与 Linux CI | 无 CRM 写入、邮件发送或真实模型 |

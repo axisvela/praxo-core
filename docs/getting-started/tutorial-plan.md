@@ -59,11 +59,11 @@ and a named consumer; keep the tutorial boundary narrow.
 | --- | --- | --- | --- |
 | Knowledge Q&A and document assistant | Python, TypeScript | Retrieval, citations, structured answers, streaming UI | Python office Q&A implemented and CI verified |
 | Customer service / contact center | TypeScript, C# | Web/SSE, ASP.NET Core, identity and audit | TypeScript customer-support implemented and CI verified |
-| Marketing content and segmentation | Python, R | Content workflows plus native statistical segments | Planned |
+| Marketing content and segmentation | Python, R | Content workflows plus native statistical segments | R marketing segmentation implemented (local; CI job added, not yet run); Python content workflow planned |
 | Office productivity | Python, C# | Documents, email/calendar tools, .NET integration | Python office Q&A next |
 | Sales / CRM | C#, TypeScript | Enterprise authentication and web integration | C# sales/CRM implemented and CI verified |
 | Wealth / retail finance | Java, R | Service boundaries plus risk/return analysis | Java wealth review implemented and CI verified |
-| Insurance claims | Python, Java | Document extraction, approval, audit boundaries | Planned |
+| Insurance claims | Python, Java | Document extraction, approval, audit boundaries | Python claims triage implemented (local; CI job added, not yet run); Java planned |
 | Procurement / ERP | Java, C# | Enterprise systems and application-owned identity | Planned |
 | Factory / manufacturing | C++, Rust | OPC UA/device SDK seams, edge deployment | Rust gateway adapter fixture implemented and CI verified; real OPC UA/device SDK planned |
 | Industrial automation | C++, Rust, Octave | Device SDK plus signal analysis | Planned |
@@ -109,11 +109,13 @@ add framework surface.
 | PowerShell Windows diagnostics | Shared C# Core through the module | Local Windows tests and hosted Windows CI | No Gallery install, repair, remote host or live model |
 | Perl log triage | Native Perl Core, fixed fixture log, severity report | Local Perl 5.40.3 tests and Linux CI | No arbitrary path, shell, alert delivery or live model |
 | R data quality | Native R statistics, fixed data frame, computed report | Local R 4.6.1 tests and Linux CI | No arbitrary file/SQL/shell, live model or causal claim |
+| R marketing segmentation | Native R segment statistics, fixed customer fixture, draft-only campaign | Local R 4.6.1 checks pass; Linux CI job added, not yet run | Fixed customer fixture only; no message send, campaign launch, arbitrary data or live model |
 | COBOL batch exception review | Reuses deterministic batch handoff; separate review worker | Local GnuCOBOL 2.0.0/Python checks and Linux CI | No real posting, durable queue, recovery proof or live model |
 | Julia experiment comparison | Native Julia means/delta over fixed results | Local Julia 1.13.2 tests and Linux CI | No arbitrary data/code/package install, live model or causal claim |
 | Fortran simulation metrics | Native Fortran Core, fixed ten-sample metrics, draft-only report | Local gfortran 16.2.0/RE2 checks pass; Linux CI job added, not yet run | Fixed metric fixture only; no arbitrary dataset, interpreted model code, package install, publication or live model |
 | Octave/MATLAB signal trends | Shared signal metrics, threshold anomalies | Local GNU Octave 11.3.0 tests and Linux CI | Native MATLAB unverified; no device control or live model |
 | Python office Q&A | Native Core, fixed documents, citation-bearing answer | Local Python 3.14 checks and Linux CI | No arbitrary file/connector, email action or live model |
+| Python insurance claims | Native Core, application-owned claim tool, draft-only decision, `StructuredOutput` schema check | Local Python 3.14 checks pass; Linux CI job added, not yet run | Fixed claim fixture only; no payment, coverage decision, real claims system or live model |
 | TypeScript customer support | Native Core, fixed order/policy tools, SSE stream | Local Node 24 checks and Linux CI | No reply send, order change, refund or live model |
 | Java wealth review | Native Core, fixed portfolio, draft-only rebalance | Local compile and Linux CI | No trades, transfers, market data or live model |
 | C# sales/CRM | Native Core, fixed customer, draft-only follow-up | Local .NET 8 build/self-test and Linux CI | No CRM write, email send or live model |

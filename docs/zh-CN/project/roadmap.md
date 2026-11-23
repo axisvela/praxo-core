@@ -206,6 +206,10 @@ Perl 的 `Tutorial/log-triage/` 增加原生运维路径：固定 fixture 日志
 R 的 `Tutorial/data-quality/` 通过原生 R Core 计算固定数据框统计并返回封装工具计算值的
 报告。本地 R 4.6.1 检查通过，Linux CI 也已在 `e89c9037`（run `45039622807`）通过。
 它不读取任意文件、不执行 SQL/Shell、不安装包、不调用真实模型。
+R 的 `Tutorial/marketing-segmentation/` 把固定八客户 fixture 分成四个分群，计算原生
+分群均值（`vip` = `825`），选出最高价值分群并生成零发送的仅审阅 `invite_segment`
+草案。本地 R 4.6.1 检查通过；Linux CI job 已添加但尚未运行。它不发送消息、不发布
+活动、不读取任意数据、不调用真实模型。
 COBOL 的 `Tutorial/batch-exception-review/` 复用现有确定性批处理交接，检查已审阅、
 不可用和超时路径，同时保持批输出与异常文件不变。本地 GnuCOBOL 2.0.0/Python 检查通过，
 Linux CI 也已在 `01d9b1ff`（run `45040372057`）通过。它不实现真实记账、持久队列、
@@ -225,6 +229,10 @@ RMS 与阈值异常，并把证据封装进报告。本地 GNU Octave 11.3.0 检
 Python 的 `Tutorial/office-qa/` 增加带引用的办公政策问答路径，使用固定文档、受限搜索、
 拒绝与索引失败检查。本地 Python 检查通过，Linux CI 也已在 `cfd850a6`（run
 `45043537084`）通过。它不读取任意文件、不调用 Connector、不发送邮件、不使用真实模型。
+Python 的 `Tutorial/insurance-claims/` 读取固定 `claim-100` 文件，计算确定性风险信号，
+生成仅审阅的赔付草案，并通过 `StructuredOutput` 校验最终报告（格式错误会抛出
+`StructuredOutputError`）。本地 Python 3.14 检查通过；Linux CI job 已添加但尚未运行。
+它不执行支付、不做承保决定、不读取任意文件、不使用真实模型。
 TypeScript 的 `Tutorial/customer-support/` 通过 SSE 流式输出带引用的客服回复，使用固定
 订单/政策工具，包含鉴权、拒绝与依赖失败检查。本地 Node 24 检查通过，Linux CI 也已在
 `39558592`（run `45086046576`）通过。它不发送回复、不修改订单、不退款、不使用真实模型。
