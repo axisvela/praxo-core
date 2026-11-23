@@ -67,7 +67,7 @@ and a named consumer; keep the tutorial boundary narrow.
 | Procurement / ERP | Java, C# | Enterprise systems and application-owned identity | Planned |
 | Factory / manufacturing | C++, Rust | OPC UA/device SDK seams, edge deployment | Planned |
 | Industrial automation | C++, Rust, Octave | Device SDK plus signal analysis | Planned |
-| Consumer electronics | Lua, C, Rust | Host embedding, constrained runtime, gateway | Lua host embedding implemented; CI pending |
+| Consumer electronics | Lua, C, Rust | Host embedding, constrained runtime, gateway | Lua host embedding implemented and CI verified |
 | Robotics | C++, Rust, Julia | ROS 2 integration, control and numerical analysis | Planned |
 | Logistics | Go, Java | Event-driven services and long-running operations | Planned |
 | Energy / grid | Rust, C++, Julia | Edge constraints and numerical analysis | Planned |
@@ -116,7 +116,7 @@ add framework surface.
 | TypeScript customer support | Native Core, fixed order/policy tools, SSE stream | Local Node 24 checks and Linux CI | No reply send, order change, refund or live model |
 | Java wealth review | Native Core, fixed portfolio, draft-only rebalance | Local compile and Linux CI | No trades, transfers, market data or live model |
 | C# sales/CRM | Native Core, fixed customer, draft-only follow-up | Local .NET 8 build/self-test and Linux CI | No CRM write, email send or live model |
-| Lua host embedding | Native Lua Core, host callbacks, draft-only action | Local Lua 5.4.6 checks; Linux CI configured and pending | No device command, socket or live model |
+| Lua host embedding | Native Lua Core, host callbacks, draft-only action | Local Lua 5.4.6 checks and Linux CI | No device command, socket or live model |
 | Rust, Zig, C, C++ | Not implemented as Tutorial entries | Not run | Candidate paths only |
 
 See [Verification Evidence](../project/verification-evidence.md) for exact run

@@ -61,7 +61,7 @@ Web 服务、运维 Shell、分析工作流、宿主嵌入或受约束设备。�
 | 采购 / ERP | Java、C# | 企业系统与应用自有身份 | 计划 |
 | 工厂 / 制造 | C++、Rust | OPC UA/设备 SDK 接缝与边缘部署 | 计划 |
 | 工业自动化 | C++、Rust、Octave | 设备 SDK 与信号分析 | 计划 |
-| 消费电子 | Lua、C、Rust | 宿主嵌入、受约束运行时、网关 | Lua 宿主嵌入已实现；CI 待确认 |
+| 消费电子 | Lua、C、Rust | 宿主嵌入、受约束运行时、网关 | Lua 宿主嵌入已实现并通过 CI |
 | 机器人 | C++、Rust、Julia | ROS 2 集成、控制与数值分析 | 计划 |
 | 物流 | Go、Java | 事件驱动服务与长时操作 | 计划 |
 | 能源 / 电网 | Rust、C++、Julia | 边缘约束与数值分析 | 计划 |
@@ -105,7 +105,7 @@ Core 与 Adapter，而不是增加框架表面积。
 | TypeScript 客服 | 原生 Core、固定订单/政策工具、SSE 流 | 本地 Node 24 检查与 Linux CI | 无回复发送、订单修改、退款或真实模型 |
 | Java 理财审阅 | 原生 Core、固定组合、仅草案重平衡 | 本地编译与 Linux CI | 无交易、转账、市场数据或真实模型 |
 | C# 销售/CRM | 原生 Core、固定客户、仅草案跟进 | 本地 .NET 8 构建/自测与 Linux CI | 无 CRM 写入、邮件发送或真实模型 |
-| Lua 宿主嵌入 | 原生 Lua Core、宿主回调、仅草案动作 | 本地 Lua 5.4.6 检查；Linux CI 已配置待确认 | 无设备命令、Socket 或真实模型 |
+| Lua 宿主嵌入 | 原生 Lua Core、宿主回调、仅草案动作 | 本地 Lua 5.4.6 检查与 Linux CI | 无设备命令、Socket 或真实模型 |
 | Rust、Zig、C、C++ | 尚未实现为 Tutorial | 未运行 | 仅为候选路径 |
 
 准确运行 ID 与范围见[验证证据](../project/verification-evidence.md)。“CI 通过”不等于

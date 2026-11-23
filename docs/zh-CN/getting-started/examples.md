@@ -97,7 +97,8 @@ JVM 阻塞运行；Linux CI 也已在 `827d47ca` 的
 [Lua 宿主嵌入教程](https://github.com/axisvela/praxo-core/tree/main/language/lua/Tutorial/host-embedding)
 把原生 Lua Core 嵌入宿主事件循环，并注册固定回调 `read_device` 与 `draft_action`。
 宿主获得 `draft_only`、`review_required` 运维通知草案。它不发送设备命令、不打开 Socket、
-不调用真实模型。本地 Lua 5.4.6 测试通过；Linux CI 已配置，结果待确认。
+不调用真实模型。本地 Lua 5.4.6 测试通过，Linux CI 也已在 `9163d03a` 的
+[run 45095923385](https://github.com/axisvela/praxo-core/actions/runs/45095923385) 通过。
 
 示例目录使用[语言覆盖矩阵](language-coverage.md)中的深度标签：
 

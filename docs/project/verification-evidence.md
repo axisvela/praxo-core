@@ -189,10 +189,10 @@ Lua host-embedding tutorial (2026-11-22): local Lua 5.4.6 passed a host event
 through the native Lua Core. The report contained the fixed `device-100` snapshot,
 a `draft_only` `notify_operator` draft with `review_required`, and an empty
 `device_writes` array; an out-of-scope device was denied before callbacks
-(`reads=0`); simulated telemetry failure failed after one read. Linux CI is
-configured but its result is not yet recorded. No real device protocol, command,
-socket, production identity, live model, public hosting or independent adoption
-is verified.
+(`reads=0`); simulated telemetry failure failed after one read. Linux CI
+[45095923385](https://github.com/axisvela/praxo-core/actions/runs/45095923385)
+also passed at `9163d03a`. No real device protocol, command, socket, production
+identity, live model, public hosting or independent adoption is verified.
 
 | Area | Verified | Level | Limits |
 | --- | --- | --- | --- |

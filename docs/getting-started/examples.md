@@ -125,8 +125,9 @@ The [Lua host-embedding tutorial](https://github.com/axisvela/praxo-core/tree/ma
 embeds the native Lua Core in a host event loop with two fixed callbacks:
 `read_device` and `draft_action`. The host receives a `draft_only`,
 `review_required` operator notification. It does not send device commands, open
-sockets or call a live model. Local Lua 5.4.6 tests passed; Linux CI is configured
-and pending.
+sockets or call a live model. Local Lua 5.4.6 tests passed, and Linux CI passed at
+`9163d03a` in
+[run 45095923385](https://github.com/axisvela/praxo-core/actions/runs/45095923385).
 
 The catalog uses the depth labels from the
 [Language Coverage depth audit](language-coverage.md#depth-audit):

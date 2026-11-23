@@ -152,8 +152,10 @@ C# 销售/CRM 教程（2026-11-22）：本地 .NET 8 构建与自测通过仅草
 Lua 宿主嵌入教程（2026-11-22）：本地 Lua 5.4.6 将宿主事件传入原生 Lua Core。报告包含
 固定 `device-100` 快照、`draft_only` 的 `notify_operator` 草案与 `review_required`，
 `device_writes` 为空数组；越界设备在回调前被拒绝（`reads=0`）；模拟遥测失败在读取一次
-后失败。Linux CI 已配置，结果尚未记录。未验证真实设备协议、命令、Socket、生产身份、
-真实模型、公共托管或独立采用。
+后失败。Linux CI
+[45095923385](https://github.com/axisvela/praxo-core/actions/runs/45095923385)
+也已在 `9163d03a` 通过。未验证真实设备协议、命令、Socket、生产身份、真实模型、公共
+托管或独立采用。
 
 | 领域 | 已验证 | 级别 | 限制 |
 | --- | --- | --- | --- |
