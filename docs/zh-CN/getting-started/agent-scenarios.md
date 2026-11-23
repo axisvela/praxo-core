@@ -29,7 +29,7 @@ system 指令。Memory Store 不等于自动召回；checkpoint 消息续跑不�
 | --- | --- | --- | --- |
 | SE-01 | 端到端全栈代码开发 | TypeScript、Go、Dart | 规划微型应用、在允许的临时工作区修改并构建；不部署 |
 | SE-02 | 自动化 Bug 定位与修复 | Python、Rust、Perl | 复现预置缺陷、草拟补丁、重跑测试；PR 创建单独授权 |
-| SE-03 | 遗留代码重构与迁移 | COBOL、Java、Delphi | 依赖清单与迁移草案，保持 fixture 输出不变；不迁移生产系统 |
+| SE-03 | 遗留代码重构与迁移 | COBOL、Java、Delphi | 依赖清单与迁移草案，保持 fixture 输出不变；不迁移生产系统；[Delphi 遗留迁移切片](https://github.com/axisvela/praxo-core/tree/main/language/delphi/Tutorial/legacy-migration)盘点固定模块并草拟计划 |
 | SE-04 | 单元测试与压测生成 | Java、C#、Haskell | 对本地 fixture 生成有界测试；压测仅允许的 loopback 服务 |
 | SE-05 | 代码审查、安全与许可证审计 | Rust、OCaml、Go | 审查固定 diff 与依赖清单，引用发现并标注不确定性；证据库仅是 containment 切片；[OCaml 代码审查](https://github.com/axisvela/praxo-core/tree/main/language/ocaml/Tutorial/code-review)对固定 diff 草拟评论 |
 | SE-06 | AIOps 自愈与 RCA | Go、Elixir、Erlang | 关联 fixture 事件并草拟需审批的回滚；[incident 教程](https://github.com/axisvela/praxo-core/tree/main/language/go/Tutorial/incident-coordination)与 [Erlang AIOps RCA](https://github.com/axisvela/praxo-core/tree/main/language/erlang/Tutorial/aiops-rca)均仅读取与草案 |

@@ -69,6 +69,7 @@ TUTORIALS = {
     "knowledge-maintenance": ("OP", "analysis,tools,draft,policy", "OP-03"),
     "aiops-rca": ("SE", "analysis,tools,draft,policy", "SE-06"),
     "code-review": ("SE", "analysis,tools,draft,policy", "SE-05"),
+    "legacy-migration": ("SE", "analysis,tools,draft,policy", "SE-03"),
 }
 GUIDES = {
     "workspace-agent-tutorial": ("SE", "go", "filesystem,tools,policy"),

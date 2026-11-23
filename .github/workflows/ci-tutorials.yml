@@ -48,6 +48,17 @@ jobs:
       - run: python scripts/tutorial_catalog.py --check
       - run: python scripts/test_tutorial_catalog.py
 
+  delphi-legacy-migration:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - run: sudo apt-get update && sudo apt-get install -y fpc
+      - run: fpc -Mobjfpc -Scghi -O2 -Fu. -FEbuild Tutorial/legacy-migration/inventory.pas
+        working-directory: language/delphi
+      - run: ./build/inventory --test
+        working-directory: language/delphi
+
   ocaml-code-review:
     runs-on: ubuntu-latest
     timeout-minutes: 10

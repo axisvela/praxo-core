@@ -1,0 +1,9 @@
+# Delphi / Free Pascal Tutorials
+
+- [Legacy Migration (SE-03)](legacy-migration/README.md): source Delphi/Free Pascal
+  Core, fixed legacy inventory and a review-only migration plan; no automated
+  refactoring or production migration.
+
+See the [100-scenario catalog](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/)
+for additional Delphi candidate assignments. Those are planned targets, not
+implemented tutorials.
