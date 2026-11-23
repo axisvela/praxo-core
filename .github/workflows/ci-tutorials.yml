@@ -48,6 +48,16 @@ jobs:
       - run: python scripts/tutorial_catalog.py --check
       - run: python scripts/test_tutorial_catalog.py
 
+  dart-meeting-coordination:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dart-lang/setup-dart@v1
+        with:
+          sdk: stable
+      - run: dart language/dart/Tutorial/meeting-coordination/meeting.dart --test
+
   php-api-orchestration:
     runs-on: ubuntu-latest
     timeout-minutes: 10

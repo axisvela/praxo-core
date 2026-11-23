@@ -118,6 +118,7 @@ add framework surface.
 | --- | --- | --- | --- |
 | Ruby FinOps review (SE-07) | Native Ruby Core, tool-computed idle-cost candidate, two-tool review loop | Local source-mode tests pass; CI job added, not yet run | Synthetic two-resource fixture only; no cloud writes, live model, durable memory or verified savings |
 | PHP API orchestration (SE-08) | Native PHP Core, two synthetic upstream APIs, review-only mapping draft | Local PHP 8.5 lint/test pass; CI job added, not yet run | No network, credentials, upstream writes, live model or autonomous API discovery |
+| Dart meeting coordination (OP-02) | Source Dart Core, fixed calendar evidence, review-only minutes/task draft | Local Dart checks pass; CI job added, not yet run | No calendar API, invitations, attendee identity, live model or durable state |
 | Python order review | Native Core, HTTP tool, fixed order scope, draft-only | Local and hosted CI against the public local service | Deterministic model; no live provider or external consumer |
 | TypeScript order support | Native Core, HTTP tool, fixed order scope | Local and hosted CI against the public local service | Deterministic model; CLI, not a Web frontend |
 | Java order review | Native Core, JUnit, loopback Web, real-service CLI | Mock/Web JUnit and real-service CLI passed in Linux CI | Java Web-to-real-backend and live model not verified |
