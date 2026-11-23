@@ -210,6 +210,13 @@ suite, Behavior Lab, or compatibility report.
 
 ## Stage 2: Build a Real Prototype
 
+The [100-scenario tutorial catalog](../getting-started/agent-scenarios.md) maps sixteen
+domains to bounded slices and candidate assignments for all 31 current Core
+entries. This is planning coverage, not a hundred implemented applications or a
+cross-language parity guarantee. Ruby's SE-07 FinOps slice now has local
+source-mode tests; its CI job is added but not yet run. No cloud mutation or
+live-model evidence is claimed.
+
 ### Developer Outcome
 
 Turn the first run into one useful local application, such as:

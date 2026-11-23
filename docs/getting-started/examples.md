@@ -1,5 +1,9 @@
 # Examples
 
+Use the [unified Tutorial Catalog](tutorial-catalog.md) to browse applications,
+candidate scenarios and mechanism examples together by industry, language and
+capability. Existing example paths and URLs remain unchanged.
+
 Use examples by task first, then by language. Go reference and cross-language
 examples live in the repository
 [`examples/`](https://github.com/axisvela/praxo-core/tree/main/examples)
@@ -264,10 +268,10 @@ commands. Every declared language includes `consumer`, `live-model`, `hitl`,
 and `session-checkpoint` entries. See [Language Coverage](language-coverage.md)
 for the per-language matrix. Python, TypeScript, Java, Rust, C#, and other Core
 implementations remain independently versioned; use the
-[language matrix](../languages/matrix.md) for current support. The only complete
-end-to-end prototype tutorial today is the Go [Workspace Agent
-tutorial](../guides/workspace-agent-tutorial.md); the other primary SDKs have
-task-focused examples but still need a comparable tutorial.
+[language matrix](../languages/matrix.md) for current support. The Go
+[Workspace Agent tutorial](../guides/workspace-agent-tutorial.md) and newer
+application paths are indexed together in the [Tutorial Catalog](tutorial-catalog.md).
+Source presence, recorded runs and independent consumer evidence remain separate.
 
 ## How Examples Are Organized
 

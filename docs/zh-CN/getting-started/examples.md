@@ -1,5 +1,8 @@
 # 示例目录
 
+按行业、语言、场景与能力统一浏览[教程与场景总目录](tutorial-catalog.md)，其中同时收录
+应用教程、候选目标与机制示例。既有示例路径和已发布 URL 保持不变。
+
 先按任务选择示例，再按语言查找。Go 参考示例和跨语言示例位于仓库
 [`examples/`](https://github.com/axisvela/praxo-core/tree/main/examples)
 目录；语言专属示例位于 `language/<language>/examples/`，会进入对应语言的

@@ -5,10 +5,30 @@ on:
     branches: [main]
     paths:
       - 'language/*/Tutorial/**'
+      - 'language/ruby/lib/**'
+      - 'docs/**/agent-scenarios.md'
+      - 'scripts/test_agent_scenarios.py'
+      - 'scripts/*tutorial_catalog.py'
+      - 'scripts/check_example_coverage.py'
+      - 'docs/**/tutorial-catalog.md'
+      - 'docs/**/tutorial-plan.md'
+      - 'language/*/examples/**'
+      - 'examples/**'
+      - 'mkdocs.yml'
       - '.github/workflows/ci-tutorials.yml'
   pull_request:
     paths:
       - 'language/*/Tutorial/**'
+      - 'language/ruby/lib/**'
+      - 'docs/**/agent-scenarios.md'
+      - 'scripts/test_agent_scenarios.py'
+      - 'scripts/*tutorial_catalog.py'
+      - 'scripts/check_example_coverage.py'
+      - 'docs/**/tutorial-catalog.md'
+      - 'docs/**/tutorial-plan.md'
+      - 'language/*/examples/**'
+      - 'examples/**'
+      - 'mkdocs.yml'
       - '.github/workflows/ci-tutorials.yml'
   workflow_dispatch:
 
@@ -16,6 +36,28 @@ permissions:
   contents: read
 
 jobs:
+  scenario-catalog:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python scripts/test_agent_scenarios.py
+      - run: python scripts/tutorial_catalog.py --check
+      - run: python scripts/test_tutorial_catalog.py
+
+  ruby-finops-review:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.4'
+      - run: ruby -I language/ruby/lib language/ruby/Tutorial/finops-review/app.rb --test
+
   csharp-order-review:
     runs-on: ubuntu-latest
     timeout-minutes: 10

@@ -1,7 +1,13 @@
 # Tutorial Plan
 
-**Status:** public planning reference, 2026-11-22. This page is the single public
-entry point for application-shaped tutorials. It is not a release schedule or a
+Browse the [unified Tutorial Catalog](tutorial-catalog.md) by industry, language,
+scenario and capability. It combines this plan's earlier themes, the hundred
+candidate goals, existing application tutorials, guides, recipes and mechanism
+examples with separate counts. This page retains delivery standards and scoped
+verification status rather than duplicating that inventory.
+
+**Status:** public planning reference, 2026-11-23. This page records delivery
+standards and scoped application-tutorial status. It is not a release schedule or a
 promise that every language receives every tutorial.
 
 The goal is not to duplicate the thirteen mechanism themes in every language. It
@@ -50,6 +56,14 @@ These are candidate paths. A language moves from candidate to implemented only
 when its tutorial has runnable commands, tests, and recorded evidence.
 
 ## Extended Scenario Catalog
+
+The [100 Agent Scenarios](agent-scenarios.md) catalog adds stable IDs across sixteen
+domains, bounded acceptance and candidate assignments for all 31 current Core
+entries. Its full scenarios are candidates; related existing slices do not count
+as completed end-to-end applications. The second batch (CY, CT, TL, MD, LJ, BE,
+AE and OG) explicitly separates candidate outcomes, existing related slices and
+full-implementation status. No full implementation of these hundred goals is
+currently recorded.
 
 The catalog below broadens the application map without creating a commitment to
 build every entry. Choose the primary language by runtime fit, available tools,
@@ -102,6 +116,7 @@ add framework surface.
 
 | Tutorial | Core integration | Verification | Limits |
 | --- | --- | --- | --- |
+| Ruby FinOps review (SE-07) | Native Ruby Core, tool-computed idle-cost candidate, two-tool review loop | Local source-mode tests pass; CI job added, not yet run | Synthetic two-resource fixture only; no cloud writes, live model, durable memory or verified savings |
 | Python order review | Native Core, HTTP tool, fixed order scope, draft-only | Local and hosted CI against the public local service | Deterministic model; no live provider or external consumer |
 | TypeScript order support | Native Core, HTTP tool, fixed order scope | Local and hosted CI against the public local service | Deterministic model; CLI, not a Web frontend |
 | Java order review | Native Core, JUnit, loopback Web, real-service CLI | Mock/Web JUnit and real-service CLI passed in Linux CI | Java Web-to-real-backend and live model not verified |
