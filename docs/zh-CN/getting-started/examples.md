@@ -80,6 +80,11 @@ C# Core 构建和全部四项源码模式检查，见
 文件、不调用真实模型。本地 Node 24 检查通过，Linux CI 也已在 `39558592` 的
 [run 45086046576](https://github.com/axisvela/praxo-core/actions/runs/45086046576) 通过。
 
+[Java 理财审阅教程](https://github.com/axisvela/praxo-core/tree/main/language/java/Tutorial/wealth-service)
+在固定 `acct-100` 组合上增加仅审阅金融服务：读取组合、生成供人工复核的重平衡草案，
+不执行交易或转账。策略拒绝 `acct-200`，Web 边界覆盖 401 与 503。本地编译通过，但本地
+JVM 阻塞运行；Linux CI 已配置待确认。没有真实账户、市场数据或券商集成。
+
 示例目录使用[语言覆盖矩阵](language-coverage.md)中的深度标签：
 
 | 深度 | 含义 |
@@ -115,6 +120,7 @@ C# Core 构建和全部四项源码模式检查，见
 | 审阅信号趋势与阈值异常 | [Octave/MATLAB 信号趋势](https://github.com/axisvela/praxo-core/tree/main/language/octave/Tutorial/signal-trends) | 原生信号指标计算固定信号；Octave 已验证，不声称原生 MATLAB；无设备控制 |
 | 用引用回答办公政策问题 | [Python 办公问答](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/office-qa) | 原生 Core、固定文档 fixture、带引用答案、受限拒绝与索引失败 |
 | 流式输出带引用的客服回复 | [TypeScript 客服](https://github.com/axisvela/praxo-core/tree/main/language/typescript/Tutorial/customer-support) | 原生 Core、固定订单/政策工具、SSE delta、鉴权拒绝与依赖失败 |
+| 生成供人工审阅的理财重平衡草案 | [Java 理财审阅](https://github.com/axisvela/praxo-core/tree/main/language/java/Tutorial/wealth-service) | 原生 Core、固定组合、仅草案分配、策略拒绝与服务边界；无交易或转账 |
 | 嵌入应用 | [应用嵌入清单](../guides/application-integration-checklist.md) | 只读、有副作用、高风险部署的分档清单 |
 | 通过 HTTP 运行 Core | [HTTP 嵌入服务教程](../guides/embedded-service-tutorial.md)、[语言覆盖](language-coverage.md) | Go、Python、TypeScript、Java、C# 和 Rust 提供可执行 HTTP 服务；其余已声明语言提供传输中立 Handler 示例 |
 | 查看 Go 参考应用 | [`examples/reference`](https://github.com/axisvela/praxo-core/tree/main/examples/reference) | Go 参考应用 |

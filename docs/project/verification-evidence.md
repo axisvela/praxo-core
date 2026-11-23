@@ -166,6 +166,15 @@ CI [45086046576](https://github.com/axisvela/praxo-core/actions/runs/45086046576
 also passed at `39558592`. No reply send, order change, refund, live provider,
 public endpoint or independent adoption is verified.
 
+Java wealth-review tutorial (2026-11-22): the tutorial main class and JUnit test
+compiled locally with `javac` against the local Core classes. Local Maven/JVM
+execution is blocked by the workstation launcher, so no local JUnit result is
+claimed. The test is configured to cover draft-only success, `acct-200` policy
+denial, portfolio dependency failure, and the Web health/401/200/503 boundary.
+Linux CI is configured but its result is not yet recorded. No trade, transfer,
+market data, production identity, live model, public hosting or independent
+adoption is verified.
+
 | Area | Verified | Level | Limits |
 | --- | --- | --- | --- |
 | Python published package | PyPI `praxo-core==0.10.0` is published from source tag `python/v0.10.0`. The docs CI published-upgrade check installed `0.2.4`, ran the unchanged consumer and governed checks, upgraded to `0.10.0`, and reran the suite successfully. Historical local checks cover `0.3.2` and `0.2.4` | Registry publication + CI upgrade | One version pair; a post-publication consumer install outside CI for `0.10.0` is not recorded here; one platform/toolchain; not an independent or non-author consumer; no provider or production evidence |

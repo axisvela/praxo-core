@@ -56,7 +56,7 @@ Web 服务、运维 Shell、分析工作流、宿主嵌入或受约束设备。�
 | 营销内容与分群 | Python、R | 内容工作流与原生统计分群 | 计划 |
 | 办公效率 | Python、C# | 文档、邮件/日历工具、.NET 集成 | Python 办公问答已实现 |
 | 销售 / CRM | C#、TypeScript | 企业认证与 Web 集成 | 计划 |
-| 理财 / 零售金融 | Java、R | 服务边界与风险/收益分析 | 计划 |
+| 理财 / 零售金融 | Java、R | 服务边界与风险/收益分析 | Java 理财审阅已实现；CI 待确认 |
 | 保险理赔 | Python、Java | 文档提取、审批与审计边界 | 计划 |
 | 采购 / ERP | Java、C# | 企业系统与应用自有身份 | 计划 |
 | 工厂 / 制造 | C++、Rust | OPC UA/设备 SDK 接缝与边缘部署 | 计划 |
@@ -103,6 +103,7 @@ Core 与 Adapter，而不是增加框架表面积。
 | Octave/MATLAB 信号趋势 | 共享信号指标、阈值异常 | 本地 GNU Octave 11.3.0 测试与 Linux CI | 原生 MATLAB 未验证；无设备控制或真实模型 |
 | Python 办公问答 | 原生 Core、固定文档、带引用答案 | 本地 Python 3.14 检查与 Linux CI | 无任意文件/Connector、邮件操作或真实模型 |
 | TypeScript 客服 | 原生 Core、固定订单/政策工具、SSE 流 | 本地 Node 24 检查与 Linux CI | 无回复发送、订单修改、退款或真实模型 |
+| Java 理财审阅 | 原生 Core、固定组合、仅草案重平衡 | 本地编译；Linux CI 已配置待确认 | 无交易、转账、市场数据或真实模型 |
 | Lua、Rust、Zig、C、C++ | 尚未实现为 Tutorial | 未运行 | 仅为候选路径 |
 
 准确运行 ID 与范围见[验证证据](../project/verification-evidence.md)。“CI 通过”不等于
@@ -136,7 +137,7 @@ Core 与 Adapter，而不是增加框架表面积。
 
 ## 下一步
 
-1. 只有存在具体消费者路径后，才增加 Java 理财/金融或 C# 销售/CRM。
+1. 只有存在具体消费者路径后，才增加 C# 销售/CRM 服务台。
 2. 只有存在具体运行时与 transport 契约时才增加设备教程。
 3. 把已验证教程转成消费者授权测试路径，而不只是维护者演示。
 

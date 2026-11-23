@@ -68,6 +68,19 @@ jobs:
       - run: npm test
         working-directory: language/typescript/Tutorial/customer-support
 
+  java-wealth-service:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: maven
+      - run: mvn -B -q test
+        working-directory: language/java/Tutorial/wealth-service
+
   python-office-qa:
     runs-on: ubuntu-latest
     timeout-minutes: 10
