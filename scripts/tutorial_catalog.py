@@ -60,6 +60,7 @@ TUTORIALS = {
     "travel-booking": ("PE", "tools,draft,policy", "PE-02,TL-07"),
     "education-tutoring": ("PE", "retrieval,citations,tools,draft,policy", "PE-01"),
     "finops-review": ("SE", "analysis,tools,draft,policy", "SE-07"),
+    "api-orchestration": ("SE", "tools,orchestration,draft,policy", "SE-08"),
 }
 GUIDES = {
     "workspace-agent-tutorial": ("SE", "go", "filesystem,tools,policy"),

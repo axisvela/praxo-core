@@ -51,7 +51,7 @@ Repository links in the tables point to source on `main`, not immutable run evid
 | SE-05 | Code review and security/license audit | Rust, OCaml, Go | Review a fixed diff and dependency manifest, cite findings and uncertainty; [evidence vault](https://github.com/axisvela/praxo-core/tree/main/language/go/Tutorial/evidence-vault) is a containment slice |
 | SE-06 | AIOps RCA and remediation | Go, Elixir, Erlang | Correlate fixture events and draft an approval-gated rollback; [incident coordination](https://github.com/axisvela/praxo-core/tree/main/language/go/Tutorial/incident-coordination) is read/draft only |
 | SE-07 | Cloud and FinOps governance | Ruby, PowerShell, D | [Ruby cost-review slice](https://github.com/axisvela/praxo-core/tree/main/language/ruby/Tutorial/finops-review) computes idle-resource costs and drafts a review; no real cloud mutation or credentials; other targets candidate |
-| SE-08 | API orchestration and integration | PHP, Java, TypeScript | Map two synthetic APIs, validate schemas and reconcile failure; no arbitrary URL access |
+| SE-08 | API orchestration and integration | PHP, Java, TypeScript | Map two synthetic APIs, validate schemas and reconcile failure; no arbitrary URL access; [PHP API-orchestration slice](https://github.com/axisvela/praxo-core/tree/main/language/php/Tutorial/api-orchestration) covers two fixture APIs and a review draft |
 
 ## Enterprise Operations (7)
 

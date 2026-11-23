@@ -48,6 +48,16 @@ jobs:
       - run: python scripts/tutorial_catalog.py --check
       - run: python scripts/test_tutorial_catalog.py
 
+  php-api-orchestration:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.5'
+      - run: php language/php/Tutorial/api-orchestration/app.php --test
+
   ruby-finops-review:
     runs-on: ubuntu-latest
     timeout-minutes: 10
