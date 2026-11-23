@@ -48,6 +48,17 @@ jobs:
       - run: python scripts/tutorial_catalog.py --check
       - run: python scripts/test_tutorial_catalog.py
 
+  nim-maintenance-triage:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: jiro4989/setup-nim-action@v2
+        with:
+          nim-version: '2.2.12'
+      - run: nim c --path:language/nim/src --hints:off --out:build/nim-maintenance language/nim/Tutorial/maintenance-triage/maintenance.nim
+      - run: ./build/nim-maintenance --test
+
   haskell-literature-review:
     runs-on: ubuntu-latest
     timeout-minutes: 20

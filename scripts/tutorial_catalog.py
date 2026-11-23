@@ -63,6 +63,7 @@ TUTORIALS = {
     "api-orchestration": ("SE", "tools,orchestration,draft,policy", "SE-08"),
     "meeting-coordination": ("OP", "tools,draft,policy", "OP-02"),
     "literature-review": ("SC", "retrieval,citations,tools,draft,policy", "SC-01"),
+    "maintenance-triage": ("IN", "tools,draft,policy", "IN-01"),
 }
 GUIDES = {
     "workspace-agent-tutorial": ("SE", "go", "filesystem,tools,policy"),
