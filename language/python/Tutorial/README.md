@@ -1,4 +1,4 @@
-# Python Tutorials
+﻿# Python Tutorials
 
 Application-shaped tutorials live here, alongside `examples/`, which keeps
 mechanism checks and focused integration examples. Tutorial is intentionally
@@ -13,6 +13,8 @@ capitalized in directory paths.
   simulated publish.
 - [Education tutoring](education-tutoring/README.md): Core `Retriever` and a
   draft-only study plan.
+- [Clinical guidelines](clinical-guidelines/README.md): fixed guideline citations,
+  review-only summary and abstain on missing evidence.
 - [Credit diligence](credit-diligence/README.md): fixed ratios and a review-only
   credit memo.
 

@@ -107,14 +107,14 @@ Repository links in the tables point to source on `main`, not immutable run evid
 | IN-02 | Adaptive production scheduling | Erlang, C++, V | Replan a bounded synthetic job queue and draft MES/AGV instructions; no physical dispatch; [V production-scheduling slice](https://github.com/axisvela/praxo-core/tree/main/language/v/Tutorial/production-scheduling) computes a fixed priority order and draft |
 | IN-03 | Supply-chain disruption and sourcing | Go, Java, Ruby | Score synthetic supplier events and draft alternatives; [logistics checkpoint](https://github.com/axisvela/praxo-core/tree/main/language/go/Tutorial/logistics-checkpoint) is message continuation only |
 | IN-04 | Microgrid dispatch and load balance | Julia, Fortran, Zig | Simulate constrained charge/discharge schedules and check limits outside the agent; no grid commands |
-| IN-05 | Engineering drawing review and BOM | C++, C#, OCaml | Validate a synthetic parsed drawing graph and draft a BOM; no CAD/BIM vision or engineering certification |
+| IN-05 | Engineering drawing review and BOM | C++, C#, OCaml | Validate a synthetic parsed drawing graph and draft a BOM; no CAD/BIM vision or engineering certification; [OCaml bom-review](https://github.com/axisvela/praxo-core/tree/main/language/ocaml/Tutorial/bom-review) checks a fixed drawing and drafts a BOM |
 | IN-06 | Precision irrigation and crop protection | C, Lua, Nim | Evaluate fixture soil/weather observations and draft a bounded irrigation request; no drones or actuators |
 
 ## Healthcare (5)
 
 | ID | Scenario | Targets | First bounded tutorial outcome / related slice |
 | --- | --- | --- | --- |
-| HC-01 | Clinical and MDT support | Python, Java, R | Retrieve synthetic guideline excerpts with citations and abstain on missing evidence; no diagnosis or treatment decision |
+| HC-01 | Clinical and MDT support | Python, Java, R | Retrieve synthetic guideline excerpts with citations and abstain on missing evidence; no diagnosis or treatment decision; [Python clinical-guidelines](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/clinical-guidelines) cites fixed evidence and abstains |
 | HC-02 | Chronic-care follow-up | Swift, Dart, Objective-C | Summarize synthetic wearable trends and route an alert for review; no dosage or individualized treatment changes |
 | HC-03 | Clinical-trial recruitment | Python, Java, C# | Evaluate synthetic inclusion/exclusion predicates and explain unknowns; no real patient search or eligibility decision |
 | HC-04 | Record quality and DRG/DIP coding | Java, COBOL, C# | Check synthetic record completeness and draft codes; no reimbursement optimization, false coding or billing submission |

@@ -1,5 +1,7 @@
-# OCaml Tutorials
+﻿# OCaml Tutorials
 
+- [Drawing/BOM Review (IN-05)](bom-review/README.md): source OCaml Core, fixed
+  drawing conflicts and a review-only BOM; no CAD access.
 - [Contract Review (FC-05)](contract-review/README.md): source OCaml Core, fixed
   clause redlines and a review-only revision; no document store or legal advice.
   Run from the tutorial directory with `ocaml unix.cma review.ml --test`.

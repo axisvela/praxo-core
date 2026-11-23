@@ -466,6 +466,28 @@ jobs:
       - run: go run ./language/go/Tutorial/soc-alert-triage --test
       - run: go test ./language/go/Tutorial/soc-alert-triage
 
+  python-clinical-guidelines:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install --target tutorial-packages -r language/python/Tutorial/clinical-guidelines/requirements.txt
+      - run: PYTHONPATH=tutorial-packages python language/python/Tutorial/clinical-guidelines/app.py --test
+
+  ocaml-bom-review:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ocaml/setup-ocaml@v3
+        with:
+          ocaml-compiler: '4.14'
+      - run: ocaml unix.cma review.ml --test
+        working-directory: language/ocaml/Tutorial/bom-review
+
   python-credit-diligence:
     runs-on: ubuntu-latest
     timeout-minutes: 10

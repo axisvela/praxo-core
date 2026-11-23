@@ -80,6 +80,8 @@ TUTORIALS = {
     "onboarding-plan": ("OP", "tools,draft,policy", "OP-06"),
     "credit-diligence": ("FC", "analysis,tools,draft,policy", "FC-03"),
     "contract-review": ("FC", "analysis,tools,draft,policy", "FC-05"),
+    "clinical-guidelines": ("HC", "retrieval,citations,tools,draft,policy", "HC-01"),
+    "bom-review": ("IN", "analysis,tools,draft,policy", "IN-05"),
 }
 GUIDES = {
     "workspace-agent-tutorial": ("SE", "go", "filesystem,tools,policy"),

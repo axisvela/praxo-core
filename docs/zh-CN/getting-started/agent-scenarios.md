@@ -90,14 +90,14 @@ system 指令。Memory Store 不等于自动召回；checkpoint 消息续跑不�
 | IN-02 | 柔性产线动态排产 | Erlang、C++、V | 重排有界合成任务队列、草拟 MES/AGV 指令；不物理调度；[V 生产排产切片](https://github.com/axisvela/praxo-core/tree/main/language/v/Tutorial/production-scheduling)计算固定优先顺序与草案 |
 | IN-03 | 供应链断链预警与寻源 | Go、Java、Ruby | 评估合成供应商事件并草拟替代；物流 checkpoint 仅消息续跑 |
 | IN-04 | 微网调度与负荷平衡 | Julia、Fortran、Zig | 模拟有约束充放电计划，Agent 外校验安全限制；不发电网指令 |
-| IN-05 | 图纸审查与 BOM | C++、C#、OCaml | 校验合成的已解析图纸图并草拟 BOM；不宣称 CAD/BIM 视觉或工程认证 |
+| IN-05 | 图纸审查与 BOM | C++、C#、OCaml | 校验合成的已解析图纸图并草拟 BOM；不宣称 CAD/BIM 视觉或工程认证；[OCaml BOM 复核](https://github.com/axisvela/praxo-core/tree/main/language/ocaml/Tutorial/bom-review)检查固定图纸并草拟 BOM |
 | IN-06 | 精准灌溉与病虫害防治 | C、Lua、Nim | 评估固定土壤/天气观察并草拟有界灌溉请求；不控制无人机/执行器 |
 
 ## 医疗健康（5）
 
 | ID | 场景 | 目标语言 | 首个有界教学成果 / 相关切片 |
 | --- | --- | --- | --- |
-| HC-01 | 临床辅助与 MDT | Python、Java、R | 引用合成指南片段、证据不足时弃答；不诊断或决定治疗 |
+| HC-01 | 临床辅助与 MDT | Python、Java、R | 引用合成指南片段、证据不足时弃答；不诊断或决定治疗；[Python 临床指南](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/clinical-guidelines)引用固定证据并在无匹配时弃答 |
 | HC-02 | 慢病管理与随访 | Swift、Dart、Objective-C | 汇总合成穿戴数据、交人工复核；不调整剂量或个体治疗 |
 | HC-03 | 临床试验招募匹配 | Python、Java、C# | 判断合成入排条件、解释未知项；不搜索真实患者或决定入组 |
 | HC-04 | 病历质控与 DRG/DIP 编码 | Java、COBOL、C# | 检查合成记录完整性并草拟代码；不优化骗保、不虚假编码、不提交账单 |
