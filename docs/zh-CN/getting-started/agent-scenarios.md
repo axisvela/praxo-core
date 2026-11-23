@@ -46,7 +46,7 @@ system 指令。Memory Store 不等于自动召回；checkpoint 消息续跑不�
 | OP-04 | 跨系统 Agentic RPA | Java、C#、Delphi | 对账合成报销/采购记录；未知效果时停止盲重试 |
 | OP-05 | 招聘与人才匹配 | Ruby、PHP、Python | 对合成人才做岗位相关技能匹配并解释；不自动招聘决策或联系 |
 | OP-06 | 个性化入职导师 | Python、Dart、Swift | 按角色与前置条件规划课程；权限仍归应用 |
-| OP-07 | 高管经营简报 | R、Julia、D | 计算合成经营变化并引用指标；不把相关性当因果 |
+| OP-07 | 高管经营简报 | R、Julia、D | 计算合成经营变化并引用指标；不把相关性当因果；[D 高管简报切片](https://github.com/axisvela/praxo-core/tree/main/language/d/Tutorial/executive-brief)覆盖固定变化与复核草案 |
 
 ## 客服、营销与销售（7）
 

@@ -48,6 +48,16 @@ jobs:
       - run: python scripts/tutorial_catalog.py --check
       - run: python scripts/test_tutorial_catalog.py
 
+  d-executive-brief:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dlang-community/setup-dlang@v2
+        with:
+          compiler: dmd-latest
+      - run: dmd -i -Ilanguage/d/source -run language/d/Tutorial/executive-brief/brief.d --test
+
   nim-maintenance-triage:
     runs-on: ubuntu-latest
     timeout-minutes: 15

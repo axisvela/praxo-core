@@ -63,7 +63,7 @@ Repository links in the tables point to source on `main`, not immutable run evid
 | OP-04 | Cross-system agentic RPA | Java, C#, Delphi | Reconcile synthetic expense/procurement records and stop on an unknown effect |
 | OP-05 | Recruiting and candidate matching | Ruby, PHP, Python | Match synthetic, job-relevant skills and expose explanations; no automated hiring decision or outreach |
 | OP-06 | Personalized employee onboarding | Python, Dart, Swift | Plan role-specific lessons with explicit prerequisites; permissions remain application-owned |
-| OP-07 | Executive operating brief | R, Julia, D | Compute fixture business deltas and cite metrics; distinguish association from causal attribution |
+| OP-07 | Executive operating brief | R, Julia, D | Compute fixture business deltas and cite metrics; distinguish association from causal attribution; [D executive-brief slice](https://github.com/axisvela/praxo-core/tree/main/language/d/Tutorial/executive-brief) covers fixed variances and a review draft |
 
 ## Service And Sales (7)
 
