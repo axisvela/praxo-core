@@ -61,7 +61,7 @@ Repository links in the tables point to source on `main`, not immutable run evid
 | OP-02 | Meeting lifecycle management | Dart, Swift, TypeScript | Reconcile fixed calendars, draft minutes/tasks and ask before invitations; [Dart meeting-coordination slice](https://github.com/axisvela/praxo-core/tree/main/language/dart/Tutorial/meeting-coordination) covers calendar evidence and a minutes draft |
 | OP-03 | Dynamic enterprise knowledge maintenance | Python, Elixir, OCaml | Detect fixture document changes, deduplicate and draft a cited revision; no automatic Wiki writes; [Elixir knowledge-maintenance slice](https://github.com/axisvela/praxo-core/tree/main/language/elixir/Tutorial/knowledge-maintenance) covers a fixed diff and revision draft |
 | OP-04 | Cross-system agentic RPA | Java, C#, Delphi | Reconcile synthetic expense/procurement records and stop on an unknown effect; [Delphi RPA reconciliation](https://github.com/axisvela/praxo-core/tree/main/language/delphi/Tutorial/rpa-reconciliation) drafts an exception for a fixed delta |
-| OP-05 | Recruiting and candidate matching | Ruby, PHP, Python | Match synthetic, job-relevant skills and expose explanations; no automated hiring decision or outreach |
+| OP-05 | Recruiting and candidate matching | Ruby, PHP, Python | Match synthetic, job-relevant skills and expose explanations; no automated hiring decision or outreach; [Ruby recruiting-match](https://github.com/axisvela/praxo-core/tree/main/language/ruby/Tutorial/recruiting-match) ranks fixed candidates and drafts a shortlist |
 | OP-06 | Personalized employee onboarding | Python, Dart, Swift | Plan role-specific lessons with explicit prerequisites; permissions remain application-owned |
 | OP-07 | Executive operating brief | R, Julia, D | Compute fixture business deltas and cite metrics; distinguish association from causal attribution; [D executive-brief slice](https://github.com/axisvela/praxo-core/tree/main/language/d/Tutorial/executive-brief) covers fixed variances and a review draft |
 
@@ -82,7 +82,7 @@ Repository links in the tables point to source on `main`, not immutable run evid
 | ID | Scenario | Targets | First bounded tutorial outcome / related slice |
 | --- | --- | --- | --- |
 | FC-01 | Investment research and financial statements | R, Julia, Java | Compute ratios from synthetic statements and cite assumptions; [wealth analysis](https://github.com/axisvela/praxo-core/tree/main/language/r/Tutorial/wealth-analysis) is not investment research verification |
-| FC-02 | Quantitative execution and risk controls | C++, Rust, D | Replay fixed prices, enforce deterministic risk limits and draft orders; no trades or millisecond-latency claim |
+| FC-02 | Quantitative execution and risk controls | C++, Rust, D | Replay fixed prices, enforce deterministic risk limits and draft orders; no trades or millisecond-latency claim; [D quant-risk](https://github.com/axisvela/praxo-core/tree/main/language/d/Tutorial/quant-risk) compares fixed exposure to a limit and drafts a review order |
 | FC-03 | Credit diligence and fraud review | Java, COBOL, Python | Reconcile synthetic records and produce reviewable evidence; no automated credit denial or fraud adjudication |
 | FC-04 | Tax planning and filing | COBOL, Java, Delphi | Validate synthetic ledger totals and draft a filing with cited fixture rules; no real filing or tax advice |
 | FC-05 | Contract lifecycle review | Python, OCaml, C# | Compare fixture clauses against a redline set and propose edits; approval edits must be reauthorized |

@@ -75,6 +75,8 @@ TUTORIALS = {
     "zero-trust-review": ("CY", "analysis,tools,draft,policy", "CY-05"),
     "internal-service-desk": ("OP", "tools,draft,policy", "OP-01"),
     "rpa-reconciliation": ("OP", "analysis,tools,draft,policy", "OP-04"),
+    "recruiting-match": ("OP", "analysis,tools,draft,policy", "OP-05"),
+    "quant-risk": ("FC", "analysis,tools,draft,policy", "FC-02"),
 }
 GUIDES = {
     "workspace-agent-tutorial": ("SE", "go", "filesystem,tools,policy"),

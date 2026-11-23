@@ -204,6 +204,26 @@ jobs:
           php-version: '8.5'
       - run: php language/php/Tutorial/api-orchestration/app.php --test
 
+  ruby-recruiting-match:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.4'
+      - run: ruby -I language/ruby/lib language/ruby/Tutorial/recruiting-match/app.rb --test
+
+  d-quant-risk:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dlang-community/setup-dlang@v2
+        with:
+          compiler: dmd-latest
+      - run: dmd -i -Ilanguage/d/source -run language/d/Tutorial/quant-risk/risk.d --test
+
   ruby-finops-review:
     runs-on: ubuntu-latest
     timeout-minutes: 10
