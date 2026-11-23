@@ -122,6 +122,17 @@ jobs:
       - run: sudo apt-get update && sudo apt-get install -y octave
       - run: octave --no-gui --quiet language/octave/Tutorial/signal-trends/run.m
 
+  csharp-sales-crm:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+      - run: dotnet build language/csharp/Tutorial/sales-crm/SalesCrm.csproj --nologo
+      - run: dotnet language/csharp/Tutorial/sales-crm/bin/Debug/net8.0/Praxo.SalesCrm.dll --test
+
   java-order-review:
     runs-on: ubuntu-latest
     timeout-minutes: 10

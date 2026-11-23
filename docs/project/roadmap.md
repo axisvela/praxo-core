@@ -309,7 +309,11 @@ Turn the first run into one useful local application, such as:
   review-only rebalance, with policy denial and a loopback HTTP boundary. Local
   compilation passed; the local JVM blocks runtime execution, and Linux CI passed
   at `827d47ca` (run `45088386879`). It does not trade, transfer cash, use market
-  data or call a live model. See the
+  data or call a live model.
+  C#'s `Tutorial/sales-crm/` reads a fixed customer and drafts a review-only
+  follow-up, with policy denial and a loopback HTTP boundary. Local .NET 8 build
+  and self-tests pass; Linux CI is configured and pending. It does not write the
+  CRM, send email, use a real customer or call a live model. See the
   [Tutorial Plan](../getting-started/tutorial-plan.md) for the scenario map,
   current status, delivery standard and next candidates.
 - Validate one application-shaped prototype for a named consumer before

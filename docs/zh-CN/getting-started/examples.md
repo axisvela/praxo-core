@@ -87,6 +87,11 @@ JVM 阻塞运行；Linux CI 也已在 `827d47ca` 的
 [run 45088386879](https://github.com/axisvela/praxo-core/actions/runs/45088386879) 通过。
 没有真实账户、市场数据或券商集成。
 
+[C# 销售/CRM 教程](https://github.com/axisvela/praxo-core/tree/main/language/csharp/Tutorial/sales-crm)
+在固定 `customer-100` 记录上增加仅审阅销售服务：读取客户、生成供人工复核的跟进草案，
+不写 CRM、不发送邮件。策略拒绝 `customer-200`，Web 边界覆盖 401 与 503。本地 .NET 8
+构建与自测通过；Linux CI 已配置待确认。没有真实客户、CRM Connector 或外发消息。
+
 示例目录使用[语言覆盖矩阵](language-coverage.md)中的深度标签：
 
 | 深度 | 含义 |
@@ -123,6 +128,7 @@ JVM 阻塞运行；Linux CI 也已在 `827d47ca` 的
 | 用引用回答办公政策问题 | [Python 办公问答](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/office-qa) | 原生 Core、固定文档 fixture、带引用答案、受限拒绝与索引失败 |
 | 流式输出带引用的客服回复 | [TypeScript 客服](https://github.com/axisvela/praxo-core/tree/main/language/typescript/Tutorial/customer-support) | 原生 Core、固定订单/政策工具、SSE delta、鉴权拒绝与依赖失败 |
 | 生成供人工审阅的理财重平衡草案 | [Java 理财审阅](https://github.com/axisvela/praxo-core/tree/main/language/java/Tutorial/wealth-service) | 原生 Core、固定组合、仅草案分配、策略拒绝与服务边界；无交易或转账 |
+| 生成供人工审阅的销售跟进草案 | [C# 销售/CRM](https://github.com/axisvela/praxo-core/tree/main/language/csharp/Tutorial/sales-crm) | 原生 Core、固定客户、仅草案跟进、策略拒绝与 Web 边界；无 CRM 写入或邮件发送 |
 | 嵌入应用 | [应用嵌入清单](../guides/application-integration-checklist.md) | 只读、有副作用、高风险部署的分档清单 |
 | 通过 HTTP 运行 Core | [HTTP 嵌入服务教程](../guides/embedded-service-tutorial.md)、[语言覆盖](language-coverage.md) | Go、Python、TypeScript、Java、C# 和 Rust 提供可执行 HTTP 服务；其余已声明语言提供传输中立 Handler 示例 |
 | 查看 Go 参考应用 | [`examples/reference`](https://github.com/axisvela/praxo-core/tree/main/examples/reference) | Go 参考应用 |

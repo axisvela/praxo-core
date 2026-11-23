@@ -113,6 +113,13 @@ passed at `827d47ca` in
 [run 45088386879](https://github.com/axisvela/praxo-core/actions/runs/45088386879).
 No real account, market data or brokerage integration exists.
 
+The [C# sales/CRM tutorial](https://github.com/axisvela/praxo-core/tree/main/language/csharp/Tutorial/sales-crm)
+adds a review-only sales service over a fixed `customer-100` record. It reads the
+customer, drafts a follow-up for human review and never writes the CRM or sends
+email. Policy denies `customer-200`; the Web boundary covers 401 and 503. Local
+.NET 8 build and self-tests passed; Linux CI is configured and pending. No real
+customer, CRM connector or outbound message exists.
+
 The catalog uses the depth labels from the
 [Language Coverage depth audit](language-coverage.md#depth-audit):
 
@@ -152,6 +159,7 @@ for mechanism-only themes and the
 | Answer office policy questions with citations | [Python office Q&A](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/office-qa) | Native Core, fixed document fixtures, citation-bearing answer, scoped denial and index failure |
 | Stream a support reply with citations | [TypeScript customer support](https://github.com/axisvela/praxo-core/tree/main/language/typescript/Tutorial/customer-support) | Native Core, fixed order/policy tools, SSE deltas, auth/denial and dependency failure |
 | Draft a wealth rebalance for human review | [Java wealth review](https://github.com/axisvela/praxo-core/tree/main/language/java/Tutorial/wealth-service) | Native Core, fixed portfolio, draft-only allocation, policy denial and service boundary; no trades or transfers |
+| Draft a sales follow-up for human review | [C# sales/CRM](https://github.com/axisvela/praxo-core/tree/main/language/csharp/Tutorial/sales-crm) | Native Core, fixed customer, draft-only follow-up, policy denial and Web boundary; no CRM write or email send |
 | Embed in an application | [Application Integration Checklist](../guides/application-integration-checklist.md) | Risk-tiered checklist for read-only, side-effecting, and high-risk deployments |
 | Run Core behind HTTP | [Embedded HTTP service tutorial](../guides/embedded-service-tutorial.md), [Language Coverage](language-coverage.md) | Executable HTTP servers for Go, Python, TypeScript, Java, C#, and Rust; transport-neutral handler examples for every other declared language |
 | Explore the Go reference | [`examples/reference`](https://github.com/axisvela/praxo-core/tree/main/examples/reference) | Go reference application |

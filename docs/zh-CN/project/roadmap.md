@@ -225,8 +225,11 @@ TypeScript 的 `Tutorial/customer-support/` 通过 SSE 流式输出带引用的�
 `39558592`（run `45086046576`）通过。它不发送回复、不修改订单、不退款、不使用真实模型。
 Java 的 `Tutorial/wealth-service/` 读取固定组合并生成仅审阅重平衡草案，包含策略拒绝和
 loopback HTTP 边界。本地编译通过；本地 JVM 阻塞运行，Linux CI 也已在 `827d47ca`
-（run `45088386879`）通过。它不交易、不转账、不使用市场数据或真实模型。场景地图、
-当前状态、交付标准与后续候选见 [Tutorial 整体规划](../getting-started/tutorial-plan.md)。
+（run `45088386879`）通过。它不交易、不转账、不使用市场数据或真实模型。
+C# 的 `Tutorial/sales-crm/` 读取固定客户并生成仅审阅跟进草案，包含策略拒绝和 loopback
+HTTP 边界。本地 .NET 8 构建与自测通过；Linux CI 已配置待确认。它不写 CRM、不发送邮件、
+不使用真实客户或真实模型。场景地图、当前状态、交付标准与后续候选见
+[Tutorial 整体规划](../getting-started/tutorial-plan.md)。
 
 ### 开发者成果
 

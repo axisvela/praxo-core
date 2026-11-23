@@ -177,6 +177,13 @@ for the `acct-200` denial test, which was fixed before the passing run. No trade
 transfer, market data, production identity, live model, public hosting or
 independent adoption is verified.
 
+C# sales/CRM tutorial (2026-11-22): local .NET 8 build and self-tests passed
+draft-only success with zero CRM writes, `customer-200` policy denial, simulated
+CRM dependency failure, and the Web health/401/200/503 boundary. The self-test
+uses an ephemeral loopback ASP.NET Core listener. Linux CI is configured but its
+result is not yet recorded. No CRM write, email send, real customer, production
+identity, live model, public hosting or independent adoption is verified.
+
 | Area | Verified | Level | Limits |
 | --- | --- | --- | --- |
 | Python published package | PyPI `praxo-core==0.10.0` is published from source tag `python/v0.10.0`. The docs CI published-upgrade check installed `0.2.4`, ran the unchanged consumer and governed checks, upgraded to `0.10.0`, and reran the suite successfully. Historical local checks cover `0.3.2` and `0.2.4` | Registry publication + CI upgrade | One version pair; a post-publication consumer install outside CI for `0.10.0` is not recorded here; one platform/toolchain; not an independent or non-author consumer; no provider or production evidence |
