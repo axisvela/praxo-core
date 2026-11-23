@@ -55,7 +55,7 @@ Web 服务、运维 Shell、分析工作流、宿主嵌入或受约束设备。�
 | 客服与联络中心 | TypeScript、C# | Web/SSE、ASP.NET Core、身份与审计 | TypeScript 客服已实现并通过 CI |
 | 营销内容与分群 | Python、R | 内容工作流与原生统计分群 | 计划 |
 | 办公效率 | Python、C# | 文档、邮件/日历工具、.NET 集成 | Python 办公问答已实现 |
-| 销售 / CRM | C#、TypeScript | 企业认证与 Web 集成 | C# 销售/CRM 已实现；CI 待确认 |
+| 销售 / CRM | C#、TypeScript | 企业认证与 Web 集成 | C# 销售/CRM 已实现并通过 CI |
 | 理财 / 零售金融 | Java、R | 服务边界与风险/收益分析 | Java 理财审阅已实现并通过 CI |
 | 保险理赔 | Python、Java | 文档提取、审批与审计边界 | 计划 |
 | 采购 / ERP | Java、C# | 企业系统与应用自有身份 | 计划 |
@@ -104,7 +104,7 @@ Core 与 Adapter，而不是增加框架表面积。
 | Python 办公问答 | 原生 Core、固定文档、带引用答案 | 本地 Python 3.14 检查与 Linux CI | 无任意文件/Connector、邮件操作或真实模型 |
 | TypeScript 客服 | 原生 Core、固定订单/政策工具、SSE 流 | 本地 Node 24 检查与 Linux CI | 无回复发送、订单修改、退款或真实模型 |
 | Java 理财审阅 | 原生 Core、固定组合、仅草案重平衡 | 本地编译与 Linux CI | 无交易、转账、市场数据或真实模型 |
-| C# 销售/CRM | 原生 Core、固定客户、仅草案跟进 | 本地 .NET 8 构建/自测；Linux CI 已配置待确认 | 无 CRM 写入、邮件发送或真实模型 |
+| C# 销售/CRM | 原生 Core、固定客户、仅草案跟进 | 本地 .NET 8 构建/自测与 Linux CI | 无 CRM 写入、邮件发送或真实模型 |
 | Lua、Rust、Zig、C、C++ | 尚未实现为 Tutorial | 未运行 | 仅为候选路径 |
 
 准确运行 ID 与范围见[验证证据](../project/verification-evidence.md)。“CI 通过”不等于

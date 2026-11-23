@@ -117,8 +117,9 @@ The [C# sales/CRM tutorial](https://github.com/axisvela/praxo-core/tree/main/lan
 adds a review-only sales service over a fixed `customer-100` record. It reads the
 customer, drafts a follow-up for human review and never writes the CRM or sends
 email. Policy denies `customer-200`; the Web boundary covers 401 and 503. Local
-.NET 8 build and self-tests passed; Linux CI is configured and pending. No real
-customer, CRM connector or outbound message exists.
+.NET 8 build and self-tests passed, and Linux CI passed at `00641594` in
+[run 45093076768](https://github.com/axisvela/praxo-core/actions/runs/45093076768).
+No real customer, CRM connector or outbound message exists.
 
 The catalog uses the depth labels from the
 [Language Coverage depth audit](language-coverage.md#depth-audit):

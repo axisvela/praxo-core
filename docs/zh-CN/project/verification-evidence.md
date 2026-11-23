@@ -144,8 +144,10 @@ Java 理财审阅教程（2026-11-22）：教程主类与 JUnit 测试已使用�
 
 C# 销售/CRM 教程（2026-11-22）：本地 .NET 8 构建与自测通过仅草案成功（零 CRM 写入）、
 `customer-200` 策略拒绝、模拟 CRM 依赖失败，以及 Web health/401/200/503 边界。自测使用
-临时 loopback ASP.NET Core listener。Linux CI 已配置，结果尚未记录。未验证 CRM 写入、
-邮件发送、真实客户、生产身份、真实模型、公共托管或独立采用。
+临时 loopback ASP.NET Core listener。Linux CI
+[45093076768](https://github.com/axisvela/praxo-core/actions/runs/45093076768)
+也已在 `00641594` 通过。未验证 CRM 写入、邮件发送、真实客户、生产身份、真实模型、
+公共托管或独立采用。
 
 | 领域 | 已验证 | 级别 | 限制 |
 | --- | --- | --- | --- |

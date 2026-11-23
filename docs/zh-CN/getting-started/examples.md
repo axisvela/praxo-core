@@ -90,7 +90,9 @@ JVM 阻塞运行；Linux CI 也已在 `827d47ca` 的
 [C# 销售/CRM 教程](https://github.com/axisvela/praxo-core/tree/main/language/csharp/Tutorial/sales-crm)
 在固定 `customer-100` 记录上增加仅审阅销售服务：读取客户、生成供人工复核的跟进草案，
 不写 CRM、不发送邮件。策略拒绝 `customer-200`，Web 边界覆盖 401 与 503。本地 .NET 8
-构建与自测通过；Linux CI 已配置待确认。没有真实客户、CRM Connector 或外发消息。
+构建与自测通过，Linux CI 也已在 `00641594` 的
+[run 45093076768](https://github.com/axisvela/praxo-core/actions/runs/45093076768) 通过。
+没有真实客户、CRM Connector 或外发消息。
 
 示例目录使用[语言覆盖矩阵](language-coverage.md)中的深度标签：
 

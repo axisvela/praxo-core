@@ -180,8 +180,9 @@ independent adoption is verified.
 C# sales/CRM tutorial (2026-11-22): local .NET 8 build and self-tests passed
 draft-only success with zero CRM writes, `customer-200` policy denial, simulated
 CRM dependency failure, and the Web health/401/200/503 boundary. The self-test
-uses an ephemeral loopback ASP.NET Core listener. Linux CI is configured but its
-result is not yet recorded. No CRM write, email send, real customer, production
+uses an ephemeral loopback ASP.NET Core listener. Linux CI
+[45093076768](https://github.com/axisvela/praxo-core/actions/runs/45093076768)
+also passed at `00641594`. No CRM write, email send, real customer, production
 identity, live model, public hosting or independent adoption is verified.
 
 | Area | Verified | Level | Limits |

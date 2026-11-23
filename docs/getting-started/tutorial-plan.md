@@ -61,7 +61,7 @@ and a named consumer; keep the tutorial boundary narrow.
 | Customer service / contact center | TypeScript, C# | Web/SSE, ASP.NET Core, identity and audit | TypeScript customer-support implemented and CI verified |
 | Marketing content and segmentation | Python, R | Content workflows plus native statistical segments | Planned |
 | Office productivity | Python, C# | Documents, email/calendar tools, .NET integration | Python office Q&A next |
-| Sales / CRM | C#, TypeScript | Enterprise authentication and web integration | C# sales/CRM implemented; CI pending |
+| Sales / CRM | C#, TypeScript | Enterprise authentication and web integration | C# sales/CRM implemented and CI verified |
 | Wealth / retail finance | Java, R | Service boundaries plus risk/return analysis | Java wealth review implemented and CI verified |
 | Insurance claims | Python, Java | Document extraction, approval, audit boundaries | Planned |
 | Procurement / ERP | Java, C# | Enterprise systems and application-owned identity | Planned |
@@ -115,7 +115,7 @@ add framework surface.
 | Python office Q&A | Native Core, fixed documents, citation-bearing answer | Local Python 3.14 checks and Linux CI | No arbitrary file/connector, email action or live model |
 | TypeScript customer support | Native Core, fixed order/policy tools, SSE stream | Local Node 24 checks and Linux CI | No reply send, order change, refund or live model |
 | Java wealth review | Native Core, fixed portfolio, draft-only rebalance | Local compile and Linux CI | No trades, transfers, market data or live model |
-| C# sales/CRM | Native Core, fixed customer, draft-only follow-up | Local .NET 8 build/self-test; Linux CI configured and pending | No CRM write, email send or live model |
+| C# sales/CRM | Native Core, fixed customer, draft-only follow-up | Local .NET 8 build/self-test and Linux CI | No CRM write, email send or live model |
 | Lua, Rust, Zig, C, C++ | Not implemented as Tutorial entries | Not run | Candidate paths only |
 
 See [Verification Evidence](../project/verification-evidence.md) for exact run
