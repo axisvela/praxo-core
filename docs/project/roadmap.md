@@ -241,8 +241,8 @@ Turn the first run into one useful local application, such as:
   services in the public MIT `axisvela/agent-tutorial-services` repository. Start with
   scoped order lookup and resolution drafts, then add Java enterprise orders,
   Python/C# service desks, PowerShell/Perl operations, COBOL batch review,
-  Julia/R/Octave analysis, Lua host embedding, and Rust/Zig/C/C++ device scenarios
-  only as their paths are validated. Business APIs remain outside Core and
+  Julia/R/Octave analysis, Lua host embedding, a Rust gateway adapter fixture,
+  and Zig/C/C++ device scenarios only as their paths are validated. Business APIs remain outside Core and
   `spec/`; local service execution is required, public hosting is optional.
   Maintainer tutorials are not independent consumer evidence.
   New application tutorials live in `language/<language>/Tutorial/`, alongside
@@ -317,7 +317,12 @@ Turn the first run into one useful local application, such as:
   Lua's `Tutorial/host-embedding/` embeds the native Lua Core in a host event loop
   with fixed read-only device and draft-action callbacks. Local Lua 5.4.6 checks
   pass, and Linux CI passed at `9163d03a` (run `45095923385`). It does not send
-  device commands, open sockets or use a live model. See the
+  device commands, open sockets or use a live model.
+  Rust's `Tutorial/iot-gateway/` reads fixed `device-100` telemetry through an
+  explicit application-owned `GatewayAdapter` trait and drafts a review-only
+  operator action. Local Rust checks pass; Linux CI is pending. The adapter is an
+  in-process fixture; it does not implement MQTT, OPC UA, sockets, device commands
+  or a live model. See the
   [Tutorial Plan](../getting-started/tutorial-plan.md) for the scenario map,
   current status, delivery standard and next candidates.
 - Validate one application-shaped prototype for a named consumer before

@@ -89,6 +89,15 @@ jobs:
       - run: sudo apt-get update && sudo apt-get install -y lua5.4
       - run: lua5.4 language/lua/Tutorial/host-embedding/app.lua --test
 
+  rust-iot-gateway:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - run: cargo run --quiet --locked -- --test
+        working-directory: language/rust/Tutorial/iot-gateway
+
   python-office-qa:
     runs-on: ubuntu-latest
     timeout-minutes: 10

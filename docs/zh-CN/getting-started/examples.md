@@ -100,6 +100,12 @@ JVM 阻塞运行；Linux CI 也已在 `827d47ca` 的
 不调用真实模型。本地 Lua 5.4.6 测试通过，Linux CI 也已在 `9163d03a` 的
 [run 45095923385](https://github.com/axisvela/praxo-core/actions/runs/45095923385) 通过。
 
+[Rust IoT 网关教程](https://github.com/axisvela/praxo-core/tree/main/language/rust/Tutorial/iot-gateway)
+通过显式的应用自有 `GatewayAdapter` trait 读取固定 `device-100` 快照，并生成一条
+人工审阅运维动作草案。策略在调用 Adapter 前拒绝 `device-200`（`reads=0`）；模拟
+Adapter 失败在读取一次后失败。Adapter 是进程内 fixture，不实现 MQTT、OPC UA、
+Socket、设备命令或真实模型。本地 `cargo` 检查通过；Linux CI 待确认。
+
 示例目录使用[语言覆盖矩阵](language-coverage.md)中的深度标签：
 
 | 深度 | 含义 |
@@ -138,6 +144,7 @@ JVM 阻塞运行；Linux CI 也已在 `827d47ca` 的
 | 生成供人工审阅的理财重平衡草案 | [Java 理财审阅](https://github.com/axisvela/praxo-core/tree/main/language/java/Tutorial/wealth-service) | 原生 Core、固定组合、仅草案分配、策略拒绝与服务边界；无交易或转账 |
 | 生成供人工审阅的销售跟进草案 | [C# 销售/CRM](https://github.com/axisvela/praxo-core/tree/main/language/csharp/Tutorial/sales-crm) | 原生 Core、固定客户、仅草案跟进、策略拒绝与 Web 边界；无 CRM 写入或邮件发送 |
 | 将 Agent 嵌入 Lua 宿主设备循环 | [Lua 宿主嵌入](https://github.com/axisvela/praxo-core/tree/main/language/lua/Tutorial/host-embedding) | 原生 Lua Core、宿主回调、只读设备状态、仅草案运维动作；无设备命令或 Socket |
+| 只读诊断边缘网关 | [Rust IoT 网关](https://github.com/axisvela/praxo-core/tree/main/language/rust/Tutorial/iot-gateway) | 原生 Rust Core、显式 `GatewayAdapter` fixture、固定遥测、仅草案运维动作；无 MQTT、OPC UA、Socket 或设备写入 |
 | 嵌入应用 | [应用嵌入清单](../guides/application-integration-checklist.md) | 只读、有副作用、高风险部署的分档清单 |
 | 通过 HTTP 运行 Core | [HTTP 嵌入服务教程](../guides/embedded-service-tutorial.md)、[语言覆盖](language-coverage.md) | Go、Python、TypeScript、Java、C# 和 Rust 提供可执行 HTTP 服务；其余已声明语言提供传输中立 Handler 示例 |
 | 查看 Go 参考应用 | [`examples/reference`](https://github.com/axisvela/praxo-core/tree/main/examples/reference) | Go 参考应用 |

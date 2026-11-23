@@ -129,6 +129,14 @@ sockets or call a live model. Local Lua 5.4.6 tests passed, and Linux CI passed 
 `9163d03a` in
 [run 45095923385](https://github.com/axisvela/praxo-core/actions/runs/45095923385).
 
+The [Rust IoT gateway tutorial](https://github.com/axisvela/praxo-core/tree/main/language/rust/Tutorial/iot-gateway)
+reads a fixed `device-100` snapshot through an explicit application-owned
+`GatewayAdapter` trait and drafts one operator review action. Policy denies
+`device-200` before the adapter (`reads=0`), and a simulated adapter failure
+fails after one read. The adapter is an in-process fixture; no MQTT, OPC UA,
+socket, device command or live model is implemented. Local `cargo` checks passed;
+Linux CI is pending.
+
 The catalog uses the depth labels from the
 [Language Coverage depth audit](language-coverage.md#depth-audit):
 
@@ -170,6 +178,7 @@ for mechanism-only themes and the
 | Draft a wealth rebalance for human review | [Java wealth review](https://github.com/axisvela/praxo-core/tree/main/language/java/Tutorial/wealth-service) | Native Core, fixed portfolio, draft-only allocation, policy denial and service boundary; no trades or transfers |
 | Draft a sales follow-up for human review | [C# sales/CRM](https://github.com/axisvela/praxo-core/tree/main/language/csharp/Tutorial/sales-crm) | Native Core, fixed customer, draft-only follow-up, policy denial and Web boundary; no CRM write or email send |
 | Embed the Agent in a Lua host device loop | [Lua host embedding](https://github.com/axisvela/praxo-core/tree/main/language/lua/Tutorial/host-embedding) | Native Lua Core, host callbacks, read-only device state, draft-only operator action; no device command or socket |
+| Diagnose an edge gateway read-only | [Rust IoT gateway](https://github.com/axisvela/praxo-core/tree/main/language/rust/Tutorial/iot-gateway) | Native Rust Core, explicit `GatewayAdapter` fixture, fixed telemetry, draft-only operator action; no MQTT, OPC UA, socket or device write |
 | Embed in an application | [Application Integration Checklist](../guides/application-integration-checklist.md) | Risk-tiered checklist for read-only, side-effecting, and high-risk deployments |
 | Run Core behind HTTP | [Embedded HTTP service tutorial](../guides/embedded-service-tutorial.md), [Language Coverage](language-coverage.md) | Executable HTTP servers for Go, Python, TypeScript, Java, C#, and Rust; transport-neutral handler examples for every other declared language |
 | Explore the Go reference | [`examples/reference`](https://github.com/axisvela/praxo-core/tree/main/examples/reference) | Go reference application |

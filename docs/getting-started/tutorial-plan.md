@@ -41,7 +41,7 @@ contracts, not framework compatibility promises.
 | R | Data quality and statistical report | Native statistics with evidence-linked narrative | Analysis planned |
 | Octave / MATLAB | Signal and sensor trend review | Native matrix/signal processing; Octave vs MATLAB evidence split | Analysis planned |
 | Lua | Embed in an existing host | Host callbacks and small-footprint integration | Host-specific |
-| Rust | IoT gateway diagnosis | Edge deployment, HTTP model adapter, process plugins | Devices planned |
+| Rust | IoT gateway diagnosis | Edge deployment, explicit read-only adapter contract, process plugins | Implemented; CI pending |
 | Zig | Small gateway health check | Minimal deployment and explicit platform limits | Devices planned |
 | C | Constrained host diagnostic component | Caller-owned memory/network/transport contract | Devices planned |
 | C++ | Industrial edge maintenance | Existing device SDK wrapped as scoped tools | Devices planned |
@@ -65,7 +65,7 @@ and a named consumer; keep the tutorial boundary narrow.
 | Wealth / retail finance | Java, R | Service boundaries plus risk/return analysis | Java wealth review implemented and CI verified |
 | Insurance claims | Python, Java | Document extraction, approval, audit boundaries | Planned |
 | Procurement / ERP | Java, C# | Enterprise systems and application-owned identity | Planned |
-| Factory / manufacturing | C++, Rust | OPC UA/device SDK seams, edge deployment | Planned |
+| Factory / manufacturing | C++, Rust | OPC UA/device SDK seams, edge deployment | Rust gateway adapter fixture implemented; CI pending; real OPC UA/device SDK planned |
 | Industrial automation | C++, Rust, Octave | Device SDK plus signal analysis | Planned |
 | Consumer electronics | Lua, C, Rust | Host embedding, constrained runtime, gateway | Lua host embedding implemented and CI verified |
 | Robotics | C++, Rust, Julia | ROS 2 integration, control and numerical analysis | Planned |
@@ -117,7 +117,8 @@ add framework surface.
 | Java wealth review | Native Core, fixed portfolio, draft-only rebalance | Local compile and Linux CI | No trades, transfers, market data or live model |
 | C# sales/CRM | Native Core, fixed customer, draft-only follow-up | Local .NET 8 build/self-test and Linux CI | No CRM write, email send or live model |
 | Lua host embedding | Native Lua Core, host callbacks, draft-only action | Local Lua 5.4.6 checks and Linux CI | No device command, socket or live model |
-| Rust, Zig, C, C++ | Not implemented as Tutorial entries | Not run | Candidate paths only |
+| Rust IoT gateway | Native Rust Core, read-only `GatewayAdapter`, draft-only action | Local Rust checks; CI pending | In-process adapter fixture only; no MQTT, OPC UA, socket, device write or live model |
+| Zig, C, C++ | Not implemented as Tutorial entries | Not run | Candidate paths only |
 
 See [Verification Evidence](../project/verification-evidence.md) for exact run
 IDs and scope. "Passed in CI" does not mean production readiness, independent
@@ -156,8 +157,9 @@ not in `pkg/...` or `spec/`.
 
 ## Next Work
 
-1. Add Rust IoT gateway diagnosis or other device tutorials only when a concrete
-   runtime and transport contract exist.
+1. Add device tutorials with an explicit application-owned adapter contract and
+   a deterministic fixture. Real MQTT, OPC UA, device SDK or runtime validation
+   remains a separate, blocked claim until that transport is actually exercised.
 2. Turn each verified tutorial into a consumer test-authorized path, not just a
    maintainer demo.
 

@@ -194,6 +194,16 @@ a `draft_only` `notify_operator` draft with `review_required`, and an empty
 also passed at `9163d03a`. No real device protocol, command, socket, production
 identity, live model, public hosting or independent adoption is verified.
 
+Rust IoT gateway tutorial (2026-11-22): local Rust with the published
+`praxo-core==0.10.0` crate passed success, policy denial and simulated adapter
+failure. The success report contained the fixed `device-100` snapshot, a
+`draft_only`, `review_required` `open_ticket` draft and zero device writes; the
+out-of-scope `device-200` was denied before the adapter (`reads=0`); simulated
+adapter failure returned `GATEWAY_READ_FAILED` after one read. `cargo fmt
+--check` and `cargo run --locked -- --test` passed locally. Linux CI is pending.
+The adapter is an in-process fixture; no MQTT, OPC UA, socket, device command,
+live model, public hosting or independent adoption is verified.
+
 | Area | Verified | Level | Limits |
 | --- | --- | --- | --- |
 | Python published package | PyPI `praxo-core==0.10.0` is published from source tag `python/v0.10.0`. The docs CI published-upgrade check installed `0.2.4`, ran the unchanged consumer and governed checks, upgraded to `0.10.0`, and reran the suite successfully. Historical local checks cover `0.3.2` and `0.2.4` | Registry publication + CI upgrade | One version pair; a post-publication consumer install outside CI for `0.10.0` is not recorded here; one platform/toolchain; not an independent or non-author consumer; no provider or production evidence |
