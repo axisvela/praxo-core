@@ -291,6 +291,12 @@ Turn the first run into one useful local application, such as:
   report. Local Julia 1.13.2 checks pass, and Linux CI passed at `bbf12c42` (run
   `45041423996`). It does not read arbitrary data, run model-provided Julia code,
   install packages or call a live model.
+  Fortran's `Tutorial/simulation-metrics/` computes fixed ten-sample metrics
+  (mean, minimum, maximum, peak-to-peak, two exceedances) through the native
+  Fortran Core and packages the computed evidence in a `draft_only` report. Local
+  gfortran 16.2.0/RE2 checks pass; the Linux CI job is added but not yet run. It
+  does not read arbitrary data, run model-provided Fortran, install packages,
+  publish a report or call a live model.
   Octave/MATLAB's `Tutorial/signal-trends/` computes fixed-signal mean,
   peak-to-peak, RMS and threshold anomalies through the shared Core and packages
   the evidence in a report. Local GNU Octave 11.3.0 checks pass, and Linux CI
@@ -329,6 +335,12 @@ Turn the first run into one useful local application, such as:
   `restart_telemetry` review action. Local Zig 0.17.0 checks pass, and Linux CI
   passed at `0b2f15d6` (run `45102354617`). It does not implement MQTT, OPC UA,
   sockets, device commands or a live model.
+  Go's `Tutorial/incident-coordination/` reads a fixed `incident-100` snapshot
+  through an application-owned `IncidentSource`, drafts a `notify_oncall` update,
+  and records `run.started`/`tool.call`/`run.completed` through an
+  `event.FuncSink`. Local `go test` and `go run --test` pass; the Linux CI job is
+  added but not yet run. It does not connect a real incident system, start a
+  durable workflow, mutate an incident or call a live model.
   C's `Tutorial/device-diagnostics/` reads a fixed `device-100` snapshot through an
   application-owned `PxDeviceAdapter` function pointer and drafts a
   `notify_operator` review action. Local MinGW gcc/CMake checks pass; the Linux CI

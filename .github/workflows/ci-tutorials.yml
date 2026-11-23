@@ -128,6 +128,26 @@ jobs:
       - run: cmake --build language/cpp/build --target praxo-cpp-industrial-edge-tutorial
       - run: ./language/cpp/build/praxo-cpp-industrial-edge-tutorial --test
 
+  go-incident-coordination:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: '1.25.x'
+      - run: go run ./language/go/Tutorial/incident-coordination --test
+      - run: go test ./language/go/Tutorial/incident-coordination
+
+  fortran-simulation-metrics:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - run: sudo apt-get update && sudo apt-get install -y gfortran g++ cmake ninja-build
+      - run: python3 language/fortran/run-tests.py --re2-only
+      - run: python language/fortran/Tutorial/simulation-metrics/run.py
+
   python-office-qa:
     runs-on: ubuntu-latest
     timeout-minutes: 10

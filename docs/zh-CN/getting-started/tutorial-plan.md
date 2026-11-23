@@ -28,11 +28,11 @@ Web 服务、运维 Shell、分析工作流、宿主嵌入或受约束设备。�
 | Python | 入职清单与工单草稿 | Retriever/结构化输出与应用服务形态 | 入职（计划） |
 | TypeScript | 客户支持流式回复 | 前端/Node 集成与 SSE | 订单 |
 | C# | 员工或订单服务台 | ASP.NET Core、可接 OIDC 的服务边界 | 订单；HR 计划 |
-| Go | 事件处置协调 | 参考 Core、插件、遥测、长时操作 | 运维（计划） |
+| Go | 事件处置协调 | 参考 Core、应用自有事件源、用于遥测的 event sink | 已实现；本地 fixture 检查通过 |
 | PowerShell | Windows 服务/磁盘诊断 | 固定只读原生运维、本机检查 | 无（本地诊断） |
 | Perl | 日志与批处理巡检 | 原生文本处理与既有自动化 | 运维（计划） |
 | COBOL | 银行批处理异常审阅 | 确定性批处理与人工复核边界 | 现有批处理 fixture |
-| Fortran | 仿真结果诊断 | 数值证据先于模型解释 | 分析（计划） |
+| Fortran | 仿真结果诊断 | 数值证据先于模型解释 | 已实现；本地 fixture 检查通过 |
 | Julia | 实验比较 | 原生数值工作与实验草稿 | 分析（计划） |
 | R | 数据质量与统计报告 | 原生统计与附证据叙述 | 分析（计划） |
 | Octave / MATLAB | 信号与传感器趋势审阅 | 原生矩阵/信号处理；Octave 与 MATLAB 证据分开 | 分析（计划） |
@@ -100,6 +100,7 @@ Core 与 Adapter，而不是增加框架表面积。
 | R 数据质量 | 原生 R 统计、固定数据框、计算报告 | 本地 R 4.6.1 测试与 Linux CI | 无任意文件/SQL/Shell、真实模型或因果结论 |
 | COBOL 批处理异常审阅 | 复用确定性批处理交接；独立审阅 worker | 本地 GnuCOBOL 2.0.0/Python 检查与 Linux CI | 无真实记账、持久队列、恢复证明或真实模型 |
 | Julia 实验比较 | 原生 Julia 对固定结果计算均值/差值 | 本地 Julia 1.13.2 测试与 Linux CI | 无任意数据/代码/包安装、真实模型或因果结论 |
+| Fortran 仿真指标 | 原生 Fortran Core、固定十样本指标、仅草案报告 | 本地 gfortran 16.2.0/RE2 检查通过；Linux CI job 已添加，尚未运行 | 仅固定指标 fixture；无任意数据集、模型提供代码、包安装、发布或真实模型 |
 | Octave/MATLAB 信号趋势 | 共享信号指标、阈值异常 | 本地 GNU Octave 11.3.0 测试与 Linux CI | 原生 MATLAB 未验证；无设备控制或真实模型 |
 | Python 办公问答 | 原生 Core、固定文档、带引用答案 | 本地 Python 3.14 检查与 Linux CI | 无任意文件/Connector、邮件操作或真实模型 |
 | TypeScript 客服 | 原生 Core、固定订单/政策工具、SSE 流 | 本地 Node 24 检查与 Linux CI | 无回复发送、订单修改、退款或真实模型 |
@@ -108,6 +109,7 @@ Core 与 Adapter，而不是增加框架表面积。
 | Lua 宿主嵌入 | 原生 Lua Core、宿主回调、仅草案动作 | 本地 Lua 5.4.6 检查与 Linux CI | 无设备命令、Socket 或真实模型 |
 | Rust IoT 网关 | 原生 Rust Core、只读 `GatewayAdapter`、仅草案动作 | 本地 Rust 检查与 Linux CI | 仅进程内适配器 fixture；无 MQTT、OPC UA、Socket、设备写入或真实模型 |
 | Zig 网关健康 | 原生 Zig Core、只读 `GatewayAdapter` 函数表、仅草案动作 | 本地 Zig 0.17.0 检查与 Linux CI | 仅进程内适配器 fixture；无 MQTT、OPC UA、Socket、设备写入或真实模型 |
+| Go 事件处置协调 | 参考 Go Core、应用自有 `IncidentSource`、仅草案动作、`event.FuncSink` 遥测 | 本地 `go test`/`go run --test` 通过；Linux CI job 已添加，尚未运行 | 仅进程内事件源与 event sink fixture；无真实事件系统、持久工作流、真实模型或事件写入 |
 | C 设备诊断 | 原生 C Core、应用自有 `PxDeviceAdapter` 函数指针、仅草案动作 | 本地 MinGW gcc/CMake 检查通过；Linux CI job 已添加，尚未运行 | 仅进程内适配器 fixture；无串行总线、Socket、设备 SDK、设备写入或真实模型 |
 | C++ 工业边缘 | 原生 C++ Core、应用自有 `DeviceAdapter` 接口、仅草案动作 | 本地 MinGW g++/CMake 检查通过；Linux CI job 已添加，尚未运行 | 仅进程内适配器 fixture；无现场总线、OPC UA、Socket、设备 SDK、设备写入或真实模型 |
 

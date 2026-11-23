@@ -214,6 +214,10 @@ Julia 的 `Tutorial/experiment-comparison/` 通过原生 Julia Core 计算固定
 baseline/candidate 指标，并把计算证据封装进报告。本地 Julia 1.13.2 检查通过，
 Linux CI 也已在 `bbf12c42`（run `45041423996`）通过。它不读取任意数据、不执行模型
 提供的 Julia 代码、不安装包、不调用真实模型。
+Fortran 的 `Tutorial/simulation-metrics/` 通过原生 Fortran Core 计算固定十样本指标
+（均值、最小值、最大值、峰峰值、两个超阈值点），并把计算证据封装进 `draft_only`
+报告。本地 gfortran 16.2.0/RE2 检查通过；Linux CI job 已添加但尚未运行。它不读取
+任意数据、不执行模型提供的 Fortran、不安装包、不发布报告、不调用真实模型。
 Octave/MATLAB 的 `Tutorial/signal-trends/` 通过共享 Core 计算固定信号的均值、峰峰值、
 RMS 与阈值异常，并把证据封装进报告。本地 GNU Octave 11.3.0 检查通过，Linux CI 也已
 在 `0664a194`（run `45042266323`）通过；原生 MATLAB 未验证。它不读取任意文件、不执行
@@ -241,6 +245,11 @@ Zig 的 `Tutorial/gateway-health/` 通过显式的应用自有 `GatewayAdapter` 
 `gateway-100` 快照，并生成 `restart_telemetry` 仅审阅动作草案。本地 Zig 0.17.0 检查
 通过，Linux CI 也已在 `0b2f15d6`（run `45102354617`）通过。它不实现 MQTT、OPC UA、
 Socket、设备命令或真实模型。
+Go 的 `Tutorial/incident-coordination/` 通过应用自有 `IncidentSource` 读取固定
+`incident-100` 快照，生成 `notify_oncall` 更新草案，并通过 `event.FuncSink` 记录
+`run.started`/`tool.call`/`run.completed`。本地 `go test` 与 `go run --test` 通过；
+Linux CI job 已添加但尚未运行。它不连接真实事件系统、不启动持久工作流、不修改事件、
+也不调用真实模型。
 C 的 `Tutorial/device-diagnostics/` 通过应用自有 `PxDeviceAdapter` 函数指针读取固定
 `device-100` 快照，并生成 `notify_operator` 仅审阅动作草案。本地 MinGW gcc/CMake 检查
 通过；Linux CI job 已添加但尚未运行。它不实现串行总线、Socket、设备 SDK、设备命令或

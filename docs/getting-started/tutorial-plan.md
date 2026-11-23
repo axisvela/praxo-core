@@ -32,11 +32,11 @@ contracts, not framework compatibility promises.
 | Python | Onboarding checklist and ticket draft | Retriever/structured output and application service shape | Onboarding (planned) |
 | TypeScript | Customer support reply with streaming | Front-end/Node integration and SSE | Orders |
 | C# | Employee or order service desk | ASP.NET Core, OIDC-ready service boundary | Orders; HR planned |
-| Go | Incident coordination | Reference Core, plugins, telemetry, long-running operations | Operations planned |
+| Go | Incident coordination | Reference Core, application-owned source, event sink for telemetry | Implemented; local fixture checks pass |
 | PowerShell | Windows service/disk diagnostics | Fixed read-only native operations, local machine checks | None (local diagnostics) |
 | Perl | Log and batch inspection | Native text processing and legacy automation | Operations planned |
 | COBOL | Banking batch exception review | Deterministic batch path and review boundary | Existing batch fixture |
-| Fortran | Simulation diagnostics | Numerical evidence before model interpretation | Analysis planned |
+| Fortran | Simulation diagnostics | Numerical evidence before model interpretation | Implemented; local fixture checks pass |
 | Julia | Experiment comparison | Native numerical work and experiment drafts | Analysis planned |
 | R | Data quality and statistical report | Native statistics with evidence-linked narrative | Analysis planned |
 | Octave / MATLAB | Signal and sensor trend review | Native matrix/signal processing; Octave vs MATLAB evidence split | Analysis planned |
@@ -111,6 +111,7 @@ add framework surface.
 | R data quality | Native R statistics, fixed data frame, computed report | Local R 4.6.1 tests and Linux CI | No arbitrary file/SQL/shell, live model or causal claim |
 | COBOL batch exception review | Reuses deterministic batch handoff; separate review worker | Local GnuCOBOL 2.0.0/Python checks and Linux CI | No real posting, durable queue, recovery proof or live model |
 | Julia experiment comparison | Native Julia means/delta over fixed results | Local Julia 1.13.2 tests and Linux CI | No arbitrary data/code/package install, live model or causal claim |
+| Fortran simulation metrics | Native Fortran Core, fixed ten-sample metrics, draft-only report | Local gfortran 16.2.0/RE2 checks pass; Linux CI job added, not yet run | Fixed metric fixture only; no arbitrary dataset, interpreted model code, package install, publication or live model |
 | Octave/MATLAB signal trends | Shared signal metrics, threshold anomalies | Local GNU Octave 11.3.0 tests and Linux CI | Native MATLAB unverified; no device control or live model |
 | Python office Q&A | Native Core, fixed documents, citation-bearing answer | Local Python 3.14 checks and Linux CI | No arbitrary file/connector, email action or live model |
 | TypeScript customer support | Native Core, fixed order/policy tools, SSE stream | Local Node 24 checks and Linux CI | No reply send, order change, refund or live model |
@@ -119,6 +120,7 @@ add framework surface.
 | Lua host embedding | Native Lua Core, host callbacks, draft-only action | Local Lua 5.4.6 checks and Linux CI | No device command, socket or live model |
 | Rust IoT gateway | Native Rust Core, read-only `GatewayAdapter`, draft-only action | Local Rust checks and Linux CI | In-process adapter fixture only; no MQTT, OPC UA, socket, device write or live model |
 | Zig gateway health | Native Zig Core, read-only `GatewayAdapter` function table, draft-only action | Local Zig 0.17.0 checks and Linux CI | In-process adapter fixture only; no MQTT, OPC UA, socket, device write or live model |
+| Go incident coordination | Reference Go Core, application-owned `IncidentSource`, draft-only action, `event.FuncSink` telemetry | Local `go test`/`go run --test` pass; Linux CI job added, not yet run | In-process source and event sink fixtures only; no real incident system, durable workflow, live model or incident write |
 | C device diagnostics | Native C Core, application-owned `PxDeviceAdapter` function pointer, draft-only action | Local MinGW gcc/CMake checks pass; Linux CI job added, not yet run | In-process adapter fixture only; no serial bus, socket, device SDK, device write or live model |
 | C++ industrial edge | Native C++ Core, application-owned `DeviceAdapter` interface, draft-only action | Local MinGW g++/CMake checks pass; Linux CI job added, not yet run | In-process adapter fixture only; no fieldbus, OPC UA, socket, device SDK, device write or live model |
 
