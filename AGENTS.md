@@ -79,9 +79,9 @@ already on `PATH`.
 
 Per-language paths, versions, blockers, and working commands are maintained
 internally in
-`D:\profile\paper-code\axis-vela\PRAXOVELA-EE\docs\praxo-core\languages\environment-and-configuration.md`.
+`D:\profile\code\axis-vela\PRAXOVELA-EE\docs\praxo-core\languages\environment-and-configuration.md`.
 Swift has an additional Windows setup guide in
-`D:\profile\paper-code\axis-vela\PRAXOVELA-EE\docs\praxo-core\languages\swift-windows-toolchain.md`.
+`D:\profile\code\axis-vela\PRAXOVELA-EE\docs\praxo-core\languages\swift-windows-toolchain.md`.
 Record new toolchain findings and workarounds there.
 
 | Tool / language | Local path |
