@@ -268,6 +268,11 @@ Go 的 `Tutorial/soc-alert-triage/` 通过应用自有 `AlertSource` 读取固�
 `event.FuncSink` 记录审计事件。本地 `go test` 与 `go run --test` 通过并断言原始 PII
 不存在；Linux CI job 已添加但尚未运行。它不连接真实 SIEM、不执行主机动作、不调用真实
 模型，也不对运行期工具参数、错误或事件载荷脱敏。
+Go 的 `Tutorial/logistics-checkpoint/` 评估固定 `shipment-100`，把对话记录序列化为
+`checkpoint.Checkpoint`，并在第二轮恢复后生成仅审阅改道草案（不再重复读取，`reads`
+保持 1、`drafts` 达到 1），并保存扩展后的 checkpoint。本地 `go test` 与 `go run --test`
+通过；Linux CI job 已添加但尚未运行。存储仅是内存 JSON 往返，不是数据库、并发存储或
+exactly-once 证明，也不连接真实物流系统或真实模型。
 C 的 `Tutorial/device-diagnostics/` 通过应用自有 `PxDeviceAdapter` 函数指针读取固定
 `device-100` 快照，并生成 `notify_operator` 仅审阅动作草案。本地 MinGW gcc/CMake 检查
 通过；Linux CI job 已添加但尚未运行。它不实现串行总线、Socket、设备 SDK、设备命令或

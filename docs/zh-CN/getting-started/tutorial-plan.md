@@ -63,7 +63,7 @@ Web 服务、运维 Shell、分析工作流、宿主嵌入或受约束设备。�
 | 工业自动化 | C++、Rust、Octave | 设备 SDK 与信号分析 | 计划 |
 | 消费电子 | Lua、C、Rust、Zig | 宿主嵌入、受约束运行时、网关 | Lua 宿主嵌入、Rust 网关 fixture 与 Zig 网关健康已实现并通过 CI |
 | 机器人 | C++、Rust、Julia | ROS 2 集成、控制与数值分析 | 计划 |
-| 物流 | Go、Java | 事件驱动服务与长时操作 | 计划 |
+| 物流 | Go、Java | 事件驱动服务与长时操作 | Go 物流 checkpoint/恢复已实现（本地；CI job 已添加、尚未运行）；Java 计划 |
 | 能源 / 电网 | Rust、C++、Julia | 边缘约束与数值分析 | 计划 |
 | 安全 / SOC | Go、Perl、PowerShell | 服务、日志与 Windows 运维 | Go SOC 告警分诊已实现（本地；CI job 已添加、尚未运行）；Perl/PowerShell 计划 |
 | 医疗排班 | C#、Java | 身份、审计与企业集成 | 计划 |
@@ -114,6 +114,7 @@ Core 与 Adapter，而不是增加框架表面积。
 | Zig 网关健康 | 原生 Zig Core、只读 `GatewayAdapter` 函数表、仅草案动作 | 本地 Zig 0.17.0 检查与 Linux CI | 仅进程内适配器 fixture；无 MQTT、OPC UA、Socket、设备写入或真实模型 |
 | Go 事件处置协调 | 参考 Go Core、应用自有 `IncidentSource`、仅草案动作、`event.FuncSink` 遥测 | 本地 `go test`/`go run --test` 通过；Linux CI job 已添加，尚未运行 | 仅进程内事件源与 event sink fixture；无真实事件系统、持久工作流、真实模型或事件写入 |
 | Go SOC 告警分诊 | 参考 Go Core、应用自有 `AlertSource`、Core `PIIRedactor`、仅草案隔离、`event.FuncSink` 审计 | 本地 `go test`/`go run --test` 通过；Linux CI job 已添加，尚未运行 | 仅进程内事件源 fixture；无真实 SIEM、主机动作、真实模型；运行期工具参数/错误/事件不脱敏 |
+| Go 物流 checkpoint | 参考 Go Core、`checkpoint.Checkpoint` 往返、两轮恢复、仅草案改道 | 本地 `go test`/`go run --test` 通过；Linux CI job 已添加，尚未运行 | 仅内存 JSON 存储；无数据库、并发存储、租约/exactly-once、真实物流系统或真实模型 |
 | C 设备诊断 | 原生 C Core、应用自有 `PxDeviceAdapter` 函数指针、仅草案动作 | 本地 MinGW gcc/CMake 检查通过；Linux CI job 已添加，尚未运行 | 仅进程内适配器 fixture；无串行总线、Socket、设备 SDK、设备写入或真实模型 |
 | C++ 工业边缘 | 原生 C++ Core、应用自有 `DeviceAdapter` 接口、仅草案动作 | 本地 MinGW g++/CMake 检查通过；Linux CI job 已添加，尚未运行 | 仅进程内适配器 fixture；无现场总线、OPC UA、Socket、设备 SDK、设备写入或真实模型 |
 

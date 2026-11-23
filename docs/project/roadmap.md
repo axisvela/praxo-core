@@ -366,6 +366,13 @@ Turn the first run into one useful local application, such as:
   the raw PII is absent; the Linux CI job is added but not yet run. It does not
   connect a real SIEM, run a host action, call a live model, or redact live tool
   arguments, errors or event payloads.
+  Go's `Tutorial/logistics-checkpoint/` assesses a fixed `shipment-100`, serializes
+  the transcript into a `checkpoint.Checkpoint`, and resumes a second run that
+  drafts a review-only reroute without re-reading the shipment (`reads` stays 1,
+  `drafts` reaches 1) and saves an extended checkpoint. Local `go test` and
+  `go run --test` pass; the Linux CI job is added but not yet run. The store is an
+  in-memory JSON round-trip, not a database, concurrent store or exactly-once
+  proof, and it does not connect a real logistics system or use a live model.
   C's `Tutorial/device-diagnostics/` reads a fixed `device-100` snapshot through an
   application-owned `PxDeviceAdapter` function pointer and drafts a
   `notify_operator` review action. Local MinGW gcc/CMake checks pass; the Linux CI
