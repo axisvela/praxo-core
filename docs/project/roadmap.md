@@ -302,8 +302,9 @@ Turn the first run into one useful local application, such as:
   does not read arbitrary files, call connectors, send email or use a live model.
   TypeScript's `Tutorial/customer-support/` streams a cited support reply over
   SSE with fixed order/policy tools, authentication, denial and dependency-failure
-  checks. Local Node 24 checks pass; Linux CI is configured and pending. It does
-  not send replies, change orders, issue refunds or use a live model. See the
+  checks. Local Node 24 checks pass, and Linux CI passed at `39558592` (run
+  `45086046576`). It does not send replies, change orders, issue refunds or use a
+  live model. See the
   [Tutorial Plan](../getting-started/tutorial-plan.md) for the scenario map,
   current status, delivery standard and next candidates.
 - Validate one application-shaped prototype for a named consumer before

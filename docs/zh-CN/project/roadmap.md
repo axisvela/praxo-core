@@ -221,9 +221,10 @@ Python 的 `Tutorial/office-qa/` 增加带引用的办公政策问答路径，�
 拒绝与索引失败检查。本地 Python 检查通过，Linux CI 也已在 `cfd850a6`（run
 `45043537084`）通过。它不读取任意文件、不调用 Connector、不发送邮件、不使用真实模型。
 TypeScript 的 `Tutorial/customer-support/` 通过 SSE 流式输出带引用的客服回复，使用固定
-订单/政策工具，包含鉴权、拒绝与依赖失败检查。本地 Node 24 检查通过；Linux CI 已配置
-待确认。它不发送回复、不修改订单、不退款、不使用真实模型。场景地图、当前状态、交付
-标准与后续候选见 [Tutorial 整体规划](../getting-started/tutorial-plan.md)。
+订单/政策工具，包含鉴权、拒绝与依赖失败检查。本地 Node 24 检查通过，Linux CI 也已在
+`39558592`（run `45086046576`）通过。它不发送回复、不修改订单、不退款、不使用真实模型。
+场景地图、当前状态、交付标准与后续候选见
+[Tutorial 整体规划](../getting-started/tutorial-plan.md)。
 
 ### 开发者成果
 

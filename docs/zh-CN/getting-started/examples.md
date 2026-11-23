@@ -77,7 +77,8 @@ C# Core 构建和全部四项源码模式检查，见
 [TypeScript 客服教程](https://github.com/axisvela/praxo-core/tree/main/language/typescript/Tutorial/customer-support)
 通过原生 Core 工具读取固定订单与公开运输政策，并用 SSE 流式输出带引用的客服回复。
 包含缺少凭据、策略拒绝与依赖失败检查。它不发送回复、不修改订单、不退款、不读取任意
-文件、不调用真实模型。本地 Node 24 检查通过；Linux CI 已配置，结果待确认。
+文件、不调用真实模型。本地 Node 24 检查通过，Linux CI 也已在 `39558592` 的
+[run 45086046576](https://github.com/axisvela/praxo-core/actions/runs/45086046576) 通过。
 
 示例目录使用[语言覆盖矩阵](language-coverage.md)中的深度标签：
 

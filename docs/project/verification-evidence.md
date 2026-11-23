@@ -162,8 +162,9 @@ TypeScript customer-support tutorial (2026-11-22): local Node 24 passed the SSE
 success case with a `shipping` citation, missing-credential 401, simulated
 dependency 503 before a stream start, and an out-of-scope order denied by Agent
 policy before HTTP effects. The final reply said `order-100` was delayed. Linux
-CI is configured but its result is not yet recorded. No reply send, order change,
-refund, live provider, public endpoint or independent adoption is verified.
+CI [45086046576](https://github.com/axisvela/praxo-core/actions/runs/45086046576)
+also passed at `39558592`. No reply send, order change, refund, live provider,
+public endpoint or independent adoption is verified.
 
 | Area | Verified | Level | Limits |
 | --- | --- | --- | --- |

@@ -100,8 +100,9 @@ The [TypeScript customer-support tutorial](https://github.com/axisvela/praxo-cor
 streams a cited support reply over SSE using native Core tools for a fixed order
 and public shipping policy. It includes missing-credential, policy-denial and
 dependency-failure checks. It does not send replies, change orders, issue refunds,
-read arbitrary files or call a live model. Local Node 24 checks passed; Linux CI
-is configured and pending.
+read arbitrary files or call a live model. Local Node 24 checks passed, and Linux
+CI passed at `39558592` in
+[run 45086046576](https://github.com/axisvela/praxo-core/actions/runs/45086046576).
 
 The catalog uses the depth labels from the
 [Language Coverage depth audit](language-coverage.md#depth-audit):
