@@ -81,6 +81,14 @@ jobs:
       - run: mvn -B -q test
         working-directory: language/java/Tutorial/wealth-service
 
+  lua-host-embedding:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - run: sudo apt-get update && sudo apt-get install -y lua5.4
+      - run: lua5.4 language/lua/Tutorial/host-embedding/app.lua --test
+
   python-office-qa:
     runs-on: ubuntu-latest
     timeout-minutes: 10

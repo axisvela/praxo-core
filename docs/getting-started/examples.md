@@ -121,6 +121,13 @@ email. Policy denies `customer-200`; the Web boundary covers 401 and 503. Local
 [run 45093076768](https://github.com/axisvela/praxo-core/actions/runs/45093076768).
 No real customer, CRM connector or outbound message exists.
 
+The [Lua host-embedding tutorial](https://github.com/axisvela/praxo-core/tree/main/language/lua/Tutorial/host-embedding)
+embeds the native Lua Core in a host event loop with two fixed callbacks:
+`read_device` and `draft_action`. The host receives a `draft_only`,
+`review_required` operator notification. It does not send device commands, open
+sockets or call a live model. Local Lua 5.4.6 tests passed; Linux CI is configured
+and pending.
+
 The catalog uses the depth labels from the
 [Language Coverage depth audit](language-coverage.md#depth-audit):
 
@@ -161,6 +168,7 @@ for mechanism-only themes and the
 | Stream a support reply with citations | [TypeScript customer support](https://github.com/axisvela/praxo-core/tree/main/language/typescript/Tutorial/customer-support) | Native Core, fixed order/policy tools, SSE deltas, auth/denial and dependency failure |
 | Draft a wealth rebalance for human review | [Java wealth review](https://github.com/axisvela/praxo-core/tree/main/language/java/Tutorial/wealth-service) | Native Core, fixed portfolio, draft-only allocation, policy denial and service boundary; no trades or transfers |
 | Draft a sales follow-up for human review | [C# sales/CRM](https://github.com/axisvela/praxo-core/tree/main/language/csharp/Tutorial/sales-crm) | Native Core, fixed customer, draft-only follow-up, policy denial and Web boundary; no CRM write or email send |
+| Embed the Agent in a Lua host device loop | [Lua host embedding](https://github.com/axisvela/praxo-core/tree/main/language/lua/Tutorial/host-embedding) | Native Lua Core, host callbacks, read-only device state, draft-only operator action; no device command or socket |
 | Embed in an application | [Application Integration Checklist](../guides/application-integration-checklist.md) | Risk-tiered checklist for read-only, side-effecting, and high-risk deployments |
 | Run Core behind HTTP | [Embedded HTTP service tutorial](../guides/embedded-service-tutorial.md), [Language Coverage](language-coverage.md) | Executable HTTP servers for Go, Python, TypeScript, Java, C#, and Rust; transport-neutral handler examples for every other declared language |
 | Explore the Go reference | [`examples/reference`](https://github.com/axisvela/praxo-core/tree/main/examples/reference) | Go reference application |

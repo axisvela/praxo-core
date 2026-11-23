@@ -314,7 +314,10 @@ Turn the first run into one useful local application, such as:
   follow-up, with policy denial and a loopback HTTP boundary. Local .NET 8 build
   and self-tests pass, and Linux CI passed at `00641594` (run `45093076768`). It
   does not write the CRM, send email, use a real customer or call a live model.
-  See the
+  Lua's `Tutorial/host-embedding/` embeds the native Lua Core in a host event loop
+  with fixed read-only device and draft-action callbacks. Local Lua 5.4.6 checks
+  pass; Linux CI is configured and pending. It does not send device commands,
+  open sockets or use a live model. See the
   [Tutorial Plan](../getting-started/tutorial-plan.md) for the scenario map,
   current status, delivery standard and next candidates.
 - Validate one application-shaped prototype for a named consumer before

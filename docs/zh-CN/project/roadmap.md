@@ -228,8 +228,11 @@ loopback HTTP 边界。本地编译通过；本地 JVM 阻塞运行，Linux CI �
 （run `45088386879`）通过。它不交易、不转账、不使用市场数据或真实模型。
 C# 的 `Tutorial/sales-crm/` 读取固定客户并生成仅审阅跟进草案，包含策略拒绝和 loopback
 HTTP 边界。本地 .NET 8 构建与自测通过，Linux CI 也已在 `00641594`（run
-`45093076768`）通过。它不写 CRM、不发送邮件、不使用真实客户或真实模型。场景地图、
-当前状态、交付标准与后续候选见 [Tutorial 整体规划](../getting-started/tutorial-plan.md)。
+`45093076768`）通过。它不写 CRM、不发送邮件、不使用真实客户或真实模型。
+Lua 的 `Tutorial/host-embedding/` 把原生 Lua Core 嵌入宿主事件循环，使用固定只读设备
+状态与仅草案动作回调。本地 Lua 5.4.6 检查通过；Linux CI 已配置待确认。它不发送设备
+命令、不打开 Socket、不使用真实模型。场景地图、当前状态、交付标准与后续候选见
+[Tutorial 整体规划](../getting-started/tutorial-plan.md)。
 
 ### 开发者成果
 
