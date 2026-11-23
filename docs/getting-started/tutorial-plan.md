@@ -125,6 +125,7 @@ add framework surface.
 | V production scheduling (IN-02) | Source V Core, fixed job queue, review-only MES/AGV draft | Local V compile/run checks pass; CI job added, not yet run | No ERP/MES data, physical dispatch, live model or durable state |
 | Elixir knowledge maintenance (OP-03) | Source Elixir Core, fixed knowledge diff, review-only revision | Local elixirc/elixir checks pass; CI job added, not yet run | No document store, dedup quality, Wiki writes, live model or durable state |
 | Erlang AIOps RCA (SE-06) | Source Erlang Core, fixed correlated signals, review-only rollback | Local erlc/escript checks pass; CI job added, not yet run | No live telemetry, root-cause scoring, remediation, live model or durable state |
+| OCaml code review (SE-05) | Source OCaml Core, fixed diff/manifest findings, review-only comments | Local `ocaml unix.cma` checks pass; CI job added, not yet run | No real repository, vulnerability database, host writes, live model or durable state |
 | Python order review | Native Core, HTTP tool, fixed order scope, draft-only | Local and hosted CI against the public local service | Deterministic model; no live provider or external consumer |
 | TypeScript order support | Native Core, HTTP tool, fixed order scope | Local and hosted CI against the public local service | Deterministic model; CLI, not a Web frontend |
 | Java order review | Native Core, JUnit, loopback Web, real-service CLI | Mock/Web JUnit and real-service CLI passed in Linux CI | Java Web-to-real-backend and live model not verified |

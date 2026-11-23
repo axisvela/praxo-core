@@ -48,6 +48,17 @@ jobs:
       - run: python scripts/tutorial_catalog.py --check
       - run: python scripts/test_tutorial_catalog.py
 
+  ocaml-code-review:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ocaml/setup-ocaml@v3
+        with:
+          ocaml-compiler: '4.14'
+      - run: ocaml unix.cma review.ml --test
+        working-directory: language/ocaml/Tutorial/code-review
+
   erlang-aiops-rca:
     runs-on: ubuntu-latest
     timeout-minutes: 15
