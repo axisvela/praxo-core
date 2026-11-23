@@ -75,6 +75,19 @@ jobs:
           r-version: 'release'
       - run: Rscript language/r/Tutorial/data-quality/data_quality.R --test
 
+  typescript-travel-booking:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - run: npm ci --ignore-scripts --no-audit --no-fund
+        working-directory: language/typescript/Tutorial/travel-booking
+      - run: npm test
+        working-directory: language/typescript/Tutorial/travel-booking
+
   typescript-customer-support:
     runs-on: ubuntu-latest
     timeout-minutes: 10
@@ -263,6 +276,17 @@ jobs:
       - uses: actions/checkout@v4
       - run: sudo apt-get update && sudo apt-get install -y octave
       - run: octave --no-gui --quiet language/octave/Tutorial/signal-trends/run.m
+
+  csharp-healthcare-scheduling:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+      - run: dotnet build language/csharp/Tutorial/healthcare-scheduling/HealthcareScheduling.csproj --nologo
+      - run: dotnet language/csharp/Tutorial/healthcare-scheduling/bin/Debug/net8.0/Praxo.HealthcareScheduling.dll --test
 
   csharp-sales-crm:
     runs-on: ubuntu-latest

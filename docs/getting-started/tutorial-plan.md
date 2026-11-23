@@ -72,11 +72,11 @@ and a named consumer; keep the tutorial boundary narrow.
 | Logistics | Go, Java | Event-driven services and long-running operations | Go logistics checkpoint/resume implemented (local; CI job added, not yet run); Java planned |
 | Energy / grid | Rust, C++, Julia | Edge constraints and numerical analysis | Planned |
 | Security / SOC | Go, Perl, PowerShell | Services, logs and Windows operations | Go SOC alert triage and evidence-vault implemented (local; CI jobs added, not yet run); Perl/PowerShell planned |
-| Healthcare scheduling | C#, Java | Identity, audit and enterprise integration | Planned |
+| Healthcare scheduling | C#, Java | Identity, audit and enterprise integration | C# healthcare scheduling implemented (local; CI job added, not yet run); Java planned |
 | Legal / compliance | Python, R | Citations, evidence, human-review boundaries | Python legal compliance memo implemented (local; CI job added, not yet run); R planned |
 | Education / tutoring | TypeScript, Python | Web Q&A and content workflows | Planned |
 | Media / content | TypeScript, Python | Streaming, generation and publishing tools | Planned |
-| Travel / booking | TypeScript, C# | Web entry and enterprise booking boundaries | Planned |
+| Travel / booking | TypeScript, C# | Web entry and enterprise booking boundaries | TypeScript travel booking implemented (local; CI job added, not yet run); C# planned |
 | Retail / e-commerce | TypeScript, Java | Web storefront and order services | Planned |
 | Data platform | Python, R, Julia | Native compute with evidence-linked reports | Planned |
 
@@ -120,6 +120,8 @@ add framework surface.
 | TypeScript customer support | Native Core, fixed order/policy tools, SSE stream | Local Node 24 checks and Linux CI | No reply send, order change, refund or live model |
 | Java wealth review | Native Core, fixed portfolio, draft-only rebalance | Local compile and Linux CI | No trades, transfers, market data or live model |
 | C# sales/CRM | Native Core, fixed customer, draft-only follow-up | Local .NET 8 build/self-test and Linux CI | No CRM write, email send or live model |
+| C# healthcare scheduling | Native Core, fixed schedule, draft-only booking | Local .NET 8 build/self-test pass; Linux CI job added, not yet run | Fixed schedule fixture only; no patient identity, schedule write, confirmation or live model |
+| TypeScript travel booking | Native Core, fixed inventory, draft-only fare hold | Local Node 24 checks pass; Linux CI job added, not yet run | Fixed inventory fixture only; no payment, ticketing, inventory write or live model |
 | Lua host embedding | Native Lua Core, host callbacks, draft-only action | Local Lua 5.4.6 checks and Linux CI | No device command, socket or live model |
 | Rust IoT gateway | Native Rust Core, read-only `GatewayAdapter`, draft-only action | Local Rust checks and Linux CI | In-process adapter fixture only; no MQTT, OPC UA, socket, device write or live model |
 | Zig gateway health | Native Zig Core, read-only `GatewayAdapter` function table, draft-only action | Local Zig 0.17.0 checks and Linux CI | In-process adapter fixture only; no MQTT, OPC UA, socket, device write or live model |

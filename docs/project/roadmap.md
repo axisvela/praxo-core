@@ -335,6 +335,11 @@ Turn the first run into one useful local application, such as:
   checks. Local Node 24 checks pass, and Linux CI passed at `39558592` (run
   `45086046576`). It does not send replies, change orders, issue refunds or use a
   live model.
+  TypeScript's `Tutorial/travel-booking/` checks fixed `trip-100` inventory and
+  drafts a review-only fare hold with `payment_executed=false` and
+  `bookings_writes=0`; `trip-200` is policy-denied and a simulated inventory error
+  fails after one read. Local Node 24 checks pass; the Linux CI job is added but
+  not yet run. It does not pay, ticket, change inventory or call a live model.
   Java's `Tutorial/wealth-service/` reads a fixed portfolio and drafts a
   review-only rebalance, with policy denial and a loopback HTTP boundary. Local
   compilation passed; the local JVM blocks runtime execution, and Linux CI passed
@@ -344,6 +349,12 @@ Turn the first run into one useful local application, such as:
   follow-up, with policy denial and a loopback HTTP boundary. Local .NET 8 build
   and self-tests pass, and Linux CI passed at `00641594` (run `45093076768`). It
   does not write the CRM, send email, use a real customer or call a live model.
+  C#'s `Tutorial/healthcare-scheduling/` reads a fixed `appointment-100` clinic
+  schedule and drafts a review-only booking with `booking_writes=0`;
+  `appointment-200` is policy-denied and a simulated scheduling error fails after
+  one read. Local .NET 8 build and self-tests pass; the Linux CI job is added but
+  not yet run. It does not write the schedule, confirm the booking, use patient
+  identity or call a live model.
   Lua's `Tutorial/host-embedding/` embeds the native Lua Core in a host event loop
   with fixed read-only device and draft-action callbacks. Local Lua 5.4.6 checks
   pass, and Linux CI passed at `9163d03a` (run `45095923385`). It does not send

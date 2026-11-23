@@ -245,12 +245,20 @@ Python 的 `Tutorial/legal-compliance/` 在固定政策 fixture 中检索引用�
 TypeScript 的 `Tutorial/customer-support/` 通过 SSE 流式输出带引用的客服回复，使用固定
 订单/政策工具，包含鉴权、拒绝与依赖失败检查。本地 Node 24 检查通过，Linux CI 也已在
 `39558592`（run `45086046576`）通过。它不发送回复、不修改订单、不退款、不使用真实模型。
+TypeScript 的 `Tutorial/travel-booking/` 检查固定 `trip-100` 库存并生成仅审阅占座草案
+（`payment_executed=false`、`bookings_writes=0`）；`trip-200` 被策略拒绝，模拟库存错误在
+一次读取后失败。本地 Node 24 检查通过；Linux CI job 已添加但尚未运行。它不支付、不出票、
+不修改库存、不使用真实模型。
 Java 的 `Tutorial/wealth-service/` 读取固定组合并生成仅审阅重平衡草案，包含策略拒绝和
 loopback HTTP 边界。本地编译通过；本地 JVM 阻塞运行，Linux CI 也已在 `827d47ca`
 （run `45088386879`）通过。它不交易、不转账、不使用市场数据或真实模型。
 C# 的 `Tutorial/sales-crm/` 读取固定客户并生成仅审阅跟进草案，包含策略拒绝和 loopback
 HTTP 边界。本地 .NET 8 构建与自测通过，Linux CI 也已在 `00641594`（run
 `45093076768`）通过。它不写 CRM、不发送邮件、不使用真实客户或真实模型。
+C# 的 `Tutorial/healthcare-scheduling/` 读取固定 `appointment-100` 诊所排班并生成仅审阅
+预约草案（`booking_writes=0`）；`appointment-200` 被策略拒绝，模拟排班错误在一次读取后
+失败。本地 .NET 8 构建与自测通过；Linux CI job 已添加但尚未运行。它不写排班、不确认预约、
+不使用患者身份或真实模型。
 Lua 的 `Tutorial/host-embedding/` 把原生 Lua Core 嵌入宿主事件循环，使用固定只读设备
 状态与仅草案动作回调。本地 Lua 5.4.6 检查通过，Linux CI 也已在 `9163d03a`（run
 `45095923385`）通过。它不发送设备命令、不打开 Socket、不使用真实模型。
