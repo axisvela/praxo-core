@@ -233,6 +233,11 @@ Python 的 `Tutorial/insurance-claims/` 读取固定 `claim-100` 文件，计算
 生成仅审阅的赔付草案，并通过 `StructuredOutput` 校验最终报告（格式错误会抛出
 `StructuredOutputError`）。本地 Python 3.14 检查通过；Linux CI job 已添加但尚未运行。
 它不执行支付、不做承保决定、不读取任意文件、不使用真实模型。
+Python 的 `Tutorial/legal-compliance/` 在固定政策 fixture 中检索引用，并把
+`publish_memo` 置于 Core 中断门后：批准则执行模拟发布，拒绝抛出
+`ApprovalDeniedError` 且零发布，越界查询在读取前被策略拒绝。本地 Python 3.14 检查
+通过；Linux CI job 已添加但尚未运行。它不提供法律意见、不记录真实审批、不写入文档库、
+不使用真实模型。
 TypeScript 的 `Tutorial/customer-support/` 通过 SSE 流式输出带引用的客服回复，使用固定
 订单/政策工具，包含鉴权、拒绝与依赖失败检查。本地 Node 24 检查通过，Linux CI 也已在
 `39558592`（run `45086046576`）通过。它不发送回复、不修改订单、不退款、不使用真实模型。

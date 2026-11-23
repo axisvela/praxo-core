@@ -67,7 +67,7 @@ Web 服务、运维 Shell、分析工作流、宿主嵌入或受约束设备。�
 | 能源 / 电网 | Rust、C++、Julia | 边缘约束与数值分析 | 计划 |
 | 安全 / SOC | Go、Perl、PowerShell | 服务、日志与 Windows 运维 | Go SOC 告警分诊已实现（本地；CI job 已添加、尚未运行）；Perl/PowerShell 计划 |
 | 医疗排班 | C#、Java | 身份、审计与企业集成 | 计划 |
-| 法律 / 合规 | Python、R | 引用、证据与人工复核边界 | 计划 |
+| 法律 / 合规 | Python、R | 引用、证据与人工复核边界 | Python 法律合规备忘录已实现（本地；CI job 已添加、尚未运行）；R 计划 |
 | 教育 / 辅导 | TypeScript、Python | Web 问答与内容工作流 | 计划 |
 | 媒体 / 内容 | TypeScript、Python | 流式、生成与发布工具 | 计划 |
 | 旅行 / 预订 | TypeScript、C# | Web 入口与企业预订边界 | 计划 |
@@ -105,6 +105,7 @@ Core 与 Adapter，而不是增加框架表面积。
 | Octave/MATLAB 信号趋势 | 共享信号指标、阈值异常 | 本地 GNU Octave 11.3.0 测试与 Linux CI | 原生 MATLAB 未验证；无设备控制或真实模型 |
 | Python 办公问答 | 原生 Core、固定文档、带引用答案 | 本地 Python 3.14 检查与 Linux CI | 无任意文件/Connector、邮件操作或真实模型 |
 | Python 保险理赔 | 原生 Core、应用自有理赔工具、仅草案决定、`StructuredOutput` schema 校验 | 本地 Python 3.14 检查通过；Linux CI job 已添加，尚未运行 | 仅固定理赔 fixture；无支付、承保决定、真实理赔系统或真实模型 |
+| Python 法律合规 | 原生 Core、固定政策引用、HITL 审批门、模拟发布 | 本地 Python 3.14 检查通过；Linux CI job 已添加，尚未运行 | 仅固定政策 fixture；无真实审批记录、文档库、法律意见或真实模型 |
 | TypeScript 客服 | 原生 Core、固定订单/政策工具、SSE 流 | 本地 Node 24 检查与 Linux CI | 无回复发送、订单修改、退款或真实模型 |
 | Java 理财审阅 | 原生 Core、固定组合、仅草案重平衡 | 本地编译与 Linux CI | 无交易、转账、市场数据或真实模型 |
 | C# 销售/CRM | 原生 Core、固定客户、仅草案跟进 | 本地 .NET 8 构建/自测与 Linux CI | 无 CRM 写入、邮件发送或真实模型 |

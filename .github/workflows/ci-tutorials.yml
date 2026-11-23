@@ -169,6 +169,17 @@ jobs:
       - run: go run ./language/go/Tutorial/soc-alert-triage --test
       - run: go test ./language/go/Tutorial/soc-alert-triage
 
+  python-legal-compliance:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install --target tutorial-packages -r language/python/Tutorial/legal-compliance/requirements.txt
+      - run: PYTHONPATH=tutorial-packages python language/python/Tutorial/legal-compliance/app.py --test
+
   python-insurance-claims:
     runs-on: ubuntu-latest
     timeout-minutes: 10
