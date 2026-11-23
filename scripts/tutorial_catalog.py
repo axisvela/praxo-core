@@ -73,6 +73,8 @@ TUTORIALS = {
     "privacy-agent": ("PE", "analysis,tools,draft,policy", "PE-03"),
     "retail-replenishment": ("CS", "analysis,tools,draft,policy", "CS-05"),
     "zero-trust-review": ("CY", "analysis,tools,draft,policy", "CY-05"),
+    "internal-service-desk": ("OP", "tools,draft,policy", "OP-01"),
+    "rpa-reconciliation": ("OP", "analysis,tools,draft,policy", "OP-04"),
 }
 GUIDES = {
     "workspace-agent-tutorial": ("SE", "go", "filesystem,tools,policy"),

@@ -1,5 +1,7 @@
-# PHP Tutorials
+﻿# PHP Tutorials
 
+- [Internal Service Desk (OP-01)](internal-service-desk/README.md): native PHP
+  Core, fixed employee request and a review-only approval draft; no provisioning.
 - [API Orchestration (SE-08)](api-orchestration/README.md): native PHP Core, two
   synthetic upstream APIs plus a review-only mapping draft; no network or writes.
 

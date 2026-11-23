@@ -173,6 +173,27 @@ jobs:
           sdk: stable
       - run: dart language/dart/Tutorial/meeting-coordination/meeting.dart --test
 
+  php-internal-service-desk:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.5'
+      - run: php language/php/Tutorial/internal-service-desk/app.php --test
+
+  delphi-rpa-reconciliation:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - run: sudo apt-get update && sudo apt-get install -y fpc
+      - run: fpc -Mobjfpc -Scghi -O2 -Fu. -FEbuild Tutorial/rpa-reconciliation/reconcile.pas
+        working-directory: language/delphi
+      - run: ./build/reconcile --test
+        working-directory: language/delphi
+
   php-api-orchestration:
     runs-on: ubuntu-latest
     timeout-minutes: 10
