@@ -74,7 +74,7 @@ and a named consumer; keep the tutorial boundary narrow.
 | Security / SOC | Go, Perl, PowerShell | Services, logs and Windows operations | Go SOC alert triage and evidence-vault implemented (local; CI jobs added, not yet run); Perl/PowerShell planned |
 | Healthcare scheduling | C#, Java | Identity, audit and enterprise integration | C# healthcare scheduling implemented (local; CI job added, not yet run); Java planned |
 | Legal / compliance | Python, R | Citations, evidence, human-review boundaries | Python legal compliance memo implemented (local; CI job added, not yet run); R planned |
-| Education / tutoring | TypeScript, Python | Web Q&A and content workflows | Planned |
+| Education / tutoring | TypeScript, Python | Web Q&A and content workflows | Python education tutoring implemented with Core `Retriever` (local; CI job added, not yet run); TypeScript planned |
 | Media / content | TypeScript, Python | Streaming, generation and publishing tools | Planned |
 | Travel / booking | TypeScript, C# | Web entry and enterprise booking boundaries | TypeScript travel booking implemented (local; CI job added, not yet run); C# planned |
 | Retail / e-commerce | TypeScript, Java | Web storefront and order services | Planned |
@@ -117,6 +117,7 @@ add framework surface.
 | Python office Q&A | Native Core, fixed documents, citation-bearing answer | Local Python 3.14 checks and Linux CI | No arbitrary file/connector, email action or live model |
 | Python insurance claims | Native Core, application-owned claim tool, draft-only decision, `StructuredOutput` schema check | Local Python 3.14 checks pass; Linux CI job added, not yet run | Fixed claim fixture only; no payment, coverage decision, real claims system or live model |
 | Python legal compliance | Native Core, fixed policy citations, HITL approval gate, simulated publish | Local Python 3.14 checks pass; Linux CI job added, not yet run | Fixed policy fixture only; no real approval record, document store, legal advice or live model |
+| Python education tutoring | Native Core, application-owned `Retriever` (`Document`), draft-only study plan | Local Python 3.14 checks pass; Linux CI job added, not yet run | Fixed lesson corpus only; no student data, assignment creation, curriculum guarantee or live model |
 | TypeScript customer support | Native Core, fixed order/policy tools, SSE stream | Local Node 24 checks and Linux CI | No reply send, order change, refund or live model |
 | Java wealth review | Native Core, fixed portfolio, draft-only rebalance | Local compile and Linux CI | No trades, transfers, market data or live model |
 | C# sales/CRM | Native Core, fixed customer, draft-only follow-up | Local .NET 8 build/self-test and Linux CI | No CRM write, email send or live model |

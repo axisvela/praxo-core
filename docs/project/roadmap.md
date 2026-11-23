@@ -330,6 +330,12 @@ Turn the first run into one useful local application, such as:
   Python 3.14 checks pass; the Linux CI job is added but not yet run. It does not
   give legal advice, record a real approval, write a document store or use a live
   model.
+  Python's `Tutorial/education-tutoring/` implements the Core `Retriever` protocol
+  with an application-owned `LessonRetriever` returning typed `Document`s, cites
+  `lesson-fractions`, and drafts a review-only study plan with
+  `assignments_created=0`. Local Python 3.14 checks pass; the Linux CI job is added
+  but not yet run. It does not use student data, create assignments, guarantee
+  curriculum correctness or call a live model.
   TypeScript's `Tutorial/customer-support/` streams a cited support reply over
   SSE with fixed order/policy tools, authentication, denial and dependency-failure
   checks. Local Node 24 checks pass, and Linux CI passed at `39558592` (run

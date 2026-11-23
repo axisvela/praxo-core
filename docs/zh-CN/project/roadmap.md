@@ -242,6 +242,10 @@ Python 的 `Tutorial/legal-compliance/` 在固定政策 fixture 中检索引用�
 `ApprovalDeniedError` 且零发布，越界查询在读取前被策略拒绝。本地 Python 3.14 检查
 通过；Linux CI job 已添加但尚未运行。它不提供法律意见、不记录真实审批、不写入文档库、
 不使用真实模型。
+Python 的 `Tutorial/education-tutoring/` 用应用自有 `LessonRetriever` 实现 Core
+`Retriever` 协议并返回带类型的 `Document`，引用 `lesson-fractions` 并生成
+`assignments_created=0` 的仅审阅学习计划。本地 Python 3.14 检查通过；Linux CI job 已添加
+但尚未运行。它不使用学生数据、不创建作业、不保证课程正确性、不调用真实模型。
 TypeScript 的 `Tutorial/customer-support/` 通过 SSE 流式输出带引用的客服回复，使用固定
 订单/政策工具，包含鉴权、拒绝与依赖失败检查。本地 Node 24 检查通过，Linux CI 也已在
 `39558592`（run `45086046576`）通过。它不发送回复、不修改订单、不退款、不使用真实模型。
