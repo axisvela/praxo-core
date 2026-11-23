@@ -13,6 +13,8 @@ capitalized in directory paths.
   simulated publish.
 - [Education tutoring](education-tutoring/README.md): Core `Retriever` and a
   draft-only study plan.
+- [Trial screening](trial-screening/README.md): fixed patient criteria, review-only
+  screening note and no enrollment.
 - [Clinical guidelines](clinical-guidelines/README.md): fixed guideline citations,
   review-only summary and abstain on missing evidence.
 - [Credit diligence](credit-diligence/README.md): fixed ratios and a review-only

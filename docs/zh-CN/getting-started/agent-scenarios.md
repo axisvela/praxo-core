@@ -99,7 +99,7 @@ system 指令。Memory Store 不等于自动召回；checkpoint 消息续跑不�
 | --- | --- | --- | --- |
 | HC-01 | 临床辅助与 MDT | Python、Java、R | 引用合成指南片段、证据不足时弃答；不诊断或决定治疗；[Python 临床指南](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/clinical-guidelines)引用固定证据并在无匹配时弃答 |
 | HC-02 | 慢病管理与随访 | Swift、Dart、Objective-C | 汇总合成穿戴数据、交人工复核；不调整剂量或个体治疗 |
-| HC-03 | 临床试验招募匹配 | Python、Java、C# | 判断合成入排条件、解释未知项；不搜索真实患者或决定入组 |
+| HC-03 | 临床试验招募匹配 | Python、Java、C# | 判断合成入排条件、解释未知项；不搜索真实患者或决定入组；[Python 试验筛选](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/trial-screening)筛选固定患者并草拟记录 |
 | HC-04 | 病历质控与 DRG/DIP 编码 | Java、COBOL、C# | 检查合成记录完整性并草拟代码；不优化骗保、不虚假编码、不提交账单 |
 | HC-05 | 心理支持与 CBT 练习 | Swift、Dart、Python | 合成练习对话与明确的危机转人工分支；不替代治疗师或独立处理危机 |
 
@@ -134,7 +134,7 @@ system 指令。Memory Store 不等于自动召回；checkpoint 消息续跑不�
 | --- | --- | --- | --- | --- | --- |
 | CT-01 | 城市信号灯全域协同 | Erlang、C++、Julia | 模拟固定路口队列，在 Agent 外校验配时限制；不发信号灯指令 | 无 | 未实现 |
 | CT-02 | 生命线管网泄漏定位与调度 | Fortran、Rust、Nim | 排序合成压力异常并草拟巡检；不隔离阀门或调度现场作业 | [信号趋势](https://github.com/axisvela/praxo-core/tree/main/language/octave/Tutorial/signal-trends)：仅指标，不定位泄漏 | 未实现 |
-| CT-03 | 政务跨部门审批 | Java、C#、PHP | 校验合成材料并草拟并联审核任务；不做真实身份核验或行政审批 | 无 | 未实现 |
+| CT-03 | 政务跨部门审批 | Java、C#、PHP | 校验合成材料并草拟并联审核任务；不做真实身份核验或行政审批 | [PHP 政务审批](https://github.com/axisvela/praxo-core/tree/main/language/php/Tutorial/public-approval)：固定材料与仅审阅任务 | 未实现 |
 | CT-04 | 应急指挥与资源调度 | Go、Julia、Erlang | 模拟断路与有约束救援路线；不提供业务救援指令或真实调度 | 无 | 未实现 |
 | CT-05 | 污染溯源与执法辅助 | R、Fortran、Python | 比较合成监测/天气记录并草拟调查假设；不认定因果或违法 | 无 | 未实现 |
 | CT-06 | 垃圾分类与清运优化 | Julia、Dart、V | 按车辆约束重排有界合成清运队列；不发车辆指令 | 无 | 未实现 |

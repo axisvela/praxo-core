@@ -82,6 +82,8 @@ TUTORIALS = {
     "contract-review": ("FC", "analysis,tools,draft,policy", "FC-05"),
     "clinical-guidelines": ("HC", "retrieval,citations,tools,draft,policy", "HC-01"),
     "bom-review": ("IN", "analysis,tools,draft,policy", "IN-05"),
+    "trial-screening": ("HC", "analysis,tools,draft,policy", "HC-03"),
+    "public-approval": ("CT", "tools,draft,policy", "CT-03"),
 }
 GUIDES = {
     "workspace-agent-tutorial": ("SE", "go", "filesystem,tools,policy"),

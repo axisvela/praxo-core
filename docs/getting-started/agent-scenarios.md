@@ -116,7 +116,7 @@ Repository links in the tables point to source on `main`, not immutable run evid
 | --- | --- | --- | --- |
 | HC-01 | Clinical and MDT support | Python, Java, R | Retrieve synthetic guideline excerpts with citations and abstain on missing evidence; no diagnosis or treatment decision; [Python clinical-guidelines](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/clinical-guidelines) cites fixed evidence and abstains |
 | HC-02 | Chronic-care follow-up | Swift, Dart, Objective-C | Summarize synthetic wearable trends and route an alert for review; no dosage or individualized treatment changes |
-| HC-03 | Clinical-trial recruitment | Python, Java, C# | Evaluate synthetic inclusion/exclusion predicates and explain unknowns; no real patient search or eligibility decision |
+| HC-03 | Clinical-trial recruitment | Python, Java, C# | Evaluate synthetic inclusion/exclusion predicates and explain unknowns; no real patient search or eligibility decision; [Python trial-screening](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/trial-screening) screens fixed patients and drafts a note |
 | HC-04 | Record quality and DRG/DIP coding | Java, COBOL, C# | Check synthetic record completeness and draft codes; no reimbursement optimization, false coding or billing submission |
 | HC-05 | Mental-health support and CBT exercises | Swift, Dart, Python | Demonstrate a synthetic exercise dialogue and an explicit crisis-escalation branch; no therapist replacement or unsupervised crisis handling |
 
@@ -152,7 +152,7 @@ counterattack is provided by these candidate tutorials.
 | --- | --- | --- | --- | --- | --- |
 | CT-01 | City-wide adaptive traffic signals | Erlang, C++, Julia | Simulate fixed junction queues and verify proposed timing against deterministic limits; no signal commands | None | Not implemented |
 | CT-02 | Utility-pipeline leak localization and dispatch | Fortran, Rust, Nim | Rank synthetic pressure anomalies and draft inspection; no valve isolation or field dispatch | [Signal trends](https://github.com/axisvela/praxo-core/tree/main/language/octave/Tutorial/signal-trends): metrics only, not leak localization | Not implemented |
-| CT-03 | Cross-agency public-service approvals | Java, C#, PHP | Validate synthetic applications and draft parallel review tasks; no real identity checks or official approval | None | Not implemented |
+| CT-03 | Cross-agency public-service approvals | Java, C#, PHP | Validate synthetic applications and draft parallel review tasks; no real identity checks or official approval | [PHP public-approval](https://github.com/axisvela/praxo-core/tree/main/language/php/Tutorial/public-approval): fixed documents and review-only tasks | Not implemented |
 | CT-04 | Emergency command and resource allocation | Go, Julia, Erlang | Simulate road closures and constrained relief routes; no operational rescue directions or dispatch | None | Not implemented |
 | CT-05 | Pollution source tracing and inspection support | R, Fortran, Python | Compare synthetic sensor/weather records and draft investigation hypotheses; no causal or enforcement finding | None | Not implemented |
 | CT-06 | Waste collection and route optimization | Julia, Dart, V | Replan a bounded synthetic collection queue under vehicle limits; no vehicle commands | None | Not implemented |
