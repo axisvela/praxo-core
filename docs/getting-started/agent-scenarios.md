@@ -73,7 +73,7 @@ Repository links in the tables point to source on `main`, not immutable run evid
 | CS-02 | B2B prospecting and lead nurture | Ruby, PHP, Elixir | Rank synthetic business profiles and draft an opt-in outreach; no crawling or unsolicited sends |
 | CS-03 | Sales-call assistance and review | C#, Swift, TypeScript | Extract objections from a fixture transcript and draft a CRM update; [sales CRM](https://github.com/axisvela/praxo-core/tree/main/language/csharp/Tutorial/sales-crm) is a follow-up slice |
 | CS-04 | Content marketing and publishing | Python, R, Dart | Compute audience segments, draft content and require publication approval; [marketing segmentation](https://github.com/axisvela/praxo-core/tree/main/language/r/Tutorial/marketing-segmentation) sends nothing |
-| CS-05 | E-commerce pricing and replenishment | Java, PHP, Ruby | Simulate price/stock constraints and draft a replenishment order; no live pricing changes |
+| CS-05 | E-commerce pricing and replenishment | Java, PHP, Ruby | Simulate price/stock constraints and draft a replenishment order; no live pricing changes; [TypeScript retail-replenishment slice](https://github.com/axisvela/praxo-core/tree/main/language/typescript/Tutorial/retail-replenishment) computes a fixed reorder and drafts a PO |
 | CS-06 | Churn warning and retention | R, Elixir, Julia | Compute fixture risk signals and draft a consent-aware offer; no inferred sensitive traits or automatic contact |
 | CS-07 | Cross-border localization | TypeScript, PHP, Perl | Draft localized fixture product text with cited rule checks; no legal/tax compliance guarantee |
 

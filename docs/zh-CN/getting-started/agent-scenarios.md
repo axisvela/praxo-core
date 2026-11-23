@@ -56,7 +56,7 @@ system 指令。Memory Store 不等于自动召回；checkpoint 消息续跑不�
 | CS-02 | B2B 潜客与线索培育 | Ruby、PHP、Elixir | 合成企业画像排序与许可触达草案；不爬取或发送垃圾信息 |
 | CS-03 | 销售通话辅助与复盘 | C#、Swift、TypeScript | 从固定转录提取异议并草拟 CRM 更新；现有 CRM 教程仅跟进草案 |
 | CS-04 | 内容营销与矩阵运营 | Python、R、Dart | 计算分群、草拟内容、发布审批；现有 R 分群不发送 |
-| CS-05 | 电商定价与补货 | Java、PHP、Ruby | 模拟价格/库存约束、草拟补货单；不调整真实价格 |
+| CS-05 | 电商定价与补货 | Java、PHP、Ruby | 模拟价格/库存约束、草拟补货单；不调整真实价格；[TypeScript 零售补货切片](https://github.com/axisvela/praxo-core/tree/main/language/typescript/Tutorial/retail-replenishment)计算固定补货量并草拟采购单 |
 | CS-06 | 流失预警与主动挽留 | R、Elixir、Julia | 计算固定风险信号、草拟基于同意的优惠；不推断敏感特征或自动触达 |
 | CS-07 | 跨境多语言本地化 | TypeScript、PHP、Perl | 草拟本地化商品文本并引用固定规则；不保证法律/税务合规 |
 
