@@ -67,6 +67,7 @@ TUTORIALS = {
     "executive-brief": ("OP", "analysis,tools,draft,policy", "OP-07"),
     "production-scheduling": ("IN", "analysis,tools,draft,policy", "IN-02"),
     "knowledge-maintenance": ("OP", "analysis,tools,draft,policy", "OP-03"),
+    "aiops-rca": ("SE", "analysis,tools,draft,policy", "SE-06"),
 }
 GUIDES = {
     "workspace-agent-tutorial": ("SE", "go", "filesystem,tools,policy"),

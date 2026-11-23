@@ -48,6 +48,20 @@ jobs:
       - run: python scripts/tutorial_catalog.py --check
       - run: python scripts/test_tutorial_catalog.py
 
+  erlang-aiops-rca:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: erlef/setup-beam@v1
+        with:
+          otp-version: '29'
+          install-hex: false
+          install-rebar: false
+      - run: mkdir -p language/erlang/build/ebin
+      - run: erlc -I language/erlang/src -o language/erlang/build/ebin language/erlang/src/*.erl
+      - run: escript language/erlang/Tutorial/aiops-rca/rca.escript --test
+
   elixir-knowledge-maintenance:
     runs-on: ubuntu-latest
     timeout-minutes: 15

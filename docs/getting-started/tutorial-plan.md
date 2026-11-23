@@ -124,6 +124,7 @@ add framework surface.
 | D executive brief (OP-07) | Source D Core, fixed business variances, review-only brief | Local DMD checks pass; CI job added, not yet run | No metric warehouse, attribution, sends, live model or durable state; D reports `POLICY_ERROR` for denial |
 | V production scheduling (IN-02) | Source V Core, fixed job queue, review-only MES/AGV draft | Local V compile/run checks pass; CI job added, not yet run | No ERP/MES data, physical dispatch, live model or durable state |
 | Elixir knowledge maintenance (OP-03) | Source Elixir Core, fixed knowledge diff, review-only revision | Local elixirc/elixir checks pass; CI job added, not yet run | No document store, dedup quality, Wiki writes, live model or durable state |
+| Erlang AIOps RCA (SE-06) | Source Erlang Core, fixed correlated signals, review-only rollback | Local erlc/escript checks pass; CI job added, not yet run | No live telemetry, root-cause scoring, remediation, live model or durable state |
 | Python order review | Native Core, HTTP tool, fixed order scope, draft-only | Local and hosted CI against the public local service | Deterministic model; no live provider or external consumer |
 | TypeScript order support | Native Core, HTTP tool, fixed order scope | Local and hosted CI against the public local service | Deterministic model; CLI, not a Web frontend |
 | Java order review | Native Core, JUnit, loopback Web, real-service CLI | Mock/Web JUnit and real-service CLI passed in Linux CI | Java Web-to-real-backend and live model not verified |
