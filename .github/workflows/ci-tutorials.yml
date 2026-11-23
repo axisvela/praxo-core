@@ -48,6 +48,28 @@ jobs:
       - run: python scripts/tutorial_catalog.py --check
       - run: python scripts/test_tutorial_catalog.py
 
+  objc-privacy-agent:
+    runs-on: macos-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - run: mkdir -p build
+      - run: cmake -S language/c -B language/c/build
+      - run: cmake --build language/c/build
+      - run: >-
+          clang -fobjc-arc -fblocks -Ilanguage/objc/src -o build/objc-privacy
+          language/objc/Tutorial/privacy-agent/privacy.m
+          language/objc/src/PraxoJSON.m language/objc/src/PraxoJsonSchema.m
+          language/objc/src/PraxoPlugin.m language/objc/src/PraxoWire.m
+          language/objc/src/PraxoCore.m language/objc/src/PraxoAgent.m
+          language/objc/src/PraxoHitl.m language/objc/src/PraxoOpenAI.m
+          language/objc/src/PraxoAnthropic.m language/objc/src/PraxoGemini.m
+          language/objc/src/PraxoHarmovela.m language/objc/src/PraxoMCP.m
+          language/objc/src/PraxoOtel.m language/objc/src/PraxoRetriever.m
+          language/objc/src/PraxoDelegation.m language/objc/src/PraxoPluginProcess.m
+          -Ilanguage/c/include -Llanguage/c/build -lpraxo_core -framework Foundation
+      - run: ./build/objc-privacy --test
+
   delphi-legacy-migration:
     runs-on: ubuntu-latest
     timeout-minutes: 15

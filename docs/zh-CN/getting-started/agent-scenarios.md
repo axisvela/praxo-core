@@ -109,7 +109,7 @@ system 指令。Memory Store 不等于自动召回；checkpoint 消息续跑不�
 | --- | --- | --- | --- |
 | PE-01 | 苏格拉底式学习导师 | Python、TypeScript、Haskell | 记录合成学习尝试并渐进提问；现有辅导教程是课程检索而非已验证自适应导师 |
 | PE-02 | 差旅与生活全案管家 | TypeScript、Dart、Swift | 在固定预算下重排行程并草拟预订；现有 travel-booking 不支付或改签 |
-| PE-03 | 数字信息与隐私代理 | Rust、Go、Objective-C | 分类固定消息、草拟删除/轮换请求；不使用真实密码、不访问账户或删除数据 |
+| PE-03 | 数字信息与隐私代理 | Rust、Go、Objective-C | 分类固定消息、草拟删除/轮换请求；不使用真实密码、不访问账户或删除数据；[Objective-C 隐私代理切片](https://github.com/axisvela/praxo-core/tree/main/language/objc/Tutorial/privacy-agent)分类固定 fixture 并草拟请求 |
 | PE-04 | 人形机器人与家庭服务 | C++、Rust、Zig | 模拟观察/规划/动作、权限收窄、观测新鲜度和取消确认；无硬件或安全认证 |
 | PE-05 | 游戏 NPC 与动态叙事 | Lua、C、V | 持久化合成角色状态、选择受限宿主动作、观察结果；无任意宿主命令 |
 

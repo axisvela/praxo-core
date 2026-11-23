@@ -126,7 +126,7 @@ Repository links in the tables point to source on `main`, not immutable run evid
 | --- | --- | --- | --- |
 | PE-01 | Socratic learning tutor | Python, TypeScript, Haskell | Track a synthetic learner's attempts and ask graded questions; [education tutoring](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/education-tutoring) retrieves lessons, not a validated adaptive tutor |
 | PE-02 | Travel and life concierge | TypeScript, Dart, Swift | Replan a fixture itinerary under budget and draft a booking; [travel booking](https://github.com/axisvela/praxo-core/tree/main/language/typescript/Tutorial/travel-booking) does not pay or rebook |
-| PE-03 | Personal information and privacy agent | Rust, Go, Objective-C | Classify fixture messages and draft a deletion/rotation request; no real passwords, account access or deletion |
+| PE-03 | Personal information and privacy agent | Rust, Go, Objective-C | Classify fixture messages and draft a deletion/rotation request; no real passwords, account access or deletion; [Objective-C privacy-agent slice](https://github.com/axisvela/praxo-core/tree/main/language/objc/Tutorial/privacy-agent) classifies a fixed fixture and drafts a request |
 | PE-04 | Humanoid and household robotics | C++, Rust, Zig | Simulate observe/plan/action with bounded authority, freshness and cancel confirmation; no hardware or safety certification |
 | PE-05 | Game NPC and dynamic narrative | Lua, C, V | Persist synthetic character state, choose a scoped host action and observe its result; no arbitrary host commands |
 
