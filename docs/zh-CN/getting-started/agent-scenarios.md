@@ -66,9 +66,9 @@ system 指令。Memory Store 不等于自动召回；checkpoint 消息续跑不�
 | --- | --- | --- | --- |
 | FC-01 | 投研与财报分析 | R、Julia、Java | 对合成财报计算比率并列假设；现有组合分析不是投研验证 |
 | FC-02 | 量化执行与风险控制 | C++、Rust、D | 回放固定价格、用确定性控制校验风险、草拟订单；不交易、不承诺毫秒执行；[D 量化风控](https://github.com/axisvela/praxo-core/tree/main/language/d/Tutorial/quant-risk)比较固定敞口与限额并草拟复核订单 |
-| FC-03 | 信贷尽调与反欺诈 | Java、COBOL、Python | 交叉核验合成记录并输出复核证据；不自动拒贷或判定欺诈 |
+| FC-03 | 信贷尽调与反欺诈 | Java、COBOL、Python | 交叉核验合成记录并输出复核证据；不自动拒贷或判定欺诈；[Python 信贷尽调](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/credit-diligence)计算固定比率并草拟备忘录 |
 | FC-04 | 税务筹划与申报 | COBOL、Java、Delphi | 校验合成账本、按固定规则草拟申报；不真实申报、不提供税务建议 |
-| FC-05 | 合同全生命周期审查 | Python、OCaml、C# | 比对固定条款和红线、建议修订；审批改动须最终重授权 |
+| FC-05 | 合同全生命周期审查 | Python、OCaml、C# | 比对固定条款和红线、建议修订；审批改动须最终重授权；[OCaml 合同审查](https://github.com/axisvela/praxo-core/tree/main/language/ocaml/Tutorial/contract-review)对固定条款草拟红线 |
 | FC-06 | 监管追踪与内控审计 | Python、R、Perl | 比较版本化规则 fixture 并草拟整改；现有合规教程为脚本审批而非真实审核人 |
 
 ## 科研与前沿探索（6）

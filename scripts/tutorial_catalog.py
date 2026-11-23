@@ -78,6 +78,8 @@ TUTORIALS = {
     "recruiting-match": ("OP", "analysis,tools,draft,policy", "OP-05"),
     "quant-risk": ("FC", "analysis,tools,draft,policy", "FC-02"),
     "onboarding-plan": ("OP", "tools,draft,policy", "OP-06"),
+    "credit-diligence": ("FC", "analysis,tools,draft,policy", "FC-03"),
+    "contract-review": ("FC", "analysis,tools,draft,policy", "FC-05"),
 }
 GUIDES = {
     "workspace-agent-tutorial": ("SE", "go", "filesystem,tools,policy"),

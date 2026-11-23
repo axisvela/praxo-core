@@ -83,9 +83,9 @@ Repository links in the tables point to source on `main`, not immutable run evid
 | --- | --- | --- | --- |
 | FC-01 | Investment research and financial statements | R, Julia, Java | Compute ratios from synthetic statements and cite assumptions; [wealth analysis](https://github.com/axisvela/praxo-core/tree/main/language/r/Tutorial/wealth-analysis) is not investment research verification |
 | FC-02 | Quantitative execution and risk controls | C++, Rust, D | Replay fixed prices, enforce deterministic risk limits and draft orders; no trades or millisecond-latency claim; [D quant-risk](https://github.com/axisvela/praxo-core/tree/main/language/d/Tutorial/quant-risk) compares fixed exposure to a limit and drafts a review order |
-| FC-03 | Credit diligence and fraud review | Java, COBOL, Python | Reconcile synthetic records and produce reviewable evidence; no automated credit denial or fraud adjudication |
+| FC-03 | Credit diligence and fraud review | Java, COBOL, Python | Reconcile synthetic records and produce reviewable evidence; no automated credit denial or fraud adjudication; [Python credit-diligence](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/credit-diligence) computes fixed ratios and drafts a memo |
 | FC-04 | Tax planning and filing | COBOL, Java, Delphi | Validate synthetic ledger totals and draft a filing with cited fixture rules; no real filing or tax advice |
-| FC-05 | Contract lifecycle review | Python, OCaml, C# | Compare fixture clauses against a redline set and propose edits; approval edits must be reauthorized |
+| FC-05 | Contract lifecycle review | Python, OCaml, C# | Compare fixture clauses against a redline set and propose edits; approval edits must be reauthorized; [OCaml contract-review](https://github.com/axisvela/praxo-core/tree/main/language/ocaml/Tutorial/contract-review) drafts redlines over fixed clauses |
 | FC-06 | Regulatory tracking and internal audit | Python, R, Perl | Compare versioned fixture policies and draft remediation; [legal compliance](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/legal-compliance) uses a scripted approval, not a real reviewer |
 
 ## Science And Research (6)
