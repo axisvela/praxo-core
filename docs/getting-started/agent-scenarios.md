@@ -59,7 +59,7 @@ Repository links in the tables point to source on `main`, not immutable run evid
 | --- | --- | --- | --- |
 | OP-01 | Internal IT and HR service desk | C#, PHP, PowerShell | Scope an employee request and draft an approval; [order service desk](https://github.com/axisvela/praxo-core/tree/main/language/csharp/Tutorial/order-review) does not grant employee permissions |
 | OP-02 | Meeting lifecycle management | Dart, Swift, TypeScript | Reconcile fixed calendars, draft minutes/tasks and ask before invitations; [Dart meeting-coordination slice](https://github.com/axisvela/praxo-core/tree/main/language/dart/Tutorial/meeting-coordination) covers calendar evidence and a minutes draft |
-| OP-03 | Dynamic enterprise knowledge maintenance | Python, Elixir, OCaml | Detect fixture document changes, deduplicate and draft a cited revision; no automatic Wiki writes |
+| OP-03 | Dynamic enterprise knowledge maintenance | Python, Elixir, OCaml | Detect fixture document changes, deduplicate and draft a cited revision; no automatic Wiki writes; [Elixir knowledge-maintenance slice](https://github.com/axisvela/praxo-core/tree/main/language/elixir/Tutorial/knowledge-maintenance) covers a fixed diff and revision draft |
 | OP-04 | Cross-system agentic RPA | Java, C#, Delphi | Reconcile synthetic expense/procurement records and stop on an unknown effect |
 | OP-05 | Recruiting and candidate matching | Ruby, PHP, Python | Match synthetic, job-relevant skills and expose explanations; no automated hiring decision or outreach |
 | OP-06 | Personalized employee onboarding | Python, Dart, Swift | Plan role-specific lessons with explicit prerequisites; permissions remain application-owned |

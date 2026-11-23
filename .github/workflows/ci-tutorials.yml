@@ -48,6 +48,21 @@ jobs:
       - run: python scripts/tutorial_catalog.py --check
       - run: python scripts/test_tutorial_catalog.py
 
+  elixir-knowledge-maintenance:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: erlef/setup-beam@v1
+        with:
+          otp-version: '29'
+          elixir-version: '1.20.4'
+          install-hex: false
+          install-rebar: false
+      - run: mkdir -p language/elixir/build/ebin
+      - run: elixirc -o language/elixir/build/ebin language/elixir/lib/praxo/*.ex language/elixir/lib/praxo/adapters/*.ex
+      - run: elixir -pa language/elixir/build/ebin language/elixir/Tutorial/knowledge-maintenance/app.exs --test
+
   v-production-scheduling:
     runs-on: ubuntu-latest
     timeout-minutes: 10
