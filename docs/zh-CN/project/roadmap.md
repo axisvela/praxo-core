@@ -233,8 +233,9 @@ Lua 的 `Tutorial/host-embedding/` 把原生 Lua Core 嵌入宿主事件循环�
 状态与仅草案动作回调。本地 Lua 5.4.6 检查通过，Linux CI 也已在 `9163d03a`（run
 `45095923385`）通过。它不发送设备命令、不打开 Socket、不使用真实模型。
 Rust 的 `Tutorial/iot-gateway/` 通过显式的应用自有 `GatewayAdapter` trait 读取固定
-`device-100` 遥测，并生成仅审阅运维动作草案。本地 Rust 检查通过；Linux CI 待确认。
-Adapter 是进程内 fixture，不实现 MQTT、OPC UA、Socket、设备命令或真实模型。场景地图、
+`device-100` 遥测，并生成仅审阅运维动作草案。本地 Rust 检查通过，Linux CI 也已在
+`a78de75e`（run `45098362060`）通过。Adapter 是进程内 fixture，不实现 MQTT、OPC UA、
+Socket、设备命令或真实模型。场景地图、
 当前状态、交付标准与后续候选见 [Tutorial 整体规划](../getting-started/tutorial-plan.md)。
 
 ### 开发者成果

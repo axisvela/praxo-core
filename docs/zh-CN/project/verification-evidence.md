@@ -157,12 +157,14 @@ Lua 宿主嵌入教程（2026-11-22）：本地 Lua 5.4.6 将宿主事件传入�
 也已在 `9163d03a` 通过。未验证真实设备协议、命令、Socket、生产身份、真实模型、公共
 托管或独立采用。
 
-Rust IoT 网关教程（2026-11-22）：本地 Rust 使用已发布 `praxo-core==0.10.0` crate
+Rust IoT 网关教程（2026-11-23）：本地 Rust 使用已发布 `praxo-core==0.10.0` crate
 通过成功、策略拒绝和模拟 Adapter 失败。成功报告包含固定 `device-100` 快照、
 `draft_only`、`review_required` 的 `open_ticket` 草案和零设备写入；越界 `device-200`
 在 Adapter 前被拒绝（`reads=0`）；模拟 Adapter 失败在读取一次后返回
 `GATEWAY_READ_FAILED`。本地 `cargo fmt --check` 与 `cargo run --locked -- --test`
-通过；Linux CI 待确认。Adapter 是进程内 fixture；未验证 MQTT、OPC UA、Socket、
+通过；Linux CI
+[45098362060](https://github.com/axisvela/praxo-core/actions/runs/45098362060)
+也已在 `a78de75e` 通过。Adapter 是进程内 fixture；未验证 MQTT、OPC UA、Socket、
 设备命令、真实模型、公共托管或独立采用。
 
 | 领域 | 已验证 | 级别 | 限制 |

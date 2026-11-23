@@ -104,7 +104,8 @@ JVM 阻塞运行；Linux CI 也已在 `827d47ca` 的
 通过显式的应用自有 `GatewayAdapter` trait 读取固定 `device-100` 快照，并生成一条
 人工审阅运维动作草案。策略在调用 Adapter 前拒绝 `device-200`（`reads=0`）；模拟
 Adapter 失败在读取一次后失败。Adapter 是进程内 fixture，不实现 MQTT、OPC UA、
-Socket、设备命令或真实模型。本地 `cargo` 检查通过；Linux CI 待确认。
+Socket、设备命令或真实模型。本地 `cargo` 检查通过，Linux CI 也已在 `a78de75e` 的
+[run 45098362060](https://github.com/axisvela/praxo-core/actions/runs/45098362060) 通过。
 
 示例目录使用[语言覆盖矩阵](language-coverage.md)中的深度标签：
 

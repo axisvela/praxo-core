@@ -194,15 +194,17 @@ a `draft_only` `notify_operator` draft with `review_required`, and an empty
 also passed at `9163d03a`. No real device protocol, command, socket, production
 identity, live model, public hosting or independent adoption is verified.
 
-Rust IoT gateway tutorial (2026-11-22): local Rust with the published
+Rust IoT gateway tutorial (2026-11-23): local Rust with the published
 `praxo-core==0.10.0` crate passed success, policy denial and simulated adapter
 failure. The success report contained the fixed `device-100` snapshot, a
 `draft_only`, `review_required` `open_ticket` draft and zero device writes; the
 out-of-scope `device-200` was denied before the adapter (`reads=0`); simulated
 adapter failure returned `GATEWAY_READ_FAILED` after one read. `cargo fmt
---check` and `cargo run --locked -- --test` passed locally. Linux CI is pending.
-The adapter is an in-process fixture; no MQTT, OPC UA, socket, device command,
-live model, public hosting or independent adoption is verified.
+--check` and `cargo run --locked -- --test` passed locally. Linux CI
+[45098362060](https://github.com/axisvela/praxo-core/actions/runs/45098362060)
+also passed at `a78de75e`. The adapter is an in-process fixture; no MQTT, OPC UA,
+socket, device command, live model, public hosting or independent adoption is
+verified.
 
 | Area | Verified | Level | Limits |
 | --- | --- | --- | --- |

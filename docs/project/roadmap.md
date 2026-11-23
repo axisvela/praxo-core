@@ -320,9 +320,9 @@ Turn the first run into one useful local application, such as:
   device commands, open sockets or use a live model.
   Rust's `Tutorial/iot-gateway/` reads fixed `device-100` telemetry through an
   explicit application-owned `GatewayAdapter` trait and drafts a review-only
-  operator action. Local Rust checks pass; Linux CI is pending. The adapter is an
-  in-process fixture; it does not implement MQTT, OPC UA, sockets, device commands
-  or a live model. See the
+  operator action. Local Rust checks pass, and Linux CI passed at `a78de75e` (run
+  `45098362060`). The adapter is an in-process fixture; it does not implement
+  MQTT, OPC UA, sockets, device commands or a live model. See the
   [Tutorial Plan](../getting-started/tutorial-plan.md) for the scenario map,
   current status, delivery standard and next candidates.
 - Validate one application-shaped prototype for a named consumer before

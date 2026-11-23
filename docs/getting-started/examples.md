@@ -134,8 +134,9 @@ reads a fixed `device-100` snapshot through an explicit application-owned
 `GatewayAdapter` trait and drafts one operator review action. Policy denies
 `device-200` before the adapter (`reads=0`), and a simulated adapter failure
 fails after one read. The adapter is an in-process fixture; no MQTT, OPC UA,
-socket, device command or live model is implemented. Local `cargo` checks passed;
-Linux CI is pending.
+socket, device command or live model is implemented. Local `cargo` checks passed,
+and Linux CI passed at `a78de75e` in
+[run 45098362060](https://github.com/axisvela/praxo-core/actions/runs/45098362060).
 
 The catalog uses the depth labels from the
 [Language Coverage depth audit](language-coverage.md#depth-audit):
