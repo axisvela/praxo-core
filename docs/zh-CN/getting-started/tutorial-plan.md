@@ -39,8 +39,8 @@ Web 服务、运维 Shell、分析工作流、宿主嵌入或受约束设备。�
 | Lua | 嵌入既有宿主 | 宿主回调与小体积集成 | 宿主相关 |
 | Rust | IoT 网关诊断 | 边缘部署、显式只读 Adapter 契约、进程插件 | 已实现并通过 CI |
 | Zig | 小型网关健康检查 | 最小部署与明确平台限制 | 已实现并通过 CI |
-| C | 受约束宿主诊断组件 | 调用方负责内存/网络/transport 契约 | 设备（计划） |
-| C++ | 工业边缘维护 | 既有设备 SDK 包装为受限工具 | 设备（计划） |
+| C | 受约束宿主诊断组件 | 调用方负责内存/网络/transport 契约 | 已实现；本地 fixture 检查通过 |
+| C++ | 工业边缘维护 | 既有设备 SDK 包装为受限工具 | 已实现；本地 fixture 检查通过 |
 
 这些是候选路径。只有具备可运行命令、测试和记录证据的教程，才从候选变为已实现。
 
@@ -108,7 +108,8 @@ Core 与 Adapter，而不是增加框架表面积。
 | Lua 宿主嵌入 | 原生 Lua Core、宿主回调、仅草案动作 | 本地 Lua 5.4.6 检查与 Linux CI | 无设备命令、Socket 或真实模型 |
 | Rust IoT 网关 | 原生 Rust Core、只读 `GatewayAdapter`、仅草案动作 | 本地 Rust 检查与 Linux CI | 仅进程内适配器 fixture；无 MQTT、OPC UA、Socket、设备写入或真实模型 |
 | Zig 网关健康 | 原生 Zig Core、只读 `GatewayAdapter` 函数表、仅草案动作 | 本地 Zig 0.17.0 检查与 Linux CI | 仅进程内适配器 fixture；无 MQTT、OPC UA、Socket、设备写入或真实模型 |
-| C、C++ | 尚未实现为 Tutorial | 未运行 | 仅为候选路径 |
+| C 设备诊断 | 原生 C Core、应用自有 `PxDeviceAdapter` 函数指针、仅草案动作 | 本地 MinGW gcc/CMake 检查通过；Linux CI job 已添加，尚未运行 | 仅进程内适配器 fixture；无串行总线、Socket、设备 SDK、设备写入或真实模型 |
+| C++ 工业边缘 | 原生 C++ Core、应用自有 `DeviceAdapter` 接口、仅草案动作 | 本地 MinGW g++/CMake 检查通过；Linux CI job 已添加，尚未运行 | 仅进程内适配器 fixture；无现场总线、OPC UA、Socket、设备 SDK、设备写入或真实模型 |
 
 准确运行 ID 与范围见[验证证据](../project/verification-evidence.md)。“CI 通过”不等于
 生产就绪、独立采用或公共托管业务服务。
@@ -141,8 +142,9 @@ Core 与 Adapter，而不是增加框架表面积。
 
 ## 下一步
 
-1. 设备教程需要显式的应用自有 Adapter 契约和确定性 fixture。真实 MQTT、OPC UA、
-   设备 SDK 或运行时验证仍单独标注为阻塞，直到实际运行该 transport。
+1. 在已覆盖 Rust、Zig、C、C++ 的设备教程上继续扩展显式的应用自有 Adapter 契约和
+   确定性 fixture。真实 MQTT、OPC UA、串行总线、设备 SDK 或运行时验证仍单独标注为
+   阻塞，直到实际运行该 transport。
 2. 把已验证教程转成消费者授权测试路径，而不只是维护者演示。
 
 语言数量不是目标。少量完整、差异化路径比大量孤立机制检查更有价值。

@@ -43,8 +43,8 @@ contracts, not framework compatibility promises.
 | Lua | Embed in an existing host | Host callbacks and small-footprint integration | Host-specific |
 | Rust | IoT gateway diagnosis | Edge deployment, explicit read-only adapter contract, process plugins | Implemented and CI verified |
 | Zig | Small gateway health check | Minimal deployment and explicit platform limits | Implemented and CI verified |
-| C | Constrained host diagnostic component | Caller-owned memory/network/transport contract | Devices planned |
-| C++ | Industrial edge maintenance | Existing device SDK wrapped as scoped tools | Devices planned |
+| C | Constrained host diagnostic component | Caller-owned memory/network/transport contract | Implemented; local fixture checks pass |
+| C++ | Industrial edge maintenance | Existing device SDK wrapped as scoped tools | Implemented; local fixture checks pass |
 
 These are candidate paths. A language moves from candidate to implemented only
 when its tutorial has runnable commands, tests, and recorded evidence.
@@ -119,7 +119,8 @@ add framework surface.
 | Lua host embedding | Native Lua Core, host callbacks, draft-only action | Local Lua 5.4.6 checks and Linux CI | No device command, socket or live model |
 | Rust IoT gateway | Native Rust Core, read-only `GatewayAdapter`, draft-only action | Local Rust checks and Linux CI | In-process adapter fixture only; no MQTT, OPC UA, socket, device write or live model |
 | Zig gateway health | Native Zig Core, read-only `GatewayAdapter` function table, draft-only action | Local Zig 0.17.0 checks and Linux CI | In-process adapter fixture only; no MQTT, OPC UA, socket, device write or live model |
-| C, C++ | Not implemented as Tutorial entries | Not run | Candidate paths only |
+| C device diagnostics | Native C Core, application-owned `PxDeviceAdapter` function pointer, draft-only action | Local MinGW gcc/CMake checks pass; Linux CI job added, not yet run | In-process adapter fixture only; no serial bus, socket, device SDK, device write or live model |
+| C++ industrial edge | Native C++ Core, application-owned `DeviceAdapter` interface, draft-only action | Local MinGW g++/CMake checks pass; Linux CI job added, not yet run | In-process adapter fixture only; no fieldbus, OPC UA, socket, device SDK, device write or live model |
 
 See [Verification Evidence](../project/verification-evidence.md) for exact run
 IDs and scope. "Passed in CI" does not mean production readiness, independent
@@ -158,9 +159,10 @@ not in `pkg/...` or `spec/`.
 
 ## Next Work
 
-1. Add device tutorials with an explicit application-owned adapter contract and
-   a deterministic fixture. Real MQTT, OPC UA, device SDK or runtime validation
-   remains a separate, blocked claim until that transport is actually exercised.
+1. Extend the device tutorials that now cover Rust, Zig, C and C++ with an
+   explicit application-owned adapter contract and a deterministic fixture.
+   Real MQTT, OPC UA, serial bus, device SDK or runtime validation remains a
+   separate, blocked claim until that transport is actually exercised.
 2. Turn each verified tutorial into a consumer test-authorized path, not just a
    maintainer demo.
 

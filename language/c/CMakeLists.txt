@@ -120,6 +120,10 @@ add_executable(praxo-c-representative-chain-tests
     tests/test_representative_chain.c)
 target_link_libraries(praxo-c-representative-chain-tests PRIVATE praxo_core)
 
+add_executable(praxo-c-device-diagnostics-tutorial
+    Tutorial/device-diagnostics/main.c)
+target_link_libraries(praxo-c-device-diagnostics-tutorial PRIVATE praxo_core)
+
 if(MSVC)
     target_compile_options(praxo-c-tests PRIVATE /UNDEBUG)
     target_compile_options(praxo-c-core-tests PRIVATE /UNDEBUG)
@@ -169,6 +173,8 @@ add_test(NAME praxo-c-delegation-governance-tests
     COMMAND praxo-c-delegation-governance-tests)
 add_test(NAME praxo-c-representative-chain-tests
     COMMAND praxo-c-representative-chain-tests)
+add_test(NAME praxo-c-device-diagnostics-tutorial
+    COMMAND praxo-c-device-diagnostics-tutorial --test)
 
 if(BUILD_TESTING)
     find_package(Python3 3.10 REQUIRED COMPONENTS Interpreter)

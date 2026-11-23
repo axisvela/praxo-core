@@ -328,7 +328,18 @@ Turn the first run into one useful local application, such as:
   explicit application-owned `GatewayAdapter` function table and drafts a
   `restart_telemetry` review action. Local Zig 0.17.0 checks pass, and Linux CI
   passed at `0b2f15d6` (run `45102354617`). It does not implement MQTT, OPC UA,
-  sockets, device commands or a live model. See the
+  sockets, device commands or a live model.
+  C's `Tutorial/device-diagnostics/` reads a fixed `device-100` snapshot through an
+  application-owned `PxDeviceAdapter` function pointer and drafts a
+  `notify_operator` review action. Local MinGW gcc/CMake checks pass; the Linux CI
+  job is added but not yet run. It does not implement a serial bus, socket, device
+  SDK, device command or a live model.
+  C++'s `Tutorial/industrial-edge/` reads a fixed `edge-100` snapshot through an
+  application-owned `DeviceAdapter` interface and drafts a `schedule_maintenance`
+  review action, with a failing adapter raising `DEVICE_READ_FAILED`. Local MinGW
+  g++/CMake checks pass; the Linux CI job is added but not yet run. It does not
+  implement a fieldbus, OPC UA, socket, device SDK, device command or a live model.
+  See the
   [Tutorial Plan](../getting-started/tutorial-plan.md) for the scenario map,
   current status, delivery standard and next candidates.
 - Validate one application-shaped prototype for a named consumer before

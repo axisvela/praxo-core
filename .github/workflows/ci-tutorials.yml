@@ -110,6 +110,24 @@ jobs:
       - run: zig build-exe --dep praxo -Mroot=language/zig/Tutorial/gateway-health/main.zig -Mpraxo=language/zig/src/praxo.zig -femit-bin=build/praxo-zig-gateway
       - run: ./build/praxo-zig-gateway --test
 
+  c-device-diagnostics:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - run: cmake -S language/c -B language/c/build
+      - run: cmake --build language/c/build --target praxo-c-device-diagnostics-tutorial
+      - run: ./language/c/build/praxo-c-device-diagnostics-tutorial --test
+
+  cpp-industrial-edge:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - run: cmake -S language/cpp -B language/cpp/build
+      - run: cmake --build language/cpp/build --target praxo-cpp-industrial-edge-tutorial
+      - run: ./language/cpp/build/praxo-cpp-industrial-edge-tutorial --test
+
   python-office-qa:
     runs-on: ubuntu-latest
     timeout-minutes: 10
