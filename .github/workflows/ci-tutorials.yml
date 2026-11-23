@@ -393,6 +393,17 @@ jobs:
       - run: go run ./language/go/Tutorial/logistics-checkpoint --test
       - run: go test ./language/go/Tutorial/logistics-checkpoint
 
+  go-zero-trust-review:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: '1.25.x'
+      - run: go run ./language/go/Tutorial/zero-trust-review --test
+      - run: go test ./language/go/Tutorial/zero-trust-review
+
   go-soc-alert-triage:
     runs-on: ubuntu-latest
     timeout-minutes: 10

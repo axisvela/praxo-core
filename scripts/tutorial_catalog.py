@@ -72,6 +72,7 @@ TUTORIALS = {
     "legacy-migration": ("SE", "analysis,tools,draft,policy", "SE-03"),
     "privacy-agent": ("PE", "analysis,tools,draft,policy", "PE-03"),
     "retail-replenishment": ("CS", "analysis,tools,draft,policy", "CS-05"),
+    "zero-trust-review": ("CY", "analysis,tools,draft,policy", "CY-05"),
 }
 GUIDES = {
     "workspace-agent-tutorial": ("SE", "go", "filesystem,tools,policy"),
