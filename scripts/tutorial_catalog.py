@@ -146,6 +146,7 @@ TUTORIALS = {
     "data-pipeline": ("SC", "analysis,tools,draft,policy", "SC-06"),
     "bug-repair": ("SE", "analysis,tools,draft,policy", "SE-02"),
     "release-preflight": ("SE", "filesystem,tools,draft,policy", "SE-01"),
+    "rule-dsl": ("SE", "analysis,tools,draft,policy", "SE-05"),
 }
 GUIDES = {
     "workspace-agent-tutorial": ("SE", "go", "filesystem,tools,policy"),

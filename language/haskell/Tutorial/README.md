@@ -1,5 +1,7 @@
 # Haskell Tutorials
 
+- [Rule DSL](rule-dsl/README.md): typed access-rule parsing, allow/deny conflict
+  counterexample and a review-only revision; no policy publication.
 - [Literature Review (SC-01)](literature-review/README.md): source Haskell Core,
   fixed synthetic paper corpus and an explicitly unverified hypothesis draft; no
   live search or scientific-validity claim.

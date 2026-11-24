@@ -234,6 +234,16 @@ jobs:
           compiler: dmd-latest
       - run: dmd -i -Ilanguage/d/source -run language/d/Tutorial/quant-risk/risk.d --test
 
+  haskell-rule-dsl:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: haskell-actions/setup@v2
+        with:
+          ghc-version: '9.12.2'
+      - run: runghc -ilanguage/haskell/src language/haskell/Tutorial/rule-dsl/app.hs --test
+
   v-release-preflight:
     runs-on: ubuntu-latest
     timeout-minutes: 10
