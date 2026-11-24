@@ -11,14 +11,14 @@ production workspace.
 - **Selection basis:** Go is the reference Core, so this tutorial also exercises
   the canonical runtime and package shape. It is not evidence for a specific
   developer-tool product backend.
-- **Demonstrated fit:** Go tools and policy checks read an in-process workspace,
-  acknowledge one edit and return synthetic diagnostics. No filesystem, compiler
-  or process sandbox is used.
+- **Demonstrated fit:** Go tools read an in-process workspace, mutate the allowlisted
+  file, then derive synthetic diagnostics from its content. No host filesystem,
+  compiler or process sandbox is used.
 - **Choose when:** Learning the reference end-to-end tool/policy loop in Go.
 - **Do not choose when:** Expecting a coding sandbox or real build integration.
   Compare direct Go tooling or an existing workspace service first.
-- **Evidence limit:** Core integration fixture only; no real edit, compilation,
-  deployment or workspace isolation is demonstrated.
+- **Evidence limit:** Core integration fixture only; the edit targets an in-memory
+  map, with no host filesystem, compilation, deployment or workspace isolation.
 
 Run from the repository root:
 
@@ -42,9 +42,10 @@ The package also has a Go test
 (`go test ./language/go/Tutorial/fullstack-workspace`).
 
 `read_workspace` returns 2 files with only `app.go` allowlisted;
-`apply_edit` reports one bounded change with `status=applied_fixture`;
-`inspect_diagnostics` reports 0 diagnostics and `build_status=ok_fixture`. Policy
-limits the workspace, the allowlisted file and each final action.
+`apply_edit` writes valid entrypoint content into the in-memory fixture and reports
+one bounded change with `status=applied_fixture` and the written byte count;
+`inspect_diagnostics` derives 0 diagnostics and `build_status=ok_fixture` from that
+content. Policy limits the workspace, the allowlisted file and each final action.
 
 The diagnostics are fixtures, not a compiler result. Real code generation,
 compilation, testing and deployment remain application-owned.

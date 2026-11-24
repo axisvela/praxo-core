@@ -100,11 +100,17 @@ Outcome runMemory(String account, {bool simulateFailure = false}) {
   var stores = 0;
   var recalls = 0;
   var deletes = 0;
+  final memories = <String, Map<String, dynamic>>{};
   final registry = Registry()
     ..register(FuncTool('store_memory', 'Store one consent-scoped synthetic memory; no real inbox.', (arguments) {
       if (arguments['account'] != accountId) throw Exception('account not found');
       stores += 1;
       if (simulateFailure) throw Exception('MEMORY_STORE_UNAVAILABLE');
+      memories['memory-100'] = {
+        'scope': arguments['scope'],
+        'consent': arguments['consent'],
+        'provenance': 'session_fixture',
+      };
       return {
         'memory_id': 'memory-100',
         'scope': arguments['scope'],
@@ -115,18 +121,23 @@ Outcome runMemory(String account, {bool simulateFailure = false}) {
     }))
     ..register(FuncTool('recall_memories', 'Recall only scoped memories; no unrestricted recall.', (arguments) {
       recalls += 1;
+      final scoped = memories.entries
+          .where((entry) => entry.value['scope'] == arguments['scope'])
+          .map((entry) => entry.key)
+          .toList();
       return {
         'scope': arguments['scope'],
-        'memories': ['memory-100'],
+        'memories': scoped,
         'unscoped': 0,
       };
     }))
     ..register(FuncTool('forget_memory', 'Delete a synthetic memory and confirm removal.', (arguments) {
       deletes += 1;
+      final existed = memories.remove(arguments['memory_id']) != null;
       return {
         'memory_id': arguments['memory_id'],
-        'deleted': true,
-        'remaining': 0,
+        'deleted': existed,
+        'remaining': memories.length,
       };
     }));
   final options = AgentOptions(
@@ -158,10 +169,13 @@ void test() {
   }
   final report = success.report!;
   final stored = report['stored'] as Map<String, dynamic>;
+  final recalled = report['recalled'] as Map<String, dynamic>;
   final forgotten = report['forgotten'] as Map<String, dynamic>;
   if (stored['stored'] != true ||
       stored['scope'] != 'work' ||
       stored['consent'] != true ||
+      (recalled['memories'] as List).length != 1 ||
+      (recalled['memories'] as List).first != 'memory-100' ||
       forgotten['deleted'] != true ||
       forgotten['remaining'] != 0 ||
       report['unscoped_recalls'] != 0) {

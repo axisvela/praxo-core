@@ -27,9 +27,11 @@ class FixtureModel:
             ]))
         exercise = json.loads(tool_messages[0].content)
         if len(tool_messages) == 1:
+            action = ("draft_summary_escalated"
+                      if exercise.get("crisis_flag") else "draft_summary")
             return Response(message=Message(role="assistant", tool_calls=[
                 ToolCall(id="summary-1", name="draft_summary",
-                         arguments={"session_id": self.session, "action": "draft_summary"}),
+                         arguments={"session_id": self.session, "action": action}),
             ]))
         summary = json.loads(tool_messages[-1].content)
         report = {
@@ -94,7 +96,7 @@ class DraftSummaryTool:
             "summary_id": "cbt-100",
             "session_id": args.get("session_id"),
             "action": args.get("action"),
-            "escalated": False,
+            "escalated": args.get("action") == "draft_summary_escalated",
             "status": "draft_only",
             "review_required": True,
             "therapist_replacement": 0,
@@ -115,7 +117,8 @@ def authorize(action):
     if action.tool_name == "draft_summary":
         return Decision(
             allowed=action.arguments.get("session_id") == SESSION_ID
-            and action.arguments.get("action") == "draft_summary",
+            and action.arguments.get("action")
+            in ("draft_summary", "draft_summary_escalated"),
             reason="only a review-only summary draft is allowed",
         )
     return Decision(allowed=False, reason="unsupported tool")
@@ -152,15 +155,18 @@ def run_tests() -> None:
     report = json.loads(output)
     if report["exercise"]["crisis_flag"] is not False or report["exercise"]["steps"] != 3:
         raise RuntimeError(f"unexpected exercise: {report}")
-    if report["summary"]["status"] != "draft_only" or report["therapist_replacement"] != 0:
+    if (report["summary"]["status"] != "draft_only"
+            or report["summary"]["escalated"] is not False
+            or report["therapist_replacement"] != 0):
         raise RuntimeError(f"unexpected summary: {report}")
 
     crisis_output, reads, drafts, error = asyncio.run(run_exercise(crisis=True))
     if error or reads != 1 or drafts != 1:
         raise RuntimeError(f"crisis path failed: reads={reads} drafts={drafts} error={error}")
     crisis = json.loads(crisis_output)
-    if crisis["exercise"]["crisis_flag"] is not True \
-            or crisis["exercise"]["escalation"] != "human_review":
+    if (crisis["exercise"]["crisis_flag"] is not True
+            or crisis["exercise"]["escalation"] != "human_review"
+            or crisis["summary"]["escalated"] is not True):
         raise RuntimeError(f"crisis escalation missing: {crisis}")
 
     _, reads, drafts, error = asyncio.run(run_exercise("session-200"))

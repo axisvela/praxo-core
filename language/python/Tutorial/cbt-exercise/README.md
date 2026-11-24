@@ -32,9 +32,10 @@ Negative commands exit nonzero.
 
 `read_exercise` returns the `breathing` exercise with 3 steps, `crisis_flag`
 false/true and `escalation=human_review` for `session-100`; `draft_summary`
-returns `status=draft_only`, `review_required=true`, `therapist_replacement=0`
-and `unsupervised_crisis=0`. Policy limits the session and final `draft_summary`
-action.
+selects `draft_summary_escalated` when the crisis flag is set and returns
+`status=draft_only`, `review_required=true`, `escalated=true` only on that branch,
+`therapist_replacement=0` and `unsupervised_crisis=0`. Policy limits the session
+and both summary actions.
 
 Tests cover success, the crisis-escalation branch, a cross-session denial and the
 simulated exercise-index outage. Real clinical care, crisis response and

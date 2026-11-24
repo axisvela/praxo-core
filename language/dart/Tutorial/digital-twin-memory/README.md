@@ -9,8 +9,9 @@ or unrestricted recall.
 
 - **Selection basis:** A Dart or Flutter personal app could keep consent-scoped memory
   in the client runtime instead of a remote service. No such product is verified.
-- **Demonstrated fit:** In-process store/recall/delete calls and a fixed scope are
-  exercised; the memory does not persist beyond the run.
+- **Demonstrated fit:** An in-process map stores the scoped entry, recall returns
+  only matching keys, and delete removes it and reports the remaining count. The
+  memory does not persist beyond the run.
 - **Choose when:** Learning the consent and deletion pattern for an existing Dart app.
 - **Do not choose when:** Seeking durable memory, cross-app access or encryption.
   Compare platform storage, key management and the app's privacy design first.

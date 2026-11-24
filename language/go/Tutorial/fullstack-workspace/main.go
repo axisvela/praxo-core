@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"io"
 	"os"
+	"strings"
 
 	"github.com/axisvela/praxo-core/v2/pkg/agent"
 	"github.com/axisvela/praxo-core/v2/pkg/model"
@@ -19,16 +20,23 @@ const workspaceID = "workspace-100"
 
 var errWorkspaceUnavailable = errors.New("WORKSPACE_UNAVAILABLE")
 
-type WorkspaceSource interface {
-	Read(ctx context.Context, workspace string) (map[string]any, error)
-}
-
-type fixtureWorkspaceSource struct {
+type fixtureWorkspace struct {
 	simulateFailure bool
 	reads           int
+	files           map[string]string
 }
 
-func (s *fixtureWorkspaceSource) Read(_ context.Context, workspace string) (map[string]any, error) {
+func newFixtureWorkspace(simulateFailure bool) *fixtureWorkspace {
+	return &fixtureWorkspace{
+		simulateFailure: simulateFailure,
+		files: map[string]string{
+			"app.go":       "package main\n",
+			"main_test.go": "package main\n",
+		},
+	}
+}
+
+func (s *fixtureWorkspace) Read(_ context.Context, workspace string) (map[string]any, error) {
 	s.reads++
 	if s.simulateFailure {
 		return nil, errWorkspaceUnavailable
@@ -42,7 +50,39 @@ func (s *fixtureWorkspaceSource) Read(_ context.Context, workspace string) (map[
 	}, nil
 }
 
-type readWorkspaceTool struct{ source WorkspaceSource }
+func (s *fixtureWorkspace) Apply(workspace, file, action string) map[string]any {
+	s.files[file] = "package main\n\nfunc main() {}\n"
+	return map[string]any{
+		"edit_id":       "edit-100",
+		"workspace":     workspace,
+		"file":          file,
+		"action":        action,
+		"changed":       1,
+		"written_bytes": len(s.files[file]),
+		"status":        "applied_fixture",
+		"deployments":   0,
+	}
+}
+
+func (s *fixtureWorkspace) Diagnostics(workspace, action string) map[string]any {
+	source := s.files["app.go"]
+	diagnostics := 0
+	buildStatus := "ok_fixture"
+	if !strings.Contains(source, "package main") || !strings.Contains(source, "func main()") {
+		diagnostics = 1
+		buildStatus = "missing_entrypoint"
+	}
+	return map[string]any{
+		"diagnostics_id": "diagnostics-100",
+		"workspace":      workspace,
+		"action":         action,
+		"diagnostics":    diagnostics,
+		"build_status":   buildStatus,
+		"deployments":    0,
+	}
+}
+
+type readWorkspaceTool struct{ source *fixtureWorkspace }
 
 func (readWorkspaceTool) Name() string { return "read_workspace" }
 
@@ -69,7 +109,10 @@ func (t readWorkspaceTool) Invoke(ctx context.Context, args map[string]any) (any
 	return t.source.Read(ctx, id)
 }
 
-type applyEditTool struct{ calls *int }
+type applyEditTool struct {
+	workspace *fixtureWorkspace
+	calls     *int
+}
 
 func (applyEditTool) Name() string { return "apply_edit" }
 
@@ -106,18 +149,13 @@ func (t applyEditTool) Invoke(_ context.Context, args map[string]any) (any, erro
 	if action == "" {
 		action = "apply_edit_bounded"
 	}
-	return map[string]any{
-		"edit_id":    "edit-100",
-		"workspace":  workspace,
-		"file":       file,
-		"action":     action,
-		"changed":    1,
-		"status":     "applied_fixture",
-		"deployments": 0,
-	}, nil
+	return t.workspace.Apply(workspace, file, action), nil
 }
 
-type inspectDiagnosticsTool struct{ calls *int }
+type inspectDiagnosticsTool struct {
+	workspace *fixtureWorkspace
+	calls     *int
+}
 
 func (inspectDiagnosticsTool) Name() string { return "inspect_diagnostics" }
 
@@ -149,14 +187,7 @@ func (t inspectDiagnosticsTool) Invoke(_ context.Context, args map[string]any) (
 	if action == "" {
 		action = "inspect"
 	}
-	return map[string]any{
-		"diagnostics_id": "diagnostics-100",
-		"workspace":      workspace,
-		"action":         action,
-		"diagnostics":    0,
-		"build_status":   "ok_fixture",
-		"deployments":    0,
-	}, nil
+	return t.workspace.Diagnostics(workspace, action), nil
 }
 
 type fixtureModel struct{ workspace string }
@@ -219,14 +250,14 @@ type outcome struct {
 }
 
 func runScenario(ctx context.Context, workspace string, simulateFailure bool) outcome {
-	source := &fixtureWorkspaceSource{simulateFailure: simulateFailure}
+	source := newFixtureWorkspace(simulateFailure)
 	editCalls := 0
 	diagnosticCalls := 0
 
 	tools := tool.NewRegistry()
 	tools.Register(readWorkspaceTool{source: source})
-	tools.Register(applyEditTool{calls: &editCalls})
-	tools.Register(inspectDiagnosticsTool{calls: &diagnosticCalls})
+	tools.Register(applyEditTool{workspace: source, calls: &editCalls})
+	tools.Register(inspectDiagnosticsTool{workspace: source, calls: &diagnosticCalls})
 
 	ag, err := agent.New(agent.Options{
 		Model:            &fixtureModel{workspace: workspace},
@@ -292,6 +323,7 @@ func runTests(ctx context.Context, stdout io.Writer) error {
 	edit, _ := report["edit"].(map[string]any)
 	diagnostics, _ := report["diagnostics"].(map[string]any)
 	if edit["status"] != "applied_fixture" || edit["changed"] != float64(1) ||
+		edit["written_bytes"] != float64(len("package main\n\nfunc main() {}\n")) ||
 		diagnostics["build_status"] != "ok_fixture" || diagnostics["diagnostics"] != float64(0) ||
 		report["deployments"] != float64(0) {
 		return fmt.Errorf("success verification failed: edit=%v diagnostics=%v", edit, diagnostics)
