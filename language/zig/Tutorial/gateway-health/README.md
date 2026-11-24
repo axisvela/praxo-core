@@ -6,6 +6,18 @@ function table and drafts an operator review action. The adapter is an in-proces
 fixture. This tutorial does not implement MQTT, OPC UA, a socket, a real device
 SDK, a live model or a device write.
 
+## Why this language and runtime?
+
+- **Selection basis:** A constrained Zig deployment may benefit from a native Core
+  with an explicit adapter function table; no deployed gateway is verified here.
+- **Demonstrated fit:** Native callback tools and policy checks run over a fixed
+  in-process snapshot. No transport, device SDK or allocation limit is exercised.
+- **Choose when:** Learning the Core seam for an existing Zig edge component.
+- **Do not choose when:** Seeking a proven small binary, zero-allocation runtime or
+  protocol integration. Compare direct Zig code and measure real deployment limits.
+- **Evidence limit:** Core integration only; no measured binary size, memory ceiling,
+  socket, device write or platform guarantee.
+
 Requires Zig `0.17.0`. Run from the repository root:
 
 ```bash

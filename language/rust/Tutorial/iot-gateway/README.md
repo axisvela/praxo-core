@@ -6,6 +6,18 @@ asks a deterministic model for a diagnosis, and drafts an operator review action
 The gateway adapter is an in-process fixture. This tutorial does not implement
 MQTT, OPC UA, a socket, a real device SDK, a live model, or a device write.
 
+## Why this language and runtime?
+
+- **Selection basis:** An edge gateway already written in Rust can embed the native
+  Core without shipping a second runtime. No deployed gateway is verified here.
+- **Demonstrated fit:** The published crate, an application-owned trait and
+  deterministic tools run as an in-process fixture.
+- **Choose when:** Evaluating the Core seam in an existing Rust edge component.
+- **Do not choose when:** Seeking protocol or device support. Compare direct MQTT,
+  OPC UA or device-SDK code and measure actual binary and deployment constraints.
+- **Evidence limit:** Core integration only; no socket, real device, network
+  transport, binary-size measurement or fault-tolerance claim.
+
 ## Run
 
 ```bash

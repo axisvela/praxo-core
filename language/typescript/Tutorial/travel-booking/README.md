@@ -5,6 +5,18 @@ A native TypeScript Core tutorial for review-only flight booking. It checks fixe
 model packages computed evidence into a JSON report. This tutorial does not pay,
 ticket, change inventory, read arbitrary data or call a live model.
 
+## Why this language and runtime?
+
+- **Selection basis:** A Node travel application can keep the Agent beside its API
+  handlers without adding a Python service. No travel consumer is verified here.
+- **Demonstrated fit:** Async SDK tools read a fixed trip fixture and return a
+  draft fare hold. No payment, ticketing or inventory write is executed.
+- **Choose when:** Learning the SDK boundary in an existing Node backend.
+- **Do not choose when:** Seeking a booking workflow or payment integration. Compare
+  direct supplier APIs and deterministic policy code against the real booking rules.
+- **Evidence limit:** Core integration fixture only; no live inventory, payment,
+  ticket issuance, streaming UI or provider model.
+
 ## Run
 
 From this directory:

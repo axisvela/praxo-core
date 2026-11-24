@@ -5,6 +5,18 @@ not a live policy engine. It reads fixed access events for one tenant, identifie
 over-granted permissions, and drafts a review-only narrowing. It does not change
 live grants, authenticate principals or call a live model.
 
+## Why this language and runtime?
+
+- **Selection basis:** Go is the reference Core and a common operations-service
+  runtime; this example shows the canonical policy seam for access review.
+- **Demonstrated fit:** Fixed access events are evaluated and a narrowing draft is
+  produced. No live identity provider, policy engine or permission change runs.
+- **Choose when:** Learning the reference Core's deny/draft boundary for access review.
+- **Do not choose when:** Seeking live policy enforcement or IAM integration. Compare
+  the existing authorization system and deterministic policy code first.
+- **Evidence limit:** Core integration fixture only; no principal authentication,
+  live grants, policy-engine semantics or comparative security guarantee.
+
 Run from the repository root:
 
 ```bash

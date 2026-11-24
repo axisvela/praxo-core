@@ -6,6 +6,18 @@ remote Agent. The initial model is deterministic: it requests `review_order`,
 then returns the tool result. The application computes the recommendation from
 order status. It does not use an LLM to decide a refund or perform business writes.
 
+## Why this language and runtime?
+
+- **Selection basis:** An existing Java enterprise service can keep HTTP entry,
+  identity integration and the Core in one JVM process.
+- **Demonstrated fit:** JUnit and a loopback HTTP server exercise Core tools against
+  the shared synthetic orders service. Recommendation logic is application code.
+- **Choose when:** Adding a governed Agent seam to an already maintained Java service.
+- **Do not choose when:** Only an order lookup is needed, or no Java host exists.
+  Compare a direct service call or an existing workflow engine first.
+- **Evidence limit:** Loopback demo backend and local tests; no production identity,
+  ERP integration, refund authority or live model is demonstrated.
+
 ## Start the Business Service
 
 Start the public teaching backend in a separate terminal:

@@ -9,6 +9,18 @@ follow-up or monitoring recommendation, and the backend stores a `draft_only`
 record. The Agent never changes an order or issues a refund. This is a service
 desk prototype, not a complete ERP or HR application.
 
+## Why this language and runtime?
+
+- **Selection basis:** An existing ASP.NET Core service can host the Agent and its
+  policy boundary without adding a separate orchestration service.
+- **Demonstrated fit:** A minimal API, CLI mode and self-tests exercise Core tools
+  against the shared synthetic order backend over loopback HTTP.
+- **Choose when:** Adding a governed review step to an already maintained .NET service.
+- **Do not choose when:** A simple business rule or direct backend call suffices, or
+  the host is not .NET. Compare the existing service boundary first.
+- **Evidence limit:** Synthetic backend and local tests; no production OIDC setup,
+  real order write, hosted endpoint or live model is demonstrated.
+
 ## Start the Shared Backend
 
 Requires Python 3.12+ in a separate terminal:
