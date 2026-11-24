@@ -123,10 +123,10 @@ system 指令。Memory Store 不等于自动召回；checkpoint 消息续跑不�
 | CY-01 | 自动化渗透测试与红队演练 | Rust、Go、Python | 盘点允许的 loopback 实验资产并报告预置配置缺陷；不做公网扫描或攻击链 | [Go 渗透实验复核](https://github.com/axisvela/praxo-core/tree/main/language/go/Tutorial/pentest-lab-review)：固定 loopback 主机与仅审阅报告 | 未实现 |
 | CY-02 | SOC 告警研判与 SOAR 响应 | Go、Elixir、Erlang | 关联合成 EDR/防火墙事件并草拟隔离；不真实封禁 | [SOC 分诊](https://github.com/axisvela/praxo-core/tree/main/language/go/Tutorial/soc-alert-triage)：固定告警，不是真实 EDR 关联 | 未实现 |
 | CY-03 | 威胁狩猎与 TTP 还原 | Perl、Rust、Python | 检索固定日志、引用合成 TTP 时间线；无外部情报或 APT 检测保证 | [日志巡检](https://github.com/axisvela/praxo-core/tree/main/language/perl/Tutorial/log-triage)：仅严重级别统计 | 未实现 |
-| CY-04 | 钓鱼识别与反钓鱼演练 | Python、TypeScript、C# | 分类合成邮件并草拟获授权的安全培训；不发送欺骗邮件或攻击基础设施 | 无 | 未实现 |
+| CY-04 | 钓鱼识别与反钓鱼演练 | Python、TypeScript、C# | 分类合成邮件并草拟获授权的安全培训；不发送欺骗邮件或攻击基础设施 | [Python 钓鱼演练](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/phishing-awareness)：固定邮件与仅审阅演练 | 未实现 |
 | CY-05 | 零信任策略动态调优 | Java、C#、Go | 回放合成访问决策、建议收窄授权；不放宽真实权限 | [Go 零信任审阅](https://github.com/axisvela/praxo-core/tree/main/language/go/Tutorial/zero-trust-review)：固定越权审阅与草案 | 未实现 |
 | CY-06 | DLP 与隐私脱敏 | Go、Rust、Objective-C | 对合成导出检查指定敏感字段，在共享前拒绝或脱敏；不保证加密或完整 DLP | [SOC 分诊](https://github.com/axisvela/praxo-core/tree/main/language/go/Tutorial/soc-alert-triage)：仅邮箱/电话脱敏 | 未实现 |
-| CY-07 | 开源供应链投毒监测 | Rust、OCaml、Ruby | 比较固定清单与维护者变更 fixture，草拟版本锁定；非已验证恶意代码检测 | 无 | 未实现 |
+| CY-07 | 开源供应链投毒监测 | Rust、OCaml、Ruby | 比较固定清单与维护者变更 fixture，草拟版本锁定；非已验证恶意代码检测 | [Ruby 供应链复核](https://github.com/axisvela/praxo-core/tree/main/language/ruby/Tutorial/supply-chain-review)：固定清单信号与版本锁定 | 未实现 |
 
 ## 智慧城市与公共治理（7）
 

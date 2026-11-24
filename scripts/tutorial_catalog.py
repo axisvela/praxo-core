@@ -88,6 +88,8 @@ TUTORIALS = {
     "storyboard-previs": ("MD", "tools,draft,policy", "MD-01"),
     "traffic-signal-plan": ("CT", "analysis,tools,draft,policy", "CT-01"),
     "drone-fleet-plan": ("TL", "tools,draft,policy", "TL-01"),
+    "phishing-awareness": ("CY", "analysis,tools,draft,policy", "CY-04"),
+    "supply-chain-review": ("CY", "analysis,tools,draft,policy", "CY-07"),
 }
 GUIDES = {
     "workspace-agent-tutorial": ("SE", "go", "filesystem,tools,policy"),

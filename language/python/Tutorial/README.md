@@ -13,6 +13,8 @@ capitalized in directory paths.
   simulated publish.
 - [Education tutoring](education-tutoring/README.md): Core `Retriever` and a
   draft-only study plan.
+- [Phishing awareness](phishing-awareness/README.md): fixed email indicators,
+  review-only awareness exercise and no deceptive sends.
 - [Trial screening](trial-screening/README.md): fixed patient criteria, review-only
   screening note and no enrollment.
 - [Clinical guidelines](clinical-guidelines/README.md): fixed guideline citations,
