@@ -135,6 +135,47 @@ add_executable(praxo-cpp-materials-design-tutorial
     Tutorial/materials-design/main.cpp)
 target_link_libraries(praxo-cpp-materials-design-tutorial PRIVATE praxo_cpp)
 
+
+add_executable(praxo-cpp-quant-risk-tutorial
+    Tutorial/quant-risk/main.cpp)
+target_link_libraries(praxo-cpp-quant-risk-tutorial PRIVATE praxo_cpp)
+
+add_executable(praxo-cpp-production-scheduling-tutorial
+    Tutorial/production-scheduling/main.cpp)
+target_link_libraries(praxo-cpp-production-scheduling-tutorial PRIVATE praxo_cpp)
+
+add_executable(praxo-cpp-bom-review-tutorial
+    Tutorial/bom-review/main.cpp)
+target_link_libraries(praxo-cpp-bom-review-tutorial PRIVATE praxo_cpp)
+
+add_executable(praxo-cpp-household-robot-tutorial
+    Tutorial/household-robot/main.cpp)
+target_link_libraries(praxo-cpp-household-robot-tutorial PRIVATE praxo_cpp)
+
+add_executable(praxo-cpp-drone-fleet-plan-tutorial
+    Tutorial/drone-fleet-plan/main.cpp)
+target_link_libraries(praxo-cpp-drone-fleet-plan-tutorial PRIVATE praxo_cpp)
+
+add_executable(praxo-cpp-fleet-map-tutorial
+    Tutorial/fleet-map/main.cpp)
+target_link_libraries(praxo-cpp-fleet-map-tutorial PRIVATE praxo_cpp)
+
+add_executable(praxo-cpp-storyboard-previs-tutorial
+    Tutorial/storyboard-previs/main.cpp)
+target_link_libraries(praxo-cpp-storyboard-previs-tutorial PRIVATE praxo_cpp)
+
+add_executable(praxo-cpp-dubbing-plan-tutorial
+    Tutorial/dubbing-plan/main.cpp)
+target_link_libraries(praxo-cpp-dubbing-plan-tutorial PRIVATE praxo_cpp)
+
+add_executable(praxo-cpp-construction-safety-tutorial
+    Tutorial/construction-safety/main.cpp)
+target_link_libraries(praxo-cpp-construction-safety-tutorial PRIVATE praxo_cpp)
+
+add_executable(praxo-cpp-mining-slope-tutorial
+    Tutorial/mining-slope/main.cpp)
+target_link_libraries(praxo-cpp-mining-slope-tutorial PRIVATE praxo_cpp)
+
 add_test(NAME praxo-cpp-conformance COMMAND praxo-cpp-conformance)
 add_test(NAME praxo-cpp-tests COMMAND praxo-cpp-tests)
 add_test(NAME praxo-cpp-harmovela-tests COMMAND praxo-cpp-harmovela-tests)
@@ -161,5 +202,36 @@ add_test(NAME praxo-cpp-molecule-screen-tutorial
     COMMAND praxo-cpp-molecule-screen-tutorial --test)
 add_test(NAME praxo-cpp-materials-design-tutorial
     COMMAND praxo-cpp-materials-design-tutorial --test)
+
+
+add_test(NAME praxo-cpp-quant-risk-tutorial
+    COMMAND praxo-cpp-quant-risk-tutorial --test)
+
+add_test(NAME praxo-cpp-production-scheduling-tutorial
+    COMMAND praxo-cpp-production-scheduling-tutorial --test)
+
+add_test(NAME praxo-cpp-bom-review-tutorial
+    COMMAND praxo-cpp-bom-review-tutorial --test)
+
+add_test(NAME praxo-cpp-household-robot-tutorial
+    COMMAND praxo-cpp-household-robot-tutorial --test)
+
+add_test(NAME praxo-cpp-drone-fleet-plan-tutorial
+    COMMAND praxo-cpp-drone-fleet-plan-tutorial --test)
+
+add_test(NAME praxo-cpp-fleet-map-tutorial
+    COMMAND praxo-cpp-fleet-map-tutorial --test)
+
+add_test(NAME praxo-cpp-storyboard-previs-tutorial
+    COMMAND praxo-cpp-storyboard-previs-tutorial --test)
+
+add_test(NAME praxo-cpp-dubbing-plan-tutorial
+    COMMAND praxo-cpp-dubbing-plan-tutorial --test)
+
+add_test(NAME praxo-cpp-construction-safety-tutorial
+    COMMAND praxo-cpp-construction-safety-tutorial --test)
+
+add_test(NAME praxo-cpp-mining-slope-tutorial
+    COMMAND praxo-cpp-mining-slope-tutorial --test)
 
 endif()
