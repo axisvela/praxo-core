@@ -18,7 +18,7 @@ Language variants, overlapping themes, mechanism cells and tutorial slices are n
 | Advanced language/theme source entries | 29 |
 | Other source examples and recipes | 42 |
 
-Full scenario goals: **100**; **100** have related partial slices; full implementations: **0**. Related goals remain candidates; slice relations do not add indexed entries.
+Scenario goals: **100**; **100** have related slices. End-to-end reference applications: **0**. Tutorials are accepted at their own bounded scope and are not incomplete merely because the broader goal has no end-to-end app. Related slices may cover only a subset of the listed target languages.
 
 The MATLAB/Octave paths share an implementation, not two unique scenarios; native MATLAB is unverified.
 README and source existence is not runtime or CI verification. See [Tutorial status](tutorial-plan.md#current-status) and [verification evidence](../project/verification-evidence.md).
@@ -30,16 +30,16 @@ README and source existence is not runtime or CI verification. See [Tutorial sta
 Candidate IDs: `SE-01`, `SE-02`, `SE-03`, `SE-04`, `SE-05`, `SE-06`, `SE-07`, `SE-08`.
 Earlier themes: Security / SOC.
 
-| 目标 / Goal | 候选语言 / Targets | 目标状态 / Goal Status | 相关切片 / Related Slices | 完整实现 / Full Implementation |
-| --- | --- | --- | --- | --- |
-| `SE-01` End-to-end full-stack development | TypeScript, Go, Dart | Candidate | [fullstack-workspace](https://github.com/axisvela/praxo-core/tree/main/language/go/Tutorial/fullstack-workspace), [workspace-plan](https://github.com/axisvela/praxo-core/tree/main/language/typescript/Tutorial/workspace-plan) | Not implemented |
-| `SE-02` Bug diagnosis and repair | Python, Rust, Perl | Candidate | [log-triage](https://github.com/axisvela/praxo-core/tree/main/language/perl/Tutorial/log-triage) | Not implemented |
-| `SE-03` Legacy refactoring and migration | COBOL, Java, Delphi | Candidate | [legacy-migration](https://github.com/axisvela/praxo-core/tree/main/language/delphi/Tutorial/legacy-migration) | Not implemented |
-| `SE-04` Unit-test and load-test generation | Java, C#, Haskell | Candidate | [test-generation](https://github.com/axisvela/praxo-core/tree/main/language/csharp/Tutorial/test-generation), [test-generation](https://github.com/axisvela/praxo-core/tree/main/language/haskell/Tutorial/test-generation) | Not implemented |
-| `SE-05` Code review and security/license audit | Rust, OCaml, Go | Candidate | [evidence-vault](https://github.com/axisvela/praxo-core/tree/main/language/go/Tutorial/evidence-vault), [soc-alert-triage](https://github.com/axisvela/praxo-core/tree/main/language/go/Tutorial/soc-alert-triage), [code-review](https://github.com/axisvela/praxo-core/tree/main/language/ocaml/Tutorial/code-review) | Not implemented |
-| `SE-06` AIOps RCA and remediation | Go, Elixir, Erlang | Candidate | [aiops-rca](https://github.com/axisvela/praxo-core/tree/main/language/erlang/Tutorial/aiops-rca), [incident-coordination](https://github.com/axisvela/praxo-core/tree/main/language/go/Tutorial/incident-coordination), [log-triage](https://github.com/axisvela/praxo-core/tree/main/language/perl/Tutorial/log-triage), [windows-diagnostics](https://github.com/axisvela/praxo-core/tree/main/language/powershell/Tutorial/windows-diagnostics) | Not implemented |
-| `SE-07` Cloud and FinOps governance | Ruby, PowerShell, D | Candidate | [finops-review](https://github.com/axisvela/praxo-core/tree/main/language/ruby/Tutorial/finops-review) | Not implemented |
-| `SE-08` API orchestration and integration | PHP, Java, TypeScript | Candidate | [api-orchestration](https://github.com/axisvela/praxo-core/tree/main/language/php/Tutorial/api-orchestration) | Not implemented |
+| 目标 / Goal | 候选语言 / Targets | 目标状态 / Goal Status | 相关切片（语言/教程） / Related Slices (language/tutorial) |
+| --- | --- | --- | --- |
+| `SE-01` End-to-end full-stack development | TypeScript, Go, Dart | Candidate | [go/fullstack-workspace](https://github.com/axisvela/praxo-core/tree/main/language/go/Tutorial/fullstack-workspace), [typescript/workspace-plan](https://github.com/axisvela/praxo-core/tree/main/language/typescript/Tutorial/workspace-plan) |
+| `SE-02` Bug diagnosis and repair | Python, Rust, Perl | Candidate | [perl/log-triage](https://github.com/axisvela/praxo-core/tree/main/language/perl/Tutorial/log-triage) |
+| `SE-03` Legacy refactoring and migration | COBOL, Java, Delphi | Candidate | [delphi/legacy-migration](https://github.com/axisvela/praxo-core/tree/main/language/delphi/Tutorial/legacy-migration) |
+| `SE-04` Unit-test and load-test generation | Java, C#, Haskell | Candidate | [csharp/test-generation](https://github.com/axisvela/praxo-core/tree/main/language/csharp/Tutorial/test-generation), [haskell/test-generation](https://github.com/axisvela/praxo-core/tree/main/language/haskell/Tutorial/test-generation) |
+| `SE-05` Code review and security/license audit | Rust, OCaml, Go | Candidate | [go/evidence-vault](https://github.com/axisvela/praxo-core/tree/main/language/go/Tutorial/evidence-vault), [go/soc-alert-triage](https://github.com/axisvela/praxo-core/tree/main/language/go/Tutorial/soc-alert-triage), [ocaml/code-review](https://github.com/axisvela/praxo-core/tree/main/language/ocaml/Tutorial/code-review) |
+| `SE-06` AIOps RCA and remediation | Go, Elixir, Erlang | Candidate | [erlang/aiops-rca](https://github.com/axisvela/praxo-core/tree/main/language/erlang/Tutorial/aiops-rca), [go/incident-coordination](https://github.com/axisvela/praxo-core/tree/main/language/go/Tutorial/incident-coordination), [perl/log-triage](https://github.com/axisvela/praxo-core/tree/main/language/perl/Tutorial/log-triage), [powershell/windows-diagnostics](https://github.com/axisvela/praxo-core/tree/main/language/powershell/Tutorial/windows-diagnostics) |
+| `SE-07` Cloud and FinOps governance | Ruby, PowerShell, D | Candidate | [ruby/finops-review](https://github.com/axisvela/praxo-core/tree/main/language/ruby/Tutorial/finops-review) |
+| `SE-08` API orchestration and integration | PHP, Java, TypeScript | Candidate | [php/api-orchestration](https://github.com/axisvela/praxo-core/tree/main/language/php/Tutorial/api-orchestration) |
 
 | 教程 / Tutorial | 语言 / Language | 能力 / Capabilities | 相关目标 / Related Goals |
 | --- | --- | --- | --- |
@@ -64,15 +64,15 @@ Earlier themes: Security / SOC.
 Candidate IDs: `OP-01`, `OP-02`, `OP-03`, `OP-04`, `OP-05`, `OP-06`, `OP-07`.
 Earlier themes: Knowledge Q&A and document assistant; Office productivity; Procurement / ERP.
 
-| 目标 / Goal | 候选语言 / Targets | 目标状态 / Goal Status | 相关切片 / Related Slices | 完整实现 / Full Implementation |
-| --- | --- | --- | --- | --- |
-| `OP-01` Internal IT and HR service desk | C#, PHP, PowerShell | Candidate | [order-review](https://github.com/axisvela/praxo-core/tree/main/language/csharp/Tutorial/order-review), [internal-service-desk](https://github.com/axisvela/praxo-core/tree/main/language/php/Tutorial/internal-service-desk), [windows-diagnostics](https://github.com/axisvela/praxo-core/tree/main/language/powershell/Tutorial/windows-diagnostics) | Not implemented |
-| `OP-02` Meeting lifecycle management | Dart, Swift, TypeScript | Candidate | [meeting-coordination](https://github.com/axisvela/praxo-core/tree/main/language/dart/Tutorial/meeting-coordination) | Not implemented |
-| `OP-03` Dynamic enterprise knowledge maintenance | Python, Elixir, OCaml | Candidate | [knowledge-maintenance](https://github.com/axisvela/praxo-core/tree/main/language/elixir/Tutorial/knowledge-maintenance), [office-qa](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/office-qa) | Not implemented |
-| `OP-04` Cross-system agentic RPA | Java, C#, Delphi | Candidate | [rpa-reconciliation](https://github.com/axisvela/praxo-core/tree/main/language/delphi/Tutorial/rpa-reconciliation) | Not implemented |
-| `OP-05` Recruiting and candidate matching | Ruby, PHP, Python | Candidate | [recruiting-match](https://github.com/axisvela/praxo-core/tree/main/language/ruby/Tutorial/recruiting-match) | Not implemented |
-| `OP-06` Personalized employee onboarding | Python, Dart, Swift | Candidate | [onboarding-plan](https://github.com/axisvela/praxo-core/tree/main/language/dart/Tutorial/onboarding-plan), [office-qa](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/office-qa) | Not implemented |
-| `OP-07` Executive operating brief | R, Julia, D | Candidate | [executive-brief](https://github.com/axisvela/praxo-core/tree/main/language/d/Tutorial/executive-brief) | Not implemented |
+| 目标 / Goal | 候选语言 / Targets | 目标状态 / Goal Status | 相关切片（语言/教程） / Related Slices (language/tutorial) |
+| --- | --- | --- | --- |
+| `OP-01` Internal IT and HR service desk | C#, PHP, PowerShell | Candidate | [csharp/order-review](https://github.com/axisvela/praxo-core/tree/main/language/csharp/Tutorial/order-review), [php/internal-service-desk](https://github.com/axisvela/praxo-core/tree/main/language/php/Tutorial/internal-service-desk), [powershell/windows-diagnostics](https://github.com/axisvela/praxo-core/tree/main/language/powershell/Tutorial/windows-diagnostics) |
+| `OP-02` Meeting lifecycle management | Dart, Swift, TypeScript | Candidate | [dart/meeting-coordination](https://github.com/axisvela/praxo-core/tree/main/language/dart/Tutorial/meeting-coordination) |
+| `OP-03` Dynamic enterprise knowledge maintenance | Python, Elixir, OCaml | Candidate | [elixir/knowledge-maintenance](https://github.com/axisvela/praxo-core/tree/main/language/elixir/Tutorial/knowledge-maintenance), [python/office-qa](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/office-qa) |
+| `OP-04` Cross-system agentic RPA | Java, C#, Delphi | Candidate | [delphi/rpa-reconciliation](https://github.com/axisvela/praxo-core/tree/main/language/delphi/Tutorial/rpa-reconciliation) |
+| `OP-05` Recruiting and candidate matching | Ruby, PHP, Python | Candidate | [ruby/recruiting-match](https://github.com/axisvela/praxo-core/tree/main/language/ruby/Tutorial/recruiting-match) |
+| `OP-06` Personalized employee onboarding | Python, Dart, Swift | Candidate | [dart/onboarding-plan](https://github.com/axisvela/praxo-core/tree/main/language/dart/Tutorial/onboarding-plan), [python/office-qa](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/office-qa) |
+| `OP-07` Executive operating brief | R, Julia, D | Candidate | [d/executive-brief](https://github.com/axisvela/praxo-core/tree/main/language/d/Tutorial/executive-brief) |
 
 | 教程 / Tutorial | 语言 / Language | 能力 / Capabilities | 相关目标 / Related Goals |
 | --- | --- | --- | --- |
@@ -91,15 +91,15 @@ Earlier themes: Knowledge Q&A and document assistant; Office productivity; Procu
 Candidate IDs: `CS-01`, `CS-02`, `CS-03`, `CS-04`, `CS-05`, `CS-06`, `CS-07`.
 Earlier themes: Customer service / contact center; Marketing content and segmentation; Sales / CRM; Media / content; Retail / e-commerce.
 
-| 目标 / Goal | 候选语言 / Targets | 目标状态 / Goal Status | 相关切片 / Related Slices | 完整实现 / Full Implementation |
-| --- | --- | --- | --- | --- |
-| `CS-01` Multimodal omnichannel customer service | TypeScript, C#, PHP | Candidate | [order-review](https://github.com/axisvela/praxo-core/tree/main/language/csharp/Tutorial/order-review), [order-review](https://github.com/axisvela/praxo-core/tree/main/language/java/Tutorial/order-review), [order-review](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/order-review), [customer-support](https://github.com/axisvela/praxo-core/tree/main/language/typescript/Tutorial/customer-support), [order-review](https://github.com/axisvela/praxo-core/tree/main/language/typescript/Tutorial/order-review) | Not implemented |
-| `CS-02` B2B prospecting and lead nurture | Ruby, PHP, Elixir | Candidate | [lead-nurture](https://github.com/axisvela/praxo-core/tree/main/language/php/Tutorial/lead-nurture), [lead-nurture](https://github.com/axisvela/praxo-core/tree/main/language/ruby/Tutorial/lead-nurture) | Not implemented |
-| `CS-03` Sales-call assistance and review | C#, Swift, TypeScript | Candidate | [sales-crm](https://github.com/axisvela/praxo-core/tree/main/language/csharp/Tutorial/sales-crm) | Not implemented |
-| `CS-04` Content marketing and publishing | Python, R, Dart | Candidate | [marketing-segmentation](https://github.com/axisvela/praxo-core/tree/main/language/r/Tutorial/marketing-segmentation) | Not implemented |
-| `CS-05` E-commerce pricing and replenishment | Java, PHP, Ruby | Candidate | [order-review](https://github.com/axisvela/praxo-core/tree/main/language/csharp/Tutorial/order-review), [order-review](https://github.com/axisvela/praxo-core/tree/main/language/java/Tutorial/order-review), [order-review](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/order-review), [order-review](https://github.com/axisvela/praxo-core/tree/main/language/typescript/Tutorial/order-review), [retail-replenishment](https://github.com/axisvela/praxo-core/tree/main/language/typescript/Tutorial/retail-replenishment) | Not implemented |
-| `CS-06` Churn warning and retention | R, Elixir, Julia | Candidate | [marketing-segmentation](https://github.com/axisvela/praxo-core/tree/main/language/r/Tutorial/marketing-segmentation) | Not implemented |
-| `CS-07` Cross-border localization | TypeScript, PHP, Perl | Candidate | [localization-draft](https://github.com/axisvela/praxo-core/tree/main/language/php/Tutorial/localization-draft), [localization-draft](https://github.com/axisvela/praxo-core/tree/main/language/typescript/Tutorial/localization-draft) | Not implemented |
+| 目标 / Goal | 候选语言 / Targets | 目标状态 / Goal Status | 相关切片（语言/教程） / Related Slices (language/tutorial) |
+| --- | --- | --- | --- |
+| `CS-01` Multimodal omnichannel customer service | TypeScript, C#, PHP | Candidate | [csharp/order-review](https://github.com/axisvela/praxo-core/tree/main/language/csharp/Tutorial/order-review), [java/order-review](https://github.com/axisvela/praxo-core/tree/main/language/java/Tutorial/order-review), [python/order-review](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/order-review), [typescript/customer-support](https://github.com/axisvela/praxo-core/tree/main/language/typescript/Tutorial/customer-support), [typescript/order-review](https://github.com/axisvela/praxo-core/tree/main/language/typescript/Tutorial/order-review) |
+| `CS-02` B2B prospecting and lead nurture | Ruby, PHP, Elixir | Candidate | [php/lead-nurture](https://github.com/axisvela/praxo-core/tree/main/language/php/Tutorial/lead-nurture), [ruby/lead-nurture](https://github.com/axisvela/praxo-core/tree/main/language/ruby/Tutorial/lead-nurture) |
+| `CS-03` Sales-call assistance and review | C#, Swift, TypeScript | Candidate | [csharp/sales-crm](https://github.com/axisvela/praxo-core/tree/main/language/csharp/Tutorial/sales-crm) |
+| `CS-04` Content marketing and publishing | Python, R, Dart | Candidate | [r/marketing-segmentation](https://github.com/axisvela/praxo-core/tree/main/language/r/Tutorial/marketing-segmentation) |
+| `CS-05` E-commerce pricing and replenishment | Java, PHP, Ruby | Candidate | [csharp/order-review](https://github.com/axisvela/praxo-core/tree/main/language/csharp/Tutorial/order-review), [java/order-review](https://github.com/axisvela/praxo-core/tree/main/language/java/Tutorial/order-review), [python/order-review](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/order-review), [typescript/order-review](https://github.com/axisvela/praxo-core/tree/main/language/typescript/Tutorial/order-review), [typescript/retail-replenishment](https://github.com/axisvela/praxo-core/tree/main/language/typescript/Tutorial/retail-replenishment) |
+| `CS-06` Churn warning and retention | R, Elixir, Julia | Candidate | [r/marketing-segmentation](https://github.com/axisvela/praxo-core/tree/main/language/r/Tutorial/marketing-segmentation) |
+| `CS-07` Cross-border localization | TypeScript, PHP, Perl | Candidate | [php/localization-draft](https://github.com/axisvela/praxo-core/tree/main/language/php/Tutorial/localization-draft), [typescript/localization-draft](https://github.com/axisvela/praxo-core/tree/main/language/typescript/Tutorial/localization-draft) |
 
 | 教程 / Tutorial | 语言 / Language | 能力 / Capabilities | 相关目标 / Related Goals |
 | --- | --- | --- | --- |
@@ -121,14 +121,14 @@ Earlier themes: Customer service / contact center; Marketing content and segment
 Candidate IDs: `FC-01`, `FC-02`, `FC-03`, `FC-04`, `FC-05`, `FC-06`.
 Earlier themes: Wealth / retail finance; Insurance claims; Legal / compliance.
 
-| 目标 / Goal | 候选语言 / Targets | 目标状态 / Goal Status | 相关切片 / Related Slices | 完整实现 / Full Implementation |
-| --- | --- | --- | --- | --- |
-| `FC-01` Investment research and financial statements | R, Julia, Java | Candidate | [wealth-service](https://github.com/axisvela/praxo-core/tree/main/language/java/Tutorial/wealth-service), [wealth-analysis](https://github.com/axisvela/praxo-core/tree/main/language/r/Tutorial/wealth-analysis) | Not implemented |
-| `FC-02` Quantitative execution and risk controls | C++, Rust, D | Candidate | [quant-risk](https://github.com/axisvela/praxo-core/tree/main/language/d/Tutorial/quant-risk), [wealth-service](https://github.com/axisvela/praxo-core/tree/main/language/java/Tutorial/wealth-service), [wealth-analysis](https://github.com/axisvela/praxo-core/tree/main/language/r/Tutorial/wealth-analysis) | Not implemented |
-| `FC-03` Credit diligence and fraud review | Java, COBOL, Python | Candidate | [batch-exception-review](https://github.com/axisvela/praxo-core/tree/main/language/cobol/Tutorial/batch-exception-review), [credit-diligence](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/credit-diligence) | Not implemented |
-| `FC-04` Tax planning and filing | COBOL, Java, Delphi | Candidate | [batch-exception-review](https://github.com/axisvela/praxo-core/tree/main/language/cobol/Tutorial/batch-exception-review) | Not implemented |
-| `FC-05` Contract lifecycle review | Python, OCaml, C# | Candidate | [contract-review](https://github.com/axisvela/praxo-core/tree/main/language/ocaml/Tutorial/contract-review), [legal-compliance](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/legal-compliance) | Not implemented |
-| `FC-06` Regulatory tracking and internal audit | Python, R, Perl | Candidate | [legal-compliance](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/legal-compliance) | Not implemented |
+| 目标 / Goal | 候选语言 / Targets | 目标状态 / Goal Status | 相关切片（语言/教程） / Related Slices (language/tutorial) |
+| --- | --- | --- | --- |
+| `FC-01` Investment research and financial statements | R, Julia, Java | Candidate | [java/wealth-service](https://github.com/axisvela/praxo-core/tree/main/language/java/Tutorial/wealth-service), [r/wealth-analysis](https://github.com/axisvela/praxo-core/tree/main/language/r/Tutorial/wealth-analysis) |
+| `FC-02` Quantitative execution and risk controls | C++, Rust, D | Candidate | [d/quant-risk](https://github.com/axisvela/praxo-core/tree/main/language/d/Tutorial/quant-risk), [java/wealth-service](https://github.com/axisvela/praxo-core/tree/main/language/java/Tutorial/wealth-service), [r/wealth-analysis](https://github.com/axisvela/praxo-core/tree/main/language/r/Tutorial/wealth-analysis) |
+| `FC-03` Credit diligence and fraud review | Java, COBOL, Python | Candidate | [cobol/batch-exception-review](https://github.com/axisvela/praxo-core/tree/main/language/cobol/Tutorial/batch-exception-review), [python/credit-diligence](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/credit-diligence) |
+| `FC-04` Tax planning and filing | COBOL, Java, Delphi | Candidate | [cobol/batch-exception-review](https://github.com/axisvela/praxo-core/tree/main/language/cobol/Tutorial/batch-exception-review) |
+| `FC-05` Contract lifecycle review | Python, OCaml, C# | Candidate | [ocaml/contract-review](https://github.com/axisvela/praxo-core/tree/main/language/ocaml/Tutorial/contract-review), [python/legal-compliance](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/legal-compliance) |
+| `FC-06` Regulatory tracking and internal audit | Python, R, Perl | Candidate | [python/legal-compliance](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/legal-compliance) |
 
 | 教程 / Tutorial | 语言 / Language | 能力 / Capabilities | 相关目标 / Related Goals |
 | --- | --- | --- | --- |
@@ -146,14 +146,14 @@ Earlier themes: Wealth / retail finance; Insurance claims; Legal / compliance.
 Candidate IDs: `SC-01`, `SC-02`, `SC-03`, `SC-04`, `SC-05`, `SC-06`.
 Earlier themes: Data platform.
 
-| 目标 / Goal | 候选语言 / Targets | 目标状态 / Goal Status | 相关切片 / Related Slices | 完整实现 / Full Implementation |
-| --- | --- | --- | --- | --- |
-| `SC-01` Literature review and hypotheses | Python, Julia, Haskell | Candidate | [literature-review](https://github.com/axisvela/praxo-core/tree/main/language/haskell/Tutorial/literature-review) | Not implemented |
-| `SC-02` Drug and molecular design | Python, Julia, C++ | Candidate | [molecule-screen](https://github.com/axisvela/praxo-core/tree/main/language/cpp/Tutorial/molecule-screen), [molecule-screen](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/molecule-screen) | Not implemented |
-| `SC-03` Self-driving laboratory | Julia, Rust, C | Candidate | [lab-loop](https://github.com/axisvela/praxo-core/tree/main/language/rust/Tutorial/lab-loop) | Not implemented |
-| `SC-04` Materials inverse design and simulation | Fortran, Julia, C++ | Candidate | [materials-design](https://github.com/axisvela/praxo-core/tree/main/language/cpp/Tutorial/materials-design), [simulation-metrics](https://github.com/axisvela/praxo-core/tree/main/language/fortran/Tutorial/simulation-metrics) | Not implemented |
-| `SC-05` Weather modeling and warnings | Fortran, R, Octave | Candidate | [signal-trends](https://github.com/axisvela/praxo-core/tree/main/language/matlab/Tutorial/signal-trends), [signal-trends](https://github.com/axisvela/praxo-core/tree/main/language/octave/Tutorial/signal-trends), [weather-anomaly](https://github.com/axisvela/praxo-core/tree/main/language/r/Tutorial/weather-anomaly) | Not implemented |
-| `SC-06` Research data cleaning and statistics | R, Julia, MATLAB | Candidate | [simulation-metrics](https://github.com/axisvela/praxo-core/tree/main/language/fortran/Tutorial/simulation-metrics), [experiment-comparison](https://github.com/axisvela/praxo-core/tree/main/language/julia/Tutorial/experiment-comparison), [data-quality](https://github.com/axisvela/praxo-core/tree/main/language/r/Tutorial/data-quality) | Not implemented |
+| 目标 / Goal | 候选语言 / Targets | 目标状态 / Goal Status | 相关切片（语言/教程） / Related Slices (language/tutorial) |
+| --- | --- | --- | --- |
+| `SC-01` Literature review and hypotheses | Python, Julia, Haskell | Candidate | [haskell/literature-review](https://github.com/axisvela/praxo-core/tree/main/language/haskell/Tutorial/literature-review) |
+| `SC-02` Drug and molecular design | Python, Julia, C++ | Candidate | [cpp/molecule-screen](https://github.com/axisvela/praxo-core/tree/main/language/cpp/Tutorial/molecule-screen), [python/molecule-screen](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/molecule-screen) |
+| `SC-03` Self-driving laboratory | Julia, Rust, C | Candidate | [rust/lab-loop](https://github.com/axisvela/praxo-core/tree/main/language/rust/Tutorial/lab-loop) |
+| `SC-04` Materials inverse design and simulation | Fortran, Julia, C++ | Candidate | [cpp/materials-design](https://github.com/axisvela/praxo-core/tree/main/language/cpp/Tutorial/materials-design), [fortran/simulation-metrics](https://github.com/axisvela/praxo-core/tree/main/language/fortran/Tutorial/simulation-metrics) |
+| `SC-05` Weather modeling and warnings | Fortran, R, Octave | Candidate | [matlab/signal-trends](https://github.com/axisvela/praxo-core/tree/main/language/matlab/Tutorial/signal-trends), [octave/signal-trends](https://github.com/axisvela/praxo-core/tree/main/language/octave/Tutorial/signal-trends), [r/weather-anomaly](https://github.com/axisvela/praxo-core/tree/main/language/r/Tutorial/weather-anomaly) |
+| `SC-06` Research data cleaning and statistics | R, Julia, MATLAB | Candidate | [fortran/simulation-metrics](https://github.com/axisvela/praxo-core/tree/main/language/fortran/Tutorial/simulation-metrics), [julia/experiment-comparison](https://github.com/axisvela/praxo-core/tree/main/language/julia/Tutorial/experiment-comparison), [r/data-quality](https://github.com/axisvela/praxo-core/tree/main/language/r/Tutorial/data-quality) |
 
 | 教程 / Tutorial | 语言 / Language | 能力 / Capabilities | 相关目标 / Related Goals |
 | --- | --- | --- | --- |
@@ -175,14 +175,14 @@ Earlier themes: Data platform.
 Candidate IDs: `IN-01`, `IN-02`, `IN-03`, `IN-04`, `IN-05`, `IN-06`.
 Earlier themes: Factory / manufacturing; Industrial automation; Consumer electronics; Logistics; Energy / grid.
 
-| 目标 / Goal | 候选语言 / Targets | 目标状态 / Goal Status | 相关切片 / Related Slices | 完整实现 / Full Implementation |
-| --- | --- | --- | --- | --- |
-| `IN-01` Predictive maintenance and scheduling | C++, Rust, Nim | Candidate | [device-diagnostics](https://github.com/axisvela/praxo-core/tree/main/language/c/Tutorial/device-diagnostics), [industrial-edge](https://github.com/axisvela/praxo-core/tree/main/language/cpp/Tutorial/industrial-edge), [signal-trends](https://github.com/axisvela/praxo-core/tree/main/language/matlab/Tutorial/signal-trends), [maintenance-triage](https://github.com/axisvela/praxo-core/tree/main/language/nim/Tutorial/maintenance-triage), [signal-trends](https://github.com/axisvela/praxo-core/tree/main/language/octave/Tutorial/signal-trends), [iot-gateway](https://github.com/axisvela/praxo-core/tree/main/language/rust/Tutorial/iot-gateway), [gateway-health](https://github.com/axisvela/praxo-core/tree/main/language/zig/Tutorial/gateway-health) | Not implemented |
-| `IN-02` Adaptive production scheduling | Erlang, C++, V | Candidate | [production-scheduling](https://github.com/axisvela/praxo-core/tree/main/language/v/Tutorial/production-scheduling) | Not implemented |
-| `IN-03` Supply-chain disruption and sourcing | Go, Java, Ruby | Candidate | [logistics-checkpoint](https://github.com/axisvela/praxo-core/tree/main/language/go/Tutorial/logistics-checkpoint) | Not implemented |
-| `IN-04` Microgrid dispatch and load balance | Julia, Fortran, Zig | Candidate | [gateway-health](https://github.com/axisvela/praxo-core/tree/main/language/zig/Tutorial/gateway-health) | Not implemented |
-| `IN-05` Engineering drawing review and BOM | C++, C#, OCaml | Candidate | [bom-review](https://github.com/axisvela/praxo-core/tree/main/language/ocaml/Tutorial/bom-review) | Not implemented |
-| `IN-06` Precision irrigation and crop protection | C, Lua, Nim | Candidate | [device-diagnostics](https://github.com/axisvela/praxo-core/tree/main/language/c/Tutorial/device-diagnostics), [host-embedding](https://github.com/axisvela/praxo-core/tree/main/language/lua/Tutorial/host-embedding), [irrigation-plan](https://github.com/axisvela/praxo-core/tree/main/language/lua/Tutorial/irrigation-plan), [iot-gateway](https://github.com/axisvela/praxo-core/tree/main/language/rust/Tutorial/iot-gateway) | Not implemented |
+| 目标 / Goal | 候选语言 / Targets | 目标状态 / Goal Status | 相关切片（语言/教程） / Related Slices (language/tutorial) |
+| --- | --- | --- | --- |
+| `IN-01` Predictive maintenance and scheduling | C++, Rust, Nim | Candidate | [c/device-diagnostics](https://github.com/axisvela/praxo-core/tree/main/language/c/Tutorial/device-diagnostics), [cpp/industrial-edge](https://github.com/axisvela/praxo-core/tree/main/language/cpp/Tutorial/industrial-edge), [matlab/signal-trends](https://github.com/axisvela/praxo-core/tree/main/language/matlab/Tutorial/signal-trends), [nim/maintenance-triage](https://github.com/axisvela/praxo-core/tree/main/language/nim/Tutorial/maintenance-triage), [octave/signal-trends](https://github.com/axisvela/praxo-core/tree/main/language/octave/Tutorial/signal-trends), [rust/iot-gateway](https://github.com/axisvela/praxo-core/tree/main/language/rust/Tutorial/iot-gateway), [zig/gateway-health](https://github.com/axisvela/praxo-core/tree/main/language/zig/Tutorial/gateway-health) |
+| `IN-02` Adaptive production scheduling | Erlang, C++, V | Candidate | [v/production-scheduling](https://github.com/axisvela/praxo-core/tree/main/language/v/Tutorial/production-scheduling) |
+| `IN-03` Supply-chain disruption and sourcing | Go, Java, Ruby | Candidate | [go/logistics-checkpoint](https://github.com/axisvela/praxo-core/tree/main/language/go/Tutorial/logistics-checkpoint) |
+| `IN-04` Microgrid dispatch and load balance | Julia, Fortran, Zig | Candidate | [zig/gateway-health](https://github.com/axisvela/praxo-core/tree/main/language/zig/Tutorial/gateway-health) |
+| `IN-05` Engineering drawing review and BOM | C++, C#, OCaml | Candidate | [ocaml/bom-review](https://github.com/axisvela/praxo-core/tree/main/language/ocaml/Tutorial/bom-review) |
+| `IN-06` Precision irrigation and crop protection | C, Lua, Nim | Candidate | [c/device-diagnostics](https://github.com/axisvela/praxo-core/tree/main/language/c/Tutorial/device-diagnostics), [lua/host-embedding](https://github.com/axisvela/praxo-core/tree/main/language/lua/Tutorial/host-embedding), [lua/irrigation-plan](https://github.com/axisvela/praxo-core/tree/main/language/lua/Tutorial/irrigation-plan), [rust/iot-gateway](https://github.com/axisvela/praxo-core/tree/main/language/rust/Tutorial/iot-gateway) |
 
 | 教程 / Tutorial | 语言 / Language | 能力 / Capabilities | 相关目标 / Related Goals |
 | --- | --- | --- | --- |
@@ -204,13 +204,13 @@ Earlier themes: Factory / manufacturing; Industrial automation; Consumer electro
 Candidate IDs: `HC-01`, `HC-02`, `HC-03`, `HC-04`, `HC-05`.
 Earlier themes: Healthcare scheduling.
 
-| 目标 / Goal | 候选语言 / Targets | 目标状态 / Goal Status | 相关切片 / Related Slices | 完整实现 / Full Implementation |
-| --- | --- | --- | --- | --- |
-| `HC-01` Clinical and MDT support | Python, Java, R | Candidate | [clinical-guidelines](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/clinical-guidelines) | Not implemented |
-| `HC-02` Chronic-care follow-up | Swift, Dart, Objective-C | Candidate | [chronic-care](https://github.com/axisvela/praxo-core/tree/main/language/dart/Tutorial/chronic-care) | Not implemented |
-| `HC-03` Clinical-trial recruitment | Python, Java, C# | Candidate | [trial-screening](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/trial-screening) | Not implemented |
-| `HC-04` Record quality and DRG/DIP coding | Java, COBOL, C# | Candidate | [medical-coding](https://github.com/axisvela/praxo-core/tree/main/language/csharp/Tutorial/medical-coding) | Not implemented |
-| `HC-05` Mental-health support and CBT exercises | Swift, Dart, Python | Candidate | [cbt-exercise](https://github.com/axisvela/praxo-core/tree/main/language/dart/Tutorial/cbt-exercise), [cbt-exercise](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/cbt-exercise) | Not implemented |
+| 目标 / Goal | 候选语言 / Targets | 目标状态 / Goal Status | 相关切片（语言/教程） / Related Slices (language/tutorial) |
+| --- | --- | --- | --- |
+| `HC-01` Clinical and MDT support | Python, Java, R | Candidate | [python/clinical-guidelines](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/clinical-guidelines) |
+| `HC-02` Chronic-care follow-up | Swift, Dart, Objective-C | Candidate | [dart/chronic-care](https://github.com/axisvela/praxo-core/tree/main/language/dart/Tutorial/chronic-care) |
+| `HC-03` Clinical-trial recruitment | Python, Java, C# | Candidate | [python/trial-screening](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/trial-screening) |
+| `HC-04` Record quality and DRG/DIP coding | Java, COBOL, C# | Candidate | [csharp/medical-coding](https://github.com/axisvela/praxo-core/tree/main/language/csharp/Tutorial/medical-coding) |
+| `HC-05` Mental-health support and CBT exercises | Swift, Dart, Python | Candidate | [dart/cbt-exercise](https://github.com/axisvela/praxo-core/tree/main/language/dart/Tutorial/cbt-exercise), [python/cbt-exercise](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/cbt-exercise) |
 
 | 教程 / Tutorial | 语言 / Language | 能力 / Capabilities | 相关目标 / Related Goals |
 | --- | --- | --- | --- |
@@ -227,13 +227,13 @@ Earlier themes: Healthcare scheduling.
 Candidate IDs: `PE-01`, `PE-02`, `PE-03`, `PE-04`, `PE-05`.
 Earlier themes: Robotics; Education / tutoring; Travel / booking.
 
-| 目标 / Goal | 候选语言 / Targets | 目标状态 / Goal Status | 相关切片 / Related Slices | 完整实现 / Full Implementation |
-| --- | --- | --- | --- | --- |
-| `PE-01` Socratic learning tutor | Python, TypeScript, Haskell | Candidate | [education-tutoring](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/education-tutoring) | Not implemented |
-| `PE-02` Travel and life concierge | TypeScript, Dart, Swift | Candidate | [travel-booking](https://github.com/axisvela/praxo-core/tree/main/language/typescript/Tutorial/travel-booking) | Not implemented |
-| `PE-03` Personal information and privacy agent | Rust, Go, Objective-C | Candidate | [evidence-vault](https://github.com/axisvela/praxo-core/tree/main/language/go/Tutorial/evidence-vault), [soc-alert-triage](https://github.com/axisvela/praxo-core/tree/main/language/go/Tutorial/soc-alert-triage), [privacy-agent](https://github.com/axisvela/praxo-core/tree/main/language/objc/Tutorial/privacy-agent) | Not implemented |
-| `PE-04` Humanoid and household robotics | C++, Rust, Zig | Candidate | [household-robot](https://github.com/axisvela/praxo-core/tree/main/language/rust/Tutorial/household-robot) | Not implemented |
-| `PE-05` Game NPC and dynamic narrative | Lua, C, V | Candidate | [host-embedding](https://github.com/axisvela/praxo-core/tree/main/language/lua/Tutorial/host-embedding) | Not implemented |
+| 目标 / Goal | 候选语言 / Targets | 目标状态 / Goal Status | 相关切片（语言/教程） / Related Slices (language/tutorial) |
+| --- | --- | --- | --- |
+| `PE-01` Socratic learning tutor | Python, TypeScript, Haskell | Candidate | [python/education-tutoring](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/education-tutoring) |
+| `PE-02` Travel and life concierge | TypeScript, Dart, Swift | Candidate | [typescript/travel-booking](https://github.com/axisvela/praxo-core/tree/main/language/typescript/Tutorial/travel-booking) |
+| `PE-03` Personal information and privacy agent | Rust, Go, Objective-C | Candidate | [go/evidence-vault](https://github.com/axisvela/praxo-core/tree/main/language/go/Tutorial/evidence-vault), [go/soc-alert-triage](https://github.com/axisvela/praxo-core/tree/main/language/go/Tutorial/soc-alert-triage), [objc/privacy-agent](https://github.com/axisvela/praxo-core/tree/main/language/objc/Tutorial/privacy-agent) |
+| `PE-04` Humanoid and household robotics | C++, Rust, Zig | Candidate | [rust/household-robot](https://github.com/axisvela/praxo-core/tree/main/language/rust/Tutorial/household-robot) |
+| `PE-05` Game NPC and dynamic narrative | Lua, C, V | Candidate | [lua/host-embedding](https://github.com/axisvela/praxo-core/tree/main/language/lua/Tutorial/host-embedding) |
 
 | 教程 / Tutorial | 语言 / Language | 能力 / Capabilities | 相关目标 / Related Goals |
 | --- | --- | --- | --- |
@@ -250,15 +250,15 @@ Earlier themes: Robotics; Education / tutoring; Travel / booking.
 Candidate IDs: `CY-01`, `CY-02`, `CY-03`, `CY-04`, `CY-05`, `CY-06`, `CY-07`.
 Earlier themes: -.
 
-| 目标 / Goal | 候选语言 / Targets | 目标状态 / Goal Status | 相关切片 / Related Slices | 完整实现 / Full Implementation |
-| --- | --- | --- | --- | --- |
-| `CY-01` Penetration testing and red-team exercises | Rust, Go, Python | Candidate | [pentest-lab-review](https://github.com/axisvela/praxo-core/tree/main/language/go/Tutorial/pentest-lab-review) | Not implemented |
-| `CY-02` SOC alert analysis and SOAR response | Go, Elixir, Erlang | Candidate | [soc-alert-triage](https://github.com/axisvela/praxo-core/tree/main/language/go/Tutorial/soc-alert-triage) | Not implemented |
-| `CY-03` Threat hunting and TTP reconstruction | Perl, Rust, Python | Candidate | [log-triage](https://github.com/axisvela/praxo-core/tree/main/language/perl/Tutorial/log-triage) | Not implemented |
-| `CY-04` Phishing detection and awareness exercises | Python, TypeScript, C# | Candidate | [phishing-awareness](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/phishing-awareness) | Not implemented |
-| `CY-05` Zero-trust policy tuning | Java, C#, Go | Candidate | [zero-trust-review](https://github.com/axisvela/praxo-core/tree/main/language/go/Tutorial/zero-trust-review) | Not implemented |
-| `CY-06` DLP and privacy redaction | Go, Rust, Objective-C | Candidate | [soc-alert-triage](https://github.com/axisvela/praxo-core/tree/main/language/go/Tutorial/soc-alert-triage) | Not implemented |
-| `CY-07` Open-source supply-chain tampering monitoring | Rust, OCaml, Ruby | Candidate | [supply-chain-review](https://github.com/axisvela/praxo-core/tree/main/language/ruby/Tutorial/supply-chain-review) | Not implemented |
+| 目标 / Goal | 候选语言 / Targets | 目标状态 / Goal Status | 相关切片（语言/教程） / Related Slices (language/tutorial) |
+| --- | --- | --- | --- |
+| `CY-01` Penetration testing and red-team exercises | Rust, Go, Python | Candidate | [go/pentest-lab-review](https://github.com/axisvela/praxo-core/tree/main/language/go/Tutorial/pentest-lab-review) |
+| `CY-02` SOC alert analysis and SOAR response | Go, Elixir, Erlang | Candidate | [go/soc-alert-triage](https://github.com/axisvela/praxo-core/tree/main/language/go/Tutorial/soc-alert-triage) |
+| `CY-03` Threat hunting and TTP reconstruction | Perl, Rust, Python | Candidate | [perl/log-triage](https://github.com/axisvela/praxo-core/tree/main/language/perl/Tutorial/log-triage) |
+| `CY-04` Phishing detection and awareness exercises | Python, TypeScript, C# | Candidate | [python/phishing-awareness](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/phishing-awareness) |
+| `CY-05` Zero-trust policy tuning | Java, C#, Go | Candidate | [go/zero-trust-review](https://github.com/axisvela/praxo-core/tree/main/language/go/Tutorial/zero-trust-review) |
+| `CY-06` DLP and privacy redaction | Go, Rust, Objective-C | Candidate | [go/soc-alert-triage](https://github.com/axisvela/praxo-core/tree/main/language/go/Tutorial/soc-alert-triage) |
+| `CY-07` Open-source supply-chain tampering monitoring | Rust, OCaml, Ruby | Candidate | [ruby/supply-chain-review](https://github.com/axisvela/praxo-core/tree/main/language/ruby/Tutorial/supply-chain-review) |
 
 | 教程 / Tutorial | 语言 / Language | 能力 / Capabilities | 相关目标 / Related Goals |
 | --- | --- | --- | --- |
@@ -274,15 +274,15 @@ Earlier themes: -.
 Candidate IDs: `CT-01`, `CT-02`, `CT-03`, `CT-04`, `CT-05`, `CT-06`, `CT-07`.
 Earlier themes: -.
 
-| 目标 / Goal | 候选语言 / Targets | 目标状态 / Goal Status | 相关切片 / Related Slices | 完整实现 / Full Implementation |
-| --- | --- | --- | --- | --- |
-| `CT-01` City-wide adaptive traffic signals | Erlang, C++, Julia | Candidate | [traffic-signal-plan](https://github.com/axisvela/praxo-core/tree/main/language/cpp/Tutorial/traffic-signal-plan) | Not implemented |
-| `CT-02` Utility-pipeline leak localization and dispatch | Fortran, Rust, Nim | Candidate | [signal-trends](https://github.com/axisvela/praxo-core/tree/main/language/matlab/Tutorial/signal-trends), [signal-trends](https://github.com/axisvela/praxo-core/tree/main/language/octave/Tutorial/signal-trends), [leak-localization](https://github.com/axisvela/praxo-core/tree/main/language/rust/Tutorial/leak-localization) | Not implemented |
-| `CT-03` Cross-agency public-service approvals | Java, C#, PHP | Candidate | [public-approval](https://github.com/axisvela/praxo-core/tree/main/language/php/Tutorial/public-approval) | Not implemented |
-| `CT-04` Emergency command and resource allocation | Go, Julia, Erlang | Candidate | [emergency-route-plan](https://github.com/axisvela/praxo-core/tree/main/language/go/Tutorial/emergency-route-plan) | Not implemented |
-| `CT-05` Pollution source tracing and inspection support | R, Fortran, Python | Candidate | [pollution-tracing](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/pollution-tracing) | Not implemented |
-| `CT-06` Waste collection and route optimization | Julia, Dart, V | Candidate | [waste-collection](https://github.com/axisvela/praxo-core/tree/main/language/dart/Tutorial/waste-collection) | Not implemented |
-| `CT-07` Public-budget execution and performance review | R, COBOL, Java | Candidate | [budget-review](https://github.com/axisvela/praxo-core/tree/main/language/r/Tutorial/budget-review) | Not implemented |
+| 目标 / Goal | 候选语言 / Targets | 目标状态 / Goal Status | 相关切片（语言/教程） / Related Slices (language/tutorial) |
+| --- | --- | --- | --- |
+| `CT-01` City-wide adaptive traffic signals | Erlang, C++, Julia | Candidate | [cpp/traffic-signal-plan](https://github.com/axisvela/praxo-core/tree/main/language/cpp/Tutorial/traffic-signal-plan) |
+| `CT-02` Utility-pipeline leak localization and dispatch | Fortran, Rust, Nim | Candidate | [matlab/signal-trends](https://github.com/axisvela/praxo-core/tree/main/language/matlab/Tutorial/signal-trends), [octave/signal-trends](https://github.com/axisvela/praxo-core/tree/main/language/octave/Tutorial/signal-trends), [rust/leak-localization](https://github.com/axisvela/praxo-core/tree/main/language/rust/Tutorial/leak-localization) |
+| `CT-03` Cross-agency public-service approvals | Java, C#, PHP | Candidate | [php/public-approval](https://github.com/axisvela/praxo-core/tree/main/language/php/Tutorial/public-approval) |
+| `CT-04` Emergency command and resource allocation | Go, Julia, Erlang | Candidate | [go/emergency-route-plan](https://github.com/axisvela/praxo-core/tree/main/language/go/Tutorial/emergency-route-plan) |
+| `CT-05` Pollution source tracing and inspection support | R, Fortran, Python | Candidate | [python/pollution-tracing](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/pollution-tracing) |
+| `CT-06` Waste collection and route optimization | Julia, Dart, V | Candidate | [dart/waste-collection](https://github.com/axisvela/praxo-core/tree/main/language/dart/Tutorial/waste-collection) |
+| `CT-07` Public-budget execution and performance review | R, COBOL, Java | Candidate | [r/budget-review](https://github.com/axisvela/praxo-core/tree/main/language/r/Tutorial/budget-review) |
 
 | 教程 / Tutorial | 语言 / Language | 能力 / Capabilities | 相关目标 / Related Goals |
 | --- | --- | --- | --- |
@@ -301,15 +301,15 @@ Earlier themes: -.
 Candidate IDs: `TL-01`, `TL-02`, `TL-03`, `TL-04`, `TL-05`, `TL-06`, `TL-07`.
 Earlier themes: -.
 
-| 目标 / Goal | 候选语言 / Targets | 目标状态 / Goal Status | 相关切片 / Related Slices | 完整实现 / Full Implementation |
-| --- | --- | --- | --- | --- |
-| `TL-01` Drone-fleet inspection and airspace conflict resolution | Rust, C++, Zig | Candidate | [drone-fleet-plan](https://github.com/axisvela/praxo-core/tree/main/language/zig/Tutorial/drone-fleet-plan) | Not implemented |
-| `TL-02` Container-yard and quay-crane scheduling | Erlang, C++, Java | Candidate | [container-yard](https://github.com/axisvela/praxo-core/tree/main/language/cpp/Tutorial/container-yard) | Not implemented |
-| `TL-03` Ocean routing and fuel optimization | Fortran, Julia, C++ | Candidate | [ocean-routing](https://github.com/axisvela/praxo-core/tree/main/language/cpp/Tutorial/ocean-routing) | Not implemented |
-| `TL-04` Cold-chain temperature and cargo-risk alerts | Rust, Nim, Octave | Candidate | [signal-trends](https://github.com/axisvela/praxo-core/tree/main/language/matlab/Tutorial/signal-trends), [signal-trends](https://github.com/axisvela/praxo-core/tree/main/language/octave/Tutorial/signal-trends), [cold-chain](https://github.com/axisvela/praxo-core/tree/main/language/rust/Tutorial/cold-chain) | Not implemented |
-| `TL-05` Multimodal customs documentation and rerouting | Java, Go, PHP | Candidate | [customs-reroute](https://github.com/axisvela/praxo-core/tree/main/language/go/Tutorial/customs-reroute), [logistics-checkpoint](https://github.com/axisvela/praxo-core/tree/main/language/go/Tutorial/logistics-checkpoint), [customs-reroute](https://github.com/axisvela/praxo-core/tree/main/language/php/Tutorial/customs-reroute) | Not implemented |
-| `TL-06` Autonomous-fleet remote assistance and map updates | C++, Rust, D | Candidate | [fleet-map](https://github.com/axisvela/praxo-core/tree/main/language/d/Tutorial/fleet-map) | Not implemented |
-| `TL-07` Airport gates and disruption recovery | Java, Julia, C# | Candidate | [airport-recovery](https://github.com/axisvela/praxo-core/tree/main/language/csharp/Tutorial/airport-recovery), [travel-booking](https://github.com/axisvela/praxo-core/tree/main/language/typescript/Tutorial/travel-booking) | Not implemented |
+| 目标 / Goal | 候选语言 / Targets | 目标状态 / Goal Status | 相关切片（语言/教程） / Related Slices (language/tutorial) |
+| --- | --- | --- | --- |
+| `TL-01` Drone-fleet inspection and airspace conflict resolution | Rust, C++, Zig | Candidate | [zig/drone-fleet-plan](https://github.com/axisvela/praxo-core/tree/main/language/zig/Tutorial/drone-fleet-plan) |
+| `TL-02` Container-yard and quay-crane scheduling | Erlang, C++, Java | Candidate | [cpp/container-yard](https://github.com/axisvela/praxo-core/tree/main/language/cpp/Tutorial/container-yard) |
+| `TL-03` Ocean routing and fuel optimization | Fortran, Julia, C++ | Candidate | [cpp/ocean-routing](https://github.com/axisvela/praxo-core/tree/main/language/cpp/Tutorial/ocean-routing) |
+| `TL-04` Cold-chain temperature and cargo-risk alerts | Rust, Nim, Octave | Candidate | [matlab/signal-trends](https://github.com/axisvela/praxo-core/tree/main/language/matlab/Tutorial/signal-trends), [octave/signal-trends](https://github.com/axisvela/praxo-core/tree/main/language/octave/Tutorial/signal-trends), [rust/cold-chain](https://github.com/axisvela/praxo-core/tree/main/language/rust/Tutorial/cold-chain) |
+| `TL-05` Multimodal customs documentation and rerouting | Java, Go, PHP | Candidate | [go/customs-reroute](https://github.com/axisvela/praxo-core/tree/main/language/go/Tutorial/customs-reroute), [go/logistics-checkpoint](https://github.com/axisvela/praxo-core/tree/main/language/go/Tutorial/logistics-checkpoint), [php/customs-reroute](https://github.com/axisvela/praxo-core/tree/main/language/php/Tutorial/customs-reroute) |
+| `TL-06` Autonomous-fleet remote assistance and map updates | C++, Rust, D | Candidate | [d/fleet-map](https://github.com/axisvela/praxo-core/tree/main/language/d/Tutorial/fleet-map) |
+| `TL-07` Airport gates and disruption recovery | Java, Julia, C# | Candidate | [csharp/airport-recovery](https://github.com/axisvela/praxo-core/tree/main/language/csharp/Tutorial/airport-recovery), [typescript/travel-booking](https://github.com/axisvela/praxo-core/tree/main/language/typescript/Tutorial/travel-booking) |
 
 | 教程 / Tutorial | 语言 / Language | 能力 / Capabilities | 相关目标 / Related Goals |
 | --- | --- | --- | --- |
@@ -331,15 +331,15 @@ Earlier themes: -.
 Candidate IDs: `MD-01`, `MD-02`, `MD-03`, `MD-04`, `MD-05`, `MD-06`, `MD-07`.
 Earlier themes: -.
 
-| 目标 / Goal | 候选语言 / Targets | 目标状态 / Goal Status | 相关切片 / Related Slices | 完整实现 / Full Implementation |
-| --- | --- | --- | --- | --- |
-| `MD-01` Film storyboards and virtual-production previs | Lua, C++, TypeScript | Candidate | [storyboard-previs](https://github.com/axisvela/praxo-core/tree/main/language/lua/Tutorial/storyboard-previs) | Not implemented |
-| `MD-02` News fact-checking and source verification | Python, Haskell, Perl | Candidate | [news-factcheck](https://github.com/axisvela/praxo-core/tree/main/language/perl/Tutorial/news-factcheck), [office-qa](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/office-qa) | Not implemented |
-| `MD-03` Open-world game ecosystem simulation | Lua, C, V | Candidate | [host-embedding](https://github.com/axisvela/praxo-core/tree/main/language/lua/Tutorial/host-embedding), [world-economy](https://github.com/axisvela/praxo-core/tree/main/language/lua/Tutorial/world-economy) | Not implemented |
-| `MD-04` Dubbing lip-sync and cultural localization | Python, Swift, C++ | Candidate | [dubbing-plan](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/dubbing-plan) | Not implemented |
-| `MD-05` Industrial design and 3D topology generation | C++, Julia, Fortran | Candidate | [mesh-review](https://github.com/axisvela/praxo-core/tree/main/language/cpp/Tutorial/mesh-review) | Not implemented |
-| `MD-06` Audiobook and audio-drama production | Python, Dart, Swift | Candidate | [audiobook-production](https://github.com/axisvela/praxo-core/tree/main/language/dart/Tutorial/audiobook-production) | Not implemented |
-| `MD-07` Digital-presenter live-show direction | TypeScript, Elixir, Lua | Candidate | [live-show](https://github.com/axisvela/praxo-core/tree/main/language/lua/Tutorial/live-show) | Not implemented |
+| 目标 / Goal | 候选语言 / Targets | 目标状态 / Goal Status | 相关切片（语言/教程） / Related Slices (language/tutorial) |
+| --- | --- | --- | --- |
+| `MD-01` Film storyboards and virtual-production previs | Lua, C++, TypeScript | Candidate | [lua/storyboard-previs](https://github.com/axisvela/praxo-core/tree/main/language/lua/Tutorial/storyboard-previs) |
+| `MD-02` News fact-checking and source verification | Python, Haskell, Perl | Candidate | [perl/news-factcheck](https://github.com/axisvela/praxo-core/tree/main/language/perl/Tutorial/news-factcheck), [python/office-qa](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/office-qa) |
+| `MD-03` Open-world game ecosystem simulation | Lua, C, V | Candidate | [lua/host-embedding](https://github.com/axisvela/praxo-core/tree/main/language/lua/Tutorial/host-embedding), [lua/world-economy](https://github.com/axisvela/praxo-core/tree/main/language/lua/Tutorial/world-economy) |
+| `MD-04` Dubbing lip-sync and cultural localization | Python, Swift, C++ | Candidate | [python/dubbing-plan](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/dubbing-plan) |
+| `MD-05` Industrial design and 3D topology generation | C++, Julia, Fortran | Candidate | [cpp/mesh-review](https://github.com/axisvela/praxo-core/tree/main/language/cpp/Tutorial/mesh-review) |
+| `MD-06` Audiobook and audio-drama production | Python, Dart, Swift | Candidate | [dart/audiobook-production](https://github.com/axisvela/praxo-core/tree/main/language/dart/Tutorial/audiobook-production) |
+| `MD-07` Digital-presenter live-show direction | TypeScript, Elixir, Lua | Candidate | [lua/live-show](https://github.com/axisvela/praxo-core/tree/main/language/lua/Tutorial/live-show) |
 
 | 教程 / Tutorial | 语言 / Language | 能力 / Capabilities | 相关目标 / Related Goals |
 | --- | --- | --- | --- |
@@ -358,13 +358,13 @@ Earlier themes: -.
 Candidate IDs: `LJ-01`, `LJ-02`, `LJ-03`, `LJ-04`, `LJ-05`.
 Earlier themes: -.
 
-| 目标 / Goal | 候选语言 / Targets | 目标状态 / Goal Status | 相关切片 / Related Slices | 完整实现 / Full Implementation |
-| --- | --- | --- | --- | --- |
-| `LJ-01` Litigation evidence timelines and examination outlines | Python, OCaml, Go | Candidate | [evidence-vault](https://github.com/axisvela/praxo-core/tree/main/language/go/Tutorial/evidence-vault), [litigation-timeline](https://github.com/axisvela/praxo-core/tree/main/language/go/Tutorial/litigation-timeline) | Not implemented |
-| `LJ-02` Patent search FTO and portfolio analysis | Python, Java, Haskell | Candidate | [patent-fto](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/patent-fto) | Not implemented |
-| `LJ-03` Commercial due diligence | Java, C#, Ruby | Candidate | [due-diligence](https://github.com/axisvela/praxo-core/tree/main/language/ruby/Tutorial/due-diligence) | Not implemented |
-| `LJ-04` Precedent retrieval and legal-document drafting | Python, Java, OCaml | Candidate | [legal-compliance](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/legal-compliance), [precedent-outline](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/precedent-outline) | Not implemented |
-| `LJ-05` Copyright monitoring and rights-enforcement workflow | Rust, PHP, TypeScript | Candidate | [copyright-evidence](https://github.com/axisvela/praxo-core/tree/main/language/php/Tutorial/copyright-evidence) | Not implemented |
+| 目标 / Goal | 候选语言 / Targets | 目标状态 / Goal Status | 相关切片（语言/教程） / Related Slices (language/tutorial) |
+| --- | --- | --- | --- |
+| `LJ-01` Litigation evidence timelines and examination outlines | Python, OCaml, Go | Candidate | [go/evidence-vault](https://github.com/axisvela/praxo-core/tree/main/language/go/Tutorial/evidence-vault), [go/litigation-timeline](https://github.com/axisvela/praxo-core/tree/main/language/go/Tutorial/litigation-timeline) |
+| `LJ-02` Patent search FTO and portfolio analysis | Python, Java, Haskell | Candidate | [python/patent-fto](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/patent-fto) |
+| `LJ-03` Commercial due diligence | Java, C#, Ruby | Candidate | [ruby/due-diligence](https://github.com/axisvela/praxo-core/tree/main/language/ruby/Tutorial/due-diligence) |
+| `LJ-04` Precedent retrieval and legal-document drafting | Python, Java, OCaml | Candidate | [python/legal-compliance](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/legal-compliance), [python/precedent-outline](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/precedent-outline) |
+| `LJ-05` Copyright monitoring and rights-enforcement workflow | Rust, PHP, TypeScript | Candidate | [php/copyright-evidence](https://github.com/axisvela/praxo-core/tree/main/language/php/Tutorial/copyright-evidence) |
 
 | 教程 / Tutorial | 语言 / Language | 能力 / Capabilities | 相关目标 / Related Goals |
 | --- | --- | --- | --- |
@@ -381,13 +381,13 @@ Earlier themes: -.
 Candidate IDs: `BE-01`, `BE-02`, `BE-03`, `BE-04`, `BE-05`.
 Earlier themes: -.
 
-| 目标 / Goal | 候选语言 / Targets | 目标状态 / Goal Status | 相关切片 / Related Slices | 完整实现 / Full Implementation |
-| --- | --- | --- | --- | --- |
-| `BE-01` Construction safety inspection and remediation review | C++, Rust, C# | Candidate | [construction-safety](https://github.com/axisvela/praxo-core/tree/main/language/rust/Tutorial/construction-safety) | Not implemented |
-| `BE-02` Commercial-building HVAC and lighting management | Julia, C, Delphi | Candidate | [hvac-settings](https://github.com/axisvela/praxo-core/tree/main/language/delphi/Tutorial/hvac-settings) | Not implemented |
-| `BE-03` Autonomous mining and slope-risk warning | Fortran, Rust, C++ | Candidate | [mining-slope](https://github.com/axisvela/praxo-core/tree/main/language/rust/Tutorial/mining-slope) | Not implemented |
-| `BE-04` Tender drafting and bid-collusion review | Java, PHP, COBOL | Candidate | [tender-review](https://github.com/axisvela/praxo-core/tree/main/language/php/Tutorial/tender-review) | Not implemented |
-| `BE-05` Property-site assessment and rental forecasting | R, Julia, D | Candidate | [property-forecast](https://github.com/axisvela/praxo-core/tree/main/language/d/Tutorial/property-forecast), [property-forecast](https://github.com/axisvela/praxo-core/tree/main/language/r/Tutorial/property-forecast) | Not implemented |
+| 目标 / Goal | 候选语言 / Targets | 目标状态 / Goal Status | 相关切片（语言/教程） / Related Slices (language/tutorial) |
+| --- | --- | --- | --- |
+| `BE-01` Construction safety inspection and remediation review | C++, Rust, C# | Candidate | [rust/construction-safety](https://github.com/axisvela/praxo-core/tree/main/language/rust/Tutorial/construction-safety) |
+| `BE-02` Commercial-building HVAC and lighting management | Julia, C, Delphi | Candidate | [delphi/hvac-settings](https://github.com/axisvela/praxo-core/tree/main/language/delphi/Tutorial/hvac-settings) |
+| `BE-03` Autonomous mining and slope-risk warning | Fortran, Rust, C++ | Candidate | [rust/mining-slope](https://github.com/axisvela/praxo-core/tree/main/language/rust/Tutorial/mining-slope) |
+| `BE-04` Tender drafting and bid-collusion review | Java, PHP, COBOL | Candidate | [php/tender-review](https://github.com/axisvela/praxo-core/tree/main/language/php/Tutorial/tender-review) |
+| `BE-05` Property-site assessment and rental forecasting | R, Julia, D | Candidate | [d/property-forecast](https://github.com/axisvela/praxo-core/tree/main/language/d/Tutorial/property-forecast), [r/property-forecast](https://github.com/axisvela/praxo-core/tree/main/language/r/Tutorial/property-forecast) |
 
 | 教程 / Tutorial | 语言 / Language | 能力 / Capabilities | 相关目标 / Related Goals |
 | --- | --- | --- | --- |
@@ -403,13 +403,13 @@ Earlier themes: -.
 Candidate IDs: `AE-01`, `AE-02`, `AE-03`, `AE-04`, `AE-05`.
 Earlier themes: -.
 
-| 目标 / Goal | 候选语言 / Targets | 目标状态 / Goal Status | 相关切片 / Related Slices | 完整实现 / Full Implementation |
-| --- | --- | --- | --- | --- |
-| `AE-01` Livestock monitoring and precision feeding | C, Nim, Rust | Candidate | [livestock-monitor](https://github.com/axisvela/praxo-core/tree/main/language/rust/Tutorial/livestock-monitor) | Not implemented |
-| `AE-02` Forest-fire monitoring and spread simulation | Fortran, Julia, R | Candidate | [fire-spread](https://github.com/axisvela/praxo-core/tree/main/language/r/Tutorial/fire-spread) | Not implemented |
-| `AE-03` Aquaculture water quality and feeding | Lua, C, Octave | Candidate | [aquaculture-water](https://github.com/axisvela/praxo-core/tree/main/language/lua/Tutorial/aquaculture-water), [host-embedding](https://github.com/axisvela/praxo-core/tree/main/language/lua/Tutorial/host-embedding) | Not implemented |
-| `AE-04` Agricultural hedging and production-sales planning | R, Julia, COBOL | Candidate | [hedge-plan](https://github.com/axisvela/praxo-core/tree/main/language/r/Tutorial/hedge-plan) | Not implemented |
-| `AE-05` Biodiversity monitoring and anti-poaching alerts | Python, Rust, Zig | Candidate | [biodiversity-alerts](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/biodiversity-alerts) | Not implemented |
+| 目标 / Goal | 候选语言 / Targets | 目标状态 / Goal Status | 相关切片（语言/教程） / Related Slices (language/tutorial) |
+| --- | --- | --- | --- |
+| `AE-01` Livestock monitoring and precision feeding | C, Nim, Rust | Candidate | [rust/livestock-monitor](https://github.com/axisvela/praxo-core/tree/main/language/rust/Tutorial/livestock-monitor) |
+| `AE-02` Forest-fire monitoring and spread simulation | Fortran, Julia, R | Candidate | [r/fire-spread](https://github.com/axisvela/praxo-core/tree/main/language/r/Tutorial/fire-spread) |
+| `AE-03` Aquaculture water quality and feeding | Lua, C, Octave | Candidate | [lua/aquaculture-water](https://github.com/axisvela/praxo-core/tree/main/language/lua/Tutorial/aquaculture-water), [lua/host-embedding](https://github.com/axisvela/praxo-core/tree/main/language/lua/Tutorial/host-embedding) |
+| `AE-04` Agricultural hedging and production-sales planning | R, Julia, COBOL | Candidate | [r/hedge-plan](https://github.com/axisvela/praxo-core/tree/main/language/r/Tutorial/hedge-plan) |
+| `AE-05` Biodiversity monitoring and anti-poaching alerts | Python, Rust, Zig | Candidate | [python/biodiversity-alerts](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/biodiversity-alerts) |
 
 | 教程 / Tutorial | 语言 / Language | 能力 / Capabilities | 相关目标 / Related Goals |
 | --- | --- | --- | --- |
@@ -425,15 +425,15 @@ Earlier themes: -.
 Candidate IDs: `OG-01`, `OG-02`, `OG-03`, `OG-04`, `OG-05`, `OG-06`, `OG-07`.
 Earlier themes: -.
 
-| 目标 / Goal | 候选语言 / Targets | 目标状态 / Goal Status | 相关切片 / Related Slices | 完整实现 / Full Implementation |
-| --- | --- | --- | --- | --- |
-| `OG-01` Enterprise architecture asset-graph governance | Java, OCaml, C# | Candidate | [architecture-graph](https://github.com/axisvela/praxo-core/tree/main/language/ocaml/Tutorial/architecture-graph) | Not implemented |
-| `OG-02` Multi-agent society and policy simulation | Julia, Erlang, Haskell | Candidate | [policy-simulation](https://github.com/axisvela/praxo-core/tree/main/language/haskell/Tutorial/policy-simulation) | Not implemented |
-| `OG-03` Cross-cultural negotiation interpretation and advice | TypeScript, Swift, Python | Candidate | [negotiation-interpretation](https://github.com/axisvela/praxo-core/tree/main/language/typescript/Tutorial/negotiation-interpretation) | Not implemented |
-| `OG-04` Open-source community governance and onboarding | Ruby, Elixir, Perl | Candidate | [community-governance](https://github.com/axisvela/praxo-core/tree/main/language/ruby/Tutorial/community-governance) | Not implemented |
-| `OG-05` EDA placement and routing optimization | C++, Fortran, Julia | Candidate | [eda-placement](https://github.com/axisvela/praxo-core/tree/main/language/cpp/Tutorial/eda-placement) | Not implemented |
-| `OG-06` Personal digital twin and cross-app memory | Swift, Objective-C, Dart | Candidate | [digital-twin-memory](https://github.com/axisvela/praxo-core/tree/main/language/dart/Tutorial/digital-twin-memory), [logistics-checkpoint](https://github.com/axisvela/praxo-core/tree/main/language/go/Tutorial/logistics-checkpoint) | Not implemented |
-| `OG-07` Multidisciplinary Virtual PI | Python, Julia, Haskell | Candidate | [representative-chain](https://github.com/axisvela/praxo-core/tree/main/examples/representative-chain), [virtual-pi](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/virtual-pi) | Not implemented |
+| 目标 / Goal | 候选语言 / Targets | 目标状态 / Goal Status | 相关切片（语言/教程） / Related Slices (language/tutorial) |
+| --- | --- | --- | --- |
+| `OG-01` Enterprise architecture asset-graph governance | Java, OCaml, C# | Candidate | [ocaml/architecture-graph](https://github.com/axisvela/praxo-core/tree/main/language/ocaml/Tutorial/architecture-graph) |
+| `OG-02` Multi-agent society and policy simulation | Julia, Erlang, Haskell | Candidate | [haskell/policy-simulation](https://github.com/axisvela/praxo-core/tree/main/language/haskell/Tutorial/policy-simulation) |
+| `OG-03` Cross-cultural negotiation interpretation and advice | TypeScript, Swift, Python | Candidate | [typescript/negotiation-interpretation](https://github.com/axisvela/praxo-core/tree/main/language/typescript/Tutorial/negotiation-interpretation) |
+| `OG-04` Open-source community governance and onboarding | Ruby, Elixir, Perl | Candidate | [ruby/community-governance](https://github.com/axisvela/praxo-core/tree/main/language/ruby/Tutorial/community-governance) |
+| `OG-05` EDA placement and routing optimization | C++, Fortran, Julia | Candidate | [cpp/eda-placement](https://github.com/axisvela/praxo-core/tree/main/language/cpp/Tutorial/eda-placement) |
+| `OG-06` Personal digital twin and cross-app memory | Swift, Objective-C, Dart | Candidate | [dart/digital-twin-memory](https://github.com/axisvela/praxo-core/tree/main/language/dart/Tutorial/digital-twin-memory), [go/logistics-checkpoint](https://github.com/axisvela/praxo-core/tree/main/language/go/Tutorial/logistics-checkpoint) |
+| `OG-07` Multidisciplinary Virtual PI | Python, Julia, Haskell | Candidate | [examples/representative-chain](https://github.com/axisvela/praxo-core/tree/main/examples/representative-chain), [python/virtual-pi](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/virtual-pi) |
 
 | 教程 / Tutorial | 语言 / Language | 能力 / Capabilities | 相关目标 / Related Goals |
 | --- | --- | --- | --- |
@@ -446,7 +446,7 @@ Earlier themes: -.
 | [Ruby community governance (OG-04)](https://github.com/axisvela/praxo-core/tree/main/language/ruby/Tutorial/community-governance) | ruby | analysis,tools,draft,policy | OG-04 |
 | [TypeScript negotiation interpretation (OG-03)](https://github.com/axisvela/praxo-core/tree/main/language/typescript/Tutorial/negotiation-interpretation) | typescript | analysis,tools,draft,policy | OG-03 |
 
-All hundred goals and language targets are in the [scenario catalog](agent-scenarios.md); earlier themes and status remain in the [Tutorial Plan](tutorial-plan.md). Related goals do not imply full scenario completion.
+All hundred goals and language targets are in the [scenario catalog](agent-scenarios.md); earlier themes and status remain in the [Tutorial Plan](tutorial-plan.md). Related goals do not imply an end-to-end reference app.
 
 ## By Language
 

@@ -232,6 +232,15 @@ def records() -> list[dict]:
     return entries
 
 
+def related_label(path: str) -> str:
+    parts = path.split("/")
+    if len(parts) >= 4 and parts[0] == "language" and parts[2] == "Tutorial":
+        return f"{parts[1]}/{parts[-1]}"
+    if len(parts) >= 2:
+        return "/".join(parts[-2:])
+    return path
+
+
 def render(entries: list[dict], zh: bool = False) -> str:
     counts = Counter(entry["kind"] for entry in entries)
     translated = {}
@@ -265,11 +274,13 @@ def render(entries: list[dict], zh: bool = False) -> str:
         lines.append(f"| {label[zh]} | {counts[kind]} |")
     goals = [entry for entry in entries if entry["kind"] == "candidate"]
     with_slices = sum(bool(entry["related_slices"]) for entry in goals)
-    complete = sum(entry["full_implementation"] == "implemented" for entry in goals)
-    lines += ["", (f"完整场景目标：**{len(goals)}**；其中 **{with_slices}** 个关联已有局部切片；"
-                   f"完整实现：**{complete}**。有关联的目标仍是候选，切片关系不额外增加条目计数。" if zh else
-                   f"Full scenario goals: **{len(goals)}**; **{with_slices}** have related partial slices; "
-                   f"full implementations: **{complete}**. Related goals remain candidates; slice relations do not add indexed entries.")]
+    lines += ["", (f"完整场景目标：**{len(goals)}**；其中 **{with_slices}** 个关联已有局部切片。"
+                   f"端到端参考应用：**0**。教程按自身有界范围独立验收，不因端到端目标未实现而被判未完成。"
+                   f"切片可能只覆盖所列目标语言的一部分。" if zh else
+                   f"Scenario goals: **{len(goals)}**; **{with_slices}** have related slices. "
+                   f"End-to-end reference applications: **0**. Tutorials are accepted at their own bounded scope "
+                   f"and are not incomplete merely because the broader goal has no end-to-end app. "
+                   f"Related slices may cover only a subset of the listed target languages.")]
     lines += ["", ("MATLAB/Octave 的两条入口共享实现，不是两个独立场景；未运行原生 MATLAB。" if zh else
                     "The MATLAB/Octave paths share an implementation, not two unique scenarios; native MATLAB is unverified."),
               ("存在 README 与源码只证明入口存在，不证明已运行或通过 CI。运行证据见 [Tutorial 状态](tutorial-plan.md) 与 [验证证据](../project/verification-evidence.md)。" if zh else
@@ -283,12 +294,15 @@ def render(entries: list[dict], zh: bool = False) -> str:
         lines += [f"### {names[zh]}", ""]
         lines += [("候选 ID：" if zh else "Candidate IDs: ") + ", ".join(f"`{entry['id']}`" for entry in candidates) + "."]
         lines += [("旧场景主题：" if zh else "Earlier themes: ") + ("; ".join(entry["title"] for entry in legacy) or "-") + ".", ""]
-        lines += ["| 目标 / Goal | 候选语言 / Targets | 目标状态 / Goal Status | 相关切片 / Related Slices | 完整实现 / Full Implementation |",
-                  "| --- | --- | --- | --- | --- |"]
+        lines += ["| 目标 / Goal | 候选语言 / Targets | 目标状态 / Goal Status | 相关切片（语言/教程） / Related Slices (language/tutorial) |",
+                  "| --- | --- | --- | --- |"]
         for entry in candidates:
-            links = ", ".join(f"[{path.split('/')[-1]}]({SOURCE}{path})" for path in entry["related_slices"]) or "-"
+            links = ", ".join(
+                f"[{related_label(path)}]({SOURCE}{path})"
+                for path in entry["related_slices"]
+            ) or "-"
             title = translated.get(entry["id"], entry["title"]).strip()
-            lines.append(f"| `{entry['id']}` {title} | {entry['languages']} | {'候选' if zh else 'Candidate'} | {links} | {'未实现' if zh else 'Not implemented'} |")
+            lines.append(f"| `{entry['id']}` {title} | {entry['languages']} | {'候选' if zh else 'Candidate'} | {links} |")
         lines += [""]
         lines += ["| 教程 / Tutorial | 语言 / Language | 能力 / Capabilities | 相关目标 / Related Goals |", "| --- | --- | --- | --- |"]
         for entry in applications + guides:
@@ -296,8 +310,8 @@ def render(entries: list[dict], zh: bool = False) -> str:
                 path = SOURCE + entry["path"]
                 lines.append(f"| [{entry['title']}]({path}) | {entry['languages']} | {entry['capabilities']} | {entry.get('related') or '-'} |")
         lines += [""]
-    lines += [("完整的 100 个目标与语言候选分配见 [场景目录](agent-scenarios.md)；旧主题和状态仍见 [Tutorial Plan](tutorial-plan.md)。相关目标不表示完整目标已实现。" if zh else
-               "All hundred goals and language targets are in the [scenario catalog](agent-scenarios.md); earlier themes and status remain in the [Tutorial Plan](tutorial-plan.md). Related goals do not imply full scenario completion."),
+    lines += [("完整的 100 个目标与语言候选分配见 [场景目录](agent-scenarios.md)；旧主题和状态仍见 [Tutorial Plan](tutorial-plan.md)。相关目标不表示已有端到端参考应用。" if zh else
+               "All hundred goals and language targets are in the [scenario catalog](agent-scenarios.md); earlier themes and status remain in the [Tutorial Plan](tutorial-plan.md). Related goals do not imply an end-to-end reference app."),
               "", "## 按语言" if zh else "## By Language", "",
               "| Core | 应用教程 / Application Paths | 机制 / Mechanisms | 进阶 / Advanced | 其他源码 / Other Source |",
               "| --- | --- | ---: | ---: | ---: |"]
