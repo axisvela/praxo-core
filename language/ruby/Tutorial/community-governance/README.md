@@ -5,6 +5,18 @@ not a maintainer bot. It classifies fixed synthetic issues and drafts a review-o
 reviewer request. No automatic issue closure, maintainer impersonation or live
 GitHub access.
 
+## Why this language and runtime?
+
+- **Selection basis:** An existing Ruby-based community bot could add a review step
+  without a new service. No maintainer consumer is verified here.
+- **Demonstrated fit:** Core callbacks return fixed issue classifications and a
+  reviewer request. No issue text is parsed and no GitHub API is called.
+- **Choose when:** Learning the Core seam for an existing Ruby automation.
+- **Do not choose when:** Expecting moderation, classification quality or GitHub
+  integration. Compare direct GitHub automation and explicit moderation rules.
+- **Evidence limit:** Core integration fixture only; no issue crawl, moderation
+  decision, maintainer identity, closure or impersonation protection claim.
+
 Run from the repository root:
 
 ```bash

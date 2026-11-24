@@ -5,6 +5,18 @@ not an automated hiring system. It matches fixed synthetic candidates against on
 role and drafts a review-only shortlist. No outreach, identity checks or live model
 are used.
 
+## Why this language and runtime?
+
+- **Selection basis:** An existing Ruby HR or back-office application can embed the
+  review workflow without adding a separate Agent service.
+- **Demonstrated fit:** Native Ruby filters and ranks a tiny synthetic candidate set
+  by required skills and years; the draft is review-only.
+- **Choose when:** Learning the Core seam in an already maintained Ruby application.
+- **Do not choose when:** Seeking hiring decisions or candidate outreach. Compare
+  direct deterministic matching and the existing HR workflow first.
+- **Evidence limit:** Core integration with a fixed three-candidate fixture; no
+  identity checks, production ranking, outreach, fairness validation or hiring claim.
+
 Run from the repository root:
 
 ```bash

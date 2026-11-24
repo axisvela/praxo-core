@@ -5,6 +5,18 @@ not an acquisition opinion. It reconciles fixed ownership, contract and dispute
 fixtures and drafts a review-only risk checklist. No verified deal conclusion,
 data room or live model.
 
+## Why this language and runtime?
+
+- **Selection basis:** An existing Ruby deal-room or back-office application could
+  add a review checklist in its own runtime. No advisory consumer is verified here.
+- **Demonstrated fit:** Core tools return fixed ownership, contract and dispute
+  counts plus a scripted risk checklist. No records are reconciled or parsed.
+- **Choose when:** Learning the Core seam in an existing Ruby workflow.
+- **Do not choose when:** Seeking an acquisition conclusion or legal analysis.
+  Compare direct document review and qualified counsel processes first.
+- **Evidence limit:** Core integration fixture only; no data room, ownership
+  verification, valuation, legal advice or deal conclusion.
+
 Run from the repository root:
 
 ```bash

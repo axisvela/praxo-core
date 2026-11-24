@@ -4,6 +4,18 @@ A bounded first slice of [CS-02](https://axisvela.github.io/praxo-core/getting-s
 not an outreach-automation product. It ranks fixed synthetic business profiles and
 drafts review-only opt-in outreach. No crawling, scraping or unsolicited sends.
 
+## Why this language and runtime?
+
+- **Selection basis:** A Ruby CRM or marketing automation could keep outreach review
+  near its existing data. No marketing consumer is verified here.
+- **Demonstrated fit:** Core tools return a fixed ranked lead list and one opt-in
+  draft. Ranking and opt-in counts are fixture values.
+- **Choose when:** Learning the Core seam in an existing Ruby workflow.
+- **Do not choose when:** Seeking prospecting, scoring or message delivery. Compare
+  direct CRM rules, consent checks and the existing campaign system.
+- **Evidence limit:** Core integration fixture only; no crawl, profile enrichment,
+  consent enforcement, send path or conversion claim.
+
 Run from the repository root:
 
 ```bash

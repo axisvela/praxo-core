@@ -5,6 +5,18 @@ not a malware-detection system. It compares one fixed pinned manifest with a
 registry copy and proposes a reviewed version pin. No dependency update, registry
 write or proven tamper verdict.
 
+## Why this language and runtime?
+
+- **Selection basis:** An existing Ruby release engineer workflow could add a review
+  step without leaving its tooling. No release consumer is verified here.
+- **Demonstrated fit:** Core tools return fixed manifest signals and a proposed pin.
+  No registry fetch, checksum computation or manifest parser runs.
+- **Choose when:** Learning the Core seam around an existing Ruby release process.
+- **Do not choose when:** Seeking malware detection or dependency management.
+  Compare package-manager auditing, checksum tools and the current release policy.
+- **Evidence limit:** Core integration fixture only; no registry access, verified
+  tamper detection, dependency update or provenance attestation.
+
 Run from the repository root:
 
 ```bash
