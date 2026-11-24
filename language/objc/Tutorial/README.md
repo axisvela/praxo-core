@@ -3,6 +3,12 @@
 - [Privacy Agent (PE-03)](privacy-agent/README.md): source Objective-C Core,
   fixed message-exposure classification and a review-only deletion request; no
   password handling, account access or deletion execution.
+- [Chronic Care (HC-02)](chronic-care/README.md): fixed wearable trends and a
+  review-only alert; no dosage or individualized treatment change.
+- [DLP Redaction (CY-06)](dlp-redaction/README.md): fixed export inspection and a
+  review-only redaction draft; no encryption or DLP completeness claim.
+- [Digital Twin Memory (OG-06)](digital-twin-memory/README.md): consent-scoped
+  fixed memories with provenance and one deletion; no inbox or password access.
 
 See the [100-scenario catalog](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/)
 for additional Objective-C candidate assignments. Those are planned targets, not
