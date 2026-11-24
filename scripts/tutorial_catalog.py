@@ -108,6 +108,8 @@ TUTORIALS = {
     "dubbing-plan": ("MD", "tools,draft,policy", "MD-04"),
     "tender-review": ("BE", "analysis,tools,draft,policy", "BE-04"),
     "hedge-plan": ("AE", "analysis,tools,draft,policy", "AE-04"),
+    "audiobook-production": ("MD", "tools,draft,policy", "MD-06"),
+    "eda-placement": ("OG", "analysis,tools,draft,policy", "OG-05"),
 }
 GUIDES = {
     "workspace-agent-tutorial": ("SE", "go", "filesystem,tools,policy"),
