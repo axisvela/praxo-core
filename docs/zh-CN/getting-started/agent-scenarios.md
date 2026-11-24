@@ -158,7 +158,7 @@ system 指令。Memory Store 不等于自动召回；checkpoint 消息续跑不�
 | --- | --- | --- | --- | --- | --- |
 | MD-01 | 影视分镜与虚拟制片预演 | Lua、C++、TypeScript | 把固定剧本转为有界镜头计划草案；无已验证 Unreal 集成或渲染制作 | [Lua 分镜预演](https://github.com/axisvela/praxo-core/tree/main/language/lua/Tutorial/storyboard-previs)：固定场景与仅审阅镜头计划 | 未实现 |
 | MD-02 | 新闻事实核查与多源验证 | Python、Haskell、Perl | 比较固定来源与元数据、引用矛盾与不确定性；无真伪保证或实网抓取 | [Perl 新闻核查](https://github.com/axisvela/praxo-core/tree/main/language/perl/Tutorial/news-factcheck)：固定来源与仅审阅核查；[办公问答](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/office-qa)：仅引用机制 | 未实现 |
-| MD-03 | 开放世界游戏生态演化 | Lua、C、V | 用持久化合成状态模拟经济/资源规则；不保证规模或长期平衡 | [宿主嵌入](https://github.com/axisvela/praxo-core/tree/main/language/lua/Tutorial/host-embedding)：设备回调，不是游戏生态 | 未实现 |
+| MD-03 | 开放世界游戏生态演化 | Lua、C、V | 用持久化合成状态模拟经济/资源规则；不保证规模或长期平衡 | [Lua 世界生态](https://github.com/axisvela/praxo-core/tree/main/language/lua/Tutorial/world-economy)：固定时步与仅审阅平衡；[宿主嵌入](https://github.com/axisvela/praxo-core/tree/main/language/lua/Tutorial/host-embedding)：设备回调，不是游戏生态 | 未实现 |
 | MD-04 | 配音、口型同步与文化本地化 | Python、Swift、C++ | 为合成/获许可素材规划字幕与时序；无冒充、未经同意的声音克隆或已验证口型同步 | 无 | 未实现 |
 | MD-05 | 工业设计与 3D 拓扑生成 | C++、Julia、Fortran | 按已述约束比较合成网格描述符；无可制造性或力学认证 | 无 | 未实现 |
 | MD-06 | 有声书与沉浸广播剧制作 | Python、Dart、Swift | 规划获许可角色声音与固定混音提示；无合成成品或权利保证 | 无 | 未实现 |
@@ -201,7 +201,7 @@ system 指令。Memory Store 不等于自动召回；checkpoint 消息续跑不�
 | OG-01 | EA 资产图谱治理 | Java、OCaml、C# | 按标准比较固定应用/API 图并草拟变更发现；无生产扫描或自动拦截 | 无 | 未实现 |
 | OG-02 | 多智能体社会与政策沙盘 | Julia、Erlang、Haskell | 模拟小型有界合成人群并报告敏感性；无数万规模或真实政策预测 | 无 | 未实现 |
 | OG-03 | 跨文化谈判同传与策略辅助 | TypeScript、Swift、Python | 比较固定转录与术语、标记不确定性；无微表情推断、读心或实时同传保证 | 无 | 未实现 |
-| OG-04 | 开源社区治理与贡献者体验 | Ruby、Elixir、Perl | 分类合成 Issue、草拟贡献指导与评审请求；不自动关闭问题或冒充维护者 | 无 | 未实现 |
+| OG-04 | 开源社区治理与贡献者体验 | Ruby、Elixir、Perl | 分类合成 Issue、草拟贡献指导与评审请求；不自动关闭问题或冒充维护者 | [Ruby 社区治理](https://github.com/axisvela/praxo-core/tree/main/language/ruby/Tutorial/community-governance)：固定问题分类与评审请求 | 未实现 |
 | OG-05 | EDA 布局布线优化 | C++、Fortran、Julia | 探索合成布局网格、报告已述 PPA 代理指标；无代工厂有效版图或优化证明 | 无 | 未实现 |
 | OG-06 | 个人数字孪生与跨应用记忆 | Swift、Objective-C、Dart | 存储合成的同意范围内记忆、记录来源并测试删除；无真实邮箱/密码或无限召回 | [物流 checkpoint](https://github.com/axisvela/praxo-core/tree/main/language/go/Tutorial/logistics-checkpoint)：仅消息续跑，不是个人记忆中枢 | 未实现 |
 | OG-07 | 多学科 Virtual PI | Python、Julia、Haskell | 协调有界文献/仿真/复核任务，限制共享预算并标注来源；不保证自主科研有效性 | [代表性链路](https://github.com/axisvela/praxo-core/tree/main/examples/representative-chain)：应用级委派，不是科研团队 | 未实现 |

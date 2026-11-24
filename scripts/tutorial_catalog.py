@@ -94,6 +94,8 @@ TUTORIALS = {
     "news-factcheck": ("MD", "analysis,tools,draft,policy", "MD-02"),
     "emergency-route-plan": ("CT", "analysis,tools,draft,policy", "CT-04"),
     "patent-fto": ("LJ", "analysis,tools,draft,policy", "LJ-02"),
+    "community-governance": ("OG", "analysis,tools,draft,policy", "OG-04"),
+    "world-economy": ("MD", "tools,draft,policy", "MD-03"),
 }
 GUIDES = {
     "workspace-agent-tutorial": ("SE", "go", "filesystem,tools,policy"),

@@ -466,6 +466,24 @@ jobs:
       - run: go run ./language/go/Tutorial/soc-alert-triage --test
       - run: go test ./language/go/Tutorial/soc-alert-triage
 
+  ruby-community-governance:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.4'
+      - run: ruby -I language/ruby/lib language/ruby/Tutorial/community-governance/app.rb --test
+
+  lua-world-economy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - run: sudo apt-get update && sudo apt-get install -y lua5.4
+      - run: lua5.4 language/lua/Tutorial/world-economy/app.lua --test
+
   go-emergency-route-plan:
     runs-on: ubuntu-latest
     timeout-minutes: 10
