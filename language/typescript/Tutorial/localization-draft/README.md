@@ -5,6 +5,18 @@ not a legal or tax compliance system. It compares fixed localization rules and
 drafts review-only localized product text. No legal/tax guarantee, live content
 system or publication.
 
+## Why this language and runtime?
+
+- **Selection basis:** A Node content service can keep localization review near its
+  existing publishing code. No localization consumer is verified.
+- **Demonstrated fit:** Core tools return fixed market rules and a draft; no content
+  management system, translator or publication path is used.
+- **Choose when:** Learning the tool/policy seam for a Node content workflow.
+- **Do not choose when:** Seeking translation quality or legal/tax validation.
+  Compare existing localization platforms and review processes first.
+- **Evidence limit:** Core integration fixture only; no live content, legal review,
+  tax compliance, publication or translation-quality claim.
+
 From this directory:
 
 ```bash

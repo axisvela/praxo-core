@@ -5,6 +5,19 @@ synthetic order HTTP service with the Python example, not a remote Agent loop.
 The `review_order` tool reads an order and creates a draft; final arguments are
 restricted to `order-100` by Agent policy and checked again by service scope.
 
+## Why this language and runtime?
+
+- **Selection basis:** Node fits order-support APIs where HTTP handlers and the Agent
+  can share one service process.
+- **Demonstrated fit:** The tutorial exercises the shared synthetic orders service
+  over loopback HTTP, with both Agent-policy and service-side denial paths.
+- **Choose when:** Comparing the Node seam against the same business backend used by
+  Python, Java and C# examples.
+- **Do not choose when:** Seeking order mutation, refunds or production identity.
+  Compare the existing order service and authorization model first.
+- **Evidence limit:** Loopback demo backend and local tests; no production ERP, user
+  identity, refund authority, hosted deployment or live model.
+
 Clone the public [teaching backend](https://github.com/axisvela/agent-tutorial-services)
 and run `python service/orders.py` from that repository in another terminal.
 Then from this tutorial directory run:

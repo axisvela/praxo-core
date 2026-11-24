@@ -5,6 +5,18 @@ not live pricing or procurement. It checks a fixed SKU's stock and pricing fixtu
 and drafts a review-only purchase order. No network, credentials or live model are
 used.
 
+## Why this language and runtime?
+
+- **Selection basis:** A Node commerce backend can keep replenishment review beside
+  its existing SKU and pricing code.
+- **Demonstrated fit:** Fixed stock/price data produces a review-only purchase order;
+  no pricing service, supplier API or procurement write runs.
+- **Choose when:** Learning the tool/policy seam in an existing Node retail service.
+- **Do not choose when:** Seeking live pricing or procurement. Compare the existing
+  inventory system, supplier rules and deterministic reorder policy first.
+- **Evidence limit:** Core integration fixture only; no live inventory, price change,
+  supplier order, demand forecast or savings claim.
+
 Run from this directory:
 
 ```bash

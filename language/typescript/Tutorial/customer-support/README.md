@@ -6,6 +6,18 @@ The Agent has two fixed tools: `lookup_order` reads `order-100`, and
 returns an answer with a document citation; it does not send a reply, change an
 order or issue a refund.
 
+## Why this language and runtime?
+
+- **Selection basis:** Node fits support APIs and streamed responses where the Agent
+  can sit beside existing web handlers.
+- **Demonstrated fit:** A local SSE endpoint streams a deterministic answer with a
+  fixed document citation; tools read a fixed order and policy.
+- **Choose when:** Evaluating an SSE boundary in an existing Node service.
+- **Do not choose when:** Seeking a helpdesk integration or reply delivery. Compare
+  the existing support platform and message pipeline first.
+- **Evidence limit:** Local SSE demo and fixtures; no downstream chat product,
+  authenticated user session, reply send, refund or hosted endpoint.
+
 ## Run
 
 From this directory:

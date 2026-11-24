@@ -5,6 +5,18 @@ not an interpreter or cultural-profiling system. It compares a fixed bilingual
 transcript excerpt and drafts review-only negotiation notes. No micro-expression
 inference, mind reading or live interpretation guarantee.
 
+## Why this language and runtime?
+
+- **Selection basis:** A Node collaboration or meeting tool can add a review note
+  beside its transcript handling. No meeting-platform consumer is verified.
+- **Demonstrated fit:** Core tools return fixed transcript segments, terminology and
+  a draft summary; no audio, translation or cultural inference runs.
+- **Choose when:** Learning the tool/policy seam in an existing Node workflow.
+- **Do not choose when:** Seeking live interpretation or cultural advice. Compare
+  human interpreters, transcription services and the existing meeting process first.
+- **Evidence limit:** Core integration fixture only; no audio capture, live
+  interpretation, cultural judgment, mind reading or accuracy guarantee.
+
 From this directory:
 
 ```bash
