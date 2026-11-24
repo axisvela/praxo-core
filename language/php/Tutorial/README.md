@@ -1,5 +1,7 @@
 ﻿# PHP Tutorials
 
+- [Tender Review (BE-04)](tender-review/README.md): native PHP Core, fixed
+  bid qualifications and review-only similar-document flags; no bid submission.
 - [Copyright Evidence (LJ-05)](copyright-evidence/README.md): native PHP Core,
   fixed authorized assets and review-only evidence packet; no notice filing.
 - [Public Approval (CT-03)](public-approval/README.md): native PHP Core, fixed

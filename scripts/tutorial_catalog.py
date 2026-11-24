@@ -106,6 +106,8 @@ TUTORIALS = {
     "copyright-evidence": ("LJ", "tools,draft,policy", "LJ-05"),
     "due-diligence": ("LJ", "analysis,tools,draft,policy", "LJ-03"),
     "dubbing-plan": ("MD", "tools,draft,policy", "MD-04"),
+    "tender-review": ("BE", "analysis,tools,draft,policy", "BE-04"),
+    "hedge-plan": ("AE", "analysis,tools,draft,policy", "AE-04"),
 }
 GUIDES = {
     "workspace-agent-tutorial": ("SE", "go", "filesystem,tools,policy"),

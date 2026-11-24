@@ -199,7 +199,7 @@ counterattack is provided by these candidate tutorials.
 | BE-01 | Construction safety inspection and remediation review | C++, Rust, C# | Evaluate synthetic inspection labels and track a review checklist; no real vision or certified safety finding | [Rust construction-safety](https://github.com/axisvela/praxo-core/tree/main/language/rust/Tutorial/construction-safety): fixed labels and review-only checklist | Not implemented |
 | BE-02 | Commercial-building HVAC and lighting management | Julia, C, Delphi | Simulate occupancy/thermal constraints and draft settings; no BMS commands or verified energy savings | None | Not implemented |
 | BE-03 | Autonomous mining and slope-risk warning | Fortran, Rust, C++ | Compute synthetic displacement indicators and draft a review alert; no collapse prediction or mining-vehicle dispatch | None | Not implemented |
-| BE-04 | Tender drafting and bid-collusion review | Java, PHP, COBOL | Validate synthetic qualifications and flag document similarities for review; no automatic bid submission or collusion verdict | None | Not implemented |
+| BE-04 | Tender drafting and bid-collusion review | Java, PHP, COBOL | Validate synthetic qualifications and flag document similarities for review; no automatic bid submission or collusion verdict | [PHP tender-review](https://github.com/axisvela/praxo-core/tree/main/language/php/Tutorial/tender-review): fixed bids and review-only flags | Not implemented |
 | BE-05 | Property-site assessment and rental forecasting | R, Julia, D | Compare synthetic site metrics and show forecast assumptions; no verified probability, return or personal-location profiling | None | Not implemented |
 
 ## Agriculture Forestry And Conservation (5)
@@ -209,7 +209,7 @@ counterattack is provided by these candidate tutorials.
 | AE-01 | Livestock monitoring and precision feeding | C, Nim, Rust | Summarize synthetic animal observations and draft a review request; no veterinary diagnosis, isolation or feeding control | None | Not implemented |
 | AE-02 | Forest-fire monitoring and spread simulation | Fortran, Julia, R | Replay synthetic weather/fuel cells and compare modeled spread; no operational warning or firebreak dispatch | None | Not implemented |
 | AE-03 | Aquaculture water quality and feeding | Lua, C, Octave | Compute fixed oxygen/temperature indicators and draft a bounded action; no aerator or feeder commands | [Host embedding](https://github.com/axisvela/praxo-core/tree/main/language/lua/Tutorial/host-embedding): host-callback mechanism only | Not implemented |
-| AE-04 | Agricultural hedging and production-sales planning | R, Julia, COBOL | Simulate exposure and compare scenario costs; no futures orders, price lock or financial advice | None | Not implemented |
+| AE-04 | Agricultural hedging and production-sales planning | R, Julia, COBOL | Simulate exposure and compare scenario costs; no futures orders, price lock or financial advice | [R hedge-plan](https://github.com/axisvela/praxo-core/tree/main/language/r/Tutorial/hedge-plan): fixed exposure and review-only plan | Not implemented |
 | AE-05 | Biodiversity monitoring and anti-poaching alerts | Python, Rust, Zig | Classify synthetic labeled observations and draft ranger review; no species-recognition guarantee or automatic pursuit | [Python biodiversity-alerts](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/biodiversity-alerts): fixed labels and review-only alert | Not implemented |
 
 ## Organization Architecture And Collaboration (7)

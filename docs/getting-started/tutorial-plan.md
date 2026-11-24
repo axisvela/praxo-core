@@ -163,6 +163,8 @@ add framework surface.
 | PHP copyright evidence (LJ-05) | Native PHP Core, fixed authorized assets, review-only evidence packet | Local PHP 8.5 lint/test pass; CI job added, not yet run | No broad crawl, automatic DMCA notice, takedown or infringement adjudication |
 | Ruby due diligence (LJ-03) | Native Core, fixed ownership/contracts/disputes, review-only risk checklist | Local Ruby checks pass; CI job added, not yet run | No verified acquisition conclusion, valuation or legal opinion |
 | Python dubbing plan (MD-04) | Native Core, fixed licensed media, review-only caption and timing plan | Local Python 3.14 checks pass; CI job added, not yet run | No audio synthesis, impersonation, voice cloning or verified lip-sync |
+| PHP tender review (BE-04) | Native PHP Core, fixed bid qualifications, review-only similarity flags | Local PHP 8.5 lint/test pass; CI job added, not yet run | No automatic bid submission, qualification decision or collusion verdict |
+| R hedge plan (AE-04) | Native R Core, fixed exposure and scenario margins, review-only plan | Local R checks pass; CI job added, not yet run | No futures orders, price lock, market execution or financial advice |
 | Python order review | Native Core, HTTP tool, fixed order scope, draft-only | Local and hosted CI against the public local service | Deterministic model; no live provider or external consumer |
 | TypeScript order support | Native Core, HTTP tool, fixed order scope | Local and hosted CI against the public local service | Deterministic model; CLI, not a Web frontend |
 | Java order review | Native Core, JUnit, loopback Web, real-service CLI | Mock/Web JUnit and real-service CLI passed in Linux CI | Java Web-to-real-backend and live model not verified |
