@@ -241,7 +241,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: vlang/setup-v@v1
         with:
-          version: '0.4.12'
+          version: latest
       - run: v -path "language/v|@vlib|@vmodules" run language/v/Tutorial/release-preflight/preflight.v --test
 
   d-data-pipeline:
