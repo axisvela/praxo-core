@@ -115,6 +115,10 @@ add_executable(praxo-cpp-eda-placement-tutorial
     Tutorial/eda-placement/main.cpp)
 target_link_libraries(praxo-cpp-eda-placement-tutorial PRIVATE praxo_cpp)
 
+add_executable(praxo-cpp-mesh-review-tutorial
+    Tutorial/mesh-review/main.cpp)
+target_link_libraries(praxo-cpp-mesh-review-tutorial PRIVATE praxo_cpp)
+
 add_test(NAME praxo-cpp-conformance COMMAND praxo-cpp-conformance)
 add_test(NAME praxo-cpp-tests COMMAND praxo-cpp-tests)
 add_test(NAME praxo-cpp-harmovela-tests COMMAND praxo-cpp-harmovela-tests)
@@ -131,5 +135,7 @@ add_test(NAME praxo-cpp-traffic-signal-plan-tutorial
     COMMAND praxo-cpp-traffic-signal-plan-tutorial --test)
 add_test(NAME praxo-cpp-eda-placement-tutorial
     COMMAND praxo-cpp-eda-placement-tutorial --test)
+add_test(NAME praxo-cpp-mesh-review-tutorial
+    COMMAND praxo-cpp-mesh-review-tutorial --test)
 
 endif()

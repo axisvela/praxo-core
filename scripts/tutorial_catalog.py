@@ -118,6 +118,8 @@ TUTORIALS = {
     "fire-spread": ("AE", "analysis,tools,draft,policy", "AE-02"),
     "mining-slope": ("BE", "analysis,tools,draft,policy", "BE-03"),
     "livestock-monitor": ("AE", "analysis,tools,draft,policy", "AE-01"),
+    "mesh-review": ("MD", "analysis,tools,draft,policy", "MD-05"),
+    "aquaculture-water": ("AE", "analysis,tools,draft,policy", "AE-03"),
 }
 GUIDES = {
     "workspace-agent-tutorial": ("SE", "go", "filesystem,tools,policy"),

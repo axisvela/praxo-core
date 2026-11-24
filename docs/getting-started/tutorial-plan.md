@@ -175,6 +175,8 @@ add framework surface.
 | R fire spread (AE-02) | Native R Core, fixed weather/fuel cells, review-only spread report | Local R checks pass; CI job added, not yet run | No operational warning, validated fire model, evacuation or firebreak dispatch |
 | Rust mining slope (BE-03) | Native Core, fixed displacement indicators, review-only alert | Local cargo build/test pass; CI job added, not yet run | No collapse prediction, evacuation, vehicle dispatch or safety certification |
 | Rust livestock monitor (AE-01) | Native Core, fixed herd observations, review-only veterinary request | Local cargo build/test pass; CI job added, not yet run | No veterinary diagnosis, isolation, feeding control or sensor integration |
+| C++ mesh review (MD-05) | C++ Core, fixed mesh descriptors, review-only design assessment | Local MinGW build/test pass; CI job added, not yet run | No CAD kernel, topology repair, manufacturability analysis or mechanical certification |
+| Lua aquaculture water (AE-03) | Lua Core, fixed oxygen/temperature indicators, review-only action | Local Lua 5.4 checks pass; CI job added, not yet run | No operating sensors, actuator access, aerator/feeder command or water-quality guarantee |
 | Python order review | Native Core, HTTP tool, fixed order scope, draft-only | Local and hosted CI against the public local service | Deterministic model; no live provider or external consumer |
 | TypeScript order support | Native Core, HTTP tool, fixed order scope | Local and hosted CI against the public local service | Deterministic model; CLI, not a Web frontend |
 | Java order review | Native Core, JUnit, loopback Web, real-service CLI | Mock/Web JUnit and real-service CLI passed in Linux CI | Java Web-to-real-backend and live model not verified |

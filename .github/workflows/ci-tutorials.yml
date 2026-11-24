@@ -466,6 +466,23 @@ jobs:
       - run: go run ./language/go/Tutorial/soc-alert-triage --test
       - run: go test ./language/go/Tutorial/soc-alert-triage
 
+  cpp-mesh-review:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - run: cmake -S language/cpp -B language/cpp/build
+      - run: cmake --build language/cpp/build --target praxo-cpp-mesh-review-tutorial
+      - run: ./language/cpp/build/praxo-cpp-mesh-review-tutorial --test
+
+  lua-aquaculture-water:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - run: sudo apt-get update && sudo apt-get install -y lua5.4
+      - run: lua5.4 language/lua/Tutorial/aquaculture-water/app.lua --test
+
   rust-mining-slope:
     runs-on: ubuntu-latest
     timeout-minutes: 10

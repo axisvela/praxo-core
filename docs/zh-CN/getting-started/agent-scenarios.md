@@ -160,7 +160,7 @@ system 指令。Memory Store 不等于自动召回；checkpoint 消息续跑不�
 | MD-02 | 新闻事实核查与多源验证 | Python、Haskell、Perl | 比较固定来源与元数据、引用矛盾与不确定性；无真伪保证或实网抓取 | [Perl 新闻核查](https://github.com/axisvela/praxo-core/tree/main/language/perl/Tutorial/news-factcheck)：固定来源与仅审阅核查；[办公问答](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/office-qa)：仅引用机制 | 未实现 |
 | MD-03 | 开放世界游戏生态演化 | Lua、C、V | 用持久化合成状态模拟经济/资源规则；不保证规模或长期平衡 | [Lua 世界生态](https://github.com/axisvela/praxo-core/tree/main/language/lua/Tutorial/world-economy)：固定时步与仅审阅平衡；[宿主嵌入](https://github.com/axisvela/praxo-core/tree/main/language/lua/Tutorial/host-embedding)：设备回调，不是游戏生态 | 未实现 |
 | MD-04 | 配音、口型同步与文化本地化 | Python、Swift、C++ | 为合成/获许可素材规划字幕与时序；无冒充、未经同意的声音克隆或已验证口型同步 | [Python 配音规划](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/dubbing-plan)：固定授权素材与仅审阅字幕 | 未实现 |
-| MD-05 | 工业设计与 3D 拓扑生成 | C++、Julia、Fortran | 按已述约束比较合成网格描述符；无可制造性或力学认证 | 无 | 未实现 |
+| MD-05 | 工业设计与 3D 拓扑生成 | C++、Julia、Fortran | 按已述约束比较合成网格描述符；无可制造性或力学认证 | [C++ 网格复核](https://github.com/axisvela/praxo-core/tree/main/language/cpp/Tutorial/mesh-review)：固定网格与仅审阅评估 | 未实现 |
 | MD-06 | 有声书与沉浸广播剧制作 | Python、Dart、Swift | 规划获许可角色声音与固定混音提示；无合成成品或权利保证 | [Dart 有声书制作](https://github.com/axisvela/praxo-core/tree/main/language/dart/Tutorial/audiobook-production)：固定授权书目与仅审阅计划 | 未实现 |
 | MD-07 | 数字人直播互动场控 | TypeScript、Elixir、Lua | 回放合成互动事件并草拟讲解顺序；不做受众画像、发券或真实直播控制 | [Lua 直播场控](https://github.com/axisvela/praxo-core/tree/main/language/lua/Tutorial/live-show)：固定互动与仅审阅顺序 | 未实现 |
 
@@ -190,7 +190,7 @@ system 指令。Memory Store 不等于自动召回；checkpoint 消息续跑不�
 | --- | --- | --- | --- | --- | --- |
 | AE-01 | 畜牧健康监测与精准饲喂 | C、Nim、Rust | 汇总合成个体观察并草拟复核请求；不兽医诊断、隔离或饲喂控制 | [Rust 畜牧监测](https://github.com/axisvela/praxo-core/tree/main/language/rust/Tutorial/livestock-monitor)：固定观察与仅审阅请求 | 未实现 |
 | AE-02 | 森林火险与蔓延推演 | Fortran、Julia、R | 回放合成天气/燃料网格、比较模型传播；无业务预警或防火带调度 | [R 火势蔓延](https://github.com/axisvela/praxo-core/tree/main/language/r/Tutorial/fire-spread)：固定网格与仅审阅报告 | 未实现 |
-| AE-03 | 海洋牧场水质与投饵 | Lua、C、Octave | 计算固定溶氧/温度指标、草拟有界动作；不控制增氧机或投饵机 | [宿主嵌入](https://github.com/axisvela/praxo-core/tree/main/language/lua/Tutorial/host-embedding)：仅宿主回调机制 | 未实现 |
+| AE-03 | 海洋牧场水质与投饵 | Lua、C、Octave | 计算固定溶氧/温度指标、草拟有界动作；不控制增氧机或投饵机 | [Lua 水质监测](https://github.com/axisvela/praxo-core/tree/main/language/lua/Tutorial/aquaculture-water)：固定指标与仅审阅动作；[宿主嵌入](https://github.com/axisvela/praxo-core/tree/main/language/lua/Tutorial/host-embedding)：仅宿主回调机制 | 未实现 |
 | AE-04 | 农产品套保与产销规划 | R、Julia、COBOL | 模拟风险敞口并比较情景成本；不发期货订单、不锁价、不提供金融建议 | [R 套保规划](https://github.com/axisvela/praxo-core/tree/main/language/r/Tutorial/hedge-plan)：固定敞口与仅审阅计划 | 未实现 |
 | AE-05 | 生物多样性与盗猎预警 | Python、Rust、Zig | 分类合成标注观察、草拟护林员复核；无物种识别保证或自动追捕 | [Python 生物多样性预警](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/biodiversity-alerts)：固定标签与仅审阅预警 | 未实现 |
 
