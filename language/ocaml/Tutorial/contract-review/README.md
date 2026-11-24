@@ -4,6 +4,20 @@ A bounded first slice of [FC-05](https://axisvela.github.io/praxo-core/getting-s
 not legal advice or an e-signature system. It compares fixed contract clauses to a
 redline set and drafts review-only redlines. No document store or live model.
 
+## Why this language and runtime?
+
+- **Selection basis:** A maintained OCaml document/rule application could embed
+  the Core without moving its execution elsewhere; no consumer is verified here.
+- **Demonstrated fit:** Core tools return fixed clauses and precomputed findings.
+  This is Core integration only, not clause parsing, rule evaluation or formal
+  contract analysis. Pattern matching over JSON does not establish those claims.
+- **Choose when:** Testing the Core seam in an existing OCaml host.
+- **Do not choose when:** Selecting a legal-review implementation on the strength
+  of this fixture. Compare existing document tooling, a deterministic rules engine
+  or Python extraction libraries against the actual inputs and review needs.
+- **Evidence limit:** No parser, rule counterexamples, legal validation or
+  language-specific analysis advantage is demonstrated.
+
 Run from **this directory** (the `#use` path is relative to the working directory):
 
 ```bash

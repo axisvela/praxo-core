@@ -5,6 +5,20 @@ not an autonomous BI platform. It computes fixed business-line variances for one
 period and drafts a review-only operating brief. This uses the source D Core with
 `dmd -run`; no network, credentials or packages beyond DMD are required.
 
+## Why this language and runtime?
+
+- **Selection basis:** Keeping execution in an existing D metrics application
+  could avoid a separate orchestration service. No such consumer is verified here.
+- **Demonstrated fit:** D Core runs fixture metrics and a scripted brief draft.
+  This is Core integration only; business variances do not establish a D-specific
+  analytics advantage.
+- **Choose when:** Evaluating an embedded Core in an already maintained D host.
+- **Do not choose when:** Choosing a greenfield BI stack from this example alone.
+  Compare R or Python analytics libraries and existing SQL/reporting workflows;
+  deterministic reporting may not need an Agent at all.
+- **Evidence limit:** No warehouse integration, native analytics dependency or
+  comparative runtime benefit is demonstrated.
+
 Run from the repository root:
 
 ```bash

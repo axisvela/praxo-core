@@ -30,6 +30,54 @@ important boundaries.
 published paths. Business APIs stay outside Core and `spec/`; they are teaching
 contracts, not framework compatibility promises.
 
+## Language Selection Gate
+
+The current phase prioritizes batch delivery of basic scenario entry points,
+discovery and attracting users. Complete useful, accurately scoped starting
+paths before broad optimization; use actual usage feedback to choose deeper
+work. A short, honest runtime rationale is sufficient for a Core integration
+example. This gate does not require a demonstrated ecosystem advantage or a
+named consumer before publishing such an example.
+
+Every new or substantially revised tutorial must include a section titled
+`Why this language and runtime?`. A candidate language assignment is a discovery
+hint, not a recommendation, comparative advantage or integration evidence.
+Existing tutorials without this section remain unaudited for runtime fit.
+
+The section must answer all of these questions:
+
+- **Selection basis:** Which existing host, libraries, deployment constraints or
+  named consumer justify keeping execution in this runtime?
+- **Demonstrated fit:** Which specific code path and test actually exercise that
+  integration? Separate implemented behavior from a possible future integration.
+- **Choose when:** What concrete application conditions make this path useful?
+- **Do not choose when:** When would a simpler workflow or another runtime be a
+  better starting point? Identify alternatives without unsupported rankings.
+- **Evidence limit:** Is this Core integration only, an exercised ecosystem
+  integration, or an independently reproduced consumer integration?
+
+"This language can implement the task" is insufficient. Generic tool callbacks,
+JSON fixtures and a scripted model establish Core integration only. Compilation
+does not establish low latency, small deployment size, safety, formal correctness
+or suitability for a regulated domain. An existing host can justify an integration
+example without proving the language is uniquely suited to the business task.
+
+Do not add a second-language copy solely to fill the scenario matrix. Require a
+distinct host integration, dependency or deployment question and a testable
+outcome first. For example, OTP supervision needs a supervised failure/recovery
+test; a Flutter claim needs an exercised Flutter entry; a structured-rule claim
+needs actual parsing/evaluation and counterexamples, not precomputed findings.
+Retain useful generic slices as Core integration examples instead of inventing
+ecosystem advantages for them.
+
+This gate is a claim-quality requirement, not a mandate to deepen every tutorial.
+Keep useful low-cost discovery examples even without an established consumer,
+but label their conditional runtime fit honestly. Invest in deeper host behavior
+when a named consumer, reproduction attempt or concrete usage feedback identifies
+the need. Basic runnable commands and truthful behavior claims remain required
+regardless of adoption; comprehensive depth audits are not a prerequisite for
+publishing an accurately scoped integration example.
+
 ## Scenario Map
 
 | Language / ecosystem | Tutorial outcome | Distinct value | Shared backend |
@@ -268,7 +316,8 @@ Every implemented tutorial should provide:
 6. an exact run command, expected output, and nonzero failure behavior;
 7. a test entry that CI can run;
 8. a scope statement: source, local, CI, real local service, live provider, and
-   independent reproduction as separate evidence levels.
+   independent reproduction as separate evidence levels;
+9. the language-selection section required by the Language Selection Gate above.
 
 Tutorials should not add a new Core or wire API unless a named consumer
 demonstrates a reusable gap. Application-specific tools belong in the tutorial,

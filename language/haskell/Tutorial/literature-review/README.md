@@ -6,6 +6,20 @@ cites the top result, and drafts an explicitly unverified hypothesis. This uses
 the source Haskell Core through `runghc`; no network, credentials or packages are
 required beyond GHC.
 
+## Why this language and runtime?
+
+- **Selection basis:** An existing Haskell research tool may need native Core
+  integration. This tutorial does not establish a named consumer requirement.
+- **Demonstrated fit:** Typed callbacks and explicit error results connect the
+  Haskell Core to fixed papers. They do not prove evidence correctness, formal
+  reasoning or literature-search quality. This is Core integration only.
+- **Choose when:** Evaluating Core in an existing Haskell application with GHC.
+- **Do not choose when:** Seeking a validated literature-review pipeline or
+  choosing a new research stack. Compare Python retrieval tooling or a direct
+  search workflow before introducing another runtime.
+- **Evidence limit:** No domain-specific type model, proof, live retrieval or
+  comparative advantage is demonstrated by the fixed corpus.
+
 Run from the repository root:
 
 ```bash

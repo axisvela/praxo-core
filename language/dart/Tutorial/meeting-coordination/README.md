@@ -6,6 +6,20 @@ fixture, checks conflicts, and drafts review-only minutes and tasks. This uses t
 source Dart Core with a relative import; no network, credentials or packages are
 required.
 
+## Why this language and runtime?
+
+- **Selection basis:** An existing Dart or Flutter application might keep Agent
+  execution in its own runtime. This is a conditional fit, not a verified consumer.
+- **Demonstrated fit:** A Dart CLI uses a relative Core import and fixture tools.
+  This is Core integration only: no Flutter UI, mobile lifecycle, platform channel
+  or calendar plugin is exercised.
+- **Choose when:** Evaluating the Core seam in an already maintained Dart host.
+- **Do not choose when:** Expecting mobile/calendar integration from this CLI or
+  selecting a scheduling backend. Compare an existing Node/Python service or a
+  direct calendar workflow if no Dart host is required.
+- **Evidence limit:** No mobile deployment, offline synchronization or Flutter
+  integration claim follows from the CLI checks.
+
 Run from the repository root:
 
 ```bash

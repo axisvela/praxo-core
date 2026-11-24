@@ -5,6 +5,20 @@ not a production incident platform. It correlates fixed trace/metric/log signals
 and drafts a review-only rollback. This uses the source Erlang Core through
 `escript`; no network, credentials or packages beyond Erlang/OTP are required.
 
+## Why this language and runtime?
+
+- **Selection basis:** An existing Erlang/OTP operations application might embed
+  Core alongside its services. No independent OTP consumer is verified here.
+- **Demonstrated fit:** An escript executes Core callbacks, fixture signals and
+  a rollback draft. This is Core integration only, not an OTP supervision or
+  concurrent incident-processing demonstration.
+- **Choose when:** Evaluating Core inside an already maintained BEAM environment.
+- **Do not choose when:** Expecting supervised recovery, distributed RCA or an
+  operational SOAR pipeline. Compare existing Go/Python operations services or
+  deterministic runbooks when there is no OTP-host requirement.
+- **Evidence limit:** No supervision-tree restart, concurrent workload, recovery
+  or fault-tolerance advantage is established by this sequential fixture.
+
 Compile the Core once, then run from the repository root:
 
 ```bash

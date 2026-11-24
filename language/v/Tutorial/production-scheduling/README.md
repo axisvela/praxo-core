@@ -5,6 +5,19 @@ not an APS/MES integration. It reads a fixed job queue, computes a deterministic
 priority order, and drafts review-only MES/AGV instructions. This uses the source
 V Core; no network, credentials or packages beyond V are required.
 
+## Why this language and runtime?
+
+- **Selection basis:** An existing V application may need an in-process Core.
+  No named production-scheduling consumer is established here.
+- **Demonstrated fit:** The source V Core executes fixture tools and policy checks.
+  This is Core integration only, not an exercised MES or scheduling engine.
+- **Choose when:** Evaluating Core inside an existing V tool with a V toolchain.
+- **Do not choose when:** Selecting a new production scheduler. Compare C++, Go
+  or Python against actual solver, device SDK and deployment requirements; this
+  example establishes no advantage over them.
+- **Evidence limit:** No comparative performance, binary-size or deployment
+  advantage has been measured.
+
 Build and run from the repository root:
 
 ```bash

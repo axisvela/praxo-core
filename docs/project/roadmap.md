@@ -52,6 +52,20 @@ path.
 
 ### Planning Principles
 
+**Planning update: 2026-11-24.** Scenario breadth does not establish language
+fit. The current phase prioritizes batch completion of basic scenario entry
+points, discovery and attracting users, before broad optimization. Keep each
+entry accurately scoped and assess mappings against the
+[language selection gate](../getting-started/tutorial-plan.md#language-selection-gate).
+Prioritize accurate selection guidance and reproducible starting paths. Deeper
+host integrations follow a named consumer or concrete usage feedback, not a
+blanket requirement to deepen unused tutorials. A concise selection rationale
+must not turn into a deep-integration prerequisite for publishing basic examples.
+Generic scripted fixtures remain useful Core integration
+examples, not evidence that a language is preferable for an industry task.
+Selection rationale must distinguish an existing-runtime constraint from a
+demonstrated ecosystem capability and state when not to choose that runtime.
+
 - Lead with a working result, then explain the underlying contracts.
 - Start from published packages and common local or hosted model endpoints.
 - Keep one minimal denial check in the first path; move broad matrices and fault
