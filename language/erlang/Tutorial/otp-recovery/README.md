@@ -22,9 +22,9 @@ touched.
 Compile the Core and tutorial modules, then from the repository root:
 
 ```bash
-mkdir -p language/erlang/build/ebin language/erlang/Tutorial/otp-recovery/ebin
+mkdir -p language/erlang/build/ebin
 erlc -I language/erlang/src -o language/erlang/build/ebin language/erlang/src/*.erl
-erlc -o language/erlang/Tutorial/otp-recovery/ebin \
+erlc -o language/erlang/build/ebin \
   language/erlang/Tutorial/otp-recovery/worker.erl \
   language/erlang/Tutorial/otp-recovery/praxo_sup.erl
 escript language/erlang/Tutorial/otp-recovery/recovery.escript --test

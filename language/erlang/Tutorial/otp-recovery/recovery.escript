@@ -3,7 +3,6 @@
 
 main(Args) ->
     code:add_pathz("language/erlang/build/ebin"),
-    code:add_pathz("language/erlang/Tutorial/otp-recovery/ebin"),
     case lists:member("--test", Args) of
         true -> run_tests();
         false ->

@@ -244,9 +244,9 @@ jobs:
           otp-version: '29'
           install-hex: false
           install-rebar: false
-      - run: mkdir -p language/erlang/build/ebin language/erlang/Tutorial/otp-recovery/ebin
+      - run: mkdir -p language/erlang/build/ebin
       - run: erlc -I language/erlang/src -o language/erlang/build/ebin language/erlang/src/*.erl
-      - run: erlc -o language/erlang/Tutorial/otp-recovery/ebin language/erlang/Tutorial/otp-recovery/worker.erl language/erlang/Tutorial/otp-recovery/praxo_sup.erl
+      - run: erlc -o language/erlang/build/ebin language/erlang/Tutorial/otp-recovery/worker.erl language/erlang/Tutorial/otp-recovery/praxo_sup.erl
       - run: escript language/erlang/Tutorial/otp-recovery/recovery.escript --test
 
   ocaml-static-diagnostics:
