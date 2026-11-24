@@ -2,6 +2,8 @@
 
 Application tutorials live in `Tutorial/`, alongside focused `examples/`.
 
+- [Vibration review](vibration-review/README.md): native FFT/RMS comparison of
+  normal and anomalous samples with a review-only inspection branch; no device access.
 - [Signal trends](signal-trends/README.md): runs the shared MATLAB/Octave signal
   tutorial under GNU Octave with native core metrics and a scoped report.
 
@@ -10,8 +12,8 @@ lives under `language/matlab/Tutorial/signal-trends/`.
 
 ## Article angle
 
-Primary planned direction: vibration inspection using FFT/RMS and contrasting
-samples. See [runtime-aligned design](https://axisvela.github.io/praxo-core/getting-started/runtime-scenario-design/).
+Primary direction: [vibration inspection](vibration-review/README.md) using FFT/RMS
+and contrasting samples. See [runtime-aligned design](https://axisvela.github.io/praxo-core/getting-started/runtime-scenario-design/).
 
 Free numerical workflows for MATLAB-style analysis, with a clear line between Octave results and MATLAB guarantees.
 

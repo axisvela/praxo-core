@@ -13,7 +13,7 @@
 | OCaml | [静态分析诊断复核](https://github.com/axisvela/praxo-core/tree/main/language/ocaml/Tutorial/static-diagnostics) | SE-05 | 编译器、类型化语法树、分析器生态 | 解析诊断或小型 AST，按源码位置执行规则 | 本地 OCaml 测试通过；远端 CI 未核验 |
 | Erlang | [OTP 服务恢复复核](https://github.com/axisvela/praxo-core/tree/main/language/erlang/Tutorial/otp-recovery) | SE-06 | 电信、消息系统、进程隔离与监督树 | 启动监督树、注入子进程故障、观察恢复后草拟建议 | 本地 OTP 测试通过；远端 CI 未核验 |
 | Julia | [有约束能源调度复核](https://github.com/axisvela/praxo-core/tree/main/language/julia/Tutorial/dispatch-review) | IN-04 | 数值计算；当前使用原生有界枚举，尚未使用 JuMP | 求解约束模型、报告可行性与目标值；不发电网指令 | 本地 Julia 测试通过；远端 CI 未核验 |
-| Octave | 振动信号巡检复核 | IN-01 | 矩阵、FFT、MATLAB 风格工程分析 | 比较正常/异常样本的 FFT/RMS；不预测故障 | 计划 |
+| Octave | [振动信号巡检复核](https://github.com/axisvela/praxo-core/tree/main/language/octave/Tutorial/vibration-review) | IN-01 | 矩阵、FFT、MATLAB 风格工程分析 | 比较正常/异常样本的 FFT/RMS；不预测故障 | 本地 Octave 测试通过；远端 CI 未核验 |
 | COBOL | 日终对账异常复核 | FC-03 | 十进制业务记录与银行/保险批处理 | COBOL 计算差异、复核异常记录；不改账 | 增强现有 batch-exception-review |
 | Zig | C ABI 宿主健康诊断组件 | IN-01 | 显式分配器、原生组件、C ABI | 实际 C 回调、分配预算测试与释放；不控制硬件 | 增强现有 gateway-health |
 
