@@ -10,6 +10,9 @@ implemented tutorials.
 
 ## Article angle
 
+Primary planned direction: business-rule DSL validation with typed ASTs and
+counterexamples. See [runtime-aligned design](https://axisvela.github.io/praxo-core/getting-started/runtime-scenario-design/).
+
 Typed seams for research and compiler tooling: explicit effects and errors without claiming formal proof.
 
 ## Business scenarios

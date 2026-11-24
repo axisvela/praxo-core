@@ -17,6 +17,12 @@ delivery commitments.
 
 ## The Agent Loop
 
+See [runtime-aligned tutorial design](runtime-scenario-design.md) for primary
+business paths in nine native/scientific languages. These refine tutorial
+selection without adding scenario IDs or claiming every related goal is complete.
+The D [data-pipeline](https://github.com/axisvela/praxo-core/tree/main/language/d/Tutorial/data-pipeline)
+path adds native record validation and review branching related to SC-06.
+
 Each implementation should show a bounded plan, application-owned state, a tool
 result, and a subsequent decision based on that result. A single scripted tool
 call is a mechanism demonstration, not autonomous end-to-end task completion.
@@ -50,7 +56,7 @@ Repository links in the tables point to source on `main`, not immutable run evid
 
 | ID | Scenario | Targets | First bounded tutorial outcome / related slice |
 | --- | --- | --- | --- |
-| SE-01 | End-to-end full-stack development | TypeScript, Go, Dart | Plan a tiny application, edit an allowlisted temporary workspace, build and inspect diagnostics; no deployment; [Go fullstack-workspace](https://github.com/axisvela/praxo-core/tree/main/language/go/Tutorial/fullstack-workspace) and [TypeScript workspace-plan](https://github.com/axisvela/praxo-core/tree/main/language/typescript/Tutorial/workspace-plan) edit a fixture workspace |
+| SE-01 | End-to-end full-stack development | TypeScript, Go, Dart | Plan a tiny application, edit an allowlisted temporary workspace, build and inspect diagnostics; no deployment; [Go fullstack-workspace](https://github.com/axisvela/praxo-core/tree/main/language/go/Tutorial/fullstack-workspace) and [TypeScript workspace-plan](https://github.com/axisvela/praxo-core/tree/main/language/typescript/Tutorial/workspace-plan) edit a fixture workspace; [V release-preflight](https://github.com/axisvela/praxo-core/tree/main/language/v/Tutorial/release-preflight) is adjacent release tooling, not app generation |
 | SE-02 | Bug diagnosis and repair | Python, Rust, Perl | Reproduce a seeded defect, draft a patch and rerun tests; PR creation requires separate authorization; [Python bug-repair](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/bug-repair) applies a review-only in-memory patch and reruns a fixture test |
 | SE-03 | Legacy refactoring and migration | COBOL, Java, Delphi | Produce a dependency inventory and migration draft with unchanged fixture outputs; no automatic production migration; [Delphi legacy-migration slice](https://github.com/axisvela/praxo-core/tree/main/language/delphi/Tutorial/legacy-migration) inventories fixed modules and drafts a plan |
 | SE-04 | Unit-test and load-test generation | Java, C#, Haskell | Generate bounded tests for a local fixture and record results; load only an explicit loopback target; [Haskell test-generation](https://github.com/axisvela/praxo-core/tree/main/language/haskell/Tutorial/test-generation) and [C# test-generation](https://github.com/axisvela/praxo-core/tree/main/language/csharp/Tutorial/test-generation) draft bounded tests |

@@ -32,6 +32,10 @@ contracts, not framework compatibility promises.
 
 ## Language Selection Gate
 
+The [runtime-aligned tutorial design](runtime-scenario-design.md) defines primary
+business examples for V, D, Haskell, OCaml, Erlang, Julia, Octave, COBOL and Zig,
+including required executable behavior and implementation sequence.
+
 The current phase prioritizes batch delivery of basic scenario entry points,
 discovery and attracting users. Complete useful, accurately scoped starting
 paths before broad optimization; use actual usage feedback to choose deeper
@@ -246,6 +250,8 @@ add framework surface.
 | Python bug repair (SE-02) | Native Core, seeded defect, in-memory patch and fixture test rerun | Local Python 3.14 checks pass; CI job added, not yet run | No repository scan, arbitrary execution, real test runner, commit or PR |
 | TypeScript API orchestration (SE-08) | TypeScript Core, two fixed APIs, schema validation and mismatch branch | Local Node checks pass; CI job added, not yet run | No HTTP, credentials, retry, idempotency or partner integration |
 | Python recruiting match (OP-05) | Native Core, deterministic skill/year ranking, review-only shortlist | Local Python 3.14 checks pass; CI job added, not yet run | No identity checks, fairness validation, outreach or hiring decision |
+| V release preflight (SE-01 adjacent) | Native V Core, temporary config parse, field/version/entry checks | Local V checks pass; CI job added, not yet run | No deployment, installation, command execution, signing or registry upload |
+| D data pipeline (SC-06) | Native D Core, real CSV parsing, calculated errors and result-driven review branch | Local DMD checks pass; CI job added, not yet run | No database, file replacement, ingestion platform or arbitrary execution |
 | Rust lab loop (SC-03) | Native Core, fixed parameter/result loop, review-only next parameters | Local cargo build/test pass; CI job added, not yet run | No instrument actuator, chemical handling, safety interlock or closed-loop control |
 | TypeScript localization draft (CS-07) | TypeScript Core, fixed localization rules, review-only localized text | Local Node checks pass; CI job added, not yet run | No legal/tax compliance guarantee, live content system or publication |
 | Python CBT exercise (HC-05) | Native Core, fixed CBT exercise, explicit human-review escalation branch | Local Python 3.14 checks pass; CI job added, not yet run | No therapist replacement, diagnosis, live session or unsupervised crisis handling |

@@ -1,5 +1,8 @@
 # V Tutorials
 
+- [Release Preflight](release-preflight/README.md): native V reads a temporary
+  configuration, validates fields/version/entry and drafts review corrections; no
+  deployment.
 - [Production Scheduling (IN-02)](production-scheduling/README.md): source V Core,
   fixed job queue, deterministic priority order and a review-only instruction
   draft; no dispatch or MES integration.
@@ -9,6 +12,9 @@ for additional V candidate assignments. Those are planned targets, not implement
 tutorials.
 
 ## Article angle
+
+Primary direction: [configuration and release preflight](release-preflight/README.md),
+not production scheduling. See [runtime-aligned design](https://axisvela.github.io/praxo-core/getting-started/runtime-scenario-design/).
 
 Compact native tools with a review seam: fast compilation and small binaries, minus ecosystem hype.
 

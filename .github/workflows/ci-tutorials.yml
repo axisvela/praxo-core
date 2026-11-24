@@ -234,6 +234,26 @@ jobs:
           compiler: dmd-latest
       - run: dmd -i -Ilanguage/d/source -run language/d/Tutorial/quant-risk/risk.d --test
 
+  v-release-preflight:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: vlang/setup-v@v1
+        with:
+          version: '0.4.12'
+      - run: v -path "language/v|@vlib|@vmodules" run language/v/Tutorial/release-preflight/preflight.v --test
+
+  d-data-pipeline:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dlang-community/setup-dlang@v2
+        with:
+          compiler: dmd-latest
+      - run: dmd -i -Ilanguage/d/source -run language/d/Tutorial/data-pipeline/pipeline.d --test
+
   ruby-finops-review:
     runs-on: ubuntu-latest
     timeout-minutes: 10

@@ -11,6 +11,9 @@ provider credential or a live model in deterministic mode.
 
 ## Article angle
 
+Primary planned direction: constrained energy-dispatch review using numerical
+optimization. See [runtime-aligned design](https://axisvela.github.io/praxo-core/getting-started/runtime-scenario-design/).
+
 Numerical research plus a review boundary: multiple dispatch, scientific libraries and explicit non-goals.
 
 ## Business scenarios

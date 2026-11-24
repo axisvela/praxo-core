@@ -9,6 +9,9 @@ implemented tutorials.
 
 ## Article angle
 
+Primary planned direction: OTP supervision and recovery review, extending beyond
+the sequential AIOps fixture. See [runtime-aligned design](https://axisvela.github.io/praxo-core/getting-started/runtime-scenario-design/).
+
 OTP operations software with governed drafting: where runtime fault tolerance ends and application safety begins.
 
 ## Business scenarios

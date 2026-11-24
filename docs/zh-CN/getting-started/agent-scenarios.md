@@ -15,6 +15,11 @@
 
 ## 闭环要求
 
+[语言适配教程设计](runtime-scenario-design.md) 给出九种原生/科学语言的主业务入口。
+它细化选型，不新增场景 ID，也不表示关联目标全部完成。
+D [data-pipeline](https://github.com/axisvela/praxo-core/tree/main/language/d/Tutorial/data-pipeline)
+实现原生记录校验与结果驱动的复核分支，关联 SC-06。
+
 每个实现应展示有界规划、应用自有状态、工具结果以及基于结果的后续决策。
 单次脚本工具调用只能算机制演示，不能算自主端到端完成任务。
 规划可使用确定性模式以便复现；记忆、观察与历史工具结果仍是不可信数据，不能提升成
@@ -28,7 +33,7 @@ system 指令。Memory Store 不等于自动召回；checkpoint 消息续跑不�
 
 | ID | 场景 | 目标语言 | 首个有界教学成果 / 相关切片 |
 | --- | --- | --- | --- |
-| SE-01 | 端到端全栈代码开发 | TypeScript、Go、Dart | 规划微型应用、在允许的临时工作区修改并构建；不部署；[Go 全栈工作区](https://github.com/axisvela/praxo-core/tree/main/language/go/Tutorial/fullstack-workspace)与 [TypeScript 工作区规划](https://github.com/axisvela/praxo-core/tree/main/language/typescript/Tutorial/workspace-plan)编辑固定工作区 |
+| SE-01 | 端到端全栈代码开发 | TypeScript、Go、Dart | 规划微型应用、在允许的临时工作区修改并构建；不部署；[Go 全栈工作区](https://github.com/axisvela/praxo-core/tree/main/language/go/Tutorial/fullstack-workspace)与 [TypeScript 工作区规划](https://github.com/axisvela/praxo-core/tree/main/language/typescript/Tutorial/workspace-plan)编辑固定工作区；[V 发布预检](https://github.com/axisvela/praxo-core/tree/main/language/v/Tutorial/release-preflight)属于相邻发布工具，不是应用生成 |
 | SE-02 | 自动化 Bug 定位与修复 | Python、Rust、Perl | 复现预置缺陷、草拟补丁、重跑测试；PR 创建单独授权；[Python Bug 修复](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/bug-repair)在内存中应用仅审阅补丁并重跑 fixture 测试 |
 | SE-03 | 遗留代码重构与迁移 | COBOL、Java、Delphi | 依赖清单与迁移草案，保持 fixture 输出不变；不迁移生产系统；[Delphi 遗留迁移切片](https://github.com/axisvela/praxo-core/tree/main/language/delphi/Tutorial/legacy-migration)盘点固定模块并草拟计划 |
 | SE-04 | 单元测试与压测生成 | Java、C#、Haskell | 对本地 fixture 生成有界测试；压测仅允许的 loopback 服务；[Haskell 测试生成](https://github.com/axisvela/praxo-core/tree/main/language/haskell/Tutorial/test-generation)与 [C# 测试生成](https://github.com/axisvela/praxo-core/tree/main/language/csharp/Tutorial/test-generation)草拟有界测试 |

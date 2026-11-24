@@ -4,6 +4,9 @@ Bounded Zig examples built on the native Core. Each tutorial is a small, runnabl
 
 ## Article angle
 
+Primary planned enhancement: C ABI host-health callbacks with allocation-budget
+and cleanup checks. See [runtime-aligned design](https://axisvela.github.io/praxo-core/getting-started/runtime-scenario-design/).
+
 Explicit control at the edge: allocators, comptime and C interoperability, with pre-1.0 trade-offs stated plainly.
 
 ## Business scenarios

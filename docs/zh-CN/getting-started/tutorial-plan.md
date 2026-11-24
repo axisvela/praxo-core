@@ -36,6 +36,9 @@ Web 服务、运维 Shell、分析工作流、宿主嵌入或受约束设备。�
 
 ## 语言选择门槛 {#language-selection-gate}
 
+[语言适配教程设计](runtime-scenario-design.md) 明确 V、D、Haskell、OCaml、Erlang、Julia、
+Octave、COBOL 与 Zig 的主业务入口、必须执行的行为和实现顺序。
+
 当前阶段优先批量完成基础场景入口、推广和吸引用户，再根据使用反馈决定深化方向。
 简短、诚实的运行时依据即可支持 Core 集成示例发布，不要求先证明生态优势或获得
 明确消费者。候选语言分配只是发现线索，不是推荐排名、比较优势或集成证据。

@@ -11,6 +11,9 @@ application-owned step, not an inline model decision in the posting path.
 
 ## Article angle
 
+Primary planned enhancement: end-of-day decimal reconciliation and exception
+review in the existing batch host. See [runtime-aligned design](https://axisvela.github.io/praxo-core/getting-started/runtime-scenario-design/).
+
 Adding reviewed Agent assistance beside an existing COBOL batch without rewriting the business flow or moving sensitive records.
 
 ## Business scenarios

@@ -15,6 +15,9 @@ implemented tutorials.
 
 ## Article angle
 
+Primary planned direction: executable static-analysis diagnostic review.
+See [runtime-aligned design](https://axisvela.github.io/praxo-core/getting-started/runtime-scenario-design/).
+
 Typed analysis tools with review-only findings: parsers, graphs and rules without overstating formal verification.
 
 ## Business scenarios

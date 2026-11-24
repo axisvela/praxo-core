@@ -10,6 +10,9 @@ lives under `language/matlab/Tutorial/signal-trends/`.
 
 ## Article angle
 
+Primary planned direction: vibration inspection using FFT/RMS and contrasting
+samples. See [runtime-aligned design](https://axisvela.github.io/praxo-core/getting-started/runtime-scenario-design/).
+
 Free numerical workflows for MATLAB-style analysis, with a clear line between Octave results and MATLAB guarantees.
 
 ## Business scenarios

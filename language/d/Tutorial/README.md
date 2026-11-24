@@ -11,6 +11,9 @@ tutorials.
 
 ## Article angle
 
+Primary direction: [data-import pipeline diagnosis](data-pipeline/README.md).
+See [runtime-aligned design](https://axisvela.github.io/praxo-core/getting-started/runtime-scenario-design/).
+
 Native tooling with explicit checks: embedding review where the data and calculations already live.
 
 ## Business scenarios
