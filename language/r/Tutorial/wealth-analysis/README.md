@@ -6,6 +6,19 @@ rebalance, and drafts a review-only proposal that executes no trades. The model
 packages computed evidence instead of inventing numbers. This tutorial does not
 trade, transfer cash, use market data, read arbitrary files or call a live model.
 
+## Why this language and runtime?
+
+- **Selection basis:** An R analytics workflow can keep portfolio calculations and
+  the review boundary in one statistical runtime. No wealth-management consumer is
+  verified here.
+- **Demonstrated fit:** Native R computes weights, weighted risk and concentration
+  from a fixed portfolio; the test checks the numbers and draft-only output.
+- **Choose when:** Exploring a review workflow around calculations already in R.
+- **Do not choose when:** Seeking investment advice, market integration or validated
+  risk models. A direct R analysis may suffice without an Agent.
+- **Evidence limit:** Native calculation plus Core integration on a tiny fixture;
+  no market data, trading, suitability assessment or advisory claim.
+
 Run from the repository root:
 
 ```bash

@@ -6,6 +6,18 @@ changed sections and removed duplicates, and drafts a review-only revision. This
 uses the source Elixir Core; no network, credentials or packages beyond Elixir/OTP
 are required.
 
+## Why this language and runtime?
+
+- **Selection basis:** An existing Elixir/OTP knowledge service could keep a review
+  workflow in its own supervised application. No such consumer is verified here.
+- **Demonstrated fit:** An Elixir script runs Core callbacks over fixed knowledge
+  versions and drafts a revision. Differencing and changed counts are fixture data.
+- **Choose when:** Learning the Core seam for an already maintained Elixir service.
+- **Do not choose when:** Expecting Wiki integration, real document diffing or OTP
+  supervision behavior. Compare direct diff libraries and existing service rules.
+- **Evidence limit:** Core integration fixture only; no wiki API, durable state,
+  concurrency test, supervision restart or comparative BEAM advantage.
+
 Compile the Core once, then run from the repository root:
 
 ```bash

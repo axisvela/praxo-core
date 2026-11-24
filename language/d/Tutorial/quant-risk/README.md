@@ -5,6 +5,18 @@ not a trading or execution system. It reads fixed portfolio/market data, compute
 proposed-order exposure, enforces a stated risk limit outside the agent, and drafts
 a review-only order. No trades, live market feed or latency claim.
 
+## Why this language and runtime?
+
+- **Selection basis:** An existing D risk component could embed Core while retaining
+  native processing and deployment. No trading consumer is verified here.
+- **Demonstrated fit:** A fixed portfolio/order fixture is evaluated by application
+  code outside the Agent, then a review-only order is drafted.
+- **Choose when:** Learning the Core seam for an existing D risk tool.
+- **Do not choose when:** Seeking execution, market data or latency guarantees.
+  Compare direct risk checks and the existing trading control path first.
+- **Evidence limit:** Core integration fixture only; no feed, order execution,
+  latency measurement, regulatory validation or comparative D advantage.
+
 Run from the repository root:
 
 ```bash

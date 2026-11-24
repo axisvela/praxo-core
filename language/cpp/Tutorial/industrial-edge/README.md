@@ -6,6 +6,18 @@ drafts an operator maintenance action. The adapter is an in-process fixture.
 This tutorial does not implement a real fieldbus, OPC UA, socket, device SDK,
 live model or device write.
 
+## Why this language and runtime?
+
+- **Selection basis:** An existing C++ industrial application can embed Core beside
+  its device SDK rather than adding a separate Agent service.
+- **Demonstrated fit:** An application-owned interface, exceptions and deterministic
+  tools exercise the Core over an in-process snapshot.
+- **Choose when:** Adding a governed review seam to an already maintained C++ host.
+- **Do not choose when:** Seeking fieldbus/OPC UA integration or real-time guarantees.
+  Compare the existing device SDK path and deterministic rules first.
+- **Evidence limit:** Core integration only; no fieldbus, socket, SDK, timing
+  measurement, safety certification or production device access.
+
 Build the static library and the tutorial from the repository root:
 
 ```bash

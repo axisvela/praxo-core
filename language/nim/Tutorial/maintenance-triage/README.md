@@ -6,6 +6,18 @@ marks the indicator elevated, and drafts a review-only work order. This uses the
 source Nim Core; no network, credentials or packages beyond Nim and a C compiler
 are required.
 
+## Why this language and runtime?
+
+- **Selection basis:** A small Nim utility could embed Core through its C backend
+  without a larger runtime. No deployed maintenance consumer is verified here.
+- **Demonstrated fit:** Native callbacks read a fixed telemetry fixture and draft a
+  work order. The elevated indicator is supplied by the fixture.
+- **Choose when:** Evaluating the Core seam in an existing Nim operations tool.
+- **Do not choose when:** Seeking predictive maintenance or device integration.
+  Compare direct threshold rules and the existing maintenance system first.
+- **Evidence limit:** Core integration fixture only; no sensor feed, prediction,
+  binary-size measurement, work-order write or accuracy claim.
+
 Build and run from the repository root:
 
 ```bash

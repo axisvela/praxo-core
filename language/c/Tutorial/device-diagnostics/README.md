@@ -6,6 +6,19 @@ function pointer and drafts an operator review action. The adapter is an
 in-process fixture. This tutorial does not implement a real serial bus, socket,
 device SDK, live model or device write.
 
+## Why this language and runtime?
+
+- **Selection basis:** A constrained C host can embed the MIT Core without a
+  runtime or garbage collector. No deployed device consumer is verified here.
+- **Demonstrated fit:** A function-pointer adapter and caller-owned buffers run an
+  in-process Core loop with explicit policy and failure paths.
+- **Choose when:** Evaluating the Core seam in an existing C component with known
+  allocation and transport constraints.
+- **Do not choose when:** Expecting serial/network/device support or measured
+  footprint. Compare direct C diagnostics and the actual platform limits first.
+- **Evidence limit:** Core integration fixture only; no serial bus, device SDK,
+  memory budget measurement or safety certification.
+
 Build the static library and the tutorial from the repository root:
 
 ```bash
