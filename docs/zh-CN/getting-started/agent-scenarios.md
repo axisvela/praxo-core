@@ -58,7 +58,7 @@ system 指令。Memory Store 不等于自动召回；checkpoint 消息续跑不�
 | CS-04 | 内容营销与矩阵运营 | Python、R、Dart | 计算分群、草拟内容、发布审批；现有 R 分群不发送 |
 | CS-05 | 电商定价与补货 | Java、PHP、Ruby | 模拟价格/库存约束、草拟补货单；不调整真实价格；[TypeScript 零售补货切片](https://github.com/axisvela/praxo-core/tree/main/language/typescript/Tutorial/retail-replenishment)计算固定补货量并草拟采购单 |
 | CS-06 | 流失预警与主动挽留 | R、Elixir、Julia | 计算固定风险信号、草拟基于同意的优惠；不推断敏感特征或自动触达 |
-| CS-07 | 跨境多语言本地化 | TypeScript、PHP、Perl | 草拟本地化商品文本并引用固定规则；不保证法律/税务合规；[TypeScript 本地化草案](https://github.com/axisvela/praxo-core/tree/main/language/typescript/Tutorial/localization-draft)草拟仅审阅文本 |
+| CS-07 | 跨境多语言本地化 | TypeScript、PHP、Perl | 草拟本地化商品文本并引用固定规则；不保证法律/税务合规；[TypeScript 本地化草案](https://github.com/axisvela/praxo-core/tree/main/language/typescript/Tutorial/localization-draft)与 [PHP 本地化草案](https://github.com/axisvela/praxo-core/tree/main/language/php/Tutorial/localization-draft)草拟仅审阅文本 |
 
 ## 金融、财税与合规（6）
 
@@ -101,7 +101,7 @@ system 指令。Memory Store 不等于自动召回；checkpoint 消息续跑不�
 | HC-02 | 慢病管理与随访 | Swift、Dart、Objective-C | 汇总合成穿戴数据、交人工复核；不调整剂量或个体治疗；[Dart 慢病随访](https://github.com/axisvela/praxo-core/tree/main/language/dart/Tutorial/chronic-care)路由仅审阅预警 |
 | HC-03 | 临床试验招募匹配 | Python、Java、C# | 判断合成入排条件、解释未知项；不搜索真实患者或决定入组；[Python 试验筛选](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/trial-screening)筛选固定患者并草拟记录 |
 | HC-04 | 病历质控与 DRG/DIP 编码 | Java、COBOL、C# | 检查合成记录完整性并草拟代码；不优化骗保、不虚假编码、不提交账单；[C# 病历编码](https://github.com/axisvela/praxo-core/tree/main/language/csharp/Tutorial/medical-coding)草拟仅审阅编码 |
-| HC-05 | 心理支持与 CBT 练习 | Swift、Dart、Python | 合成练习对话与明确的危机转人工分支；不替代治疗师或独立处理危机；[Python CBT 练习](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/cbt-exercise)展示转人工分支 |
+| HC-05 | 心理支持与 CBT 练习 | Swift、Dart、Python | 合成练习对话与明确的危机转人工分支；不替代治疗师或独立处理危机；[Python CBT 练习](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/cbt-exercise)与 [Dart CBT 练习](https://github.com/axisvela/praxo-core/tree/main/language/dart/Tutorial/cbt-exercise)展示转人工分支 |
 
 ## 个人、教育与具身（5）
 

@@ -1,5 +1,7 @@
 ﻿# PHP Tutorials
 
+- [Localization Draft (CS-07)](localization-draft/README.md): native PHP Core,
+  fixed rules and review-only localized text; no legal/tax guarantee.
 - [Lead Nurture (CS-02)](lead-nurture/README.md): native PHP Core, fixed
   business profiles and review-only opt-in outreach; no crawling or sends.
 - [Tender Review (BE-04)](tender-review/README.md): native PHP Core, fixed

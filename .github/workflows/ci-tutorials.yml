@@ -466,6 +466,26 @@ jobs:
       - run: go run ./language/go/Tutorial/soc-alert-triage --test
       - run: go test ./language/go/Tutorial/soc-alert-triage
 
+  php-localization-draft:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.5'
+      - run: php language/php/Tutorial/localization-draft/app.php --test
+
+  dart-cbt-exercise:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dart-lang/setup-dart@v1
+        with:
+          sdk: stable
+      - run: dart language/dart/Tutorial/cbt-exercise/cbt_exercise.dart --test
+
   typescript-workspace-plan:
     runs-on: ubuntu-latest
     timeout-minutes: 10
