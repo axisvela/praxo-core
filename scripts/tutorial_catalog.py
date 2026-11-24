@@ -112,6 +112,8 @@ TUTORIALS = {
     "eda-placement": ("OG", "analysis,tools,draft,policy", "OG-05"),
     "digital-twin-memory": ("OG", "state,tools,draft,policy", "OG-06"),
     "litigation-timeline": ("LJ", "analysis,tools,draft,policy", "LJ-01"),
+    "precedent-outline": ("LJ", "analysis,tools,draft,policy", "LJ-04"),
+    "property-forecast": ("BE", "analysis,tools,draft,policy", "BE-05"),
 }
 GUIDES = {
     "workspace-agent-tutorial": ("SE", "go", "filesystem,tools,policy"),

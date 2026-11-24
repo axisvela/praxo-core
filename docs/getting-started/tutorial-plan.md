@@ -169,6 +169,8 @@ add framework surface.
 | C++ EDA placement (OG-05) | C++ Core, fixed placement grid, review-only layout with stated proxies | Local MinGW build/test pass; CI job added, not yet run | No foundry-valid layout, DRC/LVS sign-off, measured PPA or tapeout |
 | Dart digital twin memory (OG-06) | Dart Core, consent-scoped synthetic memory, in-process store/recall/delete | Local Dart checks pass; CI job added, not yet run | No real inbox, passwords, cross-app access, durable store or unrestricted recall |
 | Go litigation timeline (LJ-01) | Go reference Core, fixed documents, review-only evidence outline | Local Go vet/run/test pass; CI job added, not yet run | No real case files, privilege review, legal advice or admissibility ruling |
+| Python precedent outline (LJ-04) | Native Core, fixed precedents, review-only cited outline | Local Python 3.14 checks pass; CI job added, not yet run | No live legal database, citation validation, sentencing or judicial decision |
+| R property forecast (BE-05) | Native R Core, fixed site metrics, review-only forecast with assumptions | Local R checks pass; CI job added, not yet run | No verified probability, return guarantee, valuation or location profiling |
 | Python order review | Native Core, HTTP tool, fixed order scope, draft-only | Local and hosted CI against the public local service | Deterministic model; no live provider or external consumer |
 | TypeScript order support | Native Core, HTTP tool, fixed order scope | Local and hosted CI against the public local service | Deterministic model; CLI, not a Web frontend |
 | Java order review | Native Core, JUnit, loopback Web, real-service CLI | Mock/Web JUnit and real-service CLI passed in Linux CI | Java Web-to-real-backend and live model not verified |

@@ -171,7 +171,7 @@ system 指令。Memory Store 不等于自动召回；checkpoint 消息续跑不�
 | LJ-01 | 诉讼证据链与质证提纲 | Python、OCaml、Go | 从合成文档建立带引用时间线、标记矛盾；非法律意见或证据可采性证明 | [Go 诉讼时间线](https://github.com/axisvela/praxo-core/tree/main/language/go/Tutorial/litigation-timeline)：固定文档与仅审阅提纲；[证据库](https://github.com/axisvela/praxo-core/tree/main/language/go/Tutorial/evidence-vault)：受限读取，不是诉讼分析 | 未实现 |
 | LJ-02 | 专利检索、FTO 与布局 | Python、Java、Haskell | 比较合成权利要求并草拟律师复核问题；非全面专利检索或不侵权意见 | [Python 专利 FTO](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/patent-fto)：固定权利要求重叠与律师问题 | 未实现 |
 | LJ-03 | 商业尽职调查 | Java、C#、Ruby | 对账合成股权/合同/纠纷并草拟清单；无已验证并购结论 | [Ruby 尽职调查](https://github.com/axisvela/praxo-core/tree/main/language/ruby/Tutorial/due-diligence)：固定记录与仅审阅清单 | 未实现 |
-| LJ-04 | 类案检索与法律文书草拟 | Python、Java、OCaml | 检索固定合成案例、草拟带引用提纲；非量刑建议或司法裁判 | [法律合规](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/legal-compliance)：仅政策引用和脚本审批门 | 未实现 |
+| LJ-04 | 类案检索与法律文书草拟 | Python、Java、OCaml | 检索固定合成案例、草拟带引用提纲；非量刑建议或司法裁判 | [Python 类案提纲](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/precedent-outline)：固定判例与仅审阅提纲；[法律合规](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/legal-compliance)：仅政策引用和脚本审批门 | 未实现 |
 | LJ-05 | 数字版权监测与维权流程 | Rust、PHP、TypeScript | 比较获授权 fixture 素材、草拟证据包；不全网扫描、自动发 DMCA 或裁定侵权 | [PHP 版权证据](https://github.com/axisvela/praxo-core/tree/main/language/php/Tutorial/copyright-evidence)：固定素材与仅审阅证据包 | 未实现 |
 
 ## 建筑工程、矿业与空间运营（5）
@@ -182,7 +182,7 @@ system 指令。Memory Store 不等于自动召回；checkpoint 消息续跑不�
 | BE-02 | 商业楼宇 HVAC 与照明节能 | Julia、C、Delphi | 模拟人流/热工约束并草拟设置；无 BMS 指令或节能证明 | 无 | 未实现 |
 | BE-03 | 智慧矿山与边坡风险预警 | Fortran、Rust、C++ | 计算合成位移指标、草拟复核警报；无塌方预测或矿车调度 | 无 | 未实现 |
 | BE-04 | 招投标编制与串标审查 | Java、PHP、COBOL | 校验合成资质、标记文档相似性；不自动投标或认定串标 | [PHP 招标复核](https://github.com/axisvela/praxo-core/tree/main/language/php/Tutorial/tender-review)：固定投标与仅审阅标记 | 未实现 |
-| BE-05 | 地产选址与租金预测 | R、Julia、D | 比较合成选址指标、披露预测假设；无概率/回报验证或个人位置画像 | 无 | 未实现 |
+| BE-05 | 地产选址与租金预测 | R、Julia、D | 比较合成选址指标、披露预测假设；无概率/回报验证或个人位置画像 | [R 地产预测](https://github.com/axisvela/praxo-core/tree/main/language/r/Tutorial/property-forecast)：固定指标与仅审阅预测 | 未实现 |
 
 ## 农业、林业与生态保护（5）
 
