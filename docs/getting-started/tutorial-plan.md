@@ -197,6 +197,8 @@ add framework surface.
 | C# medical coding (HC-04) | Native Core, fixed record completeness, review-only code draft | Local dotnet build/run pass; CI job added, not yet run | No billing submission, reimbursement optimization, false coding or clinical audit |
 | C# airport recovery (TL-07) | Native Core, fixed gate/crew/connection constraints, review-only options | Local dotnet build/run pass; CI job added, not yet run | No airport operations, crew legality, live schedule or latency guarantee |
 | PHP lead nurture (CS-02) | Native PHP Core, fixed business profiles, review-only opt-in outreach | Local PHP 8.5 lint/test pass; CI job added, not yet run | No crawling, scraping, consent automation or unsolicited sends |
+| TypeScript workspace plan (SE-01) | TypeScript Core, fixed allowlisted workspace, bounded edit and fixture diagnostics | Local Node checks pass; CI job added, not yet run | No host filesystem access, real compiler, deployment or production workspace |
+| C# test generation (SE-04) | Native Core, fixed local fixture, review-only test suite | Local dotnet build/run pass; CI job added, not yet run | No test execution, coverage measurement, network load or verified result |
 | Python order review | Native Core, HTTP tool, fixed order scope, draft-only | Local and hosted CI against the public local service | Deterministic model; no live provider or external consumer |
 | TypeScript order support | Native Core, HTTP tool, fixed order scope | Local and hosted CI against the public local service | Deterministic model; CLI, not a Web frontend |
 | Java order review | Native Core, JUnit, loopback Web, real-service CLI | Mock/Web JUnit and real-service CLI passed in Linux CI | Java Web-to-real-backend and live model not verified |

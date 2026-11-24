@@ -466,6 +466,30 @@ jobs:
       - run: go run ./language/go/Tutorial/soc-alert-triage --test
       - run: go test ./language/go/Tutorial/soc-alert-triage
 
+  typescript-workspace-plan:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - run: npm ci --ignore-scripts --no-audit --no-fund
+        working-directory: language/typescript/Tutorial/workspace-plan
+      - run: npm test
+        working-directory: language/typescript/Tutorial/workspace-plan
+
+  csharp-test-generation:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+      - run: dotnet build language/csharp/Tutorial/test-generation/TestGeneration.csproj --nologo
+      - run: dotnet language/csharp/Tutorial/test-generation/bin/Debug/net8.0/Praxo.TestGeneration.dll --test
+
   csharp-airport-recovery:
     runs-on: ubuntu-latest
     timeout-minutes: 10

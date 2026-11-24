@@ -139,6 +139,7 @@ TUTORIALS = {
     "fullstack-workspace": ("SE", "tools,draft,policy", "SE-01"),
     "medical-coding": ("HC", "analysis,tools,draft,policy", "HC-04"),
     "airport-recovery": ("TL", "analysis,tools,draft,policy", "TL-07"),
+    "workspace-plan": ("SE", "tools,draft,policy", "SE-01"),
 }
 GUIDES = {
     "workspace-agent-tutorial": ("SE", "go", "filesystem,tools,policy"),
