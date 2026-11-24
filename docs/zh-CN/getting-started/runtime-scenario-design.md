@@ -14,8 +14,8 @@
 | Erlang | [OTP 服务恢复复核](https://github.com/axisvela/praxo-core/tree/main/language/erlang/Tutorial/otp-recovery) | SE-06 | 电信、消息系统、进程隔离与监督树 | 启动监督树、注入子进程故障、观察恢复后草拟建议 | 本地 OTP 测试通过；远端 CI 未核验 |
 | Julia | [有约束能源调度复核](https://github.com/axisvela/praxo-core/tree/main/language/julia/Tutorial/dispatch-review) | IN-04 | 数值计算；当前使用原生有界枚举，尚未使用 JuMP | 求解约束模型、报告可行性与目标值；不发电网指令 | 本地 Julia 测试通过；远端 CI 未核验 |
 | Octave | [振动信号巡检复核](https://github.com/axisvela/praxo-core/tree/main/language/octave/Tutorial/vibration-review) | IN-01 | 矩阵、FFT、MATLAB 风格工程分析 | 比较正常/异常样本的 FFT/RMS；不预测故障 | 本地 Octave 测试通过；远端 CI 未核验 |
-| COBOL | 日终对账异常复核 | FC-03 | 十进制业务记录与银行/保险批处理 | COBOL 计算差异、复核异常记录；不改账 | 增强现有 batch-exception-review |
-| Zig | C ABI 宿主健康诊断组件 | IN-01 | 显式分配器、原生组件、C ABI | 实际 C 回调、分配预算测试与释放；不控制硬件 | 增强现有 gateway-health |
+| COBOL | [日终对账异常复核](https://github.com/axisvela/praxo-core/tree/main/language/cobol/Tutorial/batch-exception-review) | FC-03 | 十进制业务记录与银行/保险批处理 | COBOL 计算差异、复核异常记录；不改账 | 本地 GnuCOBOL 测试通过；远端 CI 未核验；仅固定宽度 fixture |
+| Zig | [C ABI 宿主健康诊断组件](https://github.com/axisvela/praxo-core/tree/main/language/zig/Tutorial/gateway-health) | IN-01 | 显式分配器、原生组件、C ABI | 读取函数表状态、执行固定分配预算与释放；不控制硬件 | 本地 Zig 测试通过；远端 CI 未核验；固定预算 scratch 分配，不是通用分配策略 |
 
 关联目标是发现线索，不是完整实现或通用推荐。V、Zig 是宿主/工具链选择，不能宣称
 已广泛用于行业系统。Julia 自写枚举不算 JuMP 验证；Erlang escript 不算监督树验证。

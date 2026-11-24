@@ -10,13 +10,15 @@ SDK, a live model or a device write.
 
 - **Selection basis:** A constrained Zig deployment may benefit from a native Core
   with an explicit adapter function table; no deployed gateway is verified here.
-- **Demonstrated fit:** Native callback tools and policy checks run over a fixed
-  in-process snapshot. No transport, device SDK or allocation limit is exercised.
+- **Demonstrated fit:** Native callback tools run over a fixed snapshot; the adapter
+  allocates a scratch buffer, frees it, and reports peak/remaining bytes against a
+  fixed budget. A tight budget fails before payload work. No transport or device SDK.
 - **Choose when:** Learning the Core seam for an existing Zig edge component.
 - **Do not choose when:** Seeking a proven small binary, zero-allocation runtime or
   protocol integration. Compare direct Zig code and measure real deployment limits.
-- **Evidence limit:** Core integration only; no measured binary size, memory ceiling,
-  socket, device write or platform guarantee.
+- **Evidence limit:** Core integration and a fixed-budget scratch allocation only; no
+  measured binary size, general memory ceiling, socket, device write or platform
+  guarantee. The budget is not a substitute for a production allocator policy.
 
 Requires Zig `0.17.0`. Run from the repository root:
 
@@ -26,6 +28,7 @@ zig build-exe --dep praxo -Mroot=language/zig/Tutorial/gateway-health/main.zig -
 ./build/praxo-zig-gateway --test
 ./build/praxo-zig-gateway --device gateway-200
 ./build/praxo-zig-gateway --simulate-failure
+./build/praxo-zig-gateway --tight-budget
 ```
 
 Expected test output:
@@ -34,10 +37,13 @@ Expected test output:
 success: gateway-100 health=degraded action=restart_telemetry status=draft_only writes=0 reads=1
 deny: PolicyError reads=0
 failure: GatewayReadFailed reads=1
+failure: BudgetExceeded reads=1
 ```
 
 `gateway-200` is denied by policy before the adapter is called and exits `2`.
 `--simulate-failure` reads once, fails with `GatewayReadFailed`, and exits `1`.
+`--tight-budget` sets a 64-byte budget so the 128-byte scratch allocation fails
+with `BudgetExceeded` before building the snapshot.
 
 ## Path
 

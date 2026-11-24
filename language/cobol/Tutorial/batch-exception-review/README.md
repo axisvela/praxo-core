@@ -18,13 +18,16 @@ three outcomes and that the batch output and exception file are unchanged:
 
 - **Selection basis:** The bank's exception review already exists as a COBOL batch
   and worker; this keeps that flow in place rather than reimplementing it.
-- **Demonstrated fit:** A COBOL worker reviews the fixture exception file; a Python
-  driver checks reviewed/unavailable/timeout outcomes and unchanged batch output.
+- **Demonstrated fit:** A COBOL program performs fixed-width decimal booked-vs-actual
+  reconciliation and writes only nonzero differences (`+2000`, `-1`); the existing
+  COBOL worker then reviews exceptions. A Python driver checks both stages and the
+  unchanged batch output.
 - **Choose when:** Adding a governed review step beside an existing COBOL batch.
 - **Do not choose when:** Building a new service or replacing the batch. Compare
   direct COBOL batch rules and the current operations process first.
-- **Evidence limit:** Fixed fixture and local driver only; no core-banking
-  integration, production scheduling, mainframe deployment or live model.
+- **Evidence limit:** Fixed-width fixture and local driver only; no core-banking
+  ledger, production scheduling, mainframe deployment or live model. The edited
+  numeric field is test formatting, not a general decimal interface.
 
 ## Run
 

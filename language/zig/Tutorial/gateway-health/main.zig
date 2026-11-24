@@ -18,6 +18,9 @@ const GatewayAdapter = struct {
 const FixtureGateway = struct {
     allocator: std.mem.Allocator,
     simulate_failure: bool,
+    budget_bytes: usize = 4096,
+    peak_bytes: usize = 0,
+    used_bytes: usize = 0,
 
     fn adapter(self: *FixtureGateway) GatewayAdapter {
         return .{ .ctx = @ptrCast(self), .readFn = read };
@@ -26,7 +29,16 @@ const FixtureGateway = struct {
     fn read(ctx: *anyopaque, device: []const u8) anyerror!json.Json {
         const self: *FixtureGateway = @ptrCast(@alignCast(ctx));
         if (self.simulate_failure) return error.GatewayReadFailed;
+        const scratch_bytes: usize = 128;
+        if (self.used_bytes + scratch_bytes > self.budget_bytes) return error.BudgetExceeded;
+        const scratch = try self.allocator.alloc(u8, scratch_bytes);
+        self.used_bytes += scratch_bytes;
+        if (self.used_bytes > self.peak_bytes) self.peak_bytes = self.used_bytes;
+        @memset(scratch, 0);
+        self.allocator.free(scratch);
+        self.used_bytes -= scratch_bytes;
         var snapshot = std.json.ObjectMap.empty;
+
         try snapshot.put(self.allocator, "device_id", .{ .string = device });
         try snapshot.put(self.allocator, "health", .{ .string = "degraded" });
         try snapshot.put(self.allocator, "uptime_s", .{ .integer = 86400 });
@@ -34,6 +46,9 @@ const FixtureGateway = struct {
         try snapshot.put(self.allocator, "memory_percent", .{ .integer = 78 });
         try snapshot.put(self.allocator, "link", .{ .string = "mqtt-bridge" });
         try snapshot.put(self.allocator, "source", .{ .string = "adapter_fixture" });
+        try snapshot.put(self.allocator, "budget_bytes", .{ .integer = @intCast(self.budget_bytes) });
+        try snapshot.put(self.allocator, "peak_bytes", .{ .integer = @intCast(self.peak_bytes) });
+        try snapshot.put(self.allocator, "used_bytes", .{ .integer = @intCast(self.used_bytes) });
         return .{ .object = snapshot };
     }
 };
@@ -148,8 +163,8 @@ const FixtureModel = struct {
     }
 };
 
-fn runScenario(allocator: std.mem.Allocator, device: []const u8, simulate_failure: bool, reads: *usize) !models.RunResult {
-    var fixture = FixtureGateway{ .allocator = allocator, .simulate_failure = simulate_failure };
+fn runScenario(allocator: std.mem.Allocator, device: []const u8, simulate_failure: bool, budget_bytes: usize, reads: *usize) !models.RunResult {
+    var fixture = FixtureGateway{ .allocator = allocator, .simulate_failure = simulate_failure, .budget_bytes = budget_bytes };
     var read_context = ReadToolContext{ .adapter = fixture.adapter() };
     var draft_context = DraftToolContext{ .allocator = allocator };
 
@@ -199,7 +214,7 @@ fn expectString(actual: ?[]const u8, expected: []const u8) !void {
 
 fn runTests(allocator: std.mem.Allocator) !void {
     var reads: usize = 0;
-    const success = runScenario(allocator, GATEWAY_ID, false, &reads) catch |failure| {
+    const success = runScenario(allocator, GATEWAY_ID, false, 4096, &reads) catch |failure| {
         std.debug.print("success path failed: {s}\n", .{@errorName(failure)});
         return failure;
     };
@@ -209,6 +224,9 @@ fn runTests(allocator: std.mem.Allocator) !void {
     try expectString(json.string(gateway, "device_id"), GATEWAY_ID);
     try expectString(json.string(gateway, "health"), "degraded");
     if (json.integer(gateway, "disk_percent", 0) != 91) return error.VerificationFailed;
+    if (json.integer(gateway, "budget_bytes", 0) != 4096) return error.VerificationFailed;
+    if (json.integer(gateway, "peak_bytes", 0) != 128) return error.VerificationFailed;
+    if (json.integer(gateway, "used_bytes", 1) != 0) return error.VerificationFailed;
     if (json.integer(report, "device_writes", 1) != 0) return error.VerificationFailed;
     try expectString(json.string(draft, "status"), "draft_only");
     try expectString(json.string(draft, "action"), "restart_telemetry");
@@ -217,7 +235,7 @@ fn runTests(allocator: std.mem.Allocator) !void {
     std.debug.print("success: gateway-100 health=degraded action=restart_telemetry status=draft_only writes=0 reads=1\n", .{});
 
     var denied_reads: usize = 0;
-    if (runScenario(allocator, "gateway-200", false, &denied_reads)) |_| {
+    if (runScenario(allocator, "gateway-200", false, 4096, &denied_reads)) |_| {
         return error.VerificationFailed;
     } else |failure| {
         if (failure != error.PolicyError or denied_reads != 0) return error.VerificationFailed;
@@ -225,12 +243,20 @@ fn runTests(allocator: std.mem.Allocator) !void {
     std.debug.print("deny: PolicyError reads=0\n", .{});
 
     var failure_reads: usize = 0;
-    if (runScenario(allocator, GATEWAY_ID, true, &failure_reads)) |_| {
+    if (runScenario(allocator, GATEWAY_ID, true, 4096, &failure_reads)) |_| {
         return error.VerificationFailed;
     } else |failure| {
         if (failure != error.GatewayReadFailed or failure_reads != 1) return error.VerificationFailed;
     }
     std.debug.print("failure: GatewayReadFailed reads=1\n", .{});
+
+    var tight_reads: usize = 0;
+    if (runScenario(allocator, GATEWAY_ID, false, 64, &tight_reads)) |_| {
+        return error.VerificationFailed;
+    } else |failure| {
+        if (failure != error.BudgetExceeded or tight_reads != 1) return error.VerificationFailed;
+    }
+    std.debug.print("failure: BudgetExceeded reads=1\n", .{});
 }
 
 pub fn main(minimal: std.process.Init.Minimal) !void {
@@ -243,12 +269,15 @@ pub fn main(minimal: std.process.Init.Minimal) !void {
 
     var test_mode = false;
     var simulate_failure = false;
+    var tight_budget = false;
     var device: []const u8 = GATEWAY_ID;
     while (arguments.next()) |argument| {
         if (std.mem.eql(u8, argument, "--test")) {
             test_mode = true;
         } else if (std.mem.eql(u8, argument, "--simulate-failure")) {
             simulate_failure = true;
+        } else if (std.mem.eql(u8, argument, "--tight-budget")) {
+            tight_budget = true;
         } else if (std.mem.eql(u8, argument, "--device")) {
             const value = arguments.next() orelse return error.MissingDeviceValue;
             device = try allocator.dupe(u8, value);
@@ -261,9 +290,10 @@ pub fn main(minimal: std.process.Init.Minimal) !void {
     }
 
     var reads: usize = 0;
-    const result = runScenario(allocator, device, simulate_failure, &reads) catch |failure| {
+    const result = runScenario(allocator, device, simulate_failure, if (tight_budget) 64 else 4096, &reads) catch |failure| {
         std.debug.print("error: {s} reads={d}\n", .{ @errorName(failure), reads });
         std.process.exit(if (failure == error.PolicyError) 2 else 1);
     };
     std.debug.print("{s}\nreads={d}\n", .{ result.output, reads });
 }
+
