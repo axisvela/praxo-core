@@ -90,6 +90,8 @@ TUTORIALS = {
     "drone-fleet-plan": ("TL", "tools,draft,policy", "TL-01"),
     "phishing-awareness": ("CY", "analysis,tools,draft,policy", "CY-04"),
     "supply-chain-review": ("CY", "analysis,tools,draft,policy", "CY-07"),
+    "construction-safety": ("BE", "analysis,tools,draft,policy", "BE-01"),
+    "news-factcheck": ("MD", "analysis,tools,draft,policy", "MD-02"),
 }
 GUIDES = {
     "workspace-agent-tutorial": ("SE", "go", "filesystem,tools,policy"),

@@ -466,6 +466,22 @@ jobs:
       - run: go run ./language/go/Tutorial/soc-alert-triage --test
       - run: go test ./language/go/Tutorial/soc-alert-triage
 
+  rust-construction-safety:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - run: cargo run --quiet --locked -- --test
+        working-directory: language/rust/Tutorial/construction-safety
+
+  perl-news-factcheck:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - run: perl language/perl/Tutorial/news-factcheck/app.pl --test
+
   python-phishing-awareness:
     runs-on: ubuntu-latest
     timeout-minutes: 10

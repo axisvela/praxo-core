@@ -157,7 +157,7 @@ system 指令。Memory Store 不等于自动召回；checkpoint 消息续跑不�
 | ID | 场景 | 目标语言 | 候选的有界教学成果 | 已有相关切片 | 完整实现 |
 | --- | --- | --- | --- | --- | --- |
 | MD-01 | 影视分镜与虚拟制片预演 | Lua、C++、TypeScript | 把固定剧本转为有界镜头计划草案；无已验证 Unreal 集成或渲染制作 | [Lua 分镜预演](https://github.com/axisvela/praxo-core/tree/main/language/lua/Tutorial/storyboard-previs)：固定场景与仅审阅镜头计划 | 未实现 |
-| MD-02 | 新闻事实核查与多源验证 | Python、Haskell、Perl | 比较固定来源与元数据、引用矛盾与不确定性；无真伪保证或实网抓取 | [办公问答](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/office-qa)：仅引用机制 | 未实现 |
+| MD-02 | 新闻事实核查与多源验证 | Python、Haskell、Perl | 比较固定来源与元数据、引用矛盾与不确定性；无真伪保证或实网抓取 | [Perl 新闻核查](https://github.com/axisvela/praxo-core/tree/main/language/perl/Tutorial/news-factcheck)：固定来源与仅审阅核查；[办公问答](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/office-qa)：仅引用机制 | 未实现 |
 | MD-03 | 开放世界游戏生态演化 | Lua、C、V | 用持久化合成状态模拟经济/资源规则；不保证规模或长期平衡 | [宿主嵌入](https://github.com/axisvela/praxo-core/tree/main/language/lua/Tutorial/host-embedding)：设备回调，不是游戏生态 | 未实现 |
 | MD-04 | 配音、口型同步与文化本地化 | Python、Swift、C++ | 为合成/获许可素材规划字幕与时序；无冒充、未经同意的声音克隆或已验证口型同步 | 无 | 未实现 |
 | MD-05 | 工业设计与 3D 拓扑生成 | C++、Julia、Fortran | 按已述约束比较合成网格描述符；无可制造性或力学认证 | 无 | 未实现 |
@@ -178,7 +178,7 @@ system 指令。Memory Store 不等于自动召回；checkpoint 消息续跑不�
 
 | ID | 场景 | 目标语言 | 候选的有界教学成果 | 已有相关切片 | 完整实现 |
 | --- | --- | --- | --- | --- | --- |
-| BE-01 | 工地安全巡检与整改复核 | C++、Rust、C# | 评估合成巡检标签、跟踪复核清单；无真实视觉或安全认证结论 | 无 | 未实现 |
+| BE-01 | 工地安全巡检与整改复核 | C++、Rust、C# | 评估合成巡检标签、跟踪复核清单；无真实视觉或安全认证结论 | [Rust 工地安全](https://github.com/axisvela/praxo-core/tree/main/language/rust/Tutorial/construction-safety)：固定标签与仅审阅清单 | 未实现 |
 | BE-02 | 商业楼宇 HVAC 与照明节能 | Julia、C、Delphi | 模拟人流/热工约束并草拟设置；无 BMS 指令或节能证明 | 无 | 未实现 |
 | BE-03 | 智慧矿山与边坡风险预警 | Fortran、Rust、C++ | 计算合成位移指标、草拟复核警报；无塌方预测或矿车调度 | 无 | 未实现 |
 | BE-04 | 招投标编制与串标审查 | Java、PHP、COBOL | 校验合成资质、标记文档相似性；不自动投标或认定串标 | 无 | 未实现 |
