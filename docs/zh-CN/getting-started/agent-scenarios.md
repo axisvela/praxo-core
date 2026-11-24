@@ -135,7 +135,7 @@ system 指令。Memory Store 不等于自动召回；checkpoint 消息续跑不�
 | CT-01 | 城市信号灯全域协同 | Erlang、C++、Julia | 模拟固定路口队列，在 Agent 外校验配时限制；不发信号灯指令 | [C++ 信号配时](https://github.com/axisvela/praxo-core/tree/main/language/cpp/Tutorial/traffic-signal-plan)：固定路口与仅审阅配时 | 未实现 |
 | CT-02 | 生命线管网泄漏定位与调度 | Fortran、Rust、Nim | 排序合成压力异常并草拟巡检；不隔离阀门或调度现场作业 | [信号趋势](https://github.com/axisvela/praxo-core/tree/main/language/octave/Tutorial/signal-trends)：仅指标，不定位泄漏 | 未实现 |
 | CT-03 | 政务跨部门审批 | Java、C#、PHP | 校验合成材料并草拟并联审核任务；不做真实身份核验或行政审批 | [PHP 政务审批](https://github.com/axisvela/praxo-core/tree/main/language/php/Tutorial/public-approval)：固定材料与仅审阅任务 | 未实现 |
-| CT-04 | 应急指挥与资源调度 | Go、Julia、Erlang | 模拟断路与有约束救援路线；不提供业务救援指令或真实调度 | 无 | 未实现 |
+| CT-04 | 应急指挥与资源调度 | Go、Julia、Erlang | 模拟断路与有约束救援路线；不提供业务救援指令或真实调度 | [Go 应急路线](https://github.com/axisvela/praxo-core/tree/main/language/go/Tutorial/emergency-route-plan)：固定断路与仅审阅调度 | 未实现 |
 | CT-05 | 污染溯源与执法辅助 | R、Fortran、Python | 比较合成监测/天气记录并草拟调查假设；不认定因果或违法 | 无 | 未实现 |
 | CT-06 | 垃圾分类与清运优化 | Julia、Dart、V | 按车辆约束重排有界合成清运队列；不发车辆指令 | 无 | 未实现 |
 | CT-07 | 公共预算执行与绩效 | R、COBOL、Java | 对账合成拨款与里程碑，解释异常；不出具正式审计结论 | 无 | 未实现 |
@@ -169,7 +169,7 @@ system 指令。Memory Store 不等于自动召回；checkpoint 消息续跑不�
 | ID | 场景 | 目标语言 | 候选的有界教学成果 | 已有相关切片 | 完整实现 |
 | --- | --- | --- | --- | --- | --- |
 | LJ-01 | 诉讼证据链与质证提纲 | Python、OCaml、Go | 从合成文档建立带引用时间线、标记矛盾；非法律意见或证据可采性证明 | [证据库](https://github.com/axisvela/praxo-core/tree/main/language/go/Tutorial/evidence-vault)：受限读取，不是诉讼分析 | 未实现 |
-| LJ-02 | 专利检索、FTO 与布局 | Python、Java、Haskell | 比较合成权利要求并草拟律师复核问题；非全面专利检索或不侵权意见 | 无 | 未实现 |
+| LJ-02 | 专利检索、FTO 与布局 | Python、Java、Haskell | 比较合成权利要求并草拟律师复核问题；非全面专利检索或不侵权意见 | [Python 专利 FTO](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/patent-fto)：固定权利要求重叠与律师问题 | 未实现 |
 | LJ-03 | 商业尽职调查 | Java、C#、Ruby | 对账合成股权/合同/纠纷并草拟清单；无已验证并购结论 | 无 | 未实现 |
 | LJ-04 | 类案检索与法律文书草拟 | Python、Java、OCaml | 检索固定合成案例、草拟带引用提纲；非量刑建议或司法裁判 | [法律合规](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/legal-compliance)：仅政策引用和脚本审批门 | 未实现 |
 | LJ-05 | 数字版权监测与维权流程 | Rust、PHP、TypeScript | 比较获授权 fixture 素材、草拟证据包；不全网扫描、自动发 DMCA 或裁定侵权 | 无 | 未实现 |

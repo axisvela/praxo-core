@@ -13,6 +13,8 @@ capitalized in directory paths.
   simulated publish.
 - [Education tutoring](education-tutoring/README.md): Core `Retriever` and a
   draft-only study plan.
+- [Patent FTO](patent-fto/README.md): fixed claim overlap, counsel
+  questions only and no legal opinion.
 - [Phishing awareness](phishing-awareness/README.md): fixed email indicators,
   review-only awareness exercise and no deceptive sends.
 - [Trial screening](trial-screening/README.md): fixed patient criteria, review-only
