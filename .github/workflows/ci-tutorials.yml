@@ -629,6 +629,29 @@ jobs:
           ghc-version: '9.12.2'
       - run: runghc -ilanguage/haskell/src language/haskell/Tutorial/test-generation/app.hs --test
 
+  typescript-api-orchestration:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - run: npm ci --ignore-scripts --no-audit --no-fund
+        working-directory: language/typescript/Tutorial/api-orchestration
+      - run: npm test
+        working-directory: language/typescript/Tutorial/api-orchestration
+
+  python-recruiting-match:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: PYTHONPATH=language/python python language/python/Tutorial/recruiting-match/app.py --test
+
   python-bug-repair:
     runs-on: ubuntu-latest
     timeout-minutes: 10

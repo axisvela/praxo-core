@@ -35,7 +35,7 @@ system 指令。Memory Store 不等于自动召回；checkpoint 消息续跑不�
 | SE-05 | 代码审查、安全与许可证审计 | Rust、OCaml、Go | 审查固定 diff 与依赖清单，引用发现并标注不确定性；证据库仅是 containment 切片；[OCaml 代码审查](https://github.com/axisvela/praxo-core/tree/main/language/ocaml/Tutorial/code-review)对固定 diff 草拟评论 |
 | SE-06 | AIOps 自愈与 RCA | Go、Elixir、Erlang | 关联 fixture 事件并草拟需审批的回滚；[incident 教程](https://github.com/axisvela/praxo-core/tree/main/language/go/Tutorial/incident-coordination)与 [Erlang AIOps RCA](https://github.com/axisvela/praxo-core/tree/main/language/erlang/Tutorial/aiops-rca)均仅读取与草案 |
 | SE-07 | 云资源与 FinOps 治理 | Ruby、PowerShell、D | [Ruby 成本复核切片](https://github.com/axisvela/praxo-core/tree/main/language/ruby/Tutorial/finops-review)计算闲置成本并草拟复核；不修改云资源、不使用真实凭据；其余语言为候选 |
-| SE-08 | API 编排与异构集成 | PHP、Java、TypeScript | 映射两个合成 API、校验 schema、处理未知结果；不访问任意 URL；[PHP API 编排切片](https://github.com/axisvela/praxo-core/tree/main/language/php/Tutorial/api-orchestration)覆盖两个 fixture API 与复核草案 |
+| SE-08 | API 编排与异构集成 | PHP、Java、TypeScript | 映射两个合成 API、校验 schema、处理未知结果；不访问任意 URL；[PHP API 编排切片](https://github.com/axisvela/praxo-core/tree/main/language/php/Tutorial/api-orchestration)与 [TypeScript API 编排](https://github.com/axisvela/praxo-core/tree/main/language/typescript/Tutorial/api-orchestration)覆盖两个 fixture API、schema 校验与复核草案 |
 
 ## 企业运营与办公（7）
 
@@ -45,7 +45,7 @@ system 指令。Memory Store 不等于自动召回；checkpoint 消息续跑不�
 | OP-02 | 会议全生命周期管理 | Dart、Swift、TypeScript | 对齐固定日历、草拟纪要与任务；发送邀请前审批；[Dart 会议协调切片](https://github.com/axisvela/praxo-core/tree/main/language/dart/Tutorial/meeting-coordination)覆盖日历证据与纪要草案 |
 | OP-03 | 企业知识库动态维护 | Python、Elixir、OCaml | 检测文档 fixture 变更、去重并草拟带引用修订；不自动写 Wiki；[Elixir 知识维护切片](https://github.com/axisvela/praxo-core/tree/main/language/elixir/Tutorial/knowledge-maintenance)覆盖固定差异与修订草案 |
 | OP-04 | 跨系统 Agentic RPA | Java、C#、Delphi | 对账合成报销/采购记录；未知效果时停止盲重试；[Delphi RPA 对账](https://github.com/axisvela/praxo-core/tree/main/language/delphi/Tutorial/rpa-reconciliation)对固定差额草拟异常单 |
-| OP-05 | 招聘与人才匹配 | Ruby、PHP、Python | 对合成人才做岗位相关技能匹配并解释；不自动招聘决策或联系；[Ruby 招聘匹配](https://github.com/axisvela/praxo-core/tree/main/language/ruby/Tutorial/recruiting-match)排序固定候选并草拟名单 |
+| OP-05 | 招聘与人才匹配 | Ruby、PHP、Python | 对合成人才做岗位相关技能匹配并解释；不自动招聘决策或联系；[Ruby 招聘匹配](https://github.com/axisvela/praxo-core/tree/main/language/ruby/Tutorial/recruiting-match)与 [Python 招聘匹配](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/recruiting-match)排序固定候选并草拟名单 |
 | OP-06 | 个性化入职导师 | Python、Dart、Swift | 按角色与前置条件规划课程；权限仍归应用；[Dart 入职计划](https://github.com/axisvela/praxo-core/tree/main/language/dart/Tutorial/onboarding-plan)草拟仅审阅学习路径 |
 | OP-07 | 高管经营简报 | R、Julia、D | 计算合成经营变化并引用指标；不把相关性当因果；[D 高管简报切片](https://github.com/axisvela/praxo-core/tree/main/language/d/Tutorial/executive-brief)覆盖固定变化与复核草案 |
 

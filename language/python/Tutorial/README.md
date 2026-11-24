@@ -6,6 +6,8 @@ capitalized in directory paths.
 
 - [Bug repair](bug-repair/README.md): seeded defect, review-only in-memory patch
   and fixture test rerun; no real repository or PR.
+- [Recruiting match](recruiting-match/README.md): fixed candidates, deterministic
+  skill/year ranking and a review-only shortlist; no outreach.
 - [Order review](order-review/README.md): native Core, policy and HTTP tools over
   a shared synthetic service; first deterministic slice, not a full Web app.
 - [Office Q&A](office-qa/README.md): fixed documents and citation-bearing answer.
