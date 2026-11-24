@@ -143,6 +143,7 @@ TUTORIALS = {
     "weather-anomaly": ("SC", "analysis,tools,draft,policy", "SC-05"),
     "irrigation-plan": ("IN", "analysis,tools,draft,policy", "IN-06"),
     "materials-design": ("SC", "analysis,tools,draft,policy", "SC-04"),
+    "bug-repair": ("SE", "analysis,tools,draft,policy", "SE-02"),
 }
 GUIDES = {
     "workspace-agent-tutorial": ("SE", "go", "filesystem,tools,policy"),

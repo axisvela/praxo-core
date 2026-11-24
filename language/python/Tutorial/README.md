@@ -4,6 +4,8 @@ Application-shaped tutorials live here, alongside `examples/`, which keeps
 mechanism checks and focused integration examples. Tutorial is intentionally
 capitalized in directory paths.
 
+- [Bug repair](bug-repair/README.md): seeded defect, review-only in-memory patch
+  and fixture test rerun; no real repository or PR.
 - [Order review](order-review/README.md): native Core, policy and HTTP tools over
   a shared synthetic service; first deterministic slice, not a full Web app.
 - [Office Q&A](office-qa/README.md): fixed documents and citation-bearing answer.
