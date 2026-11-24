@@ -4,6 +4,18 @@ A bounded first slice of TL-02, not a terminal operating system. It replans fixe
 synthetic container jobs under resource constraints and drafts a review-only
 schedule. No crane or AGV command, live terminal feed or throughput guarantee.
 
+## Why this language and runtime?
+
+- **Selection basis:** C++ fits terminal or industrial hosts that already own crane/AGV
+  interfaces and need deterministic resource handling.
+- **Demonstrated fit:** Fixed jobs and resource counts produce a review-only schedule;
+  no solver, crane SDK or AGV transport is invoked.
+- **Choose when:** Evaluating the Core seam beside an existing C++ terminal component.
+- **Do not choose when:** Seeking scheduling optimization or equipment control. Compare
+  existing optimization libraries and terminal safety systems first.
+- **Evidence limit:** Core integration fixture only; no crane/AGV command, terminal feed,
+  solver quality, safety interlock or throughput guarantee.
+
 Build and run from the repository root:
 
 ```bash

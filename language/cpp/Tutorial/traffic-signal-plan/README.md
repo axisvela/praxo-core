@@ -4,6 +4,18 @@ A bounded first slice of CT-01, not a traffic-control system. It reads fixed
 junction queues, drafts a review-only green-time plan and checks it against
 deterministic limits. No signal command, live model or city-scale simulation.
 
+## Why this language and runtime?
+
+- **Selection basis:** Traffic controllers and transport simulations often use C++ for
+  deterministic timing and direct field integration.
+- **Demonstrated fit:** Fixed queues and limits produce a review-only timing plan; no
+  signal controller, traffic simulation or field command runs.
+- **Choose when:** Learning the Core seam in an existing C++ traffic tool.
+- **Do not choose when:** Seeking adaptive control or safety validation. Compare the
+  controller firmware, transport model and municipal approval process first.
+- **Evidence limit:** Core integration fixture only; no live queues, signal command,
+  city-scale simulation, safety validation or latency guarantee.
+
 Build and run from the repository root:
 
 ```bash

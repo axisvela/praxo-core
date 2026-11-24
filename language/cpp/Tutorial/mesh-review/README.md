@@ -5,6 +5,18 @@ flow. It compares fixed synthetic mesh descriptors against stated constraints an
 drafts a review-only design assessment. No manufacturability certification or
 fabrication.
 
+## Why this language and runtime?
+
+- **Selection basis:** CAD-adjacent C++ tools already handle mesh data and geometry
+  constraints, so a review seam can stay in that runtime.
+- **Demonstrated fit:** Fixed mesh descriptors are compared and a review draft is
+  produced; no CAD kernel, topology repair or stress solver runs.
+- **Choose when:** Learning the Core seam inside an existing C++ design tool.
+- **Do not choose when:** Seeking manufacturability or mechanical certification. Compare
+  the CAD kernel and certified engineering checks first.
+- **Evidence limit:** Core integration fixture only; no geometry processing, topology
+  repair, manufacturability analysis, simulation or certification.
+
 Build and run from the repository root:
 
 ```bash

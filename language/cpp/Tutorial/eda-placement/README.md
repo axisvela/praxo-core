@@ -4,6 +4,18 @@ A bounded first slice of OG-05, not a foundry-valid physical-design flow. It rea
 a fixed synthetic placement grid and drafts a review-only placement with stated
 PPA proxies. No routing sign-off, foundry validation or tapeout.
 
+## Why this language and runtime?
+
+- **Selection basis:** EDA flows are native C++ workloads; keeping a review seam beside
+  the placement code avoids moving design data into a service.
+- **Demonstrated fit:** Fixed grid and proxy values produce a review-only placement;
+  no placer, router, DRC/LVS or foundry rule deck runs.
+- **Choose when:** Evaluating the Core seam in an existing C++ EDA tool.
+- **Do not choose when:** Seeking PPA optimization or sign-off. Compare established EDA
+  engines and the real process design kit first.
+- **Evidence limit:** Core integration fixture only; proxies are illustrative, with no
+  measured PPA, foundry validity, DRC/LVS or tapeout.
+
 Build and run from the repository root:
 
 ```bash

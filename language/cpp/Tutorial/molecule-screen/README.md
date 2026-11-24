@@ -4,6 +4,18 @@ A bounded first slice of SC-02, not drug discovery. It ranks fixed synthetic
 molecular descriptors under stated constraints and drafts a review-only
 assessment. No efficacy, toxicity, synthesis or clinical claim.
 
+## Why this language and runtime?
+
+- **Selection basis:** C++ is common in computational chemistry and high-throughput
+  numerical pipelines that need native library access.
+- **Demonstrated fit:** Fixed descriptors and a preselected top candidate are returned
+  in a review-only report; no docking, ADMET or simulation library runs.
+- **Choose when:** Evaluating the Core seam in an existing C++ chemistry tool.
+- **Do not choose when:** Seeking screening quality or synthesis planning. Compare
+  domain numerical libraries and validated pipelines first.
+- **Evidence limit:** Core integration fixture only; no molecular simulation, docking,
+  ADMET prediction, efficacy, toxicity or synthesis claim.
+
 Build and run from the repository root:
 
 ```bash

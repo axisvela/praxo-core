@@ -4,6 +4,18 @@ A bounded first slice of TL-03, not a navigation or fuel-optimization system. It
 compares fixed synthetic route/weather costs and drafts a review-only route. No
 navigation command, fuel-savings claim or CII compliance guarantee.
 
+## Why this language and runtime?
+
+- **Selection basis:** Maritime and navigation systems often run native C++ with direct
+  access to weather, sensor and vessel interfaces.
+- **Demonstrated fit:** Two fixed routes and a preselected recommendation produce a
+  review-only route; no weather model or navigation system is invoked.
+- **Choose when:** Learning the Core seam beside an existing C++ vessel tool.
+- **Do not choose when:** Seeking weather routing or fuel optimization. Compare routing
+  services, fuel models and navigation requirements first.
+- **Evidence limit:** Core integration fixture only; no live weather, navigation
+  command, fuel-savings measurement or CII compliance claim.
+
 Build and run from the repository root:
 
 ```bash
