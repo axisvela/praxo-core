@@ -140,6 +140,8 @@ TUTORIALS = {
     "medical-coding": ("HC", "analysis,tools,draft,policy", "HC-04"),
     "airport-recovery": ("TL", "analysis,tools,draft,policy", "TL-07"),
     "workspace-plan": ("SE", "tools,draft,policy", "SE-01"),
+    "weather-anomaly": ("SC", "analysis,tools,draft,policy", "SC-05"),
+    "irrigation-plan": ("IN", "analysis,tools,draft,policy", "IN-06"),
 }
 GUIDES = {
     "workspace-agent-tutorial": ("SE", "go", "filesystem,tools,policy"),

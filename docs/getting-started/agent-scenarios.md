@@ -96,7 +96,7 @@ Repository links in the tables point to source on `main`, not immutable run evid
 | SC-02 | Drug and molecular design | Python, Julia, C++ | Rank synthetic descriptors under fixed constraints; no efficacy, toxicity, synthesis or clinical claim; [Python molecule-screen](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/molecule-screen) and [C++ molecule-screen](https://github.com/axisvela/praxo-core/tree/main/language/cpp/Tutorial/molecule-screen) rank fixed descriptors and draft a review |
 | SC-03 | Self-driving laboratory | Julia, Rust, C | Simulate a parameter/result loop with deterministic limits; no laboratory actuator or chemical handling; [Rust lab-loop](https://github.com/axisvela/praxo-core/tree/main/language/rust/Tutorial/lab-loop) drafts review-only next parameters |
 | SC-04 | Materials inverse design and simulation | Fortran, Julia, C++ | Evaluate fixed candidate properties and draft the next simulation; no validated new material |
-| SC-05 | Weather modeling and warnings | Fortran, R, Octave | Compute fixed time-series anomalies and draft a review notice; no operational forecast or disaster dispatch |
+| SC-05 | Weather modeling and warnings | Fortran, R, Octave | Compute fixed time-series anomalies and draft a review notice; no operational forecast or disaster dispatch; [R weather-anomaly](https://github.com/axisvela/praxo-core/tree/main/language/r/Tutorial/weather-anomaly) drafts a review-only notice |
 | SC-06 | Research data cleaning and statistics | R, Julia, MATLAB | Validate fixed data and compare stated statistics; [data quality](https://github.com/axisvela/praxo-core/tree/main/language/r/Tutorial/data-quality) is a related slice; native MATLAB remains unverified |
 
 ## Industry And Energy (6)
@@ -108,7 +108,7 @@ Repository links in the tables point to source on `main`, not immutable run evid
 | IN-03 | Supply-chain disruption and sourcing | Go, Java, Ruby | Score synthetic supplier events and draft alternatives; [logistics checkpoint](https://github.com/axisvela/praxo-core/tree/main/language/go/Tutorial/logistics-checkpoint) is message continuation only |
 | IN-04 | Microgrid dispatch and load balance | Julia, Fortran, Zig | Simulate constrained charge/discharge schedules and check limits outside the agent; no grid commands |
 | IN-05 | Engineering drawing review and BOM | C++, C#, OCaml | Validate a synthetic parsed drawing graph and draft a BOM; no CAD/BIM vision or engineering certification; [OCaml bom-review](https://github.com/axisvela/praxo-core/tree/main/language/ocaml/Tutorial/bom-review) checks a fixed drawing and drafts a BOM |
-| IN-06 | Precision irrigation and crop protection | C, Lua, Nim | Evaluate fixture soil/weather observations and draft a bounded irrigation request; no drones or actuators |
+| IN-06 | Precision irrigation and crop protection | C, Lua, Nim | Evaluate fixture soil/weather observations and draft a bounded irrigation request; no drones or actuators; [Lua irrigation-plan](https://github.com/axisvela/praxo-core/tree/main/language/lua/Tutorial/irrigation-plan) drafts a bounded request |
 
 ## Healthcare (5)
 

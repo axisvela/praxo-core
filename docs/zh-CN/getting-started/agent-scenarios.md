@@ -79,7 +79,7 @@ system 指令。Memory Store 不等于自动召回；checkpoint 消息续跑不�
 | SC-02 | 制药与分子设计 | Python、Julia、C++ | 固定约束下排序合成描述符；不声称药效、毒性、合成或临床结果；[Python 分子筛选](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/molecule-screen)与 [C++ 分子筛选](https://github.com/axisvela/praxo-core/tree/main/language/cpp/Tutorial/molecule-screen)排序固定描述符并草拟复核 |
 | SC-03 | 自动化实验室 | Julia、Rust、C | 模拟参数/结果迭代且独立校验限制；不操作实验设备或化学品；[Rust 实验回路](https://github.com/axisvela/praxo-core/tree/main/language/rust/Tutorial/lab-loop)草拟仅审阅参数 |
 | SC-04 | 材料逆向设计与仿真 | Fortran、Julia、C++ | 计算固定候选属性并草拟下轮仿真；不声称发现有效材料 |
-| SC-05 | 气象建模与天气预警 | Fortran、R、Octave | 计算固定时序异常、草拟复核通知；不做业务预报或救灾调度 |
+| SC-05 | 气象建模与天气预警 | Fortran、R、Octave | 计算固定时序异常、草拟复核通知；不做业务预报或救灾调度；[R 气象异常](https://github.com/axisvela/praxo-core/tree/main/language/r/Tutorial/weather-anomaly)草拟仅审阅通知 |
 | SC-06 | 科研清洗与统计建模 | R、Julia、MATLAB | 校验固定数据与统计方法；现有 data-quality 为相关切片，原生 MATLAB 未验证 |
 
 ## 工业、供应链与能源（6）
@@ -91,7 +91,7 @@ system 指令。Memory Store 不等于自动召回；checkpoint 消息续跑不�
 | IN-03 | 供应链断链预警与寻源 | Go、Java、Ruby | 评估合成供应商事件并草拟替代；物流 checkpoint 仅消息续跑 |
 | IN-04 | 微网调度与负荷平衡 | Julia、Fortran、Zig | 模拟有约束充放电计划，Agent 外校验安全限制；不发电网指令 |
 | IN-05 | 图纸审查与 BOM | C++、C#、OCaml | 校验合成的已解析图纸图并草拟 BOM；不宣称 CAD/BIM 视觉或工程认证；[OCaml BOM 复核](https://github.com/axisvela/praxo-core/tree/main/language/ocaml/Tutorial/bom-review)检查固定图纸并草拟 BOM |
-| IN-06 | 精准灌溉与病虫害防治 | C、Lua、Nim | 评估固定土壤/天气观察并草拟有界灌溉请求；不控制无人机/执行器 |
+| IN-06 | 精准灌溉与病虫害防治 | C、Lua、Nim | 评估固定土壤/天气观察并草拟有界灌溉请求；不控制无人机/执行器；[Lua 灌溉规划](https://github.com/axisvela/praxo-core/tree/main/language/lua/Tutorial/irrigation-plan)草拟有界请求 |
 
 ## 医疗健康（5）
 

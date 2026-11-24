@@ -466,6 +466,24 @@ jobs:
       - run: go run ./language/go/Tutorial/soc-alert-triage --test
       - run: go test ./language/go/Tutorial/soc-alert-triage
 
+  r-weather-anomaly:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: 'release'
+      - run: Rscript language/r/Tutorial/weather-anomaly/weather.R --test
+
+  lua-irrigation-plan:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - run: sudo apt-get update && sudo apt-get install -y lua5.4
+      - run: lua5.4 language/lua/Tutorial/irrigation-plan/app.lua --test
+
   cpp-molecule-screen:
     runs-on: ubuntu-latest
     timeout-minutes: 10
