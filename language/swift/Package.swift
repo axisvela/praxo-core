@@ -27,6 +27,14 @@ let package = Package(
         .executableTarget(name: "praxo-representative-chain-example", dependencies: ["PraxoCore"], path: "examples/representative-chain"),
         .executableTarget(name: "praxo-governance-example", dependencies: ["PraxoCore"], path: "examples/advanced-delegation"),
         .executableTarget(name: "praxo-chronic-care-tutorial", dependencies: ["PraxoCore"], path: "Tutorial/chronic-care"),
+        .executableTarget(name: "praxo-meeting-coordination-tutorial", dependencies: ["PraxoCore"], path: "Tutorial/meeting-coordination"),
+        .executableTarget(name: "praxo-onboarding-plan-tutorial", dependencies: ["PraxoCore"], path: "Tutorial/onboarding-plan"),
+        .executableTarget(name: "praxo-sales-crm-tutorial", dependencies: ["PraxoCore"], path: "Tutorial/sales-crm"),
+        .executableTarget(name: "praxo-cbt-exercise-tutorial", dependencies: ["PraxoCore"], path: "Tutorial/cbt-exercise"),
+        .executableTarget(name: "praxo-travel-booking-tutorial", dependencies: ["PraxoCore"], path: "Tutorial/travel-booking"),
+        .executableTarget(name: "praxo-dubbing-plan-tutorial", dependencies: ["PraxoCore"], path: "Tutorial/dubbing-plan"),
+        .executableTarget(name: "praxo-audiobook-production-tutorial", dependencies: ["PraxoCore"], path: "Tutorial/audiobook-production"),
+        .executableTarget(name: "praxo-digital-twin-memory-tutorial", dependencies: ["PraxoCore"], path: "Tutorial/digital-twin-memory"),
         .testTarget(name: "PraxoCoreTests", dependencies: ["PraxoCore"]),
     ]
 )
