@@ -136,6 +136,8 @@ TUTORIALS = {
     "household-robot": ("PE", "state,tools,draft,policy", "PE-04"),
     "chronic-care": ("HC", "analysis,tools,draft,policy", "HC-02"),
     "test-generation": ("SE", "tools,draft,policy", "SE-04"),
+    "fullstack-workspace": ("SE", "tools,draft,policy", "SE-01"),
+    "medical-coding": ("HC", "analysis,tools,draft,policy", "HC-04"),
 }
 GUIDES = {
     "workspace-agent-tutorial": ("SE", "go", "filesystem,tools,policy"),

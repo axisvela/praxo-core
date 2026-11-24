@@ -466,6 +466,28 @@ jobs:
       - run: go run ./language/go/Tutorial/soc-alert-triage --test
       - run: go test ./language/go/Tutorial/soc-alert-triage
 
+  go-fullstack-workspace:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: '1.25.x'
+      - run: go run ./language/go/Tutorial/fullstack-workspace --test
+      - run: go test ./language/go/Tutorial/fullstack-workspace
+
+  csharp-medical-coding:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+      - run: dotnet build language/csharp/Tutorial/medical-coding/MedicalCoding.csproj --nologo
+      - run: dotnet language/csharp/Tutorial/medical-coding/bin/Debug/net8.0/Praxo.MedicalCoding.dll --test
+
   dart-chronic-care:
     runs-on: ubuntu-latest
     timeout-minutes: 10

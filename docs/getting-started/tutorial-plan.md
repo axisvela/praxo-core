@@ -193,6 +193,8 @@ add framework surface.
 | Rust household robot (PE-04) | Native Core, fixed robot observation, review-only bounded action | Local cargo build/test pass; CI job added, not yet run | No perception, motion planning, hardware command, safety interlock or certification |
 | Dart chronic care (HC-02) | Dart Core, fixed wearable trends, review-only care alert | Local Dart checks pass; CI job added, not yet run | No device integration, dosage change, treatment decision or clinical claim |
 | Haskell test generation (SE-04) | Haskell Core, fixed local fixture, review-only test suite | Local runghc checks pass; CI job added, not yet run | No test execution, coverage measurement, network load or verified result |
+| Go fullstack workspace (SE-01) | Go reference Core, fixed allowlisted workspace, bounded edit and fixture diagnostics | Local Go vet/run/test pass; CI job added, not yet run | No host filesystem access, real compiler, deployment or production workspace |
+| C# medical coding (HC-04) | Native Core, fixed record completeness, review-only code draft | Local dotnet build/run pass; CI job added, not yet run | No billing submission, reimbursement optimization, false coding or clinical audit |
 | Python order review | Native Core, HTTP tool, fixed order scope, draft-only | Local and hosted CI against the public local service | Deterministic model; no live provider or external consumer |
 | TypeScript order support | Native Core, HTTP tool, fixed order scope | Local and hosted CI against the public local service | Deterministic model; CLI, not a Web frontend |
 | Java order review | Native Core, JUnit, loopback Web, real-service CLI | Mock/Web JUnit and real-service CLI passed in Linux CI | Java Web-to-real-backend and live model not verified |

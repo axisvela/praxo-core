@@ -27,7 +27,7 @@ system 指令。Memory Store 不等于自动召回；checkpoint 消息续跑不�
 
 | ID | 场景 | 目标语言 | 首个有界教学成果 / 相关切片 |
 | --- | --- | --- | --- |
-| SE-01 | 端到端全栈代码开发 | TypeScript、Go、Dart | 规划微型应用、在允许的临时工作区修改并构建；不部署 |
+| SE-01 | 端到端全栈代码开发 | TypeScript、Go、Dart | 规划微型应用、在允许的临时工作区修改并构建；不部署；[Go 全栈工作区](https://github.com/axisvela/praxo-core/tree/main/language/go/Tutorial/fullstack-workspace)编辑固定工作区 |
 | SE-02 | 自动化 Bug 定位与修复 | Python、Rust、Perl | 复现预置缺陷、草拟补丁、重跑测试；PR 创建单独授权 |
 | SE-03 | 遗留代码重构与迁移 | COBOL、Java、Delphi | 依赖清单与迁移草案，保持 fixture 输出不变；不迁移生产系统；[Delphi 遗留迁移切片](https://github.com/axisvela/praxo-core/tree/main/language/delphi/Tutorial/legacy-migration)盘点固定模块并草拟计划 |
 | SE-04 | 单元测试与压测生成 | Java、C#、Haskell | 对本地 fixture 生成有界测试；压测仅允许的 loopback 服务；[Haskell 测试生成](https://github.com/axisvela/praxo-core/tree/main/language/haskell/Tutorial/test-generation)草拟有界测试 |
@@ -100,7 +100,7 @@ system 指令。Memory Store 不等于自动召回；checkpoint 消息续跑不�
 | HC-01 | 临床辅助与 MDT | Python、Java、R | 引用合成指南片段、证据不足时弃答；不诊断或决定治疗；[Python 临床指南](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/clinical-guidelines)引用固定证据并在无匹配时弃答 |
 | HC-02 | 慢病管理与随访 | Swift、Dart、Objective-C | 汇总合成穿戴数据、交人工复核；不调整剂量或个体治疗；[Dart 慢病随访](https://github.com/axisvela/praxo-core/tree/main/language/dart/Tutorial/chronic-care)路由仅审阅预警 |
 | HC-03 | 临床试验招募匹配 | Python、Java、C# | 判断合成入排条件、解释未知项；不搜索真实患者或决定入组；[Python 试验筛选](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/trial-screening)筛选固定患者并草拟记录 |
-| HC-04 | 病历质控与 DRG/DIP 编码 | Java、COBOL、C# | 检查合成记录完整性并草拟代码；不优化骗保、不虚假编码、不提交账单 |
+| HC-04 | 病历质控与 DRG/DIP 编码 | Java、COBOL、C# | 检查合成记录完整性并草拟代码；不优化骗保、不虚假编码、不提交账单；[C# 病历编码](https://github.com/axisvela/praxo-core/tree/main/language/csharp/Tutorial/medical-coding)草拟仅审阅编码 |
 | HC-05 | 心理支持与 CBT 练习 | Swift、Dart、Python | 合成练习对话与明确的危机转人工分支；不替代治疗师或独立处理危机；[Python CBT 练习](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/cbt-exercise)展示转人工分支 |
 
 ## 个人、教育与具身（5）
