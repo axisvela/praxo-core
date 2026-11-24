@@ -136,7 +136,7 @@ system 指令。Memory Store 不等于自动召回；checkpoint 消息续跑不�
 | CT-02 | 生命线管网泄漏定位与调度 | Fortran、Rust、Nim | 排序合成压力异常并草拟巡检；不隔离阀门或调度现场作业 | [信号趋势](https://github.com/axisvela/praxo-core/tree/main/language/octave/Tutorial/signal-trends)：仅指标，不定位泄漏 | 未实现 |
 | CT-03 | 政务跨部门审批 | Java、C#、PHP | 校验合成材料并草拟并联审核任务；不做真实身份核验或行政审批 | [PHP 政务审批](https://github.com/axisvela/praxo-core/tree/main/language/php/Tutorial/public-approval)：固定材料与仅审阅任务 | 未实现 |
 | CT-04 | 应急指挥与资源调度 | Go、Julia、Erlang | 模拟断路与有约束救援路线；不提供业务救援指令或真实调度 | [Go 应急路线](https://github.com/axisvela/praxo-core/tree/main/language/go/Tutorial/emergency-route-plan)：固定断路与仅审阅调度 | 未实现 |
-| CT-05 | 污染溯源与执法辅助 | R、Fortran、Python | 比较合成监测/天气记录并草拟调查假设；不认定因果或违法 | 无 | 未实现 |
+| CT-05 | 污染溯源与执法辅助 | R、Fortran、Python | 比较合成监测/天气记录并草拟调查假设；不认定因果或违法 | [Python 污染溯源](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/pollution-tracing)：固定记录与仅审阅假设 | 未实现 |
 | CT-06 | 垃圾分类与清运优化 | Julia、Dart、V | 按车辆约束重排有界合成清运队列；不发车辆指令 | 无 | 未实现 |
 | CT-07 | 公共预算执行与绩效 | R、COBOL、Java | 对账合成拨款与里程碑，解释异常；不出具正式审计结论 | 无 | 未实现 |
 
@@ -198,7 +198,7 @@ system 指令。Memory Store 不等于自动召回；checkpoint 消息续跑不�
 
 | ID | 场景 | 目标语言 | 候选的有界教学成果 | 已有相关切片 | 完整实现 |
 | --- | --- | --- | --- | --- | --- |
-| OG-01 | EA 资产图谱治理 | Java、OCaml、C# | 按标准比较固定应用/API 图并草拟变更发现；无生产扫描或自动拦截 | 无 | 未实现 |
+| OG-01 | EA 资产图谱治理 | Java、OCaml、C# | 按标准比较固定应用/API 图并草拟变更发现；无生产扫描或自动拦截 | [OCaml 架构图谱](https://github.com/axisvela/praxo-core/tree/main/language/ocaml/Tutorial/architecture-graph)：固定图谱与仅审阅发现 | 未实现 |
 | OG-02 | 多智能体社会与政策沙盘 | Julia、Erlang、Haskell | 模拟小型有界合成人群并报告敏感性；无数万规模或真实政策预测 | 无 | 未实现 |
 | OG-03 | 跨文化谈判同传与策略辅助 | TypeScript、Swift、Python | 比较固定转录与术语、标记不确定性；无微表情推断、读心或实时同传保证 | 无 | 未实现 |
 | OG-04 | 开源社区治理与贡献者体验 | Ruby、Elixir、Perl | 分类合成 Issue、草拟贡献指导与评审请求；不自动关闭问题或冒充维护者 | [Ruby 社区治理](https://github.com/axisvela/praxo-core/tree/main/language/ruby/Tutorial/community-governance)：固定问题分类与评审请求 | 未实现 |

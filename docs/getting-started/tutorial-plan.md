@@ -153,6 +153,8 @@ add framework surface.
 | Python patent FTO (LJ-02) | Native Core, fixed claim overlap, review-only counsel questions | Local Python 3.14 checks pass; CI job added, not yet run | No exhaustive patent search, claim-chart analysis or non-infringement opinion |
 | Ruby community governance (OG-04) | Native Core, fixed issue classes, review-only reviewer request | Local Ruby checks pass; CI job added, not yet run | No automatic closure, maintainer impersonation, moderation or live GitHub access |
 | Lua world economy (MD-03) | Lua Core, fixed economy tick, review-only balance with no applied change | Local Lua 5.4 checks pass; CI job added, not yet run | No population scale, equilibrium guarantee or real game-engine integration |
+| OCaml architecture graph (OG-01) | OCaml Core, fixed asset graph, review-only change findings | Local OCaml checks pass; CI job added, not yet run | No CMDB discovery, production scanning, standards enforcement or change blocking |
+| Python pollution tracing (CT-05) | Native Core, fixed sensor records, review-only investigation hypotheses | Local Python 3.14 checks pass; CI job added, not yet run | No live monitoring, causal attribution, inspection or enforcement finding |
 | Python order review | Native Core, HTTP tool, fixed order scope, draft-only | Local and hosted CI against the public local service | Deterministic model; no live provider or external consumer |
 | TypeScript order support | Native Core, HTTP tool, fixed order scope | Local and hosted CI against the public local service | Deterministic model; CLI, not a Web frontend |
 | Java order review | Native Core, JUnit, loopback Web, real-service CLI | Mock/Web JUnit and real-service CLI passed in Linux CI | Java Web-to-real-backend and live model not verified |

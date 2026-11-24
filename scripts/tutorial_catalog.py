@@ -96,6 +96,8 @@ TUTORIALS = {
     "patent-fto": ("LJ", "analysis,tools,draft,policy", "LJ-02"),
     "community-governance": ("OG", "analysis,tools,draft,policy", "OG-04"),
     "world-economy": ("MD", "tools,draft,policy", "MD-03"),
+    "architecture-graph": ("OG", "analysis,tools,draft,policy", "OG-01"),
+    "pollution-tracing": ("CT", "analysis,tools,draft,policy", "CT-05"),
 }
 GUIDES = {
     "workspace-agent-tutorial": ("SE", "go", "filesystem,tools,policy"),
