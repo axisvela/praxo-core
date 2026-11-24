@@ -137,7 +137,7 @@ system 指令。Memory Store 不等于自动召回；checkpoint 消息续跑不�
 | CT-03 | 政务跨部门审批 | Java、C#、PHP | 校验合成材料并草拟并联审核任务；不做真实身份核验或行政审批 | [PHP 政务审批](https://github.com/axisvela/praxo-core/tree/main/language/php/Tutorial/public-approval)：固定材料与仅审阅任务 | 未实现 |
 | CT-04 | 应急指挥与资源调度 | Go、Julia、Erlang | 模拟断路与有约束救援路线；不提供业务救援指令或真实调度 | [Go 应急路线](https://github.com/axisvela/praxo-core/tree/main/language/go/Tutorial/emergency-route-plan)：固定断路与仅审阅调度 | 未实现 |
 | CT-05 | 污染溯源与执法辅助 | R、Fortran、Python | 比较合成监测/天气记录并草拟调查假设；不认定因果或违法 | [Python 污染溯源](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/pollution-tracing)：固定记录与仅审阅假设 | 未实现 |
-| CT-06 | 垃圾分类与清运优化 | Julia、Dart、V | 按车辆约束重排有界合成清运队列；不发车辆指令 | 无 | 未实现 |
+| CT-06 | 垃圾分类与清运优化 | Julia、Dart、V | 按车辆约束重排有界合成清运队列；不发车辆指令 | [Dart 垃圾清运](https://github.com/axisvela/praxo-core/tree/main/language/dart/Tutorial/waste-collection)：固定队列与仅审阅排班 | 未实现 |
 | CT-07 | 公共预算执行与绩效 | R、COBOL、Java | 对账合成拨款与里程碑，解释异常；不出具正式审计结论 | 无 | 未实现 |
 
 ## 交通物流、航运与低空经济（7）
@@ -162,7 +162,7 @@ system 指令。Memory Store 不等于自动召回；checkpoint 消息续跑不�
 | MD-04 | 配音、口型同步与文化本地化 | Python、Swift、C++ | 为合成/获许可素材规划字幕与时序；无冒充、未经同意的声音克隆或已验证口型同步 | 无 | 未实现 |
 | MD-05 | 工业设计与 3D 拓扑生成 | C++、Julia、Fortran | 按已述约束比较合成网格描述符；无可制造性或力学认证 | 无 | 未实现 |
 | MD-06 | 有声书与沉浸广播剧制作 | Python、Dart、Swift | 规划获许可角色声音与固定混音提示；无合成成品或权利保证 | 无 | 未实现 |
-| MD-07 | 数字人直播互动场控 | TypeScript、Elixir、Lua | 回放合成互动事件并草拟讲解顺序；不做受众画像、发券或真实直播控制 | 无 | 未实现 |
+| MD-07 | 数字人直播互动场控 | TypeScript、Elixir、Lua | 回放合成互动事件并草拟讲解顺序；不做受众画像、发券或真实直播控制 | [Lua 直播场控](https://github.com/axisvela/praxo-core/tree/main/language/lua/Tutorial/live-show)：固定互动与仅审阅顺序 | 未实现 |
 
 ## 法律、司法与知识产权（5）
 

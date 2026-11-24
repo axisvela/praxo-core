@@ -155,7 +155,7 @@ counterattack is provided by these candidate tutorials.
 | CT-03 | Cross-agency public-service approvals | Java, C#, PHP | Validate synthetic applications and draft parallel review tasks; no real identity checks or official approval | [PHP public-approval](https://github.com/axisvela/praxo-core/tree/main/language/php/Tutorial/public-approval): fixed documents and review-only tasks | Not implemented |
 | CT-04 | Emergency command and resource allocation | Go, Julia, Erlang | Simulate road closures and constrained relief routes; no operational rescue directions or dispatch | [Go emergency-route-plan](https://github.com/axisvela/praxo-core/tree/main/language/go/Tutorial/emergency-route-plan): fixed closures and review-only allocation | Not implemented |
 | CT-05 | Pollution source tracing and inspection support | R, Fortran, Python | Compare synthetic sensor/weather records and draft investigation hypotheses; no causal or enforcement finding | [Python pollution-tracing](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/pollution-tracing): fixed records and review-only hypotheses | Not implemented |
-| CT-06 | Waste collection and route optimization | Julia, Dart, V | Replan a bounded synthetic collection queue under vehicle limits; no vehicle commands | None | Not implemented |
+| CT-06 | Waste collection and route optimization | Julia, Dart, V | Replan a bounded synthetic collection queue under vehicle limits; no vehicle commands | [Dart waste-collection](https://github.com/axisvela/praxo-core/tree/main/language/dart/Tutorial/waste-collection): fixed queue and review-only schedule | Not implemented |
 | CT-07 | Public-budget execution and performance review | R, COBOL, Java | Reconcile synthetic disbursements and milestones, explain flagged variances; no official audit conclusion | None | Not implemented |
 
 ## Transport Shipping And Aviation (7)
@@ -180,7 +180,7 @@ counterattack is provided by these candidate tutorials.
 | MD-04 | Dubbing lip-sync and cultural localization | Python, Swift, C++ | Plan localized captions and timing using synthetic/licensed media; no impersonation, unconsented voice cloning or verified lip-sync | None | Not implemented |
 | MD-05 | Industrial design and 3D topology generation | C++, Julia, Fortran | Compare synthetic mesh descriptors against stated constraints; no manufacturability or mechanical certification | None | Not implemented |
 | MD-06 | Audiobook and audio-drama production | Python, Dart, Swift | Plan licensed character voices and fixture mixing cues; no synthesized production or rights guarantee | None | Not implemented |
-| MD-07 | Digital-presenter live-show direction | TypeScript, Elixir, Lua | Replay synthetic engagement events and draft a presentation order; no audience profiling, coupon sends or real stream control | None | Not implemented |
+| MD-07 | Digital-presenter live-show direction | TypeScript, Elixir, Lua | Replay synthetic engagement events and draft a presentation order; no audience profiling, coupon sends or real stream control | [Lua live-show](https://github.com/axisvela/praxo-core/tree/main/language/lua/Tutorial/live-show): fixed engagement and review-only order | Not implemented |
 
 ## Law Justice And Intellectual Property (5)
 

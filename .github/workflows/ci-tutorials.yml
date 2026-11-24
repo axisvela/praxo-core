@@ -466,6 +466,24 @@ jobs:
       - run: go run ./language/go/Tutorial/soc-alert-triage --test
       - run: go test ./language/go/Tutorial/soc-alert-triage
 
+  lua-live-show:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - run: sudo apt-get update && sudo apt-get install -y lua5.4
+      - run: lua5.4 language/lua/Tutorial/live-show/app.lua --test
+
+  dart-waste-collection:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dart-lang/setup-dart@v1
+        with:
+          sdk: stable
+      - run: dart language/dart/Tutorial/waste-collection/waste.dart --test
+
   ocaml-architecture-graph:
     runs-on: ubuntu-latest
     timeout-minutes: 10

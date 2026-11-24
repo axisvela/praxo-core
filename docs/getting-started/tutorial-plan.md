@@ -155,6 +155,8 @@ add framework surface.
 | Lua world economy (MD-03) | Lua Core, fixed economy tick, review-only balance with no applied change | Local Lua 5.4 checks pass; CI job added, not yet run | No population scale, equilibrium guarantee or real game-engine integration |
 | OCaml architecture graph (OG-01) | OCaml Core, fixed asset graph, review-only change findings | Local OCaml checks pass; CI job added, not yet run | No CMDB discovery, production scanning, standards enforcement or change blocking |
 | Python pollution tracing (CT-05) | Native Core, fixed sensor records, review-only investigation hypotheses | Local Python 3.14 checks pass; CI job added, not yet run | No live monitoring, causal attribution, inspection or enforcement finding |
+| Lua live show (MD-07) | Lua Core, fixed engagement replay, review-only presentation order | Local Lua 5.4 checks pass; CI job added, not yet run | No audience profiling, coupon sends, promotion or real stream control |
+| Dart waste collection (CT-06) | Dart Core, fixed collection queue, review-only schedule under vehicle limits | Local Dart checks pass; CI job added, not yet run | No telemetry, vehicle command, live dispatch or capacity guarantee |
 | Python order review | Native Core, HTTP tool, fixed order scope, draft-only | Local and hosted CI against the public local service | Deterministic model; no live provider or external consumer |
 | TypeScript order support | Native Core, HTTP tool, fixed order scope | Local and hosted CI against the public local service | Deterministic model; CLI, not a Web frontend |
 | Java order review | Native Core, JUnit, loopback Web, real-service CLI | Mock/Web JUnit and real-service CLI passed in Linux CI | Java Web-to-real-backend and live model not verified |

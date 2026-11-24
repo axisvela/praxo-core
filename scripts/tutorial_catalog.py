@@ -98,6 +98,8 @@ TUTORIALS = {
     "world-economy": ("MD", "tools,draft,policy", "MD-03"),
     "architecture-graph": ("OG", "analysis,tools,draft,policy", "OG-01"),
     "pollution-tracing": ("CT", "analysis,tools,draft,policy", "CT-05"),
+    "live-show": ("MD", "tools,draft,policy", "MD-07"),
+    "waste-collection": ("CT", "analysis,tools,draft,policy", "CT-06"),
 }
 GUIDES = {
     "workspace-agent-tutorial": ("SE", "go", "filesystem,tools,policy"),
