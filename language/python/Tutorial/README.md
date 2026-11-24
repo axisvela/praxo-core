@@ -41,3 +41,55 @@ capitalized in directory paths.
 Shared business backends live in the public
 [agent-tutorial-services](https://github.com/axisvela/agent-tutorial-services)
 repository; they are not part of the Core package or wire spec.
+
+## Business scenarios
+
+These Python examples show bounded Agent-shaped workflows rather than complete products. Each one keeps business data, approval and effects in the application:
+
+- [Python biodiversity alerts (AE-05)](./biodiversity-alerts/README.md)
+- [Python CBT exercise (HC-05)](./cbt-exercise/README.md)
+- [Python Clinical Guidelines (HC-01)](./clinical-guidelines/README.md)
+- [Python Credit Diligence (FC-03)](./credit-diligence/README.md)
+- [Python dubbing plan (MD-04)](./dubbing-plan/README.md)
+- [Python education tutoring](./education-tutoring/README.md)
+- [Python insurance claims triage](./insurance-claims/README.md)
+- [Python legal compliance memo](./legal-compliance/README.md)
+- [Python molecule screen (SC-02)](./molecule-screen/README.md)
+- [Python Office Q&A](./office-qa/README.md)
+- [Order Review Agent](./order-review/README.md)
+- [Python patent FTO (LJ-02)](./patent-fto/README.md)
+- [Python phishing awareness (CY-04)](./phishing-awareness/README.md)
+- [Python pollution tracing (CT-05)](./pollution-tracing/README.md)
+- [Python precedent outline (LJ-04)](./precedent-outline/README.md)
+- [Python Trial Screening (HC-03)](./trial-screening/README.md)
+- [Python virtual PI (OG-07)](./virtual-pi/README.md)
+
+## Technical capabilities exercised
+
+- Native Core execution in the language runtime, without a sidecar Agent service.
+- Application-owned tools with scoped policy checks before tool invocation.
+- A denial path and a dependency-failure path with no later draft or write.
+- Deterministic fixtures for repeatable local checks; no credential dependency.
+- Application-owned identity, persistence, approval and effect reconciliation.
+
+Capabilities not demonstrated by a specific tutorial, such as streaming, HITL or durable checkpoints, must not be inferred from this list.
+
+## Language and runtime fit
+
+Python fits data, research and automation workflows where the Agent can share the same runtime and libraries as existing analysis code.
+
+- Native Core is used with async tools, policy and structured reports.
+- Examples span healthcare, finance, security, legal, science and education.
+
+Trade-offs and limits:
+
+- Most scenarios use deterministic fixtures; live providers are optional.
+- No tutorial establishes clinical, legal, financial or scientific validity.
+
+## Evidence and limits
+
+These examples record source and local-fixture evidence. Tutorial CI jobs may be added without a verified remote run, and none of these pages claim independent adoption, production deployment or a validated live model unless a tutorial states its own evidence explicitly. See the [Tutorial Plan](https://axisvela.github.io/praxo-core/getting-started/tutorial-plan/) and [Verification Evidence](https://axisvela.github.io/praxo-core/project/verification-evidence/) for scope conventions.
+
+## Where to start
+
+Open the [Tutorial Catalog](https://axisvela.github.io/praxo-core/getting-started/tutorial-catalog/) and filter by Python, or select the first business scenario above. Follow the tutorial's own README for exact commands and expected output.

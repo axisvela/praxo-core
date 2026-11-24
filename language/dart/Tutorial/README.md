@@ -9,3 +9,45 @@
 See the [100-scenario catalog](https://axisvela.github.io/praxo-core/getting-started/agent-scenarios/)
 for additional Dart candidate assignments. Those are planned targets, not
 implemented tutorials.
+
+## Business scenarios
+
+These Dart examples show bounded Agent-shaped workflows rather than complete products. Each one keeps business data, approval and effects in the application:
+
+- [Dart audiobook production (MD-06)](./audiobook-production/README.md)
+- [Dart CBT exercise (HC-05)](./cbt-exercise/README.md)
+- [Dart chronic care (HC-02)](./chronic-care/README.md)
+- [Dart digital twin memory (OG-06)](./digital-twin-memory/README.md)
+- [Dart Meeting Coordination (OP-02)](./meeting-coordination/README.md)
+- [Dart Onboarding Plan (OP-06)](./onboarding-plan/README.md)
+- [Dart waste collection (CT-06)](./waste-collection/README.md)
+
+## Technical capabilities exercised
+
+- Native Core execution in the language runtime, without a sidecar Agent service.
+- Application-owned tools with scoped policy checks before tool invocation.
+- A denial path and a dependency-failure path with no later draft or write.
+- Deterministic fixtures for repeatable local checks; no credential dependency.
+- Application-owned identity, persistence, approval and effect reconciliation.
+
+Capabilities not demonstrated by a specific tutorial, such as streaming, HITL or durable checkpoints, must not be inferred from this list.
+
+## Language and runtime fit
+
+Dart fits existing Flutter or Dart services that want the Agent in the same runtime as their application code.
+
+- Core callbacks and policy run as a normal Dart process.
+- Examples cover care, coordination, memory, media and field schedules.
+
+Trade-offs and limits:
+
+- No Flutter UI, platform channel or mobile lifecycle is exercised.
+- Examples are CLI fixtures, not app-store or device integrations.
+
+## Evidence and limits
+
+These examples record source and local-fixture evidence. Tutorial CI jobs may be added without a verified remote run, and none of these pages claim independent adoption, production deployment or a validated live model unless a tutorial states its own evidence explicitly. See the [Tutorial Plan](https://axisvela.github.io/praxo-core/getting-started/tutorial-plan/) and [Verification Evidence](https://axisvela.github.io/praxo-core/project/verification-evidence/) for scope conventions.
+
+## Where to start
+
+Open the [Tutorial Catalog](https://axisvela.github.io/praxo-core/getting-started/tutorial-catalog/) and filter by Dart, or select the first business scenario above. Follow the tutorial's own README for exact commands and expected output.

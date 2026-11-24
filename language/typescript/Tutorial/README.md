@@ -16,3 +16,45 @@ capitalized in directory paths.
 Shared business backends live in the public
 [agent-tutorial-services](https://github.com/axisvela/agent-tutorial-services)
 repository; they are not part of the Core package or wire spec.
+
+## Business scenarios
+
+These TypeScript examples show bounded Agent-shaped workflows rather than complete products. Each one keeps business data, approval and effects in the application:
+
+- [TypeScript Customer Support Streaming](./customer-support/README.md)
+- [TypeScript localization draft (CS-07)](./localization-draft/README.md)
+- [TypeScript negotiation interpretation (OG-03)](./negotiation-interpretation/README.md)
+- [Order Support Agent](./order-review/README.md)
+- [TypeScript Retail Replenishment (CS-05)](./retail-replenishment/README.md)
+- [TypeScript travel booking](./travel-booking/README.md)
+- [TypeScript workspace plan (SE-01)](./workspace-plan/README.md)
+
+## Technical capabilities exercised
+
+- Native Core execution in the language runtime, without a sidecar Agent service.
+- Application-owned tools with scoped policy checks before tool invocation.
+- A denial path and a dependency-failure path with no later draft or write.
+- Deterministic fixtures for repeatable local checks; no credential dependency.
+- Application-owned identity, persistence, approval and effect reconciliation.
+
+Capabilities not demonstrated by a specific tutorial, such as streaming, HITL or durable checkpoints, must not be inferred from this list.
+
+## Language and runtime fit
+
+TypeScript fits Node services and web-adjacent tooling that want the Agent beside existing API and streaming code.
+
+- The SDK is exercised with async tools, policy and optional SSE.
+- Examples cover support, retail, travel, localization and planning.
+
+Trade-offs and limits:
+
+- No browser UI, payment, inventory write or live crawl.
+- The workspace example is not a TypeScript type-checking or build sandbox.
+
+## Evidence and limits
+
+These examples record source and local-fixture evidence. Tutorial CI jobs may be added without a verified remote run, and none of these pages claim independent adoption, production deployment or a validated live model unless a tutorial states its own evidence explicitly. See the [Tutorial Plan](https://axisvela.github.io/praxo-core/getting-started/tutorial-plan/) and [Verification Evidence](https://axisvela.github.io/praxo-core/project/verification-evidence/) for scope conventions.
+
+## Where to start
+
+Open the [Tutorial Catalog](https://axisvela.github.io/praxo-core/getting-started/tutorial-catalog/) and filter by TypeScript, or select the first business scenario above. Follow the tutorial's own README for exact commands and expected output.
