@@ -466,6 +466,25 @@ jobs:
       - run: go run ./language/go/Tutorial/soc-alert-triage --test
       - run: go test ./language/go/Tutorial/soc-alert-triage
 
+  cpp-molecule-screen:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - run: cmake -S language/cpp -B language/cpp/build
+      - run: cmake --build language/cpp/build --target praxo-cpp-molecule-screen-tutorial
+      - run: ./language/cpp/build/praxo-cpp-molecule-screen-tutorial --test
+
+  d-property-forecast:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dlang-community/setup-dlang@v2
+        with:
+          compiler: dmd-latest
+      - run: dmd -i -Ilanguage/d/source -run language/d/Tutorial/property-forecast/forecast.d --test
+
   php-localization-draft:
     runs-on: ubuntu-latest
     timeout-minutes: 10

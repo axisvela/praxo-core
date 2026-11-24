@@ -76,7 +76,7 @@ system 指令。Memory Store 不等于自动召回；checkpoint 消息续跑不�
 | ID | 场景 | 目标语言 | 首个有界教学成果 / 相关切片 |
 | --- | --- | --- | --- |
 | SC-01 | 文献综述与假设生成 | Python、Julia、Haskell | 检索固定摘要、引用主张、标明假设未验证；不编造论文；[Haskell 文献综述切片](https://github.com/axisvela/praxo-core/tree/main/language/haskell/Tutorial/literature-review)覆盖两篇 fixture 论文与未验证草案 |
-| SC-02 | 制药与分子设计 | Python、Julia、C++ | 固定约束下排序合成描述符；不声称药效、毒性、合成或临床结果；[Python 分子筛选](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/molecule-screen)排序固定描述符并草拟复核 |
+| SC-02 | 制药与分子设计 | Python、Julia、C++ | 固定约束下排序合成描述符；不声称药效、毒性、合成或临床结果；[Python 分子筛选](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/molecule-screen)与 [C++ 分子筛选](https://github.com/axisvela/praxo-core/tree/main/language/cpp/Tutorial/molecule-screen)排序固定描述符并草拟复核 |
 | SC-03 | 自动化实验室 | Julia、Rust、C | 模拟参数/结果迭代且独立校验限制；不操作实验设备或化学品；[Rust 实验回路](https://github.com/axisvela/praxo-core/tree/main/language/rust/Tutorial/lab-loop)草拟仅审阅参数 |
 | SC-04 | 材料逆向设计与仿真 | Fortran、Julia、C++ | 计算固定候选属性并草拟下轮仿真；不声称发现有效材料 |
 | SC-05 | 气象建模与天气预警 | Fortran、R、Octave | 计算固定时序异常、草拟复核通知；不做业务预报或救灾调度 |
@@ -182,7 +182,7 @@ system 指令。Memory Store 不等于自动召回；checkpoint 消息续跑不�
 | BE-02 | 商业楼宇 HVAC 与照明节能 | Julia、C、Delphi | 模拟人流/热工约束并草拟设置；无 BMS 指令或节能证明 | [Delphi 暖通设置](https://github.com/axisvela/praxo-core/tree/main/language/delphi/Tutorial/hvac-settings)：固定环境与仅审阅方案 | 未实现 |
 | BE-03 | 智慧矿山与边坡风险预警 | Fortran、Rust、C++ | 计算合成位移指标、草拟复核警报；无塌方预测或矿车调度 | [Rust 边坡监测](https://github.com/axisvela/praxo-core/tree/main/language/rust/Tutorial/mining-slope)：固定指标与仅审阅警报 | 未实现 |
 | BE-04 | 招投标编制与串标审查 | Java、PHP、COBOL | 校验合成资质、标记文档相似性；不自动投标或认定串标 | [PHP 招标复核](https://github.com/axisvela/praxo-core/tree/main/language/php/Tutorial/tender-review)：固定投标与仅审阅标记 | 未实现 |
-| BE-05 | 地产选址与租金预测 | R、Julia、D | 比较合成选址指标、披露预测假设；无概率/回报验证或个人位置画像 | [R 地产预测](https://github.com/axisvela/praxo-core/tree/main/language/r/Tutorial/property-forecast)：固定指标与仅审阅预测 | 未实现 |
+| BE-05 | 地产选址与租金预测 | R、Julia、D | 比较合成选址指标、披露预测假设；无概率/回报验证或个人位置画像 | [R 地产预测](https://github.com/axisvela/praxo-core/tree/main/language/r/Tutorial/property-forecast)与 [D 地产预测](https://github.com/axisvela/praxo-core/tree/main/language/d/Tutorial/property-forecast)：固定指标与仅审阅预测 | 未实现 |
 
 ## 农业、林业与生态保护（5）
 
