@@ -192,7 +192,7 @@ system 指令。Memory Store 不等于自动召回；checkpoint 消息续跑不�
 | AE-02 | 森林火险与蔓延推演 | Fortran、Julia、R | 回放合成天气/燃料网格、比较模型传播；无业务预警或防火带调度 | 无 | 未实现 |
 | AE-03 | 海洋牧场水质与投饵 | Lua、C、Octave | 计算固定溶氧/温度指标、草拟有界动作；不控制增氧机或投饵机 | [宿主嵌入](https://github.com/axisvela/praxo-core/tree/main/language/lua/Tutorial/host-embedding)：仅宿主回调机制 | 未实现 |
 | AE-04 | 农产品套保与产销规划 | R、Julia、COBOL | 模拟风险敞口并比较情景成本；不发期货订单、不锁价、不提供金融建议 | 无 | 未实现 |
-| AE-05 | 生物多样性与盗猎预警 | Python、Rust、Zig | 分类合成标注观察、草拟护林员复核；无物种识别保证或自动追捕 | 无 | 未实现 |
+| AE-05 | 生物多样性与盗猎预警 | Python、Rust、Zig | 分类合成标注观察、草拟护林员复核；无物种识别保证或自动追捕 | [Python 生物多样性预警](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/biodiversity-alerts)：固定标签与仅审阅预警 | 未实现 |
 
 ## 组织治理、架构与跨学科协同（7）
 
@@ -200,7 +200,7 @@ system 指令。Memory Store 不等于自动召回；checkpoint 消息续跑不�
 | --- | --- | --- | --- | --- | --- |
 | OG-01 | EA 资产图谱治理 | Java、OCaml、C# | 按标准比较固定应用/API 图并草拟变更发现；无生产扫描或自动拦截 | [OCaml 架构图谱](https://github.com/axisvela/praxo-core/tree/main/language/ocaml/Tutorial/architecture-graph)：固定图谱与仅审阅发现 | 未实现 |
 | OG-02 | 多智能体社会与政策沙盘 | Julia、Erlang、Haskell | 模拟小型有界合成人群并报告敏感性；无数万规模或真实政策预测 | 无 | 未实现 |
-| OG-03 | 跨文化谈判同传与策略辅助 | TypeScript、Swift、Python | 比较固定转录与术语、标记不确定性；无微表情推断、读心或实时同传保证 | 无 | 未实现 |
+| OG-03 | 跨文化谈判同传与策略辅助 | TypeScript、Swift、Python | 比较固定转录与术语、标记不确定性；无微表情推断、读心或实时同传保证 | [TypeScript 谈判解读](https://github.com/axisvela/praxo-core/tree/main/language/typescript/Tutorial/negotiation-interpretation)：固定转录与仅审阅笔记 | 未实现 |
 | OG-04 | 开源社区治理与贡献者体验 | Ruby、Elixir、Perl | 分类合成 Issue、草拟贡献指导与评审请求；不自动关闭问题或冒充维护者 | [Ruby 社区治理](https://github.com/axisvela/praxo-core/tree/main/language/ruby/Tutorial/community-governance)：固定问题分类与评审请求 | 未实现 |
 | OG-05 | EDA 布局布线优化 | C++、Fortran、Julia | 探索合成布局网格、报告已述 PPA 代理指标；无代工厂有效版图或优化证明 | 无 | 未实现 |
 | OG-06 | 个人数字孪生与跨应用记忆 | Swift、Objective-C、Dart | 存储合成的同意范围内记忆、记录来源并测试删除；无真实邮箱/密码或无限召回 | [物流 checkpoint](https://github.com/axisvela/praxo-core/tree/main/language/go/Tutorial/logistics-checkpoint)：仅消息续跑，不是个人记忆中枢 | 未实现 |

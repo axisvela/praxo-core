@@ -466,6 +466,29 @@ jobs:
       - run: go run ./language/go/Tutorial/soc-alert-triage --test
       - run: go test ./language/go/Tutorial/soc-alert-triage
 
+  typescript-negotiation-interpretation:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - run: npm ci --ignore-scripts --no-audit --no-fund
+        working-directory: language/typescript/Tutorial/negotiation-interpretation
+      - run: npm test
+        working-directory: language/typescript/Tutorial/negotiation-interpretation
+
+  python-biodiversity-alerts:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: PYTHONPATH=language/python python language/python/Tutorial/biodiversity-alerts/app.py --test
+
   lua-live-show:
     runs-on: ubuntu-latest
     timeout-minutes: 10

@@ -100,6 +100,8 @@ TUTORIALS = {
     "pollution-tracing": ("CT", "analysis,tools,draft,policy", "CT-05"),
     "live-show": ("MD", "tools,draft,policy", "MD-07"),
     "waste-collection": ("CT", "analysis,tools,draft,policy", "CT-06"),
+    "negotiation-interpretation": ("OG", "analysis,tools,draft,policy", "OG-03"),
+    "biodiversity-alerts": ("AE", "analysis,tools,draft,policy", "AE-05"),
 }
 GUIDES = {
     "workspace-agent-tutorial": ("SE", "go", "filesystem,tools,policy"),
