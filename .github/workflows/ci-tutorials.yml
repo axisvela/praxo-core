@@ -466,6 +466,25 @@ jobs:
       - run: go run ./language/go/Tutorial/soc-alert-triage --test
       - run: go test ./language/go/Tutorial/soc-alert-triage
 
+  cpp-ocean-routing:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - run: cmake -S language/cpp -B language/cpp/build
+      - run: cmake --build language/cpp/build --target praxo-cpp-ocean-routing-tutorial
+      - run: ./language/cpp/build/praxo-cpp-ocean-routing-tutorial --test
+
+  d-fleet-map:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dlang-community/setup-dlang@v2
+        with:
+          compiler: dmd-latest
+      - run: dmd -i -Ilanguage/d/source -run language/d/Tutorial/fleet-map/map_patch.d --test
+
   go-customs-reroute:
     runs-on: ubuntu-latest
     timeout-minutes: 10

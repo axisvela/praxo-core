@@ -122,6 +122,8 @@ TUTORIALS = {
     "aquaculture-water": ("AE", "analysis,tools,draft,policy", "AE-03"),
     "customs-reroute": ("TL", "analysis,tools,draft,policy", "TL-05"),
     "cold-chain": ("TL", "analysis,tools,draft,policy", "TL-04"),
+    "ocean-routing": ("TL", "analysis,tools,draft,policy", "TL-03"),
+    "fleet-map": ("TL", "tools,draft,policy", "TL-06"),
 }
 GUIDES = {
     "workspace-agent-tutorial": ("SE", "go", "filesystem,tools,policy"),

@@ -54,7 +54,7 @@ class TutorialCatalogTests(unittest.TestCase):
                     'MD-02', 'MD-03', 'LJ-01', 'LJ-04', 'AE-03', 'OG-06', 'OG-07'):
             self.assertTrue(goals[key]['related_slices'], key)
         self.assertFalse(goals['TL-02']['related_slices'])
-        self.assertFalse(goals['TL-03']['related_slices'])
+        self.assertFalse(goals['OG-02']['related_slices'])
 
     def test_mechanism_matrix_matches_existing_inventory(self):
         mechanisms = [entry for entry in self.entries if entry['kind'] == 'mechanism']
