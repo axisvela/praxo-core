@@ -5,6 +5,18 @@ not a code-generation or deployment product. It reads a fixed allowlisted
 workspace, applies one bounded edit to `app.js` and inspects synthetic
 diagnostics. In-process fixtures only; no host filesystem, compiler or deployment.
 
+## Why this language and runtime?
+
+- **Selection basis:** A Node application can keep tool orchestration in its
+  existing runtime. The tutorial uses JavaScript with the TypeScript SDK package.
+- **Demonstrated fit:** Async SDK tools and policy checks run under Node. Edit and
+  diagnostic results are scripted acknowledgements, not filesystem or build work.
+- **Choose when:** Learning the SDK boundary for an existing Node developer tool.
+- **Do not choose when:** Expecting an editor integration, browser application or
+  real build sandbox. Compare direct Node scripts or an existing Go tool first.
+- **Evidence limit:** Core integration only; no TypeScript type-checking, editor
+  API, real edit or compilation is demonstrated.
+
 From this directory:
 
 ```bash

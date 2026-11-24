@@ -5,6 +5,18 @@ not drug discovery. It ranks fixed synthetic molecular descriptors under stated
 constraints and drafts a review-only assessment. No efficacy, toxicity, synthesis
 or clinical claim.
 
+## Why this language and runtime?
+
+- **Selection basis:** A Python research workflow can evaluate native Core without
+  introducing a second orchestration runtime; no consumer is verified here.
+- **Demonstrated fit:** Async Core callbacks return a precomputed candidate ranking
+  and a draft. No chemistry library or descriptor-based ranking is exercised.
+- **Choose when:** Learning the tool/policy boundary in an existing Python workflow.
+- **Do not choose when:** Seeking validated screening or deciding on a chemistry
+  stack. Compare domain libraries and deterministic screening before adding an Agent.
+- **Evidence limit:** Core integration fixture only; no docking, ADMET or scientific
+  validation follows from the scripted result.
+
 From this directory:
 
 ```bash

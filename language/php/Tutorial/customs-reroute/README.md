@@ -5,6 +5,18 @@ not a customs-filing system. It validates fixed document fields, compares two
 routes and drafts a review-only reroute. No customs filing, network access or
 compliance determination.
 
+## Why this language and runtime?
+
+- **Selection basis:** A PHP logistics portal could keep a review workflow in its
+  existing runtime rather than adding a separate Agent service.
+- **Demonstrated fit:** PHP CLI tools and policy checks return fixed shipment data
+  and a preselected reroute. No portal, document validator or route solver runs.
+- **Choose when:** Learning native Core integration for an existing PHP application.
+- **Do not choose when:** Seeking customs compliance or route optimization. Compare
+  direct business rules and existing logistics services against actual requirements.
+- **Evidence limit:** Core integration fixture only; no named consumer, web entry,
+  customs API or comparative PHP advantage is established.
+
 Run from the repository root:
 
 ```bash

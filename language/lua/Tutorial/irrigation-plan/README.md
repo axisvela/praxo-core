@@ -4,6 +4,18 @@ A bounded first slice of IN-06, not an irrigation controller. It evaluates fixed
 soil/weather observations and drafts a review-only bounded irrigation request. No
 valve command, drone dispatch or actuator access.
 
+## Why this language and runtime?
+
+- **Selection basis:** An existing Lua-enabled host could expose scoped observations
+  as tools. Host embedding is a possible use, not demonstrated by this CLI.
+- **Demonstrated fit:** Lua callbacks and policy checks return fixed observations,
+  a precomputed threshold status and a fixed 400-litre draft request.
+- **Choose when:** Learning the Core seam before integrating an existing Lua host.
+- **Do not choose when:** Choosing an irrigation controller or expecting hardware
+  integration. Compare direct host rules or its existing C control path first.
+- **Evidence limit:** Core integration only; no embedded host, live sensor,
+  actuator, memory-footprint or real-time guarantee is exercised.
+
 From this directory:
 
 ```bash
