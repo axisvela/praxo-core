@@ -7,6 +7,18 @@ rejects a malformed report before the application sees it. This tutorial does no
 execute a payment, adjudicate coverage, read arbitrary files, call a live model or
 mutate a policy.
 
+## Why this language and runtime?
+
+- **Selection basis:** Python fits claims triage and document workflows where existing
+  extraction and rules already run.
+- **Demonstrated fit:** A fixed claim produces a draft-only decision validated by
+  `StructuredOutput`; no adjudication or payment executes.
+- **Choose when:** Learning structured-output and review boundaries in a Python tool.
+- **Do not choose when:** Seeking claim adjudication or fraud detection. Compare the
+  insurer's rules engine, compliance process and existing models first.
+- **Evidence limit:** Core integration fixture only; no real claim data, adjudication,
+  payment, fraud verdict or regulatory compliance.
+
 ## Run
 
 From this directory:

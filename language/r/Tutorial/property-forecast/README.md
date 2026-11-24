@@ -5,6 +5,18 @@ computes fixed site metrics in native R, shows forecast assumptions and drafts a
 review-only forecast. No verified probability, return guarantee or
 personal-location profiling.
 
+## Why this language and runtime?
+
+- **Selection basis:** R fits property analytics and forecasting where metrics and
+  assumptions are already modeled statistically.
+- **Demonstrated fit:** Native R computes fixed yield assumptions and a review-only
+  forecast; no market feed or valuation model runs.
+- **Choose when:** Learning review and assumption disclosure in an existing R workflow.
+- **Do not choose when:** Seeking valuation or investment advice. Compare the
+  underwriting process, market data and licensed advice first.
+- **Evidence limit:** Fixed site fixture and Core integration only; no verified
+  probability, return guarantee, valuation or location profiling.
+
 Run from the repository root:
 
 ```bash

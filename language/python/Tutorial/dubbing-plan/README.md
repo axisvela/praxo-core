@@ -5,6 +5,18 @@ not a dubbing or voice-cloning product. It reads fixed licensed media segments a
 drafts a review-only caption and timing plan. No audio synthesis, impersonation,
 unconsented voice cloning or verified lip-sync.
 
+## Why this language and runtime?
+
+- **Selection basis:** Python fits media and localization pipelines that already
+  process licensed assets and caption metadata.
+- **Demonstrated fit:** Fixed licensed media yields a review-only caption/timing plan;
+  no speech synthesis, voice cloning or audio export runs.
+- **Choose when:** Learning consent and review boundaries in a Python media workflow.
+- **Do not choose when:** Seeking dubbing, lip-sync or rights clearance. Compare audio
+  engines, consent processes and licensing systems first.
+- **Evidence limit:** Core integration fixture only; no audio generation, voice clone,
+  impersonation, lip-sync verification, rights guarantee or publication.
+
 From this directory:
 
 ```bash

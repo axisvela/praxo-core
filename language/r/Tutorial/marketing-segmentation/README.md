@@ -6,6 +6,18 @@ and drafts a review-only invite for that segment. The model packages computed
 evidence rather than inventing segments. This tutorial does not send messages,
 launch a campaign, read arbitrary data, install packages or call a live model.
 
+## Why this language and runtime?
+
+- **Selection basis:** R fits audience and marketing analytics where segmentation and
+  lift calculations already belong to the analytics team.
+- **Demonstrated fit:** Native R computes fixed segment metrics and a review-only draft;
+  no campaign, send or customer profile store is touched.
+- **Choose when:** Learning review boundaries beside existing R marketing analysis.
+- **Do not choose when:** Seeking campaign delivery or customer scoring. Compare the
+  marketing platform, consent rules and existing analytics first.
+- **Evidence limit:** Fixed customer fixture and Core integration only; no sends,
+  personalization guarantee, lift validation or customer-data access.
+
 Run from the repository root:
 
 ```bash

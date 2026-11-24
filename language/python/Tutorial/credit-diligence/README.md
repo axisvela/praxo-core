@@ -5,6 +5,18 @@ not a credit decision or fraud adjudication system. It computes fixed ratios for
 one synthetic applicant and drafts a review-only memo. No bureau call, decision or
 live model is used.
 
+## Why this language and runtime?
+
+- **Selection basis:** Python fits finance analytics and diligence workflows that
+  already compute ratios and draft memos from structured data.
+- **Demonstrated fit:** Fixed records are reconciled and a review-only credit memo is
+  drafted; no credit decision or market feed is involved.
+- **Choose when:** Learning evidence and review boundaries in an existing Python tool.
+- **Do not choose when:** Seeking credit approval or fraud adjudication. Compare the
+  bank's underwriting rules, risk models and compliance process first.
+- **Evidence limit:** Core integration fixture only; no live financial data, credit
+  decision, fraud verdict, regulatory approval or advice.
+
 From this directory:
 
 ```bash

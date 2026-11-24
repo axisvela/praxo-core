@@ -5,6 +5,18 @@ not diagnosis or treatment advice. It retrieves fixed synthetic guideline
 excerpts, cites the top match, drafts a review-only summary, and abstains when no
 evidence matches. No patient records or live model are used.
 
+## Why this language and runtime?
+
+- **Selection basis:** Python fits retrieval and clinical-informatics workflows where
+  existing document tooling and citations can remain in one runtime.
+- **Demonstrated fit:** Fixed guideline excerpts are retrieved and cited; the model
+  abstains when evidence is insufficient.
+- **Choose when:** Learning citation/abstention boundaries in an existing Python tool.
+- **Do not choose when:** Seeking diagnosis or treatment advice. Compare clinical
+  decision support, evidence grading and licensed review first.
+- **Evidence limit:** Core integration fixture only; no patient data, live guideline
+  service, diagnosis, treatment decision or clinical validation.
+
 From this directory:
 
 ```bash

@@ -6,6 +6,18 @@ A native Python Core tutorial for a guided study plan. An application-owned
 review-only study plan. This tutorial does not read arbitrary files, create
 assignments, identify a student or call a live model.
 
+## Why this language and runtime?
+
+- **Selection basis:** Python fits education tooling that already uses retrievers and
+  structured lesson content.
+- **Demonstrated fit:** A fixed lesson corpus and Core `Retriever` produce a draft study
+  plan; no adaptive learner model or assignment write runs.
+- **Choose when:** Learning retrieval and review boundaries in an existing Python tool.
+- **Do not choose when:** Seeking validated adaptive tutoring or grading. Compare the
+  learning platform's pedagogy and assessment rules first.
+- **Evidence limit:** Core integration fixture only; no student data, adaptive
+  validation, assignment creation, grading or learning-outcome claim.
+
 ## Run
 
 From this directory:

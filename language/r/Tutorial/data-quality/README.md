@@ -6,6 +6,18 @@ deterministic model returns the computed values as a structured report instead
 of inventing numbers. It does not read arbitrary files, run SQL, execute shell
 commands or change the dataset.
 
+## Why this language and runtime?
+
+- **Selection basis:** R is common in data-quality and statistical reporting workflows
+  where summaries must stay close to the data.
+- **Demonstrated fit:** Native R computes statistics over a synthetic data frame and a
+  report cites the computed values; no ETL or source system is touched.
+- **Choose when:** Learning report/review boundaries beside existing R analysis.
+- **Do not choose when:** Seeking pipeline repair or data governance. Compare the
+  existing ETL, validation rules and data catalog first.
+- **Evidence limit:** Fixed data frame and Core integration only; no production data,
+  profiling coverage, ETL, correction or quality guarantee.
+
 ## Run
 
 From the repository root:

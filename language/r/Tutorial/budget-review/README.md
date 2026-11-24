@@ -5,6 +5,18 @@ execution for a fixed synthetic programme, explains a flagged variance and
 drafts a review-only performance finding. No real disbursement data, official
 audit conclusion or live model.
 
+## Why this language and runtime?
+
+- **Selection basis:** R fits public-finance analytics where ledger summaries and
+  variance calculations already run in statistical workflows.
+- **Demonstrated fit:** Native R computes budget execution and a review-only finding;
+  no ledger reconciliation or audit opinion is produced.
+- **Choose when:** Learning review boundaries around existing R calculations.
+- **Do not choose when:** Seeking an official audit or disbursement truth. Compare the
+  finance system, audit standards and deterministic controls first.
+- **Evidence limit:** Fixed fixture and Core integration; no public ledger, audit
+  judgment, official reporting or accounting-standard compliance.
+
 Run from the repository root:
 
 ```bash

@@ -4,6 +4,18 @@ A bounded first slice of AE-02, not a fire-warning or dispatch system. It comput
 fixed weather/fuel spread indicators in native R and drafts a review-only spread
 report. No operational warning, evacuation order or firebreak dispatch.
 
+## Why this language and runtime?
+
+- **Selection basis:** R fits environmental analysis where weather/fuel tables and
+  statistical comparison already live.
+- **Demonstrated fit:** Native R computes fixed spread indicators and drafts a review
+  report; no operational fire model or dispatch runs.
+- **Choose when:** Exploring review boundaries around existing R environmental analysis.
+- **Do not choose when:** Seeking fire prediction or evacuation decisions. Compare
+  validated fire-behavior models and incident command first.
+- **Evidence limit:** Fixed cells and illustrative indicator only; no operational
+  warning, validated model, evacuation or firebreak dispatch.
+
 Run from the repository root:
 
 ```bash

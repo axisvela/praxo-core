@@ -23,6 +23,17 @@ class TutorialCatalogTests(unittest.TestCase):
                     source_keys.append((entry['languages'], entry['path']))
         self.assertEqual(len(set(source_keys)), len(source_keys))
 
+    def test_tutorials_document_language_fit(self):
+        readmes = list((catalog.ROOT / 'language').glob('*/Tutorial/*/README.md'))
+        for readme in readmes:
+            with self.subTest(readme=readme.as_posix()):
+                text = readme.read_text(encoding='utf-8')
+                self.assertIn('## Why this language and runtime?', text)
+        for intro in (catalog.ROOT / 'language').glob('*/Tutorial/README.md'):
+            with self.subTest(intro=intro.as_posix()):
+                text = intro.read_text(encoding='utf-8')
+                self.assertIn('## Language and runtime fit', text)
+
     def test_every_application_directory_is_indexed(self):
         readmes = list((catalog.ROOT / 'language').glob('*/Tutorial/*/README.md'))
         actual = {entry['path'] for entry in self.entries if entry['kind'] == 'application'}

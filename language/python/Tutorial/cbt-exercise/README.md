@@ -5,6 +5,18 @@ not a therapist or crisis service. It walks a fixed synthetic CBT exercise, keep
 an explicit `human_review` escalation branch, and drafts a review-only summary. No
 live session, diagnosis, therapist replacement or unsupervised crisis handling.
 
+## Why this language and runtime?
+
+- **Selection basis:** Python fits health and research teams that already prototype
+  guided exercises and need an explicit escalation boundary.
+- **Demonstrated fit:** A fixed CBT exercise drives a review-only summary, including
+  a crisis branch that routes to human review.
+- **Choose when:** Exploring a safety-boundary pattern in an existing Python workflow.
+- **Do not choose when:** Seeking clinical care or crisis handling. Compare licensed
+  clinical protocols and emergency services first.
+- **Evidence limit:** Core integration fixture only; no therapist replacement,
+  diagnosis, live session or unsupervised crisis handling.
+
 From this directory:
 
 ```bash

@@ -6,6 +6,18 @@ documents. The deterministic model packages the top search result and its docume
 ID into an answer. It does not read arbitrary files, call a connector, update the
 documents or send email.
 
+## Why this language and runtime?
+
+- **Selection basis:** Python fits internal knowledge and document Q&A where existing
+  parsers and retrievers are already available.
+- **Demonstrated fit:** Fixed documents produce a citation-bearing answer; no document
+  write, external search or mailbox access runs.
+- **Choose when:** Learning citation and retrieval boundaries in an existing Python tool.
+- **Do not choose when:** Seeking enterprise knowledge management or live search.
+  Compare the existing document platform and access controls first.
+- **Evidence limit:** Core integration fixture only; no live corpus, permissions,
+  document mutation, external search or answer-correctness guarantee.
+
 ## Run
 
 From this directory:

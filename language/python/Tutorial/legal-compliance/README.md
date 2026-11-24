@@ -6,6 +6,18 @@ the application approves the interrupt. The deterministic model packages the cit
 evidence. This tutorial does not read arbitrary files, call a real case system,
 publish to a real document store or call a live model.
 
+## Why this language and runtime?
+
+- **Selection basis:** Python fits compliance and policy workflows that need a human
+  approval gate before publishing an internal result.
+- **Demonstrated fit:** A fixed policy review exercises Core HITL approval and a
+  simulated publish; no legal advice or real publication occurs.
+- **Choose when:** Learning HITL and policy boundaries in an existing Python workflow.
+- **Do not choose when:** Seeking legal advice or automatic compliance decisions.
+  Compare counsel, the compliance platform and existing approval policy first.
+- **Evidence limit:** Core integration fixture with a scripted approver; no real
+  reviewer, legal opinion, regulatory filing or publication.
+
 ## Run
 
 From this directory:

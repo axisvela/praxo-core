@@ -4,6 +4,18 @@ A bounded first slice of AE-04, not a trading or financial-advice system. It
 computes fixed farm exposure and scenario margins in native R and drafts a
 review-only hedging plan. No futures orders, price lock or advice.
 
+## Why this language and runtime?
+
+- **Selection basis:** R fits agricultural and financial planning where exposure and
+  scenario analysis already use statistical workflows.
+- **Demonstrated fit:** Native R compares fixed exposure and scenario margins, then
+  drafts a review-only plan; no futures order or price lock runs.
+- **Choose when:** Learning review boundaries around existing R scenario analysis.
+- **Do not choose when:** Seeking trading or financial advice. Compare market data,
+  execution controls and licensed advice first.
+- **Evidence limit:** Fixed fixture and Core integration; no market feed, futures
+  order, price lock, return guarantee or financial advice.
+
 Run from the repository root:
 
 ```bash

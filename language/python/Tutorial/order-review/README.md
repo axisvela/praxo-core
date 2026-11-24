@@ -14,6 +14,19 @@ cd agent-tutorial-services
 python service/orders.py
 ```
 
+## Why this language and runtime?
+
+- **Selection basis:** Python fits service-desk and API automation where request
+  handling and the Agent can share one runtime.
+- **Demonstrated fit:** Core HTTP tools call the shared synthetic orders backend over
+  loopback, with policy and service-side denial paths.
+- **Choose when:** Comparing the Python seam against the same business backend used by
+  TypeScript, Java and C# examples.
+- **Do not choose when:** Seeking order mutation, refunds or production identity.
+  Compare the existing order service and authorization model first.
+- **Evidence limit:** Loopback demo backend and local tests; no production ERP, user
+  identity, refund authority, hosted deployment or live model.
+
 From this directory:
 
 ```bash

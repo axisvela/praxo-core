@@ -5,6 +5,18 @@ not legal research or advice. It retrieves fixed synthetic precedents and drafts
 cited review-only outline. No live legal database, sentencing recommendation or
 judicial decision.
 
+## Why this language and runtime?
+
+- **Selection basis:** Python fits legal research and document workflows that already
+  handle excerpts and citations.
+- **Demonstrated fit:** Fixed precedents produce a cited review-only outline; no live
+  legal database or judicial decision runs.
+- **Choose when:** Learning citation and review boundaries in an existing Python tool.
+- **Do not choose when:** Seeking legal research quality or advice. Compare legal
+  databases, citation validation and counsel review first.
+- **Evidence limit:** Core integration fixture only; no live case law, citation
+  validation, sentencing recommendation, judicial decision or legal advice.
+
 From this directory:
 
 ```bash
