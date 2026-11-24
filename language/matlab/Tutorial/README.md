@@ -2,6 +2,8 @@
 
 Application tutorials live in `Tutorial/`, alongside focused `examples/`.
 
+- [Data quality](data-quality/README.md): fixed mean/median/outlier statistics and
+  a review-only outlier branch; local evidence is GNU Octave.
 - [Signal trends](signal-trends/README.md): native signal metrics, threshold
   anomalies, and a structured report over a fixed signal.
 

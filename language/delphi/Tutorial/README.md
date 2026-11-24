@@ -1,5 +1,7 @@
 ﻿# Delphi / Free Pascal Tutorials
 
+- [Tax Review (FC-04)](tax-review/README.md): fixed ledger totals and a review-only
+  filing draft; no submission or tax advice.
 - [RPA Reconciliation (OP-04)](rpa-reconciliation/README.md): source Delphi/Free
   Pascal Core, fixed PO/invoice reconciliation and a review-only exception.
 - [Legacy Migration (SE-03)](legacy-migration/README.md): source Delphi/Free Pascal

@@ -73,7 +73,7 @@ system 指令。Memory Store 不等于自动召回；checkpoint 消息续跑不�
 | FC-01 | 投研与财报分析 | R、Julia、Java | 对合成财报计算比率并列假设；现有组合分析不是投研验证 |
 | FC-02 | 量化执行与风险控制 | C++、Rust | 回放固定价格、用确定性控制校验风险、草拟订单；不交易、不承诺毫秒执行；[D 量化风控](https://github.com/axisvela/praxo-core/tree/main/language/d/Tutorial/quant-risk)比较固定敞口与限额并草拟复核订单 |
 | FC-03 | 信贷尽调与反欺诈 | Java、Python | 交叉核验合成记录并输出复核证据；不自动拒贷或判定欺诈；[Python 信贷尽调](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/credit-diligence)计算固定比率并草拟备忘录 |
-| FC-04 | 税务筹划与申报 | COBOL、Java、Delphi | 校验合成账本、按固定规则草拟申报；不真实申报、不提供税务建议 |
+| FC-04 | 税务筹划与申报 | COBOL、Java、Delphi | 校验合成账本、按固定规则草拟申报；不真实申报、不提供税务建议；[Delphi 税务复核](https://github.com/axisvela/praxo-core/tree/main/language/delphi/Tutorial/tax-review)计算固定应税/税额并草拟仅审阅申报 |
 | FC-05 | 合同全生命周期审查 | Python、C# | 比对固定条款和红线、建议修订；审批改动须最终重授权；[OCaml 合同审查](https://github.com/axisvela/praxo-core/tree/main/language/ocaml/Tutorial/contract-review)对固定条款草拟红线 |
 | FC-06 | 监管追踪与内控审计 | Python、R、Perl | 比较版本化规则 fixture 并草拟整改；现有合规教程为脚本审批而非真实审核人 |
 
@@ -86,7 +86,7 @@ system 指令。Memory Store 不等于自动召回；checkpoint 消息续跑不�
 | SC-03 | 自动化实验室 | Julia、Rust、C | 模拟参数/结果迭代且独立校验限制；不操作实验设备或化学品；[Rust 实验回路](https://github.com/axisvela/praxo-core/tree/main/language/rust/Tutorial/lab-loop)草拟仅审阅参数 |
 | SC-04 | 材料逆向设计与仿真 | Fortran、Julia、C++ | 计算固定候选属性并草拟下轮仿真；不声称发现有效材料；[C++ 材料设计](https://github.com/axisvela/praxo-core/tree/main/language/cpp/Tutorial/materials-design)草拟下一轮仅审阅仿真 |
 | SC-05 | 气象建模与天气预警 | Fortran、R、Octave | 计算固定时序异常、草拟复核通知；不做业务预报或救灾调度；[R 气象异常](https://github.com/axisvela/praxo-core/tree/main/language/r/Tutorial/weather-anomaly)草拟仅审阅通知 |
-| SC-06 | 科研清洗与统计建模 | R、Julia、MATLAB | 校验固定数据与统计方法；现有 data-quality 为相关切片，原生 MATLAB 未验证 |
+| SC-06 | 科研清洗与统计建模 | R、Julia、MATLAB | 校验固定数据与统计方法；[R 数据质量](https://github.com/axisvela/praxo-core/tree/main/language/r/Tutorial/data-quality)为相关切片；[MATLAB 数据质量](https://github.com/axisvela/praxo-core/tree/main/language/matlab/Tutorial/data-quality)在 Octave 下运行；原生 MATLAB 未验证 |
 
 ## 工业、供应链与能源（6）
 

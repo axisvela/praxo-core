@@ -234,6 +234,25 @@ jobs:
           compiler: dmd-latest
       - run: dmd -i -Ilanguage/d/source -run language/d/Tutorial/quant-risk/risk.d --test
 
+  matlab-data-quality:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - run: sudo apt-get update && sudo apt-get install -y octave
+      - run: octave --no-gui --quiet language/matlab/Tutorial/data-quality/run.m --test
+
+  delphi-tax-review:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - run: sudo apt-get update && sudo apt-get install -y fpc
+      - run: fpc -Mobjfpc -Scghi -O2 -Fu. -FEbuild Tutorial/tax-review/tax.pas
+        working-directory: language/delphi
+      - run: ./build/tax --test
+        working-directory: language/delphi
+
   octave-water-quality:
     runs-on: ubuntu-latest
     timeout-minutes: 10

@@ -152,6 +152,7 @@ TUTORIALS = {
     "dispatch-review": ("IN", "analysis,tools,draft,policy", "IN-04"),
     "vibration-review": ("IN", "analysis,tools,draft,policy", "IN-01"),
     "water-quality": ("AE", "analysis,tools,draft,policy", "AE-03"),
+    "tax-review": ("FC", "analysis,tools,draft,policy", "FC-04"),
 }
 GUIDES = {
     "workspace-agent-tutorial": ("SE", "go", "filesystem,tools,policy"),
