@@ -124,6 +124,8 @@ TUTORIALS = {
     "cold-chain": ("TL", "analysis,tools,draft,policy", "TL-04"),
     "ocean-routing": ("TL", "analysis,tools,draft,policy", "TL-03"),
     "fleet-map": ("TL", "tools,draft,policy", "TL-06"),
+    "policy-simulation": ("OG", "analysis,tools,draft,policy", "OG-02"),
+    "hvac-settings": ("BE", "tools,draft,policy", "BE-02"),
 }
 GUIDES = {
     "workspace-agent-tutorial": ("SE", "go", "filesystem,tools,policy"),

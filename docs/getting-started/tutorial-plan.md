@@ -181,6 +181,8 @@ add framework surface.
 | Rust cold chain (TL-04) | Native Core, fixed temperature excursions, review-only transfer review | Local cargo build/test pass; CI job added, not yet run | No refrigeration control, actuator access, cargo-integrity or clinical guarantee |
 | C++ ocean routing (TL-03) | C++ Core, fixed route/weather costs, review-only route | Local MinGW build/test pass; CI job added, not yet run | No weather routing, navigation command, fuel-savings or CII compliance claim |
 | D fleet map (TL-06) | Native Core, fixed topology changes, review-only map patch | Local dmd `-run` checks pass; CI job added, not yet run | No vehicle takeover, remote assistance, map deployment or live fleet access |
+| Haskell policy simulation (OG-02) | Haskell Core, fixed synthetic population, review-only sensitivity report | Local runghc checks pass; CI job added, not yet run | No tens-of-thousands scale, calibrated simulator or real policy prediction |
+| Delphi HVAC settings (BE-02) | Delphi/Free Pascal Core, fixed building environment, review-only settings plan | Local fpc build/test pass; CI job added, not yet run | No BMS command, occupancy surveillance, energy modeling or savings guarantee |
 | Python order review | Native Core, HTTP tool, fixed order scope, draft-only | Local and hosted CI against the public local service | Deterministic model; no live provider or external consumer |
 | TypeScript order support | Native Core, HTTP tool, fixed order scope | Local and hosted CI against the public local service | Deterministic model; CLI, not a Web frontend |
 | Java order review | Native Core, JUnit, loopback Web, real-service CLI | Mock/Web JUnit and real-service CLI passed in Linux CI | Java Web-to-real-backend and live model not verified |

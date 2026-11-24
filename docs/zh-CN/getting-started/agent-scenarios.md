@@ -179,7 +179,7 @@ system 指令。Memory Store 不等于自动召回；checkpoint 消息续跑不�
 | ID | 场景 | 目标语言 | 候选的有界教学成果 | 已有相关切片 | 完整实现 |
 | --- | --- | --- | --- | --- | --- |
 | BE-01 | 工地安全巡检与整改复核 | C++、Rust、C# | 评估合成巡检标签、跟踪复核清单；无真实视觉或安全认证结论 | [Rust 工地安全](https://github.com/axisvela/praxo-core/tree/main/language/rust/Tutorial/construction-safety)：固定标签与仅审阅清单 | 未实现 |
-| BE-02 | 商业楼宇 HVAC 与照明节能 | Julia、C、Delphi | 模拟人流/热工约束并草拟设置；无 BMS 指令或节能证明 | 无 | 未实现 |
+| BE-02 | 商业楼宇 HVAC 与照明节能 | Julia、C、Delphi | 模拟人流/热工约束并草拟设置；无 BMS 指令或节能证明 | [Delphi 暖通设置](https://github.com/axisvela/praxo-core/tree/main/language/delphi/Tutorial/hvac-settings)：固定环境与仅审阅方案 | 未实现 |
 | BE-03 | 智慧矿山与边坡风险预警 | Fortran、Rust、C++ | 计算合成位移指标、草拟复核警报；无塌方预测或矿车调度 | [Rust 边坡监测](https://github.com/axisvela/praxo-core/tree/main/language/rust/Tutorial/mining-slope)：固定指标与仅审阅警报 | 未实现 |
 | BE-04 | 招投标编制与串标审查 | Java、PHP、COBOL | 校验合成资质、标记文档相似性；不自动投标或认定串标 | [PHP 招标复核](https://github.com/axisvela/praxo-core/tree/main/language/php/Tutorial/tender-review)：固定投标与仅审阅标记 | 未实现 |
 | BE-05 | 地产选址与租金预测 | R、Julia、D | 比较合成选址指标、披露预测假设；无概率/回报验证或个人位置画像 | [R 地产预测](https://github.com/axisvela/praxo-core/tree/main/language/r/Tutorial/property-forecast)：固定指标与仅审阅预测 | 未实现 |
@@ -199,7 +199,7 @@ system 指令。Memory Store 不等于自动召回；checkpoint 消息续跑不�
 | ID | 场景 | 目标语言 | 候选的有界教学成果 | 已有相关切片 | 完整实现 |
 | --- | --- | --- | --- | --- | --- |
 | OG-01 | EA 资产图谱治理 | Java、OCaml、C# | 按标准比较固定应用/API 图并草拟变更发现；无生产扫描或自动拦截 | [OCaml 架构图谱](https://github.com/axisvela/praxo-core/tree/main/language/ocaml/Tutorial/architecture-graph)：固定图谱与仅审阅发现 | 未实现 |
-| OG-02 | 多智能体社会与政策沙盘 | Julia、Erlang、Haskell | 模拟小型有界合成人群并报告敏感性；无数万规模或真实政策预测 | 无 | 未实现 |
+| OG-02 | 多智能体社会与政策沙盘 | Julia、Erlang、Haskell | 模拟小型有界合成人群并报告敏感性；无数万规模或真实政策预测 | [Haskell 政策仿真](https://github.com/axisvela/praxo-core/tree/main/language/haskell/Tutorial/policy-simulation)：固定人群与仅审阅报告 | 未实现 |
 | OG-03 | 跨文化谈判同传与策略辅助 | TypeScript、Swift、Python | 比较固定转录与术语、标记不确定性；无微表情推断、读心或实时同传保证 | [TypeScript 谈判解读](https://github.com/axisvela/praxo-core/tree/main/language/typescript/Tutorial/negotiation-interpretation)：固定转录与仅审阅笔记 | 未实现 |
 | OG-04 | 开源社区治理与贡献者体验 | Ruby、Elixir、Perl | 分类合成 Issue、草拟贡献指导与评审请求；不自动关闭问题或冒充维护者 | [Ruby 社区治理](https://github.com/axisvela/praxo-core/tree/main/language/ruby/Tutorial/community-governance)：固定问题分类与评审请求 | 未实现 |
 | OG-05 | EDA 布局布线优化 | C++、Fortran、Julia | 探索合成布局网格、报告已述 PPA 代理指标；无代工厂有效版图或优化证明 | [C++ EDA 布局](https://github.com/axisvela/praxo-core/tree/main/language/cpp/Tutorial/eda-placement)：固定网格与仅审阅布局 | 未实现 |

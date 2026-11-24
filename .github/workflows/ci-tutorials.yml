@@ -466,6 +466,27 @@ jobs:
       - run: go run ./language/go/Tutorial/soc-alert-triage --test
       - run: go test ./language/go/Tutorial/soc-alert-triage
 
+  haskell-policy-simulation:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: haskell-actions/setup@v2
+        with:
+          ghc-version: '9.12.2'
+      - run: runghc -ilanguage/haskell/src language/haskell/Tutorial/policy-simulation/app.hs --test
+
+  delphi-hvac-settings:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - run: sudo apt-get update && sudo apt-get install -y fpc
+      - run: fpc -Mobjfpc -Scghi -O2 -Fu. -FEbuild Tutorial/hvac-settings/hvac.pas
+        working-directory: language/delphi
+      - run: ./build/hvac --test
+        working-directory: language/delphi
+
   cpp-ocean-routing:
     runs-on: ubuntu-latest
     timeout-minutes: 10
