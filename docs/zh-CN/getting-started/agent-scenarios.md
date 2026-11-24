@@ -132,7 +132,7 @@ system 指令。Memory Store 不等于自动召回；checkpoint 消息续跑不�
 
 | ID | 场景 | 目标语言 | 候选的有界教学成果 | 已有相关切片 | 完整实现 |
 | --- | --- | --- | --- | --- | --- |
-| CT-01 | 城市信号灯全域协同 | Erlang、C++、Julia | 模拟固定路口队列，在 Agent 外校验配时限制；不发信号灯指令 | 无 | 未实现 |
+| CT-01 | 城市信号灯全域协同 | Erlang、C++、Julia | 模拟固定路口队列，在 Agent 外校验配时限制；不发信号灯指令 | [C++ 信号配时](https://github.com/axisvela/praxo-core/tree/main/language/cpp/Tutorial/traffic-signal-plan)：固定路口与仅审阅配时 | 未实现 |
 | CT-02 | 生命线管网泄漏定位与调度 | Fortran、Rust、Nim | 排序合成压力异常并草拟巡检；不隔离阀门或调度现场作业 | [信号趋势](https://github.com/axisvela/praxo-core/tree/main/language/octave/Tutorial/signal-trends)：仅指标，不定位泄漏 | 未实现 |
 | CT-03 | 政务跨部门审批 | Java、C#、PHP | 校验合成材料并草拟并联审核任务；不做真实身份核验或行政审批 | [PHP 政务审批](https://github.com/axisvela/praxo-core/tree/main/language/php/Tutorial/public-approval)：固定材料与仅审阅任务 | 未实现 |
 | CT-04 | 应急指挥与资源调度 | Go、Julia、Erlang | 模拟断路与有约束救援路线；不提供业务救援指令或真实调度 | 无 | 未实现 |
@@ -144,7 +144,7 @@ system 指令。Memory Store 不等于自动召回；checkpoint 消息续跑不�
 
 | ID | 场景 | 目标语言 | 候选的有界教学成果 | 已有相关切片 | 完整实现 |
 | --- | --- | --- | --- | --- | --- |
-| TL-01 | 无人机集群巡检与空域消冲 | Rust、C++、Zig | 模拟有界航点，Agent 外检查冲突；不飞行或下发避障指令 | 无 | 未实现 |
+| TL-01 | 无人机集群巡检与空域消冲 | Rust、C++、Zig | 模拟有界航点，Agent 外检查冲突；不飞行或下发避障指令 | [Zig 机队航点](https://github.com/axisvela/praxo-core/tree/main/language/zig/Tutorial/drone-fleet-plan)：固定航点与仅审阅计划 | 未实现 |
 | TL-02 | 集装箱堆场与岸桥协同 | Erlang、C++、Java | 按资源约束重排合成装卸任务；不调度岸桥或 AGV | 无 | 未实现 |
 | TL-03 | 远洋气象导航与燃油优化 | Fortran、Julia、C++ | 比较合成航线/气象成本并草拟路线；无导航、节油或 CII 合规保证 | 无 | 未实现 |
 | TL-04 | 冷链温控与货损预警 | Rust、Nim、Octave | 计算固定温度越界并草拟转运复核；不调整制冷或保证医药货物安全 | [信号趋势](https://github.com/axisvela/praxo-core/tree/main/language/octave/Tutorial/signal-trends)：仅通用信号 fixture | 未实现 |

@@ -150,7 +150,7 @@ counterattack is provided by these candidate tutorials.
 
 | ID | Scenario | Targets | Bounded candidate outcome | Existing related slice | Full implementation |
 | --- | --- | --- | --- | --- | --- |
-| CT-01 | City-wide adaptive traffic signals | Erlang, C++, Julia | Simulate fixed junction queues and verify proposed timing against deterministic limits; no signal commands | None | Not implemented |
+| CT-01 | City-wide adaptive traffic signals | Erlang, C++, Julia | Simulate fixed junction queues and verify proposed timing against deterministic limits; no signal commands | [C++ traffic-signal-plan](https://github.com/axisvela/praxo-core/tree/main/language/cpp/Tutorial/traffic-signal-plan): fixed junction and review-only timing | Not implemented |
 | CT-02 | Utility-pipeline leak localization and dispatch | Fortran, Rust, Nim | Rank synthetic pressure anomalies and draft inspection; no valve isolation or field dispatch | [Signal trends](https://github.com/axisvela/praxo-core/tree/main/language/octave/Tutorial/signal-trends): metrics only, not leak localization | Not implemented |
 | CT-03 | Cross-agency public-service approvals | Java, C#, PHP | Validate synthetic applications and draft parallel review tasks; no real identity checks or official approval | [PHP public-approval](https://github.com/axisvela/praxo-core/tree/main/language/php/Tutorial/public-approval): fixed documents and review-only tasks | Not implemented |
 | CT-04 | Emergency command and resource allocation | Go, Julia, Erlang | Simulate road closures and constrained relief routes; no operational rescue directions or dispatch | None | Not implemented |
@@ -162,7 +162,7 @@ counterattack is provided by these candidate tutorials.
 
 | ID | Scenario | Targets | Bounded candidate outcome | Existing related slice | Full implementation |
 | --- | --- | --- | --- | --- | --- |
-| TL-01 | Drone-fleet inspection and airspace conflict resolution | Rust, C++, Zig | Simulate bounded waypoints and conflict checks outside the agent; no flight or avoidance commands | None | Not implemented |
+| TL-01 | Drone-fleet inspection and airspace conflict resolution | Rust, C++, Zig | Simulate bounded waypoints and conflict checks outside the agent; no flight or avoidance commands | [Zig drone-fleet-plan](https://github.com/axisvela/praxo-core/tree/main/language/zig/Tutorial/drone-fleet-plan): fixed waypoint state and review-only plan | Not implemented |
 | TL-02 | Container-yard and quay-crane scheduling | Erlang, C++, Java | Replan synthetic container jobs under resource constraints; no crane or AGV dispatch | None | Not implemented |
 | TL-03 | Ocean routing and fuel optimization | Fortran, Julia, C++ | Compare synthetic route/weather costs and draft a route; no navigation, fuel-savings or CII compliance claim | None | Not implemented |
 | TL-04 | Cold-chain temperature and cargo-risk alerts | Rust, Nim, Octave | Compute fixed temperature excursions and draft a transfer review; no refrigeration changes or clinical cargo guarantee | [Signal trends](https://github.com/axisvela/praxo-core/tree/main/language/octave/Tutorial/signal-trends): generic signal fixture only | Not implemented |

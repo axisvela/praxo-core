@@ -86,6 +86,8 @@ TUTORIALS = {
     "public-approval": ("CT", "tools,draft,policy", "CT-03"),
     "pentest-lab-review": ("CY", "tools,draft,policy", "CY-01"),
     "storyboard-previs": ("MD", "tools,draft,policy", "MD-01"),
+    "traffic-signal-plan": ("CT", "analysis,tools,draft,policy", "CT-01"),
+    "drone-fleet-plan": ("TL", "tools,draft,policy", "TL-01"),
 }
 GUIDES = {
     "workspace-agent-tutorial": ("SE", "go", "filesystem,tools,policy"),

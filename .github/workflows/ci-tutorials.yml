@@ -466,6 +466,27 @@ jobs:
       - run: go run ./language/go/Tutorial/soc-alert-triage --test
       - run: go test ./language/go/Tutorial/soc-alert-triage
 
+  cpp-traffic-signal-plan:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - run: cmake -S language/cpp -B language/cpp/build
+      - run: cmake --build language/cpp/build --target praxo-cpp-traffic-signal-plan-tutorial
+      - run: ./language/cpp/build/praxo-cpp-traffic-signal-plan-tutorial --test
+
+  zig-drone-fleet-plan:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: mlugg/setup-zig@v2
+        with:
+          version: "0.17.0"
+      - run: mkdir -p build
+      - run: zig build-exe --dep praxo -Mroot=language/zig/Tutorial/drone-fleet-plan/main.zig -Mpraxo=language/zig/src/praxo.zig -femit-bin=build/praxo-zig-drone-fleet
+      - run: ./build/praxo-zig-drone-fleet --test
+
   go-pentest-lab-review:
     runs-on: ubuntu-latest
     timeout-minutes: 10

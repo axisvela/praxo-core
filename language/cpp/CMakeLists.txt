@@ -107,6 +107,10 @@ add_executable(praxo-cpp-industrial-edge-tutorial
     Tutorial/industrial-edge/main.cpp)
 target_link_libraries(praxo-cpp-industrial-edge-tutorial PRIVATE praxo_cpp)
 
+add_executable(praxo-cpp-traffic-signal-plan-tutorial
+    Tutorial/traffic-signal-plan/main.cpp)
+target_link_libraries(praxo-cpp-traffic-signal-plan-tutorial PRIVATE praxo_cpp)
+
 add_test(NAME praxo-cpp-conformance COMMAND praxo-cpp-conformance)
 add_test(NAME praxo-cpp-tests COMMAND praxo-cpp-tests)
 add_test(NAME praxo-cpp-harmovela-tests COMMAND praxo-cpp-harmovela-tests)
@@ -119,5 +123,7 @@ add_test(NAME praxo-cpp-representative-chain-tests
     COMMAND praxo-cpp-representative-chain-tests)
 add_test(NAME praxo-cpp-industrial-edge-tutorial
     COMMAND praxo-cpp-industrial-edge-tutorial --test)
+add_test(NAME praxo-cpp-traffic-signal-plan-tutorial
+    COMMAND praxo-cpp-traffic-signal-plan-tutorial --test)
 
 endif()
