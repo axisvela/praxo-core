@@ -132,6 +132,8 @@ TUTORIALS = {
     "molecule-screen": ("SC", "analysis,tools,draft,policy", "SC-02"),
     "lab-loop": ("SC", "tools,draft,policy", "SC-03"),
     "localization-draft": ("CS", "analysis,tools,draft,policy", "CS-07"),
+    "cbt-exercise": ("HC", "tools,draft,policy", "HC-05"),
+    "household-robot": ("PE", "state,tools,draft,policy", "PE-04"),
 }
 GUIDES = {
     "workspace-agent-tutorial": ("SE", "go", "filesystem,tools,policy"),

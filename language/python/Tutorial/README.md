@@ -13,6 +13,8 @@ capitalized in directory paths.
   simulated publish.
 - [Education tutoring](education-tutoring/README.md): Core `Retriever` and a
   draft-only study plan.
+- [CBT exercise](cbt-exercise/README.md): fixed exercise with an explicit
+  crisis-escalation branch and no therapist replacement.
 - [Molecule screen](molecule-screen/README.md): fixed molecular
   descriptors, review-only assessment and no efficacy claim.
 - [Virtual PI](virtual-pi/README.md): fixed research tasks, shared

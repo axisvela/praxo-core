@@ -118,7 +118,7 @@ Repository links in the tables point to source on `main`, not immutable run evid
 | HC-02 | Chronic-care follow-up | Swift, Dart, Objective-C | Summarize synthetic wearable trends and route an alert for review; no dosage or individualized treatment changes |
 | HC-03 | Clinical-trial recruitment | Python, Java, C# | Evaluate synthetic inclusion/exclusion predicates and explain unknowns; no real patient search or eligibility decision; [Python trial-screening](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/trial-screening) screens fixed patients and drafts a note |
 | HC-04 | Record quality and DRG/DIP coding | Java, COBOL, C# | Check synthetic record completeness and draft codes; no reimbursement optimization, false coding or billing submission |
-| HC-05 | Mental-health support and CBT exercises | Swift, Dart, Python | Demonstrate a synthetic exercise dialogue and an explicit crisis-escalation branch; no therapist replacement or unsupervised crisis handling |
+| HC-05 | Mental-health support and CBT exercises | Swift, Dart, Python | Demonstrate a synthetic exercise dialogue and an explicit crisis-escalation branch; no therapist replacement or unsupervised crisis handling; [Python cbt-exercise](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/cbt-exercise) shows the human-review branch |
 
 ## Personal And Embodied (5)
 
@@ -127,7 +127,7 @@ Repository links in the tables point to source on `main`, not immutable run evid
 | PE-01 | Socratic learning tutor | Python, TypeScript, Haskell | Track a synthetic learner's attempts and ask graded questions; [education tutoring](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/education-tutoring) retrieves lessons, not a validated adaptive tutor |
 | PE-02 | Travel and life concierge | TypeScript, Dart, Swift | Replan a fixture itinerary under budget and draft a booking; [travel booking](https://github.com/axisvela/praxo-core/tree/main/language/typescript/Tutorial/travel-booking) does not pay or rebook |
 | PE-03 | Personal information and privacy agent | Rust, Go, Objective-C | Classify fixture messages and draft a deletion/rotation request; no real passwords, account access or deletion; [Objective-C privacy-agent slice](https://github.com/axisvela/praxo-core/tree/main/language/objc/Tutorial/privacy-agent) classifies a fixed fixture and drafts a request |
-| PE-04 | Humanoid and household robotics | C++, Rust, Zig | Simulate observe/plan/action with bounded authority, freshness and cancel confirmation; no hardware or safety certification |
+| PE-04 | Humanoid and household robotics | C++, Rust, Zig | Simulate observe/plan/action with bounded authority, freshness and cancel confirmation; no hardware or safety certification; [Rust household-robot](https://github.com/axisvela/praxo-core/tree/main/language/rust/Tutorial/household-robot) drafts a bounded action |
 | PE-05 | Game NPC and dynamic narrative | Lua, C, V | Persist synthetic character state, choose a scoped host action and observe its result; no arbitrary host commands |
 
 ## Cybersecurity (7)

@@ -101,7 +101,7 @@ system 指令。Memory Store 不等于自动召回；checkpoint 消息续跑不�
 | HC-02 | 慢病管理与随访 | Swift、Dart、Objective-C | 汇总合成穿戴数据、交人工复核；不调整剂量或个体治疗 |
 | HC-03 | 临床试验招募匹配 | Python、Java、C# | 判断合成入排条件、解释未知项；不搜索真实患者或决定入组；[Python 试验筛选](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/trial-screening)筛选固定患者并草拟记录 |
 | HC-04 | 病历质控与 DRG/DIP 编码 | Java、COBOL、C# | 检查合成记录完整性并草拟代码；不优化骗保、不虚假编码、不提交账单 |
-| HC-05 | 心理支持与 CBT 练习 | Swift、Dart、Python | 合成练习对话与明确的危机转人工分支；不替代治疗师或独立处理危机 |
+| HC-05 | 心理支持与 CBT 练习 | Swift、Dart、Python | 合成练习对话与明确的危机转人工分支；不替代治疗师或独立处理危机；[Python CBT 练习](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/cbt-exercise)展示转人工分支 |
 
 ## 个人、教育与具身（5）
 
@@ -110,7 +110,7 @@ system 指令。Memory Store 不等于自动召回；checkpoint 消息续跑不�
 | PE-01 | 苏格拉底式学习导师 | Python、TypeScript、Haskell | 记录合成学习尝试并渐进提问；现有辅导教程是课程检索而非已验证自适应导师 |
 | PE-02 | 差旅与生活全案管家 | TypeScript、Dart、Swift | 在固定预算下重排行程并草拟预订；现有 travel-booking 不支付或改签 |
 | PE-03 | 数字信息与隐私代理 | Rust、Go、Objective-C | 分类固定消息、草拟删除/轮换请求；不使用真实密码、不访问账户或删除数据；[Objective-C 隐私代理切片](https://github.com/axisvela/praxo-core/tree/main/language/objc/Tutorial/privacy-agent)分类固定 fixture 并草拟请求 |
-| PE-04 | 人形机器人与家庭服务 | C++、Rust、Zig | 模拟观察/规划/动作、权限收窄、观测新鲜度和取消确认；无硬件或安全认证 |
+| PE-04 | 人形机器人与家庭服务 | C++、Rust、Zig | 模拟观察/规划/动作、权限收窄、观测新鲜度和取消确认；无硬件或安全认证；[Rust 家庭机器人](https://github.com/axisvela/praxo-core/tree/main/language/rust/Tutorial/household-robot)草拟收窄动作 |
 | PE-05 | 游戏 NPC 与动态叙事 | Lua、C、V | 持久化合成角色状态、选择受限宿主动作、观察结果；无任意宿主命令 |
 
 ## 网络安全与攻防对抗（7）
