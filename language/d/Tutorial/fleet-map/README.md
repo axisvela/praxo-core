@@ -4,6 +4,18 @@ A bounded first slice of TL-06, not a remote-assistance or map-deployment system
 It replays fixed synthetic road-topology changes and drafts a review-only map
 patch. No vehicle takeover, automatic deployment or live fleet access.
 
+## Why this language and runtime?
+
+- **Selection basis:** An existing D fleet or mapping tool can keep topology review in
+  its native runtime. No fleet consumer is verified.
+- **Demonstrated fit:** Fixed topology changes produce a review-only map patch; no
+  vehicle link, map deployment or takeover runs.
+- **Choose when:** Learning the Core seam in an existing D fleet component.
+- **Do not choose when:** Seeking remote assistance or map deployment. Compare the
+  fleet's telemetry, map pipeline and safety controls first.
+- **Evidence limit:** Core integration fixture only; no vehicle takeover, remote
+  assistance, map validation, deployment or live fleet access.
+
 Run from the repository root:
 
 ```bash

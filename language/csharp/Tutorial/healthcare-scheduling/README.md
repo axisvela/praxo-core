@@ -5,6 +5,18 @@ A native C# Core tutorial for review-only appointment scheduling. It reads a fix
 for human review with zero schedule writes. This tutorial does not write the
 schedule, confirm the booking, use patient identity or call a live model.
 
+## Why this language and runtime?
+
+- **Selection basis:** C#/.NET fits clinic back-office or integration services that
+  already handle scheduling APIs and identity boundaries.
+- **Demonstrated fit:** A .NET host reads a fixed schedule and drafts a booking for
+  review; no identity, calendar write or confirmation runs.
+- **Choose when:** Learning the Core seam in an existing .NET clinical workflow.
+- **Do not choose when:** Seeking scheduling optimization or patient identity. Compare
+  the clinic's scheduling system and access controls first.
+- **Evidence limit:** Synthetic fixture and Core integration; no patient data, slot
+  optimization, schedule write, confirmation or clinical claim.
+
 ## Run
 
 From the repository root:

@@ -5,6 +5,18 @@ computes fixed site metrics in native D, shows the forecast assumptions and draf
 a review-only forecast. No verified probability, return guarantee or
 personal-location profiling.
 
+## Why this language and runtime?
+
+- **Selection basis:** A D analytics or property tool can retain native calculation and
+  review in one deployment. No real-estate consumer is verified.
+- **Demonstrated fit:** Fixed site metrics produce a review-only forecast; no market
+  data, valuation model or probability calibration runs.
+- **Choose when:** Learning the Core seam around existing D calculations.
+- **Do not choose when:** Seeking valuation or investment advice. Compare direct D or R
+  analysis and the underwriting process first.
+- **Evidence limit:** Core integration fixture only; no market feed, valuation,
+  probability guarantee, return claim or location profiling.
+
 Run from the repository root:
 
 ```bash

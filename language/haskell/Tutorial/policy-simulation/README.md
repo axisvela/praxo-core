@@ -5,6 +5,18 @@ small fixed synthetic population and drafts a review-only sensitivity report
 using the source Haskell Core through `runghc`. No tens-of-thousands scale,
 external simulator or real policy prediction.
 
+## Why this language and runtime?
+
+- **Selection basis:** Haskell fits research and policy tooling where typed models and
+  explicit effects are already part of the workflow.
+- **Demonstrated fit:** A fixed synthetic population is summarized and a review-only
+  sensitivity report is drafted; no simulation engine or policy calibration runs.
+- **Choose when:** Learning the Core seam in an existing Haskell research tool.
+- **Do not choose when:** Seeking policy prediction or calibrated simulation. Compare
+  domain simulators and statistical validation first.
+- **Evidence limit:** Core integration fixture only; no population scale, calibrated
+  model, causal inference, policy prediction or validity claim.
+
 Run from the repository root:
 
 ```bash

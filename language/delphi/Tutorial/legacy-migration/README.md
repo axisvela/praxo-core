@@ -5,6 +5,18 @@ not an automatic production migration. It inventories fixed legacy modules and
 dependencies and drafts a review-only migration plan. This uses the source
 Delphi/Free Pascal Core; no network, credentials or additional units are required.
 
+## Why this language and runtime?
+
+- **Selection basis:** Legacy Windows applications often remain in Delphi/Free Pascal,
+  where replacing the host is riskier than adding a reviewed plan.
+- **Demonstrated fit:** Fixed modules and dependencies produce a review-only migration
+  plan; no source is rewritten or deployed.
+- **Choose when:** Planning work beside an existing Delphi codebase.
+- **Do not choose when:** Seeking automated migration or dependency resolution. Compare
+  the actual build graph and staged migration process first.
+- **Evidence limit:** Core integration fixture only; no real repository scan, code
+  transformation, build verification or production migration.
+
 Build and run from `language/delphi` (so `-Fu.` finds the Core units):
 
 ```bash

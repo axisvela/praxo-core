@@ -4,6 +4,18 @@ A bounded first slice of SE-04, not a test-execution or load-testing service. It
 generates three bounded tests for a fixed local fixture and records zero
 executions. No load target, network traffic or runtime verification.
 
+## Why this language and runtime?
+
+- **Selection basis:** Haskell fits compiler, parser and verification tooling where a
+  test-drafting step can share typed fixtures.
+- **Demonstrated fit:** Fixed fixture metadata produces a review-only test suite; no
+  test execution, coverage or load target runs.
+- **Choose when:** Learning the Core seam around existing Haskell test tooling.
+- **Do not choose when:** Seeking generated executable tests or measured coverage.
+  Compare the current test framework and property-testing stack first.
+- **Evidence limit:** Core integration fixture only; no compiled tests, execution,
+  property tests, coverage measurement or network load.
+
 Run from the repository root:
 
 ```bash

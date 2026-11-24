@@ -5,6 +5,18 @@ fixed tools: `read_customer` reads synthetic customer `customer-100`, and
 `draft_followup` produces a `draft_only` follow-up note for human review. It
 never writes the CRM, sends email or changes an opportunity.
 
+## Why this language and runtime?
+
+- **Selection basis:** C#/.NET fits CRM integrations and service desks that already
+  expose HTTP entry, identity and enterprise tooling.
+- **Demonstrated fit:** A .NET HTTP/CLI host reads a fixed customer and drafts a
+  follow-up note; no CRM write, email send or opportunity change runs.
+- **Choose when:** Adding a governed review step to an existing .NET CRM service.
+- **Do not choose when:** Seeking CRM automation or message delivery. Compare the CRM's
+  native workflow/rules and authorization model first.
+- **Evidence limit:** Synthetic customer and local HTTP tests; no production CRM,
+  OIDC, email, write-back or sales outcome claim.
+
 ## Run
 
 Requires .NET SDK 8. From this directory:

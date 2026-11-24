@@ -5,6 +5,18 @@ not a production RPA platform. It reconciles a fixed purchase order and invoice,
 flags a delta above the threshold, and drafts a review-only exception. No ERP
 connector, posting or live model is used.
 
+## Why this language and runtime?
+
+- **Selection basis:** Existing Delphi desktop automation can add a reconciliation
+  review without adopting a new RPA platform or service.
+- **Demonstrated fit:** Fixed purchase-order/invoice data yields a flagged exception
+  draft; no ERP connector, posting or UI automation runs.
+- **Choose when:** Learning the Core seam beside existing Delphi automation.
+- **Do not choose when:** Seeking end-to-end RPA or posting. Compare the ERP process,
+  deterministic reconciliation rules and existing RPA tools first.
+- **Evidence limit:** Core integration fixture only; no ERP access, posting, UI
+  automation, credential handling or production reconciliation.
+
 Build and run from `language/delphi`:
 
 ```bash

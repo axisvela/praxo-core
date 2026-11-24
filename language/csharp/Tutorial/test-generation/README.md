@@ -5,6 +5,18 @@ not a test-execution or load-testing service. It generates three bounded tests f
 a fixed local fixture and records zero executions. No load target, network traffic
 or runtime verification.
 
+## Why this language and runtime?
+
+- **Selection basis:** A .NET engineering team can keep a test-drafting step in the
+  same toolchain and CI conventions.
+- **Demonstrated fit:** Fixed fixture metadata produces three review-only tests; no
+  test runner, coverage tool or load target is executed.
+- **Choose when:** Learning the Core seam around existing .NET test tooling.
+- **Do not choose when:** Seeking actual test generation or execution. Compare the
+  existing test framework, analyzers and coverage pipeline first.
+- **Evidence limit:** Core integration fixture only; no compiled tests, execution,
+  coverage measurement, network load or verified result.
+
 Build and run from the repository root:
 
 ```bash
