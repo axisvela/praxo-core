@@ -6,6 +6,20 @@ diagnostics. The workspace is an in-process fixture, not the host filesystem.
 This tutorial does not compile real code, deploy, call a live model or touch a
 production workspace.
 
+## Why this language and runtime?
+
+- **Selection basis:** Go is the reference Core, so this tutorial also exercises
+  the canonical runtime and package shape. It is not evidence for a specific
+  developer-tool product backend.
+- **Demonstrated fit:** Go tools and policy checks read an in-process workspace,
+  acknowledge one edit and return synthetic diagnostics. No filesystem, compiler
+  or process sandbox is used.
+- **Choose when:** Learning the reference end-to-end tool/policy loop in Go.
+- **Do not choose when:** Expecting a coding sandbox or real build integration.
+  Compare direct Go tooling or an existing workspace service first.
+- **Evidence limit:** Core integration fixture only; no real edit, compilation,
+  deployment or workspace isolation is demonstrated.
+
 Run from the repository root:
 
 ```bash

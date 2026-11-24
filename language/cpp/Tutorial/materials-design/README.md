@@ -4,6 +4,18 @@ A bounded first slice of SC-04, not a validated materials-discovery pipeline. It
 evaluates fixed synthetic candidate properties and drafts the next review-only
 simulation. No validated new material or fabrication.
 
+## Why this language and runtime?
+
+- **Selection basis:** A C++ simulation or CAD-adjacent application could embed
+  Core without a separate service. No materials-research consumer is verified.
+- **Demonstrated fit:** Core callbacks compare fixed property numbers and draft the
+  next simulation. No simulation engine, material database or solver is invoked.
+- **Choose when:** Evaluating the Core boundary inside an existing C++ toolchain.
+- **Do not choose when:** Seeking materials optimization or simulation. Compare
+  domain simulation frameworks and deterministic design-of-experiments first.
+- **Evidence limit:** Core integration fixture only; no simulation physics, property
+  validation, fabrication or performance claim.
+
 Build and run from the repository root:
 
 ```bash

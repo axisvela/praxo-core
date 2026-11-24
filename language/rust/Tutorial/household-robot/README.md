@@ -5,6 +5,18 @@ state with freshness, drafts a bounded review-only action that requires cancel
 confirmation, and records zero hardware commands. No hardware access or safety
 certification.
 
+## Why this language and runtime?
+
+- **Selection basis:** A Rust robotics host might embed Core without adding a
+  separate orchestration runtime. No ROS 2 or hardware consumer is verified here.
+- **Demonstrated fit:** A typed adapter and trait-based tool boundary return fixed
+  observation data and a draft action with explicit freshness and cancel fields.
+- **Choose when:** Evaluating the Core seam in an existing Rust control component.
+- **Do not choose when:** Seeking perception, motion planning or hardware control.
+  Compare direct Rust robotics stacks against actual device and safety requirements.
+- **Evidence limit:** Core integration only; no ROS 2, real-time runtime, safety
+  certification, hardware command or comparative performance claim.
+
 Run from this directory:
 
 ```bash

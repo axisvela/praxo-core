@@ -5,6 +5,18 @@ not a fleet-dispatch system. It reads a fixed collection queue and drafts a
 review-only schedule under vehicle limits. No vehicle commands, live telemetry or
 live model.
 
+## Why this language and runtime?
+
+- **Selection basis:** An existing Dart or Flutter municipal application could
+  retain client-side orchestration. No such consumer is verified here.
+- **Demonstrated fit:** A Dart CLI uses Core tools and policy checks over a fixed
+  queue; assigned stops and `capacity_ok` are preselected values.
+- **Choose when:** Learning the Core seam before adding it to a Dart host.
+- **Do not choose when:** Seeking a route optimizer or Flutter integration. Compare
+  established routing solvers or an existing backend service first.
+- **Evidence limit:** Core integration fixture only; no solver, Flutter entry,
+  telemetry, vehicle dispatch or capacity guarantee.
+
 Run from the repository root:
 
 ```bash
