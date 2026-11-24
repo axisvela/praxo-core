@@ -26,6 +26,7 @@ let package = Package(
         .executableTarget(name: "praxo-live-model-example", dependencies: ["PraxoCore"], path: "examples/live-model"),
         .executableTarget(name: "praxo-representative-chain-example", dependencies: ["PraxoCore"], path: "examples/representative-chain"),
         .executableTarget(name: "praxo-governance-example", dependencies: ["PraxoCore"], path: "examples/advanced-delegation"),
+        .executableTarget(name: "praxo-chronic-care-tutorial", dependencies: ["PraxoCore"], path: "Tutorial/chronic-care"),
         .testTarget(name: "PraxoCoreTests", dependencies: ["PraxoCore"]),
     ]
 )

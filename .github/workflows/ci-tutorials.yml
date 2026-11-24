@@ -234,6 +234,16 @@ jobs:
           compiler: dmd-latest
       - run: dmd -i -Ilanguage/d/source -run language/d/Tutorial/quant-risk/risk.d --test
 
+  swift-chronic-care:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: swift-actions/setup-swift@v2
+        with:
+          swift-version: "6.0"
+      - run: swift run --package-path language/swift praxo-chronic-care-tutorial --test
+
   octave-vibration-review:
     runs-on: ubuntu-latest
     timeout-minutes: 10

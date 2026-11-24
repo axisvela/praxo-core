@@ -104,7 +104,7 @@ system 指令。Memory Store 不等于自动召回；checkpoint 消息续跑不�
 | ID | 场景 | 目标语言 | 首个有界教学成果 / 相关切片 |
 | --- | --- | --- | --- |
 | HC-01 | 临床辅助与 MDT | Python、Java、R | 引用合成指南片段、证据不足时弃答；不诊断或决定治疗；[Python 临床指南](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/clinical-guidelines)引用固定证据并在无匹配时弃答 |
-| HC-02 | 慢病管理与随访 | Swift、Dart、Objective-C | 汇总合成穿戴数据、交人工复核；不调整剂量或个体治疗；[Dart 慢病随访](https://github.com/axisvela/praxo-core/tree/main/language/dart/Tutorial/chronic-care)路由仅审阅预警 |
+| HC-02 | 慢病管理与随访 | Swift、Dart、Objective-C | 汇总合成穿戴数据、交人工复核；不调整剂量或个体治疗；[Dart 慢病随访](https://github.com/axisvela/praxo-core/tree/main/language/dart/Tutorial/chronic-care)与 [Swift 慢病随访](https://github.com/axisvela/praxo-core/tree/main/language/swift/Tutorial/chronic-care)路由仅审阅预警 |
 | HC-03 | 临床试验招募匹配 | Python、Java、C# | 判断合成入排条件、解释未知项；不搜索真实患者或决定入组；[Python 试验筛选](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/trial-screening)筛选固定患者并草拟记录 |
 | HC-04 | 病历质控与 DRG/DIP 编码 | Java、COBOL、C# | 检查合成记录完整性并草拟代码；不优化骗保、不虚假编码、不提交账单；[C# 病历编码](https://github.com/axisvela/praxo-core/tree/main/language/csharp/Tutorial/medical-coding)草拟仅审阅编码 |
 | HC-05 | 心理支持与 CBT 练习 | Swift、Dart、Python | 合成练习对话与明确的危机转人工分支；不替代治疗师或独立处理危机；[Python CBT 练习](https://github.com/axisvela/praxo-core/tree/main/language/python/Tutorial/cbt-exercise)与 [Dart CBT 练习](https://github.com/axisvela/praxo-core/tree/main/language/dart/Tutorial/cbt-exercise)展示转人工分支 |
