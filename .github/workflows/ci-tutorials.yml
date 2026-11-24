@@ -234,6 +234,21 @@ jobs:
           compiler: dmd-latest
       - run: dmd -i -Ilanguage/d/source -run language/d/Tutorial/quant-risk/risk.d --test
 
+  erlang-otp-recovery:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: erlef/setup-beam@v1
+        with:
+          otp-version: '29'
+          install-hex: false
+          install-rebar: false
+      - run: mkdir -p language/erlang/build/ebin language/erlang/Tutorial/otp-recovery/ebin
+      - run: erlc -I language/erlang/src -o language/erlang/build/ebin language/erlang/src/*.erl
+      - run: erlc -o language/erlang/Tutorial/otp-recovery/ebin language/erlang/Tutorial/otp-recovery/worker.erl language/erlang/Tutorial/otp-recovery/praxo_sup.erl
+      - run: escript language/erlang/Tutorial/otp-recovery/recovery.escript --test
+
   ocaml-static-diagnostics:
     runs-on: ubuntu-latest
     timeout-minutes: 10

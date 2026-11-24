@@ -11,7 +11,7 @@
 | D | [数据导入流水线诊断](https://github.com/axisvela/praxo-core/tree/main/language/d/Tutorial/data-pipeline) | SC-06 | 原生数据处理、标准库 ranges/algorithms 与 C 互操作 | 解析记录、计算错误统计、基于结果选择复核动作 | 本地 DMD 测试通过；远端 CI 未核验 |
 | Haskell | [业务规则 DSL 校验](https://github.com/axisvela/praxo-core/tree/main/language/haskell/Tutorial/rule-dsl) | SE-05 | 类型化 AST、解析库、纯函数求值与属性测试 | 解析规则、检测冲突、返回反例；不发布规则 | 本地 GHC 测试通过；远端 CI 未核验 |
 | OCaml | [静态分析诊断复核](https://github.com/axisvela/praxo-core/tree/main/language/ocaml/Tutorial/static-diagnostics) | SE-05 | 编译器、类型化语法树、分析器生态 | 解析诊断或小型 AST，按源码位置执行规则 | 本地 OCaml 测试通过；远端 CI 未核验 |
-| Erlang | OTP 服务恢复复核 | SE-06 | 电信、消息系统、进程隔离与监督树 | 启动监督树、注入子进程故障、观察恢复后草拟建议 | 计划 |
+| Erlang | [OTP 服务恢复复核](https://github.com/axisvela/praxo-core/tree/main/language/erlang/Tutorial/otp-recovery) | SE-06 | 电信、消息系统、进程隔离与监督树 | 启动监督树、注入子进程故障、观察恢复后草拟建议 | 本地 OTP 测试通过；远端 CI 未核验 |
 | Julia | 有约束能源调度复核 | IN-04 | 数值计算、JuMP 优化生态 | 求解约束模型、报告可行性与目标值；不发电网指令 | 计划 |
 | Octave | 振动信号巡检复核 | IN-01 | 矩阵、FFT、MATLAB 风格工程分析 | 比较正常/异常样本的 FFT/RMS；不预测故障 | 计划 |
 | COBOL | 日终对账异常复核 | FC-03 | 十进制业务记录与银行/保险批处理 | COBOL 计算差异、复核异常记录；不改账 | 增强现有 batch-exception-review |

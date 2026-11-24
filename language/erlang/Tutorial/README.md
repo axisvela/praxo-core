@@ -1,5 +1,7 @@
 # Erlang Tutorials
 
+- [OTP Recovery (SE-06)](otp-recovery/README.md): real supervisor, injected child
+  crash, observed restart and a review-only action; no production cluster.
 - [AIOps RCA (SE-06)](aiops-rca/README.md): source Erlang Core, fixed correlated
   signals and a review-only rollback draft; no remediation or live telemetry.
 

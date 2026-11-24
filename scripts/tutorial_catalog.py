@@ -148,6 +148,7 @@ TUTORIALS = {
     "release-preflight": ("SE", "filesystem,tools,draft,policy", "SE-01"),
     "rule-dsl": ("SE", "analysis,tools,draft,policy", "SE-05"),
     "static-diagnostics": ("SE", "analysis,tools,draft,policy", "SE-05"),
+    "otp-recovery": ("SE", "tools,draft,policy", "SE-06"),
 }
 GUIDES = {
     "workspace-agent-tutorial": ("SE", "go", "filesystem,tools,policy"),
