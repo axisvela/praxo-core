@@ -77,7 +77,7 @@ class TutorialCatalogTests(unittest.TestCase):
             path = catalog.ROOT / f'docs/{prefix}getting-started/tutorial-catalog.md'
             text = path.read_text(encoding='utf-8')
             self.assertEqual(text, catalog.render(self.entries, zh))
-            self.assertLess(len(text.splitlines()), 700)
+            self.assertLess(len(text.splitlines()), 900)
             self.assertIn(str(sum(counts.values())), text)
             self.assertIn('tutorial-plan.md', text)
             self.assertIn('agent-scenarios.md', text)

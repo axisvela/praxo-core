@@ -6,9 +6,15 @@ candidate goals, existing application tutorials, guides, recipes and mechanism
 examples with separate counts. This page retains delivery standards and scoped
 verification status rather than duplicating that inventory.
 
-**Status:** public planning reference, 2026-11-23. This page records delivery
+**Status:** public planning reference, 2026-11-24. This page records delivery
 standards and scoped application-tutorial status. It is not a release schedule or a
 promise that every language receives every tutorial.
+
+Batch status: tutorial slices now exist for every candidate language and scenario
+assignment in the 100-scenario catalog. Local behavior tests passed for Python,
+TypeScript, R, PHP, COBOL, Elixir, Julia and C#. Nim, C, C++, Fortran and Rust used
+non-executable checks. Objective-C, Java and Swift remain CI-only pending runs.
+End-to-end reference applications remain unimplemented.
 
 The goal is not to duplicate the thirteen mechanism themes in every language. It
 is to show **why an Agent belongs in that language's ecosystem**: a Web service,

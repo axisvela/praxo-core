@@ -234,6 +234,388 @@ jobs:
           compiler: dmd-latest
       - run: dmd -i -Ilanguage/d/source -run language/d/Tutorial/quant-risk/risk.d --test
 
+  elixir-aiops-rca:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: erlef/setup-beam@v1
+        with:
+          otp-version: '29'
+          elixir-version: '1.18'
+          install-hex: false
+          install-rebar: false
+      - run: mkdir -p language/elixir/build/ebin
+      - run: elixirc -o language/elixir/build/ebin language/elixir/lib/praxo/*.ex language/elixir/lib/praxo/adapters/*.ex
+      - run: elixir -pa language/elixir/build/ebin language/elixir/Tutorial/aiops-rca/app.exs --test
+
+  elixir-soc-correlation:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: erlef/setup-beam@v1
+        with:
+          otp-version: '29'
+          elixir-version: '1.18'
+          install-hex: false
+          install-rebar: false
+      - run: mkdir -p language/elixir/build/ebin
+      - run: elixirc -o language/elixir/build/ebin language/elixir/lib/praxo/*.ex language/elixir/lib/praxo/adapters/*.ex
+      - run: elixir -pa language/elixir/build/ebin language/elixir/Tutorial/soc-correlation/app.exs --test
+
+  elixir-community-governance:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: erlef/setup-beam@v1
+        with:
+          otp-version: '29'
+          elixir-version: '1.18'
+          install-hex: false
+          install-rebar: false
+      - run: mkdir -p language/elixir/build/ebin
+      - run: elixirc -o language/elixir/build/ebin language/elixir/lib/praxo/*.ex language/elixir/lib/praxo/adapters/*.ex
+      - run: elixir -pa language/elixir/build/ebin language/elixir/Tutorial/community-governance/app.exs --test
+
+  php-new-tutorials:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    strategy:
+      matrix:
+        tutorial: [recruiting-match, customer-support, retail-replenishment]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+      - run: php language/php/Tutorial/${{ matrix.tutorial }}/app.php --test
+
+  cobol-new-tutorials:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    strategy:
+      matrix:
+        tutorial: [legacy-migration, medical-coding, budget-review]
+    steps:
+      - uses: actions/checkout@v4
+      - run: sudo apt-get update && sudo apt-get install -y gnucobol
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python language/cobol/Tutorial/${{ matrix.tutorial }}/run.py
+
+  objc-new-tutorials:
+    runs-on: macos-latest
+    timeout-minutes: 20
+    strategy:
+      matrix:
+        tutorial: [chronic-care, dlp-redaction, digital-twin-memory]
+    steps:
+      - uses: actions/checkout@v4
+      - run: cmake -S language/c -B language/c/build && cmake --build language/c/build
+      - run: mkdir -p build
+      - run: clang -fobjc-arc -fblocks -Ilanguage/objc/src -o build/${{ matrix.tutorial }} language/objc/Tutorial/${{ matrix.tutorial }}/*.m language/objc/src/*.m -Ilanguage/c/include -Llanguage/c/build -lpraxo_core -framework Foundation
+      - run: ./build/${{ matrix.tutorial }} --test
+
+  nim-new-tutorials:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    strategy:
+      matrix:
+        include:
+          - { dir: irrigation-plan, src: irrigation }
+          - { dir: leak-localization, src: leak }
+          - { dir: cold-chain, src: coldchain }
+          - { dir: livestock-monitor, src: livestock }
+    steps:
+      - uses: actions/checkout@v4
+      - uses: jiro4989/setup-nim-action@v2
+        with:
+          nim-version: '2.2.12'
+      - run: nim check --path:language/nim/src --hints:off language/nim/Tutorial/${{ matrix.dir }}/${{ matrix.src }}.nim
+
+  r-new-tutorials:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    strategy:
+      matrix:
+        include:
+          - { dir: executive-brief, src: executive_brief }
+          - { dir: compliance-tracking, src: compliance_tracking }
+          - { dir: clinical-guidelines, src: clinical_guidelines }
+          - { dir: pollution-tracing, src: pollution_tracing }
+    steps:
+      - uses: actions/checkout@v4
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: '4.4'
+      - run: Rscript language/r/Tutorial/${{ matrix.dir }}/${{ matrix.src }}.R --test
+
+  python-new-tutorials:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    strategy:
+      matrix:
+        tutorial: [marketing-segments, literature-review, pentest-lab-review, threat-hunting, audiobook-production, litigation-timeline, negotiation-interpretation]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: PYTHONPATH=language/python python language/python/Tutorial/${{ matrix.tutorial }}/app.py --test
+
+  typescript-new-tutorials:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    strategy:
+      matrix:
+        tutorial: [meeting-coordination, sales-crm, education-tutoring, phishing-awareness, storyboard-previs, live-show, copyright-evidence]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - run: npm ci --ignore-scripts --no-audit --no-fund
+        working-directory: language/typescript/Tutorial/${{ matrix.tutorial }}
+      - run: npm test
+        working-directory: language/typescript/Tutorial/${{ matrix.tutorial }}
+
+  c-new-tutorials:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    strategy:
+      matrix:
+        tutorial: [lab-loop, npc-narrative, world-economy, hvac-settings, livestock-monitor, aquaculture-water]
+    steps:
+      - uses: actions/checkout@v4
+      - run: mkdir -p build
+      - run: cmake -S language/c -B language/c/build && cmake --build language/c/build
+      - run: cc -std=c11 -Ilanguage/c/include language/c/Tutorial/${{ matrix.tutorial }}/main.c -Llanguage/c/build -lpraxo_core -lm -o build/${{ matrix.tutorial }}
+      - run: ./build/${{ matrix.tutorial }} --test
+
+  fortran-new-tutorials:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    strategy:
+      matrix:
+        tutorial: [weather-anomaly, dispatch-review, leak-localization, pollution-tracing, ocean-routing, fire-spread, mesh-review, mining-slope, eda-placement]
+    steps:
+      - uses: actions/checkout@v4
+      - run: sudo apt-get update && sudo apt-get install -y gfortran
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python language/fortran/Tutorial/${{ matrix.tutorial }}/run.py
+
+  rust-new-tutorials:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    strategy:
+      matrix:
+        tutorial: [bug-repair, code-review, quant-risk, privacy-agent, pentest-lab-review, threat-hunting, dlp-redaction, supply-chain-review, drone-fleet-plan, fleet-map, copyright-evidence, biodiversity-alerts]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - run: cargo run --quiet --locked -- --test
+        working-directory: language/rust/Tutorial/${{ matrix.tutorial }}
+
+  julia-new-tutorials:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    strategy:
+      matrix:
+        include:
+          - { dir: churn-warning, file: churn_warning }
+          - { dir: wealth-analysis, file: wealth_analysis }
+          - { dir: molecule-screen, file: molecule_screen }
+          - { dir: lab-loop, file: lab_loop }
+          - { dir: materials-design, file: materials_design }
+          - { dir: traffic-signal-plan, file: traffic_signal_plan }
+          - { dir: emergency-route-plan, file: emergency_route_plan }
+          - { dir: waste-collection, file: waste_collection }
+          - { dir: ocean-routing, file: ocean_routing }
+          - { dir: airport-recovery, file: airport_recovery }
+          - { dir: mesh-review, file: mesh_review }
+          - { dir: hvac-settings, file: hvac_settings }
+          - { dir: fire-spread, file: fire_spread }
+          - { dir: hedge-plan, file: hedge_plan }
+          - { dir: policy-simulation, file: policy_simulation }
+          - { dir: eda-placement, file: eda_placement }
+          - { dir: virtual-pi, file: virtual_pi }
+    steps:
+      - uses: actions/checkout@v4
+      - uses: julia-actions/setup-julia@v2
+        with:
+          version: '1.11'
+      - run: julia --project=language/julia language/julia/Tutorial/${{ matrix.dir }}/${{ matrix.file }}.jl --test
+
+  java-new-tutorials:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    strategy:
+      matrix:
+        tutorial: [legacy-migration, test-generation, api-orchestration, rpa-reconciliation, credit-diligence, tax-review, supply-disruption, clinical-guidelines, trial-screening, medical-coding, zero-trust-review, public-approval, budget-review, container-yard, customs-reroute, airport-recovery, patent-fto, due-diligence, precedent-outline, tender-review, architecture-graph]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - run: mvn -q test
+        working-directory: language/java/Tutorial/${{ matrix.tutorial }}
+
+  cpp-new-tutorials:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    strategy:
+      matrix:
+        tutorial: [quant-risk, production-scheduling, bom-review, household-robot, drone-fleet-plan, fleet-map, storyboard-previs, dubbing-plan, construction-safety, mining-slope]
+    steps:
+      - uses: actions/checkout@v4
+      - run: cmake -S language/cpp -B language/cpp/build
+      - run: cmake --build language/cpp/build --target praxo-cpp-${{ matrix.tutorial }}-tutorial
+      - run: ./language/cpp/build/praxo-cpp-${{ matrix.tutorial }}-tutorial --test
+
+  csharp-new-tutorials:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    strategy:
+      matrix:
+        include:
+          - { dir: internal-service-desk, assembly: InternalServiceDesk }
+          - { dir: rpa-reconciliation, assembly: RpaReconciliation }
+          - { dir: contract-review, assembly: ContractReview }
+          - { dir: bom-review, assembly: BomReview }
+          - { dir: trial-screening, assembly: TrialScreening }
+          - { dir: phishing-awareness, assembly: PhishingAwareness }
+          - { dir: zero-trust-review, assembly: ZeroTrustReview }
+          - { dir: public-approval, assembly: PublicApproval }
+          - { dir: due-diligence, assembly: DueDiligence }
+          - { dir: construction-safety, assembly: ConstructionSafety }
+          - { dir: architecture-graph, assembly: ArchitectureGraph }
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0'
+      - run: dotnet build -p:UseAppHost=false -v q
+        working-directory: language/csharp/Tutorial/${{ matrix.dir }}
+      - run: dotnet bin/Debug/net8.0/Praxo.${{ matrix.assembly }}.dll --test
+        working-directory: language/csharp/Tutorial/${{ matrix.dir }}
+
+  swift-new-tutorials:
+    runs-on: macos-latest
+    timeout-minutes: 25
+    strategy:
+      matrix:
+        tutorial: [meeting-coordination, onboarding-plan, sales-crm, cbt-exercise, travel-booking, dubbing-plan, audiobook-production, digital-twin-memory]
+    steps:
+      - uses: actions/checkout@v4
+      - run: swift run praxo-${{ matrix.tutorial }}-tutorial --test
+        working-directory: language/swift
+
+  perl-localization-draft:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - run: perl language/perl/Tutorial/localization-draft/app.pl --test
+
+  perl-compliance-tracking:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - run: perl language/perl/Tutorial/compliance-tracking/app.pl --test
+
+  perl-community-governance:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - run: perl language/perl/Tutorial/community-governance/app.pl --test
+
+  erlang-soc-correlation:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: erlef/setup-beam@v1
+        with:
+          otp-version: '29'
+          install-hex: false
+          install-rebar: false
+      - run: mkdir -p language/erlang/build/ebin
+      - run: erlc -I language/erlang/src -o language/erlang/build/ebin language/erlang/src/*.erl
+      - run: escript language/erlang/Tutorial/soc-correlation/soc.escript --test
+
+  erlang-policy-simulation:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: erlef/setup-beam@v1
+        with:
+          otp-version: '29'
+          install-hex: false
+          install-rebar: false
+      - run: mkdir -p language/erlang/build/ebin
+      - run: erlc -I language/erlang/src -o language/erlang/build/ebin language/erlang/src/*.erl
+      - run: escript language/erlang/Tutorial/policy-simulation/policy.escript --test
+
+  dart-marketing-segments:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dart-lang/setup-dart@v1
+        with:
+          sdk: stable
+      - run: dart language/dart/Tutorial/marketing-segments/marketing.dart --test
+
+  dart-travel-booking:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dart-lang/setup-dart@v1
+        with:
+          sdk: stable
+      - run: dart language/dart/Tutorial/travel-booking/travel.dart --test
+
+  ruby-retail-replenishment:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.4'
+      - run: ruby -I language/ruby/lib language/ruby/Tutorial/retail-replenishment/app.rb --test
+
+  ruby-supply-disruption:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.4'
+      - run: ruby -I language/ruby/lib language/ruby/Tutorial/supply-disruption/app.rb --test
+
+  powershell-finops-review:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+      - run: dotnet build language/csharp/Praxo.Core/Praxo.Core.csproj --nologo
+      - run: pwsh -NoProfile -File language/powershell/Tutorial/finops-review/finops.ps1 -SourceMode -Test
+
   matlab-data-quality:
     runs-on: ubuntu-latest
     timeout-minutes: 10
