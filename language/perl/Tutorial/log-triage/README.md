@@ -6,6 +6,18 @@ severity counts. The deterministic model then returns a structured report with
 an empty `mutating_actions` list. It does not read arbitrary files, execute shell
 commands, send alerts, or change the log.
 
+## Why this language and runtime?
+
+- **Selection basis:** An existing Perl operations or legacy automation environment
+  can summarize logs without introducing a new service runtime.
+- **Demonstrated fit:** Native Perl counts severity levels in the tutorial's fixed
+  log file and returns a structured report.
+- **Choose when:** Adding a small review report to existing Perl log tooling.
+- **Do not choose when:** Seeking log ingestion, alerting or correlation. Compare
+  direct Perl scripts and the existing monitoring pipeline first.
+- **Evidence limit:** Fixed local log and Core integration; no arbitrary paths,
+  alert delivery, live index, durable state or correlation claim.
+
 ## Run
 
 From the repository root:

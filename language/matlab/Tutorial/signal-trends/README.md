@@ -6,6 +6,18 @@ structured report with an empty `mutating_actions` list. It does not read
 arbitrary files, execute model-provided code, change thresholds or control a
 device.
 
+## Why this language and runtime?
+
+- **Selection basis:** MATLAB is common in existing signal-processing and engineering
+  workflows, so the Core seam can stay in that environment.
+- **Demonstrated fit:** A shared `.m` tool computes fixed signal metrics and returns a
+  report with no mutating actions. Current local execution evidence is GNU Octave.
+- **Choose when:** Evaluating the seam in an existing MATLAB/Octave codebase.
+- **Do not choose when:** Seeking toolbox-specific processing or device control.
+  Compare direct MATLAB analysis and the acquisition pipeline first.
+- **Evidence limit:** Fixed metrics via the Octave runner; native MATLAB execution is
+  not established locally, and no toolbox, device or production claim follows.
+
 ## Run With GNU Octave
 
 From the repository root:

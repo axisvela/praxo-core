@@ -5,6 +5,18 @@ fixed building environment and drafts a review-only settings plan using the
 source Delphi/Free Pascal Core. No BMS command, energy-savings claim or
 occupancy surveillance.
 
+## Why this language and runtime?
+
+- **Selection basis:** Existing Delphi/Free Pascal facility software can embed the
+  review step without a separate Agent service. No BMS consumer is verified here.
+- **Demonstrated fit:** A Pascal host uses Core tools and policy over a fixed
+  environment; occupancy, temperatures and settings are scripted values.
+- **Choose when:** Learning the Core seam in an existing Delphi application.
+- **Do not choose when:** Seeking BMS integration or energy optimization. Compare
+  direct building-control APIs and deterministic comfort rules.
+- **Evidence limit:** Core integration fixture only; no BMS command, occupancy
+  sensing, energy model, savings guarantee or production deployment.
+
 Build and run from `language/delphi` (so `-Fu.` finds the Core units):
 
 ```bash

@@ -8,6 +8,18 @@ command, changes a service, deletes files, or performs a repair.
 This is an application-shaped operations slice, not a monitoring platform or a
 general remote administration agent.
 
+## Why this language and runtime?
+
+- **Selection basis:** Windows administrators already use PowerShell, so a read-only
+  Agent seam can meet existing operations tooling where it runs.
+- **Demonstrated fit:** PowerShell calls the shared C# Core through `praxo-core-ps`
+  and exposes fixed service/disk readers; fixture mode requires no live access.
+- **Choose when:** Adding a review report beside an existing Windows runbook.
+- **Do not choose when:** Seeking remote administration or remediation. Compare the
+  existing PowerShell runbook and Windows APIs directly first.
+- **Evidence limit:** Fixture and module paths only; no live service control, repair,
+  credential elevation, remote host access or production monitoring guarantee.
+
 ## Run the Portable Fixture
 
 Fixture mode needs no Windows service access and no model endpoint. From this

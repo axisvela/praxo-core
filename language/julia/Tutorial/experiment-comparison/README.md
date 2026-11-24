@@ -6,6 +6,18 @@ candidate results. The deterministic model packages the computed values in a
 report with an empty `mutating_actions` list. It does not read arbitrary data,
 execute model-provided Julia code, install packages or modify the experiments.
 
+## Why this language and runtime?
+
+- **Selection basis:** A Julia research workflow can keep numerical comparison and
+  the Core seam in one runtime. No research consumer is verified here.
+- **Demonstrated fit:** Native Julia computes means and a delta over a five-sample
+  fixture; the report records no mutating actions.
+- **Choose when:** Exploring a review boundary around calculations already in Julia.
+- **Do not choose when:** Seeking experiment tracking or scientific validation.
+  Compare direct Julia analysis and existing lab notebooks first.
+- **Evidence limit:** Fixed numerical fixture and Core integration; no experiment
+  database, statistical validation, package ecosystem claim or live model.
+
 ## Run
 
 From the repository root:

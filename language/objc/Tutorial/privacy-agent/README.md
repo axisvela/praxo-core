@@ -6,6 +6,18 @@ fixture for sensitive exposure and drafts a review-only deletion request. This
 uses the source Objective-C Core; no network, credentials or additional
 frameworks beyond Foundation are required.
 
+## Why this language and runtime?
+
+- **Selection basis:** An existing macOS or iOS Objective-C application can keep a
+  privacy review in-process instead of adding a network service.
+- **Demonstrated fit:** Foundation-only Objective-C tools classify a fixed message
+  fixture and draft a deletion request.
+- **Choose when:** Evaluating the Core seam in an existing Foundation-based app.
+- **Do not choose when:** Seeking account access, password handling or deletion.
+  Compare direct platform privacy APIs and the app's own data controls first.
+- **Evidence limit:** Core integration fixture only; no mailbox/password access,
+  real deletion, entitlement handling, App Store packaging or privacy guarantee.
+
 macOS with Apple Foundation:
 
 ```bash

@@ -6,6 +6,18 @@ the computed numbers into a review-only report. The metrics and model are
 fixtures. This tutorial does not read arbitrary data, run model-provided Fortran,
 install packages, publish a report or call a live model.
 
+## Why this language and runtime?
+
+- **Selection basis:** A Fortran simulation codebase can keep numerical processing
+  and the review boundary in one native runtime. No simulation consumer is verified.
+- **Demonstrated fit:** Native Fortran computes mean and exceedances over a fixed
+  series, then a deterministic model packages the numbers.
+- **Choose when:** Exploring a review step around existing Fortran numerics.
+- **Do not choose when:** Seeking validated simulation or HPC integration. A direct
+  Fortran calculation may suffice without an Agent.
+- **Evidence limit:** Fixed metrics plus Core integration; no solver, parallel HPC,
+  numerical validation or performance comparison.
+
 Build the pinned RE2 bridge once, then run the tutorial from the repository root:
 
 ```bash

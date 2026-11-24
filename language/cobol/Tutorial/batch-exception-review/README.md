@@ -14,6 +14,18 @@ three outcomes and that the batch output and exception file are unchanged:
 | Unavailable | Nonzero worker exit; no advisory output; exceptions remain for later review |
 | Timeout | The driver stops waiting; no advisory output; exceptions remain |
 
+## Why this language and runtime?
+
+- **Selection basis:** The bank's exception review already exists as a COBOL batch
+  and worker; this keeps that flow in place rather than reimplementing it.
+- **Demonstrated fit:** A COBOL worker reviews the fixture exception file; a Python
+  driver checks reviewed/unavailable/timeout outcomes and unchanged batch output.
+- **Choose when:** Adding a governed review step beside an existing COBOL batch.
+- **Do not choose when:** Building a new service or replacing the batch. Compare
+  direct COBOL batch rules and the current operations process first.
+- **Evidence limit:** Fixed fixture and local driver only; no core-banking
+  integration, production scheduling, mainframe deployment or live model.
+
 ## Run
 
 From the repository root, with Python 3.10+ and GnuCOBOL `cobc` on `PATH` or
